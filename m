@@ -4,111 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACCABCA0EE6
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 03:44:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 562E3CA0EFF
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 03:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Ru0e4pqocRWcS1MvPzlktvsHunErnNzt0vSfk38dJZI=; b=uy2HHN+OBaOqo+DHw671ECjvhU
-	RDKW4U6eN/q5lTs38TEq15/mgUZDu1Ls/SEQtLQYLeZWmn1/uVgjEPU2QcU3IAsypr/wEIYHvNF9S
-	R02QHF6YV9/FZNTjnL7/j4qlNiZ8WrhvzleIqSIk0HcT48dwSGdlbVOS+Uo2EiCoPjPD59h5LTpmq
-	VbRF1XD0oSa9VVGl08JGVRjyr+pl6xhJVR+gRQEvoUbwcaMSJ9wsaZn6CaNMZBH/Z6J1kTCx3Kh1c
-	t1Lp5kptYL+8YbQ8XQy4sXnGVDCEFOBAbH1Pqy2qSl8mcQRyqXrYX24SoRm39RF5/WVKf+xRLdbke
-	qQgn2OGA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AxToNPSfI6WM9a997+Z4VoIL+Khe9+Ojk4pU73w2JVQ=; b=eOzlid7CjCtXF5OSPoKwvQXXEF
+	y0JJC5mQa2i9zmZLCX1jiuS1X5ZsJfbS5srEBuJWEfio7ZMspCv+I8XV54cpf+RTt+3F9gkmE5dhN
+	pw+K3OnqJNtFyPdCRJtk6lS5eerKcCbRZsZP/E/KpXoPkmwZ/PEEukH5GFndRNRbkf5nPOXMPG3Ze
+	hKFgHPc6iyaKtDLXNfgQf4hsY0Gq0PEb02DdxAndKWlq0Co/8S6xOjVSo5pflqK9Z4fWgnIDGF4fz
+	ZTWLO/AGd6Ot3XqD58pjS9enOLLsIHKSDFNDqDIsKkRt5BHtuwvUVC8uwJxlp9Q0heQeZfPLf9TLA
+	TqyRxQDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uowDp-0000000FhDi-2wus;
-	Thu, 21 Aug 2025 03:44:17 +0000
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+	id 1uowDs-0000000FhFl-3gOi;
+	Thu, 21 Aug 2025 03:44:20 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoKKZ-0000000AFJW-434a
+	id 1uoQHM-0000000B7eR-0Vzy
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 Aug 2025 11:16:45 +0000
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-45a1b003d05so873165e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 19 Aug 2025 04:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755602202; x=1756207002; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ru0e4pqocRWcS1MvPzlktvsHunErnNzt0vSfk38dJZI=;
-        b=OElVtDbIqqvg1SswDrl+TY5xnt4YFipMIcmFmK/NZ6RaAR9FVvjFtGuthUOrb4Mu2+
-         snhIl8rsnzSCBUT1A2XYyfv5Ev+YJOwZB1i5wXSTqsv3UDUVSegQe8q3l9186hmDMejO
-         7vD3DRabJe0Tz354qSDJb1avMzT55AfDPmt2giL9fv9tbAmMEkyjhxs6pAhZDXiqYVyM
-         xvcB+Kkk3gkeFio/PACp/ZzmJFO3TAYy4PoYG4Muv3gCEDDeewtMz6xli5GtZY+r3fph
-         0oqdGHk+Bw0UGOtJVsqkVzPtBRdAAgI6YtqDrJwfgco1nQqlS058acVRmXnibpfjdnhV
-         w9dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755602202; x=1756207002;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ru0e4pqocRWcS1MvPzlktvsHunErnNzt0vSfk38dJZI=;
-        b=OlWwEJnK8hHau3Xzu2HAW6otmrx+edSlHa+hHUVgn/rR/fgOoT2HuvQeybhzQh3gx7
-         X8mRpT38rEkmCCARDjZ18sI3owaFHuxF+nliG3yJ+qI4Tb49sWfDYENhQMJQdzg9icFT
-         rj3woQzkH0029pEwW653fYmChGIGX8QpGx4xImy0ch5LW3CWODoRyTD/0aJBZtjOlI0X
-         WwYfdzQWCRAhlt0epS7TYJrNRW0LtJdUjJ/TJ+v/zE318fd+POWgRpDYzAealGPWffry
-         H0YLEmUMtyDJFSBOSnj0QGGovZQQ287n66baYIvay7NDXX39hr0Vy8cZY3QPl+pPiZ6j
-         CT3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUtG2ZViVmmTNtZ6Mvb9//5JF/lR0cI+JrWAsCg01c1kzQdXXhFl77dCR6yVhrg4iIZ2+7ORwuGUIL5@lists.infradead.org
-X-Gm-Message-State: AOJu0YzgM/a8D/uWw/kHknpF49L/8IM0BAypcPkJWr40F/5ELuN545og
-	GqisdVDwebD1qZgCIDlUhu7iJ5Up1goby8SccP/wxqdm4KVFVSQmi3I=
-X-Gm-Gg: ASbGncvTxwjj3QvD2KsNACBFEJuBE27HSERzVNzknGiBNOWVi7q0qNoyxWafZJoO2Ru
-	WlK3xC+hfZPJUS2TFn9efcb0jVzL8oLoUmAT4ixeV4Jb2q0pLgxduwk2T22beXXJJau9oRt4hW4
-	z3p/5bgLyt51wEz5InjHMDrQYZvAMS37ouiiRzdhDpEGAEcZY3whhtvd1cHwKEx9uN8CTVRmdtV
-	NRZ5sl5JncaCqTR8e6YQBhyUOviT8NdOLB3+HuwTltyaaWMJqbpFrW06GRbRUZtQWcddxbomEd0
-	+GaimgOmqsG08A3rn6qP1vXOGDOdhrSusM0Prb0nlNHBVAb3ClJ+hFvnMWM0n1yaQX24A7EMSwM
-	bocIdZtBKd5k/fn9TfQd1Cu/mSlyy8LbZFsKssbg8mut3V3LctqbqKCcWFoLj
-X-Google-Smtp-Source: AGHT+IEjJ0o5DGL4y9TOsIn9ugdBJNIj8kFoFW53rL7KFzsI7YsinGg3Plurh9O2DBq6QatfYXDUww==
-X-Received: by 2002:a05:600c:1c92:b0:454:aac0:ce1e with SMTP id 5b1f17b1804b1-45b43e0086dmr8414275e9.4.1755602201497;
-        Tue, 19 Aug 2025 04:16:41 -0700 (PDT)
-Received: from localhost (67.red-80-39-24.staticip.rima-tde.net. [80.39.24.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c773e57sm222640615e9.23.2025.08.19.04.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 04:16:40 -0700 (PDT)
-From: Xose Vazquez Perez <xose.vazquez@gmail.com>
-To: 
-Cc: Xose Vazquez Perez <xose.vazquez@gmail.com>,
-	Wayne Berthiaume <Wayne.Berthiaume@dell.com>,
-	Vasuki Manikarnike <vasuki.manikarnike@hpe.com>,
-	Matthias Rudolph <Matthias.Rudolph@hitachivantara.com>,
-	Martin George <marting@netapp.com>,
-	NetApp RDAC team <ng-eseries-upstream-maintainers@netapp.com>,
-	Zou Ming <zouming.zouming@huawei.com>,
-	Li Xiaokeng <lixiaokeng@huawei.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Jyoti Rani <jrani@purestorage.com>,
-	Brian Bunker <brian@purestorage.com>,
-	Uday Shankar <ushankar@purestorage.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
+	Tue, 19 Aug 2025 17:37:48 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 68ED361428;
+	Tue, 19 Aug 2025 17:37:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20E31C4CEF4;
+	Tue, 19 Aug 2025 17:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755625067;
+	bh=/KA5/iirzA+7NBo2WhreWFarQonN7Bxg4iw8kozROnk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OoY3cFH2dl227qnLV9qdRahXTo4iRGaE1ejAUo1nffsJP0oy41x+3H7L4v7i2x+3n
+	 xubqfjQVTIQTYC5r+ENf4+KGcCnAUVsLcgjhKtSG7OSOwipn6OBplJzxmTdzuG0M9E
+	 nOqACnOTvFp/m3vySJgCvla7yn84iC8kCcZYBJMh4R+MZ/b74GrWwrWb+iQMHKPL+t
+	 NgcwvdawK6zK2SX4ql7GcDqU9F51bDD3j3M2HcQm4mmg1VmtQYwjFoitOFxvUHKbl3
+	 rqW/Lkb1w2tnkNmZBZDtXk0WCZ8okhRrV49XpXjkU1fgNjQ27YX9a0l0afVRahDzUy
+	 VvDsrkwd9UrzA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Christoph Hellwig <hch@lst.de>,
-	Marco Patalano <mpatalan@redhat.com>,
-	"Ewan D. Milne" <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Daniel Wagner <dwagner@suse.de>,
-	Daniel Wagner <wagi@monom.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Martin Wilck <mwilck@suse.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Christophe Varoqui <christophe.varoqui@opensvc.com>,
-	BLOCK-ML <linux-block@vger.kernel.org>,
-	NVME-ML <linux-nvme@lists.infradead.org>,
-	SCSI-ML <linux-scsi@vger.kernel.org>,
-	DM_DEVEL-ML <dm-devel@lists.linux.dev>
-Subject: [PATCH v2] nvme-cli: nvmf-autoconnect: udev-rule: add a file for new arrays
-Date: Tue, 19 Aug 2025 13:16:36 +0200
-Message-ID: <20250819111638.252890-1-xose.vazquez@gmail.com>
+	Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev,
+	Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v4 04/16] dma-mapping: rename trace_dma_*map_page to trace_dma_*map_phys
+Date: Tue, 19 Aug 2025 20:36:48 +0300
+Message-ID: <d7c9b5bedd4bacd78490799917948192dd537ca7.1755624249.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1755624249.git.leon@kernel.org>
+References: <cover.1755624249.git.leon@kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250819_041644_007661_AAEC5524 
-X-CRM114-Status: GOOD (  14.27  )
 X-Mailman-Approved-At: Wed, 20 Aug 2025 20:44:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -124,112 +103,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-One file per vendor, or device, is a bit excessive for two-four rules.
+From: Leon Romanovsky <leonro@nvidia.com>
 
+As a preparation for following map_page -> map_phys API conversion,
+let's rename trace_dma_*map_page() to be trace_dma_*map_phys().
 
-If possible, select round-robin (>=5.1), or queue-depth (>=6.11).
-round-robin is a basic selector, and only works well under ideal conditions.
-
-A nvme benchmark, round-robin vs queue-depth, shows how bad it is:
-https://marc.info/?l=linux-kernel&m=171931850925572
-https://marc.info/?l=linux-kernel&m=171931852025575
-https://github.com/johnmeneghini/iopolicy/?tab=readme-ov-file#sample-data
-https://people.redhat.com/jmeneghi/ALPSS_2023/NVMe_QD_Multipathing.pdf
-
-
-[ctrl_loss_tmo default value is 600 (ten minutes)]
-
-
-v2:
-	- fix ctrl_loss_tmo commnent
-	- add Infinidat/InfiniBox
-
-
-Cc: Wayne Berthiaume <Wayne.Berthiaume@dell.com>
-Cc: Vasuki Manikarnike <vasuki.manikarnike@hpe.com>
-Cc: Matthias Rudolph <Matthias.Rudolph@hitachivantara.com>
-Cc: Martin George <marting@netapp.com>
-Cc: NetApp RDAC team <ng-eseries-upstream-maintainers@netapp.com>
-Cc: Zou Ming <zouming.zouming@huawei.com>
-Cc: Li Xiaokeng <lixiaokeng@huawei.com>
-Cc: Randy Jennings <randyj@purestorage.com>
-Cc: Jyoti Rani <jrani@purestorage.com>
-Cc: Brian Bunker <brian@purestorage.com>
-Cc: Uday Shankar <ushankar@purestorage.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Marco Patalano <mpatalan@redhat.com>
-Cc: Ewan D. Milne <emilne@redhat.com>
-Cc: John Meneghini <jmeneghi@redhat.com>
-Cc: Daniel Wagner <dwagner@suse.de>
-Cc: Daniel Wagner <wagi@monom.org>
-Cc: Hannes Reinecke <hare@suse.de>
-Cc: Martin Wilck <mwilck@suse.com>
-Cc: Benjamin Marzinski <bmarzins@redhat.com>
-Cc: Christophe Varoqui <christophe.varoqui@opensvc.com>
-Cc: BLOCK-ML <linux-block@vger.kernel.org>
-Cc: NVME-ML <linux-nvme@lists.infradead.org>
-Cc: SCSI-ML <linux-scsi@vger.kernel.org>
-Cc: DM_DEVEL-ML <dm-devel@lists.linux.dev>
-Signed-off-by: Xose Vazquez Perez <xose.vazquez@gmail.com>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
+ include/trace/events/dma.h | 4 ++--
+ kernel/dma/mapping.c       | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Maybe these rules should be merged into this new file. ???
-71-nvmf-hpe.rules.in
-71-nvmf-netapp.rules.in
-71-nvmf-vastdata.rules.in
-
----
- .../80-nvmf-storage_arrays.rules.in           | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 nvmf-autoconnect/udev-rules/80-nvmf-storage_arrays.rules.in
-
-diff --git a/nvmf-autoconnect/udev-rules/80-nvmf-storage_arrays.rules.in b/nvmf-autoconnect/udev-rules/80-nvmf-storage_arrays.rules.in
-new file mode 100644
-index 00000000..ceabba31
---- /dev/null
-+++ b/nvmf-autoconnect/udev-rules/80-nvmf-storage_arrays.rules.in
-@@ -0,0 +1,38 @@
-+##### Storage arrays
-+
-+#### Set iopolicy for NVMe-oF
-+### iopolicy: numa, round-robin (>=5.1), or queue-depth (>=6.11)
-+
-+## Dell EMC
-+# PowerMax
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="round-robin", ATTR{model}=="EMC PowerMax"
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="queue-depth", ATTR{model}=="EMC PowerMax"
-+# PowerStore
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="round-robin", ATTR{model}=="dellemc-powerstore"
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="queue-depth", ATTR{model}=="dellemc-powerstore"
-+
-+## Huawei
-+# OceanStor
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="round-robin", ATTR{model}=="Huawei-XSG1"
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="queue-depth", ATTR{model}=="Huawei-XSG1"
-+
-+## IBM
-+# FlashSystem (RamSan)
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="round-robin", ATTR{model}=="FlashSystem"
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="queue-depth", ATTR{model}=="FlashSystem"
-+# FlashSystem (Storwize/SVC)
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="round-robin", ATTR{model}=="IBM*214"
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="queue-depth", ATTR{model}=="IBM*214"
-+
-+## Infinidat
-+# InfiniBox
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="round-robin", ATTR{model}=="InfiniBox"
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="queue-depth", ATTR{model}=="InfiniBox"
-+
-+## Pure
-+# FlashArray
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="round-robin", ATTR{model}=="Pure Storage FlashArray"
-+ACTION=="add|change", SUBSYSTEM=="nvme-subsystem", ATTR{subsystype}=="nvm", ATTR{iopolicy}="queue-depth", ATTR{model}=="Pure Storage FlashArray"
-+
-+
-+##### EOF
+diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
+index ee90d6f1dcf3..84416c7d6bfa 100644
+--- a/include/trace/events/dma.h
++++ b/include/trace/events/dma.h
+@@ -72,7 +72,7 @@ DEFINE_EVENT(dma_map, name, \
+ 		 size_t size, enum dma_data_direction dir, unsigned long attrs), \
+ 	TP_ARGS(dev, phys_addr, dma_addr, size, dir, attrs))
+ 
+-DEFINE_MAP_EVENT(dma_map_page);
++DEFINE_MAP_EVENT(dma_map_phys);
+ DEFINE_MAP_EVENT(dma_map_resource);
+ 
+ DECLARE_EVENT_CLASS(dma_unmap,
+@@ -110,7 +110,7 @@ DEFINE_EVENT(dma_unmap, name, \
+ 		 enum dma_data_direction dir, unsigned long attrs), \
+ 	TP_ARGS(dev, addr, size, dir, attrs))
+ 
+-DEFINE_UNMAP_EVENT(dma_unmap_page);
++DEFINE_UNMAP_EVENT(dma_unmap_phys);
+ DEFINE_UNMAP_EVENT(dma_unmap_resource);
+ 
+ DECLARE_EVENT_CLASS(dma_alloc_class,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 4c1dfbabb8ae..fe1f0da6dc50 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -173,7 +173,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+ 	else
+ 		addr = ops->map_page(dev, page, offset, size, dir, attrs);
+ 	kmsan_handle_dma(page, offset, size, dir);
+-	trace_dma_map_page(dev, phys, addr, size, dir, attrs);
++	trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
+ 	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
+ 
+ 	return addr;
+@@ -193,7 +193,7 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+ 		iommu_dma_unmap_page(dev, addr, size, dir, attrs);
+ 	else
+ 		ops->unmap_page(dev, addr, size, dir, attrs);
+-	trace_dma_unmap_page(dev, addr, size, dir, attrs);
++	trace_dma_unmap_phys(dev, addr, size, dir, attrs);
+ 	debug_dma_unmap_phys(dev, addr, size, dir);
+ }
+ EXPORT_SYMBOL(dma_unmap_page_attrs);
 -- 
 2.50.1
 
