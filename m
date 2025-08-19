@@ -4,69 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32D53CA0EED
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 01:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA6C0CA0EFA
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 03:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ncpqx4j339hqWj+ozGFH+5vRN/crJz5rqcC6dDBTCmQ=; b=z+dT9B8lZUZE/WYrGZZcnqg9s3
-	qm77yjiYfklROYzi642d2DhiPjHCSniDJzUmwJsTEvcxBEUYAQgyES8pTnT0fkKq618OyoEoxoxMA
-	A9V+ZL682DO7c1e3yuiXDxNqE009GPuvamFFbwP2hIiPzkmLppYwyr1E06s629XnYsUMZW42Z7KvF
-	I5tg4gGffHv03EP/A20RrqfCW/2QG9MSWTAfWK1nojvRVxpasx+ExISOGHVAyQJTvOvlaJs2UfWbz
-	26cDD5nPveSJnGK1SXImIFD2OPHBJDvmuyTikBXmQxI0Vod8MhhQ8xOPO+Cr4tlsLu+nRrvSRWJ5j
-	EfkF4B/A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KfgzUojTM/DB/MYkk7DA2Hi+SCW1x3wlstgTHhLqb3I=; b=JmgSztSvrys0eYu+GVeaOnF8VK
+	si75ooOzBlN/6A2LlckspW72Dku7kmefJfdpLwRRiacNx841ish1vDuT/1nYeENKr369zVYu82MiV
+	NEkVeShSjXyigMj/4dvIyt3FZYEY+up+cL5AnIhXYN6m9U2c/nFXQ5f56w4e9CcLb/QkUNAKyyHVi
+	NK6H7uNcpv6PdrDWh0PK8GpsFMYx5Z+nQeNFFeS4l8vwEG/+5dXjWilC6lhephJVi7woC44jKF82O
+	rCFWDJAwWdmnCPQNw5w/E4ndH/zuqZRfVvFD3xc87bdZ3oR5kXniW3Il+R53HhzG4eocLnMAKp419
+	jGltO3yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uouHE-0000000FTQd-0YN3;
-	Thu, 21 Aug 2025 01:39:40 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uowDs-0000000FhEt-0fdW;
+	Thu, 21 Aug 2025 03:44:20 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uorAj-0000000F576-2QFW;
-	Wed, 20 Aug 2025 22:20:46 +0000
+	id 1uoQHH-0000000B7cB-0rQl
+	for linux-nvme@lists.infradead.org;
+	Tue, 19 Aug 2025 17:37:44 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 03024451D8;
-	Wed, 20 Aug 2025 22:20:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2FA6C4CEE7;
-	Wed, 20 Aug 2025 22:20:44 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 7C8405C64F0;
+	Tue, 19 Aug 2025 17:37:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53FEBC116B1;
+	Tue, 19 Aug 2025 17:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755728444;
-	bh=wsUPldU04Nc0Tm1FqMCC1+DGwqczRsoyIsHWywBiPgc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LvsougiKOoa5TSf6WheDqGzlEMw00QFrCBKPtwUf2Tj9Nc4GtcSPwAfQpiNWBbMHc
-	 E8qH/k7/hsk/RF3qbvoavwyuL17GbLlrCyU+7YzdQ61EHOGWKCtUybMhI0bsvL8o7m
-	 T91q85AUiTZeiZmnEq7pMcS+5rSRcAWpFhJtqRXT/mYz/Bi7zGNGC/AuraNoQMnBTq
-	 FyYxpl8DPOnWIemaxZnlpHuT/AhTETzjwLko+J71Bzr3wODLBVMkYOW5eRfZLOecGt
-	 jlBK0S8hxOvvtj+JVF+fqiPZPbm97dPvagupwd9+f5tVqJ8iAGC5ffci5EJC8V27rT
-	 vJlROA+aDptSA==
-Date: Wed, 20 Aug 2025 17:20:44 -0500
-From: Rob Herring <robh@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 3/9] dt-bindings: iommu: apple,sart: Add Apple A11
-Message-ID: <20250820222044.GA1513864-robh@kernel.org>
-References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
- <20250818-t8015-nvme-v2-3-65648cd189e0@gmail.com>
+	s=k20201202; t=1755625061;
+	bh=mXPBKGOTAXMaA8YnIACrT4VeK6ColaZH6f/lOi0T5+M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZcfXQzEMtP4+AZ86jo3dtO0Oekoz5PxnIpxVGiM0bP5sSs9WMxZsIT5kYk/VnUi3R
+	 /kc0Vzr2i3fBfcwwoPTgAmdyvW5ST0B2y1uv9wp+i8hWG5QgN6gN0jrKDriRJyNDRP
+	 26rMrCRUHHKb1TjV3vj8pKsHfYCF8VeZXtu9+b4Vsvi65u3DslqBcB4jsQub3Gt2qD
+	 KJFY83CBFYAED4nL0OxEGnoJhmf5HiiRJ0eyTbwf76fL/xpbF4kq0K7Xr5ssJRHfaG
+	 Znxa2J61vk0Pu5GfNVrDFyX+mri+BrC7qwdiENTcRxzxBPp/BwoEirtjDV08OZLE7g
+	 87wPEgWDV7Xzg==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com,
+	Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev,
+	Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v4 02/16] iommu/dma: implement DMA_ATTR_MMIO for dma_iova_link().
+Date: Tue, 19 Aug 2025 20:36:46 +0300
+Message-ID: <62d9a6c3ca03037631f6d0640ebec5fbac41d547.1755624249.git.leon@kernel.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <cover.1755624249.git.leon@kernel.org>
+References: <cover.1755624249.git.leon@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250818-t8015-nvme-v2-3-65648cd189e0@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250820_152045_635934_F1E3ECC3 
-X-CRM114-Status: GOOD (  15.04  )
+X-CRM114-CacheID: sfid-20250819_103743_318255_5B6C0F89 
+X-CRM114-Status: GOOD (  14.83  )
+X-Mailman-Approved-At: Wed, 20 Aug 2025 20:44:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,33 +106,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Aug 18, 2025 at 04:42:56PM +0800, Nick Chan wrote:
-> Add bindings for SARTv0 as found on Apple A11 SoC.
-> 
-> Reviewed-by: Sven Peter <sven@kernel.org>
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> ---
->  Documentation/devicetree/bindings/iommu/apple,sart.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iommu/apple,sart.yaml b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
-> index e87c1520fea60a2de549aa8a469fcded52e3b6e3..95d55ec688779bd52b8aef316a4c1ba7b7449574 100644
-> --- a/Documentation/devicetree/bindings/iommu/apple,sart.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
-> @@ -29,6 +29,7 @@ description:
->  properties:
->    compatible:
->      oneOf:
-> +      - const: apple,t8015-sart
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Actually I take back my ack, move this to the existing 'enum' down 
-below. With that change, you can keep the ack.
+This will replace the hacky use of DMA_ATTR_SKIP_CPU_SYNC to avoid
+touching the possibly non-KVA MMIO memory.
 
->        - items:
->            - const: apple,t8112-sart
->            - const: apple,t6000-sart
-> 
-> -- 
-> 2.50.1
-> 
+Also correct the incorrect caching attribute for the IOMMU, MMIO
+memory should not be cachable inside the IOMMU mapping or it can
+possibly create system problems. Set IOMMU_MMIO for DMA_ATTR_MMIO.
+
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+ drivers/iommu/dma-iommu.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index ea2ef53bd4fe..e1185ba73e23 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -724,7 +724,12 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, struct device *dev
+ static int dma_info_to_prot(enum dma_data_direction dir, bool coherent,
+ 		     unsigned long attrs)
+ {
+-	int prot = coherent ? IOMMU_CACHE : 0;
++	int prot;
++
++	if (attrs & DMA_ATTR_MMIO)
++		prot = IOMMU_MMIO;
++	else
++		prot = coherent ? IOMMU_CACHE : 0;
+ 
+ 	if (attrs & DMA_ATTR_PRIVILEGED)
+ 		prot |= IOMMU_PRIV;
+@@ -1838,12 +1843,13 @@ static int __dma_iova_link(struct device *dev, dma_addr_t addr,
+ 		unsigned long attrs)
+ {
+ 	bool coherent = dev_is_dma_coherent(dev);
++	int prot = dma_info_to_prot(dir, coherent, attrs);
+ 
+-	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++	if (!coherent && !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO)))
+ 		arch_sync_dma_for_device(phys, size, dir);
+ 
+ 	return iommu_map_nosync(iommu_get_dma_domain(dev), addr, phys, size,
+-			dma_info_to_prot(dir, coherent, attrs), GFP_ATOMIC);
++			prot, GFP_ATOMIC);
+ }
+ 
+ static int iommu_dma_iova_bounce_and_link(struct device *dev, dma_addr_t addr,
+@@ -1949,9 +1955,13 @@ int dma_iova_link(struct device *dev, struct dma_iova_state *state,
+ 		return -EIO;
+ 
+ 	if (dev_use_swiotlb(dev, size, dir) &&
+-	    iova_unaligned(iovad, phys, size))
++	    iova_unaligned(iovad, phys, size)) {
++		if (attrs & DMA_ATTR_MMIO)
++			return -EPERM;
++
+ 		return iommu_dma_iova_link_swiotlb(dev, state, phys, offset,
+ 				size, dir, attrs);
++	}
+ 
+ 	return __dma_iova_link(dev, state->addr + offset - iova_start_pad,
+ 			phys - iova_start_pad,
+-- 
+2.50.1
+
 
