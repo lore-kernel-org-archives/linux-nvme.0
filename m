@@ -4,124 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7431CCA0EFA
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Aug 2025 09:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6948CCA0EFE
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Aug 2025 11:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Jxxe0jL4GSsatgngtd4oCt0YK/m9IMTmQVcIp/M3WOc=; b=asNNb7YUSG1WZsn6oPJ6s2A3iM
-	4LMFlM2qatYTOUQSzT6AZS1YLt8yll01j4TKNLKMNQWO5ARrnHO+0TOd98w8nCgAK2IKTWtxVASKQ
-	SiNkLn5/8WzIBHHx4Q0K92cNSGIFf4ux8+HkJdjiZqntZY8woLl+Y+AdEDnFaeoX4Mpl5FbfxQJl6
-	m10Cs8m9NrpFtJzvvC8yIbxA/Iw9xC0u2kWKFCc4Nd4NJERUJh7tq3llnel3Qzfel+r7FZrMO0mKb
-	YKn86p7Hw7btlFSBbbnDJkFqeBccM8QJ/0NrWCvT0pT6lUsEvOkFX5j1cQBp0WjroaMZqpzEQgILW
-	2LFZ9wXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=9x+s1Yy+WWP4Cdo7EOL7tu4hpU4s0ZhMftcNXqCAcys=; b=bUj9U0RxXR7qwtqxRTTnyDnRBI
+	uVdePjq8Z/ubxjhOgmCz/LWIuS3dnVk+HuU7u34gEKClIKzHCC5E+wkKtvFHhSY6WZfSfkdYUfG7O
+	uSwly5jGXe/fDrBOfnZAAEkEpT0mn8mf3omPg7I1k4qjrB1raofsUkpsraKwVWHgXY2xc6vuTZsvn
+	eJ4VyUJkiLTMHztfCqq2ZQbTTfU35gc4PpGOIFfn+gF+pYwNvz+qVQrtGqCsA7NqvJ9AD7VkkVGGt
+	S9fxZLkh+e1QIynE6VpvF1z6eBz2bj1C9goXgGx6JKCNaX8diL7ip07gOd52q0xI1A0Ylx7cXAtVy
+	HjbpqjOg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoeyn-0000000CtKr-3chJ;
-	Wed, 20 Aug 2025 09:19:37 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1uogbo-0000000DHSC-1B5k;
+	Wed, 20 Aug 2025 11:04:00 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoeIr-0000000Cle1-1yqz
+	id 1uoekk-0000000CpzO-2ur5
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Aug 2025 08:36:18 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D3B5D1F847;
-	Wed, 20 Aug 2025 08:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755678976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jxxe0jL4GSsatgngtd4oCt0YK/m9IMTmQVcIp/M3WOc=;
-	b=jLmeR4LknOBFDdAY0/VWe9vb9Ar61mkL4W13icouM7JfVax0Bt4FOYhISb/skymkN1RoZd
-	wow/ioM1mp78CiZ0lToVs6y0BmvaQntd+NBc/xiTpAcDrJGaJlzIZqs8kkRtqmbii8qsy9
-	L35FkPCPIxWq0wY6qNEYWbMOHU8dmqQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755678976;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jxxe0jL4GSsatgngtd4oCt0YK/m9IMTmQVcIp/M3WOc=;
-	b=YppakVYXiOCPh9k+oWGP0EAKhWr3IP61paGeth7Llr1Jd1azjpDxHKqmwwTzlddSDrRn+r
-	uyxsUZaBRsJJjpAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jrDGbTOn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qdgs10Xi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755678975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jxxe0jL4GSsatgngtd4oCt0YK/m9IMTmQVcIp/M3WOc=;
-	b=jrDGbTOn4dQBYa2P903GkheMekDqMFbDil6uI9HYMP6RZ8nJBGu8iStQa3BBlBq+cUktMX
-	RxQyhPqFuhYVQ0rsZ1V/b57b/1aLJ3B+Asl13ISzaqlkUy+vUgmuRvyh+a7Ypo5ZLRROX4
-	OJxdajD+l65EdgQ7pwuJ6vM38cIQiRA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755678975;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jxxe0jL4GSsatgngtd4oCt0YK/m9IMTmQVcIp/M3WOc=;
-	b=qdgs10Xicq4ujiCtGRRAl16wLrsLihrsQfEjxlg41NqLQS6Kpuwvx0traUY0gebWxfrSI7
-	/S+ksOB7OrJ8vPBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C60EB1368B;
-	Wed, 20 Aug 2025 08:36:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sO5eL/+IpWihbQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 20 Aug 2025 08:36:15 +0000
-Date: Wed, 20 Aug 2025 10:36:15 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Yi Zhang <yi.zhang@redhat.com>
-Cc: "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
-	james.smart@broadcom.com, Maurizio Lombardi <mlombard@redhat.com>, 
-	Ewan Milne <emilne@redhat.com>
-Subject: Re: [bug report] blktests nvme/fc nvme/057 triggered kernel panic
-Message-ID: <01a710c5-c559-4d4a-afa6-c9d542ea964a@flourine.local>
-References: <CAHj4cs9U48Xjd-ZShsP6GjZFyp7_Sp7i2gFdT-Btfvpouu4akQ@mail.gmail.com>
+	Wed, 20 Aug 2025 09:05:08 +0000
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c6LBF74VzzYQvvf
+	for <linux-nvme@lists.infradead.org>; Wed, 20 Aug 2025 17:04:53 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 8B31A1A156C
+	for <linux-nvme@lists.infradead.org>; Wed, 20 Aug 2025 17:04:52 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+	by APP4 (Coremail) with SMTP id gCh0CgCnIxSmj6Vo4c48EQ--.61348S4;
+	Wed, 20 Aug 2025 17:04:50 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	hch@lst.de,
+	tytso@mit.edu,
+	djwong@kernel.org,
+	bmarzins@redhat.com,
+	chaitanyak@nvidia.com,
+	shinichiro.kawasaki@wdc.com,
+	brauner@kernel.org,
+	martin.petersen@oracle.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	chengzhihao1@huawei.com,
+	yukuai3@huawei.com,
+	yangerkun@huawei.com
+Subject: [PATCH util-linux v3] fallocate: add FALLOC_FL_WRITE_ZEROES support
+Date: Wed, 20 Aug 2025 16:56:32 +0800
+Message-Id: <20250820085632.1879239-1-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHj4cs9U48Xjd-ZShsP6GjZFyp7_Sp7i2gFdT-Btfvpouu4akQ@mail.gmail.com>
-X-Rspamd-Queue-Id: D3B5D1F847
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgCnIxSmj6Vo4c48EQ--.61348S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFW7XFyDWFyUCryrKF15Arb_yoWxWrykpF
+	W5KF18KrWrWw4xGwn7Aw4kWw15Zws5Wr45CrZ2grykAr13Wa17Ka1vgryFgF9rXFykCa15
+	Xr1avFy3ur48AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjTRNJ5oDUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250820_013617_660603_AF6A32F4 
-X-CRM114-Status: GOOD (  11.99  )
+X-CRM114-CacheID: sfid-20250820_020507_041794_C9FBCE48 
+X-CRM114-Status: GOOD (  18.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,22 +97,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 20, 2025 at 04:20:40PM +0800, Yi Zhang wrote:
-> My recent blktests testing triggered the kernel panic issue with
-> kernel 6.17.0-rc2.
-> Please help check it and let me know if you need any info/testing for
-> it, thanks.
-> 
-> [1] reproducer
-> stress blktests nvme/fc nvme/057
+From: Zhang Yi <yi.zhang@huawei.com>
 
-I will look into it. I've got a similar bug report from our internal QA
-which I have debugged but not fixed yet.
+The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
+fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
+utility by introducing a new option -w|--write-zeroes.
 
-The async handling code is not able to handle more than one in-flight
-command (__nvmet_fc_send_ls_req). I was able to trigger the bug by
-running nvme/044 for the FC transport in a tight loop.
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+---
+v2->v3:
+ - Say less about what the filesystem actually implements as Darrick
+   suggested and clarify the reason why "--keep-size" cannot be used
+   together in the man page.
+ - Modify the verbose output message.
+v1->v2:
+ - Minor description modification to align with the kernel.
 
-This might be related here, as it seems to happen when disconnecting
-from the target, similar to the stacktrace I see with nvme/044.
+ sys-utils/fallocate.1.adoc | 11 +++++++++--
+ sys-utils/fallocate.c      | 20 ++++++++++++++++----
+ 2 files changed, 25 insertions(+), 6 deletions(-)
+
+diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
+index 44ee0ef4c..a06cf7a50 100644
+--- a/sys-utils/fallocate.1.adoc
++++ b/sys-utils/fallocate.1.adoc
+@@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
+ 
+ == SYNOPSIS
+ 
+-*fallocate* [*-c*|*-p*|*-z*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
++*fallocate* [*-c*|*-p*|*-z*|*-w*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
+ 
+ *fallocate* *-d* [*-o* _offset_] [*-l* _length_] _filename_
+ 
+@@ -28,7 +28,7 @@ The exit status returned by *fallocate* is 0 on success and 1 on failure.
+ 
+ The _length_ and _offset_ arguments may be followed by the multiplicative suffixes KiB (=1024), MiB (=1024*1024), and so on for GiB, TiB, PiB, EiB, ZiB, and YiB (the "iB" is optional, e.g., "K" has the same meaning as "KiB") or the suffixes KB (=1000), MB (=1000*1000), and so on for GB, TB, PB, EB, ZB, and YB.
+ 
+-The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range* and *--posix* are mutually exclusive.
++The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range*, *--write-zeroes* and *--posix* are mutually exclusive.
+ 
+ *-c*, *--collapse-range*::
+ Removes a byte range from a file, without leaving a hole. The byte range to be collapsed starts at _offset_ and continues for _length_ bytes. At the completion of the operation, the contents of the file starting at the location __offset__+_length_ will be appended at the location _offset_, and the file will be _length_ bytes smaller. The option *--keep-size* may not be specified for the collapse-range operation.
+@@ -76,6 +76,13 @@ Option *--keep-size* can be specified to prevent file length modification.
+ +
+ Available since Linux 3.14 for ext4 (only for extent-based files) and XFS.
+ 
++*-w*, *--write-zeroes*::
++Zeroes space in the byte range starting at _offset_ and continuing for _length_ bytes. Within the specified range, written blocks are preallocated for the regions that span the holes in the file. After a successful call, subsequent reads from this range will return zeroes and subsequent writes to that range do not require further changes to the file mapping metadata.
+++
++Zeroing is done within the filesystem. The filesystem may use a hardware-accelerated zeroing command or may submit regular writes. The behavior depends on the filesystem design and the available hardware.
+++
++Options *--keep-size* can not be specified for the write-zeroes operation because allocating written blocks beyond the inode size is not permitted.
++
+ include::man-common/help-version.adoc[]
+ 
+ == AUTHORS
+diff --git a/sys-utils/fallocate.c b/sys-utils/fallocate.c
+index 13bf52915..afd615537 100644
+--- a/sys-utils/fallocate.c
++++ b/sys-utils/fallocate.c
+@@ -40,7 +40,7 @@
+ #if defined(HAVE_LINUX_FALLOC_H) && \
+     (!defined(FALLOC_FL_KEEP_SIZE) || !defined(FALLOC_FL_PUNCH_HOLE) || \
+      !defined(FALLOC_FL_COLLAPSE_RANGE) || !defined(FALLOC_FL_ZERO_RANGE) || \
+-     !defined(FALLOC_FL_INSERT_RANGE))
++     !defined(FALLOC_FL_INSERT_RANGE) || !defined(FALLOC_FL_WRITE_ZEROES))
+ # include <linux/falloc.h>	/* non-libc fallback for FALLOC_FL_* flags */
+ #endif
+ 
+@@ -65,6 +65,10 @@
+ # define FALLOC_FL_INSERT_RANGE		0x20
+ #endif
+ 
++#ifndef FALLOC_FL_WRITE_ZEROES
++# define FALLOC_FL_WRITE_ZEROES		0x80
++#endif
++
+ #include "nls.h"
+ #include "strutils.h"
+ #include "c.h"
+@@ -94,6 +98,7 @@ static void __attribute__((__noreturn__)) usage(void)
+ 	fputs(_(" -o, --offset <num>   offset for range operations, in bytes\n"), out);
+ 	fputs(_(" -p, --punch-hole     replace a range with a hole (implies -n)\n"), out);
+ 	fputs(_(" -z, --zero-range     zero and ensure allocation of a range\n"), out);
++	fputs(_(" -w, --write-zeroes   write zeroes and ensure allocation of a range\n"), out);
+ #ifdef HAVE_POSIX_FALLOCATE
+ 	fputs(_(" -x, --posix          use posix_fallocate(3) instead of fallocate(2)\n"), out);
+ #endif
+@@ -304,6 +309,7 @@ int main(int argc, char **argv)
+ 	    { "dig-holes",      no_argument,       NULL, 'd' },
+ 	    { "insert-range",   no_argument,       NULL, 'i' },
+ 	    { "zero-range",     no_argument,       NULL, 'z' },
++	    { "write-zeroes",   no_argument,       NULL, 'w' },
+ 	    { "offset",         required_argument, NULL, 'o' },
+ 	    { "length",         required_argument, NULL, 'l' },
+ 	    { "posix",          no_argument,       NULL, 'x' },
+@@ -312,8 +318,8 @@ int main(int argc, char **argv)
+ 	};
+ 
+ 	static const ul_excl_t excl[] = {	/* rows and cols in ASCII order */
+-		{ 'c', 'd', 'i', 'p', 'x', 'z'},
+-		{ 'c', 'i', 'n', 'x' },
++		{ 'c', 'd', 'i', 'p', 'w', 'x', 'z'},
++		{ 'c', 'i', 'n', 'w', 'x' },
+ 		{ 0 }
+ 	};
+ 	int excl_st[ARRAY_SIZE(excl)] = UL_EXCL_STATUS_INIT;
+@@ -323,7 +329,7 @@ int main(int argc, char **argv)
+ 	textdomain(PACKAGE);
+ 	close_stdout_atexit();
+ 
+-	while ((c = getopt_long(argc, argv, "hvVncpdizxl:o:", longopts, NULL))
++	while ((c = getopt_long(argc, argv, "hvVncpdizwxl:o:", longopts, NULL))
+ 			!= -1) {
+ 
+ 		err_exclusive_options(c, longopts, excl, excl_st);
+@@ -353,6 +359,9 @@ int main(int argc, char **argv)
+ 		case 'z':
+ 			mode |= FALLOC_FL_ZERO_RANGE;
+ 			break;
++		case 'w':
++			mode |= FALLOC_FL_WRITE_ZEROES;
++			break;
+ 		case 'x':
+ #ifdef HAVE_POSIX_FALLOCATE
+ 			posix = 1;
+@@ -429,6 +438,9 @@ int main(int argc, char **argv)
+ 			else if (mode & FALLOC_FL_ZERO_RANGE)
+ 				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
+ 								filename, str, length);
++			else if (mode & FALLOC_FL_WRITE_ZEROES)
++				fprintf(stdout, _("%s: %s (%ju bytes) written as zeroes.\n"),
++								filename, str, length);
+ 			else
+ 				fprintf(stdout, _("%s: %s (%ju bytes) allocated.\n"),
+ 								filename, str, length);
+-- 
+2.39.2
+
 
