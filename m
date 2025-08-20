@@ -4,65 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD440CA0EF8
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Aug 2025 22:28:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73A88CA0EED
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 Aug 2025 23:13:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5SnXpI0orGyXKYLDHJZbYWPAWj5V7gXkli2fDUVZd8U=; b=STARvb9LObTq+IfWYPy72DmjAA
-	0IgGXnod4Q3xavDgOGxr55BhE1ThDCd955mCAIRVH/mRvJuuq2TyrUial6A3FodKWwdYG9cJjJuFQ
-	394AEKaLx5bmh4xXgVi+pILWDKG6InT+2+ahR+eRwpCTw0s+qlqw0jv5d8pjrGMtwAPxDVH6Ds/d7
-	gyK+w0sZmgRWgKRk0JaPhJB8QOTKZyuKZIJruKm7LZrKRvyV3zpnpUg5UtR9Hn+YQaRab9Ghi5LPN
-	0AFd+LCG4iVrwCMZF6J1Mw3w0HjrFOPJkLjZ7zkk3b3K0ZdpJu/QcIHPhE6V3ZoF1qoX9QCAdjo9b
-	0NdiAARQ==;
+	bh=dkl0JH19EfdUmb1s1IlCyDx3sGTUl9UechBzx2AOLGM=; b=LPCYFT4Qa48JnapmVk+nU9faAN
+	lvBhC3yFgjV3eeKsASjLNk2AScpmU5F7CyPBXeCfSDeoQhOc3spGrXH69MX5wJR1PudpNc07e+YnG
+	1RMQ8hk8Bmq5299Pa+6obF+G5h1C2E1PYn0zTGKmj+s1unTjBQp9viDluCtel3Y8Wtai5dLjqQIJy
+	SDAt6/P2oXQxd9ldrlztySfUkZv530/dfA+84bVLmGbSOSen51IwArAV3tdEWCPBuu7ivSC5j23Qk
+	9x45H+cO4nlZF+ZhpCtQTyxR6s7pkeEzZq1DXJglJearrhV2NHxqhVsIv7R+IsNnHDbuVojmYbx0y
+	rKN1VL3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uorHq-0000000F5wz-0FpQ;
-	Wed, 20 Aug 2025 22:28:06 +0000
-Received: from nyc.source.kernel.org ([2604:1380:45d1:ec00::3])
+	id 1uorzX-0000000F9pM-3VNF;
+	Wed, 20 Aug 2025 23:13:15 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uomxK-0000000EbRB-40oh
+	id 1uonpT-0000000Ei8C-2L1T
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Aug 2025 17:50:40 +0000
+	Wed, 20 Aug 2025 18:46:36 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 1CD33A54B2C;
-	Wed, 20 Aug 2025 17:50:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3373C4CEE7;
-	Wed, 20 Aug 2025 17:50:37 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 046CD43EA4;
+	Wed, 20 Aug 2025 18:46:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CD38C4CEE7;
+	Wed, 20 Aug 2025 18:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755712237;
-	bh=WKGdVU7WkPGRn6n7Ocqx6xoiPc/q7PCmfXCFdh7Q86g=;
+	s=k20201202; t=1755715594;
+	bh=P+VT/QpHjuwTmaUxpbbIuh2m8fFEWJiARnreN7fVcEE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JtLF7o4TD79tNlPUFPTyI9EfHMk1NzZ05ZM3oWrOCwq2b1WU7TOTFn97M3gTMZSDj
-	 Fj4JAClIBRK75OBVY68pysedsYjgPY+41IN5EpNIECmBxFNlMbRgCllmTpLs+kjtAf
-	 FNIrB8GvrMRTVEsjI2ozafuZIP0Tirse/3oOsBM9+uqk9nez/GF7v5Ri6sQeBrk6Q/
-	 fXZwrNJZ1c8lw7VYKs8cd029TES4ET99Ly470cjXPxqlQ3QNsM2nwVeb++96UrreP9
-	 Qb3aOdYuVyUkV1fCCSpBU0TdpLPQMys5IdaHwbYX65P4QFq5h/g4h5bx7vP7Hk6YmP
-	 OudKDcUzpL57A==
-Date: Wed, 20 Aug 2025 10:50:37 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	hch@lst.de, tytso@mit.edu, bmarzins@redhat.com,
-	chaitanyak@nvidia.com, shinichiro.kawasaki@wdc.com,
-	brauner@kernel.org, martin.petersen@oracle.com, yi.zhang@huawei.com,
-	chengzhihao1@huawei.com, yukuai3@huawei.com, yangerkun@huawei.com
-Subject: Re: [PATCH util-linux v3] fallocate: add FALLOC_FL_WRITE_ZEROES
- support
-Message-ID: <20250820175037.GN7981@frogsfrogsfrogs>
-References: <20250820085632.1879239-1-yi.zhang@huaweicloud.com>
+	b=shYTZggbgepXa6AqR6TvpViF9sgTmzGY0CLQJCtS/AuldI/1Su+ZLjqzdFdk6r6mN
+	 dWCoM0i5bhCLcvHJg26zoFqXUyz+maed92if5EwwPDUQUUdiX7syQPmeH6I/wF/Ha9
+	 TuaP7APyRXpXvanrGKVMeOukk/e6OVcO4swPZDOw2KvtPJV3hryPJeirSvLQHfcmwN
+	 e0X6DKWkSKX4MI0TXLiED6Vc9LeVCDQRa+K+FY6VreiSvLxncoqa5xFnA5FHqksaSP
+	 21xJBjk95V4Z/yg41ydoCwYMIUrDrUatrLXLdj2X0AmUrAT1DLwico69QUNxjhJPF/
+	 N2zQ+i3uaGPhQ==
+Date: Wed, 20 Aug 2025 11:46:33 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: hare@kernel.org
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Chris Leech <cleech@redhat.com>,
+	linux-nvme@lists.infradead.org,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 1/2] crypto: hkdf: add hkdf_expand_label()
+Message-ID: <20250820184633.GB1838@quark>
+References: <20250820091211.25368-1-hare@kernel.org>
+ <20250820091211.25368-2-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250820085632.1879239-1-yi.zhang@huaweicloud.com>
+In-Reply-To: <20250820091211.25368-2-hare@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250820_105039_124217_61B87AD8 
-X-CRM114-Status: GOOD (  30.14  )
+X-CRM114-CacheID: sfid-20250820_114635_634830_5ED62E7C 
+X-CRM114-Status: GOOD (  21.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,153 +76,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 20, 2025 at 04:56:32PM +0800, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
+On Wed, Aug 20, 2025 at 11:12:10AM +0200, hare@kernel.org wrote:
+> From: Chris Leech <cleech@redhat.com>
 > 
-> The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
-> fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
-> utility by introducing a new option -w|--write-zeroes.
+> Provide an implementation of RFC 8446 (TLS 1.3) HKDF-Expand-Label
 > 
-> Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> Cc: Eric Biggers <ebiggers@kernel.org>
+> Signed-off-by: Chris Leech <cleech@redhat.com>
+> Signed-off-by: Hannes Reinecke <hare@kernel.org>
 > ---
-> v2->v3:
->  - Say less about what the filesystem actually implements as Darrick
->    suggested and clarify the reason why "--keep-size" cannot be used
->    together in the man page.
->  - Modify the verbose output message.
-> v1->v2:
->  - Minor description modification to align with the kernel.
+>  crypto/hkdf.c         | 55 +++++++++++++++++++++++++++++++++++++++++++
+>  include/crypto/hkdf.h |  4 ++++
+>  2 files changed, 59 insertions(+)
 > 
->  sys-utils/fallocate.1.adoc | 11 +++++++++--
->  sys-utils/fallocate.c      | 20 ++++++++++++++++----
->  2 files changed, 25 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
-> index 44ee0ef4c..a06cf7a50 100644
-> --- a/sys-utils/fallocate.1.adoc
-> +++ b/sys-utils/fallocate.1.adoc
-> @@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
+> diff --git a/crypto/hkdf.c b/crypto/hkdf.c
+> index 82d1b32ca6ce..465bad6e6c93 100644
+> --- a/crypto/hkdf.c
+> +++ b/crypto/hkdf.c
+> @@ -11,6 +11,7 @@
+>  #include <crypto/sha2.h>
+>  #include <crypto/hkdf.h>
+>  #include <linux/module.h>
+> +#include <linux/unaligned.h>
 >  
->  == SYNOPSIS
+>  /*
+>   * HKDF consists of two steps:
+> @@ -129,6 +130,60 @@ int hkdf_expand(struct crypto_shash *hmac_tfm,
+>  }
+>  EXPORT_SYMBOL_GPL(hkdf_expand);
 >  
-> -*fallocate* [*-c*|*-p*|*-z*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
-> +*fallocate* [*-c*|*-p*|*-z*|*-w*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
->  
->  *fallocate* *-d* [*-o* _offset_] [*-l* _length_] _filename_
->  
-> @@ -28,7 +28,7 @@ The exit status returned by *fallocate* is 0 on success and 1 on failure.
->  
->  The _length_ and _offset_ arguments may be followed by the multiplicative suffixes KiB (=1024), MiB (=1024*1024), and so on for GiB, TiB, PiB, EiB, ZiB, and YiB (the "iB" is optional, e.g., "K" has the same meaning as "KiB") or the suffixes KB (=1000), MB (=1000*1000), and so on for GB, TB, PB, EB, ZB, and YB.
->  
-> -The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range* and *--posix* are mutually exclusive.
-> +The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range*, *--write-zeroes* and *--posix* are mutually exclusive.
->  
->  *-c*, *--collapse-range*::
->  Removes a byte range from a file, without leaving a hole. The byte range to be collapsed starts at _offset_ and continues for _length_ bytes. At the completion of the operation, the contents of the file starting at the location __offset__+_length_ will be appended at the location _offset_, and the file will be _length_ bytes smaller. The option *--keep-size* may not be specified for the collapse-range operation.
-> @@ -76,6 +76,13 @@ Option *--keep-size* can be specified to prevent file length modification.
->  +
->  Available since Linux 3.14 for ext4 (only for extent-based files) and XFS.
->  
-> +*-w*, *--write-zeroes*::
-> +Zeroes space in the byte range starting at _offset_ and continuing for _length_ bytes. Within the specified range, written blocks are preallocated for the regions that span the holes in the file. After a successful call, subsequent reads from this range will return zeroes and subsequent writes to that range do not require further changes to the file mapping metadata.
-> ++
-> +Zeroing is done within the filesystem. The filesystem may use a hardware-accelerated zeroing command or may submit regular writes. The behavior depends on the filesystem design and the available hardware.
-> ++
-> +Options *--keep-size* can not be specified for the write-zeroes operation because allocating written blocks beyond the inode size is not permitted.
-
-Nit: s/can not/cannot/
-
-With that fixed, this looks fine to me, so
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
+> +/**
+> + * hkdf_expand_label - HKDF-Expand-Label (RFC 8846 section 7.1)
+> + * @hmac_tfm: hash context keyed with pseudorandom key
+> + * @label: ASCII label without "tls13 " prefix
+> + * @label_len: length of @label
+> + * @context: context bytes
+> + * @contextlen: length of @context
+> + * @okm: output keying material
+> + * @okmlen: length of @okm
+> + *
+> + * Build the TLS 1.3 HkdfLabel structure and invoke hkdf_expand().
+> + *
+> + * Returns 0 on success with output keying material stored in @okm,
+> + * or a negative errno value otherwise.
+> + */
+> +int hkdf_expand_label(struct crypto_shash *hmac_tfm,
+> +		const u8 *label, unsigned int labellen,
+> +		const u8 *context, unsigned int contextlen,
+> +		u8 *okm, unsigned int okmlen)
+> +{
+> +	int err;
+> +	u8 *info;
+> +	unsigned int infolen;
+> +	static const char tls13_prefix[] = "tls13 ";
+> +	unsigned int prefixlen = sizeof(tls13_prefix) - 1; /* exclude NUL */
 > +
->  include::man-common/help-version.adoc[]
->  
->  == AUTHORS
-> diff --git a/sys-utils/fallocate.c b/sys-utils/fallocate.c
-> index 13bf52915..afd615537 100644
-> --- a/sys-utils/fallocate.c
-> +++ b/sys-utils/fallocate.c
-> @@ -40,7 +40,7 @@
->  #if defined(HAVE_LINUX_FALLOC_H) && \
->      (!defined(FALLOC_FL_KEEP_SIZE) || !defined(FALLOC_FL_PUNCH_HOLE) || \
->       !defined(FALLOC_FL_COLLAPSE_RANGE) || !defined(FALLOC_FL_ZERO_RANGE) || \
-> -     !defined(FALLOC_FL_INSERT_RANGE))
-> +     !defined(FALLOC_FL_INSERT_RANGE) || !defined(FALLOC_FL_WRITE_ZEROES))
->  # include <linux/falloc.h>	/* non-libc fallback for FALLOC_FL_* flags */
->  #endif
->  
-> @@ -65,6 +65,10 @@
->  # define FALLOC_FL_INSERT_RANGE		0x20
->  #endif
->  
-> +#ifndef FALLOC_FL_WRITE_ZEROES
-> +# define FALLOC_FL_WRITE_ZEROES		0x80
-> +#endif
+> +	if (WARN_ON(labellen > (255 - prefixlen)))
+> +		return -EINVAL;
+> +	if (WARN_ON(contextlen > 255))
+> +		return -EINVAL;
 > +
->  #include "nls.h"
->  #include "strutils.h"
->  #include "c.h"
-> @@ -94,6 +98,7 @@ static void __attribute__((__noreturn__)) usage(void)
->  	fputs(_(" -o, --offset <num>   offset for range operations, in bytes\n"), out);
->  	fputs(_(" -p, --punch-hole     replace a range with a hole (implies -n)\n"), out);
->  	fputs(_(" -z, --zero-range     zero and ensure allocation of a range\n"), out);
-> +	fputs(_(" -w, --write-zeroes   write zeroes and ensure allocation of a range\n"), out);
->  #ifdef HAVE_POSIX_FALLOCATE
->  	fputs(_(" -x, --posix          use posix_fallocate(3) instead of fallocate(2)\n"), out);
->  #endif
-> @@ -304,6 +309,7 @@ int main(int argc, char **argv)
->  	    { "dig-holes",      no_argument,       NULL, 'd' },
->  	    { "insert-range",   no_argument,       NULL, 'i' },
->  	    { "zero-range",     no_argument,       NULL, 'z' },
-> +	    { "write-zeroes",   no_argument,       NULL, 'w' },
->  	    { "offset",         required_argument, NULL, 'o' },
->  	    { "length",         required_argument, NULL, 'l' },
->  	    { "posix",          no_argument,       NULL, 'x' },
-> @@ -312,8 +318,8 @@ int main(int argc, char **argv)
->  	};
->  
->  	static const ul_excl_t excl[] = {	/* rows and cols in ASCII order */
-> -		{ 'c', 'd', 'i', 'p', 'x', 'z'},
-> -		{ 'c', 'i', 'n', 'x' },
-> +		{ 'c', 'd', 'i', 'p', 'w', 'x', 'z'},
-> +		{ 'c', 'i', 'n', 'w', 'x' },
->  		{ 0 }
->  	};
->  	int excl_st[ARRAY_SIZE(excl)] = UL_EXCL_STATUS_INIT;
-> @@ -323,7 +329,7 @@ int main(int argc, char **argv)
->  	textdomain(PACKAGE);
->  	close_stdout_atexit();
->  
-> -	while ((c = getopt_long(argc, argv, "hvVncpdizxl:o:", longopts, NULL))
-> +	while ((c = getopt_long(argc, argv, "hvVncpdizwxl:o:", longopts, NULL))
->  			!= -1) {
->  
->  		err_exclusive_options(c, longopts, excl, excl_st);
-> @@ -353,6 +359,9 @@ int main(int argc, char **argv)
->  		case 'z':
->  			mode |= FALLOC_FL_ZERO_RANGE;
->  			break;
-> +		case 'w':
-> +			mode |= FALLOC_FL_WRITE_ZEROES;
-> +			break;
->  		case 'x':
->  #ifdef HAVE_POSIX_FALLOCATE
->  			posix = 1;
-> @@ -429,6 +438,9 @@ int main(int argc, char **argv)
->  			else if (mode & FALLOC_FL_ZERO_RANGE)
->  				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
->  								filename, str, length);
-> +			else if (mode & FALLOC_FL_WRITE_ZEROES)
-> +				fprintf(stdout, _("%s: %s (%ju bytes) written as zeroes.\n"),
-> +								filename, str, length);
->  			else
->  				fprintf(stdout, _("%s: %s (%ju bytes) allocated.\n"),
->  								filename, str, length);
-> -- 
-> 2.39.2
-> 
+> +	infolen = 2 + (1 + prefixlen + labellen) + (1 + contextlen);
+> +	info = kzalloc(infolen, GFP_KERNEL);
+> +	if (!info)
+> +		return -ENOMEM;
+> +
+> +	/* HkdfLabel.Length */
+> +	put_unaligned_be16(okmlen, info);
+> +
+> +	/* HkdfLabel.Label */
+> +	info[2] = prefixlen + labellen;
+> +	memcpy(info + 3, tls13_prefix, prefixlen);
+> +	memcpy(info + 3 + prefixlen, label, labellen);
+> +
+> +	/* HkdfLabel.Context */
+> +	info[3 + prefixlen + labellen] = contextlen;
+> +	memcpy(info + 4 + prefixlen + labellen, context, contextlen);
+> +
+> +	err = hkdf_expand(hmac_tfm, info, infolen, okm, okmlen);
+> +	kfree_sensitive(info);
+> +	return err;
+> +}
+> +EXPORT_SYMBOL_GPL(hkdf_expand_label);
+
+Does this belong in crypto/hkdf.c?  It seems to be specific to a
+particular user of HKDF.
+
+- Eric
 
