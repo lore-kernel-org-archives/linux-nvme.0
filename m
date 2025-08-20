@@ -4,76 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A974CA0EDC
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 Aug 2025 23:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D90F6CA0EED
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 01:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Oqta/QAQSbFTF1U9PBrhEbnw+rAYvkf7fG5BApOHix4=; b=D4zfz6ohX21QmHkTdTKjIHp2Xj
-	1c6uCx8qPcwliv+/uORkazrZfF5tbLrw+QZ92vwgnxVHcvo7+ooolsgQ7Xzw04amQXu+cwdo7s4f8
-	Upb7kbXeebAqDp5SXViQALyd8Kg9bv3IN95zcJFGyeE8Mz1V/qJTsEAWoCKFWjN3tGT/qefmQAleY
-	fUY0j1yD+Y5IoHn88u9dzFU6FH/zbUZKGjHl++cVOJXiPIOAnjHUMCfCLMfgw6H3/Nf2cG4Hltx+v
-	9cZBs6RATRqJX7r0UkC36kDLVjtj5faMChXKAK21XJNRGFR0cEXVpKrjnsuLUjp0LOuSEawbWg4NH
-	KtQiRwlA==;
+	bh=6EjOMjGxgelvbAdgdlpqo6DyVunaFYKRAz7O3t3j+8U=; b=xUM4N7zbBkvm+lQX6Wb6p0i/I0
+	xLUB2WJmu/rnLTmFchLKXNCV/iT+CQyFbX/fbCd4e7rUHTn4ddOITqhnYhKe1hyzWQ8TLs3Jp/MYN
+	ImuwNBvbmr/l2/yY1HAEl7SyvE9ro2McrfAWySFXgaw8AGLEYYNLxNjrcWXCvNL6a8YCpd7CB0e9D
+	vLf89KLDIym6z78ecPmhPqkBWaksE1TJhItcN8J9AxjG57CMxwGIUzmY26VBTWif9fp3DT7+HJ6nu
+	xESbFoUzQ3xUhPYqXYyEw/gy5XNCNU58xrlO/9WvGb2iwJfuGa675JdZmPHiw/6viryw6iNsw2A/H
+	P0mm9LKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uos2n-0000000FAhg-2pe6;
-	Wed, 20 Aug 2025 23:16:37 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1uotwd-0000000FQIu-2cdv;
+	Thu, 21 Aug 2025 01:18:23 +0000
+Received: from mgamail.intel.com ([192.198.163.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoonW-0000000EmP1-3IcY
+	id 1uoqhn-0000000F23t-37tU
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 Aug 2025 19:48:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755719315;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Oqta/QAQSbFTF1U9PBrhEbnw+rAYvkf7fG5BApOHix4=;
-	b=PD78AZ10/LvDgscJEOC+QREGMD6lyor7N6TcsK2FOKOcw7sJ7c0FhKIlSLRUPidKHj+Mpb
-	nxC7nrzJKx4A4DyDXs1tY5wxQ8oSioahInB3dTOuP1KOS2yB1Wfd0XXeWCjsE5HHjkoImi
-	nZisaYlOiJnDyAVyiyh1bLbgo0ZEzAc=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-657-8jsqZYneM8inZW7HC5ma9A-1; Wed,
- 20 Aug 2025 15:48:32 -0400
-X-MC-Unique: 8jsqZYneM8inZW7HC5ma9A-1
-X-Mimecast-MFC-AGG-ID: 8jsqZYneM8inZW7HC5ma9A_1755719310
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1B5621954236;
-	Wed, 20 Aug 2025 19:48:29 +0000 (UTC)
-Received: from my-developer-toolbox-latest (unknown [10.2.16.247])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 00675180044F;
-	Wed, 20 Aug 2025 19:48:25 +0000 (UTC)
-Date: Wed, 20 Aug 2025 12:48:22 -0700
-From: Chris Leech <cleech@redhat.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: hare@kernel.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Wed, 20 Aug 2025 21:50:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755726651; x=1787262651;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QAJM2vtk+jQErQJw0BJQHZUwsFbRTuLCCthqPSR+ct4=;
+  b=UsIStoazprPMSHmDL0i5YvheLKoEbZb6T48MRRNgQ+mkGILEVi0ox1wl
+   RL8USOA2onOwvWExpvyNNs4rsJvPO+YQMLlfIvaG5FBuK34V91gwuTXxQ
+   fLSNmfGX/F1R30kT74acXIF6S/g6Rbp/bfqoxoH7p2O9APW7XBpEfU46C
+   VeJKYg0A6YjzyqObBa7yxEiY8emsw1SNyGFECsPMKIF88sRNcXcTb/jI7
+   +IEbgq29SWEoktTFH5sXJnBfNJtSrfACxJqO2zfeR3p0Q1iQw9OuYN6Cb
+   WSA+zpRkUDQOnKwAn61psAGOqDDwTQqZwETOGXGgnIIj25JkFSqNIFFfk
+   Q==;
+X-CSE-ConnectionGUID: M/wYiLjcRjiN0L7WNLK4Mw==
+X-CSE-MsgGUID: PMI2SHrERFC3tgZLCXMGKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="45581468"
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="45581468"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2025 14:50:51 -0700
+X-CSE-ConnectionGUID: 3i776o2vQP6XTmlLlTM4UA==
+X-CSE-MsgGUID: t/8RawfnQS2cb3n5GuBCEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="169024566"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Aug 2025 14:50:48 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uoqhc-000JhX-0J;
+	Wed, 20 Aug 2025 21:50:42 +0000
+Date: Thu, 21 Aug 2025 05:50:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: hare@kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Chris Leech <cleech@redhat.com>,
 	linux-nvme@lists.infradead.org,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	"David S . Miller" <davem@davemloft.net>,
-	linux-crypto@vger.kernel.org
+	linux-crypto@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
+	Hannes Reinecke <hare@kernel.org>
 Subject: Re: [PATCH 1/2] crypto: hkdf: add hkdf_expand_label()
-Message-ID: <aKYmhusP6povB_TU@my-developer-toolbox-latest>
-References: <20250820091211.25368-1-hare@kernel.org>
- <20250820091211.25368-2-hare@kernel.org>
- <20250820184633.GB1838@quark>
+Message-ID: <202508210523.p8BdHsR7-lkp@intel.com>
+References: <20250820091211.25368-2-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250820184633.GB1838@quark>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+In-Reply-To: <20250820091211.25368-2-hare@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250820_124838_895560_093A8281 
-X-CRM114-Status: GOOD (  19.57  )
+X-CRM114-CacheID: sfid-20250820_145051_823611_7D065CC0 
+X-CRM114-Status: GOOD (  12.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,34 +92,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Aug 20, 2025 at 11:46:33AM -0700, Eric Biggers wrote:
-> On Wed, Aug 20, 2025 at 11:12:10AM +0200, hare@kernel.org wrote:
-> > From: Chris Leech <cleech@redhat.com>
-> > 
-> > Provide an implementation of RFC 8446 (TLS 1.3) HKDF-Expand-Label
-> > 
-> > Cc: Eric Biggers <ebiggers@kernel.org>
-> > Signed-off-by: Chris Leech <cleech@redhat.com>
-> > Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> > ---
-> >  crypto/hkdf.c         | 55 +++++++++++++++++++++++++++++++++++++++++++
-> >  include/crypto/hkdf.h |  4 ++++
-> >  2 files changed, 59 insertions(+)
-> > 
-> > ...
->
-> Does this belong in crypto/hkdf.c?  It seems to be specific to a
-> particular user of HKDF.
+Hi,
 
-While this is needed for NVMe/TLS, it's a case of the NVMe
-specifications referencing a function defined in the TLS 1.3 RFC to be
-used.  I though it would be clearest to fix the open-coded implemenation
-by creating an RFC complient function, which is now no-longer specific
-to NVMe so I moved it out to crypto/hkdf.c
+kernel test robot noticed the following build warnings:
 
-I don't know that there will be other users, it just seemed to make the
-most sense there.
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.17-rc2 next-20250820]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-- Chris
+url:    https://github.com/intel-lab-lkp/linux/commits/hare-kernel-org/crypto-hkdf-add-hkdf_expand_label/20250820-172750
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20250820091211.25368-2-hare%40kernel.org
+patch subject: [PATCH 1/2] crypto: hkdf: add hkdf_expand_label()
+config: loongarch-randconfig-001-20250821 (https://download.01.org/0day-ci/archive/20250821/202508210523.p8BdHsR7-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250821/202508210523.p8BdHsR7-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508210523.p8BdHsR7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: crypto/hkdf.c:151 function parameter 'labellen' not described in 'hkdf_expand_label'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
