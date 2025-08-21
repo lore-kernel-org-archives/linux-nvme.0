@@ -4,109 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF3D8CA0EEB
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 05:25:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EF82CA0EF8
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 06:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yYaJtc7RuvgY1Ra8B+ajTl2nOuAh7H9zsChrSAlPBv0=; b=JW/MIDeleQiPtNPyMgVIhc1Qxq
-	BXLZ2003UpaavQUFX5eZ9meQ50hnDOoanXvsTK97Lm6OqZKpLT19jMWK9R1faliIPT5coz6IlD6Ml
-	CcAKk9pQqBq+jkf7xyf3jbUaBRv+Hz4OKNTAbeWguV9qsq2DjPFzN+SxTT0IOzwEfis8dwo21gAWV
-	3kQex0PwMFEbmQMgJUEO4sxThvqHoCKPuoVinmmgj8raZFbAD/VD3QUpBn3vcfjWaUrU0/HBRbrxj
-	gSls8G7ZjdnGxsT9xjQrmUZCNNk5pLaLjPx5NCeVPoWrEAomEn715UD6PZvLxy0QhaXg7EohjTzrt
-	EfukChHQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=uwLz5aXrXXbPOY1DKgxQH13HtERz+fjGdCYaS8LmQN8=; b=YtYqTBYiLYO1uutF6ZpQ0gnq2E
+	gAIIm3addjeJhQ06ZRO4q8q5HbVzocpsIrS4PW2kXbrAeuK3SOD9gcaPbCgGRuEeom0vNPzsVz+7p
+	5rFOwKpFoTDCx+wPJB/yqJB88ZggdItJuuM+zczEtelxlBnfr2YOXso3c9/u1ISHns0eo37tFstPT
+	5qSzgOAq4L/SRNdlMc6rkyVvDFdQ+cvGCfOYe3nuiGyCA3kZxnJ03c5BqJPTrz3LdlnGimWUztDsi
+	/eTPb0YUKfnr3ZKH4TZkoZ6O2n1d1VBpOlxlrP9HUxfn2s3ggN5pev/sKgbsaGuDl8ecyRDKnwddd
+	RIEr0bxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoxo6-0000000FsUI-0ImH;
-	Thu, 21 Aug 2025 05:25:50 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1uoymC-0000000FxNi-4227;
+	Thu, 21 Aug 2025 06:27:56 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoxo3-0000000FsSx-2Jfl
+	id 1uoyfx-0000000FwbL-3GoS
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Aug 2025 05:25:48 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57KMlurg026121;
-	Thu, 21 Aug 2025 05:25:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=yYaJtc
-	7RuvgY1Ra8B+ajTl2nOuAh7H9zsChrSAlPBv0=; b=c5bl2M5WSzuyyqYu0NQSHm
-	pxPEB9S3oL+29JI3Sjpsb7r3rwu0MK2OxjsM2CKYjby1O9yoWOkbWgOrYu6nA7n1
-	L7Los9AwvKoPc3lAx4yHyP5MgLjTTa7/PPMxXyZpgx2zHq9n4rIUjGc2QV/ZxV/j
-	weCKemTKu/pW62KP99tODI6XBDZi/UMJgj2xmtgLtXqlL5EhDz1sMjfJmCpHlZwJ
-	SETVZ7p6Nz/j3wN018JzheKVBTbaBaFMLpJcZ4s7sTZNkGT/XbfOQSwrlOxYTvwH
-	OPHc4t6Z43oDWBv4A4K8pXf38cVDJGPN8QQm6AmUdbTt3MXs1cgc1+W70GoqgKiA
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48n38vev1d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Aug 2025 05:25:39 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57L2hwtG016038;
-	Thu, 21 Aug 2025 05:25:38 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 48my426r80-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Aug 2025 05:25:38 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57L5Pbqk19530240
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 21 Aug 2025 05:25:37 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4F17058056;
-	Thu, 21 Aug 2025 05:25:37 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 353A158052;
-	Thu, 21 Aug 2025 05:25:33 +0000 (GMT)
-Received: from [9.109.198.214] (unknown [9.109.198.214])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 21 Aug 2025 05:25:32 +0000 (GMT)
-Message-ID: <b8156bb1-b7fe-4036-9dbb-98fdcec3ff65@linux.ibm.com>
-Date: Thu, 21 Aug 2025 10:55:31 +0530
+	Thu, 21 Aug 2025 06:21:32 +0000
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c6tWB6d6hzYQtxv
+	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 14:21:26 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 7A7FC1A0AD1
+	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 14:21:25 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+	by APP4 (Coremail) with SMTP id gCh0CgAHzw_duqZoIKmhEQ--.35680S4;
+	Thu, 21 Aug 2025 14:21:24 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	hch@lst.de,
+	tytso@mit.edu,
+	djwong@kernel.org,
+	bmarzins@redhat.com,
+	chaitanyak@nvidia.com,
+	shinichiro.kawasaki@wdc.com,
+	brauner@kernel.org,
+	martin.petersen@oracle.com,
+	yi.zhang@huawei.com,
+	yi.zhang@huaweicloud.com,
+	chengzhihao1@huawei.com,
+	yukuai3@huawei.com,
+	yangerkun@huawei.com
+Subject: [PATCH util-linux v4] fallocate: add FALLOC_FL_WRITE_ZEROES support
+Date: Thu, 21 Aug 2025 14:13:07 +0800
+Message-Id: <20250821061307.1770368-1-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] nvme: add an opt-in to use AWUPF
-To: Keith Busch <kbusch@kernel.org>, John Garry <john.g.garry@oracle.com>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-        tytso@mit.edu, martin.petersen@oracle.com, djwong@kernel.org,
-        mcgrof@infradead.org
-References: <20250820150220.1923826-1-john.g.garry@oracle.com>
- <aKZDRrfUTxJoFA1m@kbusch-mbp>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <aKZDRrfUTxJoFA1m@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDIyMiBTYWx0ZWRfXw8zxww9smSiF
- pN80EtrZVprrZOl8SgTAkDo+XM1Xa0sVE8b0j5a5RXOuZrJ8yj+n7KyNbwySdv6dEpel03H9HEK
- 4vR37rUfE9fNEhEE/vq6NXA9cSOOMnkfz29YoBB/kYgdms2fJ56YMLoZMmLTSUd3AkrrAnaHXB0
- jQz9gQtvixthLqh6zYkUCuMfq7onKipBwPZGidJ9+a9cNlTL5iPqWEg3elJceIa5L+ZM4VEQaTq
- RtrY78wYrSvDwQGkz3McvOpVqocUnflLkwOqpxoRpBMzUlWjpM03WWOrQASde2snr7d9/QrtZGa
- 7OqCYi2Bb0nAxJtwbnbeaVKz3oTjS+zwkHtiV71+RMfknBcOYBfKyzBsZrotQVIprl/4oWRIFdL
- nD6jROKL4JScvGuebrd/9mV+Q5zwoQ==
-X-Authority-Analysis: v=2.4 cv=PMlWOfqC c=1 sm=1 tr=0 ts=68a6add3 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=xiRpjWrZGW_SbaGU0d0A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: FdsaARlXUgnrR_MZ-4H1Ngj0Qr7UKuy0
-X-Proofpoint-ORIG-GUID: FdsaARlXUgnrR_MZ-4H1Ngj0Qr7UKuy0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_06,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
- clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2508110000
- definitions=main-2508190222
+X-CM-TRANSID: gCh0CgAHzw_duqZoIKmhEQ--.35680S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFW7XFyDWFyUCryrKF15Arb_yoWxAr48pF
+	W5tF18K3yrWw4xGwn7Za1kWw15Zws5Wr45CrZ2grykAr13Wa17Ka1vgryFgasrXFWkCa15
+	Xr1avry3ur48AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+	nIWIevJa73UjIFyTuYvjTRRBT5DUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250820_222547_619462_D642C33B 
-X-CRM114-Status: GOOD (  16.82  )
+X-CRM114-CacheID: sfid-20250820_232130_138012_6406F1BF 
+X-CRM114-Status: GOOD (  17.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,39 +97,147 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Zhang Yi <yi.zhang@huawei.com>
 
+The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
+fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
+utility by introducing a new option -w|--write-zeroes.
 
-On 8/21/25 3:21 AM, Keith Busch wrote:
-> On Wed, Aug 20, 2025 at 03:02:20PM +0000, John Garry wrote:
->> It would be preferred to stop honouring AWUPF altogether, but this may
->> needlessly disable atomic write support for many "good" devices which
->> only specify AWUPF. Currently all validation of controller-related
->> atomics limits is dropped.
-> 
-> These "good" devices that only report AWUPF, is there some set of
-> characteristics that generally applies to all of them? 
-Yes, I know of such “good” devices. Typically, they report a consistent
-AWUPF value across all controllers, and that value does not change when
-the namespaces attached to those controllers are reformatted.
-As we know, though, validating this in code is difficult. A past attempt
-to implement such validation failed because there are disks in the field
-that do change the AWUPF value when reformatting namespaces.
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
+Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+---
+v3->v4:
+ - Fix a minor grammatical mistake.
+v2->v3:
+ - Say less about what the filesystem actually implements as Darrick
+   suggested and clarify the reason why "--keep-size" cannot be used
+   together in the man page.
+ - Modify the verbose output message.
+v1->v2:
+ - Minor description modification to align with the kernel.
 
-> I tried to list out conditions for when I think the value could be counted on here:
-> 
->   https://lore.kernel.org/linux-nvme/aGvuRS8VmC0JXAR3@kbusch-mbp/
-> 
-Regarding the checks you listed, they seem too restrictive. They only support
-AWUPF for single-controller devices and for disks that either have only one
-namespace or support formatting all namespaces together (i.e., do not support
-formatting individual namespaces).
+ sys-utils/fallocate.1.adoc | 11 +++++++++--
+ sys-utils/fallocate.c      | 20 ++++++++++++++++----
+ 2 files changed, 25 insertions(+), 6 deletions(-)
 
-> I just don't know if you know of any devices where that criteria doesn't
-> git. If not, maybe we can work with that without introducing more user
-> knobs.
-Given this, IMO, an opt-in approach should be considered, letting users
-decide whether they want to enable atomic write support or not.
+diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
+index 44ee0ef4c..69602f01c 100644
+--- a/sys-utils/fallocate.1.adoc
++++ b/sys-utils/fallocate.1.adoc
+@@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
+ 
+ == SYNOPSIS
+ 
+-*fallocate* [*-c*|*-p*|*-z*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
++*fallocate* [*-c*|*-p*|*-z*|*-w*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
+ 
+ *fallocate* *-d* [*-o* _offset_] [*-l* _length_] _filename_
+ 
+@@ -28,7 +28,7 @@ The exit status returned by *fallocate* is 0 on success and 1 on failure.
+ 
+ The _length_ and _offset_ arguments may be followed by the multiplicative suffixes KiB (=1024), MiB (=1024*1024), and so on for GiB, TiB, PiB, EiB, ZiB, and YiB (the "iB" is optional, e.g., "K" has the same meaning as "KiB") or the suffixes KB (=1000), MB (=1000*1000), and so on for GB, TB, PB, EB, ZB, and YB.
+ 
+-The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range* and *--posix* are mutually exclusive.
++The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range*, *--write-zeroes* and *--posix* are mutually exclusive.
+ 
+ *-c*, *--collapse-range*::
+ Removes a byte range from a file, without leaving a hole. The byte range to be collapsed starts at _offset_ and continues for _length_ bytes. At the completion of the operation, the contents of the file starting at the location __offset__+_length_ will be appended at the location _offset_, and the file will be _length_ bytes smaller. The option *--keep-size* may not be specified for the collapse-range operation.
+@@ -76,6 +76,13 @@ Option *--keep-size* can be specified to prevent file length modification.
+ +
+ Available since Linux 3.14 for ext4 (only for extent-based files) and XFS.
+ 
++*-w*, *--write-zeroes*::
++Zeroes space in the byte range starting at _offset_ and continuing for _length_ bytes. Within the specified range, written blocks are preallocated for the regions that span the holes in the file. After a successful call, subsequent reads from this range will return zeroes and subsequent writes to that range do not require further changes to the file mapping metadata.
+++
++Zeroing is done within the filesystem. The filesystem may use a hardware-accelerated zeroing command or may submit regular writes. The behavior depends on the filesystem design and the available hardware.
+++
++Options *--keep-size* cannot be specified for the write-zeroes operation because allocating written blocks beyond the inode size is not permitted.
++
+ include::man-common/help-version.adoc[]
+ 
+ == AUTHORS
+diff --git a/sys-utils/fallocate.c b/sys-utils/fallocate.c
+index 13bf52915..afd615537 100644
+--- a/sys-utils/fallocate.c
++++ b/sys-utils/fallocate.c
+@@ -40,7 +40,7 @@
+ #if defined(HAVE_LINUX_FALLOC_H) && \
+     (!defined(FALLOC_FL_KEEP_SIZE) || !defined(FALLOC_FL_PUNCH_HOLE) || \
+      !defined(FALLOC_FL_COLLAPSE_RANGE) || !defined(FALLOC_FL_ZERO_RANGE) || \
+-     !defined(FALLOC_FL_INSERT_RANGE))
++     !defined(FALLOC_FL_INSERT_RANGE) || !defined(FALLOC_FL_WRITE_ZEROES))
+ # include <linux/falloc.h>	/* non-libc fallback for FALLOC_FL_* flags */
+ #endif
+ 
+@@ -65,6 +65,10 @@
+ # define FALLOC_FL_INSERT_RANGE		0x20
+ #endif
+ 
++#ifndef FALLOC_FL_WRITE_ZEROES
++# define FALLOC_FL_WRITE_ZEROES		0x80
++#endif
++
+ #include "nls.h"
+ #include "strutils.h"
+ #include "c.h"
+@@ -94,6 +98,7 @@ static void __attribute__((__noreturn__)) usage(void)
+ 	fputs(_(" -o, --offset <num>   offset for range operations, in bytes\n"), out);
+ 	fputs(_(" -p, --punch-hole     replace a range with a hole (implies -n)\n"), out);
+ 	fputs(_(" -z, --zero-range     zero and ensure allocation of a range\n"), out);
++	fputs(_(" -w, --write-zeroes   write zeroes and ensure allocation of a range\n"), out);
+ #ifdef HAVE_POSIX_FALLOCATE
+ 	fputs(_(" -x, --posix          use posix_fallocate(3) instead of fallocate(2)\n"), out);
+ #endif
+@@ -304,6 +309,7 @@ int main(int argc, char **argv)
+ 	    { "dig-holes",      no_argument,       NULL, 'd' },
+ 	    { "insert-range",   no_argument,       NULL, 'i' },
+ 	    { "zero-range",     no_argument,       NULL, 'z' },
++	    { "write-zeroes",   no_argument,       NULL, 'w' },
+ 	    { "offset",         required_argument, NULL, 'o' },
+ 	    { "length",         required_argument, NULL, 'l' },
+ 	    { "posix",          no_argument,       NULL, 'x' },
+@@ -312,8 +318,8 @@ int main(int argc, char **argv)
+ 	};
+ 
+ 	static const ul_excl_t excl[] = {	/* rows and cols in ASCII order */
+-		{ 'c', 'd', 'i', 'p', 'x', 'z'},
+-		{ 'c', 'i', 'n', 'x' },
++		{ 'c', 'd', 'i', 'p', 'w', 'x', 'z'},
++		{ 'c', 'i', 'n', 'w', 'x' },
+ 		{ 0 }
+ 	};
+ 	int excl_st[ARRAY_SIZE(excl)] = UL_EXCL_STATUS_INIT;
+@@ -323,7 +329,7 @@ int main(int argc, char **argv)
+ 	textdomain(PACKAGE);
+ 	close_stdout_atexit();
+ 
+-	while ((c = getopt_long(argc, argv, "hvVncpdizxl:o:", longopts, NULL))
++	while ((c = getopt_long(argc, argv, "hvVncpdizwxl:o:", longopts, NULL))
+ 			!= -1) {
+ 
+ 		err_exclusive_options(c, longopts, excl, excl_st);
+@@ -353,6 +359,9 @@ int main(int argc, char **argv)
+ 		case 'z':
+ 			mode |= FALLOC_FL_ZERO_RANGE;
+ 			break;
++		case 'w':
++			mode |= FALLOC_FL_WRITE_ZEROES;
++			break;
+ 		case 'x':
+ #ifdef HAVE_POSIX_FALLOCATE
+ 			posix = 1;
+@@ -429,6 +438,9 @@ int main(int argc, char **argv)
+ 			else if (mode & FALLOC_FL_ZERO_RANGE)
+ 				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
+ 								filename, str, length);
++			else if (mode & FALLOC_FL_WRITE_ZEROES)
++				fprintf(stdout, _("%s: %s (%ju bytes) written as zeroes.\n"),
++								filename, str, length);
+ 			else
+ 				fprintf(stdout, _("%s: %s (%ju bytes) allocated.\n"),
+ 								filename, str, length);
+-- 
+2.39.2
 
-Thanks,
---Nilay
 
