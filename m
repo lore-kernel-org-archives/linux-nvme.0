@@ -4,85 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EF82CA0EF8
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 06:28:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74DBDCA0EEB
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 09:39:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=uwLz5aXrXXbPOY1DKgxQH13HtERz+fjGdCYaS8LmQN8=; b=YtYqTBYiLYO1uutF6ZpQ0gnq2E
-	gAIIm3addjeJhQ06ZRO4q8q5HbVzocpsIrS4PW2kXbrAeuK3SOD9gcaPbCgGRuEeom0vNPzsVz+7p
-	5rFOwKpFoTDCx+wPJB/yqJB88ZggdItJuuM+zczEtelxlBnfr2YOXso3c9/u1ISHns0eo37tFstPT
-	5qSzgOAq4L/SRNdlMc6rkyVvDFdQ+cvGCfOYe3nuiGyCA3kZxnJ03c5BqJPTrz3LdlnGimWUztDsi
-	/eTPb0YUKfnr3ZKH4TZkoZ6O2n1d1VBpOlxlrP9HUxfn2s3ggN5pev/sKgbsaGuDl8ecyRDKnwddd
-	RIEr0bxw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=InAkVj+0f+oTzBZfDquhzuW4FV55ImDwZNuzKyalzN4=; b=em+pGEKWGhOrfE4RE8A+CWYLDA
+	1qxLl5rXkbXZwOQvi9L6SVWCGHdrWLv6Crqm20hxVhqyohhGMu2BLAPB+10n1Zl+WUlRjs01rrl9X
+	5ICGNkjSaJBpKXsNWrhCIURo1s/k6W2gS275XGilZB5X+DJoDVtUgayVw+p+ozOIayV80fc5atmfq
+	wwXYd4VSt86fTC2V15Au2kI40BNM55UX4y3Fd9I77kszyp1szXs0oX7Er5Coo1bybFeVnJRCcmkJH
+	AQD3icyYIngZeVZ3nYQDpouJ0QMPJ+31SRcShj9x5xLQzzWjAuU5bOQXQXND7oZB+ZYmxekYCPGFC
+	WfkiGANg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoymC-0000000FxNi-4227;
-	Thu, 21 Aug 2025 06:27:56 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1up1lh-0000000GQAL-3kP1;
+	Thu, 21 Aug 2025 09:39:37 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uoyfx-0000000FwbL-3GoS
+	id 1uoz2I-0000000FzH1-0TIS
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Aug 2025 06:21:32 +0000
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4c6tWB6d6hzYQtxv
-	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 14:21:26 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 7A7FC1A0AD1
-	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 14:21:25 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.104.67])
-	by APP4 (Coremail) with SMTP id gCh0CgAHzw_duqZoIKmhEQ--.35680S4;
-	Thu, 21 Aug 2025 14:21:24 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	hch@lst.de,
-	tytso@mit.edu,
-	djwong@kernel.org,
-	bmarzins@redhat.com,
-	chaitanyak@nvidia.com,
-	shinichiro.kawasaki@wdc.com,
-	brauner@kernel.org,
-	martin.petersen@oracle.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	chengzhihao1@huawei.com,
-	yukuai3@huawei.com,
-	yangerkun@huawei.com
-Subject: [PATCH util-linux v4] fallocate: add FALLOC_FL_WRITE_ZEROES support
-Date: Thu, 21 Aug 2025 14:13:07 +0800
-Message-Id: <20250821061307.1770368-1-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.39.2
+	Thu, 21 Aug 2025 06:44:35 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 79FD821B7A;
+	Thu, 21 Aug 2025 06:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755758672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=InAkVj+0f+oTzBZfDquhzuW4FV55ImDwZNuzKyalzN4=;
+	b=EMg1YY39lUV1WnRRXT4Do5vuoHg8AYBnWDKrAlnrIAPhff+53QDtiVgglJKt8UFypl9BFC
+	9sOeGxnIskDgeaG0Xifg5MuM5154G7KO+t+Gllf2IW/TrdhU+848VsExsCW2zjJx0l3k90
+	EOn+VPll9JmEaVOa2XYhiqkvsiQsJOw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755758672;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=InAkVj+0f+oTzBZfDquhzuW4FV55ImDwZNuzKyalzN4=;
+	b=9XINEA2B79CDhHIc0UDQQnpP3zenhRVfr7vV2WuyJ3rOLpDc1eqHOB0BgIPJhcZ8w8PHBN
+	mieu7sIekWCCG6BA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755758672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=InAkVj+0f+oTzBZfDquhzuW4FV55ImDwZNuzKyalzN4=;
+	b=EMg1YY39lUV1WnRRXT4Do5vuoHg8AYBnWDKrAlnrIAPhff+53QDtiVgglJKt8UFypl9BFC
+	9sOeGxnIskDgeaG0Xifg5MuM5154G7KO+t+Gllf2IW/TrdhU+848VsExsCW2zjJx0l3k90
+	EOn+VPll9JmEaVOa2XYhiqkvsiQsJOw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755758672;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=InAkVj+0f+oTzBZfDquhzuW4FV55ImDwZNuzKyalzN4=;
+	b=9XINEA2B79CDhHIc0UDQQnpP3zenhRVfr7vV2WuyJ3rOLpDc1eqHOB0BgIPJhcZ8w8PHBN
+	mieu7sIekWCCG6BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2544B13867;
+	Thu, 21 Aug 2025 06:44:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ILJlB1DApmhmdgAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 21 Aug 2025 06:44:32 +0000
+Message-ID: <2b51c5ce-23cf-41ac-ba98-3eea7a67f1c0@suse.de>
+Date: Thu, 21 Aug 2025 08:44:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] crypto: hkdf: add hkdf_expand_label()
+To: Chris Leech <cleech@redhat.com>, Eric Biggers <ebiggers@kernel.org>
+Cc: hare@kernel.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
+References: <20250820091211.25368-1-hare@kernel.org>
+ <20250820091211.25368-2-hare@kernel.org> <20250820184633.GB1838@quark>
+ <aKYmhusP6povB_TU@my-developer-toolbox-latest>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <aKYmhusP6povB_TU@my-developer-toolbox-latest>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgAHzw_duqZoIKmhEQ--.35680S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxtFW7XFyDWFyUCryrKF15Arb_yoWxAr48pF
-	W5tF18K3yrWw4xGwn7Za1kWw15Zws5Wr45CrZ2grykAr13Wa17Ka1vgryFgasrXFWkCa15
-	Xr1avry3ur48AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjTRRBT5DUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250820_232130_138012_6406F1BF 
-X-CRM114-Status: GOOD (  17.82  )
+X-CRM114-CacheID: sfid-20250820_234434_302833_6FB9B466 
+X-CRM114-Status: GOOD (  18.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,147 +135,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Zhang Yi <yi.zhang@huawei.com>
+On 8/20/25 21:48, Chris Leech wrote:
+> On Wed, Aug 20, 2025 at 11:46:33AM -0700, Eric Biggers wrote:
+>> On Wed, Aug 20, 2025 at 11:12:10AM +0200, hare@kernel.org wrote:
+>>> From: Chris Leech <cleech@redhat.com>
+>>>
+>>> Provide an implementation of RFC 8446 (TLS 1.3) HKDF-Expand-Label
+>>>
+>>> Cc: Eric Biggers <ebiggers@kernel.org>
+>>> Signed-off-by: Chris Leech <cleech@redhat.com>
+>>> Signed-off-by: Hannes Reinecke <hare@kernel.org>
+>>> ---
+>>>   crypto/hkdf.c         | 55 +++++++++++++++++++++++++++++++++++++++++++
+>>>   include/crypto/hkdf.h |  4 ++++
+>>>   2 files changed, 59 insertions(+)
+>>>
+>>> ...
+>>
+>> Does this belong in crypto/hkdf.c?  It seems to be specific to a
+>> particular user of HKDF.
+> 
+> While this is needed for NVMe/TLS, it's a case of the NVMe
+> specifications referencing a function defined in the TLS 1.3 RFC to be
+> used.  I though it would be clearest to fix the open-coded implemenation
+> by creating an RFC complient function, which is now no-longer specific
+> to NVMe so I moved it out to crypto/hkdf.c
+> 
+> I don't know that there will be other users, it just seemed to make the
+> most sense there.
+> 
+But having said that, we can easily move it into the nvme code, and let
+others move it into crypto if there is a need.
+Will be updating the patchset.
 
-The Linux kernel (since version 6.17) supports FALLOC_FL_WRITE_ZEROES in
-fallocate(2). Add support for FALLOC_FL_WRITE_ZEROES to the fallocate
-utility by introducing a new option -w|--write-zeroes.
+Cheers,
 
-Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=278c7d9b5e0c
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
----
-v3->v4:
- - Fix a minor grammatical mistake.
-v2->v3:
- - Say less about what the filesystem actually implements as Darrick
-   suggested and clarify the reason why "--keep-size" cannot be used
-   together in the man page.
- - Modify the verbose output message.
-v1->v2:
- - Minor description modification to align with the kernel.
-
- sys-utils/fallocate.1.adoc | 11 +++++++++--
- sys-utils/fallocate.c      | 20 ++++++++++++++++----
- 2 files changed, 25 insertions(+), 6 deletions(-)
-
-diff --git a/sys-utils/fallocate.1.adoc b/sys-utils/fallocate.1.adoc
-index 44ee0ef4c..69602f01c 100644
---- a/sys-utils/fallocate.1.adoc
-+++ b/sys-utils/fallocate.1.adoc
-@@ -12,7 +12,7 @@ fallocate - preallocate or deallocate space to a file
- 
- == SYNOPSIS
- 
--*fallocate* [*-c*|*-p*|*-z*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
-+*fallocate* [*-c*|*-p*|*-z*|*-w*] [*-o* _offset_] *-l* _length_ [*-n*] _filename_
- 
- *fallocate* *-d* [*-o* _offset_] [*-l* _length_] _filename_
- 
-@@ -28,7 +28,7 @@ The exit status returned by *fallocate* is 0 on success and 1 on failure.
- 
- The _length_ and _offset_ arguments may be followed by the multiplicative suffixes KiB (=1024), MiB (=1024*1024), and so on for GiB, TiB, PiB, EiB, ZiB, and YiB (the "iB" is optional, e.g., "K" has the same meaning as "KiB") or the suffixes KB (=1000), MB (=1000*1000), and so on for GB, TB, PB, EB, ZB, and YB.
- 
--The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range* and *--posix* are mutually exclusive.
-+The options *--collapse-range*, *--dig-holes*, *--punch-hole*, *--zero-range*, *--write-zeroes* and *--posix* are mutually exclusive.
- 
- *-c*, *--collapse-range*::
- Removes a byte range from a file, without leaving a hole. The byte range to be collapsed starts at _offset_ and continues for _length_ bytes. At the completion of the operation, the contents of the file starting at the location __offset__+_length_ will be appended at the location _offset_, and the file will be _length_ bytes smaller. The option *--keep-size* may not be specified for the collapse-range operation.
-@@ -76,6 +76,13 @@ Option *--keep-size* can be specified to prevent file length modification.
- +
- Available since Linux 3.14 for ext4 (only for extent-based files) and XFS.
- 
-+*-w*, *--write-zeroes*::
-+Zeroes space in the byte range starting at _offset_ and continuing for _length_ bytes. Within the specified range, written blocks are preallocated for the regions that span the holes in the file. After a successful call, subsequent reads from this range will return zeroes and subsequent writes to that range do not require further changes to the file mapping metadata.
-++
-+Zeroing is done within the filesystem. The filesystem may use a hardware-accelerated zeroing command or may submit regular writes. The behavior depends on the filesystem design and the available hardware.
-++
-+Options *--keep-size* cannot be specified for the write-zeroes operation because allocating written blocks beyond the inode size is not permitted.
-+
- include::man-common/help-version.adoc[]
- 
- == AUTHORS
-diff --git a/sys-utils/fallocate.c b/sys-utils/fallocate.c
-index 13bf52915..afd615537 100644
---- a/sys-utils/fallocate.c
-+++ b/sys-utils/fallocate.c
-@@ -40,7 +40,7 @@
- #if defined(HAVE_LINUX_FALLOC_H) && \
-     (!defined(FALLOC_FL_KEEP_SIZE) || !defined(FALLOC_FL_PUNCH_HOLE) || \
-      !defined(FALLOC_FL_COLLAPSE_RANGE) || !defined(FALLOC_FL_ZERO_RANGE) || \
--     !defined(FALLOC_FL_INSERT_RANGE))
-+     !defined(FALLOC_FL_INSERT_RANGE) || !defined(FALLOC_FL_WRITE_ZEROES))
- # include <linux/falloc.h>	/* non-libc fallback for FALLOC_FL_* flags */
- #endif
- 
-@@ -65,6 +65,10 @@
- # define FALLOC_FL_INSERT_RANGE		0x20
- #endif
- 
-+#ifndef FALLOC_FL_WRITE_ZEROES
-+# define FALLOC_FL_WRITE_ZEROES		0x80
-+#endif
-+
- #include "nls.h"
- #include "strutils.h"
- #include "c.h"
-@@ -94,6 +98,7 @@ static void __attribute__((__noreturn__)) usage(void)
- 	fputs(_(" -o, --offset <num>   offset for range operations, in bytes\n"), out);
- 	fputs(_(" -p, --punch-hole     replace a range with a hole (implies -n)\n"), out);
- 	fputs(_(" -z, --zero-range     zero and ensure allocation of a range\n"), out);
-+	fputs(_(" -w, --write-zeroes   write zeroes and ensure allocation of a range\n"), out);
- #ifdef HAVE_POSIX_FALLOCATE
- 	fputs(_(" -x, --posix          use posix_fallocate(3) instead of fallocate(2)\n"), out);
- #endif
-@@ -304,6 +309,7 @@ int main(int argc, char **argv)
- 	    { "dig-holes",      no_argument,       NULL, 'd' },
- 	    { "insert-range",   no_argument,       NULL, 'i' },
- 	    { "zero-range",     no_argument,       NULL, 'z' },
-+	    { "write-zeroes",   no_argument,       NULL, 'w' },
- 	    { "offset",         required_argument, NULL, 'o' },
- 	    { "length",         required_argument, NULL, 'l' },
- 	    { "posix",          no_argument,       NULL, 'x' },
-@@ -312,8 +318,8 @@ int main(int argc, char **argv)
- 	};
- 
- 	static const ul_excl_t excl[] = {	/* rows and cols in ASCII order */
--		{ 'c', 'd', 'i', 'p', 'x', 'z'},
--		{ 'c', 'i', 'n', 'x' },
-+		{ 'c', 'd', 'i', 'p', 'w', 'x', 'z'},
-+		{ 'c', 'i', 'n', 'w', 'x' },
- 		{ 0 }
- 	};
- 	int excl_st[ARRAY_SIZE(excl)] = UL_EXCL_STATUS_INIT;
-@@ -323,7 +329,7 @@ int main(int argc, char **argv)
- 	textdomain(PACKAGE);
- 	close_stdout_atexit();
- 
--	while ((c = getopt_long(argc, argv, "hvVncpdizxl:o:", longopts, NULL))
-+	while ((c = getopt_long(argc, argv, "hvVncpdizwxl:o:", longopts, NULL))
- 			!= -1) {
- 
- 		err_exclusive_options(c, longopts, excl, excl_st);
-@@ -353,6 +359,9 @@ int main(int argc, char **argv)
- 		case 'z':
- 			mode |= FALLOC_FL_ZERO_RANGE;
- 			break;
-+		case 'w':
-+			mode |= FALLOC_FL_WRITE_ZEROES;
-+			break;
- 		case 'x':
- #ifdef HAVE_POSIX_FALLOCATE
- 			posix = 1;
-@@ -429,6 +438,9 @@ int main(int argc, char **argv)
- 			else if (mode & FALLOC_FL_ZERO_RANGE)
- 				fprintf(stdout, _("%s: %s (%ju bytes) zeroed.\n"),
- 								filename, str, length);
-+			else if (mode & FALLOC_FL_WRITE_ZEROES)
-+				fprintf(stdout, _("%s: %s (%ju bytes) written as zeroes.\n"),
-+								filename, str, length);
- 			else
- 				fprintf(stdout, _("%s: %s (%ju bytes) allocated.\n"),
- 								filename, str, length);
+Hannes
 -- 
-2.39.2
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
