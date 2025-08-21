@@ -4,63 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96B5ECA0EFA
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 19:12:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99ABECA0EEB
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 19:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8KQndD7edtSKl9quZNdXMg54A4/bafXXnKw8tQ3d5G0=; b=SyqRn3cgzZH1Y3/Qw1ejI98D4H
-	0lEeshDPu2meaokdWneW78wWeVTahbVMnUEl07EMVDGgRyhVM5T0wUBsVeOJnlg/OZKGeAV1brQcG
-	fD49DhdaxI+4v6Uujt9PQrIQjuyRf2IBW0cPOJOxHkiR9xFKErWPO0R5CU/1W4uMmWkHJfSXN/AEW
-	WBOaBlTxcjFHzZqhEpV1ExpO4BYjFcII7KP1PJfIvUbirw0s9CShqdPZ6jZEnlvzaB26561JgSYRW
-	at+/de79M2nbWulNL3KqWsVS5E5qeus+jCD8jjaB9vypuNYDfKPbpIffM4lVd0krJEiE0qHXRoNsl
-	HIC/UGnw==;
+	bh=hXYqDChkgaosTZOYyjIhldhib+U8KwIE5HJX1cdaDDE=; b=BsWMZZ0R1xSQ3hjGBBuxDi/rWK
+	rdukctzMvQPV4iSduIncocH9TRKXz372/K5Feie3lJpUDpXPRxfBq7lHLK6YkAUYyMkt5HPCJAaM1
+	8v+qNJ8lA6uG4duV7Nr5HDFWw2qQIb2lMPNyMxJt1U/4DR+5uxwtNrNgkhX0lJL1Mzzw+C9SL7n//
+	ce1LtOx9BqWVGxcunL7Jk4VLWwLWdx6Kf64ie7Uwog7Ciez/Dkhkj67SDKafdtSwQxDo+FjC1zXKj
+	EwBm31pZJTHmYfI/UwXwuJg3ocgaFr/xZsSqNw/vwig9Nw4f5/Y/aH6JSt7daTHC0YyhoL9Yw+K0A
+	hMfFVkgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upAhk-00000000EL7-0oQH;
-	Thu, 21 Aug 2025 19:12:08 +0000
-Received: from dfw.source.kernel.org ([139.178.84.217])
+	id 1upAi7-00000000EzP-2Nzz;
+	Thu, 21 Aug 2025 19:12:31 +0000
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up5Yt-0000000H60I-3yVh
+	id 1up5rE-0000000H9ai-3TEg
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Aug 2025 13:42:41 +0000
+	Thu, 21 Aug 2025 14:01:37 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A43575C6B64;
-	Thu, 21 Aug 2025 13:42:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0809C4CEEB;
-	Thu, 21 Aug 2025 13:42:37 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 543B85C6CC5;
+	Thu, 21 Aug 2025 14:01:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7EE0C4CEED;
+	Thu, 21 Aug 2025 14:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755783758;
-	bh=pilO4jUangUTqQdAkiK4cWGSMK4Xy1+X18LLgCwRYNA=;
+	s=k20201202; t=1755784896;
+	bh=fPFpDcD5IoxktsMx43cYimZsbxu1wQFHGY0B5ONqI+Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lQvdyDt9lzQK+pQNTFgZuzvHiKKUWyubxQxAbJoDgR8mAI1atF+0gJN1VTzanJFfm
-	 TOFwv7bNK2omxdx3Y3YtLVxw4gCjhdJLWm1jil4yda2sTrclDuDelyFbN48tEfdPAK
-	 Z213AkAq7WcJDhpXA0Ma4xObdw3cG2kcNkxlqa3wQr0PEOq2yVXuZ+hJnDvcQ5y3Hr
-	 eUGxSr4XExvJJmNdOOVZXiuPZFesguUu9G05zYUr10flws6SdqMmmjw3Kw/DmWatxc
-	 7JeWjRS/JWfRH8wLRlaPmhtRgH/r+oILWgB9s/H2Jip4k4jtub374ODzjOHQeTfwQv
-	 5Rw+8Ima2t3UA==
-Date: Thu, 21 Aug 2025 07:42:36 -0600
+	b=CBZbiO+u0jnyT/QGYfPK58tb7SkDHf7TnD6mTq5jfAmGCYn5ThhwQBfRcPNhHFcTM
+	 eQjyVgQ69lPhefuQvvkjB7K5TAsb5ZQdv1w7eFx6j64qrpBWhzIYrqxL6AoJCebPEm
+	 E3ds54S/IKBi7nfgAt1pkwRuEJbiTa1ZJXCtbUCHmYXrqcN2SFZ3Egk8tgVcylrGje
+	 re2tLHiZpiaoH2XbU7utb+SJZdcbYpxhCEQ/ZeDsceUCweYwTq0DWlO4PtQJv5tflI
+	 AwCCEyK6rYOhejR/MLYuvMQt2yiuCqXn0QQ977AvzvqlweOjjqkj0h+mYH4VM7TooN
+	 r1fVhUxmBnb8A==
+Date: Thu, 21 Aug 2025 08:01:34 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, tytso@mit.edu,
-	martin.petersen@oracle.com, djwong@kernel.org, mcgrof@infradead.org
-Subject: Re: [RFC PATCH] nvme: add an opt-in to use AWUPF
-Message-ID: <aKciTPKiL8wRWmHA@kbusch-mbp>
-References: <20250820150220.1923826-1-john.g.garry@oracle.com>
- <aKZDRrfUTxJoFA1m@kbusch-mbp>
- <b8156bb1-b7fe-4036-9dbb-98fdcec3ff65@linux.ibm.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, Christoph Hellwig <hch@infradead.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: Do we need an opt-in for file systems use of hw atomic writes?
+Message-ID: <aKcmvfECWdv6CedK@kbusch-mbp>
+References: <20250714131713.GA8742@lst.de>
+ <6c3e1c90-1d3d-4567-a392-85870226144f@oracle.com>
+ <aHULEGt3d0niAz2e@infradead.org>
+ <6babdebb-45d1-4f33-b8b5-6b1c4e381e35@oracle.com>
+ <20250715060247.GC18349@lst.de>
+ <072b174d-8efe-49d6-a7e3-c23481fdb3fc@oracle.com>
+ <20250715090357.GA21818@lst.de>
+ <bd7b1eea-18bc-431e-bc29-42b780ff3c31@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b8156bb1-b7fe-4036-9dbb-98fdcec3ff65@linux.ibm.com>
+In-Reply-To: <bd7b1eea-18bc-431e-bc29-42b780ff3c31@oracle.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250821_064240_028729_5289161C 
-X-CRM114-Status: GOOD (  11.52  )
+X-CRM114-CacheID: sfid-20250821_070136_905762_9513E651 
+X-CRM114-Status: UNSURE (   8.24  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,19 +81,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 21, 2025 at 10:55:31AM +0530, Nilay Shroff wrote:
-> On 8/21/25 3:21 AM, Keith Busch wrote:
-> > I tried to list out conditions for when I think the value could be counted on here:
-> > 
-> >   https://lore.kernel.org/linux-nvme/aGvuRS8VmC0JXAR3@kbusch-mbp/
-> > 
-> Regarding the checks you listed, they seem too restrictive. They only support
-> AWUPF for single-controller devices and for disks that either have only one
-> namespace or support formatting all namespaces together (i.e., do not support
-> formatting individual namespaces).
+On Tue, Aug 19, 2025 at 12:42:01PM +0100, John Garry wrote:
+> 
+> If we always ignore AWUPF, I fear that lots of sound NVMe implementations
+> will be excluded from HW atomics.
 
-Being restrictive was the point. It constrains to 1.0 type behavior
-where things were much simpler. I am just shocked vendors went through
-the trouble to implement the complicated features but couldn't be
-bothered to do the trivial one that makes it useful.
+It's not that they're excluded from HW atomics. They're just excluded
+from the block layer's attributes and guard rails. People were using
+NVMe atomics long before those block layer features, at least.
 
