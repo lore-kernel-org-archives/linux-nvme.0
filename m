@@ -4,73 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8673CA0EEB
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 17:54:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96B5ECA0EFA
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 19:12:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:
-	To:From:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=E2sh7PkU99v95gXhyMFBk9zs8wQA9SBmo0ZEWgF1/ao=; b=OHhfIQzMQXGPv9
-	RbJ10Z6d8IYHYqBvvajNRrsmCDeDXVdGHo8bLvijt5xD9qYoomK3yTLEK8qL7g8qvhphkWQHYX96d
-	PiVFTj6Ft0DEN0dKVgJ9ktgGjO+oY3RMfPomBCgJQ1vXL+LxgthXlELzI+JTcf0voxnEpr/EIC2ls
-	TuoO+vcTXjvoP6L9h3U37zVIqFGgx4510fz/7Jy9m8Q/ScQ+qrvju25Ujw6XhX1yziWIhWuBmqNqe
-	3wRTPO4sRfCVhJ2ATWy1CY4H5kKZenp3QFpmVc4RGy15kHnu+Wzl/9iYgcakWAQSESmtVhXHC6A6v
-	8PNDRdor2K2btAVZQTzQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=8KQndD7edtSKl9quZNdXMg54A4/bafXXnKw8tQ3d5G0=; b=SyqRn3cgzZH1Y3/Qw1ejI98D4H
+	0lEeshDPu2meaokdWneW78wWeVTahbVMnUEl07EMVDGgRyhVM5T0wUBsVeOJnlg/OZKGeAV1brQcG
+	fD49DhdaxI+4v6Uujt9PQrIQjuyRf2IBW0cPOJOxHkiR9xFKErWPO0R5CU/1W4uMmWkHJfSXN/AEW
+	WBOaBlTxcjFHzZqhEpV1ExpO4BYjFcII7KP1PJfIvUbirw0s9CShqdPZ6jZEnlvzaB26561JgSYRW
+	at+/de79M2nbWulNL3KqWsVS5E5qeus+jCD8jjaB9vypuNYDfKPbpIffM4lVd0krJEiE0qHXRoNsl
+	HIC/UGnw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up9Uz-000000007Us-10eR;
-	Thu, 21 Aug 2025 17:54:53 +0000
-Received: from securitygw1.exwire.com ([216.171.192.25])
+	id 1upAhk-00000000EL7-0oQH;
+	Thu, 21 Aug 2025 19:12:08 +0000
+Received: from dfw.source.kernel.org ([139.178.84.217])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up5FB-0000000H2aH-1TJg
+	id 1up5Yt-0000000H60I-3yVh
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 Aug 2025 13:22:18 +0000
-X-exwire-MailScanner-EFA-Watermark: 1756386888.47569@SEezuY7wXc0h4MUHu4u35Q
-X-exwire-MailScanner-EFA-To: linux-nvme@lists.infradead.org
-X-exwire-MailScanner-EFA-From: nancymc@exwire.com
-X-exwire-MailScanner-EFA-SpamScore: ssssssss
-X-exwire-MailScanner-EFA: Found to be clean
-X-exwire-MailScanner-EFA-ID: 3E7562622AC.A3C30
-X-exwire-MailScanner-EFA-Information: Please contact jdeverse@exwire.com for more information
-Received: from smtp01.exwire.com (smtp01.exwire.com [216.171.192.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by securitygw1.exwire.com (Postfix) with ESMTPS id 3E7562622AC
-	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 04:38:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 securitygw1.exwire.com 3E7562622AC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=exwire.com;
-	s=default; t=1755776291;
-	bh=HV6ngFc0kAPeZqm3RhmqrUX5EZoxx49VvdfM3cgWoeI=;
-	h=Reply-To:From:To:Subject:Date:From;
-	b=e2eNb3qQYVW4c8aO1aGG9hHtRO6Goq4aHr0bg/fSJx1wI4MU97u7aRuyPszgIxDPw
-	 eCNoDcE8MPSHxm3qkuMbu7mThgKISpV8p8GiMQK/8nY5vXdMqennmKf+J4BB+f4/tc
-	 5BvolOwiyQG6OCAsn2m5YPZV1fSW+vwAUJCrCO/k=
-Received: from localhost (localhost [127.0.0.1])
-	by smtp01.exwire.com (Postfix) with ESMTP id 65FCD5272C1
-	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 03:03:57 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at smtp01.exwire.com
-Received: from smtp01.exwire.com ([127.0.0.1])
-	by localhost (smtp01.exwire.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ihGdieiTC1oB for <linux-nvme@lists.infradead.org>;
-	Thu, 21 Aug 2025 03:03:57 -0700 (PDT)
-Received: from [45.138.16.152] (unknown [45.138.16.152])
-	by smtp01.exwire.com (Postfix) with ESMTPSA id 984635825B5
-	for <linux-nvme@lists.infradead.org>; Wed, 20 Aug 2025 23:25:30 -0700 (PDT)
-From: nancymc@exwire.com
-To: linux-nvme@lists.infradead.org
-Subject: xl
-Date: 20 Aug 2025 23:25:30 -0700
-Message-ID: <20250820232530.AF559C05D1CA4B82@exwire.com>
+	Thu, 21 Aug 2025 13:42:41 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id A43575C6B64;
+	Thu, 21 Aug 2025 13:42:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0809C4CEEB;
+	Thu, 21 Aug 2025 13:42:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755783758;
+	bh=pilO4jUangUTqQdAkiK4cWGSMK4Xy1+X18LLgCwRYNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lQvdyDt9lzQK+pQNTFgZuzvHiKKUWyubxQxAbJoDgR8mAI1atF+0gJN1VTzanJFfm
+	 TOFwv7bNK2omxdx3Y3YtLVxw4gCjhdJLWm1jil4yda2sTrclDuDelyFbN48tEfdPAK
+	 Z213AkAq7WcJDhpXA0Ma4xObdw3cG2kcNkxlqa3wQr0PEOq2yVXuZ+hJnDvcQ5y3Hr
+	 eUGxSr4XExvJJmNdOOVZXiuPZFesguUu9G05zYUr10flws6SdqMmmjw3Kw/DmWatxc
+	 7JeWjRS/JWfRH8wLRlaPmhtRgH/r+oILWgB9s/H2Jip4k4jtub374ODzjOHQeTfwQv
+	 5Rw+8Ima2t3UA==
+Date: Thu, 21 Aug 2025 07:42:36 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: John Garry <john.g.garry@oracle.com>, axboe@kernel.dk, hch@lst.de,
+	sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, tytso@mit.edu,
+	martin.petersen@oracle.com, djwong@kernel.org, mcgrof@infradead.org
+Subject: Re: [RFC PATCH] nvme: add an opt-in to use AWUPF
+Message-ID: <aKciTPKiL8wRWmHA@kbusch-mbp>
+References: <20250820150220.1923826-1-john.g.garry@oracle.com>
+ <aKZDRrfUTxJoFA1m@kbusch-mbp>
+ <b8156bb1-b7fe-4036-9dbb-98fdcec3ff65@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8156bb1-b7fe-4036-9dbb-98fdcec3ff65@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250821_062217_382299_740176EA 
-X-CRM114-Status: UNSURE (   3.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250821_064240_028729_5289161C 
+X-CRM114-Status: GOOD (  11.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,27 +72,22 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: info.superenalotto@gmail.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Wir freuen uns, Ihnen mitteilen zu k=C3=B6nnen, dass Sie zu den=20
-Gewinnern der j=C3=BCngsten SuperEnalotto-Ziehung in Zusammenarbeit=20
-mit Lotto24, EuroMillions und Powerball geh=C3=B6ren. Sie haben einen=20
-einmaligen Gewinn von =E2=82=AC3.850.000  in der zweiten Gewinnklasse=20
-gewonnen. Um Ihren Gewinn abzuwickeln, senden Sie uns bitte=20
-folgende Informationen per E-Mail:
+On Thu, Aug 21, 2025 at 10:55:31AM +0530, Nilay Shroff wrote:
+> On 8/21/25 3:21 AM, Keith Busch wrote:
+> > I tried to list out conditions for when I think the value could be counted on here:
+> > 
+> >   https://lore.kernel.org/linux-nvme/aGvuRS8VmC0JXAR3@kbusch-mbp/
+> > 
+> Regarding the checks you listed, they seem too restrictive. They only support
+> AWUPF for single-controller devices and for disks that either have only one
+> namespace or support formatting all namespaces together (i.e., do not support
+> formatting individual namespaces).
 
-Vollst=C3=A4ndiger Name: Land: Wohnadresse: Alter: Geschlecht: Beruf:=20
-Handynummer: WhatsApp-Nummer.
-
-Im Namen der Online-Lotterieabteilungen SuperEnalotto,=20
-EuroMillions und Powerball gratulieren wir Ihnen herzlich zu=20
-Ihrem Gewinn.
-
-Mit freundlichen Gr=C3=BC=C3=9Fen
-
-Frau Katherine Federico
-Leiterin Online-Zahlungen / Validierungsmanagerin
-Code-Nachricht: 737GHS98
+Being restrictive was the point. It constrains to 1.0 type behavior
+where things were much simpler. I am just shocked vendors went through
+the trouble to implement the complicated features but couldn't be
+bothered to do the trivial one that makes it useful.
 
