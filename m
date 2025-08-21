@@ -4,112 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CEC4CA0EFA
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 23:49:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 598F4CA0EEB
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 Aug 2025 02:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F9SU02hcw6WNKVO382VnK0doOc9DExiucOzxMaULtIk=; b=FTfRXhCrDobtuZ5Y+RzN4wO4nZ
-	3MIu3ZOuaQUFSuQuCYA6VEccHyRH7W7Uja4YgV2Qd68G8hVGI219JRRDyLamZe920dWXysXOL4s7f
-	lyMPInzkz7V2Gxf6eqKQ9NBCes5F5//s6Noyb3dOfhBIb9a6kKf7cQox58X3n4KaPg00vEYodrWPF
-	u2GBkks4SpKqPjkBgGBIFzKqXLBNVK7AToFMqxUEffb9R9dfWrwzBxnMLYar+pvOzGqUz0ky8JWRL
-	ez45ZHm8o6pjJwMtZ5LwEka3wBWAKIguEDIpZP+HjgS3HW5q5bBC5vjwu7cUG6fMhjGmBFTLha+Oz
-	PoZavBzw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hm2agGAshuZsugLZ0pQzuhSejxyf1vg4VI5sjJjTHIk=; b=IUITOeF1PIu6H/69LolzvZXyT5
+	cZkCygNuqfEOD9dEr3YiQSwoqeEvHIC8cGlAzZuiaakRNA79x0X3KwME+yvWDSPcgx7RXhcVrAQ8l
+	y9uWpJMYC9JkkaHbZlYgpXV78sjbBukTzkJx7woRkeBnYed9pnO/YFcakcdo33GX47IhQGr93LnTA
+	Wnvk+wDWL+VCoAkxTGMBg3kfr0UnXVrpkiTYmYLwa6/Ge8FiFzbNbQ0mJHlUIKUehWakIpX7LlQh7
+	78Tn0WjTBtqSjJ6LxZGOQS3VIKHgG+PQUYIkswd/JRuAIyV+uHXxILi085zR+GUOff9uuJ5N8CIJE
+	zlO2iT5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upF1m-00000000xl8-2c5U;
-	Thu, 21 Aug 2025 23:49:06 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1upHI7-00000001FEY-2278;
+	Fri, 22 Aug 2025 02:14:07 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up7g5-0000000HU6s-27Za;
-	Thu, 21 Aug 2025 15:58:15 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-76e6cbb991aso1147707b3a.1;
-        Thu, 21 Aug 2025 08:58:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755791893; x=1756396693; darn=lists.infradead.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F9SU02hcw6WNKVO382VnK0doOc9DExiucOzxMaULtIk=;
-        b=ldYIhezIPMBQ7sitPmWZzGsz5GoBxdkXBWB3lEOHbgH6wKMt1YaT3tH2lNipt/XFFA
-         lM5v6iTtwUIsV5Ee5CYeGCcY9/Mgi+OaW1clTN3SMvvoKmOsXUJrKVSEaf7yHupDc52P
-         yNTKecfih3mHmlI2VMHIySfnSzbe+Ul9slB42Ehg01OcXJx9+Y9tPa/Fx99A8f5RdYMs
-         HG/9gKP0ONJwA3zE8mJ/2cNHHM4W4y8miPdXJVHy/7SrI26oHZ/QUdto6lRbWIDNL0TQ
-         P5cbOMrZvQ0nujSUqTPxLVUKlcSXwJo/L1/XyL1ayZrY0CSLQHCO+nk8AeYBy7ME+7Lp
-         UoKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755791893; x=1756396693;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F9SU02hcw6WNKVO382VnK0doOc9DExiucOzxMaULtIk=;
-        b=WTARDyZyAHL7w3A90ZS6UzkRrKb+Y1ONLoJf2x3yhxgNzzkkCY8WdE50DTIBwWDegn
-         0eeALf3SagZkdlEJotl4Z7VOralcXal06HUEqVsnnejgpYE+INLjPUg3vZoWZfnf1Fcs
-         +rBFhesL4wF2vet+YBOrj5yMGfjJQfxxNhDrXv6wbg8JbW1zPkzKPuKR5fJ3ZsMhBobn
-         WXhPl5uXWa8VSqG5iR1PHBK18o/HETkvx2PWCd7SPlPynMwGH7m2jCgxjS6nRsIHGtWM
-         O7t/MmSs9ocWxB6NehepPrdDwm55v6BDUKU7AII/mEx/ASkzV1hwLls/RT4vFW0upLJO
-         6tyA==
-X-Forwarded-Encrypted: i=1; AJvYcCUU6WrSdDO0DlH+/d+WEs/oXz+3F2C/lBtHA56Qksn3NgzgkPWWsZS5sDSR0Hlsa64722Zw75RRtsU2krv5XzJ9@lists.infradead.org, AJvYcCXqox06hyqY3QyQY6lhie9T1e03JAjbukpJTl9QseFIDxEQMOTbiRY6tL8lFch/84LUr1Gm4RHHulaMuQ==@lists.infradead.org
-X-Gm-Message-State: AOJu0YyVVM9pqWXWvM5X8YCwHK2IuPMJ+ZjkvslBMxJNz0/ZbDmmCwaV
-	wJ0bcW5yL8ypN1/Q7n9w5/1q8IRMynL+FYYwiZIXUEj1QX8XIFQTNgJM
-X-Gm-Gg: ASbGncsxLdbZ1pnjFsTapBhKOpuma9faCivag2FwwI7gGB63CTk/AOeaFKkaKh06qQF
-	a0ciuirNkJr93KOK2UnlwEAuONoFLH/sxRNC+IMIoJLq82xHBs6nDepLa0KAS6TBXD6qhYzbNSu
-	dJIDih6Os1Kpw2hYNm2IxMehAdgyieYd3AjQmfWth4e6SJucxmN+I5EnTVe/e51UXpHVxvat4Ek
-	BycWohQ/N/88/xzjvV1waGvW/j4yFq5nu6I6ltvWKQFQ6+ypePMeIEGidSoDoxlTZ12085Z6/up
-	uMaMy5mYzjLufxOTDeOpRxeNKzgntFhBJtDur60PIIALoyD5NjWzEq/di3bmbM2BNhUFy7u4v+L
-	JXy/uN+C3EVbbKK5Rhe7qa+FWU1t5LNzazAby8RQFROnWXnU=
-X-Google-Smtp-Source: AGHT+IE1q9OtVvcB7jD7CQCK6LT73Fkhhe6O1oTYoqIaF9COWn7bTSzZtptOlx0VklEzRU+W2Yg10g==
-X-Received: by 2002:a05:6a20:7d8b:b0:240:387:cee with SMTP id adf61e73a8af0-243304a2ddfmr4276481637.0.1755791892695;
-        Thu, 21 Aug 2025 08:58:12 -0700 (PDT)
-Received: from [127.0.1.1] (061092221177.ctinets.com. [61.92.221.177])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-b47640afb33sm5094320a12.38.2025.08.21.08.58.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 08:58:11 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-Date: Thu, 21 Aug 2025 23:56:46 +0800
-Subject: [PATCH v3 9/9] arm64: dts: apple: t8015: Add NVMe nodes
+	id 1upC9H-00000000WmU-3Pbi
+	for linux-nvme@lists.infradead.org;
+	Thu, 21 Aug 2025 20:44:41 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57LKUQ7d1193217
+	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 13:44:39 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=hm2agGAshuZsugLZ0p
+	QzuhSejxyf1vg4VI5sjJjTHIk=; b=q7oVnO/F+6tqg0FT3m84IAsCH/DCGKGjWL
+	4IKjGbhd/+gemk/3P5LALqwkF+nAmCacz2Qyo1ecWyQI5UkYHvDy/TXj7aXMUU07
+	SxeNI9kNkIIgjoIclwcBzm311NuZbNV6C0jHyX293tL2Xo3BDP1Lz4usqh+9PHTF
+	yMq8KZSiqWFpdb2e1cRJiqU79ng1XGx1tZSxhp85BdT1/NXO8XDvV4giYrjgfCdl
+	VHYQ0tBC9ntwotXVibCy5/1DwIQH3x91Zu5LckqDdbdSIAH5EcKA/wpylspCSq1d
+	/nournMjajjRzXOGWimsyNXyMpINe9TodFsN2wstGWjzJqOMKKjQ==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48pa5a09gv-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Thu, 21 Aug 2025 13:44:38 -0700 (PDT)
+Received: from twshared31684.07.ash9.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.17; Thu, 21 Aug 2025 20:44:36 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 99F5ADAAF46; Thu, 21 Aug 2025 13:44:21 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv3 0/2] block+nvme: reducing virtual boundary mask reliance
+Date: Thu, 21 Aug 2025 13:44:18 -0700
+Message-ID: <20250821204420.2267923-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250821-t8015-nvme-v3-9-14a4178adf68@gmail.com>
-References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
-In-Reply-To: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org, 
- Nick Chan <towinchenmi@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1720; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=W450nZF9q8zgSwZAzN00gO+pHroqymkBwDRdi0GaMOE=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBop0HVNEQSbAL3+tZjzyN2WWJPuPis7prsUJE4e
- r+/j8uvOM2JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaKdB1QAKCRABygi3psUI
- JHtuEACKC0KzhrgUSgUD0OWXRKnND+KJS6S49TEY4jfE8wS0+7bDXXPBH2LHqwFwyEyUHh/y45R
- QBMjGqJsVuFtjLjuAqJea9McDOJOf4anhYQck9UPhKFl5+COnr9pw9/Hw9HrvMN+hjML603tkJW
- MW3sW4RscbE5AOdDH1+W3o7Ib11FaiVAnEbu+XX0IsRfOgEVCg4QdPWM/UCcaBk3FZGMS3abXGn
- r6lqK/zwO72cRcZg27mdKqnitSyjbmqBF8ojB9aGNnET/9OeyaH3tn7JSIASY1wlarATt+z3GyB
- zkuVbwthmU8wJHm3xeq2bzEdpAdRxY4qn/OY08yzrXaJKnJi+Ex0yiqW5eHXXyxWQylH62oUP//
- 3YBFV4eFtDyGy7ApLSESHfrQ5ch3m/1J21oOOR5+LB2yzcOUajZkbCK1AzgzPHb7cz6cZI8LQeJ
- 5QKjLbi7r2JRXTjlszmvxMpi/0Eq3ap3uCeV+rs3FQn/N0N4Bau3X+joy+3xKmTHGCR3GEhqGgx
- 8rRN5rSrgf/UTKqsiUq0C4XPwE5nCOvg6WczE8UW5ORdm7z3B3ls0HvvzZRJsnDL2mhYYlRQJ7z
- l+TYMXGGRm7oI5MJfKau2yTunT+RcXdSK6+6kA2NjHOcNyRxOs5UeT9TLiXcEDyZYFFJQ8fPDDG
- iFMSRxoy6aoLIKw==
-X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
- fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: nphIRziqgvanZPbOWkx_Vv-c96Z0snqE
+X-Authority-Analysis: v=2.4 cv=F9UOtqhN c=1 sm=1 tr=0 ts=68a78536 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8 a=t7V0oaV8DjCZFRwKODIA:9
+ a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIxMDE3NyBTYWx0ZWRfX/RrZHhlcDfXo
+ ZTcFvL/bB5GaV+GlaNL5OHUI5tcljoono7KqKQF0ZBXu0pBy5qKmI3sgxICMnwRxZmlez67VEoa
+ UHsxvr33QxNSGs89T8I/ZUk0NW+6GEBKbTEzPg/51rL5db5WJZ9PdcW2HWaGWHtsCninC1q2IsX
+ RlQytRpSgcp3nwHqy/OMCsj9NjxxIlQLElPT8jxvJUp3D/Bz3tQiQVj/9WPe067PMzXJnednNXH
+ uje8kpnFQEPylDc1n+jmp01DFANAbEJa8YulIrRgxL/3t+X3+ARGN8iC/rn2hsiBVrkpbZFCFak
+ Df8rB8gnKWnJP/gBsJPVcHW7jyORXGt1VxC1njCBAgmUH+IdLPaRNAtzh8xLNVpzUjXhjwR0A3A
+ pV7yA21htpB05Ff1K5gqF3XIeyTn0wzA6XyQAWOze0cKBaQ8uXlL/iJ1jogVujLXOR1M6HVg
+X-Proofpoint-ORIG-GUID: nphIRziqgvanZPbOWkx_Vv-c96Z0snqE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_04,2025-08-20_03,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250821_085813_547353_687B556B 
-X-CRM114-Status: GOOD (  11.51  )
+X-CRM114-CacheID: sfid-20250821_134439_975080_0F376256 
+X-CRM114-Status: GOOD (  16.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,60 +93,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add nodes for NVMe and associated mailbox and sart for Apple A11 SoC.
+From: Keith Busch <kbusch@kernel.org>
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- arch/arm64/boot/dts/apple/t8015.dtsi | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+Previous version is here:
 
-diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
-index 12acf8fc8bc6bcde6b11773cadd97e9ee115f510..84acf2839fb6279dcc956e1f4cee1afa909d2f27 100644
---- a/arch/arm64/boot/dts/apple/t8015.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015.dtsi
-@@ -402,6 +402,40 @@ pinctrl_smc: pinctrl@236024000 {
- 			 */
- 			status = "disabled";
- 		};
-+
-+		ans_mbox: mbox@257008000 {
-+			compatible = "apple,t8015-asc-mailbox";
-+			reg = <0x2 0x57008000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 265 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 266 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 267 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 268 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+				"recv-empty", "recv-not-empty";
-+			#mbox-cells = <0>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		sart: iommu@259c50000 {
-+			compatible = "apple,t8015-sart";
-+			reg = <0x2 0x59c50000 0x0 0x10000>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		nvme@259cc0000 {
-+			compatible = "apple,t8015-nvme-ans2";
-+			reg = <0x2 0x59cc0000 0x0 0x40000>,
-+				<0x2 0x59d20000 0x0 0x2000>;
-+			reg-names = "nvme", "ans";
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 270 IRQ_TYPE_LEVEL_HIGH>;
-+			mboxes = <&ans_mbox>;
-+			apple,sart = <&sart>;
-+			power-domains = <&ps_ans2>, <&ps_pcie>;
-+			power-domain-names = "ans", "apcie0";
-+			resets = <&ps_ans2>;
-+		};
- 	};
- 
- 	timer {
+  https://lore.kernel.org/linux-nvme/20250805195608.2379107-1-kbusch@meta=
+.com/
 
--- 
-2.50.1
+This patch set depends on this unmerged series for flexible direct-io
+here:
+
+  https://lore.kernel.org/linux-block/20250819164922.640964-1-kbusch@meta=
+.com/
+
+The purpose of this is to allow optimization decisions to happen per IO.
+The virtual boundary that NVMe reports provides specific guarantees
+about the data alignment, but that might not be large enough for some
+CPU architectures to take advantage of even iif an applications uses
+aligned data buffers that could use it.
+
+At the same time, the virtual boundary prevents the driver from directly
+using memory in ways the hardware may be capable of accessing. This
+creates unnecessary needs on applications to double buffer their data
+into the more restrictive virtually contiguous format.
+
+This patch series provides an efficient way to track page boundary gaps
+per-IO so that the optimizations can be decided per-IO. This provides
+flexibility to use all hardware to their abilities beyond what the
+virtual boundary mask can provide.
+
+Note, abuse of this capability may result in worse performance compared
+to the bounce buffer solutions. Sending a bunch of tiny vectors for one
+IO incurs significant protocol overhead, so while this patch set allows
+you to do that, I recommend that you don't. We can't enforce a minimum
+size though because vectors may straddle pages with only a few words in
+the first and/or last pages, which we do need to support.
+
+Changes from v2:
+
+  - We only need to know about the lowest set bit in any bio vector page
+    gap. Use that to avoid increasing the bio size
+
+  - Fixed back merges; the previous was potentially missing one of the
+    bio's gaps
+
+  - Use pointers instead of relying on the inline to generate good code.
+
+  - Trivial name changes
+
+  - Comments explaing the new bio field, and the nvme usage for deciding
+    on SGL vs PRP DMA.
+
+Keith Busch (2):
+  block: accumulate segment page gaps per bio
+  nvme: remove virtual boundary for sgl capable devices
+
+ block/bio.c               |  1 +
+ block/blk-merge.c         | 39 ++++++++++++++++++++++++++++++++++++---
+ block/blk-mq-dma.c        |  3 +--
+ block/blk-mq.c            | 10 ++++++++++
+ drivers/nvme/host/core.c  | 21 ++++++++++++++++-----
+ drivers/nvme/host/pci.c   | 16 +++++++++++++---
+ include/linux/blk-mq.h    |  2 ++
+ include/linux/blk_types.h |  8 ++++++++
+ 8 files changed, 87 insertions(+), 13 deletions(-)
+
+--=20
+2.47.3
 
 
