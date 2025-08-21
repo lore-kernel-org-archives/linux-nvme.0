@@ -4,69 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99ABECA0EEB
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 19:12:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 832B3CA0EFA
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 Aug 2025 22:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hXYqDChkgaosTZOYyjIhldhib+U8KwIE5HJX1cdaDDE=; b=BsWMZZ0R1xSQ3hjGBBuxDi/rWK
-	rdukctzMvQPV4iSduIncocH9TRKXz372/K5Feie3lJpUDpXPRxfBq7lHLK6YkAUYyMkt5HPCJAaM1
-	8v+qNJ8lA6uG4duV7Nr5HDFWw2qQIb2lMPNyMxJt1U/4DR+5uxwtNrNgkhX0lJL1Mzzw+C9SL7n//
-	ce1LtOx9BqWVGxcunL7Jk4VLWwLWdx6Kf64ie7Uwog7Ciez/Dkhkj67SDKafdtSwQxDo+FjC1zXKj
-	EwBm31pZJTHmYfI/UwXwuJg3ocgaFr/xZsSqNw/vwig9Nw4f5/Y/aH6JSt7daTHC0YyhoL9Yw+K0A
-	hMfFVkgQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yBFA3VaflFCB/0mxQujeTtIC8a5zlVaFTRMRmtMhlI4=; b=AbspSY+f9HWaaQijjNom/yty93
+	3SuTga3mra4Iz2k2Nh3V9IEOTJdT7OGeo526wFJVGWkhYHlvwU76U97EIM30rSGv4RfkJ3tCGZdoJ
+	ta/0BoAVuFdB5nFnriaLaiJhRMbiC5oC2T/lDrr0uUHCyVPnz76Pp77ZuqGiZoUP4F4L3sybQPNfz
+	gYXxHf00nFXPJnNVMCPyTBdAJ9bL8knld72gvOmjrAk8h9qCIp0TghyKqb5t1lUUtsfABc/svFx7V
+	A3W4lZEJmMuLMfQdO7CRx/uE+dhrk8o/EuEG/DZKNEJlLmb81Dojb2gHZRsB7bZP8M1LNUUmVu5T/
+	wUQi0Dwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upAi7-00000000EzP-2Nzz;
-	Thu, 21 Aug 2025 19:12:31 +0000
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+	id 1upDvB-00000000nEK-34Ag;
+	Thu, 21 Aug 2025 22:38:13 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1up5rE-0000000H9ai-3TEg
-	for linux-nvme@lists.infradead.org;
-	Thu, 21 Aug 2025 14:01:37 +0000
+	id 1up7VS-0000000HS2k-3yNP;
+	Thu, 21 Aug 2025 15:47:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 543B85C6CC5;
-	Thu, 21 Aug 2025 14:01:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7EE0C4CEED;
-	Thu, 21 Aug 2025 14:01:35 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A690740B81;
+	Thu, 21 Aug 2025 15:47:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EABE6C4CEEB;
+	Thu, 21 Aug 2025 15:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755784896;
-	bh=fPFpDcD5IoxktsMx43cYimZsbxu1wQFHGY0B5ONqI+Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CBZbiO+u0jnyT/QGYfPK58tb7SkDHf7TnD6mTq5jfAmGCYn5ThhwQBfRcPNhHFcTM
-	 eQjyVgQ69lPhefuQvvkjB7K5TAsb5ZQdv1w7eFx6j64qrpBWhzIYrqxL6AoJCebPEm
-	 E3ds54S/IKBi7nfgAt1pkwRuEJbiTa1ZJXCtbUCHmYXrqcN2SFZ3Egk8tgVcylrGje
-	 re2tLHiZpiaoH2XbU7utb+SJZdcbYpxhCEQ/ZeDsceUCweYwTq0DWlO4PtQJv5tflI
-	 AwCCEyK6rYOhejR/MLYuvMQt2yiuCqXn0QQ977AvzvqlweOjjqkj0h+mYH4VM7TooN
-	 r1fVhUxmBnb8A==
-Date: Thu, 21 Aug 2025 08:01:34 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Christoph Hellwig <hch@lst.de>, Christoph Hellwig <hch@infradead.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: Do we need an opt-in for file systems use of hw atomic writes?
-Message-ID: <aKcmvfECWdv6CedK@kbusch-mbp>
-References: <20250714131713.GA8742@lst.de>
- <6c3e1c90-1d3d-4567-a392-85870226144f@oracle.com>
- <aHULEGt3d0niAz2e@infradead.org>
- <6babdebb-45d1-4f33-b8b5-6b1c4e381e35@oracle.com>
- <20250715060247.GC18349@lst.de>
- <072b174d-8efe-49d6-a7e3-c23481fdb3fc@oracle.com>
- <20250715090357.GA21818@lst.de>
- <bd7b1eea-18bc-431e-bc29-42b780ff3c31@oracle.com>
+	s=k20201202; t=1755791234;
+	bh=uNxeyEwJIeMK7I5aTTxuR+vdsb3qwZbdDF0YXJk1RIc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rN8zKzgp4yY1voOqoROdgerZ9G1i2qnm8LvSCvoQbREV5fiFUUrdfSQkijzzZGK9K
+	 eMx1VUkbCT6icHNGU1CVRx5uGfJ+Iwnfpu5LnF1xjCME9tKu/3wfPRqQ4Ur/0TQOsG
+	 dJS/PEnPlooiO14dYeLvg+q7qWkKgQP0ONkxHEXXGQqoNH7dZ2ZIzpp8x78sJAWOaL
+	 KhotH3qDPY6GfKflqOx8R3E2exeA3E9MYrPN+gptA1NitmvK2YfhXPeFhbl9BofOGM
+	 q0xVbTLowkKIgvdm7Vq4UojAJm7TKObMCqsVvnDKRKn/8RDcOkJeh/36HcKAv+hQOs
+	 H0DH/GKS46kOQ==
+Message-ID: <54aacd00-8c18-4dfb-a1fa-d600eb9733a4@kernel.org>
+Date: Thu, 21 Aug 2025 17:47:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bd7b1eea-18bc-431e-bc29-42b780ff3c31@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/9] dt-bindings: nvme: apple,nvme-ans: Add Apple A11
+To: Krzysztof Kozlowski <krzk@kernel.org>, Nick Chan <towinchenmi@gmail.com>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <20250818-t8015-nvme-v2-0-65648cd189e0@gmail.com>
+ <20250818-t8015-nvme-v2-6-65648cd189e0@gmail.com>
+ <20250819-polite-papaya-catfish-1a9d1a@kuoka>
+ <8ac418ae-7ff0-4d5c-9f11-c24e36618ac1@kernel.org>
+ <b3cd1b3f-fa0e-4a98-84c7-e4271f262795@kernel.org>
+ <8279536d-c4f4-477a-9823-3e7b452c3c33@kernel.org>
+ <12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250821_070136_905762_9513E651 
-X-CRM114-Status: UNSURE (   8.24  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250821_084715_020283_18588CC5 
+X-CRM114-Status: GOOD (  13.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,12 +87,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 19, 2025 at 12:42:01PM +0100, John Garry wrote:
+On 21.08.25 15:09, Krzysztof Kozlowski wrote:
+> On 21/08/2025 12:25, Sven Peter wrote:
+>> 2) We keep using the ones that are already upstream and just accept that
+>> the situation is a mess and add comment above all the bindings that we
+>> messed up and that this should not be used as pattern.
+>> In this case that means it'll just be "apple,t8015-nvme-ans2" for A11
+>> without any fallback and we keep everything else the way it is.
+>>
+>> I prefer option (2) but if you really want to get rid of all this mess
 > 
-> If we always ignore AWUPF, I fear that lots of sound NVMe implementations
-> will be excluded from HW atomics.
+> 
+> I also prefer option (2). That's the least disruptive option for users
+> and inconsistency in bindings naming is just inconsistency, no big deal.
+> You just need to remember not to grow the old items/pattern with generic
+> compatible.
 
-It's not that they're excluded from HW atomics. They're just excluded
-from the block layer's attributes and guard rails. People were using
-NVMe atomics long before those block layer features, at least.
+Okay, thanks. I'll make sure we keep those old items/patterns frozen and 
+essentially start over for any new hardware.
+
+
+Best,
+
+
+Sven
+
+
 
