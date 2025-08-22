@@ -4,59 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D886CA0EFA
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 Aug 2025 06:28:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F9E2CA0FE9
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 Aug 2025 06:30:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=+QZRs4Hlo0FfQUMeo1qNtp6EUDUZ1+rfWssb9Byq5CA=; b=MbxaLkdVPaqtYS9vQZSfzsU0+M
-	Id9SdQz0/Cfdk0tAKpPB7zgsN7NKyf67G71Y8NGaWhYHEUh9tviz+DZBRjciICt8k3z1Rgam6TJ7O
-	dfieBRawVUcOJndCq+Ok3RgsndUQkNR1eh66dK7uAyLNz0QrDeC2xwuGYi+wOtAxZ4Ql6xAeBk2aJ
-	JCsD9ARb7Xr2rF3kBDQ1oJ8qUgSelvVmJsMnW3Yyatt4EvviIk+t2166uVISm94gwZL1ERW9XQwOV
-	xTsh0vUEDbOjh2bnG2ZVZHNXURGsl8jSuH60XUE/nBdvqx814uWHCO5mzrQ3XoGzPgJ3w/K4tUf+i
-	UXGRre6A==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iAGJNZt/SVuXm/6gXKf7y/cvf3/WZOP+sAK7SE94s34=; b=pZ+yqzgovlGuf/WvCXe0hRhVrn
+	i92fTPCBfrjPuyFNW86XgLTT5v5rZLizTFArk3BPbWaBCuWgbUuH1qAbLZSvVwLlR8fLkRjB42AJ3
+	EaxVLhbSHtO8Nct3O/kSyvFfFRYblcjN5D/9iSj/6Yppu3xBOgD9SfcqX5nPKpvwXewLElIujnTpR
+	ORgSHtN9GdPDgtkX+VN5ruR33W4EpMK/tb7/zSajlnSCRUdJhWMU5tD/qHkspOwLxgQPVKzr7uXmF
+	6n6tjVApQ6Ukvvx52hMHflLMOLLJO60RBLDfaFG7RQSy4F921d3YCPx9WMUmZSrPIbAVPhMH2YUgG
+	UfPBFO4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uphjv-00000003wBH-1dvf;
-	Sat, 23 Aug 2025 06:28:35 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uphlb-00000003yUs-3aF7;
+	Sat, 23 Aug 2025 06:30:19 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1upQMC-00000002P6q-1OgJ
+	id 1upRIj-00000002YV3-3IDJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 Aug 2025 11:54:57 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 78F5841B6B;
-	Fri, 22 Aug 2025 11:54:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17B7BC4CEED;
-	Fri, 22 Aug 2025 11:54:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755863695;
-	bh=pVmXxg6rJKZi9xByUQ/3EJXOYyEq0lgrwtPHYQt3n2c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=GLji4G08OsvwptiH96a5X8pp87mrvu9tp87/QrXQft+0NtDkJ7HWD1PDli88MHfco
-	 Fzq6Hbr1Uwdf2E9Fj06vf2PeSOwZVoTmR6384EIpMBcDRH7QJsirbLeZ1K/Fr3/A9W
-	 NJ0b0xN/FFFhL4JPW2PHZDWxpfDUSdFZtCKDaJJTKZcLvc34sGBkRgGBPU/KZKJfDj
-	 rPc5r4ueGavzDvMWPx5c99/LRAkCILfTz2hR6mF7w4G2MQZ7kVqr985UglI9jLkV+G
-	 4bRQbmgaWMUoDHUVplQZC46zRt49z3fj7XydLw1HTCUkWBC/98HeGYU0g4aAeR24W6
-	 DmgmJbxSoxvug==
-From: hare@kernel.org
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH nvmetcli] 'discovery_nqn' configfs attribute
-Date: Fri, 22 Aug 2025 13:54:49 +0200
-Message-ID: <20250822115449.105656-1-hare@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	Fri, 22 Aug 2025 12:55:27 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F04C1F38E;
+	Fri, 22 Aug 2025 12:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755867324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAGJNZt/SVuXm/6gXKf7y/cvf3/WZOP+sAK7SE94s34=;
+	b=Wo2D11wjQJ5jK+7tkectyOtW5XK4Ng+0iA0XpKAA9eoiOFXyIabkMKYa9dlWDO7Xg1MpMg
+	XKBkIkXjUpZoS/xxhnpcN9ExugYqm1/UwrDETa+DeNSt/jk/DRmRMKMvUTpxmRvfyuGx3H
+	ki6PPgfRfmWaxIgnt6STWaRI28BFlkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755867324;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAGJNZt/SVuXm/6gXKf7y/cvf3/WZOP+sAK7SE94s34=;
+	b=fzUQ4KRihzwadLuz06J2zef7GLhmVRp7Va9lLCFgrESN7IeASqWeywlDPMW7phUhy/VDJV
+	tkvgyMDh02pjFNDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755867324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAGJNZt/SVuXm/6gXKf7y/cvf3/WZOP+sAK7SE94s34=;
+	b=Wo2D11wjQJ5jK+7tkectyOtW5XK4Ng+0iA0XpKAA9eoiOFXyIabkMKYa9dlWDO7Xg1MpMg
+	XKBkIkXjUpZoS/xxhnpcN9ExugYqm1/UwrDETa+DeNSt/jk/DRmRMKMvUTpxmRvfyuGx3H
+	ki6PPgfRfmWaxIgnt6STWaRI28BFlkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755867324;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iAGJNZt/SVuXm/6gXKf7y/cvf3/WZOP+sAK7SE94s34=;
+	b=fzUQ4KRihzwadLuz06J2zef7GLhmVRp7Va9lLCFgrESN7IeASqWeywlDPMW7phUhy/VDJV
+	tkvgyMDh02pjFNDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1338813931;
+	Fri, 22 Aug 2025 12:55:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LkxKBLxoqGhYbQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 22 Aug 2025 12:55:24 +0000
+Message-ID: <5cf81b43-b173-4b36-a1df-f40cf395acfa@suse.de>
+Date: Fri, 22 Aug 2025 14:55:23 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet-fc: move lsop put work to nvmet_fc_ls_req_op
+To: Daniel Wagner <wagi@kernel.org>, James Smart <james.smart@broadcom.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>,
+ Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250821-fix-nvmet-fc-v1-1-3349da4f416e@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250821-fix-nvmet-fc-v1-1-3349da4f416e@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250822_045456_393268_DCB8D94C 
-X-CRM114-Status: GOOD (  11.64  )
+X-CRM114-CacheID: sfid-20250822_055525_974728_8FD040B7 
+X-CRM114-Status: GOOD (  13.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,53 +133,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Hannes Reinecke <hare@kernel.org>
+On 8/21/25 14:48, Daniel Wagner wrote:
+> It’s possible for more than one async command to be in flight from
+> __nvmet_fc_send_ls_req. For each command, a tgtport reference is taken.
+> 
+> In the current code, only one put work item is queued at a time, which
+> results in a leaked reference.
+> 
+> To fix this, move the work item to the nvmet_fc_ls_req_op struct, which
+> already tracks all resources related to the command.
+> 
+> Fixes: 710c69dbaccd ("nvmet-fc: avoid deadlock on delete association path")
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/target/fc.c | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Implement support for the 'discovery_nqn' configfs attribute to
-allow the user to read or modify the persistent discovery NQN.
+Cheers,
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- nvmet/nvme.py | 1 +
- nvmetcli      | 8 ++++++++
- 2 files changed, 9 insertions(+)
-
-diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-index 59efdb5..5111db7 100644
---- a/nvmet/nvme.py
-+++ b/nvmet/nvme.py
-@@ -234,6 +234,7 @@ class Root(CFSNode):
-     def __init__(self):
-         super(Root, self).__init__()
- 
-+        self.attr_groups = ['discovery']
-         if not os.path.isdir(self.configfs_dir):
-             self._modprobe('nvmet')
- 
-diff --git a/nvmetcli b/nvmetcli
-index d949891..9df6e89 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -94,10 +94,18 @@ class UINode(configshell.node.ConfigNode):
- 
- 
- class UIRootNode(UINode):
-+    ui_desc_discovery = {
-+        'nqn': ('string', 'Discovery NQN'),
-+    }
-     def __init__(self, shell):
-         UINode.__init__(self, '/', parent=None, cfnode=nvme.Root(),
-                         shell=shell)
- 
-+    def summary(self):
-+        info = []
-+        info.append("discovery=" + self.cfnode.get_attr("discovery", "nqn"))
-+        return (", ".join(info), True)
-+
-     def refresh(self):
-         self._children = set([])
-         UISubsystemsNode(self)
+Hannes
 -- 
-2.43.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
