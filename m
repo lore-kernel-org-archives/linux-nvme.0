@@ -4,78 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BCC9CA0EFA
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Aug 2025 12:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74341CA0EFA
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Aug 2025 12:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Te1xVrQgzDBuz4rdm+oAY4F74VBZ8yuKiz2U07Pbv64=; b=HhLLCXPtXmn4iDwhStc2kLYA+H
-	EbgiPglpwQwpa7hByrihOKp4fwZ2Ln+F1h+qF/tjGHgds9948qKtSkStvv6OkLeX3Q8F10a/Rqg4j
-	C+dlc53EUf+RHkaKzjU1eUHjremNKP/JJi5a++5JTPx10bRBnW6TkmCpgFOcH6pW5oV4hJce9tZXh
-	Z2g8EStz0wxmXqral76gSIybOm/C6IQtSZF/7lh5yMS0CwKRid72V039eoeEGhkBE39QXP2pyFdkX
-	secjY6TNeFpJ44klcmsAhvL1p+rQHOc3Glst6lIodeZ7X6XGHqS3zlVE+SMcnWm6W85m4S0uyEOfb
-	a2HEVSLA==;
+	bh=CLgKkUt/EORHceeO89abTN08otZovq/goeI6WeVPzj4=; b=XIhBUWS3XiatjbiCDDga7lzm5X
+	WZkxyhKlE9vRBtG5LAvNurxb0FQT7ItzTm3nqSBxSb+qGbxE4i3Y/7B51OECHvIMjWZLi3YwlutWy
+	gM2z5sxV5WKtp41WqVMdpyZgC6ByF2B4GmUqDmhEOguwpulZWlm+nOd+fGcSk65kI7hEn5aGg3mfb
+	PXBRjIF7RGXhWf5YgQEBZNV9VpShmWbOiDZ1Q/iXwu/6I9aGEehFoFNLjabvaNIlOGKI5vfhArNIn
+	PPCr/6k8TdpCYiv8vCM7VJPUuG7CRRNFUbrcyuY07QBXPtIglWpHvL9Tk1DlfhUIADhZx5f0JoV8o
+	chEsdGRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqsmr-0000000BwX4-21Va;
-	Tue, 26 Aug 2025 12:28:29 +0000
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+	id 1uqspX-0000000Bwzi-42Fm;
+	Tue, 26 Aug 2025 12:31:15 +0000
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqsUx-0000000Bu6d-2kco;
-	Tue, 26 Aug 2025 12:10:00 +0000
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-b49cf21320aso3357751a12.1;
-        Tue, 26 Aug 2025 05:09:59 -0700 (PDT)
+	id 1uqsV2-0000000Bu8j-35jg;
+	Tue, 26 Aug 2025 12:10:05 +0000
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-32326e2f0b3so4293899a91.2;
+        Tue, 26 Aug 2025 05:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756210199; x=1756814999; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1756210204; x=1756815004; darn=lists.infradead.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Te1xVrQgzDBuz4rdm+oAY4F74VBZ8yuKiz2U07Pbv64=;
-        b=jsnYGWjVfckHwr2Mo05Wt1cGdi+pCTR3SyjyR0PhEoKRdxNPZVzZmKCrbo0avvwFR+
-         mJv//gIXBAt52/6QiwbXcSQP9oD3n2gEgZXwVHtEfzPhtmUWeYY350/BOIKaK2kJ0GQT
-         JlnjdAVh2ii1+bC7MYWifHT/eQjvGEbzll5pTVidfVt5Nbpd4RLsjRvje9baUGGeWZgZ
-         opOevP086loIx/13P3Y7laZ+dvXQIBeJ78LYf+C4RmapygHvGHTOVn+p1Pw/pLvxBE63
-         YAauE8/VFBCF07tqy0UK4jk8/phMpo+sKZIAeMkVsLQo9OkhkPbsNBCvAs3hCf2zsQNq
-         N/aQ==
+        bh=CLgKkUt/EORHceeO89abTN08otZovq/goeI6WeVPzj4=;
+        b=GEhcVT63l03G44bVZZhX4+d5gmbUxQ908+EL+ehrWM1O3ZMXjdIvggWSe2yG/qWmPq
+         M+PZ/67tB5tdNaddDpOtjZgYWYw+ZD1Rh3MQ/K6RQJSMBDyr8ONBch1D6pxYoYu9pV/Q
+         8N1qBgHEbdmuA3FoUscKYdV/+aZ1NevR7ESCZxjQ34QAHoIAUiLJYs2xyPHCQK0Js446
+         +FrIGblK3HA4UMO/2lx4pWJhv8vesvtnqZdudsg4IOt22b2Pp47j6T2piKHS5g3uNwTR
+         XVewE/E/KJzd11vtE3at7SicXmAnmVcutIFkQTLNZURrnHM563rJlT0irTp3caJia6p2
+         HLeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756210199; x=1756814999;
+        d=1e100.net; s=20230601; t=1756210204; x=1756815004;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Te1xVrQgzDBuz4rdm+oAY4F74VBZ8yuKiz2U07Pbv64=;
-        b=jV40ck4FaPWDEXGHW73W4sGLt6HlHj6M4TDcGPrnNeNuyLliaKP7DnRTKUlqKHeR+r
-         Taqg0umKd4i/KqYutTVp3MOSLSVFsLRsPWxHbZU66j+dMyWgs6FUTosHWWd71AjpZ/fr
-         cbhWfunJ1FpfSHBv/iNnvejsT+jQboGEmXWo6G4Aih8607cZoK0+PzCgijIaECabYLlO
-         ncfdmbDKYx5N23Ftp8G35J5z3ONhfBK9xO1QFOqFUoKhZoye/Xa80NfznsvQRIHdj5qC
-         qnUZVEiFAMCoczlVe8PRb/DH8ptujdTHt8HppFYExlSrXNZgfB9WntvTLwkEQaWpxo2O
-         ZpqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUSnMcl521RVtEhLUZy2LVwlVkvoVzqAYIavEr6nBeyfcGS3NwwULHcJYCj7oeq5zx8hJ+av0T0QB8BoA==@lists.infradead.org, AJvYcCXPcHFyThuUSuXlGEphw4jVBmYLN9NDwLlsB9XQALfhz+o7DGDj+Hevf5lQqtI38ixd+zBxnQoW1sDRf8O28HAD@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyp55C+gwkW0Dxvl82E8Nv7N1puKZdRfYO+hgJya42AVe1+hek1
-	492JjEmN1jztDpuDvQyLd0JEHfCiqwb/H7Ac+K9tqc4K2lcmn/Mz6HJH3gfZk9zV
-X-Gm-Gg: ASbGncvNJsvrCRtC4S5VftgBI4852pjzaISVJVgrfY6sLQ215EFTTtBGTU/WnTvRneQ
-	j1+wjN87GCvctij3CQ3kk7OjSNF4NoY4AOFb44gy7SpZ0WQMc2V1IC6fadBzLqcd/MO70YLKWg8
-	k3zF3ojFnCM89/dc1sQ1fXrJuj5TLv5byDcnuflz/F/ElFVRK/IiiRmDy783MU50rUwVMfRWCvY
-	J8cuHbDkCmeiYTheDUJ5TZpPQAJ/CLPf5mjrpPnOkCnRsvHG/DYvSVKjOO8ggKy6jA5R8QgZRR5
-	Iyvvp3uP1T8fE+49FLUwztouTGwIdZr1ifypX4njIeykNWNwKzQ0qjC0zaNAO0hiO8vv59uartO
-	Y/GuL1n0CYRuyk0qQlooE8jdzvmPeQyzl19Jmbw==
-X-Google-Smtp-Source: AGHT+IHtj4KgXbSqTdwrJl0C85JLO/ylMqNOyyNdi7uTUtfGcZME4gs+kyz2KM5t0aJF8T2+RPr03g==
-X-Received: by 2002:a17:902:f543:b0:246:7a11:3775 with SMTP id d9443c01a7336-2467a113b1amr133955215ad.48.1756210198844;
-        Tue, 26 Aug 2025 05:09:58 -0700 (PDT)
+        bh=CLgKkUt/EORHceeO89abTN08otZovq/goeI6WeVPzj4=;
+        b=OytWJDaP2q+ok6SBvIMv8fAUi4ybQ5EAttIrBJ/3euEADiZn0liqCYXG5ZTrWc/fxu
+         DIGgwvv1HghCzO8jvXj0Y2tI6ThEADd02N0V90+8T6g3AjdjT6pTyvzQYChOXDMrgjsd
+         50fse+hF/MMJWWCZJR4OlUE4x2NHjSCb92pS2xJgmZSq6gLhePqCEIqcYEXjX8i2dtAk
+         rl6ZIfVT3LUQ9uWJrQMgv5V9UpWuBMgClf5j5gk3pW3Xr7157hJdZXOmbKB5+m8iI9Ih
+         awcX2kkrDvZ46lF1E9JxTWboDQJ7yEPmKkvLBGauYahxx0USaHf3erGzZIZEpr4q0MQR
+         /buA==
+X-Forwarded-Encrypted: i=1; AJvYcCWnPb+JLWYxntVXBjc5tFFNnzbVqg9oNX0hl1iSFDcv5QX5WDU4X9osknSkiuHq/hj+xdbaSBZ23Rd4ww==@lists.infradead.org, AJvYcCXvtVlLsaVZOiHT8bavCyNtLJSvKpuTT77WBzkKdETxdoc+mUQACcWiuNhbeFg66gP0Kr3fL9D+8+4Zlowj1uyY@lists.infradead.org
+X-Gm-Message-State: AOJu0YwgB4mVeTrtnlxPCNH5F0sCYQzFR6OhKnrUNffkXkIIXBeb1kSo
+	l0N7RoNJzojJp4rZq31TUxTltRt1nYka1+IRPJ4Y+40+eA+3vpTMIyIKcjBnwvIt
+X-Gm-Gg: ASbGncu/XHksSS3sbVpIXS275HsffYGZom7e8zRGwxUrPQ9L0M5usmdEZyHpxB1g1KQ
+	YzuYTPGhyslX+0OgRg/y7DXUt/cMpd5Bsuqm9r6dzNRYIvIVv9NJoZSYsgBl4fKyHYOtB6YRQWd
+	4QLk4s++cnBPZmQ4TkNBjrIQPOmTjFlA4VN0NPLGgBo/4ZPpuEsrskd/IfprDaO8L1UDAJZIm/P
+	Aj4iLZqaSbBdgH1ICa7Mvd7xOnb8MBc/x0sq0Sc19w9FOAvk8ysR/UU48kka2AumwwaMvPxxWmZ
+	EVd1X1fSex2zIGRh27a9/pr51mFxYY5TJnuGsECZu2BT1z93msBpb8WgrImG5kqzeD1V5qvcmtj
+	6NqbgTYt3MoSOZz/n/haUKY3w5/w=
+X-Google-Smtp-Source: AGHT+IGWgie8ZS02lLq0YJgxOyT9OhF17cJYHT5FMDsYYjsiJPCGQK8BxGNo1tID5Q6Dk0AkG/0Bgw==
+X-Received: by 2002:a17:90b:514f:b0:324:e6ea:f959 with SMTP id 98e67ed59e1d1-32515ed12b6mr20451822a91.14.1756210203424;
+        Tue, 26 Aug 2025 05:10:03 -0700 (PDT)
 Received: from [127.0.1.1] ([59.188.211.98])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-327565d3924sm619966a91.13.2025.08.26.05.09.54
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-327565d3924sm619966a91.13.2025.08.26.05.09.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 05:09:58 -0700 (PDT)
+        Tue, 26 Aug 2025 05:10:03 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-Date: Tue, 26 Aug 2025 20:09:14 +0800
-Subject: [PATCH v5 3/4] arm64: dts: apple: t8015: Fix PCIE power domains
- dependencies
+Date: Tue, 26 Aug 2025 20:09:15 +0800
+Subject: [PATCH v5 4/4] arm64: dts: apple: t8015: Add NVMe nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250826-t8015-nvme-v5-3-caee6ab00144@gmail.com>
+Message-Id: <20250826-t8015-nvme-v5-4-caee6ab00144@gmail.com>
 References: <20250826-t8015-nvme-v5-0-caee6ab00144@gmail.com>
 In-Reply-To: <20250826-t8015-nvme-v5-0-caee6ab00144@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -88,25 +87,25 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Nick Chan <towinchenmi@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=798; i=towinchenmi@gmail.com;
- h=from:subject:message-id; bh=CYNjF9OQgn4g6Ftiuun6/MohBcP92VmI1C5IHAHtgWs=;
- b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoraQDxO7Qv1fzxL96zHeJ8UWQtZ+jverp0LMZr
- KDDOuHgJf6JAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaK2kAwAKCRABygi3psUI
- JEkwD/0QJJHfCREZw30/LgHOOZhIwxNN9/ncVeXksoFKhfe1XdfT0CTUV/5MqsZPYXRLEi5D90X
- c4b5Tg14SjloONpUPd4fFzx2pi6atWQ2KVETMATFdRbeA9D3hdnkAk5wo7K1NP8cKUHkreo+aH6
- OH/UZFBjr8Fi4ZQ55UHa8Y8nX/PHoXPpZd/0+g98pkIVrMdzcWRYnci9x5aKBF4dfryLJLytW9Z
- pLn2C/VEsZJAxWe4QZZ4KTcGAZAsVkf4ytvpi5S8NG3PNT5GiTemz5rc0oPz/otK6DS2NY6s3C0
- G3rGendudRTzg0AJRAoJmPNXqt5cN6Kt/7S+lGpRJV3avH2gDq2UPyxkHwK1cnrliUmec4WxOyx
- stFLRy1di10g8esevDN97RpmiC3NNSn5yJ1Xc7wsBl73EafjB3fytXW2HgkcypoZ090NlcgNRY/
- 8N5bZaPuoLkWJkkfiqViehHAI6Si6k3w21NldiUzoaqegH+3OJS/LlMMPAEd5OUQNxpc06nRGR9
- nvWM2W+V8zZjQ8lyDpsj7V+wU0snKxVysRfkmkEUfhLCP5yEl2NQVKu5OMj+5tsA/cenjWLGst+
- rF59G0fy6vX+I/1vNQDwenNZMiHDFp6vX/1q6G65UQxxovLzQ6zqFmlwSQbPsofCaShSfAZXOsN
- 7HK+Nk3zVoCnoPQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1720; i=towinchenmi@gmail.com;
+ h=from:subject:message-id; bh=n0GU3aHOIbzcpxdfkfvKoQ2JdbUFCoeF/xHA7QnVC2k=;
+ b=owEBbQKS/ZANAwAKAQHKCLemxQgkAcsmYgBoraQDdi3xvWrgtoq+xYU0KaEpYAJiSJed9pe6Y
+ /L5WzRkEjeJAjMEAAEKAB0WIQRLUnh4XJes95w8aIMBygi3psUIJAUCaK2kAwAKCRABygi3psUI
+ JB1eD/9FRaF5x0qOcvMaYKSiP6C7NrIQ2IRtHgqkthJk9bKAJo/6jVT9USMx+2fBKj3XVOlHGd4
+ B7k3kwLSivIH7/Jxmhmu8nBktrbBnan5KWHiM24HnMrNompcQOIVKpCrJFlCWdma8sysAdG1w/P
+ wCI4oZr+FlHtyx4aIF2e/mqOUe2xB5YuKlcAkZJ3s6x7NdzlY7vPTFatiPFGQxnWt5D2oFgextM
+ cpPFRw80SmudDzweipUKE3+XyWBq6x9Q5VHE8xz8B1vbvDYh7rdFy6zrW+Tk2Wq2UdnsC+G+B6N
+ lAEUDJscdVObCSnCinkxUnqYBb7322jSRX7ew/QrgJRrZkMMgoPeiXqvyVaYRJvVgvJO8avtqKR
+ 8z9KTqP805PtPTpUXsKmjUOQ+xv1bX5dKlhm9+COAwZQNU2D/5JdPqaf71T722PZNsqD5rsIvW6
+ Jj7h2LBjsMq21c4EnpSN4Si+iXHUYKo4pkrS+WzIlE1KH7oeQymatyKCowleF4N2IaD/JoJ3B6u
+ tTFEdXikWWk9WGngv5wQTUgYKVPuGE5YoGLRW5ZMzsjpWxwbRMgIn/gbrmzt/i8FtQQf57t7RLy
+ PZuGQjW2ja7ri7RIjWULGqlcUBwH0Re7h5kta5xXw7DlnwsF1tLY3DQIx3shq7tmy23tw5oPOZr
+ uKVWm1K9alCgZKA==
 X-Developer-Key: i=towinchenmi@gmail.com; a=openpgp;
  fpr=4B5278785C97ACF79C3C688301CA08B7A6C50824
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250826_050959_687549_B45E4DA3 
-X-CRM114-Status: GOOD (  10.07  )
+X-CRM114-CacheID: sfid-20250826_051004_774241_1D62006D 
+X-CRM114-Status: GOOD (  10.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,26 +120,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fix the dependency topology of PCIE power domain nodes, as required by ANS2
-NVME controller.
+Add nodes for NVMe and associated mailbox and sart for Apple A11 SoC.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t8015-pmgr.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/apple/t8015.dtsi | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8015-pmgr.dtsi b/arch/arm64/boot/dts/apple/t8015-pmgr.dtsi
-index e238c2d2732f7944dc1f984a4eb647ba212b9ea5..1d8da9c7863e5b7a732888342de9d481f309edd8 100644
---- a/arch/arm64/boot/dts/apple/t8015-pmgr.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8015-pmgr.dtsi
-@@ -658,6 +658,7 @@ ps_pcie: power-controller@80318 {
- 		#power-domain-cells = <0>;
- 		#reset-cells = <0>;
- 		label = "pcie";
-+		power-domains = <&ps_pcie_aux>, <&ps_pcie_direct>, <&ps_pcie_ref>;
+diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
+index 12acf8fc8bc6bcde6b11773cadd97e9ee115f510..84acf2839fb6279dcc956e1f4cee1afa909d2f27 100644
+--- a/arch/arm64/boot/dts/apple/t8015.dtsi
++++ b/arch/arm64/boot/dts/apple/t8015.dtsi
+@@ -402,6 +402,40 @@ pinctrl_smc: pinctrl@236024000 {
+ 			 */
+ 			status = "disabled";
+ 		};
++
++		ans_mbox: mbox@257008000 {
++			compatible = "apple,t8015-asc-mailbox";
++			reg = <0x2 0x57008000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 265 IRQ_TYPE_LEVEL_HIGH>,
++				<AIC_IRQ 266 IRQ_TYPE_LEVEL_HIGH>,
++				<AIC_IRQ 267 IRQ_TYPE_LEVEL_HIGH>,
++				<AIC_IRQ 268 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "send-empty", "send-not-empty",
++				"recv-empty", "recv-not-empty";
++			#mbox-cells = <0>;
++			power-domains = <&ps_ans2>;
++		};
++
++		sart: iommu@259c50000 {
++			compatible = "apple,t8015-sart";
++			reg = <0x2 0x59c50000 0x0 0x10000>;
++			power-domains = <&ps_ans2>;
++		};
++
++		nvme@259cc0000 {
++			compatible = "apple,t8015-nvme-ans2";
++			reg = <0x2 0x59cc0000 0x0 0x40000>,
++				<0x2 0x59d20000 0x0 0x2000>;
++			reg-names = "nvme", "ans";
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 270 IRQ_TYPE_LEVEL_HIGH>;
++			mboxes = <&ans_mbox>;
++			apple,sart = <&sart>;
++			power-domains = <&ps_ans2>, <&ps_pcie>;
++			power-domain-names = "ans", "apcie0";
++			resets = <&ps_ans2>;
++		};
  	};
  
- 	ps_pcie_aux: power-controller@80320 {
+ 	timer {
 
 -- 
 2.51.0
