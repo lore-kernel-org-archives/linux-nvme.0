@@ -4,73 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F04E1CA0FE7
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 Aug 2025 14:56:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D821CA0FF0
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 Aug 2025 22:33:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TcDUP+ps63/jrGgAjCJp4o8llbkXnQ4nl0SzsfkEYiU=; b=ymTqC3/AFhBPvHy6cMg5p/xH9w
-	3vNCTHkEan6h0Ar/R87eVFxedA7EDkUWSugduL90BVzrZlc0Z89gZ5C1CDWNaQA3YzceJzfhEcuCY
-	NMY5BesqXCjfgByc8ToR7pgSP8I2+71sDUy1IntaQtSsm8lD1SLCVYvaosBQF3HJTtId+bWHQAqew
-	8lJ0g3/p3qLbR7DWoh+5PtOfnS5QAQl/Z4ujT/jSBjljcyWyc2jtnW1Gylb3yITZV2ZtWsA0Lr9N+
-	Ac0zUDzINczkYa+QJ5Y0Cs1nBPGsK1gy37RJb9wVC69i29H1qPEpmuVi2jGXpesXB+8SxdL0e/4Kv
-	BLQuSK1g==;
+	bh=K2Zg3efzzB73h3x5Mnu3OjZ7AiGfDQFRKNxV+q52Sho=; b=I4WF1u2qHA6TWVdtleE4/vHNuO
+	BIurDzg/SHfZRJx6qmBG8vB+VPxBVjSfV+iCVmbd9vnjRCFwUX7zMqgV6poTRTAiaCmvbLYSlTH2u
+	8uil304CYkftDYUSp3PGlid67u7ChaKJG6Vz/7Pv6ChjQfDDYRuYfcenfa7SzmimpS8Sa8ylhzsYU
+	gnmoLzaxOWlZzqYLUS1LKp7NCAYCenoIc0ZTPOST/21rzho7EVWUqhJYOcZ1OHGAqjm8DJg4Uh3y6
+	JjRuml4tdCMzvIT7aKhyRWdzr76IQqos7zyMcLzs+LZyo1z4wSwhl0xaPXjKyakNGLA3R5cZLe44J
+	V1ePW1AQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uqv6X-0000000CLfb-0uKZ;
-	Tue, 26 Aug 2025 14:56:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1ur2EC-0000000DGnc-2sO6;
+	Tue, 26 Aug 2025 22:33:20 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uquzE-0000000CKEp-0tJH
+	id 1ur2EB-0000000DGnK-1FqU
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 Aug 2025 14:49:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756219763;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TcDUP+ps63/jrGgAjCJp4o8llbkXnQ4nl0SzsfkEYiU=;
-	b=frcsbHVrPvR8BoLlOE14Ju/Pg8YHbn1EU84LcFDZYLDHDVEDrtS+slqjDcDsN7kH3EfD1s
-	foi/0dMPXpm7xW7ipbAYybHYb4+hrU//N49WAJlW/83keF5hi/z4g+tiDR4qttolEtPN36
-	TB1N8DpFcltbrAqfVrOPupA9ZtSFlYk=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-81-q2KcS3WcN--6jbbez6fBkA-1; Tue,
- 26 Aug 2025 10:49:19 -0400
-X-MC-Unique: q2KcS3WcN--6jbbez6fBkA-1
-X-Mimecast-MFC-AGG-ID: q2KcS3WcN--6jbbez6fBkA_1756219758
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 30CD019560AD;
-	Tue, 26 Aug 2025 14:49:18 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.57])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BEB65180028A;
-	Tue, 26 Aug 2025 14:49:13 +0000 (UTC)
-Date: Tue, 26 Aug 2025 22:49:07 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-	LKML <linux-kernel@vger.kernel.org>, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org
-Subject: Re: [blktest/nvme/058] Kernel OOPs while running nvme/058 tests
-Message-ID: <aK3JYzj21O5Qcah3@fedora>
-References: <3a07b752-06a4-4eee-b302-f4669feb859d@linux.ibm.com>
- <aK15dbUiEyr0O2Ka@fedora>
- <b877e779-5395-4162-ba87-2a0e07932eb4@linux.ibm.com>
+	Tue, 26 Aug 2025 22:33:19 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5AFB960228;
+	Tue, 26 Aug 2025 22:33:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84940C4CEF1;
+	Tue, 26 Aug 2025 22:33:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756247598;
+	bh=enAWv7FM+3cCYyKIq2hsdtFuRu631uhygsKoaTBzjso=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mvAZzZJ16Lko9gWeA6XLyGd0vlNbHlTJ+grcokJ3kz7RBiXyBw7uMkBBbcHDOQcoe
+	 fOUS9A0kfmH8cp/OebZHMMchUkyWWE2AjJqWkRWGvI89IBtHhAdL/JiUUIqjER+yt4
+	 iwZzxCWbdhSY3UkqRtzVWTfFXsebYOu44eezPldyHW0QP5oG5xbzhgjCk8ECy+YV6F
+	 tB7yigAWW93QqgPSUG9bFU+C1kxXPzXK8vcGKUPgNOjIEx6DsGTEr2yWSqw3hBE0J8
+	 DdT0leJ3Pjo9EPGaB/ftg4PJIwRi1AR2N8VqJ7mxJFeujjgW1O82iDx92Hx55O0fk3
+	 iFz7f5gn9CIww==
+Date: Tue, 26 Aug 2025 16:33:15 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christoph Hellwig <hch@infradead.org>, Keith Busch <kbusch@meta.com>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	axboe@kernel.dk, iommu@lists.linux.dev
+Subject: Re: [PATCHv3 1/2] block: accumulate segment page gaps per bio
+Message-ID: <aK42K_-gHrOQsNyv@kbusch-mbp>
+References: <20250821204420.2267923-1-kbusch@meta.com>
+ <20250821204420.2267923-2-kbusch@meta.com>
+ <aKxpSorluMXgOFEI@infradead.org>
+ <aKxu83upEBhf5gT7@kbusch-mbp>
+ <20250826130344.GA32739@lst.de>
+ <aK27AhpcQOWADLO8@kbusch-mbp>
+ <20250826135734.GA4532@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b877e779-5395-4162-ba87-2a0e07932eb4@linux.ibm.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250826_074924_320913_9FE36E74 
-X-CRM114-Status: GOOD (  15.69  )
+In-Reply-To: <20250826135734.GA4532@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,49 +75,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 26, 2025 at 03:26:02PM +0530, Nilay Shroff wrote:
+On Tue, Aug 26, 2025 at 03:57:34PM +0200, Christoph Hellwig wrote:
+> On Tue, Aug 26, 2025 at 07:47:46AM -0600, Keith Busch wrote:
+> > Currently, the virtual boundary is always compared to bv_offset, which
+> > is a page offset. If the virtual boundary is larger than a page, then we
+> > need something like "page_to_phys(bv.bv_page) + bv.bv_offset" every
+> > place we need to check against the virt boundary.
 > 
-> 
-> On 8/26/25 2:38 PM, Ming Lei wrote:
-> > On Tue, Aug 26, 2025 at 02:00:56PM +0530, Venkat Rao Bagalkote wrote:
-> >> Greetings!!!
-> >>
-> >>
-> >> IBM CI has reported a kernel OOPs, while running blktest suite(nvme/058
-> >> test).
-> >>
-> >>
-> >> Kernel Repo:
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> >>
-> >>
-> >> Traces:
-> >>
-> >>
-> >> [37496.800225] BUG: Kernel NULL pointer dereference at 0x00000000
-> >> [37496.800230] Faulting instruction address: 0xc0000000008a34b0
-> >> [37496.800235] Oops: Kernel access of bad area, sig: 11 [#1]
-> > 
-> > ...
-> > 
-> >> [37496.800365] GPR28: 0000000000000001 0000000000000001 c0000000b005c400
-> >> 0000000000000000
-> >> [37496.800424] NIP [c0000000008a34b0] __rq_qos_done_bio+0x3c/0x88
-> > 
-> > It looks regression from 370ac285f23a ("block: avoid cpu_hotplug_lock depedency on freeze_lock"),
-> > For nvme mpath, same bio crosses two drivers, so QUEUE_FLAG_QOS_ENABLED & q->rq_qos check can't
-> > be skipped.
-> > 
-> Thanks Ming for looking at it. And yes you were correct, we can't skip
-> QUEUE_FLAG_QOS_ENABLED & q->rq_qos for NVMe, However this issue only
-> manifests with NVMe multipath enabled, as that would create the stacked
-> NVMe devices. So shall I send the fix or are you going to send the patch
-> with fix?
+> bv_offset is only guaranteed to be a page offset if your use
+> bio_for_each_segment(_all) or the low-level helpers implementing
+> it and not bio_for_each_bvec(_all) where it can be much larger
+> than PAGE_SIZE.
 
-Yeah, please go ahead and prepare the fix.
-
-
-Thanks,
-Ming
-
+Yes, good point. So we'd have a folio offset when it's not a single
+page, but I don't think we want to special case large folios for every
+virt boundary check. It's looking like replace bvec's "page + offset"
+with phys addrs, yeah?!
 
