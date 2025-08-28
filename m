@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 389BDCA0EED
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:42:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC6D6CA0FF6
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h9kk3UQVuhe0QchQqhupjbVTv41iYj+XrqLiQ4MV5FM=; b=cwzgOFHJyFboRoR9uAiKgDPgc9
-	G9l2n/AfY/urxWr9qEm09Az/uQrw2asQ1Jj+lm2MjcMbbPqjETfBneWEYSRv0h6evV1CRncyjHxxU
-	nS94CecmgAHW2K3Qx+deHguc+cW8jKBo4RtAzxTpfvHPr4x99PHu4LsSgms8Nqrqq401rH2BscI3Z
-	IzYje0qIX3A3aBuGDrFm7BEzDAaxEF6bNx/UBROfY35kzTz4HKCSc/r7E9RF8ws1NuZ4ewetnNlD0
-	VkyPQYSrsn3CU1MQkPhrhVZsPE2+9XlhSTnyhn5QxTndNU0qXbpePnRINEjZX1BwBi0WzRUQcs61t
-	mldWHMSg==;
+	bh=XPKN2AhbPWJ6u+69uufLpsAZ4EFrmOAjn6EhxFa0aJI=; b=H2YQVoWhOsPKpLpWj4WOWkddvd
+	nUJG/Bu0ovwBxmL/dNNLcyS5eJCXAaeE4Azai67V2nbjJQsAFNWJcgzCJH8T75k0JQ8Jc86njLEPo
+	T31TdV8zeHs897uvf74n02ExBUvQV546tDqFVEyD+26Q6RRU+OH4jl2bpgRi+HMyaygVGw0BDlvIV
+	2Rvo8xp23HjVyHALZVXkmgd78npWJ+XU81itaJXDUvEgFXJ4ZzMCoLMRVxKl1mt0EcAIg2EmoK1S1
+	N0d2OpPtqDVRpAt366n3hAOzH86B03GQkWOwXaaxmHrxkLKhrTG0di13++ol50y6jnHLWwBtqt5R9
+	d/dZ/1hQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urqwk-00000004Mie-1bgy;
-	Fri, 29 Aug 2025 04:42:42 +0000
+	id 1urqwl-00000004Ml4-2aHH;
+	Fri, 29 Aug 2025 04:42:43 +0000
 Received: from flow-a7-smtp.messagingengine.com ([103.168.172.142])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urdD6-00000001prx-2Xya;
-	Thu, 28 Aug 2025 14:02:41 +0000
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailflow.phl.internal (Postfix) with ESMTP id F01151380DDA;
-	Thu, 28 Aug 2025 10:02:39 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Thu, 28 Aug 2025 10:02:39 -0400
+	id 1urdD9-00000001pt7-1p3N;
+	Thu, 28 Aug 2025 14:02:44 +0000
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id CEBA81380DDE;
+	Thu, 28 Aug 2025 10:02:42 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 28 Aug 2025 10:02:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1756389759;
-	 x=1756396959; bh=h9kk3UQVuhe0QchQqhupjbVTv41iYj+XrqLiQ4MV5FM=; b=
-	SuGn7NYhMvuuPzbvlj812BjSauShq7hSEREWCgyEXuHhsc44VEAGWsMB86ks2Ll4
-	ipw1ni6qKuE1e0iytRFrxpt6MPtKlrZr8K/ah/CU4PWpLBHQQnLpVA0PFYgzOkjC
-	7d/whfZ6MHYbTg+AArLkK68xgrT4eN7Vs4/PhzxpyDPSpb1+cGa9MJwCLywWJJY+
-	oglCV3icbifv3Mj45IYL0tVeKBtXcjhwFVKwz4gausZ2FZ7PKqJhRsEEne3Ntv5l
-	7Ol7rnoFXtLpI7GppBcZZEpDp14FCYjYkStaMAK2g8197g1g9EPM1SO+R3IeXj/E
-	KX83vlgvo6/H0gXlakoj2g==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1756389762;
+	 x=1756396962; bh=XPKN2AhbPWJ6u+69uufLpsAZ4EFrmOAjn6EhxFa0aJI=; b=
+	szKX1qxxYi8rnbaH5n2OqBStxIoLar8z1f7A2ojF7e4GSVIE01NUoqJroFofA1jp
+	N+RiJvqpP7klvW9mYrsEgebwuiAEYCDVNs3vdRMeezvk++bI9BqBXkerNjpzAtv0
+	H0l6K6Abk9xNdmc5mQUdxka0HGu5JynHb9qGT3Yao6sCU4orbvttav4/swjFwkiH
+	vh54XFFHcInTm+glSAauR1Rd5DY8qBDqitajdLKXuVXYX4qDxZSPfTrI9xUFTCPk
+	gbY34EInr8x99Q2pr1zcMd4xfV2XwDIjmPakAz4PU/jh/dlpx2lZSfWwW7+mjdge
+	aIpeXs4uqZaxkI/LZsHr8g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389759; x=
-	1756396959; bh=h9kk3UQVuhe0QchQqhupjbVTv41iYj+XrqLiQ4MV5FM=; b=F
-	fuwlVmy0Hza7tm25HTMHuj9L44BVjxlNDlAChnS+qfxRZ8pFdjdLmm3Wa3AdL7i4
-	Q7n+2L9Jn0AS8e7Pa2J9gjxtzMuGNDIxRpH33C/IuSVhkWuqYfkW2DqaDoX+E3En
-	S15VOZWkfaSkqWo1YGgge0qvFXq1G9A0w4rsPUzvfKRl8nPVdzr2SJ5i3aSCVdz8
-	g+7RyNtGTWuMP+i7hl3Xz+JDtN/+W89bf63BQb7OrLafwNa5o/9qZx3js+5QGRP0
-	QKcBNJDJMNSNjlTveMfwd8gNIRjtMmK9g+JImlnbJ5P3mIvrw1vjn+r90U/cqafB
-	WjJFIBbpueCVtu94aGkRg==
-X-ME-Sender: <xms:f2GwaEuodKJ0pr-YQgIKgs54JEVwG71m7fj1Ts9djZTSdWFawjg5QA>
-    <xme:f2GwaAQWynsuHAkMyEjug9BEqW94gvCUD6VU2o0sVAP6hraeh-6UohOWwHKiEarIM
-    SmNw0GD1hv0NUqtHzQ>
-X-ME-Received: <xmr:f2GwaKdydnV6X9cQWfTFCoVyIypqoOqE6S2pukKktUmep1hCsbiGIdoJbR9JdZPNgSBuIlSh02gH2qQasYETCUnHgfZLaKzjsRGvSQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvdduucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389762; x=
+	1756396962; bh=XPKN2AhbPWJ6u+69uufLpsAZ4EFrmOAjn6EhxFa0aJI=; b=M
+	rwCmOM2gTwSNNBNI5Pb672d6W90ThQJkFvhpx0zrhG5cGkZKDc+Qb6RL6d6+3X6j
+	xX2rugjuOeO2dYoa21MLy2tG33KbhDFJ7ZJ0fDmMAGhMJFh76OO+w6xQ+q+yizbV
+	19JPFPI4CWPjuRiamJWdaNgNgqKjXAtdCfnsB2KArvR0wQyMMAjvcD56Mpvo3wQG
+	8RVT86jcSvtMq0rduGRsM7IbClra8LMeGKxw024AnbD81Q+QrDZIyhHBF4LK9p7P
+	s0ajVgIldhujizQzWFTku7uJolB3unEFLF2jtBwpJ9yNEsFXeD6x+moDBEQG3ohV
+	qSBZisSVqJpVQhxeXXAyg==
+X-ME-Sender: <xms:gmGwaFW-wxhCwng1lvmyk6A3pT6dhAngYIN3gHZAQ5r9UxjgaGBmDQ>
+    <xme:gmGwaNBL2MePem_vz2Wu8tZWyq2aB51lAId-KIqrceHlp8maUIlymkJDveshuw6kX
+    rz1-Kq7Wfs06L1VwYE>
+X-ME-Received: <xmr:gmGwaKUzvACPnJNAI2AROeqB6V6mm7k0qiRlu8zaGPeX2JFrJs3R5ScwDvBtTasfJBUNnj0OCH56-Uo56eF78bS0xp3_DndpOGxINQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
@@ -75,21 +75,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvdduucetufdote
     gvthhtvghnihhssehophgvnhgsshgurdhorhhgpdhrtghpthhtohepkhgsuhhstghhsehk
     vghrnhgvlhdrohhrghdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvgdprh
     gtphhtthhopehlihhnuhigqdhivdgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:f2GwaORNv_H_9jU0Bpg2yzdbwiwMg6QNm99vW4yv35SCbV1vmLNzhg>
-    <xmx:f2GwaKkd27iTLPU25YCtVC4LqzOKZuzTxW9HtW26JRsg3MtNm8MzUQ>
-    <xmx:f2GwaAHqKC1FouaOqxgVybVnmqKZHWp_xFLZp1nCMHQpZd2BQDSarw>
-    <xmx:f2GwaCwMgZoR5tkEACBabuSZTmaGlJYmrChJUoSgndV9OGveYHxigg>
-    <xmx:f2GwaLn8DXk6GBmYMuQcN8bbjTC2M9RnAtjGPs1apY0aS4tXL1kW82zo>
+X-ME-Proxy: <xmx:gmGwaDS2l4XcFY1k0orbxbbCaQEgI5jC8ZXEzkpR3LAwtNjSDjqALw>
+    <xmx:gmGwaO2-lT6N6b6MNN4YSnW-g4Q3fLNCWg3yZX3pHl1mZydyZEYMBA>
+    <xmx:gmGwaH5UAxy_2E2e1LkFPjD91FHSDYbx_NglYIB6V1xgrVNEkA23EA>
+    <xmx:gmGwaLKg58g75BSDa74ZQThl3oCWZ4ZwYqeHCRmUAK_aN35iI9OAvQ>
+    <xmx:gmGwaFBmEocC3BkeVZmKmv8FFpxSeUFxbcKTYxUGH40BFbdbgkrs9m0S>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:02:38 -0400 (EDT)
+ 28 Aug 2025 10:02:41 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:01:40 +0200
-Subject: [PATCH 21/37] spmi: apple: Add "apple,t8103-spmi" compatible
+Date: Thu, 28 Aug 2025 16:01:41 +0200
+Subject: [PATCH 22/37] dt-bindings: spmi: apple,spmi: Add t6020-spmi
+ compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-21-507ba4c4b98e@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-22-507ba4c4b98e@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -135,17 +136,18 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=985; i=j@jannau.net; s=yk2024;
- h=from:subject:message-id; bh=aO8Zd5On2fiIPyEmnZb81gCm0UyoBHSPiEjjfuybQOs=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiVabjIIL/9jxcsUoGk8+PUvQeG28jf8Ebf4cac03N
- baONUs6SlkYxLgYZMUUWZK0X3YwrK5RjKl9EAYzh5UJZAgDF6cATITzISPD6ecTp5syCbYa35WM
- OmbvVrXbgOOwivDhTxrL/3ceqBHrYfhf7zHn/8LFXS137SW9mvdrKP57d20r0/nZ8YfCrgveT97
- NBAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1624; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=XExasvnZCa3lFPti+xqXVJeWRFBKJYtzynW+b1NYbpM=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiVbRU1nb5Cz1zU4JJ33yD9c3fdd3Ksl+dfgXGdVvr
+ r/+1nZ1lLIwiHExyIopsiRpv+xgWF2jGFP7IAxmDisTyBAGLk4BmIh2JMN/36tHKnPTGGR43/9b
+ F3L/vcPv4lJZgaplG2ey2yz6s79OjeGv8Of5kjLvLFsXnCpP155zu7t/VUVaiEhAgpzszOcf/C7
+ xAgA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250828_070240_722592_24352B08 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20250828_070243_614543_AEDA6851 
+X-CRM114-Status: GOOD (  14.69  )
 X-Mailman-Approved-At: Thu, 28 Aug 2025 21:42:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -166,25 +168,45 @@ lists with the generic compatible "apple,spmi" anymore [1]. Use
 "apple,t8103-spmi" as base compatible as it is the SoC the driver and
 bindings were written for.
 
+The SPMI controller on Apple M2 Pro/Max/Ultra is compatible to
+"apple,t8103-spmi" so add its per-SoC compatible with the former as
+fallback used by the existing driver.
+
 [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- drivers/spmi/spmi-apple-controller.c | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/spmi/apple,spmi.yaml | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-index 697b3e8bb023566f17911fc222666d84f5e14c91..87e3ee9d4f2aa5517808827f5dd365055c08446a 100644
---- a/drivers/spmi/spmi-apple-controller.c
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -149,6 +149,7 @@ static int apple_spmi_probe(struct platform_device *pdev)
- }
+diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+index 16bd7eb2b7af2c0b176f0e5b1970f4670af691da..dbf09ad0ecdecab82074344aa6a840a820bc448a 100644
+--- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
++++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+@@ -16,12 +16,17 @@ allOf:
  
- static const struct of_device_id apple_spmi_match_table[] = {
-+	{ .compatible = "apple,t8103-spmi", },
- 	{ .compatible = "apple,spmi", },
- 	{}
- };
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - apple,t8103-spmi
+-          - apple,t6000-spmi
+-          - apple,t8112-spmi
+-      - const: apple,spmi
++    oneOf:
++      - items:
++          - const: apple,t6020-spmi
++          - const: apple,t8103-spmi
++      - items:
++          - enum:
++              # Do not add additional SoC to this list.
++              - apple,t8103-spmi
++              - apple,t6000-spmi
++              - apple,t8112-spmi
++          - const: apple,spmi
+ 
+   reg:
+     maxItems: 1
 
 -- 
 2.51.0
