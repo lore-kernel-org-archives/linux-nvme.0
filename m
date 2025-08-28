@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4840CA0FFD
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:42:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B47DC8303F
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GyDxZTcKVr/3D7WIDxndytpKvgxn9OdMxxkTZrcwEvQ=; b=bOArMlIoS+fAtUvbYc/Y38Hisw
-	/voIiQh0iwcMk4VcgXaswhD5xhgDU4oOMOljcnoGMSw1YObK1S02DTrAh0sB6E7NnTqddageSKk5z
-	rNt6oAgSJrt2odxLYWFKzl3ZdszrUO117Erf2my7NrvO3c1T3xBj709Xy96Zod8SM8YPKeiPA9204
-	3aQTHkAYLbp8u2/vDAnRcSugdFQFAidnxH5+iY9Hc0UhB+CX1GbGLrY0UypQt+mD+9wlPc9H+vOar
-	y+VZq1WWKZpj7G6Ax46ac/dhGx6ZSCEHd4ZHN3iUlydHZhQ1fST5v4PWeyPLvxULo6nCNQJAq6jwq
-	KgHO2csA==;
+	bh=Nb4trnMSm8TGPxR4zQ7deJPXuZqG4DeNFaJrpNc7mFs=; b=taMVndckJtjHpiIwMuI3qAFwr+
+	65Ie6jatgtkZEbDH4anxo0+xABAW9rmbH88MND5y72fkZsZEZ9LqdmQWE7gkYPEx7RrADl+loA0S2
+	YoWAxXzcdBuoIpAL198szxecps+gyNCpD/Tu5E8B6EiJAUe/VAyt97SKxSGdNJpDES4MgbIIcwWHR
+	wGSGkMrdKQrxjrbEqnOOclPcpSwv4PKOBaEN98Pq4uyLM+b52j7JCW6CPci7aFpFArS0xFJBoYKxs
+	mSH8y2WWOY32eCWolHbhjfpwfrNMVqZyuOFWAgnPHHJiTsNMpYmAqgDV3AHAmaUcAT0lBbrZrS8vO
+	eOkM2Ukw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urqwT-00000004MGA-3ysS;
-	Fri, 29 Aug 2025 04:42:25 +0000
+	id 1urqwV-00000004MII-1ZzH;
+	Fri, 29 Aug 2025 04:42:27 +0000
 Received: from flow-a7-smtp.messagingengine.com ([103.168.172.142])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urdCW-00000001pds-2asl;
-	Thu, 28 Aug 2025 14:02:06 +0000
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id E1C191380D73;
-	Thu, 28 Aug 2025 10:02:03 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Thu, 28 Aug 2025 10:02:03 -0400
+	id 1urdCZ-00000001pfm-28V3;
+	Thu, 28 Aug 2025 14:02:08 +0000
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailflow.phl.internal (Postfix) with ESMTP id DFB7E1380D69;
+	Thu, 28 Aug 2025 10:02:06 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Thu, 28 Aug 2025 10:02:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1756389723;
-	 x=1756396923; bh=GyDxZTcKVr/3D7WIDxndytpKvgxn9OdMxxkTZrcwEvQ=; b=
-	tvV5dAWj2hfGHTwRZoWqpeJpOABGQ/BoZPlc72yY3kP5A9z7lG12j8TBNgvLmYHm
-	RtJHUA9ZdHAVVkBv06F+sdDgd7aMZ/KdMSeBFta2zxoHi6683GzTjQ9AsZF19SZk
-	J1FA6BWGM00+7YKs1ALZWRRM8o921twQ9f5WQIdmnCnoPcz5ctzPtvalxHJD90tG
-	pb8EN+F+dHTUEwbagsi0fcUMD1LNSxS+PmNNbhLK4Sd8Jbq3kw7rIgJX0YaDBDsi
-	gLMkaEQyNvIDma6dLgjq0BZsr9lfdtntLLF+XpWdd9hyKViA4yndr/ieiQc60chq
-	1XrFA344S3fSPGaWE+v4dA==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1756389726;
+	 x=1756396926; bh=Nb4trnMSm8TGPxR4zQ7deJPXuZqG4DeNFaJrpNc7mFs=; b=
+	T8P6eJEdDCFE5f/HQgMOVD3ump5mRpzbiBFcrO2cuJdxhyNZmUHUoSOIL5gAreMK
+	63Yq3Xuaj27foBbkhL3Fh73riBIy+TsxVjIORpfFUiyNtYo7g5GoIEGNxM5V7iff
+	IUufu897sPC1gwBDUHNH+bpB0lKVyNng/z6GhvQlR0ISxaAy84h/YSAp3hkNNUWo
+	1j6+IQcSejmbYevyrVfiiNcwx6R98iJ0kkDl/kk0R0bb2cHz3lqdzT6Wmtmh9GlZ
+	iH52z+kHaTxWpybNbZoNUgus/QP/WaNe+pWHOYXrKF+vjhg0CZbUTyMs64D4O+9X
+	Sj49x1wzAAfR/NO+rl6+9g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389723; x=
-	1756396923; bh=GyDxZTcKVr/3D7WIDxndytpKvgxn9OdMxxkTZrcwEvQ=; b=J
-	GMUV8KRVFOEnHu0jJmvumTMXp7wGn07fqQQDO2CFInt3kqn+VtYHqxDSdfc94Po7
-	KJYHNvTojTEfpHkAtFr5EveADwpvCM3WetdDnBPfjdZfgOzVIT+iT6iRhPS6J9fg
-	mEDdbYAUM+rZySTVQ+lNnjl7X3P6Pi4S1uSmZBL2ae0pIwhX02X0viCx0WLZHRq/
-	sLeyGaPlNVxUDGwAdF+xI0lOxeCZdGUqdAymdJRtBH1DysxOSHj6j3DitBodrJGK
-	qGC8h3fFmlNaWEH8ISRntdzVqXpsF9XvbC8kC8/Pxj3/XGLrqdUInuSUlK5LOAvj
-	Y+MewnmRpRQ1vYJRwOtzA==
-X-ME-Sender: <xms:W2GwaBmssRBskQdSDqc-JdC1Bt1qDxDs6bGKg9Eb-1zU9SQ9VQZTlw>
-    <xme:W2GwaESgdEThN_3_3P4VKOyV-9U_i_gp5ts20aXdojr2dMg7Pg2gldygfxdzN7ou9
-    Jhu-cTb7scLb4yO6P0>
-X-ME-Received: <xmr:W2GwaAlhHPY1bGqcSEhDzspk-oYu6alrESrXwDIBqgGOBZWsI3jqRsRuKF1HeijTex2M709fs8mZCpAfjsvGAF4cq-OT1-yu8wOnjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvdduucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389726; x=
+	1756396926; bh=Nb4trnMSm8TGPxR4zQ7deJPXuZqG4DeNFaJrpNc7mFs=; b=k
+	tpHhLioDV0I27AE028XcZnz8CFX8yktVwM+Y2bewLUwMVrxqU/T/epESj18Z/3yV
+	OhDJZXm4MorjKZmODmxC9NENYoLYxfrqJKeQUWTwEn6Js1bBu8ihgZFZSOZrKwwF
+	XI5ZwQUzkl3DZK1+/kQsCDNhT+XAO5r/nx4Br5i9sglc0qLCZdPSiCZ0p3/LjBjY
+	jHLFpsRnmSOPbMelSo92wcbSuAJ4eHksXNKosd30eJSc4sw7UqfCFArdpeOSQl07
+	0nnny/ladcmJBI5dOpUxbW7zAFD5ktmAnWburQMwm8yTSX5PZzYYodFFgQbQO9hn
+	27l5mvOFQ6KDvlrx/Angw==
+X-ME-Sender: <xms:XmGwaGbAsYWKJkAfLmPJcw_20aDgJIz92HtRZnx15HmoIzJdkTLkkw>
+    <xme:XmGwaA1ztqRCxpTeS4PsX4vSKEgLvaVeC8oair7kAhY-InS88z1NmEqISUO4_hOfn
+    6PXAQa5i_-9yNKGbSU>
+X-ME-Received: <xmr:XmGwaJ62z7TpUolCOKucfwOCRENOgEbN3cOjCccjhboo9lztp_PUxkCqEkrzVhaCOCWlAQpvp7GaNsjnuJfi6J_es0XSf_ONn8R3bA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
@@ -75,22 +75,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvdduucetufdote
     gvthhtvghnihhssehophgvnhgsshgurdhorhhgpdhrtghpthhtohepkhgsuhhstghhsehk
     vghrnhgvlhdrohhrghdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvgdprh
     gtphhtthhopehlihhnuhigqdhivdgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:W2GwaMjhgvjjCiy6FjTaSiRY4uPgj4XcH27aM_QLMDYYVOCOPFgbiQ>
-    <xmx:W2GwaPFETvrUkjdOMekYVSwPq_oHiwH8_5Mb-oWqZb-bfWx1Z7ZnJw>
-    <xmx:W2GwaDL8q9VPcy2Yx6-wCn4Q5kQPY8rXEy8ImKLW9iaBg2RZOQWWVA>
-    <xmx:W2GwaFbAUg5L6wqgn2XoJVNLESb4OuGWrYL8q5AbKiu_ewQWd10fQQ>
-    <xmx:W2GwaITItA-hBo9By4xyjRaDAljoZrvvjCekXcKaLvBRhejKfCStGpxh>
+X-ME-Proxy: <xmx:XmGwaDkwHmUo6tJbpzq_1liTzJSCyCsEnItYCICV_4JKbANy2iM1YA>
+    <xmx:XmGwaA4xFA9qjXv_yvlnTbeI12ZDnTzMPQPDo7h8Aewp201Bbb8nDQ>
+    <xmx:XmGwaIuSz1CFrNYqS0gvYEv-Zg4XeL7F2Vb5_CGZlV9uaH6Yn_z8hQ>
+    <xmx:XmGwaDu6mT21re_h7Uf_FepJ0rzrmdCPlumcKYTaP2XqjZr6zlsdkg>
+    <xmx:XmGwaP02_rRG9F44QhKv5H__M_a8_YcohStN_TD5pDwIepkB9ccvLvOC>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:02:02 -0400 (EDT)
+ 28 Aug 2025 10:02:05 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:01:27 +0200
-Subject: [PATCH 08/37] pinctrl: apple: Add "apple,t8103-pinctrl" as
- compatible
+Date: Thu, 28 Aug 2025 16:01:28 +0200
+Subject: [PATCH 09/37] dt-bindings: pinctrl: apple,pinctrl: Add
+ apple,t6020-pinctrl compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-8-507ba4c4b98e@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-9-507ba4c4b98e@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -136,18 +136,18 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1015; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2014; i=j@jannau.net;
  s=yk2024; h=from:subject:message-id;
- bh=7CTtpNAPBXSxf5wYqI5MYZp+cM2c/daeJcpAkBHmBdU=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiRZLWqrXNJ1kKTjJZcIe/vXNlPBNn1Y3KbIFzwuy7
- jjGZtPQUcrCIMbFICumyJKk/bKDYXWNYkztgzCYOaxMIEMYuDgFYCKXehn+GSTsNGSZ+0u+UjNv
- w4FvM86c8+jm2/M0peL5sWP9dg8i8hgZti/4Ni1SIfjpaz+dlz5XXi8zuseX4Oujtk3Up+Zk649
- p3AA=
+ bh=XWF5pr8WY9xbf4tj8dh/0ec6hk5fhKera/8T4j7mtt0=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiRYv4j4sCFN6P12T055tdcsJ+xnRR803zl6wOpfj2
+ B975zixjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABNRUmJkmOy6nyN24d5dtff5
+ ut5ov5jtbnf464feJjbHdMeovK7PnxkZtm+5NqVo27beRMfUCa6+7xdZ54ZE8G7p37A+zD5nr6A
+ mKwA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250828_070204_815651_8D8FEF39 
-X-CRM114-Status: GOOD (  13.86  )
+X-CRM114-CacheID: sfid-20250828_070207_630608_6807A3BB 
+X-CRM114-Status: GOOD (  13.20  )
 X-Mailman-Approved-At: Thu, 28 Aug 2025 21:42:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -168,25 +168,54 @@ lists with the generic compatible "apple,pinctrl" anymore [1]. Use
 "apple,t8103-pinctrl" as fallback compatible as it is the SoC the driver
 and bindings were written for.
 
+The M2 Pro/Max/Ultra SoCs use the same pinctrl hardware, so just add its
+per-SoC compatible using the new base as fallback.
+
 [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- drivers/pinctrl/pinctrl-apple-gpio.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/pinctrl/apple,pinctrl.yaml | 27 +++++++++++++---------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
-index a09daa72bfe49191fa6691b21a7f4eb66da8a540..e1a7bc8cf7652ce5e6701bd054ab989364c75a82 100644
---- a/drivers/pinctrl/pinctrl-apple-gpio.c
-+++ b/drivers/pinctrl/pinctrl-apple-gpio.c
-@@ -515,6 +515,7 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
- }
+diff --git a/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+index 63737d8589442953a77e3bbab08f8b59990fb33c..665ec79a69f1db1020668c68ecbb7e215cb7cb28 100644
+--- a/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+@@ -16,17 +16,22 @@ description: |
  
- static const struct of_device_id apple_gpio_pinctrl_of_match[] = {
-+	{ .compatible = "apple,t8103-pinctrl", },
- 	{ .compatible = "apple,pinctrl", },
- 	{ }
- };
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - apple,s5l8960x-pinctrl
+-          - apple,t7000-pinctrl
+-          - apple,s8000-pinctrl
+-          - apple,t8010-pinctrl
+-          - apple,t8015-pinctrl
+-          - apple,t8103-pinctrl
+-          - apple,t8112-pinctrl
+-          - apple,t6000-pinctrl
+-      - const: apple,pinctrl
++    oneOf:
++      - items:
++          - const: apple,t6020-pinctrl
++          - const: apple,t8103-pinctrl
++      - items:
++          # Do not add additional SoC to this list.
++          - enum:
++              - apple,s5l8960x-pinctrl
++              - apple,t7000-pinctrl
++              - apple,s8000-pinctrl
++              - apple,t8010-pinctrl
++              - apple,t8015-pinctrl
++              - apple,t8103-pinctrl
++              - apple,t8112-pinctrl
++              - apple,t6000-pinctrl
++          - const: apple,pinctrl
+ 
+   reg:
+     maxItems: 1
 
 -- 
 2.51.0
