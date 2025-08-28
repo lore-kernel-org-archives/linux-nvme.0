@@ -4,92 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D202CA0EED
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41C13CA0EED
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u5CVr2NcgT7xckzOKjHg0EURu0XTcpDJoOgyGA0GsFU=; b=lf9cJSDeGkPePlPG6wnjGqozDK
-	o2y14D4rlbd2cuPS8kUO7CcTBhulI1gOy0T9021UZPds7iEI7WNJDYuvhJVuI1kE7IHq9+tEFhymV
-	Zhe6ba9pbfhI1/FIcf3NIt2xJ5fG9I2oJfqLx+XlSWzUpIVSMJICiIJuMpBYmUQmptDqFPpWzyy5g
-	0/nHI0oBejooCIgJ/HD/2sKhhU1uK4CE6p+jIvwjMxXU7Jkn0596S8yjnN2FLb55ZrhppAjskH59g
-	l0S9BBAyFf5QU3gDQewnpnP3FOh4HD9nNabceojfiQwUlEoG1WAb0/kjJ7CsKZ8j8SMn7/094oLcq
-	qyJ6De4g==;
+	bh=x+zOoeFqoqbdML/hojvHJE4J3hnCLwy+Wq2e4pfe8dY=; b=xQpuFYglL/yZQALH0qPrb8c3d3
+	P+UW6xwc0QBEsRZZimurlGjfYXmt22Wl/wxvKubtoXagzfcfIHVx3kpk+TXvW+Rfk+GdA5dVJCsO7
+	mre0yUvYSi3xkIzjiN7M3ym5tUp+4vn1/oLs1fw94V5c2MVSqDodRFo618zMQGhvRrO6Z1+iqGBqj
+	lo23+47H1JXyyk+GMMgHqTlLfjpLyX3iz87xSVvUiDRCdiZoOJQvbQF6MWWW7cOSIoN1ynqc8C45R
+	6NAbjL8iMwhE1uLOhn+cIn+Jt2TUaY3Xv351UISmooV85DtB6TO+t98MLSzhAB7ummX0hG921F6tw
+	XhM9rvAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urqxn-00000004OIT-2MmZ;
-	Fri, 29 Aug 2025 04:43:47 +0000
+	id 1urqxu-00000004OSb-3BoI;
+	Fri, 29 Aug 2025 04:43:54 +0000
 Received: from flow-a7-smtp.messagingengine.com ([103.168.172.142])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ure31-00000001zwN-1nh7;
-	Thu, 28 Aug 2025 14:56:23 +0000
+	id 1ure3L-00000002008-3M2T;
+	Thu, 28 Aug 2025 14:56:41 +0000
 Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id B42641380B20;
-	Thu, 28 Aug 2025 10:56:18 -0400 (EDT)
+	by mailflow.phl.internal (Postfix) with ESMTP id 2A49B1380B20;
+	Thu, 28 Aug 2025 10:56:39 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 28 Aug 2025 10:56:18 -0400
+  by phl-compute-01.internal (MEProxy); Thu, 28 Aug 2025 10:56:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1756392978;
-	 x=1756400178; bh=u5CVr2NcgT7xckzOKjHg0EURu0XTcpDJoOgyGA0GsFU=; b=
-	nm7vaZY4PVQjfjVcBpS00VpUSSBfZUHuJHtJ746cLg2eGdCeNTmkpygLoADAsjBL
-	3AHYxHKX+oq5ty/eFvLXhYzebb4uOGACJXjhWiqN+J7BXbNqp7qvohYs7YS76suH
-	/kGgvPLv7WOt6V5W7sYktBIQBESpNajFIjjVXPRUAY5G8WL82GELquGpI+2GNXl4
-	j6vQi3txO5krXRafC43qi5vdQ48v+rCvOoAKeIIECAeUMtQJsXK0xbLidbaBEc4u
-	6XVy/QSOAQ1r7aibCMRvJPp80zdN8wzWERlB1aGCtv1QVmm7aIS90FmzuWiM23Lo
-	qVvlYg1p8SQ4R9uWahHEQQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1756392999;
+	 x=1756400199; bh=x+zOoeFqoqbdML/hojvHJE4J3hnCLwy+Wq2e4pfe8dY=; b=
+	naO5RlnAcjV6ciQqEchUumcMLrGgttJU34BNh8/fMEyCoY5ocL82XLbrb83EJ2O2
+	Fc4w/Dr0TQI+aWyk3/RuhOWAZewPpC3rkz4BOq/QoNzSN0HRepKeV9Nxh4y8Bgrg
+	P3NeioJ6GKJX9O0VcZtcRrDKVhBuodYb+5uARvDDFqLxMrfA2wQ+Frb/ZyFIReEv
+	4RyNtkEsayuYo9YhRXL1Gosioej6QLx+pQNdWz1FxOOGUKttlOGZOACmt775BS1J
+	21k5l2wKk+nONNPDFSJ0YBaqVFErUtVfr9Fgy8DnZCcTjhYrrf9zNsVD7utj7M3F
+	GjIDV7XFPx4JddnfOEzA7g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756392978; x=
-	1756400178; bh=u5CVr2NcgT7xckzOKjHg0EURu0XTcpDJoOgyGA0GsFU=; b=G
-	BpgFmzAc5fwbmcLXMlaX0ht6dlVM1NYgJQ6xA7DGM0oiGW+5fi5ltZsBvAM/9FH6
-	xPZg4zZeqHWdBstM6vn8nFETgIh17JFwpNVmFASxVyrUlFg8Lu8wGaRCSHD1M8On
-	q9dBorqHki/4sZ0mpGbQVf+o6CBoidJKHvo3jQucBaMwacL45f4lCCsQKrY+JQVd
-	nZLVUvs/eu/wI0nSiZDoS+SMKSJbR6gAp6ttI3vok43MHRMn8P3gGRo26RC1qXLI
-	2RZTjat9fJEikfaNTQe9MY0+WrRTOy8QnNfRjijW62n89C6ZgNIg5L5EMjSqtKUc
-	cezyBc9I1Kz+meGq6gczQ==
-X-ME-Sender: <xms:EW6waLLVP5vZahn4uDiqaS462SY7nnEhlim5IG25eOYKVGUX-33BTA>
-    <xme:EW6waL1jNz0JngMBQRXdBHapXwc2MmzPKRhHRvrJm6IkhWczoXv3MqFEB8S4plc7A
-    fc9SA1PbZt8-vH5h5I>
-X-ME-Received: <xmr:EW6waEK4x6uYGcTroYP_a1M7KqPpvK8bUOk4UPNeEB4jD34XWLueydrTiGpHg52K2FaPuoFwxlrjcWbsbocyO1jaJQy83jvmtNlnzA>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756392999; x=
+	1756400199; bh=x+zOoeFqoqbdML/hojvHJE4J3hnCLwy+Wq2e4pfe8dY=; b=g
+	tTcendFSMFmGj5jmLjXZseMZb7AT2y4KMkh/PzuplcB5Ct9GoXbcK9G/P+saAyQA
+	wq0hj3Lh0/dBWIP1HSSsqob9qSCSXzVxrDy9QEFnQwdtdysWPx/H4nXp8zTOHmd8
+	ma1phYzvOqIWVNzoXKQgCWmlH1ZJv4C9AxSJ5a3OtVbbJqAcBAvfAQdIh694tcGX
+	b+r21Erc2h8cCapwetBGzgVRZycBOnhKpbYK2171uYsJ56BYNlybuBdhOaz6XCIc
+	WQ/+UITEi8MMM5SkbaPLzyaUaS5+7K3xkPxJrH7f5qEN2tVyU/dCl7BDpSbGxXDp
+	DAGt0EFo8lEPhOZoEqazw==
+X-ME-Sender: <xms:JW6waDIFsV6cw86kmEeFjdiTNKqL7TJWcfZPiRcO7mTCBolPue4d4g>
+    <xme:JW6waOkFRrXlLXU7IMlcRYcQ_d9s8rECg5Q1sNGAwyNJSnOjWoDa-p-mXJ8sBom9a
+    5zTHiVJDKHm8Me0Uf8>
+X-ME-Received: <xmr:JW6waErmsupYEU-kaWVcaskggy2wxrCvh7bRHCu9ATOEUXYt4yv8w1Z0LrmI1dbVQsNMdYnqUK2kecUwT5gvgr3A_CUVh-eShhZpwQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
-    ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepve
-    ekkefgjeettdduueejgeeuteduffefteejudegieevuedvieffteeljeelgfeknecuffho
-    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohep
-    ieegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghp
-    thhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheprhhosghhsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrh
-    gtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoheprhgrfhgrvghlsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehvihhrvghshhdrkhhumhgrrheslhhinhgrrhhordhorhhg
-X-ME-Proxy: <xmx:EW6waK_bqBAEMJwvnPliPaOa3iwodF-2r1QbRbAr8_gCYmBBzCWfJA>
-    <xmx:EW6waI82BMpBF-cXaAbuBJKfQjUFZwxPk0meaIjh7UcazTISYQv2uA>
-    <xmx:EW6waKI4kCFkBiUJqmSaCDnVsTYbnj3pmqKFb564WKqVGebLyxyyKw>
-    <xmx:EW6waO0DhF7YvAXJuC7mtx3izlnPlfgPMksI48JtMCi7v126hxDW-Q>
-    <xmx:Em6waFf5dL3e_8jaZLa0xaHsdkTcrslRBCA6eRxrNq-MFCtgQQco17gQ>
+    ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
+    ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
+    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
+    hurdhnvghtpdhnsggprhgtphhtthhopeeigedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhihshhsrgesrh
+    hoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdp
+    rhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkod
+    gutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtth
+    hopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhirhgvshhhrdhk
+    uhhmrghrsehlihhnrghrohdrohhrgh
+X-ME-Proxy: <xmx:JW6waHUEPo5rwriE_fbKvlwsJnIvHkeyEFsKPib0wF6Gtjfqrrwk2g>
+    <xmx:JW6waJp2n9mN2Njur7szV0YZ6mP9AFg_eNNRaMlLuuL4YivU38xHlA>
+    <xmx:JW6waCf3pzMU6h7Lye9k4h3mgLVgUzJWx8FZze3xgauvAtlDltp-1Q>
+    <xmx:JW6waKe48EWVqiUSqovty-Ea2Mo9a9ZUtbNgOXahny_CAT9VaViAmw>
+    <xmx:J26waBn7LHKRyTCaBMKkgnyWLIhF-8878I4eUg39MGXk4zG41hbUoSGE>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:56:16 -0400 (EDT)
+ 28 Aug 2025 10:56:36 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:52:10 +0200
-Subject: [PATCH 32/37] spi: dt-bindings: apple,spi: Add t6020-spi
- compatible
+Date: Thu, 28 Aug 2025 16:52:11 +0200
+Subject: [PATCH 33/37] arm64: dts: apple: Add ethernet0 alias for J375
+ template
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-32-bb8e1b87edef@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-33-bb8e1b87edef@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -135,18 +135,17 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1554; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=aOIdfL2KtNDKig2eMgY1l3lILPVxi94X3F987b0LLkk=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNOf9fd7552xPWmj8heOp217w3a3vqLJ4/nWupO3vlW
- qbIw0f0OkpZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExkaTQjw/Gwar45/24/OWWr
- PHXD4rcrt0sm98a2CTxUDZvY+6xdcAXD/+Lt/44f/bppTub7eQZ6k5p7be1vyHyLi94ZOMNGau/
- SK/wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=720; i=j@jannau.net; s=yk2024;
+ h=from:subject:message-id; bh=UD09qhA3R42KTHJ/xUWZ97rxg7UWqV6PBk3soTPZLRY=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNOf87Vk0vKPzVV2csaxhV+udwQI9xy/734sUbl08p2
+ vb3xs2AjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABPxz2dk+Lmvb3kor70v45mv
+ 0WLh343bJz7/drch8uH5LcbWd+UcpRgZ3td5at/8rDhPISH0EscH9tdc2+dqHP+74cE1IavtLyu
+ V2QE=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250828_075619_546168_40F4BA87 
-X-CRM114-Status: GOOD (  13.41  )
+X-CRM114-CacheID: sfid-20250828_075639_917986_8C79CE83 
+X-CRM114-Status: GOOD (  12.84  )
 X-Mailman-Approved-At: Thu, 28 Aug 2025 21:42:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -162,49 +161,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-After discussion with the devicetree maintainers we agreed to not extend
-lists with the generic compatible "apple,spi" anymore [1]. Use
-"apple,t8103-spi" as base compatible as it is the SoC the driver and
-bindings were written for.
+The alias is used by the boot loader to fill the MAC address.
 
-The SPI controller on Apple M2 Pro/Max/Ultra SoCs is compatible with
-"apple,t8103-spi" so add its per-SoC compatible with the former as
-fallback used by the existing driver.
-
-[1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
-
+Fixes: aaa1d42a4ce3 ("arm64: dts: apple: Add J375 devicetrees")
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- Documentation/devicetree/bindings/spi/apple,spi.yaml | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/spi/apple,spi.yaml b/Documentation/devicetree/bindings/spi/apple,spi.yaml
-index 7bef605a296353a62252282af4ba45a71b20b7b6..9356b9c337c8cfabe56944da25915391a9c31cee 100644
---- a/Documentation/devicetree/bindings/spi/apple,spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/apple,spi.yaml
-@@ -14,12 +14,16 @@ maintainers:
- 
- properties:
-   compatible:
--    items:
--      - enum:
--          - apple,t8103-spi
--          - apple,t8112-spi
--          - apple,t6000-spi
--      - const: apple,spi
-+    oneOf:
-+      - items:
-+          - const: apple,t6020-spi
-+          - const: apple,t8103-spi
-+      - items:
-+          - enum:
-+              - apple,t8103-spi
-+              - apple,t8112-spi
-+              - apple,t6000-spi
-+          - const: apple,spi
- 
-   reg:
-     maxItems: 1
+diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+index ed38acc0dfc36a1e30b1d44f1a8dcee089e87232..c0fb93ae72f4d4fcb254a36dc408d55ab1bca0e9 100644
+--- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+@@ -12,6 +12,7 @@
+ / {
+ 	aliases {
+ 		bluetooth0 = &bluetooth0;
++		ethernet0 = &ethernet0;
+ 		serial0 = &serial0;
+ 		wifi0 = &wifi0;
+ 	};
 
 -- 
 2.51.0
