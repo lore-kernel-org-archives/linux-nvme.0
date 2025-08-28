@@ -4,93 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3E2BCA0FF6
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:42:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7245C8303F
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:42:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vmmF/PmGQDeVBHmeHb6dtX7HDk/M3JWzG/SjsW52LfU=; b=c+X3B7FE5oDMBk2oQciIIZImql
-	KUqXzZaEwiPtmB93R0SzgUvRoIdYx4X1D2lsYsJ6dwhNrkmvDHz51kXWc/cKcO8Mv3WRMWr3zzfl9
-	pWbwPh3gPEfF+i4IZxIwOEdyoEB4NO+o0xkrp/4pgSUy81z5N+VlsB7DgrZK7x6P1aEk3RqT5MHYv
-	sgDQnDSsrBrIp7ngzykg7Pul2pI/H5uH0MedUOmk/5muVSVWsn9C8BwYzeM0eRn/WfUYHesFQnzT3
-	fRADuFywN/lS61GSRiAkMKIbPMeNk4cxJK4WxcutHktKLuuZSdcrlf/h171rqsGIkg8knxhiMokQG
-	85o6DeAw==;
+	bh=N8tjYwR4BRFeQ1NF4HNhLgAH9ocOOPXM9IgYOCvBmMc=; b=zIQqZHgxH/5VObUdrkgnenT0VM
+	+n+P80UnWhBcMgWsMxiffjSYKZD4P+HlW/X5C6Obf3xhCaT7d9KXBGv9c179hPRP7hQHBSU5Pjtoi
+	fGftyMIL+Vw8xM5bh968ZYe6WcRfSm14+Br88CZu6VrOoveJmGsIv28xLVkzYZdAvtdlAPQziyKH7
+	LvjqKL4A0MRN11zZgLHQ7/e3KLvP7EU2xaP5Z1MlDFdMpXlwED+FpiPCFe11VqJ76bnhBHT82ccSG
+	JEBhzIdZYqBtPCd3s7Z3UQ0LJdn4n0cwIFznRtO3ox1GWEJsGxWeQYdyTQ4Q1wTjF/AsuU07fbAKD
+	/CJ/X2XA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urqwg-00000004Mbo-04aK;
-	Fri, 29 Aug 2025 04:42:38 +0000
+	id 1urqwh-00000004Mdg-0n8a;
+	Fri, 29 Aug 2025 04:42:39 +0000
 Received: from flow-a7-smtp.messagingengine.com ([103.168.172.142])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urdCw-00000001pns-1ZdB;
-	Thu, 28 Aug 2025 14:02:31 +0000
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id C71C41380DC7;
-	Thu, 28 Aug 2025 10:02:29 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 28 Aug 2025 10:02:29 -0400
+	id 1urdCz-00000001por-15KD;
+	Thu, 28 Aug 2025 14:02:34 +0000
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 990081380DD0;
+	Thu, 28 Aug 2025 10:02:32 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 28 Aug 2025 10:02:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1756389749;
-	 x=1756396949; bh=vmmF/PmGQDeVBHmeHb6dtX7HDk/M3JWzG/SjsW52LfU=; b=
-	wKjRpnVUpbgwRyr6K4jGm21L3xA/+rC0tF4VbWtYqnx6GfGRlKvpZNVm4hifgO07
-	kRn4Z8WpXtP26YUR/UesBBDDih8CiNxWpNubBuKBSTHOIw97HhZdbcy/WNCGStKZ
-	GXvArU9UGT0hV1JP2WdkMFmXQNGCiPph0tuN+K9GdlPWp+G4UeCnmFtSbcJKIuBs
-	ywlRCc1Wdwzu/0e1gel0OJ/42J2t4Aj9zz/aNU2vHUnjXJPzl1gOsHDehocZM+sO
-	ZZ1AMLN7XzOX+NHo9EfrkBQx43MvdlpJAQ4sjbIxVhvRj2i3vVEIai6N31Xr18fX
-	zY7AzcIQbJTR4oCLbzYjWQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1756389752;
+	 x=1756396952; bh=N8tjYwR4BRFeQ1NF4HNhLgAH9ocOOPXM9IgYOCvBmMc=; b=
+	un2sIUAAFzr0fy5gBHsaQXdKWZw8UlkLFpCt3hedlj+vVzIt6MoNjMefTWLbmwhE
+	392qDm9sBPVzl/7fQQNoqHT+vhVifIsO/C6uzE+S7XKrD+7fnl/g+RO0Gb6QKvBQ
+	h0fG77cqC9iuDCwtmPHmvG9gLMmM0WGGbV7rtV1SSruI3JCmcXl6sOsB38Xk2h6R
+	M5cm8e8hboPvH7bNGyXdH8jMeL/sKQxdzEN1vHEFoiFrifiDhK+uQMu+Kort1635
+	aP/iXVmuoPyXsJdw4lZxKPdpNM+wdLHuMjYQylEWwEn5VLYgZi4al/QDh800LU7p
+	gmUnYHuSuLiDJcncFJl49Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389749; x=
-	1756396949; bh=vmmF/PmGQDeVBHmeHb6dtX7HDk/M3JWzG/SjsW52LfU=; b=K
-	ZPLLhGhcRGUIhjZ4d5Df0q/yZoEUwmfTjVY6Z3YlDniNdm5uriZzPXhDOulbM4v0
-	5pcD0fDNyW5tfsS6Eo+p5xuPAUUFzoAMqf7F84Lw0d3BhcgCSRCuuHKHhmL2UlYZ
-	WhITMcy5UiUePr6HsT1nN+yRsoY9puf25ul+HwJTKWvynMggFlLTuXvVXzmyKQH1
-	/3kNFSXAHQio/2RV2tRkTQTRfDqNqoJvhWBUDnvjRcBPlyyIxd0n/RTDsrFiKVHa
-	YOz0fGOTUIWwHO4xBmH5TpISONajlwKMh/tzFZzMYQVresjFECb4Kjz+1535yoK8
-	CW9IlQpZAE6ibWeTwfLyg==
-X-ME-Sender: <xms:dWGwaBQzhyHSiVXbYdNK5EDxExk1ucNETB7VPIHwOfas9iodYKNoZg>
-    <xme:dWGwaJnDq36kDCGJzrRqMVFiEgiVjF2GpoJphA2ZJIlPYga27Tx7PjHC_gIIW1daW
-    r6telnlYycmXTxgoW0>
-X-ME-Received: <xmr:dWGwaBg53axpnnzEOS5TtnCxlh-glN0idaRp6wL4NCGeTLTTyuW9JxJVbIP0sgbnTP3hIRp5FcXgj84-DiXlXa3pkiCwZ4F0H0xT4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389752; x=
+	1756396952; bh=N8tjYwR4BRFeQ1NF4HNhLgAH9ocOOPXM9IgYOCvBmMc=; b=Q
+	XTv8YlAQIUDUsewo08c8cFOIBgvg6TgSLe2zg9ejasUn/5bi4n5WMjajtEgaAC78
+	hIPLspSU/oLVguHub34LuZxrV92xKmlR/r8KC6zi/NV490K04y3R8XW1+stFEwVg
+	l8Ibc2wCvl0wB8MUNFORVh26Bm6uU1r6OvpexLs2eKVCP0G6NmDDn1h803Mzfmi4
+	eyzUJI35JcnO5U+AC24WV1LDZUQtaAFg0XAND5NZG0RVGFTmEI/MsUOjtkNqlLbA
+	V+fzH0Ne03+CIymZer5Ywc/M+ejc2jVZkMF22/p7TMUxGuFIW7czv31DeLYJuL0M
+	hgOXzjr7PYEBzjHhoFpcA==
+X-ME-Sender: <xms:eGGwaCTVknhN4-GV5rGJZp47EIH1MtTXopV5aMBkKVIhyCFDKAQP1w>
+    <xme:eGGwaGkk-khscfyxX6I6MKc5R0_FZc-QAzcXeFKAsNonKb1hPOSDGpaBQ3xJjRJ33
+    SJ0yhslyUxfGWAadfM>
+X-ME-Received: <xmr:eGGwaKhR99rLr2l7Dvvpt6vg1AipZLSjP4sGEtKrOkyVqz86tQrfvjfZTblKM7L9q8K6e9rPpfKVkmMrlusG3qfN0jJFVNLs0_MeBg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvdduucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
-    ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
-    ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
-    hurdhnvghtpdhnsggprhgtphhtthhopeeigedpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtoheplhhinhhugidqghhpihhosehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepjhhohhgrnhhnvghssehsihhpshholhhuthhiohhnshdrnhgvthdprhgtphhtthho
-    pehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehvkhhouhhlsehkvghrnhgvlh
-    drohhrghdprhgtphhtthhopehlihhnuhigqdifrghttghhughoghesvhhgvghrrdhkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehkvghtthgvnhhishesohhpvghnsghsugdrohhrgh
-    dprhgtphhtthhopehksghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgr
-    ghhisehgrhhimhgsvghrghdrmhgvpdhrtghpthhtoheplhhinhhugidqihdvtgesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:dWGwaAFS98wo-b-dQya4qFTmsZFPdvVlWsHRsS5Iqd6CiEmzxcV1OA>
-    <xmx:dWGwaALsIlS4Jh0vrp1FOEzsTsNUrwLgw9STx-F2459QIdWtR6VfSg>
-    <xmx:dWGwaOa7KzbFvxgbqOWNFy9BhjNHUBRf0N3fg-qCyJYzUsmqXKzv-Q>
-    <xmx:dWGwaK0oZA6g8CVrPIpJzUmKazjRHQIQVPbo2EiwfBgkVz6RySJPVg>
-    <xmx:dWGwaD6UDfymx4p7-03AS7gKXq_-cjccF99e_pVsfHKYChOIJumrK8Ng>
+    ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepve
+    ekkefgjeettdduueejgeeuteduffefteejudegieevuedvieffteeljeelgfeknecuffho
+    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedvnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohep
+    ieegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhgphhiohesvh
+    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohhhrghnnhgvshesshhiphhs
+    ohhluhhtihhonhhsrdhnvghtpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgiipd
+    hrtghpthhtohepvhhkohhulheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
+    gidqfigrthgthhguohhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkh
+    gvthhtvghnihhssehophgvnhgsshgurdhorhhgpdhrtghpthhtohepkhgsuhhstghhsehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvgdprh
+    gtphhtthhopehlihhnuhigqdhivdgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:eGGwaFEn5WRYB9CcNHTSTBEFI72ZxcITPsL2H8pgQHqtSZgXsc7gwg>
+    <xmx:eGGwaBKfzLdpoQjYPWlLafV_j7Ij75Oe7E4cHx1x4TIxJM9nOq1LLw>
+    <xmx:eGGwaLZZDQ8UATmcMiZZtJsGfYQpH9UMRaGxnFXPr-mlwojqgDw50w>
+    <xmx:eGGwaD06_fUX5Wp8x9rEwKEvWpZlc7nuM-Le1MftJkvrteSndD0VVg>
+    <xmx:eGGwaFWaUBlHLiYAtt6xAyWvEqVeACpdG_ovHmz6ZzoWUAzkNq_L-Lbw>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:02:28 -0400 (EDT)
+ 28 Aug 2025 10:02:30 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:01:36 +0200
-Subject: [PATCH 17/37] dt-bindings: net: bcm4329-fmac: Add BCM4388 PCI
- compatible
+Date: Thu, 28 Aug 2025 16:01:37 +0200
+Subject: [PATCH 18/37] mfd: macsmc: Add "apple,t8103-smc" compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-17-507ba4c4b98e@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-18-507ba4c4b98e@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -136,17 +135,17 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=969; i=j@jannau.net; s=yk2024;
- h=from:subject:message-id; bh=FwzT9u1tZ9dJSNWWr0YbAMptH+kJ/6A4kCQ/S8irfyE=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiZbvEl+dL1KPPO3WlDvt6VZ/4fJpW7XYPHbbPDgQd
- HRW19WNHaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACYi8Jfhv2utWGr9rZq2n8dq
- xK7mJ0oWnl5oxPjv8pH7ils8y7y9hBkZFsisXmMWb7nb1OjJIqMpE5wjg7RWBezTqYibrpGncEi
- QGwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=895; i=j@jannau.net; s=yk2024;
+ h=from:subject:message-id; bh=JZREgLmmSZXb/74POdx9v3OPFBhLEyXfuef+3dzRKw0=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiZaK52uLlc+9N51eYqsh8zHgb6TiITeVz8k3Lzuel
+ d1Zmjujo5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwEQSJzIyfORImvBr7nbxTbIm
+ NXm+GvxdW7dz1P2dd+/jSoNjXrrtexj+GbGxOU8ot213K1jr+4FLyvXjr0iNd7emSvqXfA9JbDP
+ nBQA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250828_070230_485910_141F4E21 
-X-CRM114-Status: GOOD (  11.12  )
+X-CRM114-CacheID: sfid-20250828_070233_375412_7CDB2DE1 
+X-CRM114-Status: GOOD (  13.83  )
 X-Mailman-Approved-At: Thu, 28 Aug 2025 21:42:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -162,27 +161,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-BCM4388 WiFi/BT modules are found on Apple silicon devices using
-M2 Pro/Max/Ultra and later. Driver support for this module is not
-submitted yet.
+After discussion with the devicetree maintainers we agreed to not extend
+lists with the generic compatible "apple,smc" anymore [1]. Use
+"apple,t8103-smc" as base compatible as it is the SoC the driver and
+bindings were written for.
+
+[1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml | 1 +
+ drivers/mfd/macsmc.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
-index 7c8100e59a6cd045837a2f602e367f3f79ced5ba..3be7576787644571e42a4145d40af9026cec61ba 100644
---- a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
-+++ b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
-@@ -53,6 +53,7 @@ properties:
-           - pci14e4,4488  # BCM4377
-           - pci14e4,4425  # BCM4378
-           - pci14e4,4433  # BCM4387
-+          - pci14e4,4434  # BCM4388
-           - pci14e4,449d  # BCM43752
+diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
+index 870c8b2028a8fc0e905c8934c2636824cbe5d527..a5e0b99484830800d7ea625233dfd44613f4bbbd 100644
+--- a/drivers/mfd/macsmc.c
++++ b/drivers/mfd/macsmc.c
+@@ -478,6 +478,7 @@ static int apple_smc_probe(struct platform_device *pdev)
+ }
  
-   reg:
+ static const struct of_device_id apple_smc_of_match[] = {
++	{ .compatible = "apple,t8103-smc" },
+ 	{ .compatible = "apple,smc" },
+ 	{},
+ };
 
 -- 
 2.51.0
