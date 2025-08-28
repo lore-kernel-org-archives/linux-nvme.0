@@ -4,141 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDF4BCA0EED
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:44:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C12B4C8303F
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:44:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0NVIgLeywlcdQ7Q96WR+bM0acpRT6H98AkXzmXrivW0=; b=xxrYeJo8baZaCSKz8q4daJMNlL
-	dJ1IDhstzLOJd35r24MUIuPy/HZnqWu+ZOYBQm2s8fCt5JslkQJ4Bf1oOvX8AIfBpKIH5gTF0Z8u1
-	ctkaUWiupe7GRgvOYUOZ1/lbTqidnCqRJ2+wxSN3MlJ+fA0QCEC0fToNCNCDIvHfP/oK9/yuB9k8H
-	60VNemK8HvbNOtrnEM1Dv/W6fq171wpLnnZWWt3nzgD3O1aszW6PnkfSeRn/dK1t0VrrlvmfJ44LF
-	EkXPbJ6P2APR6nv0ZEsbQJNxS2LNwSLIlNVCRvuMd8AiTpYkr1KS0avWJrG06tXtvHj8bsxLFDXct
-	l8NU8PSA==;
+	bh=nk21NoeFbSZuqbZYbv31DbqcJk0/VzI2uLLcHSo6RQc=; b=459m5YMHhg6/ZIzXtIHBElVz4g
+	1ZB2wIaHmiSvjUEVa58jYiU9xN/KPeGN+d3gQYjFpAW2CiYGdsoez71J8UjJ4/47CGvH6Ix7fxkTr
+	atgFWFhEvQ1OvCM3hHq4JQGcn+KFtZ1ySCVbuMoveKFFG6yxialA8AMN6wjx8L0JST0NT0GftpBsI
+	HbHIEwKAWEDXxxHNNX+Jm7n8/oOdVC42Sqx/xkH6epvYDr7lOYoSLZopjOHzVKOT6lionJL0Q57AE
+	HpOK0mBw65i5Sw/vvvUC/R5I0e2BH2kSRj2X//ZdsrWudsiuExjyK5bAoNQWe4Legd2N2xtc2DDCP
+	cwUvBYLw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urqyV-00000004PIH-2gCB;
-	Fri, 29 Aug 2025 04:44:31 +0000
-Received: from flow-a1-smtp.messagingengine.com ([103.168.172.136])
+	id 1urqyX-00000004PKb-1pOx;
+	Fri, 29 Aug 2025 04:44:33 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urfpL-00000002Jae-2bjH;
-	Thu, 28 Aug 2025 16:50:20 +0000
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailflow.phl.internal (Postfix) with ESMTP id E3DD31380CD9;
-	Thu, 28 Aug 2025 12:50:17 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 28 Aug 2025 12:50:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1756399817;
-	 x=1756407017; bh=0NVIgLeywlcdQ7Q96WR+bM0acpRT6H98AkXzmXrivW0=; b=
-	mv9+17KgF+5GxOl9vLcdUtzFnoGfgshEXGSdE9REgEQZq3GUbd6cGMl+1XHjHaGn
-	gRn5J3tBrLwKGOLArwU+SwnGxXBrO+6XMrQMC9uhnBHq4N7p4rC7aYyfMR/x7+VH
-	Kr1yZrgBgm4iZmu8nkX4VwnTVuEvm67D/eKs/7ybS2UNFANfW290F7mPGfTI/Dm3
-	5H0qXfPBjnhZzDwVXAiYOykUCMM0Z//BS8hMucloljBJmasWT9rSaZedbFDVhESx
-	Os9ak1XmWvhp8pecHT+xvsYiP9YA86zvkqt0LcDKtGaAX/lpBJqSVaybMEnv7kJz
-	fbmEr3UZ1qv3GSlhUph4IQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756399817; x=
-	1756407017; bh=0NVIgLeywlcdQ7Q96WR+bM0acpRT6H98AkXzmXrivW0=; b=I
-	yWfsEtvH5pa0deFWH5y+3Wv8iC++fyUJzaKl0zTLlHTFsrFBKltzqsCKNE2bpW7H
-	WZEdNUyqlCWPJ1gDLWtRpoUDSa9fNg+b8PAqdSspStFRXQR0qIjJasbTc5VXnDJY
-	LV0vY26Or4luziTABSgI82H/8Ov1+fhNzsxpTCEmcopAYLQhNfqfTcox4lobPbO8
-	tI9jNPtHd+bBhTSMwAAVyVUmvBXJiIGDe0RdmYT94+GNLj6uC0NVka3y5otetQ7K
-	jjfzsE5+DRrT+7N9usH8oy60yQi0nSoP46sUUZ+s/W9b0RCt9d99oXcOTu7zze7y
-	WBgtUjFRANmVIPI+elMlg==
-X-ME-Sender: <xms:xoiwaIbwiPlONZyvvi3nrwonaYX0GPTt0j98poxImmWpqps68_1DbQ>
-    <xme:xoiwaK2wEmopWAvQU09c0ZiTiWKcZT5jfQSOlyZunfuU5U7zsvsT6xpQcPiFu5btz
-    VzOLCZ9pvfsENega0I>
-X-ME-Received: <xmr:xoiwaL6z8yuoEP9fblhgra2VNvMI-jh6RKnJtliUwx53eQO20tt6-2dicZxHzpQoO5lU9j9tP1u5Te1bCfbmfw321V6aP0TULq8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduheefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeflrghnnhgv
-    ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepve
-    efkeeuudettddvffevhfevvdekhffgveehfefhffehfeetgfetffeugfevfefhnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
-    hurdhnvghtpdhnsggprhgtphhtthhopeeigedpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepthhofihinhgthhgvnhhmihesghhmrghilhdrtghomhdprhgtphhtthhopehsvh
-    gvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiif
-    vghighdrihhopdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoh
-    eprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoheprhgrfhgr
-    vghlsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:xoiwaNm2W47ghLtWIAD_pLahxBhBVbtlB0HjuziPYBUZSeeRVEXQTA>
-    <xmx:xoiwaC5DusAdyl5Pk1di6jyPCo5sIoppiKD0TupQW-3eWXylCA373w>
-    <xmx:xoiwaCsKTp4DaYaYaIDjWLqlvlKWjo035Lklt_v6NWHAVsNG6jOhjg>
-    <xmx:xoiwaFtpbONR3sJOiA3GJesirPwRAbsZWp3JhVVJESjdloGO55-IPQ>
-    <xmx:yYiwaGZUykDrx6nBmdQEI6U-4WzN_i3nfk1N2dRMiDOlhpPNNeGnuj8c>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 12:50:13 -0400 (EDT)
-Date: Thu, 28 Aug 2025 18:50:12 +0200
-From: Janne Grunau <j@jannau.net>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,	Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,	Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>,	Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,	asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,	devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,	linux-pm@vger.kernel.org,
- iommu@lists.linux.dev,	linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org,	dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org,	linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org,	linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org,	dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org,	linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250828165012.GC204299@robin.jannau.net>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <932e0085-c901-40f8-b0d5-67f8f0b934e6@gmail.com>
+	id 1urftR-00000002KA1-1kc2
+	for linux-nvme@lists.infradead.org;
+	Thu, 28 Aug 2025 16:54:34 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 0F66D45196;
+	Thu, 28 Aug 2025 16:54:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6C34C4CEED;
+	Thu, 28 Aug 2025 16:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756400072;
+	bh=3QSqWFwhLXFpgIQB1AhDzeFYEFSsyOykW/t8YMcdvDs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Utug3C4qHAngGkUPRUqPcVpMv2skHSOiyTR1dzioCxiyV/N0D3D3xwLMN4kKVhjRg
+	 R1e3GaQ66/QDlvAbclIdn1b0xrBO+DODu7rLesJ54dZQOJ+qr4UwXmhZorK6X6L1pe
+	 /mKnN3THYo/PX+SSQI5FBBXcz4a8pvxXQG8iBycA9jlkdj9zJMMNMWOCxqVVHcRMG0
+	 jrJGkyKqRduB/ujzl45UowCIqtVEnLBTqm/vLH4mWU4+vwRxIYccg9OHedq9aiILZs
+	 hmuixBFk7xqznER0ERf4UjMVjXknV66U4Y9wYKKHbgLQRBDuheIDJSUa9AzDEN/7Pr
+	 p4K8MwEWQi7/w==
+Date: Thu, 28 Aug 2025 19:54:27 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 15/16] block-dma: properly take MMIO path
+Message-ID: <20250828165427.GB10073@unreal>
+References: <cover.1755624249.git.leon@kernel.org>
+ <642dbeb7aa94257eaea71ec63c06e3f939270023.1755624249.git.leon@kernel.org>
+ <aLBzeMNT3WOrjprC@kbusch-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <932e0085-c901-40f8-b0d5-67f8f0b934e6@gmail.com>
+In-Reply-To: <aLBzeMNT3WOrjprC@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250828_095019_743357_5FE4ADE5 
-X-CRM114-Status: GOOD (  19.15  )
+X-CRM114-CacheID: sfid-20250828_095433_496666_261096FE 
+X-CRM114-Status: GOOD (  17.01  )
 X-Mailman-Approved-At: Thu, 28 Aug 2025 21:42:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -154,37 +97,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 29, 2025 at 12:11:40AM +0800, Nick Chan wrote:
+On Thu, Aug 28, 2025 at 09:19:20AM -0600, Keith Busch wrote:
+> On Tue, Aug 19, 2025 at 08:36:59PM +0300, Leon Romanovsky wrote:
+> > diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> > index 09b99d52fd36..283058bcb5b1 100644
+> > --- a/include/linux/blk_types.h
+> > +++ b/include/linux/blk_types.h
+> > @@ -387,6 +387,7 @@ enum req_flag_bits {
+> >  	__REQ_FS_PRIVATE,	/* for file system (submitter) use */
+> >  	__REQ_ATOMIC,		/* for atomic write operations */
+> >  	__REQ_P2PDMA,		/* contains P2P DMA pages */
+> > +	__REQ_MMIO,		/* contains MMIO memory */
+> >  	/*
+> >  	 * Command specific flags, keep last:
+> >  	 */
+> > @@ -420,6 +421,7 @@ enum req_flag_bits {
+> >  #define REQ_FS_PRIVATE	(__force blk_opf_t)(1ULL << __REQ_FS_PRIVATE)
+> >  #define REQ_ATOMIC	(__force blk_opf_t)(1ULL << __REQ_ATOMIC)
+> >  #define REQ_P2PDMA	(__force blk_opf_t)(1ULL << __REQ_P2PDMA)
+> > +#define REQ_MMIO	(__force blk_opf_t)(1ULL << __REQ_MMIO)
 > 
-> Janne Grunau 於 2025/8/28 晚上10:01 寫道:
-> > This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> > follow design of the t600x family so copy the structure of SoC *.dtsi
-> > files.
-> [...]
-> > After discussion with the devicetree maintainers we agreed to not extend
-> > lists with the generic compatibles anymore [1]. Instead either the first
-> > compatible SoC or t8103 is used as fallback compatible supported by the
-> > drivers. t8103 is used as default since most drivers and bindings were
-> > initially written for M1 based devices.
-> >
-> > The series adds those fallback compatibles to drivers where necessary,
-> > annotates the SoC lists for generic compatibles as "do not extend" and
-> > adds t6020 per-SoC compatibles.
-> 
-> The series is inconsistent about the use of generic fallback compatibles.
-> 
-> "apple,aic2", "apple,s5l-fpwm", "apple,asc-mailbox-v4" is still used.
+> Now that my integrity metadata DMA series is staged, I don't think we
+> can use REQ flags like this because data and metadata may have different
+> mapping types. I think we should add a flags field to the dma_iova_state
+> instead.
 
-Those are less generic than say "apple,spi". For "apple,aic2" especially
-it's clear which SoCs use it and the set is closed (ignoring iphone SoCs
-which very likely will never run linux). For the interrupt controller
-the fallout of not using the "apple,aic2" is larger since even m1n1
-expect that. irq driver is special in so far as it requires more than
-adding a compatible.
-I think "apple,s5l-fpwm" and "apple,asc-mailbox-v4" are specific enough
-and describe simple hardware so the will not cause issues unlike the
-complex firmware based "apple,nvme-ans2".
+Before integrity metadata code was merged, the assumption was that request is
+only one type or p2p or host. Is it still holding now?
 
-Janne
+And we can't store in dma_iova_state() as HMM/RDMA code works in page-based
+granularity and one dma_iova_state() can mix different types.
+
+Thanks
+
+> 
 
