@@ -4,118 +4,171 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FD49CA0FF7
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 Aug 2025 17:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB0BBCA0FF6
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nDBbpYYqSB5yXQjk2/9a0sEktjKGihTIib3At2S16rY=; b=ZIjx8daTGIS1koUMvQqzdJbtfi
-	VI5TEv3paSRUMaZUWE33DKyn4b9WpiEPidvjKd3HCo/HMIwv5VfteH9LIaBXM49lQ9QGXNxD09/r9
-	s7ss4HGAndz+jiGHAik0kJCRTDldDlhdC8GHnEw1t8Vr+ROYcG+yub5m+3ggq4LfXpYev46PSBoh2
-	MyncSLmnX0idPjx/6wMzRiax2OqTfovYlLWFhktiatK6QUOvdqBUaE3vmR6SwiTASGDhvmYQ8S2IU
-	3eJTw0fGceehDPrMHrbc3n7hI9pOKdRyobvy1hE4Jl50n4gtXrfZ5RRfNAtza1pidaVvj/bkxKRnZ
-	fkQlJctA==;
+	bh=lb1aBSrT7FmXIFNg2GsFQ9EVeTQg1mhe6sX7cdRiThE=; b=KQX+X90YU56u0yDnl1T7vrtKug
+	kdOLoPwI/M99ZYoM4ywnBi0uicS3JCDLXpuRxPeD2jhUdmgZQG+/wfotbXfejHNpLvIZeLONHPZXe
+	kPlajAE6q76eD9i3RwBMDW3QfOkbjvz7qksUIVg6wAg/7ulm73HCBurToqzfgTgx4r6lu9w/Dp5T6
+	Y/f+/GanFDAHHqQW1DUMs/LQrC883plo8i0c8VNekoeLnCuneQjSn1JOzw4/4fOnATcvMglo80Ij3
+	PBasgwebi7why9BmWF7iV5FyaCcRXG6j92M6ISDGnQyoSva8yCHPKLHZ9/WH76dL5GhNgh6rYGtjL
+	uiZ6g5Og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urgLa-00000002PmR-05OD;
-	Thu, 28 Aug 2025 17:23:38 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1urqwJ-00000004M6R-45oa;
+	Fri, 29 Aug 2025 04:42:15 +0000
+Received: from mail-co1nam11on20614.outbound.protection.outlook.com ([2a01:111:f403:2416::614] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urasO-00000001Maj-3SVU
+	id 1urcIE-00000001fGA-0LCh
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 Aug 2025 11:33:10 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8ACEE21E00;
-	Thu, 28 Aug 2025 11:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756380785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nDBbpYYqSB5yXQjk2/9a0sEktjKGihTIib3At2S16rY=;
-	b=Y00ACjZx0/M0I+BO8pj890eiofCwNE31j3jd9WLCaXzfinz0IGMFs+SX9gkgxUm1SSYKr0
-	l0LGRH4Bbz13Z2c3zB1V6t8xJz+GM1Mfs/hw6kkh0fh0Xu997GYVO2euajn8Guv1Pg3zLx
-	rSxy+V517gTlibqyAdfCT4YUwMZR6dA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756380785;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nDBbpYYqSB5yXQjk2/9a0sEktjKGihTIib3At2S16rY=;
-	b=6++6OaBQXt4evqnG5Z9K9jLAcBl/ylDZMmc3F+OxuVCDBZrmizaGEEH7T0NeptMjgHQCcI
-	OSkmlzdrmy68hOBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756380785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nDBbpYYqSB5yXQjk2/9a0sEktjKGihTIib3At2S16rY=;
-	b=Y00ACjZx0/M0I+BO8pj890eiofCwNE31j3jd9WLCaXzfinz0IGMFs+SX9gkgxUm1SSYKr0
-	l0LGRH4Bbz13Z2c3zB1V6t8xJz+GM1Mfs/hw6kkh0fh0Xu997GYVO2euajn8Guv1Pg3zLx
-	rSxy+V517gTlibqyAdfCT4YUwMZR6dA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756380785;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nDBbpYYqSB5yXQjk2/9a0sEktjKGihTIib3At2S16rY=;
-	b=6++6OaBQXt4evqnG5Z9K9jLAcBl/ylDZMmc3F+OxuVCDBZrmizaGEEH7T0NeptMjgHQCcI
-	OSkmlzdrmy68hOBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7BA3613326;
-	Thu, 28 Aug 2025 11:33:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id POZmHXE+sGgMaAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 28 Aug 2025 11:33:05 +0000
-Date: Thu, 28 Aug 2025 13:33:04 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-Subject: Re: blktests failures with v6.17-rc1 kernel
-Message-ID: <6ef89cb5-1745-4b98-9203-51ba6de40799@flourine.local>
-References: <suhzith2uj75uiprq4m3cglvr7qwm3d7gi4tmjeohlxl6fcmv3@zu6zym6nmvun>
- <ff748a3f-9f07-4933-b4b3-b4f58aacac5b@flourine.local>
- <rsdinhafrtlguauhesmrrzkybpnvwantwmyfq2ih5aregghax5@mhr7v3eryci3>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="h2ijb4czulrzbkl4"
+	Thu, 28 Aug 2025 13:03:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RK2boCbuG8+THudRPPBnz2BVqcPYNNmsZyx6ar7cyi1lJcWMGtn/ODmZOffdT7qr3h/4lPrOQHsyY0CzZyoXlH3KOo8fq3J/HKXq/eqAPshsEvv8YSYqfMsroBxHgj34lnK0rmecBfSBeQz5+oCEtxl/1Nn22bBVz1yHfe44eZVE5G9Ojmrf2vMxAyujQbF3+V68y9Q+yG9nQJPhEt+KuMx2MNwNHStPV0a56gCrM0dCvTyf6B7qlLqlvQGTcF0wxRVMFUd+09dOJ8bvoSNPLhXE28LxX7xbHWbbK5imu4qfBVrlX0MMEuby46JVtyi1JCRp/F//MobtUQ+GdES3+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lb1aBSrT7FmXIFNg2GsFQ9EVeTQg1mhe6sX7cdRiThE=;
+ b=QNE/q3aD/UhQyoArlwBvT6pR78ENgDH6SthcNwV2RzXCPOlWNTfJcH3icSZ4l0uhf6Fyb+axnIji94LsLZkCJhlsF53MITYJ8SYoPZY011pKsGidejJBAQ0tbmuGbFIz4dccEIw+0fZDlg3Yxc+oQoCDIWESr/CyrE2c4DcC938qFUmzyPCRGKI7Uwk3ivluL4NxAgtFCcSBYwxQS/r33nvygfw2jJrpV1U73jzZQ8nXk4em9We9fxr6L5U5UY3QCewrgOHTnOxd6B5lJhcXMtfXit0+pRdHr2wfBSw/pctbtVtPldJawM/erewW4h+9CtsOVnzzahYOWIFNOo7hvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lb1aBSrT7FmXIFNg2GsFQ9EVeTQg1mhe6sX7cdRiThE=;
+ b=fMOHKVpYuCuv+ambfjY9KDMvSz059JfbWmFFJ2vP1G843jbMFTDv4HXQFLi8Qe2tlJMTaTUYiizwAG7J9J7p4vzPz2O1twGnyXYVM/HwCpTCqoonrr+Vo35/IhGzeN31s+NwUwIKGMEbZ0G7qt2Q7y/9P+5Cs2lQAnMDCoA6xWK00jUNOfxA7GM7IstzQyEg0DkohfxFnoedCFgCzVcxoL8YbkfHpP8uALzotkp87NZNt40HWCoYA2/hcZzfw1PI7Xs7CeDJ1xMLECgM51aS4D6GOsJoZHIAt/X7AtBwmkwhD9FSpO9RNvh7P5KdAIReLcydUtVFz+Ue/D7PC1uahg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CY1PR12MB9583.namprd12.prod.outlook.com (2603:10b6:930:fe::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.13; Thu, 28 Aug
+ 2025 13:03:31 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9073.010; Thu, 28 Aug 2025
+ 13:03:31 +0000
+Date: Thu, 28 Aug 2025 10:03:29 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 01/16] dma-mapping: introduce new DMA attribute to
+ indicate MMIO memory
+Message-ID: <20250828130329.GA9469@nvidia.com>
+References: <cover.1755624249.git.leon@kernel.org>
+ <08e044a00a872932e106f7e27449a8eab2690dbc.1755624249.git.leon@kernel.org>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <rsdinhafrtlguauhesmrrzkybpnvwantwmyfq2ih5aregghax5@mhr7v3eryci3>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
-	HAS_ATTACHMENT(0.00)[]
+In-Reply-To: <08e044a00a872932e106f7e27449a8eab2690dbc.1755624249.git.leon@kernel.org>
+X-ClientProxiedBy: YT4PR01CA0331.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10a::27) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CY1PR12MB9583:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e8ce38d-1495-4e9c-fbd5-08dde633497c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?js25oaDOXC1PcXJuXby3MQJZ3I26MTRuNb2Mzk6+4y5rkgGrDvohXSlf/qIm?=
+ =?us-ascii?Q?BoL/lRuUSmmk6jDV4j9TNDCZVuU+mk9bgVAHZ3LPGwfZ3JluaHL4Njb/BxTX?=
+ =?us-ascii?Q?5Cw9YeJSXbEjnuCzrd9NW2mbFh0etMT4jm/SfC/4K4X5J3jOUg//9oRaOLIU?=
+ =?us-ascii?Q?+A6sDEgKzo5AbemFCiD56LnQc/ViOBLF4Lbugl70oHH2Qf2N1Armg4SLLxMH?=
+ =?us-ascii?Q?lOnumEAoTZZkBv9S79uAObcb1Db8Eeyr+MiL/xNHuxs7xxVKjZCLMSJvvIbK?=
+ =?us-ascii?Q?Gq3tEoSfg5wVXzDGYdVRICaGPvRC5DkyrRokbcKMJz9RLG6BQI+Py69KHOM9?=
+ =?us-ascii?Q?kUb8lRnRKtv20kXjar1fS5jPwxIxJdqwnDEvqph1YC3G3nlXhX13PsorJ89V?=
+ =?us-ascii?Q?LF4U9f6A510WkPbyjMqe9Z5X5gloGfieT5ojgSRR5aidoskVFEPhSg05EfeW?=
+ =?us-ascii?Q?St4cblaAlN/p/UZn9RLg5E4n2RjOitB9j5DOPqfgo/v9oSO8v5snnUxdfpYy?=
+ =?us-ascii?Q?tOAVVGha6SaMNGhdSQTaoyIRsG+70sUscfdsLQzwWOXznwzQDMZSHt2jbYY+?=
+ =?us-ascii?Q?0GRIIw8+iliUtb9Opvh572fs714cbkIlX/MwkZ3HrpERdGzgyIgI6Kwue1yt?=
+ =?us-ascii?Q?P5x2GL+6Ck41N/fCcJkIt/BlZJFQj+NBBgTeDyENWfl0H7yOZ1+UlBkBsvYN?=
+ =?us-ascii?Q?A93YXE2aoIb/oEQ3tn70Wtj2oCOkuUyN1ClVwy2MhB2OI12cRU3WCF9XImtH?=
+ =?us-ascii?Q?ZGQ2wAgmsf6MLHhLrmbcbDm7G8aOR0OKPyCs+7oLdpapYokRbTFB6kp5XQm6?=
+ =?us-ascii?Q?PGSeS0/RdtYTXI0u9w0HTmUGyWXe+nP7YjJvft6vWvmorxNA1JQf4zrBdisM?=
+ =?us-ascii?Q?mhHZnlb9uKPCzP4++8fl/BWkUPrxNCrlA7Y48ad1QrCxpNP4hBbKhbPIaENQ?=
+ =?us-ascii?Q?sFOBi17yp3lndZrOr8mR34QqIfShd8+qw8ynE9/A/S0j91f4laQXx0uugGiy?=
+ =?us-ascii?Q?YUaEupYaD07R14df//37cpWUPUT2YcNEu43MQp3FttrYinCkfXL+QEmpxvXx?=
+ =?us-ascii?Q?pbkeA4qcaGgg3Q8vWl94dSmA+vedIspxIM+C9kOBGA6vju3Uh/uCz9VsHTcw?=
+ =?us-ascii?Q?hgg96ayEx8J3Vg+qqO2qN3/mtuMU0tw5ZbG//3lXqwyDJ9AfnEba4wj0rGz/?=
+ =?us-ascii?Q?HL8ZOJ/L1EKxYSDyKDUq+aZnQsBzsfKuYb3UH8jlN/cTXcJa7l2fvMPlaDnC?=
+ =?us-ascii?Q?YRLi5e09+b2ERDgeihK0w2U8HRnze+77o97+MPX9DPr/Ka+qZYSsrUYot4QB?=
+ =?us-ascii?Q?Uv1IjWIFxYm62bJMpF0gdD2rckJ6RVhfz/A4QXBAWTAvPrQmYe1+t6Qm2G6Z?=
+ =?us-ascii?Q?D71WfPVmpCfQH+S92jhbuixwQiPV6Z0PTEOvCgIGjIzLPFdzQFwGNM3JbQpk?=
+ =?us-ascii?Q?CzpsWKvkBKU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1ckjCiMh3aH7YHuAcYKILzSmiSeqWlaX0cjU6lr4SyHlEcJpmEAmCeyOV40z?=
+ =?us-ascii?Q?9e1fR89T7j6Xp4z815rEDhXVCgZIIo5/9Sb04mNpuRfGYPRBY9zvqpgOkh35?=
+ =?us-ascii?Q?/IOPcsnkEdYIiouJI/wlLh7BnCc/nEB/fa3oJleLj3SXEa/1YouLRDZ/ieHd?=
+ =?us-ascii?Q?Fhgn69Lu1zSjAD4cDL8F4xerway++pdKYp7fMh6cIZ+VlW6jycFV1P5MXmgS?=
+ =?us-ascii?Q?mGoV98JXp74/ppnciUAThGSQzIxV/501z03pCA1eCrV3j/v+1Br3yDy4QJxW?=
+ =?us-ascii?Q?frMzh866Wke8P8HGgSkgaXpOEwgWy3NKvZOWom5IlZaQ7STgDF21n3deg2Bn?=
+ =?us-ascii?Q?smMK5qJYmUv/jkHZMtLRoXgBwR9hcu6+SvkgrewPkzyqBlRl6GTkMCr3k5VU?=
+ =?us-ascii?Q?Giq4WnZqwKFeLOQps32EJCGUMPry83QrPBaNQL6gWIPmnMvFyZSyAVDm33RB?=
+ =?us-ascii?Q?Nsr45KQ1aoLyewrNb+mw5B+uzTtLwjFV+N2mOUGeVFIHf75PqWqyy4eoQWco?=
+ =?us-ascii?Q?wsPshiiaB2TYJsV+YT+NrgZovS94Jcb5smuzQLTnPPYLsbEfZgq8vP23JNE5?=
+ =?us-ascii?Q?0oIZWVjvcbOUXUQ2nxNg9O6CsRDFOnW6vwXQ8hIeYJ0z7OlEC4uo+6X9hqsK?=
+ =?us-ascii?Q?y4Gl1D9IPDsnjZEc5PABOo7nWuuY9OkIfi+DzpgT6SH8PGC8O9gsn12QD9iD?=
+ =?us-ascii?Q?VHCXBZ/dky8PMllRareAMm9eiICY+eX+htBuOVv6YHLr+eHCDo5EzEJso+ZA?=
+ =?us-ascii?Q?DvjhpqVdbeaZwt7TnBuqzgfG4taKsF9UKdhPYrjQQNQ/d/iHvMNy0gtC9jDv?=
+ =?us-ascii?Q?A8wYHhwRWc07lOdovRO6IA4mL9B02+icHfZr1/KGehCEHBqrBFbeO6zOVurf?=
+ =?us-ascii?Q?ISrwNfw+VWQFC2e2Jxr7QeagvEtwLbOPYlUsVvv5ouP/fmLkb9L+vQsiADaQ?=
+ =?us-ascii?Q?0KFF0SxzmH8inER9VlRkWQj0uNmQsVFoU7A7VEop+6CPD+kMmtDkfsXixQKw?=
+ =?us-ascii?Q?2IiT0TOhGwzqVh1hNf2+uFaw4c9EhIXWPBB8fpLj+KDyJZCRxevz6pgajGiD?=
+ =?us-ascii?Q?6e7tp4RsiOIP/Xavv4sXZ1KwcKti2bFyaaRW9q3aE5/5bOj7YvQSlvTJyFcy?=
+ =?us-ascii?Q?kpYDF/yTAwhXZyFXDbgZ9IjCIjLtGugtDk4bAJjQ/gr1GrnLqqhzXPE57QWJ?=
+ =?us-ascii?Q?tvusWzcZabNSlAxrYhLQt9cEh/6g/IXqiyuBEp/8uUB53JY5tovj1FwY7dBa?=
+ =?us-ascii?Q?POWqTvzzR9OjJNSNOYA1vFMFL0NX1qP4KFiAOxEPvZl/bNot7SBXmSsUqQRb?=
+ =?us-ascii?Q?i2roYAb0OOObJ5qpVpyF/VUBMiTm/Ffg65Y6dDlp3oYLtb98fMfrqLNlir5o?=
+ =?us-ascii?Q?69dWufR7H944Ebi7jgYNTTnrOi+apHLvwcBfiNyXb6pO8LPkL+toURxOapMC?=
+ =?us-ascii?Q?txtSAZPvR0gYWoN6ASv0OhUDjZNkxjBzocQbB3nXsjABL9de5niWUn4J1UsY?=
+ =?us-ascii?Q?1AM2M6EZA2k2+hd/hd6eZSjh1JlTWb6QuWfgRP1wqdgQbsfEPseK/hCvJ0i4?=
+ =?us-ascii?Q?kzEeLZAg6e2kdvXAlIY=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e8ce38d-1495-4e9c-fbd5-08dde633497c
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 13:03:31.1146
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RspixjdFPbAilZf2tLBPnkO+nFqvF4XSCsFdPZ/SEHIuDVu4IvPjaklp3X5pg66+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9583
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250828_043309_038861_DBE76CBA 
-X-CRM114-Status: GOOD (  33.83  )
+X-CRM114-CacheID: sfid-20250828_060354_121697_F7535E7C 
+X-CRM114-Status: GOOD (  15.89  )
+X-Mailman-Approved-At: Thu, 28 Aug 2025 21:42:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,111 +183,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
---h2ijb4czulrzbkl4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Aug 28, 2025 at 05:55:06AM +0000, Shinichiro Kawasaki wrote:
-> On Aug 27, 2025 / 12:10, Daniel Wagner wrote:
-> > On Wed, Aug 13, 2025 at 10:50:34AM +0000, Shinichiro Kawasaki wrote:
-> > > #4: nvme/061 (fc transport)
-> > > 
-> > >     The test case nvme/061 sometimes fails for fc transport due to a WARN and
-> > >     refcount message "refcount_t: underflow; use-after-free." Refer to the
-> > >     report for the v6.15 kernel [5].
-> > > 
-> > >     [5]
-> > >     https://lore.kernel.org/linux-block/2xsfqvnntjx5iiir7wghhebmnugmpfluv6ef22mghojgk6gilr@mvjscqxroqqk/
-> > 
-> > This one might be fixed with
-> > 
-> > https://lore.kernel.org/linux-nvme/20250821-fix-nvmet-fc-v1-1-3349da4f416e@kernel.org/
+On Tue, Aug 19, 2025 at 08:36:45PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> I applied this patch on top of v6.17-rc3 kernel, but still I observe the
-> refcount WARN at nvme/061 with.
+> This patch introduces the DMA_ATTR_MMIO attribute to mark DMA buffers
+> that reside in memory-mapped I/O (MMIO) regions, such as device BARs
+> exposed through the host bridge, which are accessible for peer-to-peer
+> (P2P) DMA.
+> 
+> This attribute is especially useful for exporting device memory to other
+> devices for DMA without CPU involvement, and avoids unnecessary or
+> potentially detrimental CPU cache maintenance calls.
+> 
+> DMA_ATTR_MMIO is supposed to provide dma_map_resource() functionality
+> without need to call to special function and perform branching by
+> the callers.
 
-Thanks for testing and I was able to reproduce it also. The problem is
-that it's possible that an association is scheduled for deletion twice.
+'branching when processing generic containers like bio_vec by the callers'
 
-Would you mind to give the attached patch a try? It fixes the problem I
-was able to reproduce.
+Many of the existing dma_map_resource() users already know the thing
+is MMIO and don't have branching..
 
-> Said that, I like the patch. This week, I noticed that nvme/030 hangs with fc
-> transport. This hang is rare, but it is recreated in stable manner when I
-> repeat the test case. I tried the fix patch, and it avoided this hang :)
-> Thanks for the fix!
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  Documentation/core-api/dma-attributes.rst | 18 ++++++++++++++++++
+>  include/linux/dma-mapping.h               | 20 ++++++++++++++++++++
+>  include/trace/events/dma.h                |  3 ++-
+>  rust/kernel/dma.rs                        |  3 +++
+>  4 files changed, 43 insertions(+), 1 deletion(-)
 
-Ah, nice so at least this one is fixed by the first patch :)
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
---h2ijb4czulrzbkl4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-nvmet-fc-avoid-scheduling-association-deletion-twice.patch"
-
-From b0db044f5e828d5c12c368fecd17327f7a6e854d Mon Sep 17 00:00:00 2001
-From: Daniel Wagner <wagi@kernel.org>
-Date: Thu, 28 Aug 2025 13:18:21 +0200
-Subject: [PATCH] nvmet-fc: avoid scheduling association deletion twice
-
-When forcefully shutting down a port via the configfs interface,
-nvmet_port_subsys_drop_link() first calls nvmet_port_del_ctrls() and
-then nvmet_disable_port(). Both functions will eventually schedule all
-remaining associations for deletion.
-
-The current implementation checks whether an association is about to be
-removed, but only after the work item has already been scheduled. As a
-result, it is possible for the first scheduled work item to free all
-resources, and then for the same work item to be scheduled again for
-deletion.
-
-Because the association list is an RCU list, it is not possible to take
-a lock and remove the list entry directly, so it cannot be looked up
-again. Instead, a flag (terminating) must be used to determine whether
-the association is already in the process of being deleted.
-
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
----
- drivers/nvme/target/fc.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 6725c34dd7c9..7d84527d5a43 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1075,6 +1075,14 @@ nvmet_fc_delete_assoc_work(struct work_struct *work)
- static void
- nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
- {
-+	int terminating;
-+
-+	terminating = atomic_xchg(&assoc->terminating, 1);
-+
-+	/* if already terminating, do nothing */
-+	if (terminating)
-+		return;
-+
- 	nvmet_fc_tgtport_get(assoc->tgtport);
- 	if (!queue_work(nvmet_wq, &assoc->del_work))
- 		nvmet_fc_tgtport_put(assoc->tgtport);
-@@ -1202,13 +1210,7 @@ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
- {
- 	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
- 	unsigned long flags;
--	int i, terminating;
--
--	terminating = atomic_xchg(&assoc->terminating, 1);
--
--	/* if already terminating, do nothing */
--	if (terminating)
--		return;
-+	int i;
- 
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	list_del_rcu(&assoc->a_list);
--- 
-2.51.0
-
-
---h2ijb4czulrzbkl4--
+Jason
 
