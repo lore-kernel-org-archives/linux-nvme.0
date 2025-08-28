@@ -4,61 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41C13CA0EED
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:43:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EE75C8303F
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 04:44:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x+zOoeFqoqbdML/hojvHJE4J3hnCLwy+Wq2e4pfe8dY=; b=xQpuFYglL/yZQALH0qPrb8c3d3
-	P+UW6xwc0QBEsRZZimurlGjfYXmt22Wl/wxvKubtoXagzfcfIHVx3kpk+TXvW+Rfk+GdA5dVJCsO7
-	mre0yUvYSi3xkIzjiN7M3ym5tUp+4vn1/oLs1fw94V5c2MVSqDodRFo618zMQGhvRrO6Z1+iqGBqj
-	lo23+47H1JXyyk+GMMgHqTlLfjpLyX3iz87xSVvUiDRCdiZoOJQvbQF6MWWW7cOSIoN1ynqc8C45R
-	6NAbjL8iMwhE1uLOhn+cIn+Jt2TUaY3Xv351UISmooV85DtB6TO+t98MLSzhAB7ummX0hG921F6tw
-	XhM9rvAA==;
+	bh=zEovG5yBMLpYSq+qWeGt0QGGZjC21kOTenMNhOnZThg=; b=RHX/nbks8gukvZZXdAkSlKWAD4
+	ZtHsvXmO2502R+X7c0du5bBMgYApip8o8usQ+1hQvHvFHEQy54nh6g4MFtx+905ngcISLnSoxxeDs
+	Ku7vOf0sqjucYw2Y+Zk/vnbuf7r3qFwAMgXUfJRjCqRSGHnlhFtNo7oYIO/jPDgSViFnbwHgRAAjb
+	OnJLgi4nToSHArY0I98AXkue5ixHFFC5+m05iTo2Vr5Z3dDGsbgluKgX3yOjm/STD+7de1lrVgfUM
+	5T5GO2yUjED6oKWFu3lAyGNH+AsVOSVIIaQ5Gz8/UEuaTeYSXIBnHWfzMkQDuroWcmqikkhCmfZK0
+	NIOSVH8w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1urqxu-00000004OSb-3BoI;
-	Fri, 29 Aug 2025 04:43:54 +0000
+	id 1urqy3-00000004OfY-3G9a;
+	Fri, 29 Aug 2025 04:44:03 +0000
 Received: from flow-a7-smtp.messagingengine.com ([103.168.172.142])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ure3L-00000002008-3M2T;
-	Thu, 28 Aug 2025 14:56:41 +0000
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailflow.phl.internal (Postfix) with ESMTP id 2A49B1380B20;
-	Thu, 28 Aug 2025 10:56:39 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 28 Aug 2025 10:56:39 -0400
+	id 1ure3u-0000000205l-3tIm;
+	Thu, 28 Aug 2025 14:57:16 +0000
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailflow.phl.internal (Postfix) with ESMTP id 4AA791380B4E;
+	Thu, 28 Aug 2025 10:57:14 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Thu, 28 Aug 2025 10:57:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1756392999;
-	 x=1756400199; bh=x+zOoeFqoqbdML/hojvHJE4J3hnCLwy+Wq2e4pfe8dY=; b=
-	naO5RlnAcjV6ciQqEchUumcMLrGgttJU34BNh8/fMEyCoY5ocL82XLbrb83EJ2O2
-	Fc4w/Dr0TQI+aWyk3/RuhOWAZewPpC3rkz4BOq/QoNzSN0HRepKeV9Nxh4y8Bgrg
-	P3NeioJ6GKJX9O0VcZtcRrDKVhBuodYb+5uARvDDFqLxMrfA2wQ+Frb/ZyFIReEv
-	4RyNtkEsayuYo9YhRXL1Gosioej6QLx+pQNdWz1FxOOGUKttlOGZOACmt775BS1J
-	21k5l2wKk+nONNPDFSJ0YBaqVFErUtVfr9Fgy8DnZCcTjhYrrf9zNsVD7utj7M3F
-	GjIDV7XFPx4JddnfOEzA7g==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1756393034;
+	 x=1756400234; bh=zEovG5yBMLpYSq+qWeGt0QGGZjC21kOTenMNhOnZThg=; b=
+	DuyrylXLe9QhFBHI9BIGa+e3gvbo7MnZrjVdhKr+c3ijIvi0SgrY8JwVGTbhN7Cr
+	BMttxv00HnZ7+ik9Oa7Ls23hg4FggfVy1TuD9dVeCweJX6pbGiY2ytNvXNJ6Y3Ta
+	NAwRGVEshq25KKscDBOmAIT0cuHMmqBGtQ9Ilc6sS3OKm1U7C9aW0gWLECb/ClMd
+	s84FGQCAEsQn27DcDt2g6EbQ1pi4uEoPpSRWvNYopMTI1+BcRopgUVLZcbOnsC6z
+	rpCmdFCA/JfagiFIQQHcGsLGswtLKA0PEXe+6QRTKN/NrpKMkYZIb/8WSgpxA92w
+	FzuhIeJSQ3kwttyswIiJ2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756392999; x=
-	1756400199; bh=x+zOoeFqoqbdML/hojvHJE4J3hnCLwy+Wq2e4pfe8dY=; b=g
-	tTcendFSMFmGj5jmLjXZseMZb7AT2y4KMkh/PzuplcB5Ct9GoXbcK9G/P+saAyQA
-	wq0hj3Lh0/dBWIP1HSSsqob9qSCSXzVxrDy9QEFnQwdtdysWPx/H4nXp8zTOHmd8
-	ma1phYzvOqIWVNzoXKQgCWmlH1ZJv4C9AxSJ5a3OtVbbJqAcBAvfAQdIh694tcGX
-	b+r21Erc2h8cCapwetBGzgVRZycBOnhKpbYK2171uYsJ56BYNlybuBdhOaz6XCIc
-	WQ/+UITEi8MMM5SkbaPLzyaUaS5+7K3xkPxJrH7f5qEN2tVyU/dCl7BDpSbGxXDp
-	DAGt0EFo8lEPhOZoEqazw==
-X-ME-Sender: <xms:JW6waDIFsV6cw86kmEeFjdiTNKqL7TJWcfZPiRcO7mTCBolPue4d4g>
-    <xme:JW6waOkFRrXlLXU7IMlcRYcQ_d9s8rECg5Q1sNGAwyNJSnOjWoDa-p-mXJ8sBom9a
-    5zTHiVJDKHm8Me0Uf8>
-X-ME-Received: <xmr:JW6waErmsupYEU-kaWVcaskggy2wxrCvh7bRHCu9ATOEUXYt4yv8w1Z0LrmI1dbVQsNMdYnqUK2kecUwT5gvgr3A_CUVh-eShhZpwQ>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756393034; x=
+	1756400234; bh=zEovG5yBMLpYSq+qWeGt0QGGZjC21kOTenMNhOnZThg=; b=R
+	b2RQvP9xkSpUMgYM27Z3XrWRZCX4l5+1GQ/AbgrQvHwKFZ1c7XPEUgkgtXf9AQ02
+	gJcYD/D4j/LewZY5gtNXSX1PUZNioQjyXeFjsOLgtvF6t5cn8SK15j3HeeFNHl4/
+	rSmBl7wxUFA9Dk49Jb3jDkvXncedHZa9cSqixlDWmD8b42qwU02DNuxH7FGRAirx
+	0GCzzs5nrg/HWByrvY+NnjFV/hXP8kgXnkflI96h2iWgfLOKTH7Nutt951cnner0
+	Ql4Qh4WjgFock1sLGFzXH9Tvy0ZlwTqOduQ+e11LU91ZbPLLfFwbLsqXjAChwnZ3
+	Aa2TZJrXnqfv1AaWr+OJw==
+X-ME-Sender: <xms:SW6waHFvopWAMcE0W6DfeUlFik-r_4eQIMjKeA2qrm3Akhl7pHVrtQ>
+    <xme:SW6waLzcmJOtAnp2sXBYhCWJ3lQGqDGrIniZKuHY91U1uulpVbWTEMciUJ9uvXx5N
+    F7NBLtKsMtmQQSPKVU>
+X-ME-Received: <xmr:SW6waCHwfQWj8iZNGnb8mW4aIIQOMNBCXBofz2oKHhVmn_JeYibr7bxTCBtJjlG6brqj6v2OJNA6KjkQ_n3rAr41bT1_VQEgTF5-0w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
@@ -74,22 +74,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufeefucetufdote
     lhdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtth
     hopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhirhgvshhhrdhk
     uhhmrghrsehlihhnrghrohdrohhrgh
-X-ME-Proxy: <xmx:JW6waHUEPo5rwriE_fbKvlwsJnIvHkeyEFsKPib0wF6Gtjfqrrwk2g>
-    <xmx:JW6waJp2n9mN2Njur7szV0YZ6mP9AFg_eNNRaMlLuuL4YivU38xHlA>
-    <xmx:JW6waCf3pzMU6h7Lye9k4h3mgLVgUzJWx8FZze3xgauvAtlDltp-1Q>
-    <xmx:JW6waKe48EWVqiUSqovty-Ea2Mo9a9ZUtbNgOXahny_CAT9VaViAmw>
-    <xmx:J26waBn7LHKRyTCaBMKkgnyWLIhF-8878I4eUg39MGXk4zG41hbUoSGE>
+X-ME-Proxy: <xmx:SW6waABfvOVJ06FjHISZYejQtoBS2deSvc3_G6shMPMqIbXWZqOb6w>
+    <xmx:SW6waMnl6KFMaXd86cN-NC_mA_Ztk0INE3GgkQZ0gyvm3naAiaxe-A>
+    <xmx:SW6waCqIJLYpSXtbl2wWCcf7e2ek-UORujekCdBHTY0szoOQQUPs1w>
+    <xmx:SW6waO4oBwgE444EjWWiwlhywiziIswDZoHWmgSSFS4EtJOZ7BmimA>
+    <xmx:Sm6waHwrHGdZnquLhHDz0eRDYPpM4OvVXRJ8dy-tGpZqmo7mVEVuETrv>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:56:36 -0400 (EDT)
+ 28 Aug 2025 10:57:12 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:52:11 +0200
-Subject: [PATCH 33/37] arm64: dts: apple: Add ethernet0 alias for J375
- template
+Date: Thu, 28 Aug 2025 16:52:13 +0200
+Subject: [PATCH 35/37] arm64: dts: apple: Add J414 and J416 Macbook Pro
+ device trees
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-33-bb8e1b87edef@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-35-bb8e1b87edef@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -135,17 +135,18 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=720; i=j@jannau.net; s=yk2024;
- h=from:subject:message-id; bh=UD09qhA3R42KTHJ/xUWZ97rxg7UWqV6PBk3soTPZLRY=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNOf87Vk0vKPzVV2csaxhV+udwQI9xy/734sUbl08p2
- vb3xs2AjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABPxz2dk+Lmvb3kor70v45mv
- 0WLh343bJz7/drch8uH5LcbWd+UcpRgZ3td5at/8rDhPISH0EscH9tdc2+dqHP+74cE1IavtLyu
- V2QE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6033; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=S07EP1T9a+F21XDmFw4P0kSjcpho1ok3SAFpALIIyfg=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNuQw7Ky5tl+c/6yp62HWa6+57wVctdVK2P1F6EbyyY
+ MnV9MbTHSUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACZyoonhn9Hl5C/u20IXzlHf
+ tVVXqadauGy5ZM6OuwoM+z45Hu3qbmT4MdVEY//O9/MOPpoRq3CaRWDC/wWSZVtt5HpCJW7dfdP
+ BBAA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250828_075639_917986_8C79CE83 
-X-CRM114-Status: GOOD (  12.84  )
+X-CRM114-CacheID: sfid-20250828_075715_051159_31538A6C 
+X-CRM114-Status: GOOD (  15.75  )
 X-Mailman-Approved-At: Thu, 28 Aug 2025 21:42:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -161,26 +162,219 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The alias is used by the boot loader to fill the MAC address.
+From: Hector Martin <marcan@marcan.st>
 
-Fixes: aaa1d42a4ce3 ("arm64: dts: apple: Add J375 devicetrees")
+Add device trees for the T6020 and T6021 based Macbook Pros (M2 Pro/Max,
+14/16-inch). The devices are very similar to the T6000/T6001 based ones
+so reuse the device templates, include the new SoCs and correct for the
+minimal differences.
+
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Co-developed-by: Janne Grunau <j@jannau.net>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/t600x-j375.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/apple/Makefile             |  4 +++
+ arch/arm64/boot/dts/apple/t6020-j414s.dts      | 26 +++++++++++++++
+ arch/arm64/boot/dts/apple/t6020-j416s.dts      | 26 +++++++++++++++
+ arch/arm64/boot/dts/apple/t6021-j414c.dts      | 26 +++++++++++++++
+ arch/arm64/boot/dts/apple/t6021-j416c.dts      | 26 +++++++++++++++
+ arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi | 45 ++++++++++++++++++++++++++
+ 6 files changed, 153 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-index ed38acc0dfc36a1e30b1d44f1a8dcee089e87232..c0fb93ae72f4d4fcb254a36dc408d55ab1bca0e9 100644
---- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-@@ -12,6 +12,7 @@
- / {
- 	aliases {
- 		bluetooth0 = &bluetooth0;
-+		ethernet0 = &ethernet0;
- 		serial0 = &serial0;
- 		wifi0 = &wifi0;
- 	};
+diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
+index df4ba8ef6213c9f7e4ef02a50d7250008977cc71..e97a6676387c6e4cbaf3b0834c4e59338d08d1b8 100644
+--- a/arch/arm64/boot/dts/apple/Makefile
++++ b/arch/arm64/boot/dts/apple/Makefile
+@@ -79,6 +79,10 @@ dtb-$(CONFIG_ARCH_APPLE) += t6000-j316s.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6001-j316c.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6001-j375c.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6002-j375d.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6020-j414s.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6021-j414c.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6020-j416s.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6021-j416c.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t8112-j415.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
+diff --git a/arch/arm64/boot/dts/apple/t6020-j414s.dts b/arch/arm64/boot/dts/apple/t6020-j414s.dts
+new file mode 100644
+index 0000000000000000000000000000000000000000..631c54c5f03dee9e7d37a7811f87f939e5187b10
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t6020-j414s.dts
+@@ -0,0 +1,26 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * MacBook Pro (14-inch, M2 Pro, 2023)
++ *
++ * target-type: J414s
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++/dts-v1/;
++
++#include "t6020.dtsi"
++#include "t602x-j414-j416.dtsi"
++
++/ {
++	compatible = "apple,j414s", "apple,t6020", "apple,arm-platform";
++	model = "Apple MacBook Pro (14-inch, M2 Pro, 2023)";
++};
++
++&wifi0 {
++	brcm,board-type = "apple,tokara";
++};
++
++&bluetooth0 {
++	brcm,board-type = "apple,tokara";
++};
+diff --git a/arch/arm64/boot/dts/apple/t6020-j416s.dts b/arch/arm64/boot/dts/apple/t6020-j416s.dts
+new file mode 100644
+index 0000000000000000000000000000000000000000..c277ed5889a2145a4043b7f3230dbd49971d3068
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t6020-j416s.dts
+@@ -0,0 +1,26 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * MacBook Pro (16-inch, M2 Pro, 2023)
++ *
++ * target-type: J416s
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++/dts-v1/;
++
++#include "t6020.dtsi"
++#include "t602x-j414-j416.dtsi"
++
++/ {
++	compatible = "apple,j416s", "apple,t6020", "apple,arm-platform";
++	model = "Apple MacBook Pro (16-inch, M2 Pro, 2023)";
++};
++
++&wifi0 {
++	brcm,board-type = "apple,amami";
++};
++
++&bluetooth0 {
++	brcm,board-type = "apple,amami";
++};
+diff --git a/arch/arm64/boot/dts/apple/t6021-j414c.dts b/arch/arm64/boot/dts/apple/t6021-j414c.dts
+new file mode 100644
+index 0000000000000000000000000000000000000000..cdcf0740714dcf71e8d0cead879bce8f27431ccf
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t6021-j414c.dts
+@@ -0,0 +1,26 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * MacBook Pro (14-inch, M2 Max, 2023)
++ *
++ * target-type: J414c
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++/dts-v1/;
++
++#include "t6021.dtsi"
++#include "t602x-j414-j416.dtsi"
++
++/ {
++	compatible = "apple,j414c", "apple,t6021", "apple,arm-platform";
++	model = "Apple MacBook Pro (14-inch, M2 Max, 2023)";
++};
++
++&wifi0 {
++	brcm,board-type = "apple,tokara";
++};
++
++&bluetooth0 {
++	brcm,board-type = "apple,tokara";
++};
+diff --git a/arch/arm64/boot/dts/apple/t6021-j416c.dts b/arch/arm64/boot/dts/apple/t6021-j416c.dts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6d8146b941703692a0cd92508add1784e0fc211b
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t6021-j416c.dts
+@@ -0,0 +1,26 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * MacBook Pro (16-inch, M2 Max, 2022)
++ *
++ * target-type: J416c
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++/dts-v1/;
++
++#include "t6021.dtsi"
++#include "t602x-j414-j416.dtsi"
++
++/ {
++	compatible = "apple,j416c", "apple,t6021", "apple,arm-platform";
++	model = "Apple MacBook Pro (16-inch, M2 Max, 2023)";
++};
++
++&wifi0 {
++	brcm,board-type = "apple,amami";
++};
++
++&bluetooth0 {
++	brcm,board-type = "apple,amami";
++};
+diff --git a/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi b/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
+new file mode 100644
+index 0000000000000000000000000000000000000000..0e806d8ddf81b1073bfced964fa64c4e75a9e998
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
+@@ -0,0 +1,45 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * MacBook Pro (14/16-inch, 2022)
++ *
++ * This file contains the parts common to J414 and J416 devices with both t6020 and t6021.
++ *
++ * target-type: J414s / J414c / J416s / J416c
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++/*
++ * These models are essentially identical to the previous generation, other than
++ * the GPIO indices.
++ */
++
++#include "t600x-j314-j316.dtsi"
++
++&framebuffer0 {
++	power-domains = <&ps_disp0_cpu0>, <&ps_dptx_phy_ps>;
++};
++
++&hpm0 {
++	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++};
++
++&hpm1 {
++	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++};
++
++&hpm2 {
++	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++};
++
++&hpm5 {
++	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++};
++
++&wifi0 {
++	compatible = "pci14e4,4434";
++};
++
++&bluetooth0 {
++	compatible = "pci14e4,5f72";
++};
 
 -- 
 2.51.0
