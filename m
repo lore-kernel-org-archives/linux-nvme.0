@@ -4,65 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AA90CA0FF9
-	for <linux-nvme@archiver.kernel.org>; Sat, 30 Aug 2025 00:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8379ECA0FF9
+	for <linux-nvme@archiver.kernel.org>; Sat, 30 Aug 2025 00:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=fQ+WptBmbpOgbB6cWP3t1+giMauIlYaOJn057WrrkKk=; b=BrEICzv6twj9mc
-	5ckoCxBDY/xvPgm8qmFvWXguhrut7fkXBXJVOxFTPCzKNItW6QVdyDCg+v8OroE5d3m03343CiFDP
-	dCpWUb18bkPJ1MTjm1OGCQsAWgKfkUuycM13uo1rzbuPH68IkuTS9e6NCrFb20lAZhxGh+oCr3hih
-	z7jsQg36vqD8YPtkMMnozmx5Op1gX9qDgBsWhA0yAJVWYirGaYVxpDT1pPVesktXX5poBCA3BaKO0
-	6QNPFyT39suSaZ3afEtLpdkpweP1lqFdxClUCLB11s2/B+3cK4CuanYBtUXAm1Z2Vuf64tykTEAxh
-	iwGSPNAGAWAfWAA+D5vw==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=r45WXOD1tRg3Ezb0EZPQG7pstyndTM/E6AkgU48idLA=; b=EvoFNRWkqGX1glfnVyKf+ihEgU
+	L7BzrCXRA9syUkKCk1fDcmHwiz1kcdrRxBHUYXd0dK+staJ/O/25lzB7BdSd2+3a1OrRtsICqT1dO
+	/ZYMUUd7HgM9Mk8ixiahiuFrt+fH4vykfGBLL+8oZS7k0H/rjcgCTO0G5fKZaupeJTAaTqjjIt3V5
+	/bL8bagI1ta6uUWTHU2AAsH/B73I1XNP3rqVmmUMHQJvWBIaTtRduXh0Fis47xDOy5wC35YmTBNZd
+	8YZkpbbSCTqgxASVbRx9xez9cXNjO1MqiTpVkS9xbg44Vyzh7eYs0dhtrO81PBBQfahNxEDJgrPVt
+	22wc4I0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1us9jS-0000000789t-2zgh;
-	Sat, 30 Aug 2025 00:46:14 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1us9jd-000000078MB-2OaH;
+	Sat, 30 Aug 2025 00:46:25 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1us1Fu-00000006FAz-3yzK
+	id 1us1Fx-00000006FBP-3d8F
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Aug 2025 15:43:12 +0000
+	Fri, 29 Aug 2025 15:43:13 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5E37A44D46;
-	Fri, 29 Aug 2025 15:43:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3765C4CEF0;
-	Fri, 29 Aug 2025 15:43:09 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 11DFB601D4;
+	Fri, 29 Aug 2025 15:43:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E653C4CEF5;
+	Fri, 29 Aug 2025 15:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756482190;
-	bh=OL18MnykJgKNptxGVWsFWM5heT58JL3lUDx8FWl25rc=;
-	h=From:Subject:Date:To:Cc:From;
-	b=sr8wIUjJf5pnJ2M2UJIj5RBjHAPHeklz7zEL6AsA73nkxTTVQwJ0yYIj9PWNeRRy0
-	 bEAzoPrUtlkJNZxpSYY+Oy7XaUK4hpmRZNgW1MZDM4EJLgUG8J8mYuvegsHfOwWRwN
-	 +QwiHBU0gi6YIs4lLMcLznjyUZ0eoPQcpNKheUVzHIjy050cagWyxX90rQmHcHWi/I
-	 9qe0mqPQKgXN5V7M3mcKt7AFOBWnKF1leOv1eOfafzS3IQONSkanK+O2DbwsPg5rg4
-	 wowcN+GvtsxXBOl1omY/eK7sMtBZtAJLpEo4CS+iRcDXp8/Ix6Bamk1hZCezz3fmnV
-	 0xJmiHg55LYzg==
+	s=k20201202; t=1756482192;
+	bh=aoPIGzDgsINBf0Ebqd1cCI2ZeqD5+jR9ioyq3QpOSC8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=RScIlWWhzgJbNdbu3nEiGj1gatpovR7GejHeJFrJeo9hD/4NgLB1vvGr/1Od89alU
+	 czJg9ktUZGmpVvxVdan1tLBCFWhUxvAdoxFIBeRp7ePDczy40jWpROG1/prHBK/13R
+	 ou+54nR0iwgfHrW0Nic728fjdv2dhvMTPsBVE2H40Lhska/4vKPpLjVew2Evg6shyt
+	 vOHmboA86T1mQ6QnXod6PP5bYsKQG6xqi3YbcEK31twncnLc1ZuJ6pJJZg/OlgwgK0
+	 iYz/+lG737KIWAehiH117fhueoIDv7eoFuFrIaoQy6OlQMbONSDbOoVV+5V7uuiwsN
+	 DtIY9FdHrUItA==
 From: Daniel Wagner <wagi@kernel.org>
-Subject: [PATCH v2 0/2] nvmet-fc: fixes for blktests tests
-Date: Fri, 29 Aug 2025 17:42:59 +0200
-Message-Id: <20250829-fix-nvmet-fc-v2-0-26620e2742c7@kernel.org>
+Date: Fri, 29 Aug 2025 17:43:00 +0200
+Subject: [PATCH v2 1/2] nvmet-fc: move lsop put work to nvmet_fc_ls_req_op
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIPKsWgC/3WMQQ6CMBBFr0Jm7RimVNO68h6GRQNTaNRipqTRk
- N7dyt7l+z/vbZBYAie4NBsI55DCEiuoQwPD7OLEGMbKoFp1ao0i9OGNMT95RT8gOW+NtaSV8VC
- Vl3D999ytrzyHtC7y2euZfuufUCYk7DptR6e9pjNf7yyRH8dFJuhLKV9VnIFXqQAAAA==
-X-Change-ID: 20250821-fix-nvmet-fc-1af98991428f
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250829-fix-nvmet-fc-v2-1-26620e2742c7@kernel.org>
+References: <20250829-fix-nvmet-fc-v2-0-26620e2742c7@kernel.org>
+In-Reply-To: <20250829-fix-nvmet-fc-v2-0-26620e2742c7@kernel.org>
 To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
  Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>
 Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
  Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250829_084311_014669_FA15B54F 
-X-CRM114-Status: UNSURE (   8.06  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,28 +71,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A couple of fixes for bug reports from blktests.
+It’s possible for more than one async command to be in flight from
+__nvmet_fc_send_ls_req. For each command, a tgtport reference is taken.
 
+In the current code, only one put work item is queued at a time, which
+results in a leaked reference.
+
+To fix this, move the work item to the nvmet_fc_ls_req_op struct, which
+already tracks all resources related to the command.
+
+Fixes: 710c69dbaccd ("nvmet-fc: avoid deadlock on delete association path")
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
-Changes in v2:
-- rebased
-- added "nvmet-fc: avoid scheduling association deletion twice"
-- Link to v1: https://patch.msgid.link/20250821-fix-nvmet-fc-v1-1-3349da4f416e@kernel.org
+ drivers/nvme/target/fc.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
----
-Daniel Wagner (2):
-      nvmet-fc: move lsop put work to nvmet_fc_ls_req_op
-      nvmet-fc: avoid scheduling association deletion twice
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index a9b18c051f5bd830a6ae45ff0f4892c3f28c8608..6725c34dd7c90ae38f8271368e609fd0ba267561 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -54,6 +54,8 @@ struct nvmet_fc_ls_req_op {		/* for an LS RQST XMT */
+ 	int				ls_error;
+ 	struct list_head		lsreq_list; /* tgtport->ls_req_list */
+ 	bool				req_queued;
++
++	struct work_struct		put_work;
+ };
+ 
+ 
+@@ -111,8 +113,6 @@ struct nvmet_fc_tgtport {
+ 	struct nvmet_fc_port_entry	*pe;
+ 	struct kref			ref;
+ 	u32				max_sg_cnt;
+-
+-	struct work_struct		put_work;
+ };
+ 
+ struct nvmet_fc_port_entry {
+@@ -235,12 +235,13 @@ static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
+ static void nvmet_fc_tgt_q_put(struct nvmet_fc_tgt_queue *queue);
+ static int nvmet_fc_tgt_q_get(struct nvmet_fc_tgt_queue *queue);
+ static void nvmet_fc_tgtport_put(struct nvmet_fc_tgtport *tgtport);
+-static void nvmet_fc_put_tgtport_work(struct work_struct *work)
++static void nvmet_fc_put_lsop_work(struct work_struct *work)
+ {
+-	struct nvmet_fc_tgtport *tgtport =
+-		container_of(work, struct nvmet_fc_tgtport, put_work);
++	struct nvmet_fc_ls_req_op *lsop =
++		container_of(work, struct nvmet_fc_ls_req_op, put_work);
+ 
+-	nvmet_fc_tgtport_put(tgtport);
++	nvmet_fc_tgtport_put(lsop->tgtport);
++	kfree(lsop);
+ }
+ static int nvmet_fc_tgtport_get(struct nvmet_fc_tgtport *tgtport);
+ static void nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+@@ -367,7 +368,7 @@ __nvmet_fc_finish_ls_req(struct nvmet_fc_ls_req_op *lsop)
+ 				  DMA_BIDIRECTIONAL);
+ 
+ out_putwork:
+-	queue_work(nvmet_wq, &tgtport->put_work);
++	queue_work(nvmet_wq, &lsop->put_work);
+ }
+ 
+ static int
+@@ -388,6 +389,7 @@ __nvmet_fc_send_ls_req(struct nvmet_fc_tgtport *tgtport,
+ 	lsreq->done = done;
+ 	lsop->req_queued = false;
+ 	INIT_LIST_HEAD(&lsop->lsreq_list);
++	INIT_WORK(&lsop->put_work, nvmet_fc_put_lsop_work);
+ 
+ 	lsreq->rqstdma = fc_dma_map_single(tgtport->dev, lsreq->rqstaddr,
+ 				  lsreq->rqstlen + lsreq->rsplen,
+@@ -447,8 +449,6 @@ nvmet_fc_disconnect_assoc_done(struct nvmefc_ls_req *lsreq, int status)
+ 	__nvmet_fc_finish_ls_req(lsop);
+ 
+ 	/* fc-nvme target doesn't care about success or failure of cmd */
+-
+-	kfree(lsop);
+ }
+ 
+ /*
+@@ -1410,7 +1410,6 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+ 	kref_init(&newrec->ref);
+ 	ida_init(&newrec->assoc_cnt);
+ 	newrec->max_sg_cnt = template->max_sgl_segments;
+-	INIT_WORK(&newrec->put_work, nvmet_fc_put_tgtport_work);
+ 
+ 	ret = nvmet_fc_alloc_ls_iodlist(newrec);
+ 	if (ret) {
 
- drivers/nvme/target/fc.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
----
-base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-change-id: 20250821-fix-nvmet-fc-1af98991428f
-
-Best regards,
 -- 
-Daniel Wagner <wagi@kernel.org>
+2.51.0
 
 
