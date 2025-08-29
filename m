@@ -4,133 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4912BCA1005
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 09:26:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36AECCA0FFE
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 12:27:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zdMXL3DzKbrzQgK9ln4DLjJYTZxHYiLh+LFuN3jZqs4=; b=0oWH0rxQmfklxZI0b9GtIgntYw
-	wqqWqnbgmv53dXGItiXclRpUqzhszYxdmac0p8gg+NbZg/3pQsEOpVxlp9Bs54S8KSpj+oYJ5OmjE
-	K9PvVY0Fld0/bdh0w0aFzYPON2MVD4TITFv0iQasP0DVLmKiwD1xsR7NLyxlLWH3ppKht/DdKy0yN
-	HYAeFLpZlCF05jOITC0Nl8Xk6xv3/sMVw4FxfFOV0CggxTOzRxLdN/xR5pWDYTgwSNyNqRaH1Iokb
-	zTbi5qEOQQjzHecJao0ZB9sL60xg1ZWlIm4qAtL96KMODhoVeGFQVkIPZfrSbOBr2NeP143dDXjvu
-	PhbLlucQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mUKhWQE4OWpKHgn8AUqgcrjk8KfpkKZzn8wc+mKH/bE=; b=v2rTdAo+kgZQbRp9r1ZeLLMOv/
+	8hSdZOxU+f2htr4fvYs+wMyd4+rfYL475LsjEw6CAWUkd3cnAUUy/dUHgjpQ1siSw379sbqWnxPpO
+	78457Z8+G1biUeX/ljjTc+cLx5TXjjr/VSYtiGHNFTzPPik0lVAF+pLfR6dI89D0v3dY+6UX9dm7I
+	Jeh8ZSbB7C8XWjAo6tMZ8thfP00cVWqAb2UjyuPDFhXesZVEnbq8GqoS4fPnH+taSQ+6bllbkQVRo
+	Clxl1Yoc7XcYsWifaNa1pmZ14JoEAYFUYDufjuorIGCVh5aIi5eOvmxQN477w2AogzyeDNNRIxj+C
+	2ESjttPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utNH4-0000000GLv6-0Axo;
-	Tue, 02 Sep 2025 09:25:58 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1utQ6U-0000000HDmi-1p5h;
+	Tue, 02 Sep 2025 12:27:14 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utMov-0000000GD1y-3KWe
-	for linux-nvme@lists.infradead.org;
-	Tue, 02 Sep 2025 08:56:55 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3928E211D4;
-	Tue,  2 Sep 2025 08:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756803412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zdMXL3DzKbrzQgK9ln4DLjJYTZxHYiLh+LFuN3jZqs4=;
-	b=fSn0lV+vhTvXYKT+kD4ZyziJBVp7q+SehdYBkgq+7jrf2t39zlGRkFJTurVMypbNMraYKu
-	dseZ6hlTMY43fMJzH1y3xTYO4xobbuHyh6MKavrY284XYs4JWik9zcyNlv9B/lAjyMb605
-	Iw6qG8DxRmLkgLrYrUkDrDJ0Bzk4c1Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756803412;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zdMXL3DzKbrzQgK9ln4DLjJYTZxHYiLh+LFuN3jZqs4=;
-	b=to4iaZItr7iDPbXlXgl2ChP1eeHKmKKsNAvNU96SNQRJ5W4lEemypFfemIFg2sQVCDPrbi
-	FJ6ki7KeH0ST7TBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fSn0lV+v;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=to4iaZIt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756803412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zdMXL3DzKbrzQgK9ln4DLjJYTZxHYiLh+LFuN3jZqs4=;
-	b=fSn0lV+vhTvXYKT+kD4ZyziJBVp7q+SehdYBkgq+7jrf2t39zlGRkFJTurVMypbNMraYKu
-	dseZ6hlTMY43fMJzH1y3xTYO4xobbuHyh6MKavrY284XYs4JWik9zcyNlv9B/lAjyMb605
-	Iw6qG8DxRmLkgLrYrUkDrDJ0Bzk4c1Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756803412;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zdMXL3DzKbrzQgK9ln4DLjJYTZxHYiLh+LFuN3jZqs4=;
-	b=to4iaZItr7iDPbXlXgl2ChP1eeHKmKKsNAvNU96SNQRJ5W4lEemypFfemIFg2sQVCDPrbi
-	FJ6ki7KeH0ST7TBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 222CC13888;
-	Tue,  2 Sep 2025 08:56:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id s66vBFSxtmjMAQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 02 Sep 2025 08:56:52 +0000
-Message-ID: <8bf6c91a-18c5-4236-8176-d03aab8286f4@suse.de>
-Date: Tue, 2 Sep 2025 10:56:51 +0200
+	id 1us587-00000006o6l-0vxH;
+	Fri, 29 Aug 2025 19:51:24 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 93AD540BAC;
+	Fri, 29 Aug 2025 19:51:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346BBC4CEF0;
+	Fri, 29 Aug 2025 19:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756497082;
+	bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uPYEnPUUg4/LuQVFtqhOOS0tGS/0OVJpM+KchdKwqnpfkH0/J3whjo1E0NBxW4gpi
+	 uJDXfPT2+7W9SvWuvKxITtr+9wgDa0PLPjlOlPveFqy+zGxeJXRW3bmLtv6e6tXZkm
+	 Lt0jKmNEbrsoJG57fd3KAzrHhMHII+VJCvAN8o9yIncXsE2LjVvdVRlbplw8VmHBsq
+	 nEieoqr4Hd58x1XnW+1xWPl9IbBCsaBFlrOtBOQRsS5iKDBvoMcj7GYIAOBvWu/48K
+	 9ZUoI9CDe2TXQXinfy+0J0W3S8zuoPtSs1TE+Ci/Y2CLPC2Ymd1DL36wGlg46kmRHz
+	 JZChNYlMpZoRQ==
+Date: Fri, 29 Aug 2025 14:51:19 -0500
+From: Rob Herring <robh@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Message-ID: <20250829195119.GA1206685-robh@kernel.org>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: Use non zero KATO for persistent discovery
- connections
-To: alistair23@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
- sagi@grimberg.me, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
-References: <20250902035211.2953174-1-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250902035211.2953174-1-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,kernel.dk,lst.de,grimberg.me,lists.infradead.org];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Queue-Id: 3928E211D4
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250902_015653_990731_ADA16CBE 
-X-CRM114-Status: GOOD (  12.12  )
+X-CRM114-CacheID: sfid-20250829_125123_305095_2938BB1A 
+X-CRM114-Status: GOOD (  32.76  )
+X-Mailman-Approved-At: Tue, 02 Sep 2025 05:11:04 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,33 +114,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/2/25 05:52, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
+On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
+> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> follow design of the t600x family so copy the structure of SoC *.dtsi
+> files.
 > 
-> The NVMe Base Specification 2.1 states that:
+> t6020 is a cut-down version of t6021, so the former just includes the
+> latter and disables the missing bits.
 > 
-> """
-> A host requests an explicit persistent connection ... by specifying a
-> non-zero Keep Alive Timer value in the Connect command.
-> """
+> t6022 is two connected t6021 dies. The implementation seems to use
+> t6021 and disables blocks based on whether it is useful to carry
+> multiple instances. The disabled blocks are mostly on the second die.
+> MMIO addresses on the second die have a constant offset. The interrupt
+> controller is multi-die aware. This setup can be represented in the
+> device tree with two top level "soc" nodes. The MMIO offset is applied
+> via "ranges" and devices are included with preprocessor macros to make
+> the node labels unique and to specify the die number for the interrupt
+> definition.
 > 
-> As such if we are starting a persistent connection to a discovery
-> controller and the KATO is currently 0 we need to update KATO to a non
-> zero value to avoid continuous timeouts on the target.
+> The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+> counterparts. The existing device templates are SoC agnostic so the new
+> devices can reuse them and include their t602{0,1,2}.dtsi file. The
+> minor differences in pinctrl and gpio numbers can be easily adjusted.
 > 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   drivers/nvme/host/core.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
+> With the t602x SoC family Apple introduced two new devices:
 > 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+> missing SDHCI card reader and two front USB3.1 type-c ports and their
+> internal USB hub can be easily deleted.
+> 
+> The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+> devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+> implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+> calls the PCIe controller "apcie-ge" in their device tree. The
+> implementation seems to be mostly compatible with the base t6020 PCIe
+> controller. The main difference is that there is only a single port with
+> with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+> Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+> and PCIe slots connect too.
+> 
+> This series does not include PCIe support for the Mac Pro for two
+> reasons:
+> - the linux switchtec driver fails to probe and the downstream PCIe
+>   connections come up as PCIe Gen1
+> - some of the internal devices require PERST# and power control to come
+>   up. Since the device are connected via the PCIe switch the PCIe
+>   controller can not do this. The PCI slot pwrctrl can be utilized for
+>   power control but misses integration with PERST# as proposed in [1].
+> 
+> This series depends on "[PATCH v2 0/5] Apple device tree sync from
+> downstream kernel" [2] due to the reuse of the t600x device templates
+> (patch dependencies and DT compilation) and 4 page table level support
+> in apple-dart and io-pgtable-dart [3] since the dart instances report
+> 42-bit IAS (IOMMU device attach fails without the series).
+> 
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatibles anymore [1]. Instead either the first
+> compatible SoC or t8103 is used as fallback compatible supported by the
+> drivers. t8103 is used as default since most drivers and bindings were
+> initially written for M1 based devices.
 
-Cheers,
+An issue here is any OS without the compatibles added to the drivers 
+won't work. Does that matter here? Soon as you need any new drivers or 
+significant driver changes it won't. The compatible additions could be 
+backported to stable. They aren't really any different than new PCI IDs 
+which get backported.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Rob
 
