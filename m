@@ -4,55 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CF88CA0FF0
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 08:57:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1680CA0FF9
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 Aug 2025 17:26:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MUVKqSfvoSrfQwKLxkBkNcMeAPDaW/uXn4tfyNXsF2Q=; b=SQHFjgqhfFaiwW6Xkg8NkBU/Hq
-	i2EAU1owA0CqBGoPwUECvzhQze1TiWUWlYbsGJ7OBOcj8kMxwteNmbbbl44W/2DxdaZifzO6znKJ0
-	JCP+BN7V9y/SgjuN3c+cXwBeTCYPCQZmJZjQ0tSwggL1kcOfuqfiV030iBqEm2dl0C1v2M9PAEAZw
-	0wZva0wiV/q63IHDTzQU5q5QqlzxOMeliyGXEqsvayXIBJXIeSUFdMq8NZYMukics7Xr7pJbE87Vi
-	d1fac+ZfGVWlUcX2jlc2sawB/sCzjWXY9hdO4bfiUA4kBsQ4SX/dv+q1xTLvP9uZQd6j+u0zSdwqB
-	qWro+9ag==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=PYvMXTL/L8wQ4W0lq8RrjJ8AdQQN2IpzN2ellUDipiI=; b=1kOtRWAwkDD9NZLLPU4ZxcLPZ3
+	tUopFxAvTqbjjDjOv8tk1y6DYwJoJHXtxk0L0hKYEAE7t0+YpYEX44Y1V9gGK5nEKVJ6M7w8bHgUe
+	Oi4EAnsoqg8QgbYyOAZlsOOOpzklKO4VsqNMzCaIhMVFukgeSNGep2hmpWTdsVabBujE3VePiAAEp
+	LRlYrT1DSC6MERvGsX04HMmTjWlwTgmBZMsNX8InRJISoAY376PeKb+zf/5ASnGzhE8pYmpC5ub2U
+	ZSeeHcYCT+OZuaMbFNZvlEK291u3l+Ve18S8VibqAzJzm+VLr9bfpLfhGNDIjYUsYqvhd2tAt0MFg
+	ylSIUg5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uruuw-000000053Bw-3Adx;
-	Fri, 29 Aug 2025 08:57:06 +0000
-Received: from mail.primefinix.com ([141.95.160.218])
+	id 1us2rw-00000006We4-3Htr;
+	Fri, 29 Aug 2025 17:26:32 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uruFQ-00000004vGF-1x2T
+	id 1us00c-000000060Pz-0GUj
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Aug 2025 08:14:13 +0000
-Received: by mail.primefinix.com (Postfix, from userid 1002)
-	id C1FCBAD461; Fri, 29 Aug 2025 10:02:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=primefinix.com;
-	s=mail; t=1756454612;
-	bh=MUVKqSfvoSrfQwKLxkBkNcMeAPDaW/uXn4tfyNXsF2Q=;
-	h=Date:From:To:Subject:From;
-	b=vambuInfQUi6XSp8SIRhLME9Rape5O80krznCyS8Qi7qDjRuta+vNEDCDcf9nfSu7
-	 uLHgYFzOsVMK4s17gjNj+uqIsqTTgmmpsIAR/VqRO8A81cxBTtUm54BTFK8aZb8W+g
-	 ZUlM2Rx45eZUvSd6BDIeyf426/2HjWUnI5bH2ljkid25blcZrVsK/xSAuNbvGXfWQ1
-	 CQB1KkcJNTWfNtvvmuKAzkoqQZpQZwmIYAkUcUZM/px8Kb+Q/Uo1K5CCGC/diZCr0r
-	 yo1zU94B/97eHnPkCRMi4I9GQ7UWJmEkHntgOuPoqkHEsyp2fW4hHXgnfJ2Dd1bOLr
-	 8SF4IimX8KKHQ==
-Received: by mail.primefinix.com for <linux-nvme@lists.infradead.org>; Fri, 29 Aug 2025 08:00:58 GMT
-Message-ID: <20250829084500-0.1.mn.3m04e.0.nhdkak5pp3@primefinix.com>
-Date: Fri, 29 Aug 2025 08:00:58 GMT
-From: "Brendon Roy" <brendon.roy@primefinix.com>
-To: <linux-nvme@lists.infradead.org>
-Subject: New Sales Model
-X-Mailer: mail.primefinix.com
+	Fri, 29 Aug 2025 14:23:19 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57T8ipbL3730783
+	for <linux-nvme@lists.infradead.org>; Fri, 29 Aug 2025 07:23:17 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=PYvMXTL/L8wQ4W0lq8
+	RrjJ8AdQQN2IpzN2ellUDipiI=; b=SWw0kCzkbtdFY+9Qliofm3RHRg+Waqm2TB
+	Rfd8s9zK9NGrixoYycr0K7SudfK66WhIGHJH6q5T7s/QIHTts2dBEFaPp3XeuV4j
+	S2wm9XwONM2IbiA7AvMMVYsGuPmPxeTMuslKcWmkTKYgD2G0WBE8TuNIH7POBq7s
+	ZyS3VhNM8EWo0y8miTy0N6u/FPoM+ttQtpzzO52Fl8TmFvU9J8WsknzK6ItEjXhE
+	OP8xMMUVGwh+uyQM3K1Zuo8yURgBSP1f/Uz0ioxxjrBdeQ1BPCy6fsYJG3vIFEer
+	khr5Icga89xLe5t3Tx7ivDsPKeFWgxEPwadurTLWLxJKRfU+xWsA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 48u54easbk-6
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Fri, 29 Aug 2025 07:23:17 -0700 (PDT)
+Received: from twshared21625.15.frc2.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.17; Fri, 29 Aug 2025 14:23:15 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 4D48811FADB5; Fri, 29 Aug 2025 07:23:11 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <axboe@kernel.dk>, <martin.petersen@oracle.com>,
+        <jgg@nvidia.com>, <leon@kernel.org>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH 0/2] blk-mq-dma: p2p cleanups and integrity fixup
+Date: Fri, 29 Aug 2025 07:23:05 -0700
+Message-ID: <20250829142307.3769873-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: rK6zNp-kJxXtakkdfhO8x6fCBSGD9k6d
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI5MDEyMSBTYWx0ZWRfX2hb5R4dxaGUS
+ lVPXUi0WSxPln7nGU5d09fRwLlxk3NjyrRnx7EIDOE16LgAkTexqVPpu9Mc+audJQsPQ1kI39hW
+ /P7ZbJ0+R12n1OtZJGuSFWY1G43mgrdMHzkQMK4U2Ivdxm7njJrTbbpLL/VhX/9aT1tIrrbd7hE
+ a6t2VG4/gQrF/jUMj1Mqs0epWx900p6kK0otfyZDl9Ept9osjb9FH3nIYhS7aV/Z416Syibngk2
+ dE/riHO+/oGsEmPTkfjc3UpPfOqTydIqN4cRirfbE4q40bcR0+Im9jpwq/P3EoqJehcRl94TJkv
+ r/D7oszEQtUFo9buwxBk1kjBt4O26r11fE3RIWkG/MSKqrP5mI4o98VLtMO6fY=
+X-Proofpoint-ORIG-GUID: rK6zNp-kJxXtakkdfhO8x6fCBSGD9k6d
+X-Authority-Analysis: v=2.4 cv=MeJsu4/f c=1 sm=1 tr=0 ts=68b1b7d5 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=An7AkMqwXWfVQp4ObIYA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-29_05,2025-08-28_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250829_011412_761317_13BBF496 
-X-CRM114-Status: UNSURE (   3.19  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250829_072318_108209_47AE32C4 
+X-CRM114-Status: GOOD (  10.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,18 +92,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+From: Keith Busch <kbusch@kernel.org>
 
-I'm writing because we have a ready-made mattress dropshipping option, an=
-d I thought it might fit with what you're already doing (or wanting to ex=
-pand).
+After reviewing and discussing with Leon and Jason on some of the
+proposed updates, it became clean that having the callers track p2p dma
+usage doesn't scale, and we have a convenient way to track these things
+in the existing structures anyway. So, thank goodness nvme is the only
+client of this API at the moment while we work out the kinks.
 
-No warehouse, no packaging, and no shipping =E2=80=93 your customer order=
-s, we ship, and you gain an additional source of income.
+While looking at it, I also noticed that integrity wouldn't attempt to
+use p2p pages, which I think was simply an oversight.
 
-If you're interested, let me know. I'll show you how we work together.
+Keith Busch (2):
+  blk-integrity: enable p2p source and destination
+  blk-mq-dma: bring back p2p request flags
 
+ block/bio-integrity.c         | 21 +++++++++++++++++----
+ block/blk-mq-dma.c            |  4 ++++
+ drivers/nvme/host/pci.c       | 21 ++++-----------------
+ include/linux/bio-integrity.h |  1 +
+ include/linux/blk-integrity.h | 14 ++++++++++++++
+ include/linux/blk-mq-dma.h    | 11 +++++++++--
+ include/linux/blk_types.h     |  2 ++
+ 7 files changed, 51 insertions(+), 23 deletions(-)
 
-Best regards
-Brendon Roy
+--=20
+2.47.3
+
 
