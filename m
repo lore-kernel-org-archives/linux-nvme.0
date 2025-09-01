@@ -4,137 +4,189 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4996CA100C
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 12:27:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D445CA100D
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 12:27:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rH5wSPSqP8tNxz48V8nyDtHP/PfH/+QarsY2hPsLNiY=; b=1M7t37Sg13bMeahuTUdMCiNJxs
-	DwNb3Kg8Rf58OVSHvGCJIhchQtSVFEZ6igzmsKqgpisTQKE98augxt87BSpFK6Pa6LJV2hb3v8vjy
-	lgFSMovtj+hKAQLyERvwM6hGr2WfIQqm1OOILWJFi5zWP3qByszLjadMUkaERTleZ0/xL05SG0uzB
-	0y2YdvctC6YRIRb1LZaqbui1xCtsqw215i7KHpM+RbUvAYla1cRt55m5+lWpporfVCehYfSNCx+Le
-	DSEntv1wZ2fqWUU3WcQBGxSfQ9ziufsXNl/B0NyjZceF9XK2Ne3h2/Peqyhh19z8LRE/T8WvqxY3/
-	Hiuteofg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=9PcD09FKAh1vF3qniFuOOvXvPYB3eKU4OoIktmAdxRs=; b=ihENcv5F3ctLCkLOI5hivi4D00
+	ttG4KVE7vv3+9FBKDr/geGOEB46gfKA16Vzq8hsaPZ4tg4T2u20YoH//fSXFR6PXpIvYntQXVjNuA
+	kswBSPkdneulcX7yInf65uXN/kNMlZsLL08Qtyr4YTISBkHPXM/itt+7cqvIScdy14uHlHkwqsMQ5
+	l1B9NZeyB6MKCQBWxZ1gk58sIXR7mNjyhyjhsMK1xcAfkgVDFtmUATIhs16pZ06ZR1EuBwcTP4UxG
+	qXiYoOGsug9Of5VFaD/gTA4j1HNykgsj7YhfY6yzHjL+ImzvuVrJd90nIriNk8nzQwhh+7j+lI3CW
+	fLCuDi7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utQ6V-0000000HDn6-2lZ9;
-	Tue, 02 Sep 2025 12:27:15 +0000
-Received: from flow-a8-smtp.messagingengine.com ([103.168.172.143])
+	id 1utQ6X-0000000HDpf-3Iqu;
+	Tue, 02 Sep 2025 12:27:17 +0000
+Received: from mail-bn8nam11on20617.outbound.protection.outlook.com ([2a01:111:f403:2414::617] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1usFp7-00000007X6M-2PR4;
-	Sat, 30 Aug 2025 07:16:31 +0000
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id 50B9C13803E1;
-	Sat, 30 Aug 2025 03:16:26 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sat, 30 Aug 2025 03:16:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1756538186; x=1756545386; bh=rH5wSPSqP8
-	tNxz48V8nyDtHP/PfH/+QarsY2hPsLNiY=; b=bGPRiKj+zJAsCUQyrJp0/StHT3
-	Z0CEFhLQjV5xm7Yvbyg5RazYCfPbyTHWSm2ZpCegTbXOy6qhuD/CjdcFxuViszyu
-	G3+fcGeOv7HdCyn7AzxAqSFmzLO2erX/Vdp5eEeZaLTZRFRspFMiQ+busfvUv9xK
-	P1Qxg+vqomILq0dDixCVgYHw5VQEBClB9I6+/uTShTR//VYQFOWuKhVaLsvC6l/b
-	E1N/tfeehqrMQEp4i3wWoOJxGypUi7brZoL9qGPmQKmmMa93tVd1AY5Gro+BAjS3
-	WpUTogmTRpIeiSKPcsYZ3mE0og2OG5NvvD5b/WVFxeoMPFsjnwskajCq3uyw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1756538186; x=1756545386; bh=rH5wSPSqP8tNxz48V8nyDtHP/PfH/+QarsY
-	2hPsLNiY=; b=A28P82GLhQ+gU+qNvkSXEMIHHGhWHgGPB6W2BqfuM8nVdICuM2A
-	NcqEdXjnRC5GOtPhl8vytw2JOVW6a632Lth7tFVqpN0jcVrs5FIWi0nJ5dbfpPbz
-	93UWghe/7/x4NXeA4FN4wHq2l0R/6xrVdl4M6x+X4EqZcsuk7fUrrkX7z2aqNGXe
-	GRh9v13JNwBHa0GWMNd0IJAZ/VLuVZRHMzmIP6KgEOrMibcUtTOr/XOmSC3N9SR2
-	+4h7cZHX5hYQElJlZ9AcSZWpik6DY6Yif1Q+6msGHxqUXYJZ/hDnKBXbWh3Xvalq
-	Rf1Hz1zKH3Te14Zyu+F/tIsbTPiaescl/sQ==
-X-ME-Sender: <xms:R6WyaEoVPmMMjSTFVHUliXOdv-32qkUK5pBFUekwj0BEfXYXKXHMdg>
-    <xme:R6WyaOxfi2Sr_p908cLZZq0WtOWmPygKs_jKndyVj8rKDpXX8ikKi1OeywN_Gtza-
-    FiH-hDxXuUZTl36M64>
-X-ME-Received: <xmr:R6WyaEyfRmAxZWCNsVqvVaXCqEN1juICIShBdAflOgf0gNEE_E5nocVl8uCdcH2Ux_v_VJ8rmIGy5LrSoEu2QIiMu_-QOznOlpk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeehjeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
-    ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
-    ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
-    drnhgvthdpnhgspghrtghpthhtohepieefpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdp
-    rhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehkrhiikhdoug
-    htsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoh
-    eprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhrvghshhdrkhhu
-    mhgrrheslhhinhgrrhhordhorhhg
-X-ME-Proxy: <xmx:R6WyaOKeRrX_rKVtlS-_HS0UcyN9w8mWfjCwNfiQ70_pAa29FRblZA>
-    <xmx:R6WyaBhJsS4AgbvUvcN_o6uHp3h_R8NH2iRFaJDZJdGCW4iQPaQfCw>
-    <xmx:R6WyaMkzXbMbopG8scAkzx_CFhYUQNKGJXW5k3t17XIk3bIEeUpTWQ>
-    <xmx:R6WyaOgrns0dbGzbmla7f4E8nyVhRwKAcFG-qkHg9ORUTbTcZhmzrg>
-    <xmx:SqWyaJIOEg53pkAeV7MbeJTeynbZUjxSAdTQb-JDXFYqQHxsi0m95a1W>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 30 Aug 2025 03:16:22 -0400 (EDT)
-Date: Sat, 30 Aug 2025 09:16:20 +0200
-From: Janne Grunau <j@jannau.net>
-To: Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,	Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,	Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>,	Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,	asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,	devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,	linux-pm@vger.kernel.org,
- iommu@lists.linux.dev,	linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org,	dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org,	linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org,	linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org,	dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org,	linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250830071620.GD204299@robin.jannau.net>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250829195119.GA1206685-robh@kernel.org>
-MIME-Version: 1.0
+	id 1utCvm-0000000E6a2-3Kbq
+	for linux-nvme@lists.infradead.org;
+	Mon, 01 Sep 2025 22:23:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bS1daFUznnVp//4wMYjsC7mQ61wfIUfOOaXIhB/KaP2C0FWv8GZ+AgFHdNow9W+6LXe4icajYJ2+WxXsc3zUbDKHO5qLBwEuMw+Q9bPQuu+vMYEQBHOuug5k1pMM+CHRmqItzRdnFmk0yd9gP1Dz8dtvUDuBXv37ceqZgk4JkGoauVNdC7DCt21lV4fbSKhkV5UqbzVrfG15J2hRPgi77evgwJcR5AbM88DSP+44Jl9DoMtdqDfb7NmsFMEjmsqpPAOnDztFEHEvqFK124YgXyGcVctt2NDvsBD9+LotYwcs40TPnAp0q4vlNtCGwMuLIVI1Kmi6+1vjV6I4h+6LPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9PcD09FKAh1vF3qniFuOOvXvPYB3eKU4OoIktmAdxRs=;
+ b=WD2g5hBKoBkYOk72WapCvsuBh+eJvISk6j/e7JOqGTjIMxvJ6yAKX/KGI8zX0b5x+4+D7HcK3ab0wk3SSgkNNQppdXjtXvwPBNcDl/9NZoiOPLVlA8jNZj4FT0aSixw2m2UOrq1lugxBIVYkegHX2pu9CTI0Plgmcu0xrdJl/XdmmG2pvxFen7O4klgiyYAPTFe38ZrLdRzIPoHJi1rLN5fMWUI5o1tfon6zz69GRkz9LZxZUWlRiWWC9ogwpn6NCnXrDMvwgcJSwnxSofKEcQ8vMyV9E7xVIeOfnxtX5z0kY9O2R0Z8GRkFx68JvIa68t9nPT2dARPCjIyNbT6RZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9PcD09FKAh1vF3qniFuOOvXvPYB3eKU4OoIktmAdxRs=;
+ b=iv80n33ELEVJgtxrACFzsV82DMFeFd43SDMUiVLoegOHzbTYcA7r4CMH1sbGiPoY6cwkuw8VulWQXba0j3FeFjvT99gIiZa4vX8Tzxx6ip5ceePsWwkLhRXSXlIYIfhDj575uqeU9wxrHXDHja0UAN2pR+vtTxAgO4nG3CyLXU+T05mEaLRUYs7E4y+fRcEbPSVIgJ8eY0kCgCrTk+rYKNed0UZd8lKNowWUkVaZ3s3qL7UShVOncZb5UGp2klTxwCLlqBGluBQPWABO3E40ijffqC669j7VNVkElnT7UPJLbWBGvdbKL4Mnt4A5edHgaXkcDk65Yj3I1HAbQh/hKw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by IA1PR12MB7495.namprd12.prod.outlook.com (2603:10b6:208:419::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Mon, 1 Sep
+ 2025 22:23:03 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9073.026; Mon, 1 Sep 2025
+ 22:23:03 +0000
+Date: Mon, 1 Sep 2025 19:23:02 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <20250901222302.GA186519@nvidia.com>
+References: <cover.1755624249.git.leon@kernel.org>
+ <CGME20250828115738eucas1p24f3c17326b318c95a5569a2c9651ff92@eucas1p2.samsung.com>
+ <20250828115729.GA10073@unreal>
+ <26bd901a-0812-492d-9736-4a7bb2e6d6b4@samsung.com>
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250829195119.GA1206685-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26bd901a-0812-492d-9736-4a7bb2e6d6b4@samsung.com>
+X-ClientProxiedBy: YT2PR01CA0016.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::21) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|IA1PR12MB7495:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2712e776-387d-4145-20bb-08dde9a61dfa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V0E1b1lMQkNvUlZFcUJCUEU4NWNRZTNUNnMwT3J1MjJOc0N0MTRoUWdhTkd1?=
+ =?utf-8?B?VW9GZ1FISlp2ekpIeGRia1RkR1F5VThDUituWGpVWVVHOWlNZzB3bExoZVNn?=
+ =?utf-8?B?SDJGRmcwYmlDTVcyQ1NkQ2lvd0lwVWIwcDlYYURNVFFBdHZMUHBvMURRR1Ir?=
+ =?utf-8?B?OGc3UG42ZTRlMktlN1BCVUR4NHNCRDA2T2V2dUJBN1liUlRjTGxIT0hZMkhN?=
+ =?utf-8?B?YmJaV0dTZ3VYS292S1VMb2hJSWNhYzRmWDJOZnFxaktvTWplVGRDUjQ0RlJ3?=
+ =?utf-8?B?U2VVY0pxaHlmallkNkd2ZElUd2l3L0FDelhSeHQyTlNTd2hwS2xvMDF0RFlI?=
+ =?utf-8?B?R2xVTTJ1NUxZTWgvSnNvTGp0Y0ovQ21LcTkvaFV5UmpTUzlTUDhEV0pibXhU?=
+ =?utf-8?B?ejlXZkN3Z3NtRDR2bUx6dUVVL3BtM0ZyN3BDbGMrVHJpaS9BM0p6T2Uyclpw?=
+ =?utf-8?B?eE1ESmxUNkFWSHkwZkFLdDhDaHloMUwvMFM0ZmtNaWtIaGhZRDdIZEZVcVYw?=
+ =?utf-8?B?TC85ckZTa1M1bWtVQ3F1azFyeDFWb3lyL2crMEtVcVcrZjczTGRxdU1pY3lH?=
+ =?utf-8?B?bXhlT2Rla2VpdDdIQUV4b21uQ3FGTnA0dU9ZU0lmSVo2TEJPcG1LaDVBTG1o?=
+ =?utf-8?B?cW9INzArVVJlZUNUUXY0QytHN1J4M3VWRUpRZHlMYTFyZTA1RHdWVlo4dktW?=
+ =?utf-8?B?dHNPdnl4dHovK0EyOHBneUN4aC9WdWhyamZodytPNTBzcHg2bU9nOCtpN2JG?=
+ =?utf-8?B?TTB2NkRnT1FKWWo0bkNDdXZBY2dMVzVocHBXTnp6TXRGdDk5UlJSNWZsSWUw?=
+ =?utf-8?B?YmRBRjc4RTNKdXdkTzc2MmtyaWt1VEphMTR2c3Q3UzBJOEhUYzBGQXdvYlpL?=
+ =?utf-8?B?OW9VbDQ5dDJERTZRMW9Ib0R2bnduMFVSMVBBZ083YzBSSzNxM1hyU1RDTmVX?=
+ =?utf-8?B?UHJEMnNsdC8vSmJDWUwvaW1ScXBGQUpnMGJCb1lIWVJSNW43Qm9rVTVCTVRD?=
+ =?utf-8?B?aTIyMUUyUm9KelBESWc2UUJ4YWNEc2Z5ODBsRjVOKzM0SEQrMVF3QXV4SnQ5?=
+ =?utf-8?B?T0t0dC94bGxHaUo4eml1UFY5bmtWQjNpdEZXZ1BsNE1nZmFyTlQwU1p4enZC?=
+ =?utf-8?B?amFHa2pLM2c5Tk9wUk5ObUFFRnN3SjhIVUFEclhzN20wdG1tbmxYYjE1NnNU?=
+ =?utf-8?B?dFM3dUhIWVZEN3E4ODFxS1lRUjVHSG1VNG9qMm5hRFRsOEYxb2F1MkxKdmdP?=
+ =?utf-8?B?ajFQTU1VUVNrL2Rrb21mTkg2bXdSZThLUHJOSEhKSHh2SWlwM0t4RVl5ZXpo?=
+ =?utf-8?B?bW1DNk9KOHNBMkcrWkwvM1JUZ1FPU2d5c0JHZmNvL1hrc1NsalRHUlExZTho?=
+ =?utf-8?B?RFdDSDM0NXo5cW1kTlk4RDVGaWc3YUhTZTdMWHRJbXJ3Y3FwRjNkQUkxRW1i?=
+ =?utf-8?B?VVRBUm4rQ3QydHNxMlRFaU9KM0h4N3VCMVE3dWlVay94V0o4ZzQrVDdoaU9C?=
+ =?utf-8?B?d0hLZ0JWWDE2UXY3THY3T05hMFVkNjFvMG9GL3M4UytyaThINkRXTXhNVlhV?=
+ =?utf-8?B?WTQyMnNqZk1TT1loRXdYSWV3ZjhsMURMRllTQVZvZFZ6MHhicyt3S3NTVm9y?=
+ =?utf-8?B?NkkvVEttZU1nSUtmMDNhcE5UTjYxTXpGYVVuby9HQkY1MXQxVDdDdi9ZMzh6?=
+ =?utf-8?B?dWtsc2dGTkJiWWNnVGVlbGw1V1VHb25CWmcvQmFjTTJvN3lHdlFsc1J0cFp4?=
+ =?utf-8?B?b1BOMmFtWjhYVTZ6NjdleTlFVEFvSUNiYnc5MDNBUURpQk1VcFoyV01tSW41?=
+ =?utf-8?B?WVg4N0kvUmxnVFhuZkZJZE1NRnVpQWowVW03bWRIZ1dSQ2FuTXdwVXEzMkRZ?=
+ =?utf-8?B?V1IxblJ1L3A2N0Z4N2t3VGVaT1JNR0IzbHZVdlBtUk5qVFpSZnZGY1NsdXBN?=
+ =?utf-8?Q?9gT21r84I2k=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RkpjdmdHb1RMcitLaVM5OG5FZUZkYlU1WndDVjBnR1RrdEwxT3Jvdk8rVklj?=
+ =?utf-8?B?d3NEVm1qSzBERU1wdVptRFhTUGZRTG43SDVvSHRCL25yMnZaSUMvVE1sUDJE?=
+ =?utf-8?B?aldBMXRhTnNYN0c3NUVxK1M4dGFNNjQ2VFBnMmV0MnJzSCt0YTJGWlhLM0Fy?=
+ =?utf-8?B?WjBjVVFiMDFmL2JLby8yWk9KYkk2REh1TFVQVGtxSUtFbytRY0xhMWt0VWxG?=
+ =?utf-8?B?VW5GcEozb25ZaHUxWGQ5N3RTa3g4L1ZQeUQ2SVY2T2VmdHFnV29pa2lNc0h6?=
+ =?utf-8?B?YVgwZTlyRDgyNmlxY3g4V2FyaVNsKzUzTzRlL0R2TFUyUzljZWx2SmY0VEpw?=
+ =?utf-8?B?WFUxeTBrczh5MytEUUtVbU5XT0pOZ2U5T3NMR0xxUW5BNTd2MjNEVEZKVTJ1?=
+ =?utf-8?B?Z1BHckFwWlJxZUVKckNsSUxFdGlScEtxM2ZBMkRHcHFtaGtkeGc0TEFRbEdt?=
+ =?utf-8?B?ZnlXd1BzdEdZYUZxVFJXRmlFVks5MDlnNUYyVk0raHJ4NUpWbnozNG14RW1B?=
+ =?utf-8?B?YzVIVEdERkUreVZaZlhUMTlDbDdBVzRRb3NCM0hiZGg0cXhuVGkzNm1oc1VU?=
+ =?utf-8?B?TG4vSXZON2F5ZGUzUk1KMFM3SlRtQ0hyQkJlSmFFM0lnRGlnaVZEbC9EL2V2?=
+ =?utf-8?B?VlhYdDZWL082a3pidkNQeEpGZEUwc2NWTStKQlByZnNLV2p0bGpmR2VVM2ho?=
+ =?utf-8?B?ZFU1V3NrbGNaWlgyRFUvYTlKaUV3Kys0Qk91N1AxemVMemVhOURUYTRkQmln?=
+ =?utf-8?B?MnNCSSsydW9KWFhQS0d1eVdEUTlITGVTVzNFZXlyd3BxeTRrZkg4Sk03bEw2?=
+ =?utf-8?B?TWU3TE5mRVNDRU9VMmQ3V09yNlN6cWFrMjNOTjN5bXIwTVQ0RWJKU0tXdUFH?=
+ =?utf-8?B?b0t3MkJoYkc5ZlR2c3R6YjRaU2RWVFBYdnFnQ1kraU9tc0ZXNlExa2xMeVZU?=
+ =?utf-8?B?RFEwQWJtbGZGRHR0NXlSYXZhV0E0THk3WGRERUU4a3gzYjlTMnJlUWZ6eDM4?=
+ =?utf-8?B?d0M3Ti9NNy83S1lCWGFqT0luTkF2VzF0ZUo5OW1sWUwzRXVpZzd4cnJhNmx6?=
+ =?utf-8?B?K0dnLzhOZVdqMTBjVjgrL3pUTlByL3Z4WitmbkRSaEFwZGp1VVdJUDhsQWY5?=
+ =?utf-8?B?akZpMlh2aDVYSUhwVXNpZWVjTnJqVXZ4T0prNDdQL2JSN200dlZ6NlBocnow?=
+ =?utf-8?B?clorWUFjejM3WnpURWFkU1k2dDlSZUZ3RHJCZm1ZU2s0VmxKVDVvVlNNc2Ro?=
+ =?utf-8?B?NW10T3ZYdi9LRXQ0dVdBRmVURHdaRlMzaUJzRm1SLzdzU1NVZ0QrcGU3UEVT?=
+ =?utf-8?B?ZklXY1l3cFE3M09uT2w4bjkzcHpMcXZHT3k3bjhTcmpuT3dnQ2RMRmdDMmRQ?=
+ =?utf-8?B?UzBDMXpoVlpwb3RVVVNqY2FUbkttYmplV01RRlQ5K1Ruc3p3QmFmSytaWnJM?=
+ =?utf-8?B?RGJiVWQ3eWp5RTVFYXhmQWUrYzJlbmVjbzA2d1NCKzN1eS9LYlBLbWtnNEd0?=
+ =?utf-8?B?RVdQMHVFdWZwTnVFcnFMQkpneXhocmw3d0ZMalo2dHMwQmhnY0VwNjI5Mkta?=
+ =?utf-8?B?ZUNDQmhtZlg5eUpyVFhPM2s1NFZhbGVkbU9DZ1lxL1RCbGR6Q201WmsyMXE4?=
+ =?utf-8?B?T2laZ1Bqb1NDNmNjU1dFVXZQb0xQOXd5Q1VwbWZQeXJhSkxmamRJa0MvTDQ0?=
+ =?utf-8?B?bU00WXVZWlNYOTd5SlJBWUNydkpNVVhIUkVabkI3OHI1VWV1QlowOC9TdVZY?=
+ =?utf-8?B?cm0vNlViOVp1V2Nxc2czaWZjbW1VVDBURVlCbHc5L3JtN2gycDNGNkNUNis2?=
+ =?utf-8?B?ZkdyWnN6UU9rNzJ5bFFLZFJreTZkanlIUkRibk1MMEk2L0VXcFhLcGp3TW1T?=
+ =?utf-8?B?dnlQUE9RRmFheVRaUitFbTZQaG1oenBLSXg4WFFiZXFJbHV5d3RMYUN5azZI?=
+ =?utf-8?B?ZmlmMHR4YytsKzlaeUJ1dXpjdG9EYkJka2tMd0pMOXk1RGRIS2JJaStRdEk0?=
+ =?utf-8?B?a0NkRTlmcVY4RloxUUI3Q21LU01Md2MxUzhqTUZ6TjdiVisrWUR3aFpKMjZQ?=
+ =?utf-8?B?Y3lDWVlqZC9iUzB3dmtEWjJOK0NldjA5SWxxejlxZnNUTUZBZW56OVBOVW1r?=
+ =?utf-8?Q?mYgQ=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2712e776-387d-4145-20bb-08dde9a61dfa
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 22:23:03.5273
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w4znFzS8ZQTnhjINhC0mXrOLe3RICQMXCayvRTPzL4tTrPL8qJPNdtjBo+rtk6D0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7495
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250830_001630_216542_3C574119 
-X-CRM114-Status: GOOD (  39.35  )
+X-CRM114-CacheID: sfid-20250901_152318_834539_7E325A18 
+X-CRM114-Status: GOOD (  12.70  )
 X-Mailman-Approved-At: Tue, 02 Sep 2025 05:11:04 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -150,87 +202,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 29, 2025 at 02:51:19PM -0500, Rob Herring wrote:
-> On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
-> > This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> > follow design of the t600x family so copy the structure of SoC *.dtsi
-> > files.
-> > 
-> > t6020 is a cut-down version of t6021, so the former just includes the
-> > latter and disables the missing bits.
-> > 
-> > t6022 is two connected t6021 dies. The implementation seems to use
-> > t6021 and disables blocks based on whether it is useful to carry
-> > multiple instances. The disabled blocks are mostly on the second die.
-> > MMIO addresses on the second die have a constant offset. The interrupt
-> > controller is multi-die aware. This setup can be represented in the
-> > device tree with two top level "soc" nodes. The MMIO offset is applied
-> > via "ranges" and devices are included with preprocessor macros to make
-> > the node labels unique and to specify the die number for the interrupt
-> > definition.
-> > 
-> > The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
-> > counterparts. The existing device templates are SoC agnostic so the new
-> > devices can reuse them and include their t602{0,1,2}.dtsi file. The
-> > minor differences in pinctrl and gpio numbers can be easily adjusted.
-> > 
-> > With the t602x SoC family Apple introduced two new devices:
-> > 
-> > The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
-> > missing SDHCI card reader and two front USB3.1 type-c ports and their
-> > internal USB hub can be easily deleted.
-> > 
-> > The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
-> > devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
-> > implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
-> > calls the PCIe controller "apcie-ge" in their device tree. The
-> > implementation seems to be mostly compatible with the base t6020 PCIe
-> > controller. The main difference is that there is only a single port with
-> > with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
-> > Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
-> > and PCIe slots connect too.
-> > 
-> > This series does not include PCIe support for the Mac Pro for two
-> > reasons:
-> > - the linux switchtec driver fails to probe and the downstream PCIe
-> >   connections come up as PCIe Gen1
-> > - some of the internal devices require PERST# and power control to come
-> >   up. Since the device are connected via the PCIe switch the PCIe
-> >   controller can not do this. The PCI slot pwrctrl can be utilized for
-> >   power control but misses integration with PERST# as proposed in [1].
-> > 
-> > This series depends on "[PATCH v2 0/5] Apple device tree sync from
-> > downstream kernel" [2] due to the reuse of the t600x device templates
-> > (patch dependencies and DT compilation) and 4 page table level support
-> > in apple-dart and io-pgtable-dart [3] since the dart instances report
-> > 42-bit IAS (IOMMU device attach fails without the series).
-> > 
-> > After discussion with the devicetree maintainers we agreed to not extend
-> > lists with the generic compatibles anymore [1]. Instead either the first
-> > compatible SoC or t8103 is used as fallback compatible supported by the
-> > drivers. t8103 is used as default since most drivers and bindings were
-> > initially written for M1 based devices.
-> 
-> An issue here is any OS without the compatibles added to the drivers 
-> won't work. Does that matter here? Soon as you need any new drivers or 
-> significant driver changes it won't. The compatible additions could be 
-> backported to stable. They aren't really any different than new PCI IDs 
-> which get backported.
+On Mon, Sep 01, 2025 at 11:47:59PM +0200, Marek Szyprowski wrote:
+> I would like to give those patches a try in linux-next, but in meantime 
+> I tested it on my test farm and found a regression in dma_map_resource() 
+> handling. Namely the dma_map_resource() is no longer possible with size 
+> not aligned to kmalloc()'ed buffer, as dma_direct_map_phys() calls 
+> dma_kmalloc_needs_bounce(),
 
-I don't think backporting the driver compatible additions to stable
-linux is very useful. It is only relevant for t602x devices and the only
-way to interact with them is the serial console. The T602x PCIe support
-added in v6.16 requires dart changes (the posted 4th level io page table
-support) to be useful. After that PCIe ethernet works so there is a
-practical way to interact with t602x systems. So there are probably zero
-user of upstream linux on those devices 
-I'm more concerned about other projects already supporting t602x
-devices. At least u-boot and OpenBSD will be affected by this. As short
-term solution m1n1 will add the generic compatibles [1] temporarily.
-I think keeping this roughly for a year should allow to add the
-compatibles and wait for "fixed" releases of those projects.
-I'll send fixes for u-boot once the binding changes are reviewed.
+Hmm, it's this bit:
 
-Janne
+	capable = dma_capable(dev, dma_addr, size, !(attrs & DMA_ATTR_MMIO));
+	if (unlikely(!capable) || dma_kmalloc_needs_bounce(dev, size, dir)) {
+		if (is_swiotlb_active(dev) && !(attrs & DMA_ATTR_MMIO))
+			return swiotlb_map(dev, phys, size, dir, attrs);
+
+		goto err_overflow;
+	}
+
+We shouldn't be checking dma_kmalloc_needs_bounce() on mmio as there
+is no cache flushing so the "dma safe alignment" for non-coherent DMA
+does not apply.
+
+Like you say looks good to me, and more of the surrouding code can be
+pulled in too, no sense in repeating the boolean logic:
+
+	if (attrs & DMA_ATTR_MMIO) {
+		dma_addr = phys;
+		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
+			goto err_overflow;
+	} else {
+		dma_addr = phys_to_dma(dev, phys);
+		if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
+		    dma_kmalloc_needs_bounce(dev, size, dir)) {
+			if (is_swiotlb_active(dev))
+				return swiotlb_map(dev, phys, size, dir, attrs);
+
+			goto err_overflow;
+		}
+		if (!dev_is_dma_coherent(dev) &&
+		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+			arch_sync_dma_for_device(phys, size, dir);
+	}
+
+Jason
 
