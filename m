@@ -4,112 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4823CA0FFD
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Sep 2025 10:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6728CA0FF0
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Sep 2025 14:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VWY9Ep3AemUxgOmyA9Z3FA3cymUK7UD7MwsnUhn/Eq0=; b=weLwZaVRAG3vyCsNCn3NPQIHGb
-	7QyQTs5ywvOALpeuicAEnYUZq3MwkB5etoV9AavgKWWwpBbFtZFYe0N5V/Ud8X7e6h2wEJr5vD3bj
-	mfg3YLcyDQl+D//blhWYJjWC61BcXrxRVVHvbah3lNSB27qV1tx62sPMXRi3vBXMG+aAohf7iPEWL
-	I6ZBYjYU03rPTfpc0JJ6DC4RLR/pRVHwooitApvZNJTBP0BKr0MSQ3HXwYng50uVpxM/QcR7GADdw
-	7VRA8LGG3M/iZnh/6u2YMMqVGGfPHEl2w3TwfcpTAJMtKCWPhSZNCRRLqETdoZ1/WLZGx9l00DMHG
-	iTXTolEw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=/CXP5PchANxZqGp3Gssb1xnZMCk6ZZsq9Lr1RRv1yS0=; b=TN2AJ569//vzs/
+	0ywJ0KCE2QXYXNUVM3afDVxaC26ydgvY5xS2JL3azmV8pxrYk45XLc+Pv7625kEiGQlKqwhZhBsd0
+	dDlSxwhAJMU0SM0Hw+iSQN3hsxGqfYpwdD3BBhxVnKOpy/7WHbHEyqMaUzifqH0i+rU2k6o8r17QQ
+	eDgjj3O6QRflOucw06/3F6uIns1ZYODyBrtbyF+YILSlSxxPI7AmVN8VewnttJEjx7h0w5hdIgkc8
+	HQm9yrILTkAEtsxLTuel5hVz4uLr1oN5+fM6N/Sa9ZeejeuFsn7Y+6wHYKWYxx8+zBA+uk+d57e5X
+	Cy9lQWZHUJuVbj4p4sQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ut1mQ-0000000BuPm-42tL;
-	Mon, 01 Sep 2025 10:28:54 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1ut5wL-0000000CwJR-34ZP;
+	Mon, 01 Sep 2025 14:55:25 +0000
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ut0j6-0000000BjbS-2F8o
+	id 1ut2zF-0000000C68y-2d7I
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Sep 2025 09:21:25 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5819IqOi028398;
-	Mon, 1 Sep 2025 09:21:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=VWY9Ep
-	3AemUxgOmyA9Z3FA3cymUK7UD7MwsnUhn/Eq0=; b=IaCrNJ3qJsfRsgLykZvt2K
-	zPlNAwaf/JLE4S3BbpiJt9pKALnoriyXWRE7Gax63Ebeb5OXOwDUKEnx2pfj9fAI
-	9FFCrzbSrnQd9f4RirunDM2ldQSWdsCsRugInFjNjVkTEh8Wfe/7ZmPRbs+Jm+eQ
-	YB/pmiDZz2qTOlBbMBsi+ZPOhLc/AHV1tU9pBZINi52FwnKYz83Aey336aYlh1mA
-	Z9qlI6jznIo3oN1Ct3lPvxcCXibvOpOTVzDUHnMJ1YjmzRbtnZnDwV7hc8zX+2ht
-	RKEXw0SKBWPOzGDU0nZBIrD1TPdOke3iaPT1J7dzg6hrHfP1JnSB+/n94LpaqF0w
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usu9qydd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Sep 2025 09:21:15 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5818eWWE019926;
-	Mon, 1 Sep 2025 09:21:14 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 48vbmtwe62-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 01 Sep 2025 09:21:14 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5819LDLW26608266
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 1 Sep 2025 09:21:14 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 99C7F5805E;
-	Mon,  1 Sep 2025 09:21:13 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B09D15805C;
-	Mon,  1 Sep 2025 09:21:11 +0000 (GMT)
-Received: from [9.109.198.214] (unknown [9.109.198.214])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  1 Sep 2025 09:21:11 +0000 (GMT)
-Message-ID: <8de91a15-3d89-4801-911a-00e45bb6a2f1@linux.ibm.com>
-Date: Mon, 1 Sep 2025 14:51:09 +0530
+	Mon, 01 Sep 2025 11:46:15 +0000
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3cdfb1ff7aeso2096648f8f.2
+        for <linux-nvme@lists.infradead.org>; Mon, 01 Sep 2025 04:46:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756727172; x=1757331972; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/CXP5PchANxZqGp3Gssb1xnZMCk6ZZsq9Lr1RRv1yS0=;
+        b=uycNUHUg0r+Cz6dyfHP8AOgfJnss/0p5ZWPzo5lshjSvnGIPExcWEazgxLCrjzBrxN
+         0ks6WEkiK+bYcIEa1V1dhBxgKa1pFqA9WlfgVqJCwl5Gt8BVxddUJxHT9XsK0/2VEuWX
+         4d8dblwURKiGIEXB/VwzIdDxiP7ElavaReDEFXznKBvj8gs/VUrPQ2OghQTwDmHAy09V
+         owpdNe+0Q+FMJXgsGOeQIIzbqbHagHeZeDBIYTo9W0z/4HUdl8dsEHF6191Bd2khfkKV
+         M8Zkx7A6j+4GGt9dfO143T5+G0/3BN8bTOZTR4GHPl8wA3vO4hTsr+vPZjNMikPn0Ufw
+         UJHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756727172; x=1757331972;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/CXP5PchANxZqGp3Gssb1xnZMCk6ZZsq9Lr1RRv1yS0=;
+        b=ZIP5wo75dUG0toXEjGREGArDuFCqOmw5TWVHEtzDtEx8VC5gC8/itMFFjwXYMmS7e5
+         GxL+MKgDiguy9nVuJbfhqvYl+zPJodXQ9AeeW1pnrKF14YGmdI6+32nEshCTvxtbDaUB
+         1XvqKBiDptcxpMahOc6Vnipf13GumcuYvTgrBaycXoOgHQxgds1C89SJZ0Szai0Moqh0
+         eRYcxq+pOQDgmA7V4XTkNvct7mmCDrK/CN+M0U6n33h0WvtYt5eSRU0HRGg6An70IHKn
+         zKH44itXvPGfb8mVJS8aC7fzdA0l/x5MXHXgNdHHtx8Mm1i6W6I7HrD+avScx3cqqPCM
+         Qkdg==
+X-Forwarded-Encrypted: i=1; AJvYcCUrc2mmwn3AFgS2JgkZ3XgP0kbiBzTDiZaF56evZQsHlPl89uPeC7nY89hlT34+9N4GBorOS0xVBuxU@lists.infradead.org
+X-Gm-Message-State: AOJu0YzVxNxsr2iS7fh9g1qxH+tXIWdTkDEF8LczGBYFLZkfXhLVxYPc
+	vLORt1yJ5xc6rV1TERCKtBXnh54OijdIBOapOBSQT9tWMqu8vKfKE4Pj2sHkcPiouAQ=
+X-Gm-Gg: ASbGncteh+qZzm9baDVQGLl/oe/sKRjBQMsaqdEOnZZctETFO/WdilfvjPcPlFDaY/w
+	ARqawB9E/ItjHOeKDslvV/0wADe2lf5KwH0PuO8giBvq3KMkrsaX9DHjCbQUtggSURKD0JhbnFL
+	fz/dTAvYD4WfaTEMlc2ttGCD2z9vMJhFYgl4Tmq30oGI/TsWKzgto2H5Fo1W614/m6gOWr6hj2F
+	DJN81V9uYPoCMzEfdgvr68wkefwFZPySxPXHM6FfxFrQusiG9M1Uk3mkvjoG03Nh1Bylg5p0yEa
+	puqIeV51AxfqJQw6XRYca2RCUuH6hE3pG7pt5/1hTcih8HKotdRiiytbuchpMKlf9t2thd5dwbg
+	O+J+1/Kt600xYQhrbNvu1UB+BOybTkS3k5qqwpA==
+X-Google-Smtp-Source: AGHT+IHlqFyBokSnfRsgCUq7ALQSf4KtqVA34zcf/hmeCVs/UatcVoPMPEKEgVaN9VTTEzBEDFIuLA==
+X-Received: by 2002:a05:6000:24c1:b0:3c8:95b0:945e with SMTP id ffacd0b85a97d-3d1e01d4c59mr5678053f8f.43.1756727171860;
+        Mon, 01 Sep 2025 04:46:11 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf276d643dsm15226323f8f.26.2025.09.01.04.46.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Sep 2025 04:46:11 -0700 (PDT)
+Date: Mon, 1 Sep 2025 14:46:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Daniel Wagner <wagi@kernel.org>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
+Subject: Re: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup
+ code
+Message-ID: <202508310442.lBWBZ5AC-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 2/4] nvme: extend show-topology command to add support
- for multipath
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, gjoyce@ibm.com
-References: <20250812125614.164445-1-nilay@linux.ibm.com>
- <20250812125614.164445-3-nilay@linux.ibm.com>
- <93be5b21-8897-44d3-a590-42ba8f1b6abb@suse.de>
- <a06660fb-821f-447e-9ea6-ef0f3372a844@linux.ibm.com>
- <ecd33303-830d-4e26-b49a-14a558725e67@suse.de>
- <4f504c94-e6da-4a33-aa12-9dcb447e7021@flourine.local>
- <4e20561b-8b51-45c5-ad83-24b3d7ae092d@suse.de>
- <180fd47e-ffe6-4ef1-986e-5885afc34c01@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <180fd47e-ffe6-4ef1-986e-5885afc34c01@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Y8ELy93ux4GzBRKF5-A9lXz9OIQ5tF-c
-X-Authority-Analysis: v=2.4 cv=U6uSDfru c=1 sm=1 tr=0 ts=68b5658b cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=2J7IuT7wAAAA:8 a=df6Uu-Y5KN19nuECXEYA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=RtgRkGnnZwJf8nmJIBi8:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfX+zqdfZWRp1Zw
- 6mr7b74ynHnXBoeoAzpWCjlZDZTr2nvSlDAO5zfN0BMvsL0Lf6IP/IwApH1Cllnck0I3Mk7gq4u
- t5fCyyiym8xydKAYPPDHtWt3Ro5xysOkEcEjl3lT+gcP9TMh9nLD+idwKB9jt0bYZQWpJ3AIV1l
- lY55UViDo9ntwed6Vbi9b/kDF2IBq6faadPte07o7dx/gMY0ItPh2O7wb64v7MBFKdjfnf8RZVY
- 1By3qkoUAhEwXCGoNq2LfXPrX+Kkh5snJhcILS0gaP/k9DZorGRHWqg0IzbqbhyREuX9JZNIWCP
- 4jJaXwZNXdBfR2VLztPl+uZj7AT8GbKt2uZnMmrWFCRZz8QUL8w2qo09qkx6FEN63oIBcDen2P4
- 2zmmzArC
-X-Proofpoint-ORIG-GUID: Y8ELy93ux4GzBRKF5-A9lXz9OIQ5tF-c
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-01_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 adultscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 spamscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300034
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250829-nvme-fc-sync-v3-2-d69c87e63aee@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250901_022124_691714_23A82083 
-X-CRM114-Status: GOOD (  32.49  )
+X-CRM114-CacheID: sfid-20250901_044613_671478_7D6B2FC1 
+X-CRM114-Status: GOOD (  10.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,86 +102,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Daniel and Hannes,
+Hi Daniel,
 
-Just a gentle ping on this one...
+kernel test robot noticed the following build warnings:
 
-Do you agree with the reasoning I suggested for filtering
-columns based on iopolicy? If we all have agreement then
-I'd send out the next patchset with appropriate change.
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-fabrics-introduce-ref-counting-for-nvmf_ctrl_options/20250829-234513
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250829-nvme-fc-sync-v3-2-d69c87e63aee%40kernel.org
+patch subject: [PATCH v3 2/4] nvme-fc: reorganize ctrl ref-counting and cleanup code
+config: x86_64-randconfig-161-20250830 (https://download.01.org/0day-ci/archive/20250831/202508310442.lBWBZ5AC-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
-Thanks,
---Nilay
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508310442.lBWBZ5AC-lkp@intel.com/
 
-On 8/20/25 5:29 PM, Nilay Shroff wrote:
-> 
-> 
-> On 8/20/25 2:00 PM, Hannes Reinecke wrote:
->> On 8/20/25 10:17, Daniel Wagner wrote:
->>> On Tue, Aug 19, 2025 at 08:15:09AM +0200, Hannes Reinecke wrote:
->>>>> Okay makes sense, so we'd print <numa-node> and exclude <queue-depth> if iopolicy
->>>>> is numa. For 'queue-depth' iopolicy, we'd print <queue-depth> and exclude <numa-node>.
->>>>> And for 'round-robin' iopolicy, we'd neither print <numa-node> nor <queue-depth>.
->>>>> I'll update this in the next patch.
->>>>>
->>>> Hmm. I'd rather have _some_ value for 'round-robin', too, as otherwise
->>>> the number of fields will be different (and making parsing harder).
->>>
->>> What type of parser do you mean, a carbon based one or a computer? I
->>> strongly recommend to use the JSON output for the later.
->>>
->>> I would really prefer that the default stdout is easy for a human to
->>> read not screen scrappers.
->>>
->> That was my intention, too. And my prime objection was to have a
->> sequence of raw numbers, and requiring the user to figure out what
->> these numbers are for.
->>
-> Yes, you are right — those sequences of raw numbers did look confusing,
-> and that’s why Daniel suggested adding annotations. However, I found it
-> difficult to annotate the numbers in the tree-style output of show-topology.
-> To address this, we decided to also support printing topology in a tabular
-> format, which is much easier for humans to interpret.
-> 
-> As you can see in the last patch of this series (4/4), we now support showing
-> the topology in a tabular format (when the user selects it). For reference:
-> 
-> # ./nvme show-topology -o tabular 
-> nvme-subsys1 - NQN=nvmet_subsystem
->                hostnqn=nqn.2014-08.org.nvmexpress:uuid:779c3f46-2bb7-4e82-8f46-2b3e795e54f6
->                iopolicy=numa
-> 
-> NSHead  NSID NSPath    ANAState  Nodes Qdepth Controller TrType Address                                          State 
-> ------- ---- --------- --------- ----- ------ ---------- ------ ------------------------------------------------ ----- 
-> nvme1n1  1   nvme1c1n1 optimized  0,1     0    nvme1      tcp    traddr=127.0.0.2,trsvcid=4460,src_addr=127.0.0.1 live  
->   -->    1   nvme1c2n1 optimized  2,3     0    nvme2      tcp    traddr=127.0.0.3,trsvcid=4460,src_addr=127.0.0.1 live  
-> 
-> So as you could see above, this format is much clearer and human-friendly.
-> (Please note that above table is printed using new table APIs introduced
-> in patch 3/3).
-> 
->> But really, I'm not sure if we should print out values from the various
->> I/O policies. For NUMA it probably makes sense, but for round-robin and
->> queue-depths the values are extremely volatile, so I wonder what benefit
->> for the user is here.
->>
-> 
-> I think the qdepth output could still be useful. For example, if I/Os are
-> queuing up on one path (perhaps because that path is slower), then the Qdepth
-> value might help indicate something unusual or explain why one path is being
-> chosen over another.
-> 
-> That said, if we all agree that tools or scripts should ideally rely on JSON
-> output for parsing, then the tabular output could be simplified further:
-> 
-> - For numa iopolicy: print <Nodes> and exclude <Qdepth>.
-> - For queue-depth iopolicy: print <Qdepth> and exclude <Nodes>.
-> - For round-robin iopolicy: exclude both <Nodes> and <Qdepth>.
-> 
-> Does this sound reasonable? Or do we still want to avoid printing 
-> <Qdepth> even for queue-depth iopolicy?
-> 
-> Thanks,
-> --Nilay
+New smatch warnings:
+drivers/nvme/host/fc.c:1492 nvme_fc_match_disconn_ls() warn: iterator used outside loop: 'ctrl'
+
+Old smatch warnings:
+drivers/nvme/host/fc.c:3180 nvme_fc_delete_association() warn: mixing irqsave and irq
+
+vim +/ctrl +1492 drivers/nvme/host/fc.c
+
+14fd1e98afafc0 James Smart 2020-03-31  1465  static struct nvme_fc_ctrl *
+14fd1e98afafc0 James Smart 2020-03-31  1466  nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
+14fd1e98afafc0 James Smart 2020-03-31  1467  		      struct nvmefc_ls_rcv_op *lsop)
+14fd1e98afafc0 James Smart 2020-03-31  1468  {
+14fd1e98afafc0 James Smart 2020-03-31  1469  	struct fcnvme_ls_disconnect_assoc_rqst *rqst =
+14fd1e98afafc0 James Smart 2020-03-31  1470  					&lsop->rqstbuf->rq_dis_assoc;
+14fd1e98afafc0 James Smart 2020-03-31  1471  	struct nvme_fc_ctrl *ctrl, *ret = NULL;
+14fd1e98afafc0 James Smart 2020-03-31  1472  	struct nvmefc_ls_rcv_op *oldls = NULL;
+14fd1e98afafc0 James Smart 2020-03-31  1473  	u64 association_id = be64_to_cpu(rqst->associd.association_id);
+14fd1e98afafc0 James Smart 2020-03-31  1474  	unsigned long flags;
+14fd1e98afafc0 James Smart 2020-03-31  1475  
+14fd1e98afafc0 James Smart 2020-03-31  1476  	spin_lock_irqsave(&rport->lock, flags);
+14fd1e98afafc0 James Smart 2020-03-31  1477  
+14fd1e98afafc0 James Smart 2020-03-31  1478  	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
+14fd1e98afafc0 James Smart 2020-03-31  1479  		spin_lock(&ctrl->lock);
+14fd1e98afafc0 James Smart 2020-03-31  1480  		if (association_id == ctrl->association_id) {
+14fd1e98afafc0 James Smart 2020-03-31  1481  			oldls = ctrl->rcv_disconn;
+14fd1e98afafc0 James Smart 2020-03-31  1482  			ctrl->rcv_disconn = lsop;
+14fd1e98afafc0 James Smart 2020-03-31  1483  			ret = ctrl;
+
+There should maybe be a break statement here?
+
+14fd1e98afafc0 James Smart 2020-03-31  1484  		}
+14fd1e98afafc0 James Smart 2020-03-31  1485  		spin_unlock(&ctrl->lock);
+14fd1e98afafc0 James Smart 2020-03-31  1486  	}
+14fd1e98afafc0 James Smart 2020-03-31  1487  
+14fd1e98afafc0 James Smart 2020-03-31  1488  	spin_unlock_irqrestore(&rport->lock, flags);
+14fd1e98afafc0 James Smart 2020-03-31  1489  
+14fd1e98afafc0 James Smart 2020-03-31  1490  	/* transmit a response for anything that was pending */
+14fd1e98afafc0 James Smart 2020-03-31  1491  	if (oldls) {
+14fd1e98afafc0 James Smart 2020-03-31 @1492  		dev_info(rport->lport->dev,
+14fd1e98afafc0 James Smart 2020-03-31  1493  			"NVME-FC{%d}: Multiple Disconnect Association "
+14fd1e98afafc0 James Smart 2020-03-31  1494  			"LS's received\n", ctrl->cnum);
+
+ctrl->cnum is always an invalid pointer on this line.  Another
+option would be to print ret->cnum instead ctrl->nmum.
+
+14fd1e98afafc0 James Smart 2020-03-31  1495  		/* overwrite good response with bogus failure */
+14fd1e98afafc0 James Smart 2020-03-31  1496  		oldls->lsrsp->rsplen = nvme_fc_format_rjt(oldls->rspbuf,
+14fd1e98afafc0 James Smart 2020-03-31  1497  						sizeof(*oldls->rspbuf),
+14fd1e98afafc0 James Smart 2020-03-31  1498  						rqst->w0.ls_cmd,
+14fd1e98afafc0 James Smart 2020-03-31  1499  						FCNVME_RJT_RC_UNAB,
+14fd1e98afafc0 James Smart 2020-03-31  1500  						FCNVME_RJT_EXP_NONE, 0);
+14fd1e98afafc0 James Smart 2020-03-31  1501  		nvme_fc_xmt_ls_rsp(oldls);
+14fd1e98afafc0 James Smart 2020-03-31  1502  	}
+14fd1e98afafc0 James Smart 2020-03-31  1503  
+14fd1e98afafc0 James Smart 2020-03-31  1504  	return ret;
+14fd1e98afafc0 James Smart 2020-03-31  1505  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
