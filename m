@@ -4,122 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0999ACA0FF0
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Sep 2025 20:01:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E24BCA100C
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Sep 2025 23:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RCBugcF98CI0wrGkrO2/gQGpoqK7KN+1C03Zi0E60ss=; b=OuhKn+3LhET57O3cp3qAFxvOBh
-	hO+d+ReY66SQHV8L5rA4NV9mgef+DudOXSmEQVYb/yyJqKDS3/PddOcCXni83dIgP0UwKqXgLCU3q
-	uVapq9rY6hXAMayxAns/slW8JTyPFleOzsA5+xIx4BBEVX8ZYtyFe6GIPD5yIWnvCshU67A6xB5vP
-	nJB4NQXLyg49hyUpjcjeiUujNeKUrBJ+VwbJly/+vf8ZYry7k1yYBziZI/6icEQ5tOLAIuSEZAHgR
-	miIbJIUkm5MMSz6A4aRKHic6uK+lUsE84vkk9hCJuEbWNUnFYSA4MWqHOHQoQkha7iIYcI81nZPI1
-	dBZcVT/Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=7RQc815K1cguAID8fXNkab2jZSzhJE3mElKVPnNFJkw=; b=ED087v/wjsIY8WVk3zr1yqAx9v
+	VAIKSzh3IIEIytt1YkuBnObdhhPDTqcIT6j9XwKDmzntbZSiBaOTRN27yg2c+66YiiE54Wf5rQt/g
+	uNh9rv+N2H1hSxHJMaumXGfEOYSngYntRLcmi6+x7LeCitvcsqJx0E0CoLOA/ic/OFNKWn5q7JdVq
+	3hPXJk0O8Ipjj1jej7gu/imWuJ5IymkowuPGOozMJ7TKl+Sm7NT32Ea3gZA2nT1l9V8Sy/SVI+dSt
+	DH1I0RZZwP0LBZ24wnVSYQ3npqCTWDdEKCSFUQehGpMY+zn1jnq7uGYD49TDGRs/r7laJ4FD7sELn
+	zTJynGXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utAi1-0000000DjdH-0MOQ;
-	Mon, 01 Sep 2025 20:00:57 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1utDh5-0000000EE2c-0Qhk;
+	Mon, 01 Sep 2025 23:12:11 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ut7WG-0000000DIGD-3Lv6
+	id 1ut6oQ-0000000DBSW-0j1O
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Sep 2025 16:36:42 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 99F41211A8;
-	Mon,  1 Sep 2025 16:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756744594; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RCBugcF98CI0wrGkrO2/gQGpoqK7KN+1C03Zi0E60ss=;
-	b=MMH8/ggiZBRztswYKSx2XKZVOe9MV32GaRoR5vtSTyFTN2U/eqF3CaeeNHUgT+WMdu2peO
-	XDOAM5B9jv//w96sRuRObRTq3+1AUON1kP15o4Rw4akYvGd0bElkXPd70Nqdd0vg22pHC0
-	86iLyGeeuGGn/65KbiTNSwpwMm5X8mw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756744594;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RCBugcF98CI0wrGkrO2/gQGpoqK7KN+1C03Zi0E60ss=;
-	b=7dA3blzhfFnSX8+mKroVKfYmTvaJoHuT85ETAYva8nfMXD1rhzMIWcZnidDu92+Bu0oD/a
-	FC8ZYvyT1HyWqXDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756744593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RCBugcF98CI0wrGkrO2/gQGpoqK7KN+1C03Zi0E60ss=;
-	b=o5HaV+rIncplOVaMf81UozlZWESi0kLBERjpfGL9BV9pBRVGQATlVFj+ObQJLCm9Vpk89H
-	UJqjsE0aeyYsl0igX2SZAUogrLCOuKd/VyXq+/93n5Q1wvYcgoE6I6uZYwt59ZzA/yaoF6
-	/GgwF6YjQ1U750DHMGl9eQptQyeAj1U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756744593;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RCBugcF98CI0wrGkrO2/gQGpoqK7KN+1C03Zi0E60ss=;
-	b=zuEI0uSFRKKkUwQ8DuESqO5cZ0MGbTPOxO+qOcXBGgR1yOo7Tx3lxUobspj9NRfITVDxIl
-	HsmgPVuvLwQ3CmAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BD8213A3E;
-	Mon,  1 Sep 2025 16:36:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sMhDIZHLtWgheQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 01 Sep 2025 16:36:33 +0000
-Date: Mon, 1 Sep 2025 18:36:29 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	kbusch@kernel.org, gjoyce@ibm.com
-Subject: Re: [PATCHv2 2/4] nvme: extend show-topology command to add support
- for multipath
-Message-ID: <2eeba3ca-293c-429b-8afa-c5ba401c67b6@flourine.local>
-References: <20250812125614.164445-1-nilay@linux.ibm.com>
- <20250812125614.164445-3-nilay@linux.ibm.com>
- <93be5b21-8897-44d3-a590-42ba8f1b6abb@suse.de>
- <a06660fb-821f-447e-9ea6-ef0f3372a844@linux.ibm.com>
- <ecd33303-830d-4e26-b49a-14a558725e67@suse.de>
- <4f504c94-e6da-4a33-aa12-9dcb447e7021@flourine.local>
- <4e20561b-8b51-45c5-ad83-24b3d7ae092d@suse.de>
- <180fd47e-ffe6-4ef1-986e-5885afc34c01@linux.ibm.com>
- <8de91a15-3d89-4801-911a-00e45bb6a2f1@linux.ibm.com>
+	Mon, 01 Sep 2025 15:51:19 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 6A34C447AF;
+	Mon,  1 Sep 2025 15:51:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0227C4CEF0;
+	Mon,  1 Sep 2025 15:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756741877;
+	bh=+d4/imJUBiI3Xursn4W/oBtcM8JHT5OMCHlOTWaPeoA=;
+	h=From:Date:Subject:To:Cc:From;
+	b=anQyuVvdGy5pkqnFSRSjk+XpK46Zk9Se9/r+byAPbSZYqL64rFOO29O7uxeWWIG56
+	 zX1b97FoWVQVs7guBPkYeUdPz3mxl+XmCg+QBGFeK8VhQnSK4mMWWnyv2RbMOwRKbR
+	 3eV0OvB/D7wOKgLqipJpO1qTjHWzeWD4dkWBKQMTEbcpDFMfBUkXhVK2/xxkkBrq7Z
+	 xtWnzbARjGbUAx0OsNeD9J68ZtaSN3H65cMPUXLCausjKHSrr/LW1eSx9WJNffb4Id
+	 b5clSzOptCyyBIuzomJ2IXI7dlhqm4U6U4gNffA7Q+/V8ABwJharudZIUlrK1Wd0ym
+	 7dQZzltzGPpiQ==
+From: Daniel Wagner <wagi@kernel.org>
+Date: Mon, 01 Sep 2025 17:51:13 +0200
+Subject: [PATCH] nvmet-fcloop: call done callback even when remote port is
+ gone
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8de91a15-3d89-4801-911a-00e45bb6a2f1@linux.ibm.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250901-nvme-fc-fix-leaks-v1-1-3ae0aa88d5e5@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAPDAtWgC/x2MSQqAMAwAvyI5G6jV4vIV8RBrqkGt0oII4t8tH
+ odh5oHIQThClz0Q+JIoh09Q5BnYhfzMKFNi0Eob1aoC/bUzOotObtyY1ogVaWOpbGpDI6TuDJz
+ k/+yH9/0AmPJ1cWMAAAA=
+X-Change-ID: 20250901-nvme-fc-fix-leaks-4a25ca3875ab
+To: James Smart <james.smart@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Yi Zhang <yi.zhang@redhat.com>, Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250901_093637_147291_5B11D8A2 
-X-CRM114-Status: GOOD (  24.17  )
+X-CRM114-CacheID: sfid-20250901_085118_234741_0E2FE2F0 
+X-CRM114-Status: GOOD (  14.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,50 +76,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nilay,
+When the target port is gone, it's not possible to access any of the
+request resources. The function should just silently drop the response.
+The comment is misleading in this regard.
 
-On Mon, Sep 01, 2025 at 02:51:09PM +0530, Nilay Shroff wrote:
-> Hi Daniel and Hannes,
-> 
-> Just a gentle ping on this one...
-> 
-> Do you agree with the reasoning I suggested for filtering
-> columns based on iopolicy? If we all have agreement then
-> I'd send out the next patchset with appropriate change.
+Though it's still necessary to call the driver via the ->done callback
+so the driver is able to release all resources.
 
-I was waiting for Hannes input here as he was in discussion.
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Closes: https://lore.kernel.org/all/CAHj4cs-OBA0WMt5f7R0dz+rR4HcEz19YLhnyGsj-MRV3jWDsPg@mail.gmail.com/
+Fixes: 84eedced1c5b ("nvmet-fcloop: drop response if targetport is gone")
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+ drivers/nvme/target/fcloop.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-> >> But really, I'm not sure if we should print out values from the various
-> >> I/O policies. For NUMA it probably makes sense, but for round-robin and
-> >> queue-depths the values are extremely volatile, so I wonder what benefit
-> >> for the user is here.
-> >>
-> > 
-> > I think the qdepth output could still be useful. For example, if I/Os are
-> > queuing up on one path (perhaps because that path is slower), then the Qdepth
-> > value might help indicate something unusual or explain why one path is being
-> > chosen over another.
-> > 
-> > That said, if we all agree that tools or scripts should ideally rely on JSON
-> > output for parsing, then the tabular output could be simplified further:
-> > 
-> > - For numa iopolicy: print <Nodes> and exclude <Qdepth>.
-> > - For queue-depth iopolicy: print <Qdepth> and exclude <Nodes>.
-> > - For round-robin iopolicy: exclude both <Nodes> and <Qdepth>.
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 257b497d515a892a39da82d2f96b3fa3c6e10cdd..5dffcc5becae86c79ef75a123647566b2dfc21f6 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -496,13 +496,15 @@ fcloop_t2h_xmt_ls_rsp(struct nvme_fc_local_port *localport,
+ 	if (!targetport) {
+ 		/*
+ 		 * The target port is gone. The target doesn't expect any
+-		 * response anymore and the ->done call is not valid
+-		 * because the resources have been freed by
+-		 * nvmet_fc_free_pending_reqs.
++		 * response anymore and thus lsreq can't be accessed anymore.
+ 		 *
+ 		 * We end up here from delete association exchange:
+ 		 * nvmet_fc_xmt_disconnect_assoc sends an async request.
++		 *
++		 * Return success because this is what LLDDs do; silently
++		 * drop the response.
+ 		 */
++		lsrsp->done(lsrsp);
+ 		kmem_cache_free(lsreq_cache, tls_req);
+ 		return 0;
+ 	}
 
-Looks reasonable to me.
+---
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+change-id: 20250901-nvme-fc-fix-leaks-4a25ca3875ab
 
-> > Does this sound reasonable? Or do we still want to avoid printing 
-> > <Qdepth> even for queue-depth iopolicy?
+Best regards,
+-- 
+Daniel Wagner <wagi@kernel.org>
 
-I am fine with printing the qdepth value as long it is documented what it
-means. IIRC there are other tools which just show a snapshot for some
-statistics.
-
-BTW, some discussion on github regarding something like a
-'monitor' feature: https://github.com/linux-nvme/nvme-cli/issues/2189
-Might be something to which could be considered here as well.
-
-Thanks,
-Daniel
 
