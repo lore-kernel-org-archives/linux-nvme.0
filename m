@@ -4,48 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FB27CA0FFE
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 05:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EE32CA0FFE
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 05:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q8fwJBX46O+tFjIViWwkJM4Mm8c9+7Lcw84iLkR44kQ=; b=yB8o+w5t21gvps5LD0Xgf2JNM8
-	Y8jVF5S1V7dc3CTujF+enPQ2xbFMeUQvaPDCQRZm/Xai3nNz2Pru1CZJCaUCUHqyk4HMlnDQT+pqq
-	1nF37pl5GYQdFlXorGduOhxIe1gY5dQCSSKyStEOQd9dqsL8KbGzMH1YQuNdz9Yc9WbwOB0knmUYi
-	Ep0EiwuJhktqBhzOYnOJ7d1e0G5RfKXYsgjG2wxq8C+DXQkbi1rSz/udMipH5zbBIkv/ohInEmKTd
-	LhFG2WYwmGcNc5S3xvWkcne3+kDBQbVZbDBWI7UpI1qI2hBshYY2fOu6h3gywW96UnGzwbEgX/+mB
-	X1hsJixw==;
+	bh=rPsgnf0q4u1cG9WVov2a/T0rgatCQv4Hm7x2TtI+rMk=; b=zgM/hbuSnGGwF71c0h2UJomORx
+	k6OAaQ2sTXlwMFebZFiydP+x8pmWYJy7RHxjFxxcXMC9FTjxQYo46DkS6UEvLwLZ5+u4jZak2oPN0
+	aa12FHZXZAoCK5/zKnpoamsMEbnEGUbdOZD6CC8ficHwOHt8JBJtBAZv3kBYd8aT+q3d4GVcJJMso
+	y6N90kEm0RJnb0m0GS+2bSRLz8Q+aZO0r6FGNfItYwO0RM91nRZEHtjvwdWOxycoE55rcpM5kHDyr
+	PW44E2/tDCAi8eI2iGzGoWFk0zliElfG0fIeXSdzobXyLnrwl+4E0hR2jzUtTITYon5v7Tw9EOyld
+	UEnQT18g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utJoX-0000000FMTm-0vwO;
-	Tue, 02 Sep 2025 05:44:17 +0000
+	id 1utJrE-0000000FNGk-2nLP;
+	Tue, 02 Sep 2025 05:47:04 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utJee-0000000FKPG-0i63
+	id 1utJgj-0000000FKp4-3sZG
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Sep 2025 05:34:05 +0000
+	Tue, 02 Sep 2025 05:36:15 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3DD2B68AA6; Tue,  2 Sep 2025 07:33:59 +0200 (CEST)
-Date: Tue, 2 Sep 2025 07:33:58 +0200
+	id C5E5D68AA6; Tue,  2 Sep 2025 07:36:08 +0200 (CEST)
+Date: Tue, 2 Sep 2025 07:36:08 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
-	axboe@kernel.dk, martin.petersen@oracle.com, jgg@nvidia.com,
-	leon@kernel.org, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH 2/2] blk-mq-dma: bring back p2p request flags
-Message-ID: <20250902053358.GB11204@lst.de>
-References: <20250829142307.3769873-1-kbusch@meta.com> <20250829142307.3769873-3-kbusch@meta.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Christoph Hellwig <hch@infradead.org>,
+	Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, axboe@kernel.dk,
+	iommu@lists.linux.dev, willy@infradead.org, netdev@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCHv3 1/2] block: accumulate segment page gaps per bio
+Message-ID: <20250902053608.GA11396@lst.de>
+References: <20250821204420.2267923-1-kbusch@meta.com> <20250821204420.2267923-2-kbusch@meta.com> <aKxpSorluMXgOFEI@infradead.org> <aKxu83upEBhf5gT7@kbusch-mbp> <20250826130344.GA32739@lst.de> <aK27AhpcQOWADLO8@kbusch-mbp> <20250826135734.GA4532@lst.de> <aK42K_-gHrOQsNyv@kbusch-mbp> <20250827073709.GA25032@lst.de> <aLJYPGKE4Y_6QzY2@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250829142307.3769873-3-kbusch@meta.com>
+In-Reply-To: <aLJYPGKE4Y_6QzY2@kbusch-mbp>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250901_223404_349219_D6C92C09 
-X-CRM114-Status: GOOD (  17.00  )
+X-CRM114-CacheID: sfid-20250901_223614_100335_66B295CC 
+X-CRM114-Status: GOOD (  19.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,25 +62,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Aug 29, 2025 at 07:23:07AM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On Fri, Aug 29, 2025 at 07:47:40PM -0600, Keith Busch wrote:
+> On Wed, Aug 27, 2025 at 09:37:09AM +0200, Christoph Hellwig wrote:
+> > On Tue, Aug 26, 2025 at 04:33:15PM -0600, Keith Busch wrote:
+> > > virt boundary check. It's looking like replace bvec's "page + offset"
+> > > with phys addrs, yeah?!
+> > 
+> > Basically everything should be using physical address.  The page + offset
+> > is just a weird and inefficient way to represent that and we really
+> > need to get rid of it.
 > 
-> We only need to consider data and metadata dma mapping types separately.
-> The request and bio integrity payload have enough flag bits to
-> internally track the mapping type for each. Add flags for these so the
-> caller doesn't need to track them, and provide separete request and
-> integrity helpers to the common code for unmpaping. This will make it
-> easier to scale as new mappings are added without burdening the caller
-> to track such things.
+> I was plowing ahead with converting to phys addrs only to discover
+> skb_frag_t overlays a bvec with tightly coupled expectations on its
+> layout. I'm not comfortable right now messing with that type. I think it
+> may need to be decoupled to proceed on this path. :(
 
-We are actually about to run out of REQ_* bits with the current
-encoding.  We could shrink the space for REQ_OP_ a bit to create
-more, or try to move some flags out into BIO_ flags (like
-REQ_ALLOC_CACHE) or kill them by looking at pointers instead
-(REQ_INTEGRITY), or by overlaying flags that can't be used with
-the same of (REQ_FUA vs REQ_RAHEAD vs REQ_UNMAP for example).
-And maybe we can come up with a more coherent scheme for
-REQ_PRIO / REQ_BACKGROUND / REQ_SWAP and maybe REQ_IDLE that create
-another priority scheme in addition to the I/O priorities.
-
+willy got really angry at this for all the right reasons, and we
+still need it fixed.  Can we just revert the unreviewed crap the
+network folks did here to move the kernel forward?
 
