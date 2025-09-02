@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E9AFCA1015
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 18:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ADA0CA101C
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 18:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gBN6TymVGMKhXDzN9igdXoFGYHBR48aWHHpqoRKUgm4=; b=kq2aIK2SaaHuL/pt1w2dGOsSEw
-	eJ3alfr7SprYyPRvg0skSR2G6hoHkEmyLTHMvAtu+tEVbgpYxNxnuklkLbwFXOJWQzAUkrmLHlm4+
-	cBGoXlYzDnn8HPBVf6fEtmGMUtYheX9fUxweG3I6Zp406cO2w+W1v5CrvMxnZt0pF4nkbCfFmfesT
-	DwpPvfhsLFo35qCHQ0mOHD63xJ38K7YdQJGN26zjAXEXgi0LTCNaoMgLg8YG5EQeiYNnPGpRWkYCf
-	cYmFhvf479FVAf/EWblS4znCvCeaJ3TebJiOlww+5fzGb5kSSYUP3VHgRpF9Zy4wRtc3Sh8crgZuS
-	Q5qjLcJw==;
+	bh=7/hlUPkO7h8DBhJNx9gpER7mP0DqTJkgE9FjVOPyX1w=; b=DPCoJyTrEDXXO4VhsTuqcCGkJ/
+	PRpErdSgIfqCHsMl49wDub5JRBUx4tNoUkrmostTRFa89JZbQ0xr0tLPKAkn7w/l90tDbIAH/0GqI
+	93SaS+H+6Do0l5zu5zO4B9J5qUyssMG6MSGEY97eSvglY5zxMQ62IFgZ9g9jt+pimz3i/3fZSSe+T
+	QXKsHKFk+nSWwdleIRf2Wy08qCer1DIIHSaUOfu5nmtZdsclLBpMys3MQQhi7entZZ5v+O7zRUDUZ
+	/8msQQwQpXrrv8Gs2OfMZAyaylN7ipoSiRMvR8GPkbQNR0CbfkscxUdMboFfXWhCJM9h+ZarQ9CPK
+	AsOg6B/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuEkF-0000000DaE1-0MiO;
-	Thu, 04 Sep 2025 18:31:39 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uuEk8-0000000Da7B-04LU;
+	Thu, 04 Sep 2025 18:31:32 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utSKg-00000000Th4-2euX
+	id 1utSJz-00000000TGF-0Jsa
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Sep 2025 14:50:03 +0000
+	Tue, 02 Sep 2025 14:49:19 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4A6A641B36;
-	Tue,  2 Sep 2025 14:50:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5010C4CEF5;
-	Tue,  2 Sep 2025 14:50:00 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 7EA356021C;
+	Tue,  2 Sep 2025 14:49:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B2D4C4CEED;
+	Tue,  2 Sep 2025 14:49:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756824602;
-	bh=ZBDCCXKOUbAW2GsG2jVC6suB2pwDgJLZN0OvrJL85zc=;
+	s=k20201202; t=1756824558;
+	bh=ZQFwkiDPp1GyvHCZ7R7ij52YlSaCwxtclFyfGHPImis=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lkdauzdpN/SIpGSSfK8kLRUi86AA3+TOqmqD24ZnSor88UIrlGHjQsAmCWO6e2anl
-	 K1lRyv4MmrXkJu2ofOy32MFwkshextQSVPwvtX4cA3dJRuVSZhM7Jx9KBi5eSNonrI
-	 z4cGmqRTm+5StjFtRxvIwsoIxLa3y6W46EmimmukeeLvHkuxCFF2Vrt9w4OBWq+PE8
-	 obKDUurvbMwMhMZ1bRG/wLIUXAqpLU+zCaTKDld6pT5B4hrYSp0DUwIX2ynJrtw+wC
-	 fv6qY0+duowp3cuGhIqsRETMXtVLq780uF5XI7RuDfeie+OQAT9g3cPsIbtn3Lr6Ky
-	 j7H6Q0F41/mKg==
+	b=jZmeCwVFRuH1q78msLckvRK79MBxGIRsQSWl7GBnGjpSqFOv2UDpkk6433cUWOsEL
+	 l9FnZk3/0IIfwIr220SmWYn2k3PyNggQq6bLFnvgo1KPA8d0QkcJIRT0vceLl2NBv3
+	 AyLz46HnllepaRbuN6Ht7Y/oPR7+rcoH7rVDA85AS1gdZ8v7IiwFHbwzMgE1Q2HXAx
+	 ZKVBRm1t0pVDRP6Kla06+MrDCyH7a11ZlI1r1bp8YNmS2rKCfQW03E6fHoFyIWG1eL
+	 Gf1sYErqR105oSaj09oPpOBM+XoEwrPIL4YnSSFSWBAOhlLxm/x9zMzxsifJI16EZE
+	 Wv26+f+T2tyxA==
 From: Leon Romanovsky <leon@kernel.org>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -81,17 +81,14 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	virtualization@lists.linux.dev,
 	Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Subject: [PATCH v5 14/16] block-dma: migrate to dma_map_phys instead of map_page
-Date: Tue,  2 Sep 2025 17:48:51 +0300
-Message-ID: <b6356fbc547963548f2d4f035fb2e85f9d83ff99.1756822782.git.leon@kernel.org>
+Subject: [PATCH v5 04/16] dma-mapping: rename trace_dma_*map_page to trace_dma_*map_phys
+Date: Tue,  2 Sep 2025 17:48:41 +0300
+Message-ID: <7b4656d5f6392486f28f71ad600a95e6690e2f41.1756822782.git.leon@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1756822782.git.leon@kernel.org>
 References: <cover.1756822782.git.leon@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250902_075002_699649_55D9A8AC 
-X-CRM114-Status: GOOD (  13.38  )
 X-Mailman-Approved-At: Thu, 04 Sep 2025 09:33:16 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -109,31 +106,60 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-After introduction of dma_map_phys(), there is no need to convert
-from physical address to struct page in order to map page. So let's
-use it directly.
+As a preparation for following map_page -> map_phys API conversion,
+let's rename trace_dma_*map_page() to be trace_dma_*map_phys().
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- block/blk-mq-dma.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/trace/events/dma.h | 4 ++--
+ kernel/dma/mapping.c       | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
-index ad283017caef..37e2142be4f7 100644
---- a/block/blk-mq-dma.c
-+++ b/block/blk-mq-dma.c
-@@ -87,8 +87,8 @@ static bool blk_dma_map_bus(struct blk_dma_iter *iter, struct phys_vec *vec)
- static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
- 		struct blk_dma_iter *iter, struct phys_vec *vec)
- {
--	iter->addr = dma_map_page(dma_dev, phys_to_page(vec->paddr),
--			offset_in_page(vec->paddr), vec->len, rq_dma_dir(req));
-+	iter->addr = dma_map_phys(dma_dev, vec->paddr, vec->len,
-+			rq_dma_dir(req), 0);
- 	if (dma_mapping_error(dma_dev, iter->addr)) {
- 		iter->status = BLK_STS_RESOURCE;
- 		return false;
+diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
+index ee90d6f1dcf3..84416c7d6bfa 100644
+--- a/include/trace/events/dma.h
++++ b/include/trace/events/dma.h
+@@ -72,7 +72,7 @@ DEFINE_EVENT(dma_map, name, \
+ 		 size_t size, enum dma_data_direction dir, unsigned long attrs), \
+ 	TP_ARGS(dev, phys_addr, dma_addr, size, dir, attrs))
+ 
+-DEFINE_MAP_EVENT(dma_map_page);
++DEFINE_MAP_EVENT(dma_map_phys);
+ DEFINE_MAP_EVENT(dma_map_resource);
+ 
+ DECLARE_EVENT_CLASS(dma_unmap,
+@@ -110,7 +110,7 @@ DEFINE_EVENT(dma_unmap, name, \
+ 		 enum dma_data_direction dir, unsigned long attrs), \
+ 	TP_ARGS(dev, addr, size, dir, attrs))
+ 
+-DEFINE_UNMAP_EVENT(dma_unmap_page);
++DEFINE_UNMAP_EVENT(dma_unmap_phys);
+ DEFINE_UNMAP_EVENT(dma_unmap_resource);
+ 
+ DECLARE_EVENT_CLASS(dma_alloc_class,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 4c1dfbabb8ae..fe1f0da6dc50 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -173,7 +173,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
+ 	else
+ 		addr = ops->map_page(dev, page, offset, size, dir, attrs);
+ 	kmsan_handle_dma(page, offset, size, dir);
+-	trace_dma_map_page(dev, phys, addr, size, dir, attrs);
++	trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
+ 	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
+ 
+ 	return addr;
+@@ -193,7 +193,7 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+ 		iommu_dma_unmap_page(dev, addr, size, dir, attrs);
+ 	else
+ 		ops->unmap_page(dev, addr, size, dir, attrs);
+-	trace_dma_unmap_page(dev, addr, size, dir, attrs);
++	trace_dma_unmap_phys(dev, addr, size, dir, attrs);
+ 	debug_dma_unmap_phys(dev, addr, size, dir);
+ }
+ EXPORT_SYMBOL(dma_unmap_page_attrs);
 -- 
 2.50.1
 
