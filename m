@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA15CCA1010
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 12:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E14D7CA1005
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 12:27:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wF34UXMOETsDiQ9gq9SKqh83/FIkUrWNcAG5S9bjBq0=; b=GLrj8q9q3CRY5a6TCIKW0+w+1c
-	Z+asdPq2yl+lprAh7uU6YLIogeMGDMrQfndxy3Q4IjsGqLD8+DZSiy9td93N4IfcItnp2sF49tXOw
-	TMVtWpZA63IX+RUHe/aDlvPZ7oEBuohxtRQtXW8aU+vj8Buifjjb35KrUtfQWqtCpt+/qgMgO49xX
-	4om21pE0t0bjbq4CHRT1CjBpJcHxrHem1bHSVhuycRgQee3Hcj0BWrMhuhE9RORhcjGXRIYggGMPj
-	Z/84R3Ub0V8/o8iF9EEmwEQbuME56ZsJtTDgHUpcLaBs90LC9VYOYgK7pQzjBmdpbbD3f2cnFLtbb
-	MLMZq40A==;
+	bh=VNFUY7t9KhwzIYxWExXTDK3jA8RhYdR9PP87hSxhpJc=; b=g57DsvNIBCf0oLc2oykATIlrjm
+	vN0hkmiykKfRRXp0jIqUT6ZS1fR6sJbI5DANQ7UDf3iaYgxHxyk2tFmI3N27H3x/UMHfomamBUuNc
+	dZ1QrhsaGem7ES8YD618VFVG2xzvmk23GtDISvvgIUbZKLjorQfa0r+G+N70NOKmoWGIsMiU7QL7a
+	IDux2BWDRyve7Uzppo/Z9Ih19FkwI8z53CCDUVdxYN2k7tyxvGcTE1WnsXjQW6/FsApKVyva60r+A
+	20yApQnBAFYdjDk6GbOmilqJLwigM9kzuQJC0bGscGDAcTeOaYKD1486s5FI6Eh8mx3uNYstnX8uC
+	sdp+nPEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utQ6Z-0000000HDrd-25da;
-	Tue, 02 Sep 2025 12:27:19 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1utQ6a-0000000HDsp-1ncl;
+	Tue, 02 Sep 2025 12:27:20 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utLwe-0000000Ft5I-0Cnz;
-	Tue, 02 Sep 2025 08:00:48 +0000
+	id 1utMBI-0000000FzSy-1dyV;
+	Tue, 02 Sep 2025 08:15:56 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 77243601F9;
-	Tue,  2 Sep 2025 08:00:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87F7AC4CEED;
-	Tue,  2 Sep 2025 08:00:46 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id C6DE460203;
+	Tue,  2 Sep 2025 08:15:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6306C4CEF8;
+	Tue,  2 Sep 2025 08:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756800047;
-	bh=XlVsb0W3gvnjnn4kOm0HH95XP5h++83OeqUtirs+pRQ=;
+	s=k20201202; t=1756800955;
+	bh=MJXowf2wgR3zMSaL6vAUZvkiL3FLEXndHtAwni/LPaY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HBASvnqpvbq6OOzulRPWaHHEQaAIa/2/uu+zbCRwmuIliU6WKxKIvK8kOp/CQTQHb
-	 BIzkYZeaT1Trt+xO9apuCJ5q0vK7nkFdtijGZIwOnYPAbs9PbgEVQiYaSIS6zn9HvH
-	 5ZFEXTcD5tmVDPhPY9rwGKOKKAKks+tA+VpuWCap6z0CV0QmpCZltNT71tun9A/MbV
-	 5WZwgoxhJzIFjVFY88pxITO4WNkHsKrYu4FiZeoe+isUrfIdxa+9gx5b+JSRI5wfDT
-	 t7ZHF/6wz4f5MYnmQZtcpXmWseqmrNF2SG5K4ZZWx+a3rXQzHbRyCkl9ItnKqkG375
-	 qRva0wy1l5/7g==
-Date: Tue, 2 Sep 2025 10:00:44 +0200
+	b=GO+VfbRqg9SyCpITfXxDVWS3AFB1Ybu4vslt2juwYAohgQOzzG8IaPTu8RmDqqZG/
+	 /FKExk28TQnHfpxBiGTDwXKUZ8zIiCqUZbc+s50zgq/EMkTikSHjWNfbNXBWaLur5i
+	 TeMui4hHvkRuq9eSR2x1Q0x9+zSIfSiZeyewZFLzi6Bho0kA9HM30lNg95iP8+Ekwz
+	 3atLbvNO+V4KWyks9qP1dbcaa05IGlXBz4c4E6a2Lq71ss1mgtFH0btcGtJ7UamhLZ
+	 lDyHvwgkZMhZG+S6m3cbBvo+dEZEi6KH3ucKLyBIRRaPri0A8NMBtYOKw74GER2oZy
+	 lwLEValqyxfIQ==
+Date: Tue, 2 Sep 2025 10:15:52 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Janne Grunau <j@jannau.net>
 Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
@@ -72,15 +72,14 @@ Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
 	linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
 	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 02/37] dt-bindings: arm: apple: apple,pmgr: Add
- t6020-pmgr compatible
-Message-ID: <20250902-falcon-of-awesome-wholeness-b3cbde@kuoka>
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Message-ID: <20250902-robin-of-optimal-performance-eeb9c4@kuoka>
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250828-dt-apple-t6020-v1-2-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-2-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 X-Mailman-Approved-At: Tue, 02 Sep 2025 05:11:04 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -96,21 +95,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Aug 28, 2025 at 04:01:21PM +0200, Janne Grunau wrote:
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,pmgr" anymore [1]. Use
-> "apple,t8103-pmgr" as base compatible as it is the SoC the bindings were
-> written for.
+On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
+> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> follow design of the t600x family so copy the structure of SoC *.dtsi
+> files.
 > 
-> The block on Apple M2 Pro/Max/Ultra SoCs is compatible with
-> "apple,t8103-pmgr" so use it as fallback compatible and add t6020 as
-> per-SoC compatible.
-> 
-> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+37 patches, 9-15 separate subsystems. That's really not how you are
+suppose to upstream things. Please split this per subsystem. Few
+bindings without drivers could be together, though.
+
 
 Best regards,
 Krzysztof
