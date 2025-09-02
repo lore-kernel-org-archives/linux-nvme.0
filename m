@@ -4,169 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 210F7CA1009
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 12:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D8A3CA0FFE
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Sep 2025 12:27:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JCWmjjTdSUkiBsGmYNgY8r0NYQl0/mN0Xq0HSP0LaZs=; b=Dsgbhmg3RSu/iLL2jKABy2PgkQ
-	/jd1NtbTauYlW28/yF28bgW8bJBIvuTciUBfTVgrequVBbchJnoL0vpcgK+4LZ3dbEaeR2iLipL4V
-	hVf7jOcJadd9BvXj72ei1wR8f7MOyawKkPLH4s4hUwIQWcVy3Dz+qtSeLpIetMd0gR332oVaTv+vj
-	Pa/aGsUQRAD1+AX4w3MJ8U0zY+E/NLGh+7pvE1lT86DSVtZpT8FcnURMdI+hJH723cMysqE11Lato
-	xvF0m5ASSyiCPqv+6Mfi/lSlIRLw6W2ut6lOU4aWtgaaKjyymRMpd2I0jS08nwGQQ3dNrn7YIJXaR
-	dWY4wJlw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tIAga8ZShmWldE7XrRblo4OOShtrRq/y6rIQOpy+PpU=; b=fdwJDrFzSOZ3aPHAIKjITEDs2s
+	uuW+14QSaNTh8o5WBO+DCZoiPMFNJHfoyDEEoYPk2SmEtRoeJxGweZkVE30nYb0bg4It8xz3oOERY
+	efUzfWsLt1s1KVp0rd0YhLQxRHZZM9oWxTRZ++fD13MBWzqXnRODl9zK7LXgeS7GuPsZUmSckXZaV
+	RHusX56OXsF1eCthygb4YsOnABs5EKzb/QfS+M4ca7FTKxQGc/7XltSDnypEeVYay2lqwO+zYZvBE
+	Sc1bo8CF2b2HVnw+hyuKy6Z1eW/g4e8q34IJkdoW9xp4bEEd6VuDh1ntUVA3/VJVk7FFYMtgvpMz3
+	RTYu4D/w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utQ6T-0000000HDmK-3JMm;
-	Tue, 02 Sep 2025 12:27:13 +0000
-Received: from mail-bn8nam12on2061d.outbound.protection.outlook.com ([2a01:111:f403:2418::61d] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+	id 1utQ6t-0000000HECH-10yc;
+	Tue, 02 Sep 2025 12:27:39 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uryyF-00000005mpI-37VR
+	id 1utN5D-0000000GIXm-3MMY
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 Aug 2025 13:16:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LeGvuQr0Ysrbr+MzudNf9fRl/IF+8Ww+1/UsvbO8U0UKUp22FhCMWxvNNvuD0itHcRjAd5WaDrI6uJ0lhcI/IKDEhQ9UZ+5j+9JCW0p8SiEcAfrTHxyhV7TZMRNE28DDni+X1lrq2M3793EKWmmPYeO2lT4ChgR1JKrY38rkEJTUTEP52J4aXz8YjbxWEzrM/J5pclucoymBFvGrdVULMTtrRn6FAlWWESvzqtCnnJZcrK2lz9aNUcr56lELdvKfQ3+/ZLQyGEvjFe5wTv0yKhfLL8BhXPWZx8oxnXhoD4CZf4Sr1iB9zIVW+7uo8rYYFFbjQerhUA7+6zHRPQEtLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JCWmjjTdSUkiBsGmYNgY8r0NYQl0/mN0Xq0HSP0LaZs=;
- b=bwSi4uTVQzAGZpm8nR7mfw7Zo6RixsU4Xquq8NVPlKw/JuQoDODaLvefivB6GOkfsFDsqJX4GiC2OjJ028Ly5ZvNE4A/izUA4jt0mv8Sm3Q2UHFTJ3GTYyyl/l0wPf9KWI8dzHgRTFlIT5S2Y0ln746dwq4QIxsi207Xud+jpY0w4x86T3gaJuxHT0M6fbVHV4QGnwhUt8FDIgW1uxErMR50Ld/Eiq2js6bddfM+qChjIiZxzRJeeHAizdj7vZOdyrVNGlRWrdYCboim7b7Hsj2FEd/KSbkEl9rTrM9r7jpQiazthKgG0WJZkUiGuxzUwZqggkwgkCrGFAZ2RAbqrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JCWmjjTdSUkiBsGmYNgY8r0NYQl0/mN0Xq0HSP0LaZs=;
- b=i/HmXQceGXNCOvexidulAQ0kC8o7yfjfECBkeBHjvQF5BeuA8hgQXtsFcVrdaCC62J2FCd2V8fMZzz3PTumh37UvAbH3iIXL/73mp/tVN0gMhBMEM32iqFmiMN+kmW1vNMtre46kzEl2SvhpR28QFiQVDuMjdNtsZ/H7oeGCDNuV8LPAGPFOp28hfysRfy+4ZP4s5U98ECO0TuRvzCND340G8bK6uc9Wq637XZw2zl64qgt7qX+2TEhHEaL25U2net4s+y+Czd91G4Sv6x8Fz+pb+PqDPCLvPND1geKt/784az7VLfLwLg95zeBhRYooO+E8BgIxhvNRtEPSNImP7g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW6PR12MB8663.namprd12.prod.outlook.com (2603:10b6:303:240::9)
- by CY5PR12MB6430.namprd12.prod.outlook.com (2603:10b6:930:3a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.17; Fri, 29 Aug
- 2025 13:16:28 +0000
-Received: from MW6PR12MB8663.namprd12.prod.outlook.com
- ([fe80::594:5be3:34d:77f]) by MW6PR12MB8663.namprd12.prod.outlook.com
- ([fe80::594:5be3:34d:77f%7]) with mapi id 15.20.9073.017; Fri, 29 Aug 2025
- 13:16:28 +0000
-Date: Fri, 29 Aug 2025 10:16:25 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
-	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
- API
-Message-ID: <20250829131625.GK9469@nvidia.com>
-References: <cover.1755624249.git.leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1755624249.git.leon@kernel.org>
-X-ClientProxiedBy: SA1P222CA0056.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:2c1::8) To MW6PR12MB8663.namprd12.prod.outlook.com
- (2603:10b6:303:240::9)
+	Tue, 02 Sep 2025 09:13:45 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 26FBE1F445;
+	Tue,  2 Sep 2025 09:13:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756804422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tIAga8ZShmWldE7XrRblo4OOShtrRq/y6rIQOpy+PpU=;
+	b=ymtWKZn3kQGkHYbWQwWPGukL4b7CmkL+X124CfrM1unK4I2jqHVKzIhA3kJErr630l2PaJ
+	AtNuuKGhZ8V6fi/JWGBwKoE7rvIHl/HGgmTF/9Jv0NRxP1sPYNvPzroxWYG4B6HXMiPeqj
+	JNRwrZ37TT+GAaSkNM3RcrYP9Yv4IPM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756804422;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tIAga8ZShmWldE7XrRblo4OOShtrRq/y6rIQOpy+PpU=;
+	b=YCTmYPO4J9ky+jTHL/g2L6A5usAlHivpRkS33OuQFM5jfasnk6GXCZHxGFbfHFTeKIJGkT
+	E/rPq5HpItptvyDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756804422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tIAga8ZShmWldE7XrRblo4OOShtrRq/y6rIQOpy+PpU=;
+	b=ymtWKZn3kQGkHYbWQwWPGukL4b7CmkL+X124CfrM1unK4I2jqHVKzIhA3kJErr630l2PaJ
+	AtNuuKGhZ8V6fi/JWGBwKoE7rvIHl/HGgmTF/9Jv0NRxP1sPYNvPzroxWYG4B6HXMiPeqj
+	JNRwrZ37TT+GAaSkNM3RcrYP9Yv4IPM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756804422;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tIAga8ZShmWldE7XrRblo4OOShtrRq/y6rIQOpy+PpU=;
+	b=YCTmYPO4J9ky+jTHL/g2L6A5usAlHivpRkS33OuQFM5jfasnk6GXCZHxGFbfHFTeKIJGkT
+	E/rPq5HpItptvyDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0966913888;
+	Tue,  2 Sep 2025 09:13:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KFB1AUa1tmimBwAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 02 Sep 2025 09:13:42 +0000
+Message-ID: <e34b522c-a492-4d86-9fbd-1a667e26d884@suse.de>
+Date: Tue, 2 Sep 2025 11:13:41 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW6PR12MB8663:EE_|CY5PR12MB6430:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba19d7ec-1bfe-485d-d6d3-08dde6fe431b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?j9VFqPDzvWCSugcsFZk8FRKZSbP5XUc8PO8hHBRkFrxG3PV5kB5sPfbUJe92?=
- =?us-ascii?Q?qM0CxUgtXXI7t6zdv+qXHeS/lN53bNx212jQJ9v3L+Hc23xLOb6UUptvjU7z?=
- =?us-ascii?Q?0nsgu+opQ/YYez+5mzeYkADogU4B0i8D47uiMeLy3LzYnrQIHKgNCHcZO1yS?=
- =?us-ascii?Q?LG+8lbyIJozKkFtjoIotPpC8K7NYZDG3KtJT/WWPuHQAmo46MyGR4IofXut3?=
- =?us-ascii?Q?je1OWIV0WSsYK4ukVbnQg9ZYQKr1OHm1DjwIwiNTrnp0NQuUIZCsF156iBEm?=
- =?us-ascii?Q?B8zNikV+SA+/4Qfwqp1NmUkOyiagQH1plfZRm+LUo92lJgB0Qmsd6LcX62LM?=
- =?us-ascii?Q?gFbiQevxrEKfmYj1RUUU/xOL69n3rNSrLKiIMqnNrjV5yPGaNa0tzyi1F94a?=
- =?us-ascii?Q?GhaoOM2I7fQIqxQndqWWMESGG9xiRwa+Mv7ozbT7r5zo4wd2ti8QljFc6LFK?=
- =?us-ascii?Q?+wn3vHsEe708TW+TVt8bXIzew8QVhx/fZXNI9i92CwccGJWNDdsx0NC+PZlU?=
- =?us-ascii?Q?C7506ogxRZvWMiEuEXkVNtzx1EYNVX96/n0U5mktuMVXhwoipSXKnH1qojab?=
- =?us-ascii?Q?9J+silk9IMFoa7A2k/W4/Iu6i3P/NWeoYoz+XNtLBXHhL1S0XYt6tO/4UOme?=
- =?us-ascii?Q?vomWDP8TRhDyKciwsbOZP62Raiqxx50YaH4V0R8YQlVytdSGZ6IWiLNLDq5C?=
- =?us-ascii?Q?ptw+3qyhWSPC8kqhCRYqnIpFWRA4W9rsv93pjkTAGdMdDINsZgliTFijLYPv?=
- =?us-ascii?Q?8cO+ic2nAYNeAqOUPe4ghcpxyfBDkc00HL0cBBk8DGw7IeHTTfUaoBi2/2KR?=
- =?us-ascii?Q?La1M+ngOqXBhts99xfBpbxRqrscFL+7GndFI1b4IhwodO4ZeJCWWJpgzLchS?=
- =?us-ascii?Q?t2gNzDyQyP/cUQKoiEA8/KXW613z9c0e2fdluhgpvOFziWzkd+DF9VHwC036?=
- =?us-ascii?Q?6QsIpabpQEIBVuiY92nH4XHlDFfHHtnflDSIhb+QGgYzGrFrfjm+eD4qIlGe?=
- =?us-ascii?Q?m81qxYrhAb8gguLUv/gIorbJbOcg5qFMCQ+XYOqnf6h8JIy2Yt6IiULdW4FJ?=
- =?us-ascii?Q?fUIra0gq8JbHZh8RLxzKzBKYbsAopMLfMzMIrtW9vzvoaGSaeEEHPlnZGemP?=
- =?us-ascii?Q?BY7rtxngUTeL+OLq6/F1QQ1vhjSpdEGRDcuzi5cvww3rf31DNcAIW/bBi/RS?=
- =?us-ascii?Q?oa0KPVhb5LjKn7l+XAT6kwi1xZXdX+e1YiaCFNymCyhy7vWtGJLN6SmQvgjh?=
- =?us-ascii?Q?AnFWFiC7U0Td8YqtXX8z0/U4aw5aqUJKg4CW4H4Vsxj9dKoA86MQ0BYy6gcN?=
- =?us-ascii?Q?/zaqzKi5XiCdWrHgiug0Ss0YQ/LjuLyIZRVRTNPlsL4woMRNUGzxojLdJzi5?=
- =?us-ascii?Q?j8gdLTa8o2fZ6t83iMuZyGW3j57C6es60RHXRnyS9nDqS+Gufqi6TATubaAG?=
- =?us-ascii?Q?9Pk99+LH3rc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW6PR12MB8663.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cuNT2mQMuDj2wUn+wdVR7TLhMYcPNGAj4gfzF3MkyBXvsYN4Os9nDsr7fyUq?=
- =?us-ascii?Q?TNCkRoX2fkf9TYXv9J7BfwijmnDHHTl1Kz2atZMVIwcHAn8aLGPqkWO9wemx?=
- =?us-ascii?Q?SYZfwEdgLcATAcQ0icpUHgkbH4sZMV5uMeTM0CRhEQP233jRtGtJSHD7Zb9A?=
- =?us-ascii?Q?/VNBySpyIhOMS/xAOa1dTvjc+eUBcZB8RwergxIQvssbWzG2lHG/6d0CrCaq?=
- =?us-ascii?Q?MZKO5RI150CwyCxyErlTUkGoH/JnmmYl9WRo9G8THd/bmxMIb0bVu8zdLq03?=
- =?us-ascii?Q?wn8duUi1UEoj+7adHkevd1hUYB/ZvKiqn92487xMuWDwtNFpc2CBxJpXd2Aj?=
- =?us-ascii?Q?4rAswgCTwaXhQUAdOd9oTyhnGk06OZ0qvTgchDp4KIh+blKM+RAhPZjH6P5H?=
- =?us-ascii?Q?aDlub8g7BHRjMB149QSPoVkoe4fl4+wGQ/peeR9v38rGkzcEAwr2uXCu8W39?=
- =?us-ascii?Q?aX4aURUAX2aPA180UfGsIRQJcDKsSxcy+ajZyn9XjmhIXuxI16pgufiKY2Zh?=
- =?us-ascii?Q?mtcPn6jVRM57FP6gFiuDnJ/PoZOLFL4gKQt50Jf+f/l0Gl9xVE9AgybQFF4h?=
- =?us-ascii?Q?Akt1sAOYFCmAUTqEI1xP+NQi9gyGPCWVWwVnaV7Y2gGxeXeWXiRV3GMlULIJ?=
- =?us-ascii?Q?FrpUNv+kUHkhmffgL2u4Ue2KMsAPO+X/H4eudxnX9lPp8/seaWeahuQ9JCMJ?=
- =?us-ascii?Q?f/XtU9ukdygN3ilosvYT6tpKcXPXFvPhSHFOl7gF/6nPfonJ5nmlOiDOgPrs?=
- =?us-ascii?Q?vmImJmXNnbWT1Nx2fmYr3Dhjth5OuYIWYFuTM2Kze2orglg6dg5O+I6hnnes?=
- =?us-ascii?Q?g5KoeoSeeV0PE46pehALs51tBDJgJR0E0jpMA0he0D5j5pmcdaDGgp3fPkin?=
- =?us-ascii?Q?uy0SykIa/i0gywHJcL1xn3iLiqJmrEaa9tcpB7jcbSNk9DWGy4WYa8koUQYL?=
- =?us-ascii?Q?SmDLUo7iRD5beZ+cQOSH2mQRT7aJvVmeWu7VXTSv45GXK9FobtcaAdimZL48?=
- =?us-ascii?Q?V//a6c7S+RDMz6mpw1NxvbNEX9/njiS8LPPsYMbYscSJi5gMah3JBejGu9Dh?=
- =?us-ascii?Q?wQeewTP1m96pF0NnJiBla7AKohhddhvfDWNqaIYLULY+XPyeGvzh8VgihpjZ?=
- =?us-ascii?Q?EDZ86DzqqLyY62FRfcFY49QSyWFhegdUmnrBPy/bg4q/FoHlTR8CQ7X0Vp/k?=
- =?us-ascii?Q?ggoYP7qoiHmLhZ8jjwFbhBaV7dfmr/skBTWtgMqPftUpOnhDLVc6Q4MbFXTS?=
- =?us-ascii?Q?5Jogn+C/+tvOQMSH49xsUj2WGiN8L92Vu/A6hPS5k5+yl9aGnLKw6hibXFAQ?=
- =?us-ascii?Q?EBMGXSb1mK7hmNJK27drHaKAY8FuJzDnWw1ipP/5hClrEhX8rFOSuUVbNbBt?=
- =?us-ascii?Q?Xs46jGnh7go+N5aYvzW+dLHRB5MCj4nsZJQo2ryH816xUvVO8lyGJ8j1piZc?=
- =?us-ascii?Q?hFnbKBQ1yoNC6l02T1eNYhEVDxYjQCfPjlFwYmES49rbsJig0wT6HO3HXcJl?=
- =?us-ascii?Q?3DGaXwPlor5er17Fo4mnTPkqb8/VYmV4ZcgbF7eU8lofOaEJZpSS/MTZ4Tgj?=
- =?us-ascii?Q?id1HcAcrt2U0YrhZ3++Oi9FndBPquNK8mchPcaOR?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba19d7ec-1bfe-485d-d6d3-08dde6fe431b
-X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8663.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 13:16:28.1462
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bixKXGNnNyPvA3cISmgXhm5zsYWSDMm/Kyz+5gZZkusXRtgA2Nwiwx0P8zrTZxwD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6430
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] nvme-fc: wait for initial connect attempt to
+ finish
+To: Daniel Wagner <wagi@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <james.smart@broadcom.com>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250829-nvme-fc-sync-v3-0-d69c87e63aee@kernel.org>
+ <20250829-nvme-fc-sync-v3-4-d69c87e63aee@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250829-nvme-fc-sync-v3-4-d69c87e63aee@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250829_061647_785997_F4913AB7 
-X-CRM114-Status: GOOD (  13.85  )
-X-Mailman-Approved-At: Tue, 02 Sep 2025 05:11:04 -0700
+X-CRM114-CacheID: sfid-20250902_021344_239986_09CCA3FF 
+X-CRM114-Status: GOOD (  31.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -181,66 +135,240 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Aug 19, 2025 at 08:36:44PM +0300, Leon Romanovsky wrote:
+On 8/29/25 17:37, Daniel Wagner wrote:
+> The TCP and RDMA transport are doing synchronous connects. Thus the
+> write to /dev/nvme-fabrics blocks and will return either success or
+> fail. The FC transport offloads the connect attempt to a workqueue and
+> thus it's an asynchronous operation. The write will succeeds even though
+> the connection attempt is ongoing.
+> 
+> This async connect feature was introduced to mitigate problems with
+> transient connect errors and the task to coordinate retries with
+> userspace (nvme-cli).
+> 
+> Unfortunately, this makes the transports behave differently. Streamline
+> nvme-fc to wait for the initial connection attempt.
+> 
+> In order to support also the async connection attempt introduce a new
+> flag for userspace, which is an opt-in feature. This avoids breaking
+> existing users which are not ready for the FC transport behavior change.
+> 
+> Link: https://lore.kernel.org/linux-nvme/0605ac36-16d5-2026-d3c6-62d346db6dfb@gmail.com/
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/host/fabrics.c | 18 +++++++++++++++++-
+>   drivers/nvme/host/fabrics.h |  3 +++
+>   drivers/nvme/host/fc.c      | 36 +++++++++++++++++++++++++++++++++++-
+>   3 files changed, 55 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index cb9311c399856de54a2e4d41d41d295dd1aef31e..73e7a1e7925ef2e8ad633e8e2bd36207181dcbb6 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -709,6 +709,7 @@ static const match_table_t opt_tokens = {
+>   	{ NVMF_OPT_TLS,			"tls"			},
+>   	{ NVMF_OPT_CONCAT,		"concat"		},
+>   #endif
+> +	{ NVMF_OPT_CONNECT_ASYNC,	"connect_async=%d"	},
+>   	{ NVMF_OPT_ERR,			NULL			}
+>   };
+>   
+> @@ -738,6 +739,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   	opts->tls_key = NULL;
+>   	opts->keyring = NULL;
+>   	opts->concat = false;
+> +	/* keep backward compatibility with older nvme-cli */
+> +	opts->connect_async = true;
+>   
+>   	options = o = kstrdup(buf, GFP_KERNEL);
+>   	if (!options)
+> @@ -1064,6 +1067,19 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   			}
+>   			opts->concat = true;
+>   			break;
+> +		case NVMF_OPT_CONNECT_ASYNC:
+> +			if (match_int(args, &token)) {
+> +				ret = -EINVAL;
+> +				goto out;
+> +			}
+> +			if (token < 0 || token > 1) {
+> +				pr_err("Invalid connect_async %d value\n",
+> +				       token);
+> +				ret = -EINVAL;
+> +				goto out;
+> +			}
+> +			opts->connect_async = token;
+> +			break;
+>   		default:
+>   			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+>   				p);
+> @@ -1316,7 +1332,7 @@ EXPORT_SYMBOL_GPL(nvmf_ctrl_options_put);
+>   				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+>   				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
+>   				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_DHCHAP_SECRET |\
+> -				 NVMF_OPT_DHCHAP_CTRL_SECRET)
+> +				 NVMF_OPT_DHCHAP_CTRL_SECRET | NVMF_OPT_CONNECT_ASYNC)
+>   
+>   static struct nvme_ctrl *
+>   nvmf_create_ctrl(struct device *dev, const char *buf)
+> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+> index bcc1d5f97ee5a03852830bf3ba0a15f82c7c2c03..9015bb3f63e1d0c412cf4af5194a42411fbb516c 100644
+> --- a/drivers/nvme/host/fabrics.h
+> +++ b/drivers/nvme/host/fabrics.h
+> @@ -67,6 +67,7 @@ enum {
+>   	NVMF_OPT_KEYRING	= 1 << 26,
+>   	NVMF_OPT_TLS_KEY	= 1 << 27,
+>   	NVMF_OPT_CONCAT		= 1 << 28,
+> +	NVMF_OPT_CONNECT_ASYNC	= 1 << 29,
+>   };
+>   
+>   /**
+> @@ -111,6 +112,7 @@ enum {
+>    * @nr_poll_queues: number of queues for polling I/O
+>    * @tos: type of service
+>    * @fast_io_fail_tmo: Fast I/O fail timeout in seconds
+> + * @connect_async: Don't wait for the initial connect attempt to succeed or fail
+>    */
+>   struct nvmf_ctrl_options {
+>   	struct kref		ref;
+> @@ -142,6 +144,7 @@ struct nvmf_ctrl_options {
+>   	unsigned int		nr_poll_queues;
+>   	int			tos;
+>   	int			fast_io_fail_tmo;
+> +	bool			connect_async;
+>   };
+>   
+>   int nvmf_ctrl_options_get(struct nvmf_ctrl_options *opts);
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 5d9e193bd2525ae1a2f08e2a0a16ca41e08a7304..ccd67acb55e216602010933914afca77248b3de0 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -148,6 +148,7 @@ struct nvme_fc_rport {
+>   #define ASSOC_ACTIVE		0
+>   #define ASSOC_FAILED		1
+>   #define FCCTRL_TERMIO		2
+> +#define INITIAL_SYNC_CONNECT	3
+>   
+>   struct nvme_fc_ctrl {
+>   	spinlock_t		lock;
+> @@ -168,6 +169,7 @@ struct nvme_fc_ctrl {
+>   
+>   	struct work_struct	ioerr_work;
+>   	struct delayed_work	connect_work;
+> +	struct completion	connect_completion;
+>   
+>   	struct kref		ref;
+>   	unsigned long		flags;
+> @@ -829,6 +831,7 @@ nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *portptr)
+>   			dev_warn(ctrl->ctrl.device,
+>   				"NVME-FC{%d}: controller connectivity lost.\n",
+>   				ctrl->cnum);
+> +			complete(&ctrl->connect_completion);
+>   			nvme_fc_ctrl_put(ctrl);
+>   		} else
+>   			nvme_fc_ctrl_connectivity_loss(ctrl);
+> @@ -3253,6 +3256,9 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+>   	if (nvme_ctrl_state(&ctrl->ctrl) != NVME_CTRL_CONNECTING)
+>   		return;
+>   
+> +	if (test_bit(INITIAL_SYNC_CONNECT, &ctrl->flags))
+> +		goto delete;
+> +
+>   	if (portptr->port_state == FC_OBJSTATE_ONLINE) {
+>   		dev_info(ctrl->ctrl.device,
+>   			"NVME-FC{%d}: reset: Reconnect attempt failed (%d)\n",
+> @@ -3294,6 +3300,8 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+>   					   (ctrl->ctrl.opts->max_reconnects *
+>   					    ctrl->ctrl.opts->reconnect_delay)));
+>   
+> +delete:
+> +	complete(&ctrl->connect_completion);
+>   	nvme_fc_ctrl_put(ctrl);
+>   }
+>   
+> @@ -3353,10 +3361,14 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+>   	ret = nvme_fc_create_association(ctrl);
+>   	if (ret)
+>   		nvme_fc_reconnect_or_delete(ctrl, ret);
+> -	else
+> +	else {
+>   		dev_info(ctrl->ctrl.device,
+>   			"NVME-FC{%d}: controller connect complete\n",
+>   			ctrl->cnum);
+> +		pr_info("%s:%d clear initial sync connect bit\n", __func__, __LINE__);
+> +		clear_bit(INITIAL_SYNC_CONNECT, &ctrl->flags);
+> +		complete(&ctrl->connect_completion);
+> +	}
+>   }
+>   
+>   
+> @@ -3461,6 +3473,7 @@ nvme_fc_alloc_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>   
+>   	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+>   	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
+> +	init_completion(&ctrl->connect_completion);
+>   	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
+>   	spin_lock_init(&ctrl->lock);
+>   
+> @@ -3539,6 +3552,12 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>   	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
+>   	spin_unlock_irqrestore(&rport->lock, flags);
+>   
+> +	if (!opts->connect_async) {
+> +		pr_info("%s:%d set initial connect bit\n", __func__, __LINE__);
+> +		set_bit(INITIAL_SYNC_CONNECT, &ctrl->flags);
+> +		nvme_fc_ctrl_get(ctrl);
+> +	}
+> +
+>   	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+>   		dev_err(ctrl->ctrl.device,
+>   			"NVME-FC{%d}: failed to init ctrl state\n", ctrl->cnum);
+> @@ -3554,6 +3573,20 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>   
+>   	flush_delayed_work(&ctrl->connect_work);
+>   
+> +	if (!opts->connect_async) {
+> +		enum nvme_ctrl_state state;
+> +
+> +		wait_for_completion(&ctrl->connect_completion);
+> +		state = nvme_ctrl_state(&ctrl->ctrl);
+> +		nvme_fc_ctrl_put(ctrl);
+> +
+> +		if (state != NVME_CTRL_LIVE) {
+> +			/* Cleanup is handled by the connect state machine */
+> +			pr_info("%s:%d ctrl state %d\n", __func__, __LINE__, state);
+> +			return ERR_PTR(-EIO);
 
-> This series does the core code and modern flows. A followup series
-> will give the same treatment to the legacy dma_ops implementation.
+We really should return the correct status (and not just -EIO).
+Guess we'll need to introduce another variable in struct nvme_fc_ctrl
+to hold the connect status...
 
-I took a quick check over this to see that it is sane.  I think using
-phys is an improvement for most of the dma_ops implemenations.
+> +		}
+> +	}
+> +
+>   	dev_info(ctrl->ctrl.device,
+>   		"NVME-FC{%d}: new ctrl: NQN \"%s\", hostnqn: %s\n",
+>   		ctrl->cnum, nvmf_ctrl_subsysnqn(&ctrl->ctrl), opts->host->nqn);
+> @@ -3895,6 +3928,7 @@ nvme_fc_delete_controllers(struct nvme_fc_rport *rport)
+>   		dev_warn(ctrl->ctrl.device,
+>   			"NVME-FC{%d}: transport unloading: deleting ctrl\n",
+>   			ctrl->cnum);
+> +		complete(&ctrl->connect_completion);
+>   		nvme_fc_ctrl_put(ctrl);
+>   	}
+>   	spin_unlock(&rport->lock);
+> 
 
-  arch/sparc/kernel/pci_sun4v.c
-  arch/sparc/kernel/iommu.c
-    Uses __pa to get phys from the page, never touches page
+And I wonder: what about the udev rules?
+Do they need to be modified?
+(IE: should we call udev with --connect-async or without?)
 
-  arch/alpha/kernel/pci_iommu.c
-  arch/sparc/mm/io-unit.c
-  drivers/parisc/ccio-dma.c
-  drivers/parisc/sba_iommu.c
-    Does page_addres() and later does __pa on it. Doesn't touch struct page
+Cheers,
 
-  arch/x86/kernel/amd_gart_64.c
-  drivers/xen/swiotlb-xen.c
-  arch/mips/jazz/jazzdma.c
-    Immediately does page_to_phys(), never touches struct page
-
-  drivers/vdpa/vdpa_user/vduse_dev.c
-    Does page_to_phys() to call iommu_map()
-
-  drivers/xen/grant-dma-ops.c
-    Does page_to_pfn() and nothing else
-
-  arch/powerpc/platforms/ps3/system-bus.c
-   This is a maze but I think it wants only phys and the virt is only
-   used for debug prints.
-
-The above all never touch a KVA and just want a phys_addr_t.
-
-The below are touching the KVA somehow:
-
-  arch/sparc/mm/iommu.c
-  arch/arm/mm/dma-mapping.c
-    Uses page_address to cache flush, would be happy with phys_to_virt()
-    and a PhysHighMem()
-
-  arch/powerpc/kernel/dma-iommu.c
-  arch/powerpc/platforms/pseries/vio.c
-   Uses iommu_map_page() which wants phys_to_virt(), doesn't touch
-   struct page
-
-  arch/powerpc/platforms/pseries/ibmebus.c
-    Returns phys_to_virt() as dma_addr_t.
-
-The two PPC ones are weird, I didn't figure out how that was working..
-
-It would be easy to make map_phys patches for about half of these, in
-the first grouping. Doing so would also grant those arches
-map_resource capability.
-
-Overall I didn't think there was any reduction in maintainability in
-these places. Most are improvements eliminating code, and some are
-just switching to phys_to_virt() from page_address(), which we could
-further guard with DMA_ATTR_MMIO and a check for highmem.
-
-Jason
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
