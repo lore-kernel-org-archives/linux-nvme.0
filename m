@@ -4,84 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38C20CA100F
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Sep 2025 01:55:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CF85CA1007
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Sep 2025 04:24:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L6KzKFAj5KyI4xTHNVJ+Bav+TRut/F+RyFSESyEfLYI=; b=ihz8b+YpfKjPBrLL3SB619iP6h
-	PBI8zjNSAL0g65PTXospzAdVQJxJmx6siAho8lnwuDrb7pmMIMNvi8+WXNCwWoS9WL1eACb0CUIXW
-	83m5qnQudvIsCjFokZlJa7JODrAPekKZI0zST02xJi/cV1H/JDrSvvY7l4uQKRhP22B3zU8xnbcUI
-	JpEis56TcMng+e6jg6zj7KDro/L35JycQuHkFvD2eS9lbItQnw3UDcxsOPEZF3Hu74xptApl7PLoE
-	H6+GMfOoCw9kAC/kKBwBjxSg3ap60ltwfn8IY+0pqk8Y3wvXdyvTCWUBIrtJHPJmaYAUvzI1sVA7B
-	KlIjRMGg==;
+	bh=GQU6ctnCNbUfR9na/8DSINvS0jXpc/LKAzEOiCtx+/I=; b=2L1n/Ug/ad7hZiDhJF41AkpSkI
+	zwl7I2pfsJC63Vz7ACK7S9kH70jPfYpFkV2rxcDGjTGqzHl4CZ10soWe87W1FGa36CEs5X1fOil0D
+	6BphI5iWtvxJ5u8bSNuPplLPtx7pMfeN2SDjPhYGQ55CdmUQhCPPjCe0V3a1t0CoLDQfgWZH+glaf
+	eZ/8LMJ2E4ulu93zUV/Czi3h70o1YdOZkJLiI7BVkAuM+3eHKAhMP/ST17vNkRiOtQA4DJcG2dY79
+	EXF5jgPbHd87q8fx8LBrwHKxVw/EaYahIr7Hnvgcl3hVdMvTQHdf36X7k/OZbNrU0uuzAti/iyBGf
+	CCvshGGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utcj3-000000038sD-3boW;
-	Wed, 03 Sep 2025 01:55:53 +0000
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+	id 1utf2Q-00000003pP4-2Xvg;
+	Wed, 03 Sep 2025 04:24:02 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utavw-00000002hTk-2rex
+	id 1utf0o-00000003oqq-2eQF
 	for linux-nvme@lists.infradead.org;
-	Wed, 03 Sep 2025 00:01:07 +0000
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-afebb6d4093so997338266b.1
-        for <linux-nvme@lists.infradead.org>; Tue, 02 Sep 2025 17:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756857663; x=1757462463; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L6KzKFAj5KyI4xTHNVJ+Bav+TRut/F+RyFSESyEfLYI=;
-        b=GiEWkGrkR0lkTgzDh7sCI9ZZJw78g7sFgOyu8RFiVOa/9S2A5bhWAwwPJIa5y4IME2
-         RI1fiwPpf71Suv7EWGBY5tAnX+D9NHU4r8+f7thBIla79QoNSCz2u8OnSz6OWxkwQYld
-         WDq2gtqQvLvps06usO/rvnscX8nL3KJgLqeC4SuYbsIW8nMQve+jzFW0SDihMgFA+1kN
-         5ANREVnO4CITSPNJIP9Tz5YqiS503BbS+FCmmdnfsQ2pwbzHAmGp734Njb9BXNQZxcH3
-         mXqlS7uoI55KsY0oXIXpZQNaa2gwwG6CurHRCt3Vip5hxAUMcPxXh0QwZ7a3G0iP8Qj6
-         V8EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756857663; x=1757462463;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L6KzKFAj5KyI4xTHNVJ+Bav+TRut/F+RyFSESyEfLYI=;
-        b=Ahq/t+yohh2fadHAIHBUDgXeZCHiX5gtQ4XPP0iHktuclTmwwMpI2T32dRzpAN5pfK
-         l9sf4lTVdRjBjjMuOoF9if3DwW7WCf+StL+pd2A5Xy1ewRD+C6E6BnWgd638a3xUgnPy
-         HtA87sLnl5uDO6IvrV9uQUjVvsmzT9KRih5L1QgsDBHn4JWjieMnwVWXM+1Z3AgtLaV/
-         1R7YYx+WVqr5iXZZianygDmDzh3vcCe7DdsjA4PGU2051fVpoHh2Oh4YESKMJ13biHnf
-         sPkaJb5Ujln3NoSbmLInp4XMrmqRGMZjqTUEnnA8FlthPKJfyocmprHw/aezWVsUuK+q
-         mHJA==
-X-Forwarded-Encrypted: i=1; AJvYcCWQT74vsitwaQfdj86pF+ouijA7ced0guHyltA0yAyIOh/LXp2uCR8x6vCZs1j2zB/PO1ppwRoiMjYz@lists.infradead.org
-X-Gm-Message-State: AOJu0YxhLULo4p6rMTEWSGo2LBIgbbXFBci0jU2hmUF31hcGI+AO51P8
-	7T5n5QocVwZNY2qYzGQnJsegfWXFjsBshh3zeciGKhzUgnlxuVKUEIYhoDTwGsdWSZW/KazGnUh
-	uBtqzk9dAvLivXwK0twwCGUOViif77Yk=
-X-Gm-Gg: ASbGncvUa/ujz91/1ylDuP8HBlI9Le/v3YcjsAB9U6iMqBKgjJAZk/Y0AX5s9Bvtvyd
-	cOPKpPuk7uWhibh5WNOtTc9hl9+eKSR0OhzLOkjzIWkGtWks3QCeDNUaJK+sNjGVQc27g7UWuXq
-	YrbRxZqaPbe5O9mgK7X384C0ORe1Es8y5vQ+B4nDeH8sK/Fsc5dYZGm/yDJcOjs+z0YyqOvU+31
-	HhE7s6I5ja5J3axUodB01zzmRdDjU0HTa4zTA==
-X-Google-Smtp-Source: AGHT+IH6AhRllJP7mdg0MDSz8PEOPVrNJ8CX2CFL4+9ZpOzCDEs6FEzJQPkbG4z93klh4esHrxBxLEF4fpZ8sfSm4/8=
-X-Received: by 2002:a17:907:9444:b0:b04:53cc:4400 with SMTP id
- a640c23a62f3a-b0453cc4661mr420536966b.27.1756857662823; Tue, 02 Sep 2025
- 17:01:02 -0700 (PDT)
+	Wed, 03 Sep 2025 04:22:23 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582JQCHb019646;
+	Wed, 3 Sep 2025 04:22:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=GQU6ct
+	nCNbUfR9na/8DSINvS0jXpc/LKAzEOiCtx+/I=; b=SuSmgGqAC7rw4auyQH4xPM
+	s0w7ruYhhaJEeuBbwXbjNXHXDK2quMxaeN9tGj711fC1dhWinbOb3VQ/w5WVUXFr
+	pQoBhxSLMYLFxHQrrZm7CofqrHYioevGC7WE7K/ynrcCzClyJpEyxhlgMlddrX57
+	AcbdsJnCPh7OXB6jxGUp2p+qXc6w24HMZNlaSEMI4ilarHfPlwHqM5396oOV8Oq8
+	AoQcylvWrOf6SauNsrtplunDZXtr7lfrkFOmaFkd/XMu1Nyva2rI1c72nv9DKC4v
+	ZCLTzubcLW15SYr1xNX6TlkzIosyNWORSGlj9tRBxPeaVgd2lMMvgh4aT38WzVQQ
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usv3235d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Sep 2025 04:22:18 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5831Rwop021202;
+	Wed, 3 Sep 2025 04:22:17 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48vcmpnqd1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Sep 2025 04:22:17 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5834MHPW29819512
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 3 Sep 2025 04:22:17 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E38D058061;
+	Wed,  3 Sep 2025 04:22:16 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CC41058057;
+	Wed,  3 Sep 2025 04:22:14 +0000 (GMT)
+Received: from [9.43.126.99] (unknown [9.43.126.99])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  3 Sep 2025 04:22:14 +0000 (GMT)
+Message-ID: <d904e2bf-1b59-4511-998d-f53249137428@linux.ibm.com>
+Date: Wed, 3 Sep 2025 09:52:13 +0530
 MIME-Version: 1.0
-References: <20250902035211.2953174-1-alistair.francis@wdc.com> <2841bd1b7910bd0e1b263b393152f2cb13dd3ae3.camel@gmail.com>
-In-Reply-To: <2841bd1b7910bd0e1b263b393152f2cb13dd3ae3.camel@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 3 Sep 2025 10:00:36 +1000
-X-Gm-Features: Ac12FXzDj2HtYGSJ8MLBLRHiuUatNFdUj0151ogn2qRiA-uR8AUABjK4lxcy2Wo
-Message-ID: <CAKmqyKNtx-eq-dSgcJqoXjajX--QyBvqwfgKyfTfxiTiF-cFBA@mail.gmail.com>
-Subject: Re: [PATCH] nvme: Use non zero KATO for persistent discovery connections
-To: Martin George <martinus.gpy@gmail.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 2/4] nvme: extend show-topology command to add support
+ for multipath
+To: Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, gjoyce@ibm.com
+References: <20250812125614.164445-1-nilay@linux.ibm.com>
+ <20250812125614.164445-3-nilay@linux.ibm.com>
+ <93be5b21-8897-44d3-a590-42ba8f1b6abb@suse.de>
+ <a06660fb-821f-447e-9ea6-ef0f3372a844@linux.ibm.com>
+ <ecd33303-830d-4e26-b49a-14a558725e67@suse.de>
+ <4f504c94-e6da-4a33-aa12-9dcb447e7021@flourine.local>
+ <4e20561b-8b51-45c5-ad83-24b3d7ae092d@suse.de>
+ <180fd47e-ffe6-4ef1-986e-5885afc34c01@linux.ibm.com>
+ <8de91a15-3d89-4801-911a-00e45bb6a2f1@linux.ibm.com>
+ <2eeba3ca-293c-429b-8afa-c5ba401c67b6@flourine.local>
+ <ee0d329a-334b-429c-a916-f03c64bbb323@suse.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <ee0d329a-334b-429c-a916-f03c64bbb323@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Y_mAHaQHHmk5_pINpVuLEQ7w4zwFSSeV
+X-Authority-Analysis: v=2.4 cv=FPMbx/os c=1 sm=1 tr=0 ts=68b7c27a cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=DME0puPfNGmfh3VUhp4A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: Y_mAHaQHHmk5_pINpVuLEQ7w4zwFSSeV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfX6tFHlj1QmVUw
+ 3RinFF7vO5HB95EmtN6zZfGpTHzKLX0WnSFWwoj/3skKbKAo2Uw9Umm8xDzkMFrayTI3TBDldyL
+ 5Q1ftcbmbcxkaMtVg1S1MczLOaKR+TIg4NGKRoW/Hdn0oUh90oB+7TfFK8+AWKPOCc1gWKQeXrw
+ Aw2CTuEgPc0HzHVyU6X129aCF9pMiAp/SR/GtH6J5VjlusY97N6cSyt8ggS7Q6Av8IOMxJoap4s
+ h9kkaITP2NssJsLVyi5uAdID/GKNlCXvZhYvPsTr/JJun3juvko8lmaoHA1WJTp/ry73pVOVjOV
+ Ac3B2VDzAGgyOslKC78/oclGhwz4qZXHRu6jXBIzc8VyhTzfBnlwPYyzJH/JtDIB0NKnTwIZVgt
+ Ah6ves58
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-03_01,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ spamscore=0 adultscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300034
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250902_170104_724273_00EC1FE2 
-X-CRM114-Status: GOOD (  23.76  )
+X-CRM114-CacheID: sfid-20250902_212222_693852_AE878F80 
+X-CRM114-Status: GOOD (  31.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,57 +127,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 2, 2025 at 8:35=E2=80=AFPM Martin George <martinus.gpy@gmail.co=
-m> wrote:
->
-> On Tue, 2025-09-02 at 13:52 +1000, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > The NVMe Base Specification 2.1 states that:
-> >
-> > """
-> > A host requests an explicit persistent connection ... by specifying a
-> > non-zero Keep Alive Timer value in the Connect command.
-> > """
-> >
-> > As such if we are starting a persistent connection to a discovery
-> > controller and the KATO is currently 0 we need to update KATO to a
-> > non
-> > zero value to avoid continuous timeouts on the target.
-> >
-> >
->
-> When would this ever happen? Won't nvme-cli & nvme/host/fabrics.c in
 
-It occurs if you perform a `nvme connect` to the discovery nqn of a
-Linux target.
 
-> the kernel ensure a PDC (persistent discovery controller) would always
-> have the KATO either default set to NVMF_DEF_DISC_TMO (i.e. 30s) or any
-> positive int value & not zero?
+On 9/2/25 11:56 AM, Hannes Reinecke wrote:
+> On 9/1/25 18:36, Daniel Wagner wrote:
+>> Hi Nilay,
+>>
+>> On Mon, Sep 01, 2025 at 02:51:09PM +0530, Nilay Shroff wrote:
+>>> Hi Daniel and Hannes,
+>>>
+>>> Just a gentle ping on this one...
+>>>
+>>> Do you agree with the reasoning I suggested for filtering
+>>> columns based on iopolicy? If we all have agreement then
+>>> I'd send out the next patchset with appropriate change.
+>>
+>> I was waiting for Hannes input here as he was in discussion.
+>>
+> Yeah, and he is fine with the latest changes. Probably should've been
+> a bit more vocal about it :-)
+> 
+>>>>> But really, I'm not sure if we should print out values from the various
+>>>>> I/O policies. For NUMA it probably makes sense, but for round-robin and
+>>>>> queue-depths the values are extremely volatile, so I wonder what benefit
+>>>>> for the user is here.
+>>>>>
+>>>>
+>>>> I think the qdepth output could still be useful. For example, if I/Os are
+>>>> queuing up on one path (perhaps because that path is slower), then the Qdepth
+>>>> value might help indicate something unusual or explain why one path is being
+>>>> chosen over another.
+>>>>
+>>>> That said, if we all agree that tools or scripts should ideally rely on JSON
+>>>> output for parsing, then the tabular output could be simplified further:
+>>>>
+>>>> - For numa iopolicy: print <Nodes> and exclude <Qdepth>.
+>>>> - For queue-depth iopolicy: print <Qdepth> and exclude <Nodes>.
+>>>> - For round-robin iopolicy: exclude both <Nodes> and <Qdepth>.
+>>
+>> Looks reasonable to me.
+>>
+> Yep, that's fine.
+> 
+>>>> Does this sound reasonable? Or do we still want to avoid printing
+>>>> <Qdepth> even for queue-depth iopolicy?
+>>
+>> I am fine with printing the qdepth value as long it is documented what it
+>> means. IIRC there are other tools which just show a snapshot for some
+>> statistics.
+>>
+>> BTW, some discussion on github regarding something like a
+>> 'monitor' feature: https://github.com/linux-nvme/nvme-cli/issues/2189
+>> Might be something to which could be considered here as well.
+>> Well, that might be tricky. The current 'tree' structure is build
+> once when the program starts up. Any changes to that structure after
+> that are not tracked, and there (currently) are no hooks for updating
+> it. So having a 'monitor' function will get tricky.
+> 
+> To do that we would either need a udev event receiver (using uevents
+> to update the tree structure) or looking into fanotify()/inotify().
+> Then the tree structure would always be up-to-date and things like
+> 'monitor' will be possible.
+> Will be hell for the python bindings, mind :-(
+> 
+Thanks, that explanation helps. I see the difference — today nvme-cli
+just builds the tree once and prints a snapshot, so volatile values like
+Qdepth are inherently a “point in time” view. A monitor-style feature would
+instead keep the tree live and update it as ANA state, path health, or qdepth
+change (probably similar to how iostat or top refresh continuously). That
+definitely makes sense for those kinds of fields, though as you say it would
+require new hooks (udev/inotify) and rework of the in-memory tree handling.
 
-The kernel doesn't set a default for discovery controllers (hence this patc=
-h).
+For this patchset, I’d prefer to keep the scope limited and just filter the
+tabular output based on iopolicy (NUMA -> Nodes, qdepth -> Qdepth, RR -> none).
+That way the snapshot view stays useful. 
 
-nvme-cli will only set NVMF_DEF_DISC_TMO if the `--persistent`
-connection option is supplied to `nvme discover`. But it doesn't set a
-KATO for `nvme connect`, even though it's a persistent connection.
+Having said that, the “monitor” idea seems worth pursuing separately as a
+longer-term feature. For users who want a live view today, they can already
+run something like "watch -n1 nvme show-topology ..." to refresh the snapshot
+every second. A built-in --monitor feature would be nicer and more efficient,
+but I think that’s orthogonal and can be discussed separately. And I believe
+"minitor" feature shall be useful as well for implementing nvme-top command
+(as I recall we (me and Daniel) discussed it during LSFM-2025). 
 
-Note, that I think that is a bug in nvme-cli and it should be setting
-a non zero KATO. I plan on patching that. At the same time if the
-kernel knows it's a persistent discovery connection it should also be
-setting a default KATO. The kernel is already using a default non-zero
-KATO for non discovery nqns (see nvmf_parse_options()). This just
-extends the default to apply to persistent discovery controllers.
-
->
-> Do you have a test log for the above scenario where the KATO ends up
-> being zero for a PDC?
-
-I do, it's just a lot of keep-alive timeout prints on the target
-
-Alistair
-
->
-> -Martin
+Thanks,
+--Nilay
 
