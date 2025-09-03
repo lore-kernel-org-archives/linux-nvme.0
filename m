@@ -4,58 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91A32CA1010
-	for <linux-nvme@archiver.kernel.org>; Wed,  3 Sep 2025 09:46:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE17FCA1009
+	for <linux-nvme@archiver.kernel.org>; Wed,  3 Sep 2025 10:52:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T+ZSflSDtuv2vn6xoQd+7rrsdX4E+p+ug1hAD6qDjYs=; b=MLUFo6avy4/izLPUUIVBpCOomc
-	HXoZT/60ujcP1SwvYEzJv5PGWFCnJPV+nQdVBELd3WT6MlOqVRnSj/aCFkKemN2K3dBWtrb13pm7R
-	jNRvZnZ4dNGk+vRcWkUL3+czcwaUeQ25XSWo4cS7Ybm4CJSsjVkJXEjjGtoQ6hjbXrWAUjXQbk5sA
-	3Nm8bxDsUQe+48M74ACwoCsQB78HTp8c2Ir/gBCxcZuUGPNXN+O0R26hVrFazFceeethEZFtYNV+Y
-	050ypuprRQ81ouEeUtUEbqINZ6aLjcjQZgrSpaU+xujBPd+j4iP9FMwJaPPTO3Z4Cot4u6jR6KYxF
-	1qo9Cx7A==;
+	bh=jNNb+nr/hFKdcw+MyWg50Siwcv+G2MEA1WmLkk6R+24=; b=IRIbql3cqDD7aIgFoH0m6mk0/R
+	jpZVsnQo7DjfmHUk+CipgtLnUov7AvXvbLxGUWO+8EuFvvBTYycq/nnmYK5fwwQjjpR1ONSpMQCXb
+	d1DWUGYeIA+CfJYWifmQaFCUllhs74q2VtU12QbdXE1bNc47DVOztxxcbEn54U8xBCtlLl4DxbMyC
+	xE5i0grjoz21z+r1ZTXOOXWM/NFEWn84iC427SAKezwAkulNSEHPk4nTGjjgYHwqNu8V9ESPrxfTt
+	H4ZUEIMEhH9lpM7aFc2xWO4IAltPSDrGUJ0A/vAqif1XSo8awLqot+wfbkzUTdXGLnrFmAu7xaZMq
+	5Pq2ziRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utk4E-00000005yLk-49SS;
-	Wed, 03 Sep 2025 09:46:14 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1utl6f-0000000693R-495J;
+	Wed, 03 Sep 2025 10:52:49 +0000
+Received: from fout-a5-smtp.messagingengine.com ([103.168.172.148])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1utijL-00000005VYK-1KCt
-	for linux-nvme@lists.infradead.org;
-	Wed, 03 Sep 2025 08:20:35 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id BB59560232;
-	Wed,  3 Sep 2025 08:20:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC15BC4CEF0;
-	Wed,  3 Sep 2025 08:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756887634;
-	bh=4us/JiNGyyrs1E2mZPfotIPzzrOl7wDbBGjrnF20ulI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b0/Oj2+L6B0v9fV5Bbt8gwblJ/pFlIqW+QAC0oqsd2a6T/covNIJza3ENaF87vAP2
-	 6W+pKv8n/OLFSju4g8AxWnJtSeU3kxAB9FTpSQzzG8n38BncuGpZRfwdXubLVJ4ru4
-	 SEx6WlSpeJaOuOJvtRYAalM5TWmQhGAItn1BfhA9yUGY1wCfH5I5ZBnFA1rlxvFeKX
-	 iDP6DDKnwz1XyfktB+Pbpx+vMCucC9R2huAuoOUndFzcW13ZdzJ6pPVH1lZ+hHjem0
-	 lvHEg21/Wi6uS6um6sTwNs7mAKP83LUwPi64NNqwYbyaUfgpSnTZw4DZH6eK+aNLZy
-	 tWzmr7O5oP1mw==
-Date: Wed, 3 Sep 2025 11:20:30 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, hch@lst.de,
-	axboe@kernel.dk, martin.petersen@oracle.com, jgg@nvidia.com,
-	Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 2/2] blk-mq-dma: bring back p2p request flags
-Message-ID: <20250903082030.GA5608@unreal>
-References: <20250902200121.3665600-1-kbusch@meta.com>
- <20250902200121.3665600-3-kbusch@meta.com>
+	id 1utkBI-0000000606i-322b;
+	Wed, 03 Sep 2025 09:53:34 +0000
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6A797EC0336;
+	Wed,  3 Sep 2025 05:53:29 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Wed, 03 Sep 2025 05:53:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1756893209; x=1756979609; bh=jNNb+nr/hF
+	Kdcw+MyWg50Siwcv+G2MEA1WmLkk6R+24=; b=pXoYO4uNcVZuUx9Lb0lz/ceknJ
+	VORA4T5rp/2utYlvIq/8FCigI1G2XxgMf2/f0gtvW20zmDflVKBUbuQwcjlkcLGk
+	BCBXtv6OZjTs5CfVP9rBI8gloI+8kHsKA9iEfm5urKuWjK1c+XqnsFtzhGkYzac1
+	pWC7Yb0rtiuvSSP5uBzlClipQA4dQOHtWxvF0MmcWEfXTvTPyulpJaKlcVDnKk69
+	VExqh/IB8N0UeSYuyS36M33Vm3i/3xIheVXth8eCbUL4/WNPzcV9A8goig4tda9B
+	fXwyxnIMZNQFS260aPWVPGC4abO/ls7C3t7XP52RQDLFd/OPdEgZA0wgpkxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1756893209; x=1756979609; bh=jNNb+nr/hFKdcw+MyWg50Siwcv+G2MEA1Wm
+	Lkk6R+24=; b=WZpPJKSuPdSVvsUz8WkC51Yhv7zyC3tkBUR6DeoxnRR3wM8R/mi
+	3DDfpSWxr3nlfbv4g1zYSnehh4MZndgr4D/T6Phn3PuuYCDuujxHzDtPXGo08t9/
+	YRY1yeyVra9XZAvf4FGa6FaFLh8GvPKz0mDJllwn9HF+dRT2rPPx4OpeRWbWsWFM
+	aszLMJzSK/sL0BQ2ClWVNiDONcYJYTyHYu0VlEus2PoMhWJGsrxU1skSV1i9g+tl
+	8X5FRWtFicWL4gI87JsUbgGh/s3PpjmN5mkhdLIAX1T31j1KdUD3NqEvrjyighzB
+	mJiXM4iFrlJJDXrYnOnWJ8ElIL7ktYkMv8g==
+X-ME-Sender: <xms:FxC4aG1qr09vvHwIJ4hRbt7dkIQxbA0fvsqT7xu7-Qa-EuI1Y0SAtg>
+    <xme:FxC4aMkjjJBlZaG1qNx88mBDxwo_Xhu75G-jqvsAUqKkRP9XRf8eRjyuRp5rPUJ8r
+    n4Wt8-hhISP1shtCe0>
+X-ME-Received: <xmr:FxC4aHZ5L4UDCpYxS4iPuJ2jp77oF68P09_Bh3agX1CIy18Cb4gvlewcgjaINc4RmuJVrWjOvYwkXbvqBUJgZ6aLOCp95D_yeWw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvkeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcuifhr
+    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvdffve
+    elgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnh
+    gvthdpnhgspghrtghpthhtohepvddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pehhtghhsehlshhtrdguvgdprhgtphhtthhopehsvhgvnheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepthhofihinhgthhgvnhhmihesghhmrghilhdrtghomhdprhgtphhtthho
+    pegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggrlhesgh
+    homhhprgdruggvvhdprhgtphhtthhopehjrghsshhishhinhhghhgsrhgrrhesghhmrghi
+    lhdrtghomhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    epkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdought
+    sehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:FxC4aKpXGXfqNRJtXU3bKWXf82Z1HtC8gg6cm1QSI4juZ64CPJpJvA>
+    <xmx:FxC4aNgClrkAVGxrPUSoA5iIA9dD-IuPEqmWHNN_kwc6d3MH4dldvg>
+    <xmx:FxC4aMxWuRIbQ_rTseCZMo3e5lePw_bkoEo1iX_61QGtyH-FqaYTug>
+    <xmx:FxC4aL8MmHW_zqynwVULmAhwl-4ii_YK6UIH_NVlSD4x8Q_GitvppA>
+    <xmx:GRC4aNXiqaEM5KtsXta-J8fDubHw9ulAUXUwLhYT3ONsidDAlYyK2-Ol>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Sep 2025 05:53:27 -0400 (EDT)
+Date: Wed, 3 Sep 2025 11:53:25 +0200
+From: Janne Grunau <j@jannau.net>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sven Peter <sven@kernel.org>, Nick Chan <towinchenmi@gmail.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v3 7/9] nvme: apple: Add Apple A11 support
+Message-ID: <20250903095325.GA89417@robin.jannau.net>
+References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
+ <20250821-t8015-nvme-v3-7-14a4178adf68@gmail.com>
+ <20250825080710.GA23193@lst.de>
+ <89251134-9685-439e-b220-92717663f038@kernel.org>
+ <20250902052646.GA11139@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250902200121.3665600-3-kbusch@meta.com>
+In-Reply-To: <20250902052646.GA11139@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250903_025332_978628_6CD72197 
+X-CRM114-Status: GOOD (  17.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,28 +124,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 02, 2025 at 01:01:21PM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On Tue, Sep 02, 2025 at 07:26:46AM +0200, Christoph Hellwig wrote:
+> On Wed, Aug 27, 2025 at 05:56:33PM +0200, Sven Peter wrote:
+> >> Do you want to merge this through the apple SOC tree?  If so:
+> >>
+> >> Acked-by: Christoph Hellwig <hch@lst.de>
+> >>
+> >>
+> >
+> > I don't think that's necessary since there are no build time dependencies 
+> > but if you want to I can take it through there.
 > 
-> We need to consider data and metadata dma mapping types separately. The
-> request and bio integrity payload have enough flag bits to internally
-> track the mapping type for each. Use these so the caller doesn't need to
-> track them, and provide separete request and integrity helpers to the
-> common code. This will make it easier to scale new mappings, like the
-> proposed MMIO attribute, without burdening the caller to track such
-> things.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  block/blk-mq-dma.c            |  4 ++++
->  drivers/nvme/host/pci.c       | 21 ++++-----------------
->  include/linux/bio-integrity.h |  1 +
->  include/linux/blk-integrity.h | 14 ++++++++++++++
->  include/linux/blk-mq-dma.h    | 11 +++++++++--
->  include/linux/blk_types.h     |  2 ++
->  6 files changed, 34 insertions(+), 19 deletions(-)
-> 
+> Merging it through nvme sounds fine as well, I just through up
+> grabbing everything together would be easier.  I also noticed there's
+> another Apple hw enablement series that touches nvme, so I guess both
+> should go through the same tree?
 
-Thanks,
-Reviewed-by: Leon Romanovsky <leonro@nvidia.com>
+yes, they should go through the same tree if they go in the same cycle.
+They conflict in dt-bindings and possibly the driver. We should avoid
+burden someone else with this conflict resolution.
+
+Janne
 
