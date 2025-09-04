@@ -4,140 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45335CA1013
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 18:31:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3029CA1012
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 20:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8U7GdOjxhsTzAyM8D4u5BI8G2Xd1f8HkMUIoKDmyl7w=; b=l6h3t7n+2/wdvY2Wyisn42z0Qg
-	PRh9g5L/risNZu37atKq6FrLEWvtTNdFx76S7oDxthsKkDWpEytvKJ+gbqk9k4MOkUo/gadyy+zZN
-	93vhgZDMZZjXHGO26SGj3eLXFwWBotu8kNSsR/XtsmiEnnf9N2Yzp7EihIPnFKC7WaRtvbwJmrf/3
-	3waV4mRKHZqwzud0WaEWgmLmmMMtEdHK1DvJqRpVvY9XltuCyPeoyMek9apyijlXnLdHsX2elBY7c
-	uRtMYi7Ut3r0+8RO2TqrvRLb1rNuMAtCrIPcqa7kg7B81kDXNryB5MldwifHUwzbfjREBQ0sGgzBM
-	oFW4xzOg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=UDpuUr1sALfm0Ll8n8w95sKyRkbsu5Cc04GeRUss+iE=; b=NIvLlM9l/HaR0MODMxtaZqMTxT
+	7CYZT0OezfLWnVSWFtOG0ELGGI3fcYm8YH/umdd2h/CgWBfEwyYhGypI3X1y493YGKlfS/rypMZYy
+	sOXcplICbWMO7eO69AQuhQ8HSdTyLt0pJEHFOa/7/Ty+QVXYL4c0xue9taKWNi1MDpStK+mLDo7t/
+	H0X6DhLtapQHwmfFAJU9qopmKmKIjRE5gz51tFkfDJy8XA6uyHYMxRGVqkCYRcafD7QTNgu9mOO99
+	Z8xTcJY4xHEwCqIY2vV8nDv50kbx+6yiKoqLhdj6m//84mSolrkkNVY0MCAw7j44XZAASWovX1iFb
+	p+9Vd4gg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuEkP-0000000DaV2-31g7;
-	Thu, 04 Sep 2025 18:31:49 +0000
-Received: from flow-a3-smtp.messagingengine.com ([103.168.172.138])
+	id 1uuGby-0000000EGZS-2svU;
+	Thu, 04 Sep 2025 20:31:14 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uu90w-0000000BXcs-3u9s;
-	Thu, 04 Sep 2025 12:24:32 +0000
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailflow.phl.internal (Postfix) with ESMTP id 91B7A138030E;
-	Thu,  4 Sep 2025 08:24:27 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Thu, 04 Sep 2025 08:24:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1756988667; x=1756995867; bh=8U7GdOjxhs
-	TzAyM8D4u5BI8G2Xd1f8HkMUIoKDmyl7w=; b=hDNDwMrunWW+ZSBiQCae5O6HdM
-	rHIzrk1w93POFvUtWhk8/PTcjfDQw70b/bAYalCtI2CEx2Jf3r36xMTLqz9CDIHu
-	HZcPpZPQ+saIaP0ny4IDb8U+Rt3hJOO0nBCCwBQG1znzCFlMcLqF43sj3v5cxi5F
-	JrUfDaG0n1YTh8zUbpL1UxNYnnzVf7SsFPCIxwfijVgSkmuLxLS3N65UfaS6exGA
-	ADh5LalaVXZoXMFdoF1Z1f55no4+j5lcUJw0Jasq3jj0uF9M2iWqQlJ4iQPxmKgW
-	bJR0slNQsYWBDyjz0B2oPnJfmGr+7Cs2dBc6c3jMcMe8lqkFrYcT3BVZQUFg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1756988667; x=1756995867; bh=8U7GdOjxhsTzAyM8D4u5BI8G2Xd1f8HkMUI
-	oKDmyl7w=; b=nwHa/7xpjU32Z0Hf4NkHRGrhCI9S0+o+3GkFeLYaD4BO4ahSIiE
-	AzfgjNUTcHpC8m5rkhEaZpprVmEahYBL4a3IXs7TKP7uSms2vaqjFv/7OVT1+BrN
-	HiMWeD78WUeyUOqv6Ut+wjdDFtN7PwBIpxpp77y9j/hfwsM5M40bJShcazAq2Nfj
-	vU0k0733ZUqRn1WSn2lEKneSOFqnM5iYPhEZMUh5lh5NYIX7eFe8AmPGcP1UL9Oo
-	NpVS0IuWh+DjWJNqzDnp+c3xE7dELMyc/KjBBuMsB0ith0KURGCxVQ8t1hCBLsHq
-	Nw/5Zqgh0Zq1JjITNRJNb43qV+z/R/mJORA==
-X-ME-Sender: <xms:-YS5aPp7-Q-PJ75oKwTPe0FcPwMF6CU7PPlMZUYvafzhxITyOuiNQQ>
-    <xme:-YS5aNw42Jh_uRF-Vh88T3KVyMb5UDEtsSugx0zRywWFbbhkl6SwQIyf9iLELaMQ5
-    m338mmu0yL4v5o3LG8>
-X-ME-Received: <xmr:-YS5aHydJs3sY-GK3oCbvAHsOkngOP2IJEXL3-Xsm7VL-Gn688r9we0YV-V5onScvbN07mdHctJXOIr-NeHO4ekZlmvdoAv7z3Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeitdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcuifhr
-    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvdffve
-    elgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnh
-    gvthdpnhgspghrtghpthhtohepieefpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnhgvlh
-    drohhrghdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgt
-    phhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehkrhiikhdoughtse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoheprh
-    grfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhrvghshhdrkhhumhgr
-    rheslhhinhgrrhhordhorhhg
-X-ME-Proxy: <xmx:-YS5aFL5RENaptCIz0BuOu7c20yv3c3vvpf0r7dw-JaCLTja_Bz-qQ>
-    <xmx:-YS5aMhqfqjJDjwhEwdZLnuYL-XJITqjWEtj1CN62kOs7Lr-e1ARig>
-    <xmx:-YS5aLmrOIowpLzSrzFmFlJi5IwpCHBFCji4UnFHC3LawjtEN9XozQ>
-    <xmx:-YS5aBjdESh3CesfnA5BUM2uF_YS4jSIK-ieYu5ywQQcEQrIsgMdmQ>
-    <xmx:-4S5aHzTvFrOsjIChzaXkMhnpIzOEDH0ImtlmNuExND3IUGhmeRiqy8O>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Sep 2025 08:24:24 -0400 (EDT)
-Date: Thu, 4 Sep 2025 14:24:23 +0200
-From: Janne Grunau <j@jannau.net>
-To: Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,	Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,	Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>,	Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,	asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,	devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,	linux-pm@vger.kernel.org,
- iommu@lists.linux.dev,	linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org,	dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org,	linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org,	linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org,	dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org,	linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250904122423.GB89417@robin.jannau.net>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250829195119.GA1206685-robh@kernel.org>
- <20250830071620.GD204299@robin.jannau.net>
- <20250902194528.GA1014943-robh@kernel.org>
+	id 1uuECj-0000000DPRf-37i4
+	for linux-nvme@lists.infradead.org;
+	Thu, 04 Sep 2025 17:57:03 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584FK9CO003347;
+	Thu, 4 Sep 2025 17:56:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=UDpuUr1sALfm0Ll8n8w95sKyRkbs
+	u5Cc04GeRUss+iE=; b=optY+97BUcB1VzW5hh9kXMoPKAxGmQcjCm6678FlSqYG
+	9O4+lwDkjMclN6SGhS32rpfhuAT7N45at6uqqHu0v8WCuK9ZVjDno80WI9S+jWtX
+	jFAWMrGW948ssxctZBenWOpsCvO23B4PKWrREVTq8jN3qMAe7ZPNmD7WvuMwi74D
+	PF617DZ2Avk8J7429/ydKTYWAhbsD07z2cAcsSFVGgStAqbb5cNUaEm/ANTGACQ2
+	XcE0tI7rKTFmQMiZmE6L9/TH33IGkZlQ4rw6iV5XAk9OO4ulaazs30ZBQBpmeN1b
+	bbtMvZ5nR3/kUkFZ1BLz4J/NHpOend9x57xEvZP+lg==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usv3byc6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Sep 2025 17:56:59 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 584FrLfG009444;
+	Thu, 4 Sep 2025 17:56:58 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 48vdumnjah-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Sep 2025 17:56:58 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 584Huvs248300494
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 4 Sep 2025 17:56:57 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0AFF62004B;
+	Thu,  4 Sep 2025 17:56:57 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2E60220043;
+	Thu,  4 Sep 2025 17:56:55 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.43.24.25])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  4 Sep 2025 17:56:54 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, gjoyce@ibm.com
+Subject: [PATCHv3 0/4] nvme-cli: enhance the visibility of multipath using show-topology command
+Date: Thu,  4 Sep 2025 23:26:47 +0530
+Message-ID: <20250904175654.1183750-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250902194528.GA1014943-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: hP5ITy00tkQisGIn9bwMHo3GuAZzlME6
+X-Authority-Analysis: v=2.4 cv=FPMbx/os c=1 sm=1 tr=0 ts=68b9d2eb cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=oV6sAyDJqP4IIcuWZn0A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: hP5ITy00tkQisGIn9bwMHo3GuAZzlME6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfXxlrGCKBmg1eF
+ 6+51opD5ckHMmGDM7Ar1ivU+LC27xaEXpci+lKKL9+BVxTJDTodFpDJrw69noNdf5kmey84iRKx
+ Owy+uyDO/aMUXQMxsl1Rpuosn+bVR3DJaQcw50ZqG2dwDwhseBAqRW3+P0lS+RM6DISs4XxXxAt
+ JHNY+jTOLSe0FQZWX9XgZNeeKDRKUyll6eXLJXXzRGRNN23n0VNq6Ob97FMIugenQKVSyit92PX
+ teLEkbuLGECkqAtkaurOrFm3SJKgm4LkGRam5agnTJReCcLusHO8RAcQSpRzfhXGDoK8I10eT9t
+ M9sqYpw8LRh+IoVvyW4ujDqGB9qt+w06gs9CCCysvDVbpaOlkSboCpIVJO8QHYiIC+FMToPqWgz
+ 5rR9Ku2S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-04_06,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ spamscore=0 adultscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300034
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250904_052431_278694_BEB406F9 
-X-CRM114-Status: GOOD (  33.43  )
-X-Mailman-Approved-At: Thu, 04 Sep 2025 09:33:17 -0700
+X-CRM114-CacheID: sfid-20250904_105701_779564_A655DFF1 
+X-CRM114-Status: GOOD (  19.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -152,58 +112,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 02, 2025 at 02:54:34PM -0500, Rob Herring wrote:
-> On Sat, Aug 30, 2025 at 09:16:20AM +0200, Janne Grunau wrote:
-> > On Fri, Aug 29, 2025 at 02:51:19PM -0500, Rob Herring wrote:
-> > > On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
-> > > > This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> > > > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> > > > follow design of the t600x family so copy the structure of SoC *.dtsi
-> > > > files.
+Hi,
 
-...
+There has been recent work to improve the visibility of NVMe multipath
+configurations. The native NVMe multipath kernel driver supports three
+I/O path selection policies: numa, round-robin, and queue-depth. However,
+until now, users have had no insight into which path is selected by the
+multipath logic for forwarding I/O.
 
-> > > > After discussion with the devicetree maintainers we agreed to not extend
-> > > > lists with the generic compatibles anymore [1]. Instead either the first
-> > > > compatible SoC or t8103 is used as fallback compatible supported by the
-> > > > drivers. t8103 is used as default since most drivers and bindings were
-> > > > initially written for M1 based devices.
-> > > 
-> > > An issue here is any OS without the compatibles added to the drivers 
-> > > won't work. Does that matter here? Soon as you need any new drivers or 
-> > > significant driver changes it won't. The compatible additions could be 
-> > > backported to stable. They aren't really any different than new PCI IDs 
-> > > which get backported.
-> > 
-> > I don't think backporting the driver compatible additions to stable
-> > linux is very useful. It is only relevant for t602x devices and the only
-> > way to interact with them is the serial console. The T602x PCIe support
-> > added in v6.16 requires dart changes (the posted 4th level io page table
-> > support) to be useful. After that PCIe ethernet works so there is a
-> > practical way to interact with t602x systems. So there are probably zero
-> > user of upstream linux on those devices 
-> > I'm more concerned about other projects already supporting t602x
-> > devices. At least u-boot and OpenBSD will be affected by this. As short
-> > term solution m1n1 will add the generic compatibles [1] temporarily.
-> > I think keeping this roughly for a year should allow to add the
-> > compatibles and wait for "fixed" releases of those projects.
-> > I'll send fixes for u-boot once the binding changes are reviewed.
-> 
-> Honestly, at least in the cases where the generic compatible works for 
-> every chip so far, I'd just stick with it. The issue with generic 
-> compatibles is more that you don't really know if things are going to be 
-> the same or not. And most of the time, the h/w ends up changing.
-> 
-> If you want to keep it like this since you've already done it, then for 
-> all the binding patches:
+To address this, an RFC was proposed [1] and has since been merged into
+the Linux kernel as of v6.15. Following that, libnvme was extended to
+discover multiple paths to a shared NVMe namespace [2]. This patchset
+builds on those efforts to improve userspace observability of multipath
+configurations via nvme-cli.
 
-Let's keep with this series. I still have a branch with dt-binding
-changes using the generic compatibles but let's keep this approach to
-confusion and duplicate review work.
+This patchset contains four patches:
+The first patch in the series fixes a <device> filter option using which
+we could be able to filter the output of nvme show-topology command.
 
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+The second patch in the series enhances the nvme show-topology command to
+display multipath configuration, including all discovered paths to a
+namespace, along with details such as ANA state, NUMA nodes, and queue
+depth. The show-topology "--ranking" option is extended with a new sub-
+option: multipath.
 
-Thanks
+The third patch in the series adds common table APIs for printing nvme cli
+command output in tabular format.  With these APIs, developers no longer
+need to pre-calculate column or row widths. The output is consistently
+aligned and easy to read.
 
-Janne
+The fourth patch adds support for printing show-topology in tabular form
+leveraging the introduced table APIs to produce well-aligned, easy-to-read
+output.
+
+As usual, any feedback/sugegstion is most welcome!
+
+Thanks!
+
+Changes from v2:
+  - For iopolicy=numa, print NUMA nodes and exclude queue-depth.
+    Similarly, for iopolicy=queue-depth, print queue-depth but exclude
+    NUMA nodes. And for iopolicy=round-robin, exclude printing
+    both NUMA nodes and queue-depth. (Hannes Reinecke, Daniel
+    Wagner)
+Link to v2: https://lore.kernel.org/all/20250812125614.164445-1-nilay@linux.ibm.com/
+
+Changes from v1:
+  - Added the third patch in the series that implements the common table
+    APIs for printing nvme cli command output in tabular format
+    (Daniel Wagner)
+  - Added the fourth patch in the series which adds the support for
+    printing show-topology in tabular form (Daniel Wagner)
+Link to v1: https://lore.kernel.org/all/20250704135001.292763-1-nilay@linux.ibm.com/
+
+Nilay Shroff (4):
+  nvme: support <device> option in show-topology command
+  nvme: extend show-topology command to add support for multipath
+  nvme: add common APIs for printing tabular format output
+  nvme: add support for printing show-topology in tabular form
+
+ nvme-print-binary.c |   1 +
+ nvme-print-json.c   |  36 ++++-
+ nvme-print-stdout.c | 312 +++++++++++++++++++++++++++++++++++++++++-
+ nvme-print.c        |   9 +-
+ nvme-print.h        |   3 +
+ nvme.c              |  29 +++-
+ nvme.h              |   2 +
+ util/meson.build    |   3 +-
+ util/table.c        | 320 ++++++++++++++++++++++++++++++++++++++++++++
+ util/table.h        | 149 +++++++++++++++++++++
+ 10 files changed, 849 insertions(+), 15 deletions(-)
+ create mode 100644 util/table.c
+ create mode 100644 util/table.h
+
+-- 
+2.51.0
+
 
