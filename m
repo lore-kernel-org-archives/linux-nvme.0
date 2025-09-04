@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3029CA1012
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5FA8CA1015
 	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 20:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,91 +12,91 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UDpuUr1sALfm0Ll8n8w95sKyRkbsu5Cc04GeRUss+iE=; b=NIvLlM9l/HaR0MODMxtaZqMTxT
-	7CYZT0OezfLWnVSWFtOG0ELGGI3fcYm8YH/umdd2h/CgWBfEwyYhGypI3X1y493YGKlfS/rypMZYy
-	sOXcplICbWMO7eO69AQuhQ8HSdTyLt0pJEHFOa/7/Ty+QVXYL4c0xue9taKWNi1MDpStK+mLDo7t/
-	H0X6DhLtapQHwmfFAJU9qopmKmKIjRE5gz51tFkfDJy8XA6uyHYMxRGVqkCYRcafD7QTNgu9mOO99
-	Z8xTcJY4xHEwCqIY2vV8nDv50kbx+6yiKoqLhdj6m//84mSolrkkNVY0MCAw7j44XZAASWovX1iFb
-	p+9Vd4gg==;
+	bh=UDpuUr1sALfm0Ll8n8w95sKyRkbsu5Cc04GeRUss+iE=; b=Nj3aZegK1wEOsT1JpbV5iipmmV
+	sKYrrjRwKKEJK/DGqgOQyoYLklU8J6a2KoTGahqifT88IFN/gABAULpHu/iRMsWpVi3usyB85SP6p
+	AHtIMty6COO8GqkmIYbMq5lgI2bZggebyGZ8eKVtkSnpar6L9ceWqW5xYCjyOd5qDZTbvJIY53EBn
+	SRzhxo/C6StJ8lGpwra0nYezkbRwmlwcq0jT2N7kDHTeevtb9HCptg7FRq+6lY4Lv5zXy3lFW6yBJ
+	O4+cZnEsjDq1wghYZuN7RyAxoX/mtdQGryGUUnZj42P6oONDfGsDntE7Vy50AaFVQpTYuHslR5/eO
+	FwOZEXKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuGby-0000000EGZS-2svU;
+	id 1uuGby-0000000EGYx-0DBa;
 	Thu, 04 Sep 2025 20:31:14 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuECj-0000000DPRf-37i4
+	id 1uuECR-0000000DPKo-2IVP
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Sep 2025 17:57:03 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584FK9CO003347;
-	Thu, 4 Sep 2025 17:56:59 GMT
+	Thu, 04 Sep 2025 17:56:45 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849SJiS000698;
+	Thu, 4 Sep 2025 17:56:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:message-id
 	:mime-version:subject:to; s=pp1; bh=UDpuUr1sALfm0Ll8n8w95sKyRkbs
-	u5Cc04GeRUss+iE=; b=optY+97BUcB1VzW5hh9kXMoPKAxGmQcjCm6678FlSqYG
-	9O4+lwDkjMclN6SGhS32rpfhuAT7N45at6uqqHu0v8WCuK9ZVjDno80WI9S+jWtX
-	jFAWMrGW948ssxctZBenWOpsCvO23B4PKWrREVTq8jN3qMAe7ZPNmD7WvuMwi74D
-	PF617DZ2Avk8J7429/ydKTYWAhbsD07z2cAcsSFVGgStAqbb5cNUaEm/ANTGACQ2
-	XcE0tI7rKTFmQMiZmE6L9/TH33IGkZlQ4rw6iV5XAk9OO4ulaazs30ZBQBpmeN1b
-	bbtMvZ5nR3/kUkFZ1BLz4J/NHpOend9x57xEvZP+lg==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usv3byc6-1
+	u5Cc04GeRUss+iE=; b=mcIi1ypakyK7gGhh1k3+7oqBF7cbx4ZvZD2n7Pk6tnl9
+	gUWHQydnvSKcKlGk+IesU/RekBjVt5iCClXeEDqe9HzLSXOApd75fEPAER3ekXr8
+	7JnwwLGjME12oblAvKyn697J+ZDzempec8VsBFfSQOt+U7PXukDdxTwD5pUfOYB8
+	DdvUI4kunuvYR3QdbwNETZk5/P+1bI0F8EFa3piRFVGikBt0NrSvIeySZt0M0ArF
+	p0uQczeKE+P0vI/rosm7rAUJw1/dM1KzAaHEcvSUO58KIv+aXfYAmvvACfd1Kp2g
+	Nm8XXInLkzsBBatmBC8UXpH9zkM+4vGyNxOss82UBA==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48wshf7htk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 17:56:59 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 584FrLfG009444;
-	Thu, 4 Sep 2025 17:56:58 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 48vdumnjah-1
+	Thu, 04 Sep 2025 17:56:38 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 584ElmMT019910;
+	Thu, 4 Sep 2025 17:56:37 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 48vbmue043-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 17:56:58 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 584Huvs248300494
+	Thu, 04 Sep 2025 17:56:37 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 584HuZXG44433854
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 4 Sep 2025 17:56:57 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0AFF62004B;
-	Thu,  4 Sep 2025 17:56:57 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2E60220043;
-	Thu,  4 Sep 2025 17:56:55 +0000 (GMT)
+	Thu, 4 Sep 2025 17:56:35 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 64EBD2004F;
+	Thu,  4 Sep 2025 17:56:35 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 588B220040;
+	Thu,  4 Sep 2025 17:56:33 +0000 (GMT)
 Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.43.24.25])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  4 Sep 2025 17:56:54 +0000 (GMT)
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  4 Sep 2025 17:56:33 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, gjoyce@ibm.com
 Subject: [PATCHv3 0/4] nvme-cli: enhance the visibility of multipath using show-topology command
-Date: Thu,  4 Sep 2025 23:26:47 +0530
-Message-ID: <20250904175654.1183750-1-nilay@linux.ibm.com>
+Date: Thu,  4 Sep 2025 23:26:17 +0530
+Message-ID: <20250904175631.1183723-1-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: hP5ITy00tkQisGIn9bwMHo3GuAZzlME6
-X-Authority-Analysis: v=2.4 cv=FPMbx/os c=1 sm=1 tr=0 ts=68b9d2eb cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+X-Proofpoint-GUID: OGSkZ4f8upHkZ0bnZ3Z7Et5j5EfPQdHu
+X-Authority-Analysis: v=2.4 cv=do3bC0g4 c=1 sm=1 tr=0 ts=68b9d2d6 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
  a=oV6sAyDJqP4IIcuWZn0A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: hP5ITy00tkQisGIn9bwMHo3GuAZzlME6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfXxlrGCKBmg1eF
- 6+51opD5ckHMmGDM7Ar1ivU+LC27xaEXpci+lKKL9+BVxTJDTodFpDJrw69noNdf5kmey84iRKx
- Owy+uyDO/aMUXQMxsl1Rpuosn+bVR3DJaQcw50ZqG2dwDwhseBAqRW3+P0lS+RM6DISs4XxXxAt
- JHNY+jTOLSe0FQZWX9XgZNeeKDRKUyll6eXLJXXzRGRNN23n0VNq6Ob97FMIugenQKVSyit92PX
- teLEkbuLGECkqAtkaurOrFm3SJKgm4LkGRam5agnTJReCcLusHO8RAcQSpRzfhXGDoK8I10eT9t
- M9sqYpw8LRh+IoVvyW4ujDqGB9qt+w06gs9CCCysvDVbpaOlkSboCpIVJO8QHYiIC+FMToPqWgz
- 5rR9Ku2S
+X-Proofpoint-ORIG-GUID: OGSkZ4f8upHkZ0bnZ3Z7Et5j5EfPQdHu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAyMDA0MCBTYWx0ZWRfX0LYRSW/zUV1V
+ QJewoQSVfqT7QqrmZ/G1sE98jbAFY3fcB6N2a+KxSI57t+GwrXruIAjnua7Nswnc2dkJFd3x9GC
+ 02Rm1U/nbe7iQwtKq+63I3apNXxgrW/l0yzUpMUN8FC3l3Vk5qe/82QlOORL6HQEwBCc0OfKB2L
+ EN94iHtvPe8VH3R8pfu0seivDG7B8BF1MFa2g/bT3d7lb8XnZF6wFT+rit0UAliyWnaCx+lYIpM
+ e4GcX0l5PXIldV+DkpNbEleiR26rXmpuRyzn6d64WXXBmyCm8Z1E7DSr+QnOXlMF4MWIXYbURC5
+ YCEXjIV2IqtLVAQUmLcuy0y7+jrOkMymh9XJhdZVYYn0+xM6ItGv2tXZFi0WRLpMTws7H4O4dQ0
+ hjPP9zHq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-04_06,2025-09-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0
- spamscore=0 adultscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300034
+ phishscore=0 clxscore=1015 impostorscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509020040
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250904_105701_779564_A655DFF1 
+X-CRM114-CacheID: sfid-20250904_105644_058154_FDC267A3 
 X-CRM114-Status: GOOD (  19.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
