@@ -4,103 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A8CFCA1012
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 20:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B624CA1012
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 02:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kJmuyD5v3K/MasC8Fmoj2E+g64+kIEHXAFRoG+nKRlA=; b=lfanHkrABTEnzrsS7x4q45PlK8
-	RqVdOCQsiO/j86/1KXY/tpys3PW8PAxWz+gBnBnri/nsdD6c85bq+yBFZRnv1Fb3qxD2TIkfwHVct
-	epO3dZThtiGiikTZxLaq3acYHn2Lu++4ZgPFB3zUHJtg3gxdC/RdXhJYBJJ4SzcqAGQ/NBzjBWe7e
-	s8+LrmpMYjZHoyC1QjXMkTVTGeKxBjF6q0gT2mhPvajIzw8S5gUghQOU4uWjHtSk81nbYGVtOoeXL
-	ddVUUVXJsX7UQ93Iwl5Lm7LK2qWwTH/9N/XwUkqtPkQ0QDSyGfizmD8zuwzUk6LFniDphcc7oiNm3
-	0VJ2t3og==;
+	bh=ofbBRwXn4NwRWFOUaaAPn4/ZCyHKifDZzDC7NpE3rfM=; b=lB0iZ6jA8ijlSnJpY06e9mfqoy
+	IJMQLwQcH0j6iad66ZNnlrBMOkh805AsW8W8MeD0du0Db8QHp5VXp+VlZNtehZYDIOkiFqGnfnISR
+	sX8L5jWQevqNR0V/Bw8ZGqvcpnzROXFjuGWcVnfkEe07+OMNTvRndVxVRe6avTCNfWQoXFr8mI3z9
+	OWqroV6Ogdaqd3NxKpT6ONh35WAOxeAV7yfDfJtrOIwcm2+KEBAGNy5t19cWXE0pUOXYYGiTOBO/z
+	hj9F6n2zW/BnaSn9hImR2l1COB/XVmilV4h/o6yTE5cmB8z43nMC2Yzr1Eywff1xaN0dcw3AWd02c
+	ihF8mhJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuGbz-0000000EGZv-1Mjb;
-	Thu, 04 Sep 2025 20:31:15 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1uuM2C-0000000G0Nd-3qGy;
+	Fri, 05 Sep 2025 02:18:40 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuECm-0000000DPSx-35Wx
-	for linux-nvme@lists.infradead.org;
-	Thu, 04 Sep 2025 17:57:05 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584FcHg2013229;
-	Thu, 4 Sep 2025 17:57:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=kJmuyD
-	5v3K/MasC8Fmoj2E+g64+kIEHXAFRoG+nKRlA=; b=AaGci4kg0r1XWURXjLFSQS
-	gKSJqY6B0yKcPZZoN9xNwyGI+jQvaXWDDIQbF7ibEpS8oHwozO9imn6ZaHm/wwD7
-	5I8Y2txmoDOZp1qBz3MWYWUfMJv5NSiic6PfuL4FC6v/5NuYLefD81fL47ZhbjVO
-	2Ck8L4b5vO30jspx64jyAL3ns9YMx90b4XDYCjR/RZsuQbv8BzMhoG3I+mIWKoQ5
-	Tr27zqAzVJdVXmP3TeFoFqAyOMklMZkEj8wq8CTCweMIeNEaF/8efKkQp7gOoOyF
-	Gcm3c2Zu21nYec2gIIPeCsR5YUE/cQIt77NC9T/5oqHe3dSQbk3oqdIgqR2iiMMQ
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usv3byc9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 17:57:02 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 584Fn4Rr019404;
-	Thu, 4 Sep 2025 17:57:00 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48vd4n5n26-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 17:57:00 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 584Hux9556426838
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 4 Sep 2025 17:56:59 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 72B0E2004B;
-	Thu,  4 Sep 2025 17:56:59 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9767320043;
-	Thu,  4 Sep 2025 17:56:57 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.43.24.25])
-	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  4 Sep 2025 17:56:57 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, gjoyce@ibm.com
-Subject: [PATCHv3 1/4] nvme: support <device> option in show-topology command
-Date: Thu,  4 Sep 2025 23:26:48 +0530
-Message-ID: <20250904175654.1183750-2-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250904175654.1183750-1-nilay@linux.ibm.com>
-References: <20250904175654.1183750-1-nilay@linux.ibm.com>
+	id 1uuFfO-0000000Duxc-02xm;
+	Thu, 04 Sep 2025 19:30:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 1FE6144CCA;
+	Thu,  4 Sep 2025 19:30:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909FDC4CEF6;
+	Thu,  4 Sep 2025 19:30:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757014240;
+	bh=0RZ8CnMwf4NqKb6arTE1y1641ehql4WXMwOOTJDdIbw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XqU9NY0f4OsloxJ8hrjbay3uVxPdDfrJdhw+yQhou50Mf8usGqoTPhJTDxoNZp+w6
+	 eu6nxigNZ8yXtk74xrcMlP3GhpB2hvBpxU8ah4yk5t3JX8Lb1vFpRH7YwijLTSgbWz
+	 qa9mBqjd3NaDpDjXFuhgVL3ZcMFKlqGV8sDgsAaqf5VbqGYVLBnMpIt1xy+iFdzoOR
+	 gNmUrbAa7u2A5P+g9AScjho9KWkTUaNgRl2ZBG1zaws8KKSV6BH1t5vhbS0CK2T0zA
+	 ywZqzYHxLFtRwnoZ7Dz4d747xiS8+AL/sRcm6VTWQeX0uaJ4oW2rz2DMJ+YwSutGZT
+	 wOMJINbdy8Rbw==
+Message-ID: <5b02ef9e-3017-400a-826c-59b5d5770a44@kernel.org>
+Date: Thu, 4 Sep 2025 21:30:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: xiLOIWmIwD1T7675SF9W67EYu_ixtVaA
-X-Authority-Analysis: v=2.4 cv=FPMbx/os c=1 sm=1 tr=0 ts=68b9d2ee cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VnNF1IyMAAAA:8 a=fQhDe627euf1iyP7odYA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: xiLOIWmIwD1T7675SF9W67EYu_ixtVaA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfX96nd92xE/Bgj
- pI348uLxzHJ9X3UrSpUeplx9skuH8h2UW/mrK3yKfp4ThpBVzVjbXAaAQv3mtIGA4aJCPSm7/II
- kFYzeSLlrauokka/uk0HyRLWY0hdLEdW78cYjR+pljzQzvjlGe96xzM234xlYtyKKHbEpaJOOYv
- gJdJAMkjyKYtCTWXTlzgB5waWrzzxQCF0D5hy6i0EghLE+jklbp0Lb9CKl7ioCSF32OU3q78tFg
- imB+ByUOo0cUcK14op/z47kfklHwrsOK8mAwwg2QY5OUjfcI/VKtoFsSeAOk3rxi4t7uY9dPivc
- bcgJUsDDrV8kTslQuHWEKwW6Tj3ABYw9PxELHm0oQ+s2nSRY5DL6cRgyx/brO1TgUrg8QeVOmVz
- Vrs5zcBj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_06,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0
- spamscore=0 adultscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300034
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 7/9] nvme: apple: Add Apple A11 support
+To: Janne Grunau <j@jannau.net>, Christoph Hellwig <hch@lst.de>
+Cc: Nick Chan <towinchenmi@gmail.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ iommu@lists.linux.dev, linux-nvme@lists.infradead.org
+References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
+ <20250821-t8015-nvme-v3-7-14a4178adf68@gmail.com>
+ <20250825080710.GA23193@lst.de>
+ <89251134-9685-439e-b220-92717663f038@kernel.org>
+ <20250902052646.GA11139@lst.de> <20250903095325.GA89417@robin.jannau.net>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20250903095325.GA89417@robin.jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250904_105704_777977_651AED74 
-X-CRM114-Status: GOOD (  17.01  )
+X-CRM114-CacheID: sfid-20250904_123042_082075_80C22F4F 
+X-CRM114-Status: GOOD (  16.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,76 +85,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Although the help text for the nvme show-topology command indicates
-support for a <device> option, this option has no effect in practice
-— specifying an NVMe device name does not filter the output.
+On 03.09.25 11:53, Janne Grunau wrote:
+> On Tue, Sep 02, 2025 at 07:26:46AM +0200, Christoph Hellwig wrote:
+>> On Wed, Aug 27, 2025 at 05:56:33PM +0200, Sven Peter wrote:
+>>>> Do you want to merge this through the apple SOC tree?  If so:
+>>>>
+>>>> Acked-by: Christoph Hellwig <hch@lst.de>
+>>>>
+>>>>
+>>>
+>>> I don't think that's necessary since there are no build time dependencies
+>>> but if you want to I can take it through there.
+>>
+>> Merging it through nvme sounds fine as well, I just through up
+>> grabbing everything together would be easier.  I also noticed there's
+>> another Apple hw enablement series that touches nvme, so I guess both
+>> should go through the same tree?
+> 
+> yes, they should go through the same tree if they go in the same cycle.
+> They conflict in dt-bindings and possibly the driver. We should avoid
+> burden someone else with this conflict resolution.
 
-This commit adds proper support for the <device> option, enabling users
-to filter the topology output based on the specified NVMe device.
+Good points, I'll pick up the latest version of this series on the 
+weekend then and handle any conflicts in case the other one is ready for 
+this cycle (which it probably will be) as well then.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- nvme-print-stdout.c |  9 +++++++++
- nvme.c              | 17 ++++++++++++++++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/nvme-print-stdout.c b/nvme-print-stdout.c
-index c597b608..eb56349a 100644
---- a/nvme-print-stdout.c
-+++ b/nvme-print-stdout.c
-@@ -5683,6 +5683,15 @@ static void stdout_simple_topology(nvme_root_t r,
- 
- 	nvme_for_each_host(r, h) {
- 		nvme_for_each_subsystem(h, s) {
-+			bool no_ctrl = true;
-+			nvme_ctrl_t c;
-+
-+			nvme_subsystem_for_each_ctrl(s, c)
-+				no_ctrl = false;
-+
-+			if (no_ctrl)
-+				continue;
-+
- 			if (!first)
- 				printf("\n");
- 			first = false;
-diff --git a/nvme.c b/nvme.c
-index b3cd538b..f17a8091 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -10182,6 +10182,8 @@ static int show_topology_cmd(int argc, char **argv, struct command *command, str
- 	const char *ranking = "Ranking order: namespace|ctrl";
- 	nvme_print_flags_t flags;
- 	_cleanup_nvme_root_ nvme_root_t r = NULL;
-+	char *devname = NULL;
-+	nvme_scan_filter_t filter = NULL;
- 	enum nvme_cli_topo_ranking rank;
- 	int err;
- 
-@@ -10224,7 +10226,20 @@ static int show_topology_cmd(int argc, char **argv, struct command *command, str
- 		return -errno;
- 	}
- 
--	err = nvme_scan_topology(r, NULL, NULL);
-+	if (optind < argc)
-+		devname = basename(argv[optind++]);
-+
-+	if (devname) {
-+		int subsys_id, nsid;
-+
-+		if (sscanf(devname, "nvme%dn%d", &subsys_id, &nsid) != 2) {
-+			nvme_show_error("Invalid device name %s\n", devname);
-+			return -EINVAL;
-+		}
-+		filter = nvme_match_device_filter;
-+	}
-+
-+	err = nvme_scan_topology(r, filter, (void *)devname);
- 	if (err < 0) {
- 		nvme_show_error("Failed to scan topology: %s", nvme_strerror(errno));
- 		return err;
--- 
-2.51.0
+Thanks,
+
+
+Sven
 
 
