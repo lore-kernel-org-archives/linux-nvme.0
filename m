@@ -4,103 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79BE9CA101F
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 20:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25AEDCAC581
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Sep 2025 20:31:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=20GumDtJzoKN18EFT5Qt+e4JQcAzUXEKdSg3GHV7pGY=; b=koQdP6mQzeWV1Eo7N1WFoonlof
-	UrfRj9iXhIp7nqukWTe3S7BC/4UoUmkC9hPn84h1hSdhLh6mSrf+k/5c7dEV9wOJwdnDme4FMBRMP
-	kqK6SVBjUGXZaR4XKxEf9BcBceIaEW9oijx8TcgGZj5IjBK1kPJQKUWfwHLmLcwTqIXlIaun5PE71
-	18fZi8gSX8N3VAf10IBm9+EBl8AfSPzzjAqYm2fAR+Nbobs155GkUQxftulBbdMoKWoWHS/23zlzQ
-	mIjM9/rbfWRDvwtRsHIUxoVRQXA3/h7cFxATTGwIBBE7bPwLDxXzEBbBtua2EPuXsnCfjHre9re4l
-	LvoAisAQ==;
+	bh=IHL7mWpI6j7rHhnWR6Gs5ZAJTteWl5wQ9ql2RZ/ZJk4=; b=jzNs3SqYLOpO12Kgu5R5enZ7AW
+	alVKeaGYjWHZ2JljgV0oFtxEZRwoQrZaTyKBfrTzldEG+KGvrXR8QgGvyQxYwuwrtKzVNrTfFIr8/
+	UKOt4tt7MRV5EB1VHVppb+c00Eq6wuw+sOOqZ7cBTi2zE8lnGPdKd/m8U7rWCXYL5gQG074grIEJC
+	pWax+DXRgLIR3YgV2g9wWqVuZPNlVe/qFeg4FlUTQC1Qs+CKJFg8x4mIG2dm9y42fyMC1wbFMOT2v
+	UZAB16zqGD8Oichym0LBdVV6FJLX+P/ksiPKlu81Kaw3/bGNlQwE+uWUafPYCaf94n9Aj7f253zYg
+	nhR1mAbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuGc0-0000000EGcT-32KX;
-	Thu, 04 Sep 2025 20:31:16 +0000
+	id 1uuGc1-0000000EGd2-1lKc;
+	Thu, 04 Sep 2025 20:31:17 +0000
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuECs-0000000DPUz-2WLe
+	id 1uuECu-0000000DPVq-0IZT
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Sep 2025 17:57:11 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584FTScv007039;
-	Thu, 4 Sep 2025 17:57:07 GMT
+	Thu, 04 Sep 2025 17:57:13 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584HcFNM000683;
+	Thu, 4 Sep 2025 17:57:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=20GumD
-	tJzoKN18EFT5Qt+e4JQcAzUXEKdSg3GHV7pGY=; b=Na4QxOEhxoZOLKZjqi/FSG
-	pOhKPYxkYcGk35mKXFNg/6Y1MKpYD7MSFWUvufngE08dUuzviTg/JEoSZDHKmyhj
-	U6GzkhUD1obYGj/Gr6WJv4u3qeuMhXnkBJAPDr/TP/8DU2JhhbW1M+OqOpths2Ep
-	ReKofcDGHL2D2U9eNGRvIe/b9LW3dZ7BTptgunow/f0mr+Twmng+ee7AKfyHAwjA
-	E39eMJTneqG6Z5/f8xLtHKD1c4d+8v6DQJ4gqOSNaXJnxxD/t4mnysdbGx3UUbGc
-	ObJ2aTXaP6ohpkhRDlnZOInuLBvGov7RvESA4uTUMhC/ZXxvUZGBnT7NldZXSDGw
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48usuabb1u-1
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=IHL7mWpI6j7rHhnWR
+	6Gs5ZAJTteWl5wQ9ql2RZ/ZJk4=; b=Dz5NWAVvDjz1McrcOoOOdAsbjhqEpDs17
+	jnpVAxfaKkL5VqqpdtepA46DDD66ZFmFYxMn5BmjyQtb/2eUcL9LlrmnKIhXfx+k
+	iav7dyyLJbHCxsUgQp/eD2ZS5RcNwj9OhYr/855HOo4XcFNOavaOZt1YY/PeCu1X
+	rEDPzvWfJpAZME0N8tF3/kEgzvrNa5Zc9QhSf+D4YnDmmLdDhSbAj0Fq/IvWD7UQ
+	wQPXwOwffzLESBTNoIxhPcMxQHSdPZWBWoOct2Tl7mh8QYcW/ce6rpu41lFvVL9k
+	ucFQ6GfQC/6k/Bo9051jgH5aYyPc0nzx6ynANIpwH+rE9oeEcbmOg==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48wshf7hw1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 17:57:07 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 584GK8tl013942;
-	Thu, 4 Sep 2025 17:57:06 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 48veb3net1-1
+	Thu, 04 Sep 2025 17:57:08 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 584FiOAM019363;
+	Thu, 4 Sep 2025 17:57:08 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 48vd4n5n2f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 17:57:06 +0000
+	Thu, 04 Sep 2025 17:57:08 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 584Hv4Z848300508
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 584Hv7Oo15139158
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 4 Sep 2025 17:57:04 GMT
+	Thu, 4 Sep 2025 17:57:07 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8258220040;
-	Thu,  4 Sep 2025 17:57:04 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id F2A3C20040;
+	Thu,  4 Sep 2025 17:57:06 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B6B1E20043;
-	Thu,  4 Sep 2025 17:57:02 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 16F162004B;
+	Thu,  4 Sep 2025 17:57:05 +0000 (GMT)
 Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.43.24.25])
 	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  4 Sep 2025 17:57:02 +0000 (GMT)
+	Thu,  4 Sep 2025 17:57:04 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: dwagner@suse.de, hare@suse.de, kbusch@kernel.org, gjoyce@ibm.com
-Subject: [PATCHv3 3/4] nvme: add common APIs for printing tabular format output
-Date: Thu,  4 Sep 2025 23:26:50 +0530
-Message-ID: <20250904175654.1183750-4-nilay@linux.ibm.com>
+Subject: [PATCHv3 4/4] nvme: add support for printing show-topology in tabular form
+Date: Thu,  4 Sep 2025 23:26:51 +0530
+Message-ID: <20250904175654.1183750-5-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250904175654.1183750-1-nilay@linux.ibm.com>
 References: <20250904175654.1183750-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ro1SFnJM02WzssNZMYMsKfFm3gFBfQ_f
-X-Authority-Analysis: v=2.4 cv=U6uSDfru c=1 sm=1 tr=0 ts=68b9d2f3 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VnNF1IyMAAAA:8 a=xM2IsvSaNinNOIRlxoEA:9
- a=ayjaioT1es4dqrhz:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzNCBTYWx0ZWRfX+yQts0zppmUU
- YWmcGe2WBFyoE+MxKhn0iXMVyszZ6phaBeyvC1xwqSJh2YJ61mk7K1xcgMb+rc22PteELzzFhx6
- 09WpJa8c1us3nBSLGftfajSPV9XBYxH/mEWn/EyV4zn3+uKt/95TkE+DB4GnOLr044v91d5bROq
- X8UkArI6VqPUQ0c4Zc/oKmnx6okjnqRQraOBavgkIvO+dvfxV1MCgKebQoR9lixiKejS3J1TQYo
- fzznXAqAbJf/JQOUgESOV7498kxcyjaBhbVC/NmCzmWx/wR+vvQyqgVpOZnnwTmR0cU9yq+tVd3
- uMrFeSF7V8HzsONdGk2th1TUlC3idiOv6Y7df9s1BKGSrE4QDyCEFs/MhvjvX9PUi/ff7eUImrZ
- g3uShWsH
-X-Proofpoint-ORIG-GUID: ro1SFnJM02WzssNZMYMsKfFm3gFBfQ_f
+X-Proofpoint-GUID: ftXvyxjwjIAFm4aa3TfTJxwQ-FaMXuZh
+X-Authority-Analysis: v=2.4 cv=do3bC0g4 c=1 sm=1 tr=0 ts=68b9d2f5 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=yJojWOMRYYMA:10 a=VnNF1IyMAAAA:8 a=p4JkK8WjJz4Is7kFgFgA:9
+ a=2vx6RKudLRU5ZigS:21
+X-Proofpoint-ORIG-GUID: ftXvyxjwjIAFm4aa3TfTJxwQ-FaMXuZh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAyMDA0MCBTYWx0ZWRfXxEgMCCCRwSw9
+ DfwHZe8yPxzrf2avYer8meJ3IuNsJy3YiNJq31oHfXT8cGN+dWFIV07sRyAoL3PeMnyYyq2XrAJ
+ O5qY1NI6YB6NzpDH6IKMwIHHqKa5QtXfMO/+q3U61pRZwVZn376unkykAIXfgsq5NfKYtyA/2Pz
+ VpfgI/3iu7MY6LeqnA1Dfh9jEwGg3/hqSOukw9jsjoRZJJ6QeRkYN8cUPUIiofan11Hl+Ex5abl
+ qOkzqL98Z7Em7CzeStLkk/3lYshYm/50dER4n8ktxcHqOZfQKeo3GHBPr7yVXge76tnyJ0trFQd
+ Lcd4+SavONZJSrxwhHz0rtsITQK1UbLNmRAzRh6G+xwOc4V0yRInSEqcNgD7NSSBp1uUvUNXXlK
+ i35wkaI/
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-04_06,2025-09-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 adultscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 spamscore=0 bulkscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 impostorscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300034
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509020040
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250904_105710_763373_8664880F 
-X-CRM114-Status: GOOD (  34.95  )
+X-CRM114-CacheID: sfid-20250904_105712_227670_867AF845 
+X-CRM114-Status: GOOD (  29.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,559 +113,369 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Some nvme-cli commands, such as nvme list and nvme list -v, support output
-in tabular format. Currently, the table output is not well aligned because
-column widths are fixed at print time, regardless of the length of the data
-in each column. This often results in uneven and hard-to-read output.For
-any new CLI command that requires tabular output, developers must manually
-specify the column width and row value width, which is both error-prone and
-inconsistent.
+The nvme CLI command show-topology currently prints the topology
+output in a tree format. However, in some cases it is more convenient
+and easier to read or interpret the output when displayed in a tabular
+form.
 
-This patch introduces a set of common table APIs that:
-- Automatically calculate column widths based on the content
-- Maintain proper alignment regardless of value length
-- Simplify adding tabular output support to new and existing commands
+This patch adds support for printing the show-topology output in a
+tabular format. To achieve this, the --output-format option, which
+previously supported only normal and json formats, is extended to
+include a new tabular format.
 
-The new APIs are:
-1. table_init() — Allocate a table instance.
-2. table_add_columns() — Add column definitions (struct table_column),
-   including name and alignment (LEFT, RIGHT, CENTERED).
-3. table_add_columns_filter() - Same as table_add_columns() but also
-   provide a filter function callback which could be then used by the
-   caller for filtering any column.
-3. table_get_row_id() — Reserve a row index for inserting values.
-4. table_add_row() — Add a row to the table.
-5. table_print() — Print the table with auto-calculated widths.
-6. table_free() — Free resources allocated for the table.
-
-For adding values, the following setter APIs are provided, each
-supporting alignment types (LEFT, RIGHT, or CENTERED):
-- table_set_value_str()
-- table_set_value_int()
-- table_set_value_unsigned()
-- table_set_value_long()
-- table_set_value_unsigned_long()
-
-Usage steps:
-1. Call table_init() to create a table handle.
-2. Define an array of struct table_column specifying column names and
-   alignment, then call table_add_columns() or if you want to filter
-   column then table_add_columns_filter().
-3. Obtain a row ID using table_get_row_id() and set values using the
-   appropriate setter table APIs : table_set_value_*() function.
-4. Add the completed row using table_add_row().
-5. Repeat steps 3–4 for each additional row.
-5. Call table_print() to display the table.
-6. Call table_free() to release table resources.
-
-With these APIs, developers no longer need to pre-calculate column or
-row widths. The output is consistently aligned and easy to read.
+With this change, the user can now choose to print the topology in any
+of the following formats: normal, json, or tabular. The new tabular
+output leverages the recently introduced table APIs to produce well-
+aligned, easy-to-read output.
 
 Suggested-by: Daniel Wagner <dwagner@suse.de>
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- util/meson.build |   3 +-
- util/table.c     | 320 +++++++++++++++++++++++++++++++++++++++++++++++
- util/table.h     | 149 ++++++++++++++++++++++
- 3 files changed, 471 insertions(+), 1 deletion(-)
- create mode 100644 util/table.c
- create mode 100644 util/table.h
+ nvme-print-stdout.c | 218 ++++++++++++++++++++++++++++++++++++++++++++
+ nvme-print.c        |   5 +
+ nvme-print.h        |   2 +
+ nvme.c              |   8 +-
+ nvme.h              |   1 +
+ 5 files changed, 233 insertions(+), 1 deletion(-)
 
-diff --git a/util/meson.build b/util/meson.build
-index 75aed49c..5b402b1a 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -8,7 +8,8 @@ sources += [
-   'util/sighdl.c',
-   'util/suffix.c',
-   'util/types.c',
--  'util/utils.c'
-+  'util/utils.c',
-+  'util/table.c'
- ]
+diff --git a/nvme-print-stdout.c b/nvme-print-stdout.c
+index 204c8d9d..8b32eb7a 100644
+--- a/nvme-print-stdout.c
++++ b/nvme-print-stdout.c
+@@ -20,6 +20,7 @@
+ #include "nvme-models.h"
+ #include "util/suffix.h"
+ #include "util/types.h"
++#include "util/table.h"
+ #include "logging.h"
+ #include "common.h"
  
- if json_c_dep.found()
-diff --git a/util/table.c b/util/table.c
-new file mode 100644
-index 00000000..88062699
---- /dev/null
-+++ b/util/table.c
-@@ -0,0 +1,320 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * table.c : Common APIs for printing tabular format output.
-+ *
-+ * Copyright (c) 2025 Nilay Shroff, IBM
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License
-+ * as published by the Free Software Foundation; either version 2
-+ * of the License, or (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ */
-+
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <errno.h>
-+#include <string.h>
-+
-+#include "table.h"
-+
-+static int table_get_value_width(struct value *v)
+@@ -5589,6 +5590,127 @@ static void stdout_list_items(nvme_root_t r)
+ 		stdout_simple_list(r);
+ }
+ 
++static bool subsystem_iopolicy_filter(const char *name, void *arg)
 +{
-+	char buf[64];
-+	int len = 0;
++	nvme_subsystem_t s = arg;
++	const char *iopolicy = nvme_subsystem_get_iopolicy(s);
 +
-+	switch (v->type) {
-+	case FMT_STRING:
-+		len = strlen((const char *)v->s);
-+		break;
-+	case FMT_INT:
-+		len = snprintf(buf, sizeof(buf), "%d", v->i);
-+		break;
-+	default:
-+		printf("Invalid print format!\n");
-+		break;
++	if (!strcmp(iopolicy, "queue-depth")) {
++		/* exclude "Nodes" for iopolicy queue-depth */
++		if (!strcmp(name, "Nodes"))
++			return false;
++	} else if (!strcmp(iopolicy, "numa")) {
++		/* exclude "Qdepth" for iopolicy numa */
++		if (!strcmp(name, "Qdepth"))
++			return false;
++	} else { /* round-robin */
++		/* exclude "Nodes" and "Qdepth" for iopolicy round-robin */
++		if (!strcmp(name, "Nodes") || !strcmp(name, "Qdepth"))
++			return false;
 +	}
-+	return len;
++
++	return true;
 +}
 +
-+static void table_print_centered(struct value *val, int width, enum fmt_type type)
++static void stdout_tabular_subsystem_topology_multipath(nvme_subsystem_t s)
 +{
-+	int i, len, left_pad, right_pad;
-+	char buf[64];
++	nvme_ns_t n;
++	nvme_path_t p;
++	nvme_ctrl_t c;
++	int row, col;
++	bool first;
++	struct table *t;
++	const char *iopolicy = nvme_subsystem_get_iopolicy(s);
++	struct table_column columns[] = {
++		{"NSHead", LEFT, 0},
++		{"NSID", LEFT, 0},
++		{"NSPath", LEFT, 0},
++		{"ANAState", LEFT, 0},
++		{"Nodes", LEFT, 0},
++		{"Qdepth", LEFT, 0},
++		{"Controller", LEFT, 0},
++		{"TrType", LEFT, 0},
++		{"Address", LEFT, 0},
++		{"State", LEFT, 0},
++	};
 +
-+	if (type == FMT_STRING)
-+		len = strlen(val->s);
-+	else if (type == FMT_INT)
-+		len = snprintf(buf, sizeof(buf), "%d", val->i);
-+	else if (type == FMT_UNSIGNED)
-+		len = snprintf(buf, sizeof(buf), "%u", val->u);
-+	else if (type == FMT_LONG)
-+		len = snprintf(buf, sizeof(buf), "%ld", val->ld);
-+	else if (type == FMT_UNSIGNED_LONG)
-+		len = snprintf(buf, sizeof(buf), "%lu", val->lu);
-+	else {
-+		fprintf(stderr, "Invalid format!\n");
++	t = table_init();
++	if (!t) {
++		printf("Failed to init table\n");
 +		return;
 +	}
 +
-+	left_pad = (width - len) / 2;
-+	right_pad = width - len - left_pad;
-+
-+	/* add left padding */
-+	for (i = 0; i < left_pad; i++)
-+		putchar(' ');
-+
-+	/* print value */
-+	if (type == FMT_STRING)
-+		printf("%s ", val->s);
-+	else if (type == FMT_INT)
-+		printf("%d ", val->i);
-+	else if (type == FMT_UNSIGNED)
-+		printf("%u ", val->u);
-+	else if (type == FMT_LONG)
-+		printf("%ld ", val->ld);
-+	else if (type == FMT_UNSIGNED_LONG)
-+		printf("%lu", val->lu);
-+
-+	/* add right padding */
-+	for (i = 0; i < right_pad; i++)
-+		putchar(' ');
-+}
-+
-+static void table_print_columns(const struct table *t)
-+{
-+	int col, j, width;
-+	struct table_column *c;
-+	struct value v;
-+
-+	for (col = 0; col < t->num_columns; col++) {
-+		c = &t->columns[col];
-+		width = c->width;
-+		if (c->align == LEFT)
-+			width *= -1;
-+
-+		if (c->align == CENTERED) {
-+			v.s = c->name;
-+			v.align = c->align;
-+			table_print_centered(&v, width, FMT_STRING);
-+		} else
-+			printf("%*s ", width, c->name);
++	if (table_add_columns_filter(t, columns, ARRAY_SIZE(columns),
++			subsystem_iopolicy_filter, (void *)s) < 0) {
++		printf("Failed to add columns\n");
++		goto free_tbl;
 +	}
 +
-+	printf("\n");
++	nvme_subsystem_for_each_ns(s, n) {
++		first = true;
++		nvme_namespace_for_each_path(n, p) {
++			c = nvme_path_get_ctrl(p);
 +
-+	for (col = 0; col < t->num_columns; col++) {
-+		for (j = 0; j < t->columns[col].width; j++)
-+			putchar('-');
-+		printf(" ");
-+	}
-+
-+	printf("\n");
-+}
-+
-+static void table_print_rows(const struct table *t)
-+{
-+	int row, col;
-+	struct table_column *c;
-+	struct table_row *r;
-+	int width;
-+	struct value *v;
-+
-+	for (row = 0; row < t->num_rows; row++) {
-+		for (col = 0; col < t->num_columns; col++) {
-+			c = &t->columns[col];
-+			r = &t->rows[row];
-+			v = &r->val[col];
-+
-+			width = c->width;
-+			if (v->align == LEFT)
-+				width *= -1;
-+
-+			if (v->align == CENTERED)
-+				table_print_centered(v, width, v->type);
-+			else {
-+				switch (v->type) {
-+				case FMT_STRING:
-+					printf("%*s ", width, v->s);
-+					break;
-+
-+				case FMT_INT:
-+					printf("%*d ", width, v->i);
-+					break;
-+
-+				case FMT_UNSIGNED:
-+					printf("%*u ", width, v->u);
-+					break;
-+
-+				case FMT_LONG:
-+					printf("%*ld ", width, v->ld);
-+					break;
-+
-+				case FMT_UNSIGNED_LONG:
-+					printf("%*lu ", width, v->lu);
-+					break;
-+
-+				default:
-+					fprintf(stderr, "Invalid format!\n");
-+					break;
-+				}
++			row = table_get_row_id(t);
++			if (row < 0) {
++				printf("Failed to add row\n");
++				goto free_tbl;
 +			}
++			/* For the first row we print actual NSHead name,
++			 * however, for the subsequent rows we print "arrow"
++			 * ("-->") symbol for NSHead. This "arrow" style makes
++			 * it visually obvious that susequenet entries (if
++			 * present) are a path under the first NSHead.
++			 */
++			col = -1;
++			/* col 0: NSHead */
++			if (first) {
++				table_set_value_str(t, ++col, row,
++						nvme_ns_get_name(n), LEFT);
++				first = false;
++			} else
++				table_set_value_str(t, ++col, row,
++						"-->", CENTERED);
++			/* col 1: NSID */
++			table_set_value_int(t, ++col, row,
++					nvme_ns_get_nsid(n), CENTERED);
++			/* col 2: NSPath */
++			table_set_value_str(t, ++col, row,
++					nvme_path_get_name(p), LEFT);
++			/* col 3: ANAState */
++			table_set_value_str(t, ++col, row,
++					nvme_path_get_ana_state(p), LEFT);
++
++			if (!strcmp(iopolicy, "numa"))
++				/* col 4: Nodes */
++				table_set_value_str(t, ++col, row,
++					nvme_path_get_numa_nodes(p), CENTERED);
++			else if (!strcmp(iopolicy, "queue-depth"))
++				/* col 4 : Qdepth */
++				table_set_value_int(t, ++col, row,
++					nvme_path_get_queue_depth(p), CENTERED);
++
++			/* col 5: Controller */
++			table_set_value_str(t, ++col, row,
++					nvme_ctrl_get_name(c), LEFT);
++			/* col 6: TrType */
++			table_set_value_str(t, ++col, row,
++					nvme_ctrl_get_transport(c), LEFT);
++			/* col 7: Address */
++			table_set_value_str(t, ++col, row,
++					nvme_ctrl_get_address(c), LEFT);
++			/* col 8: State */
++			table_set_value_str(t, ++col, row,
++					nvme_ctrl_get_state(c), LEFT);
++
++			table_add_row(t, row);
 +		}
-+		printf("\n");
 +	}
++	table_print(t);
++free_tbl:
++	table_free(t);
 +}
 +
-+void table_print(struct table *t)
+ static void stdout_subsystem_topology_multipath(nvme_subsystem_t s,
+ 						     enum nvme_cli_topo_ranking ranking)
+ {
+@@ -5693,6 +5815,69 @@ static void stdout_subsystem_topology_multipath(nvme_subsystem_t s,
+ 	}
+ }
+ 
++static void stdout_tabular_subsystem_topology(nvme_subsystem_t s)
 +{
-+	/* first print columns */
-+	table_print_columns(t);
-+
-+	/* next print rows */
-+	table_print_rows(t);
-+}
-+
-+int table_get_row_id(struct table *t)
-+{
-+	struct table_row *new_rows;
-+	int row = t->num_rows;
-+
-+	new_rows = reallocarray(t->rows, (row + 1), sizeof(struct table_row));
-+	if (!new_rows)
-+		return -ENOMEM;
-+
-+	t->rows = new_rows;
-+	t->rows[row].val = calloc(t->num_columns, sizeof(struct value));
-+	if (!t->rows->val)
-+		return -ENOMEM;
-+
-+	t->num_rows++;
-+	return row;
-+}
-+
-+void table_add_row(struct table *t, int row_id)
-+{
-+	int col, max_width, width;
-+	struct table_row *row = &t->rows[row_id];
-+
-+	/* Adjust the column width based on the row value. */
-+	for (col = 0; col < t->num_columns; col++) {
-+		max_width = t->columns[col].width;
-+		width = table_get_value_width(&row->val[col]);
-+		if (width > max_width)
-+			t->columns[col].width = width;
-+	}
-+}
-+
-+struct table *table_init(void)
-+{
++	nvme_ctrl_t c;
++	nvme_ns_t n;
++	int row;
 +	struct table *t;
-+
-+	t = malloc(sizeof(struct table));
-+	if (!t)
-+		return NULL;
-+
-+	memset(t, 0, sizeof(struct table));
-+	return t;
-+}
-+
-+static int table_add_column(struct table *t, struct table_column *c)
-+{
-+	struct table_column *new_columns;
-+	int col = t->num_columns;
-+
-+	new_columns = reallocarray(t->columns, t->num_columns + 1,
-+			sizeof(struct table_column));
-+	if (!new_columns)
-+		return -ENOMEM;
-+
-+	t->columns = new_columns;
-+	t->columns[col].name = strdup(c->name);
-+	if (!t->columns[col].name)
-+		return -ENOMEM;
-+	t->columns[col].align = c->align;
-+	t->columns[col].width = strlen(c->name);
-+	t->num_columns++;
-+
-+	return 0;
-+}
-+
-+int table_add_columns_filter(struct table *t, struct table_column *c,
-+			int num_columns,
-+			bool (*filter)(const char *name, void *arg),
-+			void *arg)
-+{
-+	int col;
-+
-+	if (!filter)
-+		return table_add_columns(t, c, num_columns);
-+
-+	for (col = 0; col < num_columns; col++) {
-+		if (!filter(c[col].name, arg))
-+			continue;	/* skip this column */
-+
-+		if (table_add_column(t, &c[col]))
-+			goto out;
-+	}
-+	return 0;
-+out:
-+	return -ENOMEM;
-+}
-+
-+int table_add_columns(struct table *t, struct table_column *c, int num_columns)
-+{
-+	int col;
-+
-+	t->columns = calloc(num_columns, sizeof(struct table_column));
-+	if (!t->columns)
-+		return -ENOMEM;
-+
-+	for (col = 0; col < num_columns; col++) {
-+		t->columns[col].name = strdup(c[col].name);
-+		if (!t->columns[col].name)
-+			goto free_col;
-+
-+		t->columns[col].align = c[col].align;
-+		t->columns[col].width = strlen(t->columns[col].name);
-+	}
-+	t->num_columns = num_columns;
-+
-+	return 0;
-+free_col:
-+	while (--col >= 0)
-+		free(t->columns[col].name);
-+	free(t->columns);
-+	t->columns = NULL;
-+	return -ENOMEM;
-+}
-+
-+void table_free(struct table *t)
-+{
-+	int row, col;
-+	struct table_row *r;
-+	struct value *v;
-+
-+	/* free rows */
-+	for (row = 0; row < t->num_rows; row++) {
-+		r = &t->rows[row];
-+		for (col = 0; col < t->num_columns; col++) {
-+			v = &r->val[col];
-+
-+			if (v->type == FMT_STRING)
-+				free(v->s);
-+		}
-+		free(r->val);
-+	}
-+	free(t->rows);
-+
-+	/* free columns */
-+	for (col = 0; col < t->num_columns; col++)
-+		free(t->columns[col].name);
-+	free(t->columns);
-+
-+	/* free table */
-+	free(t);
-+}
-diff --git a/util/table.h b/util/table.h
-new file mode 100644
-index 00000000..1c98c990
---- /dev/null
-+++ b/util/table.h
-@@ -0,0 +1,149 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef _TABLE_H_
-+#define _TABLE_H_
-+
-+#include <stdbool.h>
-+
-+enum fmt_type {
-+	FMT_STRING,
-+	FMT_INT,
-+	FMT_UNSIGNED,
-+	FMT_LONG,
-+	FMT_UNSIGNED_LONG,
-+};
-+
-+enum alignment {
-+	RIGHT,
-+	LEFT,
-+	CENTERED
-+};
-+
-+struct value {
-+	union {
-+		char *s;
-+		int i;
-+		unsigned int u;
-+		long ld;
-+		unsigned long lu;
++	struct table_column columns[] = {
++		{"Namespace", LEFT, 0},
++		{"NSID", LEFT, 0},
++		{"Controller", LEFT, 0},
++		{"Trtype", LEFT, 0},
++		{"Address", LEFT, 0},
++		{"State", LEFT, 0},
 +	};
-+	enum alignment align;
-+	enum fmt_type type;
-+};
 +
-+struct table_row {
-+	struct value *val;
-+};
++	t = table_init();
++	if (!t) {
++		printf("Failed to init table\n");
++		return;
++	}
 +
-+struct table_column {
-+	char *name;
-+	enum alignment align;
-+	int width;		/* auto populated */
-+};
++	if (table_add_columns(t, columns, ARRAY_SIZE(columns)) < 0) {
++		printf("Failed to add columns\n");
++		goto free_tbl;
++	}
 +
-+struct table {
-+	struct table_column *columns;
-+	int num_columns;
-+	struct table_row *rows;
-+	int num_rows;
-+};
++	nvme_subsystem_for_each_ctrl(s, c) {
++		nvme_ctrl_for_each_ns(c, n) {
++			c = nvme_ns_get_ctrl(n);
 +
-+static inline int table_set_value_str(struct table *t, int col, int row,
-+		const char *str, enum alignment align)
-+{
-+	struct table_row *r;
-+	struct value *v;
-+	char *s;
++			row = table_get_row_id(t);
++			if (row < 0) {
++				printf("Failed to add row\n");
++				goto free_tbl;
++			}
 +
-+	if (col >= t->num_columns || row >= t->num_rows)
-+		return -EINVAL;
++			/* col 0: Namespace */
++			table_set_value_str(t, 0, row,
++					nvme_ns_get_name(n), LEFT);
++			/* col 1: NSID */
++			table_set_value_int(t, 1, row,
++					nvme_ns_get_nsid(n), CENTERED);
++			/* col 2: Controller */
++			table_set_value_str(t, 2, row,
++					nvme_ctrl_get_name(c), LEFT);
++			/* col 3: Trtype */
++			table_set_value_str(t, 3, row,
++					nvme_ctrl_get_transport(c), LEFT);
++			/* col 4: Address */
++			table_set_value_str(t, 4, row,
++					nvme_ctrl_get_address(c), LEFT);
++			/* col 5: State */
++			table_set_value_str(t, 5, row,
++					nvme_ctrl_get_state(c), LEFT);
 +
-+	s = strdup(str);
-+	if (!s)
-+		return -ENOMEM;
-+
-+	r = &t->rows[row];
-+	v = &r->val[col];
-+	v->s = s;
-+	v->align = align;
-+	v->type = FMT_STRING;
-+
-+	return 0;
++			table_add_row(t, row);
++		}
++	}
++	table_print(t);
++free_tbl:
++	table_free(t);
 +}
 +
-+static inline int table_set_value_int(struct table *t, int col, int row,
-+		int i, enum alignment align)
+ static void stdout_subsystem_topology(nvme_subsystem_t s,
+ 					   enum nvme_cli_topo_ranking ranking)
+ {
+@@ -5745,6 +5930,38 @@ static void stdout_subsystem_topology(nvme_subsystem_t s,
+ 	}
+ }
+ 
++static void stdout_topology_tabular(nvme_root_t r)
 +{
-+	struct table_row *r;
-+	struct value *v;
++	nvme_host_t h;
++	nvme_subsystem_t s;
++	bool first = true;
 +
-+	if (col >= t->num_columns || row >= t->num_rows)
-+		return -EINVAL;
++	nvme_for_each_host(r, h) {
++		nvme_for_each_subsystem(h, s) {
++			bool no_ctrl = true;
++			nvme_ctrl_t c;
 +
-+	r = &t->rows[row];
-+	v = &r->val[col];
-+	v->i = i;
-+	v->align = align;
-+	v->type = FMT_INT;
++			nvme_subsystem_for_each_ctrl(s, c)
++				no_ctrl = false;
 +
-+	return 0;
++			if (no_ctrl)
++				continue;
++
++			if (!first)
++				printf("\n");
++			first = false;
++
++			stdout_subsys_config(s);
++			printf("\n");
++
++			if (nvme_is_multipath(s))
++				stdout_tabular_subsystem_topology_multipath(s);
++			else
++				stdout_tabular_subsystem_topology(s);
++		}
++	}
 +}
 +
-+static inline int table_set_value_unsigned(struct table *t, int col, int row,
-+		int u, enum alignment align)
+ static void stdout_simple_topology(nvme_root_t r,
+ 				   enum nvme_cli_topo_ranking ranking)
+ {
+@@ -6363,6 +6580,7 @@ static struct print_ops stdout_print_ops = {
+ 	.topology_ctrl			= stdout_topology_ctrl,
+ 	.topology_namespace		= stdout_topology_namespace,
+ 	.topology_multipath		= stdout_topology_multipath,
++	.topology_tabular		= stdout_topology_tabular,
+ 
+ 	/* status and error messages */
+ 	.connect_msg			= stdout_connect_msg,
+diff --git a/nvme-print.c b/nvme-print.c
+index 473a6814..d1af8284 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1557,6 +1557,11 @@ void nvme_show_topology(nvme_root_t r,
+ 		nvme_print(topology_multipath, flags, r);
+ }
+ 
++void nvme_show_topology_tabular(nvme_root_t r, nvme_print_flags_t flags)
 +{
-+	struct table_row *r;
-+	struct value *v;
-+
-+	if (col >= t->num_columns || row >= t->num_rows)
-+		return -EINVAL;
-+
-+	r = &t->rows[row];
-+	v = &r->val[col];
-+	v->u = u;
-+	v->align = align;
-+	v->type = FMT_UNSIGNED;
-+
-+	return 0;
++	nvme_print(topology_tabular, flags, r);
 +}
 +
-+static inline int table_set_value_long(struct table *t, int col, int row,
-+		long ld, enum alignment align)
-+{
-+	struct table_row *r;
-+	struct value *v;
-+
-+	if (col >= t->num_columns || row >= t->num_rows)
-+		return -EINVAL;
-+
-+	r = &t->rows[row];
-+	v = &r->val[col];
-+	v->ld = ld;
-+	v->align = align;
-+	v->type = FMT_LONG;
-+
-+	return 0;
-+}
-+
-+static inline void table_set_value_unsigned_long(struct table *t, int col,
-+		int row, long lu, enum alignment align)
-+{
-+	struct table_row *r = &t->rows[row];
-+	struct value *v = &r->val[col];
-+
-+	v->lu = lu;
-+	v->align = align;
-+	v->type = FMT_UNSIGNED_LONG;
-+}
-+
-+struct table *table_init(void);
-+int table_add_columns(struct table *t, struct table_column *c, int num_columns);
-+int table_add_columns_filter(struct table *t, struct table_column *c,
-+			int num_columns,
-+			bool (*filter)(const char *name, void *arg),
-+			void *arg);
-+int table_get_row_id(struct table *t);
-+void table_add_row(struct table *t, int row);
-+void table_print(struct table *t);
-+void table_free(struct table *t);
-+
-+#endif /* _TABLE_H_ */
+ void nvme_show_message(bool error, const char *msg, ...)
+ {
+ 	struct print_ops *ops = nvme_print_ops(NORMAL);
+diff --git a/nvme-print.h b/nvme-print.h
+index 0f23b711..a7982566 100644
+--- a/nvme-print.h
++++ b/nvme-print.h
+@@ -107,6 +107,7 @@ struct print_ops {
+ 	void (*topology_ctrl)(nvme_root_t r);
+ 	void (*topology_namespace)(nvme_root_t r);
+ 	void (*topology_multipath)(nvme_root_t r);
++	void (*topology_tabular)(nvme_root_t r);
+ 
+ 	/* status and error messages */
+ 	void (*connect_msg)(nvme_ctrl_t c);
+@@ -251,6 +252,7 @@ void nvme_show_list_ns(struct nvme_ns_list *ns_list,
+ void nvme_show_topology(nvme_root_t t,
+ 			enum nvme_cli_topo_ranking ranking,
+ 			nvme_print_flags_t flags);
++void nvme_show_topology_tabular(nvme_root_t t, nvme_print_flags_t flags);
+ 
+ void nvme_feature_show(enum nvme_features_id fid, int sel, unsigned int result);
+ void nvme_feature_show_fields(enum nvme_features_id fid, unsigned int result, unsigned char *buf);
+diff --git a/nvme.c b/nvme.c
+index 41d98a78..1cfac699 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -545,6 +545,8 @@ int validate_output_format(const char *format, nvme_print_flags_t *flags)
+ #endif /* CONFIG_JSONC */
+ 	else if (!strcmp(format, "binary"))
+ 		f = BINARY;
++	else if (!strcmp(format, "tabular"))
++		f = TABULAR;
+ 	else
+ 		return -EINVAL;
+ 
+@@ -10179,6 +10181,7 @@ static int tls_key(int argc, char **argv, struct command *command, struct plugin
+ static int show_topology_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
+ {
+ 	const char *desc = "Show the topology\n";
++	const char *output_format = "Output format: normal|json|binary|tabular";
+ 	const char *ranking = "Ranking order: namespace|ctrl|multipath";
+ 	nvme_print_flags_t flags;
+ 	_cleanup_nvme_root_ nvme_root_t r = NULL;
+@@ -10247,7 +10250,10 @@ static int show_topology_cmd(int argc, char **argv, struct command *command, str
+ 		return err;
+ 	}
+ 
+-	nvme_show_topology(r, rank, flags);
++	if (flags & TABULAR)
++		nvme_show_topology_tabular(r, flags);
++	else
++		nvme_show_topology(r, rank, flags);
+ 
+ 	return err;
+ }
+diff --git a/nvme.h b/nvme.h
+index f02f39ca..c4f0f0cf 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -39,6 +39,7 @@ enum nvme_print_flags {
+ 	JSON		= 1 << 1,	/* display in json format */
+ 	VS		= 1 << 2,	/* hex dump vendor specific data areas */
+ 	BINARY		= 1 << 3,	/* binary dump raw bytes */
++	TABULAR		= 1 << 4,	/* prints aligned columns for easy reading */
+ };
+ 
+ typedef uint32_t nvme_print_flags_t;
 -- 
 2.51.0
 
