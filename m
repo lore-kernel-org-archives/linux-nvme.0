@@ -4,73 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B624CA1012
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 02:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBB3ECA1012
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 02:23:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ofbBRwXn4NwRWFOUaaAPn4/ZCyHKifDZzDC7NpE3rfM=; b=lB0iZ6jA8ijlSnJpY06e9mfqoy
-	IJMQLwQcH0j6iad66ZNnlrBMOkh805AsW8W8MeD0du0Db8QHp5VXp+VlZNtehZYDIOkiFqGnfnISR
-	sX8L5jWQevqNR0V/Bw8ZGqvcpnzROXFjuGWcVnfkEe07+OMNTvRndVxVRe6avTCNfWQoXFr8mI3z9
-	OWqroV6Ogdaqd3NxKpT6ONh35WAOxeAV7yfDfJtrOIwcm2+KEBAGNy5t19cWXE0pUOXYYGiTOBO/z
-	hj9F6n2zW/BnaSn9hImR2l1COB/XVmilV4h/o6yTE5cmB8z43nMC2Yzr1Eywff1xaN0dcw3AWd02c
-	ihF8mhJA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=TBwh1TSYPc3XjuO9wPalk0DyJKlPWGgfkbRcqoWukzQ=; b=ms895CTy3TkjLonUilkeI3baSJ
+	0QhBm/MABVc1+Ielnq5oOjEoREk4M6aK8Z+mFCbCDiEH7CXIvp6oRdjArHl6PEK1m9uo9GWwe3t6w
+	EHfIC/dzYSczvwARDa5BUdrvRP02Lxy6993FwG85keyvcB7DB0MlnE4bSGDoO+uzUJcf0lvcHlMpq
+	1/FLfZwAatxH+XutV52HafyN8Lj/fSS1R743CWpZ1/IWH+E/34g6SitdXh+oi4USUQGS9Pc+MiDbu
+	J1rLIQXH19DssV2TZJUpT8j4SXGIQJx7Ut/oisp/Jd77784kenp+m9WDvMV6gZMaqczIh1mb1cSPr
+	qahj8PEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuM2C-0000000G0Nd-3qGy;
-	Fri, 05 Sep 2025 02:18:40 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uuM6N-0000000G5Mc-08Kk;
+	Fri, 05 Sep 2025 02:22:59 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuFfO-0000000Duxc-02xm;
-	Thu, 04 Sep 2025 19:30:43 +0000
+	id 1uuJ08-0000000F1qD-3IFq
+	for linux-nvme@lists.infradead.org;
+	Thu, 04 Sep 2025 23:04:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1FE6144CCA;
-	Thu,  4 Sep 2025 19:30:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909FDC4CEF6;
-	Thu,  4 Sep 2025 19:30:33 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 35FA460195;
+	Thu,  4 Sep 2025 23:04:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A936CC4CEF0;
+	Thu,  4 Sep 2025 23:04:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757014240;
-	bh=0RZ8CnMwf4NqKb6arTE1y1641ehql4WXMwOOTJDdIbw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XqU9NY0f4OsloxJ8hrjbay3uVxPdDfrJdhw+yQhou50Mf8usGqoTPhJTDxoNZp+w6
-	 eu6nxigNZ8yXtk74xrcMlP3GhpB2hvBpxU8ah4yk5t3JX8Lb1vFpRH7YwijLTSgbWz
-	 qa9mBqjd3NaDpDjXFuhgVL3ZcMFKlqGV8sDgsAaqf5VbqGYVLBnMpIt1xy+iFdzoOR
-	 gNmUrbAa7u2A5P+g9AScjho9KWkTUaNgRl2ZBG1zaws8KKSV6BH1t5vhbS0CK2T0zA
-	 ywZqzYHxLFtRwnoZ7Dz4d747xiS8+AL/sRcm6VTWQeX0uaJ4oW2rz2DMJ+YwSutGZT
-	 wOMJINbdy8Rbw==
-Message-ID: <5b02ef9e-3017-400a-826c-59b5d5770a44@kernel.org>
-Date: Thu, 4 Sep 2025 21:30:30 +0200
+	s=k20201202; t=1757027059;
+	bh=zrXuS2AaZYUIMaOpsXZ4Dcr3h5lVKRI2xmwpqH0EZqs=;
+	h=Date:From:To:Cc:Subject:From;
+	b=UXnZ2BElpmOyUkYeoIyoka2o5bva25ro79l2iO7gl8CtSHDyFYmfOWcaEKBdj6LPv
+	 A2Y2STIKZmhNIeooDe+SGaHZ20GGLEVToGDz6C0HuOx/k49Pd3re0i7MknClvCuiQs
+	 tPJFEF+bfraDGMK4cb55WU2zIxMpqg41sS4uuiHrRTMFREkhgqbiZUABC6XjtHjMjc
+	 8qcP12jMK4HQQPK+RZfdXmsgcPe+iSyoPF1IYQmH/bCeu+wpA9SS1mtATziOvrG2EJ
+	 B69JgqVEmB1vPm+xgbVAgSJ6VZnORcfsl9dLlVDlZQVQXWFeU8qOkiibZmlqz6RkrK
+	 1ZKKInrdq5eKg==
+Date: Thu, 4 Sep 2025 17:04:17 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fix for 6.17
+Message-ID: <aLoa8Wt-yN_rSS45@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/9] nvme: apple: Add Apple A11 support
-To: Janne Grunau <j@jannau.net>, Christoph Hellwig <hch@lst.de>
-Cc: Nick Chan <towinchenmi@gmail.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- iommu@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <20250821-t8015-nvme-v3-0-14a4178adf68@gmail.com>
- <20250821-t8015-nvme-v3-7-14a4178adf68@gmail.com>
- <20250825080710.GA23193@lst.de>
- <89251134-9685-439e-b220-92717663f038@kernel.org>
- <20250902052646.GA11139@lst.de> <20250903095325.GA89417@robin.jannau.net>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20250903095325.GA89417@robin.jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250904_123042_082075_80C22F4F 
-X-CRM114-Status: GOOD (  16.59  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,35 +65,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 03.09.25 11:53, Janne Grunau wrote:
-> On Tue, Sep 02, 2025 at 07:26:46AM +0200, Christoph Hellwig wrote:
->> On Wed, Aug 27, 2025 at 05:56:33PM +0200, Sven Peter wrote:
->>>> Do you want to merge this through the apple SOC tree?  If so:
->>>>
->>>> Acked-by: Christoph Hellwig <hch@lst.de>
->>>>
->>>>
->>>
->>> I don't think that's necessary since there are no build time dependencies
->>> but if you want to I can take it through there.
->>
->> Merging it through nvme sounds fine as well, I just through up
->> grabbing everything together would be easier.  I also noticed there's
->> another Apple hw enablement series that touches nvme, so I guess both
->> should go through the same tree?
-> 
-> yes, they should go through the same tree if they go in the same cycle.
-> They conflict in dt-bindings and possibly the driver. We should avoid
-> burden someone else with this conflict resolution.
+The following changes since commit 95a7c5000956f939b86d8b00b8e6b8345f4a9b65:
 
-Good points, I'll pick up the latest version of this series on the 
-weekend then and handle any conflicts in case the other one is ready for 
-this cycle (which it probably will be) as well then.
+  bcache: change maintainer's email address (2025-08-28 10:05:37 -0600)
 
+are available in the Git repository at:
 
-Thanks,
+  git://git.infradead.org/nvme.git tags/nvme-6.17-2025-09-04
 
+for you to fetch changes up to 7ac3c2889bc060c3f67cf44df0dbb093a835c176:
 
-Sven
+  nvme: fix PI insert on write (2025-09-02 12:21:42 -0700)
 
+----------------------------------------------------------------
+nvme fixes for 6.17
+
+ - Fix protection information ref tag for device side gen/strip
+   (Christoph)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme: fix PI insert on write
+
+ drivers/nvme/host/core.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
