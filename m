@@ -4,137 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 194E1CA0FED
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 08:55:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85415CAC580
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 16:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m+BAVyD25FezVwTZNryOXCPxljZr03tkbPhnVekdh0Q=; b=PNWKe9lxOsouHIWWF8SrS5/tbY
-	GkzQzasLX0/vEwP/kbvlsD7e6zJDyp+WC3KZQ6lPjl0nS+Vwz2Sgy4Giga4hfiC32OuImuZ09Gul4
-	INAy6hYFRu2P/QT0dIAlbUwTGHciV8++WXRJP92ufrdQo1cSkaZa+zoBmx+9HypLHhBd18KT4/cbS
-	WvCCN0/ClbGsKcNz+1O/WtG0y8uWy3x7xvROPhTJvKkoFixwXFZzuBHZl1Hcd6p12iOXgCnZH+3jG
-	OvbKjkf8Xx0AJrqiCwFMfYegZmEy5/FfbWYWvFYRszTKOh83wJkk7Sl00ohl/stxupjV9fRZ2Zo5b
-	g8Bjg+1Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
+	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XId/gEgYzXqPN02TbAMKmlnF27mifp7assNwY77i+GM=; b=Nscy6JWg4HO0ZFxpzUlZQIswSb
+	cONMXB3DMwtpm0yOR28bfpJjFs6QyN5KG0wmqiA+zjdsL6Se/gU9qsrSq+/lYvCt5XFkUP48pSvB0
+	H8py3LxzNyrewBHaXMRhjjmel0osgnKo4i9ZvlFkpHF1lem5tfr6QWl58QijMRDLG38aazYOE1evz
+	cq8r5q+nL/xjN1CvYOJteh/GjH5QbK9yqSgPxxmzzX/bL/J+PQPseRpmj/BODuktI//PhrMui9Wvd
+	OcfcrCFj8/6bsUFT1rmCxtp+kc/vvGuer23qvaTG4PMgoQxagL3Ed/3Yu20qXIlGEKimLNaPgX5Uf
+	1ub2ykMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuSED-00000000WpR-2WOx;
-	Fri, 05 Sep 2025 08:55:29 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1uuZVh-00000003BGb-2qb3;
+	Fri, 05 Sep 2025 16:42:01 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuR4r-000000005oz-3u9c
+	id 1uuWM1-00000001vmQ-1mqk
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 07:41:47 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A39294D92A;
-	Fri,  5 Sep 2025 07:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757058102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m+BAVyD25FezVwTZNryOXCPxljZr03tkbPhnVekdh0Q=;
-	b=MFDWFDQTxyFbha5g/xmtOkY9FdHT1TPudDjvqYwHsDk5SImSbZxn/UexebPgLDQHU8YU8d
-	Ec/gXDhN2/z3m4tj5II4pl3G+w4J0GRW34tpKZA95RKBLjeOyGVXzGP9VQBMKmiOocDEtZ
-	xeAKH9om4Tp7ACLeDNE8xAxEZUJQ8Hk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757058102;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m+BAVyD25FezVwTZNryOXCPxljZr03tkbPhnVekdh0Q=;
-	b=d6wvA4x60pwWJ3Inxph2sEG+i20Ywu9+zBr/tJXUPI175gQzsXaSR0gHnEvoxXuMpERJG9
-	XFSiqAUMRxQCGBAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MFDWFDQT;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=d6wvA4x6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757058102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m+BAVyD25FezVwTZNryOXCPxljZr03tkbPhnVekdh0Q=;
-	b=MFDWFDQTxyFbha5g/xmtOkY9FdHT1TPudDjvqYwHsDk5SImSbZxn/UexebPgLDQHU8YU8d
-	Ec/gXDhN2/z3m4tj5II4pl3G+w4J0GRW34tpKZA95RKBLjeOyGVXzGP9VQBMKmiOocDEtZ
-	xeAKH9om4Tp7ACLeDNE8xAxEZUJQ8Hk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757058102;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m+BAVyD25FezVwTZNryOXCPxljZr03tkbPhnVekdh0Q=;
-	b=d6wvA4x60pwWJ3Inxph2sEG+i20Ywu9+zBr/tJXUPI175gQzsXaSR0gHnEvoxXuMpERJG9
-	XFSiqAUMRxQCGBAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C07E13306;
-	Fri,  5 Sep 2025 07:41:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4CXcITaUumiHCwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 05 Sep 2025 07:41:42 +0000
-Date: Fri, 5 Sep 2025 09:41:42 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Aaron Tomlin <atomlin@atomlin.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Costa Shulyupin <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org, 
-	storagedev@microchip.com, virtualization@lists.linux.dev, 
-	GR-QLogic-Storage-Upstream@marvell.com
-Subject: Re: [PATCH v7 05/10] scsi: Use block layer helpers to constrain
- queue affinity
-Message-ID: <71598d89-b29c-4b21-83ee-49fe9b890043@flourine.local>
-References: <20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org>
- <20250702-isolcpus-io-queues-v7-5-557aa7eacce4@kernel.org>
- <d95de280-8cd7-4697-933a-37dc53f4c552@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d95de280-8cd7-4697-933a-37dc53f4c552@suse.de>
-X-Rspamd-Queue-Id: A39294D92A
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL71uuc3g3e76oxfn4mu5aogan)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+	Fri, 05 Sep 2025 13:19:51 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id 13115ccc (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 5 Sep 2025 15:19:46 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 05 Sep 2025 15:19:46 +0200
+Message-Id: <DCKWAZAH7QNO.3739YP7O69XKZ@bsdbackstore.eu>
+Subject: Re: [PATCH v2 7/7] nvmet-tcp: Support KeyUpdate
+From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
+To: <alistair23@gmail.com>, <chuck.lever@oracle.com>, <hare@kernel.org>,
+ <kernel-tls-handshake@lists.linux.dev>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-nvme@lists.infradead.org>, <linux-nfs@vger.kernel.org>
+Cc: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>,
+ <sagi@grimberg.me>, <kch@nvidia.com>, "Alistair Francis"
+ <alistair.francis@wdc.com>
+X-Mailer: aerc
+References: <20250905024659.811386-1-alistair.francis@wdc.com>
+ <20250905024659.811386-8-alistair.francis@wdc.com>
+In-Reply-To: <20250905024659.811386-8-alistair.francis@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250905_004146_260273_8A224909 
-X-CRM114-Status: GOOD (  19.43  )
+X-CRM114-CacheID: sfid-20250905_061949_792387_1F5EDF2F 
+X-CRM114-Status: GOOD (  11.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,44 +65,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jul 03, 2025 at 08:43:01AM +0200, Hannes Reinecke wrote:
-> >   drivers/scsi/fnic/fnic_isr.c              | 7 +++++--
-> >   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
-> >   drivers/scsi/megaraid/megaraid_sas_base.c | 5 ++++-
-> >   drivers/scsi/mpi3mr/mpi3mr_fw.c           | 6 +++++-
-> >   drivers/scsi/mpt3sas/mpt3sas_base.c       | 5 ++++-
-> >   drivers/scsi/pm8001/pm8001_init.c         | 1 +
-> >   drivers/scsi/qla2xxx/qla_isr.c            | 1 +
-> >   drivers/scsi/smartpqi/smartpqi_init.c     | 7 +++++--
-> >   8 files changed, 26 insertions(+), 7 deletions(-)
-> >
-> 
-> All of these drivers are not aware of CPU hotplug, and as such
-> will not be notified when the number of CPUs changes.
-> But you use 'blk_mq_online_queue_affinity()' for all of these
-> drivers.
-> Wouldn't 'blk_mq_possible_queue_affinit()' a better choice here
-> to insulate against CPU hotplug effects?
-> 
-> Also some drivers which are using irq affinity (eg aacraid, lpfc) are
-> missing from these conversions. Why?
+On Fri Sep 5, 2025 at 4:46 AM CEST, alistair23 wrote:
+> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> +static int update_tls_keys(struct nvmet_tcp_queue *queue)
+> +{
+> +	int ret;
+> +
+> +	cancel_work(&queue->io_work);
+> +	handshake_req_cancel(queue->sock->sk);
+> +	handshake_sk_destruct_req(queue->sock->sk);
+> +	queue->state =3D NVMET_TCP_Q_TLS_HANDSHAKE;
+> +
+> +	/* Restore the default callbacks before starting upcall */
+> +	read_lock_bh(&queue->sock->sk->sk_callback_lock);
+> +	queue->sock->sk->sk_data_ready =3D  queue->data_ready;
+> +	queue->sock->sk->sk_state_change =3D queue->state_change;
+> +	queue->sock->sk->sk_write_space =3D queue->write_space;
+> +	queue->sock->sk->sk_user_data =3D NULL;
+> +	read_unlock_bh(&queue->sock->sk->sk_callback_lock);
+> +
+> +	nvmet_stop_keep_alive_timer(queue->nvme_sq.ctrl);
+> +
+> +	INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
+> +			  nvmet_tcp_tls_handshake_timeout);
+> +
+> +	ret =3D nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_RECEIV=
+ED);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret =3D wait_for_completion_interruptible_timeout(&queue->tls_complete,=
+ 10 * HZ);
+> +
+> +	if (ret <=3D 0) {
+> +		tls_handshake_cancel(queue->sock->sk);
+> +		return ret;
+> +	}
+> +
+> +	queue->state =3D NVMET_TCP_Q_LIVE;
+> +
+> +	return ret;
+> +}
+> +#endif
 
-I've updated both drivers to use pci_alloc_irq_vectors_affinity with the
-PCI_IRQ_AFFINITY flag. But then I saw this:
 
-  dafeaf2c03e7 ("scsi: aacraid: Stop using PCI_IRQ_AFFINITY")
 
-So we need be careful here.
+> @@ -1408,14 +1474,22 @@ static void nvmet_tcp_io_work(struct work_struct =
+*w)
+>  		ret =3D nvmet_tcp_try_recv(queue, NVMET_TCP_RECV_BUDGET, &ops);
+>  		if (ret > 0)
+>  			pending =3D true;
+> -		else if (ret < 0)
+> -			return;
+> +		else if (ret < 0) {
+> +			if (ret =3D=3D -EKEYEXPIRED)
+> +				update_tls_keys(queue);
+> +			else
+> +				return;
+> +		}
+> =20
 
-In the case of lpfc (and qla2xxx), the nvme-fabrics core needs to be
-updated too (gets out ouf sync with the number of queues allocated). I
-already have patches for this. But I'd say we first continue with this
-series before the next set of patches.
+What happens if CONFIG_NVME_TARGET_TCP_TLS is disabled?
+I suspect the kernel build will fail with an update_tls_keys
+implicit declaration error.
 
-Thus I decided to drop all the driver updates which are currently not
-using pci_alloc_irq_vectors_affinity and PCI_IRQ_AFFINITY. These are
-supporting managed irqs thus these should be all ready for this feature.
-
-For the rest of the drivers, I'd rather update one by one so we don't
-introduce regressions (e.g. aacraid)
+Maurizio
 
