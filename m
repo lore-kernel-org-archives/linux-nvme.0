@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C8E1CA101F
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:26:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 286AACAC580
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z+V5ipQ6ZXrbk4qcNLWhWk7ZvGbWO75E29m+D/51+5w=; b=FiaaGlJRK/iv0LCk7dVrYKGgDT
-	GsdP9Kl+h25mf+Y1ZCRxZJtSfkArvwcBElZuEy0ktQ3TmHTcnB96JiF1pvzObB8ZM9GmgVN9Z59m7
-	l2sL0WU2E3dP3YrWegn8z93QvkJi6PutANoGMEy69e9wg3oWoUYyucP483D8NPk0aQY6zYBuOravd
-	QWqi31xNhlu5Oce4q19+NTj4zf3OhLFtGJ9+nhuI2i5Wb012mbCc4njdPZexlqDPIO3nDzHLPvKVL
-	XO1kQRo4ssVTZ1/Q9kMGqDm0CNS/4qeDhjy19SIwVmpWTAgPmQKT0etBn8/N0Vo/DtQdTqA4eNO2/
-	uS+FwkIg==;
+	bh=E2NpMMERHYu8qLV4IV22FVWL19UxBbSVxOYKBKONgfE=; b=sCIDYKp9bE2GQEIfzArOHhd7da
+	py8Q7MxBbiD186S8qTJuouX97qoHrFcjaZnPLBqo5prriSsE8jncG2F5Nii4JoLfjmDhBcRg/WBOF
+	0JqsICnSTsSs6PGpi9nADF8qvT+/uqdfvoBPHnBCS0gKMpSbT33hkVwQaH+tA2cnER4nIQzUZ6umq
+	MxQAXjOyKRhvDP1fyyT4OsAtjx3+8GaTMol6AEfRIxobJIH/uLmdX2muaOGibGtGZz/ep4f7XVUzc
+	sMPv5wPKSN7j20f4MJApGUUty+JubORhAP1FXNwMoJcfEfHGRiVe7zA4Zcj8yRYBUZr9zMo6PkNpB
+	9faZ9LXA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuc5C-0000000471h-34aW;
-	Fri, 05 Sep 2025 19:26:50 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uuc5E-0000000474j-2E0p;
+	Fri, 05 Sep 2025 19:26:52 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuXv5-00000002YqQ-3hZI
+	id 1uuXvB-00000002YuH-1iYJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 15:00:09 +0000
+	Fri, 05 Sep 2025 15:00:13 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 77A2344DD0;
-	Fri,  5 Sep 2025 15:00:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA751C4CEF1;
-	Fri,  5 Sep 2025 15:00:06 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id D115760280;
+	Fri,  5 Sep 2025 15:00:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F66C4CEF7;
+	Fri,  5 Sep 2025 15:00:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757084407;
-	bh=k9yHbvtPMHlYHOqTRLo94mbOtrFifM61dVhJv1sW7TA=;
+	s=k20201202; t=1757084412;
+	bh=m2sLzo3dPozCWRlzuWu6SHdCjeiSOL02cNWis7fahyY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=TUfOl6rowYy65pIZImJDzszrx96/O7vbXzsUHYOaYE41jOv8bzdEaWX04wkpVhUjY
-	 xI6fQJY5oeKo2oa4LmNSP2Z95GcUYnzPEXiDeDJ7z/uBwhgiZmCYI1SW6t+Vj6OJil
-	 fpBdvAizcOber2iZUav2REjJYR8atrr18TsZWrmaCaOX7V8FPtNLjBICT9IxTYcZ7U
-	 k5tUQVZ9oGbIkaW46sAQ9XlBzAmXlRasi53qi/RsPe5JLDNT0TIERdqtDP39p3ci0l
-	 vkoups5mYCyx29arnmW5V6uc4mvH4/wLhvL55685uoRUuDffn9sxjmhMPziS589/bn
-	 1N3WpK5PTj8sw==
+	b=KQx1PZGCYQ9/0B6O9dw9g5wh/miikRGGkyHn6n61KaKp4xkszjxvdTALCgoMAG4tu
+	 U/Up255OumaB2lKWSWsQD1h5Go+Ma6Ero9oUDur+e+jZtlPrQL0XxfuSdwFxui72/U
+	 t6fA15MLNlHmVeVG6a0yIa65M9jZx6Y2zfuUjoQ3oXsNPqiHdeDfGgGDII9+mdvrOY
+	 R1aX1uiCbBpcg4EqldMRiiyizj2Pz8fIaganJYQdhy5Q5FKca81DhTaDSdti2RCPWd
+	 scrF9v+/2dEyVHc2/rfeyrP+cJTK3WuWMBGyfoHJ84kTfUUWB0ePhxRE9MyxVrk18E
+	 v8XIgjz94Jy1g==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Fri, 05 Sep 2025 16:59:51 +0200
-Subject: [PATCH v8 05/12] blk-mq: add
- blk_mq_{online|possible}_queue_affinity
+Date: Fri, 05 Sep 2025 16:59:53 +0200
+Subject: [PATCH v8 07/12] scsi: Use block layer helpers to constrain queue
+ affinity
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-isolcpus-io-queues-v8-5-885984c5daca@kernel.org>
+Message-Id: <20250905-isolcpus-io-queues-v8-7-885984c5daca@kernel.org>
 References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
 In-Reply-To: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -69,9 +69,6 @@ Cc: Aaron Tomlin <atomlin@atomlin.com>,
  storagedev@microchip.com, virtualization@lists.linux.dev, 
  GR-QLogic-Storage-Upstream@marvell.com, Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250905_080007_976458_08375B21 
-X-CRM114-Status: GOOD (  12.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,72 +83,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce blk_mq_{online|possible}_queue_affinity, which returns the
-queue-to-CPU mapping constraints defined by the block layer. This allows
-other subsystems (e.g., IRQ affinity setup) to respect block layer
-requirements.
+Ensure that IRQ affinity setup also respects the queue-to-CPU mapping
+constraints provided by the block layer. This allows the SCSI drivers
+to avoid assigning interrupts to CPUs that the block layer has excluded
+(e.g., isolated CPUs).
 
-It is necessary to provide versions for both the online and possible CPU
-masks because some drivers want to spread their I/O queues only across
-online CPUs, while others prefer to use all possible CPUs. And the mask
-used needs to match with the number of queues requested
-(see blk_num_{online|possible}_queues).
+Only convert drivers which are already using the
+pci_alloc_irq_vectors_affinity with the PCI_IRQ_AFFINITY flag set.
+Because these drivers are enabled to let the IRQ core code to
+set the affinity. Also don't update qla2xxx because the nvme-fabrics
+code is not ready yet.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- block/blk-mq-cpumap.c  | 24 ++++++++++++++++++++++++
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 26 insertions(+)
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
+ drivers/scsi/megaraid/megaraid_sas_base.c | 5 ++++-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c           | 6 +++++-
+ drivers/scsi/mpt3sas/mpt3sas_base.c       | 5 ++++-
+ drivers/scsi/pm8001/pm8001_init.c         | 1 +
+ 5 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index 705da074ad6c7e88042296f21b739c6d686a72b6..8244ecf878358c0b8de84458dcd5100c2f360213 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -26,6 +26,30 @@ static unsigned int blk_mq_num_queues(const struct cpumask *mask,
- 	return min_not_zero(num, max_queues);
- }
+diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+index 2f3d61abab3a66bf0b40a27b9411dc2cab1c44fc..9f3194ac9c0fb53d619e3a108935ef109308d131 100644
+--- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
++++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+@@ -2607,6 +2607,7 @@ static int interrupt_preinit_v3_hw(struct hisi_hba *hisi_hba)
+ 	struct pci_dev *pdev = hisi_hba->pci_dev;
+ 	struct irq_affinity desc = {
+ 		.pre_vectors = BASE_VECTORS_V3_HW,
++		.mask = blk_mq_online_queue_affinity(),
+ 	};
  
-+/**
-+ * blk_mq_possible_queue_affinity - Return block layer queue affinity
-+ *
-+ * Returns an affinity mask that represents the queue-to-CPU mapping
-+ * requested by the block layer based on possible CPUs.
-+ */
-+const struct cpumask *blk_mq_possible_queue_affinity(void)
-+{
-+	return cpu_possible_mask;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_possible_queue_affinity);
-+
-+/**
-+ * blk_mq_online_queue_affinity - Return block layer queue affinity
-+ *
-+ * Returns an affinity mask that represents the queue-to-CPU mapping
-+ * requested by the block layer based on online CPUs.
-+ */
-+const struct cpumask *blk_mq_online_queue_affinity(void)
-+{
-+	return cpu_online_mask;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_online_queue_affinity);
-+
- /**
-  * blk_mq_num_possible_queues - Calc nr of queues for multiqueue devices
-  * @max_queues:	The maximum number of queues the hardware/driver
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 2a5a828f19a0ba6ff0812daf40eed67f0e12ada1..1144017dce47af82f9d010e42bfbf26fa4ddf33f 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -947,6 +947,8 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- void blk_mq_unfreeze_queue_non_owner(struct request_queue *q);
- void blk_freeze_queue_start_non_owner(struct request_queue *q);
+ 	min_msi = MIN_AFFINE_VECTORS_V3_HW;
+diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
+index 615e06fd4ee8e5d1c14ef912460962eacb450c04..c8df2dc47689a5dad02e1364de1d71e24f6159d0 100644
+--- a/drivers/scsi/megaraid/megaraid_sas_base.c
++++ b/drivers/scsi/megaraid/megaraid_sas_base.c
+@@ -5927,7 +5927,10 @@ static int
+ __megasas_alloc_irq_vectors(struct megasas_instance *instance)
+ {
+ 	int i, irq_flags;
+-	struct irq_affinity desc = { .pre_vectors = instance->low_latency_index_start };
++	struct irq_affinity desc = {
++		.pre_vectors = instance->low_latency_index_start,
++		.mask = blk_mq_online_queue_affinity(),
++	};
+ 	struct irq_affinity *descp = &desc;
  
-+const struct cpumask *blk_mq_possible_queue_affinity(void);
-+const struct cpumask *blk_mq_online_queue_affinity(void);
- unsigned int blk_mq_num_possible_queues(unsigned int max_queues);
- unsigned int blk_mq_num_online_queues(unsigned int max_queues);
- void blk_mq_map_queues(struct blk_mq_queue_map *qmap);
+ 	irq_flags = PCI_IRQ_MSIX;
+diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr_fw.c
+index 0152d31d430abd17ab6b71f248435d9c7c417269..a8fbc84e0ab2ed7ca68a3b874ecfa78a8ebf0c47 100644
+--- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
++++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
+@@ -825,7 +825,11 @@ static int mpi3mr_setup_isr(struct mpi3mr_ioc *mrioc, u8 setup_one)
+ 	int max_vectors, min_vec;
+ 	int retval;
+ 	int i;
+-	struct irq_affinity desc = { .pre_vectors =  1, .post_vectors = 1 };
++	struct irq_affinity desc = {
++		.pre_vectors =  1,
++		.post_vectors = 1,
++		.mask = blk_mq_online_queue_affinity(),
++	};
+ 
+ 	if (mrioc->is_intr_info_set)
+ 		return 0;
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
+index bd3efa5b46c780d43fae58c12f0bce5057dcda85..a55dd75221a6079a29f6ebee402b3654b94411c1 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_base.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
+@@ -3364,7 +3364,10 @@ static int
+ _base_alloc_irq_vectors(struct MPT3SAS_ADAPTER *ioc)
+ {
+ 	int i, irq_flags = PCI_IRQ_MSIX;
+-	struct irq_affinity desc = { .pre_vectors = ioc->high_iops_queues };
++	struct irq_affinity desc = {
++		.pre_vectors = ioc->high_iops_queues,
++		.mask = blk_mq_online_queue_affinity(),
++	};
+ 	struct irq_affinity *descp = &desc;
+ 	/*
+ 	 * Don't allocate msix vectors for poll_queues.
+diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
+index 599410bcdfea59aba40e3dd6749434b7b5966d48..1d4807eeed75acdfe091a3c0560a926ebb59e1e8 100644
+--- a/drivers/scsi/pm8001/pm8001_init.c
++++ b/drivers/scsi/pm8001/pm8001_init.c
+@@ -977,6 +977,7 @@ static u32 pm8001_setup_msix(struct pm8001_hba_info *pm8001_ha)
+ 		 */
+ 		struct irq_affinity desc = {
+ 			.pre_vectors = 1,
++			.mask = blk_mq_online_queue_affinity(),
+ 		};
+ 		rc = pci_alloc_irq_vectors_affinity(
+ 				pm8001_ha->pdev, 2, PM8001_MAX_MSIX_VEC,
 
 -- 
 2.51.0
