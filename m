@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E914CA101C
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 02:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75342CA1013
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 02:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SCaQeEoiIyJ+X9I+BeUdEKTAO8qJHTIamDyt5AdyHmg=; b=cq1rR1S+IIYPqDiF4bYfcfNnnv
-	T6MdL28ei9UgWDFssFgCSWOBD249OmLf7maMEaBlgU4/TOHg06sp12YOwm5dpBlO3SEn89f8Gu+k0
-	R3mSn+HbXkLaN4bYomgL8c1jwC8o7czyVv3GQcZzGgLu8YkpT90trN1bA1E6qw96KNlrfp0rv2zlP
-	A4tZAz0QGo+DljZsO2IDDchWnxmMGhleUL+avxjJ8Um0jBsrEHjGt9/T0y9d3Pbk+8JM4aKEU+Thp
-	U+sGb3VMXJV3AjsMjzmoWTiW1UtI7udnktbyYR/hufBOFGd0vad3LHw278syiwMBSHssNnSTUH3ee
-	pCJ9fekQ==;
+	bh=G1EWHajpMqKqyxA8GWEtrMVXQwoVeft66qRlv9TDlNE=; b=nkfa6O/L3Fp6blpgplVRL3UPz0
+	ccfBHyhj8bAzxjFrvkJn+Hs3jSN0MUNwLDBVR0swhOc9xSl453HrVqTtkWSSKyz4Z0x+WDZr+DTjF
+	76L/s3jPvgPxve3PpACtRaK0gg2uoobMRqG6TxmeTnmBPtVbvcOsgEd6h+Aq3/IKmCj6A6j1930Cz
+	LTyi0VSDgtFu4b2MfFDoEgcuGuSiAFYrPqTHj+W2rKKNk/enNjP7cbQxhMYOYrMtxosx6ZU1tukLe
+	mmjnsjo3m+cLNKebecEMR6YfZbp4Y7d8XhzDU0wnk1S0u8s2GbuI+869BvJz47gdjfaNqTRkR86DY
+	nEN3759A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuMUX-0000000GEus-2kZA;
-	Fri, 05 Sep 2025 02:47:57 +0000
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+	id 1uuMUW-0000000GEtg-3kuP;
+	Fri, 05 Sep 2025 02:47:56 +0000
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuMUK-0000000GEnh-3pd7
+	id 1uuMUE-0000000GElA-40W1
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 02:47:46 +0000
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-76e2ea933b7so1566644b3a.1
-        for <linux-nvme@lists.infradead.org>; Thu, 04 Sep 2025 19:47:44 -0700 (PDT)
+	Fri, 05 Sep 2025 02:47:40 +0000
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-772843b6057so1419916b3a.3
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Sep 2025 19:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757040464; x=1757645264; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1757040458; x=1757645258; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SCaQeEoiIyJ+X9I+BeUdEKTAO8qJHTIamDyt5AdyHmg=;
-        b=l3j9Mb4NFJhPyvDnoKFl0m1+ZoNO4KOYuZka4u3xzj/3NUpUHGqp80Zvjf2LlnKYY2
-         U2m2dY8v55Lr26XmbUtd7zmlkES1INL6AfW3ojd7mBOp/25QUIyGHUpfppeOeYXuWJPi
-         DAc9M80jMi6HHAJ187Tc3VwHGYROZjvXlMWfIWMZY5XawYKrgSmIDbUvat5fz3OSmdLv
-         RBID/JmtMgyZT3zy7403mOsOwkUFfRnBcX6X3Zy39NVhdvFaEG290MsRrfF/DZvji45E
-         tsun/B9hRTW4PiHxaSp0UMl3ngLmqKRnX/E1Ve4eVXQNFtmEI6LkYSF9dbu4h3fKFgqy
-         ZUew==
+        bh=G1EWHajpMqKqyxA8GWEtrMVXQwoVeft66qRlv9TDlNE=;
+        b=a5xai87W+/C3q/H13K2wDCHNT0QVsJure+DemhokrPnxbXRXR9doLWFD/Oc/GlZzvB
+         Y8NHxuBsGdIFxqKzjxNjNc1cL26RffXTyPmYu2t7J4bCn4jAERb4v3ChaIyomfzEIV0K
+         VQmQvgouuH5TSZ4tY3Jve72I68GnXoyFj33tY8TskYNVhc3qW7nmjgf+IL6Q68wm/9UQ
+         0DOFocuTqCgPiZ61GvfSBYCo3ph1AqqOd+vqB9V4UMyJ6dwz/Z2IFZqt94NlmvxawyA1
+         ZyENXxcoLlCKWJuK6ySNsYEn4vc8EpsXJIyUI2vKJWl0gyekO7HSxdt0NpZiGPTfy2iJ
+         eJpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757040464; x=1757645264;
+        d=1e100.net; s=20230601; t=1757040458; x=1757645258;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SCaQeEoiIyJ+X9I+BeUdEKTAO8qJHTIamDyt5AdyHmg=;
-        b=nIo/KcnYvIjhgLeHE2qe/duZYne1ytPcNRsfv2aHCdXkhuS25/treSFMotu17Bb9Mk
-         fIqhx1q324kOyB/cdp2wRkbRocfrRXizQlC7/pxrMJCUOLMCYVcgyH7MsusLst40EAcv
-         zqMAPuY782lvlBD0xonDPhXPhqC4UMEj3Qj6b+qOXEC7AfrWurrYjLWoHawdx9BXDPZP
-         /bYvYE18/UjqFhdyxMj6MuUis8QLitQKZHSwrn4h538Fq+q91S6x/5HjVlXhMnzepOxZ
-         Thm3yEHJ8dmBJRl0tFG+rPEIvZLmeWfe2Wh2+5WO1VzNZ3WMid4Yfo3I+NnOYCQJBNkB
-         C25Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUVJ6Ch0ROUQTc+mk/oR/PUc+zy70P+10jo4GVXZRJ9+6UcLLhKuKPpAYSXS5qkv6ZWN5cLbaXefaOg@lists.infradead.org
-X-Gm-Message-State: AOJu0Yygwp00x+F8t9TcFebJHmY30bIn8noWWAdpfIPaDGbiMWGIeohG
-	4e3tKYqykgHTA0WrpLScvKNehri9tR/J7Z0618UA/wr62RUdL+vzWZ5U
-X-Gm-Gg: ASbGncsIC2ydGpDT4SzrtAO80+bn1EJ3JQHb/Fh2USMLorI18Q3hzpaoBkq7c/QsuzU
-	lCpFhk7Ujp6h2JBiO75Q/ccYXVcZzghbIN7MsPgIa5p1Kt546xln3Yu5vKWH/lAZF50KZ2w8/M9
-	u0WlB34rKgUtPUegPL+Ax6N0PiFTlU2m5xYgQP1wYBsE6oijH9KKLihHcwxMQquUbQ2TR5QXUlC
-	C0R54h6V0HvuTzvwLTBUlE0+Yg2TN10AoG9hftTVp7iBxXVrj/93+E/Xq5xe1AHCSdmMFRj/kWo
-	FYsCLtOdna4Q5N7dh2b6CwNwUKd3LtvJ+FymwjBa1HCrUXMrE/XhBRZY4Jxss8YlaiVzbUJAzfO
-	EHDPylgCg4bsd2Vdh+7nprbY16BqoJ+ZcW6XXFGzu3pmDurczgu2X/irk+QZObKVroFEkissDw7
-	i9kWwuPDyRM/W7gogsjXMoLSbv00r4xtVHbOefDw==
-X-Google-Smtp-Source: AGHT+IGyxjGucAcq4/CU7sDyIrxh2LLf/2cgmkqvjOqu7ZTDbk8ByUwUxM4eRmIFb4t/3oQsNifJkA==
-X-Received: by 2002:a05:6a00:db:b0:772:6bee:9ff4 with SMTP id d2e1a72fcca58-7741bede44cmr1504866b3a.5.1757040464162;
-        Thu, 04 Sep 2025 19:47:44 -0700 (PDT)
+        bh=G1EWHajpMqKqyxA8GWEtrMVXQwoVeft66qRlv9TDlNE=;
+        b=J8YoSUlxVLuPcnFM21b2KA6pMn04jw6T/lXkBgAA1W5qi642itNj3lLizmuGXh9nKG
+         jaIyiDflzzax/12h0q1dLL2ZS2qrEa9ueGxQQEoAbrT4XbOeQU1a2D5f7yQ+c9zZ0c3/
+         ZhXb4mZ5liKDAKp2exJHO5EaTR21YUt39lYA20QI+AmqHZWRJjbddu/omAckpPT3I4/7
+         URupaPnFiegY+SuDKdU8TvdQuvbdeXpy8ZcfOR57pofpmqLgRmtI6NDyI6Wa+VwuTjLs
+         /nk8eGRz3lST79k8JUwjDawj29HEGwB5sNizh2ruvovqO553m6bquv9scM8G/oWzqxsR
+         fFew==
+X-Forwarded-Encrypted: i=1; AJvYcCXunoxAQQAxeObeoManV4sFk9uIaZ6adQVKcySKqRMF+rhreMloYg0qvQPuzdqd3J0/MkEjAtrNeHgB@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy+B8cF/HvyFWqFR6yNkC+H15Iqo1NpA+gp1PyTwFDxu/3tPDNb
+	6s1k3iMT+/PvMUpjS5avHaKwQZTK/MD92DUBTOdHM8YO3KTWoHOU5xWJ
+X-Gm-Gg: ASbGnct4xnRfxbVtE8K7jfSySsPUdxbqGnSXZxHbysQHDk44IH2JkIJY4pyW8thaObn
+	IqouupRDZ8cqxfx2d8N2fLcjDfJqQ+TWspL7Gl+fIiq3sKv6e7r3fqc99XMnqBKt8/gyQDBEuDx
+	kphb49A8V7ODJIqRrX/YBLzjlqL/pwezuz3SN6wFquLTZSTr5ydBlEEksDA7pipw53SJGJJK5+G
+	AW8z26Tu1RxOdfF3h3tsf1iTJYkOYE/iIrbLaGid0/73zj8ppMrHnxxvEA66IxoKzrhrFItaL6j
+	1QYygqLlTBcRO77EBZkMcTVMUtzKC7x/tqEVTZe31ePchuoMvmNqePVN5ZjIisxQCV+dtm2p/hb
+	az5oEXsFa+5mIEx6S0HN3XqHyN8Q5BG6psJnw8ycrwdK0EDuB9LUbknLPbJmxG6df633QNnj/tA
+	QPPDTRj0aTCaVryvkUNgXwjihFLZk=
+X-Google-Smtp-Source: AGHT+IEX64nfMru9GugujC6DsIEIeho+MjIw85M5xAJP6i7Xx1NoXALA29BzByuoUSArpy/50s7n8w==
+X-Received: by 2002:a05:6a00:1a94:b0:772:4fc6:84b3 with SMTP id d2e1a72fcca58-7724fc689a8mr23059661b3a.31.1757040458343;
+        Thu, 04 Sep 2025 19:47:38 -0700 (PDT)
 Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-772590e0519sm12991858b3a.84.2025.09.04.19.47.38
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-772590e0519sm12991858b3a.84.2025.09.04.19.47.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 19:47:43 -0700 (PDT)
+        Thu, 04 Sep 2025 19:47:37 -0700 (PDT)
 From: alistair23@gmail.com
 X-Google-Original-From: alistair.francis@wdc.com
 To: chuck.lever@oracle.com,
@@ -87,18 +87,17 @@ Cc: kbusch@kernel.org,
 	kch@nvidia.com,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v2 4/7] nvmet: Expose nvmet_stop_keep_alive_timer publically
-Date: Fri,  5 Sep 2025 12:46:56 +1000
-Message-ID: <20250905024659.811386-5-alistair.francis@wdc.com>
+Subject: [PATCH v2 3/7] net/handshake: Expose handshake_sk_destruct_req publically
+Date: Fri,  5 Sep 2025 12:46:55 +1000
+Message-ID: <20250905024659.811386-4-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250905024659.811386-1-alistair.francis@wdc.com>
 References: <20250905024659.811386-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250904_194744_951753_4FFF2821 
-X-CRM114-Status: UNSURE (   8.85  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250904_194738_994471_2948056C 
+X-CRM114-Status: GOOD (  11.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,23 +114,61 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
+Define a `handshake_sk_destruct_req()` function and expose it publically
+so that other subsystems can destruct the handshake req.
+
+This will be used as part of the KeyUpdate to ensure any existing
+requests anre cancelled and destructed if required.
+
+This is required to avoid hash conflicts when handshake_req_hash_add()
+is called as part of submitting the KeyUpdate request.
+
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- drivers/nvme/target/core.c | 1 +
- 1 file changed, 1 insertion(+)
+v2:
+ - Fix build failures
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 0dd7bd99afa3..bed1c6ebe83a 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -430,6 +430,7 @@ void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl)
+ include/net/handshake.h |  1 +
+ net/handshake/request.c | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/include/net/handshake.h b/include/net/handshake.h
+index 10f301f3c660..89dc169eae89 100644
+--- a/include/net/handshake.h
++++ b/include/net/handshake.h
+@@ -44,6 +44,7 @@ bool tls_handshake_cancel(struct sock *sk);
+ void tls_handshake_close(struct socket *sock);
  
- 	cancel_delayed_work_sync(&ctrl->ka_work);
+ bool handshake_req_cancel(struct sock *sk);
++void handshake_sk_destruct_req(struct sock *sk);
+ 
+ u8 tls_get_record_type(const struct sock *sk, const struct cmsghdr *msg);
+ void tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
+diff --git a/net/handshake/request.c b/net/handshake/request.c
+index 02269f212c70..bb61c9a1a03d 100644
+--- a/net/handshake/request.c
++++ b/net/handshake/request.c
+@@ -342,3 +342,20 @@ bool handshake_req_cancel(struct sock *sk)
+ 	return true;
  }
-+EXPORT_SYMBOL_GPL(nvmet_stop_keep_alive_timer);
- 
- u16 nvmet_req_find_ns(struct nvmet_req *req)
- {
+ EXPORT_SYMBOL(handshake_req_cancel);
++
++/**
++ * handshake_sk_destruct_req - destroy an existing request
++ * @sk: socket on which there is an existing request
++ */
++void handshake_sk_destruct_req(struct sock *sk)
++{
++	struct handshake_req *req;
++
++	req = handshake_req_hash_lookup(sk);
++	if (!req)
++		return;
++
++	trace_handshake_destruct(sock_net(sk), req, sk);
++	handshake_req_destroy(req);
++}
++EXPORT_SYMBOL(handshake_sk_destruct_req);
 -- 
 2.50.1
 
