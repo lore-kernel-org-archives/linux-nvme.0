@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 286AACAC580
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20A60CA1017
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E2NpMMERHYu8qLV4IV22FVWL19UxBbSVxOYKBKONgfE=; b=sCIDYKp9bE2GQEIfzArOHhd7da
-	py8Q7MxBbiD186S8qTJuouX97qoHrFcjaZnPLBqo5prriSsE8jncG2F5Nii4JoLfjmDhBcRg/WBOF
-	0JqsICnSTsSs6PGpi9nADF8qvT+/uqdfvoBPHnBCS0gKMpSbT33hkVwQaH+tA2cnER4nIQzUZ6umq
-	MxQAXjOyKRhvDP1fyyT4OsAtjx3+8GaTMol6AEfRIxobJIH/uLmdX2muaOGibGtGZz/ep4f7XVUzc
-	sMPv5wPKSN7j20f4MJApGUUty+JubORhAP1FXNwMoJcfEfHGRiVe7zA4Zcj8yRYBUZr9zMo6PkNpB
-	9faZ9LXA==;
+	bh=Jzlj72jiiXrOnH/EohMjTDz0SRT0MpfqDpZxzaCFKBI=; b=GZ6DpfmsvSki84snDC5NDvH//R
+	MqoKRTvMProxuArybJgKG3sSPV7SpeyYbYgM0TRaVIv0Zo3FkWm7QVN1V1LT9gUU7JwQqR1+h/wzP
+	00VND0ghdz+hP8RTJqopGNruv76woGG2zzxjFy7oyIWU0E8oGqHPB9icbnSUu5MLaRo/3OeBKZfA3
+	bI5dBfVwIcfyabskVxFgR0XK4HTP11dft6nR2Lm6ZIrWEObyHX5e0SPkUpU8MltcRSePw7lrVGuT/
+	HLpxBSdk2t4HCNnefDNm7nq68lmddR2hXFVFmpDjuqJFmhtE0eaYQBkUDqskcrDkB/ccb9Foh5uZN
+	WVlT8TMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuc5E-0000000474j-2E0p;
-	Fri, 05 Sep 2025 19:26:52 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uuc5F-0000000475e-17CG;
+	Fri, 05 Sep 2025 19:26:53 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuXvB-00000002YuH-1iYJ
+	id 1uuXvD-00000002Yw1-2Q0N
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 15:00:13 +0000
+	Fri, 05 Sep 2025 15:00:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id D115760280;
-	Fri,  5 Sep 2025 15:00:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F66C4CEF7;
-	Fri,  5 Sep 2025 15:00:12 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 52153448D2;
+	Fri,  5 Sep 2025 15:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5288C4CEF1;
+	Fri,  5 Sep 2025 15:00:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757084412;
-	bh=m2sLzo3dPozCWRlzuWu6SHdCjeiSOL02cNWis7fahyY=;
+	s=k20201202; t=1757084415;
+	bh=xQ0coLV1rItUOolPBiizTee/coH/W0d4cwoc/bXSQTQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KQx1PZGCYQ9/0B6O9dw9g5wh/miikRGGkyHn6n61KaKp4xkszjxvdTALCgoMAG4tu
-	 U/Up255OumaB2lKWSWsQD1h5Go+Ma6Ero9oUDur+e+jZtlPrQL0XxfuSdwFxui72/U
-	 t6fA15MLNlHmVeVG6a0yIa65M9jZx6Y2zfuUjoQ3oXsNPqiHdeDfGgGDII9+mdvrOY
-	 R1aX1uiCbBpcg4EqldMRiiyizj2Pz8fIaganJYQdhy5Q5FKca81DhTaDSdti2RCPWd
-	 scrF9v+/2dEyVHc2/rfeyrP+cJTK3WuWMBGyfoHJ84kTfUUWB0ePhxRE9MyxVrk18E
-	 v8XIgjz94Jy1g==
+	b=gnDRCPLfnelef8NHhTpOmzX7p/wXoMt7SPngNMbvXPu94iSoz9yUp1Ps1rlynyQO0
+	 Djb/P2PdZwvidDz0nJA2K3jKkwrDo/KtevSizOYxzeGAGx5ZQPf2P60i3sgV10EFcf
+	 OuCE28SBJ6LMYP8a6mUcF2JVMFXktpIBrWMvCBz9tWkaZJzCFypghf1uuq2T/jJAvs
+	 Egdeen08e+nKE8RrrHIlrwJeamR+vvwr2VYq4R3p2vkV3WGI4H7+TPpNdqDU6/RkPk
+	 bsnUuUJJSqLChW8lC8LCch076awqu459VELUHIuqZSfe8MORP4sP0mJl4fzGvnofhI
+	 YegWFsnOwfGnA==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Fri, 05 Sep 2025 16:59:53 +0200
-Subject: [PATCH v8 07/12] scsi: Use block layer helpers to constrain queue
- affinity
+Date: Fri, 05 Sep 2025 16:59:54 +0200
+Subject: [PATCH v8 08/12] virtio: blk/scsi: use block layer helpers to
+ constrain queue affinity
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-isolcpus-io-queues-v8-7-885984c5daca@kernel.org>
+Message-Id: <20250905-isolcpus-io-queues-v8-8-885984c5daca@kernel.org>
 References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
 In-Reply-To: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -69,6 +69,9 @@ Cc: Aaron Tomlin <atomlin@atomlin.com>,
  storagedev@microchip.com, virtualization@lists.linux.dev, 
  GR-QLogic-Storage-Upstream@marvell.com, Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20250905_080015_659755_8FBADFF7 
+X-CRM114-Status: GOOD (  14.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,98 +87,48 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Ensure that IRQ affinity setup also respects the queue-to-CPU mapping
-constraints provided by the block layer. This allows the SCSI drivers
+constraints provided by the block layer. This allows the virtio drivers
 to avoid assigning interrupts to CPUs that the block layer has excluded
 (e.g., isolated CPUs).
 
-Only convert drivers which are already using the
-pci_alloc_irq_vectors_affinity with the PCI_IRQ_AFFINITY flag set.
-Because these drivers are enabled to let the IRQ core code to
-set the affinity. Also don't update qla2xxx because the nvme-fabrics
-code is not ready yet.
-
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
- drivers/scsi/megaraid/megaraid_sas_base.c | 5 ++++-
- drivers/scsi/mpi3mr/mpi3mr_fw.c           | 6 +++++-
- drivers/scsi/mpt3sas/mpt3sas_base.c       | 5 ++++-
- drivers/scsi/pm8001/pm8001_init.c         | 1 +
- 5 files changed, 15 insertions(+), 3 deletions(-)
+ drivers/block/virtio_blk.c | 4 +++-
+ drivers/scsi/virtio_scsi.c | 5 ++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-index 2f3d61abab3a66bf0b40a27b9411dc2cab1c44fc..9f3194ac9c0fb53d619e3a108935ef109308d131 100644
---- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-+++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-@@ -2607,6 +2607,7 @@ static int interrupt_preinit_v3_hw(struct hisi_hba *hisi_hba)
- 	struct pci_dev *pdev = hisi_hba->pci_dev;
- 	struct irq_affinity desc = {
- 		.pre_vectors = BASE_VECTORS_V3_HW,
-+		.mask = blk_mq_online_queue_affinity(),
- 	};
- 
- 	min_msi = MIN_AFFINE_VECTORS_V3_HW;
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index 615e06fd4ee8e5d1c14ef912460962eacb450c04..c8df2dc47689a5dad02e1364de1d71e24f6159d0 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -5927,7 +5927,10 @@ static int
- __megasas_alloc_irq_vectors(struct megasas_instance *instance)
- {
- 	int i, irq_flags;
--	struct irq_affinity desc = { .pre_vectors = instance->low_latency_index_start };
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index e649fa67bac16b4f0c6e8e8f0e6bec111897c355..41b06540c7fb22fd1d2708338c514947c4bdeefe 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -963,7 +963,9 @@ static int init_vq(struct virtio_blk *vblk)
+ 	unsigned short num_vqs;
+ 	unsigned short num_poll_vqs;
+ 	struct virtio_device *vdev = vblk->vdev;
+-	struct irq_affinity desc = { 0, };
 +	struct irq_affinity desc = {
-+		.pre_vectors = instance->low_latency_index_start,
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 	struct irq_affinity *descp = &desc;
- 
- 	irq_flags = PCI_IRQ_MSIX;
-diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-index 0152d31d430abd17ab6b71f248435d9c7c417269..a8fbc84e0ab2ed7ca68a3b874ecfa78a8ebf0c47 100644
---- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
-+++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-@@ -825,7 +825,11 @@ static int mpi3mr_setup_isr(struct mpi3mr_ioc *mrioc, u8 setup_one)
- 	int max_vectors, min_vec;
- 	int retval;
- 	int i;
--	struct irq_affinity desc = { .pre_vectors =  1, .post_vectors = 1 };
-+	struct irq_affinity desc = {
-+		.pre_vectors =  1,
-+		.post_vectors = 1,
-+		.mask = blk_mq_online_queue_affinity(),
++		.mask = blk_mq_possible_queue_affinity(),
 +	};
  
- 	if (mrioc->is_intr_info_set)
- 		return 0;
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index bd3efa5b46c780d43fae58c12f0bce5057dcda85..a55dd75221a6079a29f6ebee402b3654b94411c1 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -3364,7 +3364,10 @@ static int
- _base_alloc_irq_vectors(struct MPT3SAS_ADAPTER *ioc)
- {
- 	int i, irq_flags = PCI_IRQ_MSIX;
--	struct irq_affinity desc = { .pre_vectors = ioc->high_iops_queues };
+ 	err = virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
+ 				   struct virtio_blk_config, num_queues,
+diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
+index 96a69edddbe5555574fc8fed1ba7c82a99df4472..67dfb265bf9e54adc68978ac8d93187e6629c330 100644
+--- a/drivers/scsi/virtio_scsi.c
++++ b/drivers/scsi/virtio_scsi.c
+@@ -842,7 +842,10 @@ static int virtscsi_init(struct virtio_device *vdev,
+ 	u32 num_vqs, num_poll_vqs, num_req_vqs;
+ 	struct virtqueue_info *vqs_info;
+ 	struct virtqueue **vqs;
+-	struct irq_affinity desc = { .pre_vectors = 2 };
 +	struct irq_affinity desc = {
-+		.pre_vectors = ioc->high_iops_queues,
-+		.mask = blk_mq_online_queue_affinity(),
++		.pre_vectors = 2,
++		.mask = blk_mq_possible_queue_affinity(),
 +	};
- 	struct irq_affinity *descp = &desc;
- 	/*
- 	 * Don't allocate msix vectors for poll_queues.
-diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
-index 599410bcdfea59aba40e3dd6749434b7b5966d48..1d4807eeed75acdfe091a3c0560a926ebb59e1e8 100644
---- a/drivers/scsi/pm8001/pm8001_init.c
-+++ b/drivers/scsi/pm8001/pm8001_init.c
-@@ -977,6 +977,7 @@ static u32 pm8001_setup_msix(struct pm8001_hba_info *pm8001_ha)
- 		 */
- 		struct irq_affinity desc = {
- 			.pre_vectors = 1,
-+			.mask = blk_mq_online_queue_affinity(),
- 		};
- 		rc = pci_alloc_irq_vectors_affinity(
- 				pm8001_ha->pdev, 2, PM8001_MAX_MSIX_VEC,
+ 
+ 	num_req_vqs = vscsi->num_queues;
+ 	num_vqs = num_req_vqs + VIRTIO_SCSI_VQ_BASE;
 
 -- 
 2.51.0
