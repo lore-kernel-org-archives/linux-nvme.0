@@ -4,88 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D9F43CA0FED
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:30:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E826CAC580
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Sep 2025 00:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FQ5lKT8MWq9BlErADmClzSG7/N/nbcrdEgrcT5yeDiw=; b=A5XGlWmqSyOIPEzqyBYuHbwgLK
-	j98Dl5xgU93XkxLE0ywYlwDZzixyCahKAcDu0dKdlnUyo0jaO9vuMVyxzgLwb3aVVyM/yy3ZfHuyu
-	oJIBFhqsX+Sw+lt49Vh0Giy4xjjqPWyz10jhbq1bPM8ilxRSNnBHpvM9tVujum9fd1JduTaimHjvb
-	wMKk7/eqsgI3V73nW8lwc0KVNnRCL2rIHSdMHWGUuU5Q6Hmav6vGTaujyf7Nr/WAAe+eeTabKmbVK
-	yEVtCdJqtRHBNh1WrDCsbRYS3zBLJDbLs2g8WXp49bzNN5+HFJMKSPvDaPoO/Oxj6r9K/vVmtMwXd
-	cO9DxjWQ==;
+	bh=2QyWVieaqicjp20VQhqAEZo3TuOxJI84jwsD3ybhiSk=; b=KJLY3SXYsuioPGasUS6mds5gi2
+	0OdFc/kVOLNEGAA8qNzvuvrA6TxclJOfOnrWWDaq+LQc0iKXPq2HGa9FeAlK9k+FnsqowqVZ8WgVE
+	2Su9au3L7nvMjN9oUBNo3VOBo50PkbQpKz/LPLg59cKRkV/P/nZSSCEr3CBBRhbjQK1ZtEigMxK0a
+	pVRJvR1hFhMSQQ3XZCftksu6dQtvpcWzyqecM35+LwIkwXrs9lFrzqg5RqPypIhUu3yXUkT4PEIWG
+	BkRQban0sK9+tuMeuuFr6Bjs4NaV8eVRa1E/GeZw38GPBkE34bhxPIXtC61J26r+gGsJKi8KTb4Zg
+	b4vZCH3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuc8L-00000004A2a-1sWM;
-	Fri, 05 Sep 2025 19:30:05 +0000
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
+	id 1uugYX-00000005X9N-2tql;
+	Sat, 06 Sep 2025 00:13:25 +0000
+Received: from esa2.hgst.iphmx.com ([68.232.143.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuZ1I-000000030TY-2TrC
+	id 1uudhF-00000004dsw-0aKr
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 16:10:37 +0000
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-55ce508d4d6so2024029e87.0
-        for <linux-nvme@lists.infradead.org>; Fri, 05 Sep 2025 09:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umich.edu; s=google-2016-06-03; t=1757088634; x=1757693434; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FQ5lKT8MWq9BlErADmClzSG7/N/nbcrdEgrcT5yeDiw=;
-        b=aObWzuitnUAX1EEE0CYLAZfGwd4TG4HhEgsQcFChiIayWa91+4NtVxphveAFEg5l9z
-         Ph4lYEY7NOgBHKKVT1hSbn/ikLFICcCBhe7DaMPcc81uC5gqdmAMB3SIH4O5au4KqXJf
-         X1LNIYIeg84AO+ANrhTNuYSzELedhn64iKJXtweRQxD+A2imeE2vim0ijkhjMy+0txbx
-         ILoE4ycD3ZLY9kUATGNmyXw8ir115YAaSmS9AgZ5pVZFldN7M/NGSVJYwPrl6s7ugkKI
-         utZgZn/1IGQ61RWYdRu0HumzbhVUzXIaLBCAuPkQO95R6NiaVk0mxcTOJMOQEKIqGAcL
-         ol4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757088634; x=1757693434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FQ5lKT8MWq9BlErADmClzSG7/N/nbcrdEgrcT5yeDiw=;
-        b=TWzTDdyh5GZ91boi6eL6LPfUmeh5DkKwTq3ulmoVvuvxgQzedLHIIW6VYrgYdQOufn
-         IoCSYGOa7EhHKCvttkXAaoGawsKSk1vCFXLb+Bk0orNN42k0t7tI03lKj3F/Z5qdFnZ1
-         ji9HBFkIXrfE2mX9ohju7nsacdz+aKQo/PDBg60pc9NF8nV9wNT9ATZ1S/EPP4lduTkH
-         mlIcovYPt9j7bOYpSkkMd3+ff7vxB239Pg/WZfdymewU97gCjbq9Tj7x+pCa/aRI9U+z
-         odX4EvyL2LrgAG/0ynHcxilRTEWMfancA+lO7grqJSe7A//vhkjZl+Jdam895uj2K27H
-         fQVA==
-X-Forwarded-Encrypted: i=1; AJvYcCV61m9hkdT0SGAR+tdoqayDwtPdZrmVL4Z1aY8IBYHpwV6TDgbuqse/IaQZkKwvl18XCiD3HtZGDdiy@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz+zNllTgB6rY31tX81SsWaX3ZWvFNCi4naaYWhEEOe37lDGY8u
-	q5Ro+VR9av+4VQl11XGXcbC8QXc/16ux/R8lUFOEMmDm8f6rR5x3IgHImcAol3I9PZJw25Jp+6h
-	+zFO9YuLODNA3HWxocby00mNRMNw+PUY=
-X-Gm-Gg: ASbGncubmwUThAczAJRdWCyXzPScGpDaoIjjc+yyfncXaWdhTVtdrbAczg9gyqohk9I
-	8+h5J27CEJGyMHsnCw6UPXDq4O6gHHkngUwJyper4Z1X4W5hp8djgUteXsqWF7W9fRePAP7KuQj
-	8EDX2Q1G03lHsjGaxD5iLx1jcEvNJVa5bIMPxAwcxO/o8hBEGHmiEqtnfRj4CP5ErHwjODeMAjK
-	YynBbff4aUpnTCsotSzuW96gxBRlwnw+4THt7dRhQ==
-X-Google-Smtp-Source: AGHT+IH4XATrInTUDVReB90YvO/+WxFS3HmfZqUUGXwXcEnfrW4wwIz+ykUEAEhK5InYJjqbQmozqhPkoS3eqY6kZqE=
-X-Received: by 2002:a05:651c:1b12:b0:332:2235:911c with SMTP id
- 38308e7fff4ca-336caf71358mr68599551fa.37.1757088634191; Fri, 05 Sep 2025
- 09:10:34 -0700 (PDT)
+	Fri, 05 Sep 2025 21:10:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1757106612; x=1788642612;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zUXslDRT5Pnpqr6o+a0EDCIsWR+TcWfZU2WreWPQZB4=;
+  b=lJ6XP7X7mrCDh8jBHY+Q8brq3KeiDIFuYJ3ijkjP6MGenNKCiWWnuZ0i
+   fWreWA+H7nZLdau/fZ9lYSYfRD/nmEj5FrlPjVtoZ8PftCVf1zQ3kHsaM
+   Y1A/YTuU4VfUShjdEICVwwr6fEQOm0p6Mju+EGeLhxpQZUAx3eAz4EID9
+   YKxdDjq+/aQh6k88cs/new6940N+4OeewI9QIO11GcaT5y5TT/6KwzhwW
+   6bpFKQdG5FvvfctzPfLG0p9+bhkegoQIbZ1CnGyaYt1G6xejOZtxR/cFi
+   qZ1dvJ8nsBWOfBu/m0ebfxB7lJXDZjQJLPASIl2E3M7XAhkD8pUxzYJJb
+   g==;
+X-CSE-ConnectionGUID: ChvVwDIPSt6ReCFF6Uz+Tw==
+X-CSE-MsgGUID: SUEqsrBuT66okcAXYQ86Rw==
+X-IronPort-AV: E=Sophos;i="6.18,242,1751212800"; 
+   d="scan'208";a="113683285"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 06 Sep 2025 05:10:08 +0800
+IronPort-SDR: 68bb51b1_2nIy+jPgCcXc6M6Im+pD9K3BdKtRqhG5RdENkRw+a3Tx4xO
+ iZStUyTXUErO3qA+uQc0tep0QWL68/NKEV4qtKw==
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Sep 2025 14:10:09 -0700
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Sep 2025 14:10:09 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4cJTWh5QZ6z1SHvl
+	for <linux-nvme@lists.infradead.org>; Fri,  5 Sep 2025 14:10:08 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavis); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=content-transfer-encoding:mime-version
+	:references:in-reply-to:x-mailer:message-id:date:subject:to
+	:from; s=dkim; t=1757106608; x=1759698609; bh=zUXslDRT5Pnpqr6o+a
+	0EDCIsWR+TcWfZU2WreWPQZB4=; b=KrOohj5SkU7dbfg8W/pStxiRxS+SwS4IRg
+	MY7J79sP6OB96/HMNBHECv4eIZAC1uA7Atv8J17kZ3AuBnrsZFgw+TPlQp4Sg6Bg
+	TTDRRdNMEDsDQD+KpfkgOpxdx1Sj9pLpaUFgDB/OFkTWEFJlR2XmasNyhUlsptRi
+	quAdt/vDJSkg4Hbr7yBgJb4/y26EyiBdHV+YMzi1T4VMEw4qe43tRoX+rQeG5A5X
+	hRL9zuG7pHIQx9g/yAihvTqW7KD8XPJUUmsdv2sNA/Ez6c4TXzMGxMZQGTk9eMU0
+	lypcVH2fHrHqFGEl3YYIUsE7WIZ4pS7e7tkFgDHualeqEsnwRO5A==
+X-Virus-Scanned: amavis at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id RVJagoogZ-5i for <linux-nvme@lists.infradead.org>;
+ Fri,  5 Sep 2025 14:10:08 -0700 (PDT)
+Received: from ros-3.wdc.com (ros-3.wdc.com [10.23.145.79])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4cJTWg5w9Zz1SHkR;
+	Fri,  5 Sep 2025 14:10:07 -0700 (PDT)
+From: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: cassel@kernel.org,
+	dlemoal@kernel.org,
+	kamaljit.singh1@wdc.com,
+	Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+Subject: [PATCH v1 1/1] nvme-core: exclude ioccsz/iorcsz checks for admin ctrlr
+Date: Fri,  5 Sep 2025 14:10:01 -0700
+Message-ID: <20250905211002.1937414-2-kamaljit.singh@opensource.wdc.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250905211002.1937414-1-kamaljit.singh@opensource.wdc.com>
+References: <20250905211002.1937414-1-kamaljit.singh@opensource.wdc.com>
 MIME-Version: 1.0
-References: <20250731180058.4669-1-okorniev@redhat.com> <20250731180058.4669-4-okorniev@redhat.com>
-In-Reply-To: <20250731180058.4669-4-okorniev@redhat.com>
-From: Olga Kornievskaia <aglo@umich.edu>
-Date: Fri, 5 Sep 2025 12:10:21 -0400
-X-Gm-Features: Ac12FXzBiQ30iKKbP0zzoq1oKAENaPAn2hm04QJoePVvv8Y4CUwCe8BkLoQZJ38
-Message-ID: <CAN-5tyF=5oQLyy7ikbbhFW10OrUfHh0Sr3D=G1nHN+pEsfiSzw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] nvmet-tcp: fix handling of tls alerts
-To: Olga Kornievskaia <okorniev@redhat.com>
-Cc: chuck.lever@oracle.com, jlayton@kernel.org, trondmy@hammerspace.com, 
-	anna.schumaker@oracle.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
-	linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, neil@brown.name, 
-	Dai.Ngo@oracle.com, tom@talpey.com, hare@suse.de, horms@kernel.org, 
-	kbusch@kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250905_091036_747545_E605BE9E 
-X-CRM114-Status: GOOD (  25.23  )
+X-CRM114-CacheID: sfid-20250905_141013_238260_C0C0A6F4 
+X-CRM114-Status: GOOD (  14.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,127 +112,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Dear NvME maintainers,
+An administrative controller does not support I/O queues, hence it
+should exclude existing checks for IOCCSZ/IORCSZ.
 
-Are there objections to this patch? What's the path forward to
-including it in the nvme code.
+Signed-off-by: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+---
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank you.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d67545bd7abb..ac72bae800a9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3491,14 +3491,14 @@ static int nvme_check_ctrl_fabric_info(struct nvm=
+e_ctrl *ctrl, struct nvme_id_ct
+ 		return -EINVAL;
+ 	}
+=20
+-	if (!nvme_discovery_ctrl(ctrl) && ctrl->ioccsz < 4) {
++	if (!nvmf_discovery_ctrl(ctrl) && !nvme_admin_ctrl(ctrl) && ctrl->ioccs=
+z < 4) {
+ 		dev_err(ctrl->device,
+ 			"I/O queue command capsule supported size %d < 4\n",
+ 			ctrl->ioccsz);
+ 		return -EINVAL;
+ 	}
+=20
+-	if (!nvme_discovery_ctrl(ctrl) && ctrl->iorcsz < 1) {
++	if (!nvmf_discovery_ctrl(ctrl) && !nvme_admin_ctrl(ctrl) && ctrl->iorcs=
+z < 1) {
+ 		dev_err(ctrl->device,
+ 			"I/O queue response capsule supported size %d < 1\n",
+ 			ctrl->iorcsz);
+--=20
+2.43.0
 
-On Thu, Jul 31, 2025 at 2:01=E2=80=AFPM Olga Kornievskaia <okorniev@redhat.=
-com> wrote:
->
-> Revert kvec msg iterator before trying to process a TLS alert
-> when possible.
->
-> In nvmet_tcp_try_recv_data(), it's assumed that no msg control
-> message buffer is set prior to sock_recvmsg(). Hannes suggested
-> that upon detecting that TLS control message is received log a
-> message and error out. Left comments in the code for the future
-> improvements.
->
-> Fixes: a1c5dd8355b1 ("nvmet-tcp: control messages for recvmsg()")
-> Suggested-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Hannes Reinecky <hare@susu.de>
-> Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
-> ---
->  drivers/nvme/target/tcp.c | 31 +++++++++++++++++++------------
->  1 file changed, 19 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 688033b88d38..98cee10de713 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -120,7 +120,6 @@ struct nvmet_tcp_cmd {
->         u32                             pdu_len;
->         u32                             pdu_recv;
->         int                             sg_idx;
-> -       char                            recv_cbuf[CMSG_LEN(sizeof(char))]=
-;
->         struct msghdr                   recv_msg;
->         struct bio_vec                  *iov;
->         u32                             flags;
-> @@ -1161,6 +1160,7 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_=
-queue *queue)
->         if (unlikely(len < 0))
->                 return len;
->         if (queue->tls_pskid) {
-> +               iov_iter_revert(&msg.msg_iter, len);
->                 ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
->                 if (ret < 0)
->                         return ret;
-> @@ -1217,19 +1217,28 @@ static void nvmet_tcp_prep_recv_ddgst(struct nvme=
-t_tcp_cmd *cmd)
->  static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
->  {
->         struct nvmet_tcp_cmd  *cmd =3D queue->cmd;
-> -       int len, ret;
-> +       int len;
->
->         while (msg_data_left(&cmd->recv_msg)) {
-> +               /* to detect that we received a TlS alert, we assumed tha=
-t
-> +                * cmg->recv_msg's control buffer is not setup. kTLS will
-> +                * return an error when no control buffer is set and
-> +                * non-tls-data payload is received.
-> +                */
->                 len =3D sock_recvmsg(cmd->queue->sock, &cmd->recv_msg,
->                         cmd->recv_msg.msg_flags);
-> +               if (cmd->recv_msg.msg_flags & MSG_CTRUNC) {
-> +                       if (len =3D=3D 0 || len =3D=3D -EIO) {
-> +                               pr_err("queue %d: unhandled control messa=
-ge\n",
-> +                                      queue->idx);
-> +                               /* note that unconsumed TLS control messa=
-ge such
-> +                                * as TLS alert is still on the socket.
-> +                                */
-> +                               return -EAGAIN;
-> +                       }
-> +               }
->                 if (len <=3D 0)
->                         return len;
-> -               if (queue->tls_pskid) {
-> -                       ret =3D nvmet_tcp_tls_record_ok(cmd->queue,
-> -                                       &cmd->recv_msg, cmd->recv_cbuf);
-> -                       if (ret < 0)
-> -                               return ret;
-> -               }
->
->                 cmd->pdu_recv +=3D len;
->                 cmd->rbytes_done +=3D len;
-> @@ -1267,6 +1276,7 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tc=
-p_queue *queue)
->         if (unlikely(len < 0))
->                 return len;
->         if (queue->tls_pskid) {
-> +               iov_iter_revert(&msg.msg_iter, len);
->                 ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
->                 if (ret < 0)
->                         return ret;
-> @@ -1453,10 +1463,6 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_qu=
-eue *queue,
->         if (!c->r2t_pdu)
->                 goto out_free_data;
->
-> -       if (queue->state =3D=3D NVMET_TCP_Q_TLS_HANDSHAKE) {
-> -               c->recv_msg.msg_control =3D c->recv_cbuf;
-> -               c->recv_msg.msg_controllen =3D sizeof(c->recv_cbuf);
-> -       }
->         c->recv_msg.msg_flags =3D MSG_DONTWAIT | MSG_NOSIGNAL;
->
->         list_add_tail(&c->entry, &queue->free_list);
-> @@ -1736,6 +1742,7 @@ static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_=
-queue *queue)
->                 return len;
->         }
->
-> +       iov_iter_revert(&msg.msg_iter, len);
->         ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
->         if (ret < 0)
->                 return ret;
-> --
-> 2.47.1
->
->
 
