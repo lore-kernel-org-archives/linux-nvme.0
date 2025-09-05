@@ -4,90 +4,189 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0B1FCA1017
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Sep 2025 18:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 428F5CA1012
+	for <linux-nvme@archiver.kernel.org>; Sat,  6 Sep 2025 18:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JratdkJhfp1iQGSSFRxxu72lgWMqyE2NX54DSFPZHRY=; b=Rd7+IyB0h5O5IV/edO9safNff9
-	8hbjoy0A57fGTN19btFDWyzJB0Q7F1osfUeJ3VVLr/4PuUbbcnl2wPeKcEJaXi2Ssynn2HbDbRSMW
-	k3wq8TsnN6wH/MCX5Z9jT8gowjLdKRs3WQuALDLeTfMbnikD2xWVhn0HtovtoIaDMd+MEX3nd1oao
-	wub7qGxs5+XyTFWVrgGQms42b5OPzO9d3A23Wgr9L4cqz7iM7byQfu4W/nzTWVWMqRZTk+Io9g2SH
-	cM3MBBLvuqmqYNN7JkFA77uToBT0N9wmxJVXnk5qrtGKzuELmFpR7qeySAWIIBZ4BLXpHXdq+vpbw
-	ecKCHdfg==;
+	bh=vILuWYAAHp1MhRoYT7hppsLaBLiTCuQw0wAnrfxfM18=; b=X3VyDP8GbGkOgAhDmbEAq8al53
+	Sq5EnpllyAhJHW5beJE9piesRRbU+ul48KPh/3f2piB+stTlsl2a5t6oiAsXrFU/XUY51gR4vpgVX
+	WKEXiLuoFZt5oajnCkFoxcXiO43kHPkDsqrX4fZOIU6AgCv7kuCOTDvXqcE7WGnQwvsPsAfYzBAkT
+	YzyKVi+4+0/PcmxyS0iHjOR04HXl7JB73KvSZsvvPu2u8/jdma88tl+5VBCzDzVn2j1ZZHNekud9k
+	d2XAh7cHT2wC2i/4sazl2ziE3Jm7m546n51Bpxozr+19QBMksdSTx7tVqJFszhmuc+kwfnq0t7fnn
+	A8ZwNHAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuy2w-00000008Ixw-2FB9;
-	Sat, 06 Sep 2025 18:53:58 +0000
-Received: from mailout2.w1.samsung.com ([210.118.77.12])
+	id 1uuy2y-00000008Iza-2BnX;
+	Sat, 06 Sep 2025 18:54:00 +0000
+Received: from mail-bn8nam11on20615.outbound.protection.outlook.com ([2a01:111:f403:2414::615] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuZHD-000000036VU-0QrM
+	id 1uuaTE-00000003YH1-2idY
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 16:27:06 +0000
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250905162659euoutp0209439914e512e98f87c7003f3b7cb2ad~ib7L2Tvq02121121211euoutp02j;
-	Fri,  5 Sep 2025 16:26:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250905162659euoutp0209439914e512e98f87c7003f3b7cb2ad~ib7L2Tvq02121121211euoutp02j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1757089619;
-	bh=JratdkJhfp1iQGSSFRxxu72lgWMqyE2NX54DSFPZHRY=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=k7Zmm/l4ml+LB1qItvZOEqZY+Sox4+FPDDVEoRVLzx1Wvrm8UN4/WmasRnz/XdrC4
-	 Uz3NPTnr8v6KtMSyeOqg/plUlqcNjUQLJ68wa1aVQkIC0f+6gNInm3vAulUU4bbtBs
-	 bFH/HZYMbbkZGGDU62q/7lnZ1i5322h/6rAkdcfU=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250905162658eucas1p1a568426150516afc440f0b45dae6597c~ib7LZwBNr2591525915eucas1p15;
-	Fri,  5 Sep 2025 16:26:58 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250905162656eusmtip2af2311515d499a88f1b631068b965d1d~ib7JPIWTy2564625646eusmtip2E;
-	Fri,  5 Sep 2025 16:26:56 +0000 (GMT)
-Message-ID: <afcd9cd4-d563-41c3-9e50-7440365b9152@samsung.com>
-Date: Fri, 5 Sep 2025 18:26:55 +0200
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v4 03/16] dma-debug: refactor to use physical addresses
- for page mapping
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>, Danilo
-	Krummrich <dakr@kernel.org>, iommu@lists.linux.dev, Jason Wang
-	<jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joerg Roedel
-	<joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Juergen Gross
-	<jgross@suse.com>, kasan-dev@googlegroups.com, Keith Busch
-	<kbusch@kernel.org>, linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	Fri, 05 Sep 2025 17:43:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rmQBnyGgLjdP99D8mr1ZZogFkvBu1GxixVCgMdOsUWxb7Y7dqG5e+koq3mTeMPTToZgitqTT6e1UglS7EbP4Rw9TUv9UnB90iMWx0RLnpSdBkLknwifgJ1DNtR9E933WXvlc/V5xJ7OAvMdnk3f6v2JVKVglxVOY34+bvJvnTI0LsHB0nn6Z9EfrwT3k7Y7OHjApHh14YlyE9fO2PIn2zBJL8aZxaNf+CWSu4cVMEeF+1ot5e3511WnUG42G185AlKfOy+r4WoEcWrFAUgHChpIOAwdiVWsWUj5VEvvYEV0MM84KpdabrtEiHLn72sLP3bN4pBYFNb6p4ozf9FEN0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vILuWYAAHp1MhRoYT7hppsLaBLiTCuQw0wAnrfxfM18=;
+ b=VxD8f7g/AHWTj4kRyxL+bwM6OhT6Mq+UQdCsG9L/NC1IDywcIcLByLEBSsh0gzCeBPbtpAqcrmM701hHjqznNoZxyMnwKdhXdxnPJsQ3TkGH6L4u/rL7RUVTralSADDnDRv6iZA3Ty5pC2mR4nI3fosiRGUJmkno6cs8lhx0UUFjpR0jcfPizdAQmWDSLIwdg7qsukogILm7siHujIfBUzcDUkUFMk9jIipTBRQWiCJxofamNzt7GQUab8VyMViLupZfb2UcHLtRyc9bPMZegqAD71c+Vf6SJkBy+l4OBEyMOJfDCflXzkRURoji3f7Xebtb+0vvCTtB6NyV2ALP7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vILuWYAAHp1MhRoYT7hppsLaBLiTCuQw0wAnrfxfM18=;
+ b=hep32/RkEYW+ok3gUCMJe4RtW6SgpBDdBVE8CHVUTzQCa5m5v/1yx87NmAhrs1K5hhzKD4b52iUL0I88kmVtUEGPWQUl5/akQe4PFC7jj3GgLtelFz6U2KmwrI4ZvIR0yKtLmIuuc1rZIUOWnuNC53CKj/bM1Fyxk+7EH30TgVpz9Fq9/B/rTeRXDKZOnoDCwHfDs9JjhednG2648vJ8op2lBrZ5h/IUJa6jNMf5IRJOTUzflxRbmiCBALaZ/RYo7DNQOvrzShcEl0WZ6wagOzPxGkjK0M8fl61w1MvbhqX4sAYaY6Qkwt3tRDp0Z6yA4hTPuOTJy3IRT7aQfbAb9w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ by SJ1PR12MB6265.namprd12.prod.outlook.com (2603:10b6:a03:458::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Fri, 5 Sep
+ 2025 17:43:26 +0000
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9094.017; Fri, 5 Sep 2025
+ 17:43:26 +0000
+Date: Fri, 5 Sep 2025 14:43:24 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
 	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-trace-kernel@vger.kernel.org, Madhavan Srinivasan
-	<maddy@linux.ibm.com>, Masami Hiramatsu <mhiramat@kernel.org>, Michael
-	Ellerman <mpe@ellerman.id.au>, "Michael S. Tsirkin" <mst@redhat.com>, Miguel
-	Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	rust-for-linux@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>, Stefano
-	Stabellini <sstabellini@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
 	xen-devel@lists.xenproject.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <478d5b7135008b3c82f100faa9d3830839fc6562.1755624249.git.leon@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250905162658eucas1p1a568426150516afc440f0b45dae6597c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250819173739eucas1p104ee9e80546f92ef250115edd799fc6d
-X-EPHeader: CA
-X-CMS-RootMailID: 20250819173739eucas1p104ee9e80546f92ef250115edd799fc6d
+Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <20250905174324.GI616306@nvidia.com>
 References: <cover.1755624249.git.leon@kernel.org>
-	<CGME20250819173739eucas1p104ee9e80546f92ef250115edd799fc6d@eucas1p1.samsung.com>
-	<478d5b7135008b3c82f100faa9d3830839fc6562.1755624249.git.leon@kernel.org>
+ <CGME20250829131641eucas1p2ddd687e4e8c16a2bc64a293b6364fa6f@eucas1p2.samsung.com>
+ <20250829131625.GK9469@nvidia.com>
+ <7557f31e-1504-4f62-b00b-70e25bb793cb@samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7557f31e-1504-4f62-b00b-70e25bb793cb@samsung.com>
+X-ClientProxiedBy: YT4P288CA0088.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d0::21) To PH7PR12MB5757.namprd12.prod.outlook.com
+ (2603:10b6:510:1d0::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|SJ1PR12MB6265:EE_
+X-MS-Office365-Filtering-Correlation-Id: 170388cd-19af-4e89-c8e6-08ddeca3b7e5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dnhUVWFhVWdmcThFZmlyQS96TlhJNjEzcXhwUm5sU1lSSFcxdkYwUWhkNG9P?=
+ =?utf-8?B?Y3lobithTmZ2SzdianR2NEQ5Sy9IYUMzclFBeExOekUxV3poRXExMEtSc3Ro?=
+ =?utf-8?B?bFAvWUNqRUhyaUxmQ1BYM2o5dDYrMFpUeUl0N0p0WXppVm9LZ3BzM2RLQnBC?=
+ =?utf-8?B?ZFE5U1QwMFg5Wmd4TUs5UE5sRnNubUFSdHZsVGJQQnRxT2I1cDM1MkN4Yy8v?=
+ =?utf-8?B?UXRKVHRWd2RyN3Z3QStUU1RUSjlQR2U3aFN2S0tnSk9EOWxpZHpsaHRyMHpZ?=
+ =?utf-8?B?emg4TUdSdVRkMitYelIvMmlUY3daV0RmRXFCbFpRSGFHeTA4a1UvQzBPSElF?=
+ =?utf-8?B?Ynh5NHRjQ1FmZlZyOXhueUR4Wml2aEloNUZpRnF3bytpRWJPNEZzeEVZK3Rl?=
+ =?utf-8?B?dERBdHZMWjFzak9xNklUQmRYaWlFR1pQMW81Wkw4VEZWcThXQ2tkOFFKeFZD?=
+ =?utf-8?B?VzhsR2hJSDBCMy9qQnk0YXMxZ092Q0tvZ3dhWW9XVnZkZHpNTnBvL3BmMVJ5?=
+ =?utf-8?B?eTBVVHREU1dwOGhieWNGQUNFa0pCRjJCS21KTENxb1JsQ0kzNzM2TWJkV0xH?=
+ =?utf-8?B?eUVuazZjMGc1Zk9CVlRKS1IrQjBhSG9CN1R3d3pGbjNUR1p1Y1RSQmpiTkEx?=
+ =?utf-8?B?RENUTkI5OU1zS0IwaFlJaFRHNk84UWJacGhNNXowQ3pQR1oxYzhhTFRmZXov?=
+ =?utf-8?B?YmFTUGRqbS82MEYyanI0eW9ydllVREJHL3RsU040VGxQMFpsdXNYN0czRVll?=
+ =?utf-8?B?RXNacE1BSDN4cXNLNnZneDh3RVBoM1lnaWI1RFhDMUpvK3cvVlltWTAwWVBP?=
+ =?utf-8?B?ZjArMnoyQVMyTGxHVFFMajRRMTlwdy8zaDNFMmpvYVdXSGFzK3ppL0ZIY0xL?=
+ =?utf-8?B?elRFdjdZNDZjUmwzTTNsamFNbUJPeU05cHBxV2l5c1Z3QU5VemhMaFZzOVV0?=
+ =?utf-8?B?Z2JMckpUTXBRckJKZ1VQeHRHaFcrUFpnNUNOcG0rUVBHM01SOVNONEpzZktN?=
+ =?utf-8?B?MEtMZ1FEc0ExWVNkTXB0V2wzc2gxQnZmUExidWU4TERrOEJqYWV0WnliamQ1?=
+ =?utf-8?B?UDRFRnoyazMrUlNYN0hvK2dnc0QrVy9mNHJzN0xZKzBIY05wRlJBWWxzc2VO?=
+ =?utf-8?B?NE9iNnhISHV1YWlGWHNNVUdmQm5CSjh1cmY1M2lKcXRDY0ljdWNLRXFldXdw?=
+ =?utf-8?B?ME1yR2Jtd1dYclVHVzNocmtYQTZJNTF2b3VuQU1Tb2YwUnRFNmsvN0ZaWlJT?=
+ =?utf-8?B?VmM5dURBT3hKYVM4K2xjQWFCdkZZUW9lRFhwV1pRblQ2V2tsZ01OTzdwSlhU?=
+ =?utf-8?B?QXdlaW81bEZjYmNzaktzOFNJa3BSRWZ3STFQTzBJYVJjYWxDTHVFRlIrRFU0?=
+ =?utf-8?B?NnBpTjhpZWZ5MFZSRjg3REJEd1I0TVM2c3RsZkFITjNKRDN6QWVKbUxhSS9R?=
+ =?utf-8?B?K25aVGZCMDR5anZrQ0daa0VoTWJEYnV1SEx2YXdWMkw0QjFsMzNrWHMyS0VX?=
+ =?utf-8?B?YkdaWUhhYVh4R2J2Mzc4eUVCMEVoRVE2S2F4am1KZ3lYUE1rM2N5Q3ZtNno3?=
+ =?utf-8?B?WjhiTlNBZWlUUjVHSDc2c09XZ0NYeEczYkdmdWprQ3BNWDhtWkVQUHR1UWt3?=
+ =?utf-8?B?UkgrZWg0clpiODVzK29QcXhPWWYyL1dRYjZtbzFVSllENUtoVklEdXR2NHU2?=
+ =?utf-8?B?RTM0VEJXTndHVmVLVEJWQ1ZaT3dpREpTMWdHM0RrTDFZMlh2UmNPM0gzNVR2?=
+ =?utf-8?B?ZU9aMy9kSi81RU95TUxtbzVJT08xYWxGUkRObGVCUTF0TWhjeFVYRWg5L1Zh?=
+ =?utf-8?B?NS93YWN1MEk0RU02bkFXaVFWd05Wa2NMZS9BR1FsMk9nMHk5VlBBcy9zY0tM?=
+ =?utf-8?B?M0F0Tmw0T3NxRlMzZzhVVjlLSXpiRU1JSk1XRVJtdC9rbWg3L3hFb1JOMHBp?=
+ =?utf-8?Q?dAcJtJ7InDQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZDhuamJtcWlrMFVvN3U5bzl1djN2Q25JSm9lZnFIT0tReXVQQlhTQ0lTUnlj?=
+ =?utf-8?B?VE5raGZ4cXExVmtCbEpTdTE2am1PYXJjTm8yY3N4VVhTcXJTdEFvcTh3ZGVT?=
+ =?utf-8?B?WkFQSzYxSWJFMUhmZE5CQ0pFL0lwM2hUM21uU2xQcUtvcjJBSllJdmJlbitO?=
+ =?utf-8?B?MEtNaG4zS043Y25oY0NDZnphWFJSUGVyOEwzOHRLRWFGSHNVdC8rQTIwS1Nx?=
+ =?utf-8?B?MHduWi8vRVZDZlZVMGFwQzBjNi93SW5UcTVMa2FQb082V25BNFpKYXdaWDY3?=
+ =?utf-8?B?L3UrYm80UkhBTk9GeG1WajFHckpkeUZ3VWY3MjF2d2dWcytJK0V4VWFNQmxh?=
+ =?utf-8?B?UkdtV3JlZUU4NkNKajFDbnkyWExMTUJZaHA4c2tWbTZwOWpiWXBtcUpXbWRD?=
+ =?utf-8?B?VkR4ckVmVFdPallkdEo5YjUxRDhaR0pxNzhPQlgxd2JFZnVobjhqbGE2Q3pP?=
+ =?utf-8?B?aXpWTXV1NU5CL0lqSUdwb2FkdnBvQVN2dVRxNmlOY3BEaFhjZERXbVQwMVo3?=
+ =?utf-8?B?b3UyRFlnZHplRDNpRzVwNWxnZUxFVEt1U0VPd01EOFNMaHZQcDJoZ0wwa2R1?=
+ =?utf-8?B?WWlIYWFlV3dBcy8ydlFLb2F0YWplMy9kSmllZ3BPR3dIdlcvWGJ4M056cUZz?=
+ =?utf-8?B?UERXamJwV05oUnprTTZzQ1dkTk5FYTRBMG16N3dFa2xPSUE0eXFSQXcwNjFa?=
+ =?utf-8?B?Z1lXRUU0Z2hERmNCR1ByVFFiUk5jZzJZQ2pvMURLcjU2bDYzTERWUWtCTm8w?=
+ =?utf-8?B?ak1XQzBTb21vQXZCcHRXYjQyTmRVOGtTSzlMNlpFVVpxUU9oUEUwZStBWmdB?=
+ =?utf-8?B?T3A3OW5CV3QrL2p5a3h2cGRBeFVKVnozaVNESTVaUmlJSDR2OTdyZzFrRGRh?=
+ =?utf-8?B?ZmJwVTdFTys1SjRLeldIcFJEQ1RPQWlLOUhEK2FBc0U5L2hSSm9lOXZITHJn?=
+ =?utf-8?B?N2xOVVo0UWw4RFRpZE5iZS9rYlpNYVk2WDcwZVNCR2RXZ0xzK3hzNElBLzA5?=
+ =?utf-8?B?U3FNN2FpT0Z0bEk1NWtTdXk5cDNQUm4wd0RzallzaklCSTdLcXViSitmYTF1?=
+ =?utf-8?B?bnhYbzdnMHQxd3hwRi8wRGlPSkJ5d0xzSnMwN0tmQ2hVelpZcEZYaEt4b0hS?=
+ =?utf-8?B?TjFZeDUwUVhZdVpmQmtrNHNQNXV1SGFsSFFaUWJDK0RRdjJSVVBMQWYvYzB6?=
+ =?utf-8?B?NkQxNU8reERzajYwNkozUEpjWFBxOEZrN3BLeHF6aEh6TjNDMjZVR2diUGtl?=
+ =?utf-8?B?ZVpFWmZYYXAvdjRiamZmY0FGWGs1SUFlR21Dc1pvMzZ4cHdrZ2V2ZmNXZHlj?=
+ =?utf-8?B?VktRenFIRjl3YTA0SkMvYTR4SHVoWkticVdLcVVzaHRnZmZBYXVCWnRkV2kw?=
+ =?utf-8?B?bUFqbmlYd0tqUGlqR3dGUExFVlFQMjM1VWZGK3hadkpsWXdGS2pSQ0h3d3Iv?=
+ =?utf-8?B?VnMveDQ3SUhqb2VwaWJOVHJQNFg4Zmh4TGRBSDlRbklKK28yaEM3V05mY0Fh?=
+ =?utf-8?B?N0QvNzdoRUVTU0NMaEFqMFlTSzVPb0N2bVlSR2JEWVBCVmdmR1BxZ1Nuc2NQ?=
+ =?utf-8?B?U3ovdWQ4L3RFWmJVZ0tWbEJ1ODhmakVrNU45RzM2cVZZZWRFSWx3MlBMME5z?=
+ =?utf-8?B?Z0ZiRTVkYXA1dmNIVVY5dDl4RGlkRVFQZmE3L0wwSXJVVVVzY2JmeXgwK0Z5?=
+ =?utf-8?B?OTBHbGM4a2QvbFNIT05mK0pBTzBHSU5PbUtiRHNWVk0xdWFIcmtyTjMyY2lD?=
+ =?utf-8?B?ZFZJM3BJa2lkZ0ZmSFk1RXZJdituTitIOTcwd1NzQ21YenlnWkdlWXBkQWJq?=
+ =?utf-8?B?SmdVU1hEdnBsVlF3Y2J1OXYrUkdEZlM2cTRLRi9QUUFIT2hXUnJnNWs3L3JQ?=
+ =?utf-8?B?YkVCdlIvUzR2ZEwxV3hBc1p0WVdLSHlOcU1PWUNUWDgrL3c3YUMweDRNMXVi?=
+ =?utf-8?B?enJYdDA5bHF2bWE3eGZqNEQ1UDlOcENyQXFVaFIrMHNyc1cyakQzK3hXL3R4?=
+ =?utf-8?B?c2VTSEdnVUkzS1dEUlVtWWhjNEVBaktzRWxCOCtMeVpqL3pMT20yZG00T1hC?=
+ =?utf-8?B?R2F1dmpxaC9jY0lodTZIWHJ2czYxVkJKa3kxWnNTS053ZG11Mm5RZk5vUFA2?=
+ =?utf-8?Q?fPXI=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 170388cd-19af-4e89-c8e6-08ddeca3b7e5
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 17:43:26.7235
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J6B6cBXSQbyRzIh+uShpttmXlQ1roo6BeAEy92OWbRCVfTXsxw7FpfzT+ScCWlKU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6265
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250905_092703_746163_43529E6A 
-X-CRM114-Status: GOOD (  33.33  )
+X-CRM114-CacheID: sfid-20250905_104333_053975_EF7DFAA5 
+X-CRM114-Status: GOOD (  26.55  )
 X-Mailman-Approved-At: Sat, 06 Sep 2025 11:45:19 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,242 +202,102 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 19.08.2025 19:36, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
->
-> Convert the DMA debug infrastructure from page-based to physical address-based
-> mapping as a preparation to rely on physical address for DMA mapping routines.
->
-> The refactoring renames debug_dma_map_page() to debug_dma_map_phys() and
-> changes its signature to accept a phys_addr_t parameter instead of struct page
-> and offset. Similarly, debug_dma_unmap_page() becomes debug_dma_unmap_phys().
-> A new dma_debug_phy type is introduced to distinguish physical address mappings
-> from other debug entry types. All callers throughout the codebase are updated
-> to pass physical addresses directly, eliminating the need for page-to-physical
-> conversion in the debug layer.
->
-> This refactoring eliminates the need to convert between page pointers and
-> physical addresses in the debug layer, making the code more efficient and
-> consistent with the DMA mapping API's physical address focus.
->
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+On Fri, Sep 05, 2025 at 06:20:51PM +0200, Marek Szyprowski wrote:
 
-This change needs to be based on top of this patch 
-https://lore.kernel.org/all/20250828-dma-debug-fix-noncoherent-dma-check-v1-1-76e9be0dd7fc@oss.qualcomm.com 
-so the easiest way would be to rebase this patchset onto 
-https://web.git.kernel.org/pub/scm/linux/kernel/git/mszyprowski/linux.git/log/?h=dma-mapping-fixes 
-branch (resolving conflicts is trivial) for the next version.
+> I've checked the most advertised use case in 
+> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio
+> and I still don't see the reason why it cannot be based 
+> on dma_map_resource() API? I'm aware of the little asymmetry of the 
+> client calls is such case, indeed it is not preety, but this should work 
+> even now:
+> 
+> phys = phys_vec[i].paddr;
+> 
+> if (is_mmio)
+>      dma_map_resource(phys, len, ...);
+> else
+>      dma_map_page(phys_to_page(phys), offset_in_page(phys), ...);
+> 
+> What did I miss?
 
-> ---
->   Documentation/core-api/dma-api.rst |  4 ++--
->   kernel/dma/debug.c                 | 28 +++++++++++++++++-----------
->   kernel/dma/debug.h                 | 16 +++++++---------
->   kernel/dma/mapping.c               | 15 ++++++++-------
->   4 files changed, 34 insertions(+), 29 deletions(-)
->
-> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-> index 3087bea715ed..ca75b3541679 100644
-> --- a/Documentation/core-api/dma-api.rst
-> +++ b/Documentation/core-api/dma-api.rst
-> @@ -761,7 +761,7 @@ example warning message may look like this::
->   	[<ffffffff80235177>] find_busiest_group+0x207/0x8a0
->   	[<ffffffff8064784f>] _spin_lock_irqsave+0x1f/0x50
->   	[<ffffffff803c7ea3>] check_unmap+0x203/0x490
-> -	[<ffffffff803c8259>] debug_dma_unmap_page+0x49/0x50
-> +	[<ffffffff803c8259>] debug_dma_unmap_phys+0x49/0x50
->   	[<ffffffff80485f26>] nv_tx_done_optimized+0xc6/0x2c0
->   	[<ffffffff80486c13>] nv_nic_irq_optimized+0x73/0x2b0
->   	[<ffffffff8026df84>] handle_IRQ_event+0x34/0x70
-> @@ -855,7 +855,7 @@ that a driver may be leaking mappings.
->   dma-debug interface debug_dma_mapping_error() to debug drivers that fail
->   to check DMA mapping errors on addresses returned by dma_map_single() and
->   dma_map_page() interfaces. This interface clears a flag set by
-> -debug_dma_map_page() to indicate that dma_mapping_error() has been called by
-> +debug_dma_map_phys() to indicate that dma_mapping_error() has been called by
->   the driver. When driver does unmap, debug_dma_unmap() checks the flag and if
->   this flag is still set, prints warning message that includes call trace that
->   leads up to the unmap. This interface can be called from dma_mapping_error()
-> diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
-> index e43c6de2bce4..da6734e3a4ce 100644
-> --- a/kernel/dma/debug.c
-> +++ b/kernel/dma/debug.c
-> @@ -39,6 +39,7 @@ enum {
->   	dma_debug_sg,
->   	dma_debug_coherent,
->   	dma_debug_resource,
-> +	dma_debug_phy,
->   };
->   
->   enum map_err_types {
-> @@ -141,6 +142,7 @@ static const char *type2name[] = {
->   	[dma_debug_sg] = "scatter-gather",
->   	[dma_debug_coherent] = "coherent",
->   	[dma_debug_resource] = "resource",
-> +	[dma_debug_phy] = "phy",
->   };
->   
->   static const char *dir2name[] = {
-> @@ -1201,9 +1203,8 @@ void debug_dma_map_single(struct device *dev, const void *addr,
->   }
->   EXPORT_SYMBOL(debug_dma_map_single);
->   
-> -void debug_dma_map_page(struct device *dev, struct page *page, size_t offset,
-> -			size_t size, int direction, dma_addr_t dma_addr,
-> -			unsigned long attrs)
-> +void debug_dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
-> +		int direction, dma_addr_t dma_addr, unsigned long attrs)
->   {
->   	struct dma_debug_entry *entry;
->   
-> @@ -1218,19 +1219,24 @@ void debug_dma_map_page(struct device *dev, struct page *page, size_t offset,
->   		return;
->   
->   	entry->dev       = dev;
-> -	entry->type      = dma_debug_single;
-> -	entry->paddr	 = page_to_phys(page) + offset;
-> +	entry->type      = dma_debug_phy;
-> +	entry->paddr	 = phys;
->   	entry->dev_addr  = dma_addr;
->   	entry->size      = size;
->   	entry->direction = direction;
->   	entry->map_err_type = MAP_ERR_NOT_CHECKED;
->   
-> -	check_for_stack(dev, page, offset);
-> +	if (!(attrs & DMA_ATTR_MMIO)) {
-> +		struct page *page = phys_to_page(phys);
-> +		size_t offset = offset_in_page(page);
->   
-> -	if (!PageHighMem(page)) {
-> -		void *addr = page_address(page) + offset;
-> +		check_for_stack(dev, page, offset);
->   
-> -		check_for_illegal_area(dev, addr, size);
-> +		if (!PageHighMem(page)) {
-> +			void *addr = page_address(page) + offset;
-> +
-> +			check_for_illegal_area(dev, addr, size);
-> +		}
->   	}
->   
->   	add_dma_entry(entry, attrs);
-> @@ -1274,11 +1280,11 @@ void debug_dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
->   }
->   EXPORT_SYMBOL(debug_dma_mapping_error);
->   
-> -void debug_dma_unmap_page(struct device *dev, dma_addr_t dma_addr,
-> +void debug_dma_unmap_phys(struct device *dev, dma_addr_t dma_addr,
->   			  size_t size, int direction)
->   {
->   	struct dma_debug_entry ref = {
-> -		.type           = dma_debug_single,
-> +		.type           = dma_debug_phy,
->   		.dev            = dev,
->   		.dev_addr       = dma_addr,
->   		.size           = size,
-> diff --git a/kernel/dma/debug.h b/kernel/dma/debug.h
-> index f525197d3cae..76adb42bffd5 100644
-> --- a/kernel/dma/debug.h
-> +++ b/kernel/dma/debug.h
-> @@ -9,12 +9,11 @@
->   #define _KERNEL_DMA_DEBUG_H
->   
->   #ifdef CONFIG_DMA_API_DEBUG
-> -extern void debug_dma_map_page(struct device *dev, struct page *page,
-> -			       size_t offset, size_t size,
-> -			       int direction, dma_addr_t dma_addr,
-> +extern void debug_dma_map_phys(struct device *dev, phys_addr_t phys,
-> +			       size_t size, int direction, dma_addr_t dma_addr,
->   			       unsigned long attrs);
->   
-> -extern void debug_dma_unmap_page(struct device *dev, dma_addr_t addr,
-> +extern void debug_dma_unmap_phys(struct device *dev, dma_addr_t addr,
->   				 size_t size, int direction);
->   
->   extern void debug_dma_map_sg(struct device *dev, struct scatterlist *sg,
-> @@ -55,14 +54,13 @@ extern void debug_dma_sync_sg_for_device(struct device *dev,
->   					 struct scatterlist *sg,
->   					 int nelems, int direction);
->   #else /* CONFIG_DMA_API_DEBUG */
-> -static inline void debug_dma_map_page(struct device *dev, struct page *page,
-> -				      size_t offset, size_t size,
-> -				      int direction, dma_addr_t dma_addr,
-> -				      unsigned long attrs)
-> +static inline void debug_dma_map_phys(struct device *dev, phys_addr_t phys,
-> +				      size_t size, int direction,
-> +				      dma_addr_t dma_addr, unsigned long attrs)
->   {
->   }
->   
-> -static inline void debug_dma_unmap_page(struct device *dev, dma_addr_t addr,
-> +static inline void debug_dma_unmap_phys(struct device *dev, dma_addr_t addr,
->   					size_t size, int direction)
->   {
->   }
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 107e4a4d251d..4c1dfbabb8ae 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -157,6 +157,7 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
->   		unsigned long attrs)
->   {
->   	const struct dma_map_ops *ops = get_dma_ops(dev);
-> +	phys_addr_t phys = page_to_phys(page) + offset;
->   	dma_addr_t addr;
->   
->   	BUG_ON(!valid_dma_direction(dir));
-> @@ -165,16 +166,15 @@ dma_addr_t dma_map_page_attrs(struct device *dev, struct page *page,
->   		return DMA_MAPPING_ERROR;
->   
->   	if (dma_map_direct(dev, ops) ||
-> -	    arch_dma_map_page_direct(dev, page_to_phys(page) + offset + size))
-> +	    arch_dma_map_page_direct(dev, phys + size))
->   		addr = dma_direct_map_page(dev, page, offset, size, dir, attrs);
->   	else if (use_dma_iommu(dev))
->   		addr = iommu_dma_map_page(dev, page, offset, size, dir, attrs);
->   	else
->   		addr = ops->map_page(dev, page, offset, size, dir, attrs);
->   	kmsan_handle_dma(page, offset, size, dir);
-> -	trace_dma_map_page(dev, page_to_phys(page) + offset, addr, size, dir,
-> -			   attrs);
-> -	debug_dma_map_page(dev, page, offset, size, dir, addr, attrs);
-> +	trace_dma_map_page(dev, phys, addr, size, dir, attrs);
-> +	debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
->   
->   	return addr;
->   }
-> @@ -194,7 +194,7 @@ void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
->   	else
->   		ops->unmap_page(dev, addr, size, dir, attrs);
->   	trace_dma_unmap_page(dev, addr, size, dir, attrs);
-> -	debug_dma_unmap_page(dev, addr, size, dir);
-> +	debug_dma_unmap_phys(dev, addr, size, dir);
->   }
->   EXPORT_SYMBOL(dma_unmap_page_attrs);
->   
-> @@ -712,7 +712,8 @@ struct page *dma_alloc_pages(struct device *dev, size_t size,
->   	if (page) {
->   		trace_dma_alloc_pages(dev, page_to_virt(page), *dma_handle,
->   				      size, dir, gfp, 0);
-> -		debug_dma_map_page(dev, page, 0, size, dir, *dma_handle, 0);
-> +		debug_dma_map_phys(dev, page_to_phys(page), size, dir,
-> +				   *dma_handle, 0);
->   	} else {
->   		trace_dma_alloc_pages(dev, NULL, 0, size, dir, gfp, 0);
->   	}
-> @@ -738,7 +739,7 @@ void dma_free_pages(struct device *dev, size_t size, struct page *page,
->   		dma_addr_t dma_handle, enum dma_data_direction dir)
->   {
->   	trace_dma_free_pages(dev, page_to_virt(page), dma_handle, size, dir, 0);
-> -	debug_dma_unmap_page(dev, dma_handle, size, dir);
-> +	debug_dma_unmap_phys(dev, dma_handle, size, dir);
->   	__dma_free_pages(dev, size, page, dma_handle, dir);
->   }
->   EXPORT_SYMBOL_GPL(dma_free_pages);
+I have a somewhat different answer than Leon..
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+The link path would need a resource variation too:
 
++			ret = dma_iova_link(attachment->dev, state,
++					    phys_vec[i].paddr, 0,
++					    phys_vec[i].len, dir, attrs);
++			if (ret)
++				goto err_unmap_dma;
++
++			mapped_len += phys_vec[i].len;
+
+It is an existing bug that we don't properly handle all details of
+MMIO for link.
+
+Since this is already a phys_addr_t I wouldn't strongly argue that
+should be done by adding ATTR_MMIO to dma_iova_link().
+
+If you did that, then you'd still want a dma_(un)map_phys() helper
+that handled ATTR_MMIO too. It could be an inline "if () resource else
+page" wrapper like you say.
+
+So API wise I think we have the right design here.
+
+I think the question you are asking is how much changing to the
+internals of the DMA API do you want to do to make ATTR_MMIO.
+
+It is not zero, but there is some minimum that is less than this.
+
+So reason #1 much of this ATTR_MMIO is needed anyhow. Being consistent
+and unifying the dma_map_resource path with ATTR_MMIO should improve
+the long term maintainability of the code. We already uncovered paths
+where map_resource is not behaving consistently with map_page and it
+is unclear if these are bugs or deliberate.
+
+Reason #2 we do actually want to get rid of struct page usage to help
+advance Matthew's work. This means we want to build a clean struct
+page less path for IO. Meaning we can do phys to virt, or kmap phys,
+but none of: phys to page, page to virt, page to phys. Stopping at a
+phys based public API and then leaving all the phys to page/etc
+conversions hidden inside is not enough.
+
+This is why I was looking at the dma_ops path, to see just how much
+page usage there is, and I found very little. So this dream is
+achievable and with this series we are there for ARM64 and x86
+environments.
+
+> This patchset focuses only on the dma_map_page -> dma_map_phys rework. 
+> There are also other interfaces, like dma_alloc_pages() and so far 
+> nothing has been proposed for them so far.
+
+That's because they already have non-page alternatives.
+
+Allmost all places call dma_alloc_noncoherent():
+
+static inline void *dma_alloc_noncoherent(struct device *dev, size_t size,
+		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
+{
+	struct page *page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
+	return page ? page_address(page) : NULL;
+
+Which is KVA based.
+
+There is only one user I found of alloc_pages:
+
+drivers/firewire/ohci.c:                ctx->pages[i] = dma_alloc_pages(dev, PAGE_SIZE, &dma_addr,
+
+And it deliberately uses page->private:
+
+		set_page_private(ctx->pages[i], dma_addr);
+
+So it is correct to use the struct page API.
+
+Some usages of dma_alloc_noncontiguous() can be implemented using the
+dma_iova_link() flow like drivers/vfio/pci/mlx5/cmd.c shows by using
+alloc_pages_bulk() for the allocator. We don't yet have a 'dma alloc
+link' operation though, and there are only 4 users of
+dma_alloc_noncontiguous()..
+
+Jason
 
