@@ -4,52 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0BAACA1017
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:26:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 437FBCA0FED
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g73IGlKYGz5pW57Qv3+mvE/YwBhs916JE0Ig6j+liOM=; b=hq/XYRUV7Wz8qhQX89le6BoLn2
-	4eRTy7zCROYi59Lpsth8760IhYZDrwClMOcWcK8ZJqcL3lg7XmH1gLWInlyTzSdBBGhgpBMDZk/yL
-	HcP94Agc+HafdRbgkWu7ImwWTqptsoz2OIUs+iqpUYzJs2m6SEdg047lLMx2l3TclmGE3HKUI3hdz
-	GQpnVHsWjypeJpopoWztsYYIzSkR166ABChbNMgsSgVdbI47IjrXtqZNhYJx1mBoQHzrw07gY520k
-	PtX/TCyVFnxhg2tJ+ULNhEiQDADjurE6u2jeSPu5sAPw870mjqFOtIaNP6OBH/CbAx1OiHYP03AzN
-	vDGkx/tA==;
+	bh=/lO1xC3hY5QcLUVJnDgasibtsBP+q+N60OonD3Cg5jY=; b=xMmxNYmv7D3M565KqYS9l/wbDl
+	xr8NKpxDIHDpqFHQNPTriTbZA+mGFDFf7ftJnJVqTco3dlkW5hT3mjOhq4SoHEz1K4ekq8Zu1ElrO
+	bLnbsNE+p/wkYTlPL22aDRMvnz7Yrt1sCm+QwDh4T3AhG5nBleOhlRW0KVFewL1PwcAso3KcZBmgf
+	7k5yZApvB2rgLVyX8n7bHE6kTyCZLRDIUHZfGJ6ROj/wS682vipT8T9xjWmIYqufcAPuYho/hffad
+	nBIKh5O1B/GigoT1lPfY9men8gHYZQOKpFWnGMGpTbja4hYgdvLf9SIYMqeQybXnBanUvE+jT4hAV
+	bOtmoC2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuc5H-000000047Aw-48vK;
-	Fri, 05 Sep 2025 19:26:55 +0000
+	id 1uuc5I-000000047CA-3Plg;
+	Fri, 05 Sep 2025 19:26:56 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuXvL-00000002Z00-1VPR
+	id 1uuXvN-00000002Z1y-2dh9
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 15:00:24 +0000
+	Fri, 05 Sep 2025 15:00:26 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id F140844DDA;
-	Fri,  5 Sep 2025 15:00:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5318EC4CEFB;
-	Fri,  5 Sep 2025 15:00:22 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5F9BB43D3A;
+	Fri,  5 Sep 2025 15:00:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE966C4CEF1;
+	Fri,  5 Sep 2025 15:00:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757084422;
-	bh=2v7bxc9EDvGbPUx12PCfOO335CQ1KQF9NiHv3L5/cgE=;
+	s=k20201202; t=1757084425;
+	bh=RKC5z2WEU+s9nBjTQYx3DaugYt9DytA+/DWNBaUypdE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jYK0q88oThugXgoE47fgFny1Kd4QkHJfWDMrbqCZ2bX524uk+igsJSP9tWUDq+3dI
-	 XEV34HdJo+MofOFS1XOn/zVy2bJBztrTe+IawbiiTpepm0YQg5sNCwL5lJp/hYa1pu
-	 lG6l/xFY47zWkwg4rAGuEuj/jsZYlfz4DP0PfL/WNsFWY6zSba9f2HMufqSizHEUod
-	 T+0BRUVz8EeqhNecB1v4So7FV46f4DZBgWYkQ+N4xHhT9PwqlOxOY5LC3WGThjdCI8
-	 UfzMr3LYwkUxLzPLjIaOMgh3PVNyEOMN/lJ0XmkLDSspwyQCltUzOaESFdEm45bm9l
-	 mdYAz4sbi5Szw==
+	b=sdOJ0F9ep89rr4t3o8/YdBRPJXANT7KvK1l6wVoWK5hT+7RrAFPu7P7yvCtLjUNin
+	 UWU0IvjEbPVaIumQNVPqpiDWuo0KBRoY3YYnnRwVG9N8Y06YbZa3BGM0CP0De/3BUC
+	 zeOPR9WTjFPrPSbX6Agci88zzzpLwsYF46vjbws4T/MRpFe5Tmyo2tIqzn5B+zNASZ
+	 fFWG+qUuyG2llvuPe8xW5H1Xd4yi96YOQWCFcQzYs68Pj74mTXs3je77nc1Biqn2eP
+	 AoOxHFbFfKvsUi3YYjC0ajgB6+6yh/9fDqIGJFNMvxS/7NQXCUgp5kDECQr18le+kQ
+	 LNiKjOHLdfbeg==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Fri, 05 Sep 2025 16:59:57 +0200
-Subject: [PATCH v8 11/12] blk-mq: prevent offlining hk CPUs with associated
- online isolated CPUs
+Date: Fri, 05 Sep 2025 16:59:58 +0200
+Subject: [PATCH v8 12/12] docs: add io_queue flag to isolcpus
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-isolcpus-io-queues-v8-11-885984c5daca@kernel.org>
+Message-Id: <20250905-isolcpus-io-queues-v8-12-885984c5daca@kernel.org>
 References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
 In-Reply-To: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
@@ -70,8 +69,8 @@ Cc: Aaron Tomlin <atomlin@atomlin.com>,
  GR-QLogic-Storage-Upstream@marvell.com, Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.2
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250905_080023_444261_A8389D5F 
-X-CRM114-Status: GOOD (  16.70  )
+X-CRM114-CacheID: sfid-20250905_080025_723934_77A1C2BF 
+X-CRM114-Status: GOOD (  13.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,83 +85,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When isolcpus=io_queue is enabled, and the last housekeeping CPU for a
-given hctx goes offline, there would be no CPU left to handle I/O. To
-prevent I/O stalls, prevent offlining housekeeping CPUs that are still
-serving isolated CPUs.
-
-When isolcpus=io_queue is enabled and the last housekeeping CPU
-for a given hctx goes offline, no CPU would be left to handle I/O.
-To prevent I/O stalls, disallow offlining housekeeping CPUs that are
-still serving isolated CPUs.
+The io_queue flag informs multiqueue device drivers where to place
+hardware queues. Document this new flag in the isolcpus
+command-line argument description.
 
 Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- block/blk-mq.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ Documentation/admin-guide/kernel-parameters.txt | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index ba3a4b77f5786e5372adce53e4fff5aa2ace24aa..d48be77919e671a81077f7042103699a80959664 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -3683,6 +3683,43 @@ static bool blk_mq_hctx_has_requests(struct blk_mq_hw_ctx *hctx)
- 	return data.has_rq;
- }
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 747a55abf4946bb9efe320f0f62fdcd1560b0a71..4161d4277a7086f2a3726617826c50888eefb260 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2653,7 +2653,6 @@
+ 			  "number of CPUs in system - 1".
  
-+static bool blk_mq_hctx_can_offline_hk_cpu(struct blk_mq_hw_ctx *hctx,
-+					   unsigned int this_cpu)
-+{
-+	const struct cpumask *hk_mask = housekeeping_cpumask(HK_TYPE_IO_QUEUE);
-+
-+	for (int i = 0; i < hctx->nr_ctx; i++) {
-+		struct blk_mq_ctx *ctx = hctx->ctxs[i];
-+
-+		if (ctx->cpu == this_cpu)
-+			continue;
-+
-+		/*
-+		 * Check if this context has at least one online
-+		 * housekeeping CPU; in this case the hardware context is
-+		 * usable.
-+		 */
-+		if (cpumask_test_cpu(ctx->cpu, hk_mask) &&
-+		    cpu_online(ctx->cpu))
-+			break;
-+
-+		/*
-+		 * The context doesn't have any online housekeeping CPUs,
-+		 * but there might be an online isolated CPU mapped to
-+		 * it.
-+		 */
-+		if (cpu_is_offline(ctx->cpu))
-+			continue;
-+
-+		pr_warn("%s: trying to offline hctx%d but there is still an online isolcpu CPU %d mapped to it\n",
-+			hctx->queue->disk->disk_name,
-+			hctx->queue_num, ctx->cpu);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- static bool blk_mq_hctx_has_online_cpu(struct blk_mq_hw_ctx *hctx,
- 		unsigned int this_cpu)
- {
-@@ -3714,6 +3751,11 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
- 	struct blk_mq_hw_ctx *hctx = hlist_entry_safe(node,
- 			struct blk_mq_hw_ctx, cpuhp_online);
+ 			managed_irq
+-
+ 			  Isolate from being targeted by managed interrupts
+ 			  which have an interrupt mask containing isolated
+ 			  CPUs. The affinity of managed interrupts is
+@@ -2676,6 +2675,27 @@
+ 			  housekeeping CPUs has no influence on those
+ 			  queues.
  
-+	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
-+		if (!blk_mq_hctx_can_offline_hk_cpu(hctx, cpu))
-+			return -EINVAL;
-+	}
++			io_queue
++			  Isolate from I/O queue work caused by multiqueue
++			  device drivers. Restrict the placement of
++			  queues to housekeeping CPUs only, ensuring that
++			  all I/O work is processed by a housekeeping CPU.
 +
- 	if (blk_mq_hctx_has_online_cpu(hctx, cpu))
- 		return 0;
++			  The io_queue configuration takes precedence
++			  over managed_irq. When io_queue is used,
++			  managed_irq placement constrains have no
++			  effect.
++
++			  Note: Offlining housekeeping CPUS which serve
++			  isolated CPUs will be rejected. Isolated CPUs
++			  need to be offlined before offlining the
++			  housekeeping CPUs.
++
++			  Note: When an isolated CPU issues an I/O request,
++			  it is forwarded to a housekeeping CPU. This will
++			  trigger a software interrupt on the completion
++			  path.
++
+ 			The format of <cpu-list> is described above.
  
+ 	iucv=		[HW,NET]
 
 -- 
 2.51.0
