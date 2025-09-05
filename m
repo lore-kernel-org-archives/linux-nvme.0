@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88CB9CAC582
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 16:42:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9E0ACA0FED
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 16:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fpvdRI1ZAXJavu/kEZ1LRvZEjSIJPwt91BUOmF3PxR4=; b=lUa+Fc/lVtcOOgKpYm+NRXiywD
-	URkansbtKX432XLO45zNIgVMeh1/8a0FoP1VvjoTv00tsYrww0lj8PXwHinU9iV7bF0TCT05bv3Qb
-	AvdaZylHh0zZ+kZr5Js5c0dx/YhFfGwsl8nf34VU1aSdNMDnWnMrZn1zxZ/WLSLeovb+nMhRRFnII
-	v3xiR64LE8Hhsa/5Y7l6b5N/fKx98F/m5YrUUvnuindCP4T5OhUzJEJFY5qvp2s3gahKMmvulQYgx
-	+IrHqLBmyx/alya2ZxLIGByHVglj6+WEdJtheCKudVWailJwTOF62dj+3X4SvzTFIzxkParigLZk1
-	cUJsv3VA==;
+	bh=ZalyOnzjJWtFOs/1lDLt1aQU+rPm+9oNeC56NsNp26g=; b=W8WiNUkz0NhoYr9H9eMdWG/UaK
+	7y9VRzkoguvOjfgy3X0mS/5O4SVYcYJzedqhlnnbrE7JfdlV7Ui/fCcGjq68G3STmwrv+QPP8lIOJ
+	mDff46eV8QUSZgBB9d6g/o3Chw/yZeMVjs1ezcuiIuaLVjfGvIpVeiwnAeqgXwHDtSp6oTpnJ/ww2
+	5Ap3czZjb0RVsP62Q/s9gdgmxK48bhvGSFpCDF+n4NC6YPFOqW+b4zGXe0mXIz0CKWYrPQ4NzYk8W
+	mrbdDlBaCsNkFxRxaUF8DyaCCafPG5eTnSXaoppxiqXZNKCH+3r22crTOFEoGi4IwNlJyCiDMbxef
+	x+Tm6mDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuZVg-00000003BFg-3YXk;
-	Fri, 05 Sep 2025 16:42:00 +0000
+	id 1uuZbI-00000003DsT-27Dp;
+	Fri, 05 Sep 2025 16:47:48 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuWKk-00000001vDT-0R4L
+	id 1uuWPb-00000001wnB-3FU1
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 13:18:30 +0000
+	Fri, 05 Sep 2025 13:23:31 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 61D8360282;
-	Fri,  5 Sep 2025 13:18:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A15DC4CEF1;
-	Fri,  5 Sep 2025 13:18:25 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 0C1CD60280;
+	Fri,  5 Sep 2025 13:23:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0AB0C4CEF1;
+	Fri,  5 Sep 2025 13:23:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757078309;
-	bh=RAA4rrJfeN8TQeFhBzYY5lBVITfb6FXS1EgUHDAhgbY=;
+	s=k20201202; t=1757078610;
+	bh=oUjxRpw2jn9nJg4SkZzc7uIiTF1l3VGO8gkEdXpUbwE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sfalbbc0wK3mEOrEVsTZbNdHh1qtaNoFYkoXswu86BJXqgZtkB2p7ll0PmNFm+UF+
-	 gROQHu45kiB2fB6zc9OocpeaCAl/VSUHMQTcK5dzzrBgfqKjEqoouiaYe0mVXn3hhP
-	 2kpcsQKNAXGCMaKeCuDHKvZBNbFWuLrnetV5rnBM+Lul+hxu1a3YiWmsb1sWrI+HmF
-	 8pxiMX2HVdqmxtozF5RFbwrNM7Av4MtV5kA9VGPoVeyr66E1EOBfErHIwl+nZDi9gV
-	 BRPm5dt9TEUB/FB/dwkJLJ+Ks+3zD13gCA3XbAUMRYXVgNRQ6rjKqP7qlrGvZJFGPw
-	 1nGF+gV/jf+bw==
-Date: Fri, 5 Sep 2025 14:18:23 +0100
+	b=nyrvac0H+l/lHSAlPh6QaASvjPJZFk5ehuYmjHV81YNgiOdZRzqaHBtXEMZ7bpkxn
+	 8gAikwOkfU1qGvBUgbfnvg0T5EjGKYgkNv2Vdi8huubZ6MCLzjlmpCcageKcwPc3a8
+	 QoSV/Ko9nVw/VbjlWVNz2waYMofB/byZgumufIz7SETHDJoM/NcScPstvoBSxGvWXf
+	 +gp/fImF6E1/lRREo0EWyJ54+sxPAlJEiCMb/YuimLzA6w1OnpXc5tVFpD6gXwv55q
+	 RdajGLUwKCtvsqudezvh9U6UxZgL57D5KD9zj+mbfwI5DtH/m1zqNXA/nw+NzBjHAI
+	 0Lcd8j6DtIvxg==
+Date: Fri, 5 Sep 2025 14:23:25 +0100
 From: Simon Horman <horms@kernel.org>
 To: alistair23@gmail.com
 Cc: chuck.lever@oracle.com, hare@kernel.org,
@@ -51,15 +51,14 @@ Cc: chuck.lever@oracle.com, hare@kernel.org,
 	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
 	kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
 	kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v2 1/7] net/handshake: Store the key serial number on
- completion
-Message-ID: <20250905131823.GE553991@horms.kernel.org>
+Subject: Re: [PATCH v2 5/7] net/handshake: Support KeyUpdate message types
+Message-ID: <20250905132325.GF553991@horms.kernel.org>
 References: <20250905024659.811386-1-alistair.francis@wdc.com>
- <20250905024659.811386-2-alistair.francis@wdc.com>
+ <20250905024659.811386-6-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250905024659.811386-2-alistair.francis@wdc.com>
+In-Reply-To: <20250905024659.811386-6-alistair.francis@wdc.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,7 +73,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 05, 2025 at 12:46:53PM +1000, alistair23@gmail.com wrote:
+On Fri, Sep 05, 2025 at 12:46:57PM +1000, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> When reporting the msg-type to userspace let's also support reporting
+> KeyUpdate events. This supports reporting a client/server event and if
+> the other side requested a KeyUpdateRequest.
+> 
+> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+
+...
+
+> diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
+> index a273bc74d26f..1a3312fad410 100644
+> --- a/Documentation/netlink/specs/handshake.yaml
+> +++ b/Documentation/netlink/specs/handshake.yaml
+> @@ -21,12 +21,17 @@ definitions:
+>      type: enum
+>      name: msg-type
+>      value-start: 0
+> -    entries: [unspec, clienthello, serverhello]
+> +    entries: [unspec, clienthello, serverhello, clientkeyupdate, clientkeyupdaterequest, serverkeyupdate, serverkeyupdaterequest]
+>    -
+
+This line seems excessively long.
+The preference is for lines no longer than 80 characters wide.
+
+Flagged by yamllint.
 
 ...
 
@@ -82,64 +108,37 @@ On Fri, Sep 05, 2025 at 12:46:53PM +1000, alistair23@gmail.com wrote:
 
 ...
 
-> @@ -83,6 +87,13 @@ static void tls_handshake_remote_peerids(struct tls_handshake_req *treq,
->  		if (i >= treq->th_num_peerids)
->  			break;
->  	}
-> +
-> +	nla_for_each_attr(nla, head, len, rem) {
-> +		if (nla_type(nla) == HANDSHAKE_A_DONE_SESSION_ID) {
-> +			treq->user_session_id = nla_get_u32(nla);
+> @@ -348,7 +361,8 @@ EXPORT_SYMBOL(tls_client_hello_x509);
+>   *   %-ESRCH: No user agent is available
+>   *   %-ENOMEM: Memory allocation failed
+>   */
 
-Hi Alistair,
+Please also add keyupdate to the Kernel doc for this function.
 
-This appears to be addressed by patch 5/7 of this series.
-But struct tls_handshake_req does not have a user_session_id member
-with (only) this patch applied on top of net-next.
+Flagged by ./scripts/kernel-doc --none
 
-This breaks bisection and should be addressed: when each patch is applied
-in turn the resulting source tree should compile.
+> -int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t flags)
+> +int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t flags,
+> +			 handshake_key_update_type keyupdate)
+>  {
+>  	struct tls_handshake_req *treq;
+>  	struct handshake_req *req;
 
 ...
 
-> diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-> index e2c5e0e626f9..1d5829aecf45 100644
-> --- a/net/sunrpc/svcsock.c
-> +++ b/net/sunrpc/svcsock.c
-> @@ -450,7 +450,8 @@ static void svc_tcp_kill_temp_xprt(struct svc_xprt *xprt)
->   * is present" flag on the xprt and let an upper layer enforce local
->   * security policy.
+> @@ -410,7 +428,8 @@ EXPORT_SYMBOL(tls_server_hello_x509);
+>   *   %-ESRCH: No user agent is available
+>   *   %-ENOMEM: Memory allocation failed
 >   */
-
-Please also add user_session_id to the kernel doc for this function (above).
-
-Flagged by W=1 builds and ./scripts/kernel-doc -none 
-
-> -static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid)
-> +static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid,
-> +				   key_serial_t user_session_id)
->  {
->  	struct svc_xprt *xprt = data;
->  	struct svc_sock *svsk = container_of(xprt, struct svc_sock, sk_xprt);
-> diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-> index c5f7bbf5775f..3489c4693ff4 100644
-> --- a/net/sunrpc/xprtsock.c
-> +++ b/net/sunrpc/xprtsock.c
-> @@ -2591,7 +2591,8 @@ static int xs_tcp_tls_finish_connecting(struct rpc_xprt *lower_xprt,
->   * @peerid: serial number of key containing the remote's identity
->   *
->   */
-> -static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid)
-> +static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid,
-> +				  key_serial_t user_session_id)
 
 Ditto.
 
+> -int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags)
+> +int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags,
+> +			 handshake_key_update_type keyupdate)
 >  {
->  	struct rpc_xprt *lower_xprt = data;
->  	struct sock_xprt *lower_transport =
-> -- 
-> 2.50.1
-> 
-> 
+>  	struct tls_handshake_req *treq;
+>  	struct handshake_req *req;
+
+...
 
