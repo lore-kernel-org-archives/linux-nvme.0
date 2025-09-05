@@ -4,53 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 175DFCAC582
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3253DCAC583
 	for <linux-nvme@archiver.kernel.org>; Fri,  5 Sep 2025 19:26:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
-	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1hcr/Wepo97HMMoqGWRrCle5OvdFRon6FSViJb4WJsQ=; b=q2obxbJLrHDgwKC7mJaxhPD0Vu
-	WwpXzsMsBeAPZ/Kwh0csImzx+M9gapyEW3ncLXK4dFh7U0IPrugapb0zIaOYnqi4o3Ltt0XQfIRjY
-	nUHezsWLvzlvwOa9UNWArTmWq8i8aJ8HMU7wHaBPf8FCTEaYUNOldbbF+tIAWXBj0oFh7ZAeq/iWG
-	GawlrQdLj3f1e2NOj6odUFsUPZDlltrvYtEUOZioql2ZFAOvWRUcHjNoRP4WBrVDDP4ScybjOvZ6u
-	+Ej7C9eX1NmZnEatJXl5C6EQFVM4W/V4exmQUPyrNswYbQTlt3N3cCmaAdX08FUyjQ9Kwjw8zBdNs
-	hnJTHLQg==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=11sUlWu2RdaCv6p4UU8ghzqIoWSeerv0LlZZ7TWRT+Q=; b=aYE4KL841Cuut3
+	NT8b6I7eIv1hXy1dJFALnZdlJycBC2IGh8nbrnuem03qYDw3yRxtMSfH2f/zviwuFfrUbAa5HzOl+
+	iUyjJRrGdV8YPpYZsVNg241R6KrpBlF7sSE0if3rUbvw8T3oFstAAREO4IPLYoMcamf7lL38EKnXA
+	acTTJvUwu5Ai4aUkrVImCfgNr/BupwN2VW9TT12lNm7vxOTw6qEq2r5JcfpKqpL7QUvyvxjlRwkC1
+	apziP8zgaODVJJ2brvmu6ujV+CYUCXgYbiwy1Zw2xOBBy748pytXP8pnhigrw9fKZSngM7T/ZyfNS
+	Ef7ObbvSCXbSuXO9f6Qw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuc5B-000000046zC-0wjZ;
-	Fri, 05 Sep 2025 19:26:49 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1uuc59-000000046w7-11HJ;
+	Fri, 05 Sep 2025 19:26:47 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuXv1-00000002YoH-0DdN
+	id 1uuXus-00000002Yig-3uvJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 15:00:03 +0000
+	Fri, 05 Sep 2025 14:59:55 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 78A816029B;
-	Fri,  5 Sep 2025 15:00:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7500CC4CEF1;
-	Fri,  5 Sep 2025 15:00:01 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 4BFBA60282;
+	Fri,  5 Sep 2025 14:59:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FBF7C4CEF1;
+	Fri,  5 Sep 2025 14:59:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757084402;
-	bh=Wl3psk4yz/I2G8DI01Law+whUjHAwMS8E1qTNfYn1II=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SaT+LIQY8gRZt5r3JVPE1VWAE8BYv07xDKmOFisly2MQ8sY4al6qxlaF2zI0WhKEh
-	 446bMLnHaRbPHdKu7sNk94f7iiYST/dS/DXbORlBOVSV36UFwWP7+OJFtu7Wn0g2ht
-	 UN70PcJv0qPMcFRW+KGGWbHz+P9FoS2kKZLpzwX8TjPvAqV5HtNu1LPthyijYuYev2
-	 evd6JFbSO2js6tD1WTkwy2J6gClBk9xelW93j2sb0F8Yb+nnqe79be/lIkZCyDbntr
-	 qiy5hfr2X/GP447D6Q5GztXgkP1SoS5uoyohCF69dsDuyJ7CYDucD3PtFxTCadOVQ5
-	 guIM4e8sHiSOw==
+	s=k20201202; t=1757084394;
+	bh=yRGd8CiKgE1ucAOdb3yAQkpPBUr0SUK/ISIzXtaBgiI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Uqw4pg2eSLlLqt4hunI8pwNBPebkZH23w6mIKWwrid3DZBSW9P6k3l9R1bd8c3Eq4
+	 ODeXarAhghoen+iReDzQ141bSpBWr0/5e9FDUzr01oK/Hos+8cL1sJH2/BD39W6waF
+	 J5OJPjM6R/RsjWFZfVfNqMZalxjY+X4LoAzmXQEPGBxMYpXRnOlTB2fPRz1d446C2o
+	 e7TypnYlUclmFZRO29sIMlstmZkiXT3fgv6oNibgKaXYgNzO6R5oT2kHvpKrDpvntT
+	 PxU1shvpwH0mZ2bJ/MF3fdmM3P1Nyva2QI1+OXKFH/+nX8nfSl3I2Bs6vzzUDU/8U8
+	 l7b+USvYsSEtw==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Fri, 05 Sep 2025 16:59:49 +0200
-Subject: [PATCH v8 03/12] lib/group_cpus: Add group_mask_cpus_evenly()
+Subject: [PATCH v8 00/12] blk: honor isolcpus configuration
+Date: Fri, 05 Sep 2025 16:59:46 +0200
+Message-Id: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-isolcpus-io-queues-v8-3-885984c5daca@kernel.org>
-References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
-In-Reply-To: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOL6umgC/23SzW4CIRQF4FcxrIvh8q8r36PpApiLkhpHwZm0M
+ b57Ga21E1keEj44XC6kYE5YyHpxIRnHVFJ/qMG+LUjYucMWaepqJpxxyTRnNJV+H45DoamnpwE
+ HLBScteilidF6UjceM8b0dUPfP2repXLu8/ftjBGm1QcHLW4Eyqj1oFc+SmBWbMpQcNkhmbCR/
+ wdME+AV4NoJjiLIaNQcEE/AMt0ERAU6xxBDRFdbzQH5BwCH9g1kBVQnlIreA4LcfGI+4H7Z5+3
+ dUA9DMYDmq46qGgxlBLDaMs9eDP00JJdNQ1dj5ZRw1rDgIL4Y5mkYxpuGmboo45xBFwLOu1zv8
+ 854GurfOf8O/Xr9AeyxlhxZAgAA
+X-Change-ID: 20240620-isolcpus-io-queues-1a88eb47ff8b
 To: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
  Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
  "Michael S. Tsirkin" <mst@redhat.com>
@@ -82,107 +87,217 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-group_mask_cpu_evenly() allows the caller to pass in a CPU mask that
-should be evenly distributed. This new function is a more generic
-version of the existing group_cpus_evenly(), which always distributes
-all present CPUs into groups.
+The main changes in this version are
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+  - merged the mapping algorithm into the existing code
+  - dropping a bunch of SCSI drivers update
+
+With the merging of the isolcpus-aware mapping code, there is a change in
+how the resulting CPU–hctx mapping looks for systems with identical CPUs
+(non-hyperthreaded CPUs). My understanding is that it shouldn't matter,
+but the devil is in the details.
+
+  Package L#0
+    NUMANode L#0 (P#0 3255MB)
+    L3 L#0 (16MB)
+      L2 L#0 (512KB) + L1d L#0 (64KB) + L1i L#0 (64KB) + Core L#0 + PU L#0 (P#0)
+      L2 L#1 (512KB) + L1d L#1 (64KB) + L1i L#1 (64KB) + Core L#1 + PU L#1 (P#1)
+      L2 L#2 (512KB) + L1d L#2 (64KB) + L1i L#2 (64KB) + Core L#2 + PU L#2 (P#2)
+      L2 L#3 (512KB) + L1d L#3 (64KB) + L1i L#3 (64KB) + Core L#3 + PU L#3 (P#3)
+      L2 L#4 (512KB) + L1d L#4 (64KB) + L1i L#4 (64KB) + Core L#4 + PU L#4 (P#4)
+      L2 L#5 (512KB) + L1d L#5 (64KB) + L1i L#5 (64KB) + Core L#5 + PU L#5 (P#5)
+      L2 L#6 (512KB) + L1d L#6 (64KB) + L1i L#6 (64KB) + Core L#6 + PU L#6 (P#6)
+      L2 L#7 (512KB) + L1d L#7 (64KB) + L1i L#7 (64KB) + Core L#7 + PU L#7 (P#7)
+
+base version:
+queue mapping for /dev/nvme0n1
+        hctx0: default 0 8
+        hctx1: default 1 9
+        hctx2: default 2 10
+        hctx3: default 3 11
+        hctx4: default 4 12
+        hctx5: default 5 13
+        hctx6: default 6 14
+        hctx7: default 7 15
+
+patched:
+queue mapping for /dev/nvme0n1
+        hctx0: default 0 1
+        hctx1: default 2 3
+        hctx2: default 4 5
+        hctx3: default 6 7
+        hctx4: default 8 9
+        hctx5: default 10 11
+        hctx6: default 12 13
+        hctx7: default 14 15
+
+  Package L#0 + L3 L#0 (16MB)
+    L2 L#0 (512KB) + L1d L#0 (64KB) + L1i L#0 (64KB) + Core L#0
+      PU L#0 (P#0)
+      PU L#1 (P#1)
+    L2 L#1 (512KB) + L1d L#1 (64KB) + L1i L#1 (64KB) + Core L#1
+      PU L#2 (P#2)
+      PU L#3 (P#3)
+    L2 L#2 (512KB) + L1d L#2 (64KB) + L1i L#2 (64KB) + Core L#2
+      PU L#4 (P#4)
+      PU L#5 (P#5)
+    L2 L#3 (512KB) + L1d L#3 (64KB) + L1i L#3 (64KB) + Core L#3
+      PU L#6 (P#6)
+      PU L#7 (P#7)
+  Package L#1 + L3 L#1 (16MB)
+    L2 L#4 (512KB) + L1d L#4 (64KB) + L1i L#4 (64KB) + Core L#4
+      PU L#8 (P#8)
+      PU L#9 (P#9)
+    L2 L#5 (512KB) + L1d L#5 (64KB) + L1i L#5 (64KB) + Core L#5
+      PU L#10 (P#10)
+      PU L#11 (P#11)
+    L2 L#6 (512KB) + L1d L#6 (64KB) + L1i L#6 (64KB) + Core L#6
+      PU L#12 (P#12)
+      PU L#13 (P#13)
+    L2 L#7 (512KB) + L1d L#7 (64KB) + L1i L#7 (64KB) + Core L#7
+      PU L#14 (P#14)
+      PU L#15 (P#15)
+
+base and patched:
+queue mapping for /dev/nvme0n1
+        hctx0: default 0 1
+        hctx1: default 2 3
+        hctx2: default 4 5
+        hctx3: default 6 7
+        hctx4: default 8 9
+        hctx5: default 10 11
+        hctx6: default 12 13
+        hctx7: default 14 15
+
+As mentioned I've decided to update only SCSI drivers which are already
+using pci_alloc_irq_vectors_affinity with the PCI_IRQ_AFFINITY. These
+drivers are using the auto IRQ affinity managment code, which is what is
+the pre-condition for isolcpus to work.
+
+Also missing are the FC drivers which support nvme-fabrics (lpfc,
+qla2xxx). The nvme-fabrics code needs to be touched first. I've got the
+patches for this, but let's first get the main change in shape.
+
+After that, I can start updating one driver one by one. I think this
+reduced the risk of regression significantly.
+
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- include/linux/group_cpus.h |  3 +++
- lib/group_cpus.c           | 59 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
+Changes in v8:
+- added 524f5eea4bbe ("lib/group_cpus: remove !SMP code")
+- merged new logic into existing function, avoid special casing
+- group_mask_cpus_evenly:
+  - /s/group_masks_cpus_evenly/group_mask_cpus_evenly
+  - updated comment on group_mask_cpus_evenly
+  - renamed argument from cpu_mask to mask
+- aacraid: added missing num queue calculcation (new patch)
+- only update scsi drivers which support PCI_IRQ_AFFINIT,
+  and do not support nvme-fabrics
+- don't __free for cpumask_var_t, it seems incompatible
+- updated doc to hightlight the CPU offlining limitation
+- collected tags
+- Link to v7: https://patch.msgid.link/20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org
 
-diff --git a/include/linux/group_cpus.h b/include/linux/group_cpus.h
-index 9d4e5ab6c314b31c09fda82c3f6ac18f77e9de36..defab4123a82fa37cb2a9920029be8e3e121ca0d 100644
---- a/include/linux/group_cpus.h
-+++ b/include/linux/group_cpus.h
-@@ -10,5 +10,8 @@
- #include <linux/cpu.h>
- 
- struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks);
-+struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
-+				       const struct cpumask *mask,
-+				       unsigned int *nummasks);
- 
- #endif
-diff --git a/lib/group_cpus.c b/lib/group_cpus.c
-index f254b232522d44c141cdc4e44e2c99a4148c08d6..ec0852132266618f540c580422f254684129ce90 100644
---- a/lib/group_cpus.c
-+++ b/lib/group_cpus.c
-@@ -8,6 +8,7 @@
- #include <linux/cpu.h>
- #include <linux/sort.h>
- #include <linux/group_cpus.h>
-+#include <linux/sched/isolation.h>
- 
- static void grp_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
- 				unsigned int cpus_per_grp)
-@@ -424,3 +425,61 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
- 	return masks;
- }
- EXPORT_SYMBOL_GPL(group_cpus_evenly);
-+
-+/**
-+ * group_mask_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
-+ * @numgrps: number of cpumasks to create
-+ * @mask: CPUs to consider for the grouping
-+ * @nummasks: number of initialized cpusmasks
-+ *
-+ * Return: cpumask array if successful, NULL otherwise. Only the CPUs
-+ * marked in the mask will be considered for the grouping. And each
-+ * element includes CPUs assigned to this group. nummasks contains the
-+ * number of initialized masks which can be less than numgrps. cpu_mask
-+ *
-+ * Try to put close CPUs from viewpoint of CPU and NUMA locality into
-+ * same group, and run two-stage grouping:
-+ *	1) allocate present CPUs on these groups evenly first
-+ *	2) allocate other possible CPUs on these groups evenly
-+ *
-+ * We guarantee in the resulted grouping that all CPUs are covered, and
-+ * no same CPU is assigned to multiple groups
-+ */
-+struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
-+				       const struct cpumask *mask,
-+				       unsigned int *nummasks)
-+{
-+	cpumask_var_t *node_to_cpumask;
-+	cpumask_var_t nmsk;
-+	int ret = -ENOMEM;
-+	struct cpumask *masks = NULL;
-+
-+	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
-+		return NULL;
-+
-+	node_to_cpumask = alloc_node_to_cpumask();
-+	if (!node_to_cpumask)
-+		goto fail_nmsk;
-+
-+	masks = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
-+	if (!masks)
-+		goto fail_node_to_cpumask;
-+
-+	build_node_to_cpumask(node_to_cpumask);
-+
-+	ret = __group_cpus_evenly(0, numgrps, node_to_cpumask, mask, nmsk,
-+				  masks);
-+
-+fail_node_to_cpumask:
-+	free_node_to_cpumask(node_to_cpumask);
-+
-+fail_nmsk:
-+	free_cpumask_var(nmsk);
-+	if (ret < 0) {
-+		kfree(masks);
-+		return NULL;
-+	}
-+	*nummasks = ret;
-+	return masks;
-+}
-+EXPORT_SYMBOL_GPL(group_mask_cpus_evenly);
+Changes in v7:
+- send out first part of the series:
+  https://lore.kernel.org/all/20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org/
+- added command line documentation
+- added validation code, so that resulting mapping is operational
+- rewrote mapping code for isolcpus so it takes into account active hctx
+- added blk_mq_map_hk_irq_queues which uses mask from irq_get_affinity
+- refactored blk_mq_map_hk_queues so caller tests for HK_TYPE_MANAGED_IRQ
+- Link to v6: https://patch.msgid.link/20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org
 
+Changes in v6:
+- added io_queue isolcpus type back
+- prevent offlining hk cpu if a isol cpu is still present isntead just warning
+- Link to v5: https://lore.kernel.org/r/20250110-isolcpus-io-queues-v5-0-0e4f118680b0@kernel.org
+
+Changes in v5:
+- rebased on latest for-6.14/block
+- udpated documetation on managed_irq
+- updated commit message "blk-mq: issue warning when offlining hctx with online isolcpus"
+- split input/output parameter in "lib/group_cpus: let group_cpu_evenly return number of groups"
+- dropped "sched/isolation: document HK_TYPE housekeeping option"
+- Link to v4: https://lore.kernel.org/r/20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org
+
+Changes in v4:
+- added "blk-mq: issue warning when offlining hctx with online isolcpus"
+- fixed check in cgroup_cpus_evenly, the if condition needs to use
+  housekeeping_enabled() and not cpusmask_weight(housekeeping_masks),
+  because the later will always return a valid mask.
+- dropped fixed tag from "lib/group_cpus.c: honor housekeeping config when
+  grouping CPUs"
+- fixed overlong line "scsi: use block layer helpers to calculate num
+  of queues"
+- dropped "sched/isolation: Add io_queue housekeeping option",
+  just document the housekeep enum hk_type
+- added "lib/group_cpus: let group_cpu_evenly return number of groups"
+- collected tags
+- splitted series into a preperation series:
+  https://lore.kernel.org/linux-nvme/20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org/
+- Link to v3: https://lore.kernel.org/r/20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de
+
+Changes in v3:
+- lifted a couple of patches from
+  https://lore.kernel.org/all/20210709081005.421340-1-ming.lei@redhat.com/
+  "virito: add APIs for retrieving vq affinity"
+  "blk-mq: introduce blk_mq_dev_map_queues"
+- replaces all users of blk_mq_[pci|virtio]_map_queues with
+  blk_mq_dev_map_queues
+- updated/extended number of queue calc helpers
+- add isolcpus=io_queue CPU-hctx mapping function
+- documented enum hk_type and isolcpus=io_queue
+- added "scsi: pm8001: do not overwrite PCI queue mapping"
+- Link to v2: https://lore.kernel.org/r/20240627-isolcpus-io-queues-v2-0-26a32e3c4f75@suse.de
+
+Changes in v2:
+- updated documentation
+- splitted blk/nvme-pci patch
+- dropped HK_TYPE_IO_QUEUE, use HK_TYPE_MANAGED_IRQ
+- Link to v1: https://lore.kernel.org/r/20240621-isolcpus-io-queues-v1-0-8b169bf41083@suse.de
+
+---
+Daniel Wagner (12):
+      scsi: aacraid: use block layer helpers to calculate num of queues
+      lib/group_cpus: remove dead !SMP code
+      lib/group_cpus: Add group_mask_cpus_evenly()
+      genirq/affinity: Add cpumask to struct irq_affinity
+      blk-mq: add blk_mq_{online|possible}_queue_affinity
+      nvme-pci: use block layer helpers to constrain queue affinity
+      scsi: Use block layer helpers to constrain queue affinity
+      virtio: blk/scsi: use block layer helpers to constrain queue affinity
+      isolation: Introduce io_queue isolcpus type
+      blk-mq: use hk cpus only when isolcpus=io_queue is enabled
+      blk-mq: prevent offlining hk CPUs with associated online isolated CPUs
+      docs: add io_queue flag to isolcpus
+
+ Documentation/admin-guide/kernel-parameters.txt |  22 ++-
+ block/blk-mq-cpumap.c                           | 201 +++++++++++++++++++++---
+ block/blk-mq.c                                  |  42 +++++
+ drivers/block/virtio_blk.c                      |   4 +-
+ drivers/nvme/host/pci.c                         |   1 +
+ drivers/scsi/aacraid/comminit.c                 |   3 +-
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c          |   1 +
+ drivers/scsi/megaraid/megaraid_sas_base.c       |   5 +-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c                 |   6 +-
+ drivers/scsi/mpt3sas/mpt3sas_base.c             |   5 +-
+ drivers/scsi/pm8001/pm8001_init.c               |   1 +
+ drivers/scsi/virtio_scsi.c                      |   5 +-
+ include/linux/blk-mq.h                          |   2 +
+ include/linux/group_cpus.h                      |   3 +
+ include/linux/interrupt.h                       |  16 +-
+ include/linux/sched/isolation.h                 |   1 +
+ kernel/irq/affinity.c                           |  12 +-
+ kernel/sched/isolation.c                        |   7 +
+ lib/group_cpus.c                                |  63 ++++++--
+ 19 files changed, 353 insertions(+), 47 deletions(-)
+---
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+change-id: 20240620-isolcpus-io-queues-1a88eb47ff8b
+
+Best regards,
 -- 
-2.51.0
+Daniel Wagner <wagi@kernel.org>
 
 
