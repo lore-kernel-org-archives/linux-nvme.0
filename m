@@ -4,87 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23915CA1016
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Sep 2025 20:53:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03B05CA0FED
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Sep 2025 06:45:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0Df/RlYe2zyL6hL7qtwVMZLPpooVeeegBlHDBmIT0lI=; b=LU9qZzbOVocpBWd8vq2KJm6jBZ
-	4wDLyzRN7ai3baup4+n7iAfr6yrx1sahTebNQ0/dAElP9mfVqV9vi2dJvMh39nbC6EPq0ksoohLCD
-	CpqW5ilYKItN11ObikGN9z8Y4AZ7TM2huzkkmCf1butTcn7rMr22RBea5SLm/rFqzTNRqJ41BusUV
-	K9I1cWTSRjqRWizMZcMRIn01ZlWKnuNSRVc4jLgKbFR9cGWel2cXadQhMsv60dBRMKJua8W6/gxAS
-	kgFYYIB+xScwNgFHIZotIodPMg+7nsQmd8FiMk9A0uvgYNxuWO4C/a+yV0yZ1BXEgwF/jpjQSxOgn
-	ytNVb43w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=G/EPaorfj+fFyTEHaVMF0Aq5nU/5YHn8ZldlmV9nSRU=; b=Zr03l8P4g6VUY4
+	GGF1RGvaaS8x1ClsTxg+tafrXQXbNp+1inmOegwJScR5lH/1zUT74gsXN+B41ByPve650TgOwJCNu
+	kUKRa+58TGhM1T+SUQpDLWfBhgx5ca0rqrRdz6TnP5AvGcMS2nPcKNyWjD8Nshh0C+KdqtwRnbsAM
+	5oRmc3vJxqRo3Jy3clHVwjb8LuPc0hnb7Yqg14gJO7URTsbHuNYlSA3uPfXGokS/rW0zPcOrlllKF
+	HLuoDX4ewb1f0KPXl3q0aYUjzrm6iFC8lgbwxprhAm7W0qajGX7P2+yQh4TYlSfo++Ypzd+1qdew/
+	OU+jGSiH6ls2BsivAJNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvirp-00000002JMC-4Bz6;
-	Mon, 08 Sep 2025 20:53:38 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1uvs6k-00000004mC4-0p0R;
+	Tue, 09 Sep 2025 06:45:38 +0000
+Received: from fhigh-a3-smtp.messagingengine.com ([103.168.172.154])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvfcP-00000001Bm4-3O5A
+	id 1uvGKb-0000000BT43-0JnM
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Sep 2025 17:25:30 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-32b70820360so3599240a91.2
-        for <linux-nvme@lists.infradead.org>; Mon, 08 Sep 2025 10:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757352328; x=1757957128; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Df/RlYe2zyL6hL7qtwVMZLPpooVeeegBlHDBmIT0lI=;
-        b=Fvux3lJH4yiuenhkM6U37z1OJg9G8ToFXcpf6RZDZf6imivkMzD5uBqCWjhUaKQKp4
-         JeGTr6MYQS6De4ZfUtBpszeaBaEhV9lyTbChKcUWGjbpqMoNcbTEbjs8Zrb5OpgzYawm
-         MIUJedBLNm73AkVdsTe0qDdaRbFaw2x8PRn2SgVG0qHYuYS1YBR4Krohh9wtbDhnQ1z8
-         D2cX7a0dDEzQ2dshvB69onFSGKb7myB70X02pUoRrEX3IyYpvse8VPEzafJdMn75Di08
-         eg9dNZQqZ07Q1lfHBa7+YM0RzuxYJ9wQA8vzcWPx77/yK0D0mKIfLAssRdI9sXYi92zo
-         JegQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757352328; x=1757957128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0Df/RlYe2zyL6hL7qtwVMZLPpooVeeegBlHDBmIT0lI=;
-        b=CkP+66VM2Hih0afXPPGYid7nqBDfdp586SNZgysPCPH8d+t9OimPORHII0yx6Tvo8J
-         bLFm0/WF/tYuzYO6Xq7eWtvo9OABshg6lPMoSVpKGFP+fDEiSJlR4S6o7QB2Y9sLOMCa
-         WPRe3F2QvotFg6bwSqwMiSU2sAOjOQVV8/RpMk6AvhgT+aRuxi4+ovyeJ+yhdtmtp1fw
-         J0fAtoMXvuCDbJDrndbyvRJdZ8xLx/sozutjP7uHivmfH3/1UwhPJuzeS4X2XO6ADxuY
-         rN58ClRQ7zTz6LqOMY6wRG4scT6V9D5ZBWjQA65ou31yuD1/nQrGhCmRHivnBCj9o6Pc
-         P5fA==
-X-Gm-Message-State: AOJu0YylBuILaVHtOZpSzYVI+gVgEUzhL03zGToFrgm7AWsnljohjOsC
-	NdsIJBHbshRL+nfPHjRt8HsdmD7AFXhuF+zCIwAZv26MeCFOJBAs0jMUO5GsEQ==
-X-Gm-Gg: ASbGncuwbIGuFh1VBl6LkKiCud7koyxVNt/ZfqimZ3nBUJh/vAqPcmXMf/9SsyUP43e
-	BeYoe5sfePxL+xGn4+2P7MzqQXayoJi4Kq8opH7nT6iPjRFfKq9hCpqZSQTNG4tQ1n6GhBY6t+g
-	Dse64wFPi3kXdsdd+4oATHPb/ngjNm1vyV+inHarHtnAg0AYgtZem1oL193w6OlHfRF8e0Tw7kQ
-	YtqlOfK6WREDief9W1onEKqtaRmvmGXfgbRTBllxLG3rCqpU694N7UDECJ5r8BMyMyzgE7vQk3c
-	YBTjKW3mOoKa4gSY93bXG34snX+nsMG1q6qYHOsdnizQEwUflK7iZ2L1ZtKWfE+I79I4jVDWnW6
-	8ESGYt/2XY/xV3ARJXgq6X2G+QRdwa2Qr2czN06LZRyne3I5qfX1keFaXYutH
-X-Google-Smtp-Source: AGHT+IHz/11A3K+686C0GLLjOBSFiVdJwqkg0NxWTIIOFpjOmkjYHeqsjpyCcV/7NPR3Qyr2oLFNig==
-X-Received: by 2002:a17:90b:3c08:b0:32b:94a2:b0cc with SMTP id 98e67ed59e1d1-32d43f6399cmr12577756a91.17.1757352328512;
-        Mon, 08 Sep 2025 10:25:28 -0700 (PDT)
-Received: from gooner.vpn.netapp.com ([223.185.133.151])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32b617b104csm15906103a91.21.2025.09.08.10.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 10:25:27 -0700 (PDT)
-From: Martin George <martinus.gpy@gmail.com>
-X-Google-Original-From: Martin George <marting@netapp.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de,
-	kbusch@kernel.org,
-	sagi@grimberg.me,
-	hare@kernel.org,
-	Martin George <marting@netapp.com>,
-	Prashanth Adurthi <prashana@netapp.com>
-Subject: [PATCH v2] nvme-auth: update sc_c in host response
-Date: Mon,  8 Sep 2025 22:54:57 +0530
-Message-ID: <20250908172457.5512-1-marting@netapp.com>
-X-Mailer: git-send-email 2.43.0
+	Sun, 07 Sep 2025 14:25:26 +0000
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C2941140003F;
+	Sun,  7 Sep 2025 10:25:21 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Sun, 07 Sep 2025 10:25:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1757255121; x=1757341521; bh=G/
+	EPaorfj+fFyTEHaVMF0Aq5nU/5YHn8ZldlmV9nSRU=; b=LxAEL1hA32JcJEnG98
+	oeJWFJW96Ab1ZdHJgGFlspwkJEj8Aiavk+dntTuQR94KmnDxtmALl7CB+fX7pbmo
+	zvwHV9izosIpgEyayMmq4HTHRSL2iK4fMKWHMvvD41vWIEJCTnEIIqxOvjqUMPdN
+	FaaZNPb2cDEYVHxVXwipUcCnSOWtlHTWUV9b7UKVDN46YphS5bUyXSD3O2FSIvg3
+	JUD1TcNnZpGiXsQ7MCTj1TVHQ3ohhj+xY79FbL/+BRd7wIICp8XkFAHyKTyD/8lm
+	yl+rKrALxeGxgT5Cn2F0n3Vujw7PsQdn7K1EKLloRiZFtuJG1JI5PkcjOkt6ZukQ
+	tPFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1757255121; x=1757341521; bh=G/EPaorfj+fFyTEHaVMF0Aq5nU/5YHn8Zld
+	lmV9nSRU=; b=gkkyoHxlYwH2iEfC+POnjbirfwG9a7+WNBFdUULpIUfCF6QwBKD
+	CXcsXkweDWwsQzN7Gd/GbXOk1SV+QIJUgWkOe1GLc0VVeUYBy346pR/YD304mG7z
+	1ztsB7KcR9c74q1QJaQIjsplL9rOCD+fGXEZYd3b1CaBQnjtDDPbNZDWICkLf5pp
+	E+qxogYXjT9un6LXfyJoljBVnMPFxj2E3BW22x2ShtmyGXx44gZthxk9ic+CJ+5v
+	xe6lmL0VZ16DWgsUqgTs96f66G7saKooHJEnRz+Yld+xGqzw4yGMu+xPzsXFPe8w
+	GNdDDSQNNRcQqEmj5hrowrarHbImiv5H7QA==
+X-ME-Sender: <xms:zpW9aHBBt0nmuBo9smDJ2pyc66XAz51H2zLxPIL-bKuIIirEqr75FQ>
+    <xme:zpW9aP5GM0Oa9oXSpXiYSqnaKLnHMrts9xFSY3EInc6RNC_Ob2dxgDJB8d83jBdim
+    fy3XXGQESbNHiHsUNQ>
+X-ME-Received: <xmr:zpW9aNLIKTgt7t1RechOqALMeiJc4jvDTVIeA0j8Y6R9TLQOMTuGJFNVHgmJLi83Qw1w6W0IAc1sMtpcdOdKwHPv5EDXH_yn>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddugeekkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgrshhhihcu
+    ufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjpheqne
+    cuggftrfgrthhtvghrnhepveehudehueekveelteevkeevkeeiudfgtdeivdehjeetffdt
+    vdeukeekheeitdetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghrtghp
+    thhtohepfeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjghhgsehnvhhiug
+    hirgdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdr
+    tghomhdprhgtphhtthhopegrsgguihgvlhdrjhgrnhhulhhguhgvsehgmhgrihhlrdgtoh
+    hmpdhrtghpthhtohepghhlihguvghrsehgohhoghhlvgdrtghomhdprhgtphhtthhopegr
+    lhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghkphhmsehlih
+    hnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehhtghhsehlshhtrdgu
+    vgdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhomh
+    hmuheslhhishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:zpW9aESQOTluGcoqM_cunEP_CQ11Qvxrpy5aGTfr1MzqwvK2MTzWog>
+    <xmx:zpW9aFHJqGCH6u0UWGJG3VtNOeC2T8wJ8cwxckTphVMd0qLeV964DA>
+    <xmx:zpW9aNpr-peDJ1nPk1kSevLyeyufAy3XpVeJTpuplknDlKhO7wcF7A>
+    <xmx:zpW9aLNxtTkNoAukVHmomnYFXm7ah-6QwcR2-dfdjXXF-bo6zSTB0A>
+    <xmx:0ZW9aEVsvUTTHZprT5gFlKyXEiCBT6fpdOnxgCny8ixcqLiQ3QkTgVqI>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 7 Sep 2025 10:25:11 -0400 (EDT)
+Date: Sun, 7 Sep 2025 23:25:09 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,	virtualization@lists.linux.dev,
+ Will Deacon <will@kernel.org>,	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v4 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <20250907142509.GA507575@workstation.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	iommu@lists.linux.dev, Jason Wang <jasowang@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Juergen Gross <jgross@suse.com>,
+	kasan-dev@googlegroups.com, Keith Busch <kbusch@kernel.org>,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,	virtualization@lists.linux.dev,
+ Will Deacon <will@kernel.org>,	xen-devel@lists.xenproject.org
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250905174324.GI616306@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250908_102529_850526_F4D02B60 
-X-CRM114-Status: GOOD (  13.69  )
+X-CRM114-CacheID: sfid-20250907_072525_637697_1B3A765F 
+X-CRM114-Status: GOOD (  12.12  )
+X-Mailman-Approved-At: Mon, 08 Sep 2025 19:46:38 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,60 +158,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The sc_c field is currently not updated in the host response to the
-controller challenge leading to failures while attempting secure
-channel concatenation. Fix this by adding a new sc_c variable to the
-dhchap queue context structure which is appropriately set during
-negotiate and then used in the host response.
+Hi,
 
-Fixes: e88a7595b57f ("nvme-tcp: request secure channel concatenation")
-Signed-off-by: Martin George <marting@netapp.com>
-Signed-off-by: Prashanth Adurthi <prashana@netapp.com>
----
-Changes in v2: set *buf to sc_c as suggested by Hannes
----
- drivers/nvme/host/auth.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+I'm a present maintainer of Linux FireWire subsystem, and recent years
+have been working to modernize the subsystem.
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 201fc8809a62..c70db1bc3fda 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -36,6 +36,7 @@ struct nvme_dhchap_queue_context {
- 	u8 status;
- 	u8 dhgroup_id;
- 	u8 hash_id;
-+	u8 sc_c;
- 	size_t hash_len;
- 	u8 c1[64];
- 	u8 c2[64];
-@@ -154,6 +155,8 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
- 	data->auth_protocol[0].dhchap.idlist[34] = NVME_AUTH_DHGROUP_6144;
- 	data->auth_protocol[0].dhchap.idlist[35] = NVME_AUTH_DHGROUP_8192;
- 
-+	chap->sc_c = data->sc_c;
-+
- 	return size;
- }
- 
-@@ -488,7 +491,7 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 	ret = crypto_shash_update(shash, buf, 2);
- 	if (ret)
- 		goto out;
--	memset(buf, 0, sizeof(buf));
-+	*buf = chap->sc_c;
- 	ret = crypto_shash_update(shash, buf, 1);
- 	if (ret)
- 		goto out;
-@@ -499,6 +502,7 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 				  strlen(ctrl->opts->host->nqn));
- 	if (ret)
- 		goto out;
-+	memset(buf, 0, sizeof(buf));
- 	ret = crypto_shash_update(shash, buf, 1);
- 	if (ret)
- 		goto out;
--- 
-2.43.0
+On Fri, Sep 05, 2025 at 14:43:24PM -0300, Jason Gunthorpe wrote:
+> There is only one user I found of alloc_pages:
+>
+> drivers/firewire/ohci.c:                ctx->pages[i] = dma_alloc_pages(dev, PAGE_SIZE, &dma_addr,
+>
+> And it deliberately uses page->private:
+>
+>		set_page_private(ctx->pages[i], dma_addr);
+>
+> So it is correct to use the struct page API.
 
+I've already realized it, and it is in my TODO list to use modern
+alternative APIs to replace it (but not yet). If you know some
+candidates for this purpose, it is really helpful to accomplish it.
+
+
+Regards
+
+Takashi Sakamoto
 
