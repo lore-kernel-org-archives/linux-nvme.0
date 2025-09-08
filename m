@@ -4,87 +4,141 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13472CA1012
-	for <linux-nvme@archiver.kernel.org>; Sat,  6 Sep 2025 18:54:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F292BCA1016
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Sep 2025 06:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jPSEH+AzhLnejyJgvUoX+DOy/Gpz5ytBdInrHhyhk2g=; b=tcys5S4gtUaLZlRbgfosxRqZyr
-	So3Jn591qN9RaXax21CwKqHfLXeT62OJYgzyaMuIHnutDr/tqxa2NdH7R4fkfb63C+i4f5K+fMebb
-	xU1SWJ6YQ4Ln8lQTPP+Xi4t56O11PSaOMv1qBGiU0t9eIr0qrhBG2MM04S/ziICq+tgZ2YJm6vK1L
-	mwyZK/oIP4VcjmkGMISp2Z6ZRonPvcrQ8LuauhXBKBEigExoRMvPQmqsjUPfdQx8hb46/JixKuYBR
-	Tz1JjF6nTHC3ZGn2qcsX4pd2bSkKCAYCH1+ilnad9Dtp/5GrhsyNNzNGVM/5Jy9WXKJl5t0ELlCSw
-	zMDLdz1g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=33zHN0Ci2nsYAA6yJPzugyK4uZYR8sPBN6+QhEOeME8=; b=kAEoUO/i2022A4yF2yxr54bKWb
+	Sk5RsrzNBIL78H2vxw+k0WzTJ4pWmiQZsIPUZnpVn0Ll+w0psrXtNnjvitsooA4Fzz3lX/RrVRZMI
+	hWEo0j7HKSiOEF29hN2GvJtfAoaxolKCYdtG+F/vmUNvo2xM17XiaHEVppeY2UJVce2HeN6hr4AEa
+	6ve80AL+a3J0gXbUDI0WodVHL/y60mmEmyt7tC7MFGujO+7HJAMh9afiNUf7g4PDXPu8fHZbnTyav
+	eW2n3XEP3RhF5eTICDYh+puiWery4I5Ffa5sFB0vkLZ2Fvgjun3JATExVrFp5kSVDl7ul7Bhy1or5
+	EiJ8WekA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuy2x-00000008IyD-0hgs;
-	Sat, 06 Sep 2025 18:53:59 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uvV17-0000000Es9C-2i7r;
+	Mon, 08 Sep 2025 06:06:17 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uuZeM-00000003Fih-38mI
+	id 1uvV10-0000000Es6Q-1yt5
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Sep 2025 16:50:59 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1C43F43A6C;
-	Fri,  5 Sep 2025 16:50:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291F0C4CEF1;
-	Fri,  5 Sep 2025 16:50:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757091058;
-	bh=ed7tjh37WUsiWKbFsXU4Fz4LWP9OYuSxI0T6PtehL5I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hkj6jwvLxKggBm5BaYRmXNHFJSTzS4j//v2v297B9zbvAb6zaXk3ye+d7kJpzYt+i
-	 pVjGPf+glYmCMY8ZXxKqFzfErZn5vYpuxstgE5z7K6bWjnB52Zu2pWhWX8YpcE0TZ3
-	 wqpQ/atJ+vA0oyDRUVNRdo8I0NXlm4wfllQDaEaUhi9U9aEo4xqnHh2mcEuBjTyxog
-	 A1t4vtOjJmcxMXWsrEs0iDeQq9drkmd4Whjs7cSHTOvVKn09EIzsL7m+VCMmXlxsZx
-	 LFVA53bS5HpTQKBuuE67ybcB5j6vm/3A//si20RgKUC4Z6Fe/u+7Z/FKOCjsOXLxSF
-	 Mdr++eBA7BRQw==
-Date: Fri, 5 Sep 2025 19:50:51 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
-	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
-	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
-	Keith Busch <kbusch@kernel.org>, linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-trace-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v5 07/16] dma-mapping: convert dma_direct_*map_page to be
- phys_addr_t based
-Message-ID: <20250905165051.GA25881@unreal>
-References: <cover.1756822782.git.leon@kernel.org>
- <CGME20250902144935eucas1p253de9e94315de54325cc61dea9c76490@eucas1p2.samsung.com>
- <6b2f4cb436c98d6342db69e965a5621707b9711f.1756822782.git.leon@kernel.org>
- <087e7f3d-1e0d-4efe-822f-72d16d161a60@samsung.com>
+	Mon, 08 Sep 2025 06:06:13 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CF40F25D0F;
+	Mon,  8 Sep 2025 06:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757311566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=33zHN0Ci2nsYAA6yJPzugyK4uZYR8sPBN6+QhEOeME8=;
+	b=VTTm5WU3gsVyWRU3QktGMLV/6wNuTlC1GvT11zmDJzV7/10JaU3gJN9oGS7GB8KBT+dpGE
+	56mNP8wZI2ZadrUFtyNlxzQmk7l2dLItE2Rw6TbXEYpqj/cRVsGVdvDNaHgM3+i9d3MxpW
+	m3VwxdFJbxGTRl1sWS0PSWYTWWZ1S0I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757311566;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=33zHN0Ci2nsYAA6yJPzugyK4uZYR8sPBN6+QhEOeME8=;
+	b=1apyA0jqX6EwDS5uRd6bE48pTBzQ3FGvNFkOm6J5aco914Br93cxhN9D1G1A+iNMb+SqK5
+	U8h9sxulmcNDl5Cg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GZ2SbxOq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4HvCLfSc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757311565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=33zHN0Ci2nsYAA6yJPzugyK4uZYR8sPBN6+QhEOeME8=;
+	b=GZ2SbxOqRya+/f66Rdwoc0nc6Gz++0tmpkhcQZJK9vGquUwVgfq6ZpZQjsuPmU84U6B8/1
+	RdX/7/vEtdd9n77a9ypbLiIgt+W7lZS4qRukvNrYHExqhaH6VP/pOtcQhLhU5YX7OlwWxa
+	wC3uEpS4iTupAIB2cpAHXiuGSUIDUfU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757311565;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=33zHN0Ci2nsYAA6yJPzugyK4uZYR8sPBN6+QhEOeME8=;
+	b=4HvCLfScqdpJvmaTSMixKtHACubY9c8sezJNuwyHjtTwciLeYslu9lj3jGbPWpM82DGgsU
+	o2hBkBriWApNJiDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10C2013946;
+	Mon,  8 Sep 2025 06:06:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3mn3AE1yvmhSLAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 08 Sep 2025 06:06:05 +0000
+Message-ID: <8f493741-5e39-4a09-ac3a-0bf22479e88f@suse.de>
+Date: Mon, 8 Sep 2025 08:06:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <087e7f3d-1e0d-4efe-822f-72d16d161a60@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 01/12] scsi: aacraid: use block layer helpers to
+ calculate num of queues
+To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Aaron Tomlin <atomlin@atomlin.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Costa Shulyupin
+ <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>,
+ Ming Lei <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>,
+ Mel Gorman <mgorman@suse.de>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com,
+ linux-scsi@vger.kernel.org, storagedev@microchip.com,
+ virtualization@lists.linux.dev, GR-QLogic-Storage-Upstream@marvell.com
+References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
+ <20250905-isolcpus-io-queues-v8-1-885984c5daca@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250905-isolcpus-io-queues-v8-1-885984c5daca@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: CF40F25D0F
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250905_095058_830780_F01C8E00 
-X-CRM114-Status: GOOD (  21.62  )
-X-Mailman-Approved-At: Sat, 06 Sep 2025 11:45:19 -0700
+X-CRM114-CacheID: sfid-20250907_230610_668819_805E0915 
+X-CRM114-Status: GOOD (  13.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,60 +153,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 05, 2025 at 06:21:44PM +0200, Marek Szyprowski wrote:
-> On 02.09.2025 16:48, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> >
-> > Convert the DMA direct mapping functions to accept physical addresses
-> > directly instead of page+offset parameters. The functions were already
-> > operating on physical addresses internally, so this change eliminates
-> > the redundant page-to-physical conversion at the API boundary.
-> >
-> > The functions dma_direct_map_page() and dma_direct_unmap_page() are
-> > renamed to dma_direct_map_phys() and dma_direct_unmap_phys() respectively,
-> > with their calling convention changed from (struct page *page,
-> > unsigned long offset) to (phys_addr_t phys).
-> >
-> > Architecture-specific functions arch_dma_map_page_direct() and
-> > arch_dma_unmap_page_direct() are similarly renamed to
-> > arch_dma_map_phys_direct() and arch_dma_unmap_phys_direct().
-> >
-> > The is_pci_p2pdma_page() checks are replaced with DMA_ATTR_MMIO checks
-> > to allow integration with dma_direct_map_resource and dma_direct_map_phys()
-> > is extended to support MMIO path either.
-> >
-> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >   arch/powerpc/kernel/dma-iommu.c |  4 +--
-> >   include/linux/dma-map-ops.h     |  8 ++---
-> >   kernel/dma/direct.c             |  6 ++--
-> >   kernel/dma/direct.h             | 57 +++++++++++++++++++++------------
-> >   kernel/dma/mapping.c            |  8 ++---
-> >   5 files changed, 49 insertions(+), 34 deletions(-)
-
-<...>
-
-> > -	if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
-> > -	    dma_kmalloc_needs_bounce(dev, size, dir)) {
-> > -		if (is_pci_p2pdma_page(page))
-> > -			return DMA_MAPPING_ERROR;
-> > -		if (is_swiotlb_active(dev))
-> > -			return swiotlb_map(dev, phys, size, dir, attrs);
-> > -
-> > -		dev_WARN_ONCE(dev, 1,
-> > -			     "DMA addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
-> > -			     &dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
-> > -		return DMA_MAPPING_ERROR;
-> > +	if (attrs & DMA_ATTR_MMIO) {
-> > +		dma_addr = phys;
-> > +		if (unlikely(dma_capable(dev, dma_addr, size, false)))
+On 9/5/25 16:59, Daniel Wagner wrote:
+> The calculation of the upper limit for queues does not depend solely on
+> the number of online CPUs; for example, the isolcpus kernel
+> command-line option must also be considered.
 > 
-> "!dma_capable(dev, dma_addr, size, false)" in the above line.
+> To account for this, the block layer provides a helper function to
+> retrieve the maximum number of queues. Use it to set an appropriate
+> upper queue number limit.
 > 
-> It took me a while to find this after noticing that this patchset breaks booting some of me test systems.
+> Fixes: 94970cfb5f10 ("scsi: use block layer helpers to calculate num of queues")
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/scsi/aacraid/comminit.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Ohh, sorry, I overlooked it. Do you expect from me v6?
+Cheers,
 
-Thanks
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
