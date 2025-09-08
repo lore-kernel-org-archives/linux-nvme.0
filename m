@@ -4,124 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7BC7CAC581
-	for <linux-nvme@archiver.kernel.org>; Mon,  8 Sep 2025 17:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D766CA1016
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Sep 2025 18:28:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7J/5jyC4CPYC1mYA5Nbh128F4Qm/h2p5bihZrP5YpZY=; b=vUlIZn+UgUtDlnvW/8DL++Eypj
-	mhumJ6t+z5LeSYaoFr8gU3QUeDVvSRmmlqCOC6GTBihiW7vlcprMC41xAwxoZE6A7PqjjDdlzZ3sh
-	EJAbrjkR3dD+5ix8NoVO7SJdgUVK+RqPAgHmSsk4LgsxsQYj0wxD/4w8xDtA3DJSlSaL96qMDZ6x0
-	iBV7KJndliiGpW6hJQsWzOwvno6qylMcKMt91UGwCRKtPTzjXOzpCa3TIqDhRf5YuXn4ejKyvxXv7
-	lrxAfOjmqEavHhiV9xaQ5iTPfXY1NQtXcSsUcjxdS24JD3I7wngpKoqHWgp3AWa5sptVXtPOiXjPW
-	7ua3kGcg==;
+	bh=CFKza0GDvDgJkR/yFGwy0aAl0UMATCtFfz4gL+KTA88=; b=CqCmSkHa6Zg6+Yx2iG4+YM/qKo
+	ETVjpKmsUDFbDqE3J2VUp/oeRW+6XudzUt4yC0I7DtzOEUd8t+0pjQFQo6mQWCJH93OkTCd9WElj9
+	bJVqg1XHfQI+iSei/OwnB+N5Oe2vSrDfinfBdU8Q1gBP6uJjHDE1yMNrCjifEsxxeso02Sa09Ro0c
+	qXAgkCnEfnnQr+VIVwyrayjb9OH32l5D+m71VnzCkxgKUVIVlf7TiQHVQy4QoRQ1PmRJOZ/pPydqE
+	k2Lg8y7BVt9IeQptmCQiBWtd3qjykTSvd9Nu0w8SZTeNKxgIFCMFALpNtiSxzuVmsxVTA70jDOIMS
+	3lt1+XNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvfNO-000000013Je-2EVM;
-	Mon, 08 Sep 2025 17:09:58 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1uvgar-00000001YXc-2eni;
+	Mon, 08 Sep 2025 18:27:57 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvbZG-0000000HFd5-10Fk
+	id 1uvdV2-00000000KIo-2tch
 	for linux-nvme@lists.infradead.org;
-	Mon, 08 Sep 2025 13:05:59 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9727425D8A;
-	Mon,  8 Sep 2025 13:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757336755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7J/5jyC4CPYC1mYA5Nbh128F4Qm/h2p5bihZrP5YpZY=;
-	b=ON22o27InxEfGG8q4I0/A8vfq9i30a1ijfTzFxUb3d9cmwOo7XbL+4aV0cmYAWS0zXRHBk
-	A/AAS8N6LXyAGZ5qbi4JwoxXgnnVuvbfy0etbJQ9w6r/+Xk+K94lju+D7KCKYFvCuXClUJ
-	c/cDDkriXa4fSRJNXFB9JOgLJN7Lg3k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757336755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7J/5jyC4CPYC1mYA5Nbh128F4Qm/h2p5bihZrP5YpZY=;
-	b=J5RPxvOSRKY7Ki3M6Ii6DI0RHS0UD2CYG+Uu0TlslYh3QPU1IHQTR8caeozoaJQrH6bTAH
-	CqiYpVwk5MvDzTCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757336755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7J/5jyC4CPYC1mYA5Nbh128F4Qm/h2p5bihZrP5YpZY=;
-	b=ON22o27InxEfGG8q4I0/A8vfq9i30a1ijfTzFxUb3d9cmwOo7XbL+4aV0cmYAWS0zXRHBk
-	A/AAS8N6LXyAGZ5qbi4JwoxXgnnVuvbfy0etbJQ9w6r/+Xk+K94lju+D7KCKYFvCuXClUJ
-	c/cDDkriXa4fSRJNXFB9JOgLJN7Lg3k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757336755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7J/5jyC4CPYC1mYA5Nbh128F4Qm/h2p5bihZrP5YpZY=;
-	b=J5RPxvOSRKY7Ki3M6Ii6DI0RHS0UD2CYG+Uu0TlslYh3QPU1IHQTR8caeozoaJQrH6bTAH
-	CqiYpVwk5MvDzTCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8030213946;
-	Mon,  8 Sep 2025 13:05:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QwJkHrPUvmhnMAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 08 Sep 2025 13:05:55 +0000
-Date: Mon, 8 Sep 2025 15:05:54 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: linux-nvme@lists.infradead.org
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Aaron Tomlin <atomlin@atomlin.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Costa Shulyupin <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org, storagedev@microchip.com, 
-	virtualization@lists.linux.dev, GR-QLogic-Storage-Upstream@marvell.com
-Subject: Re: [PATCH v8 10/12] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <4d006f81-cd3f-4aba-89db-fbc2e8c667b1@flourine.local>
-References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
- <20250905-isolcpus-io-queues-v8-10-885984c5daca@kernel.org>
- <c9ef4fa6-99a4-46fd-8623-b8979556566e@flourine.local>
+	Mon, 08 Sep 2025 15:09:45 +0000
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-76e4f2e4c40so3463471b3a.2
+        for <linux-nvme@lists.infradead.org>; Mon, 08 Sep 2025 08:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757344184; x=1757948984; darn=lists.infradead.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CFKza0GDvDgJkR/yFGwy0aAl0UMATCtFfz4gL+KTA88=;
+        b=KxAKp7+ALFtTS04h2wlXiM04Q63yBi/QLmP/UmHksMD8jo78CWttYaj31F0x5BymBF
+         TCQITD6VileYJfZvQr79lePEy6Hz9zNRIHwJ/nuzX9BMEOm3KLbr+ehegBNY3ip1Grqu
+         PbUL3CuXD/y6cNAWQplx1TyAAXhuclJC+eQhNcR96mVGc3Dprq8y9cwVY1nOIteoNJQI
+         vrtkmiIeG6ymP7klU9mOQwsMrjQ3qYUAGjlVgYIbzH12j7I0tuQSvURdJuFcPcBsNZ/1
+         FCnX0TIsVPQUDXkfteMCuzNNfu/RitgUU+BiekoDRtAodZyzb4IXbxo57fk2XVtdVSEn
+         oHFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757344184; x=1757948984;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CFKza0GDvDgJkR/yFGwy0aAl0UMATCtFfz4gL+KTA88=;
+        b=LPL5OytoKQ2yQAtiK4fJwJiQZNCPNY8dXVL0w6H7Gir7DRY2DXsYRO2p/OanWcvAWM
+         S5ktb9fN5TIfV1Brh66aAF2n3TxV091W7OIcFK1oiNSphoaqFJ5NmOUkIdu5MyUr5eLY
+         C6Ls1KH4rfl1WZlRvtob01g+0LIJd8V8Pp+7Lv2LpS935rtZXbU0AY7zu3obUBFLOYFW
+         Yxoi1eKl7mwIKSTuraxCo2Pm6j/lRIb8iaNx+PmTYq3SwZTnyMjO9uQEktjbmEcZiPvj
+         6hFkodkCmJrvk7VS8sD9Xvo2eeF3VhGC9u1hKJoyCJ80uc1Fdn3r9NNtJ2dr8WmGJYCP
+         2jDg==
+X-Forwarded-Encrypted: i=1; AJvYcCV9zxe6kq8C1LoBPmDP+1KEhE48RWAvKAeDvgzz1NAeOowpeX7fcgAHSpNJm7mLkC5Edu0QhYPvszmm@lists.infradead.org
+X-Gm-Message-State: AOJu0YxsPPDIfQssSug6iiWdi7o669eNcJT49Wq5EiY8cyN2r/7Jlm6o
+	wgS7UX3AZGHv/3mRJZn9Vyp+jXrNgdJNPsNx7KThwsHvfrZovgk+OgPt
+X-Gm-Gg: ASbGnct10i4lARte/crScYGeVQa8Zo/W6toKgJH3U1NdaB3IpBJU3Hcu46vK7BfN7z6
+	GfXRySjVxJYo2HfEbC+ze+I3MqElGP2zmqEUcCqDtsf2ADi3swYY+FHeN0hRQGvQpqV9wFxA4XE
+	TS9q/kom8AjRkLZgLODpVsXm+Rn7O+etHn4DfEbc8VcuaAaMUAIpKYB67FDioh7ijQIVJJIn0e8
+	ZRliaDKh2TNFcWfHrOaLmQ+UaACjcetd7tZWPZMofzvjdqObszEULFsvijvVzDbk5mgLrxhtM7e
+	TE8MX/SCo9Pe0fS5obhHTTdOsDSEsD0pgn51oETpWFkzM7AOvWO59VadnJQY99w0BkGygCX7rTK
+	2C41q09e3boZXbCT5dfY0Qgi4Rw0McaUm8H1nLDj8Y6OWVrbWamtlCG/2Ix6FiDb8Ioc=
+X-Google-Smtp-Source: AGHT+IGp5hwkWr906NGZ0zkAfG8EMxAhVXo8j4hSUKcbP/p5Nnj/IxjHJ+qxZsEPX0DS5ZT4Sf8jsQ==
+X-Received: by 2002:a05:6a20:3d82:b0:24a:a45d:7a32 with SMTP id adf61e73a8af0-2534441f665mr11878410637.45.1757344183811;
+        Mon, 08 Sep 2025 08:09:43 -0700 (PDT)
+Received: from [10.0.2.15] (portal-nbc.netapp.com. [202.3.121.4])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b522e287103sm3935857a12.19.2025.09.08.08.09.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 08:09:43 -0700 (PDT)
+Message-ID: <9ac883bfce6ac295fb7204c6c5ffb8c8a35fea50.camel@gmail.com>
+Subject: Re: [PATCH] nvme-auth: update sc_c in host response
+From: Martin George <martinus.gpy@gmail.com>
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, hare@kernel.org, Martin
+ George <marting@netapp.com>, Prashanth Adurthi <prashana@netapp.com>
+Date: Mon, 08 Sep 2025 20:39:38 +0530
+In-Reply-To: <30fc92e8-924a-4d52-b50f-9459ade044a0@suse.de>
+References: <20250908112642.3447-1-marting@netapp.com>
+	 <30fc92e8-924a-4d52-b50f-9459ade044a0@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9ef4fa6-99a4-46fd-8623-b8979556566e@flourine.local>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250908_060558_421197_25BFA7D6 
-X-CRM114-Status: GOOD (  14.50  )
+X-CRM114-CacheID: sfid-20250908_080944_727608_8F363719 
+X-CRM114-Status: GOOD (  20.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,31 +100,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 08, 2025 at 09:36:35AM +0200, Daniel Wagner wrote:
-> which resulted in a way cleaner code. Though the kernel test robot
-> complained with
-> 
->       >> block/blk-mq-cpumap.c:155:16: error: array initializer must be an initializer list
->            155 |         cpumask_var_t active_hctx __free(free_cpumask_var) = NULL;
-> 
-> I try to figure out if it's possible to get this somehow working with
-> some witchcraft (aka pre compiler magic).
+On Mon, 2025-09-08 at 14:49 +0200, Hannes Reinecke wrote:
+> On 9/8/25 13:26, Martin George wrote:
+> > The sc_c field is currently not updated in the host response to the
+> > controller challenge leading to failures while attempting secure
+> > channel concatenation. Fix this by adding a new sc_c variable to
+> > the
+> > dhchap queue context structure which is appropriately set during
+> > negotiate and then used in the host response.
+> >=20
+> > Fixes: e88a7595b57f ("nvme-tcp: request secure channel
+> > concatenation")
+> > Signed-off-by: Martin George <marting@netapp.com>
+> > Signed-off-by: Prashanth Adurthi <prashana@netapp.com>
+> > ---
+> > =C2=A0 drivers/nvme/host/auth.c | 6 +++++-
+> > =C2=A0 1 file changed, 5 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> > index 201fc8809a62..a7344faab2b2 100644
+> > --- a/drivers/nvme/host/auth.c
+> > +++ b/drivers/nvme/host/auth.c
+> > @@ -36,6 +36,7 @@ struct nvme_dhchap_queue_context {
+> > =C2=A0=C2=A0	u8 status;
+> > =C2=A0=C2=A0	u8 dhgroup_id;
+> > =C2=A0=C2=A0	u8 hash_id;
+> > +	u8 sc_c;
+> > =C2=A0=C2=A0	size_t hash_len;
+> > =C2=A0=C2=A0	u8 c1[64];
+> > =C2=A0=C2=A0	u8 c2[64];
+> > @@ -154,6 +155,8 @@ static int
+> > nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+> > =C2=A0=C2=A0	data->auth_protocol[0].dhchap.idlist[34] =3D
+> > NVME_AUTH_DHGROUP_6144;
+> > =C2=A0=C2=A0	data->auth_protocol[0].dhchap.idlist[35] =3D
+> > NVME_AUTH_DHGROUP_8192;
+> > =C2=A0=20
+> > +	chap->sc_c =3D data->sc_c;
+> > +
+> > =C2=A0=C2=A0	return size;
+> > =C2=A0 }
+> > =C2=A0=20
+> > @@ -488,7 +491,7 @@ static int
+> > nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
+> > =C2=A0=C2=A0	ret =3D crypto_shash_update(shash, buf, 2);
+> > =C2=A0=C2=A0	if (ret)
+> > =C2=A0=C2=A0		goto out;
+> > -	memset(buf, 0, sizeof(buf));
+> > +	memset(buf, chap->sc_c, sizeof(buf));
+>=20
+> 'sc_c' is just a single byte, please do
+>=20
+> *buf =3D chap->sc_c;
+>=20
+> Otherwise both bytes in 'buf' are being set to 'sc_c'.
+>=20
 
-What about adding something like this here:
+Sure, will send a v2 of the patch with this change. Thanks.
 
-
-#ifdef CONFIG_CPUMASK_OFFSTACK
-
-#define scoped_cpumask_var(_name)			\
-	cpumask_var_t _name __free(free_cpumask_var) = NULL;
-
-#else /* ! CONFIG_CPUMASK_OFFSTACK */
-
-#define scoped_cpumask_var(_name)			\
-	cpumask_var_t _name __free(free_cpumask_var);
-
-#endif /* ! CONFIG_CPUMASK_OFFSTACK */
-
-
-This would make the new code way cleaner.
+-Martin
+>=20
 
