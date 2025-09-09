@@ -4,86 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD6A1CA0FED
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Sep 2025 17:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 300BECAC58E
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Sep 2025 17:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=48L/dyWTY5YbetvqJkn3R+dpBL0hwkxyyCPEY7fL4uo=; b=TIBQnPOFr1xeB8V28QL74DzVC+
-	Un47Ejgsn6b2mtZwe5ZXBVIHKBobfDMEQCA08mZaA+2DVvfyN5tiFEfCiLolEFsbQwoqnBRIKw4T5
-	W55vd4+AbXA0TtxSs7SpzP58rGv2PLNgRqHXZR7BtcDwEdUm4yZQ+0l8i8GlIlyiSEr46B8Wh8SNB
-	bAhoqI+5sBH4rCZ9u3+XzjK6ehMh3l4dOYAvy01gXnU6tpyU+QQvB3L+PDkU5bo8U/VzH0ggvy7vP
-	5wifkUvXgejEuhxlCGce6sroIx3Ukqn9TVpbA/fXtpCsyZC/XpOptvh1I5fYQD+COLYplmTzaLo3Y
-	zlhbd1Qg==;
+	bh=G/XFWaBt222BYI26euRpp69b8Zzl6pgRHRnLtWA3Fuk=; b=JKr/yUOthc0SrVfmTEpNeOnqzW
+	fBKnvza44CGnm4jv82McK76T4ZPX+rCE84T91XP3NCDIL+PzW3xju34tdkeGM8qDLvahqhbmXVPTn
+	eXE9Lqf3qVyhPB6wH8+5G6S0qOc/nX35TQLB5+L3wevlcubz0auiD+AZ0mGTCr36nX5zETxJ0rCjJ
+	gcXSRYuF4Ayy6jskvKUdEwtyi09IXw2tEgxEBltBHICmxtBuNTasQjWezFNnYUVt+tULdWIP5aW+Z
+	v33DCknE/im46rNgYlbaQJnFQ0IR3I5oAeF9WBIY0eyPWA1omUFaeszaqoYptdU9M5xW/2xt+kxrV
+	uFIFHtkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uw1v6-00000008maA-1T5o;
-	Tue, 09 Sep 2025 17:14:16 +0000
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+	id 1uw1vD-00000008mkb-07Np;
+	Tue, 09 Sep 2025 17:14:23 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvvhA-00000006RRj-1QUf
+	id 1uvwQD-00000006h73-2dGG
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Sep 2025 10:35:29 +0000
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-2445806df50so47211945ad.1
-        for <linux-nvme@lists.infradead.org>; Tue, 09 Sep 2025 03:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757414127; x=1758018927; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=48L/dyWTY5YbetvqJkn3R+dpBL0hwkxyyCPEY7fL4uo=;
-        b=DkyrKzC+q0plkqm3wbgmMdQZ4FDsApN/beOF9uD8plkfdMNrrdtyV2osYQA8HXReAE
-         /mS/tEwcmDGsOk6xYcefW2VY9QZZPH6A3JBfPNtiE+oHcb2hEEH5Ov2OtZlCcPUvUnR2
-         kLDHuaWliX4BtwRaW+pnnTgGzPPjIEIHceKTCET17tbAWfaK5MobHGWY4t6s8q0quLY3
-         vC5BZ6T4Bi2EimxSZKiSzxSJlHKGM8oHhhH9LTh5RzrXmfGmIzHR4bSALzQ+iB2p653f
-         mSoMyoJi7cdLz5F+1n9RPmaPmEcO2uUtHYy3KWJW+UCJvll8L+u48dp5AZ7uhcnrBg+I
-         ba4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757414127; x=1758018927;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=48L/dyWTY5YbetvqJkn3R+dpBL0hwkxyyCPEY7fL4uo=;
-        b=vNMeTkoK69ZCyJPfrgkR1PdEEt7fzEk+WpvxicooKJAEHHJCdP79XHhMVTe3hqmFGz
-         5c7vnp5QOJ518AzpHzWASNtSI7rD7VzznpGl4jgchaPQ4OFajrXO/Xj7KgvVrR5WgivO
-         Ff0C/JEhOEydnHsp1tAHQFqndqPKB6xDyi5DScB5/zR6j5SRpq56Xo9oHGZ1WAzKFQBY
-         bWnj6ZfVeMkQfw//ZhIhEYuM79uA3CBPVBNRvdWYcUMdbiiiSjy+HEXS6AqQD8mFeKO3
-         4IvW7Lup9bANs2ig9eIgx2p288RtsaMg4+lPfbfbPBL4+n3zo8rNIwF7TZQWjQ1s6F5V
-         q8YA==
-X-Gm-Message-State: AOJu0YwEggYPquuNCz8lcKOgOt5zBVkHdKgl9qJCXDE4ZW8fnr4SQ/fM
-	n99Jbs9Mn5bhfmdQiKWubjzZjQ8YaoqFpj2lEOnTO2X84wIjNnyDlqZk5ssRGA==
-X-Gm-Gg: ASbGnctalAoykvvdcmSb8Qb0L8Vj2z4rLRnZvIudMUtcs4Jkm2FwbYbNDzmYAZY/QnV
-	+LOw64DEUnAfUXmJeaEfX7vstZ942QiLWF4ZTZPOuNJZ5dtEe4nLxqio3H0mJffNeZ/ceX+VdvF
-	6J05fEvmBuoPhdiIMDqEbYYVw1jIce9A5fwLgHUpYD+Hy41G7q9mo54StjyKGx8p/Dg18LSNlXA
-	rvZf1bQabJWZc6jyb/bW9PUrw88vfUZV9RPMuMBRNlouRKdZPC1FsSJT4YXIeX2mPDqBmV0MnQN
-	v+gVL8jzIueczC22m6OsYovXBRdoXBvtV12K3KEdCnt34L4kFMV13iPv64OmA3yD30HlJ4kWXuU
-	AI8J4n+MWBeLrgBmw8OWXdTvAmvEZBvfnLmoOHzfqEivox36m8wqV0vo=
-X-Google-Smtp-Source: AGHT+IFGDj8v9M4lxWPa8wexHBvULuLQPMqphkDFoYZ3Q0fld7Enh6YVt0Jny8u7JPkcxfWl9uH66A==
-X-Received: by 2002:a17:902:8342:b0:24c:a22d:4c34 with SMTP id d9443c01a7336-25174373ed5mr103048635ad.41.1757414127128;
-        Tue, 09 Sep 2025 03:35:27 -0700 (PDT)
-Received: from gooner.vpn.netapp.com ([202.3.121.6])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24cde5b6484sm130884625ad.19.2025.09.09.03.35.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 03:35:26 -0700 (PDT)
-From: Martin George <martinus.gpy@gmail.com>
-X-Google-Original-From: Martin George <marting@netapp.com>
-To: linux-nvme@lists.infradead.org
-Cc: hch@lst.de,
-	kbusch@kernel.org,
-	sagi@grimberg.me,
-	hare@kernel.org,
-	Martin George <marting@netapp.com>
-Subject: [PATCH] nvme-tcp: send only permitted commands for secure concat
-Date: Tue,  9 Sep 2025 16:05:09 +0530
-Message-ID: <20250909103509.10343-1-marting@netapp.com>
-X-Mailer: git-send-email 2.43.0
+	Tue, 09 Sep 2025 11:22:01 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 10CE66021E;
+	Tue,  9 Sep 2025 11:22:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ED62C4CEF4;
+	Tue,  9 Sep 2025 11:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757416920;
+	bh=uLKgh/YTOEG7lRDETZIjV9MdddGsqfjptEVnUVoo7HA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T7hUoAlxbo7MUfZQYudnsB+f6wi6/pWj8K9MLJXg4Kb9+F7DnOVtTQg3dOBhqAVVh
+	 zzgaMsvWBfxcLkY0/uixL+4jpX1hTR/OeaK4xAkcYSF/a0g2ANVzLEozqTt4Y4yJ0/
+	 1Rx5hVIdD40Eaf3uk6CimQ+KQuDRPkRmSi1Xt2u4102VBbxGu9gyjsgAbQSmRRCRg2
+	 hQjoKsaLcwmnSEDZlpsHI9VYj6NPueE4ac5jpWPKkEbNiVhxk5WN4UMzGsM7y2e1uI
+	 hYwthxe5jHXq9UjvYlrfsg8bCXYtTffM2FH6EChAd0UXM6C2JfyL6TMIWYttOXxjhK
+	 uLcnECUE8A2Lw==
+From: Niklas Cassel <cassel@kernel.org>
+To: Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	stable@vger.kernel.org,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvmet: pci-epf: Move DMA initialization to EPC init callback
+Date: Tue,  9 Sep 2025 13:21:22 +0200
+Message-ID: <20250909112121.682086-2-cassel@kernel.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1657; i=cassel@kernel.org; h=from:subject; bh=pX/MpTonHapCoD9Ys3C3UTZE9fwAxfHE3GCmLlJrJrU=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGDIO8G5cyxlyMGeK0IJdny9WnuiaL1LzJXUdp+k9G2HPO fVr5y0L6ShlYRDjYpAVU2Tx/eGyv7jbfcpxxTs2MHNYmUCGMHBxCsBEykMYGc63ynDnz1/60Ceo VIVn0qsLLQYFFQdUq3zv/t/yS7Haxovhf/ap+2d80kT4Tc5PfpqomtxsynPlkOCjzL3MGaXTZq9 mZQEA
+X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250909_033528_377718_ECF182BF 
-X-CRM114-Status: GOOD (  11.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,34 +76,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In addition to sending permitted commands such as connect/auth
-over the initial unencrypted admin connection as part of secure
-channel concatenation, the host also sends commands such as
-Property Get and Identify on the same. This is a spec violation
-leading to secure concat failures. Fix this by ensuring these
-additional commands are avoided on this connection.
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
-Fixes: 104d0e2f6222 ("nvme-fabrics: reset admin connection for secure concatenation")
-Signed-off-by: Martin George <marting@netapp.com>
+For DMA initialization to work across all EPC drivers, the DMA
+initialization has to be done in the .init() callback.
+
+This is because not all EPC drivers will have a refclock (which is often
+needed to access registers of a DMA controller embedded in a PCIe
+controller) at the time the .bind() callback is called.
+
+However, all EPC drivers are guaranteed to have a refclock by the time
+the .init() callback is called.
+
+Thus, move the DMA initialization to the .init() callback.
+
+This change was already done for other EPF drivers in
+commit 60bd3e039aa2 ("PCI: endpoint: pci-epf-{mhi/test}: Move DMA
+initialization to EPC init callback").
+
+Cc: stable@vger.kernel.org
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: Niklas Cassel <cassel@kernel.org>
 ---
- drivers/nvme/host/tcp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/target/pci-epf.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index c0fe8cfb7229..1413788ca7d5 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2250,6 +2250,9 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- 	if (error)
- 		goto out_cleanup_tagset;
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 2e78397a7373a..9c5b0f78ce8df 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -2325,6 +2325,8 @@ static int nvmet_pci_epf_epc_init(struct pci_epf *epf)
+ 		return ret;
+ 	}
  
-+	if (ctrl->opts->concat && !ctrl->tls_pskid)
-+		return 0;
++	nvmet_pci_epf_init_dma(nvme_epf);
 +
- 	error = nvme_enable_ctrl(ctrl);
- 	if (error)
- 		goto out_stop_queue;
+ 	/* Set device ID, class, etc. */
+ 	epf->header->vendorid = ctrl->tctrl->subsys->vendor_id;
+ 	epf->header->subsys_vendor_id = ctrl->tctrl->subsys->subsys_vendor_id;
+@@ -2422,8 +2424,6 @@ static int nvmet_pci_epf_bind(struct pci_epf *epf)
+ 	if (ret)
+ 		return ret;
+ 
+-	nvmet_pci_epf_init_dma(nvme_epf);
+-
+ 	return 0;
+ }
+ 
 -- 
-2.43.0
+2.51.0
 
 
