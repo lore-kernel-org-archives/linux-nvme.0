@@ -4,68 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21210CAC587
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Sep 2025 06:54:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6C92CAC589
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Sep 2025 07:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pXM3Ni6pNCKiEZQDq6Gs57kjhy/uBwMQItPfbHRdzqo=; b=cQ0wKX+xenTmK8ed3ieZw6NTzd
-	EH35OgKgijPvCTKd42z/hdaLPzIztNW358sLZaq7U8f837Q061X3B37/PMkhmINOKga5Ry8un+ZQu
-	0bZ5CQ7Ga7Qusw7SDbXp2JHOTa2/4y1nMKE7zDxRJs8zjh3cE6ZqEpTjgqU9pXLpeJcZRRizsPnBc
-	OIMp7398mFsW2PaiIOdKLr5BHHC+TMQv84yEwaJh1vXtCpx9BG5BS8txw7qrBKEpzQ29UBDSzDq7N
-	klefAHDmotd2W4k30tKoJuIGPRuH5t+wj4jnwy7FIYC4MGOJK85OWn6Jr+Deh2Euii1lOtTTpTl56
-	yanrXrGQ==;
+	bh=e9ZVJI2dTzDxGooFtTzUPXSetU9cr6ewTIx+EaQ4SSo=; b=DdDzUNhX+CqPJ9ImvV6k1Hzq4I
+	Yj8UNVk7mQXAjBQ/KExQwUClGbDlq4tMbQ2Mts+kJcyBbRiSUzhIE5lwn39WNwBT10yVkyeai59Id
+	IaakAPgzIKCLGtfcdKjnmH1dBOsZrJhW5iW3B6LDR9FP42lrJ2XPjDlKxK16WI527GSMoxdG4R91C
+	AfLpVxIZD1EMJPImRznvu82sjGLIgygyYSqA8xMpuoibWc9970cxQ4Dp3+cB0cxyePbDeLkZTfGeV
+	Ziy+nuFneBLYO+M4NeGx9UevpH5ch5GtvGopKbzJF4ADyPaH1VHJbcS5sQCqOXuGTzfhM1RII3BfQ
+	WnOlJrzw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvsF3-00000004tOT-02qo;
-	Tue, 09 Sep 2025 06:54:13 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1uvsse-00000005CJS-0lmQ;
+	Tue, 09 Sep 2025 07:35:08 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uvmFj-00000003EnT-2KOu
+	id 1uvs55-00000004laY-09Ur
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Sep 2025 00:30:32 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7070E44C39;
-	Tue,  9 Sep 2025 00:30:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6B5C4CEF1;
-	Tue,  9 Sep 2025 00:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757377830;
-	bh=u0Ni7ulU54B+fmkbTohFN4EOklbC1y89+SNsrymQwmk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XG0aAKAE0hT5DiRt3a/Sm7kkJoiqPoGJburmr/WSdu29IX1Ntm7I3/3s/Ds84ZBBe
-	 BSjD6tnxEP3pFaXxWk2dx0VHv6TpSoEoiAlXPgXL6mhkjLmDBUer1h04Fe4hndJo7o
-	 6qU/pstiz7/RiAYZQBqiuQLYoMpVoaualb6rZ0UwA0jupdOwZoIdG3jZt30zeC9GSe
-	 Fxs1FmukBGC8eKPeThu84LRUAM7M6XU0fPPgZLxT9mp38250jSUCLfPRKdg4XGEdzu
-	 tVdBmDxiBrREn9fmZJAWCaD2FyXclMHdnPR+73xzxGzel0URIbwk/KB9GKw9yb9eU4
-	 IFSJDC7ksyaCA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.16-6.12] nvme: fix PI insert on write
-Date: Mon,  8 Sep 2025 20:30:13 -0400
-Message-ID: <20250909003025.2493540-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250909003025.2493540-1-sashal@kernel.org>
-References: <20250909003025.2493540-1-sashal@kernel.org>
+	Tue, 09 Sep 2025 06:43:56 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 33EA627BAF;
+	Tue,  9 Sep 2025 06:43:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757400230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9ZVJI2dTzDxGooFtTzUPXSetU9cr6ewTIx+EaQ4SSo=;
+	b=RVNlIfTBZ3Fn+6oZ+c4qkpHWSZwhYw+cix+7Vi5g+EkCAqPQ0ZqJeTjN7WeX2Cmj39rR72
+	2O03/g9eW9clgea5QOYhnm9juxnJ9v6a0cP0ogmyZhOz0C1fHnL/5B9msvzKGNDyt/kf/E
+	+qzTqdUhy3SzJSzGlL8YceMNnR3Gocs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757400230;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9ZVJI2dTzDxGooFtTzUPXSetU9cr6ewTIx+EaQ4SSo=;
+	b=UUEKmkFlC9Mp4T1QzAoq8X3BOYJq6HGhjFpwOe5I65i47nNCPBrm1ik1zeCx/fqRi8K+yQ
+	ppkAi56CWM13eiBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RVNlIfTB;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UUEKmkFl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757400230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9ZVJI2dTzDxGooFtTzUPXSetU9cr6ewTIx+EaQ4SSo=;
+	b=RVNlIfTBZ3Fn+6oZ+c4qkpHWSZwhYw+cix+7Vi5g+EkCAqPQ0ZqJeTjN7WeX2Cmj39rR72
+	2O03/g9eW9clgea5QOYhnm9juxnJ9v6a0cP0ogmyZhOz0C1fHnL/5B9msvzKGNDyt/kf/E
+	+qzTqdUhy3SzJSzGlL8YceMNnR3Gocs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757400230;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e9ZVJI2dTzDxGooFtTzUPXSetU9cr6ewTIx+EaQ4SSo=;
+	b=UUEKmkFlC9Mp4T1QzAoq8X3BOYJq6HGhjFpwOe5I65i47nNCPBrm1ik1zeCx/fqRi8K+yQ
+	ppkAi56CWM13eiBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E2A281388C;
+	Tue,  9 Sep 2025 06:43:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WSS5NaXMv2jzVQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 09 Sep 2025 06:43:49 +0000
+Message-ID: <32cffc9b-8be5-42db-bec2-871293c5549b@suse.de>
+Date: Tue, 9 Sep 2025 08:43:49 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.16.5
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme-auth: update sc_c in host response
+To: Martin George <martinus.gpy@gmail.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, hare@kernel.org,
+ Martin George <marting@netapp.com>, Prashanth Adurthi <prashana@netapp.com>
+References: <20250908172457.5512-1-marting@netapp.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250908172457.5512-1-marting@netapp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,lists.infradead.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 33EA627BAF
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250908_173031_637327_144FCB43 
-X-CRM114-Status: GOOD (  23.14  )
+X-CRM114-CacheID: sfid-20250908_234355_233872_33C50E2C 
+X-CRM114-Status: GOOD (  12.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,208 +142,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+On 9/8/25 19:24, Martin George wrote:
+> The sc_c field is currently not updated in the host response to the
+> controller challenge leading to failures while attempting secure
+> channel concatenation. Fix this by adding a new sc_c variable to the
+> dhchap queue context structure which is appropriately set during
+> negotiate and then used in the host response.
+> 
+> Fixes: e88a7595b57f ("nvme-tcp: request secure channel concatenation")
+> Signed-off-by: Martin George <marting@netapp.com>
+> Signed-off-by: Prashanth Adurthi <prashana@netapp.com>
+> ---
+> Changes in v2: set *buf to sc_c as suggested by Hannes
+> ---
+>   drivers/nvme/host/auth.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-[ Upstream commit 7ac3c2889bc060c3f67cf44df0dbb093a835c176 ]
+Cheers,
 
-I recently ran into an issue where the PI generated using the block layer
-integrity code differs from that from a kernel using the PRACT fallback
-when the block layer integrity code is disabled, and I tracked this down
-to us using PRACT incorrectly.
-
-The NVM Command Set Specification (section 5.33 in 1.2, similar in older
-versions) specifies the PRACT insert behavior as:
-
-  Inserted protection information consists of the computed CRC for the
-  protection information format (refer to section 5.3.1) in the Guard
-  field, the LBAT field value in the Application Tag field, the LBST
-  field value in the Storage Tag field, if defined, and the computed
-  reference tag in the Logical Block Reference Tag.
-
-Where the computed reference tag is defined as following for type 1 and
-type 2 using the text below that is duplicated in the respective bullet
-points:
-
-  the value of the computed reference tag for the first logical block of
-  the command is the value contained in the Initial Logical Block
-  Reference Tag (ILBRT) or Expected Initial Logical Block Reference Tag
-  (EILBRT) field in the command, and the computed reference tag is
-  incremented for each subsequent logical block.
-
-So we need to set ILBRT field, but we currently don't.  Interestingly
-this works fine on my older type 1 formatted SSD, but Qemu trips up on
-this.  We already set ILBRT for Write Same since commit aeb7bb061be5
-("nvme: set the PRACT bit when using Write Zeroes with T10 PI").
-
-To ease this, move the PI type check into nvme_set_ref_tag.
-
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-## Backport Status: **YES**
-
-This commit should be backported to stable kernel trees. Here's my
-extensive analysis:
-
-### **1. Bug Analysis**
-
-The commit fixes a clear **spec violation bug** in NVMe Protection
-Information handling. When examining the code changes:
-
-**Before the fix (lines 1038-1042 in current code):**
-```c
-if (!blk_integrity_rq(req)) {
-    if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
-        return BLK_STS_NOTSUPP;
-    control |= NVME_RW_PRINFO_PRACT;
-    // BUG: nvme_set_ref_tag() NOT called here!
-}
-```
-
-**After the fix:**
-```c
-if (!blk_integrity_rq(req)) {
-    if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
-        return BLK_STS_NOTSUPP;
-    control |= NVME_RW_PRINFO_PRACT;
-    nvme_set_ref_tag(ns, cmnd, req);  // FIX: Now correctly sets ILBRT
-}
-```
-
-### **2. Impact Assessment**
-
-The bug causes **immediate data accessibility failures**:
-- When PRACT bit is set without ILBRT field, the controller generates PI
-  with garbage/zero reference tags
-- Subsequent reads with PI validation enabled **will fail**, returning
-  I/O errors
-- This makes **valid data completely inaccessible** - not corrupted, but
-  unreachable
-
-### **3. Code Changes Are Minimal and Safe**
-
-The fix involves:
-1. **Moving PI type check into `nvme_set_ref_tag()`** (lines 906-927
-   after fix):
-   - Previously duplicated in `nvme_setup_write_zeroes()`
-   - Now centralized for consistency
-
-2. **Adding one function call** in `nvme_setup_rw()` when PRACT is set
-   - Mirrors existing behavior in `nvme_setup_write_zeroes()` (lines
-     943-951)
-   - The pattern was already proven to work correctly
-
-3. **Removing redundant PI type checking** from
-   `nvme_setup_write_zeroes()`
-   - Simplifies code by using the centralized check
-
-### **4. Meets All Stable Criteria**
-
-✅ **Fixes a real bug**: Data becomes inaccessible in PI-enabled
-environments
-✅ **Minimal change**: ~10 lines of actual code changes
-✅ **Obviously correct**: Mirrors existing working code in write_zeroes
-path
-✅ **No new features**: Pure bug fix, no functionality additions
-✅ **Contained scope**: Only affects PI-enabled paths with PRACT
-✅ **Low regression risk**: Setting ILBRT is required by spec, benign on
-lenient hardware
-
-### **5. Enterprise Impact**
-
-This is particularly important for stable kernels because:
-- **Enterprise storage relies on PI** for end-to-end data protection
-- **Virtualization environments** (QEMU) strictly enforce NVMe spec
-  compliance
-- **Data availability** is critical - making valid data inaccessible is
-  a severe issue
-- **Interoperability** between different NVMe implementations depends on
-  spec compliance
-
-### **6. Historical Context Validates Backporting**
-
-The commit message references similar fixes:
-- **aeb7bb061be5**: Fixed Write Zeroes not using PRACT with PI
-- **00b33cf3da72**: Fixed Write Zeroes PRACT not setting reference tags
-
-These were both backported to stable, establishing precedent that PI
-correctness issues warrant stable backports.
-
-### **7. Risk Analysis**
-
-**Minimal risk because:**
-- Change only executes when `NVME_RW_PRINFO_PRACT` is already set
-- The `nvme_set_ref_tag()` function already handles all PI types
-  correctly (including type 3 which doesn't use reftag)
-- No changes to data path for non-PI configurations
-- Fix makes the code **more consistent** (write and write_zeroes now use
-  same pattern)
-
-### **Conclusion**
-
-This is an ideal stable backport candidate: it fixes a **real,
-observable bug** that causes **data inaccessibility** in enterprise
-environments, with a **minimal, obviously correct fix** that follows
-established patterns in the codebase. The spec violation causes
-immediate failures on compliant controllers, and the fix ensures correct
-PI metadata generation per NVMe specification requirements.
-
-The change improves **reliability**, **spec compliance**, and
-**interoperability** - all critical for stable kernel users in
-production environments.
-
- drivers/nvme/host/core.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 895fb163d48e6..5395623d2ba6a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -903,6 +903,15 @@ static void nvme_set_ref_tag(struct nvme_ns *ns, struct nvme_command *cmnd,
- 	u32 upper, lower;
- 	u64 ref48;
- 
-+	/* only type1 and type 2 PI formats have a reftag */
-+	switch (ns->head->pi_type) {
-+	case NVME_NS_DPS_PI_TYPE1:
-+	case NVME_NS_DPS_PI_TYPE2:
-+		break;
-+	default:
-+		return;
-+	}
-+
- 	/* both rw and write zeroes share the same reftag format */
- 	switch (ns->head->guard_type) {
- 	case NVME_NVM_NS_16B_GUARD:
-@@ -942,13 +951,7 @@ static inline blk_status_t nvme_setup_write_zeroes(struct nvme_ns *ns,
- 
- 	if (nvme_ns_has_pi(ns->head)) {
- 		cmnd->write_zeroes.control |= cpu_to_le16(NVME_RW_PRINFO_PRACT);
--
--		switch (ns->head->pi_type) {
--		case NVME_NS_DPS_PI_TYPE1:
--		case NVME_NS_DPS_PI_TYPE2:
--			nvme_set_ref_tag(ns, cmnd, req);
--			break;
--		}
-+		nvme_set_ref_tag(ns, cmnd, req);
- 	}
- 
- 	return BLK_STS_OK;
-@@ -1039,6 +1042,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 			if (WARN_ON_ONCE(!nvme_ns_has_pi(ns->head)))
- 				return BLK_STS_NOTSUPP;
- 			control |= NVME_RW_PRINFO_PRACT;
-+			nvme_set_ref_tag(ns, cmnd, req);
- 		}
- 
- 		if (bio_integrity_flagged(req->bio, BIP_CHECK_GUARD))
+Hannes
 -- 
-2.51.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
