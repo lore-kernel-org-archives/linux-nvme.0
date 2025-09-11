@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 723ECCA1016
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:32:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53FBBCAC587
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:32:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=F67NXKwM5gojyeH+csfDMKkA7qAECq4psBmSZp1Issg=; b=E/1JXMEaOJyApgQ0HQayNPWcoi
-	/JvxffO9t+jv2i6/MyFbEQWNHRY0rbG+UUDSmjEDwO/phe7rNCo0qj+S7vpzypvk6JaaxbBAsIznF
-	H+YQdrdYXmkvpGMNO4HiaA/xutbnXaytcYnMAVE2STWkzIm8H4OL5ba7DIiTBh36Rlay4CG6DP5w7
-	LF4wapTr3kJkEA3OhsH8/E25rihBu0NV9xfVPni0lqZhu+c3PfCR9RH0wMHS/KMK3WeaNNPAlKO1f
-	mq5t+7xhIxzZHOtnklo0dXdacglX603YBrcjF7tlUwqpfhIMgTcj7vt3UqeniRD2VtdF0j/2Fb6dt
-	bVrApTyQ==;
+	bh=7s0darRmpAoSF4AYzaEAKr+Som3Rl5+XVaBmiwsyicM=; b=YUXUsoxRREj5pabG/eD8UUIt/K
+	lcAfABCk3tZ1c0uYtP0u/rOBk3fQShuv4zst/QQrO5JLhoUT+4KDx93FJXEOcGcqjNgskUF+twNiy
+	WqmtdVcg2dL0JJQOxuFyU1PfD3+RV54v6kyCfqwZyFK08KBLP06/czqCyDq8Y4BwWG4DJcj/OuCr1
+	pAXxsP5lYo1OnvDxfZm2BHA3zJk5q3swUY2C+4VlpnGWN+e3F4NETR/L3NKXOE4ylUFH12YInbecF
+	3/g+THm+jBodi2PLbUfnFl9JBslEm9PWp7YCmgeZFZM9Ud+lr9vKBd3Vrt+7XLfE3eTbqTAXp2gvm
+	pfOrXbUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwbnI-00000001VU3-3gNf;
-	Thu, 11 Sep 2025 07:32:36 +0000
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+	id 1uwbnW-00000001VbM-39Qb;
+	Thu, 11 Sep 2025 07:32:50 +0000
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwbnF-00000001VS5-37bt
+	id 1uwbnT-00000001VZg-2WGN
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Sep 2025 07:32:34 +0000
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-25669596955so3916995ad.0
-        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:32:33 -0700 (PDT)
+	Thu, 11 Sep 2025 07:32:48 +0000
+Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-32db52f2f07so349036a91.0
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757575953; x=1758180753; darn=lists.infradead.org;
+        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757575967; x=1758180767; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F67NXKwM5gojyeH+csfDMKkA7qAECq4psBmSZp1Issg=;
-        b=cuQB2UrfQqSFU785zfpr2RvSLMlaZOaBE67rdRWrMVt+g2+scs39PqKC4TbaCtUR+Q
-         bEkQrcRDF/qWEvggsb09WOnSZq1YHCBw3o8prrqYdKR8MLgCOYVWA1LMR7xQxp7qVWcf
-         oDraIycvHKw6dr5T5I9xk+0nRAavX76lo/iIhvsgTghwirh1KDpwD2kYJPxpN0C8XgE3
-         2nZ8BD7RwIh6kRo1wMxBgcTPrTJIeaGVRl4sJieULBR8ZFQbxO5vOX5gAQ0HeICkHQXP
-         6NmXHAEwQw5sgKNvMQgzG/0FujJ2R1RiKa/zvQy6xNsRxAsdXY58hh8s8ttqpomUYF8x
-         UOmg==
+        bh=7s0darRmpAoSF4AYzaEAKr+Som3Rl5+XVaBmiwsyicM=;
+        b=Nq+B19m5t1vqqaaI0Gin4V28vDDaHQsJRhsQVe+8QOOkNFYuOfisFlT23PoQmACzit
+         IxKTYwyV03/RiYUWeUpEfmnGhrbGPiWTPJ2M48LGcaUIRRBeaZZKOGzWFQfeqz8DG6tf
+         /pXpk4YW5pnFUG2uPqPWp4Gek5y8ioDeqGR75em6BvIrkGFJqFUHjNeWdVWoB1WhZZIZ
+         7EEE52lLFlf2NHCTslr86L7azdksuW7FD32zllhwIx2h1lvk3HLBe/hF7OypRvVZsaSm
+         z+D8R7NF9mty+a9OUMlMTykvDIt7zatTtMLoGBGvqjkpP8Oh4tNnt9o301X1ugRGNQ7y
+         /w8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757575953; x=1758180753;
+        d=1e100.net; s=20230601; t=1757575967; x=1758180767;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=F67NXKwM5gojyeH+csfDMKkA7qAECq4psBmSZp1Issg=;
-        b=ODdRpET/D6WPG6BShSLVVTl5/6YPEht0gl0aMX2MA5MCVmOMkJDDp7gw3GR0weM1Dg
-         sgIx8nX5JQLGycgEho2V+ebBxEv+ArP25OZmZX/8BMgPAr/oVn9x2opEfsi5ZNoAejmO
-         h2sLPDQyqwO2gL5NY7bMF9P36AgX+QyQqQPeTM+StKZ6oE9bgBNau4v40SiPecYUYwJl
-         SVN7HxKtMhs8bt8Ci+Ox4GvmJWlUxCyBa2wU7FP1ZRt3UzJyBzVOxR5oYhb4/kXkK8QJ
-         N4bAc6mFLRyrF4cSAHtyXnBS738VFND/R91PYIN4d0jW5SFDEQHhtwbtSEJzg9b7+viF
-         fTYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWiu19J/0C63XKyiICSGil1z/kre0evDsfmgFD77qUq6ErXWZiA7zJitiIPA0Qywstq8iQXOnLWmKv@lists.infradead.org
-X-Gm-Message-State: AOJu0Yym0138cqubT4KO94i3OSBOca1aOerjFla827Xz/BfBg+2aJo5Z
-	u1uWcFHu47EGQd9E+Yxzo5+qo3f7Bs8nEMBcdPMmdPYoJaCljYeMpD7v22yibsUlxNA=
-X-Gm-Gg: ASbGncvlUJp9hMtEhFe7wTR0lrMFG0X76P0T1lMhhXw/Yyknxs5iL1smh4/FXB7Qetn
-	usDe+Ni5ew0BY8s5/4dZdA83UeA3PWboC3dthN7QYNXsOAmrUH4TL6z1Lr9KVQYJIf+n8Wb/b8E
-	DBgnN5aJZ22AmjG2sXAC1P9Z9mou5pmy0HlqKZCSjqHqn7LDXrXPyAFzmflQu25r343ky7TqgSQ
-	BiTT+TrbikYZUk7mHO68ydZRt6ypuGaeGF+MfXQk+LsBv0dT9sjOziDjNr3cHKYv1cVrmG0KzAw
-	TuK3GK7jrqVCZ8wbgu3aZ1soJWAs2BXhgyiaPR8ekE3dhoBPjELKrQUyVizCp0DC6wqXPdkA4CD
-	8QWASnWWtEvlZvHep7ICzAzpbItcDNQBHoNOuPBTDfNHm9Hc=
-X-Google-Smtp-Source: AGHT+IFxhHapEtCar0p1sfo3JD1wJaVQJHX7mmlLY1sCXKtGjvumifPbFyEoOVninmYZROfMJzOoxw==
-X-Received: by 2002:a17:902:f78c:b0:24c:cae9:77bd with SMTP id d9443c01a7336-25175d7f4f2mr286584635ad.54.1757575952805;
-        Thu, 11 Sep 2025 00:32:32 -0700 (PDT)
+        bh=7s0darRmpAoSF4AYzaEAKr+Som3Rl5+XVaBmiwsyicM=;
+        b=QJEBJXEd6pQDoYCdpethCdN+WNDR0X4U4nZMXpFhKUbuGjDM0IpDFLzT2Z/eByoixk
+         fT0jz+dhFMtIMY5BM6sfDravxOyT36Z3ASEbhZlzioxtTy7FwnSXhAH6CyoyhObaqfdC
+         5C6oaXFCNg4XEq5tCkGiVJvelcNoaVyQbuwBGzxRilrYDupsmlWAxJAYpaF8bxQyeVo4
+         U98NQ1HG2tdPCwEqTrPBc/ugNuAEoSq2mF1NfM7+SYVQcUz9LjF28dXnCcHagNZyC5vl
+         SpKOp/kKVCe7QtsoDSOT5Z/1dJFTiXv35tZWbTgrYYUpjBaeihZngbhgW3hZhT4RLzEd
+         9+Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCXbdABzqBLu52Ei0NBGpxt3UOaYEZf3LlBzCJdDpMZp56bdZKzrhR2oLm3vfPbW/J937c0+45RK7dSJ@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy77AsR6tBW8xOVHpdOzLchM5bHqv1XW9L5hl5g/e8W6LfmLYgN
+	34V3wOfTZqAvYhquEJGk8T8YGKuvIW+plstJ4rEsZdb186cU+hWFo0phFbWrghUbao4=
+X-Gm-Gg: ASbGncsl0s1npmSgFHtrcpZuZ0HCp+EJQPtd6ce7MkGCu5bt54gO+zx1tN93/6eH3SY
+	MFKCy51k7B5kRIGVmJm0qgE1z9UF2jvfBQV/qAkYPXqUMi2VY1q26xugLJGihhZnRPXFIaCELSR
+	ve1xkfGgc85IOlKGbXQPlcfhmGYCdNFPZ13JDDH/kaKAz8S/prU8NdUjcmeydUFe5VojLcnPDZZ
+	EX6CvrVaJDgusnouk9nZg3JaOi01v7mqtZtMSLHhUfXGA1KZH4KF8oG2nYAAszsCHjeyq4HSYPX
+	o9629WE5ueev35fvZY4mgenbNvhvAEyhsk7ec1Z10sGJhnVuCFTI5WaLbIzuqumLRsGI2MFoFRq
+	4zxbjRRm9W9AmDYqx4OfXkzplnuM+VuATgRSxZlD/9kIbz/EjpRF5yOcmqg==
+X-Google-Smtp-Source: AGHT+IGdM58j9g1OKoy52eIFNUxwwbvD1pYUiG/9o0Yq0NDk3xchY26I1yfT4KFiKTdndSxHjuBo7Q==
+X-Received: by 2002:a17:90b:1d8f:b0:329:e4d1:c20f with SMTP id 98e67ed59e1d1-32d43eff84dmr22396284a91.9.1757575966592;
+        Thu, 11 Sep 2025 00:32:46 -0700 (PDT)
 Received: from wu-Pro-E500-G6-WS720T.. ([2001:288:7001:2703:7811:c085:c184:85be])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3a84f6cbsm9453525ad.79.2025.09.11.00.32.28
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dd61eaa50sm1627799a91.6.2025.09.11.00.32.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 00:32:31 -0700 (PDT)
+        Thu, 11 Sep 2025 00:32:45 -0700 (PDT)
 From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
@@ -86,15 +86,15 @@ Cc: visitorckw@gmail.com,
 	linux-nvme@lists.infradead.org,
 	ceph-devel@vger.kernel.org,
 	linux-fscrypt@vger.kernel.org
-Subject: [PATCH v2 2/5] lib/base64: rework encoder/decoder with customizable support and update nvme-auth
-Date: Thu, 11 Sep 2025 15:32:24 +0800
-Message-Id: <20250911073224.577486-1-409411716@gms.tku.edu.tw>
+Subject: [PATCH v2 3/5] lib: add KUnit tests for base64 encoding/decoding
+Date: Thu, 11 Sep 2025 15:32:39 +0800
+Message-Id: <20250911073239.579643-1-409411716@gms.tku.edu.tw>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250911_003233_809392_1872638A 
-X-CRM114-Status: GOOD (  29.82  )
+X-CRM114-CacheID: sfid-20250911_003247_654045_17478971 
+X-CRM114-Status: GOOD (  18.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,406 +109,321 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Rework base64_encode() and base64_decode() with extended interfaces
-that support custom 64-character tables and optional '=' padding.
-This makes them flexible enough to cover both standard RFC4648 Base64
-and non-standard variants such as base64url.
+Add a KUnit test suite for the base64 helpers. The tests exercise both
+encoding and decoding, cover padded and unpadded forms per RFC 4648, and
+include negative cases for malformed inputs and padding errors. The suite
+also validates behavior with a caller-supplied encoding table.
 
-The encoder is redesigned to process input in 3-byte blocks, each
-mapped directly into 4 output symbols. Base64 naturally encodes
-24 bits of input as four 6-bit values, so operating on aligned
-3-byte chunks matches the algorithm's structure. This block-based
-approach eliminates the need for bit-by-bit streaming, reduces shifts,
-masks, and loop iterations, and removes data-dependent branches from
-the main loop. Only the final 1 or 2 leftover bytes are handled
-separately according to the standard rules. As a result, the encoder
-achieves ~2.8x speedup for small inputs (64B) and up to ~2.6x
-speedup for larger inputs (1KB), while remaining fully RFC4648-compliant.
+In addition to functional checks, the suite includes simple microbenchmarks
+which report average encode/decode latency for small (64B) and larger (1KB)
+inputs. These numbers are informational only and do not gate the tests.
 
-The decoder replaces strchr()-based lookups with direct table-indexed
-mapping. It processes input in 4-character groups and supports both
-padded and non-padded forms. Validation has been strengthened: illegal
-characters and misplaced '=' padding now cause errors, preventing
-silent data corruption.
+Kconfig (BASE64_KUNIT) and lib/tests/Makefile are updated accordingly.
 
-These changes improve decoding performance by ~12-15x.
+Sample KUnit output:
 
-Benchmarks on x86_64 (Intel Core i7-10700 @ 2.90GHz, averaged
-over 1000 runs, tested with KUnit):
+    KTAP version 1
+    # Subtest: base64
+    # module: base64_kunit
+    1..3
+    # base64_performance_tests: [64B] encode run : 32ns
+    # base64_performance_tests: [64B] decode run : 122ns
+    # base64_performance_tests: [1KB] encode run : 507ns
+    # base64_performance_tests: [1KB] decode run : 1870ns
+    ok 1 base64_performance_tests
+    ok 2 base64_encode_tests
+    ok 3 base64_decode_tests
+    # base64: pass:3 fail:0 skip:0 total:3
+    # Totals: pass:3 fail:0 skip:0 total:3
 
-Encode:
- - 64B input: avg ~90ns -> ~32ns  (~2.8x faster)
- - 1KB input: avg ~1332ns -> ~510ns  (~2.6x faster)
-
-Decode:
- - 64B input: avg ~1530ns -> ~122ns   (~12.5x faster)
- - 1KB input: avg ~27726ns -> ~1859ns (~15x faster)
-
-Update nvme-auth to use the reworked base64_encode() and base64_decode()
-interfaces, which now require explicit padding and table parameters.
-A static base64_table is defined to preserve RFC4648 standard encoding
-with padding enabled, ensuring functional behavior remains unchanged.
-
-While this is a mechanical update following the lib/base64 rework,
-nvme-auth also benefits from the performance improvements in the new
-encoder/decoder, achieving faster encode/decode without altering the
-output format.
-
-The reworked encoder and decoder unify Base64 handling across the kernel
-with higher performance, stricter correctness, and flexibility to support
-subsystem-specific variants.
-
-Co-developed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-Co-developed-by: Yu-Sheng Huang <home7438072@gmail.com>
-Signed-off-by: Yu-Sheng Huang <home7438072@gmail.com>
 Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- drivers/nvme/common/auth.c |   7 +-
- include/linux/base64.h     |   4 +-
- lib/base64.c               | 238 ++++++++++++++++++++++++++++---------
- 3 files changed, 192 insertions(+), 57 deletions(-)
+ lib/Kconfig.debug        |  19 +++-
+ lib/tests/Makefile       |   1 +
+ lib/tests/base64_kunit.c | 230 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 249 insertions(+), 1 deletion(-)
+ create mode 100644 lib/tests/base64_kunit.c
 
-diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index 91e273b89..4d57694f8 100644
---- a/drivers/nvme/common/auth.c
-+++ b/drivers/nvme/common/auth.c
-@@ -161,6 +161,9 @@ u32 nvme_auth_key_struct_size(u32 key_len)
- }
- EXPORT_SYMBOL_GPL(nvme_auth_key_struct_size);
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index dc0e0c6ed..1cfb12d02 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2794,8 +2794,25 @@ config CMDLINE_KUNIT_TEST
  
+ 	  If unsure, say N.
+ 
++config BASE64_KUNIT
++	tristate "KUnit test for base64 decoding and encoding" if !KUNIT_ALL_TESTS
++	depends on KUNIT
++	default KUNIT_ALL_TESTS
++	help
++	  This builds the base64 unit tests.
++
++	  The tests cover the encoding and decoding logic of Base64 functions
++	  in the kernel.
++	  In addition to correctness checks, simple performance benchmarks
++	  for both encoding and decoding are also included.
++
++	  For more information on KUnit and unit tests in general please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  If unsure, say N.
++
+ config BITS_TEST
+-	tristate "KUnit test for bits.h" if !KUNIT_ALL_TESTS
++	tristate "KUnit test for bit functions and macros" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT
+ 	default KUNIT_ALL_TESTS
+ 	help
+diff --git a/lib/tests/Makefile b/lib/tests/Makefile
+index fa6d728a8..6593a2873 100644
+--- a/lib/tests/Makefile
++++ b/lib/tests/Makefile
+@@ -4,6 +4,7 @@
+ 
+ # KUnit tests
+ CFLAGS_bitfield_kunit.o := $(DISABLE_STRUCTLEAK_PLUGIN)
++obj-$(CONFIG_BASE64_KUNIT) += base64_kunit.o
+ obj-$(CONFIG_BITFIELD_KUNIT) += bitfield_kunit.o
+ obj-$(CONFIG_BITS_TEST) += test_bits.o
+ obj-$(CONFIG_BLACKHOLE_DEV_KUNIT_TEST) += blackhole_dev_kunit.o
+diff --git a/lib/tests/base64_kunit.c b/lib/tests/base64_kunit.c
+new file mode 100644
+index 000000000..1941ac504
+--- /dev/null
++++ b/lib/tests/base64_kunit.c
+@@ -0,0 +1,230 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * base64_kunit_test.c - KUnit tests for base64 encoding and decoding functions
++ *
++ * Copyright (c) 2025, Guan-Chun Wu <409411716@gms.tku.edu.tw>
++ */
++
++#include <kunit/test.h>
++#include <linux/base64.h>
++
 +static const char base64_table[65] =
 +	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 +
- struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
- 					      u8 key_hash)
- {
-@@ -178,7 +181,7 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
- 	if (!key)
- 		return ERR_PTR(-ENOMEM);
- 
--	key_len = base64_decode(secret, allocated_len, key->key);
-+	key_len = base64_decode(secret, allocated_len, key->key, true, base64_table);
- 	if (key_len < 0) {
- 		pr_debug("base64 key decoding error %d\n",
- 			 key_len);
-@@ -663,7 +666,7 @@ int nvme_auth_generate_digest(u8 hmac_id, u8 *psk, size_t psk_len,
- 	if (ret)
- 		goto out_free_digest;
- 
--	ret = base64_encode(digest, digest_len, enc);
-+	ret = base64_encode(digest, digest_len, enc, true, base64_table);
- 	if (ret < hmac_len) {
- 		ret = -ENOKEY;
- 		goto out_free_digest;
-diff --git a/include/linux/base64.h b/include/linux/base64.h
-index 660d4cb1e..22351323d 100644
---- a/include/linux/base64.h
-+++ b/include/linux/base64.h
-@@ -10,7 +10,7 @@
- 
- #define BASE64_CHARS(nbytes)   DIV_ROUND_UP((nbytes) * 4, 3)
- 
--int base64_encode(const u8 *src, int len, char *dst);
--int base64_decode(const char *src, int len, u8 *dst);
-+int base64_encode(const u8 *src, int len, char *dst, bool padding, const char *table);
-+int base64_decode(const char *src, int len, u8 *dst, bool padding, const char *table);
- 
- #endif /* _LINUX_BASE64_H */
-diff --git a/lib/base64.c b/lib/base64.c
-index 9416bded2..b2bd5dab5 100644
---- a/lib/base64.c
-+++ b/lib/base64.c
-@@ -15,104 +15,236 @@
- #include <linux/string.h>
- #include <linux/base64.h>
- 
--static const char base64_table[65] =
--	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-+#define BASE64_6BIT_MASK      0x3f /* Mask to extract lowest 6 bits */
-+#define BASE64_BITS_PER_BYTE  8
-+#define BASE64_CHUNK_BITS     6
-+
-+/* Output-char-indexed shifts: for output chars 0,1,2,3 respectively */
-+#define BASE64_SHIFT_OUT0	(BASE64_CHUNK_BITS * 3) /* 18 */
-+#define BASE64_SHIFT_OUT1	(BASE64_CHUNK_BITS * 2) /* 12 */
-+#define BASE64_SHIFT_OUT2	(BASE64_CHUNK_BITS * 1) /* 6  */
-+/* OUT3 uses 0 shift and just masks with BASE64_6BIT_MASK */
-+
-+/* For extracting bytes from the 24-bit value (decode main loop) */
-+#define BASE64_SHIFT_BYTE0        (BASE64_BITS_PER_BYTE * 2) /* 16 */
-+#define BASE64_SHIFT_BYTE1        (BASE64_BITS_PER_BYTE * 1) /* 8  */
-+
-+/* Tail (no padding) shifts to extract bytes */
-+#define BASE64_TAIL2_BYTE0_SHIFT  ((BASE64_CHUNK_BITS * 2) - BASE64_BITS_PER_BYTE)       /* 4  */
-+#define BASE64_TAIL3_BYTE0_SHIFT  ((BASE64_CHUNK_BITS * 3) - BASE64_BITS_PER_BYTE)       /* 10 */
-+#define BASE64_TAIL3_BYTE1_SHIFT  ((BASE64_CHUNK_BITS * 3) - (BASE64_BITS_PER_BYTE * 2)) /* 2  */
-+
-+/* Extra: masks for leftover validation (no padding) */
-+#define BASE64_MASK(n) ({        \
-+	unsigned int __n = (n);  \
-+	__n ? ((1U << __n) - 1U) : 0U; \
-+})
-+#define BASE64_TAIL2_UNUSED_BITS  (BASE64_CHUNK_BITS * 2 - BASE64_BITS_PER_BYTE)     /* 4 */
-+#define BASE64_TAIL3_UNUSED_BITS  (BASE64_CHUNK_BITS * 3 - BASE64_BITS_PER_BYTE * 2) /* 2 */
- 
- static inline const char *find_chr(const char *base64_table, char ch)
- {
- 	if ('A' <= ch && ch <= 'Z')
--		return base64_table + ch - 'A';
-+		return base64_table + (ch - 'A');
- 	if ('a' <= ch && ch <= 'z')
--		return base64_table + 26 + ch - 'a';
-+		return base64_table + 26 + (ch - 'a');
- 	if ('0' <= ch && ch <= '9')
--		return base64_table + 26 * 2 + ch - '0';
--	if (ch == base64_table[26 * 2 + 10])
--		return base64_table + 26 * 2 + 10;
--	if (ch == base64_table[26 * 2 + 10 + 1])
--		return base64_table + 26 * 2 + 10 + 1;
-+		return base64_table + 52 + (ch - '0');
-+	if (ch == base64_table[62])
-+		return &base64_table[62];
-+	if (ch == base64_table[63])
-+		return &base64_table[63];
- 	return NULL;
- }
- 
- /**
-- * base64_encode() - base64-encode some binary data
-+ * base64_encode() - base64-encode with custom table and optional padding
-  * @src: the binary data to encode
-  * @srclen: the length of @src in bytes
-- * @dst: (output) the base64-encoded string.  Not NUL-terminated.
-+ * @dst: (output) the base64-encoded string. Not NUL-terminated.
-+ * @padding: whether to append '=' characters so output length is a multiple of 4
-+ * @table: 64-character encoding table to use (e.g. standard or URL-safe variant)
-  *
-- * Encodes data using base64 encoding, i.e. the "Base 64 Encoding" specified
-- * by RFC 4648, including the  '='-padding.
-+ * Encodes data using the given 64-character @table. If @padding is true,
-+ * the output is padded with '=' as described in RFC 4648; otherwise padding
-+ * is omitted. This allows generation of both standard and non-standard
-+ * Base64 variants (e.g. URL-safe encoding).
-  *
-  * Return: the length of the resulting base64-encoded string in bytes.
-  */
--int base64_encode(const u8 *src, int srclen, char *dst)
-+int base64_encode(const u8 *src, int srclen, char *dst, bool padding, const char *table)
- {
- 	u32 ac = 0;
--	int bits = 0;
--	int i;
- 	char *cp = dst;
- 
--	for (i = 0; i < srclen; i++) {
--		ac = (ac << 8) | src[i];
--		bits += 8;
--		do {
--			bits -= 6;
--			*cp++ = base64_table[(ac >> bits) & 0x3f];
--		} while (bits >= 6);
--	}
--	if (bits) {
--		*cp++ = base64_table[(ac << (6 - bits)) & 0x3f];
--		bits -= 6;
-+	while (srclen >= 3) {
-+		ac = ((u32)src[0] << (BASE64_BITS_PER_BYTE * 2)) |
-+			 ((u32)src[1] << (BASE64_BITS_PER_BYTE)) |
-+			 (u32)src[2];
-+
-+		*cp++ = table[ac >> BASE64_SHIFT_OUT0];
-+		*cp++ = table[(ac >> BASE64_SHIFT_OUT1) & BASE64_6BIT_MASK];
-+		*cp++ = table[(ac >> BASE64_SHIFT_OUT2) & BASE64_6BIT_MASK];
-+		*cp++ = table[ac & BASE64_6BIT_MASK];
-+
-+		src += 3;
-+		srclen -= 3;
- 	}
--	while (bits < 0) {
--		*cp++ = '=';
--		bits += 2;
-+
-+	switch (srclen) {
-+	case 2:
-+		ac = ((u32)src[0] << (BASE64_BITS_PER_BYTE * 2)) |
-+		     ((u32)src[1] << (BASE64_BITS_PER_BYTE));
-+
-+		*cp++ = table[ac >> BASE64_SHIFT_OUT0];
-+		*cp++ = table[(ac >> BASE64_SHIFT_OUT1) & BASE64_6BIT_MASK];
-+		*cp++ = table[(ac >> BASE64_SHIFT_OUT2) & BASE64_6BIT_MASK];
-+		if (padding)
-+			*cp++ = '=';
-+		break;
-+	case 1:
-+		ac = ((u32)src[0] << (BASE64_BITS_PER_BYTE * 2));
-+		*cp++ = table[ac >> BASE64_SHIFT_OUT0];
-+		*cp++ = table[(ac >> BASE64_SHIFT_OUT1) & BASE64_6BIT_MASK];
-+		if (padding) {
-+			*cp++ = '=';
-+			*cp++ = '=';
-+		}
-+		break;
- 	}
- 	return cp - dst;
- }
- EXPORT_SYMBOL_GPL(base64_encode);
- 
- /**
-- * base64_decode() - base64-decode a string
-+ * base64_decode() - base64-decode with custom table and optional padding
-  * @src: the string to decode.  Doesn't need to be NUL-terminated.
-  * @srclen: the length of @src in bytes
-  * @dst: (output) the decoded binary data
-+ * @padding: when true, accept and handle '=' padding as per RFC 4648;
-+ *           when false, '=' is treated as invalid
-+ * @table: 64-character encoding table to use (e.g. standard or URL-safe variant)
-  *
-- * Decodes a string using base64 encoding, i.e. the "Base 64 Encoding"
-- * specified by RFC 4648, including the  '='-padding.
-+ * Decodes a string using the given 64-character @table. If @padding is true,
-+ * '=' padding is accepted as described in RFC 4648; otherwise '=' is
-+ * treated as an error. This allows decoding of both standard and
-+ * non-standard Base64 variants (e.g. URL-safe decoding).
-  *
-  * This implementation hasn't been optimized for performance.
-  *
-  * Return: the length of the resulting decoded binary data in bytes,
-  *	   or -1 if the string isn't a valid base64 string.
-  */
--int base64_decode(const char *src, int srclen, u8 *dst)
-+static inline int base64_decode_table(char ch, const char *table)
++/* ---------- Benchmark helpers ---------- */
++static u64 bench_encode_ns(const u8 *data, int len, char *dst, int reps)
 +{
-+	if (ch == '\0')
-+		return -1;
-+	const char *p = find_chr(table, ch);
++	u64 t0, t1;
 +
-+	return p ? (p - table) : -1;
++	t0 = ktime_get_ns();
++	for (int i = 0; i < reps; i++)
++		base64_encode(data, len, dst, true, base64_table);
++	t1 = ktime_get_ns();
++
++	return div64_u64(t1 - t0, (u64)reps);
 +}
 +
-+static inline int decode_base64_block(const char *src, const char *table,
-+				      int *input1, int *input2,
-+				      int *input3, int *input4,
-+				      bool padding)
++static u64 bench_decode_ns(const char *data, int len, u8 *dst, int reps)
 +{
-+	*input1 = base64_decode_table(src[0], table);
-+	*input2 = base64_decode_table(src[1], table);
-+	*input3 = base64_decode_table(src[2], table);
-+	*input4 = base64_decode_table(src[3], table);
++	u64 t0, t1;
 +
-+	/* Return error if any base64 character is invalid */
-+	if (*input1 < 0 || *input2 < 0 || (!padding && (*input3 < 0 || *input4 < 0)))
-+		return -1;
++	t0 = ktime_get_ns();
++	for (int i = 0; i < reps; i++)
++		base64_decode(data, len, dst, true, base64_table);
++	t1 = ktime_get_ns();
 +
-+	/* Handle padding */
-+	if (padding) {
-+		if (*input3 < 0 && *input4 >= 0)
-+			return -1;
-+		if (*input3 < 0 && src[2] != '=')
-+			return -1;
-+		if (*input4 < 0 && src[3] != '=')
-+			return -1;
-+	}
-+	return 0;
++	return div64_u64(t1 - t0, (u64)reps);
 +}
 +
-+int base64_decode(const char *src, int srclen, u8 *dst, bool padding, const char *table)
- {
--	u32 ac = 0;
--	int bits = 0;
--	int i;
- 	u8 *bp = dst;
-+	int input1, input2, input3, input4;
-+	u32 val;
- 
--	for (i = 0; i < srclen; i++) {
--		const char *p = find_chr(base64_table, src[i]);
-+	if (srclen == 0)
-+		return 0;
- 
--		if (src[i] == '=') {
--			ac = (ac << 6);
--			bits += 6;
--			if (bits >= 8)
--				bits -= 8;
--			continue;
-+	/* Validate the input length for padding */
-+	if (padding && (srclen & 0x03) != 0)
-+		return -1;
++static void run_perf_and_check(struct kunit *test, const char *label, int size)
++{
++	const int reps = 1000;
++	size_t outlen = DIV_ROUND_UP(size, 3) * 4;
++	u8 *in = kmalloc(size, GFP_KERNEL);
++	char *enc = kmalloc(outlen, GFP_KERNEL);
++	u8 *decoded = kmalloc(size, GFP_KERNEL);
 +
-+	while (srclen >= 4) {
-+		/* Decode the next 4 characters */
-+		if (decode_base64_block(src, table, &input1, &input2, &input3,
-+					&input4, padding) < 0)
-+			return -1;
-+		if (padding && srclen > 4) {
-+			if (input3 < 0 || input4 < 0)
-+				return -1;
- 		}
--		if (p == NULL || src[i] == 0)
-+		val = ((u32)input1 << BASE64_SHIFT_OUT0) |
-+		      ((u32)input2 << BASE64_SHIFT_OUT1) |
-+		      ((u32)((input3 < 0) ? 0 : input3) << BASE64_SHIFT_OUT2) |
-+		      (u32)((input4 < 0) ? 0 : input4);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, in);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, enc);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, decoded);
 +
-+		*bp++ = (u8)(val >> BASE64_SHIFT_BYTE0);
++	get_random_bytes(in, size);
++	int enc_len = base64_encode(in, size, enc, true, base64_table);
++	int dec_len = base64_decode(enc, enc_len, decoded, true, base64_table);
 +
-+		if (input3 >= 0)
-+			*bp++ = (u8)(val >> BASE64_SHIFT_BYTE1);
-+		if (input4 >= 0)
-+			*bp++ = (u8)val;
++	/* correctness sanity check */
++	KUNIT_EXPECT_EQ(test, dec_len, size);
++	KUNIT_EXPECT_MEMEQ(test, decoded, in, size);
 +
-+		src += 4;
-+		srclen -= 4;
++	/* benchmark encode */
++
++	u64 t1 = bench_encode_ns(in, size, enc, reps);
++
++	kunit_info(test, "[%s] encode run : %lluns", label, t1);
++
++	u64 t2 = bench_decode_ns(enc, enc_len, decoded, reps);
++
++	kunit_info(test, "[%s] decode run : %lluns", label, t2);
++
++	kfree(in);
++	kfree(enc);
++	kfree(decoded);
++}
++
++static void base64_performance_tests(struct kunit *test)
++{
++	run_perf_and_check(test, "64B", 64);
++	run_perf_and_check(test, "1KB", 1024);
++}
++
++/* ---------- Helpers for encode ---------- */
++static void expect_encode_ok(struct kunit *test, const u8 *src, int srclen,
++			     const char *expected, bool padding)
++{
++	char buf[128];
++	int encoded_len = base64_encode(src, srclen, buf, padding, base64_table);
++
++	buf[encoded_len] = '\0';
++
++	KUNIT_EXPECT_EQ(test, encoded_len, strlen(expected));
++	KUNIT_EXPECT_STREQ(test, buf, expected);
++}
++
++/* ---------- Helpers for decode ---------- */
++static void expect_decode_ok(struct kunit *test, const char *src,
++			     const u8 *expected, int expected_len, bool padding)
++{
++	u8 buf[128];
++	int decoded_len = base64_decode(src, strlen(src), buf, padding, base64_table);
++
++	KUNIT_EXPECT_EQ(test, decoded_len, expected_len);
++	KUNIT_EXPECT_MEMEQ(test, buf, expected, expected_len);
++}
++
++static void expect_decode_err(struct kunit *test, const char *src,
++			      int srclen, bool padding)
++{
++	u8 buf[64];
++	int decoded_len = base64_decode(src, srclen, buf, padding, base64_table);
++
++	KUNIT_EXPECT_EQ(test, decoded_len, -1);
++}
++
++/* ---------- Encode Tests ---------- */
++static void base64_encode_tests(struct kunit *test)
++{
++	/* With padding */
++	expect_encode_ok(test, (const u8 *)"", 0, "", true);
++	expect_encode_ok(test, (const u8 *)"f", 1, "Zg==", true);
++	expect_encode_ok(test, (const u8 *)"fo", 2, "Zm8=", true);
++	expect_encode_ok(test, (const u8 *)"foo", 3, "Zm9v", true);
++	expect_encode_ok(test, (const u8 *)"foob", 4, "Zm9vYg==", true);
++	expect_encode_ok(test, (const u8 *)"fooba", 5, "Zm9vYmE=", true);
++	expect_encode_ok(test, (const u8 *)"foobar", 6, "Zm9vYmFy", true);
++
++	/* Extra cases with padding */
++	expect_encode_ok(test, (const u8 *)"Hello, world!", 13, "SGVsbG8sIHdvcmxkIQ==", true);
++	expect_encode_ok(test, (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26,
++			 "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=", true);
++	expect_encode_ok(test, (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26,
++			 "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo=", true);
++	expect_encode_ok(test, (const u8 *)"0123456789+/", 12, "MDEyMzQ1Njc4OSsv", true);
++
++	/* Without padding */
++	expect_encode_ok(test, (const u8 *)"", 0, "", false);
++	expect_encode_ok(test, (const u8 *)"f", 1, "Zg", false);
++	expect_encode_ok(test, (const u8 *)"fo", 2, "Zm8", false);
++	expect_encode_ok(test, (const u8 *)"foo", 3, "Zm9v", false);
++	expect_encode_ok(test, (const u8 *)"foob", 4, "Zm9vYg", false);
++	expect_encode_ok(test, (const u8 *)"fooba", 5, "Zm9vYmE", false);
++	expect_encode_ok(test, (const u8 *)"foobar", 6, "Zm9vYmFy", false);
++
++	/* Extra cases without padding */
++	expect_encode_ok(test, (const u8 *)"Hello, world!", 13, "SGVsbG8sIHdvcmxkIQ", false);
++	expect_encode_ok(test, (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26,
++			 "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo", false);
++	expect_encode_ok(test, (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26,
++			 "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo", false);
++	expect_encode_ok(test, (const u8 *)"0123456789+/", 12, "MDEyMzQ1Njc4OSsv", false);
++}
++
++/* ---------- Decode Tests ---------- */
++static void base64_decode_tests(struct kunit *test)
++{
++	/* -------- With padding --------*/
++	expect_decode_ok(test, "", (const u8 *)"", 0, true);
++	expect_decode_ok(test, "Zg==", (const u8 *)"f", 1, true);
++	expect_decode_ok(test, "Zm8=", (const u8 *)"fo", 2, true);
++	expect_decode_ok(test, "Zm9v", (const u8 *)"foo", 3, true);
++	expect_decode_ok(test, "Zm9vYg==", (const u8 *)"foob", 4, true);
++	expect_decode_ok(test, "Zm9vYmE=", (const u8 *)"fooba", 5, true);
++	expect_decode_ok(test, "Zm9vYmFy", (const u8 *)"foobar", 6, true);
++	expect_decode_ok(test, "SGVsbG8sIHdvcmxkIQ==", (const u8 *)"Hello, world!", 13, true);
++	expect_decode_ok(test, "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=",
++			 (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26, true);
++	expect_decode_ok(test, "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo=",
++			 (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26, true);
++
++	/* Error cases */
++	expect_decode_err(test, "Zg=!", 4, true);
++	expect_decode_err(test, "Zm$=", 4, true);
++	expect_decode_err(test, "Z===", 4, true);
++	expect_decode_err(test, "Zg", 2, true);
++	expect_decode_err(test, "Zm9v====", 8, true);
++	expect_decode_err(test, "Zm==A", 5, true);
++
++	{
++		char with_nul[4] = { 'Z', 'g', '\0', '=' };
++
++		expect_decode_err(test, with_nul, 4, true);
 +	}
 +
-+	/* Handle leftover characters when padding is not used */
-+	if (!padding && srclen > 0) {
-+		switch (srclen) {
-+		case 2:
-+			input1 = base64_decode_table(src[0], table);
-+			input2 = base64_decode_table(src[1], table);
-+			if (input1 < 0 || input2 < 0)
-+				return -1;
++	/* -------- Without padding --------*/
++	expect_decode_ok(test, "", (const u8 *)"", 0, false);
++	expect_decode_ok(test, "Zg", (const u8 *)"f", 1, false);
++	expect_decode_ok(test, "Zm8", (const u8 *)"fo", 2, false);
++	expect_decode_ok(test, "Zm9v", (const u8 *)"foo", 3, false);
++	expect_decode_ok(test, "Zm9vYg", (const u8 *)"foob", 4, false);
++	expect_decode_ok(test, "Zm9vYmE", (const u8 *)"fooba", 5, false);
++	expect_decode_ok(test, "Zm9vYmFy", (const u8 *)"foobar", 6, false);
++	expect_decode_ok(test, "TWFu", (const u8 *)"Man", 3, false);
++	expect_decode_ok(test, "SGVsbG8sIHdvcmxkIQ", (const u8 *)"Hello, world!", 13, false);
++	expect_decode_ok(test, "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo",
++			 (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26, false);
++	expect_decode_ok(test, "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo",
++			 (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26, false);
++	expect_decode_ok(test, "MDEyMzQ1Njc4OSsv", (const u8 *)"0123456789+/", 12, false);
 +
-+			val = ((u32)input1 << BASE64_CHUNK_BITS) | (u32)input2; /* 12 bits */
-+			if (val & BASE64_MASK(BASE64_TAIL2_UNUSED_BITS))
-+				return -1; /* low 4 bits must be zero */
++	/* Error cases */
++	expect_decode_err(test, "Zg=!", 4, false);
++	expect_decode_err(test, "Zm$=", 4, false);
++	expect_decode_err(test, "Z===", 4, false);
++	expect_decode_err(test, "Zg=", 3, false);
++	expect_decode_err(test, "Zm9v====", 8, false);
++	expect_decode_err(test, "Zm==v", 4, false);
 +
-+			*bp++ = (u8)(val >> BASE64_TAIL2_BYTE0_SHIFT);
-+			break;
-+		case 3:
-+			input1 = base64_decode_table(src[0], table);
-+			input2 = base64_decode_table(src[1], table);
-+			input3 = base64_decode_table(src[2], table);
-+			if (input1 < 0 || input2 < 0 || input3 < 0)
-+				return -1;
++	{
++		char with_nul[4] = { 'Z', 'g', '\0', '=' };
 +
-+			val = ((u32)input1 << (BASE64_CHUNK_BITS * 2)) |
-+			      ((u32)input2 << BASE64_CHUNK_BITS) |
-+			      (u32)input3; /* 18 bits */
++		expect_decode_err(test, with_nul, 4, false);
++	}
++}
 +
-+			if (val & BASE64_MASK(BASE64_TAIL3_UNUSED_BITS))
-+				return -1; /* low 2 bits must be zero */
++/* ---------- Test registration ---------- */
++static struct kunit_case base64_test_cases[] = {
++	KUNIT_CASE(base64_performance_tests),
++	KUNIT_CASE(base64_encode_tests),
++	KUNIT_CASE(base64_decode_tests),
++	{}
++};
 +
-+			*bp++ = (u8)(val >> BASE64_TAIL3_BYTE0_SHIFT);
-+			*bp++ = (u8)((val >> BASE64_TAIL3_BYTE1_SHIFT) & 0xFF);
-+			break;
-+		default:
- 			return -1;
--		ac = (ac << 6) | (p - base64_table);
--		bits += 6;
--		if (bits >= 8) {
--			bits -= 8;
--			*bp++ = (u8)(ac >> bits);
- 		}
- 	}
--	if (ac & ((1 << bits) - 1))
--		return -1;
++static struct kunit_suite base64_test_suite = {
++	.name = "base64",
++	.test_cases = base64_test_cases,
++};
 +
- 	return bp - dst;
- }
- EXPORT_SYMBOL_GPL(base64_decode);
++kunit_test_suite(base64_test_suite);
++
++MODULE_AUTHOR("Guan-Chun Wu <409411716@gms.tku.edu.tw>");
++MODULE_DESCRIPTION("KUnit tests for Base64 encoding/decoding, including performance checks");
++MODULE_LICENSE("GPL");
 -- 
 2.34.1
 
