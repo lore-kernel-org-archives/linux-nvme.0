@@ -4,88 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55542CAC58E
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 13:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97D21CAC592
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 15:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=D1tJK7EVEEBpZOYAzUBVwhN8ghfGDKg4r3m5O2KBrig=; b=VSxm2BfMR9HWTaj6g/sByfpT1U
-	5w+8iuGVoXi30FzTkKjMrV+aZpIWrf7jobzSkYCAbpKqDknw2Wr8Cbi4svj1LU8nguI5XKnbv4wE0
-	D32oQXoTttM6xwQ/BZdnl/VxN5AFM7w+adPo6s0Ouj2k1SzWG/pskpWomoQ7CZ4ttYirNWuNGEVSA
-	pOlhrXSaqMGxxnSeviwVeWuD/tjEVv2PbVFo1aPRDXKnWN0b/BGh/7pheH11KqfTxjbDoilGynegF
-	8ESeW2L2WtjFP7lgolGMw0+FqRJ2ni4bUF25Z+P7YMxJup0oLukPcmsJhqwpl+lccIJsIBaVMg8Yl
-	QJgpOgOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Sm39d5NFqL/jKxwzJUkYjs0RqtR2b1iX+TUT2ANp2Xo=; b=wPOEMGL5/iPiB3C2TbmzHVTp5z
+	csNOWH/mqYnnW9jX2NyK0QEQl9Yv8qEceEDeOOKuQQ7IXuvBfnINLnuEEN30TGctyk+XtnZuDpJYs
+	+rZcHKLJltFdqtDXK3qIdHfgnnFxKPjd3t5HXTnC1LtyCiWbWD1lS+2RdZm+g0zwiFe2GPWiw3TJG
+	9OH8uFx1cT7N1DS3l8J28mpwi5pXOTRybrXMNC4X2QTqdyzmtFw4yahOxCp7rKiSsftBpDNcy7/O2
+	C0qW/VAYzPH+CFIZPhKCBJQFNINZEhWkLvjtIkUKdlUpdoKy1k5G1uD2miqpPQiilKOsUtb1/D+gj
+	U/RA850g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwh13-000000038n9-2flj;
-	Thu, 11 Sep 2025 13:07:09 +0000
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+	id 1uwjZ5-00000003zzm-2dgG;
+	Thu, 11 Sep 2025 15:50:27 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwh10-000000038mo-2wmB
+	id 1uwjZ3-00000003zyF-1GJ0
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Sep 2025 13:07:07 +0000
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-7728815e639so519207b3a.1
-        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 06:07:06 -0700 (PDT)
+	Thu, 11 Sep 2025 15:50:26 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-24cda620e37so1461935ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 08:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757596025; x=1758200825; darn=lists.infradead.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=D1tJK7EVEEBpZOYAzUBVwhN8ghfGDKg4r3m5O2KBrig=;
-        b=RYbkdX5BduSt5yfya+trafSBLijYVEbFUvrG5MlPC7qr5BH4x5yataq8stW99jZgol
-         5tW639L2b22AFA0cS7HskVQWWQeZddQUNBVDPF2KOddk0oJRneNXCcDdekaRoUER1gB0
-         EYUTPrj6Jt6FN1K6jQDBDguosMJJAofSMCb0xXOMbFvqpCt8RXOyhyLt669swcstu3Td
-         EuQRLsUhSSFEflel5CwaxFgfEpj39YFG7ChIkU6iiYQmITrIo8U0p7gnPo3mMdpQ9i5k
-         XkXkt8FOo2Crt/dSia+sgPgS3Isc9o03rNdf5h7ZoG2rPCaouuFgv8jvWZiY/paAUT0L
-         A5oQ==
+        d=purestorage.com; s=google2022; t=1757605824; x=1758210624; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sm39d5NFqL/jKxwzJUkYjs0RqtR2b1iX+TUT2ANp2Xo=;
+        b=ODNg5zMD7C195iOb/lMfdIUVC984SNw2v+N7X/kOXXnmDkZUGzrcLAzmaUZzzYWtrI
+         4dMh9z3EqsTXe4BA5weaqwttrDUXT6GgDngjbC/VwaxDatBsxOAxY7IN4bVg8x9ayuZ8
+         R5GjI9VY/PIFPU8fhDQZkvQJhdM5A95Ptz6QD3gKVHnqQGqTbMMKvnUvJr2hzw1Z7jCc
+         C/MUfYxiHUbMYATQvus9RVpDFb7sQ3lN5SE0u1ZOPiZFY4VAQdAsjK9PrjvvvX0636pi
+         ZSlSOz+09sGDDS2ECuZpX43oN2nWuywcXrI/V1Oc3FodzdAYy+Yu5j0INpVLfV9vmLIZ
+         Xx6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757596025; x=1758200825;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D1tJK7EVEEBpZOYAzUBVwhN8ghfGDKg4r3m5O2KBrig=;
-        b=XeRyXe3O4fXYCoTp1aVecoVLGsDxmloVhOptJN7J8ImNgb6nQxLxc+FaDySJ4g22b9
-         iF8oQ1SCTu5/UDI2XI8P9FbA0cujyFp8El+o1x1+jeGTSzVbqFl4sisjBFRarXBf/TBy
-         0LYw9AYmvMQIH2Iqf4+cFtNleaCTlmL5KAo6+Dfweek5BnCcDrvwqPM+2TxbCTt3EjPl
-         WP4/nlVDuwMokmA8sVBW2hUDmfBprD8nN18rbAgNx+TreR4PTWUtCAgg1yyZME0JDzEu
-         u889xqY+o4NjURmlBultsF7l/A57tN+bfIPaDWHzRjhzWRaO594wA3VFRmpmsMBioZHR
-         Lc6A==
-X-Forwarded-Encrypted: i=1; AJvYcCX2yPv+/RBM983RujoRD+DRv51Bbb9VxhPzaK3CQWyeAWysOPIsX6eV75KdzGQdz1uR+V72D/rvOip6@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyfg7f+afSL92OjLR4KdQ2ak20seU7hC4N2V8cH6NQWlEBqNUkw
-	vxnx3CglCRwjw9hCS5T2KClZ3E4PmKtd4p8VMO/yUGsx8P28r2bV3BzG
-X-Gm-Gg: ASbGncvMhpL+N5MlVNMO/cCYlWB0IFKyLnaaFBZTIV4WHKsu7J3zZf1Iyb5999qiEdO
-	z7R2lFZeXT7uKq8XStJagTUvCjmeZGQgkTN1XmAfYV4wn3hrRbQ6gV65qNWm2/uWgm5rKr+aAda
-	q9cJewINGWPaAKV1u5r1ujWUeH8RzsRD3KPsX+oTMZoenUPhSV9zfkESST8Ms75c32JrxTKlheN
-	cDFTf7vftpBjmKK1F/WUXuXtiunCo/RsFrQ3gqINmvvDMc28elckpLEa4gtk+6Um14Z9tH0mMU9
-	cTXl5o2QCovIKhIZcC/CKSPenoO6Ca0SNDCA1oOGQXLdsLMk3Aq9zDH/9JmFmXbFUml1j+IrWA0
-	gxud8OHC57PJca3JmllaUqeUwxrtqbryJzsfrTA==
-X-Google-Smtp-Source: AGHT+IE5KCoVUC08AWBthUC6tD+cMtnhPBgIMpX5A2BFKgITNRxlg/b4fWnvYXi+fUbXyPN/VD5xuw==
-X-Received: by 2002:a05:6a21:33a5:b0:243:ad4f:add9 with SMTP id adf61e73a8af0-253430ae1bdmr27572823637.30.1757596025014;
-        Thu, 11 Sep 2025 06:07:05 -0700 (PDT)
-Received: from 10.0.2.15 ([223.185.135.45])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a36d0d5bsm1889729a12.22.2025.09.11.06.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 06:07:04 -0700 (PDT)
-Message-ID: <ee638169c6fd15b448449e7dbe3d8aacaf7fc093.camel@gmail.com>
-Subject: Re: [PATCH] nvme-tcp: send only permitted commands for secure concat
-From: Martin George <martinus.gpy@gmail.com>
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, hare@kernel.org, 
-	pnayak@netapp.com, prashana@netapp.com
-Date: Thu, 11 Sep 2025 18:37:00 +0530
-In-Reply-To: <1f7cd5e4-45f0-40cb-ab6a-6936a5062ae0@suse.de>
-References: <20250909103509.10343-1-marting@netapp.com>
-	 <1f7cd5e4-45f0-40cb-ab6a-6936a5062ae0@suse.de>
+        d=1e100.net; s=20230601; t=1757605824; x=1758210624;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Sm39d5NFqL/jKxwzJUkYjs0RqtR2b1iX+TUT2ANp2Xo=;
+        b=QKTOfXZPr8sV/DKzt/9Ehe4VhKu8M3OZsCoS5+utSD+EKKlOApLOXZXfi7eZ8F+opG
+         SIFxSkRsenQO093xbPcM6xvwFzjhTBBywKtHPpgJzYZyAW3dIuMdXWuG2H2LEXyGlxqf
+         Yf2IGtUSjqW9rx/eUNL/TbRxyyORtjDAXC+GhaP03aGVqjfX+lWEbl86sQFuWxD4VVfv
+         bbOLpBfEHUKDzygxFmXw1A9vcyX4l+B7+cYFRt+lfdvORirhlU0e1AmsoK5d28VLGuzk
+         mIxpnWr8mZJxlvJ5uO6y0Nye4EQvCg5hOVOmPVNvetaWlqfSVQhXGwh4j5022hD88pVK
+         X2uw==
+X-Forwarded-Encrypted: i=1; AJvYcCWi79a2Uwzh2u9EZfZX93wY0ZjU6dcDFd0i1qjNU8/WdIUvAZYvwP+zA+zN1s73KVduRJEENzLqGQTX@lists.infradead.org
+X-Gm-Message-State: AOJu0YzcDD7ZU1IZzeybNF5Ec6TF9p+2Y1nZ2OWwL9DW/zw1vlSVjFnu
+	39pu6tDlDqnpShxdFt8tlvJ6PDzI90XSVQta1+exf254390dDdq6f77ixuK0A/gbexlKLP7Y9d4
+	aeOyHtBC9fZLKDLzRvHKH5wzr7LKhCblbmaG8lMJqEw==
+X-Gm-Gg: ASbGncsRT63i2jBrwwXCciLxZzuF8hvdOYE2F/E38VlibhqT3FdxVNcJctBsBGcZIdX
+	a7w9FKelAMdUo+xVNJRtgk47U4KvQLhkRNqBJqI6kZ89V0racRX6tC4mPp/w3cTkxOY+7/YP/n2
+	FKYDbzyUX+biqhqYIWpafwUP+4CpjsxU87PtvmW8nOWQQ7h+Cw+Z4vS+6LfcwDwSujVJvnXSnJv
+	LjbdJhNjmWvc0+z9wArKIYbKSfL0SXFCfaVCHo=
+X-Google-Smtp-Source: AGHT+IHeD3ijdPFv6sWC+2qqn5ewuQ4r5M61SalEw+nEx55NKT7Qlty/iU0ChnsPVabDot6LaASoCZDlZs00KT1RgN0=
+X-Received: by 2002:a17:902:ec8e:b0:24d:15b7:1fa4 with SMTP id
+ d9443c01a7336-2517653b663mr140062445ad.10.1757605824176; Thu, 11 Sep 2025
+ 08:50:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250911072925.547163-1-409411716@gms.tku.edu.tw> <20250911073204.574742-1-409411716@gms.tku.edu.tw>
+In-Reply-To: <20250911073204.574742-1-409411716@gms.tku.edu.tw>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Thu, 11 Sep 2025 08:50:12 -0700
+X-Gm-Features: Ac12FXwoL045SNoj1J2Tk9bFEh24Fjp_N53zMjtCDhxT-Fzyr-6A0W4BpkqjnRk
+Message-ID: <CADUfDZqe2x+xaqs6M_BZm3nR=Ahu-quKbFNmKCv2QFb39qAYXg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] lib/base64: Replace strchr() for better performance
+To: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+Cc: akpm@linux-foundation.org, axboe@kernel.dk, ceph-devel@vger.kernel.org, 
+	ebiggers@kernel.org, hch@lst.de, home7438072@gmail.com, idryomov@gmail.com, 
+	jaegeuk@kernel.org, kbusch@kernel.org, linux-fscrypt@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	sagi@grimberg.me, tytso@mit.edu, visitorckw@gmail.com, xiubli@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
-MIME-Version: 1.0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250911_060706_749543_30874524 
-X-CRM114-Status: GOOD (  27.85  )
+X-CRM114-CacheID: sfid-20250911_085025_390108_A684EAAD 
+X-CRM114-Status: GOOD (  22.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,90 +98,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2025-09-10 at 14:58 +0200, Hannes Reinecke wrote:
-> On 9/9/25 12:35, Martin George wrote:
-> > In addition to sending permitted commands such as connect/auth
-> > over the initial unencrypted admin connection as part of secure
-> > channel concatenation, the host also sends commands such as
-> > Property Get and Identify on the same. This is a spec violation
-> > leading to secure concat failures. Fix this by ensuring these
-> > additional commands are avoided on this connection.
-> >=20
-> > Fixes: 104d0e2f6222 ("nvme-fabrics: reset admin connection for
-> > secure concatenation")
-> > Signed-off-by: Martin George <marting@netapp.com>
-> > ---
-> > =C2=A0 drivers/nvme/host/tcp.c | 3 +++
-> > =C2=A0 1 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index c0fe8cfb7229..1413788ca7d5 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -2250,6 +2250,9 @@ static int
-> > nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
-> > =C2=A0=C2=A0	if (error)
-> > =C2=A0=C2=A0		goto out_cleanup_tagset;
-> > =C2=A0=20
-> > +	if (ctrl->opts->concat && !ctrl->tls_pskid)
-> > +		return 0;
-> > +
-> > =C2=A0=C2=A0	error =3D nvme_enable_ctrl(ctrl);
-> > =C2=A0=C2=A0	if (error)
-> > =C2=A0=C2=A0		goto out_stop_queue;
->=20
-> Hmm. Not sure. While section 8.3.4.3 'NVMe In-band Authentication'
-> states:
->=20
-> =C2=A0 If one or more of the bits in the AUTHREQ field are set to =E2=80=
-=981=E2=80=99,
-> then
-> =C2=A0 the controller requires that the host authenticate on that queue i=
-n
-> =C2=A0 order to proceed with Fabrics, Admin, and I/O commands.
->=20
-> =C2=A0From which one could assume that none of the commands are allowed.
-> But it then goes on to state:
->=20
-> =C2=A0 The state of an in-progress authentication transaction is soft-
-> state.
-> =C2=A0 If the subsequent command in an authentication transaction is not
-> =C2=A0 received by the controller within a timeout equal to:
-> =C2=A0=C2=A0 * the Keep Alive Timeout value (refer to Figure 546), if the=
- Keep
-> =C2=A0=C2=A0=C2=A0=C2=A0 Alive Timer is enabled; or
-> =C2=A0=C2=A0 * the default Keep Alive Timeout value (i.e., two minutes), =
-if the
-> =C2=A0=C2=A0=C2=A0=C2=A0 Keep Alive Timer is disabled;
->=20
-> one can imply that KATO is running during authentication
-> transactions.
-> But that might require additional commands, so really I'm not sure.
-> Let me ask FMDS for clarification.
->=20
+On Thu, Sep 11, 2025 at 12:33=E2=80=AFAM Guan-Chun Wu <409411716@gms.tku.ed=
+u.tw> wrote:
+>
+> From: Kuan-Wei Chiu <visitorckw@gmail.com>
+>
+> The base64 decoder previously relied on strchr() to locate each
+> character in the base64 table. In the worst case, this requires
+> scanning all 64 entries, and even with bitwise tricks or word-sized
+> comparisons, still needs up to 8 checks.
+>
+> Introduce a small helper function that maps input characters directly
+> to their position in the base64 table. This reduces the maximum number
+> of comparisons to 5, improving decoding efficiency while keeping the
+> logic straightforward.
+>
+> Benchmarks on x86_64 (Intel Core i7-10700 @ 2.90GHz, averaged
+> over 1000 runs, tested with KUnit):
+>
+> Decode:
+>  - 64B input: avg ~1530ns -> ~126ns (~12x faster)
+>  - 1KB input: avg ~27726ns -> ~2003ns (~14x faster)
+>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> Co-developed-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+> Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+> ---
+>  lib/base64.c | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/lib/base64.c b/lib/base64.c
+> index b736a7a43..9416bded2 100644
+> --- a/lib/base64.c
+> +++ b/lib/base64.c
+> @@ -18,6 +18,21 @@
+>  static const char base64_table[65] =3D
+>         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=
+";
 
-This is specific to secure concat alone, and not otherwise.=C2=A0
+Does base64_table still need to be NUL-terminated?
 
-NVMe base spec 2.1 section 8.3.4.1 Fabric Secure Channel states that
-"An NVM subsystem that requires use of a fabric secure channel (i.e.,
-as indicated by the TSC field in the associated Discovery Log Page
-Entry) shall not allow capsules to be transferred until a secure
-channel has been established for the NVMe Transport connection."
+>
+> +static inline const char *find_chr(const char *base64_table, char ch)
 
-And again in section 8.3.4.3 Secure Channel Concatenation, "This PSK is
-generated by an authentication transaction on an Admin Queue over an
-unsecure channel. Once the authentication transaction is completed,
-that Admin Queue transport connection shall be disconnected by the
-host. The generated PSK may then be used to set up secure channels for
-subsequent Admin Queue(s) and I/O Queues."
+Don't see a need to pass in base64_table, the function could just
+access the global variable directly.
 
-So once authentication is completed on the unencrypted admin connection
-as part of secure concat, the host is expected to immediately
-disconnect from that and then proceed with setting up subsequent
-encrypted admin & I/O connections i.e. no reason for the host to
-continue with nvme_enable_ctrl() & nvme_init_ctrl_finish() on the
-initial unsecure connection as that's futile and doesn't serve any
-purpose. And that's what this patch is attempting to do above.
+> +{
+> +       if ('A' <=3D ch && ch <=3D 'Z')
+> +               return base64_table + ch - 'A';
+> +       if ('a' <=3D ch && ch <=3D 'z')
+> +               return base64_table + 26 + ch - 'a';
+> +       if ('0' <=3D ch && ch <=3D '9')
+> +               return base64_table + 26 * 2 + ch - '0';
+> +       if (ch =3D=3D base64_table[26 * 2 + 10])
+> +               return base64_table + 26 * 2 + 10;
+> +       if (ch =3D=3D base64_table[26 * 2 + 10 + 1])
+> +               return base64_table + 26 * 2 + 10 + 1;
+> +       return NULL;
 
--Martin
+This is still pretty branchy. One way to avoid the branches would be
+to define a reverse lookup table mapping base64 chars to their values
+(or a sentinel value for invalid chars). Have you benchmarked that
+approach?
+
+Best,
+Caleb
+
+> +}
+> +
+>  /**
+>   * base64_encode() - base64-encode some binary data
+>   * @src: the binary data to encode
+> @@ -78,7 +93,7 @@ int base64_decode(const char *src, int srclen, u8 *dst)
+>         u8 *bp =3D dst;
+>
+>         for (i =3D 0; i < srclen; i++) {
+> -               const char *p =3D strchr(base64_table, src[i]);
+> +               const char *p =3D find_chr(base64_table, src[i]);
+>
+>                 if (src[i] =3D=3D '=3D') {
+>                         ac =3D (ac << 6);
+> --
+> 2.34.1
+>
+>
 
