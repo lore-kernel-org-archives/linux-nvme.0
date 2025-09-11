@@ -4,123 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E9C2CA0FED
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Sep 2025 12:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7CCBCAC587
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:29:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P2T4aqUgHvLcSKFo47uo0/3bwhjnXDkWTKJFGbbBmjQ=; b=2iA+gjaYzXRF7bYlyFOvJpP52u
-	dYoMgj9HUy83uMDfF6B4o0XNUeY8Mh2ssJEBXThgxabEviU7i8ZOq0NW1jEftmxJcwyjBDY/teg5v
-	P4sVcF5qrcePKmIfc3Qk/0ydocCLWCyAztAchARHNQMf6SdsV+A59xzVZb+2kcI3j0u+okTb3wTXB
-	tqsNJmua8Yk06kLDBuJz0LMlwqtkJjX9i8uVus8jdnWzUluBTeyT8lpqSyhntn/BHdaEikqffS9GN
-	6DE2epYDu7BKsMxPOLi1cnYaSSPfVJ9e55Bh2jJOpdDfp7aYJnzDEDyGiyZzBRduoJM8A+GOQW5eA
-	WDtC/XVQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=D81Vt79I/BTOBBePW6+0X1oh6zDyKaYVMRC1TVaQyRM=; b=JDc7TX1dgL2dMdNaqTdLSWeRkI
+	MKrr2cwjiKIFrQyyhWSIyxwh3Ot215DXvNRRkVpjKYtZxLkGyNzoEDRplyjrTIg3nakt/pyViiF+8
+	iVUFtk4CCjPj33nLMRp1Ft3ol5kL3WdAsr3mfX00EnM2CSMsKo838mjk6R+96CQSDJjrZ5sTPtsMW
+	eJ8nfHPe43isVZX5w3W+C2pJUAaneSkKUGcCa+t0ACu8ZLulBOl+fDlYp4aN/lC92yWqjy1URGx+v
+	axffX0eFyhGbG/0DPx05y3Ai52/KXL2HSOvaXzu10uWACl54N801N50ohT127npw2q9jmBa4M8Cjj
+	XifJwqrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwKP3-0000000EGAs-2iLD;
-	Wed, 10 Sep 2025 12:58:25 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1uwbkW-00000001Uev-3y2b;
+	Thu, 11 Sep 2025 07:29:44 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwKP1-0000000EG9Y-1i8g
+	id 1uwbkS-00000001Ud7-0LA5
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Sep 2025 12:58:24 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9E6BC5F7AA;
-	Wed, 10 Sep 2025 12:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757509099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P2T4aqUgHvLcSKFo47uo0/3bwhjnXDkWTKJFGbbBmjQ=;
-	b=UHBYZeI+DggCd0DCBZ3oPOlSBYnZ4Rr09H9+q+a7oEWE01LPAc8YMp2Lf2U+fm9FLcWqlb
-	yvyNvz0EovN4Azk5V7ta/lqadQwG5fRqSbTW+IgOG+0Jz2jXFP0IBa0Br+Cv4bHB0UXpg3
-	FTrl6qr7ov/1/QauP+r70lAWvLC5Qss=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757509099;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P2T4aqUgHvLcSKFo47uo0/3bwhjnXDkWTKJFGbbBmjQ=;
-	b=cKZzJTwq9LWMiBrbNGC0o0spv2JY+m7MYSKYXFDw5O5pTpodXMSb0CqnPodpIkDDKBwvUX
-	ZxEVJ0YHS0YM1PCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757509099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P2T4aqUgHvLcSKFo47uo0/3bwhjnXDkWTKJFGbbBmjQ=;
-	b=UHBYZeI+DggCd0DCBZ3oPOlSBYnZ4Rr09H9+q+a7oEWE01LPAc8YMp2Lf2U+fm9FLcWqlb
-	yvyNvz0EovN4Azk5V7ta/lqadQwG5fRqSbTW+IgOG+0Jz2jXFP0IBa0Br+Cv4bHB0UXpg3
-	FTrl6qr7ov/1/QauP+r70lAWvLC5Qss=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757509099;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P2T4aqUgHvLcSKFo47uo0/3bwhjnXDkWTKJFGbbBmjQ=;
-	b=cKZzJTwq9LWMiBrbNGC0o0spv2JY+m7MYSKYXFDw5O5pTpodXMSb0CqnPodpIkDDKBwvUX
-	ZxEVJ0YHS0YM1PCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73C9D13301;
-	Wed, 10 Sep 2025 12:58:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XftbGet1wWhKBQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 10 Sep 2025 12:58:19 +0000
-Message-ID: <1f7cd5e4-45f0-40cb-ab6a-6936a5062ae0@suse.de>
-Date: Wed, 10 Sep 2025 14:58:19 +0200
+	Thu, 11 Sep 2025 07:29:42 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-251ace3e7caso5134635ad.2
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757575777; x=1758180577; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D81Vt79I/BTOBBePW6+0X1oh6zDyKaYVMRC1TVaQyRM=;
+        b=rVFxNjuA4fHPnCMI1GeSTy7qm0at61g/x7yehPxbLItfiKgcMjhLgeNo3746tqsZEu
+         WcCWZBwmyHNbP70rwzx3HShFnIT/t+HkLDME4qq9tdoKGfLL1xP65BT3wjlH/jlAkKWc
+         9BJ4zsJ9qJypQKLoNK8FitOa9LE7Le2H6J9kWJXfpgsVkr8u4n0tA1RuXeo7Zn3CSx6X
+         Fh3fPu7w35ADI9UDfWYHhCD9lVsj+ct2cMoW52fAsvPrvfec8w4vggvNFQldty5j1E7t
+         AvQuqeQ6Fu2xomm+GsId09t3dncFk7xWMlKTXVGcffrZEINBPkjj7N1vIuwXrGoRTEK6
+         u3fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757575777; x=1758180577;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D81Vt79I/BTOBBePW6+0X1oh6zDyKaYVMRC1TVaQyRM=;
+        b=X/lTEAZR+XvrbzyLZdeREQJ4c838b/kt7NS41ko9JYrNUWuCevDcJ4kkSDiOuP1Vy7
+         t6iELG8uYohJ/Muz9GuGwESWYOlVocI53TtMepaeGsFlYq9QXakUdEzrqtSLIKkMF+mF
+         1jts0b6B+zO4tjbyEtVcxLAdYMBqAQZmS14QcNkiAxfkbN8bTRWPfxJ95ngYbfTVnepa
+         dcB6DPLNWCyMKxhlVriMJf+d7BTvE4eYqtIzKiAy5YSjou5cxpX4JDGINLC/sTeo649D
+         ePc3AnB0RN7xFITL8l9vPmEctQXmIYQetoqd2l4eIx93GQDWoo9nyr52k6nEfjk0idvB
+         Muqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWWy/4xYmyPeq70/7uwQedEGZ8dWP5VSi9eA/8+v38gWXHRo5c5tq0mlVo0kPVZ5oUbqL8c+1rP01Zc@lists.infradead.org
+X-Gm-Message-State: AOJu0YzjqZSOiJRI0mQ660uVlT8hJ7k3W8D8x3Td6smEa4fPNtLIkQCH
+	FqOk2sJM9wHzj+K2RcPI7hj+2+pqFbBHlWqYt2CeFuAuXDXDCQr0mAx+GJ/JTLQI9ji5p20OWc2
+	NwT+w+5g=
+X-Gm-Gg: ASbGnct9eaFQS5glX72g3zdMtJg3lcqsiBBluTgCQL/birFDKiqCYMivm9IVs/J/eC2
+	TUJEcEgNH7SUBpa8Jo3yEN731wuQYHjMig6QIYRlLcIXQeneV3vGX1A/ynin5iksuFPFpJjPRqN
+	vWt65ekTwwzeJ5wZwLhEuADzpiSZjlcyUbGM/HLQZ+QWAuodpVJfu9SkUZZkmsARyoVOWx6wMqv
+	qEfpTdfVJKSt7hPPASy4GpEew1E1HzUwF0oteQPf+DuN2OALaSjdRWOtq8LooDhfypm7IF6dwDB
+	TOEukuJnElnhxNLBbX7hbfPMrzh0+r8EuM79H0EBkvyTBcSTjyqQ161/jfOg4WvsgI7nTvIiHbC
+	GxCjIS8sxK6orHRXO1A8GQ/f7/A4xJx7eyRH9B5Qb0e2zf2/GnkCoIIG9Bw==
+X-Google-Smtp-Source: AGHT+IHO7xlf6/5dPDqWynFAANB+M0UuBkmme6pcsf85zd3+cmkflA/c+A0enwc+u10nZW1Fv/oP5w==
+X-Received: by 2002:a17:903:1111:b0:251:3d1c:81f4 with SMTP id d9443c01a7336-25173bbbab1mr288649825ad.54.1757575777526;
+        Thu, 11 Sep 2025 00:29:37 -0700 (PDT)
+Received: from wu-Pro-E500-G6-WS720T.. ([2001:288:7001:2703:7811:c085:c184:85be])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c37293ef1sm9838395ad.41.2025.09.11.00.29.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Sep 2025 00:29:36 -0700 (PDT)
+From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	xiubli@redhat.com,
+	idryomov@gmail.com,
+	ebiggers@kernel.org,
+	tytso@mit.edu,
+	jaegeuk@kernel.org,
+	akpm@linux-foundation.org
+Cc: visitorckw@gmail.com,
+	home7438072@gmail.com,
+	409411716@gms.tku.edu.tw,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	ceph-devel@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org
+Subject: [PATCH v2 0/5] lib/base64: add generic encoder/decoder, migrate users
+Date: Thu, 11 Sep 2025 15:29:25 +0800
+Message-Id: <20250911072925.547163-1-409411716@gms.tku.edu.tw>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-tcp: send only permitted commands for secure concat
-To: Martin George <martinus.gpy@gmail.com>, linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, hare@kernel.org,
- Martin George <marting@netapp.com>
-References: <20250909103509.10343-1-marting@netapp.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250909103509.10343-1-marting@netapp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com,lists.infradead.org];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250910_055823_596769_A2296CF5 
-X-CRM114-Status: GOOD (  19.54  )
+X-CRM114-CacheID: sfid-20250911_002940_358865_1DA36274 
+X-CRM114-Status: GOOD (  11.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,62 +110,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/9/25 12:35, Martin George wrote:
-> In addition to sending permitted commands such as connect/auth
-> over the initial unencrypted admin connection as part of secure
-> channel concatenation, the host also sends commands such as
-> Property Get and Identify on the same. This is a spec violation
-> leading to secure concat failures. Fix this by ensuring these
-> additional commands are avoided on this connection.
-> 
-> Fixes: 104d0e2f6222 ("nvme-fabrics: reset admin connection for secure concatenation")
-> Signed-off-by: Martin George <marting@netapp.com>
-> ---
->   drivers/nvme/host/tcp.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index c0fe8cfb7229..1413788ca7d5 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -2250,6 +2250,9 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
->   	if (error)
->   		goto out_cleanup_tagset;
->   
-> +	if (ctrl->opts->concat && !ctrl->tls_pskid)
-> +		return 0;
-> +
->   	error = nvme_enable_ctrl(ctrl);
->   	if (error)
->   		goto out_stop_queue;
+This series introduces a generic, customizable Base64 encoder/decoder to
+the kernel library, eliminating duplicated implementations and delivering
+significant performance improvements.
 
-Hmm. Not sure. While section 8.3.4.3 'NVMe In-band Authentication' states:
+The new helpers support a caller-supplied 64-character table and optional
+'=' padding, covering existing variants such as base64url (fscrypt) and
+Ceph's custom alphabet. As part of this series, both fscrypt and Ceph are
+migrated to the generic helpers, removing their local routines while
+preserving their specific formats.
 
-  If one or more of the bits in the AUTHREQ field are set to ‘1’, then
-  the controller requires that the host authenticate on that queue in
-  order to proceed with Fabrics, Admin, and I/O commands.
+On the encoder side, the implementation operates on 3-byte input blocks
+mapped directly to 4 output symbols, avoiding bit-by-bit streaming. This
+reduces shifts, masks, and loop overhead, achieving up to ~2.7x speedup
+over previous implementations while remaining fully RFC 4648-compatible.
 
- From which one could assume that none of the commands are allowed.
-But it then goes on to state:
+On the decoder side, optimizations replace strchr()-based lookups with a
+direct mapping table. Together with stricter RFC 4648 validation, this
+yields a ~12-15x improvement in decode throughput.
 
-  The state of an in-progress authentication transaction is soft-state.
-  If the subsequent command in an authentication transaction is not
-  received by the controller within a timeout equal to:
-   * the Keep Alive Timeout value (refer to Figure 546), if the Keep
-     Alive Timer is enabled; or
-   * the default Keep Alive Timeout value (i.e., two minutes), if the
-     Keep Alive Timer is disabled;
+Overall, the series improves maintainability, correctness, and
+performance of Base64 handling across the kernel.
 
-one can imply that KATO is running during authentication transactions.
-But that might require additional commands, so really I'm not sure.
-Let me ask FMDS for clarification.
+Note:
+  - The included KUnit patch provides correctness and performance
+    comparison tests to help reviewers validate the improvements. All
+    tests pass locally on x86_64 (KTAP: pass:3 fail:0 skip:0). Benchmark
+    numbers are informational only and do not gate the tests.
+  - Updates nvme-auth call sites to the new API.
 
-Cheers,
+Thanks,
+Guan-Chun Wu
 
-Hannes
+---
+
+v1 -> v2:
+  - Add a KUnit test suite for lib/base64:
+      * correctness tests (multiple alphabets, with/without padding)
+      * simple microbenchmark for informational performance comparison
+  - Rework encoder/decoder:
+      * encoder: generalize to a caller-provided 64-character table and
+        optional '=' padding
+      * decoder: optimize and extend to generic tables
+  - fscrypt: migrate from local base64url helpers to generic lib/base64
+  - ceph: migrate from local base64 helpers to generic lib/base64
+
+---
+
+Guan-Chun Wu (4):
+  lib/base64: rework encoder/decoder with customizable support and
+    update nvme-auth
+  lib: add KUnit tests for base64 encoding/decoding
+  fscrypt: replace local base64url helpers with generic lib/base64
+    helpers
+  ceph: replace local base64 encode/decode with generic lib/base64
+    helpers
+
+Kuan-Wei Chiu (1):
+  lib/base64: Replace strchr() for better performance
+
+ drivers/nvme/common/auth.c |   7 +-
+ fs/ceph/crypto.c           |  53 +-------
+ fs/ceph/crypto.h           |   6 +-
+ fs/ceph/dir.c              |   5 +-
+ fs/ceph/inode.c            |   2 +-
+ fs/crypto/fname.c          |  86 +------------
+ include/linux/base64.h     |   4 +-
+ lib/Kconfig.debug          |  19 ++-
+ lib/base64.c               | 239 ++++++++++++++++++++++++++++++-------
+ lib/tests/Makefile         |   1 +
+ lib/tests/base64_kunit.c   | 230 +++++++++++++++++++++++++++++++++++
+ 11 files changed, 466 insertions(+), 186 deletions(-)
+ create mode 100644 lib/tests/base64_kunit.c
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.34.1
+
 
