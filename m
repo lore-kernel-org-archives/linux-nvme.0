@@ -4,97 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 010AACA1016
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:33:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAB4FCA1016
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/o5UYWtgC17zidQRxgu3di44p2yuLDtqoBTP3KdD9qk=; b=Zv2JPOqkHOqrmqnujOVpAJA/sK
-	hp1DAykyRhxmpPsAH/M5pKrMfgvU5DwtXYwsgnVJc7UVXp4UmYmK0dWk5NZLngMCoCXu0ZDL+P8o8
-	0Qe8tjGjZ8WqMf6CpF7b2LakV21AEtvBhXY8YgXmZGHSUwDTGKr32lKrDWXi7vVxMVTlgu6inahH2
-	TzqtYO/M+7ky92CQKtuxw/4ctb/qOH22V5kqUj8RVah6Rxs1KNUqJgLSq2OLjba0cvMyoS3MQdIqJ
-	aq3KZVHYjza3mUksqE9tuTxUmx4NjHs92UrekzmP4QaP1PxqKbk/bPpDIbOTSY/MTdozbon5qsCGX
-	6pfA/uNw==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=F67NXKwM5gojyeH+csfDMKkA7qAECq4psBmSZp1Issg=; b=dzfWwFxth58/QL00v8VqlZR8hl
+	yeJKERdKrvFdAscfUvl9AjRgwvb6gv2xgYJ1s/1iN/eO9uiikgLuQ8Vps1hEWEmeLT9RTR4qmYmaa
+	Uw35G5y/OLwQD3W9h/dwJ2QLRiKZ7SiVp4+e9C7kEEfxy+QfZzDmXQBVukiLFFth0b4/C5LYRXvp5
+	48anU0rNKrrPaJZRDdEtJGNkzWNThhfruc1WMdGGqxti/tnQgqwpwEIlPqOPLChUZo+V5joPqPhUT
+	zAZex4ozSNhtha1xN09OU66i55QUBL6PAA61wxM1GC4Sf+ueTQsYf0412pMV7Je4ZZPExvs88p4PQ
+	hcP2nLbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwbnz-00000001VvJ-1okB;
-	Thu, 11 Sep 2025 07:33:19 +0000
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+	id 1uwbwp-00000001Ysv-0wkI;
+	Thu, 11 Sep 2025 07:42:27 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwbnx-00000001VtW-006a
+	id 1uwbwm-00000001YsP-0QyG
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Sep 2025 07:33:18 +0000
-Received: by mail-pg1-x531.google.com with SMTP id 41be03b00d2f7-b4c1fc383eeso320338a12.1
-        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:33:16 -0700 (PDT)
+	Thu, 11 Sep 2025 07:42:25 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-24b2de2e427so2692485ad.2
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757575996; x=1758180796; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/o5UYWtgC17zidQRxgu3di44p2yuLDtqoBTP3KdD9qk=;
-        b=YcQig2494Hu5NbGWfLD3QEAqSSM8WXoSDRsTuSm0J61MlFxfxtVbHZDXEAmxSoqk88
-         UnvCnO3cOb/hXP8cehJMR42gv5nZ35pC7p47j9KgCJECiN81V8b/21ItO+xdQx/sLv3x
-         ujRaqMZTAEDOwT0uFZDMn5hGfu8z3t+sHW+l+hZxRfk7vpla87FCjmxaGvLXU6Hru3Z4
-         v/av0DvwotQeFJuSRKUQr6mDkcneIKPBiSeVi+8PFUmmEZ+xaEPoLoO5ZtB3ht3UtV4L
-         lUorL3Xv39Md4ECNX4AI0adxyem7CgqSkWYFAsD1fu71/djXtOT8cUnaXb9lkShzJas1
-         y/zA==
+        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757576543; x=1758181343; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F67NXKwM5gojyeH+csfDMKkA7qAECq4psBmSZp1Issg=;
+        b=2bFflBzedTqb/d+JCbFn2HkfAfCL43Ykmjc7DgdHcz0MRoTf3EyQszcF/zS4V6/rzT
+         hP2P7AksDZbngB48kx8j8hiq8yQkmL1V4mxX5Gs2sPh5/nrGsyyIcnr2Wm71uC4MjGCL
+         CkEnK/DydtEYzceMsrizwfseoXgAupmu8oz3WDjJ1MisDXhcNZ0Uk/WV1dr7aWvHMBXt
+         rwiJ4QJL4H5+hkf5eBXv1k1C8Lhea+1A2b09lpTcUHFXll1e/PpxDRo/mZvBTZF+bo71
+         i1tGPTsWlTUlfEW5p1JFD5QFmKyePzsCaJjopRPnsY/kQV03wss2CmsUTfYpdYeax0vv
+         qw5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757575996; x=1758180796;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/o5UYWtgC17zidQRxgu3di44p2yuLDtqoBTP3KdD9qk=;
-        b=X1S6gVPtKNijLGexs5fPiRvC/+5R7Rpoty4LFQHvKiK15pVpWnEbo9ylEFttB0QBd6
-         BjnYHSnWw3tdw9SFUXszCfDOAdK4yDdoODXk+xRk9UlkvnqZT9wtJ6VkfyJRSUr0c/U0
-         wHmZVyfjBLoh4+SGo1qGgKZ9jF7mtmsaOsk/D3aB7nW24EmxH8yN/lWAihTVKyl7lx6/
-         VG/pJHJ7Yk/RbD1PFIrpRmPwSsOsJ7wG54sJSHNgSAaiCpGtPwOTn7fqmdmsrZWkxZj+
-         gqqDpw9MY2sCa0UIfhINNDHNMJekrJlzkh5fVRdzjvXODcSSavjpyMKlQTENEpRCuIzf
-         tsrg==
-X-Forwarded-Encrypted: i=1; AJvYcCWAm0fwKMPRCLi8jxmQpWZ/SHCy9U8NcusZ/158ATW7LkTEZlGLRcP3Xj7siF/BJ2etIIMz1CyTMrnl@lists.infradead.org
-X-Gm-Message-State: AOJu0YzcL7zUc3ivMkuUyemYccfGKwn7/EXcNRoiZHjhu1K+mKAeGXUM
-	3vTMuOFnmz4NXWmKNc2wEmQwIW1OEuJxFHJgul9GZF0V96Va8p9WqNzNzWF7lb6Ohk8=
-X-Gm-Gg: ASbGncv2F1m03RUKmo6FMGFKOB6jM4mXrWxOBDaevtvO8YPRZc87aHuBHRl/0z3s0SU
-	QBXlxPzoCq0GRg6iD0k2zVTv1A//W8P/GnEdh8L28v+Vfw1QEaFMCiCYWJUZobS3J0gpsUJfI0g
-	KQamwbSM9RBq3Mm9SYc61oKb9eNnz8WNO31F2Fwzo98e+NvtvCaeq3gLNWzFFGuDDjOZomDgSJ7
-	nOWiODWtvM3yjk01E/j+hwvhlJ2qK38857WM3xbF3OK8jXusXb0gBBdbL2QA7GYfXE3h9be377X
-	Ja7wtf1IhlChjv2q4pCuziBNLKYIxB1+g6jfA0SEp/Z73VtlcbeLXkFH/6p0AIrpDKNs67Llbz/
-	M/ACUbjL+c6NFjSAR4QYrsYE3fNSIMEmv6xLzkvXfq0UIdsI=
-X-Google-Smtp-Source: AGHT+IHkR02o3c7GJuOebqudxkkJpwwRFSiX+Y7xE72uJ4cvYA8ji6HSjHcG3eaIOtrt3exSDxeWQw==
-X-Received: by 2002:a17:90a:ec85:b0:32b:4c71:f423 with SMTP id 98e67ed59e1d1-32d43f81c16mr21372566a91.32.1757575996006;
-        Thu, 11 Sep 2025 00:33:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757576543; x=1758181343;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=F67NXKwM5gojyeH+csfDMKkA7qAECq4psBmSZp1Issg=;
+        b=uzCi9riVl21rxxlo0MzcxShm17WAdebWEirpe6N3dcjgWvpRXsvIiRTzPP1Ub0HLml
+         CYEG+AvHObGqy/P2F2xGp34xcyS0mcPHJGwFX+/p+V5potbnF0L6nEC5v3dE19UfuKHi
+         MSJBD5uwlp5dTH7EM/YWe5UDyNeLueB5AkYjkAuA7Ln76f5OpWIkHK7WLXqYGW0Z3e8c
+         YnOM0aVnoTngDjzFP3VO+HOOgHMp3KZqajB8zg4wjk1rdnsu4WkANBg7ppild21Zt1yz
+         z6MVtHOL6Q5LdLycdhifJT139JGKQ+BEapD8nR67xdfYPfhm56fH6JXFUglTcT5ny5po
+         V1IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUABXNNu0Ku0sMX5ITg1H1UDj71fPOlNAm2m6NPKcQPJjusUPgX8WIijFcmbqtMg+IiqkVZOg8SjIaY@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx1WNqsup2lHq+IKFa0RyCgnAbgLhkQLKIm+MIoVjSGwhfSQVu0
+	1EhFzRlPjzk79tTAoGE3QjgsXtRLQDpnpB1UacGEHldt4AEhVAPWiWZkWOBL7vWsJyQ=
+X-Gm-Gg: ASbGncvPbSp/7WsJMDKI1rrNjVZWttxaxmt9iy20qH5ksA3D0+Sz6i3B/mgHn/Kek/L
+	8zLcjvcQp7LnpgI2Qd/c/8azcf15glMD/CSd+Rfqt+8vSm3t5yQZbpPS0SLhId9btZUtX/y/5+U
+	2J3z8saJp4Zb2zbQfA8OKPc1iDdQPq/X/SEKrL9Eium4WiCQp+P5lM79mPVxlgXbHNxoPnQpGdj
+	OJ8G29PscYbsHs+LCN6HTD+J0QZqwtAZxqMJqrZgfIQXhHPQB0ZEizkIYj0MK8/wBhYulMxtxfx
+	Onm6CxknR4G59rBUgouP4sWXt8woOKNOidsHkwnzXd0pNEY7Fsw+HLbEeOiNC6CRExcG9TgxgqS
+	JuXXmUpCPxoW3WKz5TtLiHpNXT77Bd9uzxX8J+OfI52GVfYc=
+X-Google-Smtp-Source: AGHT+IHpwQZR4pOG/m4IsGz46fLea1EeKJTzCL8WS3vqubstcq/YoLDI8C/oWhXYWGU773jLDfy7zQ==
+X-Received: by 2002:a17:902:db0a:b0:250:1c22:e78 with SMTP id d9443c01a7336-2516d33bb3bmr251815775ad.1.1757576543202;
+        Thu, 11 Sep 2025 00:42:23 -0700 (PDT)
 Received: from wu-Pro-E500-G6-WS720T.. ([2001:288:7001:2703:7811:c085:c184:85be])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b393f0sm1061340b3a.88.2025.09.11.00.33.12
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dd6306eecsm1657905a91.15.2025.09.11.00.42.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 00:33:15 -0700 (PDT)
+        Thu, 11 Sep 2025 00:42:22 -0700 (PDT)
 From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-To: kbusch@kernel.org,
+To: 409411716@gms.tku.edu.tw
+Cc: akpm@linux-foundation.org,
 	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	xiubli@redhat.com,
-	idryomov@gmail.com,
+	ceph-devel@vger.kernel.org,
 	ebiggers@kernel.org,
-	tytso@mit.edu,
-	jaegeuk@kernel.org,
-	akpm@linux-foundation.org
-Cc: visitorckw@gmail.com,
+	hch@lst.de,
 	home7438072@gmail.com,
-	409411716@gms.tku.edu.tw,
+	idryomov@gmail.com,
+	jaegeuk@kernel.org,
+	kbusch@kernel.org,
+	linux-fscrypt@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
-	ceph-devel@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org
-Subject: [PATCH v2 5/5] ceph: replace local base64 encode/decode with generic lib/base64 helpers
-Date: Thu, 11 Sep 2025 15:33:09 +0800
-Message-Id: <20250911073309.584044-1-409411716@gms.tku.edu.tw>
+	sagi@grimberg.me,
+	tytso@mit.edu,
+	visitorckw@gmail.com,
+	xiubli@redhat.com
+Subject: [PATCH v2 2/5] lib/base64: rework encoder/decoder with customizable support and update nvme-auth
+Date: Thu, 11 Sep 2025 15:41:59 +0800
+Message-Id: <20250911074159.656943-1-409411716@gms.tku.edu.tw>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250911072925.547163-1-409411716@gms.tku.edu.tw>
+References: <20250911072925.547163-1-409411716@gms.tku.edu.tw>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250911_003317_043358_233BB2CD 
-X-CRM114-Status: GOOD (  19.11  )
+X-CRM114-CacheID: sfid-20250911_004224_157471_D5411314 
+X-CRM114-Status: GOOD (  29.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,51 +112,198 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Remove the local ceph_base64_encode and ceph_base64_decode functions and
-replace their usage with the generic base64_encode and base64_decode
-helpers from the kernel's lib/base64 library.
+Rework base64_encode() and base64_decode() with extended interfaces
+that support custom 64-character tables and optional '=' padding.
+This makes them flexible enough to cover both standard RFC4648 Base64
+and non-standard variants such as base64url.
 
-This eliminates redundant implementations in Ceph, reduces code
-duplication, and leverages the optimized and well-maintained
-standard base64 code within the kernel.
+The encoder is redesigned to process input in 3-byte blocks, each
+mapped directly into 4 output symbols. Base64 naturally encodes
+24 bits of input as four 6-bit values, so operating on aligned
+3-byte chunks matches the algorithm's structure. This block-based
+approach eliminates the need for bit-by-bit streaming, reduces shifts,
+masks, and loop iterations, and removes data-dependent branches from
+the main loop. Only the final 1 or 2 leftover bytes are handled
+separately according to the standard rules. As a result, the encoder
+achieves ~2.8x speedup for small inputs (64B) and up to ~2.6x
+speedup for larger inputs (1KB), while remaining fully RFC4648-compliant.
 
-The change keeps the existing encoding table and disables padding,
-ensuring no functional or format changes. At the same time, Ceph also
-benefits from the optimized encoder/decoder: encoding performance
-improves by ~2.7x and decoding by ~12-15x compared to the previous
-local implementation.
+The decoder replaces strchr()-based lookups with direct table-indexed
+mapping. It processes input in 4-character groups and supports both
+padded and non-padded forms. Validation has been strengthened: illegal
+characters and misplaced '=' padding now cause errors, preventing
+silent data corruption.
 
-Overall, this improves maintainability, consistency with other kernel
-components, and runtime performance.
+These changes improve decoding performance by ~12-15x.
 
+Benchmarks on x86_64 (Intel Core i7-10700 @ 2.90GHz, averaged
+over 1000 runs, tested with KUnit):
+
+Encode:
+ - 64B input: avg ~90ns -> ~32ns  (~2.8x faster)
+ - 1KB input: avg ~1332ns -> ~510ns  (~2.6x faster)
+
+Decode:
+ - 64B input: avg ~1530ns -> ~122ns   (~12.5x faster)
+ - 1KB input: avg ~27726ns -> ~1859ns (~15x faster)
+
+Update nvme-auth to use the reworked base64_encode() and base64_decode()
+interfaces, which now require explicit padding and table parameters.
+A static base64_table is defined to preserve RFC4648 standard encoding
+with padding enabled, ensuring functional behavior remains unchanged.
+
+While this is a mechanical update following the lib/base64 rework,
+nvme-auth also benefits from the performance improvements in the new
+encoder/decoder, achieving faster encode/decode without altering the
+output format.
+
+The reworked encoder and decoder unify Base64 handling across the kernel
+with higher performance, stricter correctness, and flexibility to support
+subsystem-specific variants.
+
+Co-developed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+Co-developed-by: Yu-Sheng Huang <home7438072@gmail.com>
+Signed-off-by: Yu-Sheng Huang <home7438072@gmail.com>
 Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- fs/ceph/crypto.c | 53 +++++-------------------------------------------
- fs/ceph/crypto.h |  6 ++----
- fs/ceph/dir.c    |  5 +++--
- fs/ceph/inode.c  |  2 +-
- 4 files changed, 11 insertions(+), 55 deletions(-)
+ drivers/nvme/common/auth.c |   7 +-
+ include/linux/base64.h     |   4 +-
+ lib/base64.c               | 238 ++++++++++++++++++++++++++++---------
+ 3 files changed, 192 insertions(+), 57 deletions(-)
 
-diff --git a/fs/ceph/crypto.c b/fs/ceph/crypto.c
-index cab722619..a3cb4ad99 100644
---- a/fs/ceph/crypto.c
-+++ b/fs/ceph/crypto.c
-@@ -21,53 +21,9 @@
-  * used the base64 encoding defined for IMAP mailbox names (RFC 3501) instead,
-  * which replaces '-' and '_' by '+' and ','.
-  */
--static const char base64_table[65] =
-+const char ceph_base64_table[65] =
- 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+,";
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index 91e273b89..4d57694f8 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -161,6 +161,9 @@ u32 nvme_auth_key_struct_size(u32 key_len)
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_key_struct_size);
  
--int ceph_base64_encode(const u8 *src, int srclen, char *dst)
--{
--	u32 ac = 0;
++static const char base64_table[65] =
++	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
++
+ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
+ 					      u8 key_hash)
+ {
+@@ -178,7 +181,7 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
+ 	if (!key)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	key_len = base64_decode(secret, allocated_len, key->key);
++	key_len = base64_decode(secret, allocated_len, key->key, true, base64_table);
+ 	if (key_len < 0) {
+ 		pr_debug("base64 key decoding error %d\n",
+ 			 key_len);
+@@ -663,7 +666,7 @@ int nvme_auth_generate_digest(u8 hmac_id, u8 *psk, size_t psk_len,
+ 	if (ret)
+ 		goto out_free_digest;
+ 
+-	ret = base64_encode(digest, digest_len, enc);
++	ret = base64_encode(digest, digest_len, enc, true, base64_table);
+ 	if (ret < hmac_len) {
+ 		ret = -ENOKEY;
+ 		goto out_free_digest;
+diff --git a/include/linux/base64.h b/include/linux/base64.h
+index 660d4cb1e..22351323d 100644
+--- a/include/linux/base64.h
++++ b/include/linux/base64.h
+@@ -10,7 +10,7 @@
+ 
+ #define BASE64_CHARS(nbytes)   DIV_ROUND_UP((nbytes) * 4, 3)
+ 
+-int base64_encode(const u8 *src, int len, char *dst);
+-int base64_decode(const char *src, int len, u8 *dst);
++int base64_encode(const u8 *src, int len, char *dst, bool padding, const char *table);
++int base64_decode(const char *src, int len, u8 *dst, bool padding, const char *table);
+ 
+ #endif /* _LINUX_BASE64_H */
+diff --git a/lib/base64.c b/lib/base64.c
+index 9416bded2..b2bd5dab5 100644
+--- a/lib/base64.c
++++ b/lib/base64.c
+@@ -15,104 +15,236 @@
+ #include <linux/string.h>
+ #include <linux/base64.h>
+ 
+-static const char base64_table[65] =
+-	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
++#define BASE64_6BIT_MASK      0x3f /* Mask to extract lowest 6 bits */
++#define BASE64_BITS_PER_BYTE  8
++#define BASE64_CHUNK_BITS     6
++
++/* Output-char-indexed shifts: for output chars 0,1,2,3 respectively */
++#define BASE64_SHIFT_OUT0	(BASE64_CHUNK_BITS * 3) /* 18 */
++#define BASE64_SHIFT_OUT1	(BASE64_CHUNK_BITS * 2) /* 12 */
++#define BASE64_SHIFT_OUT2	(BASE64_CHUNK_BITS * 1) /* 6  */
++/* OUT3 uses 0 shift and just masks with BASE64_6BIT_MASK */
++
++/* For extracting bytes from the 24-bit value (decode main loop) */
++#define BASE64_SHIFT_BYTE0        (BASE64_BITS_PER_BYTE * 2) /* 16 */
++#define BASE64_SHIFT_BYTE1        (BASE64_BITS_PER_BYTE * 1) /* 8  */
++
++/* Tail (no padding) shifts to extract bytes */
++#define BASE64_TAIL2_BYTE0_SHIFT  ((BASE64_CHUNK_BITS * 2) - BASE64_BITS_PER_BYTE)       /* 4  */
++#define BASE64_TAIL3_BYTE0_SHIFT  ((BASE64_CHUNK_BITS * 3) - BASE64_BITS_PER_BYTE)       /* 10 */
++#define BASE64_TAIL3_BYTE1_SHIFT  ((BASE64_CHUNK_BITS * 3) - (BASE64_BITS_PER_BYTE * 2)) /* 2  */
++
++/* Extra: masks for leftover validation (no padding) */
++#define BASE64_MASK(n) ({        \
++	unsigned int __n = (n);  \
++	__n ? ((1U << __n) - 1U) : 0U; \
++})
++#define BASE64_TAIL2_UNUSED_BITS  (BASE64_CHUNK_BITS * 2 - BASE64_BITS_PER_BYTE)     /* 4 */
++#define BASE64_TAIL3_UNUSED_BITS  (BASE64_CHUNK_BITS * 3 - BASE64_BITS_PER_BYTE * 2) /* 2 */
+ 
+ static inline const char *find_chr(const char *base64_table, char ch)
+ {
+ 	if ('A' <= ch && ch <= 'Z')
+-		return base64_table + ch - 'A';
++		return base64_table + (ch - 'A');
+ 	if ('a' <= ch && ch <= 'z')
+-		return base64_table + 26 + ch - 'a';
++		return base64_table + 26 + (ch - 'a');
+ 	if ('0' <= ch && ch <= '9')
+-		return base64_table + 26 * 2 + ch - '0';
+-	if (ch == base64_table[26 * 2 + 10])
+-		return base64_table + 26 * 2 + 10;
+-	if (ch == base64_table[26 * 2 + 10 + 1])
+-		return base64_table + 26 * 2 + 10 + 1;
++		return base64_table + 52 + (ch - '0');
++	if (ch == base64_table[62])
++		return &base64_table[62];
++	if (ch == base64_table[63])
++		return &base64_table[63];
+ 	return NULL;
+ }
+ 
+ /**
+- * base64_encode() - base64-encode some binary data
++ * base64_encode() - base64-encode with custom table and optional padding
+  * @src: the binary data to encode
+  * @srclen: the length of @src in bytes
+- * @dst: (output) the base64-encoded string.  Not NUL-terminated.
++ * @dst: (output) the base64-encoded string. Not NUL-terminated.
++ * @padding: whether to append '=' characters so output length is a multiple of 4
++ * @table: 64-character encoding table to use (e.g. standard or URL-safe variant)
+  *
+- * Encodes data using base64 encoding, i.e. the "Base 64 Encoding" specified
+- * by RFC 4648, including the  '='-padding.
++ * Encodes data using the given 64-character @table. If @padding is true,
++ * the output is padded with '=' as described in RFC 4648; otherwise padding
++ * is omitted. This allows generation of both standard and non-standard
++ * Base64 variants (e.g. URL-safe encoding).
+  *
+  * Return: the length of the resulting base64-encoded string in bytes.
+  */
+-int base64_encode(const u8 *src, int srclen, char *dst)
++int base64_encode(const u8 *src, int srclen, char *dst, bool padding, const char *table)
+ {
+ 	u32 ac = 0;
 -	int bits = 0;
 -	int i;
--	char *cp = dst;
--
+ 	char *cp = dst;
+ 
 -	for (i = 0; i < srclen; i++) {
 -		ac = (ac << 8) | src[i];
 -		bits += 8;
@@ -162,124 +312,206 @@ index cab722619..a3cb4ad99 100644
 -			*cp++ = base64_table[(ac >> bits) & 0x3f];
 -		} while (bits >= 6);
 -	}
--	if (bits)
+-	if (bits) {
 -		*cp++ = base64_table[(ac << (6 - bits)) & 0x3f];
--	return cp - dst;
--}
--
--int ceph_base64_decode(const char *src, int srclen, u8 *dst)
--{
+-		bits -= 6;
++	while (srclen >= 3) {
++		ac = ((u32)src[0] << (BASE64_BITS_PER_BYTE * 2)) |
++			 ((u32)src[1] << (BASE64_BITS_PER_BYTE)) |
++			 (u32)src[2];
++
++		*cp++ = table[ac >> BASE64_SHIFT_OUT0];
++		*cp++ = table[(ac >> BASE64_SHIFT_OUT1) & BASE64_6BIT_MASK];
++		*cp++ = table[(ac >> BASE64_SHIFT_OUT2) & BASE64_6BIT_MASK];
++		*cp++ = table[ac & BASE64_6BIT_MASK];
++
++		src += 3;
++		srclen -= 3;
+ 	}
+-	while (bits < 0) {
+-		*cp++ = '=';
+-		bits += 2;
++
++	switch (srclen) {
++	case 2:
++		ac = ((u32)src[0] << (BASE64_BITS_PER_BYTE * 2)) |
++		     ((u32)src[1] << (BASE64_BITS_PER_BYTE));
++
++		*cp++ = table[ac >> BASE64_SHIFT_OUT0];
++		*cp++ = table[(ac >> BASE64_SHIFT_OUT1) & BASE64_6BIT_MASK];
++		*cp++ = table[(ac >> BASE64_SHIFT_OUT2) & BASE64_6BIT_MASK];
++		if (padding)
++			*cp++ = '=';
++		break;
++	case 1:
++		ac = ((u32)src[0] << (BASE64_BITS_PER_BYTE * 2));
++		*cp++ = table[ac >> BASE64_SHIFT_OUT0];
++		*cp++ = table[(ac >> BASE64_SHIFT_OUT1) & BASE64_6BIT_MASK];
++		if (padding) {
++			*cp++ = '=';
++			*cp++ = '=';
++		}
++		break;
+ 	}
+ 	return cp - dst;
+ }
+ EXPORT_SYMBOL_GPL(base64_encode);
+ 
+ /**
+- * base64_decode() - base64-decode a string
++ * base64_decode() - base64-decode with custom table and optional padding
+  * @src: the string to decode.  Doesn't need to be NUL-terminated.
+  * @srclen: the length of @src in bytes
+  * @dst: (output) the decoded binary data
++ * @padding: when true, accept and handle '=' padding as per RFC 4648;
++ *           when false, '=' is treated as invalid
++ * @table: 64-character encoding table to use (e.g. standard or URL-safe variant)
+  *
+- * Decodes a string using base64 encoding, i.e. the "Base 64 Encoding"
+- * specified by RFC 4648, including the  '='-padding.
++ * Decodes a string using the given 64-character @table. If @padding is true,
++ * '=' padding is accepted as described in RFC 4648; otherwise '=' is
++ * treated as an error. This allows decoding of both standard and
++ * non-standard Base64 variants (e.g. URL-safe decoding).
+  *
+  * This implementation hasn't been optimized for performance.
+  *
+  * Return: the length of the resulting decoded binary data in bytes,
+  *	   or -1 if the string isn't a valid base64 string.
+  */
+-int base64_decode(const char *src, int srclen, u8 *dst)
++static inline int base64_decode_table(char ch, const char *table)
++{
++	if (ch == '\0')
++		return -1;
++	const char *p = find_chr(table, ch);
++
++	return p ? (p - table) : -1;
++}
++
++static inline int decode_base64_block(const char *src, const char *table,
++				      int *input1, int *input2,
++				      int *input3, int *input4,
++				      bool padding)
++{
++	*input1 = base64_decode_table(src[0], table);
++	*input2 = base64_decode_table(src[1], table);
++	*input3 = base64_decode_table(src[2], table);
++	*input4 = base64_decode_table(src[3], table);
++
++	/* Return error if any base64 character is invalid */
++	if (*input1 < 0 || *input2 < 0 || (!padding && (*input3 < 0 || *input4 < 0)))
++		return -1;
++
++	/* Handle padding */
++	if (padding) {
++		if (*input3 < 0 && *input4 >= 0)
++			return -1;
++		if (*input3 < 0 && src[2] != '=')
++			return -1;
++		if (*input4 < 0 && src[3] != '=')
++			return -1;
++	}
++	return 0;
++}
++
++int base64_decode(const char *src, int srclen, u8 *dst, bool padding, const char *table)
+ {
 -	u32 ac = 0;
 -	int bits = 0;
 -	int i;
--	u8 *bp = dst;
--
+ 	u8 *bp = dst;
++	int input1, input2, input3, input4;
++	u32 val;
+ 
 -	for (i = 0; i < srclen; i++) {
--		const char *p = strchr(base64_table, src[i]);
--
+-		const char *p = find_chr(base64_table, src[i]);
++	if (srclen == 0)
++		return 0;
+ 
+-		if (src[i] == '=') {
+-			ac = (ac << 6);
+-			bits += 6;
+-			if (bits >= 8)
+-				bits -= 8;
+-			continue;
++	/* Validate the input length for padding */
++	if (padding && (srclen & 0x03) != 0)
++		return -1;
++
++	while (srclen >= 4) {
++		/* Decode the next 4 characters */
++		if (decode_base64_block(src, table, &input1, &input2, &input3,
++					&input4, padding) < 0)
++			return -1;
++		if (padding && srclen > 4) {
++			if (input3 < 0 || input4 < 0)
++				return -1;
+ 		}
 -		if (p == NULL || src[i] == 0)
--			return -1;
++		val = ((u32)input1 << BASE64_SHIFT_OUT0) |
++		      ((u32)input2 << BASE64_SHIFT_OUT1) |
++		      ((u32)((input3 < 0) ? 0 : input3) << BASE64_SHIFT_OUT2) |
++		      (u32)((input4 < 0) ? 0 : input4);
++
++		*bp++ = (u8)(val >> BASE64_SHIFT_BYTE0);
++
++		if (input3 >= 0)
++			*bp++ = (u8)(val >> BASE64_SHIFT_BYTE1);
++		if (input4 >= 0)
++			*bp++ = (u8)val;
++
++		src += 4;
++		srclen -= 4;
++	}
++
++	/* Handle leftover characters when padding is not used */
++	if (!padding && srclen > 0) {
++		switch (srclen) {
++		case 2:
++			input1 = base64_decode_table(src[0], table);
++			input2 = base64_decode_table(src[1], table);
++			if (input1 < 0 || input2 < 0)
++				return -1;
++
++			val = ((u32)input1 << BASE64_CHUNK_BITS) | (u32)input2; /* 12 bits */
++			if (val & BASE64_MASK(BASE64_TAIL2_UNUSED_BITS))
++				return -1; /* low 4 bits must be zero */
++
++			*bp++ = (u8)(val >> BASE64_TAIL2_BYTE0_SHIFT);
++			break;
++		case 3:
++			input1 = base64_decode_table(src[0], table);
++			input2 = base64_decode_table(src[1], table);
++			input3 = base64_decode_table(src[2], table);
++			if (input1 < 0 || input2 < 0 || input3 < 0)
++				return -1;
++
++			val = ((u32)input1 << (BASE64_CHUNK_BITS * 2)) |
++			      ((u32)input2 << BASE64_CHUNK_BITS) |
++			      (u32)input3; /* 18 bits */
++
++			if (val & BASE64_MASK(BASE64_TAIL3_UNUSED_BITS))
++				return -1; /* low 2 bits must be zero */
++
++			*bp++ = (u8)(val >> BASE64_TAIL3_BYTE0_SHIFT);
++			*bp++ = (u8)((val >> BASE64_TAIL3_BYTE1_SHIFT) & 0xFF);
++			break;
++		default:
+ 			return -1;
 -		ac = (ac << 6) | (p - base64_table);
 -		bits += 6;
 -		if (bits >= 8) {
 -			bits -= 8;
 -			*bp++ = (u8)(ac >> bits);
--		}
--	}
+ 		}
+ 	}
 -	if (ac & ((1 << bits) - 1))
 -		return -1;
--	return bp - dst;
--}
--
- static int ceph_crypt_get_context(struct inode *inode, void *ctx, size_t len)
- {
- 	struct ceph_inode_info *ci = ceph_inode(inode);
-@@ -316,7 +272,7 @@ int ceph_encode_encrypted_dname(struct inode *parent, char *buf, int elen)
- 	}
- 
- 	/* base64 encode the encrypted name */
--	elen = ceph_base64_encode(cryptbuf, len, p);
-+	elen = base64_encode(cryptbuf, len, p, false, ceph_base64_table);
- 	doutc(cl, "base64-encoded ciphertext name = %.*s\n", elen, p);
- 
- 	/* To understand the 240 limit, see CEPH_NOHASH_NAME_MAX comments */
-@@ -410,7 +366,8 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
- 			tname = &_tname;
- 		}
- 
--		declen = ceph_base64_decode(name, name_len, tname->name);
-+		declen = base64_decode(name, name_len,
-+				       tname->name, false, ceph_base64_table);
- 		if (declen <= 0) {
- 			ret = -EIO;
- 			goto out;
-@@ -424,7 +381,7 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
- 
- 	ret = fscrypt_fname_disk_to_usr(dir, 0, 0, &iname, oname);
- 	if (!ret && (dir != fname->dir)) {
--		char tmp_buf[CEPH_BASE64_CHARS(NAME_MAX)];
-+		char tmp_buf[BASE64_CHARS(NAME_MAX)];
- 
- 		name_len = snprintf(tmp_buf, sizeof(tmp_buf), "_%.*s_%ld",
- 				    oname->len, oname->name, dir->i_ino);
-diff --git a/fs/ceph/crypto.h b/fs/ceph/crypto.h
-index 23612b2e9..c94da3818 100644
---- a/fs/ceph/crypto.h
-+++ b/fs/ceph/crypto.h
-@@ -8,6 +8,7 @@
- 
- #include <crypto/sha2.h>
- #include <linux/fscrypt.h>
-+#include <linux/base64.h>
- 
- #define CEPH_FSCRYPT_BLOCK_SHIFT   12
- #define CEPH_FSCRYPT_BLOCK_SIZE    (_AC(1, UL) << CEPH_FSCRYPT_BLOCK_SHIFT)
-@@ -89,10 +90,7 @@ static inline u32 ceph_fscrypt_auth_len(struct ceph_fscrypt_auth *fa)
-  */
- #define CEPH_NOHASH_NAME_MAX (180 - SHA256_DIGEST_SIZE)
- 
--#define CEPH_BASE64_CHARS(nbytes) DIV_ROUND_UP((nbytes) * 4, 3)
--
--int ceph_base64_encode(const u8 *src, int srclen, char *dst);
--int ceph_base64_decode(const char *src, int srclen, u8 *dst);
-+extern const char ceph_base64_table[65];
- 
- void ceph_fscrypt_set_ops(struct super_block *sb);
- 
-diff --git a/fs/ceph/dir.c b/fs/ceph/dir.c
-index 8478e7e75..830715988 100644
---- a/fs/ceph/dir.c
-+++ b/fs/ceph/dir.c
-@@ -998,13 +998,14 @@ static int prep_encrypted_symlink_target(struct ceph_mds_request *req,
- 	if (err)
- 		goto out;
- 
--	req->r_path2 = kmalloc(CEPH_BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
-+	req->r_path2 = kmalloc(BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
- 	if (!req->r_path2) {
- 		err = -ENOMEM;
- 		goto out;
- 	}
- 
--	len = ceph_base64_encode(osd_link.name, osd_link.len, req->r_path2);
-+	len = base64_encode(osd_link.name, osd_link.len,
-+			    req->r_path2, false, ceph_base64_table);
- 	req->r_path2[len] = '\0';
- out:
- 	fscrypt_fname_free_buffer(&osd_link);
-diff --git a/fs/ceph/inode.c b/fs/ceph/inode.c
-index fc543075b..94b729ccc 100644
---- a/fs/ceph/inode.c
-+++ b/fs/ceph/inode.c
-@@ -911,7 +911,7 @@ static int decode_encrypted_symlink(struct ceph_mds_client *mdsc,
- 	if (!sym)
- 		return -ENOMEM;
- 
--	declen = ceph_base64_decode(encsym, enclen, sym);
-+	declen = base64_decode(encsym, enclen, sym, false, ceph_base64_table);
- 	if (declen < 0) {
- 		pr_err_client(cl,
- 			"can't decode symlink (%d). Content: %.*s\n",
++
+ 	return bp - dst;
+ }
+ EXPORT_SYMBOL_GPL(base64_decode);
 -- 
 2.34.1
 
