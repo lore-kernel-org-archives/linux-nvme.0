@@ -4,72 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C692CA1016
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1422CA1016
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9sqCK5RjxgMvTS/KMSGZswVuHs/rB1hx6QH50USYYeg=; b=340Yxwk4hsN2Zuup1Z2C5BP30s
-	CLNCP+Hwd7vCDAFsjdg2qELLBCmgq39XTiD42kY2sMXaFmHCoT4Rz5RrIlGTCqWBLEAB7A6oQ1zIv
-	cFyadSTP5N4ChTRmUO0kier7/Wejwk0XdHUSoGB/yQrD4T3FTA9qB9Qx9URjTetWqljkAvkYsFoTv
-	rgNTJBHDo/Hzte3jDqUkRw0UnYeiAin7xQw3gnsDRnnHSacsElSd03oFZKUFp9sPo7jwFzBg6bZnJ
-	vQaNc+efcvhkDca278Vx9VtsN04i/hP4qvVXTI05OCDbYWpXY0Jwx/FBvmxthreBGg+eVuNIPVmlL
-	NfRyxCVQ==;
+	bh=/o5UYWtgC17zidQRxgu3di44p2yuLDtqoBTP3KdD9qk=; b=a2fKQNXcDyab0616CIiJbd/nhF
+	FydWoTcPdyVg3oA9elu2WbC6mU6Bwj9+J0w2TdBPDpnEgl59KKthGUvFAZK6QBoxcvzjcmfSyiFrj
+	boh0k4xprTC2knqCprb1xvFzSK4bIXFeshtV/FHOv+GNyd2mtvx95XTAT8Quru5vVw2miAmAbap/N
+	m+t/Neglt3QzDhz/KMRuFcEsvgNssaIh9B295THtOkRv03ewSkiPFGA0rrGN2iqE/CYDWFcccwFYr
+	NWUa2CCRGlQFmQkWgjiUYycHoVMfLAnLKUz5McWf+VdWYc0h5XHOXIfcGVaRqd/QgQ7KEP77Gslmi
+	uf83j7YA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwc0N-00000001aMS-2jZv;
-	Thu, 11 Sep 2025 07:46:07 +0000
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+	id 1uwc0k-00000001aXA-0Qjn;
+	Thu, 11 Sep 2025 07:46:30 +0000
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwc0J-00000001aJR-1O2d
+	id 1uwc0i-00000001aWb-2BqJ
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Sep 2025 07:46:06 +0000
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-772301f8a4cso605672b3a.3
-        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:46:03 -0700 (PDT)
+	Thu, 11 Sep 2025 07:46:29 +0000
+Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-b4cf40cd0d1so387951a12.0
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757576762; x=1758181562; darn=lists.infradead.org;
+        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757576788; x=1758181588; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9sqCK5RjxgMvTS/KMSGZswVuHs/rB1hx6QH50USYYeg=;
-        b=XwjNeMCAOelfhkVKFQkDNEJhXCaAOJcJtEK0CaWLmayjL2vzatuAbSmHLkJ0OKlHjp
-         9QkXeNS1v6aFNermJcGd6avqt8TbWCRsaYUktyv7v+OwwZ4Wlj47lTj8oRYBEHxY0j6X
-         DcOwRHxQWrCNbVyqnyOQODhEsqAN5EpYffiFOf84K98eZgR6RA5FH6svylrfZiksEDQO
-         DQ9jzbyscijW+Ag1nzvQ3TXoLTcaHrUQVmcAq90yJRgK7pzXWxGbM17p6Dk6X1IVh2ff
-         EKxUrXk5mlnT6JOSMkniaLKhBFevAX6wBv+n4eXXDFh5SawXqMwdQyzJgargqucQ3OU7
-         iEnw==
+        bh=/o5UYWtgC17zidQRxgu3di44p2yuLDtqoBTP3KdD9qk=;
+        b=pT3fH8wPU8u+CnxPC7m967wnHptPwoPHjHN1empJUqVujqA8y3AcYRdettPlCjEKqH
+         Nt2NJxQhQY9YwPowK+Jh/COOUobF19rE0a3dUQOZE4B0jvSePk9L5inxoTQ32vzCkoAN
+         6/MeOybQgNDnYSkHKh0wRSsgZFBYyyoXAHlrC79JDavbBRo+Y7Zq1NwBaVVEvmO4Bl1F
+         2E2Js2EedPwOkdtUfjmwabxgdwvkHKieymL16sPnJeG+qReuBuihcVvue7oOm1lXudb0
+         aSsxj1f+u+eK7r6YTjdbBf+YpO/jSuSeVhKI5sUdFSbaR0x0L+YAoZzxbTr1iE3Sd6iD
+         0cRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757576762; x=1758181562;
+        d=1e100.net; s=20230601; t=1757576788; x=1758181588;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9sqCK5RjxgMvTS/KMSGZswVuHs/rB1hx6QH50USYYeg=;
-        b=shrnoscYl3SYr6SB5HSAunC8V+vJGEPwJu5KiOFaX6rvvdQHcwydC78yoymssL8ZUW
-         iKHxh1gtA0B7vSuh8dAJQUbrfngcq1GoDvRC1H/LOlzN9kboAiSiA9IjfsWaN/MVAYw1
-         AAzFovnP0VYexu8yomgvOhJEdF5jS/c1SGbxLc7npow8Rq8d8Wq76kiNhLMdO3RpFLKY
-         yIcwi1lAwkadjuNcVk3By1XQc64pCdUroyI/4YykiF0loprmXQczReN0D/bfFK33Be8B
-         tfj5Oi03D3qqsLNiW6e31m8unEIT0A2C/H+Kqj78RAmWMTSsKYBDQmDkk5x7ixngv7sg
-         UTrA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBIGxJlRuW+fGOMsb4i8GNH5wO06Vz1zi4MmuSxYTiviEJx3RRlPlPLVR7w50uYMtGUJUJ3VZ/l2xm@lists.infradead.org
-X-Gm-Message-State: AOJu0YyzqT/Tr1rCI2zIuVlwEN799Ol1BysYnp2A4mZvP9Z8FVwfriir
-	uq/nNJ9Nf0e1h19Bqifiyu1Gby1gskuNBygx6ykMWkn0gsDk8OuWCVui2wk9r3dkrGfLVp+YwX2
-	rxAGlxoU=
-X-Gm-Gg: ASbGncudZxDBEf3d2uP8gdzwrQbvVQ3JyxDLcmeE5/Jvqbvl79u5ojSeE6D3Mnr7stF
-	Go+1q80Q9bdbClGwmwJ7pZrFjpn8bAqcLbUJ4qKKAGlEv0gvaHKnltoTcLrKZGc7zpsBjyk6kpF
-	2W2rAv1CiBSc4KiN+pkJS4+p0owA87LGQxBVMBYdtBMMdIU2V/OBmYq/yKebPNrpq3NIQmjLnp8
-	R1e0pTbKNtrheFytueIrWIQPQgwfgOMW1EIFSINdsK7Ppp4DBj0GP4hTv8JEieeYzqdvCjNtL62
-	vZtQkDTCajXN3boc6ixgOVjiKwGbSuz4XeZbOGQkjPWzyZfRdHPWzh5Yxfb1dhwObXtGPNaUQL9
-	/75Q4L8E4TJeiQK3kwRvVauyh1yeoF0Lqh/MpRlJnQ8aaHEZj3ctQ2WLxfxi/XD1zyjYB
-X-Google-Smtp-Source: AGHT+IFTtCHwqNfIBOXwlFvy/P0nkEKjAL4uI3LrM5NYhtuUi4RxaoEj1xk7ImpRtf5RyJZJwkkNeg==
-X-Received: by 2002:a05:6a00:1a8f:b0:772:2850:783d with SMTP id d2e1a72fcca58-7742dedf06emr24743666b3a.22.1757576762510;
-        Thu, 11 Sep 2025 00:46:02 -0700 (PDT)
+        bh=/o5UYWtgC17zidQRxgu3di44p2yuLDtqoBTP3KdD9qk=;
+        b=qXMAniXhs1YQ55tQdJgC6g6fdJ+vb7Rkp8QGG2u0h6CTLRm2en1bbgckd3smwQMIbc
+         Xy+ffSmlzLeuIXpeAM6od5BCzNv/pkkygNte697qQT9PBBPBjEFJhYbw1X2Ra+9Is/Mj
+         ToQOZwY1Q+KWe/J4Qsuwf0EBaj4FoFN98iPEOkg8iBgl2Ag7Ic/TsJ91tmK462qT5osd
+         rddGYXdg336MlSXSH/8/A+s5r/KDO01+skK0zCfRHBiav8I0WozE/7rJjfFemlZqyH07
+         HnEQ8+ml9itot8C0V1JHSfBbp9y8rS8u5Hi42Hfpd1dE1RPgh9a/lGUFkbJVrWobqedl
+         oo7A==
+X-Forwarded-Encrypted: i=1; AJvYcCW6c7vS+faDUmroTzIVladW2r8wEdvCd+SOO5MMq8E9dMqYYfcsMpayBm56pm87ifQ0Z4sqQIDu0g59@lists.infradead.org
+X-Gm-Message-State: AOJu0YzcFG7htFYq9hZ8TVtL+6T8GX+HvCKNIm3hVlKQayxZw0kE8zC1
+	tKqtbgq739HV9s52enXae5wMrBqBtEnq8zKwM3vB2BTWGk7EPUUVi5Fu7f8vsyRNbTM=
+X-Gm-Gg: ASbGncsP9ARJL7icJIlCCnNL3p03IwsKeUltZ37h0F7iyIjbwuPd464nB1xFo9bWQbT
+	zGPQaWCaBHYy+UoORimle8NWyoakjfE/nYyYNTQulsMgvXpgLpAKEn0r7kKpJeV2okCumz3sFw2
+	9aSgymEwsW9ET3icDVHpxq9LMxQcxc1mnShN5KVyEshFMNthapsGVU6ZHAhietaUQzHcvtA47Yx
+	Mf+8004tlIP8zNE2LhjPrvnenohU+sqWHVGZS0/CBycAb3cECPVO82CvX7hHYLwAEQy2Kjz+RHU
+	WFz04nWGoGjYFKj29/t3cTtZO6+zl0Rr4BKXWcysanq7j6xYk+iXYPgCqZJdOBvmn5AiJOuDzGE
+	rZGvw31+ilf3KTJ6htHqImT6OeZHQ7vQkhsEW/lvRURO3D86/z5eAIu0Qw6fsa0PwGJG/
+X-Google-Smtp-Source: AGHT+IHUrbIDUjSvWXWDJnw2/rvjU/6tI+i+eOkABLbPn89zVIkTMb70/fAZWJUo/N9Zo8PVFcB0yA==
+X-Received: by 2002:a05:6a20:939d:b0:24a:8315:7e2 with SMTP id adf61e73a8af0-2533fab6295mr27158794637.20.1757576787693;
+        Thu, 11 Sep 2025 00:46:27 -0700 (PDT)
 Received: from wu-Pro-E500-G6-WS720T.. ([2001:288:7001:2703:7811:c085:c184:85be])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b18424sm1134273b3a.63.2025.09.11.00.45.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607a47c47sm1152799b3a.35.2025.09.11.00.46.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 00:46:01 -0700 (PDT)
+        Thu, 11 Sep 2025 00:46:26 -0700 (PDT)
 From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
 To: 409411716@gms.tku.edu.tw
 Cc: akpm@linux-foundation.org,
@@ -88,17 +87,17 @@ Cc: akpm@linux-foundation.org,
 	tytso@mit.edu,
 	visitorckw@gmail.com,
 	xiubli@redhat.com
-Subject: [PATCH v2 4/5] fscrypt: replace local base64url helpers with generic lib/base64 helpers
-Date: Thu, 11 Sep 2025 15:45:56 +0800
-Message-Id: <20250911074556.691401-1-409411716@gms.tku.edu.tw>
+Subject: [PATCH v2 5/5] ceph: replace local base64 encode/decode with generic lib/base64 helpers
+Date: Thu, 11 Sep 2025 15:46:17 +0800
+Message-Id: <20250911074617.694704-1-409411716@gms.tku.edu.tw>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250911072925.547163-1-409411716@gms.tku.edu.tw>
 References: <20250911072925.547163-1-409411716@gms.tku.edu.tw>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250911_004603_368187_86206124 
-X-CRM114-Status: GOOD (  21.45  )
+X-CRM114-CacheID: sfid-20250911_004628_559100_86C97787 
+X-CRM114-Status: GOOD (  19.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,71 +112,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace the existing local base64url encoding and decoding functions in
-fscrypt with the generic base64_encode_custom and base64_decode_custom
+Remove the local ceph_base64_encode and ceph_base64_decode functions and
+replace their usage with the generic base64_encode and base64_decode
 helpers from the kernel's lib/base64 library.
 
-This removes custom implementations in fscrypt, reduces code duplication,
-and leverages the well-maintained, standard base64 code within the kernel.
+This eliminates redundant implementations in Ceph, reduces code
+duplication, and leverages the optimized and well-maintained
+standard base64 code within the kernel.
 
-The new helpers preserve RFC 4648-compliant URL-safe Base64 encoding
-without padding behavior, ensuring no functional changes.
+The change keeps the existing encoding table and disables padding,
+ensuring no functional or format changes. At the same time, Ceph also
+benefits from the optimized encoder/decoder: encoding performance
+improves by ~2.7x and decoding by ~12-15x compared to the previous
+local implementation.
 
-At the same time, they also deliver significant performance gains: with the
-optimized encoder and decoder, encoding runs about 2.7x faster and decoding
-achieves 12-15x improvements over the previous implementation.
-
-This improves maintainability and aligns fscrypt with other kernel
-components using the generic base64 helpers.
+Overall, this improves maintainability, consistency with other kernel
+components, and runtime performance.
 
 Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
 Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- fs/crypto/fname.c | 86 ++++-------------------------------------------
- 1 file changed, 6 insertions(+), 80 deletions(-)
+ fs/ceph/crypto.c | 53 +++++-------------------------------------------
+ fs/ceph/crypto.h |  6 ++----
+ fs/ceph/dir.c    |  5 +++--
+ fs/ceph/inode.c  |  2 +-
+ 4 files changed, 11 insertions(+), 55 deletions(-)
 
-diff --git a/fs/crypto/fname.c b/fs/crypto/fname.c
-index f9f6713e1..38be85cd5 100644
---- a/fs/crypto/fname.c
-+++ b/fs/crypto/fname.c
-@@ -17,6 +17,7 @@
- #include <linux/export.h>
- #include <linux/namei.h>
- #include <linux/scatterlist.h>
-+#include <linux/base64.h>
+diff --git a/fs/ceph/crypto.c b/fs/ceph/crypto.c
+index cab722619..a3cb4ad99 100644
+--- a/fs/ceph/crypto.c
++++ b/fs/ceph/crypto.c
+@@ -21,53 +21,9 @@
+  * used the base64 encoding defined for IMAP mailbox names (RFC 3501) instead,
+  * which replaces '-' and '_' by '+' and ','.
+  */
+-static const char base64_table[65] =
++const char ceph_base64_table[65] =
+ 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+,";
  
- #include "fscrypt_private.h"
- 
-@@ -72,7 +73,7 @@ struct fscrypt_nokey_name {
- 
- /* Encoded size of max-size no-key name */
- #define FSCRYPT_NOKEY_NAME_MAX_ENCODED \
--		FSCRYPT_BASE64URL_CHARS(FSCRYPT_NOKEY_NAME_MAX)
-+		BASE64_CHARS(FSCRYPT_NOKEY_NAME_MAX)
- 
- static inline bool fscrypt_is_dot_dotdot(const struct qstr *str)
- {
-@@ -166,81 +167,6 @@ static int fname_decrypt(const struct inode *inode,
- static const char base64url_table[65] =
- 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
- 
--#define FSCRYPT_BASE64URL_CHARS(nbytes)	DIV_ROUND_UP((nbytes) * 4, 3)
--
--/**
-- * fscrypt_base64url_encode() - base64url-encode some binary data
-- * @src: the binary data to encode
-- * @srclen: the length of @src in bytes
-- * @dst: (output) the base64url-encoded string.  Not NUL-terminated.
-- *
-- * Encodes data using base64url encoding, i.e. the "Base 64 Encoding with URL
-- * and Filename Safe Alphabet" specified by RFC 4648.  '='-padding isn't used,
-- * as it's unneeded and not required by the RFC.  base64url is used instead of
-- * base64 to avoid the '/' character, which isn't allowed in filenames.
-- *
-- * Return: the length of the resulting base64url-encoded string in bytes.
-- *	   This will be equal to FSCRYPT_BASE64URL_CHARS(srclen).
-- */
--static int fscrypt_base64url_encode(const u8 *src, int srclen, char *dst)
+-int ceph_base64_encode(const u8 *src, int srclen, char *dst)
 -{
 -	u32 ac = 0;
 -	int bits = 0;
@@ -189,30 +162,15 @@ index f9f6713e1..38be85cd5 100644
 -		bits += 8;
 -		do {
 -			bits -= 6;
--			*cp++ = base64url_table[(ac >> bits) & 0x3f];
+-			*cp++ = base64_table[(ac >> bits) & 0x3f];
 -		} while (bits >= 6);
 -	}
 -	if (bits)
--		*cp++ = base64url_table[(ac << (6 - bits)) & 0x3f];
+-		*cp++ = base64_table[(ac << (6 - bits)) & 0x3f];
 -	return cp - dst;
 -}
 -
--/**
-- * fscrypt_base64url_decode() - base64url-decode a string
-- * @src: the string to decode.  Doesn't need to be NUL-terminated.
-- * @srclen: the length of @src in bytes
-- * @dst: (output) the decoded binary data
-- *
-- * Decodes a string using base64url encoding, i.e. the "Base 64 Encoding with
-- * URL and Filename Safe Alphabet" specified by RFC 4648.  '='-padding isn't
-- * accepted, nor are non-encoding characters such as whitespace.
-- *
-- * This implementation hasn't been optimized for performance.
-- *
-- * Return: the length of the resulting decoded binary data in bytes,
-- *	   or -1 if the string isn't a valid base64url string.
-- */
--static int fscrypt_base64url_decode(const char *src, int srclen, u8 *dst)
+-int ceph_base64_decode(const char *src, int srclen, u8 *dst)
 -{
 -	u32 ac = 0;
 -	int bits = 0;
@@ -220,11 +178,11 @@ index f9f6713e1..38be85cd5 100644
 -	u8 *bp = dst;
 -
 -	for (i = 0; i < srclen; i++) {
--		const char *p = strchr(base64url_table, src[i]);
+-		const char *p = strchr(base64_table, src[i]);
 -
 -		if (p == NULL || src[i] == 0)
 -			return -1;
--		ac = (ac << 6) | (p - base64url_table);
+-		ac = (ac << 6) | (p - base64_table);
 -		bits += 6;
 -		if (bits >= 8) {
 -			bits -= 8;
@@ -236,31 +194,95 @@ index f9f6713e1..38be85cd5 100644
 -	return bp - dst;
 -}
 -
- bool __fscrypt_fname_encrypted_size(const union fscrypt_policy *policy,
- 				    u32 orig_len, u32 max_len,
- 				    u32 *encrypted_len_ret)
-@@ -387,8 +313,8 @@ int fscrypt_fname_disk_to_usr(const struct inode *inode,
- 		       nokey_name.sha256);
- 		size = FSCRYPT_NOKEY_NAME_MAX;
+ static int ceph_crypt_get_context(struct inode *inode, void *ctx, size_t len)
+ {
+ 	struct ceph_inode_info *ci = ceph_inode(inode);
+@@ -316,7 +272,7 @@ int ceph_encode_encrypted_dname(struct inode *parent, char *buf, int elen)
  	}
--	oname->len = fscrypt_base64url_encode((const u8 *)&nokey_name, size,
--					      oname->name);
-+	oname->len = base64_encode((const u8 *)&nokey_name, size,
-+				   oname->name, false, base64url_table);
- 	return 0;
- }
- EXPORT_SYMBOL(fscrypt_fname_disk_to_usr);
-@@ -467,8 +393,8 @@ int fscrypt_setup_filename(struct inode *dir, const struct qstr *iname,
- 	if (fname->crypto_buf.name == NULL)
+ 
+ 	/* base64 encode the encrypted name */
+-	elen = ceph_base64_encode(cryptbuf, len, p);
++	elen = base64_encode(cryptbuf, len, p, false, ceph_base64_table);
+ 	doutc(cl, "base64-encoded ciphertext name = %.*s\n", elen, p);
+ 
+ 	/* To understand the 240 limit, see CEPH_NOHASH_NAME_MAX comments */
+@@ -410,7 +366,8 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
+ 			tname = &_tname;
+ 		}
+ 
+-		declen = ceph_base64_decode(name, name_len, tname->name);
++		declen = base64_decode(name, name_len,
++				       tname->name, false, ceph_base64_table);
+ 		if (declen <= 0) {
+ 			ret = -EIO;
+ 			goto out;
+@@ -424,7 +381,7 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
+ 
+ 	ret = fscrypt_fname_disk_to_usr(dir, 0, 0, &iname, oname);
+ 	if (!ret && (dir != fname->dir)) {
+-		char tmp_buf[CEPH_BASE64_CHARS(NAME_MAX)];
++		char tmp_buf[BASE64_CHARS(NAME_MAX)];
+ 
+ 		name_len = snprintf(tmp_buf, sizeof(tmp_buf), "_%.*s_%ld",
+ 				    oname->len, oname->name, dir->i_ino);
+diff --git a/fs/ceph/crypto.h b/fs/ceph/crypto.h
+index 23612b2e9..c94da3818 100644
+--- a/fs/ceph/crypto.h
++++ b/fs/ceph/crypto.h
+@@ -8,6 +8,7 @@
+ 
+ #include <crypto/sha2.h>
+ #include <linux/fscrypt.h>
++#include <linux/base64.h>
+ 
+ #define CEPH_FSCRYPT_BLOCK_SHIFT   12
+ #define CEPH_FSCRYPT_BLOCK_SIZE    (_AC(1, UL) << CEPH_FSCRYPT_BLOCK_SHIFT)
+@@ -89,10 +90,7 @@ static inline u32 ceph_fscrypt_auth_len(struct ceph_fscrypt_auth *fa)
+  */
+ #define CEPH_NOHASH_NAME_MAX (180 - SHA256_DIGEST_SIZE)
+ 
+-#define CEPH_BASE64_CHARS(nbytes) DIV_ROUND_UP((nbytes) * 4, 3)
+-
+-int ceph_base64_encode(const u8 *src, int srclen, char *dst);
+-int ceph_base64_decode(const char *src, int srclen, u8 *dst);
++extern const char ceph_base64_table[65];
+ 
+ void ceph_fscrypt_set_ops(struct super_block *sb);
+ 
+diff --git a/fs/ceph/dir.c b/fs/ceph/dir.c
+index 8478e7e75..830715988 100644
+--- a/fs/ceph/dir.c
++++ b/fs/ceph/dir.c
+@@ -998,13 +998,14 @@ static int prep_encrypted_symlink_target(struct ceph_mds_request *req,
+ 	if (err)
+ 		goto out;
+ 
+-	req->r_path2 = kmalloc(CEPH_BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
++	req->r_path2 = kmalloc(BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
+ 	if (!req->r_path2) {
+ 		err = -ENOMEM;
+ 		goto out;
+ 	}
+ 
+-	len = ceph_base64_encode(osd_link.name, osd_link.len, req->r_path2);
++	len = base64_encode(osd_link.name, osd_link.len,
++			    req->r_path2, false, ceph_base64_table);
+ 	req->r_path2[len] = '\0';
+ out:
+ 	fscrypt_fname_free_buffer(&osd_link);
+diff --git a/fs/ceph/inode.c b/fs/ceph/inode.c
+index fc543075b..94b729ccc 100644
+--- a/fs/ceph/inode.c
++++ b/fs/ceph/inode.c
+@@ -911,7 +911,7 @@ static int decode_encrypted_symlink(struct ceph_mds_client *mdsc,
+ 	if (!sym)
  		return -ENOMEM;
  
--	ret = fscrypt_base64url_decode(iname->name, iname->len,
--				       fname->crypto_buf.name);
-+	ret = base64_decode(iname->name, iname->len,
-+			    fname->crypto_buf.name, false, base64url_table);
- 	if (ret < (int)offsetof(struct fscrypt_nokey_name, bytes[1]) ||
- 	    (ret > offsetof(struct fscrypt_nokey_name, sha256) &&
- 	     ret != FSCRYPT_NOKEY_NAME_MAX)) {
+-	declen = ceph_base64_decode(encsym, enclen, sym);
++	declen = base64_decode(encsym, enclen, sym, false, ceph_base64_table);
+ 	if (declen < 0) {
+ 		pr_err_client(cl,
+ 			"can't decode symlink (%d). Content: %.*s\n",
 -- 
 2.34.1
 
