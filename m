@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53FBBCAC587
-	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1839CAC58D
+	for <linux-nvme@archiver.kernel.org>; Thu, 11 Sep 2025 07:33:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=7s0darRmpAoSF4AYzaEAKr+Som3Rl5+XVaBmiwsyicM=; b=YUXUsoxRREj5pabG/eD8UUIt/K
-	lcAfABCk3tZ1c0uYtP0u/rOBk3fQShuv4zst/QQrO5JLhoUT+4KDx93FJXEOcGcqjNgskUF+twNiy
-	WqmtdVcg2dL0JJQOxuFyU1PfD3+RV54v6kyCfqwZyFK08KBLP06/czqCyDq8Y4BwWG4DJcj/OuCr1
-	pAXxsP5lYo1OnvDxfZm2BHA3zJk5q3swUY2C+4VlpnGWN+e3F4NETR/L3NKXOE4ylUFH12YInbecF
-	3/g+THm+jBodi2PLbUfnFl9JBslEm9PWp7YCmgeZFZM9Ud+lr9vKBd3Vrt+7XLfE3eTbqTAXp2gvm
-	pfOrXbUA==;
+	bh=9sqCK5RjxgMvTS/KMSGZswVuHs/rB1hx6QH50USYYeg=; b=Qtr0IUEQOGBVAROMI5PG7AHiyr
+	XsFZ9rdphC2qAAZiUM1IFZNACn65FvlUVy+I1r2iZQHzfTmFVZFtIZ/CVzloryO4HYWq/czHhwosh
+	K+gjhognOTs5TzzwJm2nG4l7PnL75aMBofd2IN7TuTXI82MNlNlfDQD6Z1/Ja8g66SXz/RTAeKsId
+	az9Mq+COm5L3WhEG77Ii3t3EFdRU9b4P6jvpNGIJb5B0K72A0MVa7BLfjfcu5XfXbU6EHC1+b0sRH
+	HlRbJTb83wAlDqLMKyYoE1Y4ZdrQi5I+nBAwk4IYE5TtFCYOksfelR8NuWAJ0R5yXhEuikHth+e6f
+	LGumxebw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwbnW-00000001VbM-39Qb;
-	Thu, 11 Sep 2025 07:32:50 +0000
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+	id 1uwbnl-00000001VlJ-0LKQ;
+	Thu, 11 Sep 2025 07:33:05 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwbnT-00000001VZg-2WGN
+	id 1uwbnj-00000001VjX-0jcR
 	for linux-nvme@lists.infradead.org;
-	Thu, 11 Sep 2025 07:32:48 +0000
-Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-32db52f2f07so349036a91.0
-        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:32:47 -0700 (PDT)
+	Thu, 11 Sep 2025 07:33:04 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-24cde6c65d1so2910005ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 11 Sep 2025 00:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757575967; x=1758180767; darn=lists.infradead.org;
+        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757575982; x=1758180782; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7s0darRmpAoSF4AYzaEAKr+Som3Rl5+XVaBmiwsyicM=;
-        b=Nq+B19m5t1vqqaaI0Gin4V28vDDaHQsJRhsQVe+8QOOkNFYuOfisFlT23PoQmACzit
-         IxKTYwyV03/RiYUWeUpEfmnGhrbGPiWTPJ2M48LGcaUIRRBeaZZKOGzWFQfeqz8DG6tf
-         /pXpk4YW5pnFUG2uPqPWp4Gek5y8ioDeqGR75em6BvIrkGFJqFUHjNeWdVWoB1WhZZIZ
-         7EEE52lLFlf2NHCTslr86L7azdksuW7FD32zllhwIx2h1lvk3HLBe/hF7OypRvVZsaSm
-         z+D8R7NF9mty+a9OUMlMTykvDIt7zatTtMLoGBGvqjkpP8Oh4tNnt9o301X1ugRGNQ7y
-         /w8g==
+        bh=9sqCK5RjxgMvTS/KMSGZswVuHs/rB1hx6QH50USYYeg=;
+        b=LK0XsTyeE+HVgeG00THYU3MwNY4aiwCTR2KOWAOROk36SSg0R55blZdaqMQQxqpgNm
+         l4/XN0TLCGijB+cqQ6C+JjpLkF4r9uFMtPu/cbprsk8OYtUbbX2/JtFkneOMinqOxx9+
+         Je/dyWQaKCFkoTiMM4Vs12acN70THxvpftUMf6TZhgX0STDJqUQkbkuwTFdbjVJtJpbO
+         G5NfPBDuwCdYW2FK9k3AtRwi9RyuwdJv3lqKv1hmK9c2ZpKhm0LJ7wwQKAiF6PA6aQK6
+         vUePbLQozckYSRg6l01FQ3Cz92LdqMe2wld2GJM8Lx6lNvpOmpkVRLhTiEa0h/vQ9i9o
+         n8xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757575967; x=1758180767;
+        d=1e100.net; s=20230601; t=1757575982; x=1758180782;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7s0darRmpAoSF4AYzaEAKr+Som3Rl5+XVaBmiwsyicM=;
-        b=QJEBJXEd6pQDoYCdpethCdN+WNDR0X4U4nZMXpFhKUbuGjDM0IpDFLzT2Z/eByoixk
-         fT0jz+dhFMtIMY5BM6sfDravxOyT36Z3ASEbhZlzioxtTy7FwnSXhAH6CyoyhObaqfdC
-         5C6oaXFCNg4XEq5tCkGiVJvelcNoaVyQbuwBGzxRilrYDupsmlWAxJAYpaF8bxQyeVo4
-         U98NQ1HG2tdPCwEqTrPBc/ugNuAEoSq2mF1NfM7+SYVQcUz9LjF28dXnCcHagNZyC5vl
-         SpKOp/kKVCe7QtsoDSOT5Z/1dJFTiXv35tZWbTgrYYUpjBaeihZngbhgW3hZhT4RLzEd
-         9+Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCXbdABzqBLu52Ei0NBGpxt3UOaYEZf3LlBzCJdDpMZp56bdZKzrhR2oLm3vfPbW/J937c0+45RK7dSJ@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy77AsR6tBW8xOVHpdOzLchM5bHqv1XW9L5hl5g/e8W6LfmLYgN
-	34V3wOfTZqAvYhquEJGk8T8YGKuvIW+plstJ4rEsZdb186cU+hWFo0phFbWrghUbao4=
-X-Gm-Gg: ASbGncsl0s1npmSgFHtrcpZuZ0HCp+EJQPtd6ce7MkGCu5bt54gO+zx1tN93/6eH3SY
-	MFKCy51k7B5kRIGVmJm0qgE1z9UF2jvfBQV/qAkYPXqUMi2VY1q26xugLJGihhZnRPXFIaCELSR
-	ve1xkfGgc85IOlKGbXQPlcfhmGYCdNFPZ13JDDH/kaKAz8S/prU8NdUjcmeydUFe5VojLcnPDZZ
-	EX6CvrVaJDgusnouk9nZg3JaOi01v7mqtZtMSLHhUfXGA1KZH4KF8oG2nYAAszsCHjeyq4HSYPX
-	o9629WE5ueev35fvZY4mgenbNvhvAEyhsk7ec1Z10sGJhnVuCFTI5WaLbIzuqumLRsGI2MFoFRq
-	4zxbjRRm9W9AmDYqx4OfXkzplnuM+VuATgRSxZlD/9kIbz/EjpRF5yOcmqg==
-X-Google-Smtp-Source: AGHT+IGdM58j9g1OKoy52eIFNUxwwbvD1pYUiG/9o0Yq0NDk3xchY26I1yfT4KFiKTdndSxHjuBo7Q==
-X-Received: by 2002:a17:90b:1d8f:b0:329:e4d1:c20f with SMTP id 98e67ed59e1d1-32d43eff84dmr22396284a91.9.1757575966592;
-        Thu, 11 Sep 2025 00:32:46 -0700 (PDT)
+        bh=9sqCK5RjxgMvTS/KMSGZswVuHs/rB1hx6QH50USYYeg=;
+        b=dmV0cCKRuXuCOYEwNnVa9ooUjqPgfz0zTdCtQsrX1tDZtokPwmoltUE6GdCQcAOTAC
+         nlWWs4PuoHOpiTuod4kQdoMlSGr4EncreEdt4xrXRaj9vdgC5p+e8XVmmAdqhS5xqhEI
+         XfQ5Ym0iPXWkBa3QhPKZ0WqVMnSfh92y6u1nEMaOSmbDWHwMKil3mI70wi6QDTD8pzj/
+         kt1gLcIQCUeSaMW4ByyL1pEa3ZBPAny5ItflQ3cfSxuxW+TFTorWf9Zcv81z/888hvvG
+         Eu9FJHfKx9TybsaW/LipOO0F4Ic7w3xGQRhiNTQx1xE09puwpAfBZb5gvb9800X8VJSb
+         exhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUATaPeHrLIs+ZfwfozP/uQHDCHb4xBdAQHVeyD9y9cpBXWMpKpTWJiVfNDShu+SP4L72CZVGQpWDmg@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz/htwRfalzaPQjB2mbsJFtoEoLCBglvS4+T5FWBqXEDVGtbjh+
+	sFThXOCTtP8K+tbpsVg7BkTiwqikmQfUmNc2oqf36r8Dm+nSQ1MWhvsf4k1HJi+RUjs=
+X-Gm-Gg: ASbGncuXzfv6In6VBVDwlYWSxPnuFdhjsyTel8S/oyXe5qPj5sFxCU1sMRcXptA6R5f
+	swMr0o7RtNYd7DYqUeRiD0pXz2XmCbyg0lqaeG2onD+CgXV+BXMNYMqHM0i4DRWKU8ls/VymjTC
+	naW6THWYMZ7Vb3jEsCetDO0mcYJnWEwKM3Ujk1eXbXPLyppAt5xoPRohvzHLInoAua6cv+RMPEy
+	GJkzl2eTumjpZ/ce2lEQKJXUwIRjthJqQIQySpyrVSztQa/JL5v6N42aw1d4AeAER8QqZqDsy1h
+	G2o1YDHOG0LnLBwx1CJ742CO+QDGbjryzhePMPnBRT7MSo/LE1JrrNanmLvULjCZdVLZ85qXnbY
+	3Zo5dhwqEOWy0c257ujr0cvOD1VRmI8dzLMLsIJY544rIhvKF1yTaVwhMBg==
+X-Google-Smtp-Source: AGHT+IFD9aePnHBtB13DZnlZ8Ibfo6GnzucKKeZU8KCH9/Ow9xL5SQ7qcnFeRVs1LbSv8OFB76dPGQ==
+X-Received: by 2002:a17:902:d511:b0:250:643e:c947 with SMTP id d9443c01a7336-251715f34e4mr234231735ad.28.1757575982336;
+        Thu, 11 Sep 2025 00:33:02 -0700 (PDT)
 Received: from wu-Pro-E500-G6-WS720T.. ([2001:288:7001:2703:7811:c085:c184:85be])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dd61eaa50sm1627799a91.6.2025.09.11.00.32.43
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c36cc6c2csm9959415ad.11.2025.09.11.00.32.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 00:32:45 -0700 (PDT)
+        Thu, 11 Sep 2025 00:33:01 -0700 (PDT)
 From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
@@ -86,15 +86,15 @@ Cc: visitorckw@gmail.com,
 	linux-nvme@lists.infradead.org,
 	ceph-devel@vger.kernel.org,
 	linux-fscrypt@vger.kernel.org
-Subject: [PATCH v2 3/5] lib: add KUnit tests for base64 encoding/decoding
-Date: Thu, 11 Sep 2025 15:32:39 +0800
-Message-Id: <20250911073239.579643-1-409411716@gms.tku.edu.tw>
+Subject: [PATCH v2 4/5] fscrypt: replace local base64url helpers with generic lib/base64 helpers
+Date: Thu, 11 Sep 2025 15:32:54 +0800
+Message-Id: <20250911073254.581898-1-409411716@gms.tku.edu.tw>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250911_003247_654045_17478971 
-X-CRM114-Status: GOOD (  18.98  )
+X-CRM114-CacheID: sfid-20250911_003303_230373_C501E532 
+X-CRM114-Status: GOOD (  21.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,321 +109,154 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a KUnit test suite for the base64 helpers. The tests exercise both
-encoding and decoding, cover padded and unpadded forms per RFC 4648, and
-include negative cases for malformed inputs and padding errors. The suite
-also validates behavior with a caller-supplied encoding table.
+Replace the existing local base64url encoding and decoding functions in
+fscrypt with the generic base64_encode_custom and base64_decode_custom
+helpers from the kernel's lib/base64 library.
 
-In addition to functional checks, the suite includes simple microbenchmarks
-which report average encode/decode latency for small (64B) and larger (1KB)
-inputs. These numbers are informational only and do not gate the tests.
+This removes custom implementations in fscrypt, reduces code duplication,
+and leverages the well-maintained, standard base64 code within the kernel.
 
-Kconfig (BASE64_KUNIT) and lib/tests/Makefile are updated accordingly.
+The new helpers preserve RFC 4648-compliant URL-safe Base64 encoding
+without padding behavior, ensuring no functional changes.
 
-Sample KUnit output:
+At the same time, they also deliver significant performance gains: with the
+optimized encoder and decoder, encoding runs about 2.7x faster and decoding
+achieves 12-15x improvements over the previous implementation.
 
-    KTAP version 1
-    # Subtest: base64
-    # module: base64_kunit
-    1..3
-    # base64_performance_tests: [64B] encode run : 32ns
-    # base64_performance_tests: [64B] decode run : 122ns
-    # base64_performance_tests: [1KB] encode run : 507ns
-    # base64_performance_tests: [1KB] decode run : 1870ns
-    ok 1 base64_performance_tests
-    ok 2 base64_encode_tests
-    ok 3 base64_decode_tests
-    # base64: pass:3 fail:0 skip:0 total:3
-    # Totals: pass:3 fail:0 skip:0 total:3
+This improves maintainability and aligns fscrypt with other kernel
+components using the generic base64 helpers.
 
 Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
 Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 ---
- lib/Kconfig.debug        |  19 +++-
- lib/tests/Makefile       |   1 +
- lib/tests/base64_kunit.c | 230 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 249 insertions(+), 1 deletion(-)
- create mode 100644 lib/tests/base64_kunit.c
+ fs/crypto/fname.c | 86 ++++-------------------------------------------
+ 1 file changed, 6 insertions(+), 80 deletions(-)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index dc0e0c6ed..1cfb12d02 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2794,8 +2794,25 @@ config CMDLINE_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config BASE64_KUNIT
-+	tristate "KUnit test for base64 decoding and encoding" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This builds the base64 unit tests.
-+
-+	  The tests cover the encoding and decoding logic of Base64 functions
-+	  in the kernel.
-+	  In addition to correctness checks, simple performance benchmarks
-+	  for both encoding and decoding are also included.
-+
-+	  For more information on KUnit and unit tests in general please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+	  If unsure, say N.
-+
- config BITS_TEST
--	tristate "KUnit test for bits.h" if !KUNIT_ALL_TESTS
-+	tristate "KUnit test for bit functions and macros" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
- 	default KUNIT_ALL_TESTS
- 	help
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index fa6d728a8..6593a2873 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -4,6 +4,7 @@
- 
- # KUnit tests
- CFLAGS_bitfield_kunit.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-+obj-$(CONFIG_BASE64_KUNIT) += base64_kunit.o
- obj-$(CONFIG_BITFIELD_KUNIT) += bitfield_kunit.o
- obj-$(CONFIG_BITS_TEST) += test_bits.o
- obj-$(CONFIG_BLACKHOLE_DEV_KUNIT_TEST) += blackhole_dev_kunit.o
-diff --git a/lib/tests/base64_kunit.c b/lib/tests/base64_kunit.c
-new file mode 100644
-index 000000000..1941ac504
---- /dev/null
-+++ b/lib/tests/base64_kunit.c
-@@ -0,0 +1,230 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * base64_kunit_test.c - KUnit tests for base64 encoding and decoding functions
-+ *
-+ * Copyright (c) 2025, Guan-Chun Wu <409411716@gms.tku.edu.tw>
-+ */
-+
-+#include <kunit/test.h>
+diff --git a/fs/crypto/fname.c b/fs/crypto/fname.c
+index f9f6713e1..38be85cd5 100644
+--- a/fs/crypto/fname.c
++++ b/fs/crypto/fname.c
+@@ -17,6 +17,7 @@
+ #include <linux/export.h>
+ #include <linux/namei.h>
+ #include <linux/scatterlist.h>
 +#include <linux/base64.h>
-+
-+static const char base64_table[65] =
-+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-+
-+/* ---------- Benchmark helpers ---------- */
-+static u64 bench_encode_ns(const u8 *data, int len, char *dst, int reps)
-+{
-+	u64 t0, t1;
-+
-+	t0 = ktime_get_ns();
-+	for (int i = 0; i < reps; i++)
-+		base64_encode(data, len, dst, true, base64_table);
-+	t1 = ktime_get_ns();
-+
-+	return div64_u64(t1 - t0, (u64)reps);
-+}
-+
-+static u64 bench_decode_ns(const char *data, int len, u8 *dst, int reps)
-+{
-+	u64 t0, t1;
-+
-+	t0 = ktime_get_ns();
-+	for (int i = 0; i < reps; i++)
-+		base64_decode(data, len, dst, true, base64_table);
-+	t1 = ktime_get_ns();
-+
-+	return div64_u64(t1 - t0, (u64)reps);
-+}
-+
-+static void run_perf_and_check(struct kunit *test, const char *label, int size)
-+{
-+	const int reps = 1000;
-+	size_t outlen = DIV_ROUND_UP(size, 3) * 4;
-+	u8 *in = kmalloc(size, GFP_KERNEL);
-+	char *enc = kmalloc(outlen, GFP_KERNEL);
-+	u8 *decoded = kmalloc(size, GFP_KERNEL);
-+
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, in);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, enc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, decoded);
-+
-+	get_random_bytes(in, size);
-+	int enc_len = base64_encode(in, size, enc, true, base64_table);
-+	int dec_len = base64_decode(enc, enc_len, decoded, true, base64_table);
-+
-+	/* correctness sanity check */
-+	KUNIT_EXPECT_EQ(test, dec_len, size);
-+	KUNIT_EXPECT_MEMEQ(test, decoded, in, size);
-+
-+	/* benchmark encode */
-+
-+	u64 t1 = bench_encode_ns(in, size, enc, reps);
-+
-+	kunit_info(test, "[%s] encode run : %lluns", label, t1);
-+
-+	u64 t2 = bench_decode_ns(enc, enc_len, decoded, reps);
-+
-+	kunit_info(test, "[%s] decode run : %lluns", label, t2);
-+
-+	kfree(in);
-+	kfree(enc);
-+	kfree(decoded);
-+}
-+
-+static void base64_performance_tests(struct kunit *test)
-+{
-+	run_perf_and_check(test, "64B", 64);
-+	run_perf_and_check(test, "1KB", 1024);
-+}
-+
-+/* ---------- Helpers for encode ---------- */
-+static void expect_encode_ok(struct kunit *test, const u8 *src, int srclen,
-+			     const char *expected, bool padding)
-+{
-+	char buf[128];
-+	int encoded_len = base64_encode(src, srclen, buf, padding, base64_table);
-+
-+	buf[encoded_len] = '\0';
-+
-+	KUNIT_EXPECT_EQ(test, encoded_len, strlen(expected));
-+	KUNIT_EXPECT_STREQ(test, buf, expected);
-+}
-+
-+/* ---------- Helpers for decode ---------- */
-+static void expect_decode_ok(struct kunit *test, const char *src,
-+			     const u8 *expected, int expected_len, bool padding)
-+{
-+	u8 buf[128];
-+	int decoded_len = base64_decode(src, strlen(src), buf, padding, base64_table);
-+
-+	KUNIT_EXPECT_EQ(test, decoded_len, expected_len);
-+	KUNIT_EXPECT_MEMEQ(test, buf, expected, expected_len);
-+}
-+
-+static void expect_decode_err(struct kunit *test, const char *src,
-+			      int srclen, bool padding)
-+{
-+	u8 buf[64];
-+	int decoded_len = base64_decode(src, srclen, buf, padding, base64_table);
-+
-+	KUNIT_EXPECT_EQ(test, decoded_len, -1);
-+}
-+
-+/* ---------- Encode Tests ---------- */
-+static void base64_encode_tests(struct kunit *test)
-+{
-+	/* With padding */
-+	expect_encode_ok(test, (const u8 *)"", 0, "", true);
-+	expect_encode_ok(test, (const u8 *)"f", 1, "Zg==", true);
-+	expect_encode_ok(test, (const u8 *)"fo", 2, "Zm8=", true);
-+	expect_encode_ok(test, (const u8 *)"foo", 3, "Zm9v", true);
-+	expect_encode_ok(test, (const u8 *)"foob", 4, "Zm9vYg==", true);
-+	expect_encode_ok(test, (const u8 *)"fooba", 5, "Zm9vYmE=", true);
-+	expect_encode_ok(test, (const u8 *)"foobar", 6, "Zm9vYmFy", true);
-+
-+	/* Extra cases with padding */
-+	expect_encode_ok(test, (const u8 *)"Hello, world!", 13, "SGVsbG8sIHdvcmxkIQ==", true);
-+	expect_encode_ok(test, (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26,
-+			 "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=", true);
-+	expect_encode_ok(test, (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26,
-+			 "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo=", true);
-+	expect_encode_ok(test, (const u8 *)"0123456789+/", 12, "MDEyMzQ1Njc4OSsv", true);
-+
-+	/* Without padding */
-+	expect_encode_ok(test, (const u8 *)"", 0, "", false);
-+	expect_encode_ok(test, (const u8 *)"f", 1, "Zg", false);
-+	expect_encode_ok(test, (const u8 *)"fo", 2, "Zm8", false);
-+	expect_encode_ok(test, (const u8 *)"foo", 3, "Zm9v", false);
-+	expect_encode_ok(test, (const u8 *)"foob", 4, "Zm9vYg", false);
-+	expect_encode_ok(test, (const u8 *)"fooba", 5, "Zm9vYmE", false);
-+	expect_encode_ok(test, (const u8 *)"foobar", 6, "Zm9vYmFy", false);
-+
-+	/* Extra cases without padding */
-+	expect_encode_ok(test, (const u8 *)"Hello, world!", 13, "SGVsbG8sIHdvcmxkIQ", false);
-+	expect_encode_ok(test, (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26,
-+			 "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo", false);
-+	expect_encode_ok(test, (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26,
-+			 "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo", false);
-+	expect_encode_ok(test, (const u8 *)"0123456789+/", 12, "MDEyMzQ1Njc4OSsv", false);
-+}
-+
-+/* ---------- Decode Tests ---------- */
-+static void base64_decode_tests(struct kunit *test)
-+{
-+	/* -------- With padding --------*/
-+	expect_decode_ok(test, "", (const u8 *)"", 0, true);
-+	expect_decode_ok(test, "Zg==", (const u8 *)"f", 1, true);
-+	expect_decode_ok(test, "Zm8=", (const u8 *)"fo", 2, true);
-+	expect_decode_ok(test, "Zm9v", (const u8 *)"foo", 3, true);
-+	expect_decode_ok(test, "Zm9vYg==", (const u8 *)"foob", 4, true);
-+	expect_decode_ok(test, "Zm9vYmE=", (const u8 *)"fooba", 5, true);
-+	expect_decode_ok(test, "Zm9vYmFy", (const u8 *)"foobar", 6, true);
-+	expect_decode_ok(test, "SGVsbG8sIHdvcmxkIQ==", (const u8 *)"Hello, world!", 13, true);
-+	expect_decode_ok(test, "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=",
-+			 (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26, true);
-+	expect_decode_ok(test, "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo=",
-+			 (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26, true);
-+
-+	/* Error cases */
-+	expect_decode_err(test, "Zg=!", 4, true);
-+	expect_decode_err(test, "Zm$=", 4, true);
-+	expect_decode_err(test, "Z===", 4, true);
-+	expect_decode_err(test, "Zg", 2, true);
-+	expect_decode_err(test, "Zm9v====", 8, true);
-+	expect_decode_err(test, "Zm==A", 5, true);
-+
-+	{
-+		char with_nul[4] = { 'Z', 'g', '\0', '=' };
-+
-+		expect_decode_err(test, with_nul, 4, true);
-+	}
-+
-+	/* -------- Without padding --------*/
-+	expect_decode_ok(test, "", (const u8 *)"", 0, false);
-+	expect_decode_ok(test, "Zg", (const u8 *)"f", 1, false);
-+	expect_decode_ok(test, "Zm8", (const u8 *)"fo", 2, false);
-+	expect_decode_ok(test, "Zm9v", (const u8 *)"foo", 3, false);
-+	expect_decode_ok(test, "Zm9vYg", (const u8 *)"foob", 4, false);
-+	expect_decode_ok(test, "Zm9vYmE", (const u8 *)"fooba", 5, false);
-+	expect_decode_ok(test, "Zm9vYmFy", (const u8 *)"foobar", 6, false);
-+	expect_decode_ok(test, "TWFu", (const u8 *)"Man", 3, false);
-+	expect_decode_ok(test, "SGVsbG8sIHdvcmxkIQ", (const u8 *)"Hello, world!", 13, false);
-+	expect_decode_ok(test, "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo",
-+			 (const u8 *)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 26, false);
-+	expect_decode_ok(test, "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo",
-+			 (const u8 *)"abcdefghijklmnopqrstuvwxyz", 26, false);
-+	expect_decode_ok(test, "MDEyMzQ1Njc4OSsv", (const u8 *)"0123456789+/", 12, false);
-+
-+	/* Error cases */
-+	expect_decode_err(test, "Zg=!", 4, false);
-+	expect_decode_err(test, "Zm$=", 4, false);
-+	expect_decode_err(test, "Z===", 4, false);
-+	expect_decode_err(test, "Zg=", 3, false);
-+	expect_decode_err(test, "Zm9v====", 8, false);
-+	expect_decode_err(test, "Zm==v", 4, false);
-+
-+	{
-+		char with_nul[4] = { 'Z', 'g', '\0', '=' };
-+
-+		expect_decode_err(test, with_nul, 4, false);
-+	}
-+}
-+
-+/* ---------- Test registration ---------- */
-+static struct kunit_case base64_test_cases[] = {
-+	KUNIT_CASE(base64_performance_tests),
-+	KUNIT_CASE(base64_encode_tests),
-+	KUNIT_CASE(base64_decode_tests),
-+	{}
-+};
-+
-+static struct kunit_suite base64_test_suite = {
-+	.name = "base64",
-+	.test_cases = base64_test_cases,
-+};
-+
-+kunit_test_suite(base64_test_suite);
-+
-+MODULE_AUTHOR("Guan-Chun Wu <409411716@gms.tku.edu.tw>");
-+MODULE_DESCRIPTION("KUnit tests for Base64 encoding/decoding, including performance checks");
-+MODULE_LICENSE("GPL");
+ 
+ #include "fscrypt_private.h"
+ 
+@@ -72,7 +73,7 @@ struct fscrypt_nokey_name {
+ 
+ /* Encoded size of max-size no-key name */
+ #define FSCRYPT_NOKEY_NAME_MAX_ENCODED \
+-		FSCRYPT_BASE64URL_CHARS(FSCRYPT_NOKEY_NAME_MAX)
++		BASE64_CHARS(FSCRYPT_NOKEY_NAME_MAX)
+ 
+ static inline bool fscrypt_is_dot_dotdot(const struct qstr *str)
+ {
+@@ -166,81 +167,6 @@ static int fname_decrypt(const struct inode *inode,
+ static const char base64url_table[65] =
+ 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+ 
+-#define FSCRYPT_BASE64URL_CHARS(nbytes)	DIV_ROUND_UP((nbytes) * 4, 3)
+-
+-/**
+- * fscrypt_base64url_encode() - base64url-encode some binary data
+- * @src: the binary data to encode
+- * @srclen: the length of @src in bytes
+- * @dst: (output) the base64url-encoded string.  Not NUL-terminated.
+- *
+- * Encodes data using base64url encoding, i.e. the "Base 64 Encoding with URL
+- * and Filename Safe Alphabet" specified by RFC 4648.  '='-padding isn't used,
+- * as it's unneeded and not required by the RFC.  base64url is used instead of
+- * base64 to avoid the '/' character, which isn't allowed in filenames.
+- *
+- * Return: the length of the resulting base64url-encoded string in bytes.
+- *	   This will be equal to FSCRYPT_BASE64URL_CHARS(srclen).
+- */
+-static int fscrypt_base64url_encode(const u8 *src, int srclen, char *dst)
+-{
+-	u32 ac = 0;
+-	int bits = 0;
+-	int i;
+-	char *cp = dst;
+-
+-	for (i = 0; i < srclen; i++) {
+-		ac = (ac << 8) | src[i];
+-		bits += 8;
+-		do {
+-			bits -= 6;
+-			*cp++ = base64url_table[(ac >> bits) & 0x3f];
+-		} while (bits >= 6);
+-	}
+-	if (bits)
+-		*cp++ = base64url_table[(ac << (6 - bits)) & 0x3f];
+-	return cp - dst;
+-}
+-
+-/**
+- * fscrypt_base64url_decode() - base64url-decode a string
+- * @src: the string to decode.  Doesn't need to be NUL-terminated.
+- * @srclen: the length of @src in bytes
+- * @dst: (output) the decoded binary data
+- *
+- * Decodes a string using base64url encoding, i.e. the "Base 64 Encoding with
+- * URL and Filename Safe Alphabet" specified by RFC 4648.  '='-padding isn't
+- * accepted, nor are non-encoding characters such as whitespace.
+- *
+- * This implementation hasn't been optimized for performance.
+- *
+- * Return: the length of the resulting decoded binary data in bytes,
+- *	   or -1 if the string isn't a valid base64url string.
+- */
+-static int fscrypt_base64url_decode(const char *src, int srclen, u8 *dst)
+-{
+-	u32 ac = 0;
+-	int bits = 0;
+-	int i;
+-	u8 *bp = dst;
+-
+-	for (i = 0; i < srclen; i++) {
+-		const char *p = strchr(base64url_table, src[i]);
+-
+-		if (p == NULL || src[i] == 0)
+-			return -1;
+-		ac = (ac << 6) | (p - base64url_table);
+-		bits += 6;
+-		if (bits >= 8) {
+-			bits -= 8;
+-			*bp++ = (u8)(ac >> bits);
+-		}
+-	}
+-	if (ac & ((1 << bits) - 1))
+-		return -1;
+-	return bp - dst;
+-}
+-
+ bool __fscrypt_fname_encrypted_size(const union fscrypt_policy *policy,
+ 				    u32 orig_len, u32 max_len,
+ 				    u32 *encrypted_len_ret)
+@@ -387,8 +313,8 @@ int fscrypt_fname_disk_to_usr(const struct inode *inode,
+ 		       nokey_name.sha256);
+ 		size = FSCRYPT_NOKEY_NAME_MAX;
+ 	}
+-	oname->len = fscrypt_base64url_encode((const u8 *)&nokey_name, size,
+-					      oname->name);
++	oname->len = base64_encode((const u8 *)&nokey_name, size,
++				   oname->name, false, base64url_table);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(fscrypt_fname_disk_to_usr);
+@@ -467,8 +393,8 @@ int fscrypt_setup_filename(struct inode *dir, const struct qstr *iname,
+ 	if (fname->crypto_buf.name == NULL)
+ 		return -ENOMEM;
+ 
+-	ret = fscrypt_base64url_decode(iname->name, iname->len,
+-				       fname->crypto_buf.name);
++	ret = base64_decode(iname->name, iname->len,
++			    fname->crypto_buf.name, false, base64url_table);
+ 	if (ret < (int)offsetof(struct fscrypt_nokey_name, bytes[1]) ||
+ 	    (ret > offsetof(struct fscrypt_nokey_name, sha256) &&
+ 	     ret != FSCRYPT_NOKEY_NAME_MAX)) {
 -- 
 2.34.1
 
