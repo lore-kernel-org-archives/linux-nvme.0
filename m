@@ -4,92 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7692ECA101F
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Sep 2025 07:51:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61317CA101F
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Sep 2025 08:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=H5dGuAanKwsiY1ZqsKVkDAIjfNLSeHC2vPf4ogltoWw=; b=xsklZq3TRrQCrtM6l5ZLR8ivnJ
-	bEI6LAFDD0vFjHJ1+rCNwTiodiRRZel0m0PKlE9BXhYEVytOFOHoBpphbKmrf5O7+iAvpwLJtMn0P
-	8o4+7x/oMX+AJF2S26UIhouJHoGHw8PxIkICi2r+Ua4Mw/9PSKeJsMKscWCAm80nk5YMtJMGTMki4
-	0+ufJeM4CAM5VoPsx9MGAIu/Gj3PGdO9eddX8S5JTh6xhea+qZjzn49D3/vTQ5r2iL5v78MOszMXi
-	z+enwQ1A4++h+MG+ZO+qL2e7ItcoYrV+ZJKFe0PWlyLGLudv7dxeKBdMy77nBz/bGEiW20Ud9RLmU
-	hyUqugww==;
+	bh=E/CSSfN43nuBpCmvlSQv0g4m2YsMRqWgQtvSodhnH28=; b=lNvmpcVBJ1CepshPE6HAq106dW
+	I63TbywIPKjWKRYzAlOIHfU05xL/pUR3Y/ZKrrXwgdgr9Mh3bth+2xmoCBnQTCfy03q/kJtNppIm5
+	ol3XrQbBJYEZH6CbRdjDX4HLc/vbXdo0pjZJ7hJnqteqJRKxdH8iGFkjRqCSsOKGM3Jfm0+4nx6FD
+	+edHriAMTViHVmj3EidDsbksCGw7qTp/5P+l6g8Wrz9aTFBW1VL7cCFlnmwImdsAupNv5KX/ISZyj
+	YmQtnSbYwZkf7l0izqkQkNqoUWN6Y4h3lGKJlLlxFr0fqmZRLdy/FX3zJM1GJWnk87YYN4vLM1OVO
+	Nuhtmfgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwyZK-00000007kBv-1c2e;
-	Fri, 12 Sep 2025 07:51:42 +0000
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+	id 1uwzDB-00000007wfW-22OZ;
+	Fri, 12 Sep 2025 08:32:53 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uwyZD-00000007k7y-1L4F
+	id 1uwzD8-00000007wdK-3qQz
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Sep 2025 07:51:37 +0000
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-7725fb32e1bso1670479b3a.1
-        for <linux-nvme@lists.infradead.org>; Fri, 12 Sep 2025 00:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1757663492; x=1758268292; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H5dGuAanKwsiY1ZqsKVkDAIjfNLSeHC2vPf4ogltoWw=;
-        b=UCseZp3uby8vNiPrrZcw+BoE8mAOIR2CNeZrTYggUIMHAO4TtLYnuyCvYQ8S9eAsgs
-         inTWXG1Kn5MI9ILXdPjNQn5OwX65p94EhVuYbXzJyt2MzD9nr0QyX7jdjqWxcjFLitV1
-         mJjVa5tV12+at+A1lHxzda3WLUG4BkNiVlrHPaSNQAgRW3HSD6o8FsjlnWtRdU0BttNE
-         RXT/8slT0O4NF1p6EGTX7ZzTLxrzcfnxkVO8r7Lc7+E//IZA3z+60hN/+C+lH9Lp9Ur2
-         a+GiDpeXCWTOe2CKlX4ARoztD+otOOCuvV3fSuTgmQjXWySDvlPYpUVmGQuXSRxr1ay0
-         X1pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757663492; x=1758268292;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H5dGuAanKwsiY1ZqsKVkDAIjfNLSeHC2vPf4ogltoWw=;
-        b=X2Kd7hi3GiGo+iH501tMaGgzy7d0LrOVlxl/SOMF3eZW9JCEaW7pLHbpi0FAaWCZsG
-         5WdMG4wf17ruRw7qxnk4/bj0CuarJNoRvUWtgfwy0OBq5ItDmOJrSIoK1EejHDBjM2tl
-         JPxHzlUQknGg+vqfsJJCNqXtWCRgq/PsNZ1Cb0M0Au0iZebymPjCcTIRNn06s1FO6lZR
-         TabEEK+Hjul1fGMlRXCGdhtWsEf9VUUoyjHla7frm9dP29N8Qa+z/3XzLbsXUSy2NWNw
-         pKRkL8UMmW3EBu00YwFzls+BJIH/GIaj4TwHfxMLer9LqZGh2f8q9PDYI0jB5Equww24
-         fCtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUIWeQXHOD19YW+whdBJ/ubkhdLP4p4+BCP+fS/ZI6/7/kcGZ+v2I3NdG74IER3gdbc9NL5heJLgShb@lists.infradead.org
-X-Gm-Message-State: AOJu0YxwHE65f9p/yyGhBgEqN79T7bScLcJ7ke+Fd23YKacEtyyVTQ7l
-	s9BJ7KccW6EQEDcxQvh0ce6C5ytsQUZ26zzD6FsAmk4aOpfhvxTSYCYF195CrbxdjgU=
-X-Gm-Gg: ASbGncv9tCOfQi9MdP7aPVd4TrppT4cdq96DmwPHsLdRVXSwoFKgo5AmOuLT+WwmW1t
-	NhsqlUte3/q7glorWzi8otoeSoTWXRfKRjAb7ClDXf4t1hFBpBNj2XrTSNX4kVf0rrwOq3Fjksc
-	DFNrdHw/qnzE5GaCVcBcJWioXRw/miedE+nRXVL/0Ytpqkn8gBF9aIe6UAjgQSY5EkYJ1BQ8bnT
-	lVM4QJRGjyaacLwBOJLlFuOoHPB3bxIuH8F2x4QsZm6h+g7QZpLa9EMKOPW25Xu4veJ4dqmslMl
-	HV0yWNa+wUd7lV2ILsEmXMagtLYJbqMNQyE+KLVTq68jROBusdp6uyQwiiDv9nQ0p67wGQzvVHm
-	le309HSCSxUYoiFo2m5prcr/3TaVWAVnyrsuvZSktNVTT
-X-Google-Smtp-Source: AGHT+IFtDrLHbUf9AliWqdyLS/y+bqUNiq48Oi6Y5dHmTb/VowvDyGiDtwNlsYwwblHsCPFZzZ+p4Q==
-X-Received: by 2002:a05:6a20:7d86:b0:24e:a19:7e91 with SMTP id adf61e73a8af0-26029f9e7f9mr2593600637.5.1757663491712;
-        Fri, 12 Sep 2025 00:51:31 -0700 (PDT)
-Received: from wu-Pro-E500-G6-WS720T ([2001:288:7001:2703:9e14:1074:637d:9ff6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a3aa1c54sm3880886a12.50.2025.09.12.00.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 00:51:30 -0700 (PDT)
-Date: Fri, 12 Sep 2025 15:51:26 +0800
-From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: akpm@linux-foundation.org, axboe@kernel.dk, ceph-devel@vger.kernel.org,
-	hch@lst.de, home7438072@gmail.com, idryomov@gmail.com,
-	jaegeuk@kernel.org, kbusch@kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, tytso@mit.edu,
-	visitorckw@gmail.com, xiubli@redhat.com
-Subject: Re: [PATCH v2 4/5] fscrypt: replace local base64url helpers with
- generic lib/base64 helpers
-Message-ID: <aMPQ/sJJmgpZvDsY@wu-Pro-E500-G6-WS720T>
-References: <20250911072925.547163-1-409411716@gms.tku.edu.tw>
- <20250911074556.691401-1-409411716@gms.tku.edu.tw>
- <20250911184705.GD1376@sol>
+	Fri, 12 Sep 2025 08:32:52 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 46C8C20706;
+	Fri, 12 Sep 2025 08:32:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757665967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E/CSSfN43nuBpCmvlSQv0g4m2YsMRqWgQtvSodhnH28=;
+	b=NzGZs2VaUva7nAB6VbcEuZSvhBSVlcW4blbtBY6HNBMWWAXbae08r9qYs3v5z+GdRFYgY/
+	VbeEpqO4pA7jByje53TP/rNV4Elzxv+SZjUQ0OFLzzAAZ+Kr/L3Bym88W7Dx4Ul2nVvL3l
+	TyT0M91a3S/Kr9Dj+CvBgTFiBddEJYI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757665967;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E/CSSfN43nuBpCmvlSQv0g4m2YsMRqWgQtvSodhnH28=;
+	b=IJRvEf8MaAIKPa9ZL8mK7o1+fIpbj5bi9eT0ydLdxT6d/IYDCbkKoZdlcbLdgnxuO7SBlJ
+	gjmRz1UNrH/tLXCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757665967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E/CSSfN43nuBpCmvlSQv0g4m2YsMRqWgQtvSodhnH28=;
+	b=NzGZs2VaUva7nAB6VbcEuZSvhBSVlcW4blbtBY6HNBMWWAXbae08r9qYs3v5z+GdRFYgY/
+	VbeEpqO4pA7jByje53TP/rNV4Elzxv+SZjUQ0OFLzzAAZ+Kr/L3Bym88W7Dx4Ul2nVvL3l
+	TyT0M91a3S/Kr9Dj+CvBgTFiBddEJYI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757665967;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E/CSSfN43nuBpCmvlSQv0g4m2YsMRqWgQtvSodhnH28=;
+	b=IJRvEf8MaAIKPa9ZL8mK7o1+fIpbj5bi9eT0ydLdxT6d/IYDCbkKoZdlcbLdgnxuO7SBlJ
+	gjmRz1UNrH/tLXCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 33B4113869;
+	Fri, 12 Sep 2025 08:32:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YkOaDK/aw2hKLgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 12 Sep 2025 08:32:47 +0000
+Date: Fri, 12 Sep 2025 10:32:38 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Hannes Reinecke <hare@suse.de>, Daniel Wagner <wagi@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Costa Shulyupin <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Valentin Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Mel Gorman <mgorman@suse.de>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org, 
+	storagedev@microchip.com, virtualization@lists.linux.dev, 
+	GR-QLogic-Storage-Upstream@marvell.com
+Subject: Re: [PATCH v8 10/12] blk-mq: use hk cpus only when isolcpus=io_queue
+ is enabled
+Message-ID: <bc5ebdea-7091-4999-a021-ec2a65573aa0@flourine.local>
+References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
+ <20250905-isolcpus-io-queues-v8-10-885984c5daca@kernel.org>
+ <ff66801c-f261-411d-bbbf-b386e013d096@suse.de>
+ <d11a0c60-1b75-49ec-a2f8-7df402c4adf2@flourine.local>
+ <87ms72u3at.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250911184705.GD1376@sol>
+In-Reply-To: <87ms72u3at.ffs@tglx>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL67935bhfdkbndpbo95z3ogoo)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250912_005135_597072_B213C39D 
-X-CRM114-Status: GOOD (  17.09  )
+X-CRM114-CacheID: sfid-20250912_013251_101937_E2DD2F6C 
+X-CRM114-Status: GOOD (  28.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,45 +140,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Eric,
-
-On Thu, Sep 11, 2025 at 11:47:05AM -0700, Eric Biggers wrote:
-> On Thu, Sep 11, 2025 at 03:45:56PM +0800, Guan-Chun Wu wrote:
-> > Replace the existing local base64url encoding and decoding functions in
-> > fscrypt with the generic base64_encode_custom and base64_decode_custom
-> > helpers from the kernel's lib/base64 library.
+On Wed, Sep 10, 2025 at 10:20:26AM +0200, Thomas Gleixner wrote:
+> On Mon, Sep 08 2025 at 09:26, Daniel Wagner wrote:
+> > On Mon, Sep 08, 2025 at 08:13:31AM +0200, Hannes Reinecke wrote:
+> >> >   const struct cpumask *blk_mq_online_queue_affinity(void)
+> >> >   {
+> >> > +	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
+> >> > +		cpumask_and(&blk_hk_online_mask, cpu_online_mask,
+> >> > +			    housekeeping_cpumask(HK_TYPE_IO_QUEUE));
+> >> > +		return &blk_hk_online_mask;
+> >> 
+> >> Can you explain the use of 'blk_hk_online_mask'?
+> >> Why is a static variable?
+> >
+> > The blk_mq_*_queue_affinity helpers return a const struct cpumask *, the
+> > caller doesn't need to free the return value. Because cpumask_and needs
+> > store its result somewhere, I opted for the global static variable.
+> >
+> >> To my untrained eye it's being recalculated every time one calls
+> >> this function. And only the first invocation run on an empty mask,
+> >> all subsequent ones see a populated mask.
+> >
+> > The cpu_online_mask might change over time, it's not a static bitmap.
+> > Thus it's necessary to update the blk_hk_online_mask. Doing some sort of
+> > caching is certainly possible. Given that we have plenty of cpumask
+> > logic operation in the cpu_group_evenly code path later, I am not so
+> > sure this really makes a huge difference.
 > 
-> But those aren't the functions that are actually used.
-> 
+> Sure,  but none of this is serialized against CPU hotplug operations. So
+> the resulting mask, which is handed into the spreading code can be
+> concurrently modified. IOW it's not as const as the code claims.
 
-I'll update the commit message. I meant base64_encode and base64_decode.
+Thanks for explaining.
 
-> > This removes custom implementations in fscrypt, reduces code duplication,
-> > and leverages the well-maintained,
-> 
-> Who is maintaining lib/base64.c?  I guess Andrew?
-> 
+In group_cpu_evenly:
 
-Yes, Andrew is maintaining lib/base64.c.
+	/*
+	 * Make a local cache of 'cpu_present_mask', so the two stages
+	 * spread can observe consistent 'cpu_present_mask' without holding
+	 * cpu hotplug lock, then we can reduce deadlock risk with cpu
+	 * hotplug code.
+	 *
+	 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
+	 * we can live with the case because it only affects that hotplug
+	 * CPU is handled in the 1st or 2nd stage, and either way is correct
+	 * from API user viewpoint since 2-stage spread is sort of
+	 * optimization.
+	 */
+	cpumask_copy(npresmsk, data_race(cpu_present_mask));
 
-> > standard base64 code within the kernel.
-> 
-> fscrypt uses "base64url", not "base64".
-> 
 
-You're right, I'll update the commit message in the next version.
+0263f92fadbb ("lib/group_cpus.c: avoid acquiring cpu hotplug lock in
+group_cpus_evenly"):
 
-> >  /* Encoded size of max-size no-key name */
-> >  #define FSCRYPT_NOKEY_NAME_MAX_ENCODED \
-> > -		FSCRYPT_BASE64URL_CHARS(FSCRYPT_NOKEY_NAME_MAX)
-> > +		BASE64_CHARS(FSCRYPT_NOKEY_NAME_MAX)
-> 
-> Does BASE64_CHARS() include '=' padding or not?
-> 
-> - Eric
+  group_cpus_evenly() could be part of storage driver's error handler, such
+  as nvme driver, when may happen during CPU hotplug, in which storage queue
+  has to drain its pending IOs because all CPUs associated with the queue
+  are offline and the queue is becoming inactive.  And handling IO needs
+  error handler to provide forward progress.
 
-No, BASE64_CHARS() doesn't include the '=' padding; it's defined as #define BASE64_CHARS(nbytes) DIV_ROUND_UP((nbytes) * 4, 3).
+  Then deadlock is caused:
 
-Best regards,
-Guan-chun
+  1) inside CPU hotplug handler, CPU hotplug lock is held, and blk-mq's
+     handler is waiting for inflight IO
+
+  2) error handler is waiting for CPU hotplug lock
+
+  3) inflight IO can't be completed in blk-mq's CPU hotplug handler
+     because error handling can't provide forward progress.
+
+  Solve the deadlock by not holding CPU hotplug lock in group_cpus_evenly(),
+  in which two stage spreads are taken: 1) the 1st stage is over all present
+  CPUs; 2) the end stage is over all other CPUs.
+
+  Turns out the two stage spread just needs consistent 'cpu_present_mask',
+  and remove the CPU hotplug lock by storing it into one local cache.  This
+  way doesn't change correctness, because all CPUs are still covered.
+
+This sounds like I should do something similar with cpu_online_mask.
+Anyway, I'll work on this.
+
+> How is this even remotely correct?
+
+It isn't :( I did hotplug tests but obviously these were not really up
+to the task. The kernel test bot gave me a pointer how I should test.
 
