@@ -4,63 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40DC9CAC582
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Sep 2025 12:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DD7ACA101F
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Sep 2025 14:32:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TNqTa9UacBtb4KorFaALXmo4mpJrWqBfML92eL6vUBQ=; b=RWveKIc2MK3oZK6Whi+r1yzaIZ
-	f+zcv6HSNoLZZEMAfiWtM2UP90+zHS1QspeOXzb/RpXfG5DNUKpaY8ZriXBc/SSaaG/v3jdJYfts+
-	HNCc+UdfMhnydqFtRDmwueCz3ogdVAjItTTt3AJud6JkmmMRVa+ZMoRUpyOqjKniiY0pbIt6Pjr1S
-	kwOMlEQqVCO6xXq65q7iyxFxSj4fWrwuOO3VTo7RNiED7TIrSt1w+eEXDJeqqF40VLd+Tc1IxBa0g
-	zGtwklG3pBnmRdIZvKwV2IHHkunSiqnQzhTuD9U4VpWbPKBvXw0TBqr4vf84Lfh1dk5i1S0lP5wgb
-	mSk6n45A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YT6lK9VThWO2VoDv4flXldsg/lGV+uGD6AwCarpxbiA=; b=Puun3gwN3aEemEOQWoUz4bFw4x
+	lstsVGw7UvUjvsgSUASCATupBiRTpryJrk14F4LUeq8Es8BJKWvVZSnswNsOK1/LG3Huonr52QC90
+	JNm98mYi9zZnyf0gtQ6d/gsBllKn9XQQe01EqC8v/B6e8met96x/+P6dVLJ0XKcyZFSiV75/vE5WJ
+	EiXVuFfq2VNQHJh+m52hoUdlfIfQeOe6YVEN9pnRjvZBEhFpxA+VR50CnmJPFHi6/cr2RqXAqfYRD
+	qdhpcl2hytY+DRxsekEOzMtqqksIvWoN8ghg3jREs6QTGcZzhiUt7PV77+F0v2QRyw9hUmyxIQpsn
+	hb3NNokg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ux2fg-000000099kj-3CtN;
-	Fri, 12 Sep 2025 12:14:32 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1ux4oi-00000009uwh-2XFj;
+	Fri, 12 Sep 2025 14:32:00 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ux2fe-000000099hj-16Il
+	id 1ux4og-00000009uv7-1BvD
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Sep 2025 12:14:31 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6AFF943985;
-	Fri, 12 Sep 2025 12:14:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B4FC4CEF1;
-	Fri, 12 Sep 2025 12:14:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757679267;
-	bh=qwJUsdABBJlLfNFSilyP3+lcwy6qMRIubeaxoYK1ElU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t84tSmTCqWOR8P7LMlHE7yhGVWnZQYveztNbf/vqK2ygSzXaLA3cfl3a1I2FP9Twx
-	 TCKFzRfxLTXTtYFL5tldShPkndFkOQf0OGFNzH+yPLBXFDGrXBYmqPOdOEEuLdovkF
-	 rdu/aCwzep7QFOrMs/qKxYYfiKmj90HISc99DKAACWcO5r0HI3C9ZsTZWLrZ0GqHRk
-	 F0TrPG+Gum4FPgNXc2J2WlsmME4TDxvPyAiCHMJp6/SbODU4hkpzf8+Xhwp29797oq
-	 SRhsxHBGec7aXwZBTEZgt0p1+9N9xRSYnHOhM1iUNmtqAyMKr4mk/PTX+hGfWQF9U+
-	 fjJQD4OKtnB9w==
-Message-ID: <f7ee6332-60e9-4a1d-b1f1-296066ccdf55@kernel.org>
-Date: Fri, 12 Sep 2025 21:14:24 +0900
+	Fri, 12 Sep 2025 14:31:59 +0000
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1757687516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YT6lK9VThWO2VoDv4flXldsg/lGV+uGD6AwCarpxbiA=;
+	b=E81D9Xs6MJnJtYyDYfeabzgtnhu+RMcm8DE0KDo9tBNGZp5iHi5LpNIKp0XivU7YySkQPF
+	3Md77jcnpzz2ktnuPXzcJxrAsxF6mzIwMzq7/PMk3PMS0uY1VFv6HJUHzlvcOd0psd09oj
+	lr4x7RI8MBh48uDdfptw5f7lPiPscrmKDn/W2DZzIusTWwLgeTdBSJHYQmbsjBlwJhi06l
+	CNp7Q2g4VO2A7sLlPAqoAtMvL5C6Gt6Kaeoy9lpdeu6E+g8ks9dmzGVzKaDHfGV321BAMk
+	YanvmSBztaAu0jwyA+z8jrWMqaobVb6idrFkdqn44z+qeEiReWNuqTlDk+yrIg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1757687516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YT6lK9VThWO2VoDv4flXldsg/lGV+uGD6AwCarpxbiA=;
+	b=k18nEKxcmY8iz/IYvo6R2LzsHnXZHqJa2ovPB8+4Z6Spdcm0Z6KyI4tDXGNnAuA/riu/pc
+	1ypcbeflQ7j/hkDQ==
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Hannes Reinecke <hare@suse.de>, Daniel Wagner <wagi@kernel.org>, Jens
+ Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Aaron Tomlin <atomlin@atomlin.com>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>, Costa Shulyupin
+ <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Valentin
+ Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, Ming Lei
+ <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, Mel
+ Gorman <mgorman@suse.de>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+ storagedev@microchip.com, virtualization@lists.linux.dev,
+ GR-QLogic-Storage-Upstream@marvell.com
+Subject: Re: [PATCH v8 10/12] blk-mq: use hk cpus only when
+ isolcpus=io_queue is enabled
+In-Reply-To: <bc5ebdea-7091-4999-a021-ec2a65573aa0@flourine.local>
+References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
+ <20250905-isolcpus-io-queues-v8-10-885984c5daca@kernel.org>
+ <ff66801c-f261-411d-bbbf-b386e013d096@suse.de>
+ <d11a0c60-1b75-49ec-a2f8-7df402c4adf2@flourine.local>
+ <87ms72u3at.ffs@tglx>
+ <bc5ebdea-7091-4999-a021-ec2a65573aa0@flourine.local>
+Date: Fri, 12 Sep 2025 16:31:55 +0200
+Message-ID: <87cy7vrbc4.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvmet: pci-epf: fix DMA channel debug print
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Niklas Cassel <cassel@kernel.org>
-References: <20250912111703.676993-1-shinichiro.kawasaki@wdc.com>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20250912111703.676993-1-shinichiro.kawasaki@wdc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250912_051430_320780_AD0B7C67 
-X-CRM114-Status: GOOD (  15.41  )
+X-CRM114-CacheID: sfid-20250912_073158_465126_60083411 
+X-CRM114-Status: GOOD (  23.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,51 +92,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/12/25 20:17, Shin'ichiro Kawasaki wrote:
-> Currently, nvmet_pci_epf_init_dma() has two dev_dbg() calls intended to
-> print debug information about the DMA channels for RX and TX. However,
-> both calls mistakenly are made for the TX channel. Fix it so that one
-> call prints the RX channel as intended.
-> 
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> ---
->  drivers/nvme/target/pci-epf.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-> index 2e78397a7373..cee3ae6f5be7 100644
-> --- a/drivers/nvme/target/pci-epf.c
-> +++ b/drivers/nvme/target/pci-epf.c
-> @@ -310,6 +310,10 @@ static void nvmet_pci_epf_init_dma(struct nvmet_pci_epf *nvme_epf)
->  
->  	nvme_epf->dma_rx_chan = chan;
->  
-> +	dev_dbg(dev, "Using DMA RX channel %s, maximum segment size %u B\n",
-> +		dma_chan_name(chan),
-> +		dma_get_max_seg_size(dmaengine_get_dma_device(chan)));
-> +
+On Fri, Sep 12 2025 at 10:32, Daniel Wagner wrote:
+> On Wed, Sep 10, 2025 at 10:20:26AM +0200, Thomas Gleixner wrote:
+>> > The cpu_online_mask might change over time, it's not a static bitmap.
+>> > Thus it's necessary to update the blk_hk_online_mask. Doing some sort of
+>> > caching is certainly possible. Given that we have plenty of cpumask
+>> > logic operation in the cpu_group_evenly code path later, I am not so
+>> > sure this really makes a huge difference.
+>> 
+>> Sure,  but none of this is serialized against CPU hotplug operations. So
+>> the resulting mask, which is handed into the spreading code can be
+>> concurrently modified. IOW it's not as const as the code claims.
+>
+> Thanks for explaining.
+>
+> In group_cpu_evenly:
+>
+> 	/*
+> 	 * Make a local cache of 'cpu_present_mask', so the two stages
+> 	 * spread can observe consistent 'cpu_present_mask' without holding
+> 	 * cpu hotplug lock, then we can reduce deadlock risk with cpu
+> 	 * hotplug code.
+> 	 *
+> 	 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
+> 	 * we can live with the case because it only affects that hotplug
+> 	 * CPU is handled in the 1st or 2nd stage, and either way is correct
+> 	 * from API user viewpoint since 2-stage spread is sort of
+> 	 * optimization.
+> 	 */
+> 	cpumask_copy(npresmsk, data_race(cpu_present_mask));
 
-It would be better to keep this message after "nvme_epf->dma_enabled = true" so
-that it is not misleading. So I think you need to have 2 channel variables (e.g.
-rxchan and txchan).
+The present mask is very different from the online mask. The present
+mask only changes on physical hotplug when:
 
->  	filter.dma_mask = BIT(DMA_MEM_TO_DEV);
->  	chan = dma_request_channel(mask, nvmet_pci_epf_dma_filter, &filter);
->  	if (!chan)
-> @@ -319,10 +323,6 @@ static void nvmet_pci_epf_init_dma(struct nvmet_pci_epf *nvme_epf)
->  
->  	nvme_epf->dma_enabled = true;
->  
-> -	dev_dbg(dev, "Using DMA RX channel %s, maximum segment size %u B\n",
-> -		dma_chan_name(chan),
-> -		dma_get_max_seg_size(dmaengine_get_dma_device(chan)));
-> -
->  	dev_dbg(dev, "Using DMA TX channel %s, maximum segment size %u B\n",
->  		dma_chan_name(chan),
->  		dma_get_max_seg_size(dmaengine_get_dma_device(chan)));
+     - a offline CPU is removed from the present set of CPUs
 
+     - a offline CPU is added to it.
 
--- 
-Damien Le Moal
-Western Digital Research
+In neither case the CPU can be involved in any operation related to the
+actual offline/online operations.
+
+Also contrary to your approach, this code takes the possibility of
+a concurrently changing mask into account by taking a racy snapshot,
+which is immutable for the following operation.
+
+What you are doing with that static mask, makes it a target of
+concurrent modification, which is obviously a recipe for subtle bugs.
+
+>   Turns out the two stage spread just needs consistent 'cpu_present_mask',
+>   and remove the CPU hotplug lock by storing it into one local cache.  This
+>   way doesn't change correctness, because all CPUs are still covered.
+>
+> This sounds like I should do something similar with cpu_online_mask.
+
+Indeed.
+
+Thanks,
+
+        tglx
+
 
