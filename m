@@ -4,80 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DD7ACA101F
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Sep 2025 14:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F100CAC582
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Sep 2025 15:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YT6lK9VThWO2VoDv4flXldsg/lGV+uGD6AwCarpxbiA=; b=Puun3gwN3aEemEOQWoUz4bFw4x
-	lstsVGw7UvUjvsgSUASCATupBiRTpryJrk14F4LUeq8Es8BJKWvVZSnswNsOK1/LG3Huonr52QC90
-	JNm98mYi9zZnyf0gtQ6d/gsBllKn9XQQe01EqC8v/B6e8met96x/+P6dVLJ0XKcyZFSiV75/vE5WJ
-	EiXVuFfq2VNQHJh+m52hoUdlfIfQeOe6YVEN9pnRjvZBEhFpxA+VR50CnmJPFHi6/cr2RqXAqfYRD
-	qdhpcl2hytY+DRxsekEOzMtqqksIvWoN8ghg3jREs6QTGcZzhiUt7PV77+F0v2QRyw9hUmyxIQpsn
-	hb3NNokg==;
+	bh=GecWj7pm2f8vGXeDkIZThLhMltRRazaqRA2EeduAGAg=; b=dCDpJ8b2OrezGZ8U8GK8lgrJ0c
+	t45IvOsUj/7hdLT0KU9J0r9aUi1b/u1osZar7NxAJ/2yDHkpfGMM9+xgxn17CO6+HT4CPkSLf3QeG
+	9J2maUZxm8VB5nINofxUjLJ4dtkoZfSul34ADzhOWxxw5/OEgOuslNTxvDkb7c2qfyiVJzxOWXZCQ
+	lmiOpkW75VIv1QsMOJhA1rW7EESgVJ/d1z3kTBGaWBWi1YQt2f+6a7i4UAMaoyz62UDbCVwphk+jo
+	ub98WbDRsOlicwXEtSTUeYJ+ryowWFnRwbMivjdXlkVgn8ff/xIWHlottJjsI/IeKRLUUn/SeG4eo
+	9LRAMfGA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ux4oi-00000009uwh-2XFj;
-	Fri, 12 Sep 2025 14:32:00 +0000
-Received: from galois.linutronix.de ([193.142.43.55])
+	id 1ux5nc-0000000AHiF-1Z4f;
+	Fri, 12 Sep 2025 15:34:56 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ux4og-00000009uv7-1BvD
-	for linux-nvme@lists.infradead.org;
-	Fri, 12 Sep 2025 14:31:59 +0000
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1757687516;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YT6lK9VThWO2VoDv4flXldsg/lGV+uGD6AwCarpxbiA=;
-	b=E81D9Xs6MJnJtYyDYfeabzgtnhu+RMcm8DE0KDo9tBNGZp5iHi5LpNIKp0XivU7YySkQPF
-	3Md77jcnpzz2ktnuPXzcJxrAsxF6mzIwMzq7/PMk3PMS0uY1VFv6HJUHzlvcOd0psd09oj
-	lr4x7RI8MBh48uDdfptw5f7lPiPscrmKDn/W2DZzIusTWwLgeTdBSJHYQmbsjBlwJhi06l
-	CNp7Q2g4VO2A7sLlPAqoAtMvL5C6Gt6Kaeoy9lpdeu6E+g8ks9dmzGVzKaDHfGV321BAMk
-	YanvmSBztaAu0jwyA+z8jrWMqaobVb6idrFkdqn44z+qeEiReWNuqTlDk+yrIg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1757687516;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YT6lK9VThWO2VoDv4flXldsg/lGV+uGD6AwCarpxbiA=;
-	b=k18nEKxcmY8iz/IYvo6R2LzsHnXZHqJa2ovPB8+4Z6Spdcm0Z6KyI4tDXGNnAuA/riu/pc
-	1ypcbeflQ7j/hkDQ==
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Hannes Reinecke <hare@suse.de>, Daniel Wagner <wagi@kernel.org>, Jens
- Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, "Michael S.
- Tsirkin" <mst@redhat.com>, Aaron Tomlin <atomlin@atomlin.com>, "Martin K.
- Petersen" <martin.petersen@oracle.com>, Costa Shulyupin
- <costa.shul@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Valentin
- Schneider <vschneid@redhat.com>, Waiman Long <llong@redhat.com>, Ming Lei
- <ming.lei@redhat.com>, Frederic Weisbecker <frederic@kernel.org>, Mel
- Gorman <mgorman@suse.de>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- megaraidlinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
- storagedev@microchip.com, virtualization@lists.linux.dev,
- GR-QLogic-Storage-Upstream@marvell.com
-Subject: Re: [PATCH v8 10/12] blk-mq: use hk cpus only when
- isolcpus=io_queue is enabled
-In-Reply-To: <bc5ebdea-7091-4999-a021-ec2a65573aa0@flourine.local>
-References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
- <20250905-isolcpus-io-queues-v8-10-885984c5daca@kernel.org>
- <ff66801c-f261-411d-bbbf-b386e013d096@suse.de>
- <d11a0c60-1b75-49ec-a2f8-7df402c4adf2@flourine.local>
- <87ms72u3at.ffs@tglx>
- <bc5ebdea-7091-4999-a021-ec2a65573aa0@flourine.local>
-Date: Fri, 12 Sep 2025 16:31:55 +0200
-Message-ID: <87cy7vrbc4.ffs@tglx>
+	id 1ux08B-00000008HpG-1lBR;
+	Fri, 12 Sep 2025 09:31:47 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id AD18860200;
+	Fri, 12 Sep 2025 09:31:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB683C4CEF1;
+	Fri, 12 Sep 2025 09:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757669506;
+	bh=cZZSj/PLAmvPikniIesMdJfhqh3VOpUH71TpGrecZ8M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oDl2A0LOXO/1X2zNKv7aRnP0NHdkbAsbDDgwtZzvwmo12fpeFM2E3/tK2+Vtp6jDf
+	 LtHjqH3FhqX9XCd49ZEoi9d2wFua1A1xl2NpXDXII2TJgNe2FaEGcY3H9R3K+d/kSk
+	 i5GbpzjLt0Me2HD69Wbc5uGIc3TwgDS6JZFlUf4XXoZCI/2uPJn9w8cEPAn3NjkatI
+	 mrNqigkcd6DbPU1UEsK3MA+M2bqLjMfjb8ArXgRSIyAq3CjGnxkE8s7LGICh/mIf7j
+	 5pUu4Qe144CAGGymifmDXQ3yvwNpleByOIrvrEZ2XoQVUNyLe8+LbR96tJeBNXKw/y
+	 Se8H2lBXfymbQ==
+Date: Fri, 12 Sep 2025 11:31:43 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Michael Turquette <mturquette@baylibre.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 20/37] dt-bindings: pwm: apple,s5l-fpwm: Add t6020-fpwm
+ compatible
+Message-ID: <ahxdf3l6zvmjp2nlgklg3go7biaimuz7qh5upnhohrrbrg62e6@gmi3pmbccwwe>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-20-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250912_073158_465126_60083411 
-X-CRM114-Status: GOOD (  23.00  )
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hd4ybrkt7tr5jevb"
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-20-507ba4c4b98e@jannau.net>
+X-Mailman-Approved-At: Fri, 12 Sep 2025 08:34:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,63 +96,85 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 12 2025 at 10:32, Daniel Wagner wrote:
-> On Wed, Sep 10, 2025 at 10:20:26AM +0200, Thomas Gleixner wrote:
->> > The cpu_online_mask might change over time, it's not a static bitmap.
->> > Thus it's necessary to update the blk_hk_online_mask. Doing some sort of
->> > caching is certainly possible. Given that we have plenty of cpumask
->> > logic operation in the cpu_group_evenly code path later, I am not so
->> > sure this really makes a huge difference.
->> 
->> Sure,  but none of this is serialized against CPU hotplug operations. So
->> the resulting mask, which is handed into the spreading code can be
->> concurrently modified. IOW it's not as const as the code claims.
->
-> Thanks for explaining.
->
-> In group_cpu_evenly:
->
-> 	/*
-> 	 * Make a local cache of 'cpu_present_mask', so the two stages
-> 	 * spread can observe consistent 'cpu_present_mask' without holding
-> 	 * cpu hotplug lock, then we can reduce deadlock risk with cpu
-> 	 * hotplug code.
-> 	 *
-> 	 * Here CPU hotplug may happen when reading `cpu_present_mask`, and
-> 	 * we can live with the case because it only affects that hotplug
-> 	 * CPU is handled in the 1st or 2nd stage, and either way is correct
-> 	 * from API user viewpoint since 2-stage spread is sort of
-> 	 * optimization.
-> 	 */
-> 	cpumask_copy(npresmsk, data_race(cpu_present_mask));
 
-The present mask is very different from the online mask. The present
-mask only changes on physical hotplug when:
+--hd4ybrkt7tr5jevb
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 20/37] dt-bindings: pwm: apple,s5l-fpwm: Add t6020-fpwm
+ compatible
+MIME-Version: 1.0
 
-     - a offline CPU is removed from the present set of CPUs
+Hello,
 
-     - a offline CPU is added to it.
+On Thu, Aug 28, 2025 at 04:01:39PM +0200, Janne Grunau wrote:
+> The PWM controller on Apple's M2 Pro/Max SoCs behaves in the same way as
+> on previous M1 and M2 SoCs. Add its per SoC compatible.
+>=20
+> At the same time fix the order of existing entries. The sort order logic
+> is having SoC numeric code families in release order, and SoCs within
+> each family in release order:
+>=20
+> - t8xxx (Apple HxxP/G series, "phone"/"tablet" chips)
+>   - t8103 (Apple H13G/M1)
+>   - t8112 (Apple H14G/M2)
+> - t6xxx (Apple HxxJ series, "desktop" chips)
+>   - t6000/t6001/t6002 (Apple H13J(S/C/D) / M1 Pro/Max/Ultra)
+>   - t6020/t6021/t6022 (Apple H14J(S/C/D) / M2 Pro/Max/Ultra)
+>=20
+> Note that SoCs of the t600[0-2] / t602[0-2] family share the
+> t6000 / t6020 compatible where the hardware is 100% compatible, which is
+> usually the case in this highly related set of SoCs.
+>=20
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/=
+Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> index 142157bff0cd851c85fbf0132d734d470c5a0761..04519b0c581d0e9fb1ae6aa21=
+9a4e850027de6a2 100644
+> --- a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> @@ -17,8 +17,9 @@ properties:
+>      items:
+>        - enum:
+>            - apple,t8103-fpwm
+> -          - apple,t6000-fpwm
+>            - apple,t8112-fpwm
+> +          - apple,t6000-fpwm
+> +          - apple,t6020-fpwm
+>        - const: apple,s5l-fpwm
+> =20
+>    reg:
 
-In neither case the CPU can be involved in any operation related to the
-actual offline/online operations.
+The patch is fine for me. There was no merge plan sketched out in the
+cover letter and I don't spot any dependencies this patch is a part of.
+So I applied this patch to
 
-Also contrary to your approach, this code takes the possibility of
-a concurrently changing mask into account by taking a racy snapshot,
-which is immutable for the following operation.
+	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for=
+-next
 
-What you are doing with that static mask, makes it a target of
-concurrent modification, which is obviously a recipe for subtle bugs.
+as 6.18-rc1 material.
 
->   Turns out the two stage spread just needs consistent 'cpu_present_mask',
->   and remove the CPU hotplug lock by storing it into one local cache.  This
->   way doesn't change correctness, because all CPUs are still covered.
->
-> This sounds like I should do something similar with cpu_online_mask.
+Best regards
+Uwe
 
-Indeed.
+--hd4ybrkt7tr5jevb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
+-----BEGIN PGP SIGNATURE-----
 
-        tglx
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjD6HwACgkQj4D7WH0S
+/k5dDwf/ZhdoZ04wcFscsQjfQPV9sY5Kzs8OxPgL+m4AV85SDwzSuZybeACCfsL2
+U+r2uMlK/Q21DJwXbTJjmnyAe19XWYtcvtUfKd50OAsoPnpijd6XN/VzkpPwSI1v
+MM1rZmYLCNhucLOPo87uqSwtHmOGOiHGefUgolr3pa9kl2VjNfe2U9byQTQegxaK
+CxeDN6bZEPo8n7PoU1mmnwFDouEZD1xzQt3FdvPpL2XORk2Ye5r89n1q02uTLbkj
+EsQ7IOSbpp2UDyIkxF0ESV6nWtpLn7AIB0rNABUH7JZA9FQ29vzAc9a3FRiLJsUa
+2cvxXsdWOdhpncFiR4L1mRq39BoLAQ==
+=7x/6
+-----END PGP SIGNATURE-----
 
+--hd4ybrkt7tr5jevb--
 
