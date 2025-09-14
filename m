@@ -4,75 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED701CAC582
-	for <linux-nvme@archiver.kernel.org>; Sun, 14 Sep 2025 12:45:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC9DDCA0EE8
+	for <linux-nvme@archiver.kernel.org>; Sun, 14 Sep 2025 14:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=lCpF5zxS8ig34a3uFAe9yvJyfKLOIR0AC+2KaeO3sI4=; b=VXmrKTGuIQfLMDmrHl4oXEnpE0
-	PSuSOvVnGjKwAX/Bs/CvTzPEAC1sq/Q1bHKU3A3apREJflLtRBIy2lRERXQz8AdGBovgo9syrLm/H
-	YCar2kLT9BqPfzxFvBIzsA3vKI0cguKAKTiQ39Bcvci9yYwnNIiF/CptH+Q3k4CXZXYW9+ojY7Nh4
-	Jgk065w78TpgOMnZYucGs4qSx/o6kqcLKX/JVoiCBZPKuEY9u/8A/tJmZX+kliAjJYTgm1MhD9XY3
-	JZNdQp7RGafw0AbzxiLWiJGXnEiYSNlZpOJLjZf1UjhxVyEKZVghvj5oOgXy3Pg8q6xaF/M4oypiL
-	TlCFDwvg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LF33A9R61ZdnzfPHyrEbpe5BcMf7U3ad63kCUDGgDA0=; b=aMQus7PPuu+J2C1Pu3r/SHznl/
+	P6dXYDcW59iz8zXyBht9sTPaLaFpK4NrWcA1tjx26LRzwctdxwvumFRb4N8MVu6+Yg1JiUZ6NyKNB
+	0HS0+oDpKNyh1u0gA/i5ZH0ONVEN1uXTuiqrX4Ab3JeJ77yT8NBqR7y4T7zsJ2MK7XqSqWcShsv1p
+	xy0wNDaIxdCsHH0JIJlenKx7gW05NkyWKSL0D58UvJoUe0r42uCq62ad5+A+QjxTm+ezq15Tl/TyK
+	t3pbMO0lVVm7gRaweE54v7VsMnkwgoXUAs1/KiC4nQW0wVkyOR1HKYHdE1Z3FkFAUjzPv1nI6idyw
+	Vnfk+u+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxm72-00000001CP1-3ahK;
-	Sun, 14 Sep 2025 12:45:48 +0000
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b])
+	id 1uxnlg-00000001Wfr-0PIv;
+	Sun, 14 Sep 2025 14:31:52 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uxm70-00000001COH-48ZR
+	id 1uxnld-00000001WeV-2Vb9
 	for linux-nvme@lists.infradead.org;
-	Sun, 14 Sep 2025 12:45:48 +0000
-Received: by mail-il1-x12b.google.com with SMTP id e9e14a558f8ab-40a8f56e59eso9902355ab.2
-        for <linux-nvme@lists.infradead.org>; Sun, 14 Sep 2025 05:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757853946; x=1758458746; darn=lists.infradead.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lCpF5zxS8ig34a3uFAe9yvJyfKLOIR0AC+2KaeO3sI4=;
-        b=Pxn8zMSSMHW0gfpO/S9qtJlvTCoUP3/tBgYNL+9DZp2rEYLYfHtujnUmPXi2z+Fqbq
-         jMFo0iEhQ9OShX/BKZXEezLcrk0xQy4F403BMSrc9NaNjXflB6YGYwfwxUAltlMhfER9
-         jrRlKu1KJ6wCJdHehw/T6EQk+d0KrWin5HR9VlwBHi6VuqQX/fSXkHP5EYT/+jqF4NKg
-         eg16Wx9sKx0rAylUFxuG0xKjQcCShQgb8oP45NuXcB5b7VDhuGXpA5rnmThvk/nM6zFs
-         E5K5nPsQOcfJ3qWWRc2Pu56hLQnvXG2nfboIA5+2CZpWvjrOwUFcH1tOsjXtgptt840h
-         lU3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757853946; x=1758458746;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lCpF5zxS8ig34a3uFAe9yvJyfKLOIR0AC+2KaeO3sI4=;
-        b=YQAVbwfdyVn4RpsVwA1OtWX/MLnLrk4R38S/4BFbThCWhD0lMDyr5/lBSweGXJRwGa
-         jzGlU3eBH1De1n6hTUX5Yfw6HE5LErC585i0jO4tSIWupsheiKw8vZ6fTEiG6AH5tzw3
-         bYG0t6yE/1XVcNNOZHgm1d64lyeILRC+vBQW7nmZW/mWqe97aSYD6z+fC7pndU541NHF
-         XUXoANAAXxAVxJfUTzlewyshsqRFjfVYhTCPLSan5M63OuI+yJVHOklpGhRwR9e9alNv
-         orSOsRQqCDSdearQy2xEKkxsLuzxLq4WE2sGOiEbcxw29IAxjxG/bsRQrMBNV72WQJsw
-         3iSQ==
-X-Gm-Message-State: AOJu0YzKtMtSKKx4DWpWdZXWxGT4JXVsop6i5LQnjeitsaVx1UqypznS
-	KKcrPoFKBddePEm34MDES3OFp6XXYUS99YpDm3kXbSNHecVtGqQKSJ421ADcozlR9w4gPN10Rgf
-	6fy1+NVfjRLckJPFwaRhlFp+ycmQ+K24EogaZlSE=
-X-Gm-Gg: ASbGncv3LjyyjOP35NYJplDrwRkJFiQDtYuJ++TMfiqBQtIHTWga4Ge3PfnS7MXiIXY
-	Dl4Kp/sdjyIHtAxBhaTPUAB7wNRPi16TiYqup822fVsDg7GY60eDhDPECIK4SKDgdg+elq4u1PB
-	ZPb03DK0xLTXSWafqzDm0xsoY8KNRkvUfPtg7JJrcpQh8i7J9FVZJzofscs9R1lFMoESg/TDpF1
-	/YqCG7crZJ53zNhff0=
-X-Google-Smtp-Source: AGHT+IHnLaYx/ACNgRbs5sgVHAkOtiCRbnf8c04T6ZyhfEqurNNBd0o8wHS0fIr5FUtQesZRxU4g7FnvhP5NFloB4hQ=
-X-Received: by 2002:a05:6e02:1988:b0:40e:9e8c:b48c with SMTP id
- e9e14a558f8ab-420a311fe64mr104377195ab.15.1757853945931; Sun, 14 Sep 2025
- 05:45:45 -0700 (PDT)
+	Sun, 14 Sep 2025 14:31:50 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 6B9B640506;
+	Sun, 14 Sep 2025 14:31:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 178A4C4CEF0;
+	Sun, 14 Sep 2025 14:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757860307;
+	bh=LF33A9R61ZdnzfPHyrEbpe5BcMf7U3ad63kCUDGgDA0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V7q1RPbADMgafuUyPRKGurzY0ACZbnk8PxK8xXgE/xQnYzXhqZgVfCRxR8TO+o2gu
+	 ItXYYSZ/GRR8ayQP+gvhOxI2SUzbYkcxw9LMJMowXVBLgF0Rri1Qg09xlSKG/Utl7E
+	 7YVr173tsUohj02VFrnDT1IONuPFUSuCqLwC+vDvNt808KmtXy6Y0qjkj0CradbZ5/
+	 5DV0X5MFEd4vxab5lvEdly4c2CaC67Q7+ZJNdRjxkYf3xT6fzsEh+k0oqvtbTHhakX
+	 BFESyxMO4uv+hy3MtwRM5af6cdmNO93Cb9bxJzcmcEs2x1AMi4ySyjU228xg/uPMKj
+	 gzJM81ImFleqw==
+Date: Sun, 14 Sep 2025 08:31:45 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Apachez <apachez@gmail.com>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: Increase maxsize of io_queue_depth for nvme driver?
+Message-ID: <aMbR0aWqFjklHzfR@kbusch-mbp>
+References: <CALbmT6fF+1n+W1r+JNyr8+yY8Ub7PB6yYT2gpS12MBLbuHk9hQ@mail.gmail.com>
 MIME-Version: 1.0
-From: Apachez <apachez@gmail.com>
-Date: Sun, 14 Sep 2025 14:45:35 +0200
-X-Gm-Features: Ac12FXxl3VqkyhI0pKLJ2SLQOCVWOloda4_HcivodHMF7VJsfNjOHmQUHl_bZvs
-Message-ID: <CALbmT6fF+1n+W1r+JNyr8+yY8Ub7PB6yYT2gpS12MBLbuHk9hQ@mail.gmail.com>
-Subject: Increase maxsize of io_queue_depth for nvme driver?
-To: linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALbmT6fF+1n+W1r+JNyr8+yY8Ub7PB6yYT2gpS12MBLbuHk9hQ@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250914_054547_027026_B68E8275 
-X-CRM114-Status: GOOD (  11.30  )
+X-CRM114-CacheID: sfid-20250914_073149_661239_3F15BA75 
+X-CRM114-Status: GOOD (  11.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,36 +70,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Sun, Sep 14, 2025 at 02:45:35PM +0200, Apachez wrote:
+> I would like to propose that NVME_PCI_MAX_QUEUE_SIZE should be
+> increased from 4095 to 32767 to match the current NVMe specification
+> regarding MQES and to give the sysop ability to fully utilize the
+> performance of the hardware being used, or am I missing something
+> here?
 
-According to current version of the nvme driver in Linux Kernel
-6.17-rc5 the boundaries for io_queue_depth are set to >= 2 and <=
-4095:
+We use the upper bits of the command id to detect duplicate completions,
+so we don't have enough bits to tag commands beyond 4095. As far as I
+know, though, we haven't seen such breakage in a *long* time. It's more
+of a sanity thing to know with high certainty that duplicate completions
+are not occurring.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/nvme/host/pci.c?h=v6.17-rc5#n93
-
-However according to
-https://nvmexpress.org/wp-content/uploads/NVMe-NVM-Express-2.0a-2021.07.26-Ratified.pdf
-the Maximum Queue Entries Supported (MQES) is a 15 bit value (so 32767
-should be the largest possible) while other "internet sources" often
-referers max queue of a NVMe to be up to 64k (65535).
-
-Using nvme-cli on a Micron 7450 NVMe SSD 800GB I get this result:
-
-# nvme show-regs -H /dev/nvme0 | grep -i 'Maximum Queue Entries Supported'
-Maximum Queue Entries Supported (MQES): 8192
-
-I would like to propose that NVME_PCI_MAX_QUEUE_SIZE should be
-increased from 4095 to 32767 to match the current NVMe specification
-regarding MQES and to give the sysop ability to fully utilize the
-performance of the hardware being used, or am I missing something
-here?
-
-A spinoff of this would also be that the default of
-io_queue_depth=1000 should first attempt to use the reported MQES
-value by the device and if that doesnt exist the io_queue_depth should
-be set to current default of 1000?
-
-Kind Regards
-Apachez
+But I don't think you'll see any performance difference by increasing
+the queue depth. Devices saturate the link at far lower already, so
+going higher just increases completion latency.
 
