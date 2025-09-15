@@ -4,68 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0736CAC597
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Sep 2025 21:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF1ACCAC597
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Sep 2025 23:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BzUcY/wkafkCK6O3HS7reHyYdllw7Y0C2e1XfuwcHWU=; b=vkbQwAhqi9sAokdc9oN6a9r22V
-	Fd0l8BVSEg+JTmVILp3ddY3x0TqITzdSQogrft7/ypHYr0tViQuSAN+gQotCNc/1CVAg86ycPMxbN
-	6cvRE4LUs+VaYsBT7vOjlNDRbndfUx+GIyxggFFG5Dt/FQf4Py8i0719qXndVM8NFtaiXD3MP4N1o
-	XZ+77aKjBbwOw5x4jLw15JwVlyKqnrqkoQwxZeGxUDiZcEiuY5CpZUWjBaXkDPn0NK2OU34/xmd+e
-	Hx72jnf5jBjeorV5Lkjv3FVX6sKWqEA6ApP2Rt8FXQwblwsytj23O5R1pIoPLk9oVbeH/OuZNQND8
-	dR9GlPjA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=53Jjui4XqZ/IQp9ciZZrnrpWJSvGUpzV87U1Eh5hxPo=; b=e/yk6gB2jk29Ddw3C026lbt7os
+	BGXfGd5+ueHTnol5gJ++xK/tkFWRR5Vb5bTMZ3ux8blzwIzcibNOBpOzAjoCXzCTO/YHKvLnQXyc8
+	y90lWL56uxY3isaIofNkQEcR26Vfwb48+9Ln6zd5AgW2gG/k3zyr4KVbAmzEvPhYP0jpCTW5UO+yk
+	4otXymGH1/yuHPNv3gBZf/SPWqxR7JPG9sEjGT1zR1/Ie/mFwbe77XJ6/kyGPYCa7AAQ9nXhD9Pkl
+	zqgoYaehyJAtIIU8ZXihCErEmAaz0A2sjPtBe1XSk+LImo8FiFTByTERpuhI5ey4hYCes9EUs72zI
+	sTg5Q1cg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyH2G-00000005jNM-3u4b;
-	Mon, 15 Sep 2025 21:46:56 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1uyISU-00000005rqk-1HCV;
+	Mon, 15 Sep 2025 23:18:06 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyH2E-00000005jMo-2MnI
+	id 1uyISR-00000005rpZ-3sdB
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Sep 2025 21:46:55 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C616944168;
-	Mon, 15 Sep 2025 21:46:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD04C4CEF1;
-	Mon, 15 Sep 2025 21:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757972813;
-	bh=D9jfoYbyApINAB7D0xsIHvhQDmuv3Id/XROTByhTTos=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZYLHroJgZiBKoAKKM2DNo0gpnT7Cb4/o0sE3e/ou2L5J6r+k408b3ij0UlBrGW03H
-	 yQhKpBXc7pO8kBJ8HnEv31n0y7FKDWZMkvLi89IZhh1fAq/4LxyAO0sCpskKKvWcsq
-	 /UmuxU4VFUliUMrCCfNZ2Op3E9iDknviVZ0kpAoHATaumVU6Ra3BkJG6UvxDlUxBrN
-	 Xz2AjaosFPxtm5SLbVn9xStDl81ceXMaQjVZO4Td7uwTwK3mKJmA87r8ciRHQpeEeK
-	 paFXxuNg3FTjDpQN48+wIVfPmZLX7kZGc3J58OfszpO8Id7jVz3my8+Dmmgfl2HGT8
-	 FBnOMKzKVJGdQ==
-Date: Mon, 15 Sep 2025 14:46:51 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Olga Kornievskaia <aglo@umich.edu>, Olga Kornievskaia
- <okorniev@redhat.com>, chuck.lever@oracle.com, jlayton@kernel.org,
- trondmy@hammerspace.com, anna.schumaker@oracle.com, hch@lst.de,
- sagi@grimberg.me, kch@nvidia.com, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, linux-nfs@vger.kernel.org,
- linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, neil@brown.name, Dai.Ngo@oracle.com,
- tom@talpey.com, hare@suse.de, horms@kernel.org
-Subject: Re: [PATCH v2 3/4] nvmet-tcp: fix handling of tls alerts
-Message-ID: <20250915144651.7bec7ad4@kernel.org>
-In-Reply-To: <aMg0jDkXOd8E7Ihj@kbusch-mbp>
-References: <20250731180058.4669-1-okorniev@redhat.com>
-	<20250731180058.4669-4-okorniev@redhat.com>
-	<CAN-5tyF=5oQLyy7ikbbhFW10OrUfHh0Sr3D=G1nHN+pEsfiSzw@mail.gmail.com>
-	<aMg0jDkXOd8E7Ihj@kbusch-mbp>
+	Mon, 15 Sep 2025 23:18:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757978280;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=53Jjui4XqZ/IQp9ciZZrnrpWJSvGUpzV87U1Eh5hxPo=;
+	b=Vo7EbUONh3wuUIHmbZEe7StNL+sSsVGgFUI+9CoFWBJD1r5guiwgpandhd7VWFy5PCfxBF
+	X+EevZT7f18zqZxQLXM2oUBaqXkqrOs4ZLxt7SM3hYrd9a8t6nspTz4k9AAyn3P8hY1gwD
+	3X8paoPI1cdpbDtMFVIPAxViUtinOfw=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-127-mW8XYG5YOhSzFtg2P_wzzg-1; Mon,
+ 15 Sep 2025 19:17:55 -0400
+X-MC-Unique: mW8XYG5YOhSzFtg2P_wzzg-1
+X-Mimecast-MFC-AGG-ID: mW8XYG5YOhSzFtg2P_wzzg_1757978273
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5531A19775DB;
+	Mon, 15 Sep 2025 23:17:53 +0000 (UTC)
+Received: from my-developer-toolbox-latest (unknown [10.2.16.100])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id B675F180035E;
+	Mon, 15 Sep 2025 23:17:50 +0000 (UTC)
+Date: Mon, 15 Sep 2025 16:17:49 -0700
+From: Chris Leech <cleech@redhat.com>
+To: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+	Sagi Grimberg <sagi@grimberg.me>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S . Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>
+Subject: Re: [PATCH v2 0/2] nvme: fixup HKDF-Expand-Label implementation
+Message-ID: <20250915-expectant-limb-a1464f3a1076@redhat.com>
+References: <20250821204816.2091293-1-cleech@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250821204816.2091293-1-cleech@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250915_144654_630774_AA1D5976 
-X-CRM114-Status: GOOD (  12.48  )
+X-CRM114-CacheID: sfid-20250915_161804_042462_DAF36625 
+X-CRM114-Status: GOOD (  24.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,20 +83,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 15 Sep 2025 09:45:16 -0600 Keith Busch wrote:
-> On Fri, Sep 05, 2025 at 12:10:21PM -0400, Olga Kornievskaia wrote:
-> > Dear NvME maintainers,
-> > 
-> > Are there objections to this patch? What's the path forward to
-> > including it in the nvme code.  
+Bump and a polite review/merge request.
+There's been no feedback requiring changes in v2.
+
+Thanks,
+- Chris 
+
+On Thu, Aug 21, 2025 at 01:48:14PM -0700, Chris Leech wrote:
+> As per RFC 8446 (TLS 1.3) the HKDF-Expand-Label function is using vectors
+> for the 'label' and 'context' field, but defines these vectors as a string
+> prefixed with the string length (in binary). The implementation in nvme
+> is missing the length prefix which was causing interoperability issues
+> with spec-conformant implementations.
 > 
-> Sorry for the delay here. This series is mostly outside the nvme driver,
-> so we need at least need an Ack from the networking folks if we're going
-> to take this through the nvme tree.
+> This patchset adds a function 'hkdf_expand_label()' to correctly implement
+> the HKDF-Expand-Label functionality and modifies the nvme driver to utilize
+> this function instead of the open-coded implementation.
+> 
+> As usual, comments and reviews are welcome.
+> 
+> Changes from v1:
+>  - Moved hkdf_expand_label() from crypto/hkdf.c to nvme/common/auth.c.
+>    It's not really an RFC 5869 HKDF function, it's defined for TLS but
+>    currently only used by nvme in-kernel.
+>  - Fixed kdoc label_len -> labellen
+>  - Replaced "static const char []" with "const char *", it's just
+>    clearer and generates the same code with a string literal assignment.
+> 
+> (I've left the crypto emails on this version, mostly to make it known
+> that hkdf_expand_label() has been moved as Eric asked.)
+> 
+> Chris Leech (2):
+>   nvme-auth: add hkdf_expand_label()
+>   nvme-auth: use hkdf_expand_label()
+> 
+>  drivers/nvme/common/auth.c | 86 +++++++++++++++++++++++++++++---------
+>  1 file changed, 66 insertions(+), 20 deletions(-)
+> 
+> -- 
+> 2.50.1
+> 
+> 
 
-In case you decide to take it, LGTM:
-
-Acked-by: Jakub Kicinski <kuba@kernel.org>
-
-Thanks!
 
