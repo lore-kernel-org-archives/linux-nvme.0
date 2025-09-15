@@ -4,136 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03CCCCAC598
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Sep 2025 13:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72EA7CAC598
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Sep 2025 16:18:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZEaiEMMM28n+rEM/oEhzbsdplft5zfFjRRugUCJ3aLQ=; b=etcRcV1Zr2RE8BUB8aKXennv+h
-	4+NmjJP1P8oOMZvAw8jejHrnimESZ8OxK2GCcpBEtcGYLGof0keR39okOaLD/L6eDe6em0BxNL+uo
-	uIguV8QSjL5kMu9Diy8NfqHAqnXN7iDYh/6RTlWEHiJjGyiCWXcMxFpjneZ5z6Ty78b/oW6RAS13I
-	ZygVRvdA+oZRX/pDwThcsBaRVMdyPBFaMHYLHax2k9vHguOusx9rQ+IG/Ci2H9/4Xu+SBSM+iXtt0
-	w4XLb/erEukteObm3LiaND9SLLvXkEsFG35Z6Dd8z5mTKfBp1TG+UsrIDjYvRjTLTRSjEzNfO1sie
-	nCLLWBVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=a3UAx19vK1YiNrAi97n0gU/rRiRg+M8i65mS2Lnx+jM=; b=ImR3zPcr2y9G6Ilfs4HMqVIH+q
+	49bodAaXdwH4oi0ZlGQDLi6P0knGeVDZ6pdTbtyfwTlTh+i5ZV+36g2Wn4bzjFg2cr8tof10lsnis
+	BTYE2MmargP/IcElsSDYSLUJU4u5P1xwb3w7ILaSalCCSO8UWJqVa2xvgDnE0haFVj2u27izRn0nz
+	N2snt9X2ZLkDhRLNCD0i5iCStIFtmN7fyAWWqe3cSMxyWcazVdN5Zn+bQm+kIsE8dUhD4vkokIE9E
+	2CefjO1BUjRVLWu5WOH+Hj7lYvc/WoCh9Wg2e4BQV0z1FvMpGFfiP5N8/iDz+bj7B/1Qtm6x38wUh
+	mLmrdyMA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyVM4-00000007rfn-1tU3;
-	Tue, 16 Sep 2025 13:04:20 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1uyYNp-00000008QcS-1CKe;
+	Tue, 16 Sep 2025 16:18:21 +0000
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyVM2-00000007reN-2ZW6
+	id 1uy6n4-00000003mlp-0vOt
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Sep 2025 13:04:20 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6B24F21CB5;
-	Tue, 16 Sep 2025 13:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758027855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEaiEMMM28n+rEM/oEhzbsdplft5zfFjRRugUCJ3aLQ=;
-	b=ABaUMkrgvIb8hV6oIbUbcc0WgdTpr6wDm5TzqqFEUM6VfAkqJHhNS7a/qQG0n9GKSf4OTq
-	vaiRL0CAIOjbz/jd1bigQGueAviCk/JHqqHWqqSMATllQS1p+rcCqb7Al92biSOuJIahIy
-	3e0I0PdeeIUG6wCS6S8RXI9m/oy9jYs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758027855;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEaiEMMM28n+rEM/oEhzbsdplft5zfFjRRugUCJ3aLQ=;
-	b=EZ0J10S96HO8dwYjF5NSIR9icbMiB3TFlSYUEZq49imHRryQ9mBF2TUslu6u0+lFnIpjEL
-	JzWahpYJ8iZ+HzAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QHZ53mBL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=peEeA59n
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758027854; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEaiEMMM28n+rEM/oEhzbsdplft5zfFjRRugUCJ3aLQ=;
-	b=QHZ53mBLwhOpDZzdNVXcv7QuAejEj4nB4C5DJhmy281xEhKsefLCCG32IdeZazr2SCEEo5
-	wSDosPnXiIZTlgcg8osh8VDWCvpkR0wv3Tt7nb+bnY9rWGStui22S1ZtAdPmiGM35KCj/Y
-	+CNngRCUWq2yJ5+ne1U3J5doU+0HMko=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758027854;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZEaiEMMM28n+rEM/oEhzbsdplft5zfFjRRugUCJ3aLQ=;
-	b=peEeA59nroXgxW0jlx/AzyZYlNEoeGbm/7bHfvwxI6Sbdz7a+Eewbt/ruX1Vqh2yP8L4w6
-	IpZsJ2pjHVXGxLAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31DC9139CB;
-	Tue, 16 Sep 2025 13:04:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +DmmC05gyWioCQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 16 Sep 2025 13:04:14 +0000
-Message-ID: <f1a7b0b5-65e3-4cd0-9c62-50bbb554e589@suse.de>
-Date: Tue, 16 Sep 2025 15:04:13 +0200
+	Mon, 15 Sep 2025 10:50:35 +0000
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-71d603cebd9so32308917b3.1
+        for <linux-nvme@lists.infradead.org>; Mon, 15 Sep 2025 03:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757933430; x=1758538230; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a3UAx19vK1YiNrAi97n0gU/rRiRg+M8i65mS2Lnx+jM=;
+        b=EXJsrpwRNoleKwCApuecfk590yx99Rskyht9SM1wdGhi1NYS5JAopUQztkS46AXgNz
+         ieonu5dvjjgb0TWXIOZQWH388Xfq8wV7Wh/JXnOQiWa71CnfT1+1de2IeOZsFDhCHA+K
+         rgdcffvd1QsSapOeJ8TMHtX1FHpsprP3CDacZpsTk7tMvhFP/H4XMwu8EY70hyciCO0q
+         w9g0cF4xo3NjOSEkVTNMl+Ov9V9Kmo8nZ3ernlLT0GAwDKicfkgPgC0i4Nc2OXnBuei2
+         /TGXjxHC+AI5CVVPFbUHQNlDuIRYS7BWjokXmsmZxUUpyWjb4tQ9KrYwrSIsTg4fuFcv
+         xG9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757933430; x=1758538230;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a3UAx19vK1YiNrAi97n0gU/rRiRg+M8i65mS2Lnx+jM=;
+        b=YLo3UOul4pHi6fzOHtb+V3otvw6AuIkDWWnmyQbQTxDBZXOXwUaYGy1st32n8pXsYu
+         53afY5pJmJtr/D9G5hifuEtF0o13aevC2hmLs/RgrK/MBtHP20u4l6zG4dOIGJydXb3E
+         5oPPoAY9gJadBWqqeuL8Af2Fs/bypaRWDPcQxmJNcQnE2W4eOq3L0dhbUAYmQ28A+lnW
+         G6EgRyZs7kQsSANGi025YzEcYC04Zc4Xs1BCQWVe2v39yd5G5mtB+RKKu8tFfSDLDVQQ
+         9gUeSdshZjboti2GO7ANwXXXRFschF/7EGbDEGIzUTmZK1QCGMH/YZzCnz/gUCzhO8vh
+         MffA==
+X-Forwarded-Encrypted: i=1; AJvYcCVCG4SPtxIwdPkPegSiDg1E1DI/VSkvFwFagSt430HiNvB/6gRP/87r3wULFq0W0dPBS7IkA7ILBLav@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw13tWAs+Yn6yXMoXHpybuHy5p1a8AlcwC4L+Lej8jmFgWsMu3X
+	19UkB47Oygkh7ORUJexvPwjb3MA9fkrywvIQrPbmmCmr0HbpNxzpc7KV3HZuFDimH+Fjb6DQG+/
+	TBz2pfZ3GtfIY97LNA9Wy9gNTjF/DZplJMm/UQeQ20A==
+X-Gm-Gg: ASbGncvDvfLqHCuM8OmHcIsSbNqdUIKfreT6xRsEEUYwwOfdSdscvp51AsVyuBT162j
+	TYSm2KmucggoSH1z7iDFZo1IrKR8LDTwfwjGT8KQkFZAyiH+qYP/hkJGVy9uB3a5puWEqSd6O8R
+	3y0aGkBdawIHTRowcnRMCYjtZlPXgjEUQafTvWtjF9nZp+jpYJ5Dj+UIs/DlGARWVHnJj5TxsQ/
+	6U4PpPRc2LzrqJDRwE=
+X-Google-Smtp-Source: AGHT+IGDEYgOKM3gJ8Zzlityz/syLNE9FRvDAqAmupyu9aSeveyvR7FHQhtEilEP6qYlMPKL0ImuzwqqE0dGUhFDiNI=
+X-Received: by 2002:a05:690c:3706:b0:722:7d35:e0c2 with SMTP id
+ 00721157ae682-730626d2dd2mr106799857b3.2.1757933429679; Mon, 15 Sep 2025
+ 03:50:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] nvme-tcp: Support KeyUpdate
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
- <20250905024659.811386-7-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250905024659.811386-7-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6B24F21CB5
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net> <20250828-dt-apple-t6020-v1-3-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-3-507ba4c4b98e@jannau.net>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 15 Sep 2025 12:49:53 +0200
+X-Gm-Features: Ac12FXxZCAZGblY8VwFHa1GJ1rGV08p3Fv5KI-OAzvQkX2G4ZDMKiAukPP3wanY
+Message-ID: <CAPDyKFr9dAvP7U3dZ_LFw8YxcvJ6n95OKKLYpntUarqdfUqjWQ@mail.gmail.com>
+Subject: Re: [PATCH 03/37] pmdomain: apple: Add "apple,t8103-pmgr-pwrstate"
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250916_060418_805149_A54BB260 
-X-CRM114-Status: GOOD (  37.84  )
+X-CRM114-CacheID: sfid-20250915_035034_280707_2A11292B 
+X-CRM114-Status: GOOD (  21.38  )
+X-Mailman-Approved-At: Tue, 16 Sep 2025 09:18:17 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,183 +120,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/5/25 04:46, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
-> on an KeyUpdate event.
-> 
-> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> allow the NVMe layer to process the KeyUpdate request and forward the
-> request to userspace. Userspace must then update the key to keep the
-> connection alive.
-> 
-> This patch allows us to handle the NVMe target sending a KeyUpdate
-> request without aborting the connection. At this time we don't support
-> initiating a KeyUpdate.
-> 
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On Thu, 28 Aug 2025 at 16:01, Janne Grunau <j@jannau.net> wrote:
+>
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,pmgr-pwrstate" anymore [1]. Use
+> "apple,t8103-pmgr-pwrstate" as base compatible as it is the SoC the
+> driver and bindings were written for.
+>
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+
+Kind regards
+Uffe
+
 > ---
-> v2:
->   - Don't change the state
->   - Use a helper function for KeyUpdates
->   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
->   - Remove command message using recvmsg
->   
->   drivers/nvme/host/tcp.c | 73 +++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 70 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 776047a71436..b6449effc2ac 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
->   	bool			tls_enabled;
->   	u32			rcv_crc;
->   	u32			snd_crc;
-> +	key_serial_t		user_session_id;
->   	__le32			exp_ddgst;
->   	__le32			recv_ddgst;
->   	struct completion       tls_complete;
-> @@ -210,6 +211,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->   			      struct nvme_tcp_queue *queue,
->   			      key_serial_t pskid,
->   			      handshake_key_update_type keyupdate);
-> +static void update_tls_keys(struct nvme_tcp_queue *queue);
->   
->   static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctrl)
->   {
-> @@ -393,6 +395,14 @@ static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
->   	do {
->   		ret = nvme_tcp_try_send(queue);
->   	} while (ret > 0);
-> +
-> +	if (ret == -EKEYEXPIRED) {
-> +		update_tls_keys(queue);
-> +
-> +		do {
-> +			ret = nvme_tcp_try_send(queue);
-> +		} while (ret > 0);
-> +	}
->   }
->   
->   static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *queue)
-> @@ -1347,6 +1357,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
->   done:
->   	if (ret == -EAGAIN) {
->   		ret = 0;
-> +	} else if (ret == -EKEYEXPIRED) {
-> +		goto out;
->   	} else if (ret < 0) {
->   		dev_err(queue->ctrl->ctrl.device,
->   			"failed to send request %d\n", ret);
-> @@ -1371,9 +1383,56 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
->   	queue->nr_cqe = 0;
->   	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
->   	release_sock(sk);
-> +
-> +	/* If we received EINVAL from read_sock then it generally means the
-> +	 * other side sent a command message. So let's try to clear it from
-> +	 * our queue with a recvmsg, otherwise we get stuck in an infinite
-> +	 * loop.
-> +	 */
-> +	if (consumed == -EINVAL) {
-> +		char cbuf[CMSG_LEN(sizeof(char))] = {};
-> +		struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
-> +		struct bio_vec bvec;
-> +
-> +		bvec_set_virt(&bvec, (void *)cbuf, sizeof(cbuf));
-> +		iov_iter_bvec(&msg.msg_iter, ITER_DEST, &bvec, 1, sizeof(cbuf));
-> +
-> +		msg.msg_control = cbuf;
-> +		msg.msg_controllen = sizeof(cbuf);
-> +
-> +		consumed = sock_recvmsg(sock, &msg, msg.msg_flags);
-> +	}
-> +
->   	return consumed == -EAGAIN ? 0 : consumed;
->   }
->   
-> +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> +{
-> +	int qid = nvme_tcp_queue_id(queue);
-> +	int ret;
-> +
-> +	dev_dbg(queue->ctrl->ctrl.device,
-> +		"updating key for queue %d\n", qid);
-> +
-> +	cancel_work(&queue->io_work);
-> +	handshake_req_cancel(queue->sock->sk);
-> +	handshake_sk_destruct_req(queue->sock->sk);
-> +
-Careful here. The RFC fully expects to have several KeyUpdate requests
-pending (eg if both sides decide so initiate a KeyUpdate at the same
-time). And cancelling a handshake request would cause tlshd/gnutls
-to lose track of the generation counter and generate an invalid
-traffic secret.
-I would just let it rip and don't bother with other handshake
-requests.
-
-> +	nvme_stop_keep_alive(&(queue->ctrl->ctrl));
-> +	flush_work(&(queue->ctrl->ctrl).async_event_work);
-> +
-Oh bugger. Seems like gnutls is generating the KeyUpdate message
-itself, and we have to wait for that.
-So much for KeyUpdate being transparent without having to stop I/O...
-
-Can't we fix gnutls to make sending the KeyUpdate message and changing
-the IV parameters an atomic operation? That would be a far better 
-interface, as then we would not need to stop I/O and the handshake
-process could run fully asynchronous to normal I/O...
-
-> +	ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> +				 queue, queue->ctrl->ctrl.tls_pskid,
-> +				 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> +
-> +	if (ret < 0) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"failed to update the keys %d\n", ret);
-> +		nvme_tcp_fail_request(queue->request);
-> +		nvme_tcp_done_send_req(queue);
-> +	}
-> +}
-> +
->   static void nvme_tcp_io_work(struct work_struct *w)
->   {
->   	struct nvme_tcp_queue *queue =
-> @@ -1389,15 +1448,21 @@ static void nvme_tcp_io_work(struct work_struct *w)
->   			mutex_unlock(&queue->send_mutex);
->   			if (result > 0)
->   				pending = true;
-> -			else if (unlikely(result < 0))
-> +			else if (unlikely(result < 0)) {
-> +				if (result == -EKEYEXPIRED)
-> +					update_tls_keys(queue);
-
-How exactly can we get -EKEYEXPIRED when _sending_?
-To my understanding that would have required userspace to intercept
-here trying (or even sending) a KeyUpdate message, right?
-So really not something we should see during normal operation.
-As mentioned in my previous mail we should rather code the
-KeyUpdate process itself here, too.
-Namely: Trigger the KeyUpdate via userspace (eg by writing into the 
-tls_key attribute for the controller), and then have the kernel side
-to call out into tlshd to initiate the KeyUpdate 'handshake'.
-That way we have identical flow of control for both the sending
-and receiving side.
-
-Incidentally: the RFC has some notion about 'request_update' setting
-in the KeyUpdate message. Is that something we have to care about at
-this level?
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>  drivers/pmdomain/apple/pmgr-pwrstate.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/pmdomain/apple/pmgr-pwrstate.c b/drivers/pmdomain/apple/pmgr-pwrstate.c
+> index 9467235110f4654e00ab96c25e160e125ef0f3e5..82c33cf727a825d2536644d2fe09c0282acd1ef8 100644
+> --- a/drivers/pmdomain/apple/pmgr-pwrstate.c
+> +++ b/drivers/pmdomain/apple/pmgr-pwrstate.c
+> @@ -306,6 +306,7 @@ static int apple_pmgr_ps_probe(struct platform_device *pdev)
+>  }
+>
+>  static const struct of_device_id apple_pmgr_ps_of_match[] = {
+> +       { .compatible = "apple,t8103-pmgr-pwrstate" },
+>         { .compatible = "apple,pmgr-pwrstate" },
+>         {}
+>  };
+>
+> --
+> 2.51.0
+>
 
