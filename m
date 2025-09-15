@@ -4,134 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 771F6CAC59A
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Sep 2025 11:45:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A619CCAC597
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Sep 2025 11:49:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=; b=4jGN0c5b1wLTnnMnNYfNoHQWVN
-	HwlhO5b900XB9ILvHztyS4byFXU0hGzcJnyPhJaded6z/tel/DByazecxH8pX7mTj1N5TKZxytf4c
-	1Ej2E2CeVYKcbk/sDdUmut4p2BCkOugLanr2iNRynB7tbMTNHeFS5LueL1Q+3pAGL/zp8p8D2AlIA
-	TVrG9/QrE835CE5j8XDoCwEf1D9yizYsC5jHCinmodUJenPrNiQJFlKcs0Q0SlQZZoLeYcpsvSNbe
-	w7ZRartt6JJDlZ4rLYyi/nqhv4ikqEYmG1g6PRfaMa9Zks1rb/ADQdlQwCGn8cU81kz04MFlohtVG
-	zMU/eMDQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BzYi9UrrMK3oiXPjdWgFJHAlZqk/pGJoUWmFK9K1t7k=; b=chqTE2mk2WZJzSu9laCV3r20yk
+	oJrA2SODXkVpOiRl+o5r4Kf+NVk36zs8wOb8lTbYoX1Qt1iEu22CBhnvorkEvunsDEr1ikQKbjFNK
+	c0UfLnZJaneorh05XhKWixjLZcn2hS5/qfrKi2b5Xrgc8pkQpTwomiddoW2oNzDLc3ypld0F7BZlh
+	3w83+S746WeOkuVO1DdSLsPiPf6igooO17/70ZugpsfPA1vJJuU4eaqxTCrhVFeHwa79J68ojqE4P
+	wiK0Z3crRMoOZEz3wr95Ca7CYj5dRNTTTfZLVDzLSZbfFsVSkHGJROxMw1d0r8pOyzCqP+DByBy+G
+	j8uBMQUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uy7e7-00000003y43-2D0z;
-	Mon, 15 Sep 2025 11:45:23 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1uy7iI-00000003zxm-0X67;
+	Mon, 15 Sep 2025 11:49:42 +0000
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uy7dj-00000003xdG-26vc
+	id 1uy7iF-00000003zwX-1LfL
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Sep 2025 11:45:01 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DC3243372C;
-	Mon, 15 Sep 2025 11:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757936696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=kKV3asQ+LtgRXgQgFmsbfPtQR3ipSxZ+4N6C1pcsfpvXhO3dc5IciV7O57Xv6j+x1dpbNA
-	5DhOgfMyn+holsds4tqnkmT+hrhuB7NWhGZV9Aj+1y5bBLZDgljYQ0F78nNhyL00Wds4Nl
-	14t58TTrvF5vBaEhyWHTF+PD5NmGCxE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757936696;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=Tt2qUBSucstfMiHKFJ+ySPPi/im3XoTl7XfQbPBnIRsSjAEZ6NBcGjHd2GzZRtwy3GkHJA
-	WQB4CJYFXUTr6ABQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dteWhLgs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gw8fxY46
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757936695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=dteWhLgsoXDBt1yizUoUOdeCZW7IYxG9QMM0dCMopC8wAcIzol4780DQSp73AevmFGMdef
-	UK2uHwq92eknXxeNii9l6Rjqcyl2GaJUTjcbcrwChnAmuLY7U8c0UBXD2A303cEVwqqFpQ
-	JyCY3YinymXFcAQwujjlHPOTV1OpI7k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757936695;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6y2PKDzyPqYi6KX3GddLjJHSW4ruu+RGlXgaVbxg9T4=;
-	b=Gw8fxY46SRz/l4wHNJJ0ir6m9NdJubtKo4jQwylyfZ3PztOGM1+7wTMjm3Th32WT1isETe
-	E22T4yn9lUzwl6AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A14A1368D;
-	Mon, 15 Sep 2025 11:44:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id q1dbFDf8x2j5KgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 15 Sep 2025 11:44:55 +0000
-Message-ID: <68e45231-8344-447d-95cc-4b95a13df353@suse.de>
-Date: Mon, 15 Sep 2025 13:44:54 +0200
+	Mon, 15 Sep 2025 11:49:40 +0000
+Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-32e64d54508so808862a91.0
+        for <linux-nvme@lists.infradead.org>; Mon, 15 Sep 2025 04:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757936977; x=1758541777; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BzYi9UrrMK3oiXPjdWgFJHAlZqk/pGJoUWmFK9K1t7k=;
+        b=XODzsxL4VF0yF0955IYc7q1NN7fbNmEanoAJrp/yD5Bf67nkduw6KVgy5vKOtQkTfQ
+         gaCLK6oGL2GiTp4BSjnzswlj3EZpNqORToxA2qLLVYPROE3IXzmaoUSg0QEZ6nRIkORg
+         pujIn6SJ+yyMLVFsy6PQG0qRjg8Gc/0uJdfWL2bp7s+UKAqGEy4fnLDTq87ZGlFnZzjd
+         I+TXnsSZBhRJKO4FqTmEruFQMfxXJP6aiWTmsKz9ojqO8nyHFVDxEETXMfnpAz1IM6RK
+         jv1uHAeEdubq20b5UQofWE4HsSG7g/HGrHEs6bbDSF0QxjagGd2IX63vszf22V7EgA5e
+         Ye3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757936977; x=1758541777;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BzYi9UrrMK3oiXPjdWgFJHAlZqk/pGJoUWmFK9K1t7k=;
+        b=Xr92MRIhvhkD22Wg6cU1M81zT/MNRWdMecnCibx/TfmK8lMANVKi7ZmixtCuwDsK8l
+         0+dKbJM0+0nGvUCbDf6pCKXbqYwoTpDwmQupbhK99tQHN6Prx5S5PstoB9XIBbc1pehi
+         DC9wH+DbfqOlmwyqD44LHXnAmBr+deXabb8dqIdHf0uZj8F7Fem7LWkhn4oscCJKJfX9
+         xaGyOzjTj484fofln6Zm1LyJIlnZCfQdgUs0Xk1yoAA3gEvB27gQ5uA7+5ZeAmtkA1IK
+         vHRrGFVws7DenNV+CZjjoIVt0d6tO87zPHM6xRQAtuhKlGtQV2uK3Xdw4lkDuYFCMYIR
+         pNiw==
+X-Gm-Message-State: AOJu0YwNpJy8qdwMcQwA3ECLfuBFbJhdg5lek7+N0hcJwtPfgJm6DBpT
+	XWJlwn8wMkQFPAIv/NiFsXRcpesWafTuuLX7CsIw67svnrEG0YA+PS8qSnriDQ==
+X-Gm-Gg: ASbGncsKxIX0z4N210/ILp+nOx9i/OLlzEdBj+QFsjKjWNmswLKoPIoM0YboTJQRAZI
+	5YY2Qb4ndHr5mmBr4UAnvBsRube2QSrZUcUfJq1nh9Vy2350UnAxhzLTVT/4lhWfNs9NZivcLBc
+	jl61TzOkeuzuXwfj3Sxl0/nC0cpHCdP/MaDIC+v8GniiNOnASksyySZ7yT9fl8CWPn4COwHVeDy
+	Xqo0+Dzz+rudrG3ptY5pwBgdt2XlD9AxnZYY6qVH2k78uVpy80s6LTkA+gVyKDQcc2WvAHrdT2f
+	PKW/0lm9iOjK9mZjp6z7o7pM3zianXhidL25eueJ2IBtibeUUjXYz/rWlDyXaZALhILvhUowNTw
+	zkWl/y5Jx+vpPpxgeeVAS7d7P8YNwJEnGTmm86UiW+Lko
+X-Google-Smtp-Source: AGHT+IFVTNOCZSXMvxA/0FApxZerUAEVLOEuFFVpTtNmxn6YRvm4W7SE1+2BOZzH8KZ6CA0k3VWoyA==
+X-Received: by 2002:a17:90b:4e84:b0:32b:8466:a66d with SMTP id 98e67ed59e1d1-32de4f8c826mr14386278a91.28.1757936977621;
+        Mon, 15 Sep 2025 04:49:37 -0700 (PDT)
+Received: from gooner.vpn.netapp.com ([202.3.121.6])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b18366sm13223011b3a.53.2025.09.15.04.49.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 04:49:37 -0700 (PDT)
+From: Martin George <martinus.gpy@gmail.com>
+X-Google-Original-From: Martin George <marting@netapp.com>
+To: linux-nvme@lists.infradead.org
+Cc: hch@lst.de,
+	kbusch@kernel.org,
+	sagi@grimberg.me,
+	hare@kernel.org,
+	Martin George <marting@netapp.com>
+Subject: [PATCH] nvme-auth: update bi_directional flag
+Date: Mon, 15 Sep 2025 17:19:21 +0530
+Message-ID: <20250915114921.4715-1-marting@netapp.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] nvme-tcp: Support receiving KeyUpdate requests
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250905024659.811386-1-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: DC3243372C
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ietf.org:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250915_044459_729775_6BC57466 
-X-CRM114-Status: GOOD (  28.49  )
+X-CRM114-CacheID: sfid-20250915_044939_357596_18E71A8C 
+X-CRM114-Status: GOOD (  13.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,99 +98,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 9/5/25 04:46, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> The TLS 1.3 specification allows the TLS client or server to send a
-> KeyUpdate. This is generally used when the sequence is about to
-> overflow or after a certain amount of bytes have been encrypted.
-> 
-> The TLS spec doesn't mandate the conditions though, so a KeyUpdate
-> can be sent by the TLS client or server at any time. This includes
-> when running NVMe-OF over a TLS 1.3 connection.
-> 
-> As such Linux should be able to handle a KeyUpdate event, as the
-> other NVMe side could initiate a KeyUpdate.
-> 
-> Upcoming WD NVMe-TCP hardware controllers implement TLS support
-> and send KeyUpdate requests.
-> 
-> This series builds on top of the existing TLS EKEYEXPIRED work,
-> which already detects a KeyUpdate request. We can now pass that
-> information up to the NVMe layer (target and host) and then pass
-> it up to userspace.
-> 
-> Userspace (ktls-utils) will need to save the connection state
-> in the keyring during the initial handshake. The kernel then
-> provides the key serial back to userspace when handling a
-> KeyUpdate. Userspace can use this to restore the connection
-> information and then update the keys, this final process
-> is similar to the initial handshake.
-> 
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> 
-> v2:
->   - Change "key-serial" to "session-id"
->   - Fix reported build failures
->   - Drop tls_clear_err() function
->   - Stop keep alive timer during KeyUpdate
->   - Drop handshake message decoding in the NVMe layer
-> 
-> Alistair Francis (7):
->    net/handshake: Store the key serial number on completion
->    net/handshake: Make handshake_req_cancel public
->    net/handshake: Expose handshake_sk_destruct_req publically
->    nvmet: Expose nvmet_stop_keep_alive_timer publically
->    net/handshake: Support KeyUpdate message types
->    nvme-tcp: Support KeyUpdate
->    nvmet-tcp: Support KeyUpdate
-> 
->   Documentation/netlink/specs/handshake.yaml |  19 +++-
->   Documentation/networking/tls-handshake.rst |   4 +-
->   drivers/nvme/host/tcp.c                    |  88 +++++++++++++++--
->   drivers/nvme/target/core.c                 |   1 +
->   drivers/nvme/target/tcp.c                  | 104 +++++++++++++++++++--
->   include/net/handshake.h                    |  17 +++-
->   include/uapi/linux/handshake.h             |  14 +++
->   net/handshake/genl.c                       |   5 +-
->   net/handshake/handshake.h                  |   1 -
->   net/handshake/request.c                    |  18 ++++
->   net/handshake/tlshd.c                      |  46 +++++++--
->   net/sunrpc/svcsock.c                       |   3 +-
->   net/sunrpc/xprtsock.c                      |   3 +-
->   13 files changed, 289 insertions(+), 34 deletions(-)
-> 
+While setting chap->s2 to zero as part of secure channel
+concatenation, the host missed out to disable the bi_directional
+flag to indicate that controller authentication is not requested.
+Fix the same.
 
-Hey Alistair,
-thanks for doing this. While the patchset itself looks okay-ish, there
-are some general ideas/concerns for it:
+Fixes: e88a7595b57f ("nvme-tcp: request secure channel concatenation")
+Signed-off-by: Martin George <marting@netapp.com>
+---
+ drivers/nvme/host/auth.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-- I have posted a patch for replacing the current 'read_sock()'
-interface with a recvmsg() base workflow. That should give us
-access to the 'real' control message, so it would be good if you
-could fold it in.
-- Olga has send a patchset fixing a security issue with control
-messages; the gist is that the network code expects a 'kvec' based
-msg buffer when receiving a control message. So essentially one
-has to receive a message _without_ a control buffer, check for
-MSG_CTRUNC, and then read the control message via kvec.
-Can you ensure that your patchset follows these guidelines?
-- There is no method to trigger a KeyUpdate, making it really hard
-to test this feature (eg by writin a blktest for it). Ideally we
-should be able to trigger it from both directions, but having just
-one (eg on the target side) should be enough for starters.
-A possible interface would be to implement write support to the
-'tls_key' debugfs attribute; when writing the same key ID as
-the one currently in use the KeyUpdate mechanism could be started.
-
-But thanks for doing the work!
-
-Cheers,
-
-Hannes
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 201fc8809a62..012fcfc79a73 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -331,9 +331,10 @@ static int nvme_auth_set_dhchap_reply_data(struct nvme_ctrl *ctrl,
+ 	} else {
+ 		memset(chap->c2, 0, chap->hash_len);
+ 	}
+-	if (ctrl->opts->concat)
++	if (ctrl->opts->concat) {
+ 		chap->s2 = 0;
+-	else
++		chap->bi_directional = false;
++	} else
+ 		chap->s2 = nvme_auth_get_seqnum();
+ 	data->seqnum = cpu_to_le32(chap->s2);
+ 	if (chap->host_key_len) {
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.43.0
+
 
