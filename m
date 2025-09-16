@@ -4,88 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B30A7CAC599
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Sep 2025 00:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6D95CAC598
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Sep 2025 07:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1OpZgX9tytLoNm6IprJcc0k2pObmzkvGtIN3dOD3Knw=; b=emGlF9o68e8OTpXJaUwYVFd6ku
-	+dkAxo9cF8tZ7dv9TzXQdK/c6As7NeY87Y7FVP4SBcXPDAe32ff3aoM9pt3J1nGs0qUJSd7ZKosWg
-	DmmOWDCagrIzOWOyGFNAmb2f3xrCbmca8aIAfC6PLVRQFPuWXOLiCM+OmXk9YPZEs9ppJ+jpc6xi0
-	e1J8nxnuLgLWqbk+DyUPra0V3ztLdu8aO8EM6mmyMPWSoFh0X0vYdGToQL1HVUmrTZ32LgdjgZy37
-	T8xNe8KFOl6L3ro0Ogcq8T1J0i2rGJmCkAoPoror1wxII7QZbTBnxQiPZ0HveSZVorPi6pK/p2m6D
-	lVMeu2pA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Spk+L+URf4FDnPrwupmkOtAzkHXeSWum03yPbQAWrZA=; b=3Rqs5IsqCSepCez3N5FTGOy+/H
+	5FbY71iicz9LXbQrYFSk/32N/H8rkIBHTo4h3eGFKtaunpIa//SkgbgvozXM2g2uvGXwwLZfRf18F
+	mItWXZgNnmzVRqlEHptj6UbL7/NTSXRqU1pSsIaBVr2+SutwM2LwX2jQnJ0NVnQ7V40fB8lQXfkje
+	WWxX7YJgKngP6BPsMK3rsOQxjL5ECNXNTSNLdX2GCdDmeytt9eN0tpv5lsUFueU6leSC2mgBPAuOC
+	3Ms94rp7e43y49JEthP0rBWxuqedcTvG4b+DFV2ZV586QNbaXN1GJ7aSfyKIbdnfKHd21PyIWoVbF
+	Y/XgtuAA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyJut-000000064ue-0HJw;
-	Tue, 16 Sep 2025 00:51:31 +0000
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+	id 1uyQ1h-0000000702x-0MI0;
+	Tue, 16 Sep 2025 07:22:57 +0000
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyJup-000000064ta-3k2h
+	id 1uyQ1e-00000007026-0DEa
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Sep 2025 00:51:29 +0000
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-b0787fdb137so714522366b.0
-        for <linux-nvme@lists.infradead.org>; Mon, 15 Sep 2025 17:51:27 -0700 (PDT)
+	Tue, 16 Sep 2025 07:22:55 +0000
+Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-b5241e51764so3805758a12.1
+        for <linux-nvme@lists.infradead.org>; Tue, 16 Sep 2025 00:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757983886; x=1758588686; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1OpZgX9tytLoNm6IprJcc0k2pObmzkvGtIN3dOD3Knw=;
-        b=CsZYY53hOM10LDv+qzZpBYpt+IQY5dx8iVXz9E+kXhEXObFvMFbNNOMa2tnzw5GCuY
-         +mqVo1XMvXG9iqNhMEF8HWc72l8MGpeUQLpDRu8AHKeX7ggGKY/xDTPd0/bEFIRZQPOE
-         cBo6IWc2PU9ssQjOL0evSaigSRuvHQ4r0sKZaX3AtMvA3BQdd35uw5O1u9O66DO1O1TB
-         nfB9j+l962zGe3b8OS+yJGXuarx8S73IaILc9i714AIgGYubrxagJ1CPmiUTObjAPtLi
-         //W8HWvz3072+7HPeU6UYApKvjfunW+SNss1WHchtrJ/c0YdEFyTHQImc7AUE/U3Lhpp
-         IGIg==
+        d=gmail.com; s=20230601; t=1758007373; x=1758612173; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Spk+L+URf4FDnPrwupmkOtAzkHXeSWum03yPbQAWrZA=;
+        b=BQdasFmIMGKCj2V4Yx6gyVDeH1XJ6zZCL9yp4lgpNEAfU+riSLQUDEGp8eMFnCJXNF
+         aBIH8IyLNnDdUK+Te+RRekmyzAcQPxREHLN6GsAawlJBOIz3VJjkEI10CBDMammnsx7s
+         9bG+UULkot36b51cWFI4arHbzVd1ypmHJnaLJyy6ad3Ml8dc4XAVuVQg+Zt/QI8qL5KJ
+         6LfjqiSf9OGU15DTN86jaeQUQDE9usmStzEctsfHCUuaMqAIbfeDp1RKgG2Orvk1qX+V
+         8wzIeTQBsxyUyGjV+vKx9T5nIptsGufU1Q821WTJ2vK1s/+u+erZfY5Xa0PRZkCpztF9
+         wmIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757983886; x=1758588686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1OpZgX9tytLoNm6IprJcc0k2pObmzkvGtIN3dOD3Knw=;
-        b=Bq9itgtfTgPwvheoDAlWGnojxQbcFNyaw0jBTgYxj+mEgBZl3sNyLN12IsVOTs3B+T
-         Xx8lSfmFxuEtcjH2m9efBgYJ0py+6TRXI4vgtKkHYxw0Lgtscl+ATdJ7Yn4tRDascZU1
-         JhOpOCmadfUvYSoR0iEaEkuWalEoTEwMRlxoNeAx6qpKMsUSbnG78j1fZSiMIACkYpxj
-         CBGRNkYWmKiALKDEAGnLuVpwJATUhtBWWEjmOB9hV7mFuitQpAIUDwxWTBnW+fjZCJGc
-         Tx2BLk8M7UhHBIDmtfcng7V7X0VTBiBPR+wN3g/j9oM/cd3XNtvxExwdKJ9olErFMoGx
-         aGfw==
-X-Forwarded-Encrypted: i=1; AJvYcCX6sMPidLmZ19oVeBLKFyOqgRtzC7Z62/75I1u1h8rLKLK0idYGJnqe3C0hHXNAMVcwZSvbtz0o+54D@lists.infradead.org
-X-Gm-Message-State: AOJu0YwzWac1b6HXmWpgiToW6daWVaWiu0A332ZNpbnYodd7OTSIqeTC
-	uLv6zGivv32wtQSqSXighkuHYxo9MRXkrLG1LI7VE3WfVI+k2LQdLlPZS2f+YYT0Prgf3M10JYy
-	KdPUOPjYdLIeaCvcACmjNnFMVkZPEvys=
-X-Gm-Gg: ASbGncsPc1MhZw44L/PjC2WLfj50Ng30yt83gOOh59KKINBsgDgvC11LgEqmMpKwnnt
-	RODbk9hytU8UvcQT17G+2ldlF3kVzmMkLtODQTgyXBrmn7XNdGCCsuP/Rwd79Da3G873zr976aH
-	fNP9OLZTiV+DoWb0hDRUaoDF5RFOw3ICpXdRKYHAu6/N6b9IF98Yi6IotJy6r36p+VC1gMeWJ5S
-	EoMnDMEZUkeyLV6jfFCFVqs0B61cBWvMmSuNQ==
-X-Google-Smtp-Source: AGHT+IHPJv+bTBNTeL/MVnMWVNgygry+A18f2/vKjgIuOgWGXPTmc9yHqTETAd2lHq94TaKCPdNN9pZ7qI2l7kdueMA=
-X-Received: by 2002:a17:907:2d2c:b0:b07:9c13:153e with SMTP id
- a640c23a62f3a-b07c353e3f8mr1471142666b.2.1757983885391; Mon, 15 Sep 2025
- 17:51:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1758007373; x=1758612173;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Spk+L+URf4FDnPrwupmkOtAzkHXeSWum03yPbQAWrZA=;
+        b=gvHnyPaSoDAh353gZI8L2AfNgv8syWHgIA7+WvlaM6LydbvA9K8Kz25xJBkqbwegjW
+         n2Iw05L/f6+noSetmDfjrRSvRN1i3K6nabIrtywvSRt0lGC2QPFMecQ125cim1WbRaGy
+         mQMz9exGeXt4iCGYtqA9pJGzXK5p0Okt/fLw76Z2zydR8L+ax0NxJ4+dGdQdWpqJE3Vj
+         ZvKYktgSHWYGg/L0DfwS+4T2BkmVB+aoEdIO5ie6tYpeAOBHhhML4M+0mAK6llqKIjtR
+         hhZspJeOcFGg0LffdF9ar7wmfBgJ+n9gr9nPWQAIYxJnytdX7WJkYc8lglbrQBqPQuLZ
+         eEYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVT40vZhilHP1CIXSq3Iud2oRzywlUJ616RQfsFMOaovg/eXyjD8aVDZoimTG1TMqkv3E9k26rk0S1W@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw0pAjOHj06dmXzjlP/r7VmXVpJn6nDVGYexi2SFnB9C58CiDzt
+	+x5VB9SqGFi4yS2nrHPwmShJbDM11/6V2pc8WQZ4zLenVKB8GavUgnXN
+X-Gm-Gg: ASbGnctTWYVrBO+gYtJ3wQwYzPugxMpYyWhlT1yGqz/gSYgNC7/rL6v9d7USaP0NFXQ
+	NK61jqVU592yWLP8vVgMxq8JtjXAQdRF9NADkX7MTtEgF2NZzFsM7pX8QDFUYlyKjINAUkFFyO6
+	j6SHejeQhzapzqL4AWQASIojxA6IJDTRh06jte322tpH7EKoBCUKUL6H7EmZrWo6MAsqrEW4Rp/
+	MYXlOs0BCsnNJGdFRYrzNnMkUoQ1sS77tjLfNSc5V+pcpXvzNs0jhZhpjxSDGPe2zUj0/yajYgK
+	wXPIhF5KmG+fcdvmLLhWDVlFTshYBNLysGX6alYjNwgx0XSSdh04vxui7wOn10lzCmqBGMZa3tT
+	dIaeJy6ASedrxkzjH8cGqeXhSNwvNmwHhu1okJ62fTcZeDwMg0gLfV+Z/7CqD
+X-Google-Smtp-Source: AGHT+IE+ovHzdEZ0Rb3pICHfqDJkMW30WK0/jUJIjArPYj7OENVv548+kflQE35w1soKYEhXuKbDjQ==
+X-Received: by 2002:a17:902:f606:b0:264:8a8d:92e8 with SMTP id d9443c01a7336-2648a8da599mr101953445ad.59.1758007373082;
+        Tue, 16 Sep 2025 00:22:53 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-265e18ea009sm55155295ad.74.2025.09.16.00.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 00:22:52 -0700 (PDT)
+Date: Tue, 16 Sep 2025 15:22:48 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Caleb Sander Mateos <csander@purestorage.com>,
+	Guan-Chun Wu <409411716@gms.tku.edu.tw>, akpm@linux-foundation.org,
+	axboe@kernel.dk, ceph-devel@vger.kernel.org, ebiggers@kernel.org,
+	hch@lst.de, home7438072@gmail.com, idryomov@gmail.com,
+	jaegeuk@kernel.org, kbusch@kernel.org,
+	linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, sagi@grimberg.me, tytso@mit.edu,
+	xiubli@redhat.com
+Subject: Re: [PATCH v2 1/5] lib/base64: Replace strchr() for better
+ performance
+Message-ID: <aMkQSIw4eHoDAED/@visitorckw-System-Product-Name>
+References: <20250911072925.547163-1-409411716@gms.tku.edu.tw>
+ <20250911073204.574742-1-409411716@gms.tku.edu.tw>
+ <CADUfDZqe2x+xaqs6M_BZm3nR=Ahu-quKbFNmKCv2QFb39qAYXg@mail.gmail.com>
+ <aML4FLHPvjELZR4W@visitorckw-System-Product-Name>
+ <aML6/BuXLf4s/XYX@visitorckw-System-Product-Name>
+ <20250914211243.74bdee2a@pumpkin>
+ <aMfFOoQIIdMkVdYl@visitorckw-System-Product-Name>
+ <20250915120220.6bab7941@pumpkin>
 MIME-Version: 1.0
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
- <68e45231-8344-447d-95cc-4b95a13df353@suse.de> <CAN-5tyFpuEieD8x83vFGgHy8KZBCsAsm7LiZmzpc6OpWPHVFgA@mail.gmail.com>
-In-Reply-To: <CAN-5tyFpuEieD8x83vFGgHy8KZBCsAsm7LiZmzpc6OpWPHVFgA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 16 Sep 2025 10:50:59 +1000
-X-Gm-Features: AS18NWBZ9XgG75BX61NTXxYXdSD62EA-LC37QqP65E-mYxfkmPX6bvhZKH0LJnQ
-Message-ID: <CAKmqyKPajmBva5n1qfQ-iQKCtOyD7CsFAdhEiwP8BXV98_OSiw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] nvme-tcp: Support receiving KeyUpdate requests
-To: Olga Kornievskaia <aglo@umich.edu>
-Cc: Hannes Reinecke <hare@suse.de>, chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250915120220.6bab7941@pumpkin>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250915_175127_971657_F5914BE9 
-X-CRM114-Status: GOOD (  64.01  )
+X-CRM114-CacheID: sfid-20250916_002254_436730_771EF95F 
+X-CRM114-Status: GOOD (  39.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,180 +113,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 16, 2025 at 2:31=E2=80=AFAM Olga Kornievskaia <aglo@umich.edu> =
-wrote:
->
-> On Mon, Sep 15, 2025 at 7:46=E2=80=AFAM Hannes Reinecke <hare@suse.de> wr=
-ote:
-> >
-> > On 9/5/25 04:46, alistair23@gmail.com wrote:
-> > > From: Alistair Francis <alistair.francis@wdc.com>
-> > >
-> > > The TLS 1.3 specification allows the TLS client or server to send a
-> > > KeyUpdate. This is generally used when the sequence is about to
-> > > overflow or after a certain amount of bytes have been encrypted.
-> > >
-> > > The TLS spec doesn't mandate the conditions though, so a KeyUpdate
-> > > can be sent by the TLS client or server at any time. This includes
-> > > when running NVMe-OF over a TLS 1.3 connection.
-> > >
-> > > As such Linux should be able to handle a KeyUpdate event, as the
-> > > other NVMe side could initiate a KeyUpdate.
-> > >
-> > > Upcoming WD NVMe-TCP hardware controllers implement TLS support
-> > > and send KeyUpdate requests.
-> > >
-> > > This series builds on top of the existing TLS EKEYEXPIRED work,
-> > > which already detects a KeyUpdate request. We can now pass that
-> > > information up to the NVMe layer (target and host) and then pass
-> > > it up to userspace.
-> > >
-> > > Userspace (ktls-utils) will need to save the connection state
-> > > in the keyring during the initial handshake. The kernel then
-> > > provides the key serial back to userspace when handling a
-> > > KeyUpdate. Userspace can use this to restore the connection
-> > > information and then update the keys, this final process
-> > > is similar to the initial handshake.
-> > >
-> > > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> > >
-> > > v2:
-> > >   - Change "key-serial" to "session-id"
-> > >   - Fix reported build failures
-> > >   - Drop tls_clear_err() function
-> > >   - Stop keep alive timer during KeyUpdate
-> > >   - Drop handshake message decoding in the NVMe layer
-> > >
-> > > Alistair Francis (7):
-> > >    net/handshake: Store the key serial number on completion
-> > >    net/handshake: Make handshake_req_cancel public
-> > >    net/handshake: Expose handshake_sk_destruct_req publically
-> > >    nvmet: Expose nvmet_stop_keep_alive_timer publically
-> > >    net/handshake: Support KeyUpdate message types
-> > >    nvme-tcp: Support KeyUpdate
-> > >    nvmet-tcp: Support KeyUpdate
-> > >
-> > >   Documentation/netlink/specs/handshake.yaml |  19 +++-
-> > >   Documentation/networking/tls-handshake.rst |   4 +-
-> > >   drivers/nvme/host/tcp.c                    |  88 +++++++++++++++--
-> > >   drivers/nvme/target/core.c                 |   1 +
-> > >   drivers/nvme/target/tcp.c                  | 104 ++++++++++++++++++=
-+--
-> > >   include/net/handshake.h                    |  17 +++-
-> > >   include/uapi/linux/handshake.h             |  14 +++
-> > >   net/handshake/genl.c                       |   5 +-
-> > >   net/handshake/handshake.h                  |   1 -
-> > >   net/handshake/request.c                    |  18 ++++
-> > >   net/handshake/tlshd.c                      |  46 +++++++--
-> > >   net/sunrpc/svcsock.c                       |   3 +-
-> > >   net/sunrpc/xprtsock.c                      |   3 +-
-> > >   13 files changed, 289 insertions(+), 34 deletions(-)
-> > >
-> >
-> > Hey Alistair,
-> > thanks for doing this. While the patchset itself looks okay-ish, there
-> > are some general ideas/concerns for it:
-> >
-> > - I have posted a patch for replacing the current 'read_sock()'
-> > interface with a recvmsg() base workflow. That should give us
-> > access to the 'real' control message, so it would be good if you
-> > could fold it in.
+On Mon, Sep 15, 2025 at 12:02:20PM +0100, David Laight wrote:
+> On Mon, 15 Sep 2025 15:50:18 +0800
+> Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
+> 
+> > On Sun, Sep 14, 2025 at 09:12:43PM +0100, David Laight wrote:
+> > > On Fri, 12 Sep 2025 00:38:20 +0800
+> > > Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
+> > > 
+> > > ...   
+> > > > Or I just realized that since different base64 tables only differ in the
+> > > > last two characters, we could allocate a 256 entry reverse table inside
+> > > > the base64 function and set the mapping for those two characters. That
+> > > > way, users wouldn't need to pass in a reverse table. The downside is that
+> > > > this would significantly increase the function's stack size.  
+> > > 
+> > > How many different variants are there?  
+> > 
+> > Currently there are 3 variants:
+> > RFC 4648 (standard), RFC 4648 (base64url), and RFC 3501.
+> > They use "+/", "-_", and "+," respectively for the last two characters.
+> 
+> So always decoding "+-" to 62 and "/_," to 63 would just miss a few error
+> cases - which may not matter.
+> 
+> > 
+> > > IIRC there are only are two common ones.
+> > > (and it might not matter is the decoder accepted both sets since I'm
+> > > pretty sure the issue is that '/' can't be used because it has already
+> > > been treated as a separator.)
+> > > 
+> > > Since the code only has to handle in-kernel users - which presumably
+> > > use a fixed table for each call site, they only need to pass in
+> > > an identifier for the table.
+> > > That would mean they can use the same identifier for encode and decode,
+> > > and the tables themselves wouldn't be replicated and would be part of
+> > > the implementation.
+> > >   
+> > So maybe we can define an enum in the header like this:
+> > 
+> > enum base64_variant {
+> >     BASE64_STD,       /* RFC 4648 (standard) */ 
+> >     BASE64_URLSAFE,   /* RFC 4648 (base64url) */ 
+> >     BASE64_IMAP,      /* RFC 3501 */ 
+> > };
+> > 
+> > Then the enum value can be passed as a parameter to base64_encode/decode,
+> > and in base64.c we can define the tables and reverse tables like this:
+> > 
+> > static const char base64_tables[][64] = {
+> >     [BASE64_STD] = "ABC...+/",
+> >     [BASE64_URLSAFE] = "ABC...-_",
+> >     [BASE64_IMAP] = "ABC...+,",
+> > };
+> > 
+> > What do you think about this approach?
+> 
+> That is the sort of thing I was thinking about.
+> 
+> It even lets you change the implementation without changing the callers.
+> For instance BASE64_STD could actually be a pointer to an incomplete
+> struct that contains the lookup tables.
+> 
+> Initialising the decode table is going to be a PITA.
+> You probably want 'signed char' with -1 for the invalid characters.
+> Then if any of the four characters for a 24bit output are invalid
+> the 24bit value will be negative.
+> 
+Thanks for the feedback.
+so for the next version of the patch, I plan to use a 3×64 encode
+table and a 3×256 reverse table.
+Does this approach sound good to everyone?
 
-Thanks for sending that. I'll rebase my changes on top of the patch
-and update it all.
+Regards,
+Kuan-Wei
 
-> > - Olga has send a patchset fixing a security issue with control
-> > messages; the gist is that the network code expects a 'kvec' based
-> > msg buffer when receiving a control message. So essentially one
-> > has to receive a message _without_ a control buffer, check for
-> > MSG_CTRUNC, and then read the control message via kvec.
-
-Oh interesting. I'll see if I can find the patchset and update my
-series to follow that.
-
-> > Can you ensure that your patchset follows these guidelines?
-> > - There is no method to trigger a KeyUpdate, making it really hard
-> > to test this feature (eg by writin a blktest for it). Ideally we
-
-I have some patches that do send a KeyUpdate [1] which is what I'm
-using to test. It allows me to send a KeyUpdate from either side.
-
-> > should be able to trigger it from both directions, but having just
-> > one (eg on the target side) should be enough for starters.
-> > A possible interface would be to implement write support to the
-> > 'tls_key' debugfs attribute; when writing the same key ID as
-> > the one currently in use the KeyUpdate mechanism could be started.
-
-That's a good point about allowing userspace and blktest to initiate a
-KeyUpdate. I'll look at adding support for a debugfs attribute
-
-> >
-> > But thanks for doing the work!
->
-> Hi Alistart,
->
-> I would like to pingy-pack on this message and ask a few questions as
-> I'm a bit confused about this implemenation.
->
-> NFS is also interested in being able to handle KeyUpdate functionality
-> of TLS and having NvME doing it serves as an example. But the general
-> approach confuses me.
->
-> All messages go thru a TLS (kernel) layer portion of sock_recvmsg
-> (kernel_recvmsg). When the TLS kernel layer detects that it's
-> non-TLS-data payload, it does various things depending on whether or
-> not control buffer was set up prior to the call to sock_recvmsg.
-> KeyUpdate message is a type of HANDSHAKE message and thus non-TLS-data
-> payload. While I was doing my changes to NvME code I noticed that
-> there are multiple places NvME (target) calls into kernel_recvmsg()
-> and thus those places would need to handle receiving non-TLS-data
-> payloads. Previously there was a TLS alert which is non-data but now
-> there is Handshake (specifically Keyupdate, but not others).
->
-> I guess where I'm going is I don't see how NvMe is connecting
-> receiving KeyUpdate (ie, identifying that it received specifically
-> that and not other handshake type) and its handling of KeyUpdate from
-> kernel_recvmsg the when NvME is just normally receiving data.
-
-The kernel TLS layer is handling the KeyUpdate [2]. The current
-upstream Linux TLS layer will decode a KeyUpdate and mark a
-`key_update_pending`. Note that upstream doesn't actually do a
-KeyUpdate, hence this series.
-
->
-> This patch series reads to me as it is expecting KeyUpdate to be a
-> part of the Handshake process (ie., there is a patch to "cancel" an
-> ongoing handshake, there is an upcall to tlshd with the KeyUpdate?).
-
-No, KeyUpdate can't be part of the handshake process
-
-> This doesn't make sense to me. KeyUpdate, while a type of Handshake
-> message, is not done during the handshake -- it is done after sending
-> the Finished message which concludes the handshake flow (and
-> involvement of tlshd) and can happen at any time during normal TLS
-> encrypted message exchange after the handshake. Here's a snippet from
-> the TLS spec:
-
-Exactly, KeyUpdate can happen at any time after the handshake.
-
-The general idea is that the TLS layer will detect a KeyUpdate [2],
-then report EKEYEXPIRED to the NVMe layer which then asks
-ktls-utils/gnutls in user space to update the keys. Does that make
-more sense?
-
->
-> The KeyUpdate handshake message is used to indicate that the sender
->    is updating its sending cryptographic keys.  This message can be sent
->    by either peer after it has sent a Finished message.  Implementations
->    that receive a KeyUpdate message prior to receiving a Finished
->    message MUST terminate the connection with an "unexpected_message"
->    alert.
->
-
-1: https://github.com/alistair23/linux/commit/714d58a0aed5d49fb24ea22497024=
-c3d958a60b8
-2: https://github.com/torvalds/linux/blob/46a51f4f5edade43ba66b3c151f0e25ec=
-8b69cb6/net/tls/tls_sw.c#L1775
-
-Alistair
 
