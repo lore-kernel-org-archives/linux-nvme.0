@@ -4,206 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F01BCAC59B
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Sep 2025 19:04:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 459C5CAC592
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Sep 2025 03:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=haBVIc9w8NwxkC+A3yl/n+YSrrlsDvyU3z8lZMHtM6A=; b=i78qTX9hsZJTXhlm2AZLS/7Xpl
-	Zyh99quh5cGHo6CnQcS/Cr/B4COQv9vnI+99ZZ4RxAvRMotVQC9m2R9wBSbmY0VYXdLItPESOJSiG
-	5dMpj9hHv3XG6qE1Niq2b2oHyQcWyHAjd9z+WFEWoKNxCiIlLhOo4E/shhLjhR4C8+UlXYqK0jQKy
-	o+vgWfZT3RueyOr8/bw3hYkdYbHLcbMMlcahX1txAV62yGx6wrmEnnTLiFs5oclHJUZtxne0KQUMH
-	c0Uu53RDvpPnqLB2NvfuB5Xs2haqL9geFiv56X5DINNA8omHTw/To2rLc7lApS92EnAjWKZgD9ijK
-	Lyxe3prA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yYl9wW4dk4XbYzxIkLSJ4emAt8SgHCFiMbI64aRDGy8=; b=OZlziwoyYM6Hlj5A9ll6xuFHae
+	UmPNPjWoSz6bUSh03USGe3vVY9ppqmuyJcsYmnoV3pd5sr2NK/IP9mqmbWKwxWpnnGp0BXWji7GzL
+	4PHPLT+pGVVAtj48c0Flz6LPVSjLrIASIEdqfSiX/qJsI4VvkfU7XXaA6RzpGPq9d7EU7/GG3T3AT
+	dE7TEj8FkFhvE3GL7dJZfuLW5G0NQaz2c1YKBJKDXsabhiu7tqjRS8P1fH24k3UHQ6nUTMvm/FGGU
+	eUAF4jHCn7NxAOVegS6dc87zr19sQUeJCmSmxftQ193M63nYb0GmW1AJTJXPAfd81aJjZqeE3TEqo
+	zHmIar+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyayr-00000008pIO-2Cpk;
-	Tue, 16 Sep 2025 19:04:45 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1uyid3-0000000A2qr-2XMg;
+	Wed, 17 Sep 2025 03:14:45 +0000
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyayp-00000008pHD-11GC
+	id 1uyid0-0000000A2qO-3rSL
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Sep 2025 19:04:44 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58GINMF0006703;
-	Tue, 16 Sep 2025 19:04:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=haBVIc9w8NwxkC+A3y
-	l/n+YSrrlsDvyU3z8lZMHtM6A=; b=I3TFgdXBXFjta7bScC6kJ6syS5yCi3VMAH
-	+Y7HO1t1vEiR9R6yHm5bNLp86vg1rrdlQJeBtkpfPBIWCU7Uqigf3zA9ZS7MZIGw
-	0/IFtLxYk7h9f5BHTAxkQ3BMe9f0hWL7MBohNYAYtR8E0EzLGIK5YZZAJnsRVAyj
-	fkG7/GzJZqlP8Gd89UbVZLPlmUDorICxA2aVMq9/k3QDRah265KYnN0Imv702FaG
-	HYy4KRUS/6P3kRWPow+E5mHyKZ6KYXXyEz1c71zcDqyWPcf/SMH53d0YoBnljQkb
-	YwXBKnMYeLyIiFEb+9GzL+at3ZEdthJRVis3nVBBnbTd96ipHdwQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4950nf5fh8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Sep 2025 19:04:32 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58GItCGR033679;
-	Tue, 16 Sep 2025 19:04:31 GMT
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011040.outbound.protection.outlook.com [52.101.57.40])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 494y2csw99-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Sep 2025 19:04:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tBPRQlW+sguftD75RHlhai/Ob3C5tsNGBSPhl+Gkf9GcVYOp17zdC5/IJPVKkPudhqleQKRRGgofeAsUM2qjhzcO8q7kFm+0nLbUSTRAy+zHageKOKygITO/rJuZR6usbBQSogCCJpjDYZ6mcLJYDIk1flOVMYxo3GiwEB6PQ+eIBWXXqyDgKJ6zFG05V5JrgGxi7ME/uMh8MrS4KW1hRPV6ovvQfowuGLQcUfGPRJ3nt2oETTWFDqVbWw8G77lHF5lslPYhXZH1A/FRQcovb33MM5WNZLMlmm+P/bxVYyfmjWtLGZs7ukFx6Uqd/BeEEKk+hUvqigH4/1Cbtir6lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=haBVIc9w8NwxkC+A3yl/n+YSrrlsDvyU3z8lZMHtM6A=;
- b=SFnITup0/IBPkZnqo0P2PjSjXfCkYtMoR40GauU6pUsSjwEBWsb64Y6UhWZEP8MbxK37xpIyRh1XdsDT5euaFEQhHwNExlO805ptHZ03OELMx3Ol3PumXMYTbyhr4fijmjPTMXcgjtDoiZRw5HG7S4bUoORVGWBnHX8kYjIZFJApM+rwxN8DiHYEWUy7E7tSphYosmyhLqd8QguOUT6fmmlEnTWf5sSTyu+PGpc49LOSIoAnc0zkpNqNRBQ5PT/J95/FcZOurDQpBwN/j2fC+qoOJ8XED9JuXQ+sxF+RnUs8pkLIo6Gmupte85SfD9bV7D5CioPo4faVorQjk6mByQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Wed, 17 Sep 2025 03:14:44 +0000
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-62f0702ef0dso904143a12.1
+        for <linux-nvme@lists.infradead.org>; Tue, 16 Sep 2025 20:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=haBVIc9w8NwxkC+A3yl/n+YSrrlsDvyU3z8lZMHtM6A=;
- b=tPWWvKWOy1Yfd6BA5e2PkceEMfRRfwU/nOa1Ht6PSwuTvSI7dVXoRV2aaVHiESxlEsyx+icDeaFQP1P8rTUrUV17pCWGHx03nBuxmOtIgoZ2kJ9f+/z6ynDk/NNsTwCPm4SmiwcqXEKV6mj6u79ZvWPzLsSmHFR3yy+jP5a10Ew=
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
- by BN0PR10MB5094.namprd10.prod.outlook.com (2603:10b6:408:129::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.23; Tue, 16 Sep
- 2025 19:04:13 +0000
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf%6]) with mapi id 15.20.9115.022; Tue, 16 Sep 2025
- 19:04:13 +0000
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Hannes Reinecke
- <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
-        Bryan Gurney
- <bgurney@redhat.com>, linux-nvme@lists.infradead.org,
-        hch@lst.de, sagi@grimberg.me, axboe@kernel.dk,
-        mlombard@bsdbackstore.eu,
-        "Ballard,
- Curtis C (HPE Storage)" <curtis.ballard@hpe.com>
-Subject: Re: [PATCH 1/2] nvme: check duplicate unique identifiers in order
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <6791b6cf-9f54-4f75-bf78-7ce513902351@redhat.com> (John
-	Meneghini's message of "Fri, 12 Sep 2025 16:32:33 -0400")
-Organization: Oracle Corporation
-Message-ID: <yq1plbqz1aa.fsf@ca-mkp.ca.oracle.com>
-References: <20250509151627.20434-1-bgurney@redhat.com>
-	<aB4gO7mAYDO3Bm3A@kbusch-mbp>
-	<cec53fce-2f1d-4162-8685-ab7c56649953@redhat.com>
-	<aCId7XmLnrLWZPdk@kbusch-mbp> <aFrBVeEcapNtOvPx@kbusch-mbp>
-	<1352e125-180b-4ec9-ac3e-1cd8570910a3@redhat.com>
-	<aHasJPv2Jb4bQ3ik@kbusch-mbp>
-	<da450263-9944-45d0-aa58-f4f606f88c6a@suse.de>
-	<yq1a54wwiu2.fsf@ca-mkp.ca.oracle.com>
-	<6791b6cf-9f54-4f75-bf78-7ce513902351@redhat.com>
-Date: Tue, 16 Sep 2025 15:04:11 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: YQBPR01CA0146.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:7e::14) To CH0PR10MB5338.namprd10.prod.outlook.com
- (2603:10b6:610:cb::8)
+        d=gmail.com; s=20230601; t=1758078881; x=1758683681; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yYl9wW4dk4XbYzxIkLSJ4emAt8SgHCFiMbI64aRDGy8=;
+        b=ECaXUMHbJcQzU0MNIk3nJBmejCOMgiRlS1LrxfF3AT3OnjJ2Y/ighGE2z69tbNeKA6
+         a2mfIPNYTYDJoEOGy+BczRRgkVL+IvRa22JxRaxMpzV+9SjnAwA/jKf5SjZ+PlurNaTI
+         wnOomvT0nAk6mgsvh68FSLO9+WKnFrAfCDY1pKAPh/wLb2jkHCqplK8hBKxx9ZFQeayC
+         Byr/nTsci+CyvdOmrUnp0qyond1SWs/E0dzQ4JatCeQTUZGJrUF7P/RMQ39j4C2rCwfa
+         yUy40cHBMz2CWVexdsXjD2JsaF+8Z9I3EWyUN2Ot8YRP9nfG8bfl1Bjua27EEGAbr57Y
+         LlWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758078881; x=1758683681;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yYl9wW4dk4XbYzxIkLSJ4emAt8SgHCFiMbI64aRDGy8=;
+        b=WSbM3RxbaXows6fH1s9/em6eXPtGZxEqDms6AnUGCVorDiwCS55rw4ziCWwUCbVzM4
+         B1D+dF8c4HufZnxEGPxQYnVPhZo2ECXioi8+7ZekoNvKLM+X2S5nncJl14RWDteLVsCS
+         YQ7ou6ZjRaoV5roazcgWtc/+Q99do39xxns59sIaJFVRcmWpBMzeo3fp3WfJoQlsj67s
+         ca6RgvDIkMBnkkig1F7f7wl80sduNX65ZX2GpL2wPIwxNk61NuXT7J/1ssbxPn0PgKl+
+         ZuDhA30BYk0gbbIA04+zQR4o3pxlfgnIG2RgOEFLoaAmOmiLkbyqJOR1b1dtTH4HU2Sv
+         dikg==
+X-Forwarded-Encrypted: i=1; AJvYcCWI95DJ/XaSK01pnIcNMHSioBwgbhoLGyxUKEx0lSc9Vfg37f7slDl752QYTN6sM56usLj/QIsSvPYM@lists.infradead.org
+X-Gm-Message-State: AOJu0YyefJ2QrfTQKxvj8i24yEhBYy1hx6I2SAr60ApxVo3/Zsq4prIW
+	dtrioD/Lf5xbvKZPDLWmGiKeQSc+1L3V5vjGqJrWbFNJGi0m5emfuyGdB+pR9TPnfVI6NrCYLuk
+	Bu4Q/8Z0a6WCKynmPPDQkemtL07YbPXs=
+X-Gm-Gg: ASbGncumMCPKlcRQeiBYI1GPtIq8SzsHwVxk20t7iFKm0PtK77GTNc3GCduqxRAnh5u
+	x3jTr7qjh9BwFlBG0FBxuzEF+BQ8ZUoVzjPU7myB7W72ACXwJRmFdFlO/wH1P+NV2yT07nFPsV5
+	k0QQ8nzQp6VuIySufDOA6LWk7RExvYpWSydiQ0bAoGmd5pHzGft8wiuS4XpeNKEUY+tjEY4ka3H
+	ILSzTNqp05d7Kqh25gNsqghNlyYMBhiP8pGaw==
+X-Google-Smtp-Source: AGHT+IGVGuR+PydNlyGT48zzkbhH6Jd/ETlW5flAIwO7dAryEXYAeMrXHZg9Ogqnyr7/1kVi1ExQPAkq73fN5EIrd0Y=
+X-Received: by 2002:a17:907:da8:b0:afe:159:14b1 with SMTP id
+ a640c23a62f3a-b1be49d7750mr65729166b.9.1758078880465; Tue, 16 Sep 2025
+ 20:14:40 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|BN0PR10MB5094:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3e31e26-b340-460a-d17e-08ddf553d33d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?QreZH4R+PAPPa66fCrBekAtrgYJxirdnaLG/NVTo9u9Gz2iet/nDZmpCfnIB?=
- =?us-ascii?Q?SXgzxYRR3gXpsvvuCpDiz5mG9b1ajvFWvbZkBV9kGwdlIS3qzqOMl581RBge?=
- =?us-ascii?Q?fnWX6kbs8oXtSqFbjbBKnEr8g4eqdmN43jyEbbPddmWfFsp7jnRh9SzXKwxr?=
- =?us-ascii?Q?aqxYcySOv4onnf9JS5WpD2UXtLVRD6fZExSZ9iQpD3HDwLs6UGDXpIvWe2wJ?=
- =?us-ascii?Q?dA3UkF1zIrTSo9CVWE47b6oew4ZY7vyWuef8gWwhqE+5t6EDfxZ/oHLTP5kc?=
- =?us-ascii?Q?Y55AM7iY4qCuqLcwR20W33oxlvslMUjksFdz117d4YRc8qqGQBVjpmHAxZHu?=
- =?us-ascii?Q?DP3NAJMlbScPNVFrq4QY5VLi71Boy8pUyXq+65/lhwvnu0FjHqT05G0PwzVO?=
- =?us-ascii?Q?rcs7NbuLyPvYVPJOBL/m8FO53m1huS+ufJNON19/ScbCC/8pYyXnlNNaD6X4?=
- =?us-ascii?Q?/Ny8cFZOsZF1do3oXmdRjScK2CztRu1guUphvJxzHUgddriRwsoMx85o9lx2?=
- =?us-ascii?Q?yzUyp2bNol9QxF7QqktRDidaJDQASTRpW1u0Dc0J6XE6kUSFsUj0xwece4FR?=
- =?us-ascii?Q?8AXO/vHeEYdRV+XpANdeptFV8A/r6+ZXlLBZXJG2Q4wBtZH8YYOWHUChMtjD?=
- =?us-ascii?Q?/a86rDCQo9MzmOj7IMSZTQw4TcQE6wgj2smR6b9iWd51jIFMe50TmD2o8iJ0?=
- =?us-ascii?Q?fzHIb1ycBcyc+TZaemKZ+sLkwkU26an9eHW7OwKoLWEV9QayudSw5fGtMXCp?=
- =?us-ascii?Q?Za+NNjLKnD6TLZ7dEAP9dmtwEU4hdH3TosnxdyWUcn298FazR30ozlU4vCzQ?=
- =?us-ascii?Q?hbk8UvaROkc/3apTTiaZ13sugZdvoS2nNz5kZb2XVnZ5pleuD5coe3C73g/j?=
- =?us-ascii?Q?5vHuYrlr0ETFEu8R5Lz/Jz5UwuEZ7eeRBopECr8KSKouk2wz1Iy/MbupCvAx?=
- =?us-ascii?Q?At/KY+EKe4lreR1i4kqM9gnREwpcGaOEYw0h42oTnoPGWcd3T0wEJ0Uw1vHe?=
- =?us-ascii?Q?9pNmrQsOToPFG1YwE9fIGHwBs8CUf14d7fawGxl5pXsm4qiQXqzRwWOnmeDa?=
- =?us-ascii?Q?WOnBqhYMVwIbDXlhaoo4uZqF6SuV/JrDZU7AQ91H8c2BMbhM/vJdFryLch8X?=
- =?us-ascii?Q?0ZntMYYLIGBEJzrY6D9H4YVky6EX33AX7PoYj/vHRsY27v4EH3oF1oRncHpy?=
- =?us-ascii?Q?uADb3O9VC23/HZ4CkOfpJAR6WxzI5OsePKSFqFGs/azNnWWLpzYK3xq08PBW?=
- =?us-ascii?Q?mzZUKGUJwgu7MleszyZBnWtCf9k4AVrWhO4QVibm7DIACQaiVdMCWEl8HjAM?=
- =?us-ascii?Q?lfmWz9uwhirmoZZM+PLOP/o4NXTocjc/5Jyi5j2OousYpRZAXx67yQtkrXH5?=
- =?us-ascii?Q?aLAi7LA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?h19gF4zdBHECEipVz96yUJSxNnpiYI0M36DeBwxxdR8c29uLojPuG45yD5x+?=
- =?us-ascii?Q?bQegyEJsbyckdeP7buaFAsvR40nEtdFwKD56RqFzHnHyrPW7cc1EL+E175YF?=
- =?us-ascii?Q?brR7VQo4TqlFry1++uyF0atBrrGk5tt6cEFDRLM41kGct0HwYxG9i42GA484?=
- =?us-ascii?Q?fNDa0+G4qFmmrnaQBTOn3w+38VC0pzdVTRF80OClwdJlHjf476Yz25oFT+Fn?=
- =?us-ascii?Q?7xbAill7yECMpPoeC0cII4FbfiqX0S+RggZ7P5fuZzRrrT/iqRTrYNVdJIVV?=
- =?us-ascii?Q?31UzbYd2KwfVfUjsaNooAuhhUh4aSGCx4kCFDBTXOIh98BvM+QnkgPt8eFoE?=
- =?us-ascii?Q?7pInxsEJru3BmA1nICFnq+yfo4KVhZ36LTPf0SX17LyqDWhQ9MP+EM6Q4UV5?=
- =?us-ascii?Q?iDr3N7tjr5exdX2H+HeV4NxmYHD151FmfD24ndtwK2INF1Iljjts1CkRC0Hn?=
- =?us-ascii?Q?M+4oTA792qmAp1eTtgPwWJiuhHGfL0LtsAN12lqLGYv/KCU7LeAjbY5+MW0t?=
- =?us-ascii?Q?hZdiKWolX0cE2IRDwfQAR8Ix+hK9piy8dRomb9MvQiA0n6ARAN7XRJX0GOvR?=
- =?us-ascii?Q?14qln91yS+L/4sh0qb06doPR41Tb4+28I5aqZADyWbw/yjmGm3ZPHySQ4Jev?=
- =?us-ascii?Q?GmPXH9VKrkF2xC1jUDomYAfSRjLR2oinNNnyC55H1sj4G4gTQNV18jwBzJ5U?=
- =?us-ascii?Q?gDFuZUob/KBGZAoAO7lPsZ8Zu7KCEu8z96zI62haUQ6/NzxKOwbwGcCS1Vgh?=
- =?us-ascii?Q?IFYMYUB1+7ro1xjOyX2YIk+qK+JSDJdhvJcaokFyr3dk1SbH6ut3kmJm96Rm?=
- =?us-ascii?Q?7Z7HhveS1+I97D5u/pWRGLkJmZNpuNcphHanATbhr0BBivHDdRF8+Omf7vEC?=
- =?us-ascii?Q?mSqbzbcNxJPJCLEKzrqXKLapHtVP+jZGbLYj65vDIhAnXSNf948dFh1Zg79t?=
- =?us-ascii?Q?tHbILwa2FTogX7CO3DrZUpHrQz6oJ4UAj6nBv6XjeGvJ71yhDN7rgrLcIV/2?=
- =?us-ascii?Q?fUpQoCukzZmaNkabM1rDHOhrutAoVuVZud6OGtKVzWf2w3qQTkC/5m0LxSTz?=
- =?us-ascii?Q?AARM2P32gfL/WxyqM6UhynzcswQHgmx25TMixyTblKzp68xiWnLVqH0Hnjy4?=
- =?us-ascii?Q?MPGbSKjd8b3iswCQptFBV1K0D6X4T2RP1LOi0sfNW+jCMyDpsg96QwqZt5uQ?=
- =?us-ascii?Q?nNxxoIf+dWrU9bGjFVPfMWwTkU/9ndpIpjZQtq1kCNp/3RRTspoQHZPJqehv?=
- =?us-ascii?Q?ZfMW7MfAHDK1U0N4zyN9Al5ozojseq2wU80LR/qUL4p4L4vqiWHT0N8D22Qi?=
- =?us-ascii?Q?m4OJHlN5saINtVcSvA5I1LcSsNi4BQkLzQxJiM65P/yvsTfS8qoomHlwD0m4?=
- =?us-ascii?Q?/jNInRn/Hf0c27CvU4JjCoDGa9vREDwTYsKPsqmAwkaRg4K50PiCPC7Sf5nL?=
- =?us-ascii?Q?WITONH1h86kMv9L3m2K8V4J4xE7ZNDpQynggOHGN7xNoXFnetyG88M3j45aW?=
- =?us-ascii?Q?ptDfgwvjpNNA2FUxVRAY0VHrHGmXt6HzPXLcaGx2hLfc5YbQlR8nfz8lIZGJ?=
- =?us-ascii?Q?8BtOX9Yricuh7n/zYtMCI0k8lnB0pAfN/iVguRQ3w0lC6LQtQ9GukDu7QC0O?=
- =?us-ascii?Q?XA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: LMI8DClcNWNMbC+njAkMwtSnKNi8C7KzaSNLws3H4pl9xiQrZcyvp9q4BzMDpgkhiNgf4LTj6kKTYvWl9QZdbNjdrHqUz+vwwBAACD+WRo2BWg1HjaXTzcebruxSCXoiMwffZDugQU+xrPOrSS8u3TY0NoNWYihIazb5vhO4/7wkyg2Gjb+F3a6t+F1viwByYQF0bgHaXsqw2l9fKD01OsKEbcZd2SooYCe/ibe0oaRMZHwa4HWy8REHB4SE6HfOt13vrP85aEaab3zDbUo/90bD7uoS0je4iKKZ9DpQKIBrcIH0KT2dUyKDFyoVGGAs2xaO7bDeysafhVXtB42R7bESnKJ5FvgiovAU3yI0k1J0qM37NB6Ocxs6F8MkIcxqchfICphXNwgNnZMYtw1ArJy+fAU01SBsurnGryWK26V7uxB8nHpI1wy7Wojalv3zkOcTymFkBZofXwzLB/cVVhgVCcVAqUqh7WpQDRUv6+JRyMXnpSFuGc+eGzZF3y5Tiu6u0wCqBZBOlbIg2qLNP+nq7mdRliTMcPUeQzAD3qj4B0a4Saa6qtssAyn03xLU5fEFh8MzUhLMV+SHV5ZF/rxbScRsdnaA03ohG2gJ66Q=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3e31e26-b340-460a-d17e-08ddf553d33d
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 19:04:13.4621
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3Kqit4eWkN0BE30OWE/tu7riRi1SSLPKdsF7Z4KULGgpP80uNUV36MCC4vPCug9P7h/Z0RLO6ooAam5dmlLMXOiiVkteReCNgI8mCuJjexw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5094
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-16_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 adultscore=0
- mlxlogscore=854 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509160178
-X-Authority-Analysis: v=2.4 cv=S7vZwJsP c=1 sm=1 tr=0 ts=68c9b4c0 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
- a=GoEa3M9JfhUA:10 a=NW8-NIpsAAAA:8 a=2O2Eigh4bJi7yZCtVpYA:9
- a=FTAPkevyI8KQvgyCdMRv:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAyOSBTYWx0ZWRfX+L0P1Zu0Wdo1
- Bz4t5YJKtAVXrN3UrM/LOpHqgz4L0C5XZMtZvGxqIDm5ONh75bGTLSrEJpp1veiptdnscndhuq/
- oUR1Wwz3PS928ug7anNtb7LGOre0LzFRqKLsC3JWPCxE+8dNN2uAUjw4y4x1UX/jZTnDn+u3L8s
- cBxhFPP+TpWHhoknqr2/RQRI3W/ulzyaEbHraTw2j3FKVNyX16oKzFeQ3TGCysTLK/oIVO1AD/H
- EF1No9K4L1NuGarGJtmxbNznmDfA0Jn4uC+ilqD8JpYXKW5UUaJglWBgcYkuqEZM2jrZgH17pJK
- 74vb8V8vziZPH3J0Z4pXe0NUjCqQizFlMaJlaYuYmQgPh9H53LdqIZKWvEFqi3tQaEbh5ikWlgE
- /eiLBUJ/
-X-Proofpoint-ORIG-GUID: QSEDndnaMoW7VpdisVLbdMjsjDuN4OBP
-X-Proofpoint-GUID: QSEDndnaMoW7VpdisVLbdMjsjDuN4OBP
+References: <20250905024659.811386-1-alistair.francis@wdc.com>
+ <20250905024659.811386-7-alistair.francis@wdc.com> <f1a7b0b5-65e3-4cd0-9c62-50bbb554e589@suse.de>
+In-Reply-To: <f1a7b0b5-65e3-4cd0-9c62-50bbb554e589@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 17 Sep 2025 13:14:14 +1000
+X-Gm-Features: AS18NWDcMpm1G2mFqhUogMiikl4B2cDYrd9t5Pbx1ZhvlPjk4QLZp7NlJuRUoZU
+Message-ID: <CAKmqyKM6_Fp9rc5Fz0qCsNq7yCGGb-o66XhycJez2nzcEs5GmA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250916_120443_406991_FBF0DFA3 
-X-CRM114-Status: GOOD (  14.27  )
+X-CRM114-CacheID: sfid-20250916_201443_012714_3F14501C 
+X-CRM114-Status: GOOD (  56.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -218,35 +100,253 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-John,
-
->> The issue is pervasive enough that OCP has a defined EUI64 workaround
->> in their SSD spec.
-
-[...]
-
-> https://www.opencompute.org/documents/datacenter-nvme-ssd-specification-v2-6-2-pdf
+On Tue, Sep 16, 2025 at 11:04=E2=80=AFPM Hannes Reinecke <hare@suse.de> wro=
+te:
 >
-> Is this the specification you are referring to?
+> On 9/5/25 04:46, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
+s
+> > on an KeyUpdate event.
+> >
+> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> > allow the NVMe layer to process the KeyUpdate request and forward the
+> > request to userspace. Userspace must then update the key to keep the
+> > connection alive.
+> >
+> > This patch allows us to handle the NVMe target sending a KeyUpdate
+> > request without aborting the connection. At this time we don't support
+> > initiating a KeyUpdate.
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v2:
+> >   - Don't change the state
+> >   - Use a helper function for KeyUpdates
+> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+> >   - Remove command message using recvmsg
+> >
+> >   drivers/nvme/host/tcp.c | 73 +++++++++++++++++++++++++++++++++++++++-=
+-
+> >   1 file changed, 70 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 776047a71436..b6449effc2ac 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
+> >       bool                    tls_enabled;
+> >       u32                     rcv_crc;
+> >       u32                     snd_crc;
+> > +     key_serial_t            user_session_id;
+> >       __le32                  exp_ddgst;
+> >       __le32                  recv_ddgst;
+> >       struct completion       tls_complete;
+> > @@ -210,6 +211,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nct=
+rl,
+> >                             struct nvme_tcp_queue *queue,
+> >                             key_serial_t pskid,
+> >                             handshake_key_update_type keyupdate);
+> > +static void update_tls_keys(struct nvme_tcp_queue *queue);
+> >
+> >   static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctr=
+l)
+> >   {
+> > @@ -393,6 +395,14 @@ static inline void nvme_tcp_send_all(struct nvme_t=
+cp_queue *queue)
+> >       do {
+> >               ret =3D nvme_tcp_try_send(queue);
+> >       } while (ret > 0);
+> > +
+> > +     if (ret =3D=3D -EKEYEXPIRED) {
+> > +             update_tls_keys(queue);
+> > +
+> > +             do {
+> > +                     ret =3D nvme_tcp_try_send(queue);
+> > +             } while (ret > 0);
+> > +     }
+> >   }
+> >
+> >   static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *=
+queue)
+> > @@ -1347,6 +1357,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queu=
+e *queue)
+> >   done:
+> >       if (ret =3D=3D -EAGAIN) {
+> >               ret =3D 0;
+> > +     } else if (ret =3D=3D -EKEYEXPIRED) {
+> > +             goto out;
+> >       } else if (ret < 0) {
+> >               dev_err(queue->ctrl->ctrl.device,
+> >                       "failed to send request %d\n", ret);
+> > @@ -1371,9 +1383,56 @@ static int nvme_tcp_try_recv(struct nvme_tcp_que=
+ue *queue)
+> >       queue->nr_cqe =3D 0;
+> >       consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb=
+);
+> >       release_sock(sk);
+> > +
+> > +     /* If we received EINVAL from read_sock then it generally means t=
+he
+> > +      * other side sent a command message. So let's try to clear it fr=
+om
+> > +      * our queue with a recvmsg, otherwise we get stuck in an infinit=
+e
+> > +      * loop.
+> > +      */
+> > +     if (consumed =3D=3D -EINVAL) {
+> > +             char cbuf[CMSG_LEN(sizeof(char))] =3D {};
+> > +             struct msghdr msg =3D { .msg_flags =3D MSG_DONTWAIT };
+> > +             struct bio_vec bvec;
+> > +
+> > +             bvec_set_virt(&bvec, (void *)cbuf, sizeof(cbuf));
+> > +             iov_iter_bvec(&msg.msg_iter, ITER_DEST, &bvec, 1, sizeof(=
+cbuf));
+> > +
+> > +             msg.msg_control =3D cbuf;
+> > +             msg.msg_controllen =3D sizeof(cbuf);
+> > +
+> > +             consumed =3D sock_recvmsg(sock, &msg, msg.msg_flags);
+> > +     }
+> > +
+> >       return consumed =3D=3D -EAGAIN ? 0 : consumed;
+> >   }
+> >
+> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
+> > +{
+> > +     int qid =3D nvme_tcp_queue_id(queue);
+> > +     int ret;
+> > +
+> > +     dev_dbg(queue->ctrl->ctrl.device,
+> > +             "updating key for queue %d\n", qid);
+> > +
+> > +     cancel_work(&queue->io_work);
+> > +     handshake_req_cancel(queue->sock->sk);
+> > +     handshake_sk_destruct_req(queue->sock->sk);
+> > +
+> Careful here. The RFC fully expects to have several KeyUpdate requests
+> pending (eg if both sides decide so initiate a KeyUpdate at the same
+> time). And cancelling a handshake request would cause tlshd/gnutls
+> to lose track of the generation counter and generate an invalid
+> traffic secret.
+> I would just let it rip and don't bother with other handshake
+> requests.
+
+Unfortunately that doesn't work as future calls to
+`handshake_req_hash_add()` will fail.
+
+I now think that's a bug in `handshake_complete()` and I have a better
+fix in the next version.
+
 >
-> NVMe-CFG-7
+> > +     nvme_stop_keep_alive(&(queue->ctrl->ctrl));
+> > +     flush_work(&(queue->ctrl->ctrl).async_event_work);
+> > +
+> Oh bugger. Seems like gnutls is generating the KeyUpdate message
+> itself, and we have to wait for that.
 
-> The single default namespace (see SECTOR-3) shall have a unique
-> non-zero value in the EUI64 (Extended Unique Identifier) field in the
-> Identify Namespace data structure. For each namespace that is created
-> other than the initial namespace configured in the factory, the device
-> shall clear the EUI64 field in the Identify Namespace data structure
-> to 0h.
+Yes, we have gnutls generate the message.
 
-Correct.
+> So much for KeyUpdate being transparent without having to stop I/O...
+>
+> Can't we fix gnutls to make sending the KeyUpdate message and changing
+> the IV parameters an atomic operation? That would be a far better
 
-I suspect there are a bazillion deployed drives which suffer from the
-non-unique identifier problem. And thus the path of least resistance
-appears to be to avoid reporting EUI64 for subsequent namespaces after a
-firmware update. At least that keeps the existing EUI64 stable for the
-common case where only a single namespace is provisioned.
+I'm not sure I follow.
 
--- 
-Martin K. Petersen
+ktls-utils will first restore the gnutls session. Then have gnutls
+trigger a KeyUpdate.gnutls will send a KeyUpdate and then tell the
+kernel the new keys. The kernel cannot send or encrypt any data after
+the KeyUpdate has been sent until the keys are updated.
+
+I don't see how we could make it an atomic operation. We have to stop
+the traffic between sending a KeyUpdate and updating the keys.
+Otherwise we will send invalid data.
+
+> interface, as then we would not need to stop I/O and the handshake
+> process could run fully asynchronous to normal I/O...
+>
+> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
+> > +                              queue, queue->ctrl->ctrl.tls_pskid,
+> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> > +
+> > +     if (ret < 0) {
+> > +             dev_err(queue->ctrl->ctrl.device,
+> > +                     "failed to update the keys %d\n", ret);
+> > +             nvme_tcp_fail_request(queue->request);
+> > +             nvme_tcp_done_send_req(queue);
+> > +     }
+> > +}
+> > +
+> >   static void nvme_tcp_io_work(struct work_struct *w)
+> >   {
+> >       struct nvme_tcp_queue *queue =3D
+> > @@ -1389,15 +1448,21 @@ static void nvme_tcp_io_work(struct work_struct=
+ *w)
+> >                       mutex_unlock(&queue->send_mutex);
+> >                       if (result > 0)
+> >                               pending =3D true;
+> > -                     else if (unlikely(result < 0))
+> > +                     else if (unlikely(result < 0)) {
+> > +                             if (result =3D=3D -EKEYEXPIRED)
+> > +                                     update_tls_keys(queue);
+>
+> How exactly can we get -EKEYEXPIRED when _sending_?
+
+Good point. You can't with this current patch set. I have patches on
+top of this that will generate a KeyUpate as part of the send
+operation, which I plan to submit after this series.
+
+So this is a bit of prep work to setup the NVMe layer to handle
+sending and receiving KeyUpdate requests. I can drop this change from
+the series if that's prefered?
+
+> To my understanding that would have required userspace to intercept
+> here trying (or even sending) a KeyUpdate message, right?
+
+Not necessarily. The TLS layer can trigger a KeyUpdate independent of
+userspace. This would happen for example if the sequence count was
+about to overflow, which is what I use in my testing. Userspace has no
+idea of the current sequence number, so it can't be involved. The
+kernel will need to start the KeyUpdate send if the rec_seq is about
+to overflow.
+
+> So really not something we should see during normal operation.
+> As mentioned in my previous mail we should rather code the
+> KeyUpdate process itself here, too.
+> Namely: Trigger the KeyUpdate via userspace (eg by writing into the
+> tls_key attribute for the controller), and then have the kernel side
+> to call out into tlshd to initiate the KeyUpdate 'handshake'.
+
+Yeah, I agree about exposing a way for userspace to trigger an update.
+That would only be for testing though, as in normal operation
+userspace has no insight into the current connection state. In a
+production system the kernel TLS layer will need to initiate a
+KeyUpdate.
+
+> That way we have identical flow of control for both the sending
+> and receiving side.
+>
+> Incidentally: the RFC has some notion about 'request_update' setting
+> in the KeyUpdate message. Is that something we have to care about at
+> this level?
+
+It is something we will need to care about. At this stage it isn't
+supported as it adds a little bit of complexity, but I should be able
+to extend the current approach to support a request_update.
+
+Alistair
+
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
