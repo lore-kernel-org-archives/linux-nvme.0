@@ -4,71 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BD8ECAC598
-	for <linux-nvme@archiver.kernel.org>; Wed, 17 Sep 2025 21:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4DA8CAC59A
+	for <linux-nvme@archiver.kernel.org>; Wed, 17 Sep 2025 21:42:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=bDg7RTC/b5OtzRjPcX/8Ztia6YcD5+Ax4p1rCEfI9tw=; b=g3NldvD6VPzV/OQo3tQ1QaeazK
-	hfzjwEOSm8nu3xq8V5F/x0LzybQY7Po0ZkMalKqCkOXiWyfuXbbX32TR/LtLzqzgkA1ljJ/lZi+ib
-	/9Pfo945dIhpxRsIYEMgcIrzGcyg6iNIBmGOLJwABwHUQ/sKD/jbaXzpDhtReAsTcEkhgHVdsaEH4
-	BU4DkUnkNSLzqcKwPyNH+dQPoC2zpkFbfBdy7M7fezQeOwzKI6WekrKSjI/WGmiES0ARDbJ/RF4IC
-	giYcZ3NiGTLtmOc3kt7Eud3ayXmGNe1IfOWa4LDEQubou+B0KO43NjUe30cr2O8hH5Y+Bor7tALdN
-	TUcxa6nA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QKjojzLJxCVpyTNkNH0/brG9ExBBvoq8g8w836T50eU=; b=JgKf7KiMEuQEaMjKFZgnYJBtsl
+	zOM/5UQxKGonoVZvrL2xgEQpvJEhnMVbeASBULbJ0JeXdEDOm+1UvIl/6fG07JCGLI+CmwpG7HPW7
+	OGZWOVnatYnj9kp5MZQiqBylF8dAKspMjZn+fLdFT073JiCaE0a7bEjJ2ZyngNdqqrchRzfCiRRPH
+	PB17KypFYdvPyrnujdeDG/qAR30dZVgMyT883xlWfVUUzJU0Hzv8txi4qT1CKx+vqFEtBdfk/WFMd
+	CzQDpcIa+UFrDRi2v2l5IcGmCQRMa1OKO2VbtAL9XUrTYY1XLjsXDEkCnMiO2eX0EHBNicR5FN9KH
+	Lwygww5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyzWr-0000000Eplr-44bs;
-	Wed, 17 Sep 2025 21:17:29 +0000
-Received: from mgamail.intel.com ([192.198.163.15])
+	id 1uyzv9-0000000EzCL-0NGn;
+	Wed, 17 Sep 2025 21:42:35 +0000
+Received: from esa6.hgst.iphmx.com ([216.71.154.45])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uyzWl-0000000EplU-2JET
+	id 1uyzv6-0000000EzAT-41UQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 17 Sep 2025 21:17:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758143843; x=1789679843;
-  h=date:from:to:cc:subject:message-id;
-  bh=Wu/ciFo/Y4R5hRhhae36wYCOghS8oMtMkqFZmIT7LJU=;
-  b=VDVPcaNfNGdBxBi1A69+2VtCC4p1noKs+2Nd1KPJ14TyFkhWD/L9GsKx
-   AppAtk6meWV7+NJti1DIGIWhWg4/YncAReC7pQ0z/i4LtsqYnN9tq/seN
-   9k3PfdG4Hv5G1R4i1ddjMzUYw4gNM3UwPzENjlZtgqWLM3Xa9CR1L1KYn
-   TgC+B9F+HVTLXOlkn/PlmwVjGyVjyw6+OShnjWeExsMw9W1dyn9InqRC5
-   +MtV2VtzFjMMS3OzZ81cEc+1fhvhH9zHgAzRwgx98uc9oRXjSG6NnpmUU
-   kPKiVFxyErP+LKjLdjSdGPFO67VsMiZvwQafNzEO9Sew35FWe6AnwOPZ8
-   g==;
-X-CSE-ConnectionGUID: MR1GlWZvSuuNJqWOXWmeew==
-X-CSE-MsgGUID: u6UtjRAxThW6VzJYdSMrfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="60573544"
-X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
-   d="scan'208";a="60573544"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 14:17:18 -0700
-X-CSE-ConnectionGUID: qcEkbjjeR6GijPrRbYVJnQ==
-X-CSE-MsgGUID: 4KLoZ4GQQlmFFaoa7JvU6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; 
-   d="scan'208";a="199062481"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Sep 2025 14:17:18 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uyzWd-0002RT-2K;
-	Wed, 17 Sep 2025 21:17:15 +0000
-Date: Thu, 18 Sep 2025 05:16:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.18] BUILD SUCCESS
- eeaed48980a7aeb0d3d8b438185d4b5a66154ff9
-Message-ID: <202509180551.Pez7L4Cg-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Wed, 17 Sep 2025 21:42:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1758145352; x=1789681352;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x3uPm0xYDopT12eXOctOMhNA/7AZX0eI/ADHUbau0qM=;
+  b=I5muQb3asEhyPo+ou1keKtohCLGQKKs92BPh28ac69NA7/JVemxynr8b
+   WQGtZtMD5vW6yf89PzyVSpxYndkDuxGfAj2Rav4ZgOVj8vkuHqURgOYv0
+   ZJ1tqs6aOaUgIFJ0y1ZCneGIRwrqa2/DMYNMfoGXKsyNLtIhem4g578uv
+   OZ0xOhxSFsm3G77nVj+PXIQ1LoW1ft1CYgTk1MyLxkrJBpiJ4yMA5HnRy
+   f6l5Ym30GCxOYVM2HuwcUBWqnBojOTq4MleOeYZS0o7lEfbL0Cgfq0fLc
+   +3wcllCoid5GZPIn0OMkzuRVUFY119Az5X5jjr/a7sggdBfiPYrdQxuSq
+   A==;
+X-CSE-ConnectionGUID: 6uWtZwUiS1OHPHlGxBz3jw==
+X-CSE-MsgGUID: JoOcLtjmRvu/ZutFIrBw7w==
+X-IronPort-AV: E=Sophos;i="6.18,273,1751212800"; 
+   d="scan'208";a="123023731"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 18 Sep 2025 05:42:30 +0800
+IronPort-SDR: 68cb2b46_Q47LT/72ntL08g9QvLypjefRxXEL2FbBtDo2mXudaPcAVah
+ YfGekGKJ2iARO0a86TDotPaNpkakATe6UeliyXA==
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Sep 2025 14:42:30 -0700
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Sep 2025 14:42:30 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4cRsgT5vMJz1SHvk
+	for <linux-nvme@lists.infradead.org>; Wed, 17 Sep 2025 14:42:29 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavis); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+	opensource.wdc.com; h=in-reply-to:content-disposition
+	:content-type:mime-version:references:message-id:subject:to:from
+	:date; s=dkim; t=1758145349; x=1760737350; bh=x3uPm0xYDopT12eXOc
+	tOMhNA/7AZX0eI/ADHUbau0qM=; b=Ywanj2ffby068BMfzTQBw0cfLVzudeZtQX
+	hJRpKTxAjQcvgorsucp+M7wgqcZbQqP145E97i+J3EjQtNxsOPcfQVvdmmkZuKOl
+	vUSBndAcgYhROaM22rE+t8vHJM2BOyHLCWXpe3Zu8Ief1790BRw1OHudZvn+J9g4
+	0O8sKyE7fk142QNkyNDEWqolOHACe1X5AvAsDQ6HMjyA2nqkJoojkDgi0OL82Ye6
+	BcTToxW6zvYCxlvZ0qPAhxklhuzDLL90LzavCTanQ53wTpiy6DJemfoRr/JZKdhM
+	HjIVQ0sJkowwyd1pBfxRhKKekbUg2yzBGPEmPc8zxQ0vIBffyPYQ==
+X-Virus-Scanned: amavis at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id HdkZSkhkfJ0c for <linux-nvme@lists.infradead.org>;
+ Wed, 17 Sep 2025 14:42:29 -0700 (PDT)
+Received: from opensource.wdc.com (ros-3.wdc.com [10.23.145.79])
+	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4cRsgS3S2Rz1SHkR;
+	Wed, 17 Sep 2025 14:42:28 -0700 (PDT)
+Date: Wed, 17 Sep 2025 14:42:27 -0700
+From: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	cassel@kernel.org, dlemoal@kernel.org, kamaljit.singh1@wdc.com
+Subject: Re: [PATCH v2 1/2] nvme-core: add method to check for an I/O
+ controller
+Message-ID: <aMsrQzOukUXB0TZ7@opensource.wdc.com>
+References: <20250905232550.1950307-1-kamaljit.singh@opensource.wdc.com>
+ <20250905232550.1950307-2-kamaljit.singh@opensource.wdc.com>
+ <d1db6858-75e7-4853-a5e8-d0f1f02fb389@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d1db6858-75e7-4853-a5e8-d0f1f02fb389@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250917_141723_602265_C165EC61 
-X-CRM114-Status: UNSURE (   5.17  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250917_144233_093919_97863C86 
+X-CRM114-Status: GOOD (  18.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,115 +109,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.18
-branch HEAD: eeaed48980a7aeb0d3d8b438185d4b5a66154ff9  nvme-pci: Add TUXEDO IBS Gen8 to Samsung sleep quirk
+On Mon, Sep 08, 2025 at 02:56:35PM +0200, Hannes Reinecke wrote:
+> On 9/6/25 01:25, Kamaljit Singh wrote:
+> > Add nvme_is_io_ctrl() to check if the controller is of type I/O
+> > controller. Uses negative logic by excluding an administrative
+> > controller and a discovery controller.
+> > 
+> > Signed-off-by: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+> > ---
+> >   drivers/nvme/host/core.c | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> > 
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> 
+Please review and provide any feedback on these 2 patches.
 
-elapsed time: 1554m
-
-configs tested: 95
-configs skipped: 5
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                   randconfig-001-20250917    gcc-8.5.0
-arc                   randconfig-002-20250917    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                   randconfig-001-20250917    clang-22
-arm                   randconfig-002-20250917    gcc-12.5.0
-arm                   randconfig-003-20250917    gcc-10.5.0
-arm                   randconfig-004-20250917    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250917    clang-22
-arm64                 randconfig-002-20250917    clang-19
-arm64                 randconfig-003-20250917    gcc-10.5.0
-arm64                 randconfig-004-20250917    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250917    gcc-12.5.0
-csky                  randconfig-002-20250917    gcc-9.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250917    clang-22
-hexagon               randconfig-002-20250917    clang-22
-i386        buildonly-randconfig-001-20250917    gcc-14
-i386        buildonly-randconfig-002-20250917    clang-20
-i386        buildonly-randconfig-003-20250917    gcc-14
-i386        buildonly-randconfig-004-20250917    gcc-14
-i386        buildonly-randconfig-005-20250917    gcc-14
-i386        buildonly-randconfig-006-20250917    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250917    gcc-15.1.0
-loongarch             randconfig-002-20250917    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250917    gcc-11.5.0
-nios2                 randconfig-002-20250917    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250917    gcc-14.3.0
-parisc                randconfig-002-20250917    gcc-14.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                 mpc836x_rdk_defconfig    clang-22
-powerpc               randconfig-001-20250917    clang-18
-powerpc               randconfig-002-20250917    clang-22
-powerpc               randconfig-003-20250917    gcc-9.5.0
-powerpc64             randconfig-001-20250917    clang-19
-powerpc64             randconfig-002-20250917    gcc-8.5.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20250917    gcc-14.3.0
-riscv                 randconfig-002-20250917    clang-22
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250917    clang-22
-s390                  randconfig-002-20250917    gcc-8.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                    randconfig-001-20250917    gcc-14.3.0
-sh                    randconfig-002-20250917    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250917    gcc-8.5.0
-sparc                 randconfig-002-20250917    gcc-14.3.0
-sparc64               randconfig-001-20250917    gcc-11.5.0
-sparc64               randconfig-002-20250917    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-um                    randconfig-001-20250917    gcc-14
-um                    randconfig-002-20250917    gcc-14
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20250917    gcc-14
-x86_64      buildonly-randconfig-002-20250917    clang-20
-x86_64      buildonly-randconfig-003-20250917    clang-20
-x86_64      buildonly-randconfig-004-20250917    clang-20
-x86_64      buildonly-randconfig-005-20250917    clang-20
-x86_64      buildonly-randconfig-006-20250917    gcc-12
-x86_64                              defconfig    gcc-14
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250917    gcc-8.5.0
-xtensa                randconfig-002-20250917    gcc-11.5.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Kamaljit Singh
 
