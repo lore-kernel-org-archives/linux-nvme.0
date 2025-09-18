@@ -4,58 +4,118 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6909CCAC59A
-	for <linux-nvme@archiver.kernel.org>; Thu, 18 Sep 2025 16:10:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C996CA1013
+	for <linux-nvme@archiver.kernel.org>; Thu, 18 Sep 2025 20:46:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=PjM9LBLkDnpBzobuoA/vNBhz/nfPo4oh28cYXojkEtw=; b=okKkMwQXQFZHgJQbj0VVkYCdV0
-	tFvMbxjnPA/k5RpnmNUQ/eZgq7gweq/wugStlCLp24AnaEVdVpOZCRJie3HFSr9XXR4JXRAOEDQPW
-	9gQDk81/NBkgsZ7jnIgh+fljb7/MDPE5BCeh4F5U79eqvio6iOVjxDPJUBRBFEl5JDJEk4Bxg0lK5
-	yT64i1l4V/BLBa31uQK2puAJ31HSd0xCvZA7AHMWb0Zh/i5Yy/frUk6uCOAAZk4YNr0t8vWn6WI93
-	iR1iUW4iV4bcED6DkIf8h9b08jaD7kRRYtvqc3qd9kQfPmth/q/jKdf9j0EhduFMf50BRiwCc7gVF
-	AA6GMGsg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=NLOxTW+Xc0coRVFs5I2fBZDyyqmYkD/nVal27gtyfHY=; b=vIMV1tFT+BAZp9kPISYAAWXWgL
+	Wi6UQHk5FpDjGOxVqrRJ8iLpv/EDzjUwRrp7vcGNBlkTvzxw1ObRtDlx+pi4iwuAGw0Slv3t+Z/J4
+	zGorFRij63r2y//pJKDssFlJqRg9PEH/xHoYj3Ru7XQoSV+P/O7Fgk0EpIxWKjKXAXqCi9VhYaunS
+	1n8xNeXLgIU2qAODx1ulf2pddr0R17uGiu5IZ+qSVxZDZc5vE9b/lYi4BZvqTseIAykejUYkJ2lVv
+	eASICJSu50HrvqyNl1HrlcGtEsNC/s7IYNfmJamfhBsAIuO+SJDFKnOSY34RVyIPplHl0l8In6J+O
+	BPfKegrw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzHCr-00000000ZMz-2SiT;
-	Thu, 18 Sep 2025 16:10:01 +0000
-Received: from infra.glanzmann.de ([2a01:4f8:b0:3ffe::5])
+	id 1uzLW6-000000018bA-3Rkg;
+	Thu, 18 Sep 2025 20:46:10 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzHCo-00000000ZKg-3w8Z
-	for linux-nvme@lists.infradead.org;
-	Thu, 18 Sep 2025 16:10:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=glanzmann.de;
-	s=infra26101010; t=1758211792;
-	bh=PjM9LBLkDnpBzobuoA/vNBhz/nfPo4oh28cYXojkEtw=;
-	h=Date:From:To:Subject:From;
-	b=jvEek+7Qk0RaurCKo7WF97rBZ1Em4Wg+vhTEATZv8eskvptS0Pklb2oQXXKLSR+xy
-	 QDQvpIxum95M5ISGVMkbDFLeeCDLrnvsFehpw+jNXhM8BvnBIzrRrJ6dQH7INPXPKN
-	 xS5HetDYYdh2hR3Ek9jTeqfssgzlHZZAhKJdToG0k2CzaUsj1G6+QhBKBg87oQL/Pt
-	 Z3yY+bOjRpsL0F8rOCtp0on08rCbu5BKDBHGAGbahCj2Nxiio9buzmEchNW/DRMyJ6
-	 z3nKrYIPVmVwNJIBwzUaOegevBE8Jn1vp815u9IZW980B6ptstr4dxwWMJyYgAXtH8
-	 HIritFiDNDEtSgkGPge3fTNLrpWB7S7EDvNotCxSQVzeybmBy2A0EWknSZqMDqzuLh
-	 O8WTT09q5GLADebNU+e22Ez7PllohtCDGT2D6LMm652JAP5EM3+WgSIu53nEQtAlUL
-	 8W3BHlc+VtYQcHnMKR/NUnhXUYvVLaNFzm9KYMdzVJbYwnmHug97HQSmR/7vSvRs5E
-	 eJOCe0QvULUdz8bQeq/yGVJiQkmECUFRu3BmGv+8q+MA5w2+uJXlQ22SGXlU3KZOu0
-	 SPqsmJ63yN9H8SaX912wBMt3ZNx+GiUYGOxQ48K7hqBxhTwzCRBOSLaOJ+gMBOq7F5
-	 rbm75bpokwSi6ttXxk9RncFU=
-Received: by infra.glanzmann.de (Postfix, from userid 1000)
-	id DE8557A80203; Thu, 18 Sep 2025 18:09:52 +0200 (CEST)
-Date: Thu, 18 Sep 2025 18:09:52 +0200
-From: Thomas Glanzmann <thomas@glanzmann.de>
-To: linux-nvme@lists.infradead.org
-Subject: NetApp Snapmirror Active Sync NVMe target and Linux initiator: Paths
- disappearing after a power failure of one NetApp a150 system
-Message-ID: <aMwu0DK_KRGF_UGD@glanzmann.de>
+	id 1uzKNX-00000000zsB-39mf;
+	Thu, 18 Sep 2025 19:33:15 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 53149601D5;
+	Thu, 18 Sep 2025 19:33:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6849EC4CEE7;
+	Thu, 18 Sep 2025 19:33:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758223993;
+	bh=SiTsMJ0sXAvpCnRX8FDPv8MfV2YWSlcEA47DenlZULY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YlGWVZsw4RvC4JibN0EA6ibUfzsD04RlN5WeB4D1zYQJ9gFHptEmnMVPmNBfSr3bB
+	 HH0XQZaLMzje1GGD7MwYt/JCmyf05k0dQ6elVo0kMqFC6RFQERQ2PASS0IlJFTGjkC
+	 TM63BT3RirjMC9mwtoe83aVhq5IgPpoiCWPo3XrZAvth7Ae6b/S0KHw5UclcLM357T
+	 vBP+w/K7TuYScKef3bSEN7M147yQI0P5i48fs3CaLS+hEszfe9jT4ZharfxIxLD6Rf
+	 OBJrM7gKQOK0jhPAl/N8uNKTH4OqrvrxhtqD04A7yLGkDGjRLWIlXn6DNb0lwSs5lw
+	 A4+l3vl0alafw==
+From: Sven Peter <sven@kernel.org>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	van Spriel <arend@broadcom.com>,
+	Lee Jones <lee@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Turquette <mturquette@baylibre.com>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: (subset) [PATCH 00/37] arm64: Add initial device trees for Apple M2 Pro/Max/Ultra devices
+Date: Thu, 18 Sep 2025 21:32:52 +0200
+Message-Id: <175822390213.30186.12188566922096991002.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250918_090959_418985_1C06BFCD 
-X-CRM114-Status: GOOD (  12.42  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 18 Sep 2025 13:46:09 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,105 +130,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
-today I tried to use two NetApp AFF A150 which consists of two
-controllers and 8 disks each with NVMe/TCP. The idea is that you have 2
-paths to each controller via two VLANs. If a controller or A150 fails the other
-one should take over. That worked, however when the manually power fenced
-system came back, I saw that the paths to it where 'chaining' and than
-disappearing. However, I could manually reconnect the paths.
-I assume that the NVME target of the powerfenced system came up without the
-full configuration loaded.  As a result the Linux NVMe initiator droped the
-paths.  Is that correct or is it a bug in the Linux NVMe stack. I used Debian
-trixie (6.12.43+deb13-cloud-amd64).
+On Thu, 28 Aug 2025 16:01:19 +0200, Janne Grunau wrote:
+> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> follow design of the t600x family so copy the structure of SoC *.dtsi
+> files.
+> 
+> t6020 is a cut-down version of t6021, so the former just includes the
+> latter and disables the missing bits.
+> 
+> [...]
 
-- Before I had 8 paths:
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/drivers-6.18), thanks!
 
-(debian-05) [~] nvme list-subsys /dev/nvme4n1
-nvme-subsys4 - NQN=nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:a44b1e42-29ec-1c09-c043-741282002d9c
-\
- +- nvme10 tcp traddr=10.0.10.238,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme11 tcp traddr=10.0.20.238,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
- +- nvme4 tcp traddr=10.0.10.235,trsvcid=4420,src_addr=10.0.10.25 live optimized
- +- nvme5 tcp traddr=10.0.20.235,trsvcid=4420,src_addr=10.0.20.25 live optimized
- +- nvme6 tcp traddr=10.0.10.236,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme7 tcp traddr=10.0.20.236,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
- +- nvme8 tcp traddr=10.0.10.237,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme9 tcp traddr=10.0.20.237,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
+[03/37] pmdomain: apple: Add "apple,t8103-pmgr-pwrstate"
+        https://github.com/AsahiLinux/linux/commit/442816f97a4f
 
-(debian-05) [~] mount /dev/nvme4n1 /mnt
-(debian-05) [~] cd /mnt/
-(debian-05) [/mnt] while true; do date | tee -a date.log; sync; sleep 1; done
-...
-Thu Sep 18 16:04:49 CEST 2025
-Thu Sep 18 16:04:50 CEST 2025
-# 10 seconds for the path failover
-Thu Sep 18 16:05:00 CEST 2025
-Thu Sep 18 16:05:01 CEST 2025
-...
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-- While the first AFF A150 was offline:
-
-(debian-05) [/mnt] nvme list-subsys /dev/nvme4n1
-nvme-subsys4 - NQN=nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:a44b1e42-29ec-1c09-c043-741282002d9c
-\
- +- nvme10 tcp traddr=10.0.10.238,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme11 tcp traddr=10.0.20.238,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
- +- nvme4 tcp traddr=10.0.10.235,trsvcid=4420 connecting optimized
- +- nvme5 tcp traddr=10.0.20.235,trsvcid=4420 connecting optimized
- +- nvme6 tcp traddr=10.0.10.236,trsvcid=4420 connecting non-optimized
- +- nvme7 tcp traddr=10.0.20.236,trsvcid=4420 connecting non-optimized
- +- nvme8 tcp traddr=10.0.10.237,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme9 tcp traddr=10.0.20.237,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
-
-- Than I don't have the output because I ran it in watch, it said 'changing' for the failed paths.
-
-- And than the paths disappeared completely and did not come back.
-
-(debian-05) [/mnt] nvme list-subsys /dev/nvme4n1
-nvme-subsys4 - NQN=nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:a44b1e42-29ec-1c09-c043-741282002d9c
-\
- +- nvme10 tcp traddr=10.0.10.238,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme11 tcp traddr=10.0.20.238,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
- +- nvme8 tcp traddr=10.0.10.237,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme9 tcp traddr=10.0.20.237,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
-
-- Than I manually reconnected:
-
-(debian-05) [/mnt] nvme connect -t tcp -a 10.0.10.235 -s 4420 -n nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem -i 14
-(debian-05) [/mnt] nvme connect -t tcp -a 10.0.20.235 -s 4420 -n nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem -i 14
-(debian-05) [/mnt] nvme connect -t tcp -a 10.0.10.236 -s 4420 -n nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem -i 14
-(debian-05) [/mnt] nvme connect -t tcp -a 10.0.20.236 -s 4420 -n nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem -i 14
-
-(debian-05) [/mnt] nvme list-subsys /dev/nvme4n1
-nvme-subsys4 - NQN=nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem
-               hostnqn=nqn.2014-08.org.nvmexpress:uuid:a44b1e42-29ec-1c09-c043-741282002d9c
-\
- +- nvme10 tcp traddr=10.0.10.238,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme11 tcp traddr=10.0.20.238,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
- +- nvme12 tcp traddr=10.0.20.236,trsvcid=4420,src_addr=10.0.20.25 live non-optimized
- +- nvme5 tcp traddr=10.0.10.235,trsvcid=4420,src_addr=10.0.10.25 live optimized
- +- nvme6 tcp traddr=10.0.20.235,trsvcid=4420,src_addr=10.0.20.25 live optimized
- +- nvme7 tcp traddr=10.0.10.236,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme8 tcp traddr=10.0.10.237,trsvcid=4420,src_addr=10.0.10.25 live non-optimized
- +- nvme9 tcp traddr=10.0.20.237,trsvcid=4420,src_addr=10.0.20.25 live non-optimizedo
-
-In dmesg I saw:
-
-[90303.743154] nvme nvme6: Reconnecting in 10 seconds...
-[90311.695617] nvme nvme4: Connect Invalid Data Parameter, subsysnqn "nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem"
-[90311.695714] nvme nvme4: failed to connect queue: 0 ret=16770
-[90311.695754] nvme nvme4: Failed reconnect attempt 1/-1
-[90311.695775] nvme nvme5: Connect Invalid Data Parameter, subsysnqn "nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem"
-[90311.695789] nvme nvme4: Removing controller (16770)...
-[90311.695876] nvme nvme5: failed to connect queue: 0 ret=16770
-[90311.695909] nvme nvme4: Removing ctrl: NQN "nqn.1992-08.com.netapp:sn.347a30cc947511f083a6d039ea2800fc:subsystem.subsystem"
-
-full dmesg: https://tg.st/u/297bb062eca5c9d05b533691ce98c2fffc31deafe45fe399d7492381b47313bb.txt
-
-Cheers,
-	Thomas
 
