@@ -4,87 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02A1ACAC5A0
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Sep 2025 12:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 995E1CAC5A5
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Sep 2025 15:02:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DrfUnZZt/eEE+c2HKV6AcescbyTYRdkE9YUmVIx7oP4=; b=BeaidVvUL53ZJXM2mN47UHBmQh
-	rtod6OJ9BXhBOI712lbOppnU/G/krJn+0omU0nZg7nQX9tfmKigDznVfH8L7WBIVUkH3uix94QtEE
-	PCuG1S2ljTlbItakfPfqfAVbB6EOozqKbv8vF4+t7ungjiBevyAaBg2lMiUNG9dQf5GJ4Qr27aV5h
-	Q5Gj+8IpW57V3zADweADSHMsNRVydcCC2Wt68ZggZ3YqNwxY5NPa2oWzGPlJr0gd/DChk3myqx4tk
-	BIMavZJmG0kGmHpaN4tjwy4ZZWrfp7Kqym4RM++iViVOmar5Ue5nbkNlUwXiZUNEffEXWGdD+b4bj
-	jjDu1f/Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=93+iChQy8k9w2vSLxjsMF2tpsbL6StUGENS3z0mFMo0=; b=cEJBctom25pRa9ER00lkeu5/gw
+	OTrWDkjazzGxlrbe5Z8i0McETWQuGwFGatm6oZm4+4u5bPGc2yML2LJCqghH1+TtKg+gRpgea6RZm
+	zGB51yhl7Rl7kK526PQmRej9BwZ69TmFsHHREnU8FErJxwi8WVSiDFnJ3A0jBCnOfdiWRhbchDz4Q
+	ESqGCisz2/22JSVGR/0/sS2Hz9+SyzDG/sjJGQ8AqwI4KUiD7mByHssWr4HAfaibSh3o3Mf728E/7
+	YSOJpAyvRWVnQOCsRMG/czwluUXrghbL7PQiJMTiP2wS/3ob36lWslnbuhny9ZCV2PIcrR/iu1RWz
+	T/evKwoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzwgJ-00000005KMQ-3iiF;
-	Sat, 20 Sep 2025 12:27:11 +0000
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
+	id 1uzz70-00000005VW1-3PVl;
+	Sat, 20 Sep 2025 15:02:54 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzwgC-00000005KLT-30KC
+	id 1uzder-00000003TVY-3rLc
 	for linux-nvme@lists.infradead.org;
-	Sat, 20 Sep 2025 12:27:06 +0000
-Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-890e5bb3100so66651639f.0
-        for <linux-nvme@lists.infradead.org>; Sat, 20 Sep 2025 05:27:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1758371223; x=1758976023; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DrfUnZZt/eEE+c2HKV6AcescbyTYRdkE9YUmVIx7oP4=;
-        b=Ngjh0inNtrYetedO0Kr8MGVA2XAVmx3xOquAVTjOuRFsK0ij8DQWItvTood151jurF
-         k5hWX6oUlKClQ03B1Tb9VIfDpXrOpKhllj8iBBGEKGYzBUPrryo2GCfpDV6EAlN/T0f/
-         qce7r/QGMTwywcmPikV/Y3awJ6RP8sYHCP+fxrePDb1Qga1ngRhwzXnvsmPrvw9HY2IL
-         HWEq2ztMH2b11vqDFvh/4D7tF2kX4EG7kQSVGuHtflSBrG5fh3VoB4r1akJAukUQh5hw
-         3YWmO6snjVSEAzsxh7rAT5fY8Q7qeEWmTUbUvp8zlNzJ/EF+eOMFQKzEKcZcRfxG70A2
-         2TuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758371223; x=1758976023;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DrfUnZZt/eEE+c2HKV6AcescbyTYRdkE9YUmVIx7oP4=;
-        b=HQHllO/n3R/UzRhny84LicAS6NbrhQFU3hmHX+q1iAp174ehLyWXnupbzB9H2MjgBl
-         G8pIq8kgO/bWMRcGsprzEao5wIOA8LbwA1WXYu9i9i+ZqwikccCYb+OG8TxdGPtYU2+x
-         R8SlssYm6jMjQ7sffDrkt2+hrTtncwGX1gJBH0ohJAS4YBF0++2Vf6l1o9TBuPticT8Y
-         74U8n0ntw7YxNY/e56fTCDq7QBNgIX4XE7JdBerKxbCmvQA1q06Ca9PLwXlak6nuYIm0
-         gbqOQMwVGVAOvkwsdl1wpJPtA2Y/KWGjEHJHq3a14csutWOcRklRBQzxU132IujD9aqb
-         G6ww==
-X-Gm-Message-State: AOJu0YwjtjKTJg/7KYMvbmGVO1yUHw6cxhP81nwz5lEMY1u2xKqq3ohk
-	5OMISCpJrEIdLF08lGdYaiRZOaWlYWQ+Rp2xmQSipT/wlWeCMF+wL73XWHgxyFCSviIm86YejXp
-	g6GQ+
-X-Gm-Gg: ASbGncuEWq53LEkClGKdvolXZ9SvScNf5k6wwjudoaaHBYlJuI8kjmZnR/7yxJUJRj5
-	ZfCCnyHttm4n2NKD1fnaKOlKFTD698nPIdNcL+0eOX8yzIvcq9WzW3b0xJCVxE/l5ZxT5vUhxln
-	RtRfH7AoXnMK95bMch9x8VRgz7/bRoxOoNnWn8l+qF9rx5kbtQGxk0Oi0sl0N7bjKXeyHRAi9RR
-	qte1scR08SFgAtIsP8gRI+1olhS64Ac1svY2PMhDAYMLiyPhzsOmgUd4B3HOkv0CyCRbwuoTRE9
-	DcflucMjkB4VCXkM9Z50nvwOl7aBH+tK8vxluWtJ2CvPldYZt1P8q08tlUCbwya+CjZiQzB98ZB
-	8EwvtI6qra8RCFwY=
-X-Google-Smtp-Source: AGHT+IH6PbeinWquegKHF83mRTyDVkSGqVhQ4ja3n6ihc8w60BH/rghaqqrTzmm+v4fm0MbhAmg2gA==
-X-Received: by 2002:a05:6602:4887:b0:887:45ad:fcc6 with SMTP id ca18e2360f4ac-8ade617b11dmr1074725739f.15.1758371222963;
-        Sat, 20 Sep 2025 05:27:02 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8a480438b98sm265068339f.21.2025.09.20.05.27.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Sep 2025 05:27:02 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: io-uring@vger.kernel.org, Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-In-Reply-To: <20250919193858.1542767-1-kbusch@meta.com>
-References: <20250919193858.1542767-1-kbusch@meta.com>
-Subject: Re: [PATCH] io_uring: fix nvme's 32b cqes on mixed cq
-Message-Id: <175837122208.915180.3165699897517903214.b4-ty@kernel.dk>
-Date: Sat, 20 Sep 2025 06:27:02 -0600
+	Fri, 19 Sep 2025 16:08:26 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 581BF60140;
+	Fri, 19 Sep 2025 16:08:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C8EC4CEF0;
+	Fri, 19 Sep 2025 16:08:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758298105;
+	bh=KR7+2nE82F6C0RiPmuqmiCYxfBNwhzjUQ6Re6K7PmkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gxcwNWOdwyYYCt/Mr4IoNw/QjfiG4fCy9ykIixLtIZgzxpvEaTh0ZrsRzbEkVlnG2
+	 m8b1wOyRgj64SHlplGanM4IqWdr6Ywznq35IYlrDTPSiuH1HbSJA9OSV6F3cLQ0fmv
+	 gIfqZUpL6QTaZY7lchfgfbbV/HzPQ9GlWuIYB09YAq8LPsugW8lRkDPp3pD3pmqfjH
+	 MMDTa/BarqpIPeeM6zxgfbm5MTp42dkz6/ahu8QcAFUE+eO/S+U7a/1bN3BopMvk86
+	 +JRB492i+MxOTtI0yVlp8MJ781GY30PjuvtN+/6jEMPcnyQy8X2xhocLeJS5gf/FQl
+	 TeUW9JwC+yaOg==
+Date: Fri, 19 Sep 2025 10:08:21 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+	David Hildenbrand <david@redhat.com>, iommu@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
+	Juergen Gross <jgross@suse.com>, kasan-dev@googlegroups.com,
+	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-trace-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, rust-for-linux@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	virtualization@lists.linux.dev, Will Deacon <will@kernel.org>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6 00/16] dma-mapping: migrate to physical address-based
+ API
+Message-ID: <aM1_9cS_LGl4GFC5@kbusch-mbp>
+References: <CGME20250909132821eucas1p1051ce9e0270ddbf520e105c913fa8db6@eucas1p1.samsung.com>
+ <cover.1757423202.git.leonro@nvidia.com>
+ <0db9bce5-40df-4cf5-85ab-f032c67d5c71@samsung.com>
+ <20250912090327.GU341237@unreal>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-2ce6c
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250920_052704_993716_0B9484FC 
-X-CRM114-Status: UNSURE (   8.45  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250912090327.GU341237@unreal>
+X-Mailman-Approved-At: Sat, 20 Sep 2025 08:02:53 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,26 +97,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Fri, 19 Sep 2025 12:38:58 -0700, Keith Busch wrote:
-> The nvme uring_cmd only uses 32b CQEs. If the ring uses a mixed CQ, then
-> we need to make sure we flag the completion as a 32b CQE.
+On Fri, Sep 12, 2025 at 12:03:27PM +0300, Leon Romanovsky wrote:
+> On Fri, Sep 12, 2025 at 12:25:38AM +0200, Marek Szyprowski wrote:
+> > >
+> > > This series does the core code and modern flows. A followup series
+> > > will give the same treatment to the legacy dma_ops implementation.
+> > 
+> > Applied patches 1-13 into dma-mapping-for-next branch. Let's check if it 
+> > works fine in linux-next.
 > 
-> On the other hand, if nvme uring_cmd was using a dedicated 32b CQE, the
-> posting was missing the extra memcpy because it only applied to bit CQEs
-> on a mixed CQ.
-> 
-> [...]
+> Thanks a lot.
 
-Applied, thanks!
+Just fyi, when dma debug is enabled, we're seeing this new warning
+below. I have not had a chance to look into it yet, so I'm just
+reporting the observation.
 
-[1/1] io_uring: fix nvme's 32b cqes on mixed cq
-      commit: 79525b51acc1c8e331ab47eb131a99f5370a76c2
-
-Best regards,
--- 
-Jens Axboe
-
-
+ DMA-API: nvme 0006:01:00.0: cacheline tracking EEXIST, overlapping mappings aren't supported
+ WARNING: kernel/dma/debug.c:598 at add_dma_entry+0x26c/0x328, CPU#1: (udev-worker)/773
+ Modules linked in: acpi_power_meter(E) loop(E) efivarfs(E) autofs4(E)
+ CPU: 1 UID: 0 PID: 773 Comm: (udev-worker) Tainted: G            E    N  6.17.0-rc6-next-20250918-debug #6 PREEMPT(none)
+ Tainted: [E]=UNSIGNED_MODULE, [N]=TEST
+ pstate: 63400009 (nZCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
+ pc : add_dma_entry+0x26c/0x328
+ lr : add_dma_entry+0x26c/0x328
+ sp : ffff80009fe0f460
+ x29: ffff80009fe0f470 x28: 0000000000000001 x27: 0000000000000001
+ x26: ffff8000835d7f38 x25: ffff8000835d7000 x24: ffff8000835d7e60
+ x23: 0000000000000000 x22: 0000000006e2cc00 x21: 0000000000000000
+ x20: ffff800082e8f218 x19: ffff0000a908ff80 x18: 00000000ffffffff
+ x17: ffff8000801972a0 x16: ffff800080197054 x15: 0000000000000000
+ x14: 0000000000000000 x13: 0000000000000004 x12: 0000000000020006
+ x11: 0000000030e4ef9f x10: ffff800083443358 x9 : ffff80008019499c
+ x8 : 00000000fffeffff x7 : ffff800083443358 x6 : 0000000000000000
+ x5 : 00000000000bfff4 x4 : 0000000000000000 x3 : ffff0000bb005ac0
+ x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000bb005ac0
+ Call trace:
+  add_dma_entry+0x26c/0x328 (P)
+  debug_dma_map_phys+0xc4/0xf0
+  dma_map_phys+0xe0/0x410
+  dma_map_page_attrs+0x94/0xf8
+  blk_dma_map_direct.isra.0+0x64/0xb8
+  blk_rq_dma_map_iter_next+0x6c/0xc8
+  nvme_prep_rq+0x894/0xa98
+  nvme_queue_rqs+0xb0/0x1a0
+  blk_mq_dispatch_queue_requests+0x268/0x3b8
+  blk_mq_flush_plug_list+0x90/0x188
+  __blk_flush_plug+0x104/0x170
+  blk_finish_plug+0x38/0x50
+  read_pages+0x1a4/0x3b8
+  page_cache_ra_unbounded+0x1a0/0x400
+  force_page_cache_ra+0xa8/0xd8
+  page_cache_sync_ra+0xa0/0x3f8
+  filemap_get_pages+0x104/0x950
+  filemap_read+0xf4/0x498
+  blkdev_read_iter+0x88/0x180
+  vfs_read+0x214/0x310
+  ksys_read+0x70/0x110
+  __arm64_sys_read+0x20/0x30
+  invoke_syscall+0x4c/0x118
+  el0_svc_common.constprop.0+0xc4/0xf0
+  do_el0_svc+0x24/0x38
+  el0_svc+0x1a0/0x340
+  el0t_64_sync_handler+0x98/0xe0
+  el0t_64_sync+0x17c/0x180
+ ---[ end trace 0000000000000000 ]---
 
 
