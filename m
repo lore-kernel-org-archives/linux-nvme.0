@@ -4,84 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D04DACAC592
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Sep 2025 08:14:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B802CAC59A
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Sep 2025 19:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i50LuplJWM+Xi5/sd1zmFgHuGeUoTysJcBAPdzJgAEs=; b=U0Ns7/FIwdIKmX5u4tdGpp/yPQ
-	u4JlSHXfFM02bi4yRokgDh2ImEntXZoiaJfu0pW2w4oojeQYZ3aKMWtcFS/Hkbz4Iy1rznh0eyoim
-	AzPgY6/xWLnTOy/yh1E/LGkKAD5ejJBdaxJo0wlUKzgDlmvlM7Ne0ZcX6XwGk3XwptAT/9f6ImOcE
-	az15cWDlHrkdhEN7Lbma/8bcpu7KJBLn41zjjzdP/3wHKJ2w216AxHkg7inZ1Frj0CsKW2PY8mp+r
-	JQy7aJYfPQiYON7cE3ssfxsGMa/MbTh1+1zME1FGoH9Yp4t4d1imJuXGehwqMsbPjB4QY8ADbmdiE
-	cu5eW9zg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ooGbL3N6dz82M4OGs3PehkRaQpuimNWh5nUqkGX7vjw=; b=ImQlQ2WWOWo/Icx3jLcYkyiBGH
+	qPsoS/bEwf9QDNirrbKTcpUhmOevMA3V4b+0m/BjZ/07EES76sqTsLAlO9tfhuVoyd0s6NkIIUdwZ
+	I8i9h4uuKwHIpzW/R/NbB0kbvVff/1q4UdYODfGCSTbehF2KZ4bl7e0s9gC/7G9/YamGNj4MRih7J
+	fnC9N9Y3Tesyj9cEHTj5zoJ73A1umUwsjex3SEKKLsWs2yRnIYaxGu+MA9wtANkfU3tcg0uzpB3Sz
+	PIrvKG6wJLOilr6xhLZJ5N854nQW6zoa80XXlnPyWqbvrqHkTPg/CsrEG/traFZ6A9KxUZTIN8jaT
+	AWWdsA4g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzWFl-00000002DMi-3MdI;
-	Fri, 19 Sep 2025 08:14:01 +0000
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
+	id 1uzgwl-00000003uy5-3EUy;
+	Fri, 19 Sep 2025 19:39:07 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uzWFi-00000002DMM-3zGX
+	id 1uzgwj-00000003uxb-1Mpp
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Sep 2025 08:14:00 +0000
-Received: by mail-il1-x12d.google.com with SMTP id e9e14a558f8ab-423fc1532bdso20782795ab.1
-        for <linux-nvme@lists.infradead.org>; Fri, 19 Sep 2025 01:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758269637; x=1758874437; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i50LuplJWM+Xi5/sd1zmFgHuGeUoTysJcBAPdzJgAEs=;
-        b=AshI+7GcGkvU1OQzkifObCaB+7qLCVAkohLAmKAtyfwZ+4jFLS8UIcnyHXV/zae/+U
-         PFV9tmHr1snepR2HH7Yz5WrmSb2NcXIlUVO5rf4AZtVCeEZtsZ5Ct0fKQK1zlCLwcUgl
-         h0VQPQwWEqRLlhrXUsfRyF1R1PB+NzWbtojeir8/eF0TWv7CfPdni9uFXUIIsamQZMMh
-         YUylrqW1QST6Y3Q4NInPqVPkh/VAgV0sgqpE/leh1HGCUPFFa6aSBwaw92FzsqgPzYXT
-         hiA4+UrOY7B4/ADDwE94nMIphx8CMGa9//MBz3gpdgbM+vcdBwP401NbJGasWJSB4k+e
-         hTow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758269637; x=1758874437;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i50LuplJWM+Xi5/sd1zmFgHuGeUoTysJcBAPdzJgAEs=;
-        b=XdkMj08n8H/2ZuksoG7jXEPjdtf2F7nL7FKnj4GWb/I/iH3GRrgJYHuRCl4VeDpJb0
-         5jeS56qSr/H7HvpGvErLJ2BopcLZlAcyNkfzxLw2/DN5j682xXFEM/qAtqZXk6EhHTKw
-         6qZqEn/ttc/5lumGg81LeaJu9/97XDNsSK4qyLXq2PenOGnFQUFVwTLCN1BEPYh2nSlF
-         eZUcZkkzgsh+sB24IB8Nr3SPamrxgM2+69rQzw2YT6sLkBHh4PLcWiJ1Dz8T3i0ps8Zo
-         i80LZ7G0GE0AKLtz2ZFeZ0s032PE3RDMnlqzkMtnDrpYn4Vir3jLmbGpck3Q/uNYfWbE
-         cuXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVZ2wT/uptn0mgsIdg3/vJWDkDbfRGxcLuk43Tbw6mBmJu5R/TMkI2H6Z1HTPVWkRMBNrKCbG9vSBZ@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxq4o8iNf+n3O7D17qaiNENKQUKzelHcJHWJT16jOK7zC8vfb3P
-	SAqhl4vdL3DlhbOWGGDpo8nIgas1HXCYd6s+7m3oQtXgS/neftUymhYOSh9klwdTekU6xgIwugE
-	quXuSGSLePLkNvEVByRygH1DpeUrVzv0=
-X-Gm-Gg: ASbGncsPDeMOpntUEb4gTFMxPWY6p8cmVz3RImcJokLQ2BojoJ6v5HBj81U3KNrc73P
-	4ozR3wrcII5Bmp+yvJurBm2DK+gNNzqLbW7sRRNqeiPd/DoDb10v6Lx9ED855LAm89SQegha7Jd
-	wkU5I81vZHkHNrAP9NLRZ3AhPzOBUh3d1amHJQOfyM9V20rJM6e5zNeRCnMIyQzIcSdQt1oAC5Q
-	CAdj0xAHRhsxpnVSk4=
-X-Google-Smtp-Source: AGHT+IGXAxXb1EixEIk//rFN/Ay8Z8lm2iQjmLx9i3pjfgGtG1V3YBMjJc2PrAsC/lJZhwUwemj9Env/B3yLDWxOYZk=
-X-Received: by 2002:a92:cdaf:0:b0:3f3:86f:520c with SMTP id
- e9e14a558f8ab-424818f7f03mr34444905ab.7.1758269637406; Fri, 19 Sep 2025
- 01:13:57 -0700 (PDT)
+	Fri, 19 Sep 2025 19:39:06 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58JIOAqZ3627855
+	for <linux-nvme@lists.infradead.org>; Fri, 19 Sep 2025 12:39:04 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=ooGbL3N6dz82M4OGs3
+	PehkRaQpuimNWh5nUqkGX7vjw=; b=A3Q61V+sduwSig0e5nOrKy1rDfw/gLXD7Y
+	pU0rFb8UXTcbw4mFBKGXbsCreFWNpcYIWONqoPA7zBuOK7mCL30G9hpN5E/RhdFY
+	HHFihTpOYlzNnl9m30kDgQv8kLHvBQy/sFqQ7PSLO2Bb4F5eEPZE0JiL603AvTgV
+	mdMFbGbXXWDdmGUrDQkYPgv8kpqrpuPAv4skKKRGZJU6PQn2uv0oStQgrZ5+r+dB
+	LpfRBvjAqMiesSkksPh28xO33I1g73Vjvqjo1D4zwz+yQ0Xq6s44OqkbD9MqjsMO
+	yxahkqCjbnKbYe6hKFWeHswXo3uSyveW4iN3kH1Vbj2GudFJZTEg==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 499ce1rj87-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Fri, 19 Sep 2025 12:39:04 -0700 (PDT)
+Received: from twshared52133.15.frc2.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Fri, 19 Sep 2025 19:39:03 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id E784F1DCEB6F; Fri, 19 Sep 2025 12:38:58 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <axboe@kernel.dk>, <io-uring@vger.kernel.org>
+CC: <linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] io_uring: fix nvme's 32b cqes on mixed cq
+Date: Fri, 19 Sep 2025 12:38:58 -0700
+Message-ID: <20250919193858.1542767-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <CALbmT6fF+1n+W1r+JNyr8+yY8Ub7PB6yYT2gpS12MBLbuHk9hQ@mail.gmail.com>
- <aMbR0aWqFjklHzfR@kbusch-mbp> <5836da67-1fdd-43ac-a039-58705ba1f370@nvidia.com>
-In-Reply-To: <5836da67-1fdd-43ac-a039-58705ba1f370@nvidia.com>
-From: Apachez <apachez@gmail.com>
-Date: Fri, 19 Sep 2025 10:13:46 +0200
-X-Gm-Features: AS18NWDkQpa8IgupzCQ4gDir8vKjDZ4Zev4u0ZmDqMwGXjz-nmapUZ87rsMeEiI
-Message-ID: <CALbmT6ecHG-yhPfAUMBOStug6vc+TtjYQ+812jyqxAHJYpAG_Q@mail.gmail.com>
-Subject: Re: Increase maxsize of io_queue_depth for nvme driver?
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Keith Busch <kbusch@kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE5MDE4MiBTYWx0ZWRfX879JsVlPJUO5
+ hPlN9NWcTNOPRIOJ38i2V8JeOGBjQXbcc1n0LJMLsxTQtzx3C35RWBDHwBy4scKYyKDOpfFhnWU
+ O1eTgpOeN9Jp++ZeMVov0tXgnZIOdaCybiWumjUdWGzATTGGOFiXZjRRerpLnSQwZDo8Ql2TPo6
+ PJqBNGOIj02cbYjrVRyp+jdrqoM7M4n1+Tf+sWW/MIF4wAn+hjI/+1L/cl829Ci2lf5+SZtIb3q
+ T/+eoAcKVq+PKtLbyWbL2uytEdSYMXaco6j1TgqFCbzZRieBLlGd+aoHkYywbQyvJ9Zjag5H538
+ 42nlZ3lghpLL76HWTIM9owH3jE+2NzHP1WwggWJoA9arE3Stw4u0hHMl7vhBeo=
+X-Proofpoint-ORIG-GUID: 70aAAFqBkU3-Czgze7DXLnYruAb9UiDr
+X-Authority-Analysis: v=2.4 cv=YOGfyQGx c=1 sm=1 tr=0 ts=68cdb158 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=PIsfVjHBvBJFoMHPKsMA:9
+X-Proofpoint-GUID: 70aAAFqBkU3-Czgze7DXLnYruAb9UiDr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-19_02,2025-09-19_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250919_011359_009328_3A230E22 
-X-CRM114-Status: GOOD (  21.71  )
+X-CRM114-CacheID: sfid-20250919_123905_466453_E831C36F 
+X-CRM114-Status: GOOD (  16.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,72 +91,154 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 19, 2025 at 2:29=E2=80=AFAM Chaitanya Kulkarni
-<chaitanyak@nvidia.com> wrote:
->
-> On 9/14/25 7:31 AM, Keith Busch wrote:
->
-> On Sun, Sep 14, 2025 at 02:45:35PM +0200, Apachez wrote:
->
-> I would like to propose that NVME_PCI_MAX_QUEUE_SIZE should be
-> increased from 4095 to 32767 to match the current NVMe specification
-> regarding MQES and to give the sysop ability to fully utilize the
-> performance of the hardware being used, or am I missing something
-> here?
->
-> We use the upper bits of the command id to detect duplicate completions,
-> so we don't have enough bits to tag commands beyond 4095. As far as I
-> know, though, we haven't seen such breakage in a *long* time. It's more
-> of a sanity thing to know with high certainty that duplicate completions
-> are not occurring.
->
-> But I don't think you'll see any performance difference by increasing
-> the queue depth. Devices saturate the link at far lower already, so
-> going higher just increases completion latency.
->
-> Apachez, can you share the performance numbers where it shows clear win f=
-or the
->
-> performance difference woth above mentioned queue depth number ?
->
-> -ck
+From: Keith Busch <kbusch@kernel.org>
 
+The nvme uring_cmd only uses 32b CQEs. If the ring uses a mixed CQ, then
+we need to make sure we flag the completion as a 32b CQE.
 
-Hi,
+On the other hand, if nvme uring_cmd was using a dedicated 32b CQE, the
+posting was missing the extra memcpy because it only applied to bit CQEs
+on a mixed CQ.
 
-I currently dont have any hard data if io_queue_depth larger than 4095
-would improve
-anything other than that the NVMe specification defines MQES as a 15 bit nu=
-mber
-meaning (as I interpret it) that the NVME_PCI_MAX_QUEUE_SIZE should be max
-size 32768 rather than 4095.
+Fixes: e26dca67fde1943 ("io_uring: add support for IORING_SETUP_CQE_MIXED=
+")
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+Testing this is actually a bit difficult. The nvme uring command only
+accepts IO commands, and none of the usual nvme IO commands return
+anything in the big cqe extra fields. So had to pre-fill the CQ with
+bogus data and see if it was being overwritten as expected.
 
-And one of the features with NVMe storage over HDD or SSD is support of a l=
-arger
-queue size.
+ drivers/nvme/host/ioctl.c    |  2 +-
+ include/linux/io_uring/cmd.h | 20 ++++++++++++++++----
+ io_uring/io_uring.h          |  2 +-
+ io_uring/uring_cmd.c         | 11 +++++++----
+ 4 files changed, 25 insertions(+), 10 deletions(-)
 
-Its often claimed to be something like:
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index f778f3b5214bd..c212fa952c0f4 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -405,7 +405,7 @@ static void nvme_uring_task_cb(struct io_uring_cmd *i=
+oucmd,
+=20
+ 	if (pdu->bio)
+ 		blk_rq_unmap_user(pdu->bio);
+-	io_uring_cmd_done(ioucmd, pdu->status, pdu->result, issue_flags);
++	io_uring_cmd_done32(ioucmd, pdu->status, pdu->result, issue_flags);
+ }
+=20
+ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
+diff --git a/include/linux/io_uring/cmd.h b/include/linux/io_uring/cmd.h
+index c8185f54fde9d..02d50f08f668e 100644
+--- a/include/linux/io_uring/cmd.h
++++ b/include/linux/io_uring/cmd.h
+@@ -56,8 +56,8 @@ int io_uring_cmd_import_fixed_vec(struct io_uring_cmd *=
+ioucmd,
+  * Note: the caller should never hard code @issue_flags and is only allo=
+wed
+  * to pass the mask provided by the core io_uring code.
+  */
+-void io_uring_cmd_done(struct io_uring_cmd *cmd, s32 ret, u64 res2,
+-			unsigned issue_flags);
++void __io_uring_cmd_done(struct io_uring_cmd *cmd, s32 ret, u64 res2,
++			 unsigned issue_flags, bool is_cqe32);
+=20
+ void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
+ 			    io_uring_cmd_tw_t task_work_cb,
+@@ -104,8 +104,8 @@ static inline int io_uring_cmd_import_fixed_vec(struc=
+t io_uring_cmd *ioucmd,
+ {
+ 	return -EOPNOTSUPP;
+ }
+-static inline void io_uring_cmd_done(struct io_uring_cmd *cmd, s32 ret,
+-		u64 ret2, unsigned issue_flags)
++static inline void __io_uring_cmd_done(struct io_uring_cmd *cmd, s32 ret=
+,
++		u64 ret2, unsigned issue_flags, bool is_cqe32)
+ {
+ }
+ static inline void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd=
+,
+@@ -159,6 +159,18 @@ static inline void *io_uring_cmd_ctx_handle(struct i=
+o_uring_cmd *cmd)
+ 	return cmd_to_io_kiocb(cmd)->ctx;
+ }
+=20
++static inline void io_uring_cmd_done(struct io_uring_cmd *ioucmd, s32 re=
+t,
++				     u64 res2, unsigned issue_flags)
++{
++	return __io_uring_cmd_done(ioucmd, ret, res2, issue_flags, false);
++}
++
++static inline void io_uring_cmd_done32(struct io_uring_cmd *ioucmd, s32 =
+ret,
++				       u64 res2, unsigned issue_flags)
++{
++	return __io_uring_cmd_done(ioucmd, ret, res2, issue_flags, true);
++}
++
+ int io_buffer_register_bvec(struct io_uring_cmd *cmd, struct request *rq=
+,
+ 			    void (*release)(void *), unsigned int index,
+ 			    unsigned int issue_flags);
+diff --git a/io_uring/io_uring.h b/io_uring/io_uring.h
+index a60ff7fc13b2f..45365abb51ec7 100644
+--- a/io_uring/io_uring.h
++++ b/io_uring/io_uring.h
+@@ -276,7 +276,7 @@ static __always_inline bool io_fill_cqe_req(struct io=
+_ring_ctx *ctx,
+ 		return false;
+=20
+ 	memcpy(cqe, &req->cqe, sizeof(*cqe));
+-	if (is_cqe32) {
++	if (ctx->flags & IORING_SETUP_CQE32 || is_cqe32) {
+ 		memcpy(cqe->big_cqe, &req->big_cqe, sizeof(*cqe));
+ 		memset(&req->big_cqe, 0, sizeof(req->big_cqe));
+ 	}
+diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+index 0b05d5769eebb..074a6ff2b09f9 100644
+--- a/io_uring/uring_cmd.c
++++ b/io_uring/uring_cmd.c
+@@ -151,8 +151,8 @@ static inline void io_req_set_cqe32_extra(struct io_k=
+iocb *req,
+  * Called by consumers of io_uring_cmd, if they originally returned
+  * -EIOCBQUEUED upon receiving the command.
+  */
+-void io_uring_cmd_done(struct io_uring_cmd *ioucmd, s32 ret, u64 res2,
+-		       unsigned issue_flags)
++void __io_uring_cmd_done(struct io_uring_cmd *ioucmd, s32 ret, u64 res2,
++		       unsigned issue_flags, bool is_cqe32)
+ {
+ 	struct io_kiocb *req =3D cmd_to_io_kiocb(ioucmd);
+=20
+@@ -165,8 +165,11 @@ void io_uring_cmd_done(struct io_uring_cmd *ioucmd, =
+s32 ret, u64 res2,
+ 		req_set_fail(req);
+=20
+ 	io_req_set_res(req, ret, 0);
+-	if (req->ctx->flags & IORING_SETUP_CQE32)
++	if (is_cqe32) {
++		if (req->ctx->flags & IORING_SETUP_CQE_MIXED)
++			req->cqe.flags |=3D IORING_CQE_F_32;
+ 		io_req_set_cqe32_extra(req, res2, 0);
++	}
+ 	io_req_uring_cleanup(req, issue_flags);
+ 	if (req->ctx->flags & IORING_SETUP_IOPOLL) {
+ 		/* order with io_iopoll_req_issued() checking ->iopoll_complete */
+@@ -180,7 +183,7 @@ void io_uring_cmd_done(struct io_uring_cmd *ioucmd, s=
+32 ret, u64 res2,
+ 		io_req_task_work_add(req);
+ 	}
+ }
+-EXPORT_SYMBOL_GPL(io_uring_cmd_done);
++EXPORT_SYMBOL_GPL(__io_uring_cmd_done);
+=20
+ int io_uring_cmd_prep(struct io_kiocb *req, const struct io_uring_sqe *s=
+qe)
+ {
+--=20
+2.47.3
 
-SATA <=3D 32, SAS <=3D 256, NVMe <=3D 65535.
-
-As example Micron 7450 MAX states in their datasheet that the drive
-supports 8192 as
-queue size but Linux currently only let me set this to 4095 as max size.
-
-Using a large io_queue_depth doesnt seem to hurt on above NVMe drives.
-
-Im currently using this for ZFS and NVMe:
-
-# Set maximum number of I/Os active to each device
-# Should be equal or greater than sum of each queues *_max_active
-# Normally SATA <=3D 32, SAS <=3D 256, NVMe <=3D 65535.
-# To find out supported max queue for NVMe:
-# nvme show-regs -H /dev/nvmeX | grep -i 'Maximum Queue Entries Supported'
-# For NVMe should match /sys/module/nvme/parameters/io_queue_depth
-# nvme.io_queue_depth limits are >=3D 2 and <=3D 4095
-options zfs zfs_vdev_max_active=3D4095
-options nvme io_queue_depth=3D4095
-
-Kind Regards
-Apachez
 
