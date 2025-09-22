@@ -4,48 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC873CAC592
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Sep 2025 17:08:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83DCECA100F
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Sep 2025 17:17:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B3y/gul6FZb1y1/DfHDuxRT7ST6aP8p4ZSKiriYwEuY=; b=f/t6cVKj+Y+Ld8+5g9K+YoLnUD
-	cXWbuRp5RbHtOk5i03rTDjAok2DiminR2fJEY8zYActR8ugKSlJZxCmu7EWuIkAH+FIlAK9WkP5ya
-	bo/PY/w8zOYlE6OM7LDIdN/1MH+7+pPg7ljC7QSusYblSnd5QdL2CDKGBqd3mNe1yl43OI/E+I22N
-	QEl52f/I8S1yW5eZA5c4lcXO2+sKIvU/BmQw4B15RaxZr1/b7UcSDejbM4oJABXyF5V3fTjF0QKVv
-	Mi+EE6NDc7VR5KQd7oYqEG2MI6n7JOqytIcZ+Ufqqj8IPWgzX/fqrOsONSKlvBs+n0Ixo74sosRlI
-	2J+8u0BA==;
+	bh=l8habqmvmsA1EN8lQJixzRXgPxQweZxNF9poLhP9xYw=; b=sY1xG3MskdwmT6qYusjI6EmOGp
+	7PLkwzUV35t8znic57RA1ioLBONuh18AZLIV8axLn1wfhr4kulYN8KQRWLCF+Xu19fyIc8VHpn/jU
+	dszEYrFEtJOq+lB8TQ/6FBAeYQNrdADGtVwEwp+IWVdDP/PeRTTMdb5uFnRXM2D9HvE0TCDn2rQqX
+	unxAkdIkDRxJi6bd7gaU/NJFqtFBdwRy8KLFqXo9gNAjDu3cIXTTE48yn6QX+/IUXB/5lC9S3Rr9x
+	MCOFi/FzMNw0Ex1Zb9+U06EEgTKKA3wcR1ko4UJ8UPT52BpKNl7Au0BY3euEw7NDVcW4g2Ey2iFx7
+	TbRCca1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v0k1d-0000000B4CA-2PzF;
-	Mon, 22 Sep 2025 17:08:29 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1v0kAN-0000000B5b3-1Vw0;
+	Mon, 22 Sep 2025 17:17:31 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v0k1a-0000000B4Be-2Nrt
+	id 1v0kAM-0000000B5aY-1LBa
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Sep 2025 17:08:27 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 796AF227AAF; Mon, 22 Sep 2025 19:08:15 +0200 (CEST)
-Date: Mon, 22 Sep 2025 19:08:15 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Martin George <martinus.gpy@gmail.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, kbusch@kernel.org,
-	sagi@grimberg.me, Martin George <marting@netapp.com>
-Subject: Re: [PATCH] nvme-core: use nvme_is_io_ctrl() for I/O controller
- check
-Message-ID: <20250922170815.GB12527@lst.de>
-References: <20250922120532.3754-1-marting@netapp.com>
+	Mon, 22 Sep 2025 17:17:30 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 809FD601AA;
+	Mon, 22 Sep 2025 17:17:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14A81C4CEF0;
+	Mon, 22 Sep 2025 17:17:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758561449;
+	bh=Iql0RAdGuLgdTcukEakyzja8ODezCb1CDentcxdN01A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TjNSWRSAQqV23lIQNpDD1GXkooqnFS85z1bC8mYEyumOZ9dQ9PclxEl75ZJvddEns
+	 m7yHLG0aktN43CRxhJ8dAGUCR1nPRDUPbf2XbcQKuqFBMvFq95rscYq7W9Io84I6QO
+	 YgV08FlanOw39rmTzC4jzGqcy8IhoNpMPWNP6kN4ZiKcmBkTzMMCRU2oGHr3ERnk8/
+	 jnVOHSyJ1y38GmRuNMyWtKfgxUxI/OP8YWpJKCmUbJptxS09Xv1z/eYYSUAVe/MwGo
+	 40TDgkTMYLjH9Kig9cJnedhyGa1G4kGt87FnFaJD6EWofN11EMbZT1shlxIklNYL0U
+	 +ZYw22w27MPwg==
+Date: Mon, 22 Sep 2025 11:17:27 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: "Engel, Amit" <Amit.Engel@dell.com>
+Cc: NVME-ML <linux-nvme@lists.infradead.org>
+Subject: Re: [RFC PATCH] nvmet: set sq_id to zero in NVMe-oF CQE
+Message-ID: <aNGEp4KGtDOSdlXo@kbusch-mbp>
+References: <CO1PR19MB4885E6CA8A98DEBE649A4D89EE13A@CO1PR19MB4885.namprd19.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250922120532.3754-1-marting@netapp.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250922_100826_745752_201838E5 
-X-CRM114-Status: GOOD (  11.89  )
+In-Reply-To: <CO1PR19MB4885E6CA8A98DEBE649A4D89EE13A@CO1PR19MB4885.namprd19.prod.outlook.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,16 +67,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Sep 22, 2025 at 05:35:32PM +0530, Martin George wrote:
-> Replace the current I/O controller check in
-> nvme_init_non_mdts_limits() with the helper nvme_is_io_ctrl()
-> function to maintain consistency with similar checks in other
-> parts of the code and improve code readability.
-> 
-> Signed-off-by: Martin George <marting@netapp.com>
+On Sun, Sep 21, 2025 at 05:06:01PM +0000, Engel, Amit wrote:
+> @@ -741,7 +741,8 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+>  
+>  	if (!req->sq->sqhd_disabled)
+>  		nvmet_update_sq_head(req);
+> -	req->cqe->sq_id = cpu_to_le16(req->sq->qid);
+> +	/* sq_id is reserved for NVMe-oF */
+> +	req->cqe->sq_id = 0;
 
-Looks good:
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-
+What's the point of doing this per-io? No one ever sets the sq_id to a
+non-zero value, and it looks like everyone has the memory cleared when
+it's allocated. Is this actually fixing anything?
 
