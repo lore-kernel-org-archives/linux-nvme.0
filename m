@@ -4,210 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F9B4CAC59A
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Sep 2025 17:06:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61E07CAC592
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Sep 2025 07:31:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=EanckJuHuOwj0OlxPkf7nG4hNAM1eLZbkZ3uIC1yg18=; b=ijDuttPlU+65gWdzNin7ljQrfr
-	B7P6BVzwtL0CVBpbxXhzZk0QKsENikvDBdP2WnoCgvXYOH7RE8uu/JnsEVh72fffU6zCP8Xo7SbHS
-	qnYZo7CkSujK7P8o6plxPY1rIpIYpFTrC8LPs3AurLpZLXL/7oRnZWeUmyxEXxw9WV2cc0w0mq5Ee
-	An/en/A9rhs2Up+UWZdvW+xzwOI4l0OwRwsRQFOBzrV5K3Sp98xPKwO2AS1iPgGJCiiPbPcXt3gwS
-	U2zfxckt/h4ETNqpNIyKv31Ot7Fn4sttZjfHLFtK4ANHZPA6V451krT9UyMOEXAOTMWl4xrDmja8d
-	FYlg+wBA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=BreBo8ENL2uUzZlZ79Bcrw0bMZIau2nyyV4M8wByjq4=; b=i74fo+SHUrW3zWDETL+pK7M7PJ
+	r8A7kEJ/mhCXHfOif/RsedOp83LB0YQqwpigDVDYIdeH5n7+uC64jMrFPQ2f305CYzBEuPRACzTjG
+	qcNSTzMkEn8ekNzYpYUzczlA4oD8vRg0ILmxC7p/SYmP3yzS9I8wOBb/Y/K6RA3IOyPEZfFVRyBjZ
+	WzS3tSVOI+q+6EtOoNuqh0VIh4aL8/P2nM0+kTlwnudiTuU1VHvwy2K6cOlaWxgto+cRH/wu0Vl14
+	Qk4MN3lDlDugFg1udE0yxPceSi+F4d+B6xEP+YC+Ve3Ypkm43DAvJ16nFqOFVSKtbrDkl1bfyKJ4y
+	L+B64iJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v0NVz-00000007tc2-2gtB;
-	Sun, 21 Sep 2025 17:06:19 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1v0b0o-00000009KPQ-1dWV;
+	Mon, 22 Sep 2025 07:31:02 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v0NVn-00000007tbB-2J7b
+	id 1v0b0g-00000009KKq-3N1k
 	for linux-nvme@lists.infradead.org;
-	Sun, 21 Sep 2025 17:06:12 +0000
-Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
-	by mx0b-00154904.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58L0ec8T029874
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Sep 2025 13:06:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=smtpout1; bh=EanckJuHuOwj0OlxPkf7nG4
-	hNAM1eLZbkZ3uIC1yg18=; b=iO9nz0F1WLbtGouNM6SZ8uJSN+8FqQtmUZC0WFA
-	SCcMR11M4tHTBmmq9C5aQjQLuTCZF8oYaHf6w7nLFB5j+ZsHWsl7EYYoy8utW+6X
-	8gVDTcq2tXjzKueysIXlNKWL/fAfddPrkrPDz/42M11oKO0nR+cGvFRi8WLCutC5
-	cJdSsWTJOvo5uTib01tp4FEIn2TybQu3R7DyUprgdzJbM7ECmClc+g7FX5knjK30
-	XxRLuMwTT3hOTUJsa+xXFC+Bit0ARcM9jAKtSUdPGg6Cpf14nbA8Qwm9CUFHJR4W
-	CKxDwBM5OPxCc3olxdSbM9hDWw+LiwXrZU2wfI72c4eiafg==
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-	by mx0b-00154904.pphosted.com (PPS) with ESMTPS id 499nbuksyx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Sep 2025 13:06:05 -0400 (EDT)
-Received: from pps.filterd (m0144104.ppops.net [127.0.0.1])
-	by mx0b-00154901.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58LEOIqt035595
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Sep 2025 13:06:04 -0400
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
-	by mx0b-00154901.pphosted.com (PPS) with ESMTPS id 499nhmndr7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <linux-nvme@lists.infradead.org>; Sun, 21 Sep 2025 13:06:04 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vJGmaY+PVOF3N3tRmw56Wmq3pIQMP1ji2fQnsjGaLUiTYCvr/rdgHcWaGL7l3HB1AG82pREkeIJ9e0WFtoz4Voo7hALxVaeGGplIJ4B/0yrD0oGDpm8KQWAQaEVDGM7w8q+fJsNtY2g9QfqntX9/7xeBaOQd04kdhfjJOgrWeLTwbLnQsCmjMW7JL0QlF4pYWbSKoHIOhUkGeUFyCpo/Q8ppKFRAx6StPmByP+ZSm9zlVpR8XtLLBfSZeMwbLfJ4dMpi5Uu9m0J3be1VAaGle6cwyE+j69ck+Pb3a0O1ORGYnj4zaYW+U4oaTcDaqqOw/Pw6eQ/INDlgji6PA74uqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EanckJuHuOwj0OlxPkf7nG4hNAM1eLZbkZ3uIC1yg18=;
- b=PKSvaxkgoRcpwvr6Bl8ImL1EdwxuK79tGX8u7gXfVQzjH+Ode1SCGaAyx+9VVSz66F3BgI0bcDTStaQm5ZBJ/yCqCGBG31fNtvEzUr6K5uk7hb0jsf8ulR5EtTjMSIGVslw6oYbky52iAqCGHEVqAb7F+9unmeiGCK1NuFl+8WnT4xH+4D6GeWhOnWMYCcIXxX2tH3QSaqJ8etOZcoqrc4yMfJqJ/H8YjrP+zFEcrG3LOnYDJIrBcKOWhLBMaA/xzbbdic7j2tGekP5howsETie6dNfzhaO7T5nSx+khcsrieYFVmTQDhGkD2pjqcV9fQd/o2guP6RHGidRKNDmsOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from CO1PR19MB4885.namprd19.prod.outlook.com (2603:10b6:303:f5::17)
- by SA1PR19MB7015.namprd19.prod.outlook.com (2603:10b6:806:2bc::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Sun, 21 Sep
- 2025 17:06:01 +0000
-Received: from CO1PR19MB4885.namprd19.prod.outlook.com
- ([fe80::3715:4e28:3472:a0e4]) by CO1PR19MB4885.namprd19.prod.outlook.com
- ([fe80::3715:4e28:3472:a0e4%3]) with mapi id 15.20.9137.017; Sun, 21 Sep 2025
- 17:06:01 +0000
-From: "Engel, Amit" <Amit.Engel@Dell.com>
-To: NVME-ML <linux-nvme@lists.infradead.org>
-CC: "Engel, Amit" <Amit.Engel@Dell.com>
-Subject: [RFC PATCH] nvmet: set sq_id to zero in NVMe-oF CQE
-Thread-Topic: [RFC PATCH] nvmet: set sq_id to zero in NVMe-oF CQE
-Thread-Index: AdwrGMc2X2Us/6EgRai2jL6czjeF+Q==
-Date: Sun, 21 Sep 2025 17:06:01 +0000
-Message-ID: <CO1PR19MB4885E6CA8A98DEBE649A4D89EE13A@CO1PR19MB4885.namprd19.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_ActionId=b5f117c7-757c-4ce3-978b-d9597ac22684;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_ContentBits=0;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Enabled=true;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Method=Privileged;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Name=Public
- No Visual
- Label;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_SetDate=2025-09-21T16:52:20Z;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;MSIP_Label_dad3be33-4108-4738-9e07-d8656a181486_Tag=10,
- 0, 1, 1;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO1PR19MB4885:EE_|SA1PR19MB7015:EE_
-x-ms-office365-filtering-correlation-id: 30fbea46-d228-4c3b-3582-08ddf9312449
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info: =?utf-8?B?dWdjUm11YUdZSUNOd09NN1JDREcycEo4b0lDcnBHU0VtdnBTNjFnYzVKQzZD?=
- =?utf-8?B?WTFYbitGNXdERG9tb21CSWUrcTFxeE93YU10MVpDbEF6K2ZNQXpaQjVkamRH?=
- =?utf-8?B?N01NVndqd0xXQnVySkZtVTBDUW9wdjdRNk1CZDI5WU9yYjVTODMvdjZiYXFZ?=
- =?utf-8?B?M1M0bEpqZjhLYjNwVTRvQUZtVlVycVQyaEtIYjdwdEU5ckoxQXROeFgwWTkz?=
- =?utf-8?B?dGNRem4zV0t1V0wxMzVBVE9pcWxRZUpmcTlHQjVNMGYxblJnNVMzVUxJTlQz?=
- =?utf-8?B?b0NQaEtTM1gyYjhobmVpTDZzNC9xMWRtbUxKSnVPMmdxSWRFSWNuRjdTU0s1?=
- =?utf-8?B?RGNlUXpuMTFpREtpa3J2Nm9wQVlqOFBNcnJONWtzTmhaMFJ2SWJENzVVMEVJ?=
- =?utf-8?B?S1QzUm5oZWhHOWxVZkFVWGxZcWRLMFYyMHdtYkUzczBHVU1JN3A5VXNMU3ZC?=
- =?utf-8?B?UE9YcERwVy83UHlFTUl4bVRrY3MzTlpCVFk3L1Z5cWx4N0g3anc3SGE0dm41?=
- =?utf-8?B?ZlpYOHFOcll3M2d5S29KV2tsTzhKL3U3NjdIak1pTklTWmpaVmVRZDFmQTZ3?=
- =?utf-8?B?bzJINmpjV1UvMktwczlvU1BJQ1FxK05FNEova2xTL0NzYkhVaWMyRXZHKy95?=
- =?utf-8?B?eVdrTUpVRDdrakRzejJJQkxyTjRwWnpCSHJiM0JZTnJabzFzK1RTZ01PQ0dz?=
- =?utf-8?B?c0ttbjk1cVRXWXEzSWF5ejJBbDJwYlJMS1ltS3gzTjEzNlB2cERPaUJxRDVN?=
- =?utf-8?B?dXJwVVIrOEtJcDc3RmVRU05OeVVuSG5NSHZzZ3gvMzV1WWgvZE1JaGRVSzBM?=
- =?utf-8?B?dlZISDZPWG8vY3NFWENBdWQ3VVlhRXdveE1pNUpjSndscFpIanMzMXhSQmxK?=
- =?utf-8?B?ay91bEVhek9TYW1TZUQ4MlVXQ0NJYWh0TFZDZnJNc3FySmQyUm1BTGhZLzdY?=
- =?utf-8?B?Z2t3VGRqcFpVWW9jYlcxNHYwYzFYeFV1MjhtYlBjTytvY1ZUK01WNG0wc0pn?=
- =?utf-8?B?V2VkekRNcUw5QXBqS3pGRk00OXFrY3VEdjlXckJhN3BiWlNoYjBJUDZ5SWRN?=
- =?utf-8?B?ZXgwam1NUGZwS0NMcjhYVnRxQm5PelI0V1JjWkVjQWxhdFRHekVXV2dJT25N?=
- =?utf-8?B?NGFnelR1all5VGs3b203OWFZclBZcVVCVFhDbHpWSGZxSmZpWVJSVTdqdU9v?=
- =?utf-8?B?VDdGTEMvVTJ4NmVyYUY5elhUNXFLQ2ZPQlZCbXAvSXBneldFUmdnbmVBeEJJ?=
- =?utf-8?B?d0hVbXRUQWF5QlBpZkJNc01YcWQxQ3NDdUh6SkUrZEtzTVFJL2s1T3lBSmRI?=
- =?utf-8?B?aFlNV1NPc2JucHliOEdyRHBCa2RWSm81WEl2MzVqK2NBQjZrQUlyWHhRMHZT?=
- =?utf-8?B?TDdTL1RXV2k3NGJ0TzhoekRIZklYdWMyS2pvOG5iUjd6VzhpQ2Y0cG40WkI5?=
- =?utf-8?B?UElOY2k5LzFuY084QkxUVjVzUVp5Y0ZEUVEwd01lQ2NCaFlrUExUQ2ltQmRi?=
- =?utf-8?B?TjJGakhuSVVBOGp2a01RbGdwTks4bkFHemE3c2NYOVRGWFNoWVYyMzQ0Z05U?=
- =?utf-8?B?NGMyZ2pEcGRSWFJQa0NaaVFvN1NwUldjTjlpbGhzTGFCUVNWZW5JUDd5cEU0?=
- =?utf-8?B?MGFDTzkvZUl4djlUZ3dqaCswVWQwYy9vYVlReEFzYTl0UHBKdzVVajNqcFIx?=
- =?utf-8?B?NmNwczlpWGRXTkZHUHZqNW9PU1pielc1d2JGMkhnSVRtVnRFR0wwMjdFeTRM?=
- =?utf-8?B?WGNMeUtaQ1NqOHY2WUZUQk5yNWVRbUxWbmdQeGlMSmk0Q3FwZUV1RHNPSFYr?=
- =?utf-8?B?NVp1SVF6S0FiMEQrUHNzRmxOdXg5ZlRPYVlsZzZ1ZHFOMFpnbHdkV293aCta?=
- =?utf-8?B?cmZwVWFjUXdOSUx2YzN6MVd3dmtqMXRZWUcvVjA4cmxIeEplNHdsWmVadjNw?=
- =?utf-8?B?MG13eVFaaUk1NFhiZ1FiV0lkVVhIRHIreDlQeVNaMzAzeGl3V2JGUDcyWHJP?=
- =?utf-8?Q?nzTFuVn+fsZMV94CKGp/YzLX36Ta8U=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR19MB4885.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YSs1USthRHpoWExVb2g3SEpoQXRxVzFlUkRMNUxFZ1BITkx2NlRndnYrYUFO?=
- =?utf-8?B?WHlDSnIwNDg1cHZHU3NWQ2dSTmRselcrMXdrRmI5WjZGVWNOVXdHdmlRY1dx?=
- =?utf-8?B?Z2JhZ3BHSXNNdU5VUFdTT2VtOEVTVGt2VTV1cTB2aDlldlJpVlJRRXhOVktn?=
- =?utf-8?B?TVd6UGF1UGVQNkt6UkVaRTFJTzNDK1gwZGd0RTFFU1RRZ1BFakxzMm9OUUk5?=
- =?utf-8?B?VTRUZzh2ODlJL2VocTZIdUttMUQvOW15WVJzOG1ZT2RlZ1doZ3pOYUdyL0Jl?=
- =?utf-8?B?S2VUVTFud1kxWWRHTjBPdnNtNHFnczdub2QvTlVmUmJONUxqRHNObk5NS3FO?=
- =?utf-8?B?RUVQQUI3OWxXbmVEbHNCeWdPL3EyUXZKdncwMUNQUW1xK1NvNkhBSFlHZnEv?=
- =?utf-8?B?ZlM1S2J2Vkw2bS9rYTc1b0FjUlJTSW5JVEtDMEhhaDRVdEo2OFRtV056cGlS?=
- =?utf-8?B?WGYvb3o0OHZHY3dTRnFrRE5RMFZQMFN0ek5aWDB2TXhPQnJLT0J2Q2JPYVZH?=
- =?utf-8?B?NVcxUGVWVUtWdmZZTGtXUEk3NEhQWW1PTjJNYTloYzNkQ04rVmpPeGRCTkNa?=
- =?utf-8?B?elpqNVZPSjJzZFBCWFVoQWMvc2tOUitsc2VoQnlIcEcxK3V0ay9UZmtMUDVW?=
- =?utf-8?B?NFlkZGdwVW1ZMS9qWVRwQlI0MDBEL2R4bjRhdmRSRm4vTWowcWFRbDFtd2Zl?=
- =?utf-8?B?YlF1WE15b0ZueEwzOG8wRjlnYmlMc29yNHpVNzRwQU5tbnV6QXp2UU5ZSDU3?=
- =?utf-8?B?dnZDRHB6NStwMnU4aFpRVTMzd21VMWIwSTB1a0ZBTjduOHFqb2Q0dmswOVY1?=
- =?utf-8?B?b2FoUDFkdmdCYnppZWt6RXNvU3JUSVBRRm0vTlM4WUc3S2lhQVVRMmZmT0Jv?=
- =?utf-8?B?S1V6amxScVdCZ20zOWhTcTk1aDJ3cmhLL2ZXUlZHVENWbWJyaXRrQ24vSVpO?=
- =?utf-8?B?SDAzVlVzd1gzaW5yT1M3TVM1VTBWbWt2N3JDTVh3RkRMMnlnT2RRM0pUTzNC?=
- =?utf-8?B?OUlWaDdQaExJeS9FaFpoL2VwS2dYL1IwMXVJTlJlZ3FQRDdsaVlqUGc2dzdI?=
- =?utf-8?B?Wjk2cnFkVUMwdlpTODk4YlRISHA5b2labkFxenY0dkdsTEs0YUtaU0R2K0dG?=
- =?utf-8?B?ZVBPOWFod3BQU0NWUU5ZeldQL0k0U3ltNWpObHloRlFobWdwOEtvaC8wUHAr?=
- =?utf-8?B?aHVIU3pPM0xUTEFJVGtFL0tETUoxNUM0SGgvYkNuVU0xRjdaS1MreHZGa1Rq?=
- =?utf-8?B?MUErTHRKcU00M3BCNVE3OVB4S3JwSTdmaituQ09tekZYcEZJbFhuejRqV09h?=
- =?utf-8?B?dlI2VTV6UlY3dEdVY1Z0QlBLVmlKTk1NbE1pQWV5d0N5ODRrVWR5ejYyTStl?=
- =?utf-8?B?bkR3cVB6UnlvVUFGRzJwRHlKVHk5aE5RQUVDSDgwWnVibU1abGRuQmdqMytV?=
- =?utf-8?B?eklGSXFvdEx4emw2NVNYNUpVQUpneGl1OTBjKzE2ZXhBWTh1aHppTXlXYU4z?=
- =?utf-8?B?ZVh2R2pxaEM3NDNDem9KdzJJVWlNLzMySm1OdEtOY01yNEI4dDlrRTVSamxh?=
- =?utf-8?B?YjduL0laRjhESnVnTlRuQXN6aGp0SGlUbWg5MFpndDhOZGxFeWhTNzlaZ2FW?=
- =?utf-8?B?QzgzbU9Vby9nR0F1Q3B5MHNnb0dlY09yYy9oSGZ2ZXVYM29IMFoxMk9iWjJQ?=
- =?utf-8?B?ZjFaYXYza0pNdFNCQ01aaG5ua0t4L1ZzTzduVWZMZHp4blZMNlJ4NEVCL1pO?=
- =?utf-8?B?UWh1UXhSZDEwTHNtVldvdnhMdGN4ZksvU1AwTmNVQVdlOWlFSVlTaFdVdkdB?=
- =?utf-8?B?d2xneTY2N2FBVjZRNHVIQzlLd01rVXRscyt6bVFOa3ZQcDdDUEJ3czJON1ln?=
- =?utf-8?B?R0R1eFVlUkZmNjNTQjY0MXZGWHMrZFN1YkpRckF5U3M5NjBtZ0tIVmJ5UWhL?=
- =?utf-8?B?Nk40c3pUNmFFTGtZNGNJSlRZay9uZFlBYVJpZ1pkUGRYYTJzNXk3TlkxR0tS?=
- =?utf-8?B?MEZaLzhMUUhkT2tMRnVIV2p4VlVtbUdkVHRCeC8wd01TZ0JxWnZxaTh0ZnJM?=
- =?utf-8?B?Y3NWazd3QnZvQi9ocFlrVDlXdStyeDcySFNNKzZ2M1J6cmNPYU9lekR5cGRX?=
- =?utf-8?Q?0YuoARPBTublDzZncbWyVTh7y?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	Mon, 22 Sep 2025 07:30:58 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2CEF1226B4;
+	Mon, 22 Sep 2025 07:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758526251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BreBo8ENL2uUzZlZ79Bcrw0bMZIau2nyyV4M8wByjq4=;
+	b=u9lWVnbs4Zc9Ce0CUaLDdLJACFIVJCefum/hQQVq1DDegZBVyXFz/uRqRknjZpDuA/3T66
+	hF5ifKIoOJHLgbtDu7JOA6LuEJsvJngq2XlqOwAyidxcwxW2AhKiJoIYqWaAa4eIP8N6yO
+	YHfFg58se8DrzdCYreuIXtsGpTJUI3I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758526251;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BreBo8ENL2uUzZlZ79Bcrw0bMZIau2nyyV4M8wByjq4=;
+	b=eohtJKtV36C+qpnP6nsjWI5bnrzaFQgye4BrPRt7Wts3q3x1PArMjlwAoxdSpGm64E15mC
+	YLpLZSe0asvfpwCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758526251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BreBo8ENL2uUzZlZ79Bcrw0bMZIau2nyyV4M8wByjq4=;
+	b=u9lWVnbs4Zc9Ce0CUaLDdLJACFIVJCefum/hQQVq1DDegZBVyXFz/uRqRknjZpDuA/3T66
+	hF5ifKIoOJHLgbtDu7JOA6LuEJsvJngq2XlqOwAyidxcwxW2AhKiJoIYqWaAa4eIP8N6yO
+	YHfFg58se8DrzdCYreuIXtsGpTJUI3I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758526251;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BreBo8ENL2uUzZlZ79Bcrw0bMZIau2nyyV4M8wByjq4=;
+	b=eohtJKtV36C+qpnP6nsjWI5bnrzaFQgye4BrPRt7Wts3q3x1PArMjlwAoxdSpGm64E15mC
+	YLpLZSe0asvfpwCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C98E61388C;
+	Mon, 22 Sep 2025 07:30:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Fu8fLyr70GhdfgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 22 Sep 2025 07:30:50 +0000
+Message-ID: <70beea89-0ba2-4300-a109-b8d2103fe4d6@suse.de>
+Date: Mon, 22 Sep 2025 09:30:50 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR19MB4885.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30fbea46-d228-4c3b-3582-08ddf9312449
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Sep 2025 17:06:01.3718
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eOK+ZwdiVpJqpEuV4eCkOTFAWTgguqhxGfCyrocnOXtxEB1+Z1ikFHXH5smfL2LFEZfaDpRPKbuui7+uBS74ow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB7015
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-21_04,2025-09-19_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 adultscore=0 phishscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 spamscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200043
-X-Authority-Analysis: v=2.4 cv=TrTmhCXh c=1 sm=1 tr=0 ts=68d0307d cx=c_pps
- a=Z2e5DKjA+8LiMDv5v6mwwA==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=iLNU1ar6AAAA:8 a=oY9agZurn8L2Doi5nqUA:9 a=QEXdDO2ut3YA:10
- a=hlJyneSgMmFPbskH-t2w:22
-X-Proofpoint-GUID: YcMDcNANGZKs-4BJxoGTQ0w6M8OprpoS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDA0MCBTYWx0ZWRfX8gvUAkLpUC73
- tUYMcVOoROVxaY5bFkaiqOdVzEcW2ubj05DwC1GWuqa/5fP4HkdnbzgGGOJEg+z0viV+iUoIB33
- 8bcomC+tICPAbNf8uDVMuYfJuvY0msdAhYx01Sip+Hs3VRxxk7fCey+ZH+OfZA31LsD6zxN+aDA
- X9nVFtkmvCjXUyqGuMK4Grx6KrUjASXni2lgVfZ9wuatK7scBkvM6gl9zuchapCLi+cJJcJAuAR
- oan8BGGXadN673HVU/9UkIRKZk2jOO0NxMaQWMx6AOROmtGWGRfHFa0w3FmAWDtHNuodGAQaYrN
- HAkpothdq+IvSQDUvyz2+vV6SyW/7cU3CF69q45tmUH+5jfo/nBBqLmNOCRInyfiNO/GCuOlNrj
- 7Csr71Vc
-X-Proofpoint-ORIG-GUID: YcMDcNANGZKs-4BJxoGTQ0w6M8OprpoS
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 malwarescore=0 priorityscore=1501 phishscore=0 clxscore=1011
- spamscore=0 impostorscore=0 bulkscore=0 classifier=typeunknown authscore=0
- authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509200040
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/5] nvme-multipath: add support for adaptive I/O
+ policy
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, axboe@kernel.dk,
+ dwagner@suse.de, gjoyce@ibm.com
+References: <20250921111234.863853-1-nilay@linux.ibm.com>
+ <20250921111234.863853-3-nilay@linux.ibm.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250921111234.863853-3-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250921_100607_788457_6CA86A6B 
-X-CRM114-Status: GOOD (  16.17  )
+X-CRM114-CacheID: sfid-20250922_003055_243229_17D97715 
+X-CRM114-Status: GOOD (  42.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -222,28 +133,325 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-SGkgYWxsLA0KDQpGZWVkYmFjayBvbiB3aGV0aGVyIHRoZSBiZWxvdyBjaGFuZ2UgaXMgYWNjZXB0
-YWJsZSBmb3IgdXBzdHJlYW0gd291bGQgYmUgYXBwcmVjaWF0ZWQuDQoNCkZyb20gNzU2ZTNhZTY3
-N2MwZDFlZDBiYmFmMmZjM2UxNDZkMjFhYzYzYzkxZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEN
-CkZyb206IEFtaXQgRW5nZWwgPEFtaXQuRW5nZWxAZGVsbC5jb20+DQpEYXRlOiBTdW4sIDIxIFNl
-cCAyMDI1IDE5OjQxOjQwICswMzAwDQpTdWJqZWN0OiBbUEFUQ0hdIG52bWV0OiBzZXQgc3FfaWQg
-dG8gemVybyBpbiBOVk1lLW9GIENRRQ0KDQpUaGUgTlZNZSBzcGVjIGRlZmluZXMgdGhlIFN1Ym1p
-c3Npb24gUXVldWUgSWRlbnRpZmllciAoc3FfaWQpIGZpZWxkDQppbiBjb21wbGV0aW9uIGVudHJp
-ZXMgYXMgcmVzZXJ2ZWQgZm9yIE5WTWUgb3ZlciBGYWJyaWNzLg0KDQpXaGlsZSBMaW51eCBob3N0
-cyBpZ25vcmUgc3FfaWQgaW4gY29tcGxldGlvbnMsIG90aGVyIGhvc3QgaW1wbGVtZW50YXRpb25z
-IG9yDQpjb21wbGlhbmNlIHRlc3RzIG1pZ2h0IGV4cGVjdCB0aGlzIGZpZWxkIHRvIGJlIHplcm8g
-Zm9yIE5WTWUtb0YuDQpTZXR0aW5nIHNxX2lkIHRvIHplcm8gZW5zdXJlcyBzcGVjIGNvbXBsaWFu
-Y2UgYW5kIGF2b2lkcyBwb3RlbnRpYWwgaW50ZXJvcGVyYWJpbGl0eQ0KaXNzdWVzLg0KDQpTaWdu
-ZWQtb2ZmLWJ5OiBBbWl0IEVuZ2VsIDxBbWl0LkVuZ2VsQGRlbGwuY29tPg0KLS0tDQogZHJpdmVy
-cy9udm1lL3RhcmdldC9jb3JlLmMgfCAzICsrLQ0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbnZtZS90YXJnZXQv
-Y29yZS5jIGIvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMNCmluZGV4IDg2NThlOWMwODUzNC4u
-YmY4ZTM1ZjUxYzZkIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9udm1lL3RhcmdldC9jb3JlLmMNCisr
-KyBiL2RyaXZlcnMvbnZtZS90YXJnZXQvY29yZS5jDQpAQCAtNzQxLDcgKzc0MSw4IEBAIHN0YXRp
-YyB2b2lkIF9fbnZtZXRfcmVxX2NvbXBsZXRlKHN0cnVjdCBudm1ldF9yZXEgKnJlcSwgdTE2IHN0
-YXR1cykNCiANCiAJaWYgKCFyZXEtPnNxLT5zcWhkX2Rpc2FibGVkKQ0KIAkJbnZtZXRfdXBkYXRl
-X3NxX2hlYWQocmVxKTsNCi0JcmVxLT5jcWUtPnNxX2lkID0gY3B1X3RvX2xlMTYocmVxLT5zcS0+
-cWlkKTsNCisJLyogc3FfaWQgaXMgcmVzZXJ2ZWQgZm9yIE5WTWUtb0YgKi8NCisJcmVxLT5jcWUt
-PnNxX2lkID0gMDsNCiAJcmVxLT5jcWUtPmNvbW1hbmRfaWQgPSByZXEtPmNtZC0+Y29tbW9uLmNv
-bW1hbmRfaWQ7DQogDQogCWlmICh1bmxpa2VseShzdGF0dXMpKQ0KLS0gDQoyLjMxLjENCg0K
+On 9/21/25 13:12, Nilay Shroff wrote:
+> This commit introduces a new I/O policy named "adaptive". Users can
+> configure it by writing "adaptive" to "/sys/class/nvme-subsystem/nvme-
+> subsystemX/iopolicy"
+> 
+> The adaptive policy dynamically distributes I/O based on measured
+> completion latency. The main idea is to calculate latency for each path,
+> derive a weight, and then proportionally forward I/O according to those
+> weights.
+> 
+> To ensure scalability, path latency is measured per-CPU. Each CPU
+> maintains its own statistics, and I/O forwarding uses these per-CPU
+> values. Every ~15 seconds, a simple average latency of per-CPU batched
+> samples are computed and fed into an Exponentially Weighted Moving
+> Average (EWMA):
+> 
+> avg_latency = div_u64(batch, batch_count);
+> new_ewma_latency = (prev_ewma_latency * (WEIGHT-1) + avg_latency)/WEIGHT
+> 
+> With WEIGHT = 8, this assigns 7/8 (~87.5%) weight to the previous
+> latency value and 1/8 (~12.5%) to the most recent latency. This
+> smoothing reduces jitter, adapts quickly to changing conditions,
+> avoids storing historical samples, and works well for both low and
+> high I/O rates. Path weights are then derived from the smoothed (EWMA)
+> latency as follows (example with two paths A and B):
+> 
+>      path_A_score = NSEC_PER_SEC / path_A_ewma_latency
+>      path_B_score = NSEC_PER_SEC / path_B_ewma_latency
+>      total_score  = path_A_score + path_B_score
+> 
+>      path_A_weight = (path_A_score * 100) / total_score
+>      path_B_weight = (path_B_score * 100) / total_score
+> 
+> where:
+>    - path_X_ewma_latency is the smoothed latency of a path in ns
+>    - NSEC_PER_SEC is used as a scaling factor since valid latencies
+>      are < 1 second
+>    - weights are normalized to a 0–100 scale across all paths.
+> 
+> Path credits are refilled based on this weight, with one credit
+> consumed per I/O. When all credits are consumed, the credits are
+> refilled again based on the current weight. This ensures that I/O is
+> distributed across paths proportionally to their calculated weight.
+> 
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+> ---
+>   drivers/nvme/host/core.c      |  10 +-
+>   drivers/nvme/host/ioctl.c     |   7 +-
+>   drivers/nvme/host/multipath.c | 353 ++++++++++++++++++++++++++++++++--
+>   drivers/nvme/host/nvme.h      |  33 +++-
+>   drivers/nvme/host/pr.c        |   6 +-
+>   drivers/nvme/host/sysfs.c     |   2 +-
+>   6 files changed, 389 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 6b7493934535..6cd1d2c3e6ee 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -689,6 +689,7 @@ static void nvme_free_ns(struct kref *kref)
+>   {
+>   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
+>   
+> +	nvme_mpath_free_stat(ns);
+>   	put_disk(ns->disk);
+>   	nvme_put_ns_head(ns->head);
+>   	nvme_put_ctrl(ns->ctrl);
+> @@ -4132,6 +4133,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	if (nvme_init_ns_head(ns, info))
+>   		goto out_cleanup_disk;
+>   
+> +	if (nvme_mpath_alloc_stat(ns))
+> +		goto out_unlink_ns;
+> +
+>   	/*
+>   	 * If multipathing is enabled, the device name for all disks and not
+>   	 * just those that represent shared namespaces needs to be based on the
+> @@ -4156,7 +4160,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	}
+>   
+>   	if (nvme_update_ns_info(ns, info))
+> -		goto out_unlink_ns;
+> +		goto out_free_ns_stat;
+>   
+>   	mutex_lock(&ctrl->namespaces_lock);
+>   	/*
+> @@ -4165,7 +4169,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	 */
+>   	if (test_bit(NVME_CTRL_FROZEN, &ctrl->flags)) {
+>   		mutex_unlock(&ctrl->namespaces_lock);
+> -		goto out_unlink_ns;
+> +		goto out_free_ns_stat;
+>   	}
+>   	nvme_ns_add_to_ctrl_list(ns);
+>   	mutex_unlock(&ctrl->namespaces_lock);
+> @@ -4196,6 +4200,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>   	list_del_rcu(&ns->list);
+>   	mutex_unlock(&ctrl->namespaces_lock);
+>   	synchronize_srcu(&ctrl->srcu);
+> +out_free_ns_stat:
+> +	nvme_mpath_free_stat(ns);
+>    out_unlink_ns:
+>   	mutex_lock(&ctrl->subsys->lock);
+>   	list_del_rcu(&ns->siblings);
+> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+> index 6b3ac8ae3f34..aab7b795a168 100644
+> --- a/drivers/nvme/host/ioctl.c
+> +++ b/drivers/nvme/host/ioctl.c
+> @@ -716,7 +716,7 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+>   		flags |= NVME_IOCTL_PARTITION;
+>   
+>   	srcu_idx = srcu_read_lock(&head->srcu);
+> -	ns = nvme_find_path(head);
+> +	ns = nvme_find_path(head, open_for_write ? WRITE : READ);
+>   	if (!ns)
+>   		goto out_unlock;
+>   
+> @@ -747,7 +747,7 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+>   	int srcu_idx, ret = -EWOULDBLOCK;
+>   
+>   	srcu_idx = srcu_read_lock(&head->srcu);
+> -	ns = nvme_find_path(head);
+> +	ns = nvme_find_path(head, open_for_write ? WRITE : READ);
+>   	if (!ns)
+>   		goto out_unlock;
+>   
+> @@ -767,7 +767,8 @@ int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
+>   	struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
+>   	struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
+>   	int srcu_idx = srcu_read_lock(&head->srcu);
+> -	struct nvme_ns *ns = nvme_find_path(head);
+> +	struct nvme_ns *ns = nvme_find_path(head,
+> +			ioucmd->file->f_mode & FMODE_WRITE ? WRITE : READ);
+>   	int ret = -EINVAL;
+>   
+>   	if (ns)
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 3da980dc60d9..4f56a2bf7ea3 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -6,6 +6,8 @@
+>   #include <linux/backing-dev.h>
+>   #include <linux/moduleparam.h>
+>   #include <linux/vmalloc.h>
+> +#include <linux/blk-mq.h>
+> +#include <linux/math64.h>
+>   #include <trace/events/block.h>
+>   #include "nvme.h"
+>   
+> @@ -66,9 +68,10 @@ MODULE_PARM_DESC(multipath_always_on,
+>   	"create multipath node always except for private namespace with non-unique nsid; note that this also implicitly enables native multipath support");
+>   
+>   static const char *nvme_iopolicy_names[] = {
+> -	[NVME_IOPOLICY_NUMA]	= "numa",
+> -	[NVME_IOPOLICY_RR]	= "round-robin",
+> -	[NVME_IOPOLICY_QD]      = "queue-depth",
+> +	[NVME_IOPOLICY_NUMA]	 = "numa",
+> +	[NVME_IOPOLICY_RR]	 = "round-robin",
+> +	[NVME_IOPOLICY_QD]       = "queue-depth",
+> +	[NVME_IOPOLICY_ADAPTIVE] = "adaptive",
+>   };
+>   
+>   static int iopolicy = NVME_IOPOLICY_NUMA;
+> @@ -83,6 +86,8 @@ static int nvme_set_iopolicy(const char *val, const struct kernel_param *kp)
+>   		iopolicy = NVME_IOPOLICY_RR;
+>   	else if (!strncmp(val, "queue-depth", 11))
+>   		iopolicy = NVME_IOPOLICY_QD;
+> +	else if (!strncmp(val, "adaptive", 8))
+> +		iopolicy = NVME_IOPOLICY_ADAPTIVE;
+>   	else
+>   		return -EINVAL;
+>   
+> @@ -196,6 +201,190 @@ void nvme_mpath_start_request(struct request *rq)
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_mpath_start_request);
+>   
+> +int nvme_mpath_alloc_stat(struct nvme_ns *ns)
+> +{
+> +	gfp_t gfp = GFP_KERNEL | __GFP_ZERO;
+> +
+> +	if (!ns->head->disk)
+> +		return 0;
+> +
+> +	ns->cpu_stat = __alloc_percpu_gfp(
+> +			2 * sizeof(struct nvme_path_stat),
+> +			__alignof__(struct nvme_path_stat),
+> +			gfp);
+> +	if (!ns->cpu_stat)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+> +#define NVME_EWMA_SHIFT	3
+> +static inline u64 ewma_update(u64 old, u64 new)
+> +{
+> +	return (old * ((1 << NVME_EWMA_SHIFT) - 1) + new) >> NVME_EWMA_SHIFT;
+> +}
+> +
+> +static void nvme_mpath_add_sample(struct request *rq, struct nvme_ns *ns)
+> +{
+> +	int cpu, srcu_idx;
+> +	unsigned int rw;
+> +	struct nvme_path_stat *stat;
+> +	struct nvme_ns *cur_ns;
+> +	u32 weight;
+> +	u64 now, latency, avg_lat_ns;
+> +	u64 total_score = 0;
+> +	struct nvme_ns_head *head = ns->head;
+> +
+> +	if (list_is_singular(&head->list))
+> +		return;
+> +
+> +	now = ktime_get_ns();
+> +	latency = now >= rq->io_start_time_ns ? now - rq->io_start_time_ns : 0;
+> +	if (!latency)
+> +		return;
+> +
+> +	/*
+> +	 * As completion code path is serialized(i.e. no same completion queue
+> +	 * update code could run simultaneously on multiple cpu) we can safely
+> +	 * access per cpu nvme path stat here from another cpu (in case the
+> +	 * completion cpu is different from submission cpu).
+> +	 * The only field which could be accessed simultaneously here is the
+> +	 * path ->weight which may be accessed by this function as well as I/O
+> +	 * submission path during path selection logic and we protect ->weight
+> +	 * using READ_ONCE/WRITE_ONCE. Yes this may not be 100% accurate but
+> +	 * we also don't need to be so accurate here as the path credit would
+> +	 * be anyways refilled, based on path weight, once path consumes all
+> +	 * its credits. And we limit path weight/credit max up to 100. Please
+> +	 * also refer nvme_adaptive_path().
+> +	 */
+> +	cpu = blk_mq_rq_cpu(rq);
+> +	rw = rq_data_dir(rq);
+> +	stat = &per_cpu_ptr(ns->cpu_stat, cpu)[rw];
+> +
+
+This is tad awkward for setups where #CPUs > #paths.
+> +	/*
+> +	 * If latency > ~1s then ignore this sample to prevent EWMA from being
+> +	 * skewed by pathological outliers (multi-second waits, controller
+> +	 * timeouts etc.). This keeps path scores representative of normal
+> +	 * performance and avoids instability from rare spikes. If such high
+> +	 * latency is real, ANA state reporting or keep-alive error counters
+> +	 * will mark the path unhealthy and remove it from the head node list,
+> +	 * so we safely skip such sample here.
+> +	 */
+> +	if (unlikely(latency > NSEC_PER_SEC)) {
+> +		stat->nr_ignored++;
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * Accumulate latency samples and increment the batch count for each
+> +	 * ~15 second interval. When the interval expires, compute the simple
+> +	 * average latency over that window, then update the smoothed (EWMA)
+> +	 * latency. The path weight is recalculated based on this smoothed
+> +	 * latency.
+> +	 */
+> +	stat->batch += latency;
+> +	stat->batch_count++;
+> +	stat->nr_samples++;
+> +
+> +	if (now > stat->last_weight_ts &&
+> +			(now - stat->last_weight_ts) >= 15 * NSEC_PER_SEC) {
+> +
+> +		stat->last_weight_ts = now;
+> +
+> +		/*
+> +		 * Find simple average latency for the last epoch (~15 sec
+> +		 * interval).
+> +		 */
+> +		avg_lat_ns = div_u64(stat->batch, stat->batch_count);
+> +
+> +		/*
+> +		 * Calculate smooth/EWMA (Exponentially Weighted Moving Average)
+> +		 * latency. EWMA is preferred over simple average latency
+> +		 * because it smooths naturally, reduces jitter from sudden
+> +		 * spikes, and adapts faster to changing conditions. It also
+> +		 * avoids storing historical samples, and works well for both
+> +		 * slow and fast I/O rates.
+> +		 * Formula:
+> +		 * slat_ns = (prev_slat_ns * (WEIGHT - 1) + (latency)) / WEIGHT
+> +		 * With WEIGHT = 8, this assigns 7/8 (~87.5 %) weight to the
+> +		 * existing latency and 1/8 (~12.5%) weight to the new latency.
+> +		 */
+> +		if (unlikely(!stat->slat_ns))
+> +			stat->slat_ns = avg_lat_ns;
+> +		else
+> +			stat->slat_ns = ewma_update(stat->slat_ns, avg_lat_ns);
+> +
+> +		stat->batch = stat->batch_count = 0;
+> +
+> +		srcu_idx = srcu_read_lock(&head->srcu);
+> +		list_for_each_entry_srcu(cur_ns, &head->list, siblings,
+> +				srcu_read_lock_held(&head->srcu)) {
+
+And this is even more awkward as we need to iterate over all paths
+(during completion!).
+
+Do we really need to do this?
+What would happen if we just measure the latency on the local CPU
+and do away with this loop?
+We would have less samples, true, but we would even be able to
+not only differentiate between distinct path latency but also between
+different CPU latencies; I would think this being a bonus for
+multi-socket machines.
+
+_And_ we wouldn't need to worry about path failures, which is bound
+to expose some race conditions if we need to iterate paths at the
+same time than path failures are being handled.
+
+But nevertheless: great job!
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
