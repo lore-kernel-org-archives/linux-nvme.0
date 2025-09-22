@@ -4,47 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82342CA100F
-	for <linux-nvme@archiver.kernel.org>; Mon, 22 Sep 2025 17:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F186CAC592
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Sep 2025 17:42:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VW8ObY5diPHeDgTcUElWbMlWvmJezpLSHhFo8otRJ+U=; b=ORV8wSauatocFTMUNcwE0RY6D6
-	XeiWXgNyuwJsDetVs4bawIXZi5KVQBKf+k1hNumrGhL1n4jlKm90AWVljosd5Rj5R/zuoFMYwqbmw
-	D3EzWr5YGLP6pqbxzmQEHC0u1sQTnj4zhSgWjhX5Z6YdApjUEpFOEH5kNYN3uu8hqscyVOHS/5l8L
-	6AOXaMNQjauIqrC3fnP2uluBGmKggiWgACMIHtq35pO7DjG44n27+WKFSBbU/rE5use6HWl+1GGfY
-	+EgFm4RXoEjoqfViaco3k3BVBI+6bn2EOk2yHGpmPjEdmbmcSMQD+smB1kmbHYgLOtbV896wt1uzM
-	KoAH/WbA==;
+	bh=P3SaxZpvGgtf+z81ZuzC+9CirM/9zyIobI0pH9dpmM8=; b=pyw/u2ouRst3RG6GV0m1HgdUT4
+	IObGSjiSMJ4UySmO2Lj2sE/D0qUk+kvexN3lHySTSfSUl3fHaDuF/9oODTFgECwxuMJDI0dYB2LEe
+	j5spwQszndh428qsQBF7JbpLgU7fWJhLxhv8Ame7poTguArMjU6fzM9UKoKLO9kzsHRVN2rxcDive
+	87XZxuuyXRuQmP9LjqCsdNS4b9UU4Rp13Srq0V+RmKS1Ayl3TQD+hrVkZLyuK6tWdiD7Hqt3e+P3L
+	TOFFcxQHjncPuTQCvG7mQ1H8cnlOokhQ2/Y3i0PKvq2pCKGeuWNNCqHkyKrsv4yU/cdxMU8mEoUsC
+	UlqwcVDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v0kSr-0000000B9pa-0OXA;
-	Mon, 22 Sep 2025 17:36:37 +0000
+	id 1v0kY0-0000000BAIP-3wUu;
+	Mon, 22 Sep 2025 17:41:56 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v0kSn-0000000B9oX-1sQt
+	id 1v0kXy-0000000BAHs-3V2V
 	for linux-nvme@lists.infradead.org;
-	Mon, 22 Sep 2025 17:36:35 +0000
+	Mon, 22 Sep 2025 17:41:56 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id D94E0227AAF; Mon, 22 Sep 2025 19:36:29 +0200 (CEST)
-Date: Mon, 22 Sep 2025 19:36:29 +0200
+	id 5393F227AAF; Mon, 22 Sep 2025 19:41:50 +0200 (CEST)
+Date: Mon, 22 Sep 2025 19:41:49 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, kbusch@kernel.org,
-	sagi@grimberg.me, kch@nvidia.com, israelr@nvidia.com
-Subject: Re: [PATCH v2 1/1] nvmet: add safety check for subsys lock
-Message-ID: <20250922173629.GA14701@lst.de>
-References: <20250921124405.30432-1-mgurtovoy@nvidia.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH RFC] nvme-tcp: Implement recvmsg() receive flow
+Message-ID: <20250922174149.GA14736@lst.de>
+References: <20250912115829.58669-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250921124405.30432-1-mgurtovoy@nvidia.com>
+In-Reply-To: <20250912115829.58669-1-hare@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250922_103633_631171_E4090E12 
-X-CRM114-Status: GOOD (  12.78  )
+X-CRM114-CacheID: sfid-20250922_104155_017965_18DD5611 
+X-CRM114-Status: GOOD (  13.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,19 +60,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 21, 2025 at 03:44:05PM +0300, Max Gurtovoy wrote:
-> Replace comment about required lock with a lockdep_assert_held()
-> check in the following functions:
->  - nvmet_p2pmem_ns_add_p2p()
->  - nvmet_setup_p2p_ns_map()
->  - nvmet_release_p2p_ns_map()
-> 
-> This ensures the subsystem lock is held at runtime.
+On Fri, Sep 12, 2025 at 01:58:29PM +0200, Hannes Reinecke wrote:
+> Switch to use recvmsg() so that we get access to TLS control
+> messages eg for handling TLS KeyUpdate.
 
-Only if you enabled lockdep :)
+That is a very spare commit message for a huge change.  Why did it not
+use recvmsg before?  I'm pretty sure there are some tradeoffs here.
 
-But this still looks useful, so:
+> +static size_t nvme_tcp_ddgst_step(void *iter_base, size_t progress, size_t len,
+> +				  void *priv, void *priv2)
+> +{
+> +	u32 *crcp = priv;
+> +
+> +	*crcp = crc32c(*crcp, iter_base, len);
+> +        return 0;
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+And fix the whitespace damage while you're at it.
 
 
