@@ -4,191 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E33EECAC5A5
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Sep 2025 02:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49708CAC5AA
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Sep 2025 07:36:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/hhqVHAcONzjlNzfGIlTocYtEIxLhoHdT7Dc0OK/8Kk=; b=2IkmKT6Ycu2eJ+fO92Va7yJOsT
-	zW4HAR3Gyvp5hiug16K0JBvKUYHJk5ro+wL+3zd8BqTRM427NEX1QJRf9x78OhqEdDG1vktByrTxT
-	xh3ZlWe7AKcVqyb6d5QNKRR4csvmlNNgt8inI7M5VWwL1L6TKq6gYxBM0oo22EcuS8w0mZF5NereB
-	vv4XCJDv4AZHtbJ1ulrewRe1YntfvMNJUkGziXgyMGdA8Ca7hpZSRXOTQKOesibDcD6vyGFLhoHZr
-	dSwYmOnDY1G8qrimuHNHkw0Sfq9T401rbHKota2+ymC3gFWA7JQgIqFF62z//VzENy7oeMJiyci3c
-	RNoJYbpA==;
+	bh=ohGoJsSHACIwVtLSwLfdaLPfpRuEO5FFryROoTRQSCA=; b=b1mmagHaOGGNXCsHHMivV4c7Xx
+	Fv69GOmpmCcxXOt7r7auNg7vK7dVTcmO7NC/Ll0Zf0mc67NPNqFdMKxZL4D02a8IAwjJUHRcLnfpB
+	ywqmfCcMNL3CQTBJkDwt/UDQ9i9IJ2HQEuNkttizpTg6oeKp9X5Sj6YMU0VSMcmNGfJeoe2QQwYPX
+	P/JI6D2Y07i5nV/J1Lb1Si0yy+54+c2pDlDTkBQuqPbLTo2XL9SrJwbsOjf+6xDSQ/GHfawx8ax13
+	C7AEbcdANP2Fi/gCZax6Zl0C3s4xelFn5McxdLE/1uaEuSk1w/R65I0UkcIfeO/9RBWKhMKFvV8RC
+	9ogNVTgg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1buS-00000005Kkt-1nw4;
-	Thu, 25 Sep 2025 02:40:40 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1v1gWR-00000006lkc-07Uv;
+	Thu, 25 Sep 2025 07:36:11 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1buP-00000005KkS-3ajZ
+	id 1v1gWO-00000006ljg-1v9R
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Sep 2025 02:40:39 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58OIu4q1008129;
-	Thu, 25 Sep 2025 02:40:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=/hhqVHAcONzjlNzfGI
-	lTocYtEIxLhoHdT7Dc0OK/8Kk=; b=Q2Aco9G6GXjMKiao20t7qFVdwUtlreQZXx
-	T/QdrwpfBGJdMxGjYTeVjuFVlffOMBLfjg/1fZUW9L/ZDpi4p7XwfFDF9CbhStqb
-	yqdHvUPm+MiF3kN03zB4ndZfa4N3wKdSoYTL1czvzcVN41h62J86VDFq4aOL0nvp
-	WFHtpxdSDXkOGN2W1J3mRUtr36grBtjCe8RHGJ0Sbzuu4t5YCFhZ0LgqmJBoUuWz
-	nS6oBhYPf8qSHhfRAH+rUfRJjFINo9xWDgmPvRnEVsXpscBCF5KXYiKvAHMqG0BF
-	qwZevXBB+GvM52+MjFlv1CJh+5Z6TWTuCiaT5+d/Qz8dmcjL3TBg==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 499mtt923g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Sep 2025 02:40:34 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58P0F5j8040930;
-	Thu, 25 Sep 2025 02:40:33 GMT
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010065.outbound.protection.outlook.com [40.93.198.65])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 499jqad4sb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 25 Sep 2025 02:40:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U+C5rQia7UwHP8Tt7sxwzQvI8fM8DMAhddbgHUkIZO0Sw3kNVJ8X6G6GGNw3qTyLe6rJWGmhQ+MwGZPoOfU5yCfEoX7WoAajJCQA3gfUusLrD4YFz/rUTAMe7AO50lKwX6Mma8XdpZiaImgUBBImLF70iQu28Rn5inYdS2yNa08hdmX0d9RES90ov+tXUtmB/KT21DW5CByyVl8sWDV70I4jA7hHMGmhOUMpb6kX/Bv3Z5Ni5ALKYrYsoT6P3IpE5bockBvE1RqKYnDmkbIONPgg3ArvMHfZ9imML5bZTp0bVOG0B5DJSt8DybY5CvfWGBznHCau1N12qqiQarEf0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/hhqVHAcONzjlNzfGIlTocYtEIxLhoHdT7Dc0OK/8Kk=;
- b=Fk9mKsGra2vdneKrjNE22IF1MmTyM94OnuB56UV/zAyCJ5yMJApglzs+5DDluGp7DaV5FKI2rK95aFfN3o5Zg1AvQYbvDMutnIuQa/IdXGM5UktK+LmN1ElcLNa60KEpoQy35U8IoY0IMSpQUuMN9wfxMJXqxRSZxqfOycPb5ItRC1LmOWZwJdM9jrYFdyw9BXEQJVLH43PtG76eykQ/eGaB64ih0pxwOYVZo/yOq1NGtqSyf0cFeAblzOcFsc0cenv6u8uiW+oLjqfPs/9eikziUFfcRVlYcjv07/pc4iVEbYkpXyW4GWBPvFAZlsC+P0B4dXrP7Dj8+508TFvCrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/hhqVHAcONzjlNzfGIlTocYtEIxLhoHdT7Dc0OK/8Kk=;
- b=McZJ3KZwGXLijNDbuiWiRQQmnocq0DOTNlUQ2N+Szu9WaRFDtVcvJLU7HWZairTWbD4sqt5dCGHpcyzQLGTNposC19UYwaFwL/fmTE9ICm/OLZyyYr9TWurPXntJ2HC7DZ91QoB17Lsg8LRIHwhuv5Dcc5D7cm6YkJEOGIj2OL8=
-Received: from DS7PR10MB5344.namprd10.prod.outlook.com (2603:10b6:5:3ab::6) by
- SA6PR10MB8087.namprd10.prod.outlook.com (2603:10b6:806:434::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
- 2025 02:40:31 +0000
-Received: from DS7PR10MB5344.namprd10.prod.outlook.com
- ([fe80::b527:ca1f:1129:a680]) by DS7PR10MB5344.namprd10.prod.outlook.com
- ([fe80::b527:ca1f:1129:a680%4]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
- 02:40:31 +0000
-To: James Smart <jsmart2021@gmail.com>
-Cc: linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] MAINTAINERS: update FC element owners
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20250923153857.100616-1-jsmart2021@gmail.com> (James Smart's
-	message of "Tue, 23 Sep 2025 08:38:57 -0700")
-Organization: Oracle Corporation
-Message-ID: <yq11pnvqmpc.fsf@ca-mkp.ca.oracle.com>
-References: <20250923153857.100616-1-jsmart2021@gmail.com>
-Date: Wed, 24 Sep 2025 22:40:26 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: YQZPR01CA0169.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8b::20) To DS7PR10MB5344.namprd10.prod.outlook.com
- (2603:10b6:5:3ab::6)
+	Thu, 25 Sep 2025 07:36:09 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 02A644DAED;
+	Thu, 25 Sep 2025 07:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758785764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohGoJsSHACIwVtLSwLfdaLPfpRuEO5FFryROoTRQSCA=;
+	b=BSevNaGjpVp5UzK4tVvAEB+DgHL/z4xILa5YvddVG011aiSRDsVpEIciOaOUe0J6D2djfI
+	x+Ru5MHx/mGt/SobQ8SRgcGj30o1R9Gg6WxH3DaM/7JOSTF7ELZArn9bYF9e0TC1u8cJGc
+	QR4tsBHevdzlLSP2nlQ0w3/Z/3Yxgwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758785764;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohGoJsSHACIwVtLSwLfdaLPfpRuEO5FFryROoTRQSCA=;
+	b=+KVIBElwAgjVnaHo5nwTIJrIN6qVEYrDobdQh/P1U6eKpio8yNoWw3R++qVShcJMlvfEvY
+	cO7Zq9EsbOe8smDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758785764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohGoJsSHACIwVtLSwLfdaLPfpRuEO5FFryROoTRQSCA=;
+	b=BSevNaGjpVp5UzK4tVvAEB+DgHL/z4xILa5YvddVG011aiSRDsVpEIciOaOUe0J6D2djfI
+	x+Ru5MHx/mGt/SobQ8SRgcGj30o1R9Gg6WxH3DaM/7JOSTF7ELZArn9bYF9e0TC1u8cJGc
+	QR4tsBHevdzlLSP2nlQ0w3/Z/3Yxgwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758785764;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohGoJsSHACIwVtLSwLfdaLPfpRuEO5FFryROoTRQSCA=;
+	b=+KVIBElwAgjVnaHo5nwTIJrIN6qVEYrDobdQh/P1U6eKpio8yNoWw3R++qVShcJMlvfEvY
+	cO7Zq9EsbOe8smDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E837F13869;
+	Thu, 25 Sep 2025 07:36:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xu28N+Pw1Gj4MgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 25 Sep 2025 07:36:03 +0000
+Date: Thu, 25 Sep 2025 09:36:03 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, kbusch@kernel.org, 
+	sagi@grimberg.me, kch@nvidia.com, israelr@nvidia.com
+Subject: Re: [PATCH 3/4] nvmet: prevent max_qid changes for discovered
+ subsystems
+Message-ID: <97291788-f831-469c-b0cd-7fd79678366e@flourine.local>
+References: <20250924202604.7201-1-mgurtovoy@nvidia.com>
+ <20250924202604.7201-4-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR10MB5344:EE_|SA6PR10MB8087:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11f0135d-959c-48ef-fdf6-08ddfbdce3ea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?te0RdURut3ixX3L2bk662r3yKrstDKbFOyn+50HpqgZC4cxyozYxmVeTNvJ9?=
- =?us-ascii?Q?qtYoMBn3FCky+Z7ksPkuuwvL6Aq1JYHvStkWfazxbzQtsy2wMR8VJBEg1uXq?=
- =?us-ascii?Q?/EfmzPRFbz7jN4EVwqK1TmSyXMZv1w005I2h37edO+90DTKpjeR8/JMY1BPN?=
- =?us-ascii?Q?eXXcLd3MjiuRaDeWo2pD/82X1RsMSI6i7xb4dTj5j760OvhXe4/dlaMviF6C?=
- =?us-ascii?Q?2JEfX7BPSCCaFB0l7XjgMU/sV/nKY55zOWkZc7fRutSV+NE6upFaQzIVXAXd?=
- =?us-ascii?Q?6pY5CJCPjbq6MK7e+fgUFKOWERB0UHuDomMdPBJUJLYUVzAT6T8beSQ3dood?=
- =?us-ascii?Q?IgOeNTPcUSVPDJ2aIAUL1aTHOUTT/M+wXrXYjhBDqc686TUwLdvTlAwHZRHB?=
- =?us-ascii?Q?N0EifWm9AbBgxw379qpUxPOzo7oidm7FdTZ0ALaNRLCT7qKzPRxMEvnWwgZE?=
- =?us-ascii?Q?+xY9yp90hOJ08iT8FovNEGM4GVxQJtDiqrzkASpmTd9szmqI0mAvNFwwPb5o?=
- =?us-ascii?Q?25tddJSnYwx5512cD/BuGNensUfoll+JfPSorr3FJIuat5JQItL8Oo8tSXHh?=
- =?us-ascii?Q?ZuvsjeD530cjNd1JtNZVpQLmMX4EMYeeQoy9ix4wcv1BJ+EzixsTlGF0JVtH?=
- =?us-ascii?Q?gguFJ11DG97bJ7odKC3Q6DM4hZFTkCSzcXw7+w6Nkpg3nnZDB7icPf0Mz+GD?=
- =?us-ascii?Q?t2dQW29eilt22QJw7uORWKP2AB7x6PdcPeocj4Xkox/EYMKYgcPbgTYAFSEX?=
- =?us-ascii?Q?K+vukksaTjbna02a1NsM07bHvuNMnID3oPBqytBID9HWR1MqbXWdGxt9WqCi?=
- =?us-ascii?Q?FWPZBLxNbQ7NPitsgPTr4/Ly4LAZwaf6PNDdtqadjU5oaCCD8b33/DhT5I0s?=
- =?us-ascii?Q?jvqFrtddoRI8DwdMg1N/yovE27z32+RQoaGNbadqehVTefjuauaaysAp/dOp?=
- =?us-ascii?Q?DuLnaLj6xxaxyPcXjtLyzs7/CkDm03JmW+0sob0R55kihAmAjWsjTuVs2Ky3?=
- =?us-ascii?Q?X6WuKjX7G2Jv4g3SwWM6k4KdYZiTAEIOjQ5WlHi5MBhVth/a/HrQktocyoUv?=
- =?us-ascii?Q?lUgE1/S1IW56WZoACoIgIWaidZ3+MqoYecrgtczBJ4pxRT9Afc9gC7lRaOvz?=
- =?us-ascii?Q?phqF2JH2htImmJB3lvjAloZGR4V5JOmLSCBsdkLqSgi2lVq1QJuYZ1NTqBQ2?=
- =?us-ascii?Q?WAKGXttHONBmm9r7zfwEnfWEbG6P8Gg3KCMfzfKZlIktq46c4sjdhW3G88lp?=
- =?us-ascii?Q?kZdpfRHr9xsDs2vS9H/oDFpItbMDWGIQ+K1YviNK09TDvAznFeONZkwHyvs+?=
- =?us-ascii?Q?K3llG6ezGArvPLX2D7rpODPXRocolidr0Hwz6++YWhSdJre3bVeEUJkRYz8d?=
- =?us-ascii?Q?b8hlvplgmm4Qm94bC4k/W567XUK1cSMKEFR5Q1SvBW5ptOE1h8VAh/V1H2Eb?=
- =?us-ascii?Q?zITHjXn2O/g=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5344.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1nIRPZt7fUYVxCjHOL4Z7AtNl3ugCl6FL0DW4mreTwzD01xWBj0puV+xTrd0?=
- =?us-ascii?Q?gk0/bPQWCTvnrBt0n4BTvpKHbo8tnWQHsISNwunnVlAEQBrhYP3GtY1pAvCz?=
- =?us-ascii?Q?V+q0vwWy5INuX5ZzBHbBN5dEnP4LgmEAr4lNAFDVAnmErxG9gBSjEVct/sfw?=
- =?us-ascii?Q?OzboZEVMB4R0/Hv/bRpRnbYtuk7dWeiSrkfpSrcV56YYJNUti+eejYuZ/f0o?=
- =?us-ascii?Q?Rg13voMQZK8+cj5XomFizaeGntfQDC184mT/k+SElk0i2/rBeG2VZF/Iw5Vw?=
- =?us-ascii?Q?mum6IfniidqU8Koe1wjY0/cHzQ00GaCxwIKIqZ1ULQOwg5f+McyqN3MxPro8?=
- =?us-ascii?Q?H4b0xVfhmQ/u/Mggk66PzTYL89MQUBnv8OU8dE+zOmel5zqLavydJggBqiZ4?=
- =?us-ascii?Q?awNxTRw59IiEuTdskXGfAoRIvEzjzJUG+E+uQxUMeEvpMQyC2RGTJSP11H7r?=
- =?us-ascii?Q?YXvNoU47qtzy2jSh4YcBWveCWVMJsMXZr2konfvtS5FNh+xiOkdgBB/sgU9J?=
- =?us-ascii?Q?V3vH/YR5UMi99CEY/uGklLLF3K4M8EFnItTnt5Gm9TYzK5WwYGpx5hzEy/aD?=
- =?us-ascii?Q?3mo6CWfDE2Wtof+Xsu/QZwajmghL6y6+C5CxHs2PGRg8Zoxm9ZBED1Bj3kPg?=
- =?us-ascii?Q?exgQJC/P2XQnFaPqctAc3tNu2JrsgpDlDd5T7iBMLSIoY0SSEzk3xjoYgHvY?=
- =?us-ascii?Q?qzWR8qnMn+3AaRuOskq3hMnaZJFIeVMOrYa167lEwQAvMd/gw4QLMCsJMtgq?=
- =?us-ascii?Q?UMJIo3I9wMzMiFzVwiGumTVUbCEhZMX2A9xijshfo6+7F6eWLquYvT4yH70/?=
- =?us-ascii?Q?rBoUs0VHHp3XjkyuOzAfZBHxGjrqDrg4m4QJVAGCdqazaluQ86L1V/r6Om8j?=
- =?us-ascii?Q?fupyTjUTmvThOgmd8u5MZAyvPH+RuixJs7UFrVpk6nEY4wteVUaQWa8vOur7?=
- =?us-ascii?Q?a1u9jL9hZiuNI783nqhPr4keCkImRrTXV44z5ABIqdQNWNG5+x+PCVQWq/sQ?=
- =?us-ascii?Q?w6l+y7C1BkofqtKUjlUROa6v70VzgY6TyB6s0FcgLnvvUN0o12+pm2TxLFnO?=
- =?us-ascii?Q?jtqGe3WDE83oQYRwKxQ3bobRaju1P8yCgxh/74IPnI4MKN3m96Fxb+OnSTr1?=
- =?us-ascii?Q?cuStHRA536s/MnAzWDEP4mq5yvhM6ovhL7hTgwNWl+nQwGNdkDVsXFoQcBWD?=
- =?us-ascii?Q?xdzsD2zAjR/BmgyUIfjTH2DYYJhk7lwwPU+8ID7ODgKZjsL74B0WZGeYrX49?=
- =?us-ascii?Q?gK0wJ4gB39DNctsqQ/WN3vmIuCd+5BQU3IkeqhECnJx7SjV+K/AOtw9bpH6F?=
- =?us-ascii?Q?Et+csSRrkCg9PR9/rkn6Hj6YuMD/MxsT96bnD1L2KHzzU4CyYRvMf0BhLyKs?=
- =?us-ascii?Q?OULcKl4F/DHyIHIEHr5rwh8fDIssXLaDNuZTfF1KvmKH4rj58lUJHML48EnM?=
- =?us-ascii?Q?YyC8B0M0TBs6m+pnfn2k2KGow1m6M0O2ufx0RN7/7Sd6l1ZIHchpcQueMeI0?=
- =?us-ascii?Q?U3biZLsXx18/JEAqHdqFwq2Bp2CyPtCQG69nfWkNcgRJb5bKRkXzI9VMny+O?=
- =?us-ascii?Q?f+nubg1+i4VC5yGM4dKQ9ociuTI+seAxhM/xX5wHx87d5EByE0FBpo2OyYe6?=
- =?us-ascii?Q?cA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: i3A9N5vdb92II4CM+xXERy9raaufnkjD4QLdfmEjB2uC6yD053H11pgKrpBX4+U+WgAoxCok9bcoOHM3uHpYbQpZjH2If1Nt5Mwg/dom0COLZ5y0g6FlYHwLu8RHuZ+yem+KIXgbjt8G01eU0lGTee+tHN6yCzBbCcd8xl+41yjrzYz7V0lYXSCvBIm8oSIMSbG6Yx3b5SeMMhH3v6CY97lSalI/e6mRHwPWwsoYP0T6KQUcwnaheWhIRP3g4EHUt1j855CmMwMHn9s7rdGdPad4wMrZlDoht4LL26S2rTr5x6I709QG0x5Zr2Tz7Bu6PojibqJ1/ixItlsSXRhr6SJgWnBBYO6Kv1znQ1TwSgGsmACCTHpzPGPsCBopVG0z7bzAxw2OIPBzpT7+LYtqt66efuSHwGYZlDrisD9SHi7NTCjnLh4RaILWYph5I3CEdXZPhp5xt+WeuDdlugvhouWo3jYwVCGfo9utNxOOhEScFu2TzF6tthMqPkozfkiF52KYvQh0NliFU0osI5MdC7+p4QE9UHHcBR0vGs7XVRjBUrDTF8u/zQPtTSGWDQK3BWHXnYMEfDw/5l+KwWOEwxRYMlxDHTJlwvgluYwjQsQ=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11f0135d-959c-48ef-fdf6-08ddfbdce3ea
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5344.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 02:40:30.9939
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q9E4G3XFCWi8p9x+7EYjguIFY8Rc3Hx6YC9HdHptmNFkoIA1XE6ovgYbtlOcbzwrewxQdXm3pWX8D4/5MpL0298kxGydgsLE6ncD6+Q08Tg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR10MB8087
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 bulkscore=0
- spamscore=0 mlxlogscore=674 mlxscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509250023
-X-Authority-Analysis: v=2.4 cv=fd2ty1QF c=1 sm=1 tr=0 ts=68d4aba2 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
- a=GoEa3M9JfhUA:10 a=CEIZDvEd9kZ5D99qYfAA:9
-X-Proofpoint-ORIG-GUID: -zjLyerOA1IP327DbmbrZyNz85gVgIOP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAzNCBTYWx0ZWRfXyiRF8CwamAOV
- HP8KxZJ2mF/hT0FSK9sJpHMOA8FoRzeCnfT+d9xd+K7VFiIDQDj3GQhID8RNiex+K20LRH0y9Ja
- F/xSSm4wiZX5eti+piLFX9toY2W+mkgugQ/f0Ys9MeWAdgHJ4ghNzrmFTo2wI4ijCEWcLiRtRvV
- K3QMccY64nwkD7TBvwPjtyBU2FsAMg14s06znieFM4WZN0kfLF9w/s76VnWZx8ojB19jFdgSuDg
- tOOru7TdWrnBs/DTCrI/GkeYjpGVPvs6inUMm7wibLcy7Ts0IpWU94klWntZpRy7pDRX4iHYRW5
- zF2MosolstiVITdpc8940t5Hm9D+KnQZNhPK2328VHrToYtHfKRQjTAq/v7NVZ2m0a/nwNNZAPS
- wI6wAupF
-X-Proofpoint-GUID: -zjLyerOA1IP327DbmbrZyNz85gVgIOP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250924202604.7201-4-mgurtovoy@nvidia.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250924_194037_901398_DEEA69C2 
-X-CRM114-Status: UNSURE (   9.99  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250925_003608_642502_4C572D75 
+X-CRM114-Status: GOOD (  12.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -203,15 +126,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed, Sep 24, 2025 at 11:26:03PM +0300, Max Gurtovoy wrote:
+> Disallow updates to the max_qid attribute via configfs after a
+> subsystem has been discovered. This prevents invalid configuration
+> and avoids races during controller setup. The maximal queue
+> identifier can now only be set on non-discovered subsystems,
+> ensuring consistent configuration state.
 
-James,
+IIUC, this change will break an existing blktests where it tests if
+the max queue changes on reconnect. This took a while to fix in the host
+and the very reason the disconnect call is buried in the max queue
+update. blktests nvme/048 
 
-> I'm relinquishing my maintainer position on the different FC elements.
-> I am updating them to the Emulex folk that have been watching over them
-> for a while.
+The scenario where this happens if you have a multi node target and one
+node after the other gets a new firmware. For some reason the number of
+max queue changes in the new firmware. When the host fails over to an
+updated node the host can't blindly reuse the old queue max:
 
-Applied to 6.18/scsi-staging, thanks!
+555f66d0f8a3 ("nvme-fc: update hardware queues before using them")
 
--- 
-Martin K. Petersen
+So if we find a way to keep this tests scenario alive I don't mind. But
+as I said I think this will break it.
 
