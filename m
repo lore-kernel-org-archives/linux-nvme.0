@@ -4,52 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22B0ECAC5AE
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Sep 2025 08:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB59ACAC5AC
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Sep 2025 09:01:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9CFCODxIzulv4q5YSURKomxw32kWcxgZHrAdUJR+mPs=; b=GynsGMK51i6bt2aIEja8IP/84m
-	QN2MjdaQRD31CWIynII0ArEK2ATt2tHwu2s6l6WBuBGnz2SiGi+ZhokLKXqfaty5ihVcnQxM+rVqE
-	6lcRHxZq3B592WWw0x6GkZl4wdP6k3W1ySrJLKy4I722aiUe3LBBN1Jqo2p19l1vAh5qyaqvSWez3
-	/c3ZUR3kEQ1G9GuFivj8ZLxjYjESX3COUswmfaxKXIDwksquyPKjIlD4bEXeXqEVYEIg1H/epxzVY
-	wxILAc7dGej5/FuvfKRjPRCCl5WRwl2G5mGzfLrXzFx/c34Whq/LCwWT9d5MrYhP19CahpIsO9uKc
-	eU2b/chQ==;
+	bh=Xf/TnhuotQyAVfIYtjawNDt8QOmaQD9IeOcCllJouSE=; b=TZDwXgv7PxFWcwAQCbrrySO0sD
+	w8IRLryiMa805bH1R3huBncYOc1cIYzXkYje9RyeRhekWoPSgqXezYp3B5Ji1x1sU57Wq70uvHkQU
+	fm0uDQZdy8LH1McEWN/gzSvR2WjCJgDGNJB1avW/U9w1Z5pmeyNXcO3BUobS4DEcmlXdTBPAEm3qf
+	/QyhS9xWYR1tncD7c9bJ4I44NwnhLq5A+yKYgiKS7K0lzwjXfvLKoDR+Uvq41QP6E7EDIH5l8+bRT
+	+uTsVb2xwa3jL8IOhcBD22+n8u4BZEie6Q80Om8qTTMzrA2fRCjLb7UPtrLP4aItSE3VLjRSuIcPz
+	vasTnd1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2433-0000000HG1p-08oL;
-	Fri, 26 Sep 2025 08:43:25 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
+	id 1v24KC-0000000HN2q-3iQs;
+	Fri, 26 Sep 2025 09:01:08 +0000
+Received: from omta038.useast.a.cloudfilter.net ([44.202.169.37])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v242z-0000000HFyA-3Sjj
+	id 1v24K5-0000000HMwN-0Yao
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Sep 2025 08:43:24 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id 63709fa0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 26 Sep 2025 10:43:17 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Sep 2025 10:43:16 +0200
-Message-Id: <DD2LKQ2V9VGA.1IBIWFZRKRZPU@bsdbackstore.eu>
-Cc: <kbusch@kernel.org>, <sagi@grimberg.me>, <hare@suse.de>,
- <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH RFC 1/1] nvme-core: register namespaces in order during
- async scan
-From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
-To: "Christoph Hellwig" <hch@lst.de>, "Maurizio Lombardi"
- <mlombard@redhat.com>
-X-Mailer: aerc
-References: <20250804114355.30212-1-mlombard@redhat.com>
- <20250804114355.30212-2-mlombard@redhat.com>
- <20250922173033.GA13802@lst.de>
-In-Reply-To: <20250922173033.GA13802@lst.de>
+	Fri, 26 Sep 2025 09:01:05 +0000
+Received: from eig-obgw-5003b.ext.cloudfilter.net ([10.0.29.155])
+	by cmsmtp with ESMTPS
+	id 1m2uvJvT4Skcf24K3vgvNd; Fri, 26 Sep 2025 09:00:59 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id 24K1vI0mntssb24K2v3NUh; Fri, 26 Sep 2025 09:00:58 +0000
+X-Authority-Analysis: v=2.4 cv=Hb8UTjE8 c=1 sm=1 tr=0 ts=68d6564a
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=IWwJ09ifmDHnqRraTvDMjw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
+ a=20KFwNOVAAAA:8 a=VWGkDn4_SsZSIYDccDIA:9 a=QEXdDO2ut3YA:10
+ a=xYX6OU9JNrHFPr8prv8u:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Xf/TnhuotQyAVfIYtjawNDt8QOmaQD9IeOcCllJouSE=; b=jS6lpnE/jlJPfkwp3lH3beXZEu
+	XTFcdRa+7mJxl2qTVgGgEDCFPQcRag7Exyg+mlLILOPPwjG0sKwpSZJa7Y+b8yRQ0SZIFBzFmUCKF
+	cLq0CYRoP5CYg4iP3JfNZgxoIvDBHiMafneqetisP5r9/CVlT93J2fCVMRm/iJgcmLA6o82QZUCmT
+	zdr5I7KtEy/xgaxhaXMqYcZCBH3nVpcqlEbjp6rGHfEyidUdQZfJk+Jhgai9/fTW2ccQPnGvuuVhq
+	ngcCVuXhDF9Ur/X1ouUWfngNrqWjnIflU3PmaRBh1Dv161myMJOdQcJL/nGT+qg6XfuPJBeOfy2eD
+	LdxCTbYQ==;
+Received: from wifi-guest-88-012.paris.inria.fr ([128.93.88.12]:39980)
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1v24K0-00000001OSk-2gjL;
+	Fri, 26 Sep 2025 04:00:57 -0500
+Message-ID: <0af9cbc4-a410-44f3-affc-a09e5c41ccd4@embeddedor.com>
+Date: Fri, 26 Sep 2025 11:00:35 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 11/11] scsi: qla2xxx: Fix 2 memcpy field-spanning
+ write issue
+To: John Meneghini <jmeneghi@redhat.com>, hare@suse.de, kbusch@kernel.org,
+ martin.petersen@oracle.com, linux-nvme@lists.infradead.org,
+ linux-scsi@vger.kernel.org
+Cc: bgurney@redhat.com, axboe@kernel.dk, emilne@redhat.com,
+ gustavoars@kernel.org, hch@lst.de, james.smart@broadcom.com,
+ kees@kernel.org, linux-hardening@vger.kernel.org, njavali@marvell.com,
+ sagi@grimberg.me
+References: <20250926000200.837025-1-jmeneghi@redhat.com>
+ <20250926000200.837025-12-jmeneghi@redhat.com>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20250926000200.837025-12-jmeneghi@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.infradead.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 128.93.88.12
+X-Source-L: No
+X-Exim-ID: 1v24K0-00000001OSk-2gjL
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: wifi-guest-88-012.paris.inria.fr [128.93.88.12]:39980
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 12
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfB5xKJmDuFWO5cDFqFYt3MyMVrWMmpMAjNdkQJdqrczirbwtgjE13JEgHOW8NRjFjkGK0UvI9hrei5/remVSiGp5XEjFTJIKfr6XQUIKrbwqHPjRxOQZ
+ +V4Y+uqFr84gfLwJJyQoPDEw8J4rkuGVem/pk9o3EvuEDdLTcR5O3s28KaZdAMCdvu9pFbNsvuyh3TsSLZBmT2nj3GfNkktPT/8MSKwQmKeMXIkiBcVTdjr0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250926_014322_204075_7D6C6959 
-X-CRM114-Status: GOOD (  26.21  )
+X-CRM114-CacheID: sfid-20250926_020101_296591_58EA5031 
+X-CRM114-Status: GOOD (  26.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,310 +113,187 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Sep 22, 2025 at 7:30 PM CEST, Christoph Hellwig wrote:
-> This idea looks fine to me, but I hate duplicating the logic
-> from SCSI here.  Any chance you could try to factor the logic
-> into a common helper?
+Hi,
 
-Ok, let's try. What do you think about something like this?
-I am not good with function names so I am open to suggestions:
+Shouldn't this patch be removed from this series, since it's going to be
+reverted anyways?
 
+Thanks
+-Gustavo
 
-
-lib: Introduce completion chain helper
-
-Introduce a new helper library, the completion chain, designed
-to serialize asynchronous operations that must execute
-in a strict First-In, First-Out (FIFO) order.
-
-Certain workflows, particularly in block or
-storage drivers, require asynchronous operations to complete in the
-same sequence they were submitted.
-This helper provides a generic mechanism to enforce this ordering.
-
-struct compl_chain: The main structure representing the queue of operations=
-.
-
-struct compl_chain_entry: An entry embedded in a per-operation structure.
-
-The typical usage pattern is:
-
-    * An operation is enqueued by calling compl_chain_add().
-
-    * The worker thread for the operation calls
-      compl_chain_wait(), which blocks until the previously
-      enqueued operation has finished.
-
-    * After the work is done, the thread calls compl_chain_complete().
-      This signals the next operation in the chain that it can now
-      proceed and removes the current entry from the list.
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- include/linux/compl_chain.h | 34 ++++++++++++++++++
- lib/Makefile                |  2 +-
- lib/compl_chain.c           | 72 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 107 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/compl_chain.h
- create mode 100644 lib/compl_chain.c
-
-diff --git a/include/linux/compl_chain.h b/include/linux/compl_chain.h
-new file mode 100644
-index 000000000000..663c105b6605
---- /dev/null
-+++ b/include/linux/compl_chain.h
-@@ -0,0 +1,34 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_COMPLETION_CHAIN_H
-+#define _LINUX_COMPLETION_CHAIN_H
-+
-+#include <linux/list.h>
-+#include <linux/completion.h>
-+#include <linux/spinlock.h>
-+
-+struct compl_chain {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
-+
-+#define COMPL_CHAIN_INIT(name) \
-+    { .lock =3D __SPIN_LOCK_UNLOCKED((name).lock), \
-+      .list =3D LIST_HEAD_INIT((name).list) }
-+
-+#define DEFINE_COMPL_CHAIN(name) \
-+    struct compl_chain name =3D COMPL_CHAIN_INIT(name)
-+
-+struct compl_chain_entry {
-+	struct compl_chain *chain;
-+	struct list_head list;
-+	struct completion prev_finished;
-+};
-+
-+void compl_chain_init(struct compl_chain *chain);
-+void compl_chain_add(struct compl_chain *chain,
-+			struct compl_chain_entry *entry);
-+void compl_chain_wait(struct compl_chain_entry *entry);
-+void compl_chain_complete(struct compl_chain_entry *entry);
-+bool compl_chain_empty(struct compl_chain *chain);
-+
-+#endif /* _LINUX_COMPL_CHAIN_H */
-diff --git a/lib/Makefile b/lib/Makefile
-index 392ff808c9b9..8eea23c22b45 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -56,7 +56,7 @@ obj-y +=3D bcd.o sort.o parser.o debug_locks.o random32.o=
- \
- 	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
- 	 percpu-refcount.o rhashtable.o base64.o \
- 	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
--	 generic-radix-tree.o bitmap-str.o
-+	 generic-radix-tree.o bitmap-str.o compl_chain.o
- obj-y +=3D string_helpers.o
- obj-y +=3D hexdump.o
- obj-$(CONFIG_TEST_HEXDUMP) +=3D test_hexdump.o
-diff --git a/lib/compl_chain.c b/lib/compl_chain.c
-new file mode 100644
-index 000000000000..7f7063802286
---- /dev/null
-+++ b/lib/compl_chain.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/compl_chain.h>
-+
-+void compl_chain_init(struct compl_chain *chain)
-+{
-+
-+	spin_lock_init(&chain->lock);
-+	INIT_LIST_HEAD(&chain->list);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_init);
-+
-+void compl_chain_add(struct compl_chain *chain,
-+			struct compl_chain_entry *entry)
-+{
-+
-+	init_completion(&entry->prev_finished);
-+	INIT_LIST_HEAD(&entry->list);
-+
-+	entry->chain =3D chain;
-+
-+	spin_lock(&chain->lock);
-+	if (list_empty(&chain->list))
-+		complete_all(&entry->prev_finished);
-+	list_add_tail(&entry->list, &chain->list);
-+	spin_unlock(&chain->lock);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_add);
-+
-+void compl_chain_wait(struct compl_chain_entry *entry)
-+{
-+
-+	WARN_ON(!entry->chain);
-+
-+	wait_for_completion(&entry->prev_finished);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_wait);
-+
-+void compl_chain_complete(struct compl_chain_entry *entry)
-+{
-+
-+	struct compl_chain *chain =3D entry->chain;
-+
-+	WARN_ON(!chain);
-+
-+	wait_for_completion(&entry->prev_finished);
-+
-+	spin_lock(&chain->lock);
-+	list_del(&entry->list);
-+	if (!list_empty(&chain->list)) {
-+		struct compl_chain_entry *next =3D
-+			list_first_entry(&chain->list,
-+					 struct compl_chain_entry, list);
-+		complete_all(&next->prev_finished);
-+	}
-+	spin_unlock(&chain->lock);
-+
-+	entry->chain =3D NULL;
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_complete);
-+
-+bool compl_chain_empty(struct compl_chain *chain)
-+{
-+
-+	bool r;
-+
-+	spin_lock(&chain->lock);
-+	r =3D list_empty(&chain->list);
-+	spin_unlock(&chain->lock);
-+
-+	return r;
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_empty);
-
-
-
-And this is like scsi/scsi_scan.c would be changed:
-
-
-
-diff --git a/drivers/scsi/scsi_scan.c b/drivers/scsi/scsi_scan.c
-index 3c6e089e80c3..0f833c5888b5 100644
---- a/drivers/scsi/scsi_scan.c
-+++ b/drivers/scsi/scsi_scan.c
-@@ -36,6 +36,7 @@
- #include <linux/async.h>
- #include <linux/slab.h>
- #include <linux/unaligned.h>
-+#include <linux/compl_chain.h>
-=20
- #include <scsi/scsi.h>
- #include <scsi/scsi_cmnd.h>
-@@ -112,14 +113,11 @@ MODULE_PARM_DESC(inq_timeout,
- 		 "Timeout (in seconds) waiting for devices to answer INQUIRY."
- 		 " Default is 20. Some devices may need more; most need less.");
-=20
--/* This lock protects only this list */
--static DEFINE_SPINLOCK(async_scan_lock);
--static LIST_HEAD(scanning_hosts);
-+DEFINE_COMPL_CHAIN(scanning_hosts);
-=20
- struct async_scan_data {
--	struct list_head list;
-+	struct compl_chain_entry entry;
- 	struct Scsi_Host *shost;
--	struct completion prev_finished;
- };
-=20
- /*
-@@ -151,9 +149,8 @@ int scsi_complete_async_scans(void)
- 	struct async_scan_data *data;
-=20
- 	do {
--		scoped_guard(spinlock, &async_scan_lock)
--			if (list_empty(&scanning_hosts))
--				return 0;
-+		if (compl_chain_empty(&scanning_hosts))
-+			return 0;
- 		/* If we can't get memory immediately, that's OK.  Just
- 		 * sleep a little.  Even if we never get memory, the async
- 		 * scans will finish eventually.
-@@ -164,27 +161,11 @@ int scsi_complete_async_scans(void)
- 	} while (!data);
-=20
- 	data->shost =3D NULL;
--	init_completion(&data->prev_finished);
-=20
--	spin_lock(&async_scan_lock);
--	/* Check that there's still somebody else on the list */
--	if (list_empty(&scanning_hosts))
--		goto done;
--	list_add_tail(&data->list, &scanning_hosts);
--	spin_unlock(&async_scan_lock);
-+	compl_chain_add(&scanning_hosts, &data->entry);
-=20
- 	printk(KERN_INFO "scsi: waiting for bus probes to complete ...\n");
--	wait_for_completion(&data->prev_finished);
--
--	spin_lock(&async_scan_lock);
--	list_del(&data->list);
--	if (!list_empty(&scanning_hosts)) {
--		struct async_scan_data *next =3D list_entry(scanning_hosts.next,
--				struct async_scan_data, list);
--		complete(&next->prev_finished);
--	}
-- done:
--	spin_unlock(&async_scan_lock);
-+	compl_chain_complete(&data->entry);
-=20
- 	kfree(data);
- 	return 0;
-@@ -1947,18 +1928,13 @@ static struct async_scan_data *scsi_prep_async_scan=
-(struct Scsi_Host *shost)
- 	data->shost =3D scsi_host_get(shost);
- 	if (!data->shost)
- 		goto err;
--	init_completion(&data->prev_finished);
-=20
- 	spin_lock_irqsave(shost->host_lock, flags);
- 	shost->async_scan =3D 1;
- 	spin_unlock_irqrestore(shost->host_lock, flags);
- 	mutex_unlock(&shost->scan_mutex);
-=20
--	spin_lock(&async_scan_lock);
--	if (list_empty(&scanning_hosts))
--		complete(&data->prev_finished);
--	list_add_tail(&data->list, &scanning_hosts);
--	spin_unlock(&async_scan_lock);
-+	compl_chain_add(&scanning_hosts, &data->entry);
-=20
- 	return data;
-=20
-@@ -1995,7 +1971,7 @@ static void scsi_finish_async_scan(struct async_scan_=
-data *data)
- 		return;
- 	}
-=20
--	wait_for_completion(&data->prev_finished);
-+	compl_chain_wait(&data->entry);
-=20
- 	scsi_sysfs_add_devices(shost);
-=20
-@@ -2005,14 +1981,7 @@ static void scsi_finish_async_scan(struct async_scan=
-_data *data)
-=20
- 	mutex_unlock(&shost->scan_mutex);
-=20
--	spin_lock(&async_scan_lock);
--	list_del(&data->list);
--	if (!list_empty(&scanning_hosts)) {
--		struct async_scan_data *next =3D list_entry(scanning_hosts.next,
--				struct async_scan_data, list);
--		complete(&next->prev_finished);
--	}
--	spin_unlock(&async_scan_lock);
-+	compl_chain_complete(&data->entry);
-=20
- 	scsi_autopm_put_host(shost);
- 	scsi_host_put(shost);
+On 9/26/25 02:02, John Meneghini wrote:
+> From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> 
+> purex_item.iocb is defined as a 64-element u8 array, but 64 is the
+> minimum size and it can be allocated larger. This makes it a standard
+> empty flex array.
+> 
+> This was motivated by field-spanning write warnings during FPIN testing.
+> 
+>    >  kernel: memcpy: detected field-spanning write (size 60) of single
+>    >  field "((uint8_t *)fpin_pkt + buffer_copy_offset)"
+>    >  at drivers/scsi/qla2xxx/qla_isr.c:1221 (size 44)
+> 
+> I removed the outer wrapper from the iocb flex array, so that it can be
+> linked to `purex_item.size` with `__counted_by`.
+> 
+> These changes remove the default minimum 64-byte allocation, requiring
+> further changes.
+> 
+>    In `struct scsi_qla_host` the embedded `default_item` is now followed
+>    by `__default_item_iocb[QLA_DEFAULT_PAYLOAD_SIZE]` to reserve space
+>    that will be used as `default_item.iocb`. This is wrapped using the
+>    `TRAILING_OVERLAP()` macro helper, which effectively creates a union
+>    between flexible-array member `default_item.iocb` and
+>    `__default_item_iocb`.
+> 
+>    Since `struct pure_item` now contains a flexible-array member, the
+>    helper must be placed at the end of `struct scsi_qla_host` to prevent
+>    a `-Wflex-array-member-not-at-end` warning.
+> 
+>    `qla24xx_alloc_purex_item()` is adjusted to no longer expect the
+>    default minimum size to be part of `sizeof(struct purex_item)`,
+>    the entire flexible array size is added to the structure size for
+>    allocation.
+> 
+> This also slightly changes the layout of the purex_item struct, as
+> 2-bytes of padding are added between `size` and `iocb`. The resulting
+> size is the same, but iocb is shifted 2-bytes (the original `purex_item`
+> structure was padded at the end, after the 64-byte defined array size).
+> I don't think this is a problem.
+> 
+> In qla_os.c:qla24xx_process_purex_rdp()
+> 
+> To avoid a null pointer dereference the vha->default_item should be set
+> to 0 last if the item pointer passed to the function matches.  Also use
+> a local variable to avoid multiple de-referencing of the item.
+> 
+> Tested-by: Bryan Gurney <bgurney@redhat.com>
+> Co-developed-by: Chris Leech <cleech@redhat.com>
+> Signed-off-by: Chris Leech <cleech@redhat.com>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+>   drivers/scsi/qla2xxx/qla_def.h  | 10 ++++++----
+>   drivers/scsi/qla2xxx/qla_isr.c  | 17 ++++++++---------
+>   drivers/scsi/qla2xxx/qla_nvme.c |  2 +-
+>   drivers/scsi/qla2xxx/qla_os.c   |  9 ++++++---
+>   4 files changed, 21 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/scsi/qla2xxx/qla_def.h b/drivers/scsi/qla2xxx/qla_def.h
+> index cb95b7b12051..604e66bead1e 100644
+> --- a/drivers/scsi/qla2xxx/qla_def.h
+> +++ b/drivers/scsi/qla2xxx/qla_def.h
+> @@ -4890,9 +4890,7 @@ struct purex_item {
+>   			     struct purex_item *pkt);
+>   	atomic_t in_use;
+>   	uint16_t size;
+> -	struct {
+> -		uint8_t iocb[64];
+> -	} iocb;
+> +	uint8_t iocb[] __counted_by(size);
+>   };
+>   
+>   #include "qla_edif.h"
+> @@ -5101,7 +5099,6 @@ typedef struct scsi_qla_host {
+>   		struct list_head head;
+>   		spinlock_t lock;
+>   	} purex_list;
+> -	struct purex_item default_item;
+>   
+>   	struct name_list_extended gnl;
+>   	/* Count of active session/fcport */
+> @@ -5130,6 +5127,11 @@ typedef struct scsi_qla_host {
+>   #define DPORT_DIAG_IN_PROGRESS                 BIT_0
+>   #define DPORT_DIAG_CHIP_RESET_IN_PROGRESS      BIT_1
+>   	uint16_t dport_status;
+> +
+> +	/* Must be last --ends in a flexible-array member. */
+> +	TRAILING_OVERLAP(struct purex_item, default_item, iocb,
+> +		uint8_t __default_item_iocb[QLA_DEFAULT_PAYLOAD_SIZE];
+> +	);
+>   } scsi_qla_host_t;
+>   
+>   struct qla27xx_image_status {
+> diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
+> index 8ff8781dae47..ccb044693dcb 100644
+> --- a/drivers/scsi/qla2xxx/qla_isr.c
+> +++ b/drivers/scsi/qla2xxx/qla_isr.c
+> @@ -1078,17 +1078,17 @@ static struct purex_item *
+>   qla24xx_alloc_purex_item(scsi_qla_host_t *vha, uint16_t size)
+>   {
+>   	struct purex_item *item = NULL;
+> -	uint8_t item_hdr_size = sizeof(*item);
+>   
+>   	if (size > QLA_DEFAULT_PAYLOAD_SIZE) {
+> -		item = kzalloc(item_hdr_size +
+> -		    (size - QLA_DEFAULT_PAYLOAD_SIZE), GFP_ATOMIC);
+> +		item = kzalloc(struct_size(item, iocb, size), GFP_ATOMIC);
+>   	} else {
+>   		if (atomic_inc_return(&vha->default_item.in_use) == 1) {
+>   			item = &vha->default_item;
+>   			goto initialize_purex_header;
+>   		} else {
+> -			item = kzalloc(item_hdr_size, GFP_ATOMIC);
+> +			item = kzalloc(
+> +				struct_size(item, iocb, QLA_DEFAULT_PAYLOAD_SIZE),
+> +				GFP_ATOMIC);
+>   		}
+>   	}
+>   	if (!item) {
+> @@ -1128,17 +1128,16 @@ qla24xx_queue_purex_item(scsi_qla_host_t *vha, struct purex_item *pkt,
+>    * @vha: SCSI driver HA context
+>    * @pkt: ELS packet
+>    */
+> -static struct purex_item
+> -*qla24xx_copy_std_pkt(struct scsi_qla_host *vha, void *pkt)
+> +static struct purex_item *
+> +qla24xx_copy_std_pkt(struct scsi_qla_host *vha, void *pkt)
+>   {
+>   	struct purex_item *item;
+>   
+> -	item = qla24xx_alloc_purex_item(vha,
+> -					QLA_DEFAULT_PAYLOAD_SIZE);
+> +	item = qla24xx_alloc_purex_item(vha, QLA_DEFAULT_PAYLOAD_SIZE);
+>   	if (!item)
+>   		return item;
+>   
+> -	memcpy(&item->iocb, pkt, sizeof(item->iocb));
+> +	memcpy(&item->iocb, pkt, QLA_DEFAULT_PAYLOAD_SIZE);
+>   	return item;
+>   }
+>   
+> diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
+> index 8ee2e337c9e1..92488890bc04 100644
+> --- a/drivers/scsi/qla2xxx/qla_nvme.c
+> +++ b/drivers/scsi/qla2xxx/qla_nvme.c
+> @@ -1308,7 +1308,7 @@ void qla2xxx_process_purls_iocb(void **pkt, struct rsp_que **rsp)
+>   
+>   	ql_dbg(ql_dbg_unsol, vha, 0x2121,
+>   	       "PURLS OP[%01x] size %d xchg addr 0x%x portid %06x\n",
+> -	       item->iocb.iocb[3], item->size, uctx->exchange_address,
+> +	       item->iocb[3], item->size, uctx->exchange_address,
+>   	       fcport->d_id.b24);
+>   	/* +48    0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F
+>   	 * ----- -----------------------------------------------
+> diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+> index d4b484c0fd9d..32437bae1a30 100644
+> --- a/drivers/scsi/qla2xxx/qla_os.c
+> +++ b/drivers/scsi/qla2xxx/qla_os.c
+> @@ -6459,9 +6459,12 @@ void qla24xx_process_purex_rdp(struct scsi_qla_host *vha,
+>   void
+>   qla24xx_free_purex_item(struct purex_item *item)
+>   {
+> -	if (item == &item->vha->default_item)
+> -		memset(&item->vha->default_item, 0, sizeof(struct purex_item));
+> -	else
+> +	scsi_qla_host_t *base_vha = item->vha;
+> +
+> +	if (item == &base_vha->default_item) {
+> +		memset(&base_vha->__default_item_iocb, 0, QLA_DEFAULT_PAYLOAD_SIZE);
+> +		memset(&base_vha->default_item, 0, sizeof(struct purex_item));
+> +	} else
+>   		kfree(item);
+>   }
+>   
 
 
