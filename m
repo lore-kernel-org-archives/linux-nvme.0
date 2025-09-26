@@ -4,71 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA444CAC5B5
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Sep 2025 22:59:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6DBECAC5B5
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Sep 2025 00:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=nR+2jg8uSJ2DwXII2BB+snam1MGHGx9RlQfNSRt5mas=; b=JecB8JYmO2/5esuPa2R6JPfy5O
-	jF5gVTdEGNyg9v/RhzAOwFdzCjD7Az2LUwucC6lHhsY2Z8n0QGnsHT1VHSMDQQVfddYWPOA9OfgDp
-	RoX4ChcSQNmUBrpDRaNf3QjJg7TOoCffblP8gsYmgIpil7pquWRZW72wzHE84dOegjCUxzp8cO+qq
-	4MdvdImbOTPAF67yUQ/98THf3/MEvA92nB67wUhCzXxQLc6/LC59zBKMhBpVQsHKdzqnBYvBfmjcN
-	zZNxihkNpy/nWkd8KVn1kON9OGfMLBd80F4dXu9oiYp48lXBfdBNamD3YDmkK056f4P9GlsN8ApbU
-	Qpe6XK8Q==;
+	bh=Wvu9uFFeJOFDOc53VVq5RN+mSYEcZ4WSKOSXb2ynPRM=; b=AZbNIpSxsytAC1+3lcB99WRTGU
+	uWBvBL6Ws5YkJyBTohAWHwJVLXfIM/ufLs+vRWbzkl0linzba97ZB9bngtIIC9irfoyS/yUphW2b0
+	VOq19V/UC4R6Y6SodYZBhqo+Fhjbm1z4b6pcMkg8rLP2/in3FvPwx+3S+mNba53qAJjfn7wpHjPAb
+	2mVsQjHzk/WOuicu+UYSX/s02tENTnBcKg5X8ZS+D2zYPYNxiqhr0KaPFX/BfO3ZGGn0dAlGrVZV7
+	IZhj72RDHrc+EvB1G43Yarptm7+IhAd/3N+1/jPhZ8JooPnKEhoux4rQ19Q2qD+d9RQgpg0PaQcBG
+	xJBgzUEw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1uw4-0000000DnG6-0FjN;
-	Thu, 25 Sep 2025 22:59:36 +0000
-Received: from mgamail.intel.com ([198.175.65.10])
+	id 1v1vuk-0000000EAYI-0hRM;
+	Fri, 26 Sep 2025 00:02:18 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v1uw2-0000000DnFO-1L62
+	id 1v1vug-0000000EAXV-0JFh
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Sep 2025 22:59:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758841175; x=1790377175;
-  h=date:from:to:cc:subject:message-id;
-  bh=ozxWZ0pfz2XDwqXpmJV/DsbU3NEb4YnWWQu+XYnghXc=;
-  b=Vrb7jek0VK0TNLJQrB+4CCoWIC77fsGL/0Y7DAYlq/0MfkDmKvpiNhB1
-   nyoyU05hp9dorUvnpNckm6ncs8HUsjC56meb7Tcp72TydXnOi9piKqQ95
-   DGoVOl5+Ry7EmKdnF6yNYnoehXzT4mfHrlDVjcHgPo6FUL8BJ0G1QFFqL
-   GhcA461LdwUKamdln7T8Va5iBJogAe4GaQ4u1zkIZD452GTvoJ4Fl0F2I
-   15UzjOdRPFShLfc86yrZwgfub0oN9WW43MO5h1Je6dfJg1cRYkjt4kaqb
-   8A70lymNcwRV1d1c0U8KcGj7qE+n80Ue6OB8O/16zBXJaAMnyyfdl6i3M
-   Q==;
-X-CSE-ConnectionGUID: BV5xM4GLRWinfJ2acgWbqQ==
-X-CSE-MsgGUID: cX16uUarSE6pskjR/uIjTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="78608158"
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="78608158"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2025 15:59:34 -0700
-X-CSE-ConnectionGUID: /0pNa8DdT3ynW/o8woexBg==
-X-CSE-MsgGUID: MqRDtkKmQGuhaYGZjEz/ww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,293,1751266800"; 
-   d="scan'208";a="201137285"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2025 15:59:32 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v1uva-0005hV-3D;
-	Thu, 25 Sep 2025 22:59:16 +0000
-Date: Fri, 26 Sep 2025 06:57:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.18] BUILD SUCCESS
- e989a3da2d371a4b6597ee8dee5c72e407b4db7a
-Message-ID: <202509260643.8D64QjNf-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	Fri, 26 Sep 2025 00:02:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758844932;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Wvu9uFFeJOFDOc53VVq5RN+mSYEcZ4WSKOSXb2ynPRM=;
+	b=adG57n1VdZ73iU7aI242mEwXuqvgVWrr7JWsPuzG+YOFAHU0eJwj9rkaeyh/H7j66dhFDO
+	b7EnlI/1MAFtw2kfo/OQy5AipX3UWgqs/S2Y2yTkgTZwFZ/OKhmD3Yz8DqfXrfq7nO7SBE
+	umfLQRLbtee/djeQSzp6KAgq2LqwUCo=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-441-HynJ0YY2PzKJbxUkpHmGHA-1; Thu,
+ 25 Sep 2025 20:02:09 -0400
+X-MC-Unique: HynJ0YY2PzKJbxUkpHmGHA-1
+X-Mimecast-MFC-AGG-ID: HynJ0YY2PzKJbxUkpHmGHA_1758844928
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 27E7319774D4;
+	Fri, 26 Sep 2025 00:02:07 +0000 (UTC)
+Received: from jmeneghi-thinkpadp1gen7.rmtusnh.csb (unknown [10.22.81.200])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CD9631800579;
+	Fri, 26 Sep 2025 00:02:03 +0000 (UTC)
+From: John Meneghini <jmeneghi@redhat.com>
+To: hare@suse.de,
+	kbusch@kernel.org,
+	martin.petersen@oracle.com,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Cc: bgurney@redhat.com,
+	axboe@kernel.dk,
+	emilne@redhat.com,
+	gustavoars@kernel.org,
+	hch@lst.de,
+	james.smart@broadcom.com,
+	jmeneghi@redhat.com,
+	kees@kernel.org,
+	linux-hardening@vger.kernel.org,
+	njavali@marvell.com,
+	sagi@grimberg.me
+Subject: [PATCH v10 00/11] nvme-fc: FPIN link integrity handling 
+Date: Thu, 25 Sep 2025 20:01:49 -0400
+Message-ID: <20250926000200.837025-1-jmeneghi@redhat.com>
+MIME-Version: 1.0
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250925_155934_400034_CFF6E707 
-X-CRM114-Status: UNSURE (   5.22  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20250925_170214_542365_E780EB97 
+X-CRM114-Status: GOOD (  22.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,114 +93,177 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.18
-branch HEAD: e989a3da2d371a4b6597ee8dee5c72e407b4db7a  nvmet: remove redundant subsysnqn field from ctrl
+FPIN LI (link integrity) messages are received when the attached fabric
+detects hardware errors. In response to these messages I/O should be
+directed away from the affected ports, and only used if the 'optimized'
+paths are unavailable.  Upon port reset the paths should be put back in
+service as the affected hardware might have been replaced.  This patch
+adds a new controller flag 'NVME_CTRL_MARGINAL' which will be checked
+during multipath path selection, causing the path to be skipped when
+checking for 'optimized' paths. If no optimized paths are available the
+'marginal' paths are considered for path selection alongside the
+'non-optimized' paths.  It also introduces a new nvme-fc callback
+'nvme_fc_fpin_rcv()' to evaluate the FPIN LI TLV payload and set the
+'marginal' state on all affected rports.
 
-elapsed time: 1472m
+The testing for this patch set was performed by Bryan Gurney, using the
+process outlined by John Meneghini's presentation at LSFMM 2024, where
+the fibre channel switch sends an FPIN notification on a specific switch
+port, and the following is checked on the initiator:
 
-configs tested: 94
-configs skipped: 8
+1. The controllers corresponding to the paths on the port that has
+received the notification are showing a set NVME_CTRL_MARGINAL flag.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+   \
+    +- nvme4 fc traddr=c,host_traddr=e live optimized
+    +- nvme5 fc traddr=8,host_traddr=e live non-optimized
+    +- nvme8 fc traddr=e,host_traddr=f marginal optimized
+    +- nvme9 fc traddr=a,host_traddr=f marginal non-optimized
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                   randconfig-001-20250925    gcc-13.4.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                   randconfig-001-20250925    gcc-11.5.0
-arm                   randconfig-002-20250925    gcc-10.5.0
-arm                   randconfig-003-20250925    gcc-8.5.0
-arm                   randconfig-004-20250925    gcc-14.3.0
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-004-20250925    gcc-8.5.0
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250925    gcc-14.3.0
-csky                  randconfig-002-20250925    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250925    clang-22
-hexagon               randconfig-002-20250925    clang-22
-i386        buildonly-randconfig-001-20250925    clang-20
-i386        buildonly-randconfig-002-20250925    clang-20
-i386        buildonly-randconfig-003-20250925    gcc-14
-i386        buildonly-randconfig-004-20250925    gcc-14
-i386        buildonly-randconfig-005-20250925    clang-20
-i386        buildonly-randconfig-006-20250925    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250925    clang-18
-loongarch             randconfig-002-20250925    gcc-12.5.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                           ip30_defconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250925    gcc-8.5.0
-nios2                 randconfig-002-20250925    gcc-10.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                randconfig-001-20250925    gcc-8.5.0
-parisc                randconfig-002-20250925    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                  mpc866_ads_defconfig    clang-22
-powerpc                      pmac32_defconfig    clang-22
-powerpc               randconfig-001-20250925    clang-22
-powerpc               randconfig-002-20250925    gcc-8.5.0
-powerpc               randconfig-003-20250925    gcc-8.5.0
-powerpc64             randconfig-001-20250925    clang-22
-powerpc64             randconfig-002-20250925    gcc-14.3.0
-powerpc64             randconfig-003-20250925    gcc-8.5.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20250925    clang-22
-riscv                 randconfig-002-20250925    clang-22
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250925    gcc-15.1.0
-s390                  randconfig-002-20250925    gcc-13.4.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                        dreamcast_defconfig    gcc-15.1.0
-sh                    randconfig-001-20250925    gcc-15.1.0
-sh                    randconfig-002-20250925    gcc-13.4.0
-sh                      rts7751r2d1_defconfig    gcc-15.1.0
-sh                           se7206_defconfig    gcc-15.1.0
-sparc                            alldefconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20250925    gcc-15.1.0
-sparc                 randconfig-002-20250925    gcc-12.5.0
-sparc64               randconfig-001-20250925    gcc-10.5.0
-sparc64               randconfig-002-20250925    gcc-10.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-um                    randconfig-001-20250925    gcc-14
-um                    randconfig-002-20250925    clang-22
-x86_64      buildonly-randconfig-001-20250925    clang-20
-x86_64      buildonly-randconfig-002-20250925    gcc-14
-x86_64      buildonly-randconfig-003-20250925    gcc-14
-x86_64      buildonly-randconfig-004-20250925    clang-20
-x86_64      buildonly-randconfig-005-20250925    clang-20
-x86_64      buildonly-randconfig-006-20250925    gcc-14
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250925    gcc-12.5.0
-xtensa                randconfig-002-20250925    gcc-11.5.0
+2. The I/O statistics of the test namespace show no I/O activity on the
+controllers with NVME_CTRL_MARGINAL set.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+   nvme4c4n1         0.00         0.00         0.00         0.00
+   nvme4c5n1     25001.00         0.00        97.66         0.00
+   nvme4c9n1     25000.00         0.00        97.66         0.00
+   nvme4n1       50011.00         0.00       195.36         0.00
+
+
+   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+   nvme4c4n1         0.00         0.00         0.00         0.00
+   nvme4c5n1     48360.00         0.00       188.91         0.00
+   nvme4c9n1      1642.00         0.00         6.41         0.00
+   nvme4n1       49981.00         0.00       195.24         0.00
+
+
+   Device             tps    MB_read/s    MB_wrtn/s    MB_dscd/s
+   nvme4c4n1         0.00         0.00         0.00         0.00
+   nvme4c5n1     50001.00         0.00       195.32         0.00
+   nvme4c9n1         0.00         0.00         0.00         0.00
+   nvme4n1       50016.00         0.00       195.38         0.00
+
+Link: https://people.redhat.com/jmeneghi/LSFMM_2024/LSFMM_2024_NVMe_Cancel_and_FPIN.pdf
+
+Testing has been performed by sending all FPIN LI ELS messages from the
+switch to the Host and verifying the proper nvme multi-pathing behavior
+is effected with each of the eight different FPIN link integrity events.
+Results were verified with iostat and with the nvme list-subsys command.
+
+These tests were run with all scenarios including where there were only
+non-optimized paths available, and where all paths were
+marginal/degraded. All multi-path io-policies were tested including:
+numa, round-robin and queue-depth. When all paths on the host are
+marginal/degraded, I/O continues on the optimized path that was most
+recently non-marginal.  If both of the optimized paths are down, I/O
+properly continues on one of the marginal/degraded non-optimized paths.
+
+Testing has been complete with both Broadcom (lpfc) and Marvell (qla2xx)
+32GB HBAs.  Both HBAs successfully complete all tests.
+
+For a complete description of the tests that were run, please see
+bugzilla 20329.
+
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220329
+
+New refactored implmentation enables administrators to manually control
+port marginal states via sysfs. For example:
+
+# Set remote port to marginal state
+echo "Marginal" > /sys/class/fc_remote_ports/rport-4:0-1/port_state
+
+# Clear marginal state (set to online)
+echo "Online" > /sys/class/fc_remote_ports/rport-4:0-1/port_state
+
+Changes to the original submission:
+- Changed flag name to 'marginal'
+- Do not block marginal path; influence path selection instead
+  to de-prioritize marginal paths
+
+Changes to v2:
+- Split off driver-specific modifications
+- Introduce 'union fc_tlv_desc' to avoid casts
+
+Changes to v3:
+- Include reviews from Justin Tee
+- Split marginal path handling patch
+
+Changes to v4:
+- Change 'u8' to '__u8' on fc_tlv_desc to fix a failure to build
+- Print 'marginal' instead of 'live' in the state of controllers
+  when they are marginal
+
+Changes to v5:
+- Minor spelling corrections to patch descriptions
+
+Changes to v6:
+- No code changes; added note about additional testing
+
+Changes to v7:
+- Split nvme core marginal flag addition into its own patch
+- Add patch for queue_depth marginal path support
+
+Changes to v8:
+- Rebased patch series to nvme-6.17.
+- Added patch from Gustavo Silva, "scsi: qla2xxx: Fix memcpy field-spanning
+  write issue", which resolves the field-spanning write issue
+- We decided to leave the "marginal" state as is, because the transport
+  driver uses the term "marginal".
+
+Changes to v9:
+- Rebased patch series to nvme-6.18.
+- Refactor and fix a patch from Gustavo Silva, "scsi: qla2xxx: Fix 2 memcpy
+  field-spanning write issue", which resolves the field-spanning write issue.
+  This new version of Gustavo's patch fixes a bug found in testing.
+- Refactored original implementation
+  New functions added:
+    nvme_fc_lport_from_wwpn() - Find local port by WWPN
+    nvme_fc_fpin_set_state() - Set marginal state on controllers
+    nvme_fc_modify_rport_fpin_state() - Main API function
+  Functions removed:
+    nvme_fc_fpin_li_lport_update() - FPIN processing logic
+    nvme_fc_fpin_rcv() - Direct FPIN message processing
+  Functions modified:
+    fc_rport_set_marginal_state - allows administrative control
+
+This patch series is based upon nvme-6.18.
+
+Bryan Gurney (2):
+  nvme: add NVME_CTRL_MARGINAL flag
+  nvme: sysfs: emit the marginal path state in show_state()
+
+Gustavo A. R. Silva (1):
+  scsi: qla2xxx: Fix 2 memcpy field-spanning write issue
+
+Hannes Reinecke (2):
+  fc_els: use 'union fc_tlv_desc'
+  nvme-fc: marginal path handling
+
+John Meneghini (6):
+  nvme-multipath: queue-depth support for marginal paths
+  nvme-fc: add nvme_fc_modify_rport_fpin_state()
+  scsi: scsi_transport_fc: add fc_host_fpin_set_nvme_rport_marginal()
+  scsi: lpfc: enable FPIN notification for NVMe
+  scsi: qla2xxx: enable FPIN notification for NVMe
+  scsi: scsi_transport_fc: user support for clearing NVME_CTRL_MARGINAL
+
+ drivers/nvme/host/core.c         |   1 +
+ drivers/nvme/host/fc.c           |  80 +++++++++++++++
+ drivers/nvme/host/multipath.c    |  24 +++--
+ drivers/nvme/host/nvme.h         |   6 ++
+ drivers/nvme/host/sysfs.c        |   4 +-
+ drivers/scsi/lpfc/lpfc_els.c     |  82 ++++++++-------
+ drivers/scsi/qla2xxx/qla_def.h   |  10 +-
+ drivers/scsi/qla2xxx/qla_isr.c   |  18 ++--
+ drivers/scsi/qla2xxx/qla_nvme.c  |   2 +-
+ drivers/scsi/qla2xxx/qla_os.c    |   9 +-
+ drivers/scsi/scsi_transport_fc.c | 154 ++++++++++++++++++++++++-----
+ include/linux/nvme-fc-driver.h   |   2 +
+ include/scsi/scsi_transport_fc.h |   1 +
+ include/uapi/scsi/fc/fc_els.h    | 165 +++++++++++++++++--------------
+ 14 files changed, 391 insertions(+), 167 deletions(-)
+
+-- 
+2.51.0
+
 
