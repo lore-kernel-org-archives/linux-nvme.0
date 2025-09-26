@@ -4,91 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3C5BCAC5B8
-	for <linux-nvme@archiver.kernel.org>; Fri, 26 Sep 2025 19:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 427E1CAC5B8
+	for <linux-nvme@archiver.kernel.org>; Fri, 26 Sep 2025 23:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Wvtv/qcICkYTsHwiHykESM7tgNOYNZooGCxrW6WCvqE=; b=wKy5LlaHylPnzdHCGEzkAZBbi7
-	kB7TP5zAUwYGgznFZsOPYQ7ndhXkaYh8f/sObVfIvmGD6zk2RWxwYtgrX/qbbFzgtm+Y17OE30B1J
-	J8My+QpEx7uHbj8pfbiMHa8ZhaRSq8wems7I/APPIL8a+vStY5l5EGOZOGQocXeHCD+I2Pg5FZZBC
-	UI+1E45P7xvbqSkCE964D5MOz0s2InjTJwiDDWgwjJ2oAaKXU9CH/AUHbaXHNpon8Ex4317PbmjKL
-	SXS8me26QGpBFup2ETSSAvdJAL66aah+gEE2ezK+7Z4jRjTerlmqKXb0evjK8er8If8J0KBpaRGz2
-	fwatj5Og==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MTw+KZvrDjb5UTFpK7FAxk2eU7ODCJYc2yTxNUcpgiw=; b=1EUzysw1Lim2M6tlinRfarWuCl
+	X/tFjkBH+zihArnIdWFRo+oTwdpGvp31OdMqVPDdNlxqIS5eGXRq5GNgpzShTvKb3jl8b65rieAjJ
+	xuyaJSNiOqxSuoJ4iX8nn0kfF73ZFLXKs1gJ3Ocm3jlNS9X37OTRF1i8bCaVHOUIC0eXtU/U9JHrV
+	0XLuwPqbN0MQX1rsQWgg4AC10BZnQ3xvguen0LVWBM7Ir3Nn2jTy4wONAD5RGEuXloI/JkiABYx4K
+	6l2jNbTjQuoKHQuNv3ctprDCB6TU5non8oOiLt/nju7tmFR4rEOM8QjY8a2v9xWAD+aVrrZphGcPl
+	RSWPi1Vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2DpR-00000003qRI-2DWy;
-	Fri, 26 Sep 2025 19:10:01 +0000
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
+	id 1v2HwR-00000005Nqh-2ziZ;
+	Fri, 26 Sep 2025 23:33:31 +0000
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2DpO-00000003qQX-3r2F
+	id 1v2HwL-00000005NoD-1MJZ
 	for linux-nvme@lists.infradead.org;
-	Fri, 26 Sep 2025 19:10:00 +0000
-Received: by mail-io1-xd2f.google.com with SMTP id ca18e2360f4ac-917be46c59bso14198739f.1
-        for <linux-nvme@lists.infradead.org>; Fri, 26 Sep 2025 12:09:58 -0700 (PDT)
+	Fri, 26 Sep 2025 23:33:26 +0000
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-2697051902fso5699935ad.1
+        for <linux-nvme@lists.infradead.org>; Fri, 26 Sep 2025 16:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1758913797; x=1759518597; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wvtv/qcICkYTsHwiHykESM7tgNOYNZooGCxrW6WCvqE=;
-        b=CtAdwzNMCyuj6d/3t40VPHI+fY4JMYy1sq+d9Cjebfkch6aIz5lsx4EXD90XWHZKsk
-         v2N5qfGoA3bXn4fWuqTTKq8xfsOGBlhWC/y+NknHcqxh7zyHjDWc3bzbv6X0TFQVWUdF
-         s8eCGvzM3UcbiTDE+uz6mzMtxvygQO8mVQ8RusPM8VUkSYG0v10GbmZ3gMkxBzvzCLWU
-         BPJvIGTox6kTaxy4WoekFu3O7asDMM8g5SCXa5RM35BUX4Sw8RxcXtdvrmZH57gi5bRF
-         O9lMIGZEe6fbkwGrHGLs9clZXLxuNb/2HaWrq107fpmbcj6782apUuO849IWScXP0xMB
-         nfQg==
+        d=purestorage.com; s=google2022; t=1758929604; x=1759534404; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MTw+KZvrDjb5UTFpK7FAxk2eU7ODCJYc2yTxNUcpgiw=;
+        b=G/6lLCxCvHxODyPimBXJv+z/AwkzgxiZp6g0aOUx/2Pj7NbnQ6I/y2AZbwhuDGgzkI
+         I/tODxjymOkxFDFmpUyCE+6Ci8lwqS4LcBuXfzT1pJ11hcHa829UnIBNjFR9UiUXkD5n
+         JGAIUZanNasBDb0/fr2YZ/qXUJuaP6PCHiCxwiCxq+RfC0xKkPmGArodr+8N4rzkLmRQ
+         pi4lsoSztYyf21JWXF/fkUXJEy5rrHvnf9VkAJHFNqQ18JpCSgqa08SYarAqcJ0jDDm9
+         1+UTVgGEe3QQlfEU/tAxkBlUwbaco1MlZNSKwba0/+KF6JfAZ7ltD7WjHWsQ2c5sFy6p
+         s4QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758913797; x=1759518597;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Wvtv/qcICkYTsHwiHykESM7tgNOYNZooGCxrW6WCvqE=;
-        b=YataUSSVtziE8hnTKKCAHpk4C8ZPWKluOOc0BItTuPeKmci8n87bz1nTLtpZ9CwAVJ
-         OVZst70I0z0O0MTE09p+sex+9TclOUQC2uUEygIcODz6zmBtJ7FEJdT1It2xpy7mQjEM
-         2bB45fLsXeyNld3yGEA00GlWSxNKX5G1tPCasC+QJPFcyyvdkq2MQuczN2jL3P/kmvu6
-         PgRRvpQOCNme8klAro3aBWIKYu+1C42OqQNFT9PdknvUk0W9Bd2fxDg88O4EOn2zHMme
-         spLXlDs1jXNydQZiEASiEyzfsBgZ+xvK66Awtt+Td1Gx2oKzRtxcD8S+U5FJunLuFgVG
-         2GTw==
-X-Forwarded-Encrypted: i=1; AJvYcCWylYxkOi5ziBL9nbMAViPsecKnoFzRs29JRnOBUQmJ2+h5Ko0Y5zxxVAZk+jTXcKnmSwIJjZAokiLB@lists.infradead.org
-X-Gm-Message-State: AOJu0YzK79U9r3zHL80uPUaG7W61Dc+brefUkFvMNUl+OwBoD7qmksNV
-	RYuYCAPVKFmto/LS7ZWyxoWCzpfFsrraACqst2p3vFf7ZDu/pUYFux5GihCSHKb7iSA=
-X-Gm-Gg: ASbGncuUerrco0agJ14IcwP2dbaNPap4HzEExuj2c9IGEzHVTCBUlB+B4ZnqSI6l8Dk
-	vypJqLybBo0jUjPxmnWmA+oMCCaiXeB2CY+npKx4yp6nnUVIFzO1JsSJG76ODZN1BCuu/Bjn3Zc
-	WBUhRXKaVpqNH7IH1dtqoUzMKJmA59l3H+ADIG/H71DpBJHmTtbSPZ01yxz360/YSTRVu7sPg7o
-	U4hRtnkbCE2W4b3pRqU4xJljeOiWuH/BXqx2a6PqFmr3tlLj09MGveoGeWNB3kyNkfB+6MvJ9Cx
-	4W/QWvoPK1AnhPI+J9kgqchsEO6h/vXgN5VVsR6a2SLUj0ZPRpjZhNr2iwJ86sp38O35sxEBo2C
-	rlKS/n24RbVBqSBuSNYqzBDmO7JeHfa6AmZO2wKZj7xIbL4y9NnnkDSwYfbtLWb5hmKtbNA==
-X-Google-Smtp-Source: AGHT+IFjghvNCqO6TOfbA98+sZd3KQTpt5kAvS4oQsge2mxcUu3UVERk7C8TvE1C6z9/EDMI2LD95A==
-X-Received: by 2002:a6b:6a0c:0:b0:8fd:baa7:bce2 with SMTP id ca18e2360f4ac-9016c57c02amr1232916839f.16.1758913797264;
-        Fri, 26 Sep 2025 12:09:57 -0700 (PDT)
-Received: from 8745f5817b94.dev.purestorage.com ([208.88.159.128])
-        by smtp.googlemail.com with ESMTPSA id ca18e2360f4ac-90e48099408sm105070639f.10.2025.09.26.12.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Sep 2025 12:09:55 -0700 (PDT)
-From: Amit Chaudhary <achaudhary@purestorage.com>
-To: achaudhary@purestorage.com,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: mkhalfella@purestorage.com,
-	randyj@purestorage.com,
-	jmeneghi@redhat.com,
-	emilne@redhat.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] nvme-multipath: Skip nr_active increments in RETRY disposition
-Date: Fri, 26 Sep 2025 12:08:22 -0700
-Message-ID: <20250926190823.5031-1-achaudhary@purestorage.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1758929604; x=1759534404;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MTw+KZvrDjb5UTFpK7FAxk2eU7ODCJYc2yTxNUcpgiw=;
+        b=vKQdEyICGUcsL1+fxeBPtV7+WA7UXQWmNMT9q91w9liLDz6+AhbSQO7ktpRtZHLkBK
+         lzi1EnpvaOcvlREe4Cv91buknekTagj/QAfmrnyNqd5qBpTJv8smZElruzhN9FYpxvyk
+         lv4HKyTzcZ3wOPrD/zMIhxXXaFWdHyrfuH/oWIOMuYRrhc/xt9gB2x6RbnYlzcdhct5A
+         z2cxl5kSUhiMcQdQIU8p50QjDVGkrCEcdYzKIw9HjDLbwCiZSJCN09I3/wU8E628WH4X
+         ERqaC87HdcFY6l/7/pD1umw4w4jInqTIWRZ+EYThMO2UPQH4pKu2pDWZ97nCdgXNxmlo
+         nslA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSi7E9B9jQnzO8ZD11yOH5fnrYsrJrEG+SMZWKGBfiGSXLFbLosuB4ewmnhPoQBUQkRasshXfcTbSM@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyh4OPKZPuib/g6qjlKfZt8ERqbbpazGXfabblSXsgzjjO0FGhR
+	CyOQMSL+zWO3is8xhBxid4Gi5lMKSG8NCY2NPwFOukQSOwPxfcTtvOnyJQ4ndH1T7gKu1lq+/8L
+	Q7VU3hpIMscHkeDkJ0AZadk82LkCoOawxrcG807//Zw==
+X-Gm-Gg: ASbGnctTpvkxb/TELrGmQUKmkbSyK+NjYPAKghd1ihbQiiiWDhUROIRapIs0MsRcL+/
+	ufDzqd1MEbvZDtnhbYyL1nJd0vM6AAUEfxtcijJdm0f3Pt8O3XFxCdUSBV62CUHLcl9b28d1TFE
+	xF2BdWJmX54402YAlUar/pWifdas404BF7Bjvv/yvAD0OuLXaF59EHJYmmrt0ppKuNCmPtLAMW4
+	4tky2FIHMrbiu8WD7+6NdrvqTHj7opUx5bcr90O
+X-Google-Smtp-Source: AGHT+IEmwasV917F/ENXUuMXNw6qnyku7SdrL3S46yOq+ltmtsWNtQZ4LiJG30MWacaYm9zGnPUEEk+jqqdkXCd8/H0=
+X-Received: by 2002:a17:903:32cf:b0:269:80e2:c5a8 with SMTP id
+ d9443c01a7336-27ed4a36556mr59261245ad.7.1758929603929; Fri, 26 Sep 2025
+ 16:33:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250926065235.13623-1-409411716@gms.tku.edu.tw> <20250926065556.14250-1-409411716@gms.tku.edu.tw>
+In-Reply-To: <20250926065556.14250-1-409411716@gms.tku.edu.tw>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Fri, 26 Sep 2025 16:33:12 -0700
+X-Gm-Features: AS18NWDAPU1wF1fnKK0roMsQSKKSRQQvsh9BWc75x2xsf5jzdJWlHk7wuynVlkw
+Message-ID: <CADUfDZruZWyrsjRCs_Y5gjsbfU7dz_ALGG61pQ8qCM7K2_DjmA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/6] lib/base64: Optimize base64_decode() with reverse
+ lookup tables
+To: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+Cc: akpm@linux-foundation.org, axboe@kernel.dk, ceph-devel@vger.kernel.org, 
+	ebiggers@kernel.org, hch@lst.de, home7438072@gmail.com, idryomov@gmail.com, 
+	jaegeuk@kernel.org, kbusch@kernel.org, linux-fscrypt@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	sagi@grimberg.me, tytso@mit.edu, visitorckw@gmail.com, xiubli@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250926_120958_997683_343B46E3 
-X-CRM114-Status: GOOD (  13.47  )
+X-CRM114-CacheID: sfid-20250926_163325_406720_93620288 
+X-CRM114-Status: GOOD (  18.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,55 +99,187 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For queue-depth I/O policy, this patch fixes unbalanced I/Os across
-nvme multipaths.
+On Thu, Sep 25, 2025 at 11:59=E2=80=AFPM Guan-Chun Wu <409411716@gms.tku.ed=
+u.tw> wrote:
+>
+> From: Kuan-Wei Chiu <visitorckw@gmail.com>
+>
+> Replace the use of strchr() in base64_decode() with precomputed reverse
+> lookup tables for each variant. This avoids repeated string scans and
+> improves performance. Use -1 in the tables to mark invalid characters.
+>
+> Decode:
+>   64B   ~1530ns  ->  ~75ns    (~20.4x)
+>   1KB  ~27726ns  -> ~1165ns   (~23.8x)
+>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> Co-developed-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+> Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+> ---
+>  lib/base64.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 61 insertions(+), 5 deletions(-)
+>
+> diff --git a/lib/base64.c b/lib/base64.c
+> index 1af557785..b20fdf168 100644
+> --- a/lib/base64.c
+> +++ b/lib/base64.c
+> @@ -21,6 +21,63 @@ static const char base64_tables[][65] =3D {
+>         [BASE64_IMAP] =3D "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst=
+uvwxyz0123456789+,",
+>  };
+>
+> +static const s8 base64_rev_tables[][256] =3D {
+> +       [BASE64_STD] =3D {
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  -1, =
+ -1,  -1,  63,
+> +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11, =
+ 12,  13,  14,
+> +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37, =
+ 38,  39,  40,
+> +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +       },
+> +       [BASE64_URLSAFE] =3D {
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ 62,  -1,  -1,
+> +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11, =
+ 12,  13,  14,
+> +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1, =
+ -1,  -1,  63,
+> +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37, =
+ 38,  39,  40,
+> +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +       },
+> +       [BASE64_IMAP] =3D {
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  63, =
+ -1,  -1,  -1,
+> +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11, =
+ 12,  13,  14,
+> +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37, =
+ 38,  39,  40,
+> +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, =
+ -1,  -1,  -1,
+> +       },
 
-Issue Description:
+Do we actually need 3 separate lookup tables? It looks like all 3
+variants agree on the value of any characters they have in common. So
+we could combine them into a single lookup table that would work for a
+valid base64 string of any variant. The only downside I can see is
+that base64 strings which are invalid in some variants might no longer
+be rejected by base64_decode().
 
-The RETRY disposition incorrectly increments ns->ctrl->nr_active
-counter and reinitializes iostat start-time. In such cases nr_active
-counter never goes back to zero until that path disconnects and
-reconnects.
+> +};
+> +
+>  /**
+>   * base64_encode() - Base64-encode some binary data
+>   * @src: the binary data to encode
+> @@ -82,11 +139,9 @@ int base64_decode(const char *src, int srclen, u8 *ds=
+t, bool padding, enum base6
+>         int bits =3D 0;
+>         int i;
+>         u8 *bp =3D dst;
+> -       const char *base64_table =3D base64_tables[variant];
+> +       s8 ch;
+>
+>         for (i =3D 0; i < srclen; i++) {
+> -               const char *p =3D strchr(base64_table, src[i]);
+> -
+>                 if (src[i] =3D=3D '=3D') {
+>                         ac =3D (ac << 6);
+>                         bits +=3D 6;
+> @@ -94,9 +149,10 @@ int base64_decode(const char *src, int srclen, u8 *ds=
+t, bool padding, enum base6
+>                                 bits -=3D 8;
+>                         continue;
+>                 }
+> -               if (p =3D=3D NULL || src[i] =3D=3D 0)
+> +               ch =3D base64_rev_tables[variant][(u8)src[i]];
+> +               if (ch =3D=3D -1)
 
-Such a path is not chosen for new I/Os if multiple RETRY cases on a given
-a path cause its queue-depth counter to be artificially higher compared
-to other paths. This leads to unbalanced I/Os across paths.
+Checking for < 0 can save an additional comparison here.
 
-The patch skips incrementing nr_active if NVME_MPATH_CNT_ACTIVE is already
-set. And it skips restarting io stats if NVME_MPATH_IO_STATS is already set.
+Best,
+Caleb
 
-base-commit: e989a3da2d371a4b6597ee8dee5c72e407b4db7a
-Fixes: d4d957b53d91eeb ("nvme-multipath: support io stats on the mpath device")
-Signed-off-by: Amit Chaudhary <achaudhary@purestorage.com>
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
----
-V1 -> V2: Moved check to mpath start and check relevant path bits
-
- drivers/nvme/host/multipath.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 3da980dc60d9..543e17aead12 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -182,12 +182,14 @@ void nvme_mpath_start_request(struct request *rq)
- 	struct nvme_ns *ns = rq->q->queuedata;
- 	struct gendisk *disk = ns->head->disk;
- 
--	if (READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD) {
-+	if ((READ_ONCE(ns->head->subsys->iopolicy) == NVME_IOPOLICY_QD) &&
-+	    !(nvme_req(rq)->flags & NVME_MPATH_CNT_ACTIVE)) {
- 		atomic_inc(&ns->ctrl->nr_active);
- 		nvme_req(rq)->flags |= NVME_MPATH_CNT_ACTIVE;
- 	}
- 
--	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq))
-+	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq) ||
-+	    (nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
- 		return;
- 
- 	nvme_req(rq)->flags |= NVME_MPATH_IO_STATS;
--- 
-2.43.0
-
+>                         return -1;
+> -               ac =3D (ac << 6) | (p - base64_table);
+> +               ac =3D (ac << 6) | ch;
+>                 bits +=3D 6;
+>                 if (bits >=3D 8) {
+>                         bits -=3D 8;
+> --
+> 2.34.1
+>
+>
 
