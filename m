@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DFF9CAC5B5
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Sep 2025 11:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FC2ACAC5BB
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Sep 2025 11:51:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OIw9a4hC5dMKGV3eMkOQXqYUAGeHb/beB+O126QLNpQ=; b=Fc2IydJsndakNNIFutTmmUd4At
-	oJN6AvxBPREOcQ37Jss27NgyU7oFIDMXy89fOrn7T4MxxtbkFlSdwe2oyy4Wkf/kL3POmLzoKbMWT
-	j81iBX270hAUAHxE/KOlXkfihf2O/HxPyd3SeycWiYs7gItfVOxIfu9Yrje/euIxeMKQdJS0qWQLH
-	HmG1oOd2/RKI58Z6ZAkRY4D7w9VRUqJ1/AIRmZmkH3D0LjdW7J8S8jyD+x8AEFqDZtbQZwTWtbYkJ
-	2kgMjIm+GWhMxuQsI5rzEUfvfzFCVHD3ZH4W5xkR4UfmpJ465LFIcRJX19LDJIQqxpWgl6904OXJf
-	MQ85DX5w==;
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Wg1HWS2oETt2xtZGwMXugdEWXEPcYBsySMkH4UtltAo=; b=yHFT7zPpJ07QL1UcHzjcQwBJC2
+	Jvssk7QPdoJizMlSDqsXT5GRGjlf1sNUcT3HHsox5Yl1SZ3/HgyiYLl99g1wjH5dKWM11i51BIB/B
+	p8LAhqWggsbStZqDLjfSAVP4PXiMD67M0O0NksqznShpi+fAkfRGM3apXJjwxD3AcJTYlpzowOvkf
+	O/S+pTa7s9fakkyh60Lf66N5JTBBsLnJgFqFaM1ycrrwsjmhDtI/o1tBrqPRkegzh6e3uyez1h2Qo
+	YYsWKJHG9MmlnaZo7ydJV2j2V5AYNws6nJ/W7+2AOzBvXyvRNM3+e/tKw8cGnVlvo0bOD0X8b7I1a
+	oSon+sCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2pwS-0000000FJrI-24Er;
-	Sun, 28 Sep 2025 11:51:48 +0000
-Received: from mail-eastus2azlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c110::1] helo=BN1PR04CU002.outbound.protection.outlook.com)
+	id 1v2pwN-0000000FJnk-2uyK;
+	Sun, 28 Sep 2025 11:51:43 +0000
+Received: from mail-southcentralusazlp170130001.outbound.protection.outlook.com ([2a01:111:f403:c10c::1] helo=SA9PR02CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2pwQ-0000000FJp4-2Lij
+	id 1v2pwL-0000000FJlj-0Roh
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Sep 2025 11:51:47 +0000
+	Sun, 28 Sep 2025 11:51:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AQn4sAliMo2/epz7dszuZx9bQsxZ/ukOSPg+HXW6WIZHym/1h56Y0JvaDusiQ6Q42l+WaPVODD78yvJaEypmQf2xsnpWqTz0tAbzJ4li5rRZVIHbvMd+7HvxFm9v1Eh2mWdZaCVnP2BO3WtTNlRw8n/2Rt4100MTmlecIN2RXj0ygF06bSY7y1J33HcncxEJlkgBkFE7muJECT6hj0WxQk9pM4065LA3yskmX1hNgxOi9y0bBgwQu2eoaOjmNngmlEIize9p0hpCfLlCmSc8uI0HIDM/+Ll4ocpegLIcLtGlnTH1Yd0QOtYrT2JvkkqD6r5uvtUMMAFE8eo1uF4dyw==
+ b=oub6U0pssfFmhCnHXa6TlG8avjSOuu8ggJNkuSyt8LfFE3gd+COURN7TTERAhMQvYK0zBISC5CpRLTnE8NiIBwkMhszjzD3nklS/tsvlpKIjBEqfV3+7j+/6uY4llEmeu/dqSBA9hL4IXMR/X+XCCHLWAZUt1oezw412FjbVaKDsRtK+i+0KBg+QIzJEzdZUWMB0UmfzR7AvA1jbVc8C3+9JhRwT/Bp70QxEzc+vB9jkCPBvx68n+2eanHPtwabWNyVZu/rJxIpR6isZFwi/ODDJ2Ruk31P3i55nzSstdSgPrEz+DRBezA164gek0VH11fFbA/HEIiEhEoSKAz39DA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OIw9a4hC5dMKGV3eMkOQXqYUAGeHb/beB+O126QLNpQ=;
- b=dC1KcifPBmLHQgUhaqCBOCJG6LEnr9bVxRfHNFMUHbeBzYZMOaMfam52rEYYkae41UWwna75wkJXY5v0gsY/kqEpebJo0T95SgLB3d85iH9AE83eFIiM6D+Y5VDMCTtxvXMdm7p8tkcFOeUfHcYugL+oOgU4h7GIQVv/LMyQDYrUweiG7S1oC20dIKJVWZMCTGL3Mv81DMNvdflIwYVTLHAlS/N0XxhulvU+8fj48ao+2YqkaaVSPjI2GE7A/H43ymCYpeRd3e/dxZin/1YBBhDYkklXLI2nCLhrp1CH9Y7szOf/ml2qi2JIAVd502Q0aD++0V76mwLlB3PlG84wtg==
+ bh=Wg1HWS2oETt2xtZGwMXugdEWXEPcYBsySMkH4UtltAo=;
+ b=quRgCwlmoiPjFvLbYkpljREZC8tAQmR/zfq8eA3lWVkzuXPObyuCkAMwNZm9aS4aj0P2FwepO3TYWohwoMq2qXZx03rSk8knOKJZlOX8R4maQDps25IGbysgeAM1XNTDIRanU/MTGCdBDOhmSEv8L9fh84XFPOwAxeQ6YIIwxf35KChR7GfLmn9JEmVN6E9OVxUeZOnUJgZeAH37OoSi91NdDK1GEwHv9wmSuEmkaibAXDWZdyDlrddqXVmDah8lXnFJBEfLaCE/X7moqP2CcDiuqpG5noTqqbEmMV3yF+7PgPg4MQBqVQ+h1enVXqfXxrzTPSbTqyCxn3LIog4UcA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.118.232) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -41,18 +41,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OIw9a4hC5dMKGV3eMkOQXqYUAGeHb/beB+O126QLNpQ=;
- b=mw90LM5NNZh72mVcuAnk0f8+qnqoFgxR5m9nahNvrqvjdXy96dv4E9Hvyn5cNkmd6+7feA/8Ft35UAGnncLwI1J6Plco8TBEpovRm3dO8QnpS4PnQo+u2tMxUaihoN2pH2MJslxwcPBIJn5i9S9TWAenwaGQwxmiVmMUbl1KcQNAMmUlp/0fP/IytA+N7ozyNfgy8yIIXlv3BSkuBS9KJ2ozZAddIEVetwx4VEB0o7/a8h8o7eXioYnCfO9oEAW/LrUwX1oyfb/vkpcE47b4K/XAfZqUGF7gBUIEX3aoTIz27BAedc3ubGaewjwNXV7FT7Q7PxhdFKozZ6upM6kHWg==
-Received: from SJ0P220CA0025.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::16)
- by SJ2PR12MB9241.namprd12.prod.outlook.com (2603:10b6:a03:57b::18) with
+ bh=Wg1HWS2oETt2xtZGwMXugdEWXEPcYBsySMkH4UtltAo=;
+ b=S4+xvxGTdhkK74YOFC2GHkP73hWWbYXGJujToSaTodi7xdGKtv3vEO6Khd0pwlVd9GYCyGhXxQY1+614SWSBoO4knwIF6RehbOqlTv7GRgD70dZc865NXKg7bSIYiUuI56lBnCJfnedpTYEtugWlsmNXoIK2mpu7M+Fu+4dz8R8yUepIRU9gReuqA/HZfvVf9EfI82bc2JY3Z4V3xpv9Xsie9TKqw/9iw5l2gCCuNOZdRNBmUr8ImVwd9kmPvMFFRb2zseM9xZjR2bxJHtnoJ1g2eMW4Hnlz8O9qS5q1mGCe4YO0p49WrRUJGuLobBPTGC90zEYP3cPB4qPma3z6Cg==
+Received: from BYAPR06CA0052.namprd06.prod.outlook.com (2603:10b6:a03:14b::29)
+ by IA1PR12MB9498.namprd12.prod.outlook.com (2603:10b6:208:594::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Sun, 28 Sep
- 2025 11:51:36 +0000
-Received: from SJ1PEPF000026C3.namprd04.prod.outlook.com
- (2603:10b6:a03:41b:cafe::46) by SJ0P220CA0025.outlook.office365.com
- (2603:10b6:a03:41b::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.15; Sun, 28 Sep
+ 2025 11:51:29 +0000
+Received: from SJ1PEPF000026CA.namprd04.prod.outlook.com
+ (2603:10b6:a03:14b:cafe::b2) by BYAPR06CA0052.outlook.office365.com
+ (2603:10b6:a03:14b::29) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.15 via Frontend Transport; Sun,
- 28 Sep 2025 11:51:36 +0000
+ 28 Sep 2025 11:51:29 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
@@ -60,82 +60,81 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.118.232 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.118.232) by
- SJ1PEPF000026C3.mail.protection.outlook.com (10.167.244.100) with Microsoft
+ SJ1PEPF000026CA.mail.protection.outlook.com (10.167.244.107) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9160.9 via Frontend Transport; Sun, 28 Sep 2025 11:51:36 +0000
+ 15.20.9160.9 via Frontend Transport; Sun, 28 Sep 2025 11:51:29 +0000
 Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
  (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Sun, 28 Sep
- 2025 04:51:35 -0700
+ 2025 04:51:29 -0700
 Received: from drhqmail203.nvidia.com (10.126.190.182) by
  drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Sun, 28 Sep 2025 04:51:34 -0700
+ 15.2.2562.20; Sun, 28 Sep 2025 04:51:28 -0700
 Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
  (10.126.190.182) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Sun, 28 Sep 2025 04:51:32 -0700
+ Transport; Sun, 28 Sep 2025 04:51:26 -0700
 From: Max Gurtovoy <mgurtovoy@nvidia.com>
 To: <dwagner@suse.de>, <johannes.thumshirn@wdc.com>, <kch@nvidia.com>,
 	<linux-nvme@lists.infradead.org>
 CC: <israelr@nvidia.com>, <shinichiro.kawasaki@wdc.com>, <hch@lst.de>,
 	<kbusch@kernel.org>, <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: [PATCH 2/4] nvme: add support for mlx5 RDMA devices
-Date: Sun, 28 Sep 2025 14:51:23 +0300
-Message-ID: <20250928115125.38383-3-mgurtovoy@nvidia.com>
+Subject: [PATCH 0/4] NVMe: add support for mlx5 RDMA HW and test enhancements
+Date: Sun, 28 Sep 2025 14:51:21 +0300
+Message-ID: <20250928115125.38383-1-mgurtovoy@nvidia.com>
 X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20250928115125.38383-1-mgurtovoy@nvidia.com>
-References: <20250928115125.38383-1-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C3:EE_|SJ2PR12MB9241:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a8010e5-1a17-4077-37ce-08ddfe8560f9
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026CA:EE_|IA1PR12MB9498:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3ddab27-c949-4952-a2ab-08ddfe855c81
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5IJl4uL6aSRk/I/dfGzLrs2nq3KMkPE7cb6GXVhr6WLRTllJhfsaT26r8TZb?=
- =?us-ascii?Q?Ql2PAUHlxAcBj8ikzizscDZZaAvpYnqpUSWsTk0hN4MJhY+FSIst9Gntw6yz?=
- =?us-ascii?Q?1It/Q3J0zPToW3FTKII7dCEXX75l/AsW3eiCcwgf8kvs+NwPGZA8GFzQ6Kky?=
- =?us-ascii?Q?tQK9gpZsJfyq7J9bjS02es0rwiEFqQDicwswJDldmhFAyelblKh+NpXMeOA5?=
- =?us-ascii?Q?y90mYH0Vb27/OHXtOS+nKq0VWAeCfyINn4QUZ7xhChaHDkeu999VIFWdtYiz?=
- =?us-ascii?Q?9lEdClMeSPqDkkXWeahPYLAavhcdp5QpGY6MMnBF2s8HN7PAD+osfyejkWcM?=
- =?us-ascii?Q?1I98XhcUXSUj9LsP0YnkeVaGO1XYJ+uyHXukQFif4qrH4k5fVhNLEjf4VNuJ?=
- =?us-ascii?Q?P834PrlV5sV6gM16Agqn9DhlTc+s8V8tiVLKU/vsr0u5QEBdKFjLxjdcmz3m?=
- =?us-ascii?Q?azocYKbymJiauAy+fLbd0kSkw7fL6VZacRdF2BYq6mDAxvvw6OehuE7ymbGj?=
- =?us-ascii?Q?B145d3+tU+mT3AJzFo+sKxyP6u8x5rKWC2Gr3AGuqYgpsMedVI7Rq4FqMLjp?=
- =?us-ascii?Q?F8TpNo/fPv70c97pibvVbFeeVfu+drw7JEcPSYdAAscskmbbvdyM7GcWqRb+?=
- =?us-ascii?Q?wU0r+WEbhKgzGuWYnmHKUUF2OVxkEx4YmIFLCBt54UrSslIbUQ4PYlSSOJKL?=
- =?us-ascii?Q?2EDAc+jG6Y4JhjBqKj4jvWdBaPp7Lu0AyZ3K3gJ5h8Qc6HmFyQjxoLoLUsNt?=
- =?us-ascii?Q?aLdvBFRim7qxotYVbn8qEzu20eD4uH5Hf4XF0sHxLl9SIfIV0akynDY5vhXU?=
- =?us-ascii?Q?z3ECeVwqYs6z7TPSxOSehFyclp8A7Jk9ycZZZnQ8FGZjYXpz/9Pl6DqnV+ZH?=
- =?us-ascii?Q?lp+C1SOD1LhCwoycd5qTY1nTx6JmLtPzMJGwFFPU5l38aj6JiN3kBa1h+G7w?=
- =?us-ascii?Q?crXYLgUdW1R6chgskPY6eqqBAKWV246txcYLfm+X489mOcFQRDSdaGfVnOWz?=
- =?us-ascii?Q?nU9Mud+D6g5mJ6Ztfv5YkEimmoaJm+ynEDsXYI/y/1OrQ8irdR/4K6lPtEl7?=
- =?us-ascii?Q?EHKQxQs2fON2qjS2hOTUfNrTACrMDyfxQqXlDJXlbu0OAJO0ZGegKhxiAdAr?=
- =?us-ascii?Q?ZQwrhr3+dK3bykT73JS5c/RYLwoSfVwEPNB/6kE3azufwOuFU2vjjUzvpzRg?=
- =?us-ascii?Q?8h5/EmEyzd+8fo2sk0tiZfG+pDFn0s3pPc+/VSczMNIJYbzfQ5ku5d7oKlRt?=
- =?us-ascii?Q?in5xjC+p2iJGm5PLzjb135bQzm3xKJP4JrWM9NJnJNgQK1yiijTychVAUGyZ?=
- =?us-ascii?Q?b8q3p+/g8tJAxEVAu7vUYiDn2tcIIsCt/eoqjMZBy9RJ62PfFU14BXZKV32Z?=
- =?us-ascii?Q?AWMCOng3fUr/JovpTtHww/pihsTHmtA9meupJxmB28e0fyY+t10yomdO5syV?=
- =?us-ascii?Q?Q3S6SFZBr0KA1B4cyOEZjI0m6SkDhY1jWbfmuKaseG4BQJ3cgiGEZL9RKVkg?=
- =?us-ascii?Q?fD5H6PuhizFYshC0Q0DiXNNw82zA6F6ejaZ4XRFQ2Cj3VaQdF3jz/oB4iocb?=
- =?us-ascii?Q?R1mGFmwrNOVD090Ksc0=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?8ShTKc5gQjiW2bxATxiMENH5mQmx30EDIy0f8wJm/ZvxYFo0C4LKuV3DDXBC?=
+ =?us-ascii?Q?Len7vVmaRR0TS4VeRwj3Uf2Ypb79TOEMNcJunVh+nfNHuKty8UnP02as4e7E?=
+ =?us-ascii?Q?64YzsBIcpSvMvwtAiIYz2A9DH5OJwc6dROt+YbymMcQoLS9zff3LQP2wmWJq?=
+ =?us-ascii?Q?drOjAYpPDePsyiEof7gvsiKrbxllhUuQ+nFuz3JQOfCFCK80VtESTGVppJZl?=
+ =?us-ascii?Q?PEjmSu32G4zGVX3RA6o4Chw/MK5UN0cb2Aex0o9MbcCZoQGa54TUaMjAzmk4?=
+ =?us-ascii?Q?wK48tM/2n1fhQM6PZfeKv3IoVRRLi+U/C/CTZ0Tf3/iOZ5SBDM33/fGFo4MY?=
+ =?us-ascii?Q?1lGOyFB5YE/X1jzAmSoEa+Qsi/y3I0/0CbQ2ZtBhN6DZjhiVA8xFFOJ3uaX7?=
+ =?us-ascii?Q?Z0YsPAfOrA8wVzXjrC9tqWHVWFlBNbIWfA9cD4/PEaeZKXq+YvkNGkVOna/W?=
+ =?us-ascii?Q?QFCfB7Ww7NbyKR+HT0kIwBHVpulMcWEmSzuCwUE3nLkUdgvx1uXcd6wV2wN0?=
+ =?us-ascii?Q?p0KKdLdMBZRR9EI3rFYxV6yJ4DvjEaqzjRgrE/bWhZcee9AHGZbgBvEMWLIJ?=
+ =?us-ascii?Q?oOus0JqN7S+iBTeHzzzAmux1xD/k6IeEew+fdbiK2cSRKWAkhFmkSALP3fJl?=
+ =?us-ascii?Q?BqHSqtE2a9McbnR8zZOYgUoywu1qEcQEfTsnOyDBp5dipwX+uH65oEACP8/R?=
+ =?us-ascii?Q?0Byfd+nQ/YWHi0v8KQbK7DpFgedYazO4BK6N1EVI3ZW35wdrv6MedXCWVBZi?=
+ =?us-ascii?Q?P/fWaoG8UQ8RT27O+ydzXALz7veMkySiUlGooAF501d0YAfw+ijGyZzl8eSZ?=
+ =?us-ascii?Q?JUpSXUEFoYIFXBlP4X25VhJCL1YQicv3GSQJRQt5K398FpCFMHfRpUr/Syba?=
+ =?us-ascii?Q?AdZd9NIUGAX15fgpWgp0706gFGQNFat63n1Tk7euiDPTi7EOERth09MbhywD?=
+ =?us-ascii?Q?dxu25H4Ev+NOCBip1+V2WnRr3ZagAWmhgui16msuXds2Cm+TBFIRKHV0IeXB?=
+ =?us-ascii?Q?3TiTQfO0kvI0+rGPr2g/WWd50KM+/ZiI7basVJlg5DJnRhT5i6KanRbNSz0Z?=
+ =?us-ascii?Q?uQB2xmPFNJrLndlXeAesgGLRS/YUVz5r0oNYGZeigvH9J41FpU08eLo7nOsV?=
+ =?us-ascii?Q?5rmTpt9wDKzDcgRHyoJ7vGCUSciq+EQ8imxIhK75ixTPq84P7GQvfkF+CCV5?=
+ =?us-ascii?Q?ewfJ64O4Okq2TxvNfPMO2fKM/0qjEafCgGFewKnb9uHKfiRACPXr0NMTPb7B?=
+ =?us-ascii?Q?c45y8zC9N6+6N9F10cm501+bXfX1lbiAEfw0MtWvGRekjEC6wExZmw+OKF5E?=
+ =?us-ascii?Q?a4YJ4/6f2mve0XmDB3GDPJC6V6PFrG2zV0mi2zXAjDk2vexvZdpM1n5BF3jr?=
+ =?us-ascii?Q?8WY1ketg/+cBAkp/fBTXvCkRMeIHe0WZAqAosJC6XI6uUPgIFR67P84LTx3x?=
+ =?us-ascii?Q?BPDB/BBJ7Go/2JiH1kGW9kB+JMAOknBULWjSpySXrVcO5z9nZRh1irVrD4/g?=
+ =?us-ascii?Q?qkifGMF4uxDeBjy9ALkHhE1gdxA/2p94gms8/Wg6ZtIM676T5FCYpmbO8vv1?=
+ =?us-ascii?Q?zUt28UhjnA2oGcZn1i0=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2025 11:51:36.7223
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2025 11:51:29.2395
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a8010e5-1a17-4077-37ce-08ddfe8560f9
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3ddab27-c949-4952-a2ab-08ddfe855c81
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000026C3.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000026CA.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9241
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9498
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250928_045146_605089_DBCFB11E 
-X-CRM114-Status: GOOD (  11.94  )
+X-CRM114-CacheID: sfid-20250928_045141_146320_0742402F 
+X-CRM114-Status: UNSURE (   8.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,80 +149,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Until now, the tests for RDMA transport were only supported on top of
-software RDMA devices (rxe/siw). This commit adds support for running
-tests on top of mlx5 hardware RDMA devices, allowing for more
-comprehensive testing of NVMe-oF RDMA functionality.
+Hi,
 
-Prerequisites:
-- RDMA network interfaces must be configured prior to running tests
-- User should set USE_MLX5=1 environment variable to use mlx5 devices
+This patch series introduces several improvements to NVMe-oF support and
+testing in blktests, with a focus on adding mlx5 hardware support for NVMe/RDMA
+testing.
 
-Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
----
+In addition, update nvme/061 test to support the new restriction added
+to NVMe target driver that doesn't allow modifying the qid_max attribute
+for discovered subsystems.
+
+Max Gurtovoy (4):
+  nvme/061: increase nvmf state wait timeout to 10s
+  nvme: add support for mlx5 RDMA devices
+  nvme/002: extend test to support TCP and RDMA transports
+  nvmet: add --qid-max support for subsystem creation and setup
+
  common/multipath-over-rdma |  7 +++++++
- common/nvme                | 16 +++++++++++++---
- 2 files changed, 20 insertions(+), 3 deletions(-)
+ common/nvme                | 34 +++++++++++++++++++++++++++++++---
+ tests/nvme/002             |  2 +-
+ tests/nvme/048             |  7 ++++---
+ tests/nvme/061             |  4 ++--
+ 5 files changed, 45 insertions(+), 9 deletions(-)
 
-diff --git a/common/multipath-over-rdma b/common/multipath-over-rdma
-index e157e0a..9367662 100644
---- a/common/multipath-over-rdma
-+++ b/common/multipath-over-rdma
-@@ -98,6 +98,13 @@ rdma_network_interfaces() {
- 		sort -u
- }
- 
-+# Lists RDMA capable network interface names associated with mlx5 devices, e.g. ib0 ib1.
-+rdma_mlx5_network_interfaces() {
-+	rdma link show | grep mlx5 |
-+		sed -n 's/^.*[[:blank:]]netdev[[:blank:]]\+\([^[:blank:]]*\)[[:blank:]]*/\1/p' |
-+		sort -u
-+}
-+
- # Check whether any stacked block device holds block device $1. If so, echo
- # the name of the holder.
- held_by() {
-diff --git a/common/nvme b/common/nvme
-index 3d43790..01d054d 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -218,7 +218,9 @@ _cleanup_nvmet() {
- 	fi
- 	modprobe -rq nvmet 2>/dev/null
- 	if [[ "${nvme_trtype}" == "rdma" ]]; then
--		stop_soft_rdma
-+		if [ -z "$USE_MLX5" ]; then
-+			stop_soft_rdma
-+		fi
- 	fi
- 
- 	_cleanup_blkdev
-@@ -243,8 +245,14 @@ _setup_nvmet() {
- 	fi
- 	modprobe -q nvme-"${nvme_trtype}"
- 	if [[ "${nvme_trtype}" == "rdma" ]]; then
--		start_soft_rdma
--		for i in $(rdma_network_interfaces)
-+		local interfaces
-+		if [ -z "$USE_MLX5" ]; then
-+			start_soft_rdma
-+			interfaces="$(rdma_network_interfaces)"
-+		else
-+			interfaces="$(rdma_mlx5_network_interfaces)"
-+		fi
-+		for i in $interfaces
- 		do
- 			if [[ "${nvme_adrfam}" == "ipv6" ]]; then
- 				ipv6_addr=$(get_ipv6_ll_addr "$i")
-@@ -1180,6 +1188,8 @@ _nvme_requires() {
- 		_have_program rdma
- 		if [ -n "$USE_RXE" ]; then
- 			_have_driver rdma_rxe
-+		elif [ -n "$USE_MLX5" ]; then
-+			_have_driver mlx5_ib
- 		else
- 			_have_driver siw
- 		fi
 -- 
 2.18.1
 
