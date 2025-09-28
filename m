@@ -4,95 +4,139 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B152CAC5B5
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Sep 2025 06:37:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D2E4CAC5B5
+	for <linux-nvme@archiver.kernel.org>; Sun, 28 Sep 2025 11:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:CC:To:From:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ubpMuP7II5ikdJvb/5K0JndDDuxFjf1Jocs0VnGSPuA=; b=WBvDC0FavhuvSQTRpxIXHF7RpO
-	5q/hmBPX3O5pXFxjOKOOulj/87FjoYuIwdqqeEC7JaRHGBXPrOUUc/1ERiPA4suu6pfou67CGSqG7
-	v45HeB+1mrKcnWHHvymzdUrg/ruUHYoZH+gnNlERzokID8xNQoCIPjFX1rG+DKTQTA+XuaO4opbUZ
-	WFLpOy7FdA0x/I7GBw1Euj/pvb/eugLYGA/iBpoZNYJ1XV4CIILrkKEHMxaIqzVk20/JyQOSl6jlL
-	4nWLOsqhGlG73gA1cb4qIa06Xqmyua2NopBl2wv3pWQNT7lVIE1sCXNQdA4azpDMFSinUJr3588xd
-	8AggWPrA==;
+	bh=/tRZrpSuaX8I+XK4orEyEXtetXQCDaKJ7uAkoyMKir0=; b=u/wmX/qRwTHTzvbtidPlH1r1dW
+	rUdUiq7RI7hbX0FlJXC8yh+fk2LqIxlrKF3ysUUqzM5Hqd+4+lIZozTuefOpDG7Da07ehn4FEQgkJ
+	YvG/7WImO0DYd2bNIAOajyMay3g874+pdsFZlKS8LIz/pQ1/yPUYYHrP9w4w9pw/+uknH3kq+MQxT
+	IC/VF8IXdc+gxiQytu9wjYEyxzpBHEePJxSfgyZ6os/ghZXjj/ObxIuyUiO6bwESbqErZkdkVoV4F
+	dbzyHiqvrxdWscYjhvKCfEB+bMD0YxUBtXwdQAJzGU8rl/qRfm/nZvHdmlSe7iynrweYxT8A+sVvQ
+	sG8ZGanw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2l2E-0000000E0J3-2f6B;
-	Sun, 28 Sep 2025 06:37:26 +0000
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+	id 1v2pwN-0000000FJnR-1cpi;
+	Sun, 28 Sep 2025 11:51:43 +0000
+Received: from mail-westus2azlp170120002.outbound.protection.outlook.com ([2a01:111:f403:c007::2] helo=MW6PR02CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v2l2B-0000000E0IT-39L9
+	id 1v2pwK-0000000FJli-37mT
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Sep 2025 06:37:24 +0000
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-28832ad6f64so1098275ad.1
-        for <linux-nvme@lists.infradead.org>; Sat, 27 Sep 2025 23:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759041442; x=1759646242; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ubpMuP7II5ikdJvb/5K0JndDDuxFjf1Jocs0VnGSPuA=;
-        b=ErM4GzaDBaPi/2S3PmecDPI2wBV0EUbdKi22ECVQHvKqs3Gid3T/rrCjaBB+SzE7VB
-         KiD45tkekpCqMgtkceDj1W93JGYjqbhj/w44xMTUn0Qj9pDWAaypGvgmrMjHE7Lqdws8
-         IydesNVwnNK5zSJ4lCu//lx+Nu1KnPmvA4IpL4AjqiX9GwjQdHPEtwALEnM5KnLlaT4Y
-         ypwsoLrjb6eOsTUk7+FgKdrl14jzRmKSU2i1Vk3y0UVkQ+pNUnjmXPjmPIb66fSfGnv8
-         lsCihmBdO07/9NWuw4plnGSPSc+xSYDY3S82LlKY7B225OTrel0RgVJX2AFVoBuMXAlO
-         k3CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759041442; x=1759646242;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ubpMuP7II5ikdJvb/5K0JndDDuxFjf1Jocs0VnGSPuA=;
-        b=VmAunT6eOoO0zLKaHplGzLySq/ZZSsa+jW9NjHaBncUoS/8CKeAkmtNwq//biEv2X7
-         13EiNOBCI+btiaQqRVOg1MlR6/51Gj86gBEW0gpit0zgMhuD/BSG50F5bfi8ujyCQndM
-         j3lvUmhxMyYyKf+OzHkvfw2ZbCVZUwMR81AspPAmtau6K7qUg6CuRldExdvmxKdVogiD
-         YESh/BOc74OuqqkPk7HstDN8w/4/eP2peM/g2nyhQobpe+oxO+pzTkdtJUe+PvH2LJU9
-         Jwh0DtVp+wHPu91CnhtNIOUBxmTXIKwSbvP8vJ9YctvTqSgXZyNMlBoQCgC0zK/B6/3t
-         EHoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqoA0TLCriZlDOrJHMyuLAeK1bopE5XtzP6sLAi74HySeIyLypHh23NHZlmHJ+kmwwRkxqPdWp0NI9@lists.infradead.org
-X-Gm-Message-State: AOJu0YyGRQCoacIVlLE4DiCZLpMCmIYd/w5fsHgDOYuVsqgYbv/c/ueo
-	bKuW/VmRevOnIsTVTYMweIAtNBQ0hAzYXFWilzucBkUWm/kkLfnCA0qz
-X-Gm-Gg: ASbGnct7JA8Y5JPbd1ZP/glw/TAuj5enho44Thhgp6K4BsrJzdyMQxAEUtRbKdVQOIC
-	7GRCS02UeFcmNq7nj44DjUCr+P0omzGg6EBY1NYBn6c4P0Xh7KZIQ8jVrp2sdAN4+0YcWGxyqwQ
-	9i0NNC7EKFox61TQsikKoO6uKht0V8a2pEmqR2rUUuCyPOhSKipZK3QPuG0EdYBPEhkLMV9ItEO
-	250MDmiRvoQHHpsk89PkE+2h6RzH3Ptpmtb9NvIv9wtk4FRZ2KodTw//R98UkR5vNuYMuOrSXqe
-	+YCvt4/lSKPxupcTuOoEZByxOkv9/3+3jw/lQfsU9GQYy55wSwnmqJD9a6QQXGpWMxehY+QPvKd
-	uFZJTZT3yBzhhM0RUzxf7yPqijcWqfHE1/nay0reTFEtDZYj6H3KpG4apUS3YHjGXoJ+tkBU=
-X-Google-Smtp-Source: AGHT+IHkOtF5578eCGnpU9nMgKsLzoxz/q9Ij/omuAZkxTc208StOe4e409+y8TjhW4sjjzmHwt/2w==
-X-Received: by 2002:a17:902:e54a:b0:270:b6d5:f001 with SMTP id d9443c01a7336-27ed4a0d542mr138016595ad.23.1759041442474;
-        Sat, 27 Sep 2025 23:37:22 -0700 (PDT)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66cf9d3sm97700695ad.15.2025.09.27.23.37.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Sep 2025 23:37:22 -0700 (PDT)
-Date: Sun, 28 Sep 2025 14:37:17 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Guan-Chun Wu <409411716@gms.tku.edu.tw>, akpm@linux-foundation.org,
-	axboe@kernel.dk, ceph-devel@vger.kernel.org, ebiggers@kernel.org,
-	hch@lst.de, home7438072@gmail.com, idryomov@gmail.com,
-	jaegeuk@kernel.org, kbusch@kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, tytso@mit.edu,
-	xiubli@redhat.com
-Subject: Re: [PATCH v3 2/6] lib/base64: Optimize base64_decode() with reverse
- lookup tables
-Message-ID: <aNjXnYorbInXF6FM@visitorckw-System-Product-Name>
-References: <20250926065235.13623-1-409411716@gms.tku.edu.tw>
- <20250926065556.14250-1-409411716@gms.tku.edu.tw>
- <CADUfDZruZWyrsjRCs_Y5gjsbfU7dz_ALGG61pQ8qCM7K2_DjmA@mail.gmail.com>
+	Sun, 28 Sep 2025 11:51:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W9dVU5UynXqJrAliGINQ7XVyLVyoRPuYijqmAY7geDrQTuIvvZ9mNSUmV9P4rKDpYI/PzhTZdrNdhTTv9xiGbUEteNyLG1DdxNO5qHYah9RGn0qJd6ZBLpS+Pcr9zA9OneNw/zGjoNSTwdVj8QES0Ww2vP5NDEERygSTw7D5GNB8EF/4jS9T89yURm34DZPXVq3bBBjOA5X+A7CIGQkeN7TObQ0+nYttCvKQbz4xXuTgKKY1MDA9Qw5s2OGjNeiKIAvu1w1DgdPyqVT1X8EtHfM9c3B88Yi/+ieNLS5JB1UlYVocsm+tB+C57tZGyCNy+H5OSy95YYd4bSxSKTk35Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/tRZrpSuaX8I+XK4orEyEXtetXQCDaKJ7uAkoyMKir0=;
+ b=RY3NkyN6tn495V3d7qPSdo3UnSPwcvBfBIfwPDEozv0vClSQEMVj+xzwmpjQ7her07IWJ2iHREP+zpdQkumV8+b2LRO5zyKQWoOmDjX6wKuSEfMUJxfYfbm3ob6MyZGfepvL2ln1LPJXiYmm0c1+0kKQxW7vPeSrPeAmM5eDBIdrC/6IWbn1L9RakVbGu4qkgR95V796fstLAmGYOE/cqB7RXCBxAjS44Qb80agO72xP2Efx0W5Xwy1MPpvy8EsjxCQRe3t77XzpZyciNvX5vPiZ2RCz5F1EWNP9Ogsvjq5wETPTT2xd4EQALPSPThX3K95x5K0gHXdBbXwMdyqgfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/tRZrpSuaX8I+XK4orEyEXtetXQCDaKJ7uAkoyMKir0=;
+ b=QdaJnfE3XmsQQnC/yYNI1H94PGGtayTscmR1470XOwr0b6z5IA6G2jyNcovke7zCZK82U2ebAFgtIJA/S15auHxhGTRw8p+MoKj6KA3o64rfa5TxARMRfN86cjexxeu5H1m4WUrJ6YWYNUYnz0VZKy1zko7XpCCzxbEsy8ds2YNqsmCg9enRkpEZx083qeZTmsVk9D9NW0/+b3hQxcTiqcGNGOKwt09OKb0ZMVU+RKQayUY7CZZjdAMFJrHfZT6j9jxYfN+Yk5Zt2NE5S+/yd+sZWzib2poyPXSfDlpaV53g+JXwgsNmDE5Al1acvkxUVoUzxShgC34pB2KyZMf8XQ==
+Received: from BYAPR06CA0051.namprd06.prod.outlook.com (2603:10b6:a03:14b::28)
+ by BY5PR12MB4291.namprd12.prod.outlook.com (2603:10b6:a03:20c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.15; Sun, 28 Sep
+ 2025 11:51:32 +0000
+Received: from SJ1PEPF000026CA.namprd04.prod.outlook.com
+ (2603:10b6:a03:14b:cafe::34) by BYAPR06CA0051.outlook.office365.com
+ (2603:10b6:a03:14b::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9160.16 via Frontend Transport; Sun,
+ 28 Sep 2025 11:51:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ SJ1PEPF000026CA.mail.protection.outlook.com (10.167.244.107) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9160.9 via Frontend Transport; Sun, 28 Sep 2025 11:51:32 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Sun, 28 Sep
+ 2025 04:51:32 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Sun, 28 Sep 2025 04:51:31 -0700
+Received: from r-arch-stor03.mtr.labs.mlnx (10.127.8.14) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Sun, 28 Sep 2025 04:51:29 -0700
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+To: <dwagner@suse.de>, <johannes.thumshirn@wdc.com>, <kch@nvidia.com>,
+	<linux-nvme@lists.infradead.org>
+CC: <israelr@nvidia.com>, <shinichiro.kawasaki@wdc.com>, <hch@lst.de>,
+	<kbusch@kernel.org>, <sagi@grimberg.me>, Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: [PATCH 1/4] nvme/061: increase nvmf state wait timeout to 10s
+Date: Sun, 28 Sep 2025 14:51:22 +0300
+Message-ID: <20250928115125.38383-2-mgurtovoy@nvidia.com>
+X-Mailer: git-send-email 2.18.1
+In-Reply-To: <20250928115125.38383-1-mgurtovoy@nvidia.com>
+References: <20250928115125.38383-1-mgurtovoy@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADUfDZruZWyrsjRCs_Y5gjsbfU7dz_ALGG61pQ8qCM7K2_DjmA@mail.gmail.com>
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026CA:EE_|BY5PR12MB4291:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef8ba4c8-6348-462e-6e7f-08ddfe855e60
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?c5PHsd0UVYraOe/EbXzKEl/siaOdOLB33BgtQoi9771S3JcAi29W4wQR7gCu?=
+ =?us-ascii?Q?FIfkZfVWdFxUOex20t4iChCJBO9gPNf7bVvnA0DMHtefzvmyt0sC6+RDUeEc?=
+ =?us-ascii?Q?FD87LiwuAaFzz8KxCeHRtcMS9fFbUQcMeG149/44XYKXiIfrUgyKqypDcVin?=
+ =?us-ascii?Q?iOXxZ48PWa/os32emOJLLk0++U1X483ASD9vmj6vTgjvzWciR9zSr6xc/qvG?=
+ =?us-ascii?Q?85z3UhhKe0IDXWGefO2GAV6Oep4rWcCWvfcPHu4jpMG8h2ZtDS8uFdxEdzkA?=
+ =?us-ascii?Q?N8BFLDYqn95QtXK/ktbWyZp0+Cc0vQQoROr0RCFfCjetpY+K3OSHo+iWlan+?=
+ =?us-ascii?Q?4KQXeMuL9/dUf+sDmOwGxN8LqNmgTJaUhrmVR6xYv8Wc6fIvbJSh/SIymaLU?=
+ =?us-ascii?Q?NYDtLvfLN1TC9iYTMEtMBwfgUO8AA6841/Qn3l5qbY7Mqp06qvwzvD+aEEd9?=
+ =?us-ascii?Q?ODhbddtsvy0fhR57AkGGg2JsCQGG+cL/vSSyBPvgiil+ZNKCXBY45zg1XMAx?=
+ =?us-ascii?Q?Zirkt4U2m35TYQplPzXcVHBnedQG9WQr0Nn9MZaZKdSdTVDZ7SOmnnEZh8RY?=
+ =?us-ascii?Q?AvMdNu3+z16s+it36BP5vn6MohOfIQ4+J9rrq0cd1qUnz3TOtwFZfHYur1A6?=
+ =?us-ascii?Q?BgcyzY/Oszc0i2lm7vqpoaau/kj63V+HsjJYboKWkKERQ1V6achI6IgjQDJD?=
+ =?us-ascii?Q?TlQVyokc+qusUlb/UCLnGNKfDXU2Sktt09BIXp5xt6gedeUTCcI6gRgQpze5?=
+ =?us-ascii?Q?q3IzFt7oHht7PKteQxVWuRV6WuGTT7eIAjg2cFgspTvxkuGVrgVbkB3PGbde?=
+ =?us-ascii?Q?HyhMd2oL0rV5wQJYJDagp58geYqqmKzD57oKw/L8e9MmDM/0nmlpoby33cSr?=
+ =?us-ascii?Q?qUPszRQ1LMk2d1TD22k1Swo6xbpamVClSFwJNhExnwN4GNrWdXMHT+vzHpjD?=
+ =?us-ascii?Q?YWRy46rNRZoqIhz+d9MDGbIkLcRsEDfImTI8MfAY20UHBw4Zp/lUshdT2n8F?=
+ =?us-ascii?Q?dStlJp8XXmgrOClphtSVznskDsFj9PsCVW5mV4RFYLWL2J35cWIBzeovoge2?=
+ =?us-ascii?Q?8BTq3T7gXKYgzPCaqht5qmSREOLUipOPMQ0ykf7iTXk9F5tTTDlmKAW+q6R8?=
+ =?us-ascii?Q?WdCK6ib4mIQ2V1nTIjo5ANhbN4kUYYLxsa4ehp2bSPpGXul+n777FV6zdcBT?=
+ =?us-ascii?Q?iabwV1AwuNJ7JtxFbkBFBJ7ZfN/JAWQ5+bEVzihJ/y2zJQ1mNpudUNjV+IVS?=
+ =?us-ascii?Q?vF//1gPSMSRaxRJEG07A7fPiyuENbJq8+loTXRJMMyRaByhKh9CQT3vuh/Hh?=
+ =?us-ascii?Q?aNY/vACDcnUW/Zd4SFMVB6J3yI4qLGhkMRygvMTl89kaLceITR0C2aVD/Omq?=
+ =?us-ascii?Q?TVi9wWtI+IMvUXGNtbghb0fR4HvXJQc3mULmWN9q0jBXY/7NKyLK8Bh/nN0k?=
+ =?us-ascii?Q?RjO2+PEkiSCMGnF6Luce9vUsYQirl1g/n4eDVezo+oNF+LMrriOtSisO0Gzi?=
+ =?us-ascii?Q?Gn5TlQrRzyt/m2L/44Kj5v/ODJAr9xlOVVcW5nJ3F/s+Bf8aNFqLOgQCrakI?=
+ =?us-ascii?Q?O0aEL3s5905EtfmwWrY=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2025 11:51:32.3656
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef8ba4c8-6348-462e-6e7f-08ddfe855e60
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000026CA.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4291
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250927_233723_793951_DACB049A 
-X-CRM114-Status: GOOD (  25.21  )
+X-CRM114-CacheID: sfid-20250928_045140_787837_37496685 
+X-CRM114-Status: UNSURE (   9.52  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,143 +151,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 26, 2025 at 04:33:12PM -0700, Caleb Sander Mateos wrote:
-> On Thu, Sep 25, 2025 at 11:59 PM Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
-> >
-> > From: Kuan-Wei Chiu <visitorckw@gmail.com>
-> >
-> > Replace the use of strchr() in base64_decode() with precomputed reverse
-> > lookup tables for each variant. This avoids repeated string scans and
-> > improves performance. Use -1 in the tables to mark invalid characters.
-> >
-> > Decode:
-> >   64B   ~1530ns  ->  ~75ns    (~20.4x)
-> >   1KB  ~27726ns  -> ~1165ns   (~23.8x)
-> >
-> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > Co-developed-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-> > Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-> > ---
-> >  lib/base64.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++++----
-> >  1 file changed, 61 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/lib/base64.c b/lib/base64.c
-> > index 1af557785..b20fdf168 100644
-> > --- a/lib/base64.c
-> > +++ b/lib/base64.c
-> > @@ -21,6 +21,63 @@ static const char base64_tables[][65] = {
-> >         [BASE64_IMAP] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+,",
-> >  };
-> >
-> > +static const s8 base64_rev_tables[][256] = {
-> > +       [BASE64_STD] = {
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  -1,  -1,  -1,  63,
-> > +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,
-> > +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,
-> > +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +       },
-> > +       [BASE64_URLSAFE] = {
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  -1,  -1,
-> > +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,
-> > +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1,  -1,  -1,  63,
-> > +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,
-> > +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +       },
-> > +       [BASE64_IMAP] = {
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  63,  -1,  -1,  -1,
-> > +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,
-> > +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,
-> > +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +       },
-> 
-> Do we actually need 3 separate lookup tables? It looks like all 3
-> variants agree on the value of any characters they have in common. So
-> we could combine them into a single lookup table that would work for a
-> valid base64 string of any variant. The only downside I can see is
-> that base64 strings which are invalid in some variants might no longer
-> be rejected by base64_decode().
+Real RDMA hardware devices require more time to create resources, so
+increase the wait time for subsystem state transitions from the default
+5 to 10 seconds.
 
-Ah, David also mentioned this earlier, but I forgot about it while
-writing the code. Sorry for that. I'll rectify it.
+Signed-off-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+---
+ tests/nvme/061 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-Kuan-Wei
+diff --git a/tests/nvme/061 b/tests/nvme/061
+index b47e626..f2894dc 100755
+--- a/tests/nvme/061
++++ b/tests/nvme/061
+@@ -47,12 +47,12 @@ test() {
+ 
+ 		_nvmet_target_cleanup
+ 
+-		_nvmf_wait_for_state "${def_subsysnqn}" "connecting" || return 1
++		_nvmf_wait_for_state "${def_subsysnqn}" "connecting" 10 || return 1
+ 		echo "state: $(cat "${state_file}")"
+ 
+ 		_nvmet_target_setup
+ 
+-		_nvmf_wait_for_state "${def_subsysnqn}" "live" || return 1
++		_nvmf_wait_for_state "${def_subsysnqn}" "live" 10 || return 1
+ 		echo "state: $(cat "${state_file}")"
+ 	done
+ 
+-- 
+2.18.1
 
-> 
-> > +};
-> > +
-> >  /**
-> >   * base64_encode() - Base64-encode some binary data
-> >   * @src: the binary data to encode
-> > @@ -82,11 +139,9 @@ int base64_decode(const char *src, int srclen, u8 *dst, bool padding, enum base6
-> >         int bits = 0;
-> >         int i;
-> >         u8 *bp = dst;
-> > -       const char *base64_table = base64_tables[variant];
-> > +       s8 ch;
-> >
-> >         for (i = 0; i < srclen; i++) {
-> > -               const char *p = strchr(base64_table, src[i]);
-> > -
-> >                 if (src[i] == '=') {
-> >                         ac = (ac << 6);
-> >                         bits += 6;
-> > @@ -94,9 +149,10 @@ int base64_decode(const char *src, int srclen, u8 *dst, bool padding, enum base6
-> >                                 bits -= 8;
-> >                         continue;
-> >                 }
-> > -               if (p == NULL || src[i] == 0)
-> > +               ch = base64_rev_tables[variant][(u8)src[i]];
-> > +               if (ch == -1)
-> 
-> Checking for < 0 can save an additional comparison here.
-> 
-> Best,
-> Caleb
-> 
-> >                         return -1;
-> > -               ac = (ac << 6) | (p - base64_table);
-> > +               ac = (ac << 6) | ch;
-> >                 bits += 6;
-> >                 if (bits >= 8) {
-> >                         bits -= 8;
-> > --
-> > 2.34.1
-> >
-> >
 
