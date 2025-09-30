@@ -4,52 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0A70CAC5B9
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 08:43:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EC66CAC5B9
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 09:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=azYo/pBu05c4Lf+6DyUdsC5PhMXCfDYnULmC4Kbfuqw=; b=PiYg+UPjTsJFxzGA0fgTu5bmms
-	lw36vmqKIEgS4M7+ksr0Y0X6338o0EL7XdjK8NnzZDSXmXfaMnVDvb0JKBB/K88HNystYlts2X1BH
-	G9L72lsf7+FGbH+JLo/z+eHspfhlcT6+NYZSko70TVWuWgNuwTmjRaGTbXn0svgSN3f6l7Wdh6BAu
-	P9F/NnpdlV2X3C8HHjKsSlqvd5JDRiX9xa4Mo3sTYaCy34JszRv5EyW5w4CPlP3hEpoNRrHxhmIFF
-	52Q7Oo+wtrQrJswgbMpn/R1vyUONOnut8Md8RcSf44IdBihF64SZA2JsFro1BCfNukd954kg742qC
-	OPTuVTIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xSUEKP67FC5DAupUJyz6Go74oVjDL9D3iqjJHWQVdCU=; b=PvAiRkGezUBTLnAbad4/mjRD9q
+	Sn1DvKKVOuZS02Tm7JN2dmW+IbAmLz650fEXFGQCwlryKJeZKvApX9fFRb8WtNDhr3YyeZ9GSYFfM
+	7fmCCCm8syHrr0RbtmucKFvHhCItdZlH/rO2QuMMdJpo6AFyEUQpik+oxTtASa3DLG9BMUZFpAVqh
+	ooyTL6Bwo3n00MwTHpsc2BX46o0ZGY/Vuzsh/bnia6cu1b7fMQdOiIg/vegc4QaCNcms7/aCEpZ/o
+	hPPbGbD6z7RroDk3fd67TUh2M6cb/fOS5DmmfQ3A7JgTHSIuedj7ZAQyEs1oHoeDeF2OMsEE354Xs
+	/rWn/ieg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3VxV-00000004gGG-2i4a;
-	Tue, 30 Sep 2025 08:43:41 +0000
-Received: from mx1.emlix.com ([178.63.209.131])
+	id 1v3WbQ-00000004obY-3YSN;
+	Tue, 30 Sep 2025 09:24:56 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3VxR-00000004gES-30kl
+	id 1v3WbN-00000004ob7-2bTd
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Sep 2025 08:43:39 +0000
-Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	Tue, 30 Sep 2025 09:24:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759224291;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xSUEKP67FC5DAupUJyz6Go74oVjDL9D3iqjJHWQVdCU=;
+	b=BHJ9ZzUh4mtpY8pnYXx5IK3jv5/miBsKkkxpXRbP7roHa9XNr8W5gEzxqcRUCVSPDCuN5M
+	miYFBhTlkJAuiC7nuK5zhGwNYoqq6RmawMxzUIK6aXKnZCsSGhiJ6t3m+f+z99Dhw75OQ9
+	lxX1q1qFZW4PYKzlFeaH4ArbQxIy8JI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-637-GRN8vizfN3u8bkU9c2021Q-1; Tue,
+ 30 Sep 2025 05:24:48 -0400
+X-MC-Unique: GRN8vizfN3u8bkU9c2021Q-1
+X-Mimecast-MFC-AGG-ID: GRN8vizfN3u8bkU9c2021Q_1759224286
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id 2D0F25F8CE;
-	Tue, 30 Sep 2025 10:43:34 +0200 (CEST)
-From: Rolf Eike Beer <eb@emlix.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Yanjun Zhang <zhangyanjun@cestc.cn>
-Cc: linux-nvme@lists.infradead.org, stable@kernel.org
-Subject: [PATCH 5.4] nvme: fix multipath crash caused by flush request when  blktrace
- is enabled
-Date: Tue, 30 Sep 2025 10:43:33 +0200
-Message-ID: <3373374.aeNJFYEL58@devpool92.emlix.com>
-Organization: emlix GmbH
-In-Reply-To: <5015244.GXAFRqVoOG@devpool92.emlix.com>
-References: <5015244.GXAFRqVoOG@devpool92.emlix.com>
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 31D79180029A;
+	Tue, 30 Sep 2025 09:24:45 +0000 (UTC)
+Received: from [10.44.33.194] (unknown [10.44.33.194])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0638119560B4;
+	Tue, 30 Sep 2025 09:24:38 +0000 (UTC)
+Message-ID: <7029d26e-2311-4c15-908f-32a3608c2004@redhat.com>
+Date: Tue, 30 Sep 2025 05:24:37 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 11/11] scsi: qla2xxx: Fix 2 memcpy field-spanning
+ write issue
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>, hare@suse.de,
+ kbusch@kernel.org, martin.petersen@oracle.com,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org
+Cc: bgurney@redhat.com, axboe@kernel.dk, emilne@redhat.com,
+ gustavoars@kernel.org, hch@lst.de, james.smart@broadcom.com,
+ kees@kernel.org, linux-hardening@vger.kernel.org, njavali@marvell.com,
+ sagi@grimberg.me
+References: <20250926000200.837025-1-jmeneghi@redhat.com>
+ <20250926000200.837025-12-jmeneghi@redhat.com>
+ <0af9cbc4-a410-44f3-affc-a09e5c41ccd4@embeddedor.com>
+Content-Language: en-US
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <0af9cbc4-a410-44f3-affc-a09e5c41ccd4@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250930_014337_916617_C8D1D3C2 
-X-CRM114-Status: GOOD (  15.91  )
+X-CRM114-CacheID: sfid-20250930_022453_948488_2F3A98F4 
+X-CRM114-Status: GOOD (  30.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,115 +93,194 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-=46rom: Yanjun Zhang <zhangyanjun@cestc.cn>
-Date: Thu, 22 Dec 2022 09:57:21 +0800
+Hi Gustavo.
 
-commit 3659fb5ac29a5e6102bebe494ac789fd47fb78f4 upstream.
+Sorry for my late reply.
 
-The flush request initialized by blk_kick_flush has NULL bio,
-and it may be dealt with nvme_end_req during io completion.
-When blktrace is enabled, nvme_trace_bio_complete with multipath
-activated trying to access NULL pointer bio from flush request
-results in the following crash:
+Yes, I will remove this patch and replaces it with your proposed patch[1] from the V9 patch email thread.
 
-[ 2517.831677] BUG: kernel NULL pointer dereference, address: 0000000000000=
-01a
-[ 2517.835213] #PF: supervisor read access in kernel mode
-[ 2517.838724] #PF: error_code(0x0000) - not-present page
-[ 2517.842222] PGD 7b2d51067 P4D 0
-[ 2517.845684] Oops: 0000 [#1] SMP NOPTI
-[ 2517.849125] CPU: 2 PID: 732 Comm: kworker/2:1H Kdump: loaded Tainted: G =
-S                5.15.67-0.cl9.x86_64 #1
-[ 2517.852723] Hardware name: XFUSION 2288H V6/BC13MBSBC, BIOS 1.13 07/27/2=
-022
-[ 2517.856358] Workqueue: nvme_tcp_wq nvme_tcp_io_work [nvme_tcp]
-[ 2517.859993] RIP: 0010:blk_add_trace_bio_complete+0x6/0x30
-[ 2517.863628] Code: 1f 44 00 00 48 8b 46 08 31 c9 ba 04 00 10 00 48 8b 80 =
-50 03 00 00 48 8b 78 50 e9 e5 fe ff ff 0f 1f 44 00 00 41 54 49 89 f4 55 <0f=
-> b6 7a 1a 48 89 d5 e8 3e 1c 2b 00 48 89 ee 4c 89 e7 5d 89 c1 ba
-[ 2517.871269] RSP: 0018:ff7f6a008d9dbcd0 EFLAGS: 00010286
-[ 2517.875081] RAX: ff3d5b4be00b1d50 RBX: 0000000002040002 RCX: ff3d5b0a270=
-f2000
-[ 2517.878966] RDX: 0000000000000000 RSI: ff3d5b0b021fb9f8 RDI: 00000000000=
-00000
-[ 2517.882849] RBP: ff3d5b0b96a6fa00 R08: 0000000000000001 R09: 00000000000=
-00000
-[ 2517.886718] R10: 000000000000000c R11: 000000000000000c R12: ff3d5b0b021=
-fb9f8
-[ 2517.890575] R13: 0000000002000000 R14: ff3d5b0b021fb1b0 R15: 00000000000=
-00018
-[ 2517.894434] FS:  0000000000000000(0000) GS:ff3d5b42bfc80000(0000) knlGS:=
-0000000000000000
-[ 2517.898299] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 2517.902157] CR2: 000000000000001a CR3: 00000004f023e005 CR4: 00000000007=
-71ee0
-[ 2517.906053] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 00000000000=
-00000
-[ 2517.909930] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 00000000000=
-00400
-[ 2517.913761] PKRU: 55555554
-[ 2517.917558] Call Trace:
-[ 2517.921294]  <TASK>
-[ 2517.924982]  nvme_complete_rq+0x1c3/0x1e0 [nvme_core]
-[ 2517.928715]  nvme_tcp_recv_pdu+0x4d7/0x540 [nvme_tcp]
-[ 2517.932442]  nvme_tcp_recv_skb+0x4f/0x240 [nvme_tcp]
-[ 2517.936137]  ? nvme_tcp_recv_pdu+0x540/0x540 [nvme_tcp]
-[ 2517.939830]  tcp_read_sock+0x9c/0x260
-[ 2517.943486]  nvme_tcp_try_recv+0x65/0xa0 [nvme_tcp]
-[ 2517.947173]  nvme_tcp_io_work+0x64/0x90 [nvme_tcp]
-[ 2517.950834]  process_one_work+0x1e8/0x390
-[ 2517.954473]  worker_thread+0x53/0x3c0
-[ 2517.958069]  ? process_one_work+0x390/0x390
-[ 2517.961655]  kthread+0x10c/0x130
-[ 2517.965211]  ? set_kthread_struct+0x40/0x40
-[ 2517.968760]  ret_from_fork+0x1f/0x30
-[ 2517.972285]  </TASK>
+I see that Bryan has already tested your new patch and it works.  I agree the new patch is a much simpler/better version.
 
-To avoid this situation, add a NULL check for req->bio before
-calling trace_block_bio_complete.
+[1] https://lore.kernel.org/linux-nvme/97526d45-ec7d-48a0-bdc6-659f75839f53@embeddedor.com/#t
 
-Signed-off-by: Yanjun Zhang <zhangyanjun@cestc.cn>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Rolf Eike Beer <eb@emlix.com>
-=2D--
- drivers/nvme/host/nvme.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I will add this to my V11 patch series.
 
-Please check if I have messed up sending the original From:/Date:.
+/John
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index c492d7d323987..e81bb16a19ebb 100644
-=2D-- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -587,7 +587,7 @@ static inline void nvme_trace_bio_complete(struct reque=
-st *req,
- {
- 	struct nvme_ns *ns =3D req->q->queuedata;
-=20
-=2D	if (req->cmd_flags & REQ_NVME_MPATH)
-+	if ((req->cmd_flags & REQ_NVME_MPATH) && req->bio)
- 		trace_block_bio_complete(ns->head->disk->queue,
- 					 req->bio, status);
- }
-=2D-=20
-2.51.0
-
-
-
-=2D-=20
-Rolf Eike Beer
-
-emlix GmbH
-Headquarters: Berliner Str. 12, 37073 G=C3=B6ttingen, Germany
-Phone +49 (0)551 30664-0, e-mail info@emlix.com
-District Court of G=C3=B6ttingen, Registry Number HR B 3160
-Managing Directors: Heike Jordan, Dr. Uwe Kracke
-VAT ID No. DE 205 198 055
-Office Berlin: Panoramastr. 1, 10178 Berlin, Germany
-Office Bonn: Bachstr. 6, 53115 Bonn, Germany
-http://www.emlix.com
-
-emlix - your embedded Linux partner
-
+On 9/26/25 5:00 AM, Gustavo A. R. Silva wrote:
+> Hi,
+> 
+> Shouldn't this patch be removed from this series, since it's going to be
+> reverted anyways?
+> 
+> Thanks
+> -Gustavo
+> 
+> On 9/26/25 02:02, John Meneghini wrote:
+>> From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+>>
+>> purex_item.iocb is defined as a 64-element u8 array, but 64 is the
+>> minimum size and it can be allocated larger. This makes it a standard
+>> empty flex array.
+>>
+>> This was motivated by field-spanning write warnings during FPIN testing.
+>>
+>>    >  kernel: memcpy: detected field-spanning write (size 60) of single
+>>    >  field "((uint8_t *)fpin_pkt + buffer_copy_offset)"
+>>    >  at drivers/scsi/qla2xxx/qla_isr.c:1221 (size 44)
+>>
+>> I removed the outer wrapper from the iocb flex array, so that it can be
+>> linked to `purex_item.size` with `__counted_by`.
+>>
+>> These changes remove the default minimum 64-byte allocation, requiring
+>> further changes.
+>>
+>>    In `struct scsi_qla_host` the embedded `default_item` is now followed
+>>    by `__default_item_iocb[QLA_DEFAULT_PAYLOAD_SIZE]` to reserve space
+>>    that will be used as `default_item.iocb`. This is wrapped using the
+>>    `TRAILING_OVERLAP()` macro helper, which effectively creates a union
+>>    between flexible-array member `default_item.iocb` and
+>>    `__default_item_iocb`.
+>>
+>>    Since `struct pure_item` now contains a flexible-array member, the
+>>    helper must be placed at the end of `struct scsi_qla_host` to prevent
+>>    a `-Wflex-array-member-not-at-end` warning.
+>>
+>>    `qla24xx_alloc_purex_item()` is adjusted to no longer expect the
+>>    default minimum size to be part of `sizeof(struct purex_item)`,
+>>    the entire flexible array size is added to the structure size for
+>>    allocation.
+>>
+>> This also slightly changes the layout of the purex_item struct, as
+>> 2-bytes of padding are added between `size` and `iocb`. The resulting
+>> size is the same, but iocb is shifted 2-bytes (the original `purex_item`
+>> structure was padded at the end, after the 64-byte defined array size).
+>> I don't think this is a problem.
+>>
+>> In qla_os.c:qla24xx_process_purex_rdp()
+>>
+>> To avoid a null pointer dereference the vha->default_item should be set
+>> to 0 last if the item pointer passed to the function matches.  Also use
+>> a local variable to avoid multiple de-referencing of the item.
+>>
+>> Tested-by: Bryan Gurney <bgurney@redhat.com>
+>> Co-developed-by: Chris Leech <cleech@redhat.com>
+>> Signed-off-by: Chris Leech <cleech@redhat.com>
+>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>> ---
+>>   drivers/scsi/qla2xxx/qla_def.h  | 10 ++++++----
+>>   drivers/scsi/qla2xxx/qla_isr.c  | 17 ++++++++---------
+>>   drivers/scsi/qla2xxx/qla_nvme.c |  2 +-
+>>   drivers/scsi/qla2xxx/qla_os.c   |  9 ++++++---
+>>   4 files changed, 21 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/scsi/qla2xxx/qla_def.h b/drivers/scsi/qla2xxx/qla_def.h
+>> index cb95b7b12051..604e66bead1e 100644
+>> --- a/drivers/scsi/qla2xxx/qla_def.h
+>> +++ b/drivers/scsi/qla2xxx/qla_def.h
+>> @@ -4890,9 +4890,7 @@ struct purex_item {
+>>                    struct purex_item *pkt);
+>>       atomic_t in_use;
+>>       uint16_t size;
+>> -    struct {
+>> -        uint8_t iocb[64];
+>> -    } iocb;
+>> +    uint8_t iocb[] __counted_by(size);
+>>   };
+>>   #include "qla_edif.h"
+>> @@ -5101,7 +5099,6 @@ typedef struct scsi_qla_host {
+>>           struct list_head head;
+>>           spinlock_t lock;
+>>       } purex_list;
+>> -    struct purex_item default_item;
+>>       struct name_list_extended gnl;
+>>       /* Count of active session/fcport */
+>> @@ -5130,6 +5127,11 @@ typedef struct scsi_qla_host {
+>>   #define DPORT_DIAG_IN_PROGRESS                 BIT_0
+>>   #define DPORT_DIAG_CHIP_RESET_IN_PROGRESS      BIT_1
+>>       uint16_t dport_status;
+>> +
+>> +    /* Must be last --ends in a flexible-array member. */
+>> +    TRAILING_OVERLAP(struct purex_item, default_item, iocb,
+>> +        uint8_t __default_item_iocb[QLA_DEFAULT_PAYLOAD_SIZE];
+>> +    );
+>>   } scsi_qla_host_t;
+>>   struct qla27xx_image_status {
+>> diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
+>> index 8ff8781dae47..ccb044693dcb 100644
+>> --- a/drivers/scsi/qla2xxx/qla_isr.c
+>> +++ b/drivers/scsi/qla2xxx/qla_isr.c
+>> @@ -1078,17 +1078,17 @@ static struct purex_item *
+>>   qla24xx_alloc_purex_item(scsi_qla_host_t *vha, uint16_t size)
+>>   {
+>>       struct purex_item *item = NULL;
+>> -    uint8_t item_hdr_size = sizeof(*item);
+>>       if (size > QLA_DEFAULT_PAYLOAD_SIZE) {
+>> -        item = kzalloc(item_hdr_size +
+>> -            (size - QLA_DEFAULT_PAYLOAD_SIZE), GFP_ATOMIC);
+>> +        item = kzalloc(struct_size(item, iocb, size), GFP_ATOMIC);
+>>       } else {
+>>           if (atomic_inc_return(&vha->default_item.in_use) == 1) {
+>>               item = &vha->default_item;
+>>               goto initialize_purex_header;
+>>           } else {
+>> -            item = kzalloc(item_hdr_size, GFP_ATOMIC);
+>> +            item = kzalloc(
+>> +                struct_size(item, iocb, QLA_DEFAULT_PAYLOAD_SIZE),
+>> +                GFP_ATOMIC);
+>>           }
+>>       }
+>>       if (!item) {
+>> @@ -1128,17 +1128,16 @@ qla24xx_queue_purex_item(scsi_qla_host_t *vha, struct purex_item *pkt,
+>>    * @vha: SCSI driver HA context
+>>    * @pkt: ELS packet
+>>    */
+>> -static struct purex_item
+>> -*qla24xx_copy_std_pkt(struct scsi_qla_host *vha, void *pkt)
+>> +static struct purex_item *
+>> +qla24xx_copy_std_pkt(struct scsi_qla_host *vha, void *pkt)
+>>   {
+>>       struct purex_item *item;
+>> -    item = qla24xx_alloc_purex_item(vha,
+>> -                    QLA_DEFAULT_PAYLOAD_SIZE);
+>> +    item = qla24xx_alloc_purex_item(vha, QLA_DEFAULT_PAYLOAD_SIZE);
+>>       if (!item)
+>>           return item;
+>> -    memcpy(&item->iocb, pkt, sizeof(item->iocb));
+>> +    memcpy(&item->iocb, pkt, QLA_DEFAULT_PAYLOAD_SIZE);
+>>       return item;
+>>   }
+>> diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
+>> index 8ee2e337c9e1..92488890bc04 100644
+>> --- a/drivers/scsi/qla2xxx/qla_nvme.c
+>> +++ b/drivers/scsi/qla2xxx/qla_nvme.c
+>> @@ -1308,7 +1308,7 @@ void qla2xxx_process_purls_iocb(void **pkt, struct rsp_que **rsp)
+>>       ql_dbg(ql_dbg_unsol, vha, 0x2121,
+>>              "PURLS OP[%01x] size %d xchg addr 0x%x portid %06x\n",
+>> -           item->iocb.iocb[3], item->size, uctx->exchange_address,
+>> +           item->iocb[3], item->size, uctx->exchange_address,
+>>              fcport->d_id.b24);
+>>       /* +48    0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F
+>>        * ----- -----------------------------------------------
+>> diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+>> index d4b484c0fd9d..32437bae1a30 100644
+>> --- a/drivers/scsi/qla2xxx/qla_os.c
+>> +++ b/drivers/scsi/qla2xxx/qla_os.c
+>> @@ -6459,9 +6459,12 @@ void qla24xx_process_purex_rdp(struct scsi_qla_host *vha,
+>>   void
+>>   qla24xx_free_purex_item(struct purex_item *item)
+>>   {
+>> -    if (item == &item->vha->default_item)
+>> -        memset(&item->vha->default_item, 0, sizeof(struct purex_item));
+>> -    else
+>> +    scsi_qla_host_t *base_vha = item->vha;
+>> +
+>> +    if (item == &base_vha->default_item) {
+>> +        memset(&base_vha->__default_item_iocb, 0, QLA_DEFAULT_PAYLOAD_SIZE);
+>> +        memset(&base_vha->default_item, 0, sizeof(struct purex_item));
+>> +    } else
+>>           kfree(item);
+>>   }
+> 
 
 
