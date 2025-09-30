@@ -4,198 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58D36CCA470
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 20:13:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCB9DCCA470
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 23:56:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E71DcmDVhCToHtC0aB6YNnXP+HGvsr0gusdDsUOUliY=; b=F8nnAx8HnxcKDUzsHy9wKGtkcj
-	wVAzKvXHxaky0f0rIp1YtLZz+PYqOs1/T0fG+RDijCfQSXCeY5AP9BSEWXLQEIjD2LxCN0cwXaq1g
-	SOtXHBAB6Kvi6Mvl6MLApkr6jzhuP/FgzbkvUJF6qKhcgiciU68+9on42HL7z9JeUqTQPir8Wmt7a
-	x//uqcuPKqVgq8fk29hLmdb7RiP92Xt0eHY8AGTSV7ELAXspI2aRS4cr54aoTAIZ5+2saxPX4p1LF
-	C26sZkqczAYHwK2lvAxA62bsGsOHJjq8r065dcC8ZP9Mo187UPs+pAc9F2tNe00i6ymqN4CW+Gf0x
-	Dgh3UcOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KgDda9PZ/ZOIVHoxLqUI98Lhj+DhQRySzSwpHGi1nUs=; b=1e/TyDz/Ls4p4cos1BKkbIrwLv
+	QywoJhKD+i+tX0sq12k8vJu64CMn/DdJ5cNunHEXyCwzef2CDCWiPn6T4IVeeyFrcLpAuCa9DUCHU
+	kYUDQqfSbzC6lZvTPWIR6T7JY/RDBoTh6hPDo17q8n15aty5B8Y5T6mURkUY5jVNbcjUjkRlQR4w1
+	lRSKhmcwPY7Fap3VfF6p5baBlFxaOERYei6J/5bUzJbiS1+OTvV4FnTJy3LAE2upo7IBQsjeNbrCD
+	s7DS5rLfBLtNyAuSNs+Rb4kwaUywl9FqM/Yo/XPdeJ1sy14SxuG02K7gxGscXleySsKfUBo10NRPH
+	GRbxqrKg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3gjK-000000069K3-1YTn;
-	Tue, 30 Sep 2025 20:13:46 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1v3kCu-00000006OUH-1CJl;
+	Tue, 30 Sep 2025 23:56:32 +0000
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3gjH-000000069Ja-43dy
+	id 1v3kCr-00000006OTv-3kbO
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Sep 2025 20:13:45 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UKCu4J022147;
-	Tue, 30 Sep 2025 20:13:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=E71DcmDVhCToHtC0aB
-	6YNnXP+HGvsr0gusdDsUOUliY=; b=GhNC5/Oku5AnQJjqw9SV20RqL7FPEKvUoE
-	EoO5uJJORNofP3Is2fZWOaOkmFWpEMlWVWwWi1izQZA+M/wietXEKNxKPvV9+KG/
-	+52Vi0dROrcqP9VfFd/POWSPJB/NfzYU4e7lBWGQ7+btBll40VIZBw7Ll8NebIL8
-	36lEJbYjwKoTd4s4LnO5VNOuXFccoNPrJVGNLfxKCh8o6UrdtY+qakyCBV5T4ess
-	Az6DbgSqcEaZZPTM0tvGTyFy15Cm1wylHrlQwVdTfMx3SnzAUs2dabDYK2tymJCj
-	pNqowGwFgYAaMPig3BIYpGg1kPU7lca+hTjPVE/zFvLMdrQfJQng==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49gm3bg8kr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 30 Sep 2025 20:13:35 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58UJe3FS036448;
-	Tue, 30 Sep 2025 20:13:35 GMT
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010008.outbound.protection.outlook.com [52.101.193.8])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49e6c8kfk2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 30 Sep 2025 20:13:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OaTtIQ06BIYiaEDZvOIVEMsxPTy8u6caBxMuNckJu64cgx4oXMbQGH0yOVleRc0wIVNlvXjKNDw1dVYgPH2kD/6QeWTmA+G1TxoKfG+nL7OSbk/7ZcEOBsrvu2z+QWWR98atNlowzDxU4fNLQS04L7JNq18G+QBgUNsR33nzQDdoqApO3/FZOqMhCUXPuHKWEKYdzSnOfJHhiDWEUZF7W2gFWn7D4HiiDBSTo6aJSUcOYACWF6Ii9ZOqISa7GSFDx7MF1P2DxqpBuGPcx2sclcX0vYAZUZBH5EWUy8OGbzWng5o5eYPckduELjaya+AklYQZZVunHMn038ybZAFg6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E71DcmDVhCToHtC0aB6YNnXP+HGvsr0gusdDsUOUliY=;
- b=i3QQB37MkqaGWEhkcspCnBIVEvjelPaAYoOgbp+vNbD9We6HKSfFOhhJtCSXrbYI72g1KJ1opD/VizYw5jcZBo9xml/2wn97qj8ZcHZpyD7hpfajPfbOETFatDSRfVKFGC8bb/YlhKeqbI0gKJCGhAPPgC+17kONtgp7EDhtq7InrJHpH0CRIayvw9mr47FAG2AUZiNQ2eQBSrhu/OdAf25BaDhLae2dOUChDmVUgh9kejtwWdVZZqJhNMFrXTH0W8sc2fdHs8SlafKfy4zu9m008ElSWAjqWjqzeibvrOxh44o3PslXbXR9qFcsh5B8e+bD/qPCDAhwdT/eq7rLlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Tue, 30 Sep 2025 23:56:30 +0000
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-27eca7297a7so9235095ad.1
+        for <linux-nvme@lists.infradead.org>; Tue, 30 Sep 2025 16:56:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E71DcmDVhCToHtC0aB6YNnXP+HGvsr0gusdDsUOUliY=;
- b=F+GINUL0LUJcOU+BtcdaGbub+KN8NRpwLKNd6ZeM3+qhaL+VnQZqTuyq5QIQGdynHsEDZD4FllnVZXoL5krLfD+cRTa7VIkvHjT+akSEjHk4UtyymPg7hDWQM8yar5lDak+prVNMXGxkpkaO7mRH4qH7BoNh24W9voMrjEgXaLU=
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
- by CO6PR10MB5650.namprd10.prod.outlook.com (2603:10b6:303:14f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Tue, 30 Sep
- 2025 20:13:06 +0000
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::5cca:2bcc:cedb:d9bf%6]) with mapi id 15.20.9160.017; Tue, 30 Sep 2025
- 20:13:05 +0000
-To: John Meneghini <jmeneghi@redhat.com>
-Cc: martin.petersen@oracle.com, axboe@kernel.dk, emilne@redhat.com,
-        gustavoars@kernel.org, hare@suse.de, hch@lst.de,
-        james.smart@broadcom.com, kbusch@kernel.org, kees@kernel.org,
-        linux-hardening@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, njavali@marvell.com, sagi@grimberg.me
-Subject: Re: [PATCH] Revert "scsi: qla2xxx: Fix memcpy() field-spanning
- write issue"
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <70657b10-32a3-4c4f-bb53-e95d88435d58@redhat.com> (John
-	Meneghini's message of "Tue, 30 Sep 2025 05:35:22 -0400")
-Organization: Oracle Corporation
-Message-ID: <yq13483n1kh.fsf@ca-mkp.ca.oracle.com>
-References: <yq1zfajqpec.fsf@ca-mkp.ca.oracle.com>
-	<20250925130729.776904-1-jmeneghi@redhat.com>
-	<7b1342ce-0f30-4481-bf3b-ef3c92b9bcf8@embeddedor.com>
-	<70657b10-32a3-4c4f-bb53-e95d88435d58@redhat.com>
-Date: Tue, 30 Sep 2025 16:13:02 -0400
-Content-Type: text/plain
-X-ClientProxiedBy: YQBPR0101CA0192.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:f::35) To CH0PR10MB5338.namprd10.prod.outlook.com
- (2603:10b6:610:cb::8)
+        d=purestorage.com; s=google2022; t=1759276589; x=1759881389; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KgDda9PZ/ZOIVHoxLqUI98Lhj+DhQRySzSwpHGi1nUs=;
+        b=Ci9Mg6TbuDVXwUcgQq7ogxmeprC3GEYPppbf97eJ55y3jbDhBd60/YZW8/so2sEVcn
+         zIXGiRCvNpWUwaDDt6fOLLSKsP+xRU0OpGNAh+m1qxppgfZN1iblYQjqrMuX5OJLPFkd
+         YC/86//HH+t6fggzTuUXopenO8prrgw7p8eQj3M30AnkQBUqb3mir3Wb8CVB+OZGjvsB
+         C/0nQX/QcG1vZwQnd31d0r1Z/80QaqyrxWY8ALiLCGIBLet/ecz3b9FVYxuJ8ePJmn9f
+         iAPX69VkZLHl2FqaKMR4NirL9ARy6mAeHAm/w5lhyULRoC1tFtam1Mzn4u6TBrQSwKaH
+         2cFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759276589; x=1759881389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KgDda9PZ/ZOIVHoxLqUI98Lhj+DhQRySzSwpHGi1nUs=;
+        b=HwjyQ/JTF4rmnAEsXQcT2rYa1fJmk6HQBf3OdVYXArXmfD4voj+ygLmInmSwwMBiak
+         PqYThO7e1gzr/BRgkRHyXX1mFbCvAeJMsDhAPjhzZ1NypzuFQ1koAZVjjRA0yt4qUnEi
+         fZ6l/pNCgSFG/Um8LhC6lZTyw9Z0iEhT5LJZUhSBtiVYB6snS7XB9gS3HlSsrP7sGBsF
+         fvb9AgF0QHNtQ4902vTyMKRJV2C3zAY2Ovij8AWGUWdaijelJ/PvckqQEwig4knpOKTp
+         nSpt4ZrLG077S7Pq5jKmYzb/sSKGyr2tVcSsbhxPzUrDDvPdMqPUo7PvAJuL2Cy5c5eq
+         1Peg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeVTJKCfhUvWrID2yT614eUosDwFmFJ5whhFUIdQBqGnLLHuudFAZX3QQzV502yJPa9Sh7gUR8viPu@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz0my0K3+kHWuPEYIeE2V2MrmJQLKykYhaFqB/1LbP8YV2bU2u1
+	dv453ClBUb7++OaxlPX3ZQ5wwXVzo1bVz5uWrSACiSQoneR75oUs0181VgyxsVhciJQP+7nTjac
+	DznN/VUQbsr7EFUkFn0MxAuYH4yMHJ4GGTJjsOXlWAA==
+X-Gm-Gg: ASbGncvX9DdIpIpQBjsz/h0Jli3QPDcJgPq9VTrNfQFWey10fVJrxXRpMq7cCZrfj7/
+	jX+jO1/Ag69A1jGa85frc/DhGqc7SSLGsYb7Illp6GcDEf0fhmTuckcflmxWDZPTKBDC1lhmflX
+	YGfp9gzOOECYrV+xK50soilgyn2rtNoE3ka7YycXPtKSI3MIxGvJQ5IOAhr49SoYPva0mZ+ZvXA
+	X2r1RQWOIMmfvdGcEXkvaV6wvcppUsFuXPVejoi7VKMRI+YZUXvMu0geZ3i076k
+X-Google-Smtp-Source: AGHT+IEpxdka3fpY1RGSt22bA+AUtwMCp/hERU5iCKu9uk3PEWfxh8d2ZVgwfA2eMNx71KLt9vE6DliHzz7bVhBKN/c=
+X-Received: by 2002:a17:902:ce8c:b0:27e:f07c:8429 with SMTP id
+ d9443c01a7336-28e7f263d0fmr9971685ad.1.1759276588590; Tue, 30 Sep 2025
+ 16:56:28 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|CO6PR10MB5650:EE_
-X-MS-Office365-Filtering-Correlation-Id: 214de8e1-b7c8-4c5f-73ef-08de005dc3b1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?R7BnVcc+ZxrtSIQ7syrlDQj3yn9PROctAooEhJ8VDZVrtlvqB4wbJygpAmQ5?=
- =?us-ascii?Q?4wp/qyUtAEi2s4nmc6XpQHwzPojM61rQu2609Hsob54SV1a16aLnUaQACLp1?=
- =?us-ascii?Q?ZK1CQ7Y0bywC5ObByH7C8V5QOE6liljkkqz9QrLKZxorinvtsLnTOnnOAxBH?=
- =?us-ascii?Q?krHpX7bl5atfmzHJJA2rVWLth4+zYQSKyUejFGZpqybaLlrNu7lZRMQPqhFC?=
- =?us-ascii?Q?N0pEWnpv/PkEA0UZuBapW4/jqBuFHwYTRNsdn1/Oaq0XaptjwfSRJ0p2JyG6?=
- =?us-ascii?Q?S+J2iVPTJ4iN/MHv2QKb3Cz80FY4qSnRLs/kxtUZMO5iMb17rDp+TK4JTnB1?=
- =?us-ascii?Q?vMfPiyUn3wYrSlOH86y/7XncrCrm56ZMm7xQoOSOWGRZMpKxkqYCoiCNQPJ+?=
- =?us-ascii?Q?TWvGeJ6tVb9ZdlmYuLoDZCXydHEAm3DfaUkx8pIk917f1NR9PBoRFmhCC9Ze?=
- =?us-ascii?Q?wJ/MCvhCk6zX8wPuESyJCf3aPB2MStV9Nj48t+8MLF3vgHlVOEeVOO129mVR?=
- =?us-ascii?Q?i+9ahxIHrUS7MqcPa1W51vBB8dMW8xERvTzoNB9Tyd+DbN3e4bL/r/lD+njd?=
- =?us-ascii?Q?c4rUR2otlpvmozPQdscqTc8g3QLlpYQMB0YpPREqHT8CFKt+5BlYSjL6EPlC?=
- =?us-ascii?Q?wm0oG1+PAmdUUZG0eKw9ejIkaIWSYcPguQ/bbfr17Oy0qITt/WWMXwalXFld?=
- =?us-ascii?Q?YblNQKNthv9gCGWUuU8ZlfKd8MKPCtDIGYSuy5U0oLEKwkDcQAKzZ20eMa0T?=
- =?us-ascii?Q?AvlhAuXv6JZZTz/eKHAywC00fsIZGOg4BYKCDC6jvBFrnP9KFoGJYgg095EL?=
- =?us-ascii?Q?c/bCGSQvEG1gRIFQr7gySL/uTbMrFBTHiDX7Ee5VnoacWYEL4RMdh+ALr+8e?=
- =?us-ascii?Q?TkGWV2cDD2+bN1wX3KCdTWTObzwJO4XMfhhMl72svdbjX/jypIjjgy6UZVkp?=
- =?us-ascii?Q?r8fLc1Mrc7JAzuXjcLT/jsK8SHCbVpE/KDRe+QhZ/FZil3VeSLDZvuplZFW0?=
- =?us-ascii?Q?sPLw7tGu+Fyk+UCjPXzPj2eo8KkfAuAjQ443/P09Q+FSeYeiYp448+vbLBld?=
- =?us-ascii?Q?MKT11JXNK1uKNedaajaaATbTXyzRg9FYKq6CendfwXuHDFe9GHOErXxThMEF?=
- =?us-ascii?Q?Lgn5PfKUR2Quw21HOd6YraBCYuqAjgjeP2r/ewXsZS0dkuh5D31Wu02+kcee?=
- =?us-ascii?Q?FPdA8yPoSzRtK5Fvga5N6vXRPSoXM1eASLAEHfXLS+kMBLUNVT6i5Mt04ChT?=
- =?us-ascii?Q?7pIahStF/TelHg6ITuB/uxdFJ855ZHrYY5X+5KpapeBSCpmMA4tpYzjY1xZv?=
- =?us-ascii?Q?glL2Zs9kWs4tt8MCjP3GQypCifCNPKOy10DLoYrAhMB2EOi/m269KCY7AGED?=
- =?us-ascii?Q?XeIegQCXAfLjcoPlvMw9ZCsehjCRPRARRlUk5KuNXuRoT+E9RW/mb0oHSTMl?=
- =?us-ascii?Q?fO/grMOoZt/NKvYFgzE5EL57/Kg4cZr5?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6f8BdVqoaLUkjcRJrlhXRV+ppvLzgBTwD1XglRpiFamBGWEtSYUvndpYljtj?=
- =?us-ascii?Q?4re2WJOTkEOYLZOcKyppPuCRPCiKZh5hoOzhsQJszL3GZu910UeZ/m/8DxOY?=
- =?us-ascii?Q?7ME+h4rIJJjIEvdiO3h5SExmpC35Rs0mcFLuMQr2w7RduxnLNZtclSOTLEii?=
- =?us-ascii?Q?DK++mjF1ZFSnicGm6r+M6ltegE8wzcWxmQwQ7R/d1mmhy9KUUYau13duLcJR?=
- =?us-ascii?Q?LSmD86T+KQK88QU2IbnurfUBJ1Xb74jmoEybi4oxpkeB7KaMlT8zYMMf9MbI?=
- =?us-ascii?Q?VxCbBq0X709CMbHv8s9Jpw2vS9AaWsQRPaO9mW7BfDAzUGXiyy7IQgWPuZUV?=
- =?us-ascii?Q?hHcVYoLsTZAHb0hUWCsXTlmrxbyC81lSRGWqaRM3MMNEf9Y84vKgMR8JbRdf?=
- =?us-ascii?Q?KvUAgI+uTo6K8KqBxqeHprTowh1/yDojilr6zmpF4ZB0Y/5Gj/eLRRCB/Rjc?=
- =?us-ascii?Q?WJp1Pu9HP/0YX32Kik9iAbQw//f4YnCqYY5e/d/Mqa+qj1R9DWn8cuqVPQ+S?=
- =?us-ascii?Q?djwSaOsSD9n+HMYwqVnWAg8p5sJy60KYwujCo9MQYlUzhlM54xUAd4r9t4ha?=
- =?us-ascii?Q?NAnqUW/PTgO6NddbNA8OuVHY+GGr0nhjzxdUSIzIVjcAiUhU2OiY5+O8BP7t?=
- =?us-ascii?Q?pilhqvwp7OKKyneRLrXfVuX/ndLmxfbirixix+rpQIhZO5ElfxqebNTyxEfN?=
- =?us-ascii?Q?7EjzOtlp+yWBDlx3ko+4uakxXAvhNAzyuM3fd5nCNwDp9f9FnhMlAEb6jbVO?=
- =?us-ascii?Q?Msj/XakEj3RUG8Za/XDjFOcBqByDHpaFx/5kvM39HVH5lSBOlVd198AMCN6a?=
- =?us-ascii?Q?HeylGLEXMeOyIGuHNkEHZFj1nYj7eu88TqO9NEHPzW0kGfwsQxzbB4Bfibps?=
- =?us-ascii?Q?zzWQnp2QKWvudzANBTYkfe5DO8IrLCiCDH2CC0qn2xAbYLd8Jo3LGAGq5wLI?=
- =?us-ascii?Q?rGPYPpJkb46C60gBUgbszyro3cbvwlX2Ww6rZAUMEAHdsAZWtbvXakaktTBf?=
- =?us-ascii?Q?h0nwZ2+D1eK4md7X/QhZb6EEHQa/in6mfxGhx6KiZqyrynjlhBaqy67+NnOW?=
- =?us-ascii?Q?lyLUeLBveajd7wdNNCM1GAyUJ2p6qnjJY04c0cvNGvLlvBmRRvRrlFp35otU?=
- =?us-ascii?Q?G4Mcv+AjN6ZIX35uGEtc1Qy/hcrKa6ZtChyjcYCR3/wN/8ITYd6Mh/xqmJc1?=
- =?us-ascii?Q?+wtnOBNRPwcr2HdZAIr3FlQc8KF1m3zORqoQw935ZpWJCpLzofbo9QFyflqD?=
- =?us-ascii?Q?8ZoJrzSUjfVZpSSbVICIWtI+R9x2g3YrXhGchuRXis3nHiIgKmN02UokxiSo?=
- =?us-ascii?Q?yld8W654OPWyjxl/lgN+TW7arhQnDJ/A7jldlgHN4ycKUI7id294jYjecPIn?=
- =?us-ascii?Q?gtwcHscxzw7EBhDfydPnoyeqol0rTaBOm0hy1FgwfP4PMxk6HuvNMFLzQYCn?=
- =?us-ascii?Q?OzhiZATKE0cyLq0y9kS3wGmqkRc0nVVyBxLSAEkTmgU1cgbbEHcjMCHPinK2?=
- =?us-ascii?Q?Qfilf+7+naQIzPpuMBDiztTtkby63v8SXLyxdblyiQAIWgI9+4Nk4G1GuGtE?=
- =?us-ascii?Q?o1IGPr2pj7+/Z7KWVDCnk2UzZjgUCS3RMsX1HLygrnK0UtRBPKo1zKVSMRrF?=
- =?us-ascii?Q?LQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: ETyqqIiv9NZe2JcSyQrsd4f/y5Coh72lduLzRbAoUSfSS39gi0eVHuyVSXBEYpn12vck/G6R7iUxGc6cvODUvCGpZ/NnjN8IrBysapK3mYFNW1tZdxcyGq6w+bgGBMsHWxSl/QGlSMoxmCO09JQRKEhvZp4dqsb2ha0ORzc0Qu8kIW2gKuWQ7Kk7u0DQfcMYeOaQ3vXIzOrWyIDLxEJ6xYGB/SehJzpRgGxEHCKnzk+qglwafJEbANlCRHwmxUqnER4sowSmRlpu83AuFtpxBP6xfmfsR1Ac04ql5cOiRNQiONVvCByxTCI1ppM6CdLF750ySg7kIoCXzRFDnIUpCjKRv6AG1DhEPLBRn6YR1aGb8RpcdDFKKR6kgoaIysET+0AZQg/X3oLT3tqJBDHIctDgJfL+Ehwm2lKgSherbpsKJyz9zojJIfJnNPk+A74wL44MbZWnQYgERROnFi+2FT/eeBJ84wlWf7RAXWMt8mvJ4v+YZgqNXpuvlm99bOuR1neClnu4TTJef+mj8lj3mf0hF2PfPXj1nq6uE53ra0z56Kmpf1qkdunIjdkhfftwf7QVWWbp7od/VtTtjPKdhAwM7Sc1yXCQoBmElh+Q5LE=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 214de8e1-b7c8-4c5f-73ef-08de005dc3b1
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2025 20:13:04.9468
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 97l1EaL+qOse/53eO/PUpAgRMp6NR6OZjZbLMfm3jLrF6ZClVyquTpLKO9Ab5VCitWfjAxZKj8PcY7OfQXdxcNxQaev1XNTEfW/GgInGYWU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5650
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-30_04,2025-09-29_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- mlxlogscore=734 suspectscore=0 phishscore=0 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2509150000 definitions=main-2509300184
-X-Proofpoint-GUID: phvvIMSWivVkIL666WzhZdIkKhmsLfel
-X-Authority-Analysis: v=2.4 cv=GsJPO01C c=1 sm=1 tr=0 ts=68dc39f0 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
- a=GoEa3M9JfhUA:10 a=iOiOaIpq1Z_ZzEPSluUA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTMwMDE2MiBTYWx0ZWRfX7gAqlb6CT0Vs
- a3F2xK6hSJLRBENeEc7cDFhZWGWH+X+m/EZifL1qoHFRbhg0UhFfZL6EzA5rHcN57ITVybwpa3M
- p5Gwt87U68ZoVDByqcbvPZWh3U7ZeujVzAbC5yR2wjHq39LHvTP3RTS6BBYItRV2gfhSUiWNRcv
- mR39qqfHy3hLjCYnuGViQeWlpdKmHXHZnjGdbbP3hLq1chACOqUOzrxPrJ4zSNrFs/54Xn37Of7
- M4I2PUA4cqO8QXJENkzQiBq8tqIOpiGFNuUMyqmxYrtXajHH+rD0DwHYTNLDP6zJSAq40yLLTdJ
- z65Wd6tRDSj8m6+oFJ3lPLvYEB78UE6A/m0nAoA7P5hcYlwFpwwXQ3MU/2BbbbUnucF5ZH2DBlt
- fflEzYB6E102RSDrPSSr50lyqpk9YA==
-X-Proofpoint-ORIG-GUID: phvvIMSWivVkIL666WzhZdIkKhmsLfel
+References: <20250926065235.13623-1-409411716@gms.tku.edu.tw> <20250926065512.13881-1-409411716@gms.tku.edu.tw>
+In-Reply-To: <20250926065512.13881-1-409411716@gms.tku.edu.tw>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Tue, 30 Sep 2025 16:56:17 -0700
+X-Gm-Features: AS18NWAZDkDjzHRxic_YNlGQtc5_abU1XjZFoUXfiVOKnVWiVuhgyXH0Q0cj-2w
+Message-ID: <CADUfDZp6WeW9YQRRnxB7fFObtajatY_+f+x1D5dQOrNv626znA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] lib/base64: Add support for multiple variants
+To: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+Cc: akpm@linux-foundation.org, axboe@kernel.dk, ceph-devel@vger.kernel.org, 
+	ebiggers@kernel.org, hch@lst.de, home7438072@gmail.com, idryomov@gmail.com, 
+	jaegeuk@kernel.org, kbusch@kernel.org, linux-fscrypt@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	sagi@grimberg.me, tytso@mit.edu, visitorckw@gmail.com, xiubli@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250930_131344_010762_CDFAD10A 
-X-CRM114-Status: GOOD (  10.05  )
+X-CRM114-CacheID: sfid-20250930_165629_943248_B6F25621 
+X-CRM114-Status: GOOD (  29.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -210,17 +98,186 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-John,
-
-> I don't see this patch in scsi/6.18/scsi-queue yet.
+On Thu, Sep 25, 2025 at 11:59=E2=80=AFPM Guan-Chun Wu <409411716@gms.tku.ed=
+u.tw> wrote:
 >
-> Are we going to revert this ?
+> From: Kuan-Wei Chiu <visitorckw@gmail.com>
+>
+> Extend the base64 API to support multiple variants (standard, URL-safe,
+> and IMAP) as defined in RFC 4648 and RFC 3501. The API now takes a
+> variant parameter and an option to control padding. Update NVMe auth
+> code to use the new interface with BASE64_STD.
+>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> Co-developed-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+> Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+> ---
+>  drivers/nvme/common/auth.c |  4 ++--
+>  include/linux/base64.h     | 10 ++++++++--
+>  lib/base64.c               | 39 ++++++++++++++++++++++----------------
+>  3 files changed, 33 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+> index 91e273b89..5fecb53cb 100644
+> --- a/drivers/nvme/common/auth.c
+> +++ b/drivers/nvme/common/auth.c
+> @@ -178,7 +178,7 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigne=
+d char *secret,
+>         if (!key)
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       key_len =3D base64_decode(secret, allocated_len, key->key);
+> +       key_len =3D base64_decode(secret, allocated_len, key->key, true, =
+BASE64_STD);
+>         if (key_len < 0) {
+>                 pr_debug("base64 key decoding error %d\n",
+>                          key_len);
+> @@ -663,7 +663,7 @@ int nvme_auth_generate_digest(u8 hmac_id, u8 *psk, si=
+ze_t psk_len,
+>         if (ret)
+>                 goto out_free_digest;
+>
+> -       ret =3D base64_encode(digest, digest_len, enc);
+> +       ret =3D base64_encode(digest, digest_len, enc, true, BASE64_STD);
+>         if (ret < hmac_len) {
+>                 ret =3D -ENOKEY;
+>                 goto out_free_digest;
+> diff --git a/include/linux/base64.h b/include/linux/base64.h
+> index 660d4cb1e..a2c6c9222 100644
+> --- a/include/linux/base64.h
+> +++ b/include/linux/base64.h
+> @@ -8,9 +8,15 @@
+>
+>  #include <linux/types.h>
+>
+> +enum base64_variant {
+> +       BASE64_STD,       /* RFC 4648 (standard) */
+> +       BASE64_URLSAFE,   /* RFC 4648 (base64url) */
+> +       BASE64_IMAP,      /* RFC 3501 */
+> +};
+> +
+>  #define BASE64_CHARS(nbytes)   DIV_ROUND_UP((nbytes) * 4, 3)
+>
+> -int base64_encode(const u8 *src, int len, char *dst);
+> -int base64_decode(const char *src, int len, u8 *dst);
+> +int base64_encode(const u8 *src, int len, char *dst, bool padding, enum =
+base64_variant variant);
+> +int base64_decode(const char *src, int len, u8 *dst, bool padding, enum =
+base64_variant variant);
+>
+>  #endif /* _LINUX_BASE64_H */
+> diff --git a/lib/base64.c b/lib/base64.c
+> index b736a7a43..1af557785 100644
+> --- a/lib/base64.c
+> +++ b/lib/base64.c
+> @@ -1,12 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * base64.c - RFC4648-compliant base64 encoding
+> + * base64.c - Base64 with support for multiple variants
+>   *
+>   * Copyright (c) 2020 Hannes Reinecke, SUSE
+>   *
+>   * Based on the base64url routines from fs/crypto/fname.c
+> - * (which are using the URL-safe base64 encoding),
+> - * modified to use the standard coding table from RFC4648 section 4.
+> + * (which are using the URL-safe Base64 encoding),
+> + * modified to support multiple Base64 variants.
+>   */
+>
+>  #include <linux/kernel.h>
+> @@ -15,26 +15,31 @@
+>  #include <linux/string.h>
+>  #include <linux/base64.h>
+>
+> -static const char base64_table[65] =3D
+> -       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=
+";
+> +static const char base64_tables[][65] =3D {
+> +       [BASE64_STD] =3D "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstu=
+vwxyz0123456789+/",
+> +       [BASE64_URLSAFE] =3D "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq=
+rstuvwxyz0123456789-_",
+> +       [BASE64_IMAP] =3D "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst=
+uvwxyz0123456789+,",
+> +};
+>
+>  /**
+> - * base64_encode() - base64-encode some binary data
+> + * base64_encode() - Base64-encode some binary data
+>   * @src: the binary data to encode
+>   * @srclen: the length of @src in bytes
+> - * @dst: (output) the base64-encoded string.  Not NUL-terminated.
+> + * @dst: (output) the Base64-encoded string.  Not NUL-terminated.
+> + * @padding: whether to append '=3D' padding characters
+> + * @variant: which base64 variant to use
+>   *
+> - * Encodes data using base64 encoding, i.e. the "Base 64 Encoding" speci=
+fied
+> - * by RFC 4648, including the  '=3D'-padding.
+> + * Encodes data using the selected Base64 variant.
+>   *
+> - * Return: the length of the resulting base64-encoded string in bytes.
+> + * Return: the length of the resulting Base64-encoded string in bytes.
+>   */
+> -int base64_encode(const u8 *src, int srclen, char *dst)
+> +int base64_encode(const u8 *src, int srclen, char *dst, bool padding, en=
+um base64_variant variant)
 
-It's in 6.18/scsi-staging. Stuff usually sits in staging for a week or
-so before getting shuffled over to queue. This lets the static checkers
-do their thing...
+Padding isn't actually implemented in this commit? That seems a bit
+confusing. I think it would ideally be implemented in the same commit
+that adds it. That could be before or after the commit that optimizes
+the encode/decode implementations.
 
--- 
-Martin K. Petersen
+Best,
+Caleb
+
+>  {
+>         u32 ac =3D 0;
+>         int bits =3D 0;
+>         int i;
+>         char *cp =3D dst;
+> +       const char *base64_table =3D base64_tables[variant];
+>
+>         for (i =3D 0; i < srclen; i++) {
+>                 ac =3D (ac << 8) | src[i];
+> @@ -57,25 +62,27 @@ int base64_encode(const u8 *src, int srclen, char *ds=
+t)
+>  EXPORT_SYMBOL_GPL(base64_encode);
+>
+>  /**
+> - * base64_decode() - base64-decode a string
+> + * base64_decode() - Base64-decode a string
+>   * @src: the string to decode.  Doesn't need to be NUL-terminated.
+>   * @srclen: the length of @src in bytes
+>   * @dst: (output) the decoded binary data
+> + * @padding: whether to append '=3D' padding characters
+> + * @variant: which base64 variant to use
+>   *
+> - * Decodes a string using base64 encoding, i.e. the "Base 64 Encoding"
+> - * specified by RFC 4648, including the  '=3D'-padding.
+> + * Decodes a string using the selected Base64 variant.
+>   *
+>   * This implementation hasn't been optimized for performance.
+>   *
+>   * Return: the length of the resulting decoded binary data in bytes,
+> - *        or -1 if the string isn't a valid base64 string.
+> + *        or -1 if the string isn't a valid Base64 string.
+>   */
+> -int base64_decode(const char *src, int srclen, u8 *dst)
+> +int base64_decode(const char *src, int srclen, u8 *dst, bool padding, en=
+um base64_variant variant)
+>  {
+>         u32 ac =3D 0;
+>         int bits =3D 0;
+>         int i;
+>         u8 *bp =3D dst;
+> +       const char *base64_table =3D base64_tables[variant];
+>
+>         for (i =3D 0; i < srclen; i++) {
+>                 const char *p =3D strchr(base64_table, src[i]);
+> --
+> 2.34.1
+>
+>
 
