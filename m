@@ -4,81 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BEEDCCA470
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 10:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A242CCA468
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 11:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LdJuTKOf/1oQDjnzdAFIGDSMiQQ/LUgyrgeX0PFVxss=; b=XKjmdAoK2yx3pCBR3qkQ5z/jAJ
-	s74foZ2gqdLqtOztvTkhfchfuaaiAfQhx254wOV1QSXymZPDZHTq9s1WgEPvLuJ98Rfa+VP4h9Z6G
-	hU4Sn2qvYHlNrhOjT4+yed6ttoDFZAFzXjLjXrLtzxOGPlEaXEHhYo4QiS4YmZT9g/MT6VvhpgNWl
-	s+QUyZWyiVXWjBlHXDkmfQmk0R8cYdLrFTNTXMCtsznC93Ed/eO8bZgchZsWYxwfwIZoykvR7vH/R
-	/veIIEJBnTiNEI4pIDULEzr2w91JbC3ltn/1ndziPgml3cS3/z7bXvyKC+ihzyvdjvoKUyrsLsWsN
-	8EIiAXJA==;
+	bh=LizefO1tRfpsNEnSLTRHntkV4SJD6LIRirCpsUp3djQ=; b=TYPOiTS0CsIz7ZDUAT0H/1Q8HO
+	zKVMQI4Vpqz0FPTeqbPKgSeGmQT0BdCim4ABp7cdfS97u52GZyNzap5ZhrIUtKMU784kUNEbmOWJy
+	tOJOD+cbA0H3JiSbVZiMfe2Ifh2dfDPruvKUDCGWeAq/qFYwdBJjBZbm1b71Xj+t1PhDleIWynqMS
+	iGox5fU17FBN20wrGOFZCY6KbRmq0W93XHxIqhbHThWP93I0a9dnVoniJCLp/zfpBcYBTeocZVTEe
+	i4XMVrCW7mPCVP+WZzSGPp5WvIp9oeZXALRlhxxX3LKtBhQIxrPVl/L0SbPQ+I5YGOPIkRxQO3JqN
+	v4gzTq2g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3XQU-00000004z86-2EW3;
-	Tue, 30 Sep 2025 10:17:42 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1v3Yww-00000005BOO-2MFu;
+	Tue, 30 Sep 2025 11:55:18 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3XQS-00000004z6l-0M7C
+	id 1v3Ywq-00000005BNY-19QM
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Sep 2025 10:17:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759227459;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	Tue, 30 Sep 2025 11:55:13 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8CF1333698;
+	Tue, 30 Sep 2025 11:55:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759233308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LdJuTKOf/1oQDjnzdAFIGDSMiQQ/LUgyrgeX0PFVxss=;
-	b=EN3IiMfw2zu8IYtzdi/vqLFf+Fu/KyRpLXVxYDMdA2sNeVOGFHHMmkg33/+e2EADXIkRC8
-	OLU+C2Z1Z83jvOngXGk9/jg8O7jzv0NCNiM7CQ3PbvwdL4mR6qjtXNvkDpddSkSitGyJX/
-	nVu7K8SJDsQL+WwBkapGM7jmlYTd2BY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-674-J7GdcnEpOwauqhdqpvL-Gg-1; Tue,
- 30 Sep 2025 06:17:35 -0400
-X-MC-Unique: J7GdcnEpOwauqhdqpvL-Gg-1
-X-Mimecast-MFC-AGG-ID: J7GdcnEpOwauqhdqpvL-Gg_1759227454
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	bh=LizefO1tRfpsNEnSLTRHntkV4SJD6LIRirCpsUp3djQ=;
+	b=gTNHYrHQGafbuTdpbmp5MbMnRYKu2lbFofMyVLmd1aUyO6MPrRbBshdcuZVCQ0VrIsgPup
+	FMwgbW50baF3gyF8n6R/JNVbEwG7nOzkCs6reuC3+Vo1rbs/cLizU+BvDioOrG8LMhmdaH
+	wEVYzLAfsinQ2AEawTcmxMNlpPB0K70=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759233308;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LizefO1tRfpsNEnSLTRHntkV4SJD6LIRirCpsUp3djQ=;
+	b=saT8y1MPCiBFwznk5g8/IgGwW3vE2yJWhtGus5E9JYIfWAt/Y4NTJFpS0Jm90pHf6hfypV
+	7cMSjAZ0gEj7QnCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759233308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LizefO1tRfpsNEnSLTRHntkV4SJD6LIRirCpsUp3djQ=;
+	b=gTNHYrHQGafbuTdpbmp5MbMnRYKu2lbFofMyVLmd1aUyO6MPrRbBshdcuZVCQ0VrIsgPup
+	FMwgbW50baF3gyF8n6R/JNVbEwG7nOzkCs6reuC3+Vo1rbs/cLizU+BvDioOrG8LMhmdaH
+	wEVYzLAfsinQ2AEawTcmxMNlpPB0K70=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759233308;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LizefO1tRfpsNEnSLTRHntkV4SJD6LIRirCpsUp3djQ=;
+	b=saT8y1MPCiBFwznk5g8/IgGwW3vE2yJWhtGus5E9JYIfWAt/Y4NTJFpS0Jm90pHf6hfypV
+	7cMSjAZ0gEj7QnCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A90951800378;
-	Tue, 30 Sep 2025 10:17:33 +0000 (UTC)
-Received: from [10.44.33.194] (unknown [10.44.33.194])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D16A2180035E;
-	Tue, 30 Sep 2025 10:17:27 +0000 (UTC)
-Message-ID: <eed2bd71-4938-47c9-a0b3-6d24f06a7361@redhat.com>
-Date: Tue, 30 Sep 2025 06:17:26 -0400
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 333061342D;
+	Tue, 30 Sep 2025 11:55:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BgF+CRzF22iUJQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 30 Sep 2025 11:55:08 +0000
+Message-ID: <21c6fe46-0403-4cb5-98d0-72edd06e8a39@suse.de>
+Date: Tue, 30 Sep 2025 13:55:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 07/11] scsi: scsi_transport_fc: add
- fc_host_fpin_set_nvme_rport_marginal()
-To: Justin Tee <justintee8345@gmail.com>
-Cc: hare@suse.de, kbusch@kernel.org, martin.petersen@oracle.com,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- bgurney@redhat.com, axboe@kernel.dk, emilne@redhat.com,
- gustavoars@kernel.org, hch@lst.de, Justin Tee <justin.tee@broadcom.com>,
- james.smart@broadcom.com, kees@kernel.org, linux-hardening@vger.kernel.org,
- njavali@marvell.com, sagi@grimberg.me
-References: <20250926000200.837025-1-jmeneghi@redhat.com>
- <20250926000200.837025-8-jmeneghi@redhat.com>
- <CABPRKS9SkaGZjC_vEy-YdgYELffGLvub7DTFGCYXFW68ObWqYg@mail.gmail.com>
+Subject: Re: [PATCH nvmetcli] 'discovery_nqn' configfs attribute
+To: hare@kernel.org, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20250822115449.105656-1-hare@kernel.org>
 Content-Language: en-US
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <CABPRKS9SkaGZjC_vEy-YdgYELffGLvub7DTFGCYXFW68ObWqYg@mail.gmail.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250822115449.105656-1-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250930_031740_235972_7A8C1F65 
-X-CRM114-Status: UNSURE (   7.90  )
+X-CRM114-CacheID: sfid-20250930_045512_473965_99256AAA 
+X-CRM114-Status: UNSURE (   7.61  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -94,17 +132,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 9/29/25 1:45 PM, Justin Tee wrote:
-> Hi John,
+On 8/22/25 13:54, hare@kernel.org wrote:
+> From: Hannes Reinecke <hare@kernel.org>
 > 
->> +       u64 local_wwpn = fc_host_port_name(shost);
-> If CONFIG_NVME_FC is not enabled, then the u64 local_wwpn variables
-> aren’t used anywhere.
+> Implement support for the 'discovery_nqn' configfs attribute to
+> allow the user to read or modify the persistent discovery NQN.
+> 
+Christoph,
 
-Oops.  Thanks I will fix this in my V11 patch series.
+ping?
 
-/John
-  
+Cheers,
 
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
