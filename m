@@ -4,74 +4,198 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D64D1CCA470
-	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 15:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58D36CCA470
+	for <linux-nvme@archiver.kernel.org>; Tue, 30 Sep 2025 20:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0YmYMffsAzZLDjj5w8zwng0Sd3OeN0u+X6SgZMlkAWY=; b=cezjru7BzBLKVn3lnorbSqTad0
-	TQw4okhG8gRPVMtPhpm3VY9kHz7f7S7hb5HnMIW4h4lQiYmh/dqS7ZDqRHFSFQzYRbIIr7CY6nR40
-	jD5ig1njAghPDdMaWka5cD243DtRhPM5EC4x1TbKEdN46vUJpTs+7MZJPXIiFyGyIqj2cBuXf8k7I
-	3ykSDfbyXz9oMQvliYMrTqyh4JrJBBPnuWgnEqj0LCqw+vce2qtZ/jTJkmNbURiBgz/9cxYJJ9TGF
-	qUOfBHSQXbAviyCPuNQUG0IG9KXfENy6qgjygCSK+/O0RN797ug5RWE3fvSRyyvdwT3qK6su+3NZM
-	+PieaKdQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=E71DcmDVhCToHtC0aB6YNnXP+HGvsr0gusdDsUOUliY=; b=F8nnAx8HnxcKDUzsHy9wKGtkcj
+	wVAzKvXHxaky0f0rIp1YtLZz+PYqOs1/T0fG+RDijCfQSXCeY5AP9BSEWXLQEIjD2LxCN0cwXaq1g
+	SOtXHBAB6Kvi6Mvl6MLApkr6jzhuP/FgzbkvUJF6qKhcgiciU68+9on42HL7z9JeUqTQPir8Wmt7a
+	x//uqcuPKqVgq8fk29hLmdb7RiP92Xt0eHY8AGTSV7ELAXspI2aRS4cr54aoTAIZ5+2saxPX4p1LF
+	C26sZkqczAYHwK2lvAxA62bsGsOHJjq8r065dcC8ZP9Mo187UPs+pAc9F2tNe00i6ymqN4CW+Gf0x
+	Dgh3UcOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3cYU-00000005ger-1XaB;
-	Tue, 30 Sep 2025 15:46:18 +0000
-Received: from mgamail.intel.com ([192.198.163.17])
+	id 1v3gjK-000000069K3-1YTn;
+	Tue, 30 Sep 2025 20:13:46 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3cYR-00000005geP-00GZ
+	id 1v3gjH-000000069Ja-43dy
 	for linux-nvme@lists.infradead.org;
-	Tue, 30 Sep 2025 15:46:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759247175; x=1790783175;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P4//oljz5XRai1nYVCHqTptrJc8VvEvo3tqUIAxLPE8=;
-  b=nwzqVWA94VPUVhFKVEzzcrbKud4GjNYk2JqExVx+biUW1+CnNOJwXIWl
-   /jNHgboX0vfNTpsokkdLZw6ULAGK7GwsVCinbDHxYpiDCZ//x+wUCNytC
-   0eD+BDngRJvSoMOZmmLyyGKiiID7DLdPvXyebUJFMP+Xb4rQh2Vj0EDvj
-   D7lRMJFrcsEusAHOkQnh5PJm8UCYIlKHPkCY6ipxaZ9NSD3vbhUbQas07
-   0EFvHKW2rFKM2P0rs113yhXumf2a55hgBP1u2Ybu8OoKKdmHTlKBBcfIW
-   Hp0jPdKipsKW6NgDDRTnGzxRA8dL23/x11gdYLYL4ELt5SyzdWXLHUwR0
-   g==;
-X-CSE-ConnectionGUID: VfPksjV7Q8O/pwJmXMh9lA==
-X-CSE-MsgGUID: g8l375oMR8mAMD+QVODDuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="61425293"
-X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
-   d="scan'208";a="61425293"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2025 08:46:11 -0700
-X-CSE-ConnectionGUID: 38q57Z+UQeenUU3V1Mf9LQ==
-X-CSE-MsgGUID: j0pV5D/1R6iHx8nMLx3YPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,304,1751266800"; 
-   d="scan'208";a="179315050"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 Sep 2025 08:46:10 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v3cYJ-0002Ep-2u;
-	Tue, 30 Sep 2025 15:46:07 +0000
-Date: Tue, 30 Sep 2025 23:45:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>
-Subject: [linux-nvme:nvme-6.18 6/11]
- drivers/nvme/host/fabrics.c:1097:undefined reference to
- `nvme_auth_extract_key'
-Message-ID: <202509302359.TL1868ni-lkp@intel.com>
+	Tue, 30 Sep 2025 20:13:45 +0000
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58UKCu4J022147;
+	Tue, 30 Sep 2025 20:13:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=E71DcmDVhCToHtC0aB
+	6YNnXP+HGvsr0gusdDsUOUliY=; b=GhNC5/Oku5AnQJjqw9SV20RqL7FPEKvUoE
+	EoO5uJJORNofP3Is2fZWOaOkmFWpEMlWVWwWi1izQZA+M/wietXEKNxKPvV9+KG/
+	+52Vi0dROrcqP9VfFd/POWSPJB/NfzYU4e7lBWGQ7+btBll40VIZBw7Ll8NebIL8
+	36lEJbYjwKoTd4s4LnO5VNOuXFccoNPrJVGNLfxKCh8o6UrdtY+qakyCBV5T4ess
+	Az6DbgSqcEaZZPTM0tvGTyFy15Cm1wylHrlQwVdTfMx3SnzAUs2dabDYK2tymJCj
+	pNqowGwFgYAaMPig3BIYpGg1kPU7lca+hTjPVE/zFvLMdrQfJQng==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 49gm3bg8kr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Sep 2025 20:13:35 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58UJe3FS036448;
+	Tue, 30 Sep 2025 20:13:35 GMT
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010008.outbound.protection.outlook.com [52.101.193.8])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 49e6c8kfk2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Sep 2025 20:13:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OaTtIQ06BIYiaEDZvOIVEMsxPTy8u6caBxMuNckJu64cgx4oXMbQGH0yOVleRc0wIVNlvXjKNDw1dVYgPH2kD/6QeWTmA+G1TxoKfG+nL7OSbk/7ZcEOBsrvu2z+QWWR98atNlowzDxU4fNLQS04L7JNq18G+QBgUNsR33nzQDdoqApO3/FZOqMhCUXPuHKWEKYdzSnOfJHhiDWEUZF7W2gFWn7D4HiiDBSTo6aJSUcOYACWF6Ii9ZOqISa7GSFDx7MF1P2DxqpBuGPcx2sclcX0vYAZUZBH5EWUy8OGbzWng5o5eYPckduELjaya+AklYQZZVunHMn038ybZAFg6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E71DcmDVhCToHtC0aB6YNnXP+HGvsr0gusdDsUOUliY=;
+ b=i3QQB37MkqaGWEhkcspCnBIVEvjelPaAYoOgbp+vNbD9We6HKSfFOhhJtCSXrbYI72g1KJ1opD/VizYw5jcZBo9xml/2wn97qj8ZcHZpyD7hpfajPfbOETFatDSRfVKFGC8bb/YlhKeqbI0gKJCGhAPPgC+17kONtgp7EDhtq7InrJHpH0CRIayvw9mr47FAG2AUZiNQ2eQBSrhu/OdAf25BaDhLae2dOUChDmVUgh9kejtwWdVZZqJhNMFrXTH0W8sc2fdHs8SlafKfy4zu9m008ElSWAjqWjqzeibvrOxh44o3PslXbXR9qFcsh5B8e+bD/qPCDAhwdT/eq7rLlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E71DcmDVhCToHtC0aB6YNnXP+HGvsr0gusdDsUOUliY=;
+ b=F+GINUL0LUJcOU+BtcdaGbub+KN8NRpwLKNd6ZeM3+qhaL+VnQZqTuyq5QIQGdynHsEDZD4FllnVZXoL5krLfD+cRTa7VIkvHjT+akSEjHk4UtyymPg7hDWQM8yar5lDak+prVNMXGxkpkaO7mRH4qH7BoNh24W9voMrjEgXaLU=
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
+ by CO6PR10MB5650.namprd10.prod.outlook.com (2603:10b6:303:14f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Tue, 30 Sep
+ 2025 20:13:06 +0000
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf%6]) with mapi id 15.20.9160.017; Tue, 30 Sep 2025
+ 20:13:05 +0000
+To: John Meneghini <jmeneghi@redhat.com>
+Cc: martin.petersen@oracle.com, axboe@kernel.dk, emilne@redhat.com,
+        gustavoars@kernel.org, hare@suse.de, hch@lst.de,
+        james.smart@broadcom.com, kbusch@kernel.org, kees@kernel.org,
+        linux-hardening@vger.kernel.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, njavali@marvell.com, sagi@grimberg.me
+Subject: Re: [PATCH] Revert "scsi: qla2xxx: Fix memcpy() field-spanning
+ write issue"
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <70657b10-32a3-4c4f-bb53-e95d88435d58@redhat.com> (John
+	Meneghini's message of "Tue, 30 Sep 2025 05:35:22 -0400")
+Organization: Oracle Corporation
+Message-ID: <yq13483n1kh.fsf@ca-mkp.ca.oracle.com>
+References: <yq1zfajqpec.fsf@ca-mkp.ca.oracle.com>
+	<20250925130729.776904-1-jmeneghi@redhat.com>
+	<7b1342ce-0f30-4481-bf3b-ef3c92b9bcf8@embeddedor.com>
+	<70657b10-32a3-4c4f-bb53-e95d88435d58@redhat.com>
+Date: Tue, 30 Sep 2025 16:13:02 -0400
+Content-Type: text/plain
+X-ClientProxiedBy: YQBPR0101CA0192.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:f::35) To CH0PR10MB5338.namprd10.prod.outlook.com
+ (2603:10b6:610:cb::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|CO6PR10MB5650:EE_
+X-MS-Office365-Filtering-Correlation-Id: 214de8e1-b7c8-4c5f-73ef-08de005dc3b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?R7BnVcc+ZxrtSIQ7syrlDQj3yn9PROctAooEhJ8VDZVrtlvqB4wbJygpAmQ5?=
+ =?us-ascii?Q?4wp/qyUtAEi2s4nmc6XpQHwzPojM61rQu2609Hsob54SV1a16aLnUaQACLp1?=
+ =?us-ascii?Q?ZK1CQ7Y0bywC5ObByH7C8V5QOE6liljkkqz9QrLKZxorinvtsLnTOnnOAxBH?=
+ =?us-ascii?Q?krHpX7bl5atfmzHJJA2rVWLth4+zYQSKyUejFGZpqybaLlrNu7lZRMQPqhFC?=
+ =?us-ascii?Q?N0pEWnpv/PkEA0UZuBapW4/jqBuFHwYTRNsdn1/Oaq0XaptjwfSRJ0p2JyG6?=
+ =?us-ascii?Q?S+J2iVPTJ4iN/MHv2QKb3Cz80FY4qSnRLs/kxtUZMO5iMb17rDp+TK4JTnB1?=
+ =?us-ascii?Q?vMfPiyUn3wYrSlOH86y/7XncrCrm56ZMm7xQoOSOWGRZMpKxkqYCoiCNQPJ+?=
+ =?us-ascii?Q?TWvGeJ6tVb9ZdlmYuLoDZCXydHEAm3DfaUkx8pIk917f1NR9PBoRFmhCC9Ze?=
+ =?us-ascii?Q?wJ/MCvhCk6zX8wPuESyJCf3aPB2MStV9Nj48t+8MLF3vgHlVOEeVOO129mVR?=
+ =?us-ascii?Q?i+9ahxIHrUS7MqcPa1W51vBB8dMW8xERvTzoNB9Tyd+DbN3e4bL/r/lD+njd?=
+ =?us-ascii?Q?c4rUR2otlpvmozPQdscqTc8g3QLlpYQMB0YpPREqHT8CFKt+5BlYSjL6EPlC?=
+ =?us-ascii?Q?wm0oG1+PAmdUUZG0eKw9ejIkaIWSYcPguQ/bbfr17Oy0qITt/WWMXwalXFld?=
+ =?us-ascii?Q?YblNQKNthv9gCGWUuU8ZlfKd8MKPCtDIGYSuy5U0oLEKwkDcQAKzZ20eMa0T?=
+ =?us-ascii?Q?AvlhAuXv6JZZTz/eKHAywC00fsIZGOg4BYKCDC6jvBFrnP9KFoGJYgg095EL?=
+ =?us-ascii?Q?c/bCGSQvEG1gRIFQr7gySL/uTbMrFBTHiDX7Ee5VnoacWYEL4RMdh+ALr+8e?=
+ =?us-ascii?Q?TkGWV2cDD2+bN1wX3KCdTWTObzwJO4XMfhhMl72svdbjX/jypIjjgy6UZVkp?=
+ =?us-ascii?Q?r8fLc1Mrc7JAzuXjcLT/jsK8SHCbVpE/KDRe+QhZ/FZil3VeSLDZvuplZFW0?=
+ =?us-ascii?Q?sPLw7tGu+Fyk+UCjPXzPj2eo8KkfAuAjQ443/P09Q+FSeYeiYp448+vbLBld?=
+ =?us-ascii?Q?MKT11JXNK1uKNedaajaaATbTXyzRg9FYKq6CendfwXuHDFe9GHOErXxThMEF?=
+ =?us-ascii?Q?Lgn5PfKUR2Quw21HOd6YraBCYuqAjgjeP2r/ewXsZS0dkuh5D31Wu02+kcee?=
+ =?us-ascii?Q?FPdA8yPoSzRtK5Fvga5N6vXRPSoXM1eASLAEHfXLS+kMBLUNVT6i5Mt04ChT?=
+ =?us-ascii?Q?7pIahStF/TelHg6ITuB/uxdFJ855ZHrYY5X+5KpapeBSCpmMA4tpYzjY1xZv?=
+ =?us-ascii?Q?glL2Zs9kWs4tt8MCjP3GQypCifCNPKOy10DLoYrAhMB2EOi/m269KCY7AGED?=
+ =?us-ascii?Q?XeIegQCXAfLjcoPlvMw9ZCsehjCRPRARRlUk5KuNXuRoT+E9RW/mb0oHSTMl?=
+ =?us-ascii?Q?fO/grMOoZt/NKvYFgzE5EL57/Kg4cZr5?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6f8BdVqoaLUkjcRJrlhXRV+ppvLzgBTwD1XglRpiFamBGWEtSYUvndpYljtj?=
+ =?us-ascii?Q?4re2WJOTkEOYLZOcKyppPuCRPCiKZh5hoOzhsQJszL3GZu910UeZ/m/8DxOY?=
+ =?us-ascii?Q?7ME+h4rIJJjIEvdiO3h5SExmpC35Rs0mcFLuMQr2w7RduxnLNZtclSOTLEii?=
+ =?us-ascii?Q?DK++mjF1ZFSnicGm6r+M6ltegE8wzcWxmQwQ7R/d1mmhy9KUUYau13duLcJR?=
+ =?us-ascii?Q?LSmD86T+KQK88QU2IbnurfUBJ1Xb74jmoEybi4oxpkeB7KaMlT8zYMMf9MbI?=
+ =?us-ascii?Q?VxCbBq0X709CMbHv8s9Jpw2vS9AaWsQRPaO9mW7BfDAzUGXiyy7IQgWPuZUV?=
+ =?us-ascii?Q?hHcVYoLsTZAHb0hUWCsXTlmrxbyC81lSRGWqaRM3MMNEf9Y84vKgMR8JbRdf?=
+ =?us-ascii?Q?KvUAgI+uTo6K8KqBxqeHprTowh1/yDojilr6zmpF4ZB0Y/5Gj/eLRRCB/Rjc?=
+ =?us-ascii?Q?WJp1Pu9HP/0YX32Kik9iAbQw//f4YnCqYY5e/d/Mqa+qj1R9DWn8cuqVPQ+S?=
+ =?us-ascii?Q?djwSaOsSD9n+HMYwqVnWAg8p5sJy60KYwujCo9MQYlUzhlM54xUAd4r9t4ha?=
+ =?us-ascii?Q?NAnqUW/PTgO6NddbNA8OuVHY+GGr0nhjzxdUSIzIVjcAiUhU2OiY5+O8BP7t?=
+ =?us-ascii?Q?pilhqvwp7OKKyneRLrXfVuX/ndLmxfbirixix+rpQIhZO5ElfxqebNTyxEfN?=
+ =?us-ascii?Q?7EjzOtlp+yWBDlx3ko+4uakxXAvhNAzyuM3fd5nCNwDp9f9FnhMlAEb6jbVO?=
+ =?us-ascii?Q?Msj/XakEj3RUG8Za/XDjFOcBqByDHpaFx/5kvM39HVH5lSBOlVd198AMCN6a?=
+ =?us-ascii?Q?HeylGLEXMeOyIGuHNkEHZFj1nYj7eu88TqO9NEHPzW0kGfwsQxzbB4Bfibps?=
+ =?us-ascii?Q?zzWQnp2QKWvudzANBTYkfe5DO8IrLCiCDH2CC0qn2xAbYLd8Jo3LGAGq5wLI?=
+ =?us-ascii?Q?rGPYPpJkb46C60gBUgbszyro3cbvwlX2Ww6rZAUMEAHdsAZWtbvXakaktTBf?=
+ =?us-ascii?Q?h0nwZ2+D1eK4md7X/QhZb6EEHQa/in6mfxGhx6KiZqyrynjlhBaqy67+NnOW?=
+ =?us-ascii?Q?lyLUeLBveajd7wdNNCM1GAyUJ2p6qnjJY04c0cvNGvLlvBmRRvRrlFp35otU?=
+ =?us-ascii?Q?G4Mcv+AjN6ZIX35uGEtc1Qy/hcrKa6ZtChyjcYCR3/wN/8ITYd6Mh/xqmJc1?=
+ =?us-ascii?Q?+wtnOBNRPwcr2HdZAIr3FlQc8KF1m3zORqoQw935ZpWJCpLzofbo9QFyflqD?=
+ =?us-ascii?Q?8ZoJrzSUjfVZpSSbVICIWtI+R9x2g3YrXhGchuRXis3nHiIgKmN02UokxiSo?=
+ =?us-ascii?Q?yld8W654OPWyjxl/lgN+TW7arhQnDJ/A7jldlgHN4ycKUI7id294jYjecPIn?=
+ =?us-ascii?Q?gtwcHscxzw7EBhDfydPnoyeqol0rTaBOm0hy1FgwfP4PMxk6HuvNMFLzQYCn?=
+ =?us-ascii?Q?OzhiZATKE0cyLq0y9kS3wGmqkRc0nVVyBxLSAEkTmgU1cgbbEHcjMCHPinK2?=
+ =?us-ascii?Q?Qfilf+7+naQIzPpuMBDiztTtkby63v8SXLyxdblyiQAIWgI9+4Nk4G1GuGtE?=
+ =?us-ascii?Q?o1IGPr2pj7+/Z7KWVDCnk2UzZjgUCS3RMsX1HLygrnK0UtRBPKo1zKVSMRrF?=
+ =?us-ascii?Q?LQ=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: ETyqqIiv9NZe2JcSyQrsd4f/y5Coh72lduLzRbAoUSfSS39gi0eVHuyVSXBEYpn12vck/G6R7iUxGc6cvODUvCGpZ/NnjN8IrBysapK3mYFNW1tZdxcyGq6w+bgGBMsHWxSl/QGlSMoxmCO09JQRKEhvZp4dqsb2ha0ORzc0Qu8kIW2gKuWQ7Kk7u0DQfcMYeOaQ3vXIzOrWyIDLxEJ6xYGB/SehJzpRgGxEHCKnzk+qglwafJEbANlCRHwmxUqnER4sowSmRlpu83AuFtpxBP6xfmfsR1Ac04ql5cOiRNQiONVvCByxTCI1ppM6CdLF750ySg7kIoCXzRFDnIUpCjKRv6AG1DhEPLBRn6YR1aGb8RpcdDFKKR6kgoaIysET+0AZQg/X3oLT3tqJBDHIctDgJfL+Ehwm2lKgSherbpsKJyz9zojJIfJnNPk+A74wL44MbZWnQYgERROnFi+2FT/eeBJ84wlWf7RAXWMt8mvJ4v+YZgqNXpuvlm99bOuR1neClnu4TTJef+mj8lj3mf0hF2PfPXj1nq6uE53ra0z56Kmpf1qkdunIjdkhfftwf7QVWWbp7od/VtTtjPKdhAwM7Sc1yXCQoBmElh+Q5LE=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 214de8e1-b7c8-4c5f-73ef-08de005dc3b1
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2025 20:13:04.9468
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 97l1EaL+qOse/53eO/PUpAgRMp6NR6OZjZbLMfm3jLrF6ZClVyquTpLKO9Ab5VCitWfjAxZKj8PcY7OfQXdxcNxQaev1XNTEfW/GgInGYWU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5650
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-30_04,2025-09-29_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
+ mlxlogscore=734 suspectscore=0 phishscore=0 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2509150000 definitions=main-2509300184
+X-Proofpoint-GUID: phvvIMSWivVkIL666WzhZdIkKhmsLfel
+X-Authority-Analysis: v=2.4 cv=GsJPO01C c=1 sm=1 tr=0 ts=68dc39f0 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
+ a=GoEa3M9JfhUA:10 a=iOiOaIpq1Z_ZzEPSluUA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTMwMDE2MiBTYWx0ZWRfX7gAqlb6CT0Vs
+ a3F2xK6hSJLRBENeEc7cDFhZWGWH+X+m/EZifL1qoHFRbhg0UhFfZL6EzA5rHcN57ITVybwpa3M
+ p5Gwt87U68ZoVDByqcbvPZWh3U7ZeujVzAbC5yR2wjHq39LHvTP3RTS6BBYItRV2gfhSUiWNRcv
+ mR39qqfHy3hLjCYnuGViQeWlpdKmHXHZnjGdbbP3hLq1chACOqUOzrxPrJ4zSNrFs/54Xn37Of7
+ M4I2PUA4cqO8QXJENkzQiBq8tqIOpiGFNuUMyqmxYrtXajHH+rD0DwHYTNLDP6zJSAq40yLLTdJ
+ z65Wd6tRDSj8m6+oFJ3lPLvYEB78UE6A/m0nAoA7P5hcYlwFpwwXQ3MU/2BbbbUnucF5ZH2DBlt
+ fflEzYB6E102RSDrPSSr50lyqpk9YA==
+X-Proofpoint-ORIG-GUID: phvvIMSWivVkIL666WzhZdIkKhmsLfel
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250930_084615_121334_C7EF0A2C 
-X-CRM114-Status: GOOD (  13.39  )
+X-CRM114-CacheID: sfid-20250930_131344_010762_CDFAD10A 
+X-CRM114-Status: GOOD (  10.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,462 +210,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-6.18
-head:   876f5e3e3b1e3e78aec9b7e53bec4b949a13ce09
-commit: 593a56d90ae8edc9ed64e5d3893b69fbbde77bba [6/11] nvme: parse dhchap keys during option parsing
-config: csky-randconfig-002-20250930 (https://download.01.org/0day-ci/archive/20250930/202509302359.TL1868ni-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250930/202509302359.TL1868ni-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509302359.TL1868ni-lkp@intel.com/
+John,
 
-All errors (new ones prefixed by >>):
+> I don't see this patch in scsi/6.18/scsi-queue yet.
+>
+> Are we going to revert this ?
 
-   csky-linux-ld: drivers/nvme/host/fabrics.o: in function `nvmf_parse_options':
->> drivers/nvme/host/fabrics.c:1097:(.text+0x166c): undefined reference to `nvme_auth_extract_key'
->> csky-linux-ld: drivers/nvme/host/fabrics.c:1112:(.text+0x16e2): undefined reference to `nvme_auth_extract_key'
-   csky-linux-ld: drivers/nvme/host/fabrics.c:1145:(.text+0x17b8): undefined reference to `nvme_auth_extract_key'
-
-
-vim +1097 drivers/nvme/host/fabrics.c
-
-   715	
-   716	static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
-   717			const char *buf)
-   718	{
-   719		substring_t args[MAX_OPT_ARGS];
-   720		char *options, *o, *p;
-   721		char *host_secret = NULL, *ctrl_secret = NULL;
-   722		int token, ret = 0;
-   723		size_t nqnlen  = 0;
-   724		int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
-   725		uuid_t hostid;
-   726		char hostnqn[NVMF_NQN_SIZE];
-   727		struct key *key;
-   728	
-   729		/* Set defaults */
-   730		opts->queue_size = NVMF_DEF_QUEUE_SIZE;
-   731		opts->nr_io_queues = num_online_cpus();
-   732		opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
-   733		opts->kato = 0;
-   734		opts->duplicate_connect = false;
-   735		opts->fast_io_fail_tmo = NVMF_DEF_FAIL_FAST_TMO;
-   736		opts->hdr_digest = false;
-   737		opts->data_digest = false;
-   738		opts->tos = -1; /* < 0 == use transport default */
-   739		opts->tls = false;
-   740		opts->tls_key = NULL;
-   741		opts->keyring = NULL;
-   742		opts->concat = false;
-   743		opts->dhchap_key = NULL;
-   744		opts->dhchap_ctrl_key = NULL;
-   745	
-   746		options = o = kstrdup(buf, GFP_KERNEL);
-   747		if (!options)
-   748			return -ENOMEM;
-   749	
-   750		/* use default host if not given by user space */
-   751		uuid_copy(&hostid, &nvmf_default_host->id);
-   752		strscpy(hostnqn, nvmf_default_host->nqn, NVMF_NQN_SIZE);
-   753	
-   754		while ((p = strsep(&o, ",\n")) != NULL) {
-   755			if (!*p)
-   756				continue;
-   757	
-   758			token = match_token(p, opt_tokens, args);
-   759			opts->mask |= token;
-   760			switch (token) {
-   761			case NVMF_OPT_TRANSPORT:
-   762				p = match_strdup(args);
-   763				if (!p) {
-   764					ret = -ENOMEM;
-   765					goto out;
-   766				}
-   767				kfree(opts->transport);
-   768				opts->transport = p;
-   769				break;
-   770			case NVMF_OPT_NQN:
-   771				p = match_strdup(args);
-   772				if (!p) {
-   773					ret = -ENOMEM;
-   774					goto out;
-   775				}
-   776				kfree(opts->subsysnqn);
-   777				opts->subsysnqn = p;
-   778				nqnlen = strlen(opts->subsysnqn);
-   779				if (nqnlen >= NVMF_NQN_SIZE) {
-   780					pr_err("%s needs to be < %d bytes\n",
-   781						opts->subsysnqn, NVMF_NQN_SIZE);
-   782					ret = -EINVAL;
-   783					goto out;
-   784				}
-   785				opts->discovery_nqn =
-   786					!(strcmp(opts->subsysnqn,
-   787						 NVME_DISC_SUBSYS_NAME));
-   788				break;
-   789			case NVMF_OPT_TRADDR:
-   790				p = match_strdup(args);
-   791				if (!p) {
-   792					ret = -ENOMEM;
-   793					goto out;
-   794				}
-   795				kfree(opts->traddr);
-   796				opts->traddr = p;
-   797				break;
-   798			case NVMF_OPT_TRSVCID:
-   799				p = match_strdup(args);
-   800				if (!p) {
-   801					ret = -ENOMEM;
-   802					goto out;
-   803				}
-   804				kfree(opts->trsvcid);
-   805				opts->trsvcid = p;
-   806				break;
-   807			case NVMF_OPT_QUEUE_SIZE:
-   808				if (match_int(args, &token)) {
-   809					ret = -EINVAL;
-   810					goto out;
-   811				}
-   812				if (token < NVMF_MIN_QUEUE_SIZE ||
-   813				    token > NVMF_MAX_QUEUE_SIZE) {
-   814					pr_err("Invalid queue_size %d\n", token);
-   815					ret = -EINVAL;
-   816					goto out;
-   817				}
-   818				opts->queue_size = token;
-   819				break;
-   820			case NVMF_OPT_NR_IO_QUEUES:
-   821				if (match_int(args, &token)) {
-   822					ret = -EINVAL;
-   823					goto out;
-   824				}
-   825				if (token <= 0) {
-   826					pr_err("Invalid number of IOQs %d\n", token);
-   827					ret = -EINVAL;
-   828					goto out;
-   829				}
-   830				if (opts->discovery_nqn) {
-   831					pr_debug("Ignoring nr_io_queues value for discovery controller\n");
-   832					break;
-   833				}
-   834	
-   835				opts->nr_io_queues = min_t(unsigned int,
-   836						num_online_cpus(), token);
-   837				break;
-   838			case NVMF_OPT_KATO:
-   839				if (match_int(args, &token)) {
-   840					ret = -EINVAL;
-   841					goto out;
-   842				}
-   843	
-   844				if (token < 0) {
-   845					pr_err("Invalid keep_alive_tmo %d\n", token);
-   846					ret = -EINVAL;
-   847					goto out;
-   848				} else if (token == 0 && !opts->discovery_nqn) {
-   849					/* Allowed for debug */
-   850					pr_warn("keep_alive_tmo 0 won't execute keep alives!!!\n");
-   851				}
-   852				opts->kato = token;
-   853				break;
-   854			case NVMF_OPT_CTRL_LOSS_TMO:
-   855				if (match_int(args, &token)) {
-   856					ret = -EINVAL;
-   857					goto out;
-   858				}
-   859	
-   860				if (token < 0)
-   861					pr_warn("ctrl_loss_tmo < 0 will reconnect forever\n");
-   862				ctrl_loss_tmo = token;
-   863				break;
-   864			case NVMF_OPT_FAIL_FAST_TMO:
-   865				if (match_int(args, &token)) {
-   866					ret = -EINVAL;
-   867					goto out;
-   868				}
-   869	
-   870				if (token >= 0)
-   871					pr_warn("I/O fail on reconnect controller after %d sec\n",
-   872						token);
-   873				else
-   874					token = -1;
-   875	
-   876				opts->fast_io_fail_tmo = token;
-   877				break;
-   878			case NVMF_OPT_HOSTNQN:
-   879				if (opts->host) {
-   880					pr_err("hostnqn already user-assigned: %s\n",
-   881					       opts->host->nqn);
-   882					ret = -EADDRINUSE;
-   883					goto out;
-   884				}
-   885				p = match_strdup(args);
-   886				if (!p) {
-   887					ret = -ENOMEM;
-   888					goto out;
-   889				}
-   890				nqnlen = strlen(p);
-   891				if (nqnlen >= NVMF_NQN_SIZE) {
-   892					pr_err("%s needs to be < %d bytes\n",
-   893						p, NVMF_NQN_SIZE);
-   894					kfree(p);
-   895					ret = -EINVAL;
-   896					goto out;
-   897				}
-   898				strscpy(hostnqn, p, NVMF_NQN_SIZE);
-   899				kfree(p);
-   900				break;
-   901			case NVMF_OPT_RECONNECT_DELAY:
-   902				if (match_int(args, &token)) {
-   903					ret = -EINVAL;
-   904					goto out;
-   905				}
-   906				if (token <= 0) {
-   907					pr_err("Invalid reconnect_delay %d\n", token);
-   908					ret = -EINVAL;
-   909					goto out;
-   910				}
-   911				opts->reconnect_delay = token;
-   912				break;
-   913			case NVMF_OPT_HOST_TRADDR:
-   914				p = match_strdup(args);
-   915				if (!p) {
-   916					ret = -ENOMEM;
-   917					goto out;
-   918				}
-   919				kfree(opts->host_traddr);
-   920				opts->host_traddr = p;
-   921				break;
-   922			case NVMF_OPT_HOST_IFACE:
-   923				p = match_strdup(args);
-   924				if (!p) {
-   925					ret = -ENOMEM;
-   926					goto out;
-   927				}
-   928				kfree(opts->host_iface);
-   929				opts->host_iface = p;
-   930				break;
-   931			case NVMF_OPT_HOST_ID:
-   932				p = match_strdup(args);
-   933				if (!p) {
-   934					ret = -ENOMEM;
-   935					goto out;
-   936				}
-   937				ret = uuid_parse(p, &hostid);
-   938				if (ret) {
-   939					pr_err("Invalid hostid %s\n", p);
-   940					ret = -EINVAL;
-   941					kfree(p);
-   942					goto out;
-   943				}
-   944				kfree(p);
-   945				break;
-   946			case NVMF_OPT_DUP_CONNECT:
-   947				opts->duplicate_connect = true;
-   948				break;
-   949			case NVMF_OPT_DISABLE_SQFLOW:
-   950				opts->disable_sqflow = true;
-   951				break;
-   952			case NVMF_OPT_HDR_DIGEST:
-   953				opts->hdr_digest = true;
-   954				break;
-   955			case NVMF_OPT_DATA_DIGEST:
-   956				opts->data_digest = true;
-   957				break;
-   958			case NVMF_OPT_NR_WRITE_QUEUES:
-   959				if (match_int(args, &token)) {
-   960					ret = -EINVAL;
-   961					goto out;
-   962				}
-   963				if (token <= 0) {
-   964					pr_err("Invalid nr_write_queues %d\n", token);
-   965					ret = -EINVAL;
-   966					goto out;
-   967				}
-   968				opts->nr_write_queues = token;
-   969				break;
-   970			case NVMF_OPT_NR_POLL_QUEUES:
-   971				if (match_int(args, &token)) {
-   972					ret = -EINVAL;
-   973					goto out;
-   974				}
-   975				if (token <= 0) {
-   976					pr_err("Invalid nr_poll_queues %d\n", token);
-   977					ret = -EINVAL;
-   978					goto out;
-   979				}
-   980				opts->nr_poll_queues = token;
-   981				break;
-   982			case NVMF_OPT_TOS:
-   983				if (match_int(args, &token)) {
-   984					ret = -EINVAL;
-   985					goto out;
-   986				}
-   987				if (token < 0) {
-   988					pr_err("Invalid type of service %d\n", token);
-   989					ret = -EINVAL;
-   990					goto out;
-   991				}
-   992				if (token > 255) {
-   993					pr_warn("Clamping type of service to 255\n");
-   994					token = 255;
-   995				}
-   996				opts->tos = token;
-   997				break;
-   998			case NVMF_OPT_KEYRING:
-   999				if (match_int(args, &key_id) || key_id <= 0) {
-  1000					ret = -EINVAL;
-  1001					goto out;
-  1002				}
-  1003				key = nvmf_parse_key(key_id);
-  1004				if (IS_ERR(key)) {
-  1005					ret = PTR_ERR(key);
-  1006					goto out;
-  1007				}
-  1008				key_put(opts->keyring);
-  1009				opts->keyring = key;
-  1010				break;
-  1011			case NVMF_OPT_TLS_KEY:
-  1012				if (match_int(args, &key_id) || key_id <= 0) {
-  1013					ret = -EINVAL;
-  1014					goto out;
-  1015				}
-  1016				key = nvmf_parse_key(key_id);
-  1017				if (IS_ERR(key)) {
-  1018					ret = PTR_ERR(key);
-  1019					goto out;
-  1020				}
-  1021				key_put(opts->tls_key);
-  1022				opts->tls_key = key;
-  1023				break;
-  1024			case NVMF_OPT_DISCOVERY:
-  1025				opts->discovery_nqn = true;
-  1026				break;
-  1027			case NVMF_OPT_DHCHAP_SECRET:
-  1028				p = match_strdup(args);
-  1029				if (!p) {
-  1030					ret = -ENOMEM;
-  1031					goto out;
-  1032				}
-  1033				kfree(host_secret);
-  1034				host_secret = p;
-  1035				break;
-  1036			case NVMF_OPT_DHCHAP_CTRL_SECRET:
-  1037				p = match_strdup(args);
-  1038				if (!p) {
-  1039					ret = -ENOMEM;
-  1040					goto out;
-  1041				}
-  1042				kfree(ctrl_secret);
-  1043				ctrl_secret = p;
-  1044				break;
-  1045			case NVMF_OPT_TLS:
-  1046				if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-  1047					pr_err("TLS is not supported\n");
-  1048					ret = -EINVAL;
-  1049					goto out;
-  1050				}
-  1051				opts->tls = true;
-  1052				break;
-  1053			case NVMF_OPT_CONCAT:
-  1054				if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-  1055					pr_err("TLS is not supported\n");
-  1056					ret = -EINVAL;
-  1057					goto out;
-  1058				}
-  1059				opts->concat = true;
-  1060				break;
-  1061			default:
-  1062				pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
-  1063					p);
-  1064				ret = -EINVAL;
-  1065				goto out;
-  1066			}
-  1067		}
-  1068	
-  1069		if (opts->discovery_nqn) {
-  1070			opts->nr_io_queues = 0;
-  1071			opts->nr_write_queues = 0;
-  1072			opts->nr_poll_queues = 0;
-  1073			opts->duplicate_connect = true;
-  1074		} else {
-  1075			if (!opts->kato)
-  1076				opts->kato = NVME_DEFAULT_KATO;
-  1077		}
-  1078		if (ctrl_loss_tmo < 0) {
-  1079			opts->max_reconnects = -1;
-  1080		} else {
-  1081			opts->max_reconnects = DIV_ROUND_UP(ctrl_loss_tmo,
-  1082							opts->reconnect_delay);
-  1083			if (ctrl_loss_tmo < opts->fast_io_fail_tmo)
-  1084				pr_warn("failfast tmo (%d) larger than controller loss tmo (%d)\n",
-  1085					opts->fast_io_fail_tmo, ctrl_loss_tmo);
-  1086		}
-  1087	
-  1088		opts->host = nvmf_host_add(hostnqn, &hostid);
-  1089		if (IS_ERR(opts->host)) {
-  1090			ret = PTR_ERR(opts->host);
-  1091			opts->host = NULL;
-  1092			goto out;
-  1093		}
-  1094	
-  1095		if (host_secret) {
-  1096			pr_debug("lookup host identity '%s'\n", host_secret);
-> 1097			key = nvme_auth_extract_key(opts->keyring, host_secret,
-  1098						    strlen(host_secret));
-  1099			if (IS_ERR(key)) {
-  1100				ret = PTR_ERR(key);
-  1101				goto out;
-  1102			}
-  1103			pr_debug("using dhchap key %08x\n", key_serial(key));
-  1104			opts->dhchap_key = key;
-  1105		}
-  1106		if (ctrl_secret) {
-  1107			if (!opts->dhchap_key) {
-  1108				ret = -EINVAL;
-  1109				goto out;
-  1110			}
-  1111			pr_debug("lookup ctrl identity '%s'\n", ctrl_secret);
-> 1112			key = nvme_auth_extract_key(opts->keyring, ctrl_secret,
-  1113						    strlen(ctrl_secret));
-  1114			if (IS_ERR(key)) {
-  1115				ret = PTR_ERR(key);
-  1116				goto out;
-  1117			}
-  1118			pr_debug("using dhchap ctrl key %08x\n", key_serial(key));
-  1119			opts->dhchap_ctrl_key = key;
-  1120		}
-  1121	
-  1122		if (opts->concat) {
-  1123			if (opts->tls) {
-  1124				pr_err("Secure concatenation over TLS is not supported\n");
-  1125				ret = -EINVAL;
-  1126				goto out;
-  1127			}
-  1128			if (opts->tls_key) {
-  1129				pr_err("Cannot specify a TLS key for secure concatenation\n");
-  1130				ret = -EINVAL;
-  1131				goto out;
-  1132			}
-  1133			if (!opts->dhchap_key) {
-  1134				pr_err("Need to enable DH-CHAP for secure concatenation\n");
-  1135				ret = -EINVAL;
-  1136				goto out;
-  1137			}
-  1138		}
-  1139	
-  1140	out:
-  1141		kfree(ctrl_secret);
-  1142		kfree(host_secret);
-  1143		kfree(options);
-  1144		return ret;
-  1145	}
-  1146	
+It's in 6.18/scsi-staging. Stuff usually sits in staging for a week or
+so before getting shuffled over to queue. This lets the static checkers
+do their thing...
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Martin K. Petersen
 
