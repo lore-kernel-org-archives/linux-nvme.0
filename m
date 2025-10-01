@@ -4,54 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C864CAC5BB
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 14:22:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9084CCA470
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 14:22:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=3IiCDV7KJbnLXGHgdn9Y693Y1pG63AaZdwpsFiezqig=; b=bLRs26yK1K7Y+1zgXfZTmgUrS+
-	xdOPg5XdcGaLVqYPI8546uyZkD/1NV3DZeejx0BBnEYTB7D8tFTeIYHVRu3g8WHSUbp/VJhXI0U5T
-	HWXVVyc26QyCT+yGq3GbTVVV57HRqkGV5bog0x0cgylVk0GyHs6ushSBX2bjAyDruORQekum+9USK
-	VQxTr7itatd2iVQK1pMuBufRnz2g/TszoXsguLcSYl+vsrPwZ35/n0TvM477KONgM+v9icqJPoqu9
-	Yk8L7PRg4fN74ikAGnuXbnT+vUmQqidCKlwZ0vbnnO0Pt8dilD9zJWRtAcnuBle/I5RG0lYFePgdS
-	oobSd2vw==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uNevoi5c4TYxxgrSOibABnfZWKKnkQvMRPHww3HP3sI=; b=pHSPjk58ViChL8Px08HSMAfmNb
+	RP9hcJLUOQbkNtUgCQGip7CxR46fkQGb8dDl+9YzXnvCxdm02hRFGaJSq+1xH6OruHjD+HpnXQ4OR
+	u3lzjGr3Ior7aK1mu3q2ylspD02Ry5j1JiFijOjappvjxP16krRiVG3ebC+hDeOxRgXrPS1zFSWyB
+	bhS5UNVizk0A/fUqWJh6B1pXJq13riYGc7/pU23QF6perSFz5lyxWAcKeNrrI5ebEFDFfp5Etmvwb
+	kAsCOFfsGKmjtYN1RdICuainGLy2h+5N75sLBeznvO3cw45iCWe8U0vTZztQxGXMAHQ4AfnrgUS9p
+	GBlNDflA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3xie-00000008A0z-3UNL;
-	Wed, 01 Oct 2025 14:22:12 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1v3xih-00000008A2T-0Z6M;
+	Wed, 01 Oct 2025 14:22:15 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3xid-00000008A0Z-3BN9
+	id 1v3xif-00000008A19-3har
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Oct 2025 14:22:11 +0000
+	Wed, 01 Oct 2025 14:22:13 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 2C30A61DD3;
+	by tor.source.kernel.org (Postfix) with ESMTP id 0D9706251B;
+	Wed,  1 Oct 2025 14:22:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A05CC4CEF5;
 	Wed,  1 Oct 2025 14:22:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 876AFC4CEF1;
-	Wed,  1 Oct 2025 14:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759328530;
-	bh=DxoR72EacgG2dbf0VB8ybSSAZQN6Zc4a5q/8XWzAOO8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bxlH/nTyyQmglTpVV0QfiLSg3to6H+73PBvwrSP1edsEMMpxMXcFtiNT+EYZw3pcK
-	 r9ySpFUX7mbUJMJ2oDNheHPnUCSS+U6QEazbe3N6Zad/3KGLYhJGLttZYuRZ6ihXkb
-	 WlFqZRrLXMllT+BHHk9qfZL6hMKL6W9D9mr72uHzwTaHF92IcbUFqGxYeTh+Uh3qA+
-	 nLeFE+Q1iFHy6ybs9c5XbQDa8C+9Wz6N16zmADgRsA1xqpLDHkXzrZgpPfk6OJdqKb
-	 ijGrRyb4zu1MZErPCQSX85gaJWXgXEoJ0Nlxsr7dMfDrBleV9xIe0Ym3idcJuwmBzr
-	 hX+XT/31bXjsQ==
+	s=k20201202; t=1759328532;
+	bh=GygyjBV1IvwFur06Xj721FAxbExPs88wo7lsMzjuK+I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jw7PChbn+KTMF5Xw17f5HPyelEY3wySMfgVsyDfHlKoGYD92o+jVvYGu8e2N8NIrT
+	 3xtY0DF/UvjZBGS8f0NMWsjlETcAQy0TDMTsBOnkGgF7xh7l1HP4d/tGTqLWl/T6x6
+	 PLK85cF6Q5ov9lsDVrzD+FzTuwcTisVmxXLCrnSpEnrPQc0OkCZfEOR3LKpbKhDgZy
+	 u1eiTIJ7JTb73LGgzhMAVxPHhakcJ1m+mzW1HbxRYmTXZmLoxTHzetERyWnDYPR4pe
+	 noqXzkxZHTFoyUOsvyX7rfIiwmNK64XFJAy86kBcmVYjIk2g12ivqBBE67VudhKjcq
+	 qKLntlTsOCKRQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH 0/3] nvme: kbuild robot fixes
-Date: Wed,  1 Oct 2025 16:21:57 +0200
-Message-ID: <20251001142200.61696-1-hare@kernel.org>
+	Hannes Reinecke <hare@kernel.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH 1/3] nvme-keyring: use correct format specifier
+Date: Wed,  1 Oct 2025 16:21:58 +0200
+Message-ID: <20251001142200.61696-2-hare@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251001142200.61696-1-hare@kernel.org>
+References: <20251001142200.61696-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -68,25 +71,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
+Use correct format specifier for pr_debug.
 
-the kbuild robot uncovered some issues when having authentication
-disabled. This patchset will correct them.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202509302151.WHyjRfcE-lkp@intel.com/
 
-As usual, comments and reviews are welcome.
-
-Hannes Reinecke (3):
-  nvme-keyring: use correct format specifier
-  nvme-keyring: typo in nvme_dhchap_psk_lookup()
-  nvme-auth: move declaration of nvme_auth_extract_key()
-
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
  drivers/nvme/common/keyring.c | 2 +-
- drivers/nvme/host/nvme.h      | 9 +++++++++
- drivers/nvme/target/nvmet.h   | 9 +++++++++
- include/linux/nvme-auth.h     | 2 --
- include/linux/nvme-keyring.h  | 2 +-
- 5 files changed, 20 insertions(+), 4 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index a58c93c6d495..5fdfaf7abd30 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -340,7 +340,7 @@ static int nvme_dhchap_psk_preparse(struct key_preparsed_payload *prep)
+ 		keylen = 70;
+ 		break;
+ 	default:
+-		pr_debug("%s: Invalid data length %lu\n", __func__, datalen);
++		pr_debug("%s: Invalid data length %u\n", __func__, datalen);
+ 		prep->payload.data[0] = NULL;
+ 		prep->quotalen = 0;
+ 		return -EINVAL;
 -- 
 2.43.0
 
