@@ -4,131 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D7D7CCA470
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 06:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9D23CCA470
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 06:31:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qe55XZTwkbi3pGKrMkUOOsgOnAS5AzPq2vfECWhz7jU=; b=AoaTD1+uMBv5ljGC95CcH+PUjt
-	HN0Us2nknfzEa04qg/l33VuemzBtt0/pjHG6mzUM+u52bHRbuCiOUn5iutNs+6kqeyCOL2bXEe6wE
-	hLJ9ISw8Ii4jkoYK6mAt9n8Vp5mJa0oH1YipSTj2ds2Znb5p0Mvds/XiLjmVG50ueNAeIyrJNc581
-	uGFTm+kVsoiMIkNEQk+nhyjBBW5QXP4I1PbuIJiNN9Z8Sp6PpL2tXJ4RrGRomG1RNG4duprR1b0eH
-	8jsQ/Mj1WjFrIffcMW2eMvAMYAC1BFNVV02Z3ezQ5rT67c0LoISGGoDPbtSbuD8hOwDId/mT6FoiH
-	Ce019HtA==;
+	bh=9Rz+qqYLXcweI5rmzquO5nvJ1eJ440qoev3IK/G1Kv8=; b=ymuJY3cC8Tw+1aiHkB2Tx37eXY
+	y0tUdZF7GlYzBpUqIwWtNrbtnal2M6biZANl7WHOjps6OCyOti+YJ4VYZ+Y30oP8TpgKIEhzZFxbE
+	y1BScbEg+x/fmeJIJQqfSy2P5lNhJq7cvSq/uGAMcbOsvHZsDAfvTBQfv6isnBFJGYRYLeDLcdjLd
+	f7/nhpFSxbtG9IgS++6A5SJHr+BqLi6G+Cuexx+izCVZhtVvmgaQjh3kXhiVV4rHagzW0BZnFaOJH
+	UE+/W/0eX3iV3KUfv8YsqHJB0mePWB6uKbjDAXM76FAZ/MBXy+sjCWImUGp7dA1CeNqf8B7Q+qp5q
+	8j+ymIgw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3q01-00000006lP7-1W16;
-	Wed, 01 Oct 2025 06:07:37 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1v3qNM-00000006oGB-45Uy;
+	Wed, 01 Oct 2025 06:31:44 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3pzy-00000006lGx-2j6S
+	id 1v3qNJ-00000006oFf-1f0r
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Oct 2025 06:07:35 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Wed, 01 Oct 2025 06:31:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759300298;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9Rz+qqYLXcweI5rmzquO5nvJ1eJ440qoev3IK/G1Kv8=;
+	b=cibIS0T9flnTPsLiIb/ytDTtVeUZeo8CnORRN5Qe9IFwxDkan/0kL0GliZofTV4DFHHcaq
+	Q/oP+fhlu3m4pIONDHUe+HXqADOjGkRhDrI8ITyP5NsaxeviCgVJTy6++UsPpZ6LwUCa4J
+	VNAim9VqObm7cUGqsgRzrsRjgQ03Jyo=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-483-7MSqDb0XPg-2g8oUUsPvWQ-1; Wed,
+ 01 Oct 2025 02:31:35 -0400
+X-MC-Unique: 7MSqDb0XPg-2g8oUUsPvWQ-1
+X-Mimecast-MFC-AGG-ID: 7MSqDb0XPg-2g8oUUsPvWQ_1759300293
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E94933376F;
-	Wed,  1 Oct 2025 06:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759298700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qe55XZTwkbi3pGKrMkUOOsgOnAS5AzPq2vfECWhz7jU=;
-	b=kDwcwTah+yo/3AFTGKpHPV4nnpc2k6ARY6LAEtk9kWbR6S56tzb/emQlAObYvtCK7ik6Rf
-	glShVuMNU0qoErVOLwPBXqCeLmkoDMIG+ObGp1sREGkwwvFk9PmyoXcJFlPsj5nd8dVWVq
-	Q+2VDWt1/nrZ3HJQO3+rrMGCJzmgZno=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759298700;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qe55XZTwkbi3pGKrMkUOOsgOnAS5AzPq2vfECWhz7jU=;
-	b=WcoEDPnCx++Zdd96cX4MyX2MlsE0xmeWSgnTvG+qFNCzLAeiUmtf0+7UEMPI2xAN7dRpNd
-	zqXudMMDqScZ9IDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=w2wG5CeZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8UXpQKFF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759298699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qe55XZTwkbi3pGKrMkUOOsgOnAS5AzPq2vfECWhz7jU=;
-	b=w2wG5CeZxw9GI9QBmdk0K54OTrvpMOnI91DSBWLPJN2icsgcNcVmLUNbkG46NMmJ/Ubi4V
-	2isA04n3EdBlXcd5A+lO17VBN5LrBXaFPvr1ITAIoohvxBiBM/cz5WX57Q/XXRez/mkO6N
-	nI4ND9smwKeBkABHIz3ANhjQGEldaHE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759298699;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qe55XZTwkbi3pGKrMkUOOsgOnAS5AzPq2vfECWhz7jU=;
-	b=8UXpQKFFdQyo1aOXEIjoDFlt1I88H7Aa1NCM2zCuasUOJSaI6u4EY8XTm2NcvWtWzt3eag
-	9lcHdAI5h67mhwBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B244813A42;
-	Wed,  1 Oct 2025 06:04:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hGkKJovE3Gi4BAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 01 Oct 2025 06:04:59 +0000
-Date: Wed, 1 Oct 2025 08:04:54 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, kbusch@kernel.org, 
-	sagi@grimberg.me, kch@nvidia.com, israelr@nvidia.com
-Subject: Re: [PATCH 3/4] nvmet: prevent max_qid changes for discovered
- subsystems
-Message-ID: <cdb8b194-c3f2-47f3-8ddc-c35de5655696@flourine.local>
-References: <20250924202604.7201-1-mgurtovoy@nvidia.com>
- <20250924202604.7201-4-mgurtovoy@nvidia.com>
- <97291788-f831-469c-b0cd-7fd79678366e@flourine.local>
- <0c96d03b-b98c-4996-8739-e8cd0d6af96a@nvidia.com>
- <bf276b4b-9d1d-458e-84cc-b24969bc0995@flourine.local>
- <8f8d7c9a-02f5-47c0-8f8c-9aae6b969c73@nvidia.com>
- <cf51e862-53db-4fc7-b2c7-bde2ad31e4ec@flourine.local>
- <8cf714c7-a692-4bcf-80f0-780fbc2c27b5@nvidia.com>
- <2715b2ac-0948-4755-803b-7f41768efc6a@flourine.local>
- <d63d991a-0e72-4e94-885f-d94eb810d196@nvidia.com>
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7F822195609F;
+	Wed,  1 Oct 2025 06:31:32 +0000 (UTC)
+Received: from my-developer-toolbox-latest (unknown [10.44.32.240])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id E02CB19560B4;
+	Wed,  1 Oct 2025 06:31:27 +0000 (UTC)
+Date: Tue, 30 Sep 2025 23:31:26 -0700
+From: Chris Leech <cleech@redhat.com>
+To: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Stuart Hayes <stuart.w.hayes@gmail.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux@yadro.com, stable@vger.kernel.org
+Subject: Re: [PATCH] nvme-tcp: fix usage of page_frag_cache
+Message-ID: <20250930-feminine-dry-42d2705c778a@redhat.com>
+References: <20250929111951.6961-1-d.bogdanov@yadro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d63d991a-0e72-4e94-885f-d94eb810d196@nvidia.com>
-X-Rspamd-Queue-Id: E94933376F
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
+In-Reply-To: <20250929111951.6961-1-d.bogdanov@yadro.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20250930_230734_846286_8A1592E5 
-X-CRM114-Status: GOOD (  11.79  )
+X-CRM114-CacheID: sfid-20250930_233141_510936_1B1ADF08 
+X-CRM114-Status: GOOD (  26.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,19 +84,103 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Sep 28, 2025 at 02:53:12PM +0300, Max Gurtovoy wrote:
-> On 26/09/2025 9:58, Daniel Wagner wrote:
-> > > If possible - lets try it also with tcp/rdma transports
-> > You are proposing a patch which has never run blktests, as it clearly
-> > would regress nvme/048. I don't see myself here to do your work.
+On Mon, Sep 29, 2025 at 02:19:51PM +0300, Dmitry Bogdanov wrote:
+> nvme uses page_frag_cache to preallocate PDU for each preallocated request
+> of block device. Block devices are created in parallel threads,
+> consequently page_frag_cache is used in not thread-safe manner.
+> That leads to incorrect refcounting of backstore pages and premature free.
 > 
-> This was not my intention :)
-
-Ah okay, I understood it wrong then :)
-
-
-
-
-
+> That can be catched by !sendpage_ok inside network stack:
 > 
+> WARNING: CPU: 7 PID: 467 at ../net/core/skbuff.c:6931 skb_splice_from_iter+0xfa/0x310.
+> 	tcp_sendmsg_locked+0x782/0xce0
+> 	tcp_sendmsg+0x27/0x40
+> 	sock_sendmsg+0x8b/0xa0
+> 	nvme_tcp_try_send_cmd_pdu+0x149/0x2a0
+> Then random panic may occur.
+> 
+> Fix that by serializing the usage of page_frag_cache.
+
+Thank you for reporting this. I think we can fix it without blocking the
+async namespace scanning with a mutex, by switching from a per-queue
+page_frag_cache to per-cpu. There shouldn't be a need to keep the
+page_frag allocations isolated by queue anyway.
+
+It would be great if you could test the patch which I'll send after
+this.
+
+- Chris
+ 
+> Cc: stable@vger.kernel.org # 6.12
+> Fixes: 4e893ca81170 ("nvme_core: scan namespaces asynchronously")
+> Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
+> ---
+>  drivers/nvme/host/tcp.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 1413788ca7d52..823e07759e0d3 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -145,6 +145,7 @@ struct nvme_tcp_queue {
+>  
+>  	struct mutex		queue_lock;
+>  	struct mutex		send_mutex;
+> +	struct mutex		pf_cache_lock;
+>  	struct llist_head	req_list;
+>  	struct list_head	send_list;
+>  
+> @@ -556,9 +557,11 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+>  	struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
+>  	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>  
+> +	mutex_lock(&queue->pf_cache_lock);
+>  	req->pdu = page_frag_alloc(&queue->pf_cache,
+>  		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
+>  		GFP_KERNEL | __GFP_ZERO);
+> +	mutex_unlock(&queue->pf_cache_lock);
+>  	if (!req->pdu)
+>  		return -ENOMEM;
+>  
+> @@ -1420,9 +1423,11 @@ static int nvme_tcp_alloc_async_req(struct nvme_tcp_ctrl *ctrl)
+>  	struct nvme_tcp_request *async = &ctrl->async_req;
+>  	u8 hdgst = nvme_tcp_hdgst_len(queue);
+>  
+> +	mutex_lock(&queue->pf_cache_lock);
+>  	async->pdu = page_frag_alloc(&queue->pf_cache,
+>  		sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
+>  		GFP_KERNEL | __GFP_ZERO);
+> +	mutex_unlock(&queue->pf_cache_lock);
+>  	if (!async->pdu)
+>  		return -ENOMEM;
+>  
+> @@ -1450,6 +1455,7 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+>  	kfree(queue->pdu);
+>  	mutex_destroy(&queue->send_mutex);
+>  	mutex_destroy(&queue->queue_lock);
+> +	mutex_destroy(&queue->pf_cache_lock);
+>  }
+>  
+>  static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+> @@ -1772,6 +1778,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+>  	INIT_LIST_HEAD(&queue->send_list);
+>  	mutex_init(&queue->send_mutex);
+>  	INIT_WORK(&queue->io_work, nvme_tcp_io_work);
+> +	mutex_init(&queue->pf_cache_lock);
+>  
+>  	if (qid > 0)
+>  		queue->cmnd_capsule_len = nctrl->ioccsz * 16;
+> @@ -1903,6 +1910,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+>  err_destroy_mutex:
+>  	mutex_destroy(&queue->send_mutex);
+>  	mutex_destroy(&queue->queue_lock);
+> +	mutex_destroy(&queue->pf_cache_lock);
+>  	return ret;
+>  }
+>  
+> -- 
+> 2.25.1
+> 
+> 
+
 
