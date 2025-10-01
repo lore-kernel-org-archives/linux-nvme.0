@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4353BCCA472
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 15:14:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C5F1CAC5BB
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 15:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rCby7RSGgJOPOjFe4EbgrqVLYf9CZqlsG//4VZU1QJ4=; b=CrnBiwyApF7LoNrWQFkKixPJW3
-	0tgsY9ZI4Uc/ErFPnoDz60J8yml9xro71Z8RJznRste6iXf+vunVuSukVens5rVOdam4iwX+E41iG
-	2CC98XKIy/LKI07a75r7GO4vvIaqUFr50li4uKpSc5tVKRaQYz2HT45w6SE1qzMQiwKY7fqwDLx/w
-	fsk1ny8vEdhIBoGF0e+Cn69meTUhh5xdhiEpi7/tj3CUNhEijXlwVPc1YElvFHW1FIpP9VHocXb2s
-	+EwjyXDcL5jNQ1iGL2UVweyfpRpu1mLOobxQX01Doq3kWcnuKW/j6XoXcnFiNuw0Fr0LDiNgvKtSl
-	/53F782Q==;
+	bh=GQ5KKwEcSnEaxddQrZRbh9OlTteuEgGTvYy9E9mMSsI=; b=xL0cIMqTEbLSJL+Mi5X4kBsAy8
+	3Ge0kMIYl5/oUHvKwNn+AgExiNKTunLDgx+MBE7kgQ5bLeZPjg0RzklCkao5Lqj05S5QRYIA5BppB
+	RP/7O1JOa+kfgFM059FX+MMWxF0/4CGPYEAnN/nooug5tx2ICM6FGahJ9ZNVBwlM282ZzwkSV/Zok
+	DvQTGc3AIWebZP5tqN0p8l9Ci4leX8uvWVU9jxnIP5jeiF/fvFYyXAL9MLNRfVWJdJHOSilH3EmBT
+	38lYWGj8Iz0p6YVfllTsRtrYY/qRti2IN1g7V5b2ItASEjL5G2eVp8PfMA81kfdvfmGHmXYMQlw9U
+	XzhzBDTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3yWs-00000008LUi-3Sp4;
-	Wed, 01 Oct 2025 15:14:06 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1v3yWu-00000008LVw-2rnG;
+	Wed, 01 Oct 2025 15:14:08 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3yWr-00000008LTZ-0BdZ
+	id 1v3yWt-00000008LV5-1d79
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Oct 2025 15:14:06 +0000
+	Wed, 01 Oct 2025 15:14:07 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id AE5F848C98;
+	by tor.source.kernel.org (Postfix) with ESMTP id C644B611F5;
+	Wed,  1 Oct 2025 15:14:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B1DAC4CEF5;
 	Wed,  1 Oct 2025 15:14:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 252C7C4CEF1;
-	Wed,  1 Oct 2025 15:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759331644;
-	bh=i9l/j6UudWk8LVHeOzd5dLEcSMgstXKbR/Ps7dQ21IE=;
+	s=k20201202; t=1759331646;
+	bh=WNxJkgLVqMAct/iQb9StvMpsaEaTgAl8m9IwuDISVMc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ELwZrkjPVngzlzKG8KZp8XvjYVOAxyFN7PvBxjkfg0IXqhkgq84j9dwp7eCPs2Ag9
-	 n8j4edVttqQwtNbDNiijZciTuZvS75/1Qgb0MTWMss+mVa0QnsT7HahSWKminec7S/
-	 QQFiejhyxqQbf540Q5dNR9xgZbS9iTNt1cqe5RfmRtWnPWJbNWF/JTK77D/FtY9T44
-	 Xm28Auz8nOs23a3G+cGW1C92+e1OEn5lrWFLPWPMhZ8HmeweBjrj7U9d2IZxw0ozwU
-	 BjmhHUvlxJoPCedLWYUp8oDXFI46/g1HRlZsy86mHbqToO1xJO/jT9SSIynvW6HRqk
-	 31VLJ4L1eSMUA==
+	b=CSN7g+81zLXY2kNqDfQcE6ld5863FRtaE5XcLVWtmTD1kt3MmGAubq8cUWLSyxW5J
+	 8PBqFXouB2JueBzYO/EerT4BUUjuGwarukZD0VICWOvaP8/jVrMMYzAJumn54WY0at
+	 5SudFIYXTgPCvAMdeNvCLNLeXvDYK+ER9I8YzeMjqdd3nRgi2ppOOBxkTdgz/Wq7C1
+	 mtNaikNLvaMx19DXZZCSQATmQhSoXAu9uIDgGZxl9efDE9Fv1stXj/ilJniZ309R1h
+	 ADDoQluaoRyEMNiNKkWi6jAoZgRYx9iyrtYtscYjVSI5mG7K29M7kPfkNVPkZ14Oqf
+	 BuWAx8lNse/BQ==
 From: Hannes Reinecke <hare@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>,
@@ -49,17 +49,14 @@ Cc: Keith Busch <kbusch@kernel.org>,
 	linux-nvme@lists.infradead.org,
 	Hannes Reinecke <hare@kernel.org>,
 	kernel test robot <lkp@intel.com>
-Subject: [PATCH 2/4] nvme-keyring: typo in nvme_dhchap_psk_lookup()
-Date: Wed,  1 Oct 2025 17:13:49 +0200
-Message-ID: <20251001151351.121181-3-hare@kernel.org>
+Subject: [PATCH 3/4] nvme-fabrics: make call to nvme_auth_extract_key() conditional
+Date: Wed,  1 Oct 2025 17:13:50 +0200
+Message-ID: <20251001151351.121181-4-hare@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251001151351.121181-1-hare@kernel.org>
 References: <20251001151351.121181-1-hare@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251001_081405_097892_4C0D1F32 
-X-CRM114-Status: GOOD (  11.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,28 +71,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Spurious semicolon in the function stub nvme_dhchap_psk_lookup().
+nvme_auth_extract_key() is only available if the authentication
+code is compiled in, so make it condititional on the config option.
 
 Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202509302259.Yku13u90-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202509302359.TL1868ni-lkp@intel.com/
 Signed-off-by: Hannes Reinecke <hare@kernel.org>
 ---
- include/linux/nvme-keyring.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/fabrics.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-index d8baa71f061d..6115bf5cf346 100644
---- a/include/linux/nvme-keyring.h
-+++ b/include/linux/nvme-keyring.h
-@@ -50,7 +50,7 @@ static inline struct key *nvme_dhchap_psk_refresh(struct key *keyring,
- 	return ERR_PTR(-ENOTSUPP);
- }
- static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
--		const char *hostnqn, const char *subnqn, u8 hmac);
-+		const char *hostnqn, const char *subnqn, u8 hmac)
- {
- 	return ERR_PTR(-ENOTSUPP);
- }
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 3d4d6d8e88c4..67b2ad5ae0fd 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -1106,6 +1106,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	}
+ 
+ 	if (host_secret) {
++#ifdef CONFIG_NVME_HOST_AUTH
+ 		pr_debug("lookup host identity '%s'\n", host_secret);
+ 		key = nvme_auth_extract_key(opts->keyring, host_secret,
+ 					    strlen(host_secret),
+@@ -1116,8 +1117,13 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		}
+ 		pr_debug("using dhchap key %08x\n", key_serial(key));
+ 		opts->dhchap_key = key;
++#else
++		ret = -EINVAL;
++		goto out;
++#endif
+ 	}
+ 	if (ctrl_secret) {
++#ifdef CONFIG_NVME_HOST_AUTH
+ 		if (!opts->dhchap_key) {
+ 			ret = -EINVAL;
+ 			goto out;
+@@ -1132,6 +1138,10 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		}
+ 		pr_debug("using dhchap ctrl key %08x\n", key_serial(key));
+ 		opts->dhchap_ctrl_key = key;
++#else
++		ret = -EINVAL;
++		goto out;
++#endif
+ 	}
+ 
+ 	if (opts->concat) {
 -- 
 2.43.0
 
