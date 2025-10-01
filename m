@@ -4,94 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8669BCCA470
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 10:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF695CCA470
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 12:55:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oN9puFkb46cQNIS5IreI+mnmbbovgsA4IsgTPeMWaYs=; b=3qawMXC2xRv58z3UuGUID5povl
-	fJWkaIFfaKG1qTyiOwDpW3Oa+tAmcOHnwVNajB8P8EPbG7BaaEnlbYduc07UlM12VoDDG98dLBZjk
-	kO8cvKMg4kiifRzLhgWE+9g8eJPuM6tgEvE+77bIWoC7CUYEBbvJAnUQfkRiG7/wVLgqO0J3lF0X8
-	s8NvBv4S9w+bvZBysQj3llhW8Oba5NYpGVaIJzoIaUQeCmrPfiPGxYLL9CgWMgdf/v+v3kX5raNPr
-	zGu4BtHj7kEDHqIixDA/ntaLH2mEm8XCCbuP0qeGmIAY47bW3/WDDEgqhM6NnK71yNj1bpuqKxvcq
-	xSCRnXpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=x6liWphVW1uy/vmnkCw63INVsbSvVDoeUkyU0+5CTUg=; b=A0mE5zcRdJ3qAIMCaRD8ECqAhj
+	BNWZrz00HhbzHZF/KNKjWZtx/Vs4Z3T8Ro6XV0+TDb5lcOt8Qc/51ykJ74GnUD2L3ExT+1lKUvcen
+	TOJlxy/EcJ3XwtR9NIMWHDksAlu4J/jzIaPNU3ygUSmT5Gbvj0FMClDibbij5iMvQL82yTcJbCi+M
+	FmaOMYYllKpuvF90Xd0kNPdGIm410QwdK3rDRx74gzXWEWUIcoQKgriCin8QL970CrFq9frMJGLdy
+	xi1hIta/adPt2WJMMJoZszwXznrkG97Q0wgejgnLaOxBEHz0IFyyVlxrmJu2mlCy2OGhIPpr4J+hj
+	uV7OMjRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3tv3-00000007EhX-22rA;
-	Wed, 01 Oct 2025 10:18:45 +0000
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+	id 1v3wMU-00000007wvE-3EXk;
+	Wed, 01 Oct 2025 12:55:14 +0000
+Received: from mgamail.intel.com ([198.175.65.15])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3tv0-00000007EgP-0kCN
+	id 1v3wMO-00000007wuq-1KPC
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Oct 2025 10:18:43 +0000
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-3307de086d8so6516179a91.2
-        for <linux-nvme@lists.infradead.org>; Wed, 01 Oct 2025 03:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1759313921; x=1759918721; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=oN9puFkb46cQNIS5IreI+mnmbbovgsA4IsgTPeMWaYs=;
-        b=KiiqAQ6cSwh7K1n4oYs2jRgCQ+mHBhKEmpxLBA7OLC7mToFUcAHKWcZ/XErmutWw0W
-         G5zGkZWDt1ugxvUp+6mM3xI8NYDwPDsoLr6SHQZON27QD03qUBgNSDK1cVIvJ4Qembsl
-         2z4sd53cRqbIuyeiLkndIhD0mmwzPdv5+LKXzYH9obSWI6EkJLngmM5N4/hz4Nppngun
-         bfngiXFQb3lWoTSS6BylPJjL56AaVKZSltVbiwcYZgJDZEMWPtQ4Qn/S1lcKThokloSJ
-         2W4uhyereMl+r7MB15t0ajMNIK0rpSEo8laRuWXJbTdrTnSvsJRS0XVbYI+7fIFlq8bS
-         yAXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759313921; x=1759918721;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oN9puFkb46cQNIS5IreI+mnmbbovgsA4IsgTPeMWaYs=;
-        b=tH4ze/f0jgHTH/V5RTaELqkTS1zO/bZlhX7M7RRbNqUqDSlRmS0Lhd0pg+Np20/KZ6
-         0zoTO3+l2tvUSx8woXlEE9j3QRzM6048XOCP+pTE/UWTUc2ltjDFU7EMn63J3WmcHBJ2
-         t1Mni8BdMkm3OuXgjlLaIHNa5bWIPBDyZ/f6jRujVzfLf+44RmDPHZoapGyVzlUDDdGY
-         wNMpGcRNbvYGMFBBfAYcpJQeF5b101Atf1a8U0vIDt552luR/qEwozqRJ6fifeDuyKjS
-         S4kMbarK0ZhDa8KOHSWvPGSJtZH+xt5iGam131tP+kr8jeGvJH0toePB708Q1NPU/RQN
-         0GPg==
-X-Forwarded-Encrypted: i=1; AJvYcCXijOIj2owm2W+Cgye8y5TjYFXs08xjkr1R7JmDOn4Gg2VPdN3tcwlik11CSTHEFrUDMMwbvdO/mW+0@lists.infradead.org
-X-Gm-Message-State: AOJu0YyFSObszQ0Xb8NYgKWWZT60kup7JA3yTbdBveCjX5JoEDIrpHAc
-	rsWr98DAjxqSZwc6Bvv9uF6q2GnyeSd/Rh8+CbW+530Iw35PVnTSh8l9ZcZNK3E3ISA=
-X-Gm-Gg: ASbGncvW/7HbmzUBgg7aQ9EUwlWbuLXZmmjlWTCyCUcxCNnptcdCLcvtbUN0eSaqCcb
-	lPIeJEu39WxMxBoYDoL3xGkaKpvzwOX1AKIDOiZJIfOjkj6irYCn43YsnmE2K2uYTEc3ToaMjW1
-	VbnYdPzjhy1Y+92BR33s2IJ9i9RZjXXL2kLwel9SG9x/bCkJf14dGkwvu18Ru6t2XV5O5vq2SBW
-	TVzsp0V1MMGbQ4lk4rZPjYQuivzeTvgOZb510oP04G5DG4NL0aFvnPrMJDW9RwDO95jFjr+LvE8
-	3bws9sRo39nsr4aNCi+m+Av9N6T2pQhoZn+qDjYrH3Ps9vbm9Dg1akreXiV4MNo/mllN8TGg6BM
-	zxZaDwKWfn1bsVD1hmUXDceH/Saa7Wbig+eU6Rm9IAoXG2xmFYfaV2juGuRcF8AtOXlCI
-X-Google-Smtp-Source: AGHT+IFs4kOlgU8X0QG7s3rpttQScpOUbtBqzYPxpTiDMADf9+c+J2mflBuEXTDwUDvWGGyPG/XFLw==
-X-Received: by 2002:a17:90b:1652:b0:32a:e706:b7b6 with SMTP id 98e67ed59e1d1-339a6e75590mr2927307a91.11.1759313921134;
-        Wed, 01 Oct 2025 03:18:41 -0700 (PDT)
-Received: from wu-Pro-E500-G6-WS720T ([2001:288:7001:2703:6af7:94e4:3a78:e342])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6f20ebbsm1965811a91.24.2025.10.01.03.18.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 03:18:39 -0700 (PDT)
-Date: Wed, 1 Oct 2025 18:18:35 +0800
-From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: akpm@linux-foundation.org, axboe@kernel.dk, ceph-devel@vger.kernel.org,
-	ebiggers@kernel.org, hch@lst.de, home7438072@gmail.com,
-	idryomov@gmail.com, jaegeuk@kernel.org, kbusch@kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, sagi@grimberg.me, tytso@mit.edu,
-	visitorckw@gmail.com, xiubli@redhat.com
-Subject: Re: [PATCH v3 2/6] lib/base64: Optimize base64_decode() with reverse
- lookup tables
-Message-ID: <aNz/+xLDnc2mKsKo@wu-Pro-E500-G6-WS720T>
-References: <20250926065235.13623-1-409411716@gms.tku.edu.tw>
- <20250926065556.14250-1-409411716@gms.tku.edu.tw>
- <CADUfDZruZWyrsjRCs_Y5gjsbfU7dz_ALGG61pQ8qCM7K2_DjmA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADUfDZruZWyrsjRCs_Y5gjsbfU7dz_ALGG61pQ8qCM7K2_DjmA@mail.gmail.com>
+	Wed, 01 Oct 2025 12:55:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759323309; x=1790859309;
+  h=date:from:to:cc:subject:message-id;
+  bh=yEna6zfS2xWu4hYLjKLSbBsgFk8+i3YQPYtHZN+d0dg=;
+  b=bwlN934CZDv1FZGEIVx4kmt3JmpVnVedgq1d10XIGaeVg2iuBIPm2r5J
+   cRwH4iP38Ku2I9mIy+J2A2RALncf0XaDeREz/7KAJMnHIC1Y+JpPTSqJc
+   OrJm53+pdQISO/L0Y2Hp5NsaN+RMXivafojAlumIAMO5WAtefHuqwmiY1
+   kOJNGU2wEhm0lcw/cVwwjcEP98aIWkQMoh15N/PiuQDfWhShiPdoA/QaQ
+   356koYNGowRAVUimSUyGhAwPc5Ii1DIw+1McPiCCEei6aYHuVY86sBoUv
+   PHLdQPVUA71TWXdz58GD4Dca8UtHS8R8DY62kcKMhbW3rW7vy0BOmpoSq
+   g==;
+X-CSE-ConnectionGUID: hbxQOFgZR8CvpsYMReKQPg==
+X-CSE-MsgGUID: pcOMdUBbQwOldFDAGBi7PA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="65232017"
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
+   d="scan'208";a="65232017"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 05:55:03 -0700
+X-CSE-ConnectionGUID: Vdpt4GcZRNaXYBaREv9htA==
+X-CSE-MsgGUID: 2A9K9xzQTBa/dpv743STYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
+   d="scan'208";a="178384717"
+Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 01 Oct 2025 05:55:01 -0700
+Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1v3wME-000319-1C;
+	Wed, 01 Oct 2025 12:54:58 +0000
+Date: Wed, 01 Oct 2025 20:54:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.18] BUILD REGRESSION
+ 876f5e3e3b1e3e78aec9b7e53bec4b949a13ce09
+Message-ID: <202510012042.CJUVM16o-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251001_031842_242450_51B95A54 
-X-CRM114-Status: GOOD (  28.17  )
+X-CRM114-CacheID: sfid-20251001_055508_444257_885B55E3 
+X-CRM114-Status: UNSURE (   5.66  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,177 +83,217 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Sep 26, 2025 at 04:33:12PM -0700, Caleb Sander Mateos wrote:
-> On Thu, Sep 25, 2025 at 11:59 PM Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
-> >
-> > From: Kuan-Wei Chiu <visitorckw@gmail.com>
-> >
-> > Replace the use of strchr() in base64_decode() with precomputed reverse
-> > lookup tables for each variant. This avoids repeated string scans and
-> > improves performance. Use -1 in the tables to mark invalid characters.
-> >
-> > Decode:
-> >   64B   ~1530ns  ->  ~75ns    (~20.4x)
-> >   1KB  ~27726ns  -> ~1165ns   (~23.8x)
-> >
-> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > Co-developed-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-> > Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-> > ---
-> >  lib/base64.c | 66 ++++++++++++++++++++++++++++++++++++++++++++++++----
-> >  1 file changed, 61 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/lib/base64.c b/lib/base64.c
-> > index 1af557785..b20fdf168 100644
-> > --- a/lib/base64.c
-> > +++ b/lib/base64.c
-> > @@ -21,6 +21,63 @@ static const char base64_tables[][65] = {
-> >         [BASE64_IMAP] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+,",
-> >  };
-> >
-> > +static const s8 base64_rev_tables[][256] = {
-> > +       [BASE64_STD] = {
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  -1,  -1,  -1,  63,
-> > +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,
-> > +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,
-> > +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +       },
-> > +       [BASE64_URLSAFE] = {
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  -1,  -1,
-> > +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,
-> > +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1,  -1,  -1,  63,
-> > +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,
-> > +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +       },
-> > +       [BASE64_IMAP] = {
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  62,  63,  -1,  -1,  -1,
-> > +        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,  13,  14,
-> > +        15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,
-> > +        41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-> > +       },
-> 
-> Do we actually need 3 separate lookup tables? It looks like all 3
-> variants agree on the value of any characters they have in common. So
-> we could combine them into a single lookup table that would work for a
-> valid base64 string of any variant. The only downside I can see is
-> that base64 strings which are invalid in some variants might no longer
-> be rejected by base64_decode().
->
+tree/branch: git://git.infradead.org/nvme.git nvme-6.18
+branch HEAD: 876f5e3e3b1e3e78aec9b7e53bec4b949a13ce09  nvmet: add configfs attribute 'dhchap_keyring'
 
-In addition to the approach David mentioned, maybe we can use a common
-lookup table for A–Z, a–z, and 0–9, and then handle the variant-specific
-symbols with a switch.
+Error/Warning (recently discovered and may have been fixed):
 
-For example:
+    https://lore.kernel.org/oe-kbuild-all/202509302151.WHyjRfcE-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202509302259.Yku13u90-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202509302359.TL1868ni-lkp@intel.com
 
-static const s8 base64_rev_common[256] = {
-    [0 ... 255] = -1,
-    ['A'] = 0, ['B'] = 1, /* ... */, ['Z'] = 25,
-    ['a'] = 26, /* ... */, ['z'] = 51,
-    ['0'] = 52, /* ... */, ['9'] = 61,
-};
+    csky-linux-ld: drivers/nvme/host/fabrics.c:1112:(.text+0x16e2): undefined reference to `nvme_auth_extract_key'
+    drivers/nvme/host/fabrics.c:1097:(.text+0x166c): undefined reference to `nvme_auth_extract_key'
+    include/linux/kern_levels.h:5:18: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    include/linux/nvme-keyring.h:52:27: warning: 'nvme_dhchap_psk_lookup' declared 'static' but never defined [-Wunused-function]
+    include/linux/nvme-keyring.h:54:1: error: expected identifier or '('
+    include/linux/nvme-keyring.h:54:1: error: expected identifier or '(' before '{' token
+    include/linux/nvme-keyring.h:57:4: warning: no previous prototype for 'nvme_dhchap_psk_hash' [-Wmissing-prototypes]
+    include/linux/nvme-keyring.h:57:4: warning: no previous prototype for function 'nvme_dhchap_psk_hash' [-Wmissing-prototypes]
 
-static inline int base64_rev_lookup(u8 c, enum base64_variant variant) {
-    s8 v = base64_rev_common[c];
-    if (v != -1)
-        return v;
+Error/Warning ids grouped by kconfigs:
 
-    switch (variant) {
-    case BASE64_STD:
-        if (c == '+') return 62;
-        if (c == '/') return 63;
-        break;
-    case BASE64_IMAP:
-    	if (c == '+') return 62;
-        if (c == ',') return 63;
-        break;
-    case BASE64_URLSAFE:
-        if (c == '-') return 62;
-        if (c == '_') return 63;
-	break;
-    }
-    return -1;
-}
+recent_errors
+|-- arc-randconfig-001-20250930
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- arm-randconfig-001-20250930
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(-before-token
+|   |-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-nvme_dhchap_psk_hash
+|   `-- include-linux-nvme-keyring.h:warning:nvme_dhchap_psk_lookup-declared-static-but-never-defined
+|-- csky-randconfig-002-20250930
+|   |-- csky-linux-ld:drivers-nvme-host-fabrics.c:(.text):undefined-reference-to-nvme_auth_extract_key
+|   |-- drivers-nvme-host-fabrics.c:(.text):undefined-reference-to-nvme_auth_extract_key
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- i386-buildonly-randconfig-002-20250930
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- loongarch-randconfig-002-20250930
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(
+|   `-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-function-nvme_dhchap_psk_hash
+|-- nios2-randconfig-001-20250930
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(-before-token
+|   |-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-nvme_dhchap_psk_hash
+|   `-- include-linux-nvme-keyring.h:warning:nvme_dhchap_psk_lookup-declared-static-but-never-defined
+|-- parisc-randconfig-001-20250930
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- powerpc-randconfig-003-20250930
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- riscv-defconfig
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(
+|   `-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-function-nvme_dhchap_psk_hash
+|-- riscv-randconfig-002-20250930
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(
+|   `-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-function-nvme_dhchap_psk_hash
+|-- s390-defconfig
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(
+|   `-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-function-nvme_dhchap_psk_hash
+|-- sh-randconfig-001-20250930
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- sh-randconfig-002-20250930
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- sparc-randconfig-001-20250930
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(-before-token
+|   |-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-nvme_dhchap_psk_hash
+|   `-- include-linux-nvme-keyring.h:warning:nvme_dhchap_psk_lookup-declared-static-but-never-defined
+|-- sparc-randconfig-002-20250930
+|   `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
+|-- um-randconfig-002-20250930
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(-before-token
+|   |-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-nvme_dhchap_psk_hash
+|   `-- include-linux-nvme-keyring.h:warning:nvme_dhchap_psk_lookup-declared-static-but-never-defined
+|-- x86_64-buildonly-randconfig-005-20250930
+|   |-- include-linux-nvme-keyring.h:error:expected-identifier-or-(-before-token
+|   |-- include-linux-nvme-keyring.h:warning:no-previous-prototype-for-nvme_dhchap_psk_hash
+|   `-- include-linux-nvme-keyring.h:warning:nvme_dhchap_psk_lookup-declared-static-but-never-defined
+`-- xtensa-randconfig-002-20250930
+    `-- include-linux-kern_levels.h:warning:format-lu-expects-argument-of-type-long-unsigned-int-but-argument-has-type-size_t-aka-unsigned-int
 
-What do you think?
+elapsed time: 1442m
 
-Best regards,
-Guan-Chun
+configs tested: 128
+configs skipped: 3
 
-> > +};
-> > +
-> >  /**
-> >   * base64_encode() - Base64-encode some binary data
-> >   * @src: the binary data to encode
-> > @@ -82,11 +139,9 @@ int base64_decode(const char *src, int srclen, u8 *dst, bool padding, enum base6
-> >         int bits = 0;
-> >         int i;
-> >         u8 *bp = dst;
-> > -       const char *base64_table = base64_tables[variant];
-> > +       s8 ch;
-> >
-> >         for (i = 0; i < srclen; i++) {
-> > -               const char *p = strchr(base64_table, src[i]);
-> > -
-> >                 if (src[i] == '=') {
-> >                         ac = (ac << 6);
-> >                         bits += 6;
-> > @@ -94,9 +149,10 @@ int base64_decode(const char *src, int srclen, u8 *dst, bool padding, enum base6
-> >                                 bits -= 8;
-> >                         continue;
-> >                 }
-> > -               if (p == NULL || src[i] == 0)
-> > +               ch = base64_rev_tables[variant][(u8)src[i]];
-> > +               if (ch == -1)
-> 
-> Checking for < 0 can save an additional comparison here.
-> 
-> Best,
-> Caleb
-> 
-> >                         return -1;
-> > -               ac = (ac << 6) | (p - base64_table);
-> > +               ac = (ac << 6) | ch;
-> >                 bits += 6;
-> >                 if (bits >= 8) {
-> >                         bits -= 8;
-> > --
-> > 2.34.1
-> >
-> >
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250930    gcc-9.5.0
+arc                   randconfig-002-20250930    gcc-8.5.0
+arm                              allmodconfig    gcc-15.1.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.1.0
+arm                         assabet_defconfig    clang-18
+arm                        keystone_defconfig    gcc-15.1.0
+arm                   randconfig-001-20250930    gcc-13.4.0
+arm                   randconfig-002-20250930    gcc-8.5.0
+arm                   randconfig-003-20250930    gcc-8.5.0
+arm                   randconfig-004-20250930    gcc-10.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250930    clang-18
+arm64                 randconfig-002-20250930    clang-22
+arm64                 randconfig-003-20250930    clang-18
+arm64                 randconfig-004-20250930    gcc-8.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250930    gcc-13.4.0
+csky                  randconfig-002-20250930    gcc-13.4.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250930    clang-22
+hexagon               randconfig-002-20250930    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20250930    gcc-12
+i386        buildonly-randconfig-002-20250930    gcc-14
+i386        buildonly-randconfig-003-20250930    clang-20
+i386        buildonly-randconfig-004-20250930    gcc-14
+i386        buildonly-randconfig-005-20250930    clang-20
+i386        buildonly-randconfig-006-20250930    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250930    clang-22
+loongarch             randconfig-002-20250930    clang-22
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                          eyeq6_defconfig    clang-22
+mips                        vocore2_defconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250930    gcc-8.5.0
+nios2                 randconfig-002-20250930    gcc-8.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250930    gcc-12.5.0
+parisc                randconfig-002-20250930    gcc-9.5.0
+parisc64                         alldefconfig    gcc-15.1.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc                      mgcoge_defconfig    clang-22
+powerpc               randconfig-001-20250930    gcc-8.5.0
+powerpc               randconfig-002-20250930    gcc-14.3.0
+powerpc               randconfig-003-20250930    gcc-15.1.0
+powerpc                      tqm8xx_defconfig    clang-19
+powerpc64             randconfig-001-20250930    gcc-14.3.0
+powerpc64             randconfig-002-20250930    gcc-12.5.0
+powerpc64             randconfig-003-20250930    gcc-11.5.0
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250930    gcc-10.5.0
+riscv                 randconfig-002-20250930    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20250930    gcc-12.5.0
+s390                  randconfig-002-20250930    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                          r7780mp_defconfig    gcc-15.1.0
+sh                    randconfig-001-20250930    gcc-15.1.0
+sh                    randconfig-002-20250930    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250930    gcc-11.5.0
+sparc                 randconfig-002-20250930    gcc-8.5.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20250930    clang-22
+sparc64               randconfig-002-20250930    gcc-9.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20250930    gcc-14
+um                    randconfig-002-20250930    gcc-12
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250930    clang-20
+x86_64      buildonly-randconfig-002-20250930    gcc-14
+x86_64      buildonly-randconfig-003-20250930    gcc-14
+x86_64      buildonly-randconfig-004-20250930    clang-20
+x86_64      buildonly-randconfig-005-20250930    gcc-14
+x86_64      buildonly-randconfig-006-20250930    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250930    gcc-12.5.0
+xtensa                randconfig-002-20250930    gcc-11.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
