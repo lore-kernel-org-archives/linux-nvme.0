@@ -4,94 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C04E0CCA470
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Oct 2025 16:42:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED0CBCAC5B8
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Oct 2025 09:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kPROJS6eNp0rCugkjO7H9bY89HLgLr4JN7/6VlwSuhQ=; b=ww3fNqwRJDaz0ufXMIpo9TiRmy
-	SSoH1OE0AU4rjrSToyFUptvdzHsDR52cZxz0wIUhNHP370UrE3ocoo8ny0Hq+aP78d0MW7GOdIvzy
-	kiJxB/ZQC609X57unyCoF2iUShT/T0nMyna4xugdW7N7dL1d3n1oARRTcScmDmRnJw0Npu8L3IVCz
-	yI0FWFOCIJcwLAfEbt/6z40OsMrZS+Us51P4XI2S9N5WujGBvmBxFUQtcoQeEtjGDP7IM9vb8adjT
-	RLAq/TqPqh9nFc3twoJpLYgn2mVMqMSfybLYIOAVRuLDswyxPRAEv8NmKnt0IxtBaF2lsJXiYtW/k
-	5DYXvN+w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Jc18GZtrHqzSr/pDa9pzm2Av3OH9+j+09Y6i3Vb76QM=; b=AEbiJbJqbLVzFK5UB5sKbCZnys
+	nKDLZrttkvi8VtdvpCCwohhU78/4SLpT+kO7vqZAExj0oJdgpUiDbWlGnP2JYNkume05IY2s41l6a
+	V7prVpsU53T1u1iM47M9pjZFho+07tUvZAx3ybSCrRf+Yk5NEAcb6Dojtf35Pd+2Hap3fLBV2+vI8
+	1k1bNZVvev8xtr0yZjkTM+EJbDTVZvH2BPIkjnXxD8mkyrDAfHzjLJkfzDklNlfcIiSd63FWgFabt
+	cRkLq3PNee8WyqvuiI/sFfeltAPodzSjXPbnsGdgdk0oc4Grb6XcW3PxPt/DjOn4mEdikAQukt2ps
+	1nq9ZzRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3zu9-00000008XqN-0mFQ;
-	Wed, 01 Oct 2025 16:42:13 +0000
-Received: from mta-01.yadro.com ([195.3.219.148])
+	id 1v4FVq-0000000A8YE-1Q2s;
+	Thu, 02 Oct 2025 09:22:10 +0000
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v3zu5-00000008Xpn-3Dbu
+	id 1v4FVo-0000000A8Xg-2LR9
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Oct 2025 16:42:11 +0000
-Received: from mta-01.yadro.com (localhost [127.0.0.1])
-	by mta-01.yadro.com (Postfix) with ESMTP id 486242000D;
-	Wed,  1 Oct 2025 19:42:03 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-01.yadro.com 486242000D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-02;
-	t=1759336923; bh=kPROJS6eNp0rCugkjO7H9bY89HLgLr4JN7/6VlwSuhQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=UkKwVggCelVLSr04tH+RUn2Gd5fnpt9i0nRq9d2Z4vYB5K/jk79OGxK0zxZs67/28
-	 mcmleRP2r3CPR0rCcumqifhRmqRwRjXI/jhS/D4PfEXQSUAjSyo2TFi+J2hLU4jKtw
-	 9LEghD/3AhTuf0KslNRDZih4eIFK8bRo7ZzrW9DzqN/PUho3eyKsxhBWmpROlqabLM
-	 DwlxcbuVsYEVQuWmjhEwkiIOChsfHc8L3BaCifnQgsIsO8PnTAVdhbpYpxoOPuQlnO
-	 CkQt25jVB27jo5DioW8gwwvVxql43pTciv3UWVBWKnWIYKVnwfylT6ukKZz0uZA5LY
-	 4i7d6O1fSlHjw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1759336923; bh=kPROJS6eNp0rCugkjO7H9bY89HLgLr4JN7/6VlwSuhQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
-	b=pJ0y8IQw4VTVLha1cxkRjAXH/82Z+5Kz00wGXGkfJKZyirGsqg0IliuCeSjHVHytl
-	 oS5p+TQkKq/7PhYhEW1K6Gzr9o17f/KmZFRApOGdqy9pMsMCARg7JMV2odYmuPx1jt
-	 y3hNljQ//USBUTMEiujON2YwK+gnVq96oMVpNi0OTFMj02hr8veLU15D08ul+tRaBY
-	 2Q5o4jxT2UkcxdfZ5QidV8mzMUHdRMDsP8HZQYePdg0Ga/xi8OwmRPuP9xdTQZwXYw
-	 2VRr1M2wmcmwDk+ml0ZCZJSiL5X3823EWS3WnB3IvHHy4jsRN1G1kEoewvLCKYhMqE
-	 LHM7tYuOUU5FA==
-Received: from RTM-EXCH-01.corp.yadro.com (unknown [10.34.9.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mta-01.yadro.com (Postfix) with ESMTPS;
-	Wed,  1 Oct 2025 19:42:02 +0300 (MSK)
-Received: from T-EXCH-12.corp.yadro.com (10.34.9.214) by
- RTM-EXCH-01.corp.yadro.com (10.34.9.201) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Wed, 1 Oct 2025 19:41:54 +0300
-Received: from yadro.com (172.17.34.51) by T-EXCH-12.corp.yadro.com
- (10.34.9.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 1 Oct
- 2025 19:41:54 +0300
-Date: Wed, 1 Oct 2025 19:41:52 +0300
-From: Dmitry Bogdanov <d.bogdanov@yadro.com>
-To: Chris Leech <cleech@redhat.com>
-CC: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, "Christoph
- Hellwig" <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Stuart Hayes
-	<stuart.w.hayes@gmail.com>, <linux-nvme@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux@yadro.com>, <stable@vger.kernel.org>
-Subject: Re: [PATCH] nvme-tcp: fix usage of page_frag_cache
-Message-ID: <20251001164152.GB4234@yadro.com>
-References: <20250929111951.6961-1-d.bogdanov@yadro.com>
- <20250930-feminine-dry-42d2705c778a@redhat.com>
+	Thu, 02 Oct 2025 09:22:09 +0000
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-368348d30e0so7329201fa.1
+        for <linux-nvme@lists.infradead.org>; Thu, 02 Oct 2025 02:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759396926; x=1760001726; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jc18GZtrHqzSr/pDa9pzm2Av3OH9+j+09Y6i3Vb76QM=;
+        b=RnUOTm7mjb7c3iSNUEkQrbqxi4dhzMYtDoEByRx2/E4ratTC9G/I4DRCpHrECnlvm7
+         FUjzgVcU4o4RXm0IhPy4xcgbHnDQjJeLJjbH0FeN2vbsgdmsgaJOijCAVuA+de+VcoF+
+         vt9HXfCNJmw8aLbPRno3zI+kg/1BPApKxj5U6RwFPCc4eqohGcsIIbySGG6An6vdaClR
+         +vHB3TgZ7dMtApD0+4ogPfBwlOxeWEGR/IuFgDulZDca3c6ZMvTSk3skcf+nIyQOiqxi
+         JIUvVjZrNJb4SP9uXqxYSdzCTVK/6qfHcIpH36I5T2rpBPP64pCMyw7mESt7R89MqdP6
+         XWxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759396926; x=1760001726;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jc18GZtrHqzSr/pDa9pzm2Av3OH9+j+09Y6i3Vb76QM=;
+        b=vvwbVX1jXOYWMVFiNsJCYFGaqvdWaIIJ8doM9+y3j7/0xFf9bIEPCc3AdrFpuBCrDW
+         xlxoykk99CN1Uv9YMM5N16p4zQfEoQRgNdEm3vDh52H0Q/g2+A1IMcmyvO4aZekLMRZ7
+         jJHkX4DsXnUrzRdpF2u57WGFX7MqO3Jr1s+8WpkTiXw9MOJMn60ZuPVWbEm1kyriqrb4
+         Texp10iG0tDxdyKAp4iVPgNt7SZUG6WU40q5bXjECZKCGvkw6jbR7YEGbnOanZJOoIdW
+         1Ck00PkQcgoRDzsTIiRB06TMWJVMbKftGbyf+uxz+bmB1wXKPDdkMlG+m2o6rZbElV8c
+         NbNA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+kRyGToSEy54YtHPYJ8FOGRjbAwtbI7+IMvhXNyWC0brDp+5x1VZa4t2ipH4/cJzHUpzj1lZ5heFB@lists.infradead.org
+X-Gm-Message-State: AOJu0YyRTzXz5LRQCD0uE1CutUshbIXHh1S4qKwr2Zv5Fw1S5XrbBXE+
+	85bgeqcjvoqFPUcK44dCID3/KI6GS3lxq1bSrEsqXqxfJN/kQgiOuD+iwYbb6vnEPio=
+X-Gm-Gg: ASbGnctOlGtARwIUkqUIaJMytUS724Vruf6UHhfdALRuhXzhkfAxHZRwukFkQakUcI8
+	bo+LLmaB2cPrhk+/FRhBgoPYhy3sVrHuSZ4KH4P3VlVKf9YaCPo00KHWrBTImRFci44o4Y2vKoh
+	0AVbMRvKRZHDbhz2MDbpg2EiW8ClNXdoK1+6Drno2q74/MGzQ2VuwyKXhWflP3YVMQEsQ8vIr9O
+	2MoHAu6eQ8U9BrQnBJzaB3t2kOeBKs8BiimJ87q+Z7lhoSFouts7Fbmm6W66kNf3Myp8PZuIrmf
+	e3Hs68QN8cRa1SSKsaemqY4C161SmmDb66yQdWcTu+FmwbpsLTSE7uQQu1//cbj/yHRSaBB3J1r
+	akWCrH10FzIXC7yRqBYGiF5nzhRcfBXtFzReKiJv5vbMagJ6tKgQ27a70bjaMOORgH+ehm1+jXp
+	o5aZdPEfjjdfNl+FDciCHUByq3vxTA2LcsIY+wm8KZ
+X-Google-Smtp-Source: AGHT+IE8i0+6YbCw8yKaxx00ipzKZM5vQ/ktJ4J5ogZF04+s2uzUegs2HA0XBU3rhglvN15ySQRqxg==
+X-Received: by 2002:a05:651c:512:b0:372:96c1:b276 with SMTP id 38308e7fff4ca-373a74d5c50mr19350441fa.45.1759396925877;
+        Thu, 02 Oct 2025 02:22:05 -0700 (PDT)
+Received: from localhost.localdomain (broadband-109-173-93-221.ip.moscow.rt.ru. [109.173.93.221])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-373ba44455dsm5531951fa.39.2025.10.02.02.22.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Oct 2025 02:22:05 -0700 (PDT)
+From: Alexandr Sapozhnkiov <alsp705@gmail.com>
+To: James Smart <james.smart@broadcom.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Alexandr Sapozhnikov <alsp705@gmail.com>,
+	lvc-project@linuxtesting.org
+Subject: [PATCH] nvme: target: fix error checking in nvmet_fc_schedule_delete_assoc()
+Date: Thu,  2 Oct 2025 12:22:01 +0300
+Message-ID: <20251002092202.11-1-alsp705@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250930-feminine-dry-42d2705c778a@redhat.com>
-X-Originating-IP: [172.17.34.51]
-X-ClientProxiedBy: RTM-EXCH-04.corp.yadro.com (10.34.9.204) To
- T-EXCH-12.corp.yadro.com (10.34.9.214)
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/10/01 16:02:00 #27871772
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-KATA-Status: Not Scanned
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 5
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251001_094210_472916_19890C7A 
-X-CRM114-Status: GOOD (  23.71  )
+X-CRM114-CacheID: sfid-20251002_022208_604519_F2B85B20 
+X-CRM114-Status: GOOD (  12.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,42 +101,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Sep 30, 2025 at 11:31:26PM -0700, Chris Leech wrote:
-> 
-> On Mon, Sep 29, 2025 at 02:19:51PM +0300, Dmitry Bogdanov wrote:
-> > nvme uses page_frag_cache to preallocate PDU for each preallocated request
-> > of block device. Block devices are created in parallel threads,
-> > consequently page_frag_cache is used in not thread-safe manner.
-> > That leads to incorrect refcounting of backstore pages and premature free.
-> >
-> > That can be catched by !sendpage_ok inside network stack:
-> >
-> > WARNING: CPU: 7 PID: 467 at ../net/core/skbuff.c:6931 skb_splice_from_iter+0xfa/0x310.
-> >       tcp_sendmsg_locked+0x782/0xce0
-> >       tcp_sendmsg+0x27/0x40
-> >       sock_sendmsg+0x8b/0xa0
-> >       nvme_tcp_try_send_cmd_pdu+0x149/0x2a0
-> > Then random panic may occur.
-> >
-> > Fix that by serializing the usage of page_frag_cache.
-> 
-> Thank you for reporting this. I think we can fix it without blocking the
-> async namespace scanning with a mutex, by switching from a per-queue
-> page_frag_cache to per-cpu. There shouldn't be a need to keep the
-> page_frag allocations isolated by queue anyway.
-> 
-> It would be great if you could test the patch which I'll send after
-> this.
-> 
+From: Alexandr Sapozhnikov <alsp705@gmail.com>
 
-As I commented on your patch, a naive per-cpu cache solution is
-error-prone. The complete solution will be unnecessaryly difficult.
-Block device creation is not a data plane, it is a control plane, so
-there is no sense to use there lockless algorithms.
+The nvmet_fc_tgtport_get() function may return an error.
 
-My patch is a simple and error-proof already.
-So, I insist on this solution.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-BR,
- Dmitry
+Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
+---
+ drivers/nvme/target/fc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 337ee1cb09ae..68a416a92bfc 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1110,8 +1110,8 @@ nvmet_fc_delete_assoc_work(struct work_struct *work)
+ static void
+ nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
+ {
+-	nvmet_fc_tgtport_get(assoc->tgtport);
+-	queue_work(nvmet_wq, &assoc->del_work);
++	if (nvmet_fc_tgtport_get(assoc->tgtport))
++		queue_work(nvmet_wq, &assoc->del_work);
+ }
+ 
+ static bool
+-- 
+2.43.0
+
 
