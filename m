@@ -4,46 +4,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68741CAC5B0
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Oct 2025 09:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00D8BCCA476
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Oct 2025 09:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=f4Mt9oOnls6w5MPF8ho/fXbxaWOpw5mAu06nZFZDF08=; b=QpUxZVjJ68weocdA5RZP3/U7tg
-	DDwMZJRCWAQ7YPl4QpDW50IVl9IQFoSYzmTTqn4EJRonomdzwunQoClEf8gC68tY8hy61tUrF8eTz
-	m6uT0UrREK5LLVjRcj4sqKRPq1aweQIHBIc1KuyfMgXwx/oegegoym4119FHfpLdZNUfhMk4YBUfV
-	R4AfddhF7P3bLOHPOu/z3Hy6BGth/cYiDgpv5V71us2FaHbRUkUns0VCblrxFRYCfYbZMqYPQmt6+
-	3PaaNi3tphEy/vThwYSa/SwLp9IHR++MhMcn9Rxiy+VfXoXoinc31LoTlaqVOKvzp7E+lw9LrcvDb
-	qqN2X0Iw==;
+	bh=FXkEgRJ7VOgVOUpd4r/73LrVgNsOSE4mgMUamvQW218=; b=kosWyWK6BRJPsJIbjb/1v8CZfs
+	fmErqteLtQTwFFU6Mak7LhQowk5UIs+HLgIumWMnCMG2QYbAn2Y4e307fZuo1EB2h+BYi45dc7m3s
+	yytkCB5sMg9KFwIejqvE/ywqG4GV2ecqPB9dwvG9cCabmd3dBd9NlPUE5JSUUSmeljHHYK2VXeHZu
+	lrY3dHi0o9KczXziGiHecb980RPYqAg7x0DNKGPzbVEAgO5rkvKewKhoHzayAAZ6SWG1kJuyFu4Gy
+	YTswm1jvoPeo9c3WOGtcDRv8ZjkBhhVJr/0VpW39O1Bfd2lVlmwQ0z73h5jsNZFY6J/ano99qWJwL
+	vUSjEeGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v4cRt-0000000BzBy-09ki;
-	Fri, 03 Oct 2025 09:51:37 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1v4cUv-0000000BzX6-2QaC;
+	Fri, 03 Oct 2025 09:54:45 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v4cRr-0000000BzBL-0DH0
+	id 1v4cUs-0000000BzWQ-1yOW
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Oct 2025 09:51:36 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1A24243FF3;
-	Fri,  3 Oct 2025 09:51:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0531CC4CEF9;
-	Fri,  3 Oct 2025 09:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759485094;
-	bh=WfLYqcOX9sMYZKj4wlYxcoZbm5OgeeZwYCvrlL3mENw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dcXqUEWfJ0IiMLVaZtd6pUxE4O/0uoOsxh3H211dEstLJpAFvkOtBNIpUxteL2aI1
-	 8AaH40SjPRGeNBKJEoRDFxa8iKd/gVFAiPe9Fby25bUYuqEJ8eeSgs4ekHkdeMGbws
-	 KXt1pkuppx59pH0cKSFfbeOV3YqAPZ0jS0avN2iNwP6qmCnpGAjmaR6aiWs/3KjoOR
-	 WxtkgzG7XpVSyn2YdqNWPyZKzJPQH9ZyBtZ6OgAGI1SgoXlxEQ6ucGlC+G8Arstk2x
-	 YHifqR7C4foIwGfJw8FjId0SRo+NWovjyeVk9BwLUMz93dNUwBcFuqkRfkw48gpU/7
-	 wOaS8NN/1l0tQ==
-Date: Fri, 3 Oct 2025 10:51:28 +0100
-From: Simon Horman <horms@kernel.org>
+	Fri, 03 Oct 2025 09:54:43 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2102F227AAC; Fri,  3 Oct 2025 11:54:34 +0200 (CEST)
+Date: Fri, 3 Oct 2025 11:54:34 +0200
+From: Christoph Hellwig <hch@lst.de>
 To: alistair23@gmail.com
 Cc: chuck.lever@oracle.com, hare@kernel.org,
 	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
@@ -52,17 +39,17 @@ Cc: chuck.lever@oracle.com, hare@kernel.org,
 	kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
 	kch@nvidia.com, hare@suse.de,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v3 2/8] net/handshake: Define handshake_sk_destruct_req
-Message-ID: <20251003095128.GG2878334@horms.kernel.org>
-References: <20251003043140.1341958-1-alistair.francis@wdc.com>
- <20251003043140.1341958-3-alistair.francis@wdc.com>
+Subject: Re: [PATCH v3 7/8] nvmet-tcp: Support KeyUpdate
+Message-ID: <20251003095434.GB15497@lst.de>
+References: <20251003043140.1341958-1-alistair.francis@wdc.com> <20251003043140.1341958-8-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251003043140.1341958-3-alistair.francis@wdc.com>
+In-Reply-To: <20251003043140.1341958-8-alistair.francis@wdc.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251003_025135_106953_610FA4A0 
-X-CRM114-Status: GOOD (  14.44  )
+X-CRM114-CacheID: sfid-20251003_025442_652991_099EEC9D 
+X-CRM114-Status: GOOD (  16.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,31 +64,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 03, 2025 at 02:31:33PM +1000, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> Define a `handshake_sk_destruct_req()` function to allow the destruction
-> of the handshake req.
-> 
-> This is required to avoid hash conflicts when handshake_req_hash_add()
-> is called as part of submitting the KeyUpdate request.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v3:
->  - New patch
+On Fri, Oct 03, 2025 at 02:31:38PM +1000, alistair23@gmail.com wrote:
+> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> +static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue);
+> +static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w);
+> +#endif
 
-Hi Alistair,
+Can we find a way to structure the code to do without forward declarations
+and either without ifdefs or with stubs when you need them?
 
-This is a not a proper review: I'll leave that to others.
-But I notice that both Clang 21.1.1 and GCC 15.2.0, when run with
--Wunused-function, flag handshake_sk_descruct_req() as unused.
-Which is the case until the following patch.
+> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> +			if (ret == -EKEYEXPIRED &&
+> +				queue->state != NVMET_TCP_Q_DISCONNECTING &&
+> +				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
+> +					goto done;
+> +			}
 
-As both this and the following patch are small, and touch the same file,
-I'm wondering if a simple approach is to squash the two patches into one.
+Wrong indentation and superflous braces here.
 
-Or perhaps no one cares. If so, sorry for the noise.
+> +	ret = nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete, 10 * HZ);
 
-...
+Please avoid the overly long lines.
+
+> +
+> +	if (ret <= 0) {
+> +		tls_handshake_cancel(queue->sock->sk);
+> +		return ret;
+> +	}
+> +
+> +	queue->state = NVMET_TCP_Q_LIVE;
+> +
+> +	return ret;
+
+This should be a unconditional ret 0, or am I missing something?
+
+> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> +			if (ret == -EKEYEXPIRED &&
+> +				queue->state != NVMET_TCP_Q_DISCONNECTING &&
+> +				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
+> +					goto done;
+> +			}
+
+Same as above.  And given that we have multiple instances of this
+check I suspect we want a little helper for it.
+
+> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> +			if (ret == -EKEYEXPIRED)
+> +				update_tls_keys(queue);
+> +			else
+> +#endif
+> +				return;
+> +		}
+
+If you provide a proper stub for update_tls_keys this becomes much
+saner:
+
+		if (ret != -EKEYEXPIRED)
+			return;
+		update_tls_keys(queue);
+
+> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
+> +			if (ret == -EKEYEXPIRED)
+> +				update_tls_keys(queue);
+> +			else
+> +#endif
+> +				return;
+
+Same here.
+
 
