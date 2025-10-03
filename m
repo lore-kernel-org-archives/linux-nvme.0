@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16D17CCA470
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Oct 2025 04:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD9CACCA470
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Oct 2025 04:32:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iUt0lx1wZ3OyjfIx3eBQc3LazcDXGlUQf7VsPfo32Ig=; b=fYkBdBFxWCB2BH+j9eK5scQ+iI
-	T2mU8PWGqdnNuybTh4OWkH5CIRDLMJ9Eq+c8e46Sw5TlnxhHaOklZ9f6bJkTnGchLF3p7xCvNPqsz
-	JAnpHjtJscwpH2d62ZnwYaC5KovQW85vXLloF+2Q+5MlMVHtrD/HJImjn38YUuck4wsfhVfYVPMua
-	dfQNTlmBUm3yd8NwyXJqtfkQDGVDjBEsu2p3Nd1fnb1VU137wIy/TyFgtG8WDpCPefc4xgHAyxxnW
-	SdMggnT/BIkiDaNeRA2MIA8HSGM0e/Jb2pExxFZMXPHIoKWeVQUBLFaTEm5rSlXCPxcQjrYucKq9V
-	n8t2gXQw==;
+	bh=p/RhfwOg9G04zj7blr/LVSDCaR4a6pcdo5HXaRarZaQ=; b=Nk/SujQPJD/x8V9kU2EfaGgDOb
+	aWbUS3PDltXKvkcUHtqx7LHjujCRNQu2ND0TfAWm5A9d4myCCTN3j77wyfNQoUy3zhXLvoYCLyjEB
+	y6hUaiCBxHgSteZSl7hFaUNQ/sbSy437grHfvxTcHDH5YStiQvg6T1KNUcocXAXNE1rZaJM9weGuV
+	3UclXV72JqgfDG8QkU74Di4lBtMCK8Gf/03kBjH69WOYtgY5BOiRh/0E9NadWJPL8QhNTATZ8xnLx
+	ixS16l5wkAmUBqvLpRHnN/TnMmX3e4de8Z2ZlBbJK77hXykdW1Q7Qwlt8YCLdlXZBY/3+otEGiqul
+	YDukOmIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v4XTK-0000000Be76-0vDN;
-	Fri, 03 Oct 2025 04:32:46 +0000
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+	id 1v4XTQ-0000000BeCf-3Qne;
+	Fri, 03 Oct 2025 04:32:52 +0000
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v4XTH-0000000Be4h-3uok
+	id 1v4XTO-0000000BeAC-1Uj8
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Oct 2025 04:32:45 +0000
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-32df5cae0b1so2484071a91.2
-        for <linux-nvme@lists.infradead.org>; Thu, 02 Oct 2025 21:32:43 -0700 (PDT)
+	Fri, 03 Oct 2025 04:32:51 +0000
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-27c369f898fso18966865ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 02 Oct 2025 21:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759465963; x=1760070763; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1759465969; x=1760070769; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iUt0lx1wZ3OyjfIx3eBQc3LazcDXGlUQf7VsPfo32Ig=;
-        b=k5N8OCLx2UfKN34XQDaMGQ0QJPv7XpwA1IV8PhDvFLKYueif+OLC0USMrELLVRA+no
-         XoxFe3Sn+XUXQ22n0+iVQLscV8A8AFtB09aUFDSm77FFnwPtNFQz5+S4cpFvInwn9o31
-         8HRJ2afeBHbbxsmlJ6/gDHJjIb75v3igO0a5nkhERvWGNzyXJIWkF0k4z3S/VsZG4ge+
-         hM9lj5YUmptNNJfjw2PzEkWv2znv1tZ5PNGPwjicXPrZZ1jZqhLOLKwbqM/L4dGp3gpX
-         IuaRzJbjg7UQXZfqjIjKlZDsDgElkCtNBUJ/9zCRu7oa5dQuiBtMkcvg+oCXqtWqkAmw
-         RJ7w==
+        bh=p/RhfwOg9G04zj7blr/LVSDCaR4a6pcdo5HXaRarZaQ=;
+        b=QbU3hxX25/LefMDFhme1Oy1bYgN0errYnZAIstpoMBTA0YjoWRVm2J62Qt95n5g9bm
+         5O3Jt7SV65nZCI/g90aAd7zE35P1TRSJpltr0Y3yQHj8CQqaUwoeznDvWlujxGiEMonx
+         P4dSlizaXGwCDolNrAJBurkwTwgBnoeRxWalkz1pY/1ujgjve/9JjekkEwDYUyJSrgRM
+         uO+cuacFOZ4TwFxvMsrjdXRLz/3sO0AN5ydISGlHYWRzZBRLACigjmebAeJXS2IfoRcz
+         /u86i58q3OLhLCr1j61HKtFo6USjPk/790m5sMJUPhYEXNehDeoGtehmK7SkUI7MsXT3
+         aQ/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759465963; x=1760070763;
+        d=1e100.net; s=20230601; t=1759465969; x=1760070769;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iUt0lx1wZ3OyjfIx3eBQc3LazcDXGlUQf7VsPfo32Ig=;
-        b=dkJ4rFgDBPKADvdL9YhQhCsNkBt8aMqFfiKvnkJ1lpQc/3sBD1xKf18DWzR9HFC7QX
-         keJ357ksVJg0JgUittcvjahZRVfg0VbnM+41L/a2hkH0kymZtm7q3Fgm21rcvAu/JIAq
-         bJGjAe9XzT0fHy4xZM+WlpBQYGWkPFbKHbRJ1dHcUUU/K/AsiJTbkv3aKi1jasJoHKYB
-         0XpOkmKvtPTxkxEWPpIV5hqPBzApIZXqFmr0Y0DdHcS3OZirNE51WezfvfVqMx/YQX03
-         ShnxL8Np408hLvK2ZftuVHCwCciLoDTDc4PT9B1MDdKbkeAFDVK9S67RpK4CfrWXLMX6
-         pdKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVS/P8iwWGln9wjAnlpA2HDJlXX67WXkancRC866sgbNBEAc9+XLCofYQkRQBAgux3OEO9EIU7kPl4q@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx/iVgO0sCauT5ZTfZkxyRy6ITxN4/FYFJMYuPOYvylOUb5lgER
-	KO8mQrI3+6Z3BOwNGfO/PMAVGtIqHp2u8Y8DQ3K8OkeHt0hJBkFrUwlk
-X-Gm-Gg: ASbGncuOtC4iSmp4QNpmlOvgFVXcHYh17edtO/hfrAdNvb6r8WQAO6zC7jGsGWv2fJz
-	//syLMeETq1RM+oAXTtwiY+qhdPnpf7qzoEEy2fXzxD4w8eyE3avYfZ68zYX1IpHCd8FKE2MkPY
-	qs7QdzPv0tQkNOdhVa8fgiGgJGDHo0wvmWASFl1PSxnAuEVz32FPODIPlV5IW5l/emkphS1TjZ6
-	nC0wbNYY68XiDr2Zz/cpQXEt9gCJxIhnMO+8Z+xxjxNlheWOdpZkaIRI0QYGnR98J6YGaZWRQQS
-	UrZhZekyRu29zdHNZj8z1VACfQrre25DO6M5w97F7d926lRrxbV21uztfBdAC5Hrn4Yjm76mBB7
-	SUfIZkyT20K8n/SWUdIzkT2Gf2oIVn3nBWBDnu1BIrx94vWgPriSwIMmVFfy6JL0u2UISJeI4J5
-	FD+SBPlFI1XnOqjhYK6HF+RPlRgq60qwCPA71zQ13YbxMb1zwigxNg
-X-Google-Smtp-Source: AGHT+IGhaBIUtKtuD6q+A3yD/rdltrPoLDs9xzkO82sKW85fbk3aQyiXoU7SizhTuE7KWD6NguZsNA==
-X-Received: by 2002:a17:90b:17cf:b0:32e:d011:ea1c with SMTP id 98e67ed59e1d1-339c274fd63mr2279693a91.15.1759465963241;
-        Thu, 02 Oct 2025 21:32:43 -0700 (PDT)
+        bh=p/RhfwOg9G04zj7blr/LVSDCaR4a6pcdo5HXaRarZaQ=;
+        b=Awu9h1fLvFW8VOhikxkq9NULnjLicZ3eULTfspNsYGIRrjRzckPPfRU7Ox2KmPNTrw
+         KXBGcyvK3tmCqUrNAPP7JD6PZnqzHxYoVhLASbbtzVSrLkvJi7uYLmzVUYxHPCkHZz3r
+         kguegfNg7L03XU0JaVBITquQIVV2Ci4cVdqybGgehIfBCI+G7yyWM3wNQj6HnyrKaK9W
+         HXMrzMnhPiOzL6v2mIptQFWS4USW9QPAybIRGcR2PQlucl81CFuGmRQt0ZH7L68Q52Y5
+         zY7VFgKTHJprq3Hs7lS0PdeztBXrDnX5PMVtp/MkU1M/0h7CnzBDiPxa9vd3NMB+yKt0
+         lxXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUy5RSWgD2LOpYm+A9C8NfpAu6IbvGefZoL4kxt44j0MRpHfa/d10uuQW1CyaX9/TUhWp4iPgAXpDMC@lists.infradead.org
+X-Gm-Message-State: AOJu0Yygn7SI4gYTsEvVdq4H9gnNHX1YrYTXOI1hLctpscOPY6cTqwSl
+	640b9nV6hqygXGWtnmUyE5IvE4d21eRAvzXscBnRHcnslkfplpdk6h/T
+X-Gm-Gg: ASbGncuVfuJ1uuTcSlYbmPAEuyIGiEjN5vxSPvIMbvK2O7jZSgTFRlZRft8uVfnC1yW
+	vYVRcljgwThVefNVRQtC0A6kdceN1fHzh+LIdG1ERL0Q/P/1n3608BvY8XMIAD15KkmhSotX8d5
+	J6YQ8zb7bMt4oSYM4AO2IAv5ZeyxrUpdLQ67TEn7HQv2/0vsyfZT1kbU7gptKyAntdGYg++T/i4
+	A7vzedohVO48AIMAZV1LhKeV0Kn7Mgg0vYplKUNQcr5hJUacXHaO3pSOzfuVdAv7GW86v2zHBEM
+	ttXCjAng0JogdDGxB9/3EZ1m4Xtjh0mGvGb8qubvvgGlxroZ9QRphEfafKbnlOV7lmBbwspyJDW
+	NNzih65uYdD44Sv8Jn0/2DBYQ/k7IhVlHGCtGjKJNazvYvLYHwqNPUYHZx9qohPzoheQEKBZv/z
+	0cYB2iHoi5HrNG0tYMYif66MFNX8mzC0Zh/vqqY5MFewrCfvjaqydf
+X-Google-Smtp-Source: AGHT+IHqijcQ2mML6mQfax0bd7bg5pqc9YIkhbyYMavM8Tyb3Jp75ZIWGmYxOuPUT9g3dT0PGrahEA==
+X-Received: by 2002:a17:903:fa6:b0:25f:45d9:6592 with SMTP id d9443c01a7336-28e9a65c0e9mr15641845ad.48.1759465969449;
+        Thu, 02 Oct 2025 21:32:49 -0700 (PDT)
 Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701c457sm6528233a91.23.2025.10.02.21.32.37
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701c457sm6528233a91.23.2025.10.02.21.32.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 21:32:42 -0700 (PDT)
+        Thu, 02 Oct 2025 21:32:48 -0700 (PDT)
 From: alistair23@gmail.com
 X-Google-Original-From: alistair.francis@wdc.com
 To: chuck.lever@oracle.com,
@@ -88,17 +88,17 @@ Cc: kbusch@kernel.org,
 	hare@suse.de,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v3 6/8] nvme-tcp: Support KeyUpdate
-Date: Fri,  3 Oct 2025 14:31:37 +1000
-Message-ID: <20251003043140.1341958-7-alistair.francis@wdc.com>
+Subject: [PATCH v3 7/8] nvmet-tcp: Support KeyUpdate
+Date: Fri,  3 Oct 2025 14:31:38 +1000
+Message-ID: <20251003043140.1341958-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251003043140.1341958-1-alistair.francis@wdc.com>
 References: <20251003043140.1341958-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251002_213243_976989_620E1905 
-X-CRM114-Status: GOOD (  22.31  )
+X-CRM114-CacheID: sfid-20251002_213250_402712_323AA8C0 
+X-CRM114-Status: GOOD (  24.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,16 +115,16 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
-on an KeyUpdate event.
+If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receive
+a KeyUpdate handshake type then the underlying TLS keys need to be
+updated.
 
-If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
 allow the NVMe layer to process the KeyUpdate request and forward the
 request to userspace. Userspace must then update the key to keep the
 connection alive.
 
-This patch allows us to handle the NVMe target sending a KeyUpdate
+This patch allows us to handle the NVMe host sending a KeyUpdate
 request without aborting the connection. At this time we don't support
 initiating a KeyUpdate.
 
@@ -132,150 +132,200 @@ Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 v3:
- - Don't cancel existing handshake requests
+ - Use a write lock for sk_user_data
+ - Fix build with CONFIG_NVME_TARGET_TCP_TLS disabled
+ - Remove unused variable
 v2:
- - Don't change the state
  - Use a helper function for KeyUpdates
- - Continue sending in nvme_tcp_send_all() after a KeyUpdate
- - Remove command message using recvmsg
+ - Ensure keep alive timer is stopped
+ - Wait for TLS KeyUpdate to complete
 
- drivers/nvme/host/tcp.c | 60 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 54 insertions(+), 6 deletions(-)
+ drivers/nvme/target/tcp.c | 90 ++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 85 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index b07401ad68eb..4f27319f0078 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -172,6 +172,7 @@ struct nvme_tcp_queue {
- 	bool			tls_enabled;
- 	u32			rcv_crc;
- 	u32			snd_crc;
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index bee0355195f5..fd59dd3ca632 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -175,6 +175,7 @@ struct nvmet_tcp_queue {
+ 
+ 	/* TLS state */
+ 	key_serial_t		tls_pskid;
 +	key_serial_t		user_session_id;
- 	__le32			exp_ddgst;
- 	__le32			recv_ddgst;
- 	struct completion       tls_complete;
-@@ -211,6 +212,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 			      struct nvme_tcp_queue *queue,
- 			      key_serial_t pskid,
- 			      handshake_key_update_type keyupdate);
-+static void update_tls_keys(struct nvme_tcp_queue *queue);
+ 	struct delayed_work	tls_handshake_tmo_work;
  
- static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctrl)
+ 	unsigned long           poll_end;
+@@ -186,6 +187,8 @@ struct nvmet_tcp_queue {
+ 	struct sockaddr_storage	sockaddr_peer;
+ 	struct work_struct	release_work;
+ 
++	struct completion       tls_complete;
++
+ 	int			idx;
+ 	struct list_head	queue_list;
+ 
+@@ -836,6 +839,11 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
+ 	return 1;
+ }
+ 
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue);
++static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w);
++#endif
++
+ static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
+ 		int budget, int *sends)
  {
-@@ -394,6 +396,14 @@ static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
- 	do {
- 		ret = nvme_tcp_try_send(queue);
- 	} while (ret > 0);
-+
-+	if (ret == -EKEYEXPIRED) {
-+		update_tls_keys(queue);
-+
-+		do {
-+			ret = nvme_tcp_try_send(queue);
-+		} while (ret > 0);
-+	}
+@@ -844,6 +852,13 @@ static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
+ 	for (i = 0; i < budget; i++) {
+ 		ret = nvmet_tcp_try_send_one(queue, i == budget - 1);
+ 		if (unlikely(ret < 0)) {
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++			if (ret == -EKEYEXPIRED &&
++				queue->state != NVMET_TCP_Q_DISCONNECTING &&
++				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
++					goto done;
++			}
++#endif
+ 			nvmet_tcp_socket_error(queue, ret);
+ 			goto done;
+ 		} else if (ret == 0) {
+@@ -1110,6 +1125,45 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
+ 	return false;
  }
  
- static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *queue)
-@@ -1346,6 +1356,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
- done:
- 	if (ret == -EAGAIN) {
- 		ret = 0;
-+	} else if (ret == -EKEYEXPIRED) {
-+		goto out;
- 	} else if (ret < 0) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"failed to send request %d\n", ret);
-@@ -1381,17 +1393,45 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
- 		}
- 	} while (result >= 0);
- 
--	if (result < 0 && result != -EAGAIN) {
-+	if (result == -EKEYEXPIRED) {
-+		return -EKEYEXPIRED;
-+	} else if (result == -EAGAIN) {
-+		result = 0;
-+	} else if (result < 0) {
- 		dev_err(queue->ctrl->ctrl.device,
- 			"receive failed:  %d\n", result);
- 		queue->rd_enabled = false;
- 		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
--	} else if (result == -EAGAIN)
--		result = 0;
-+	}
- 
- 	return result < 0 ? result : (queue->nr_cqe = nr_cqe);
- }
- 
-+static void update_tls_keys(struct nvme_tcp_queue *queue)
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++static int update_tls_keys(struct nvmet_tcp_queue *queue)
 +{
-+	int qid = nvme_tcp_queue_id(queue);
 +	int ret;
 +
-+	dev_dbg(queue->ctrl->ctrl.device,
-+		"updating key for queue %d\n", qid);
-+
 +	cancel_work(&queue->io_work);
++	queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
 +
-+	nvme_stop_keep_alive(&(queue->ctrl->ctrl));
-+	flush_work(&(queue->ctrl->ctrl).async_event_work);
++	/* Restore the default callbacks before starting upcall */
++	write_lock_bh(&queue->sock->sk->sk_callback_lock);
++	queue->sock->sk->sk_data_ready =  queue->data_ready;
++	queue->sock->sk->sk_state_change = queue->state_change;
++	queue->sock->sk->sk_write_space = queue->write_space;
++	queue->sock->sk->sk_user_data = NULL;
++	write_unlock_bh(&queue->sock->sk->sk_callback_lock);
 +
-+	ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-+				 queue, queue->ctrl->ctrl.tls_pskid,
-+				 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
++	nvmet_stop_keep_alive_timer(queue->nvme_sq.ctrl);
 +
-+	if (ret < 0) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"failed to update the keys %d\n", ret);
-+		nvme_tcp_fail_request(queue->request);
-+		nvme_tcp_done_send_req(queue);
++	INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
++			  nvmet_tcp_tls_handshake_timeout);
++
++	ret = nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
++
++	if (ret < 0)
++		return ret;
++
++	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete, 10 * HZ);
++
++	if (ret <= 0) {
++		tls_handshake_cancel(queue->sock->sk);
++		return ret;
 +	}
-+}
 +
- static void nvme_tcp_io_work(struct work_struct *w)
++	queue->state = NVMET_TCP_Q_LIVE;
++
++	return ret;
++}
++#endif
++
+ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
+ 		struct msghdr *msg, char *cbuf)
  {
- 	struct nvme_tcp_queue *queue =
-@@ -1407,15 +1447,21 @@ static void nvme_tcp_io_work(struct work_struct *w)
- 			mutex_unlock(&queue->send_mutex);
- 			if (result > 0)
- 				pending = true;
--			else if (unlikely(result < 0))
-+			else if (unlikely(result < 0)) {
-+				if (result == -EKEYEXPIRED)
-+					update_tls_keys(queue);
- 				break;
-+			}
+@@ -1135,6 +1189,9 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
+ 			ret = -EAGAIN;
  		}
- 
- 		result = nvme_tcp_try_recvmsg(queue);
- 		if (result > 0)
+ 		break;
++	case TLS_RECORD_TYPE_HANDSHAKE:
++		ret = -EAGAIN;
++		break;
+ 	default:
+ 		/* discard this record type */
+ 		pr_err("queue %d: TLS record %d unhandled\n",
+@@ -1344,6 +1401,13 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
+ 	for (i = 0; i < budget; i++) {
+ 		ret = nvmet_tcp_try_recv_one(queue);
+ 		if (unlikely(ret < 0)) {
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++			if (ret == -EKEYEXPIRED &&
++				queue->state != NVMET_TCP_Q_DISCONNECTING &&
++				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
++					goto done;
++			}
++#endif
+ 			nvmet_tcp_socket_error(queue, ret);
+ 			goto done;
+ 		} else if (ret == 0) {
+@@ -1408,14 +1472,26 @@ static void nvmet_tcp_io_work(struct work_struct *w)
+ 		ret = nvmet_tcp_try_recv(queue, NVMET_TCP_RECV_BUDGET, &ops);
+ 		if (ret > 0)
  			pending = true;
--		else if (unlikely(result < 0))
+-		else if (ret < 0)
 -			return;
-+		else if (unlikely(result < 0)) {
-+			if (result == -EKEYEXPIRED)
++		else if (ret < 0) {
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++			if (ret == -EKEYEXPIRED)
 +				update_tls_keys(queue);
-+			break;
++			else
++#endif
++				return;
 +		}
  
- 		/* did we get some space after spending time in recv? */
- 		if (nvme_tcp_queue_has_pending(queue) &&
-@@ -1723,6 +1769,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
- 			ctrl->ctrl.tls_pskid = key_serial(tls_key);
- 		key_put(tls_key);
- 		queue->tls_err = 0;
-+		queue->user_session_id = user_session_id;
- 	}
+ 		ret = nvmet_tcp_try_send(queue, NVMET_TCP_SEND_BUDGET, &ops);
+ 		if (ret > 0)
+ 			pending = true;
+-		else if (ret < 0)
+-			return;
++		else if (ret < 0) {
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++			if (ret == -EKEYEXPIRED)
++				update_tls_keys(queue);
++			else
++#endif
++				return;
++		}
  
- out_complete:
-@@ -1752,6 +1799,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 		keyring = key_serial(nctrl->opts->keyring);
- 	args.ta_keyring = keyring;
+ 	} while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
+ 
+@@ -1798,6 +1874,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
+ 	}
+ 	if (!status) {
+ 		queue->tls_pskid = peerid;
++		queue->user_session_id = user_session_id;
+ 		queue->state = NVMET_TCP_Q_CONNECTING;
+ 	} else
+ 		queue->state = NVMET_TCP_Q_FAILED;
+@@ -1813,6 +1890,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
+ 	else
+ 		nvmet_tcp_set_queue_sock(queue);
+ 	kref_put(&queue->kref, nvmet_tcp_release_queue);
++	complete(&queue->tls_complete);
+ }
+ 
+ static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
+@@ -1843,7 +1921,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
+ 	int ret = -EOPNOTSUPP;
+ 	struct tls_handshake_args args;
+ 
+-	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
++	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE && !keyupdate) {
+ 		pr_warn("cannot start TLS in state %d\n", queue->state);
+ 		return -EINVAL;
+ 	}
+@@ -1856,7 +1934,9 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
+ 	args.ta_data = queue;
+ 	args.ta_keyring = key_serial(queue->port->nport->keyring);
  	args.ta_timeout_ms = tls_handshake_timeout * 1000;
 +	args.user_session_id = queue->user_session_id;
- 	queue->tls_err = -EOPNOTSUPP;
- 	init_completion(&queue->tls_complete);
- 	ret = tls_client_hello_psk(&args, GFP_KERNEL, keyupdate);
+ 
++	init_completion(&queue->tls_complete);
+ 	ret = tls_server_hello_psk(&args, GFP_KERNEL, keyupdate);
+ 	if (ret) {
+ 		kref_put(&queue->kref, nvmet_tcp_release_queue);
 -- 
 2.51.0
 
