@@ -4,128 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4C57CAC5B8
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Oct 2025 12:44:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FB38CAC5B8
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Oct 2025 14:18:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h4yQaF2jnmacQc6p7fkFElvW7cTDz3BcCJxg9Y8Lcyc=; b=EqRpitwAc+bNNfY3Or8TCkrA7j
-	RXF0F53ANlXDvJCxIXa8D9hsGwzO14N45JwNRgVkEO675upxkOkQHj4a4Ozy+L1JXo+17E/Igzh3a
-	LqIKNBuEpbIw9Ka6o1UTPZP7uD0XAPoqbwuPCgS1wcSG4gR58zcZWPlU39hjZ2UMgwDu7nF4QzfYK
-	QLAyecTVPKShEg7ALQ50zk7wm13g/V6BEHsv/bunjTK5f0KnWyBjHs98XDWGcw+sB1YvWbtCrnh2W
-	cjjFa6BDYxM1rWhqbgF9zqiW7U50GT/kObm5Wm1AXekJUJmfTcf5LGwCu9B90k1r9RfNOAHBE8/f3
-	iOWEqvOA==;
+	bh=mteyqJ+aNjjLH/ss2WZIm9u7qv5L6hUgc0ouRxP9jF4=; b=efsP0PYuQIVOGRpUuIrikqgCaW
+	tpyzqYvIQIXNetlzNHRTmQqnTHike45qFX5VWRucRi1JFhgAlZBD/NfJg+Q8YUDwqUZDe8LdzK5Pe
+	qgpu4vDb5/PEfCNCoFaWuYN6WzBNn+Rf+8G9adtgO2lHs3XKYvcpbuemxStgTcxfaQWqsNCXKUQye
+	7psfrBVM8xORXADSiMxVfAcMxAz7BPs8BMoVzulU9VnSuLFK2vQuuVGJALu+mwOg5Bko9rzSK54eN
+	nl7ITsPffVHeYjS2GRh5EdROSexArc4Bb1Erj+vDop7ToAOTvG2AqJoc2QLOnvjBQH2YhkP95ehHk
+	AK9X/JIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v5kZx-000000002KF-1Su0;
-	Mon, 06 Oct 2025 12:44:37 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1v5m2g-000000009on-0tPk;
+	Mon, 06 Oct 2025 14:18:22 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v5kZu-000000002Jq-2yM2
+	id 1v5m2d-000000009oT-2ATk
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Oct 2025 12:44:35 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DD7D7336BD;
-	Mon,  6 Oct 2025 12:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759754672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h4yQaF2jnmacQc6p7fkFElvW7cTDz3BcCJxg9Y8Lcyc=;
-	b=pPyAgPf4kvAJrhmw4OfFXo42H5shi3KNgj5nCT+ijbbhAwIloN79IljqBPn50ow+QKzbXa
-	DXn7snqe2V/Edv5VmjmJ6fl78RTV0VsB8Z0h/wBXQhiqAwKkrObavM7Zbw3iEc6MS4ozVg
-	Gv2GnWfmEhHox+Y8O/WzaT4NLVoIkyA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759754672;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h4yQaF2jnmacQc6p7fkFElvW7cTDz3BcCJxg9Y8Lcyc=;
-	b=UAu6VZQ8K0dWeJXUbn0Ho6SX0wqpasOx5bZypvW49V6Mecdhd28FE0BO/GbTgsOmVxLPLT
-	nqRUoRGW528G64AA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cm9V9yF8;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BXlcrGVA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759754671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h4yQaF2jnmacQc6p7fkFElvW7cTDz3BcCJxg9Y8Lcyc=;
-	b=cm9V9yF8wMm/bOGNABah3vuX4MCSFYe3fdvEYfRvA1A7ddE9tywOLpY0J1ZRw942O0U/R0
-	4/d+Q0LJoMJ/gr5CgF0MLEFHkqrahnz6gshuM4J9AArDC68JAaQuyhb4Gr6jM6gMuqoErn
-	rZNcDEN8Xi2Ycz5fF78qzYGXxQDtvPo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759754671;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h4yQaF2jnmacQc6p7fkFElvW7cTDz3BcCJxg9Y8Lcyc=;
-	b=BXlcrGVA9g8ENQCpEg36kAdV0iFakq+mTvFRl0d672JtmyAm0zFLsksxtk/q5LXmjmpOUb
-	IF1AXTDHb+9a4CAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF64B13995;
-	Mon,  6 Oct 2025 12:44:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7SvLMa+542gefAAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 06 Oct 2025 12:44:31 +0000
-Date: Mon, 6 Oct 2025 14:44:31 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Alexandr Sapozhnkiov <alsp705@gmail.com>
-Cc: James Smart <james.smart@broadcom.com>, 
-	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org, 
-	Daniel Wagner <wagi@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH] nvme: target: fix error checking in
- nvmet_fc_schedule_delete_assoc()
-Message-ID: <2bc10e91-d937-4584-967d-133487524980@flourine.local>
-References: <20251002092202.11-1-alsp705@gmail.com>
- <20251003101354.GA15826@lst.de>
+	Mon, 06 Oct 2025 14:18:20 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id B0DED4441A;
+	Mon,  6 Oct 2025 14:18:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 571DCC4CEF9;
+	Mon,  6 Oct 2025 14:18:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759760298;
+	bh=Gx9y0VlbK0lYH2T9Fayq7xIksBTJUSX9op5yZaFvKFA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pyBsamvS+IvC0GPchKDszBiIlAQshaabAgzAkojx2aifDRzLkp2zBz2DDRjBlGy1h
+	 u613L8RO0+CFo6I5WifbKrEXMyK98CU7ZetKrtcirDII6ohRkmfCFAZfK4OaBYyXIz
+	 BaV6ks5riNn94yoHQFEpc7OjshZXfFKyHcNIevL/1OEMzwPhr2svv5A7m4IGwYjigq
+	 ZNnUWnFGj+3AkXIXNzXxxBvjN3lNG3QeTIs678U8s5pu4pPHxd6+PDA+z4aaw3R5Vq
+	 zoAN6qxsWdAzbUdQBY2h+NteykD7jZ2se98k20y74cxEFde0a4xGuJotOrknXVmnMX
+	 r8mDtQm+eLHdg==
+Date: Mon, 6 Oct 2025 08:18:16 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 1/3] nvme-keyring: use correct format specifier
+Message-ID: <aOPPqNffLH8mAoMQ@kbusch-mbp>
+References: <20251001142200.61696-1-hare@kernel.org>
+ <20251001142200.61696-2-hare@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251003101354.GA15826@lst.de>
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: DD7D7336BD
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+In-Reply-To: <20251001142200.61696-2-hare@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251006_054434_901032_3A71AC27 
-X-CRM114-Status: GOOD (  24.13  )
+X-CRM114-CacheID: sfid-20251006_071819_576117_1003DD32 
+X-CRM114-Status: UNSURE (   8.17  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,51 +73,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Alexandr,
+On Wed, Oct 01, 2025 at 04:21:58PM +0200, Hannes Reinecke wrote:
+> @@ -340,7 +340,7 @@ static int nvme_dhchap_psk_preparse(struct key_preparsed_payload *prep)
+>  		keylen = 70;
+>  		break;
+>  	default:
+> -		pr_debug("%s: Invalid data length %lu\n", __func__, datalen);
+> +		pr_debug("%s: Invalid data length %u\n", __func__, datalen);
 
-On Fri, Oct 03, 2025 at 12:13:54PM +0200, Christoph Hellwig wrote:
-> Adding Daniel who has been touching this area recently.
-> 
-> On Thu, Oct 02, 2025 at 12:22:01PM +0300, Alexandr Sapozhnkiov wrote:
-> > From: Alexandr Sapozhnikov <alsp705@gmail.com>
-> > 
-> > The nvmet_fc_tgtport_get() function may return an error.
-
-This description is not correct, because nvmet_fc_tgtport_get wraps
-around kref_get_unless_zero. The return value is never an error code.
-
-> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> > 
-> > Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-> > ---
-> >  drivers/nvme/target/fc.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> > index 337ee1cb09ae..68a416a92bfc 100644
-> > --- a/drivers/nvme/target/fc.c
-> > +++ b/drivers/nvme/target/fc.c
-> > @@ -1110,8 +1110,8 @@ nvmet_fc_delete_assoc_work(struct work_struct *work)
-> >  static void
-> >  nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
-> >  {
-> > -	nvmet_fc_tgtport_get(assoc->tgtport);
-> > -	queue_work(nvmet_wq, &assoc->del_work);
-> > +	if (nvmet_fc_tgtport_get(assoc->tgtport))
-> > +		queue_work(nvmet_wq, &assoc->del_work);
-
-nvmet_fc_schedule_delete_assoc can only be called when a reference is
-held on the assoc->tgtport. The nvmet_fc_tgtport_get is necessary so
-that the resource is not going away while the work item is executed.
-
-And this patch doesn't seem against a recent kernel as it misses commit
-70289ae5cac4 ("nvmet-fc: put ref when assoc->del_work is already
-scheduled") which was added for 6.15.
-
-I am not against this change but I was under the impression we don't add
-code to make some tools happy. Maybe it would be enough to add a
-comment?
-
-Thanks,
-Daniel
+It's still the wrong specifier. size_t should use %zu. I folded that in,
+pushed out to nvme-6.19.
 
