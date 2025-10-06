@@ -4,88 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5654CCA471
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Oct 2025 06:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B452CCA470
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Oct 2025 06:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=; b=x34uZsiAwZAZAXQfNr3+H1ZINh
-	pYxUADLOm4QpB6VpYwFYWaX9sTPvtIJ5OCDmm4PBgjTwJC0yA7T5eDpDJQpWp1RpdLYb4AA6QQ8Tt
-	JqZ42OR5ihVsuB1wqE7hpNuQjZip9ovhpn8OnckwA8PkVkOljFhdKQ1cukmbUgFWQBxuHRpZwGbf7
-	V8Z62aWyGB8BqM3iFt8fNKyuylarQMqG+JuH2zqk8kRU0v4LJwUhTZq9cfH5OggEBdf/y/tZROn9T
-	VCZzkBllp98muilbbz6Y6x1qBIHSfGov1UvUgZ9bsIjmunBS59LqCIlss08eZqpr/g2llyMgweVUt
-	0BFoSkHg==;
+	bh=q8Vop5batSSCeAdThB/ZJXAyRy+Z8FoB67Z2pTCV+7Y=; b=nStk/CPWFD2cvTLoKHxgbQKv58
+	n3Eu9IKgm1JD4zu5pUwCELjidMT9E4NchBWbuyaQLNUAJiVPybhdpvAqC8CdVbFalWUNhVSqdFaaB
+	TswumaCEWDbDS/vhp2dOmQiUKzoWnkvJRrrMxH0CaDYkCkju2xOcW7Dfy8VEfuaKuJfbiTrWbEBBs
+	KsNurZAYsC7S8rA9x81/AfRNmLebgnL3r0uY9M6MeWv7jZYA4ovliLZhCYKH6i2Kc7fKM2zyd2gJB
+	Hw+UkPoDOngq3mnehWlMxzWrSjkQZHzorHVmQtQcOZd52OPbY/snNflMf3vt02T9Lg39stP/pzfhC
+	goViuJbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v5edj-0000000H0yK-0LWY;
-	Mon, 06 Oct 2025 06:24:07 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1v5enw-0000000H1Ty-0o9A;
+	Mon, 06 Oct 2025 06:34:40 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v5edh-0000000H0xu-0vOT
+	id 1v5ent-0000000H1T6-0mzi
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Oct 2025 06:24:06 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Mon, 06 Oct 2025 06:34:38 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D0621F452;
-	Mon,  6 Oct 2025 06:24:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 19A3F3373A;
+	Mon,  6 Oct 2025 06:34:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759731843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1759732475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=gZpC7+J2LTxbEltg8i2OaeSCH9s7KcU5QpA4fOCAb3zBlo5IH3gOJI4fhp7YEgujQfyuNn
-	hD2evKEEAX/3cbg9yfO4KyvjCUvKX7oDjObLPaPcm6FGEv2rWPFLs/9uUvynPwhaR6S5Jj
-	6NgoXt5HVgIC07ABREiSPFKs4sNvKDU=
+	bh=q8Vop5batSSCeAdThB/ZJXAyRy+Z8FoB67Z2pTCV+7Y=;
+	b=hvAuT5t1QEv0R3TFDiDmMnuityVQPASfk9u/Ag6O8QCO52lGZYdmRTtIPSK542mk7HilFN
+	JjL9hrpKPjtMiTHslC4mmeVCqjHd/JbvnfNKAVOmV8cDfjMh2jA8gy3DcUMy6KRXKk4O8x
+	2k+ebdw091X9PHom19Q4DXEq0W5Zd/k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759731843;
+	s=susede2_ed25519; t=1759732475;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=ozmOENuk2YLRTTagv6uR2+iKJ2sL1lw+wt8QOtS8JwO42f3vDv0In2B2MI+G/YGQ8AeVsu
-	M5aJx642b5TNnVDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=q8Vop5batSSCeAdThB/ZJXAyRy+Z8FoB67Z2pTCV+7Y=;
+	b=FKyFmYGH+LkytDTq655Q4y7n2ZVjQzJGfKaIjCRIKS+mjooQcsrbFugJo+P75mCtAuTRcD
+	P0w9NSADKFEEMsAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hvAuT5t1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FKyFmYGH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759731843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1759732475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=gZpC7+J2LTxbEltg8i2OaeSCH9s7KcU5QpA4fOCAb3zBlo5IH3gOJI4fhp7YEgujQfyuNn
-	hD2evKEEAX/3cbg9yfO4KyvjCUvKX7oDjObLPaPcm6FGEv2rWPFLs/9uUvynPwhaR6S5Jj
-	6NgoXt5HVgIC07ABREiSPFKs4sNvKDU=
+	bh=q8Vop5batSSCeAdThB/ZJXAyRy+Z8FoB67Z2pTCV+7Y=;
+	b=hvAuT5t1QEv0R3TFDiDmMnuityVQPASfk9u/Ag6O8QCO52lGZYdmRTtIPSK542mk7HilFN
+	JjL9hrpKPjtMiTHslC4mmeVCqjHd/JbvnfNKAVOmV8cDfjMh2jA8gy3DcUMy6KRXKk4O8x
+	2k+ebdw091X9PHom19Q4DXEq0W5Zd/k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759731843;
+	s=susede2_ed25519; t=1759732475;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GkgVnRB/5xOR8vyw0Zzr+WL75nZte6VHjkiMRoBbH4g=;
-	b=ozmOENuk2YLRTTagv6uR2+iKJ2sL1lw+wt8QOtS8JwO42f3vDv0In2B2MI+G/YGQ8AeVsu
-	M5aJx642b5TNnVDQ==
+	bh=q8Vop5batSSCeAdThB/ZJXAyRy+Z8FoB67Z2pTCV+7Y=;
+	b=FKyFmYGH+LkytDTq655Q4y7n2ZVjQzJGfKaIjCRIKS+mjooQcsrbFugJo+P75mCtAuTRcD
+	P0w9NSADKFEEMsAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B988813995;
-	Mon,  6 Oct 2025 06:24:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92DC213995;
+	Mon,  6 Oct 2025 06:34:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sgdCK4Jg42jqCAAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 06 Oct 2025 06:24:02 +0000
-Message-ID: <59ed5ee1-95c3-453e-a53a-b7bfb330511a@suse.de>
-Date: Mon, 6 Oct 2025 08:24:02 +0200
+	id IZlZIfpi42hPCwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 06 Oct 2025 06:34:34 +0000
+Message-ID: <00b0fca9-e9d1-4d04-9a43-5fe3d047e4d6@suse.de>
+Date: Mon, 6 Oct 2025 08:34:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/8] net/handshake: Define handshake_sk_destruct_req
+Subject: Re: [PATCH v3 6/8] nvme-tcp: Support KeyUpdate
 To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
  kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -93,36 +94,45 @@ To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
 Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
  kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
 References: <20251003043140.1341958-1-alistair.francis@wdc.com>
- <20251003043140.1341958-3-alistair.francis@wdc.com>
+ <20251003043140.1341958-7-alistair.francis@wdc.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251003043140.1341958-3-alistair.francis@wdc.com>
+In-Reply-To: <20251003043140.1341958-7-alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MX_GOOD(-0.01)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email,wdc.com:email]
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ietf.org:url,wdc.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
+X-Rspamd-Queue-Id: 19A3F3373A
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251005_232405_406965_AC962A9D 
-X-CRM114-Status: GOOD (  16.99  )
+X-CRM114-CacheID: sfid-20251005_233437_378581_6605653F 
+X-CRM114-Status: GOOD (  34.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,52 +150,193 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 10/3/25 06:31, alistair23@gmail.com wrote:
 > From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Define a `handshake_sk_destruct_req()` function to allow the destruction
-> of the handshake req.
+> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
+> on an KeyUpdate event.
 > 
-> This is required to avoid hash conflicts when handshake_req_hash_add()
-> is called as part of submitting the KeyUpdate request.
+> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> allow the NVMe layer to process the KeyUpdate request and forward the
+> request to userspace. Userspace must then update the key to keep the
+> connection alive.
 > 
+> This patch allows us to handle the NVMe target sending a KeyUpdate
+> request without aborting the connection. At this time we don't support
+> initiating a KeyUpdate.
+> 
+> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
 > v3:
->   - New patch
+>   - Don't cancel existing handshake requests
+> v2:
+>   - Don't change the state
+>   - Use a helper function for KeyUpdates
+>   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+>   - Remove command message using recvmsg
 > 
->   net/handshake/request.c | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
+>   drivers/nvme/host/tcp.c | 60 ++++++++++++++++++++++++++++++++++++-----
+>   1 file changed, 54 insertions(+), 6 deletions(-)
 > 
-> diff --git a/net/handshake/request.c b/net/handshake/request.c
-> index 274d2c89b6b2..0d1c91c80478 100644
-> --- a/net/handshake/request.c
-> +++ b/net/handshake/request.c
-> @@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *sk)
->   		sk_destruct(sk);
+Weelll ... Checking the code the network stack will only return
+-EKEYEXPIRED on recvmsg() (as it parses the TLS message on receive).
+So really this is handling an incoming KeyUpdate request only.
+And I would keep it that way, as initiating a KeyUpdate request
+is quite different (conceptually) than handling an incoming one.
+
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index b07401ad68eb..4f27319f0078 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
+>   	bool			tls_enabled;
+>   	u32			rcv_crc;
+>   	u32			snd_crc;
+> +	key_serial_t		user_session_id;
+>   	__le32			exp_ddgst;
+>   	__le32			recv_ddgst;
+>   	struct completion       tls_complete;
+> @@ -211,6 +212,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+>   			      struct nvme_tcp_queue *queue,
+>   			      key_serial_t pskid,
+>   			      handshake_key_update_type keyupdate);
+> +static void update_tls_keys(struct nvme_tcp_queue *queue);
+>   
+>   static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctrl)
+>   {
+> @@ -394,6 +396,14 @@ static inline void nvme_tcp_send_all(struct nvme_tcp_queue *queue)
+>   	do {
+>   		ret = nvme_tcp_try_send(queue);
+>   	} while (ret > 0);
+> +
+> +	if (ret == -EKEYEXPIRED) {
+> +		update_tls_keys(queue);
+> +
+> +		do {
+> +			ret = nvme_tcp_try_send(queue);
+> +		} while (ret > 0);
+> +	}
 >   }
 >   
-> +/**
-> + * handshake_sk_destruct_req - destroy an existing request
-> + * @sk: socket on which there is an existing request
-> + */
-> +static void handshake_sk_destruct_req(struct sock *sk)
+See above. I'd rather have two patches, one for handling incoming
+KeyUpdate message (where we'd see an EKEYEXPIRED on receive), and
+another one for initiating KeyUpdates.
+
+>   static inline bool nvme_tcp_queue_has_pending(struct nvme_tcp_queue *queue)
+> @@ -1346,6 +1356,8 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+>   done:
+>   	if (ret == -EAGAIN) {
+>   		ret = 0;
+> +	} else if (ret == -EKEYEXPIRED) {
+> +		goto out;
+>   	} else if (ret < 0) {
+>   		dev_err(queue->ctrl->ctrl.device,
+>   			"failed to send request %d\n", ret);
+
+See above.
+
+> @@ -1381,17 +1393,45 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
+>   		}
+>   	} while (result >= 0);
+>   
+> -	if (result < 0 && result != -EAGAIN) {
+> +	if (result == -EKEYEXPIRED) {
+> +		return -EKEYEXPIRED;
+> +	} else if (result == -EAGAIN) {
+> +		result = 0;
+> +	} else if (result < 0) {
+>   		dev_err(queue->ctrl->ctrl.device,
+>   			"receive failed:  %d\n", result);
+>   		queue->rd_enabled = false;
+>   		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+> -	} else if (result == -EAGAIN)
+> -		result = 0;
+> +	}
+>   
+>   	return result < 0 ? result : (queue->nr_cqe = nr_cqe);
+>   }
+>   
+Remind me again to resend my tcp_recvmsg patch. The blanking out
+of -EAGAIN is actually wrong.
+
+> +static void update_tls_keys(struct nvme_tcp_queue *queue)
 > +{
-> +	struct handshake_req *req;
+> +	int qid = nvme_tcp_queue_id(queue);
+> +	int ret;
 > +
-> +	req = handshake_req_hash_lookup(sk);
-> +	if (!req)
-> +		return;
+> +	dev_dbg(queue->ctrl->ctrl.device,
+> +		"updating key for queue %d\n", qid);
 > +
-> +	trace_handshake_destruct(sock_net(sk), req, sk);
-> +	handshake_req_destroy(req);
+> +	cancel_work(&queue->io_work);
+> +
+Hmm.
+You issue a 'cancel_work()', but later on you call this
+function from within the workqueue context. Not a great
+idea.
+I'd rather calling 'update_tls_keys()' from io_work() only,
+and drop the 'cancel_work()' invocation as that would be
+pointless now.
+
+> +	nvme_stop_keep_alive(&(queue->ctrl->ctrl));
+> +	flush_work(&(queue->ctrl->ctrl).async_event_work);
+> +
+> +	ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
+> +				 queue, queue->ctrl->ctrl.tls_pskid,
+> +				 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> +
+> +	if (ret < 0) {
+> +		dev_err(queue->ctrl->ctrl.device,
+> +			"failed to update the keys %d\n", ret);
+> +		nvme_tcp_fail_request(queue->request);
+> +		nvme_tcp_done_send_req(queue);
+> +	}
 > +}
 > +
->   /**
->    * handshake_req_alloc - Allocate a handshake request
->    * @proto: security protocol
-
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+>   static void nvme_tcp_io_work(struct work_struct *w)
+>   {
+>   	struct nvme_tcp_queue *queue =
+> @@ -1407,15 +1447,21 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>   			mutex_unlock(&queue->send_mutex);
+>   			if (result > 0)
+>   				pending = true;
+> -			else if (unlikely(result < 0))
+> +			else if (unlikely(result < 0)) {
+> +				if (result == -EKEYEXPIRED)
+> +					update_tls_keys(queue);
+>   				break;
+> +			}
+>   		}
+>   
+>   		result = nvme_tcp_try_recvmsg(queue);
+>   		if (result > 0)
+>   			pending = true;
+> -		else if (unlikely(result < 0))
+> -			return;
+> +		else if (unlikely(result < 0)) {
+> +			if (result == -EKEYEXPIRED)
+> +				update_tls_keys(queue);
+> +			break;
+> +		}
+>   
+>   		/* did we get some space after spending time in recv? */
+>   		if (nvme_tcp_queue_has_pending(queue) &&
+> @@ -1723,6 +1769,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
+>   			ctrl->ctrl.tls_pskid = key_serial(tls_key);
+>   		key_put(tls_key);
+>   		queue->tls_err = 0;
+> +		queue->user_session_id = user_session_id;
+>   	}
+>   
+>   out_complete:
+> @@ -1752,6 +1799,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+>   		keyring = key_serial(nctrl->opts->keyring);
+>   	args.ta_keyring = keyring;
+>   	args.ta_timeout_ms = tls_handshake_timeout * 1000;
+> +	args.user_session_id = queue->user_session_id;
+>   	queue->tls_err = -EOPNOTSUPP;
+>   	init_completion(&queue->tls_complete);
+>   	ret = tls_client_hello_psk(&args, GFP_KERNEL, keyupdate);
 
 Cheers,
-
 Hannes
 -- 
 Dr. Hannes Reinecke                  Kernel Storage Architect
