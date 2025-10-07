@@ -4,95 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38FA6CAC5B8
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Oct 2025 00:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A10E5CAC5B8
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Oct 2025 01:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2UxzPjq4bfBAqt8odMbxV/jMDGXYJds2ek2mqe8HYOw=; b=XOCN/a6P3i5qiOOpNvjkJGA9ZD
-	XmqyVXj6BcL29G+FpIRpkrE5HcSYurxxfxPvFJHSHcNQ053P/MeUtHmSRRnJa1GDLOlCWBjm/iBFZ
-	Y7C4yWpZfXIvkHfoF09G15kmDVubjfrAy/ehsI8TSr3VGYvFaNd8SpGj4VEePo3WePrt/gPSzsZSl
-	2wg5LQlrCGc9M4CmEugaOuPxCUmMwdrUGyR/QV6ueFRDGnoz3dCeDFtZiqt/adUemCsTYT0bl47q8
-	FZ5RIQKSePybmorp5FJlqS4nwg600Vx96q7Ft5QX9R+Dc34zVROWTaUm1BnJSxy68PaKOAIjDdM2E
-	cXblhJIg==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=t47vpiwRUGgVZgrjR0ubmEzxDtialDVYBK5r+ezzR+E=; b=GiMM/dPH1Y3q/pp/CsiaVsHtMW
+	kavHx7HdvgII4NxRKkpCgkKCNsgXwO3773r4SNTFyf0GECOefpx8BGy2JVuH4pG7PYQKU9fMHPTaP
+	wW8aWq8cyr4zVe+5M5EnvlrapWy/A1bjZ2jPXTaP/YLLZs12Z4j/8YbTX3WNAW+0xLHzZiPrX4pD7
+	UiNYCt7ADh3Mchjc6ENiRTFZcbk0VxOVdFC+2QHkyFlYNbX7pqNYwMx7pmqe33K2+w00Lx/THlh3o
+	oKaVb9ABU3A5dSaqE6Fuwh8Avym0NGgPrvYsHtZKShxgHOEY6K3zdymqivmJuvjceX6zGlhO0GRwp
+	w15w4arQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v5vrt-000000014el-3s1p;
-	Tue, 07 Oct 2025 00:47:53 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1v5wPs-000000017QB-3bak;
+	Tue, 07 Oct 2025 01:23:00 +0000
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v5vrr-000000014eQ-1aGk
+	id 1v5wPp-000000017NX-2TLM
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Oct 2025 00:47:52 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-78af743c232so4604296b3a.1
-        for <linux-nvme@lists.infradead.org>; Mon, 06 Oct 2025 17:47:50 -0700 (PDT)
+	Tue, 07 Oct 2025 01:22:58 +0000
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-6318855a83fso11634924a12.2
+        for <linux-nvme@lists.infradead.org>; Mon, 06 Oct 2025 18:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759798070; x=1760402870; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2UxzPjq4bfBAqt8odMbxV/jMDGXYJds2ek2mqe8HYOw=;
-        b=R+O6XNcGCRLdCbuwKbizZSLeBVxmAIfe5zIgjO0uwhCjhvTGGfWUv6qC+HAa8nUA1q
-         VG7qPhbtnbExlRUF2aZwIJmHu9gLyBoL3KnlQuOsxfAvlRHPibOC+Rds+nGBM+jHk4Ka
-         60yi5YhNptduvMU4fIN04dYzL0O5i5POSCL1aUgsVi2vH4SAF5QGC/9hS/7AxQFzpWsJ
-         gfVYnq5qiS2imsca30GJVRwVzwvKNSV7lmPI7TY1dDLJV1vbHiIpi5Fcr06spTc1/rmf
-         bWTVeBoaCIBfTp1bgnQARXujFBbo6N9UWGhOuiEB3QyL61rMzRHMewhUvMyehXYanWoJ
-         jHNw==
+        d=gmail.com; s=20230601; t=1759800175; x=1760404975; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t47vpiwRUGgVZgrjR0ubmEzxDtialDVYBK5r+ezzR+E=;
+        b=JtTNK4PRLgIcYlYebblPckWArgDEB4kaO8Xn7gdoajUfulODSGafy39dR7uH5OrA3f
+         xDrXZEGHxJxAm7wlro8jpNUjapbuwsKJsh9rLjIgmG/yd7LKFJSGaNPHV2T1wUGBAYfi
+         bfuyJUTxO8HvIRcdyFymvOEeRHp5anTW9xR4hIzl+gNQp/l9qgIyfElmIxKj7YyDZ3QX
+         Lffovu4AuU2fukwqCT8pfxy10PPh+76B77cc2Fjj4pqDQX17taJn7P+jopOBG8OalMK7
+         5XMSTX9B3JeAVpLx8pe468ASna6ijbntqI37VWvG6VjmEkabkK1at1NiTphwFCov+JyG
+         TQAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759798070; x=1760402870;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2UxzPjq4bfBAqt8odMbxV/jMDGXYJds2ek2mqe8HYOw=;
-        b=Z9EV/lo2KYylxTr3LH9pnApczv4GspGjm/w5Wy4MteUhYC5TNLQm6qulJap6Cz2WFQ
-         xmZgJkWhilSQ9N4N25I4kVRvRNuaBM972wPiSfMKkJlwHgXfucBUsERX/yQ1I4yyOBQm
-         SY1L57ATOTPNZ8kOrig7EuKQboAA9R++D5wjD7BUsmenpqpA/dpq8kB3XvhLmfn1kVyy
-         QtJx/AkQsPavnpvVHC3eqfRsKxP0j/UG5yhRwlQz0ZYUyoYqIZaf5jK/Tf3s1VSBsred
-         wSKR9i0AKE6nfu51YyP75a741dp9Uo6K53VmjWm4EztJFgZ1AEnvmoyoxQS8K5MJ7BvZ
-         TxfQ==
-X-Gm-Message-State: AOJu0YwIc6B0y7F6ddykDBUMEGDtOr9dQ1rvAJuyNOY+HI4cKFCxiIuL
-	xDSH/hP6s73BKONXYVBRkSJcfWORNjDT4+XF0xxPZ30AXSiCrM7S0vlKhAJkFupB
-X-Gm-Gg: ASbGnctijmwkIiHHeGwRhYRHOgF9eME3r0NaMFypThay4wuUfja+ZoCsejJhsqwd4eO
-	sSRIF1KvkLxZeMSMRA/m9j04s8F1906sBMKVRUFoJ+DPs1ASbdXZZIWUAPUjnuivXFucnhqkgZX
-	pA8fwCwhs+guT6zKiGPet6L5+SPnRlOgiZ605asnMzhadTheZRThZoPXd0B3GFjX2IQ3B7SnFKi
-	C1tiDym/fUiGSZ4D6PjdwxtcMfz4Ad+lNaLvNT33JDD13FuJE1pE1JRX+y7EKheE2HxOW99bftt
-	5zZGCED+0QJBoXBQse/03HeYb66dE1uKYZ2Iv2neYCOi0hoh4TV0kUW+SjRq5KFvtktyKwADs/F
-	5igLCzwdSJIod7T2fRGG2hNVfk9uRiV8pVHuDQohTwRKuMKvY5lPfYfY=
-X-Google-Smtp-Source: AGHT+IFMHyFATUeNe+Fl/tyGv+NYdpmbcD1fdDtkwTi3zmOMHIkIEROkuXuqnLBQ4I7USPiqifZxCg==
-X-Received: by 2002:a17:902:f54e:b0:24b:1625:5fa5 with SMTP id d9443c01a7336-28e9a54ed9dmr169316955ad.11.1759798070010;
-        Mon, 06 Oct 2025 17:47:50 -0700 (PDT)
-Received: from fedora ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1ba19asm146468945ad.64.2025.10.06.17.47.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 17:47:49 -0700 (PDT)
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH] nvme/tcp: handle tls partially sent records in write_space()
-Date: Tue,  7 Oct 2025 10:46:35 +1000
-Message-ID: <20251007004634.38716-2-wilfred.opensource@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1759800175; x=1760404975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t47vpiwRUGgVZgrjR0ubmEzxDtialDVYBK5r+ezzR+E=;
+        b=P12OObdeanjoOyYgs1dEbnGMM1zGy8WcVAzPcHSA3/+UDI2cIQNe/+nfvWvRYSk1Mf
+         07hNpPJjOzKi329pKr8noe44jHW5HOuaQb5CBux9n7NuywmLZ/i6uiUawLKWL9b11aNt
+         29xs9HWNF/t7SZdM/RefZMLtU10Dy0JdNjJgrLBF61t2Zze7gGXX0H3HlfYnKjgZ6929
+         Reh8/vU7rkDjLMW8d7YY5oIqT9cPhZj0Zk11pGnxnVWEpsbv0CWSpJENVlFmszj1P4P9
+         wC3e/gyPUM/Sgh749skEIiZ3pznLC8D61D9hZbhsY3Y64oHFlJLTnofHBOfhdtxqGXDf
+         OCUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXx8olwjYSmwd2nzyo4TgfZKzhY+EPunLoP/QbZszcuOWLX0FiTFkL0uzEksCwmmyhDVFUzjJaWWNmI@lists.infradead.org
+X-Gm-Message-State: AOJu0YzoPGtgLmptDu/q0vU/SIYdyt0J2+8Stz2SS0R5K7r6yW8+CZuc
+	1ls/H11ORwWiSmJt1HfdxGugOTa0kSAowv64K5qr3tF+ZXWY2/zZNJNBefFcg2I+v38FLVv/Ymc
+	hD+nL/+3vTfjKFshEFa7qdy7cON/jR3c=
+X-Gm-Gg: ASbGncsacqO0co4GByp5lJcWHiK863u4UxSjriAtqiui0RzK6s3tkaBYTFyGk3Wwnrq
+	ahmB9XxTAba9EHmYLadku83AGuDKt1r5lGll5j0xdt0tq1tBA0NG4Y4KCjXWbJhlvrKDXuCd3fe
+	SCkQo1sDFS+SR36rUVziVMOZbCEJ4yKAgL+IdHJ3nnq8ka6DJ1r+i20TQmvcj3t9CCzJ5Dwpt8h
+	Rod1Yl0o14O/qYkK2a8jjggCVzHqI77jcrXfI2U9373PQcULrEvGwN6ZC4PCA==
+X-Google-Smtp-Source: AGHT+IEqVioe1S+GxtMPUCva4kG5CmfdDTTGDPNdiniLUblABnKsGagheixLUyeC/Xqdz84Zg3zCalpzx4OwzsmlUYQ=
+X-Received: by 2002:a05:6402:b0a:b0:638:d495:50a7 with SMTP id
+ 4fb4d7f45d1cf-639348fa973mr13226165a12.16.1759800175262; Mon, 06 Oct 2025
+ 18:22:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251003043140.1341958-1-alistair.francis@wdc.com>
+ <20251003043140.1341958-4-alistair.francis@wdc.com> <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
+In-Reply-To: <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 7 Oct 2025 11:22:29 +1000
+X-Gm-Features: AS18NWA3ErD_gS2cWuFH4B1EU9R8Gp49Hxw1eP3L2D2MX2i73c7hEabcslLmzvQ
+Message-ID: <CAKmqyKMRXKJTQciiqjPXYAFa6UUJ6xkTSdEfU+9HnyNTOx-BxA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/8] net/handshake: Ensure the request is destructed on completion
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251006_174751_423412_D1D15F9B 
-X-CRM114-Status: GOOD (  17.62  )
+X-CRM114-CacheID: sfid-20251006_182257_645747_225DC483 
+X-CRM114-Status: GOOD (  22.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,94 +100,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+On Mon, Oct 6, 2025 at 4:16=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
+:
+>
+> On 10/3/25 06:31, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > To avoid future handshake_req_hash_add() calls failing with EEXIST when
+> > performing a KeyUpdate let's make sure the old request is destructed
+> > as part of the completion.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v3:
+> >   - New patch
+> >
+> >   net/handshake/request.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/net/handshake/request.c b/net/handshake/request.c
+> > index 0d1c91c80478..194725a8aaca 100644
+> > --- a/net/handshake/request.c
+> > +++ b/net/handshake/request.c
+> > @@ -311,6 +311,8 @@ void handshake_complete(struct handshake_req *req, =
+unsigned int status,
+> >               /* Handshake request is no longer pending */
+> >               sock_put(sk);
+> >       }
+> > +
+> > +     handshake_sk_destruct_req(sk);
+> >   }
+> >   EXPORT_SYMBOL_IF_KUNIT(handshake_complete);
+> >
+> Curious.
+> Why do we need it now? We had been happily using the handshake mechanism
+> for quite some time now, so who had been destroying the request without
+> this patch?
 
-With TLS enabled, records that are encrypted and appended to TLS TX
-list can fail to see a retry if the underlying TCP socket is busy, for
-example, hitting an EAGAIN from tcp_sendmsg_locked(). This is not known
-to the NVMe TCP driver, as the TLS layer successfully generated a record.
+Until now a handshake would only be destroyed on a failure or when a
+sock is freed (via the sk_destruct function pointer).
+handshake_complete() is only called on errors, not a successful
+handshake so it doesn't remove the request.
 
-Typically, the TLS write_space() callback would ensure such records are
-retried, but in the NVMe TCP Host driver, write_space() invokes
-nvme_tcp_write_space(). This causes a partially sent record in the TLS TX
-list to timeout after not being retried.
+Note that destroying is mostly just removing the entry from the hash
+table with rhashtable_remove_fast(). Which is what we need to be able
+to submit it again.
 
-This patch aims to address the above by first publically exposing
-tls_is_partially_sent_record(), then, using this in the NVMe TCP host
-driver to invoke the TLS write_space() handler where appropriate.
+Alistair
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
----
- drivers/nvme/host/tcp.c | 8 ++++++++
- include/net/tls.h       | 5 +++++
- net/tls/tls.h           | 5 -----
- 3 files changed, 13 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 1413788ca7d5..e3d02c33243b 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1076,11 +1076,18 @@ static void nvme_tcp_data_ready(struct sock *sk)
- static void nvme_tcp_write_space(struct sock *sk)
- {
- 	struct nvme_tcp_queue *queue;
-+	struct tls_context *ctx = tls_get_ctx(sk);
- 
- 	read_lock_bh(&sk->sk_callback_lock);
- 	queue = sk->sk_user_data;
-+
- 	if (likely(queue && sk_stream_is_writeable(sk))) {
- 		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-+		/* Ensure pending TLS partial records are retried */
-+		if (nvme_tcp_queue_tls(queue) &&
-+		    tls_is_partially_sent_record(ctx))
-+			queue->write_space(sk);
-+
- 		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
- 	}
- 	read_unlock_bh(&sk->sk_callback_lock);
-@@ -1306,6 +1313,7 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
- static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
- {
- 	struct nvme_tcp_request *req;
-+	struct tls_context *ctx = tls_get_ctx(queue->sock->sk);
- 	unsigned int noreclaim_flag;
- 	int ret = 1;
- 
-diff --git a/include/net/tls.h b/include/net/tls.h
-index 857340338b69..9c61a2de44bf 100644
---- a/include/net/tls.h
-+++ b/include/net/tls.h
-@@ -373,6 +373,11 @@ static inline struct tls_context *tls_get_ctx(const struct sock *sk)
- 	return (__force void *)icsk->icsk_ulp_data;
- }
- 
-+static inline bool tls_is_partially_sent_record(struct tls_context *ctx)
-+{
-+	return !!ctx->partially_sent_record;
-+}
-+
- static inline struct tls_sw_context_rx *tls_sw_ctx_rx(
- 		const struct tls_context *tls_ctx)
- {
-diff --git a/net/tls/tls.h b/net/tls/tls.h
-index 2f86baeb71fc..7839a2effe31 100644
---- a/net/tls/tls.h
-+++ b/net/tls/tls.h
-@@ -271,11 +271,6 @@ int tls_push_partial_record(struct sock *sk, struct tls_context *ctx,
- 			    int flags);
- void tls_free_partial_record(struct sock *sk, struct tls_context *ctx);
- 
--static inline bool tls_is_partially_sent_record(struct tls_context *ctx)
--{
--	return !!ctx->partially_sent_record;
--}
--
- static inline bool tls_is_pending_open_record(struct tls_context *tls_ctx)
- {
- 	return tls_ctx->pending_open_record_frags;
--- 
-2.51.0
-
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
