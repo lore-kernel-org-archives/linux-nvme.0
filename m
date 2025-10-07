@@ -4,136 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 695CECCA470
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Oct 2025 05:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1E39CCA470
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Oct 2025 06:26:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=; b=RVoWrs4G/jtJCqAe9FXyUN29xj
-	ShZOvtKbNOUQhPhlVDNeJfVWVjSqz8HfoJY2xh7e1bo/BSJhKB7Vco+K7bCYvnnwlzIlCcf/N2qkq
-	BQb7tE2cIAmJAhvulQmevvZFKCOggD7JsXsiwGRjpNXFbxsLq2/bRo8VEVFlJeZi926zTNVwMq7To
-	L7y8nSfjSqJQPB5dmBELT2y3V8+WaBTT695g+xrHqOAk63xIvNvHTt0pyXod+1HZaiVKojAe10hGy
-	vxyEKXWxJk913g+OCsHJsfxNuYBKXvN/1PBb1PHNd0lGODwJB4fsdvFKlRzKbBsTQ/PTQqAxBBoT+
-	oKOXammw==;
+	bh=erzsNOhJYjArM8j6Efz0Rkv5OHx6MKiQG8qPEOdCBmE=; b=yuoKGVeRzqhUHErd/aOBm1XD8w
+	K9xhWdfioa63ofFMViG7i+/CUnsAtPPCW3dRVGA03APfDHEIRsQMbT3h8GhKzVd53SkKI0n0IpUAB
+	t+Lt4XLTJPpeLMNP5mGDiFbL7KgpSp7cWEfhqGYt/aIRcfE4VeqRmNb3z56XMK1aoBr56me8Z7/Ux
+	MpRwtha8YYwAb4xRrY2YNOkymhAHMd3Pi2h4+62bRaUuMKshytAEG3+nAhsMNoI4m1Ioj51v1pvZH
+	ZMwfJ7I5vxsF2QgqYkcTfvAWhGuvJZgCo/xsuRri5DJAdvp8OwOhOzRyQFcoUmdbqW7v9vpFvBdGt
+	6W6HSHTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v607z-00000001HTk-31zM;
-	Tue, 07 Oct 2025 05:20:47 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1v619z-00000001MBF-32UW;
+	Tue, 07 Oct 2025 06:26:55 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v607x-00000001HTL-3VWg
+	id 1v619x-00000001MAo-1tRE
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Oct 2025 05:20:47 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C7E73200C4;
-	Tue,  7 Oct 2025 05:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759814444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
-	b=c5we6PrYo1pGuwTp/Cs5QK/vv6mmbVe0zIfmUPGoRIRraCp6DT2CC7nH88Lki/oW0/4sXg
-	bYHP04iyQXSHdn+BAxu9A/vWPpLLI1K6qzzHLDfhWGx9v79kIUQgqmnBH3j0xBILG45REt
-	8H2ds8a3HTJM8IvCeJDVdSu9pFhcb6I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759814444;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
-	b=LJCDucyKVPrmz88ztW6RReY1+d3exGE1cnLkoF+TuLF6dppRQY3jTvClmpQoS9aq8y5R7Y
-	6AHEv8QmlmQlxCCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ndt7MTur;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5O4u8oLV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759814443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
-	b=Ndt7MTurV6jwySdwJMlHtcQwYlu8FGcVRuiJzX7daz69YxpUx9mILNC4M6eUxPJkiIYZLG
-	YqkfwiMM+jMcLqVtP7Q+obaaMj2IFdcLiLvvc8TnEcPTIBg8L0N2jb28aje0nLoCUkMI35
-	WtRBcz9G7Kxi9oe1dtksQxxNEjntg0o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759814443;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SGvdoGq2sDvtOQ/E9erAYxSlr7DVxCPV8RYTTOlI3Og=;
-	b=5O4u8oLVKIbSrNQ7CqCqAO62oICSRXylkhPyVkbm15glKQdP9l4zKRlo945hP1+/waY9Mo
-	1jsxZMiroQHHgwAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7044D13693;
-	Tue,  7 Oct 2025 05:20:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fcREGSuj5GiRBQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 07 Oct 2025 05:20:43 +0000
-Message-ID: <4f16296c-c1e1-43c2-8a73-36dabaa2ffd1@suse.de>
-Date: Tue, 7 Oct 2025 07:20:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] net/handshake: Ensure the request is destructed on
- completion
-To: Alistair Francis <alistair23@gmail.com>
-Cc: chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251003043140.1341958-1-alistair.francis@wdc.com>
- <20251003043140.1341958-4-alistair.francis@wdc.com>
- <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
- <CAKmqyKMRXKJTQciiqjPXYAFa6UUJ6xkTSdEfU+9HnyNTOx-BxA@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CAKmqyKMRXKJTQciiqjPXYAFa6UUJ6xkTSdEfU+9HnyNTOx-BxA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: C7E73200C4
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	Tue, 07 Oct 2025 06:26:55 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id 7898268e (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 7 Oct 2025 08:26:48 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 07 Oct 2025 08:26:48 +0200
+Message-Id: <DDBVK80QRT7V.2R17ZR0TPDAHO@bsdbackstore.eu>
+Cc: <kbusch@kernel.org>
+Subject: Re: [PATCH] nvmet-tcp: remove a redundant line in
+ nvmet_tcp_release_queue_work
+From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
+To: "Tomas Henzl" <thenzl@redhat.com>, <linux-nvme@lists.infradead.org>,
+ <sagi@grimberg.me>
+X-Mailer: aerc
+References: <20251006175910.62721-1-thenzl@redhat.com>
+In-Reply-To: <20251006175910.62721-1-thenzl@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251006_222046_024295_257AF85A 
-X-CRM114-Status: GOOD (  18.57  )
+X-CRM114-CacheID: sfid-20251006_232653_905985_4D56830C 
+X-CRM114-Status: GOOD (  13.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,62 +61,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/7/25 03:22, Alistair Francis wrote:
-> On Mon, Oct 6, 2025 at 4:16 PM Hannes Reinecke <hare@suse.de> wrote:
->>
->> On 10/3/25 06:31, alistair23@gmail.com wrote:
->>> From: Alistair Francis <alistair.francis@wdc.com>
->>>
->>> To avoid future handshake_req_hash_add() calls failing with EEXIST when
->>> performing a KeyUpdate let's make sure the old request is destructed
->>> as part of the completion.
->>>
->>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->>> ---
->>> v3:
->>>    - New patch
->>>
->>>    net/handshake/request.c | 2 ++
->>>    1 file changed, 2 insertions(+)
->>>
->>> diff --git a/net/handshake/request.c b/net/handshake/request.c
->>> index 0d1c91c80478..194725a8aaca 100644
->>> --- a/net/handshake/request.c
->>> +++ b/net/handshake/request.c
->>> @@ -311,6 +311,8 @@ void handshake_complete(struct handshake_req *req, unsigned int status,
->>>                /* Handshake request is no longer pending */
->>>                sock_put(sk);
->>>        }
->>> +
->>> +     handshake_sk_destruct_req(sk);
->>>    }
->>>    EXPORT_SYMBOL_IF_KUNIT(handshake_complete);
->>>
->> Curious.
->> Why do we need it now? We had been happily using the handshake mechanism
->> for quite some time now, so who had been destroying the request without
->> this patch?
-> 
-> Until now a handshake would only be destroyed on a failure or when a
-> sock is freed (via the sk_destruct function pointer).
-> handshake_complete() is only called on errors, not a successful
-> handshake so it doesn't remove the request.
-> 
-> Note that destroying is mostly just removing the entry from the hash
-> table with rhashtable_remove_fast(). Which is what we need to be able
-> to submit it again.
-> 
+On Mon Oct 6, 2025 at 7:59 PM CEST, Tomas Henzl wrote:
+> cancel_work_sync(&queue->io_work) is called twice, remove the
+> second instance.
+>
+> Signed-off-by: Tomas Henzl <thenzl@redhat.com>
+> ---
+>  drivers/nvme/target/tcp.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 470bf37e5a63..a1d0f6b18b2c 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1577,7 +1577,6 @@ static void nvmet_tcp_release_queue_work(struct wor=
+k_struct *w)
+>  	nvmet_tcp_uninit_data_in_cmds(queue);
+>  	nvmet_sq_destroy(&queue->nvme_sq);
+>  	nvmet_cq_put(&queue->nvme_cq);
+> -	cancel_work_sync(&queue->io_work);
+>  	nvmet_tcp_free_cmd_data_in_buffers(queue);
+>  	/* ->sock will be released by fput() */
+>  	fput(queue->sock->file);
 
-And we really should've done that in the first place.
-Thanks for the explanation.
+I am not sure it's safe to remove it because io_work can potentially
+re-enqueue itself.
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+The second call to cancel_work_sync(), after rcv_state is set to
+NVMET_TCP_RECV_ERR, should ensure that no more "io_work"s are pending
+on the workqueue.
 
-Cheers,
-
-Hannes--
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Maurizio
 
