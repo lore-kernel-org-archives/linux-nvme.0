@@ -4,95 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8656FCCA476
-	for <linux-nvme@archiver.kernel.org>; Tue,  7 Oct 2025 09:25:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7256CCA470
+	for <linux-nvme@archiver.kernel.org>; Tue,  7 Oct 2025 09:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LXAk2vNpOi2a4GZEEdq+/3BrMz7MdeYNSazlKM1phvE=; b=v0OxUADbaeCLGGcJH4/vkGXkiI
-	VL+1BD7HS3lOHlfufq/NhLkcKfT1ve11jeYWlrPioHIKhQuU7a0TJFvV91eQI3qlTT5wNJR5H+HjM
-	5oz2VR+h2Vv/955qY4YkGlGde6SS7IDtf/8aT4CQyI1BH+H8ODQELHrcBXi858a2sbS50pbPLliQz
-	9g5lfmvsTnb+kUMDolnp/djJNJ4pnMAk0iPdHuImvHIBLClyVkoUxdCif3XxKcjDWqK1RyHbPK11M
-	gv0/dc0ROzhxwWrdbioCJ+3l/xHLMNn+j04d9b0Jga7hQPcOeWsPKAwKlTUmnK8mbb10vR0U2R7l2
-	jYh3a8Jw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7hXPaqmmq2s2Y3lyXsf2ahFy73j+9/j9vaK8FcUsZ9k=; b=sMayGF+S3Y6aPIjFOj4eSifJeQ
+	Jrd/Xku5aIADIupDoANM7iu4ivLKqBfSiUVwjWHcmG3QKI7Cvxzfy3AUJrA8RHqiXKoROhDno3tn4
+	460NlL5ixa4Zt4xYVgcZgBaQlQBlBU9HqmwddUjGOe67FdX42sKk8zFMSP1NM/NfslCsjJorPKcKi
+	rTmqyYkyv/O+nvsaQHtcGSDb22UGVoyOnK31jq4R/MRwnclrcxtovRdUyDfpxuizJPEtD0VY4ETGX
+	IRT386iXybztiOba0BWla+kV+lwX3sn4JUf+6UuISePdIAAuY2Tfix3z55R4ffYBG6wyApiUiGVJv
+	KVFYeqBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v63wO-00000001heZ-01JX;
-	Tue, 07 Oct 2025 09:25:04 +0000
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+	id 1v64M5-00000001kBt-2lZe;
+	Tue, 07 Oct 2025 09:51:37 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v63wK-00000001hdY-34Qa
+	id 1v64M3-00000001kB0-1e9Z
 	for linux-nvme@lists.infradead.org;
-	Tue, 07 Oct 2025 09:25:01 +0000
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-b556284db11so5707301a12.0
-        for <linux-nvme@lists.infradead.org>; Tue, 07 Oct 2025 02:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759829100; x=1760433900; darn=lists.infradead.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LXAk2vNpOi2a4GZEEdq+/3BrMz7MdeYNSazlKM1phvE=;
-        b=MRz0umGhy9PBNwzWl4An5zy+4s1HuNdNX4HTsYzD/n7zGqYup6uwSp4Lj8Dj2QLjTw
-         Dqz1TiumeYBY319dtki7df3pXBCiBKMORYaW9OuVkPpxF1WBSJLbyr9tARJaVutCLC+Q
-         wUsrFAQMXh8J6Igxuvl+ARNbe3kX+KEac1PAc/JGU4T9FbI1oEU0imQCiOsJjsX0ZrRj
-         7HNVmOpqnN/MWuh6vmjFLc+fhOKIY1lWyCAi+KoB95gQsimlA5qEH2nDPA5s+bAaQMs0
-         MYN3h2fIdsK8WMYo6Ald/gVV3GyeJx9+wOut+uFEqYqPXvx9rA3uSxmVjpQ7OGzddwsp
-         DUdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759829100; x=1760433900;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LXAk2vNpOi2a4GZEEdq+/3BrMz7MdeYNSazlKM1phvE=;
-        b=KMiFwdDJjMNgKmPnHMyaaWF4VYalPTVmbxe5rH8eUr/NNhY7HxWNBIdIWVc2INJtPF
-         EDlW3PpsBJMLI7q8kuN1P4xBI/Q5VjzOzjupKLlM78XnCvaC66VJh/Fm7tW0URTmWk2O
-         Q8DRSnyrAXBdEM4aAtmtXtXsolUXPzNwckIBOru52UAsrT/lRrqbDvrEVxH8yBSaCsj9
-         soWtJebY1XzBOtOPYd+ZOR8HdCDLCMXPUAXuy9mWfcIrjt8oNg98qbvs2SqljIz7Diec
-         UCLjjt9IIft+68weBMCmFi1V0pifwLH8txx9JaRcC6r0FO60/4q0CoxGabCVCOSZUQyZ
-         cc7g==
-X-Forwarded-Encrypted: i=1; AJvYcCW4At58LLQny6eOtS9au72pYo0jOlXokfPSjxqt8GGv8yBPt9SJbkJhTy0gL5q0htFwRwpAjcsJkmuA@lists.infradead.org
-X-Gm-Message-State: AOJu0YzcoWgdyoRpieMMsm+qFH4JeDSBzGirwSM6X1c4NDe0vk7/Rg/u
-	TBwZdIf+NRLdYH4qjfKFKgMwuwVF8IncPDeMUjkPeEYsFlZ8M5MHLpHF
-X-Gm-Gg: ASbGncuSA7ms3h/zlJlQ5+wnMI1T39tVW9zm1hUBv0+hGW9e8AYDH8MQltFJmf1mp8o
-	9WsLvt0FODPxRcFLyquMNkrSu/PQIgt95MphXjWtONBbAuVOdZ6m4KkyZgGfl4W/yf2GrXaM6r/
-	eizZNJ/l6w4ZxZD7qA6M/BiSjz5UOi1u0er9zwT2YBXpAOfWV8gtDVVhFqWWy1X4foLEC3cSMRF
-	4xxAqEMo9kLpc49mXpu4RRp0/539g9h/QGRYwEp7Kc1gF9IEMx8vsLDGM0AEvyp6f2X/ZlqTdTe
-	lfTn+zUG8D1W01ESuH2MPV0TH82lJ22brt3J2fIOzGHrrVIvX69KZXtBszWO/b5YNnvpL3nuVI8
-	4Vp4oURhYS2t2B/vh2VC1iLpxrF2i6m6bm2xs0HhLHiU+GPs2IK3wgW0r/6aWn974K0CRwf9ehM
-	az
-X-Google-Smtp-Source: AGHT+IH8IaODEbFJZ73jU5YNNWrbKeRhGSBDhqmPEMfJXu/w4VpklqvjWqqlypiPmg3Qz+KDVUviRw==
-X-Received: by 2002:a17:902:ce01:b0:24c:e6fa:2a38 with SMTP id d9443c01a7336-28e9a606f2amr222264685ad.25.1759829099825;
-        Tue, 07 Oct 2025 02:24:59 -0700 (PDT)
-Received: from [192.168.0.69] ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28ec57a2dd6sm33737055ad.67.2025.10.07.02.24.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 02:24:59 -0700 (PDT)
-Message-ID: <339cbb66fbcd78d639d0d8463a3a67daf089f40d.camel@gmail.com>
+	Tue, 07 Oct 2025 09:51:36 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 268BE1F7B7;
+	Tue,  7 Oct 2025 09:51:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759830692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7hXPaqmmq2s2Y3lyXsf2ahFy73j+9/j9vaK8FcUsZ9k=;
+	b=Dnwj/8PaBsqiZdcg3fy/YHJKs9ngFLes8ErwGbAKwBpxAxGkosdYZcymQbd2ezu+WTVvOh
+	e1QpViuPhxgMQQ4yLfD/FrYUHHj4gsPvzEilFDUTCJLS2DVWJQMLmx6rWp5rZxeiOdx6Gy
+	SZDjIITrSeI0cg8Lu+FveuMjro5lrDI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759830692;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7hXPaqmmq2s2Y3lyXsf2ahFy73j+9/j9vaK8FcUsZ9k=;
+	b=Z0OLcOkBD4fuK/FQWLJqP2gC9h+WJ8a+X/Fg7IIduo2zVzsSLl3DRthWmTP8ohtMoNqrsO
+	Iz2K8LoWU5mRJQDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759830692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7hXPaqmmq2s2Y3lyXsf2ahFy73j+9/j9vaK8FcUsZ9k=;
+	b=Dnwj/8PaBsqiZdcg3fy/YHJKs9ngFLes8ErwGbAKwBpxAxGkosdYZcymQbd2ezu+WTVvOh
+	e1QpViuPhxgMQQ4yLfD/FrYUHHj4gsPvzEilFDUTCJLS2DVWJQMLmx6rWp5rZxeiOdx6Gy
+	SZDjIITrSeI0cg8Lu+FveuMjro5lrDI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759830692;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7hXPaqmmq2s2Y3lyXsf2ahFy73j+9/j9vaK8FcUsZ9k=;
+	b=Z0OLcOkBD4fuK/FQWLJqP2gC9h+WJ8a+X/Fg7IIduo2zVzsSLl3DRthWmTP8ohtMoNqrsO
+	Iz2K8LoWU5mRJQDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F2F1013AAC;
+	Tue,  7 Oct 2025 09:51:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id n320OqPi5Gi2VgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 07 Oct 2025 09:51:31 +0000
+Message-ID: <8e5a3ff3-d17a-488f-97fb-3904684edb47@suse.de>
+Date: Tue, 7 Oct 2025 11:51:31 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] nvme/tcp: handle tls partially sent records in
  write_space()
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, John Fastabend
- <john.fastabend@gmail.com>,  Jakub Kicinski	 <kuba@kernel.org>, Sabrina
- Dubroca <sd@queasysnail.net>, "David S . Miller"	 <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni	 <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>
-Date: Tue, 07 Oct 2025 19:24:53 +1000
-In-Reply-To: <0bf649d5-112f-42a8-bc8d-6ef2199ed19d@suse.de>
+To: Wilfred Mallawa <wilfred.opensource@gmail.com>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ John Fastabend <john.fastabend@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Sabrina Dubroca <sd@queasysnail.net>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
 References: <20251007004634.38716-2-wilfred.opensource@gmail.com>
-	 <0bf649d5-112f-42a8-bc8d-6ef2199ed19d@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
-MIME-Version: 1.0
+ <0bf649d5-112f-42a8-bc8d-6ef2199ed19d@suse.de>
+ <339cbb66fbcd78d639d0d8463a3a67daf089f40d.camel@gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <339cbb66fbcd78d639d0d8463a3a67daf089f40d.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,kernel.dk,lst.de,grimberg.me,gmail.com,queasysnail.net,davemloft.net,google.com,redhat.com];
+	FREEMAIL_TO(0.00)[gmail.com,lists.infradead.org,vger.kernel.org];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251007_022500_802621_4936EA2C 
-X-CRM114-Status: GOOD (  21.09  )
+X-CRM114-CacheID: sfid-20251007_025135_579339_DC6DF84B 
+X-CRM114-Status: GOOD (  16.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,83 +145,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 2025-10-07 at 07:19 +0200, Hannes Reinecke wrote:
-> On 10/7/25 02:46, Wilfred Mallawa wrote:
-> > From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> >=20
->=20
-[...]
-> I wonder: Do we really need to check for a partially assembled
-> record,
-> or wouldn't it be easier to call queue->write_space() every time
-> here?
-> We sure would end up with executing the callback more often, but if
-> no
-> data is present it shouldn't do any harm.
->=20
-> IE just use
->=20
-> if (nvme_tcp_queue_tls(queue)
-> =C2=A0=C2=A0=C2=A0=C2=A0 queue->write_space(sk);
+On 10/7/25 11:24, Wilfred Mallawa wrote:
+> On Tue, 2025-10-07 at 07:19 +0200, Hannes Reinecke wrote:
+>> On 10/7/25 02:46, Wilfred Mallawa wrote:
+>>> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>>>
+>>
+> [...]
+>> I wonder: Do we really need to check for a partially assembled
+>> record,
+>> or wouldn't it be easier to call queue->write_space() every time
+>> here?
+>> We sure would end up with executing the callback more often, but if
+>> no
+>> data is present it shouldn't do any harm.
+>>
+>> IE just use
+>>
+>> if (nvme_tcp_queue_tls(queue)
+>>       queue->write_space(sk);
+> 
+> Hey Hannes,
+> 
+> This was my initial approach, but I figured using
+> tls_is_partially_sent_record() might be slightly more efficient. But if
+> we think that's negligible, happy to go with this approach (omitting
+> the partial record check).
+> 
+Please do.
+Performance testing on NVMe-TCP is notoriously tricky, so for now we
+really should not assume anything here.
+And it's making the patch _vastly_ simpler, _and_ we don't have to
+involve the networking folks here.
+We have a similar patch for the data_ready() function in nvmet_tcp(),
+and that seemed to work, too.
+Nit: we don't unset the 'NOSPACE' flag there. Can you check if that's
+really required? And, if it is, fixup nvmet_tcp() to unset it?
+Or, if not, modify your patch to not clear it?
 
-Hey Hannes,
+Cheers,
 
-This was my initial approach, but I figured using
-tls_is_partially_sent_record() might be slightly more efficient. But if
-we think that's negligible, happy to go with this approach (omitting
-the partial record check).
-
-Wilfred
-
->=20
-> > @@ -1306,6 +1313,7 @@ static int nvme_tcp_try_send_ddgst(struct
-> > nvme_tcp_request *req)
-> > =C2=A0 static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	struct nvme_tcp_request *req;
-> > +	struct tls_context *ctx =3D tls_get_ctx(queue->sock->sk);
-> > =C2=A0=C2=A0	unsigned int noreclaim_flag;
-> > =C2=A0=C2=A0	int ret =3D 1;
-> > =C2=A0 And we need this why?
->=20
-> > diff --git a/include/net/tls.h b/include/net/tls.h
-> > index 857340338b69..9c61a2de44bf 100644
-> > --- a/include/net/tls.h
-> > +++ b/include/net/tls.h
-> > @@ -373,6 +373,11 @@ static inline struct tls_context
-> > *tls_get_ctx(const struct sock *sk)
-> > =C2=A0=C2=A0	return (__force void *)icsk->icsk_ulp_data;
-> > =C2=A0 }
-> > =C2=A0=20
-> > +static inline bool tls_is_partially_sent_record(struct tls_context
-> > *ctx)
-> > +{
-> > +	return !!ctx->partially_sent_record;
-> > +}
-> > +
-> > =C2=A0 static inline struct tls_sw_context_rx *tls_sw_ctx_rx(
-> > =C2=A0=C2=A0		const struct tls_context *tls_ctx)
-> > =C2=A0 {
-> > diff --git a/net/tls/tls.h b/net/tls/tls.h
-> > index 2f86baeb71fc..7839a2effe31 100644
-> > --- a/net/tls/tls.h
-> > +++ b/net/tls/tls.h
-> > @@ -271,11 +271,6 @@ int tls_push_partial_record(struct sock *sk,
-> > struct tls_context *ctx,
-> > =C2=A0=C2=A0			=C2=A0=C2=A0=C2=A0 int flags);
-> > =C2=A0 void tls_free_partial_record(struct sock *sk, struct tls_context
-> > *ctx);
-> > =C2=A0=20
-> > -static inline bool tls_is_partially_sent_record(struct tls_context
-> > *ctx)
-> > -{
-> > -	return !!ctx->partially_sent_record;
-> > -}
-> > -
-> > =C2=A0 static inline bool tls_is_pending_open_record(struct tls_context
-> > *tls_ctx)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	return tls_ctx->pending_open_record_frags;
-> See above. If we were calling ->write_space unconditionally we=20
-> wouldn'teven need this export.Cheers,Hannes
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
