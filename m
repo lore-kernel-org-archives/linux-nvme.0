@@ -4,61 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F455CCD187
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Oct 2025 15:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11240CCD183
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Oct 2025 15:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=h3sjYs7TwKO5MdT4mEUHlp8nrIdd+x6qO+9WiSK5KBo=; b=cmS8kFgSr+UEXJ77XHhKiWYzxc
-	Ui5aSiBt8MilEIn4Hn3YUxvDmFb1d0shI87riOMx1+X2qk1k0fgE2JiiRHYMbMEktvk7x7XX1iV95
-	sgNTq9ymI+3VJpM8SWXnCN5AESi2TpiGH+glaX+vTAdk1szZVN36JzcLZjvXU6bWKXVuDqbAcMsHt
-	Z29JLeBCDIO3Mlt9rPQWjOVlIx3K/wObbmdGcrIVZxFTTmXxFUMAWiiju3PP6b7SmRnk3ke40RFw6
-	qYZvjyJd6vHFCBCeR1zqeyGcm0u8NMTdRc0S2OYAV7DxNQnB9hacenK4+yWmyl/GS9D/RVgbnJy55
-	Esjqh8AA==;
+	bh=G7/pFRGLk1Xma/9LFyMX95/isS2VnJo05zgjplAw4Sw=; b=tZsmbt9iAU/ochsUV5GdAbZh0Z
+	JN+NNJRa2hGyy0/4A9ChOOpHxXJT8DihQZmzBa43Y+Qbmxi3dhxsvBqwRshA8tg3Du2EC/+Eq1Fqp
+	Uc0Ov7fscP7+9towh+RRSwpw5pRioeclLNBMmoi+WvHzNrbKSh66CcBJ1JZ7P2EyzWDvNN/3e2jeY
+	flRi0to0enNBco1k6YlbC/vhbp1Ppc4i40Dickb26a3ZgBymnuUaRbM+5xkJJEHi0AoRzsKu4r/bl
+	8y1lbUWrKgQALE5SesrS4LwBcjajqejF2gBY/lXg7U3Aa6u9qfYUTptgwgh1dMjZketLvThdZ2TnM
+	p4vyJXvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6t21-00000006adY-2fno;
-	Thu, 09 Oct 2025 15:58:17 +0000
+	id 1v6t2u-00000006b5j-1EL8;
+	Thu, 09 Oct 2025 15:59:12 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6t1z-00000006acW-31Or
+	id 1v6t2t-00000006b4K-00S5
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Oct 2025 15:58:15 +0000
+	Thu, 09 Oct 2025 15:59:11 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 238B362366;
-	Thu,  9 Oct 2025 15:58:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D82C4CEF7;
-	Thu,  9 Oct 2025 15:58:13 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 4E33C6236A;
+	Thu,  9 Oct 2025 15:59:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00426C4CEF7;
+	Thu,  9 Oct 2025 15:59:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760025494;
-	bh=vf9lXfhJkmvZ4gOreQJTZxAVrmsPZT8DFyk3EjXjbNw=;
+	s=k20201202; t=1760025549;
+	bh=l7/7eUi2mjzkYxpZeBHXxPnQp1fR3KlCIejpfYTIw7s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q4J4K92OS7w/TQsj9btR3Ld1XSZ8MeDWNisSbN09t3OXgIxNOP15YZWUxz+NLioFF
-	 7ZIbA4c4NCy7gbs0dOqv05wIuGZHgXg2/fZppxTvSqSVc2eL9lQ3gdSVcTMeg5jYnJ
-	 n0EAw6veYid6HQWMQvyBBU6uhkc8Gs03uhDgMXH0d+YhnRwGNeDuD45NtocWgAmluv
-	 xialESWo7oCT1hmN4CBw4yZ3sF5OjmyxSs5YWUKjGpQr9Hjle/agCVUhhsjto4oH/H
-	 f6tPiuoprkehBBmUgHoCrXQN/fL9fZkVX74ul8Tbw7Q8AyyOYWeqkTgE1EaCSh0DIq
-	 5h59VxF7qqTsg==
+	b=aFjUssgpx8MC7ZyMW17AldPm1+991gwWJ04iJQ6khVrFOubz635jgmGclZx7mmLWE
+	 HdUcasbN6758DLSf6J1XBHhBS7OSSHVd/KNWEfTtfDWzwl7iJz+DJz9AZbXgN7Y9/N
+	 Z7CBIvex3lLr+TJl8bG5NP59RrUrlYYJUqWcTBNlJTVOPw+2RtlntiK5rtMpZMZrTe
+	 5umu4e7d56XcDfXDE9NoDsyScMNvtc/YNAKqX8GPcQRXA7i1tZC4PGUhsg3Fvc3OBm
+	 KwDQzgh9/+dEG0tyFegmeMLhOSDWeXu3yvzCyFSDAubX2Cn9CvvxEeIt215YcTQZXP
+	 35hOHbW8PEOhg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Daniel Wagner <wagi@kernel.org>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
 	Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com,
-	paul.ely@broadcom.com,
 	sagi@grimberg.me,
-	kch@nvidia.com,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.17-5.15] nvmet-fc: avoid scheduling association deletion twice
-Date: Thu,  9 Oct 2025 11:54:41 -0400
-Message-ID: <20251009155752.773732-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.17-6.1] nvme: Use non zero KATO for persistent discovery connections
+Date: Thu,  9 Oct 2025 11:55:07 -0400
+Message-ID: <20251009155752.773732-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251009155752.773732-1-sashal@kernel.org>
 References: <20251009155752.773732-1-sashal@kernel.org>
@@ -82,105 +78,143 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <wagi@kernel.org>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-[ Upstream commit f2537be4f8421f6495edfa0bc284d722f253841d ]
+[ Upstream commit 2e482655019ab6fcfe8865b62432c6d03f0b5f80 ]
 
-When forcefully shutting down a port via the configfs interface,
-nvmet_port_subsys_drop_link() first calls nvmet_port_del_ctrls() and
-then nvmet_disable_port(). Both functions will eventually schedule all
-remaining associations for deletion.
+The NVMe Base Specification 2.1 states that:
 
-The current implementation checks whether an association is about to be
-removed, but only after the work item has already been scheduled. As a
-result, it is possible for the first scheduled work item to free all
-resources, and then for the same work item to be scheduled again for
-deletion.
+"""
+A host requests an explicit persistent connection ... by specifying a
+non-zero Keep Alive Timer value in the Connect command.
+"""
 
-Because the association list is an RCU list, it is not possible to take
-a lock and remove the list entry directly, so it cannot be looked up
-again. Instead, a flag (terminating) must be used to determine whether
-the association is already in the process of being deleted.
+As such if we are starting a persistent connection to a discovery
+controller and the KATO is currently 0 we need to update KATO to a non
+zero value to avoid continuous timeouts on the target.
 
-Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Closes: https://lore.kernel.org/all/rsdinhafrtlguauhesmrrzkybpnvwantwmyfq2ih5aregghax5@mhr7v3eryci3/
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-YES – this prevents a real use-after-free when an FC target port is torn
-down through configfs.
+YES
 
-- `nvmet_port_subsys_drop_link()` first calls `nvmet_port_del_ctrls()`
-  and then `nvmet_disable_port()`
-  (`drivers/nvme/target/configfs.c:1088`,
-  `drivers/nvme/target/core.c:301`), and both paths funnel into
-  `__nvmet_fc_free_assocs()` which queues `assoc->del_work`
-  (`drivers/nvme/target/fc.c:1482`). So a forced shutdown schedules the
-  same association cleanup twice.
-- The guard that’s supposed to stop duplicates only runs inside
-  `nvmet_fc_delete_target_assoc()` after the work executes
-  (`drivers/nvme/target/fc.c:1201`), so the second caller can still re-
-  queue the work once the first invocation has freed the association,
-  hitting the race reported on the mailing list.
-- The patch simply flips the `terminating` flag before queueing
-  (`drivers/nvme/target/fc.c:1076` in the new code) and removes the
-  redundant check from the worker. That keeps the work from ever being
-  queued a second time, exactly matching the original intent with no
-  behavioural side effects.
-- Change is tiny, isolated to the nvmet-fc transport, and has no
-  dependencies beyond the existing `assoc->terminating` infrastructure
-  (already present in supported stable series), so the risk of
-  regression is minimal while the bug being fixed can crash systems
-  under administrative port removal.
+- What it fixes
+  - Aligns Linux host behavior with NVMe Base Spec 2.1 requirement that
+    a host must specify a non-zero Keep Alive Timer in the Connect
+    command to request an explicit persistent discovery connection. The
+    previous behavior left `KATO=0` for discovery controllers even when
+    the connection became persistent, causing targets to time out and
+    drop connections.
 
-If you’re carrying stable trees that include the fc target (v6.10 and
-earlier back to when `assoc->terminating` was introduced), you should
-pick this up; older branches without the later queue_work refcount patch
-just need the same flag move applied to their local
-`nvmet_fc_schedule_delete_assoc()`.
+- Code change and behavior
+  - In `nvme_start_ctrl()` (`drivers/nvme/host/core.c:4998`), on
+    reconnect for discovery controllers
+    (`test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags)` and
+    `nvme_discovery_ctrl(ctrl)`), the patch:
+    - Checks if `ctrl->kato` is zero.
+    - If zero, calls `nvme_stop_keep_alive(ctrl)`, sets `ctrl->kato =
+      NVME_DEFAULT_KATO`, then `nvme_start_keep_alive(ctrl)`.
+    - Still sends the rediscover uevent: `nvme_change_uevent(ctrl,
+      "NVME_EVENT=rediscover")`.
+  - This immediately starts keep-alive commands after a persistent
+    discovery reconnect and ensures subsequent Connect commands
+    advertise non-zero KATO.
 
- drivers/nvme/target/fc.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+- Why this is correct and effective
+  - Immediate effect: Even if the just-completed Connect used `kato=0`,
+    forcing a non-zero `kato` here starts the host keep-alive work right
+    away, avoiding target keep-alive timeouts after a persistent
+    reconnect.
+  - Future connections: `nvmf_connect_cmd_prep()` sets Connect’s KATO
+    from `ctrl->kato` (`drivers/nvme/host/fabrics.c:426`). With this
+    change, the next reconnection will send a non-zero KATO in the
+    Connect command as the spec requires.
+  - Safe sequence: `nvme_stop_keep_alive()` is a no-op when `kato==0`
+    (`drivers/nvme/host/core.c:1412`), then `ctrl->kato` is set to
+    `NVME_DEFAULT_KATO` (`drivers/nvme/host/nvme.h:31`), and
+    `nvme_start_keep_alive()` only schedules work when `kato!=0`
+    (`drivers/nvme/host/core.c:1404`).
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index a9b18c051f5bd..249adb2811420 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1075,6 +1075,14 @@ nvmet_fc_delete_assoc_work(struct work_struct *work)
- static void
- nvmet_fc_schedule_delete_assoc(struct nvmet_fc_tgt_assoc *assoc)
- {
-+	int terminating;
-+
-+	terminating = atomic_xchg(&assoc->terminating, 1);
-+
-+	/* if already terminating, do nothing */
-+	if (terminating)
-+		return;
-+
- 	nvmet_fc_tgtport_get(assoc->tgtport);
- 	if (!queue_work(nvmet_wq, &assoc->del_work))
- 		nvmet_fc_tgtport_put(assoc->tgtport);
-@@ -1202,13 +1210,7 @@ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
- {
- 	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
- 	unsigned long flags;
--	int i, terminating;
--
--	terminating = atomic_xchg(&assoc->terminating, 1);
--
--	/* if already terminating, do nothing */
--	if (terminating)
--		return;
-+	int i;
+- Scope and risk
+  - Scope-limited: Only affects discovery controllers on reconnect
+    (persistent discovery) and only when `kato==0`. No effect on:
+    - Non-discovery (I/O) controllers (they already default to non-zero
+      KATO).
+    - Discovery controllers where userspace explicitly set a non-zero
+      KATO.
+  - No architectural changes; uses existing helpers and flags; no ABI
+    change.
+  - Regression risk is low. Prior history already introduced persistent
+    discovery semantics and a sysfs `kato` attribute, and transports
+    already honor `ctrl->kato` for Connect. This change simply fills a
+    corner case where `kato` remained zero in a persistent discovery
+    reconnect.
+
+- Historical context and consistency
+  - 2018: We explicitly avoided KA to discovery controllers per early
+    spec constraints.
+  - 2021: The code was adjusted so discovery controllers default to
+    `kato=0`, while I/O controllers default to `NVME_DEFAULT_KATO`
+    (commit 32feb6de). Persistent discovery connections were intended to
+    have a positive KATO (via options), but implicit persistent
+    reconnects could still have `kato=0`.
+  - 2022: Added rediscover uevent for persistent discovery reconnects
+    (f46ef9e87) and `NVME_CTRL_STARTED_ONCE` usage.
+  - This patch completes the intent by ensuring persistent discovery
+    reconnects run with non-zero KATO automatically, preventing target
+    timeouts and complying with spec 2.1.
+
+- Stable backport suitability
+  - Fixes a user-visible bug (target timeouts and unstable discovery
+    connectivity on persistent reconnects).
+  - Small, self-contained change confined to `nvme_start_ctrl()` in
+    `drivers/nvme/host/core.c`.
+  - No new features or interfaces; minimal risk of regression; behavior
+    matches spec and existing design.
+  - Dependencies exist in stable trees that already have persistent
+    discovery support and the `NVME_CTRL_STARTED_ONCE` mechanism. For
+    older branches that still use `test_and_set_bit` in the rediscover
+    path, the logic remains valid within that conditional block.
+
+- Side notes for backporters
+  - Ensure the tree has `NVME_CTRL_STARTED_ONCE`,
+    `nvme_discovery_ctrl()`, and the rediscover uevent path in
+    `nvme_start_ctrl()`. If an older stable branch uses
+    `test_and_set_bit` instead of `test_bit`, place the new KATO block
+    inside that existing conditional.
+  - `nvmf_connect_cmd_prep()` must already populate Connect’s `kato`
+    from `ctrl->kato` (`drivers/nvme/host/fabrics.c:426`) so that future
+    reconnects benefit from the updated `kato`.
+
+ drivers/nvme/host/core.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6b7493934535a..5714d49932822 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4990,8 +4990,14 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+ 	 * checking that they started once before, hence are reconnecting back.
+ 	 */
+ 	if (test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags) &&
+-	    nvme_discovery_ctrl(ctrl))
++	    nvme_discovery_ctrl(ctrl)) {
++		if (!ctrl->kato) {
++			nvme_stop_keep_alive(ctrl);
++			ctrl->kato = NVME_DEFAULT_KATO;
++			nvme_start_keep_alive(ctrl);
++		}
+ 		nvme_change_uevent(ctrl, "NVME_EVENT=rediscover");
++	}
  
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	list_del_rcu(&assoc->a_list);
+ 	if (ctrl->queue_count > 1) {
+ 		nvme_queue_scan(ctrl);
 -- 
 2.51.0
 
