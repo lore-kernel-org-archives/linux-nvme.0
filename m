@@ -4,69 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E690CCD184
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Oct 2025 16:01:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A81ACCD18D
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Oct 2025 16:54:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=75ltemOU45V1Sr09scUA1M03qv0jezQGAkGwRHr22XI=; b=JiHIKV4cQwqU6hQcBj8rlqoGEj
-	Z7OjsgCELTKbZjaGod9LTj9q1p5/Qymop3XaJk5MCWLySiPWSsQu89JEgHMC3NNaTabVi/q3Veyb+
-	MREnSFQyJ4zjs/RIqDfw/zWdRzIVHAoIUNVDb8M9ZJMBnGXRiWvGQqYQR3Ekz4nd3NUEwLl1KlzcW
-	IUdXNlCifEfD5AM/jbwOOmGLi3oN/SjAWVs8snQXHAhtm4toyDzCt8w0Y8QUlmrUFHhtdfjzAkb0m
-	fhmZmlDdBKiRYbKgYAPy0hxmXW++G5Uk9QO7zMZKXiGAhgmH6EH4zLcf/HBdSfdVeBsCol8wJycHF
-	1sn+AN+g==;
+	bh=BXzoFqKUEN4tLK6F2WqpMdlYdPjnIt69vljbsOVRGv4=; b=h9hByEVR5Go7Q8KxjrXs2vWpv2
+	TpdG+ClA/hJGqKMgpnwMiQnrOzzjHq/L0EH7NV3MxlKbqZrxpynvvXn34nA2qMOBkz2XhIDi1kPNp
+	rILiJjKO8iSL9w3yqazwjjG8JsGVGsc7ekBkgniSY/cTGyZnY4KZJY6jQnApvPkkIHSesWdswcXra
+	VDc6Vyw0L0F9BJNBT1kVV9Gm9ceJBPogA3aMHkxC4Pq9hmCbiMPEgaFkN8SMNCQoPr7AHiMIu3pYf
+	m4ZGXV3omyu+RFObQBfCsZJCsZDYRA70O69LFvd5jmW+D1MJfxCePlXexq4PwhHC1QVm3X9aZH43B
+	S+jV+duw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6t4k-00000006cS9-1xQ0;
-	Thu, 09 Oct 2025 16:01:06 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1v6tu5-00000006ju3-0592;
+	Thu, 09 Oct 2025 16:54:09 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6t4i-00000006cQc-3dH9
+	id 1v6tu3-00000006jte-0SZu
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 09 Oct 2025 16:54:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=BXzoFqKUEN4tLK6F2WqpMdlYdPjnIt69vljbsOVRGv4=; b=ZNu6tSkLiaVmKO7I188V+ur5Lw
+	4EXPEHFjm/SFwU+OWOu0Nm/9Cdr3zuHSwRBbq8HkyiJTo/bsxQKJkwhq1ZW5X0rz6CNoSRNkrRjb3
+	1f5qHM+94HlG5s6ej1GOb7U1sGuD9nEIgrm9ftPS89qocxpkmbw2O2Yl70GboanWbBtsaQBrvsg03
+	d5GMdcr1MXXhKrPDl94pEBhgNfYAwiUXSgU5SlPx5gMGGuQVJ9v4zs6E+8Q6wZo3NFfENZ8u8AzHj
+	FlwGy93d1caP2cz9BOp9pLpgpYMIVlPw8u5pDYl2XH2EUl4c40V9RU3FE3C4e9yhKwrAhAspba+/L
+	21Dqrerg==;
+Received: from phd-imap.ethz.ch ([129.132.80.51])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v6ttz-00000001Zwb-3ity
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Oct 2025 16:01:04 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 2698062371;
-	Thu,  9 Oct 2025 16:01:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89612C4CEF8;
-	Thu,  9 Oct 2025 16:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760025663;
-	bh=s6E6DxFLAxma+oKOTr17ggDa1wGixk9Y8lcLACFjhbI=;
+	Thu, 09 Oct 2025 16:54:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phys.ethz.ch;
+	s=2023; t=1760028315;
+	bh=BXzoFqKUEN4tLK6F2WqpMdlYdPjnIt69vljbsOVRGv4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FnQk+lyF/WkFD1aNjqEXCJu5LBMZjSjZFO8pR8o0mSyk7O6IA2TQEuZW5krykSzdK
-	 UuvUcu4f0rWwiTeJKODWJGGpExP6MoBH7Zy7UILHgc5tGgO9r5VzQYUyXXlJH1CfZC
-	 zdfUZ+29Po8pILzPmrRTbYW1Bxy16WaOm+Ix2UBWceIRvu5MlfrCVd2bG64ANGOfUB
-	 ZKdXd5zTgbbvbmjvYm8bX5iSJEq4Z0e+nHyOTUif/q1mtmbUPgIKNoCjK4sfyvIAZO
-	 +D4tiDY+bTIHc67u+QkkxZ6tj6RhY+P5uDD+jIZGFwJXUpDfMPt33TiFHmhHfC11sc
-	 d3eCv2OIGlQqQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Daniel Wagner <wagi@kernel.org>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com,
-	paul.ely@broadcom.com,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.17-5.10] nvme-fc: use lock accessing port_state and rport state
-Date: Thu,  9 Oct 2025 11:56:07 -0400
-Message-ID: <20251009155752.773732-101-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251009155752.773732-1-sashal@kernel.org>
-References: <20251009155752.773732-1-sashal@kernel.org>
+	b=pPQjIgd9KSrV/MdXNPSNxWmd+cgt9EbQYwZR65uRjxcZBGeOW1TBRbtKpSscmUj75
+	 hxBKqAdIN+F8Wus0kpO+ptR7G2Nrm9FW2doQ62a3NChWSrZ2iRAPP+57Vs6XgdJBoF
+	 /GUwRpEaJQL/Z80lveNL0WjLlBIKQpb6KQOwqVhdYxCOwISoPsedIuceX9fJeFjPiA
+	 MAfQLusyYNS4Umrc4M7PwLEQZRY1H7O2eJrdHjqlTy1z2XRezf2ML8z2eOLkdItwvz
+	 Uc2aecL/EOAHFrD3E3ovvYpa2DAaIh6yi6VZAyqPw8w2cP66oEDnSmoHd5gP3/LZEV
+	 Y95cPGlVTJqOg==
+Received: from localhost (192-168-127-49.net4.ethz.ch [192.168.127.49])
+	by phd-imap.ethz.ch (Postfix) with ESMTP id 4cjG2M2YSKz9S;
+	Thu,  9 Oct 2025 18:45:15 +0200 (CEST)
+X-Virus-Scanned: Debian amavis at phys.ethz.ch
+Received: from phd-mxin.ethz.ch ([192.168.127.53])
+ by localhost (phd-mailscan.ethz.ch [192.168.127.49]) (amavis, port 10024)
+ with LMTP id 8lFDdQs06lTl; Thu,  9 Oct 2025 18:45:15 +0200 (CEST)
+Received: from dumbledore.ethz.ch (dumbledore.ethz.ch [192.33.96.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by phd-mxin.ethz.ch (Postfix) with ESMTPS id 4cjG2M1knCz7Y;
+	Thu,  9 Oct 2025 18:45:15 +0200 (CEST)
+Received: by dumbledore.ethz.ch (Postfix, from userid 13394)
+	id 4cjG2M1HDwz9srq; Thu,  9 Oct 2025 18:45:15 +0200 (CEST)
+From: =?UTF-8?q?Stephan=20M=C3=BCller?= <stephan.mueller@phys.ethz.ch>
+To: linux-nvme@lists.infradead.org
+Cc: =?UTF-8?q?Stephan=20M=C3=BCller?= <stephan.mueller@phys.ethz.ch>
+Subject: [PATCH 1/2] Use preferred module name
+Date: Thu,  9 Oct 2025 18:45:03 +0200
+Message-Id: <20251009164504.2212623-2-stephan.mueller@phys.ethz.ch>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20251009164504.2212623-1-stephan.mueller@phys.ethz.ch>
+References: <20251009164504.2212623-1-stephan.mueller@phys.ethz.ch>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.1
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251009_175404_112014_A1D25591 
+X-CRM114-Status: GOOD (  11.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,73 +96,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <wagi@kernel.org>
+The configshell-fb module is now called configshell. From v2.0.0
+onwards the preferred way is to import the module as configshell.
 
-[ Upstream commit 891cdbb162ccdb079cd5228ae43bdeebce8597ad ]
-
-nvme_fc_unregister_remote removes the remote port on a lport object at
-any point in time when there is no active association. This races with
-with the reconnect logic, because nvme_fc_create_association is not
-taking a lock to check the port_state and atomically increase the
-active count on the rport.
-
-Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Closes: https://lore.kernel.org/all/u4ttvhnn7lark5w3sgrbuy2rxupcvosp4qmvj46nwzgeo5ausc@uyrkdls2muwx
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Stephan Müller <stephan.mueller@phys.ethz.ch>
 ---
+ nvmetcli | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-LLM Generated explanations, may be completely bogus:
-
-YES
-- Adds the missing synchronization in `nvme_fc_create_association()` so
-  we hold `rport->lock` while checking `remoteport.port_state` and
-  bumping `act_ctrl_cnt` via `nvme_fc_ctlr_active_on_rport()`
-  (`drivers/nvme/host/fc.c:3034-3044`). That makes the state check and
-  reference grab atomic with respect to other rport users.
-- Without this lock, `nvme_fc_unregister_remoteport()` can flip the same
-  `remoteport.port_state` and tear down the rport under lock
-  (`drivers/nvme/host/fc.c:813-839`) while a reconnect path is still
-  between the state check and the `act_ctrl_cnt` increment
-  (`drivers/nvme/host/fc.c:2987-2999`). This window lets the reconnect
-  code touch freed memory or miss the counter bump, causing crashes or
-  failed reconnections—the bug reported on the mailing list.
-- The fix is tightly scoped to this race, no API or behavioral changes
-  elsewhere, and it follows existing locking rules for the rport. The
-  affected logic is unchanged across supported stable branches, so the
-  patch applies cleanly and removes a long-standing use-after-free
-  hazard.
-
- drivers/nvme/host/fc.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 3e12d4683ac72..03987f497a5b5 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3032,11 +3032,17 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+diff --git a/nvmetcli b/nvmetcli
+index d949891..433e4c4 100755
+--- a/nvmetcli
++++ b/nvmetcli
+@@ -22,7 +22,7 @@ from __future__ import print_function
  
- 	++ctrl->ctrl.nr_reconnects;
- 
--	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE)
-+	spin_lock_irqsave(&ctrl->rport->lock, flags);
-+	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE) {
-+		spin_unlock_irqrestore(&ctrl->rport->lock, flags);
- 		return -ENODEV;
-+	}
- 
--	if (nvme_fc_ctlr_active_on_rport(ctrl))
-+	if (nvme_fc_ctlr_active_on_rport(ctrl)) {
-+		spin_unlock_irqrestore(&ctrl->rport->lock, flags);
- 		return -ENOTUNIQ;
-+	}
-+	spin_unlock_irqrestore(&ctrl->rport->lock, flags);
- 
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: create association : host wwpn 0x%016llx "
+ import os
+ import sys
+-import configshell_fb as configshell
++import configshell
+ import nvmet as nvme
+ import errno
+ from string import hexdigits
 -- 
-2.51.0
+2.39.5
 
 
