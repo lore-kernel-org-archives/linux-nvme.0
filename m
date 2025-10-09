@@ -4,62 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B0A7CCD184
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Oct 2025 12:46:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A4A7CCD184
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Oct 2025 12:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LfvP6PnF569utN+QsL2UwRjDFUAvmQW7HPf1dLyCGxo=; b=ZgnOrPF4vnW8U+fPvn1eOktCg8
-	LYhLcYM5NkOoaqsmDgV/kn3fIvBhpvP/uAz3sMY6Mzwyc+sEg8ZEsoUFU++/EJL1+UDqPTRHH1QL5
-	Mz8l1euQ80qT+THQPTe5oW7EoNtjC5JeSjdS/4MDV06umdSNL5WSd2746HjeLhniM55sjdWsyAHEq
-	k9L45Ko/+rM4gTXXlB23l1YKd/y27HwhWQcP1kogOVOB4M3dhiZknTCQVZQZ00c5fEfxvN5ZOYjx8
-	9yXlZqQyaRqGyo7dNEakPfdtGGnYmC9WkVMVSHIUgkxLj0K1Nce/ROqel8Sk0TwU4ElzdOw/KQolm
-	rOdiRqsA==;
+	bh=Rqvog1QhV2JU0YdXdX3NM2zkBdnN0KBpmWvzTfASv70=; b=EwelhaXAIeoSNgj78BYgOFzAlh
+	ScqRqxWCq+Zkt2jff4R8WDej6py/QVYr5Lt/udsuIPRQJsMF3DKlx6Byv14l7F5hDgeXl089ImN64
+	H26k6AgGBpfxF8vbD1MbQM2va6TmzUjzRnXxmfA5uvk6073dfJkxy06uUEPiVzUa5/5FE2BMaYFVo
+	KZ89rwSA7vL7Gk4nOmwBGUAufPznPnOs33nUR3K4LW4bi29cldE9UPt1cYoQsOHtuUPwy88NEd3aJ
+	P/ssjTfg1nsPWSNz6uKbZn51a89DKRBDkXs2i4JkaoGfuvpkqypg/We1t/nIvGl+sE/qyzMQ48pS7
+	N4pcn5bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6q20-000000068Vj-3pNB;
-	Thu, 09 Oct 2025 12:46:04 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1v6q2v-000000068eQ-1JqU;
+	Thu, 09 Oct 2025 12:47:01 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6q1z-000000068Uo-0qP1
+	id 1v6q2t-000000068du-0yMa
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Oct 2025 12:46:04 +0000
+	Thu, 09 Oct 2025 12:47:00 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 799DF437CC;
-	Thu,  9 Oct 2025 12:46:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA20DC4CEE7;
-	Thu,  9 Oct 2025 12:46:00 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id B5DED46015;
+	Thu,  9 Oct 2025 12:46:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B24DC4CEE7;
+	Thu,  9 Oct 2025 12:46:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760013962;
-	bh=f5s0vff2wLbx253hF4AOmxvLk3JLuEchs0gj6ZPXFZw=;
+	s=k20201202; t=1760014018;
+	bh=4jXmqHuqD7VrpSNjnW3wyubD0AMbmelliRUoP8W2ZHE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PW85sL8NWnZolagO6egRLjSu2oYQYpGVF6InyWKPvmPb+aFicAFrzYm40oCZVoB3+
-	 3gT3FTzcoBeewOUk9sb5E0nvfm1csRSep9wdSETP6zZD8BG6efmmnKNdzpZxKo+yPh
-	 Or7D1V09M4Vnx1+QzaLFr3Kn1uQcVYSKO8Gk9Y43JKN1Ox97GtmNjD7QSyzu3l6YGr
-	 eRd4pkCGzUkTLINDkvQE+FkFh8CEPTmEbMITMAsXTSTtupQMSBlaJXebsFGEHs3b4H
-	 N+6llY3a0lN9V/t/dn0mjS9+JM84W1k9MdZHAB78aG+P9SazguoZbbp0WwZkzaY2mz
-	 t5J8AszmzdGIw==
-Date: Thu, 9 Oct 2025 14:45:58 +0200
+	b=bB95S1NXNYtZEXb62RcfqfOk5oUa8MXshB6eOozHhC1NLvG/w9X5edO+nQ9J8OI4Y
+	 zTR17jTAr7lRieWK3eTc0zJeJvW8e2Y9Ao2tP9MvZehsNZ9qesjr/5LuNsEsKa46oT
+	 n3mHTnEFGGiHJI+Ayna9FM5tZXt95NkTGVVH3b7Kvc2GgH7XTvjWOk4+CsTcLn6fhO
+	 Zg2YzV65eXCHfLG1Mcb0BROdOaxOAC0KjoMmWkW2UiTzIu9DyzqErEE+ZV/qCBoiKa
+	 lWBA8X8iGniy/UtJZHma68gMoR8CY3Zvbe5rZiiqSghTesL0gN3xH876Jab9r3b3Ip
+	 /ifETLlPyZuxg==
+Date: Thu, 9 Oct 2025 14:46:54 +0200
 From: Niklas Cassel <cassel@kernel.org>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
-	Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v2] nvmet: pci-epf: fix DMA channel debug print
-Message-ID: <aOeuhoM3J-EHFR9b@ryzen>
-References: <20250913065350.160301-1-shinichiro.kawasaki@wdc.com>
+	Keith Busch <kbusch@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	stable@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet: pci-epf: Move DMA initialization to EPC init
+ callback
+Message-ID: <aOeuvipwGfwvQG_C@ryzen>
+References: <20250909112121.682086-2-cassel@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250913065350.160301-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20250909112121.682086-2-cassel@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251009_054603_252579_026EFD6F 
-X-CRM114-Status: GOOD (  15.74  )
+X-CRM114-CacheID: sfid-20251009_054659_287895_70C328CF 
+X-CRM114-Status: GOOD (  21.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,46 +77,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Sep 13, 2025 at 03:53:50PM +0900, Shin'ichiro Kawasaki wrote:
-> Currently, nvmet_pci_epf_init_dma() has two dev_dbg() calls intended to
-> print debug information about the DMA channels for RX and TX. However,
-> both calls mistakenly are made for the TX channel. Fix it by referreing
-> to 'nvme_epf->rx_chan' and 'nvme_epf->tx_chan' and instead of the local
-> variable 'chan'.
+On Tue, Sep 09, 2025 at 01:21:22PM +0200, Niklas Cassel wrote:
+> From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 > 
+> For DMA initialization to work across all EPC drivers, the DMA
+> initialization has to be done in the .init() callback.
+> 
+> This is because not all EPC drivers will have a refclock (which is often
+> needed to access registers of a DMA controller embedded in a PCIe
+> controller) at the time the .bind() callback is called.
+> 
+> However, all EPC drivers are guaranteed to have a refclock by the time
+> the .init() callback is called.
+> 
+> Thus, move the DMA initialization to the .init() callback.
+> 
+> This change was already done for other EPF drivers in
+> commit 60bd3e039aa2 ("PCI: endpoint: pci-epf-{mhi/test}: Move DMA
+> initialization to EPC init callback").
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
 > Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+> Signed-off-by: Niklas Cassel <cassel@kernel.org>
 > ---
-> Changes from v1:
-> * Refer to nvme_epf->dma_[rt]x_chan and do not move the dev_dbg() call
-> 
->  drivers/nvme/target/pci-epf.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  drivers/nvme/target/pci-epf.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
-> index 2e78397a7373..4bfecb0c7ee4 100644
+> index 2e78397a7373a..9c5b0f78ce8df 100644
 > --- a/drivers/nvme/target/pci-epf.c
 > +++ b/drivers/nvme/target/pci-epf.c
-> @@ -320,12 +320,14 @@ static void nvmet_pci_epf_init_dma(struct nvmet_pci_epf *nvme_epf)
->  	nvme_epf->dma_enabled = true;
+> @@ -2325,6 +2325,8 @@ static int nvmet_pci_epf_epc_init(struct pci_epf *epf)
+>  		return ret;
+>  	}
 >  
->  	dev_dbg(dev, "Using DMA RX channel %s, maximum segment size %u B\n",
-> -		dma_chan_name(chan),
-> -		dma_get_max_seg_size(dmaengine_get_dma_device(chan)));
-> +		dma_chan_name(nvme_epf->dma_rx_chan),
-> +		dma_get_max_seg_size(dmaengine_get_dma_device(nvme_epf->
-> +							      dma_rx_chan)));
+> +	nvmet_pci_epf_init_dma(nvme_epf);
+> +
+>  	/* Set device ID, class, etc. */
+>  	epf->header->vendorid = ctrl->tctrl->subsys->vendor_id;
+>  	epf->header->subsys_vendor_id = ctrl->tctrl->subsys->subsys_vendor_id;
+> @@ -2422,8 +2424,6 @@ static int nvmet_pci_epf_bind(struct pci_epf *epf)
+>  	if (ret)
+>  		return ret;
 >  
->  	dev_dbg(dev, "Using DMA TX channel %s, maximum segment size %u B\n",
-> -		dma_chan_name(chan),
-> -		dma_get_max_seg_size(dmaengine_get_dma_device(chan)));
-> +		dma_chan_name(nvme_epf->dma_tx_chan),
-> +		dma_get_max_seg_size(dmaengine_get_dma_device(nvme_epf->
-> +							      dma_tx_chan)));
->  
->  	return;
+> -	nvmet_pci_epf_init_dma(nvme_epf);
+> -
+>  	return 0;
+>  }
 >  
 > -- 
 > 2.51.0
+> 
+> 
 
 Gentle ping
 
