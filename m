@@ -4,86 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C818FCCD184
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Oct 2025 21:37:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53A73CAC5BB
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Oct 2025 04:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AqM0kHIE9alfaO+iN5jAAc6b6FGT/OqUh5vpZMam6DM=; b=jjaX7WTbiUjohDD6diw7wFAa8S
-	Z5Qzm4aJoYal1IER5aM6YLrFkzOsQkeKb5+fj5KdruVwemNGv04/lahyRNPFSmFY+Q77iZ6Eid3g/
-	O9hWmWQVjDWfkKuaHqR5qgM0jh6qXvWCjvCBmSbLNJGIkTHoeK5QJNbdEEHk1YtYAidahIJzV22Sx
-	Cq4sQoKrpaouARzqqxQSyXCvxwsNCH7mEmcaOVL+0ODxMAehfM9F97uXWIHZJd/D0VDf4ZMSDlSAy
-	DmZ7qj3l9ss/4IiCt2D0w2l5BaYYwI5DXvn5uZneE8aMFR4wj2DTDQhCVn8dkonC6a/1EqE0Cg9Cs
-	kanu8APQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=jch11Bu3wI9Xf6VNMlwdSI3EJI5QLIUQJkMhWN2GBUE=; b=VxxA3PZL526q62SEjwtmLsrkla
+	OGMvL5GJNXZxplBAqyz595gyEs9c3j+eY25oRRD0ONNiE83vpGRRsDyM5xwhd6oR5e8zoOlxsQJRd
+	I/O7cuTBNy1CtiPsPtVSR82BM/DB4W2ikh9zGzbHmHYuS8mmwhUl/h69gptGQKvvc2aylyn4L+ctH
+	mWFR6ZYCHwgxm3UZ2rwSOYQsDzOLkCZYpR1QWwQRUtkhIXADcBYukAW2pYBPE2q9j+0RsCn/+749i
+	cSAL5KSUHls3U5AIQPnaLp6TSozoQUDtL545rjiriRwXRrjd3Hxyh3jVyyAFc2Jz9m2OTtZcSlvI0
+	zhpq4//w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6yJr-00000007AaJ-3wiS;
-	Thu, 09 Oct 2025 21:37:03 +0000
-Received: from mgamail.intel.com ([192.198.163.7])
+	id 1v74hn-00000007epT-3XJ3;
+	Fri, 10 Oct 2025 04:26:11 +0000
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v6yJp-00000007AZw-35hD
+	id 1v74hf-00000007ep6-1X3S
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Oct 2025 21:37:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760045821; x=1791581821;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RgS44lxvbU6lDjItJfGDfhpBYiflSNB4fwxf9JnAi6Y=;
-  b=APr4ziWvRKvfQwVp6SUCwVBLo3L4o6SHv08YviO9K4gopQcFResmWZOm
-   i10GeD0sNiUOBm1ygy2Yhcq4qHESNKIu5l33Jt7yMO6N1gaM5rgHgqL7i
-   cXvU5nlKGnnHjiRcAC2wxqMyJkJ2LasJiw63qXNwENPti4zvTACnE/UMy
-   CTnkqaXK5gbvB3L09AWZGc1dTROGu1MmWo3sivADUIRLxiLEO4taRs3fW
-   i5qfcew7hNGSsSyHGnQn5hN66k9ichChnG6iQVLqMYdngpwGqIPVc5Ncx
-   Uz5Gyt/OmVseUtlCKlXIlst9ybEquZfLRiTbBW1wSj1BLEwur48tvfjpX
-   A==;
-X-CSE-ConnectionGUID: 0SBawlvoTqGiXQchOhUB3w==
-X-CSE-MsgGUID: GSd1s1x8QGyXgnuyBYU8dQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11577"; a="87726932"
-X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="87726932"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2025 14:36:57 -0700
-X-CSE-ConnectionGUID: ue2VzTsYTIu45ra031tL6Q==
-X-CSE-MsgGUID: a2v1uV22T0GvaG+Bfk2Zkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,217,1754982000"; 
-   d="scan'208";a="186082522"
-Received: from lkp-server01.sh.intel.com (HELO 6a630e8620ab) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Oct 2025 14:36:53 -0700
-Received: from kbuild by 6a630e8620ab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v6yJe-0001VD-2D;
-	Thu, 09 Oct 2025 21:36:50 +0000
-Date: Fri, 10 Oct 2025 05:36:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wilfred Mallawa <wilfred.opensource@gmail.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Hannes Reinecke <hare@suse.de>,
+	Fri, 10 Oct 2025 04:26:07 +0000
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-77f1f29a551so2252019b3a.3
+        for <linux-nvme@lists.infradead.org>; Thu, 09 Oct 2025 21:26:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760070362; x=1760675162; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jch11Bu3wI9Xf6VNMlwdSI3EJI5QLIUQJkMhWN2GBUE=;
+        b=OH0lM6QrkI+XxOc8Slto+7aaqMTaMXDKOBMtCQDOJ64DSaXKbui/5tzb88eEURqITU
+         OaU8U1l4S/Uc/mYxLerf8F+ctiFwKQRjHFoi7oynyPNHi/KUOXwYlIvkSoxBveXQ8ULq
+         kb679PzUAonUfK4JNwMwn3YdUXuVP6cN/whWFGjnSJvEhI16pGCKNlTFvNdRNDmjD5TY
+         ggDAleEzJouFgdwt9jRTb4HLvEaa/v4S2qY58vF+NhrC8joaK8zTHf05+ROTc09KOUj8
+         5uw/IXAqHr5jre4iOhU+isnYi7/BILiwCZahuNdBN/VBlEcjGBs6palDwR+oaeDs4N0k
+         QAYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760070362; x=1760675162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jch11Bu3wI9Xf6VNMlwdSI3EJI5QLIUQJkMhWN2GBUE=;
+        b=tBZgYAOtxQ0fDF5CHztOxrCGv6sxHi/lVaAK5kXUxIYW5faSaGedDSQEmhg2wnou+v
+         WVTwU82UpNFwHOuC7dDx43LVA9MIP3WqEVOtTi817pu9C4HI5Dq2W5jWCWzV+MaEksjt
+         6MMVpKvDID4RW3bzaubnM3KXpKhq7t7h8c+3qeuJvZFcOUqG6CgKGFmJ10635Ue0nW34
+         /qXUOqgyql2nWVM+Qf55swO3jkl5V0ZpirikygVOstpfJIQja7/aYN2aRatqHtGgBVcL
+         J/TEyUh4f1GtpcWEZNo/ODH1XRiBn7I522CAwLtqq8LQ8bAq0VIje4Dv38CGpvdxUf34
+         jboQ==
+X-Gm-Message-State: AOJu0YyQ+j/396g0qoyxdJFIA9tGyiWRslCdiZTqJR22TdTaIZqudj85
+	Zff7/gdD4XaD0RIVOffTPyXtBz10ZI3ILsSt4yw3AslgNJFymZ/crQ33GVquGcJ6
+X-Gm-Gg: ASbGnct8FR1kP4fpCvpVojpZZUFDNsFjKQoIX+EHjCLmb5O2RVeTDHKZ9jxV4pnQ2c5
+	XQ7YUiEQ0gCl1ltPSsqAwyQ0CALs8a2vMb5H4Bay6FgTDyVXpX8Xw47+hqtZWPix1WSh9wMi3E4
+	wFTFUO0jxHoyKn97jUIYcgDZtdddmjFktnegW9RWSNG729Ja53/p6gMF7DxOqh9gx6NTVD5Nff9
+	TYuNHe9HHswzHgWjTw4dUNFRkchtCIZAUvO/yKscArhH5TAKT62NC02h4gFBR8nrDHp6pUV7Nmv
+	t9Y2O5h5FISiUnLn2eyvN1BsO53IOwbw5nDo2B/XluqH9kG0wbPMollUqPtbSGl+r/4uPlUZ8nG
+	TWMfCh16Q1ywzlmk5zej65xvxZTIrehyEMWzsL7+JApJ+PI43q5/pSoi+Ba8MzSMGsrI=
+X-Google-Smtp-Source: AGHT+IGEkqIzhQuL3f5LTjx03nPrTKH8siuoV4YI/aI1YU/01DZQX0TA2yC06xsJawbIkzuIWPaPQg==
+X-Received: by 2002:a05:6a20:9389:b0:251:9f29:4553 with SMTP id adf61e73a8af0-32da80db3a8mr12916317637.10.1760070361997;
+        Thu, 09 Oct 2025 21:26:01 -0700 (PDT)
+Received: from fedora ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b8285ddsm1414005b3a.23.2025.10.09.21.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 21:26:01 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
 	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: Re: [PATCH] nvme/tcp: handle tls partially sent records in
- write_space()
-Message-ID: <202510100505.gzOzGPbI-lkp@intel.com>
-References: <20251007004634.38716-2-wilfred.opensource@gmail.com>
+Subject: [PATCH v2] nvme/tcp: handle tls partially sent records in write_space()
+Date: Fri, 10 Oct 2025 14:25:15 +1000
+Message-ID: <20251010042514.704249-2-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251007004634.38716-2-wilfred.opensource@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251009_143701_811971_8AF36FE0 
-X-CRM114-Status: GOOD (  14.99  )
+X-CRM114-CacheID: sfid-20251009_212603_426544_8EAD5AB1 
+X-CRM114-Status: GOOD (  14.63  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,93 +99,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Wilfred,
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-kernel test robot noticed the following build warnings:
+With TLS enabled, records that are encrypted and appended to TLS TX
+list can fail to see a retry if the underlying TCP socket is busy, for
+example, hitting an EAGAIN from tcp_sendmsg_locked(). This is not known
+to the NVMe TCP driver, as the TLS layer successfully generated a record.
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master linux-nvme/for-next v6.17 next-20251009]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Typically, the TLS write_space() callback would ensure such records are
+retried, but in the NVMe TCP Host driver, write_space() invokes
+nvme_tcp_write_space(). This causes a partially sent record in the TLS TX
+list to timeout after not being retried.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wilfred-Mallawa/nvme-tcp-handle-tls-partially-sent-records-in-write_space/20251009-193029
-base:   net/main
-patch link:    https://lore.kernel.org/r/20251007004634.38716-2-wilfred.opensource%40gmail.com
-patch subject: [PATCH] nvme/tcp: handle tls partially sent records in write_space()
-config: s390-randconfig-002-20251010 (https://download.01.org/0day-ci/archive/20251010/202510100505.gzOzGPbI-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251010/202510100505.gzOzGPbI-lkp@intel.com/reproduce)
+This patch fixes the above by calling queue->write_space(), which calls
+into the TLS layer to retry any pending records.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510100505.gzOzGPbI-lkp@intel.com/
+Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+V2:
+    - Unconditionally invoke TLS write_space(). This means we don't need
+      to export tls_is_partially_sent_record()
+---
+drivers/nvme/host/tcp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/nvme/host/tcp.c:1316:22: warning: unused variable 'ctx' [-Wunused-variable]
-    1316 |         struct tls_context *ctx = tls_get_ctx(queue->sock->sk);
-         |                             ^~~
-   1 warning generated.
-
-
-vim +/ctx +1316 drivers/nvme/host/tcp.c
-
-  1312	
-  1313	static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
-  1314	{
-  1315		struct nvme_tcp_request *req;
-> 1316		struct tls_context *ctx = tls_get_ctx(queue->sock->sk);
-  1317		unsigned int noreclaim_flag;
-  1318		int ret = 1;
-  1319	
-  1320		if (!queue->request) {
-  1321			queue->request = nvme_tcp_fetch_request(queue);
-  1322			if (!queue->request)
-  1323				return 0;
-  1324		}
-  1325		req = queue->request;
-  1326	
-  1327		noreclaim_flag = memalloc_noreclaim_save();
-  1328		if (req->state == NVME_TCP_SEND_CMD_PDU) {
-  1329			ret = nvme_tcp_try_send_cmd_pdu(req);
-  1330			if (ret <= 0)
-  1331				goto done;
-  1332			if (!nvme_tcp_has_inline_data(req))
-  1333				goto out;
-  1334		}
-  1335	
-  1336		if (req->state == NVME_TCP_SEND_H2C_PDU) {
-  1337			ret = nvme_tcp_try_send_data_pdu(req);
-  1338			if (ret <= 0)
-  1339				goto done;
-  1340		}
-  1341	
-  1342		if (req->state == NVME_TCP_SEND_DATA) {
-  1343			ret = nvme_tcp_try_send_data(req);
-  1344			if (ret <= 0)
-  1345				goto done;
-  1346		}
-  1347	
-  1348		if (req->state == NVME_TCP_SEND_DDGST)
-  1349			ret = nvme_tcp_try_send_ddgst(req);
-  1350	done:
-  1351		if (ret == -EAGAIN) {
-  1352			ret = 0;
-  1353		} else if (ret < 0) {
-  1354			dev_err(queue->ctrl->ctrl.device,
-  1355				"failed to send request %d\n", ret);
-  1356			nvme_tcp_fail_request(queue->request);
-  1357			nvme_tcp_done_send_req(queue);
-  1358		}
-  1359	out:
-  1360		memalloc_noreclaim_restore(noreclaim_flag);
-  1361		return ret;
-  1362	}
-  1363	
-
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 1413788ca7d5..6016510577bd 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1079,8 +1079,13 @@ static void nvme_tcp_write_space(struct sock *sk)
+ 
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
++
+ 	if (likely(queue && sk_stream_is_writeable(sk))) {
+ 		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
++		/* Ensure pending TLS partial records are retried */
++		if (nvme_tcp_queue_tls(queue))
++			queue->write_space(sk);
++
+ 		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+ 	}
+ 	read_unlock_bh(&sk->sk_callback_lock);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
 
