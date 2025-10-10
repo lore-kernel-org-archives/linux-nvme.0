@@ -4,84 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE9E1CCD185
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Oct 2025 14:29:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5AA9CCD185
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Oct 2025 14:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:To:From:Subject:Message-ID:Reply-To:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jdIjHOIc+x1UmurbwfxAvNk4r5qMzupSwQTHANWUImk=; b=msRtYv+CKcx9L2/KT1bfODvZxN
-	k/O2BKHjRCtandbh4Y0vh1Wv8KBqt/XtDW8UMHFF1jooM1EMlhMluHcWz2dB7CRefhH2yBHyAFIMW
-	4w83waJGbPOjXnhZ7Um7Z7mXfBuMnAOqE+4DZqO8pRILykmWP05zAlISBEWnMb1bR1Clx+aHIcL2a
-	EKQ880aMZoFa4NGqwxyyTragEihAFy2hyQ1fjrJQXOzxpwm2d4t1e3eoSfACq6onk3VKEOGNfumgC
-	hke3y2zgLWUoSs8srbkwhbEjiSKoiEgjqJ8WcjCNM2M3F1LWVNddXfr9yEDhmEY+S3YbqWgaYuMBe
-	6xfcj95g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vbofJ5TYVrlVEz+XdSpL9ID+J57K1M46jTnGkwllw9Q=; b=eRbb11IxR3lSh30aNTV/twEEy8
+	iGcS1+It7VtV40m+sKs5JNuPnK2IV1m4xgp5wlvoXL7cD/d6RPFGsuWCS3Wkxa2Iis/CzGsYNlxRp
+	pS6KRJG28UuHrO7LFvs9sdMWDKLxC/wkHlnNE4wbdzfD42GubPLvCNMkTfzw2W/4J3nB3LpG367X2
+	EbgBxNFORN4cxeezZooAu10sT4UpqkHCLmPx+WbICRytN8wWU/NeZIIUBFMTIk+zjflDOESA5L6jb
+	WIp8qScdxPI5EhE6jLDAguy1/2iHz5Qt7wzJF+lupMay4OGQQhygW3up3FgbStwEUImZauTmJpDMI
+	XfqkrmdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v7E7K-00000008glr-1Y6c;
-	Fri, 10 Oct 2025 14:29:10 +0000
-Received: from s1.sapience.com ([72.84.236.66])
+	id 1v7EWC-00000008jsW-064s;
+	Fri, 10 Oct 2025 14:54:52 +0000
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v7E7H-00000008glT-2uba
+	id 1v7EW8-00000008js9-36p9
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Oct 2025 14:29:09 +0000
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
-   signature) header.d=sapience.com header.i=@sapience.com 
-   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
-   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by s1.sapience.com (Postfix) with ESMTPS id 77F3A480BCD;
-	Fri, 10 Oct 2025 10:29:03 -0400 (EDT)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1760106543;
- h=message-id : subject : from : to : date : content-type :
- mime-version : from; bh=jdIjHOIc+x1UmurbwfxAvNk4r5qMzupSwQTHANWUImk=;
- b=JUq0P8RPw2RpOtgJnYRlZULthj1xYkv8QGlaNPee3FSZIV11AbOGLGVMdgwM36ezR+bXm
- 6RJNjpJHv41Q9IHAA==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1760106543;
-	cv=none; b=VYlVL79n5em/yJi2IeWsq0zjsuh8yJnuEbxJazzwTRdlqsrJG8DAF0pua8Jx7YjZIzYbPnX0X5zSQ4r9OE7QEqygMrKkwvVH41d9Da9RQlr+kh37XKv7DZ1iizAPvsvaDd1JP8Q6wDm5H1dCOqH8nZDWCw/RsTz1alKtEjly1Xg4L5xRO+9lSsiKWRaXWg81cGhoxKhpg21yUKKNEX5xjfm71b5ZoRnsw+79tLeOQIXWwF2CPCJErzuoj3gZZ6Uzug7XWNEbO6fKhxKLb3a+YSaNcc9u0RyEfc5/sBQavAnRukvBlqmZVuljtMq/DKWg7CcHhAiidWf1v4ic1aILoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
-	t=1760106543; c=relaxed/simple;
-	bh=MTLbX/igiP4DDhf0AdTdsrfQICui0FHb/8fIU86/M44=;
-	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Date:
-	 Autocrypt:Content-Type:User-Agent:MIME-Version; b=UA8uJUK0ugkS9f3felOPhZ2Q0Cu6recwNac4Yj9MVFdxgLR4nIt1gC+o6rglsYbY70TSOiL7MkbLtVxv7p54cI2OQ7L0/yQILa0RqMB/xkmsHRLiN99neBNp2jTLHulz4z+03p7LnGKQ8fDhQSB4YCQr+4AmZ4vJFSUlnbrAeznObCiqcfpqWoJ6N5RRO0k+soKWTnlr5GEMxmnG2W8LQlWCSaHLKSsQeQMozcwQxNrrlWpPTK0bDT6cErprFZpBMNu5ThTG/93o/lgN47lalQBx8z6oJ31dhoJoT8svk1dL45AlTBO3bpvLBm75pvOEudcwFXpyDxhxwGHNSnlIpg==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1760106543;
- h=message-id : subject : from : to : date : content-type :
- mime-version : from; bh=jdIjHOIc+x1UmurbwfxAvNk4r5qMzupSwQTHANWUImk=;
- b=cCe/anBNY3Etb5L81JqhmlZpLIq7yvjwyYrkb8rnw6j9BZliA8KDgA7qbCy5SAemyYCNK
- CJPJUF7FN3uSMcj/0e3z+swc3MxR2I6xbSdR+OoeSlrBLXJo/Ewbs7x7HyKu3kGSpYfZSNZ
- jhwSBoVFWX2cPuq00zBsid6LorZt18lVq9KC1EdN1KdoT67XMuaCY67SAcCtCeGpGlJdiDD
- 3PthPumn8Bcv6WXEK4rRcI+5iY8LUDElIo9IfqVb2bBfZspaRBGmXpV4A8fd0svDDnzi6UX
- TtxQ5rNiD3kYSxNPwNPWLPdn28/ySp24/HqIcKG5FimV2X/OOkYqQ9OVZtwQ==
-Received: by srv8.prv.sapience.com (Postfix) id 51B7528003F;
-	Fri, 10 Oct 2025 10:29:03 -0400 (EDT)
-Message-ID: <4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com>
-Subject: mainline boot fail nvme/block?
-From: Genes Lists <lists@sapience.com>
-To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Date: Fri, 10 Oct 2025 10:29:02 -0400
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
-	protocol="application/pgp-signature"; boundary="=-cDtzTbyIsJ0vqi01o7jJ"
-User-Agent: Evolution 3.58.0 
+	Fri, 10 Oct 2025 14:54:50 +0000
+Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-b62fcddfa21so1359640a12.1
+        for <linux-nvme@lists.infradead.org>; Fri, 10 Oct 2025 07:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1760108088; x=1760712888; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vbofJ5TYVrlVEz+XdSpL9ID+J57K1M46jTnGkwllw9Q=;
+        b=yNvNXeoZwLpKRkLYLsaHaqozwFc3Ovkm+ykzRUCy+2EH1rnmjEujWTuHna7016P9wq
+         QgbRkq+6boutRdTyc97nNgciBwkjTwjOoChVkY2Zl1Tynf7DaG+vKVgunlox0oRrJRUt
+         KD/d1T70QNvXBR+kBdcY3O1u+xB5Hm0FCrXsMcPCPK3om8RjfE6JYHRRwuFL4tnFK1ew
+         7wO0w7FytbOoUHksgX+Gb+6n/Cte9mWU58VASN6OYrJP1eSyTs9sFpZFCWF+nH6QPXUj
+         g1noaMAkr+YXezRYcIAb4j9bX0sXk3Wb228AshoUGomuSCkz6ILlg0DL3QJ3iYr7L0qW
+         +eqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760108088; x=1760712888;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vbofJ5TYVrlVEz+XdSpL9ID+J57K1M46jTnGkwllw9Q=;
+        b=CuKcBNULY66z66ehqRW1hW9l9roLjvVe3e7MgauoW+STqIom7ythuuslc5xRgbnGJa
+         B7z2Eo1JAD7MDTaubv6q/b0qEJ3PYUZQz+bPu3ZxuDBznUMi98p+roXHTVGVVeIG5E/m
+         YQGeHSkQgB77/p96GqZmDQWXQYxixNWYEkB2xsOuyFTbCEcPoM4oTukT/E4QMJ8HhsEy
+         EBXNJt4UFqShz3Hygtpp1jlGnnIfkXwEi1lREJnFeZmcmvhJdTojAxiLQ6yFSSa4vkBl
+         qy8d01LQH+yImiDbjhprsc3vDppn6N1kLGc904KEXqh5Qz9kskdbxvA2lcEPqtKvZimo
+         GNEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVplwGzqHYg5h1RtGbDSnTYGc4hygMhrN/apyEveYkir6WKlzHcl9q4FrWzn7Shlv66RnvV9ywt5z+t@lists.infradead.org
+X-Gm-Message-State: AOJu0YyyPBMIVoqZIgNYXtarzE9N2hi7QgWpFFxY9nQvD+mkm4s0376w
+	GHsbfCT9kat2gSEWHY+1s7EYqK9BsiHcz8fIcDGtXfpO7ijaXh77KmUxA2VB39SADTs=
+X-Gm-Gg: ASbGncvOHGSixIvpLX9F6LU2KO6Qz6tV5GMVOWhHrfFD9U0qR8T/UCDi206Hy0Y4v7y
+	wzXOBxKHPDk8E1sJZoP2uKvZpVoV1G3EGfuBO7hxZjvKwQgpq8CULJjXEc5ZgVmkcoyBsKfC2ML
+	vO3pvxndHBgT49B9fi/uzQRUtbgWhzp9jNkPYiIg9iaS6IuiHSzKXkOcjvifWuIoqiuYRXFxpNf
+	kMx1h6fZ93ksZXJuSHFwFa+HhUIUYo1ToDbRi43nTUFr7ApSoxLZ2Bpq1K1LwPRqJtPs93gzMLh
+	ARM5L/5Tgas8g2jeDAIQdvS7k4Ch6rawlkPkf6bHlowRPhsoi3/F1L8AZptYuy8T1gM3MKIXB3A
+	lu0O1ejAEJ72wQ5ApVznhIr+bjSGNSea6MhVdx2Dxu44wI2FuX+lLR26aTzYO
+X-Google-Smtp-Source: AGHT+IE2ykU3JRpPiQHMUmIjNKSKo2rlX9PQObXBs1FO64lFOyXHQeDzHA7ctCDQl2YOXgiwg7ruvg==
+X-Received: by 2002:a17:903:2292:b0:24c:bc02:788b with SMTP id d9443c01a7336-290272e3debmr174061055ad.44.1760108087677;
+        Fri, 10 Oct 2025 07:54:47 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29040e02648sm26130335ad.116.2025.10.10.07.54.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 07:54:47 -0700 (PDT)
+Message-ID: <cf4e88c6-0319-4084-8311-a7ca28a78c81@kernel.dk>
+Date: Fri, 10 Oct 2025 08:54:46 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: mainline boot fail nvme/block?
+To: Genes Lists <lists@sapience.com>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251010_072908_235901_C2D8161D 
-X-CRM114-Status: UNSURE (   9.81  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251010_075449_020402_64696327 
+X-CRM114-Status: GOOD (  10.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,56 +99,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 10/10/25 8:29 AM, Genes Lists wrote:
+> Mainline fails to boot - 6.17.1 works fine.
+> Same kernel on an older laptop without any nvme works just fine.
+> 
+> It seems to get stuck enumerating disks within the initramfs created by
+> dracut.
+> 
+> Subject to bisect verification, it may have started after commit
+> 
+>   e1b1d03ceec343362524318c076b110066ffe305
+> 
+>   Merge tag 'for-6.18/block-20250929' of 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux
+> 
+> Machine is dell xps 9320 laptop (firmware 2.23.0) with nvme
+> partitioned:
+> 
+>     # lsblk -f
+>     NAME        FSTYPE      FSVER LABEL FSAVAIL FSUSE% MOUNTPOINTS    
+>     sr0
+>     nvme0n1
+>     ├─nvme0n1p1 vfat        FAT32 ESP   2.6G    12% /boot
+>     ├─nvme0n1p2 ext4        1.0   root  77.7G    42% / 
+>     └─nvme0n1p3 crypto_LUKS 2                          
+>       └─home    btrfs             home  1.3T    26% /opt
+>                                                     /home             
+> 
+> 
+> 
+> Will try do bisect over the weekend.
 
---=-cDtzTbyIsJ0vqi01o7jJ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That'd be great, because there's really not much to glean from this bug
+report.
 
-Mainline fails to boot - 6.17.1 works fine.
-Same kernel on an older laptop without any nvme works just fine.
+-- 
+Jens Axboe
 
-It seems to get stuck enumerating disks within the initramfs created by
-dracut.
-
-Subject to bisect verification, it may have started after commit
-
-  e1b1d03ceec343362524318c076b110066ffe305
-
-  Merge tag 'for-6.18/block-20250929' of=20
-  git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux
-
-Machine is dell xps 9320 laptop (firmware 2.23.0) with nvme
-partitioned:
-
-    # lsblk -f
-    NAME        FSTYPE      FSVER LABEL FSAVAIL FSUSE% MOUNTPOINTS   =20
-    sr0
-    nvme0n1
-    =E2=94=9C=E2=94=80nvme0n1p1 vfat        FAT32 ESP   2.6G    12% /boot
-    =E2=94=9C=E2=94=80nvme0n1p2 ext4        1.0   root  77.7G    42% /=20
-    =E2=94=94=E2=94=80nvme0n1p3 crypto_LUKS 2                         =20
-      =E2=94=94=E2=94=80home    btrfs             home  1.3T    26% /opt
-                                                    /home            =20
-
-
-
-Will try do bisect over the weekend.
-
-
---=20
-Gene
-
---=-cDtzTbyIsJ0vqi01o7jJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCaOkYLgAKCRA5BdB0L6Ze
-2/qsAP4lLRpZ6r2E5shHmQZVzY2BFM+HT8xJAkQrIIjtipIW5AEAoFZg3GMMBWlO
-1nQd0PPxtwczQ/5XLQzf2WRiQqftGAE=
-=ZfXG
------END PGP SIGNATURE-----
-
---=-cDtzTbyIsJ0vqi01o7jJ--
 
