@@ -4,90 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E0F6CCD187
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Oct 2025 23:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9973BCCD185
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Oct 2025 05:54:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lITNrOoYlz5NtF0dTO17OVkT1HBT4ddwp1sL9fNtp1M=; b=YSEaZiVkbbu8xUIrBF4V23BbrA
-	isF0+zmvs09QP4o54V0ak/kjaz/jRdYKPTYUnxzqhcRcXE4RAZNxRbYjPyWIOF/x0QooeT5IP9+QY
-	ayri1jB78tH+79ejftY1lBDiNyrPKVKgtg1J/fECWkuD20A+GDsEz/b1OzdA1ObKyt6PxYlQUFzLt
-	ZsMp93bDYNQieg5Uqx6LcMlqEYN5xRirZ44t7SRRE/mjgyH/f+PPogMVaTlIpxZLuxRh/T7ghHUNO
-	9eUHQ4zDTxfAHx/aJ4dyK6Pw1jISfNWS8NNhz61LGMRdSimbzL/IiapHfA855jzRR+53PH2pMrZIe
-	l0lnjEhA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XsH83EwB9fikMqFYJpo48022+QYpXTjVy7OSkiD2HSo=; b=xY3kHfItRMC6/eORgV1/TadNsI
+	wCEW6jMeGsGw7vfUs0uk82yz769ej86u80u7O8KXRld94vqGvILMmYNlNJ9Iid3Iwwlt06eDoLoIk
+	s/23GqAXOzx3sSYjFfregSVfe34UCu5wVmaK4rEUByPhE4br5vwB8JR46hMdfdO/2KZEk+kwQCyLF
+	Sh8JNL2doKvQg4bxwK4XoJlxbBiWOpVvOd9svCPq3hYDS6OjkbHNHrqI9W1aHvf5s4YC6CKaO6CJk
+	NnDLK9EL1qioPMmWbT4kZ5pAWVo9vwBEqn8ygiKKxiGFDj8r06X1sB3eJ4ID9Z1Ypb9vleTJttLj1
+	n/RtqYbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v7Mrk-00000009YKV-1Cdl;
-	Fri, 10 Oct 2025 23:49:40 +0000
-Received: from s1.sapience.com ([72.84.236.66])
+	id 1v8BVl-0000000CJM2-07M9;
+	Mon, 13 Oct 2025 05:54:21 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v7Mrh-00000009YK9-06t1
+	id 1v8BVe-0000000CJL5-3gap
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Oct 2025 23:49:38 +0000
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
-   signature) header.d=sapience.com header.i=@sapience.com 
-   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
-   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+	Mon, 13 Oct 2025 05:54:16 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by s1.sapience.com (Postfix) with ESMTPS id 13548480A19;
-	Fri, 10 Oct 2025 19:49:34 -0400 (EDT)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1760140174;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=lITNrOoYlz5NtF0dTO17OVkT1HBT4ddwp1sL9fNtp1M=;
- b=bBsgZB7jkggR+GCu7jBiVn9b74/8Xb8eJpe86L3v7lw8CTLvTVFITv9TsiqOvP5Vxxael
- +QF3DRp2o16+LVpCw==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1760140174;
-	cv=none; b=Yqtmvavk2akNencssa/kz6cWMHQWRqeh8nsLKCJf33MFVYbTEj1+N1ububAEZ4YU7AC1SLzVkJcSiZW8IMr8bfbxuN/FvulGrq+scSncBIJ5a1hIfdVnhVK+z080aGoKh4fvFEbpZFxewabNGvveXmIh3ewnAf5/EQCRxra2F6G/cZVa/eqzVZDjY+zg8/yMNeYtQ/tWhZ3vd4gC2vhXclE5K4l6rusDUQvAhoFMcVGyzh3Afey57t/HOjvIO0SOHdu1Zd+XvGrWTZt/RcSPRXGgoeuqwJ+V95EhTeXDwaxeQmqIigJXAP/t0Ir5kcrMIZ2LLrJC+57rGv5/6lEbKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
-	t=1760140174; c=relaxed/simple;
-	bh=1Y68sADJlVcz3CTM1RhBuA8huX1jYz6MJFnmx1aqQEg=;
-	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
-	 MIME-Version; b=P77in1VfHX8zHPeeR5Hf07CULZqINUEQn6/1eyXYXEVerUcWBZhGY8411GNvX9EyI+/bJ0het/kc341NjkPqPQquEKKxqRYzbqX7++2FfoReKq/DYbNzGvF/a9HI8GyKtktRs37mWAtkUwGz1OWaoiBA8g+5dpv3P+cduyc+8PgG6NYHw9pg7p8n4xR+p5aG0q40eV5OXzwxsUyWCSbHo2LXscndZn53TgaTMJ4k6F4rTTU3Y05JCw8FeyxVZ6UjWzkFj8PvuyERCYfmCku6nQ94VHh7js37kFdKYdWbjv74mMySeiL+adqBCkT9HEIGT4ccHi4nfXNvB7HZ+7MsPQ==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1760140174;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=lITNrOoYlz5NtF0dTO17OVkT1HBT4ddwp1sL9fNtp1M=;
- b=BjlxOxh/xZqgY78K8vukPyiZB3vzRYIkAZtb+6Vck7kRTUirlkr5L/Xzqu4ZLAUiHCq5q
- a0ElUTTLEwgi04p+XspT10KJWuCUrS01A6WGq+WDQV8NY1bOKGSS0IZug5CLjo3pXjAi/SH
- BR1efEgh0UPCWZ0gurzgtzDHKWfcVRL44/oqEFr1sD+FoV1C473t5mWhOhJRs5bIkQylQnI
- Do7EZg3CfSNEKA/t/mJAmVitTgny3jq9n+HQkzHIu3CQr5YxECalYmYzU1rzUFjZeSyenof
- 8Idbm+DxULbFQa02dSfLh+ITpT7q7P0GGbhDk1u1laG0zwE/qmlkO/EWRxVg==
-Received: by srv8.prv.sapience.com (Postfix) id C8A53284286;
-	Fri, 10 Oct 2025 19:49:34 -0400 (EDT)
-Message-ID: <3152ca947e89ee37264b90c422e77bb0e3d575b9.camel@sapience.com>
-Subject: Re: mainline boot fail nvme/block? [BISECTED]
-From: Genes Lists <lists@sapience.com>
-To: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: linux-pci@vger.kernel.org
-Date: Fri, 10 Oct 2025 19:49:34 -0400
-In-Reply-To: <cf4e88c6-0319-4084-8311-a7ca28a78c81@kernel.dk>
-References: <4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com>
-	 <cf4e88c6-0319-4084-8311-a7ca28a78c81@kernel.dk>
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
-	protocol="application/pgp-signature"; boundary="=-EzuXFgResxDP94lPU5BL"
-User-Agent: Evolution 3.58.1 
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 38611212AE;
+	Mon, 13 Oct 2025 05:54:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760334851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XsH83EwB9fikMqFYJpo48022+QYpXTjVy7OSkiD2HSo=;
+	b=urcE8ZPg+qu6cm+43dd0QwpRLASFT99ub9oC6nwUKmMn8T1rROOT4MI/0GlOETNr8gmL5R
+	3kDoYgvJoiQOetVf/rxkn86c3pGVc+5PTnH7a6Rlrf5s7YKQrJb2VE6Q50zUDxzjjcevQg
+	58v6rmPieHYXBZ/bGySHIGwJvzF3qG0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760334851;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XsH83EwB9fikMqFYJpo48022+QYpXTjVy7OSkiD2HSo=;
+	b=wzzLZ2FYp9jX03hGxDai6ypiorhK3m+wCKM18yXwBh4dhdBA3aVmglhjrDOokPZRTIkD/z
+	VS5EbVYIKFCJ5xDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=urcE8ZPg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wzzLZ2FY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760334851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XsH83EwB9fikMqFYJpo48022+QYpXTjVy7OSkiD2HSo=;
+	b=urcE8ZPg+qu6cm+43dd0QwpRLASFT99ub9oC6nwUKmMn8T1rROOT4MI/0GlOETNr8gmL5R
+	3kDoYgvJoiQOetVf/rxkn86c3pGVc+5PTnH7a6Rlrf5s7YKQrJb2VE6Q50zUDxzjjcevQg
+	58v6rmPieHYXBZ/bGySHIGwJvzF3qG0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760334851;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XsH83EwB9fikMqFYJpo48022+QYpXTjVy7OSkiD2HSo=;
+	b=wzzLZ2FYp9jX03hGxDai6ypiorhK3m+wCKM18yXwBh4dhdBA3aVmglhjrDOokPZRTIkD/z
+	VS5EbVYIKFCJ5xDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC5F01377F;
+	Mon, 13 Oct 2025 05:54:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id baz8NwKU7GgaEwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 13 Oct 2025 05:54:10 +0000
+Message-ID: <3fb79f55-212f-4825-9d21-f48298af5742@suse.de>
+Date: Mon, 13 Oct 2025 07:54:10 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCHv2 1/4] block: expose
+ blk_stat_{enable,disable}_accounting() to drivers
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk, dwagner@suse.de,
+ gjoyce@ibm.com
+References: <20251009100608.1699550-1-nilay@linux.ibm.com>
+ <20251009100608.1699550-2-nilay@linux.ibm.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251009100608.1699550-2-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 38611212AE
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251010_164937_348563_11775872 
-X-CRM114-Status: GOOD (  22.54  )
+X-CRM114-CacheID: sfid-20251012_225415_069123_1E771FFD 
+X-CRM114-Status: GOOD (  13.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,190 +143,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 10/9/25 12:05, Nilay Shroff wrote:
+> The functions blk_stat_enable_accounting() and
+> blk_stat_disable_accounting() are currently exported, but their
+> prototypes are only defined in a private header. Move these prototypes
+> into a common header so that block drivers can directly use these APIs.
+> 
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+> ---
+>   block/blk-stat.h       | 4 ----
+>   include/linux/blk-mq.h | 4 ++++
+>   2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/blk-stat.h b/block/blk-stat.h
+> index 9e05bf18d1be..f5d95dd8c0e9 100644
+> --- a/block/blk-stat.h
+> +++ b/block/blk-stat.h
+> @@ -67,10 +67,6 @@ void blk_free_queue_stats(struct blk_queue_stats *);
+>   
+>   void blk_stat_add(struct request *rq, u64 now);
+>   
+> -/* record time/size info in request but not add a callback */
+> -void blk_stat_enable_accounting(struct request_queue *q);
+> -void blk_stat_disable_accounting(struct request_queue *q);
+> -
+>   /**
+>    * blk_stat_alloc_callback() - Allocate a block statistics callback.
+>    * @timer_fn: Timer callback function.
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index b25d12545f46..f647444643b8 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -735,6 +735,10 @@ int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
+>   
+>   bool blk_mq_queue_inflight(struct request_queue *q);
+>   
+> +/* record time/size info in request but not add a callback */
+> +void blk_stat_enable_accounting(struct request_queue *q);
+> +void blk_stat_disable_accounting(struct request_queue *q);
+> +
+>   enum {
+>   	/* return when out of requests */
+>   	BLK_MQ_REQ_NOWAIT	= (__force blk_mq_req_flags_t)(1 << 0),
 
---=-EzuXFgResxDP94lPU5BL
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-On Fri, 2025-10-10 at 08:54 -0600, Jens Axboe wrote:
-> On 10/10/25 8:29 AM, Genes Lists wrote:
-> > Mainline fails to boot - 6.17.1 works fine.
-> > Same kernel on an older laptop without any nvme works just fine.
-> >=20
-> > It seems to get stuck enumerating disks within the initramfs
-> > created by
-> > dracut.
-> >=20
-> > ,,,
-> >=20
-> > Machine is dell xps 9320 laptop (firmware 2.23.0) with nvme
-> > partitioned:
-> >=20
-> > =C2=A0=C2=A0=C2=A0 # lsblk -f
-> > =C2=A0=C2=A0=C2=A0 NAME=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FSTYP=
-E=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FSVER LABEL FSAVAIL FSUSE%
-> > MOUNTPOINTS=C2=A0=C2=A0=C2=A0=20
-> > =C2=A0=C2=A0=C2=A0 sr0
-> > =C2=A0=C2=A0=C2=A0 nvme0n1
-> > =C2=A0=C2=A0=C2=A0 =E2=94=9C=E2=94=80nvme0n1p1 vfat=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 FAT32 ESP=C2=A0=C2=A0 2.6G=C2=A0=C2=A0=C2=A0 12% /=
-boot
-> > =C2=A0=C2=A0=C2=A0 =E2=94=9C=E2=94=80nvme0n1p2 ext4=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 1.0=C2=A0=C2=A0 root=C2=A0 77.7G=C2=A0=C2=A0=C2=A0=
- 42% /=20
-> > =C2=A0=C2=A0=C2=A0 =E2=94=94=E2=94=80nvme0n1p3 crypto_LUKS 2=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=94=94=E2=94=80home=C2=A0=C2=A0=C2=A0=
- btrfs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 home=C2=A0 1.3T=C2=A0=C2=A0=C2=A0 26% /opt
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0
-> > /home=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=20
-> >=20
-> >=20
-> >=20
-> > Will try do bisect over the weekend.
->=20
-> That'd be great, because there's really not much to glean from this
-> bug
-> report.
+Cheers,
 
-Bisect landed here. (cc linux-pci@vger.kernel.org)
-Hopefully it is helpful, even though I don't see MSI in lspci output
-(which is provided below).
-
-gene
-
-
-54f45a30c0d0153d2be091ba2d683ab6db6d1d5b is the first bad commit
-commit 54f45a30c0d0153d2be091ba2d683ab6db6d1d5b (HEAD)
-Author: Inochi Amaoto <inochiama@gmail.com>
-Date:   Thu Aug 14 07:28:32 2025 +0800
-
-    PCI/MSI: Add startup/shutdown for per device domains
-
-    As the RISC-V PLIC cannot apply affinity settings without invoking
-    irq_enable(), it will make the interrupt unavailble when used as an
-    underlying interrupt chip for the MSI controller.
-
-    Implement the irq_startup() and irq_shutdown() callbacks for the
-PCI MSI
-    and MSI-X templates.
-
-    For chips that specify MSI_FLAG_PCI_MSI_STARTUP_PARENT, the parent
-startup
-    and shutdown functions are invoked. That allows the interrupt on
-the parent
-    chip to be enabled if the interrupt has not been enabled during
-    allocation. This is necessary for MSI controllers which use PLIC as
-    underlying parent interrupt chip.
-
-    Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-    Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
-    Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-    Tested-by: Chen Wang <unicorn_wang@outlook.com> # Pioneerbox
-    Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
-    Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-    Link: https://lore.kernel.org/all/20250813232835.43458-3-
-inochiama@gmail.com
-
- drivers/pci/msi/irqdomain.c | 52
-++++++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/msi.h         |  2 ++
- 2 files changed, 54 insertions(+)
-
-
------------------------------------------ lspci output ----------------
-In case helpful here's lspci output:
-
-0000:00:00.0 Host bridge: Intel Corporation Raptor Lake-P/U 4p+8e cores
-Host Bridge/DRAM Controller
-0000:00:02.0 VGA compatible controller: Intel Corporation Raptor Lake-P
-[Iris Xe Graphics] (rev 04)
-0000:00:04.0 Signal processing controller: Intel Corporation Raptor
-Lake Dynamic Platform and Thermal Framework Processor Participant
-0000:00:05.0 Multimedia controller: Intel Corporation Raptor Lake IPU
-0000:00:06.0 System peripheral: Intel Corporation RST VMD Managed
-Controller
-0000:00:07.0 PCI bridge: Intel Corporation Raptor Lake-P Thunderbolt 4
-PCI Express Root Port #0
-0000:00:07.2 PCI bridge: Intel Corporation Raptor Lake-P Thunderbolt 4
-PCI Express Root Port #2
-0000:00:08.0 System peripheral: Intel Corporation GNA Scoring
-Accelerator module
-0000:00:0a.0 Signal processing controller: Intel Corporation Raptor
-Lake Crashlog and Telemetry (rev 01)
-0000:00:0d.0 USB controller: Intel Corporation Raptor Lake-P
-Thunderbolt 4 USB Controller
-0000:00:0d.2 USB controller: Intel Corporation Raptor Lake-P
-Thunderbolt 4 NHI #0
-0000:00:0d.3 USB controller: Intel Corporation Raptor Lake-P
-Thunderbolt 4 NHI #1
-0000:00:0e.0 RAID bus controller: Intel Corporation Volume Management
-Device NVMe RAID Controller Intel Corporation
-0000:00:12.0 Serial controller: Intel Corporation Alder Lake-P
-Integrated Sensor Hub (rev 01)
-0000:00:14.0 USB controller: Intel Corporation Alder Lake PCH USB 3.2
-xHCI Host Controller (rev 01)
-0000:00:14.2 RAM memory: Intel Corporation Alder Lake PCH Shared SRAM
-(rev 01)
-0000:00:14.3 Network controller: Intel Corporation Raptor Lake PCH CNVi
-WiFi (rev 01)
-0000:00:15.0 Serial bus controller: Intel Corporation Alder Lake PCH
-Serial IO I2C Controller #0 (rev 01)
-0000:00:15.1 Serial bus controller: Intel Corporation Alder Lake PCH
-Serial IO I2C Controller #1 (rev 01)
-0000:00:16.0 Communication controller: Intel Corporation Alder Lake PCH
-HECI Controller (rev 01)
-0000:00:1e.0 Communication controller: Intel Corporation Alder Lake PCH
-UART #0 (rev 01)
-0000:00:1e.3 Serial bus controller: Intel Corporation Alder Lake SPI
-Controller (rev 01)
-0000:00:1f.0 ISA bridge: Intel Corporation Raptor Lake LPC/eSPI
-Controller (rev 01)
-0000:00:1f.3 Multimedia audio controller: Intel Corporation Raptor
-Lake-P/U/H cAVS (rev 01)
-0000:00:1f.4 SMBus: Intel Corporation Alder Lake PCH-P SMBus Host
-Controller (rev 01)
-0000:00:1f.5 Serial bus controller: Intel Corporation Alder Lake-P PCH
-SPI Controller (rev 01)
-0000:01:00.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-Ridge 2020] (rev 02)
-0000:02:00.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-Ridge 2020] (rev 02)
-0000:02:01.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-Ridge 2020] (rev 02)
-0000:02:02.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-Ridge 2020] (rev 02)
-0000:02:03.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-Ridge 2020] (rev 02)
-0000:02:04.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-Ridge 2020] (rev 02)
-10000:e0:06.0 PCI bridge: Intel Corporation Raptor Lake PCIe 4.0
-Graphics Port
-10000:e1:00.0 Non-Volatile memory controller: SK hynix Platinum
-P41/PC801 NVMe Solid State Drive
-
-
---=20
-Gene
-
---=-EzuXFgResxDP94lPU5BL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCaOmbjgAKCRA5BdB0L6Ze
-298VAQCrzY8P7s8NGYPCxJ67f9kebbbfRXANLOptITSfMlvWpQEA4BCMploFlid4
-nlm45XFlxw363kivOWeDbAY9yx6Gyww=
-=j5Lv
------END PGP SIGNATURE-----
-
---=-EzuXFgResxDP94lPU5BL--
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
