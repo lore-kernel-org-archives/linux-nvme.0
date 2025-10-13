@@ -4,89 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2428FCCD183
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Oct 2025 08:47:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCA44CCA476
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Oct 2025 09:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ly+HQRkobfn8QZ0F7iorzNkMZ8hHSqdbvWQJzpHPzWg=; b=csVdUUriGSr4EYJNyzCBlF1fHt
-	Mi2QdOlV/FziU75qLyOf0ivll46COBQcquaZrUVBHARo/BRUIZ5wOXlzs2UtjP7tfRszbzl/p/CC2
-	VF990Hk67PUwuphv22EkqMU2MJXSLfpTOs96daI5stKlOBdCOX6bVZ/ctoYP4Joqkq09bxw/l64OR
-	pc0ZCCIn1/okx8ZhUkYeYa9P0YmD1Yfpov9gBEXrwp6SHPeGPuoAxnw9nxv/OIDmQWwCG6VwflNjT
-	/9aH+UP+3lf//OwS/BvamVyE5MBLjb0uyqiayoQo4YOiLo8P3wmCTRzCq/6PuRV6crJ8szEa14/tf
-	yEFlPOPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:From:MIME-Version:Date:Message-ID:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=5Z1InDRd5PqBViIyjKPHWspxuU5pBw24tGibcs0QPW8=; b=RHxHJl1liQaXHATftW0FrQ4AbC
+	lu/GJWIglOgAdFOxPd6kB8pCKhktQfIeSyLRpywXdMRuCRLUur/w2U4nnUv4g1fsqJHtdUdbBA0jV
+	QySFWkmLUJpiPBB1bt0kLyJ3I3lu4mcFI4h1kwFmE6sNkaAtVzSA4mGmzxv1Z/cLkoAQbIbt/Cgow
+	TB7Ve7VQ4vyaK2p52Jl5LoY9r+EoHIv4rK45xJ1XczejnuljotBHzMHWi50zR5yVjxwjjikqYFIT1
+	l1Gh9/Lrd1JvIZIKpWrqFClvRMEIcuTE5IO77Is57VFypHERW1G5qQxZO1Uey3aDCcuPQg9i8QpzS
+	W6wQGuZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8ECy-0000000Ce8S-3y5r;
-	Mon, 13 Oct 2025 08:47:08 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1v8EnB-0000000CjNa-2t18;
+	Mon, 13 Oct 2025 09:24:33 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8ECv-0000000Ce87-13eh
+	id 1v8En8-0000000CjLl-39Ov
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Oct 2025 08:47:06 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-279e2554c8fso38328495ad.2
-        for <linux-nvme@lists.infradead.org>; Mon, 13 Oct 2025 01:47:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760345224; x=1760950024; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ly+HQRkobfn8QZ0F7iorzNkMZ8hHSqdbvWQJzpHPzWg=;
-        b=HB0UHKmLBy2iigx/G/nal+s+ZsncIWPlRrUVhO+ytLCP10rwt5eWxxfoq34936pfRy
-         KSnZPX7BO4jk1yHqYtSmLG4O2oXnpMRd8CVRz/KYPHgesl1PKHpBbzatjCH1RIW6lz5c
-         PyntSvrUtr2XCGvYSBUEAZrI1lvrJzbWm+eEw2KN+Z1JVJcFUPKtAggQT2BIL+wMPmRi
-         Cp0az2Abv9RO5hezn5qrxnTrfBRSQpQOQi6lQBWkBDTT9qg+xCKa9WhJjsgvfgFHtX1O
-         G5qm1JqAmpjuiHWpNJXoh7Nl+yl9GWDyd5GY7Ww6jzaxdo3bKs9prKUCSHOd4QNd9s5r
-         c8Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760345224; x=1760950024;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ly+HQRkobfn8QZ0F7iorzNkMZ8hHSqdbvWQJzpHPzWg=;
-        b=VIO46gRagCCbAjBi8QOgGqB9zhoQOJncLdIrCFBaZPjqkg5lJGkdenM1YGmKeu16Bs
-         X+Sl8dakSocK0pOug6noDIuPhB/xXonoBfpZUKxFIWtPadZR51g4RxhaSgNPrYClyZZI
-         CxDnfA2DzZwCZ7NUyrPnyUyurIArWjchRNAbI8IxWJEdPx+Ii6GFHHwzPee7I1COJLHb
-         MU3ECLKcc3XH7/7Kzj270HUpvvpT3irL26+QFh3XyTvtB3FGcNzI3MKsXPvB/8nXdVUE
-         8BsqUDC1M1iZmNcYzExHEjeSrrO721+uxBkP/Cx933Ic7tUELCNQQ9EkLqeqDjOWGgNP
-         AHqg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtiRKVOzqmGobdjDdaWvNvjExioYAgizrntMrVV4887D/wJNoqaS7vOnucUfPe64St5/wWV+aWfFKP@lists.infradead.org
-X-Gm-Message-State: AOJu0YzkM/u7wtBQT/K40ytaImq32A2SGXJHhe/e0r7q82+jcyE1eaK1
-	pTgUWuqlzjfgTW9VHvt9jZuJkFQ9cB/yBcHAnAhR0gLNysJiM8hBxAgm
-X-Gm-Gg: ASbGnctJ2udOEPYU+iZDRvfceAMe9MhxTCZ1/aiiZ5JWnDH+A+sxnvf+/aA7TAm9/b9
-	nC2a+jyCifYdS/BScutOUaZ+A0PhseHv0A+kD6WIV9CpiCuIU4SxX1aiV248CcEhY94KRJoy96V
-	SWA96ZO/YMlPVJywyodLxRWq1N6LEzZvUKybzXI/rc8czLGU0mpDGPsr8wMq4ApCIH+FIcqAaTX
-	wxrgfD6J1EAhsY7FX+yJNScWHEzyBlZbyyQgC3OK+pQhNxqbhYoyiy8/65u3kUfoQAMuhrQxGIY
-	09wVHseoSkPNidPJwurn93itiaLGnO8sK189S7nY4a7Hknd6DT27yyReHrHHGblX1b75OB2u8Hp
-	yWx0YcWuTq23IcVZjuftdOcZlCURPc96iK+dKmUREMLr83ffSkn8=
-X-Google-Smtp-Source: AGHT+IF7w1EIeSODUr5AIUsDNw48vbrBIgBhYBiRRyhl8w2rgyXTNwbHm6KkbxbA5Bn+oLw+XAdTJw==
-X-Received: by 2002:a17:902:e550:b0:25f:fe5f:c927 with SMTP id d9443c01a7336-290272c0a06mr273302795ad.31.1760345224148;
-        Mon, 13 Oct 2025 01:47:04 -0700 (PDT)
-Received: from localhost ([2001:19f0:ac00:4eb8:5400:5ff:fe30:7df3])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-29034de9febsm127921165ad.7.2025.10.13.01.47.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 01:47:03 -0700 (PDT)
-Date: Mon, 13 Oct 2025 16:46:18 +0800
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Genes Lists <lists@sapience.com>, Jens Axboe <axboe@kernel.dk>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: linux-pci@vger.kernel.org
-Subject: Re: mainline boot fail nvme/block? [BISECTED]
-Message-ID: <trdjd7zhpldyeurmpvx4zpgjoz7hmf3ugayybz4gagu2iue56c@zswmzvauqnxk>
-References: <4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com>
- <cf4e88c6-0319-4084-8311-a7ca28a78c81@kernel.dk>
- <3152ca947e89ee37264b90c422e77bb0e3d575b9.camel@sapience.com>
+	Mon, 13 Oct 2025 09:24:32 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59CNSEHs004466;
+	Mon, 13 Oct 2025 09:24:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=5Z1InDRd5PqBViIyjKPHWspxuU5p
+	Bw24tGibcs0QPW8=; b=XTfbkTjA59oc4kiUSP+t9GHKK0VI993NHs2IQ9O2kr2p
+	/Zs5IzGCC7hq3r3sXld5buPDUh/WP6tPnns4hxzWwgCelXJnSPZRjy7oPUqNfSj1
+	WanmhoXRC28nma4hLf9sW9WYZYvePf3ipYEwziFGyue7nfBOBc6B5lULwXMgh0TK
+	AQexQoTW8qqm9/L2Zpv0YDe8lqaFrRJZ24yHkrZeLkrPHzZlLlh1ncfmwH+o6WFY
+	BDgN5DKTVX8i8C/O+Zj9a8kb6CoLzI31xzk54zM6E2uls5bQsVb+jQA2QMtwzjr2
+	ZOhNsJDZWo1jhUu0dhAZ0LX8aU242HKXilf5NMLGxA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49qey8g235-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Oct 2025 09:23:59 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 59D9JmY4010479;
+	Mon, 13 Oct 2025 09:23:59 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49qey8g231-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Oct 2025 09:23:59 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59D5UAZ6003603;
+	Mon, 13 Oct 2025 09:23:58 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49r1xxn6rh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Oct 2025 09:23:58 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59D9Num16882804
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Oct 2025 09:23:56 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6691258054;
+	Mon, 13 Oct 2025 09:23:56 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0AFE25805A;
+	Mon, 13 Oct 2025 09:23:52 +0000 (GMT)
+Received: from [9.67.162.81] (unknown [9.67.162.81])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 13 Oct 2025 09:23:51 +0000 (GMT)
+Message-ID: <31838b50-e420-405a-af23-6c6ede281386@linux.ibm.com>
+Date: Mon, 13 Oct 2025 14:53:50 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+Subject: [bug report][PPC]: rmod nvme driver causes the kernel panic
+To: namcao@linutronix.de
+Cc: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+        christophe.leroy@csgroup.eu, tglx@linutronix.de, maz@kernel.org,
+        gautam@linux.ibm.com, linuxppc-dev@lists.ozlabs.org,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3152ca947e89ee37264b90c422e77bb0e3d575b9.camel@sapience.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 2D6gErMqxO5tQ-47WKwO9UKRgclEgQXi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxMSBTYWx0ZWRfX0OH3aLIUwOtV
+ FWpYluDVPXk/lMTxFqREPJWmCZzPxxjy75cTWu3bl+EbM4fMonv3KmPRR9G2wr66Nuaek08H5ft
+ /HJSWlYRpiW5NmPXuMWrJyOwLNh9lQaNjr9jc+tQqVtVXyOeEqm0X2U7F//p4oLugEgRzdDqkrI
+ jz+qL91FyAMpdIbgyBdERF/nmdSZtGN+OFnE1mUI2x5cou/UeTh9gRCLqQOR1TXxkc5KMyzEoXH
+ Rx5km5gMG5xoQW/AvDW81k1kVbQg7G+GuwfRgqMhicMk8PD78kiEnYTmC93E8r8nOFJEfc+0vJn
+ nQhp0GqxnSA8Ms0SNbSXTFpFCT/89pqtsiJsQkntR2Dqrl5/kw9gZsAZCacHwqtTY4Hr96H5Prc
+ KqnPwCGhPvOKk5wijPoHFTXypkKBug==
+X-Proofpoint-GUID: -y4W86DtnsnamLlq3AXOhXHQeiGrWgsZ
+X-Authority-Analysis: v=2.4 cv=QZ5rf8bv c=1 sm=1 tr=0 ts=68ecc52f cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=OUoyzMPROc-8slUz8rQA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-13_03,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 impostorscore=0 clxscore=1011 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110011
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251013_014705_298173_EC71AB5D 
-X-CRM114-Status: GOOD (  27.05  )
+X-CRM114-CacheID: sfid-20251013_022430_966659_A5EA77E2 
+X-CRM114-Status: GOOD (  13.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,167 +124,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 10, 2025 at 07:49:34PM -0400, Genes Lists wrote:
-> On Fri, 2025-10-10 at 08:54 -0600, Jens Axboe wrote:
-> > On 10/10/25 8:29 AM, Genes Lists wrote:
-> > > Mainline fails to boot - 6.17.1 works fine.
-> > > Same kernel on an older laptop without any nvme works just fine.
-> > > 
-> > > It seems to get stuck enumerating disks within the initramfs
-> > > created by
-> > > dracut.
-> > > 
-> > > ,,,
-> > > 
-> > > Machine is dell xps 9320 laptop (firmware 2.23.0) with nvme
-> > > partitioned:
-> > > 
-> > >     # lsblk -f
-> > >     NAME        FSTYPE      FSVER LABEL FSAVAIL FSUSE%
-> > > MOUNTPOINTS    
-> > >     sr0
-> > >     nvme0n1
-> > >     ├─nvme0n1p1 vfat        FAT32 ESP   2.6G    12% /boot
-> > >     ├─nvme0n1p2 ext4        1.0   root  77.7G    42% / 
-> > >     └─nvme0n1p3 crypto_LUKS 2                          
-> > >       └─home    btrfs             home  1.3T    26% /opt
-> > >                                                    
-> > > /home             
-> > > 
-> > > 
-> > > 
-> > > Will try do bisect over the weekend.
-> > 
-> > That'd be great, because there's really not much to glean from this
-> > bug
-> > report.
-> 
-> Bisect landed here. (cc linux-pci@vger.kernel.org)
-> Hopefully it is helpful, even though I don't see MSI in lspci output
-> (which is provided below).
-> 
-> gene
-> 
-> 
-> 54f45a30c0d0153d2be091ba2d683ab6db6d1d5b is the first bad commit
-> commit 54f45a30c0d0153d2be091ba2d683ab6db6d1d5b (HEAD)
-> Author: Inochi Amaoto <inochiama@gmail.com>
-> Date:   Thu Aug 14 07:28:32 2025 +0800
-> 
->     PCI/MSI: Add startup/shutdown for per device domains
-> 
->     As the RISC-V PLIC cannot apply affinity settings without invoking
->     irq_enable(), it will make the interrupt unavailble when used as an
->     underlying interrupt chip for the MSI controller.
-> 
->     Implement the irq_startup() and irq_shutdown() callbacks for the
-> PCI MSI
->     and MSI-X templates.
-> 
->     For chips that specify MSI_FLAG_PCI_MSI_STARTUP_PARENT, the parent
-> startup
->     and shutdown functions are invoked. That allows the interrupt on
-> the parent
->     chip to be enabled if the interrupt has not been enabled during
->     allocation. This is necessary for MSI controllers which use PLIC as
->     underlying parent interrupt chip.
-> 
->     Suggested-by: Thomas Gleixner <tglx@linutronix.de>
->     Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
->     Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
->     Tested-by: Chen Wang <unicorn_wang@outlook.com> # Pioneerbox
->     Reviewed-by: Chen Wang <unicorn_wang@outlook.com>
->     Acked-by: Bjorn Helgaas <bhelgaas@google.com>
->     Link: https://lore.kernel.org/all/20250813232835.43458-3-
-> inochiama@gmail.com
-> 
->  drivers/pci/msi/irqdomain.c | 52
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/msi.h         |  2 ++
->  2 files changed, 54 insertions(+)
-> 
-> 
-> ----------------------------------------- lspci output ----------------
-> In case helpful here's lspci output:
-> 
-> 0000:00:00.0 Host bridge: Intel Corporation Raptor Lake-P/U 4p+8e cores
-> Host Bridge/DRAM Controller
-> 0000:00:02.0 VGA compatible controller: Intel Corporation Raptor Lake-P
-> [Iris Xe Graphics] (rev 04)
-> 0000:00:04.0 Signal processing controller: Intel Corporation Raptor
-> Lake Dynamic Platform and Thermal Framework Processor Participant
-> 0000:00:05.0 Multimedia controller: Intel Corporation Raptor Lake IPU
-> 0000:00:06.0 System peripheral: Intel Corporation RST VMD Managed
-> Controller
-> 0000:00:07.0 PCI bridge: Intel Corporation Raptor Lake-P Thunderbolt 4
-> PCI Express Root Port #0
-> 0000:00:07.2 PCI bridge: Intel Corporation Raptor Lake-P Thunderbolt 4
-> PCI Express Root Port #2
-> 0000:00:08.0 System peripheral: Intel Corporation GNA Scoring
-> Accelerator module
-> 0000:00:0a.0 Signal processing controller: Intel Corporation Raptor
-> Lake Crashlog and Telemetry (rev 01)
-> 0000:00:0d.0 USB controller: Intel Corporation Raptor Lake-P
-> Thunderbolt 4 USB Controller
-> 0000:00:0d.2 USB controller: Intel Corporation Raptor Lake-P
-> Thunderbolt 4 NHI #0
-> 0000:00:0d.3 USB controller: Intel Corporation Raptor Lake-P
-> Thunderbolt 4 NHI #1
-> 0000:00:0e.0 RAID bus controller: Intel Corporation Volume Management
-> Device NVMe RAID Controller Intel Corporation
-> 0000:00:12.0 Serial controller: Intel Corporation Alder Lake-P
-> Integrated Sensor Hub (rev 01)
-> 0000:00:14.0 USB controller: Intel Corporation Alder Lake PCH USB 3.2
-> xHCI Host Controller (rev 01)
-> 0000:00:14.2 RAM memory: Intel Corporation Alder Lake PCH Shared SRAM
-> (rev 01)
-> 0000:00:14.3 Network controller: Intel Corporation Raptor Lake PCH CNVi
-> WiFi (rev 01)
-> 0000:00:15.0 Serial bus controller: Intel Corporation Alder Lake PCH
-> Serial IO I2C Controller #0 (rev 01)
-> 0000:00:15.1 Serial bus controller: Intel Corporation Alder Lake PCH
-> Serial IO I2C Controller #1 (rev 01)
-> 0000:00:16.0 Communication controller: Intel Corporation Alder Lake PCH
-> HECI Controller (rev 01)
-> 0000:00:1e.0 Communication controller: Intel Corporation Alder Lake PCH
-> UART #0 (rev 01)
-> 0000:00:1e.3 Serial bus controller: Intel Corporation Alder Lake SPI
-> Controller (rev 01)
-> 0000:00:1f.0 ISA bridge: Intel Corporation Raptor Lake LPC/eSPI
-> Controller (rev 01)
-> 0000:00:1f.3 Multimedia audio controller: Intel Corporation Raptor
-> Lake-P/U/H cAVS (rev 01)
-> 0000:00:1f.4 SMBus: Intel Corporation Alder Lake PCH-P SMBus Host
-> Controller (rev 01)
-> 0000:00:1f.5 Serial bus controller: Intel Corporation Alder Lake-P PCH
-> SPI Controller (rev 01)
-> 0000:01:00.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-> Ridge 2020] (rev 02)
-> 0000:02:00.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-> Ridge 2020] (rev 02)
-> 0000:02:01.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-> Ridge 2020] (rev 02)
-> 0000:02:02.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-> Ridge 2020] (rev 02)
-> 0000:02:03.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-> Ridge 2020] (rev 02)
-> 0000:02:04.0 PCI bridge: Intel Corporation Thunderbolt 4 Bridge [Goshen
-> Ridge 2020] (rev 02)
-> 10000:e0:06.0 PCI bridge: Intel Corporation Raptor Lake PCIe 4.0
-> Graphics Port
-> 10000:e1:00.0 Non-Volatile memory controller: SK hynix Platinum
-> P41/PC801 NVMe Solid State Drive
-> 
-> 
-> -- 
-> Gene
+Hi Nam,
 
-I think this is caused by VMD device, which I have a temporary solution
-here [1]. Since I have no idea about how VMD works, I hope if anyone
-can help to convert this as an formal fix.
+On the latest upstream mainline kernel, I am encountering a kernel
+crash when attempting to unload the NVMe driver module (rmmod nvme)
+on a POWER9 system. The crash appears to be triggered by the recent
+work on using MSI parent domains, discussed here: 
+https://lore.kernel.org/all/cover.1754903590.git.namcao@linutronix.de/
 
-[1] https://lore.kernel.org/all/qs2vydzm6xngul77xuwjli7h757gzfhmb4siiklzogihz5oplw@gsvgn75lib6t/
+System details:
+===============
+Architecture: PowerPC (POWER9, IBM 9008-22L)
+Kernel: 6.18.0-rc1 (mainline, unmodified)
+Platform: pSeries / PHYP
+Reproducibility: Always, when running rmmod nvme
 
-Regards,
-Inochi
+Crash trace:
+============
+Kernel attempted to read user page (8) - exploit attempt? (uid: 0)
+BUG: Kernel NULL pointer dereference on read at 0x00000008
+Faulting instruction address: 0xc000000000b30638
+Oops: Kernel access of bad area, sig: 11 [#1]
+LE PAGE_SIZE=64K MMU=Hash  SMP NR_CPUS=2048 NUMA pSeries
+Modules linked in: rpadlpar_io rpaphp bonding tls nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet n
+CPU: 14 UID: 0 PID: 1973 Comm: rmmod Not tainted 6.18.0-rc1 #63 VOLUNTARY 
+Hardware name: IBM,9008-22L POWER9 (architected) 0x4e0202 0xf000005 of:IBM,FW950.80 (VL950_131) hv:phyp pSeries
+NIP:  c000000000b30638 LR: c000000000111d90 CTR: c000000000111d6c
+REGS: c00000011f1076e0 TRAP: 0300   Not tainted  (6.18.0-rc1)
+MSR:  800000000280b033 <SF,VEC,VSX,EE,FP,ME,IR,DR,RI,LE>  CR: 48008228  XER: 200400cf
+CFAR: c00000000000d9cc DAR: 0000000000000008 DSISR: 40000000 IRQMASK: 0 
+GPR00: c000000000111d90 c00000011f107980 c000000001da8100 0000000000000000 
+GPR04: c0000000bcf535e8 0000000000000000 73efa01ced0dd290 00000000b0734e18 
+GPR08: 0000000ffb4c0000 c0000000bcf53540 0000000000000000 0000000048008222 
+GPR12: c000000000111d6c c000000017ff1c80 0000000000000000 0000000000000000 
+GPR16: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
+GPR20: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
+GPR24: 0000000000000000 0000000000000001 c0000000b70bd980 c0000000995890c8 
+GPR28: 0000000000000000 c0000000bcf53590 c00000000e79c800 c0000000995890c8 
+NIP [c000000000b30638] msi_desc_to_pci_dev+0x8/0x14
+LR [c000000000111d90] pseries_msi_ops_teardown+0x24/0x38
+Call Trace:
+[c00000011f107980] [c0000000995890c8] 0xc0000000995890c8 (unreliable)
+[c00000011f1079a0] [c000000000276118] msi_remove_device_irq_domain+0x9c/0x18c
+[c00000011f1079e0] [c00000000027623c] msi_device_data_release+0x34/0xa8
+[c00000011f107a10] [c000000000c657b8] release_nodes+0xac/0x1f0
+[c00000011f107ab0] [c000000000c675e8] devres_release_all+0xc0/0x138
+[c00000011f107b20] [c000000000c5bb8c] device_unbind_cleanup+0x2c/0xb0
+[c00000011f107b50] [c000000000c5dfc8] device_release_driver_internal+0x2fc/0x34c
+[c00000011f107ba0] [c000000000c5e0c4] driver_detach+0x74/0xe0
+[c00000011f107bd0] [c000000000c5b3e0] bus_remove_driver+0x94/0x140
+[c00000011f107c50] [c000000000c5f1c8] driver_unregister+0x48/0x88
+[c00000011f107cc0] [c000000000b228ec] pci_unregister_driver+0x40/0x128
+[c00000011f107d10] [c008000004b6834c] nvme_exit+0x20/0x7cd4 [nvme]
+[c00000011f107d30] [c0000000002becb8] __do_sys_delete_module.constprop.0+0x1ac/0x3ec
+[c00000011f107e10] [c000000000032324] system_call_exception+0x134/0x360
+[c00000011f107e50] [c00000000000cedc] system_call_vectored_common+0x15c/0x2ec
+
+Analysis:
+=========
+From tracing the cleanup path, it appears that the crash happens because the MSI 
+descriptor is freed before the MSI teardown is invoked. Specifically, during NVMe
+module unload (rmmod nvme), the call sequence is as follows:
+
+cleanup_module
+ -> pci_unregister_driver
+   -> driver_unregister
+     -> bus_remove_driver
+       -> driver_detach
+         -> device_release_driver_internal
+           -> device_remove
+            -> pci_device_remove
+              -> nvme_remove
+                -> nvme_dev_disable
+                  -> pci_free_irq_vectors
+                    -> pci_disable_msix
+                      -> pci_free_msi_irqs
+                        -> pci_msi_teardown_msi_irqs  ==> here we free msi_desc
+
+
+Later, when call stack continue unwinding through,
+-> device_release_driver_internal
+  -> device_unbind_cleanup
+    -> devres_release_all
+      -> release_nodes
+        -> msi_device_data_release
+          -> msi_remove_device_irq_domain
+            -> pseries_msi_ops_teardown => here the freed msi_desc is dereferenced, leads to crash
+
+Possible Cause:
+===============
+This looks like a cleanup ordering issue introduced by the recent MSI parent
+domain rework. The PCI/MSI teardown seems to assume that the MSI descriptor
+remains valid until after the domain teardown path executes — which no longer
+appears to hold true in this sequence.
+
+Expected behavior:
+==================
+The rmmod nvme operation should cleanly unload the module without triggering a
+crash or accessing freed MSI descriptors.
+
+Additional notes:
+=================
+- The crash reproduces consistently on PowerPC (pseries, PHYP).
+- It did not occur before the MSI parent domain series was merged.
+- Likely to affect other MSI-capable PCI drivers.
+
+Let me know if you need any further details. Also if you fix this bug,
+I'd be glad to assist you validating the fix on PPC.
+
+Thanks,
+--Nilay
+
 
