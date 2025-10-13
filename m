@@ -4,128 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C1A9CCA476
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Oct 2025 06:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FEECCCD185
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Oct 2025 06:47:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NCs4/10jZWIewI6q7PY6opm0f/ZX2iCX2X3Rct1nl+o=; b=3tpBOgpuaKRgKxFoF2GBdhnm8V
-	UEOKcji0eGCyJ909FO3MIByyHoTtQD+nYHl5Ri94pvRMc4JpGVZ6/o2D/lAOJ+9mM+f7JexjLZIph
-	E4rGf2JscDKR8N0uPMK89lvaV628Satr5cqEdWjCPTGqgqzPZw1K3GE0LALZAfn6HEa0yXuB4l3pf
-	CUaKrvCZqXj35dLPjPcVGYtVIwdvmA3YzFAeHQnyCsf2bQT9XNXC3TPnbGk8yyENu+fGYfitrfR2d
-	ORdElwcAbkR/kfPXvy68ysH3Wo3DBWPBxCurYDtyNZLXxG6Nsq2EavclO/r/h9oqKNr2fXzaPS8Mq
-	wjQ2YpPw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dB3nhuPqDO6IDC2mB8jProA51TcS6zTe5hYSpG+4odM=; b=pgE5g04cAWHaEH+M9mBkixl/4h
+	UMK9LQljpdgNNcGMucsACFaGF1WW0ukJtQeoBgdwdErIwoBiHKc8uV5zKNw8PbY2sIADwKBJ5mGhc
+	+JS7EzVaBSBDIGpGso9yFDWS5R764IhAt3sPL1p5xURaI2FDT5pjP/z7kkgU+23eplv4PMrciQt81
+	Cmnm0UNOC0oUXEKTDkNrA1eyztXSHz/mh3Kow1dRGNVpLXDjtWmvp1ysDu51wF5FBY4AmACGI7JLa
+	DgKkztR6YAN7EF1KG/BfVEipVLOYMJAQvwwyULQRqUUif5Wb54jOUZxKEW92KqARzGGpdn1nA58Yo
+	PVzqFd+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8C7q-0000000CPJM-2M6m;
-	Mon, 13 Oct 2025 06:33:42 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1v8CKw-0000000CQXa-096c;
+	Mon, 13 Oct 2025 06:47:14 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8C7o-0000000CPHz-0Qy3
+	id 1v8CKt-0000000CQX9-00yI
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Oct 2025 06:33:41 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7735E1F460;
-	Mon, 13 Oct 2025 06:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760337218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NCs4/10jZWIewI6q7PY6opm0f/ZX2iCX2X3Rct1nl+o=;
-	b=kukHxyOWeMx6ftEO15foZhS/9LWtrNKe1lmNsAANBAzhiK+/RrJaqT+1b7/U5gyCsWtu8v
-	Kc15WQiK7yKag0M5sWXzyP4IGyPzt3ZNYHpZK0sYAtg5P8z2AapbU1xpDYvs8V3JnaZB4q
-	j0ZWmXU8o+3/yQETsM54gMVCORSKtWs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760337218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NCs4/10jZWIewI6q7PY6opm0f/ZX2iCX2X3Rct1nl+o=;
-	b=tl9nUXmkqKPMZUraOTrE5tU1OPiv3E82pLDQaoIsKIsxNf8TenhgAefHCK0EI/05OXzNFx
-	BDaYwDra6J16dpBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kukHxyOW;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tl9nUXmk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760337218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NCs4/10jZWIewI6q7PY6opm0f/ZX2iCX2X3Rct1nl+o=;
-	b=kukHxyOWeMx6ftEO15foZhS/9LWtrNKe1lmNsAANBAzhiK+/RrJaqT+1b7/U5gyCsWtu8v
-	Kc15WQiK7yKag0M5sWXzyP4IGyPzt3ZNYHpZK0sYAtg5P8z2AapbU1xpDYvs8V3JnaZB4q
-	j0ZWmXU8o+3/yQETsM54gMVCORSKtWs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760337218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NCs4/10jZWIewI6q7PY6opm0f/ZX2iCX2X3Rct1nl+o=;
-	b=tl9nUXmkqKPMZUraOTrE5tU1OPiv3E82pLDQaoIsKIsxNf8TenhgAefHCK0EI/05OXzNFx
-	BDaYwDra6J16dpBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 384BC13874;
-	Mon, 13 Oct 2025 06:33:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mmH1C0Kd7GgcOgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 13 Oct 2025 06:33:38 +0000
-Message-ID: <359e3d8f-4db7-4430-8520-4fed9de4f48e@suse.de>
-Date: Mon, 13 Oct 2025 08:33:37 +0200
+	Mon, 13 Oct 2025 06:47:12 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9565B227A87; Mon, 13 Oct 2025 08:47:00 +0200 (CEST)
+Date: Mon, 13 Oct 2025 08:47:00 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: libnvme API design
+Message-ID: <20251013064700.GA2140@lst.de>
+References: <9812534f-6a15-4126-a4c0-7b4ae39e327b@flourine.local> <20251010072658.GA17812@lst.de> <204cb4cc-33b4-40ce-8554-13436048f8d4@flourine.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCHv2 4/4] nvme-multipath: add debugfs attribute for
- adaptive I/O policy stat
-To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk, dwagner@suse.de,
- gjoyce@ibm.com
-References: <20251009100608.1699550-1-nilay@linux.ibm.com>
- <20251009100608.1699550-5-nilay@linux.ibm.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251009100608.1699550-5-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 7735E1F460
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
-	DKIM_TRACE(0.00)[suse.de:+]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <204cb4cc-33b4-40ce-8554-13436048f8d4@flourine.local>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251012_233340_285099_83346D96 
-X-CRM114-Status: GOOD (  10.60  )
+X-CRM114-CacheID: sfid-20251012_234711_206397_3E0FF169 
+X-CRM114-Status: GOOD (  16.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,42 +59,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/9/25 12:05, Nilay Shroff wrote:
-> This commit introduces a new debugfs attribute, "adaptive_stat", under
-> both per-path and head debugfs directories (defined under /sys/kernel/
-> debug/block/). This attribute provides visibility into the internal
-> state of the adaptive I/O policy to aid in debugging and performance
-> analysis.
+On Fri, Oct 10, 2025 at 10:44:39AM +0200, Daniel Wagner wrote:
+> > > 	cmd->cdw11 |=  NVME_SET(nvmsetid, IDENTIFY_CDW11_CNSSPECID);
+> > 
+> > And NVME_SET still feels very oddly name..
 > 
-> For per-path entries, "adaptive_stat" reports the corresponding path
-> statistics such as I/O weight, selection count, processed samples, and
-> ignored samples.
+> It's on the TODO list but we might address this at the same time indeed.
 > 
-> For head entries, it reports per-CPU statistics for each reachable path,
-> including I/O weight, path score, smoothed (EWMA) latency, selection
-> count, processed samples, and ignored samples.
+> Is it just the name or the macro itself?
 > 
-> These additions enhance observability of the adaptive I/O path selection
-> behavior and help diagnose imbalance or instability in multipath
-> performance.
+> Something like NVME_FIELD_PREP, REG_FIELD_PREP, FIELD_ENCODE,
+> PACK_FIELD?
 > 
-> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
-> ---
->   drivers/nvme/host/core.c      |   3 +
->   drivers/nvme/host/debugfs.c   | 117 ++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/multipath.c |   2 +
->   3 files changed, 122 insertions(+)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Yeah I am struggling coming up with good names...
 
-Might be an idea to have support for queue-depth in here, too.
+I'm not good either, but the above already are much more descriptive.
+But I'd keep thre NVME prefix.
 
-Cheers,
+> 
+> Just for reference what v1 currently defines:
+> 
+> #define NVME_GET(value, name) \
+> 	(((value) >> NVME_##name##_SHIFT) & NVME_##name##_MASK)
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+I'd preferable avoid the magic naming pasting as well, and just pass
+in the shift and mask.
+
 
