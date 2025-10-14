@@ -4,95 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 709B0CCD184
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Oct 2025 10:18:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CC52CCD192
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Oct 2025 15:05:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fP2AapzH0P5GM+gmZrivACasOzhAfhhFaaQEi0zlJ5s=; b=GuGKjNZgo24Ifuil1kxlRFsFVH
-	CJ7GWfEttJr7Yhhcr4IlrkB6EUgd47luFQEBG01iJkL1WjMrDbGLH13qtK6jR+0ZzvuSsKCt5CBya
-	b27AP/0c90BY5vcty/nri69xZeQSi9ATzGolRkRDKQWkbNUhaLv76MYrltH+H5nDBDXvV74ePIYbD
-	MmSGhUIMrzXi5rMh601tnP+ilGVpUGGXWvYo6y2rqKI2+dRBE+EGj0z4YkyLzDoxLNal5y3QHTGqr
-	VlvZlPWhOLVLJti97hvZTObLkOXUXh1eX9Tjsk7hy2FCD1V7pQjxHwSpJUJNDc4lEPKfA2rxn25/6
-	bFBR0IMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wJt9aA7Z2dipsC5sJfbrKnoSz9SDb71SUd6mhYZTWdA=; b=W4nz4/u+L7CKWYjdxo+TIU4M3r
+	7aKB5XUqAc7v2AqDiusCBrd6c5NSVwplaBtbi7BSScuGdcHe415WagDNZpXDgwfDQ/OZ7dw7W5vEv
+	Ph22KLR0DoABsdpaApm+PCWarWPTD1BNg3xBn9VBF5oqlygzeE7wnWGRzZLw+3z4X8TsnWStu/Anx
+	FQbXN9o+COE6nvCJE5PFXLzo6BTsoPdDh2TH5jN1WUp0LFjjfrd44TH9yXGue3vuyMS1zrHjCRByc
+	FwYAbzQU0IW09wkq/XA9MvM/PZIiyXrAP1J4OuAIBZpk4VO/WkKBplcLthdD2P8uFBbEHGo9kDkZm
+	1LLzHeQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8c71-0000000FuDq-3IIR;
-	Tue, 14 Oct 2025 10:18:35 +0000
-Received: from s1.sapience.com ([72.84.236.66])
+	id 1v8gat-0000000GjZj-2o2e;
+	Tue, 14 Oct 2025 15:05:43 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8c6y-0000000FuDK-1UKw
+	id 1v8gak-0000000GjS6-28aD
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 14 Oct 2025 15:05:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Type:Content-Transfer-Encoding
+	:MIME-Version:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=wJt9aA7Z2dipsC5sJfbrKnoSz9SDb71SUd6mhYZTWdA=; b=Rcs6ZOp1j8RI11T3fSdr4AuVJU
+	0JQDYBl9lDAMFgsZvr62nfE2eWLv8/AhcSF0c8vzSzXDdZTwBcwHA/EW7xtdWnj0Ck3UvoYBvMM8b
+	5uS+ucuqst5BaQM0n3KlZtDLJpbTD9zXP7qz7AYdRRIfNpwbl4Qx+Wc4gVVcigzDnAkwWc61Psma6
+	vnjC7ZXYWYIm0g1AwsCn+bzTctLY0P7pP52A+SC15Ngi9DQPRnGtpsFhqMz+XyOhHAYNRe4zgad14
+	reF2KWYlmP/iVoz7j73Ihoxcq3QLJQS/+ZvEVTin2kntIvZU6kwijqjzLmx6xdD442GqD5xdpPxzc
+	kzhrqrqQ==;
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1v8gaW-00000005GWC-1ofs
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Oct 2025 10:18:34 +0000
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
-   signature) header.d=sapience.com header.i=@sapience.com 
-   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
-   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by s1.sapience.com (Postfix) with ESMTPS id BC0BC480A02;
-	Tue, 14 Oct 2025 06:18:29 -0400 (EDT)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1760437109;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=fP2AapzH0P5GM+gmZrivACasOzhAfhhFaaQEi0zlJ5s=;
- b=tVK7s2IcaXaRDIWeAu35hn0roBePdKh65fnWQz1zOp2UdusAkSYAdbtwtG+v6yicHiJVu
- EoqJvMFhj64Dw9ZDg==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1760437109;
-	cv=none; b=BtN3+NiPlJacmV56GGpzf12DJ+m/cwBFjsgSQqYCF58E+ivEG9l8BKnQ752WFT93Vn5bwD2n0I/qzBJU8Qy8UtO8bEqTsHxXBenVJXkjAj7BEWYGl0MqnAUOewuRx0tDjlKFq5XxRnmzp2f9HCUCdWAl0uyhNrKyQka9Sy3UUvV5E4mml0Cj9gT04D00ICRSttt6Hn7/2fMczbxC2C70Adpnc5iJT5Hko1JZKd1IPTzyxZNrRj9YFU2/4t2cDvGT4h1YGx5UwVBaBZeJXr5G6jKNWF4KFiowvpfnzUieDZk1skA2PDtJ2oUeI+RWawfpd0MOP8MyqndBVOnLbFpAfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
-	t=1760437109; c=relaxed/simple;
-	bh=mnk2Tp4BqBjzOf+Sk6D0bwEHtz+eplJR5KzvV6YMaCY=;
-	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
-	 MIME-Version; b=UqanI4lIHEbfZRaCAtCv7qvzXH2ERepnNl5Kdv2bSfHfzy/5NtsdofsF8hsgIbo9qsI1MHuQ5fKpO8i2l2e2vbx8h8tH2ZMYmgKL23WD2j6YxEzk6pwVAwuRhpP++cFyltSUQlx+myuR3pQtlLYQf4OKjm2NUWAyRa/7rO3pR8/PSP27h0GiDopQftZs4EYm+j/RoEcTcpjZM+HUaPBGFLmBJ23gFZ2tEuuLMsMFUkjC6DZXLeiIABRyBlAuOFMNchdjX38MYIdMDJFPwK87J12P/tBKrhMSxVEJ6Yip6+dbrwxEGTtOzJFoJm8RnzGO4Z8uh1MNd+8tKSDaelBoSQ==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1760437109;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=fP2AapzH0P5GM+gmZrivACasOzhAfhhFaaQEi0zlJ5s=;
- b=LIerhxD4YIoXWA3FJUBcDvr2DQWmp5D+JzPNJmjtPXQP1UnZ7Cic4x9wiofZ7IY826l9/
- 7ZUwthBjm5HvjrGaHF2VG+cxesh6Qrd8F7aHQ4WgCLOPIQbHuW/7zPR1XNS0kzlDOwjsidJ
- mz11v2wXbzDE7GweHYarHflE6FlAIgKh7QqCFcRg8lMlyuvw65sTOa7ngrp8FKmYRMgV/Hv
- Y62mCA27aFLJ+eQBh49VbhrD4N0yiRPaVt3aaF7aH0mBb23nJlPF6d5pmCMTtOuOlTH24Xk
- XygZj26tYYx4dZbYyUCbMijx/DSroPLiSpUmfbDKKPHY1JLPn1D0F/7mW84Q==
-Received: by srv8.prv.sapience.com (Postfix) id 91E5428001B;
-	Tue, 14 Oct 2025 06:18:29 -0400 (EDT)
-Message-ID: <b30331816621cc1f6a154233482f01798cf57cea.camel@sapience.com>
-Subject: Re: mainline boot fail nvme/block? [BISECTED]
-From: Genes Lists <lists@sapience.com>
-To: Inochi Amaoto <inochiama@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org
-Cc: linux-pci@vger.kernel.org
-Date: Tue, 14 Oct 2025 06:18:28 -0400
-In-Reply-To: <xfzcvv6ezleds24wvha2apkz5kirhcmoydm3on2hnfrxcwuc3g@koj6plovnvbd>
-References: <4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com>
-	 <cf4e88c6-0319-4084-8311-a7ca28a78c81@kernel.dk>
-	 <3152ca947e89ee37264b90c422e77bb0e3d575b9.camel@sapience.com>
-	 <trdjd7zhpldyeurmpvx4zpgjoz7hmf3ugayybz4gagu2iue56c@zswmzvauqnxk>
-	 <622d6d7401b5cfd4bd5f359c7d7dc5b3bf8785d5.camel@sapience.com>
-	 <xfzcvv6ezleds24wvha2apkz5kirhcmoydm3on2hnfrxcwuc3g@koj6plovnvbd>
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
-	protocol="application/pgp-signature"; boundary="=-WzP+G+VsL1ZgoEfePPDq"
-User-Agent: Evolution 3.58.1 
+	Tue, 14 Oct 2025 15:05:31 +0000
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59E6N8iC1449956
+	for <linux-nvme@lists.infradead.org>; Tue, 14 Oct 2025 08:05:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=wJt9aA7Z2dipsC5sJf
+	brKnoSz9SDb71SUd6mhYZTWdA=; b=gwgfMs1/uCImlrog1yCeRcx4aHJlxkAfoQ
+	3IaJ8WemXj+cW+pl/DnISmc1zWGW2DMGyM/FyveZ/2s8wg/8hYfhpW1eidbh7Tie
+	evcfWeXUzqwLenRk37BKtBflfYJ9w0Dy8wwt5Wio/Lm17QoKXATMOTYPe5J9tQzV
+	4UZ0KE0BIhgEDhmyDl67eZzOBskP/7drO+LhmZ/Qk/8qbnjgY1nosBhrfvaWGQKU
+	oEjI7fyevxDxbov53LE80LvfQ0QeTzrjdlbf31j/xDq6JkFR/KDr2AjOye+VsMvx
+	l3ZWP7mOF7W7qGz9KHZrtZRIYU7iaA2gDYg5WupQ7b0uhqBwfmgQ==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 49sh70ju3e-5
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 14 Oct 2025 08:05:15 -0700 (PDT)
+Received: from twshared7571.34.frc3.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Tue, 14 Oct 2025 15:05:11 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 4E7932B305DB; Tue, 14 Oct 2025 08:05:08 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <hch@lst.de>, <linux-nvme@lists.infradead.org>,
+        <linux-block@vger.kernel.org>, <axboe@kernel.dk>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv5 0/2] block, nvme: removing virtual boundary mask reliance
+Date: Tue, 14 Oct 2025 08:04:54 -0700
+Message-ID: <20251014150456.2219261-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: sUK4iTJec-FX9uu1_jPIOo0Np4LCcajR
+X-Authority-Analysis: v=2.4 cv=G9oR0tk5 c=1 sm=1 tr=0 ts=68ee66ab cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8
+ a=D3lQaUfW4OkPWDUkTUkA:9 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDExNCBTYWx0ZWRfX2hDOwP8/3cW2
+ Ic6JKfkHxCVpPmDBaL2/1T1v3+gPfPeItOXJ5Ojnv1YYJM7UnBQ9lxC6VffPmuav+rd7qMbtxCv
+ YdirPpgP1+xqKTJo/2aw1FVFevbDfOtUoNobrgMHHEFdHnxzoph6ckP34hnlzkPbCmt5dLO2Lmj
+ JVfN4s3A/zI5PlXpbTP/alJylujnTwwnEXdd8R+f8TZTrfJDHXem36ZHfcG1HUZiHMEV7GS+VoT
+ akIwVU5vdrCCirCoK1UtvHhHDFvitlLfcfuGkex1cGVPlVmaueegFAOLBCqErZTci3ngPfgZTmd
+ stmjBKZ5QAiAq1AQiP0P2blFs45rKwVvREvKdqIS2sIMrYOde8KAfoGslwQmldHMIaciP7I1qXI
+ k+RLYKHaIL94DgMXGCsGLuutmLdabw==
+X-Proofpoint-GUID: sUK4iTJec-FX9uu1_jPIOo0Np4LCcajR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-14_03,2025-10-13_01,2025-03-28_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251014_031832_674160_ED86419F 
-X-CRM114-Status: GOOD (  26.78  )
+X-CRM114-CacheID: sfid-20251014_160527_561884_8CF0BBAC 
+X-CRM114-Status: GOOD (  15.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,227 +109,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Keith Busch <kbusch@kernel.org>
 
---=-WzP+G+VsL1ZgoEfePPDq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Previous version here:
 
-On Tue, 2025-10-14 at 08:54 +0800, Inochi Amaoto wrote:
-> On Mon, Oct 13, 2025 at 07:45:05AM -0400, Genes Lists wrote:
-> >=20
-...
+  https://lore.kernel.org/linux-block/20251007175245.3898972-1-kbusch@met=
+a.com/
 
-> > Thank you Inochi
-> >=20
-> > I tried this patch over 6.18-rc1.
-> >=20
-> > =C2=A0It get's further than without the patch but around the time I get
-> > prompted for passphrase for the luks partition
-> > (root is not encrypted) it crashes.=C2=A0
-> >=20
-> > I have uploaded 2 images I took of the screen when this happens and
-> > uploaded them to here:
-> >=20
-> > =C2=A0 =C2=A0=C2=A0https://0x0.st/KSNz.jpg
-> > =C2=A0 =C2=A0=C2=A0https://0x0.st/KSNi.jpg
-> >=20
->=20
-> This picture is only a WARNING from perf_get_x86_pmu_capability,
-> and no other information. So I am not sure whether it is caused
-> by this change. But from the original report I have, it solves
-> the problem at that time.
->=20
-> By the way, can you test the following change?
-> https://lore.kernel.org/all/2hyxqqdootjw5yepbimacuuapfsf26c5mmu5w2jsd
-> mamxvsjdq@gnibocldkuz5/
->=20
-> If it is OK, I will send a patch for it.
->=20
-> Regards,
-> Inochi
+The purpose is to allow optimization decisions to happen per IO, and
+flexibility to utilize unaligned buffers for hardware that supports it.
 
+The virtual boundary that NVMe uses provides specific guarantees about
+the data alignment, but that might not be large enough for some CPU
+architectures to take advantage of even if an applications uses aligned
+data buffers that could use it.
 
-With this patch it boots with the same/similar warning as before, which
-I will include below since it's text instead of image.
+At the same time, the virtual boundary prevents the driver from directly
+using memory in ways the hardware may be capable of accessing. This
+creates unnecessary needs on applications to double buffer their data
+into a more restrictive virtually contiguous format.
 
-Tested-by: Gene C <gene@sapience.com>
+This patch series provides an efficient way to track segment boundary
+gaps per-IO so that the optimizations can be decided per-IO. This
+provides flexibility to use all hardware to their abilities beyond what
+the virtual boundary mask can provide.
 
-Thank you
+Note, abuse of this capability may result in worse performance compared
+to the bounce buffer solutions. Sending a bunch of tiny vectors for one
+IO incurs significant protocol overhead, so while this patch set allows
+you to do that, I recommend that you don't. We can't enforce a minimum
+size though because vectors may straddle pages with only a few words in
+the first and/or last pages, which we do need to support.
 
-gene
+Changes from v4:
 
-Warning from 6.18-rc1 with above patch:
+ * Keep the same lowest-set-bit representation in the request as the
+   bio; provide a helper to turn it into a mask
 
+ * Open-code the bvec gaps calculation since the helper is being removed
 
-[  +0.003929] ------------[ cut here ]------------
-[  +0.000004] WARNING: CPU: 7 PID: 584 at arch/x86/events/core.c:3089
-perf_get_x86_pmu_capability+0x11/0xb0
-[  +0.000010] Modules linked in: snd_hda_codec sr_mod(+) iwlmvm(+)
-kvm_intel(+) dm_crypt cdrom encrypted_keys snd_>
-[  +0.000060]  industrialio mei_me processor_thermal_wt_req i2c_smbus
-spi_intel_pci intel_ipu6 soundcore processor>
-[  +0.000058]  ghash_clmulni_intel aesni_intel video intel_ish_ipc
-drm_display_helper intel_lpss_pci thunderbolt i>
-[  +0.000025] CPU: 7 UID: 0 PID: 584 Comm: (udev-worker) Not tainted
-6.18.0-rc1-test-1-00002-ge9cc50c96bb9 #2 PREE>
-[  +0.000005] Hardware name: Dell Inc. XPS 9320/0CR6NC, BIOS 2.23.0
-07/03/2025
-[  +0.000002] RIP: 0010:perf_get_x86_pmu_capability+0x11/0xb0
-[  +0.000004] Code: eb 9c e8 22 38 f8 00 66 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 f3 0f 1e fa 0f 1f 4>
-[  +0.000002] RSP: 0018:ffffd1e041edba58 EFLAGS: 00010202
-[  +0.000003] RAX: 0000000000000000 RBX: ffffffffc206f000 RCX:
-00000000c0000080
-[  +0.000003] RDX: ffffffffc1e396e0 RSI: ffffffffc1e39408 RDI:
-ffffffffc1e396e0
-[  +0.000001] RBP: 0000000000000001 R08: 0000000000000000 R09:
-ffffffffb0e763fb
-[  +0.000002] R10: ffff8d0fdad72460 R11: ffff8d0fc0042600 R12:
-0000000000000000
-[  +0.000001] R13: ffffffffc17e4ca0 R14: 000071be141fd2f2 R15:
-0000000000000000
-[  +0.000002] FS:  000071be140c6880(0000) GS:ffff8d177bf79000(0000)
-knlGS:0000000000000000
-[  +0.000002] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  +0.000002] CR2: 00007d5cd598b808 CR3: 0000000109583004 CR4:
-0000000000f70ef0
-[  +0.000002] PKRU: 55555554
-[  +0.000001] Call Trace:
-[  +0.000003]  <TASK>
-[  +0.000002]  kvm_init_pmu_capability+0x27/0x130 [kvm
-83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
-[  +0.000119]  kvm_x86_vendor_init+0x1de/0x19d0 [kvm
-83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
-[  +0.000085]  ? __pfx_vt_init+0x10/0x10 [kvm_intel
-5fa84b05f575edf3826c8f8519ca550622307061]
-[  +0.000023]  vmx_init+0xf6/0x170 [kvm_intel
-5fa84b05f575edf3826c8f8519ca550622307061]
-[  +0.000015]  vt_init+0xf/0x360 [kvm_intel
-5fa84b05f575edf3826c8f8519ca550622307061]
-[  +0.000012]  do_one_initcall+0x5b/0x300
-[  +0.000009]  do_init_module+0x62/0x250
-[  +0.000005]  ? init_module_from_file+0x8a/0xe0
-[  +0.000004]  init_module_from_file+0x8a/0xe0
-[  +0.000006]  idempotent_init_module+0x114/0x310
-[  +0.000005]  __x64_sys_finit_module+0x6d/0xd0
-[  +0.000004]  ? syscall_trace_enter+0x8d/0x1d0
-[  +0.000003]  do_syscall_64+0x81/0x7f0
-[  +0.000005]  ? __wait_for_common+0x162/0x190
-[  +0.000005]  ? __pfx_schedule_timeout+0x10/0x10
-[  +0.000004]  ? __rseq_handle_notify_resume+0xa6/0x490
-[  +0.000005]  ? idempotent_init_module+0x1df/0x310
-[  +0.000005]  ? switch_fpu_return+0x4e/0xd0
-[  +0.000003]  ? do_syscall_64+0x226/0x7f0
-[  +0.000003]  ? do_syscall_64+0x226/0x7f0
-[  +0.000003]  ? do_user_addr_fault+0x21a/0x690
-[  +0.000006]  ? exc_page_fault+0x7e/0x1a0
-[  +0.000013] Bluetooth: hci0: Firmware SHA1: 0x937bca4a
-[  +0.003913] Bluetooth: hci0: Fseq status: Success (0x00)
-[  +0.000011] Bluetooth: hci0: Fseq executed: 00.00.02.41
-[  +0.000004] Bluetooth: hci0: Fseq BT Top: 00.00.02.41
-[  +8.297442] Key type trusted registered
-[  +0.014388] Key type encrypted registered
-[  +0.017993] sr 0:0:0:0: Power-on or device reset occurred
-[  +0.005943] sr 0:0:0:0: [sr0] scsi3-mmc drive: 24x/24x writer dvd-ram
-cd/rw xa/form2 cdda tray
-[  +0.000005] cdrom: Uniform CD-ROM driver Revision: 3.20
-[  +0.003929] ------------[ cut here ]------------
-[  +0.000004] WARNING: CPU: 7 PID: 584 at arch/x86/events/core.c:3089
-perf_get_x86_pmu_capability+0x11/0xb0
-[  +0.000010] Modules linked in: snd_hda_codec sr_mod(+) iwlmvm(+)
-kvm_intel(+) dm_crypt cdrom encrypted_keys snd_>
-[  +0.000060]  industrialio mei_me processor_thermal_wt_req i2c_smbus
-spi_intel_pci intel_ipu6 soundcore processor>
-[  +0.000058]  ghash_clmulni_intel aesni_intel video intel_ish_ipc
-drm_display_helper intel_lpss_pci thunderbolt i>
-[  +0.000025] CPU: 7 UID: 0 PID: 584 Comm: (udev-worker) Not tainted
-6.18.0-rc1-test-1-00002-ge9cc50c96bb9 #2 PREE>
-[  +0.000005] Hardware name: Dell Inc. XPS 9320/0CR6NC, BIOS 2.23.0
-07/03/2025
-[  +0.000002] RIP: 0010:perf_get_x86_pmu_capability+0x11/0xb0
-[  +0.000004] Code: eb 9c e8 22 38 f8 00 66 90 90 90 90 90 90 90 90 90
-90 90 90 90 90 90 90 90 f3 0f 1e fa 0f 1f 4>
-[  +0.000002] RSP: 0018:ffffd1e041edba58 EFLAGS: 00010202
-[  +0.000003] RAX: 0000000000000000 RBX: ffffffffc206f000 RCX:
-00000000c0000080
-[  +0.000003] RDX: ffffffffc1e396e0 RSI: ffffffffc1e39408 RDI:
-ffffffffc1e396e0
-[  +0.000001] RBP: 0000000000000001 R08: 0000000000000000 R09:
-ffffffffb0e763fb
-[  +0.000002] R10: ffff8d0fdad72460 R11: ffff8d0fc0042600 R12:
-0000000000000000
-[  +0.000001] R13: ffffffffc17e4ca0 R14: 000071be141fd2f2 R15:
-0000000000000000
-[  +0.000002] FS:  000071be140c6880(0000) GS:ffff8d177bf79000(0000)
-knlGS:0000000000000000
-[  +0.000002] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  +0.000002] CR2: 00007d5cd598b808 CR3: 0000000109583004 CR4:
-0000000000f70ef0
-[  +0.000002] PKRU: 55555554
-[  +0.000001] Call Trace:
-[  +0.000003]  <TASK>
-[  +0.000002]  kvm_init_pmu_capability+0x27/0x130 [kvm
-83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
-[  +0.000119]  kvm_x86_vendor_init+0x1de/0x19d0 [kvm
-83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
-[  +0.000085]  ? __pfx_vt_init+0x10/0x10 [kvm_intel
-5fa84b05f575edf3826c8f8519ca550622307061]
-[  +0.000023]  vmx_init+0xf6/0x170 [kvm_intel
-5fa84b05f575edf3826c8f8519ca550622307061]
-[  +0.000015]  vt_init+0xf/0x360 [kvm_intel
-5fa84b05f575edf3826c8f8519ca550622307061]
-[  +0.000012]  do_one_initcall+0x5b/0x300
-[  +0.000009]  do_init_module+0x62/0x250
-[  +0.000005]  ? init_module_from_file+0x8a/0xe0
-[  +0.000004]  init_module_from_file+0x8a/0xe0
-[  +0.000006]  idempotent_init_module+0x114/0x310
-[  +0.000005]  __x64_sys_finit_module+0x6d/0xd0
-[  +0.000004]  ? syscall_trace_enter+0x8d/0x1d0
-[  +0.000003]  do_syscall_64+0x81/0x7f0
-[  +0.000005]  ? __wait_for_common+0x162/0x190
-[  +0.000005]  ? __pfx_schedule_timeout+0x10/0x10
-[  +0.000004]  ? __rseq_handle_notify_resume+0xa6/0x490
-[  +0.000005]  ? idempotent_init_module+0x1df/0x310
-[  +0.000005]  ? switch_fpu_return+0x4e/0xd0
-[  +0.000003]  ? do_syscall_64+0x226/0x7f0
-[  +0.000003]  ? do_syscall_64+0x226/0x7f0
-[  +0.000003]  ? do_user_addr_fault+0x21a/0x690
-[  +0.000006]  ? exc_page_fault+0x7e/0x1a0
-[  +0.000004]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[  +0.000003] RIP: 0033:0x71be1391876d
-[  +0.000045] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa
-48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c>
-[  +0.000002] RSP: 002b:00007ffdfcc7da58 EFLAGS: 00000246 ORIG_RAX:
-0000000000000139
-[  +0.000004] RAX: ffffffffffffffda RBX: 000064e3aeb57f80 RCX:
-000071be1391876d
-[  +0.000001] RDX: 0000000000000004 RSI: 000071be141fd2f2 RDI:
-0000000000000032
-[  +0.000002] RBP: 00007ffdfcc7daf0 R08: 0000000000000000 R09:
-000064e3aeb528f0
-[  +0.000001] R10: 0000000000000000 R11: 0000000000000246 R12:
-000071be141fd2f2
-[  +0.000001] R13: 0000000000020000 R14: 000064e3aeb507f0 R15:
-000064e3aeb57f80
-[  +0.000003]  </TASK>
-[  +0.000001] ---[ end trace 0000000000000000 ]---
+ * Additional code comments
 
+ * Keeping the virt boundary unchanged for the loop target for now. Only
+   pci, tcp, and fc are not reporting such a boundary.
 
+Keith Busch (2):
+  block: accumulate memory segment gaps per bio
+  nvme: remove virtual boundary for sgl capable devices
+
+ block/bio.c                 |  1 +
+ block/blk-map.c             |  3 +++
+ block/blk-merge.c           | 39 ++++++++++++++++++++++++++++++++++---
+ block/blk-mq-dma.c          |  3 +--
+ block/blk-mq.c              |  6 ++++++
+ drivers/nvme/host/apple.c   |  1 +
+ drivers/nvme/host/core.c    | 10 +++++-----
+ drivers/nvme/host/fabrics.h |  6 ++++++
+ drivers/nvme/host/fc.c      |  1 +
+ drivers/nvme/host/nvme.h    |  7 +++++++
+ drivers/nvme/host/pci.c     | 28 +++++++++++++++++++++++---
+ drivers/nvme/host/rdma.c    |  1 +
+ drivers/nvme/host/tcp.c     |  1 +
+ drivers/nvme/target/loop.c  |  1 +
+ include/linux/bio.h         |  2 ++
+ include/linux/blk-mq.h      | 16 +++++++++++++++
+ include/linux/blk_types.h   | 12 ++++++++++++
+ 17 files changed, 125 insertions(+), 13 deletions(-)
 
 --=20
-Gene
+2.47.3
 
---=-WzP+G+VsL1ZgoEfePPDq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCaO4jdAAKCRA5BdB0L6Ze
-244RAQDk1/zoqO5wjghvcV/PzFr1pEfVFIEW5Kjc7eP+weAG3gD/ZhNV4oGBjWc0
-BxKw9gsEg3neYfcTDB9Bag9mtmFtJAQ=
-=xG1/
------END PGP SIGNATURE-----
-
---=-WzP+G+VsL1ZgoEfePPDq--
 
