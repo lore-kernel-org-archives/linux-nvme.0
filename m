@@ -4,110 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A740BCCD187
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Oct 2025 08:58:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 709B0CCD184
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Oct 2025 10:18:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q5GeQQ5L7KstxSj3TV0TOKNF3YsTWBqd1rTK/8hDiw8=; b=Hzb8fUQrDSaiP/o5MSkIFLXFc5
-	LfpfkyTUujeb19B976PfqrtzQ5bBwbE5XzvxnDwpUrhVanaj4D6b/Ld2tr9l06j/2uYed94KHRxfX
-	j/94y1AutrBLLiVj6ZmgChqYK6blS4w/JEzL6MykSTtUN46rPwyu2PpbkX/cu9gjCUcRt8MqO+4r5
-	JgSeDpLpibSUcetzbZcmh5ipIWzvo+xr/X9vC9BPyGhwnKUfZgNqNA6cHtdNWaxJs+UkVxcn0PLRI
-	BtduknaYH9knKQKpQP4HOGYbmCOL3VhV1zb0quuOnO2Q7SRuGrb6ai4U90hPdfxc5h/hgFOEV893n
-	Wqxu6SDA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fP2AapzH0P5GM+gmZrivACasOzhAfhhFaaQEi0zlJ5s=; b=GuGKjNZgo24Ifuil1kxlRFsFVH
+	CJ7GWfEttJr7Yhhcr4IlrkB6EUgd47luFQEBG01iJkL1WjMrDbGLH13qtK6jR+0ZzvuSsKCt5CBya
+	b27AP/0c90BY5vcty/nri69xZeQSi9ATzGolRkRDKQWkbNUhaLv76MYrltH+H5nDBDXvV74ePIYbD
+	MmSGhUIMrzXi5rMh601tnP+ilGVpUGGXWvYo6y2rqKI2+dRBE+EGj0z4YkyLzDoxLNal5y3QHTGqr
+	VlvZlPWhOLVLJti97hvZTObLkOXUXh1eX9Tjsk7hy2FCD1V7pQjxHwSpJUJNDc4lEPKfA2rxn25/6
+	bFBR0IMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8arE-0000000Fh01-2OU7;
-	Tue, 14 Oct 2025 08:58:12 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1v8c71-0000000FuDq-3IIR;
+	Tue, 14 Oct 2025 10:18:35 +0000
+Received: from s1.sapience.com ([72.84.236.66])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8arC-0000000Fgzg-1Db1
+	id 1v8c6y-0000000FuDK-1UKw
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Oct 2025 08:58:11 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E7J6gu016580;
-	Tue, 14 Oct 2025 08:58:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Q5GeQQ
-	5L7KstxSj3TV0TOKNF3YsTWBqd1rTK/8hDiw8=; b=QxQSqiWSjMzuRFGBYn++Ze
-	LN8zSKN4v7Cf83U0dndi+282M2500Nn1/gnRq8Tc+sOiStEIUDZdKqKrQc7vLrfr
-	TFzjc7pZLwKIuZ7Shc9rHguAo0QUde3CqUpPtKJwOtQx6Mr1xPI2bnSlAt6NTSu6
-	5U926cCJa9McxPZZss6zwKrNHtpNnYbS68cOU/PmAarNp/j2bgDo8Wndz2oKzNSR
-	SFCh/ltbL86Hl22aoF8dRtTVUBALnBRtD3xJCA+ejbr4PR3FW4xAeFka5YL605ni
-	tPyaiSSbt8KLInXBmyl9L/7cuOmqjhXDjJxLWnPsWKW32QYxIlTsmWP9FmAi71kA
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49qcnr5dy8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 08:58:05 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59E7oRMN016756;
-	Tue, 14 Oct 2025 08:58:05 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49r32jsyds-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Oct 2025 08:58:05 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59E8w40g28770906
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Oct 2025 08:58:04 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 36F3058045;
-	Tue, 14 Oct 2025 08:58:04 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6611C58050;
-	Tue, 14 Oct 2025 08:58:01 +0000 (GMT)
-Received: from [9.109.198.148] (unknown [9.109.198.148])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 14 Oct 2025 08:58:01 +0000 (GMT)
-Message-ID: <6049dd46-e841-4446-9d33-09b7072249d6@linux.ibm.com>
-Date: Tue, 14 Oct 2025 14:27:59 +0530
+	Tue, 14 Oct 2025 10:18:34 +0000
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by s1.sapience.com (Postfix) with ESMTPS id BC0BC480A02;
+	Tue, 14 Oct 2025 06:18:29 -0400 (EDT)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1760437109;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=fP2AapzH0P5GM+gmZrivACasOzhAfhhFaaQEi0zlJ5s=;
+ b=tVK7s2IcaXaRDIWeAu35hn0roBePdKh65fnWQz1zOp2UdusAkSYAdbtwtG+v6yicHiJVu
+ EoqJvMFhj64Dw9ZDg==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1760437109;
+	cv=none; b=BtN3+NiPlJacmV56GGpzf12DJ+m/cwBFjsgSQqYCF58E+ivEG9l8BKnQ752WFT93Vn5bwD2n0I/qzBJU8Qy8UtO8bEqTsHxXBenVJXkjAj7BEWYGl0MqnAUOewuRx0tDjlKFq5XxRnmzp2f9HCUCdWAl0uyhNrKyQka9Sy3UUvV5E4mml0Cj9gT04D00ICRSttt6Hn7/2fMczbxC2C70Adpnc5iJT5Hko1JZKd1IPTzyxZNrRj9YFU2/4t2cDvGT4h1YGx5UwVBaBZeJXr5G6jKNWF4KFiowvpfnzUieDZk1skA2PDtJ2oUeI+RWawfpd0MOP8MyqndBVOnLbFpAfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1760437109; c=relaxed/simple;
+	bh=mnk2Tp4BqBjzOf+Sk6D0bwEHtz+eplJR5KzvV6YMaCY=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
+	 MIME-Version; b=UqanI4lIHEbfZRaCAtCv7qvzXH2ERepnNl5Kdv2bSfHfzy/5NtsdofsF8hsgIbo9qsI1MHuQ5fKpO8i2l2e2vbx8h8tH2ZMYmgKL23WD2j6YxEzk6pwVAwuRhpP++cFyltSUQlx+myuR3pQtlLYQf4OKjm2NUWAyRa/7rO3pR8/PSP27h0GiDopQftZs4EYm+j/RoEcTcpjZM+HUaPBGFLmBJ23gFZ2tEuuLMsMFUkjC6DZXLeiIABRyBlAuOFMNchdjX38MYIdMDJFPwK87J12P/tBKrhMSxVEJ6Yip6+dbrwxEGTtOzJFoJm8RnzGO4Z8uh1MNd+8tKSDaelBoSQ==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1760437109;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=fP2AapzH0P5GM+gmZrivACasOzhAfhhFaaQEi0zlJ5s=;
+ b=LIerhxD4YIoXWA3FJUBcDvr2DQWmp5D+JzPNJmjtPXQP1UnZ7Cic4x9wiofZ7IY826l9/
+ 7ZUwthBjm5HvjrGaHF2VG+cxesh6Qrd8F7aHQ4WgCLOPIQbHuW/7zPR1XNS0kzlDOwjsidJ
+ mz11v2wXbzDE7GweHYarHflE6FlAIgKh7QqCFcRg8lMlyuvw65sTOa7ngrp8FKmYRMgV/Hv
+ Y62mCA27aFLJ+eQBh49VbhrD4N0yiRPaVt3aaF7aH0mBb23nJlPF6d5pmCMTtOuOlTH24Xk
+ XygZj26tYYx4dZbYyUCbMijx/DSroPLiSpUmfbDKKPHY1JLPn1D0F/7mW84Q==
+Received: by srv8.prv.sapience.com (Postfix) id 91E5428001B;
+	Tue, 14 Oct 2025 06:18:29 -0400 (EDT)
+Message-ID: <b30331816621cc1f6a154233482f01798cf57cea.camel@sapience.com>
+Subject: Re: mainline boot fail nvme/block? [BISECTED]
+From: Genes Lists <lists@sapience.com>
+To: Inochi Amaoto <inochiama@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org
+Cc: linux-pci@vger.kernel.org
+Date: Tue, 14 Oct 2025 06:18:28 -0400
+In-Reply-To: <xfzcvv6ezleds24wvha2apkz5kirhcmoydm3on2hnfrxcwuc3g@koj6plovnvbd>
+References: <4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com>
+	 <cf4e88c6-0319-4084-8311-a7ca28a78c81@kernel.dk>
+	 <3152ca947e89ee37264b90c422e77bb0e3d575b9.camel@sapience.com>
+	 <trdjd7zhpldyeurmpvx4zpgjoz7hmf3ugayybz4gagu2iue56c@zswmzvauqnxk>
+	 <622d6d7401b5cfd4bd5f359c7d7dc5b3bf8785d5.camel@sapience.com>
+	 <xfzcvv6ezleds24wvha2apkz5kirhcmoydm3on2hnfrxcwuc3g@koj6plovnvbd>
+Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
+ keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
+ 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
+ sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
+ vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
+ BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
+Content-Type: multipart/signed; micalg="pgp-sha384";
+	protocol="application/pgp-signature"; boundary="=-WzP+G+VsL1ZgoEfePPDq"
+User-Agent: Evolution 3.58.1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCHv2 2/4] nvme-multipath: add support for adaptive I/O
- policy
-To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk, dwagner@suse.de,
-        gjoyce@ibm.com
-References: <20251009100608.1699550-1-nilay@linux.ibm.com>
- <20251009100608.1699550-3-nilay@linux.ibm.com>
- <24f76fe3-9508-4c05-976b-8be9ec9a4371@suse.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <24f76fe3-9508-4c05-976b-8be9ec9a4371@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=M5ZA6iws c=1 sm=1 tr=0 ts=68ee109d cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=8gyeK5pOzyvbsE0He_cA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: YTlwmNZCXydG5P4pSXwNaAPfyqfGhhed
-X-Proofpoint-ORIG-GUID: YTlwmNZCXydG5P4pSXwNaAPfyqfGhhed
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEwMDE0MCBTYWx0ZWRfX3WihmiJ/sk5P
- HvlSH4Bz/9XZIFzGL29cMmDYv2uj9JRVhXtcwoPyFKHKgp7AsiqiW47ELU753lc0/QWL/Jv4wvH
- yCbqyIfXdBawAk4ghvn4IM+TytwSRRjYpe+el/yF45K4TPmJDW8txdPUBiVXpHNrykoS8M/LDgc
- Rx7wOTVjWbfTguEXboNHDOm6aY/GDsF8b+GsY3AFPJjPlRU/GBIf9ZrrQQaauMapp/67h4VY1ym
- bqJrhVXmt3LY1E/f9/2CYKTxfHBdYAKMBz4bDBnkjWcchoOkmCoeTkitfa93c+imr61zW6OzIx3
- L03YUYRa86Q9aEiFMWFVF3roIQM/9vIwO4UXyBgbMkEdrZhEEoT12HLz9cNtO5hgLyS+naHTH3d
- qMRGhuA+qnmmcYbWxhfuTS8JUQZ9fw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015 impostorscore=0
- phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510100140
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251014_015810_453340_0BF2190A 
-X-CRM114-Status: GOOD (  51.00  )
+X-CRM114-CacheID: sfid-20251014_031832_674160_ED86419F 
+X-CRM114-Status: GOOD (  26.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,408 +108,226 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
->> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
->> index c212fa952c0f..69d2f72d0e86 100644
->> --- a/drivers/nvme/host/ioctl.c
->> +++ b/drivers/nvme/host/ioctl.c
->> @@ -711,7 +711,7 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
->>           flags |= NVME_IOCTL_PARTITION;
->>         srcu_idx = srcu_read_lock(&head->srcu);
->> -    ns = nvme_find_path(head);
->> +    ns = nvme_find_path(head, open_for_write ? WRITE : READ);
->>       if (!ns)
->>           goto out_unlock;
->>   @@ -742,7 +742,7 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
->>       int srcu_idx, ret = -EWOULDBLOCK;
->>         srcu_idx = srcu_read_lock(&head->srcu);
->> -    ns = nvme_find_path(head);
->> +    ns = nvme_find_path(head, open_for_write ? WRITE : READ);
->>       if (!ns)
->>           goto out_unlock;
->>   
-> Are we sure that we should account for non-IO commands here, too?
-> Thing is, the I/O policy should be just that, directing I/O to the
-> various paths.
-> But what about commands on the admin queue? Should they be influenced by
-> the same policy? And can we even define what a 'read' command is?
-> Wouldn't it be better to pass in a third option here (NONE?) to make it
-> clear that this is a non-I/O command?
-> 
-Yeah makes sense to differentiate between read/write and others here.
-I think we should be able to differentiate between read/write vs others.
-I'd implement this in next patchset.
+--=-WzP+G+VsL1ZgoEfePPDq
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->> @@ -762,7 +762,8 @@ int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
->>       struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
->>       struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
->>       int srcu_idx = srcu_read_lock(&head->srcu);
->> -    struct nvme_ns *ns = nvme_find_path(head);
->> +    struct nvme_ns *ns = nvme_find_path(head,
->> +            ioucmd->file->f_mode & FMODE_WRITE ? WRITE : READ);
->>       int ret = -EINVAL;
->>         if (ns)
-> 
-> See above. I really think that we should be able to pass in a third
-> option for admin commands.
-Yep, as mentioned will do this in the next patchset.
+On Tue, 2025-10-14 at 08:54 +0800, Inochi Amaoto wrote:
+> On Mon, Oct 13, 2025 at 07:45:05AM -0400, Genes Lists wrote:
+> >=20
+...
 
-> 
->> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
->> index 3da980dc60d9..9ecdaca5e9a0 100644
->> --- a/drivers/nvme/host/multipath.c
->> +++ b/drivers/nvme/host/multipath.c
->> @@ -6,6 +6,8 @@
->>   #include <linux/backing-dev.h>
->>   #include <linux/moduleparam.h>
->>   #include <linux/vmalloc.h>
->> +#include <linux/blk-mq.h>
->> +#include <linux/math64.h>
->>   #include <trace/events/block.h>
->>   #include "nvme.h"
->>  
-> Ouch.
-> #include <math64.h>
-> always spells disaster :-)
+> > Thank you Inochi
+> >=20
+> > I tried this patch over 6.18-rc1.
+> >=20
+> > =C2=A0It get's further than without the patch but around the time I get
+> > prompted for passphrase for the luks partition
+> > (root is not encrypted) it crashes.=C2=A0
+> >=20
+> > I have uploaded 2 images I took of the screen when this happens and
+> > uploaded them to here:
+> >=20
+> > =C2=A0 =C2=A0=C2=A0https://0x0.st/KSNz.jpg
+> > =C2=A0 =C2=A0=C2=A0https://0x0.st/KSNi.jpg
+> >=20
+>=20
+> This picture is only a WARNING from perf_get_x86_pmu_capability,
+> and no other information. So I am not sure whether it is caused
+> by this change. But from the original report I have, it solves
+> the problem at that time.
+>=20
+> By the way, can you test the following change?
+> https://lore.kernel.org/all/2hyxqqdootjw5yepbimacuuapfsf26c5mmu5w2jsd
+> mamxvsjdq@gnibocldkuz5/
+>=20
+> If it is OK, I will send a patch for it.
+>=20
+> Regards,
+> Inochi
 
-This is included for div_u64(). Well we may replace it with usual division
-operator (e.g. dividend / divisor) but that may not work well on 32-bit
-architecture. 
 
->>   +static void nvme_mpath_weight_work(struct work_struct *weight_work)
->> +{
->> +    int cpu, srcu_idx;
->> +    u32 weight;
->> +    struct nvme_ns *ns;
->> +    struct nvme_path_stat *stat;
->> +    struct nvme_path_work *work = container_of(weight_work,
->> +            struct nvme_path_work, weight_work);
->> +    struct nvme_ns_head *head = work->ns->head;
->> +    int rw = work->rw;
->> +    u64 total_score = 0;
->> +
->> +    cpu = get_cpu();
->> +
->> +    srcu_idx = srcu_read_lock(&head->srcu);
->> +    list_for_each_entry_srcu(ns, &head->list, siblings,
->> +            srcu_read_lock_held(&head->srcu)) {
->> +
->> +        stat = &this_cpu_ptr(ns->info)[rw].stat;
->> +        if (!READ_ONCE(stat->slat_ns))
->> +            continue;
->> +        /*
->> +         * Compute the path score as the inverse of smoothed
->> +         * latency, scaled by NSEC_PER_SEC. Floating point
->> +         * math is unavailable in the kernel, so fixed-point
->> +         * scaling is used instead. NSEC_PER_SEC is chosen
->> +         * because valid latencies are always < 1 second; longer
->> +         * latencies are ignored.
->> +         */
->> +        stat->score = div_u64(NSEC_PER_SEC, READ_ONCE(stat->slat_ns));
->> +
->> +        /* Compute total score. */
->> +        total_score += stat->score;
->> +    }
->> +
->> +    if (!total_score)
->> +        goto out;
->> +
->> +    /*
->> +     * After computing the total slatency, we derive per-path weight
->> +     * (normalized to the range 0–100). The weight represents the
->> +     * relative share of I/O the path should receive.
-> 
-> Why do we use the range 0-100?
-> While this is nice for human consumption, it doesn't lend itself to a
-> nice computation. Maybe we should select a different scale to allow us
-> for more efficient computation (0-128? Maybe?)
-Yes we can normalize this to any range. Lets scale it from 0-128 as
-you suggested, and it also aligns with power of 2.
+With this patch it boots with the same/similar warning as before, which
+I will include below since it's text instead of image.
 
->> +
->> +#define NVME_EWMA_SHIFT    3
-> 
-> And we use this value why?
-Oh yeah the reason being in the proposed code we want to assign  ~87.5%
-weightage to the existing (smoothed) latency and ~12.5% weightage to the 
-new latency. If you see the ewma_update() then you'd realize this 
-fact. But yes I'd add a comment above this macro to make the intent
-clear.
+Tested-by: Gene C <gene@sapience.com>
 
-> 
->> +static inline u64 ewma_update(u64 old, u64 new)
->> +{
->> +    return (old * ((1 << NVME_EWMA_SHIFT) - 1) + new) >> NVME_EWMA_SHIFT;
->> +}
->> +
->> +static void nvme_mpath_add_sample(struct request *rq, struct nvme_ns *ns)
->> +{
->> +    int cpu;
->> +    unsigned int rw;
->> +    struct nvme_path_info *info;
->> +    struct nvme_path_stat *stat;
->> +    u64 now, latency, slat_ns, avg_lat_ns;
->> +    struct nvme_ns_head *head = ns->head;
->> +
->> +    if (list_is_singular(&head->list))
->> +        return;
->> +
->> +    now = ktime_get_ns();
->> +    latency = now >= rq->io_start_time_ns ? now - rq->io_start_time_ns : 0;
->> +    if (!latency)
->> +        return;
->> +
->> +    /*
->> +     * As completion code path is serialized(i.e. no same completion queue
->> +     * update code could run simultaneously on multiple cpu) we can safely
->> +     * access per cpu nvme path stat here from another cpu (in case the
->> +     * completion cpu is different from submission cpu).
->> +     * The only field which could be accessed simultaneously here is the
->> +     * path ->weight which may be accessed by this function as well as I/O
->> +     * submission path during path selection logic and we protect ->weight
->> +     * using READ_ONCE/WRITE_ONCE. Yes this may not be 100% accurate but
->> +     * we also don't need to be so accurate here as the path credit would
->> +     * be anyways refilled, based on path weight, once path consumes all
->> +     * its credits. And we limit path weight/credit max up to 100. Please
->> +     * also refer nvme_adaptive_path().
->> +     */
->> +    cpu = blk_mq_rq_cpu(rq);
->> +    rw = rq_data_dir(rq);
->> +    info = &per_cpu_ptr(ns->info, cpu)[rw];
->> +    stat = &info->stat;
->> +
-> Hmm. While the 'SAME_CONP' attribute should help here, I remain
-> sceptical.
-> Wouldn't it be possible to look at the hwq map (eg by using something
-> like blk_mq_map_queue_type()) to figure out the hw context, and then
-> use the first cpu from that mask?
-> That way we are guaranteed to always using the same per-cpu ptr.
-> Might be overkill, though; but it would be good to have some
-> checks in here in case we do run on the wrong CPU.
-> 
-Okay so I think you propose ensuring that submitting cpu should 
-match the cpu on which we're processing completion I/O sample.
-Well, that makes sense but here we use blk_mq_rq_cpu() which
-yields the submitting cpu for the request and then use submitting cpu 
-number to get per-cpu stat using per_cpu_ptr(). As we don't rely
-on the current cpu on which completion I/O sample is being processed, I 
-think we're all good. Agreed?
+Thank you
 
->> +    /*
->> +     * If latency > ~1s then ignore this sample to prevent EWMA from being
->> +     * skewed by pathological outliers (multi-second waits, controller
->> +     * timeouts etc.). This keeps path scores representative of normal
->> +     * performance and avoids instability from rare spikes. If such high
->> +     * latency is real, ANA state reporting or keep-alive error counters
->> +     * will mark the path unhealthy and remove it from the head node list,
->> +     * so we safely skip such sample here.
->> +     */
->> +    if (unlikely(latency > NSEC_PER_SEC)) {
->> +        stat->nr_ignored++;
->> +        return;
->> +    }
-> 
-> I would even go so far as to indicate that EWMA is unusable here.
-> Can we issue a warning / debug message here to indicate that the path
-> selector is running suboptimal?
-> 
-We can certainly do that, but as you could see above we're incrementing 
-->nr_ignored here, and user could then access this value through 
-debugfs, so is that sufficient? Or do you want an explicit WARN or debug
-message to be also printed?
+gene
 
->> +
->> +    /*
->> +     * Accumulate latency samples and increment the batch count for each
->> +     * ~15 second interval. When the interval expires, compute the simple
->> +     * average latency over that window, then update the smoothed (EWMA)
->> +     * latency. The path weight is recalculated based on this smoothed
->> +     * latency.
->> +     */
-> 
-> Why 15 seconds? Can we make this changeable eg via debugfs?
-Yes certainly we can make this configurable, BTW should it be
-done through a new sysfs attribute instead of debugfs? 
+Warning from 6.18-rc1 with above patch:
 
-> 
->> +    stat->batch += latency;
->> +    stat->batch_count++;
->> +    stat->nr_samples++;
->> +
->> +    if (now > stat->last_weight_ts &&
->> +            (now - stat->last_weight_ts) >= 15 * NSEC_PER_SEC) {
->> +
-> 
-> At the very least make this a #define. But ideally one should be able
-> to modify that.
-> 
-Yes I'd define a macro for this 15 seconds interval, and also we'll make
-it configurable. I'd implement this in next patchset.
 
->> +        stat->last_weight_ts = now;
->> +
->> +        /*
->> +         * Find simple average latency for the last epoch (~15 sec
->> +         * interval).
->> +         */
->> +        avg_lat_ns = div_u64(stat->batch, stat->batch_count);
->> +
->> +        /*
->> +         * Calculate smooth/EWMA (Exponentially Weighted Moving Average)
->> +         * latency. EWMA is preferred over simple average latency
->> +         * because it smooths naturally, reduces jitter from sudden
->> +         * spikes, and adapts faster to changing conditions. It also
->> +         * avoids storing historical samples, and works well for both
->> +         * slow and fast I/O rates.
->> +         * Formula:
->> +         * slat_ns = (prev_slat_ns * (WEIGHT - 1) + (latency)) / WEIGHT
->> +         * With WEIGHT = 8, this assigns 7/8 (~87.5 %) weight to the
->> +         * existing latency and 1/8 (~12.5%) weight to the new latency.
->> +         */
-> 
-> Similar comment to the WEIGHT. While 8 might be a nice choice, there is nothing indicating it's always the right choice.
-> Please make it a #define and see if we cannot modify it via debugfs.
-> 
-Yeah sure, as discussed earlier this value is derived from NVME_EWMA_SHIFT
-and I'd make it configurable in the next patchset.
+[  +0.003929] ------------[ cut here ]------------
+[  +0.000004] WARNING: CPU: 7 PID: 584 at arch/x86/events/core.c:3089
+perf_get_x86_pmu_capability+0x11/0xb0
+[  +0.000010] Modules linked in: snd_hda_codec sr_mod(+) iwlmvm(+)
+kvm_intel(+) dm_crypt cdrom encrypted_keys snd_>
+[  +0.000060]  industrialio mei_me processor_thermal_wt_req i2c_smbus
+spi_intel_pci intel_ipu6 soundcore processor>
+[  +0.000058]  ghash_clmulni_intel aesni_intel video intel_ish_ipc
+drm_display_helper intel_lpss_pci thunderbolt i>
+[  +0.000025] CPU: 7 UID: 0 PID: 584 Comm: (udev-worker) Not tainted
+6.18.0-rc1-test-1-00002-ge9cc50c96bb9 #2 PREE>
+[  +0.000005] Hardware name: Dell Inc. XPS 9320/0CR6NC, BIOS 2.23.0
+07/03/2025
+[  +0.000002] RIP: 0010:perf_get_x86_pmu_capability+0x11/0xb0
+[  +0.000004] Code: eb 9c e8 22 38 f8 00 66 90 90 90 90 90 90 90 90 90
+90 90 90 90 90 90 90 90 f3 0f 1e fa 0f 1f 4>
+[  +0.000002] RSP: 0018:ffffd1e041edba58 EFLAGS: 00010202
+[  +0.000003] RAX: 0000000000000000 RBX: ffffffffc206f000 RCX:
+00000000c0000080
+[  +0.000003] RDX: ffffffffc1e396e0 RSI: ffffffffc1e39408 RDI:
+ffffffffc1e396e0
+[  +0.000001] RBP: 0000000000000001 R08: 0000000000000000 R09:
+ffffffffb0e763fb
+[  +0.000002] R10: ffff8d0fdad72460 R11: ffff8d0fc0042600 R12:
+0000000000000000
+[  +0.000001] R13: ffffffffc17e4ca0 R14: 000071be141fd2f2 R15:
+0000000000000000
+[  +0.000002] FS:  000071be140c6880(0000) GS:ffff8d177bf79000(0000)
+knlGS:0000000000000000
+[  +0.000002] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000002] CR2: 00007d5cd598b808 CR3: 0000000109583004 CR4:
+0000000000f70ef0
+[  +0.000002] PKRU: 55555554
+[  +0.000001] Call Trace:
+[  +0.000003]  <TASK>
+[  +0.000002]  kvm_init_pmu_capability+0x27/0x130 [kvm
+83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
+[  +0.000119]  kvm_x86_vendor_init+0x1de/0x19d0 [kvm
+83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
+[  +0.000085]  ? __pfx_vt_init+0x10/0x10 [kvm_intel
+5fa84b05f575edf3826c8f8519ca550622307061]
+[  +0.000023]  vmx_init+0xf6/0x170 [kvm_intel
+5fa84b05f575edf3826c8f8519ca550622307061]
+[  +0.000015]  vt_init+0xf/0x360 [kvm_intel
+5fa84b05f575edf3826c8f8519ca550622307061]
+[  +0.000012]  do_one_initcall+0x5b/0x300
+[  +0.000009]  do_init_module+0x62/0x250
+[  +0.000005]  ? init_module_from_file+0x8a/0xe0
+[  +0.000004]  init_module_from_file+0x8a/0xe0
+[  +0.000006]  idempotent_init_module+0x114/0x310
+[  +0.000005]  __x64_sys_finit_module+0x6d/0xd0
+[  +0.000004]  ? syscall_trace_enter+0x8d/0x1d0
+[  +0.000003]  do_syscall_64+0x81/0x7f0
+[  +0.000005]  ? __wait_for_common+0x162/0x190
+[  +0.000005]  ? __pfx_schedule_timeout+0x10/0x10
+[  +0.000004]  ? __rseq_handle_notify_resume+0xa6/0x490
+[  +0.000005]  ? idempotent_init_module+0x1df/0x310
+[  +0.000005]  ? switch_fpu_return+0x4e/0xd0
+[  +0.000003]  ? do_syscall_64+0x226/0x7f0
+[  +0.000003]  ? do_syscall_64+0x226/0x7f0
+[  +0.000003]  ? do_user_addr_fault+0x21a/0x690
+[  +0.000006]  ? exc_page_fault+0x7e/0x1a0
+[  +0.000013] Bluetooth: hci0: Firmware SHA1: 0x937bca4a
+[  +0.003913] Bluetooth: hci0: Fseq status: Success (0x00)
+[  +0.000011] Bluetooth: hci0: Fseq executed: 00.00.02.41
+[  +0.000004] Bluetooth: hci0: Fseq BT Top: 00.00.02.41
+[  +8.297442] Key type trusted registered
+[  +0.014388] Key type encrypted registered
+[  +0.017993] sr 0:0:0:0: Power-on or device reset occurred
+[  +0.005943] sr 0:0:0:0: [sr0] scsi3-mmc drive: 24x/24x writer dvd-ram
+cd/rw xa/form2 cdda tray
+[  +0.000005] cdrom: Uniform CD-ROM driver Revision: 3.20
+[  +0.003929] ------------[ cut here ]------------
+[  +0.000004] WARNING: CPU: 7 PID: 584 at arch/x86/events/core.c:3089
+perf_get_x86_pmu_capability+0x11/0xb0
+[  +0.000010] Modules linked in: snd_hda_codec sr_mod(+) iwlmvm(+)
+kvm_intel(+) dm_crypt cdrom encrypted_keys snd_>
+[  +0.000060]  industrialio mei_me processor_thermal_wt_req i2c_smbus
+spi_intel_pci intel_ipu6 soundcore processor>
+[  +0.000058]  ghash_clmulni_intel aesni_intel video intel_ish_ipc
+drm_display_helper intel_lpss_pci thunderbolt i>
+[  +0.000025] CPU: 7 UID: 0 PID: 584 Comm: (udev-worker) Not tainted
+6.18.0-rc1-test-1-00002-ge9cc50c96bb9 #2 PREE>
+[  +0.000005] Hardware name: Dell Inc. XPS 9320/0CR6NC, BIOS 2.23.0
+07/03/2025
+[  +0.000002] RIP: 0010:perf_get_x86_pmu_capability+0x11/0xb0
+[  +0.000004] Code: eb 9c e8 22 38 f8 00 66 90 90 90 90 90 90 90 90 90
+90 90 90 90 90 90 90 90 f3 0f 1e fa 0f 1f 4>
+[  +0.000002] RSP: 0018:ffffd1e041edba58 EFLAGS: 00010202
+[  +0.000003] RAX: 0000000000000000 RBX: ffffffffc206f000 RCX:
+00000000c0000080
+[  +0.000003] RDX: ffffffffc1e396e0 RSI: ffffffffc1e39408 RDI:
+ffffffffc1e396e0
+[  +0.000001] RBP: 0000000000000001 R08: 0000000000000000 R09:
+ffffffffb0e763fb
+[  +0.000002] R10: ffff8d0fdad72460 R11: ffff8d0fc0042600 R12:
+0000000000000000
+[  +0.000001] R13: ffffffffc17e4ca0 R14: 000071be141fd2f2 R15:
+0000000000000000
+[  +0.000002] FS:  000071be140c6880(0000) GS:ffff8d177bf79000(0000)
+knlGS:0000000000000000
+[  +0.000002] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  +0.000002] CR2: 00007d5cd598b808 CR3: 0000000109583004 CR4:
+0000000000f70ef0
+[  +0.000002] PKRU: 55555554
+[  +0.000001] Call Trace:
+[  +0.000003]  <TASK>
+[  +0.000002]  kvm_init_pmu_capability+0x27/0x130 [kvm
+83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
+[  +0.000119]  kvm_x86_vendor_init+0x1de/0x19d0 [kvm
+83ffe9a0591f43a0ce126662332dfe4cf2561fa4]
+[  +0.000085]  ? __pfx_vt_init+0x10/0x10 [kvm_intel
+5fa84b05f575edf3826c8f8519ca550622307061]
+[  +0.000023]  vmx_init+0xf6/0x170 [kvm_intel
+5fa84b05f575edf3826c8f8519ca550622307061]
+[  +0.000015]  vt_init+0xf/0x360 [kvm_intel
+5fa84b05f575edf3826c8f8519ca550622307061]
+[  +0.000012]  do_one_initcall+0x5b/0x300
+[  +0.000009]  do_init_module+0x62/0x250
+[  +0.000005]  ? init_module_from_file+0x8a/0xe0
+[  +0.000004]  init_module_from_file+0x8a/0xe0
+[  +0.000006]  idempotent_init_module+0x114/0x310
+[  +0.000005]  __x64_sys_finit_module+0x6d/0xd0
+[  +0.000004]  ? syscall_trace_enter+0x8d/0x1d0
+[  +0.000003]  do_syscall_64+0x81/0x7f0
+[  +0.000005]  ? __wait_for_common+0x162/0x190
+[  +0.000005]  ? __pfx_schedule_timeout+0x10/0x10
+[  +0.000004]  ? __rseq_handle_notify_resume+0xa6/0x490
+[  +0.000005]  ? idempotent_init_module+0x1df/0x310
+[  +0.000005]  ? switch_fpu_return+0x4e/0xd0
+[  +0.000003]  ? do_syscall_64+0x226/0x7f0
+[  +0.000003]  ? do_syscall_64+0x226/0x7f0
+[  +0.000003]  ? do_user_addr_fault+0x21a/0x690
+[  +0.000006]  ? exc_page_fault+0x7e/0x1a0
+[  +0.000004]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  +0.000003] RIP: 0033:0x71be1391876d
+[  +0.000045] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa
+48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c>
+[  +0.000002] RSP: 002b:00007ffdfcc7da58 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[  +0.000004] RAX: ffffffffffffffda RBX: 000064e3aeb57f80 RCX:
+000071be1391876d
+[  +0.000001] RDX: 0000000000000004 RSI: 000071be141fd2f2 RDI:
+0000000000000032
+[  +0.000002] RBP: 00007ffdfcc7daf0 R08: 0000000000000000 R09:
+000064e3aeb528f0
+[  +0.000001] R10: 0000000000000000 R11: 0000000000000246 R12:
+000071be141fd2f2
+[  +0.000001] R13: 0000000000020000 R14: 000064e3aeb507f0 R15:
+000064e3aeb57f80
+[  +0.000003]  </TASK>
+[  +0.000001] ---[ end trace 0000000000000000 ]---
 
->> +int nvme_alloc_ns_stat(struct nvme_ns *ns)
->> +{
->> +    int rw, cpu;
->> +    struct nvme_path_work *work;
->> +    gfp_t gfp = GFP_KERNEL | __GFP_ZERO;
->> +
->> +    if (!ns->head->disk)
->> +        return 0;
->> +
->> +    ns->info = __alloc_percpu_gfp(2 * sizeof(struct nvme_path_info),
->> +            __alignof__(struct nvme_path_info), gfp);
->> +    if (!ns->info)
->> +        return -ENOMEM;
->> +
->> +    for_each_possible_cpu(cpu) {
->> +        for (rw = 0; rw < 2; rw++) {
->> +            work = &per_cpu_ptr(ns->info, cpu)[rw].work;
->> +            work->ns = ns;
->> +            work->rw = rw;
->> +            INIT_WORK(&work->weight_work, nvme_mpath_weight_work);
->> +        }
->> +    }
->> +
->> +    return 0;
->> +}
->> +
-> 
-> The more I think about it the more I like the idea of having a third
-> direction (and not just READ and WRITE).
-> The latency of I/O commands _will_ be different from the latency of
-> admin commands, so the adaptive policy might come to different decisions
-> for admin commands.
-Yes as I said above, I'd address this in the next patchset. 
 
->> +static struct nvme_ns *nvme_adaptive_path(struct nvme_ns_head *head,
->> +        unsigned int rw)
->> +{
->> +    struct nvme_ns *ns, *found = NULL;
->> +    struct nvme_path_stat *stat;
->> +    u32 weight;
->> +    int refill = 0;
->> +
->> +    get_cpu();
->> +retry:
->> +    list_for_each_entry_srcu(ns, &head->list, siblings,
->> +            srcu_read_lock_held(&head->srcu)) {
->> +
->> +        if (nvme_path_is_disabled(ns) ||
->> +                !nvme_state_is_live(ns->ana_state))
->> +            continue;
->> +
->> +        stat = &this_cpu_ptr(ns->info)[rw].stat;
->> +
->> +        /*
->> +         * When the head path-list is singular we don't calculate the
->> +         * only path weight for optimization as we don't need to forward
->> +         * I/O to more than one path. The another possibility is whenthe
->> +         * path is newly added, we don't know its weight. So we go round
->> +         * -robin for each such path and forward I/O to it.Once we start
->> +         * getting response for such I/Os, the path weight calculation
->> +         * would kick in and then we start using path credit for
->> +         * forwarding I/O.
->> +         */
->> +        weight = READ_ONCE(stat->weight);
->> +        if (unlikely(!weight)) {
->> +            found = ns;
->> +            goto out;
->> +        }
->> +
->> +        /*
->> +         * To keep path selection logic simple, we don't distinguish
->> +         * between ANA optimized and non-optimized states. The non-
->> +         * optimized path is expected to have a lower weight, and
->> +         * therefore fewer credits. As a result, only a small number of
->> +         * I/Os will be forwarded to paths in the non-optimized state.
->> +         */
->> +        if (stat->credit > 0) {
->> +            --stat->credit;
->> +            found = ns;
->> +            goto out;
->> +        }
->> +    }
->> +
->> +    if (!found && !list_empty(&head->list)) {> +        /*
->> +         * Refill credits and retry.
->> +         */
->> +        list_for_each_entry_srcu(ns, &head->list, siblings,
->> +                srcu_read_lock_held(&head->srcu)) {
->> +            if (nvme_path_is_disabled(ns) ||
->> +                    !nvme_state_is_live(ns->ana_state))
->> +                continue;
->> +
->> +            stat = &this_cpu_ptr(ns->info)[rw].stat;
->> +            weight = READ_ONCE(stat->weight);
->> +            stat->credit = weight;
->> +            refill = 1;
->> +        }
->> +        if (refill)
->> +            goto retry;
->> +    }
-> 
-> Hmm. Loop within a loop. Not pretty.
-> Can't we make do with just one loop?
-> After all, if we end up here the credits for this path are use up, and need to be refilled.
-> What would happen if we were _just_ refill and retry?
-> IE drop the second iteration and just execute the branch
-> under the loop?
-> 
-Yes good pint. I think we should be able to address this
-with one loop. I'd fix this in the next patchset. 
 
->> @@ -581,7 +951,7 @@ static int nvme_ns_head_report_zones(struct gendisk *disk, sector_t sector,
->>       int srcu_idx, ret = -EWOULDBLOCK;
->>         srcu_idx = srcu_read_lock(&head->srcu);
->> -    ns = nvme_find_path(head);
->> +    ns = nvme_find_path(head, READ);
->>       if (ns)
->>           ret = nvme_ns_report_zones(ns, sector, nr_zones, cb, data);
->>       srcu_read_unlock(&head->srcu, srcu_idx);
-> 
-> See the discussion about the third option and not just 'READ'/'WRITE'.
-Yeah, noted!
+--=20
+Gene
 
->> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
->> index 29430949ce2f..4f9607e9698a 100644
->> --- a/drivers/nvme/host/sysfs.c
->> +++ b/drivers/nvme/host/sysfs.c
->> @@ -194,7 +194,7 @@ static int ns_head_update_nuse(struct nvme_ns_head *head)
->>           return 0;
->>         srcu_idx = srcu_read_lock(&head->srcu);
->> -    ns = nvme_find_path(head);
->> +    ns = nvme_find_path(head, READ);
->>       if (!ns)
->>           goto out_unlock;
->>  
-> Other than that it really looks good.
-Thank you:)
+--=-WzP+G+VsL1ZgoEfePPDq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
---Nilay
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCaO4jdAAKCRA5BdB0L6Ze
+244RAQDk1/zoqO5wjghvcV/PzFr1pEfVFIEW5Kjc7eP+weAG3gD/ZhNV4oGBjWc0
+BxKw9gsEg3neYfcTDB9Bag9mtmFtJAQ=
+=xG1/
+-----END PGP SIGNATURE-----
+
+--=-WzP+G+VsL1ZgoEfePPDq--
 
