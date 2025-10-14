@@ -4,103 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12A86CCD187
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Oct 2025 08:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A740BCCD187
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Oct 2025 08:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UCGlydBv1IgmD6OYCzpqtJgg2Lvc0HUVlRtG6th7/NU=; b=TXpi3KdqpOELQJc8kzhP7pHoSb
-	mDnfW2CSj9HLC9jhcpXVN8R/CKsC8+ZSnQSgPD/yzEcxf1k4cacsXHk0zU0YwPmIABLaN7z1umZxr
-	ptSt5mu6j7w9gpM4lYhzShydeSE0/4pAZbeDmSReKwk7gCKV3kPYCEQxX7a67q8Op6i0slbtlXSpO
-	JLw5b06POsx3zBOsUXJMB355NBLPQSd72UPls0mrte1RrrFjVOEs1xCjdd2GaM1V+L7VXHAh7IRqW
-	J2g2VlEOkJR4Xz9qezFI95QW96yj8DdWFyTcGXsxe88hv0K3lK3ND+8zXC/hvWDiDOh9LiQqEFH9q
-	TOzEmS3Q==;
+	bh=Q5GeQQ5L7KstxSj3TV0TOKNF3YsTWBqd1rTK/8hDiw8=; b=Hzb8fUQrDSaiP/o5MSkIFLXFc5
+	LfpfkyTUujeb19B976PfqrtzQ5bBwbE5XzvxnDwpUrhVanaj4D6b/Ld2tr9l06j/2uYed94KHRxfX
+	j/94y1AutrBLLiVj6ZmgChqYK6blS4w/JEzL6MykSTtUN46rPwyu2PpbkX/cu9gjCUcRt8MqO+4r5
+	JgSeDpLpibSUcetzbZcmh5ipIWzvo+xr/X9vC9BPyGhwnKUfZgNqNA6cHtdNWaxJs+UkVxcn0PLRI
+	BtduknaYH9knKQKpQP4HOGYbmCOL3VhV1zb0quuOnO2Q7SRuGrb6ai4U90hPdfxc5h/hgFOEV893n
+	Wqxu6SDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8aB0-0000000FZy3-2GAE;
-	Tue, 14 Oct 2025 08:14:34 +0000
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+	id 1v8arE-0000000Fh01-2OU7;
+	Tue, 14 Oct 2025 08:58:12 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v8aAu-0000000FZta-2vzK
+	id 1v8arC-0000000Fgzg-1Db1
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Oct 2025 08:14:29 +0000
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-46e3af7889fso27094595e9.2
-        for <linux-nvme@lists.infradead.org>; Tue, 14 Oct 2025 01:14:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760429666; x=1761034466; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UCGlydBv1IgmD6OYCzpqtJgg2Lvc0HUVlRtG6th7/NU=;
-        b=dL0yxiUmBCvVBWxWQTFdEczz79X1kxb5W+NPN6t3TO9vJ2p55lkjWiyfxyGIBxH0rF
-         WvF5hRCg6fuPDN4AUzeT2P6D27Pp+4LtVKGcRWyut0AoQRmFDKtmdP8nOzCb+yoWASmc
-         +3D1foSRPiuKcheZaZs22fN93EqgR8L7Whf3jHmboTmT2cvmWc+ivzx3aAWK/Z8F2mp8
-         LAwyZK1mJB+476t9+3otUDE9QIvalvGx9xjAqH/bQI5ecT6JUrBEDJ8x5p9lo70iEMLd
-         9+viffMDEZUjmT+BdSo4tPb7hI+EErmejT/t7s4Tvnz0PrSPfRqLIMOSFvXg3TQSxlpl
-         RBXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760429666; x=1761034466;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UCGlydBv1IgmD6OYCzpqtJgg2Lvc0HUVlRtG6th7/NU=;
-        b=Ng7NJ7zzNSH0yrlQjQd1S3FCR8CVKMaVf7T67/3tKplJvdvSGvlVi5NZHmd+V3Irq9
-         veFmIo3OHS9FLfC36ZHeYp4gP5X2RqryR8IyYukQT0Mc3vRDXueE8KcKx/e3X9L8x+Nj
-         JH/NOKnllkwSmff8MlBGk9RBd0s4KhwoSqx0Lo3TikYiabj7W7ZWeiZL47HOx/PLnK7H
-         SEtNZIqALLMxsCz0INCbP8S15UtSCIPdB60BwTjwq9TwBGrT2W/NPvSmIDACmugkemQ1
-         jKSNw7zTv9rCj5pBuEZyBHjIyvD4tdG0pPLjPpBjJZWCzXs/4JbHK6LlbaT3lEt62vA5
-         A3Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCXNzhu0PV0Wzl9TqVXrYQxHCq14Ep3dLoFzfNnta0Yw9NwJo/ansnmMptNLjpYBTMwBRBUgKV16AX1m@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzoi6oP8e1BS2uQVHSzHhma4xpUHrACQvGzLCd7htnTgWzezvqY
-	TMoQRJJX6I3p9lz1hn4n4oB95fxzCZYEGrt8zpIHlTKObdXJkydWFN50
-X-Gm-Gg: ASbGncu1PjbVxm9MzVi0UdyBXuTfPgtdhpNR40J4J8rmKWbxC0C8t9I7dkIr9mlYq72
-	tjrZOnkGIjaeL5UbH/M3AeIqpJstsJAmtAizddeEQNXrbZRbkea87Re/5a+GjAhONdjZvJurT3M
-	8MpHmyUtaHiDHk7ohOVXl4lq8447MXX7md1PIX1gb1E2w8RP8kIHzcwkdfelwQZZzp/9kgB9bQV
-	lTijvoaEumrauL8e4O2XmtA6rPkPUD3kuje0wPNPJry1E/RwO+9hJ+DUzOS3Zart7hTBSLQ0BeZ
-	5Bo7CX1GNwccqZkRoscSNpehg8iD52Kbze8bJPvlg9PkER86KBLFR0fcJt8VSj0aPvYazYctTmk
-	ayvt1Z4g88F+4JrnSrPwx3/h/xFpBOiuK/7DR9q+cIDJ6cV4B93/lBF13GWm45ltOtmxtZ5SWbJ
-	TsvaQdtU4=
-X-Google-Smtp-Source: AGHT+IGlURcaYtxeR/4YJghdHkVrrVvxKtUh4t7BLUPo3pxJJ/Y8h3MpYW3S6t6HOaxlenUga+CUFg==
-X-Received: by 2002:a05:600c:1f8e:b0:46f:b42e:e392 with SMTP id 5b1f17b1804b1-46fbbeb30a2mr74875685e9.39.1760429666272;
-        Tue, 14 Oct 2025 01:14:26 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489194dsm226883765e9.12.2025.10.14.01.14.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 01:14:25 -0700 (PDT)
-Date: Tue, 14 Oct 2025 09:14:20 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
- akpm@linux-foundation.org, axboe@kernel.dk, ceph-devel@vger.kernel.org,
- ebiggers@kernel.org, hch@lst.de, home7438072@gmail.com, idryomov@gmail.com,
- jaegeuk@kernel.org, kbusch@kernel.org, linux-fscrypt@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- sagi@grimberg.me, tytso@mit.edu, visitorckw@gmail.com, xiubli@redhat.com
-Subject: Re: [PATCH v3 2/6] lib/base64: Optimize base64_decode() with
- reverse lookup tables
-Message-ID: <20251014091420.173dfc9c@pumpkin>
-In-Reply-To: <aOzLQ2KSqGn1eYrm@wu-Pro-E500-G6-WS720T>
-References: <20250926065556.14250-1-409411716@gms.tku.edu.tw>
-	<CADUfDZruZWyrsjRCs_Y5gjsbfU7dz_ALGG61pQ8qCM7K2_DjmA@mail.gmail.com>
-	<aNz/+xLDnc2mKsKo@wu-Pro-E500-G6-WS720T>
-	<CADUfDZq4c3dRgWpevv3+29frvd6L8G9RRdoVFpFnyRsF3Eve1Q@mail.gmail.com>
-	<20251005181803.0ba6aee4@pumpkin>
-	<aOTPMGQbUBfgdX4u@wu-Pro-E500-G6-WS720T>
-	<CADUfDZp6TA_S72+JDJRmObJgmovPgit=-Zf+-oC+r0wUsyg9Jg@mail.gmail.com>
-	<20251007192327.57f00588@pumpkin>
-	<aOeprat4/97oSWE0@wu-Pro-E500-G6-WS720T>
-	<20251010105138.0356ad75@pumpkin>
-	<aOzLQ2KSqGn1eYrm@wu-Pro-E500-G6-WS720T>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	Tue, 14 Oct 2025 08:58:11 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E7J6gu016580;
+	Tue, 14 Oct 2025 08:58:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Q5GeQQ
+	5L7KstxSj3TV0TOKNF3YsTWBqd1rTK/8hDiw8=; b=QxQSqiWSjMzuRFGBYn++Ze
+	LN8zSKN4v7Cf83U0dndi+282M2500Nn1/gnRq8Tc+sOiStEIUDZdKqKrQc7vLrfr
+	TFzjc7pZLwKIuZ7Shc9rHguAo0QUde3CqUpPtKJwOtQx6Mr1xPI2bnSlAt6NTSu6
+	5U926cCJa9McxPZZss6zwKrNHtpNnYbS68cOU/PmAarNp/j2bgDo8Wndz2oKzNSR
+	SFCh/ltbL86Hl22aoF8dRtTVUBALnBRtD3xJCA+ejbr4PR3FW4xAeFka5YL605ni
+	tPyaiSSbt8KLInXBmyl9L/7cuOmqjhXDjJxLWnPsWKW32QYxIlTsmWP9FmAi71kA
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49qcnr5dy8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Oct 2025 08:58:05 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59E7oRMN016756;
+	Tue, 14 Oct 2025 08:58:05 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49r32jsyds-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Oct 2025 08:58:05 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59E8w40g28770906
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Oct 2025 08:58:04 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 36F3058045;
+	Tue, 14 Oct 2025 08:58:04 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6611C58050;
+	Tue, 14 Oct 2025 08:58:01 +0000 (GMT)
+Received: from [9.109.198.148] (unknown [9.109.198.148])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 14 Oct 2025 08:58:01 +0000 (GMT)
+Message-ID: <6049dd46-e841-4446-9d33-09b7072249d6@linux.ibm.com>
+Date: Tue, 14 Oct 2025 14:27:59 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCHv2 2/4] nvme-multipath: add support for adaptive I/O
+ policy
+To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk, dwagner@suse.de,
+        gjoyce@ibm.com
+References: <20251009100608.1699550-1-nilay@linux.ibm.com>
+ <20251009100608.1699550-3-nilay@linux.ibm.com>
+ <24f76fe3-9508-4c05-976b-8be9ec9a4371@suse.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <24f76fe3-9508-4c05-976b-8be9ec9a4371@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=M5ZA6iws c=1 sm=1 tr=0 ts=68ee109d cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=8gyeK5pOzyvbsE0He_cA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: YTlwmNZCXydG5P4pSXwNaAPfyqfGhhed
+X-Proofpoint-ORIG-GUID: YTlwmNZCXydG5P4pSXwNaAPfyqfGhhed
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEwMDE0MCBTYWx0ZWRfX3WihmiJ/sk5P
+ HvlSH4Bz/9XZIFzGL29cMmDYv2uj9JRVhXtcwoPyFKHKgp7AsiqiW47ELU753lc0/QWL/Jv4wvH
+ yCbqyIfXdBawAk4ghvn4IM+TytwSRRjYpe+el/yF45K4TPmJDW8txdPUBiVXpHNrykoS8M/LDgc
+ Rx7wOTVjWbfTguEXboNHDOm6aY/GDsF8b+GsY3AFPJjPlRU/GBIf9ZrrQQaauMapp/67h4VY1ym
+ bqJrhVXmt3LY1E/f9/2CYKTxfHBdYAKMBz4bDBnkjWcchoOkmCoeTkitfa93c+imr61zW6OzIx3
+ L03YUYRa86Q9aEiFMWFVF3roIQM/9vIwO4UXyBgbMkEdrZhEEoT12HLz9cNtO5hgLyS+naHTH3d
+ qMRGhuA+qnmmcYbWxhfuTS8JUQZ9fw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015 impostorscore=0
+ phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510100140
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251014_011428_800649_F7C040D9 
-X-CRM114-Status: GOOD (  58.89  )
+X-CRM114-CacheID: sfid-20251014_015810_453340_0BF2190A 
+X-CRM114-Status: GOOD (  51.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,289 +122,409 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 13 Oct 2025 17:49:55 +0800
-Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
 
-> On Fri, Oct 10, 2025 at 10:51:38AM +0100, David Laight wrote:
-> > On Thu, 9 Oct 2025 20:25:17 +0800
-> > Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
-> > 
-> > ...  
-> > > As Eric mentioned, the decoder in fs/crypto/ needs to reject invalid input.  
-> > 
-> > (to avoid two different input buffers giving the same output)
-> > 
-> > Which is annoyingly reasonable.
-> >   
-> > > One possible solution I came up with is to first create a shared
-> > > base64_rev_common lookup table as the base for all Base64 variants.
-> > > Then, depending on the variant (e.g., BASE64_STD, BASE64_URLSAFE, etc.), we
-> > > can dynamically adjust the character mappings for position 62 and position 63
-> > > at runtime, based on the variant.
-> > > 
-> > > Here are the changes to the code:
-> > > 
-> > > static const s8 base64_rev_common[256] = {
-> > > 	[0 ... 255] = -1,
-> > > 	['A'] =  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,
-> > > 		13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-> > > 	['a'] = 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
-> > > 		39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
-> > > 	['0'] = 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
-> > > };
-> > > 
-> > > static const struct {
-> > > 	char char62, char63;
-> > > } base64_symbols[] = {
-> > > 	[BASE64_STD] = { '+', '/' },
-> > > 	[BASE64_URLSAFE] = { '-', '_' },
-> > > 	[BASE64_IMAP] = { '+', ',' },
-> > > };
-> > > 
-> > > int base64_decode(const char *src, int srclen, u8 *dst, bool padding, enum base64_variant variant)
-> > > {
-> > > 	u8 *bp = dst;
-> > > 	u8 pad_cnt = 0;
-> > > 	s8 input1, input2, input3, input4;
-> > > 	u32 val;
-> > > 	s8 base64_rev_tables[256];
-> > > 
-> > > 	/* Validate the input length for padding */
-> > > 	if (unlikely(padding && (srclen & 0x03) != 0))
-> > > 		return -1;  
-> > 
-> > There is no need for an early check.
-> > Pick it up after the loop when 'srclen != 0'.
-> >  
+>> diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+>> index c212fa952c0f..69d2f72d0e86 100644
+>> --- a/drivers/nvme/host/ioctl.c
+>> +++ b/drivers/nvme/host/ioctl.c
+>> @@ -711,7 +711,7 @@ int nvme_ns_head_ioctl(struct block_device *bdev, blk_mode_t mode,
+>>           flags |= NVME_IOCTL_PARTITION;
+>>         srcu_idx = srcu_read_lock(&head->srcu);
+>> -    ns = nvme_find_path(head);
+>> +    ns = nvme_find_path(head, open_for_write ? WRITE : READ);
+>>       if (!ns)
+>>           goto out_unlock;
+>>   @@ -742,7 +742,7 @@ long nvme_ns_head_chr_ioctl(struct file *file, unsigned int cmd,
+>>       int srcu_idx, ret = -EWOULDBLOCK;
+>>         srcu_idx = srcu_read_lock(&head->srcu);
+>> -    ns = nvme_find_path(head);
+>> +    ns = nvme_find_path(head, open_for_write ? WRITE : READ);
+>>       if (!ns)
+>>           goto out_unlock;
+>>   
+> Are we sure that we should account for non-IO commands here, too?
+> Thing is, the I/O policy should be just that, directing I/O to the
+> various paths.
+> But what about commands on the admin queue? Should they be influenced by
+> the same policy? And can we even define what a 'read' command is?
+> Wouldn't it be better to pass in a third option here (NONE?) to make it
+> clear that this is a non-I/O command?
 > 
-> I think the early check is still needed, since I'm removing the
-> padding '=' first.
-> This makes the handling logic consistent for both padded and unpadded
-> inputs, and avoids extra if conditions for padding inside the hot loop.
+Yeah makes sense to differentiate between read/write and others here.
+I think we should be able to differentiate between read/write vs others.
+I'd implement this in next patchset.
 
-The 'invalid input' check will detect the padding.
-Then you don't get an extra check if there is no padding (probably normal).
-I realised I didn't get it quite right - updated below.
+>> @@ -762,7 +762,8 @@ int nvme_ns_head_chr_uring_cmd(struct io_uring_cmd *ioucmd,
+>>       struct cdev *cdev = file_inode(ioucmd->file)->i_cdev;
+>>       struct nvme_ns_head *head = container_of(cdev, struct nvme_ns_head, cdev);
+>>       int srcu_idx = srcu_read_lock(&head->srcu);
+>> -    struct nvme_ns *ns = nvme_find_path(head);
+>> +    struct nvme_ns *ns = nvme_find_path(head,
+>> +            ioucmd->file->f_mode & FMODE_WRITE ? WRITE : READ);
+>>       int ret = -EINVAL;
+>>         if (ns)
+> 
+> See above. I really think that we should be able to pass in a third
+> option for admin commands.
+Yep, as mentioned will do this in the next patchset.
 
 > 
-> > > 
-> > > 	memcpy(base64_rev_tables, base64_rev_common, sizeof(base64_rev_common));  
-> > 
-> > Ugg - having a memcpy() here is not a good idea.
-> > It really is better to have 3 arrays, but use a 'mostly common' initialiser.
-> > Perhaps:
-> > #define BASE64_REV_INIT(ch_62, ch_63) = { \
-> > 	[0 ... 255] = -1, \
-> > 	['A'] =  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, \
-> > 		13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, \
-> > 	['a'] = 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, \
-> > 		39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, \
-> > 	['0'] = 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, \
-> > 	[ch_62] = 62, [ch_63] = 63, \
-> > }
-> > 
-> > static const s8 base64_rev_maps[][256] = {
-> > 	[BASE64_STD] = BASE64_REV_INIT('+', '/'),
-> > 	[BASE64_URLSAFE] = BASE64_REV_INIT('-', '_'),
-> > 	[BASE64_IMAP] = BASE64_REV_INIT('+', ',')
-> > };
-> > 
-> > Then (after validating variant):
-> > 	const s8 *map = base64_rev_maps[variant];
-> >  
-> 
-> Got it. I'll switch to using three static tables with a common initializer
-> as you suggested.
-> 
-> > > 
-> > > 	if (variant < BASE64_STD || variant > BASE64_IMAP)
-> > > 		return -1;
-> > > 
-> > > 	base64_rev_tables[base64_symbols[variant].char62] = 62;
-> > > 	base64_rev_tables[base64_symbols[variant].char63] = 63;
-> > > 
-> > > 	while (padding && srclen > 0 && src[srclen - 1] == '=') {
-> > > 		pad_cnt++;
-> > > 		srclen--;
-> > > 		if (pad_cnt > 2)
-> > > 			return -1;
-> > > 	}  
-> > 
-> > I'm not sure I'd to that there.
-> > You are (in some sense) optimising for padding.
-> > From what I remember, "abcd" gives 24 bits, "abc=" 16 and "ab==" 8.
-> >   
-> > > 
-> > > 	while (srclen >= 4) {
-> > > 		/* Decode the next 4 characters */
-> > > 		input1 = base64_rev_tables[(u8)src[0]];
-> > > 		input2 = base64_rev_tables[(u8)src[1]];
-> > > 		input3 = base64_rev_tables[(u8)src[2]];
-> > > 		input4 = base64_rev_tables[(u8)src[3]];  
-> > 
-> > I'd be tempted to make src[] unsigned - probably be assigning the parameter
-> > to a local at the top of the function.
-> > 
-> > Also you have input3 = ... src[2]...
-> > Perhaps they should be input[0..3] instead.
-> >  
-> 
-> OK, I'll make the changes.
-> 
-> > > 
-> > > 		val = (input1 << 18) |
-> > > 		      (input2 << 12) |
-> > > 		      (input3 << 6) |
-> > > 		      input4;  
-> > 
-> > Four lines is excessive, C doesn't require the () and I'm not sure the
-> > compilers complain about << and |.
-> >   
-> 
-> OK, I'll make the changes.
-> 
-> > > 
-> > > 		if (unlikely((s32)val < 0))
-> > > 			return -1;  
-> > 
-> > Make 'val' signed - then you don't need the cast.
-...
-> > Or, if you really want to use the code below the loop:
-> > 			if (!padding || src[3] != '=')
-> > 				return -1;
-> > 			padding = 0;
-> > 			srclen -= 1 + (src[2] == '=');
-> > 			break;
+>> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+>> index 3da980dc60d9..9ecdaca5e9a0 100644
+>> --- a/drivers/nvme/host/multipath.c
+>> +++ b/drivers/nvme/host/multipath.c
+>> @@ -6,6 +6,8 @@
+>>   #include <linux/backing-dev.h>
+>>   #include <linux/moduleparam.h>
+>>   #include <linux/vmalloc.h>
+>> +#include <linux/blk-mq.h>
+>> +#include <linux/math64.h>
+>>   #include <trace/events/block.h>
+>>   #include "nvme.h"
+>>  
+> Ouch.
+> #include <math64.h>
+> always spells disaster :-)
 
-That is missing a test...
-Change to:
-			if (!padding || srclen != 4 || src[3] != '=')
-				return -1;
-			padding = 0;
-			srclen = src[2] == '=' ? 2 : 3;
-			break;
+This is included for div_u64(). Well we may replace it with usual division
+operator (e.g. dividend / divisor) but that may not work well on 32-bit
+architecture. 
 
-The compiler will then optimise away the first checks after the
-loop because it knows they can't happen.
+>>   +static void nvme_mpath_weight_work(struct work_struct *weight_work)
+>> +{
+>> +    int cpu, srcu_idx;
+>> +    u32 weight;
+>> +    struct nvme_ns *ns;
+>> +    struct nvme_path_stat *stat;
+>> +    struct nvme_path_work *work = container_of(weight_work,
+>> +            struct nvme_path_work, weight_work);
+>> +    struct nvme_ns_head *head = work->ns->head;
+>> +    int rw = work->rw;
+>> +    u64 total_score = 0;
+>> +
+>> +    cpu = get_cpu();
+>> +
+>> +    srcu_idx = srcu_read_lock(&head->srcu);
+>> +    list_for_each_entry_srcu(ns, &head->list, siblings,
+>> +            srcu_read_lock_held(&head->srcu)) {
+>> +
+>> +        stat = &this_cpu_ptr(ns->info)[rw].stat;
+>> +        if (!READ_ONCE(stat->slat_ns))
+>> +            continue;
+>> +        /*
+>> +         * Compute the path score as the inverse of smoothed
+>> +         * latency, scaled by NSEC_PER_SEC. Floating point
+>> +         * math is unavailable in the kernel, so fixed-point
+>> +         * scaling is used instead. NSEC_PER_SEC is chosen
+>> +         * because valid latencies are always < 1 second; longer
+>> +         * latencies are ignored.
+>> +         */
+>> +        stat->score = div_u64(NSEC_PER_SEC, READ_ONCE(stat->slat_ns));
+>> +
+>> +        /* Compute total score. */
+>> +        total_score += stat->score;
+>> +    }
+>> +
+>> +    if (!total_score)
+>> +        goto out;
+>> +
+>> +    /*
+>> +     * After computing the total slatency, we derive per-path weight
+>> +     * (normalized to the range 0–100). The weight represents the
+>> +     * relative share of I/O the path should receive.
+> 
+> Why do we use the range 0-100?
+> While this is nice for human consumption, it doesn't lend itself to a
+> nice computation. Maybe we should select a different scale to allow us
+> for more efficient computation (0-128? Maybe?)
+Yes we can normalize this to any range. Lets scale it from 0-128 as
+you suggested, and it also aligns with power of 2.
 
-> > 
-> >   
-> > > 
-> > > 		*bp++ = (u8)(val >> 16);
-> > > 		*bp++ = (u8)(val >> 8);
-> > > 		*bp++ = (u8)val;  
-> > 
-> > You don't need those casts.
-> >  
+>> +
+>> +#define NVME_EWMA_SHIFT    3
 > 
-> OK, I'll make the changes.
-> 
-> > > 
-> > > 		src += 4;
-> > > 		srclen -= 4;
-> > > 	}
-> > > 
-> > > 	/* Handle leftover characters when padding is not used */  
-> > 
-> > You are coming here with padding.
-> > I'm not sure what should happen without padding.
-> > For a multi-line file decode I suspect the characters need adding to
-> > the start of the next line (ie lines aren't required to contain
-> > multiples of 4 characters - even though they almost always will).
-> >   
-> 
-> Ah, my mistake. I forgot to remove that comment.
-> Based on my observation, base64_decode() should process the entire input
-> buffer in a single call, so I believe it does not need to handle
-> multi-line input.
-
-I was thinking of the the case where it is processing the output of
-something like base64encode.
-The caller will have separated out the lines, but I don't know whether
-every line has to contain a multiple of 4 characters - or whether the
-lines can be arbitrarily split after being encoded (I know that won't
-normally happen - but you never know). 
+> And we use this value why?
+Oh yeah the reason being in the proposed code we want to assign  ~87.5%
+weightage to the existing (smoothed) latency and ~12.5% weightage to the 
+new latency. If you see the ewma_update() then you'd realize this 
+fact. But yes I'd add a comment above this macro to make the intent
+clear.
 
 > 
-> Best regards,
-> Guan-Chun
+>> +static inline u64 ewma_update(u64 old, u64 new)
+>> +{
+>> +    return (old * ((1 << NVME_EWMA_SHIFT) - 1) + new) >> NVME_EWMA_SHIFT;
+>> +}
+>> +
+>> +static void nvme_mpath_add_sample(struct request *rq, struct nvme_ns *ns)
+>> +{
+>> +    int cpu;
+>> +    unsigned int rw;
+>> +    struct nvme_path_info *info;
+>> +    struct nvme_path_stat *stat;
+>> +    u64 now, latency, slat_ns, avg_lat_ns;
+>> +    struct nvme_ns_head *head = ns->head;
+>> +
+>> +    if (list_is_singular(&head->list))
+>> +        return;
+>> +
+>> +    now = ktime_get_ns();
+>> +    latency = now >= rq->io_start_time_ns ? now - rq->io_start_time_ns : 0;
+>> +    if (!latency)
+>> +        return;
+>> +
+>> +    /*
+>> +     * As completion code path is serialized(i.e. no same completion queue
+>> +     * update code could run simultaneously on multiple cpu) we can safely
+>> +     * access per cpu nvme path stat here from another cpu (in case the
+>> +     * completion cpu is different from submission cpu).
+>> +     * The only field which could be accessed simultaneously here is the
+>> +     * path ->weight which may be accessed by this function as well as I/O
+>> +     * submission path during path selection logic and we protect ->weight
+>> +     * using READ_ONCE/WRITE_ONCE. Yes this may not be 100% accurate but
+>> +     * we also don't need to be so accurate here as the path credit would
+>> +     * be anyways refilled, based on path weight, once path consumes all
+>> +     * its credits. And we limit path weight/credit max up to 100. Please
+>> +     * also refer nvme_adaptive_path().
+>> +     */
+>> +    cpu = blk_mq_rq_cpu(rq);
+>> +    rw = rq_data_dir(rq);
+>> +    info = &per_cpu_ptr(ns->info, cpu)[rw];
+>> +    stat = &info->stat;
+>> +
+> Hmm. While the 'SAME_CONP' attribute should help here, I remain
+> sceptical.
+> Wouldn't it be possible to look at the hwq map (eg by using something
+> like blk_mq_map_queue_type()) to figure out the hw context, and then
+> use the first cpu from that mask?
+> That way we are guaranteed to always using the same per-cpu ptr.
+> Might be overkill, though; but it would be good to have some
+> checks in here in case we do run on the wrong CPU.
 > 
-> > > 	if (srclen > 0) {
-> > > 		switch (srclen) {  
-> > 
-> > You don't need an 'if' and a 'switch'.
-> > srclen is likely to be zero, but perhaps write as:
-> > 	if (likely(!srclen))
-> > 		return bp - dst;
-> > 	if (padding || srclen == 1)
-> > 		return -1;
-> > 
-> > 	val = base64_rev_tables[(u8)src[0]] << 12 | base64_rev_tables[(u8)src[1]] << 6;
-> > 	*bp++ = val >> 10;
-> > 	if (srclen == 1) {
-Obviously should be (srclen == 2)
-> > 		if (val & 0x800003ff)
-> > 			return -1;
-> > 	} else {
-> > 		val |= base64_rev_tables[(u8)src[2]];
-> > 		if (val & 0x80000003)
-> > 			return -1;
-> > 		*bp++ = val >> 2;
-> > 	}
-> > 	return bp - dst;
-> > }
-> > 
-> > 	David
+Okay so I think you propose ensuring that submitting cpu should 
+match the cpu on which we're processing completion I/O sample.
+Well, that makes sense but here we use blk_mq_rq_cpu() which
+yields the submitting cpu for the request and then use submitting cpu 
+number to get per-cpu stat using per_cpu_ptr(). As we don't rely
+on the current cpu on which completion I/O sample is being processed, I 
+think we're all good. Agreed?
 
-	David
+>> +    /*
+>> +     * If latency > ~1s then ignore this sample to prevent EWMA from being
+>> +     * skewed by pathological outliers (multi-second waits, controller
+>> +     * timeouts etc.). This keeps path scores representative of normal
+>> +     * performance and avoids instability from rare spikes. If such high
+>> +     * latency is real, ANA state reporting or keep-alive error counters
+>> +     * will mark the path unhealthy and remove it from the head node list,
+>> +     * so we safely skip such sample here.
+>> +     */
+>> +    if (unlikely(latency > NSEC_PER_SEC)) {
+>> +        stat->nr_ignored++;
+>> +        return;
+>> +    }
+> 
+> I would even go so far as to indicate that EWMA is unusable here.
+> Can we issue a warning / debug message here to indicate that the path
+> selector is running suboptimal?
+> 
+We can certainly do that, but as you could see above we're incrementing 
+->nr_ignored here, and user could then access this value through 
+debugfs, so is that sufficient? Or do you want an explicit WARN or debug
+message to be also printed?
 
-> >   
-> > > 		case 2:
-> > > 			input1 = base64_rev_tables[(u8)src[0]];
-> > > 			input2 = base64_rev_tables[(u8)src[1]];
-> > > 			val = (input1 << 6) | input2; /* 12 bits */
-> > > 			if (unlikely((s32)val < 0 || val & 0x0F))
-> > > 				return -1;
-> > > 
-> > > 			*bp++ = (u8)(val >> 4);
-> > > 			break;
-> > > 		case 3:
-> > > 			input1 = base64_rev_tables[(u8)src[0]];
-> > > 			input2 = base64_rev_tables[(u8)src[1]];
-> > > 			input3 = base64_rev_tables[(u8)src[2]];
-> > > 
-> > > 			val = (input1 << 12) |
-> > > 			      (input2 << 6) |
-> > > 			      input3; /* 18 bits */
-> > > 			if (unlikely((s32)val < 0 || val & 0x03))
-> > > 				return -1;
-> > > 
-> > > 			*bp++ = (u8)(val >> 10);
-> > > 			*bp++ = (u8)(val >> 2);
-> > > 			break;
-> > > 		default:
-> > > 			return -1;
-> > > 		}
-> > > 	}
-> > > 
-> > > 	return bp - dst;
-> > > }
-> > > Based on KUnit testing, the performance results are as follows:
-> > > 	base64_performance_tests: [64B] decode run : 40ns
-> > > 	base64_performance_tests: [1KB] decode run : 463ns
-> > > 
-> > > However, this approach introduces an issue. It uses 256 bytes of memory
-> > > on the stack for base64_rev_tables, which might not be ideal. Does anyone
-> > > have any thoughts or alternative suggestions to solve this issue, or is it
-> > > not really a concern?
-> > > 
-> > > Best regards,
-> > > Guan-Chun
-> > >   
-> > > > > 
-> > > > > Best,
-> > > > > Caleb    
-> > > >     
-> >   
+>> +
+>> +    /*
+>> +     * Accumulate latency samples and increment the batch count for each
+>> +     * ~15 second interval. When the interval expires, compute the simple
+>> +     * average latency over that window, then update the smoothed (EWMA)
+>> +     * latency. The path weight is recalculated based on this smoothed
+>> +     * latency.
+>> +     */
+> 
+> Why 15 seconds? Can we make this changeable eg via debugfs?
+Yes certainly we can make this configurable, BTW should it be
+done through a new sysfs attribute instead of debugfs? 
+
+> 
+>> +    stat->batch += latency;
+>> +    stat->batch_count++;
+>> +    stat->nr_samples++;
+>> +
+>> +    if (now > stat->last_weight_ts &&
+>> +            (now - stat->last_weight_ts) >= 15 * NSEC_PER_SEC) {
+>> +
+> 
+> At the very least make this a #define. But ideally one should be able
+> to modify that.
+> 
+Yes I'd define a macro for this 15 seconds interval, and also we'll make
+it configurable. I'd implement this in next patchset.
+
+>> +        stat->last_weight_ts = now;
+>> +
+>> +        /*
+>> +         * Find simple average latency for the last epoch (~15 sec
+>> +         * interval).
+>> +         */
+>> +        avg_lat_ns = div_u64(stat->batch, stat->batch_count);
+>> +
+>> +        /*
+>> +         * Calculate smooth/EWMA (Exponentially Weighted Moving Average)
+>> +         * latency. EWMA is preferred over simple average latency
+>> +         * because it smooths naturally, reduces jitter from sudden
+>> +         * spikes, and adapts faster to changing conditions. It also
+>> +         * avoids storing historical samples, and works well for both
+>> +         * slow and fast I/O rates.
+>> +         * Formula:
+>> +         * slat_ns = (prev_slat_ns * (WEIGHT - 1) + (latency)) / WEIGHT
+>> +         * With WEIGHT = 8, this assigns 7/8 (~87.5 %) weight to the
+>> +         * existing latency and 1/8 (~12.5%) weight to the new latency.
+>> +         */
+> 
+> Similar comment to the WEIGHT. While 8 might be a nice choice, there is nothing indicating it's always the right choice.
+> Please make it a #define and see if we cannot modify it via debugfs.
+> 
+Yeah sure, as discussed earlier this value is derived from NVME_EWMA_SHIFT
+and I'd make it configurable in the next patchset.
+
+>> +int nvme_alloc_ns_stat(struct nvme_ns *ns)
+>> +{
+>> +    int rw, cpu;
+>> +    struct nvme_path_work *work;
+>> +    gfp_t gfp = GFP_KERNEL | __GFP_ZERO;
+>> +
+>> +    if (!ns->head->disk)
+>> +        return 0;
+>> +
+>> +    ns->info = __alloc_percpu_gfp(2 * sizeof(struct nvme_path_info),
+>> +            __alignof__(struct nvme_path_info), gfp);
+>> +    if (!ns->info)
+>> +        return -ENOMEM;
+>> +
+>> +    for_each_possible_cpu(cpu) {
+>> +        for (rw = 0; rw < 2; rw++) {
+>> +            work = &per_cpu_ptr(ns->info, cpu)[rw].work;
+>> +            work->ns = ns;
+>> +            work->rw = rw;
+>> +            INIT_WORK(&work->weight_work, nvme_mpath_weight_work);
+>> +        }
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+> 
+> The more I think about it the more I like the idea of having a third
+> direction (and not just READ and WRITE).
+> The latency of I/O commands _will_ be different from the latency of
+> admin commands, so the adaptive policy might come to different decisions
+> for admin commands.
+Yes as I said above, I'd address this in the next patchset. 
+
+>> +static struct nvme_ns *nvme_adaptive_path(struct nvme_ns_head *head,
+>> +        unsigned int rw)
+>> +{
+>> +    struct nvme_ns *ns, *found = NULL;
+>> +    struct nvme_path_stat *stat;
+>> +    u32 weight;
+>> +    int refill = 0;
+>> +
+>> +    get_cpu();
+>> +retry:
+>> +    list_for_each_entry_srcu(ns, &head->list, siblings,
+>> +            srcu_read_lock_held(&head->srcu)) {
+>> +
+>> +        if (nvme_path_is_disabled(ns) ||
+>> +                !nvme_state_is_live(ns->ana_state))
+>> +            continue;
+>> +
+>> +        stat = &this_cpu_ptr(ns->info)[rw].stat;
+>> +
+>> +        /*
+>> +         * When the head path-list is singular we don't calculate the
+>> +         * only path weight for optimization as we don't need to forward
+>> +         * I/O to more than one path. The another possibility is whenthe
+>> +         * path is newly added, we don't know its weight. So we go round
+>> +         * -robin for each such path and forward I/O to it.Once we start
+>> +         * getting response for such I/Os, the path weight calculation
+>> +         * would kick in and then we start using path credit for
+>> +         * forwarding I/O.
+>> +         */
+>> +        weight = READ_ONCE(stat->weight);
+>> +        if (unlikely(!weight)) {
+>> +            found = ns;
+>> +            goto out;
+>> +        }
+>> +
+>> +        /*
+>> +         * To keep path selection logic simple, we don't distinguish
+>> +         * between ANA optimized and non-optimized states. The non-
+>> +         * optimized path is expected to have a lower weight, and
+>> +         * therefore fewer credits. As a result, only a small number of
+>> +         * I/Os will be forwarded to paths in the non-optimized state.
+>> +         */
+>> +        if (stat->credit > 0) {
+>> +            --stat->credit;
+>> +            found = ns;
+>> +            goto out;
+>> +        }
+>> +    }
+>> +
+>> +    if (!found && !list_empty(&head->list)) {> +        /*
+>> +         * Refill credits and retry.
+>> +         */
+>> +        list_for_each_entry_srcu(ns, &head->list, siblings,
+>> +                srcu_read_lock_held(&head->srcu)) {
+>> +            if (nvme_path_is_disabled(ns) ||
+>> +                    !nvme_state_is_live(ns->ana_state))
+>> +                continue;
+>> +
+>> +            stat = &this_cpu_ptr(ns->info)[rw].stat;
+>> +            weight = READ_ONCE(stat->weight);
+>> +            stat->credit = weight;
+>> +            refill = 1;
+>> +        }
+>> +        if (refill)
+>> +            goto retry;
+>> +    }
+> 
+> Hmm. Loop within a loop. Not pretty.
+> Can't we make do with just one loop?
+> After all, if we end up here the credits for this path are use up, and need to be refilled.
+> What would happen if we were _just_ refill and retry?
+> IE drop the second iteration and just execute the branch
+> under the loop?
+> 
+Yes good pint. I think we should be able to address this
+with one loop. I'd fix this in the next patchset. 
+
+>> @@ -581,7 +951,7 @@ static int nvme_ns_head_report_zones(struct gendisk *disk, sector_t sector,
+>>       int srcu_idx, ret = -EWOULDBLOCK;
+>>         srcu_idx = srcu_read_lock(&head->srcu);
+>> -    ns = nvme_find_path(head);
+>> +    ns = nvme_find_path(head, READ);
+>>       if (ns)
+>>           ret = nvme_ns_report_zones(ns, sector, nr_zones, cb, data);
+>>       srcu_read_unlock(&head->srcu, srcu_idx);
+> 
+> See the discussion about the third option and not just 'READ'/'WRITE'.
+Yeah, noted!
+
+>> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+>> index 29430949ce2f..4f9607e9698a 100644
+>> --- a/drivers/nvme/host/sysfs.c
+>> +++ b/drivers/nvme/host/sysfs.c
+>> @@ -194,7 +194,7 @@ static int ns_head_update_nuse(struct nvme_ns_head *head)
+>>           return 0;
+>>         srcu_idx = srcu_read_lock(&head->srcu);
+>> -    ns = nvme_find_path(head);
+>> +    ns = nvme_find_path(head, READ);
+>>       if (!ns)
+>>           goto out_unlock;
+>>  
+> Other than that it really looks good.
+Thank you:)
+
+--Nilay
 
 
