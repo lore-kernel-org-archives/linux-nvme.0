@@ -4,118 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4B33CCD194
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Oct 2025 10:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8F7F1CCD183
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Oct 2025 11:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rJ4V0WDk+Fmgl27pDuIUO845Eexs2tBhWb+HgzxSkGw=; b=m8J4p4Di37pcEFFZwGfrZ6Yqb2
-	r7XwgLX3RBohh3ifbhwYK+WhJPt/X10mT4p65mUssuhA2aOffXkA4yq1AKV5o21ORmA2FSQ4B0zE3
-	Th56Tnywgo6sVAfQvoNiAwRnM55lAQRpO8ddhBL41WvtEjQcIxlqL1k7lY0kMC6PFXqUiEq0LOQCV
-	PRLL3rtr0UAeY3MR8z6FbkG4H4SnKifMH2gnlEVx6tLdhByQW9EYwgOPBgLzcU4XBA9ZdKYL7AT32
-	8qZPHzux7b62iwaLvNrhJ+vifMVjeiJBfw9D8WCfU84BRlZCcyxS6ED9ffKuAoB5TLzm3C6IrUxJz
-	Tu7psppQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ml2jTTpereY0mJz9KMBTL34esrs5hZtfSn+KrKhgwD8=; b=TuklsyTWgTKIBCyhnIORccFEp5
+	DrKy0Gew2pu3slKXgJuF+80F7F3BMqMig1HlrEC609E92/MmkrGnRCON5Xt/zIoQ0Immo69H0yZid
+	1DoaI7LFB+gZcYVDYp7dUqad9y8vsmbOuEx5/NqF7MqCdsedyBKGLGFN5TMbxlC5ry+fkMtD9Vm7S
+	G4yIxaJJH2XKPcwdeQHuPuTyZcHI0odUBtRzbQYT1aac+o6SH82vOjbDNAjDGryhbMgWHxKRn510s
+	p8vu2vlr1W1hWtpihsZ/GYxxeqczbmAh+CxUrxobs4/49AP6LghYqCg6O1R1IBej0N/Dw1OwRpIBR
+	QuuvpdWw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v9KtB-00000004KQI-0Kiz;
-	Thu, 16 Oct 2025 10:07:17 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1v9LmK-00000004WCl-2pue;
+	Thu, 16 Oct 2025 11:04:16 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v9Kt9-00000004KQ5-2nOM
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 16 Oct 2025 10:07:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rJ4V0WDk+Fmgl27pDuIUO845Eexs2tBhWb+HgzxSkGw=; b=GwmlUfEDsKD9Ype3r716disODp
-	gFxuHOHjwBFwlihayBa8ylPnAQ4QRpoMNaBKHGiPfM7bCPFCevG8vFDOnP0TTi1t69JTi6+Ol9a7/
-	skO0MQHsjwxnYw9lx+6Gvh1X2B/OvuOOshGLzhnB+yooDDLzOA1yV4dCEoazvLjo4t9qGKmbLSSTg
-	Xj14bIkqTCiaPjk+XXShjDE9Ey2BuwqRbDTqwOqcXhvw0bw0VG917DXAQgusG0oVGBTja8xlRHW4V
-	aUYs8pq7fdRjEop1nxO19uMWrOQp8SOklIAI3ofBwIes+HO9+VTXK+OkOuKI2VZ3+MRo5If6mn4Hr
-	jbMWOnwQ==;
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v9Kt4-00000006f15-2kcX
+	id 1v9LmH-00000004WCL-3jBJ
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Oct 2025 10:07:13 +0000
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-27eed7bdfeeso6897265ad.0
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Oct 2025 03:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1760609226; x=1761214026; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rJ4V0WDk+Fmgl27pDuIUO845Eexs2tBhWb+HgzxSkGw=;
-        b=2iKixbWhuiB//FJv6XyIlS6lBZfCgU81xkjRb8GlOl/HcULh4YCfwIMxZoFiMOhObT
-         8dutW8I0ALoQXjNBcRMaMD9FlYyA4sT2JOjARVSXv8eox072coHyd+S1eXBzZO59mpIt
-         lXdzzHYNFsNc8hBtDkydSc+7S7VOLtfIOd5CTYhL3gN2d5Ds/Ng8cyJwLlfZ5/+rsja1
-         SSJhbJ5XIeVo17QWjhtbYeAWyB/jhqLFplqRZAHOi2RU0ydO++/7VQkrrKuB0w9qs4Rc
-         1P1VIAoXgRtbItEyaBaGrfb0tGX54l62dtts8KDsWuv+Ob5ApVXmg1QGgY/iYkhaWzHQ
-         /kNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760609226; x=1761214026;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rJ4V0WDk+Fmgl27pDuIUO845Eexs2tBhWb+HgzxSkGw=;
-        b=X+mzQmnxFTf7Wrptc8s3OgYPpG5vs9mf1YU9ly8BRd27mBRgNk49Xqn9fXIiLk9CTY
-         xExjv86pREeT5h90FzM57DsI+TVhsYbZ2spBLc+kcrobeSocg/3AsO+KyAXUSVTUX8Wp
-         CecMf4FRLIyz7dfxMCM1b/AOCkntBhuRLnjfgQ1H6ckQpa2o3pA5WKrbfe3pqJIHnl9X
-         DZOABo6PVO3W8DZAF/GAteJJzuLS5+RfkgAyGXQ+d30F+thlTBnE+jUJ6bUjTE5C2+jX
-         TpjDxlwTAIOGRbwiMz1v8ieOEX1x7gPpWfLKe5DJC0hwNmsFrd6YEhnGhIXAz+hoWDu/
-         C6wA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsqMhOId+W8iW91pNdper9Z1xKanekIA5VHYcveUGJybTqxwpk4xi8YH/tllHscfdnm2QG+6mqAjmw@lists.infradead.org
-X-Gm-Message-State: AOJu0YxJFDj9YVznyC4RyVSgm0tzX7wOm9INdpTxgd/5IjxSeQiuG/UZ
-	8aCkB1NU1FxEjY2tvYFkl6wEGWIXWT2/9mMiRo1QQk1AnSXSLrX9pltrwnNeWrgRECQEa+ijTq4
-	cU9sR
-X-Gm-Gg: ASbGncs9bkquM+NhVr/Rh2euR4srTNLVwhKGuJiM/mgVkjcGHZAgTHRyq22Sq3mXPof
-	UN21ulkRKqHpWxgt63whsmCLsbc2zOUk15/PnhVY88Cl89+cBCyMRB0P9PPpBYqTpNYb35tKwqf
-	x9nOkmSwYUD13YU+siZiJsVm1FxVBR3Is1tHVayPo5JgnI8RqTZHuSEM6c9TFKtI98NoijNDe9/
-	R79t4hSrN/NsixBwY0JbVE2gWqxpbZQp9mhBdNrBEto8Fq+LVE/YJN9b2fGh82c5i8YMxvMLqDa
-	qy7eazQP49u33LcRtL+oC+6MFnVXPh82LXiKOodrDuNZ8NwK36LHoY6JdC/w9eFCD389YfOK2R9
-	x0mF5t3MtyDs+HHsEkD5kAnQN4/pj6qTiJqPMDprBgMylSKE7yx2eHJ1cDUi//TUmAHIabrgRkD
-	pvXuTTpCbCV6Rb52wiWbhD
-X-Google-Smtp-Source: AGHT+IGke+4JqtDfjsb4VQIaIJ/VTkox7Sn1ZBEWyV9e2LxX0qBRZQ/9OBuguQWM1BsPb4D7ktTbDQ==
-X-Received: by 2002:a17:903:41c6:b0:24c:db7c:bc34 with SMTP id d9443c01a7336-29091b02a61mr44434505ad.13.1760609225745;
-        Thu, 16 Oct 2025 03:07:05 -0700 (PDT)
-Received: from wu-Pro-E500-G6-WS720T ([2001:288:7001:2703:9edb:1072:a6d:3ebf])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099a7c255sm24626915ad.70.2025.10.16.03.07.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 03:07:05 -0700 (PDT)
-Date: Thu, 16 Oct 2025 18:07:00 +0800
-From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
-	akpm@linux-foundation.org, axboe@kernel.dk,
-	ceph-devel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
-	home7438072@gmail.com, idryomov@gmail.com, jaegeuk@kernel.org,
-	kbusch@kernel.org, linux-fscrypt@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	sagi@grimberg.me, tytso@mit.edu, visitorckw@gmail.com,
-	xiubli@redhat.com
-Subject: Re: [PATCH v3 2/6] lib/base64: Optimize base64_decode() with reverse
- lookup tables
-Message-ID: <aPDDxEGon1Q82pIJ@wu-Pro-E500-G6-WS720T>
-References: <aNz/+xLDnc2mKsKo@wu-Pro-E500-G6-WS720T>
- <CADUfDZq4c3dRgWpevv3+29frvd6L8G9RRdoVFpFnyRsF3Eve1Q@mail.gmail.com>
- <20251005181803.0ba6aee4@pumpkin>
- <aOTPMGQbUBfgdX4u@wu-Pro-E500-G6-WS720T>
- <CADUfDZp6TA_S72+JDJRmObJgmovPgit=-Zf+-oC+r0wUsyg9Jg@mail.gmail.com>
- <20251007192327.57f00588@pumpkin>
- <aOeprat4/97oSWE0@wu-Pro-E500-G6-WS720T>
- <20251010105138.0356ad75@pumpkin>
- <aOzLQ2KSqGn1eYrm@wu-Pro-E500-G6-WS720T>
- <20251014091420.173dfc9c@pumpkin>
+	Thu, 16 Oct 2025 11:04:15 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59G1kbgA012298;
+	Thu, 16 Oct 2025 11:04:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ml2jTT
+	pereY0mJz9KMBTL34esrs5hZtfSn+KrKhgwD8=; b=N0WVnkE3vAx+qWyGRUu4Ug
+	Rx38RKRUqNx2vQIgVy3sio1p+jE6haqKzLqwAdjNGAIf6dE1iVcKEULO0Cu/kvnl
+	PFjSA6lolSI8sOnD12tNLtuxZoD3WpJH8UATvKGUSQflE+JGHW1TDG1CF2xLfSNe
+	gA+lbirn4C87QXPo4DuC0sXpr4mvbpRNr7xLdob8LFtDXg85yG0ptSV6mGtbxIzo
+	0PW1aYhNK3+AGjaWcRu8ZwHNifMC7QvIwClBpKN+z8hxpEMQL89S9yXNtJz3vmb6
+	/C88TpvHJqw+LYdwI/2VwcF5tSXhHaFtKfu/UPTP5WW02yCYaaDJUI0L2bli/HWA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49qcnrhadc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Oct 2025 11:04:08 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59GA9fqJ003603;
+	Thu, 16 Oct 2025 11:04:07 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49r1xy5ck1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Oct 2025 11:04:07 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59GB3tBX30147266
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 16 Oct 2025 11:03:55 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 849D058144;
+	Thu, 16 Oct 2025 11:04:07 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E908B5813E;
+	Thu, 16 Oct 2025 11:04:04 +0000 (GMT)
+Received: from [9.109.198.148] (unknown [9.109.198.148])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 16 Oct 2025 11:04:04 +0000 (GMT)
+Message-ID: <b441f30a-4e12-4452-8060-e47ec9847152@linux.ibm.com>
+Date: Thu, 16 Oct 2025 16:34:03 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251014091420.173dfc9c@pumpkin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCHv2 4/4] nvme-multipath: add debugfs attribute for
+ adaptive I/O policy stat
+To: Daniel Wagner <dwagner@suse.de>, Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
+        axboe@kernel.dk, gjoyce@ibm.com
+References: <20251009100608.1699550-1-nilay@linux.ibm.com>
+ <20251009100608.1699550-5-nilay@linux.ibm.com>
+ <359e3d8f-4db7-4430-8520-4fed9de4f48e@suse.de>
+ <4faf672b-ad74-41dc-9518-bbb9af557544@linux.ibm.com>
+ <d179666e-aed5-476e-a6b6-73b3a80ce925@suse.de>
+ <803f429d-60f3-4af7-9535-37a2038e53c1@flourine.local>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <803f429d-60f3-4af7-9535-37a2038e53c1@flourine.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=M5ZA6iws c=1 sm=1 tr=0 ts=68f0d128 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=h6zKowGUZeksCTtIWkMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: 7RhhJ-j-SNQSB1R-Ssb4R0tp8hr5veF1
+X-Proofpoint-ORIG-GUID: 7RhhJ-j-SNQSB1R-Ssb4R0tp8hr5veF1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEwMDE0MCBTYWx0ZWRfX7hyHf1fKoWls
+ 0uJqTWfk9vTTjMeuofsTj540y73EQ8B/UvGmlaigLifxfoanQxPnEL9tbLQk8R46cO5MSP50dcX
+ KgTuOkV/a+vHhlhKCaMoSC1oWLlWRTwTG5mgefqZicsikW2xgZfM0GuGfFKh86z85rMRBID/BqC
+ 38aCe0QW6JZpf9tJrxD3S2Z0n0kN0T+q30SS8ZoDVehrwt/XqMQufpRazrChM3wqXekTl0IADw9
+ 8dhfkKi4r01Pd6pkrvegaktzEFySGiHQnRF6GdXq2ul8pQBuOZ9/V6Gwiu8psdox2JrCoyZEo6v
+ MPAlP0jeF3u0NI7Nbn7QCizSz7q6kRpC6YKm6uE3/me1/TtIBm9sUja8GiB2qUM5/Jsf5a/Iugx
+ OWuZo9+sMQbSvBrcwmuYNh1RBtkbtg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-16_01,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015 impostorscore=0
+ phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510100140
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251016_110711_045549_9DBD5A48 
-X-CRM114-Status: GOOD (  62.20  )
+X-CRM114-CacheID: sfid-20251016_040414_049619_66641D95 
+X-CRM114-Status: GOOD (  15.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,300 +125,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 14, 2025 at 09:14:20AM +0100, David Laight wrote:
-> On Mon, 13 Oct 2025 17:49:55 +0800
-> Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
-> 
-> > On Fri, Oct 10, 2025 at 10:51:38AM +0100, David Laight wrote:
-> > > On Thu, 9 Oct 2025 20:25:17 +0800
-> > > Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
-> > > 
-> > > ...  
-> > > > As Eric mentioned, the decoder in fs/crypto/ needs to reject invalid input.  
-> > > 
-> > > (to avoid two different input buffers giving the same output)
-> > > 
-> > > Which is annoyingly reasonable.
-> > >   
-> > > > One possible solution I came up with is to first create a shared
-> > > > base64_rev_common lookup table as the base for all Base64 variants.
-> > > > Then, depending on the variant (e.g., BASE64_STD, BASE64_URLSAFE, etc.), we
-> > > > can dynamically adjust the character mappings for position 62 and position 63
-> > > > at runtime, based on the variant.
-> > > > 
-> > > > Here are the changes to the code:
-> > > > 
-> > > > static const s8 base64_rev_common[256] = {
-> > > > 	[0 ... 255] = -1,
-> > > > 	['A'] =  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12,
-> > > > 		13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-> > > > 	['a'] = 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
-> > > > 		39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,
-> > > > 	['0'] = 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
-> > > > };
-> > > > 
-> > > > static const struct {
-> > > > 	char char62, char63;
-> > > > } base64_symbols[] = {
-> > > > 	[BASE64_STD] = { '+', '/' },
-> > > > 	[BASE64_URLSAFE] = { '-', '_' },
-> > > > 	[BASE64_IMAP] = { '+', ',' },
-> > > > };
-> > > > 
-> > > > int base64_decode(const char *src, int srclen, u8 *dst, bool padding, enum base64_variant variant)
-> > > > {
-> > > > 	u8 *bp = dst;
-> > > > 	u8 pad_cnt = 0;
-> > > > 	s8 input1, input2, input3, input4;
-> > > > 	u32 val;
-> > > > 	s8 base64_rev_tables[256];
-> > > > 
-> > > > 	/* Validate the input length for padding */
-> > > > 	if (unlikely(padding && (srclen & 0x03) != 0))
-> > > > 		return -1;  
-> > > 
-> > > There is no need for an early check.
-> > > Pick it up after the loop when 'srclen != 0'.
-> > >  
-> > 
-> > I think the early check is still needed, since I'm removing the
-> > padding '=' first.
-> > This makes the handling logic consistent for both padded and unpadded
-> > inputs, and avoids extra if conditions for padding inside the hot loop.
-> 
-> The 'invalid input' check will detect the padding.
-> Then you don't get an extra check if there is no padding (probably normal).
-> I realised I didn't get it quite right - updated below.
-> 
-> > 
-> > > > 
-> > > > 	memcpy(base64_rev_tables, base64_rev_common, sizeof(base64_rev_common));  
-> > > 
-> > > Ugg - having a memcpy() here is not a good idea.
-> > > It really is better to have 3 arrays, but use a 'mostly common' initialiser.
-> > > Perhaps:
-> > > #define BASE64_REV_INIT(ch_62, ch_63) = { \
-> > > 	[0 ... 255] = -1, \
-> > > 	['A'] =  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, \
-> > > 		13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, \
-> > > 	['a'] = 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, \
-> > > 		39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, \
-> > > 	['0'] = 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, \
-> > > 	[ch_62] = 62, [ch_63] = 63, \
-> > > }
-> > > 
-> > > static const s8 base64_rev_maps[][256] = {
-> > > 	[BASE64_STD] = BASE64_REV_INIT('+', '/'),
-> > > 	[BASE64_URLSAFE] = BASE64_REV_INIT('-', '_'),
-> > > 	[BASE64_IMAP] = BASE64_REV_INIT('+', ',')
-> > > };
-> > > 
-> > > Then (after validating variant):
-> > > 	const s8 *map = base64_rev_maps[variant];
-> > >  
-> > 
-> > Got it. I'll switch to using three static tables with a common initializer
-> > as you suggested.
-> > 
-> > > > 
-> > > > 	if (variant < BASE64_STD || variant > BASE64_IMAP)
-> > > > 		return -1;
-> > > > 
-> > > > 	base64_rev_tables[base64_symbols[variant].char62] = 62;
-> > > > 	base64_rev_tables[base64_symbols[variant].char63] = 63;
-> > > > 
-> > > > 	while (padding && srclen > 0 && src[srclen - 1] == '=') {
-> > > > 		pad_cnt++;
-> > > > 		srclen--;
-> > > > 		if (pad_cnt > 2)
-> > > > 			return -1;
-> > > > 	}  
-> > > 
-> > > I'm not sure I'd to that there.
-> > > You are (in some sense) optimising for padding.
-> > > From what I remember, "abcd" gives 24 bits, "abc=" 16 and "ab==" 8.
-> > >   
-> > > > 
-> > > > 	while (srclen >= 4) {
-> > > > 		/* Decode the next 4 characters */
-> > > > 		input1 = base64_rev_tables[(u8)src[0]];
-> > > > 		input2 = base64_rev_tables[(u8)src[1]];
-> > > > 		input3 = base64_rev_tables[(u8)src[2]];
-> > > > 		input4 = base64_rev_tables[(u8)src[3]];  
-> > > 
-> > > I'd be tempted to make src[] unsigned - probably be assigning the parameter
-> > > to a local at the top of the function.
-> > > 
-> > > Also you have input3 = ... src[2]...
-> > > Perhaps they should be input[0..3] instead.
-> > >  
-> > 
-> > OK, I'll make the changes.
-> > 
-> > > > 
-> > > > 		val = (input1 << 18) |
-> > > > 		      (input2 << 12) |
-> > > > 		      (input3 << 6) |
-> > > > 		      input4;  
-> > > 
-> > > Four lines is excessive, C doesn't require the () and I'm not sure the
-> > > compilers complain about << and |.
-> > >   
-> > 
-> > OK, I'll make the changes.
-> > 
-> > > > 
-> > > > 		if (unlikely((s32)val < 0))
-> > > > 			return -1;  
-> > > 
-> > > Make 'val' signed - then you don't need the cast.
-> ...
-> > > Or, if you really want to use the code below the loop:
-> > > 			if (!padding || src[3] != '=')
-> > > 				return -1;
-> > > 			padding = 0;
-> > > 			srclen -= 1 + (src[2] == '=');
-> > > 			break;
-> 
-> That is missing a test...
-> Change to:
-> 			if (!padding || srclen != 4 || src[3] != '=')
-> 				return -1;
-> 			padding = 0;
-> 			srclen = src[2] == '=' ? 2 : 3;
-> 			break;
-> 
-> The compiler will then optimise away the first checks after the
-> loop because it knows they can't happen.
-> 
-> > > 
-> > >   
-> > > > 
-> > > > 		*bp++ = (u8)(val >> 16);
-> > > > 		*bp++ = (u8)(val >> 8);
-> > > > 		*bp++ = (u8)val;  
-> > > 
-> > > You don't need those casts.
-> > >  
-> > 
-> > OK, I'll make the changes.
-> > 
-> > > > 
-> > > > 		src += 4;
-> > > > 		srclen -= 4;
-> > > > 	}
-> > > > 
-> > > > 	/* Handle leftover characters when padding is not used */  
-> > > 
-> > > You are coming here with padding.
-> > > I'm not sure what should happen without padding.
-> > > For a multi-line file decode I suspect the characters need adding to
-> > > the start of the next line (ie lines aren't required to contain
-> > > multiples of 4 characters - even though they almost always will).
-> > >   
-> > 
-> > Ah, my mistake. I forgot to remove that comment.
-> > Based on my observation, base64_decode() should process the entire input
-> > buffer in a single call, so I believe it does not need to handle
-> > multi-line input.
-> 
-> I was thinking of the the case where it is processing the output of
-> something like base64encode.
-> The caller will have separated out the lines, but I don't know whether
-> every line has to contain a multiple of 4 characters - or whether the
-> lines can be arbitrarily split after being encoded (I know that won't
-> normally happen - but you never know). 
->
 
-I believe the splitting should be aligned to multiples of 4,
-since Base64 encoding operates on 4-character blocks that represent 3 bytes
-of data.
-If it's split arbitrarily, the decoded result may differ from the original
-data or even become invalid.
 
-Best regards,
-Guan-Chun
+On 10/16/25 1:57 PM, Daniel Wagner wrote:
+> On Thu, Oct 16, 2025 at 08:14:19AM +0200, Hannes Reinecke wrote:
+>>> Currently queue_depth and numa_nodes attributes are created under
+>>> sysfs, so do you meant to move those attributes from sysfs to
+>>> debugfs?
+>>>
+>> Yes. sysfs information can be perused by udev rules, and that assumes
+>> the information in there will not change without a 'CHANGE' uevent.
+>> So it's questionable whether volatile information like the queue depth
+>> or the round-robin path selection should be presented there.
+>> I'd rather have it moved into debugfs.
+>>
+>> But that might be personal preference.
+> 
+> If this moves to debugfs, I think nvme-cli should not show it per
+> default. Don't want to get lots of questions why the value is not
+> showed or updated.
 
-> > 
-> > Best regards,
-> > Guan-Chun
-> > 
-> > > > 	if (srclen > 0) {
-> > > > 		switch (srclen) {  
-> > > 
-> > > You don't need an 'if' and a 'switch'.
-> > > srclen is likely to be zero, but perhaps write as:
-> > > 	if (likely(!srclen))
-> > > 		return bp - dst;
-> > > 	if (padding || srclen == 1)
-> > > 		return -1;
-> > > 
-> > > 	val = base64_rev_tables[(u8)src[0]] << 12 | base64_rev_tables[(u8)src[1]] << 6;
-> > > 	*bp++ = val >> 10;
-> > > 	if (srclen == 1) {
-> Obviously should be (srclen == 2)
-> > > 		if (val & 0x800003ff)
-> > > 			return -1;
-> > > 	} else {
-> > > 		val |= base64_rev_tables[(u8)src[2]];
-> > > 		if (val & 0x80000003)
-> > > 			return -1;
-> > > 		*bp++ = val >> 2;
-> > > 	}
-> > > 	return bp - dst;
-> > > }
-> > > 
-> > > 	David
-> 
-> 	David
-> 
-> > >   
-> > > > 		case 2:
-> > > > 			input1 = base64_rev_tables[(u8)src[0]];
-> > > > 			input2 = base64_rev_tables[(u8)src[1]];
-> > > > 			val = (input1 << 6) | input2; /* 12 bits */
-> > > > 			if (unlikely((s32)val < 0 || val & 0x0F))
-> > > > 				return -1;
-> > > > 
-> > > > 			*bp++ = (u8)(val >> 4);
-> > > > 			break;
-> > > > 		case 3:
-> > > > 			input1 = base64_rev_tables[(u8)src[0]];
-> > > > 			input2 = base64_rev_tables[(u8)src[1]];
-> > > > 			input3 = base64_rev_tables[(u8)src[2]];
-> > > > 
-> > > > 			val = (input1 << 12) |
-> > > > 			      (input2 << 6) |
-> > > > 			      input3; /* 18 bits */
-> > > > 			if (unlikely((s32)val < 0 || val & 0x03))
-> > > > 				return -1;
-> > > > 
-> > > > 			*bp++ = (u8)(val >> 10);
-> > > > 			*bp++ = (u8)(val >> 2);
-> > > > 			break;
-> > > > 		default:
-> > > > 			return -1;
-> > > > 		}
-> > > > 	}
-> > > > 
-> > > > 	return bp - dst;
-> > > > }
-> > > > Based on KUnit testing, the performance results are as follows:
-> > > > 	base64_performance_tests: [64B] decode run : 40ns
-> > > > 	base64_performance_tests: [1KB] decode run : 463ns
-> > > > 
-> > > > However, this approach introduces an issue. It uses 256 bytes of memory
-> > > > on the stack for base64_rev_tables, which might not be ideal. Does anyone
-> > > > have any thoughts or alternative suggestions to solve this issue, or is it
-> > > > not really a concern?
-> > > > 
-> > > > Best regards,
-> > > > Guan-Chun
-> > > >   
-> > > > > > 
-> > > > > > Best,
-> > > > > > Caleb    
-> > > > >     
-> > >   
-> 
+That’s a fair concern — debugfs isn’t guaranteed to be available in
+production systems (it may be disabled or not mounted), so depending
+on it from nvme-cli would be unreliable. Given that, I think it’s
+safer to keep queue_depth and numa_node in sysfs for now since they’re
+already part of the sysfs and used by nvme-cli.
+
+Thanks,
+--Nilay
 
