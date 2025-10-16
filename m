@@ -4,71 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56444CCD194
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Oct 2025 16:13:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 232FFCCD183
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Oct 2025 06:14:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=iX20txq2dcyrhqiYBeswCuLE5LODcThdf98ufACNw6M=; b=V8jtev45ojLNPMI4ekdz7arimo
-	yHXelmkavZMDm5NZBnwzahb/lZ8MgXiXLj80XSA89+eIaR/7UC4T4IK4o7aiDXEH2XGFUUeKNVSl1
-	bfzSZgLQ5o+jiXwKukdQKxB0uDqHgcIidNPUQ8njTNWrfx5ngi0+wFDu0CGueeUHQr+jzAnHLVU7y
-	BupJCQjExsVYHq3Zlp4QDBYzS70tSblI+XXmOGOH8eUb0laWAtpuuvIVoGBbbjdcgKddSch5JdfUD
-	Bq7lHdaXuP6+mbceH1SD5acMu2QqXf1Cu+RRejSzDi8F04AXV5ojOeJVs9gHiRYrJTLIvb4DVlh3w
-	4RgVTLIA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=NU3oVNJxkPki0i427fugzyKAo6PCL/Yz/AI9uuhxWSU=; b=0vzH/Bu7U3y6tiUkq+OhG8qwrA
+	u6wdVqQv9Y5Ze4R1DLRSLSM39x9eMuuJdlN4YqrAPDE8KqSVAUiqRI14Cc/v72zX/gmF+SZWqeZGd
+	INYf+icptO5ZGcIHk4Kms+To/chnYtgsxKIvRq8FENGrGT8/1rQ10wNlPEL96J6N6iRzH7FrsEr1m
+	Xc2YILLdmPB8thU4jE60adFTqx2NhdB0lveUxWC1fH2CNV5kwLmWq9tP5S48M9ywpFryyxrfxST9T
+	5d6VdC1JgyVg5tWRP912r1fjVfHp9jobaNT2a9RPxmMrQ+H57sa4eiCl9FU0BYcw6hxJtYvUZG5Rc
+	MeZ+hvmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v947l-00000002G1o-24Dh;
-	Wed, 15 Oct 2025 16:13:13 +0000
-Received: from mgamail.intel.com ([198.175.65.16])
+	id 1v9HFq-00000003bSU-3O7N;
+	Thu, 16 Oct 2025 06:14:26 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v947e-00000002G1Q-1cxI
+	id 1v9HFo-00000003bS5-2Q77
 	for linux-nvme@lists.infradead.org;
-	Wed, 15 Oct 2025 16:13:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760544786; x=1792080786;
-  h=date:from:to:cc:subject:message-id;
-  bh=hS9LaAfeqLxEx6p0ilb9sQvnM/eIiwTlEnvBJ9r6EkY=;
-  b=d8eNIEukHsvg2VO5Oez+eXXnDkrb7Ks9wdghhh3GgYKxepq7QAoefLwV
-   ryIHUyN+yrJm/eNHbykP0a/CVrK0iPt+e7EuwfN98y8weGJPWTca7HHMK
-   GaLPFCf2NgPFASX4oiuGnq1dUZnpBf956JmnmqZNMkDfXBXwC1SfzCwgH
-   kXLyhTCD9DWfAN7MxKyJjmHNBU8ZRuZxN+PDkD954geOULY0yo8aIuF7R
-   uv1trlUdWY3qfBIPWdEtdJNpTr3Wv8lZCeiI1rzMIG6JRkiM/ffjznECs
-   OAunjBAvVT1Pzq3nJspNs0PlnEjCOtN7vlkcfDyu8+rjzsNwYCpFhniay
-   Q==;
-X-CSE-ConnectionGUID: wsNYzHm3TlWUPJKHD72AVw==
-X-CSE-MsgGUID: 6QMCagNITUed9TbpTuGD6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62875653"
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="62875653"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 09:13:04 -0700
-X-CSE-ConnectionGUID: aFTEQGiUQuO7LZDDyjK54A==
-X-CSE-MsgGUID: xDIStWYvTDmLvglYCNrq5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="182617847"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Oct 2025 09:13:03 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v946u-00040U-1a;
-	Wed, 15 Oct 2025 16:12:44 +0000
-Date: Thu, 16 Oct 2025 00:08:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.18] BUILD SUCCESS
- 7e091add9c433bab6912228799bf508e2414acc3
-Message-ID: <202510160041.ZDTnWXsL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Thu, 16 Oct 2025 06:14:25 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 148AA21EA4;
+	Thu, 16 Oct 2025 06:14:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760595261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NU3oVNJxkPki0i427fugzyKAo6PCL/Yz/AI9uuhxWSU=;
+	b=KcM+dRe0Zy1a7NDD+xNbGfPvjOeasqQLylRx/OjgRes1I8i5j+hm77zXOdOW8Q5LRfTOBY
+	3Ku1SBKfbF+NXt6DGC2GTIoZYqvYW5XI/Tlzx94JjnVSGgvsZnisrvIDM18tn7SyaDZd88
+	sHqM1LIVfD2xKG3FtirQedFYSUlgkeE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760595261;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NU3oVNJxkPki0i427fugzyKAo6PCL/Yz/AI9uuhxWSU=;
+	b=/qraf3oHRBVEXTHRG+dPHa+Ll170/QC2ao+OBKs1iqGLrc1EPxVNzfnuyhzlWe7I5OVn79
+	n1xXiSj3rB6O3xCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oQZmC6nK;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KYtx24UX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1760595260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NU3oVNJxkPki0i427fugzyKAo6PCL/Yz/AI9uuhxWSU=;
+	b=oQZmC6nKy8nzH/zSenwtpORMfWYjvj2GQLIuxnWxwiGTYWOuzOeW3SFYZi2q5mOsSDEHZc
+	dxGU054PM9Wz8lXpTYMKMdXnjzjM/TPhlmqGXjVbxk7404EaiWUVdeFVs1boNBpPfVK2gg
+	6wCTnbs1U4UosVV9myyVTrdbgfu/e2I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1760595260;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NU3oVNJxkPki0i427fugzyKAo6PCL/Yz/AI9uuhxWSU=;
+	b=KYtx24UXH2UjTp9I9Ka6+O8WgtVTzLRPCutbEhqGHhRvR8pUjDKM0rZPDwvFEudQmIJhGn
+	BVEdyb0d8rG3zWAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CCD051376E;
+	Thu, 16 Oct 2025 06:14:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HLxaMDuN8GisFAAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 16 Oct 2025 06:14:19 +0000
+Message-ID: <d179666e-aed5-476e-a6b6-73b3a80ce925@suse.de>
+Date: Thu, 16 Oct 2025 08:14:19 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCHv2 4/4] nvme-multipath: add debugfs attribute for
+ adaptive I/O policy stat
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, axboe@kernel.dk, dwagner@suse.de,
+ gjoyce@ibm.com
+References: <20251009100608.1699550-1-nilay@linux.ibm.com>
+ <20251009100608.1699550-5-nilay@linux.ibm.com>
+ <359e3d8f-4db7-4430-8520-4fed9de4f48e@suse.de>
+ <4faf672b-ad74-41dc-9518-bbb9af557544@linux.ibm.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <4faf672b-ad74-41dc-9518-bbb9af557544@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 148AA21EA4
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim]
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251015_091306_504132_F56569AC 
-X-CRM114-Status: UNSURE (   4.75  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251015_231424_783674_3C9220E6 
+X-CRM114-Status: GOOD (  11.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,253 +144,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.18
-branch HEAD: 7e091add9c433bab6912228799bf508e2414acc3  nvme-auth: update sc_c in host response
+On 10/15/25 08:19, Nilay Shroff wrote:
+> 
+> 
+> On 10/13/25 12:03 PM, Hannes Reinecke wrote:
+>> On 10/9/25 12:05, Nilay Shroff wrote:
+>>> This commit introduces a new debugfs attribute, "adaptive_stat", under
+>>> both per-path and head debugfs directories (defined under /sys/kernel/
+>>> debug/block/). This attribute provides visibility into the internal
+>>> state of the adaptive I/O policy to aid in debugging and performance
+>>> analysis.
+>>>
+>>> For per-path entries, "adaptive_stat" reports the corresponding path
+>>> statistics such as I/O weight, selection count, processed samples, and
+>>> ignored samples.
+>>>
+>>> For head entries, it reports per-CPU statistics for each reachable path,
+>>> including I/O weight, path score, smoothed (EWMA) latency, selection
+>>> count, processed samples, and ignored samples.
+>>>
+>>> These additions enhance observability of the adaptive I/O path selection
+>>> behavior and help diagnose imbalance or instability in multipath
+>>> performance.
+>>>
+>>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+>>> ---
+>>>    drivers/nvme/host/core.c      |   3 +
+>>>    drivers/nvme/host/debugfs.c   | 117 ++++++++++++++++++++++++++++++++++
+>>>    drivers/nvme/host/multipath.c |   2 +
+>>>    3 files changed, 122 insertions(+)
+>>>
+>> Reviewed-by: Hannes Reinecke <hare@suse.de>
+>>
+>> Might be an idea to have support for queue-depth in here, too.
+>>
+> Currently queue_depth and numa_nodes attributes are created under
+> sysfs, so do you meant to move those attributes from sysfs to
+> debugfs?
+> 
+Yes. sysfs information can be perused by udev rules, and that assumes
+the information in there will not change without a 'CHANGE' uevent.
+So it's questionable whether volatile information like the queue depth
+or the round-robin path selection should be presented there.
+I'd rather have it moved into debugfs.
 
-elapsed time: 1446m
+But that might be personal preference.
 
-configs tested: 233
-configs skipped: 5
+Cheers,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    clang-22
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    clang-19
-alpha                            allyesconfig    gcc-15.1.0
-alpha                               defconfig    clang-19
-arc                              allmodconfig    clang-19
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    clang-22
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    clang-19
-arc                              allyesconfig    gcc-15.1.0
-arc                                 defconfig    clang-19
-arc                        nsim_700_defconfig    clang-22
-arc                   randconfig-001-20251015    gcc-8.5.0
-arc                   randconfig-002-20251015    gcc-8.5.0
-arm                              allmodconfig    clang-19
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                              allyesconfig    clang-19
-arm                              allyesconfig    gcc-15.1.0
-arm                         bcm2835_defconfig    clang-22
-arm                                 defconfig    clang-19
-arm                        multi_v7_defconfig    clang-22
-arm                   randconfig-001-20251015    clang-22
-arm                   randconfig-001-20251015    gcc-8.5.0
-arm                   randconfig-002-20251015    clang-22
-arm                   randconfig-002-20251015    gcc-8.5.0
-arm                   randconfig-003-20251015    gcc-8.5.0
-arm                   randconfig-004-20251015    clang-22
-arm                   randconfig-004-20251015    gcc-8.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    clang-19
-arm64                 randconfig-001-20251015    clang-22
-arm64                 randconfig-001-20251015    gcc-8.5.0
-arm64                 randconfig-002-20251015    gcc-13.4.0
-arm64                 randconfig-002-20251015    gcc-8.5.0
-arm64                 randconfig-003-20251015    clang-22
-arm64                 randconfig-003-20251015    gcc-8.5.0
-arm64                 randconfig-004-20251015    clang-22
-arm64                 randconfig-004-20251015    gcc-8.5.0
-csky                              allnoconfig    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    clang-19
-csky                  randconfig-001-20251015    clang-22
-csky                  randconfig-001-20251015    gcc-15.1.0
-csky                  randconfig-002-20251015    clang-22
-csky                  randconfig-002-20251015    gcc-9.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    clang-19
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-19
-hexagon                          allyesconfig    clang-22
-hexagon                             defconfig    clang-19
-hexagon               randconfig-001-20251015    clang-22
-hexagon               randconfig-002-20251015    clang-19
-hexagon               randconfig-002-20251015    clang-22
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    clang-20
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20251015    clang-20
-i386        buildonly-randconfig-001-20251015    gcc-13
-i386        buildonly-randconfig-002-20251015    clang-20
-i386        buildonly-randconfig-002-20251015    gcc-14
-i386        buildonly-randconfig-003-20251015    clang-20
-i386        buildonly-randconfig-004-20251015    clang-20
-i386        buildonly-randconfig-005-20251015    clang-20
-i386        buildonly-randconfig-006-20251015    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20251015    clang-20
-i386                  randconfig-002-20251015    clang-20
-i386                  randconfig-003-20251015    clang-20
-i386                  randconfig-004-20251015    clang-20
-i386                  randconfig-005-20251015    clang-20
-i386                  randconfig-006-20251015    clang-20
-i386                  randconfig-007-20251015    clang-20
-i386                  randconfig-011-20251015    clang-20
-i386                  randconfig-012-20251015    clang-20
-i386                  randconfig-013-20251015    clang-20
-i386                  randconfig-014-20251015    clang-20
-i386                  randconfig-015-20251015    clang-20
-i386                  randconfig-016-20251015    clang-20
-i386                  randconfig-017-20251015    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20251015    clang-22
-loongarch             randconfig-001-20251015    gcc-15.1.0
-loongarch             randconfig-002-20251015    clang-22
-loongarch             randconfig-002-20251015    gcc-15.1.0
-m68k                             allmodconfig    clang-19
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    clang-19
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    clang-19
-microblaze                       allmodconfig    clang-19
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    clang-19
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                           ip30_defconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-15.1.0
-nios2                               defconfig    gcc-11.5.0
-nios2                               defconfig    gcc-15.1.0
-nios2                 randconfig-001-20251015    clang-22
-nios2                 randconfig-001-20251015    gcc-8.5.0
-nios2                 randconfig-002-20251015    clang-22
-nios2                 randconfig-002-20251015    gcc-8.5.0
-openrisc                          allnoconfig    clang-22
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-14
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-22
-parisc                            allnoconfig    gcc-15.1.0
-parisc                           allyesconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20251015    clang-22
-parisc                randconfig-001-20251015    gcc-9.5.0
-parisc                randconfig-002-20251015    clang-22
-parisc                randconfig-002-20251015    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                          allmodconfig    gcc-15.1.0
-powerpc                           allnoconfig    clang-22
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                          allyesconfig    clang-22
-powerpc                          allyesconfig    gcc-15.1.0
-powerpc               randconfig-001-20251015    clang-22
-powerpc               randconfig-001-20251015    gcc-15.1.0
-powerpc               randconfig-002-20251015    clang-22
-powerpc               randconfig-002-20251015    gcc-12.5.0
-powerpc               randconfig-003-20251015    clang-22
-powerpc64             randconfig-001-20251015    clang-22
-powerpc64             randconfig-002-20251015    clang-22
-powerpc64             randconfig-003-20251015    clang-22
-powerpc64             randconfig-003-20251015    gcc-13.4.0
-riscv                            alldefconfig    clang-22
-riscv                            allmodconfig    clang-22
-riscv                            allmodconfig    gcc-15.1.0
-riscv                             allnoconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                            allyesconfig    clang-16
-riscv                            allyesconfig    gcc-15.1.0
-riscv                               defconfig    gcc-14
-riscv                    nommu_virt_defconfig    clang-22
-riscv                 randconfig-001-20251015    clang-22
-riscv                 randconfig-001-20251015    gcc-10.5.0
-riscv                 randconfig-002-20251015    clang-22
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    gcc-15.1.0
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                                defconfig    gcc-14
-s390                  randconfig-001-20251015    clang-22
-s390                  randconfig-001-20251015    gcc-12.5.0
-s390                  randconfig-002-20251015    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-14
-sh                        edosk7760_defconfig    clang-22
-sh                    randconfig-001-20251015    clang-22
-sh                    randconfig-001-20251015    gcc-11.5.0
-sh                    randconfig-002-20251015    clang-22
-sh                    randconfig-002-20251015    gcc-11.5.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20251015    clang-22
-sparc                 randconfig-001-20251015    gcc-8.5.0
-sparc                 randconfig-002-20251015    clang-22
-sparc                 randconfig-002-20251015    gcc-13.4.0
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20251015    clang-22
-sparc64               randconfig-002-20251015    clang-22
-sparc64               randconfig-002-20251015    gcc-11.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    clang-19
-um                               allyesconfig    gcc-14
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20251015    clang-22
-um                    randconfig-002-20251015    clang-22
-um                           x86_64_defconfig    gcc-14
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20251015    clang-20
-x86_64      buildonly-randconfig-001-20251015    gcc-13
-x86_64      buildonly-randconfig-002-20251015    gcc-13
-x86_64      buildonly-randconfig-002-20251015    gcc-14
-x86_64      buildonly-randconfig-003-20251015    clang-20
-x86_64      buildonly-randconfig-003-20251015    gcc-13
-x86_64      buildonly-randconfig-004-20251015    clang-20
-x86_64      buildonly-randconfig-004-20251015    gcc-13
-x86_64      buildonly-randconfig-005-20251015    gcc-13
-x86_64      buildonly-randconfig-005-20251015    gcc-14
-x86_64      buildonly-randconfig-006-20251015    gcc-13
-x86_64                              defconfig    clang-20
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20251015    clang-20
-x86_64                randconfig-002-20251015    clang-20
-x86_64                randconfig-003-20251015    clang-20
-x86_64                randconfig-004-20251015    clang-20
-x86_64                randconfig-005-20251015    clang-20
-x86_64                randconfig-006-20251015    clang-20
-x86_64                randconfig-007-20251015    clang-20
-x86_64                randconfig-008-20251015    clang-20
-x86_64                randconfig-071-20251015    gcc-14
-x86_64                randconfig-072-20251015    gcc-14
-x86_64                randconfig-073-20251015    gcc-14
-x86_64                randconfig-074-20251015    gcc-14
-x86_64                randconfig-075-20251015    gcc-14
-x86_64                randconfig-076-20251015    gcc-14
-x86_64                randconfig-077-20251015    gcc-14
-x86_64                randconfig-078-20251015    gcc-14
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20251015    clang-22
-xtensa                randconfig-001-20251015    gcc-9.5.0
-xtensa                randconfig-002-20251015    clang-22
-xtensa                randconfig-002-20251015    gcc-15.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
