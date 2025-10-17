@@ -4,53 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1163CCD199
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Oct 2025 04:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCD73CCD184
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Oct 2025 05:32:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OBjQikdRqKatsJQb/j0RXPtax2Qn/aZ7x9kY1kED9uI=; b=0kGYRPNKSKBBmFhJHXNJiQdMyC
-	ciJCbiINCLUs3+ZEfJmy9V86NcuG+LiZb5cWXDVlKuLiK7pfYTtzGISFuSAClJg5RyK7Uz5KgwVaJ
-	QK057K0Lzrjkd/mUcV1aJ1SX+pWbgHPTha3e2VCV5IU80JTqjpBb8DCd/ELzazH/l1bhCqB4dfKN3
-	PfPSfmGaC9e0pez6MLILYuJJ44bn/lZNZs1bD9cno246LbkAgCLBxwpwFqLi3EkRKdOOioGjFMhrq
-	4MvqgWte9jzUzoNtqjFsnEw0dtsX4zx8YH4W3WeFioMwU/NigOvEdgPCTF9M9JAcMnLAxkzCDj9+P
-	4XuHdc4g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DHLt0UU4E3CqVoDTpa1rJewPekEcRy/1gcJGJ5CrewI=; b=SNWx8Eb94a5KA0gBB6kh4hOjFC
+	a+VKTHJad73xJ4tRexzSowWSXZZ5WE529m8U9eSRfE+WeeM2m/pwyZObAmjI6gxIo3BzkYQw35/v+
+	/ea8pLzOuOjvOmM75PbA6E4uuF+iLHrljWoSiOf/QfzD2Gs5Ud1CLIXEM6W2Y1SU+2//NS0Rb/QM7
+	9phxT8gc2kIhQMtZdgiXgZ5fFyEE6UGxM5z9cWRfOm2sxSwO/dceQu56DJ/veNug8/PnKhmdBx/5m
+	tXChVm13LtROc2flMMsvm0SW8hB3bqoS/OqC9N1bLBGnvH/43E395dPnSOKri4rpHqX/UViFBYJi0
+	z6uIhrbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v9c8M-00000006XyG-08ca;
-	Fri, 17 Oct 2025 04:32:06 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1v9d4Y-00000006csn-36TX;
+	Fri, 17 Oct 2025 05:32:14 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v9c8J-00000006Xxd-1nhr
+	id 1v9d4V-00000006csM-44xf
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Oct 2025 04:32:04 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 88013227A87; Fri, 17 Oct 2025 06:31:57 +0200 (CEST)
-Date: Fri, 17 Oct 2025 06:31:57 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: alistair23@gmail.com
-Cc: chuck.lever@oracle.com, hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
-	kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	kch@nvidia.com, hare@suse.de,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v4 6/7] nvme-tcp: Allow userspace to trigger a
- KeyUpdate with debugfs
-Message-ID: <20251017043157.GB30271@lst.de>
-References: <20251017042312.1271322-1-alistair.francis@wdc.com> <20251017042312.1271322-7-alistair.francis@wdc.com>
+	Fri, 17 Oct 2025 05:32:13 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 2DDAB4A258;
+	Fri, 17 Oct 2025 05:32:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3A1C4CEE7;
+	Fri, 17 Oct 2025 05:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760679130;
+	bh=OV1AjrdPFJ65x1uyW5xexn0OsRfhPacIT0WgaVlO9TA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mXMH7hn7t9bF4evf7iPbPkR1R+H4mM9cDRvMZf4U+xZr/1SJVcwsnB7BrwnnQE9uL
+	 7NQdrmdz/25BU73Fgi60Z71xVAkn7XSLtJhbcejTw2CW8PD+B/q8XcBy5IMElSlHN4
+	 b+DU4RMiJBBNr1zG41bubClIzVg2njffCx6fxVWLd1UQmHxEub1P1vP1UTYZ3bKbXw
+	 bKpoKdjr2Rp+osTr4mG+jfgVTOLEzndfahLFfrPPuBpevAG/7owhp6JitshobCOk5J
+	 QA0MvxPkFET5wQBQ/yPHk57iNF7QlwM+FjjLcC0gpBH5NzqUE7WwWbTF64FwxEG76Y
+	 F5CTEaAO6Jq3A==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 0/3] block: Enable proper MMIO memory handling for P2P DMA
+Date: Fri, 17 Oct 2025 08:31:57 +0300
+Message-ID: <20251017-block-with-mmio-v1-0-3f486904db5e@nvidia.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251017042312.1271322-7-alistair.francis@wdc.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20251016-block-with-mmio-02acf4285427
+X-Mailer: b4 0.15-dev
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251016_213203_606207_206A8263 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20251016_223212_049128_E2566A5B 
+X-CRM114-Status: GOOD (  10.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,40 +76,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 17, 2025 at 02:23:11PM +1000, alistair23@gmail.com wrote:
-> +#ifdef CONFIG_NVME_TCP_TLS
-> +#define NVME_DEBUGFS_RW_ATTR(field) \
-> +	static int field##_open(struct inode *inode, struct file *file) \
-> +	{ return single_open(file, field##_show, inode->i_private); } \
+Changelog:
+v1:
+ * Reordered patches.
+ * Dropped patch which tried to unify unmap flow.
+ * Set MMIO flag separately for data and integrity payloads.
+v0: https://lore.kernel.org/all/cover.1760369219.git.leon@kernel.org/
 
-Please use normal indentation in the macro, but do not add an extra
-level of indentation just for being inside a macro.
+----------------------------------------------------------------------
 
-Then again the macro is only used once anyway, so why add it at all?
+This patch series improves block layer and NVMe driver support for MMIO
+memory regions, particularly for peer-to-peer (P2P) DMA transfers that
+go through the host bridge.
 
-> +static ssize_t nvme_ctrl_key_update_write(struct file *file, const char __user *buf,
+The series addresses a critical gap where P2P transfers through the host
+bridge (PCI_P2PDMA_MAP_THRU_HOST_BRIDGE) were not properly marked as
+MMIO memory, leading to potential issues with:
 
-Please avoid the overly long line.
+- Inappropriate CPU cache synchronization operations on MMIO regions
+- Incorrect DMA mapping/unmapping that doesn't respect MMIO semantics  
+- Missing IOMMU configuration for MMIO memory handling
 
-> +					  size_t count, loff_t *ppos)
-> +{
-> +	struct seq_file *m = file->private_data;
-> +	struct nvme_ctrl *nctrl = m->private;
-> +	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
-> +	char kbuf[16] = {0};
-> +	int queue_nr, rc;
-> +	struct nvme_tcp_queue *queue;
-> +
-> +	if (count > sizeof(kbuf) - 1)
-> +		return -EINVAL;
-> +	if (copy_from_user(kbuf, buf, count))
-> +		return -EFAULT;
-> +	kbuf[count] = 0;
-> +
-> +	rc = kstrtouint(kbuf, 10, &queue_nr);
-> +	if (rc)
-> +		return rc;
+This work is extracted from the larger DMA physical API improvement
+series [1] and focuses specifically on block layer and NVMe requirements
+for MMIO memory support.
 
-kstrtoint_from_user?
+Thanks
+
+[1] https://lore.kernel.org/all/cover.1757423202.git.leonro@nvidia.com/
+
+---
+Leon Romanovsky (3):
+      blk-mq-dma: migrate to dma_map_phys instead of map_page
+      nvme-pci: unmap MMIO pages with appropriate interface
+      block-dma: properly take MMIO path
+
+ block/blk-mq-dma.c            | 12 +++++++++---
+ drivers/nvme/host/pci.c       | 18 +++++++++++++-----
+ include/linux/bio-integrity.h |  1 +
+ include/linux/blk-integrity.h |  3 ++-
+ include/linux/blk-mq-dma.h    | 14 +++++++++++---
+ include/linux/blk_types.h     |  2 ++
+ 6 files changed, 38 insertions(+), 12 deletions(-)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251016-block-with-mmio-02acf4285427
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
 
 
