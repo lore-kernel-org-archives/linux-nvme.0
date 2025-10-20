@@ -4,64 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2197CCD193
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 14:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5EF81CCD199
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 15:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2VUv2DD/0/LaBhugceZR9gXERjfdcsPzM+G44hOoOhk=; b=Pa9WZBDiNVkd1MpA/CHEAy+v8f
-	ZFmj3YgnVVQHn7BmcISebo+8L9+1eMcdt+At/eql+daCssRXJ8UqX57zVKy7HqtI9owUGDNAe2tAu
-	8/r4wfr8vv/woswIw+Ro/0j1iErCZZGgYOxIyaJ83UvSg61aYBxThcVZhvqfIFBUlJKtS59RDj1a4
-	6hsKafThP9ITI+9lw6xykjTy2D7pnRLyR+RpScmJlW0U95TMnf0vvXzorvyPFW/uLSCOMmnCJZyLU
-	i4CE7TMIlA0JxdOnh4A1oZvKCkgykKCNeL4XMzKZa8lGhZ7maAkmCF0ncPtkXg4ASyWNFmwQa6TP+
-	eBhy+Ucw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=kZjdwl7FnEi2lU6bCDHKVt6bQ30THwLTs+JaHvcqT0s=; b=D4E8i2bMQF7l1CPKE56F3aG6K6
+	9kn0OO62FjOUi4OrFmnoEqnKRDmOQJBGzFiA8jl5FlI0RA2Oo1nXRGnZBg09zkp9fz/QdvlIZtGKt
+	yHIhsqAsUzQYdNIK7BSl14xw6r1igSXJCk1x9ufUPoCJOQ41TiZICY/1Z4+JB75aKrAYwOnhHmuDF
+	npLWqDhoJoreXXi9fJphRdVOSzOR5X3yugzD/fzEc9hCCToaSPywFF5oeAUK/yNHDtxh19xkrod/x
+	Rkwa3rFTQARqmyuqL1cDBJQRMPB3YJi4vU27nScJ4St1ZXSaQguwsVnVd2VSP8axUBJ5jwu0YOYwR
+	E+3IAAQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vArGm-0000000E1LV-008l;
-	Mon, 20 Oct 2025 14:53:56 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vArpO-0000000E8EK-3bTs;
+	Mon, 20 Oct 2025 15:29:42 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vArGg-0000000E1KD-1bdc
+	id 1vArpM-0000000E8DD-2V2I
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Oct 2025 14:53:51 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 98712419E6;
-	Mon, 20 Oct 2025 14:53:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A889C4CEF9;
-	Mon, 20 Oct 2025 14:53:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760972015;
-	bh=iAt8uGGscg6uWZh66jwdRnihglXUOWBkZsoHIrSxxpA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=asELskkprdgJtjllqYs0rdCuEmNCkXqf4RBj2CyENr/KnnJJILB41kjDrHdVs7+W6
-	 ffnVeXfx/I2d232YlMsDIASdOVv8OY7PhBo2MBieCPhN06dAao+0W8Lc37WK0sPkh6
-	 WbegKrPveUSXR1m3Mfy/3xeRSNY+EXtOEXdLGyPSp1EBI+FqxSS8aWowSCzHE+IRi8
-	 UxLmeEKWma8nAxmSVZzbzYpzqNZT7KTC9CbIQyVcUDep/EZ+SXxD8CfyZVW4VYmVJo
-	 dPusg9uxnjdW4uNJ/UGXYQG4B4uF7vaVJBMpIi5bTB7rYm0KhFMkYE1fIXmYf47SkM
-	 mVwmzzY/NxoYA==
-Date: Mon, 20 Oct 2025 17:53:30 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 3/3] block-dma: properly take MMIO path
-Message-ID: <20251020145330.GO6199@unreal>
-References: <20251017-block-with-mmio-v1-0-3f486904db5e@nvidia.com>
- <20251017-block-with-mmio-v1-3-3f486904db5e@nvidia.com>
- <20251017062519.GC402@lst.de>
- <20251020085231.GM6199@unreal>
- <20251020123027.GA19560@lst.de>
+	Mon, 20 Oct 2025 15:29:41 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KCRb1V023459;
+	Mon, 20 Oct 2025 15:29:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=kZjdwl
+	7FnEi2lU6bCDHKVt6bQ30THwLTs+JaHvcqT0s=; b=Zqmj8ArvkCMFSl10VgFpBZ
+	PrXDfYx3gKblkJHqCdMOYPXClpXegB0ma6xZ8ZGqJvkQEIhHppw2DGCajhXMupjP
+	7vsf0RnRbdbdFAMprjzCpfn6TMBY9FEVTsFMPv/C+LLJluEna30NoHBY5uSl06Xs
+	l0yOur4dHCbJQa7tzpiKgnrALOBbSW3Bq1IVYViG7L3yA6hKzO0VXUjGV8XJM9eY
+	WsrsJSwFmuoU9B2gzW4qfdiA0JIeWW1Ml4ykqijy3Hj+GPbpC19IiE9J1s9Odr2o
+	DiPCRnn8gmqTjEd2hzk09Y1wBxWkm3vVaLXpdqg0r/8yKNkd7KZs+TJn4BXVuHlg
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v31rt925-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Oct 2025 15:29:29 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59KEJJWI017066;
+	Mon, 20 Oct 2025 15:29:28 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49vnkxpemb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Oct 2025 15:29:28 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59KFTOFZ51577090
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 20 Oct 2025 15:29:24 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 83F0620040;
+	Mon, 20 Oct 2025 15:29:24 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 602F420043;
+	Mon, 20 Oct 2025 15:29:24 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 20 Oct 2025 15:29:24 +0000 (GMT)
+From: Gerd Bayer <gbayer@linux.ibm.com>
+Date: Mon, 20 Oct 2025 17:29:08 +0200
+Subject: [PATCH 2/2] nvme-pci: Add debug message on fail to read CSTS
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251020123027.GA19560@lst.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251020-nvme_probefail-v1-2-a420046d98f0@linux.ibm.com>
+References: <20251020-nvme_probefail-v1-0-a420046d98f0@linux.ibm.com>
+In-Reply-To: <20251020-nvme_probefail-v1-0-a420046d98f0@linux.ibm.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Niklas Schnelle <schnelle@linux.ibm.com>, linux-nvme@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Gerd Bayer <gbayer@linux.ibm.com>
+X-Mailer: b4 0.14.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: CKnkR60__oQPb3_NoV8ArCyH0KmX-7tT
+X-Proofpoint-GUID: CKnkR60__oQPb3_NoV8ArCyH0KmX-7tT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMiBTYWx0ZWRfX68Eo7iBx4JUL
+ mNLBpM1iRy0P9SFa/kbvpWFTPQ+TA66WwTcGg8Enfu0NxUCv1tHlM3zNnGiRAT8eagT+oWIHA0j
+ nnRI0HH+R2ucqBt8jWGxny6J8pm/BrGrXUL3WWCGus5mRpi3UPdfq6u5bvnmZfyH4jh6OJ7QkaC
+ 29NrIYpUMY2eWUZj7oFFO8T4FEsoLigyeaxa8+cXCakWKwSVw5ecWoa+J/KTmbV1f2BKIJWmdDW
+ F7z9aMh2fYMMztXGRlimjypdsp91UZdXfVNsvgTpES0AyCZufg4N757WFQMYuX8vF/bRG7zVzTM
+ BL7IoFhc6V8+lfYFNM+o1/uBqRL/uw7yB9Hx3E8KhHQRfl5V5JHgQgpu4MYrtUy4lwl3U2Z2Bcj
+ kCQZCrk6aAtesR9Z8ZfTXnOVXVAc8g==
+X-Authority-Analysis: v=2.4 cv=IJYPywvG c=1 sm=1 tr=0 ts=68f65559 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VnNF1IyMAAAA:8 a=Gwek0BahB5A2Lshf9EwA:9 a=QEXdDO2ut3YA:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_04,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1011 suspectscore=0 spamscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180022
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251020_075350_459923_4466B40D 
-X-CRM114-Status: GOOD (  15.05  )
+X-CRM114-CacheID: sfid-20251020_082940_640098_63C66919 
+X-CRM114-Status: GOOD (  14.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,68 +118,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 20, 2025 at 02:30:27PM +0200, Christoph Hellwig wrote:
-> On Mon, Oct 20, 2025 at 11:52:31AM +0300, Leon Romanovsky wrote:
-> > What about this commit message?
-> 
-> Much bettwer.  Btw, what is the plan for getting rid of the
-> "automatic" p2p handling, which would be the logical conflusion from
-> this?
+Add a debug log spelling out that reading the CSTS register failed - to
+distinguish this from other reasons for ENODEV.
 
-I continued with "automatic" p2p code and think that it is structured
-pretty well. Why do you want to remove it?
+Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
+---
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-The code in v2 looks like this:
-
-@@ -184,6 +184,8 @@ static bool blk_dma_map_iter_start(struct request *req, struct device *dma_dev,
-                 * P2P transfers through the host bridge are treated the
-                 * same as non-P2P transfers below and during unmap.
-                 */
-+               iter->attrs |= DMA_ATTR_MMIO;
-+               fallthrough;
-        case PCI_P2PDMA_MAP_NONE:
-                break;
-        default:
-
-...
-
-@@ -1038,6 +1051,9 @@ static blk_status_t nvme_map_data(struct request *req)
-        if (!blk_rq_dma_map_iter_start(req, dev->dev, &iod->dma_state, &iter))
-                return iter.status;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7544c4bac2c4a230d32cf729abb9e94bf93a921f..c3b0a9d56ac1f32f67ce0890becd6425eb80ebad 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2906,6 +2906,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	pci_set_master(pdev);
  
-+       if (iter.attrs & DMA_ATTR_MMIO)
-+               iod->flags |= IOD_DATA_MMIO;
-+
-        if (use_sgl == SGL_FORCED ||
-            (use_sgl == SGL_SUPPORTED &&
-             (sgl_threshold && nvme_pci_avg_seg_size(req) >= sgl_threshold)))
-@@ -1060,6 +1076,9 @@ static blk_status_t nvme_pci_setup_meta_sgls(struct request *req)
-                                                &iod->meta_dma_state, &iter))
-                return iter.status;
- 
-+       if (iter.attrs & DMA_ATTR_MMIO)
-+               iod->flags |= IOD_META_MMIO;
-+
-        if (blk_rq_dma_map_coalesce(&iod->meta_dma_state))
-                entries = 1;
+ 	if (readl(dev->bar + NVME_REG_CSTS) == -1) {
++		dev_dbg(dev->ctrl.device, "Read CSTS register failed");
+ 		result = -ENODEV;
+ 		goto disable;
+ 	}
 
-...
+-- 
+2.48.1
 
-@@ -733,8 +739,11 @@ static void nvme_unmap_metadata(struct request *req)
-                return;
-        }
-
-+       if (iod->flags & IOD_META_MMIO)
-+               attrs |= DMA_ATTR_MMIO;
-+
-        if (!blk_rq_integrity_dma_unmap(req, dma_dev, &iod->meta_dma_state,
--                                       iod->meta_total_len)) {
-+                                       iod->meta_total_len, attrs)) {
-                if (nvme_pci_cmd_use_meta_sgl(&iod->cmd))
-                        nvme_free_sgls(req, sge, &sge[1], attrs);
-                else
-
-The code is here (waiting for kbuild results)  https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=block-with-mmio-v2
-
-Thanks
 
