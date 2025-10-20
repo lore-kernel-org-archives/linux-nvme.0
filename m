@@ -4,130 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4E43CCD193
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 17:46:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6F58CCD199
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 17:53:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Subject:References:In-Reply-To:Message-Id:Cc:To:From:Date:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/+ReULqjpAVMXEkNnUbtKvkOe8jwFMdF26ovOchyM94=; b=mrZ+1RVALXFNfb+CTWZAx7vaaS
-	j2EXJ4JjCL9Xl/p5GSHjgEs5l6SES3Jw51la93GmqQs3I2ucxS/GDGa5tZCapE68tY+J31VyiOtA6
-	ZBWf0L/4dgVRbw0LX8OKSOLO7iE1b8Wp5UPDO7lGdh6+kGVOXvZ3E4Xw+nnmMhGe803A2J17iEQ2H
-	jP+I8UCMP3JHZ2aGpG+ibo7k6BsdYCGmea0hUJpHauZJA5xOOqP/lizGUjHYQItmaQIc0CAdZJH3A
-	C3Y+Nt2yWBbS74QOksFzGW/mavasDLY6GGYdXRNH50lgWBoPBzlY8C8FQ6AZKRmdg332xotdB2RJf
-	0ej/Ut0g==;
+	bh=CZcWhPdzR9E0rNvps/txYO3Mv8PSf0/Qn7HBMAtZcqE=; b=DpmPGRTTCDt5jaBuUG+SWe/JSP
+	a4etKCwXHU4LDeNMHxV6CNF+iUpHwcaX9DmcvsB/NJwXPt3UA+aqvuWU3DTqcpUV83Ke1GGH7tXgi
+	HPTtWEoDj1fsyBjEDGeODv0LIhRp3AGwF2nyJuEPwmW/2Fsx9vi8FrB1W4lnlOOWImfLs++Zj1ESJ
+	rm7aqYtxImDE9rENNxJ5OZ9SP8jR5BmJiykj+8HZjTEXWeICACTGFA6asPIerYShvx3UabSvmIwO0
+	NAa75j7tl3YvRE5G4aAKV2gABJ4YN9srRqD9ZnHW2Q5sXxKTVA2sTrLcmfvyn4KB2th2C+NEkl+Id
+	rrpdH4og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vAtxm-0000000EXQK-085T;
-	Mon, 20 Oct 2025 17:46:30 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1vAu4M-0000000EYEk-3LVe;
+	Mon, 20 Oct 2025 17:53:18 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vAtxk-0000000EXPZ-1ZWr
+	id 1vAu4K-0000000EYEI-3zuL
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Oct 2025 17:46:29 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1EB91211D5;
-	Mon, 20 Oct 2025 17:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760982382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/+ReULqjpAVMXEkNnUbtKvkOe8jwFMdF26ovOchyM94=;
-	b=X7CIZep02xnw5H2mr1TMZX2InlPRfMDbyix7t54Tsb8aX6zvTF99w7HscBE0pWXK9Dz8o6
-	3Awek7SwoOLnoSZ+hNTEZXSUKCLwVHPCMTHInMWpiWmHP8S9q8ZF70t5G9NMDB6XJBvfXG
-	vlwIVIs0LU1grHUAt+v6CS7F6/bQcYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760982382;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/+ReULqjpAVMXEkNnUbtKvkOe8jwFMdF26ovOchyM94=;
-	b=qXRrHP9/4ljBb9JJXOQ2dIgfPTJuHyKNwgal9jBU2SC8iGaLf9ou68IIz/cagUHlJmHPIU
-	1MVFh8k7DKhzmMDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cFlQUpox;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="GvU0/T3L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760982378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/+ReULqjpAVMXEkNnUbtKvkOe8jwFMdF26ovOchyM94=;
-	b=cFlQUpoxARZE1s5rFceWfdhzhzIFdAlC68RDNOc+39F0RDOItBobvY/aYf9LKni773PSrC
-	7pqty0gFrByxtamMC4zF3PZQlrR0hJ/u1IyYAMe/+JxfEKNuKKK5jMBjQo11bpp2GrRe0Q
-	CvU+i6Pu8qnvhHT19w8QJF+FqhnPBFc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760982378;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/+ReULqjpAVMXEkNnUbtKvkOe8jwFMdF26ovOchyM94=;
-	b=GvU0/T3Lhg3R39M49vOqoruvYcuYCDbPjgAHyHu15GvX+oQYie45hx7DgKH3+8B+uu1/I7
-	/RQCYaN8xheMZ4AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B0F213AAC;
-	Mon, 20 Oct 2025 17:46:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +OxhD2l19mgWXQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 20 Oct 2025 17:46:17 +0000
-Message-ID: <fe16288e-e3f2-4de3-838e-181bbb0ce3ee@suse.de>
-Date: Mon, 20 Oct 2025 19:46:16 +0200
+	Mon, 20 Oct 2025 17:53:18 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 4949045639
+	for <linux-nvme@lists.infradead.org>; Mon, 20 Oct 2025 17:53:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1628C4CEFE;
+	Mon, 20 Oct 2025 17:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760982796;
+	bh=6F/GYnqOJXRHnvCY6WO+LvG1KxSGSq0QkHQM/hUhnsI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=lIVlv5HeK6aECGu3waBm3xkFhdJCCZMh803JZzqokdbVOo/lJteMXaQFWjMf1yNuR
+	 O84EUMqWuXIb6/9QGz7NeKg9WAC8kE+dzof8nWq0+OtmihIr8QZoI3nC+nsji9Pd0o
+	 CrJq/J6YH8pUPhvNZeKTxtv2+Ngwp+ptp2/h55ZWnkw8Cy3L22XlYX69eznw6mXipg
+	 ZDVT3vZY3/K1VHtgeKM7TG72T0O2DkG/gzwFa6THINiHCbz9UNnI8QfSPVGOOdhHBz
+	 6cH234bGShi7wR93nZxkRuV7ADDu+H8Fjlmml0pBH4OJwPhbdePBSZzq5A5XmY6iLx
+	 kc2042nINGG+g==
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfauth.phl.internal (Postfix) with ESMTP id F2AE8F40066;
+	Mon, 20 Oct 2025 13:53:14 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-12.internal (MEProxy); Mon, 20 Oct 2025 13:53:14 -0400
+X-ME-Sender: <xms:Cnf2aE3IzDbfYWO21VHMa9NeXunh7GxobwI5xV2p90TEJ2ulCg_qsQ>
+    <xme:Cnf2aJ5KsZkgAbiSauqyxJXNlRTkr0sHPTSV-YRQivPjHZpTqKgDoxoTQ7rCYwccY
+    5B6yque48zE2jyjX0PSv8GanWq2bjlm6zWRJYe2InUFReg85QPPnBI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddufeekgeejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfnfgvohhn
+    ucftohhmrghnohhvshhkhidfuceolhgvohhnsehkvghrnhgvlhdrohhrgheqnecuggftrf
+    grthhtvghrnhepjeevffelgfelvdfgvedvteelhefhvdffheegffekveelieevfeejteei
+    leeuuedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eplhgvohhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduvdeftdehfeel
+    keegqddvjeejleejjedvkedqlhgvohhnpeepkhgvrhhnvghlrdhorhhgsehlvghonhdrnh
+    hupdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehk
+    sghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqnhhvmhgvse
+    hlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohephhgthheslhhsthdr
+    uggv
+X-ME-Proxy: <xmx:Cnf2aHy-lZEXOinfubNaiYUhpGbiyXe6Z3DZP5nN5hX2jWM-TK2Ufw>
+    <xmx:Cnf2aHAGAJHxcbvnYKih7BSZTnSC5rpMPTGTDNkZKuVH5x_44-3ZRA>
+    <xmx:Cnf2aEbZbDzGRU-pW6CvJEfWfYjNgh4TV_MV5D_bAPLOah9vmAEwOw>
+    <xmx:Cnf2aPjnppBICK4VvaX06y5qYvFSo9r3VFouhvfvsC3xle6ohD75Vg>
+    <xmx:Cnf2aG6e7OFOMnrLhfJIINyKZx9N5x3ifC06maD86CJv0lyaHF57romN>
+Feedback-ID: i927946fb:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B2B472CE0067; Mon, 20 Oct 2025 13:53:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/7] nvme-tcp: Support receiving KeyUpdate requests
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251017042312.1271322-1-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251017042312.1271322-1-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1EB91211D5
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
+X-ThreadId: AVzMaWY76SJg
+Date: Mon, 20 Oct 2025 20:51:25 +0300
+From: "Leon Romanovsky" <leon@kernel.org>
+To: "Keith Busch" <kbusch@kernel.org>
+Cc: "Christoph Hellwig" <hch@lst.de>, linux-nvme@lists.infradead.org
+Message-Id: <e9d4d0c3-21ec-40bb-a577-8a54ef5830d1@app.fastmail.com>
+In-Reply-To: <aPZrka9vQKugd-o8@kbusch-mbp>
+References: <73609a88-b98f-474a-8872-673cf5ca0581@app.fastmail.com>
+ <aPZrka9vQKugd-o8@kbusch-mbp>
+Subject: Re: Metadata integrity, single segment and peer-to-peer
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251020_104628_561435_333ED044 
-X-CRM114-Status: GOOD (  18.71  )
+X-CRM114-CacheID: sfid-20251020_105317_031285_4A76074C 
+X-CRM114-Status: UNSURE (   8.92  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,50 +103,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/17/25 06:23, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> The TLS 1.3 specification allows the TLS client or server to send a
-> KeyUpdate. This is generally used when the sequence is about to
-> overflow or after a certain amount of bytes have been encrypted.
-> 
-> The TLS spec doesn't mandate the conditions though, so a KeyUpdate
-> can be sent by the TLS client or server at any time. This includes
-> when running NVMe-OF over a TLS 1.3 connection.
-> 
-> As such Linux should be able to handle a KeyUpdate event, as the
-> other NVMe side could initiate a KeyUpdate.
-> 
-> Upcoming WD NVMe-TCP hardware controllers implement TLS support
-> and send KeyUpdate requests.
-> 
-> This series builds on top of the existing TLS EKEYEXPIRED work,
-> which already detects a KeyUpdate request. We can now pass that
-> information up to the NVMe layer (target and host) and then pass
-> it up to userspace.
-> 
-> Userspace (ktls-utils) will need to save the connection state
-> in the keyring during the initial handshake. The kernel then
-> provides the key serial back to userspace when handling a
-> KeyUpdate. Userspace can use this to restore the connection
-> information and then update the keys, this final process
-> is similar to the initial handshake.
-> 
 
-I am rather sceptical at the current tlshd implementation.
-At which place do you update the sending keys?
-I'm only seeing a call to 'gnutls_handhake_update_receiving_key()'.
 
-But I haven't found the matching function 
-'gnutls_handshake_update_sending_key()' in current gnutls.
-So how does updating of the sending keys work?
+On Mon, Oct 20, 2025, at 20:04, Keith Busch wrote:
+> On Mon, Oct 20, 2025 at 02:50:04PM +0300, Leon Romanovsky wrote:
+>> Hi Keith,
+>> 
+>> I'm looking on the nvme_pci_setup_meta_mptr() implementation [1] and
+>> don't see is_pci_p2pdma_page() which exists in
+>> nvme_pci_setup_data_simple() [2]. Is it intentionally? Can single
+>> segment be p2p transfer?
+>
+> We may be calling unnecessarily dma_unmap_page in that case for mptr,
+> but I think that still works anyway.
 
-Cheers,
+How? dma_map_bvec() is actually dma_map_page_attrs() and that function doesn't handle PCI_P2PDMA_MAP_BUS_ADDR and PCI_P2PDMA_MAP_THRU_HOST_BRIDGE states.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Thanks
 
