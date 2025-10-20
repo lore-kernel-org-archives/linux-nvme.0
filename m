@@ -4,56 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55357CCD193
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 08:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6889BCCD199
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 09:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-Type:CC:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MkkYIPAoEg6a8Fr+ZO70QRsnR7y88Qck5iTc0nG5lfw=; b=yjyPV2EpFZq18lJfzgGI2falRZ
-	c4xRbladfcA90ibyyKOJBqhLUQcc0PaEmrTmrEWzduGotXxDh8hJm3iQe2bu3s2rI0IZp8PFIHWPE
-	pkWJQQZpuVzTjsdjkNc9k1QSKp2sTg7YdVMEp9nfs4PSVueMEnTo+0B6ZSbvQtnrkwgRZbv7sI8Rz
-	t+ispNOcee8fWw8OgueydfGcqu7X91ISl6+OYp8jNd4e45rjNVCAvlYNJl7Ty3wkQhUvgTUYq8meZ
-	NJq1s1nT0/TsMOiNnOBb/9q2HgpYQazKfHitGcMIpC8yA7AIiYZaXq3PTl37Y5UCQQT6cl3rXM6tZ
-	tVY+6AWw==;
+	bh=cheXoOOiS2gvHnYLS7Mw7StPPuqgKOzmf8SzUVnio1I=; b=cfDR3Pn4imY19uKYqFKH7jH0OX
+	cuRmXaDguMGQMwbRGyfltigQA2yavwJ9/jT1shn6i1LyqHI2jdloBos6akPShPZaeRLcYlPBlq4Js
+	4sqhm7isLswgCxOtH00Ds8zTOwxdseD/vfQBBqNSYW66pHuFmeP5nfOwr80LxKKUwDKnAlUv0uCoU
+	EsYEEloegn96xGcgI4nIVPpSmXGK3lSYGcoTSpG8V21fVbX92e3H/QP3PBiWqEU5207sUQvwSI2VM
+	QXkE6rCaNDBIuYbSXNZgs6eSyPG+JQSLPifapzJ/M93YtUK7tF7KUQ/EuoDj1wf7PC9+jB2AP0Gg8
+	TBoqwTdg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vAlj2-0000000CUaa-2ZpE;
-	Mon, 20 Oct 2025 08:58:44 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vAm4v-0000000CYWK-3sYi;
+	Mon, 20 Oct 2025 09:21:21 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vAlj1-0000000CUZn-1JG2
+	id 1vAm4u-0000000CYVp-2nDo
+	for linux-nvme@bombadil.infradead.org;
+	Mon, 20 Oct 2025 09:21:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:CC:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=cheXoOOiS2gvHnYLS7Mw7StPPuqgKOzmf8SzUVnio1I=; b=HR5Waj0joUnXUoVOpvV4AKOWiV
+	Gfyl0CT/xXmN45+w1fX0jfkGqpywfUWoXu3DHpZsZV2J7fK/TNXMkbX4APzNnR7q8WJT4HN3hizCR
+	t3yXUNjM8vycxMNZSC4a5Yve+70bii+JF/yQfRVou89nzKI2C8s3ASg4by5sAWhaqKYNtQ5ILiDSZ
+	BBoULuL+Dsn86DVe96Hc49WN/gO+/jcoXsficKVz2GzW6wqyork4JyppsN6rHIiQNTWFp+3uCC/5U
+	5Go/NWZx95KSKrWbV9lYllYd0Q/9oRyWPJVB2ywXgk7JNvK2m2Gq5xXTjCMWPHkh0JECIfBj5TD7e
+	E0hKqbNw==;
+Received: from canpmsgout02.his.huawei.com ([113.46.200.217])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vAm4o-00000009fLH-031I
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Oct 2025 08:58:43 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6F21261CF4;
-	Mon, 20 Oct 2025 08:58:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D05ADC4CEF9;
-	Mon, 20 Oct 2025 08:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760950708;
-	bh=Yeh9CR1220w8kOQbqj7TfH6Z5lRuA1ON1/Xv9g+FqF0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tqiyUTODxlhusevc+CZ+2M8/5qtgxAq0VLmZtGU5uqSj7C+3uxqvzgVAICnWwQEOw
-	 ksuYw014uZJg5pNWgdyw791d7b5UxjBKEQG2e1XiDgPmLKFgiNQlocYwhiQfRR6hXH
-	 Or+ENWrhUBxMEkCPSFYMvRKhhnd3Qa8ynF6U2lJ5wun15fySlcwmlowonGtTMBMcvZ
-	 ejJs6vGd/NW5JYcpW/Qda3+mUzk2euix8sjcWJjNG03fedtt0xaow2nhuLTqCr+z2j
-	 vfsFqzvKjabh8RSGLT62lLmC1vGpArtyEmUT5B+UxSEW299YAj1x8Zs8saayipEWxy
-	 /OSZwmxp17o2A==
-From: Hannes Reinecke <hare@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCHv2] nvme-tcp: Implement recvmsg() receive flow
-Date: Mon, 20 Oct 2025 10:58:15 +0200
-Message-ID: <20251020085815.20657-1-hare@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	Mon, 20 Oct 2025 09:21:18 +0000
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=cheXoOOiS2gvHnYLS7Mw7StPPuqgKOzmf8SzUVnio1I=;
+	b=gYsWNXzCDiU2EFfnprMRKNY3tyNxk+bccWg0HOfhh8O0DRzdAevI7LBzQe9WvC6ICl8KFdW4Y
+	2ZF7uepDDCJJrM6Ccv2w742aFYof6nLcLcnIOnQoiGtqmwyvAt+jz4KKgfA9haAsfyVFj7k0YN5
+	ys7ZfdHW4135VY38/2hTqIY=
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4cqqd16r8HzcZyT
+	for <linux-nvme@lists.infradead.org>; Mon, 20 Oct 2025 17:19:33 +0800 (CST)
+Received: from kwepemh100002.china.huawei.com (unknown [7.202.181.84])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6671E1402DA
+	for <linux-nvme@lists.infradead.org>; Mon, 20 Oct 2025 17:20:41 +0800 (CST)
+Received: from [10.174.185.38] (10.174.185.38) by
+ kwepemh100002.china.huawei.com (7.202.181.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 20 Oct 2025 17:20:40 +0800
+Message-ID: <a9a1cfdb-f41f-b2ff-80a2-5e47471b8007@h-partners.com>
+Date: Mon, 20 Oct 2025 17:20:40 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+To: <linux-nvme@lists.infradead.org>
+From: "wangzhiqiang (Q)" <wangzhiqiang95@h-partners.com>
+Subject: [DISCUSSION] NVMe firmware_rev not updated after firmware commit when
+ AEN is not supported
+CC: <jingsixiang1@h-partners.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.38]
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemh100002.china.huawei.com (7.202.181.84)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251020_102114_734534_E5294377 
+X-CRM114-Status: GOOD (  10.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,336 +91,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The nvme-tcp code is using the ->read_sock() interface to
-read data from the wire. While this interface gives us access
-to the skbs themselves (and so might be able to reduce latency)
-it does not interpret the skbs.
-Additionally for TLS these skbs have to be re-constructed from
-the TLS stream data, rendering any advantage questionable.
-But the main drawback for TLS is that we do not get access to
-the TLS control messages, so if we receive any of those message
-the only choice we have is to tear down the connection and restart.
-This patch switches the receive side over to use recvmsg(), which
-provides us full access to the TLS control messages and is also
-more efficient when working with TLS as skbs do not need to be
-artificially constructed.
+Hi all
 
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- drivers/nvme/host/tcp.c | 203 ++++++++++++++++++++++------------------
- 1 file changed, 110 insertions(+), 93 deletions(-)
+I encountered an issue while working with the NVMe driver on kernel v6.6.
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 9a96df1a511c..081f53fa9fc4 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -17,6 +17,7 @@
- #include <net/tls_prot.h>
- #include <net/handshake.h>
- #include <linux/blk-mq.h>
-+#include <linux/iov_iter.h>
- #include <net/busy_poll.h>
- #include <trace/events/sock.h>
- 
-@@ -476,6 +477,28 @@ static inline void nvme_tcp_ddgst_update(u32 *crcp,
- 	}
- }
- 
-+static size_t nvme_tcp_ddgst_step(void *iter_base, size_t progress, size_t len,
-+				  void *priv, void *priv2)
-+{
-+	u32 *crcp = priv;
-+
-+	*crcp = crc32c(*crcp, iter_base, len);
-+	return 0;
-+}
-+
-+static int nvme_tcp_ddgst_calc(struct nvme_tcp_request *req, u32 *crcp,
-+			       size_t maxsize)
-+{
-+	struct iov_iter tmp = req->iter;
-+	int err = 0;
-+
-+	tmp.count = maxsize;
-+	if (iterate_and_advance_kernel(&tmp, maxsize, crcp, &err,
-+				       nvme_tcp_ddgst_step) != maxsize)
-+		return err;
-+	return 0;
-+}
-+
- static inline __le32 nvme_tcp_ddgst_final(u32 crc)
- {
- 	return cpu_to_le32(~crc);
-@@ -827,23 +850,26 @@ static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
- 		"Received C2HTermReq (FES = %s)\n", msg);
- }
- 
--static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
--		unsigned int *offset, size_t *len)
-+static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
- {
--	struct nvme_tcp_hdr *hdr;
- 	char *pdu = queue->pdu;
--	size_t rcv_len = min_t(size_t, *len, queue->pdu_remaining);
-+	struct msghdr msg = {
-+		.msg_flags = MSG_DONTWAIT,
-+	};
-+	struct kvec iov = {
-+		.iov_base = pdu + queue->pdu_offset,
-+		.iov_len = queue->pdu_remaining,
-+	};
-+	struct nvme_tcp_hdr *hdr;
- 	int ret;
- 
--	ret = skb_copy_bits(skb, *offset,
--		&pdu[queue->pdu_offset], rcv_len);
--	if (unlikely(ret))
-+	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
-+			     iov.iov_len, msg.msg_flags);
-+	if (ret <= 0)
- 		return ret;
- 
--	queue->pdu_remaining -= rcv_len;
--	queue->pdu_offset += rcv_len;
--	*offset += rcv_len;
--	*len -= rcv_len;
-+	queue->pdu_remaining -= ret;
-+	queue->pdu_offset += ret;
- 	if (queue->pdu_remaining)
- 		return 0;
- 
-@@ -907,20 +933,19 @@ static inline void nvme_tcp_end_request(struct request *rq, u16 status)
- 		nvme_complete_rq(rq);
- }
- 
--static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
--			      unsigned int *offset, size_t *len)
-+static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
- {
- 	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
- 	struct request *rq =
- 		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
- 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
- 
--	while (true) {
--		int recv_len, ret;
-+	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DATA)
-+		return 0;
- 
--		recv_len = min_t(size_t, *len, queue->data_remaining);
--		if (!recv_len)
--			break;
-+	while (queue->data_remaining) {
-+		struct msghdr msg;
-+		int ret;
- 
- 		if (!iov_iter_count(&req->iter)) {
- 			req->curr_bio = req->curr_bio->bi_next;
-@@ -940,25 +965,22 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 		}
- 
- 		/* we can read only from what is left in this bio */
--		recv_len = min_t(size_t, recv_len,
--				iov_iter_count(&req->iter));
-+		memset(&msg, 0, sizeof(msg));
-+		msg.msg_iter = req->iter;
-+		msg.msg_flags = MSG_DONTWAIT;
- 
--		if (queue->data_digest)
--			ret = skb_copy_and_crc32c_datagram_iter(skb, *offset,
--				&req->iter, recv_len, &queue->rcv_crc);
--		else
--			ret = skb_copy_datagram_iter(skb, *offset,
--					&req->iter, recv_len);
--		if (ret) {
-+		ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
-+		if (ret < 0) {
- 			dev_err(queue->ctrl->ctrl.device,
--				"queue %d failed to copy request %#x data",
-+				"queue %d failed to receive request %#x data",
- 				nvme_tcp_queue_id(queue), rq->tag);
- 			return ret;
- 		}
--
--		*len -= recv_len;
--		*offset += recv_len;
--		queue->data_remaining -= recv_len;
-+		if (queue->data_digest)
-+			nvme_tcp_ddgst_calc(req, &queue->rcv_crc, ret);
-+		queue->data_remaining -= ret;
-+		if (queue->data_remaining)
-+			nvme_tcp_advance_req(req, ret);
- 	}
- 
- 	if (!queue->data_remaining) {
-@@ -968,7 +990,7 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 		} else {
- 			if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
- 				nvme_tcp_end_request(rq,
--						le16_to_cpu(req->status));
-+						     le16_to_cpu(req->status));
- 				queue->nr_cqe++;
- 			}
- 			nvme_tcp_init_recv_ctx(queue);
-@@ -978,24 +1000,9 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
- 	return 0;
- }
- 
--static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
--		struct sk_buff *skb, unsigned int *offset, size_t *len)
-+static int __nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue)
- {
- 	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
--	char *ddgst = (char *)&queue->recv_ddgst;
--	size_t recv_len = min_t(size_t, *len, queue->ddgst_remaining);
--	off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
--	int ret;
--
--	ret = skb_copy_bits(skb, *offset, &ddgst[off], recv_len);
--	if (unlikely(ret))
--		return ret;
--
--	queue->ddgst_remaining -= recv_len;
--	*offset += recv_len;
--	*len -= recv_len;
--	if (queue->ddgst_remaining)
--		return 0;
- 
- 	if (queue->recv_ddgst != queue->exp_ddgst) {
- 		struct request *rq = nvme_cid_to_rq(nvme_tcp_tagset(queue),
-@@ -1023,40 +1030,32 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
- 	return 0;
- }
- 
--static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
--			     unsigned int offset, size_t len)
-+static int nvme_tcp_recvmsg_ddgst(struct nvme_tcp_queue *queue)
- {
--	struct nvme_tcp_queue *queue = desc->arg.data;
--	size_t consumed = len;
--	int result;
-+	char *ddgst = (char *)&queue->recv_ddgst;
-+	off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
-+	struct msghdr msg = {
-+		.msg_flags = MSG_WAITALL,
-+	};
-+	struct kvec iov = {
-+		.iov_base = (u8 *)ddgst + off,
-+		.iov_len = queue->ddgst_remaining,
-+	};
-+	int ret;
- 
--	if (unlikely(!queue->rd_enabled))
--		return -EFAULT;
-+	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DDGST)
-+		return 0;
- 
--	while (len) {
--		switch (nvme_tcp_recv_state(queue)) {
--		case NVME_TCP_RECV_PDU:
--			result = nvme_tcp_recv_pdu(queue, skb, &offset, &len);
--			break;
--		case NVME_TCP_RECV_DATA:
--			result = nvme_tcp_recv_data(queue, skb, &offset, &len);
--			break;
--		case NVME_TCP_RECV_DDGST:
--			result = nvme_tcp_recv_ddgst(queue, skb, &offset, &len);
--			break;
--		default:
--			result = -EFAULT;
--		}
--		if (result) {
--			dev_err(queue->ctrl->ctrl.device,
--				"receive failed:  %d\n", result);
--			queue->rd_enabled = false;
--			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
--			return result;
--		}
--	}
-+	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1, iov.iov_len,
-+			     msg.msg_flags);
-+	if (ret <= 0)
-+		return ret;
- 
--	return consumed;
-+	queue->ddgst_remaining -= ret;
-+	if (queue->ddgst_remaining)
-+		return 0;
-+
-+	return __nvme_tcp_recv_ddgst(queue);
- }
- 
- static void nvme_tcp_data_ready(struct sock *sk)
-@@ -1356,20 +1355,38 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
- 	return ret;
- }
- 
--static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-+static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
- {
--	struct socket *sock = queue->sock;
--	struct sock *sk = sock->sk;
--	read_descriptor_t rd_desc;
--	int consumed;
-+	int result;
-+	int nr_cqe = queue->nr_cqe;
-+
-+	if (unlikely(!queue->rd_enabled))
-+		return -EFAULT;
-+
-+	do {
-+		switch (nvme_tcp_recv_state(queue)) {
-+		case NVME_TCP_RECV_PDU:
-+			result = nvme_tcp_recvmsg_pdu(queue);
-+			break;
-+		case NVME_TCP_RECV_DATA:
-+			result = nvme_tcp_recvmsg_data(queue);
-+			break;
-+		case NVME_TCP_RECV_DDGST:
-+			result = nvme_tcp_recvmsg_ddgst(queue);
-+			break;
-+		default:
-+			result = -EFAULT;
-+		}
-+	} while (result >= 0);
-+
-+	if (result < 0 && result != -EAGAIN) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"receive failed:  %d\n", result);
-+		queue->rd_enabled = false;
-+		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-+	}
- 
--	rd_desc.arg.data = queue;
--	rd_desc.count = 1;
--	lock_sock(sk);
--	queue->nr_cqe = 0;
--	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
--	release_sock(sk);
--	return consumed == -EAGAIN ? 0 : consumed;
-+	return result < 0 ? result : (queue->nr_cqe = nr_cqe);
- }
- 
- static void nvme_tcp_io_work(struct work_struct *w)
-@@ -1391,7 +1408,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
- 				break;
- 		}
- 
--		result = nvme_tcp_try_recv(queue);
-+		result = nvme_tcp_try_recvmsg(queue);
- 		if (result > 0)
- 			pending = true;
- 		else if (unlikely(result < 0))
-@@ -2800,7 +2817,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
- 	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
- 	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
- 		sk_busy_loop(sk, true);
--	ret = nvme_tcp_try_recv(queue);
-+	ret = nvme_tcp_try_recvmsg(queue);
- 	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
- 	return ret < 0 ? ret : queue->nr_cqe;
- }
--- 
-2.51.0
+When I use ioctl with NVME_IOCTL_ADMIN_CMD to passthrough Firmware Image Download(CA=3) and Firmware Commit commands
+to upgrade the firmware image on an NVMe drive, if the drive does not support the Asynchronous Event Notice (AEN)
+for Firmware Activation Notices, the kernel does not receive the NVME_AER_NOTICE_FW_ACT_STARTING event. As a result,
+ctrl->subsys->firmware_rev in the kernel is not updated, and the corresponding /sys/class/nvme/nvme0/firmware_rev still
+shows the outdated firmware revision.
 
+According to the NVMe specification, a Commit Action (CA) = 3 indicates that the firmware image should be activated
+without performing a controller reset (even though a reset would normally cause the controller to be re-identified).
+However, since most vendor drives currently either do not support Firmware Activation Notices or have not enabled it,
+leads to an inconsistency between the actual firmware version on the device and the value exposed by the kernel.
+
+Would it make sense to add a userspace interface that allows applications to query the latest firmware revision in real time?
+For example, this could be implemented via an ioctl or by providing a mechanism to refresh or read the updated value through sysfs.
+
+Best regards
+wangzhiqiang
+jingsixiang
 
