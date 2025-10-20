@@ -4,89 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36191CCD199
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 06:22:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F97CCCD193
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Oct 2025 06:27:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LLOFUBn1T2+9I+mMFgCTxQAiQFct96bRIkxGDB6nyXc=; b=jgrc52nngizKf5Pw6/0hpmnjqk
-	/kzaoZAjUpdlRlajJWTunLJYimgY1k/c4R9wN1zJuPtPRysEpa0sfFV+bMKw8Byj8k+2s7ZdVtcuo
-	WrOEzTfs2MbSvdL9DTvSCo48Jpy0BZuB/v9vgwXiqLAhejz0OvciuSh7kJi8nnZTqRN+BhSy1w3jU
-	PAamqAFtNs27nooj01E0LKiDdsGER3yGqrpct5l9ZZo6DqHX93Y/Hpo5t6tVRxuaw/P/vs92Q81+/
-	ewihyoQGVYodZzUwBcU+8BBQz+nGOVp8zk+5ycgmP9Syx5AW5MLe0wKg5SDb7bC+Iql03J3ioB1D7
-	FFbmGvww==;
+	bh=8GhDny57eeVjp265ieqriz/8GKP0/zLR1etZvWz0m/k=; b=kqs8UufSZFuHVDxHonyemCa3iU
+	I66SvRxiBqU7cdNO19Y5yjicGTs+K8S+qumRpT1e3GPLhylZdojLgWo+f+zcv6caOebEPI2MyiYq3
+	O7/84CxxfRCXYUMbcqvUMzkuOVqgL+i53DDcBurGFtGZ5PWSbE91PRevdwNQeN6IDZVjDfkmpnSC0
+	kOE02nKUdkT0Uz1d3wuUiQvSUHvAE4aIxUrefDiuduX78r+5mIC+/ECK7UZWibgqFj+Z7PIi0LOcD
+	UHI6ZPp3pSY2UuQQ61pZpbwLCgpVUXGDt/GMnfbZztAT+W+OeQsoCBdmdByozoZWhzyRY3+5dhaD/
+	z9M+hbSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vAjHi-0000000C1B3-49AI;
-	Mon, 20 Oct 2025 06:22:22 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1vAjMA-0000000C1xp-3fNx;
+	Mon, 20 Oct 2025 06:26:58 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vAjHg-0000000C19v-3A4Z
+	id 1vAjM8-0000000C1tk-14C1
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Oct 2025 06:22:22 +0000
+	Mon, 20 Oct 2025 06:26:57 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 65FDC2118D;
-	Mon, 20 Oct 2025 06:22:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C4E9C1F385;
+	Mon, 20 Oct 2025 06:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760941334; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1760941610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LLOFUBn1T2+9I+mMFgCTxQAiQFct96bRIkxGDB6nyXc=;
-	b=lJdM9UjT2ee8jEy1avvD36asU6kosjyGRPChgnZy0k8vZ+tRYz1RxvuQPL4DTT78z0TFEa
-	a2sW9R10S7XC4XujVRvS5faLY0eEtMNie9jK7G846yEnMzdnphHogkNK+YDI09TIVPD8Jk
-	GPOqcmsVapnXRCVM92p1MOZU81FgjHw=
+	bh=8GhDny57eeVjp265ieqriz/8GKP0/zLR1etZvWz0m/k=;
+	b=dMloM3ZWltZg1oxrcq10APyPykbFxI1MbRS6HJiOiZq0e+fTX4XMWzd/MKcFpYwo7dgjTz
+	rPFJ+eKQpX+4Xl7fASFgr2GrO3xWgxFBzbZH7WeuLvfCER+PjPVYBMuOTh5W9m7Pqzh8fP
+	+EYOc6XLqQy5M5EZGtV9u2lraq/bZBo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760941334;
+	s=susede2_ed25519; t=1760941610;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LLOFUBn1T2+9I+mMFgCTxQAiQFct96bRIkxGDB6nyXc=;
-	b=z931M2vcsaIAil9YBjlU7s2tm7kr/z7y1irMQ290+kd1Vdp9jQURl/eoGKR/QIgV5GycNX
-	truG9G7YWHx8uQBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=15FKwpUC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lUtwmzhq
+	bh=8GhDny57eeVjp265ieqriz/8GKP0/zLR1etZvWz0m/k=;
+	b=CsYIZdYFxWokW+trpZI5TuXwoyU0Z8ToPH8Zfq5hIpAdkLqbiW2gH+jrjh9f8rGpAaTpJi
+	Dki7lbJQCoCbYLDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PbtyOGx7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=82t5Hqqb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1760941330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1760941605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LLOFUBn1T2+9I+mMFgCTxQAiQFct96bRIkxGDB6nyXc=;
-	b=15FKwpUCxOfh7gJ1/Utp+yyd5yX7QNGzZAX29NnB7IDWb1rUorDdCn6b81rB6QBj9zxBOF
-	Oi034UibfQUkR20ykFFpAGQ1c2M/vRJF/zg/iy8c4eqIqoIZ7KI6AmX0JnewzFJ/VOagti
-	FUnd+Uskvtco6URBkfo82hjKdjomFr8=
+	bh=8GhDny57eeVjp265ieqriz/8GKP0/zLR1etZvWz0m/k=;
+	b=PbtyOGx7q9mKGcOQXt+lRM7cfFZaQpKARZxFlqjXoERt2iEiBYRvsTstjKubwHgbb9k/5i
+	C8tQJZNt45QomBcVY4ukLj09UyESNBURFRYfdBWWnHd8lJ6Ucwxb1c/Xwvkbd2P06Niee0
+	Znn8c1GuMTkT6shnLo4PS5glT2XmoEY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1760941330;
+	s=susede2_ed25519; t=1760941605;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LLOFUBn1T2+9I+mMFgCTxQAiQFct96bRIkxGDB6nyXc=;
-	b=lUtwmzhqm0oUk0NCX9vJYtwvZDq+R+k/RsYQWmw1iAYwkNfYA3cXNspXLbsAeoIkYE5gYZ
-	eJc3wcaHVG0si+DA==
+	bh=8GhDny57eeVjp265ieqriz/8GKP0/zLR1etZvWz0m/k=;
+	b=82t5HqqbHl2EBRDpP3926ihZ0wJB0ZQwDqmheuCU3ftelKPa4WXmQ/aXyCVvPUokup5N03
+	DrKcU/eNteHoFBDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3B2B13A8E;
-	Mon, 20 Oct 2025 06:22:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CA5413A8E;
+	Mon, 20 Oct 2025 06:26:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dTCjNRHV9WipVAAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 20 Oct 2025 06:22:09 +0000
-Message-ID: <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
-Date: Mon, 20 Oct 2025 08:22:09 +0200
+	id Fb3jDCXW9WiSWAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 20 Oct 2025 06:26:45 +0000
+Message-ID: <17154023-868d-4889-b499-a334d360e8e8@suse.de>
+Date: Mon, 20 Oct 2025 08:26:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/7] nvme-tcp: Support KeyUpdate
+Subject: Re: [PATCH v4 7/7] nvmet-tcp: Support KeyUpdate
 To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
  kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -94,13 +94,13 @@ To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
 Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
  kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
 References: <20251017042312.1271322-1-alistair.francis@wdc.com>
- <20251017042312.1271322-6-alistair.francis@wdc.com>
+ <20251017042312.1271322-8-alistair.francis@wdc.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251017042312.1271322-6-alistair.francis@wdc.com>
+In-Reply-To: <20251017042312.1271322-8-alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 65FDC2118D
+X-Rspamd-Queue-Id: C4E9C1F385
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
@@ -129,8 +129,8 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251019_232220_943844_1D65D709 
-X-CRM114-Status: GOOD (  36.40  )
+X-CRM114-CacheID: sfid-20251019_232656_442184_D7D25DC9 
+X-CRM114-Status: GOOD (  18.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -148,16 +148,16 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 10/17/25 06:23, alistair23@gmail.com wrote:
 > From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
-> on an KeyUpdate event.
+> If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receive
+> a KeyUpdate handshake type then the underlying TLS keys need to be
+> updated.
 > 
-> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
 > allow the NVMe layer to process the KeyUpdate request and forward the
 > request to userspace. Userspace must then update the key to keep the
 > connection alive.
 > 
-> This patch allows us to handle the NVMe target sending a KeyUpdate
+> This patch allows us to handle the NVMe host sending a KeyUpdate
 > request without aborting the connection. At this time we don't support
 > initiating a KeyUpdate.
 > 
@@ -165,186 +165,26 @@ On 10/17/25 06:23, alistair23@gmail.com wrote:
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
 > v4:
+>   - Restructure code to avoid #ifdefs and forward declarations
+>   - Use a helper function for checking -EKEYEXPIRED
 >   - Remove all support for initiating KeyUpdate
->   - Don't call cancel_work() when updating keys
+>   - Use helper function for restoring callbacks
 > v3:
->   - Don't cancel existing handshake requests
+>   - Use a write lock for sk_user_data
+>   - Fix build with CONFIG_NVME_TARGET_TCP_TLS disabled
+>   - Remove unused variable
 > v2:
->   - Don't change the state
 >   - Use a helper function for KeyUpdates
->   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
->   - Remove command message using recvmsg
+>   - Ensure keep alive timer is stopped
+>   - Wait for TLS KeyUpdate to complete
 > 
->   drivers/nvme/host/tcp.c | 60 ++++++++++++++++++++++++++++++++++-------
->   1 file changed, 51 insertions(+), 9 deletions(-)
+>   drivers/nvme/target/tcp.c | 205 ++++++++++++++++++++++++++------------
+>   1 file changed, 143 insertions(+), 62 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 2696bf97dfac..791e0cc91ad8 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
->   	bool			tls_enabled;
->   	u32			rcv_crc;
->   	u32			snd_crc;
-> +	key_serial_t		user_session_id;
->   	__le32			exp_ddgst;
->   	__le32			recv_ddgst;
->   	struct completion       tls_complete;
-> @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
->   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
->   {
->   	char *pdu = queue->pdu;
-> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
->   	struct msghdr msg = {
-> +		.msg_control = cbuf,
-> +		.msg_controllen = sizeof(cbuf),
->   		.msg_flags = MSG_DONTWAIT,
->   	};
->   	struct kvec iov = {
-> @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
->   	if (ret <= 0)
->   		return ret;
->   
-> +	hdr = queue->pdu;
-> +	if (hdr->type == TLS_HANDSHAKE_KEYUPDATE) {
-> +		dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
-> +		return 1;
-> +	}
-> +
->   	queue->pdu_remaining -= ret;
->   	queue->pdu_offset += ret;
->   	if (queue->pdu_remaining)
->   		return 0;
->   
-> -	hdr = queue->pdu;
->   	if (unlikely(hdr->hlen != sizeof(struct nvme_tcp_rsp_pdu))) {
->   		if (!nvme_tcp_recv_pdu_supported(hdr->type))
->   			goto unsupported_pdu;
-> @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
->   	struct request *rq =
->   		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
->   	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
->   
->   	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DATA)
->   		return 0;
-> @@ -973,12 +983,14 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
->   		memset(&msg, 0, sizeof(msg));
->   		msg.msg_iter = req->iter;
->   		msg.msg_flags = MSG_DONTWAIT;
-> +		msg.msg_control = cbuf,
-> +		msg.msg_controllen = sizeof(cbuf),
->   
-Watch out. This is the recvmsg bug Olga had been posting patches for.
-Thing is, if there is a control message the networking code will place
-the control message payload into the message buffer. But in doing so
-it expects the message buffer to be an iovec, not a bio vec.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-To handle this properly you'd need to _not_ set the control buffer,
-but rather check for 'MSG_CTRUNC' in msg_flags upon return.
-Then you have to setup a new message with msg_control set and
-a suitable msg_len (5 bytes, wasn't it?) and re-issue recvmsg
-with that message.
+Cheers,
 
-And keep fingers crossed that you don't get MSG_CTRUNC on every
-call to recvmsg() ...
-
->   		ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
->   		if (ret < 0) {
-> -			dev_err(queue->ctrl->ctrl.device,
-> -				"queue %d failed to receive request %#x data",
-> -				nvme_tcp_queue_id(queue), rq->tag);
-> +			dev_dbg(queue->ctrl->ctrl.device,
-> +				"queue %d failed to receive request %#x data, %d",
-> +				nvme_tcp_queue_id(queue), rq->tag, ret);
->   			return ret;
->   		}
->   		if (queue->data_digest)
-> @@ -1381,17 +1393,42 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
->   		}
->   	} while (result >= 0);
->   
-> -	if (result < 0 && result != -EAGAIN) {
-> +	if (result == -EKEYEXPIRED) {
-> +		return -EKEYEXPIRED;
-> +	} else if (result == -EAGAIN) {
-> +		return -EAGAIN;
-> +	} else if (result < 0) {
->   		dev_err(queue->ctrl->ctrl.device,
->   			"receive failed:  %d\n", result);
->   		queue->rd_enabled = false;
->   		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> -	} else if (result == -EAGAIN)
-> -		result = 0;
-> +	}
->   
->   	return result < 0 ? result : (queue->nr_cqe = nr_cqe);
->   }
->   
-> +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> +{
-> +	int qid = nvme_tcp_queue_id(queue);
-> +	int ret;
-> +
-> +	dev_dbg(queue->ctrl->ctrl.device,
-> +		"updating key for queue %d\n", qid);
-> +
-> +	flush_work(&(queue->ctrl->ctrl).async_event_work);
-> +
-> +	ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> +				 queue, queue->ctrl->ctrl.tls_pskid,
-> +				 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> +
-> +	if (ret < 0) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"failed to update the keys %d\n", ret);
-> +		nvme_tcp_fail_request(queue->request);
-> +		nvme_tcp_done_send_req(queue);
-> +	}
-> +}
-> +
->   static void nvme_tcp_io_work(struct work_struct *w)
->   {
->   	struct nvme_tcp_queue *queue =
-> @@ -1414,8 +1451,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
->   		result = nvme_tcp_try_recvmsg(queue);
->   		if (result > 0)
->   			pending = true;
-> -		else if (unlikely(result < 0))
-> -			return;
-> +		else if (unlikely(result < 0)) {
-> +			if (result == -EKEYEXPIRED)
-> +				update_tls_keys(queue);
-> +			break;
-> +		}
->   
->   		/* did we get some space after spending time in recv? */
->   		if (nvme_tcp_queue_has_pending(queue) &&
-> @@ -1723,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
->   			ctrl->ctrl.tls_pskid = key_serial(tls_key);
->   		key_put(tls_key);
->   		queue->tls_err = 0;
-> +		queue->user_session_id = user_session_id;
-
-Hmm. I wonder, do we need to store the generation number somewhere?
-Currently the sysfs interface is completely oblivious that a key update
-has happened. I really would like to have _some_ indicator there telling
-us that a key update had happened, and the generation number would be
-ideal here.
-
->   	}
->   
->   out_complete:
-> @@ -1752,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->   		keyring = key_serial(nctrl->opts->keyring);
->   	args.ta_keyring = keyring;
->   	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-> +	args.user_session_id = queue->user_session_id;
->   	queue->tls_err = -EOPNOTSUPP;
->   	init_completion(&queue->tls_complete);
->   	if (keyupdate == HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
-
-Chers,
 Hannes
 -- 
 Dr. Hannes Reinecke                  Kernel Storage Architect
