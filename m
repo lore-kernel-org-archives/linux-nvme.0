@@ -4,113 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA5DECCD184
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Oct 2025 15:02:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34633CCD1A7
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Oct 2025 15:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1b69gDT8LvJVtiHS4ua5Tn6SRWH4Fsf1vL9xpsxKQeE=; b=N07fnHn3lgZA2xGGaYMGX61cO6
-	QzKrOBPSx1WzMycjw4SwyZD07LkcvUV4V4iieVByNS3PH5F91xOTC1RxMIwuUhmPkwlecEfofNXab
-	2KqcS8hJ1nnVpZTzPLRX6v9v3C0cp5GLRYDfwXgK45K1zm0IQgBOgN9TiJZ5xW70WP3afHrU1Nj3p
-	gp4OELJPj/3VE93lu6fFaU4sL75Q5Oxy1cbmvii9k5jM1mjZs6n6kkWIzP3eVFBiHzB2fco66w1zR
-	JUqWNrTNP21uN3Wm+rOAk+Tox4lrjx+fOrlK4fpTplAj6Vk7Hca4ReWd+Tp7NmB4uQFAGvx0ezy/h
-	pFxV2jbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=YnM5WXFqfo+jUfMG9FlsfDWmjAoJqU33rlAdDmBaq9E=; b=QtntYEy/r1MKrAqh2bVD1Fk606
+	TNbQMdVBlxGDThVApISJEQx87D3plptRNGe3ZPS9jAJKA8svp1KqnMsWqWl2QsHE95mkiS6AJAK/B
+	uN6w9RJkiaVZQmVhRYhy7FMJm6lLbaCvbuk9p8OIlATlceRdltaHVfe7tHXc80W1VW8lWLMdnigNU
+	Ljyj/dUwAtZfe7e3fG6Fs5TY7TNT8ZN3kTfBf7obC2jIRVtk1gjNcy3Dc4Kur3eKoqgxHVBXb6XqT
+	CkGA6EyRbjBhmSfTwTaiBcFCBo6Ma0v74QKDUs1g8qZvtjA7b8+xhoaeWCssqK/5xtccaumPEeC+8
+	xbq9/sBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBDsr-0000000HQXV-0fb8;
-	Tue, 21 Oct 2025 15:02:45 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vBE8K-0000000HTQU-3NXA;
+	Tue, 21 Oct 2025 15:18:44 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBDsk-0000000HQWx-0wgg
+	id 1vBE8I-0000000HTPk-0lFt
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Oct 2025 15:02:39 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59LBv7nT006824;
-	Tue, 21 Oct 2025 15:02:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=1b69gD
-	T8LvJVtiHS4ua5Tn6SRWH4Fsf1vL9xpsxKQeE=; b=bCF/0Wa/KvKu6mQrXbsl9S
-	IuI12RC4yilHAEQ8igAzzYa+6hR1osQ2yr76PsAHX3P22upm6LdX5AEibz+EsAc4
-	lPjhFxAyp/n9PTO0X/8dAUWgOiq0uZm2AY6NL/nYzbyBBZdVrfnPhH6JOuaihVTM
-	8YP4AWqBlnw3KWNb2wK1CASSxYokK8XFnkIejP3AjVt/itLGoqpCAqdAPiUas1Im
-	xKuDNZZRybiL9zQ3MA9chXEP6DaTzSPO4jgBUpSJ53HQihGVkVuKg/5xMVRtgC03
-	YIJszN5E+NsH2pBXcy0wKoFkKtRMRcX9nAn8MzPqsr8rQUohKLwQuegkzH/y8tvQ
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v326qp30-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Oct 2025 15:02:30 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59LCAD24032099;
-	Tue, 21 Oct 2025 15:02:29 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 49vp7mua18-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Oct 2025 15:02:29 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59LF2SMN28705344
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 21 Oct 2025 15:02:28 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B0DBA58060;
-	Tue, 21 Oct 2025 15:02:28 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EF5CB58066;
-	Tue, 21 Oct 2025 15:02:25 +0000 (GMT)
-Received: from [9.61.103.108] (unknown [9.61.103.108])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 21 Oct 2025 15:02:25 +0000 (GMT)
-Message-ID: <501169ee-37e9-4b15-89ae-8f2b57da270f@linux.ibm.com>
-Date: Tue, 21 Oct 2025 20:32:24 +0530
+	Tue, 21 Oct 2025 15:18:43 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59LBng3Q2956392
+	for <linux-nvme@lists.infradead.org>; Tue, 21 Oct 2025 08:18:41 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=YnM5WXFqfo+jUfMG9F
+	lsfDWmjAoJqU33rlAdDmBaq9E=; b=S1lB1j9gTmriErwcarEsFk2WPuMTDJFTbP
+	m4xYqctDkTVRk1fHYzSAeKB2MNixYgeQKMZNTt+OfEIHFE4TnhZMR81/pLqG65el
+	AWSvmkjLbcjECEc5wTCCZ/1qhxF++GM/rzTr2FhqhAKcSYmd0pCBB90Tyc1rA0ld
+	j75Jj6VS7Uvh+8u33gcOv1EdsoJEJPIM5ca6zD7Uun452zn4PWONQaBQVpNRHA6G
+	G9R5Un2Iei+bJjOLO22O+e1kRoVZgHzJcvQtuikb/Aspv7cL8Pyg0yu66qwsJ1I/
+	wvIqQD0g2g999yp44XzBhPtsONyp5b5lz0slPE1s9DluXVA8JLcg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 49x9mw9h3a-8
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 21 Oct 2025 08:18:40 -0700 (PDT)
+Received: from twshared28390.17.frc2.facebook.com (2620:10d:c0a8:1c::11) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Tue, 21 Oct 2025 15:18:38 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 2ABC62EF20E1; Tue, 21 Oct 2025 08:18:33 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>, Leon Romanovsky <leon@kernel.org>
+Subject: [PATCHv2] nvme-pci: use blk_map_iter for p2p metadata
+Date: Tue, 21 Oct 2025 08:18:31 -0700
+Message-ID: <20251021151831.2009152-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: What should we do about the nvme atomics mess?
-To: John Garry <john.g.garry@oracle.com>, Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Alan Adamson <alan.adamson@oracle.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org
-References: <20250707141834.GA30198@lst.de>
- <ee663f87-0dbd-4685-a462-27da217dd259@linux.ibm.com>
- <aG7fArgdSWIjXcp9@kbusch-mbp>
- <27a01d31-0432-4340-9f45-1595f66f0500@linux.ibm.com>
- <a454f040-327c-46d1-8d0a-7745eb8a7aaf@oracle.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <a454f040-327c-46d1-8d0a-7745eb8a7aaf@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=EJELElZC c=1 sm=1 tr=0 ts=68f7a086 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=I5r0CxplrSDLCy34:21 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=TakWwMvn3hYBPWLwZwUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMiBTYWx0ZWRfX9kyN3yeIF1VP
- lFJJrlwUuBVhHNK3FogKnywjZqb3LY/SqgUeMZY0/GgT5hsULn2RVI8gcCUOSvEG3xhWKbRoh3B
- K8U1Yt/qSuiZhj8rOEJTnZMJfb5qZhzg/V/1nu9BRf/XsZhoXuiTTKmK9+UL/j82Y5AfwiDLmGV
- NXEKCcPmzxoY3H5ug/5yj8vlV+//ihBAt/9xxdHBNxCpPREdZA60JkhlkL57cRFLNkhNi6yVgaN
- 1oRYgcIUdNf7YoZx1xFSVjdLQwodkslZAq7NkoIF3ytW8NN7IzPGwMS8X8gRQzeMLAG5hpJOBLN
- hlQSH0v1Qy7CCriubiqEqzFFJq6NIHZOEvyU9zkgA2IHg+Lx1IHHp4hTS3E5Vi36W/v1YGaSOT6
- iXAW1S5uqKurxre3Pgrcawa2ZK+J5g==
-X-Proofpoint-GUID: xIWKchR_gvnhykSQPwUL9AvJTejebeoA
-X-Proofpoint-ORIG-GUID: xIWKchR_gvnhykSQPwUL9AvJTejebeoA
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIxMDEyMCBTYWx0ZWRfX3SMrHnjshsSr
+ mgYyhtIPP96keS6y/JC1C/4nFrpM5VsZfQDMFNRrkU6RMfkB+qI0QGZQNUROy7E7grnl5Ihw3oO
+ aPZXiHS1u31Qj4oJ/FvbmwbcM3rN9m3Tjx5WX7Itt64yRL2/IhC6yiScFZco7q1XPfRfIpukXvy
+ 6RfEVieFMR7xj4UoFxMj4B0jjfndtmV/f/B/mpCwUKHMh3ppR43faq5Aepa6gmoiQB0Do+k/hxP
+ 2woklkKHl3R5gz2vbjpAUgtGD7mVwUMRJtHKFsIOxVOK8gHQz24v7PKhIAbtpfox8ZjA5M+LjK9
+ pWONHdIiJrnK+TnZvNpDpf6d+ssPZEx08B1OEWEA423RiMuwmpAEhdWUxjxrftGAFD0bnoEcZyg
+ LOYU4HyqWyZV/X8a8NCZI/hPS+k94A==
+X-Authority-Analysis: v=2.4 cv=f/dFxeyM c=1 sm=1 tr=0 ts=68f7a451 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8
+ a=LJV9e_wRYO6L_CbrxMQA:9
+X-Proofpoint-GUID: vuBxaEVUsnS49B71B1W9u6bkXcEANgK_
+X-Proofpoint-ORIG-GUID: vuBxaEVUsnS49B71B1W9u6bkXcEANgK_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-21_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 spamscore=0
- malwarescore=0 phishscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180022
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251021_080238_373773_B55EA862 
-X-CRM114-Status: GOOD (  19.01  )
+X-CRM114-CacheID: sfid-20251021_081842_256706_92D56C9B 
+X-CRM114-Status: GOOD (  12.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,40 +93,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+From: Keith Busch <kbusch@kernel.org>
 
+The dma_map_bvec helper doesn't work for p2p data, so use the same
+blk_map_iter method that sgl uses for this memory type.
 
-On 10/20/25 7:12 PM, John Garry wrote:
-> On 10/07/2025 06:07, Nilay Shroff wrote:
->>> Considering multi-controller subsystems, some controllers might have
->>> namespaces with only 512b formats attached, and other controllers might
->>> have some 4k mixed in, so then they can't all consistently report the
->>> desired AWUPF value. They'd have to just scale AWUPF based on the
->>> largest sector size supported. Which I guess is what the current wording
->>> is guiding toward, but that just suggests host drivers disregard the
->>> value and use NAWUPF instead. So still option III.
->> Yes, I agree — option III seems to be the best possible way forward.
->> However, does this mean we would disregard atomic write support for any
->> multi-controller NVMe vendor that consistently reports a valid AWUPF value
->> across all controllers and namespace formats, but sets NAWUPF to zero?
-> 
-> Hi Nilay,
-> 
-> Does the drive which you are using report NAWUPF as zero (as hinted)?
-> 
-> If so, have you tried the following https://lore.kernel.org/linux-nvme/20250820150220.1923826-1-john.g.garry@oracle.com/
-> 
-> We were considering changing the NVMe driver to not use AWUPF at all...
+Reported-by: Leon Romanovsky <leon@kernel.org>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/pci.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Yes, I just tested your patch with the latest upstream kernel on my drive, 
-which reports a non-zero AWUPF but a zero NAWUPF.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3c1727df1e36f..4087a665fa2dc 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1085,8 +1085,12 @@ static blk_status_t nvme_pci_setup_meta_sgls(struc=
+t request *req)
+ 	 * descriptor provides an explicit length, so we're relying on that
+ 	 * mechanism to catch any misunderstandings between the application and
+ 	 * device.
++	 *
++	 * P2P DMA also needs to use the blk_dma_iter method, so mptr setup
++	 * leverages this routine when that happens.
+ 	 */
+-	if (entries =3D=3D 1 && !(nvme_req(req)->flags & NVME_REQ_USERCMD)) {
++	if (!nvme_ctrl_meta_sgl_supported(&dev->ctrl) ||
++	    (entries =3D=3D 1 && !(nvme_req(req)->flags & NVME_REQ_USERCMD))) {
+ 		iod->cmd.common.metadata =3D cpu_to_le64(iter.addr);
+ 		iod->meta_total_len =3D iter.len;
+ 		iod->meta_dma =3D iter.addr;
+@@ -1127,6 +1131,9 @@ static blk_status_t nvme_pci_setup_meta_mptr(struct=
+ request *req)
+ 	struct nvme_queue *nvmeq =3D req->mq_hctx->driver_data;
+ 	struct bio_vec bv =3D rq_integrity_vec(req);
+=20
++	if (is_pci_p2pdma_page(bv.bv_page))
++		return nvme_pci_setup_meta_sgls(req);
++
+ 	iod->meta_dma =3D dma_map_bvec(nvmeq->dev->dev, &bv, rq_dma_dir(req), 0=
+);
+ 	if (dma_mapping_error(nvmeq->dev->dev, iod->meta_dma))
+ 		return BLK_STS_IOERR;
+--=20
+2.47.3
 
-And your opt-in change works well on my disk. So we may consider 
-merging this change if everyone agrees.
-
-Thanks,
---Nilay
-
-
-
- 
 
