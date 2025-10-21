@@ -4,89 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6252BCCD19F
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Oct 2025 03:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE258CCD184
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Oct 2025 06:05:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
+	Subject:Cc:To:From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CCNvyw8m2QX1VIGFb99RS6GnyHPuBwl16dP0YQiFQRk=; b=DHez+EeT5vaHmd2ujJq/4znLap
-	rrM7vDFTk8Vg/7PHhtw+/yobZpwSZKTu/pdUmLM8idV3dXmBRGOoiYL52hga2OH7xkQivVpr5ru3u
-	ZC7TlS1fq9yr2SKgFREtQRebtxga+UmJho31u/tMKZ+Odz159FaJetofDkyL1qdjLQ9QmDCP7v1li
-	cVsAS/NQrvV9Wcb0+7dAaTdwrbivbRVdVUC+06KU9kg4RQaASYwZyIu0GHgKvOgUoCufQnBn7Cf1k
-	iibHk8tfWovHZG/EZybXtj1QTjvb0fR5fky4OvIwvmncDp2QVXGtuE3LJ61JbmY8wQ93SjFFv4fH1
-	sx0tkuoQ==;
+	bh=9JguRQSd4xSpd8WTR1q3NkufPDsiwavfQokKuVuC5oE=; b=TQZVsDRYHyrK10nndyu/KZODmg
+	osegpC5kRBTq5m/PpoIs/3OY6PeawQVeXb/Jeo082veEDytLIyOsaiTnXci2qJkAfAVqmdrMULoAk
+	tb9Kky6VLMvnYbZGBWb4RP9i+oNQ7Dtn9s9MzBfZFKP8Ure/B9reyjsZIi7QljaOSey5DFvBYG35S
+	BAS0nP58lCHCgWRSWa/ZwxFvn94xEm9QI98fIh2MhkyRlxI0eDjWLVyqCSitfSt+g1t4MAbjXMSPm
+	hw1BQWuvKdrre9iBxkDTMyjvFyd9FwGoaMiSVlV+RQF1a4tVULMloc8Tz1F5ga2O/7y5uKozxpxyY
+	q6mpKl+A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vB2vD-0000000FhHc-07rZ;
-	Tue, 21 Oct 2025 03:20:27 +0000
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+	id 1vB5Ua-0000000FtrN-0oTi;
+	Tue, 21 Oct 2025 06:05:08 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=bsdbackstore.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vB2v7-0000000FhGd-39pg
+	id 1vB5UW-0000000Ftqe-47Kc
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Oct 2025 03:20:25 +0000
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-6399328ff1fso8533853a12.0
-        for <linux-nvme@lists.infradead.org>; Mon, 20 Oct 2025 20:20:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761016820; x=1761621620; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CCNvyw8m2QX1VIGFb99RS6GnyHPuBwl16dP0YQiFQRk=;
-        b=L7re/WaHkNspjwdmVcqw3G1QEefA3LwpX8fUPUnk5G1HzfFlV2dnhZOsPtkV5Qd+Eg
-         tyKnOQN7Bz7dDTVZVCtLMCv7QvLHX+kaQD8nJ5Mws2M7cFtyvSYGDV5kCyxbqCDedR27
-         hEE7rFfZTQ3bBEKjkQUdltaHAaXVYdaehsl9Z8jMTz1Nj7wy93x73+Efy/gcfk+GOuYv
-         8UOgeH6UT6rhnw6C6l2w34PNZajO395tWYMDPM8ZdqcsM6a2c2rc459/TD8txicMRDfz
-         4aNpvNbQtakGndNC68JF1F9FGHEEf2vnWW9ZVGoyWIc166+ie7fXamrfuwToQuvgb2a8
-         oLTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761016820; x=1761621620;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CCNvyw8m2QX1VIGFb99RS6GnyHPuBwl16dP0YQiFQRk=;
-        b=Z88A6fHb7TTtff7ImEc9TMVcOz+/sWncZJH9OQcKo4l6Vixwssira8NlBTQbo7LgMW
-         bCgGdjaKicG+P05MtYkNNNzdWJGVEoVFuZR5x41ezLF3OIUvH57h3Vgy/g16B8vg8E49
-         fv/pVpFUonQTV1OM1dJpW/ywtEsNdM/8WdnyY4qGCKyDcWyEWn7E2u1YexMuoEHVOYRS
-         EBlit7XVqTDw/6qu44nPEj9iJyg0YMbPLRmRLksHouLKTPpWh4dmCol7LgEIhRFZu+9K
-         WL3krZFJtOSt1vfZNVtaPVxaan1ynXIS+s3+tUHdhletLNgZg33tMVf5UmFor8jlcbex
-         xOrw==
-X-Forwarded-Encrypted: i=1; AJvYcCUALQAWSwkMxD8Im5eE6PqVxdBF+a55dAjLxvVBPywz/tY4dxktnVUzf3skcGQQS1J/qAnavU4Qz62Z@lists.infradead.org
-X-Gm-Message-State: AOJu0YyJIGa9T1RkbgmuwliTLAIyWtdfJ1CrKIf91Er0jWacnKBu7Tie
-	sJ049QkZ71HeHAGptIFIZcA2R7b2VPUhwr1Lnpv6Fq4hlaMHGTVFBD/GheHKkVAqXx4KTOW57w+
-	ft5Y2FgULrrNj49vyH17ad6wiwNVsTd8=
-X-Gm-Gg: ASbGncvvwjs1NZO0eIPb3gLyHtZy5UvYKoi/SZuON4MIxb+2MxHBwfgkATgUKZMmKM4
-	BJRj8qzDfVANWIRV31vjni+HCxRYrEW5GVtiT0W8mGeG0gr8Tv13xw3uj+RGXHYCXw+PIwny+Ya
-	euiv5vNPuFD3WUP51FkeDRBgIkfl45yMtxCMu7ohalnVaB9a6xVtfIGvHtNJJGysXRV/XJ50YQG
-	bZTmnY/B+2aRixlycj7dp9qnQ3C5wxOECNaY1JYD9OwL+/MGDd7l/GxUMTwruroxuURthrxhIOL
-	GSxH77CKm3K8zrZ3MKmJayGG7g==
-X-Google-Smtp-Source: AGHT+IEsnmHK88912XQyF+ULc5HjsHFjFCxHsTm5vWc53Obeo6iDSP0Fs5p3c4KR3eNywOjh1EZStCqv8ly1yB9KL/k=
-X-Received: by 2002:a05:6402:354f:b0:63c:6537:43d2 with SMTP id
- 4fb4d7f45d1cf-63c65374608mr7802783a12.38.1761016819680; Mon, 20 Oct 2025
- 20:20:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20251017042312.1271322-1-alistair.francis@wdc.com>
- <20251017042312.1271322-5-alistair.francis@wdc.com> <e7d46c17-5ffd-4816-acd2-2125ca259d20@suse.de>
-In-Reply-To: <e7d46c17-5ffd-4816-acd2-2125ca259d20@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 21 Oct 2025 13:19:53 +1000
-X-Gm-Features: AS18NWAyhNaTenQO2sZ2HNxBD0TNSlf23hB-sIzI2xuCGrNnY_zE8OZIe2AJIGI
-Message-ID: <CAKmqyKMsYUPLz9hVmM_rjXKSo52cMEtn8qVwbSs=UknxRWaQUw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] net/handshake: Support KeyUpdate message types
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
+	Tue, 21 Oct 2025 06:05:06 +0000
+Received: from localhost (<unknown> [192.168.3.39])
+	by bsdbackstore.eu (OpenSMTPD) with ESMTPSA id 75c9a110 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 21 Oct 2025 08:05:00 +0200 (CEST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 21 Oct 2025 08:05:00 +0200
+Message-Id: <DDNRV5MAVQCF.2SH49C0P5MKVF@bsdbackstore.eu>
+From: "Maurizio Lombardi" <mlombard@bsdbackstore.eu>
+To: "zhang.guanghui@cestc.cn" <zhang.guanghui@cestc.cn>, "sagi"
+ <sagi@grimberg.me>, "Maurizio Lombardi" <mlombard@redhat.com>, "kbusch"
+ <kbusch@meta.com>
+Cc: "hare" <hare@kernel.org>, "linux-nvme" <linux-nvme@lists.infradead.org>,
+ "loberman" <loberman@redhat.com>
+Subject: =?utf-8?q?Re:_[PATCH_V4_1/2]_nvme-tcp:_Prevent_infinite_loop_if_socket_cl?= =?utf-8?q?oses=0D_during_CONNECTING_state=E3=80=90=E8=AF=B7=E6=B3=A8?= =?utf-8?q?=E6=84=8F=EF=BC=8C=E9=82=AE=E4=BB=B6=E7=94=B1sagigrim@gmail.com?= =?utf-8?q?=E4=BB=A3=E5=8F=91=E3=80=91?=
+X-Mailer: aerc
+References: <20250404082801.1614252-1-mlombard@redhat.com>
+ <20250404082801.1614252-2-mlombard@redhat.com>
+ <c4695327-0a0d-4b8c-a852-ee2ce4beb924@grimberg.me>
+ <D966L87J0CQ2.2WV0U5JZEMZ9Q@bsdbackstore.eu>
+ <fc197a49-32f9-44ff-be3c-4efa1d42d0b0@grimberg.me>
+ <D98XO9X62V98.1OGPR20IUZ9EO@bsdbackstore.eu>
+ <0c60225a-6a48-484e-9526-27e699da4f1a@grimberg.me>
+ <DAIV77646KWY.3QL4ZL1IH2630@bsdbackstore.eu>
+ <d2ca6b0e-6a76-455d-be90-9e7527e33062@grimberg.me>
+ <202510211137214079503@cestc.cn>
+In-Reply-To: <202510211137214079503@cestc.cn>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251020_202021_967706_0B5252FC 
-X-CRM114-Status: GOOD (  31.52  )
+X-CRM114-CacheID: sfid-20251020_230505_383412_3E7DA5AF 
+X-CRM114-Status: GOOD (  13.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,461 +71,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Oct 20, 2025 at 4:09=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
->
-> On 10/17/25 06:23, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > When reporting the msg-type to userspace let's also support reporting
-> > KeyUpdate events. This supports reporting a client/server event and if
-> > the other side requested a KeyUpdateRequest.
-> >
-> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> > v4:
-> >   - Don't overload existing functions, instead create new ones
-> > v3:
-> >   - Fixup yamllint and kernel-doc failures
-> >
-> >   Documentation/netlink/specs/handshake.yaml | 16 ++++-
-> >   drivers/nvme/host/tcp.c                    | 15 +++-
-> >   drivers/nvme/target/tcp.c                  | 10 ++-
-> >   include/net/handshake.h                    |  8 +++
-> >   include/uapi/linux/handshake.h             | 13 ++++
-> >   net/handshake/tlshd.c                      | 83 +++++++++++++++++++++=
--
-> >   6 files changed, 137 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation=
-/netlink/specs/handshake.yaml
-> > index a273bc74d26f..c72ec8fa7d7a 100644
-> > --- a/Documentation/netlink/specs/handshake.yaml
-> > +++ b/Documentation/netlink/specs/handshake.yaml
-> > @@ -21,12 +21,18 @@ definitions:
-> >       type: enum
-> >       name: msg-type
-> >       value-start: 0
-> > -    entries: [unspec, clienthello, serverhello]
-> > +    entries: [unspec, clienthello, serverhello, clientkeyupdate,
-> > +              clientkeyupdaterequest, serverkeyupdate, serverkeyupdate=
-request]
-> >     -
->
-> Why do we need the 'keyupdate' and 'keyupdaterequest' types?
+On Tue Oct 21, 2025 at 5:37 AM CEST, zhang.guanghui@cestc.cn wrote:
+> This patch has not been merged yet,
+> So far, no other issues were found after merging this patch.
 
-msg-type indicates if it's a client or server and hello or keyupdate,
-the idea being
+Wait, do not merge it.
 
-client:
- - Hello
- - KeyUpdate
+nvme_tcp_error_recovery() should only be called when an -ENOPIPE error
+is detected. Other errors may be temporary, like -ENOPERM, and we
+shouldn't reset the connection in that case.
 
-server:
- - Hello
- - KeyUpdate
+Merging this patch as-is will make the blktests md/001 fail.
 
-I'll drop clientkeyupdaterequest and serverkeyupdaterequest
+Let me re-post a new version.
 
-> Isn't the 'keyupdate' type enough, and can we specify anything
-> else via the update type?
+Maurizio
 
-Once we know if it's a client or server KeyUpdate we need to know if
-we are receiving one, sending one or receiving one with the
-request_update flag set, hence key-update-type
+> =20
+>
+> zhang.guanghui@cestc.cn
+> =20
+> =E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9A Sagi Grimberg
+> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4=EF=BC=9A 2025-06-10 22:29
+> =E6=94=B6=E4=BB=B6=E4=BA=BA=EF=BC=9A Maurizio Lombardi; Maurizio Lombardi=
+; kbusch
+> =E6=8A=84=E9=80=81=EF=BC=9A hare; linux-nvme; zhang.guanghui; loberman
+> =E4=B8=BB=E9=A2=98=EF=BC=9A Re: [PATCH V4 1/2] nvme-tcp: Prevent infinite=
+ loop if socket closes during CONNECTING state=E3=80=90=E8=AF=B7=E6=B3=A8=
+=E6=84=8F=EF=BC=8C=E9=82=AE=E4=BB=B6=E7=94=B1sagigrim@gmail.com=E4=BB=A3=E5=
+=8F=91=E3=80=91
+> =20
+> =20
+> On 10/06/2025 15:50, Maurizio Lombardi wrote:
+>> On Fri Apr 18, 2025 at 1:14 PM CEST, Sagi Grimberg wrote:
+>>>
+>>> On 4/17/25 16:04, Maurizio Lombardi wrote:
+>>>> On Mon Apr 14, 2025 at 11:35 PM CEST, Sagi Grimberg wrote:
+>>>>> I see the issue, but we need to make sure that if the connection clos=
+es
+>>>>> before
+>>>>> the controller finished establishing, then it cleans up correctly.
+>>>>> Because at some
+>>>>> point in the past - it wasn't the case. Things have changed in that p=
+ath
+>>>>> so it might
+>>>>> be ok now... Just need to check. I'd trigger the race while the admin
+>>>>> queue is establishing, as well
+>>>>> as in the middle of the sequence of IO queues are establishing.
+>>>> I believe my earlier testing for this patch already covered this scena=
+rio,
+>>>> but I can rerun the tests to confirm and report back.
+>>> So you indeed made sure that the failure starts sporadically in the
+>>> controller establishment sequence
+>>> and there is no use-after-free issue?
+>> Sorry for the long wait; I am now back at it.
+>> I repeated the tests using a debug kernel, and nothing has been detected=
+.
+> =20
+> OK, then lets get it merged.
+> =20
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> =20
+> =20
 
->
-> >       type: enum
-> >       name: auth
-> >       value-start: 0
-> >       entries: [unspec, unauth, psk, x509]
-> > +  -
-> > +    type: enum
-> > +    name: key-update-type
-> > +    value-start: 0
-> > +    entries: [unspec, send, received, received_request_update]
->
-> See above.
->
-> >
-> >   attribute-sets:
-> >     -
-> > @@ -74,6 +80,13 @@ attribute-sets:
-> >         -
-> >           name: keyring
-> >           type: u32
-> > +      -
-> > +        name: key-update-request
-> > +        type: u32
-> > +        enum: key-update-type
-> > +      -
-> > +        name: key-serial
-> > +        type: u32
->
-> Not sure if I like key-serial. Yes, it is a key serial number,
-> but it's not the serial number of the updated key (rather the serial
-> number of the key holding the session information).
-> Maybe 'key-update-serial' ?
->
-> >     -
-> >       name: done
-> >       attributes:
-> > @@ -116,6 +129,7 @@ operations:
-> >               - certificate
-> >               - peername
-> >               - keyring
-> > +            - key-serial
-> >       -
-> >         name: done
-> >         doc: Handler reports handshake completion
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 611be56f8013..2696bf97dfac 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -20,6 +20,7 @@
-> >   #include <linux/iov_iter.h>
-> >   #include <net/busy_poll.h>
-> >   #include <trace/events/sock.h>
-> > +#include <uapi/linux/handshake.h>
-> >
-> >   #include "nvme.h"
-> >   #include "fabrics.h"
-> > @@ -206,6 +207,10 @@ static struct workqueue_struct *nvme_tcp_wq;
-> >   static const struct blk_mq_ops nvme_tcp_mq_ops;
-> >   static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
-> >   static int nvme_tcp_try_send(struct nvme_tcp_queue *queue);
-> > +static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
-> > +                           struct nvme_tcp_queue *queue,
-> > +                           key_serial_t pskid,
-> > +                           handshake_key_update_type keyupdate);
-> >
-> >   static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctr=
-l)
-> >   {
-> > @@ -1726,7 +1731,8 @@ static void nvme_tcp_tls_done(void *data, int sta=
-tus, key_serial_t pskid,
-> >
-> >   static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
-> >                             struct nvme_tcp_queue *queue,
-> > -                           key_serial_t pskid)
-> > +                           key_serial_t pskid,
-> > +                           handshake_key_update_type keyupdate)
-> >   {
-> >       int qid =3D nvme_tcp_queue_id(queue);
-> >       int ret;
-> > @@ -1748,7 +1754,10 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *=
-nctrl,
-> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
-> >       queue->tls_err =3D -EOPNOTSUPP;
-> >       init_completion(&queue->tls_complete);
-> > -     ret =3D tls_client_hello_psk(&args, GFP_KERNEL);
-> > +     if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
-> > +             ret =3D tls_client_hello_psk(&args, GFP_KERNEL);
-> > +     else
-> > +             ret =3D tls_client_keyupdate_psk(&args, GFP_KERNEL, keyup=
-date);
-> >       if (ret) {
-> >               dev_err(nctrl->device, "queue %d: failed to start TLS: %d=
-\n",
-> >                       qid, ret);
-> > @@ -1898,7 +1907,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl =
-*nctrl, int qid,
-> >
-> >       /* If PSKs are configured try to start TLS */
-> >       if (nvme_tcp_tls_configured(nctrl) && pskid) {
-> > -             ret =3D nvme_tcp_start_tls(nctrl, queue, pskid);
-> > +             ret =3D nvme_tcp_start_tls(nctrl, queue, pskid, HANDSHAKE=
-_KEY_UPDATE_TYPE_UNSPEC);
-> >               if (ret)
-> >                       goto err_init_connect;
-> >       }
-> > diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> > index 4ef4dd140ada..8aeec4a7f136 100644
-> > --- a/drivers/nvme/target/tcp.c
-> > +++ b/drivers/nvme/target/tcp.c
-> > @@ -1833,7 +1833,8 @@ static void nvmet_tcp_tls_handshake_timeout(struc=
-t work_struct *w)
-> >       kref_put(&queue->kref, nvmet_tcp_release_queue);
-> >   }
-> >
-> > -static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
-> > +static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
-> > +     handshake_key_update_type keyupdate)
-> >   {
-> >       int ret =3D -EOPNOTSUPP;
-> >       struct tls_handshake_args args;
-> > @@ -1852,7 +1853,10 @@ static int nvmet_tcp_tls_handshake(struct nvmet_=
-tcp_queue *queue)
-> >       args.ta_keyring =3D key_serial(queue->port->nport->keyring);
-> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
-> >
-> > -     ret =3D tls_server_hello_psk(&args, GFP_KERNEL);
-> > +     if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
-> > +             ret =3D tls_server_hello_psk(&args, GFP_KERNEL);
-> > +     else
-> > +             ret =3D tls_server_keyupdate_psk(&args, GFP_KERNEL, keyup=
-date);
-> >       if (ret) {
-> >               kref_put(&queue->kref, nvmet_tcp_release_queue);
-> >               pr_err("failed to start TLS, err=3D%d\n", ret);
-> > @@ -1934,7 +1938,7 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tc=
-p_port *port,
-> >               sk->sk_data_ready =3D port->data_ready;
-> >               write_unlock_bh(&sk->sk_callback_lock);
-> >               if (!nvmet_tcp_try_peek_pdu(queue)) {
-> > -                     if (!nvmet_tcp_tls_handshake(queue))
-> > +                     if (!nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY=
-_UPDATE_TYPE_UNSPEC))
-> >                               return;
-> >                       /* TLS handshake failed, terminate the connection=
- */
-> >                       goto out_destroy_sq;
-> > diff --git a/include/net/handshake.h b/include/net/handshake.h
-> > index dc2222fd6d99..084c92a20b68 100644
-> > --- a/include/net/handshake.h
-> > +++ b/include/net/handshake.h
-> > @@ -10,6 +10,10 @@
-> >   #ifndef _NET_HANDSHAKE_H
-> >   #define _NET_HANDSHAKE_H
-> >
-> > +#include <uapi/linux/handshake.h>
-> > +
-> > +#define handshake_key_update_type u32
-> > +
-> Huh?
-> You define it as 'u32' here
->
-> >   enum {
-> >       TLS_NO_KEYRING =3D 0,
-> >       TLS_NO_PEERID =3D 0,
-> > @@ -38,8 +42,12 @@ struct tls_handshake_args {
-> >   int tls_client_hello_anon(const struct tls_handshake_args *args, gfp_=
-t flags);
-> >   int tls_client_hello_x509(const struct tls_handshake_args *args, gfp_=
-t flags);
-> >   int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t=
- flags);
-> > +int tls_client_keyupdate_psk(const struct tls_handshake_args *args, gf=
-p_t flags,
-> > +                          handshake_key_update_type keyupdate);
-> >   int tls_server_hello_x509(const struct tls_handshake_args *args, gfp_=
-t flags);
-> >   int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t=
- flags);
-> > +int tls_server_keyupdate_psk(const struct tls_handshake_args *args, gf=
-p_t flags,
-> > +                          handshake_key_update_type keyupdate);
-> >
-> >   bool tls_handshake_cancel(struct sock *sk);
-> >   void tls_handshake_close(struct socket *sock);
-> > diff --git a/include/uapi/linux/handshake.h b/include/uapi/linux/handsh=
-ake.h
-> > index b68ffbaa5f31..b691530073c6 100644
-> > --- a/include/uapi/linux/handshake.h
-> > +++ b/include/uapi/linux/handshake.h
-> > @@ -19,6 +19,10 @@ enum handshake_msg_type {
-> >       HANDSHAKE_MSG_TYPE_UNSPEC,
-> >       HANDSHAKE_MSG_TYPE_CLIENTHELLO,
-> >       HANDSHAKE_MSG_TYPE_SERVERHELLO,
-> > +     HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATE,
-> > +     HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATEREQUEST,
-> > +     HANDSHAKE_MSG_TYPE_SERVERKEYUPDATE,
-> > +     HANDSHAKE_MSG_TYPE_SERVERKEYUPDATEREQUEST,
-> >   };
-> >
-> >   enum handshake_auth {
-> > @@ -28,6 +32,13 @@ enum handshake_auth {
-> >       HANDSHAKE_AUTH_X509,
-> >   };
-> >
-> > +enum handshake_key_update_type {
-> > +     HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC,
-> > +     HANDSHAKE_KEY_UPDATE_TYPE_SEND,
-> > +     HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED,
-> > +     HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED_REQUEST_UPDATE,
-> > +};
-> > +
->
-> and here it's an enum. Please kill the first declaration.
->
-> >   enum {
-> >       HANDSHAKE_A_X509_CERT =3D 1,
-> >       HANDSHAKE_A_X509_PRIVKEY,
-> > @@ -46,6 +57,8 @@ enum {
-> >       HANDSHAKE_A_ACCEPT_CERTIFICATE,
-> >       HANDSHAKE_A_ACCEPT_PEERNAME,
-> >       HANDSHAKE_A_ACCEPT_KEYRING,
-> > +     HANDSHAKE_A_ACCEPT_KEY_UPDATE_REQUEST,
-> > +     HANDSHAKE_A_ACCEPT_KEY_SERIAL,
-> >
-> >       __HANDSHAKE_A_ACCEPT_MAX,
-> >       HANDSHAKE_A_ACCEPT_MAX =3D (__HANDSHAKE_A_ACCEPT_MAX - 1)
-> > diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-> > index 2549c5dbccd8..c40839977ab9 100644
-> > --- a/net/handshake/tlshd.c
-> > +++ b/net/handshake/tlshd.c
-> > @@ -41,6 +41,7 @@ struct tls_handshake_req {
-> >       unsigned int            th_num_peerids;
-> >       key_serial_t            th_peerid[5];
-> >
-> > +     int                     th_key_update_request;
-> >       key_serial_t            user_session_id;
-> >   };
-> >
-> Why 'int' ? Can it be negative?
-> If not please make it an 'unsigned int'
->
-> > @@ -58,7 +59,8 @@ tls_handshake_req_init(struct handshake_req *req,
-> >       treq->th_num_peerids =3D 0;
-> >       treq->th_certificate =3D TLS_NO_CERT;
-> >       treq->th_privkey =3D TLS_NO_PRIVKEY;
-> > -     treq->user_session_id =3D TLS_NO_PRIVKEY;
-> > +     treq->user_session_id =3D args->user_session_id;
-> > +
-> >       return treq;
-> >   }
-> >
-> > @@ -265,6 +267,16 @@ static int tls_handshake_accept(struct handshake_r=
-eq *req,
-> >               break;
-> >       }
-> >
-> > +     ret =3D nla_put_u32(msg, HANDSHAKE_A_ACCEPT_KEY_SERIAL,
-> > +                       treq->user_session_id);
-> > +     if (ret < 0)
-> > +             goto out_cancel;
-> > +
-> > +     ret =3D nla_put_u32(msg, HANDSHAKE_A_ACCEPT_KEY_UPDATE_REQUEST,
-> > +                       treq->th_key_update_request);
-> > +     if (ret < 0)
-> > +             goto out_cancel;
-> > +
-> >       genlmsg_end(msg, hdr);
-> >       return genlmsg_reply(msg, info);
-> >
-> > @@ -372,6 +384,44 @@ int tls_client_hello_psk(const struct tls_handshak=
-e_args *args, gfp_t flags)
-> >   }
-> >   EXPORT_SYMBOL(tls_client_hello_psk);
-> >
-> > +/**
-> > + * tls_client_keyupdate_psk - request a PSK-based TLS handshake on a s=
-ocket
-> > + * @args: socket and handshake parameters for this request
-> > + * @flags: memory allocation control flags
-> > + * @keyupdate: specifies the type of KeyUpdate operation
-> > + *
-> > + * Return values:
-> > + *   %0: Handshake request enqueue; ->done will be called when complet=
-e
-> > + *   %-EINVAL: Wrong number of local peer IDs
-> > + *   %-ESRCH: No user agent is available
-> > + *   %-ENOMEM: Memory allocation failed
-> > + */
-> > +int tls_client_keyupdate_psk(const struct tls_handshake_args *args, gf=
-p_t flags,
-> > +                          handshake_key_update_type keyupdate)
-> > +{
-> > +     struct tls_handshake_req *treq;
-> > +     struct handshake_req *req;
-> > +     unsigned int i;
-> > +
-> > +     if (!args->ta_num_peerids ||
-> > +         args->ta_num_peerids > ARRAY_SIZE(treq->th_peerid))
-> > +             return -EINVAL;
-> > +
-> > +     req =3D handshake_req_alloc(&tls_handshake_proto, flags);
-> > +     if (!req)
-> > +             return -ENOMEM;
-> > +     treq =3D tls_handshake_req_init(req, args);
-> > +     treq->th_type =3D HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATE;
-> > +     treq->th_key_update_request =3D keyupdate;
-> > +     treq->th_auth_mode =3D HANDSHAKE_AUTH_PSK;
-> > +     treq->th_num_peerids =3D args->ta_num_peerids;
-> > +     for (i =3D 0; i < args->ta_num_peerids; i++)
-> > +             treq->th_peerid[i] =3D args->ta_my_peerids[i];
-> Hmm?
-> Do we use the 'peerids'?
-
-We don't, this is just copied from the
-tls_client_hello_psk()/tls_server_hello_psk() to provide the same
-information to keep things more consistent.
-
-I can remove setting these
-
-> I thought that the information was encoded in the session, ie
-> the 'user_session_id' ?
->
-> > +
-> > +     return handshake_req_submit(args->ta_sock, req, flags);
-> > +}
-> > +EXPORT_SYMBOL(tls_client_keyupdate_psk);
-> > +
-> >   /**
-> >    * tls_server_hello_x509 - request a server TLS handshake on a socket
-> >    * @args: socket and handshake parameters for this request
-> > @@ -428,6 +478,37 @@ int tls_server_hello_psk(const struct tls_handshak=
-e_args *args, gfp_t flags)
-> >   }
-> >   EXPORT_SYMBOL(tls_server_hello_psk);
-> >
-> > +/**
-> > + * tls_server_keyupdate_psk - request a server TLS KeyUpdate on a sock=
-et
-> > + * @args: socket and handshake parameters for this request
-> > + * @flags: memory allocation control flags
-> > + * @keyupdate: specifies the type of KeyUpdate operation
-> > + *
-> > + * Return values:
-> > + *   %0: Handshake request enqueue; ->done will be called when complet=
-e
-> > + *   %-ESRCH: No user agent is available
-> > + *   %-ENOMEM: Memory allocation failed
-> > + */
-> > +int tls_server_keyupdate_psk(const struct tls_handshake_args *args, gf=
-p_t flags,
-> > +                          handshake_key_update_type keyupdate)
-> > +{
-> > +     struct tls_handshake_req *treq;
-> > +     struct handshake_req *req;
-> > +
-> > +     req =3D handshake_req_alloc(&tls_handshake_proto, flags);
-> > +     if (!req)
-> > +             return -ENOMEM;
-> > +     treq =3D tls_handshake_req_init(req, args);
-> > +     treq->th_type =3D HANDSHAKE_MSG_TYPE_SERVERKEYUPDATE;
-> > +     treq->th_key_update_request =3D keyupdate;
-> > +     treq->th_auth_mode =3D HANDSHAKE_AUTH_PSK;
-> > +     treq->th_num_peerids =3D 1;
-> > +     treq->th_peerid[0] =3D args->ta_my_peerids[0];
->
-> Same here. Why do we need to set 'peerid'?
->
-> > +
-> > +     return handshake_req_submit(args->ta_sock, req, flags);
-> > +}
-> > +EXPORT_SYMBOL(tls_server_keyupdate_psk);
-> > +
-> >   /**
-> >    * tls_handshake_cancel - cancel a pending handshake
-> >    * @sk: socket on which there is an ongoing handshake
-> Nit: we _could_ overload 'peerid' with the user_session_id,then we
-> wouldn't need to specify a new field in the handshake
-> request.
-> But that's arguably quite hackish.
-
-Oh no! Let's not do that. That just seems prone to confusion
-
-Alistair
-
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
