@@ -4,114 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31F85CCD195
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Oct 2025 11:10:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8431CCD1AB
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Oct 2025 11:16:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t2boCFR7C/oAdKw6eO4grEERwlNfhetkURuijkwtMfI=; b=Hn8A1wrI1JaPm/KFdIdaBoT8oL
-	qhUeJQ5ZHlUy6hQahkEZHD1Rqmp8e5CRziZLOCK+SONK6qkzVoY2QLM/ITSTt7Z2NEzZnXS0MdlJh
-	ICgRJQhQw314NUw8aXNfs07I33viBQFP6YQEm81+zmEQnoUWTd2asmmuIB58GdsHKT6JArlxWooSs
-	Ik05J6xXu9BFzSjqbtcazSh8k7EJCe4uiw/LLFQ/wr/F3+WWhSmBtK6auOGPB9JRL21/cA4gLuxML
-	vkAVjBzW818PGjBcXDG41I5SC7fhzYdHghp6n7LBqbbjtsC0wTeuzXGW1QeVTWn/VoTKK94W/Q70s
-	oiwwel8g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HUpfROanALk009O5ukzxUjqqmJACMBILWAOKJHciC34=; b=wagLJz9Tjd53mqFSNBZAfalVbd
+	R+r+b2qQ1/3ZkL4Ht6yKaduO2ZECym5nY+SYzXMg+7ekCjTBaE0GI1CHGRGFlyzGM98GUGsy2jbll
+	OAwAB9yCG6lNbHNVEHPSTpINnQeRZ+PlpNyoHy2dEdJuYvEApxIaFsDfyEn1fKAd/Wh01RW7quVev
+	CUCWGgxl3iJKJOVhkwvx1TO7CG/zZw7fF5Pi4vFlFliw/r5t6mubHcIfXAq9rlhoGT47QfiI0FpSX
+	vNUWJddXL+VRRa4bALnc+tleeieTV3PhSBWUDkx2Alz8NchCgVABGvBJxa7Z9Ny/oyi7FYfMB8Xvh
+	LdjfCRmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBWjW-00000002agI-0ueT;
-	Wed, 22 Oct 2025 11:10:22 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vBWpn-00000002cF3-2whH;
+	Wed, 22 Oct 2025 11:16:51 +0000
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBWjS-00000002afa-3cuG
+	id 1vBWpl-00000002cDy-0rVB
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Oct 2025 11:10:20 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M6sNrA021232;
-	Wed, 22 Oct 2025 11:10:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=t2boCF
-	R7C/oAdKw6eO4grEERwlNfhetkURuijkwtMfI=; b=Km4qErSbjtJ+NBQIUR3oER
-	U0xAsMwcGJRJdSWK7L5WQs37oGWCxY8QSkMYH8NCDG/a8xJXd/OOa+RdcJyYv6LW
-	pM0maU0Rmvip+8a4FpZsANLt2sXpciQK/GtlzqiMoB8x8OJSnHOWG6DnGW+ffTJr
-	L5GcqhOs4bz/yYEqXrEq0u+J6n+kwJ1krCCG7PDFwhPZIg3AeTY9SbFXvrNKMLMQ
-	fG7WIIbQpOvmCndDtKvi08EqHxu9JSZ3eLsdcuuXtX+oKL1run90QoUCiQ+mRU2J
-	oMhvdv6u81CKQSkxRskbdstilqVzBrqzAnYaeLqok4WMiec/0nzs85MVBjOWMTuQ
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 49v31caxq6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Oct 2025 11:10:08 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59M82HX0011053;
-	Wed, 22 Oct 2025 11:10:07 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 49vqx17m31-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Oct 2025 11:10:07 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59MBA1LH40305018
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 Oct 2025 11:10:01 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 22F97200A7;
-	Wed, 22 Oct 2025 10:53:53 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A04FF200A6;
-	Wed, 22 Oct 2025 10:53:52 +0000 (GMT)
-Received: from [9.87.134.81] (unknown [9.87.134.81])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 22 Oct 2025 10:53:52 +0000 (GMT)
-Message-ID: <db8fce479c6a682d7ca1c37f7427ad30673fc34e.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 1/2] nvme-pci: Print error message on failure in
- nvme_probe
-From: Gerd Bayer <gbayer@linux.ibm.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>,
-        Greg Kroah-Hartman	
- <gregkh@linuxfoundation.org>,
-        Chaitanya Kulkarni <kch@nvidia.com>,
-        Wilfred
- Mallawa <wilfred.mallawa@wdc.com>,
-        linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Wed, 22 Oct 2025 12:53:52 +0200
-In-Reply-To: <20251022-nvme_probefail-v2-1-26bbdf94280e@linux.ibm.com>
-References: <20251022-nvme_probefail-v2-0-26bbdf94280e@linux.ibm.com>
-	 <20251022-nvme_probefail-v2-1-26bbdf94280e@linux.ibm.com>
+	Wed, 22 Oct 2025 11:16:50 +0000
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-63c4c346bd9so8608823a12.0
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Oct 2025 04:16:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761131807; x=1761736607; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HUpfROanALk009O5ukzxUjqqmJACMBILWAOKJHciC34=;
+        b=aC+a+pDZtK7i8XPMFOKwHtIzhb1z9l4X2BxBQhsAbe67KIBr9tt9E05O0KHWoyI6kL
+         MpIDi8wESeT8vTs/oaAYDjwP7w0jujDBiVAl/7fbZU/XnsJONNab4xBC0IuoyoGUgQ+H
+         s0Y5bIi7rUYgOVWqO8yg629U3cL27NLrGiqVgqJ2D/EK8l9aAQIaCWollloiOu454C7W
+         gWwy+d/nn3MzB/33375egXP/R+69hxkDAA8pLI1Vou1Wzzezn5etkxa2uVajGswToQtd
+         4hKkuwmcvXDstE0psu9m4JhF0uiSLb9did+/wDcJhES1MGyD7hirkGK4zq8bujdxp5UH
+         q/MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761131807; x=1761736607;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HUpfROanALk009O5ukzxUjqqmJACMBILWAOKJHciC34=;
+        b=WPMMMpuRPEfZNwF7xmCm7n+7aqLuUjGwp4fWlpNPQ9lQup9dQSYaDAOJA2clJbLKV5
+         maZmeLCXUBBobDnEEuAZKxjgLYcz81cF7WkrEewR6rQlTM2aeszCLdF88XAVo5+FndBZ
+         L4HEAdqKmE92cl2dMY6aix6QGAfctN3gNYuJ+Cdszcf5DFPuvgSnBeHqXo0A6vRg/F/q
+         4lVr5LoSIJKdjVxJcpCSqADeAF8qsUDgBoNzU2/EDwBCzLlDQ9nh6aewT+LNO9UCNMGG
+         fMHavZJYvcohPZBO7KwwxMldB3wA+OHW8+Ly92xiPc3p9sFjk3ehTvwXrsiTO8gQnYXr
+         1y7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVTXsL9n/2ooUlREWXh7WiPMe5EmdHQEAP49oMQZnNzTWXWkFiWyJkUhmx6PXhvsMajVIZ5DYaEJ6ro@lists.infradead.org
+X-Gm-Message-State: AOJu0YxKgyliHLkKctMkaQh24XrsfTyqY290jNZk97EbkcgLnU21Nldn
+	I3aroCddu7pYD178dQQ0dmU0GUX+18e0U7jcCaBOK81btlll4vVocx3AAROF3nF5J04z1S8gPHH
+	MhG4O6RM+Q+t5Arxb58ge+OQxEx6UKdk=
+X-Gm-Gg: ASbGncvxYklFR2e59zHd7tIwhRTC7jLFoC+r5WXNvNUIgUBnk8Bo//9KZGCF204HJpl
+	EkjJsRygIbHm+WQ0Vc4z6T/S5co3B538wQ+snY0LE5i2KldAkhdGNBXARIgGAwu7rzu7v2BAmGu
+	cWdUH+U9XUrHdFkdwhNGJt+qaoJrL0ETapp6yRLDL76rglMImIyqxhlZ3ThGeQ7G2rXAWXti0PI
+	ycWCQxKAIKRykHQ7CK8xwdgORK3/9qrt1GIWCQai6wi3ngZtN+qSvqiXlxGueI2fH3pvwNcXzE2
+	FLnQzFQ+nFxkWDHCOBnfMXO9tg==
+X-Google-Smtp-Source: AGHT+IFeLMsqZpbHAvlJBzKIdahXOOBShjYQZyOY7ATbt5n7WHdXXR/ON08TB4hturxLMLEB0GOq3i/bLAd52DC8p3U=
+X-Received: by 2002:a05:6402:13ca:b0:62f:8274:d6bd with SMTP id
+ 4fb4d7f45d1cf-63c1f626dd4mr21176233a12.8.1761131807215; Wed, 22 Oct 2025
+ 04:16:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20251017042312.1271322-1-alistair.francis@wdc.com>
+ <20251017042312.1271322-6-alistair.francis@wdc.com> <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
+ <CAKmqyKNBN7QmpC8Lb=0xKJ7u9Vru2mfTktwKgtyQURGmq4gUtg@mail.gmail.com> <4b2e5998-a646-4f99-8c87-95975ff8fe66@suse.de>
+In-Reply-To: <4b2e5998-a646-4f99-8c87-95975ff8fe66@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 22 Oct 2025 21:16:19 +1000
+X-Gm-Features: AS18NWBDgW-hay2VUeCdIjfUCzoI0NhxABO1jEUfCaPHUmJ8eBnU71SyICyiPWc
+Message-ID: <CAKmqyKM-uX6_a+Ru01RD3-CwoucTN7P_sU+d=MEKSo2pxG_tDA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: JbMCHma0NNtYrJkd24Qgl8MdsDQ5-Eem
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMiBTYWx0ZWRfX0pREBYWkk+8e
- TVUkY7E0MItQSpHJh7sp+T854CAF7tM89U3FOpLSXM47nGSooRE5aNZ70uf6JJUmVf6byR82wZO
- FN4qNTpkFGmS4Tz4cXnpHu6F5wfG7RQDTjbcA0hFumh1tb/GnOcCFXxGGGVo4q61PfE3NW+zlIf
- wB8LQ1Z9pByUQzs4NbJJcUxxWyAJe3OuTNiavPegUzy1AC0quYIfIF+O6KRbRfSQmFCyefxZO0D
- s56CJXMrTd2d8FZ0Zx6vg27+JKjhpBUv74hTwAWkGeQzrl23LdpBBVmhY/1j59W4WTutuKrtXR0
- V18SBmT/R1gKS2W4t3h8k+7aaXXWPBdaZAX0LJ4qfUqXsv55kz9mc56nJLDHOqV4zMbqCc4p6g8
- DwwJCl7yDsZssp9zeeCu/3zlR7oZew==
-X-Proofpoint-GUID: JbMCHma0NNtYrJkd24Qgl8MdsDQ5-Eem
-X-Authority-Analysis: v=2.4 cv=SKNPlevH c=1 sm=1 tr=0 ts=68f8bb90 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VnNF1IyMAAAA:8 a=WF68Xd0AlUmpovsNYtMA:9 a=QEXdDO2ut3YA:10
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_04,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 suspectscore=0 clxscore=1015 priorityscore=1501
- spamscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180022
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251022_041019_388738_4F243D6B 
-X-CRM114-Status: GOOD (  19.43  )
+X-CRM114-CacheID: sfid-20251022_041649_272909_57759FD2 
+X-CRM114-Status: GOOD (  18.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,33 +102,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2025-10-22 at 12:33 +0200, Gerd Bayer wrote:
-> Add a new error message that makes failures to probe visible in the
-> kernel log, like:
-> nvme 0008:00:00.0: error -ENODEV: probe failed
->=20
-> This highlights issues with a particular device right away instead of
-> leaving users to search for missing drives.
->=20
-> Signed-off-by: Gerd Bayer <gbayer@linux.ibm.com>
-> ---
->  drivers/nvme/host/pci.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c916176bd9f058b49e6e6768675711df52b15765..8c624960c9f67e0cc8409023d=
-e5e532d6ed9b3ac 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3522,6 +3522,7 @@ static int nvme_probe(struct pci_dev *pdev, const s=
-truct pci_device_id *id)
->  	nvme_uninit_ctrl(&dev->ctrl);
->  out_put_ctrl:
->  	nvme_put_ctrl(&dev->ctrl);
-> +	dev_err_probe(&pdev->dev, result, "probe failed\n");
->  	return result;
->  }
+On Wed, Oct 22, 2025 at 4:56=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 10/22/25 06:35, Alistair Francis wrote:
+> > On Mon, Oct 20, 2025 at 4:22=E2=80=AFPM Hannes Reinecke <hare@suse.de> =
+wrote:
+> >>
+> >> On 10/17/25 06:23, alistair23@gmail.com wrote:
+> >>> From: Alistair Francis <alistair.francis@wdc.com>
+> >>>
+> [ .. ]>>> @@ -1723,6 +1763,7 @@ static void nvme_tcp_tls_done(void
+> *data, int status, key_serial_t pskid,
+> >>>                        ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
+> >>>                key_put(tls_key);
+> >>>                queue->tls_err =3D 0;
+> >>> +             queue->user_session_id =3D user_session_id;
+> >>
+> >> Hmm. I wonder, do we need to store the generation number somewhere?
+> >> Currently the sysfs interface is completely oblivious that a key updat=
+e
+> >> has happened. I really would like to have _some_ indicator there telli=
+ng
+> >> us that a key update had happened, and the generation number would be
+> >> ideal here.
+> >
+> > I don't follow.
+> >
+> > The TLS layer will report the number of KeyUpdates that have been
+> > received. Userspace also knows that a KeyUpdate happened as we call to
+> > userspace to handle updating the keys.
+> >
+> Oh, the tlshd will know that (somehow). But everyone else will not; the
+> 'tls_pskid' contents will stay the the same.
+> Can we have a sysfs attribute reporting the sequence number of the most
+> recent KeyUpdate?
 
-This one failed to reach Chaitanya due to a typo in the email address
-on my side. Sorry!
+Why do we want to reveal that to userspace though?
+
+Realistically it should just be ~2^64 and it'll should remain the same
+number, even after multiple updates
+
+Alistair
+
+> Cheers,
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
