@@ -4,170 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22913CCD1AB
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Oct 2025 03:18:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C355DCCD1AB
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Oct 2025 04:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EiNcF/m7QpmV0x7VaXrELwWw0nrc0yRk9B6xO3wBEyA=; b=bM+7rbnbx5RYM62hM2QPgK6n4x
-	B7oyXmqZtoxNTZKNwsa+LoVXMp040P9JxSDztt47FLtTHZK0UWnnV+SWFWjLkKFDdfWgWw+yPq56r
-	v27xxaoy4eGvhNyrpmJzzQ8i61lUlarMVeHDOUnUhZlxl5Z6LC7VxLciS63EU6o6Mo9//qo+jixNf
-	9smNfaOGWUGHIIFoC7X4VdvYxXCU7CyyKC4LbW4FZ11njJLxVxka+wSxO1FzRBzMxxB+TveQz458z
-	QKnKFxEddZtRXWyaLsZNcOjtAp13Kwymjyfn/ZHr5Fj5c1wMQbgKakv5Zx35tRY+dQFDiQEcKaFnG
-	AYIuonzA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lj64m4sFpQ+vBQ3pmykp/cp6K9VYRj1HaNi/Sdpj2VM=; b=H+l1njLE0c26+9oG5soLHSSzO6
+	eR3EXCiIy8Y1DD6Bn9iuL2sh7wk+rP6NHOVnGaHIdRZlMRpLf6+fLrPognleJvzcFdLev8rvmTf8B
+	+7fONhklak9s5idhAabt5x6tD/18QPgRwVfrgO+BOUUKcfCx8PIsTQzuqpic+SG1Q+EX4aiRFJT+h
+	Bain/I7iFXBrLeX507O0ug8KApOR23GMVZxeigUm1IbTkETYk6Jo0ziJc9U58dNZAjird6C0k6wol
+	FvumcbJxVIsJgsN5V7j553e2VvzW41gwxw+YhsN3g9lx/OXF0xSDUGtb0D5nLjzvU5sGo2dbyD63z
+	U19gxCdg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBPNB-00000001JIw-3b8I;
-	Wed, 22 Oct 2025 03:18:49 +0000
-Received: from mail-centralusazon11011019.outbound.protection.outlook.com ([52.101.62.19] helo=DM5PR21CU001.outbound.protection.outlook.com)
+	id 1vBQZW-00000001RiE-3k5N;
+	Wed, 22 Oct 2025 04:35:38 +0000
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBPN8-00000001JIL-2VYn
+	id 1vBQZU-00000001RhD-2cSx
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Oct 2025 03:18:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BKmMX7prjBHz3qVsdXiYW0ositHoHKPp0hcz8x7uRU3IubZMtMz1Qmqvoz2+y69579Qn773V9w+s7cxCRHNTfxSMYYEW4H5mkDd7+qY/755tMEB/lepqJNCxY56pepCj0R8WSFGSQE7fX6dqBo8b+K0XKwtTOw95EN7xgiE4obzUAybUZffLVn743WtqSK9ebG+Yr8uF2ccGhcYyDg8VXIITBCxDHjl7l1inC8e8Qq2Pf8KZSfw3MhbaANKNw/U2OUR7uprQzo8sMwmb96DRQDF+2Gwx7rr2JRy45rfdwbEFu1WkGPOWPA51zAH8xZkSaCebSHGmWjswqHHbMnz2lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EiNcF/m7QpmV0x7VaXrELwWw0nrc0yRk9B6xO3wBEyA=;
- b=ql8EqIzvzoF1igQeqnNz0N1Sel1v/JihB77lHwDTwk+OhKJK8dWBpBYTGQjNU/ZQ5JwhnUz9eKMF8rKHQlH/eRN7V2oEBBjBc5CAdPwiDqnhzCGuk8yWfi3sxgohj0GzrylnC3vTjAXkEnpWkCgHjgYh7vMQrSOz63IsJiN5i8Vl0gDCu8F8o8dqGwZJjQMuKQrY/EoFaurThBWTqOppU2zG1ndSHWyghbglmesiSA1ge5ronVW5/BS0PYDjAQ+MzE2sUx8axlALsFgQUowRUIXaO4WsHUF5OqqRUyt67iP2TuM+GoPg5u3Y0sFF+VhC2FTxNpwm1UhNFPA8tETf/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EiNcF/m7QpmV0x7VaXrELwWw0nrc0yRk9B6xO3wBEyA=;
- b=HxJya99RxHL4ZnZpCA9jA/qlmJV8sWq11rRqd7QtGwSIZTAo712lwE4VaLtfx3O9eQrPa3onqa0gNKYatJD2AoXjld33BLaQtFAJYGPFsl3n/l4mH3LecrQ1jjhhplu+Ktayb8dZdW/M6q39fOMSQTAIYpGqvn9qtD7I6w3xq1HOwHW1CLYnEAWV5ThvLYj9rH0G2HLrET0ccuP9XxWk3ivqe+DTgf7Y8rc67DTKWWid5VBJ8or8F/qZHcFg1e+Dau00dakf2RG2bHWu/HTAfNAR86woM4b59nTEIhOXA70ZVjQ26t0QoQdYMsWUYZF8QV4JWKbxb+UTI95UcxYlDg==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by PH0PR12MB8126.namprd12.prod.outlook.com (2603:10b6:510:299::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.17; Wed, 22 Oct
- 2025 03:18:33 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.9228.015; Wed, 22 Oct 2025
- 03:18:33 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Keith Busch <kbusch@meta.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "hch@lst.de" <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>, Leon Romanovsky <leon@kernel.org>
-Subject: Re: [PATCHv2] nvme-pci: use blk_map_iter for p2p metadata
-Thread-Topic: [PATCHv2] nvme-pci: use blk_map_iter for p2p metadata
-Thread-Index: AQHcQp4TAGDv46nkY0eAEj90NS9karTNf9uA
-Date: Wed, 22 Oct 2025 03:18:33 +0000
-Message-ID: <93b7376f-b91a-4054-b8fa-96209cf7473d@nvidia.com>
-References: <20251021151831.2009152-1-kbusch@meta.com>
-In-Reply-To: <20251021151831.2009152-1-kbusch@meta.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|PH0PR12MB8126:EE_
-x-ms-office365-filtering-correlation-id: 1ecc7e7c-0839-4aac-6854-08de1119aea3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|10070799003|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info: =?utf-8?B?WFlpMWJHcEF3VXIwRStvRHE1WG1rNXl3NHlNazJ4YUp4ZldpYXRRTk13RjNO?=
- =?utf-8?B?bkpLYTVkRmxHUlhnbXFzUU1Ya0tzYjVVOFVCRzBib1hQNHJHUmlGOHIvMTh0?=
- =?utf-8?B?R3d3UVZMRkxjaEFrQ2RMbE1QSFdsbnRMMW5GbnpVcnVENGVMWW1qaFVQZ3Aw?=
- =?utf-8?B?bmlWZVhCcHVsUXg0Q3VSZG03RHFHTk51WkNKaEl6S3g4alFxRUlRMEhsajdF?=
- =?utf-8?B?NFhXSFlrYUFDMDg3NzZqSGNHQlF3M0tNckFGSlZmNXpVQTVqb0FKVDN2VXBF?=
- =?utf-8?B?aDBYdlJJci9KV3dpSC9adnNtempOcmpxakwwcUc2M0kxM25ZUFRZdHNaSExy?=
- =?utf-8?B?N2F0ZGRoN2tmWEtZMVUwTWR6WmVNVEhnWGl2Zk5NSVlWSDd6R3llT1B0QnA3?=
- =?utf-8?B?SXozaTdlOUpCbzFGeDBTUSs4R1drc3MxZ3orUkVtVmdBVXhXYzlOQkJUWXU2?=
- =?utf-8?B?Ni9MT2N5SWtseUw1SnpxbDY0eEEvQ0w4QTZDc20ycXdINXozSEZYaDI0SXVu?=
- =?utf-8?B?ZUszQktWSVBhZFdIS3JBZHZPOFlQNS9KNm5Jamh6RkVuV0YyQ3FZTVpOd1d6?=
- =?utf-8?B?Um94STV3VnEyK3JwYzJXeElUMWhCN1pNaXB5MzRRRC9vQmFGTThoekU5WVdB?=
- =?utf-8?B?QzJuK21ub29hRnVtcXRMZlBUMG1jNjhiMGVCMTNneVRHOGQ5UFRiKzh2Z0xw?=
- =?utf-8?B?Y2k2OFNJNUNmNGVkZ09FUThiUnhSNUNjclpmVCtDY2Q0d1hmZjN1YW55OUpy?=
- =?utf-8?B?NlQySXdGZVpsZDZLeWxsMVNIdFZYQWp0VWNIV0NXL003U3Q5cHQ5UXEwellv?=
- =?utf-8?B?bSswNlZ0YWhGTHJQeTM0T01naFd3YkJYNGZjWG9STUJMODBIOTZrcVBWNC9l?=
- =?utf-8?B?VnJ2dnpONlJYY1RqUFM4Y3p0U3A1L2RaeVpkZ1BxR0VtdmdRNld5TE1ZcHh0?=
- =?utf-8?B?SWorZGo1MlJKdWdHMVMwaDRNYjEyU1lubUZKVVc5eXlSSTNXTU1kWnZ4UGxu?=
- =?utf-8?B?a3grbzhGSzV3K2VDRDcvVWlwMGh5bDRMVU9wR0tkSlhBa28rYWJtT0ZaMVUv?=
- =?utf-8?B?Sm1xR1ZaRWFWeXhBSnh2VTRjNHNwcmtUbWxiazU5cUJjMXdiK0hmWjNJTUVY?=
- =?utf-8?B?MTg3YkZ5bFNTUjFsZm5PMmp0bTBWR1VaYUllbDNvQWw4ZUFJdVZUV2IxQ2x2?=
- =?utf-8?B?ZjdvMzV3UTF0Yi8vS29zYUQ5M1IrMCtyV3JpUmxQTHdJY0dOYm9Kai81RU9r?=
- =?utf-8?B?Q2pDcWx2aTdvekVlcEhsclZBSDkzbjhOVmQzVmUydjhIVXNSdU5PRXJ1Q2tK?=
- =?utf-8?B?WmZOWkZWR21PSEh5VlVmL080RzNPNDVDbzc5bndhR0FIMlZhSWVGb3FRd1Bi?=
- =?utf-8?B?dnQvTXN5Zys1Q2g2U3Y0N3QxeEJxUVFxVlluNU5qK1llQU1zQWsvNExKaGtI?=
- =?utf-8?B?dEM5dzNUMnMrVmJYS05ERCtEQ0pjSFhRTDZWS0YvMWZreEhnRFlZYXhhdG95?=
- =?utf-8?B?NEMvZmNmWjU3bEw3eVJlZXJsZVhibVlKRDFTeGx6VHFlSXhXcVlaWittb1ds?=
- =?utf-8?B?L2RXNFNLYk1yem1sLzNoYW0zdjNDUUV6U3hUZytFUmd5MXE5YWtNL3NLZTdz?=
- =?utf-8?B?NmVKaCtSUXZLWm1ndlJYSGlucitzcUVqTFMrUFQ4NmtjY1FkZm1yeWFhMHhR?=
- =?utf-8?B?S0oxR2JGc0xKOVIrcEVvcVFmcXpXaE1LNXhMcjRpQXBPVXNFZEVKdXRWcito?=
- =?utf-8?B?N3kzZUU4eStpSHNDU1grQVpEVGhTSzJWYk1UczdBb3pSbU9mUEd2MlFacGpB?=
- =?utf-8?B?Nk5CYkFtNlZveXlveXhONE1CdlNhc2xUSkRpMmdJS1V3Q1FtOFRiOU9tNFFo?=
- =?utf-8?B?Yyt4WVM1L2pxamZWUE9LWVVWTTM1VG5rd2xCdDVSV2JxS3NzNjVXRWgrQjIy?=
- =?utf-8?B?ZnFIeXlxTXkzMm1KM1N5Mkg0S3NpSUZEMGdWK0Y3Qmh6Y0drZnIyMnlQUEF3?=
- =?utf-8?B?YTg5K1NnL3JBWFFoUmJTMWRibmNuU2s4N0hyMGZBb0hrY1AxT294b0hOU0po?=
- =?utf-8?Q?Y8k1Zx?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TE9ZV0FhRDE4UWhwZHVTZENIZWZRMDBKanZIYi9jSWJnKzZtNk1lY3dkTFd0?=
- =?utf-8?B?R3l4NHBsWnN3dXhKRTJmQjJUV0ozdkxlU1g4cGkzWXJOMFo3cFlsZmVVNitk?=
- =?utf-8?B?Si9LcDlJWmJlU1NldXhYT2k2S1hBR29DVFRqdmNrVm9WYTZlRk40WHVxdVcv?=
- =?utf-8?B?WjBVcmluWlBSY1RxMnFsc21VS01WbVdwWVZYdFlWajc5ZjJYQzNKdnZNMG1B?=
- =?utf-8?B?ZzM2RTQwK0h5MkJmUDZZRVhKNDJEZ1VqYWFpYWdDSlBJOTNEOEF6ZkJZSDFX?=
- =?utf-8?B?SFd2Znl4Z01ZT3RiMGd5bEw2ekhKOWlNY05QRHlGQWxpSkFyUW1aUUxXSWJu?=
- =?utf-8?B?M0oxZGc1U25zdGRUeTIrMTFuTXlLVzgvU3VyVnBOb1pNeHdCSjVVUVpmQVRS?=
- =?utf-8?B?NWpzR0FmMUh3NS9WcGhRclZrU1kvMng0SEFqdDFRYitYY0cxU085T3RGdnhQ?=
- =?utf-8?B?eUxibXBtaStSa0pGNHVHWDNpVWNyb29peW4rcmpnME9wOXl6N1l3N21neXlP?=
- =?utf-8?B?TjNnV3lCWW9WeFQ0MEdTS25OUHNIVWdkdEVheitSa0FvTVNWVExpU1FHalZ5?=
- =?utf-8?B?STRWRVJzUFNOVHJXS3loMjArSHoyVnBpSzlLUEZvdVNaU0tybDhDNFNYR0ZI?=
- =?utf-8?B?R2FOWVEyblgxVVVLQ0Ftak5WVmpib29EU3ZiVEtZQjBPNFRFNGFsQUVWVkYr?=
- =?utf-8?B?RmhNa2hOdThrMU9WdnNlUFBlYXpTNkVnOWU2QzI1b05zSEo4a1k5YzNBa2tl?=
- =?utf-8?B?YjBjOFhzWGpSTGtEVDRhWURva2NJODhEZjJBaUxiYVZybm43WGFNSGNOYXkr?=
- =?utf-8?B?L05MaFU0amd0YTIvb0ZDV0NIa0tjWUdkYjk5R0ppcnRjWmZOSGJEeWNqcFZ6?=
- =?utf-8?B?MzVTSTd3RUVoWlVzaU5aNDNLczJ0eW1MTDZDakhIRms4eWpFQUNlYjNoOFZ5?=
- =?utf-8?B?OFlITjZtWVBleEhtRnZka20wV21lU0c5YkJzQVlQODlMN2RjL1F4cTJBdWE4?=
- =?utf-8?B?ck1UNFNKY25HUjVTUk5BdzUrUzZZT3NyUzJHUGhScnRveDlVdzc1bVZBVm5r?=
- =?utf-8?B?dUgrWFdDSFpPVFJqbUVXempJSjBaUzJLa091VFVQZmtOeFJhZHRkZ0hwUUox?=
- =?utf-8?B?M3NIdjZlUlptMHRXUzZGSnViemdKWkw2bG0rVGlsTU9wZXhOYXVYR0RzbEFV?=
- =?utf-8?B?ci9TbTVmTHBGdGZMdHlEQk1OTjJKWVI5RFpQMkZhZTBsRnNzVUJtSWh2ZTkv?=
- =?utf-8?B?OXRncEdqQzE1Y1BJVFNnNXd2VXBKcXFKOXN0WWFDTTZYdXpkV2VOVHlHL2dR?=
- =?utf-8?B?bCtFL2RuakhaR3Mwb05YQmhVTENCMzJTeUlERnZWM1hGaWZWMXc1a2J6YnlE?=
- =?utf-8?B?dUk3ZGErN2ZuK2N0UlVPV09hRlNYc1NNOXdaMkU1aHU3QjVOZkt3YStjTGYz?=
- =?utf-8?B?ei91NE13aXdIUmV0K3ExVlB5TmJHR3N0dGdHWDVUTDJKRmE1aHkrNnhJK0lC?=
- =?utf-8?B?bDk0NHRKKzNLTFd3UGVSdmVYMlNmTVllTDNaOGk3bXJ0d0VJTjhFdCtQSWVa?=
- =?utf-8?B?YlhXMU1OOGpGU2JlTTM3L1JIUGxzSkd3UmpRT0RtdnZqUzNHU3pGbURCTGxG?=
- =?utf-8?B?MXRYUVQ4N2s2b0tIWmJJRFJEbHkzbzMvR0RXR0pKcmJlK1hJVzJYeEVzcksz?=
- =?utf-8?B?VzJLL0JTNEdldjZsVkdXTk5sTy92L0xqSXVBVWlnQmN0RW5nRVBxUFB2N2c5?=
- =?utf-8?B?a24vYXkwdmdGLzRYeHR1cnNYZ3lVSmVpSUxsZG5xVXYrZXduVERaRmM4eXNG?=
- =?utf-8?B?czdTUi95YmZ5a0djUWZ6YTFicG9kNnR3TkFTRStOd2Rib2FvSXFrK2tyU0hR?=
- =?utf-8?B?SXJwYUg1S0ozU3o1Y0NELzdtTjFudlRMUTF3N2pRYk1QcTdBRVVnYlBYM0tr?=
- =?utf-8?B?S3RGK05BVkcwbDRBMW1ESjVqbW45cnVuSUhVbVE1RUVjMlFVcVVTS2FXSE9j?=
- =?utf-8?B?eEFVajhPS0lKNitFeGJGcXlUN1h2akJWYkhnUkxLVzNXaEhyN2MyanpFVUtQ?=
- =?utf-8?B?a3hiMUhZaS84am5mQjFkS1FEdUs4RlpBTHBHTllwMHY5ZUZkR2k5My9SVkJQ?=
- =?utf-8?B?cDg2U3k0OW1KcjJIZnJ4UElrc1lWaHJ0Q3ZFTldHWHVhOTVRSkhxa01vTU9C?=
- =?utf-8?Q?xeUAO32V0la04OCi2uKw0xvRezA2SEW9MZbaQ7Nfztve?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8A8D95A9648AA9449F6A8939B89153E9@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 22 Oct 2025 04:35:37 +0000
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-b50645ecfbbso1254110366b.1
+        for <linux-nvme@lists.infradead.org>; Tue, 21 Oct 2025 21:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761107734; x=1761712534; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lj64m4sFpQ+vBQ3pmykp/cp6K9VYRj1HaNi/Sdpj2VM=;
+        b=ew9w1CN0ipMklg1m3uHnVmiHxcmuXLjge2lv3GF+QWdj6NuDvt0uWbDEluP2WLWc4a
+         bZJ3YtgRJxSUNl457LOX5EPP9m7DXd4gu79T4BdztubBGsY/1ZM1b59y0wNiH3g67EDV
+         L5PywekpDWtSywH3wSmK4WROqSd1xna1dv7nvvIxNE4+HnYAZabCgQmJngg1d7ykOS+y
+         CHM5KxPwsSXZiks/XWnvOtuuIEcoVo5zkPT7Tuedy82XKXIkWjsk8A96/q3hOCUwwNpX
+         jqHZj6hGHZIkQs+Q+QNaFPLdX8kak/ewKGw4FmdEWl+WoeFT0if5uXmkTc7A+97nbZfL
+         xlqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761107734; x=1761712534;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lj64m4sFpQ+vBQ3pmykp/cp6K9VYRj1HaNi/Sdpj2VM=;
+        b=dKXaP/DhhCRMNQR4OGC+uWA6v76gATEpbtkrXYKLn9MmdM513vYXv50WM3Rz/OQj6y
+         dEB9VQUS5Rx8M89U8Y+urgt7h/LbatTF/wLLLqnqaj86GcVbEQvwqJSg6liS7jwhnz4I
+         GhlalCUPiByK4Ukr6F8/3PTK8sp+LFj1a3gseOF3WpkhHBN4l6s4pHiBkSnCCaP7G4qV
+         B0l5H/RctPqC2kNz/UifvciMxTfV/SA5WfiVbjAPldJJF1X9KYTnNF5x1rEiLMnC5NBy
+         LDEIs4Ci3taMqWxekmfadHYITS9DMhcwkIR9hmHbpiyr5gH9vgWpYevgS0FzvqOfhxd7
+         TOKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/kQp4SscRbbjsdGqbx0IzjBB5wfTzEHLbrd3sw6DmxMkD18TChN3hNeDpF1rdQkGoEvNz2mPNjX7p@lists.infradead.org
+X-Gm-Message-State: AOJu0YwF0HcAfNPBtRzIAl7a3Do0r7WXCR8uJ5BWgyPdFGr/+azkPqHz
+	QPMlMVhJMJFhxhhhc9X+XqYzIvjmAb5e4LNgrYl18zhM4zeLCoR8DZsEo7eNKZxX1AzIXW+jW2x
+	Iclg7gnbQZL+YeX9vn13da81KqP1aRvo=
+X-Gm-Gg: ASbGncveSX4h2LYJFMkB/VzOOUZV/yBVrv5xMO/cgck8nKPBriFIazqO6JmYmNLyaMq
+	eap1BlGFG46Fc0qC9Jh+WNznawoEthHjnWlvcmT9uxdyyxTSs6TAPFkCsviGo2346S+NrnkGh90
+	TITBUXPKLARsf2FSyfKQL4XcCSh89GUxDhCEf7M2PXklYJcHljM6hp+AFizXUDLBmzuUCLDelka
+	/i4FvQQqyYcCyvSXmteNbn7CvZIIx2vrisZasqPj3VQSqk34DUTexv+H8b0MldYFpD9j6Q3F2k+
+	Te3EcUVQdRNnEEJurMv8yPj+ug==
+X-Google-Smtp-Source: AGHT+IEZ3WUWSBwKFpcrNZdWHcs2uENHhK+jxYuhPktOZEvX65BdGAZNuCfRsdi3SwrTO654hvsTxTI1H3lWOnGyc2U=
+X-Received: by 2002:a17:907:3f25:b0:b40:5dac:ed3f with SMTP id
+ a640c23a62f3a-b6472b6047fmr2009158266b.7.1761107734076; Tue, 21 Oct 2025
+ 21:35:34 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ecc7e7c-0839-4aac-6854-08de1119aea3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2025 03:18:33.4690
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rZ0XWT5X7Ntuj/U7+iMS1jr0PfuU9L0KEdLDYo1IzJvICIlcUl4JukM+fkS3asL9PaPJppqBSei6dLhL3gvzjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8126
+References: <20251017042312.1271322-1-alistair.francis@wdc.com>
+ <20251017042312.1271322-6-alistair.francis@wdc.com> <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
+In-Reply-To: <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 22 Oct 2025 14:35:07 +1000
+X-Gm-Features: AS18NWBbcQHf212IwDSHi_pCF6tkVLcWMLdXbgbTquHdoKUeBkgiVMl2L0_vC_o
+Message-ID: <CAKmqyKNBN7QmpC8Lb=0xKJ7u9Vru2mfTktwKgtyQURGmq4gUtg@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251021_201846_665294_9DCE4C1D 
-X-CRM114-Status: UNSURE (   8.66  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251021_213536_719081_71AB2350 
+X-CRM114-Status: GOOD (  41.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -182,11 +101,237 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTAvMjEvMjUgODoxOCBBTSwgS2VpdGggQnVzY2ggd3JvdGU6DQo+IEZyb206IEtlaXRoIEJ1
-c2NoPGtidXNjaEBrZXJuZWwub3JnPg0KPg0KPiBUaGUgZG1hX21hcF9idmVjIGhlbHBlciBkb2Vz
-bid0IHdvcmsgZm9yIHAycCBkYXRhLCBzbyB1c2UgdGhlIHNhbWUNCj4gYmxrX21hcF9pdGVyIG1l
-dGhvZCB0aGF0IHNnbCB1c2VzIGZvciB0aGlzIG1lbW9yeSB0eXBlLg0KPg0KPiBSZXBvcnRlZC1i
-eTogTGVvbiBSb21hbm92c2t5PGxlb25Aa2VybmVsLm9yZz4NCj4gU2lnbmVkLW9mZi1ieTogS2Vp
-dGggQnVzY2g8a2J1c2NoQGtlcm5lbC5vcmc+DQoNCg0KUmV2aWV3ZWQtYnk6IENoYWl0YW55YSBL
-dWxrYXJuaSA8a2NoQG52aWRpYS5jb20+DQoNCg0KLWNrDQoNCg==
+On Mon, Oct 20, 2025 at 4:22=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 10/17/25 06:23, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
+s
+> > on an KeyUpdate event.
+> >
+> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> > allow the NVMe layer to process the KeyUpdate request and forward the
+> > request to userspace. Userspace must then update the key to keep the
+> > connection alive.
+> >
+> > This patch allows us to handle the NVMe target sending a KeyUpdate
+> > request without aborting the connection. At this time we don't support
+> > initiating a KeyUpdate.
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v4:
+> >   - Remove all support for initiating KeyUpdate
+> >   - Don't call cancel_work() when updating keys
+> > v3:
+> >   - Don't cancel existing handshake requests
+> > v2:
+> >   - Don't change the state
+> >   - Use a helper function for KeyUpdates
+> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+> >   - Remove command message using recvmsg
+> >
+> >   drivers/nvme/host/tcp.c | 60 ++++++++++++++++++++++++++++++++++------=
+-
+> >   1 file changed, 51 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 2696bf97dfac..791e0cc91ad8 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
+> >       bool                    tls_enabled;
+> >       u32                     rcv_crc;
+> >       u32                     snd_crc;
+> > +     key_serial_t            user_session_id;
+> >       __le32                  exp_ddgst;
+> >       __le32                  recv_ddgst;
+> >       struct completion       tls_complete;
+> > @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_t=
+cp_queue *queue,
+> >   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
+> >   {
+> >       char *pdu =3D queue->pdu;
+> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
+> >       struct msghdr msg =3D {
+> > +             .msg_control =3D cbuf,
+> > +             .msg_controllen =3D sizeof(cbuf),
+> >               .msg_flags =3D MSG_DONTWAIT,
+> >       };
+> >       struct kvec iov =3D {
+> > @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_q=
+ueue *queue)
+> >       if (ret <=3D 0)
+> >               return ret;
+> >
+> > +     hdr =3D queue->pdu;
+> > +     if (hdr->type =3D=3D TLS_HANDSHAKE_KEYUPDATE) {
+> > +             dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
+> > +             return 1;
+> > +     }
+> > +
+> >       queue->pdu_remaining -=3D ret;
+> >       queue->pdu_offset +=3D ret;
+> >       if (queue->pdu_remaining)
+> >               return 0;
+> >
+> > -     hdr =3D queue->pdu;
+> >       if (unlikely(hdr->hlen !=3D sizeof(struct nvme_tcp_rsp_pdu))) {
+> >               if (!nvme_tcp_recv_pdu_supported(hdr->type))
+> >                       goto unsupported_pdu;
+> > @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_qu=
+eue *queue)
+> >       struct request *rq =3D
+> >               nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> >       struct nvme_tcp_request *req =3D blk_mq_rq_to_pdu(rq);
+> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
+> >
+> >       if (nvme_tcp_recv_state(queue) !=3D NVME_TCP_RECV_DATA)
+> >               return 0;
+> > @@ -973,12 +983,14 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_=
+queue *queue)
+> >               memset(&msg, 0, sizeof(msg));
+> >               msg.msg_iter =3D req->iter;
+> >               msg.msg_flags =3D MSG_DONTWAIT;
+> > +             msg.msg_control =3D cbuf,
+> > +             msg.msg_controllen =3D sizeof(cbuf),
+> >
+> Watch out. This is the recvmsg bug Olga had been posting patches for.
+> Thing is, if there is a control message the networking code will place
+> the control message payload into the message buffer. But in doing so
+> it expects the message buffer to be an iovec, not a bio vec.
+>
+> To handle this properly you'd need to _not_ set the control buffer,
+> but rather check for 'MSG_CTRUNC' in msg_flags upon return.
+> Then you have to setup a new message with msg_control set and
+> a suitable msg_len (5 bytes, wasn't it?) and re-issue recvmsg
+> with that message.
+
+Fixed
+
+>
+> And keep fingers crossed that you don't get MSG_CTRUNC on every
+> call to recvmsg() ...
+>
+> >               ret =3D sock_recvmsg(queue->sock, &msg, msg.msg_flags);
+> >               if (ret < 0) {
+> > -                     dev_err(queue->ctrl->ctrl.device,
+> > -                             "queue %d failed to receive request %#x d=
+ata",
+> > -                             nvme_tcp_queue_id(queue), rq->tag);
+> > +                     dev_dbg(queue->ctrl->ctrl.device,
+> > +                             "queue %d failed to receive request %#x d=
+ata, %d",
+> > +                             nvme_tcp_queue_id(queue), rq->tag, ret);
+> >                       return ret;
+> >               }
+> >               if (queue->data_digest)
+> > @@ -1381,17 +1393,42 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp=
+_queue *queue)
+> >               }
+> >       } while (result >=3D 0);
+> >
+> > -     if (result < 0 && result !=3D -EAGAIN) {
+> > +     if (result =3D=3D -EKEYEXPIRED) {
+> > +             return -EKEYEXPIRED;
+> > +     } else if (result =3D=3D -EAGAIN) {
+> > +             return -EAGAIN;
+> > +     } else if (result < 0) {
+> >               dev_err(queue->ctrl->ctrl.device,
+> >                       "receive failed:  %d\n", result);
+> >               queue->rd_enabled =3D false;
+> >               nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+> > -     } else if (result =3D=3D -EAGAIN)
+> > -             result =3D 0;
+> > +     }
+> >
+> >       return result < 0 ? result : (queue->nr_cqe =3D nr_cqe);
+> >   }
+> >
+> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
+> > +{
+> > +     int qid =3D nvme_tcp_queue_id(queue);
+> > +     int ret;
+> > +
+> > +     dev_dbg(queue->ctrl->ctrl.device,
+> > +             "updating key for queue %d\n", qid);
+> > +
+> > +     flush_work(&(queue->ctrl->ctrl).async_event_work);
+> > +
+> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
+> > +                              queue, queue->ctrl->ctrl.tls_pskid,
+> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> > +
+> > +     if (ret < 0) {
+> > +             dev_err(queue->ctrl->ctrl.device,
+> > +                     "failed to update the keys %d\n", ret);
+> > +             nvme_tcp_fail_request(queue->request);
+> > +             nvme_tcp_done_send_req(queue);
+> > +     }
+> > +}
+> > +
+> >   static void nvme_tcp_io_work(struct work_struct *w)
+> >   {
+> >       struct nvme_tcp_queue *queue =3D
+> > @@ -1414,8 +1451,11 @@ static void nvme_tcp_io_work(struct work_struct =
+*w)
+> >               result =3D nvme_tcp_try_recvmsg(queue);
+> >               if (result > 0)
+> >                       pending =3D true;
+> > -             else if (unlikely(result < 0))
+> > -                     return;
+> > +             else if (unlikely(result < 0)) {
+> > +                     if (result =3D=3D -EKEYEXPIRED)
+> > +                             update_tls_keys(queue);
+> > +                     break;
+> > +             }
+> >
+> >               /* did we get some space after spending time in recv? */
+> >               if (nvme_tcp_queue_has_pending(queue) &&
+> > @@ -1723,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int sta=
+tus, key_serial_t pskid,
+> >                       ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
+> >               key_put(tls_key);
+> >               queue->tls_err =3D 0;
+> > +             queue->user_session_id =3D user_session_id;
+>
+> Hmm. I wonder, do we need to store the generation number somewhere?
+> Currently the sysfs interface is completely oblivious that a key update
+> has happened. I really would like to have _some_ indicator there telling
+> us that a key update had happened, and the generation number would be
+> ideal here.
+
+I don't follow.
+
+The TLS layer will report the number of KeyUpdates that have been
+received. Userspace also knows that a KeyUpdate happened as we call to
+userspace to handle updating the keys.
+
+Alistair
+
+>
+> >       }
+> >
+> >   out_complete:
+> > @@ -1752,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *n=
+ctrl,
+> >               keyring =3D key_serial(nctrl->opts->keyring);
+> >       args.ta_keyring =3D keyring;
+> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
+> > +     args.user_session_id =3D queue->user_session_id;
+> >       queue->tls_err =3D -EOPNOTSUPP;
+> >       init_completion(&queue->tls_complete);
+> >       if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
+>
+> Chers,
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
