@@ -4,47 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDE92CCD1BE
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Oct 2025 06:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 360E7CCD1AB
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Oct 2025 06:14:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jutoeGXIIdFs84rYYmPLH8lp0eLcP7kJ7jyCxJubItI=; b=rlmmBO2LjK1f/uVnJd7TYaRSXt
-	hh/Er7MseohWjfK3CWe7K0IogJmbZz0TIp6sNCq4/Xv1JBV7+JK6SjUm2rAcMG6eOgJhQGkfvMxob
-	egc4S8IK3acHGwuXmxprbsE68qD+Dr0vf7TBH/uqsjj0GGm4BjBHsK7qfTClFBtb7C2V3MTe5iLOg
-	9aYYaNnIQUEqKZWny9CLkyEOrC/o9RyEgUv3oIs5couxK/a7qtQ/UbgfVwEX41BfRwbtj4JF7+gm+
-	b5kP+tzDmz2rgKmUMwpca2eGqjk4XnhgH591wwW2IKgyi8VB6IeZzKzEM3yEbYKujEPH5K/XzBT/H
-	4OtGIuDg==;
+	bh=mQgJ8vwmZ/K25Rw42edFtQM/yOxaOWDOff/htGeVNC8=; b=d7jN+ZMiDsVk3NjZaTx+g9NDqC
+	qfmSCbKlqnkhli7JmRC21Db3lrNRCBC42eGzAN0QOZ2NLRHTa6lUf8d8Jx1GsSwMyXyQXDQvmHOlF
+	NU36V1zg0Wp/yFzHaoXUtPolKp7Ystsr58MAkxitUNw9izhnau4gFdRBcY03QbhbaCCg44yCJFF2v
+	b1ej5I/oGh8fxHQL4AdcEqnNlFScfVTQBkK+NvmdQhS7BHGrl1Wt0fLLLZya769jJnK/4v6OTmPwk
+	j7ovfhf5ng5u3oGIn052Zb0s/TBj6NCDKtp9jR7woXfV72Tex3p8Zlb7jMJHRgbQnSSwnRUgvcT5E
+	//NENjOA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBRuA-00000001bPb-2Mhi;
-	Wed, 22 Oct 2025 06:01:02 +0000
+	id 1vBS79-00000001ccr-3dCo;
+	Wed, 22 Oct 2025 06:14:27 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vBRu8-00000001bOj-2HR3
+	id 1vBS77-00000001ccN-0PE1
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Oct 2025 06:01:01 +0000
+	Wed, 22 Oct 2025 06:14:26 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 07442227A8E; Wed, 22 Oct 2025 08:00:54 +0200 (CEST)
-Date: Wed, 22 Oct 2025 08:00:52 +0200
+	id 90CF9227A88; Wed, 22 Oct 2025 08:14:18 +0200 (CEST)
+Date: Wed, 22 Oct 2025 08:14:18 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de,
-	Keith Busch <kbusch@kernel.org>, Leon Romanovsky <leon@kernel.org>
-Subject: Re: [PATCHv2] nvme-pci: use blk_map_iter for p2p metadata
-Message-ID: <20251022060052.GB4220@lst.de>
-References: <20251021151831.2009152-1-kbusch@meta.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2 1/2] nvme-pci: migrate to dma_map_phys instead of
+ map_page
+Message-ID: <20251022061418.GC4317@lst.de>
+References: <20251020-block-with-mmio-v2-0-147e9f93d8d4@nvidia.com> <20251020-block-with-mmio-v2-1-147e9f93d8d4@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021151831.2009152-1-kbusch@meta.com>
+In-Reply-To: <20251020-block-with-mmio-v2-1-147e9f93d8d4@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251021_230100_741675_502CA229 
-X-CRM114-Status: GOOD (  11.06  )
+X-CRM114-CacheID: sfid-20251021_231425_289475_E89DB8B4 
+X-CRM114-Status: GOOD (  11.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -59,17 +62,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 21, 2025 at 08:18:31AM -0700, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> The dma_map_bvec helper doesn't work for p2p data, so use the same
-> blk_map_iter method that sgl uses for this memory type.
+This actually has block and nvme bits, so the subject line should
+say that.
 
-Looks good:
+> +	unsigned int attrs = 0;
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+attrs is always zero here, no need to start passing it for the
+map_phys conversion alone.
 
-Although I'd still rename nvme_pci_setup_meta_sgls as in my draft as
-the name is a bit misleading now.
+> +	unsigned int attrs = 0;
+
+Same here.
+
+> +	unsigned int			attrs;
+
+And this is also entirely unused as far as I can tell.
 
 
