@@ -4,60 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D792CCD1A5
-	for <linux-nvme@archiver.kernel.org>; Sun, 26 Oct 2025 12:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCBF3CCF9E5
+	for <linux-nvme@archiver.kernel.org>; Sun, 26 Oct 2025 13:30:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nNbiGE3PQoyGg5QY5TNEnFlc4NMxXXCwubWo2ZUcg3Q=; b=g8KQkDzuagahLserVTRpC5fzWU
-	HoIne/6/8KSid+hnyl8WvyHzU7yvTKISz284C4mK2bxlm8MrLBrOlpwr8CmiG8gxG5zqU/ACXDmPf
-	ZhdnHBUVR7P7/u2N7I0IZEP4tuZiH3DycdH7CjkxVq4VJ3Jv8WPqGm0enAYAs8IFCkJTtAOy7j+Du
-	+z80Wguxshz5waOZ7DmwNRfxrViXbyBp644FNGbb6yPZbdGWyYG56Ix7R4CisE3BfNiLoWqw2CJWs
-	sxt9u6Gs6cInqMXJ2J8OhJhqNIEdHgXiG3IseaBVgEWe7lzDAdlfp6wrkKNtilomDX+omlu31N/CT
-	m0YcDmiA==;
+	bh=6rMr3vAo6jeKKvTyFIFfo7CCXh+6vw9CpWXxfS427Ec=; b=ZdzBFX20irUSkN581YLZlBq6KU
+	BvhAY6bJU8gI3oF71SJy5bZG3v90V42iDT1pZT0SrksEwRjPxJ4l3ZgsDlRgk3MrFgEuktMaOHM7u
+	9UAf0V1pdIwRSXM2zttPyqhZHrVdI1ynXgqSAJsmBRqv/STTlBONquYxOzumiV+sHy68NIW0VHTr7
+	Yy8ZUvczNer1V+P4UBaALpEOLi4O3vpNS3LQYHJmkLST3O0LKedIM+5PLXTXqf2MXmSZE7eKGQFKE
+	VAlPLXaiXDNsiaLS4JhFJg5xHbq70+zsNWSaCMHiXVKQOEHotG5jKKg50o9kHn6sOs6jgygW86M4p
+	47C1gNwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vD00k-0000000CKM2-0RVu;
-	Sun, 26 Oct 2025 12:38:14 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vD0p3-0000000CMaA-3vQ8;
+	Sun, 26 Oct 2025 13:30:13 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vD00i-0000000CKLo-1LrZ
+	id 1vD0p1-0000000CMZj-0G9U
 	for linux-nvme@lists.infradead.org;
-	Sun, 26 Oct 2025 12:38:12 +0000
+	Sun, 26 Oct 2025 13:30:12 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 17CB5602CE;
-	Sun, 26 Oct 2025 12:38:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6923C4CEE7;
-	Sun, 26 Oct 2025 12:38:08 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5949443DD8;
+	Sun, 26 Oct 2025 13:30:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E816C4CEE7;
+	Sun, 26 Oct 2025 13:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761482289;
-	bh=qw8/PAvD2816zMcT/W8BWmFh+apV2YWDBWzHohHc9Ds=;
+	s=k20201202; t=1761485409;
+	bh=40O4AkKAojsrOlSedZ12tmVu2dY2adh7yZ0M+ABkhxM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UQkNk0Sta/L0r0qWJfiwMmnRcxJLqPTWe/65cQ3Pfpc0tJUxZYvyNDt5rE8LNhrwH
-	 ggkYucPLXnNtjYQjAlu8w6qWbMQl7YVrXhkxMuFysWP3k3fxIhhYQZmDRktF2ySR9a
-	 kc7oNCgEHxB/0wOT1YfEsl+0oH2Pl5pleG/MPqcicK2J94n794MkgfH8zsmvTvzVgM
-	 c0ufi4zVyPp/rVKwUwJMljkndLo/iwp3RR3LY4yWDAVU3X151+3YKUTHwJ9YN8H4bN
-	 tSbWQ6s5DqB0b0mgg0++GGAVkizOJJL6b+MXVvbr/Gb9OGqPe1cr4pXQIbDoy8ayvy
-	 X9sOiqXbIGEdg==
-Date: Sun, 26 Oct 2025 14:38:04 +0200
+	b=ccYD/F0FX/MYdI3AQbnRUPySQl7LYSTqJKO/BtNbNNxvRdcgqI7T9sc/oM06tpBgZ
+	 uyEQBHDuDlee2IdDuyDQ5bU0imuIDLO+R4IOIS6VrwjPhxpFjDD/RMmlxtMxirB0ud
+	 z1KCFNyMSD905kmUzg+iMfQRwcTN3yGsyfoDTnSIkmEVA/JLDWzOhbrLBGCgfHJrdw
+	 sixIYjk81+pcJNXN1OX+h44WAuVZMzkgtZyGcpI2DoChLysHunbYrbtUaY8JA56s7H
+	 GNvmrxpiIsLkDCeNgp7JI102c3uQQ1D09+CaytccWLlzAfetxh/h07TmuGXzIDRqcn
+	 QVpd4DG9VUnIQ==
+Date: Sun, 26 Oct 2025 15:30:04 +0200
 From: Leon Romanovsky <leon@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] nvme-pci: migrate to dma_map_phys instead of
- map_page
-Message-ID: <20251026123804.GD12554@unreal>
+Subject: Re: [PATCH v2 2/2] block-dma: properly take MMIO path
+Message-ID: <20251026133004.GE12554@unreal>
 References: <20251020-block-with-mmio-v2-0-147e9f93d8d4@nvidia.com>
- <20251020-block-with-mmio-v2-1-147e9f93d8d4@nvidia.com>
- <20251022061418.GC4317@lst.de>
+ <20251020-block-with-mmio-v2-2-147e9f93d8d4@nvidia.com>
+ <20251022062135.GD4317@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022061418.GC4317@lst.de>
+In-Reply-To: <20251022062135.GD4317@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251026_063011_153364_2F29444C 
+X-CRM114-Status: GOOD (  24.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,28 +74,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 22, 2025 at 08:14:18AM +0200, Christoph Hellwig wrote:
-> This actually has block and nvme bits, so the subject line should
-> say that.
+On Wed, Oct 22, 2025 at 08:21:35AM +0200, Christoph Hellwig wrote:
+> On Mon, Oct 20, 2025 at 08:00:21PM +0300, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > In commit eadaa8b255f3 ("dma-mapping: introduce new DMA attribute to
+> > indicate MMIO memory"), DMA_ATTR_MMIO attribute was added to describe
+> > MMIO addresses, which require to avoid any memory cache flushing, as
+> > an outcome of the discussion pointed in Link tag below.
+> > 
+> > In case of PCI_P2PDMA_MAP_THRU_HOST_BRIDGE transfer, blk-mq-dm logic
+> > treated this as regular page and relied on "struct page" DMA flow.
+> > That flow performs CPU cache flushing, which shouldn't be done here,
+> > and doesn't set IOMMU_MMIO flag in DMA-IOMMU case.
+> > 
+> > Link: https://lore.kernel.org/all/f912c446-1ae9-4390-9c11-00dce7bf0fd3@arm.com/
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  block/blk-mq-dma.c            |  6 ++++--
+> >  drivers/nvme/host/pci.c       | 23 +++++++++++++++++++++--
+> >  include/linux/blk-integrity.h |  7 ++++---
+> >  include/linux/blk-mq-dma.h    | 11 +++++++----
+> >  4 files changed, 36 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+> > index 4ba7b0323da4..3ede8022b41c 100644
+> > --- a/block/blk-mq-dma.c
+> > +++ b/block/blk-mq-dma.c
+> > @@ -94,7 +94,7 @@ static bool blk_dma_map_direct(struct request *req, struct device *dma_dev,
+> >  		struct blk_dma_iter *iter, struct phys_vec *vec)
+> >  {
+> >  	iter->addr = dma_map_phys(dma_dev, vec->paddr, vec->len,
+> > -			rq_dma_dir(req), 0);
+> > +			rq_dma_dir(req), iter->attrs);
+> >  	if (dma_mapping_error(dma_dev, iter->addr)) {
+> >  		iter->status = BLK_STS_RESOURCE;
+> >  		return false;
+> > @@ -116,7 +116,7 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
+> >  
+> >  	do {
+> >  		error = dma_iova_link(dma_dev, state, vec->paddr, mapped,
+> > -				vec->len, dir, 0);
+> > +				vec->len, dir, iter->attrs);
+> >  		if (error)
+> >  			break;
+> >  		mapped += vec->len;
+> > @@ -184,6 +184,8 @@ static bool blk_dma_map_iter_start(struct request *req, struct device *dma_dev,
+> >  		 * P2P transfers through the host bridge are treated the
+> >  		 * same as non-P2P transfers below and during unmap.
+> >  		 */
+> > +		iter->attrs |= DMA_ATTR_MMIO;
 > 
-> > +	unsigned int attrs = 0;
-> 
-> attrs is always zero here, no need to start passing it for the
-> map_phys conversion alone.
-> 
-> > +	unsigned int attrs = 0;
-> 
-> Same here.
+> DMA_ATTR_MMIO is the only flags in iter->attrs, and I can't see any other
+> DMA mapping flag that would fit here.  So I'd rather store the
+> enum pci_p2pdma_map_type here, which also removes the need for REQ_P2PDMA 
+> and BIP_P2P_DMA when propagating that to nvme.
 
-It gave me more clean second patch where I only added new attribute, but
-if it doesn't look right to you, let's change.
-
-> 
-> > +	unsigned int			attrs;
-> 
-> And this is also entirely unused as far as I can tell.
-
-Right, it is used in second patch, will fix.
+It is already stored in iter->p2pdma.map, will reuse it.
 
 Thanks
+
+> 
 
