@@ -4,117 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07B24CCF9EE
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Oct 2025 09:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56096CCF9E0
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Oct 2025 09:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HoFcUdgHWPBHk7/lC7OD6u/+fnaG4nnZDC3OrZ/liQk=; b=MzpGPDjAiBU2bcAK8xvbAtMEXm
-	i9+KadYWX/FNx3LKGihEtEvyWmCrMXRp1zbkiIT7GoYajNPGY7xoAJWXEuzzYN+r0atZ5QIrI6nka
-	t7sXmhdQj6BOXnHqI9VbBnLNjgVjcpXKIUIoGhykRaG04PeMhI1Or+8ND0K24LNmpUGsFvIsYzX12
-	Vze9Gr91MZTZR6Af5K+iwoSzqpezJAkAe9Dcoay4MQg8un9urDd7iD+5BXRijQuNoJ0KNHjyKyGhD
-	D76lUCeAxiFRrKDrtZMLoaSUfQv+rGibt8axXVIstagv3rayHNZvXW4G1shIWYL2wnwgggni5jAGA
-	ZpZX3Lsw==;
+	bh=Txh8JqvyC3msMe5nwXVRj3TtyV8wMvl+EURYZkSUNyE=; b=NCG0VUvopf2cxBEO1RZVTw0DI2
+	CsLRkdfroc1Od/hld1ggvpLIBYntJ1YMGy787zw5BY9jTImn4Yk0frNLPtxrxoRjGmtswe38Z8eMS
+	gMYsUaXwBRyHWLRRR5gMzgHbR1w0z09rFWmVZoyEEL+F0PvQynESEN4R7B5YwCplQdvv1MUxoF/Uu
+	Gl7G6kvi1nkNJ8tURmHnZdnrV4uEfNUDt1I1QyuY7E31MQrN/IQ9FHYQIG+OHspv9XD6dOyfdHPFT
+	t/9Mhig+sdaloXq13Vb6mRYExmf/sZpvO82AonwDgyJCUDJS167YXvpuyhLRJfVkppfPiFITqYjkk
+	fbteY5hw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDJYY-0000000DX7C-1np9;
-	Mon, 27 Oct 2025 09:30:26 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDJYX-0000000DX5r-031M
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 27 Oct 2025 09:30:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=HoFcUdgHWPBHk7/lC7OD6u/+fnaG4nnZDC3OrZ/liQk=; b=K0o6bjeRQszuUXTNnV2FRLj8bu
-	ej80Ce1+dziYnov7PPJ1sOQYJjMgDn23bn+HvlmPUvZIa+JqAXtWiTHerJFyNC1Zxx6pVh6zLXxkM
-	QzSI9JZ1HTBvui9ZOriVzniQjzwMtRlqc+r3i9Pv8riIMS5cZzPsxzt/ITnGzN2hVQeigP0oJ/jjm
-	GFmPvm06x9yPN7Oj3hYoD1oo7Axj9ClrQ/mJlYBw/dXxBYOLUX6uZPf4iFdwyUrXZVGkcccgWmy4P
-	nLNUe0AlTxu2GZItSdml0w6HvEa1wl/zzT/nSdm4ZzcNgoiNpvBelNGWVnvG20/4lIel177WIFAd7
-	+JtUYypQ==;
+	id 1vDJYb-0000000DX9t-3GMr;
+	Mon, 27 Oct 2025 09:30:29 +0000
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDIgj-00000001kWo-3rAu
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vDJYZ-0000000DX8B-1T5d
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Oct 2025 08:34:51 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59QK8Mn5003035;
-	Mon, 27 Oct 2025 09:30:13 GMT
+	Mon, 27 Oct 2025 09:30:28 +0000
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59R9OJmM027578;
+	Mon, 27 Oct 2025 09:30:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=HoFcUdgHWPBHk7/lC
-	7OD6u/+fnaG4nnZDC3OrZ/liQk=; b=EaQskD5tQ5gQbGbZadWE7uFDxh4hyCqfJ
-	H+vbr9oMwFYTn2q8TZTR5AyaWWiYUUckxZVXGNxjuM/ee4HYj5Uvrq5I4s1r08lz
-	1fO3FzBU21pq3lLsZWn0SfzyeM5Gkx7/ggzYQMrwaaBNelom5oJFnhS0L1X3F0cw
-	vOOOL9byUYFHyaz6h68mRxcbILTTCyYd5nPYYPPDqzJkGpo4F10yCK7OpLkLvqEi
-	06iZyrh4GdBj9BeWfeB1gTxvRJgQVbEGFW5FdaArydpSsM9lGF4+ZrCm2cfrVrCg
-	gt2TYkDFY1pIrefgt1l0WF/OAGwszw4JsU8IAZt3ZqLWRBHp+d+cg==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0p81p11m-1
+	:mime-version:references:subject:to; s=pp1; bh=Txh8JqvyC3msMe5nw
+	XVRj3TtyV8wMvl+EURYZkSUNyE=; b=UW4Io97L6KJriy2inRntk4HFM90b/Qsa9
+	r9eu962KPveaEYTaZfbx71C1vLnV4padUMpOkDs7iK316XPEcaxDIQp0kUsDLTnU
+	ypVb21cjOHFgcxEjjLr7SIo8vn44r6eIyiYt9PcVHR97LJr8M187fpG6lGN6kOk/
+	6x8Q7IXqLV9VqqlfD6xeAGSHjEnWKjH/9Qoz0glysPGpf9B+DSapVSlWxGKZpLnL
+	TfQ5JttIyGVzlzuLkbob/wYfw4B+Kep2imISMllADm+NqEwqhky1NgDf2S8SOMZW
+	mukRg4WHxcoIad2tDeSrC8b4mBIQrFuWo0eCckxtgVFfA+cNb+IVQ==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0p28x28d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Oct 2025 09:30:12 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59R75MM8022886;
-	Mon, 27 Oct 2025 09:30:11 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4a198xcwp7-1
+	Mon, 27 Oct 2025 09:30:21 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59R8CZb5009400;
+	Mon, 27 Oct 2025 09:30:20 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4a1b3hvm3q-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Oct 2025 09:30:11 +0000
+	Mon, 27 Oct 2025 09:30:20 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59R9U9IU35389894
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59R9UI1w56230318
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 Oct 2025 09:30:09 GMT
+	Mon, 27 Oct 2025 09:30:18 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 853062004B;
-	Mon, 27 Oct 2025 09:30:09 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id C2CE520043;
+	Mon, 27 Oct 2025 09:30:18 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C2B8020040;
-	Mon, 27 Oct 2025 09:30:05 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id ECE3220040;
+	Mon, 27 Oct 2025 09:30:14 +0000 (GMT)
 Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.61.186.32])
 	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 27 Oct 2025 09:30:05 +0000 (GMT)
+	Mon, 27 Oct 2025 09:30:14 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         dwagner@suse.de, axboe@kernel.dk, gjoyce@ibm.com
-Subject: [RFC PATCHv3 3/6] nvme: add sysfs attribute adp_ewma_shift
-Date: Mon, 27 Oct 2025 14:59:37 +0530
-Message-ID: <20251027092949.961287-4-nilay@linux.ibm.com>
+Subject: [RFC PATCHv3 5/6] nvme: add generic debugfs support
+Date: Mon, 27 Oct 2025 14:59:39 +0530
+Message-ID: <20251027092949.961287-6-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251027092949.961287-1-nilay@linux.ibm.com>
 References: <20251027092949.961287-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=fIQ0HJae c=1 sm=1 tr=0 ts=68ff3ba4 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDAxOSBTYWx0ZWRfX5kg8AHWP95K9
+ K7puQwvEvxTCABbLR+1EznIV+KRQaXhYXB7Qfu9f/MeRH+G6UPlzA/hqS6XBIX87Gq3JHQI4mDX
+ SGc5t6uPAQq49IKrSc0UH7Vy6gED5YMADL7V4uBP4E2ajIrziwVRWZOW/rnKUM17whhHBtcy2yU
+ /Ou5fo1njve3E7MepJZUF5Q+P3Ev1Wo9Imz2JDte2BKcI7GEwzP+SF2BL1GdaGkkuIimc2x2/X8
+ nXxlytOTlJmkroZ0DGp17O6AKQ+HNx8Gw1Q6gyzOc2g/RAuSu3GFGtb5DQQpHO05qW2O5BmEFQX
+ 8JVPx28qjLUjNyredAyVslBIEdn3OVLihwgkx4pKdk5pqEvOxAMLNu4OduvX8PsL0WL8mNQ4zQL
+ 71/rceDUw8wBF4WqXdMaLvBz3iygmA==
+X-Proofpoint-GUID: dTlbvGYVybihhZXpebtoKLitszT6vlB9
+X-Authority-Analysis: v=2.4 cv=V8ZwEOni c=1 sm=1 tr=0 ts=68ff3bad cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
  a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VnNF1IyMAAAA:8
- a=-5tJOOCdRLKl4jesFIoA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: e_M4xd2Nn85sjic-VmygAfRHYSO3ghZO
-X-Proofpoint-GUID: e_M4xd2Nn85sjic-VmygAfRHYSO3ghZO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDAyNCBTYWx0ZWRfX4o/4fB5VwRff
- W3U0ReH39KhJrO2+LcxePQaHYUlfsNULYdouftnnTdumips0+u/UNRYEwllXhgyj9nkaeLVrQHU
- 7yCqCoINJDB4+3mH78KSSnTfMyN/iuCZU8VVkCb0Vwc211be8+U1CrvT5zBaF6ePA4LPBwO7n0F
- Obc4p2wNx9JAqpLZH1eJv2n1Nn7+YJe117XAA+nMeHSaJNv6blYEmgo8lEz4QNuQNnCakFitpAX
- ZsvLItOldBsRYbmgB7jnyoobgOEFnIUUjt7nG/UwuSsnLnNtWs9I3CsKmYdmINC+jfPsHrEfiCy
- ayvjdVLpodXOQXmw1T81o6oqQ0oVI2T4gUCu0cbO38P0CfhbqxsTHEkfuZ6TdmxVfurHhqukkq/
- Swt07cm8JkOFs4HDqjUymivOHjd7OA==
+ a=eKE__Qlmx2A1X5IvaHYA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: dTlbvGYVybihhZXpebtoKLitszT6vlB9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-27_04,2025-10-22_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510250024
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 spamscore=0 clxscore=1015 suspectscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510250019
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251027_083450_303526_CA7A4E90 
-X-CRM114-Status: GOOD (  22.06  )
+X-CRM114-CacheID: sfid-20251027_023027_411366_139137FE 
+X-CRM114-Status: GOOD (  22.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,149 +115,194 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-By default, the EWMA (Exponentially Weighted Moving Average) shift
-value, used for storing latency samples for adaptive iopolicy, is set
-to 3. The EWMA is calculated using the following formula:
+Add generic infrastructure for creating and managing debugfs files in
+the NVMe module. This introduces helper APIs that allow NVMe drivers to
+register and unregister debugfs entries, along with a reusable attribute
+structure for defining new debugfs files.
 
-    ewma = (old * ((1 << ewma_shift) - 1) + new) >> ewma_shift;
+The implementation uses seq_file interfaces to safely expose per-NS and
+per-NS-head statistics, while supporting both simple show callbacks and
+full seq_operations.
 
-The default value of 3 assigns ~87.5% weight to the existing EWMA value
-and ~12.5% weight to the new latency sample. This provides a stable
-average that smooths out short-term variations.
-
-However, different workloads may require faster or slower adaptation to
-changing conditions. This commit introduces a new sysfs attribute,
-adp_ewma_shift, allowing users to tune the weighting factor.
-
-For example:
-  - adp_ewma_shift = 1 => 50% old, 50% new
-  - adp_ewma_shift = 0 => 0% old, 100% new
-
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/host/core.c      | 10 ++++++++-
- drivers/nvme/host/multipath.c | 38 +++++++++++++++++++++++++++++++----
- drivers/nvme/host/nvme.h      |  2 ++
- drivers/nvme/host/sysfs.c     |  1 +
- 4 files changed, 46 insertions(+), 5 deletions(-)
+ drivers/nvme/host/Makefile  |   2 +-
+ drivers/nvme/host/debugfs.c | 122 ++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h    |  11 ++++
+ 3 files changed, 134 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/nvme/host/debugfs.c
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 284a7c9c5d1d..ab09b9724674 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3240,7 +3240,15 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		return -EINVAL;
- 	}
- 	nvme_mpath_default_iopolicy(subsys);
--
-+#ifdef CONFIG_NVME_MULTIPATH
-+	/*
-+	 * Default value of emwa_shift is set to 3 so that we can assign ~87.5 %
-+	 * weight to the existing ewma and ~12.5% weight to the new latency
-+	 * sample. This default could be changed through sysfs. This value is
-+	 * used while adding latency sample for adaptive iopolicy.
-+	 */
-+	subsys->adp_ewma_shift = NVME_DEFAULT_ADP_EWMA_SHIFT;
-+#endif
- 	subsys->dev.class = &nvme_subsys_class;
- 	subsys->dev.release = nvme_release_subsystem;
- 	subsys->dev.groups = nvme_subsys_attrs_groups;
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index b438371b8494..95407c0f2f4b 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -294,10 +294,9 @@ static void nvme_mpath_weight_work(struct work_struct *weight_work)
-  * For instance, with EWMA_SHIFT = 3, this assigns 7/8 (~87.5 %) weight to
-  * the existing/old ewma and 1/8 (~12.5%) weight to the new sample.
-  */
--static inline u64 ewma_update(u64 old, u64 new)
-+static inline u64 ewma_update(u64 old, u64 new, int ewma_shift)
- {
--	return (old * ((1 << NVME_DEFAULT_ADP_EWMA_SHIFT) - 1)
--			+ new) >> NVME_DEFAULT_ADP_EWMA_SHIFT;
-+	return (old * ((1 << ewma_shift) - 1) + new) >> ewma_shift;
- }
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index 6414ec968f99..7962dfc3b2ad 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
+ obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
+ obj-$(CONFIG_NVME_APPLE)		+= nvme-apple.o
  
- static void nvme_mpath_add_sample(struct request *rq, struct nvme_ns *ns)
-@@ -389,7 +388,8 @@ static void nvme_mpath_add_sample(struct request *rq, struct nvme_ns *ns)
- 		if (unlikely(!stat->slat_ns))
- 			WRITE_ONCE(stat->slat_ns, avg_lat_ns);
- 		else {
--			slat_ns = ewma_update(stat->slat_ns, avg_lat_ns);
-+			slat_ns = ewma_update(stat->slat_ns, avg_lat_ns,
-+				READ_ONCE(head->subsys->adp_ewma_shift));
- 			WRITE_ONCE(stat->slat_ns, slat_ns);
- 		}
- 
-@@ -1465,6 +1465,36 @@ static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
- SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
- 		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
- 
-+static ssize_t nvme_subsys_adp_ewma_shift_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_subsystem *subsys =
-+		container_of(dev, struct nvme_subsystem, dev);
+-nvme-core-y				+= core.o ioctl.o sysfs.o pr.o
++nvme-core-y				+= core.o ioctl.o sysfs.o pr.o debugfs.o
+ nvme-core-$(CONFIG_NVME_VERBOSE_ERRORS)	+= constants.o
+ nvme-core-$(CONFIG_TRACING)		+= trace.o
+ nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
+diff --git a/drivers/nvme/host/debugfs.c b/drivers/nvme/host/debugfs.c
+new file mode 100644
+index 000000000000..5c441779554f
+--- /dev/null
++++ b/drivers/nvme/host/debugfs.c
+@@ -0,0 +1,122 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2025 IBM Corporation
++ *	Nilay Shroff <nilay@linux.ibm.com>
++ */
 +
-+	return sysfs_emit(buf, "%d\n", READ_ONCE(subsys->adp_ewma_shift));
++#include <linux/debugfs.h>
++#include <linux/seq_file.h>
++
++#include "nvme.h"
++
++struct nvme_debugfs_attr {
++	const char *name;
++	umode_t mode;
++	int (*show)(void *data, struct seq_file *m);
++	const struct seq_operations *seq_ops;
++};
++
++struct nvme_debugfs_ctx {
++	void *data;
++	struct nvme_debugfs_attr *attr;
++	int srcu_idx;
++};
++
++static int nvme_debugfs_show(struct seq_file *m, void *v)
++{
++	struct nvme_debugfs_ctx *ctx = m->private;
++	void *data = ctx->data;
++	struct nvme_debugfs_attr *attr = ctx->attr;
++
++	return attr->show(data, m);
 +}
 +
-+static ssize_t nvme_subsys_adp_ewma_shift_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
++static int nvme_debugfs_open(struct inode *inode, struct file *file)
 +{
-+	int shift, err;
-+	struct nvme_subsystem *subsys =
-+		container_of(dev, struct nvme_subsystem, dev);
++	void *data = inode->i_private;
++	struct nvme_debugfs_attr *attr = debugfs_get_aux(file);
++	struct nvme_debugfs_ctx *ctx;
++	struct seq_file *m;
++	int ret;
 +
-+	err = kstrtoint(buf, 0, &shift);
-+	if (err)
-+		return -EINVAL;
++	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	if (WARN_ON_ONCE(!ctx))
++		return -ENOMEM;
 +
-+	if (shift < 0)
-+		return -EINVAL;
++	ctx->data = data;
++	ctx->attr = attr;
 +
-+	WRITE_ONCE(subsys->adp_ewma_shift, shift);
-+	return count;
++	if (attr->seq_ops) {
++		ret = seq_open(file, attr->seq_ops);
++		if (ret) {
++			kfree(ctx);
++			return ret;
++		}
++		m = file->private_data;
++		m->private = ctx;
++		return ret;
++	}
++
++	if (WARN_ON_ONCE(!attr->show)) {
++		kfree(ctx);
++		return -EPERM;
++	}
++
++	return single_open(file, nvme_debugfs_show, ctx);
 +}
 +
-+SUBSYS_ATTR_RW(adp_ewma_shift, 0644, nvme_subsys_adp_ewma_shift_show,
-+		nvme_subsys_adp_ewma_shift_store);
++static int nvme_debugfs_release(struct inode *inode, struct file *file)
++{
++	struct seq_file *m = file->private_data;
++	struct nvme_debugfs_ctx *ctx = m->private;
++	struct nvme_debugfs_attr *attr = ctx->attr;
++	int ret;
 +
- static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
- 		char *buf)
- {
++	if (attr->seq_ops)
++		ret = seq_release(inode, file);
++	else
++		ret = single_release(inode, file);
++
++	kfree(ctx);
++	return ret;
++}
++
++static const struct file_operations nvme_debugfs_fops = {
++	.owner   = THIS_MODULE,
++	.open    = nvme_debugfs_open,
++	.read    = seq_read,
++	.llseek  = seq_lseek,
++	.release = nvme_debugfs_release,
++};
++
++
++static const struct nvme_debugfs_attr nvme_mpath_debugfs_attrs[] = {
++	{},
++};
++
++static const struct nvme_debugfs_attr nvme_ns_debugfs_attrs[] = {
++	{},
++};
++
++static void nvme_debugfs_create_files(struct request_queue *q,
++		const struct nvme_debugfs_attr *attr, void *data)
++{
++	if (WARN_ON_ONCE(!q->debugfs_dir))
++		return;
++
++	for (; attr->name; attr++)
++		debugfs_create_file_aux(attr->name, attr->mode, q->debugfs_dir,
++				data, (void *)attr, &nvme_debugfs_fops);
++}
++
++void nvme_debugfs_register(struct gendisk *disk)
++{
++	const struct nvme_debugfs_attr *attr;
++
++	if (nvme_disk_is_ns_head(disk))
++		attr = nvme_mpath_debugfs_attrs;
++	else
++		attr = nvme_ns_debugfs_attrs;
++
++	nvme_debugfs_create_files(disk->queue, attr, disk->private_data);
++}
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5baf0232726f..9f5b233c747a 100644
+index 2e58d4d6902a..d049b62b71d2 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -450,6 +450,7 @@ struct nvme_subsystem {
- 	struct ida		ns_ida;
- #ifdef CONFIG_NVME_MULTIPATH
- 	enum nvme_iopolicy	iopolicy;
-+	int			adp_ewma_shift; /* used for adaptive iopolicy */
- #endif
- };
+@@ -988,6 +988,7 @@ extern const struct attribute_group *nvme_dev_attr_groups[];
+ extern const struct block_device_operations nvme_bdev_ops;
  
-@@ -1043,6 +1044,7 @@ extern struct device_attribute dev_attr_queue_depth;
- extern struct device_attribute dev_attr_numa_nodes;
- extern struct device_attribute dev_attr_delayed_removal_secs;
- extern struct device_attribute subsys_attr_iopolicy;
-+extern struct device_attribute subsys_attr_adp_ewma_shift;
- 
- static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
+ void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
++
+ struct nvme_ns *nvme_find_path(struct nvme_ns_head *head, unsigned int op_type);
+ static inline int nvme_data_dir(const enum req_op op)
  {
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 1cbab90ed42e..cf9711961b00 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -917,6 +917,7 @@ static struct attribute *nvme_subsys_attrs[] = {
- 	&subsys_attr_subsystype.attr,
+@@ -999,6 +1000,16 @@ static inline int nvme_data_dir(const enum req_op op)
+ 		return NVME_STAT_OTHER;
+ }
+ 
++void nvme_debugfs_register(struct gendisk *disk);
++static inline void nvme_debugfs_unregister(struct gendisk *disk)
++{
++	/*
++	 * Nothing to do for now. When the request queue is unregistered,
++	 * all files under q->debugfs_dir are recursively deleted.
++	 * This is just a placeholder; the compiler will optimize it out.
++	 */
++}
++
  #ifdef CONFIG_NVME_MULTIPATH
- 	&subsys_attr_iopolicy.attr,
-+	&subsys_attr_adp_ewma_shift.attr,
- #endif
- 	NULL,
- };
+ static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ {
 -- 
 2.51.0
 
