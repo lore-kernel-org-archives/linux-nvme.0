@@ -4,96 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 387F1CCF9E5
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Oct 2025 12:03:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 514E7CCF9E5
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Oct 2025 12:10:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tZRTj+kOpmAZ4lXd75oo9d1waoXdjPLl508pz7qc+Yk=; b=AwZJg/GP/DbdXe2tsqemO6SaJn
-	G1st8ETECmoY7txQTNG2q3ws/IFU/46qq9638BJuN2/zWWCNmzCUlhcYO3q+S5ktyBwn3C5tUoR67
-	6liZF2o07JL+sUm0NqkhCj1oqYcwy8azsgx3hul85sE3EE9QP7dKwxbyuKT44N9t8vFEjMKJ4tajL
-	yYmcUjklmdsuduKtgi+l2ErjcILX9JsaW495fQptQUfhX875kmYq53Q9RVt8pvnJqtgOHylnPQHtb
-	PszZ9yuj+n1aczNlDE1z7n2Frm3+/phuCluAzAyH6dQu9ar6AGaECQYLqosbDkjQ/ElLhOPeeGUaE
-	loDXrM4g==;
+	bh=xYMhGxDxiGCjYFeQczU7avC8TptCuGU7QwG/NkXwRvs=; b=aahx9i8oCwaHaT1tRPwgklF1BE
+	QB9FWZ37FonwBvzgJJgoRuni0PsilQHeEdQyRkn9R+3BXELcxdhitv0exboPDpfieaWHGayXBcAeX
+	1fKVheO71q6O6r9T3a3JItdAWio3EDhRUMsoEHP1s71mJcSY+gDgjF2GHDGS9AuNwoWClq1WaqtVQ
+	ZzsiaOzTHQHfeO2X+UtYlrSqn89wRmCGXkot7aH9he4DU+5uponCUEHKenYXKShVZipGz3/HQ+Aww
+	205+OUKYzgl0a/Zubbz/kzZKefVj/+8zsEwmbFDqvjvZlWA8lEn45rGQEK4rNvfnKF7BlWSA9MbRK
+	s3TLCYzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDLwO-0000000DqFJ-42zq;
-	Mon, 27 Oct 2025 12:03:12 +0000
+	id 1vDM3B-0000000DrBc-3pZ8;
+	Mon, 27 Oct 2025 12:10:13 +0000
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDLwL-0000000DqEg-3nlW
+	id 1vDM38-0000000DrB4-3WCX
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Oct 2025 12:03:11 +0000
+	Mon, 27 Oct 2025 12:10:12 +0000
 Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59QH71Na007389;
-	Mon, 27 Oct 2025 12:03:03 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59QMR598029911;
+	Mon, 27 Oct 2025 12:10:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=tZRTj+
-	kOpmAZ4lXd75oo9d1waoXdjPLl508pz7qc+Yk=; b=k9166zjEnf8pU3VumNSPvo
-	1a7/euHfiSAvCG05S0xqWgV/+LeHqoCHY+HOKVlJuPIrOZMPTfrDt3Gv5tNnGEL/
-	fMO8TUKdwsPS3z5fciqQh2eZDcvmswOzSKH4OnNBa+ZAcWIRXP5u60MMRpbA6zYj
-	Sx2FspRd9epo8QYkHGHwnv+/Qr/5FBKUCupVMM6avWHMSWV/Nh4P/KFQ061qExp8
-	aorGqR+zUafuTbZn8+0QDlD2c1i0zyLyLKCkHPj0qzfTNFLuj19r7iD7hkI2rWvd
-	a5pfsmRnoig+uAS4IaQ93hP0Nqk7d68jiS7EnXUMxsQeRq9pIFVI0ns+nplsx7cQ
+	:message-id:mime-version:references:subject:to; s=pp1; bh=xYMhGx
+	DxiGCjYFeQczU7avC8TptCuGU7QwG/NkXwRvs=; b=pZraaQQXxoAh7krFoCX6cV
+	+XxDN6rmSSIfP33jJ+x7CbaEmFQK2SJadwR5hkGZMqxWc5MhyWHtGtLaQfmQntMe
+	9qCjcVHx0rbJUg0EoX3mP026759A+HnEivDGJhtQsF/FxBDmsAzaWWnxaC7fj45K
+	2k7IUOyrJV2TgUkZJUb9DCkmiRq5auz+Y7wfG+7Kq7aq8363XSITT1FCWXYdSupV
+	ZTh64T+iTfgtZ/peW1wgC34cXVIYjOZDHdmVYjQXxM/solZoZMJ8wb2ab0K2XTK/
+	KyEL24CvWbLOD1STlaWIpxLOuajgEOFbrWPw0Q2izrq/GLmvGqNuKB1l9YjAsYQw
 	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0kyt6pab-1
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a0kyt6qc8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Oct 2025 12:03:03 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59RBUNiw030103;
-	Mon, 27 Oct 2025 12:03:03 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4a19vmdd27-1
+	Mon, 27 Oct 2025 12:10:03 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 59R8ZDoi009404;
+	Mon, 27 Oct 2025 12:10:02 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4a1b3hw753-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Oct 2025 12:03:03 +0000
+	Mon, 27 Oct 2025 12:10:02 +0000
 Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59RC32u728181002
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 59RC9mD914942818
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 Oct 2025 12:03:02 GMT
+	Mon, 27 Oct 2025 12:09:49 GMT
 Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4A68E58057;
-	Mon, 27 Oct 2025 12:03:02 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 4DA8158057;
+	Mon, 27 Oct 2025 12:10:01 +0000 (GMT)
 Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 249EE58061;
-	Mon, 27 Oct 2025 12:02:58 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 0C01B58059;
+	Mon, 27 Oct 2025 12:09:56 +0000 (GMT)
 Received: from [9.61.186.32] (unknown [9.61.186.32])
 	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 27 Oct 2025 12:02:57 +0000 (GMT)
-Message-ID: <155db473-0b40-4c3b-bde3-1cb650f1072a@linux.ibm.com>
-Date: Mon, 27 Oct 2025 17:32:54 +0530
+	Mon, 27 Oct 2025 12:09:55 +0000 (GMT)
+Message-ID: <8d2b7d1b-5e0d-4d66-b5fc-505f16da73a3@linux.ibm.com>
+Date: Mon, 27 Oct 2025 17:39:53 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCHv3 5/6] nvme: add generic debugfs support
+Subject: Re: [RFC PATCHv3 2/6] nvme-multipath: add support for adaptive I/O
+ policy
 To: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, dwagner@suse.de,
         axboe@kernel.dk, gjoyce@ibm.com
 References: <20251027092949.961287-1-nilay@linux.ibm.com>
- <20251027092949.961287-6-nilay@linux.ibm.com>
- <b7022e68-34d0-45b1-92b8-45f145315aff@suse.de>
+ <20251027092949.961287-3-nilay@linux.ibm.com>
+ <9a637581-eeff-486c-97e3-ba2ab8b5ceed@suse.de>
 Content-Language: en-US
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <b7022e68-34d0-45b1-92b8-45f145315aff@suse.de>
+In-Reply-To: <9a637581-eeff-486c-97e3-ba2ab8b5ceed@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: V9rhvr6gKDlvasm3XvaFc7beFpjLZKSu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDAwMSBTYWx0ZWRfX3wXuPlUxG3b+
- 9SWsDh/NRUVp6cLORtzMcQQ5ZeAwuwUBoFIv0n8ZZtUyXI5Hl9D/CihliDhnYFepyU+LNRwBWSJ
- q/chKkEKupzFjrKRfsC6JH8gSZLNbXuwelE3g9G4TUY3M63egVDnaHjmBH9exN5Dpw9salc0x3T
- 8tt06OPHSIv8EBbeNZot2GM2xNfJTh+BdS+FNKgXs+hFnEkVBFizC1f+nUYtPvlkn72Wk11mMOu
- 3xsqegblUPyhnSW9gL7Mk9lI1IFC8xdtqaLRALQtbawZzjIsT7firTvxOg0W6kQiyFSyIl417jo
- DhOVH+Bonu+9WBablMizuox/9z2u4nAE94wS3N1hXRpETRqbmxjbtZ7Wm6RyFg6rtnJd54GTf0W
- po4IC8yFveCn5aTF1M2VDzNAlDao+w==
-X-Proofpoint-GUID: V9rhvr6gKDlvasm3XvaFc7beFpjLZKSu
-X-Authority-Analysis: v=2.4 cv=FaE6BZ+6 c=1 sm=1 tr=0 ts=68ff5f77 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+X-Proofpoint-ORIG-GUID: pWH2eEuDrW5cGbDcJUq0UBDi4lq_inOg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDAwMSBTYWx0ZWRfX7uC6yQNT/Rrb
+ z0yl4pF6keS0l2mUmspb6nDuKsRlmyQfr8anWd/yECJLu4sESBx1uJ9vZWcw2MEod2Yn6gFH66z
+ e9I4a3tLDfWK+vDKKJw3HqLG452rCcsz9h+zshiM+hcgIniUtiI/9SnbfQ6KUHXbOK4suCc33pM
+ xuWCvFncJE0jc0QNJ2lldGgb5ndbuUvMYaDX0SBOTAyibKV845BQ8Jc84YD1eVas6JOvK2fxHDH
+ 1+pH0I9EFxLh2afJvoLEa5ZvgF0mJQf4KHwFUN2XxwKmviUTi5gZPvKExXAfbmX5qWX0G4JOSWt
+ HhXcNzxvysufzWsQ2zOQTL/5TugJ1EGPkec8xJM7MB3jVMSZ3TMkY4r4P/RMnAZzAt/PaGg2Gdq
+ owszdPONs2bEjvxrbxImbkOSmTrXPw==
+X-Proofpoint-GUID: pWH2eEuDrW5cGbDcJUq0UBDi4lq_inOg
+X-Authority-Analysis: v=2.4 cv=FaE6BZ+6 c=1 sm=1 tr=0 ts=68ff611b cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
  a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VnNF1IyMAAAA:8 a=AreWLH70bw0oQ-XAbN4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=IMtRz4eSDtV6zLgheRgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
  a=cPQSjfK2_nFv0Q5t_7PE:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
@@ -104,8 +105,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510250001
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251027_050310_065985_FD8F1497 
-X-CRM114-Status: GOOD (  24.42  )
+X-CRM114-CacheID: sfid-20251027_051011_011996_FF29F05B 
+X-CRM114-Status: GOOD (  13.55  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,200 +123,45 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 10/27/25 5:25 PM, Hannes Reinecke wrote:
-> On 10/27/25 10:29, Nilay Shroff wrote:
->> Add generic infrastructure for creating and managing debugfs files in
->> the NVMe module. This introduces helper APIs that allow NVMe drivers to
->> register and unregister debugfs entries, along with a reusable attribute
->> structure for defining new debugfs files.
->>
->> The implementation uses seq_file interfaces to safely expose per-NS and
->> per-NS-head statistics, while supporting both simple show callbacks and
->> full seq_operations.
->>
->> Reviewed-by: Hannes Reinecke <hare@suse.de>
->> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->> ---
->>   drivers/nvme/host/Makefile  |   2 +-
->>   drivers/nvme/host/debugfs.c | 122 ++++++++++++++++++++++++++++++++++++
->>   drivers/nvme/host/nvme.h    |  11 ++++
->>   3 files changed, 134 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/nvme/host/debugfs.c
->>
->> diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
->> index 6414ec968f99..7962dfc3b2ad 100644
->> --- a/drivers/nvme/host/Makefile
->> +++ b/drivers/nvme/host/Makefile
->> @@ -10,7 +10,7 @@ obj-$(CONFIG_NVME_FC)            += nvme-fc.o
->>   obj-$(CONFIG_NVME_TCP)            += nvme-tcp.o
->>   obj-$(CONFIG_NVME_APPLE)        += nvme-apple.o
->>   -nvme-core-y                += core.o ioctl.o sysfs.o pr.o
->> +nvme-core-y                += core.o ioctl.o sysfs.o pr.o debugfs.o
->>   nvme-core-$(CONFIG_NVME_VERBOSE_ERRORS)    += constants.o
->>   nvme-core-$(CONFIG_TRACING)        += trace.o
->>   nvme-core-$(CONFIG_NVME_MULTIPATH)    += multipath.o
->> diff --git a/drivers/nvme/host/debugfs.c b/drivers/nvme/host/debugfs.c
->> new file mode 100644
->> index 000000000000..5c441779554f
->> --- /dev/null
->> +++ b/drivers/nvme/host/debugfs.c
->> @@ -0,0 +1,122 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) 2025 IBM Corporation
->> + *    Nilay Shroff <nilay@linux.ibm.com>
->> + */
->> +
->> +#include <linux/debugfs.h>
->> +#include <linux/seq_file.h>
->> +
->> +#include "nvme.h"
->> +
->> +struct nvme_debugfs_attr {
->> +    const char *name;
->> +    umode_t mode;
->> +    int (*show)(void *data, struct seq_file *m);
->> +    const struct seq_operations *seq_ops;
->> +};
->> +
->> +struct nvme_debugfs_ctx {
->> +    void *data;
->> +    struct nvme_debugfs_attr *attr;
->> +    int srcu_idx;
->> +};
->> +
->> +static int nvme_debugfs_show(struct seq_file *m, void *v)
+On 10/27/25 5:04 PM, Hannes Reinecke wrote:
+>> +static bool nvme_mpath_set_current_adaptive_path(struct nvme_ns *ns)
 >> +{
->> +    struct nvme_debugfs_ctx *ctx = m->private;
->> +    void *data = ctx->data;
->> +    struct nvme_debugfs_attr *attr = ctx->attr;
+>> +    struct nvme_ns_head *head = ns->head;
 >> +
->> +    return attr->show(data, m);
+>> +    if (!head->disk || head->subsys->iopolicy != NVME_IOPOLICY_ADAPTIVE)
+>> +        return false;
+>> +
+>> +    if (test_and_set_bit(NVME_NS_PATH_STAT, &ns->flags))
+>> +        return false;
+>> +
+>> +    blk_queue_flag_set(QUEUE_FLAG_SAME_FORCE, ns->queue);
+>> +    blk_stat_enable_accounting(ns->queue);
+>> +    return true;
 >> +}
 >> +
->> +static int nvme_debugfs_open(struct inode *inode, struct file *file)
+>> +static bool nvme_mpath_clear_current_adaptive_path(struct nvme_ns *ns)
 >> +{
->> +    void *data = inode->i_private;
->> +    struct nvme_debugfs_attr *attr = debugfs_get_aux(file);
->> +    struct nvme_debugfs_ctx *ctx;
->> +    struct seq_file *m;
->> +    int ret;
 >> +
->> +    ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
->> +    if (WARN_ON_ONCE(!ctx))
->> +        return -ENOMEM;
+>> +    if (!test_and_clear_bit(NVME_NS_PATH_STAT, &ns->flags))
+>> +        return false;
 >> +
->> +    ctx->data = data;
->> +    ctx->attr = attr;
->> +
->> +    if (attr->seq_ops) {
->> +        ret = seq_open(file, attr->seq_ops);
->> +        if (ret) {
->> +            kfree(ctx);
->> +            return ret;
->> +        }
->> +        m = file->private_data;
->> +        m->private = ctx;
->> +        return ret;
->> +    }
->> +
->> +    if (WARN_ON_ONCE(!attr->show)) {
->> +        kfree(ctx);
->> +        return -EPERM;
->> +    }
->> +
->> +    return single_open(file, nvme_debugfs_show, ctx);
+>> +    blk_stat_disable_accounting(ns->queue);
+>> +    blk_queue_flag_clear(QUEUE_FLAG_SAME_FORCE, ns->queue);
+>> +    nvme_mpath_reset_current_stat(ns);
+>> +    return true;
 >> +}
 >> +
->> +static int nvme_debugfs_release(struct inode *inode, struct file *file)
->> +{
->> +    struct seq_file *m = file->private_data;
->> +    struct nvme_debugfs_ctx *ctx = m->private;
->> +    struct nvme_debugfs_attr *attr = ctx->attr;
->> +    int ret;
->> +
->> +    if (attr->seq_ops)
->> +        ret = seq_release(inode, file);
->> +    else
->> +        ret = single_release(inode, file);
->> +
->> +    kfree(ctx);
->> +    return ret;
->> +}
->> +
->> +static const struct file_operations nvme_debugfs_fops = {
->> +    .owner   = THIS_MODULE,
->> +    .open    = nvme_debugfs_open,
->> +    .read    = seq_read,
->> +    .llseek  = seq_lseek,
->> +    .release = nvme_debugfs_release,
->> +};
->> +
->> +
->> +static const struct nvme_debugfs_attr nvme_mpath_debugfs_attrs[] = {
->> +    {},
->> +};
->> +
->> +static const struct nvme_debugfs_attr nvme_ns_debugfs_attrs[] = {
->> +    {},
->> +};
->> +
->> +static void nvme_debugfs_create_files(struct request_queue *q,
->> +        const struct nvme_debugfs_attr *attr, void *data)
->> +{
->> +    if (WARN_ON_ONCE(!q->debugfs_dir))
->> +        return;
->> +
->> +    for (; attr->name; attr++)
->> +        debugfs_create_file_aux(attr->name, attr->mode, q->debugfs_dir,
->> +                data, (void *)attr, &nvme_debugfs_fops);
->> +}
->> +
->> +void nvme_debugfs_register(struct gendisk *disk)
->> +{
->> +    const struct nvme_debugfs_attr *attr;
->> +
->> +    if (nvme_disk_is_ns_head(disk))
->> +        attr = nvme_mpath_debugfs_attrs;
->> +    else
->> +        attr = nvme_ns_debugfs_attrs;
->> +
->> +    nvme_debugfs_create_files(disk->queue, attr, disk->private_data);
->> +}
->> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
->> index 2e58d4d6902a..d049b62b71d2 100644
->> --- a/drivers/nvme/host/nvme.h
->> +++ b/drivers/nvme/host/nvme.h
->> @@ -988,6 +988,7 @@ extern const struct attribute_group *nvme_dev_attr_groups[];
->>   extern const struct block_device_operations nvme_bdev_ops;
->>     void nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
->> +
->>   struct nvme_ns *nvme_find_path(struct nvme_ns_head *head, unsigned int op_type);
->>   static inline int nvme_data_dir(const enum req_op op)
->>   {
->> @@ -999,6 +1000,16 @@ static inline int nvme_data_dir(const enum req_op op)
->>           return NVME_STAT_OTHER;
->>   }
->>   +void nvme_debugfs_register(struct gendisk *disk);
->> +static inline void nvme_debugfs_unregister(struct gendisk *disk)
->> +{
->> +    /*
->> +     * Nothing to do for now. When the request queue is unregistered,
->> +     * all files under q->debugfs_dir are recursively deleted.
->> +     * This is just a placeholder; the compiler will optimize it out.
->> +     */
->> +}
->> +
->>   #ifdef CONFIG_NVME_MULTIPATH
->>   static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
->>   {
 > 
-> Especially as you already add a debugfs entry, so moving
-> the values from the previous two patches should be easy.
-> 
-Okay will move those two entries under debugfs.
+> Hmm. I think this is a misnomer, as for the adaptive path policy we
+> don't really have a 'current_path', and as such we don't clear
+> the 'current_path' setting. Rather we disable the policy altogether
+> here.
+> Can we reflect that in the function name and name it eg
+> nvme_mpath_enable_adaptive_path_policy()
+> or somesuch?
+
+Yeah you are right, I'll update function name as suggested.
 
 Thanks,
 --Nilay
-
 
