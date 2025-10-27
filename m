@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B85CCCF9E9
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60B9BCCF9EA
 	for <linux-nvme@archiver.kernel.org>; Mon, 27 Oct 2025 02:03:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,85 +12,85 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QYyTEOzXOC/G6qb7jIG39TqesYubyS/P5gHR3qDN/K4=; b=lSOZNxn8V2ErqX5/5uQApN3W4w
-	Jwro6/xJYAs3oTYQ+GH+1gX/Om9FJuNx8iL+bBRNSiPV/F4qNVw1va31nzYyZI8ZbskwMidr4PbkE
-	9EYVqI0FsMLLPMMllPTxGE/IO+TVr5h5RnmfFDQPlZVoMSmvK0Z7I5Sm97pcd0++BCqWtOwEPziXV
-	o9iQAdup/JGWrvRoXQRSqdrGhOh3CLfe+CL23cpV9mh7+OJGMxkckuZt14goXWiYfR2eqPOi1gowr
-	db2CeVu+MkMQ905WNZdZNSxFbVPsO6mGjRhu2OiJSHilknViSzWs2fXNPXYDkGLFv02gkWfAB80Pp
-	IRxL5ECQ==;
+	bh=Gyj5Mu64din1Dku2oNVne+Zp21BejM/Odf+W0e4JKPg=; b=d/JaINNhQZq1ZhZoo5QWbru6Tg
+	QnEO+BkYusq4HZK2nc62vGp0QBiKlqYD9Sa2lGGjiS8eqLPq1KUhbFLrqNxbcg9c+BDh4xLWl2erC
+	E/wTTFCjfd1Pm+++16v3Lc3ePku2Z+TO/wlrBUovUfREnIzIp5y6U9tHuZ7wvmCRlCwfuJz7tFWWe
+	3m3+KWMfv2c/MRJyPgVjCCtJTNRcP3bu6o2jt0FY49Q21Hlb2yqW2JvmCRJo3BWy8ys/e5x238vys
+	KwqO9ENJdjvth/RH2jrHg/iCHO3PjgNY3NeZAFWN0xn7o2fz1n8Ytm6OPpaURDnUDhnrqv4PpPNT/
+	FpxAd4KA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDCZn-0000000CzDI-2an1;
+	id 1vDCZn-0000000CzDP-3rjb;
 	Mon, 27 Oct 2025 02:03:15 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDCZm-0000000CzD1-1MEN
+	id 1vDCZm-0000000CzD0-1MW0
 	for linux-nvme@bombadil.infradead.org;
 	Mon, 27 Oct 2025 02:03:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=QYyTEOzXOC/G6qb7jIG39TqesYubyS/P5gHR3qDN/K4=; b=A/34NrlOuxK1v+2yoz4atVYNEq
-	2oT6yL9FMEm675MRCQ4JyJ8xmk1mR855hgsd21gti+rc/FdlPCKe9WERaz3JUNXl5VszZlSe9YQif
-	+aTZPYQ8WKEGZ6Qgd1u4xkwUaKXqFkFFK27MpWm5lzxdrRzLq8+9toSAol5108c0gYNls3U2jUxHk
-	nYg0C3jM7wmN9BBmjn/BLtWgZrlqUeNlIlN9ya9uVPByXposLsxAJxJ/9VIZEptfcLL+E0GtaBXqw
-	SqxUz7g9ODvbG8dTgFRcer82kCp9EcXYaxexorji0BsuOygprF9makaoSM9aslck8+QX/jH2BPEig
-	BNpVkgvg==;
-Received: from mail-wm1-x364.google.com ([2a00:1450:4864:20::364])
+	bh=Gyj5Mu64din1Dku2oNVne+Zp21BejM/Odf+W0e4JKPg=; b=QwPZ+MN3gmScB+U+neyRgYJ260
+	J5ttekjX2SzHtPSHMiC40JKMXnFMECPxNxGcIJwxIVaPeCDoU6gyNfrxsShvRprfk3BJzPPBDpnb3
+	bDF384p2rpTCMM2dgNWEdIRbdAFHUlUldgK/jkfGJ/AhVfS3C2PtoUUsrn38Nxbvw2l0YgTb2m/Ag
+	z6kJ2UL1tNMAaXNDU4fBmQs8b+mibVNaFxFsHKR3b2fOeWvSj66N4l9GiR+c/kEHHJ4/9Q107had1
+	i8CDEcHUeFkcZ5/kn+O31hCJMZNAtifpjT8VtCYL5E4LHGxWdVgiFB6gSs1lKNk1+i1IT/5ncpj/5
+	LQl8W5mA==;
+Received: from mail-wm1-x361.google.com ([2a00:1450:4864:20::361])
 	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDBhy-00000001E79-1uuj
+	id 1vDBhy-00000001E78-1cgs
 	for linux-nvme@lists.infradead.org;
 	Mon, 27 Oct 2025 01:07:40 +0000
-Received: by mail-wm1-x364.google.com with SMTP id 5b1f17b1804b1-471810a77c1so4476305e9.2
+Received: by mail-wm1-x361.google.com with SMTP id 5b1f17b1804b1-472cbd003feso1987265e9.3
         for <linux-nvme@lists.infradead.org>; Sun, 26 Oct 2025 19:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1761530589; x=1762135389; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1761530588; x=1762135388; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QYyTEOzXOC/G6qb7jIG39TqesYubyS/P5gHR3qDN/K4=;
-        b=bkOvNc5/dmkIZuu8bExCcokz2xWcbXnqeqSFzscTpdM09iDE36vFanROXNn5y0ieOS
-         sHuWuludNqgl9K5FdN3hcpgkin4vzXQ+tIJPs+Tt7gl6lzeveUixQx5pPeue0AK+V1/i
-         a9ohMXXv3+oft/Q0RGv51rnR8eaX5IGEdh8n1rlDuKFJuJMtVbfV+z9PaYZIkTmj3wWT
-         QmfouzUW1eLVq9Klmy095+kBt3rRjphiisJizC2xpnaGdhgQINZFsHFrxJ4R2b4OU8ov
-         66lbDUcQVOfZqAbuRtHtz3cWnhO4RCRlXvhjs0g8AojzH0RXBvVb1B2BcVLT5A/pbRm4
-         LvDw==
+        bh=Gyj5Mu64din1Dku2oNVne+Zp21BejM/Odf+W0e4JKPg=;
+        b=agI+FaZsDx29DSNkAZJ7mXNPZMpM3dMkb/kD8JJ3anRQ270OJCboijQuQdTsLs8tW6
+         ehvmiU4DXjZyjb3fR/7Gadz/lB5jAiD46pefJMJbr0A+0LUzKYLJoUJkWcjiR6B95Y1H
+         n8pLEqnkeOaJU4aW+fwzHwXcK9PGATV87LxwFWOqLN0lDPjYQtTpviNkFw420Ya0y3tX
+         bVFjZ9/asafDad/80qQW65mzASFhjyu1uFyOy2iHz176kFIVqqX8gtFIWWm+yWJR0FI+
+         fGqxBbD8VEA2TitBMBBn6HiWvb2U2nGUbtvg/LJNzoxlBzwlQjmUcGfcOXMSnFmu7OKN
+         WDYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761530589; x=1762135389;
+        d=1e100.net; s=20230601; t=1761530588; x=1762135388;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QYyTEOzXOC/G6qb7jIG39TqesYubyS/P5gHR3qDN/K4=;
-        b=R9BKNo4hL6DZvbK4+zh5nKG5/W2Jcv3nTWuchZA8yjZJzS1A5NNVcQuBU0h2ebnYKF
-         TcXFEBrxKlc+t2qugt8IOe558zHjqpusITTnem6dEfM/E4ToLS136pZ8lVChz6gmSp7X
-         N/rKLDsxvnk7l5a8DJX6Aq7nM/NvSGe7x0fkij/dicfOJreuyya6inV9OFVsUsCQ5NE1
-         WSXRZVvT8LVKgLFHl0j/t2FZL0IW48rl4wa9ri7okDzukFmaQJmGyFnVvWiRF5UxibOM
-         dxW1UTmzssnxw8TYUJiV5BxzuB6biCkEcUhPKmH1Njw1kyw7cjrtlRh6HmhJQK7AFg8N
-         KF/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXODdAR5jkB3n8x//3J9FiqmJrs2EIn7PIiqd0lyzjau6wDEpP2dOh33LWqhiW/jcoYOyd+5Ub7/zfP@lists.infradead.org
-X-Gm-Message-State: AOJu0Yys1rP9ipwDdCo1t4HakIccNagKQW5yiYCCoQwPvch/2qDtvnZ5
-	z/s4E5M57q3aEGDVxubW0D4A6T4oOISfIruyZOFROWkXZuAm8uM/FqWxcl7GKkdUcE/S3kbd+b9
-	tDD4KJzcp2IVPJ3if6J5S7Q7BoIHOQfLCh6Ac
-X-Gm-Gg: ASbGnctwRX8Yo7B42bOb/0bmJhivWQaSiUmGwINM1l3RKNQ4ydx3lIixf9WjnH8OCRC
-	cFyxh989TekVCaut/MQk74dK1XYxVVOC7K9D4o/ad9yHvf80jFc3ZrAPS0N/Lz7CNzFG7V4mmmE
-	T3Am/BeM+Gy2Ry6JOGKy9jbNgL1BMjSLm75/Y2jEXTV6mxSVyyBG2OcRrnfMqa05vaScrLzEMzm
-	kK5jwpMWpY16xkm+H52mCOZVRS9LVSfSH060qi15LA63QvVLkys9TrF6WTmJO+9OtdYCqlberNe
-	ZJWd/oQzNkoqXWPHGDiOsxV7c6sBsgPR35KqypIIn5caaeo7tY8Nx2ErZBgpAiF8J1e/rzWKPnC
-	YWb5e3R0A/5imvwBMudhqL/Goe7xJMW4=
-X-Google-Smtp-Source: AGHT+IENasqP0ZhtKF05fLncLOW0V3k4buf18cx1cMtCyilYnh1Ti+hR7o9I8wqQWZYLbNuPmDGjdwUp6Ttv
-X-Received: by 2002:a05:600c:c4a7:b0:475:d7fe:87a5 with SMTP id 5b1f17b1804b1-475d7fe88b4mr40752065e9.6.1761530588575;
+        bh=Gyj5Mu64din1Dku2oNVne+Zp21BejM/Odf+W0e4JKPg=;
+        b=Sh4ZYDXz08I0WPB6faNY5Qcsz6m1CLB1PE0wFYuGuul/kykpOfBu28IBhfSj7wJ6ny
+         2dJgWb4Kjnl0BXGHuTre3/JfDrTGSNgD/3jACGsHr8er9V98nbR6H5HNqiQyLUifTyn8
+         jTX9PzhR02/dSwlqfDwEBx6T7JWCDbWRomTXIOGClePytxt0gwPiuoynmnpLkjY4xh9v
+         1uELniQ3jy5+un2D+ZKJIkq8fGxwz9FTJWiXr6PtU3fuo8soxZW3N2lzx8EpfV5Qoh/O
+         WzpT+Bnyo+zcUfYO+STXzU/7+GEGIzZjZoCzN0te5DuecBi3NYcGSpAfAFZIIlHgPb0h
+         7pFw==
+X-Forwarded-Encrypted: i=1; AJvYcCWlgPk355ye/irjLE2g/3SZy0lNWKZYlMFO0v+q+mfPhQdeZaK4Zq4eIcWpaAVVx6UHkXTtYdmXwVrC@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx6qIJH96FVEGYdTjBhfnDG6Zan6R9lttURis3DFXV9/eIlQEIz
+	zQWUgNUmfdKRcnvXf5dt8Zih6S0yGvZW//WlAriJ92DgYdpy1L20BsKrTFthpLAaP4L/MKeT8kx
+	/MbijfRg3+LUjTuc20VRmDAZjV4yRvFAAA27c
+X-Gm-Gg: ASbGnctdIXqykmrNDqgoMuoWzIUsMNQR9RqSRSV5+eAT8MwYkJX+UtpoeB6kITVIow3
+	HhyzWYFVElVbD6x2L88i+aT34d3dntEMatfalIOYKPYR/8MXbFf9GcrwsD/ufDEyrrfuT9tuiGz
+	ShTpCf54ep17MfME3c1keKwLKcfPfWIIZUBRbrBNYPgorLnA/OEANAHEf25I4t0OqSXf30IAwJ0
+	KDY1CzEI0bh267t58k70ZyHQG4pntjMYgvXr2DUMiDeNIl5GYDzAZn2thkHp08E2soVtP7ZEDCn
+	eWnbXqZIelM9ingE0o7r2qMIthSdQ0+pUS08aKfq3ZNrZi6ASUcjsUlE38HBURz2NaOH1Do9Mys
+	sa+nAIy+dvzQ9hLkRR9lbitEjcGnvJ18=
+X-Google-Smtp-Source: AGHT+IG56HLBvuL0FtqNYOOp2hQlRU6Y0af6uEaNJZ5PDL+CmiwbOCX51feGfad+fUQ8TvQuAlR1GpgMK35S
+X-Received: by 2002:a05:600c:3b02:b0:471:161b:4244 with SMTP id 5b1f17b1804b1-4749439ec9cmr98490245e9.5.1761530588169;
         Sun, 26 Oct 2025 19:03:08 -0700 (PDT)
 Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
-        by smtp-relay.gmail.com with ESMTPS id 5b1f17b1804b1-475dcbe5592sm5859395e9.0.2025.10.26.19.03.07
+        by smtp-relay.gmail.com with ESMTPS id 5b1f17b1804b1-475dd06cc86sm5636205e9.1.2025.10.26.19.03.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 26 Oct 2025 19:03:08 -0700 (PDT)
 X-Relaying-Domain: purestorage.com
 Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.7.70.37])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 2F7A0341D24;
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id A21A1341F2A;
 	Sun, 26 Oct 2025 20:03:06 -0600 (MDT)
 Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 2CC8BE46586; Sun, 26 Oct 2025 20:03:06 -0600 (MDT)
+	id 9ED65E46586; Sun, 26 Oct 2025 20:03:06 -0600 (MDT)
 From: Caleb Sander Mateos <csander@purestorage.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Miklos Szeredi <miklos@szeredi.hu>,
@@ -107,17 +107,17 @@ Cc: io-uring@vger.kernel.org,
 	linux-btrfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v3 2/4] io_uring/uring_cmd: call io_should_terminate_tw() when needed
-Date: Sun, 26 Oct 2025 20:03:00 -0600
-Message-ID: <20251027020302.822544-3-csander@purestorage.com>
+Subject: [PATCH v3 3/4] io_uring: add wrapper type for io_req_tw_func_t arg
+Date: Sun, 26 Oct 2025 20:03:01 -0600
+Message-ID: <20251027020302.822544-4-csander@purestorage.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20251027020302.822544-1-csander@purestorage.com>
 References: <20251027020302.822544-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251027_010738_782668_4CB0F749 
-X-CRM114-Status: GOOD (  15.77  )
+X-CRM114-CacheID: sfid-20251027_010738_782668_CCC55C00 
+X-CRM114-Status: GOOD (  20.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,109 +132,540 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Most uring_cmd task work callbacks don't check IO_URING_F_TASK_DEAD. But
-it's computed unconditionally in io_uring_cmd_work(). Add a helper
-io_uring_cmd_should_terminate_tw() and call it instead of checking
-IO_URING_F_TASK_DEAD in the one callback, fuse_uring_send_in_task().
-Remove the now unused IO_URING_F_TASK_DEAD.
+In preparation for uring_cmd implementations to implement functions
+with the io_req_tw_func_t signature, introduce a wrapper struct
+io_tw_req to hide the struct io_kiocb * argument. The intention is for
+only the io_uring core to access the inner struct io_kiocb *. uring_cmd
+implementations should instead call a helper from io_uring/cmd.h to
+convert struct io_tw_req to struct io_uring_cmd *.
 
 Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 ---
- fs/fuse/dev_uring.c            | 2 +-
- include/linux/io_uring/cmd.h   | 7 ++++++-
- include/linux/io_uring_types.h | 1 -
- io_uring/uring_cmd.c           | 6 +-----
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ include/linux/io_uring_types.h |  6 +++++-
+ io_uring/futex.c               | 16 +++++++++-------
+ io_uring/io_uring.c            | 21 ++++++++++++---------
+ io_uring/io_uring.h            |  4 ++--
+ io_uring/msg_ring.c            |  3 ++-
+ io_uring/notif.c               |  5 +++--
+ io_uring/poll.c                | 11 ++++++-----
+ io_uring/poll.h                |  2 +-
+ io_uring/rw.c                  |  5 +++--
+ io_uring/rw.h                  |  2 +-
+ io_uring/timeout.c             | 18 +++++++++++-------
+ io_uring/uring_cmd.c           |  3 ++-
+ io_uring/waitid.c              |  7 ++++---
+ 13 files changed, 61 insertions(+), 42 deletions(-)
 
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index f6b12aebb8bb..71b0c9662716 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -1214,11 +1214,11 @@ static void fuse_uring_send_in_task(struct io_uring_cmd *cmd,
- {
- 	struct fuse_ring_ent *ent = uring_cmd_to_ring_ent(cmd);
- 	struct fuse_ring_queue *queue = ent->queue;
- 	int err;
- 
--	if (!(issue_flags & IO_URING_F_TASK_DEAD)) {
-+	if (!io_uring_cmd_should_terminate_tw(cmd)) {
- 		err = fuse_uring_prepare_send(ent, ent->fuse_req);
- 		if (err) {
- 			fuse_uring_next_fuse_req(ent, queue, issue_flags);
- 			return;
- 		}
-diff --git a/include/linux/io_uring/cmd.h b/include/linux/io_uring/cmd.h
-index 7509025b4071..b84b97c21b43 100644
---- a/include/linux/io_uring/cmd.h
-+++ b/include/linux/io_uring/cmd.h
-@@ -1,11 +1,11 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
- #ifndef _LINUX_IO_URING_CMD_H
- #define _LINUX_IO_URING_CMD_H
- 
- #include <uapi/linux/io_uring.h>
--#include <linux/io_uring_types.h>
-+#include <linux/io_uring.h>
- #include <linux/blk-mq.h>
- 
- /* only top 8 bits of sqe->uring_cmd_flags for kernel internal use */
- #define IORING_URING_CMD_CANCELABLE	(1U << 30)
- /* io_uring_cmd is being issued again */
-@@ -143,10 +143,15 @@ static inline void io_uring_cmd_complete_in_task(struct io_uring_cmd *ioucmd,
- 			io_uring_cmd_tw_t task_work_cb)
- {
- 	__io_uring_cmd_do_in_task(ioucmd, task_work_cb, 0);
- }
- 
-+static inline bool io_uring_cmd_should_terminate_tw(struct io_uring_cmd *cmd)
-+{
-+	return io_should_terminate_tw(cmd_to_io_kiocb(cmd)->ctx);
-+}
-+
- static inline struct task_struct *io_uring_cmd_get_task(struct io_uring_cmd *cmd)
- {
- 	return cmd_to_io_kiocb(cmd)->tctx->task;
- }
- 
 diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index c2ea6280901d..278c4a25c9e8 100644
+index 278c4a25c9e8..1326eb9ad899 100644
 --- a/include/linux/io_uring_types.h
 +++ b/include/linux/io_uring_types.h
-@@ -37,11 +37,10 @@ enum io_uring_cmd_flags {
- 	IO_URING_F_IOPOLL		= (1 << 10),
- 
- 	/* set when uring wants to cancel a previously issued command */
- 	IO_URING_F_CANCEL		= (1 << 11),
- 	IO_URING_F_COMPAT		= (1 << 12),
--	IO_URING_F_TASK_DEAD		= (1 << 13),
+@@ -611,11 +611,15 @@ enum {
+ 	REQ_F_IMPORT_BUFFER	= IO_REQ_FLAG(REQ_F_IMPORT_BUFFER_BIT),
+ 	/* ->sqe_copy() has been called, if necessary */
+ 	REQ_F_SQE_COPIED	= IO_REQ_FLAG(REQ_F_SQE_COPIED_BIT),
  };
  
- struct io_wq_work_node {
- 	struct io_wq_work_node *next;
- };
-diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
-index d1e3ba62ee8e..35bdac35cf4d 100644
---- a/io_uring/uring_cmd.c
-+++ b/io_uring/uring_cmd.c
-@@ -114,17 +114,13 @@ void io_uring_cmd_mark_cancelable(struct io_uring_cmd *cmd,
- EXPORT_SYMBOL_GPL(io_uring_cmd_mark_cancelable);
+-typedef void (*io_req_tw_func_t)(struct io_kiocb *req, io_tw_token_t tw);
++struct io_tw_req {
++	struct io_kiocb *req;
++};
++
++typedef void (*io_req_tw_func_t)(struct io_tw_req tw_req, io_tw_token_t tw);
  
- static void io_uring_cmd_work(struct io_kiocb *req, io_tw_token_t tw)
+ struct io_task_work {
+ 	struct llist_node		node;
+ 	io_req_tw_func_t		func;
+ };
+diff --git a/io_uring/futex.c b/io_uring/futex.c
+index 64f3bd51c84c..4e022c76236d 100644
+--- a/io_uring/futex.c
++++ b/io_uring/futex.c
+@@ -39,28 +39,30 @@ bool io_futex_cache_init(struct io_ring_ctx *ctx)
+ void io_futex_cache_free(struct io_ring_ctx *ctx)
  {
- 	struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
--	unsigned int flags = IO_URING_F_COMPLETE_DEFER;
--
--	if (io_should_terminate_tw(req->ctx))
--		flags |= IO_URING_F_TASK_DEAD;
- 
- 	/* task_work executor checks the deffered list completion */
--	ioucmd->task_work_cb(ioucmd, flags);
-+	ioucmd->task_work_cb(ioucmd, IO_URING_F_COMPLETE_DEFER);
+ 	io_alloc_cache_free(&ctx->futex_cache, kfree);
  }
  
- void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
- 			io_uring_cmd_tw_t task_work_cb,
- 			unsigned flags)
+-static void __io_futex_complete(struct io_kiocb *req, io_tw_token_t tw)
++static void __io_futex_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
+-	hlist_del_init(&req->hash_node);
+-	io_req_task_complete(req, tw);
++	hlist_del_init(&tw_req.req->hash_node);
++	io_req_task_complete(tw_req, tw);
+ }
+ 
+-static void io_futex_complete(struct io_kiocb *req, io_tw_token_t tw)
++static void io_futex_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_ring_ctx *ctx = req->ctx;
+ 
+ 	io_tw_lock(ctx, tw);
+ 	io_cache_free(&ctx->futex_cache, req->async_data);
+ 	io_req_async_data_clear(req, 0);
+-	__io_futex_complete(req, tw);
++	__io_futex_complete(tw_req, tw);
+ }
+ 
+-static void io_futexv_complete(struct io_kiocb *req, io_tw_token_t tw)
++static void io_futexv_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_futex *iof = io_kiocb_to_cmd(req, struct io_futex);
+ 	struct futex_vector *futexv = req->async_data;
+ 
+ 	io_tw_lock(req->ctx, tw);
+ 
+@@ -71,11 +73,11 @@ static void io_futexv_complete(struct io_kiocb *req, io_tw_token_t tw)
+ 		if (res != -1)
+ 			io_req_set_res(req, res, 0);
+ 	}
+ 
+ 	io_req_async_data_free(req);
+-	__io_futex_complete(req, tw);
++	__io_futex_complete(tw_req, tw);
+ }
+ 
+ static bool io_futexv_claim(struct io_futex *iof)
+ {
+ 	if (test_bit(0, &iof->futexv_owned) ||
+diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+index 296667ba712c..4eb3e47a8184 100644
+--- a/io_uring/io_uring.c
++++ b/io_uring/io_uring.c
+@@ -274,11 +274,11 @@ static __cold void io_fallback_req_func(struct work_struct *work)
+ 	struct io_tw_state ts = {};
+ 
+ 	percpu_ref_get(&ctx->refs);
+ 	mutex_lock(&ctx->uring_lock);
+ 	llist_for_each_entry_safe(req, tmp, node, io_task_work.node)
+-		req->io_task_work.func(req, ts);
++		req->io_task_work.func((struct io_tw_req){req}, ts);
+ 	io_submit_flush_completions(ctx);
+ 	mutex_unlock(&ctx->uring_lock);
+ 	percpu_ref_put(&ctx->refs);
+ }
+ 
+@@ -522,13 +522,13 @@ static void io_queue_iowq(struct io_kiocb *req)
+ 
+ 	trace_io_uring_queue_async_work(req, io_wq_is_hashed(&req->work));
+ 	io_wq_enqueue(tctx->io_wq, &req->work);
+ }
+ 
+-static void io_req_queue_iowq_tw(struct io_kiocb *req, io_tw_token_t tw)
++static void io_req_queue_iowq_tw(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
+-	io_queue_iowq(req);
++	io_queue_iowq(tw_req.req);
+ }
+ 
+ void io_req_queue_iowq(struct io_kiocb *req)
+ {
+ 	req->io_task_work.func = io_req_queue_iowq_tw;
+@@ -1148,11 +1148,11 @@ struct llist_node *io_handle_tw_list(struct llist_node *node,
+ 			mutex_lock(&ctx->uring_lock);
+ 			percpu_ref_get(&ctx->refs);
+ 		}
+ 		INDIRECT_CALL_2(req->io_task_work.func,
+ 				io_poll_task_func, io_req_rw_complete,
+-				req, ts);
++				(struct io_tw_req){req}, ts);
+ 		node = next;
+ 		(*count)++;
+ 		if (unlikely(need_resched())) {
+ 			ctx_flush_and_put(ctx, ts);
+ 			ctx = NULL;
+@@ -1376,11 +1376,11 @@ static int __io_run_local_work_loop(struct llist_node **node,
+ 		struct llist_node *next = (*node)->next;
+ 		struct io_kiocb *req = container_of(*node, struct io_kiocb,
+ 						    io_task_work.node);
+ 		INDIRECT_CALL_2(req->io_task_work.func,
+ 				io_poll_task_func, io_req_rw_complete,
+-				req, tw);
++				(struct io_tw_req){req}, tw);
+ 		*node = next;
+ 		if (++ret >= events)
+ 			break;
+ 	}
+ 
+@@ -1445,18 +1445,21 @@ static int io_run_local_work(struct io_ring_ctx *ctx, int min_events,
+ 	ret = __io_run_local_work(ctx, ts, min_events, max_events);
+ 	mutex_unlock(&ctx->uring_lock);
+ 	return ret;
+ }
+ 
+-static void io_req_task_cancel(struct io_kiocb *req, io_tw_token_t tw)
++static void io_req_task_cancel(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
++
+ 	io_tw_lock(req->ctx, tw);
+ 	io_req_defer_failed(req, req->cqe.res);
+ }
+ 
+-void io_req_task_submit(struct io_kiocb *req, io_tw_token_t tw)
++void io_req_task_submit(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_ring_ctx *ctx = req->ctx;
+ 
+ 	io_tw_lock(ctx, tw);
+ 	if (unlikely(io_should_terminate_tw(ctx)))
+ 		io_req_defer_failed(req, -EFAULT);
+@@ -1688,13 +1691,13 @@ static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
+ 	} while (nr_events < min_events);
+ 
+ 	return 0;
+ }
+ 
+-void io_req_task_complete(struct io_kiocb *req, io_tw_token_t tw)
++void io_req_task_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
+-	io_req_complete_defer(req);
++	io_req_complete_defer(tw_req.req);
+ }
+ 
+ /*
+  * After the iocb has been issued, it's safe to be found on the poll list.
+  * Adding the kiocb to the list AFTER submission ensures that we don't
+diff --git a/io_uring/io_uring.h b/io_uring/io_uring.h
+index 78777bf1ea4b..fc1b1adb9d99 100644
+--- a/io_uring/io_uring.h
++++ b/io_uring/io_uring.h
+@@ -146,13 +146,13 @@ struct file *io_file_get_fixed(struct io_kiocb *req, int fd,
+ 			       unsigned issue_flags);
+ 
+ void __io_req_task_work_add(struct io_kiocb *req, unsigned flags);
+ void io_req_task_work_add_remote(struct io_kiocb *req, unsigned flags);
+ void io_req_task_queue(struct io_kiocb *req);
+-void io_req_task_complete(struct io_kiocb *req, io_tw_token_t tw);
++void io_req_task_complete(struct io_tw_req tw_req, io_tw_token_t tw);
+ void io_req_task_queue_fail(struct io_kiocb *req, int ret);
+-void io_req_task_submit(struct io_kiocb *req, io_tw_token_t tw);
++void io_req_task_submit(struct io_tw_req tw_req, io_tw_token_t tw);
+ struct llist_node *io_handle_tw_list(struct llist_node *node, unsigned int *count, unsigned int max_entries);
+ struct llist_node *tctx_task_work_run(struct io_uring_task *tctx, unsigned int max_entries, unsigned int *count);
+ void tctx_task_work(struct callback_head *cb);
+ __cold void io_uring_cancel_generic(bool cancel_all, struct io_sq_data *sqd);
+ 
+diff --git a/io_uring/msg_ring.c b/io_uring/msg_ring.c
+index 5e5b94236d72..7063ea7964e7 100644
+--- a/io_uring/msg_ring.c
++++ b/io_uring/msg_ring.c
+@@ -68,12 +68,13 @@ void io_msg_ring_cleanup(struct io_kiocb *req)
+ static inline bool io_msg_need_remote(struct io_ring_ctx *target_ctx)
+ {
+ 	return target_ctx->task_complete;
+ }
+ 
+-static void io_msg_tw_complete(struct io_kiocb *req, io_tw_token_t tw)
++static void io_msg_tw_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_ring_ctx *ctx = req->ctx;
+ 
+ 	io_add_aux_cqe(ctx, req->cqe.user_data, req->cqe.res, req->cqe.flags);
+ 	kfree_rcu(req, rcu_head);
+ 	percpu_ref_put(&ctx->refs);
+diff --git a/io_uring/notif.c b/io_uring/notif.c
+index d8ba1165c949..9960bb2a32d5 100644
+--- a/io_uring/notif.c
++++ b/io_uring/notif.c
+@@ -9,12 +9,13 @@
+ #include "notif.h"
+ #include "rsrc.h"
+ 
+ static const struct ubuf_info_ops io_ubuf_ops;
+ 
+-static void io_notif_tw_complete(struct io_kiocb *notif, io_tw_token_t tw)
++static void io_notif_tw_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *notif = tw_req.req;
+ 	struct io_notif_data *nd = io_notif_to_data(notif);
+ 	struct io_ring_ctx *ctx = notif->ctx;
+ 
+ 	lockdep_assert_held(&ctx->uring_lock);
+ 
+@@ -32,11 +33,11 @@ static void io_notif_tw_complete(struct io_kiocb *notif, io_tw_token_t tw)
+ 			__io_unaccount_mem(notif->ctx->user, nd->account_pages);
+ 			nd->account_pages = 0;
+ 		}
+ 
+ 		nd = nd->next;
+-		io_req_task_complete(notif, tw);
++		io_req_task_complete((struct io_tw_req){notif}, tw);
+ 	} while (nd);
+ }
+ 
+ void io_tx_ubuf_complete(struct sk_buff *skb, struct ubuf_info *uarg,
+ 			 bool success)
+diff --git a/io_uring/poll.c b/io_uring/poll.c
+index b9681d0f9f13..9a6925d5688c 100644
+--- a/io_uring/poll.c
++++ b/io_uring/poll.c
+@@ -308,12 +308,13 @@ static int io_poll_check_events(struct io_kiocb *req, io_tw_token_t tw)
+ 
+ 	io_napi_add(req);
+ 	return IOU_POLL_NO_ACTION;
+ }
+ 
+-void io_poll_task_func(struct io_kiocb *req, io_tw_token_t tw)
++void io_poll_task_func(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	int ret;
+ 
+ 	ret = io_poll_check_events(req, tw);
+ 	if (ret == IOU_POLL_NO_ACTION) {
+ 		return;
+@@ -330,26 +331,26 @@ void io_poll_task_func(struct io_kiocb *req, io_tw_token_t tw)
+ 			struct io_poll *poll;
+ 
+ 			poll = io_kiocb_to_cmd(req, struct io_poll);
+ 			req->cqe.res = mangle_poll(req->cqe.res & poll->events);
+ 		} else if (ret == IOU_POLL_REISSUE) {
+-			io_req_task_submit(req, tw);
++			io_req_task_submit(tw_req, tw);
+ 			return;
+ 		} else if (ret != IOU_POLL_REMOVE_POLL_USE_RES) {
+ 			req->cqe.res = ret;
+ 			req_set_fail(req);
+ 		}
+ 
+ 		io_req_set_res(req, req->cqe.res, 0);
+-		io_req_task_complete(req, tw);
++		io_req_task_complete(tw_req, tw);
+ 	} else {
+ 		io_tw_lock(req->ctx, tw);
+ 
+ 		if (ret == IOU_POLL_REMOVE_POLL_USE_RES)
+-			io_req_task_complete(req, tw);
++			io_req_task_complete(tw_req, tw);
+ 		else if (ret == IOU_POLL_DONE || ret == IOU_POLL_REISSUE)
+-			io_req_task_submit(req, tw);
++			io_req_task_submit(tw_req, tw);
+ 		else
+ 			io_req_defer_failed(req, ret);
+ 	}
+ }
+ 
+diff --git a/io_uring/poll.h b/io_uring/poll.h
+index c8438286dfa0..5647c5138932 100644
+--- a/io_uring/poll.h
++++ b/io_uring/poll.h
+@@ -44,6 +44,6 @@ int io_poll_cancel(struct io_ring_ctx *ctx, struct io_cancel_data *cd,
+ int io_arm_apoll(struct io_kiocb *req, unsigned issue_flags, __poll_t mask);
+ int io_arm_poll_handler(struct io_kiocb *req, unsigned issue_flags);
+ bool io_poll_remove_all(struct io_ring_ctx *ctx, struct io_uring_task *tctx,
+ 			bool cancel_all);
+ 
+-void io_poll_task_func(struct io_kiocb *req, io_tw_token_t tw);
++void io_poll_task_func(struct io_tw_req tw_req, io_tw_token_t tw);
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index 5b2241a5813c..828ac4f902b4 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -562,12 +562,13 @@ static inline int io_fixup_rw_res(struct io_kiocb *req, long res)
+ 			res += io->bytes_done;
+ 	}
+ 	return res;
+ }
+ 
+-void io_req_rw_complete(struct io_kiocb *req, io_tw_token_t tw)
++void io_req_rw_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
+ 	struct kiocb *kiocb = &rw->kiocb;
+ 
+ 	if ((kiocb->ki_flags & IOCB_DIO_CALLER_COMP) && kiocb->dio_complete) {
+ 		long res = kiocb->dio_complete(rw->kiocb.private);
+@@ -579,11 +580,11 @@ void io_req_rw_complete(struct io_kiocb *req, io_tw_token_t tw)
+ 
+ 	if (req->flags & (REQ_F_BUFFER_SELECTED|REQ_F_BUFFER_RING))
+ 		req->cqe.flags |= io_put_kbuf(req, req->cqe.res, NULL);
+ 
+ 	io_req_rw_cleanup(req, 0);
+-	io_req_task_complete(req, tw);
++	io_req_task_complete(tw_req, tw);
+ }
+ 
+ static void io_complete_rw(struct kiocb *kiocb, long res)
+ {
+ 	struct io_rw *rw = container_of(kiocb, struct io_rw, kiocb);
+diff --git a/io_uring/rw.h b/io_uring/rw.h
+index 129a53fe5482..9bd7fbf70ea9 100644
+--- a/io_uring/rw.h
++++ b/io_uring/rw.h
+@@ -44,9 +44,9 @@ int io_read(struct io_kiocb *req, unsigned int issue_flags);
+ int io_write(struct io_kiocb *req, unsigned int issue_flags);
+ int io_read_fixed(struct io_kiocb *req, unsigned int issue_flags);
+ int io_write_fixed(struct io_kiocb *req, unsigned int issue_flags);
+ void io_readv_writev_cleanup(struct io_kiocb *req);
+ void io_rw_fail(struct io_kiocb *req);
+-void io_req_rw_complete(struct io_kiocb *req, io_tw_token_t tw);
++void io_req_rw_complete(struct io_tw_req tw_req, io_tw_token_t tw);
+ int io_read_mshot_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
+ int io_read_mshot(struct io_kiocb *req, unsigned int issue_flags);
+ void io_rw_cache_free(const void *entry);
+diff --git a/io_uring/timeout.c b/io_uring/timeout.c
+index 17e3aab0af36..d368eaacddb6 100644
+--- a/io_uring/timeout.c
++++ b/io_uring/timeout.c
+@@ -66,12 +66,13 @@ static inline bool io_timeout_finish(struct io_timeout *timeout,
+ 	return true;
+ }
+ 
+ static enum hrtimer_restart io_timeout_fn(struct hrtimer *timer);
+ 
+-static void io_timeout_complete(struct io_kiocb *req, io_tw_token_t tw)
++static void io_timeout_complete(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_timeout *timeout = io_kiocb_to_cmd(req, struct io_timeout);
+ 	struct io_timeout_data *data = req->async_data;
+ 	struct io_ring_ctx *ctx = req->ctx;
+ 
+ 	if (!io_timeout_finish(timeout, data)) {
+@@ -83,11 +84,11 @@ static void io_timeout_complete(struct io_kiocb *req, io_tw_token_t tw)
+ 			raw_spin_unlock_irq(&ctx->timeout_lock);
+ 			return;
+ 		}
+ 	}
+ 
+-	io_req_task_complete(req, tw);
++	io_req_task_complete(tw_req, tw);
+ }
+ 
+ static __cold bool io_flush_killed_timeouts(struct list_head *list, int err)
+ {
+ 	if (list_empty(list))
+@@ -155,22 +156,24 @@ __cold void io_flush_timeouts(struct io_ring_ctx *ctx)
+ 	ctx->cq_last_tm_flush = seq;
+ 	raw_spin_unlock_irq(&ctx->timeout_lock);
+ 	io_flush_killed_timeouts(&list, 0);
+ }
+ 
+-static void io_req_tw_fail_links(struct io_kiocb *link, io_tw_token_t tw)
++static void io_req_tw_fail_links(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *link = tw_req.req;
++
+ 	io_tw_lock(link->ctx, tw);
+ 	while (link) {
+ 		struct io_kiocb *nxt = link->link;
+ 		long res = -ECANCELED;
+ 
+ 		if (link->flags & REQ_F_FAIL)
+ 			res = link->cqe.res;
+ 		link->link = NULL;
+ 		io_req_set_res(link, res, 0);
+-		io_req_task_complete(link, tw);
++		io_req_task_complete((struct io_tw_req){link}, tw);
+ 		link = nxt;
+ 	}
+ }
+ 
+ static void io_fail_links(struct io_kiocb *req)
+@@ -315,12 +318,13 @@ int io_timeout_cancel(struct io_ring_ctx *ctx, struct io_cancel_data *cd)
+ 		return PTR_ERR(req);
+ 	io_req_task_queue_fail(req, -ECANCELED);
+ 	return 0;
+ }
+ 
+-static void io_req_task_link_timeout(struct io_kiocb *req, io_tw_token_t tw)
++static void io_req_task_link_timeout(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_timeout *timeout = io_kiocb_to_cmd(req, struct io_timeout);
+ 	struct io_kiocb *prev = timeout->prev;
+ 	int ret;
+ 
+ 	if (prev) {
+@@ -333,15 +337,15 @@ static void io_req_task_link_timeout(struct io_kiocb *req, io_tw_token_t tw)
+ 			ret = io_try_cancel(req->tctx, &cd, 0);
+ 		} else {
+ 			ret = -ECANCELED;
+ 		}
+ 		io_req_set_res(req, ret ?: -ETIME, 0);
+-		io_req_task_complete(req, tw);
++		io_req_task_complete(tw_req, tw);
+ 		io_put_req(prev);
+ 	} else {
+ 		io_req_set_res(req, -ETIME, 0);
+-		io_req_task_complete(req, tw);
++		io_req_task_complete(tw_req, tw);
+ 	}
+ }
+ 
+ static enum hrtimer_restart io_link_timeout_fn(struct hrtimer *timer)
+ {
+diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+index 35bdac35cf4d..fc2955e8caaf 100644
+--- a/io_uring/uring_cmd.c
++++ b/io_uring/uring_cmd.c
+@@ -111,12 +111,13 @@ void io_uring_cmd_mark_cancelable(struct io_uring_cmd *cmd,
+ 		io_ring_submit_unlock(ctx, issue_flags);
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(io_uring_cmd_mark_cancelable);
+ 
+-static void io_uring_cmd_work(struct io_kiocb *req, io_tw_token_t tw)
++static void io_uring_cmd_work(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+ 
+ 	/* task_work executor checks the deffered list completion */
+ 	ioucmd->task_work_cb(ioucmd, IO_URING_F_COMPLETE_DEFER);
+ }
+diff --git a/io_uring/waitid.c b/io_uring/waitid.c
+index 53532ae6256c..326a8d090772 100644
+--- a/io_uring/waitid.c
++++ b/io_uring/waitid.c
+@@ -14,11 +14,11 @@
+ #include "io_uring.h"
+ #include "cancel.h"
+ #include "waitid.h"
+ #include "../kernel/exit.h"
+ 
+-static void io_waitid_cb(struct io_kiocb *req, io_tw_token_t tw);
++static void io_waitid_cb(struct io_tw_req tw_req, io_tw_token_t tw);
+ 
+ #define IO_WAITID_CANCEL_FLAG	BIT(31)
+ #define IO_WAITID_REF_MASK	GENMASK(30, 0)
+ 
+ struct io_waitid {
+@@ -177,12 +177,13 @@ static inline bool io_waitid_drop_issue_ref(struct io_kiocb *req)
+ 	io_req_task_work_add(req);
+ 	remove_wait_queue(iw->head, &iwa->wo.child_wait);
+ 	return true;
+ }
+ 
+-static void io_waitid_cb(struct io_kiocb *req, io_tw_token_t tw)
++static void io_waitid_cb(struct io_tw_req tw_req, io_tw_token_t tw)
+ {
++	struct io_kiocb *req = tw_req.req;
+ 	struct io_waitid_async *iwa = req->async_data;
+ 	struct io_ring_ctx *ctx = req->ctx;
+ 	int ret;
+ 
+ 	io_tw_lock(ctx, tw);
+@@ -213,11 +214,11 @@ static void io_waitid_cb(struct io_kiocb *req, io_tw_token_t tw)
+ 			remove_wait_queue(iw->head, &iwa->wo.child_wait);
+ 		}
+ 	}
+ 
+ 	io_waitid_complete(req, ret);
+-	io_req_task_complete(req, tw);
++	io_req_task_complete(tw_req, tw);
+ }
+ 
+ static int io_waitid_wait(struct wait_queue_entry *wait, unsigned mode,
+ 			  int sync, void *key)
+ {
 -- 
 2.45.2
 
