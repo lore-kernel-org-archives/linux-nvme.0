@@ -4,178 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04EF0CCD1BF
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Oct 2025 07:56:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E4EACCF9E0
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Oct 2025 07:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WSv3/gz2exlIpK5d0AD+NdrCa0MIGi2SDR6QRo5UL0A=; b=QyvRsU2RpIxf5ZMzVFoCXSHSwb
-	3OfxoNUG0CsSQA1ixJHMkvVDga7YMDRpDQ8nIKxETQCdIuRjbeYSaoXmDIYRYIUrBx4yVHO/neOj1
-	AWO+WXrBqppKAUZoxYz7S8OG7UPkTcCXGPF6fB/kd5mt38oxS4cwH6YgLqhZovJGsQSgi7TAKEY0X
-	G4s9lwORhEJ9xIbRscUG2NCHCSEi0HpvEUXY3HBMgs3XgvpT/2R5ADZ9OODVktbaJIds/fItKx820
-	BWK6YbV2usm1pFbwt6c7mLK9p9iCrooHlEYKVzyj0mzX6gvxZuwMluAiLHbATFO4NZhHsj/21fNY3
-	tlq8YKGg==;
+	bh=C6DWKCrqeMd8yEie8ux+bImvLbKULsBRhRlilfIMAOc=; b=Nftye9bgkV7zsavA2QE4qEZEj5
+	Y3zEeAEo98tM0u0t9l6V4tGeFjv/xibCPUQKzjNbPMhnn/Wj37FM5vl8Gh39wZe2A6bJmUl/AY7Sx
+	TI7oRFIeGZWKlm+8TuZ5ChVYU2K+yWpqZtP13UAFCtzkZva5rVSuBAWTn36YkOchVXnY4SqfZv56/
+	41XqW7TLITQjyCtoqp3YIWTv7eWG1cnR/qELCDImZH+L1/4m9xyHQgI0/2cg4/biKyeiz8zLO5hIE
+	sF3gdvzAv/mXRakiKQa5IMf+acTomd5TDhTcz20EsWL4p1EEYBBA4Gtn7GDzK36pl/Rp5cC1cxtmg
+	LzTS8t3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDeYp-0000000FUCf-0cqY;
-	Tue, 28 Oct 2025 07:56:07 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1vDecW-0000000FUh2-3xdo;
+	Tue, 28 Oct 2025 07:59:56 +0000
+Received: from [195.3.219.148] (helo=mta-01.yadro.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vDeYj-0000000FUCF-2KGI
+	id 1vDecT-0000000FUfn-2Gca
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Oct 2025 07:56:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1761638161; x=1793174161;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=ctu8OPHgW2OCzzuoruMAkyTCKR6AG7Ts/BtYbbJiSBY=;
-  b=FimUSt/CD7Zi6tmOMW1HW8TWlJLQSNmbK3qAiVD2PXBJeLAAU+/7/rZ4
-   A/3RkCg7b6SVwv7ef6SBBDgx1R9SpU8Bd4hHEciT9cYJz6iN0zsft+1xo
-   a980SYXqNd4bqzYF4R/EnzXuOKw+MelDKbbWKHr37cH5yj8t1/YRkoukx
-   TElXfPaiSdiKZwhwtuC/iPjKhudajo5D4MSmr1UMEJFlNqNlaDq8h5a3S
-   8ECyjmuHVpr6YiqZfDTxcjwQXRtt3k6eK2C4t80vcTv5/w3WAwVPlniSv
-   EUM10QjHOQ057mkHA7wOknS3egXMUylv04a7X/2jUjKfksYl/545oHhdc
-   g==;
-X-CSE-ConnectionGUID: EV2uqSfkQ2i2dT1OZcKHyw==
-X-CSE-MsgGUID: f/p3FLmYR7GYCci1Dzp7aw==
-X-IronPort-AV: E=Sophos;i="6.19,260,1754928000"; 
-   d="scan'208";a="131026226"
-Received: from mail-westusazon11010000.outbound.protection.outlook.com (HELO BYAPR05CU005.outbound.protection.outlook.com) ([52.101.85.0])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2025 15:55:58 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ihY/KJYQQnOeaMMEynJbFf6QglDUmk3fyMuMUiQQo1+25UVBXG0XvWDPr2Hb4rleWVExDKcX3ObeGL0G21qjVT68t1rnokQ3ExsTiy8tC3lzyn3zeD1uPoQ5aTNUevt0hRubfesaoqNblBGDI314QPyDcyJJlWuwS39vI2gnBxsgy6+0vchTtO8+i9DJxd7kIFh/1xmmTNMjHc01wtKuygjAVLvLMHn+r8CwR84FzTG8grfq7YKNHwTHHEHyLPz4ydSJajUGMJRdutu9YTyk0Qyxg4h1DRqyemrtK7NsNK/gEyHTFbrnpBK2oYyK2glwCSP3XlYiFhA6gkau5pA8mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WSv3/gz2exlIpK5d0AD+NdrCa0MIGi2SDR6QRo5UL0A=;
- b=GXbik3jzt67IdYV/bgeZaqT7rG3yxKgYwYhGpyLSRwAmiP/NdtYIRSTACPNV5FUKPpJR0he12dBu6gkEXk2Z9nglSiZk8SPiABWkQiFH4S25O7ldFrAthsthTeasKP6zgEuAIx2NR8aDDlTS7vhvyz39wt/ed/nfXCu3W6bSFOm/Z1gl1IBPTUniWs8s+QJf3gHDoPAegI4WgIMvMqJfqvfilLnsqf8K544d+SRJubqn9jMoHzkPaiQDmB33i2VvJM7Di8y2PJGiZouWygfdaiN25E0jwcpop1JxH1lqU0Vhs2oG54v2V2C/W9R8u8RZ9GjL/6RP/BNUrZ+QLzFeTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WSv3/gz2exlIpK5d0AD+NdrCa0MIGi2SDR6QRo5UL0A=;
- b=gqtXsAA43Oe5T1bbKcsSNPAeHbzEjgXt4kzfz9Cw+5C8QONPW8cyH7upWWl3CRzPIegyJ/yGMmqAevfoFwSQtIL/F//sgWcc5Kw5aG/KTe5UVRExFXpLrwQ0ZFpnlZAYpP+auQkMfOXBso5PHKRkk+BRwJmkGFdzWvgIZ9sp0xU=
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
- by CH5PR04MB9598.namprd04.prod.outlook.com (2603:10b6:610:20d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Tue, 28 Oct
- 2025 07:55:54 +0000
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4]) by SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::4e14:94e7:a9b3:a4d4%7]) with mapi id 15.20.9253.011; Tue, 28 Oct 2025
- 07:55:54 +0000
-From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+	Tue, 28 Oct 2025 07:59:55 +0000
+Received: from mta-01.yadro.com (localhost [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id 2320520006;
+	Tue, 28 Oct 2025 10:59:31 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-01.yadro.com 2320520006
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-02;
+	t=1761638371; bh=C6DWKCrqeMd8yEie8ux+bImvLbKULsBRhRlilfIMAOc=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=wW8s3UMt9YkpLDmA8dnGrRYvWBq5XJoXtVqgbcr78PCCKGClf8vzNvk23W0cROX4R
+	 MQCm7zjT00VdWQKK9dOv2DxBUNyZBG4dYomaUaKR+xj3NrCQO9vhLQUoUCIKJX7d0O
+	 Gv9MndjlkW1xD3m6+WFL34hXK0Uq9SMGyaTTTUXoOfwdngLdW+b4Kx5Kzjue2CUS6Q
+	 L7PfOgij7DyZ+VRE/RHk7lGKU2R+TZNzWjfWFAwd6l9GOpDzlQw8LecRrZKOJTXdsL
+	 NxfEVf8p55W6GSOlCysymTFrX2OXyV4nimwKjiJTinjoRXPWQt+TXXc4IjJ78CtlHs
+	 v9Wi4ezxLMCcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
+	t=1761638371; bh=C6DWKCrqeMd8yEie8ux+bImvLbKULsBRhRlilfIMAOc=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=hD1NkpdScXWFkWQbIKfU5Zi9iCBTPjUAMf06Pel1c+5+V4pBQYfUrGy51sHYUKdBE
+	 zd517/sZswtybZvck+paZu4gsnAu5KQymBaZ8kee/jZXn+2NOKDlUo3XkW/81ePeri
+	 aPiWOefE6rKEeWG4mXAqZBQm7y9TbIjq0yMIz2rAV6vYNP+D09BoKB6yJXRivoHzrM
+	 lEhZe7GBrN+SglVNV048riNNlm0cEl9ivZh6vW/i34Nubzg+lAZeORo9MIUXAHF3aB
+	 H0oXkdN79sSwOSnBeWkYL75kcSjFdHIqDU7hbwj0ljB+uenHQWvCxn7kB9D03x+C6/
+	 Vj0yEqg8uAQ9A==
+Received: from RTM-EXCH-01.corp.yadro.com (unknown [10.34.9.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS;
+	Tue, 28 Oct 2025 10:59:28 +0300 (MSK)
+Received: from T-EXCH-12.corp.yadro.com (10.34.9.214) by
+ RTM-EXCH-01.corp.yadro.com (10.34.9.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Tue, 28 Oct 2025 10:59:26 +0300
+Received: from yadro.com (172.17.34.55) by T-EXCH-12.corp.yadro.com
+ (10.34.9.214) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Tue, 28 Oct
+ 2025 10:59:25 +0300
+Date: Tue, 28 Oct 2025 10:59:18 +0300
+From: Dmitry Bogdanov <d.bogdanov@yadro.com>
 To: Keith Busch <kbusch@kernel.org>
-CC: "hch@infradead.org" <hch@infradead.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Sagi Grimberg <sagi@grimberg.me>, Yi Zhang
-	<yi.zhang@redhat.com>
-Subject: Re: [PATCH] nvme-multipath: fix lockdep WARN due to partition scan
- work
-Thread-Topic: [PATCH] nvme-multipath: fix lockdep WARN due to partition scan
- work
-Thread-Index: AQHcQ7K6rFN9PEEv/k6PxzzbrsKZb7TPO7YAgACPX4CAB24XAA==
-Date: Tue, 28 Oct 2025 07:55:54 +0000
-Message-ID: <c4iaipkglrhgjbovj3uvj4pxnbxdirzxm5yymidiqii55h3i6d@plehjivcjs54>
-References: <20251023001937.218014-1-shinichiro.kawasaki@wdc.com>
- <aPnDLr2IiOQUQLKI@infradead.org> <aPo7c8aZ7GDqHFEO@kbusch-mbp>
-In-Reply-To: <aPo7c8aZ7GDqHFEO@kbusch-mbp>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR04MB8532:EE_|CH5PR04MB9598:EE_
-x-ms-office365-filtering-correlation-id: 9ad2e991-a68b-465d-e7af-08de15f76c13
-x-ld-processed: b61c8803-16f3-4c35-9b17-6f65f441df86,ExtAddr
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|19092799006|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info: =?us-ascii?Q?P/yWS2aqaACkoP1vruZWhpbPtWEaVh0NLbCZKhS4jDy3yHLzzopzKuPOK3R8?=
- =?us-ascii?Q?KwVWcBPlJg4oaq9ogV6PhWEA9h74FjCRCfNDgOpC5Cxv0YmGQeaHtghyFUWq?=
- =?us-ascii?Q?4B7n1YTzz8X1Y3TBV7P9F0axlgXfmmH1+sjSiifLUA4YHG+lL51mWO5A7BdM?=
- =?us-ascii?Q?ro23enRML/2suSDCbCqUjdw5r7fyPoJoGXnPX2NOHCyF+mMjCM0rqRu2STYI?=
- =?us-ascii?Q?9tAY+dpefAOAg+Bp7+NVoznBezQbIOn0cDVa2oo7qeHm1NfhMy4hXEZd6N7K?=
- =?us-ascii?Q?d1b277u8+DPPbFgyql/51v0d+MGXyaOhX7DJPFDa6spk0EwvHklKbxJ5RkQ1?=
- =?us-ascii?Q?yPKTIkuu1OhDaao670op8diMpMzChcc+2HkTanNF9mfgPMaxKJDPfe54sJa7?=
- =?us-ascii?Q?2O32W7kOHlpVKboQ91zdqe+S2XcaKrOAuMOJW7ax+NRYzYHhBVx76dccDfJU?=
- =?us-ascii?Q?Khp/LWcF6efbckfZ5/RSmRX3wF0aPXMRbYFoMygunMBFRO9+kVrelbP4/XT4?=
- =?us-ascii?Q?3RnGUoYnSKuV3ztnKQgKwsybOpCjLE/DbRuGN+7YvS/ThmAOqrsPHN10yV82?=
- =?us-ascii?Q?dX8nKBjYlfrRFtjYGeq6nphOnZokELGwL1yclVdw31OptFTTTnak/NH0MHvi?=
- =?us-ascii?Q?A8tLlwz3cKSm5rfmYsQXNqfzB/rpy72wWqxhtJ6fwmb3qDHTb076qKZCu85O?=
- =?us-ascii?Q?aCZ86WqbDqxikaeLFO1Dw8hwTdhhDxpjp9/lN/0o+6L/o0Q/FWdDFts1b+/x?=
- =?us-ascii?Q?1Talt5gJyneeu5p7H6rfcvsQ3UAg2/qxyFsqUL1GawxVzMaITNfcjQv8q6Fv?=
- =?us-ascii?Q?9rlhxsUGPqPqvNYPO1M4iNpM2NsVJoR4MqQgwmJlCzvkMTKy3piHVSw+MwP0?=
- =?us-ascii?Q?dvkQmhjIMsB3kQSJb2VEr6ddO2yJrKfCtIIqybnA5dZKWDFyqP3taii2QO7U?=
- =?us-ascii?Q?rJXQcB+/NR7q0TX6DRHcrIBHRnyLy+0LLTmZrK1jFfeSEfSZb7JtSy/Qbh8c?=
- =?us-ascii?Q?JUSH0RUiCPtWlvMG/usBq+thf1OVXJ4PguRqqgncFlFs4PVygu5m+GkfFJUC?=
- =?us-ascii?Q?IQnCnATBt7BaAWVWsx/kIJrwVh01fejYLvZcjLFuThOMwsiuLLSCOcSZp7PZ?=
- =?us-ascii?Q?qvsQpFGmkMjo3PE6DN61RwIVOEKxAgqIdnyhlO1brK3jiGzepWBFhTpWg+ty?=
- =?us-ascii?Q?VS3195jVNFSnjkPVCA4+plg9JF0eulzXkBPtzef71eJMD2xbMw6Yn7iLlu58?=
- =?us-ascii?Q?ex/jt7z7PDRjsvLlpmHig9us6Mv3ZizXsex3uBKccPgTtey7UOqhz7y9jlcV?=
- =?us-ascii?Q?DsahfTiJJAgC/F/jImnyFRUD4c3buK6lV9lOZhsaIDMgoVYcpepUpP2V59KA?=
- =?us-ascii?Q?rXCEvatZBexy/J9SQYfG3YLYfjRcW6/iTVkH/ClKmuzolwszufr7HnntUe3l?=
- =?us-ascii?Q?+yjR9uuNtwfg+thzC4Mzoj/pr5PvoOnA+YbrXQrLNSMt0WvD4yEbHXgYTMb9?=
- =?us-ascii?Q?wG+6ENAb3C6rNYausMTx5NqJtUbh2i838DoA?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?P0ID3dU9LRn2Q+OjBr1cc8N1/iiXtAB1JvKf0VPl4qp82nqqz/Oats2bI79U?=
- =?us-ascii?Q?3152UNOonD7LzUPQx0AN/yfLIUMBj520W8osjSft4GJVz87fZH4r18zLgFqL?=
- =?us-ascii?Q?9mtLuVxqfkq2FoACN0qdGDKb+2wiYg4PahcyGpPhwLur9fmyExPnTyLnm+y7?=
- =?us-ascii?Q?YVBZ078+CRYXT908c8afcz27/rJXfSnx610BiE/MubQ669gEU7OjZzfpNv5B?=
- =?us-ascii?Q?J8fsHWxb4v2UnnXPLGDEBsiDhSwkZJlr9TK/jIK3GqUEbOD3uJ1KhnVBC5ru?=
- =?us-ascii?Q?J8ELrSXsq2cazTfwKJ/PRwN9dnXcBy70Cj3Eajv1feX/L0tcUYyoXmMVfNLN?=
- =?us-ascii?Q?re2MiDSLTH+xM9VtL1OucVPyXVkHpdYwNNVa/AqWSPO12qUUGGjLenW1v/f4?=
- =?us-ascii?Q?4CuG/bmZMWa7ZkarZVDnRTIPg8zhlOWWgDsYnHkOPm+bDw8CZHsDViaOE3re?=
- =?us-ascii?Q?iUt+PvS3zZxVder8aXeDwsSheZkpcUIY9nyd3EEXckoXEsI9oDQJhyjFBotG?=
- =?us-ascii?Q?L9s949glJY4drj9lDpvmRJRmicCNmns90y0/Wg/BQy4dBHtAD6f5Y8ELP2OX?=
- =?us-ascii?Q?fAOcH76QKGyktwtL4JSZvqoPxKBpgmUGG8sJlbiJjm69x0A5h2OEVLemlQAe?=
- =?us-ascii?Q?sAD6zk+JGMNF0+3s+Zuf0kzcr1MAvY1ahRzqZPEpWp40p1UVOogS0Zf32hyy?=
- =?us-ascii?Q?gtzcqAT7eu0w63FG34EZiR+mh2xrsRJmXuVFzeSCDdf8SuWQQYuKUj1j9CfC?=
- =?us-ascii?Q?VYnqI8rvzNssC7vkpDHxqyIaHCiPKQd1UpJJ6dYpQMdoRQ+Va9R1WToBWVDZ?=
- =?us-ascii?Q?RRfmrnY2KyU/1+tp7132ODk9BjbD4x8IRelnFr9CHKbiZ9nPqobcloijezyQ?=
- =?us-ascii?Q?dL64vQBFySdO23IDn7hDAhD4ZA6+vxItsxnspdBJUQ3wgqCLaeX5MOXiBGkh?=
- =?us-ascii?Q?nKGcZsaW7v//qy1Jgqu2eYlg6YGLb5tLtaa0aDIIbbLyR/UwbKAxuF5tx5Ue?=
- =?us-ascii?Q?IVtpjqrooyaCgO6sHnvI9spqgpgl7Klk6EsFpqPZUuI9myozi0oHN+6pixTZ?=
- =?us-ascii?Q?vLAftWVANYfWfS7XqKydU8DwJHYag+3nQ0TDyKec6kkW9EBfNWndQ9jq0pky?=
- =?us-ascii?Q?PnQ4TKr6k23j129RKxlewTreFH9FD1YPNHfQxI+yrbrkNfmg3NsBxXS4A7Mn?=
- =?us-ascii?Q?pwGtpXqVI8mXAOJJ2eQjhlb9eCmgt+/VAjptncdtSPPR37ILQOplQWrmoriq?=
- =?us-ascii?Q?UNXiEC+/ilrxRs56TqqwC/vU/4zrYb0QH/kRTdosrF4MaYjnMfNyzEDVzS1n?=
- =?us-ascii?Q?ACR1enKRAJB6iQfJhPcdVRwvUX707hOkUci1mI03jJ8aO1uE6xJcdXIBqHO6?=
- =?us-ascii?Q?SfopnDapDQZULpubVaQDc15aQAMxMKpkpBwW7DBLB3u2+fjqmc6PmyTIhkkQ?=
- =?us-ascii?Q?zigFvievYtxYtGXMbRj3qyoj+Q9ATtlLmPFxCzUkUNJ5a2/geH3udkW7M5Hg?=
- =?us-ascii?Q?X4M4aK0L93jHp2xw8xISne7UEFCPbVudjBDWx7BD9ySYU4FM9zMrR1P9lcpW?=
- =?us-ascii?Q?Lx8TgXf4u977pxOVKBuKVFvxQYuMDwkMm2z1ODiC9ShYWRnW4uRmBy2EhCnz?=
- =?us-ascii?Q?BOZQsb9b56tBcYGgQwCGHk4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9E778527AC8DDB4A903C2AAAC4B91A24@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+CC: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, "Sagi
+ Grimberg" <sagi@grimberg.me>, Stuart Hayes <stuart.w.hayes@gmail.com>,
+	<linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux@yadro.com>, <stable@vger.kernel.org>
+Subject: Re: [RESEND] [PATCH] nvme-tcp: fix usage of page_frag_cache
+Message-ID: <20251028075918.GA14902@yadro.com>
+References: <20251027163627.12289-1-d.bogdanov@yadro.com>
+ <aP-m9btCap_dt32Y@kbusch-mbp>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: s/oWBtc1W6P2q+ruY5iIlckdEdqjWW+rZXh8S9LfKMD7pVeRsahU1DRfX8NgDmwCgZ8g295OWe2A3UWVHGEVPeGTHIp9knWCyll4HZnCM8dvQpxORB7D0Roav0hMPz6ksGQfXp7WYMMJ00PEiW1NgNIhxDfVxQ3Qdkl1FA/UfUAj50xE5O8+KvRNDSVThuwNRgS9Z389wTTbd4kcy3sNojl9TVT1LkhHQT/5GuUk9SSKWFtokEymEB1tqENZ3RstmvOD4uocw3Q69UAV3btOM8ti66jWV9tfoIdFlW6Fl7KIEMW4rxTqMoxcvMJDgjZZKhLXHkB70fcjpUmWI4/IIiFqUGozgwfDk4t/wj9RW9IAnubi7f50ibPuTAD+anuFpEA6rp+9TszNMp+og9jEYEYfeoHDBaAqdzipUGWKhWUEROhS3BqqwuOQNnJ9DWiNxPLKa7by0KwtUFqFgi1yfKhwL7UbQf9tUHB5aOmNDdWvHRg60MEEAcc+pAj5tobnTTBZSG+9xj5Lox58QUTpKl0n6bc8g2yuWb956D8c3mr+K0yRLxSUE0jkZiC42FtpKnz4VDVXexhrpueuEU0RsXwsjebFT+qIK+5G+92bHJSElV4MzjoPdpoP6jzTIQXP
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ad2e991-a68b-465d-e7af-08de15f76c13
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 07:55:54.7467
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FM5W0F991nkYjIfc6XzbG4slXPbhGHyoOWFAqV2sFk47A27svm37v+6kVvC95g+bN7zgyOjeFD3Vk+6zXzGmu/HvmG3tWfqa5oOvrCQej4A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH5PR04MB9598
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <aP-m9btCap_dt32Y@kbusch-mbp>
+X-Originating-IP: [172.17.34.55]
+X-ClientProxiedBy: RTM-EXCH-01.corp.yadro.com (10.34.9.201) To
+ T-EXCH-12.corp.yadro.com (10.34.9.214)
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/10/28 03:53:00 #27799916
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-KATA-Status: Not Scanned
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 5
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251028_005601_678356_6115A55F 
-X-CRM114-Status: GOOD (  23.36  )
+X-CRM114-CacheID: sfid-20251028_005954_425760_21A802F7 
+X-CRM114-Status: GOOD (  26.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -190,35 +106,77 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Oct 23, 2025 / 08:28, Keith Busch wrote:
-> On Wed, Oct 22, 2025 at 10:54:54PM -0700, Christoph Hellwig wrote:
-> > On Thu, Oct 23, 2025 at 09:19:37AM +0900, Shin'ichiro Kawasaki wrote:
-> > > Blktests test cases nvme/014, 057 and 058 fail occasionally due to a
-> > > lockdep WARN. As reported in the Closes tag URL, the WARN indicates t=
-hat
-> > > a deadlock can happen due to the dependency among disk->open_mutex,
-> > > kblockd workqueue completion and partition_scan_work completion.
-> > >=20
-> > > To avoid the lockdep WARN and the potential deadlock, cut the depende=
-ncy
-> > > by running the partition_scan_work not by kblockd workqueue but by
-> > > nvme_wq.
-> >=20
-> > The partition_scan_work was added in 1f021341eef4 ("nvme-multipath:
-> > defer partition scanning") to get it out of the scan work to avoid
-> > deadlocks.  I suspect moving it to the same workqueue might reintroduce
-> > the deadlocks, so we might have to add a new workqueue here.  Keith
-> > might remember more.
->=20
-> I don't think it was a problem of the same workqueue, but because
-> partition scanning happened in the same work_struct as namespace
-> scanning. As long as the two happen in different work items, I believe
-> they can use the same workqueue and be fine.
+On Mon, Oct 27, 2025 at 11:08:05AM -0600, Keith Busch wrote:
+> On Mon, Oct 27, 2025 at 07:36:27PM +0300, Dmitry Bogdanov wrote:
+> > nvme uses page_frag_cache to preallocate PDU for each preallocated request
+> > of block device. Block devices are created in parallel threads,
+> > consequently page_frag_cache is used in not thread-safe manner.
+> > That leads to incorrect refcounting of backstore pages and premature free.
+> >
+> > That can be catched by !sendpage_ok inside network stack:
+> >
+> > WARNING: CPU: 7 PID: 467 at ../net/core/skbuff.c:6931 skb_splice_from_iter+0xfa/0x310.
+> >       tcp_sendmsg_locked+0x782/0xce0
+> >       tcp_sendmsg+0x27/0x40
+> >       sock_sendmsg+0x8b/0xa0
+> >       nvme_tcp_try_send_cmd_pdu+0x149/0x2a0
+> > Then random panic may occur.
+> >
+> > Fix that by serializing the usage of page_frag_cache.
+> >
+> > Cc: stable@vger.kernel.org # 6.12
+> > Fixes: 4e893ca81170 ("nvme_core: scan namespaces asynchronously")
+> > Signed-off-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
+> > ---
+> >  drivers/nvme/host/tcp.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 1413788ca7d52..823e07759e0d3 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -145,6 +145,7 @@ struct nvme_tcp_queue {
+> >
+> >       struct mutex            queue_lock;
+> >       struct mutex            send_mutex;
+> > +     struct mutex            pf_cache_lock;
+> >       struct llist_head       req_list;
+> >       struct list_head        send_list;
+> >
+> > @@ -556,9 +557,11 @@ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+> >       struct nvme_tcp_queue *queue = &ctrl->queues[queue_idx];
+> >       u8 hdgst = nvme_tcp_hdgst_len(queue);
+> >
+> > +     mutex_lock(&queue->pf_cache_lock);
+> >       req->pdu = page_frag_alloc(&queue->pf_cache,
+> >               sizeof(struct nvme_tcp_cmd_pdu) + hdgst,
+> >               GFP_KERNEL | __GFP_ZERO);
+> > +     mutex_unlock(&queue->pf_cache_lock);
+> >       if (!req->pdu)
+> >               return -ENOMEM;
+> 
+> Just a bit confused by this. Everything related to a specific TCP queue
+> should still be single threaded on the initialization of its tagset, so
+> there shouldn't be any block devices accessing the queue's driver
+> specific data before the tagset is initialized.
 
-Keith, thank you for the comment.
+Hmm, we are both right. You are right that the preallocated requests that
+are part of hw queue's tagset are preallocated at hw queue creation.
+But there is one(per hw queueue actually) more request objects that
+are preallocated for each block device - it's hctx->fq->flush_rq. I am
+talking about that one.
 
-Christoph, do you think the comment by Keith is enough to apply the patch?
-If you still have concern, I will rework the patch to add a new workqueue a=
-s
-you suggested.=
+The call stack is the following:
+nvme_scan_ns_list =parallel on all CPUs=>
+ nvme_scan_ns_async->nvme_scan_ns -> nvme_alloc_ns -> nvme_alloc_ns ->
+ __blk_mq_alloc_disk -> blk_mq_alloc_queue -> blk_mq_init_allocated_queue ->
+ blk_mq_realloc_hw_ctxs for each hw(TCP) queue do ->
+  blk_mq_alloc_and_init_hctx(queue) -> blk_mq_init_hctx ->
+  blk_mq_init_request(flush_rq) -> nvme_tcp_init_request ->
+  page_frag_alloc(tcp_queue)
+
+
+
+BR,
+ Dmitry
 
