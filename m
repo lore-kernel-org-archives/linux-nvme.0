@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B7B2BCCF9F1
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Oct 2025 10:05:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22F69CCF9F0
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Oct 2025 10:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4Ot4EhNG4xYFbiOhMElW7NvbRuTDTQoNwoY7E5oWoH0=; b=3/kSlowmt3VMlmX6u+uluW/kyy
-	QXZgOyx5z/rt1JI0NwK2QqMYho9VxirQd+GYAqupadKKbbFVeTJOpk4F75vi4UKSFCNOqX1WmB6qN
-	yZGZFTJcUQOUwvHvZiwYx/d/C/W2NI7nVJmgD6aLpfT2W8rhYt835glxKwZUKmX2BoNkqMkOv03m1
-	QUE+/vvcLruuGqER5KqyJb8yHW/NRk2C4wFdWXb2UwLpMujeDowgOnQpjt5SptmJ8QJWfNndK+I8f
-	+OKIsVK+Rn3Wybauo6Rpw5KuAofq6Ez26C01zFKMI+19SK/OnHQdWKhaeYdAwIAh2dpDRugDFkth0
-	w/Lce2pQ==;
+	bh=vOF8rR5VMOhxteEbKlqUfy4+FfR+/qN09QIxxlXxObg=; b=JvbJfpaq6p59UFTLmIutLAS99C
+	oupDCrIjPH5YQCNElrlzXNlGqvXOmmdET/L1tn0IKV3V3K43yovbwDMjaFOpinhebL7V+vMiTSSVd
+	0dq8qGjaQKif1vbU8bI8Wx8BRUnda/e36PIqT6c1cOG7UKVQZssqp+Eia5oo4JvveGVBWeEeZHXqo
+	qpMJMFPvlj1rukYFFbviHwdwyS7suxflrlbRZrkU8n9ey0LrUt7kEiXAsKSaIS0xyIHsWDWgfeGrV
+	X8lgGCbRE9EQzlaugoPU18MzEuyB/i0K1i3g8wRG4aKvN3gBro4EY+K4Wy41VLsqoP+3MpEvIRGs0
+	7uvTeZMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEPXa-00000003wB5-1S0Y;
-	Thu, 30 Oct 2025 10:05:58 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vEPXc-00000003wCF-2med;
+	Thu, 30 Oct 2025 10:06:00 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEPXY-00000003w9s-0o5K
+	id 1vEPXb-00000003wBh-1nZt
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Oct 2025 10:05:57 +0000
+	Thu, 30 Oct 2025 10:05:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id D4F3144F41;
-	Thu, 30 Oct 2025 10:05:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56797C4CEFD;
-	Thu, 30 Oct 2025 10:05:55 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id D6B2160B51;
+	Thu, 30 Oct 2025 10:05:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F715C116B1;
+	Thu, 30 Oct 2025 10:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761818755;
-	bh=pD88QTQwhCsd1dD9Fb+TDQoClhSOHeNyLN7H0zQpYAM=;
+	s=k20201202; t=1761818758;
+	bh=v/bwxwMrPgUrZzVMTssoD2ipJp8loXVDoDEfaEXxUas=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=uNgKP3CL1kYsUxeqYTrEnq8RP3483/KZhRisETibvx1WZM1//MV+Q6vTCRpDsjsw3
-	 A7LfthB4qyHNZ3WQrux/XIqPxSqz32rNzgt+yukr9r3/rWMiVA39XitblrgFtHaULm
-	 wXnjTAxb4/kX7kW0/7H4T/ogGMIAfmnKKp9CrRRNxiVlrWhQJR3SsMHPhvYbFG9IkB
-	 VJt5MRaTMlcPfKRZJKfPsLEJv4E8TnhT+bihoBJfF94CwQMap316KxEhWbo6+I2rSJ
-	 vdhJ39nKBVQa2lqmnVFDv3a5ipuDXZtMtjl/psErTlzgp5r0ZqT7eqrY3hiF5JcNTN
-	 XrE9QuOxMYqhA==
+	b=Vm1ZBE460FFKUGimLHP50dR5K9qwZcte7C31bHO6CkzQrGsy+co0uzHGhmohmHBDs
+	 9/QJBBq/pimwj2Xu/VA65y6IvwIp7uGxfegWUddymSYGIwZEzLJY4tIXUOh6q8KepU
+	 n5v1f3qaagsSm3hPoBXmpz1KL/p1Ae0ua6ki4zi52xSEZKu0M7QjLLtsZKT4+zWkGL
+	 87a9Wd5p202LZF9OJGE37BmcWsvuq2ceSn9U1HZh0AOWUGVUxYKG2+bvdWkDGH4HaJ
+	 jEYJuFgfIwDNyyS04FPxQcEdUuY0hUwNTCykYnjDoPyFhWMejeuBABODWqM8tAT9+q
+	 DXYvupmk7R5aQ==
 From: Daniel Wagner <wagi@kernel.org>
-Date: Thu, 30 Oct 2025 11:05:46 +0100
-Subject: [PATCH v2 2/5] nvme-fc: check all request and response have been
- processed
+Date: Thu, 30 Oct 2025 11:05:47 +0100
+Subject: [PATCH v2 3/5] nvmet-fcloop: check all request and response have
+ been processed
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251030-nvmet-fcloop-fixes-v2-2-b8d66a322c51@kernel.org>
+Message-Id: <20251030-nvmet-fcloop-fixes-v2-3-b8d66a322c51@kernel.org>
 References: <20251030-nvmet-fcloop-fixes-v2-0-b8d66a322c51@kernel.org>
 In-Reply-To: <20251030-nvmet-fcloop-fixes-v2-0-b8d66a322c51@kernel.org>
 To: Justin Tee <justin.tee@broadcom.com>, Christoph Hellwig <hch@lst.de>, 
@@ -58,9 +58,6 @@ Cc: James Smart <james.smart@broadcom.com>, Jens Axboe <axboe@kernel.dk>,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Daniel Wagner <wagi@kernel.org>
 X-Mailer: b4 0.14.3
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251030_030556_261936_12EDF6CA 
-X-CRM114-Status: GOOD (  11.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,28 +72,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When the rport is removed there shouldn't be any in flight request or
-responses.
+When the remoteport or the targetport are removed check that there are
+no inflight requests or responses.
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- drivers/nvme/host/fc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/target/fcloop.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 3ff70e6e8131..b613fc5966a7 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -520,6 +520,8 @@ nvme_fc_free_rport(struct kref *ref)
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 5dffcc5becae..4e429a1ea2bd 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -1111,8 +1111,10 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
+ 	rport->nport->rport = NULL;
+ 	spin_unlock_irqrestore(&fcloop_lock, flags);
  
- 	WARN_ON(rport->remoteport.port_state != FC_OBJSTATE_DELETED);
- 	WARN_ON(!list_empty(&rport->ctrl_list));
-+	WARN_ON(!list_empty(&rport->ls_req_list));
-+	WARN_ON(!list_empty(&rport->ls_rcv_list));
+-	if (put_port)
++	if (put_port) {
++		WARN_ON(!list_empty(&rport->ls_list));
+ 		fcloop_nport_put(rport->nport);
++	}
+ }
  
- 	/* remove from lport list */
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
+ static void
+@@ -1130,8 +1132,10 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
+ 	tport->nport->tport = NULL;
+ 	spin_unlock_irqrestore(&fcloop_lock, flags);
+ 
+-	if (put_port)
++	if (put_port) {
++		WARN_ON(!list_empty(&tport->ls_list));
+ 		fcloop_nport_put(tport->nport);
++	}
+ }
+ 
+ #define	FCLOOP_HW_QUEUES		4
 
 -- 
 2.51.1
