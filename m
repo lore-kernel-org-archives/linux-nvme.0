@@ -4,99 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FC48CCF9E3
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Oct 2025 22:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C66F2CCF9F0
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Oct 2025 22:23:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=O8nng/o7TemTjcJv19bbJKh3cyQwt5n4WNif/kXxBHY=; b=c3T7SQ14IpD+jmj1x6eaq2jp0E
-	ot7LQ/xE2Tomx2Z8pd/YfVmCZeb3WkcOw2SWPWjo1awGT/MlkoiEZY/0sMRksTW2CWTabIO1SKOM/
-	EsiHfp/eG00NhoPzHWTTPAvez8AnV5Jfl7sSy24YD8eSyyGw3VoxFtnZiewQLXbUP4wZLFgRt65Dk
-	+hXnbQHJ4awqrjAYdozBxl17wls6u6nIHrp4iqFYWeynBjEbiaMf0F7o/2bAgSOZeVszNCZs44Cjg
-	94gY9uLS44E/fuciwCpmzR0lpQnst0PGdMODlkYatSJLgOevykrcIhTKSgXPcFSqn/7BiAzG1fkoh
-	sh2ISiSg==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=6y1DtOnUkkgbVC/5kHS8ZeSezTrdv+/yVDVmDI+u+U8=; b=T6zjcXH7J7lBky
+	+uxCqgxnDrHcCD3MQol1G5fG84FLpHp+aAZivBpQGBF6QVe2EDvenHPb6mXGq05PFmYOvBrbV4O2A
+	oYlU+5F9zDn8LSSlv8HogR4BHUslZYCX9wwoFQKwJVLmbJwCepP5rm6XG6J45Pu28M/NfinxEEfe8
+	2tpnY8jokCwI7wzJB74ZBJLQaPkd8cqaLC3ei7yUM2Esa3QevPOdnsr2Q988tkJ1pWp929e4m35VB
+	tqf/o9+n0O74tnFZ877YfreDCrPrII6zW4tXsNE+qxyZbl7RVPsxX9yY2fXSM4YPxhuGS5WM5RwKC
+	3d96nEHiYRJR46sQmOIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEajF-0000000515l-3INs;
-	Thu, 30 Oct 2025 22:02:45 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1vEb3H-0000000541Y-29dk;
+	Thu, 30 Oct 2025 22:23:27 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEajE-00000005154-3OD2
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 30 Oct 2025 22:02:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:Cc:To:Subject:Message-ID:
-	Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=O8nng/o7TemTjcJv19bbJKh3cyQwt5n4WNif/kXxBHY=; b=hFa+BDIe+e9opZxAOpRzmBFMX1
-	aB2l43mOZf9LGrRoMVVHaXMrUgcHFXTENAxCCL0+F/nMMWHrUa/oBT8EkJ1vT6Z8FE13CWPm5xELU
-	Hel4lYqwJa0vWEKOaEAkrTY1TmMdOng2wzYdnqDnBm1QFxxJO6jC8p7JC7vKGs3td+3ZrZX1B9trq
-	QQKzRO4XCUM1Mf1sUY3IaiKyqPkXyeUpK42rmaHACPKk4f1CQs1NptSB0Z6JbcZ29zoZdQ8yivmGU
-	KAeX4UPrcnIZLFQ/LAuX6WwrFr5yRV5VAB9h6jIQbrede/xADBiXxsS+lPB97y1/eZEIL5ncjZKY4
-	v2xQXk7A==;
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEZrR-0000000A5cQ-3bYg
+	id 1vEb3E-0000000541E-1c4A
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Oct 2025 21:07:11 +0000
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-785f96ae837so18340387b3.3
-        for <linux-nvme@lists.infradead.org>; Thu, 30 Oct 2025 15:02:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761861757; x=1762466557; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O8nng/o7TemTjcJv19bbJKh3cyQwt5n4WNif/kXxBHY=;
-        b=aLgvVZe48L+Ws8N+M6Qy9vHH7//935g2+9bW/6P+s6MOTh1LbRn3N4cdK+khoaLvyd
-         P0q48zfCUT4zj/tCcskn0IQZoWTHfLc7Zg404FZQ/BWEI3RRBw7ajDtObrSdssOk7d8+
-         AppGyRfuUzd0oXzLqaVQdDwG+oG0l6qBG5aRwD2y9cXyObe4ZlGzM+Kw0lsD/GUyblXz
-         f1wHYg7YLiWkhGkiV9quobTyvHV9L33ueMMqGCKOwJe1txMNWoGpiC0+H73uV1SzGfbg
-         ZvLjfHVIYKAu5MO0EGtDWKZa+ohhc63HC8Zi2ora51FnJGAACmf/ne5THKqcnpe9cmO2
-         IrCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761861757; x=1762466557;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O8nng/o7TemTjcJv19bbJKh3cyQwt5n4WNif/kXxBHY=;
-        b=w1gUcGEboeORcepIKgaFulSlIIPm3WU5jmGNLx/MPP19Cly59qIwa0tlT7WRdn0QRG
-         4yMjbPed2PF3hVdIyAJXtfNHqy1tsoYu5N4qy0U4UQrwYvlK5KjPuZyO05elLKk3iCQ6
-         YtWRQzWRuBrpdSm4GgtQO9Jvf1m/j53zwdDSN0B9xX/6jwIsgsrljfapADrO0QVcZA+I
-         KFCHNysSaQmblu6bJWaDlmFAfNdz0Q5f1qoD3H5yK5dRWxKQinr2aRVPi6Nv7Wsg+R2A
-         5CMRN4PMEJJAUBnn0JkeZW56G/6fgGt/MDdkWr/7xk8h8GMrr16DsffWzPMOgoCunZfK
-         ltuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXdLy44B82S7iF2EDNpweghyIczB5uXBAeVp3cc64ZlcTICMa1jkK6LJcvmw4Hmn4YVdrXEs3AjAEAB@lists.infradead.org
-X-Gm-Message-State: AOJu0YzqW1FBVEUHHDgPyMi8cJBe5pKQsqBNlR3pnRCJOwMqldNoGvfA
-	BZm/HF3b0WzagnRg23FuaS1b+Qs3JMq2zlst2Kw5x17gp5S6Qf1jVfcxOzz/t8qjYnIknRISusc
-	sXlypyXRxIF0px7a53m1e13Il1byADkUTU99I1W0=
-X-Gm-Gg: ASbGncsOf3/6VQO5LlakMwa6T+MlIcjiJI1XIIYj67bTwBWgsr1Ir+4RMWXOTPO2h4z
-	AHwcHXS8FNLJpIY8u6lyUHg44Un4Vj9jr1zUnHGh1QUaXArcMN0SRPov9Ra/s5mkpBECpSeBq3j
-	UjcNAhSWqw2mTA+XPo4dWWFkfBMIAwQ2nJG+qv7KSQUcvS/1nwrRFld7cLesaaBDRry/yZR2PaW
-	e2lnLuwjS1UvMXSOGujMNLq1FeBRjAIKXZ93ddrN5YMo8OP+bIeagZ28Ut4X5Mm1B9/BJNm
-X-Google-Smtp-Source: AGHT+IHYqGsWXdG1hjFBIPSMjozWYVAmeen3VtzVdRTwar1VHBzAUDvza59snllaBPPxi1yO7EYscCMwHM2FMMPXutM=
-X-Received: by 2002:a05:690c:e0b:b0:786:24c1:9da4 with SMTP id
- 00721157ae682-7864842bc63mr10442767b3.18.1761861757479; Thu, 30 Oct 2025
- 15:02:37 -0700 (PDT)
+	Thu, 30 Oct 2025 22:23:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id C03A24098C;
+	Thu, 30 Oct 2025 22:23:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8094EC4CEF1;
+	Thu, 30 Oct 2025 22:23:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761863003;
+	bh=xG2I5vm7TB6tFU8dWnjN4R78M2qniumUpAN/EjStLCI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=hLSa9hrG5NYgAOb4NMZteW6MCeCMDiv16bI7WfM/rJn+8HmT3QshvlFe+usWRQL5t
+	 y00Y/99kynsQc9bvWby5278iQhsbjqWf6SvmLiS1caiX1MbmzVCyx4HI8DsAd6WlJj
+	 zsnozS+yFlmdFc1WIZ5UWwCRoQNrgG4Ze91AxD4QQA6kgdZHJth56IjJiWFBNg1Bpp
+	 JHxqb3kSadWXm1h8+/BwsjnwLg5PiF935ggyvqVjxGdWUMUhQ50ZwYwQ+oU3Q/orsz
+	 WbS0ypWR6zonFoDssFC/wQIMSU+xEPXJs/B9X42zwrqEqBw6mlOcXSVddO177Nyc/g
+	 h5GNNjGJzeFkg==
+Date: Thu, 30 Oct 2025 17:23:22 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Genes Lists <lists@sapience.com>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: mainline boot fail nvme/block? [BISECTED]
+Message-ID: <20251030222322.GA1656973@bhelgaas>
 MIME-Version: 1.0
-References: <CABPRKS9GGS2mQ46UMmM3G_NnamCsYj7zBaa_c4rQfO1h=59wrQ@mail.gmail.com>
- <84d028aa-31dd-4f8f-8370-3db4667d0dc7@flourine.local>
-In-Reply-To: <84d028aa-31dd-4f8f-8370-3db4667d0dc7@flourine.local>
-From: Justin Tee <justintee8345@gmail.com>
-Date: Thu, 30 Oct 2025 15:02:08 -0700
-X-Gm-Features: AWmQ_blrFKkGxwx84crAfwu2XHZpjpNwsFvpyVhlBY_WgnEMRx3u8t6S7gnD5ng
-Message-ID: <CABPRKS-s-32fzdpyE8_7jf8r=qdzxug5xq8jqoVwcEawOgqdUw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] nvme-fc: don't hold rport lock when putting ctrl
-To: Daniel Wagner <dwagner@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
-	James Smart <james.smart@broadcom.com>, Jens Axboe <axboe@kernel.dk>, 
-	linux-nvme@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>, 
-	Justin Tee <justin.tee@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3152ca947e89ee37264b90c422e77bb0e3d575b9.camel@sapience.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251030_210710_004728_3FAD7798 
-X-CRM114-Status: GOOD (  12.72  )
+X-CRM114-CacheID: sfid-20251030_152324_463474_27DACF6B 
+X-CRM114-Status: UNSURE (   9.59  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,17 +72,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> I've dropped the nvme_fc_rport_get because it's not necessary, a ref is
-> taken in nvme_fc_rcv_ls_req, so the port is not going away until the
-> disconnect LS is processed.
-Yes, correct, and the put would be in
-nvme_fc_xmt_ls_rsp_done->nvme_fc_xmt_ls_rsp_free.  Thank you for
-checking.
+On Fri, Oct 10, 2025 at 07:49:34PM -0400, Genes Lists wrote:
+> On Fri, 2025-10-10 at 08:54 -0600, Jens Axboe wrote:
+> > On 10/10/25 8:29 AM, Genes Lists wrote:
+> > > Mainline fails to boot - 6.17.1 works fine.
+> > > Same kernel on an older laptop without any nvme works just fine.
+> ...
 
-> All tests seems to work fine except one, nvme/58 (test rapid namespace
-> remapping). But this one also fails for the other trasnport, e.g TCP:
-Okay, sure, we can try to address this in a different patch set.
+> Bisect landed here. (cc linux-pci@vger.kernel.org)
+> 
+> 54f45a30c0d0153d2be091ba2d683ab6db6d1d5b is the first bad commit
+> commit 54f45a30c0d0153d2be091ba2d683ab6db6d1d5b (HEAD)
+> Author: Inochi Amaoto <inochiama@gmail.com>
+> Date:   Thu Aug 14 07:28:32 2025 +0800
+> 
+>     PCI/MSI: Add startup/shutdown for per device domains
 
-Regards,
-Justin
+#regzbot report: https://lore.kernel.org/r/4b392af8847cc19720ffcd53865f60ab3edc56b3.camel@sapience.com
+#regzbot introduced: 54f45a30c0d0
+#regzbot fix: e433110eb5bf
+
+54f45a30c0d0 ("PCI/MSI: Add startup/shutdown for per device domains")
+e433110eb5bf ("PCI: vmd: Override irq_startup()/irq_shutdown() in vmd_init_dev_msi_info()")
 
