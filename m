@@ -4,80 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CDF5CCF9EE
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Oct 2025 23:34:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCA0BCCF9EE
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Oct 2025 00:39:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ev4MgcEU/YMM004s+ooaPWltT7gsDwUNX82Pw1HrpeM=; b=xWi57Eut680TrP2st1kyJt66wv
-	zG7nDLOHMldi7XH1gqECmcG/kcIAJURqRSHoLHzG6KVCXMzGtRW4mhUXH8ctMFOjCBVSdny67LyLE
-	w72h7Tg74c0vJZSAsOTVV0/KvcnUT6dG9ShPFm2kZT0x46328254QJvxT/6wi1ij3wtxPbM9PJMPQ
-	otkmlIfgpWB4p567y9UVLgAfuoTbkNdVMPCWBCKVIlthHyWQwmjfiXlac2UnY8lfgG2BT1lj71kTH
-	HplYW1Q4P4KS2IRzez29dmLkwgTND2hGrhrQQeoZTk3FnuPCK9pdo4gMtVDk7qFkWEg3ivpC5Ezra
-	5L6v1UlA==;
+	bh=2bQogtN7+Q/lJNGIWymROZx+wULl+1igdZtI6scj+kg=; b=gc4VKj21AJGCJB8H61SwzgLOtb
+	PgQVKTPur43eysBhRQVrin58C3tIxPXYozhvfXJ2Au74VMwhA3T7boLB3z/j7zUQbZ4zt2uaxiH5u
+	8uxXTe/uZX3ks1NsMS0Gi5O00LWQCIBnkT4W1Tq3MI63LKLrh5GmIBsE0AD5wzjBeg1B+6AjyV/Nh
+	ReN6e6X1g2WBzE+apSkkPJeQgsPTTP+wDFPsbtMgU0G3NiTo320LE/ixH6s6vDGYFGDjjUe+Fv+pb
+	Ezfxo2wBTacqCoIeIgsVyJUqG4YVHvT1152SLk1FVlU5aThkj96Pf5WvbczD0PYCKuqiyZKKoM1uH
+	g+CoeynA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEFgD-00000003Fdz-147O;
-	Wed, 29 Oct 2025 23:34:13 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vEGhZ-00000003IS1-2Rx8;
+	Thu, 30 Oct 2025 00:39:41 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEFgA-00000003Fdb-2rT2
+	id 1vEGhX-00000003IRd-2DQ7
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Oct 2025 23:34:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761780848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ev4MgcEU/YMM004s+ooaPWltT7gsDwUNX82Pw1HrpeM=;
-	b=IaWz9xVmNlfUr9mEoOHLCYPZcKC0wBwjdn+JmRLlrSQGrlxx5kFHvrgcSI6562K3dQwPCC
-	4lZncBQOndcFFAlhnuGfswmiJvRqpdt3a7q/v34PdnH+iKgXJk2F/ncL63yGq/P2Sm6xWl
-	KMsgWbzvjmN75fva6VqEF6du3fDCJTs=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-158-p1peaPsTPyennamT6acj3A-1; Wed,
- 29 Oct 2025 19:34:05 -0400
-X-MC-Unique: p1peaPsTPyennamT6acj3A-1
-X-Mimecast-MFC-AGG-ID: p1peaPsTPyennamT6acj3A_1761780843
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 58D581800D8F;
-	Wed, 29 Oct 2025 23:34:03 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.12])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 03278180057C;
-	Wed, 29 Oct 2025 23:33:57 +0000 (UTC)
-Date: Thu, 30 Oct 2025 07:33:52 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: Casey Chen <cachen@purestorage.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"yzhong@purestorage.com" <yzhong@purestorage.com>,
-	"sconnor@purestorage.com" <sconnor@purestorage.com>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	"mkhalfella@purestorage.com" <mkhalfella@purestorage.com>
+	Thu, 30 Oct 2025 00:39:40 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id B6FC740529;
+	Thu, 30 Oct 2025 00:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46871C4CEF7;
+	Thu, 30 Oct 2025 00:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761784776;
+	bh=CnEBZQLAc8cKEsXxRjn2QzGr6G7p5UCV6c+c0O3l0Ws=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZrI898Y7tOKBfBa4Wrp2ScPkZXoBjkea2djc++1sf/4MLsNAfTtL1CqzjMQkXSMAM
+	 dYSvyRTukX9kZleHnSCdE05yqAOhVu/nZ7BSDMrUVD3NS9sCup4XmbB06/qwWh9RCM
+	 mct/bEF8RfLXfZ4fOM83B6r48YkPvMf0fbVZ+DVBroLu/PNBZnfSQ1iMAvUazCfoXL
+	 Kv41FiXzsH1W63AJx0/E4T/rOTUG1hsqZiaoYTbLjLbavGMeyuMWpnYxWO4qFJFzwK
+	 w89+ESdxUej6J5S2UukWRegMalKqcp1DcsDlFuqJYVNVuGjyy6OFroCcs2yNPEyRxV
+	 /Vx1F0aoVEnYA==
+Date: Wed, 29 Oct 2025 18:39:34 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Casey Chen <cachen@purestorage.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	yzhong@purestorage.com, sconnor@purestorage.com, axboe@kernel.dk,
+	mkhalfella@purestorage.com
 Subject: Re: [PATCH 1/1] nvme: fix use-after-free of admin queue via stale
  pointer
-Message-ID: <aQKkYCdao3eyDdB7@fedora>
+Message-ID: <aQKzxpJp98Po_pch@kbusch-mbp>
 References: <20251029210853.20768-1-cachen@purestorage.com>
  <20251029210853.20768-2-cachen@purestorage.com>
- <65062542-e87c-4026-a58a-d5a29d03b8c9@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <65062542-e87c-4026-a58a-d5a29d03b8c9@nvidia.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+In-Reply-To: <20251029210853.20768-2-cachen@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251029_163410_795798_45998B2D 
-X-CRM114-Status: GOOD (  21.91  )
+X-CRM114-CacheID: sfid-20251029_173939_587704_9FCE3846 
+X-CRM114-Status: UNSURE (   9.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,50 +75,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Oct 29, 2025 at 11:00:29PM +0000, Chaitanya Kulkarni wrote:
-> On 10/29/25 2:08 PM, Casey Chen wrote:
-> > From: Yuanyuan Zhong <yzhong@purestorage.com>
-> >
-> > When a controller is deleted (e.g., via sysfs delete_controller), the
-> > admin queue is freed while userspace may still have open fd to the
-> > namespace block device. Userspace can issue IOCTLs on the open fd
-> > that access the freed admin queue through the stale ns->ctrl->admin_q
-> > pointer, causing a use-after-free.
-> >
-> > Fix this by taking an additional reference on the admin queue during
-> > namespace allocation and releasing it during namespace cleanup.
-> >
-> > Signed-off-by: Casey Chen <cachen@purestorage.com>
-> > Signed-off-by: Seamus Connor <sconnor@purestorage.com>
-> > ---
-> >   drivers/nvme/host/core.c | 10 +++++++++-
-> >   1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 8d8af58e79d1..184a6096a2be 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -687,6 +687,7 @@ static void nvme_free_ns(struct kref *kref)
-> >   {
-> >   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
-> >   
-> > +	blk_put_queue(ns->ctrl->admin_q);
-> >   	put_disk(ns->disk);
-> >   	nvme_put_ns_head(ns->head);
-> >   	nvme_put_ctrl(ns->ctrl);
-> > @@ -3903,9 +3904,14 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
-> >   	struct gendisk *disk;
-> >   	int node = ctrl->numa_node;
-> >   
+On Wed, Oct 29, 2025 at 03:08:53PM -0600, Casey Chen wrote:
 > 
-> would be a good idea to add a comment at both places to explain why we 
-> are taking this additional reference ? since this is specifically needed 
-> for userspace.
+> Fix this by taking an additional reference on the admin queue during
+> namespace allocation and releasing it during namespace cleanup.
 
-Yes, it needs documentation, I believe it is because the reference of
-`struct nvme_ctrl` doesn't cover ctrl->admin_queue & ctrl->admin_tagset.
+Since the namespaces already hold references on the controller, would it
+be simpler to move the controller's final blk_put_queue to the final
+ctrl free? This should have the same lifetime as your patch, but with
+simpler ref counting:
 
-Thanks,
-Ming
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index fa4181d7de736..0b83d82f67e75 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4901,7 +4901,6 @@ void nvme_remove_admin_tag_set(struct nvme_ctrl *ctrl)
+         */
+        nvme_stop_keep_alive(ctrl);
+        blk_mq_destroy_queue(ctrl->admin_q);
+-       blk_put_queue(ctrl->admin_q);
+        if (ctrl->ops->flags & NVME_F_FABRICS) {
+                blk_mq_destroy_queue(ctrl->fabrics_q);
+                blk_put_queue(ctrl->fabrics_q);
+@@ -5045,6 +5044,7 @@ static void nvme_free_ctrl(struct device *dev)
+                container_of(dev, struct nvme_ctrl, ctrl_device);
+        struct nvme_subsystem *subsys = ctrl->subsys;
 
++       blk_put_queue(ctrl->admin_q);
+        if (!subsys || ctrl->instance != subsys->instance)
+                ida_free(&nvme_instance_ida, ctrl->instance);
+        nvme_free_cels(ctrl);
+--
 
