@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20F59CCF9EE
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Oct 2025 06:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4588CCF9EE
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Oct 2025 06:17:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L0feInR/0mTvgZNDm/YO9r3a9t4x7kOUokP19TJ4dZc=; b=wahWpJuuHRaKXRvm7R3YkDfoR8
-	N6s4VJISZKHv2x2ujxthMnS+R/rF9u8lPev/xJTUbmbFDRbICV6YpnqYLb0gvsCU1NSRpj2i5KaKs
-	MqFMQDzZ8gOfzEXA5SHYXdeyG/TVmqtd7egMRYw3e2rtLR4oqE0PyvEEeRSRsUCSVgaTnSYFaJEl8
-	tVbsW+3ALcYZK1J+fSFngzQrEa8E7fPKnvSy/l73EENnbNWWxiR5zDCkv8gfyxyzELDTSot5jdrSD
-	+e+gG33CBQlsMnyZMRwgrdzAWGRLFBBWtYPpZqNF2BprEpsukf4wFcQDT5eYMASTqZYIZuoDU9MSm
-	d8fwdqNQ==;
+	bh=zLPlVYeL/0mPeJQhcIxHnYkrm7Z0kYo5eoVEWJx5DGU=; b=MXp3B0VkKBeHe7R+s+L7glH102
+	Vlda3zl6O3SQt7uMjvn6ykt0Fv8/vdfWXBXxKZXKTO+ixsL28/ZUJJTBb0mS+m/ta+/XGO4pWUDpp
+	mYEp2bXTLzagPQrl5kDhLcPtncUY+AHgu6THVEN1TKMd5b2glzGTqESG5Pqi3s1aSTeFs7qTgnqvK
+	FU6WLbWc0uDhcje4qeqqRmxk4l7I+iJDzUf3OAHFRVO+u3PsUndRyJCPBAtTz6U0cIDcRX7zDjZUx
+	3T4oMPxVTLNPea6ALDll9UVVrpydOaz120lmZuPFSFvW5prrxpbLkp1HzRu/wtJT9qqsU88IOF/Hf
+	DaawXjYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEiRx-00000005Rvl-0srj;
-	Fri, 31 Oct 2025 06:17:25 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vEiS5-00000005Rxk-0u4g;
+	Fri, 31 Oct 2025 06:17:33 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEiRq-00000005RmW-1YyV
+	id 1vEiRm-00000005RmE-3mtS
 	for linux-nvme@lists.infradead.org;
 	Fri, 31 Oct 2025 06:17:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1AA6344B5B;
-	Fri, 31 Oct 2025 06:17:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8739EC4CEF1;
-	Fri, 31 Oct 2025 06:17:16 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 9C50044BF1;
+	Fri, 31 Oct 2025 06:17:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD5FC16AAE;
+	Fri, 31 Oct 2025 06:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761891438;
-	bh=FbZy3KaSfTVCZMhW0kFyGoAA/ywDZmHfYKpfi/XoXsQ=;
+	s=k20201202; t=1761891434;
+	bh=AFRfC/+L9+8EqBO+j5hc4RIPbK+fIEpNfl2CvB6ilbs=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=HUBaBZX7tYnu6KkCB5R0b9DlxmnO/MoztbBUmGNjqSjyKLPt+vAClDxB8WNMNEFvE
-	 /B1vkhN6grqHOrduFlQ1e+Yj0QEmGheSLwGzHhcvd3EP3jhnE2w5I6DoZFcWHsz+CH
-	 6fMrVL2vN1DOCPi1+0Sd0aYu3NN0poaEPObu7L7R8hdpgld5WpqSrvX7UI7rqZ148y
-	 LTA0G0ar77yPWwLfrenRx92uPJa6tbaU7Hl2hhxz8nceW13hlce2YAnV0i4Laxygk1
-	 6SSJP9QijYQE07qCN/RHAPreEV7IaaGWmenJMpxzwkjr924OXKoasEvHuLI4cnyFUA
-	 Fn6G0BGaTsztQ==
+	b=MPTUKdy1RphP61c8KqphsqN3kuqRtta5Kfq2QnYZX5NLKLH5HoNUq/tBOpgJDJH0y
+	 V1Re4wFweO5nA+uVbgWUZD9hTSw8xDQbchUjEkfLwYTmulZGpxdvbP316EPHxvuYk4
+	 g21xK+qrOYi5GDpBr/HwSImAaLOQ9b9bGl3Z5cCpPaDvvwrif38/fo1FZIo4sJaaeI
+	 KhQQHVa2Rd3ZiRmFosGf8RxSmRz+As1KFJtdo5GX4la7K6zDqW2JKr4oHjAWDTB3/z
+	 WWKrGBll4sVmH43GTBo4xF/dERKkE7uT/X2uMDLz1Uhl43QS9B41bsIkC2sCT0Xpnl
+	 asu0cumzmCIbQ==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	linux-block@vger.kernel.org,
@@ -57,17 +57,17 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Carlos Maiolino <cem@kernel.org>,
 	linux-btrfs@vger.kernel.org,
 	David Sterba <dsterba@suse.com>
-Subject: [PATCH 13/13] xfs: use blkdev_report_zones_cached()
-Date: Fri, 31 Oct 2025 15:13:07 +0900
-Message-ID: <20251031061307.185513-14-dlemoal@kernel.org>
+Subject: [PATCH 11/13] block: add zone write plug condition to debugfs zone_wplugs
+Date: Fri, 31 Oct 2025 15:13:05 +0900
+Message-ID: <20251031061307.185513-12-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251031061307.185513-1-dlemoal@kernel.org>
 References: <20251031061307.185513-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251030_231719_316503_4AC9A88A 
-X-CRM114-Status: GOOD (  10.49  )
+X-CRM114-CacheID: sfid-20251030_231719_319781_2B0EC7B3 
+X-CRM114-Status: GOOD (  10.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,30 +82,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Modify xfs_mount_zones() to replace the call to blkdev_report_zones()
-with blkdev_report_zones_cached() to speed-up mount operations.
-
-With this change, mounting a freshly formatted large capacity (30 TB)
-SMR HDD completes under 2s compared to over 4.7s before.
+Modify queue_zone_wplug_show() to include the condition of a zone write
+plug to the zone_wplugs debugfs attribute of a zoned block device.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- fs/xfs/xfs_zone_alloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/blk-zoned.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/fs/xfs/xfs_zone_alloc.c b/fs/xfs/xfs_zone_alloc.c
-index 23cdab4515bb..8d819bc134cd 100644
---- a/fs/xfs/xfs_zone_alloc.c
-+++ b/fs/xfs/xfs_zone_alloc.c
-@@ -1231,7 +1231,7 @@ xfs_mount_zones(
- 	trace_xfs_zones_mount(mp);
+diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index c8335654b1cd..1ccd78beb538 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -2296,18 +2296,21 @@ static void queue_zone_wplug_show(struct blk_zone_wplug *zwplug,
+ 	unsigned int zwp_wp_offset, zwp_flags;
+ 	unsigned int zwp_zone_no, zwp_ref;
+ 	unsigned int zwp_bio_list_size;
++	unsigned int zwp_cond;
+ 	unsigned long flags;
  
- 	if (bdev_is_zoned(bt->bt_bdev)) {
--		error = blkdev_report_zones(bt->bt_bdev,
-+		error = blkdev_report_zones_cached(bt->bt_bdev,
- 				XFS_FSB_TO_BB(mp, mp->m_sb.sb_rtstart),
- 				mp->m_sb.sb_rgcount, xfs_get_zone_info_cb, &iz);
- 		if (error < 0)
+ 	spin_lock_irqsave(&zwplug->lock, flags);
+ 	zwp_zone_no = zwplug->zone_no;
+ 	zwp_flags = zwplug->flags;
+ 	zwp_ref = refcount_read(&zwplug->ref);
++	zwp_cond = zwplug->cond;
+ 	zwp_wp_offset = zwplug->wp_offset;
+ 	zwp_bio_list_size = bio_list_size(&zwplug->bio_list);
+ 	spin_unlock_irqrestore(&zwplug->lock, flags);
+ 
+-	seq_printf(m, "%u 0x%x %u %u %u\n", zwp_zone_no, zwp_flags, zwp_ref,
+-		   zwp_wp_offset, zwp_bio_list_size);
++	seq_printf(m, "%u 0x%x %u 0x%x %u %u\n",
++		   zwp_zone_no, zwp_flags, zwp_ref,
++		   zwp_cond, zwp_wp_offset, zwp_bio_list_size);
+ }
+ 
+ int queue_zone_wplugs_show(void *data, struct seq_file *m)
 -- 
 2.51.0
 
