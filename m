@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 885D9CCF9FF
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Oct 2025 08:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1170CCFA00
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Oct 2025 08:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ja1ecSFn5o1JlkV6H5gg7BEfBTzU4LFhx2LoOzyKAZY=; b=LXaU8lDZvrfc8pToQOCIkzh9kM
-	2BTL9MshcrJBnrrtr99U8JLu7LTLxGMMivpUND4djXbS/q7oCdt+pkmNpSF6laHiOQ0+Vuskqo9YB
-	zubDWo8/zWRzwmlIRkcEqp/RQMQdc3aI3EcCSnjXRAaOCw9MvAkq5NF+xdIh3X/+b5heu4tL0cFIQ
-	ZRItYWiKJNe8U1VVVs468Oyqr9poA3PiS/HrrDxWNRKmUfb7rL0yInCChbEwJYI3U2D1qDXV9wNpx
-	16pEk4vdsr4OOSq/djdm/9Apz1IsS7a43/XKJ8muUb4v+MBsAO21APSD5EjPUiy5McSRbNsr244+H
-	PgrIB0Lg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=cJVLdVYtyiZBXcDTHp3O/T1xgq
+	GH/ponvO/c/33Blubtwq1KmQnhpqU/AQV8LdS6/BPirvy0mPs4HUSIoVvfeFfd5yT1YE0jHNLnau8
+	g1nZm2JdNGp55MQhcuSCHqmCK5EQdyCTqVVUVTjj72iHQySyiPJs6vtlOwXP21tbSA2F3Ay/QjoH1
+	4C4SkiLXyg3ieWRK409Q0e/yBejFJ9Gw3dS9idLthECXJecfTdNxg/y8PA4tmIoX3H+AlWMqJckwE
+	+/4LTkNGY28AvQD0rk8vpRBoGjE6QUakeAk7pelW79mUySed7Nz7qjFICQvZkJqYmcRXLUUuXmUh4
+	w/fKtoKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEknJ-00000005gqX-49cW;
-	Fri, 31 Oct 2025 08:47:37 +0000
+	id 1vEkoE-00000005h1X-2l8I;
+	Fri, 31 Oct 2025 08:48:34 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEknH-00000005gpO-1Rgg
+	id 1vEkoC-00000005h0w-0y1E
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 Oct 2025 08:47:36 +0000
+	Fri, 31 Oct 2025 08:48:33 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 86B16227A88; Fri, 31 Oct 2025 09:47:31 +0100 (CET)
-Date: Fri, 31 Oct 2025 09:47:31 +0100
+	id 83BBF227A88; Fri, 31 Oct 2025 09:48:28 +0100 (CET)
+Date: Fri, 31 Oct 2025 09:48:28 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Damien Le Moal <dlemoal@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
@@ -41,17 +41,19 @@ Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
 	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
 	Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
 	David Sterba <dsterba@suse.com>
-Subject: Re: [PATCH 05/13] block: reorganize struct blk_zone_wplug
-Message-ID: <20251031084731.GE8798@lst.de>
-References: <20251031061307.185513-1-dlemoal@kernel.org> <20251031061307.185513-6-dlemoal@kernel.org>
+Subject: Re: [PATCH 06/13] block: use zone condition to determine
+ conventional zones
+Message-ID: <20251031084828.GF8798@lst.de>
+References: <20251031061307.185513-1-dlemoal@kernel.org> <20251031061307.185513-7-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251031061307.185513-6-dlemoal@kernel.org>
+In-Reply-To: <20251031061307.185513-7-dlemoal@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251031_014735_596098_770F2772 
-X-CRM114-Status: GOOD (  11.49  )
+X-CRM114-CacheID: sfid-20251031_014832_413319_8C7745FF 
+X-CRM114-Status: UNSURE (   9.74  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,11 +67,6 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
-
-On Fri, Oct 31, 2025 at 03:12:59PM +0900, Damien Le Moal wrote:
-> Reorganize the fields of struct blk_zone_wplug to remove a hole after
-> the wp_offset field and avoid having the bio_work structure split
-> between 2 cache lines.
 
 Looks good:
 
