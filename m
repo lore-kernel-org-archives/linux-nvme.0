@@ -4,59 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 955A0CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Fri, 31 Oct 2025 21:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 915DACCF9F8
+	for <linux-nvme@archiver.kernel.org>; Fri, 31 Oct 2025 21:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uXjt1PIgL++w9J2bxSrpubLv4wa5nccK/nxczrMMWwo=; b=B3HJRByfu2LhV7GugxRMC679s8
-	gvkh3UMorYJG9A7JzgwzR9oFD9Nt4x2XyD04G+n9/tOju7YLEB/0rXoVJ86a7ZL4oJWVCvZl0ZA6g
-	ZLJoxYBcyIPbUbgSbt1ODbvCy2ly3QByO0JjngIW5CDLneFKVdKdcSarER4d3BZjY0ovdxs2qBgc4
-	KWbQbYbgJfKwMq1XAfAB0OuW/DcsRTjNtccmwX1FM9GfXVbeCSgW9isrtQnbsexDBf5QeoxwnDADg
-	Uc5KjlAYMlbmqgQFKu+5p3o6+xOjnTjFuTLkCGE8WjR7azpd0Ik4O+3ptqMCeC51cAJ+tJpk2qzJX
-	tWS4Lc5w==;
+	bh=cMr12pMLjE66ZLJgfh9u6SnWe7M5oEz8wUdwX9iE4Ic=; b=a3vocNiaiCt/ICWLn5iz60ySxp
+	tGraxa5bsWLNF3GbkzuAlWlbFv8iiy+Wj2z0X7ycBYMJPtP5YgXxkte6/L6zm98bMOetg+pbenRq4
+	7KQ/MW3C7TEUojsyVB2/fSjAh6EAdWTy/zfptze0EcNwmQ7ROY2zBahF/PvdHjEHnjiKzO3f3+HZA
+	/Q2HDrDcoNbrZnPoQsuh8x3CQjpkzeacz0MKfgn8d8JYxL83TzHfcbYIHdKqG1DF2op2ymXWwaw8r
+	SO3JXuc4wW/gF197ha7vBZwVMNqwhF82h/4G8Vva0K4GJbP5X2XNjSnTJJZAmQtpiGagWIalLPWxd
+	OPrdj6DA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEx3j-00000006pwY-2APG;
-	Fri, 31 Oct 2025 21:53:23 +0000
+	id 1vEx5w-00000006qAp-29gg;
+	Fri, 31 Oct 2025 21:55:40 +0000
 Received: from 004.mia.mailroute.net ([199.89.3.7])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vEx3d-00000006pvu-2vct
+	id 1vEx5u-00000006qAQ-06Aj
 	for linux-nvme@lists.infradead.org;
-	Fri, 31 Oct 2025 21:53:18 +0000
+	Fri, 31 Oct 2025 21:55:39 +0000
 Received: from localhost (localhost [127.0.0.1])
-	by 004.mia.mailroute.net (Postfix) with ESMTP id 4cyvqc4pZvzm0jvN;
-	Fri, 31 Oct 2025 21:53:16 +0000 (UTC)
+	by 004.mia.mailroute.net (Postfix) with ESMTP id 4cyvtJ6kM4zm0jvK;
+	Fri, 31 Oct 2025 21:55:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
 	content-transfer-encoding:content-type:content-type:in-reply-to
 	:from:from:content-language:references:subject:subject
 	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1761947593; x=1764539594; bh=uXjt1PIgL++w9J2bxSrpubLv
-	4wa5nccK/nxczrMMWwo=; b=PfpXZtvnMxvGNk3lGDGVYiX6WLWep/NkMqmtYZyH
-	vkuNuRQ94R4uq6xUbhMoWvBl8kmylTflWqiCZu0xphtRp5Pw33pImArdcIkmnDnL
-	5gpItOnIIJECMGs980aYxr54/cG5WNvZxhKKXiYAmO1uYEjcGqJqnI7+DaAHL6ti
-	PttPZMm5gptgydTYwg24heia5Q7smAe97em7jkzEcFVQll0iRGHq0jp6/0HQP2V0
-	i2Uyk8OupOVZhlIdTmUrOWbtdf9aSD8GN1mKoEI9omWQO4co+ga4Tw/kr5yr/QZx
-	iRfk/9U/IlSc2BAoFQrdP7d/bAKt8KdgaoScZNl3Gu0fJg==
+	 s=mr01; t=1761947734; x=1764539735; bh=cMr12pMLjE66ZLJgfh9u6SnW
+	e7M5oEz8wUdwX9iE4Ic=; b=OpmO3xIcXuZXUen+RPg8c8kumkTVrBZ3LPnA8Qvy
+	mYEZ3Wu7qgNYPNitoaUA8BKnHDO2shinTSHDeOfg7ftya7SNfranagToCSF7lN0E
+	KVU28LDu7UTvnD3qnf8rrzK4OzCy/CBAKOgyykQXhnS8Y0ngjU64St86qFBAMAZQ
+	o8Es0EYtpN4ckwkVwRKU/xYQrejzL8vDzdSxQ75utlmUpgAMK93VKIYjmWNmq3Vf
+	Ca3sY2WILYoYpzobqnLcguya7EgV/LmgqsRcmMX01bkdtzQLzehZwHXUvsZOi/fF
+	QK9E5rGuKsip6GcfbFGHINBcBIlgeJhbz/HH2wIBHdYtQA==
 X-Virus-Scanned: by MailRoute
 Received: from 004.mia.mailroute.net ([127.0.0.1])
  by localhost (004.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id GM97819f3f7R; Fri, 31 Oct 2025 21:53:13 +0000 (UTC)
+ id tmX2EuuEY4-X; Fri, 31 Oct 2025 21:55:34 +0000 (UTC)
 Received: from [100.119.48.131] (unknown [104.135.180.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bvanassche@acm.org)
-	by 004.mia.mailroute.net (Postfix) with ESMTPSA id 4cyvqM48b0zm0pL4;
-	Fri, 31 Oct 2025 21:53:02 +0000 (UTC)
-Message-ID: <4287484a-3a3d-4f50-9c5b-7a901458bfbc@acm.org>
-Date: Fri, 31 Oct 2025 14:53:00 -0700
+	by 004.mia.mailroute.net (Postfix) with ESMTPSA id 4cyvt42Yn3zm0pL4;
+	Fri, 31 Oct 2025 21:55:23 +0000 (UTC)
+Message-ID: <22912f8a-01af-415c-a4f0-9db87eac32d2@acm.org>
+Date: Fri, 31 Oct 2025 14:55:22 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] block: introduce blkdev_report_zones_cached()
+Subject: Re: [PATCH 11/13] block: add zone write plug condition to debugfs
+ zone_wplugs
 To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
@@ -67,15 +68,16 @@ To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251031061307.185513-1-dlemoal@kernel.org>
- <20251031061307.185513-10-dlemoal@kernel.org>
+ <20251031061307.185513-12-dlemoal@kernel.org>
 Content-Language: en-US
 From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20251031061307.185513-10-dlemoal@kernel.org>
+In-Reply-To: <20251031061307.185513-12-dlemoal@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251031_145317_827430_273C28F9 
-X-CRM114-Status: GOOD (  21.65  )
+X-CRM114-CacheID: sfid-20251031_145538_488487_C5F872AE 
+X-CRM114-Status: UNSURE (   6.91  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,100 +93,17 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 10/30/25 11:13 PM, Damien Le Moal wrote:
-> Introduce the function blkdev_report_zones_cached() to provide a fast
-> report zone built using the blkdev_get_zone_info() function, which gets
-> zone information from a disk zones_cond array or zone write plugs.
-> For a large capacity SMR drive, such fast report zone can be completed
-> in a few millioseconds compared to several seconds completion times
-> when the report zone is obtained from the device.
+> -	seq_printf(m, "%u 0x%x %u %u %u\n", zwp_zone_no, zwp_flags, zwp_ref,
+> -		   zwp_wp_offset, zwp_bio_list_size);
+> +	seq_printf(m, "%u 0x%x %u 0x%x %u %u\n",
+> +		   zwp_zone_no, zwp_flags, zwp_ref,
+> +		   zwp_cond, zwp_wp_offset, zwp_bio_list_size);
 
-millioseconds -> milliseconds
-
-Does retrieving the cached zone information really require multiple
-milliseconds instead of only a few microseconds?
-> For zoned device that do not use zone write plug resources,
-
-zoned device -> zoned devices
-
-> +static inline bool disk_need_zone_resources(struct gendisk *disk)
-> +{
-> +	/*
-> +	 * All mq zoned devices need zone resources so that the block layer
-> +	 * can automatically handle write BIO plugging. BIO-based device drivers
-> +	 * (e.g. DM devices) are normally responsible for handling zone write
-> +	 * ordering and do not need zone resources, unless the driver requires
-> +	 * zone append emulation.
-> +	 */
-> +	return queue_is_mq(disk->queue) ||
-> +		queue_emulates_zone_append(disk->queue);
-> +}
-
-Today queue_is_mq() returns true for request-based queues only. Since
-this is the terminology used elsewhere in the block layer, maybe change 
-"mq zoned devices" into "request-based zoned block devices"?
-
->   static inline unsigned int disk_zone_wplugs_hash_size(struct gendisk *disk)
->   {
->   	return 1U << disk->zone_wplugs_hash_bits;
-> @@ -962,6 +975,68 @@ int blkdev_get_zone_info(struct block_device *bdev, sector_t sector,
->   }
->   EXPORT_SYMBOL_GPL(blkdev_get_zone_info);
->   
-> +/**
-> + * blkdev_report_zones_cached - Get cached zones information
-> + * @bdev:     Target block device
-> + * @sector:   Sector from which to report zones
-> + * @nr_zones: Maximum number of zones to report
-> + * @cb:       Callback function called for each reported zone
-> + * @data:     Private data for the callback function
-> + *
-> + * Description:
-> + *    Similar to blkdev_report_zones() but instead of calling into the low level
-> + *    device driver to get the zone report from the device, use
-> + *    blkdev_get_zone_info() to generate the report from the disk zone write
-> + *    plugs and zones condition array. Since calling this function without a
-> + *    callback does not make sense, @cb must be specified.
-> + */
-> +int blkdev_report_zones_cached(struct block_device *bdev, sector_t sector,
-> +			unsigned int nr_zones, report_zones_cb cb, void *data)
-> +{
-> +	struct gendisk *disk = bdev->bd_disk;
-> +	sector_t capacity = get_capacity(disk);
-> +	sector_t zone_sectors = bdev_zone_sectors(bdev);
-> +	unsigned int idx = 0;
-> +	struct blk_zone zone;
-> +	int ret;
-> +
-> +	if (!cb || !bdev_is_zoned(bdev) ||
-> +	    WARN_ON_ONCE(!disk->fops->report_zones))
-> +		return -EOPNOTSUPP;
-> +
-> +	if (!nr_zones || sector >= capacity)
-> +		return 0;
-> +
-> +	/*
-> +	 * If we do not have any zone write plug resources, fallback to using
-> +	 * the regular zone report.
-> +	 */
-> +	if (!disk_need_zone_resources(disk)) {
-> +		struct blk_report_zones_args args = {
-> +			.cb = cb,
-> +			.data = data,
-> +			.report_active = true,
-> +		};
-> +
-> +		return blkdev_do_report_zones(bdev, sector, nr_zones, &args);
-> +	}
-> +
-> +	for (sector = ALIGN(sector, zone_sectors);
-> +	     sector < capacity && idx < nr_zones;
-> +	     sector += zone_sectors, idx++) {
-
-Please change "sector = ALIGN(sector, zone_sectors)" into an something
-based on bdev_offset_from_zone_start(), e.g. the following code:
-
-	sector += zone_sectors - 1;
-	sector -= bdev_offset_from_zone_start(bdev, sector);
+The debugfs output is incomprehensible for anyone who has not memorized
+the source code of queue_zone_wplug_show(). Please expand the debugfs
+output such that it becomes easier to comprehend. See e.g. the
+queue_zone_wplug_show() changes in
+https://lore.kernel.org/linux-block/20251014215428.3686084-15-bvanassche@acm.org/.
 
 Thanks,
 
