@@ -4,72 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1A78CCF9F0
-	for <linux-nvme@archiver.kernel.org>; Sat,  1 Nov 2025 03:53:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D39A5CCF9F8
+	for <linux-nvme@archiver.kernel.org>; Sat,  1 Nov 2025 04:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=7dt3GjdM2IsyI73aC5thAl6T7igc/rpXJNvggxzbNa0=; b=Zzs/KiHwH6BU7VzZS7P6VOup4D
-	R/PgOFpFTack3teq9URE8XFjQ/ZgaPizwzQohm8oF59u0ZOwAaOCKVVNsEuA+uM+gK8suxQI/q16r
-	y9YO3Or2R9mullEFqmxjrwa4U+nSNyRgbihgcZemX7FVQKPq5jlQozzV0cx0XshZXV1RGW2mzjBD7
-	+QqtC1mq/T3wVUi0TkpAyAPCot35Xx+lhZo6k3RktSc0SJF5+i4ctJPqKAh6ZGswAQhoHntXj5PAI
-	Bwg+NlFrfTN33ULquD6+unHQZ0k9xLSEF8gXDpmWduhqaI23aDMd/H5ekE0vQjkrINVNgFLy3tcQh
-	CjWp9Pkg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Mime-Version:References:In-Reply-To:Message-Id:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ayTIfD7whzLPYpUkvuktFiUFcv8ZvLt1DjOdUhKwweU=; b=PzpNdqgsmrULBsvRS7YegptEY0
+	3iC6F/C3QCEE7qDLm+TTtETJVvfjrdE9KNSG/Sb0yoKdcyNM0wHje/cZd/no7o3qtTY4ghNybP5aW
+	LHt3rBzo/B+WVdw/gkAxlAfa8wek7JMRvHFSc5PG35IymzVkdXUubAw60LJazyXBsP4S/h0GP3McV
+	T4/kNZcTlMndaIoVPh4Lng0b7ikE/ZnyDRYhjQHpTPIyTx9y95s6coBsF3JS+Gb83mdu9qDNOG6Cm
+	9jQxECz42mi/aRWgX7mX52JhE0XobOm8H3InIyKS/FhgfYQ9nhyzNdc/mm34aEOa3DoYuWpN9adu/
+	2q83CNFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vF2g2-000000072YF-3JR8;
-	Sat, 01 Nov 2025 03:53:18 +0000
-Received: from mgamail.intel.com ([198.175.65.14])
+	id 1vF2w7-0000000739S-2KvW;
+	Sat, 01 Nov 2025 04:09:55 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vF2fz-000000072Xd-24Rf
+	id 1vF2w4-00000007392-2GEN
 	for linux-nvme@lists.infradead.org;
-	Sat, 01 Nov 2025 03:53:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761969196; x=1793505196;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/GFc4IeKEqkqId6cYy+XZp7qHAD5i2mvQkTWC/3rfh8=;
-  b=lPUPw2F/RQN8MXIA4l1x0q/BoVRaj/S9H0PNhirwDSTZHRzhFNWPL8pC
-   QPSNdElh65aZygvZ0n4zWDiqYRTVfM+x88uGcx7/H1OW50R2WdHl1S7eb
-   sS53I0Wf9QHRtkb8mh7Jgc8gK7Q1X6yLQDoKYUbq+kXvxVI6UmnUxJoYi
-   0SN/0VMUlys0y910bi24CT8nUAp5v/9I4XZD7LpyNO8q2GdlB5b0f9K75
-   dSnbhGF70llBX/8LwjhYFb+Kme9W/Sd1prlYDxIh6bIEH9lk3DOXkHWY3
-   roRXqLVQosrFERsO62HilqDpP76TYk4sH5DEcSfGDIV6NoywHXZ5r1meH
-   g==;
-X-CSE-ConnectionGUID: U2KuYdC1TByOaLvcwMq3FQ==
-X-CSE-MsgGUID: UyuSr1EzSoa1TI4jsQgyqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67968460"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="67968460"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 20:53:11 -0700
-X-CSE-ConnectionGUID: WIVQOmJeTwC4/u7mr/D7Gg==
-X-CSE-MsgGUID: TFCdTNcWTEWvD4sgVQvtlw==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Oct 2025 20:53:09 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vF2fr-000Nu8-0k;
-	Sat, 01 Nov 2025 03:53:07 +0000
-Date: Sat, 1 Nov 2025 11:52:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>
-Subject: [linux-nvme:nvme-6.19 4/21] include/linux/nvme-keyring.h:57:4:
- warning: no previous prototype for 'nvme_dhchap_psk_hash'
-Message-ID: <202511011105.ef5UauN7-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+	Sat, 01 Nov 2025 04:09:54 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 67CE04325F;
+	Sat,  1 Nov 2025 04:09:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB93EC4CEF1;
+	Sat,  1 Nov 2025 04:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1761970189;
+	bh=vIzIpGr+Y0KCqjEMshY9/Fa+K5rSJIBw2Btho9NZx94=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BUybZAkrmZfEv7OYCM/DQB6sLpaells0D9RK8FedH5j5ONj6Zc5Wf7hVGuEMiJ2sp
+	 /4HBi8fOxSJ0Oc20nFFr/ao8OIzmN2b/2KTE4JE3Yfp+OaWrfx/t5tmQrw/tYlJU+H
+	 8+6CzSZTVaoSPbpAL8gNFj2ZcLurm3NnLnIIzKBI=
+Date: Fri, 31 Oct 2025 21:09:47 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Guan-Chun Wu <409411716@gms.tku.edu.tw>
+Cc: ebiggers@kernel.org, tytso@mit.edu, jaegeuk@kernel.org,
+ xiubli@redhat.com, idryomov@gmail.com, kbusch@kernel.org, axboe@kernel.dk,
+ hch@lst.de, sagi@grimberg.me, visitorckw@gmail.com, home7438072@gmail.com,
+ linux-nvme@lists.infradead.org, linux-fscrypt@vger.kernel.org,
+ ceph-devel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/6] lib/base64: add generic encoder/decoder, migrate
+ users
+Message-Id: <20251031210947.1d2b028da88ef526aebd890d@linux-foundation.org>
+In-Reply-To: <20251029101725.541758-1-409411716@gms.tku.edu.tw>
+References: <20251029101725.541758-1-409411716@gms.tku.edu.tw>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251031_205315_665927_C65AD60E 
-X-CRM114-Status: UNSURE (   9.42  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251031_210952_650423_0BD81B3E 
+X-CRM114-Status: GOOD (  17.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,62 +73,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-6.19
-head:   453ba3089d4570c2be2e230e1e7a287eac4b306b
-commit: 8d9937531a4d3cb6d2d352c46dd807bfa52988b6 [4/21] nvme-keyring: add 'dhchap' key type
-config: i386-randconfig-061-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011105.ef5UauN7-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011105.ef5UauN7-lkp@intel.com/reproduce)
+On Wed, 29 Oct 2025 18:17:25 +0800 Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511011105.ef5UauN7-lkp@intel.com/
+> This series introduces a generic Base64 encoder/decoder to the kernel
+> library, eliminating duplicated implementations and delivering significant
+> performance improvements.
+> 
+> The Base64 API has been extended to support multiple variants (Standard,
+> URL-safe, and IMAP) as defined in RFC 4648 and RFC 3501. The API now takes
+> a variant parameter and an option to control padding. As part of this
+> series, users are migrated to the new interface while preserving their
+> specific formats: fscrypt now uses BASE64_URLSAFE, Ceph uses BASE64_IMAP,
+> and NVMe is updated to BASE64_STD.
+> 
+> On the encoder side, the implementation processes input in 3-byte blocks,
+> mapping 24 bits directly to 4 output symbols. This avoids bit-by-bit
+> streaming and reduces loop overhead, achieving about a 2.7x speedup compared
+> to previous implementations.
+> 
+> On the decoder side, replace strchr() lookups with per-variant reverse tables
+> and process input in 4-character groups. Each group is mapped to numeric values
+> and combined into 3 bytes. Padded and unpadded forms are validated explicitly,
+> rejecting invalid '=' usage and enforcing tail rules.
 
-All warnings (new ones prefixed by >>):
+Looks like wonderful work, thanks.  And it's good to gain a selftest
+for this code.
 
-   In file included from drivers/nvme/host/fabrics.c:15:
->> include/linux/nvme-keyring.h:57:4: warning: no previous prototype for 'nvme_dhchap_psk_hash' [-Wmissing-prototypes]
-      57 | u8 nvme_dhchap_psk_hash(struct key *key)
-         |    ^~~~~~~~~~~~~~~~~~~~
+> This improves throughput by ~43-52x.
+
+Well that isn't a thing we see every day.
+
+: Decode:
+:   64B   ~1530ns  ->  ~80ns    (~19.1x)
+:   1KB  ~27726ns  -> ~1239ns   (~22.4x)
 
 
-vim +/nvme_dhchap_psk_hash +57 include/linux/nvme-keyring.h
+: Encode:
+:   64B   ~90ns   -> ~32ns   (~2.8x)
+:   1KB  ~1332ns  -> ~510ns  (~2.6x)
+: 
+: Decode:
+:   64B  ~1530ns  -> ~35ns   (~43.7x)
+:   1KB ~27726ns  -> ~530ns  (~52.3x)
 
-    26	
-    27	#else
-    28	static inline struct key *nvme_tls_psk_refresh(struct key *keyring,
-    29			u8 *data, size_t data_len, const char *digest)
-    30	{
-    31		return ERR_PTR(-ENOTSUPP);
-    32	}
-    33	static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
-    34			const char *hostnqn, const char *subnqn)
-    35	{
-    36		return 0;
-    37	}
-    38	static inline key_serial_t nvme_keyring_id(void)
-    39	{
-    40		return 0;
-    41	}
-    42	static inline struct key *nvme_tls_key_lookup(key_serial_t key_id)
-    43	{
-    44		return ERR_PTR(-ENOTSUPP);
-    45	}
-    46	static inline struct key *nvme_dhchap_psk_refresh(struct key *keyring,
-    47			const char *hostnqn, const char *subnqn,
-    48			u8 *data, size_t data_len)
-    49	{
-    50		return ERR_PTR(-ENOTSUPP);
-    51	}
-    52	static inline struct key *nvme_dhchap_psk_lookup(struct key *keyring,
-    53			const char *hostnqn, const char *subnqn, u8 hmac)
-    54	{
-    55		return ERR_PTR(-ENOTSUPP);
-    56	}
-  > 57	u8 nvme_dhchap_psk_hash(struct key *key)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+: This change also improves performance: encoding is about 2.7x faster and
+: decoding achieves 43-52x speedups compared to the previous implementation.
+
+: This change also improves performance: encoding is about 2.7x faster and
+: decoding achieves 43-52x speedups compared to the previous local
+: implementation.
+
+
+Do any of these callers spend a sufficient amount of time in this
+encoder/decoder for the above improvements to be observable/useful?
+
+
+I'll add the series to mm.git's mm-nonmm-unstable branch to give it
+linux-next exposure.  I ask the NVMe, ceph and fscrypt teams to check
+the code and give it a test in the next few weeks, thanks.  
+
 
