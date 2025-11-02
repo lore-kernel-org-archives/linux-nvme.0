@@ -4,87 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6FC3CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Sun,  2 Nov 2025 03:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82E48CCFA02
+	for <linux-nvme@archiver.kernel.org>; Sun,  2 Nov 2025 15:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ki39G4nK738bbMNvRVvZd2hgEp5hWfNTDjdCye7EBaM=; b=vHtPfsEUnxWfF5zLVNoe0HP/JE
-	nkh4QqHKkacagVgUCZy1c+XvNdoHjXaP56/MHs52NEmLp6pLqFT+311p+FE4vKhkPKs3ZGLitu9d6
-	2XaXhzmWMaqAubADi/wUEQjLh+6YR/RH69SNekmadLOt+K9YMZqGTR99nIL8zWYdKPDqIc8ffY475
-	LDg95Sjj4TLqNE2umS5LHSUvNROj4WBsg3cOSz00MfSjXzzXWHmV+LG2nsdY1M/wdLmEIbVH+vMQ1
-	AWjK2hrK8iaK/LB9JdYRte1b1a1lNlyzbXwBQi4k+hztVVOxFasNmLx4h01ngSbSyhu1+dvYSOeJL
-	5f0VjcGg==;
+	bh=wk/svKLpQpTJaPyIcUcxbaltetzoE2T249FQcQcziYE=; b=WqQfcEfMDnIe/mlLQSTYaxVHvX
+	KWuIRaXBKze+QIDLhc6W5p+aS6ZW2ymEby79T93jZmLNNNG+SD+gMlR629js36H3A79nWPevWubi+
+	N+IxI/cIz2MSvu91j21t84PeRtqpx0yBZEaxnVV7SwfwC7qvK5SCUoNQ3+Cq8phGbVofDiF+hs56H
+	k6FA+CGdkH8P2K4kviCFZMHmEgiizWU1TkHACe6jdf+fnYrd/IkctueoyXuuB6u97cfiPtyrp8spX
+	3vRNzCGxbUwEPTC+B6p+OQtP7AIEFCdIrCNYuGGdTAg7wLKeaS7TbFb5UmGv8ghSfzNRZInF2iZkM
+	zhAIOZCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFObE-00000008G5t-4B5c;
-	Sun, 02 Nov 2025 03:17:48 +0000
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+	id 1vFZoj-00000008bQB-0OrC;
+	Sun, 02 Nov 2025 15:16:29 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFObC-00000008G5R-2pjd
+	id 1vFZoc-00000008bPr-3CLm
 	for linux-nvme@lists.infradead.org;
-	Sun, 02 Nov 2025 03:17:47 +0000
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-294fe7c2e69so29182355ad.0
-        for <linux-nvme@lists.infradead.org>; Sat, 01 Nov 2025 20:17:46 -0700 (PDT)
+	Sun, 02 Nov 2025 15:16:23 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso537305b3a.3
+        for <linux-nvme@lists.infradead.org>; Sun, 02 Nov 2025 07:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762053466; x=1762658266; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1762096582; x=1762701382; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ki39G4nK738bbMNvRVvZd2hgEp5hWfNTDjdCye7EBaM=;
-        b=XSKsessuaSutZaAV4wt0jrA0HCx0oAd357vy65Et+bEJ8ZUeDT3hNEf92ci/fnoRn1
-         86CYdYR6gqfn2iJxiZw6UINnMFmkAfIJiq8ar5160XeJrEYAwpIYfaYKdRdai7tf/xCO
-         ldE69JGV6v0Umd9g5Qcrrfyn/10rX8x+rjepO4eQPSMGWmMVIBjRYh63f726CfDxexRV
-         UQVGmpAo+VRVU+gTF9cAZIGgg+j9w4amUQVl3p78Qhu1+uvrjkqm3K8rOmoX+j36GCve
-         TBKGzLVEToOv1Ph79DxTUTII+nBnwoc38VwJmpc4WXSBzo+ZR/vQyU5ujx740kngGi7g
-         Fq0g==
+        bh=wk/svKLpQpTJaPyIcUcxbaltetzoE2T249FQcQcziYE=;
+        b=R2QKRfiX9Yd5m+AZy78DkAYsrxqeCRQhb7yUeUTKpd1jxg389kuqiFq9ltPyPLBFVJ
+         hQ51BOfz5Fq9/KlqP7MiN6fa3Qy/EujcSYb2QBGHy+Id/o2yLC/Lj/kavj/Sv7Fe14wt
+         JqhC5qNBiIG9vkUhWPkLFGAnfJq+hcP4YLpErA78cl8TIET+N6Oyh9+z57IxBtc8Kzng
+         V2QW1Vo2cgwGHyk1+11ouDX5S+W5QjznGuj5beEhuV/22LkMR2M/m0XRx/4xSaOtXY9H
+         KMq6jYpHFr0x83focJWVoXGRUpYSdl5ceyngA5xOqkwfwC4xINZKTQV3cIQK/yIQCay9
+         814g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762053466; x=1762658266;
+        d=1e100.net; s=20230601; t=1762096582; x=1762701382;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ki39G4nK738bbMNvRVvZd2hgEp5hWfNTDjdCye7EBaM=;
-        b=g4nRTTVY/y5ey5g4cQ0MxAkbAI74pm26znMSpq52JkxjoEJ0TM6jkN9Lo1xAGg0X2l
-         eErOStLUOiSQei0K6QVT5SDun/KKHnvLclJ4OYhlgxj+JzLHF0X/Ev2RECTdeIZ1LrL9
-         862vPRsmmEoFjO7D7xecoR+C70D+Dhfgh/Yc2A+a3uCW/1Egf9t+QKm/CanRF41K1J+1
-         dNalPQBJeGPEcXCvRJvjv9rOBj6ZWbs1RfTdDvAMWuj/ig9ZVue5Vksl++oJ14I/+KaF
-         pkp8zIhlbqaGfvAKXgXUw4z0IrAVcolBKbPfoMkVviQko/jHM7I5Vrgy6WtVeemtKu5L
-         i+EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXjolFQ5CF+unuwgU6NeFehLkmp24ZMWJwxymepZzHviZN163xkQcHuspSN7swPuLnt6A68JzV78FdJ@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxz5/S47F/03bv33HnF9mPcIkxKvX14Rq0sORPQrNF6MqfaSPix
-	vITFB4YNt8G7/ADC/oiKHEA0zy31bSJbYydP2xQ+LoKaky5d/3wpvvHR
-X-Gm-Gg: ASbGncscgZybBP/68YpSA6ctdEyLNdFpsZj+cUF/fVUP3gEGK6ljR8PBRH0T+zDhySI
-	HmD8CdYrDW8iwI+pI6dnlLithmjmIPYAj8qsVNM6nnwQaoymzQ8G5Jnwk4q6Vzm0T6oGmFl/y2t
-	mtncCh4kYbKZqSIZiP9arFr3edZaqlGAWigHAFohC35uTky5ODIR21TwvbSygJ6oCkLzYpkO5eE
-	qGJgZSSwJo6JNeZg0bJ/UCD9iP4+OpQfAAT/TRhmyMQwkAfUuAfInYZco4UUmjRRI0NYqtAVgsG
-	2DRZD9mvCfF6gHyJwxGnxOy7+n/pKp+97Km74of72Fs9lIzcEjRwO+H2RaM4peMODMo/hv1wld9
-	96ZuzX42wkFEsAspvtqMmztj4ZOcoGyFml5KhzcJ1L5YQp94fUuJNOYgQcYyhxDh9+iYFLMz5Ez
-	mrGIfsK/y4voNYZzd1T8FDZLJFhi4vQCsi3ZjWRjwfyA2Vonw=
-X-Google-Smtp-Source: AGHT+IHvnbsNY7Z1xfwDgRd9OeFl31anYCvkPi+0IlqF25O9nkiL9cTkNbN+APLDLKPpaGQTNJ3jkw==
-X-Received: by 2002:a17:902:ce92:b0:295:2d76:72fe with SMTP id d9443c01a7336-2952d767409mr87303645ad.45.1762053465759;
-        Sat, 01 Nov 2025 20:17:45 -0700 (PDT)
-Received: from localhost (ip70-175-132-216.oc.oc.cox.net. [70.175.132.216])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-295269bd2fesm70971055ad.105.2025.11.01.20.17.44
+        bh=wk/svKLpQpTJaPyIcUcxbaltetzoE2T249FQcQcziYE=;
+        b=pA5v5QJ3lma3r8aWQ/UTX2u7O2AcvuylR7ioYC/yvD15jHsa1/WdBE+hCb5hgk+KtA
+         L831J6ylITl1Rg1gSwwuXlu3XVzVkC4IU4l3NbSbbHSI6bWkJM1uP5bIOjy4Blmlxmcq
+         H3EQUC41g0QtGhbtqki6/toYhs3MQEVuVz1qimFa1px4whUdD5AFh9vn6mNhqhkz98kH
+         jCYGW9+ZZQ6EILWUmKdsXiCYT787+IapNHV1WIU4+PPvU1X3dFbsvFm1F+hlxmIigAeV
+         pEPjR9pBTYqn2ULDrdu79nNqPVSP5BuTKnFY1xjz99JmCJ9nhsTyUq/PnOIZfL8mvlfT
+         VSGw==
+X-Gm-Message-State: AOJu0YzoPcpTVfVFtbpGicyYW7AkSDkQ7UAbpprERB7ELmjEzsAYDjvH
+	jkN2wuB3+JBKfIBDyOU1N+fp39dt+oyxxfheB/48MSXhbTFN5T95K1Drjs66mQ==
+X-Gm-Gg: ASbGnctBIli9d49M55s2ZFASCJvBBp8XTqwJNu9OHcx1geJFCfSHftkEwTJ8ObDCdiY
+	wOMAvVJYJvRYKw5RyX/GNCsJUSIrdIInL0zB/wHEyn5NtCK9tpPrtftGeSOOOZ468PHIYoNc607
+	rOqQukr//UdAfmAJVuJJNUQohwgE78ykkuQ43U+zt6js17dEyMKTxvZirP1D4dWeeC6O0FdqWE2
+	juqZSvkqdM+BKqV0yWvQG/IJY38tBTtcoekgwu+rVB80rXIcdg/ejMpypYZ8XMHVlOqyIc5Z3w1
+	d4RLcq5l6dxzrND40RiEAIbJ8ThrNbFiqNjnKPFyob+95uvC4M/BwaEKwxIDy/obDAj10+Ftkpq
+	DCDMmWgo8LyvopNzD72JIBKB+QN1MlUyRQKUiP9J0zQHrBTNzztHshnmZwKmVRaKjgGpQT7orqM
+	YJMicJMpxapCE5LZ+6B0JTvvi7aND2Yys0Pw==
+X-Google-Smtp-Source: AGHT+IF53HqM9DkJju28Bv3nFc4utwMeSA2Nzhx5WIrLa3gJnB5IUtrADxvTwqMNurpFoChHzSIYRw==
+X-Received: by 2002:a05:6a00:1820:b0:7a3:455e:3fa5 with SMTP id d2e1a72fcca58-7a77416b3cbmr12474274b3a.0.1762096581517;
+        Sun, 02 Nov 2025 07:16:21 -0800 (PST)
+Received: from tokunori-X570-Taichi ([240b:10:2720:5500:f97:7b5a:bdfc:ed55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7db197335sm8262325b3a.47.2025.11.02.07.16.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 20:17:45 -0700 (PDT)
-From: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-To: hare@suse.de,
-	kbusch@kernel.org
-Cc: hch@lst.de,
-	linux-nvme@lists.infradead.org,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: [PATCH] nvme-auth: use IS_REACHABLE for nvme_auth_extract_key() declaration
-Date: Sat,  1 Nov 2025 20:17:42 -0700
-Message-Id: <20251102031742.69984-1-ckulkarnilinux@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        Sun, 02 Nov 2025 07:16:20 -0800 (PST)
+From: Tokunori Ikegami <ikegami.t@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: Tokunori Ikegami <ikegami.t@gmail.com>
+Subject: [PATCH] nvme/ioctl: fix nvme_user_cmd() to check command allowed with flags
+Date: Mon,  3 Nov 2025 00:16:08 +0900
+Message-ID: <20251102151615.12587-1-ikegami.t@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251101_201746_718794_54D5F468 
-X-CRM114-Status: GOOD (  14.85  )
+X-CRM114-CacheID: sfid-20251102_071622_803222_BF3EFDB5 
+X-CRM114-Status: GOOD (  11.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,92 +94,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Fix build error when CONFIG_NVME_AUTH=m (module):
+Since only checked the flags by nvme_user_cmd64() but both functions
+called by nvme_ioctl setting NVME_IOCTL_PARTITION via nvme_ns_ioctl().
+Also fix to pass the flags into nvme_submit_user_cmd() as same.
 
-  drivers/nvme/common/auth.c:158:13: error: redefinition of
-  'nvme_auth_extract_key'
-  include/linux/nvme-auth.h:25:27: note: previous definition is here
-
-The issue occurs because when NVME_AUTH is built as a module (=m), the
-preprocessor symbol CONFIG_NVME_AUTH is not defined during compilation,
-but the object file auth.o is still compiled as part of nvme-auth.ko.
-
-With #ifdef CONFIG_NVME_AUTH, the header provides a static inline stub
-when the config is =m, while auth.c provides the real implementation,
-causing a redefinition conflict.
-
-Use IS_REACHABLE(CONFIG_NVME_AUTH) instead of #ifdef CONFIG_NVME_AUTH to
-properly handle both built-in (=y) and modular (=m) builds. IS_REACHABLE
-evaluates to true when the code is reachable, either because it's built-in
-or because we're building the same module.
-
-Fixes: e30cd923b3ed ("nvme-auth: switch to use 'struct key'")
-Signed-off-by: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
+Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
 ---
-Hi,
+ drivers/nvme/host/ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Please review this very carefully :-
-
-Broken scenario with #ifdef CONFIG_NVME_AUTH:
-
-make menuconfig -->  NVMe over Fabrics In-Band Authentication --> * 
-
-nvme (nvme-6.19) # grep NVME_AUTH .config
-CONFIG_NVME_AUTH_STATE=y
-CONFIG_NVME_AUTH=m
-nvme (nvme-6.19) #
-
-1: Makefile compiles auth.c
-  obj-$(CONFIG_NVME_AUTH) += nvme-auth.o
-  nvme-auth-y += auth.o
-  auth.c gets compiled as part of nvme-auth.ko module
-  make[1]: Entering directory '/mnt/data/nvme/drivers/nvme'
-  CC [M]  common/auth.o
-  CC [M]  host/core.o
-  CC [M]  host/sysfs.o
-  CC [M]  target/configfs.o
-  CC [M]  host/auth.o
-  CC [M]  host/fabrics.o
-  CC [M]  target/fabrics-cmd-auth.o
-  CC [M]  target/auth.o
-common/auth.c:158:13: error: redefinition of ‘nvme_auth_extract_key’
-  158 | struct key *nvme_auth_extract_key(struct key *keyring, const u8 *secret,
-      |             ^~~~~~~~~~~~~~~~~~~~~
-
-2: Preprocessor evaluates header guards in nvme-auth.h
-
-#ifdef CONFIG_NVME_AUTH <---- CONFIG_NVME_AUTH is NOT defined when =m
-                                 Only CONFIG_NVME_AUTH_MODULE is defined!
-  struct key *nvme_auth_extract_key(...); <---  Declaration (NOT reached)
-#else
-static inline struct key *nvme_auth_extract_key(...) { <---- This is used  Static inline stub
-      return ERR_PTR(-ENOKEY);                           
-  }
-  #endif
-
-3: Compiler sees BOTH definitions when NVME_AUTH is enabled
-   using make menuconfig  NVMe over Fabrics In-Band Authentication = * 
-  - auth.c:158 has the real implementation: struct key *nvme_auth_extract_key(...)
-  - Header provides static inline stub: static inline struct key *nvme_auth_extract_key(...)
-
----
- include/linux/nvme-auth.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
-index afc84a4cd94a..49a8afc16028 100644
---- a/include/linux/nvme-auth.h
-+++ b/include/linux/nvme-auth.h
-@@ -18,7 +18,7 @@ const char *nvme_auth_digest_name(u8 hmac_id);
- size_t nvme_auth_hmac_hash_len(u8 hmac_id);
- u8 nvme_auth_hmac_id(const char *hmac_name);
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index c212fa952c0f..b335345d08a3 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -308,7 +308,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
+ 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
  
--#ifdef CONFIG_NVME_AUTH
-+#if IS_REACHABLE(CONFIG_NVME_AUTH)
- struct key *nvme_auth_extract_key(struct key *keyring, const u8 *secret,
- 				  size_t secret_len, bool *generated);
- #else
+-	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
++	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
+ 		return -EACCES;
+ 
+ 	if (cmd.timeout_ms)
+@@ -316,7 +316,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+ 			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
+-			cmd.metadata_len, &result, timeout, 0);
++			cmd.metadata_len, &result, timeout, flags);
+ 
+ 	if (status >= 0) {
+ 		if (put_user(result, &ucmd->result))
 -- 
-2.40.0
+2.51.0
 
 
