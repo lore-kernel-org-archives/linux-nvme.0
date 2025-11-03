@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F691CCF9FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 11:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61037CCF9FE
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 11:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=fkR9xcK0Qq7tpLpg6axNdrChug
-	53RYd8aZV570wTO/zL6GbmMBLqOz29MHQfXFiPWnAfRirMA4vT3H9A4Hy6g7nXnosRa/T3ukxzNC+
-	/uXGgt/lT0UrfR35Q/gVtkvB/lXAEFe6D7q2j6tHqOag5ajEXBUYLyhuhw7mP/C0tyjTYV/RyQxPG
-	20HK2gwmX5Rhst+CflUSYr4JLhebhOL++5nEOv8orhiEAH2AyuqYMvPA0Ke0jf3e0p3Z6d4qq3Usu
-	KVr1NdQx5ulLK/vqn0ovZ/3pvqZf6kV3+/MBD/ZTs25pvVOlOOL2T4ye66CovU4mABlf5mnIj+XTd
-	F1CiYFPw==;
+	bh=kmprfFlDlZNdLdLsWAx3RXKKM6s9jiwhRynsOf1e1lY=; b=FQ0KtmvDoCrxwyapJ8uWrPE8ia
+	AgHi8FN3AjMgVQZ+IRFFRvcyF2TyJ1ptksMD1tEdsCAjFNInXLuqVQ/tXoogOYacFDW3tOwzrit6w
+	e4xOKvJTUV0G1ODuVcG/i0VXZePDvSjMBnWz+mRRXDKGB2Tbq0tVaGZYGXGKQs1ep5WNWy/cuV7oV
+	Nj6o9Jkt7n91C10b3ASHPoQjR4v8xHAwXE7jL3Uyz0jQwBlsVshHqSZJBTY9whC49WkvSklGLFZQV
+	MEptfcrEkmalp2jbekWTXr2Y+CX+9GlYdywffyu3cTgqF5Wm34vSGGC1lPX4DSYgm29wEg6fuYLZ/
+	OMqxh7yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFt1O-00000009ldi-09xT;
-	Mon, 03 Nov 2025 11:46:50 +0000
+	id 1vFtCy-00000009nNd-3Vxi;
+	Mon, 03 Nov 2025 11:58:48 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFt1L-00000009lcC-49sA
+	id 1vFtCw-00000009nMn-1c6t
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 11:46:49 +0000
+	Mon, 03 Nov 2025 11:58:47 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3070C227A87; Mon,  3 Nov 2025 12:46:44 +0100 (CET)
-Date: Mon, 3 Nov 2025 12:46:43 +0100
+	id 51433227A87; Mon,  3 Nov 2025 12:58:41 +0100 (CET)
+Date: Mon, 3 Nov 2025 12:58:41 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de,
-	linux-nvme@lists.infradead.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] nvme-keyring: mark nvme_dhchap_psk_hash() as static
- inline
-Message-ID: <20251103114643.GC15280@lst.de>
-References: <20251102031701.69920-1-ckulkarnilinux@gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org, axboe@kernel.dk,
+	sagi@grimberg.me, hare@suse.de, kch@nvidia.com,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH 3/3] nvme: Allow reauth from sysfs
+Message-ID: <20251103115841.GA16274@lst.de>
+References: <20251030035114.16840-1-alistair.francis@wdc.com> <20251030035114.16840-4-alistair.francis@wdc.com> <20251031140541.GB17006@lst.de> <CAKmqyKNr8N4r=9RvgErr-zj929gd8oRfdKGgrhVajK_UxR828g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251102031701.69920-1-ckulkarnilinux@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKmqyKNr8N4r=9RvgErr-zj929gd8oRfdKGgrhVajK_UxR828g@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251103_034648_168796_48B6E71B 
-X-CRM114-Status: UNSURE (   9.08  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251103_035846_568923_1B3B6AF2 
+X-CRM114-Status: GOOD (  20.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,8 +62,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Mon, Nov 03, 2025 at 11:47:23AM +1000, Alistair Francis wrote:
+> On Sat, Nov 1, 2025 at 12:05 AM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > On Thu, Oct 30, 2025 at 01:51:14PM +1000, alistair23@gmail.com wrote:
+> > > From: Alistair Francis <alistair.francis@wdc.com>
+> > >
+> > > Allow userspace to trigger a reauth (REPLACETLSPSK) from sysfs.
+> > > This can be done by writing the queue ID to te sysfs file.
+> > >
+> > > echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/replace_psk
+> > >
+> > > Note that only QID 0 (admin queue) is supported.
+> >
+> > Why pass the queue ID then instead of a boolean value?
+> 
+> I liked the explicitness of passing a queue ID instead of a bool and
+> it allows supporting more queues in the future if that changes in the
+> spec.
+> 
+> I can change it to a bool instead if that's preferred?
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-
+I find an "echo 0" for a simple one-shot sysfs file rather confusing.
+Given that we're not likely to grow anything else I'd vote against
+doing it, but this is no hard NAK if there is consensus to do it
+this way by others.
 
