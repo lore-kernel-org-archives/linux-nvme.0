@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2B08CCF9FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 06:08:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E9F1CCF9F8
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 06:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GpaXNYL4gjt79sKw4asUgy7W1GgOpcmVAliKlSWjHAQ=; b=MlbLRK5q93mQLOLWuwPQ/eSJca
-	XIiNW0kU/Gp21c6a1ZOtcaoPtDRse8mhQThdyGD5A2WidB/HDd18/aN+pPqMP6qDByCl74snOM/wv
-	VftlaKwPcbJd9a105ECUIxh/C0SKW2uhCBN2ECDv83QYhed8V84F4kNHxKKUlQaLFrCvEse6YfprE
-	17l9ZkZvTON3QI0l8fEuzHrmItznqEjaCUV0RBnxyfDaDk9j+SVqDvbtbV2GN/Do5OLsQt4vIFpBY
-	HIqTsLvCsixCYsxiMlH8qQ4zBSyrgnbBjhLVRZwJXOFhOwai78zlpXcNzKDdqpTsE9UYQL+EvuVcc
-	fqLi0C5Q==;
+	bh=gJmuXVnUo9+0gPFoaRx8vcQ3oLCwkJD/KvkAlDJhpuk=; b=ryYWS8/djCyZFgZG5dY1Dp6JNd
+	eCpqBgJlw/jppyMyXV0/sJ9wqcD8LWsZ6IuSGwffwlBJmgFZoqh4gA3/5tXBqFMYreSQR6j02FxK3
+	sbV1fG9wgcf7QrHqV0o6YBzUV94w8wTvQw+7L5POoWCihfL/1Env/7tXvFOriWdTS4QeezLmKFusS
+	5WhW2ugLJdxh8mxjYE8ymyHWVw7b3YGUD+ShVdBKt/qbqV2qun9pPctXREvKwCAwK5YabdRsuEht/
+	eQtY5TGxZ+7mjtzImka+VNi3L4Vc44m6Q/R6cfpw+AO9VnIYN5vm/1eFR4OIF/y0SxAJK34qW2agi
+	iSCBxsqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFnk5-00000009Gxd-0sLr;
-	Mon, 03 Nov 2025 06:08:37 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vFnoN-00000009HGh-0tG6;
+	Mon, 03 Nov 2025 06:13:03 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFnk2-00000009GxB-38I1
+	id 1vFnoL-00000009HGX-3HTd
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 06:08:35 +0000
+	Mon, 03 Nov 2025 06:13:01 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 22EE34070D;
-	Mon,  3 Nov 2025 06:08:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E569C4CEE7;
-	Mon,  3 Nov 2025 06:08:31 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 09C3B601A6;
+	Mon,  3 Nov 2025 06:13:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD7C8C4CEFD;
+	Mon,  3 Nov 2025 06:12:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762150114;
-	bh=pwdbBk5k6Lzn4gzAg9HIGXVXZpoWqAAGoLj3pg2fCKc=;
+	s=k20201202; t=1762150380;
+	bh=n6EN2P2gP5X9cBVibE23fs0PdgP3/6dDNF9i/yYXrDU=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=CnH+orprqbruxwZuHf+EdM///THhXFUjdY+3st0QXD0POAUkza82UIhHSxkhGOn1A
-	 MDBFzp33Mt5Lt5eiyfDmgXPKxZD6saSS+JArEMye7byAS+T/0avuF7xvz+0HwYP7WN
-	 Z8RYya7sYXwHBiFIMtoo4LRp4VqTzxKQbxloxmkYJCTJbLe7vDA1y6HUumTyOk/dr9
-	 4SMWtXXBOzTYPAWQPN9LvYK7f0vvP15GIZA/+zcDTbrdHBnzgCIAc7YhRKHcP5qaPA
-	 yLEK2OqPmWoYeDTUnerb12eG+ANqAy8Q4KLOjapOp4/FCoS0JQwg5e4v5ma9YqiBLd
-	 xh3s9LB0ePHgA==
-Message-ID: <1276e2be-4d8b-4c59-822c-3af4490de24e@kernel.org>
-Date: Mon, 3 Nov 2025 15:08:30 +0900
+	b=ZKSXU+2KlmgkRvdjhyKMf91LpddVvRgJbcftB10f8mk2CYDCx1MwZG0Q7KJrBq7nB
+	 gjo80h0H9U8U/gXeiMAoHddLhgD44D53a25UU3gg1ovFXZ0qSvvXaAtbWCmV00eR1n
+	 jhVEQHGazUPtk998upWx+xW/DzK0uHNzaHeecj45g8gGS3TN9vp4YcA/VZxeyoO+7o
+	 p/9aV7KduLZeNnf07QwACpqeq+Zvb534q4xsqRYPBAqIWMcwdmJRXXOlj+SZ35ohp0
+	 IgL+DCCNg6RimK/WOvNedKg8AQdbodMqmKJ7CVNh5hHJRNHJczweBCEcy1pjbe226p
+	 g2ZLsG9OgUN/A==
+Message-ID: <02990d98-060e-44b9-8800-b6787449855d@kernel.org>
+Date: Mon, 3 Nov 2025 15:12:56 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/13] block: introduce blkdev_get_zone_info()
+Subject: Re: [PATCH 09/13] block: introduce blkdev_report_zones_cached()
 To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
@@ -57,17 +57,14 @@ To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251031061307.185513-1-dlemoal@kernel.org>
- <20251031061307.185513-9-dlemoal@kernel.org>
- <42dc640b-28e9-4706-91dc-dd075e736065@acm.org>
+ <20251031061307.185513-10-dlemoal@kernel.org>
+ <4287484a-3a3d-4f50-9c5b-7a901458bfbc@acm.org>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <42dc640b-28e9-4706-91dc-dd075e736065@acm.org>
+In-Reply-To: <4287484a-3a3d-4f50-9c5b-7a901458bfbc@acm.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251102_220834_810717_2FA5269F 
-X-CRM114-Status: GOOD (  14.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,45 +79,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/1/25 06:40, Bart Van Assche wrote:
->> +/**
->> + * blkdev_get_zone_info - Get a zone information from cached data
+On 11/1/25 06:53, Bart Van Assche wrote:
+>> +	for (sector = ALIGN(sector, zone_sectors);
+>> +	     sector < capacity && idx < nr_zones;
+>> +	     sector += zone_sectors, idx++) {
 > 
-> "Get a zone information" -> "Get zone information"
+> Please change "sector = ALIGN(sector, zone_sectors)" into an something
+> based on bdev_offset_from_zone_start(), e.g. the following code:
 > 
->> +	sector = sector & (~(zone_sectors - 1));
-> 
-> Please consider changing the above assignment into:
-> 
+> 	sector += zone_sectors - 1;
 > 	sector -= bdev_offset_from_zone_start(bdev, sector);
 
-That is a lot more arithmetic for the same thing.
-If anything, I think this should be:
-
-	sector = ALIGN(sector, zone_sectors);
-
->> +	/*
->> +	 * If the zone does not have a zone write plug, it is either full or
->> +	 * empty, as we otherwise would have a zone write plug for it. In this
->> +	 * case, set the write pointer accordingly and report the zone.
->> +	 * Otherwise, if we have a zone write plug, use it.
->> +	 */
->> +	zwplug = disk_get_zone_wplug(disk, sector);
->> +	if (!zwplug) {
->> +		if (zone->cond == BLK_ZONE_COND_FULL)
->> +			zone->wp = sector + zone_sectors;
->> +		else
->> +			zone->wp = sector;
->> +		return 0;
->> +	}
-> 
-> According to ZBC-2 the write pointer is invalid for full zones.
-
-Sure, meaning that the user should not look at the value. That does not make the
-above wrong in any way. But sure, I can chnage that the ULLONG_MAX if you really
-prefer.
-
-
+Why ? That is a lot harder to understand that what we are doing is align to the
+zone start. And your proposed code is not correct anyway as we would miss one
+zone (the zone containing sector) if sector is not already aligned to the zone
+start.
 
 -- 
 Damien Le Moal
