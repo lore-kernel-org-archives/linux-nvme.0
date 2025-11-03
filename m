@@ -4,82 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82E48CCFA02
-	for <linux-nvme@archiver.kernel.org>; Sun,  2 Nov 2025 15:16:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 874CACCF9E3
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 01:41:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=wk/svKLpQpTJaPyIcUcxbaltetzoE2T249FQcQcziYE=; b=WqQfcEfMDnIe/mlLQSTYaxVHvX
-	KWuIRaXBKze+QIDLhc6W5p+aS6ZW2ymEby79T93jZmLNNNG+SD+gMlR629js36H3A79nWPevWubi+
-	N+IxI/cIz2MSvu91j21t84PeRtqpx0yBZEaxnVV7SwfwC7qvK5SCUoNQ3+Cq8phGbVofDiF+hs56H
-	k6FA+CGdkH8P2K4kviCFZMHmEgiizWU1TkHACe6jdf+fnYrd/IkctueoyXuuB6u97cfiPtyrp8spX
-	3vRNzCGxbUwEPTC+B6p+OQtP7AIEFCdIrCNYuGGdTAg7wLKeaS7TbFb5UmGv8ghSfzNRZInF2iZkM
-	zhAIOZCg==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=r4JpTIJcUWICq0RhXYTLqHg0HVddUn7fLzFa6IMM6wY=; b=pEzw8ROnZfwxGWjCX4fsb/IwTk
+	OXLZrXqry6N2YsTc3oFs+OmuVjdcbmHvxjHHDItXuszQU785unaD09+DHEX1SzeDbAVqR0EpoRHTB
+	UtLIjzeNn3QadigUoZovTnodny+AJKGu6IZScwRQIbAwn/qecpEb2VR29X9hSug9tp6RAQiT+us4F
+	DqRVUVf6sdkdmFqOH0VqsPc/ViWrCzSb9r0de5FNjl64gwUpNUHIULl/4VIBsHTwdUSYJ9aH2fQ+V
+	e255hpgMDIAaCMt4PYJ1g1G/vVvAMGaDoxNOTuxgbw4Fk5t5pxZIp6OupcEAjGsys9Uod4zMCPPP4
+	rrNOe50Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFZoj-00000008bQB-0OrC;
-	Sun, 02 Nov 2025 15:16:29 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1vFjZZ-000000091HN-43PE;
+	Mon, 03 Nov 2025 01:41:29 +0000
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFZoc-00000008bPr-3CLm
+	id 1vFjZY-000000091GR-1Z7L
 	for linux-nvme@lists.infradead.org;
-	Sun, 02 Nov 2025 15:16:23 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso537305b3a.3
-        for <linux-nvme@lists.infradead.org>; Sun, 02 Nov 2025 07:16:22 -0800 (PST)
+	Mon, 03 Nov 2025 01:41:29 +0000
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-b6d345d7ff7so934860166b.1
+        for <linux-nvme@lists.infradead.org>; Sun, 02 Nov 2025 17:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762096582; x=1762701382; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wk/svKLpQpTJaPyIcUcxbaltetzoE2T249FQcQcziYE=;
-        b=R2QKRfiX9Yd5m+AZy78DkAYsrxqeCRQhb7yUeUTKpd1jxg389kuqiFq9ltPyPLBFVJ
-         hQ51BOfz5Fq9/KlqP7MiN6fa3Qy/EujcSYb2QBGHy+Id/o2yLC/Lj/kavj/Sv7Fe14wt
-         JqhC5qNBiIG9vkUhWPkLFGAnfJq+hcP4YLpErA78cl8TIET+N6Oyh9+z57IxBtc8Kzng
-         V2QW1Vo2cgwGHyk1+11ouDX5S+W5QjznGuj5beEhuV/22LkMR2M/m0XRx/4xSaOtXY9H
-         KMq6jYpHFr0x83focJWVoXGRUpYSdl5ceyngA5xOqkwfwC4xINZKTQV3cIQK/yIQCay9
-         814g==
+        d=gmail.com; s=20230601; t=1762134086; x=1762738886; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r4JpTIJcUWICq0RhXYTLqHg0HVddUn7fLzFa6IMM6wY=;
+        b=RVm0FIMIkfo5NZ1Fuvker0UHw+dtPDqJLCack8MECqXaMMBDuzV9H+iDdq/pbdNnE3
+         j/di+uBN9T8C7F5qF5TD6erlTX8SSYstidqgOS0lOfugPMs5FU/IMdyt2Sm9xfzkTK2b
+         DG7K569mKr6uPyPa04Es7Gl4jdIcPwIzVbFIshvglM8B6ctl3OyjfWSwGKwB3AQGmN0i
+         zwcEYUujAN88/cfBQd6utf93SOaWz0yaDlTxaK/s+6tJBuGVbtIpCPUEL62qCXzKuJG4
+         DDb72o0tXlf9jHkIlPVHpQ4hTRipqaKvE1m0VU+ECRNIZ24Qr9K0Gn9kXd+y+IAbg2XZ
+         mXYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762096582; x=1762701382;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wk/svKLpQpTJaPyIcUcxbaltetzoE2T249FQcQcziYE=;
-        b=pA5v5QJ3lma3r8aWQ/UTX2u7O2AcvuylR7ioYC/yvD15jHsa1/WdBE+hCb5hgk+KtA
-         L831J6ylITl1Rg1gSwwuXlu3XVzVkC4IU4l3NbSbbHSI6bWkJM1uP5bIOjy4Blmlxmcq
-         H3EQUC41g0QtGhbtqki6/toYhs3MQEVuVz1qimFa1px4whUdD5AFh9vn6mNhqhkz98kH
-         jCYGW9+ZZQ6EILWUmKdsXiCYT787+IapNHV1WIU4+PPvU1X3dFbsvFm1F+hlxmIigAeV
-         pEPjR9pBTYqn2ULDrdu79nNqPVSP5BuTKnFY1xjz99JmCJ9nhsTyUq/PnOIZfL8mvlfT
-         VSGw==
-X-Gm-Message-State: AOJu0YzoPcpTVfVFtbpGicyYW7AkSDkQ7UAbpprERB7ELmjEzsAYDjvH
-	jkN2wuB3+JBKfIBDyOU1N+fp39dt+oyxxfheB/48MSXhbTFN5T95K1Drjs66mQ==
-X-Gm-Gg: ASbGnctBIli9d49M55s2ZFASCJvBBp8XTqwJNu9OHcx1geJFCfSHftkEwTJ8ObDCdiY
-	wOMAvVJYJvRYKw5RyX/GNCsJUSIrdIInL0zB/wHEyn5NtCK9tpPrtftGeSOOOZ468PHIYoNc607
-	rOqQukr//UdAfmAJVuJJNUQohwgE78ykkuQ43U+zt6js17dEyMKTxvZirP1D4dWeeC6O0FdqWE2
-	juqZSvkqdM+BKqV0yWvQG/IJY38tBTtcoekgwu+rVB80rXIcdg/ejMpypYZ8XMHVlOqyIc5Z3w1
-	d4RLcq5l6dxzrND40RiEAIbJ8ThrNbFiqNjnKPFyob+95uvC4M/BwaEKwxIDy/obDAj10+Ftkpq
-	DCDMmWgo8LyvopNzD72JIBKB+QN1MlUyRQKUiP9J0zQHrBTNzztHshnmZwKmVRaKjgGpQT7orqM
-	YJMicJMpxapCE5LZ+6B0JTvvi7aND2Yys0Pw==
-X-Google-Smtp-Source: AGHT+IF53HqM9DkJju28Bv3nFc4utwMeSA2Nzhx5WIrLa3gJnB5IUtrADxvTwqMNurpFoChHzSIYRw==
-X-Received: by 2002:a05:6a00:1820:b0:7a3:455e:3fa5 with SMTP id d2e1a72fcca58-7a77416b3cbmr12474274b3a.0.1762096581517;
-        Sun, 02 Nov 2025 07:16:21 -0800 (PST)
-Received: from tokunori-X570-Taichi ([240b:10:2720:5500:f97:7b5a:bdfc:ed55])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7db197335sm8262325b3a.47.2025.11.02.07.16.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 07:16:20 -0800 (PST)
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Tokunori Ikegami <ikegami.t@gmail.com>
-Subject: [PATCH] nvme/ioctl: fix nvme_user_cmd() to check command allowed with flags
-Date: Mon,  3 Nov 2025 00:16:08 +0900
-Message-ID: <20251102151615.12587-1-ikegami.t@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1762134086; x=1762738886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r4JpTIJcUWICq0RhXYTLqHg0HVddUn7fLzFa6IMM6wY=;
+        b=DiwK9HIPsx2TJsOFF8uPlWxGysWDFvi4GwWfQQ0Mqn2u4jForXSo/DK7fWOXQgy4R2
+         5vu/l0Ijywz/6KeCAoUP/mWrFE+UCle1kQMQ+Qm4WV+JhsVqSbHCHO74ngisOBcyuFUM
+         zmVZkBpYC+OwQzajNJJQV4ufIPvP4GoAH0HhXygcPEHbTcEn6BRncK179sB7r63n/AcI
+         X9l+xkl1LzMURjHuRCk/0zED3JIY/kkxWom2Wpo3TzD8eRTdMQkT8QJN96MSY7G8MiGJ
+         59E73ephIeIKRwjc8CCr8xxdv+mw2yq954Mr9rmxQSfE+1SV9XoZ1EqBee0PP5VZVzeD
+         8hOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXxnwmD8tOJKGp/yGkR84J0ybi4qflGqsCcqqLucKvYgSFKN/HZrYdfBzpuDYeI7XnWpvApcxBW2Hia@lists.infradead.org
+X-Gm-Message-State: AOJu0YzIMXf4XfqkAWF8dmbhie4I4Tf/TTGLSApMY3G1YQG9CTxBw9h1
+	Qgqf+uqzzwQenDfyZG8hWO+lTAXGVB360znw3hkr8Iujo7dDtpIcqnnMReMnJ8c4Qgae1wNdYOC
+	phUIcGJywUonFZLVnx6bZuvyuvbJ11Fg=
+X-Gm-Gg: ASbGnct8TcKV1SKqvZAiIZyfSWyDo3x29DF/PD1Jkgvi+bXY3GtTWJ2PrnjQA8RIB0A
+	9xkXeyb+bjT+IW9DGztCY1qbIovtNZnDWODbGN9yRzUyK+f7WRl/CVznjB+jJ/z1Ie0BY8H/m2+
+	JJNglfgtxeYonHJvjPn0B9M8wiGnUuTvBujreoATVdazJVsM2JSmV/tNC6SXIJx18yA5HoQvkW4
+	cL98T3MXyVed3FGldY976QJvUh3i1IW9eed27kttCk/y09QJymAMf7FcPc4LTNZIbLOwWqMoiNQ
+	5cAYaQlRc7UQB4Q=
+X-Google-Smtp-Source: AGHT+IE/eyF+U0mcVSVOCFn90kJhZxf4Zfg890G+o1Tfzad3V+RqDT+rlRzvp5279x6ptqJdKuJ4hl1LR6/bJWnRls8=
+X-Received: by 2002:a17:907:7209:b0:b6d:ba71:a17f with SMTP id
+ a640c23a62f3a-b705212b184mr1771429466b.18.1762134085841; Sun, 02 Nov 2025
+ 17:41:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251030035114.16840-1-alistair.francis@wdc.com>
+ <20251030035114.16840-3-alistair.francis@wdc.com> <20251031140310.GA17006@lst.de>
+In-Reply-To: <20251031140310.GA17006@lst.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 3 Nov 2025 11:40:59 +1000
+X-Gm-Features: AWmQ_bkDRF4rEu0p3e9iqv7N4UGnz9O0eQ4ZvNxXnHXSrGn_2_G0UVFLViI15VY
+Message-ID: <CAKmqyKPU8j-D9T-dLNfktf9EVQeA8-pdneOJkscN-0JM0UdEGg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] nvmet-tcp: Don't free SQ on authentication success
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, hare@suse.de, 
+	kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251102_071622_803222_BF3EFDB5 
-X-CRM114-Status: GOOD (  11.61  )
+X-CRM114-CacheID: sfid-20251102_174128_425982_CA9700B6 
+X-CRM114-Status: GOOD (  16.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,38 +98,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since only checked the flags by nvme_user_cmd64() but both functions
-called by nvme_ioctl setting NVME_IOCTL_PARTITION via nvme_ns_ioctl().
-Also fix to pass the flags into nvme_submit_user_cmd() as same.
+On Sat, Nov 1, 2025 at 12:03=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> On Thu, Oct 30, 2025 at 01:51:13PM +1000, alistair23@gmail.com wrote:
+> > Curently after the host sends a REPLACETLSPSK we free the TLS keys as
+> > part of calling nvmet_auth_sq_free() on success. This means when the
+> > host sends a follow up REPLACETLSPSK we return CONCAT_MISMATCH as the
+> > check for !nvmet_queue_tls_keyid(req->sq) fails.
+> >
+> > This patch ensures we don't free the TLS key on success as we might nee=
+d
+> > it again in the future.
+>
+> I initially though we'd now keep it around for the lifetime of the
+> queue, but I think we'll still free it from nvmet_execute_auth_send,
+> right?
 
-Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
----
- drivers/nvme/host/ioctl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Good point. In theory nvmet_execute_auth_send() can free it, I don't
+see that actually happening as `req->sq->dhchap_step` is always
+`NVME_AUTH_DHCHAP_MESSAGE_NEGOTIATE` for me.
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index c212fa952c0f..b335345d08a3 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -308,7 +308,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
--	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
-+	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
- 		return -EACCES;
- 
- 	if (cmd.timeout_ms)
-@@ -316,7 +316,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
--			cmd.metadata_len, &result, timeout, 0);
-+			cmd.metadata_len, &result, timeout, flags);
- 
- 	if (status >= 0) {
- 		if (put_user(result, &ucmd->result))
--- 
-2.51.0
+I'll add another patch to remove the call to nvmet_auth_sq_free() on succes=
+s.
 
+Alistair
+
+>
 
