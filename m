@@ -4,89 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41091CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 18:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2AFCCCFA03
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 18:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Mq9pw6/sBhmV4wQBNcYvWJwAdaCtMpgpg4OPpZ8xo/s=; b=D1BPD25YXH4yyYZnduP/cTuPDn
-	sztC4Zx2GhFnoU4f7Qvfy0U7LuFVI3Rv6Ma9xLIlsUyDCNhujqfr3zJxQ0ah7KeFK1B8D3AXUfSkD
-	mxHuRxZrjjWO7gY3BFRInism9SFFijIr7PfBsQhjLQj9PkjFUTAdAAECcidrXt2YfNvggFrUsuca7
-	YDJJmQSXhbQ49Dag5LUkcCFz95VSJAiMaEVJm4RgBcMuvmKmFwXxIiqws/UTzj4NgylFJb6duY7mn
-	XtutUpieEkoknxzlJ+xh5cFhSWp347Av8NEB+8EAW+ykW4Oz251uZWG7ayYq7o6X1sbWV8iNsJpIj
-	WYm5nsvg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LZJml/qUOYUxSf7YMBAn3UuQCViaS2F+0XfsjOVP9Ic=; b=QvFm0beYdlH3dviARL+69R2mV9
+	T/TOcAhbvHAnvupoGEo24MRzbsl+bTUrZA3bkCrIZo8yBORDBHwBWOV7rMphfYWBkt2RSR3Jj/40R
+	K8fuG5N8B2exiukJFkdYU79e3fbPzvfniNUYFO6xnm6cLKtavj1ju68hArPuqi/3MxY6FqnjwT076
+	J66Mi+ealns2JA+lq8eGTrkZmM7NGrFTxwFPM3+q2LWgxyWNPQT9NEoyTggxURhOXaU2zG/BpmYrc
+	V1WmEeU8O3vc5pmZQG1t1nZv/6p8B4lDDjpORnq8bKYLKNP81SDOsdohW7Xy9sFVfR4QG0f8sntdx
+	5Ak4gdeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFz6x-0000000ATV1-2zCh;
-	Mon, 03 Nov 2025 18:16:59 +0000
-Received: from mgamail.intel.com ([192.198.163.10])
+	id 1vFzLZ-0000000AUgB-15cs;
+	Mon, 03 Nov 2025 18:32:05 +0000
+Received: from 004.mia.mailroute.net ([199.89.3.7])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFz6v-0000000ATUL-2VdM
+	id 1vFzLW-0000000AUfc-3VYD
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 18:16:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762193817; x=1793729817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LKpLRhBfQ3KPIeTBXo6bwcaDfNJovNBRA7NSpmlZzl8=;
-  b=SvbAx6LRKouyVJ0kOOcPDNIxQ6AIY+HJ2jWDFGIukLAYmPWjUE7sjjGF
-   VwNWP/5LYu7p+V+GZJg37bOW0aYziJOk0jAI3wq7a0woQWkJplln5dNvP
-   r0Lpz9QrqrFpc7jVYO+Z+O8LDHVXfaRW7DS0fLM4I/89WQPlVmpLHPXog
-   vbdAYLjqATCuSwsj0D7ojB1meemYYlVl22QVeWv8ZKyumXua36ezvA4x6
-   CznCF3MKQOikU7ZjnJJkzlqPcoGcmlaOO3qxkhSQ8CwNRHDjbTvD/k2Dp
-   hLtsR5h7zNAFB3WHAYYCa+/qxRXnSEkuW1lJOFeCD8Lfgi2fhg7cAYejB
-   A==;
-X-CSE-ConnectionGUID: jZEMTJeKSQWKSzRXe6J54g==
-X-CSE-MsgGUID: 6MqrhXEcRQ6AveIIkOwiWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="75628051"
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="75628051"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 10:16:57 -0800
-X-CSE-ConnectionGUID: zZSCZJj4Rb2K/tWgJOstrg==
-X-CSE-MsgGUID: wo4zC5M2Sg6V8p9ci6pqPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="187657159"
-Received: from smoehrl-linux.amr.corp.intel.com (HELO ashevche-desk.local) ([10.124.220.216])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 10:16:53 -0800
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1vFz6l-00000005EWJ-1Dv3;
-	Mon, 03 Nov 2025 20:16:47 +0200
-Date: Mon, 3 Nov 2025 20:16:46 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
-	Guan-Chun Wu <409411716@gms.tku.edu.tw>,
-	Andrew Morton <akpm@linux-foundation.org>, ebiggers@kernel.org,
-	tytso@mit.edu, jaegeuk@kernel.org, xiubli@redhat.com,
-	idryomov@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, home7438072@gmail.com,
-	linux-nvme@lists.infradead.org, linux-fscrypt@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] lib/base64: add generic encoder/decoder, migrate
- users
-Message-ID: <aQjxjlJvLnx_zRx8@smile.fi.intel.com>
-References: <20251029101725.541758-1-409411716@gms.tku.edu.tw>
- <20251031210947.1d2b028da88ef526aebd890d@linux-foundation.org>
- <aQiC4zrtXobieAUm@black.igk.intel.com>
- <aQiM7OWWM0dXTT0J@google.com>
- <20251103132213.5feb4586@pumpkin>
- <aQi_JHjSi46uUcjB@smile.fi.intel.com>
+	Mon, 03 Nov 2025 18:32:04 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 004.mia.mailroute.net (Postfix) with ESMTP id 4d0gD147QZzmQQpT;
+	Mon,  3 Nov 2025 18:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:content-language:references:from:from:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1762194718; x=1764786719; bh=LZJml/qUOYUxSf7YMBAn3UuQ
+	CViaS2F+0XfsjOVP9Ic=; b=3Wd6znBUTNnv5oLWu0Z6ZGjHVwTIPDE0VfFHMiAH
+	IlPWZ01eXCuohryCC6xfn/qUY3c8LKulFybRi/hNBut5nOtH4uxj7WSkg/TTXkSg
+	Zep+CJgvwBue1DWnPdT/hJCgQrUGGuA2CpC4gJWwhHUifr58OpbZeCjYodl96ZF+
+	dFTMRTrXTe+oR4IqG3wrbCzvYpbVYTIYEk/Kqd/FOeqo5Tn66NSb+xKg3Ntycvf5
+	xjqm29tRGuQPoCNVAt2drUtBjZZiXk40WIiTWyuc930gIMsbHrpxhQvRRZPvaFIx
+	2gvH8ivseCYB9U6X4LgUzP3MJzwUXl9xuBFBWigPvuR/VA==
+X-Virus-Scanned: by MailRoute
+Received: from 004.mia.mailroute.net ([127.0.0.1])
+ by localhost (004.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id ge3e0dOQZCba; Mon,  3 Nov 2025 18:31:58 +0000 (UTC)
+Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 004.mia.mailroute.net (Postfix) with ESMTPSA id 4d0gCh59kPzmLwyn;
+	Mon,  3 Nov 2025 18:31:43 +0000 (UTC)
+Message-ID: <28a8b421-1c5f-400f-b890-62ebc7d74e88@acm.org>
+Date: Mon, 3 Nov 2025 10:31:42 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aQi_JHjSi46uUcjB@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] block: track zone conditions
+From: Bart Van Assche <bvanassche@acm.org>
+To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
+ dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+ Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
+ David Sterba <dsterba@suse.com>
+References: <20251031061307.185513-1-dlemoal@kernel.org>
+ <20251031061307.185513-8-dlemoal@kernel.org>
+ <40c87475-7d5a-4792-b2a6-3eeb8406f9be@acm.org>
+ <93215b7c-80bd-4860-8a77-42cdd4db1ec6@kernel.org>
+ <95c729d6-fd73-4480-af1c-68075b31cd1d@acm.org>
+Content-Language: en-US
+In-Reply-To: <95c729d6-fd73-4480-af1c-68075b31cd1d@acm.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251103_101657_657873_18902165 
-X-CRM114-Status: GOOD (  43.68  )
+X-CRM114-CacheID: sfid-20251103_103202_975945_A1B51546 
+X-CRM114-Status: GOOD (  12.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,118 +93,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 03, 2025 at 04:41:41PM +0200, Andy Shevchenko wrote:
-> On Mon, Nov 03, 2025 at 01:22:13PM +0000, David Laight wrote:
-> > On Mon, 3 Nov 2025 19:07:24 +0800
-> > Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
-> > > On Mon, Nov 03, 2025 at 11:24:35AM +0100, Andy Shevchenko wrote:
-> > > > On Fri, Oct 31, 2025 at 09:09:47PM -0700, Andrew Morton wrote:  
-> > > > > On Wed, 29 Oct 2025 18:17:25 +0800 Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
-
-...
-
-> > > > > Looks like wonderful work, thanks.  And it's good to gain a selftest
-> > > > > for this code.
-> > > > >   
-> > > > > > This improves throughput by ~43-52x.  
-> > > > > 
-> > > > > Well that isn't a thing we see every day.  
-> > > > 
-> > > > I agree with the judgement, the problem is that this broke drastically a build:
-> > > > 
-> > > > lib/base64.c:35:17: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
-> > > >    35 |         [BASE64_STD] = BASE64_REV_INIT('+', '/'),
-> > > >       |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > lib/base64.c:26:11: note: expanded from macro 'BASE64_REV_INIT'
-> > > >    26 |         ['A'] =  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, \
-> > > >       |                  ^
-> > > > lib/base64.c:35:17: note: previous initialization is here
-> > > >    35 |         [BASE64_STD] = BASE64_REV_INIT('+', '/'),
-> > > >       |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > lib/base64.c:25:16: note: expanded from macro 'BASE64_REV_INIT'
-> > > >    25 |         [0 ... 255] = -1, \
-> > > >       |                       ^~
-> > > > ...
-> > > > fatal error: too many errors emitted, stopping now [-ferror-limit=]
-> > > > 20 errors generated.
-> > > >   
-> > > Since I didn't notice this build failure, I guess this happens during a
-> > > W=1 build? Sorry for that. Maybe I should add W=1 compilation testing
-> > > to my checklist before sending patches in the future. I also got an
-> > > email from the kernel test robot with a duplicate initialization
-> > > warning from the sparse tool [1], pointing to the same code.
-> > > 
-> > > This implementation was based on David's previous suggestion [2] to
-> > > first default all entries to -1 and then set the values for the 64
-> > > character entries. This was to avoid expanding the large 256 * 3 table
-> > > and improve code readability.
-> > > 
-> > > Since I believe many people test and care about W=1 builds,
-> > 
-> > Last time I tried a W=1 build it failed horribly because of 'type-limits'.
-> > The kernel does that all the time - usually for its own error tests inside
-> > #define and inline functions.
-> > Certainly some of the changes I've seen to stop W=1 warnings are really
-> > a bad idea - but that is a bit of a digression.
-> > 
-> > Warnings can be temporarily disabled using #pragma.
-> > That might be the best thing to do here with this over-zealous warning.
-> > 
-> > This compiles on gcc and clang (even though the warnings have different names):
-> > #pragma GCC diagnostic push
-> > #pragma GCC diagnostic ignored "-Woverride-init"
-> > int x[16] = { [0 ... 15] = -1, [5] = 5};
-> > #pragma GCC diagnostic pop
-> > 
-> > > I think we need to find another way to avoid this warning?
-> > > Perhaps we could consider what you suggested:
-> > > 
-> > > #define BASE64_REV_INIT(val_plus, val_comma, val_minus, val_slash, val_under) { \
-> > > 	[ 0 ... '+'-1 ] = -1, \
-> > > 	[ '+' ] = val_plus, val_comma, val_minus, -1, val_slash, \
-> > > 	[ '0' ] = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, \
-> > > 	[ '9'+1 ... 'A'-1 ] = -1, \
-> > > 	[ 'A' ] = 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, \
-> > > 		  23, 24, 25, 26, 27, 28, 28, 30, 31, 32, 33, 34, 35, \
-> > > 	[ 'Z'+1 ... '_'-1 ] = -1, \
-> > > 	[ '_' ] = val_under, \
-> > > 	[ '_'+1 ... 'a'-1 ] = -1, \
-> > > 	[ 'a' ] = 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, \
-> > > 		  49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, \
-> > > 	[ 'z'+1 ... 255 ] = -1 \
-> > > }
-> > 
-> > I just checked, neither gcc nor clang allow empty ranges (eg [ 6 ... 5 ] = -1).
-> > Which means the coder has to know which characters are adjacent as well
-> > as getting the order right.
-> > Basically avoiding the warning sucks.
-> > 
-> > > Or should we just expand the 256 * 3 table as it was before?
-> > 
-> > That has much the same issue - IIRC it relies on three big sequential lists.
-> > 
-> > The #pragma may be best - but doesn't solve sparse (unless it processes
-> > them as well).
+On 11/3/25 7:48 AM, Bart Van Assche wrote:
+> On 11/2/25 10:05 PM, Damien Le Moal wrote:
+>> On 11/1/25 06:17, Bart Van Assche wrote:
+>>> On 10/30/25 11:13 PM, Damien Le Moal wrote:
+>>>> Implement tracking of the runtime changes to zone conditions using
+>>>> the new cond field in struct blk_zone_wplug. The size of this structure
+>>>> remains 112 Bytes as the new field replaces the 4 Bytes padding at the
+>>>> end of the structure. For zones that do not have a zone write plug, the
+>>>> zones_cond array of a disk is used to track changes to zone conditions,
+>>>> e.g. when a zone reset, reset all or finish operation is executed.
+>>>
+>>> Why is it necessary to track the condition of sequential zones that do
+>>> not have a zone write plug? Please explain what the use cases are.
+>>
+>> Because zones that do not have a zone write plug can be empty OR full.
 > 
-> Pragma will be hated. I believe there is a better way to do what you want. Let
-> me cook a PoC.
+> Why does the block layer have to track this information? Filesystems can
+> easily derive this information from the filesystem metadata information,
+> isn't it?
 
-I tried locally several approaches and the best I can come up with is the pre-generated
-(via Python script) pieces of C code that we can copy'n'paste instead of that shortened
-form. So basically having a full 256 tables in the code is my suggestion to fix the build
-issue. Alternatively we can generate that at run-time (on the first run) in
-the similar way how prime_numbers.c does. The downside of such an approach is loosing
-the const specifier, which I consider kinda important.
+(replying to my own email)
 
-Btw, in the future here might be also the side-channel attack concerns appear, which would
-require to reconsider the whole algo to get it constant-time execution.
+Is this a good way to check what zone type information filesystems need?
 
-> > > [1]: https://lore.kernel.org/oe-kbuild-all/202511021343.107utehN-lkp@intel.com/
-> > > [2]: https://lore.kernel.org/lkml/20250928195736.71bec9ae@pumpkin/
+$ git grep -nH BLK_ZONE_TYPE_ fs
+fs/btrfs/zoned.c:96:		ASSERT(zones[i].type != BLK_ZONE_TYPE_CONVENTIONAL);
+fs/btrfs/zoned.c:211:		zones[i].type = BLK_ZONE_TYPE_CONVENTIONAL;
+fs/btrfs/zoned.c:488:			if (zones[i].type == BLK_ZONE_TYPE_SEQWRITE_REQ)
+fs/btrfs/zoned.c:566:		    BLK_ZONE_TYPE_CONVENTIONAL)
+fs/btrfs/zoned.c:815:	if (zones[0].type == BLK_ZONE_TYPE_CONVENTIONAL) {
+fs/btrfs/zoned.c:1360:	if (unlikely(zone.type == 
+BLK_ZONE_TYPE_CONVENTIONAL)) {
+fs/f2fs/segment.c:5295:	if (zone->type != BLK_ZONE_TYPE_SEQWRITE_REQ)
+fs/f2fs/segment.c:5417:	if (zone.type != BLK_ZONE_TYPE_SEQWRITE_REQ)
+fs/f2fs/segment.c:5473:	if (zone.type != BLK_ZONE_TYPE_SEQWRITE_REQ)
+fs/f2fs/super.c:4332:	if (zone->type == BLK_ZONE_TYPE_CONVENTIONAL)
+fs/xfs/libxfs/xfs_zones.c:177:	case BLK_ZONE_TYPE_CONVENTIONAL:
+fs/xfs/libxfs/xfs_zones.c:179:	case BLK_ZONE_TYPE_SEQWRITE_REQ:
+fs/zonefs/super.c:385:		zone.type = BLK_ZONE_TYPE_CONVENTIONAL;
+fs/zonefs/super.c:874:	case BLK_ZONE_TYPE_CONVENTIONAL:
+fs/zonefs/super.c:886:	case BLK_ZONE_TYPE_SEQWRITE_REQ:
+fs/zonefs/super.c:887:	case BLK_ZONE_TYPE_SEQWRITE_PREF:
+fs/zonefs/zonefs.h:26: * defined in linux/blkzoned.h, that is, 
+BLK_ZONE_TYPE_SEQWRITE_REQ and
+fs/zonefs/zonefs.h:27: * BLK_ZONE_TYPE_SEQWRITE_PREF.
+fs/zonefs/zonefs.h:37:	if (zone->type == BLK_ZONE_TYPE_CONVENTIONAL)
 
--- 
-With Best Regards,
-Andy Shevchenko
+In the above I see that all filesystems check for the following zone
+types and don't check whether a zone is empty or full:
+* CONVENTIONAL
+* SEQWRITE_REQ
+* SEQWRITE_PREF
 
+Do you agree with this conclusion?
 
+Thanks,
+
+Bart.
 
