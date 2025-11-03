@@ -4,88 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B6B6CCFA05
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 11:15:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CDA8ECCF9F8
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 11:17:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Bk+wS36EfJQGoEmnN2KOAKKyPv/E2ZOJY94ROMtWko4=; b=D3CaPFXjmFqhjj5RMPwb+CTz11
-	HmWQhCtmvT9Bh1W+lOq4XM2/PxaBktpIyBU6dtOIARP+XgGRoTZbMoMiJ15hdUomz/hgJLuX5zTNN
-	p6itpoZQJgE7OH778rQVh0gA6DPt+0WVpT/YFgbY0kH66yVCGBarARwThT1B60yoUWrepC+xoAUDf
-	m2iD9pv1XdMAtCYOe6JIRWeCOoy4wpS5c/epnbst7k1ADOqK9EGpyEnhaU1OLcPDcFuyrq37kHhLb
-	yRroajTEEPdfFw7wsgYOVV1sU5SjUoCZuQxruP+zRkVOc8IXBG+Oiova3lLHMqMwssUOAqzdzogg8
-	4y1fg9gg==;
+	bh=wXdUrem8sAALhKYjhxC1IdzSmgHyEFcuHW/uUtjlUkg=; b=JPQ36QFlDc5aAvOwOtVFbbUAVm
+	OZqg2Ulhy1LQ+8hVXOO6ia6t3heqZK7guKClzFNNbdTkkjJQv6A6GXt8BzuaJsdYxytuOvAO5ck8Q
+	4WA3uQxvK9cX6Pu/+Z56yszjRTVD8xfupajiuKUwYjnECUWWJ1jQfGWBEUphtKiLW3GgeuBUzdfAw
+	iI8SMv6hesCKRBx6hvDzR9M2szni+RdgtMKsB8OjkRoGS7y85/TwkPxZ0aKwWajV+A5tMxLaviW4/
+	nBuNNbDH8nRKIIfdDlfU+jjJI2MMiu1Qh2JWQzSWb9W7aliklbPBNWnwBhH8lNQZCg2fnQ1HKUTw6
+	JuTdXwiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFsX7-00000009hvm-2UNc;
-	Mon, 03 Nov 2025 11:15:33 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1vFsZA-00000009iBk-08l9;
+	Mon, 03 Nov 2025 11:17:40 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFsX4-00000009hvQ-2VMb
+	id 1vFsZ7-00000009iBF-3Aho
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 11:15:31 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Mon, 03 Nov 2025 11:17:38 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 17F7021CBE;
-	Mon,  3 Nov 2025 11:15:27 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C6F381F7C4;
+	Mon,  3 Nov 2025 11:17:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762168527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1762168656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Bk+wS36EfJQGoEmnN2KOAKKyPv/E2ZOJY94ROMtWko4=;
-	b=X0IF/W7j5x+S0GqYfFot2EpvNPQndbJlqqWCNmoLaHcIQ+q+Wq9JCIzmR8gmn6TGZCP5PS
-	4L5Rx/cXdX0m+WXB3LC1X+PvN7iyPgCMNvrVo+kJEVaVJKT3e2+Uw6OfNHQ35Y+WjtJHpj
-	+/G6FGj5o7ISqnvDt4uetORbOTS85mw=
+	bh=wXdUrem8sAALhKYjhxC1IdzSmgHyEFcuHW/uUtjlUkg=;
+	b=T2cmJCIRgxBlnxDE/4DEgrC44Mp8J4CbeDdXVLsvzErSYwpxv1e7SS9z/ebdXMlg+AFRe2
+	6QqiB+Atv7giockwqpI/DEfJ+iraRcfQx2V2qKQbf1J22/LBHPD7cB8jiJuA1F08RIcuJF
+	L6B32Sqkig6yl1a3hb9ISbhT+YXPq+Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762168527;
+	s=susede2_ed25519; t=1762168656;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Bk+wS36EfJQGoEmnN2KOAKKyPv/E2ZOJY94ROMtWko4=;
-	b=UwR073KhJOzcyHNOrrqBvG9sUm5B/XZXIvYyB0p9iQhqyrVkFq683qcQfPh85/7SyaaMrI
-	We7fjwNqoMSk0YCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=wXdUrem8sAALhKYjhxC1IdzSmgHyEFcuHW/uUtjlUkg=;
+	b=+ywv+G+I+N8WRsaR9jhITdzsbsWuHyWbLQLLa5bEIJgYeFKceP5okYKZpfDyD67vki6mh8
+	TvrMq68jY7I/e2Bg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JLFk3m1B;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=smTMsLHl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762168527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1762168655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Bk+wS36EfJQGoEmnN2KOAKKyPv/E2ZOJY94ROMtWko4=;
-	b=X0IF/W7j5x+S0GqYfFot2EpvNPQndbJlqqWCNmoLaHcIQ+q+Wq9JCIzmR8gmn6TGZCP5PS
-	4L5Rx/cXdX0m+WXB3LC1X+PvN7iyPgCMNvrVo+kJEVaVJKT3e2+Uw6OfNHQ35Y+WjtJHpj
-	+/G6FGj5o7ISqnvDt4uetORbOTS85mw=
+	bh=wXdUrem8sAALhKYjhxC1IdzSmgHyEFcuHW/uUtjlUkg=;
+	b=JLFk3m1BFdhbpsdgNDhBxUPPrqZfj+kRMuEpjFe76iccVqA2rt0eaR4B++T/DvHD/sxC4T
+	lk9Z2q+0ZkWrdpby8fZ19mmC+COpCswHwmqglyC5ZneIZ1gK1A06YGMwRzDj7Iu62M2/fW
+	pHWZHodm3CcnBBAJHknPW/n/JDrPN7Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762168527;
+	s=susede2_ed25519; t=1762168655;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Bk+wS36EfJQGoEmnN2KOAKKyPv/E2ZOJY94ROMtWko4=;
-	b=UwR073KhJOzcyHNOrrqBvG9sUm5B/XZXIvYyB0p9iQhqyrVkFq683qcQfPh85/7SyaaMrI
-	We7fjwNqoMSk0YCA==
+	bh=wXdUrem8sAALhKYjhxC1IdzSmgHyEFcuHW/uUtjlUkg=;
+	b=smTMsLHlYxbtlOno0P19mCJID/OAAdJfc3z9zU/JRXUMKLU3eSbBKujVSgeZL0LX3kk0DX
+	ni+ksW/UiuUefIDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6C40139A9;
-	Mon,  3 Nov 2025 11:15:26 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B4DC139A9;
+	Mon,  3 Nov 2025 11:17:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JPzkN86OCGkJFgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 03 Nov 2025 11:15:26 +0000
-Message-ID: <16252f59-d52a-4acf-baa8-055eca54904e@suse.de>
-Date: Mon, 3 Nov 2025 12:15:26 +0100
+	id 7SxCIU+PCGkdGAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 03 Nov 2025 11:17:35 +0000
+Message-ID: <6511ddae-86c4-448d-8879-0567965ff257@suse.de>
+Date: Mon, 3 Nov 2025 12:17:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/13] block: cleanup blkdev_report_zones()
+Subject: Re: [PATCH 01/13] block: freeze queue when updating zone resources
 To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
@@ -96,35 +97,44 @@ To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251031061307.185513-1-dlemoal@kernel.org>
- <20251031061307.185513-3-dlemoal@kernel.org>
+ <20251031061307.185513-2-dlemoal@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251031061307.185513-3-dlemoal@kernel.org>
+In-Reply-To: <20251031061307.185513-2-dlemoal@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Rspamd-Queue-Id: C6F381F7C4
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCPT_COUNT_TWELVE(0.00)[15];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251103_031530_787147_6A3357AF 
-X-CRM114-Status: UNSURE (   9.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251103_031737_966026_7A96A902 
+X-CRM114-Status: GOOD (  13.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,13 +150,24 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 10/31/25 07:12, Damien Le Moal wrote:
-> The variable capacity is used only in one place and so can be removed
-> and get_capacity(disk) used directly instead.
+> Modify disk_update_zone_resources() to freeze the device queue before
+> updating the number of zones, zone capacity and other zone related
+> resources. The locking order resulting from the call to
+> queue_limits_commit_update_frozen() is preserved, that is, the queue
+> limits lock is first taken by calling queue_limits_start_update() before
+> freezing the queue, and the queue is unfrozen after executing
+> queue_limits_commit_update(), which replaces the call to
+> queue_limits_commit_update_frozen().
 > 
+> This change ensures that there are no in-flights I/Os when the zone
+> resources are updated due to a zone revalidation.
+> 
+> Fixes: 0b83c86b444a ("block: Prevent potential deadlock in blk_revalidate_disk_zones()")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 > ---
->   block/blk-zoned.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   block/blk-zoned.c | 19 ++++++++++++++-----
+>   1 file changed, 14 insertions(+), 5 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
