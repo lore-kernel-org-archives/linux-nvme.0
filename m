@@ -4,130 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 560E7CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 12:08:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D35E6CCF9F8
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 13:00:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Gwhxop0V2LwmKtNZnJaT/hPJi0Xa+bOXCiCZt4X1ic0=; b=PA8LFu5mdF1J+vGs+gtR1TQBZj
-	wDiPItHaZaqHN5ShxLnZmKmOBBUKomXsDWx5tcu2lrVAaxEQvDQRarC+x/aFPhRrUCgHaMpoCntmG
-	GidwfTwVRI6qrtNsien/VSr/oFdpsXtxdEnvhWBRXVHfL+H0hCSePXgem20eGILcbSwuh/m5F5LvR
-	/wSpDVu2qiHW+iyJZcMjnLoyOvQSLnFkr+vTsBEgr1X96MlkwZR0h5cke7MA/t/CY4wIqL/2eElNf
-	YeiHNn3pYVGoQ8rDNaA0PcPrIB+9DCqd+EWCeoLhy+NhGCqt6x25mpCZz8QufunFlu2bz+1OdHVZx
-	cvll+liw==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=s1G575AwRy0OrtFxAnK7lAYmB+ZT3EDAWYRDpkKIoYM=; b=QvVnzyKMpXQFmULTRCZ2R2b2jv
+	0OD2Zn2wDCMJDS5iun3ZdnRXjD2tiCb4wP5udobbH9mEB/5opDV/21anABfVfjEQzz3VrIwTGRnqB
+	tkAuDh5jED/ocJr1vK0RVs3LFOT8sBGfWof5X7VK0dtBy0CqJDGPt9E86XVmqrG3ieRw0FOj8XVlk
+	IoFqVKIRAZ7b1KG3kac0VqXpISZXyS+OiSJMkJBbD6zWIq7J4VnJQ6wHfaYuKH2MhH6Y74uvd+9MK
+	cDcev9vd70G5BLuS2CD4e4akH3lmZq5dbQA/NqdI2oyjbDQkAVi1AOEFwCjNuGsDjcUQbwBxfhe6+
+	StOLlHFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFtM3-00000009noE-3tQn;
-	Mon, 03 Nov 2025 12:08:11 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1vFuA8-00000009rrl-2G07;
+	Mon, 03 Nov 2025 12:59:56 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFtM1-00000009nnt-0uhn
+	id 1vFuA7-00000009rrc-2XXJ
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 12:08:10 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ED96621D41;
-	Mon,  3 Nov 2025 12:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762171687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gwhxop0V2LwmKtNZnJaT/hPJi0Xa+bOXCiCZt4X1ic0=;
-	b=k+Hkk9+QuXoj0SVM/8hOdxL5ahn+9sHbpz9pwFUj65b2efhKWckHBo/ntn0yajauxYMaMO
-	jEjLOhxmKl30UtWWOMH0CNno7fxpDqBr7+hqneRahzwLHen8LVYjQDTa8Ee1jjq+2juAcx
-	Etlh2MmdGixDAtwLp9qWiPqz8DwRqI8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762171687;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gwhxop0V2LwmKtNZnJaT/hPJi0Xa+bOXCiCZt4X1ic0=;
-	b=2EKIkJ2OyNRrlBHMoHS4D4twPXH2IQ3ahQQwgHfueKUSHadV2rzdZovxMm/Llrqmtet+4G
-	DMS4NjbjZbNVc5Cw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EvK1R8RW;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=u87g95Y2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762171686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gwhxop0V2LwmKtNZnJaT/hPJi0Xa+bOXCiCZt4X1ic0=;
-	b=EvK1R8RWkxtpHIw8czuikVHznxK2j5wNnbMt4H+yofphflzVc+mVGK/+YZ48LY+T1qj+wT
-	iEiQzUyG3WdxWUGwuObwsI9qtD02llCrcCYv1+Di5hhA0w2CfNh/VVKfdkccTACAmUjH6K
-	vBUgLQ7pEvOaG6DucOC8JRmGhKzOwhU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762171686;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gwhxop0V2LwmKtNZnJaT/hPJi0Xa+bOXCiCZt4X1ic0=;
-	b=u87g95Y2yxySrZZpr4WFzSbPEcKn9lQ0LnOHvuZoOSMu+byIUbonQDUgvHk7Cyqmza27g4
-	+NoAjVRWiENbUAAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D44261364F;
-	Mon,  3 Nov 2025 12:08:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xVhQMyabCGmASQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 03 Nov 2025 12:08:06 +0000
-Message-ID: <8a236ca6-3675-461a-9166-4d4df3b5de08@suse.de>
-Date: Mon, 3 Nov 2025 13:08:06 +0100
+	Mon, 03 Nov 2025 12:59:55 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id B9B42600AC;
+	Mon,  3 Nov 2025 12:59:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FAC8C4CEE7;
+	Mon,  3 Nov 2025 12:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762174794;
+	bh=mg14JfajU5W0qY3xKlC1LzugPqDhaogBLa+MoPCu9po=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=Tfzuyc0w0PG8B9qeo4EY1e6oWHR35RGpaPLMhqntB/ik1LckO74VHTfp82JdQfC9k
+	 0XUUezUYERCKbPcEpQY508qcq5lLukAr+xy/HgvMMnFHFrhxq+AwL0mtcl8g3ynIYb
+	 FsW8Nr3O/XJikCmQBNqdHGt7OEq0tEcBuNdvdKHO7YvkkFHuIcD0/uRGGFqYSqR9u1
+	 Pd7ZRjdZfeTJpyRPVCSwWFC4B9ujnv6yxK+/mq21WfNfEkreGE0imhdNkpA+pHbXy/
+	 TECb2JVsfxse8iQFM6majHDvwTu6aCy7dgtulG1U5hG4HAxVR6J6cFHyAK4kOVvqY9
+	 uSZasy7Ak7n8g==
+Message-ID: <32f2f32a-eafd-43ef-a599-fc4784fdf492@kernel.org>
+Date: Mon, 3 Nov 2025 21:59:49 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvme: Allow reauth from sysfs
-To: alistair23@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
- sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
-References: <20251030035114.16840-1-alistair.francis@wdc.com>
- <20251030035114.16840-4-alistair.francis@wdc.com>
+Subject: Re: [PATCH 03/13] block: handle zone management operations
+ completions
+To: Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+ Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
+ dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+ Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
+ David Sterba <dsterba@suse.com>
+References: <20251031061307.185513-1-dlemoal@kernel.org>
+ <20251031061307.185513-4-dlemoal@kernel.org>
+ <8947e877-cd53-4f1d-989c-bdde311c00e9@suse.de>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251030035114.16840-4-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: ED96621D41
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,kernel.dk,lst.de,grimberg.me,nvidia.com,lists.infradead.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251103_040809_408035_6B9A6F70 
-X-CRM114-Status: GOOD (  13.40  )
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <8947e877-cd53-4f1d-989c-bdde311c00e9@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,36 +80,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/30/25 04:51, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> Allow userspace to trigger a reauth (REPLACETLSPSK) from sysfs.
-> This can be done by writing the queue ID to te sysfs file.
-> 
-> echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/replace_psk
-> 
-> Note that only QID 0 (admin queue) is supported.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   drivers/nvme/host/sysfs.c | 31 +++++++++++++++++++++++++++++++
->   1 file changed, 31 insertions(+)
-> 
-Please, don't. Currently we are using the same key for all queues,
-and we really should keep it that way as we don't have a way of
-specifying the key based on the queue ID (the TLS identification
-is identical for all queues).
-So we really need to trigger a replacepsk operation for all queues.
+On 11/3/25 20:41, Hannes Reinecke wrote:
+> On 10/31/25 07:12, Damien Le Moal wrote:
+>> The functions blk_zone_wplug_handle_reset_or_finish() and
+>> blk_zone_wplug_handle_reset_all() both modify the zone write pointer
+>> offset of zone write plugs that are the target of a reset, reset all or
+>> finish zone management operation. However, these functions do this
+>> modification before the BIO is executed. So if the zone operation fails,
+>> the modified zone write pointer offsets become invalid.
+>>
+>> Avoid this by modifying the zone write pointer offset of a zone write
+>> plug that is the target of a zone management operation when the
+>> operation completes. To do so, modify blk_zone_bio_endio() to call the
+>> new function blk_zone_mgmt_bio_endio() which in turn calls the functions
+>> blk_zone_reset_all_bio_endio(), blk_zone_reset_bio_endio() or
+>> blk_zone_finish_bio_endio() depending on the operation of the completed
+>> BIO, to modify a zone write plug write pointer offset accordingly.
+>> These functions are called only if the BIO execution was successful.
+>>
+> Hmm.
+> Question remains: what _is_ the status of a write pointer once a
+> zone management operation is in flight?
 
-I would suggest just allow writes to the 'tls_key' attribute; any
-writes to that would trigger a replacepsk operation.
+On the device, it will be unchanged until the command completes, or rather, one
+can only see it that way since the drive will serialize such command with report
+zones.
 
-Cheers,
+> I would argue it's turning into a Schroedinger state, and so we
+> cannot make any assumptions here.
 
-Hannes
+Let me try to skin that cat below :)
+
+> In particular we cannot issue any other write I/O to that zone once
+> the operation is in flight, and so it becomes meaningless if we set
+> the write pointer before or after the zone operation.
+> Once the operation fails we have to issue a 'report write pointer'
+> command anyway as I'd be surprised if we could assume that a failure
+> in a zone management command would leave the write pointer unmodified.
+> So I would assume that zone write plugging already blocks the zone
+> while an zone management command is in flight.
+> But if it does, why do we need this patch?
+
+There is no such "blocking" done, the user is free to issue a zone reset while
+writes are n flight, and most likely get write errors as a result such bad practice.
+
+For this patch, the assumption is that a failed zone reset or zone finish leaves
+the zone write pointer untouched. All the drives I know do that. So it is better
+to not modify the zone write plug write pointer offset until we complete the
+command.
+
+But granted, that is not always true since the failure may happen *after* the
+drive completed the command (e.g. the HBA loses the connection with the drive
+before signaling the completion or something like that). In such case, it would
+not matter when the update is done. And for zone reset all commands, all bets
+are off since the command may fail half-way through all the zones that need a reset.
+
+But in the end, logically speaking, it makes more sense to update things when we
+get a success result instead of assuming we will always succeed. This has also
+the benefit of leaving the zone write plugs in place for eventual error recovery
+if needed.
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Damien Le Moal
+Western Digital Research
 
