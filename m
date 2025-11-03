@@ -4,50 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F411CCF9FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 07:18:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3810CCF9FE
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 07:24:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qINSATYiiPG/ea0NZ+pHvptCYVzcnYTKfwrdFdwLrAs=; b=X78juKS/Ajmnu8lxGzaL9/QN8z
-	8bMWOdab8MB8tVhhp8I8Jjxy56tnU3vcIzqRM+k3hVfcmb7sirvETrVRwiWtkRJYP8/89GhKUw20u
-	oFzgmf/DMQD+y4gjR13704gQAQFcp8r6jKt49VzU3QL7cmgp4IbgdWx8vNr1uoycQyBFPaJnfT9oI
-	xyHha+O7C6QJVZHGhBlrYmJqYM5eR/uGvPWecgqKz+vY0HlrhSbaWiZIHLEij89ve/B8kIyTNzjbc
-	pV2yU8pN0mzsUJ3ARxUIMLmLetPj1mYH9fzRG664MZCedPoQivvSL4E+iWjPCMZCf9yuNNGkouRlI
-	8MAnJsBA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=z9EIDJVHnxWpXuSmkqFNiQkRmlR2kW4dcxeWiKJPX3o=; b=j2SDChD6WnrWLgB70r9TKB+ujP
+	Ph2o+1NRiDfQFxfYIUr9Em615WeiSlk7nuGXpA6rx2LV2j4nIL0zGGOYmMW4+9ewGIkHFvBCZAUdh
+	HMO3YRIxJlNbu0DXLBET7MlzGLxu7iPuqmovrN4wzpNjkMVhDTdFTVoPkEcFomYW82xT9DXA0tv5i
+	y7lr2dM/Ld2i+FZyItVKRW9IQVRFzTCTqvHDXs5mvMxgtA76pnj70+TTUbBZ57r5kNJUgv6NQjc16
+	aDGGa8MwBIur80W5zf5tRJ2NyV/sBwEoDwB7r45prQ9IZ2jpf5R5XxpcpL9hARvzf+A4xaFnGtdtx
+	dkUfvMBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFopZ-00000009LRy-1ii7;
-	Mon, 03 Nov 2025 07:18:21 +0000
+	id 1vFov8-00000009LvC-1BiP;
+	Mon, 03 Nov 2025 07:24:06 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFopX-00000009LR7-16Bz
+	id 1vFov6-00000009Luo-1W3L
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 07:18:20 +0000
+	Mon, 03 Nov 2025 07:24:05 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 950F8445F0;
-	Mon,  3 Nov 2025 07:18:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E082C116B1;
-	Mon,  3 Nov 2025 07:18:16 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id AC31143A3B;
+	Mon,  3 Nov 2025 07:24:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7AC9C4CEE7;
+	Mon,  3 Nov 2025 07:23:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762154298;
-	bh=vlAqAmTDh4Z/QVBO24ytbjpGSmt0U77g+FzG3aQu5i4=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=sXgqXUKrx4uv7eCDDbOTW1FX2EPok9okwx0Lrr6XBQ45+D708jWbU21sZDvabs/hn
-	 qvNvsMevjEkOo6P3J42RSOQ3Ac+pQ5EdatTBhtEwIUWGGrBBq20xe3q6xxFFsJNKul
-	 /8fHCp3TUL/EkkGaTHHAsONSBNYkj8+xxoX+y49HwtFgaCqvyAbc+/FfzYtRjHwDSZ
-	 gAuXGCMs1NkkiH83gyEO+vnrejyB8h3zyAACvbXKd1oLdL+P7gTfjX8PJox2wBwNln
-	 TWVE+b2XT2lo4y1t4cK//cuvil16uW/0WrZZAuJVZhSMMX8d6tnb/t/8nekeQqT4jb
-	 GMfwQhjssGKGQ==
-Message-ID: <7a8d31de-f1bb-468f-8a44-2787f0080dcf@kernel.org>
-Date: Mon, 3 Nov 2025 16:18:14 +0900
+	s=k20201202; t=1762154643;
+	bh=4Z0nKMuf7VyPhF4RUcEACaMRlP3hxFLzOsnTGV5xGbE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pYWrRJ2DOBXKH7w6g7W9FAEECw+TQ2boNGYjR6P/XkjkWsLLYMi0hbKj/ltZ6dl51
+	 9qiWL2uXI1rIo/yTXFDfBNLZolAg8aKc8/ORDAdK5RGw2yySqRFVx3m4VaRUknEEct
+	 69H7EW9WnY0hPDebQro8qtcuNSr0yuJHxsT2k2K3r6JMFnUVmVkZqLYQsmZVD9nau2
+	 K2a0t4YFN23Le3IuRchAJIf4KmRF8LR9yLkYxy+n0x1V1suOX5IYfEOQ52TGBRDhbm
+	 sAUHD/y1tG/sn4TVpQu45XnZGB8MDM6DB0tjnA5ergwru5CYi6/cyAm5TcBd1uJV1P
+	 yWLQ6qrS+p4dw==
+Message-ID: <15c913fd-6c13-4b0b-8277-6d5e3ebe85c0@kernel.org>
+Date: Mon, 3 Nov 2025 16:23:58 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] block: introduce blkdev_report_zones_cached()
-To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
+Subject: Re: [PATCH 01/13] block: freeze queue when updating zone resources
+To: Daniel Vacek <neelx@suse.com>
+Cc: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
  dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
@@ -57,18 +58,19 @@ To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251031061307.185513-1-dlemoal@kernel.org>
- <20251031061307.185513-10-dlemoal@kernel.org>
- <4287484a-3a3d-4f50-9c5b-7a901458bfbc@acm.org>
+ <20251031061307.185513-2-dlemoal@kernel.org>
+ <55887a39-21ee-4e6c-a6f3-19d75af6395a@acm.org>
+ <bd71691f-e230-42ca-8920-d93bf1ea6371@kernel.org>
+ <CAPjX3FebPLu_P=-BuP63VuaiAnC62rthcQ0vb+J8b-w0OckyqA@mail.gmail.com>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <4287484a-3a3d-4f50-9c5b-7a901458bfbc@acm.org>
+In-Reply-To: <CAPjX3FebPLu_P=-BuP63VuaiAnC62rthcQ0vb+J8b-w0OckyqA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251102_231819_350969_1BB2D921 
-X-CRM114-Status: UNSURE (   7.42  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251102_232404_447109_388F066D 
+X-CRM114-Status: GOOD (  18.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,23 +85,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/1/25 06:53, Bart Van Assche wrote:
-> On 10/30/25 11:13 PM, Damien Le Moal wrote:
->> Introduce the function blkdev_report_zones_cached() to provide a fast
->> report zone built using the blkdev_get_zone_info() function, which gets
->> zone information from a disk zones_cond array or zone write plugs.
->> For a large capacity SMR drive, such fast report zone can be completed
->> in a few millioseconds compared to several seconds completion times
->> when the report zone is obtained from the device.
+On 11/3/25 16:18, Daniel Vacek wrote:
+> On Mon, 3 Nov 2025 at 06:55, Damien Le Moal <dlemoal@kernel.org> wrote:
+>>
+>> On 11/1/25 02:48, Bart Van Assche wrote:
+>>> Hi Damien,
+>>>
+>>> disk_update_zone_resources() only has a single caller and just below the
+>>> only call of this function the following code is present:
+>>>
+>>>       if (ret) {
+>>>               unsigned int memflags = blk_mq_freeze_queue(q);
+>>>
+>>>               disk_free_zone_resources(disk);
+>>>               blk_mq_unfreeze_queue(q, memflags);
+>>>       }
+>>>
+>>> Shouldn't this code be moved into disk_update_zone_resources() such that
+>>> error handling happens without unfreezing and refreezing the request
+>>> queue?
+>>
+>> Check the code again. disk_free_zone_resources() if the report zones callbacks
+>> return an error, and in that case disk_update_zone_resources() is not called.
+>> So having this call as it is cover all cases.
 > 
-> millioseconds -> milliseconds
+> I understand Bart's idea was more like below:
 > 
-> Does retrieving the cached zone information really require multiple
-> milliseconds instead of only a few microseconds?
+>> @@ -1568,7 +1572,12 @@ static int disk_update_zone_resources(str
+> uct gendisk *disk,
+>>       }
+>>
+>>   commit:
+>> -     return queue_limits_commit_update_frozen(q, &lim);
+>> +     ret = queue_limits_commit_update(q, &lim);
+>> +
+>> +unfreeze:
+> 
+> +       if (ret)
+> +               disk_free_zone_resources(disk);
+> 
+>> +     blk_mq_unfreeze_queue(q, memflags);
+>> +
+>> +     return ret;
+>>   }
+>>
+>>   static int blk_revalidate_conv_zone(struct blk_zone *zone, unsigned int idx,
+> 
+> And then in blk_revalidate_disk_zones() do this:
+> 
+>         if (ret > 0) {
+>                 ret = disk_update_zone_resources(disk, &args);
+>         } else if (ret) {
+>                 unsigned int memflags;
+> 
+>                 pr_warn("%s: failed to revalidate zones\n", disk->disk_name);
+> 
+>                memflags = blk_mq_freeze_queue(q);
+>                disk_free_zone_resources(disk);
+>                 blk_mq_unfreeze_queue(q, memflags);
+>         }
+> 
+> The question remains if this looks better?
 
-There are over 100,000 zones on large capacity SMR HDDs. And I have models with
-smaller zone size that have over 200,000 zones. So yes, a few milliseconds are
-needed on normal (read not super fast) CPUs.
+Hmmm... Matter of taste maybe ?
+Personally, I do like better having a single error path that cover all errors in
+blk_revalidate_disk_zones().
 
 
 -- 
