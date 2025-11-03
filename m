@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BEB7CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 05:56:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4FE56CCF9FE
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 06:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8UacuMw7PLDQU0+hiLPaLck+JO6nlBAs5kbtWwu0zAs=; b=QP8O0fYhSYpIG354Xbj9fBWn+7
-	d/HkAjEmLOmwP1kDj9ZfoIF6teUTwL1cW3bMYhMVvU0Yh7rTs6RwCzA/cNAUGXYYR6YAQrU64p9uG
-	UowsmmvG/cekXyzQjZijsFGuRKjwvDnkpweVKuD/JPzkr63r/hmpnjYOGCrIxbUCjJeJMy2kZGkHd
-	GXmJhKw5e4Lqt+f7YDVfGbKXPlxSTcAj8j72I+IvOKKqTLssvlqCy0+rBdd2kDXNIbPI32DzXDx3q
-	1lLr8DP4pKIwCeNsIx3NV2t7jUDeWAMQjKqIRDsmqkxdRTOBAfYiUE17poLN4Q+kg/M/XZv5z5u51
-	Gd7lyaNg==;
+	bh=MeShHwfYHsP0cN4Utw1bJyhFh9Za1pXuKjGddIu6RCA=; b=Zrr6WBWMcUyiuIwIwsZzMinvH2
+	d4sTiv9Te8+rwTCVIHrslL3f6VIe9EuLh2IL0vXpBGNOYHxniHpb5xQgY//EcCEyx2uteqa3GTuaI
+	W8XGY+I3A8y4PlGPt9YiqWI4I6/zzwnjCUBYjZwyaAEXX89PaYWVgR+BHS1dbNGFVuUbCF+CG16Aw
+	+6S5Og5MkzvHgtaw0FN5eIRP9d6Gmqyg3SjQf3bWWPIbAQo9lk9W8Rklql7LqzkLboY55wp07SNWt
+	FolZSPl+7ZHJ6S0D/M0Iiwm8M2FXa7mwxDU38M4D3VsrSEmDx21q2MIfCYOSEi9grGQo5/JCG1VOX
+	PqpBg/RA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFnYe-00000009G0y-09VA;
-	Mon, 03 Nov 2025 05:56:48 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vFnc6-00000009GHd-2qLe;
+	Mon, 03 Nov 2025 06:00:22 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFnYc-00000009G0l-0Gw8
+	id 1vFnc4-00000009GHJ-2wOr
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 05:56:46 +0000
+	Mon, 03 Nov 2025 06:00:21 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4380F6013A;
-	Mon,  3 Nov 2025 05:56:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0AD1C4CEE7;
-	Mon,  3 Nov 2025 05:56:41 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id C0D9F40202;
+	Mon,  3 Nov 2025 06:00:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C97C4CEFD;
+	Mon,  3 Nov 2025 06:00:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762149404;
-	bh=OWgpJBUmjAQFzDZtAAZZ0Sd8ZrZM9CKgu0LIbDLG9AQ=;
+	s=k20201202; t=1762149619;
+	bh=p2Qn4po+ucZZpdF+4sraqP/e42fkPU8F3JmWnvC9xhE=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=D82YnSuwC/ok3efYFZswWAbAIk62KqKZBrdnK2YlhwHYjpCyNRaYsKXo+2md8Cw0w
-	 Pqbq+WYXlB+suTSba/fkMOOM6O9xMqp0aT3/gqBuhNah6epzLNwDsAAC9m91RXgWuQ
-	 UH5RgkrryElVV3sf+QgJZxe2F45SMgELKj2Us1QZsSDDbIwFJcZC2MA5cJs1EAxQgh
-	 sHUzLLt5elTQocPSwmlRmWSkOEhDPumL1HuMw+cUCEF9YBIwvgaZVVV8wcYI+YrZil
-	 YYLCM+7YjzFM+UeqoApPC/Ic9EP6sHVkc6Y/IN23JFPBuJly1CYk1BLS5BB0BvfAOk
-	 EddU/Jom8+9sA==
-Message-ID: <949eeeb5-3a16-4033-b71d-56c058ad4838@kernel.org>
-Date: Mon, 3 Nov 2025 14:56:40 +0900
+	b=cS1HFYsjpa1jSq5E899UEJI+QpjsxEPIS/p8PgTl5xhMRcfHXoVoGRgo08hFcggFZ
+	 H3XF6d8yT2xLdjp6aUPAOIFS7brVlkAbJEnwUoT+vcPUWIRIcQscYaS3xczCy5dMQp
+	 C9D87r7q59xQrjFrdziFaIhSjTajj2ngyBAJ0MRiALGeN+XMdA+GTrMFJXOOzHKseN
+	 jERIRt/6sOFEB+jHsEjEe4z2Mwn4IF0UR3cvf9B76a8REvXl4w3jUgteZN0aIJ+7ZQ
+	 +qbaNN+9OfoqyTvG1+4v+zQ0VMKgp0r6EQsY6rPRzGuNcSIpQayoORPVkJC8lxycX4
+	 p7o/RjFCVs00Q==
+Message-ID: <e899d483-200a-4900-b272-497ccf3be3bb@kernel.org>
+Date: Mon, 3 Nov 2025 15:00:15 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/13] block: introduce disk_report_zone()
+Subject: Re: [PATCH 06/13] block: use zone condition to determine conventional
+ zones
 To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
@@ -57,14 +58,18 @@ To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251031061307.185513-1-dlemoal@kernel.org>
- <20251031061307.185513-5-dlemoal@kernel.org>
- <c2734f13-aad7-43a0-a164-b8504ffc1cb4@acm.org>
+ <20251031061307.185513-7-dlemoal@kernel.org>
+ <86891fd3-b850-4835-8a53-d1a2425c70e7@acm.org>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <c2734f13-aad7-43a0-a164-b8504ffc1cb4@acm.org>
+In-Reply-To: <86891fd3-b850-4835-8a53-d1a2425c70e7@acm.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251102_220020_784396_2B7E02AF 
+X-CRM114-Status: UNSURE (   9.84  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,43 +84,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/1/25 05:54, Bart Van Assche wrote:
-> On 10/30/25 11:12 PM, Damien Le Moal wrote:
->> -struct disk_report_zones_cb_args {
->> -	struct gendisk	*disk;
->> -	report_zones_cb	user_cb;
->> -	void		*user_data;
->> +/*
->> + * Zone report arguments for block device drivers report_zones operation.
->> + * @cb: report_zones_cb callback for each reported zone.
->> + * @data: Private data passed to report_zones_cb.
->> + */
->> +struct blk_report_zones_args {
->> +	report_zones_cb cb;
->> +	void		*data;
->>   };
+On 11/1/25 06:04, Bart Van Assche wrote:
+>>   static int disk_revalidate_zone_resources(struct gendisk *disk,
+>> -					  unsigned int nr_zones)
+>> +				struct blk_revalidate_zone_args *args)
+>>   {
+>>   	struct queue_limits *lim = &disk->queue->limits;
+>>   	unsigned int pool_size;
+>>   
+>> +	args->disk = disk;
+>> +	args->nr_zones =
+>> +		DIV_ROUND_UP_ULL(get_capacity(disk), lim->chunk_sectors);
+>> +
+>> +	/* Cached zone conditions: 1 byte per zone */
+>> +	args->zones_cond = kzalloc(args->nr_zones, GFP_NOIO);
+>> +	if (!args->zones_cond)
+>> +		return -ENOMEM;
 > 
-> The suffix "_args" seems confusing to me because this data structure
-> includes a callback pointer. Please consider changing "_args" into "_cb"
-> to make it clear that the data structure includes a callback pointer.
-> Another data structure that follows this convention is struct
-> blk_plug_cb:
-> 
->    struct blk_plug_cb;
->    typedef void (*blk_plug_cb_fn)(struct blk_plug_cb *, bool);
->    struct blk_plug_cb {
-> 	struct list_head list;
-> 	blk_plug_cb_fn callback;
-> 	void *data;
->    };
-> 
-> Since struct blk_report_zones_args is passed as an argument to
-> disk_report_zone(), how about renaming this data structure into
-> struct disk_report_zone_cb?'
+> Why args->nr_zones as array size instead of args->nr_conv_zones? The
+> patch description says that this array is only used for conventional
+> zones.
 
-See patch 8. That structure grows beyond just the callback. So I prefer to keep
-the name as it is more generic.
-
+The bitmap before was of nr_zones bits, because conventional zones can be
+anywhere in the LBA space. The same is still true using zone conditions. We need
+one condition per zone for all zones.
 
 -- 
 Damien Le Moal
