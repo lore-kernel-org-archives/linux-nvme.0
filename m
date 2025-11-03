@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3810CCF9FE
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 07:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88273CCF9FE
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 07:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z9EIDJVHnxWpXuSmkqFNiQkRmlR2kW4dcxeWiKJPX3o=; b=j2SDChD6WnrWLgB70r9TKB+ujP
-	Ph2o+1NRiDfQFxfYIUr9Em615WeiSlk7nuGXpA6rx2LV2j4nIL0zGGOYmMW4+9ewGIkHFvBCZAUdh
-	HMO3YRIxJlNbu0DXLBET7MlzGLxu7iPuqmovrN4wzpNjkMVhDTdFTVoPkEcFomYW82xT9DXA0tv5i
-	y7lr2dM/Ld2i+FZyItVKRW9IQVRFzTCTqvHDXs5mvMxgtA76pnj70+TTUbBZ57r5kNJUgv6NQjc16
-	aDGGa8MwBIur80W5zf5tRJ2NyV/sBwEoDwB7r45prQ9IZ2jpf5R5XxpcpL9hARvzf+A4xaFnGtdtx
-	dkUfvMBw==;
+	bh=6f3wj+htQY02A3eK8hl9PDeuv/RAKbJlKOgP0LTJDLo=; b=rPN42+AQVW0JWlAV7WZ3LmybvE
+	Unv+srLSaxSMQRMiqYTx1leEkMFJWxCfqk+9OBZ01Zasf4psbf0y5C7KwxDlwL/8gPxHjzg7xzR/s
+	RE/pxYUQ33DJJoIPilSRgoSp2HSS4N0aGUDn0ouRhADdy5XgKnbt+QlRWorZ3hlNVfbIerPnHHkaI
+	S5F12PLPE0Mx8TbB56JglTw+3YBhMWLt405xoyBkJJYpxeaTffr+rZo8oNADfMA1TSjhzc25Gh0BU
+	Y+OtUizxt7g0SMEyfjCegz8wRHODbBOjA5y2P8j2kidHQ04oUuYM4yGk6dtO/c5qUIIBs5LddMCFG
+	jnOZY4XA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFov8-00000009LvC-1BiP;
-	Mon, 03 Nov 2025 07:24:06 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vFp1V-00000009MQ7-33z8;
+	Mon, 03 Nov 2025 07:30:41 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFov6-00000009Luo-1W3L
+	id 1vFp1U-00000009MPy-2Zwh
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 07:24:05 +0000
+	Mon, 03 Nov 2025 07:30:40 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id AC31143A3B;
-	Mon,  3 Nov 2025 07:24:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7AC9C4CEE7;
-	Mon,  3 Nov 2025 07:23:59 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 60DB7601D5;
+	Mon,  3 Nov 2025 07:30:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC116C4CEE7;
+	Mon,  3 Nov 2025 07:30:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762154643;
-	bh=4Z0nKMuf7VyPhF4RUcEACaMRlP3hxFLzOsnTGV5xGbE=;
+	s=k20201202; t=1762155038;
+	bh=fNPEgWhmKcSfXgHxY8vQ6zDm8hy1QN8YPkQR/O50gEk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pYWrRJ2DOBXKH7w6g7W9FAEECw+TQ2boNGYjR6P/XkjkWsLLYMi0hbKj/ltZ6dl51
-	 9qiWL2uXI1rIo/yTXFDfBNLZolAg8aKc8/ORDAdK5RGw2yySqRFVx3m4VaRUknEEct
-	 69H7EW9WnY0hPDebQro8qtcuNSr0yuJHxsT2k2K3r6JMFnUVmVkZqLYQsmZVD9nau2
-	 K2a0t4YFN23Le3IuRchAJIf4KmRF8LR9yLkYxy+n0x1V1suOX5IYfEOQ52TGBRDhbm
-	 sAUHD/y1tG/sn4TVpQu45XnZGB8MDM6DB0tjnA5ergwru5CYi6/cyAm5TcBd1uJV1P
-	 yWLQ6qrS+p4dw==
-Message-ID: <15c913fd-6c13-4b0b-8277-6d5e3ebe85c0@kernel.org>
-Date: Mon, 3 Nov 2025 16:23:58 +0900
+	b=GwOFFC0Qu1g/MgQu4yB4BGazeSYVXu7QOTJ+EMkLVI5N1EIFimk3bn1scoQrD6vLC
+	 Evn9J2oxFzNX2KdKVdDmZ0XS4naB8WkFv1YBXXniCy7oV8GIcNkU4AVFd7VZm0pOeH
+	 E/dIFrMTSQ0q9jnaWOTnNGr2oUBbpYqhm3LzpVaqG93dMBejtWBMCCq4T0Xylgzj0+
+	 k4KReocg/4eFiPA9zBQK+mq2IbffujegIuTfbQq1WUEHY7Fv4BrDVgc6gtp2NyP0AI
+	 wbtkqReZ9p8BS+4ut/UwgOmK1SbuBxOt7mSCer/fPybYFflSsYlOsUJ6rnOlMbUfPs
+	 RsxmdR54fDyvg==
+Message-ID: <f0124d2d-880a-4c44-bd42-178838891b20@kernel.org>
+Date: Mon, 3 Nov 2025 16:30:34 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 01/13] block: freeze queue when updating zone resources
@@ -68,9 +68,6 @@ Organization: Western Digital Research
 In-Reply-To: <CAPjX3FebPLu_P=-BuP63VuaiAnC62rthcQ0vb+J8b-w0OckyqA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251102_232404_447109_388F066D 
-X-CRM114-Status: GOOD (  18.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,9 +144,10 @@ On 11/3/25 16:18, Daniel Vacek wrote:
 > 
 > The question remains if this looks better?
 
-Hmmm... Matter of taste maybe ?
-Personally, I do like better having a single error path that cover all errors in
-blk_revalidate_disk_zones().
+Rereading everything, I think that Bart has a good point: moving the call to
+disk_free_zone_resources() in the error path of disk_update_zone_resources()
+allows doing the error handling without unfreezing and re-freezing the queue.
+That's better.
 
 
 -- 
