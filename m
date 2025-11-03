@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97D4ECCF9F8
-	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 06:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2B08CCF9FE
+	for <linux-nvme@archiver.kernel.org>; Mon,  3 Nov 2025 06:08:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hJwP3EFKtGLfyCl6claJfBrvvbJ8eQwcaQby7zXlNwU=; b=EUchsVURAXXwBCFRhygPzMkDh+
-	2SyQEld+om2QqQt3AZ5LOH9CnAYk5XrrRBX3RTIY18JBshxn/PZ4ntZaAnw8ebrmb5vUQU+IJNC3t
-	kDt63mJgu9PuWEJn4BLcRA3fdD4IHUgS/IPMR3hSw/R+ymrhBZZ+NcmiW453GbInKVR3HWAmDP6xB
-	o3xWq/I5JwY5mvxRoSJu4LfBm5sq7JLVM6+/UJlenc4yBoZW15h6yDqBKGMAfaO9HDmS+IEt2/0tt
-	im+XJyrOsTApLjyjdq8QG463XmQ/bZ4Tyd9RYwPZ0dDgQrdxTjK09Iw4O3/2lGw/blh6dB7IklW4l
-	0SbyzrLw==;
+	bh=GpaXNYL4gjt79sKw4asUgy7W1GgOpcmVAliKlSWjHAQ=; b=MlbLRK5q93mQLOLWuwPQ/eSJca
+	XIiNW0kU/Gp21c6a1ZOtcaoPtDRse8mhQThdyGD5A2WidB/HDd18/aN+pPqMP6qDByCl74snOM/wv
+	VftlaKwPcbJd9a105ECUIxh/C0SKW2uhCBN2ECDv83QYhed8V84F4kNHxKKUlQaLFrCvEse6YfprE
+	17l9ZkZvTON3QI0l8fEuzHrmItznqEjaCUV0RBnxyfDaDk9j+SVqDvbtbV2GN/Do5OLsQt4vIFpBY
+	HIqTsLvCsixCYsxiMlH8qQ4zBSyrgnbBjhLVRZwJXOFhOwai78zlpXcNzKDdqpTsE9UYQL+EvuVcc
+	fqLi0C5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFnh3-00000009GfV-0iea;
-	Mon, 03 Nov 2025 06:05:29 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vFnk5-00000009Gxd-0sLr;
+	Mon, 03 Nov 2025 06:08:37 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vFnh1-00000009GfP-2Ks2
+	id 1vFnk2-00000009GxB-38I1
 	for linux-nvme@lists.infradead.org;
-	Mon, 03 Nov 2025 06:05:27 +0000
+	Mon, 03 Nov 2025 06:08:35 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8888A601A6;
-	Mon,  3 Nov 2025 06:05:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A5CC4CEE7;
-	Mon,  3 Nov 2025 06:05:23 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 22EE34070D;
+	Mon,  3 Nov 2025 06:08:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E569C4CEE7;
+	Mon,  3 Nov 2025 06:08:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762149926;
-	bh=nWA8qJYrPGGOaVXd+KfXLqzdVcWq+LCTObq2L0yNLPM=;
+	s=k20201202; t=1762150114;
+	bh=pwdbBk5k6Lzn4gzAg9HIGXVXZpoWqAAGoLj3pg2fCKc=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=QIiFTEcx51FVNJKpbXtL1eDcqXXbYaxsHDUrIsqQzMTz6V8pP9IsaJnIawZoSyGbS
-	 75v6GWjQJ2duN2QVDdw3y4Cw9lImt4Sb/glPO8VdNIlcjCiUVW79X9+C2zNZ0VAGlW
-	 XRynqC2H+Maxg1XFUX/ZP32yN4FKTBP/5r4+EpIDLw2XON37n7Pqi8HjK95+7ecxRd
-	 y3lYk4wzYtLAzBEJEfPjn0ogID4UVyGri7IgHs3NPh9rqfQK5Z9P4PKrmbHXM/aZuF
-	 j2RPquxU46JqgCpBu1OuVBY0mxgVUN/ZaHq01UG5MTV81VLo0UHo2MqjFjv29o3QUl
-	 FXSVi0qroaFYA==
-Message-ID: <93215b7c-80bd-4860-8a77-42cdd4db1ec6@kernel.org>
-Date: Mon, 3 Nov 2025 15:05:22 +0900
+	b=CnH+orprqbruxwZuHf+EdM///THhXFUjdY+3st0QXD0POAUkza82UIhHSxkhGOn1A
+	 MDBFzp33Mt5Lt5eiyfDmgXPKxZD6saSS+JArEMye7byAS+T/0avuF7xvz+0HwYP7WN
+	 Z8RYya7sYXwHBiFIMtoo4LRp4VqTzxKQbxloxmkYJCTJbLe7vDA1y6HUumTyOk/dr9
+	 4SMWtXXBOzTYPAWQPN9LvYK7f0vvP15GIZA/+zcDTbrdHBnzgCIAc7YhRKHcP5qaPA
+	 yLEK2OqPmWoYeDTUnerb12eG+ANqAy8Q4KLOjapOp4/FCoS0JQwg5e4v5ma9YqiBLd
+	 xh3s9LB0ePHgA==
+Message-ID: <1276e2be-4d8b-4c59-822c-3af4490de24e@kernel.org>
+Date: Mon, 3 Nov 2025 15:08:30 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] block: track zone conditions
+Subject: Re: [PATCH 08/13] block: introduce blkdev_get_zone_info()
 To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
@@ -57,14 +57,17 @@ To: Bart Van Assche <bvanassche@acm.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251031061307.185513-1-dlemoal@kernel.org>
- <20251031061307.185513-8-dlemoal@kernel.org>
- <40c87475-7d5a-4792-b2a6-3eeb8406f9be@acm.org>
+ <20251031061307.185513-9-dlemoal@kernel.org>
+ <42dc640b-28e9-4706-91dc-dd075e736065@acm.org>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <40c87475-7d5a-4792-b2a6-3eeb8406f9be@acm.org>
+In-Reply-To: <42dc640b-28e9-4706-91dc-dd075e736065@acm.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251102_220834_810717_2FA5269F 
+X-CRM114-Status: GOOD (  14.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,89 +82,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/1/25 06:17, Bart Van Assche wrote:
-> On 10/30/25 11:13 PM, Damien Le Moal wrote:
->> Implement tracking of the runtime changes to zone conditions using
->> the new cond field in struct blk_zone_wplug. The size of this structure
->> remains 112 Bytes as the new field replaces the 4 Bytes padding at the
->> end of the structure. For zones that do not have a zone write plug, the
->> zones_cond array of a disk is used to track changes to zone conditions,
->> e.g. when a zone reset, reset all or finish operation is executed.
+On 11/1/25 06:40, Bart Van Assche wrote:
+>> +/**
+>> + * blkdev_get_zone_info - Get a zone information from cached data
 > 
-> Why is it necessary to track the condition of sequential zones that do
-> not have a zone write plug? Please explain what the use cases are.
-
-Because zones that do not have a zone write plug can be empty OR full.
-
+> "Get a zone information" -> "Get zone information"
 > 
-> The zoned UFS device on my desk has 3420 sequential zones and zero
-> conventional zones. If the condition of zones that do not have a zone
-> write plug wouldn't be tracked that would save some memory.
+>> +	sector = sector & (~(zone_sectors - 1));
+> 
+> Please consider changing the above assignment into:
+> 
+> 	sector -= bdev_offset_from_zone_start(bdev, sector);
 
-That would really be "some"... Not a lot. Your memory usage will be less than a
-mem page...
+That is a lot more arithmetic for the same thing.
+If anything, I think this should be:
 
->> +static void blk_zone_set_cond(u8 *zones_cond, unsigned int zno,
->> +			      enum blk_zone_cond cond)
->> +{
->> +	if (!zones_cond)
->> +		return;
->> +
->> +	switch (cond) {
->> +	case BLK_ZONE_COND_IMP_OPEN:
->> +	case BLK_ZONE_COND_EXP_OPEN:
->> +	case BLK_ZONE_COND_CLOSED:
->> +		zones_cond[zno] = BLK_ZONE_COND_ACTIVE;
->> +		return;
->> +	case BLK_ZONE_COND_NOT_WP:
->> +	case BLK_ZONE_COND_EMPTY:
->> +	case BLK_ZONE_COND_FULL:
->> +	case BLK_ZONE_COND_OFFLINE:
->> +	case BLK_ZONE_COND_READONLY:
->> +	default:
->> +		zones_cond[zno] = cond;
->> +		return;
+	sector = ALIGN(sector, zone_sectors);
+
+>> +	/*
+>> +	 * If the zone does not have a zone write plug, it is either full or
+>> +	 * empty, as we otherwise would have a zone write plug for it. In this
+>> +	 * case, set the write pointer accordingly and report the zone.
+>> +	 * Otherwise, if we have a zone write plug, use it.
+>> +	 */
+>> +	zwplug = disk_get_zone_wplug(disk, sector);
+>> +	if (!zwplug) {
+>> +		if (zone->cond == BLK_ZONE_COND_FULL)
+>> +			zone->wp = sector + zone_sectors;
+>> +		else
+>> +			zone->wp = sector;
+>> +		return 0;
 >> +	}
->> +}
->> +
->> +static void disk_zone_set_cond(struct gendisk *disk, sector_t sector,
->> +			       enum blk_zone_cond cond)
->> +{
->> +	u8 *zones_cond;
->> +
->> +	rcu_read_lock();
->> +	zones_cond = rcu_dereference(disk->zones_cond);
->> +	if (zones_cond) {
->> +		unsigned int zno = disk_zone_no(disk, sector);
->> +
->> +		/*
->> +		 * The condition of a conventional, readonly and offline zones
->> +		 * never changes, so do nothing if the target zone is in one of
->> +		 * these conditions.
->> +		 */
->> +		switch (zones_cond[zno]) {
->> +		case BLK_ZONE_COND_NOT_WP:
->> +		case BLK_ZONE_COND_READONLY:
->> +		case BLK_ZONE_COND_OFFLINE:
->> +			break;
->> +		default:
->> +			blk_zone_set_cond(zones_cond, zno, cond);
->> +			break;
->> +		}
->> +	}
->> +	rcu_read_unlock();
->> +}
 > 
-> Why does blk_zone_set_cond() accept a zone number as second argument and
-> why does disk_zone_set_cond() accept a sector number as second argument?
-> The callers of disk_zone_set_cond() can be optimized if its second
-> argument would be changed from a sector number into a zone number.
+> According to ZBC-2 the write pointer is invalid for full zones.
 
-How so ? all the callers have a BIO sector or a zone start sector on hand, not a
-zone number. On the other hand, blk_zone_set_cond() is always used in places
-where the zone number is already available.
+Sure, meaning that the user should not look at the value. That does not make the
+above wrong in any way. But sure, I can chnage that the ULLONG_MAX if you really
+prefer.
 
-So this calling convention makes sense to me as it is.
+
 
 -- 
 Damien Le Moal
