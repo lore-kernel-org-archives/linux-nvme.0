@@ -4,71 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0796ECCF9E3
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 16:11:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C23DCCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 16:57:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=AQevHpuJKnOM9wCjEfXStosdIR9VYgEm1xyMJeO+Jb8=; b=oDFOsiDYRM7NXDLsmC8rLAJKap
-	1Yety/QP01lAoDmFlpmmyYQ3ryedMm3wbx6D/AJK3xBw9iBsVMGLuGr5pSCA0ETOsMeLcmSPMkJAE
-	a9eufeYLcHswhV12KrtMruG3S18ujqFNGfHZYjPjbyfUsyVcEhCXX2S8YKk3PKyPSmHAxLbWWMXVF
-	Uh88L/GDY1XOBdz06b7fPvDp8/eEISSaNOEUXK3GMuO7SatoHc5YcNXmANGUYlRdJnGeJ5ouGsEbD
-	Us1ZkXK2s8Dsc0iAmeZ+Gg05SPkDgp9Gchs/BQttg0e/CXpg7OjF6H1cx9mRWTkd/dD50g3rg1KB6
-	4QfZTozg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Q7/bR8TLt4VYF2Ma3vNw8KvcQcbfgvfLzmBNooKdWMw=; b=O+yia8VB/3g7Ue/o21UgUym1xe
+	f7ytjtupfNdWkgyIVwgKGi9Pmx9EaJ9cVjAT4I2VkIoZ93oGb7BRPI51A5gS7a3Bf8Jpspulc7SSW
+	LXwcHpNsznbfMoLhjZ1r2lEzluNc3qea0tuA7pja13/KbBB8vyng1t4B5N9EBMpTxy8c4T6A59hro
+	S+LG7RR1v3Ve+UohwQMWTfWUEcojxDLuNG6Lohk1rfBJU5cxiqQ21LUtetKOLaRy11oPSErq3TxCr
+	M4p+DgBeoJD9Qq3PhJx4a0xD1LdFfeuoy8CoJNd5w7xHBPRoPCANgswv9Yt+af599WYXpqdzZ2RJX
+	L9EZE9aw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGJci-0000000CAPW-3V3z;
-	Tue, 04 Nov 2025 16:11:08 +0000
-Received: from mgamail.intel.com ([192.198.163.13])
+	id 1vGKLt-0000000CEax-431c;
+	Tue, 04 Nov 2025 16:57:49 +0000
+Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGJcc-0000000CAOj-0o87
+	id 1vGKLp-0000000CEZV-33Lj
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 16:11:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762272662; x=1793808662;
-  h=date:from:to:cc:subject:message-id;
-  bh=yjXXRQiKs5T5Krf9d1LzKGQ8F64kP2mhEJD5kZ79eGo=;
-  b=jx5Euyoy+mz0NPNLysGtBZZMkLepeaopG1bGn4cH310s7yeOYCvRgh52
-   etteDDQDDUaaNWT3Am4p3NMbocuDdIIXsDdZs9/OLmT26EzuY0xvbQ3T8
-   B0jEjoaQ4ZKJ9vOMIsWIJHS+8aAkv5UBA98WvPsAGXrFeBmxdKE1gk8nU
-   oFZ3sf5ZoqACUOd59Z/xxuYlxqI/1vzEAksR+dUwJjAIiXWH7z332bXgh
-   7g/+oiz5hxcwvD5xt1XRX+w8Q+6DDuBYkqi+jEE1PnH3Soywb8SVlIwky
-   5BowtJC2jEAaJoVfaCn9d0HpqP+TgsqeOf5geOzioLScKH+L529Z7Zj8+
-   w==;
-X-CSE-ConnectionGUID: HV/o3aYeQxWvAp2Ks2MFow==
-X-CSE-MsgGUID: 1qJOiPQ+SxC3Tfz1h9mKTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="66987668"
-X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; 
-   d="scan'208";a="66987668"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 08:11:00 -0800
-X-CSE-ConnectionGUID: Y6pM8iZ4RbuXVgkwctaZuQ==
-X-CSE-MsgGUID: pFq+ndF6TPOgdg01mvP+Xg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; 
-   d="scan'208";a="224446378"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2025 08:10:58 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGJcW-000RZZ-1h;
-	Tue, 04 Nov 2025 16:10:56 +0000
-Date: Wed, 05 Nov 2025 00:09:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.19] BUILD SUCCESS
- 1c2ad96dbb33c75098b9c1b2a077d9434ecb9f02
-Message-ID: <202511050000.qko5jb8d-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Tue, 04 Nov 2025 16:57:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1762275459; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=Q7/bR8TLt4VYF2Ma3vNw8KvcQcbfgvfLzmBNooKdWMw=;
+	b=uAZfapgQCPHPX1bwz49F5GHjAClvfn6tD4nOjMC457A1LzV0QPveYq3QLIhGJHtQ+JvI9UQvINRTevkZqMQpf2xdPQoO433Y3+4KwhMXRGJKMByZDiH6Yllh8fcysGJ75UJkW243WC4WNlayLHUxOfQqdT3FPmGueDFiluVO1yI=
+Received: from 30.50.185.93(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0Wrhz5Ed_1762275455 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 05 Nov 2025 00:57:36 +0800
+Message-ID: <96f9d51d-7cde-404b-a2a4-0c1b97d07be6@linux.alibaba.com>
+Date: Wed, 5 Nov 2025 00:57:35 +0800
+MIME-Version: 1.0
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [RFC PATCHv4 0/6] nvme-multipath: introduce adaptive I/O policy
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: hare@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+ dwagner@suse.de, axboe@kernel.dk, gjoyce@ibm.com
+References: <20251104104533.138481-1-nilay@linux.ibm.com>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <20251104104533.138481-1-nilay@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_081102_274194_5BBD6251 
-X-CRM114-Status: UNSURE (   5.35  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251104_085746_409137_C767E245 
+X-CRM114-Status: GOOD (  23.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,141 +65,128 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.19
-branch HEAD: 1c2ad96dbb33c75098b9c1b2a077d9434ecb9f02  nvme: Fix typo error in nvme target
+Hi Nilay:
 
-elapsed time: 1457m
+Could you plz update Documentation/admin-guide/nvme-multipath.rst too?
 
-configs tested: 121
-configs skipped: 3
+Best Regards,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Guixin Liu
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                               defconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                                 defconfig    gcc-15.1.0
-arc                   randconfig-001-20251104    gcc-12.5.0
-arc                   randconfig-002-20251104    gcc-9.5.0
-arm                               allnoconfig    clang-22
-arm                      jornada720_defconfig    clang-22
-arm                          pxa910_defconfig    gcc-15.1.0
-arm                   randconfig-001-20251104    gcc-14.3.0
-arm                   randconfig-002-20251104    gcc-10.5.0
-arm                   randconfig-003-20251104    clang-22
-arm                   randconfig-004-20251104    gcc-8.5.0
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20251104    gcc-13.4.0
-arm64                 randconfig-002-20251104    clang-22
-arm64                 randconfig-003-20251104    gcc-13.4.0
-arm64                 randconfig-004-20251104    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                                defconfig    gcc-15.1.0
-csky                  randconfig-001-20251104    gcc-10.5.0
-csky                  randconfig-002-20251104    gcc-15.1.0
-hexagon                           allnoconfig    clang-22
-hexagon               randconfig-001-20251104    clang-22
-hexagon               randconfig-002-20251104    clang-16
-i386                              allnoconfig    gcc-14
-i386        buildonly-randconfig-001-20251104    gcc-14
-i386        buildonly-randconfig-002-20251104    clang-20
-i386        buildonly-randconfig-003-20251104    gcc-12
-i386        buildonly-randconfig-004-20251104    gcc-14
-i386        buildonly-randconfig-005-20251104    gcc-12
-i386        buildonly-randconfig-006-20251104    gcc-14
-i386                                defconfig    clang-20
-i386                  randconfig-001-20251104    gcc-12
-i386                  randconfig-002-20251104    gcc-14
-i386                  randconfig-003-20251104    clang-20
-i386                  randconfig-004-20251104    gcc-14
-i386                  randconfig-005-20251104    gcc-14
-i386                  randconfig-006-20251104    gcc-14
-i386                  randconfig-007-20251104    gcc-14
-i386                  randconfig-011-20251104    gcc-13
-i386                  randconfig-012-20251104    clang-20
-i386                  randconfig-013-20251104    gcc-14
-i386                  randconfig-014-20251104    clang-20
-i386                  randconfig-015-20251104    gcc-14
-i386                  randconfig-016-20251104    clang-20
-i386                  randconfig-017-20251104    clang-20
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20251104    gcc-15.1.0
-loongarch             randconfig-002-20251104    clang-22
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-m68k                        m5307c3_defconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                          eyeq5_defconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20251104    gcc-8.5.0
-nios2                 randconfig-002-20251104    gcc-11.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                randconfig-001-20251104    gcc-8.5.0
-parisc                randconfig-002-20251104    gcc-15.1.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                    amigaone_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20251104    gcc-15.1.0
-powerpc               randconfig-002-20251104    clang-22
-powerpc64             randconfig-001-20251104    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20251104    gcc-8.5.0
-riscv                 randconfig-002-20251104    gcc-8.5.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20251104    clang-22
-s390                  randconfig-002-20251104    clang-22
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                    randconfig-001-20251104    gcc-13.4.0
-sh                    randconfig-002-20251104    gcc-11.5.0
-sh                           se7750_defconfig    gcc-15.1.0
-sh                             shx3_defconfig    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20251104    gcc-13.4.0
-sparc                 randconfig-002-20251104    gcc-12.5.0
-sparc64                          alldefconfig    gcc-15.1.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20251104    gcc-8.5.0
-sparc64               randconfig-002-20251104    clang-22
-um                                allnoconfig    clang-22
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20251104    clang-22
-um                    randconfig-002-20251104    clang-22
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20251104    clang-20
-x86_64      buildonly-randconfig-002-20251104    gcc-12
-x86_64      buildonly-randconfig-003-20251104    gcc-14
-x86_64      buildonly-randconfig-004-20251104    gcc-14
-x86_64      buildonly-randconfig-005-20251104    gcc-12
-x86_64      buildonly-randconfig-006-20251104    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-011-20251104    gcc-14
-x86_64                randconfig-012-20251104    gcc-14
-x86_64                randconfig-013-20251104    clang-20
-x86_64                randconfig-014-20251104    clang-20
-x86_64                randconfig-015-20251104    gcc-14
-x86_64                randconfig-016-20251104    clang-20
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20251104    gcc-13.4.0
-xtensa                randconfig-002-20251104    gcc-11.5.0
+在 2025/11/4 18:45, Nilay Shroff 写道:
+> Hi,
+>
+> This series introduces a new adaptive I/O policy for NVMe native
+> multipath. Existing policies such as numa, round-robin, and queue-depth
+> are static and do not adapt to real-time transport performance. The numa
+> selects the path closest to the NUMA node of the current CPU, optimizing
+> memory and path locality, but ignores actual path performance. The
+> round-robin distributes I/O evenly across all paths, providing fairness
+> but not performance awareness. The queue-depth reacts to instantaneous
+> queue occupancy, avoiding heavily loaded paths, but does not account for
+> actual latency, throughput, or link speed.
+>
+> The new adaptive policy addresses these gaps selecting paths dynamically
+> based on measured I/O latency for both PCIe and fabrics. Latency is
+> derived by passively sampling I/O completions. Each path is assigned a
+> weight proportional to its latency score, and I/Os are then forwarded
+> accordingly. As condition changes (e.g. latency spikes, bandwidth
+> differences), path weights are updated, automatically steering traffic
+> toward better-performing paths.
+>
+> Early results show reduced tail latency under mixed workloads and
+> improved throughput by exploiting higher-speed links more effectively.
+> For example, with NVMf/TCP using two paths (one throttled with ~30 ms
+> delay), fio results with random read/write/rw workloads (direct I/O)
+> showed:
+>
+>          numa         round-robin   queue-depth  adaptive
+>          -----------  -----------   -----------  ---------
+> READ:   50.0 MiB/s   105 MiB/s     230 MiB/s    350 MiB/s
+> WRITE:  65.9 MiB/s   125 MiB/s     385 MiB/s    446 MiB/s
+> RW:     R:30.6 MiB/s R:56.5 MiB/s  R:122 MiB/s  R:175 MiB/s
+>          W:30.7 MiB/s W:56.5 MiB/s  W:122 MiB/s  W:175 MiB/s
+>
+> This pathcset includes totla 6 patches:
+> [PATCH 1/6] block: expose blk_stat_{enable,disable}_accounting()
+>    - Make blk_stat APIs available to block drivers.
+>    - Needed for per-path latency measurement in adaptive policy.
+>
+> [PATCH 2/6] nvme-multipath: add adaptive I/O policy
+>    - Implement path scoring based on latency (EWMA).
+>    - Distribute I/O proportionally to per-path weights.
+>
+> [PATCH 3/6] nvme: add generic debugfs support
+>    - Introduce generic debugfs support for NVMe module
+>
+> [PATCH 4/6] nvme-multipath: add debugfs attribute adaptive_ewma_shift
+>    - Adds a debugfs attribute to control ewma shift
+>
+> [PATCH 5/6] nvme-multipath: add debugfs attribute adaptive_weight_timeout
+>    - Adds a debugfs attribute to control path weight calculation timeout
+>
+> [PATCH 6/6] nvme-multipath: add debugfs attribute adaptive_stat
+>    - Add “adaptive_stat” under per-path and head debugfs directories to
+>      expose adaptive policy state and statistics.
+>
+> As ususal, feedback and suggestions are most welcome!
+>
+> Thanks!
+>
+> Changes from v3:
+>    - Update the adaptive APIs name (which actually enable/disable
+>      adaptive policy) to reflect the actual work it does. Also removed
+>      the misleading use of "current_path" from the adaptive policy code
+>      (Hannes Reinecke)
+>    - Move adaptive_ewma_shift and adaptive_weight_timeout attributes from
+>      sysfs to debugfs (Hannes Reinecke)
+> Link to v3: https://lore.kernel.org/all/20251027092949.961287-1-nilay@linux.ibm.com/
+>
+> Changes from v2:
+>    - Addede a new patch to allow user to configure EWMA shift
+>      through sysfs (Hannes Reinecke)
+>    - Added a new patch to allow user to configure path weight
+>      calculation timeout (Hannes Reinecke)
+>    - Distinguish between read/write and other commands (e.g.
+>      admin comamnd) and calculate path weight for other commands
+>      which is separate from read/write weight. (Hannes Reinecke)
+>    - Normalize per-path weight in the range from 0-128 instead
+>      of 0-100 (Hannes Reinecke)
+>    - Restructure and optimize adaptive I/O forwarding code to use
+>      one loop instead of two (Hannes Reinecke)
+> Link to v2: https://lore.kernel.org/all/20251009100608.1699550-1-nilay@linux.ibm.com/
+>
+> Changes from v1:
+>    - Ensure that the completion of I/O occurs on the same CPU as the
+>      submitting I/O CPU (Hannes Reinecke)
+>    - Remove adapter link speed from the path weight calculation
+>      (Hannes Reinecke)
+>    - Add adaptive I/O stat under debugfs instead of current sysfs
+>      (Hannes Reinecke)
+>    - Move path weight calculation to a workqueue from IO completion
+>      code path
+> Link to v1: https://lore.kernel.org/all/20250921111234.863853-1-nilay@linux.ibm.com/
+>
+> Nilay Shroff (6):
+>    block: expose blk_stat_{enable,disable}_accounting() to drivers
+>    nvme-multipath: add support for adaptive I/O policy
+>    nvme: add generic debugfs support
+>    nvme-multipath: add debugfs attribute adaptive_ewma_shift
+>    nvme-multipath: add debugfs attribute adaptive_weight_timeout
+>    nvme-multipath: add debugfs attribute adaptive_stat
+>
+>   block/blk-stat.h              |   4 -
+>   drivers/nvme/host/Makefile    |   2 +-
+>   drivers/nvme/host/core.c      |  22 +-
+>   drivers/nvme/host/debugfs.c   | 335 ++++++++++++++++++++++++++
+>   drivers/nvme/host/ioctl.c     |  31 ++-
+>   drivers/nvme/host/multipath.c | 430 +++++++++++++++++++++++++++++++++-
+>   drivers/nvme/host/nvme.h      |  87 ++++++-
+>   drivers/nvme/host/pr.c        |   6 +-
+>   drivers/nvme/host/sysfs.c     |   2 +-
+>   include/linux/blk-mq.h        |   4 +
+>   10 files changed, 895 insertions(+), 28 deletions(-)
+>   create mode 100644 drivers/nvme/host/debugfs.c
+>
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
