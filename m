@@ -4,62 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0C2E4CCFA04
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 20:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FFE6CCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 21:00:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Hd5WRC5q73BCc88/cX72o+WZOdt8iG1dF8beT1jc//4=; b=u30SUXIUGVVBr8MxfEGkktEiar
-	pI+u1RnVl1/3tm5FwjM7JBfNqaLIe9mVGeo7Z1HtxyWkh+LZ2UjcoR6ri/92cR3AAyUqTqTErQw44
-	yN3KvsaktG1F3liiT1ja3XF1K8EF/55RdZbnPz1aaCqSZ7jKEeJ/LEsDVkkPtdx+A3d2DqmWLmLPO
-	7uMJ5a+fBSiQ3jpqryhFZp0QFlIUv7lbuVADPV1VZimGKtBXMqEGvWuKXabWkZN36rElByG2YE/aB
-	JXP6bP6AmfjuMUsO5Zx5b3Ys+KjssQXE6XgSu7IAZPAD3noGsbNC/q72fizc6JQ1/kQAeq1yMNZ2I
-	OZqbluJw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=O3l1MxQaDwEKoq0PoBALoyKOWwHm9r/hEUgACEUi8s8=; b=NujhPCI3XT4uiRkutOf9DF20lh
+	vR8vYH/UUwkp7MtXQVd5zQbXhRyrvNs3hRoJCjcSJACHD7usdXiM4rqXFVHNpQQneMGBVFT2FCdJK
+	dXgsz9Hc79LgG5i6w320t2sFFd3OTLXkTM8LCK2bAMrBoQ+UVBVdvalFXx9r/VZVgIjSchHfP3BDi
+	jrYWltY9pbZiRkb5Xo+aWLNkQKJik41qr4dmyHO06C0Jl+9XV9JwcmoYw+ajYQmvMTeBPcwFUABjC
+	AEU5DjCxCe0RL/k7ECA85OofbLFuJ0awkjHT/Hh4R9CuqSjRe5JEf07VwilNcuKicUxa10GxzUxzo
+	iNCDCPXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGNmB-0000000CYoD-0kKi;
-	Tue, 04 Nov 2025 20:37:11 +0000
-Received: from 004.mia.mailroute.net ([199.89.3.7])
+	id 1vGO8D-0000000CZso-2xud;
+	Tue, 04 Nov 2025 20:59:57 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGNm8-0000000CYnd-0xRq
+	id 1vGO8C-0000000CZsb-0WHy
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 20:37:09 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 004.mia.mailroute.net (Postfix) with ESMTP id 4d1Kxr66nZznDrCk;
-	Tue,  4 Nov 2025 20:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1762288622; x=1764880623; bh=Hd5WRC5q73BCc88/cX72o+WZ
-	Odt8iG1dF8beT1jc//4=; b=njyrOopWTof8U96TrrWMp1a4Efg7XVUfLDtQYyzb
-	aTMFdUJX01Eu6nU3f0ycgIQ5A43cI+9q+eSogfozr65UTP/B8IKkmDal9zYZTdTC
-	xn5n1dVPMj/UYaFV9EZISUSEPAfoTT+J3gsGtepGxTdc4WtilYiIYItT4hOLRxX8
-	fnvPSrkzoSDif2AUDTiKSs6bSzBN7uXecCLnD2g8pYeQcj5dI+dAT1gW/c4+0MaE
-	DZKyAR+CreJGcVkEpKm3pa/Y2LHj3iVAtAXgTnfyF3hmbFZ/1h4jLlPD2glv3Eye
-	oOFphoXnwW8KN42ignT3IE+q+Xa9zzo+tkZ8D3rkbzrpIQ==
-X-Virus-Scanned: by MailRoute
-Received: from 004.mia.mailroute.net ([127.0.0.1])
- by localhost (004.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 9hBJWyN-oUgM; Tue,  4 Nov 2025 20:37:02 +0000 (UTC)
-Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 004.mia.mailroute.net (Postfix) with ESMTPSA id 4d1KxY3VgNznDrCX;
-	Tue,  4 Nov 2025 20:36:47 +0000 (UTC)
-Message-ID: <46fb6d7e-e3c9-48fb-ab2e-f432df9f9c05@acm.org>
-Date: Tue, 4 Nov 2025 12:36:46 -0800
+	Tue, 04 Nov 2025 20:59:56 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 29A08601EF;
+	Tue,  4 Nov 2025 20:59:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA585C116B1;
+	Tue,  4 Nov 2025 20:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762289994;
+	bh=ZbevVTsyzkuKwdQrJJOdeX7YrKTFidZKoeeACl1fcI4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aHU1/+NxHTGcstCciKvN0HOtfqbZvcKPFHaJAIxHidNwzrAUH57pju/VvROjFT57e
+	 9rImaFQb4z8LuzRklIxZLJF2VrGAH+JLi7zsSFkq1D6Np4PjBtNYScd1PR0ri1TAtO
+	 C8/TJ5vEMM3KUaF2iZ2FJtiFVDHMxidEJ0H/ZcmFov1S5b28kv2BMp+H+YUgVLxQEb
+	 fODPu/xN0+jxDzu5/ZHF6J2R+epjSqAVdQcC4nlJyvr175SaM5q8EYEdPQE5eXwQUE
+	 yVevNDW2NW1iLpxmhZ7XasSauPf7KOKeLRcqsgrgXv3zRMqhAJjr+vy5jphrmBIYO6
+	 gnqNNZ4ccEsBQ==
+Message-ID: <9f899cd8-7187-4878-b294-337d964c9587@kernel.org>
+Date: Wed, 5 Nov 2025 05:59:51 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/15] block: introduce BLKREPORTZONESV2 ioctl
-To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
- Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
+Subject: Re: [PATCH v3 00/15] Introduce cached report zones
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Keith Busch <keith.busch@wdc.com>,
  dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
  Mikulas Patocka <mpatocka@redhat.com>,
  "Martin K . Petersen" <martin.petersen@oracle.com>,
@@ -67,18 +57,13 @@ To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251104013147.913802-1-dlemoal@kernel.org>
- <20251104013147.913802-12-dlemoal@kernel.org>
- <0cb7eefb-4501-47e8-805f-6e8737ca6bb5@acm.org>
- <da7e8c3e-49fe-49bd-9642-3b0ae67a3503@kernel.org>
+ <20251104144158.GA27416@lst.de>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <da7e8c3e-49fe-49bd-9642-3b0ae67a3503@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20251104144158.GA27416@lst.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_123708_358993_5B95EFBB 
-X-CRM114-Status: UNSURE (   8.88  )
-X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,14 +78,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/4/25 12:13 PM, Damien Le Moal wrote:
-> As I said, I did. See the comments with the BLK_ZONE_COND_ACTIVE condition.
-> If you think that is not enough, I can cross reference tht in the comment for
-> BLKREPORTZONEV2.
-The current documentation requires puzzling some pieces of information
-together but this is probably sufficient.
+On 11/4/25 23:41, Christoph Hellwig wrote:
+> I just threw this into my xfstests setup, and it seems this version
+> is broken somehow.  Running on emulated ZNS devices with XFS I get
+> a lot of failures with warnings like this:
+> 
+> [   30.068652] XFS (nvme1n1): empty zone 1 has non-zero used counter (0x1).
+> 
+> [   49.316873] XFS (nvme0n1): empty zone 2 has non-zero used counter (0x10).
+> 
+> so it seems like it's not tracking WPs correctly, probably when using
+> zone append and unmount/remounting.
 
-Thanks,
+Aouch ! I totally missed that !
 
-Bart.
+First problem, trivial, I am missing this in the xfs patch:
+
+diff --git a/fs/xfs/libxfs/xfs_zones.c b/fs/xfs/libxfs/xfs_zones.c
+index b0791a71931c..b40f71f878b5 100644
+--- a/fs/xfs/libxfs/xfs_zones.c
++++ b/fs/xfs/libxfs/xfs_zones.c
+@@ -95,6 +95,7 @@ xfs_zone_validate_seq(
+        case BLK_ZONE_COND_IMP_OPEN:
+        case BLK_ZONE_COND_EXP_OPEN:
+        case BLK_ZONE_COND_CLOSED:
++       case BLK_ZONE_COND_ACTIVE:
+                return xfs_zone_validate_wp(zone, rtg, write_pointer);
+        case BLK_ZONE_COND_FULL:
+                return xfs_zone_validate_full(zone, rtg, write_pointer);
+
+Second problem is a little more subtle: when disk_insert_zone_wplug() is called
+from blk_revalidate_disk_zones() callback for a non empty zone, the zone
+condition is set to BLK_ZONE_COND_NOT_WP if we do not have a disk zones_cond
+array. But we never have that on the first call to blk_revalidate_disk_zones()
+since that function sets it at the end of the revalidation. So we need this
+change to also avoid mount errors after a reboot for an FS with partially
+written zones:
+
+ diff --git a/block/blk-zoned.c b/block/blk-zoned.c
+index bf6495f0d49f..bba64b427082 100644
+--- a/block/blk-zoned.c
++++ b/block/blk-zoned.c
+@@ -527,12 +527,20 @@ static bool disk_insert_zone_wplug(struct gendisk *disk,
+                        return false;
+                }
+        }
++
++       /*
++        * Set the zone condition: if we do not yet have a zones_cond array
++        * attached to the disk, then this is a zone write plug insert from the
++        * first call to blk_revalidate_disk_zones(), in which case the zone is
++        * necessarilly in the active condition.
++        */
+        zones_cond = rcu_dereference_check(disk->zones_cond,
+                                lockdep_is_held(&disk->zone_wplugs_lock));
+        if (zones_cond)
+                zwplug->cond = zones_cond[zwplug->zone_no];
+        else
+-               zwplug->cond = BLK_ZONE_COND_NOT_WP;
++               zwplug->cond = BLK_ZONE_COND_ACTIVE;
++
+        hlist_add_head_rcu(&zwplug->node, &disk->zone_wplugs_hash[idx]);
+        atomic_inc(&disk->nr_zone_wplugs);
+        spin_unlock_irqrestore(&disk->zone_wplugs_lock, flags);
+
+I will integrate these fixes in v5 and resend.
+
+
+
+
+-- 
+Damien Le Moal
+Western Digital Research
 
