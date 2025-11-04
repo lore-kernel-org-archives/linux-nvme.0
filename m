@@ -4,67 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03B3ACCF9F8
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 00:26:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A66E4CCF9F8
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 00:39:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PYL76Eo021/f1pGLkIxMdeiGLR+ctmvVd5W8NoKHxkE=; b=WIRpqpGBdhheJx9Qpx+7Ehi+qD
-	VtEjEGCpMRtnifSGjqaufTo2C0AUC07J0n8Cn0gefpsDbPmttd9pl3sQlhGs7hRnHQ2jvrmY7Wgc2
-	b4F+afPNVBGSF9QsXERTghqoexmo7QLMKE6WfmjE2iqngrech4JCaAl/dM5tfvdllJ6NWsgVY2j3C
-	FI4UCFOtT+pAtNOhzk91cKXXFlvEjIUp3gktBXtDbuisO+RkLA/neRf5kWEkpHLBIfAp+Rix5lUOx
-	QEx4ATSdrbmH6GDFtlheLMplceHR5laWqRHGGXuj/THnqkOaipFYPpA5daCHZsqHIc5iF7Y7y2Ste
-	zOSKW41Q==;
+	bh=j72kH5A4NosGnsKtmgZWqectlM8qu9qu5lI/LSZR6iI=; b=rcqzG6cM3tM7caO7yF3ti9lP3E
+	+UWfkm9JtS0Lsl8CH3ZlUvnQdX8JsbySxLao+R2o34bZjR4Wn4tKmAFS4L/gcXE96d922q7tbM+5y
+	LDjyhF2uIL5MBSmJnt8qt3bQR1Ai6mEafJcubmFTzBmfeNPKLutnkBEpDPV73D+WJLSF56ObJ5bTO
+	cvK23oJPD3e9DG4ltvAr7Ximw1DIIIrbdM3z+CqQFt3kI/P8plbUYZOJXxypEgjPGbLQ9zF9jW7Jf
+	8mhU9lxwvz3r4xaYQdEIcfYw7nDmjTLNIwXEXBINBEpysjywkFBzG4VB8UZ5YPjzDuRBhY7g7pMOG
+	mdSmCogw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG4sK-0000000AqW5-0Clf;
-	Tue, 04 Nov 2025 00:26:16 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vG54v-0000000ArDx-2cTV;
+	Tue, 04 Nov 2025 00:39:17 +0000
+Received: from mgamail.intel.com ([192.198.163.10])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG4sF-0000000AqVP-0WPA
+	id 1vG54s-0000000ArDT-2gym
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 00:26:14 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1A2564444A;
-	Tue,  4 Nov 2025 00:26:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFFC8C4CEE7;
-	Tue,  4 Nov 2025 00:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762215970;
-	bh=Bs1E/iPbvREfZ+wf8shPmjiAN3iesDcEtsodNw/AwWU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j4/kFgYQyFL8sTyk7xpOQp2z2YsNUBecgSfSylcMCi/3dUT+HDBIST6uVMU23TWlX
-	 KxhfKD1lYoMVfrdmHHRIg0sERPGSHaj1Zuz2v0RRxrOs0o+InX9nf0fjsrzIWRr6DG
-	 5tuCNY1sPvfKKz+uvIKhYw7lyPLAc0bnyREwKnFnkWgxf+a3HynnM/pcOdxqJelxLN
-	 RPsw/XqHAqk6qpyzih/jksClk8Ug2nqG30G0D5Vk5agdprcGUmIpVC3KwjqfOCNyEg
-	 YADl0S+ZFC/3XkEvujfmmuqMIwGyW3kXajUxXzp9O+4rszoU6yevB2my+/a8/4r20o
-	 Q/AVSaeVUCgVQ==
-Date: Mon, 3 Nov 2025 19:26:08 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Daniel Wagner <dwagner@suse.de>
-Cc: patches@lists.linux.dev, stable@vger.kernel.org,
-	Daniel Wagner <wagi@kernel.org>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>,
-	justin.tee@broadcom.com, nareshgottumukkala83@gmail.com,
-	paul.ely@broadcom.com, sagi@grimberg.me, kch@nvidia.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH AUTOSEL 6.17-5.15] nvmet-fc: avoid scheduling association
- deletion twice
-Message-ID: <aQlIII1UWi6FcYOz@laps>
-References: <20251009155752.773732-1-sashal@kernel.org>
- <20251009155752.773732-15-sashal@kernel.org>
- <8bed9f7a-ad84-40e8-a275-09b19a917155@flourine.local>
+	Tue, 04 Nov 2025 00:39:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762216755; x=1793752755;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mPNm/C4lAMOMRgM7UB0KMAJ0ifsULw0KEfI5BGUhPDQ=;
+  b=TieugbQBxQ4ekKvBlLu1InLhhtb4EkgsbWTmySCbTh0B9wRhPyuUQauQ
+   j3dV+ZqV+O/bzX48GKvxeA2tqtVO+Tp/TMgjsF+oxRhPKU5SCn6w8g44o
+   75AgWvGDSGhVnB1EtRxPf6M9jbRP1Rwq6C7lDdZmZfwjqerP4X33OUSqI
+   ANEerVyof13gq4xnk3CXKR7Wz3/8T/DH0ho0yfz/txyJaGQIMWIESggsN
+   lQVX0v/4t+mJ2ThwsNpwUz4aZX/OZEylhnB2jHESUWXGvYDEFoIj+C0qt
+   j7yYYhdoxrx3dOsgjg/oSxa9jomi1YR5zHRgk2Bzfz13idKdNRJ9VT8PS
+   A==;
+X-CSE-ConnectionGUID: 80cd2dP1RLSfVqQh/3I2hw==
+X-CSE-MsgGUID: LEZl849rRfKwrOXB94wX4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="75654613"
+X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
+   d="scan'208";a="75654613"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 16:39:13 -0800
+X-CSE-ConnectionGUID: OfZ4HEkuRhyIWHXTjR/tcQ==
+X-CSE-MsgGUID: if1kyanTQXSEi5380gA62w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
+   d="scan'208";a="210520385"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 03 Nov 2025 16:39:10 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vG544-000QgW-1B;
+	Tue, 04 Nov 2025 00:38:45 +0000
+Date: Tue, 4 Nov 2025 08:36:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
+	dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+	Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
+	David Sterba <dsterba@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 04/15] block: introduce disk_report_zone()
+Message-ID: <202511040843.y29M2yJp-lkp@intel.com>
+References: <20251103133123.645038-5-dlemoal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8bed9f7a-ad84-40e8-a275-09b19a917155@flourine.local>
+In-Reply-To: <20251103133123.645038-5-dlemoal@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251103_162611_204974_2E35C959 
-X-CRM114-Status: GOOD (  15.85  )
+X-CRM114-CacheID: sfid-20251103_163914_698653_87BDE080 
+X-CRM114-Status: GOOD (  11.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,51 +94,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Oct 10, 2025 at 09:39:05AM +0200, Daniel Wagner wrote:
->Hi Sasha,
->
->On Thu, Oct 09, 2025 at 11:54:41AM -0400, Sasha Levin wrote:
->> From: Daniel Wagner <wagi@kernel.org>
->>
->> [ Upstream commit f2537be4f8421f6495edfa0bc284d722f253841d ]
->>
->> When forcefully shutting down a port via the configfs interface,
->> nvmet_port_subsys_drop_link() first calls nvmet_port_del_ctrls() and
->> then nvmet_disable_port(). Both functions will eventually schedule all
->> remaining associations for deletion.
->>
->> The current implementation checks whether an association is about to be
->> removed, but only after the work item has already been scheduled. As a
->> result, it is possible for the first scheduled work item to free all
->> resources, and then for the same work item to be scheduled again for
->> deletion.
->>
->> Because the association list is an RCU list, it is not possible to take
->> a lock and remove the list entry directly, so it cannot be looked up
->> again. Instead, a flag (terminating) must be used to determine whether
->> the association is already in the process of being deleted.
->>
->> Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->> Closes: https://lore.kernel.org/all/rsdinhafrtlguauhesmrrzkybpnvwantwmyfq2ih5aregghax5@mhr7v3eryci3/
->> Reviewed-by: Hannes Reinecke <hare@suse.de>
->> Signed-off-by: Daniel Wagner <wagi@kernel.org>
->> Signed-off-by: Keith Busch <kbusch@kernel.org>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->This patch is part of a whole series:
->
->https://lore.kernel.org/all/20250902-fix-nvmet-fc-v3-0-1ae1ecb798d8@kernel.org/
->
->IMO, all should all be backported:
->
->db5a5406fb7e nvmet-fc: move lsop put work to nvmet_fc_ls_req_op
->f2537be4f842 nvmet-fc: avoid scheduling association deletion twice
->10c165af35d2 nvmet-fcloop: call done callback even when remote port is gone
->891cdbb162cc nvme-fc: use lock accessing port_state and rport state
+Hi Damien,
 
-Ack, thanks!
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ba6a8208cc205c6545c610b5863ea89466fc486a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/block-handle-zone-management-operations-completions/20251103-214422
+base:   ba6a8208cc205c6545c610b5863ea89466fc486a
+patch link:    https://lore.kernel.org/r/20251103133123.645038-5-dlemoal%40kernel.org
+patch subject: [PATCH v2 04/15] block: introduce disk_report_zone()
+config: sparc-randconfig-002-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040843.y29M2yJp-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040843.y29M2yJp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511040843.y29M2yJp-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/scsi/sd_zbc.c:47 function parameter 'args' not described in 'sd_zbc_parse_report'
 
 -- 
-Thanks,
-Sasha
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
