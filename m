@@ -4,102 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE0CACCFA04
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 10:46:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45E96CCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 10:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dvpLjOA+iA1Oe1owL0KbF86ewopuGYT1CazuHhRnFi0=; b=mgqutrbsqf7wPogFUyNZHcKSft
-	3f2yPbuQr5/YGmHju/41QOGaoXJk7ZY9JDke1/vc6ytrvrWFSzolf0gYeTSmqaVim/RCXbjv6JATM
-	Zfs9yfV/0I7ZPJHoxaaD/A5iGuI0zKbMK0ZJTCUe53bHfVeByAXAOcmEK/HpWgREi3cxBEBjEV3Pf
-	4N403E3QobkUIEqlMHbO2TJbd4DAtJ15+HW8eWPXqJDPd8KiVLJw3/Q1EW+do8DqOMEmJiNa5ZXbR
-	zycmMflFhNUrZjwCNzQCtdStyxABqIsMStVg7yp4O4LMI7lDlnl8N8/jnJy494aq09Uf8v3Xj4TJj
-	xajWwlLg==;
+	bh=rMjhk+aGsEEpedQXhsPzilwROqHBJolr6YIHF/2rFPY=; b=sF0msYSAe7D/sCSlW/fte73tMx
+	3HLAJfcRynecop4LRd/iccmGNzhww7NTXI/vm9P9RCqLG79leglvMZyTa7TZZa5yP0Xww7box8O2P
+	Xgedt5kFkEOpP5+9CmH1CB2Bx4JG0ffcWDlcx3GA+kY5IaX67ZfEpn6uulygH9WJ5QQXs5aKofKu6
+	jK8UUdDgxIavt9hs+EoWFLoemfnkqKh+4tJtQyWLbANN3Dicsjs2MNMhzh5mwkLUA/vPtTOQOFFV/
+	mF/I1H5ixRsbO55Uk+/wJnHMIGVXr1Y6BoI5BHXzvjUIvgUgLlOvbmQey/Lh39/0zypk6JoBS0AC7
+	4yVLYY2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGEY5-0000000Bdyl-1P2K;
-	Tue, 04 Nov 2025 10:46:01 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vGEd8-0000000Bf0v-3QYv;
+	Tue, 04 Nov 2025 10:51:14 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGEY2-0000000BduO-0TCJ
+	id 1vGEd5-0000000Bf07-3vSV
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 10:45:59 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5A45vSI7002663;
-	Tue, 4 Nov 2025 10:45:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=dvpLjOA+iA1Oe1owL
-	0KbF86ewopuGYT1CazuHhRnFi0=; b=N5cMrUmVipv//bpkd5nVBDoL5/hyjccck
-	MLwc6RppmcCpQwKXE+QXP4qVB7Pn0xlaJVW2Q65YQgKA6DImDuAU92wlOfFMihum
-	r9p+XRKfCMfeiXiKAMc63JTMyzIxYjBXLQFwQ0egzspVX18p6+BEQxvRvkAQZaG5
-	BTrOaRu5W4W25c+rIU2OoDP8M3ICv+Sy8Hrsq2Fv2UgtcKBP8s7gI514gOBhGkWe
-	XQmKg58UFy5tSAGkW7gAJ3rJPoN92jF302q8aVj/P5QoBLpwBCXE7HqLHi0WDxxk
-	nkesNkJlotkeioknwoI5jtEQYs169BQeRec39fMB1Iu/gGIJ9fx9w==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a57mr3hre-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Nov 2025 10:45:54 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5A4AM4Z1027371;
-	Tue, 4 Nov 2025 10:45:53 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4a5vwyaq18-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Nov 2025 10:45:53 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5A4Ajo2s53608908
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 4 Nov 2025 10:45:51 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CD41A20040;
-	Tue,  4 Nov 2025 10:45:50 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 00C8820043;
-	Tue,  4 Nov 2025 10:45:49 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.245])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  4 Nov 2025 10:45:48 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: hare@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
-        dwagner@suse.de, axboe@kernel.dk, gjoyce@ibm.com
-Subject: [RFC PATCHv4 6/6] nvme-multipath: add debugfs attribute adaptive_stat
-Date: Tue,  4 Nov 2025 16:15:21 +0530
-Message-ID: <20251104104533.138481-7-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251104104533.138481-1-nilay@linux.ibm.com>
-References: <20251104104533.138481-1-nilay@linux.ibm.com>
+	Tue, 04 Nov 2025 10:51:13 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EDEBA21167;
+	Tue,  4 Nov 2025 10:51:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762253470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rMjhk+aGsEEpedQXhsPzilwROqHBJolr6YIHF/2rFPY=;
+	b=EwvXlJXvjjjI2WSoG4ts/wPwXi1fdk88bGjhmbHqYMYADJP9SZiFDdaSf5HpL94gtOPuR6
+	FS6pxD1GbclPMCqsexq2I6eWus4ZmPZLG28ouhiTMplzKBRGXIiRQpxmf6G6ACMFVOZlHZ
+	CZkGscIeLjqRz/EZVWDkHKhLVq1Q26I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762253470;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rMjhk+aGsEEpedQXhsPzilwROqHBJolr6YIHF/2rFPY=;
+	b=rUUwqsFedBomuDb8ijIQOKG7Cyd/tp3F0kMVlTTkUAgHEZuJvqpKIM8JnF1nlv6ksz6ita
+	GNHIJLIhImAePVDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zjqTMwKX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="dLILKA/Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762253469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rMjhk+aGsEEpedQXhsPzilwROqHBJolr6YIHF/2rFPY=;
+	b=zjqTMwKXdO+6iQk0ucTXOXFGYx/sGdZAqA5LP1KpbaZDRm4omMfWtJXoo3enDjMLk/9A54
+	b5p3FKQQ4Pa5gtPImhW6QkqguXT71Of5XvWqaGBG2SmfI3T7IAFLZknmtUPvy83HgAXQDZ
+	h/kihe/I43/nClS8Bg0ik9jx90wLLhg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762253469;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rMjhk+aGsEEpedQXhsPzilwROqHBJolr6YIHF/2rFPY=;
+	b=dLILKA/ZTkYqQ/wqXDoJl6JBFVdY0FRn64AyulU1xx9PB9NK7500Bb0qCB44tmTO17OWh5
+	SJ+FmZVtIbO+rlDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D592D139A9;
+	Tue,  4 Nov 2025 10:51:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /JZ2M53aCWn4bQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 04 Nov 2025 10:51:09 +0000
+Message-ID: <accf6ad7-047b-48d0-b626-f3ef0facd649@suse.de>
+Date: Tue, 4 Nov 2025 11:51:09 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] nvme-fc: don't hold rport lock when putting ctrl
+To: Daniel Wagner <wagi@kernel.org>, Justin Tee <justin.tee@broadcom.com>,
+ Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Cc: James Smart <james.smart@broadcom.com>, Jens Axboe <axboe@kernel.dk>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20251028-nvmet-fcloop-fixes-v1-0-765427148613@kernel.org>
+ <20251028-nvmet-fcloop-fixes-v1-1-765427148613@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251028-nvmet-fcloop-fixes-v1-1-765427148613@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: TcmjDPy3kpGRRX0Ghx9hWtE0laz6Dj97
-X-Authority-Analysis: v=2.4 cv=MKhtWcZl c=1 sm=1 tr=0 ts=6909d962 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VnNF1IyMAAAA:8
- a=GMZBDc3o4BUkPsUqmQYA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: TcmjDPy3kpGRRX0Ghx9hWtE0laz6Dj97
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAxMDAwMSBTYWx0ZWRfX1AYdE0/cIKms
- MMVSdnLapgU4cszSNMcKICqFm0o/BUgBstKrygaj6/j387iGEZAelw820GaNgxPAH/9PVtv0gR0
- VuJ7Be/GmRHHOlXyHDvXhVgyAx9pArjV46pJRvEIA4FPZNipWLqg3+CX0gkZptkY41aTP63bHmO
- 33tqR8brbjXSuD1rsgDU1UhcVji5hAf8WFMv5jLVz8GL1b3+6vUdjVibxHW4qmklXrDUOHiyrV9
- nwbazHZGdVd+NQbYj+12DOG1ekyj7ieERY/cs4HgKyWHr972xVsOhBZVrUZI4eNvCbqBLUDLotj
- hX2CY6S0pKVoR7B0oPAbs4WfFSRteKg1bB28bENDw+S8T08pRQobbfj6pfj74BMUb26ap0wUf4s
- Lez7avNfZ3fS29Nimwye/tIuUhPorg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-03_06,2025-11-03_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 adultscore=0 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2511010001
+X-Rspamd-Queue-Id: EDEBA21167
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_024558_270380_2BBE2D54 
-X-CRM114-Status: GOOD (  18.05  )
+X-CRM114-CacheID: sfid-20251104_025112_121354_4AD3BF34 
+X-CRM114-Status: GOOD (  18.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -114,167 +144,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This commit introduces a new debugfs attribute, "adaptive_stat", under
-both per-path and head debugfs directories (defined under /sys/kernel/
-debug/block/). This attribute provides visibility into the internal
-state of the adaptive I/O policy to aid in debugging and performance
-analysis.
+On 10/28/25 16:26, Daniel Wagner wrote:
+> nvme_fc_ctrl_put can acquire the rport lock when freeing the
+> ctrl object:
+> 
+> nvme_fc_ctrl_put
+>    nvme_fc_ctrl_free
+>      spin_lock_irqsave(rport->lock)
+> 
+> Thus we can't hold the rport lock when calling nvme_fc_ctrl_put.
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> ---
+>   drivers/nvme/host/fc.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 03987f497a5b..2c0ea843ae57 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1488,7 +1488,9 @@ nvme_fc_match_disconn_ls(struct nvme_fc_rport *rport,
+>   		if (ret)
+>   			/* leave the ctrl get reference */
+>   			break;
+> +		spin_unlock_irqrestore(&rport->lock, flags);
+>   		nvme_fc_ctrl_put(ctrl);
+> +		spin_lock_irqsave(&rport->lock, flags);
+>   	}
+>   
+>   	spin_unlock_irqrestore(&rport->lock, flags);
+> 
+In theory, yes.
+In practice we're getting a reference to the controller at the start
+of the loop, so nvme_fc_ctrl_put() should just decrement the refcount.
+But _if_ someone manages to sneak in an drop the reference while we are
+within that loop then the entire logic falls apart as the controller
+will be deleted and the next loop iteration will trip over an
+uninitialized pointer.
+So you would need to modify the loop to use
+loop_for_each_entry_safe() to avoid this, too.
 
-For per-path entries, "adaptive_stat" reports the corresponding path
-statistics such as I/O weight, selection count, processed samples, and
-ignored samples.
+Cheers,
 
-For head entries, it reports per-CPU statistics for each reachable path,
-including I/O weight, path score, smoothed (EWMA) latency, selection
-count, processed samples, and ignored samples.
-
-These additions enhance observability of the adaptive I/O path selection
-behavior and help diagnose imbalance or instability in multipath
-performance.
-
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- drivers/nvme/host/debugfs.c | 113 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
-
-diff --git a/drivers/nvme/host/debugfs.c b/drivers/nvme/host/debugfs.c
-index e382fa411b13..28de4a8e2333 100644
---- a/drivers/nvme/host/debugfs.c
-+++ b/drivers/nvme/host/debugfs.c
-@@ -182,6 +182,115 @@ static ssize_t nvme_adp_weight_timeout_store(void *data,
- 	WRITE_ONCE(head->adp_weight_timeout, res * NSEC_PER_SEC);
- 	return count;
- }
-+
-+static void *nvme_mpath_adp_stat_start(struct seq_file *m, loff_t *pos)
-+{
-+	struct nvme_ns *ns;
-+	struct nvme_debugfs_ctx *ctx = m->private;
-+	struct nvme_ns_head *head = ctx->data;
-+
-+	/* Remember srcu index, so we can unlock later. */
-+	ctx->srcu_idx = srcu_read_lock(&head->srcu);
-+	ns = list_first_or_null_rcu(&head->list, struct nvme_ns, siblings);
-+
-+	while (*pos && ns) {
-+		ns = list_next_or_null_rcu(&head->list, &ns->siblings,
-+				struct nvme_ns, siblings);
-+		(*pos)--;
-+	}
-+
-+	return ns;
-+}
-+
-+static void *nvme_mpath_adp_stat_next(struct seq_file *m, void *v, loff_t *pos)
-+{
-+	struct nvme_ns *ns = v;
-+	struct nvme_debugfs_ctx *ctx = m->private;
-+	struct nvme_ns_head *head = ctx->data;
-+
-+	(*pos)++;
-+
-+	return list_next_or_null_rcu(&head->list, &ns->siblings,
-+			struct nvme_ns, siblings);
-+}
-+
-+static void nvme_mpath_adp_stat_stop(struct seq_file *m, void *v)
-+{
-+	struct nvme_debugfs_ctx *ctx = m->private;
-+	struct nvme_ns_head *head = ctx->data;
-+	int srcu_idx = ctx->srcu_idx;
-+
-+	srcu_read_unlock(&head->srcu, srcu_idx);
-+}
-+
-+static int nvme_mpath_adp_stat_show(struct seq_file *m, void *v)
-+{
-+	int i, cpu;
-+	struct nvme_path_stat *stat;
-+	struct nvme_ns *ns = v;
-+
-+	seq_printf(m, "%s:\n", ns->disk->disk_name);
-+	for_each_online_cpu(cpu) {
-+		seq_printf(m, "cpu %d : ", cpu);
-+		for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
-+			stat = &per_cpu_ptr(ns->info, cpu)[i].stat;
-+			seq_printf(m, "%u %u %llu %llu %llu %llu %llu ",
-+				stat->weight, stat->credit, stat->score,
-+				stat->slat_ns, stat->sel,
-+				stat->nr_samples, stat->nr_ignored);
-+		}
-+		seq_putc(m, '\n');
-+	}
-+	return 0;
-+}
-+
-+static const struct seq_operations nvme_mpath_adp_stat_seq_ops = {
-+	.start = nvme_mpath_adp_stat_start,
-+	.next  = nvme_mpath_adp_stat_next,
-+	.stop  = nvme_mpath_adp_stat_stop,
-+	.show  = nvme_mpath_adp_stat_show
-+};
-+
-+static void adp_stat_read_all(struct nvme_ns *ns, struct nvme_path_stat *batch)
-+{
-+	int i, cpu;
-+	u32 ncpu[NVME_NUM_STAT_GROUPS] = {0};
-+	struct nvme_path_stat *stat;
-+
-+	for_each_online_cpu(cpu) {
-+		for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
-+			stat = &per_cpu_ptr(ns->info, cpu)[i].stat;
-+			batch[i].sel += stat->sel;
-+			batch[i].nr_samples += stat->nr_samples;
-+			batch[i].nr_ignored += stat->nr_ignored;
-+			batch[i].weight += stat->weight;
-+			if (stat->weight)
-+				ncpu[i]++;
-+		}
-+	}
-+
-+	for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
-+		if (!ncpu[i])
-+			continue;
-+		batch[i].weight = DIV_U64_ROUND_CLOSEST(batch[i].weight,
-+				ncpu[i]);
-+	}
-+}
-+
-+static int nvme_ns_adp_stat_show(void *data, struct seq_file *m)
-+{
-+	int i;
-+	struct nvme_path_stat stat[NVME_NUM_STAT_GROUPS] = {0};
-+	struct nvme_ns *ns = (struct nvme_ns *)data;
-+
-+	adp_stat_read_all(ns, stat);
-+	for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
-+		seq_printf(m, "%u %llu %llu %llu ",
-+			stat[i].weight, stat[i].sel,
-+			stat[i].nr_samples, stat[i].nr_ignored);
-+	}
-+	return 0;
-+}
- #endif
- 
- static const struct nvme_debugfs_attr nvme_mpath_debugfs_attrs[] = {
-@@ -190,11 +299,15 @@ static const struct nvme_debugfs_attr nvme_mpath_debugfs_attrs[] = {
- 			nvme_adp_ewma_shift_store},
- 	{"adaptive_weight_timeout", 0600, nvme_adp_weight_timeout_show,
- 			nvme_adp_weight_timeout_store},
-+	{"adaptive_stat", 0400, .seq_ops = &nvme_mpath_adp_stat_seq_ops},
- #endif
- 	{},
- };
- 
- static const struct nvme_debugfs_attr nvme_ns_debugfs_attrs[] = {
-+#ifdef CONFIG_NVME_MULTIPATH
-+	{"adaptive_stat", 0400, nvme_ns_adp_stat_show},
-+#endif
- 	{},
- };
- 
+Hannes
 -- 
-2.51.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
