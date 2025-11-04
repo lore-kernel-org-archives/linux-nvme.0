@@ -4,71 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 371DCCCFA06
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 11:25:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8862FCCFA08
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 11:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=4Xp9ctdrJTnuepb7+nDjK/iDuYp1r6PztWGWHY6lgNk=; b=UauXl5fdKI+UvvBL1YmurY2zsA
-	OZnTUsro4DT8A4eftfSqAO8GGMaotWJf3j7JHkU1a3TMVw+Csd2OpcDKQx/zAdxpWo1TopiuZiK74
-	CPG4LCU702LtMnDmFjPbr7WxR+j2XYZEilzkoekXj3LJ0SMKBZovcQXS8ewFs2MRAcQx4PLQxoMVd
-	YAeQkXyPWTR43nS+r08M1Aci1apz2SZqnu0AssLJoDlKbnyI6dzFqlzc51TS/yuiCsIX7yYEyFp4R
-	65+GnYiwqM/nnuhXgbeaJO1tcahD/sviEHOVXdWcHV4NW2wkzVZtyYaLNfDHZq6PXBAoWFvuhJtpQ
-	NiHWL6NQ==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=36j1MV0BBUKjnBRL8wiWamNCoEnZNdmYYjMeE2B5BRo=; b=BRFQN1Wc+Qj4KRXLtNLfrLfB5j
+	6SA9B9kbKI6ysTjyYgZwVdJhqTymDzg3J58fMQbhcL5iSwwhW1fVoBprgDzs69tOX0VOghGniuC61
+	a7JTzPXmy5ykx4Ektjc8vw3YtPk1v39AXnbeu9oeVnrZuvCOLfoFsYrySUlI8iC9Qv5vBaoYbrkqw
+	5twqAvOHvquHLwz9H+eIgbdDOq/fMG7fj0j/P+1BT2c1jp0DgRwWGCEpKOjKRvSFW3QJrK1olnMki
+	PLujtmzdhDdpbxWXmzk1iKA4hZN9r44GZLbDZ4GwowUgbwhYs/QNyNLQXCPz2DkVcYhNc7r3yy5le
+	tcCGGzHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGFAa-0000000Bhrq-1w9p;
-	Tue, 04 Nov 2025 11:25:48 +0000
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+	id 1vGFAd-0000000BhuM-3znJ;
+	Tue, 04 Nov 2025 11:25:51 +0000
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGFAX-0000000Bhqb-3kPv
+	id 1vGFAb-0000000Bhro-20Do
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 11:25:47 +0000
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-b7200568b13so170998366b.1
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Nov 2025 03:25:45 -0800 (PST)
+	Tue, 04 Nov 2025 11:25:51 +0000
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-640d0ec9651so2598485a12.3
+        for <linux-nvme@lists.infradead.org>; Tue, 04 Nov 2025 03:25:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762255544; x=1762860344; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Xp9ctdrJTnuepb7+nDjK/iDuYp1r6PztWGWHY6lgNk=;
-        b=NOOuez9o7f7Qbr128BiSEREIVVfvo+skQEuRhenHiEF2XuYGGk0nAt8As0Nxa22cwU
-         yH5rvVX4h4vEyr/ubUnrtYw18csG6KSCv6+h5AwSFVbBB0AQO0lFlW4zp+2rfqiDmudi
-         My0dBXj25m9ZCV9lD/5FsyyqHM5vqqDFW/kuPOp6ZzDJI4P7Jtdav+W9ACxsTg9DEpLV
-         0w0ApZsbUJuYl5yIREmwl7KqcEw5ppAcRxz/4+lzevTVlEAZdjLGtoh80pBMRyTkwkMi
-         OFpeBLjlho3cJyv9QVLWLljaWHjL30FZkltT/l17s3QTP6HFIXx6UhW4M4uPOMFxZjnS
-         G9dg==
+        d=suse.com; s=google; t=1762255548; x=1762860348; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=36j1MV0BBUKjnBRL8wiWamNCoEnZNdmYYjMeE2B5BRo=;
+        b=JtXBUx/2PWgxcBQsS9jtOY+m6JXLWVP9zmrQjGeGca32I6b5/JmNAGDzMnVXa+LG3m
+         fDkKbEWKl/ouauXmXcVxZ7zMNPDNpuGDi8/Fr1PiNUC5FeY5UTHiRTFdHzIPU6mKfGjS
+         nJ+FT7gy4+uaCU5jAcvLnpgpFPawbxxRZxAxMJwPaxJCNLHF6b+jaExJXp05/6X42HWk
+         zcqH9A5hKzOA/8zM+efXI8we8wN3UeR82m5tDyyjK/+VogGcg5y40TkE3VdNgXmyc4k6
+         FevPZRcG9VdfXNcyliw8h7ehad/hLzUFJgKmYju78t5VCTJR/znMxyk00uYWl2fA5l5y
+         LXmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762255544; x=1762860344;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4Xp9ctdrJTnuepb7+nDjK/iDuYp1r6PztWGWHY6lgNk=;
-        b=YPzFzyM2R83t+aeTq2JfgNBRAjnnCi+4IyEtR8iCfC4FAZFlj3hY3+qgEH94bvFJ8T
-         h0aHexRQ1GA5ZkzKghDKAc1StwopucCc3JHE0DtZJc436mJ+6nVtAClkSV+WRyy1Hfns
-         2BM+4LbX56RiHwFBO7bTdbMa2m+MqL/MIkryBco16rTIdhTJF5bqJ868ItkYYZCacxiM
-         hL4DCPysxeRzLeZkX0mqzXWDQQm4ufIt6CnrZuzJ+4EF33ar/Gg/YpJ2Ty14V4g28B53
-         UrG6a7I6Wnoa6i6ztwMYgEahSd9LBpZktTed+EYwH6IT+azaGN6i4Tbj9z3JcX3us7/H
-         mfWw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMO/1mg673jVZ+mgOGOd4k8EdKhQuP8H1igWLYCA5VxjYZWRvMXUCoeo7DVLRc45ywH8He/lfdW/Jb@lists.infradead.org
-X-Gm-Message-State: AOJu0YxwHi/miALcaCh16droN+UZs8WzM0Bp9Zm6OkyY7bjH6sFbBktW
-	UEW42y5OcMni5XyCLQE4Eh9wHBOZtJMe61qFT84TM/lQnlqCGw5IPNKhwh8ZzX6mwIc=
-X-Gm-Gg: ASbGncvnlgy7EK0Fl0Lw0GIgM308Sk1Q4SmED3yuKiKrlvVw9ZdksSQxa+ZRp7GaCWl
-	8uTUlKc+WzIYcZFN5bVmfuR3ZD7SFZmwualoEOfqm/AdpTw36SaJLUIMFb1D0UUkmn7MSUlYorz
-	ztO0qS7on2kCE96oXHPuKXncvIV1NQGcZ8PQspYiPCKJ32hMPTBHd3K0/jYxzcK3uMkoUxDRGpB
-	ujxiLLMniBLXuMQXpqzkrQc/7wBvd7Q5m5QZeyfy01FEOz82pyMgkbY8fYDZNvYndAzM684y/qN
-	3q1tHwmWQnctloZ1GgGHZQWOBJ6tJpFUFj8VEKpBJoOkhHstTkLqjQ259QfcTNskUK/3Dfy1KS9
-	nVM2D8DighEeaT7lH56/caWOiDc1FJf5A187/Z/oZNaL1wvpIrTTc7Hay7vRJlKV0qy2DtbfL64
-	pNbtE=
-X-Google-Smtp-Source: AGHT+IF47+Ru16HFhBx79SrCPlvL4Uj9m+E95mkhvrJKGKHzgU0wubBE57igwdej7VLsMe3wY5redQ==
-X-Received: by 2002:a17:907:2d89:b0:b71:c2be:3dd7 with SMTP id a640c23a62f3a-b71c2be49dcmr454970866b.25.1762255544042;
-        Tue, 04 Nov 2025 03:25:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762255548; x=1762860348;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=36j1MV0BBUKjnBRL8wiWamNCoEnZNdmYYjMeE2B5BRo=;
+        b=Ri/knejQjf+VmSZBNq2kCygcujo/UfbRMD7PefnTyJpA7lXxThiEXkvve5vpjZgjBr
+         ANuDoMebc1Onr0WW5rdKFXwhb7H4Hfvum78W+v4keDqgjy0HezGN/apikxvWoQHj521A
+         Q0enwxjwLig+c/hGlrh4zfYA/9FLFexTJnJBf1MRECuRcFQsuJR1OJyGtHMt1nVLd6RW
+         EhO8+DhRjRV/H5zxMPferQfVgOQy02reNdOrjF5rIxmi4H0q8f58bS7zr3SjvWn3JHa6
+         A2sYZ3sT6bM157KV/+TPCPdi7oq/TahYYU5agLoq7Q5QMPiQANGKcwDb244EDanGZVhp
+         ursw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXgKXt/lVkSOUNNDyvIxAjBen0c9hPg1B/i/zcBG28Se2Fdv368x2dlJrqL0umlw14jrvxn61+kqcN@lists.infradead.org
+X-Gm-Message-State: AOJu0YyXbdtnO39RNTHkpwONv+4nCz5xOMg8Es9gPTb768bXJN3qNQyw
+	86MBoWst/bhYvXZP2ucLpxhiI6Q9V8oYmVyPU1c9RioC6+NbdPPtEFqL5I/evR5gnX8=
+X-Gm-Gg: ASbGnct1xsJJ62T7/pOAN6J1IeAMHo545ZmBg80YBQ0HgTrmIs43rUtDwKo9TBOtSIH
+	pPutCkSge6aU5VBV7BAel8bXuTsf16gz3yk7N/6hocKmwz5qerDg1Z/5jf3s/zEgGP4KDkn5Qaj
+	RC9dLM4GB7rv2hDVBPiBCOVBBV6lfVolM+xbQrDSLWtNauVeAvqQuAG72pxFbA0R7e5e41C1HHS
+	KUg8G9dKdguB/N1nN5s/bXjdRhYs9JRysmFAp7AQhQ+cPVovD3ZrKX89Kxxh0iS5t1XnuDTfmOD
+	vW5gCc5+mQrIFkMDQ/rUsDH43Et9HqFnwgZK5FHTQyZvcNZT4dfLxEwZ9QFNoa4IM8+uiKsdJWP
+	t0p3Yu27q5TZottFiktIokoajkf9AO5ploC2SroHX/66cxj4tgpAnW811m744k5P9TKBtav0SWS
+	UKlMw=
+X-Google-Smtp-Source: AGHT+IGIauAMQQkqNOIjJqL/lfAch5QIY2pQHmm2/rqf5NN0Qlk/r1xJiw1HdsIBefQeKTnDF/XtWg==
+X-Received: by 2002:a17:907:97cd:b0:b70:b7f8:868f with SMTP id a640c23a62f3a-b70b7f88d2bmr789376866b.27.1762255547591;
+        Tue, 04 Nov 2025 03:25:47 -0800 (PST)
 Received: from linux ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b723d6f33aesm184101266b.19.2025.11.04.03.25.43
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b723d6f33aesm184101266b.19.2025.11.04.03.25.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Nov 2025 03:25:43 -0800 (PST)
+        Tue, 04 Nov 2025 03:25:47 -0800 (PST)
 From: Marco Crivellari <marco.crivellari@suse.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org
@@ -84,16 +85,18 @@ Cc: Tejun Heo <tj@kernel.org>,
 	Justin Tee <justin.tee@broadcom.com>,
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
 	Paul Ely <paul.ely@broadcom.com>
-Subject: [PATCH 0/3] replace old wq(s), added WQ_PERCPU to alloc_workqueue
-Date: Tue,  4 Nov 2025 12:25:25 +0100
-Message-ID: <20251104112535.139450-1-marco.crivellari@suse.com>
+Subject: [PATCH 3/3] nvmet-fc: add WQ_PERCPU to alloc_workqueue users
+Date: Tue,  4 Nov 2025 12:25:28 +0100
+Message-ID: <20251104112535.139450-4-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20251104112535.139450-1-marco.crivellari@suse.com>
+References: <20251104112535.139450-1-marco.crivellari@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_032545_967198_4CE4AC51 
-X-CRM114-Status: GOOD (  16.31  )
+X-CRM114-CacheID: sfid-20251104_032549_541956_1C91533C 
+X-CRM114-Status: GOOD (  17.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,68 +111,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
-=== Current situation: problems ===
-
-Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
-set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
-
-This leads to different scenarios if a work item is scheduled on an
-isolated CPU where "delay" value is 0 or greater then 0:
-        schedule_delayed_work(, 0);
-
-This will be handled by __queue_work() that will queue the work item on the
-current local (isolated) CPU, while:
-
-        schedule_delayed_work(, 1);
-
-Will move the timer on an housekeeping CPU, and schedule the work there.
-
 Currently if a user enqueue a work item using schedule_delayed_work() the
 used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
 WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
 schedule_work() that is using system_wq and queue_work(), that makes use
 again of WORK_CPU_UNBOUND.
+This lack of consistentcy cannot be addressed without refactoring the API.
 
-This lack of consistency cannot be addressed without refactoring the API.
+alloc_workqueue() treats all queues as per-CPU by default, while unbound
+workqueues must opt-in via WQ_UNBOUND.
 
-=== Recent changes to the WQ API ===
+This default is suboptimal: most workloads benefit from unbound queues,
+allowing the scheduler to place worker threads where they’re needed and
+reducing noise when CPUs are isolated.
 
-The following, address the recent changes in the Workqueue API:
+This change adds a new WQ_PERCPU flag to explicitly request alloc_workqueue()
+to be per-cpu when WQ_UNBOUND has not been specified.
 
-- commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-- commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+This patch continues the effort to refactor worqueue APIs, which has begun
+with the change introducing new workqueues and a new alloc_workqueue flag:
 
-The old workqueues will be removed in a future release cycle.
+commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
 
-=== Introduced Changes by this series ===
+With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
+any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
+must now use WQ_PERCPU.
 
-1) [P 1] Replace uses of system_wq
+Once migration is complete, WQ_UNBOUND can be removed and unbound will
+become the implicit default.
 
-    system_wq is a per-CPU workqueue, but his name is not clear.
-    Because of that, system_wq has been replaced with system_percpu_wq.
+Cc: Justin Tee <justin.tee@broadcom.com>
+Cc: Naresh Gottumukkala <nareshgottumukkala83@gmail.com>
+CC: Paul Ely <paul.ely@broadcom.com>
+Suggested-by: Tejun Heo <tj@kernel.org>
+Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
+---
+ drivers/nvme/target/fc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-2) [P 2-3] add WQ_PERCPU to all relevant alloc_workqueue() users
-
-    This change adds a new WQ_PERCPU flag to explicitly request
-    alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
-
-
-Thanks!
-
-Marco Crivellari (3):
-  nvmet: replace use of system_wq with system_percpu_wq
-  nvme: add WQ_PERCPU to alloc_workqueue users
-  nvmet-fc: add WQ_PERCPU to alloc_workqueue users
-
- drivers/nvme/target/admin-cmd.c        | 2 +-
- drivers/nvme/target/core.c             | 5 +++--
- drivers/nvme/target/fabrics-cmd-auth.c | 2 +-
- drivers/nvme/target/fc.c               | 6 +++---
- drivers/nvme/target/tcp.c              | 2 +-
- 5 files changed, 9 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 7d84527d5a43..ac730f2e6ea1 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -795,9 +795,9 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	if (!queue)
+ 		return NULL;
+ 
+-	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", 0, 0,
+-				assoc->tgtport->fc_target_port.port_num,
+-				assoc->a_id, qid);
++	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", WQ_PERCPU, 0,
++					assoc->tgtport->fc_target_port.port_num,
++					assoc->a_id, qid);
+ 	if (!queue->work_q)
+ 		goto out_free_queue;
+ 
 -- 
 2.51.1
 
