@@ -4,88 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97C11CCF9E3
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 17:57:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95F5CCCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 19:01:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=72Df+f2BPsETgjqjYZwpqI0AkKut+6tw+H2/JoEAAV8=; b=4KC5AI4ET33gfjZ8TNJKTvfbkT
-	4zLVKVdOZSSt0CP80n6M7HjABrpSpHCVVsCSMVZ+l4Fd+L0ZpcrbMX5ONBwbAioB6xrAdvxl9EmjB
-	VkGzKNAGUOG/JGUNPmf64uC/tiepOAdMjP0sX2AidMc1GwTuG1pYz/49qAZPgLsRrVbihy4fFNnaF
-	LeoqqCAYT2Wa9jLepYpZJQOPbcNSnXL/IKTvZlNqTniLtXN/gsvnf547hWcC52nprrkSlosZcSvSQ
-	mcqYojGyGZfhta+qEO+/atxnjUqY1TsoQ/NXbJFMKtLny4JeJgKzNK1aw/9lMdM7QTvpxHqQiUNv6
-	GdeKo1pQ==;
+	bh=EJw2W4R20I0tbP9KTHA+4Okev2/0KvJztiMzbhvTnNI=; b=GuUUOvarrlqhdXhG4d3tWH+1ly
+	sOinIPGmXJYaV4mduMG+boYwqZ3bqOlRZ1niLpFBZUYLoITPVV9dLZzF1AbhmfMEEL3vA0tu2cT1t
+	4UcdgRFJc4PxFHrWcz21aAEQNjOvVXofNvh+zel90aGMoY/IRKpUCC9Tu/G/Hvozw1rtnYSPQ8sOD
+	I5xTWuRrv5J732I7+pMTgubsxc0stfTU1Gli+M7Vcx8Fo94osQK+U8lmJXwCFpYiX3lmeHOmRl2UU
+	NyAAfVi/XOfGqJU5BC1o8dGTjlEh/7jou6Okbxn0iBB8ZJ8d0bCqop1gIurK1XL4WMl2gn/NztNxE
+	tJod011Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGLHA-0000000CJJQ-3kQF;
-	Tue, 04 Nov 2025 17:57:00 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1vGMHD-0000000CS6H-06We;
+	Tue, 04 Nov 2025 19:01:07 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGLH6-0000000CJIB-35wd
+	id 1vGMHB-0000000CS5J-43On
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 04 Nov 2025 19:01:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=EJw2W4R20I0tbP9KTHA+4Okev2/0KvJztiMzbhvTnNI=; b=M1NjKbNVuEQaubWliyrqQQhBW4
+	VdpkpwEvBAHIelepH8RK4ljwqigcChsI6Fuu5FjH0Pqs32bmFiKOx8IvzO3K7ekYXoGBdmIejx+ZD
+	5GLIYARhOrZ1kHYX+mkBTL27fTRzhwW+bYsckZ1P6ZXQWRA7fwXP2PMW5GQwbV05DMe7T9px18sXN
+	e91czu4Y4Q0v522vSEPGcimSY/1Pi0wmaRzDB3uV49Cd11gY2yCBuqe3kg8/hYo0V+mvEMVQ9Vbdh
+	xqq01LFvotJ5B2MsdBkNhN9OGIvUMaT0wcdlwnw3ao3LaQrW+7Y8IgyvtLBECGM3LlCwyCSM62Jcp
+	kOdTsCJQ==;
+Received: from 003.mia.mailroute.net ([199.89.3.6])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vGLPR-00000000gO7-1QEb
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 17:56:59 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Tue, 04 Nov 2025 18:05:35 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 003.mia.mailroute.net (Postfix) with ESMTP id 4d1Hpj6RDkzly6Vc;
+	Tue,  4 Nov 2025 19:00:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1762282843; x=1764874844; bh=EJw2W4R20I0tbP9KTHA+4Oke
+	v2/0KvJztiMzbhvTnNI=; b=jl2qi6oNwA87r19QHd4bFtJjfr4Oj17sQMNvOQf/
+	RhOyR0SYK/HZoqEHVr9wvC/wNUZ3OYoCrVChC4LCEm/umbw4ZKaTl9H/tD5hri+E
+	RlAdb2J8XEwP1U0KfDJoEcaVcD/A+sz2aqCeTn9JTtAjcg/8g+4jF8RRypVPznDX
+	jl4/eWdb4dezQf8mmXcSrYLMApLTdv3zGENS3zLDzjqhZJ3cKV52htqveEmWNzO9
+	v91zGwYfZ8mghDT7lwawv60A62wi4zFveUDXWitoN2PpznE5/ZRkMXWZJMTfjdTm
+	dCSfhuXAjpLY1bM8A4OlD3rq+gzjuRimgNpHBF6bsgJ4Qg==
+X-Virus-Scanned: by MailRoute
+Received: from 003.mia.mailroute.net ([127.0.0.1])
+ by localhost (003.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id ktQnhIQwp04c; Tue,  4 Nov 2025 19:00:43 +0000 (UTC)
+Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 03CFA2118E;
-	Tue,  4 Nov 2025 17:56:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762279015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72Df+f2BPsETgjqjYZwpqI0AkKut+6tw+H2/JoEAAV8=;
-	b=ad96QY4mlJI1fmOEdgejpaoxLIb7EelqW7DX9QhtYO4sAe+HA6ahLM7/p4qBsQNJG4RCMw
-	0+pbm8v8V0U+tuf8RclLqQjFR3hqGH5yCAahL9j9L0xj1YHFabUCfgebCo91pXf1rbG6Wo
-	hAoIB/lZRJDDoxyolcMQRmvT816nHLA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762279015;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72Df+f2BPsETgjqjYZwpqI0AkKut+6tw+H2/JoEAAV8=;
-	b=pXZ12jyJm9f4fGWlohjkYbtOBtoga4Ca9oOXS8dl7XMZe3y+9POHM5YGpSq4/XXA8LunW4
-	v+A/wk/o1mao73Ag==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762279015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72Df+f2BPsETgjqjYZwpqI0AkKut+6tw+H2/JoEAAV8=;
-	b=ad96QY4mlJI1fmOEdgejpaoxLIb7EelqW7DX9QhtYO4sAe+HA6ahLM7/p4qBsQNJG4RCMw
-	0+pbm8v8V0U+tuf8RclLqQjFR3hqGH5yCAahL9j9L0xj1YHFabUCfgebCo91pXf1rbG6Wo
-	hAoIB/lZRJDDoxyolcMQRmvT816nHLA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762279015;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72Df+f2BPsETgjqjYZwpqI0AkKut+6tw+H2/JoEAAV8=;
-	b=pXZ12jyJm9f4fGWlohjkYbtOBtoga4Ca9oOXS8dl7XMZe3y+9POHM5YGpSq4/XXA8LunW4
-	v+A/wk/o1mao73Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82E08136D1;
-	Tue,  4 Nov 2025 17:56:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8T6OHmY+CmnTHwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 04 Nov 2025 17:56:54 +0000
-Message-ID: <d7b6727a-683f-4963-a388-d74cd2033537@suse.de>
-Date: Tue, 4 Nov 2025 18:56:53 +0100
+	(Authenticated sender: bvanassche@acm.org)
+	by 003.mia.mailroute.net (Postfix) with ESMTPSA id 4d1HpQ08l3zm0XTn;
+	Tue,  4 Nov 2025 19:00:28 +0000 (UTC)
+Message-ID: <0cb7eefb-4501-47e8-805f-6e8737ca6bb5@acm.org>
+Date: Tue, 4 Nov 2025 11:00:27 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/15] block: freeze queue when updating zone resources
+Subject: Re: [PATCH v3 11/15] block: introduce BLKREPORTZONESV2 ioctl
 To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
  Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
@@ -96,34 +82,15 @@ To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
  David Sterba <dsterba@suse.com>
 References: <20251104013147.913802-1-dlemoal@kernel.org>
- <20251104013147.913802-3-dlemoal@kernel.org>
+ <20251104013147.913802-12-dlemoal@kernel.org>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251104013147.913802-3-dlemoal@kernel.org>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20251104013147.913802-12-dlemoal@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,lst.de:email,wdc.com:email]
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_095656_919106_AAD07E13 
-X-CRM114-Status: GOOD (  16.19  )
+X-CRM114-CacheID: sfid-20251104_180533_558308_D2D358BA 
+X-CRM114-Status: GOOD (  10.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,41 +105,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/4/25 02:31, Damien Le Moal wrote:
-> Modify disk_update_zone_resources() to freeze the device queue before
-> updating the number of zones, zone capacity and other zone related
-> resources. The locking order resulting from the call to
-> queue_limits_commit_update_frozen() is preserved, that is, the queue
-> limits lock is first taken by calling queue_limits_start_update() before
-> freezing the queue, and the queue is unfrozen after executing
-> queue_limits_commit_update(), which replaces the call to
-> queue_limits_commit_update_frozen().
-> 
-> This change ensures that there are no in-flights I/Os when the zone
-> resources are updated due to a zone revalidation. In case of error when
-> the limits are applied, directly call disk_free_zone_resources() from
-> disk_update_zone_resources() while the disk queue is still frozen to
-> avoid needing to freeze & unfreeze the queue again in
-> blk_revalidate_disk_zones(), thus simplifying that function code a
-> little.
-> 
-> Fixes: 0b83c86b444a ("block: Prevent potential deadlock in blk_revalidate_disk_zones()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-> ---
->   block/blk-zoned.c | 42 ++++++++++++++++++++++++------------------
->   1 file changed, 24 insertions(+), 18 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+On 11/3/25 5:31 PM, Damien Le Moal wrote:
+> - * @BLKREPORTZONE: Get zone information. Takes a zone report as argument.
+> - *                 The zone report will start from the zone containing the
+> - *                 sector specified in the report request structure.
+> + * @BLKREPORTZONE: Get zone information from a zoned device. Takes a zone report
+> + *		   as argument. The zone report will start from the zone
+> + *		   containing the sector specified in struct blk_zone_report.
+> + *		   The flags field of struct blk_zone_report is used as an
+> + *		   output only and ignored as an input.
+> + *		   DEPRECATED, use BLKREPORTZONEV2 instead.
+> + * @BLKREPORTZONEV2: Same as @BLKREPORTZONE but uses the flags field of
+> + *		     struct blk_zone_report as an input, allowing to get a zone
+> + *		     report using cached zone information if BLK_ZONE_REP_CACHED
+> + *		     is set.
 
-Cheers,
+Was it promised to add information in the above comment about the 
+differences in accuracy between the two ioctls? See also
+https://lore.kernel.org/linux-block/97535dde-5902-4f2f-951c-3470d26158da@kernel.org/
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Thanks,
+
+Bart.
 
