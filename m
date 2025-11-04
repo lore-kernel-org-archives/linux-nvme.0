@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E22A7CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 01:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59524CCF9F8
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 01:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nVcEqG0Qpu1OmQX3InjMiyed5iWVekXRsito8ZaE8ok=; b=fnKvuclcDkz1RsMzjcOk+1ei5w
-	APtcpDLL9RqkEaOAITa9mRCi2zdZtr8fshTwtwf486/iPR8vS5n39sGCCs2Qr6U68YOMP/laMept8
-	TdZ9RBiJkIhUItltQszwe3zNHKOGaXe5gnF9Y9OEjsshmHDXUx+X8v5DgrciXp51XxoQGd/6pS8LP
-	HtuBvhqinOgEyyHj6HAR5PHW9RK/9WVv/QFX5fNkT94zcQSo8GYNkF1ffo8h5f9xcwHwydLys4UK0
-	vvakESXJzorWE/4vnFDSuZaKxvJlwuOK7pbsalh8VVtmMHED3wvXSq1S2MSHShhW5lCvwW1XuT2Ku
-	Yzup+3Ig==;
+	bh=XF/SQ7fXT+vofnZCulFDvNeXu6ICH73O6NDXQt5SMUA=; b=2NgEUtR5d37RmKj4gs+APrhSGD
+	J2Os3pWhJNhA4KLVbYbDyKEGoULnMqcq1+WSWpABbPXuW6aSEppWsjBXWYzRVqQJifk+Kuf8pahdP
+	91S+Gr3Jd9bQrRiIAjk3OJsv4uHykIzf3EIz/urh8MeQh69CbltWsAt5YsF/t0bjmW2LfGiBKOjqm
+	cusYmEmAKcJQpnfM93GICIge2FFNK7R7uHo/PUXiGQiEAzeZmuQ6dY3VlYrulxwk6pUEhchxZ8rhI
+	kHEvCMBbrsX1+X8Xsp1uvaHglV7ABsPwc3FqXss5s4nt2I6PqLH1aFoINRFyQRj1B/MNwQXL6Kkqe
+	8NPR5dnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG5xz-0000000Aube-3AeI;
-	Tue, 04 Nov 2025 01:36:11 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vG5y3-0000000AuhS-0uiS;
+	Tue, 04 Nov 2025 01:36:15 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG5xt-0000000AuTo-0KY0
+	id 1vG5xy-0000000Auao-2psb
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 01:36:08 +0000
+	Tue, 04 Nov 2025 01:36:13 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id B17E640238;
-	Tue,  4 Nov 2025 01:36:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29AAFC113D0;
-	Tue,  4 Nov 2025 01:36:02 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 4D09B4396A;
+	Tue,  4 Nov 2025 01:36:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6965C16AAE;
+	Tue,  4 Nov 2025 01:36:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762220164;
-	bh=lhti3Bmuj8AIwiq9MmprORxEZKyFGs+A4UNqxbkJ10Y=;
+	s=k20201202; t=1762220170;
+	bh=ELabnKiZFe6DwArSXoHXUHbKT9aZEi5tHHUKFPxhJ7Y=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=CENYhYTHWC1Zmu+byXAz5GOdwsMK0EUQkV0JOXaTW2IQ5SueyYjH2zH2CaMa2SbW9
-	 tumQiBlwRoTT49WCapf0154EPTk03i+YHmNrcJ7LCd59DAdX8MSH6JHAqs0nDOCQCi
-	 AKGaGAAhrkl/z+PmXnDC67RF0fRhig11CfAi+SLv+YxDRhSmAsXD3b7wHw4cDvDs6I
-	 tbrLpi6IQ+jjn63zq7NFMIHWWOEhGj3b6bv7PSxEILyEdV9btjyG6UbWlN5scw0EsQ
-	 W6anrsl/jwMc+agDxxycBV7x0UBGN9s5p0olijSuGKtHsSM2437R43HBrap4q6EBUm
-	 UPQ3GXRvp9BEg==
+	b=R1yre24h9zJReqcamtttSoEXcNiu9FDpe4sxkyd/c2b1sBtcSKsRFNGeAU9Jy0FxH
+	 jjEOyaNxWyjyoyuAKNKKL8Ttw1h00u/nDVr6lA2hGbXDC2CrhBBPhjnrh7OzWJ+nD8
+	 yleeMKkesq7mwKyUnIPoWq47TPrLMtxl39UpGOEYvwDg4/3SBGp7DSinOpuJKOwITV
+	 y0NN4D0L2NBgMdrmooGj5M41z0tQYhBFQlAVwfnci0l2Hxti3UiAOD/x2zMzBceO/N
+	 4GDlBreiUfPUWvGdfDJUK5LcOPZlLHNH72SczB5THaJZxzHGim02+co5frnWToiSOO
+	 vcA3wcym8u+Uw==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	linux-block@vger.kernel.org,
@@ -57,17 +57,17 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Carlos Maiolino <cem@kernel.org>,
 	linux-btrfs@vger.kernel.org,
 	David Sterba <dsterba@suse.com>
-Subject: [PATCH v3 10/15] block: introduce blkdev_report_zones_cached()
-Date: Tue,  4 Nov 2025 10:31:42 +0900
-Message-ID: <20251104013147.913802-11-dlemoal@kernel.org>
+Subject: [PATCH v3 12/15] block: improve zone_wplugs debugfs attribute output
+Date: Tue,  4 Nov 2025 10:31:44 +0900
+Message-ID: <20251104013147.913802-13-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251104013147.913802-1-dlemoal@kernel.org>
 References: <20251104013147.913802-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251103_173605_189948_5C10AAC7 
-X-CRM114-Status: GOOD (  19.76  )
+X-CRM114-CacheID: sfid-20251103_173610_758478_8F034FEB 
+X-CRM114-Status: GOOD (  11.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -82,161 +82,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce the function blkdev_report_zones_cached() to provide a fast
-report zone built using the blkdev_get_zone_info() function, which gets
-zone information from a disk zones_cond array or zone write plugs.
-For a large capacity SMR drive, such fast report zone can be completed
-in a few milliseconds compared to several seconds completion times
-when the report zone is obtained from the device.
+Make the output of the zone_wplugs debugfs attribute file more easily
+readable by adding the name of the zone write plugs fields in the
+output.
 
-The zone report is built in the same manner as with the regular
-blkdev_report_zones() function, that is, the first zone reported is the
-one containing the specified start sector and the report is limited to
-the specified number of zones (nr_zones argument). The information for
-each zone in the report is obtained using blkdev_get_zone_info().
+No functional changes.
 
-For zoned devices that do not use zone write plug resources,
-using blkdev_get_zone_info() is inefficient as the zone report would
-be very slow, generated one zone at a time. To avoid this,
-blkdev_report_zones_cached() falls back to calling
-blkdev_do_report_zones() to execute a regular zone report. In this case,
-the .report_active field of struct blk_report_zones_args is set to true
-to report zone conditions using the BLK_ZONE_COND_ACTIVE condition in
-place of the implicit open, explicit open and closed conditions.
-
+Suggested-by: Bart Van Assche <bvanassche@acm.org>
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 ---
- block/blk-zoned.c      | 88 +++++++++++++++++++++++++++++++++++-------
- include/linux/blkdev.h |  2 +
- 2 files changed, 77 insertions(+), 13 deletions(-)
+ block/blk-zoned.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index dd5f1f703114..fc96cad083fd 100644
+index ea61ad7905c0..2180d5256f9f 100644
 --- a/block/blk-zoned.c
 +++ b/block/blk-zoned.c
-@@ -74,6 +74,19 @@ struct blk_zone_wplug {
- 	enum blk_zone_cond	cond;
- };
+@@ -2305,8 +2305,10 @@ static void queue_zone_wplug_show(struct blk_zone_wplug *zwplug,
+ 	zwp_bio_list_size = bio_list_size(&zwplug->bio_list);
+ 	spin_unlock_irqrestore(&zwplug->lock, flags);
  
-+static inline bool disk_need_zone_resources(struct gendisk *disk)
-+{
-+	/*
-+	 * All request-based zoned devices need zone resources so that the
-+	 * block layer can automatically handle write BIO plugging. BIO-based
-+	 * device drivers (e.g. DM devices) are normally responsible for
-+	 * handling zone write ordering and do not need zone resources, unless
-+	 * the driver requires zone append emulation.
-+	 */
-+	return queue_is_mq(disk->queue) ||
-+		queue_emulates_zone_append(disk->queue);
-+}
-+
- static inline unsigned int disk_zone_wplugs_hash_size(struct gendisk *disk)
- {
- 	return 1U << disk->zone_wplugs_hash_bits;
-@@ -963,6 +976,68 @@ int blkdev_get_zone_info(struct block_device *bdev, sector_t sector,
- }
- EXPORT_SYMBOL_GPL(blkdev_get_zone_info);
- 
-+/**
-+ * blkdev_report_zones_cached - Get cached zones information
-+ * @bdev:     Target block device
-+ * @sector:   Sector from which to report zones
-+ * @nr_zones: Maximum number of zones to report
-+ * @cb:       Callback function called for each reported zone
-+ * @data:     Private data for the callback function
-+ *
-+ * Description:
-+ *    Similar to blkdev_report_zones() but instead of calling into the low level
-+ *    device driver to get the zone report from the device, use
-+ *    blkdev_get_zone_info() to generate the report from the disk zone write
-+ *    plugs and zones condition array. Since calling this function without a
-+ *    callback does not make sense, @cb must be specified.
-+ */
-+int blkdev_report_zones_cached(struct block_device *bdev, sector_t sector,
-+			unsigned int nr_zones, report_zones_cb cb, void *data)
-+{
-+	struct gendisk *disk = bdev->bd_disk;
-+	sector_t capacity = get_capacity(disk);
-+	sector_t zone_sectors = bdev_zone_sectors(bdev);
-+	unsigned int idx = 0;
-+	struct blk_zone zone;
-+	int ret;
-+
-+	if (!cb || !bdev_is_zoned(bdev) ||
-+	    WARN_ON_ONCE(!disk->fops->report_zones))
-+		return -EOPNOTSUPP;
-+
-+	if (!nr_zones || sector >= capacity)
-+		return 0;
-+
-+	/*
-+	 * If we do not have any zone write plug resources, fallback to using
-+	 * the regular zone report.
-+	 */
-+	if (!disk_need_zone_resources(disk)) {
-+		struct blk_report_zones_args args = {
-+			.cb = cb,
-+			.data = data,
-+			.report_active = true,
-+		};
-+
-+		return blkdev_do_report_zones(bdev, sector, nr_zones, &args);
-+	}
-+
-+	for (sector = ALIGN_DOWN(sector, zone_sectors);
-+	     sector < capacity && idx < nr_zones;
-+	     sector += zone_sectors, idx++) {
-+		ret = blkdev_get_zone_info(bdev, sector, &zone);
-+		if (ret)
-+			return ret;
-+
-+		ret = cb(&zone, idx, data);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return idx;
-+}
-+EXPORT_SYMBOL_GPL(blkdev_report_zones_cached);
-+
- static void blk_zone_reset_bio_endio(struct bio *bio)
- {
- 	struct gendisk *disk = bio->bi_bdev->bd_disk;
-@@ -1773,19 +1848,6 @@ void disk_free_zone_resources(struct gendisk *disk)
- 	disk->nr_zones = 0;
+-	seq_printf(m, "%u 0x%x %u %u %u\n", zwp_zone_no, zwp_flags, zwp_ref,
+-		   zwp_wp_offset, zwp_bio_list_size);
++	seq_printf(m,
++		"Zone no: %u, flags: 0x%x, ref: %u, wp ofst: %u, pending BIO: %u\n",
++		zwp_zone_no, zwp_flags, zwp_ref,
++		zwp_wp_offset, zwp_bio_list_size);
  }
  
--static inline bool disk_need_zone_resources(struct gendisk *disk)
--{
--	/*
--	 * All mq zoned devices need zone resources so that the block layer
--	 * can automatically handle write BIO plugging. BIO-based device drivers
--	 * (e.g. DM devices) are normally responsible for handling zone write
--	 * ordering and do not need zone resources, unless the driver requires
--	 * zone append emulation.
--	 */
--	return queue_is_mq(disk->queue) ||
--		queue_emulates_zone_append(disk->queue);
--}
--
- struct blk_revalidate_zone_args {
- 	struct gendisk	*disk;
- 	u8		*zones_cond;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 03a594b4dfbc..f0ab02e0a673 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -442,6 +442,8 @@ int blkdev_get_zone_info(struct block_device *bdev, sector_t sector,
- #define BLK_ALL_ZONES  ((unsigned int)-1)
- int blkdev_report_zones(struct block_device *bdev, sector_t sector,
- 		unsigned int nr_zones, report_zones_cb cb, void *data);
-+int blkdev_report_zones_cached(struct block_device *bdev, sector_t sector,
-+		unsigned int nr_zones, report_zones_cb cb, void *data);
- int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
- 		sector_t sectors, sector_t nr_sectors);
- int blk_revalidate_disk_zones(struct gendisk *disk);
+ int queue_zone_wplugs_show(void *data, struct seq_file *m)
 -- 
 2.51.0
 
