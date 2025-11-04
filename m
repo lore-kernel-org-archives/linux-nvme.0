@@ -4,88 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CF4DCCFA00
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 09:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7F93CCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 10:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HciD2tZg5AxEwB/L+8KmAmhPZBSsmYldsKxcEvJNVyg=; b=KsH/s77OQPUJnVTSy+HOyNqaRi
-	9wSq8J48JPZ6QujLeICTKguIxnKi65hFpxOZFmxnZHQnpXN3uEO6X9vBL+kYjh4n1Tef6rAs7F1zb
-	u1KqGJttVzXfLkEZDBTMdurjtO92qOtSTqHMh1SNVfcBqTNVq2vDHi3gJ40z55N7mJSph18dy4grp
-	w1Wf53t9nzdrWFxj6jHiUs3+z6b2igigYwYvcZ2rBpTTv7oxRGZrZ3Xm0VW3y6pnPImrUmB+Gifqb
-	LG5gkHt//EjIMI8L5y8hc+k9dORtbbmIeZFHCaL8q7xN77vasNSVxGTeV6muAuymmT4NVmNnKRoN4
-	Jg6fRHNQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Tdz/4wR73HFtjQW5WwR/FFiFRm6+MAmdqIiGPk4Ollw=; b=F5rryql6l11Z6T/QXvPTYiXfGg
+	BS8CNwVpGX0eJd6ZsSeMRdxrhfyO76s+F4+izWnOXXsrxcT31q+n6yzUguOJfvQW9nqeSNZ/HlB1t
+	PweU3XpCJLORI4wFB6WOysRK1vNz9cKD6qA9ThyOkW1mYvGiN8g2ag0LDlaMup9XMMv8UeISD2MEq
+	MLM8nQixKfBZvkjFGveqzCmvZrI3rpnX+LymNEWUnkp40929p+6ldCMz3lhn4KWe5ABOcPHsiPLdr
+	GgvYazz/s+KJ8BaS33mbLgBPnk8ZYszNR300kYiU4/0ISJz2jB0UWHb7rL7YrlphTx2OkfGTJtbxL
+	XXCPgGnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGDf4-0000000BYcU-0Nv4;
-	Tue, 04 Nov 2025 09:49:10 +0000
-Received: from mgamail.intel.com ([192.198.163.19])
+	id 1vGEP3-0000000BcYw-0TL5;
+	Tue, 04 Nov 2025 10:36:41 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGDf1-0000000BYc9-1pio
+	id 1vGEP1-0000000BcYE-0RFx
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 09:49:08 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762249747; x=1793785747;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xFNn8R9GSgOtgVVbPwExTDvjsAaEeew2m/fOM1y0PDQ=;
-  b=RKPOqNTou/5KZEXnotu7beksrTiX3EtXV5ODgK/Q+RInkcUHtelrpG9y
-   lHd08IumbbpyOhr55nJodJk3vB4Cdv6SKVWVV8vQPhd2RiMQFS7aZd69M
-   o0l0JSCxUWF4JLjjdObp0tvMKPme/G37w3jNj8QFLaqN2CskETZcnFdEK
-   EUiCnptLhIKzdF3nbxX26fXir+e+uCj+f2thgctMf8gv6nqpKBenbfkNv
-   d0eV82J1IKNme5erHSjmUlRnuR5gA8yydEjN2S37kx3ZTbQpmMYYDFkdG
-   HjDUif80jQd3hxxuJihf/HU2szfuVd/Ax0tAQGNWL0WP8AA2BL3k98ZzX
-   g==;
-X-CSE-ConnectionGUID: Z6x18YI3RHWOEDjivq6ZbA==
-X-CSE-MsgGUID: EMpE8OjwTdGYkDJMSlHDfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="63351111"
-X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="63351111"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 01:49:05 -0800
-X-CSE-ConnectionGUID: DTpau+4xQrGHRDFrDVtjaQ==
-X-CSE-MsgGUID: bFPa4gb+TrCyIeBrHQLKGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="186804197"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.146])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 01:49:01 -0800
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1vGDer-00000005QLT-1Zbv;
-	Tue, 04 Nov 2025 11:48:57 +0200
-Date: Tue, 4 Nov 2025 11:48:57 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>,
-	Guan-Chun Wu <409411716@gms.tku.edu.tw>,
-	Andrew Morton <akpm@linux-foundation.org>, ebiggers@kernel.org,
-	tytso@mit.edu, jaegeuk@kernel.org, xiubli@redhat.com,
-	idryomov@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
-	sagi@grimberg.me, home7438072@gmail.com,
-	linux-nvme@lists.infradead.org, linux-fscrypt@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] lib/base64: add generic encoder/decoder, migrate
- users
-Message-ID: <aQnMCVYFNpdsd-mm@smile.fi.intel.com>
-References: <20251029101725.541758-1-409411716@gms.tku.edu.tw>
- <20251031210947.1d2b028da88ef526aebd890d@linux-foundation.org>
- <aQiC4zrtXobieAUm@black.igk.intel.com>
- <aQiM7OWWM0dXTT0J@google.com>
- <20251104090326.2040fa75@pumpkin>
+	Tue, 04 Nov 2025 10:36:40 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 41D912118B;
+	Tue,  4 Nov 2025 10:36:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762252597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tdz/4wR73HFtjQW5WwR/FFiFRm6+MAmdqIiGPk4Ollw=;
+	b=FrEAfaKiA2IuBF/Dum4d+SISn/RaUPAJC/qjalJkrebBN1OlRvMa2ouLnGTQA1Q4l1qw9q
+	WVABS3o/q1v/1PgCQP+C+wvVFSxImkL191aHCwzZ7sWOZea8q1KtLLXK9A8b4WX7Be//eC
+	sOEubsRHGd5w+HdAUG/wviVxLcm7618=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762252597;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tdz/4wR73HFtjQW5WwR/FFiFRm6+MAmdqIiGPk4Ollw=;
+	b=vYMPgkLTxnzmwmeyKhqteg+q5FcYBhoPrlct6zDYz1oqPAWCNh1mFXUUFzJrYETV6ldur7
+	W3sHvbdb2S28/LDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762252597; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tdz/4wR73HFtjQW5WwR/FFiFRm6+MAmdqIiGPk4Ollw=;
+	b=FrEAfaKiA2IuBF/Dum4d+SISn/RaUPAJC/qjalJkrebBN1OlRvMa2ouLnGTQA1Q4l1qw9q
+	WVABS3o/q1v/1PgCQP+C+wvVFSxImkL191aHCwzZ7sWOZea8q1KtLLXK9A8b4WX7Be//eC
+	sOEubsRHGd5w+HdAUG/wviVxLcm7618=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762252597;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tdz/4wR73HFtjQW5WwR/FFiFRm6+MAmdqIiGPk4Ollw=;
+	b=vYMPgkLTxnzmwmeyKhqteg+q5FcYBhoPrlct6zDYz1oqPAWCNh1mFXUUFzJrYETV6ldur7
+	W3sHvbdb2S28/LDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 26789136D1;
+	Tue,  4 Nov 2025 10:36:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id h//tCDXXCWmvXgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 04 Nov 2025 10:36:37 +0000
+Message-ID: <c705eebf-bb76-4bcb-8630-99907b1b6ac6@suse.de>
+Date: Tue, 4 Nov 2025 11:36:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104090326.2040fa75@pumpkin>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/1] nvmet: add basic in-memory backend support
+To: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ linux-nvme@lists.infradead.org
+Cc: hch@lst.de, sagi@grimberg.me, kch@nvidia.com
+References: <20251104080610.183707-1-ckulkarnilinux@gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251104080610.183707-1-ckulkarnilinux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,lists.infradead.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_014907_512844_A4C865B3 
-X-CRM114-Status: GOOD (  23.03  )
+X-CRM114-CacheID: sfid-20251104_023639_291162_1ED54329 
+X-CRM114-Status: GOOD (  14.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,78 +133,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 04, 2025 at 09:03:26AM +0000, David Laight wrote:
-> On Mon, 3 Nov 2025 19:07:24 +0800
-> Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
-> > On Mon, Nov 03, 2025 at 11:24:35AM +0100, Andy Shevchenko wrote:
-
-...
-
-> > Since I believe many people test and care about W=1 builds, I think we
-> > need to find another way to avoid this warning? Perhaps we could
-> > consider what you suggested:
-> > 
-> > #define BASE64_REV_INIT(val_plus, val_comma, val_minus, val_slash, val_under) { \
-> > 	[ 0 ... '+'-1 ] = -1, \
-> > 	[ '+' ] = val_plus, val_comma, val_minus, -1, val_slash, \
-> > 	[ '0' ] = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, \
-> > 	[ '9'+1 ... 'A'-1 ] = -1, \
-> > 	[ 'A' ] = 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, \
-> > 		  23, 24, 25, 26, 27, 28, 28, 30, 31, 32, 33, 34, 35, \
-> > 	[ 'Z'+1 ... '_'-1 ] = -1, \
-> > 	[ '_' ] = val_under, \
-> > 	[ '_'+1 ... 'a'-1 ] = -1, \
-> > 	[ 'a' ] = 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, \
-> > 		  49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, \
-> > 	[ 'z'+1 ... 255 ] = -1 \
-> > }
+On 11/4/25 09:06, Chaitanya Kulkarni wrote:
+> Hi,
 > 
-> I've a slightly better version:
+> Add a new memory backend (io-cmd-mem.c) that provides RAM-backed storage
+> for NVMe target namespaces, enabling high-performance volatile storage
+> without requiring physical block devices or filesystem backing.
 > 
-> #define INIT_62_63(ch, ch_62, ch_63) \
-> 	[ ch ] = ch == ch_62 ? 62 : ch == ch_63 ? 63 : -1
+> * Implementation Overview:
+> ==========================
+> The memory backend introduces a new namespace configuration option via
+> configfs that allows users to create memory-backed namespaces by
+> setting the 'mem_size' attribute instead of 'device_path'.
+> 1. Lazy Page Allocation
+>     - Uses xarray for sparse page storage
+>     - Pages are allocated on first write (copy-on-write semantics)
+> 2. Configfs Interface
+>     New attribute: ${NVMET_CFGFS}/subsystems/<subsys>/namespaces/<ns>/mem_size
+>     - Accepts size in bytes (e.g., "1073741824" for 1GB)
+>     - Can only be set when namespace is disabled
+>     - Mutually exclusive with device_path attribute
+>     - Limited to 80% of total system memory for safety
+> 3. I/O Command Support
+>     - Read
+>     - Write
+>     - Flush
+>     - Discard
+>     - Write Zeroes
+> 4. Backend Detection Logic
+>     Namespace backend is selected based on configuration:
+>     - If mem_size is set (no device_path): Use memory backend
+>     - If device_path points to block device: Use bdev backend
+>     - If device_path points to regular file: Use file backend
+> 5. The implementation follows existing nvmet backend pattern with three
+>     main entry points:
+>     - nvmet_mem_ns_enable(): Initialize namespace with xarray storage
+>     - nvmet_mem_ns_disable(): Release all pages and cleanup
+>     - nvmet_mem_parse_io_cmd(): Dispatch I/O commands to handlers
 > 
-> #define BASE64_REV_INIT(ch_62, ch_63) { \
-> 	[ 0 ... '0' - 6 ] = -1, \
-> 	INIT_62_63('+', ch_62, ch_63), \
-> 	INIT_62_63(',', ch_62, ch_63), \
-> 	INIT_62_63('-', ch_62, ch_63), \
-> 	INIT_62_63('.', ch_62, ch_63), \
-> 	INIT_62_63('/', ch_62, ch_63), \
-> 	[ '0' ] = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, \
-> 	[ '9' + 1 ... 'A' - 1 ] = -1, \
-> 	[ 'A' ] = 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, \
-> 		  23, 24, 25, 26, 27, 28, 28, 30, 31, 32, 33, 34, 35, \
-> 	[ 'Z' + 1 ... '_' - 1 ] = -1, \
-> 	INIT_62_63('_', ch_62, ch_63), \
-> 	[ '_' + 1 ... 'a' - 1 ] = -1, \
-> 	[ 'a' ] = 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, \
-> 		  49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, \
-> 	[ 'z' + 1 ... 255 ] = -1 \
-> }
+> I/O processing uses scatter-gather iteration similar to existing backends,
+> with per-page operations that handle alignment and boundary cases.
 > 
-> that only requires that INIT_62_63() be used for all the characters
-> that are used for 62 and 63 - it can be used for extra ones (eg '.').
-> If some code wants to use different characters; the -1 need replacing
-> with INIT_62_63() but nothing else has to be changed.
-> 
-> I used '0' - 6 (rather than '+' - 1 - or any other expression for 0x2a)
-> to (possibly) make the table obviously correct without referring to the
-> ascii code table.
+Question remains: why?
+We already have at least two other memory-backed devices (brd, null_blk)
+which should do the job just nicely.
+Why do we need to add another one?
 
-Still it's heavily depends on the values of '+,-./_' as an index that
-makes it not so flexible.
+Cheers,
 
-Moreover this table is basically a dup of the strings in the first array.
-Which already makes an unnecessary duplication. That's why I prefer to
-see a script (one source of data) to generate the header or something like
-this to have the tables and strings robust against typos.
-
-The above is simply an unreadable mess.
-
+Hannes
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
