@@ -4,82 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A66E4CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 00:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 922B4CCFA03
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 01:02:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j72kH5A4NosGnsKtmgZWqectlM8qu9qu5lI/LSZR6iI=; b=rcqzG6cM3tM7caO7yF3ti9lP3E
-	+UWfkm9JtS0Lsl8CH3ZlUvnQdX8JsbySxLao+R2o34bZjR4Wn4tKmAFS4L/gcXE96d922q7tbM+5y
-	LDjyhF2uIL5MBSmJnt8qt3bQR1Ai6mEafJcubmFTzBmfeNPKLutnkBEpDPV73D+WJLSF56ObJ5bTO
-	cvK23oJPD3e9DG4ltvAr7Ximw1DIIIrbdM3z+CqQFt3kI/P8plbUYZOJXxypEgjPGbLQ9zF9jW7Jf
-	8mhU9lxwvz3r4xaYQdEIcfYw7nDmjTLNIwXEXBINBEpysjywkFBzG4VB8UZ5YPjzDuRBhY7g7pMOG
-	mdSmCogw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=4uVN2m2Fn19Sh1MsTnyiUqWKIDdvRLIGGU21jVU8o9o=; b=tX2mP9dVg3TS9J6EOGNcwg40yt
+	dPKCiavJoauyLUKEWjdRoHcov0WSt2x/hphZYXGq75siRNZUif4kskopJ0RNyVUzDgibc9v3bByuj
+	wNLci3oCCfW9DYMZO2tEYnCjuCVU37oKcHdTHXebpmswEX+b6gJIMy38JfzUcp/v3VESqqyH2soVu
+	4oZIc0MF9d811eSmw9kS0jVxdj1SVqBXbburP6j+xfcVN7n2fmUIoSn/MVqm+LCV7qt64oS9FVktA
+	WRoGbCa+iMQPcZQg7+9F0IqOEvXvFmLuf4TFcEKbeSAOXm8KyMo8rytKwU3ObvmqhxgM3hbOS5HK/
+	VIBJ/T/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG54v-0000000ArDx-2cTV;
-	Tue, 04 Nov 2025 00:39:17 +0000
-Received: from mgamail.intel.com ([192.198.163.10])
+	id 1vG5Qt-0000000AsBp-47L8;
+	Tue, 04 Nov 2025 01:01:59 +0000
+Received: from 004.mia.mailroute.net ([199.89.3.7])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG54s-0000000ArDT-2gym
+	id 1vG5Qr-0000000AsBS-1aMS
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 00:39:15 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762216755; x=1793752755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mPNm/C4lAMOMRgM7UB0KMAJ0ifsULw0KEfI5BGUhPDQ=;
-  b=TieugbQBxQ4ekKvBlLu1InLhhtb4EkgsbWTmySCbTh0B9wRhPyuUQauQ
-   j3dV+ZqV+O/bzX48GKvxeA2tqtVO+Tp/TMgjsF+oxRhPKU5SCn6w8g44o
-   75AgWvGDSGhVnB1EtRxPf6M9jbRP1Rwq6C7lDdZmZfwjqerP4X33OUSqI
-   ANEerVyof13gq4xnk3CXKR7Wz3/8T/DH0ho0yfz/txyJaGQIMWIESggsN
-   lQVX0v/4t+mJ2ThwsNpwUz4aZX/OZEylhnB2jHESUWXGvYDEFoIj+C0qt
-   j7yYYhdoxrx3dOsgjg/oSxa9jomi1YR5zHRgk2Bzfz13idKdNRJ9VT8PS
-   A==;
-X-CSE-ConnectionGUID: 80cd2dP1RLSfVqQh/3I2hw==
-X-CSE-MsgGUID: LEZl849rRfKwrOXB94wX4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="75654613"
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="75654613"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 16:39:13 -0800
-X-CSE-ConnectionGUID: OfZ4HEkuRhyIWHXTjR/tcQ==
-X-CSE-MsgGUID: if1kyanTQXSEi5380gA62w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="210520385"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Nov 2025 16:39:10 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vG544-000QgW-1B;
-	Tue, 04 Nov 2025 00:38:45 +0000
-Date: Tue, 4 Nov 2025 08:36:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>,
-	dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
-	Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org,
-	David Sterba <dsterba@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 04/15] block: introduce disk_report_zone()
-Message-ID: <202511040843.y29M2yJp-lkp@intel.com>
-References: <20251103133123.645038-5-dlemoal@kernel.org>
+	Tue, 04 Nov 2025 01:01:58 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 004.mia.mailroute.net (Postfix) with ESMTP id 4d0qsv6HQMzmGHJp;
+	Tue,  4 Nov 2025 01:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1762218113; x=1764810114; bh=4uVN2m2Fn19Sh1MsTnyiUqWK
+	IDdvRLIGGU21jVU8o9o=; b=HMzBYxa34839lAyty5SHRbqUdyMIghBmpSKVLfM/
+	I4wQqOIVRHnpeleTXG1JgkCOxFSIo8nIIZEW0hdEfxSxb+uHvlOOC9XSK7laTfCU
+	aJ/nLII/IXn0QTJONfXOSCBMS+LxaW+V3UE4FtvqPuTgYSiMUGLbVTDcAQcrbnIO
+	KJa+h1k/6M7lBGlhccXt8+3AAoySkoSzq5mhOFSqTGIv0mpIhA5MvTX5Dqg/ZopS
+	Gw5MFLa5QjH1rM31nYz/XbaqaPkem4hCsEF0aD1JIT/XTYf2xTtPVuh/Ju7POLoC
+	9BnTbiDle6s878qpxR44hnb6UWHD8QZALmWCNDnrjSdGLA==
+X-Virus-Scanned: by MailRoute
+Received: from 004.mia.mailroute.net ([127.0.0.1])
+ by localhost (004.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id XBhzvaiVaNxT; Tue,  4 Nov 2025 01:01:53 +0000 (UTC)
+Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 004.mia.mailroute.net (Postfix) with ESMTPSA id 4d0qsQ17HHzlyNp4;
+	Tue,  4 Nov 2025 01:01:26 +0000 (UTC)
+Message-ID: <a6d95da9-afdc-4885-bcc7-246d6d133ba7@acm.org>
+Date: Mon, 3 Nov 2025 17:01:25 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251103133123.645038-5-dlemoal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/15] block: introduce BLKREPORTZONESV2 ioctl
+To: Damien Le Moal <dlemoal@kernel.org>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Jens Axboe
+ <axboe@kernel.dk>, "linux-block@vger.kernel.org"
+ <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Keith Busch <keith.busch@wdc.com>, hch <hch@lst.de>,
+ "dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+ Carlos Maiolino <cem@kernel.org>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ David Sterba <dsterba@suse.com>
+References: <20251103133123.645038-1-dlemoal@kernel.org>
+ <20251103133123.645038-12-dlemoal@kernel.org>
+ <982ed7d8-e818-4d9c-a734-64ab8b21a7e3@wdc.com>
+ <0154c2a8-a3ed-45d3-8f8a-1581106212fb@kernel.org>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <0154c2a8-a3ed-45d3-8f8a-1581106212fb@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251103_163914_698653_87BDE080 
-X-CRM114-Status: GOOD (  11.86  )
+X-CRM114-CacheID: sfid-20251103_170157_519838_25AB6B2F 
+X-CRM114-Status: UNSURE (   7.27  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,30 +98,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Damien,
+On 11/3/25 4:15 PM, Damien Le Moal wrote:
+> The old one is needed to allow getting the precise imp open, exp open, closed
+> conditions, if the user cares about these. E.g. Zonefs does because of the
+> (optional) explicit zone open done on file open.
 
-kernel test robot noticed the following build warnings:
+How about adding the above information in include/uapi/linux/blkzoned.h?
 
-[auto build test WARNING on ba6a8208cc205c6545c610b5863ea89466fc486a]
+Thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/block-handle-zone-management-operations-completions/20251103-214422
-base:   ba6a8208cc205c6545c610b5863ea89466fc486a
-patch link:    https://lore.kernel.org/r/20251103133123.645038-5-dlemoal%40kernel.org
-patch subject: [PATCH v2 04/15] block: introduce disk_report_zone()
-config: sparc-randconfig-002-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040843.y29M2yJp-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040843.y29M2yJp-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511040843.y29M2yJp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/scsi/sd_zbc.c:47 function parameter 'args' not described in 'sd_zbc_parse_report'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bart.
 
