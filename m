@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72074CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 01:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF0EBCCF9F8
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 01:35:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zlLWQmhr3BDc6XykreD2PbPs0+nqkQOsJURc9/yAR08=; b=x4gAha4vSde+LuI0h8FO2kOPpt
-	9iUgco8AkpQ4pWsGuSusvzb7YvgrbjWwuOPS8Fy2EcgVC5+FUOATEbgMXyAOYG7bZFw+XjSbGOP6N
-	nlfnYREldVEggJ9JUm/iqZRECyFNfqxPhdvy6BENn+WvH6EbsC/3gTDdPNvfAr5bNMQ4Qx5W7Slqd
-	1wSK5eSsQYIB6ZHhzGHI6QwiCXcTP7uRYruiiaEZOJoxyNtpgbrJ1XkNavr2QMczLSM+TYe0DCc4f
-	oZJypfMTfoEjIZ/5d+yUQeOq5uPcMb8hmxBhWtQj6clNyjeFRmSSa3s0mJYfBLi16I75qYxZCBK0R
-	SaL2/USQ==;
+	bh=gGpVp0sf3RU5GWhA29muWWrRWsTN1swIechnc1zK6hA=; b=MejuFqmgNQi0mGOZ42rODqjY2K
+	GAgVgIJ8W8k7tXxrOYAOsLbCFgy85COC96rX8qMVG61Zl4HmBZQi3OmLCPKuryxLSKgaa74szx22/
+	YRuO4pF8dmhSi1SPBvmp/h2XPAsbDqQ6b1BWNZC4MMkxXgmn97ZsIxQn71nC9LiAmXqC/abjSuGLI
+	5oN0zYyAio/r60mTQ6hXRx7/aDfRlIaH8ovoXzb1W77U9iNfT8I0CnScP/ZzSa7wG+kAjK2q3I5AI
+	GTwWq70/lWWL2zuCUFg/m8PHNfALk2sl3T5JbCWuPSi3jTZSds1pzXNOCuxVfF06coQJZsMyMkZRY
+	7K48fHyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG5xX-0000000AuC6-44xO;
-	Tue, 04 Nov 2025 01:35:43 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vG5xb-0000000AuDm-1Ixc;
+	Tue, 04 Nov 2025 01:35:47 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vG5xW-0000000AuBO-2lah
+	id 1vG5xZ-0000000AuCp-3aVC
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 01:35:42 +0000
+	Tue, 04 Nov 2025 01:35:45 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1D44B601DC;
+	by tor.source.kernel.org (Postfix) with ESMTP id F3165601DC;
+	Tue,  4 Nov 2025 01:35:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33D69C4CEE7;
 	Tue,  4 Nov 2025 01:35:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60F1DC116C6;
-	Tue,  4 Nov 2025 01:35:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762220141;
-	bh=E4Hje5BOjpffDDE33VtVO2hxpyin1+vr57tKDVBCz50=;
+	s=k20201202; t=1762220144;
+	bh=9InpRURhYbB7IrlbGJubi87XDnqd+ozFRAai+B84hx0=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=VQusmWxsb11q9IqE6Fnj61BwKoARnWQ0FULLPKKrHAWwDTJC8hpEORbYlbjthAOvI
-	 /GN226lFh2sG2rQoTDQ5fEnnHYpixIQ5I9NscBKOz9EMxRoeNhhZDcqubu48CAZkf9
-	 zZY6qyYZdgiZcYDkJRCbKJYyaj6VG05kEG9jZRSjYjP8/2Q5fGmLtkYupWlikq+Nj8
-	 ZaebKEr1w3aCUxuMV1ikBbo/6FX1QgYd+jJdNbVqh2uDNM25wHten+IlOhnCS43hIo
-	 VJvbTM17zImuzkaa1dQCULgZCr0+SdVNPeIL3uLkZe4q/yN+DCbOh3550swD56zXVd
-	 ZlyTNlBVf5TLg==
+	b=EjpmhH30VnLBivCc2tVh6vrvOF2LLaiSVWlByDGxUaGaI6vHURjCtIWhpcTkdaeua
+	 JByC5SDjTfF8ZH1ccSBPaY4aGZQyF5iF2cnJ93H0f727EOMbxMINpnJQCdYBdCiNYM
+	 Zky/uJnx/130sNM2iLTFQ1EhrwPgznLXCGl3GKGcXdm/lA0mDzklndRgby+8DBOcp4
+	 Gps2CiuLInvk3e5pbO0/UNVBIFpiSxeQBXj3oGa9hwsqMo7Jmsasj3Zl1yvImXva3O
+	 DbH3wwFitnDeXjz+Kq2BSTjzuHuhDnUe+A/Dbgclk9yesCiZT7vtWEK63uMiRIIqkE
+	 VcNH2rBLFG5Mg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	linux-block@vger.kernel.org,
@@ -57,9 +57,9 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Carlos Maiolino <cem@kernel.org>,
 	linux-btrfs@vger.kernel.org,
 	David Sterba <dsterba@suse.com>
-Subject: [PATCH v3 02/15] block: freeze queue when updating zone resources
-Date: Tue,  4 Nov 2025 10:31:34 +0900
-Message-ID: <20251104013147.913802-3-dlemoal@kernel.org>
+Subject: [PATCH v3 03/15] block: cleanup blkdev_report_zones()
+Date: Tue,  4 Nov 2025 10:31:35 +0900
+Message-ID: <20251104013147.913802-4-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251104013147.913802-1-dlemoal@kernel.org>
 References: <20251104013147.913802-1-dlemoal@kernel.org>
@@ -79,118 +79,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Modify disk_update_zone_resources() to freeze the device queue before
-updating the number of zones, zone capacity and other zone related
-resources. The locking order resulting from the call to
-queue_limits_commit_update_frozen() is preserved, that is, the queue
-limits lock is first taken by calling queue_limits_start_update() before
-freezing the queue, and the queue is unfrozen after executing
-queue_limits_commit_update(), which replaces the call to
-queue_limits_commit_update_frozen().
+The variable capacity is used only in one place and so can be removed
+and get_capacity(disk) used directly instead.
 
-This change ensures that there are no in-flights I/Os when the zone
-resources are updated due to a zone revalidation. In case of error when
-the limits are applied, directly call disk_free_zone_resources() from
-disk_update_zone_resources() while the disk queue is still frozen to
-avoid needing to freeze & unfreeze the queue again in
-blk_revalidate_disk_zones(), thus simplifying that function code a
-little.
-
-Fixes: 0b83c86b444a ("block: Prevent potential deadlock in blk_revalidate_disk_zones()")
-Cc: stable@vger.kernel.org
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 ---
- block/blk-zoned.c | 42 ++++++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+ block/blk-zoned.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index 1621e8f78338..39381f2b2e94 100644
+index 39381f2b2e94..345a99c0b031 100644
 --- a/block/blk-zoned.c
 +++ b/block/blk-zoned.c
-@@ -1557,8 +1557,13 @@ static int disk_update_zone_resources(struct gendisk *disk,
+@@ -161,7 +161,6 @@ int blkdev_report_zones(struct block_device *bdev, sector_t sector,
+ 			unsigned int nr_zones, report_zones_cb cb, void *data)
  {
- 	struct request_queue *q = disk->queue;
- 	unsigned int nr_seq_zones, nr_conv_zones;
--	unsigned int pool_size;
-+	unsigned int pool_size, memflags;
- 	struct queue_limits lim;
-+	int ret = 0;
-+
-+	lim = queue_limits_start_update(q);
-+
-+	memflags = blk_mq_freeze_queue(q);
+ 	struct gendisk *disk = bdev->bd_disk;
+-	sector_t capacity = get_capacity(disk);
+ 	struct disk_report_zones_cb_args args = {
+ 		.disk = disk,
+ 		.user_cb = cb,
+@@ -171,7 +170,7 @@ int blkdev_report_zones(struct block_device *bdev, sector_t sector,
+ 	if (!bdev_is_zoned(bdev) || WARN_ON_ONCE(!disk->fops->report_zones))
+ 		return -EOPNOTSUPP;
  
- 	disk->nr_zones = args->nr_zones;
- 	disk->zone_capacity = args->zone_capacity;
-@@ -1568,11 +1573,10 @@ static int disk_update_zone_resources(struct gendisk *disk,
- 	if (nr_conv_zones >= disk->nr_zones) {
- 		pr_warn("%s: Invalid number of conventional zones %u / %u\n",
- 			disk->disk_name, nr_conv_zones, disk->nr_zones);
--		return -ENODEV;
-+		ret = -ENODEV;
-+		goto unfreeze;
- 	}
+-	if (!nr_zones || sector >= capacity)
++	if (!nr_zones || sector >= get_capacity(disk))
+ 		return 0;
  
--	lim = queue_limits_start_update(q);
--
- 	/*
- 	 * Some devices can advertize zone resource limits that are larger than
- 	 * the number of sequential zones of the zoned block device, e.g. a
-@@ -1609,7 +1613,15 @@ static int disk_update_zone_resources(struct gendisk *disk,
- 	}
- 
- commit:
--	return queue_limits_commit_update_frozen(q, &lim);
-+	ret = queue_limits_commit_update(q, &lim);
-+
-+unfreeze:
-+	if (ret)
-+		disk_free_zone_resources(disk);
-+
-+	blk_mq_unfreeze_queue(q, memflags);
-+
-+	return ret;
- }
- 
- static int blk_revalidate_conv_zone(struct blk_zone *zone, unsigned int idx,
-@@ -1774,7 +1786,7 @@ int blk_revalidate_disk_zones(struct gendisk *disk)
- 	sector_t zone_sectors = q->limits.chunk_sectors;
- 	sector_t capacity = get_capacity(disk);
- 	struct blk_revalidate_zone_args args = { };
--	unsigned int noio_flag;
-+	unsigned int memflags, noio_flag;
- 	int ret = -ENOMEM;
- 
- 	if (WARN_ON_ONCE(!blk_queue_is_zoned(q)))
-@@ -1824,20 +1836,14 @@ int blk_revalidate_disk_zones(struct gendisk *disk)
- 		ret = -ENODEV;
- 	}
- 
--	/*
--	 * Set the new disk zone parameters only once the queue is frozen and
--	 * all I/Os are completed.
--	 */
- 	if (ret > 0)
--		ret = disk_update_zone_resources(disk, &args);
--	else
--		pr_warn("%s: failed to revalidate zones\n", disk->disk_name);
--	if (ret) {
--		unsigned int memflags = blk_mq_freeze_queue(q);
-+		return disk_update_zone_resources(disk, &args);
- 
--		disk_free_zone_resources(disk);
--		blk_mq_unfreeze_queue(q, memflags);
--	}
-+	pr_warn("%s: failed to revalidate zones\n", disk->disk_name);
-+
-+	memflags = blk_mq_freeze_queue(q);
-+	disk_free_zone_resources(disk);
-+	blk_mq_unfreeze_queue(q, memflags);
- 
- 	return ret;
- }
+ 	return disk->fops->report_zones(disk, sector, nr_zones,
 -- 
 2.51.0
 
