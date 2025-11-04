@@ -4,98 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B716CCFA04
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 22:40:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69357CCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 23:00:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Eo8mcJx96u8VH4jn7nXN0WzI3pTAqmoosY5GMUzgLRE=; b=3fmd2yvMouIG51obXWe0g9ZmeN
-	baXF/ED9gqghIiJxkay5kNYZtPN4rd9TT0QPyiBHw9Q9CxWQmApiVTFYSYdw5JdO0Q4NU7PlBTLdC
-	JpHoIcshoO2TZiVqf1PS/oMnJh9r2UnFZZiKAU03pQ1f9xA0oEg+8TV8VAfV52hN2ltiZIv71waMD
-	iHvdi501DbKs75qzAziiXNHqqlc+wtHUqvXhd1Ay5HfuqmaThpQRMo79dMgr5PBELk5mAUZiR/2Zd
-	n8r8eip4UUJN/nRkBcOy1uwaWb0g1gjbcxGq9ZOyqqGLWLuwGY42h6ya6HqwcPfS2Lhf5fxPgtwdU
-	WQW/f7og==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pX+WO24J38G/YYX7x1TloiaUtW2wNzcw2XV3cvOsnC0=; b=VL8Sr+WmjXnhuiqXh+9avD1uvy
+	M/I1jS7vNXr7Mot8Oj/Qgt9VnQEDGuBhqsS7hfCFR5T08wMkTAsk4HU9w9wRQ5Rj422zB0BwNUo/v
+	EiiqxtotJIpiIB3lp9KXo0b/+DqSUoNB/lCQSePGg8ZQPoR1hEoLQLFtI1PeUjJu4hfUN3QGfF32f
+	mSCNdga+kMaea4+XMx6vB88/PCO5stiayctIWF72WXtaK8NJh7Wv1MUpymjPEdpYm7E8T0hCzJoXP
+	50NpEs4SfZxCtgmQ3/8Y3Qae60msF5mXIPhCl9a7HE9z9WgupdvGWneSDD6Y/a5C7TZG1Yxg5S+Fe
+	gY0qfQEg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGPhH-0000000ChfS-21uo;
-	Tue, 04 Nov 2025 22:40:15 +0000
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736])
+	id 1vGQ0M-0000000CiiZ-2KGZ;
+	Tue, 04 Nov 2025 22:59:58 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGPhE-0000000Chew-2zqj
+	id 1vGQ0J-0000000Cii2-2dPT
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 22:40:13 +0000
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-89e93741839so415904885a.3
-        for <linux-nvme@lists.infradead.org>; Tue, 04 Nov 2025 14:40:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762296011; x=1762900811; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Eo8mcJx96u8VH4jn7nXN0WzI3pTAqmoosY5GMUzgLRE=;
-        b=GG4zgKELAkwIUf/NhzWIKG4hn3HTexHUjT6BeMY288M0FEEg0xmqHq5ihSRfxIhO8W
-         mZtvdGG+Bd9yJTQKrqIy+GhCX4ztihM7GAxnqJ+/dZ0j9lw5b0dDX4EDIYoA6YDoToZX
-         mG+CcaIIgqePHpQTjLK2p6VyK7d+D9CTgthpQrUBcYqDqUlYjQMzQf4e7b4hbGzhkT+i
-         AUPMU2oebarTzmU3nAyCSGcKXVXoGSlOjId/qCQ0w3Pt4E6KlLBi5yF9GFKe2sJdliOd
-         D1IXcvkJUtJ7zO/dGj3TJCq1pYr1FLtc7E/b0xpC3ii9EHc+0xBLJdQJfQvRD81i1boA
-         dBIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762296011; x=1762900811;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Eo8mcJx96u8VH4jn7nXN0WzI3pTAqmoosY5GMUzgLRE=;
-        b=JoASRHxt9jtbVzJLXlSqJZSNHA+K3fbEdI1/GFnyrMG+rU/r1NRybqDB9wEEwbjRGj
-         a/yoVxpsJ9jl9tWnuoL6AYrmflZ85NmywRuf052wUfQLSn04b/U+VAIx+O70t51/HPGu
-         s/evJmZ0BgR+W6MMc+5KS8d2qmS1Uw6S6K42jUhoGPBoo15DVHBUvlu0VMKR8Sahb8Tn
-         rIt9y26Azsjz162rCAvww56LYimeJqUk/f6E6TD4Zb2M8eadcR7s9iDLQADVfj+KEQ4M
-         2eA78G+0K8vlpIvdrQqAq1mPkKxhsBtemzwfhMIPZMKZreh55g4RquPFHiSo0gGRfwYN
-         VBcA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3bBmmTGtIaEJaBVF6nQUzid6KVVapA7EsbxsJ0qAIxXGurpoSxBJHjIFcuZTnp8R+rjGlNdwSsF7E@lists.infradead.org
-X-Gm-Message-State: AOJu0YzoANPgZHgh/bJgvhQF2Jz5kZTyCVIfDL3Dblt58wU/BxMl0JDz
-	NTEirpX6iYCY5x3n0Z7wu6yIrqWXkrjH0pdL5EfZivznceXJAnddr8yp
-X-Gm-Gg: ASbGnctyDrtksDBnV0DU0hnl96m8jhW3+dTLkNC158UMgKGia92rk2M2e37o11hpNpA
-	6cR2IrNdLmKh7fziyFmYpjaG3lFAIBOxFE6xN2zEX/oofERqzNznFuETjtRGhKRoJaStUPfNPu3
-	8QiPzTuZTYhs8L/a+PhRvUM0pw4waWN0BQM1rw9caNPjVuEC0TO1ennCtTTU4sZuQpiT0Me7JjI
-	NuVT+TYgjUNXdMNnAvlgx51wPUH6zL5p9LRJa5kTZQiHQz0d9DgI2BvPkOH31A0RnPoT+3HhPzv
-	KN3CBhahZPNwVIr+FMVv4jRQv+Q/q6F7U9xZE+LpsTtJs+IqFGafFgUxDZB6Muoqdfdcc1fPZW9
-	eD5pZRRR4y6zpdw6G+ZKGW1lb5N7mssxTyB2jnGtxPvFuA1ROH0r1wz/WznrHBBzMdKmyGPmdqR
-	mSguuZLruLMP5GbF3EZIY=
-X-Google-Smtp-Source: AGHT+IGVJcQ7+Hm8/Mbp21EWtJYFZbeasKoHxrkrg5KoPSIeIFN3VHq0ULl0RYiT/x4RRTtxCZVdnA==
-X-Received: by 2002:a05:620a:459e:b0:8b1:ac18:acc9 with SMTP id af79cd13be357-8b22094fa87mr184006585a.32.1762296011340;
-        Tue, 04 Nov 2025 14:40:11 -0800 (PST)
-Received: from [10.69.71.192] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b0f76cde9bsm276498085a.28.2025.11.04.14.40.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 14:40:10 -0800 (PST)
-Message-ID: <49d5cb16-7632-4b85-b638-8e8bc1c602fe@gmail.com>
-Date: Tue, 4 Nov 2025 14:39:45 -0800
+	Tue, 04 Nov 2025 22:59:56 +0000
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A4MGhv11213055
+	for <linux-nvme@lists.infradead.org>; Tue, 4 Nov 2025 14:59:54 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=pX+WO24J38G/YYX7x1
+	TloiaUtW2wNzcw2XV3cvOsnC0=; b=clUNztb63UnwvjUAYN8h7A6LDndK4njMWp
+	36NlrMmuycIki3q+F1DLej8c0WRrUwE+dtH8q/dVWy1oKhWagtOh/4sGEOqXO/o1
+	nqDCp+1JOZ5K/9RM+UHKTHKubyoodaGO9sBqE5lnCDoknpoj5iatDK1+w3xJycpM
+	465RpAoTud2Ro1BKxUGUZJ5IwbjOgDigCUTCa46YyFh0Ka/uX7BK1EepYwSOAXDE
+	W5flGzlb1E0bFTEI5FspIcaLBkke1CIHjNdTl2dxgImjDXrXL7xN0xtsScEfjdPm
+	OIjkAL8PZSyy6h2SmPbxBTOjLgXYVsCIuccDaDmTtjmOZlBVLOXg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a7mgabqmw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 04 Nov 2025 14:59:54 -0800 (PST)
+Received: from twshared13080.31.frc3.facebook.com (2620:10d:c0a8:1b::8e35) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Tue, 4 Nov 2025 22:59:53 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 9664736ECC08; Tue,  4 Nov 2025 14:59:39 -0800 (PST)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <hch@lst.de>, <ming.lei@redhat.com>, <chaitanyak@nvidia.com>,
+        Keith Busch
+	<kbusch@kernel.org>, Casey Chen <cachen@purestorage.com>
+Subject: [PATCH] nvme: fix admin request_queue lifetime
+Date: Tue, 4 Nov 2025 14:59:39 -0800
+Message-ID: <20251104225939.3641605-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvmet-fc: add WQ_PERCPU to alloc_workqueue users
-To: Marco Crivellari <marco.crivellari@suse.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Justin Tee <justin.tee@broadcom.com>,
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
- Paul Ely <paul.ely@broadcom.com>
-References: <20251104112535.139450-1-marco.crivellari@suse.com>
- <20251104112535.139450-4-marco.crivellari@suse.com>
-Content-Language: en-US
-From: Justin Tee <justintee8345@gmail.com>
-In-Reply-To: <20251104112535.139450-4-marco.crivellari@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA0MDE5MyBTYWx0ZWRfXx/9Gp3bRmaS0
+ +/KmSK9Rvzwh2NLNuszt1Ydj81zbJAxfhN6dZ2Z5JJg5iu8z1z1J1TtDh8p/8W5rgkjcb1W7SyV
+ WaHII92ab07mEtTc0KaXQY+nIGdhxe9+1yeR4K2il9TpcKi6EOlKiyilEUnv769q5xWnvGrZ8kJ
+ GySc2Z5vqcKrR6JmSQqX7dIYmGfQ2oEBmY1lEQnQC9YZHwu9YhpqCQfI8nnO/mSzMD02JQL7pPU
+ kno7PQuZx/F+2XULhkQV2tkhJgjU++t4Y7MUZlf9gmpk8hJdd2t450b7x4+u+POq7DmyBHHGp4T
+ Xn4rFgRDf7oZjlUp3UeXuPuusSIm15UN1JKTBzc77YZOUOw1lDIjGlBzYlUY9OfHwexZEmRXz+F
+ 4cu2rzSAFmuGhEWvhBbBQ/KQ6a6xXw==
+X-Proofpoint-GUID: ciJTK9PtgX00IUU2XjxsO42SuL2mcevs
+X-Proofpoint-ORIG-GUID: ciJTK9PtgX00IUU2XjxsO42SuL2mcevs
+X-Authority-Analysis: v=2.4 cv=Hqt72kTS c=1 sm=1 tr=0 ts=690a856a cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=WTJdmG3rAAAA:8
+ a=14QwOunS_wrhAvECUoYA:9 a=q3NGepEMMmKWaCv8Sx90:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-04_04,2025-11-03_03,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_144012_783450_0D924DB1 
-X-CRM114-Status: UNSURE (   5.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251104_145955_692709_62D203D4 
+X-CRM114-Status: GOOD (  14.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,8 +95,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Justin Tee <justin.tee@broadcom.com>
+From: Keith Busch <kbusch@kernel.org>
 
-Regards,
-Justin
+The namespaces can access the controller's admin request_queue, and
+stale references on the namespaces may exist. Ensure the request_queue
+is active by moving the controller's 'put' after all references on the
+controller have been released to ensure no one is trying to access the
+request_queue. This fixes a reported use-after-free bug:
+
+  BUG: KASAN: slab-use-after-free in blk_queue_enter+0x41c/0x4a0
+  Read of size 8 at addr ffff88c0a53819f8 by task nvme/3287
+  CPU: 67 UID: 0 PID: 3287 Comm: nvme Tainted: G            E       6.13.=
+2-ga1582f1a031e #15
+  Tainted: [E]=3DUNSIGNED_MODULE
+  Hardware name: Jabil /EGS 2S MB1, BIOS 1.00 06/18/2025
+  Call Trace:
+   <TASK>
+   dump_stack_lvl+0x4f/0x60
+   print_report+0xc4/0x620
+   ? _raw_spin_lock_irqsave+0x70/0xb0
+   ? _raw_read_unlock_irqrestore+0x30/0x30
+   ? blk_queue_enter+0x41c/0x4a0
+   kasan_report+0xab/0xe0
+   ? blk_queue_enter+0x41c/0x4a0
+   blk_queue_enter+0x41c/0x4a0
+   ? __irq_work_queue_local+0x75/0x1d0
+   ? blk_queue_start_drain+0x70/0x70
+   ? irq_work_queue+0x18/0x20
+   ? vprintk_emit.part.0+0x1cc/0x350
+   ? wake_up_klogd_work_func+0x60/0x60
+   blk_mq_alloc_request+0x2b7/0x6b0
+   ? __blk_mq_alloc_requests+0x1060/0x1060
+   ? __switch_to+0x5b7/0x1060
+   nvme_submit_user_cmd+0xa9/0x330
+   nvme_user_cmd.isra.0+0x240/0x3f0
+   ? force_sigsegv+0xe0/0xe0
+   ? nvme_user_cmd64+0x400/0x400
+   ? vfs_fileattr_set+0x9b0/0x9b0
+   ? cgroup_update_frozen_flag+0x24/0x1c0
+   ? cgroup_leave_frozen+0x204/0x330
+   ? nvme_ioctl+0x7c/0x2c0
+   blkdev_ioctl+0x1a8/0x4d0
+   ? blkdev_common_ioctl+0x1930/0x1930
+   ? fdget+0x54/0x380
+   __x64_sys_ioctl+0x129/0x190
+   do_syscall_64+0x5b/0x160
+   entry_SYSCALL_64_after_hwframe+0x4b/0x53
+  RIP: 0033:0x7f765f703b0b
+  Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3=
+ 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f=
+0 ff ff 73 01 c3 48 8b 0d dd 52 0f 00 f7 d8 64 89 01 48
+  RSP: 002b:00007ffe2cefe808 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+  RAX: ffffffffffffffda RBX: 00007ffe2cefe860 RCX: 00007f765f703b0b
+  RDX: 00007ffe2cefe860 RSI: 00000000c0484e41 RDI: 0000000000000003
+  RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000000
+  R10: 00007f765f611d50 R11: 0000000000000202 R12: 0000000000000003
+  R13: 00000000c0484e41 R14: 0000000000000001 R15: 00007ffe2cefea60
+   </TASK>
+
+Reported-by: Casey Chen <cachen@purestorage.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index fa4181d7de736..0b83d82f67e75 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4901,7 +4901,6 @@ void nvme_remove_admin_tag_set(struct nvme_ctrl *ct=
+rl)
+ 	 */
+ 	nvme_stop_keep_alive(ctrl);
+ 	blk_mq_destroy_queue(ctrl->admin_q);
+-	blk_put_queue(ctrl->admin_q);
+ 	if (ctrl->ops->flags & NVME_F_FABRICS) {
+ 		blk_mq_destroy_queue(ctrl->fabrics_q);
+ 		blk_put_queue(ctrl->fabrics_q);
+@@ -5045,6 +5044,7 @@ static void nvme_free_ctrl(struct device *dev)
+ 		container_of(dev, struct nvme_ctrl, ctrl_device);
+ 	struct nvme_subsystem *subsys =3D ctrl->subsys;
+=20
++	blk_put_queue(ctrl->admin_q);
+ 	if (!subsys || ctrl->instance !=3D subsys->instance)
+ 		ida_free(&nvme_instance_ida, ctrl->instance);
+ 	nvme_free_cels(ctrl);
+--=20
+2.47.3
+
 
