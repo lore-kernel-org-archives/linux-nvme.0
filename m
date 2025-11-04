@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ABD91CCF9E3
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 21:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F998CCFA04
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 21:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
 	Cc:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gFm8xlu+oCzW+CFR4OxdooFhtPSaxfNtuig+1IB/1c4=; b=H5mwzgUYVjnRqtdaWp78bUUHVK
-	C0NLUTy19l0KoF7yIbi060wWCP9aSgeZt+H8SAYwD9qDUfIPFJEww3rjRwLlH3FHj4sdKRm45Eslf
-	X/HJRYpsgRZLWH5wAgtDZPI4QpkVZHxriqWwZoLW5+vkRZDQRuS9q95NK9k70kBuBmrk/NrhSUduz
-	O8ounh4M8yv97gFZZglXKLiWWTDBozSvxopoONnQAvUl0lZztbk5+ypM45kiM0hR2eGinFCjj5Nqa
-	/O6/+dFjKgZ77iZ2QKSWcfu1Ur33l2gZA2g37a4CD+0PVTCGEEG3UmzBaoAREGrrX2no+cmF3CisR
-	3lYauKOQ==;
+	bh=zU6hSDluXFjaMhTvJN5vUNWV0CNDe2QVYWED3tuJXYw=; b=nM8D1LdvzEI0Fw9IOS1eMftlcd
+	7A1eLvHpySMnjfpEXZdnpv9OA9k8LDWfy80497hPXZDUeDFxnsNeP3PGOgi9tRk6Pfeul6onwWtMO
+	zwEht69klNQEI1fPzfzYqcL2fC4umys5JwyGSNF5tfw8E9qT+db913tCgY0NY9DabMDGBtIUMvFFB
+	wY2PTjZIIqWrIaqATCNjZX0aks5AzjaHXcy3I5rDSHsKqEEgrHNj3oU9Agasa0FxST2wi/czDSiOx
+	1N0j7znEWsiLn90xV7aDe8RpkZ8fi8JdKm8YP1l2Dy8WILa+miZq9IgDXXJ10vZY1llqSVIdpkoqn
+	ZWkeERpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGOYM-0000000CbSL-34UN;
-	Tue, 04 Nov 2025 21:26:58 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vGOYP-0000000CbWf-1OWP;
+	Tue, 04 Nov 2025 21:27:01 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGOYK-0000000CbOr-3LEK
+	id 1vGOYM-0000000CbRo-27Va
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 21:26:56 +0000
+	Tue, 04 Nov 2025 21:26:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 35005601EC;
+	by sea.source.kernel.org (Postfix) with ESMTP id 143CD43D9E;
+	Tue,  4 Nov 2025 21:26:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326DFC116D0;
 	Tue,  4 Nov 2025 21:26:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A33C19422;
-	Tue,  4 Nov 2025 21:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762291615;
-	bh=Q4cslq9RTPjwXPpOTDw0u2b1GIM3PQxLaM7Zeh2HUJI=;
+	s=k20201202; t=1762291617;
+	bh=qX9bC1mdXjLgzZbddPsRvTYZuY0YdxAWmc2W8NTPQ2k=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=EgUzLIeHGtWsyPRMZjcX4j4rJUYJrf4JWsvjkiPNC8NpFfLRbB0qoystln0ti/5tw
-	 Oy7TTK3j/Oj55LC08OZmnzrLOyYUb/bfy0cGXhS9C0x2UQ3/H4hWt5ye5d4nb6wuKJ
-	 EPqn1cd1x4ggeWuLMoXLXOEZZwyWIPMgoxHpfnjprdb8Y2+nPAYV/Bd2Mb/Brt2rGB
-	 MXiu02viTlmTLXsgILm9PJDKgVmS/EAlq7PciMtu3+eLO45+Foa6n92Kp1KdTFQhtR
-	 jILVyfrs5YFS2F0pAYcPDZNktwkj5gjL1RAEcmbUcYDlAi8nsUXxac1WClUFc8QiWo
-	 kBHFvaDj9r0Cg==
+	b=XWFGGH1N81yG1hBeFSfTy3GSS6Zva1ISySBwZbv0m7NZQ1X+p3YF6p2cpjQWLpQ+p
+	 aAej7x4zmJZ7lHiiV3tPTerT4W7ySzp8cR1+FmbWKIVBHujnVd/IbARLCwEvi6tNBC
+	 LbLiJQfxd4E2CaWYIFGpBlMLr7Wl/NY7fK2rzEA6zgZl+YrMdz+r0t7Mc+E/2n7/8T
+	 eGs1dyAIoJUqDgPf5V5qArRQsTruoSc6nQ5mhuQU3u1KzqalcKA0O99P1YLGfDsbHv
+	 OL4CFUUYxPdBFjBpGU0uU/6qbFRDwOjup78x0ZjhSWeFRprStzyoTubut1tKEnXcon
+	 PXb1UIiktS4lg==
 From: Damien Le Moal <dlemoal@kernel.org>
 To: Jens Axboe <axboe@kernel.dk>,
 	linux-block@vger.kernel.org,
@@ -57,14 +57,17 @@ To: Jens Axboe <axboe@kernel.dk>,
 	Carlos Maiolino <cem@kernel.org>,
 	linux-btrfs@vger.kernel.org,
 	David Sterba <dsterba@suse.com>
-Subject: [PATCH v4 09/15] block: introduce blkdev_get_zone_info()
-Date: Wed,  5 Nov 2025 06:22:43 +0900
-Message-ID: <20251104212249.1075412-10-dlemoal@kernel.org>
+Subject: [PATCH v4 10/15] block: introduce blkdev_report_zones_cached()
+Date: Wed,  5 Nov 2025 06:22:44 +0900
+Message-ID: <20251104212249.1075412-11-dlemoal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251104212249.1075412-1-dlemoal@kernel.org>
 References: <20251104212249.1075412-1-dlemoal@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251104_132658_644689_9E30AB45 
+X-CRM114-Status: GOOD (  19.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,224 +82,162 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce the function blkdev_get_zone_info() to obtain a single zone
-information from cached zone data, that is, either from the zone write
-plug for the target zone if it exists and from the disk zones_cond
-array otherwise.
+Introduce the function blkdev_report_zones_cached() to provide a fast
+report zone built using the blkdev_get_zone_info() function, which gets
+zone information from a disk zones_cond array or zone write plugs.
+For a large capacity SMR drive, such fast report zone can be completed
+in a few milliseconds compared to several seconds completion times
+when the report zone is obtained from the device.
 
-Since sequential zones that do not have a zone write plug are either
-full, empty or in a bad state (read-only or offline), the zone write
-pointer can be inferred from the zone condition cached in the disk
-zones_cond array. For sequential zones that have a zone write plug, the
-zone condition and zone write pointer are obtained from the condition
-and write pointer offset managed with the zone write plug. This allows
-obtaining the information for a zone much more quickly than having to
-execute a report zones command on the device.
+The zone report is built in the same manner as with the regular
+blkdev_report_zones() function, that is, the first zone reported is the
+one containing the specified start sector and the report is limited to
+the specified number of zones (nr_zones argument). The information for
+each zone in the report is obtained using blkdev_get_zone_info().
 
-blkdev_get_zone_info() falls back to using a regular zone report if the
-target zone is flagged as needing an update with the
-BLK_ZONE_WPLUG_NEED_WP_UPDATE flag, or if the target device does not
-use zone write plugs (i.e. a device mapper device). In this case, the
-new function blkdev_report_zone_fallback() is used and the zone
-condition is reported consistantly with the cahced report, that is, the
-BLK_ZONE_COND_ACTIVE condition is used in place of the implicit open,
-explicit open and closed conditions. This is achieved by adding the
-.report_active field to struct blk_report_zones_args and by having
-disk_report_zone() sets the correct zone condition if .report_active is
-true.
-
-In preparation for using blkdev_get_zone_info() in upcoming file systems
-changes, also export this function as a GPL symbol.
+For zoned devices that do not use zone write plug resources,
+using blkdev_get_zone_info() is inefficient as the zone report would
+be very slow, generated one zone at a time. To avoid this,
+blkdev_report_zones_cached() falls back to calling
+blkdev_do_report_zones() to execute a regular zone report. In this case,
+the .report_active field of struct blk_report_zones_args is set to true
+to report zone conditions using the BLK_ZONE_COND_ACTIVE condition in
+place of the implicit open, explicit open and closed conditions.
 
 Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
 ---
- block/blk-zoned.c      | 141 +++++++++++++++++++++++++++++++++++++++++
- include/linux/blkdev.h |   3 +
- 2 files changed, 144 insertions(+)
+ block/blk-zoned.c      | 88 +++++++++++++++++++++++++++++++++++-------
+ include/linux/blkdev.h |  2 +
+ 2 files changed, 77 insertions(+), 13 deletions(-)
 
 diff --git a/block/blk-zoned.c b/block/blk-zoned.c
-index 9ce7570c91e1..d98babfe49df 100644
+index d98babfe49df..bbd105b11843 100644
 --- a/block/blk-zoned.c
 +++ b/block/blk-zoned.c
-@@ -203,6 +203,7 @@ EXPORT_SYMBOL_GPL(bdev_zone_is_seq);
- struct blk_report_zones_args {
- 	report_zones_cb cb;
- 	void		*data;
-+	bool		report_active;
+@@ -74,6 +74,19 @@ struct blk_zone_wplug {
+ 	enum blk_zone_cond	cond;
  };
  
- static int blkdev_do_report_zones(struct block_device *bdev, sector_t sector,
-@@ -820,6 +821,23 @@ static void disk_zone_wplug_sync_wp_offset(struct gendisk *disk,
- int disk_report_zone(struct gendisk *disk, struct blk_zone *zone,
- 		     unsigned int idx, struct blk_report_zones_args *args)
++static inline bool disk_need_zone_resources(struct gendisk *disk)
++{
++	/*
++	 * All request-based zoned devices need zone resources so that the
++	 * block layer can automatically handle write BIO plugging. BIO-based
++	 * device drivers (e.g. DM devices) are normally responsible for
++	 * handling zone write ordering and do not need zone resources, unless
++	 * the driver requires zone append emulation.
++	 */
++	return queue_is_mq(disk->queue) ||
++		queue_emulates_zone_append(disk->queue);
++}
++
+ static inline unsigned int disk_zone_wplugs_hash_size(struct gendisk *disk)
  {
-+	if (args->report_active) {
-+		/*
-+		 * If we come here, then this is a report zones as a fallback
-+		 * for a cached report. So collapse the implicit open, explicit
-+		 * open and closed conditions into the active zone condition.
-+		 */
-+		switch (zone->cond) {
-+		case BLK_ZONE_COND_IMP_OPEN:
-+		case BLK_ZONE_COND_EXP_OPEN:
-+		case BLK_ZONE_COND_CLOSED:
-+			zone->cond = BLK_ZONE_COND_ACTIVE;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
- 	if (disk->zone_wplugs_hash)
- 		disk_zone_wplug_sync_wp_offset(disk, zone);
- 
-@@ -830,6 +848,129 @@ int disk_report_zone(struct gendisk *disk, struct blk_zone *zone,
+ 	return 1U << disk->zone_wplugs_hash_bits;
+@@ -971,6 +984,68 @@ int blkdev_get_zone_info(struct block_device *bdev, sector_t sector,
  }
- EXPORT_SYMBOL_GPL(disk_report_zone);
+ EXPORT_SYMBOL_GPL(blkdev_get_zone_info);
  
-+static int blkdev_report_zone_cb(struct blk_zone *zone, unsigned int idx,
-+				 void *data)
-+{
-+	memcpy(data, zone, sizeof(struct blk_zone));
-+	return 0;
-+}
-+
-+static int blkdev_report_zone_fallback(struct block_device *bdev,
-+				       sector_t sector, struct blk_zone *zone)
-+{
-+	struct blk_report_zones_args args = {
-+		.cb = blkdev_report_zone_cb,
-+		.data = zone,
-+		.report_active = true,
-+	};
-+
-+	return blkdev_do_report_zones(bdev, sector, 1, &args);
-+}
-+
 +/**
-+ * blkdev_get_zone_info - Get a single zone information from cached data
-+ * @bdev:   Target block device
-+ * @sector: Sector contained by the target zone
-+ * @zone:   zone structure to return the zone information
++ * blkdev_report_zones_cached - Get cached zones information
++ * @bdev:     Target block device
++ * @sector:   Sector from which to report zones
++ * @nr_zones: Maximum number of zones to report
++ * @cb:       Callback function called for each reported zone
++ * @data:     Private data for the callback function
 + *
 + * Description:
-+ *    Get the zone information for the zone containing @sector using the zone
-+ *    write plug of the target zone, if one exist, or the disk zone condition
-+ *    array otherwise. The zone condition may be reported as being
-+ *    the BLK_ZONE_COND_ACTIVE condition for a zone that is in the implicit
-+ *    open, explicit open or closed condition.
-+ *
-+ *    Returns 0 on success and a negative error code on failure.
++ *    Similar to blkdev_report_zones() but instead of calling into the low level
++ *    device driver to get the zone report from the device, use
++ *    blkdev_get_zone_info() to generate the report from the disk zone write
++ *    plugs and zones condition array. Since calling this function without a
++ *    callback does not make sense, @cb must be specified.
 + */
-+int blkdev_get_zone_info(struct block_device *bdev, sector_t sector,
-+			 struct blk_zone *zone)
++int blkdev_report_zones_cached(struct block_device *bdev, sector_t sector,
++			unsigned int nr_zones, report_zones_cb cb, void *data)
 +{
 +	struct gendisk *disk = bdev->bd_disk;
++	sector_t capacity = get_capacity(disk);
 +	sector_t zone_sectors = bdev_zone_sectors(bdev);
-+	struct blk_zone_wplug *zwplug;
-+	unsigned long flags;
-+	u8 *zones_cond;
++	unsigned int idx = 0;
++	struct blk_zone zone;
++	int ret;
 +
-+	if (!bdev_is_zoned(bdev))
++	if (!cb || !bdev_is_zoned(bdev) ||
++	    WARN_ON_ONCE(!disk->fops->report_zones))
 +		return -EOPNOTSUPP;
 +
-+	if (sector >= get_capacity(disk))
-+		return -EINVAL;
-+
-+	memset(zone, 0, sizeof(*zone));
-+	sector = ALIGN_DOWN(sector, zone_sectors);
-+
-+	rcu_read_lock();
-+	zones_cond = rcu_dereference(disk->zones_cond);
-+	if (!disk->zone_wplugs_hash || !zones_cond) {
-+		rcu_read_unlock();
-+		return blkdev_report_zone_fallback(bdev, sector, zone);
-+	}
-+	zone->cond = zones_cond[disk_zone_no(disk, sector)];
-+	rcu_read_unlock();
-+
-+	zone->start = sector;
-+	zone->len = zone_sectors;
++	if (!nr_zones || sector >= capacity)
++		return 0;
 +
 +	/*
-+	 * If this is a conventional zone, we do not have a zone write plug and
-+	 * can report the zone immediately.
++	 * If we do not have any zone write plug resources, fallback to using
++	 * the regular zone report.
 +	 */
-+	if (zone->cond == BLK_ZONE_COND_NOT_WP) {
-+		zone->type = BLK_ZONE_TYPE_CONVENTIONAL;
-+		zone->capacity = zone_sectors;
-+		zone->wp = ULLONG_MAX;
-+		return 0;
++	if (!disk_need_zone_resources(disk)) {
++		struct blk_report_zones_args args = {
++			.cb = cb,
++			.data = data,
++			.report_active = true,
++		};
++
++		return blkdev_do_report_zones(bdev, sector, nr_zones, &args);
 +	}
 +
-+	/*
-+	 * This is a sequential write required zone. If the zone is read-only or
-+	 * offline, only set the zone write pointer to an invalid value and
-+	 * report the zone.
-+	 */
-+	zone->type = BLK_ZONE_TYPE_SEQWRITE_REQ;
-+	if (disk_zone_is_last(disk, zone))
-+		zone->capacity = disk->last_zone_capacity;
-+	else
-+		zone->capacity = disk->zone_capacity;
++	for (sector = ALIGN_DOWN(sector, zone_sectors);
++	     sector < capacity && idx < nr_zones;
++	     sector += zone_sectors, idx++) {
++		ret = blkdev_get_zone_info(bdev, sector, &zone);
++		if (ret)
++			return ret;
 +
-+	if (zone->cond == BLK_ZONE_COND_READONLY ||
-+	    zone->cond == BLK_ZONE_COND_OFFLINE) {
-+		zone->wp = ULLONG_MAX;
-+		return 0;
++		ret = cb(&zone, idx, data);
++		if (ret)
++			return ret;
 +	}
 +
-+	/*
-+	 * If the zone does not have a zone write plug, it is either full or
-+	 * empty, as we otherwise would have a zone write plug for it. In this
-+	 * case, set the write pointer accordingly and report the zone.
-+	 * Otherwise, if we have a zone write plug, use it.
-+	 */
-+	zwplug = disk_get_zone_wplug(disk, sector);
-+	if (!zwplug) {
-+		if (zone->cond == BLK_ZONE_COND_FULL)
-+			zone->wp = ULLONG_MAX;
-+		else
-+			zone->wp = sector;
-+		return 0;
-+	}
-+
-+	spin_lock_irqsave(&zwplug->lock, flags);
-+	if (zwplug->flags & BLK_ZONE_WPLUG_NEED_WP_UPDATE) {
-+		spin_unlock_irqrestore(&zwplug->lock, flags);
-+		disk_put_zone_wplug(zwplug);
-+		return blkdev_report_zone_fallback(bdev, sector, zone);
-+	}
-+	zone->cond = zwplug->cond;
-+	zone->wp = sector + zwplug->wp_offset;
-+	spin_unlock_irqrestore(&zwplug->lock, flags);
-+
-+	disk_put_zone_wplug(zwplug);
-+
-+	return 0;
++	return idx;
 +}
-+EXPORT_SYMBOL_GPL(blkdev_get_zone_info);
++EXPORT_SYMBOL_GPL(blkdev_report_zones_cached);
 +
  static void blk_zone_reset_bio_endio(struct bio *bio)
  {
  	struct gendisk *disk = bio->bi_bdev->bd_disk;
+@@ -1781,19 +1856,6 @@ void disk_free_zone_resources(struct gendisk *disk)
+ 	disk->nr_zones = 0;
+ }
+ 
+-static inline bool disk_need_zone_resources(struct gendisk *disk)
+-{
+-	/*
+-	 * All mq zoned devices need zone resources so that the block layer
+-	 * can automatically handle write BIO plugging. BIO-based device drivers
+-	 * (e.g. DM devices) are normally responsible for handling zone write
+-	 * ordering and do not need zone resources, unless the driver requires
+-	 * zone append emulation.
+-	 */
+-	return queue_is_mq(disk->queue) ||
+-		queue_emulates_zone_append(disk->queue);
+-}
+-
+ struct blk_revalidate_zone_args {
+ 	struct gendisk	*disk;
+ 	u8		*zones_cond;
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 53bcfbc2f68f..03a594b4dfbc 100644
+index 03a594b4dfbc..f0ab02e0a673 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -436,6 +436,9 @@ typedef int (*report_zones_cb)(struct blk_zone *zone, unsigned int idx,
- int disk_report_zone(struct gendisk *disk, struct blk_zone *zone,
- 		     unsigned int idx, struct blk_report_zones_args *args);
- 
-+int blkdev_get_zone_info(struct block_device *bdev, sector_t sector,
-+			 struct blk_zone *zone);
-+
+@@ -442,6 +442,8 @@ int blkdev_get_zone_info(struct block_device *bdev, sector_t sector,
  #define BLK_ALL_ZONES  ((unsigned int)-1)
  int blkdev_report_zones(struct block_device *bdev, sector_t sector,
  		unsigned int nr_zones, report_zones_cb cb, void *data);
++int blkdev_report_zones_cached(struct block_device *bdev, sector_t sector,
++		unsigned int nr_zones, report_zones_cb cb, void *data);
+ int blkdev_zone_mgmt(struct block_device *bdev, enum req_op op,
+ 		sector_t sectors, sector_t nr_sectors);
+ int blk_revalidate_disk_zones(struct gendisk *disk);
 -- 
 2.51.0
 
