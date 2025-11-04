@@ -4,97 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A246ECCFA04
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 14:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25E28CCFA04
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 14:58:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hWLSGlxzsX7f5WHL9BQun+aJuLqBVxYOuEaZFUBIfwQ=; b=K2PHXMksdD5fdaGIleivr1yNh5
-	UGRRoYnQVEUvdVEBwIRR5DXbGFW9L5bHUFTpFCYwzXadrSyPVFYrLQikXQAQqGArkNJpgrplYYdL3
-	e9zS1RFQTggBooQRID0QLf/PC2sZhCW20wrDMMjL+INrRKUIjPDaZT9LFW6o+pD5cPF9H5olZu4S6
-	QowLqlSkk0Tvay0uMHdIuTagri1oaEV7lA7cojt1t16k8bGOPRWTS1pWgZ+JxZrslPuaQVHiMXKRc
-	0wt75YxC2Qxe2b8SeIoVTe6/pMPrG11McUfx3n2S83J7xkY/8JxT39ZiCWQv63BiPayA6LllbNsMo
-	ap+gKl4A==;
+	bh=ef94CcKkJE3LbBov/USUDx0TsKmvean7QfBbRPRwTAk=; b=vWv6MFFck+R26DV1ZgHR45AR7z
+	ScZqyiQHKym8aEMV+RK6iiJHc9jvsk8QgrpXIz3htIaCT7ynDK1A8NDGpzznGhpAxAKj9T40pKiBK
+	73tqYMiqJVS4qX4JfbWkwdkp9CFOC7Q0gIcTSD7rdahCSzVBLFw/7mRaLV7eDJ2tpxTa+onMEJkas
+	qXsDUtL2PHjW5N0Kgi3wg8vHunh5h8VFwyG7vPMES/BMHT6whN4wkM/gHHITcY2f0DV/Q4NOcYsxp
+	4Y61wKtZGdGBkClARrwQ2u8igoDpgeMlx+RgWjGoq9XkFW/Rr1h4mudujFe8Y/3FDZiSNZVzd2cli
+	ksxUXoIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGITR-0000000C0qC-42Km;
-	Tue, 04 Nov 2025 14:57:29 +0000
+	id 1vGIU7-0000000C0uM-1eh9;
+	Tue, 04 Nov 2025 14:58:11 +0000
 Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGITQ-0000000C0pf-1I5r
+	id 1vGIU4-0000000C0tm-2KWz
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 14:57:29 +0000
+	Tue, 04 Nov 2025 14:58:09 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E455B1F387;
-	Tue,  4 Nov 2025 14:57:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CC4A61F387;
+	Tue,  4 Nov 2025 14:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762268245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762268286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWLSGlxzsX7f5WHL9BQun+aJuLqBVxYOuEaZFUBIfwQ=;
-	b=yzG2+kx4yQrPilrcdOzXc35KjErOn3G3Dibn+OL0BNr7pdRKQWsqJsWVF5OHJNBWLnqT5I
-	u947LYxBW4DY/o6GM8uO0jG3CB3MAJKtB6DOeaBdS/3p79O5EAtvz7+9CGMTjfEY+VQnhl
-	pjFM2JwFdUcsm3Q2HU7k1aPuMqS9BU0=
+	bh=ef94CcKkJE3LbBov/USUDx0TsKmvean7QfBbRPRwTAk=;
+	b=Ve8IWvQRwvVe7OBH7VneYTcp9BMgOAF7bWk6m9DFkNeZtuMOpsYvu4cizgmJwn2QrZJhgm
+	xfyvnT3BwWz2JLxQ/aPgKRv8uv9ta5wCyV8EevgKZqptpJ2Q/LDLXChIVEivQ84OMMAtdG
+	xHKgO7svNdpS4J2CFALItonaUxOh9k4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762268245;
+	s=susede2_ed25519; t=1762268286;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWLSGlxzsX7f5WHL9BQun+aJuLqBVxYOuEaZFUBIfwQ=;
-	b=PiGa27f57XxicoBjB4820n7d4FMnD95fMUTSXo2O5/Y+/xy1Ndo4s4tS4xzYHUl3o0ojKS
-	36JCYF5yGbpe/tCQ==
+	bh=ef94CcKkJE3LbBov/USUDx0TsKmvean7QfBbRPRwTAk=;
+	b=eSfub76kCGKk/+HMgGZkKwCzuZJT8Kuiz6SsclD/YJEvmUzwOuGEgZUIa0voFbcqizbNAo
+	J/QxU5jC6ip5KDAA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762268244; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762268285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWLSGlxzsX7f5WHL9BQun+aJuLqBVxYOuEaZFUBIfwQ=;
-	b=HoUBDhxpU1ggEs4ZAGaPVZPiFOALDpqElLzI+0bc05ClQd6/bimUYR0TGaHMQG5vtzQ+dv
-	ub+pbnN+EeHXNuw0qNjXV5PYHJOX8R566UrkvGSeVkkWsNqG3CjyQzFa77Wl2FZ9VFR+81
-	yi8JOYeQtU/HdM91LjS/YVw8GZmQDAs=
+	bh=ef94CcKkJE3LbBov/USUDx0TsKmvean7QfBbRPRwTAk=;
+	b=O8yswhChNOT7kyUr91EkDauQzPwyqc1D0pV1BmgrxANypwZwpvR4+vWTNCAI3BoYy3NP5F
+	Ad49Uj4+LCBk9dfbQF7xUG11Ioc6lpRUfPL8py3Cz9+pj1R6z70RJVhaDrFe6Hd0i7q52s
+	C1HllXnfRZ7JVhPSgczNhTLmAt7XADI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762268244;
+	s=susede2_ed25519; t=1762268285;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hWLSGlxzsX7f5WHL9BQun+aJuLqBVxYOuEaZFUBIfwQ=;
-	b=TBRhIB0qbNBU/eA1dfltQybtBR+Er1N4xFFRAfKrTRLRAQjjVttqF51Fj+fi3PB7cnXJYH
-	wfVr8MKwP6KcyHBQ==
+	bh=ef94CcKkJE3LbBov/USUDx0TsKmvean7QfBbRPRwTAk=;
+	b=iSZ6QRxWr/RU+VZJ2saBVbLDfiU29dxae89/TaMupgMg04XOMNKi1HBS9JRpj9+YJL16L+
+	0wiD144+wRPGrOAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B8EDC139A9;
-	Tue,  4 Nov 2025 14:57:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83785139A9;
+	Tue,  4 Nov 2025 14:58:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 33a3LFQUCmnuaQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 04 Nov 2025 14:57:24 +0000
-Message-ID: <b07e9fa2-1f7a-47b5-bbd0-9d8d3d35d8ba@suse.de>
-Date: Tue, 4 Nov 2025 15:57:24 +0100
+	id a6RmH30UCmktawAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 04 Nov 2025 14:58:05 +0000
+Message-ID: <a93cee4e-dd6b-4696-bced-d00365f93271@suse.de>
+Date: Tue, 4 Nov 2025 15:58:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCHv4 2/6] nvme-multipath: add support for adaptive I/O
- policy
+Subject: Re: [RFC PATCHv4 4/6] nvme-multipath: add debugfs attribute
+ adaptive_ewma_shift
 To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
 Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, dwagner@suse.de,
  axboe@kernel.dk, gjoyce@ibm.com
 References: <20251104104533.138481-1-nilay@linux.ibm.com>
- <20251104104533.138481-3-nilay@linux.ibm.com>
+ <20251104104533.138481-5-nilay@linux.ibm.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251104104533.138481-3-nilay@linux.ibm.com>
+In-Reply-To: <20251104104533.138481-5-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
@@ -117,8 +117,8 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_065728_521450_BB31D1D1 
-X-CRM114-Status: GOOD (  16.53  )
+X-CRM114-CacheID: sfid-20251104_065808_740039_24711EB1 
+X-CRM114-Status: GOOD (  13.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,58 +134,32 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 11/4/25 11:45, Nilay Shroff wrote:
-> This commit introduces a new I/O policy named "adaptive". Users can
-> configure it by writing "adaptive" to "/sys/class/nvme-subsystem/nvme-
-> subsystemX/iopolicy"
+> By default, the EWMA (Exponentially Weighted Moving Average) shift
+> value, used for storing latency samples for adaptive iopolicy, is set
+> to 3. The EWMA is calculated using the following formula:
 > 
-> The adaptive policy dynamically distributes I/O based on measured
-> completion latency. The main idea is to calculate latency for each path,
-> derive a weight, and then proportionally forward I/O according to those
-> weights.
+>      ewma = (old * ((1 << ewma_shift) - 1) + new) >> ewma_shift;
 > 
-> To ensure scalability, path latency is measured per-CPU. Each CPU
-> maintains its own statistics, and I/O forwarding uses these per-CPU
-> values. Every ~15 seconds, a simple average latency of per-CPU batched
-> samples are computed and fed into an Exponentially Weighted Moving
-> Average (EWMA):
+> The default value of 3 assigns ~87.5% weight to the existing EWMA value
+> and ~12.5% weight to the new latency sample. This provides a stable
+> average that smooths out short-term variations.
 > 
-> avg_latency = div_u64(batch, batch_count);
-> new_ewma_latency = (prev_ewma_latency * (WEIGHT-1) + avg_latency)/WEIGHT
+> However, different workloads may require faster or slower adaptation to
+> changing conditions. This commit introduces a new debugfs attribute,
+> adaptive_ewma_shift, allowing users to tune the weighting factor.
 > 
-> With WEIGHT = 8, this assigns 7/8 (~87.5%) weight to the previous
-> latency value and 1/8 (~12.5%) to the most recent latency. This
-> smoothing reduces jitter, adapts quickly to changing conditions,
-> avoids storing historical samples, and works well for both low and
-> high I/O rates. Path weights are then derived from the smoothed (EWMA)
-> latency as follows (example with two paths A and B):
-> 
->      path_A_score = NSEC_PER_SEC / path_A_ewma_latency
->      path_B_score = NSEC_PER_SEC / path_B_ewma_latency
->      total_score  = path_A_score + path_B_score
-> 
->      path_A_weight = (path_A_score * 100) / total_score
->      path_B_weight = (path_B_score * 100) / total_score
-> 
-> where:
->    - path_X_ewma_latency is the smoothed latency of a path in nanoseconds
->    - NSEC_PER_SEC is used as a scaling factor since valid latencies
->      are < 1 second
->    - weights are normalized to a 0–64 scale across all paths.
-> 
-> Path credits are refilled based on this weight, with one credit
-> consumed per I/O. When all credits are consumed, the credits are
-> refilled again based on the current weight. This ensures that I/O is
-> distributed across paths proportionally to their calculated weight.
+> For example:
+>    - adaptive_ewma_shift = 2 => 75% old, 25% new
+>    - adaptive_ewma_shift = 1 => 50% old, 50% new
+>    - adaptive_ewma_shift = 0 => 0% old, 100% new
 > 
 > Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 > ---
->   drivers/nvme/host/core.c      |  15 +-
->   drivers/nvme/host/ioctl.c     |  31 ++-
->   drivers/nvme/host/multipath.c | 425 ++++++++++++++++++++++++++++++++--
->   drivers/nvme/host/nvme.h      |  74 +++++-
->   drivers/nvme/host/pr.c        |   6 +-
->   drivers/nvme/host/sysfs.c     |   2 +-
->   6 files changed, 530 insertions(+), 23 deletions(-)
+>   drivers/nvme/host/core.c      |  3 +++
+>   drivers/nvme/host/debugfs.c   | 46 +++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/multipath.c |  8 +++---
+>   drivers/nvme/host/nvme.h      |  1 +
+>   4 files changed, 54 insertions(+), 4 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
