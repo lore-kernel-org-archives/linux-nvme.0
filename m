@@ -4,97 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07F5FCCFA04
-	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 10:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B510CCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue,  4 Nov 2025 10:54:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q6i469k8uzc9cH/k5nPYtXpVpJlQzHublJWG8HfoBk8=; b=LzR2tlX22DUf1Gs5pTno/RpRLZ
-	hGRpR4KXnQs9vhXMLNfrmxgpzFChX+ZZKTl6vYG/0WoawCAPvZ4AX+nnUgIcTYwsi0BSkV1GE4g+5
-	mkL3oOPA7geZxVtQVWdBxBj1XqGx8yyCIVxG4IgVVwiLzFLQ1LzsNtJrt/kjRJKcyG3ZwBW7UWN9b
-	YtOaxmnVfSyhfplLABieT6a51AX7mE9IWAnMJ1BJLq/uyr3hjl+EC2/9EIVachCo/bp9L5nSENbpP
-	wjeQcav/Hw6F1T9n63VWypO0XI09KsGhWYu2oZyzewUHKQzAxLUhxfeVtx3hZrewd5j4NKnSUjZih
-	iO0gqAeQ==;
+	bh=dbVY/VBqk2zvjO5PdxoPmUFEkfs061ELl9sM5HumuOM=; b=vNbZ8KGr84Zv0GPjRDBnw5SW4n
+	PW+rnynnKX5LJtUf3yBwc8MbRtUpq3DKYeo+ricl5GAttVSeA2KQMCVVuZt2LcbqcK/m0M1Z/y9m7
+	GLaFmGD7nVx2xk7IPm5bLvgH3OmAj+WLH9lAJeAb7sur9uiKaW7SE2zwp7B/dWLhx29km+U5zmvGD
+	KWzToPEHQ9YqiEZM4Kt9nkWWOKZwgi9CFnJV9fbRN6Msnchu2feXtFNFPKi0FXLMbad+7QqFFIdnq
+	g7+2ZndP3cVMA6OGyswDdLQeQHgq05EsfhgG0XhHXhAHQkYmDKML99YorvnyhRij2Igd+U71mSGyn
+	vcU+FMCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGEeW-0000000BfJL-1flo;
-	Tue, 04 Nov 2025 10:52:40 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1vGEft-0000000Bfa4-3O9o;
+	Tue, 04 Nov 2025 10:54:05 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGEeT-0000000BfIK-2pyC
+	id 1vGEfr-0000000BfZb-1gqW
 	for linux-nvme@lists.infradead.org;
-	Tue, 04 Nov 2025 10:52:38 +0000
+	Tue, 04 Nov 2025 10:54:04 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 168942116E;
-	Tue,  4 Nov 2025 10:52:36 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A59C61F387;
+	Tue,  4 Nov 2025 10:54:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762253556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762253641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=q6i469k8uzc9cH/k5nPYtXpVpJlQzHublJWG8HfoBk8=;
-	b=pMCgOU+gxiefbqG2fqoc3BDjqlCGh7Wb12JBK3kEWcwGhwZ4czKuFqI5h5ZBc4UWBjgUGg
-	tKuSNmlAgTjeCQqziYiZ7sEcui14rpvPIhSixOjNlPkkpmpMr3xV27+hx9Uzgi8hjKkmXC
-	ETSxQxS9ybxvhN0eqDfPObLfhQpZ85U=
+	bh=dbVY/VBqk2zvjO5PdxoPmUFEkfs061ELl9sM5HumuOM=;
+	b=tB2Hs0BJrBJDXILIjdtq8kcNXqgGd0Mp6BzN0QaLC3tF2Z4+fidBQ37qN4HJr/t0Mksvil
+	uJ199Pn0gpJzR/EeaJnW3coiInA9bKAM6f1aB3wInY1MCuLrjIqEijth3FKmMJkhzWPWJ4
+	S0SzIN4tVk9Di7FsKDDysM1/PDVerxg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762253556;
+	s=susede2_ed25519; t=1762253641;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=q6i469k8uzc9cH/k5nPYtXpVpJlQzHublJWG8HfoBk8=;
-	b=nH5xlcVdWl6y3yLCvJqZE0/ArMBM8iyUuWptiylYWmZWH84HpgJTGb6kQtn6C5BvJbisAd
-	3O/01ViM0gCEMBBw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=dbVY/VBqk2zvjO5PdxoPmUFEkfs061ELl9sM5HumuOM=;
+	b=lkiWxvgFmDuug3uR3C6RYE0H5Tw4gzabSFHCzuau/LiHt3nMPZN3zmzkkT2qZVt1YdKZCJ
+	qUISTFzX6OMvhAAA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762253556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1762253641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=q6i469k8uzc9cH/k5nPYtXpVpJlQzHublJWG8HfoBk8=;
-	b=pMCgOU+gxiefbqG2fqoc3BDjqlCGh7Wb12JBK3kEWcwGhwZ4czKuFqI5h5ZBc4UWBjgUGg
-	tKuSNmlAgTjeCQqziYiZ7sEcui14rpvPIhSixOjNlPkkpmpMr3xV27+hx9Uzgi8hjKkmXC
-	ETSxQxS9ybxvhN0eqDfPObLfhQpZ85U=
+	bh=dbVY/VBqk2zvjO5PdxoPmUFEkfs061ELl9sM5HumuOM=;
+	b=tB2Hs0BJrBJDXILIjdtq8kcNXqgGd0Mp6BzN0QaLC3tF2Z4+fidBQ37qN4HJr/t0Mksvil
+	uJ199Pn0gpJzR/EeaJnW3coiInA9bKAM6f1aB3wInY1MCuLrjIqEijth3FKmMJkhzWPWJ4
+	S0SzIN4tVk9Di7FsKDDysM1/PDVerxg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762253556;
+	s=susede2_ed25519; t=1762253641;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=q6i469k8uzc9cH/k5nPYtXpVpJlQzHublJWG8HfoBk8=;
-	b=nH5xlcVdWl6y3yLCvJqZE0/ArMBM8iyUuWptiylYWmZWH84HpgJTGb6kQtn6C5BvJbisAd
-	3O/01ViM0gCEMBBw==
+	bh=dbVY/VBqk2zvjO5PdxoPmUFEkfs061ELl9sM5HumuOM=;
+	b=lkiWxvgFmDuug3uR3C6RYE0H5Tw4gzabSFHCzuau/LiHt3nMPZN3zmzkkT2qZVt1YdKZCJ
+	qUISTFzX6OMvhAAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F111D139A9;
-	Tue,  4 Nov 2025 10:52:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A96A139A9;
+	Tue,  4 Nov 2025 10:54:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id L4F3OvPaCWmEbwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 04 Nov 2025 10:52:35 +0000
-Message-ID: <fbccc6d2-4c6b-43a1-a06d-02d8af9ece96@suse.de>
-Date: Tue, 4 Nov 2025 11:52:35 +0100
+	id 3YUeIUnbCWn4cAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 04 Nov 2025 10:54:01 +0000
+Message-ID: <58eb1762-342d-4729-bfe4-8c79ef63f913@suse.de>
+Date: Tue, 4 Nov 2025 11:54:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] nvmet-fcloop: remove unused lsdir member.
+Subject: Re: [PATCH 5/5] nvmet-fc: use pr_* print macros instead of dev_*
 To: Daniel Wagner <wagi@kernel.org>, Justin Tee <justin.tee@broadcom.com>,
  Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 Cc: James Smart <james.smart@broadcom.com>, Jens Axboe <axboe@kernel.dk>,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20251028-nvmet-fcloop-fixes-v1-0-765427148613@kernel.org>
- <20251028-nvmet-fcloop-fixes-v1-4-765427148613@kernel.org>
+ <20251028-nvmet-fcloop-fixes-v1-5-765427148613@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251028-nvmet-fcloop-fixes-v1-4-765427148613@kernel.org>
+In-Reply-To: <20251028-nvmet-fcloop-fixes-v1-5-765427148613@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.30 / 50.00];
@@ -117,8 +117,8 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_025237_859751_B889B515 
-X-CRM114-Status: GOOD (  16.56  )
+X-CRM114-CacheID: sfid-20251104_025403_605929_CD620665 
+X-CRM114-Status: GOOD (  13.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,25 +134,19 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 10/28/25 16:26, Daniel Wagner wrote:
-> Nothing is using lsdir member in struct fcloop_lsreq.
+> Many of the nvmet-fc log messages cannot print the device used, because
+> it's not there yet:
 > 
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+>    (NULL device *): {0:0} Association deleted
+> 
+> Use the pr_* macros consistently throughout the module and match the
+> output of the nvme-fc module.
+> 
+> Using port:association ids are more useful when debugging what's going
+> on, because these match now with the log entries from nvme-fc.
 > ---
->   drivers/nvme/target/fcloop.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-> index 4e429a1ea2bd..c30e9a3e014f 100644
-> --- a/drivers/nvme/target/fcloop.c
-> +++ b/drivers/nvme/target/fcloop.c
-> @@ -254,7 +254,6 @@ struct fcloop_nport {
->   struct fcloop_lsreq {
->   	struct nvmefc_ls_req		*lsreq;
->   	struct nvmefc_ls_rsp		ls_rsp;
-> -	int				lsdir;	/* H2T or T2H */
->   	int				status;
->   	struct list_head		ls_list; /* fcloop_rport->ls_list */
->   };
+>   drivers/nvme/target/fc.c | 48 +++++++++++++++++++++---------------------------
+>   1 file changed, 21 insertions(+), 27 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
