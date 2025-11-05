@@ -4,94 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A96ECCFA0D
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Nov 2025 15:45:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBD48CCFA0D
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Nov 2025 20:21:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:To:
-	From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pmEA5UIRtFUkoJTebXPiJtfqEeDxZBhUOtjCk6lwm1Q=; b=tr5eMVLDN8beDIsiEDtuUZlfQu
-	pr8WP0GfNjjWhI+AJYo9CDtqYWaAvPBaYkUZBpmzpAu3xSBrAHEYxzbvFmg8F54wBDAKhIHjMrc5t
-	1EKx3NALt9KLejNpyabnRxRt662iVYioS2SjCZCpxUD4BgHJtpmKfVEJp5tZb76Jjh4CzihdCd80w
-	b5pL1XmQGfwIW+mP1RuO4HInMkcVAjxsYIR1YBSYhpeBFQw+vh9BQdKWekDjOjOzJ9bML71vtV+9C
-	BgAiOJJJWbzMHm8vBtt1qFGxdSVJsHoTyQ3iqD2P0uQYhlf1OEPDR0ILlAcPRoi57kqmzZihE/kcS
-	omAhX8CQ==;
+	bh=cVkeDn5QqMcaxmYLdEAi6YbMaR2Ul130WYRsbFccHZg=; b=fhZOtBfqFLGDE2QTcr4f5JKRHw
+	pFmGl59tZjfp4TfGpxhkiwdv1W/QaFrbSEa7o6A2iVrIHfhApkTj9KTHqPzJFZ8e6YBx+Jef/G5f/
+	svI85lBY2ppOC0waNM4yTiLExIgFbOAul8mfMOlnQQz9ryKRDwWdHLMMR/GwIF3NnhtCYldpAJlrg
+	cHJRmOzMOVbaVvNrhlsVIAPGrCavElNAGH6wBzMjImVhS7Mj7AnebRJCyqco5AszNLvnuR3UFKO/k
+	RJd0l2wniQlI3c8KPT0ebIt03bVHzO+1Kptyb8sJlkmPM94apl/y2cfls8MY2AXVD/eVkMwTprHHg
+	TfxeWcrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGfhA-0000000DyRd-0aJk;
-	Wed, 05 Nov 2025 15:45:12 +0000
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131])
+	id 1vGk0b-0000000EMpR-2upx;
+	Wed, 05 Nov 2025 20:21:33 +0000
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGfh7-0000000DyQz-2Vt1
+	id 1vGk0V-0000000EMp2-0x7E
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Nov 2025 15:45:11 +0000
-Received: by mail-il1-x131.google.com with SMTP id e9e14a558f8ab-43321629a25so43848085ab.3
-        for <linux-nvme@lists.infradead.org>; Wed, 05 Nov 2025 07:45:07 -0800 (PST)
+	Wed, 05 Nov 2025 20:21:28 +0000
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-8b1c0dcb3b3so3140685a.2
+        for <linux-nvme@lists.infradead.org>; Wed, 05 Nov 2025 12:21:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1762357507; x=1762962307; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pmEA5UIRtFUkoJTebXPiJtfqEeDxZBhUOtjCk6lwm1Q=;
-        b=Jelm1qoKRDfW3aee+c6wiUyN6U0v95NHRCY4eRWZgM+qUjG0jgcd52uoRi9hmmFFp1
-         UDMTqiSpx8mjNI0kIZWrVqdONXqzb4PC3hjALtbKldHVSKSHWS04rMTmtyGNIhUBMI2A
-         Nwe3lW6gRn1ms4toNBa2RxrDb3o7ZoKuBOzAe7MbXmOp/rSt8ZEdSfcqWZatpx3ibtip
-         R45D2lxlsKWahKF5Xb6Rxe4moaxS0/lk5THvxd7zdPatCEaduMFHuKCQqkl8d12Qn4Ov
-         oGN6cXk7fCuXKZyM6TE7VgdRFIvJeUxW+AgTWktXv2COzJXsRXj/cpLIlKtfIpQL2Cdn
-         0QlQ==
+        d=purestorage.com; s=google2022; t=1762374086; x=1762978886; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cVkeDn5QqMcaxmYLdEAi6YbMaR2Ul130WYRsbFccHZg=;
+        b=csnXX1dvl0GTyFJxyXKi3XoKOcu9/XGV1+KJ7Sh7Rq93f1m+8ePQIjj4UN8t5ohDhw
+         SdvU3JsdVLoc7tHPY0SpjJR0M41qMlhxLTuZofosQQTlHGZQo0aG1uSTLjhDeH5qzVTt
+         9QzlwNTXJGbtYmeJJJ13i1mFLhi58WS/BNTHWisNiaQaglJtEZx1KbWpDAg+bdrLOH3t
+         vCJTleqO0pQbRwhLR2wvsfjUPWQKNpUJdUlNvqE/bdiyC4+om61hiSm3jVOt72uRUPwP
+         8pmr+31/wx6BDu310pSilJ8mtaKcLi23ary3dECbXVr9f50ZwGwhQBOHKrUMdbPBYh8D
+         zBOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762357507; x=1762962307;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1762374086; x=1762978886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pmEA5UIRtFUkoJTebXPiJtfqEeDxZBhUOtjCk6lwm1Q=;
-        b=UDreDhSKjWhr8APQ0C/BeuczVMZGaQEJwhzuhScXhrwWI2G9WFuDcLNjP7qoT65V/+
-         LTqvl23WPMcKc2hcExyu4eyggjCJLemS9wpzyRhDsIPLffxEM3sdrlCzUHoINeFucO38
-         rrP9XptfN+PaW5ffTYpSZWLsVxVqZXWo7hj8HAzbm0vKAnnpuiBRHowCutGbUfg0SZPT
-         oAihnLTWfU+HXmi7YaGh+w70k7oHllRYFrqlZyeyo9IPOfhTAgWljbYUCbl6+iilmb6p
-         stI8FKN2CyDivUtQcllB8hf1w9Eh6yOTP1hrd/reNgxVHlpx6YnkNRJi7fG8nvN2ELqh
-         VemQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVE3H71C17jo19r5U44yTkqQ2l7Pr/xiLtbCKn7u/aPJbV8AZTCItDCzkXUpTVOdA99Fa4nq+pgBDIO@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz/cDy4mIqu3aPxsWJE088NM1iWkUeC3BappCjNhqcWfm8jQP/P
-	zl0tcPOcdH+tN3hYe2RF9gH/gqlV4mfYFF4Dzkd+UZE6jtImdUhcSFkd2MfIBPbou1w=
-X-Gm-Gg: ASbGncvX9afC9v8nCveJZAFRWQF5zPocBtOSiGP2BTM3v7RWoGhBmDODdo3h8A9liUs
-	0ndk0I8AoStwo5r5rxDKBUpWx47vLjwnJ1CT40hpx+pAraw32xHXhmyYzhbyaOxL7KtGscRUR1G
-	JJso6lsFBcUKH+AH3dRNwFucjL0JrPgrsPsQ2iCUv6GIPjZHDV8ka+yf/T/oddmoq9Lvq4ldTg7
-	YGGMirkYYm3sEF7C2yxFqU7dYY1UwfC1ucN3/MfEBfa+Ujqxwo51Pswzur0tXqDVq2jAXuzuShZ
-	efJHl+NnJzniyKnnwUiTxkYMj95yiqR5FQjVHwI1Yq8u+DRyd1j6HYAhZvCkNRwtQBsO46U8b/d
-	uAolc7rVji2r7xtzYXRaO/Cvt9RHwdlH4PqPsIs9HosA8NgUZDOqkGjt2/G5nQ8/OIWVOcgvWxG
-	heHQ==
-X-Google-Smtp-Source: AGHT+IGRprlY0B/j7MFC0euD5DLU4VAIhfixS9xB+G6Pb3CIfQJOwUgjuW1G2xa98UfKd2ncVWvKMA==
-X-Received: by 2002:a05:6e02:1a85:b0:433:2957:2e87 with SMTP id e9e14a558f8ab-433407d98e4mr47454155ab.28.1762357507117;
-        Wed, 05 Nov 2025 07:45:07 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5b72258d4e8sm2521439173.3.2025.11.05.07.45.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 07:45:06 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
- Keith Busch <keith.busch@wdc.com>, Christoph Hellwig <hch@lst.de>, 
- dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>, 
- Mikulas Patocka <mpatocka@redhat.com>, 
- "Martin K . Petersen" <martin.petersen@oracle.com>, 
- linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org, 
- Carlos Maiolino <cem@kernel.org>, linux-btrfs@vger.kernel.org, 
- David Sterba <dsterba@suse.com>, Damien Le Moal <dlemoal@kernel.org>
-In-Reply-To: <20251104212249.1075412-1-dlemoal@kernel.org>
-References: <20251104212249.1075412-1-dlemoal@kernel.org>
-Subject: Re: [PATCH v4 00/15] Introduce cached report zones
-Message-Id: <176235750606.190479.10317258805246349798.b4-ty@kernel.dk>
-Date: Wed, 05 Nov 2025 08:45:06 -0700
+        bh=cVkeDn5QqMcaxmYLdEAi6YbMaR2Ul130WYRsbFccHZg=;
+        b=Lh3CCHt5xtyn2qWQXUKnlCymsnqSS6twmVz9JDIEWDithEpeBbmOCaARzWlUyBTPKt
+         tMfs4bR5XDNdA4sZ5/jpRcZmokCQBEEvvQfPEePq5sd/F7B2L7Ztus9q9CRzMpBCWSCq
+         yC/y/XNMjmcL7gu+R57reQPQ57kFglVIbF30l4gnTgTMudsHu9obuOI/35od1sRktCns
+         4OrA55EJTXzVulGNL710ABsJTRy6p0bVFq//6I1talxxlg6RmYH2CujtYwIo9lIc3unc
+         uzD15ygYoM2+809ygW/q8xSXv0KFxQhDp/mMMW7zNFBmm7UKKFi6X1ubVL22EPtobla6
+         l82Q==
+X-Gm-Message-State: AOJu0Yyw2JNcTfTV+ICfTgCHyywqHh/9Mr4EmBLT9qbXJfPIuzb1xTnn
+	ienu7bG9HmMurl1I7KA3IL4aNgmyhGVtqLn/ESK62i/Bss8XDrOkOr2yF6+aKhPlSRurPVaC2iF
+	b1C3WsRRowHNcMWorFO4O2TRacICLYaew/28kSRbAVg==
+X-Gm-Gg: ASbGnctEGKGU4uOVfWyHHquu7i4DOmFJ9ZMYjeYoCyhInUZMDWYNGIKXxu7fh7h0A2I
+	jfnIWJ7GzIccTB8b1dpSXMDqx2dAxS2nwy0Z08SolC/zSTyqI+7ueAFRVQeCQYq7hv6OMm70isW
+	73makaA4veJsVIzvBh1hysoxQMwjHaMquPq6O02tdAvTOtShlUUOEHXgn2Rq/g+hljKc0Mdtrsg
+	jyZckrG5/hbreBw578cHBR+sXb31AzAKuYJnNyLS0ET/a22KxTJEHsxOu0T
+X-Google-Smtp-Source: AGHT+IF1GPX1s0/AWWbY96tq7K3+pvuvGQA8dDy2+I5QkOplAaH0VxVRfvBpcDczFCCH/nQOwUO1YVw+9UpmJuwor48=
+X-Received: by 2002:a05:6214:e8f:b0:880:6fa4:f55c with SMTP id
+ 6a1803df08f44-8807119c620mr46888226d6.6.1762374085770; Wed, 05 Nov 2025
+ 12:21:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+References: <20251104225939.3641605-1-kbusch@meta.com>
+In-Reply-To: <20251104225939.3641605-1-kbusch@meta.com>
+From: Casey Chen <cachen@purestorage.com>
+Date: Wed, 5 Nov 2025 12:21:14 -0800
+X-Gm-Features: AWmQ_bnRga5KCSJKHZAyrh5Sd8hb5gxvhlDpiAYaDAQBk4_z7RVI6FoDOuNAnJw
+Message-ID: <CALCePG1FFQUWg2u-RhY4DQ9uVxd3uMuwSdvyU-r-ssm_dQjY=Q@mail.gmail.com>
+Subject: Re: [PATCH] nvme: fix admin request_queue lifetime
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-nvme@lists.infradead.org, hch@lst.de, ming.lei@redhat.com, 
+	chaitanyak@nvidia.com, Keith Busch <kbusch@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251105_074509_652185_CD0446D4 
-X-CRM114-Status: UNSURE (   8.23  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251105_122127_427005_ED9247A7 
+X-CRM114-Status: GOOD (  21.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,54 +94,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Tue, Nov 4, 2025 at 3:00=E2=80=AFPM Keith Busch <kbusch@meta.com> wrote:
+>
+> From: Keith Busch <kbusch@kernel.org>
+>
+> The namespaces can access the controller's admin request_queue, and
+> stale references on the namespaces may exist. Ensure the request_queue
+> is active by moving the controller's 'put' after all references on the
+> controller have been released to ensure no one is trying to access the
+> request_queue. This fixes a reported use-after-free bug:
+>
+>   BUG: KASAN: slab-use-after-free in blk_queue_enter+0x41c/0x4a0
+>   Read of size 8 at addr ffff88c0a53819f8 by task nvme/3287
+>   CPU: 67 UID: 0 PID: 3287 Comm: nvme Tainted: G            E       6.13.=
+2-ga1582f1a031e #15
+>   Tainted: [E]=3DUNSIGNED_MODULE
+>   Hardware name: Jabil /EGS 2S MB1, BIOS 1.00 06/18/2025
+>   Call Trace:
+>    <TASK>
+>    dump_stack_lvl+0x4f/0x60
+>    print_report+0xc4/0x620
+>    ? _raw_spin_lock_irqsave+0x70/0xb0
+>    ? _raw_read_unlock_irqrestore+0x30/0x30
+>    ? blk_queue_enter+0x41c/0x4a0
+>    kasan_report+0xab/0xe0
+>    ? blk_queue_enter+0x41c/0x4a0
+>    blk_queue_enter+0x41c/0x4a0
+>    ? __irq_work_queue_local+0x75/0x1d0
+>    ? blk_queue_start_drain+0x70/0x70
+>    ? irq_work_queue+0x18/0x20
+>    ? vprintk_emit.part.0+0x1cc/0x350
+>    ? wake_up_klogd_work_func+0x60/0x60
+>    blk_mq_alloc_request+0x2b7/0x6b0
+>    ? __blk_mq_alloc_requests+0x1060/0x1060
+>    ? __switch_to+0x5b7/0x1060
+>    nvme_submit_user_cmd+0xa9/0x330
+>    nvme_user_cmd.isra.0+0x240/0x3f0
+>    ? force_sigsegv+0xe0/0xe0
+>    ? nvme_user_cmd64+0x400/0x400
+>    ? vfs_fileattr_set+0x9b0/0x9b0
+>    ? cgroup_update_frozen_flag+0x24/0x1c0
+>    ? cgroup_leave_frozen+0x204/0x330
+>    ? nvme_ioctl+0x7c/0x2c0
+>    blkdev_ioctl+0x1a8/0x4d0
+>    ? blkdev_common_ioctl+0x1930/0x1930
+>    ? fdget+0x54/0x380
+>    __x64_sys_ioctl+0x129/0x190
+>    do_syscall_64+0x5b/0x160
+>    entry_SYSCALL_64_after_hwframe+0x4b/0x53
+>   RIP: 0033:0x7f765f703b0b
+>   Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3=
+ 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f0 =
+ff ff 73 01 c3 48 8b 0d dd 52 0f 00 f7 d8 64 89 01 48
+>   RSP: 002b:00007ffe2cefe808 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+>   RAX: ffffffffffffffda RBX: 00007ffe2cefe860 RCX: 00007f765f703b0b
+>   RDX: 00007ffe2cefe860 RSI: 00000000c0484e41 RDI: 0000000000000003
+>   RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000000
+>   R10: 00007f765f611d50 R11: 0000000000000202 R12: 0000000000000003
+>   R13: 00000000c0484e41 R14: 0000000000000001 R15: 00007ffe2cefea60
+>    </TASK>
+>
+> Reported-by: Casey Chen <cachen@purestorage.com>
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index fa4181d7de736..0b83d82f67e75 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4901,7 +4901,6 @@ void nvme_remove_admin_tag_set(struct nvme_ctrl *ct=
+rl)
+>          */
+>         nvme_stop_keep_alive(ctrl);
+>         blk_mq_destroy_queue(ctrl->admin_q);
+> -       blk_put_queue(ctrl->admin_q);
+>         if (ctrl->ops->flags & NVME_F_FABRICS) {
+>                 blk_mq_destroy_queue(ctrl->fabrics_q);
+>                 blk_put_queue(ctrl->fabrics_q);
+> @@ -5045,6 +5044,7 @@ static void nvme_free_ctrl(struct device *dev)
+>                 container_of(dev, struct nvme_ctrl, ctrl_device);
+>         struct nvme_subsystem *subsys =3D ctrl->subsys;
+>
+> +       blk_put_queue(ctrl->admin_q);
 
-On Wed, 05 Nov 2025 06:22:34 +0900, Damien Le Moal wrote:
-> This patch series implements a cached report zones using information
-> from the block layer zone write plugs and a new zone condition tracking.
-> This avoids having to execute slow report zones commands on the device
-> when for instance mounting file systems, which can significantly speed
-> things up, especially in setups with multiple SMR HDDs (e.g. a BTRFS
-> RAID volume).
-> 
-> [...]
+Wait. Do we need to check ctrl->admin_q non-NULL before putting it ?
+If nvme_alloc_admin_tag_set() fails, blk_put_queue() would put NULL
+and panic kernel.
 
-Applied, thanks!
+Casey
 
-[01/15] block: handle zone management operations completions
-        commit: efae226c2ef19528ffd81d29ba0eecf1b0896ca2
-[02/15] block: freeze queue when updating zone resources
-        commit: bba4322e3f303b2d656e748be758320b567f046f
-[03/15] block: cleanup blkdev_report_zones()
-        commit: e8ecb21f081fe0cab33dc20cbe65ccbbfe615c15
-[04/15] block: introduce disk_report_zone()
-        commit: fdb9aed869f34d776298b3a8197909eb820e4d0d
-[05/15] block: reorganize struct blk_zone_wplug
-        commit: ca1a897fb266c4b23b5ecb99fe787ed18559057d
-[06/15] block: use zone condition to determine conventional zones
-        commit: 6e945ffb6555705cf20b1fcdc21a139911562995
-[07/15] block: track zone conditions
-        commit: 0bf0e2e4666822b62d7ad6473dc37fd6b377b5f1
-[08/15] block: refactor blkdev_report_zones() code
-        commit: 1af3f4e0c42b377f3405df498440566e3468c314
-[09/15] block: introduce blkdev_get_zone_info()
-        commit: f2284eec5053df271c78e687672247922bcee881
-[10/15] block: introduce blkdev_report_zones_cached()
-        commit: 31f0656a4ab712edf2888eabcc0664197a4a938e
-[11/15] block: introduce BLKREPORTZONESV2 ioctl
-        commit: b30ffcdc0c15a88f8866529d3532454e02571221
-[12/15] block: improve zone_wplugs debugfs attribute output
-        commit: 2b39d4a6c67d11ead8f39ec6376645d8e9d34554
-[13/15] block: add zone write plug condition to debugfs zone_wplugs
-        commit: 1efbbc641ef7d673059cded789b9c8a743c17c9a
-[14/15] btrfs: use blkdev_report_zones_cached()
-        commit: ad3c1188b401cbc0533515ba2d45396b4fa320e1
-[15/15] xfs: use blkdev_report_zones_cached()
-        commit: e04ccfc28252f181ea8d469d834b48e7dece65b2
-
-Best regards,
--- 
-Jens Axboe
-
-
-
+>         if (!subsys || ctrl->instance !=3D subsys->instance)
+>                 ida_free(&nvme_instance_ida, ctrl->instance);
+>         nvme_free_cels(ctrl);
+> --
+> 2.47.3
+>
 
