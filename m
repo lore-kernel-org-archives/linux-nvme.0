@@ -4,74 +4,191 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7DE8CCF9E3
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Nov 2025 01:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ABC91CCF9E3
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Nov 2025 03:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aHHGRfAeOQH5OthmYZIoy4wgwTvsag8gemKRZSmlHKg=; b=CT5aD6rVummNDWYVztH6ekn4nB
-	NuCC6kZ0EZVTdybRBENeIBqgunkC9pRoCI5ZaM1BQv54au20dLDT2gZZ2H8owlrs3y3ORJsE983A4
-	ddoPUQN0taeQOVPJPYCd4IHFRevG4gNaI067GYxh1KtJC59BCJBfwI2scgyg2OGdWOgj4c7gUAIaO
-	I1Lqani+Eya0BAgpmkHTR/wBrSjPmMKsnfnFsqdQf8+llpGJVtxDpJFh15mNKcjvCXPB8TBRP0Cbb
-	4JUuYkJZaFzwAaLrQl2gUV17204+MgU/PsEtwK5oGDaFRio+gZcrs1TKyDWX5H9PHhjlhrVxWeUbY
-	l4SAMqKg==;
+	bh=TRH3F4amTxIsLMKpRJzTodb0I+Mgq5C/iGX2QecY5Lo=; b=HjhRNC2GJuRmFZdesHuaeg5ajl
+	lWcvk1vc89SqnVJK9wbHxpQgK9rROgGRTPWoDMOJIUdHu7RbCzpWFY3r0MQfmoHDrCPOWRuNohY06
+	BUiQ4RFjYbxfLjRZ0/5bus5cQ0b5w9+MaiI1ZNOKgc+aI957G0pRP7idGNKD9NlliFPB3PmKnZX7D
+	lcXjlY3l9goqqj9vAMYsiBnMGoCIGUQ8UaQYl3frEJXFeQMrcnn1J3NN+g1PNZQxySi0MJF204T76
+	ZrWgENScUUzv2HncnbBtaXmRNvzhwgMN9d3bu6Ze3cDIp2jSDVQONYfnai+CRngbD6VhjCFr6WCL5
+	88gn+GYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGSCh-0000000Cq2I-3KbR;
-	Wed, 05 Nov 2025 01:20:51 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vGTpt-0000000CwBI-2SH4;
+	Wed, 05 Nov 2025 03:05:25 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGSCe-0000000Cq1l-1TGa
+	id 1vGTpq-0000000CwAr-0vfm
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Nov 2025 01:20:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762305645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aHHGRfAeOQH5OthmYZIoy4wgwTvsag8gemKRZSmlHKg=;
-	b=NENIRkHrW+4jwgz6RWDzvaxYlbjlxQnfUEB/95hLHIEhK6KSuT2DFs0FmrzU7KBSbQP9ui
-	D2966Retirkjj4qVo2POWeqTmET/tgoZDvX+N3np1fh4vItExyDJcPRCnJZnfPTEMo32b6
-	EH3N2CLcPYV2mTBVaiJw9KYYJvLs3YY=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-223-MGTng0U9NuGsBK03HYhr6Q-1; Tue,
- 04 Nov 2025 20:20:44 -0500
-X-MC-Unique: MGTng0U9NuGsBK03HYhr6Q-1
-X-Mimecast-MFC-AGG-ID: MGTng0U9NuGsBK03HYhr6Q_1762305642
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 413951956089;
-	Wed,  5 Nov 2025 01:20:42 +0000 (UTC)
-Received: from fedora (unknown [10.72.120.17])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0B7A51800577;
-	Wed,  5 Nov 2025 01:20:36 +0000 (UTC)
-Date: Wed, 5 Nov 2025 09:20:31 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, chaitanyak@nvidia.com,
-	Keith Busch <kbusch@kernel.org>,
-	Casey Chen <cachen@purestorage.com>
-Subject: Re: [PATCH] nvme: fix admin request_queue lifetime
-Message-ID: <aQqmX04KSNE-xctU@fedora>
-References: <20251104225939.3641605-1-kbusch@meta.com>
+	Wed, 05 Nov 2025 03:05:24 +0000
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5A52Tth5025306;
+	Wed, 5 Nov 2025 03:05:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=TRH3F4amTxIsLMKpRJ
+	zTodb0I+Mgq5C/iGX2QecY5Lo=; b=pI93tsHHl62OvO/d8krMLjJCfaRuNqi2/P
+	k7OHISUMlBufRS+dYuJUv9gcMb3yMGViiqm0+2olLpK/0civO460QoEXO9eWEYGm
+	6FhezsUe3dkIgw88v1t9QSgD5yQjG+pj4yENU1kTZNi6cJTUb28NTwQJBxkz/RkR
+	Cqu9euqZjX/0A4cl/UbmcWsL/qZwEtT6UUhjL+mTn4U3/Zf6ROQfqSh7kp3FUTEi
+	bV9zjBVJswzc0/qjsvltmMNEr6TUChJpidUI/OlCTOVWPhojpgojB6VeA6vSYwsr
+	bEpsb3BYB7jA99isunVN/syK2RFdRFim5qg0sNImTn5x81lVK7FQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4a7wue81rv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 05 Nov 2025 03:05:12 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5A51Veo7010046;
+	Wed, 5 Nov 2025 03:05:11 GMT
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011070.outbound.protection.outlook.com [52.101.52.70])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4a58ndy7pf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 05 Nov 2025 03:05:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oEaPWv3xivHCq7QP5mLozfek4cZE96InzcD5d4O91HKMbbIXV8s6omkezIzJhyenFMtRAP7vlfbcIpT38CaECCLteKDdHlA7QHzPm5cJ+FRbYMRoiqMWXhyTIz3903osgSFc2utgBvaKxUq9MNrhMhVP7+AjIUrfCpB5AQ6+fVB0hrzHiHde6Ia6aPTD5zV3bgEnPSxOHxUEBAvZn/1CN/IAjVR+XK8WZR1dmcid102nRMJcnO8QM2Y7mcmkyZ1RJ8WkFqCW8ZYoaqoN0Glf8xoH7Gvue2RJSUlKgj4mxmOP93Nl6HK2rNLukQM8OQjxe282DGUgxjf+jkjMpp3ahQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TRH3F4amTxIsLMKpRJzTodb0I+Mgq5C/iGX2QecY5Lo=;
+ b=CvM7/cR1U2Atu3O0fKgjs+Abe1rbswmTIuw4sN1TglDPwB3neMxLs3M+GmV4fUgK15YHMSnyBUR722K2oy/Tttp0Sg3sxMzMItB/qIeX8wOiPFNRMPl2kKRid4f01gJPABoeAdruxliJ1q+CvQphdKVkaOr+2s3QCqtyBlyWNpoV5J4VFAkkbKQH5g/iiHQVrWzEiThCVgdkNAJfQZVJsnLvfkyPUP15XYbk/FxeL41/FHYR8+zJeqB15ASsH3yDwnxxRtHEumiRdqKAJjtz2HCRwQzLhb+KiaEcOPQeV2PX5S2fJYKtHmUf6zKw5JT/8XorMy5cKM6TB4xRiSn9WQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TRH3F4amTxIsLMKpRJzTodb0I+Mgq5C/iGX2QecY5Lo=;
+ b=laru+82ih+l3qVJetPPcEok2skaO8ZoHc4Grc6WXziQnSpwmPE0KV6i5dLaeIVONDcFTZLpMhfQEhaP5iKTt9QabNkPxVwuS5GRpRiXqSUng+S09RvvJpQRg5wEAxI532iTB5j3lY6e7jDYTssi9EGRSOY83SdicPSCHlsaFh6E=
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
+ by BN0PR10MB4999.namprd10.prod.outlook.com (2603:10b6:408:129::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Wed, 5 Nov
+ 2025 03:05:09 +0000
+Received: from CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf]) by CH0PR10MB5338.namprd10.prod.outlook.com
+ ([fe80::5cca:2bcc:cedb:d9bf%6]) with mapi id 15.20.9298.006; Wed, 5 Nov 2025
+ 03:05:09 +0000
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: kbusch@kernel.org, mlombard@bsdbackstore.eu, bgurney@redhat.com,
+        bvanassche@acm.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH V2] nvme: expose active quirks in sysfs
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20251103144406.1148401-1-mlombard@redhat.com> (Maurizio
+	Lombardi's message of "Mon, 3 Nov 2025 15:44:06 +0100")
+Organization: Oracle Corporation
+Message-ID: <yq1cy5xp4ct.fsf@ca-mkp.ca.oracle.com>
+References: <20251103144406.1148401-1-mlombard@redhat.com>
+Date: Tue, 04 Nov 2025 22:05:07 -0500
+Content-Type: text/plain
+X-ClientProxiedBy: YQ1P288CA0021.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:9e::27) To CH0PR10MB5338.namprd10.prod.outlook.com
+ (2603:10b6:610:cb::8)
 MIME-Version: 1.0
-In-Reply-To: <20251104225939.3641605-1-kbusch@meta.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 1GK7eaRWucUQZq54a7jc7TREHbuDqzXmKalliAH1zMI_1762305642
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|BN0PR10MB4999:EE_
+X-MS-Office365-Filtering-Correlation-Id: c88565e2-0596-464f-86df-08de1c1820dd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JmogabKaytJiON5tmQh7Mn8Ol8J8BKZ5+rV8UeSRvVfpvRXguUGwof4pDrTc?=
+ =?us-ascii?Q?+4ppyJu9bNowLT8Obsdhw2YvVX9IawwZ7NddYDz90vthzScY7h75rWnUxMHm?=
+ =?us-ascii?Q?rdVt5ca51dHv73b7OdtoPvKsuEXv3FItTRzOJlMTbN83mEl/ZM9Y3mXVAa1z?=
+ =?us-ascii?Q?PfWw4wE3pqagt43SHb2QOjy1KUg4GJi07kXY8u7Az/FMRlReG5GKy1hfEWJP?=
+ =?us-ascii?Q?B1nKcHlOJzntjcnENV1q5YHjHs55vzyFYjcT2gZE4f0KrcgYHk3AYxwtDvXk?=
+ =?us-ascii?Q?uJMIuTD8xxhTrjZGFETBjSxYXKJaygT6bMzDN6gJaGsp6PEuF3wVjq5lmG+e?=
+ =?us-ascii?Q?gXd8OSW85gUPIcscREErkUa+pEK+IPjqpkIrHiFlAm0o4YgDuonq6AhevBoy?=
+ =?us-ascii?Q?s75n/mR53pVn+n6J9PaxiNkn1/xGlAKsAFYENlnnQvtvJL/DmTun3apfnwZg?=
+ =?us-ascii?Q?SiUJA1IS4WCfz8jUscS93Ygc/YgkvAzEFQILzgG50RqGCCEbZPRgyvt3KpZB?=
+ =?us-ascii?Q?EV4wGhnnUWgIx1/dnUI6EBM78wCxalSKmnuQQINiS2xNbN6+bL+ZgrEHKv7W?=
+ =?us-ascii?Q?sKyPoD6xDv0fICvhRFFrtp7FGbUmDYa82vokUbsBnOqSrif2/+Mjg2Inl6iU?=
+ =?us-ascii?Q?8TLylaCSYtZ08rixVc1QJacK5JeOjb1+qQokgbKoLT9YReIUTyWEFSH5AmkT?=
+ =?us-ascii?Q?XIoc5RqGFos90sOSNcagqDfM1nBBTt9hZqqtnlB5qYBntwRulIyGNw00vJEy?=
+ =?us-ascii?Q?NXWlq8gDxUNPL98EzHRe4+C9EzDUFdXxs00UEBwim1FKvjegNEynFKKrWug5?=
+ =?us-ascii?Q?cVQJH2OHTnu+mwDy4DZ14R8dh0bNnG88WVPfIerWYIHHW70Utuw6cCq44CTd?=
+ =?us-ascii?Q?7Cj+UlBm8D/HgCK0OJHpIYZf0THTMFmWz37WofdysthkZ8vMjgDEnGF1P2+2?=
+ =?us-ascii?Q?D9iUuDxmR49OPVC2Aar4d4N9Q01XEr3PEjUMKmtQBgBcAvI1fn7sG1jhmSVP?=
+ =?us-ascii?Q?SBkpmMyh/Lklk4diCQmdn5KTKbky8vE+cV1DY4171ZVrbdt24gbzb3Ac0dgy?=
+ =?us-ascii?Q?oitmCjRprNRxHnvI9ysmU3/dlGrCrl7XA1BcXYjJpPgB8tTgbuACIv0h9VRX?=
+ =?us-ascii?Q?KH/UhhIOnwcVb8HVODLiHwtGzB/ELG7xnQsN6jkurloaG8jU6oUYBOAF4Kf0?=
+ =?us-ascii?Q?Fm/HCLDvc0E4JA6ed1NdbnDlGsreIqpfYTLXgmUqGVuGvcReBUHz1fDs4Ifr?=
+ =?us-ascii?Q?5TZXgZFdRvJsoIUYXatjCS5HoYpb27umCxuZRdqaRpazVDOursnxnCD8xDEP?=
+ =?us-ascii?Q?N5ayzJvbVWNsrucedhrnL9mq/v8OdorC11uz+FD0il00MgAcVY+rZQbEb2rA?=
+ =?us-ascii?Q?230DNrjQb+hF0GFiFnGavgFL9H/4xFixhqx7b9lz/p2WKwR9drUwOr3GUKtS?=
+ =?us-ascii?Q?Rlb+jdypE7qLCeYkw/6oSysXPfH03uya?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H18q1EcAoA9AgH5uM8ShBzi2wsKZ1IS62JRkEUoprL60Wp+Q3moe5VIRS6Fp?=
+ =?us-ascii?Q?5FQ/+UFUXu6Fduz1P3FkW7nZnD8ud19wjcHZYZx+bP0Sundb7I5bCc6gyh1G?=
+ =?us-ascii?Q?8qUuq8NbpQW/DhsojXxYaKU75vayNMyrWbrS/5BAleW+ADv+L3clQZyh0T1a?=
+ =?us-ascii?Q?Bcv2dTjCucYe98A93Lvg6pc0MfywVBMEpnbRhh2ZPLg2GmQKX5RNHFl4ArCJ?=
+ =?us-ascii?Q?wSR5RQmOwLWWacL5FX5c/4dXqdoOIOMv9ThPuuObBBrdw/Ww+czpY/PsHJTX?=
+ =?us-ascii?Q?lyyxHnt4U7Q/KFnTUNUomvldXqah7LaXMh6SHBXYONPkEP7/6zrK1bnIRoQd?=
+ =?us-ascii?Q?FeSadSBASXhgxYB4fF8enU4mFWSzl37J/+FD7ZUQA12as4c/VZ2ilDN4HzVt?=
+ =?us-ascii?Q?hEDArp5mk+e+V25lf3Rh+V5E9vsrBRLtkb0m3+V1Rk3zvOzwyegxK2gSBAce?=
+ =?us-ascii?Q?X/nvsv90ErSSk/w5mFw4UJ3I0l6XFj1VP1AYRUWhYaIB+/i+x7NCEaoKiDeC?=
+ =?us-ascii?Q?Ri7UlejqRYcJfShbD+PMmXmGfWjZbjga12wx45FQAWi8Pe31vyaKuXpBKbic?=
+ =?us-ascii?Q?QwOCLbiHGmYqxNRNUJgguNhDB2P0eVHp4O2neT7IGy4xPqPvbcZZ6w/ZgOAl?=
+ =?us-ascii?Q?4cX/ig6TR69XXPFNaXNfvp6bBI3x9+iZI3/UGPBH2ClpziTNLrhugvrR4NLF?=
+ =?us-ascii?Q?wFQDLKL74ByvgLt3/5SUaT3uoCu5G0/ykNfOTd9U+VpkJXwN5ag9np8pcCDU?=
+ =?us-ascii?Q?fq0Rk1Eg1cpKRHPLPvwzoCQzTzClh28Zbikq3FoCPK4G6kI3XJZb/x+mp3Ki?=
+ =?us-ascii?Q?tvs46yZxoCCtXCygDvSAfAHX9eGEND3bvdxDq+ON3zQWir0bFfHjE+dTqu4A?=
+ =?us-ascii?Q?RhA0DdQZ+HlfC7FfIbXzuFFpt0FtqZN73WC4RH40kWNkGcglE6wzxaxWFEof?=
+ =?us-ascii?Q?SLo8PZqXutK6DAZ/yhzldWgVYpmnd29mhy6AXCRyD56GX0GHeoHeqHTyXhTG?=
+ =?us-ascii?Q?NbgaPeKfXe4WqcR0CJh81GX8ZjpLyy3ESOpVZgwIDGwbqFqNqSQlHSjni5n3?=
+ =?us-ascii?Q?N+fUB1HQtfbs5kAgssmmXaO+8an9hAghTm5xQgMQRX7IerKsUEmws+Apb5Cq?=
+ =?us-ascii?Q?+WnV3iz7yyhxgJwJj6XBbMOoucts4KINAlYVPb2JtIO3G+E5gsjEOdhVtuFQ?=
+ =?us-ascii?Q?y0xTwOBRooYvNuEiK3IU0eqgL0OOD9tQLBvB67FPHdJdMnDNhKLeCLJ8GvKi?=
+ =?us-ascii?Q?GmBHFWIttC19M9l3h+s07diUjo1Yfsi+9cMwi5pBe2o4iw6Ipu02kWYxdg03?=
+ =?us-ascii?Q?kBAu6dA5GVQNdIb6gjf4One1kuzOvLyGUp+fYVHmANsqWQj2Sklo4ZgS2L9k?=
+ =?us-ascii?Q?LfG2jEyRUYjq5WNbhjupG9OFDXiljIW5fccACDKETA41cxI8zGaXuXv8frNo?=
+ =?us-ascii?Q?7KxTeAhpAQ4gYsSR6wgauzVSM6DFvTW61CJW3LQ4ttzhsV1u8VQdmMNOWoOt?=
+ =?us-ascii?Q?Je3diSNz7YuCauMuIxxGvjqK+eAetwtfszkHudyah+rnBRu+Dz/nIXQapcxs?=
+ =?us-ascii?Q?wbVaNk4hBRq22MH07FSzBOm3JG2ddCT3m1TnG3W9dKjt3/PJmeRRstGPz7F5?=
+ =?us-ascii?Q?Ng=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: e3MMmH8yuO/4F0bPsG+Pq2OLqE9nTHQ/UZSFo5Z+eNXidRJMv4/9fLeweQXxSxoub33ketIsKMQwP9/FgNPN+MJYt93ghj6cG+re8j0fgT+HZEcl4nw5Lcs4RZl/l6lkE31QiaTv8czHsSstQeFQicsqdqx5c4xZ7x0FIsVxQnbmw3PRUniYQC1IZ0tfPazdE8JAE/MJFZ7N05XJkRaqvCIvHhhTCFxnNvd1FwHcsHspN96Wrl+RVasDA9kKgepl3SsKkVAOme0OZIzbHn63o+4OlW6fk+E+8y2hqabGL0GlYiRkJ4WFlds49d3MPhQ4McRFRoS5WmGWjmgThytcAHM6UnDf12kuSyKKdjX1jre34PMn9L0weN13r7lS+VMKhC4Zy55d2s0ELRbbnLzAwn6gPEQzlqKPVA6NhbvR9bmAB9yJ/2kKjUCre1a3mSlj5gV2vYhPoU7voBdG+rEuVodrQsoJn3p74uIuU/Vm4huFRnSmSC4niZb0GxN2F2rsTMgbhyNvFGjt7KIrw+FEt4+s1Rb867rgvO9wYXXsDsLbwdOEJ2Xt20gaIzePXjM4GnPgg7vHyGkJtv50TH/r4I9neG4qTB7R05y1VhqNsbE=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c88565e2-0596-464f-86df-08de1c1820dd
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 03:05:09.0645
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mItrMXcTDeXZ636jQ2qdoBCBVKM6Suj5iVE/uTQ9Nw0MynxhbZGgcQtpPLImPYiG+qLh3rU02XLuMecc1omly8V4vQwqUon4EMyGMJIg5Po=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4999
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-05_01,2025-11-03_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
+ mlxlogscore=962 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2510240000 definitions=main-2511050019
+X-Proofpoint-GUID: lBM1Q17K_k9jo8qawHzZRj3sBp3Vxpc6
+X-Authority-Analysis: v=2.4 cv=C7fkCAP+ c=1 sm=1 tr=0 ts=690abee8 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
+ a=wagFz6wmZ-aZDvloFPsA:9 cc=ntf awl=host:12123
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA1MDAxNCBTYWx0ZWRfX4uuEV7WjkeR8
+ NbX5Mj317gNLrQXFtywU5MYviZQ71qIYsTBQf/Jm/c+E2Ex3kL2y7O+N00yCiceOe53lnSVSuH0
+ /LntlI6iSgKrrcpTA7NLgfjX0Q7hG6auMQiA/HvKaw1wBluiNIkW8UAQKbaSW0I3T/GNLFxG4y+
+ g8mUfxNBQXRAvdGaAlYewSNmklorVzRMfnQVFxtJetWLHP/BCRKKEovIva7x49jMF3s8lBUog3l
+ ucDQG2vSbXcY3IUFDtQ/2q1GrC+5izqJfMRA9obr456VtP6qb5k1EffFM34JQL9E/W24LSCyTKm
+ /Pe5LV0nuoDTyJomtmZJjRCfNTK60xRrUmEmuHzIRkoQzy4B2R2ymsmlvmvQVgQ/0SGOiWwHj2a
+ fV9IvhO62BMjD7rC4AsEY4VWGkmvUp/AqJ9s+eRuFoAQuD7Aiu8=
+X-Proofpoint-ORIG-GUID: lBM1Q17K_k9jo8qawHzZRj3sBp3Vxpc6
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251104_172048_465862_D7D56966 
-X-CRM114-Status: GOOD (  13.07  )
+X-CRM114-CacheID: sfid-20251104_190522_579443_1104D0FA 
+X-CRM114-Status: GOOD (  11.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,69 +203,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 04, 2025 at 02:59:39PM -0800, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> The namespaces can access the controller's admin request_queue, and
-> stale references on the namespaces may exist. Ensure the request_queue
-> is active by moving the controller's 'put' after all references on the
-> controller have been released to ensure no one is trying to access the
-> request_queue. This fixes a reported use-after-free bug:
-> 
->   BUG: KASAN: slab-use-after-free in blk_queue_enter+0x41c/0x4a0
->   Read of size 8 at addr ffff88c0a53819f8 by task nvme/3287
->   CPU: 67 UID: 0 PID: 3287 Comm: nvme Tainted: G            E       6.13.2-ga1582f1a031e #15
->   Tainted: [E]=UNSIGNED_MODULE
->   Hardware name: Jabil /EGS 2S MB1, BIOS 1.00 06/18/2025
->   Call Trace:
->    <TASK>
->    dump_stack_lvl+0x4f/0x60
->    print_report+0xc4/0x620
->    ? _raw_spin_lock_irqsave+0x70/0xb0
->    ? _raw_read_unlock_irqrestore+0x30/0x30
->    ? blk_queue_enter+0x41c/0x4a0
->    kasan_report+0xab/0xe0
->    ? blk_queue_enter+0x41c/0x4a0
->    blk_queue_enter+0x41c/0x4a0
->    ? __irq_work_queue_local+0x75/0x1d0
->    ? blk_queue_start_drain+0x70/0x70
->    ? irq_work_queue+0x18/0x20
->    ? vprintk_emit.part.0+0x1cc/0x350
->    ? wake_up_klogd_work_func+0x60/0x60
->    blk_mq_alloc_request+0x2b7/0x6b0
->    ? __blk_mq_alloc_requests+0x1060/0x1060
->    ? __switch_to+0x5b7/0x1060
->    nvme_submit_user_cmd+0xa9/0x330
->    nvme_user_cmd.isra.0+0x240/0x3f0
->    ? force_sigsegv+0xe0/0xe0
->    ? nvme_user_cmd64+0x400/0x400
->    ? vfs_fileattr_set+0x9b0/0x9b0
->    ? cgroup_update_frozen_flag+0x24/0x1c0
->    ? cgroup_leave_frozen+0x204/0x330
->    ? nvme_ioctl+0x7c/0x2c0
->    blkdev_ioctl+0x1a8/0x4d0
->    ? blkdev_common_ioctl+0x1930/0x1930
->    ? fdget+0x54/0x380
->    __x64_sys_ioctl+0x129/0x190
->    do_syscall_64+0x5b/0x160
->    entry_SYSCALL_64_after_hwframe+0x4b/0x53
->   RIP: 0033:0x7f765f703b0b
->   Code: ff ff ff 85 c0 79 9b 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d dd 52 0f 00 f7 d8 64 89 01 48
->   RSP: 002b:00007ffe2cefe808 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
->   RAX: ffffffffffffffda RBX: 00007ffe2cefe860 RCX: 00007f765f703b0b
->   RDX: 00007ffe2cefe860 RSI: 00000000c0484e41 RDI: 0000000000000003
->   RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000000
->   R10: 00007f765f611d50 R11: 0000000000000202 R12: 0000000000000003
->   R13: 00000000c0484e41 R14: 0000000000000001 R15: 00007ffe2cefea60
->    </TASK>
-> 
-> Reported-by: Casey Chen <cachen@purestorage.com>
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
 
-Reviewed-by: Ming Lei <ming.lei@redhat.com>
+Maurizio,
 
+> Currently, there is no straightforward way for a user to inspect which
+> quirks are active for a given device from userspace.
+>
+> Add a new "quirks" sysfs attribute to the nvme controller device.
+>
+> Reading this file will display a human-readable list of all active
+> quirks, with each quirk name on a new line. If no quirks are active,
+> it will display "none".
 
-Thanks,
-Ming
+Looks OK to me.
 
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+
+-- 
+Martin K. Petersen
 
