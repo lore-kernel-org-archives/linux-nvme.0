@@ -4,114 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 423F1CCF9F8
-	for <linux-nvme@archiver.kernel.org>; Wed,  5 Nov 2025 09:48:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D1B1CCFA0D
+	for <linux-nvme@archiver.kernel.org>; Wed,  5 Nov 2025 10:34:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/eC1//SZtzXCJ9VDP38XGpX45I3TMA2WSmv1Cg2gDD4=; b=IgbhxjQp07HgW7XgqpkspzRQ4q
-	HQD7oZv+UvIPmFHK6id72XgLoDRdyMvPmo5VHiZs72BDdeWxCWTa6kVP8PHpfQMNf9nZA/Ii3Xi3+
-	SSn/Hp9mrDXaKzTH9G0mo6waHjs9ni0MFz7Ma0v7aj5ZmRtSZSuU+IG/HKzKZeeWUWUwE4AbWBoDG
-	QaUj749sHrgPqYjHhBE0MDTWnfSrRb69ZjzjqbGYKPNgu5fhUW4yqywtNgYpWs4dg5fZ+ktx7ifsK
-	0X+fEegcUx+52dXWcL58hqs5B7neM/XUo4fQjpnO3AE09uonaxhoLMvbMwm/wLxH2pSWhzExDS1Gw
-	+cs3r5EA==;
+	bh=qxaa2JVRO5iqXs34BoMCLiqKIKAlpIXCahAH4vhqm8A=; b=iUgHKqKY5cxl9XoqBd34yyCk2q
+	cr5a7pzhfqAUJJ4+nwmjV56KqF8d+qMaI1TadltU3XzqTiUz7w+EmGGvEFsNo6jKnPMa5e6Ei6Z3G
+	AIyIZWcQGauy3gnmY21U0qcwx2/oEmO1SvI9zX5544w+VQKb6QAb3kGmRB/s3cTHnJEvAFaAO4G76
+	Vo2DEuOgyH4ce/gAkUotVaPCQLd1fmGLFxdyrQI9zVS5xffGIdJAhej/Q/fAXlYiPK0UCdA1EjNAB
+	fvZrz8x3hXygyiOxPfwVyZ9VrneQgYV7ufvxtPvonwNCE2Vn3r8q+dJXUcowGat0XCEIz5sM+TYTo
+	vTwLBLYQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGa85-0000000DQFU-04ss;
-	Wed, 05 Nov 2025 09:48:37 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1vGaq3-0000000DTdo-3ziG;
+	Wed, 05 Nov 2025 10:34:03 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGa84-0000000DQFL-2PUn
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 05 Nov 2025 09:48:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=/eC1//SZtzXCJ9VDP38XGpX45I3TMA2WSmv1Cg2gDD4=; b=kdsoz5lev+M5yFGHJ3b20PcXtN
-	CVr2BNPA4g/BMFPaaW8fcbSd+GoeQJH+/soQ0nCIidKUunTzIsWf9yH+f7jj7yrZkUHB43a67c3RJ
-	UfJR2OJ/aiZu/4B9EQQaFMmofxAv7qK7EXRV2FwmaSHchSAJev2KEaRnHb1PqDGDWcI0aNBpaYAsD
-	k8Y89HHOCIwHfFcfxjdpgHiM0c0zGuAJZcZeaVFkwYw2dISMIT8/8+xaVmud257tq69SFCaetRd7X
-	aeHH5d258nfA3S6K7FuF5+dZhmT+JrJ38XtozX2Fgadej3ZBJspRk0cgBfLoUlq3PahgQII5RKT+l
-	EcRLdAVg==;
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vGZGK-00000001mxq-06CP
+	id 1vGaq1-0000000DTd9-0qmN
 	for linux-nvme@lists.infradead.org;
-	Wed, 05 Nov 2025 08:53:06 +0000
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-429b7ba208eso4042834f8f.1
-        for <linux-nvme@lists.infradead.org>; Wed, 05 Nov 2025 01:48:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762336111; x=1762940911; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/eC1//SZtzXCJ9VDP38XGpX45I3TMA2WSmv1Cg2gDD4=;
-        b=JeQTBSxZN0oVfnl8CI5AUwhm480aDP6Vja+HvcISgjTk6ivvl6AuC12N/SsVn+havX
-         uqBAknbx4myT1big/yVYu3jXgj5Bsnl67DE7sugc8H8oixsURodNIZToGPQEL4aL0HtI
-         B5rgxP+jpb55g5P0SzByAzIuKNokxUcUx5e7V402OxJtnCHB5nf+Ghxe3WKFlph/kjl4
-         s/9JtKVxc5H72hD3JwYelB0pmqZ/inbIVg9VHSBjTGc9fy645ns2wJ/Rp/tHYyDuTvzx
-         JEdjrXZ997GDOAy4X4vu0C3/NIzCpFrqY3TgkFAUqXPdft+hvoEnx4XV+u88aYUe2ZR5
-         Za+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762336111; x=1762940911;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/eC1//SZtzXCJ9VDP38XGpX45I3TMA2WSmv1Cg2gDD4=;
-        b=nCUIfNS8KOsR6/nXtwg+VmxKVXUkVpsvJYiBIQL8S9PfTfXQC+UaLxpit7UPKlI5Ll
-         vLmJ/H/OEvxFfxTYJSL/jMIvCNpq5U7vCZQsKZ62H/JIkBbqwut3uWb4or+Wuk1GCV2N
-         mfbvBbW7RrpV4rNmDBqMJQVnTA63iR48jhcZO1hlPu1vYCfKNRmFZpxUzgoPciDOeNEI
-         N6vLdpbGoBVzasqVMXvNVG/5oDN4WyHtjZn+sOilrj4SbpyOOD9nFzLPacU30DjzGjX6
-         Xmg8kDE2zw9ntokuJtHRirWtmLII5hYynujUMgDlm4RSI/jQfCd1F98sObxKfLzxo9LK
-         VvHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ47PTSismd53YAIPdCdZaQRMQcywlBeHXrRbVirzaCg6C7+jXi0Uyd/d0ZJNvt9IlvIYHDq1x4GMS@lists.infradead.org
-X-Gm-Message-State: AOJu0YzYLWxCtU5UYZs8Hr7khqYUDpUKQf2QuP3bSACV/AcZdX1KGYkJ
-	tlPQkQrWnjzt/lSaiEewvpwSJCf3SWgZLiDMrZl4lJwY00CqrDUEY75M
-X-Gm-Gg: ASbGnctWcDZvOf8OTZ+yHjVLqcrn5ur3PfMoOC08lEsHQlWh3w3IigPNQ4L6s/NpDlH
-	Ojhx9eFUmZkqlUrSI8HEWcaq5JDu4PwRy3JSK4K1YpnQH8XG68+NBNpJAcC8ZTUSoil7uhOoiTR
-	jXxLnHOjaCYqj0LPhUGgqHx5DcYZDSdeefeQ5yw8Q/8CkGJDo+A7bu1pzbkakfkPl1LiIdH+Ynp
-	b7z0aJe8t6rpMn0UveSekNeESvodIMNO7qoWdTW75wuV8aOtR+8Y8gTfN79sZwqXvq12DyYZVEJ
-	Eii1e1mOeLsYwzjrfOOYoEpXvFnZn5xM2I28O6ujC5Vppakwf37BjPdUjlyt9ldz4Ou4iMbISQE
-	Mx5aRKXKeHhoTgVurFiGlzOzLHYtHjk8NdijdhqkG7/3jx9PruhYb04y0ww6NeRpmhilU9ONR9d
-	3oCImBcoPO5LdBFQxVfLIl4E717SdYktlxTGzi5EoIbQ==
-X-Google-Smtp-Source: AGHT+IEkpFxLVpMLxH+nTe91ZvHCIlFgTDwSuHknsPOjs1KqbNBabtxkQXZcHtDrGMnxK6gDuS+BvQ==
-X-Received: by 2002:a05:600c:34d0:b0:471:6f4:601f with SMTP id 5b1f17b1804b1-4775cdf54aemr21466965e9.19.1762336110467;
-        Wed, 05 Nov 2025 01:48:30 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775cdee965sm38069125e9.17.2025.11.05.01.48.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 01:48:29 -0800 (PST)
-Date: Wed, 5 Nov 2025 09:48:27 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, Guan-Chun Wu
- <409411716@gms.tku.edu.tw>, Andrew Morton <akpm@linux-foundation.org>,
- ebiggers@kernel.org, tytso@mit.edu, jaegeuk@kernel.org, xiubli@redhat.com,
- idryomov@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
- sagi@grimberg.me, home7438072@gmail.com, linux-nvme@lists.infradead.org,
- linux-fscrypt@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] lib/base64: add generic encoder/decoder, migrate
- users
-Message-ID: <20251105094827.10e67b2d@pumpkin>
-In-Reply-To: <aQnMCVYFNpdsd-mm@smile.fi.intel.com>
-References: <20251029101725.541758-1-409411716@gms.tku.edu.tw>
-	<20251031210947.1d2b028da88ef526aebd890d@linux-foundation.org>
-	<aQiC4zrtXobieAUm@black.igk.intel.com>
-	<aQiM7OWWM0dXTT0J@google.com>
-	<20251104090326.2040fa75@pumpkin>
-	<aQnMCVYFNpdsd-mm@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	Wed, 05 Nov 2025 10:34:02 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5A56b5Y1012367;
+	Wed, 5 Nov 2025 10:33:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=qxaa2JVRO5iqXs34B
+	oMCLiqKIKAlpIXCahAH4vhqm8A=; b=psiGqK7y8jb4dZj+p/bKy+x78ibeTw69S
+	5oBNdIMdm9aZqZwYYyzK/gcRs88yJKryDD3AMQ1fvnqCVWliB0vsud9arhIPz3xo
+	FMMzdx2DEHfgJz+I1cno1DKYm3RnR2M560vM5KLwvI39E+qabvR8dsyhH3TV2G3Y
+	XBrFxpJBWTbI+zmyQSsYMgjUbdwSlaLX+uiEBAXV0bGDlmJEmAdW/7lTBTLOh76d
+	SjbAwfKefNmUEjv2YI6m8eqPe/QfiCYMxXWdPOnr3O2ytcSx5rvLxzruJyFyv4ti
+	8MdvlYZ3umDgWuJQp7TgUgL7u0gekXRTFdUDlNHH2OI67DEQUvLcw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a58mm0fbx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Nov 2025 10:33:56 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5A5AWmSp020670;
+	Wed, 5 Nov 2025 10:33:56 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4a58mm0fbt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Nov 2025 10:33:56 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5A599DGb012923;
+	Wed, 5 Nov 2025 10:33:55 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4a5y81y920-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Nov 2025 10:33:55 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5A5AXrGn39846208
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 5 Nov 2025 10:33:53 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 99C3D2004E;
+	Wed,  5 Nov 2025 10:33:53 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 74C1C20043;
+	Wed,  5 Nov 2025 10:33:51 +0000 (GMT)
+Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.in.ibm.com (unknown [9.109.198.245])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  5 Nov 2025 10:33:51 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: hare@suse.de, hch@lst.de, kbusch@kernel.org, sagi@grimberg.me,
+        dwagner@suse.de, axboe@kernel.dk, kanie@linux.alibaba.com,
+        gjoyce@ibm.com
+Subject: [RFC PATCHv5 1/7] block: expose blk_stat_{enable,disable}_accounting() to drivers
+Date: Wed,  5 Nov 2025 16:03:20 +0530
+Message-ID: <20251105103347.86059-2-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251105103347.86059-1-nilay@linux.ibm.com>
+References: <20251105103347.86059-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NvaaiNE90t8IVd2oSJI42ny12oHn-I6H
+X-Proofpoint-GUID: OyGf1ll6Xz0pDH3hXSKzU7g2w_1wNNpu
+X-Authority-Analysis: v=2.4 cv=SqidKfO0 c=1 sm=1 tr=0 ts=690b2814 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VnNF1IyMAAAA:8
+ a=SifjupJSLTu-I8RqnBoA:9 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAxMDAwOSBTYWx0ZWRfXycaIq0LZdmqo
+ /CD4CoQEet3M5t0pcU24jnt5n5EMoABRWR/kgQPQB3k5SqCm3hJsJBobPR6RFwMGcjlmKp6MqG8
+ WxRoKwvjPlsGy/Z0qFnjmevKbwcyIcaMgLC+9fWGRD43j+DiGjXwY8kYbClzmMRwuJAq+k6tPsK
+ RvBHPWZ2mcHoaj7VR6RWwMTEnRhzDAMFQF6+HhAwNz7k+pFFxvKv1jXCc5IGDGO515z/dW78xor
+ 3JnmJQgfDOlEEu5mX6lnMMYK4z8QkF6j6EJF0KNVxe+ACqGADgE1rgxJ7W7aZ6ugKnVviAbye5G
+ 4P6Y93vT4dEVFoEtBAdYmaZ3u9w26IGuLaGY9I+25YhThHxrf9E/oENzVLIsDSokTFSYJDmxuwL
+ INLN3iUSTA6DZYtqWIx0LWZgdNZmUg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-05_04,2025-11-03_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015 impostorscore=0 adultscore=0 lowpriorityscore=0
+ malwarescore=0 spamscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2511010009
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251105_085304_336495_ECA59AC0 
-X-CRM114-Status: GOOD (  29.20  )
+X-CRM114-CacheID: sfid-20251105_023401_371201_B9A1135A 
+X-CRM114-Status: GOOD (  14.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,111 +122,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 4 Nov 2025 11:48:57 +0200
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+The functions blk_stat_enable_accounting() and
+blk_stat_disable_accounting() are currently exported, but their
+prototypes are only defined in a private header. Move these prototypes
+into a common header so that block drivers can directly use these APIs.
 
-> On Tue, Nov 04, 2025 at 09:03:26AM +0000, David Laight wrote:
-> > On Mon, 3 Nov 2025 19:07:24 +0800
-> > Kuan-Wei Chiu <visitorckw@gmail.com> wrote:  
-> > > On Mon, Nov 03, 2025 at 11:24:35AM +0100, Andy Shevchenko wrote:  
-> 
-> ...
-> 
-> > > Since I believe many people test and care about W=1 builds, I think we
-> > > need to find another way to avoid this warning? Perhaps we could
-> > > consider what you suggested:
-> > > 
-> > > #define BASE64_REV_INIT(val_plus, val_comma, val_minus, val_slash, val_under) { \
-> > > 	[ 0 ... '+'-1 ] = -1, \
-> > > 	[ '+' ] = val_plus, val_comma, val_minus, -1, val_slash, \
-> > > 	[ '0' ] = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, \
-> > > 	[ '9'+1 ... 'A'-1 ] = -1, \
-> > > 	[ 'A' ] = 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, \
-> > > 		  23, 24, 25, 26, 27, 28, 28, 30, 31, 32, 33, 34, 35, \
-> > > 	[ 'Z'+1 ... '_'-1 ] = -1, \
-> > > 	[ '_' ] = val_under, \
-> > > 	[ '_'+1 ... 'a'-1 ] = -1, \
-> > > 	[ 'a' ] = 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, \
-> > > 		  49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, \
-> > > 	[ 'z'+1 ... 255 ] = -1 \
-> > > }  
-> > 
-> > I've a slightly better version:
-> > 
-> > #define INIT_62_63(ch, ch_62, ch_63) \
-> > 	[ ch ] = ch == ch_62 ? 62 : ch == ch_63 ? 63 : -1
-> > 
-> > #define BASE64_REV_INIT(ch_62, ch_63) { \
-> > 	[ 0 ... '0' - 6 ] = -1, \
-> > 	INIT_62_63('+', ch_62, ch_63), \
-> > 	INIT_62_63(',', ch_62, ch_63), \
-> > 	INIT_62_63('-', ch_62, ch_63), \
-> > 	INIT_62_63('.', ch_62, ch_63), \
-> > 	INIT_62_63('/', ch_62, ch_63), \
-> > 	[ '0' ] = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, \
-> > 	[ '9' + 1 ... 'A' - 1 ] = -1, \
-> > 	[ 'A' ] = 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, \
-> > 		  23, 24, 25, 26, 27, 28, 28, 30, 31, 32, 33, 34, 35, \
-> > 	[ 'Z' + 1 ... '_' - 1 ] = -1, \
-> > 	INIT_62_63('_', ch_62, ch_63), \
-> > 	[ '_' + 1 ... 'a' - 1 ] = -1, \
-> > 	[ 'a' ] = 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, \
-> > 		  49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, \
-> > 	[ 'z' + 1 ... 255 ] = -1 \
-> > }
-> > 
-> > that only requires that INIT_62_63() be used for all the characters
-> > that are used for 62 and 63 - it can be used for extra ones (eg '.').
-> > If some code wants to use different characters; the -1 need replacing
-> > with INIT_62_63() but nothing else has to be changed.
-> > 
-> > I used '0' - 6 (rather than '+' - 1 - or any other expression for 0x2a)
-> > to (possibly) make the table obviously correct without referring to the
-> > ascii code table.  
-> 
-> Still it's heavily depends on the values of '+,-./_' as an index that
-> makes it not so flexible.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+---
+ block/blk-stat.h       | 4 ----
+ include/linux/blk-mq.h | 4 ++++
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-How about this one?
-#define INIT_1(v, ch_lo, ch_hi, off, ch_62, ch_63) \
-	[ v ] = ((v) >= ch_lo && (v) <= ch_hi) ? (v) - ch_lo + off \
-		: (v) == ch_62 ? 62 : (v) == ch_63 ? 63 : -1
-#define INIT_2(v, ...) INIT_1(v, __VA_ARGS__), INIT_1((v) + 1, __VA_ARGS__)
-#define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
-#define INIT_8(v, ...) INIT_4(v, __VA_ARGS__), INIT_4((v) + 4, __VA_ARGS__)
-#define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
-#define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
-
-#define BASE64_REV_INIT(ch_62, ch_63) { \
-	[ 0 ... 0x1f ] = -1, \
-	INIT_32(0x20, '0', '9', 0, ch_62, ch_63), \
-	INIT_32(0x40, 'A', 'Z', 10, ch_62, ch_63), \
-	INIT_32(0x60, 'a', 'z', 26, ch_62, ch_63), \
-	[ 0x80 ... 0xff ] = -1 }
-
-which gets the pre-processor to do all the work.
-ch_62 and ch_63 can be any printable characters.
-
-Note that the #define names are all in a .c file - so don't need any
-kind of namespace protection.
-They can also all be #undef after the initialiser.
-
-> Moreover this table is basically a dup of the strings in the first array.
-> Which already makes an unnecessary duplication.
-
-That is what the self tests are for.
-
-> That's why I prefer to
-> see a script (one source of data) to generate the header or something like
-> this to have the tables and strings robust against typos.
-
-We have to differ on that one.
-Especially in cases (like this) where generating that data is reasonably trivial.
-
-	David
-
-> 
-> The above is simply an unreadable mess.
-> 
+diff --git a/block/blk-stat.h b/block/blk-stat.h
+index 9e05bf18d1be..f5d95dd8c0e9 100644
+--- a/block/blk-stat.h
++++ b/block/blk-stat.h
+@@ -67,10 +67,6 @@ void blk_free_queue_stats(struct blk_queue_stats *);
+ 
+ void blk_stat_add(struct request *rq, u64 now);
+ 
+-/* record time/size info in request but not add a callback */
+-void blk_stat_enable_accounting(struct request_queue *q);
+-void blk_stat_disable_accounting(struct request_queue *q);
+-
+ /**
+  * blk_stat_alloc_callback() - Allocate a block statistics callback.
+  * @timer_fn: Timer callback function.
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index b25d12545f46..f647444643b8 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -735,6 +735,10 @@ int blk_rq_poll(struct request *rq, struct io_comp_batch *iob,
+ 
+ bool blk_mq_queue_inflight(struct request_queue *q);
+ 
++/* record time/size info in request but not add a callback */
++void blk_stat_enable_accounting(struct request_queue *q);
++void blk_stat_disable_accounting(struct request_queue *q);
++
+ enum {
+ 	/* return when out of requests */
+ 	BLK_MQ_REQ_NOWAIT	= (__force blk_mq_req_flags_t)(1 << 0),
+-- 
+2.51.0
 
 
