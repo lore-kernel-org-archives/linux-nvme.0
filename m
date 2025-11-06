@@ -4,93 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7B69CCFA05
-	for <linux-nvme@archiver.kernel.org>; Thu,  6 Nov 2025 23:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68ACFCCFA13
+	for <linux-nvme@archiver.kernel.org>; Thu,  6 Nov 2025 23:18:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=MxkbqocSKuMAYx2uu2Fs9IEgdxjiKFemke+ud0Q0HuA=; b=mc2BT+K896XFf5hFbqsO/i4bra
-	0KKYDipJ2nD5q8AYktNbX/dmw/WLnLgj5j0gzWxOnvD2C4fyl0T+vRRq2PVLAO3hbxOGuj+2wMk7h
-	ZJ6oB3rrg3s3wbRh5S5Ex9fqrTgAv1Lrv52X/Gl/cpjmrS4DEEgyls6bICSom0OKbipWaiBZc4M7T
-	Ivt8UzJT9wW/PuHvHKqJ5PHYY6r9GS5lrICIJAqq0C2eWcTld8QDdWshGLt/DzPZgdTRXzoQqtGgd
-	gQIzxC2+YaP2uMImEQhjQSZaqvoBHgPXHJ53ugDMu18JQOGl2oBfp3yZ9fBvrgdIhgoy6Wu9WB0Uf
-	v6VNy3XA==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZOUOWyN3SQvZiS/RbaKwiZi9YRB0sBMbqUhJ8OtdPmE=; b=N7ts9wiidj8462yvR75Uojzvdx
+	HLMLpi8mHpi4rE/xvDgjDkF3HHbbStHxkgH1nlWEWC/fI9FG5DQRsVM8zMFK3AhOJLFchXhek8piA
+	YDLc/XZrJHDoHk7T3kz6O6AJB3OfPNIiuKSM6NNbYeAXlDFjOd8z1f3snFHtp9O3gAkE2tcT+wCDc
+	2nJvWlXwQ6xsTOZLokUzMYENbnndadIysJTal6LHixTotsd7hrezp5YLlNrcGDY0FCxAwSMNbHDhb
+	A30zmRzvdn7nBucwq/IJtpyac0t/QKOafuZDLnIGRzhre5Rcms21GIPWcIKIuxcwpJVVllTAayreD
+	3kwOlh9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vH9EO-0000000GMFI-1QAd;
-	Thu, 06 Nov 2025 23:17:28 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1vH9FS-0000000GMLA-30EX;
+	Thu, 06 Nov 2025 23:18:34 +0000
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vH9EI-0000000GMEt-3CME
+	id 1vH9FR-0000000GMKe-05TE
 	for linux-nvme@lists.infradead.org;
-	Thu, 06 Nov 2025 23:17:23 +0000
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-7a9fb6fccabso156151b3a.0
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Nov 2025 15:17:22 -0800 (PST)
+	Thu, 06 Nov 2025 23:18:34 +0000
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-64080ccf749so281102a12.2
+        for <linux-nvme@lists.infradead.org>; Thu, 06 Nov 2025 15:18:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762471042; x=1763075842; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MxkbqocSKuMAYx2uu2Fs9IEgdxjiKFemke+ud0Q0HuA=;
-        b=fN2iXyCLhr4uwlQsK3hiDt02d40Ie/qDIDratiBlubUMDzXKH6FP0l90yxxPLOYkGH
-         ndzt+XTUAZGEQQfqwZl044OPxvMW4AG0IaXHN4tfZLm7LsEAf5MJ7rDyfN/WKk/tee1e
-         ulAQ0oTuyUbKiwDdhxJEMO7v6e54QrLHGk+0uxQNZFEg9PmtGrobgNRBimMO8uul2AXY
-         75Y/K1zS46SkHSrEUyls9/FG+TZluDeqih/fTOGiluU56680wYB0nWVtwo1IKyDhNggc
-         /ZnLIa3Wom60+SWtj+XvBo4Spv4vqTtUXI5FBZ3rJwgeZELDyVL4s1l8b/2og0DCJ+vh
-         Mcuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762471042; x=1763075842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1762471111; x=1763075911; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MxkbqocSKuMAYx2uu2Fs9IEgdxjiKFemke+ud0Q0HuA=;
-        b=Zw5eD6ZYjQ+2QPG3+qKcm7ubtNkDTkl5pyi6PEFV0ePaKkftt5uS1kCVGcfTsnpQ20
-         gjkKmRH+qhmRVp4nreyaAFMBADyOtsfPWO+ax6I05p9857gUYnT29tgymSlL0I9KstPq
-         i2ienEWDbH1v7HXr2XaQRyv2gAFWlwkU8QFwcp+OKM9go1Xxf/C+xNNqWPtnftKD3kvV
-         w+HKClT+SQNCMTawmHNKfyOoU+Tq+3/rJXi/eyth92atWnMbXbR3TIIhl/hpIlUG0svh
-         djQCTKKfhYPIFiAOKCKyYS+AHl7Ny+ROwh/5U89KlSDnve80UfQvYMSKd1BTOidbdhjO
-         qVhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFQEx3ryTbXpMoxhmP6fV4QwkxOzhBtv9amNyScRNZwX1c1PiBc41znw+RTYnJlp4LoctwioRDKuJX@lists.infradead.org
-X-Gm-Message-State: AOJu0YwvCPbuGRzRnjBV0wD4/u+qhP8bfTjOXVCf07ZGB8AtETsEEST9
-	xrQMc35ufH1DmtwOaVCzlir2UMmaoYzJdv8m/Gy+x41Fk1NF9Ds7cNEi
-X-Gm-Gg: ASbGnctPNJUjQNBJ5kRirDNlUQlxMYnQ8Yj22Qa0bOqeUQVxGrkZg53bADTXLNy1KcM
-	T1ynxPwJ4gzqsEqbgojuMiAFXUcVpGGsV730jOhqLMYmKylNNEGlhDg4WmK3vkuBhicAu6GCKyw
-	+/RYo7AyKyOCFEJqlIlHplzeHoPkeh2tyJbkIlRAGfwIX9kaKIrjmEVwU+ZiWfqVfl7nfUenW+4
-	3ngMnZ6vSn08kv1vrL4rMVSdPDfwHvTwRxVn5cYjqtyYIjY7VMs5jBx2guPqV5z+P/upXIk2wZc
-	hoio3y3X9KtIUW9uholExtV9RFl6gm/B05vAb+Hxgx15kjRCxDcT/Cj02IWWX6gS4COVx6wq//S
-	TPQYpDDG8yET2qaNGYke9tD3MjQBXRxqMQ7ZVO+lAfq0foKutI4nvsxkJzENB1pMOv5HzQsR6O8
-	50a98g5wJUWsZyLfF+cOFN2YLKui2EDEYPYcUEUnDREAqJ4D+sHJ5blg5k49VKKU7ubmLsBfJT/
-	dxYaflJ+w==
-X-Google-Smtp-Source: AGHT+IFgt5H5/Jh5UddUTi/eC84zmUvNW7lSw4KqwjZ32dpmEteJM77JYy4M7NtASe4ejJ68zTxu7w==
-X-Received: by 2002:a05:6a20:9145:b0:342:873d:7e62 with SMTP id adf61e73a8af0-35229d5e6a6mr1867860637.29.1762471041912;
-        Thu, 06 Nov 2025 15:17:21 -0800 (PST)
-Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0cc175484sm680245b3a.42.2025.11.06.15.17.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 15:17:21 -0800 (PST)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
-To: hare@suse.de,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v3] nvmet-auth: update sc_c in target host hash calculation
-Date: Fri,  7 Nov 2025 09:17:11 +1000
-Message-ID: <20251106231711.3189836-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.51.1
+        bh=ZOUOWyN3SQvZiS/RbaKwiZi9YRB0sBMbqUhJ8OtdPmE=;
+        b=nU00LbYPK4C5BbGEotllvBycMxeRtpFqXR4ml3uyWlYYQ0+tKdWxJKj55h9NLA5Y4b
+         X7G986v14mE5jQyAAKtC1zmARb3Ob8CIEnTwiIIseuwR9CbNdIb6m9nAWK4brWE/TTLL
+         c4MUFru5Fj0onrP8oEeeX2MYl8A0pRpScPmMWVIPGguaROy3E9O8RaAnECJ5b4odz9z7
+         3+51+XyB/FT0f/bIZb1yXEs7EPwAcfeAxfMI5H4L7eshOJV1qz5mq3VOHVqddP+ugu9r
+         UmFGMW0JDySj0cLrfndmomZZJaJZkl8tjeo3nNJb/zNUKgreZEz/28UeM49Ac3MpU91J
+         qrZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762471111; x=1763075911;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZOUOWyN3SQvZiS/RbaKwiZi9YRB0sBMbqUhJ8OtdPmE=;
+        b=Q7gm1G2pIBjtz5hBpkwgwSHS9rtiCFDolMgNZO32fX5OVD1izm8OPDnKqKV4I4Eh9y
+         r0M/tVRy92DcrS05ULA0stw9SLGtlrQXraGMf+YT00snNsiPzMD0L2lQ8W9uOw25mvlv
+         3nCATvpgjbrz5GYRMsMORaN3YfWgEYv5OOUU9y8AI80RbSPmfCkbsaZO8hgaKxeuIvRn
+         RPun2K5Z+Ezj/lCo3KFY88D4U6M5XQVl4ALVzHFcMJr3/5HD5BepfoRXahjjgBsV2c+O
+         Vg1U+MizhqlTEDWKfYySL0tpO7rS1h+bgk/nqAbXuHVVl24YeRHRszOSS4E/M8i6Ulbh
+         Y7yw==
+X-Forwarded-Encrypted: i=1; AJvYcCXGYuKEnUxmYrYcBtmLETzToF/Cd6zu9kyc/ukY1yL2yxmeTvLxGdhVfPvSOEj0h/xe5l3nG/ZXnISq@lists.infradead.org
+X-Gm-Message-State: AOJu0YyXSbhhU6rMD+NHgvuFTPBW667/tIyi7eB1fBuwVZVFqMhbs3/W
+	aFxcdEI6xdv1dtvxV6siugLyCJb0oS3Mi9WJd00yKj0v3NO6JhQUcT8sLk/pjspLFbz6d7rjGcR
+	9+qg/B8dmg2JWXJUkNXAs7d8mPCCtsa+KXA==
+X-Gm-Gg: ASbGncvHovTAkPmtd8bYRYXTb7cxb+m8AvpnLEN+YmZBaX7AhXTFWlNIyinPqWpa2/r
+	HXAlOTow1nlpT8ioyfUrF5m9ReX/6II39lFpvAYe0QzHhFgdK4ou2KLnGv65qymy/iMxQLq/ouh
+	5SIK3ZgqKAOtEHzTLaJOiZFwDW5t3xuaQnnszNmADrnr7Bus6kfTdQLy1Z9LXHM8ex1urGJ+/5F
+	JzLvW7pmImTvGNlJqkD2ydY0qjiTCSfocVYvU96n93IsgvpAw4J7PVjDKinYyEcvPiNgGDYoOgf
+	1X8D5iF5KWIEBHU=
+X-Google-Smtp-Source: AGHT+IFQ3p9ssmPv8Jm7gFsQL6RL6oReE2y+7vSXZxGI2qjE3DMYEWlLAqv+wQJCw4Kqxr8DuM1E/gWRvm7feQCSeeI=
+X-Received: by 2002:a17:907:6e94:b0:b72:6fec:5d0e with SMTP id
+ a640c23a62f3a-b72c08dca97mr94592666b.13.1762471111104; Thu, 06 Nov 2025
+ 15:18:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251104231414.1150771-1-alistair.francis@wdc.com> <adba53a05329dc8399c3bd49c7bcd5eff5e69574.camel@gmail.com>
+In-Reply-To: <adba53a05329dc8399c3bd49c7bcd5eff5e69574.camel@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 7 Nov 2025 09:18:04 +1000
+X-Gm-Features: AWmQ_bm5LInA_pSlrz_9pdkVaeGS-Cw3yi_cxhx174Xg7NOZ-pKujDIKCUNvg0k
+Message-ID: <CAKmqyKOMFdKqcYN1Nuz224nczaQMmXhk=H6Vx6n+XLRpeVQdNA@mail.gmail.com>
+Subject: Re: [PATCH v2] nvmet-auth: update sc_c in target host hash calculation
+To: Martin George <martinus.gpy@gmail.com>
+Cc: hare@suse.de, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
+	sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251106_151722_813273_2AD4EE73 
-X-CRM114-Status: GOOD (  15.55  )
+X-CRM114-CacheID: sfid-20251106_151833_081542_16E4DAD7 
+X-CRM114-Status: GOOD (  28.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,71 +97,117 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Thu, Nov 6, 2025 at 11:05=E2=80=AFPM Martin George <martinus.gpy@gmail.c=
+om> wrote:
+>
+> On Wed, 2025-11-05 at 09:14 +1000, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Commit 7e091add9c43 "nvme-auth: update sc_c in host response" added
+> > the sc_c variable to the dhchap queue context structure which is
+> > appropriately set during negotiate and then used in the host
+> > response.
+> >
+> > This breaks secure concat connections with a Linux target as the
+> > target
+> > code wasn't updated at the same time. This patch fixes this by adding
+> > a
+> > new sc_c variable to the host hash calculations.
+> >
+> > Fixes: 7e091add9c43 ("nvme-auth: update sc_c in host response")
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v2:
+> >  - Rebase on v6.18-rc4
+> >  - Add Fixes tag
+> >
+> >  drivers/nvme/host/auth.c               | 1 +
+> >  drivers/nvme/target/auth.c             | 5 +++--
+> >  drivers/nvme/target/fabrics-cmd-auth.c | 1 +
+> >  drivers/nvme/target/nvmet.h            | 1 +
+> >  4 files changed, 6 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> > index a01178caf15b..19980122d3d5 100644
+> > --- a/drivers/nvme/host/auth.c
+> > +++ b/drivers/nvme/host/auth.c
+> > @@ -492,6 +492,7 @@ static int
+> > nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
+> >       ret =3D crypto_shash_update(shash, buf, 2);
+> >       if (ret)
+> >               goto out;
+> > +     memset(buf, 0, sizeof(buf));
+> >       *buf =3D chap->sc_c;
+> >       ret =3D crypto_shash_update(shash, buf, 1);
+> >       if (ret)
+>
+> This memset in host/auth.c doesn't seem to serve any purpose. Also
+> given your patch is intended to modify the target behavior for sc_c
+> handling, maybe you should restrict the patch to target side updates
+> alone.
+>
+> All the memset cleanup in both the host/auth.c & target/auth.c should
+> ideally be done in a separate patch, and not part of this current
+> patch.
 
-Commit 7e091add9c43 "nvme-auth: update sc_c in host response" added
-the sc_c variable to the dhchap queue context structure which is
-appropriately set during negotiate and then used in the host response.
+Yeah, I realised I don't actually need any of them. They have been removed =
+in v3
 
-This breaks secure concat connections with a Linux target as the target
-code wasn't updated at the same time. This patch fixes this by adding a
-new sc_c variable to the host hash calculations.
+>
+> > diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> > index 02c23998e13c..f54a1425262d 100644
+> > --- a/drivers/nvme/target/auth.c
+> > +++ b/drivers/nvme/target/auth.c
+> > @@ -298,7 +298,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req,
+> > u8 *response,
+> >       const char *hash_name;
+> >       u8 *challenge =3D req->sq->dhchap_c1;
+> >       struct nvme_dhchap_key *transformed_key;
+> > -     u8 buf[4], sc_c =3D ctrl->concat ? 1 : 0;
+> > +     u8 buf[4];
+> >       int ret;
+> >
+> >       hash_name =3D nvme_auth_hmac_name(ctrl->shash_id);
+> > @@ -367,7 +367,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req,
+> > u8 *response,
+> >       ret =3D crypto_shash_update(shash, buf, 2);
+> >       if (ret)
+> >               goto out;
+> > -     *buf =3D sc_c;
+> > +     *buf =3D req->sq->sc_c;
+> >       ret =3D crypto_shash_update(shash, buf, 1);
+> >       if (ret)
+> >               goto out;
+> > @@ -378,6 +378,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req,
+> > u8 *response,
+> >       ret =3D crypto_shash_update(shash, ctrl->hostnqn, strlen(ctrl-
+> > >hostnqn));
+> >       if (ret)
+> >               goto out;
+> > +     memset(buf, 0, sizeof(buf));
+> >       ret =3D crypto_shash_update(shash, buf, 1);
+> >       if (ret)
+> >               goto out;
+> > diff --git a/drivers/nvme/target/fabrics-cmd-auth.c
+> > b/drivers/nvme/target/fabrics-cmd-auth.c
+> > index 5d7d913927d8..16894302ebe1 100644
+> > --- a/drivers/nvme/target/fabrics-cmd-auth.c
+> > +++ b/drivers/nvme/target/fabrics-cmd-auth.c
+> > @@ -43,6 +43,7 @@ static u8 nvmet_auth_negotiate(struct nvmet_req
+> > *req, void *d)
+> >                data->auth_protocol[0].dhchap.halen,
+> >                data->auth_protocol[0].dhchap.dhlen);
+> >       req->sq->dhchap_tid =3D le16_to_cpu(data->t_id);
+> > +     req->sq->sc_c =3D le16_to_cpu(data->sc_c);
+>
+> Given sc_c is an unsigned 8bit int, is there really a need to make this
+> endian safe by calling le16_to_cpu()?
 
-Fixes: 7e091add9c43 ("nvme-auth: update sc_c in host response")
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- drivers/nvme/target/auth.c             | 4 ++--
- drivers/nvme/target/fabrics-cmd-auth.c | 1 +
- drivers/nvme/target/nvmet.h            | 1 +
- 3 files changed, 4 insertions(+), 2 deletions(-)
+No, it's not required. Fixed in v3.
 
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 02c23998e13c..58d80fc72fda 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -298,7 +298,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 	const char *hash_name;
- 	u8 *challenge = req->sq->dhchap_c1;
- 	struct nvme_dhchap_key *transformed_key;
--	u8 buf[4], sc_c = ctrl->concat ? 1 : 0;
-+	u8 buf[4];
- 	int ret;
- 
- 	hash_name = nvme_auth_hmac_name(ctrl->shash_id);
-@@ -367,7 +367,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
- 	ret = crypto_shash_update(shash, buf, 2);
- 	if (ret)
- 		goto out;
--	*buf = sc_c;
-+	*buf = req->sq->sc_c;
- 	ret = crypto_shash_update(shash, buf, 1);
- 	if (ret)
- 		goto out;
-diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
-index 5d7d913927d8..0cd722ebfa75 100644
---- a/drivers/nvme/target/fabrics-cmd-auth.c
-+++ b/drivers/nvme/target/fabrics-cmd-auth.c
-@@ -43,6 +43,7 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
- 		 data->auth_protocol[0].dhchap.halen,
- 		 data->auth_protocol[0].dhchap.dhlen);
- 	req->sq->dhchap_tid = le16_to_cpu(data->t_id);
-+	req->sq->sc_c = data->sc_c;
- 	if (data->sc_c != NVME_AUTH_SECP_NOSC) {
- 		if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
- 			return NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 73da823a91fb..20be2fe43307 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -159,6 +159,7 @@ struct nvmet_sq {
- 	bool			authenticated;
- 	struct delayed_work	auth_expired_work;
- 	u16			dhchap_tid;
-+	u8			sc_c;
- 	u8			dhchap_status;
- 	u8			dhchap_step;
- 	u8			*dhchap_c1;
--- 
-2.51.1
+Alistair
 
+>
+> -Martin
+>
 
