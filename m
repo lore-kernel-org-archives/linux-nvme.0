@@ -4,90 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33C6CCCFA13
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Nov 2025 01:12:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8775CCFA13
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Nov 2025 01:12:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SbOfTv6aZMJwJYebFXUGpLKkO3C9MvIV+S6DwLivmkg=; b=w+juVuxKC7Ub+prXNoTClyAev9
-	1fD4mh1FF1ikm6Y2xlcaT0ihqKwjHm3ncLYLcDCIh2ltvkltd+ZiuT967xmJ+ZVj6wipd5dksZMcR
-	iOUY+xh+N7LFtPyp+HflcYys0j7SoxznW2/raaGf4aMalioFRBuK0V7bwcPOR/CdJ4A9D18EnBauV
-	PQ1bAyEbdbK1XMVbpdQqOerAv4DU9GvEfmD1WfgCowzP9sv+GGlZgDS2iWGnXl4KqJH/eiycb4nqJ
-	k2J/yh2ln+/ITTuzHrN02qX6dFopIQKZKBrrTi2RoXlhl6BxlTqsexfpHee7HRBRhRlhp7SvLs5dU
-	STl7FQew==;
+	bh=QWqJnsp4EvW5NsB0ZoZZ38wCK4yHD8qklQbwS0U9mKY=; b=ct1+xmjxHExx7pm2BKtuAKE9eJ
+	Xgh4K47io4wIIbDBEtfwIGwtIOVwW0UuiHC7KwR60i+MCRjpaa9aHXEpgIO8hHSgqLGNy9UXGhjup
+	yfMEaRM2QsSWp2IkQo3UMYr3jfS/BsgDlXiXYWseCBnZHMtOwf0f8IlaQ5XoR1aE/JFdoumliOGlK
+	FltAaNJPn9EyInLMF5YvpehMaUlFTAvpBfSO9mJV/gQkhR9Gotg1zVmvS0rY1R63R+iszgyp3BmvS
+	HcQF4IOOk2JVpN++RVvORYyL/mymXyCH7Oc7V2eNiCmAr76X6E7K3jK+fmkVEzTNA7uirPopvs0m6
+	s3UJZadA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHB22-0000000GUQx-23vu;
-	Fri, 07 Nov 2025 01:12:50 +0000
-Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33])
+	id 1vHB27-0000000GUT1-1ESE;
+	Fri, 07 Nov 2025 01:12:55 +0000
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHB1w-0000000GUQB-3j7d
+	id 1vHB24-0000000GURV-1CmN
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Nov 2025 01:12:48 +0000
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-7ea50f94045so2469786d6.1
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Nov 2025 17:12:43 -0800 (PST)
+	Fri, 07 Nov 2025 01:12:53 +0000
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-4eba6e28d06so1208341cf.2
+        for <linux-nvme@lists.infradead.org>; Thu, 06 Nov 2025 17:12:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1762477963; x=1763082763; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SbOfTv6aZMJwJYebFXUGpLKkO3C9MvIV+S6DwLivmkg=;
-        b=w9j13ApuHjP/0LeWr4pss9ds21BOV5P8gBtJeioh+Mb/EjGjKXmJR0POcUYOYHyFlm
-         mv3uZZt4y0ArGx3l3XM0nOenc3aLUvvFoFyXLTZiy/mG/CEuB5m3PS+Hm98+cjZrNcZY
-         Xb5Ei8SGjkY1qa7cxOD/lixGg3FbF0oZj/MkiS5g6B2jceCgsNCcTohm56m0RLXMskhc
-         iDgSNG3svZGqLu5edYB1APnmmIqvm/O6p5jL/2T/a+xuSKO54Mjyxmgx85TIvYyWBO2K
-         A4fkZnRFyhOnH0HduvBSfy7Myziy2Db3PvfZ3erht4z9U9qbPtLahSuIRNeJNQuRf9p/
-         xsPQ==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1762477971; x=1763082771; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QWqJnsp4EvW5NsB0ZoZZ38wCK4yHD8qklQbwS0U9mKY=;
+        b=wSpwD/fowAloJd0dYIjb7/C5DWpgIVSIjJ0sL1cByFS4iDJwVqaHYXSuf64vP/ZaUu
+         GuY7huqql5VlgJfOhntrqRicJj/7/FXawCYzoqw2Hsb+m3NYypHI40hYQ/mebm2O9B5e
+         FiIKZXZvFM6rGkPX7PT+6Gm8gW6J7MlK0erERfcfJIsdg+iAG+7qzPKWJYiWiV0952lz
+         4yR2UXymYEReRGz8/ng3WVXmIIExL7k7d5l91j2R1ftOPRUdXvQxU/+LZxu1YqDOW3/j
+         imxGhg4Hw2rAIVOHXKNvwGCZtPQ8x4INb8OP8xXlYoR9+KdarNDu4dBrdFhlosUE3TRQ
+         cPsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762477963; x=1763082763;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SbOfTv6aZMJwJYebFXUGpLKkO3C9MvIV+S6DwLivmkg=;
-        b=NEB4pwyg9G1sA1d2kHjew55pNnZlvn2+XF4nR9Ia75wq2DIqUCb/Zz+OMe59yfcuTc
-         iGFssUfUPXL3Nvu0jxQgI5mLZ3gPqxBHLqhuc7nClrVcqBLm3qY8F6XRezF1mh8nTm3f
-         WTK/9Yxe7x6Ahod+S2Bs0QxORYXlXlyswfxhqUF9EDnvV3l9uaTn2lniF99Qm5QmFVOc
-         Eo/GB1in78fxbeE+mE9fl6WOP5I2yMS35Eamghy78INMhdhC73GUPIDbGOmyFAtYoio4
-         L3GEctOPgvRgt8x8msbZrcVDyVXOgqx6EbrihPsF/RGMj6lXvyboi4hjap2W5aF5/PQ9
-         dszg==
-X-Forwarded-Encrypted: i=1; AJvYcCWSpxTAj64aV8Y18+kADbkKYNoBWLBUJYCxB+LCAj1ouAudWA1xBCcvBfm6Qr+yj3hDPyKOvrkdVrqp@lists.infradead.org
-X-Gm-Message-State: AOJu0YxVqgJFpvXwfN1Szund2ooM2ntqn+ccB5ulpe0H52fFisHN6udZ
-	g7Y1+aYOLt8Kqawgxjj6Qf1sladpvV6srGUkBIWjaT3IXTdI+Ib232qG35GCSZP5/Y0=
-X-Gm-Gg: ASbGncv3IXfDAVNQztng4R91Yx350Ml3hmmA6vfgpMLyANp9sCOqIWc/w/kQHFqulXj
-	Fq+yJxs9Yj6s11cTEMfFzRV88ELAUde/93s4kGRmcgNY2OJpEe5gzZO1XcHfwV/LNQIAZ3dGmhH
-	Hj2iytX0t/hybvmMMRFpqAUcmeNAArKQeRRnDH7RpgrAqniG4BBEPMJtt9OqIexmt278BuIAT36
-	b/ZnpBwoae3LICydx5EzCE50mt7ayDIUI36EK/kd+ZP1unHuyn171s4w94BvveTL1cCp528ml/8
-	7RhyZnFK3XTaw7o0WHEqBRTui+9zOCJoEEFW5BvO3DkYU7TUhSBhDAE6x6bVMj1DVfzWS79Zc9p
-	AQvOtpguQeVOeoNQ+qnHXGRULUC2ZueUlmuOWEGtayPM/qds746LJybd5cJnFF0iNFuzCi2TG
-X-Google-Smtp-Source: AGHT+IG8/wvtChgl0Oj/AdYZuMbFxSekQdhXD7/Z4xI+xovxQES5Hc+/nbL8jisSWsqgNfQX7l33kQ==
-X-Received: by 2002:a05:6214:2126:b0:880:4898:d74 with SMTP id 6a1803df08f44-880829088eamr60575676d6.20.1762477962806;
-        Thu, 06 Nov 2025 17:12:42 -0800 (PST)
-Received: from [10.0.0.167] ([216.235.231.34])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88082a37b9esm29305616d6.52.2025.11.06.17.12.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 17:12:42 -0800 (PST)
-Message-ID: <f12584c7-4f91-4d22-828e-cc64ee935110@kernel.dk>
-Date: Thu, 6 Nov 2025 18:12:41 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+        d=1e100.net; s=20230601; t=1762477971; x=1763082771;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QWqJnsp4EvW5NsB0ZoZZ38wCK4yHD8qklQbwS0U9mKY=;
+        b=FAFDF5dHy2GHoJKAXSqt8DjLO+07iEBYHd6Qn1qBmB7u/GcikRoOp1u4NA4HDBeN4M
+         60cjL9VZmhgcGLrViPquMRNCgdqb22iiBJ8FS2rIiKdwbEVtvjr4XTFgb4NmydmWLB4k
+         YjbQ5vFdRrJNCEOPN3lnOx/LirmHVF9Kc+/5rU51ookx/HX/uQFq0abE2pG/eXXKxXfl
+         mQIJSdmhESdA8Xhld3KRD+QfYHC8etFtdW8X8gSyrRmPbPG6dz7A6XJe8/NmUaJ0Sxu1
+         5/8QJVqZcQ2qTtyYB/LU6LZWskAB9+dB/Y7NVBb07CwO9VBUn8Jqnu9M5TfDhq/qjcFg
+         QFnA==
+X-Forwarded-Encrypted: i=1; AJvYcCV99F1AfUPlcqOntJXydqewRPbsJx5jnzPfS4ew6uT5PiKppa69VugTmTXogSL8ukuv7gtDIEoBmSUa@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy8n7KCHR37Jkqkg8BAal0AKLxSNgJTcSD4rL3wODpxEbzElva2
+	FUBdKwF1wti4wGh7qPxmO36VHpbP5xLZziaam015DCCtdwuNjM2FaUs1Rn2g8zCn9c8=
+X-Gm-Gg: ASbGncstBjwRbIGGkHZuVhlPNU50Ag//HQeQH7+LpyY/WrTzAEK5CVHLzMkcJzwszBw
+	iztndYlmFvVE250QehRAQ8iW6dQPaJKGf9/eLRHvbQ54zTY0a1Ky1T8jbskdZfiVt8RLDMufmok
+	d/MSU6Q2eEa0GacXn/GDHXAT8nuahq2NsxcKHu02k1Fb2UzNPeiAIc/5ZwF8/XhBHVzSKEmo5fP
+	yDkbZYDKBdI4Vu81QfNPYPXIh3a57vvASMYhJ8N2PCAzeXq9y1d6rCP7wBolceKvS3jixQyA947
+	jOVCth9HQq634KW3SFlKA0aYL67mS3HsbCQsWflHuHJYYcyRZ0B9eW4POHVZOIuLGzNi2R0kKuc
+	ZxOHE+aEWSe3SYYWOOcz91iLUO6ZR6kHAykC6gC/soBgyehssfb8sIxzioRZP8dQJ56zXFYE=
+X-Google-Smtp-Source: AGHT+IGNXhFRusyfcqPZnRs/xowsTaaRiEB+Y3/HUpSQ552W130CtgBm5ZhdeFImdQj8FqUNsa7yqQ==
+X-Received: by 2002:ac8:5704:0:b0:4e2:e58a:57e1 with SMTP id d75a77b69052e-4ed94988f21mr16234581cf.37.1762477971052;
+        Thu, 06 Nov 2025 17:12:51 -0800 (PST)
+Received: from [127.0.0.1] ([216.235.231.34])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ed813b79cesm27827041cf.23.2025.11.06.17.12.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 17:12:49 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: hch@lst.de, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, 
+ Keith Busch <kbusch@meta.com>
+Cc: Keith Busch <kbusch@kernel.org>
+In-Reply-To: <20251014150456.2219261-1-kbusch@meta.com>
+References: <20251014150456.2219261-1-kbusch@meta.com>
 Subject: Re: [PATCHv5 0/2] block, nvme: removing virtual boundary mask
  reliance
-To: Keith Busch <kbusch@kernel.org>, Keith Busch <kbusch@meta.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-References: <20251014150456.2219261-1-kbusch@meta.com>
- <aQ1Fa7hPssIFOBLg@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <aQ1Fa7hPssIFOBLg@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
+Message-Id: <176247796912.15650.4766342820181408947.b4-ty@kernel.dk>
+Date: Thu, 06 Nov 2025 18:12:49 -0700
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251106_171247_448956_B23A360C 
-X-CRM114-Status: UNSURE (   9.20  )
+X-CRM114-CacheID: sfid-20251106_171252_332457_3637E914 
+X-CRM114-Status: UNSURE (   6.48  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -103,21 +101,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/6/25 6:03 PM, Keith Busch wrote:
-> On Tue, Oct 14, 2025 at 08:04:54AM -0700, Keith Busch wrote:
->> From: Keith Busch <kbusch@kernel.org>
->>
->> The purpose is to allow optimization decisions to happen per IO, and
->> flexibility to utilize unaligned buffers for hardware that supports it.
-> 
-> Hi Jens,
-> 
-> Did you have a chance to consider this one? Thanks,
 
-Looks like I missed this as it was during my last race^Wpto, now
-queued up!
+On Tue, 14 Oct 2025 08:04:54 -0700, Keith Busch wrote:
+> Previous version here:
+> 
+>   https://lore.kernel.org/linux-block/20251007175245.3898972-1-kbusch@meta.com/
+> 
+> The purpose is to allow optimization decisions to happen per IO, and
+> flexibility to utilize unaligned buffers for hardware that supports it.
+> 
+> [...]
 
+Applied, thanks!
+
+[1/2] block: accumulate memory segment gaps per bio
+      commit: 2f6b2565d43cdb5087cac23d530cca84aa3d897e
+[2/2] nvme: remove virtual boundary for sgl capable devices
+      commit: bc840b21a25a50f00e2b240329c09281506df387
+
+Best regards,
 -- 
 Jens Axboe
+
+
 
 
