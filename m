@@ -4,101 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2242ACCFA13
-	for <linux-nvme@archiver.kernel.org>; Fri,  7 Nov 2025 02:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2592CCFA05
+	for <linux-nvme@archiver.kernel.org>; Fri,  7 Nov 2025 03:08:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QuX17fCzmjSlKD2oTV0BAVWCX3GMVQ03UEsOj2aXO/w=; b=mR1faZi4yjzdPio1CedsoYH/WQ
-	PrU4DwT7LSVYjTGePaoP4NpMY2nMukwSt3L5NnVwaGdncgJI0CT7rIA8r4JlZkF5nHxSf+oYKAjqP
-	jQYuNvgp4ZasxTP0CcPcwaXfZEeK1imBQRFaXIS4z2neA4p3qAiYaYe1m+SJ4WvK3GWiEVdxdD6JU
-	eVEIWBibQjtUi5qgOEpCbFsGQfg0YDIaKlboaxUKSYChggyri9n3G9oiefegxK7iFokcYoyC98KmA
-	8d2LAN35xdo47wZ391pmWYBYrw7+RoJLb0QjWQAe8Ss3wLrRXo99hoIiYZM8OxC0M4lfEi0m44hgG
-	CTUi0MOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=LJjLzqEvUZ3DmfNjC/g8XI6f7J7KydI2PZvnARQSkss=; b=qYQcirWS2TnkMh1AuK61TGXZB2
+	SDijw4N46fP+oFbJTjdb16qdCbI4uHRycJXXRfqp61WE/ET0atCykKZS7y5dWWQa/sb0VTfe10HU7
+	w1OnPxok5NjcN6gEchoxEKYF2UM/U7oDbKfmPjoZSMZii5qR5hqnXgzDsmBIBlhm71sv090V/wN+u
+	lvtFGgU0ZWwvpFA2nJ8/HYfkJIerWNPWX4ZJ+Yv240pVoZUgLK7GN/cYUqRKn4zkpC/AOl6CaXRrn
+	SwUsfMZt98FRw+zG6qHLf39+cUWTyk7WM4yiv+Sl2aQboFzKjPmTLq2XL1McfsqpHNhrdFrASCBhM
+	BoIUF8mw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHBsy-0000000GYYk-28OU;
-	Fri, 07 Nov 2025 02:07:32 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1vHCq1-0000000GbhZ-1fAf;
+	Fri, 07 Nov 2025 03:08:33 +0000
+Received: from mgamail.intel.com ([198.175.65.20])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHBsv-0000000GYXW-1xkV
+	id 1vHCpy-0000000GbhA-41d9
 	for linux-nvme@lists.infradead.org;
-	Fri, 07 Nov 2025 02:07:30 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-29555b384acso2452125ad.1
-        for <linux-nvme@lists.infradead.org>; Thu, 06 Nov 2025 18:07:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1762481249; x=1763086049; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QuX17fCzmjSlKD2oTV0BAVWCX3GMVQ03UEsOj2aXO/w=;
-        b=dnOMCDNukQ5WjtVwAs0hX7tTuXtEeSBIRRPwGj8s0GyTsiI0VoclsEpjjEsva+Bpi5
-         i2W9VcQFyIPKAJHAoilpvEVxIQeNvNOKmceGN+tIJIHUL+Xqqifjpduj8yyJFfCz1MIe
-         o6AL6heuDkYrG9/wpmad+PzNaW5HTbd7fxqdmdL1sUM1nZhVXILpaVy+t6Ao7740Dgrh
-         zdAbRyJpGrHKrshL0hYKgVczJsfdVePHnn8daZRkpy3gNrhIePaGGOTaE1oWjujuVQgO
-         zV+t+yCRoqo4UbIPtGEvLQX9/GfavmFIgJ9T7xwrm4lsII4vmb54ngYP2ouJlxNjx06t
-         VN7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762481249; x=1763086049;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QuX17fCzmjSlKD2oTV0BAVWCX3GMVQ03UEsOj2aXO/w=;
-        b=saXOt2zUJJj/QFpBq4Co1pimDknhD98nNAavF+CZA+iaAhdOIj7HzSZGGBOdaizyeB
-         5SQZZ4+c+phKY0KWhtfnMZTEg2+yefC1wPb+8iaRSK0RXeu99F4tBlk9j1qJ2uFk84iL
-         J42nUmko2lGbmOXQpAz11nHPsnyh5op4UY+wgL/+ChHvxNDtYt26NUJU7FbZ1/TSIs7l
-         x61/GC+DK2QSgyD+ypjyR6W9ludYMh850uSEY1Tuwq7esW7FAZtqcufQRiuh/vO8QXep
-         EfQ+ZsTzdOmgD58TY84OeD7GYlIpQEuffnIIUf6fwIjQo+kEBVWU0KOAE20zr8rdoBG7
-         u2QA==
-X-Forwarded-Encrypted: i=1; AJvYcCWBvhrYQdE0d8+hEuAlozk9JQ11ZhS1VCyKUR2bGAnwT2j99TFOvWF5TxpwW/HZiOM82mKxKlW5Ryn+@lists.infradead.org
-X-Gm-Message-State: AOJu0YzOwrodDnr5hkIB/VzzK+kp4Q8Rdx5VVg4gzdDwdasLhNvrrpkM
-	9hQ6lv+oNmXMgh/DAKSJtwn/6mdFiz6Vpf4gCYRwKJmi+hdOwLZGz4HxLZQO4lAMQjI=
-X-Gm-Gg: ASbGnctBZyfD0Jn94VLKeYD/S33WEpjLy73rqumg8QuOkZWwdkVlz+9jHWJCbPoszg9
-	GsEIMinCBL4+E+yxOebjoSbDs9vK5ft6gG6Ep6IQHZHF4908/EjWYx7ALDSWhtMXUnqygvUDkpW
-	gHah45pT2B4P4KCmToevU7+YkvUaSaiHTU1l/uRYxPIpYDf+aFLnslfqGVwZW3zQvBg6uAQOgMa
-	Cl4+S8fAeBqLPIZOO8ytK0tEBDpFmEpygJuvaaNd5/+5MlyTCsSjCQYdhjQ3uzWrh3bpgp0YORy
-	MFGnwY9jwyynVzOFg5IpEpnM1oFttpyRy/q44mUHs/EvcDDDXqPy75wsnJJYI2R/sIvADwxwf/g
-	H01zDi29V66ksNqbWf6Nj2yxUl70tIbaoA4rudLdKjnTWUqVK1nfv74KclPyaWJH57x3239XGNZ
-	DS93bo4gk4tKlDdg8h
-X-Google-Smtp-Source: AGHT+IHXmZOcta8jUuxDACQrWTlF7AFvsAayeKJwmvo20B5+lL1aR+s8qHZVmeDX1E1ADNkEK+YkjQ==
-X-Received: by 2002:a17:903:1a85:b0:295:94e1:91da with SMTP id d9443c01a7336-297c04601efmr20299015ad.33.1762481248360;
-        Thu, 06 Nov 2025 18:07:28 -0800 (PST)
-Received: from localhost.localdomain ([2408:8740:c4ff:1::4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2965096825esm43129885ad.3.2025.11.06.18.07.17
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 06 Nov 2025 18:07:28 -0800 (PST)
-From: Fengnan Chang <changfengnan@bytedance.com>
-To: axboe@kernel.dk,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	asml.silence@gmail.com,
-	willy@infradead.org,
-	djwong@kernel.org,
-	hch@infradead.org,
-	ritesh.list@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	ming.lei@redhat.com,
-	linux-nvme@lists.infradead.org
-Cc: Fengnan Chang <changfengnan@bytedance.com>
-Subject: [PATCH v2 2/2] block: enable per-cpu bio cache by default
-Date: Fri,  7 Nov 2025 10:05:57 +0800
-Message-Id: <20251107020557.10097-3-changfengnan@bytedance.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20251107020557.10097-1-changfengnan@bytedance.com>
-References: <20251107020557.10097-1-changfengnan@bytedance.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	Fri, 07 Nov 2025 03:08:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762484911; x=1794020911;
+  h=date:from:to:cc:subject:message-id;
+  bh=J88/UGuKa0sfm+3T2RfM81Al14KzBEhKF4ZcDG1QbOY=;
+  b=RcBwN39KWRSUGAtcQkrOqBQO554v7fvqzKru3XtIxb34jR8Tz0ynZeYS
+   Agon8VLcI51hIaOfFMoEtFVp0pbPSpZmNyDRazLpQZDfdpYOog05v/QQ2
+   dC+Je0R4a5tV0Cjo+6QhOiVDsIItGtMLiRLRyj/nGa/wzLM+JEhhlIa+3
+   DaVstvv+2fOU++jPTZoZD7A7WFeTwkwQsxDG5/Hgmls+hCEXH6MvuRZqF
+   ORo81A+FcMVzzxP+N/T/oUkjoXwPKRpyaKvYmIXv5ZUS+SEh9C2hp6VUP
+   fGtmgAj7aeCMvDVw9fmZAiRgLjgTwDjLuXuLByfl3eDzYOk36wxXVgKyL
+   Q==;
+X-CSE-ConnectionGUID: yZzLA1NKTmaZxdWxwIHs6w==
+X-CSE-MsgGUID: wx2AlcDVTj2FUH5++gCNpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64333524"
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
+   d="scan'208";a="64333524"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 19:08:31 -0800
+X-CSE-ConnectionGUID: dLuEHc3zR5+MfUN2ps25Mg==
+X-CSE-MsgGUID: nc4TxO5RRi6S8hmNaxNV2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
+   d="scan'208";a="187589040"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 06 Nov 2025 19:08:29 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vHCpo-000UdE-0L;
+	Fri, 07 Nov 2025 03:08:22 +0000
+Date: Fri, 07 Nov 2025 11:07:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.18] BUILD SUCCESS
+ 03b3bcd319b3ab5182bc9aaa0421351572c78ac0
+Message-ID: <202511071113.HhaCGRns-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251106_180729_511963_3A53AD25 
-X-CRM114-Status: GOOD (  16.73  )
+X-CRM114-CacheID: sfid-20251106_190831_067317_36980745 
+X-CRM114-Status: UNSURE (   4.92  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,125 +83,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since after commit 12e4e8c7ab59 ("io_uring/rw: enable bio caches for
-IRQ rw"), bio_put is safe for task and irq context, bio_alloc_bioset is
-safe for task context and no one calls in irq context, so we can enable
-per cpu bio cache by default.
+tree/branch: git://git.infradead.org/nvme.git nvme-6.18
+branch HEAD: 03b3bcd319b3ab5182bc9aaa0421351572c78ac0  nvme: fix admin request_queue lifetime
 
-Benchmarked with t/io_uring and ext4+nvme:
-taskset -c 6 /root/fio/t/io_uring  -p0 -d128 -b4096 -s1 -c1 -F1 -B1 -R1
--X1 -n1 -P1  /mnt/testfile
-base IOPS is 562K, patch IOPS is 574K. The CPU usage of bio_alloc_bioset
-decrease from 1.42% to 1.22%.
+elapsed time: 1761m
 
-The worst case is allocate bio in CPU A but free in CPU B, still use
-t/io_uring and ext4+nvme:
-base IOPS is 648K, patch IOPS is 647K.
+configs tested: 100
+configs skipped: 3
 
-Also use fio test ext4/xfs with libaio/sync/io_uring on null_blk and
-nvme, no obvious performance regression.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Fengnan Chang <changfengnan@bytedance.com>
----
- block/bio.c        | 26 ++++++++++++--------------
- block/fops.c       |  4 ----
- include/linux/fs.h |  3 ---
- io_uring/rw.c      |  1 -
- 4 files changed, 12 insertions(+), 22 deletions(-)
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20251106    gcc-12.5.0
+arc                   randconfig-002-20251106    gcc-8.5.0
+arm                               allnoconfig    clang-22
+arm                   milbeaut_m10v_defconfig    clang-19
+arm                   randconfig-001-20251106    gcc-11.5.0
+arm                   randconfig-002-20251106    clang-22
+arm                   randconfig-003-20251106    gcc-10.5.0
+arm                   randconfig-004-20251106    gcc-8.5.0
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20251107    gcc-8.5.0
+arm64                 randconfig-002-20251107    clang-22
+arm64                 randconfig-003-20251107    gcc-8.5.0
+arm64                 randconfig-004-20251107    clang-22
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20251107    gcc-12.5.0
+csky                  randconfig-002-20251107    gcc-13.4.0
+hexagon                           allnoconfig    clang-22
+hexagon               randconfig-001-20251106    clang-19
+hexagon               randconfig-002-20251106    clang-20
+i386                             alldefconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386        buildonly-randconfig-001-20251107    clang-20
+i386        buildonly-randconfig-002-20251107    clang-20
+i386        buildonly-randconfig-003-20251107    gcc-13
+i386        buildonly-randconfig-004-20251107    gcc-14
+i386        buildonly-randconfig-005-20251107    clang-20
+i386        buildonly-randconfig-006-20251107    clang-20
+i386                                defconfig    clang-20
+loongarch                         allnoconfig    clang-22
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20251106    gcc-15.1.0
+loongarch             randconfig-002-20251106    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                                defconfig    gcc-15.1.0
+m68k                           sun3_defconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20251106    gcc-9.5.0
+nios2                 randconfig-002-20251106    gcc-8.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20251106    gcc-10.5.0
+parisc                randconfig-002-20251106    gcc-10.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                      cm5200_defconfig    clang-22
+powerpc               randconfig-001-20251106    gcc-14.3.0
+powerpc               randconfig-002-20251106    clang-22
+powerpc64             randconfig-002-20251106    gcc-8.5.0
+riscv                             allnoconfig    gcc-15.1.0
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20251106    clang-22
+riscv                 randconfig-002-20251106    gcc-12.5.0
+s390                              allnoconfig    clang-22
+s390                                defconfig    clang-22
+s390                  randconfig-001-20251106    gcc-8.5.0
+s390                  randconfig-002-20251106    gcc-14.3.0
+sh                                allnoconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20251106    gcc-11.5.0
+sh                    randconfig-002-20251106    gcc-13.4.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20251106    gcc-15.1.0
+sparc                 randconfig-002-20251106    gcc-15.1.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20251106    gcc-13.4.0
+sparc64               randconfig-002-20251106    clang-20
+um                                allnoconfig    clang-22
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20251106    gcc-14
+um                    randconfig-002-20251106    clang-22
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64      buildonly-randconfig-001-20251107    gcc-14
+x86_64      buildonly-randconfig-002-20251107    clang-20
+x86_64      buildonly-randconfig-003-20251107    gcc-14
+x86_64      buildonly-randconfig-004-20251107    clang-20
+x86_64      buildonly-randconfig-005-20251107    gcc-14
+x86_64      buildonly-randconfig-006-20251107    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                randconfig-011-20251107    gcc-14
+x86_64                randconfig-012-20251107    gcc-14
+x86_64                randconfig-013-20251107    clang-20
+x86_64                randconfig-014-20251107    clang-20
+x86_64                randconfig-015-20251107    gcc-14
+x86_64                randconfig-016-20251107    gcc-14
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20251106    gcc-9.5.0
+xtensa                randconfig-002-20251106    gcc-8.5.0
 
-diff --git a/block/bio.c b/block/bio.c
-index b3a79285c278..64a1599a5930 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -516,20 +516,18 @@ struct bio *bio_alloc_bioset(struct block_device *bdev, unsigned short nr_vecs,
- 	if (WARN_ON_ONCE(!mempool_initialized(&bs->bvec_pool) && nr_vecs > 0))
- 		return NULL;
- 
--	if (opf & REQ_ALLOC_CACHE) {
--		if (bs->cache && nr_vecs <= BIO_INLINE_VECS) {
--			bio = bio_alloc_percpu_cache(bdev, nr_vecs, opf,
--						     gfp_mask, bs);
--			if (bio)
--				return bio;
--			/*
--			 * No cached bio available, bio returned below marked with
--			 * REQ_ALLOC_CACHE to particpate in per-cpu alloc cache.
--			 */
--		} else {
--			opf &= ~REQ_ALLOC_CACHE;
--		}
--	}
-+	if (bs->cache && nr_vecs <= BIO_INLINE_VECS) {
-+		opf |= REQ_ALLOC_CACHE;
-+		bio = bio_alloc_percpu_cache(bdev, nr_vecs, opf,
-+					     gfp_mask, bs);
-+		if (bio)
-+			return bio;
-+		/*
-+		 * No cached bio available, bio returned below marked with
-+		 * REQ_ALLOC_CACHE to participate in per-cpu alloc cache.
-+		 */
-+	} else
-+		opf &= ~REQ_ALLOC_CACHE;
- 
- 	/*
- 	 * submit_bio_noacct() converts recursion to iteration; this means if
-diff --git a/block/fops.c b/block/fops.c
-index 5e3db9fead77..7ef2848244b1 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -184,8 +184,6 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 	loff_t pos = iocb->ki_pos;
- 	int ret = 0;
- 
--	if (iocb->ki_flags & IOCB_ALLOC_CACHE)
--		opf |= REQ_ALLOC_CACHE;
- 	bio = bio_alloc_bioset(bdev, nr_pages, opf, GFP_KERNEL,
- 			       &blkdev_dio_pool);
- 	dio = container_of(bio, struct blkdev_dio, bio);
-@@ -333,8 +331,6 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 	loff_t pos = iocb->ki_pos;
- 	int ret = 0;
- 
--	if (iocb->ki_flags & IOCB_ALLOC_CACHE)
--		opf |= REQ_ALLOC_CACHE;
- 	bio = bio_alloc_bioset(bdev, nr_pages, opf, GFP_KERNEL,
- 			       &blkdev_dio_pool);
- 	dio = container_of(bio, struct blkdev_dio, bio);
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index c895146c1444..1be899ac8b5a 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -365,8 +365,6 @@ struct readahead_control;
- /* iocb->ki_waitq is valid */
- #define IOCB_WAITQ		(1 << 19)
- #define IOCB_NOIO		(1 << 20)
--/* can use bio alloc cache */
--#define IOCB_ALLOC_CACHE	(1 << 21)
- /*
-  * IOCB_DIO_CALLER_COMP can be set by the iocb owner, to indicate that the
-  * iocb completion can be passed back to the owner for execution from a safe
-@@ -399,7 +397,6 @@ struct readahead_control;
- 	{ IOCB_WRITE,		"WRITE" }, \
- 	{ IOCB_WAITQ,		"WAITQ" }, \
- 	{ IOCB_NOIO,		"NOIO" }, \
--	{ IOCB_ALLOC_CACHE,	"ALLOC_CACHE" }, \
- 	{ IOCB_DIO_CALLER_COMP,	"CALLER_COMP" }, \
- 	{ IOCB_AIO_RW,		"AIO_RW" }, \
- 	{ IOCB_HAS_METADATA,	"AIO_HAS_METADATA" }
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 5b2241a5813c..c0c59eb358a8 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -862,7 +862,6 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode, int rw_type)
- 	ret = kiocb_set_rw_flags(kiocb, rw->flags, rw_type);
- 	if (unlikely(ret))
- 		return ret;
--	kiocb->ki_flags |= IOCB_ALLOC_CACHE;
- 
- 	/*
- 	 * If the file is marked O_NONBLOCK, still allow retry for it if it
--- 
-2.39.5 (Apple Git-154)
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
