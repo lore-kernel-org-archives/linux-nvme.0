@@ -4,90 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A3A2CCFA18
-	for <linux-nvme@archiver.kernel.org>; Sat,  8 Nov 2025 10:00:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66097CCFA18
+	for <linux-nvme@archiver.kernel.org>; Sat,  8 Nov 2025 10:00:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JDlym4E47nHmf72D9TAcgTMeuiY8lX4btOrhkJ8Nb8Q=; b=rsB7FHt8imTG4unFqEY4eK37db
-	Idc6FMVbCqHQdIB7henBTDSi47qjPueMn7v3mAd5PXtOYWSpUJTAJmk7Ey71krcXCZof7th7QznTh
-	rGAJBM4nAy8oVaqOUF07tQbt86lF4RGbI/YfpBbCrXTd+XUe/V1KyjcBeb78BZt44JPQakj4RSYCH
-	2FryQ2dFVg+vBpqypMPVspIfCl/alEbw7lFO6QgLnbofJqiDTL/n82BZVtrb1rDY7an3mmnlOZt3q
-	IvtRjApdBj1lSpYuVb9R3EmdBZ9Z1F1bJaChvv328jOGj+SbYoi8tCXuIEm5ARtKn3buC+40SixJr
-	fgJhduIA==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xKkpvmb/gNhZAh81SS7lxMpIqynFZoUlh3WN1RUeadA=; b=OB7LmGV4UZGdDYVnxUZAPjuPhm
+	HLpmQOpuQb6uQWY5DoqafqwBCorNNHCLzMR+nK9hXpnIP3z+Yhckud5o5fWo79U+b5cEvMTGtMxb3
+	nSEqYKo9nJRGsjXcQDQSRHUNBIMq9sA0S8YjiMBcMEkatkaOOefLAbuDtJ99q6g6+mAlvxp4hGxAs
+	FiwlFVBIle278cgRz6ahaaJlwv8cJvDAVJd0XCrDVjEuupLZvK1H2TOxNmhx1BjRFRp1HybN0LEfp
+	/5c512z5LlAZJ5Bg5/g3FuGzgV6+iYrENbwp3Oikzw0EiKp5YRPfK/MsSac5DGAFhJrSFwIQkigL+
+	B5O2WvIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHfkQ-000000030Yp-3Zwk;
+	id 1vHfkQ-000000030Yg-2Cxv;
 	Sat, 08 Nov 2025 10:00:42 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vHfkO-000000030Xe-1bw0
+	id 1vHfkO-000000030XV-0xlm
 	for linux-nvme@lists.infradead.org;
-	Sat, 08 Nov 2025 10:00:42 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-793021f348fso1108193b3a.1
-        for <linux-nvme@lists.infradead.org>; Sat, 08 Nov 2025 02:00:39 -0800 (PST)
+	Sat, 08 Nov 2025 10:00:41 +0000
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-781ea2cee3fso1295068b3a.0
+        for <linux-nvme@lists.infradead.org>; Sat, 08 Nov 2025 02:00:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762596039; x=1763200839; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JDlym4E47nHmf72D9TAcgTMeuiY8lX4btOrhkJ8Nb8Q=;
-        b=P1LqGS6cANitt1hl8aGMVYbxJWyjAQ0XLqsGVcm3xrqx+DTrHIIC9rPqhys3Wn/JIA
-         qL0998SbGv2gAcdUw6SdUhar8tS94x+XoFHlaq/yMUezgPwpmavK7OJDTNovfmUaO3qJ
-         qQf+k4iGWzOEMmesxJOWcn4ssgCjHLJIO1C/dEUgzWCjzmno36OMm2nzqYmaOPS5GYqS
-         ctQO6DJbnUyEJsSXq4BbaqtzgNeiPP3LiP1CycJF9bdNQVhZEesC9Nk1J2yOpnpdJ33H
-         YaAdYzfDJwhFwPUm2nuqIuINSPhsh7g7eQ/7r+qe7NYanxAu1tW2i0CMJyzKnjHSdvCD
-         f3VA==
+        d=gmail.com; s=20230601; t=1762596038; x=1763200838; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xKkpvmb/gNhZAh81SS7lxMpIqynFZoUlh3WN1RUeadA=;
+        b=caBg7wlbpWlryypDef//KaduUNc0+5zxV7Yux9Z3YEWmFItbOsetc2TgF4BQSIdSg5
+         9YzgpVMlnr+uSBoGzkRqsxQ30LNwk/SYAV3yHtMakYXK0J9hXr/S64gDV8Yrv0IRGyzt
+         Xwkl+Tw7sahTdjWuz5k35nktlSBngFB1h9jIdmtt12qlg7OGoVyBT0mXq1Dn6JXgkBL7
+         hXQoZWXufeYmfn2dBOjYNwHLMbKVC4R6FhomIo91UIo3e43D1lTX+sHqkzUu+zviAVqM
+         7WrfeDaRFyH5buCudgKgswpz4Vn4hxkJIRqdUsfGFVieu2YWT+5uYV/5CJQOBNV/j/5I
+         aU/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762596039; x=1763200839;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JDlym4E47nHmf72D9TAcgTMeuiY8lX4btOrhkJ8Nb8Q=;
-        b=LHIs6eU5QrDaPaW0gjzRSq0W+Zr3QpxJmsUItYeek6r3Ci0TBqThZqMKpr8qlzv4mQ
-         H4xdvseaWzjW64Rhw/3WLi00a5voE5n/aUh+i+yRhlLkNbdNtirRmqqI6oX4SwVWrXHV
-         8bueQ2IytLTxW3qx4pTti53LIVf5XT7lO8Uc4Fp8LBmCROimYun8Nmmk6YRTxFeuny+y
-         Q4TxQ4zKr3+ba8EchFpLwbvNF0t2EtoyRkR/YWzxt1JaVNcg+oRJXA6zIsY3wqUOR361
-         BQW0Xpt/wt4lFWunIineBYSfO5iMUuDd99z8rWqeodjQd5sYQawNdfRx87Zl0ZskEKXU
-         9oIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZ/5havsRL5B9vRagfE7K9DF1GTXQOhCXKEjv7n8aKRQbgdfP4z7212hKY5XB3e+L16muv2R6/Mub5@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz7lduF8Qze35Mm91hcAN1hlRo2FLHqM1bXac17zDjZLpJLkfi6
-	NR3UIYSCBlogHx/MQ6rPKyVNHI7whuvqhX5Lg52ZwYxsFQPIMR7NMF9p
-X-Gm-Gg: ASbGncu7Ga+KWCb2M/9WbkGc/uGYNgP6f0IrsyCycLnO6Ulk3Qe5RwzDnBGECUJJJQT
-	FbsocWMzN92sv7zfyTm9V6d8wVx5HwI3cABHxVnSMlwsogDFabONWjinc+CxBzDxSfm3mw5xLRP
-	WSM+dHkCwWm/X9HTTFIZ3QuagckkGx1kCjhBlmY2wptFVtToASQHDZQsVWByi1ZqyISTilVNGuc
-	OHEvdSVMqoaSN2tOwdtxaSGKozUCtlDI/s0afmQhkJjwgFT3OduMvc9aX+V38b1saurRSaWwStz
-	W3/pdgg2QEd/+ugaeKU9S+iGKI3F7fMNGBRT66O27WqFdffQXAwa73BMWTnRfYVf7JgJP13wadU
-	ikj0iu5gUiAJXtmS1JZtqz2mwPGskYHjpHTX2DDztl+FN33MtXDh3G1OurRFlX8Xs7EBMlK8vtk
-	fCA/Of+fltuJiS4C2HOqYnP63nKUxJ8We+RjDOopGH+wzz2VWGHtDirspI/A==
-X-Google-Smtp-Source: AGHT+IESr4XaESE49/E7bLBplJ8hskZEJU18QFSxGMQShkt+7RBImDuO4PCHfUM0Kg7sbEkDUSlBvg==
-X-Received: by 2002:a05:6a20:244a:b0:351:fbe0:986c with SMTP id adf61e73a8af0-353a13a6733mr2792811637.2.1762596039289;
-        Sat, 08 Nov 2025 02:00:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762596038; x=1763200838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xKkpvmb/gNhZAh81SS7lxMpIqynFZoUlh3WN1RUeadA=;
+        b=Vjw6gqxmyEkt1MR0HCRAJmubL0OpPganX7UKGvvEN0gupUwRFjyqO6yd7nSf31w1p2
+         ELdqzqCYniXtC9XUGE6S3+ABgKhNJfirc7noxrNthGBpLLkQNSbzOXBoHLg9ICiUuh+p
+         phzfKNjcGTRjyVNj7ph6H91IeXEMWUePH/t0Oyolqh7Xpqq9SQUiSocBPPVIMoygaQ17
+         8D3ArgOgUA8bFzVwuZUhLWdt/SlLhrkn4d2KNq1KuEXxLljl06Knq+pfGO9acqfBQMiI
+         xC8258Ww0p7gqw/3KLWQ8qs+HHjXImhQyIcQ1p3KuF7ydZeIJZ5XRtWh0IPOp3HkerdT
+         GyOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXivhx8YxgUaA09N/9vjZwFOSehs/EaydnlUcjox0/Wgtja8xxHg2i/BkBZMJ6/sg25KtDKj4W1OL1b@lists.infradead.org
+X-Gm-Message-State: AOJu0YyzZv9zC21sh6iKz8liZcIxPtMd+Dps2mbfgjeGuHGAoxcaPEuw
+	3wPty2q2YTJir5oYMdvNkRKEmK6aaEX7EpVNelOqQgkGnS8Vgbx5QEJ2
+X-Gm-Gg: ASbGncv8qqXei2basT67ETTV4Z3GVgO03IFw53CHgvbcmFOGgR4M3tWJDGdKJHWS22/
+	fhsUMlPZDYB0yfHUe6gnnGEqpQxUH/CKgsa4LocxgRQamkyc4NDYuXtIVGBBmolIg0G3sjwNTur
+	X18vgCZKxHgmko+hVGpduw2x1yQ2gWgZiy9SfGj4sANjqvvm82I/UaAYMUg/PtUWNc1A2EXRAOB
+	uTt+SPYMiZA/dJ1AYFQoHTX4ixPp7PxLOa4tvTiTGy2IoUOO9oTgz+lH+SUkG9PUgyyhgbdZIQG
+	cIqt98fp4SfkFlY/yxu166QDGCZSKBBWNGa7+m0VyFMz6Jgn7ZuwdaB1j6Z30AJTdAr3swwHuLl
+	K0k8X6tc0MIzwzUG/TlUVPRdDtP67oF9eq6m5qWLat2KaDUoGSddMNqRXSuND2Lj7f2MsHjt6rg
+	ipZxVAfZApeV/MWVmMYhrKSw73ZC8adcdHSYCSovri3DPHhHYPa3n9F968nw==
+X-Google-Smtp-Source: AGHT+IHeqVqxMetOHAbnbE/jeU7bkSaaZHhTfZXTTL7tsffypUXuVkCFrS/EZD7ccDhZsjdeCDvGeA==
+X-Received: by 2002:a05:6a20:6a22:b0:33b:625:36be with SMTP id adf61e73a8af0-353a3574e00mr2761286637.38.1762596037688;
+        Sat, 08 Nov 2025 02:00:37 -0800 (PST)
 Received: from localhost (ip70-175-132-216.oc.oc.cox.net. [70.175.132.216])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0ccc59de7sm5468677b3a.65.2025.11.08.02.00.38
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b2c83906e5sm960397b3a.71.2025.11.08.02.00.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Nov 2025 02:00:38 -0800 (PST)
+        Sat, 08 Nov 2025 02:00:37 -0800 (PST)
 From: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
 To: shinichiro.kawasaki@wdc.com,
 	wagi@kernel.org
 Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: [PATCH blktests 2/2] nvme: convert tests to use _have_kernel_options
-Date: Sat,  8 Nov 2025 02:00:34 -0800
-Message-Id: <20251108100034.82125-2-ckulkarnilinux@gmail.com>
+Subject: [PATCH blktests 1/2] common/rc: add _have_kernel_options helper function
+Date: Sat,  8 Nov 2025 02:00:33 -0800
+Message-Id: <20251108100034.82125-1-ckulkarnilinux@gmail.com>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20251108100034.82125-1-ckulkarnilinux@gmail.com>
-References: <20251108100034.82125-1-ckulkarnilinux@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251108_020041_031220_8B8EDFD5 
-X-CRM114-Status: UNSURE (   8.64  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251108_020040_266978_1CB0243A 
+X-CRM114-Status: GOOD (  10.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,162 +98,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Convert multiple _have_kernel_option calls in nvme tests to use the new
-_have_kernel_options helper function for more concise code.
+Add a new helper function _have_kernel_options() that accepts multiple
+kernel config options as arguments. This allows tests to check for
+multiple kernel options in a single call, making the requires()
+function more concise.
 
-Modified tests:
-nvme/039: FAULT_INJECTION, FAULT_INJECTION_DEBUG_FS
-nvme/041: NVME_AUTH, NVME_TARGET_AUTH
-nvme/042: NVME_AUTH, NVME_TARGET_AUTH
-nvme/043: NVME_AUTH, NVME_TARGET_AUTH
-nvme/044: NVME_AUTH, NVME_TARGET_AUTH
-nvme/045: NVME_AUTH, NVME_TARGET_AUTH
-nvme/050: FAIL_IO_TIMEOUT, FAULT_INJECTION_DEBUG_FS
-nvme/062: NVME_TCP_TLS, NVME_TARGET_TCP_TLS
-nvme/063: NVME_AUTH, NVME_TCP_TLS, NVME_TARGET_AUTH, NVME_TARGET_TCP_TLS
+Example usage:
+  requires() {
+      _have_kernel_options IO_URING BLK_DEV_INTEGRITY
+  }
+
+Instead of:
+  requires() {
+      _have_kernel_option IO_URING
+      _have_kernel_option BLK_DEV_INTEGRITY
+  }
+
+The function iterates through all provided options and returns failure
+if any option is not enabled, maintaining the same error reporting
+behavior as individual calls.
 
 Signed-off-by: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
 ---
- tests/nvme/039 | 3 +--
- tests/nvme/041 | 3 +--
- tests/nvme/042 | 3 +--
- tests/nvme/043 | 3 +--
- tests/nvme/044 | 3 +--
- tests/nvme/045 | 3 +--
- tests/nvme/050 | 3 +--
- tests/nvme/062 | 3 +--
- tests/nvme/063 | 6 ++----
- 9 files changed, 10 insertions(+), 20 deletions(-)
+ common/rc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/nvme/039 b/tests/nvme/039
-index ab58f3b..98e5d28 100755
---- a/tests/nvme/039
-+++ b/tests/nvme/039
-@@ -14,8 +14,7 @@ QUICK=1
- 
- requires() {
- 	_have_program nvme
--	_have_kernel_option FAULT_INJECTION
--	_have_kernel_option FAULT_INJECTION_DEBUG_FS
-+	_have_kernel_options FAULT_INJECTION FAULT_INJECTION_DEBUG_FS
+diff --git a/common/rc b/common/rc
+index 86bb991..545da61 100644
+--- a/common/rc
++++ b/common/rc
+@@ -226,6 +226,12 @@ _have_kernel_option() {
+ 	return 0
  }
  
- device_requires() {
-diff --git a/tests/nvme/041 b/tests/nvme/041
-index 6855a47..8f908c5 100755
---- a/tests/nvme/041
-+++ b/tests/nvme/041
-@@ -12,8 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_loop
--	_have_kernel_option NVME_AUTH
--	_have_kernel_option NVME_TARGET_AUTH
-+	_have_kernel_options NVME_AUTH NVME_TARGET_AUTH
- 	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-diff --git a/tests/nvme/042 b/tests/nvme/042
-index 17d8a73..34d6684 100755
---- a/tests/nvme/042
-+++ b/tests/nvme/042
-@@ -12,8 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_loop
--	_have_kernel_option NVME_AUTH
--	_have_kernel_option NVME_TARGET_AUTH
-+	_have_kernel_options NVME_AUTH NVME_TARGET_AUTH
- 	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-diff --git a/tests/nvme/043 b/tests/nvme/043
-index 7f9e67e..616f7e7 100755
---- a/tests/nvme/043
-+++ b/tests/nvme/043
-@@ -12,8 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_loop
--	_have_kernel_option NVME_AUTH
--	_have_kernel_option NVME_TARGET_AUTH
-+	_have_kernel_options NVME_AUTH NVME_TARGET_AUTH
- 	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-diff --git a/tests/nvme/044 b/tests/nvme/044
-index 1352910..4727dbf 100755
---- a/tests/nvme/044
-+++ b/tests/nvme/044
-@@ -12,8 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_loop
--	_have_kernel_option NVME_AUTH
--	_have_kernel_option NVME_TARGET_AUTH
-+	_have_kernel_options NVME_AUTH NVME_TARGET_AUTH
- 	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-diff --git a/tests/nvme/045 b/tests/nvme/045
-index 4dd0f94..bf38824 100755
---- a/tests/nvme/045
-+++ b/tests/nvme/045
-@@ -13,8 +13,7 @@ requires() {
- 	_nvme_requires
- 	_have_fio
- 	_have_loop
--	_have_kernel_option NVME_AUTH
--	_have_kernel_option NVME_TARGET_AUTH
-+	_have_kernel_options NVME_AUTH NVME_TARGET_AUTH
- 	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
- 	_require_nvme_trtype_is_fabrics
- 	_require_nvme_cli_auth
-diff --git a/tests/nvme/050 b/tests/nvme/050
-index ba55c6e..91f3564 100755
---- a/tests/nvme/050
-+++ b/tests/nvme/050
-@@ -16,8 +16,7 @@ nvme_trtype=pci
- requires() {
- 	_have_fio
- 	_nvme_requires
--	_have_kernel_option FAIL_IO_TIMEOUT
--	_have_kernel_option FAULT_INJECTION_DEBUG_FS
-+	_have_kernel_options FAIL_IO_TIMEOUT FAULT_INJECTION_DEBUG_FS
- }
- 
- test_device() {
-diff --git a/tests/nvme/062 b/tests/nvme/062
-index 7c88719..19275f8 100755
---- a/tests/nvme/062
-+++ b/tests/nvme/062
-@@ -12,8 +12,7 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_loop
--	_have_kernel_option NVME_TCP_TLS
--	_have_kernel_option NVME_TARGET_TCP_TLS
-+	_have_kernel_options NVME_TCP_TLS NVME_TARGET_TCP_TLS
- 	_require_kernel_nvme_fabrics_feature tls
- 	_require_nvme_trtype tcp
- 	_require_nvme_cli_tls
-diff --git a/tests/nvme/063 b/tests/nvme/063
-index 5bfe8be..bded9a3 100755
---- a/tests/nvme/063
-+++ b/tests/nvme/063
-@@ -12,10 +12,8 @@ QUICK=1
- requires() {
- 	_nvme_requires
- 	_have_loop
--	_have_kernel_option NVME_AUTH
--	_have_kernel_option NVME_TCP_TLS
--	_have_kernel_option NVME_TARGET_AUTH
--	_have_kernel_option NVME_TARGET_TCP_TLS
-+	_have_kernel_options NVME_AUTH NVME_TCP_TLS NVME_TARGET_AUTH \
-+		NVME_TARGET_TCP_TLS
- 	_require_kernel_nvme_fabrics_feature dhchap_ctrl_secret
- 	_require_kernel_nvme_fabrics_feature concat
- 	_require_nvme_trtype tcp
++_have_kernel_options() {
++      for opt in "$@"; do
++          _have_kernel_option "$opt" || return 1
++      done
++}
++
+ # Compare the version string in $1 in "a.b.c" format with "$2.$3.$4".
+ # If "a.b.c" is smaller than "$2.$3.$4", return true. Otherwise, return
+ # false.
 -- 
 2.40.0
 
