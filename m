@@ -4,79 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 310E6CCF9E3
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 03:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB688CCFA18
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 04:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cO5w3yJkudGRFXI8OauYWxvQ3+YR+NH5t9Z29OeLOJo=; b=UPfDO/gAMrf1hbGNPjZ1eXsomK
-	5VY2kEsW3QWn2CAngMndN+NzWWH/lxzYg23SEaZuuO+wbhiAhrDr2XPSUX7KXDG3nL0BVARLfSrOe
-	LwEMUE/Rd6rKhSCD1tRPHrjTm7BKbQhUvqtp88Xfx27Uj9LG2QYbeab0KkfLLqeASJjf+bE0tk4+I
-	DeQOnS8gH4jPi4jZAMzRxfwBtRD7UdFYe6to+VlDL3c/7cdM4ra/wqN7M6SQ71p1X+jDfNMwSE9RK
-	dINAJiHQnyXMweWNNZVZPXTeMcGY7CztpxdqqBWAhNHYGAR9hwKS0dBDyCN5i3xI2t9wg63uveBcR
-	zU9aNKag==;
+	bh=mnPvZZHd0PsXMl65PHk56JXEdP4cQxdmbJtes24hSjw=; b=po8Rdul4jtZSBnVyTGeWpfK0Or
+	7v91RZHe3Pv/M92WqgH1clho6GTncscpKBo/BA3huYowkQyum9X5Z+NPAUqCEdXDHFijKA9nvDdwK
+	6qVZ+pVXJX9Pi81GBdyAEWn/gp4Tkp/5iABYEGzVwIk1wdApxjf0fUbO15xp5AMiOlVODD0YTf6a5
+	HbjANryazYYjFnHsR7OG2TEASa9icRVIufGgBMiM4zkJJhnSnhws1hGAMCCv0ZU0qdBKyXWD3xbvR
+	X5crDHutoKujLAlkjybLYS0lyAMRsec5ZXq0IhPBOEmzgIhEbvdq3/nJ/fc/aIjjkQYLbYt9Reo8X
+	zWL1uC5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIf19-00000006RD3-2XIP;
-	Tue, 11 Nov 2025 03:26:03 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vIfxZ-00000006VOj-17b6;
+	Tue, 11 Nov 2025 04:26:25 +0000
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIf15-00000006RCL-2Wsg
-	for linux-nvme@lists.infradead.org;
-	Tue, 11 Nov 2025 03:26:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762831556;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cO5w3yJkudGRFXI8OauYWxvQ3+YR+NH5t9Z29OeLOJo=;
-	b=hXjm9J1e7r0LKiZeNu9XiPh8K+km0IGZVU4AKZe+GZEu/gOVCYkzpl33ZmjGZxTz32oezl
-	3bjvx4kICDeQIfgxvO1GkLAevvLqXbNfPPTUeIFOmpbFZy9XxgD9uCVtzxK1YbYFmIGdhZ
-	SiuBOuj8yGIvHuTBaXUbUzgpbccK4zo=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-166-gGQa16xoORyOd_8dTj8QQg-1; Mon,
- 10 Nov 2025 22:25:55 -0500
-X-MC-Unique: gGQa16xoORyOd_8dTj8QQg-1
-X-Mimecast-MFC-AGG-ID: gGQa16xoORyOd_8dTj8QQg_1762831553
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 51BB1180048E;
-	Tue, 11 Nov 2025 03:25:51 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.124])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 461EC30044E0;
-	Tue, 11 Nov 2025 03:25:42 +0000 (UTC)
-Date: Tue, 11 Nov 2025 11:25:37 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Wangyang Guo <wangyang.guo@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	virtualization@lists.linux-foundation.org,
-	linux-block@vger.kernel.org, Tianyou Li <tianyou.li@intel.com>,
-	Tim Chen <tim.c.chen@linux.intel.com>,
-	Dan Liang <dan.liang@intel.com>
-Subject: Re: [PATCH RESEND] lib/group_cpus: make group CPU cluster aware
-Message-ID: <aRKssW96lHFrT2ZN@fedora>
-References: <20251111020608.1501543-1-wangyang.guo@intel.com>
+	id 1vIfxX-00000006VOZ-2g4c
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 11 Nov 2025 04:26:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=mnPvZZHd0PsXMl65PHk56JXEdP4cQxdmbJtes24hSjw=; b=EoMpa7vssz09Yrl1nMqoYp2Gjp
+	edjdtdw7On0Pgczak9J0TLMA4Ue6O5/lCDr+A5yWBXB6vIcNCSkmQVJQAD+Ek6JCemhGcMfPGHcXx
+	f2pBmUsPe0LRnalAq198RKq3KvSbtRpg+PHNeYfTSzWlvpw4jltDL/i0xK6w8ieWH9eG1QIRPyruS
+	rzxtoFb73Y3Ifmzu4AqwtqXTrkHj9+SFjkWR5JktKZsO6bEsylUCfkbOisEMkrbKsFHgA4IUlDSfX
+	lbFGGjTwkjVnipQjUE9H5nUaYzR4/e9uRA4Rlu/AezaPKnOodp2Er73uFOfH3o7wokCFoYxsM5mIT
+	dm7f5C3A==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vIfxV-0000000ER5s-2OuB;
+	Tue, 11 Nov 2025 04:26:21 +0000
+Date: Tue, 11 Nov 2025 04:26:21 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Keith Busch <kbusch@meta.com>
+Cc: hch@lst.de, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	axboe@kernel.dk, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv5 1/2] block: accumulate memory segment gaps per bio
+Message-ID: <aRK67ahJn15u5OGC@casper.infradead.org>
+References: <20251014150456.2219261-1-kbusch@meta.com>
+ <20251014150456.2219261-2-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251111020608.1501543-1-wangyang.guo@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251110_192559_715642_5D37138C 
-X-CRM114-Status: GOOD (  13.48  )
+In-Reply-To: <20251014150456.2219261-2-kbusch@meta.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,38 +67,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 11, 2025 at 10:06:08AM +0800, Wangyang Guo wrote:
-> As CPU core counts increase, the number of NVMe IRQs may be smaller than
-> the total number of CPUs. This forces multiple CPUs to share the same
-> IRQ. If the IRQ affinity and the CPU’s cluster do not align, a
-> performance penalty can be observed on some platforms.
+On Tue, Oct 14, 2025 at 08:04:55AM -0700, Keith Busch wrote:
+> The blk-mq dma iterator has an optimization for requests that align to
+> the device's iommu merge boundary. This boundary may be larger than the
+> device's virtual boundary, but the code had been depending on that queue
+> limit to know ahead of time if the request is guaranteed to align to
+> that optimization.
+> 
+> Rather than rely on that queue limit, which many devices may not report,
+> save the lowest set bit of any boundary gap between each segment in the
+> bio while checking the segments. The request stores the value for
+> merging and quickly checking per io if the request can use iova
+> optimizations.
 
-Can you add details why/how CPU cluster isn't aligned with IRQ
-affinity? And how performance penalty is caused?
+Hi Keith,
 
-Is it caused by remote IO completion in blk_mq_complete_need_ipi()?
+I just hit this bug:
 
-	/* same CPU or cache domain and capacity?  Complete locally */
-	if (cpu == rq->mq_ctx->cpu ||
-	    (!test_bit(QUEUE_FLAG_SAME_FORCE, &rq->q->queue_flags) &&
-	     cpus_share_cache(cpu, rq->mq_ctx->cpu) &&
-	     cpus_equal_capacity(cpu, rq->mq_ctx->cpu)))
-	        return false;
+generic/455       run fstests generic/455 at 2025-11-11 04:11:25
+XFS (vdb): Mounting V5 Filesystem 54edd3b5-5306-493b-9ecd-f06cd9a8d669
+XFS (vdb): Ending clean mount
+XFS (dm-4): Mounting V5 Filesystem 3eb16918-3537-4d69-999a-ba226510f6c2
+XFS (dm-4): Ending clean mount
+XFS (dm-4): Unmounting Filesystem 3eb16918-3537-4d69-999a-ba226510f6c2
+BUG: kernel NULL pointer dereference, address: 0000000000000008
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 0 P4D 0
+Oops: Oops: 0000 [#1] SMP NOPTI
+CPU: 0 UID: 0 PID: 1614197 Comm: kworker/u64:2 Not tainted 6.18.0-rc4-next-20251
+110-ktest-00017-g2307dc640a8d #131 NONE
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Workqueue: dm-thin do_worker
+RIP: 0010:bio_get_last_bvec+0x20/0xe0
+Code: 90 90 90 90 90 90 90 90 90 90 55 49 89 f2 48 89 f9 48 89 e5 53 8b 77 2c 8b 47 30 44 8b 4f 28 49 89 f0 49 c1 e0 04 4c 03 47 50 <41> 8b 78 08 41 8b 58 0c 4d 8b 18 29 c7 44 39 cf 4d 89 1a 41 0f 47
+RSP: 0018:ffff88814d1ef8d8 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff8881044b5500 RCX: ffff88811fd23d78
+RDX: ffff88811fd235f8 RSI: 0000000000000000 RDI: ffff88811fd23d78
+RBP: ffff88814d1ef8e0 R08: 0000000000000000 R09: 0000000000020000
+R10: ffff88814d1ef8f0 R11: 0000000000000200 R12: 0000000000000000
+R13: ffff88811fd235f8 R14: 0000000000000000 R15: ffff8881044b5500
+FS:  0000000000000000(0000) GS:ffff8881f6ac9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000008 CR3: 000000000263a000 CR4: 0000000000750eb0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bio_seg_gap+0x4c/0x150
+ bio_attempt_front_merge+0x19a/0x3a0
+ blk_attempt_bio_merge.part.0+0xb4/0x110
+ blk_attempt_plug_merge+0xd6/0xe0
+ blk_mq_submit_bio+0x76c/0x9f0
+ ? lock_release+0xbb/0x260
+ __submit_bio+0xa5/0x380
+ submit_bio_noacct_nocheck+0x126/0x380
+ ? submit_bio_noacct_nocheck+0x126/0x380
+ submit_bio_noacct+0x17f/0x3c0
+ ? __cond_resched+0x1e/0x60
+ submit_bio+0xd6/0x100
+ end_discard+0x3a/0x90
+ process_prepared_discard_passdown_pt1+0xff/0x180
+ process_discard_cell_passdown+0x19e/0x2a0
+ process_discard_bio+0x105/0x1a0
+ do_worker+0x824/0xa40
+ ? process_one_work+0x1ad/0x530
+ process_one_work+0x1ed/0x530
+ ? move_linked_works+0x77/0xb0
+ worker_thread+0x1cf/0x3d0
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0x100/0x220
+ ? _raw_spin_unlock_irq+0x2b/0x40
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x249/0x280
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+Modules linked in: [last unloaded: crc_t10dif]
+CR2: 0000000000000008
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bio_get_last_bvec+0x20/0xe0
+Code: 90 90 90 90 90 90 90 90 90 90 55 49 89 f2 48 89 f9 48 89 e5 53 8b 77 2c 8b 47 30 44 8b 4f 28 49 89 f0 49 c1 e0 04 4c 03 47 50 <41> 8b 78 08 41 8b 58 0c 4d 8b 18 29 c7 44 39 cf 4d 89 1a 41 0f 47
+RSP: 0018:ffff88814d1ef8d8 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff8881044b5500 RCX: ffff88811fd23d78
+RDX: ffff88811fd235f8 RSI: 0000000000000000 RDI: ffff88811fd23d78
+RBP: ffff88814d1ef8e0 R08: 0000000000000000 R09: 0000000000020000
+R10: ffff88814d1ef8f0 R11: 0000000000000200 R12: 0000000000000000
+R13: ffff88811fd235f8 R14: 0000000000000000 R15: ffff8881044b5500
+FS:  0000000000000000(0000) GS:ffff8881f6ac9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000008 CR3: 000000000263a000 CR4: 0000000000750eb0
+PKRU: 55555554
+Kernel panic - not syncing: Fatal exception
+Kernel Offset: disabled
+---[ end Kernel panic - not syncing: Fatal exception ]---
 
-If yes, which case you are addressing to? cache domain or capccity?
-
-AMD's CCX shares L3 cache inside NUMA node, which has similar issue,
-I guess this patchset may cover it?
-
-> This patch improves IRQ affinity by grouping CPUs by cluster within each
-> NUMA domain, ensuring better locality between CPUs and their assigned
-> NVMe IRQs.
-
-Will look into this patch, but I feel one easier way is to build
-sub-node(cluster) cpumask array, and just spread over the sub-node(cluster). 
-
-
-Thanks, 
-Ming
-
+I'm not saying it's definitely your patch; after all, there's 17 of
+my slab patches on top of next-20251110, but when I looked on lore for
+'bio_get_last_bvec' this was the only patch since 2021 that mentioned it,
+so I thought I'd drop you a note in case you see the bug immediately.
+I'm heading to bed, and will be out tomorrow, so my opportunities to be
+helpful will be limited.
 
