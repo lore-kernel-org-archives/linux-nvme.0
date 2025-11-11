@@ -4,55 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB688CCFA18
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 04:26:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87998CCF9E3
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 04:51:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mnPvZZHd0PsXMl65PHk56JXEdP4cQxdmbJtes24hSjw=; b=po8Rdul4jtZSBnVyTGeWpfK0Or
-	7v91RZHe3Pv/M92WqgH1clho6GTncscpKBo/BA3huYowkQyum9X5Z+NPAUqCEdXDHFijKA9nvDdwK
-	6qVZ+pVXJX9Pi81GBdyAEWn/gp4Tkp/5iABYEGzVwIk1wdApxjf0fUbO15xp5AMiOlVODD0YTf6a5
-	HbjANryazYYjFnHsR7OG2TEASa9icRVIufGgBMiM4zkJJhnSnhws1hGAMCCv0ZU0qdBKyXWD3xbvR
-	X5crDHutoKujLAlkjybLYS0lyAMRsec5ZXq0IhPBOEmzgIhEbvdq3/nJ/fc/aIjjkQYLbYt9Reo8X
-	zWL1uC5Q==;
+	bh=Axk53q4IzuPc+bis9eiDdWm7s2fUOaHh9US3yNZcbYQ=; b=EG9GLm1yXmbRqDbF8ZuDtRejub
+	zpZdsTCqn1LysapbpfBJ9OVzJyYHolKQH4fnD+rn74tNi94IuWXUdxcN97AbvK1xMHrheB3LJl5YB
+	glhFhEtuR4kvzW+BuyFNFXUnTMoVOGtIsYHOsUnHXpA6Izg0lb4JhR4pVkPIgzZ+evRxVV1F5gdHI
+	Xa/zsT+nMGfomfc+dkthWAohTCgxlpTyrHAg4MQVG79dXRyvkdIckm9hbysFMECllA/uBTiz+0Beg
+	uL5TXRlbg1ehf8PT/ekK70SBVbazAtiTlTAKvJ3MTRMKtjLMQ0rXTZrjve4766RpydAUDPLYHltlM
+	7lTYh37A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIfxZ-00000006VOj-17b6;
-	Tue, 11 Nov 2025 04:26:25 +0000
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+	id 1vIgLJ-00000006WZ1-4BBX;
+	Tue, 11 Nov 2025 04:50:57 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIfxX-00000006VOZ-2g4c
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 11 Nov 2025 04:26:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=mnPvZZHd0PsXMl65PHk56JXEdP4cQxdmbJtes24hSjw=; b=EoMpa7vssz09Yrl1nMqoYp2Gjp
-	edjdtdw7On0Pgczak9J0TLMA4Ue6O5/lCDr+A5yWBXB6vIcNCSkmQVJQAD+Ek6JCemhGcMfPGHcXx
-	f2pBmUsPe0LRnalAq198RKq3KvSbtRpg+PHNeYfTSzWlvpw4jltDL/i0xK6w8ieWH9eG1QIRPyruS
-	rzxtoFb73Y3Ifmzu4AqwtqXTrkHj9+SFjkWR5JktKZsO6bEsylUCfkbOisEMkrbKsFHgA4IUlDSfX
-	lbFGGjTwkjVnipQjUE9H5nUaYzR4/e9uRA4Rlu/AezaPKnOodp2Er73uFOfH3o7wokCFoYxsM5mIT
-	dm7f5C3A==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIfxV-0000000ER5s-2OuB;
-	Tue, 11 Nov 2025 04:26:21 +0000
-Date: Tue, 11 Nov 2025 04:26:21 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Keith Busch <kbusch@meta.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	axboe@kernel.dk, Keith Busch <kbusch@kernel.org>
+	id 1vIgLI-00000006WYr-23Wy
+	for linux-nvme@lists.infradead.org;
+	Tue, 11 Nov 2025 04:50:56 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 78D2861907;
+	Tue, 11 Nov 2025 04:50:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9BC6C113D0;
+	Tue, 11 Nov 2025 04:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762836655;
+	bh=GwhluCzd7NFAbXWHpH2DlLLp6l4eXOs5QJjqkbrcNaI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bnMyhNL9DrMkTNxgA3gnVp2C5b46w+Z8MPFLuIWtwkOO7BZ7l3WA/ZQYvdrnVgdTf
+	 cwTGNOb1WMGrbqGc5peKNzoD/N8M4M6kqN7atv+Ttu85NeDII7wvMFMDIJrQSRXT1e
+	 vwx32Okyw6GEcRfnbCg2srksuF/hG62Affm//y/mrGnPORmeSC2eYxUUGiEiDBXDw2
+	 /v6vZlBp1c+EQIhkukAyjTXA3olczD9VgGqNiw9TH2dSg3lycjaLVTZnpvr/RpISQM
+	 K/c4EWTAdkVXOWt5eEwrQ7/CIB8YGSNGNWQL/pkAiSwBykebOsAbhkOCkWGzdhzgL5
+	 z29lvg8wpu+tg==
+Date: Mon, 10 Nov 2025 23:50:51 -0500
+From: Keith Busch <kbusch@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Keith Busch <kbusch@meta.com>, hch@lst.de,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	axboe@kernel.dk
 Subject: Re: [PATCHv5 1/2] block: accumulate memory segment gaps per bio
-Message-ID: <aRK67ahJn15u5OGC@casper.infradead.org>
+Message-ID: <aRLAqyRBY6k4pT2M@kbusch-mbp>
 References: <20251014150456.2219261-1-kbusch@meta.com>
  <20251014150456.2219261-2-kbusch@meta.com>
+ <aRK67ahJn15u5OGC@casper.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014150456.2219261-2-kbusch@meta.com>
+In-Reply-To: <aRK67ahJn15u5OGC@casper.infradead.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,104 +71,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Oct 14, 2025 at 08:04:55AM -0700, Keith Busch wrote:
-> The blk-mq dma iterator has an optimization for requests that align to
-> the device's iommu merge boundary. This boundary may be larger than the
-> device's virtual boundary, but the code had been depending on that queue
-> limit to know ahead of time if the request is guaranteed to align to
-> that optimization.
+On Tue, Nov 11, 2025 at 04:26:21AM +0000, Matthew Wilcox wrote:
+> On Tue, Oct 14, 2025 at 08:04:55AM -0700, Keith Busch wrote:
+> > device's virtual boundary, but the code had been depending on that queue
+> > limit to know ahead of time if the request is guaranteed to align to
+> > that optimization.
+> > 
+> > Rather than rely on that queue limit, which many devices may not report,
+> > save the lowest set bit of any boundary gap between each segment in the
+> > bio while checking the segments. The request stores the value for
+> > merging and quickly checking per io if the request can use iova
+> > optimizations.
 > 
-> Rather than rely on that queue limit, which many devices may not report,
-> save the lowest set bit of any boundary gap between each segment in the
-> bio while checking the segments. The request stores the value for
-> merging and quickly checking per io if the request can use iova
-> optimizations.
+> Hi Keith,
+> 
+> I just hit this bug:
 
-Hi Keith,
+...
+ 
+> RIP: 0010:bio_get_last_bvec+0x20/0xe0
+> Code: 90 90 90 90 90 90 90 90 90 90 55 49 89 f2 48 89 f9 48 89 e5 53 8b 77 2c 8b 47 30 44 8b 4f 28 49 89 f0 49 c1 e0 04 4c 03 47 50 <41> 8b 78 08 41 8b 58 0c 4d 8b 18 29 c7 44 39 cf 4d 89 1a 41 0f 47
+> RSP: 0018:ffff88814d1ef8d8 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: ffff8881044b5500 RCX: ffff88811fd23d78
+> RDX: ffff88811fd235f8 RSI: 0000000000000000 RDI: ffff88811fd23d78
+> RBP: ffff88814d1ef8e0 R08: 0000000000000000 R09: 0000000000020000
+> R10: ffff88814d1ef8f0 R11: 0000000000000200 R12: 0000000000000000
+> R13: ffff88811fd235f8 R14: 0000000000000000 R15: ffff8881044b5500
+> FS:  0000000000000000(0000) GS:ffff8881f6ac9000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000008 CR3: 000000000263a000 CR4: 0000000000750eb0
+> PKRU: 55555554
+> Kernel panic - not syncing: Fatal exception
+> Kernel Offset: disabled
+> ---[ end Kernel panic - not syncing: Fatal exception ]---
+> 
+> I'm not saying it's definitely your patch; after all, there's 17 of
+> my slab patches on top of next-20251110, but when I looked on lore for
+> 'bio_get_last_bvec' this was the only patch since 2021 that mentioned it,
+> so I thought I'd drop you a note in case you see the bug immediately.
+> I'm heading to bed, and will be out tomorrow, so my opportunities to be
+> helpful will be limited.
 
-I just hit this bug:
-
-generic/455       run fstests generic/455 at 2025-11-11 04:11:25
-XFS (vdb): Mounting V5 Filesystem 54edd3b5-5306-493b-9ecd-f06cd9a8d669
-XFS (vdb): Ending clean mount
-XFS (dm-4): Mounting V5 Filesystem 3eb16918-3537-4d69-999a-ba226510f6c2
-XFS (dm-4): Ending clean mount
-XFS (dm-4): Unmounting Filesystem 3eb16918-3537-4d69-999a-ba226510f6c2
-BUG: kernel NULL pointer dereference, address: 0000000000000008
-#PF: supervisor read access in kernel mode
-#PF: error_code(0x0000) - not-present page
-PGD 0 P4D 0
-Oops: Oops: 0000 [#1] SMP NOPTI
-CPU: 0 UID: 0 PID: 1614197 Comm: kworker/u64:2 Not tainted 6.18.0-rc4-next-20251
-110-ktest-00017-g2307dc640a8d #131 NONE
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: dm-thin do_worker
-RIP: 0010:bio_get_last_bvec+0x20/0xe0
-Code: 90 90 90 90 90 90 90 90 90 90 55 49 89 f2 48 89 f9 48 89 e5 53 8b 77 2c 8b 47 30 44 8b 4f 28 49 89 f0 49 c1 e0 04 4c 03 47 50 <41> 8b 78 08 41 8b 58 0c 4d 8b 18 29 c7 44 39 cf 4d 89 1a 41 0f 47
-RSP: 0018:ffff88814d1ef8d8 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff8881044b5500 RCX: ffff88811fd23d78
-RDX: ffff88811fd235f8 RSI: 0000000000000000 RDI: ffff88811fd23d78
-RBP: ffff88814d1ef8e0 R08: 0000000000000000 R09: 0000000000020000
-R10: ffff88814d1ef8f0 R11: 0000000000000200 R12: 0000000000000000
-R13: ffff88811fd235f8 R14: 0000000000000000 R15: ffff8881044b5500
-FS:  0000000000000000(0000) GS:ffff8881f6ac9000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000008 CR3: 000000000263a000 CR4: 0000000000750eb0
-PKRU: 55555554
-Call Trace:
- <TASK>
- bio_seg_gap+0x4c/0x150
- bio_attempt_front_merge+0x19a/0x3a0
- blk_attempt_bio_merge.part.0+0xb4/0x110
- blk_attempt_plug_merge+0xd6/0xe0
- blk_mq_submit_bio+0x76c/0x9f0
- ? lock_release+0xbb/0x260
- __submit_bio+0xa5/0x380
- submit_bio_noacct_nocheck+0x126/0x380
- ? submit_bio_noacct_nocheck+0x126/0x380
- submit_bio_noacct+0x17f/0x3c0
- ? __cond_resched+0x1e/0x60
- submit_bio+0xd6/0x100
- end_discard+0x3a/0x90
- process_prepared_discard_passdown_pt1+0xff/0x180
- process_discard_cell_passdown+0x19e/0x2a0
- process_discard_bio+0x105/0x1a0
- do_worker+0x824/0xa40
- ? process_one_work+0x1ad/0x530
- process_one_work+0x1ed/0x530
- ? move_linked_works+0x77/0xb0
- worker_thread+0x1cf/0x3d0
- ? __pfx_worker_thread+0x10/0x10
- kthread+0x100/0x220
- ? _raw_spin_unlock_irq+0x2b/0x40
- ? __pfx_kthread+0x10/0x10
- ret_from_fork+0x249/0x280
- ? __pfx_kthread+0x10/0x10
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-Modules linked in: [last unloaded: crc_t10dif]
-CR2: 0000000000000008
----[ end trace 0000000000000000 ]---
-RIP: 0010:bio_get_last_bvec+0x20/0xe0
-Code: 90 90 90 90 90 90 90 90 90 90 55 49 89 f2 48 89 f9 48 89 e5 53 8b 77 2c 8b 47 30 44 8b 4f 28 49 89 f0 49 c1 e0 04 4c 03 47 50 <41> 8b 78 08 41 8b 58 0c 4d 8b 18 29 c7 44 39 cf 4d 89 1a 41 0f 47
-RSP: 0018:ffff88814d1ef8d8 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff8881044b5500 RCX: ffff88811fd23d78
-RDX: ffff88811fd235f8 RSI: 0000000000000000 RDI: ffff88811fd23d78
-RBP: ffff88814d1ef8e0 R08: 0000000000000000 R09: 0000000000020000
-R10: ffff88814d1ef8f0 R11: 0000000000000200 R12: 0000000000000000
-R13: ffff88811fd235f8 R14: 0000000000000000 R15: ffff8881044b5500
-FS:  0000000000000000(0000) GS:ffff8881f6ac9000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000008 CR3: 000000000263a000 CR4: 0000000000750eb0
-PKRU: 55555554
-Kernel panic - not syncing: Fatal exception
-Kernel Offset: disabled
----[ end Kernel panic - not syncing: Fatal exception ]---
-
-I'm not saying it's definitely your patch; after all, there's 17 of
-my slab patches on top of next-20251110, but when I looked on lore for
-'bio_get_last_bvec' this was the only patch since 2021 that mentioned it,
-so I thought I'd drop you a note in case you see the bug immediately.
-I'm heading to bed, and will be out tomorrow, so my opportunities to be
-helpful will be limited.
+Thanks for the heads up. This is in the path I'd been modifying lately,
+so sounds plausible that I introduced the bug. The information here
+should be enough for me to make progress: it looks like req->bio is NULL
+in your trace, which I did not expect would happen. But it's late here
+too, so look with fresh eyes in the morning.
 
