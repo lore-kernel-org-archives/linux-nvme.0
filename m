@@ -4,167 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F748CCFA1A
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 18:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D4E6CCFA18
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 19:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=M7jQzTOlv0PfU5z2p2L5KbLONj5qYy0+ZqQRG/mGqak=; b=ZoPaGzTijI8GsgErSM6qWmQalm
-	ZEhgMJsMdq1QfgsT7mqNDtX81ZTclxsRlrEEXZc1h9rPnWSadfq10aJ9Db7Qm6E+lB+06ff1RkSrV
-	6mwi4eV574cZs3psn3/hOMpdnUUCiNzCZSP9s9akN36f9CtTQpGv4cPKA0vhiG65k4egQPDPlIlJa
-	ajBZxc7Lp1A8oq4rAHfDNPTsmM5QDx2RO8TiEuuX6Z7pagi2J/ZaUSopBEpi09GTQRcH0KyVKe07b
-	lZBo+CpOxaT441B2baeSCS3/TUhOwrITGmj8F/GqT4smVeuOVY+dy2jaeIqPFpXB/EsSiIxhNln2v
-	LEv6CLpw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Subject:References:In-Reply-To:Message-Id:Cc:To:From:Date:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=oTBGjM1hxBPC3XrJPcevXldfIqkBQfy+2sLa6f5882c=; b=oNvfHycTO5u3X4/Bleb7gGymg3
+	kjzK8h7FA57UOs+8KvFtLlBKLwX/tlFJVNwHNNG2pNgBtr90gc+fthGYAKQJ51yMHTGzL05GdwJK8
+	lVJ5Y9U7uiXZp946/AVccy+zupAfETDNr2W+qXbCpHE9FsmPOVeumS9eLu6x1iVLVfm9nswaMiJj1
+	IPMlEHtRkKffoLGwhiRipVrhSZ1ZRiIe80IBvKvflA01Oe7Cp+BI2ZmSc5RarwnkAxTZXDy46sZf4
+	ZlNRUj6Ryk+sbmUZ1TTw/SN5Abehs1O8KFyHVShFqn1lNgryUY9yatJ1+AIvES54NAi5S18kuy9Bk
+	Dkot2KZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIt6N-00000007btQ-1gHZ;
-	Tue, 11 Nov 2025 18:28:23 +0000
-Received: from mail-northcentralusazon11012054.outbound.protection.outlook.com ([40.107.200.54] helo=CH5PR02CU005.outbound.protection.outlook.com)
+	id 1vIuEM-00000007hVn-2JWd;
+	Tue, 11 Nov 2025 19:40:42 +0000
+Received: from fout-a6-smtp.messagingengine.com ([103.168.172.149])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIt6K-00000007bsg-1kkp
+	id 1vIuEF-00000007hVH-132c
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Nov 2025 18:28:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yrcCBTz9IGedvxaqpRJV5faD7T64ruUeuyHxcIswzZuK3OS5RrmEDLzZ9L74Mvq2c7J1qwnWUY7ezl83gabF0K6DjvI01jpY8/lNPRP+hl9YOiju8PIYkWbOsXiEBnT7MIhnEUdqZo/bwVkOAmw4ePc1yit451YN5418uNB7RuXcLIdzSGwzdRksBXiZvujsoZS8v3hnjEfCCT5gfPiWyDsR7FOiHVhM6BxWzHFiLFDf9aN0yNF9f/VZg8S1eo4JLEwAxAtOknx5zkGu2VAi7P1t7mzUuoR47wiyv0enQV7gqf+90zOW2ZUWKIhmtyU1oYhFs47/M+7AWynCBV1UTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M7jQzTOlv0PfU5z2p2L5KbLONj5qYy0+ZqQRG/mGqak=;
- b=IUPpjlY35uyWt8NMvB/2E+DSLblTR7evDYJApNunbwFLT7V1Q2V9QafJnbsAkee6bVdoHLckeXnGGl0L8TAttf+L3jX7/U7IBsxBqqmxo/5WCl+scE4yRZ6dtSyfpN9g9x+1YpIncoWnlnQwoWLRAfxJf1har4q3xQtAn4nSu7wYIAxcc6BSZ+t3MzhxfwoWKOXWVOs7+6oKErm33JSCk9WJxJM8WF7U+l09xNFk05CmgveznOYyA+MHPbrYXEN4JpXxKDU+J/qeSEJTVSMSL4UhpRsAqwvpYVgb7xnFZOroNjzsyhfYXYnOZV0ohcJhW3tinwVYNto7mP/r6s0nhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M7jQzTOlv0PfU5z2p2L5KbLONj5qYy0+ZqQRG/mGqak=;
- b=C4Oq/nmXiq5No1Mymj9bXZHFsUjbjbteR3NbdpVvrTIdvfdd2h4E0KRp2uLD+EWheMB86Bntw4wVS+OSOlCbypynk4Ji7OPSoDsEreNLXuMQ5wYV03G6WfgBGnbyw1jezP5ERpvfxh05QzgOwxLRuUBr1zJBL2FHgHfidzfzGHCqtu8PRYYazVrkvRsmog5/sYlQu/rp0YhmHoeDRpNzLjpAgMx22SjXuq+nbOZOiO+gpqMZrYfGER3uAtFPx4q0zqCzJXQZGyjcLONdG1oar9Kc4JeIHAgUvfw0AEQwJwhKLAICgFn354neEVr/UUawZLUSn4ye6NTWw7dvFiDOpw==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by MW4PR12MB7438.namprd12.prod.outlook.com (2603:10b6:303:219::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Tue, 11 Nov
- 2025 18:28:04 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.9298.015; Tue, 11 Nov 2025
- 18:28:04 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: linux-block/for-next nvme_trtype=tcp blktest nvme/005
-Thread-Topic: linux-block/for-next nvme_trtype=tcp blktest nvme/005
-Thread-Index: AQHcUzdKfk1ZdHutFkuLZAe4h0L75LTty2aA
-Date: Tue, 11 Nov 2025 18:28:04 +0000
-Message-ID: <fce123b1-b750-42f1-991a-a80f96c199ed@nvidia.com>
-References: <69a7f0d6-ef87-4916-be1d-cf5b4bd7a9a7@nvidia.com>
-In-Reply-To: <69a7f0d6-ef87-4916-be1d-cf5b4bd7a9a7@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|MW4PR12MB7438:EE_
-x-ms-office365-filtering-correlation-id: 88d51127-ba8f-4d8b-a3f0-08de21500d89
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|10070799003|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info: =?utf-8?B?b3o2b3VRa1dDMkZUUnZUSjA4YTRXbVNzRzl3Y01NeDE4QWp6akJ6NmwzTERT?=
- =?utf-8?B?TG01NXBvcmZ0QW13Y3duRTFTbFJ4aTJEN1UzWGsrSmI4VXJtRWgvckxNQVUr?=
- =?utf-8?B?WDZGNjlGcXFwODFHM2Y3ZUY2SE8vejFyZHRhM1czc1VLVTNWZHRQZ1FKQVpF?=
- =?utf-8?B?ZFNaQnd3WTJwTHExbFVpNG51ZVc3TnJRTjBUdEh0dU4rcUIzTWhLaGYrcU84?=
- =?utf-8?B?ZU9PTnAyWTlUcXorOWVWQTRJSzNmZmVhcnhrbUFJanNSSDNIQW9hc3Q2aXB5?=
- =?utf-8?B?NHp1ZmFZYmtnZmpDNjVjOG9OQzVpbWYrNlRVbnRTUHlrMWxaakxUMFRvcjFM?=
- =?utf-8?B?WW5CaGZWYnhNdXVIME4wdmM0OUlDclozN3hqOGx6TG45QmVZQy9WZzR4alJB?=
- =?utf-8?B?eEhKUmtDcjJlSGpKT3ZIbzllelg3UEZOTERBalA2cXduNDZrKzF0SjNEUkpw?=
- =?utf-8?B?OW1zNTY5a0pSVVVBYmNhZ2dtblV2YjllRjE0cGxNR2dodS9Fa3pqS2tValpt?=
- =?utf-8?B?TmhkR1EvUkFDK3lqMDJXajA0dzl6M29WMndjQkRLMEtzRXFxei9EZGozYnM1?=
- =?utf-8?B?cVNKWTVJZzJhVTFVRlM4cTZMdm5od1ZpdUdDRnU5MHBFTVBTeXN6U2ZiRkIy?=
- =?utf-8?B?QmV6a3dYVjJSMjVNem1VbDBMNW00WWgxbS9UWFFENmZKVnhSUmhNZHlJdFQw?=
- =?utf-8?B?bUFROXE1Ym1EM29WSGZ2c3NhbEhmK0ZXYVdLaEtLV1pJMzZyUnpiU0dOUnhT?=
- =?utf-8?B?UmdUdVBQYXBzR2lYT3JtSElUS3M4NHV6ZlkxNzVtVDJaaDF3WXREbjFGR1BB?=
- =?utf-8?B?U0k5QUpUZW9KOER0OFVON0JXVHJjL0I1S0pZVGhlUkdOY25Hd25ZRzFZR0lm?=
- =?utf-8?B?U0FOTFFISmUwU1diYWs2WFBNY0lueW5pcURVWm5VK0lOTTBqa0NsTENMRlJq?=
- =?utf-8?B?bC84SG1EaGRRVnR2NXBzQnpxNXBRa1RLMDc5eWk1U0ZtUHRiZGdtWXgrVG9k?=
- =?utf-8?B?dVlBMTJwSzFDNWQvOEJHdXdrdUo5QjFOaEt4cUtVd2w1cEZrZWpoU2lWdXJQ?=
- =?utf-8?B?V3NPc0F0cEJ4OTJrUGU2elFLNStFamFyMW9BbFVlYjI0TFBhZ1FidFBwdHh3?=
- =?utf-8?B?TFNrczFmbVB0LzdLWHlwSjhUQmJkb0JiOFM1Y2ZzQkhmclZiZ1d3RXp3V3B0?=
- =?utf-8?B?SjlQeE9uR1hLRllISzkzdEIwQkxlY2l4ZVBpSVBQRzFBaUxvUkxOenU5Zzg1?=
- =?utf-8?B?SXk5cTVpTzc5MThMS1ptcFBSckNKZ1VMSnZVS2RDUEZiMytHWklJNlord3U2?=
- =?utf-8?B?OXNucUhnU0J1U3dScitTcFVBZXk4b2NuRlh4RzZRNVh2TjRGNHlLSGhsUzFn?=
- =?utf-8?B?TFRZUGV4bnBwRmFhYWFLTmRuNkdCRzlVdGxvVW00NVp5QU0vT0M0ZUx3WkNS?=
- =?utf-8?B?OE9BWURHLzFQL2lncXBBOXhBN2w4dFUrRnhia1REcFZISmgvM0xaZzZRQWhH?=
- =?utf-8?B?MG1TbzhKUlNPNlp2M1hLK2wwMjZub1hxbVFpdG9aV2g2bWpRZS94dE5KVFl2?=
- =?utf-8?B?Tnd5alF6TEdBaHY5VWFNaXRJRlRIeVhOYmJySFd0N2JtNC9qQ3ZnQnlkemEx?=
- =?utf-8?B?REVIR2JvcDhRemV6U01nMkMzaU8waVArS2NkMlhPOGpnSlczTUNBYlNqOHo2?=
- =?utf-8?B?bG1SQ3UrOTBmZU9nYldTSHdFYng3cVlwMmkxVzcvSHNaaS9WQTdsR1F1TjN0?=
- =?utf-8?B?dkx6akMyRFM1dm9WSDAwQ24zVGhUSVFIYTBsSk1JM3hQM0E1Q3BpVU96SnBx?=
- =?utf-8?B?bUhtQUFjVm5IQms1Q09scFBxSXBXT2hmS09OOUVEb2R1blJlV0Z6RXlWZG0z?=
- =?utf-8?B?TklIRmRMNzB0VGw1NzVTSzh6WUplWkJGekR6cHlxWlJ5eWhkVDg3elVoLzc0?=
- =?utf-8?B?U0laZlJOeTZpeVAwQVhyOVNNK2RpaXZDckViZUJKSjRmTHhDY2x3WlhNUGMy?=
- =?utf-8?B?RUhhaHFlUE5penNOdUxiTHFIOHVpLytyTU9sSXlFYnhBSGZpVEpXbk4waG9K?=
- =?utf-8?Q?I5s51V?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VlhsUisxa0k0NERmd3JGNENJY2Y2MGZHS1ZzZm11TXdGelZCNzlmVHhXcGJo?=
- =?utf-8?B?bE5HbnVJZ0VtTXVTWDlhU1dsT2hnd3ZybDJTQXRpQ1BGTlBwcXhNK1ZyUWYw?=
- =?utf-8?B?K1l2R2NxQXB5Z1FJRHc5YVlpRWhUdHlVOFhuK2c0V0laTzVrMld2cDJaWjFJ?=
- =?utf-8?B?ZzVIbnBPTXFERlNJclRSc0pSR2tRUis3TktDYjJqeWRZQlhmeUtvR3FHZDg0?=
- =?utf-8?B?Y0JPOEJyRFRTMEY3RUE4Z3k0RWQ0dG80UERFL0VIK1d1a2xsMm1WekFMSXB3?=
- =?utf-8?B?Q0lGUlY4OWlhcW16SHRwN3VqWEFQNlZoU20yZlc3YW5QMThQRWpQSlg2dytL?=
- =?utf-8?B?SmhkR2VPYkFQTVpDRW1KOVRmNVlNZmgremVwRUhQQ2lWU09lYTVzOU1XbnFY?=
- =?utf-8?B?bU90OGVsaUdVTUV5b1A2N00xSlE1QVpRSzVlZGFxVzRBbFJVM0pLNDc0K0ZX?=
- =?utf-8?B?aVhacVhWVDhobjU5NEgzOWorSndFT291UUdndVFKYzkyaXFic1dkNUlxMUJB?=
- =?utf-8?B?KzlMVlRqcjJ1NEZuMnp3RmZNalVoSHJSNE84WmRlSnQ1NFhTRG55cGJWeE4y?=
- =?utf-8?B?ZVR1SVJLVmlEVnEzcHRlUzlQd2x1UVkvRDRrUDNYRXpMcG1ZWVhhZXBGU0xJ?=
- =?utf-8?B?RDhWcFVsUWhhZE1RVnI5QUN6SURIUXJ2VjdEMEJzTEpxLzB1WlpxMWs2Yy85?=
- =?utf-8?B?Q3V1eGFPb2hXZUpWYlhHeVppdFdVZnVGZXBVWEg0UXBVZkU3ZThuTVBBWXlB?=
- =?utf-8?B?eFB1VEdUMzJUYUR2d3BLL3o4TDhFVTB1bXBxWlRLVGlxaXdydW5QMkU4QVFX?=
- =?utf-8?B?OFY3YzY2UjRvWmFWMDFpVTgrdnR4NUVoUy9UQ2FDeVFYV2F1dDIrcm84NmZG?=
- =?utf-8?B?NjhoWC9IV04xbXpOOW5HaGVjVFF1eW9Na2NiR1RPeHZ5bzRvNmlvdWhpWmw4?=
- =?utf-8?B?b1FqdU02MWRocmNrUkhOb2lyMkQxN1UwUTU4TDFjWkJpWkhjeWQzYlBOL25G?=
- =?utf-8?B?c0haci9nTkU5VzZpWW5jUi92U05BRi9YdGJlc3R1WXBzTnBaWElCSnd2V0NY?=
- =?utf-8?B?dS9XU3JKSkJhVFZ1djhJbjluaHZsVURPa2JPTzZkQ1hEbTJqY3hqdWVrUDZP?=
- =?utf-8?B?L2JZNllydWtFd3c2QjZoQXBDeHhyb21LTzlQbGVneXpKSFYvQjVNRDVZOE1j?=
- =?utf-8?B?R3M3eEFxc3J6bU9JeEhwdHo3eHk0QmRKS2VjMDZ3MmptODJkbDhkcEw1VzRl?=
- =?utf-8?B?cVhaTHprWVkvMmd3elJSNm50RkVyajFzWUEwWXJnYmQ1aVR5V2lldWVGVElL?=
- =?utf-8?B?d0hDazkzNXJNdERRZGZJN2NQRnkrdDdnakFXK1N4M1hhejdwS3ZsSXNteUw4?=
- =?utf-8?B?czU1R29HVk5tTGVzMnJpdzhqRGdpdk1WYzlGWkVxMG5DZXJsbEpGVGQvU3Vh?=
- =?utf-8?B?cTJUd2VIUm84b0dFQUMvd2FkS0llbVhHaCtuZDRVMUxUVmJ3eG1nTytrRjky?=
- =?utf-8?B?ZjI0SGFYdGxNSnQyUDBNWWJJVUJabjdwZUhTdDlLREw1dWtjNVE3R29JYnVh?=
- =?utf-8?B?RklMeHhkN1Zhb0FLSFhHdklWbVNDUjh3OHZhak9Bc1pRQlQ0ZnlET2EwRFFr?=
- =?utf-8?B?M0xKeFh4b003ODBLUkQ4MWtBdVI0cHVYNWMrZ1pJVHJQVDhRYXloMlVwa3Q3?=
- =?utf-8?B?dlFQWHYxdFN5WGtOaDhTR2FkZEdad2dQR2EwWDJFTjhXMXdFQ1hwb0QrWktr?=
- =?utf-8?B?K0JyUVhLVUg0bDROazZvTXh2cHBaNW5rL25FNUxaR3d5Z1N1U1FIenJQMU1q?=
- =?utf-8?B?Yy9WVEpZb1k2dnk3M0I3TWw2OStncTJCalRWT0lWZG9jd05ldjJQa1lQWGpK?=
- =?utf-8?B?ZkpWVEhBNlNtM2JETUNNelNCYk4rcU9lV1ZFbW9BY1BZYkw1SHg1N1gzekIr?=
- =?utf-8?B?eGhjOHhnUWxYdXBEbEpRZzRabVZvK3lPQzNzdmJwOTFUVUlHL2NWWXlGelBF?=
- =?utf-8?B?TFRPL1dyWG1JVGtXbmxrRWFWOHBMY2JrVE0yWHZxZWk4dlNRNHZYcXVJSnI5?=
- =?utf-8?B?VFJ1dEx0QkJOTlJvUGpUMFg0KzY4ZUtCczRlcVBOOUFZbHplM0lMRjhxZTZz?=
- =?utf-8?B?SXNnaHoyUzhSZEQxb1BFVWtrSjF0ZmV5bHBwNlFQNisybEZhMmQrSnVoZUo0?=
- =?utf-8?Q?TsYm5f4Ro0t8wO5eZWO7nWsk0SLpC3AMeHUAlmyGQkkX?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A4142ACAEEB5624FA3AED26AAC05E362@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Tue, 11 Nov 2025 19:40:40 +0000
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 3E76DEC0088;
+	Tue, 11 Nov 2025 14:40:33 -0500 (EST)
+Received: from phl-imap-01 ([10.202.2.91])
+  by phl-compute-01.internal (MEProxy); Tue, 11 Nov 2025 14:40:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	colorremedies.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1762890033; x=1762976433; bh=oTBGjM1hxB
+	PC3XrJPcevXldfIqkBQfy+2sLa6f5882c=; b=NozAeXAIo8siVLLRomX3zC1UtK
+	meQ5HrpHqY0pXUc5JDn63vpG/RKOorvDsYt8HKbNz59Z3zELVXgFM+3ssS/8Kfmj
+	f+5rMkRt1hC4E5XhiuPBEJ6zbQUXqv4WKlk9BYEpteTrnKY8jWYmdB0kcaYowIDq
+	UMNr38f47xxe0Xu3OH69xgE9uP5tnPB29XZ2RyXs0hQb+Nfvy22PglllZvIMeTMo
+	0hpkwusyllRSmumw1BbE6+2iC2vWjgViXfg3GC9PFMvIhDecjbAXS3mUdc9IdGc9
+	Y4NJE0bHvh40YdVSjTH0Yh00LnH/l1NbPoR+xLIm7EOxF2bNRxxKZmIeaj6A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762890033; x=
+	1762976433; bh=oTBGjM1hxBPC3XrJPcevXldfIqkBQfy+2sLa6f5882c=; b=W
+	b8q+CbscEnsKTDzds+hwn4Z+pBu9X3LPFch4BupA9PMoiH5q3XG/IJwSmKT807Wz
+	tOZWlLi8VsIdqwElJKZNPxnlM1wQg2Ig9wHNioM+lNgPEk++jUN3Rk+awCuOIfFL
+	mJYJjKmW+SmNOE26i+74ZptAYVO6RJ7FQjCcit+E/OnZg3jzR8qA20n4P5HoHsr+
+	kJ4M3B9hwANQ6SiAoskYhBp4JAKSmJa2msjOgqYZnxJN8Yj8BLqn9Tuu9AZBY9Bb
+	nnIKvev0d9onBwgGkbyoe4s2NmrYAt1Nu+0SksAwh0WJJHtKFw2WpqWKF0fnfBjw
+	oYBIv+ESOwLibl/Nljg+Q==
+X-ME-Sender: <xms:MJETaci4nxk0G0xqNyZ7z2e_XCc88AASMWqSEC9vXZMigXAyGVEVSQ>
+    <xme:MJETaf0w9AyqbJGrx8kAyfzbyga5bQcniw-EUMiqli4TRTgFs6lskOqia9AzajdIH
+    p53L3zgPfwG0lDS6n1jhwNYbFuJIl1SULdXSS58siSclFS8Yc8AN3P4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtddvtdehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhrhhi
+    shcuofhurhhphhihfdcuoehlihhsthhssegtohhlohhrrhgvmhgvughivghsrdgtohhmqe
+    enucggtffrrghtthgvrhhnpefhuedvkeetudehgfethfevtdefiefgffehvefhveeuffef
+    vddtgeeiffelffelgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehlihhsthhssegtohhlohhrrhgvmhgvughivghsrdgtohhmpdhnsggprhgt
+    phhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhnvh
+    hmvgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehjphhishii
+    tgiisehluhgtihguphhigigvlhhsrdgtohhmpdhrtghpthhtoheptghhrghithgrnhihrg
+    hksehnvhhiughirgdrtghomhdprhgtphhtthhopehlihhnuhigqdgsthhrfhhssehvghgv
+    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvgh
+    gvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:MJETaaVxqXcecYmh1fpCKHXH8H8LYx4KVoI3kMigizMuRfpZKAmgsA>
+    <xmx:MJETaaTizAA3420Zy7PpuNudM3ZQlhjmyOVhvTTelFHdx8bkHk5V-A>
+    <xmx:MJETaYMyz9pkHUyz-SWUYFscElsTR6-YWqcBvLl3arTV9aAerfhOLw>
+    <xmx:MJETaYSjS2DuChgarXILsOm31aE5HF1h_iklnPpg4XUTa1OF1iXIXw>
+    <xmx:MZETabZodhesaWmZpx_m4V4-o_oGERCx41OhKD54ISrKj30VblcO-ZzU>
+Feedback-ID: i06494636:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B5DD818C004E; Tue, 11 Nov 2025 14:40:32 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88d51127-ba8f-4d8b-a3f0-08de21500d89
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2025 18:28:04.0889
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: diPapMrcwYet848MDg6SAnKuYOw5G0hHrF1728+QwVEcUcesjgWbIei970OjgZ7rMF/ffiln5e4FEwUKkzlg7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7438
+X-ThreadId: ABlTi-3C1DAF
+Date: Tue, 11 Nov 2025 14:40:12 -0500
+From: "Chris Murphy" <lists@colorremedies.com>
+To: "Justin Piszcz" <jpiszcz@lucidpixels.com>,
+ "Chaitanya Kulkarni" <chaitanyak@nvidia.com>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ "Btrfs BTRFS" <linux-btrfs@vger.kernel.org>
+Message-Id: <a383946c-60b4-49f2-a3d0-dda1a5b41117@app.fastmail.com>
+In-Reply-To: <CAO9zADydZ=WrHbeREhWfetAupvzewM_A9Sz0RV8tY0h9CctoFA@mail.gmail.com>
+References: <CAO9zADwMjaMp=TmgkBDHVFxdj5FVHtjTn_6qvFaTcAjpbaDSWg@mail.gmail.com>
+ <e5a2b8b2-d4e5-42ce-9324-5748c5e078d4@app.fastmail.com>
+ <1e4dd261-0836-4eea-b7fd-8dec9a7453d9@nvidia.com>
+ <CAO9zADydZ=WrHbeREhWfetAupvzewM_A9Sz0RV8tY0h9CctoFA@mail.gmail.com>
+Subject: Re: BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 37868055...
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251111_102820_518319_7F4D92A2 
-X-CRM114-Status: GOOD (  12.00  )
+X-CRM114-CacheID: sfid-20251111_114035_661123_1AB023BB 
+X-CRM114-Status: GOOD (  12.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -179,207 +117,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-UmUtc2VuZGluZyBpdCBsYXN0IHRpbWXCoGR1ZSB0byBtZXNzZWQtdXAgZm9ybWF0dGluZy4NCg0K
-T24gMTEvMTEvMjUgMTA6MTYsIENoYWl0YW55YSBLdWxrYXJuaSB3cm90ZToNCg0KPiBIaSwNCj4N
-Cj4gUGxlYXNlIGhhdmUgYSBsb29rLCBpZiB0aGVyZSBpcyBhbHJlYWR5IGZvciB0aGlzIHBsZWFz
-ZSBpZ25vcmUuDQo+DQo+IFJ1bm5pbmcgYmxrdGVzdHMgb24gbGF0ZXN0IGxpbnV4LWJsb2NrL2Zv
-ci1uZXh0IHJlc3VsdGluZyBpbiB0aGlzIDotDQo+IG52bWUvMDA1ICh0cj10Y3ApIChyZXNldCBs
-b2NhbCBsb29wYmFjayB0YXJnZXQpIFtmYWlsZWRdIHJ1bnRpbWUgMC4yNjRzDQo+IC4uLiAwLjY5
-OHMgc29tZXRoaW5nIGZvdW5kIGluIGRtZXNnOiBbIDEwMjAuMDQ1OTgzXSBydW4gYmxrdGVzdHMN
-Cj4gbnZtZS8wMDUgYXQgMjAyNS0xMS0xMSAxMDoxMDoyMiBbIDEwMjAuMDg5OTA0XSBsb29wMzog
-ZGV0ZWN0ZWQgY2FwYWNpdHkNCj4gY2hhbmdlIGZyb20gMCB0byAxMDI0MDAwIFsgMTAyMC4xMjE5
-NTNdIG52bWV0OiBhZGRpbmcgbnNpZCAxIHRvDQo+IHN1YnN5c3RlbSBibGt0ZXN0cy1zdWJzeXN0
-ZW0tMSBbIDEwMjAuMTMzNjEwXSBudm1ldF90Y3A6IGVuYWJsaW5nIHBvcnQgMA0KPiAoMTI3LjAu
-MC4xOjQ0MjApIFsgMTAyMC4xNjkyMzddIG52bWV0OiBDcmVhdGVkIG52bSBjb250cm9sbGVyIDEg
-Zm9yDQo+IHN1YnN5c3RlbSBibGt0ZXN0cy1zdWJzeXN0ZW0tMSBmb3IgTlFODQo+IG5xbi4yMDE0
-LTA4Lm9yZy5udm1leHByZXNzOnV1aWQ6MGYwMWZiNDItOWY3Zi00ODU2LWIwYjMtNTFlNjBiOGRl
-MzQ5LiBbDQo+IDEwMjAuMTczOTEzXSBudm1lIG52bWUwOiBjcmVhdGluZyA0OCBJL08gcXVldWVz
-LiBbIDEwMjAuMTg2ODc1XSBudm1lDQo+IG52bWUwOiBtYXBwZWQgNDgvMC8wIGRlZmF1bHQvcmVh
-ZC9wb2xsIHF1ZXVlcy4gWyAxMDIwLjIwMjE4OF0gbnZtZQ0KPiBudm1lMDogbmV3IGN0cmw6IE5R
-TiAiYmxrdGVzdHMtc3Vic3lzdGVtLTEiLCBhZGRyIDEyNy4wLjAuMTo0NDIwLA0KPiBob3N0bnFu
-Og0KPiBucW4uMjAxNC0wOC5vcmcubnZtZXhwcmVzczp1dWlkOjBmMDFmYjQyLTlmN2YtNDg1Ni1i
-MGIzLTUxZTYwYjhkZTM0OSBbDQo+IDEwMjAuMjgzNzQxXSBudm1ldDogQ3JlYXRlZCBudm0gY29u
-dHJvbGxlciAyIGZvciBzdWJzeXN0ZW0NCg0KWy4uLl0NCg0KUnVubmluZyBibGt0ZXN0cyBvbiBs
-YXRlc3QgbGludXgtYmxvY2svZm9yLW5leHQgcmVzdWx0aW5nIGluIHRoaXMsDQppZiB0aGVyZSBp
-cyBhIGZpeCBwbGVhc2UgaWdub3JlIHRoaXMgOi0NCg0KbnZtZS8wMDUgKHRyPXRjcCkgKHJlc2V0
-IGxvY2FsIGxvb3BiYWNrIHRhcmdldCkgICAgICAgICAgICAgIFtmYWlsZWRdDQogICAgIHJ1bnRp
-bWUgIDAuMjY0cyAgLi4uICAwLjY5OHMNCiAgICAgc29tZXRoaW5nIGZvdW5kIGluIGRtZXNnOg0K
-ICAgICBbIDEwMjAuMDQ1OTgzXSBydW4gYmxrdGVzdHMgbnZtZS8wMDUgYXQgMjAyNS0xMS0xMSAx
-MDoxMDoyMg0KICAgICBbIDEwMjAuMDg5OTA0XSBsb29wMzogZGV0ZWN0ZWQgY2FwYWNpdHkgY2hh
-bmdlIGZyb20gMCB0byAxMDI0MDAwDQogICAgIFsgMTAyMC4xMjE5NTNdIG52bWV0OiBhZGRpbmcg
-bnNpZCAxIHRvIHN1YnN5c3RlbSBibGt0ZXN0cy1zdWJzeXN0ZW0tMQ0KICAgICBbIDEwMjAuMTMz
-NjEwXSBudm1ldF90Y3A6IGVuYWJsaW5nIHBvcnQgMCAoMTI3LjAuMC4xOjQ0MjApDQogICAgIFsg
-MTAyMC4xNjkyMzddIG52bWV0OiBDcmVhdGVkIG52bSBjb250cm9sbGVyIDEgZm9yIHN1YnN5c3Rl
-bSBibGt0ZXN0cy1zdWJzeXN0ZW0tMSBmb3IgTlFOIG5xbi4yMDE0LTA4Lm9yZy5udm1leHByZXNz
-OnV1aWQ6MGYwMWZiNDItOWY3Zi00ODU2LWIwYjMtNTFlNjBiOGRlMzQ5Lg0KICAgICBbIDEwMjAu
-MTczOTEzXSBudm1lIG52bWUwOiBjcmVhdGluZyA0OCBJL08gcXVldWVzLg0KICAgICBbIDEwMjAu
-MTg2ODc1XSBudm1lIG52bWUwOiBtYXBwZWQgNDgvMC8wIGRlZmF1bHQvcmVhZC9wb2xsIHF1ZXVl
-cy4NCiAgICAgWyAxMDIwLjIwMjE4OF0gbnZtZSBudm1lMDogbmV3IGN0cmw6IE5RTiAiYmxrdGVz
-dHMtc3Vic3lzdGVtLTEiLCBhZGRyIDEyNy4wLjAuMTo0NDIwLCBob3N0bnFuOiBucW4uMjAxNC0w
-OC5vcmcubnZtZXhwcmVzczp1dWlkOjBmMDFmYjQyLTlmN2YtNDg1Ni1iMGIzLTUxZTYwYjhkZTM0
-OQ0KICAgICANCiAgICAgWyAxMDIwLjI4Mzc0MV0gbnZtZXQ6IENyZWF0ZWQgbnZtIGNvbnRyb2xs
-ZXIgMiBmb3Igc3Vic3lzdGVtIGJsa3Rlc3RzLXN1YnN5c3RlbS0xIGZvciBOUU4gbnFuLjIwMTQt
-MDgub3JnLm52bWV4cHJlc3M6dXVpZDowZjAxZmI0Mi05ZjdmLTQ4NTYtYjBiMy01MWU2MGI4ZGUz
-NDkuDQogICAgIC4uLg0KICAgICAoU2VlICcvcm9vdC9ibGt0ZXN0cy9yZXN1bHRzL25vZGV2X3Ry
-X3RjcC9udm1lLzAwNS5kbWVzZycgZm9yIHRoZSBlbnRpcmUgbWVzc2FnZSkNCg0KDQogIDEwMjAu
-MDQ1OTgzXSBydW4gYmxrdGVzdHMgbnZtZS8wMDUgYXQgMjAyNS0xMS0xMSAxMDoxMDoyMg0KWyAx
-MDIwLjA4OTkwNF0gbG9vcDM6IGRldGVjdGVkIGNhcGFjaXR5IGNoYW5nZSBmcm9tIDAgdG8gMTAy
-NDAwMA0KWyAxMDIwLjEyMTk1M10gbnZtZXQ6IGFkZGluZyBuc2lkIDEgdG8gc3Vic3lzdGVtIGJs
-a3Rlc3RzLXN1YnN5c3RlbS0xDQpbIDEwMjAuMTMzNjEwXSBudm1ldF90Y3A6IGVuYWJsaW5nIHBv
-cnQgMCAoMTI3LjAuMC4xOjQ0MjApDQpbIDEwMjAuMTY5MjM3XSBudm1ldDogQ3JlYXRlZCBudm0g
-Y29udHJvbGxlciAxIGZvciBzdWJzeXN0ZW0gYmxrdGVzdHMtc3Vic3lzdGVtLTEgZm9yIE5RTiBu
-cW4uMjAxNC0wOC5vcmcubnZtZXhwcmVzczp1dWlkOjBmMDFmYjQyLTlmN2YtNDg1Ni1iMGIzLTUx
-ZTYwYjhkZTM0OS4NClsgMTAyMC4xNzM5MTNdIG52bWUgbnZtZTA6IGNyZWF0aW5nIDQ4IEkvTyBx
-dWV1ZXMuDQpbIDEwMjAuMTg2ODc1XSBudm1lIG52bWUwOiBtYXBwZWQgNDgvMC8wIGRlZmF1bHQv
-cmVhZC9wb2xsIHF1ZXVlcy4NClsgMTAyMC4yMDIxODhdIG52bWUgbnZtZTA6IG5ldyBjdHJsOiBO
-UU4gImJsa3Rlc3RzLXN1YnN5c3RlbS0xIiwgYWRkciAxMjcuMC4wLjE6NDQyMCwgaG9zdG5xbjog
-bnFuLjIwMTQtMDgub3JnLm52bWV4cHJlc3M6dXVpZDowZjAxZmI0Mi05ZjdmLTQ4NTYtYjBiMy01
-MWU2MGI4ZGUzNDkNCg0KWyAxMDIwLjI4Mzc0MV0gbnZtZXQ6IENyZWF0ZWQgbnZtIGNvbnRyb2xs
-ZXIgMiBmb3Igc3Vic3lzdGVtIGJsa3Rlc3RzLXN1YnN5c3RlbS0xIGZvciBOUU4gbnFuLjIwMTQt
-MDgub3JnLm52bWV4cHJlc3M6dXVpZDowZjAxZmI0Mi05ZjdmLTQ4NTYtYjBiMy01MWU2MGI4ZGUz
-NDkuDQpbIDEwMjAuMjg0NDg2XSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT0NClsgMTAyMC4yODQ0ODldIFdBUk5JTkc6IHBvc3NpYmxlIGNpcmN1
-bGFyIGxvY2tpbmcgZGVwZW5kZW5jeSBkZXRlY3RlZA0KWyAxMDIwLjI4NDQ5MV0gNi4xOC4wLXJj
-NGxibGsrICM0IFRhaW50ZWQ6IEcgICAgICAgICAgICAgICAgIE4NClsgMTAyMC4yODQ0OTNdIC0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KWyAx
-MDIwLjI4NDQ5NF0ga3dvcmtlci8zNDoxLzMyMyBpcyB0cnlpbmcgdG8gYWNxdWlyZSBsb2NrOg0K
-WyAxMDIwLjI4NDQ5Nl0gZmZmZmZmZmY4MmU0ODdlMCAoZnNfcmVjbGFpbSl7Ky4rLn0tezA6MH0s
-IGF0OiBrbWVtX2NhY2hlX2FsbG9jX25vZGVfbm9wcm9mKzB4NWEvMHg3NzANClsgMTAyMC4yODQ1
-MDddDQogICAgICAgICAgICAgICAgYnV0IHRhc2sgaXMgYWxyZWFkeSBob2xkaW5nIGxvY2s6DQpb
-IDEwMjAuMjg0NTA4XSBmZmZmODg4MTY3ZDg4ZTk4IChza19sb2NrLUFGX0lORVQtTlZNRQ0KWyAx
-MDIwLjI5NTEzM10gbnZtZSBudm1lMDogY3JlYXRpbmcgNDggSS9PIHF1ZXVlcy4NClsgMTAyMC4y
-OTg5NzldICl7Ky4rLn0tezA6MH0sIGF0OiB0Y3BfY2xvc2UrMHgxNS8weDgwDQpbIDEwMjAuMjk4
-OTg4XQ0KICAgICAgICAgICAgICAgIHdoaWNoIGxvY2sgYWxyZWFkeSBkZXBlbmRzIG9uIHRoZSBu
-ZXcgbG9jay4NCg0KWyAxMDIwLjI5ODk4OV0NCiAgICAgICAgICAgICAgICB0aGUgZXhpc3Rpbmcg
-ZGVwZW5kZW5jeSBjaGFpbiAoaW4gcmV2ZXJzZSBvcmRlcikgaXM6DQpbIDEwMjAuMjk4OTkwXQ0K
-ICAgICAgICAgICAgICAgIC0+ICM0IChza19sb2NrLUFGX0lORVQtTlZNRSl7Ky4rLn0tezA6MH06
-DQpbIDEwMjAuMjk4OTk0XSAgICAgICAgbG9ja19zb2NrX25lc3RlZCsweDJlLzB4NzANClsgMTAy
-MC4zNTI1NTFdICAgICAgICB0Y3Bfc2VuZG1zZysweDFhLzB4NDANClsgMTAyMC4zNTQ2NjldICAg
-ICAgICBzb2NrX3NlbmRtc2crMHhlZC8weDExMA0KWyAxMDIwLjM1NjgzMV0gICAgICAgIG52bWVf
-dGNwX3RyeV9zZW5kX2NtZF9wZHUrMHgxM2UvMHgyNjAgW252bWVfdGNwXQ0KWyAxMDIwLjM2MDEy
-OV0gICAgICAgIG52bWVfdGNwX3RyeV9zZW5kKzB4YjMvMHgzMzAgW252bWVfdGNwXQ0KWyAxMDIw
-LjM2MzAxOF0gICAgICAgIG52bWVfdGNwX3F1ZXVlX3JxKzB4MzQyLzB4M2QwIFtudm1lX3RjcF0N
-ClsgMTAyMC4zNjU5NzVdICAgICAgICBibGtfbXFfZGlzcGF0Y2hfcnFfbGlzdCsweDI5YS8weDgw
-MA0KWyAxMDIwLjM2ODY5OF0gICAgICAgIF9fYmxrX21xX3NjaGVkX2Rpc3BhdGNoX3JlcXVlc3Rz
-KzB4M2RiLzB4NWYwDQpbIDEwMjAuMzcxODU0XSAgICAgICAgYmxrX21xX3NjaGVkX2Rpc3BhdGNo
-X3JlcXVlc3RzKzB4MjkvMHg3MA0KWyAxMDIwLjM3NDA4N10gICAgICAgIGJsa19tcV9ydW5fd29y
-a19mbisweDc2LzB4MWIwDQpbIDEwMjAuMzc1NzUwXSAgICAgICAgcHJvY2Vzc19vbmVfd29yaysw
-eDIxMS8weDYzMA0KWyAxMDIwLjM3NzM3OV0gICAgICAgIHdvcmtlcl90aHJlYWQrMHgxODQvMHgz
-MzANClsgMTAyMC4zNzg5NDldICAgICAgICBrdGhyZWFkKzB4MTBkLzB4MjUwDQpbIDEwMjAuMzgw
-Mjk2XSAgICAgICAgcmV0X2Zyb21fZm9yaysweDI5YS8weDMwMA0KWyAxMDIwLjM4MTg1NV0gICAg
-ICAgIHJldF9mcm9tX2ZvcmtfYXNtKzB4MWEvMHgzMA0KWyAxMDIwLjM4MzQyMF0NCiAgICAgICAg
-ICAgICAgICAtPiAjMyAoc2V0LT5zcmN1KXsuKy4rfS17MDowfToNClsgMTAyMC4zODU0NzddICAg
-ICAgICBfX3N5bmNocm9uaXplX3NyY3UrMHg0OS8weDE3MA0KWyAxMDIwLjM4NzE2OV0gICAgICAg
-IGVsZXZhdG9yX3N3aXRjaCsweGM5LzB4MzMwDQpbIDEwMjAuMzg4NzYzXSAgICAgICAgZWxldmF0
-b3JfY2hhbmdlKzB4MTI4LzB4MWMwDQpbIDEwMjAuMzkwMzM2XSAgICAgICAgZWxldmF0b3Jfc2V0
-X25vbmUrMHg0Yy8weDkwDQpbIDEwMjAuMzkxOTQzXSAgICAgICAgYmxrX3VucmVnaXN0ZXJfcXVl
-dWUrMHhhOC8weDExMA0KWyAxMDIwLjM5MzY5M10gICAgICAgIF9fZGVsX2dlbmRpc2srMHgxNGUv
-MHgzYzANClsgMTAyMC4zOTUyMjJdICAgICAgICBkZWxfZ2VuZGlzaysweDc1LzB4YTANClsgMTAy
-MC4zOTY3MDldICAgICAgICBudm1lX25zX3JlbW92ZSsweGYyLzB4MjMwIFtudm1lX2NvcmVdDQpb
-IDEwMjAuMzk4NjM0XSAgICAgICAgbnZtZV9yZW1vdmVfbmFtZXNwYWNlcysweGYyLzB4MTUwIFtu
-dm1lX2NvcmVdDQpbIDEwMjAuNDAwODA4XSAgICAgICAgbnZtZV9kb19kZWxldGVfY3RybCsweDcx
-LzB4OTAgW252bWVfY29yZV0NClsgMTAyMC40MDI4NThdICAgICAgICBudm1lX2RlbGV0ZV9jdHJs
-X3N5bmMrMHgzYi8weDUwIFtudm1lX2NvcmVdDQpbIDEwMjAuNDA0OTU4XSAgICAgICAgbnZtZV9z
-eXNmc19kZWxldGUrMHgzNC8weDQwIFtudm1lX2NvcmVdDQpbIDEwMjAuNDA2OTQzXSAgICAgICAg
-a2VybmZzX2ZvcF93cml0ZV9pdGVyKzB4MTZkLzB4MjIwDQpbIDEwMjAuNDA4NzkwXSAgICAgICAg
-dmZzX3dyaXRlKzB4MzdiLzB4NTIwDQpbIDEwMjAuNDEwMTk3XSAgICAgICAga3N5c193cml0ZSsw
-eDY3LzB4ZTANClsgMTAyMC40MTE1ODBdICAgICAgICBkb19zeXNjYWxsXzY0KzB4NzYvMHhiMDAN
-ClsgMTAyMC40MTMwODRdICAgICAgICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3
-Ni8weDdlDQpbIDEwMjAuNDE1MDc4XQ0KICAgICAgICAgICAgICAgIC0+ICMyICgmcS0+ZWxldmF0
-b3JfbG9jayl7Ky4rLn0tezQ6NH06DQpbIDEwMjAuNDE3MzY1XSAgICAgICAgX19tdXRleF9sb2Nr
-KzB4YTIvMHgxMTUwDQpbIDEwMjAuNDE4OTEyXSAgICAgICAgZWxldmF0b3JfY2hhbmdlKzB4YTgv
-MHgxYzANClsgMTAyMC40MjA0NzBdICAgICAgICBlbHZfaW9zY2hlZF9zdG9yZSsweGRmLzB4MTQw
-DQpbIDEwMjAuNDIyMTE2XSAgICAgICAga2VybmZzX2ZvcF93cml0ZV9pdGVyKzB4MTZkLzB4MjIw
-DQpbIDEwMjAuNDI0MjAzXSAgICAgICAgdmZzX3dyaXRlKzB4MzdiLzB4NTIwDQpbIDEwMjAuNDI1
-NzE5XSAgICAgICAga3N5c193cml0ZSsweDY3LzB4ZTANClsgMTAyMC40MjcxNTRdICAgICAgICBk
-b19zeXNjYWxsXzY0KzB4NzYvMHhiMDANClsgMTAyMC40Mjg3NjNdICAgICAgICBlbnRyeV9TWVND
-QUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3Ni8weDdlDQpbIDEwMjAuNDMwODkxXQ0KICAgICAgICAg
-ICAgICAgIC0+ICMxICgmcS0+cV91c2FnZV9jb3VudGVyKGlvKSl7KysrK30tezA6MH06DQpbIDEw
-MjAuNDMzNDkwXSAgICAgICAgYmxrX2FsbG9jX3F1ZXVlKzB4MzBlLzB4MzUwDQpbIDEwMjAuNDM1
-MjQ4XSAgICAgICAgYmxrX21xX2FsbG9jX3F1ZXVlKzB4NjEvMHhkMA0KWyAxMDIwLjQzNzAxMF0g
-ICAgICAgIHNjc2lfYWxsb2Nfc2RldisweDJhMC8weDNlMA0KWyAxMDIwLjQzODc2N10gICAgICAg
-IHNjc2lfcHJvYmVfYW5kX2FkZF9sdW4rMHgxYmQvMHg0MzANClsgMTAyMC40NDA3MjRdICAgICAg
-ICBfX3Njc2lfYWRkX2RldmljZSsweDEwOS8weDEyMA0KWyAxMDIwLjQ0MjQ4OF0gICAgICAgIGF0
-YV9zY3NpX3NjYW5faG9zdCsweDk3LzB4MWMwDQpbIDEwMjAuNDQ0MzA4XSAgICAgICAgYXN5bmNf
-cnVuX2VudHJ5X2ZuKzB4MzAvMHgxMzANClsgMTAyMC40NDYxMTJdICAgICAgICBwcm9jZXNzX29u
-ZV93b3JrKzB4MjExLzB4NjMwDQpbIDEwMjAuNDQ3ODg0XSAgICAgICAgd29ya2VyX3RocmVhZCsw
-eDE4NC8weDMzMA0KWyAxMDIwLjQ0OTU2Ml0gICAgICAgIGt0aHJlYWQrMHgxMGQvMHgyNTANClsg
-MTAyMC40NTEwMTNdICAgICAgICByZXRfZnJvbV9mb3JrKzB4MjlhLzB4MzAwDQpbIDEwMjAuNDUy
-Njk4XSAgICAgICAgcmV0X2Zyb21fZm9ya19hc20rMHgxYS8weDMwDQpbIDEwMjAuNDU0NDAzXQ0K
-ICAgICAgICAgICAgICAgIC0+ICMwIChmc19yZWNsYWltKXsrLisufS17MDowfToNClsgMTAyMC40
-NTY1NTldICAgICAgICBfX2xvY2tfYWNxdWlyZSsweDE0NjgvMHgyMjEwDQpbIDEwMjAuNDU4Mjk0
-XSAgICAgICAgbG9ja19hY3F1aXJlKzB4ZDMvMHgyZjANClsgMTAyMC40NTk5MzVdICAgICAgICBm
-c19yZWNsYWltX2FjcXVpcmUrMHg5OS8weGQwDQpbIDEwMjAuNDYxNzEyXSAgICAgICAga21lbV9j
-YWNoZV9hbGxvY19ub2RlX25vcHJvZisweDVhLzB4NzcwDQpbIDEwMjAuNDYzODIwXSAgICAgICAg
-X19hbGxvY19za2IrMHgxNWYvMHgxOTANClsgMTAyMC40NjU0MTRdICAgICAgICB0Y3Bfc2VuZF9h
-Y3RpdmVfcmVzZXQrMHgzZi8weDFlMA0KWyAxMDIwLjQ2NzM3NF0gICAgICAgIHRjcF9kaXNjb25u
-ZWN0KzB4NTUxLzB4NzcwDQpbIDEwMjAuNDY5MTE2XSAgICAgICAgX190Y3BfY2xvc2UrMHgyYzcv
-MHg1MjANClsgMTAyMC40NzA3NDJdICAgICAgICB0Y3BfY2xvc2UrMHgyMC8weDgwDQpbIDEwMjAu
-NDcyMTYwXSAgICAgICAgaW5ldF9yZWxlYXNlKzB4MzQvMHg2MA0KWyAxMDIwLjQ3MzczMl0gICAg
-ICAgIF9fc29ja19yZWxlYXNlKzB4M2QvMHhjMA0KWyAxMDIwLjQ3NTM0Nl0gICAgICAgIHNvY2tf
-Y2xvc2UrMHgxNC8weDIwDQpbIDEwMjAuNDc2ODQyXSAgICAgICAgX19mcHV0KzB4ZjEvMHgyYzAN
-ClsgMTAyMC40NzgyMDRdICAgICAgICBkZWxheWVkX2ZwdXQrMHgzMS8weDUwDQpbIDEwMjAuNDc5
-Nzg4XSAgICAgICAgcHJvY2Vzc19vbmVfd29yaysweDIxMS8weDYzMA0KWyAxMDIwLjQ4MTUyMF0g
-ICAgICAgIHdvcmtlcl90aHJlYWQrMHgxODQvMHgzMzANClsgMTAyMC40ODMyMDZdICAgICAgICBr
-dGhyZWFkKzB4MTBkLzB4MjUwDQpbIDEwMjAuNDg0NjgzXSAgICAgICAgcmV0X2Zyb21fZm9yaysw
-eDI5YS8weDMwMA0KWyAxMDIwLjQ4NjI4NF0gICAgICAgIHJldF9mcm9tX2ZvcmtfYXNtKzB4MWEv
-MHgzMA0KWyAxMDIwLjQ4ODAwNF0NCiAgICAgICAgICAgICAgICBvdGhlciBpbmZvIHRoYXQgbWln
-aHQgaGVscCB1cyBkZWJ1ZyB0aGlzOg0KDQpbIDEwMjAuNDkxMDYzXSBDaGFpbiBleGlzdHMgb2Y6
-DQogICAgICAgICAgICAgICAgICBmc19yZWNsYWltIC0tPiBzZXQtPnNyY3UgLS0+IHNrX2xvY2st
-QUZfSU5FVC1OVk1FDQoNClsgMTAyMC40OTQ5ODVdICBQb3NzaWJsZSB1bnNhZmUgbG9ja2luZyBz
-Y2VuYXJpbzoNCg0KWyAxMDIwLjQ5NzI2Ml0gICAgICAgIENQVTAgICAgICAgICAgICAgICAgICAg
-IENQVTENClsgMTAyMC40OTkwMTVdICAgICAgICAtLS0tICAgICAgICAgICAgICAgICAgICAtLS0t
-DQpbIDEwMjAuNTAwNzkwXSAgIGxvY2soc2tfbG9jay1BRl9JTkVULU5WTUUpOw0KWyAxMDIwLjUw
-MjI5OV0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2soc2V0LT5zcmN1KTsNClsg
-MTAyMC41MDQ0NDRdICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NrKHNrX2xvY2st
-QUZfSU5FVC1OVk1FKTsNClsgMTAyMC41MDcwMTVdICAgbG9jayhmc19yZWNsYWltKTsNClsgMTAy
-MC41MDgyNDJdDQogICAgICAgICAgICAgICAgICoqKiBERUFETE9DSyAqKioNCg0KWyAxMDIwLjUx
-MDUyNF0gNCBsb2NrcyBoZWxkIGJ5IGt3b3JrZXIvMzQ6MS8zMjM6DQpbIDEwMjAuNTEyMjM1XSAg
-IzA6IGZmZmY4ODgxMDAwNmFmNDggKCh3cV9jb21wbGV0aW9uKWV2ZW50cyl7Ky4rLn0tezA6MH0s
-IGF0OiBwcm9jZXNzX29uZV93b3JrKzB4NTdhLzB4NjMwDQpbIDEwMjAuNTE1ODkyXSAgIzE6IGZm
-ZmZjOTAwMDBjNTdlMjggKChkZWxheWVkX2ZwdXRfd29yaykud29yayl7Ky4rLn0tezA6MH0sIGF0
-OiBwcm9jZXNzX29uZV93b3JrKzB4MWQwLzB4NjMwDQpbIDEwMjAuNTE5NjQ0XSAgIzI6IGZmZmY4
-ODgxMDQxZGE4ODggKCZzYi0+c190eXBlLT5pX211dGV4X2tleSMxMCl7Ky4rLn0tezQ6NH0sIGF0
-OiBfX3NvY2tfcmVsZWFzZSsweDMwLzB4YzANClsgMTAyMC41MjMzMDldICAjMzogZmZmZjg4ODE2
-N2Q4OGU5OCAoc2tfbG9jay1BRl9JTkVULU5WTUUpeysuKy59LXswOjB9LCBhdDogdGNwX2Nsb3Nl
-KzB4MTUvMHg4MA0KWyAxMDIwLjUyNjY4M10NCiAgICAgICAgICAgICAgICBzdGFjayBiYWNrdHJh
-Y2U6DQpbIDEwMjAuNTI4MzM3XSBDUFU6IDM0IFVJRDogMCBQSUQ6IDMyMyBDb21tOiBrd29ya2Vy
-LzM0OjEgVGFpbnRlZDogRyAgICAgICAgICAgICAgICAgTiAgNi4xOC4wLXJjNGxibGsrICM0IFBS
-RUVNUFQodm9sdW50YXJ5KQ0KWyAxMDIwLjUyODM0MV0gVGFpbnRlZDogW05dPVRFU1QNClsgMTAy
-MC41MjgzNDFdIEhhcmR3YXJlIG5hbWU6IFFFTVUgU3RhbmRhcmQgUEMgKGk0NDBGWCArIFBJSVgs
-IDE5OTYpLCBCSU9TIHJlbC0xLjE2LjMtMC1nYTZlZDZiNzAxZjBhLXByZWJ1aWx0LnFlbXUub3Jn
-IDA0LzAxLzIwMTQNClsgMTAyMC41MjgzNDNdIFdvcmtxdWV1ZTogZXZlbnRzIGRlbGF5ZWRfZnB1
-dA0KWyAxMDIwLjUyODM0NV0gQ2FsbCBUcmFjZToNClsgMTAyMC41MjgzNDhdICA8VEFTSz4NClsg
-MTAyMC41MjgzNDldICBkdW1wX3N0YWNrX2x2bCsweDc1LzB4YjANClsgMTAyMC41MjgzNTNdICBw
-cmludF9jaXJjdWxhcl9idWcrMHgyNmEvMHgzMzANClsgMTAyMC41MjgzNTZdICBjaGVja19ub25j
-aXJjdWxhcisweDEyZi8weDE1MA0KWyAxMDIwLjUyODM1OV0gIF9fbG9ja19hY3F1aXJlKzB4MTQ2
-OC8weDIyMTANClsgMTAyMC41MjgzNjNdICBsb2NrX2FjcXVpcmUrMHhkMy8weDJmMA0KWyAxMDIw
-LjUyODM2NV0gID8ga21lbV9jYWNoZV9hbGxvY19ub2RlX25vcHJvZisweDVhLzB4NzcwDQpbIDEw
-MjAuNTI4MzY4XSAgZnNfcmVjbGFpbV9hY3F1aXJlKzB4OTkvMHhkMA0KWyAxMDIwLjUyODM3MF0g
-ID8ga21lbV9jYWNoZV9hbGxvY19ub2RlX25vcHJvZisweDVhLzB4NzcwDQpbIDEwMjAuNTI4Mzcx
-XSAga21lbV9jYWNoZV9hbGxvY19ub2RlX25vcHJvZisweDVhLzB4NzcwDQpbIDEwMjAuNTI4Mzcy
-XSAgPyBfX2FsbG9jX3NrYisweDE1Zi8weDE5MA0KWyAxMDIwLjUyODM3NV0gID8gX19hbGxvY19z
-a2IrMHgxNWYvMHgxOTANClsgMTAyMC41MjgzNzZdICBfX2FsbG9jX3NrYisweDE1Zi8weDE5MA0K
-WyAxMDIwLjUyODM3OF0gIHRjcF9zZW5kX2FjdGl2ZV9yZXNldCsweDNmLzB4MWUwDQpbIDEwMjAu
-NTI4MzgxXSAgdGNwX2Rpc2Nvbm5lY3QrMHg1NTEvMHg3NzANClsgMTAyMC41MjgzODNdICBfX3Rj
-cF9jbG9zZSsweDJjNy8weDUyMA0KWyAxMDIwLjUyODM4Nl0gIHRjcF9jbG9zZSsweDIwLzB4ODAN
-ClsgMTAyMC41MjgzODhdICBpbmV0X3JlbGVhc2UrMHgzNC8weDYwDQpbIDEwMjAuNTI4MzkwXSAg
-X19zb2NrX3JlbGVhc2UrMHgzZC8weGMwDQpbIDEwMjAuNTI4MzkzXSAgc29ja19jbG9zZSsweDE0
-LzB4MjANClsgMTAyMC41MjgzOTRdICBfX2ZwdXQrMHhmMS8weDJjMA0KWyAxMDIwLjUyODM5Nl0g
-IGRlbGF5ZWRfZnB1dCsweDMxLzB4NTANClsgMTAyMC41MjgzOTddICBwcm9jZXNzX29uZV93b3Jr
-KzB4MjExLzB4NjMwDQpbIDEwMjAuNTI4NDAwXSAgd29ya2VyX3RocmVhZCsweDE4NC8weDMzMA0K
-WyAxMDIwLjUyODQwMl0gID8gX19wZnhfd29ya2VyX3RocmVhZCsweDEwLzB4MTANClsgMTAyMC41
-Mjg0MDNdICBrdGhyZWFkKzB4MTBkLzB4MjUwDQpbIDEwMjAuNTI4NDA1XSAgPyBfX3BmeF9rdGhy
-ZWFkKzB4MTAvMHgxMA0KWyAxMDIwLjUyODQwN10gIHJldF9mcm9tX2ZvcmsrMHgyOWEvMHgzMDAN
-ClsgMTAyMC41Mjg0MDhdICA/IF9fcGZ4X2t0aHJlYWQrMHgxMC8weDEwDQpbIDEwMjAuNTI4NDA5
-XSAgcmV0X2Zyb21fZm9ya19hc20rMHgxYS8weDMwDQpbIDEwMjAuNTI4NDE0XSAgPC9UQVNLPg0K
-WyAxMDIwLjYxMDAzOF0gbnZtZSBudm1lMDogbWFwcGVkIDQ4LzAvMCBkZWZhdWx0L3JlYWQvcG9s
-bCBxdWV1ZXMuDQpbIDEwMjAuNjIwNTI4XSBudm1lIG52bWUwOiBSZW1vdmluZyBjdHJsOiBOUU4g
-ImJsa3Rlc3RzLXN1YnN5c3RlbS0xIg0KWyAxMDIwLjY1MjQ1N10gYmxvY2sgbnZtZTBuMTogbm8g
-YXZhaWxhYmxlIHBhdGggLSBmYWlsaW5nIEkvTw0KWyAxMDIwLjY1NjE2N10gYmxvY2sgbnZtZTBu
-MTogbm8gYXZhaWxhYmxlIHBhdGggLSBmYWlsaW5nIEkvTw0KWyAxMDIwLjY1OTc1OV0gYnVmZmVy
-X2lvX2Vycm9yOiA0MiBjYWxsYmFja3Mgc3VwcHJlc3NlZA0KWyAxMDIwLjY1OTc2Ml0gQnVmZmVy
-IEkvTyBlcnJvciBvbiBkZXYgbnZtZTBuMSwgbG9naWNhbCBibG9jayAwLCBhc3luYyBwYWdlIHJl
-YWQNClsgMTAyMS42NTY1NTVdIEtleSB0eXBlIHBzayB1bnJlZ2lzdGVyZWQNClsgMTAyMS44Nzgz
-NDFdIEtleSB0eXBlIHBzayByZWdpc3RlcmVkDQoNCg==
+
+
+On Tue, Nov 11, 2025, at 1:25 PM, Justin Piszcz wrote:
+
+> Absolutely correct!!  Luckily, I do have remote syslog enabled and
+> captured the errors that were not logged to persistent storage, do the
+> errors below point to an NVME firmware issue?
+>
+> "2025-11-10 01:42:51","notice","user","","machine1","[4043499.402974]
+> BTRFS info (device nvme1n1p2): scrub: started on devid 2"
+> "2025-11-10 01:42:51","notice","user","","machine1","[4043499.403000]
+> BTRFS info (device nvme1n1p2): scrub: started on devid 1"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.683686]
+> nvme nvme0: I/O tag 2 (a002) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.684742]
+> nvme nvme0: I/O tag 3 (c003) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.685778]
+> nvme nvme0: I/O tag 4 (1004) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.686802]
+> nvme nvme0: I/O tag 5 (c005) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712274]
+> nvme nvme0: I/O tag 6 (0006) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712483]
+> nvme nvme0: I/O tag 7 (4007) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712698]
+> nvme nvme0: I/O tag 8 (3008) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712906]
+> nvme nvme0: I/O tag 9 (5009) opcode 0x2 (I/O Cmd) QID 2 timeout,
+> aborting req_op:READ(0) size:131072"
+> "2025-11-10 01:44:53","notice","user","","machine1","[4043621.419061]
+> nvme nvme0: I/O tag 2 (a002) opcode 0x2 (I/O Cmd) QID 2 timeout, reset
+> controller"
+
+All of those read requests were dropped by the nvme controller and then the kernel nvme driver reset the conroller which appears to not work...
+
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.821452]
+> nvme nvme0: Device not ready; aborting reset, CSTS=0x1"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850059]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850351]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850630]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850903]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851173]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851440]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851705]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851971]
+> nvme nvme0: Abort status: 0x371"
+> "2025-11-10 01:46:34","notice","user","","machine1","[4043722.877036]
+> nvme nvme0: Device not ready; aborting reset, CSTS=0x1"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.941289]
+> pcieport 0000:00:1b.4: AER: Multiple Uncorrectable (Non-Fatal) error
+> message received from 0000:06:00.0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.942254]
+> nvme nvme0: Disabling device after reset failure: -19"
+
+And now it's going to drop writes too because the device is disabled.
+
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969046]
+> I/O error, dev nvme0n1, sector 86788096 op 0x1:(WRITE) flags 0x100000
+> phys_seg 1 prio class 2"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969083]
+> I/O error, dev nvme0n1, sector 464581888 op 0x0:(READ) flags 0x4000
+> phys_seg 3 prio class 3"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969128]
+> I/O error, dev nvme0n1, sector 45027984 op 0x1:(WRITE) flags 0x4000800
+> phys_seg 1 prio class 2"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969127]
+> I/O error, dev nvme0n1, sector 117882144 op 0x1:(WRITE) flags 0x1800
+> phys_seg 8 prio class 2"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969146]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 2, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969146]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 2, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969163]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 4, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969160]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 3, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969167]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 5, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969167]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 6, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969179]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 7, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969179]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 8, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969184]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 9, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969187]
+> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 10, rd 0,
+> flush 0, corrupt 0, gen 0"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972280]
+> BTRFS warning (device nvme1n1p2): lost super block write due to IO
+> error on /dev/nvme0n1p2 (-5)"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972938]
+> BTRFS error (device nvme1n1p2): fixed up error at logical 782844493824
+> on dev /dev/nvme0n1p2 physical 237354287104"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972957]
+> BTRFS error (device nvme1n1p2): fixed up error at logical 782844821504
+> on dev /dev/nvme0n1p2 physical 237354614784"
+> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972960]
+> BTRFS error (device nvme1n1p2): fixed up error at logical 782844821504
+> on dev /dev/nvme0n1p2 physical 237354614784"
+
+
+
+
+> Got it, I was running 4B2QJXD7 firmware on both drives when this issue
+> occurred.  Recently, Samsung released a new NVME F/W update 7B2QJXD7,
+> which they note "address(es) an intermittent non-recognition and blue
+> screen issue."  I've flashed the drives to 7B2QJXD7 and will see if
+> this issue recurs.
+
+That's probably the proper fix. The only other thing I can think of is there's a quirk for this drive that the kernel doesn't yet have, and therefore see if kernel 6.18-rc5 behaves better. 
+
+-- 
+Chris Murphy
 
