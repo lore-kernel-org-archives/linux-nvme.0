@@ -4,105 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D4E6CCFA18
-	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 19:40:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E24B0CCFA1A
+	for <linux-nvme@archiver.kernel.org>; Tue, 11 Nov 2025 23:32:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:References:In-Reply-To:Message-Id:Cc:To:From:Date:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oTBGjM1hxBPC3XrJPcevXldfIqkBQfy+2sLa6f5882c=; b=oNvfHycTO5u3X4/Bleb7gGymg3
-	kjzK8h7FA57UOs+8KvFtLlBKLwX/tlFJVNwHNNG2pNgBtr90gc+fthGYAKQJ51yMHTGzL05GdwJK8
-	lVJ5Y9U7uiXZp946/AVccy+zupAfETDNr2W+qXbCpHE9FsmPOVeumS9eLu6x1iVLVfm9nswaMiJj1
-	IPMlEHtRkKffoLGwhiRipVrhSZ1ZRiIe80IBvKvflA01Oe7Cp+BI2ZmSc5RarwnkAxTZXDy46sZf4
-	ZlNRUj6Ryk+sbmUZ1TTw/SN5Abehs1O8KFyHVShFqn1lNgryUY9yatJ1+AIvES54NAi5S18kuy9Bk
-	Dkot2KZw==;
+	bh=reW2+QwMotnq4rhXvXOoTeWOCmK4BzSaoNoYEKFE2Nw=; b=KiMX8AL2BSwAYYmikjpWRqM7o6
+	xIvX0nx2SUqlAumJWN/WzyBaSs80kHLwV4WHnMXA6z0lAdLoBqPbkg2qNYBN0l5F78ct1CmOqs7jZ
+	Pn9fecJtjTnn3iSOptx6bFhXU9lGj4TDcrvvYi96LPAa4bQQIQd57t4knTw5qDKakrtq2I1MDl+vT
+	7b7vjVDElzCchzLjYGJOSWmnBjoMsctqChnFDHFRE7r0rlh4yR5d9MM8vzNRYWyji9NnzgSM7QATC
+	G7+PjNTkt4Uw0W6KNGQbiHCts56k8XMY3zPGzIyYmDyFoOhQBCT2weY0THeEGg2UllYHss0FzySyh
+	jFOkaK4A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIuEM-00000007hVn-2JWd;
-	Tue, 11 Nov 2025 19:40:42 +0000
-Received: from fout-a6-smtp.messagingengine.com ([103.168.172.149])
+	id 1vIxqi-00000007smy-03TN;
+	Tue, 11 Nov 2025 23:32:32 +0000
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIuEF-00000007hVH-132c
+	id 1vIxqf-00000007sm5-3vtD
 	for linux-nvme@lists.infradead.org;
-	Tue, 11 Nov 2025 19:40:40 +0000
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3E76DEC0088;
-	Tue, 11 Nov 2025 14:40:33 -0500 (EST)
-Received: from phl-imap-01 ([10.202.2.91])
-  by phl-compute-01.internal (MEProxy); Tue, 11 Nov 2025 14:40:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	colorremedies.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1762890033; x=1762976433; bh=oTBGjM1hxB
-	PC3XrJPcevXldfIqkBQfy+2sLa6f5882c=; b=NozAeXAIo8siVLLRomX3zC1UtK
-	meQ5HrpHqY0pXUc5JDn63vpG/RKOorvDsYt8HKbNz59Z3zELVXgFM+3ssS/8Kfmj
-	f+5rMkRt1hC4E5XhiuPBEJ6zbQUXqv4WKlk9BYEpteTrnKY8jWYmdB0kcaYowIDq
-	UMNr38f47xxe0Xu3OH69xgE9uP5tnPB29XZ2RyXs0hQb+Nfvy22PglllZvIMeTMo
-	0hpkwusyllRSmumw1BbE6+2iC2vWjgViXfg3GC9PFMvIhDecjbAXS3mUdc9IdGc9
-	Y4NJE0bHvh40YdVSjTH0Yh00LnH/l1NbPoR+xLIm7EOxF2bNRxxKZmIeaj6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762890033; x=
-	1762976433; bh=oTBGjM1hxBPC3XrJPcevXldfIqkBQfy+2sLa6f5882c=; b=W
-	b8q+CbscEnsKTDzds+hwn4Z+pBu9X3LPFch4BupA9PMoiH5q3XG/IJwSmKT807Wz
-	tOZWlLi8VsIdqwElJKZNPxnlM1wQg2Ig9wHNioM+lNgPEk++jUN3Rk+awCuOIfFL
-	mJYJjKmW+SmNOE26i+74ZptAYVO6RJ7FQjCcit+E/OnZg3jzR8qA20n4P5HoHsr+
-	kJ4M3B9hwANQ6SiAoskYhBp4JAKSmJa2msjOgqYZnxJN8Yj8BLqn9Tuu9AZBY9Bb
-	nnIKvev0d9onBwgGkbyoe4s2NmrYAt1Nu+0SksAwh0WJJHtKFw2WpqWKF0fnfBjw
-	oYBIv+ESOwLibl/Nljg+Q==
-X-ME-Sender: <xms:MJETaci4nxk0G0xqNyZ7z2e_XCc88AASMWqSEC9vXZMigXAyGVEVSQ>
-    <xme:MJETaf0w9AyqbJGrx8kAyfzbyga5bQcniw-EUMiqli4TRTgFs6lskOqia9AzajdIH
-    p53L3zgPfwG0lDS6n1jhwNYbFuJIl1SULdXSS58siSclFS8Yc8AN3P4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtddvtdehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhrhhi
-    shcuofhurhhphhihfdcuoehlihhsthhssegtohhlohhrrhgvmhgvughivghsrdgtohhmqe
-    enucggtffrrghtthgvrhhnpefhuedvkeetudehgfethfevtdefiefgffehvefhveeuffef
-    vddtgeeiffelffelgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehlihhsthhssegtohhlohhrrhgvmhgvughivghsrdgtohhmpdhnsggprhgt
-    phhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhnvh
-    hmvgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehjphhishii
-    tgiisehluhgtihguphhigigvlhhsrdgtohhmpdhrtghpthhtoheptghhrghithgrnhihrg
-    hksehnvhhiughirgdrtghomhdprhgtphhtthhopehlihhnuhigqdgsthhrfhhssehvghgv
-    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvgh
-    gvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:MJETaaVxqXcecYmh1fpCKHXH8H8LYx4KVoI3kMigizMuRfpZKAmgsA>
-    <xmx:MJETaaTizAA3420Zy7PpuNudM3ZQlhjmyOVhvTTelFHdx8bkHk5V-A>
-    <xmx:MJETaYMyz9pkHUyz-SWUYFscElsTR6-YWqcBvLl3arTV9aAerfhOLw>
-    <xmx:MJETaYSjS2DuChgarXILsOm31aE5HF1h_iklnPpg4XUTa1OF1iXIXw>
-    <xmx:MZETabZodhesaWmZpx_m4V4-o_oGERCx41OhKD54ISrKj30VblcO-ZzU>
-Feedback-ID: i06494636:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B5DD818C004E; Tue, 11 Nov 2025 14:40:32 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	Tue, 11 Nov 2025 23:32:31 +0000
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-b731b176b5eso53284266b.1
+        for <linux-nvme@lists.infradead.org>; Tue, 11 Nov 2025 15:32:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762903948; x=1763508748; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=reW2+QwMotnq4rhXvXOoTeWOCmK4BzSaoNoYEKFE2Nw=;
+        b=ln4UwASY3OvmN53Dj6kXs7DJLUn6a+oJLQ6RPkoi5L6y78UIncJjzj9j4FszaA1KJf
+         q27dnnqYOt1rf+NwytqGoiBYUfcwpRufmrTJp2wZOdojuor6elmjKRzMfOWS4Yyi9fqa
+         tgX5+HBUaQpQf/EZFsJyN+y08HWIE+nmSp96Azo0PoIVo5JaYp1hCuyKx7qTRd/hvh7D
+         3VX3ydiIf2/LmP+8ifzS7hBfQC6/jwFb8ZNRmBhrbSAMBh1GAzpul5dMGF+pBZ2m3j5F
+         b1Cs5TZ9HfTFRc2Cwx9bAukHBVx+n2UYkDYMnwmFZ2gKqozPN8rbJUDsl3/8ANtCN04c
+         3d1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762903948; x=1763508748;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=reW2+QwMotnq4rhXvXOoTeWOCmK4BzSaoNoYEKFE2Nw=;
+        b=sdg3l0ITtuHlVMxrnn/Wcm8siisXXz6Rzet7As/d89PaYVzyF8oyK/vRtudS/vvZjh
+         7+GONByWOykqwacPpLsGfZ/fKP2y1uZHuQsCGhCR+LUYoJC8wP0PoFibPrKOg+IK70cv
+         Q4ecxS7Hjzb43SjywSz2xBH0OqbwbbRJ2llEz1kzcI88BK8Bl0mQbSOj6fHoP/9ObPdl
+         tHhTaiYfPwcnXIGD/LTziOpOi8b9lHpx3i5YdXmAKuvd/wezTqQyxlFPlNNXEv1LBPiS
+         P45Hn9QYnTDmqzEAdvAD3I6/d6HSydz6DjWwYhVakxk8mfxTHDJQHh1Esk8TMst7vOdF
+         2l7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVSI3UHbXsPiPJ0bLFZxQD5xdY7v8Gq0NY+Hg1WJt4HEhBawyhDxiuSyRn5TrWc2pDvA8zJJ58OJoyD@lists.infradead.org
+X-Gm-Message-State: AOJu0YwyjPRxiPc6BB5OvLr2AkMA6Lk3bgoe4WQiE7Q1KENDGQOpxnFs
+	/+8lTpUm/oErN67ankXHHZtb6Py1EHqW/OzAPLiUpGeoeaql9j4JebwcEN9WbC7XrITqxFyTeMz
+	7xz0tp8lnQ4D6vx983uKfRJoTc9AmXls=
+X-Gm-Gg: ASbGnctv1Ais412u6I5vEy1AcP8B3+e6Tu5Aav0GmbjQBpLIhXpL2u0ZasMVnrT2dwB
+	JXV1q49zMGkSyl7cAMlv3dVHsJwrtapMDDtWQFE4CvIIVCv7bmjJoaspNp27sj/H1CHgll6Cb8J
+	DuzOVzJnm63EKz/I0YhstloYulclHqhhsSr+KTc3p4cItSGTyTk1S3ezqQJNGlBmBmhBcTkmBRT
+	iMqjjXSIUf1K+4+iv5Rjb/M/5B0f110gm1c1CbOMvJx2rM4SdS2FRvjw0GI6eHiHziG3cODGoX8
+	teYi2jMbzu42+Fk=
+X-Google-Smtp-Source: AGHT+IG3uw/6uvxht4oOdjOmi2F/0iIWJjYLpHYKQRgvzBx8kPjRQz3Jwr7IzYxm9dctoyz/qQl92E43O8w/1V+hTsE=
+X-Received: by 2002:a17:907:a0b:b0:b73:21ab:7d52 with SMTP id
+ a640c23a62f3a-b7331aec3a6mr86591466b.60.1762903947511; Tue, 11 Nov 2025
+ 15:32:27 -0800 (PST)
 MIME-Version: 1.0
-X-ThreadId: ABlTi-3C1DAF
-Date: Tue, 11 Nov 2025 14:40:12 -0500
-From: "Chris Murphy" <lists@colorremedies.com>
-To: "Justin Piszcz" <jpiszcz@lucidpixels.com>,
- "Chaitanya Kulkarni" <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- "Btrfs BTRFS" <linux-btrfs@vger.kernel.org>
-Message-Id: <a383946c-60b4-49f2-a3d0-dda1a5b41117@app.fastmail.com>
-In-Reply-To: <CAO9zADydZ=WrHbeREhWfetAupvzewM_A9Sz0RV8tY0h9CctoFA@mail.gmail.com>
-References: <CAO9zADwMjaMp=TmgkBDHVFxdj5FVHtjTn_6qvFaTcAjpbaDSWg@mail.gmail.com>
- <e5a2b8b2-d4e5-42ce-9324-5748c5e078d4@app.fastmail.com>
- <1e4dd261-0836-4eea-b7fd-8dec9a7453d9@nvidia.com>
- <CAO9zADydZ=WrHbeREhWfetAupvzewM_A9Sz0RV8tY0h9CctoFA@mail.gmail.com>
-Subject: Re: BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 37868055...
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20251030035114.16840-1-alistair.francis@wdc.com>
+ <20251030035114.16840-4-alistair.francis@wdc.com> <8a236ca6-3675-461a-9166-4d4df3b5de08@suse.de>
+In-Reply-To: <8a236ca6-3675-461a-9166-4d4df3b5de08@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 12 Nov 2025 09:32:00 +1000
+X-Gm-Features: AWmQ_bnjMYteWvIi4UzpsvFmh0JZtTtuo3DyWXAbIQxcyV3jCUaeqoz-YrmZSTE
+Message-ID: <CAKmqyKO=W2+5ZBudWhN_L1choupte9vzJBEoxVeZ-vNHykeR0Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] nvme: Allow reauth from sysfs
+To: Hannes Reinecke <hare@suse.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
+	kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251111_114035_661123_1AB023BB 
-X-CRM114-Status: GOOD (  12.95  )
+X-CRM114-CacheID: sfid-20251111_153230_023000_F5561177 
+X-CRM114-Status: GOOD (  19.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,142 +98,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On Tue, Nov 11, 2025, at 1:25 PM, Justin Piszcz wrote:
-
-> Absolutely correct!!  Luckily, I do have remote syslog enabled and
-> captured the errors that were not logged to persistent storage, do the
-> errors below point to an NVME firmware issue?
+On Mon, Nov 3, 2025 at 10:08=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
 >
-> "2025-11-10 01:42:51","notice","user","","machine1","[4043499.402974]
-> BTRFS info (device nvme1n1p2): scrub: started on devid 2"
-> "2025-11-10 01:42:51","notice","user","","machine1","[4043499.403000]
-> BTRFS info (device nvme1n1p2): scrub: started on devid 1"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.683686]
-> nvme nvme0: I/O tag 2 (a002) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.684742]
-> nvme nvme0: I/O tag 3 (c003) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.685778]
-> nvme nvme0: I/O tag 4 (1004) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.686802]
-> nvme nvme0: I/O tag 5 (c005) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712274]
-> nvme nvme0: I/O tag 6 (0006) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712483]
-> nvme nvme0: I/O tag 7 (4007) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712698]
-> nvme nvme0: I/O tag 8 (3008) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:22","notice","user","","machine1","[4043590.712906]
-> nvme nvme0: I/O tag 9 (5009) opcode 0x2 (I/O Cmd) QID 2 timeout,
-> aborting req_op:READ(0) size:131072"
-> "2025-11-10 01:44:53","notice","user","","machine1","[4043621.419061]
-> nvme nvme0: I/O tag 2 (a002) opcode 0x2 (I/O Cmd) QID 2 timeout, reset
-> controller"
+> On 10/30/25 04:51, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Allow userspace to trigger a reauth (REPLACETLSPSK) from sysfs.
+> > This can be done by writing the queue ID to te sysfs file.
+> >
+> > echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/replace_psk
+> >
+> > Note that only QID 0 (admin queue) is supported.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >   drivers/nvme/host/sysfs.c | 31 +++++++++++++++++++++++++++++++
+> >   1 file changed, 31 insertions(+)
+> >
+> Please, don't. Currently we are using the same key for all queues,
+> and we really should keep it that way as we don't have a way of
+> specifying the key based on the queue ID (the TLS identification
+> is identical for all queues).
+> So we really need to trigger a replacepsk operation for all queues.
+>
+> I would suggest just allow writes to the 'tls_key' attribute; any
+> writes to that would trigger a replacepsk operation.
 
-All of those read requests were dropped by the nvme controller and then the kernel nvme driver reset the conroller which appears to not work...
+I think the `tls_configured_key` is actually the better attribute to
+write to as that is the one that updates after a REPLACETLSPSK
+operation, see v2 patches which I'm sending now.
 
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.821452]
-> nvme nvme0: Device not ready; aborting reset, CSTS=0x1"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850059]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850351]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850630]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.850903]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851173]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851440]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851705]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:14","notice","user","","machine1","[4043702.851971]
-> nvme nvme0: Abort status: 0x371"
-> "2025-11-10 01:46:34","notice","user","","machine1","[4043722.877036]
-> nvme nvme0: Device not ready; aborting reset, CSTS=0x1"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.941289]
-> pcieport 0000:00:1b.4: AER: Multiple Uncorrectable (Non-Fatal) error
-> message received from 0000:06:00.0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.942254]
-> nvme nvme0: Disabling device after reset failure: -19"
+Alistair
 
-And now it's going to drop writes too because the device is disabled.
-
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969046]
-> I/O error, dev nvme0n1, sector 86788096 op 0x1:(WRITE) flags 0x100000
-> phys_seg 1 prio class 2"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969083]
-> I/O error, dev nvme0n1, sector 464581888 op 0x0:(READ) flags 0x4000
-> phys_seg 3 prio class 3"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969128]
-> I/O error, dev nvme0n1, sector 45027984 op 0x1:(WRITE) flags 0x4000800
-> phys_seg 1 prio class 2"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969127]
-> I/O error, dev nvme0n1, sector 117882144 op 0x1:(WRITE) flags 0x1800
-> phys_seg 8 prio class 2"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969146]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 2, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969146]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 2, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969163]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 4, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969160]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 3, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969167]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 5, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969167]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 6, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969179]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 7, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969179]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 8, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969184]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 9, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.969187]
-> BTRFS error (device nvme1n1p2): bdev /dev/nvme0n1p2 errs: wr 10, rd 0,
-> flush 0, corrupt 0, gen 0"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972280]
-> BTRFS warning (device nvme1n1p2): lost super block write due to IO
-> error on /dev/nvme0n1p2 (-5)"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972938]
-> BTRFS error (device nvme1n1p2): fixed up error at logical 782844493824
-> on dev /dev/nvme0n1p2 physical 237354287104"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972957]
-> BTRFS error (device nvme1n1p2): fixed up error at logical 782844821504
-> on dev /dev/nvme0n1p2 physical 237354614784"
-> "2025-11-10 01:46:35","notice","user","","machine1","[4043722.972960]
-> BTRFS error (device nvme1n1p2): fixed up error at logical 782844821504
-> on dev /dev/nvme0n1p2 physical 237354614784"
-
-
-
-
-> Got it, I was running 4B2QJXD7 firmware on both drives when this issue
-> occurred.  Recently, Samsung released a new NVME F/W update 7B2QJXD7,
-> which they note "address(es) an intermittent non-recognition and blue
-> screen issue."  I've flashed the drives to 7B2QJXD7 and will see if
-> this issue recurs.
-
-That's probably the proper fix. The only other thing I can think of is there's a quirk for this drive that the kernel doesn't yet have, and therefore see if kernel 6.18-rc5 behaves better. 
-
--- 
-Chris Murphy
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
