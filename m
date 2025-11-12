@@ -4,92 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30250CCFA18
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Nov 2025 01:14:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A7FACCFA1A
+	for <linux-nvme@archiver.kernel.org>; Wed, 12 Nov 2025 03:03:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XZ2lc74KyVVrREG4zhB8cAjGo9u4ikhiO1Oyz21vwcc=; b=qb3mywdHOCyBJCSw8djGLlru0o
-	1OmEXHhYEa2bLiPC4SfLQbbPegg0JFIKm+4vn1eWqfDkqHy6of+E1oAJls3Oq/Ot1UnzYhx0Jmm26
-	EGHdnROJQy/pw1laXXSe+7Ws0/iVs4hgkro74TI7y98hhHkecB6+hc268WeJ8546IcqnaQ720Iyap
-	bL+bR+xQZbpHnkXDmsF2ebKZrRmgHzwjlnbBiHu8viwxwpCBe+NHV2H8HlvmdGQshL6xFQxbU8z2K
-	EDpi4ZJIGRZUeIO2ZMWyQuSpb76aNdLh3Fi/zSu0jekAw5RggkGiqXBoyButMQW/XIdYU4QEsB/E3
-	UKJVjrsg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hypucH3nwi7sIRx4cO3BPgg/9v1vYBJciDfCLA2cc3A=; b=gvQ38a4GmDqtzvcG8CP5DE11Iz
+	l2ag1zmbtazdbk69x9WVmTAuZ/bqOvlejYcpUAmi+/StkyFhlySmPSBS9r1SWbnJA3dTbwlyOdWQ2
+	dskXY47BYjzzrzmeBNFIwI3OhBTimWrctSWPzJFmcuOuazwFSVzMtHq9a17cXKwCVC36JVjyNis0B
+	SPcw4J5NQea+HZUwkISOkEGmok/l8fy4aBPPgeX5KEUMV6E4yx/erY2a7qtwOXQAnIirKzWyQ/dwi
+	ZkYygcjEYO19HYoCMvukzuwkGzaR1oTbElNuvvXrzYiMgHiig+dTG1hjmSCBYzZFEmpUxOdMRfn+4
+	s63SR8bA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIzQx-00000007wvK-2t2N;
-	Wed, 12 Nov 2025 01:14:03 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+	id 1vJ18L-0000000839n-2xYi;
+	Wed, 12 Nov 2025 03:02:57 +0000
+Received: from mgamail.intel.com ([192.198.163.19])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIzQu-00000007wuy-14j9
+	id 1vJ18I-0000000839O-0WAN
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Nov 2025 01:14:01 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-3438231df5fso352715a91.2
-        for <linux-nvme@lists.infradead.org>; Tue, 11 Nov 2025 17:13:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762910039; x=1763514839; darn=lists.infradead.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XZ2lc74KyVVrREG4zhB8cAjGo9u4ikhiO1Oyz21vwcc=;
-        b=UAROafRWapZQzhNU9yfFUvZD1U9xQiQ189A8PFS3xADdzLN1vCjRcLu7agXG9RxujL
-         Sz7nJ+5IgHPEcMzwU4gN/YGiEbAB9fzP4rCM8G16EQsCMEqWeX6F6HvymndtqCbgOCjH
-         jAO807Fr8VBLm4NMJbcgArtZJnSGJecJJqyOq8QmLFBKSYvKHdmXELmd8q14TZPU7ye4
-         yqnQiwJoj7ZZKWcuW5uC6lP3uzk9T+AaYRlHIeOgxlg8gEmD9vyfsudA3G/tA4mmx3Kg
-         diipMCdYuX3/WAtsSeZozI3b1NJqNMcBOE2/exsl4A/qeBDpAy3IWLSVG5+FHaIqJwY4
-         avrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762910039; x=1763514839;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XZ2lc74KyVVrREG4zhB8cAjGo9u4ikhiO1Oyz21vwcc=;
-        b=PbP1mM7An/lQw+D5EE8f+f+XgSOZ5Le9VxGHTRS6vr3WPjYkBhY9FGUhD/6BMq4PBJ
-         Wtb+b7DdEGyao1LGAuIMTWaf9vD1ssv8//jUbGe5CLHfqyBkcRqzBYtmsxyH0mjUo2Pd
-         F9sORGhhwP38GH84SYt9rhBvAiaPi38NZhWH1yNKSR1F1z2HDnkjQDHDdhak643zyEC8
-         Cp299jYqHiIEnPLGGIZCje58URAT1V/OrsQcqh/4r8Pq/rK9gdq/wNbh0q4JhdL0H52e
-         RUje09zoqGnCm9GKPO4KpT+LKTlI31PHi7VEc12c+rtYRsRdJ4eQS7As8XLNHfjSql06
-         TT7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVKV2M1wvBp47O7VgLz2Nlj6RFENq4K1se5AZy4qhqVsIHJYa06LKT/H4akMk01Hb68R29a+2xgB+P0@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx3Fuoca7tOfW2DyOsN3K921Nk4S++qWKeD+8g9htIKnh3MAHYd
-	l2+fIdVdAbFpwwrANV+pu+1qZqfcz0H0uTVrpit7NIOHohiZq7/U1+d7
-X-Gm-Gg: ASbGncv0T2ut+T/cC1iGvrCGBdCPOCxzrabUQqHRHdPUd/FvFHJDi06Vaexdz4EXqHi
-	uGa0C7uO8PvA5CHY5TJHewSA3aVTCFXFZ/9JGxPUL5Zc7X7ne1j1Nxok6LE6KedsC9L4yQp9O2G
-	+jkhqWeDGc7A62u0tDVD0Oe4Mz2ONiEGm3KxQyW2N6S055NXIP6OTb9heyUo7x58AYXT9hCVTRD
-	BiG9XgRnpFY8qYV/JuJ/JXSgSXltSva+HVe9nSmQcW5J/rD+EtCyxQtC2TGoUX1r+EvwCHNmjDI
-	JxDGWYl2Ao7ljWp4NcZ0CYSgk9nbKrudhGbRP4+jBbYO7jWs+zeahpRBFEsGqolk2COB97D8WWd
-	5grIJ4sAQbzOD1Lac5xUJvMmggxhiWAe95RaD1fOOJvCASIkR7Hl5a+h2hJEYxsqjd8ep5Hlctd
-	e37368K7+GCnvNSgI=
-X-Google-Smtp-Source: AGHT+IGmVXVOcEk+++9gYdT5vZS2t28n1mKBeSL++XpbAzlWU13n2vU3KLOXhWUVeVvZFIiya3Zzsg==
-X-Received: by 2002:a17:90b:5252:b0:343:5f43:933e with SMTP id 98e67ed59e1d1-343ddeadf56mr1617088a91.19.1762910039035;
-        Tue, 11 Nov 2025 17:13:59 -0800 (PST)
-Received: from [10.224.102.62] ([134.238.36.70])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343e06fbc0dsm448403a91.2.2025.11.11.17.13.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 17:13:58 -0800 (PST)
-Message-ID: <e9ed25a049ab88bb976f1b625d659c568434d93a.camel@gmail.com>
-Subject: Re: [PATCH v2 1/4] nvmet-tcp: Don't error if TLS is enabed on a
- reset
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: alistair23@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
-	sagi@grimberg.me, hare@suse.de, kch@nvidia.com,
- linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
-Date: Wed, 12 Nov 2025 11:13:53 +1000
-In-Reply-To: <20251111234519.3467440-2-alistair.francis@wdc.com>
-References: <20251111234519.3467440-1-alistair.francis@wdc.com>
-	 <20251111234519.3467440-2-alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	Wed, 12 Nov 2025 03:02:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762916574; x=1794452574;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=0CzASL4FQtni4BE+5yAo9I0TqTLhNXvwqY61AaPkOZs=;
+  b=gzbD2Tf3vr8NxFOl/PAhgdAEULOdWZ5gnxxl2TTxf7G6qW8Wtda8RA6C
+   o3NV6vyyCnhCFH+MdnkSFkfC2fIKJQHCsyPXiM6thLQSjgdJD157//fED
+   R12BDEyA7TY3KFureNEYC4orXdF8SfA1rEa2TnTHD4gwnbVPZMhY5gDH5
+   fGr+lF/kdJ1sHSTOGv+sddD51my2iwgpq8eH2Z/ULo2bc3yOxshf7ZJKi
+   5fxRmNowUZA57vfo0iRuHiZPHOfKIVtH7VQDz4ncYsE0mgy++idmy0KLl
+   6WX6bjO7eqYgLwedBZywFoWqKWbIPvV0XcqropSFj9L6NvG8bauI0/xKo
+   Q==;
+X-CSE-ConnectionGUID: gh+csyV6T4qPmArpOf5VLg==
+X-CSE-MsgGUID: cmf+wsVwQRaPEWpKz4pjBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="63981341"
+X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
+   d="scan'208";a="63981341"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 19:02:53 -0800
+X-CSE-ConnectionGUID: vPPwIXwoShCC59bAM+JeaQ==
+X-CSE-MsgGUID: mJrBIcSfTDGkGIwwzBS3AA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
+   d="scan'208";a="189531161"
+Received: from unknown (HELO [10.238.2.7]) ([10.238.2.7])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 19:02:49 -0800
+Message-ID: <a101fe80-ca0b-4b4b-94b1-f08db1b164fc@intel.com>
+Date: Wed, 12 Nov 2025 11:02:47 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] lib/group_cpus: make group CPU cluster aware
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, virtualization@lists.linux-foundation.org,
+ linux-block@vger.kernel.org, Tianyou Li <tianyou.li@intel.com>,
+ Tim Chen <tim.c.chen@linux.intel.com>, Dan Liang <dan.liang@intel.com>
+References: <20251111020608.1501543-1-wangyang.guo@intel.com>
+ <aRKssW96lHFrT2ZN@fedora> <b94a0d74-0770-4751-9064-2ef077fada14@intel.com>
+ <aRMnR5DRdsU8lGtU@fedora>
+Content-Language: en-US
+From: "Guo, Wangyang" <wangyang.guo@intel.com>
+In-Reply-To: <aRMnR5DRdsU8lGtU@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251111_171400_299030_4AD351C5 
-X-CRM114-Status: UNSURE (   5.72  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251111_190254_178131_3AF70BB7 
+X-CRM114-Status: GOOD (  13.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,13 +92,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 2025-11-12 at 09:45 +1000, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
->=20
->=20
-[...]
+On 11/11/2025 8:08 PM, Ming Lei wrote:
+> On Tue, Nov 11, 2025 at 01:31:04PM +0800, Guo, Wangyang wrote:
+>> On 11/11/2025 11:25 AM, Ming Lei wrote:
+>>> On Tue, Nov 11, 2025 at 10:06:08AM +0800, Wangyang Guo wrote:
+>>>> As CPU core counts increase, the number of NVMe IRQs may be smaller than
+>>>> the total number of CPUs. This forces multiple CPUs to share the same
+>>>> IRQ. If the IRQ affinity and the CPU’s cluster do not align, a
+>>>> performance penalty can be observed on some platforms.
+>>>
+>>> Can you add details why/how CPU cluster isn't aligned with IRQ
+>>> affinity? And how performance penalty is caused?
+>>
+>> Intel Xeon E platform packs 4 CPU cores as 1 module (cluster) and share the
+>> L2 cache. Let's say, if there are 40 CPUs in 1 NUMA domain and 11 IRQs to
+>> dispatch. The existing algorithm will map first 7 IRQs each with 4 CPUs and
+>> remained 4 IRQs each with 3 CPUs each. The last 4 IRQs may have cross
+>> cluster issue. For example, the 9th IRQ which pinned to CPU32, then for
+>> CPU31, it will have cross L2 memory access.
+> 
+> 
+> CPUs sharing L2 usually have small number, and it is common to see one queue
+> mapping includes CPUs from different L2.
+> 
+> So how much does crossing L2 hurt IO perf?
+We see 15%+ performance difference in FIO libaio/randread/bs=8k.
 
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> They still should share same L3 cache, and cpus_share_cache() should be
+> true when the IO completes on the CPU which belong to different L2 with the
+> submission CPU, and remote completion via IPI won't be triggered.
+Yes, remote IPI not triggered.
 
-Wilfred
+
+BR
+Wangyang
 
