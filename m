@@ -4,88 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CCDC6CD6E43
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 12:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 127C3CD6E42
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 12:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3p5IabBvXdkXZ7+EGubMbHl6mikKS/LG8xMUC3eAH00=; b=jGdNZ6MSXtvDJR+69rWy950TsV
-	m2WnWUKHnHJnq6uKlgDfLSQSh8QJSUs4ZyhXnEDk22X7kPiCcGbeWrTCpjv0jIT3ZwpymdEHHg9Lc
-	ofral1Nu76H1SJl1hwoHxDYskcfHivq1vm9JaPaUtB7eBRl8MveiUZw28yEZ/wflujw6NPn+9OLeG
-	c+MD6h9g5nkZYxbT0WInS4Xlik0cEqgTMuwFLe5CaGsZfxkht+BfSOIvAXx0rCC5QcL90whqnm4Dz
-	p4228wL77n+3zPEKS5OqZ1J+Cmle1fM8YQpst4giL01gyiZEbXe6ewsh5/09+ZWIlss+X74zELmDJ
-	ff0yQrGA==;
+	bh=96n00582KRfAzbP9HmUAwW0SECp6ktvz1svZCc5/Luw=; b=sk1ZS8ETfKCcKnaXDa/zsoLzmD
+	uHbmQoTIbRhb4IQJTAHBlhicHLx1YDCLfQhGwdpz0xEZMunCjFp4+J2pRyU3d7r7aQBSGyxzclCeq
+	9fYcoCKg+x0iLGiMiiXkS5RGO/3QwMVbxLW5UCBtiz/fB5Vb/wcSgRzpgjpux4Z9CdnaOGf3Kt33E
+	SbejELTdfQSUXBnxDry79teI7B8US90+rIynitGSBC/O4ZQe+MWQFqFhrWiRS/rUfA9/S/QXeiJUN
+	27uWd6K4Bpvex6Z6ZveLxJCkmOz8ez+6mPUHOy/Bn3WxSPJhyVkWGR64HyoXH7kWP82PbJ5mxzNUU
+	i9EvjTng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJWLc-0000000ARav-3r3B;
-	Thu, 13 Nov 2025 12:22:44 +0000
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+	id 1vJWMv-0000000ASdA-28RH;
+	Thu, 13 Nov 2025 12:24:05 +0000
+Received: from mail-yx1-xb12f.google.com ([2607:f8b0:4864:20::b12f])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJWLa-0000000ARZM-1b7n
+	id 1vJWMp-0000000ASal-3hqh
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Nov 2025 12:22:43 +0000
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-b72cbc24637so129626866b.0
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Nov 2025 04:22:41 -0800 (PST)
+	Thu, 13 Nov 2025 12:24:04 +0000
+Received: by mail-yx1-xb12f.google.com with SMTP id 956f58d0204a3-63f97c4eccaso665837d50.2
+        for <linux-nvme@lists.infradead.org>; Thu, 13 Nov 2025 04:23:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763036560; x=1763641360; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1763036639; x=1763641439; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3p5IabBvXdkXZ7+EGubMbHl6mikKS/LG8xMUC3eAH00=;
-        b=HQlNWWjqTTDIEx5UM3hqaX37mVFckUResIkZtLRihqreuzQi35gPemu/9/iP3OfHP2
-         FkZyfrs9COHyDD6wP2bqtFTeYvGs+4zWbkglDawGEpP/e6rc2S7wuD761nr/b7yh82il
-         xzvPIejwwC0KQQlq4PX+ame/L4bxwpas5+M5//mx/KXEh+9/0VhFXmr75JgcYamgXLIj
-         mSbACaENOoMAbxZWCzXmIgZIMhlL+NNnSnBHPR8iKEBnTBdmT8OcfuBtdNDGxe0gb1Rk
-         l+35uUIZuv9/q1RsXBW9nPRuZhrfVVYnQk7ddhGMMSSocfuU+DKeNHTUnkaEuKMG1MTJ
-         fMpw==
+        bh=96n00582KRfAzbP9HmUAwW0SECp6ktvz1svZCc5/Luw=;
+        b=VurIqHCM+3Ie2NVenoZxyv6fiwfZTs7cHeWBp9nEa9RBwePfS03F80KWdT4mZoAFPh
+         eevsq9VwebVPS9/iZwVLWs2Sb5jEPGkd5UgDHoYTBfby0UWpjGWttPbc3Fu/icAwsXJZ
+         k3WKZM2Z+8+pqUEpR2tdIf98nScaR7wQixDpQ9i1cU8chdWQukXOjtyctLV5shACVLIy
+         55v5uskB9TQ//bHmbl5Bojpvd8Ks2xNseSaFAoJQ9RIrVfIOpbKxNKzAyrmJZT5PDeZl
+         GU0gRSjYuapwAmWu5g5kU7cYY5FfAjODMDQmpxq/ipl9EftNlH55QS+Z+zWKsFHYo9/2
+         fXoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763036560; x=1763641360;
+        d=1e100.net; s=20230601; t=1763036639; x=1763641439;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3p5IabBvXdkXZ7+EGubMbHl6mikKS/LG8xMUC3eAH00=;
-        b=fjZR5p3MOioTF1j1FX55Bl9sl04FWCx9NMLRe/sLPYS3ZDqxKpFz0a1YEetG7M4Yac
-         HmD/1wT0KVCNCR2HWhLI9Y+/Ml4zqwyRh92wGJtV9KMSCShKvwFCxqA7e7MNbNIQ9Qlg
-         DYEjxeJue0pXhcwVGfiIoSKdty0uUDNl7Z8gP3kUWkeiVsbwIt25p9w3eXICKrbFymGb
-         97bYDyS+hrnR9Fq7UQLRK/GntXqv1UP97XyXWJGaohHB/5dBz0mt1RXfQz9m+WINu9Fh
-         dVISG1DQ/kE49nqWhLUR2BcjTulvDzPJKYeM4f4HnGoOBu0Xjqlw/qwgtY6hM9CSfEk7
-         Pb0g==
-X-Forwarded-Encrypted: i=1; AJvYcCXW/uPnobVEvydg6L7Rv5BcELx1+2bUhiHdiHhtjK2nRtEOhM2h/MtyKCY7MI0iuLydBXjwkwvDOUII@lists.infradead.org
-X-Gm-Message-State: AOJu0YzW2ww9ugqzlugmrplbFY5inwMnqzX3eAkzI+ihHaf+LfVZYHTj
-	8TOTWFujcmOduPxGPnuF0LDRL/Yxb4MXUpKp5DTRsrmLG68nf9aWUC2zPFl4I+FxlWpOZ4pl3IH
-	VgAPHOLPNvYfx8Cs5TnJ4Q34q3hMbCTo=
-X-Gm-Gg: ASbGncteXXwHJ/rMiKdwkq4uj4IhWGaRrJSJJtou3ORsNIKkEm12UErRkZ9Fzf0pFk4
-	kQSja2hBNwiDmA526omTJNHDcfFcutetysoETURFVsAiKh5b1Hhxvdhj/CSMsxiqcZWE0lemTxE
-	541OlIuBFv7meWJYLmd8FYUHu+vEvPdsk6/mvJQB9BAxytSEKs1Y8EosMZg4cDs1d06ba0+wm/c
-	IXeShxI0MAjpOER3o+egYlMgiDVHrdMLSFsNt2FYXUgrZQoMhd6SnMqwxLeZ/u4FlNhfUl8W+tL
-	ebl4Ht0oBI5zA9NbhVMh7QWHwQ==
-X-Google-Smtp-Source: AGHT+IHajWmOUi5tVirqZttadrxPuDW8EgmHs+9YBUIXUMLLZEAk7AvCdaI53LFV6WjAMP90FcJnMv5O+DsAooIz/88=
-X-Received: by 2002:a17:907:3f23:b0:b42:f820:b7c with SMTP id
- a640c23a62f3a-b7331a6c6d3mr650622166b.41.1763036560109; Thu, 13 Nov 2025
- 04:22:40 -0800 (PST)
+        bh=96n00582KRfAzbP9HmUAwW0SECp6ktvz1svZCc5/Luw=;
+        b=EqtQP8wd0GvS9aXUO+/G+w4weTAURVMiNeVYT7Ew0rGDJfM5cyk0iN+vzpUMlxcHKf
+         eSx5WZLVHcX5xYWua9iBq0HOeyKW7hHcCLsvW9pi/9P4+itP3S/8Z/8XRu2olrQxoRZ9
+         6iYKMz46yrGzsKszOwGrLgm3viNDa72J+5lHrbaX035HaKjktgQwYO5YL8CgTok/MBIm
+         qngX222ysCVAyYnIm1RlcTvyugRIECQ2h2O+pDIGncnIJIDyaFw2cMgOx7aPHnvNNX4g
+         jue4OXiw+h/nVzWqlsVzQzPW2KwbaknRzshAXwkXbebwxiYaKC4LyGVzD9J8uMOgJXX5
+         6s3g==
+X-Forwarded-Encrypted: i=1; AJvYcCX2WFymsLRQbALrErVOBa+5Ef/whTyH40KhI9xkSIsjMjSITToZ0XT6fBgmkkkhg2pPJZzZtsUtUEms@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxdc1Kcx2HG9FRCquodLGs+avwUMhV/y1HW60rCaABkMDmNRIi5
+	rtMdLRyQOgR8xHoXU0B3/PKPuVJh5hgP6oEYnyqmU8eW4dz3FnBAoznNagSLHkrMkh6nPJCaa5L
+	RSslE14m81n5xQbzrU0HW7M05VlgTMGA=
+X-Gm-Gg: ASbGnctZ1UykshkCrpmBnCgsTXw2PwXxG3Pf7oX8lL3BBP5RPFBagS3HECckBe7zIMm
+	G/XnMUl6kgMW0hCS6VBoLh98mNoh8DFao1EdwoZeiaHIgTCQ8yyGnG5RbgUabP/kcRz8lKIS/0j
+	hFwDa4wkKwf/suKQHSlX0C0a2MYCjh7s5xNmHxEfjuBVBUL3XDVpRwZUJlQFHXkhdTIKyDTdRsf
+	Poou0uaDrWpMjHbngU5XSBquzx8SRBmaMCguQiQcqy6FXbyZLof5xRm/AcHPh0OGHLNJrPqmzXK
+	4MqmkH8d7TR5p7c=
+X-Google-Smtp-Source: AGHT+IGyWmfE8lnNSETzpsam1FziO25e2MZBJM9bAC2smHtK+EvCnDtF+WCQIw4wVIWrdLrFAFWemlz3Bj1M+g7hA3Y=
+X-Received: by 2002:a53:d047:0:10b0:640:d009:e998 with SMTP id
+ 956f58d0204a3-64101a0b2bdmr5030018d50.12.1763036638749; Thu, 13 Nov 2025
+ 04:23:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20251111234519.3467440-1-alistair.francis@wdc.com>
- <20251111234519.3467440-4-alistair.francis@wdc.com> <caadfcbb-8964-4447-a93d-8e49b4c14c7e@suse.de>
- <CAKmqyKNzi7OAq49b-aa1H8++ReTvWnHKBDwA88ionJshhOVp9g@mail.gmail.com> <2019e372-c079-4230-97ba-a3299ced0474@suse.de>
-In-Reply-To: <2019e372-c079-4230-97ba-a3299ced0474@suse.de>
+ <20251111234519.3467440-5-alistair.francis@wdc.com> <20251112065653.GE4873@lst.de>
+In-Reply-To: <20251112065653.GE4873@lst.de>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 Nov 2025 22:22:13 +1000
-X-Gm-Features: AWmQ_bmAssFXEqhTauCGTaWw-0uu2B0mXfE1GiVBD99ZnIinb6qgcFh4JAAHSvY
-Message-ID: <CAKmqyKOBr2eV6AeWH6SHz_UX4ciKgdf3zGJ9LMHEOuFz55kO+A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] nvme: Expose the tls_configured sysfs for secure
- concat connections
-To: Hannes Reinecke <hare@suse.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
+Date: Thu, 13 Nov 2025 22:23:30 +1000
+X-Gm-Features: AWmQ_bm2ZdiPzFPd48NGdHsGyOt4QuKhzjv2Kb9fjvNcUPYkKnuCpretzVc_oKI
+Message-ID: <CAKmqyKN8nv+D1BzDTAm4AayM0NgWWUY8Z7-o2Ru6CSq7nU9ECA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] nvme: Allow reauth from sysfs
+To: Christoph Hellwig <hch@lst.de>
+Cc: kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, hare@suse.de, 
 	kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251113_042242_454313_D401ABB5 
-X-CRM114-Status: GOOD (  29.07  )
+X-CRM114-CacheID: sfid-20251113_042402_127645_C2127DD1 
+X-CRM114-Status: GOOD (  13.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,85 +98,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 13, 2025 at 5:21=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+On Wed, Nov 12, 2025 at 4:56=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
 e:
 >
-> On 11/13/25 03:08, Alistair Francis wrote:
-> > On Wed, Nov 12, 2025 at 5:08=E2=80=AFPM Hannes Reinecke <hare@suse.de> =
-wrote:
-> >>
-> >> On 11/12/25 00:45, alistair23@gmail.com wrote:
-> >>> From: Alistair Francis <alistair.francis@wdc.com>
-> >>>
-> >>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> >>> ---
-> >>> v2:
-> >>>    - New patch
-> >>>
-> >>>    drivers/nvme/host/sysfs.c | 2 +-
-> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> >>> index 29430949ce2f..6d10e12136d0 100644
-> >>> --- a/drivers/nvme/host/sysfs.c
-> >>> +++ b/drivers/nvme/host/sysfs.c
-> >>> @@ -838,7 +838,7 @@ static umode_t nvme_tls_attrs_are_visible(struct =
-kobject *kobj,
-> >>>            !ctrl->opts->tls && !ctrl->opts->concat)
-> >>>                return 0;
-> >>>        if (a =3D=3D &dev_attr_tls_configured_key.attr &&
-> >>> -         (!ctrl->opts->tls_key || ctrl->opts->concat))
-> >>> +         !ctrl->opts->concat)
-> >>>                return 0;
-> >>>        if (a =3D=3D &dev_attr_tls_keyring.attr &&
-> >>>            !ctrl->opts->keyring)
-> >>
-> >> ??
-> >>
-> >> How can you have a configured TLS Key for secure concatenation?
+> On Wed, Nov 12, 2025 at 09:45:18AM +1000, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
 > >
-> > I'm not sure I follow
+> > Allow userspace to trigger a reauth (REPLACETLSPSK) from sysfs.
+> > This can be done by writing to the sysfs file.
 > >
-> > `ctrl->opts->tls_key` is directly set at the end of the
-> > `nvme_auth_secure_concat()` function, so it will be set for secure
-> > concatenation.
-> >
-> Right, sorry. Of course you are right.
+> > echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/tls_configured_key
 >
-> But I'm still a bit unsure about the interface here; just writing
-> anything into it doesn't feel like the correct way of doing it.
+> This now takes absolutely any write, right?  I think we should at least
+> be strict to force some value, and document it.
 
-I'm happy to change that.
-
-I was thinking a bool, so basically write 1 to trigger
+Yes, it now takes any value. I can change it to a bool-ish (so write 1
+to trigger)
 
 >
-> I would rather modify the interface to allow a key serial number (or 0).
-> That would allow us to modify the configured key, which currently is
-> fixed for the lifetime of the connection.
+> Which reminds me that Documentation/ABI/testing/sysfs-* is missing a
+> lot of nvme attributes it seems :(
 
-Wouldn't a configured key (`tls_key`) be changed via the tlshd
-interface, not writing a key serial to sysfs?
-
-> And writing '0' would reset the configured key, reverting to automatic
-> key selection.
-> Having such an interface would actually be beneficial, as it would
-> remove some limitations from the current interface.
-
-Anyway, I'm not sure your vision conflicts with allowing "write 1 to
-`tls_configured_key` to trigger a REPLACETLSPSK"
+Yeah, that's why I didn't add this one. I'll have a look at updating this
 
 Alistair
 
 >
-> Hmm?
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
