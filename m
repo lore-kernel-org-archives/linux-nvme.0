@@ -4,64 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB2BFCD98D2
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 19:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 12862CD98D0
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 20:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4UIAf6yBqFv65Lk+izH88Z+n4NE1MsebK/TU6t59mwY=; b=KbBdZKnxwUEynwPPlA63jUsEL1
-	/Yld3xwlXZ/FqRRCACjtAioNGahEkJamzJdCxvm4JOnOfRwSnNhp09/34xh6QU0MoSx5DPvga3LAs
-	ozzxabmscGZSjStm6/bzh+k1Oecw9ag3i1SHg+cIusmUY+j2BfqYNRFhDTszDFf2AGB2ac9WpeJ/E
-	RDKwlqrOD65NaEgYsD8qqvLtB0Grruvfgcph5SNJoqPfdvOAd+yjfzsq8qRC5tjUsUIAqpAj1Ix7L
-	VqybqfYJHbQeOvIrkB0qRyyO1IGQ6rpglfmnwMntOmm1z17BmMgBPLqulvsNiiDARO9fUADIWOCt6
-	yPgArEzA==;
+	bh=VIyLS42qOIPgbAl+g85RFFHDxN6iYSGrqionhuMIQ4U=; b=c1Phyg0ztCy6REYdZm4yKN2ZoN
+	B/M6V4mnO1WD+Yvkq0uELCB0YRLxjOG5OShrWt+D2aq0BOT+xPrfN93I7a8b/NywL/WSTWKkNn7UK
+	DbhtQTo5kcY19KFgEgbaOAGPecTQxkxmoO6nXfCwkppkuVsUXyt6i3oB5bFsXSDkrGr5w0+gNYc5a
+	bK3t/OIf2uSzkY65pq0YdUGIudOJ6AsfFdYj9lvguzBdk63+NUa/fJ8QvL/4ApcJLRvcGRuEh3dq/
+	rJQ/aOUHWrg29d/mffWFWRpCcSJ3T5zj4ON4H3Ajq3Z7OyQ1Cjs+jFMF1QHn/UES/TEjDNCmoI2tw
+	UW2PuITg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJdMl-0000000B2g3-1rOS;
-	Thu, 13 Nov 2025 19:52:23 +0000
+	id 1vJdXm-0000000B3dJ-3QCO;
+	Thu, 13 Nov 2025 20:03:46 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJdMi-0000000B2fh-1Hbf
+	id 1vJdXk-0000000B3d1-26L9
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Nov 2025 19:52:22 +0000
+	Thu, 13 Nov 2025 20:03:45 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 25F6443364;
-	Thu, 13 Nov 2025 19:52:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A566C4CEF8;
-	Thu, 13 Nov 2025 19:52:18 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E4CF143E18;
+	Thu, 13 Nov 2025 20:03:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F03A2C4CEF5;
+	Thu, 13 Nov 2025 20:03:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763063539;
-	bh=QbTUe6a1+4aEbxz3ZqTrn1EgdpNUmW80HgS3yuxDreU=;
+	s=k20201202; t=1763064223;
+	bh=VIyLS42qOIPgbAl+g85RFFHDxN6iYSGrqionhuMIQ4U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N+vNXREOvbzwz9oe5TmZlFRg8Ktk0X3UM/yagsN9Y+pfojKv3kDTQQ609dXj6Uckl
-	 EGvM8cFZ0C9jhYfFrh0/hkyuniIJXN3py43mvikWFQcRGoRL5H7+0DMtjzrLL17OLP
-	 bgvDfPlKONVssTXYe7BONJTPLHuKaAkMq2+R4O5+7MxCQbLxCMscI7XVcdoaXPzXYq
-	 1utYXcMWIZAFtgTEcsIOs3OXjUVFxJdrTg25wH0oXkXnk0EULF50nJ4aQsZmFwqT01
-	 wV6O/FrUSLicfHTaqBqvaGyL+cWr48y4eRs9Cu6UpeHd8wvpGCy8s9Ck0LrCOp6GJy
-	 ab6No2JhtE6Ww==
-Date: Thu, 13 Nov 2025 14:52:16 -0500
+	b=ca0g4caxtzKZ02bma6BpHfrhKpEFzRSLqtvL9987Imx7HhuGqao/TltL2duV4X4i+
+	 ccQsQBEHEZTh30kdwuTwCJ4C2oEJtd4v/QvVFJw6mzbBjjjMG9ocjRtEbxNhYsH0V7
+	 ifFXw0DSAxBQEaWD6nnvooKN4W2nYLGbmsETf2beBoxlUR+S9zF3OFO21J20bHzUDx
+	 3m2pM6CISksTcmIfQrSEE74jqAlsHr7Ohio9r5fEZaNhdxPe4AWCmOnDPaVaLe8i9Y
+	 JCWe6CqAPdenbn71OWVvWr70dqupWd9iCwIKB7TBngjUXaJ/mJ0YRbQFAThZBWr1Fm
+	 zmtt9bOgtTEZw==
+Date: Thu, 13 Nov 2025 15:03:40 -0500
 From: Keith Busch <kbusch@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Leon Romanovsky <leon@kernel.org>, linux-block@vger.kernel.org,
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
 Subject: Re: [PATCH v4 0/2] block: Enable proper MMIO memory handling for P2P
  DMA
-Message-ID: <aRY28IRvBFmTW6cz@kbusch-mbp>
+Message-ID: <aRY5nCvNnQk4mMCT@kbusch-mbp>
 References: <20251112-block-with-mmio-v4-0-54aeb609d28d@nvidia.com>
  <176305197986.133468.1935881415989157155.b4-ty@kernel.dk>
  <cec91b1e-a545-4799-97c3-676e3b566721@kernel.dk>
  <4f75497d-11cb-437c-ab90-d65d4d2e0a52@kernel.dk>
+ <20251113195008.GA111768@unreal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4f75497d-11cb-437c-ab90-d65d4d2e0a52@kernel.dk>
+In-Reply-To: <20251113195008.GA111768@unreal>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251113_115220_389434_17BE36F1 
-X-CRM114-Status: GOOD (  15.65  )
+X-CRM114-CacheID: sfid-20251113_120344_576985_9EC1DE70 
+X-CRM114-Status: UNSURE (   9.08  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,33 +78,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 13, 2025 at 10:45:53AM -0700, Jens Axboe wrote:
-> I took a look, and what happens here is that iter.p2pdma.map is 0 as it
-> never got set to anything. That is the same as PCI_P2PDMA_MAP_UNKNOWN,
-> and hence we just end up in a BLK_STS_RESOURCE. First of all, returning
-> BLK_STS_RESOURCE for that seems... highly suspicious. That should surely
-> be a fatal error. And secondly, this just further backs up that there's
-> ZERO testing done on this patchset at all. WTF?
-> 
-> FWIW, the below makes it boot just fine, as expected, as a default zero
-> filled iter then matches the UNKNOWN case.
+On Thu, Nov 13, 2025 at 09:50:08PM +0200, Leon Romanovsky wrote:
+> Can you please squash this fixup instead?
 
-I think this must mean you don't have CONFIG_PCI_P2PDMA enabled. The
-state is never set in that case, but I think it should have been.
-
----
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index 951f81a38f3af..1dfcdafebf867 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -166,6 +166,8 @@ pci_p2pdma_state(struct pci_p2pdma_map_state *state, struct device *dev,
- 			__pci_p2pdma_update_state(state, dev, page);
- 		return state->map;
- 	}
-+
-+	state->map = PCI_P2PDMA_MAP_NONE;
- 	return PCI_P2PDMA_MAP_NONE;
- }
- 
---
+I think you should change pci_p2pdma_state() to always initialize the
+map type instead of making the caller do it.
 
