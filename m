@@ -4,87 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 574CACD3445
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 02:08:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3D00CD4F37
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 02:16:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=t65DqIpLR2XJc52MvkU8Zhi1oYYMgA74171ikGaz3IA=; b=K8MSE/3DgnVXEMgo3i4Oz6I8e+
-	9UD3QEF2QfuoaXWvoUHPtWsWxEo6WAY8+NNludaW9mvg2AJragVsk2zsXPu3GZL8EMDdEz7rQCaMF
-	yW4F3dSB9fSbwvBLqlMxJ0SIh1qLb7ZQ73F24sJO7QfWZOrRwJd9hrvRB+ybzzbdXGIkcD6XXNOFk
-	DHazpg0DP/QHfKmtrf5t0eNgzebOk8BIqcJqJsLKr+Z4C85pTO5zDHcDWx8UiCCOtjawinr7NRsRS
-	90aBDg4if28GLDdBgaIEkL80n/6ZE/bL8cuOhhkLFQPWOHBg90dec9Pf2eJgWszpH7JQOLKUKPZBY
-	/oZItRag==;
+	bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=; b=ot6w2JO9Ws+m+aKer67h/a+Coz
+	EHAiybvxggnAAVIAckqyVa1tjSe8Hcj/0nooW0cvFDBZ05eYT/zLfvvDJTNRR3CCPSHSivtkOeAM/
+	gnAMJIVjH/9lK425NoOK3I9L2v8QmejDv9hdJIv9Kf/s3CrFN2iuB/g/ueQOMCcwgPDFp2PimsPZG
+	TN7twswz5Jbma/NIgght/15IGX069hZui1Nzj5Oa9EG6U48z8LRd+YCCdwCFObTt8T9UZZkHOgZxj
+	7fZjc1MYUdPdvQmEZXOTLPI/zXLI1aaZCzeLChO5IpdK4L0w3qf/loyY9RC0XkiD1D0fjSVEXE/Ee
+	OYb/ytew==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJMlS-00000009mgu-0Uc8;
-	Thu, 13 Nov 2025 02:08:46 +0000
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+	id 1vJMtG-00000009n0t-0FJ5;
+	Thu, 13 Nov 2025 02:16:50 +0000
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJMlP-00000009mgT-1FuJ
+	id 1vJMtD-00000009n0W-1A0K
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Nov 2025 02:08:44 +0000
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-b728a43e410so40229066b.1
-        for <linux-nvme@lists.infradead.org>; Wed, 12 Nov 2025 18:08:42 -0800 (PST)
+	Thu, 13 Nov 2025 02:16:48 +0000
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-787da30c53dso3257817b3.0
+        for <linux-nvme@lists.infradead.org>; Wed, 12 Nov 2025 18:16:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762999721; x=1763604521; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1763000206; x=1763605006; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t65DqIpLR2XJc52MvkU8Zhi1oYYMgA74171ikGaz3IA=;
-        b=WL2fjUJc3voSxyaC1HGDtzWJC1WwjGyEwcOFMZNUSzmpvxbb/ifBtjZ01csS661rYS
-         S08gN4eXAA6L/amg7UOTedULKALL+lEBxS8tlbl5XrC0fGu9iVkby3OUYXYMlaORotb1
-         E5Q+JcE40nYvkkgWZ21kJGaPQr1OyLoR139Q2yuCxHFXMcnpjAzivU521RRduMw8+6mI
-         rlSKHrmzZRTcUkwxvYaCSJXN0Ls49b8pY3ebdlngUMOO3fGHBXfKb7BAm3ugU+DN0LSc
-         e0iAHQvJrA+lxtfqfTnS1mUqqGAMnWdgsmCzVOYX4wZJCBEDVV0sZydUkNNx8zztpCex
-         SFwg==
+        bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
+        b=VxVZtKU7ae5Dnmw2CgVVJys/tkJCVOa47xFrv7qVBTkJ65uCfVQ+2m7SMhHaWL4zD4
+         lsNlvnanLF6depbJbO8EGh6vj4/mwoVGLCMlksgNZtw6QpCuS/jAtDy3VGUL0dmCghsX
+         SiauYHrsUMacC50lNDItL2tKd4ZNfyCVJ+1mDyx5j0Bmfmoh5pA/u2HJcWQurg4+lEyO
+         Hlhdyqe0vnemLhyyvYIMefDN2rnuJtZyG99QTbyGW3nAg5m0reSsmLzzAjlZLQPjI4eO
+         5cUHS8+XfLEBuItxnc7NK2J16RBlq5Zeq9PyuCRyM+0LGIrxMOD3X9DNmkv/ypptqYFK
+         OfsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762999721; x=1763604521;
+        d=1e100.net; s=20230601; t=1763000206; x=1763605006;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=t65DqIpLR2XJc52MvkU8Zhi1oYYMgA74171ikGaz3IA=;
-        b=RH/vtWg03ZB0k9+UKK+A229rPhQBi3JTbZaWGn9RdQiH1Im5Hurb+LSt1qL7kEsPBW
-         wXPoOGmw8pQganOB/DurP+BH+F36M0RQCVoebo1IfvT2lMmkwBbmdGAg9DtmW3ZwCPG+
-         sLUG27SGz0ElwElNOR6IojPkxiryxw3QT3ZvHds2zCM8gFaBEFqjVK2kMyBMR5laNg/e
-         Kcaq3sLmuKIcL1Ibu/oLwrZsNtAua7ozEFTfHHGk8EbkBYQ1qE1jYKS9tBV+1K5SrAd/
-         gzyETov8VrONxPDn24dZodXnOTgr42M7K2B2tprw61H0p4ThIBQS1fEWXVS1qthFEcBe
-         fYKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZuFqwuhSoTXq+hgzMby9WE1XIhv81qZUY0d3ZAwEsOwIaqf1if3fw8cgU187JaPQNwm6iLm2uWGRC@lists.infradead.org
-X-Gm-Message-State: AOJu0YwJB0fwWuLZImH28QTq42uR2i951G6XnwZlUg+HKr2U2VMLtKw0
-	Jf/uKTuiBo+IB9o5sEhWvCNHM8e918Xa6YOe39OhJcGoEVuwP9NTFjHFKADBhCZajKmAaQTkSAF
-	OlEX95Yl7BGhFKPfRNQiezAeClmcGe+c=
-X-Gm-Gg: ASbGnctZbjNEvPy+dI6NSaby2M9NpNWrwQXSN9pA/1yFXbZWkZ578HVhApY3I6uQkxH
-	HFCXZZDG6H44EEcQTEnljzKDwHVT6ub6K/KpF9niogxb/pgobi79D+r5cNefGEKH65ak2v+MlNQ
-	dbV1kdBruMbTsBFrP1k0Pqw4iFD5Yx874BqXCfhkMhS+0zd+/c8mhlsSQ4FvH3YT2kf0ICjBKSb
-	ieuGsX0oahN29LHtoN3z1cW2VZLGdTHhInDXh0tVuqZTqZN32eWKdKrBvqs3W9e+tZA92UT5W63
-	sxQ25MTfeGJzqmc=
-X-Google-Smtp-Source: AGHT+IFyNWhr/4Git6cscpcGTem+aU8tvSmWDpBf45NHHKnDkHzsi0qx1de/+ZvskwSE8Sn5fra35DX3byqBpX8Be5Q=
-X-Received: by 2002:a17:906:6a0a:b0:b72:b289:6de3 with SMTP id
- a640c23a62f3a-b7331af6e23mr526654966b.58.1762999720784; Wed, 12 Nov 2025
- 18:08:40 -0800 (PST)
+        bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
+        b=vRcoffpZ41UIVj5aYczyhwsSXzaIWvajGxUyFOcyVWfk19Y42A4nhXWEZCSvEUZitn
+         tHtYFjQD3X5f1HuUuOlR4ZdZ7sCIhXJeLE9CSetw/Xx0uOJMisHcm/Vak3XsYf7m2AY3
+         oli3RgarpeIDu9aad9vdbmqrwvC7QQ3rAF0RjDk6opvRZ4ms8787knaONZVZ4M9RatD0
+         6gO3OTJOOgqJ6dtLYI0tWm37ce7b/+pnthI5FnCFv2Yvo8EW3AMgHkuJqN24YCnS607V
+         uOYBesCSPSy7fImJ1cLiQ30lcEAKldb2qvisLGlCKEIfxffgAyKhuMa9tbF7y201BuK5
+         6PPw==
+X-Forwarded-Encrypted: i=1; AJvYcCWJuKqyAdyxNpenURwDOi42nb0NChaGUrLW53X4C2w81H4Qf0moarhQGvAYjzSpMTy9FSlZG8D8++tp@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz9A8BGCXMN3Psu/rvpsHxbzb4BsZtGnJCm26T0njgzxNxGCD02
+	udpybG1xBBW51FqX8vcGMBzCTODX3mW87O+UcEzEbfLr16NoQbY7uFOfJlFw/dHv9clWCiDjKeK
+	nY2FrYYJHeMejD7gxnCmwWGW1F19H1GU=
+X-Gm-Gg: ASbGncs/MpibZGp0Rul1gYanhI9OPpi4QHZuxooXza+vIBjZxDGF6z7T0g00tgA8EH1
+	9J6blL5Y5U79zAKr52EjWDItnN7SaX0y3Ri/6Ym8U576OrHz6d+XxyX3yC3jSo7yC2qDMFI9i+j
+	+mv1iuxTgVFnG3VY9C+aH/5IOXjVzQGyzeLXlb50mQduRT7xK+y2XClRqQ19Wub+zTENq3Bu2io
+	brntRf8DbdleuVqApbPfNx3WyUzY0jFGDf9VERQac1qcFzdOL7hmwyhtcJyZ9gW7odvHu9h18AA
+	H2fA93Zjzrdo8f9x7qx/mVg36A==
+X-Google-Smtp-Source: AGHT+IEoQGXbDOXpCMV0uLppel/d5OJBdh/BTOE0WrwFdCg3bNRboPUEkEHpLZDtG4hlmvXsyGaHqhvMoipnvR4oKDg=
+X-Received: by 2002:a05:690c:5301:b0:787:f72d:2a57 with SMTP id
+ 00721157ae682-78813626ef9mr34068247b3.15.1763000205991; Wed, 12 Nov 2025
+ 18:16:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20251111234519.3467440-1-alistair.francis@wdc.com>
- <20251111234519.3467440-4-alistair.francis@wdc.com> <caadfcbb-8964-4447-a93d-8e49b4c14c7e@suse.de>
-In-Reply-To: <caadfcbb-8964-4447-a93d-8e49b4c14c7e@suse.de>
+References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+ <20251112042720.3695972-5-alistair.francis@wdc.com> <3438a873-bda2-4a1c-af8c-76e31a200c79@oracle.com>
+In-Reply-To: <3438a873-bda2-4a1c-af8c-76e31a200c79@oracle.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 Nov 2025 12:08:14 +1000
-X-Gm-Features: AWmQ_bkFf-G8MuLmGZPhefsEFyG89yAqq4VscB5fW2rNoawjSt9VITO75ff2oo8
-Message-ID: <CAKmqyKNzi7OAq49b-aa1H8++ReTvWnHKBDwA88ionJshhOVp9g@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] nvme: Expose the tls_configured sysfs for secure
- concat connections
-To: Hannes Reinecke <hare@suse.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
-	kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+Date: Thu, 13 Nov 2025 12:16:18 +1000
+X-Gm-Features: AWmQ_bmGVjeLJyvzqCH0oIhjJJEC9KDxsd28wVqF9yRjrr2nfAiVpGZrrJdTjQw
+Message-ID: <CAKmqyKOj_vB3dwy2CO2JacL-w6WSm-2HYHuikndsLfYCQvwZNA@mail.gmail.com>
+Subject: Re: [PATCH v5 4/6] net/handshake: Support KeyUpdate message types
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: hare@kernel.org, kernel-tls-handshake@lists.linux.dev, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-nfs@vger.kernel.org, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
+	sagi@grimberg.me, kch@nvidia.com, hare@suse.de, 
 	Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251112_180843_371949_E51630F3 
-X-CRM114-Status: GOOD (  19.24  )
+X-CRM114-CacheID: sfid-20251112_181647_346387_630D4D4E 
+X-CRM114-Status: GOOD (  15.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,59 +101,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 12, 2025 at 5:08=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
+On Thu, Nov 13, 2025 at 1:49=E2=80=AFAM Chuck Lever <chuck.lever@oracle.com=
+> wrote:
 >
-> On 11/12/25 00:45, alistair23@gmail.com wrote:
+> On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
 > > From: Alistair Francis <alistair.francis@wdc.com>
 > >
+> > When reporting the msg-type to userspace let's also support reporting
+> > KeyUpdate events. This supports reporting a client/server event and if
+> > the other side requested a KeyUpdateRequest.
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
 > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> > v2:
-> >   - New patch
-> >
-> >   drivers/nvme/host/sysfs.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> > index 29430949ce2f..6d10e12136d0 100644
-> > --- a/drivers/nvme/host/sysfs.c
-> > +++ b/drivers/nvme/host/sysfs.c
-> > @@ -838,7 +838,7 @@ static umode_t nvme_tls_attrs_are_visible(struct ko=
-bject *kobj,
-> >           !ctrl->opts->tls && !ctrl->opts->concat)
-> >               return 0;
-> >       if (a =3D=3D &dev_attr_tls_configured_key.attr &&
-> > -         (!ctrl->opts->tls_key || ctrl->opts->concat))
-> > +         !ctrl->opts->concat)
-> >               return 0;
-> >       if (a =3D=3D &dev_attr_tls_keyring.attr &&
-> >           !ctrl->opts->keyring)
 >
-> ??
->
-> How can you have a configured TLS Key for secure concatenation?
+> I was not able to apply this to either v6.18-rc5, nfsd-testing, or
+> netdev-next, so I can't adequately review or test it. Is this series
+> available on a public git branch?
 
-I'm not sure I follow
+You might have missed Hanne's "nvme-tcp: Implement recvmsg() receive
+flow" patch that is required, it's mentioned in the cover letter.
 
-`ctrl->opts->tls_key` is directly set at the end of the
-`nvme_auth_secure_concat()` function, so it will be set for secure
-concatenation.
+You can find this series, Hanne's patch, a few other patches that
+are all on list and some extra patches I'm using for testing and debugging =
+here:
+https://github.com/alistair23/linux/tree/alistair/tls-keyupdate
 
-> We generate the keys from the DH-CHAP key material, don't we?
-
-I haven't checked that closely, but the key seems to be generated from
-the CHAP hash id
+Just remove the top commits from that branch to get just this series
 
 Alistair
 
 >
-> Cheers,
+
 >
-> Hannes
 > --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> Chuck Lever
 
