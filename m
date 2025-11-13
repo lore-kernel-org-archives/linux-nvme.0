@@ -4,173 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D1BECD4F24
-	for <linux-nvme@archiver.kernel.org>; Wed, 12 Nov 2025 23:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC3F8CD4F35
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 01:39:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V22S4ApvPcoBMyalvw7Tm4VMkKW/KXMo8VSwqD8hd2A=; b=HIWuKCEEpdOBAze10eL2jcY9bb
-	Yi3Hyw42e6Q5xGV1XY+ECEUARa3gNLYBgvrUQTD5prCR5M3DfiK01zpwdpKSG2X9SuDQrVldFWxEw
-	woihJXgNKkxLiPZAH5TIzkAikyljgnI4r8MOH71rbxotveIxQpDDSB4jU+DXKUYFC0jQfSd1gWhN0
-	7NE5bug4eLnwUsqDD7n0odD3+nM84dSUiKXFZTERjR9jht6Z59MP5ZHPehuSWe1p08JiDd5CPSKp1
-	NcEdaTHMejjUPuaLcfyBtZp3xry/aFPOScTc9Zn2DHQOsRyG0PCK2moD0RxsHJtvGO6odikzjKgRU
-	WON8KKng==;
+	bh=YE3L5VAgzoQWOHqB3Rk/jnMG/XnJ1XD/9vBp3BPJiDk=; b=wLv0w8bWV6iJdH0YEbXDfm+w0a
+	Yo7q/tqlnU44yTadhRykUBX9aFSBFylV0JO/Er7s3roS5eH066BjPx3P4yVFofk65fw+Y98bSEtUu
+	DB48beFjKmA0zBepbWBIk5/YHoEggRn/JLcqKPkmHLupQ+Hj3+9Gbz4GhG4mpZ73/bCl/ymVin5zD
+	VFpUR+V/Qvz0PJIVmdy6ErMaRJi0SRZ2R2M/SIexV/uiiQmijtdadjjdBAc3OAzEVGvg8yrcHi7uA
+	9e5TN2KXMRx/6rkzf3wRkO7GrZaQuWL94M0MwE1omkYlBijV1vAI2ijImNwDAVKtQFyNnChUXDoFS
+	eiUC6KbA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJKiy-00000009cX8-0zgn;
-	Wed, 12 Nov 2025 23:58:04 +0000
-Received: from mail-westus3azon11010005.outbound.protection.outlook.com ([52.101.201.5] helo=PH7PR06CU001.outbound.protection.outlook.com)
+	id 1vJMJ5-00000009jFy-2feQ;
+	Thu, 13 Nov 2025 01:39:27 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJKiv-00000009cWZ-39vZ
+	id 1vJMJ2-00000009jFQ-0zv1
 	for linux-nvme@lists.infradead.org;
-	Wed, 12 Nov 2025 23:58:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MJGdd89UqLV3e9V95yNzAMW3PYKfytXr4foIiWPR6FUwhvKblMQpIsDXlJD3tlhlZccaapde7nF4gKCYdqQQkVK4ghoohQISbdes7j83yQpbrWb+Sp5dIOdYl1hob01laTvmY47PcW+kmJ4psCFCv7iJfDBN8ah69ZB2sFCAl4hv7K70dc6GLxzYA7KqaGaxl7zehDRqGmIiXAUL4fEI/wtEGOp5QdWazWHKVJRqilrHH4CfzC9xsGnV85ZKf9V1Oh0Ah2g90BPgLkvzCftSR6Ad0CT72cl0XQOy+sERuSgP5BkJ+gGuO6MUIRzHaOFlJTRsmdIZubb/17vyRg7nRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V22S4ApvPcoBMyalvw7Tm4VMkKW/KXMo8VSwqD8hd2A=;
- b=oRMQwXuuqTbRUUq+8VrDbGr4QMwQBrz4FUL/VejQFJAVPSS9omk3QiDtAA2LXclBPasfyqASd9Ye7+AoyGat/WfHWqsmW2qNT5Xl8FYDbw08RGNsKFSIDqBk694Qy6eu8zzMZs4+Ba0b7XyxQC00wgqOPDZV3oVjToRrjh2VSGuo4v6tNFyAzZMXY/RYFCD6mRWyIGjVwjfRfIs96Fbl3GgP9AlZMKj3A2iRVotUJiiaCSypgTSOgHa/pASAMo8EJQ+iw1lxHrjYWXEgEJXBLe9a7/90Tuy4m/pNzGYqKBycca+8fJc/RKjqYb5s+x5pzP8uDCHCINJAcPnG3owZCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V22S4ApvPcoBMyalvw7Tm4VMkKW/KXMo8VSwqD8hd2A=;
- b=Y9hc9BlFmueFfF7jm70bWT4H80tzhEji1ZqGH51AyRT/dWF/OamQuG+rC9S7x7mF1BETm77EW0UTmgMWa9FMHqyck1ENEX7G98uU8Zt+HsbuMIgKc0AF/TB9WmVhuhjpirL7zWAHjLW8v/5F1/wxp+oRek4SSiOCC+nbz5WoZeTFWa+v2nNWt28tIpTe6i33J+aL/y+5H8/JV8i4dMf0Ux+pCd06TXFJe+a7loENscRdTrESnM/XObsTLIy7HOjTWYxzN9fJcThpmeE2ztajv+uyIueeQwTdeOqdiZCLOKCyTCme1+h3JU3QkdJcjNPzNWupv31QwdSNV+RaQqHY6Q==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by SA1PR12MB7248.namprd12.prod.outlook.com (2603:10b6:806:2be::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Wed, 12 Nov
- 2025 23:57:58 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.9298.015; Wed, 12 Nov 2025
- 23:57:58 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>, Keith
- Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH v4 2/2] block-dma: properly take MMIO path
-Thread-Topic: [PATCH v4 2/2] block-dma: properly take MMIO path
-Thread-Index: AQHcVA1pHdetE5cvZUG9C6tYBW4zArTvuDuA
-Date: Wed, 12 Nov 2025 23:57:58 +0000
-Message-ID: <982324f4-b8a5-4c53-a799-bbe75f7a0e30@nvidia.com>
-References: <20251112-block-with-mmio-v4-0-54aeb609d28d@nvidia.com>
- <20251112-block-with-mmio-v4-2-54aeb609d28d@nvidia.com>
-In-Reply-To: <20251112-block-with-mmio-v4-2-54aeb609d28d@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|SA1PR12MB7248:EE_
-x-ms-office365-filtering-correlation-id: 391ac327-2913-4f5d-7530-08de22474e3f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|10070799003|38070700021;
-x-microsoft-antispam-message-info: =?utf-8?B?QmRUbmUxdEJyUE1sVkg1TGtPNnpPUGZzNzhVbTNqSEpQQ0NWanZmUEpMNVlR?=
- =?utf-8?B?TFZOaGRWQ2o0b01lS1dxT3FrSlpkbEwwV21FQXRJTUpFQ01pRlhmY2ozc05u?=
- =?utf-8?B?ZTB4TUJJbkJNVkVsaldWRm93OWNaUEtxVUxWa2FUSVZ4L3AwNWNXZE1IblRq?=
- =?utf-8?B?MUpIQkg1alZNeHJQSmdMdXo4MmtBL0dMK3NRcWthbGpYcG4xOUJJQlE2Ym40?=
- =?utf-8?B?SWMvaTU2QXZvYTFaeC90dzdlV0czbUh3YUtOd2pFM213dnk1ODU0cEkxK1ly?=
- =?utf-8?B?MW83dGpKWCs2UExHWFQ2Z00raU5ETDlxR1d6NW53WnNOV2tKbXczejVjVzBQ?=
- =?utf-8?B?VG4rd3pjQWxsazlkZDNRNkZzWW0rS1ZTRnoxQUdidGhwZTFGOVAxWHh1NjdD?=
- =?utf-8?B?MlRJeWNHY3pub2JUWjlHVE1tYVRYaXcyT1M1T05aL1RDNGhjbkZWbEZpRkFa?=
- =?utf-8?B?WFdxTUZndDdjMjNxNXpISFZkc2RTYzFLTlRwQlVHRDdtbEF0RndFd0p5OUlM?=
- =?utf-8?B?eW1oNllOV3lCQTZIa0MrS3FHQVJDY0EwWW1LRHp1enhZZmNESHhhaUJmR3A2?=
- =?utf-8?B?dkJ4OHdJdDZQd1JnOGhOSGJHemVOUDZKcWNvYnllTGtjaTFYRkhub1k3dVVT?=
- =?utf-8?B?cUdFajUwNDhQbnVqUjhLYVR6ZDg1VGFhU2ZoYnpIYW95ZjRrM2o4NnJWRVFH?=
- =?utf-8?B?REtCY1I0YkJkQUJKaW1UWVFpRlliNldPS3VaWmN1YkxDTEtPWUNXNmoxNWFn?=
- =?utf-8?B?LzQzRXpLNU1RTGJSanJjQSt6ODlNYnZhVlVnUzQvM3I5bDRuUE4yd2lwVmVG?=
- =?utf-8?B?b3J2OFJoQUVFaWk5ZVFXQUtYUjgzVTRtWU01NmFwNFFSUU5mQ3R3YlhZd05o?=
- =?utf-8?B?c0NFUGZHM25oYzJhU1ptcFdnN2xicVJNK2JVMU55VXdycTRxSmV5Z1ZqN1VQ?=
- =?utf-8?B?aHB0MFdZTmV1Q21UWWFZV1lQcUhYSzU4Q0doeU9Dek41Q1NtSFVlRm8rQWVz?=
- =?utf-8?B?elc2Sm9lV2haTWFpa3BWZDBLLzlXTGtBenJjeGE1eHUyQ1kvcm03Q0l1RjBp?=
- =?utf-8?B?Q3N3UDB2OFVucGlVdXhqaDROTnltTnJTYk5UNkE2S2laSENQc1NyY2dFZFJ0?=
- =?utf-8?B?WE8wUTJIMGY3MXVtUHdJaXI3SGRSS015d1RNQjQ5aXUzU1REeTE1QlhpZ2Vt?=
- =?utf-8?B?dlhKWjdTVHVXRG5nVnlHNGRKYXlJZGs1VmY5N1Q4a3RCUytRV2tpOXM5Nm9W?=
- =?utf-8?B?d1lvVjFVRncvb3VlWGZXNmtCTW1Gc0svZG9PWlVtcU1HNmRWMHdvS2xUQWxW?=
- =?utf-8?B?TWJTMnhIS2dObjF6R25za2RLdHQweGs1SlpFNDQ4a3o2NThiank0a0UxOWRM?=
- =?utf-8?B?bW5sci84NzlnQlNkd2dyL0JBcDF4U09QMit5VkFZdVhVb3RneVlJQ3R2V0Ns?=
- =?utf-8?B?emQrTTlVN1pLU0xjZURuMEE0K1FYOTFNU1VUa242K21jZW8ydkthaG5PMGo0?=
- =?utf-8?B?QWpBaHduSzlBcWlhS203VWl2cTRwK3k3ZWU5TFZTa3NCd2lyak9PeXloTld5?=
- =?utf-8?B?Z2FGNytUQTFmSDlpeStDZWNQSHdBeWZqWmNwN0JmUjJyV1RXYmpkaDB3WTNr?=
- =?utf-8?B?dnhvWk1mMTgxZW5uY3RYUUw3NU9xWGJTbk05L2tVbHc4Zm0vWDBOcXBiYm5r?=
- =?utf-8?B?Z0ZqT2RtUTREOVJlRkRFdmRyekV6dlhablZkb01VRm1aVk43S3d2TDExclVi?=
- =?utf-8?B?eG04alBYNFFDa0U1QnRNYzkvMUZkWXJjbUFsaDNKL0dSTUR5S21qSHNGTnhK?=
- =?utf-8?B?WktHS29xUTlWcVJ0UkFTeFJFcHo1ZTFEUWFWNzdtdldYbkRONGlXVUtYRWVw?=
- =?utf-8?B?TmRKNlZ3dmVrSmtsWVgzK1l5bndxRzNyeFBNd245TVpNRldUVGg1RThGU1Jq?=
- =?utf-8?B?dllpamxBZFZwOUtWUWxVWE9hZEhwOVVEVEFqL28rSUFVb2Z2c0NiUGg3ZVI1?=
- =?utf-8?B?c0p2ekxpLzlQdFpzMnJpVmJzTm9OUi9kUjZleWJzbm0wUTRRcDlSSFFwUVlh?=
- =?utf-8?Q?bW0rEo?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eHJTdWVaa2FlcTZIQzh5S1IrVjNuZGFNbS9xT0xSSm0wNW1WdkgwOU1SaERh?=
- =?utf-8?B?eWdBTElzWTQ5VmRmVDc1azdzcFk2UDVKNjZmWktpVTZFZFNqRTYvejcrb3lT?=
- =?utf-8?B?ei9wR1JFY1A2VFpVaVgvK0l2cFNxdFJ2M1FNSyt4QlU4ZlRnT1l4ejJpV2lS?=
- =?utf-8?B?YUZ0TnV3R09KWGppTk5TeWxscUQrS0pqSWtKaThkSkI3U1VWekhibGhtMFFw?=
- =?utf-8?B?OXg0MnBRUHNDZGt0a3RpM1lGQ29oU2ZTbmJ4Nk9xemdQcStpbjROVE1SbzIr?=
- =?utf-8?B?azJ5Ky9CbjZSazRWTlYwaEwvWDMyTGZuYVlzU1hLbUw3SFc2b0tPOVhIRkpn?=
- =?utf-8?B?UGEwWTNjTDg1UTZHVDFSK1V0ekhiV1lpNHJLVzJ5Q2dFTDllMlJRYnNRQU1j?=
- =?utf-8?B?UjlyTnZNZVNwLzM2blZFMUdCM0J1RGt4VCtmS1A3bnp2VTdrQy9aN1IrQ3g1?=
- =?utf-8?B?enh4UTlqWmtLa1lhZjZ0R3prbzk1ekpjUGpLT0xadFJVVFZCSVlvZEI0a2M3?=
- =?utf-8?B?LytCNk95VW5wL0hRZTU1Vk9zVHpoQ2w1QytJdGhnbU1wc0IyRHM1Wm1uOTVP?=
- =?utf-8?B?WjR3SmVsbElZWjN3eld6RE8yY3lhWFZkQmc1OHlIcFNEejc4c1JMSlBQdDF3?=
- =?utf-8?B?MER2M1ZqOW95cnI3QVk5NkJralBOdm9TVHpMZVFSQmtlb0xsR05oNFFQaDVM?=
- =?utf-8?B?R0RJWE51c0Z1NnN5V3JzckJUNkFrK3ZXUkRrT2JlNEp4b3pLSXlYWk1JdWdW?=
- =?utf-8?B?ZWZTTjNSUHBNTm5tNVVVbS92R2Z2TVFHZzdWU1grWFBoMVVheTk0bm9VK3hh?=
- =?utf-8?B?ME1XV2JYK2xCK1BOUCtUYnR2YUlhMzFSV0tVTWc4WEJ2WWtkZk1pRmoyOVR2?=
- =?utf-8?B?cFF5SzVmSGNXYXFwN1ltRCsxeVBSdllKTTFadkZPakdybmZ1dkJMQnpWN1Zi?=
- =?utf-8?B?WEd5Z1l6emRSdHRQRGJDYmgvWUJkaDJGMGtwZ1YzTVU0UDhNazV1bXNCNGRv?=
- =?utf-8?B?bnpNWXgzM2dFWk5FM1oyODBrVDJHSXh4SzJiUC96STc0aTNnTXphUmo5N0kx?=
- =?utf-8?B?UDBpbnZpay83QmIxZjJZTEFhZ2ZWNURyWW51d2R6WTU3VXlMcER2TkZOdUow?=
- =?utf-8?B?blBiNFpVeU9yMDhYSnJTZEZLRTRoVEh4OFJRcWVOUGx0OWlSdlJxWE8yb1px?=
- =?utf-8?B?QndPTHRkc2FrUFZMandYWEhnbDFMTCt3YUo1QVpzajZqeTFGTVhqQ3dXa3NU?=
- =?utf-8?B?azc0UlFCOWJveEdLd0M3RHlHT20rN291V01scVREd3RWTjRhcFhpNmdXZDNq?=
- =?utf-8?B?bUh4SmVMbjdOKzZyZDdLL2NsQXlYWm1LQjd0Ukg5c0t5NVA1ZHJGL29DaXBY?=
- =?utf-8?B?UFo0M0FPZ3NSZVlnYW5QZEJmSWtJVWpLSUVtQlhvZGxnL1F0ak40VXFFa3FV?=
- =?utf-8?B?b0dDa0VwTFl6eW80MVNVNzNrREMvMThLd1FMUkFZYTRWSVhhQnZUUi9rTjNS?=
- =?utf-8?B?UGIzYnN0d1g5UDJCdVJCOFE4ZTFQU0xBWjk3TzdVVHFtM0ZadVNHR05Uam9w?=
- =?utf-8?B?K1ExRXFrOHAzQzZ3VUw5dzUrT0VibEpEUUlkT0RlUlM1VlpZQ1BTNnhpL1pL?=
- =?utf-8?B?VGJoclFseElIelpzUmNOdytCSU5Cemwvc2JaQUlsNEZGMkxkcFlRRzZ6WEdZ?=
- =?utf-8?B?SzhjU3ZiU1diU2VRK240N1pQOWJHU3BTOTlWODhQRFVvUGhzd2I3UmU0SFZy?=
- =?utf-8?B?aXhBclhYVG0xeVlFL3lMYlNOc2QxZ0lVbmR5bi9pYm5lWEdmbDVxSUp0RGo4?=
- =?utf-8?B?NkFhS3RHNkRCOVBIV0JzR0IyRDFoOTVPVlNYTWgrR0Z6bU9tTVBacmc1SlNz?=
- =?utf-8?B?aFd1ZGp0TldyWFVGM2V3dUZwQlFzN1d1YktUcGRCME16S1JFemcvMys5MHVG?=
- =?utf-8?B?QTRpUTB1bUdjNkp2V2ZTa2E0QVJJWHNnR1hzb2VMclZSdWFUL2cvdGw1MmpV?=
- =?utf-8?B?U3luVjcwYjFpNFh1RkxPNHZzYStSc0ZyV2dmSVVML1o4eER0ajljZnhpenlH?=
- =?utf-8?B?eUdGQitqZnArVFBWYkNYOC9RelhZc293VnBKbFNHZjBMNm1TVmc0UUNCdTFu?=
- =?utf-8?B?S0Z6aHYxam10cGhjMW14SE9NVlNjbXRuT2M2ZS92VytnVk1qaFFqbHdUdG0w?=
- =?utf-8?Q?Dp+qwKCfe+WtkjYhU5BRl3uSCe8ovTamSZGyzoQ9fSPW?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9866A5DA4B19034ABBE3085F4B1B72C8@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Thu, 13 Nov 2025 01:39:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762997961;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YE3L5VAgzoQWOHqB3Rk/jnMG/XnJ1XD/9vBp3BPJiDk=;
+	b=ZvvkeVxi7zKc4+VVeIt/E12kFHJMCUhxbKMXsgUgKdLb+R6Nknjo3V1iCsqc5doTTk8TsA
+	pXGn5gfTR+1/DQE03M2g/Jer7Jdc2EnzVggVwHlaN2sToVDHSBfM8r6GuWWhtdkiYX2vlv
+	L/UMaitaZdu6WbNBqaDxYCUEfmZeU4s=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-222-fUfLTIZSPE24s4BrvPuQOA-1; Wed,
+ 12 Nov 2025 20:39:14 -0500
+X-MC-Unique: fUfLTIZSPE24s4BrvPuQOA-1
+X-Mimecast-MFC-AGG-ID: fUfLTIZSPE24s4BrvPuQOA_1762997952
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 43DEE18007F2;
+	Thu, 13 Nov 2025 01:39:10 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.134])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 753CF30044E0;
+	Thu, 13 Nov 2025 01:39:01 +0000 (UTC)
+Date: Thu, 13 Nov 2025 09:38:56 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: "Guo, Wangyang" <wangyang.guo@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	virtualization@lists.linux-foundation.org,
+	linux-block@vger.kernel.org, Tianyou Li <tianyou.li@intel.com>,
+	Tim Chen <tim.c.chen@linux.intel.com>,
+	Dan Liang <dan.liang@intel.com>
+Subject: Re: [PATCH RESEND] lib/group_cpus: make group CPU cluster aware
+Message-ID: <aRU2sC5q5hCmS_eM@fedora>
+References: <20251111020608.1501543-1-wangyang.guo@intel.com>
+ <aRKssW96lHFrT2ZN@fedora>
+ <b94a0d74-0770-4751-9064-2ef077fada14@intel.com>
+ <aRMnR5DRdsU8lGtU@fedora>
+ <a101fe80-ca0b-4b4b-94b1-f08db1b164fc@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 391ac327-2913-4f5d-7530-08de22474e3f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2025 23:57:58.3676
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8umaGkqgL88oA6JuLG3zmlBaKV7HTHv2e3DOIAq/HY/QFTNRBoj4nPd6V/ggfmWTeXjamHXVDsfp2ammiu3B2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7248
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a101fe80-ca0b-4b4b-94b1-f08db1b164fc@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251112_155801_799671_57A4EB92 
-X-CRM114-Status: GOOD (  12.29  )
+X-CRM114-CacheID: sfid-20251112_173924_350538_7AF6115B 
+X-CRM114-Status: GOOD (  25.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,22 +95,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvMTIvMjUgMTE6NDgsIExlb24gUm9tYW5vdnNreSB3cm90ZToNCj4gRnJvbTogTGVvbiBS
-b21hbm92c2t5PGxlb25yb0BudmlkaWEuY29tPg0KPg0KPiBJbiBjb21taXQgZWFkYWE4YjI1NWYz
-ICgiZG1hLW1hcHBpbmc6IGludHJvZHVjZSBuZXcgRE1BIGF0dHJpYnV0ZSB0bw0KPiBpbmRpY2F0
-ZSBNTUlPIG1lbW9yeSIpLCBETUFfQVRUUl9NTUlPIGF0dHJpYnV0ZSB3YXMgYWRkZWQgdG8gZGVz
-Y3JpYmUNCj4gTU1JTyBhZGRyZXNzZXMsIHdoaWNoIHJlcXVpcmUgdG8gYXZvaWQgYW55IG1lbW9y
-eSBjYWNoZSBmbHVzaGluZywgYXMNCj4gYW4gb3V0Y29tZSBvZiB0aGUgZGlzY3Vzc2lvbiBwb2lu
-dGVkIGluIExpbmsgdGFnIGJlbG93Lg0KPg0KPiBJbiBjYXNlIG9mIFBDSV9QMlBETUFfTUFQX1RI
-UlVfSE9TVF9CUklER0UgdHJhbnNmZXIsIGJsay1tcS1kbSBsb2dpYw0KPiB0cmVhdGVkIHRoaXMg
-YXMgcmVndWxhciBwYWdlIGFuZCByZWxpZWQgb24gInN0cnVjdCBwYWdlIiBETUEgZmxvdy4NCj4g
-VGhhdCBmbG93IHBlcmZvcm1zIENQVSBjYWNoZSBmbHVzaGluZywgd2hpY2ggc2hvdWxkbid0IGJl
-IGRvbmUgaGVyZSwNCj4gYW5kIGRvZXNuJ3Qgc2V0IElPTU1VX01NSU8gZmxhZyBpbiBETUEtSU9N
-TVUgY2FzZS4NCj4NCj4gQXMgYSBzb2x1dGlvbiwgbGV0J3MgZW5jb2RlIHBlZXItdG8tcGVlciB0
-cmFuc2FjdGlvbiB0eXBlIGluIE5WTWUgSU9EDQo+IGZsYWdzIHZhcmlhYmxlIGFuZCBwcm92aWRl
-IGl0IHRvIGJsay1tcS1kbWEgQVBJLg0KPg0KPiBMaW5rOmh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
-L2FsbC9mOTEyYzQ0Ni0xYWU5LTQzOTAtOWMxMS0wMGRjZTdiZjBmZDNAYXJtLmNvbS8NCj4gUmV2
-aWV3ZWQtYnk6IENocmlzdG9waCBIZWxsd2lnPGhjaEBsc3QuZGU+DQoNCkxvb2tzIGdvb2QuDQoN
-ClJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sN
-Cg0KDQo=
+On Wed, Nov 12, 2025 at 11:02:47AM +0800, Guo, Wangyang wrote:
+> On 11/11/2025 8:08 PM, Ming Lei wrote:
+> > On Tue, Nov 11, 2025 at 01:31:04PM +0800, Guo, Wangyang wrote:
+> > > On 11/11/2025 11:25 AM, Ming Lei wrote:
+> > > > On Tue, Nov 11, 2025 at 10:06:08AM +0800, Wangyang Guo wrote:
+> > > > > As CPU core counts increase, the number of NVMe IRQs may be smaller than
+> > > > > the total number of CPUs. This forces multiple CPUs to share the same
+> > > > > IRQ. If the IRQ affinity and the CPU’s cluster do not align, a
+> > > > > performance penalty can be observed on some platforms.
+> > > > 
+> > > > Can you add details why/how CPU cluster isn't aligned with IRQ
+> > > > affinity? And how performance penalty is caused?
+> > > 
+> > > Intel Xeon E platform packs 4 CPU cores as 1 module (cluster) and share the
+> > > L2 cache. Let's say, if there are 40 CPUs in 1 NUMA domain and 11 IRQs to
+> > > dispatch. The existing algorithm will map first 7 IRQs each with 4 CPUs and
+> > > remained 4 IRQs each with 3 CPUs each. The last 4 IRQs may have cross
+> > > cluster issue. For example, the 9th IRQ which pinned to CPU32, then for
+> > > CPU31, it will have cross L2 memory access.
+> > 
+> > 
+> > CPUs sharing L2 usually have small number, and it is common to see one queue
+> > mapping includes CPUs from different L2.
+> > 
+> > So how much does crossing L2 hurt IO perf?
+> We see 15%+ performance difference in FIO libaio/randread/bs=8k.
+
+As I mentioned, it is common to see CPUs crossing L2 in same group, but why
+does it make a difference here? You mentioned just some platforms are
+affected.
+
+> > They still should share same L3 cache, and cpus_share_cache() should be
+> > true when the IO completes on the CPU which belong to different L2 with the
+> > submission CPU, and remote completion via IPI won't be triggered.
+> Yes, remote IPI not triggered.
+
+OK, in my test on AMD zen4, NVMe performance can be dropped to 1/2 - 1/3 if
+remote IPI is triggered in case of crossing L3, which is understandable.
+
+I will check if topo cluster can cover L3, if yes, the patch still can be
+simplified a lot by introducing sub-node spread by changing build_node_to_cpumask()
+and adding nr_sub_nodes.
+
+
+Thanks,
+Ming
+
 
