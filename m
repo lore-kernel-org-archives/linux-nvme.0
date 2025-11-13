@@ -4,88 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8CDACCFA18
-	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 04:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0581CD4F28
+	for <linux-nvme@archiver.kernel.org>; Thu, 13 Nov 2025 07:21:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ruk0C/2CNClZ5Kv+8DN1BbjisIWDyvg1zZIhMP8jZGE=; b=4hvFIc51K6FytYK4LYOkJUFYp6
-	lpwVTWRw09Kqj3j4CmJ1gD6CiVM3kVymqCnIZoHalmyjAptVkS4GHBN6ruSMHK4Tam+mBcW8KXjpb
-	eFHtkE11k9BPnLHnkL95DPFy396sUvOXbQU5OfgJZDiwar0T6wCitfshi1+EKwcjp/FzTOBKYX5oB
-	nUVL7jjwpo10QEYUAbRWDLBrKRfV7ScAfitHBOr3ppg/O6hBBuyVFZjfl09+WsQF+aerWTq0NyhRD
-	IUHY15CItD05FZQo1JXrybBsszprTpDbtpKooDv6LaLwq/Da0CMA6tTAGY6+pMVl1ZdIgLFhHUdw2
-	nr0ilFig==;
+	bh=izWwmm75QloOQ0n7LfH2mcNAkauxG6c9HuiSvb7m4WA=; b=LMRq56HVDLve68vNs4NFMCuhyr
+	Zep5HCqD0fH/Aar2Z+fJyvXmIRhFosmzLM9wNyTrgD7QhqbA+9Skoob0PcF2yVmmAArf96Q+4p4sO
+	IZc8uXAjOvSjISa9k5lt/FPIa9wSnaQNACI+uqspjMb6l3olhBmRMoNvgK3H/MRpV5CBC2ngqsqjI
+	/x1B8SxswW1XWx89hcdWaFTHSMOBr0dHAzOFvuVVsFcv93s0peG9MrVKlsQ9G5y8++BdaYXBeYTMp
+	EmFObWKkCRnD0OkEXj2HacIkNrHaTHQe25hM0JvpNjE2M3oRgGfCZBcQCOw8B/EzMg1LyvsSVK9Pt
+	2LKgF99g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJOX3-00000009ro9-3a5q;
-	Thu, 13 Nov 2025 04:02:01 +0000
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+	id 1vJRdq-00000009zSb-1X6F;
+	Thu, 13 Nov 2025 07:21:14 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJOX1-00000009rnm-1lr3
+	id 1vJRdn-00000009zRa-2lKz
 	for linux-nvme@lists.infradead.org;
-	Thu, 13 Nov 2025 04:02:00 +0000
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-6408f9cb1dcso492208a12.3
-        for <linux-nvme@lists.infradead.org>; Wed, 12 Nov 2025 20:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763006517; x=1763611317; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ruk0C/2CNClZ5Kv+8DN1BbjisIWDyvg1zZIhMP8jZGE=;
-        b=LdTZkGV51kMPcoUQm/S4nwldXeP7J/CurM8zYnQGa4Zm9hct0OQdQh+UGg/qe7yL3h
-         mbmh7wV3Yu1T7IEI2WfWPyG+R46pcs9EvFEmRF0f3CivMHZLzRXe0GWqiNBUzNYJhsu9
-         OOJ3huXOJUoO5Lz0SZkkqtAdPf1M0TunQ0i59QkW1GPLBW5c3rsietMxPnL8DgJXf8yJ
-         sTU0fWQgyNdR8+RqVmIeGUHjKqTCVP0RSwUDy+XoXJNiOEs280EgiU6JWSUAoBOSL1yJ
-         yz53RNSJ5xAjtMBBHxp/l9B/FIvAIOedXqPPEZxfRAwWBS8/CHWsgmpL4owM8ntAOblV
-         KrXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763006517; x=1763611317;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ruk0C/2CNClZ5Kv+8DN1BbjisIWDyvg1zZIhMP8jZGE=;
-        b=JgnaF4l3j6v1Y46+Ep53oZVEBwInzIG7tn2NkOq3UdBJhWy+iKiD94a6VQ/E0RJlv4
-         471Wl2zSeOZcYg9MrtZMRPVDkXhek1c42zBCKBHoPnlwSxbMmFET8ZxhYGe1ev+qBitF
-         xjCGjuY4NtGRibaY1Qld4yoprwgjMAl+tccAtW82XmZtrqwL6B+38IY7whw8360V0fPZ
-         l24PTND58VllbjxQ32/2aXkAm25WyDWX9zv0tfpPx3PsUYDsE+sUch3XyrqRd6pqjA20
-         +AgQyQTmsLZUKTHok5VIslw0ChQyDe/8PSSzgvXRFmnsKja/1R8KxQ7+4/6B1Yq/RFSn
-         bJDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpbmraHbRVHFnv/nkfQnVTKZwGI1NRF15D4JUftw4TQhNJhSzv7nzRLyRivQL+BS3izIrWB4GigCLt@lists.infradead.org
-X-Gm-Message-State: AOJu0YzvK4AwhCZMoRpuwdknw+dV9geHMFHo2E/b0YzuOnFOSe5qRMGJ
-	bRGoZmR3UQzPqTr7zmKFv9S8kA72Am4vWd5oFoXoYw0tgVvgG0zNmZNG048XQXZAJ/kEaxUuRBc
-	ERXX+UFxqbYf+a9zcsNBVT57N18kGOd4=
-X-Gm-Gg: ASbGncu0K57C5I/RnJAmxwDPAwYDa93KsfiOF1DAVvQZaBo3s2yqCoeEcmOoBvFycDo
-	WqUEbf8aUWN6YBY0IL3eYHO2OERDD0AqWup+g0rRNWCG3KpXs9+yxxVQklC29cdZ+ICXhJz1Qik
-	xpTNKZQqpmsWr+02V3SjgCYrAkcSiMAesnViugD+DwxLMe2Aj+djca/Q88O9kuLIGZQF+bBTxgL
-	o374WeSFBsSxaK/riOONOXd7oe1LQVnshP49hHTCQk4YeDA6mYDcGSG/hqLjt0866/Q3ajsEg8k
-	FLpDErZYRkqha/Y=
-X-Google-Smtp-Source: AGHT+IFXLl7x2uJRLoXlx277Si5mBM8h/gS1p+bZUwni/MfCDjn87uckvcbYakQIrBl2+ZQGH9ohDAV+xs6EuIVqfj4=
-X-Received: by 2002:a05:6402:510e:b0:643:18c2:124e with SMTP id
- 4fb4d7f45d1cf-6431a392eebmr5125372a12.7.1763006517205; Wed, 12 Nov 2025
- 20:01:57 -0800 (PST)
+	Thu, 13 Nov 2025 07:21:12 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E2FD21F45A;
+	Thu, 13 Nov 2025 07:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763018467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=izWwmm75QloOQ0n7LfH2mcNAkauxG6c9HuiSvb7m4WA=;
+	b=mFX1Ro8vHqtsDiUajsAj3tbAzeoME9+D7GjgaEqJ2M+cFlaX/1Agx7kcnGfH/PDx/rfzMf
+	agJkL8l49BbsamMzclFcQ1zNqu1IXaTw0w41pwz51UYGUqRLcJ8tpBCyV6W/Kf9aXz0Lal
+	vRjzm0DmBvrYpvbaLPLQ9FDqN9QUIuM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763018467;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=izWwmm75QloOQ0n7LfH2mcNAkauxG6c9HuiSvb7m4WA=;
+	b=CBNccGxT2DGuDlwUJdT6i5bvqubAxp4zxRAtd6zTm/v+iQP4WK8mq32qr18/VFIxehar2l
+	zBYaYejGGncUpuBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ngHRWq0q;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bS6ha2zm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763018466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=izWwmm75QloOQ0n7LfH2mcNAkauxG6c9HuiSvb7m4WA=;
+	b=ngHRWq0qxgRCLr8Imp7mmcNkr9APxHxI62ZQNeSqz9OdBEAxd20ygLk7GjT2VqzzIH+3Ln
+	vsjJJR+vASYETp+1WqANlxSEfOhJh42etlO+E+3buYBvYu/Aiq6nvVXkTnXa/m5UQU+jRp
+	0JxH4C+2w5332GkNtKIslQeJPqxJWTk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763018466;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=izWwmm75QloOQ0n7LfH2mcNAkauxG6c9HuiSvb7m4WA=;
+	b=bS6ha2zm6f46pAaAlZGb6+NFPfS/gM+h6Yd7s6j9lqUxcWzVDMPdGZxOZPaRpeILtFt3PE
+	tEIB7dAe6W8boNDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84A613EA61;
+	Thu, 13 Nov 2025 07:21:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DssjHeKGFWkFcwAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 13 Nov 2025 07:21:06 +0000
+Message-ID: <2019e372-c079-4230-97ba-a3299ced0474@suse.de>
+Date: Thu, 13 Nov 2025 08:21:06 +0100
 MIME-Version: 1.0
-References: <20251030035114.16840-1-alistair.francis@wdc.com>
- <20251030035114.16840-4-alistair.francis@wdc.com> <8a236ca6-3675-461a-9166-4d4df3b5de08@suse.de>
- <CAKmqyKO=W2+5ZBudWhN_L1choupte9vzJBEoxVeZ-vNHykeR0Q@mail.gmail.com>
- <20251112070256.GA5276@lst.de> <c7679208-c963-4fdd-a038-a91ccda0a075@suse.de>
-In-Reply-To: <c7679208-c963-4fdd-a038-a91ccda0a075@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 Nov 2025 14:01:30 +1000
-X-Gm-Features: AWmQ_bkICN55tPuzDm6zLa1MtEfNqZymtOObpTTa8T2RNOSB_QTCazWXu8t0Tv0
-Message-ID: <CAKmqyKNZj6gwPOBrjRk_vTJqpUTPTsHF5S0iQPgVPi4+NHP7uQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] nvme: Allow reauth from sysfs
-To: Hannes Reinecke <hare@suse.de>
-Cc: Christoph Hellwig <hch@lst.de>, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, 
-	kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] nvme: Expose the tls_configured sysfs for secure
+ concat connections
+To: Alistair Francis <alistair23@gmail.com>
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
+References: <20251111234519.3467440-1-alistair.francis@wdc.com>
+ <20251111234519.3467440-4-alistair.francis@wdc.com>
+ <caadfcbb-8964-4447-a93d-8e49b4c14c7e@suse.de>
+ <CAKmqyKNzi7OAq49b-aa1H8++ReTvWnHKBDwA88ionJshhOVp9g@mail.gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAKmqyKNzi7OAq49b-aa1H8++ReTvWnHKBDwA88ionJshhOVp9g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E2FD21F45A
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email,wdc.com:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251112_200159_505265_04376556 
-X-CRM114-Status: GOOD (  23.61  )
+X-CRM114-CacheID: sfid-20251112_232111_855167_CAE7DB73 
+X-CRM114-Status: GOOD (  19.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,81 +147,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Nov 12, 2025 at 5:21=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
->
-> On 11/12/25 08:02, Christoph Hellwig wrote:
-> > On Wed, Nov 12, 2025 at 09:32:00AM +1000, Alistair Francis wrote:
-> >>> I would suggest just allow writes to the 'tls_key' attribute; any
-> >>> writes to that would trigger a replacepsk operation.
-> >>
-> >> I think the `tls_configured_key` is actually the better attribute to
-> >> write to as that is the one that updates after a REPLACETLSPSK
-> >> operation, see v2 patches which I'm sending now.
-> >
-> > Just saw Hannes reply here and saw why you did the current version
-> > the way I did.  Hannes, please don't recommend weird ABIs that
-> > make error checking and future extensibility impossible.
-> >
-> Hmm.
->
-> 'tls_configured_key' prints out the value of
-> ctrl->opts->tls_key, ie the key passed in from the 'connect'
-> string. Normally this value will be empty,
-> as the 'connect' command will pick up the TLS key from
-> the keyring automatically.
+On 11/13/25 03:08, Alistair Francis wrote:
+> On Wed, Nov 12, 2025 at 5:08 PM Hannes Reinecke <hare@suse.de> wrote:
+>>
+>> On 11/12/25 00:45, alistair23@gmail.com wrote:
+>>> From: Alistair Francis <alistair.francis@wdc.com>
+>>>
+>>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>>> ---
+>>> v2:
+>>>    - New patch
+>>>
+>>>    drivers/nvme/host/sysfs.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+>>> index 29430949ce2f..6d10e12136d0 100644
+>>> --- a/drivers/nvme/host/sysfs.c
+>>> +++ b/drivers/nvme/host/sysfs.c
+>>> @@ -838,7 +838,7 @@ static umode_t nvme_tls_attrs_are_visible(struct kobject *kobj,
+>>>            !ctrl->opts->tls && !ctrl->opts->concat)
+>>>                return 0;
+>>>        if (a == &dev_attr_tls_configured_key.attr &&
+>>> -         (!ctrl->opts->tls_key || ctrl->opts->concat))
+>>> +         !ctrl->opts->concat)
+>>>                return 0;
+>>>        if (a == &dev_attr_tls_keyring.attr &&
+>>>            !ctrl->opts->keyring)
+>>
+>> ??
+>>
+>> How can you have a configured TLS Key for secure concatenation?
+> 
+> I'm not sure I follow
+> 
+> `ctrl->opts->tls_key` is directly set at the end of the
+> `nvme_auth_secure_concat()` function, so it will be set for secure
+> concatenation.
+> 
+Right, sorry. Of course you are right.
 
-`tls_configured_key` does print out the value of
-`ctrl->opts->tls_key`. That's the key that is generated in
-`nvme_auth_secure_concat()`.
+But I'm still a bit unsure about the interface here; just writing
+anything into it doesn't feel like the correct way of doing it.
 
-`ctrl->opts->tls_key` is also the key that changes after a
-REPLACETLSPSK operation. `ctrl->opts->tls_key` is what's used in
-nvme_auth_set_dhchap_negotiate_data() to determine if we should issue
-a NEWTLSPSK or a REPLACETLSPSK.
+I would rather modify the interface to allow a key serial number (or 0).
+That would allow us to modify the configured key, which currently is
+fixed for the lifetime of the connection.
+And writing '0' would reset the configured key, reverting to automatic
+key selection.
+Having such an interface would actually be beneficial, as it would
+remove some limitations from the current interface.
 
-So `ctrl->opts->tls_key` (and hence `tls_configured_key`) seems like
-the way to go
+Hmm?
 
->
-> 'tls_key' prints out the value of
-> ctrl->tls_pskid, ie the value of the _negotiated_ key.
+Cheers,
 
-Is it possible you have `ctrl->tls_pskid` and `ctrl->opts->tls_key` mixed u=
-p?
-
-`ctrl->tls_pskid` is set by userspace via the nvme_tcp_tls_done()
-callback. It's really more of the "configured" key as it's supplied by
-userspace and doesn't change after a REPLACETLSPSK operation.
-
-I'm not sure why the sysfs names are what they are, but
-`tls_configured_key` seems like the negotiated key and `tls_key` is
-configured by userspace.
-
->
-> So why is 'tls_configured_key' key the better option?
-
-`tls_configured_key` is the key that changes after a REPLACETLSPSK, so
-it feels like that's the better place to trigger a REPLACETLSPSK.
-
-> Personally I think that 'tls_key' is more 'natural',
-> as we want to replace the negotiated key, not the
-> configured key ...
-
-I really think writing to the `tls_configured_key` to trigger a
-REPLACETLSPSK is the way to go. It's the sysfs entry that changes
-after a REPLACETLSPSK command. Writing to 'tls_key' and having it not
-update just seems confusing.
-
-Alistair
-
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
