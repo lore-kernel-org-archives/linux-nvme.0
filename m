@@ -4,71 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E02ABCE7A8E
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 09:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF563CE7A8E
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 09:22:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=VOUcl1KTNJ6yNbLI1Tyvpph5ES1zSXb7oj0QZ81RI5c=; b=fFgpXBeglGeHvNKB2QE8X+wWzw
-	F1Ss0eGK5AqRDOKxUMSHe49wr5qLvznCRuR6Hd/EJrcfICJWrrs0L1gCEa1+SH/hcjZDGLCg9M3ju
-	wjsOsxO/RdDJ/999ZBJD+KE0WF3xT2rBQUDF80pGcQvwHvG4XP93kDrfXwVWXcrCyuLedl+F+5TVP
-	PAPujWUpjGh+3LFBk6aDOKZovB0bZMfNdOyFPcUcKR+fFpGPtfMPX/Leb3BoINn1t2G4bsw60rpO7
-	4sbQFbLQfWySlJV52tc/WS+weG637cytApNLB+5PjH1LHuJAOMXWh3XIhMfDKb7437+c+d/PFEIm7
-	bJ/2BvNA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pVqJ5zZ0HtfmnlapRSluaL8hZ3jxVD5iRJrMHsVwK6A=; b=Qn7kSu8WPAohsK5dvVM6MXVkkm
+	rwG8Qp5mkmiVEZsZiK+Bjxh/7FLxVrAXaS+8QmuvPgFFS4472BbLJhxDxJonA9qVN4DothdOI3cJj
+	W4cCHWyzxZUfptx1+FjlNC4QDJsH49lIK6DLQLjiCWPaaqBjSJ0H6u70+tNBf2//qw/uStrJLBkFX
+	trxVuUHCXp6dhBnH44HC16hjuzN1bHyXl6BQG7jgG0MfBTORloYXRGj15cwaVPMonkcU/x4Ark75F
+	/lMOc345Wdy0nP2CyeRfaZLxwVY81bpzPrnC0eYJ0MWbA3WBZAzd0YSxZAKq1AlltNepPy5h8YQBb
+	Ant8AuCg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJq0Z-0000000Bu4V-3zjI;
-	Fri, 14 Nov 2025 09:22:19 +0000
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+	id 1vJq0e-0000000Bu5k-19BD;
+	Fri, 14 Nov 2025 09:22:24 +0000
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJq0X-0000000Bu3L-1Nut
+	id 1vJq0b-0000000Bu4t-409u
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Nov 2025 09:22:18 +0000
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-29586626fbeso18073055ad.0
-        for <linux-nvme@lists.infradead.org>; Fri, 14 Nov 2025 01:22:13 -0800 (PST)
+	Fri, 14 Nov 2025 09:22:23 +0000
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-29808a9a96aso17147395ad.1
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Nov 2025 01:22:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1763112133; x=1763716933; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VOUcl1KTNJ6yNbLI1Tyvpph5ES1zSXb7oj0QZ81RI5c=;
-        b=OI+gKaR0DwtpGnuU+gFZ7/Ib7+rviWx/osWUcD34dsuCl+1UHXUJbTw03dta37MA1/
-         z7aF55wYgi8/DFIufi4SGWuir/ntawJlzFvkWTM0R0XHEwXuOkvuw7OR1Hl4wXw9DMYo
-         aY45HdoU5xA2XsOcpJjs5GftrNQF94uUyK2oUJ9wScSzBBOkGr8Hrs7cW9Zd1wjmahJy
-         qe7ohM6Zt1tlD1w9HpsKEiLzBBMkvNh2Ax2G6tRYLlNdCrSdOLJnBqiVepPKa4VQ5o7V
-         1AS/wIZQg6kb6x9XMLpK0MaodFpNtKc2cQya8p06l097RPI3LJv0kYvRdEZefp53uF+L
-         0B5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763112133; x=1763716933;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=bytedance.com; s=google; t=1763112141; x=1763716941; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VOUcl1KTNJ6yNbLI1Tyvpph5ES1zSXb7oj0QZ81RI5c=;
-        b=WKy2gihlKbCVYK9PbQXIfEUbgaGY6/efsZkg19V+fZWQLlMuEBM/OBEOzK5SxKp3vR
-         +EILC6bDfLdLQsm/kWCWyi6EatLrnK63o5YV3QITaH6WszYkZAvOScy8F0efnNAVdRgB
-         nRYp3PA+otZ14o0yIelrSBodv8Q6y+4WHVkdyYvvTVzFzqjlKiuEqtgWuAoeV5kmqe7U
-         lTbakU70Xji649K83UwFenlHAtnSH/uTSPQ6YwDn6hYE6kvYwqel1cZ3U8OpKC23qbnZ
-         pDjI35+pMHAkhTQc3dJgGexBlD75pvFcjToC3mNd03kg604mAP567Svdh+h8wHTGKXB9
-         P5cA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGK1M1U+ysWlUauprkLt/c99prfFIB4UrvJwBTlT7LzJ3rJQI14QHIbt1ZeGuJg3UE1iVA1JqMJSTe@lists.infradead.org
-X-Gm-Message-State: AOJu0YwXlZL/qJt6bpqvmEAZh5c19amTV43LAhTP1Sl96eC5GVcA+3YJ
-	MqncJdLCVRArMU4emeh5nsQQv93fbyCcvxHFsgw7p+TymHuYTKIVLAhpKC3v2aRO9sY=
-X-Gm-Gg: ASbGncvulEiaLCRBnGsgDmDELxgbBXmNsqMFKUA8ERtcffg/vHTclsj9ypJY4pJDl3j
-	iDNup+dn6k4ICNXcKoZLrB1YWwahawFUHA2E2onGNiJhtVRe1VvvS9+/WGUFFdO/4u+tuxXrhkV
-	3jN+ArKZymO5R5jDnrKGI36ZQOCHfuFDRDVdzXjVwc08txXPXwkxKe5m7Mx6wrtL7MaZMVnchH/
-	Fu1YQRv+D+cCt6NftSntzhgxcvDAueYY2J7k+m7aumjLd26zimOdU3A04dPFZXNMlOxCTTAdWTS
-	ZxGIa5u0j2RFNpfsuHMun3xJZ5RlC53bcheTsgtXSNshstmmTLKtoi2l6wK4a7YLUO8pV/48PYM
-	tTbFWI6o5DbuPVCavLA0nXS51LJ36/ndkxSxLZGltS4aALPa7qiF7HpPXM/8H95iil7zm8INyHI
-	H5wQsxxLytbJhNowz8VNpTAn0LUF4IGEfNeg==
-X-Google-Smtp-Source: AGHT+IF+L62VoDL311ziY3WGmIGqOUF1aAOhbYoj7EpJUNyw6PsD2tlvnXHX5j5jjprmk+4XNcS2IQ==
-X-Received: by 2002:a17:903:198b:b0:267:a95d:7164 with SMTP id d9443c01a7336-2986a76b6c5mr23867635ad.60.1763112133120;
-        Fri, 14 Nov 2025 01:22:13 -0800 (PST)
+        bh=pVqJ5zZ0HtfmnlapRSluaL8hZ3jxVD5iRJrMHsVwK6A=;
+        b=PGFqQT4HTo/yLOCTRdwY14oh5bMgVjs0TciBV4/vNEPOHlw2+DF+Vh7S8IjFMvEoqW
+         AaKO2HvioTm1pa6WRr2xMT5kWpHgwbeXPMTNjIa6GmNDaZSlAtpLmBHoS+J6SgniC3ce
+         +KS8cXa6DFXmEKwGq+ooEji2JaN1f7NR7jjIJm5GDq6xrnREikU6nND6SAsB8d/F13L5
+         IMbh3zHWLUEoa3wslMvncO6D3ojYKrz4z8b9XiDlEPBj97/dklpsMHT0VbdN10NZT9ZY
+         9vGe/TpPe4txf+EZ4GkNvaYtK3haTjtD/FbwRfHa/JRxjiQSZFzJaHYZLfFBmiv9oQd9
+         exVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763112141; x=1763716941;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pVqJ5zZ0HtfmnlapRSluaL8hZ3jxVD5iRJrMHsVwK6A=;
+        b=sinDIT00oxm81JlyrNcmyLzz4WDtm+0UuR9uhZ6mvnR2aMGZzKGBClomXC2sliCBfs
+         4AXeJT0TSMBS5ZezaUTGOCpVmzKPpZ5nZdweB+UCoI98nH8GjOuWCEvzJNi98HqQQKTI
+         gApQjHlIaMHC1ziSASkgupQ1XDkQffSfdr6ZUrSpt6bcjC7w+yOW+C2xGSmbfPq899ku
+         YBttVWjWE4HtRUqs8GW5f/6+Lyhb631QvmBKEGRg+Vtchr8WwpzuZTgs7hKLWiTDLytE
+         aWsux7OcP9dFB4ClOXZKuHQv48iSTJYFrIfmsgyqM5m3qx8cQgw61IONZ+3mrw3jQ0ZN
+         6CDA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIpaZeoKdBGw6f5NOxG33k1fyl+CY70++hnjc3WrIMIQQiiMjjC5/PY2ZMPNF0+CTVoSe2yyUUnSl4@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyn/jkBOv0Sch9+5ktLdXoAvj+xp0eVfyXEOYMa/RAWdsE5L+Eb
+	bpl8xadJ/bl0WfXHC4tIBlhnzsiVdNd2nIS/n8dwzz2E6RjAD8bJcdXgbvf6MUFHEYk=
+X-Gm-Gg: ASbGncvWR1U+r/NP3uKGFreiI1T/sFBC/LDCMJt+HPzmw6C70POh0RksRhS9Ts4BEbA
+	Rd664cciZmAAJuhQgI5T/IxkKSzSpyTE0x+np7B0M8suGn6FMPb7jvwvYHw3gBMfnD3RKgR0qbK
+	D8Q8J3s5r0cCvkvRxgaHdvTXi75YHjs56uvOa33GlxqqzHj9aP+mouNVDOKeB2eOUqbpjQ0tHbi
+	th09wTCZprzckWiOlWNzZKe92ZkeGovElZFzjodlwFKEu4mjsOEs/N9aFK/kFG4RPMKz3Zznt9T
+	TKnZjY2VD+4kl85rpM7y7UaimWSmmamiqUbtNrtRWp3h+MPua+HsXSighjAufRkK/A9g8ixg68a
+	e1FvAFGGtcIDKAQwp0Bcr2EoC+fdj17wNM8wEMF4oTxxWBYiZIRjs9HnjC0tSG/Y7su0DUrBNUh
+	75vZPeYP/1sma5ngzcPkKv+Pvtueghh4Od62dReR454N53
+X-Google-Smtp-Source: AGHT+IG8akVzn6mgTzVS8eSbF8fdiM3Aj0sp4LOsT1smP8qpTtrhqG7ZlkpNWC+Kazn0Hs5a6+hQ3A==
+X-Received: by 2002:a17:903:2c07:b0:293:e12:1bec with SMTP id d9443c01a7336-2986a6d57ebmr28935835ad.20.1763112141041;
+        Fri, 14 Nov 2025 01:22:21 -0800 (PST)
 Received: from localhost.localdomain ([203.208.167.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0fe9sm48725735ad.65.2025.11.14.01.22.06
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0fe9sm48725735ad.65.2025.11.14.01.22.15
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Nov 2025 01:22:12 -0800 (PST)
+        Fri, 14 Nov 2025 01:22:20 -0800 (PST)
 From: Fengnan Chang <changfengnan@bytedance.com>
 To: axboe@kernel.dk,
 	viro@zeniv.linux.org.uk,
@@ -87,16 +88,17 @@ To: axboe@kernel.dk,
 	ming.lei@redhat.com,
 	linux-nvme@lists.infradead.org
 Cc: Fengnan Chang <changfengnan@bytedance.com>
-Subject: [PATCH v3 0/2] block: enable per-cpu bio cache by default
-Date: Fri, 14 Nov 2025 17:21:47 +0800
-Message-Id: <20251114092149.40116-1-changfengnan@bytedance.com>
+Subject: [PATCH v3 1/2] block: use bio_alloc_bioset for passthru IO by default
+Date: Fri, 14 Nov 2025 17:21:48 +0800
+Message-Id: <20251114092149.40116-2-changfengnan@bytedance.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20251114092149.40116-1-changfengnan@bytedance.com>
+References: <20251114092149.40116-1-changfengnan@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251114_012217_372346_7ED2E901 
-X-CRM114-Status: UNSURE (   8.11  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251114_012222_022533_7F242036 
+X-CRM114-Status: GOOD (  18.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,37 +113,221 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For now, per-cpu bio cache was only used in the io_uring + raw block
-device, filesystem also can use this to improve performance.
-After discussion in [1], we think it's better to enable per-cpu bio cache
-by default.
+Use bio_alloc_bioset for passthru IO by default, so that we can enable
+bio cache for irq and polled passthru IO in later.
 
-v3:
-fix some build warnings.
-
-v2:
-enable per-cpu bio cache for passthru IO by default.
-
-v1:
-https://lore.kernel.org/linux-fsdevel/CAPFOzZs5mJ9Ts+TYkhioO8aAYfzevcgw7O3hjexFNb_tM+kEZA@mail.gmail.com/
-
-[1] https://lore.kernel.org/linux-fsdevel/c4bc7c33-b1e1-47d1-9d22-b189c86c6c7d@gmail.com/
-
-
-Fengnan Chang (2):
-  block: use bio_alloc_bioset for passthru IO by default
-  block: enable per-cpu bio cache by default
-
- block/bio.c               | 26 ++++++-----
+Signed-off-by: Fengnan Chang <changfengnan@bytedance.com>
+---
  block/blk-map.c           | 90 ++++++++++++++++-----------------------
- block/fops.c              |  4 --
  drivers/nvme/host/ioctl.c |  2 +-
- include/linux/fs.h        |  3 --
- io_uring/rw.c             |  1 -
- 6 files changed, 49 insertions(+), 77 deletions(-)
+ 2 files changed, 37 insertions(+), 55 deletions(-)
 
-
-base-commit: 4a0c9b3391999818e2c5b93719699b255be1f682
+diff --git a/block/blk-map.c b/block/blk-map.c
+index 60faf036fb6e..9e45cb142d85 100644
+--- a/block/blk-map.c
++++ b/block/blk-map.c
+@@ -37,6 +37,25 @@ static struct bio_map_data *bio_alloc_map_data(struct iov_iter *data,
+ 	return bmd;
+ }
+ 
++static inline void blk_mq_map_bio_put(struct bio *bio)
++{
++	bio_put(bio);
++}
++
++static struct bio *blk_rq_map_bio_alloc(struct request *rq,
++		unsigned int nr_vecs, gfp_t gfp_mask)
++{
++	struct block_device *bdev = rq->q->disk ? rq->q->disk->part0 : NULL;
++	struct bio *bio;
++
++	bio = bio_alloc_bioset(bdev, nr_vecs, rq->cmd_flags, gfp_mask,
++				&fs_bio_set);
++	if (!bio)
++		return NULL;
++
++	return bio;
++}
++
+ /**
+  * bio_copy_from_iter - copy all pages from iov_iter to bio
+  * @bio: The &struct bio which describes the I/O as destination
+@@ -154,10 +173,9 @@ static int bio_copy_user_iov(struct request *rq, struct rq_map_data *map_data,
+ 	nr_pages = bio_max_segs(DIV_ROUND_UP(offset + len, PAGE_SIZE));
+ 
+ 	ret = -ENOMEM;
+-	bio = bio_kmalloc(nr_pages, gfp_mask);
++	bio = blk_rq_map_bio_alloc(rq, nr_pages, gfp_mask);
+ 	if (!bio)
+ 		goto out_bmd;
+-	bio_init_inline(bio, NULL, nr_pages, req_op(rq));
+ 
+ 	if (map_data) {
+ 		nr_pages = 1U << map_data->page_order;
+@@ -233,43 +251,12 @@ static int bio_copy_user_iov(struct request *rq, struct rq_map_data *map_data,
+ cleanup:
+ 	if (!map_data)
+ 		bio_free_pages(bio);
+-	bio_uninit(bio);
+-	kfree(bio);
++	blk_mq_map_bio_put(bio);
+ out_bmd:
+ 	kfree(bmd);
+ 	return ret;
+ }
+ 
+-static void blk_mq_map_bio_put(struct bio *bio)
+-{
+-	if (bio->bi_opf & REQ_ALLOC_CACHE) {
+-		bio_put(bio);
+-	} else {
+-		bio_uninit(bio);
+-		kfree(bio);
+-	}
+-}
+-
+-static struct bio *blk_rq_map_bio_alloc(struct request *rq,
+-		unsigned int nr_vecs, gfp_t gfp_mask)
+-{
+-	struct block_device *bdev = rq->q->disk ? rq->q->disk->part0 : NULL;
+-	struct bio *bio;
+-
+-	if (rq->cmd_flags & REQ_ALLOC_CACHE && (nr_vecs <= BIO_INLINE_VECS)) {
+-		bio = bio_alloc_bioset(bdev, nr_vecs, rq->cmd_flags, gfp_mask,
+-					&fs_bio_set);
+-		if (!bio)
+-			return NULL;
+-	} else {
+-		bio = bio_kmalloc(nr_vecs, gfp_mask);
+-		if (!bio)
+-			return NULL;
+-		bio_init_inline(bio, bdev, nr_vecs, req_op(rq));
+-	}
+-	return bio;
+-}
+-
+ static int bio_map_user_iov(struct request *rq, struct iov_iter *iter,
+ 		gfp_t gfp_mask)
+ {
+@@ -318,25 +305,23 @@ static void bio_invalidate_vmalloc_pages(struct bio *bio)
+ static void bio_map_kern_endio(struct bio *bio)
+ {
+ 	bio_invalidate_vmalloc_pages(bio);
+-	bio_uninit(bio);
+-	kfree(bio);
++	blk_mq_map_bio_put(bio);
+ }
+ 
+-static struct bio *bio_map_kern(void *data, unsigned int len, enum req_op op,
++static struct bio *bio_map_kern(struct request *rq, void *data, unsigned int len,
+ 		gfp_t gfp_mask)
+ {
+ 	unsigned int nr_vecs = bio_add_max_vecs(data, len);
+ 	struct bio *bio;
+ 
+-	bio = bio_kmalloc(nr_vecs, gfp_mask);
++	bio = blk_rq_map_bio_alloc(rq, nr_vecs, gfp_mask);
+ 	if (!bio)
+ 		return ERR_PTR(-ENOMEM);
+-	bio_init_inline(bio, NULL, nr_vecs, op);
++
+ 	if (is_vmalloc_addr(data)) {
+ 		bio->bi_private = data;
+ 		if (!bio_add_vmalloc(bio, data, len)) {
+-			bio_uninit(bio);
+-			kfree(bio);
++			blk_mq_map_bio_put(bio);
+ 			return ERR_PTR(-EINVAL);
+ 		}
+ 	} else {
+@@ -349,8 +334,7 @@ static struct bio *bio_map_kern(void *data, unsigned int len, enum req_op op,
+ static void bio_copy_kern_endio(struct bio *bio)
+ {
+ 	bio_free_pages(bio);
+-	bio_uninit(bio);
+-	kfree(bio);
++	blk_mq_map_bio_put(bio);
+ }
+ 
+ static void bio_copy_kern_endio_read(struct bio *bio)
+@@ -369,6 +353,7 @@ static void bio_copy_kern_endio_read(struct bio *bio)
+ 
+ /**
+  *	bio_copy_kern	-	copy kernel address into bio
++ *	@rq: request to fill
+  *	@data: pointer to buffer to copy
+  *	@len: length in bytes
+  *	@op: bio/request operation
+@@ -377,9 +362,10 @@ static void bio_copy_kern_endio_read(struct bio *bio)
+  *	copy the kernel address into a bio suitable for io to a block
+  *	device. Returns an error pointer in case of error.
+  */
+-static struct bio *bio_copy_kern(void *data, unsigned int len, enum req_op op,
++static struct bio *bio_copy_kern(struct request *rq, void *data, unsigned int len,
+ 		gfp_t gfp_mask)
+ {
++	enum req_op op = req_op(rq);
+ 	unsigned long kaddr = (unsigned long)data;
+ 	unsigned long end = (kaddr + len + PAGE_SIZE - 1) >> PAGE_SHIFT;
+ 	unsigned long start = kaddr >> PAGE_SHIFT;
+@@ -394,10 +380,9 @@ static struct bio *bio_copy_kern(void *data, unsigned int len, enum req_op op,
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	nr_pages = end - start;
+-	bio = bio_kmalloc(nr_pages, gfp_mask);
++	bio = blk_rq_map_bio_alloc(rq, nr_pages, gfp_mask);
+ 	if (!bio)
+ 		return ERR_PTR(-ENOMEM);
+-	bio_init_inline(bio, NULL, nr_pages, op);
+ 
+ 	while (len) {
+ 		struct page *page;
+@@ -431,8 +416,7 @@ static struct bio *bio_copy_kern(void *data, unsigned int len, enum req_op op,
+ 
+ cleanup:
+ 	bio_free_pages(bio);
+-	bio_uninit(bio);
+-	kfree(bio);
++	blk_mq_map_bio_put(bio);
+ 	return ERR_PTR(-ENOMEM);
+ }
+ 
+@@ -676,18 +660,16 @@ int blk_rq_map_kern(struct request *rq, void *kbuf, unsigned int len,
+ 		return -EINVAL;
+ 
+ 	if (!blk_rq_aligned(rq->q, addr, len) || object_is_on_stack(kbuf))
+-		bio = bio_copy_kern(kbuf, len, req_op(rq), gfp_mask);
++		bio = bio_copy_kern(rq, kbuf, len, gfp_mask);
+ 	else
+-		bio = bio_map_kern(kbuf, len, req_op(rq), gfp_mask);
++		bio = bio_map_kern(rq, kbuf, len, gfp_mask);
+ 
+ 	if (IS_ERR(bio))
+ 		return PTR_ERR(bio);
+ 
+ 	ret = blk_rq_append_bio(rq, bio);
+-	if (unlikely(ret)) {
+-		bio_uninit(bio);
+-		kfree(bio);
+-	}
++	if (unlikely(ret))
++		blk_mq_map_bio_put(bio);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(blk_rq_map_kern);
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index c212fa952c0f..9c0d7b1618ce 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -446,7 +446,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	struct iov_iter iter;
+ 	struct iov_iter *map_iter = NULL;
+ 	struct request *req;
+-	blk_opf_t rq_flags = REQ_ALLOC_CACHE;
++	blk_opf_t rq_flags = 0;
+ 	blk_mq_req_flags_t blk_flags = 0;
+ 	int ret;
+ 
 -- 
 2.39.5 (Apple Git-154)
 
