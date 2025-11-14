@@ -4,103 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 43C7BCDE006
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 06:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52D34CDE006
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 07:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=y3VNVy+UYeqY3IVTtkh/AbSvZ3E8GHu4GINXGK2iL3Y=; b=holaM45ZGzScgAFp9obHWzUoj9
-	mNIboT5ZL773Q0ST44eNPq5Ti/Nk8FBujNkerGQioeE+4XgMv9JRsZbJ30HNdHdxTGK4mW+oLvLVb
-	A/doNWXYuGcdyA21uoy91q3haWyR8UNqbbxUL9n/klado63JCbuTEvNccBk452CZKuvFzP9hbs/vf
-	RkhH2VNfzKFQFq6oQOwH8NqUXFHtSuNuXxhnnixWDfO3dFVDtD2vWTls84PEEdSA0PV7oTRfUIanJ
-	bJvxG4vgvo9/pQ54NBj4NkOss/mDM1ndZ3xPUfYONrexMOtQ9wkHnKcOu/N2mN3EY0b6RV4xby1JN
-	sfwx3w5Q==;
+	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=; b=J87BEfbJ7xTfBOd3l3eL19gT/b
+	ZY6dLz4emXHicReve5BWWe2KuyTTFCP9J7vpfOTUoZRD9HhsA9YuzufAeCnkMx/eaKXDr/6mQTSUM
+	5tbfnIEsMhrV2+oWIpKu9xjhmJJr3wHe05EbAflxAa/o6W3EsfV4ZtBHQUWMQ9jnbJFHKVq6bBC/m
+	hDqOvpVte525BIIJRxLJWHZ4ofr8Uu3BP9J/Dk3PpphC91MGlDyMYYio21Soib2i8wYyDL1dlQ6m8
+	kfD8X3WRZ1OuT5HTGFnbRO1C4FVtUiLm1O7nCLJ2ClVpv/ay96ggROf6hhPGp8uLeyzXUIj4SSJSE
+	3UZEOuVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJmtX-0000000Bd04-2oaF;
-	Fri, 14 Nov 2025 06:02:51 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1vJnnK-0000000BhmT-2OQb;
+	Fri, 14 Nov 2025 07:00:30 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJmtU-0000000Bcz8-2GZl
+	id 1vJnnH-0000000Bhle-4B7l
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Nov 2025 06:02:50 +0000
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso1434318b3a.3
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Nov 2025 22:02:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1763100168; x=1763704968; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y3VNVy+UYeqY3IVTtkh/AbSvZ3E8GHu4GINXGK2iL3Y=;
-        b=JxdK1Qf2bfv2Ai0tXkzZMi02c3QmUvaH0rKt3MolT9hUfRGzgUtMRv1DH5walm49cM
-         S4ZqZD+MLg7On3QxtMQtA599Wi7+BpFAsUVgQvIXzqOfL4jse5TZWv8di3pWLQJDh+2f
-         e5NFYsdaFUA7H4/eM84ZOdWS7cFI4xqq9yJ7e/bND6vpV9VtzynUnNcNFDlnKDEYTTAN
-         d8m6a6cF5VMdDe8yCiuKHA/2ktBbsLR1DGBCXMOfDC4IEQgXeW0u4CHvr3PCKxeBOdlr
-         G96AcSCyt81pc7T21TmAYNcRZQTxU/n+UvB4CUNvCET6Af7tMPuhsTASqHCcEe427H0k
-         6CxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763100168; x=1763704968;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=y3VNVy+UYeqY3IVTtkh/AbSvZ3E8GHu4GINXGK2iL3Y=;
-        b=mByTGjWlUZRQkmYiS6uIRezm/tKKwTspzTNErf7Yj8LKO2xkTpZXtQwAntnGb1MAPP
-         WUI81prNV7OBDrNtrq+T1RNdtCqHQSySD+SgpSsX3TlIRgU3fuYQwfq1aFgqs4rk1jvL
-         52RyTQW8b2HT4tcTtKh6pRYXrExfQ43SZgubg0uErC4udaNHRopBaJC/73CjvlH1ST59
-         YjHnnMZgwFRfyX+H7N3AgOoUHGuuP6xi8TFd7nEwD6jROGXlLanQAH5hlpwn7lBiX6BO
-         fIFkL6bYgI/zI9bHpSTchmB38UJz3O1ESuDR6ziOcdtOcPD1Z8R8pcOZnlXc+Y5upUeH
-         o+XA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqBQxqtiSQwKRDAKZhhqfvlDVg/bRtXejXO5QBLvU1vravJlexVsY1TmHbgTv0LLN01+AH3IfH6fey@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyf4UT3xKTJU+unIUEy30AMRZhIrC7SDt6sHfTKMI4nvFpO9fcW
-	bzE8BT3FE8iN4o5LHroPkCTAzmitC6E2OHsbr4nr9XwOF0RA27xHaXnPVOeuy2Z+srA=
-X-Gm-Gg: ASbGncu+lpMjkQySs9Ca3QcOww3xXJjC990uB+qHh8xCwFR1NmnQagfFjo288ANj9/F
-	lV7JdYAw/x9frMGPquehKNYgiF8rkjxUgpbsdDEDIpv0otjVtOd4d7LQEv/4bzmV70YDyAMsuMJ
-	PSxe0Wnd80LuStWhlDwENf5k73p3CUFC9AE+T2J1rO4GfqYvsHvoeqAN5scSPxSPCqz9jsbZkxn
-	5IKtad+l1jrywRmrfoBdng2LgXesVM//8tTpBqf7Bh4KZ4XzWE/lEOLr2RD3SMFvoN59Ct4oiWi
-	RV3FPCTVFifVjUeuPDJHQ0ico0yj558YV/ZPFfkqXk8SE2L+6+h82OX4H6UuTFwaXnFxXqSYDJN
-	XhpKbigtpuBUGKInGpUTiFcp1qoCZTu5x7k4VkJa1a2O9I1AmR/MiTHaxTK0QezvnV1VK9iZ71D
-	X2dfyS+wGo/PT55gR2yHaeQO0yTGfcVtGgz60=
-X-Google-Smtp-Source: AGHT+IFu12NV5C3ZMb+GzTshy782WYZvWJoPnURdrRS7I9I9BogTqLlIkKyKPKA2EoshONrHEKmUHw==
-X-Received: by 2002:a05:6a00:4b12:b0:7a4:f552:b522 with SMTP id d2e1a72fcca58-7ba3c669976mr2406190b3a.27.1763100167825;
-        Thu, 13 Nov 2025 22:02:47 -0800 (PST)
-Received: from wu-Pro-E500-G6-WS720T.. ([2001:288:7001:2703:22d2:323c:497d:adbd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ba438bed8csm1236316b3a.53.2025.11.13.22.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 22:02:47 -0800 (PST)
-From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-To: 409411716@gms.tku.edu.tw
-Cc: akpm@linux-foundation.org,
-	andriy.shevchenko@intel.com,
-	axboe@kernel.dk,
-	ceph-devel@vger.kernel.org,
-	david.laight.linux@gmail.com,
-	ebiggers@kernel.org,
-	hch@lst.de,
-	home7438072@gmail.com,
-	idryomov@gmail.com,
-	jaegeuk@kernel.org,
-	kbusch@kernel.org,
-	linux-fscrypt@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	sagi@grimberg.me,
-	tytso@mit.edu,
-	visitorckw@gmail.com,
-	xiubli@redhat.com
-Subject: [PATCH v5 6/6] ceph: replace local base64 helpers with lib/base64
-Date: Fri, 14 Nov 2025 14:02:40 +0800
-Message-Id: <20251114060240.89965-1-409411716@gms.tku.edu.tw>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251114055829.87814-1-409411716@gms.tku.edu.tw>
-References: <20251114055829.87814-1-409411716@gms.tku.edu.tw>
+	Fri, 14 Nov 2025 07:00:29 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B01BE211FF;
+	Fri, 14 Nov 2025 07:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763103626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
+	b=OBOsz4NE0x/4MwZyrRM8b1/nOb1tGt5lxt4IMz9+55ID7FmLY2WJoJbgtC73GBsr8bkxsD
+	5eF/SsExOPPnhLJGzmAb4/W+rE57Zg1bi7eGbgwyd8SCCDmHtzMNbAKeFS/n7oimLpF9/o
+	FHe7EDq8hnIDUeoVtgQ2Xiq3cZlWe1E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763103626;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
+	b=wybibO156ySlZ3eavFE/1W7q+S/bSGNjc6qY2vm52xnj9qNUomqqX/+GSfRT/gUYq1vSy0
+	aThruS/3bCmJEXBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dBXdf29L;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IymCTVZt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763103625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
+	b=dBXdf29LigIdE0PoMQhah2OFsUu41V5ssFCEnHvKbH54tJD36Q2s/eDAyD2IIXXDFKpWqc
+	EhCJcE0L0E79ex/+hrBVZQACpiXzwA9HGVUwIS2W5gL2GeSanPRPol5v9F8WB4nBkmKeGe
+	5bc0UbzipIuSx4vM1L6eIKiHYGO+iJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763103625;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
+	b=IymCTVZtJGJAztfZvA/pi6ckXVy8bRVCF3D/wisXg+kyAuamnqYHY0K802osJvvrLXqy6q
+	qrpJNhhtyW1OfuAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62E413EA61;
+	Fri, 14 Nov 2025 07:00:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xoZuFonTFmnxQwAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 14 Nov 2025 07:00:25 +0000
+Message-ID: <e94f276d-da71-4159-bd9c-e9165231b122@suse.de>
+Date: Fri, 14 Nov 2025 08:00:24 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] nvme: Expose the tls_configured sysfs for secure
+ concat connections
+To: alistair23@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
+ sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
+References: <20251114045850.1898865-1-alistair.francis@wdc.com>
+ <20251114045850.1898865-4-alistair.francis@wdc.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251114045850.1898865-4-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: B01BE211FF
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-5.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,kernel.dk,lst.de,grimberg.me,nvidia.com,lists.infradead.org];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim]
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251113_220248_589464_E84FDD82 
-X-CRM114-Status: GOOD (  18.88  )
+X-CRM114-CacheID: sfid-20251113_230028_189656_EF9446BA 
+X-CRM114-Status: GOOD (  14.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,179 +146,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Remove the ceph_base64_encode() and ceph_base64_decode() functions and
-replace their usage with the generic base64_encode() and base64_decode()
-helpers from lib/base64.
+On 11/14/25 05:58, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> ---
+> v3:
+>   - No change
+> v2:
+>   - New patch
+> 
+>   drivers/nvme/host/sysfs.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index 29430949ce2f..6d10e12136d0 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+> @@ -838,7 +838,7 @@ static umode_t nvme_tls_attrs_are_visible(struct kobject *kobj,
+>   	    !ctrl->opts->tls && !ctrl->opts->concat)
+>   		return 0;
+>   	if (a == &dev_attr_tls_configured_key.attr &&
+> -	    (!ctrl->opts->tls_key || ctrl->opts->concat))
+> +	    !ctrl->opts->concat)
+>   		return 0;
+>   	if (a == &dev_attr_tls_keyring.attr &&
+>   	    !ctrl->opts->keyring)
 
-This eliminates the custom implementation in Ceph, reduces code
-duplication, and relies on the shared Base64 code in lib.
-The helpers preserve RFC 3501-compliant Base64 encoding without padding,
-so there are no functional changes.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-This change also improves performance: encoding is about 2.7x faster and
-decoding achieves 43-52x speedups compared to the previous local
-implementation.
+Cheers,
 
-Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
----
- fs/ceph/crypto.c | 60 ++++--------------------------------------------
- fs/ceph/crypto.h |  6 +----
- fs/ceph/dir.c    |  5 ++--
- fs/ceph/inode.c  |  2 +-
- 4 files changed, 9 insertions(+), 64 deletions(-)
-
-diff --git a/fs/ceph/crypto.c b/fs/ceph/crypto.c
-index 7026e794813c..b6016dcffbb6 100644
---- a/fs/ceph/crypto.c
-+++ b/fs/ceph/crypto.c
-@@ -15,59 +15,6 @@
- #include "mds_client.h"
- #include "crypto.h"
- 
--/*
-- * The base64url encoding used by fscrypt includes the '_' character, which may
-- * cause problems in snapshot names (which can not start with '_').  Thus, we
-- * used the base64 encoding defined for IMAP mailbox names (RFC 3501) instead,
-- * which replaces '-' and '_' by '+' and ','.
-- */
--static const char base64_table[65] =
--	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+,";
--
--int ceph_base64_encode(const u8 *src, int srclen, char *dst)
--{
--	u32 ac = 0;
--	int bits = 0;
--	int i;
--	char *cp = dst;
--
--	for (i = 0; i < srclen; i++) {
--		ac = (ac << 8) | src[i];
--		bits += 8;
--		do {
--			bits -= 6;
--			*cp++ = base64_table[(ac >> bits) & 0x3f];
--		} while (bits >= 6);
--	}
--	if (bits)
--		*cp++ = base64_table[(ac << (6 - bits)) & 0x3f];
--	return cp - dst;
--}
--
--int ceph_base64_decode(const char *src, int srclen, u8 *dst)
--{
--	u32 ac = 0;
--	int bits = 0;
--	int i;
--	u8 *bp = dst;
--
--	for (i = 0; i < srclen; i++) {
--		const char *p = strchr(base64_table, src[i]);
--
--		if (p == NULL || src[i] == 0)
--			return -1;
--		ac = (ac << 6) | (p - base64_table);
--		bits += 6;
--		if (bits >= 8) {
--			bits -= 8;
--			*bp++ = (u8)(ac >> bits);
--		}
--	}
--	if (ac & ((1 << bits) - 1))
--		return -1;
--	return bp - dst;
--}
--
- static int ceph_crypt_get_context(struct inode *inode, void *ctx, size_t len)
- {
- 	struct ceph_inode_info *ci = ceph_inode(inode);
-@@ -318,7 +265,7 @@ int ceph_encode_encrypted_dname(struct inode *parent, char *buf, int elen)
- 	}
- 
- 	/* base64 encode the encrypted name */
--	elen = ceph_base64_encode(cryptbuf, len, p);
-+	elen = base64_encode(cryptbuf, len, p, false, BASE64_IMAP);
- 	doutc(cl, "base64-encoded ciphertext name = %.*s\n", elen, p);
- 
- 	/* To understand the 240 limit, see CEPH_NOHASH_NAME_MAX comments */
-@@ -412,7 +359,8 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
- 			tname = &_tname;
- 		}
- 
--		declen = ceph_base64_decode(name, name_len, tname->name);
-+		declen = base64_decode(name, name_len,
-+				       tname->name, false, BASE64_IMAP);
- 		if (declen <= 0) {
- 			ret = -EIO;
- 			goto out;
-@@ -426,7 +374,7 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
- 
- 	ret = fscrypt_fname_disk_to_usr(dir, 0, 0, &iname, oname);
- 	if (!ret && (dir != fname->dir)) {
--		char tmp_buf[CEPH_BASE64_CHARS(NAME_MAX)];
-+		char tmp_buf[BASE64_CHARS(NAME_MAX)];
- 
- 		name_len = snprintf(tmp_buf, sizeof(tmp_buf), "_%.*s_%ld",
- 				    oname->len, oname->name, dir->i_ino);
-diff --git a/fs/ceph/crypto.h b/fs/ceph/crypto.h
-index 23612b2e9837..b748e2060bc9 100644
---- a/fs/ceph/crypto.h
-+++ b/fs/ceph/crypto.h
-@@ -8,6 +8,7 @@
- 
- #include <crypto/sha2.h>
- #include <linux/fscrypt.h>
-+#include <linux/base64.h>
- 
- #define CEPH_FSCRYPT_BLOCK_SHIFT   12
- #define CEPH_FSCRYPT_BLOCK_SIZE    (_AC(1, UL) << CEPH_FSCRYPT_BLOCK_SHIFT)
-@@ -89,11 +90,6 @@ static inline u32 ceph_fscrypt_auth_len(struct ceph_fscrypt_auth *fa)
-  */
- #define CEPH_NOHASH_NAME_MAX (180 - SHA256_DIGEST_SIZE)
- 
--#define CEPH_BASE64_CHARS(nbytes) DIV_ROUND_UP((nbytes) * 4, 3)
--
--int ceph_base64_encode(const u8 *src, int srclen, char *dst);
--int ceph_base64_decode(const char *src, int srclen, u8 *dst);
--
- void ceph_fscrypt_set_ops(struct super_block *sb);
- 
- void ceph_fscrypt_free_dummy_policy(struct ceph_fs_client *fsc);
-diff --git a/fs/ceph/dir.c b/fs/ceph/dir.c
-index d18c0eaef9b7..0fa7c7777242 100644
---- a/fs/ceph/dir.c
-+++ b/fs/ceph/dir.c
-@@ -998,13 +998,14 @@ static int prep_encrypted_symlink_target(struct ceph_mds_request *req,
- 	if (err)
- 		goto out;
- 
--	req->r_path2 = kmalloc(CEPH_BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
-+	req->r_path2 = kmalloc(BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
- 	if (!req->r_path2) {
- 		err = -ENOMEM;
- 		goto out;
- 	}
- 
--	len = ceph_base64_encode(osd_link.name, osd_link.len, req->r_path2);
-+	len = base64_encode(osd_link.name, osd_link.len,
-+			    req->r_path2, false, BASE64_IMAP);
- 	req->r_path2[len] = '\0';
- out:
- 	fscrypt_fname_free_buffer(&osd_link);
-diff --git a/fs/ceph/inode.c b/fs/ceph/inode.c
-index a6e260d9e420..b691343cb7f1 100644
---- a/fs/ceph/inode.c
-+++ b/fs/ceph/inode.c
-@@ -958,7 +958,7 @@ static int decode_encrypted_symlink(struct ceph_mds_client *mdsc,
- 	if (!sym)
- 		return -ENOMEM;
- 
--	declen = ceph_base64_decode(encsym, enclen, sym);
-+	declen = base64_decode(encsym, enclen, sym, false, BASE64_IMAP);
- 	if (declen < 0) {
- 		pr_err_client(cl,
- 			"can't decode symlink (%d). Content: %.*s\n",
+Hannes
 -- 
-2.34.1
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
