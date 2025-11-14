@@ -4,134 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52D34CDE006
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 07:00:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37EEFCDE019
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 07:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=; b=J87BEfbJ7xTfBOd3l3eL19gT/b
-	ZY6dLz4emXHicReve5BWWe2KuyTTFCP9J7vpfOTUoZRD9HhsA9YuzufAeCnkMx/eaKXDr/6mQTSUM
-	5tbfnIEsMhrV2+oWIpKu9xjhmJJr3wHe05EbAflxAa/o6W3EsfV4ZtBHQUWMQ9jnbJFHKVq6bBC/m
-	hDqOvpVte525BIIJRxLJWHZ4ofr8Uu3BP9J/Dk3PpphC91MGlDyMYYio21Soib2i8wYyDL1dlQ6m8
-	kfD8X3WRZ1OuT5HTGFnbRO1C4FVtUiLm1O7nCLJ2ClVpv/ay96ggROf6hhPGp8uLeyzXUIj4SSJSE
-	3UZEOuVg==;
+	bh=7AY/BhDqFCWJX0nQdTNN0uKI7uocSILLvpS/ffLAsX8=; b=sDvZ38MTlWEGGmRQTtxWP3JfxV
+	xBHOC1uaUIDWNGGADg+bMGzOVmqgVGCw6dZla931GuctBjyBpxUQB23fJCNg6qEWaZkl4QekMowGW
+	rW9qKQyibPJOjDnjiPkbWHGdsYRqIYlnqgXVNrbNOHbziuO8or5+H7AHvs/2zMPkAxqbcqxK72q+p
+	vj04f4ms2mocJWP94Y3JIESm8MlkF3arJGE3/8/jZ9+0K2WsONaoFk0GOXuBl12xf0fN1clUYvm/9
+	ygsRcTXqHzdGv5XEf61L2ev5774jfB27bX4eHVSEKg8WrN2GIqJPvfXI7uDCrFAmuhT9qTjcDMpXz
+	0WAcG6jQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJnnK-0000000BhmT-2OQb;
-	Fri, 14 Nov 2025 07:00:30 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1vJo2C-0000000Bjea-2GUc;
+	Fri, 14 Nov 2025 07:15:52 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJnnH-0000000Bhle-4B7l
+	id 1vJo29-0000000Bje0-23hW
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Nov 2025 07:00:29 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Fri, 14 Nov 2025 07:15:50 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B01BE211FF;
-	Fri, 14 Nov 2025 07:00:25 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2702B1F394;
+	Fri, 14 Nov 2025 07:15:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763103626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1763104547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
-	b=OBOsz4NE0x/4MwZyrRM8b1/nOb1tGt5lxt4IMz9+55ID7FmLY2WJoJbgtC73GBsr8bkxsD
-	5eF/SsExOPPnhLJGzmAb4/W+rE57Zg1bi7eGbgwyd8SCCDmHtzMNbAKeFS/n7oimLpF9/o
-	FHe7EDq8hnIDUeoVtgQ2Xiq3cZlWe1E=
+	bh=7AY/BhDqFCWJX0nQdTNN0uKI7uocSILLvpS/ffLAsX8=;
+	b=OUaqsBPoxiOOPereyGLE1+hdlB2F3KdSvWN9rPggYrZqGlm8X6zl7M30uTiFFd2WU3N7er
+	C79sYEbgdwOKgRvWErYnihAPVY8lD+i9vbfEzn682KoT5wJU6INn/+Nbo9VapEEOxy0R7L
+	YY/z3uTWLe6ZfDdovn6hhSGF94+qyo0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763103626;
+	s=susede2_ed25519; t=1763104547;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
-	b=wybibO156ySlZ3eavFE/1W7q+S/bSGNjc6qY2vm52xnj9qNUomqqX/+GSfRT/gUYq1vSy0
-	aThruS/3bCmJEXBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dBXdf29L;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IymCTVZt
+	bh=7AY/BhDqFCWJX0nQdTNN0uKI7uocSILLvpS/ffLAsX8=;
+	b=9c/P9RsdipbeB0LeyTLtwH5iqnrskfdhNOQMI1r2wCj/yvVEgdECiHE40Sls5N2lhPt+LC
+	sR5Ps7x2dRJEykDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763103625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1763104547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
-	b=dBXdf29LigIdE0PoMQhah2OFsUu41V5ssFCEnHvKbH54tJD36Q2s/eDAyD2IIXXDFKpWqc
-	EhCJcE0L0E79ex/+hrBVZQACpiXzwA9HGVUwIS2W5gL2GeSanPRPol5v9F8WB4nBkmKeGe
-	5bc0UbzipIuSx4vM1L6eIKiHYGO+iJE=
+	bh=7AY/BhDqFCWJX0nQdTNN0uKI7uocSILLvpS/ffLAsX8=;
+	b=OUaqsBPoxiOOPereyGLE1+hdlB2F3KdSvWN9rPggYrZqGlm8X6zl7M30uTiFFd2WU3N7er
+	C79sYEbgdwOKgRvWErYnihAPVY8lD+i9vbfEzn682KoT5wJU6INn/+Nbo9VapEEOxy0R7L
+	YY/z3uTWLe6ZfDdovn6hhSGF94+qyo0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763103625;
+	s=susede2_ed25519; t=1763104547;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Y2/AuKA5YiROwkz+HjXumx7ObWtAwP0RFFtkqkdV+ng=;
-	b=IymCTVZtJGJAztfZvA/pi6ckXVy8bRVCF3D/wisXg+kyAuamnqYHY0K802osJvvrLXqy6q
-	qrpJNhhtyW1OfuAw==
+	bh=7AY/BhDqFCWJX0nQdTNN0uKI7uocSILLvpS/ffLAsX8=;
+	b=9c/P9RsdipbeB0LeyTLtwH5iqnrskfdhNOQMI1r2wCj/yvVEgdECiHE40Sls5N2lhPt+LC
+	sR5Ps7x2dRJEykDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62E413EA61;
-	Fri, 14 Nov 2025 07:00:25 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDF193EA61;
+	Fri, 14 Nov 2025 07:15:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xoZuFonTFmnxQwAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 14 Nov 2025 07:00:25 +0000
-Message-ID: <e94f276d-da71-4159-bd9c-e9165231b122@suse.de>
-Date: Fri, 14 Nov 2025 08:00:24 +0100
+	id DAwYLCLXFmmlUgAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 14 Nov 2025 07:15:46 +0000
+Message-ID: <e15b39ad-bfdf-4177-86b7-99c84975825e@suse.de>
+Date: Fri, 14 Nov 2025 08:15:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] nvme: Expose the tls_configured sysfs for secure
- concat connections
+Subject: Re: [PATCH v3 4/4] nvme: Allow reauth from sysfs
 To: alistair23@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
  sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
 References: <20251114045850.1898865-1-alistair.francis@wdc.com>
- <20251114045850.1898865-4-alistair.francis@wdc.com>
+ <20251114045850.1898865-5-alistair.francis@wdc.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251114045850.1898865-4-alistair.francis@wdc.com>
+In-Reply-To: <20251114045850.1898865-5-alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B01BE211FF
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-5.51 / 50.00];
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_TO(0.00)[gmail.com,kernel.org,kernel.dk,lst.de,grimberg.me,nvidia.com,lists.infradead.org];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim]
-X-Rspamd-Action: no action
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,infradead.org:email,wdc.com:email,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251113_230028_189656_EF9446BA 
-X-CRM114-Status: GOOD (  14.48  )
+X-CRM114-CacheID: sfid-20251113_231549_697104_6B0107EE 
+X-CRM114-Status: GOOD (  26.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,32 +136,98 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 11/14/25 05:58, alistair23@gmail.com wrote:
 > From: Alistair Francis <alistair.francis@wdc.com>
 > 
+> Allow userspace to trigger a reauth (REPLACETLSPSK) from sysfs.
+> This can be done by writing  a zero to the sysfs file.
+> 
+> echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/tls_configured_key
+> 
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
 > ---
 > v3:
->   - No change
+>   - Only trigger if a 0 is written to `tls_configured_key`
+>   - Add documentation
 > v2:
->   - New patch
+>   - Trigger on any value written to `tls_configured_key`
 > 
->   drivers/nvme/host/sysfs.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   Documentation/ABI/testing/sysfs-nvme | 13 +++++++++++
+>   drivers/nvme/host/sysfs.c            | 34 +++++++++++++++++++++++++++-
+>   2 files changed, 46 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/ABI/testing/sysfs-nvme
 > 
+> diff --git a/Documentation/ABI/testing/sysfs-nvme b/Documentation/ABI/testing/sysfs-nvme
+> new file mode 100644
+> index 000000000000..16aaf0dca9e2
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-nvme
+> @@ -0,0 +1,13 @@
+> +What:		/sys/devices/virtual/nvme-fabrics/ctl/.../tls_configured_key
+> +Date:		November 2025
+> +KernelVersion:	6.19
+> +Contact:	Linux NVMe mailing list <linux-nvme@lists.infradead.org>
+> +Description:
+> +		The file is avaliable when using a secure concatanation
+> +		connection to a NVMe taget. Reading the file will return
+> +		the serial of the currently negotiated key.
+> +
+> +		Writing 0 to the file will trigger a PSK reauthentication
+> +		(REPLACETLSPSK) with the target. After a reauthentication
+> +		the value returned by tls_configured_key will be the new
+> +		serial.
 > diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index 29430949ce2f..6d10e12136d0 100644
+> index 6d10e12136d0..7ff9a5053c3f 100644
 > --- a/drivers/nvme/host/sysfs.c
 > +++ b/drivers/nvme/host/sysfs.c
-> @@ -838,7 +838,7 @@ static umode_t nvme_tls_attrs_are_visible(struct kobject *kobj,
->   	    !ctrl->opts->tls && !ctrl->opts->concat)
->   		return 0;
->   	if (a == &dev_attr_tls_configured_key.attr &&
-> -	    (!ctrl->opts->tls_key || ctrl->opts->concat))
-> +	    !ctrl->opts->concat)
->   		return 0;
->   	if (a == &dev_attr_tls_keyring.attr &&
->   	    !ctrl->opts->keyring)
+> @@ -806,7 +806,39 @@ static ssize_t tls_configured_key_show(struct device *dev,
+>   
+>   	return sysfs_emit(buf, "%08x\n", key_serial(key));
+>   }
+> -static DEVICE_ATTR_RO(tls_configured_key);
+> +
+> +static ssize_t tls_configured_key_store(struct device *dev,
+> +					struct device_attribute *attr,
+> +					const char *buf, size_t count)
+> +{
+> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+> +	int error, qid;
+> +
+> +	error = kstrtoint(buf, 10, &qid);
+> +	if (error)
+> +		return error;
+> +
+> +	/*
+> +	 * We currently only allow userspace to write a `0` indicating
+> +	 * generate a new key.
+> +	 */
+> +	if (!qid)
+> +		return -EINVAL;
+> +
+> +	if (!ctrl->opts || !ctrl->opts->concat)
+> +		return -EOPNOTSUPP;
+> +
+> +	error = nvme_auth_negotiate(ctrl, 0);
+> +	if (error < 0)
+> +		return error;
+> +
+> +	error = nvme_auth_wait(ctrl, 0);
+> +	if (error < 0)
+> +		return error;
+> +
+> +	return count;
+> +}
+> +static DEVICE_ATTR_RW(tls_configured_key);
+>   
+>   static ssize_t tls_keyring_show(struct device *dev,
+>   		struct device_attribute *attr, char *buf)
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Hmm.
+Now we are just running (re-) authentication, but that does
+not affect the TLS connection (which continues to use the
+original key). So you would need to reset the connection
+here to re-establish a new TLS connection.
+
+Also: if the authentication fails you need to tear down
+the connection (cf NVMe Base Spec 2.1, section 8.3.4.5.1
+Protocol Operations).
 
 Cheers,
 
