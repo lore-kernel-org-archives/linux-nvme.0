@@ -4,101 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40AB3CE7A8E
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 09:22:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31598CE7AED
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 11:41:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QuX17fCzmjSlKD2oTV0BAVWCX3GMVQ03UEsOj2aXO/w=; b=fiDz70wOAmZG0MVnPRCioMr1Lw
-	AlnmZJHjqTzxX8/vJccrjCRzM2wRbG/n5IQGiGNVskWgug5KOHOBMTJq3QbGahyfGr9+vh5nE+gSI
-	NSnF+rxdJ3oIsbDNVFJKzFUmkyRm/qYBkmpO95hKtDh5sDPTnu8h4bXCqW5nbz++jxClhkEIiG9bH
-	aHWqza94XHUZUssnm4XlyCaOavaiY11yaMxHbvfifAI/489V1LUTBIzIZUCsmC7FrgA+byTGv8/Sz
-	yVhEOP48vXv3x9pqJKCiaWe/874qAV/WKV5I+OUxpm5IkpuKgJ6Wok11jAdix/2VKqBbJbKGJuJ/v
-	BcrKPpKA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=2ecMm9O07ms9TEHe9nKCQPh9xB4OigdxXlVPBpq5cVA=; b=kAXWtHLSRux+PZJkg64sC/1EGm
+	BhysN8BhJbd8eMAFMY6mTGciXM4tIrmCHH7ny29kT6H/jHT9frZ0U9OxNVn0Zv8jnWyBv6XmVjRxd
+	PP79FHFf8/V+99T5pts+OTTOX83BTBn5WXBzf0KgvWbktKoITTbfwYRYhoJmOAfD92090aTOnBXeF
+	/aGKmffXDjBCACmcWKNoPHDF2IpdD+wqifxPreCBDTre3kRYErbhhP1ARA8IXFoua+RYC5GP5a/WQ
+	7CfmlPVuBnVnln5nIEfeELupoTTBAwWd4NX1lObr+lIQzmB38eB/xvs1gipuRIqNhA+Q1Eqb6oYzL
+	s5EoDl0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJq0m-0000000Bu9H-2SQg;
-	Fri, 14 Nov 2025 09:22:32 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1vJsBT-0000000C8On-2lYe;
+	Fri, 14 Nov 2025 11:41:43 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJq0k-0000000Bu8A-3oSD
+	id 1vJsBQ-0000000C8OR-2Xlj
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Nov 2025 09:22:32 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-2984dfae043so15741155ad.0
-        for <linux-nvme@lists.infradead.org>; Fri, 14 Nov 2025 01:22:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1763112150; x=1763716950; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QuX17fCzmjSlKD2oTV0BAVWCX3GMVQ03UEsOj2aXO/w=;
-        b=hqVs8WfsQ/XfXVJNWN/tRwYJgRXt9fE6nrWPyQcf32U1qPPsCClf1l92tg7IqIKQaS
-         u3xjfPHHv5zcXa6Kjg2HNNJk87ExforWsjS7QP9RhZd4DdJ8elxvEHxzIP+vAF2eMwv3
-         RPNpu8gcWifkMWeLsBvYvNsOHb3BmTD8X9KwFLL3tRCsjGUMBAB+Vf/8nHaQ+qwvw1k9
-         ceVs7eD31zdmcAlrNSi28eAsTFgoe8do2TnViLAhe1/2gP2KM2jQdx+fDl8QKBwcJGby
-         YnwhqRBTJf3e6VjIleycYbBhkAQ7TbnpGvu2pZ0VCYMDUbpaNVRbzs5tH0qPR+Ke9kM7
-         0O3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763112150; x=1763716950;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QuX17fCzmjSlKD2oTV0BAVWCX3GMVQ03UEsOj2aXO/w=;
-        b=dUzYADKiaG/pCcwjtMxm53cd3kduyyEmumly7ZXK9WthDs2KIuorLyodAXrNlPpY5/
-         KpzFh6hMXJpf3eKLfLPsHNdXYvIHh0XlRm7M5HLnlWIrh2kmqWmRYgJ86ykTxMpFx5zq
-         u7R5FH8LS4DNSVKfWmME1ZPx3DKuT3H/3rp7n99MpJohLA0qxf7LV+LgGTqOm0RN+U5s
-         41D51trydlc5I/hX4s54EU8GYfB+Y38Rd5yq7KNZA9gZhevfXqEGJ1A2JKNpWv5pFpAk
-         5kZebC8OXSL/94a8KMgZmyDyfo3yhcTRx2ESgGTRecPv+2IDJIC1aVFrEVvYkeAS77ow
-         UXNA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6ImB37cSw4sT1o8gLqRsphOaG4K5fRP8SZgvKwPe+AbegGHRXU+O3KN5abM5SSJaY1WQAuU/EIfMw@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz9CCZ+bVWaBFQEfOL5yTuebtAEnx5pKPECZT2x2ucdpWruy/sj
-	S/RKwfA5gpzhrIH4ZysJpLN6la/IsrPPUA3vGE/4vTlLLRKp1J5TFvEA58KZBZnFxXk=
-X-Gm-Gg: ASbGnctY2AwWVJ5OGdXAgLYa7nPkI3xZcOPmIGQiqdCB8wXGsqX3jXcdhFTFfzCXafQ
-	xXmIznPRQotyuM/hnn/WqmBFUE3nfvSZKCBQ/S+BDotxUYPIeSAG6QSSSbiM4FcpGlx2JFoehqu
-	pcqhPPt189DU6GTi5aAv6RA/wZESyIWoXig2DZvVpzYClbqXZSAYUx/NZN4Cuff75HkTrwLAy76
-	KoS34W20ZV1I0NZGVfimUfSYtFFWIiBRIkdL7J5GlJHzTyQm1uJqKzIcMoIBV6FGjpEfsg3lPG6
-	YwBliyMGndYc4f2qPjoclQPSSHX0vBPwSx2k+YFhnUGv+aCR3/1tZVWswBbWc+OQF9EC5iFsaMr
-	ifLFIeDnbp22ZVWALVfLZLLKZcYfqo2WLDa9pGMWfIBohPf2SRH/do+RUGPkLV0cGyQ8MxGd0Us
-	Eyk+CflQ83o5pt03Jq3de6eiVLCHPIkqjRLg==
-X-Google-Smtp-Source: AGHT+IE5EpOKhzEVc2rBcafP7dwFxgYiV1vDTAUPbL2qqYMIRb4HDnxBwlI0YiLG3+RKWslwz123UA==
-X-Received: by 2002:a17:903:380b:b0:297:dd7f:f1e0 with SMTP id d9443c01a7336-2986a751eb6mr23592765ad.43.1763112149863;
-        Fri, 14 Nov 2025 01:22:29 -0800 (PST)
-Received: from localhost.localdomain ([203.208.167.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0fe9sm48725735ad.65.2025.11.14.01.22.24
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 14 Nov 2025 01:22:29 -0800 (PST)
-From: Fengnan Chang <changfengnan@bytedance.com>
-To: axboe@kernel.dk,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	asml.silence@gmail.com,
-	willy@infradead.org,
-	djwong@kernel.org,
-	hch@infradead.org,
-	ritesh.list@gmail.com,
-	linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	ming.lei@redhat.com,
-	linux-nvme@lists.infradead.org
-Cc: Fengnan Chang <changfengnan@bytedance.com>
-Subject: [PATCH v3 2/2] block: enable per-cpu bio cache by default
-Date: Fri, 14 Nov 2025 17:21:49 +0800
-Message-Id: <20251114092149.40116-3-changfengnan@bytedance.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20251114092149.40116-1-changfengnan@bytedance.com>
-References: <20251114092149.40116-1-changfengnan@bytedance.com>
+	Fri, 14 Nov 2025 11:41:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763120497;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2ecMm9O07ms9TEHe9nKCQPh9xB4OigdxXlVPBpq5cVA=;
+	b=A4t/parnHtmsDWKYTETvfEadeCkQMBkwhwGgI/XJjbXHzja4R1Hq14P60oY6wGxiM9NXGc
+	RmVN2bguHIO4iQ2yAjQzASep1JHaMO03gh5sur32ajdPHCRPVEfsmx7Ry1SPlrQnDdsfao
+	00YR1Ln0PqvL5lXL3ZB2mdmrC26n+UY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-569-h-GUjrY7N3iEzqqK9ssNmQ-1; Fri,
+ 14 Nov 2025 06:41:34 -0500
+X-MC-Unique: h-GUjrY7N3iEzqqK9ssNmQ-1
+X-Mimecast-MFC-AGG-ID: h-GUjrY7N3iEzqqK9ssNmQ_1763120492
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0EA791800452;
+	Fri, 14 Nov 2025 11:41:32 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.81])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5FFFF300018D;
+	Fri, 14 Nov 2025 11:41:18 +0000 (UTC)
+Date: Fri, 14 Nov 2025 19:41:14 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Casey Chen <cachen@purestorage.com>,
+	Vikas Manocha <vmanocha@purestorage.com>,
+	Yuanyuan Zhong <yzhong@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: Convert tag_list mutex to rwsemaphore to avoid
+ deadlock
+Message-ID: <aRcVWtE4fHCe3jjM@fedora>
+References: <20251113202320.2530531-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251113202320.2530531-1-mkhalfella@purestorage.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251114_012230_957501_31B18FCD 
-X-CRM114-Status: GOOD (  17.01  )
+X-CRM114-CacheID: sfid-20251114_034140_726314_06622E75 
+X-CRM114-Status: GOOD (  17.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,125 +89,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since after commit 12e4e8c7ab59 ("io_uring/rw: enable bio caches for
-IRQ rw"), bio_put is safe for task and irq context, bio_alloc_bioset is
-safe for task context and no one calls in irq context, so we can enable
-per cpu bio cache by default.
+On Thu, Nov 13, 2025 at 12:23:20PM -0800, Mohamed Khalfella wrote:
+> blk_mq_{add,del}_queue_tag_set() functions add and remove queues from
+> tagset, the functions make sure that tagset and queues are marked as
+> shared when two or more queues are attached to the same tagset.
+> Initially a tagset starts as unshared and when the number of added
+> queues reaches two, blk_mq_add_queue_tag_set() marks it as shared along
+> with all the queues attached to it. When the number of attached queues
+> drops to 1 blk_mq_del_queue_tag_set() need to mark both the tagset and
+> the remaining queues as unshared.
+> 
+> Both functions need to freeze current queues in tagset before setting on
+> unsetting BLK_MQ_F_TAG_QUEUE_SHARED flag. While doing so, both functions
+> hold set->tag_list_lock mutex, which makes sense as we do not want
+> queues to be added or deleted in the process. This used to work fine
+> until commit 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> made the nvme driver quiesce tagset instead of quiscing individual
+> queues. blk_mq_quiesce_tagset() does the job and quiesce the queues in
+> set->tag_list while holding set->tag_list_lock also.
+> 
+> This results in deadlock between two threads with these stacktraces:
+> 
+>   __schedule+0x48e/0xed0
+>   schedule+0x5a/0xc0
+>   schedule_preempt_disabled+0x11/0x20
+>   __mutex_lock.constprop.0+0x3cc/0x760
+>   blk_mq_quiesce_tagset+0x26/0xd0
+>   nvme_dev_disable_locked+0x77/0x280 [nvme]
+>   nvme_timeout+0x268/0x320 [nvme]
+>   blk_mq_handle_expired+0x5d/0x90
+>   bt_iter+0x7e/0x90
+>   blk_mq_queue_tag_busy_iter+0x2b2/0x590
+>   ? __blk_mq_complete_request_remote+0x10/0x10
+>   ? __blk_mq_complete_request_remote+0x10/0x10
+>   blk_mq_timeout_work+0x15b/0x1a0
+>   process_one_work+0x133/0x2f0
+>   ? mod_delayed_work_on+0x90/0x90
+>   worker_thread+0x2ec/0x400
+>   ? mod_delayed_work_on+0x90/0x90
+>   kthread+0xe2/0x110
+>   ? kthread_complete_and_exit+0x20/0x20
+>   ret_from_fork+0x2d/0x50
+>   ? kthread_complete_and_exit+0x20/0x20
+>   ret_from_fork_asm+0x11/0x20
+> 
+>   __schedule+0x48e/0xed0
+>   schedule+0x5a/0xc0
+>   blk_mq_freeze_queue_wait+0x62/0x90
+>   ? destroy_sched_domains_rcu+0x30/0x30
+>   blk_mq_exit_queue+0x151/0x180
+>   disk_release+0xe3/0xf0
+>   device_release+0x31/0x90
+>   kobject_put+0x6d/0x180
+>   nvme_scan_ns+0x858/0xc90 [nvme_core]
+>   ? nvme_scan_work+0x281/0x560 [nvme_core]
+>   nvme_scan_work+0x281/0x560 [nvme_core]
+>   process_one_work+0x133/0x2f0
+>   ? mod_delayed_work_on+0x90/0x90
+>   worker_thread+0x2ec/0x400
+>   ? mod_delayed_work_on+0x90/0x90
+>   kthread+0xe2/0x110
+>   ? kthread_complete_and_exit+0x20/0x20
+>   ret_from_fork+0x2d/0x50
+>   ? kthread_complete_and_exit+0x20/0x20
+>   ret_from_fork_asm+0x11/0x20
 
-Benchmarked with t/io_uring and ext4+nvme:
-taskset -c 6 /root/fio/t/io_uring  -p0 -d128 -b4096 -s1 -c1 -F1 -B1 -R1
--X1 -n1 -P1  /mnt/testfile
-base IOPS is 562K, patch IOPS is 574K. The CPU usage of bio_alloc_bioset
-decrease from 1.42% to 1.22%.
+It is one AB-BA deadlock, lockdep should have complained it, but nvme doesn't
+support owned freeze queue.
 
-The worst case is allocate bio in CPU A but free in CPU B, still use
-t/io_uring and ext4+nvme:
-base IOPS is 648K, patch IOPS is 647K.
+Maybe the following change can avoid it?
 
-Also use fio test ext4/xfs with libaio/sync/io_uring on null_blk and
-nvme, no obvious performance regression.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c916176bd9f0..9967c4a7e72d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3004,6 +3004,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+        bool dead;
 
-Signed-off-by: Fengnan Chang <changfengnan@bytedance.com>
----
- block/bio.c        | 26 ++++++++++++--------------
- block/fops.c       |  4 ----
- include/linux/fs.h |  3 ---
- io_uring/rw.c      |  1 -
- 4 files changed, 12 insertions(+), 22 deletions(-)
+        mutex_lock(&dev->shutdown_lock);
++       nvme_quiesce_io_queues(&dev->ctrl);
+        dead = nvme_pci_ctrl_is_dead(dev);
+        if (state == NVME_CTRL_LIVE || state == NVME_CTRL_RESETTING) {
+                if (pci_is_enabled(pdev))
+@@ -3016,8 +3017,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+                        nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+        }
 
-diff --git a/block/bio.c b/block/bio.c
-index b3a79285c278..64a1599a5930 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -516,20 +516,18 @@ struct bio *bio_alloc_bioset(struct block_device *bdev, unsigned short nr_vecs,
- 	if (WARN_ON_ONCE(!mempool_initialized(&bs->bvec_pool) && nr_vecs > 0))
- 		return NULL;
- 
--	if (opf & REQ_ALLOC_CACHE) {
--		if (bs->cache && nr_vecs <= BIO_INLINE_VECS) {
--			bio = bio_alloc_percpu_cache(bdev, nr_vecs, opf,
--						     gfp_mask, bs);
--			if (bio)
--				return bio;
--			/*
--			 * No cached bio available, bio returned below marked with
--			 * REQ_ALLOC_CACHE to particpate in per-cpu alloc cache.
--			 */
--		} else {
--			opf &= ~REQ_ALLOC_CACHE;
--		}
--	}
-+	if (bs->cache && nr_vecs <= BIO_INLINE_VECS) {
-+		opf |= REQ_ALLOC_CACHE;
-+		bio = bio_alloc_percpu_cache(bdev, nr_vecs, opf,
-+					     gfp_mask, bs);
-+		if (bio)
-+			return bio;
-+		/*
-+		 * No cached bio available, bio returned below marked with
-+		 * REQ_ALLOC_CACHE to participate in per-cpu alloc cache.
-+		 */
-+	} else
-+		opf &= ~REQ_ALLOC_CACHE;
- 
- 	/*
- 	 * submit_bio_noacct() converts recursion to iteration; this means if
-diff --git a/block/fops.c b/block/fops.c
-index 5e3db9fead77..7ef2848244b1 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -184,8 +184,6 @@ static ssize_t __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter,
- 	loff_t pos = iocb->ki_pos;
- 	int ret = 0;
- 
--	if (iocb->ki_flags & IOCB_ALLOC_CACHE)
--		opf |= REQ_ALLOC_CACHE;
- 	bio = bio_alloc_bioset(bdev, nr_pages, opf, GFP_KERNEL,
- 			       &blkdev_dio_pool);
- 	dio = container_of(bio, struct blkdev_dio, bio);
-@@ -333,8 +331,6 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 	loff_t pos = iocb->ki_pos;
- 	int ret = 0;
- 
--	if (iocb->ki_flags & IOCB_ALLOC_CACHE)
--		opf |= REQ_ALLOC_CACHE;
- 	bio = bio_alloc_bioset(bdev, nr_pages, opf, GFP_KERNEL,
- 			       &blkdev_dio_pool);
- 	dio = container_of(bio, struct blkdev_dio, bio);
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index c895146c1444..1be899ac8b5a 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -365,8 +365,6 @@ struct readahead_control;
- /* iocb->ki_waitq is valid */
- #define IOCB_WAITQ		(1 << 19)
- #define IOCB_NOIO		(1 << 20)
--/* can use bio alloc cache */
--#define IOCB_ALLOC_CACHE	(1 << 21)
- /*
-  * IOCB_DIO_CALLER_COMP can be set by the iocb owner, to indicate that the
-  * iocb completion can be passed back to the owner for execution from a safe
-@@ -399,7 +397,6 @@ struct readahead_control;
- 	{ IOCB_WRITE,		"WRITE" }, \
- 	{ IOCB_WAITQ,		"WAITQ" }, \
- 	{ IOCB_NOIO,		"NOIO" }, \
--	{ IOCB_ALLOC_CACHE,	"ALLOC_CACHE" }, \
- 	{ IOCB_DIO_CALLER_COMP,	"CALLER_COMP" }, \
- 	{ IOCB_AIO_RW,		"AIO_RW" }, \
- 	{ IOCB_HAS_METADATA,	"AIO_HAS_METADATA" }
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 5b2241a5813c..c0c59eb358a8 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -862,7 +862,6 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode, int rw_type)
- 	ret = kiocb_set_rw_flags(kiocb, rw->flags, rw_type);
- 	if (unlikely(ret))
- 		return ret;
--	kiocb->ki_flags |= IOCB_ALLOC_CACHE;
- 
- 	/*
- 	 * If the file is marked O_NONBLOCK, still allow retry for it if it
--- 
-2.39.5 (Apple Git-154)
+-       nvme_quiesce_io_queues(&dev->ctrl);
+-
+        if (!dead && dev->ctrl.queue_count > 0) {
+                nvme_delete_io_queues(dev);
+                nvme_disable_ctrl(&dev->ctrl, shutdown);
+
+
+Thanks, 
+Ming
 
 
