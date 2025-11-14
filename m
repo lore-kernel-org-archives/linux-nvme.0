@@ -4,96 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37883CD4F49
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 04:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDC77CDE008
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 05:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Bfzmvxt/gmw2349tGAnFjOdfZ+93wga1zw9nPNy4MXM=; b=Gc3qpvQ76iFtxyddLoGQdRGCdy
-	ww1oTDA3NRo6eweUPL91Cc81wQs0I/Jxks/O1bBflc+mMelO8cRvdztaMKnOg7QwDi51i7LyUGS8e
-	hmUqe6yCSMhZZECvEzm4M0suutYbdj8Ns39HweR1xC17/mumFexxpJw2S7r4ynIXz3kpdawWxQrzS
-	Y5SBPcKl7YT7iKpwnwmjMUQpQDxS0+vkQffm+a/7BKUdOQW/2Eu+0MxNr+5UiWoF8dWJe/n/KX+tE
-	mDowZfvFh7O4Ae3AaXiXyHhaL5Q5FMhhClCxqH2Mje4uLbah/Vu7IJ3+MlJgFMXLGaj4GX7UEX5C4
-	mmm32P6Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ceqWDqvY/FDdzTWcr1CZe6B3SXd28YT0+hfhTO7utYg=; b=kkg4qZDt6kJmAwIUJzAfNDV9Zj
+	i79C/0yS2+Aagq6FpRLrIOztmZElPxc3NMYjDdcihlq5M/5D97IRcDQRkPIVg4dLWIZAPlyro5T9D
+	jbx8bjbo8dwaAe2qjB6Qc5xjPiY6I5xsbphjH0074ZyaysJbOyffo4KWFsQze4nm7nG/4SeUoXtrY
+	TnC/sAlBPoeHGgtnlWE/gEDxEZxHT/eQ+Qn68rBl0o23KhSL6zTjsbSBnDVO5YH4UQmO83O76vx2Y
+	Ua3swQokPVCDgiDSB8tdRMjVthRClhBNR5wOVbXPFLIBiUGkylEXtGrq1P4GiNLnHQ7ayBMUOwSpV
+	QMqqp9ZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJluH-0000000BZQb-2abd;
-	Fri, 14 Nov 2025 04:59:33 +0000
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+	id 1vJmSN-0000000Bb8Y-1WVS;
+	Fri, 14 Nov 2025 05:34:47 +0000
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJluF-0000000BZP2-0k7Q
+	id 1vJmSK-0000000Bb8B-1hrq
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Nov 2025 04:59:32 +0000
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so974405b3a.3
-        for <linux-nvme@lists.infradead.org>; Thu, 13 Nov 2025 20:59:30 -0800 (PST)
+	Fri, 14 Nov 2025 05:34:45 +0000
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-bc4b952cc9dso814028a12.3
+        for <linux-nvme@lists.infradead.org>; Thu, 13 Nov 2025 21:34:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763096370; x=1763701170; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bfzmvxt/gmw2349tGAnFjOdfZ+93wga1zw9nPNy4MXM=;
-        b=i2yJ+M19k4IkqrxFo34spAURQ9z4jhpues34X/DrlY9TRvqzSvb18tgLA8xRGORA/x
-         Yy4abYl7W0Wy9Pz91uh1nFLbxYBGZPjJGk43iIGY6IytmNvPT3WvuXiUv3Vdkrt5+TEC
-         s+00zyfKd1M6F71pLDfix9iMCjEpncjU/PkxjiDBW9/qRdk4GUSXp0t3U+VmP4e3HctB
-         iz0MloqgiwVcboyKmUdfcptfBlOatLYCOfX+6adR0sHTNWU5pPL2XPAaz+3hGXNz0U1k
-         jG45ZGZXyIRAAJUEqbmTWc8MlWOYdqbfKnjsy44/Vcq97CYF53jIJ2goA224mWydDTog
-         haNw==
+        d=purestorage.com; s=google2022; t=1763098483; x=1763703283; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ceqWDqvY/FDdzTWcr1CZe6B3SXd28YT0+hfhTO7utYg=;
+        b=Y9SlQbnoHQvtxJoumK98jTyLG8c6iY2EXIkYdwGoP+QgjZALKDjsJ0vTphdwXDc7zA
+         tcC3KIzudL06XY0E+iQRGjc7RI9ixl21vxYdgfMeTgvsgSnwKkb+LfmXY5cGJTczJWIn
+         IiqXdaC0VL+D5OOVHQfCxH3Jw0ROYTnUam6TP0L4Rph03tZ3mL0bxJZG0hf3pU4qhmJu
+         pMC2bzYjlnCvhodsZSKqGlLrhaOej1Kn+fSPh7HXMHpAhTogrjHBduMZnQIZkDQS13aE
+         RBXFb0R3k0G15flLhqWCLEqnL67sCMB8RK0o3KBin7fsSW3P/loSJqWp5iJks4AsZ18e
+         25Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763096370; x=1763701170;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bfzmvxt/gmw2349tGAnFjOdfZ+93wga1zw9nPNy4MXM=;
-        b=sUUpEZj0MlFucPa7QzZtoAj9gwzGs3Yna1r2TLUmM8fGLMgecun/QdnB3G1fTDRUJk
-         Ri7JdogwAcVB5fDk7VZb12OCg54OecmMZh0PEMuZdhkMCtqGg5/3EolJY2fEm1HaLdTG
-         RhfpCH4AEFyD6x2HtJHNb7Nc4Q0sd8tC5MihfWl2ovCGXcNzTcDmXTjYgyjNQaT0cXWJ
-         csof/tvZi1u9mFRlxip9vOGLOuECv+PfWDyDfBqy9LKwochvcBCnDAaOKGNSYJ2w9hRB
-         l34HmeqVHAkc3rMHiSyL/GQFCtTRzIYE4D1al/FLlB8ZGuKsE5bvYlw84rtsMCgxaOfO
-         NbKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVH9esE1PN6Oxabg4tx8ndQphMQfLQ51IqD9BiBtBGFC9p/TfmzqOD8PGj/pY6b/wVGqE69y0Rddmcb@lists.infradead.org
-X-Gm-Message-State: AOJu0YyiQriuPsXkNBFzXeeffLP4WYSdU8VVHLkPPt2Tx5rRj8jbh2EZ
-	eKlkZxvrDUigp07yDPhnYmI24lchdaNzUf402K9jukmMlpjGp2GbWN5g
-X-Gm-Gg: ASbGncsaziDdTL/isOYjE2JGpYjQre5BWsLSb24AeRja3Zqh+SVO+7TpdQUlYdybpa1
-	xcvSfhNTUWeYkq8qI0n5fqQTJwaS2KfQi58Jc13OP+a7V+ljZoihqgNJnQBiRcLVGiq6jHT0Jxc
-	FMbB6pxp7BltgpYNO0QozJDAJSThsMz//fockhC7YkTqxl+PU2WX54fNz7+piYfyUpq8jrm5VKa
-	hDqaOtf6pdnAhw7P+DXDBPPARku5USBwmiFjuST+P9GjT1ux3Z1hfoUC69roBGYjpIl8mPpMp6A
-	9CdkXmiffDs/8Z9vVC0fXgr4agKqmKQ9Il7/+29SC80F4DUGRhPT1pGoLh3UYWpGAaPEVU/EaJu
-	mPDurybQ4fz5JRbwrtOkrI8nzJhMUTHZ5i49ZUTxDKdtDkL6qQy2y5GftBMPG16F7aSlLXjfkGt
-	4BYwCDqWNEEHZ/8N1RzecjkmCLIto/Y2D6KvFKiO1oy4rEkCDpyAn7fDcEaASu73+kYUa62jXGt
-	ORFCL27768uQltmKWc=
-X-Google-Smtp-Source: AGHT+IHYxOiVntXwdtqm98FQCjt4LFl8Y6F+Q8OyX8vy/WuUTKNMXkpNTUzXfzCcsTtpGGne/L6IGA==
-X-Received: by 2002:a05:6a00:18a9:b0:7a2:7c48:e394 with SMTP id d2e1a72fcca58-7ba379a7b0cmr2019546b3a.0.1763096370323;
-        Thu, 13 Nov 2025 20:59:30 -0800 (PST)
-Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ba438bed8csm1061189b3a.53.2025.11.13.20.59.26
+        d=1e100.net; s=20230601; t=1763098483; x=1763703283;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ceqWDqvY/FDdzTWcr1CZe6B3SXd28YT0+hfhTO7utYg=;
+        b=LNF7jOYBEf3Z2yC7ASStGO/bblErb1qRvWkqBQWSAkPNgX9JL68r6DF3SgyOJXtNVq
+         1brDQKg9Bkcb7SKQrI09pVdbQmPihY+okSeO8TrrjiwSgPBpDsP2Cqj+CBSFNiEvIpkw
+         /0ScGF5048stq09qHKv92LUg2+5HL28UrT5s+AUhp//YIbuaxIRyiil8Nq+mY88SQ8n6
+         XptPrdpAUyp2qGZrNZnE/2/a+7ZsStcmtkX5Sl3i1Pc94kUWQC8fmkfV3waeH8KYsSJk
+         Isz91U0OFkRh+icqWMhZmM0CCIlkVzR07/VOs5ufnVBuiBeZOn3aIgz1YjSxNntbYrfA
+         b4hw==
+X-Forwarded-Encrypted: i=1; AJvYcCVOmYHv/FhUux9PH6lYg3LNEUDL281yw18KnTBku2NBTI454EVAf5MNsJIsNdADCcq4FGhjx+oZg6T6@lists.infradead.org
+X-Gm-Message-State: AOJu0YziI//7FcJkJGFvpOnLTIhso6hNj1q7gvv1hrLnCifiOw7Gq/9m
+	N/eGwI8Zn2iXCts8mNA8L1FTyS6NHc5GIuoma0LhFrT5/L/wtY5jY8v63U0uXDMvJU5Pg6dM46F
+	5Rtd1kak=
+X-Gm-Gg: ASbGnctRPpvefmV+lq6/t0iUHAYE/v97WR/l9pYYr0B6h76SoMdXrTHJFFk3VXHjZ8H
+	mkVBmyw4jOuPGoR+tOJbIa0VQO0+NTu4xdMzw/8B2U+yaIq5xn1GytNtgxdO1K9lfntE94dzjwp
+	8jJT1eI4SEjLOEU2bpqKViHof/BcB2nhk5H03nIfDubzLtYU7VQQYsuRlwqv5I/1wXr7a6dJBii
+	3W3V2Em5TfOzdozvBTutz8v42TgooB1OpOoE4sjUuW2/VgBzF43hZom+p2JmjvFpBrPKgxQqn3U
+	2Eo/pAZycroSHipMENZiP8uBncOGrVx+ex2VktO6d821AfypXpFPXDw9RYOWwYosf2hBUqD2CBJ
+	Cg68l1qMFkdSSp7Owl6dGfW3AwZ4Ewqj/9GwPmR1GWjW9wnqbJWj4WmYIf1eF4TDauxzSiZL6jl
+	lWW1xIpbGTytDGJMMkX9/2cpPyP40=
+X-Google-Smtp-Source: AGHT+IGIgnw7CDjq0fpnsLtUjTEZ73eF0bdJWF2fyLL7lw2+x9X+bKjReBfIZfCnd2FsYgdRnHLNnA==
+X-Received: by 2002:a05:7022:62aa:b0:11a:72c6:22df with SMTP id a92af1059eb24-11b40e79761mr624220c88.4.1763098483110;
+        Thu, 13 Nov 2025 21:34:43 -0800 (PST)
+Received: from medusa.lab.kspace.sh ([2601:640:8202:6fb0::f013])
+        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-11b060885c0sm6352228c88.3.2025.11.13.21.34.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 20:59:29 -0800 (PST)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	hare@suse.de,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v3 4/4] nvme: Allow reauth from sysfs
-Date: Fri, 14 Nov 2025 14:58:50 +1000
-Message-ID: <20251114045850.1898865-5-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251114045850.1898865-1-alistair.francis@wdc.com>
-References: <20251114045850.1898865-1-alistair.francis@wdc.com>
+        Thu, 13 Nov 2025 21:34:42 -0800 (PST)
+Date: Thu, 13 Nov 2025 21:34:41 -0800
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Casey Chen <cachen@purestorage.com>,
+	Vikas Manocha <vmanocha@purestorage.com>,
+	Yuanyuan Zhong <yzhong@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] nvme: Convert tag_list mutex to rwsemaphore to avoid
+ deadlock
+Message-ID: <20251114053441.GA2037010-mkhalfella@purestorage.com>
+References: <20251113202320.2530531-1-mkhalfella@purestorage.com>
+ <e629ec9c-9f25-48b3-8fb4-1c94cf83604b@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e629ec9c-9f25-48b3-8fb4-1c94cf83604b@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251113_205931_219466_293A3CB1 
-X-CRM114-Status: GOOD (  18.46  )
+X-CRM114-CacheID: sfid-20251113_213444_493102_5D6603F3 
+X-CRM114-Status: GOOD (  44.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,91 +108,145 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Fri 2025-11-14 04:56:52 +0000, Chaitanya Kulkarni wrote:
+> On 11/13/25 12:23, Mohamed Khalfella wrote:
+> > blk_mq_{add,del}_queue_tag_set() functions add and remove queues from
+> > tagset, the functions make sure that tagset and queues are marked as
+> > shared when two or more queues are attached to the same tagset.
+> > Initially a tagset starts as unshared and when the number of added
+> > queues reaches two, blk_mq_add_queue_tag_set() marks it as shared along
+> > with all the queues attached to it. When the number of attached queues
+> > drops to 1 blk_mq_del_queue_tag_set() need to mark both the tagset and
+> > the remaining queues as unshared.
+> >
+> > Both functions need to freeze current queues in tagset before setting on
+> > unsetting BLK_MQ_F_TAG_QUEUE_SHARED flag. While doing so, both functions
+> > hold set->tag_list_lock mutex, which makes sense as we do not want
+> > queues to be added or deleted in the process. This used to work fine
+> > until commit 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> > made the nvme driver quiesce tagset instead of quiscing individual
+> > queues. blk_mq_quiesce_tagset() does the job and quiesce the queues in
+> > set->tag_list while holding set->tag_list_lock also.
+> >
+> > This results in deadlock between two threads with these stacktraces:
+> >
+> [...]
+> 
+> >
+> > The top stacktrace is showing nvme_timeout() called to handle nvme
+> > command timeout. timeout handler is trying to disable the controller and
+> > as a first step, it needs to blk_mq_quiesce_tagset() to tell blk-mq not
+> > to call queue callback handlers. The thread is stuck waiting for
+> > set->tag_list_lock as it tires to walk the queues in set->tag_list.
+> >
+> > The lock is held by the second thread in the bottom stack which is
+> > waiting for one of queues to be frozen. The queue usage counter will
+> > drop to zero after nvme_timeout() finishes, and this will not happen
+> > because the thread will wait for this mutex forever.
+> >
+> > Convert set->tag_list_lock mutex to set->tag_list_rwsem rwsemaphore to
+> > avoid the deadlock. Update blk_mq_[un]quiesce_tagset() to take the
+> > semaphore for read since this is enough to guarantee no queues will be
+> > added or removed. Update blk_mq_{add,del}_queue_tag_set() to take the
+> > semaphore for write while updating set->tag_list and downgrade it to
+> > read while freezing the queues. It should be safe to update set->flags
+> > and hctx->flags while holding the semaphore for read since the queues
+> > are already frozen.
+> >
+> > Fixes: 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> 
+> I think there is no better way to solve this in to nvme code ?
 
-Allow userspace to trigger a reauth (REPLACETLSPSK) from sysfs.
-This can be done by writing  a zero to the sysfs file.
+I can not think of way to fix this issue within nvme code.
 
-echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/tls_configured_key
+> 
+> will it have any impact on existing users, if any, that are relying
+> on current mutex based implementation ?
+> 
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
-v3:
- - Only trigger if a 0 is written to `tls_configured_key`
- - Add documentation
-v2:
- - Trigger on any value written to `tls_configured_key`
+I audited the codepaths that use the mutex to the best of my knowledge.
+I think this change should not have impact on existing code that uses
+the mutex.
 
- Documentation/ABI/testing/sysfs-nvme | 13 +++++++++++
- drivers/nvme/host/sysfs.c            | 34 +++++++++++++++++++++++++++-
- 2 files changed, 46 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/ABI/testing/sysfs-nvme
+> BTW, thanks for reporting this and providing a patch.
+> 
 
-diff --git a/Documentation/ABI/testing/sysfs-nvme b/Documentation/ABI/testing/sysfs-nvme
-new file mode 100644
-index 000000000000..16aaf0dca9e2
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-nvme
-@@ -0,0 +1,13 @@
-+What:		/sys/devices/virtual/nvme-fabrics/ctl/.../tls_configured_key
-+Date:		November 2025
-+KernelVersion:	6.19
-+Contact:	Linux NVMe mailing list <linux-nvme@lists.infradead.org>
-+Description:
-+		The file is avaliable when using a secure concatanation
-+		connection to a NVMe taget. Reading the file will return
-+		the serial of the currently negotiated key.
-+
-+		Writing 0 to the file will trigger a PSK reauthentication
-+		(REPLACETLSPSK) with the target. After a reauthentication
-+		the value returned by tls_configured_key will be the new
-+		serial.
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 6d10e12136d0..7ff9a5053c3f 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -806,7 +806,39 @@ static ssize_t tls_configured_key_show(struct device *dev,
- 
- 	return sysfs_emit(buf, "%08x\n", key_serial(key));
- }
--static DEVICE_ATTR_RO(tls_configured_key);
-+
-+static ssize_t tls_configured_key_store(struct device *dev,
-+					struct device_attribute *attr,
-+					const char *buf, size_t count)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	int error, qid;
-+
-+	error = kstrtoint(buf, 10, &qid);
-+	if (error)
-+		return error;
-+
-+	/*
-+	 * We currently only allow userspace to write a `0` indicating
-+	 * generate a new key.
-+	 */
-+	if (!qid)
-+		return -EINVAL;
-+
-+	if (!ctrl->opts || !ctrl->opts->concat)
-+		return -EOPNOTSUPP;
-+
-+	error = nvme_auth_negotiate(ctrl, 0);
-+	if (error < 0)
-+		return error;
-+
-+	error = nvme_auth_wait(ctrl, 0);
-+	if (error < 0)
-+		return error;
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RW(tls_configured_key);
- 
- static ssize_t tls_keyring_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
--- 
-2.51.1
+No problem.
 
+> > ---
+> >   block/blk-mq-sysfs.c   | 10 +++----
+> >   block/blk-mq.c         | 63 ++++++++++++++++++++++--------------------
+> >   include/linux/blk-mq.h |  4 +--
+> >   3 files changed, 40 insertions(+), 37 deletions(-)
+> >
+> > diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
+> > index 58ec293373c6..f474781654fb 100644
+> > --- a/block/blk-mq-sysfs.c
+> > +++ b/block/blk-mq-sysfs.c
+> > @@ -230,13 +230,13 @@ int blk_mq_sysfs_register(struct gendisk *disk)
+> >   
+> >   	kobject_uevent(q->mq_kobj, KOBJ_ADD);
+> >   
+> > -	mutex_lock(&q->tag_set->tag_list_lock);
+> > +	down_read(&q->tag_set->tag_list_rwsem);
+> >   	queue_for_each_hw_ctx(q, hctx, i) {
+> >   		ret = blk_mq_register_hctx(hctx);
+> >   		if (ret)
+> >   			goto out_unreg;
+> >   	}
+> > -	mutex_unlock(&q->tag_set->tag_list_lock);
+> > +	up_read(&q->tag_set->tag_list_rwsem);
+> >   	return 0;
+> >   
+> 
+> [...]
+> 
+> >   static void blk_mq_add_queue_tag_set(struct blk_mq_tag_set *set,
+> >   				     struct request_queue *q)
+> >   {
+> > -	mutex_lock(&set->tag_list_lock);
+> > +	down_write(&set->tag_list_rwsem);
+> > +	if (!list_is_singular(&set->tag_list)) {
+> > +		if (set->flags & BLK_MQ_F_TAG_QUEUE_SHARED)
+> > +			queue_set_hctx_shared(q, true);
+> > +		list_add_tail(&q->tag_set_list, &set->tag_list);
+> > +		up_write(&set->tag_list_rwsem);
+> > +		return;
+> > +	}
+> >   
+> > -	/*
+> > -	 * Check to see if we're transitioning to shared (from 1 to 2 queues).
+> > -	 */
+> > -	if (!list_empty(&set->tag_list) &&
+> > -	    !(set->flags & BLK_MQ_F_TAG_QUEUE_SHARED)) {
+> > -		set->flags |= BLK_MQ_F_TAG_QUEUE_SHARED;
+> > -		/* update existing queue */
+> > -		blk_mq_update_tag_set_shared(set, true);
+> > -	}
+> > -	if (set->flags & BLK_MQ_F_TAG_QUEUE_SHARED)
+> > -		queue_set_hctx_shared(q, true);
+> > +	/* Transitioning to shared. */
+> > +	set->flags |= BLK_MQ_F_TAG_QUEUE_SHARED;
+> >   	list_add_tail(&q->tag_set_list, &set->tag_list);
+> > -
+> > -	mutex_unlock(&set->tag_list_lock);
+> > +	downgrade_write(&set->tag_list_rwsem);
+> 
+> do we need a comment here what to expect since downgrade_write() is
+> not as common as mutex_unlock()|down_write() before merging the
+> patch ?
+> 
+
+	/*
+	 * Downgrade the semaphore before freezing the queues to avoid
+	 * deadlock with a thread trying to quiesce the tagset before
+	 * completing requests.
+	 */
+
+Yes, this could use some explanation. How about the three lines above?
+
+> -ck
+> 
+> 
 
