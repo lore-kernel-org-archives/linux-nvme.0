@@ -4,98 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 19F09CE7AF9
-	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 12:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AAA4CE7B00
+	for <linux-nvme@archiver.kernel.org>; Fri, 14 Nov 2025 12:20:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kG1p+h6NmWkadBUCs9jMm1+jPfa7sXsq71LDbEX1jNQ=; b=42yYpOXqZfya2FFpY+oLy+6uLt
-	SaRou3QuOW2P3s3edjgPWt1fZY3rYAqqhPP4x85xj/X6bSrw/W3CehX5JHwx8exU5d/toAs/VeH0M
-	7HKCEIGulnEUBNsVTVaXCXlMEtBK3TUK2I7F4ZFzeDwZbuZb9o3OSyaVPU5raqJM5EjaebsmZj5xw
-	Tzu2L2HFzN3XSO8nEu/DKJw6Fmp/fsp2GLv+A8BH+2KLMJiXHfCspo4ejXbEi8km6oraH0acpaE0m
-	AKLjOep6GneyXyycn9eSd8IGuyPQq/CwLEImWWQRBFsGSFqdzf3hKZDFaTAQ2lizQFgBewOUmnXc6
-	F7JXZZLQ==;
+	bh=uvGPnwIJ9UQ+3xbjjhhyEYoRm3l1sjhSWrnsi1M6ybA=; b=GvOwvK315/KgcX07ngaTP+hFb3
+	PIG0+kqprdnAgZ+tKi6rgM18u3cCr6KQGgWVCNst+P2CFYTOelq0Kq9CQ0DafBk6GN4RoLOTnO3Fg
+	jBxM8X1Zpntm+6vU3UOm3xiI+o5tO+omXldHJl1F4Hap5PNJW9CYGlWW972SKjw6rv9TtFzjcW+Ox
+	cdIKm2LgYHH6NpImWHaAepDyi2Da54LtqJXEwgLptZHGXRyqYZnhsGqTLo8t6vqh+VymbC2TMl+5h
+	vH2/mfFMQNIcApEfHbYDhO5Q3tX95cmQMPku1402qclYTYuy8VG+SQ89jH08Bu2UgOmVTtLF7eWia
+	6Myqx3iQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJsby-0000000CAit-0mRc;
-	Fri, 14 Nov 2025 12:09:06 +0000
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
+	id 1vJsmX-0000000CBnI-17gT;
+	Fri, 14 Nov 2025 12:20:01 +0000
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJsbv-0000000CAiU-1LT1
+	id 1vJsmU-0000000CBmT-3bmj
 	for linux-nvme@lists.infradead.org;
-	Fri, 14 Nov 2025 12:09:05 +0000
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-948e1ec34afso26245539f.3
-        for <linux-nvme@lists.infradead.org>; Fri, 14 Nov 2025 04:09:02 -0800 (PST)
+	Fri, 14 Nov 2025 12:20:00 +0000
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-43470d98f77so8922925ab.2
+        for <linux-nvme@lists.infradead.org>; Fri, 14 Nov 2025 04:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1763122141; x=1763726941; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kG1p+h6NmWkadBUCs9jMm1+jPfa7sXsq71LDbEX1jNQ=;
-        b=iEALgtLkGfxonv1dzc3UzzzzRHiNjUw9ZHi1vH0h5WmBV2DnqKvrHD9m7m3VXtIPN8
-         vH2CYgUdlTGCLz+J523E5IgcdwhQ/WZVE0SF+7JvoKbVMnVl+C/Ni5xW8Z2HqqnW2k9j
-         2Q/HHw9nuANhcSktjTkK/fyKJUFAItNMyy2sRE4maGOIRXPwDHflFZTf3kFkYZUrVY79
-         Q68vZw48eEdta4b+AKw7UbKH7Dz0EIcswjZFiE2665vxpBP1XdeHxfCC5KiJTNNZSAMh
-         U04XQQ3I21im37RIitAZu3WS3hlpQpL/HmxNmfWI+8gxcFpNxHUczRmgfweXA3i9diAa
-         jVRA==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1763122798; x=1763727598; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uvGPnwIJ9UQ+3xbjjhhyEYoRm3l1sjhSWrnsi1M6ybA=;
+        b=0VfpJG5XcV9VKWy0uR3GPJU8adL41ii2mbUlKcRtTVHVCS/K7cHZHjl/lPJRVOVBy7
+         F1rtmbNwo/dLziuuwjE9TPUSvaPPJT0e1rU1vjoFjtlCLeY0+MaFnlCGYhGQwE1GeXhV
+         VZJqh1HZZkIF7PwDaweBWFSiXyxK8wfVGvJ5sKRfADIYBmIY3nf9Hwmfq7+Usqyh+lHG
+         yUr1Jx+uStluGevwOD+SuYoDxGZjiM5WmkHVZfye5lQaIO2ABUwGKHxu7rn6eq4glBOQ
+         7UzWdlE3S+yebP4+Ekf7Laeo3ISzKpUlStJfBiOtzXMHk2CrBfEHNN1LFhmT3oOLreLk
+         ebBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763122141; x=1763726941;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kG1p+h6NmWkadBUCs9jMm1+jPfa7sXsq71LDbEX1jNQ=;
-        b=qe1HGaDZVn4x0g7717O9lHCQKAmh8vQelA7sePseeIxjWej54NkpWrCh3PePlA8WIm
-         TUSp/EmhhwPvZ2EgoM52qrcxNtCrWDihx/PihCsGJUx1tirXsdDSQitBUTmw/GwVdvsZ
-         KtbhrM36O6MAckb4rWGLtFriXSj8awiIX8BXRNUx3MjjPYMjJ+4NbOAN+wCJNw0atuzi
-         r/0jS7vssSfDdU/Ovq9fS+unqWbseBqobw+J2i6PNe/xvDHYO6807WqDoiufr3sbCorC
-         FedKiUVyYL4TDDAjCLPAFAAGpoCcxI+v5EZjMBLjel1oxyA46zWzzwGXm/6vPPFEA7jE
-         XIqw==
-X-Forwarded-Encrypted: i=1; AJvYcCXC+ILWUYMh4ZsquNaHgWDnKqKha7vGajSDgmtdpn07G3P0kq4Dql5c3mvrYcgdFk8/VI4CNOMu3T0i@lists.infradead.org
-X-Gm-Message-State: AOJu0YzepjkM2i2/flHOuEzFsrnqsbzGv0T8gryWl/SbDZhOBuAyXz99
-	RkFrOWlunMh2yN7P4Y403fAyuGk0GAEemYOovdQjp05y+7bCJ03Tho/tyud1gwxkkgU=
-X-Gm-Gg: ASbGncuVjYMUFRqEncndHz4e4fGARnw7d4dX8X+oKwyY55hLMSPJxIDxEnIDLpyUs4L
-	IjAOK6xDsR4sX6yad+Jq6FUxG4YXEm8sL6X8idVN0CcQdCpKh+UHEgwzVYrWkKreAAhm0F7brer
-	Oij9Cvv/5Dps95rmiZqSEEegluP6K3ACeJTjNduFWglAIIOX5Gx5VTCMSlg+2/ikh5HgvXbvaPl
-	5gpA4nY0C2B9KFIZxeW7sS7qXU4Fs8dEEQ1HjTXyu4wzSUooEvU0FBImTzY2WcqfmYIdnoRbvD3
-	V48OKw2j7WNbLkA/9AtkOWE5ZD1WctM+3EuAwswFC/ttO7JTkZGFFbncxopRYaPPKccT0y/e146
-	Fzc/rVtG/xm1dMfU6OLUodeVQ+YAoeY+2vs/TDXbIiH1PJrGF58WdqIIalXpi9D5YLdWvLPcRoa
-	7O7f85iglyGftwV5GQSPw=
-X-Google-Smtp-Source: AGHT+IEAqyNwPB3UvsxWeYSxCILw7sa+XHuGUVyOutIjmeWKLo9hHPdACjkztTSKX+8Y0R4tMIGQpQ==
-X-Received: by 2002:a05:6e02:b49:b0:433:7c77:be58 with SMTP id e9e14a558f8ab-4348c94e27emr41757475ab.29.1763122141106;
-        Fri, 14 Nov 2025 04:09:01 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-43482bd586esm24371405ab.0.2025.11.14.04.08.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Nov 2025 04:09:00 -0800 (PST)
-Message-ID: <4e24113d-b32e-40fd-baa2-0b878b9a7a15@kernel.dk>
-Date: Fri, 14 Nov 2025 05:08:59 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] block: Enable proper MMIO memory handling for P2P
- DMA
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20251112-block-with-mmio-v4-0-54aeb609d28d@nvidia.com>
- <176305197986.133468.1935881415989157155.b4-ty@kernel.dk>
- <cec91b1e-a545-4799-97c3-676e3b566721@kernel.dk>
- <4f75497d-11cb-437c-ab90-d65d4d2e0a52@kernel.dk>
- <aRY28IRvBFmTW6cz@kbusch-mbp>
- <d1641814-5ef8-4ccd-8a41-42bf99a61d0d@kernel.dk>
- <20251114081623.GB147495@unreal>
-Content-Language: en-US
+        d=1e100.net; s=20230601; t=1763122798; x=1763727598;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uvGPnwIJ9UQ+3xbjjhhyEYoRm3l1sjhSWrnsi1M6ybA=;
+        b=iQz/RNS/zDEfbqSG1Tx2FtyaTj8U3fo8oRnBoVkih227F+bABg7Xd9LaxH4FWCBzQU
+         93v91x17V8x/6DVoSsi5Ysya6wYgiIS1yyHXXNDmTI55EFqQFwUOsmKok9g9tUDOq+A/
+         2WlDz1CtnfZMzMRWZbzv2TwUuk3zR+T/mJJORqLXuoOgkNdXk16eIyl/eHiIRHK6ZErg
+         0PvLCxd2pdXbEmkEhYFknmtFpQT7WzJ6h9KiacIIjU0u0nJWNSXWZPYUd0JJ+uLpSPL2
+         bTI92U72j4DlVo9QKp1+jL8KV3bxVAm1DDtGFWniimiyu4bKKPZ9C2jlhmyA6lGDWzU6
+         5XmA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXJskLkH7fiId9U0TAAb7ZBeQEaFpHpdZa9tYM/ht9aW4vZDMx7LYbiCSJ7haX23rbXDOBWy74dCWQ@lists.infradead.org
+X-Gm-Message-State: AOJu0YznxJvmk713Te27e2xlYk27+YtW4YSBzlEp0oYl4bSi/Az9igXW
+	U5XqP23l/jkel2Orrcsrl9NC3n+3CGDgFHqw/SXKL6rFpvSK0tlSKobFzRrnK28Uh9/oPvC0X4U
+	6nknB
+X-Gm-Gg: ASbGnct/CYrdfrN0w024PCU3+w8uLdHi5bVjAZPwHK841tQrhoQBBb/ZTk7ZiyNQH6v
+	pNRx34Fw11xXZbpD/juFZyUIutVQFP3Qr+LnihOZE956LV7Q+eBw2ofTDDzaWPeJaW5sHj0cQwZ
+	fyigKsmm6J0/lRDaUAa96sCidVXK8nP4cIad3O4coLIt126yZDTRElygX7PO7zZ+OmjJ49Djgpq
+	aBpfXUettKg3UGEIwN/ZX3W/SCaNiZypc4+6s2mjJpFTM1cpZujwMzs+idF96gyjiWCMkqAkveL
+	Blrew2ZgBlrO6IjuPUy6LOdOnyEDLqW3kAagQJDuD9LSS+naCUTj3e1JchcXwYmOeHOG1Dyc4sB
+	xYNvxIczgfHqWEk5qkKao4lm3IfoSrQzrsT4PrqBmAU9zC5/aK/CD7z9h8W/nz81uC3orTgVxEi
+	aMXK2YaAHOT0odaw==
+X-Google-Smtp-Source: AGHT+IHwtGthrFFBC8JB1kEGmmsPtQ31Pwz0+G7f5ToInBYvE+tM3YbahqKyzO64P4TCNs1gtbOyDA==
+X-Received: by 2002:a05:6e02:3113:b0:42e:7273:a370 with SMTP id e9e14a558f8ab-4348c87af71mr40523795ab.5.1763122797878;
+        Fri, 14 Nov 2025 04:19:57 -0800 (PST)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-4348398ff45sm23452835ab.17.2025.11.14.04.19.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 04:19:57 -0800 (PST)
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20251114081623.GB147495@unreal>
-Content-Type: text/plain; charset=UTF-8
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Leon Romanovsky <leon@kernel.org>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Chaitanya Kulkarni <kch@nvidia.com>
+In-Reply-To: <20251114-block-with-mmio-v5-0-69d00f73d766@nvidia.com>
+References: <20251114-block-with-mmio-v5-0-69d00f73d766@nvidia.com>
+Subject: Re: [PATCH v5 0/2] block: Enable proper MMIO memory handling for
+ P2P DMA
+Message-Id: <176312279654.329326.7978292363976805159.b4-ty@kernel.dk>
+Date: Fri, 14 Nov 2025 05:19:56 -0700
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251114_040903_625420_A601E2D1 
-X-CRM114-Status: GOOD (  14.62  )
+X-CRM114-CacheID: sfid-20251114_041958_905918_44955A79 
+X-CRM114-Status: UNSURE (   8.65  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,38 +104,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/14/25 1:16 AM, Leon Romanovsky wrote:
-> On Thu, Nov 13, 2025 at 01:40:50PM -0700, Jens Axboe wrote:
->> On 11/13/25 12:52 PM, Keith Busch wrote:
->>> On Thu, Nov 13, 2025 at 10:45:53AM -0700, Jens Axboe wrote:
->>>> I took a look, and what happens here is that iter.p2pdma.map is 0 as it
->>>> never got set to anything. That is the same as PCI_P2PDMA_MAP_UNKNOWN,
->>>> and hence we just end up in a BLK_STS_RESOURCE. First of all, returning
->>>> BLK_STS_RESOURCE for that seems... highly suspicious. That should surely
->>>> be a fatal error. And secondly, this just further backs up that there's
->>>> ZERO testing done on this patchset at all. WTF?
->>>>
->>>> FWIW, the below makes it boot just fine, as expected, as a default zero
->>>> filled iter then matches the UNKNOWN case.
->>>
->>> I think this must mean you don't have CONFIG_PCI_P2PDMA enabled. The
->>
->> Right, like most normal people :-)
+
+On Fri, 14 Nov 2025 11:07:02 +0200, Leon Romanovsky wrote:
+> Changelog:
+> v5:
+>  * Rebased on top of 8e1bf774ab18 ("Merge branch 'elevator-switch-6.19' into for-6.19/block")
+>  * Initialized p2p map to PCI_P2PDMA_MAP_NONE.
+> v4: https://patch.msgid.link/20251112-block-with-mmio-v4-0-54aeb609d28d@nvidia.com
+>  * Changed double "if" to be "else if".
+>  * Added missed PCI_P2PDMA_MAP_NONE case.
+> v3: https://patch.msgid.link/20251027-block-with-mmio-v3-0-ac3370e1f7b7@nvidia.com
+>  * Encoded p2p map type in IOD flags instead of DMA attributes.
+>  * Removed REQ_P2PDMA flag from block layer.
+>  * Simplified map_phys conversion patch.
+> v2: https://lore.kernel.org/all/20251020-block-with-mmio-v2-0-147e9f93d8d4@nvidia.com/
+>  * Added Chirstoph's Reviewed-by tag for first patch.
+>  * Squashed patches
+>  * Stored DMA MMIO attribute in NVMe IOD flags variable instead of block layer.
+> v1: https://patch.msgid.link/20251017-block-with-mmio-v1-0-3f486904db5e@nvidia.com
+>  * Reordered patches.
+>  * Dropped patch which tried to unify unmap flow.
+>  * Set MMIO flag separately for data and integrity payloads.
+> v0: https://lore.kernel.org/all/cover.1760369219.git.leon@kernel.org/
 > 
-> It depends how you are declaring normal people :).
-> In my Fedora OS, installed on my laptop, CONFIG_PCI_P2PDMA is enabled by default.
-> https://src.fedoraproject.org/rpms/kernel/blob/rawhide/f/kernel-x86_64-fedora.config#_5567
-> and in RHEL too
-> https://src.fedoraproject.org/rpms/kernel/blob/rawhide/f/kernel-x86_64-rhel.config#_4964
+> [...]
 
-Distros tend to enable everything under the sun, that's hardly news or
-surprising to anyone. And also why the usual arguments of "oh but it
-only bloats foo or slows down bar when enabled" are utterly bogus.
+Applied, thanks!
 
-But I sure as hell don't run a distro config on my vm or my test boxes,
-or anything else I use for that matter, if it's not running a distro
-kernel.
+[1/2] nvme-pci: migrate to dma_map_phys instead of map_page
+      (no commit info)
+[2/2] block-dma: properly take MMIO path
+      (no commit info)
 
+Best regards,
 -- 
 Jens Axboe
+
+
+
 
