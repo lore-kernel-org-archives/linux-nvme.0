@@ -4,173 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 156DBCEB2D2
-	for <linux-nvme@archiver.kernel.org>; Sat, 15 Nov 2025 22:25:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1707ECEBF86
+	for <linux-nvme@archiver.kernel.org>; Sat, 15 Nov 2025 22:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ufgZGUWyisuoi121HQKWlxtJt63WtZj1RhtOq0c9FBc=; b=YmUtAsMNHIzKEkXVF1DV0McKDW
-	dX/q62XcNmyv1uRcOTtfOc9NKLJlzbd1gQcMuDoKaxIt++akVxwoeasEFxQvLbNVPKIy93IpOYXo2
-	ybxf2eKi/bkGgNJQ61/hTHTK1NmuTjGA0Wq4alrFrPlsnbcVTj1CJbtZj83RhkAAtmBI+UJ90AXrF
-	vsWXDUiUCmdqTaDjVENGdmEGJA2yQIeGUcW3FJg8GezgGL9OAN8XGe4ZRkLa1P7aI2Y2XjMyNfqu8
-	tFT+W4BbgxGHf/zmpgy6kDIbKKn5IfuufSg8XzWWrxeEsODBvi8stmh390udTD+Vn5G++HuVLxoNw
-	v1QORTNg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o2Xrv0xJ9oC9kn5c/x2EsBp3So4jCy6049Ql9XrALiM=; b=Rd+X9otEhC2MqhdbxLIC0bK3Gm
+	KOhzL9B1E80ZqX0DNx25brSfcdbAONPJKlm+GaV0tA1Bb2X36HToQQJ7oDCQh1yMRSrDGaXYSv97I
+	soxk0Gk2ZHncDYuQeivcXDcjASPq7U+nGbfZyR8CHL/e+2cWK+afPfsne6hcTkJ6ecjJNMey7m3TK
+	pQXeJBbf3BzaOd5B0VqgmAVM3500Md4Vcyey/gVUxn5P2jMyJBYsy2sPEv9kLzKHq3hvG1L5IMp91
+	8Az8dudIUcksY4HJ1xrpaFJfJ1PMSBZboQTeE9OAfBwq8svnrv0jDN/po8Ck8fWil/E+kUbVkqLDY
+	/ypeD8Gw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKOhn-0000000E9QX-3ivx;
-	Sat, 15 Nov 2025 22:25:15 +0000
-Received: from mail-northcentralusazon11013024.outbound.protection.outlook.com ([40.107.201.24] helo=CH4PR04CU002.outbound.protection.outlook.com)
+	id 1vKOlM-0000000E9gM-1uwS;
+	Sat, 15 Nov 2025 22:28:56 +0000
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKOhl-0000000E9Pg-28aQ
+	id 1vKOlJ-0000000E9fq-3roa
 	for linux-nvme@lists.infradead.org;
-	Sat, 15 Nov 2025 22:25:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RjUJGGFTw+ubCI6nPPr71ZNmsl16XxnYdLVbVOCAGjfJ8CdIxhY4INMkzS/E9jED1o/qmofHRaPKLha6Py2/eTPEh95afS+2sBJ7nBQblSuHnm81bkHs5z46FTGNSruExocPaMhcCa7+NGQephVhMOKXj7NRdXHPGtPB8GNlM+eRI53OEwF7Br8o/3YSHHHq0DRXIPcmT8W3adpMonDByro6+V0vbBmN6fGfn7ELG1rBcnjy6tuT/C9NhVCVRbMbe8CDw8IlYdkBBWKmgtW5wrklXPpH+2tx5iV4ZS6kPY3Ze7XrnChvbdTCDO2XTVQ5J7oOcAHcI+0OBTKPngKdNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ufgZGUWyisuoi121HQKWlxtJt63WtZj1RhtOq0c9FBc=;
- b=uzVIFLCDkhcWwoVc7/0QdCm5ExhMlCdADRqoYFqd+yVWhqp8MfEEwQMyOUnRMzpoOzz6zbIE5e4iQ0bUfAqlJJgJt0GBUZGEqB2QVv1QA07OxrriXwU81aOExUiySpewg7kYgzRRhZ3YyRkEuG58zUTbGYSVxmRkwTsQ9EC1cYrk24g3Y3BakrNFeLnTXJr5esVc9+MyuO1Y91TSh/psXwzUvdUVWjtP6qTObdoBSfCLIxu5cxAl6LGzrWkePzHR0nVIeaZPuy3wPYmGt2Z1Xu0QZr82neJQplhoPAn+0mVR6k1BMWHyo1n0QCW1GJpnyr5DUTwciJXs0lwWnAr8HQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ufgZGUWyisuoi121HQKWlxtJt63WtZj1RhtOq0c9FBc=;
- b=t+sAs+0pFSKwxU++oLJR8gDL23X9W7sdG3H12XFwYtQ4tCTAgOPxl+cseTpuiAODxYhQpu8yKc3Aj8PAocwpkRO1BlbW85KTnFJUVjVrsX9Td6QjPP6atDEKjh6c7809GkYmnfHN13eqFeatrDoCUddSKTthA/blCHid+CXutqSAkTpto7PcJX3xXNesYb4OvxMgw39MbZIMzBOaBa+iNwlPbkQS8dOWsUlrVCtRPQdZ6jhgL00ZTaBRTM/DAnmvmJ2qfH9yLx0slhZoHcsWenmH1IwICuYUxMI2ZAJH18HPBEWcI+RAmw00kIsSR7sQ5gPZWQ9eVDX4VOCsrflwLg==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by SJ1PR12MB6242.namprd12.prod.outlook.com (2603:10b6:a03:457::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Sat, 15 Nov
- 2025 22:25:08 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.9320.018; Sat, 15 Nov 2025
- 22:25:08 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>, Jens Axboe <axboe@kernel.dk>, Keith
- Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>
-CC: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 2/2] types: move phys_vec definition to common header
-Thread-Topic: [PATCH 2/2] types: move phys_vec definition to common header
-Thread-Index: AQHcVkwygkqCOHzt1EG4Kgz+lFTxr7T0UM0A
-Date: Sat, 15 Nov 2025 22:25:08 +0000
-Message-ID: <45c46766-2cf4-4e0a-8756-131872ca188b@nvidia.com>
+	Sat, 15 Nov 2025 22:28:55 +0000
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so34678505e9.1
+        for <linux-nvme@lists.infradead.org>; Sat, 15 Nov 2025 14:28:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763245732; x=1763850532; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o2Xrv0xJ9oC9kn5c/x2EsBp3So4jCy6049Ql9XrALiM=;
+        b=R5uC/PGhvIz1yO2E7VODq0hVgKOlrRXXWeW22E6H+M1Z4jCD2y8SAiqeK/KNAhssFi
+         47UOq6GH5fmSiKUblWAfTsHCZopbcUeZnEF8kk2KdFjlvaxAO+RqTjcD+Ptrp65nI1jC
+         YWrfl36CoSSINJXA7jMfD2DoQD519puOls4lF6VrrdkAJig6d8sk35bBqRGthmwaVld4
+         1udlDDsN3RCbWgal+Vj14PmwoZEAjlV24Jdd2WryHOPqPXxzOBMktyrBmZu7a+PIurnm
+         +WXfb+PX8uvJ1CrQEi8Nkt69flA9cq8D+ccqiuFsdZ1re5F6zI8uybmnianQoOaHEL21
+         7WTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763245732; x=1763850532;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=o2Xrv0xJ9oC9kn5c/x2EsBp3So4jCy6049Ql9XrALiM=;
+        b=fBumCfXFhSCfxE43zeOdrg+mjd8+0PZ5H7QcmYio0HIogEKSMHzyFQdKbg43ilpD6D
+         IRZctTrXIu+hqoyT+XMc98/xtttKHZcQKLP+6SG+6c+SubJQKl9HPtw2C3g5zGYVRMsg
+         csdNYScf4s1kr6PQTrlPFJ66me62tgYmkAEdoc+RfmjrHm1ktq0T8+3uH/iJ5eg/h040
+         2tUZaov9m5UNeLamzjEJfwZ0gCM6nIGecJaCwPfmGtCvt2qyyldjra1V4V9wPBtgKi9x
+         FF8c0sX1KMwMatbK540PXUH7JKcADfgGrpI5/brjrjNrVD8jr9vuelYmJjfaSP+rbTHl
+         hN0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUzrU8uKBHS7LDVAUlIHvBZCGS5FGfVzrObz6jhh3Nl87YrYbHDKkDbxRyX7ra4pUtPwXk8X35/XvOz@lists.infradead.org
+X-Gm-Message-State: AOJu0YytzDEPFHajXfBeIefLLmTYoftA1ItKIS7q7dwTlVvsbCa+miLn
+	LqbFpiFEflIYk+44dIqMWXUzD2zuxRa2v3J6f/gtodX4fKFUUvERzUAm
+X-Gm-Gg: ASbGncvRBjdybDexlMqzIquk9pE4lGDRNZn17DSI3+LJ/lNFo8JtZGR93amDlkeR+2Q
+	wpQ5XsDyh5Cy1tO3n1L1sgPDofzgdLOXSA8jO1BMa2LjKtHF49bF4KD8qmykLlx0tSQ/MjYC8l1
+	Gu2GDj9J+o+d5lcBfHz0PqNJstZGePCeLzThvc+Kp71nqzEzgLsL7V9jMsNCkrJH3YWNDRp4Vmv
+	5QYeuhdi6TVKu3UQ22ZAalYWnNnk0eCV/IVITQ95erhb+vwNJrpiD4pjqhwu0TtvGm7dKnTygFT
+	yLzhv2kxt6rN5rI7vqHwyihBEQRiQ4dEkSdfOIYoB2qE8SFe3d2qu9kGVpg7cCCrrV0mjv6rv5I
+	HEQ+JDnHynJiUDqMUjjgIaHxt1IvAqdl0Ss+yMgp48eRrQcytBXJo7SCzugxjp4IycMfFphdOdS
+	zimvnGSMaACY6nUznRclPCBhjJh9IDXxvH0ocD7xrnEXa1U2mv1PXq
+X-Google-Smtp-Source: AGHT+IFdxdzmeev3HrNzWJ2sskEhMPRWYP1zgllLH3n3dfgpFJwxPquIa2N+BHT4Jqy6QmXptGNXLQ==
+X-Received: by 2002:a05:600c:8b43:b0:477:6e02:54a5 with SMTP id 5b1f17b1804b1-4778fe6098dmr71627895e9.18.1763245731840;
+        Sat, 15 Nov 2025 14:28:51 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4778bb34278sm76630295e9.4.2025.11.15.14.28.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Nov 2025 14:28:51 -0800 (PST)
+Date: Sat, 15 Nov 2025 22:28:50 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/2] nvme-pci: Use size_t for length fields to handle
+ larger sizes
+Message-ID: <20251115222850.183b8557@pumpkin>
+In-Reply-To: <20251115180547.GC147495@unreal>
 References: <20251115-nvme-phys-types-v1-0-c0f2e5e9163d@kernel.org>
- <20251115-nvme-phys-types-v1-2-c0f2e5e9163d@kernel.org>
-In-Reply-To: <20251115-nvme-phys-types-v1-2-c0f2e5e9163d@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|SJ1PR12MB6242:EE_
-x-ms-office365-filtering-correlation-id: 097da4c0-590e-42b1-9974-08de2495d598
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|10070799003|1800799024|38070700021;
-x-microsoft-antispam-message-info: =?utf-8?B?UTFhM2lDMlJxMmNQSzBiRjRFaG1WY1M5ZXlWSm92UTNBbTlsQjVQbUx1ZWhS?=
- =?utf-8?B?QlRMTGdrQUdlcmJObFc3OStpSUkvVDgwdTRXb3p4WTJkSFJBaXhjWmZWUTdv?=
- =?utf-8?B?T1ZhT29RdVZiZGRtdCszWmhadFUvK2FGVWVzNEEwT1VnQkRUTEUvakhEU2FZ?=
- =?utf-8?B?ZFJvaE5ScGsyVmd6ZTNqUURiRkVXMFQxOVVCME9qWU1nMmdWMHJ2WlBrbHk5?=
- =?utf-8?B?OWxOREw2Yy9UckJWNEhZdTVIQXVxTTZ5Mkh0NlpCZU1zTy8yMHRtMCtvQnhK?=
- =?utf-8?B?azVrcVFFTit5YnQ3bzlac3VlZlV3a3VqYU1ONFJ6RFBsSSttTXhON3R3V2N0?=
- =?utf-8?B?bHdEY2E5MWdTcFY5ZHFNeWhqcHVEVmxENlJRMWlRK1RVZ2F5cmh6dE5lQ2tk?=
- =?utf-8?B?MUg1U1VPQmVXY2ZvdkJlcVFOU1UwbDZnWVVTUFI4NmxRS3Q0bXNrazBKSXkz?=
- =?utf-8?B?clJyeFZIS1I1Z0thVGg1dC9HTzJ1QXU1Nk9WVmlqWG10ZEh0Z043SXdiUk9C?=
- =?utf-8?B?T1F3b3pMekJQL3RVWjdFWWRyaFM1enJhdGF6MWlTSmVkMjJmb0FudWk0WkdZ?=
- =?utf-8?B?b0d1bUtQdnJrL3FqVkR5UGQzazJWU2p1Z2E3ZUJEU2hXdDJaVmt1SlRHSmV4?=
- =?utf-8?B?VUZEVngrWjQ4YkpqMDRkWHJZNCt1S3BKUGpKWWMvVE1KekFQcmhuUUFEMS80?=
- =?utf-8?B?ay9ha3hsSXo4dEdEVzdVV0xKVDNHYWJDRVFLaHdpaWQzVjFvdy9YRW8rYXVJ?=
- =?utf-8?B?Y0RiVzlaNDQ0MTluMXkvM2ZhYmRlc1YwdVVEZ3lJV29OYU1lOUhxeUVNZXlo?=
- =?utf-8?B?bzdDcFlkTXVHeVkvOG1nUHRpLzM1QzR6YkhwOCswWGFnaWI4U0RLT3J1WkNu?=
- =?utf-8?B?bEttNDhEbFZtTmJ1YmwxaEpUcGpnWnlLMjNKTkJXUmhzKzJIcnRlL29BaEQ1?=
- =?utf-8?B?Zm05NnBKM0ZGOXRaenJEb05HakNDMWwrV0lJQU85MnJZamMxYzdHRjdLNE9a?=
- =?utf-8?B?STNHbkVzQkVVdlVPSk9CQWtZcTNKRjBoQTJEK2htT0tBV0QraUxTdE84VTVM?=
- =?utf-8?B?MnZmZTRaYW1Ub3Rta29QWW1KMmJtNWRTcm5mcytSK1VVelR1S3kwNWZ2M3hZ?=
- =?utf-8?B?TnBpMUhBVTlpVEtNc2k4N3c0SDErV3l1NU02aDVjSkxjVlNaQlQzYkRTZVlz?=
- =?utf-8?B?T2orWFZLWndpcWxFZjFjRHFoWll3cS91YTB6UFZUMDlFa0hadHgrYkVNSE5L?=
- =?utf-8?B?Mkc4S3pqRUV6Z0FCbU1HT2x4dFY1MVVEeGhOdW5KUDJ1LzRVa29sYmRnSTlt?=
- =?utf-8?B?clhvbzZyQTJJc0h4Y3JZUUFBanJOOGZMcDA3ZzROU3grNjVTaDljclZrNC9r?=
- =?utf-8?B?eG5aRTA4b3ZCSk1HVHVoaU04UzZBQU9QQjErUi9UTWNuaSswWlNiaVhZWVAr?=
- =?utf-8?B?UWhKVEZjTWZETm1kcXFwcnBpN2xLSU1GREpKT0ZqVTJpZ2tEV2tYWisweTA1?=
- =?utf-8?B?STROSDBtdFVLT3NqanlOREZVWHdYVHozZGJtOEV5Tm9JN3JFUmJWZG1TQVdR?=
- =?utf-8?B?RzlSdXc1ZDU2b2tRQ0xoc1NySkJLV1htRkRPN0dHNDRDOUVUUmJzZ2tFSlY0?=
- =?utf-8?B?Tm1SLzZOcTFLOVk0U2dIK3MyWDAwTldweldnVWQvM0lmTGlRUERtUHQyRTNr?=
- =?utf-8?B?dzBIdTU2RlJkQmV5alZ5Z1lUN3pRZGxDMEY3R01Ienpyb2FmSGtudWZNdXFT?=
- =?utf-8?B?NkFqN3RsVmhPcldNTmQzSEp1NG5UTVM4MXpCM2xWL3pwYjA0QmhTMEFtSXp4?=
- =?utf-8?B?ak95TmZxMmRHZG1CQzZpV2xrN3E1cEZOOVFIUUo4YXRyTnZ1YzJUVmpvY2xP?=
- =?utf-8?B?T05sQkpKU0dDcHVyOWVxY2VaMmNqWWxGdTNZMk1TMjB1NFc0V2szMEN5TlNK?=
- =?utf-8?B?L2g5RW9ZUGFnck9zdmVpY2dwLzhnekpqOFl5OXE4STVHSUJQNTVTdlNUSUw5?=
- =?utf-8?B?MXlsSWM1OWlVQmQ2bmMrRkJxN2xVbFVBaDhRRlRnRGM0QUJjS1k2ZS9aNUtr?=
- =?utf-8?Q?FJ7XiT?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?c1lSWnZMVk1iZFlMOXg5L2p1OW5haVJyWnFRcEFHYWkyVlJ1TkVKbERTRUU0?=
- =?utf-8?B?bzBESjVTNTljc3poN0Y3YzRyVFg2WVZUVnFvWXo3K3VValF4WkhRZHZsZnNx?=
- =?utf-8?B?STdCTC9DQkxtbjBqSzh0NjRDdEFwWU1oTHI0VFRBSDlNa2tXL1N3UGhSWTF4?=
- =?utf-8?B?ZXhEVFRNUTJIUi9wdFVSY0o1YUZrVFVqcmpobDJqU0lKNE4xY1MvRjc4QS92?=
- =?utf-8?B?VGZWcExhaVZVeE93a1Iwdk9kaHl5SUU5VVNISjB6TDJveHplcFNlSFNjWVIz?=
- =?utf-8?B?OGFqWmNUREpzc1pMSzIvRTk2RktxZTVEWWpBL0J3NFpLbnZSMUNUMzlrRFlJ?=
- =?utf-8?B?T3NieEdoZTVxSHp6RlpXcG1ldy9lVWxuUGgreWNtY0FsYkM1RS8wMTgxMjJX?=
- =?utf-8?B?Umd0TmZaa2R4aDVjNWFCK00zbytIUmZkWWtYSkpJVVdaMDF3dGUvL09ZUG40?=
- =?utf-8?B?dFFpU1hqOXh0MVN2QTJpS29OaktkbXBXbjB4RlNlamlNdFNyd2hnMFpiOEk4?=
- =?utf-8?B?ZjE0Y1FNSzNMdjlmWlNCLzlQTDZDTE9NYnRPaGJhNG5VdmhMN1hyRWRRdzRr?=
- =?utf-8?B?ZWZQNGJyby8xVEdKdENSYXdQdlREZ1o2bkdZRXRYRk8yUTh0MjZuRWR2dkFa?=
- =?utf-8?B?NThpSFY4U0cvdE1uNmc1dmk4WWRqdU8wK2RUZHhoaVJjM0xzNStPcVNmcTRB?=
- =?utf-8?B?Yk4vdlF2QlpSSFg5WHIvdm5LOXpLaFVwTkxiVSs2ZUw5VkRMSGY3L0VXMTdT?=
- =?utf-8?B?Q1pwcjRNamNYejVOYjN6Y1l2TG1JdWZHVU56V0VJZGZCWUFNV2IvNXBWbldn?=
- =?utf-8?B?bUZmWHpMelFrakZMUVNkQ3BGZ3lJTWlkK2RDMkRkSGg3UXh3eFowblNWVFp1?=
- =?utf-8?B?WFRCMDY5NzZSeVNRcVljTW9YNm15dW1LeXRuNE9kSG45MFJzUjg2U0QxY2tJ?=
- =?utf-8?B?Nmc2L0gyTlRXbEpIcFdzeVY3Z2pUVk5KUitQQU12c2thMUdkT21iZngrWDBE?=
- =?utf-8?B?N2dCSlA0OEVCRndENzVDUzl6OHMwcG9OUWNIbVI3QzladVR2ZGpBL0ZlQmlS?=
- =?utf-8?B?RlFiVU4zOU9jV0dpbnRoelVwRzRPajhQdEdLUjlDd2xGdVdBc2ZIV2tKekor?=
- =?utf-8?B?aU4rN0JncWd1dEpYbHAvRk1KTE5zaGRZQjQ5YXlNaWYycjloQ2Y1UHBiRDNm?=
- =?utf-8?B?Wi9yNVphOEt1aXJva2w1Q25vOWpyekRWSXQ4dDBVa0J6WHpkM3huRXZhV0hP?=
- =?utf-8?B?VHlKNlJHeWcraTBQMTZTS25rakVlTlZUS3NDbmV4WnhKMWMwSHQ1d0Vra1p5?=
- =?utf-8?B?K1Iza09DbTBqNlNGUzZZbnFuUGcyMUpYQUM0L0hkaG41Wnp3RWREUGVnMVVX?=
- =?utf-8?B?UFFmVUd0QklrVHJyaDZkRmdtNnczbG9RQVNXTWxLWXZleTl6VVdQblhhTG5a?=
- =?utf-8?B?UmZ6bDUzVHhlcHdFSnNrMlArSlg3TGxKc3RCeUwwbStQMjFkOFgyWWFDVTE3?=
- =?utf-8?B?VGRHUWg5T1Boa252SHY0RUhtc1dmNzNVNDQyRGtWNFhKVUE3MXVibW4waDMv?=
- =?utf-8?B?endXNVRrTm5rVHdJWGdNVlVwSjVocytOR2oxNk5iWTZHTlNiOVhXL3FjVEt6?=
- =?utf-8?B?Y2tOcXRYRnY3UUp5RGR4ZjdRTGFEeHVKUzVxYVpHWVV3b1cvR3ZXcHVyUUQz?=
- =?utf-8?B?VjU0L2pyaDAwM2J6MUNybVdudGx2dGM0TkJlbnZiRGRwbU8rNjJ1WG16NmRk?=
- =?utf-8?B?MFE3WWxjeDZDcnBwQlpCMlZ3SkhzakdjZGR3WnRHY1FzY3N0R1RNUGRZT1Ev?=
- =?utf-8?B?NG1YTWc4bmtkOWFnMXI5cWlZVStvcUx1Z1U0NGFZa1ZpSVE5QlhTd1YzemU2?=
- =?utf-8?B?bjFRa0pxZHFYZWhxY0lSZGlBV3R5OGJZZWpZcEF0Rng5SG5JdEpEWWZZRGxD?=
- =?utf-8?B?WVRxZk9OdkYrMEYzZUJOb0xKMmcyV2ttSm82M2ZKMkErVGhMRC9ZV1FVeHpM?=
- =?utf-8?B?Y3BTeU4zVng0YWwxdVkyYmtpRWNnRHNwNnBieHk3TnZhMzFGaEhaTVdZZXhu?=
- =?utf-8?B?TG5ud2VlYVNNaDhMVUo3czYyM3Frd0E5cnRXNXhranBHYkF6c2lKMTlGMTlU?=
- =?utf-8?B?ODFoTlpibFVoOHFGbnZwWmdqOTNRTVViTzNQZ01kYjUrQW1uM2xGRHFvYkN6?=
- =?utf-8?Q?uzGP4LVAmYRFPZEHwEB34o2DOJlJh6fFGFZ5Ev/jyokC?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BC78FD0320F96240B1EAFD204A487F7D@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	<20251115-nvme-phys-types-v1-1-c0f2e5e9163d@kernel.org>
+	<20251115173341.4a59c97f@pumpkin>
+	<20251115180547.GC147495@unreal>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 097da4c0-590e-42b1-9974-08de2495d598
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2025 22:25:08.4871
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e8fKoyu562Kxew4ksE8TpUrt258j7spHVny8/yZJtY11zfFGdxLtdYJHQrN1+BV8C0Q43kFPbYFkhOs2MSE6MQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6242
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251115_142513_553196_BBCD37DE 
-X-CRM114-Status: GOOD (  11.81  )
+X-CRM114-CacheID: sfid-20251115_142854_039621_D5A24090 
+X-CRM114-Status: GOOD (  43.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -185,19 +106,130 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMTEvMTUvMjUgMDg6MjIsIExlb24gUm9tYW5vdnNreSB3cm90ZToNCj4gRnJvbTogTGVvbiBS
-b21hbm92c2t5PGxlb25yb0BudmlkaWEuY29tPg0KPg0KPiBNb3ZlIHRoZSBzdHJ1Y3QgcGh5c192
-ZWMgZGVmaW5pdGlvbiBmcm9tIGJsb2NrL2Jsay1tcS1kbWEuYyB0bw0KPiBpbmNsdWRlL2xpbnV4
-L3R5cGVzLmggdG8gbWFrZSBpdCBhdmFpbGFibGUgZm9yIHVzZSBhY3Jvc3MgdGhlIGtlcm5lbC4N
-Cj4NCj4gVGhlIHBoeXNfdmVjIHN0cnVjdHVyZSByZXByZXNlbnRzIGEgcGh5c2ljYWwgYWRkcmVz
-cyByYW5nZSB3aXRoIGENCj4gbGVuZ3RoLCB3aGljaCBpcyB1c2VkIGJ5IHRoZSBuZXcgcGh5c2lj
-YWwgYWRkcmVzcy1iYXNlZCBETUEgbWFwcGluZw0KPiBBUEkuIFRoaXMgc3RydWN0dXJlIGlzIGFs
-cmVhZHkgdXNlZCBieSB0aGUgYmxvY2sgbGF5ZXIgYW5kIHdpbGwgYmUNCj4gbmVlZGVkIGZvciBE
-TUEgcGh5cyBBUEkgdXNlcnMuDQo+DQo+IE1vdmluZyB0aGlzIGRlZmluaXRpb24gdG8gdHlwZXMu
-aCBwcm92aWRlcyBhIGNlbnRyYWxpemVkIGxvY2F0aW9uDQo+IGZvciB0aGlzIGNvbW1vbiBkYXRh
-IHN0cnVjdHVyZSBhbmQgZWxpbWluYXRlcyBjb2RlIGR1cGxpY2F0aW9uDQo+IGFjcm9zcyBzdWJz
-eXN0ZW1zIHRoYXQgbmVlZCB0byB3b3JrIHdpdGggcGh5c2ljYWwgYWRkcmVzcyByYW5nZXMuDQo+
-DQo+IFNpZ25lZC1vZmYtYnk6IExlb24gUm9tYW5vdnNreTxsZW9ucm9AbnZpZGlhLmNvbT4NCg0K
-TG9va3MgZ29vZC4NCg0KUmV2aWV3ZWQtYnk6IENoYWl0YW55YSBLdWxrYXJuaSA8a2NoQG52aWRp
-YS5jb20+DQoNCi1jaw0KDQo=
+On Sat, 15 Nov 2025 20:05:47 +0200
+Leon Romanovsky <leon@kernel.org> wrote:
+
+> On Sat, Nov 15, 2025 at 05:33:41PM +0000, David Laight wrote:
+> > On Sat, 15 Nov 2025 18:22:45 +0200
+> > Leon Romanovsky <leon@kernel.org> wrote:
+> >   
+> > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > 
+> > > This patch changes the length variables from unsigned int to size_t.
+> > > Using size_t ensures that we can handle larger sizes, as size_t is
+> > > always equal to or larger than the previously used u32 type.  
+> > 
+> > Where are requests larger than 4GB going to come from?  
+> 
+> The main goal is to reuse phys_vec structure. It is going to represent PCI
+> regions exposed through VFIO DMABUF interface. Their length is more than u32.
+
+Unless you actually need to have the same structure (because some function
+is used in both places) there isn't really any need to have a single structure
+for a a phy_addr:length pair.
+Indeed keeping them separate can even remove bugs.
+
+For instance (I think) blk_map_iter_next() returns an addr:len pair
+that is only only used for the following sg_set_page() call - which
+has separate parameters for phys_to_page(addr) and len.
+So unless there are other place it is used it doesn't need to be
+the same structure at all.
+(Other people might disagree...)
+
+> 
+> >   
+> > > Originally, u32 was used because blk-mq-dma code evolved from
+> > > scatter-gather implementation, which uses unsigned int to describe length.
+> > > This change will also allow us to reuse the existing struct phys_vec in places
+> > > that don't need scatter-gather.
+> > > 
+> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > ---
+> > >  block/blk-mq-dma.c      | 14 +++++++++-----
+> > >  drivers/nvme/host/pci.c |  4 ++--
+> > >  2 files changed, 11 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
+> > > index e9108ccaf4b0..cc3e2548cc30 100644
+> > > --- a/block/blk-mq-dma.c
+> > > +++ b/block/blk-mq-dma.c
+> > > @@ -8,7 +8,7 @@
+> > >  
+> > >  struct phys_vec {
+> > >  	phys_addr_t	paddr;
+> > > -	u32		len;
+> > > +	size_t		len;
+> > >  };
+> > >  
+> > >  static bool __blk_map_iter_next(struct blk_map_iter *iter)
+> > > @@ -112,8 +112,8 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
+> > >  		struct phys_vec *vec)
+> > >  {
+> > >  	enum dma_data_direction dir = rq_dma_dir(req);
+> > > -	unsigned int mapped = 0;
+> > >  	unsigned int attrs = 0;
+> > > +	size_t mapped = 0;
+> > >  	int error;
+> > >  
+> > >  	iter->addr = state->addr;
+> > > @@ -296,8 +296,10 @@ int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
+> > >  	blk_rq_map_iter_init(rq, &iter);
+> > >  	while (blk_map_iter_next(rq, &iter, &vec)) {
+> > >  		*last_sg = blk_next_sg(last_sg, sglist);
+> > > -		sg_set_page(*last_sg, phys_to_page(vec.paddr), vec.len,
+> > > -				offset_in_page(vec.paddr));
+> > > +
+> > > +		WARN_ON_ONCE(overflows_type(vec.len, unsigned int));  
+> > 
+> > I'm not at all sure you need that test.
+> > blk_map_iter_next() has to guarantee that vec.len is valid.
+> > (probably even less than a page size?)
+> > Perhaps this code should be using a different type for the addr:len pair?  
+> 
+> I added this test for future proof, this is why it doesn't "return" on
+> overflow, but prints dump stack and continues. It can't happen.
+
+No, on a large number of installed systems it prints the stack an panicks.
+Were it to continue the effect would be all wrong anyway.
+But blk_map_iter_next() guarantees to return a sane length.
+
+> 
+> >   
+> > > +		sg_set_page(*last_sg, phys_to_page(vec.paddr),
+> > > +			    (unsigned int)vec.len, offset_in_page(vec.paddr));  
+> > 
+> > You definitely don't need the explicit cast.  
+> 
+> We degrade type from u64 to u32. Why don't we need cast?
+
+Because you don't need to cast pretty much all integer conversions.
+Any warnings compilers might output for such assignments really are best
+disabled.
+The more casts you add to code to remove 'silly' compiler warnings the
+harder it is to find the ones that actually have a desired effect and/or
+unwanted effects that are actually bugs.
+
+I'm busy trying to fix a load of min_t(u32, a, b) which mask off high
+significant bits from u64 values.
+The casts got added (implicitly by using min_t() instead of min()) because
+min() required the types match - and in a lot of cases the programmer
+picked the type of the result not that of the larger parameter.
+Others are just cut&paste of another line.
+But the effect is the same, the casts add bugs rather than making the
+code better.
+
+I've even seen:
+	uchar_buf[0] = (unsigned char)(int_val & 0xff);
+(Presumably written to avoid compiler warnings.)
+and looked at the object code to find the compiler (not gcc) anded the
+value with 0xff for the '& 0xff', anded it with 0xff again for the cast
+and then did a memory write of the low bits.
+
+casts could easily be the next 'bug'...
+
+	David
+
+> 
+> Thanks
+
 
