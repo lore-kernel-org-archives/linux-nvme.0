@@ -4,66 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1296CEBF8A
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 Nov 2025 07:15:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B756CD4F3E
+	for <linux-nvme@archiver.kernel.org>; Sun, 16 Nov 2025 10:29:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hlt5/jXiIC3xQs4PP4j0F6mWifY0na7e+hGBM/O2bO4=; b=jr9CbCyBh0iFIjzlqyxZGzuw5N
-	2/xCR1LzuRxXnYGfPoc6aq1mzdKvrzzM2vb4a2I6fouegydGWTiVr1T8IAHBpIUfGqtMrjCQ3t7Sx
-	Z5+wq/pM2sjkVp18xS6PVDLhEdn825p0b21aHtWoVyhpH35h7k8/j+lUPKse+hlufW/pq/HsuPwdV
-	c1WXsAGM6dHRkZHvw/2XDY8DPwiWwyizvKZowEYlftaegRS8E6eFGSHjoO9wfiBrwRgqY8DqSPE46
-	9ZoEvjMzHiNyacTAuGn+jumJW9mgE1BV8jlp/t1p4FzDgd+FWxDcaExWZojWCELinN0TKOtMTKlec
-	lVPtfKGg==;
+	bh=JSW7JgNcs7DWh1nW7rtjeN1ASDGAXAC868BibcndNtw=; b=jQJmqlKXKsfnOgXigpHVCMBsBY
+	7t9xwkxLVdLeaPMOdtLdsIaAwYVSL1jZHXYhNfOMMNbBF4d0dgj4BvYrCV3xUdojytcw6C9q2SwpI
+	J0lY+dATY3E5nWRPUzK0GaYZ0aPxDLbc7ZhJT0MIxe3oulC5Rd8lJr6e+90u4hJG0w2Ab1bmzNVpn
+	MK5QAVmR2byloj9nC1atvvWOoKDHNWfU08RMzWPF++YTcMhigWTEHrQu2guEKV0zBdsHTUHcFVtyI
+	ecG852RGXWIhL1WZ3p8RAigvYnh1C2J/Qd6Bsepgmkf5KBYZ8/stEUKBqZY0bjcjJeUzONM73SJsB
+	Rc6WiH3w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKWyW-0000000EQzU-0bu7;
-	Sun, 16 Nov 2025 07:15:04 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vKa0B-0000000EXw9-0mUb;
+	Sun, 16 Nov 2025 10:28:59 +0000
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKWyS-0000000EQyl-3VbZ
+	id 1vKa08-0000000EXvi-0cjl
 	for linux-nvme@lists.infradead.org;
-	Sun, 16 Nov 2025 07:15:03 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id F278542A01;
-	Sun, 16 Nov 2025 07:14:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65167C113D0;
-	Sun, 16 Nov 2025 07:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763277299;
-	bh=ZwafYmBH3NbvO+pGxsGEYLBD8i7TIkJQ2P+Z2BySlH0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ja9E8EMjT6t6my/i/tmmduWO7YNutYJReSOubODzhOpk2I1XM78V0yytr6D0CpWRL
-	 qN3ZGnmTcn2HzJ711XnpASL4Gbw1K5mA1YwVG2qfxrpkDLz0Jg10HU4tH94RNSg4Ht
-	 p/mL6aGNTpdQVriRJM5FfkvV/WVNWmTY3SmAck49nIB8irHCYJAm4sEk2aLN6sx8pr
-	 n3iZYMy47JY4MAdVAVYAdfW/lL2a16fzV4vjZDUBALEJgHfl2IkcU5WUK8VjRxMtRS
-	 zaYbKpJeIisf++IeDLr4X1OL3EAP1rgv/g9ShSEsrwZID0DTgcsi9BWLVXzcvoGsda
-	 tne3XDB+uH77A==
-Date: Sun, 16 Nov 2025 09:14:54 +0200
-From: Leon Romanovsky <leon@kernel.org>
+	Sun, 16 Nov 2025 10:28:58 +0000
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-29812589890so43928865ad.3
+        for <linux-nvme@lists.infradead.org>; Sun, 16 Nov 2025 02:28:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1763288934; x=1763893734; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JSW7JgNcs7DWh1nW7rtjeN1ASDGAXAC868BibcndNtw=;
+        b=PrPv7hllhMLPca1RG1yG/lI1kuZ/eDcwwiRLeeIuY6K+rrKowLpzAM+4vwPLLYYQMv
+         3Lz3bB45MYYB2YW9twrAHVfN0UUvBjSxl3t8SU4f9kyUwDLn3UKBK5SXa1mF9dHPnrtk
+         CagCfpi4EU6TUr/RO6py4zm5v0jEa3AWtrl4dF4HYjbXX//EAa8c6RKREoUXNAGEKlv/
+         5ya7XFPHdeNx9yF8+zZtztKTkX7TFPhlYnxrFsi8niGCISNVSxWAksRminFWbIiNjOjn
+         x2mISCiYBCmakvZZP5aIAnQyKA+RhynGaYd4cTFSkmZxCMajtVz8XpbiobwbNxi/oXOU
+         aXYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763288934; x=1763893734;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JSW7JgNcs7DWh1nW7rtjeN1ASDGAXAC868BibcndNtw=;
+        b=uYVN28elbEMpL1mqI0e9O14qpIBmgi63sCFS/fbM01Xo359R+YljL2fFkYHZ3LIqL8
+         yzFwdPVBRa7THzlFoeF9lrhyL6vdG4xtSX1Wigqc3HxwlUyq/l5PrgAhPtMSX9L38Rob
+         uZgB4xsmoOVdw3icjj0bhLBB1n88r/dD9c5AMK3XNebcku9mpBX69rpQutWcMTRdWM4I
+         bEan+NcF7h/SEioiE1pU/lYZRh64lqODpCNONU9yCCj2mMVL1e4HlqTTHOEHk3rocJwU
+         B/NkPpseSkVZVCKZy181mDejdXQ//raL1dfL+xmYF5FTEIjBqZ9K4s+g+MQ+MqGO4XZB
+         rjug==
+X-Forwarded-Encrypted: i=1; AJvYcCVMR57PNfwgTtsS9Ro+0xCPxRGT3B+H6K6kJUOtNwkCNQR+sBdEbgagNJJEHcym/CRVd5h0S2OILY5a@lists.infradead.org
+X-Gm-Message-State: AOJu0YxmZ10gNHuKkMip1yKU+17Nagwgj5mWLCiTYQAdtevLcoCQB7FD
+	pAqBjcq0RTxho01eFhIRq6DwkW+mjOc7R14sdOXK0vEC8FsAu3HkbJQzD/WSjFQNops=
+X-Gm-Gg: ASbGncvv2k/bwf2IvYwrNA9G0JUWMBNUIkqU4Uid0c+Sm4dc8nuOC7yDToDP0/v4hed
+	KI0BOAgq+MXu16jUDcKtyuQRBQLPdBiB/aVWm+a6NoLpRtLVMpgI8PqK7vn6QZMo/esnYHN+1mB
+	1/2r1lvAgdAAKWTHIblV48YkUdR8qTWvpcxDEkdRIWRv4JQaA0Z7f6P0qj4RZriFGSAZ87GmNn2
+	TbmuVn7tVEblVJamJ/78WYJCzq1S5eDi6XI5lBkMwKw1152skJLNMH4DJCVF4/iswwJvQhN4rnN
+	3BQL2ttyQzsgdtTQgBhtFpvCGpGrpVrjKaC294Vl4d82tmeQ/cZJg34V1leoD6PpDgmDLkhrDOM
+	IY3ADWyKCLUfq+UqMJUaWfdgF2w9zL/9vLiUH3fPv6lBUaHdq6A3JmnFtJBxCMnHeQS2BFODScT
+	0Z5HIHpeCl1hEm/y8MR0haiswZyoVbhOSm
+X-Google-Smtp-Source: AGHT+IHFG6QmWK1KpFn85ysEfm+psI5j9KN7/n/1T01x4vQCppnzXtL7aRATTWAaGCFS+DPVbWd8+Q==
+X-Received: by 2002:a17:903:1211:b0:28d:18d3:46cb with SMTP id d9443c01a7336-2986a6bf9a7mr103443295ad.20.1763288934185;
+        Sun, 16 Nov 2025 02:28:54 -0800 (PST)
+Received: from wu-Pro-E500-G6-WS720T ([2001:288:7001:2703:22b3:6dbf:5b14:3737])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2c0fe8sm106790585ad.80.2025.11.16.02.28.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 02:28:53 -0800 (PST)
+Date: Sun, 16 Nov 2025 18:28:49 +0800
+From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
 To: David Laight <david.laight.linux@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/2] nvme-pci: Use size_t for length fields to handle
- larger sizes
-Message-ID: <20251116071454.GD147495@unreal>
-References: <20251115-nvme-phys-types-v1-0-c0f2e5e9163d@kernel.org>
- <20251115-nvme-phys-types-v1-1-c0f2e5e9163d@kernel.org>
- <20251115173341.4a59c97f@pumpkin>
- <20251115180547.GC147495@unreal>
- <20251115222850.183b8557@pumpkin>
+Cc: akpm@linux-foundation.org, andriy.shevchenko@intel.com, axboe@kernel.dk,
+	ceph-devel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
+	home7438072@gmail.com, idryomov@gmail.com, jaegeuk@kernel.org,
+	kbusch@kernel.org, linux-fscrypt@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	sagi@grimberg.me, tytso@mit.edu, visitorckw@gmail.com,
+	xiubli@redhat.com
+Subject: Re: [PATCH v5 3/6] lib/base64: rework encode/decode for speed and
+ stricter validation
+Message-ID: <aRmnYTHmfPi1lyix@wu-Pro-E500-G6-WS720T>
+References: <20251114055829.87814-1-409411716@gms.tku.edu.tw>
+ <20251114060132.89279-1-409411716@gms.tku.edu.tw>
+ <20251114091830.5325eed3@pumpkin>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251115222850.183b8557@pumpkin>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251114091830.5325eed3@pumpkin>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251115_231502_071971_A83DE32D 
-X-CRM114-Status: GOOD (  55.55  )
+X-CRM114-CacheID: sfid-20251116_022856_439828_356C7409 
+X-CRM114-Status: GOOD (  35.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,163 +108,217 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Nov 15, 2025 at 10:28:50PM +0000, David Laight wrote:
-> On Sat, 15 Nov 2025 20:05:47 +0200
-> Leon Romanovsky <leon@kernel.org> wrote:
+On Fri, Nov 14, 2025 at 09:18:30AM +0000, David Laight wrote:
+> On Fri, 14 Nov 2025 14:01:32 +0800
+> Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
 > 
-> > On Sat, Nov 15, 2025 at 05:33:41PM +0000, David Laight wrote:
-> > > On Sat, 15 Nov 2025 18:22:45 +0200
-> > > Leon Romanovsky <leon@kernel.org> wrote:
-> > >   
-> > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > > 
-> > > > This patch changes the length variables from unsigned int to size_t.
-> > > > Using size_t ensures that we can handle larger sizes, as size_t is
-> > > > always equal to or larger than the previously used u32 type.  
-> > > 
-> > > Where are requests larger than 4GB going to come from?  
+> > The old base64 implementation relied on a bit-accumulator loop, which was
+> > slow for larger inputs and too permissive in validation. It would accept
+> > extra '=', missing '=', or even '=' appearing in the middle of the input,
+> > allowing malformed strings to pass. This patch reworks the internals to
+> > improve performance and enforce stricter validation.
 > > 
-> > The main goal is to reuse phys_vec structure. It is going to represent PCI
-> > regions exposed through VFIO DMABUF interface. Their length is more than u32.
-> 
-> Unless you actually need to have the same structure (because some function
-> is used in both places) there isn't really any need to have a single structure
-> for a a phy_addr:length pair.
-
-Actually, we do plan to use them. In RDMA and probably in DMA API also,
-as I was suggested to provide general DMA map function, which will
-perform mapping for array of phys_vecs.
-
-> Indeed keeping them separate can even remove bugs.
-
-Or introduce, it depends on the situation.
-
-> 
-> For instance (I think) blk_map_iter_next() returns an addr:len pair
-> that is only only used for the following sg_set_page() call - which
-> has separate parameters for phys_to_page(addr) and len.
-
-It is temporary, because we needed to use old SG interface. At some
-point of time (after we will finish discussion/implementation of VFIO
-and DMABUF), the blk_rq_map_*_sg() routines that are used for RDMA will 
-be changed to do not use SG at all.
-
-> So unless there are other place it is used it doesn't need to be
-> the same structure at all.
-> (Other people might disagree...)
-
-Yes, VFIO, DMABUF and RDMA are other places, so it is better to move
-that struct phys_vec to general place now, so in next cycle we will
-be able to reuse it.
-
-> 
+> > Changes:
+> >  - Encoder:
+> >    * Process input in 3-byte blocks, mapping 24 bits into four 6-bit
+> >      symbols, avoiding bit-by-bit shifting and reducing loop iterations.
+> >    * Handle the final 1-2 leftover bytes explicitly and emit '=' only when
+> >      requested.
+> >  - Decoder:
+> >    * Based on the reverse lookup tables from the previous patch, decode
+> >      input in 4-character groups.
+> >    * Each group is looked up directly, converted into numeric values, and
+> >      combined into 3 output bytes.
+> >    * Explicitly handle padded and unpadded forms:
+> >       - With padding: input length must be a multiple of 4, and '=' is
+> >         allowed only in the last two positions. Reject stray or early '='.
+> >       - Without padding: validate tail lengths (2 or 3 chars) and require
+> >         unused low bits to be zero.
+> >    * Removed the bit-accumulator style loop to reduce loop iterations.
 > > 
-> > >   
-> > > > Originally, u32 was used because blk-mq-dma code evolved from
-> > > > scatter-gather implementation, which uses unsigned int to describe length.
-> > > > This change will also allow us to reuse the existing struct phys_vec in places
-> > > > that don't need scatter-gather.
-> > > > 
-> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > > ---
-> > > >  block/blk-mq-dma.c      | 14 +++++++++-----
-> > > >  drivers/nvme/host/pci.c |  4 ++--
-> > > >  2 files changed, 11 insertions(+), 7 deletions(-)
-> > > > 
-> > > > diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
-> > > > index e9108ccaf4b0..cc3e2548cc30 100644
-> > > > --- a/block/blk-mq-dma.c
-> > > > +++ b/block/blk-mq-dma.c
-> > > > @@ -8,7 +8,7 @@
-> > > >  
-> > > >  struct phys_vec {
-> > > >  	phys_addr_t	paddr;
-> > > > -	u32		len;
-> > > > +	size_t		len;
-> > > >  };
-> > > >  
-> > > >  static bool __blk_map_iter_next(struct blk_map_iter *iter)
-> > > > @@ -112,8 +112,8 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
-> > > >  		struct phys_vec *vec)
-> > > >  {
-> > > >  	enum dma_data_direction dir = rq_dma_dir(req);
-> > > > -	unsigned int mapped = 0;
-> > > >  	unsigned int attrs = 0;
-> > > > +	size_t mapped = 0;
-> > > >  	int error;
-> > > >  
-> > > >  	iter->addr = state->addr;
-> > > > @@ -296,8 +296,10 @@ int __blk_rq_map_sg(struct request *rq, struct scatterlist *sglist,
-> > > >  	blk_rq_map_iter_init(rq, &iter);
-> > > >  	while (blk_map_iter_next(rq, &iter, &vec)) {
-> > > >  		*last_sg = blk_next_sg(last_sg, sglist);
-> > > > -		sg_set_page(*last_sg, phys_to_page(vec.paddr), vec.len,
-> > > > -				offset_in_page(vec.paddr));
-> > > > +
-> > > > +		WARN_ON_ONCE(overflows_type(vec.len, unsigned int));  
-> > > 
-> > > I'm not at all sure you need that test.
-> > > blk_map_iter_next() has to guarantee that vec.len is valid.
-> > > (probably even less than a page size?)
-> > > Perhaps this code should be using a different type for the addr:len pair?  
+> > Performance (x86_64, Intel Core i7-10700 @ 2.90GHz, avg over 1000 runs,
+> > KUnit):
 > > 
-> > I added this test for future proof, this is why it doesn't "return" on
-> > overflow, but prints dump stack and continues. It can't happen.
-> 
-> No, on a large number of installed systems it prints the stack an panicks.
-
-It will print such stack if vec.len is more than u32, which is not
-supposed to be. 
-
-> Were it to continue the effect would be all wrong anyway.
-> But blk_map_iter_next() guarantees to return a sane length.
-
-It is not guarantee. If I understand it correctly, the guarantee comes
-from upper layer which limits request size because of SG limitations.
-
-> 
+> > Encode:
+> >   64B   ~90ns   -> ~32ns   (~2.8x)
+> >   1KB  ~1332ns  -> ~510ns  (~2.6x)
 > > 
-> > >   
-> > > > +		sg_set_page(*last_sg, phys_to_page(vec.paddr),
-> > > > +			    (unsigned int)vec.len, offset_in_page(vec.paddr));  
-> > > 
-> > > You definitely don't need the explicit cast.  
+> > Decode:
+> >   64B  ~1530ns  -> ~35ns   (~43.7x)
+> >   1KB ~27726ns  -> ~530ns  (~52.3x)
 > > 
-> > We degrade type from u64 to u32. Why don't we need cast?
+> > Co-developed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > Co-developed-by: Yu-Sheng Huang <home7438072@gmail.com>
+> > Signed-off-by: Yu-Sheng Huang <home7438072@gmail.com>
+> > Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
 > 
-> Because you don't need to cast pretty much all integer conversions.
-> Any warnings compilers might output for such assignments really are best
-> disabled.
-> The more casts you add to code to remove 'silly' compiler warnings the
-> harder it is to find the ones that actually have a desired effect and/or
-> unwanted effects that are actually bugs.
+> Reviewed-by: David Laight <david.laight.linux@gmail.com>
 > 
-> I'm busy trying to fix a load of min_t(u32, a, b) which mask off high
-> significant bits from u64 values.
-> The casts got added (implicitly by using min_t() instead of min()) because
-> min() required the types match - and in a lot of cases the programmer
-> picked the type of the result not that of the larger parameter.
-> Others are just cut&paste of another line.
-> But the effect is the same, the casts add bugs rather than making the
-> code better.
-> 
-> I've even seen:
-> 	uchar_buf[0] = (unsigned char)(int_val & 0xff);
-> (Presumably written to avoid compiler warnings.)
-> and looked at the object code to find the compiler (not gcc) anded the
-> value with 0xff for the '& 0xff', anded it with 0xff again for the cast
-> and then did a memory write of the low bits.
-> 
-> casts could easily be the next 'bug'...
+> But see minor nit below.
 
-I have no such strong feelings about cast here and can remove it.
+Hi David,
 
-Thanks
+Thanks for the review and for pointing this out.
 
-> 
-> 	David
-> 
+Andrew, would it be possible for you to fold this small change 
+(removing the redundant casts) directly when updating the patch?
+If that’s not convenient, I can resend an updated version of the
+series instead. 
+
+Best regards,
+Guan-Chun
+
+> > ---
+> >  lib/base64.c | 109 ++++++++++++++++++++++++++++++++-------------------
+> >  1 file changed, 68 insertions(+), 41 deletions(-)
 > > 
-> > Thanks
+> > diff --git a/lib/base64.c b/lib/base64.c
+> > index 9d1074bb821c..1a6d8fe37eda 100644
+> > --- a/lib/base64.c
+> > +++ b/lib/base64.c
+> > @@ -79,28 +79,38 @@ static const s8 base64_rev_maps[][256] = {
+> >  int base64_encode(const u8 *src, int srclen, char *dst, bool padding, enum base64_variant variant)
+> >  {
+> >  	u32 ac = 0;
+> > -	int bits = 0;
+> > -	int i;
+> >  	char *cp = dst;
+> >  	const char *base64_table = base64_tables[variant];
+> >  
+> > -	for (i = 0; i < srclen; i++) {
+> > -		ac = (ac << 8) | src[i];
+> > -		bits += 8;
+> > -		do {
+> > -			bits -= 6;
+> > -			*cp++ = base64_table[(ac >> bits) & 0x3f];
+> > -		} while (bits >= 6);
+> > -	}
+> > -	if (bits) {
+> > -		*cp++ = base64_table[(ac << (6 - bits)) & 0x3f];
+> > -		bits -= 6;
+> > +	while (srclen >= 3) {
+> > +		ac = (u32)src[0] << 16 | (u32)src[1] << 8 | (u32)src[2];
+> 
+> There is no need for the (u32) casts.
+> All char/short values are promoted to 'int' prior to any maths.
+> 
+> > +		*cp++ = base64_table[ac >> 18];
+> > +		*cp++ = base64_table[(ac >> 12) & 0x3f];
+> > +		*cp++ = base64_table[(ac >> 6) & 0x3f];
+> > +		*cp++ = base64_table[ac & 0x3f];
+> > +
+> > +		src += 3;
+> > +		srclen -= 3;
+> >  	}
+> > -	if (padding) {
+> > -		while (bits < 0) {
+> > +
+> > +	switch (srclen) {
+> > +	case 2:
+> > +		ac = (u32)src[0] << 16 | (u32)src[1] << 8;
+> > +		*cp++ = base64_table[ac >> 18];
+> > +		*cp++ = base64_table[(ac >> 12) & 0x3f];
+> > +		*cp++ = base64_table[(ac >> 6) & 0x3f];
+> > +		if (padding)
+> > +			*cp++ = '=';
+> > +		break;
+> > +	case 1:
+> > +		ac = (u32)src[0] << 16;
+> > +		*cp++ = base64_table[ac >> 18];
+> > +		*cp++ = base64_table[(ac >> 12) & 0x3f];
+> > +		if (padding) {
+> > +			*cp++ = '=';
+> >  			*cp++ = '=';
+> > -			bits += 2;
+> >  		}
+> > +		break;
+> >  	}
+> >  	return cp - dst;
+> >  }
+> > @@ -116,41 +126,58 @@ EXPORT_SYMBOL_GPL(base64_encode);
+> >   *
+> >   * Decodes a string using the selected Base64 variant.
+> >   *
+> > - * This implementation hasn't been optimized for performance.
+> > - *
+> >   * Return: the length of the resulting decoded binary data in bytes,
+> >   *	   or -1 if the string isn't a valid Base64 string.
+> >   */
+> >  int base64_decode(const char *src, int srclen, u8 *dst, bool padding, enum base64_variant variant)
+> >  {
+> > -	u32 ac = 0;
+> > -	int bits = 0;
+> > -	int i;
+> >  	u8 *bp = dst;
+> > -	s8 ch;
+> > +	s8 input[4];
+> > +	s32 val;
+> > +	const u8 *s = (const u8 *)src;
+> > +	const s8 *base64_rev_tables = base64_rev_maps[variant];
+> >  
+> > -	for (i = 0; i < srclen; i++) {
+> > -		if (padding) {
+> > -			if (src[i] == '=') {
+> > -				ac = (ac << 6);
+> > -				bits += 6;
+> > -				if (bits >= 8)
+> > -					bits -= 8;
+> > -				continue;
+> > -			}
+> > -		}
+> > -		ch = base64_rev_maps[variant][(u8)src[i]];
+> > -		if (ch == -1)
+> > -			return -1;
+> > -		ac = (ac << 6) | ch;
+> > -		bits += 6;
+> > -		if (bits >= 8) {
+> > -			bits -= 8;
+> > -			*bp++ = (u8)(ac >> bits);
+> > +	while (srclen >= 4) {
+> > +		input[0] = base64_rev_tables[s[0]];
+> > +		input[1] = base64_rev_tables[s[1]];
+> > +		input[2] = base64_rev_tables[s[2]];
+> > +		input[3] = base64_rev_tables[s[3]];
+> > +
+> > +		val = input[0] << 18 | input[1] << 12 | input[2] << 6 | input[3];
+> > +
+> > +		if (unlikely(val < 0)) {
+> > +			if (!padding || srclen != 4 || s[3] != '=')
+> > +				return -1;
+> > +			padding = 0;
+> > +			srclen = s[2] == '=' ? 2 : 3;
+> > +			break;
+> >  		}
+> > +
+> > +		*bp++ = val >> 16;
+> > +		*bp++ = val >> 8;
+> > +		*bp++ = val;
+> > +
+> > +		s += 4;
+> > +		srclen -= 4;
+> >  	}
+> > -	if (ac & ((1 << bits) - 1))
+> > +
+> > +	if (likely(!srclen))
+> > +		return bp - dst;
+> > +	if (padding || srclen == 1)
+> >  		return -1;
+> > +
+> > +	val = (base64_rev_tables[s[0]] << 12) | (base64_rev_tables[s[1]] << 6);
+> > +	*bp++ = val >> 10;
+> > +
+> > +	if (srclen == 2) {
+> > +		if (val & 0x800003ff)
+> > +			return -1;
+> > +	} else {
+> > +		val |= base64_rev_tables[s[2]];
+> > +		if (val & 0x80000003)
+> > +			return -1;
+> > +		*bp++ = val >> 2;
+> > +	}
+> >  	return bp - dst;
+> >  }
+> >  EXPORT_SYMBOL_GPL(base64_decode);
 > 
 
