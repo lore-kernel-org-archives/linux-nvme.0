@@ -4,104 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 230D5CD4F3E
-	for <linux-nvme@archiver.kernel.org>; Sun, 16 Nov 2025 10:37:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D8C8CCD19A
+	for <linux-nvme@archiver.kernel.org>; Sun, 16 Nov 2025 15:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j2xccyQL0wjRPHWCif7a/agPdP0N/MqlaSpRLb12d9w=; b=mJWlm36tTruuH9TDTEc4Yoi2ct
-	EbXMQzNlyUndatFz1hRA+9lnStEaXN716pNGV8t1aJnHxnQR6yW3R6dlBg4F6XkJ5xoAh45qc9E22
-	o0HGZV1HHISRdooxdELe4z336ytary3HngK6pdriPGfkArGYz3a1gHinn4X60weYod7Ux5SPX0KDT
-	EaQ7+uhx2M9gQXb07bks1GkAom6UhCYzySgWPZ9S4g2jYcAsrysPPjDydI5m8khBrraniHdtaUFGL
-	oDQ84PL+ZLVILSoXDXr9doEVO9dgvGMPc+ap5cz7xHokmBYAKqJ4FoDcmUNPpPGYpfcoonYWIcY/p
-	dDUV+Y3g==;
+	bh=jCA0mRluEu7yHcbycOTH07Aepgo2yRyPrsU4Nq7LElI=; b=x3WVCf4F89SPSCNIcOsj/BBWrf
+	BWbeE6ocv5n/WMvxpQY9YEMI6MbKqHQKDg2+gX8lzlEy9x7KwtgjmeZuaqminkl1wO40IvFgwBkxy
+	rJqt+mBdBZqz3irjZ/I8Y5RIeHTRq5o2BpFDGBGf14TR6Dve8P6FlLymeRgPDGrzBUZNZRU4DFGQJ
+	uCwAwVukKfzhaNhNK4exhh2psM+9QMsNlkbyheyp9h1wzr++D7kDu++hNGn96gLyDdDVId2MAFVqH
+	t3YeZI66w3HSwVtyZzdsAdSbMTM4jO2eHMpWpuAmVZwRHaD/8U3tIqeNHq+Wy7akuBH4xzjKGmu/F
+	TMj34btg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKa7z-0000000EYDC-0c7a;
-	Sun, 16 Nov 2025 10:37:03 +0000
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+	id 1vKeU6-0000000EmG2-2UVA;
+	Sun, 16 Nov 2025 15:16:10 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKa7v-0000000EYCo-3Rm2
+	id 1vKeTz-0000000Em7o-01Ih
 	for linux-nvme@lists.infradead.org;
-	Sun, 16 Nov 2025 10:37:01 +0000
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-7bf0ad0cb87so221776b3a.2
-        for <linux-nvme@lists.infradead.org>; Sun, 16 Nov 2025 02:36:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gms-tku-edu-tw.20230601.gappssmtp.com; s=20230601; t=1763289419; x=1763894219; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j2xccyQL0wjRPHWCif7a/agPdP0N/MqlaSpRLb12d9w=;
-        b=Kw43ZYbS3jL05PRzZlTuezepFSVOfhFOn4ddweP8QKYgwgAoDdtBccy4cl5xTxVgY9
-         fNsAIXhj+Kbi/AD/J4l9aGdZaWbRfmwqFiDWR6xIsBDZVE/USrT15FtaOjjzRRMYwmfZ
-         bPSVvS15j2lj1yDqijInS8cVuYRMr9KKJIsILQzW/T9sXFEDiRU77Eb3Z3AlHWqih1vb
-         jkZQxxVwoUCD8g8RdKTJxJEs7aNwAllga3+nMrc1O9BZHUh2Pb+V2mSP+YrJvOmgNwA5
-         vbYh0w9grMKqnMkHDhOoQxqIKsf0XDSKtfnD3Xpf/pOYiLIg2UY/r3cY8vdE5DniOUO3
-         nlkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763289419; x=1763894219;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j2xccyQL0wjRPHWCif7a/agPdP0N/MqlaSpRLb12d9w=;
-        b=KAhRkTR9aib6W32X9/yeGoa9X5GjSkqywo4SKsiEYaMDpAW3oFJ1OGPsvrCoJPsP63
-         65XPL/IZ6W6/zE1jxP/sJS+3knnDJllFIzkVudlrsdethiZNJj0XULtOb4b218Q68Z3X
-         /Am+UAfppkMprBkjOhq6D7UQ9L3NCfUCnL2gSkf5xHnpc2hKrNYYHQ3BaZwtmAbAgLR+
-         WW3JyfAz+evH9yIQMvbO92Y+KLEwTIJcFw0bjvcZeQOf6lECEzbODxDtszfz10D+2hh7
-         gyEx3CUOl2i3+/HtjbwmcCV5d9RBi1XytBNL0huk7T4Vama08lbSKvwLSbV4oIzs1LNg
-         Up6w==
-X-Forwarded-Encrypted: i=1; AJvYcCXDkN6IBhby5GCQ8iX/1Q1PwDowMrilcQTnbgYfGvyz/mPkQ/1Jgt+RpqoIvL72OZkIIQcMRKFUXQWY@lists.infradead.org
-X-Gm-Message-State: AOJu0YxeQ0S0vkeq38jkYouAVBtUs+qNdOPggXnmKnNJsQ4GGFmQNZGs
-	0KawxAvi/0GjiAvsCa8+puO47vY+DBHxOID1TocE7bg7emteV86I9P2Z2Gkk8E6pH98=
-X-Gm-Gg: ASbGncvu3oKChHI4Et1ZF2vluYvkgmauZI1F9ZXxfE9zLljMtNZ/BppQrB+kOH8skPk
-	yaYFxjpWJxfLmRPSCOGqb4cdxO6VSqHaIwCoUUofssxOGl3zkALP4L8hHr6wJ9npRZCsmHIUJjV
-	CfcTuBg0gfhU8vpQ17A+bYvgf0fvDOIQU0I97lWJ/KajZPta8FHK5QiUMis2fnnjPKANNo5Q6BH
-	0dJk+PTl67EvYxafCNCHWqNdV5VjxsKTfB2E+4Y5q+uHJZLAziOyHQ1tzMBock+e0qdH6Uo0IKO
-	Ob7m3M0ajP/XeHiGjcibzH2Il2lxdhD9ntZCr2UHwyuykeurhTH6Sn8KGjhKsXYvWEUPYRG7LG7
-	EifDe18t6WkaR0aQI+S++S6xHKo26IcWE2+Nvr+fejZLIb10CkvmbLBr6JTVIDnotUMopJJAtBE
-	7y66zGYIL4tXj0MbVh+x6ASP3sz1Jped3R
-X-Google-Smtp-Source: AGHT+IEnf43Ltm/bA4lzbDQv+6sO2UhNpxxLrJK2n5FBPc4EJRJYJDkn08A4bHCQNvaKnyZ/h6JUVw==
-X-Received: by 2002:a05:6a20:7d9d:b0:35c:e441:e6d2 with SMTP id adf61e73a8af0-35ce441e898mr7014829637.7.1763289418602;
-        Sun, 16 Nov 2025 02:36:58 -0800 (PST)
-Received: from wu-Pro-E500-G6-WS720T ([2001:288:7001:2703:22b3:6dbf:5b14:3737])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc36fa02c42sm9507887a12.16.2025.11.16.02.36.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Nov 2025 02:36:58 -0800 (PST)
-Date: Sun, 16 Nov 2025 18:36:50 +0800
-From: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "david.laight.linux@gmail.com" <david.laight.linux@gmail.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"kbusch@kernel.org" <kbusch@kernel.org>,
-	"idryomov@gmail.com" <idryomov@gmail.com>,
-	"linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-	Xiubo Li <xiubli@redhat.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"ebiggers@kernel.org" <ebiggers@kernel.org>,
-	"andriy.shevchenko@intel.com" <andriy.shevchenko@intel.com>,
-	"hch@lst.de" <hch@lst.de>,
-	"home7438072@gmail.com" <home7438072@gmail.com>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	"tytso@mit.edu" <tytso@mit.edu>,
-	"visitorckw@gmail.com" <visitorckw@gmail.com>,
-	"jaegeuk@kernel.org" <jaegeuk@kernel.org>,
-	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>
-Subject: Re: [PATCH v5 6/6] ceph: replace local base64 helpers with lib/base64
-Message-ID: <aRmpQmMtfZQ8f95s@wu-Pro-E500-G6-WS720T>
-References: <20251114055829.87814-1-409411716@gms.tku.edu.tw>
- <20251114060240.89965-1-409411716@gms.tku.edu.tw>
- <afb5eb0324087792e1217577af6a2b90be21b327.camel@ibm.com>
+	Sun, 16 Nov 2025 15:16:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763306159;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jCA0mRluEu7yHcbycOTH07Aepgo2yRyPrsU4Nq7LElI=;
+	b=cPwzmreRfG9Y0nVUThxyFYCayHz5Spn3XUssb8P2yya3Ddv9F79y1xWMc8YOoUVMk+ftG3
+	PTZIG7zULTAAc3zerSXBaedZ6v0apE19N0NS6isyIJH5A4+mjMVqvEHRiznHaXGY1nq0nd
+	o3u8SgJapJiTarYY7Wk7P+fYI/7JLuM=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-500-2EVDif7JM261AY32m27aEg-1; Sun,
+ 16 Nov 2025 10:15:54 -0500
+X-MC-Unique: 2EVDif7JM261AY32m27aEg-1
+X-Mimecast-MFC-AGG-ID: 2EVDif7JM261AY32m27aEg_1763306153
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6D06E18AB312;
+	Sun, 16 Nov 2025 15:15:52 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.55])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 17E3C1800451;
+	Sun, 16 Nov 2025 15:15:43 +0000 (UTC)
+Date: Sun, 16 Nov 2025 23:15:38 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Casey Chen <cachen@purestorage.com>,
+	Vikas Manocha <vmanocha@purestorage.com>,
+	Yuanyuan Zhong <yzhong@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: Convert tag_list mutex to rwsemaphore to avoid
+ deadlock
+Message-ID: <aRnqmiFmWAI01zJq@fedora>
+References: <20251113202320.2530531-1-mkhalfella@purestorage.com>
+ <aRcVWtE4fHCe3jjM@fedora>
+ <20251114173419.GA2197103-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <afb5eb0324087792e1217577af6a2b90be21b327.camel@ibm.com>
+In-Reply-To: <20251114173419.GA2197103-mkhalfella@purestorage.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251116_023659_894222_E552DC71 
-X-CRM114-Status: GOOD (  33.24  )
+X-CRM114-CacheID: sfid-20251116_071603_311976_ABF5D25A 
+X-CRM114-Status: GOOD (  29.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,197 +91,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 14, 2025 at 06:07:26PM +0000, Viacheslav Dubeyko wrote:
-> On Fri, 2025-11-14 at 14:02 +0800, Guan-Chun Wu wrote:
-> > Remove the ceph_base64_encode() and ceph_base64_decode() functions and
-> > replace their usage with the generic base64_encode() and base64_decode()
-> > helpers from lib/base64.
+On Fri, Nov 14, 2025 at 09:34:19AM -0800, Mohamed Khalfella wrote:
+> On Fri 2025-11-14 19:41:14 +0800, Ming Lei wrote:
+> > On Thu, Nov 13, 2025 at 12:23:20PM -0800, Mohamed Khalfella wrote:
+> > > blk_mq_{add,del}_queue_tag_set() functions add and remove queues from
+> > > tagset, the functions make sure that tagset and queues are marked as
+> > > shared when two or more queues are attached to the same tagset.
+> > > Initially a tagset starts as unshared and when the number of added
+> > > queues reaches two, blk_mq_add_queue_tag_set() marks it as shared along
+> > > with all the queues attached to it. When the number of attached queues
+> > > drops to 1 blk_mq_del_queue_tag_set() need to mark both the tagset and
+> > > the remaining queues as unshared.
+> > > 
+> > > Both functions need to freeze current queues in tagset before setting on
+> > > unsetting BLK_MQ_F_TAG_QUEUE_SHARED flag. While doing so, both functions
+> > > hold set->tag_list_lock mutex, which makes sense as we do not want
+> > > queues to be added or deleted in the process. This used to work fine
+> > > until commit 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> > > made the nvme driver quiesce tagset instead of quiscing individual
+> > > queues. blk_mq_quiesce_tagset() does the job and quiesce the queues in
+> > > set->tag_list while holding set->tag_list_lock also.
+> > > 
+> > > This results in deadlock between two threads with these stacktraces:
+> > > 
+> > >   __schedule+0x48e/0xed0
+> > >   schedule+0x5a/0xc0
+> > >   schedule_preempt_disabled+0x11/0x20
+> > >   __mutex_lock.constprop.0+0x3cc/0x760
+> > >   blk_mq_quiesce_tagset+0x26/0xd0
+> > >   nvme_dev_disable_locked+0x77/0x280 [nvme]
+> > >   nvme_timeout+0x268/0x320 [nvme]
+> > >   blk_mq_handle_expired+0x5d/0x90
+> > >   bt_iter+0x7e/0x90
+> > >   blk_mq_queue_tag_busy_iter+0x2b2/0x590
+> > >   ? __blk_mq_complete_request_remote+0x10/0x10
+> > >   ? __blk_mq_complete_request_remote+0x10/0x10
+> > >   blk_mq_timeout_work+0x15b/0x1a0
+> > >   process_one_work+0x133/0x2f0
+> > >   ? mod_delayed_work_on+0x90/0x90
+> > >   worker_thread+0x2ec/0x400
+> > >   ? mod_delayed_work_on+0x90/0x90
+> > >   kthread+0xe2/0x110
+> > >   ? kthread_complete_and_exit+0x20/0x20
+> > >   ret_from_fork+0x2d/0x50
+> > >   ? kthread_complete_and_exit+0x20/0x20
+> > >   ret_from_fork_asm+0x11/0x20
+> > > 
+> > >   __schedule+0x48e/0xed0
+> > >   schedule+0x5a/0xc0
+> > >   blk_mq_freeze_queue_wait+0x62/0x90
+> > >   ? destroy_sched_domains_rcu+0x30/0x30
+> > >   blk_mq_exit_queue+0x151/0x180
+> > >   disk_release+0xe3/0xf0
+> > >   device_release+0x31/0x90
+> > >   kobject_put+0x6d/0x180
+> > >   nvme_scan_ns+0x858/0xc90 [nvme_core]
+> > >   ? nvme_scan_work+0x281/0x560 [nvme_core]
+> > >   nvme_scan_work+0x281/0x560 [nvme_core]
+> > >   process_one_work+0x133/0x2f0
+> > >   ? mod_delayed_work_on+0x90/0x90
+> > >   worker_thread+0x2ec/0x400
+> > >   ? mod_delayed_work_on+0x90/0x90
+> > >   kthread+0xe2/0x110
+> > >   ? kthread_complete_and_exit+0x20/0x20
+> > >   ret_from_fork+0x2d/0x50
+> > >   ? kthread_complete_and_exit+0x20/0x20
+> > >   ret_from_fork_asm+0x11/0x20
 > > 
-> > This eliminates the custom implementation in Ceph, reduces code
-> > duplication, and relies on the shared Base64 code in lib.
-> > The helpers preserve RFC 3501-compliant Base64 encoding without padding,
-> > so there are no functional changes.
+> > It is one AB-BA deadlock, lockdep should have complained it, but nvme doesn't
+> > support owned freeze queue.
 > > 
-> > This change also improves performance: encoding is about 2.7x faster and
-> > decoding achieves 43-52x speedups compared to the previous local
-> > implementation.
+> > Maybe the following change can avoid it?
 > > 
-> > Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > Signed-off-by: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-> > ---
-> >  fs/ceph/crypto.c | 60 ++++--------------------------------------------
-> >  fs/ceph/crypto.h |  6 +----
-> >  fs/ceph/dir.c    |  5 ++--
-> >  fs/ceph/inode.c  |  2 +-
-> >  4 files changed, 9 insertions(+), 64 deletions(-)
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index c916176bd9f0..9967c4a7e72d 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -3004,6 +3004,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+> >         bool dead;
 > > 
-> > diff --git a/fs/ceph/crypto.c b/fs/ceph/crypto.c
-> > index 7026e794813c..b6016dcffbb6 100644
-> > --- a/fs/ceph/crypto.c
-> > +++ b/fs/ceph/crypto.c
-> > @@ -15,59 +15,6 @@
-> >  #include "mds_client.h"
-> >  #include "crypto.h"
-> >  
-> > -/*
-> > - * The base64url encoding used by fscrypt includes the '_' character, which may
-> > - * cause problems in snapshot names (which can not start with '_').  Thus, we
-> > - * used the base64 encoding defined for IMAP mailbox names (RFC 3501) instead,
-> > - * which replaces '-' and '_' by '+' and ','.
-> > - */
-> > -static const char base64_table[65] =
-> > -	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+,";
+> >         mutex_lock(&dev->shutdown_lock);
+> > +       nvme_quiesce_io_queues(&dev->ctrl);
+> >         dead = nvme_pci_ctrl_is_dead(dev);
+> >         if (state == NVME_CTRL_LIVE || state == NVME_CTRL_RESETTING) {
+> >                 if (pci_is_enabled(pdev))
+> > @@ -3016,8 +3017,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+> >                         nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+> >         }
+> > 
+> > -       nvme_quiesce_io_queues(&dev->ctrl);
 > > -
-> > -int ceph_base64_encode(const u8 *src, int srclen, char *dst)
-> > -{
-> > -	u32 ac = 0;
-> > -	int bits = 0;
-> > -	int i;
-> > -	char *cp = dst;
-> > -
-> > -	for (i = 0; i < srclen; i++) {
-> > -		ac = (ac << 8) | src[i];
-> > -		bits += 8;
-> > -		do {
-> > -			bits -= 6;
-> > -			*cp++ = base64_table[(ac >> bits) & 0x3f];
-> > -		} while (bits >= 6);
-> > -	}
-> > -	if (bits)
-> > -		*cp++ = base64_table[(ac << (6 - bits)) & 0x3f];
-> > -	return cp - dst;
-> > -}
-> > -
-> > -int ceph_base64_decode(const char *src, int srclen, u8 *dst)
-> > -{
-> > -	u32 ac = 0;
-> > -	int bits = 0;
-> > -	int i;
-> > -	u8 *bp = dst;
-> > -
-> > -	for (i = 0; i < srclen; i++) {
-> > -		const char *p = strchr(base64_table, src[i]);
-> > -
-> > -		if (p == NULL || src[i] == 0)
-> > -			return -1;
-> > -		ac = (ac << 6) | (p - base64_table);
-> > -		bits += 6;
-> > -		if (bits >= 8) {
-> > -			bits -= 8;
-> > -			*bp++ = (u8)(ac >> bits);
-> > -		}
-> > -	}
-> > -	if (ac & ((1 << bits) - 1))
-> > -		return -1;
-> > -	return bp - dst;
-> > -}
-> > -
-> >  static int ceph_crypt_get_context(struct inode *inode, void *ctx, size_t len)
-> >  {
-> >  	struct ceph_inode_info *ci = ceph_inode(inode);
-> > @@ -318,7 +265,7 @@ int ceph_encode_encrypted_dname(struct inode *parent, char *buf, int elen)
-> >  	}
-> >  
-> >  	/* base64 encode the encrypted name */
-> > -	elen = ceph_base64_encode(cryptbuf, len, p);
-> > +	elen = base64_encode(cryptbuf, len, p, false, BASE64_IMAP);
-> >  	doutc(cl, "base64-encoded ciphertext name = %.*s\n", elen, p);
-> >  
-> >  	/* To understand the 240 limit, see CEPH_NOHASH_NAME_MAX comments */
-> > @@ -412,7 +359,8 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
-> >  			tname = &_tname;
-> >  		}
-> >  
-> > -		declen = ceph_base64_decode(name, name_len, tname->name);
-> > +		declen = base64_decode(name, name_len,
-> > +				       tname->name, false, BASE64_IMAP);
-> >  		if (declen <= 0) {
-> >  			ret = -EIO;
-> >  			goto out;
-> > @@ -426,7 +374,7 @@ int ceph_fname_to_usr(const struct ceph_fname *fname, struct fscrypt_str *tname,
-> >  
-> >  	ret = fscrypt_fname_disk_to_usr(dir, 0, 0, &iname, oname);
-> >  	if (!ret && (dir != fname->dir)) {
-> > -		char tmp_buf[CEPH_BASE64_CHARS(NAME_MAX)];
-> > +		char tmp_buf[BASE64_CHARS(NAME_MAX)];
-> >  
-> >  		name_len = snprintf(tmp_buf, sizeof(tmp_buf), "_%.*s_%ld",
-> >  				    oname->len, oname->name, dir->i_ino);
-> > diff --git a/fs/ceph/crypto.h b/fs/ceph/crypto.h
-> > index 23612b2e9837..b748e2060bc9 100644
-> > --- a/fs/ceph/crypto.h
-> > +++ b/fs/ceph/crypto.h
-> > @@ -8,6 +8,7 @@
-> >  
-> >  #include <crypto/sha2.h>
-> >  #include <linux/fscrypt.h>
-> > +#include <linux/base64.h>
-> >  
-> >  #define CEPH_FSCRYPT_BLOCK_SHIFT   12
-> >  #define CEPH_FSCRYPT_BLOCK_SIZE    (_AC(1, UL) << CEPH_FSCRYPT_BLOCK_SHIFT)
-> > @@ -89,11 +90,6 @@ static inline u32 ceph_fscrypt_auth_len(struct ceph_fscrypt_auth *fa)
-> >   */
-> >  #define CEPH_NOHASH_NAME_MAX (180 - SHA256_DIGEST_SIZE)
-> >  
-> > -#define CEPH_BASE64_CHARS(nbytes) DIV_ROUND_UP((nbytes) * 4, 3)
-> > -
-> > -int ceph_base64_encode(const u8 *src, int srclen, char *dst);
-> > -int ceph_base64_decode(const char *src, int srclen, u8 *dst);
-> > -
-> >  void ceph_fscrypt_set_ops(struct super_block *sb);
-> >  
-> >  void ceph_fscrypt_free_dummy_policy(struct ceph_fs_client *fsc);
-> > diff --git a/fs/ceph/dir.c b/fs/ceph/dir.c
-> > index d18c0eaef9b7..0fa7c7777242 100644
-> > --- a/fs/ceph/dir.c
-> > +++ b/fs/ceph/dir.c
-> > @@ -998,13 +998,14 @@ static int prep_encrypted_symlink_target(struct ceph_mds_request *req,
-> >  	if (err)
-> >  		goto out;
-> >  
-> > -	req->r_path2 = kmalloc(CEPH_BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
-> > +	req->r_path2 = kmalloc(BASE64_CHARS(osd_link.len) + 1, GFP_KERNEL);
-> >  	if (!req->r_path2) {
-> >  		err = -ENOMEM;
-> >  		goto out;
-> >  	}
-> >  
-> > -	len = ceph_base64_encode(osd_link.name, osd_link.len, req->r_path2);
-> > +	len = base64_encode(osd_link.name, osd_link.len,
-> > +			    req->r_path2, false, BASE64_IMAP);
-> >  	req->r_path2[len] = '\0';
-> >  out:
-> >  	fscrypt_fname_free_buffer(&osd_link);
-> > diff --git a/fs/ceph/inode.c b/fs/ceph/inode.c
-> > index a6e260d9e420..b691343cb7f1 100644
-> > --- a/fs/ceph/inode.c
-> > +++ b/fs/ceph/inode.c
-> > @@ -958,7 +958,7 @@ static int decode_encrypted_symlink(struct ceph_mds_client *mdsc,
-> >  	if (!sym)
-> >  		return -ENOMEM;
-> >  
-> > -	declen = ceph_base64_decode(encsym, enclen, sym);
-> > +	declen = base64_decode(encsym, enclen, sym, false, BASE64_IMAP);
-> >  	if (declen < 0) {
-> >  		pr_err_client(cl,
-> >  			"can't decode symlink (%d). Content: %.*s\n",
+> >         if (!dead && dev->ctrl.queue_count > 0) {
+> >                 nvme_delete_io_queues(dev);
+> >                 nvme_disable_ctrl(&dev->ctrl, shutdown);
+> > 
+> > 
 > 
-> Looks good!
-> 
-> Reviewed-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-> 
-> Have you run xfstests for this patchset?
+> Interesting. Can you elaborate more on why this diff can help us avoid
+> the problem?
 
-Hi Slava,
+In nvme_dev_disable(), NS queues are frozen first, then call
+nvme_quiesce_io_queues().
 
-Thanks for the review.
+queue freeze can be thought as one lock, so q->freeze_lock -> tag_set->tag_list_lock
+in timeout code path.
 
-I haven't run xfstests on this patchset yet.
+However, in blk_mq_exit_queue(), the lock order becomes
+tag_set->tag_list_lock -> q->freeze_lock.
 
-Best regards,
-Guan-Chun
+That is why I call it AB-BA lock.
+
+However, that looks not the reason in your deadlock, so my patch shouldn't
+work here, in which nvme_dev_disable() doesn't provide forward-progress
+because of ->tag_list_lock.
 
 > 
-> Thanks,
-> Slava.
+> If the thread doing nvme_scan_work() is waiting for queue to be frozen
+> while holding set->tag_list_lock, then nvme_quiesce_io_queues() moved up
+> will cause the deadlock, no?
+
+ __schedule+0x48e/0xed0
+  schedule+0x5a/0xc0
+  blk_mq_freeze_queue_wait+0x62/0x90
+  ? destroy_sched_domains_rcu+0x30/0x30
+  blk_mq_exit_queue+0x151/0x180
+  disk_release+0xe3/0xf0
+  device_release+0x31/0x90
+  kobject_put+0x6d/0x180
+
+Here blk_mq_exit_queue() is called from disk release, and the disk is not
+added actually, so question is why blk_mq_freeze_queue_wait() doesn't
+return? Who holds queue usage counter here?  Can you investigate a bit
+and figure out the reason?
+
+For one released NS/disk, no one should grab the queue usage counter,
+right?
+
+
+Thanks,
+Ming
+
 
