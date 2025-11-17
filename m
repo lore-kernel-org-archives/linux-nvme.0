@@ -4,81 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3E85CEACEF
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Nov 2025 05:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72210CEBF61
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Nov 2025 13:39:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rV91KEll3rsmMiigjOO6hwThmuNYXZveP8u4gFdNpIM=; b=3kB6Uww9VNAqvCN1Il1TYz/k52
-	ZF+LNb1dKUVgBmHRNtSYa28DSOOgnkjMKwIzOJazEU1MsIU88RxsyEUEeffT1Fp4ST5AxOwChr6Fc
-	PBjsMSvuwm/zquTA+sQVPQVkrMPywv3liSd0GQIOf4Pe4XmFNTzJJI66qIYYMteSnNeNObnamtp92
-	QwRa5qMUz1Lx2xvz/PZyV8hOcXBPwhntcXjXglr5xOnwmS1lLV8M+wFefv/Bk4fMLm1g0jcEspx74
-	UOOeFFCBSFQLvki0YahWrBeWREItxyp/x/4bPp8jr2ImV9xMTf6HL9KHBhGMCWzwCSo2Xnnx7z6Uc
-	mw8lxlOA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=+sPUm133fM87WIFKPda5ZoXzNeEcmeiwV1MrsNca2jo=; b=xER3QWzWfGvvd3lhiMQIbx3kA2
+	CoT2h4pFfzVpzEAuVyIq2IEQkTxnDU+1XXK3AZZQgShBXZO/6+GxtRnNyXCZXzWpymkNLb69/nviE
+	F1UG1z8mDbXvxPl85CF4QkRIYlWQLhFa+kGwcIzo9xZuA2Gxhf/40MzCDDUzhzLmbeYDU10bza2BN
+	SvfUzzL0bj+48bNTNAgH9yJyu/nOeSUYh8XRR23dXiPIlQRBeVTTbYrEGn0lcq7cLdwN9pL5mE4ji
+	njIrhOmG65ePcRbyFSDOLmz19wMzD0BZfWsv9swu5rb5vJl5+yOmkzzcxcmDnxDioqi0Co2Iq33TU
+	d8yNBdpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKrRZ-0000000FRT2-3lR5;
-	Mon, 17 Nov 2025 05:06:25 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vKzSP-0000000GCVZ-29C8;
+	Mon, 17 Nov 2025 13:39:49 +0000
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vKrRV-0000000FRSX-1sdJ
+	id 1vKzSM-0000000GCUt-41q7
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Nov 2025 05:06:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763355978;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rV91KEll3rsmMiigjOO6hwThmuNYXZveP8u4gFdNpIM=;
-	b=M7rgTjl4isPl0pSvDRKYmVTg6VdenM2FxdKKWiCwvIahNDCo0YwIu3h713b6/OZ41XtjcN
-	yubNHqSDs61vwLIHKUXRKFrwUWfJ3FeWeS/jdsEOGfobeDwzM0sdDgGyqKgDxrwhrHTCDC
-	5id4R6lzTwldD56IyusNKiQvdPH26XY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-78-5X5tglTtMDqR0qvbQELObA-1; Mon,
- 17 Nov 2025 00:06:16 -0500
-X-MC-Unique: 5X5tglTtMDqR0qvbQELObA-1
-X-Mimecast-MFC-AGG-ID: 5X5tglTtMDqR0qvbQELObA_1763355975
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6DEB7195608D;
-	Mon, 17 Nov 2025 05:06:14 +0000 (UTC)
-Received: from napanee.usersys.redhat.com (unknown [10.22.89.147])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1AC773002D0D;
-	Mon, 17 Nov 2025 05:06:13 +0000 (UTC)
-Received: by napanee.usersys.redhat.com (Postfix, from userid 1000)
-	id 4D1BAC37C3; Mon, 17 Nov 2025 00:06:12 -0500 (EST)
-Date: Mon, 17 Nov 2025 00:06:12 -0500
-From: Aristeu Rozanski <aris@redhat.com>
-To: Ewan Milne <emilne@redhat.com>
-Cc: linux-nvme@lists.infradead.org, Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme: fc: stop lsrcv workqueue before freeing a rport
-Message-ID: <ffe6b5c2-0657-441c-be10-b44435c5ec0e@work>
-References: <21255200-a271-4fa0-b099-97755c8acd4c@work>
- <CAGtn9rmSq9+6o1-=tQwYGRKRUSOXkSJnCdSosNnpW0BvnxaNLQ@mail.gmail.com>
- <1529dc0e-bc1f-4672-98d8-f9ccfe5c1fb7@work>
- <CAGtn9r=n024waWZekDMwSRAM+JM13FYWhXjPuA18WyO6Kcmnyw@mail.gmail.com>
+	Mon, 17 Nov 2025 13:39:48 +0000
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-640a3317b89so6501806a12.0
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Nov 2025 05:39:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763386785; x=1763991585; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+sPUm133fM87WIFKPda5ZoXzNeEcmeiwV1MrsNca2jo=;
+        b=hfCf9DBD9l1IWUK/QHyWlDQXx7Pg8koNtiBwkGawbHbwQf+3qERsOxD31f6S/tkgSa
+         0MXlEY+mHPAIXQPcCppdGa0DXZgq1QxyF2ARd/7n/fxGwPAIPRd7kjcjFr4QP5BXHjt4
+         Jcb5rJw65UOTzEpNxaNFq63tqkHbOiS3vNPfVu/LLntghCD01lWcuGf+ldl6C4URIJ6V
+         2NBsHqj/Npga6dxHx6jdUHALJplkxCCPoLpNXfJ/HZZkccHwVBG7JxaQzYmWMNEOV8ut
+         IngN9M7uykoeu1r23pfHEaTnQdWE+FaQ8npqqjZfozXYMM27BMEJnjBj3dE11MWBI+eb
+         iNFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763386785; x=1763991585;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+sPUm133fM87WIFKPda5ZoXzNeEcmeiwV1MrsNca2jo=;
+        b=vILImO1/ARDmTA2kcTN910azmdLgWrycM3zd9BTiMY8z77GtMJ7RT7fOexxo43/nR5
+         xFDUrCi5LlzPEJqvTy1FDdsiR56LLySACZaC+LnXG6G4vdSlSzDtJRyeN/4M/zv+qZtw
+         100OOerUOBtyH/UXKX/TxJxtyITrJtJV5rdgM2kUTjInAbNmyZmx9YGXX9eapxg8wQMt
+         c4tliaE4eukujcUcEx/lNhMnvu+Z5YR2oy4jPtEBANofyFqp+nleDDaSNiqekhqrenmU
+         qicZit3F5dQwadeAFlYK2YqjRtpY0Z5OTjl/SQIO2Zwhtol9YJvbBZsh9b4mHIKNtdSn
+         0h5Q==
+X-Gm-Message-State: AOJu0YzZp4QWfrYcybKKmeyB50dCVy7v2lJw/48uNdes9x1q6GrEQQ3M
+	pGmPfUVD4Eb30GcuzvIzDT/CQFGt0Jisv5wwtdiFusu1U3/79ortDu9La+ShSAmjD8j/MiEsCcG
+	o12XNyVniwOi9WuJoAXDIeMeLJOR+gME=
+X-Gm-Gg: ASbGncuZ10vEigKTXGwixrSAT1XP3bnXpnpsO3pv2pNx/txMQBWUf0ebzHtcezssb9a
+	ZCSRMeNpM+FY/KMx+fNb810R1rzMeJsq00y7plthZsK25VaN+ra/8rcKyhmqlAsRcg6eraURqIY
+	aXqZs6bIVxeQ6rUKLFxOxsddf10LgLW+I3NUH9royf9Yk6ckixjsIgw6G2iXN7/o3CAxw3Z+IMK
+	ucLEd6g2M2JzAxeJztfy6sj+KO/3CeD/+RvPC+jBercwTCf7z+aFnTmBr3nbofOa0B3eY9AaCfW
+	VxI0emTSehHrxTC9NyM4o5oILQA7GH3bIHj2IazoXClEaK8JmYP1oi2dJlUqjGHdMS8AU680fcm
+	PYs32QQQuk63S
+X-Google-Smtp-Source: AGHT+IGaFPg+F7e2TIhlWzhxYkQ+WIawUg1FLkotHrBdOCGIj2sg7CIqMcMtLoOH1kAzUshU1JZ8logo+oQeWXMshms=
+X-Received: by 2002:a05:6402:5188:b0:640:cc76:ae35 with SMTP id
+ 4fb4d7f45d1cf-64350e899a3mr10158552a12.21.1763386784678; Mon, 17 Nov 2025
+ 05:39:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAGtn9r=n024waWZekDMwSRAM+JM13FYWhXjPuA18WyO6Kcmnyw@mail.gmail.com>
-User-Agent: NeoMutt/20241114-35-62db1e
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PkBt3qJqfydO07Sx0S0VWaGvEpcXH90B7P0_rDQWM7s_1763355975
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Thomas ten Cate <ttencate@gmail.com>
+Date: Mon, 17 Nov 2025 14:39:17 +0100
+X-Gm-Features: AWmQ_bk2wMVd7eS0X3pjj1mnEL7ULvHA-3yeul1b2gWFTU269qkhFgaH6Lu-AVY
+Message-ID: <CACbz5yFi8hiPD0Avg=KVTpdEeJC=3MMSkGtYOBQ=OmB_O0khyQ@mail.gmail.com>
+Subject: "controller is down; will reset" on SK Hynix NVMe drive in Lenovo
+ IdeaPad Pro 5
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251116_210621_557146_7DB9F2C4 
-X-CRM114-Status: GOOD (  19.25  )
+X-CRM114-CacheID: sfid-20251117_053947_020204_68C560CA 
+X-CRM114-Status: GOOD (  14.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,35 +92,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 16, 2025 at 04:51:30PM -0500, Ewan Milne wrote:
-> Try running the test with the kernel parameter "slub_debug=FZPU" and see if
-> you get
-> a more consistent failure.  This will poison the memory with a specific
-> pattern when
-> the kfree() frees the object, a subsequent list debug message or stack
-> trace with
-> registers may show the pattern.
+Dear kernel heroes,
 
-Will do.
+I'm encountering errors with the NVMe drive in my laptop, which appear
+to be related to power saving modes (search keywords: APST, ASPM). It
+got more serious in some recent kernel version, but seems to have been
+present before.
 
-> I suspect it is just very sensitive to the timing.
+After just booting, starting `dmesg -w` and waiting a bit, the log says:
 
-It is. Was trying to manually poison (memset + not freeing) with
-different patterns and it was enough to not be able to reproduce
-anymore. Will try the parameter anyway.
+[   43.710561] could not locate request for tag 0x0
+[   43.710585] nvme nvme0: invalid id 0 completed on queue 1
+[   43.710593] could not locate request for tag 0x0
+[   43.710598] nvme nvme0: invalid id 0 completed on queue 1
+[   43.710603] could not locate request for tag 0x0
+[   43.710607] nvme nvme0: invalid id 0 completed on queue 1
+[   43.710611] could not locate request for tag 0x0
+[   43.710615] nvme nvme0: invalid id 0 completed on queue 1
+[   73.744791] nvme nvme0: I/O tag 129 (4081) opcode 0x1 (Write) QID 1
+timeout, aborting req_op:WRITE(1) size:32768
+[   73.744862] nvme nvme0: I/O tag 130 (a082) opcode 0x1 (Write) QID 1
+timeout, aborting req_op:WRITE(1) size:36864
+[   73.744875] nvme nvme0: I/O tag 131 (8083) opcode 0x1 (Write) QID 1
+timeout, aborting req_op:WRITE(1) size:4096
+[   73.744886] nvme nvme0: I/O tag 133 (5085) opcode 0x1 (Write) QID 1
+timeout, aborting req_op:WRITE(1) size:12288
+[   73.756694] nvme nvme0: Abort status: 0x0
+[   73.757641] nvme nvme0: Abort status: 0x0
+[   73.758533] nvme nvme0: Abort status: 0x0
+[   73.759422] nvme nvme0: Abort status: 0x0
+[  103.824976] nvme nvme0: I/O tag 129 (4081) opcode 0x1 (Write) QID 1
+timeout, reset controller
+[  103.966268] nvme nvme0: 16/0/0 default/read/poll queues
 
-> My point was that doing a cancel_work() will prevent freeing the object
-> with a work
-> item queued, but if there is something on the associated list it would I
-> think result in a
-> memory leak (and possibly the DMA mapping, I'll need to look at it more
-> closely).
-> 
-> The fix is valuable in any case.
+Notice the 30 second delays. This problem has been present at since
+6.12.40 stable or maybe earlier, but has gone unnoticed until now
+because things apparently recovered. Full log of a similar occasion:
+https://gist.github.com/ttencate/9f2c4739d9e8a4c0142fd8246b56a7d6
 
-Thanks
+More recently, since 6.12.56 or maybe earlier, I'm also sometimes getting these:
 
--- 
-Aristeu
+[  336.613637] nvme nvme0: request 0x0 genctr mismatch (got 0x0 expected 0x9)
+[  336.613659] nvme nvme0: invalid id 0 completed on queue 8
+[  366.657750] nvme nvme0: controller is down; will reset:
+CSTS=0xffffffff, PCI_STATUS=0x10
+[  366.657768] nvme nvme0: Does your device have a faulty power saving
+mode enabled?
+[  366.657773] nvme nvme0: Try "nvme_core.default_ps_max_latency_us=0
+pcie_aspm=off pcie_port_pm=off" and report a bug
+[  366.761391] nvme 0000:03:00.0: enabling device (0000 -> 0002)
+[  366.761842] nvme nvme0: Disabling device after reset failure: -19
 
+In this case, the messages are followed by a slew of btrfs errors,
+btrfs switches to read-only mode, and the drive becomes entirely
+inaccessible until a reboot.
+
+The log suggests to add the kernel arguments
+"nvme_core.default_ps_max_latency_us=0 pcie_aspm=off
+pcie_port_pm=off", which indeed makes all issues go away.
+
+I haven't found a reliable way to trigger the latter error
+specifically, though doing something I/O heavy like compiling a kernel
+seems to make it more likely. This makes bisect difficult to do, but
+it's clear that something was going on in previous versions as well,
+so I wouldn't necessarily call this a regression. Either way, the
+issue is still present in mainline 6.17.8.
+
+Since it happens only after some idle time, and disabling PM fixes it,
+this seems related to power states. But of course, I cannot completely
+rule out faulty hardware either.
+
+Machine: Lenovo IdeaPad Pro 5 16APH8
+Architecture: x86_64
+NVMe drive: SK Hynix HFS001TEJ4X112N
+Full lshw output:
+https://gist.github.com/ttencate/5540c81454bbe1fa679955effba65eba
+
+Distribution: Arch Linux
+Kernel version: 6.17.8 (vanilla from commit 8ac42a6)
+Kernel configuration:
+https://gitlab.archlinux.org/archlinux/packaging/packages/linux-lts/-/blob/b0cac6a69041703bbe1aba4a2a269585d77b108b/config
+(plus `make olddefconfig`)
+GCC version: 15.2.1
+
+This is my first kernel bug report, so I hope I didn't miss anything;
+if I did, please let me know. I'd be happy to experiment or try out
+patches.
+
+Kind regards,
+
+Thomas ten Cate
 
