@@ -4,62 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9A8CCE8D6B
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Nov 2025 17:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D63FCCE8D6B
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Nov 2025 18:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Mime-Version:References:In-Reply-To:Message-Id:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eL3y6nECUMXRHGssV4q/VtRkS67zrx3g5Vsv6v1H41A=; b=2keoOXmYOmJU+gt7MxorbsOs04
-	TpxqjDGeW81qIKJlEhYY377IABt0tqVwT4L9/mW5qn1c9KSOURiVK3lfl0lsvOsRk+ElcwgCR8bUm
-	/CisRd6ZRPjb7sIjeAfOMq40lTNdAMRyvNDBJaYCO4Z2C+zTjf4Tz0lSDu3/B1Yug4Av+HpDCLpa1
-	QgEJa3YW/rbzmH+O6k5TUwak4WFC4PGlkcTQQaG4QKyaz3cygw6rHulIOOqz1grjYkRAuENXVlQlO
-	EHlpnUa33D0v/9csetRTLJKwr+0U/d1a5KkB8MrxwknveOVNYTQlHbGhjM9ltnEiEw3LjViN8meBm
-	RfRfWhxQ==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZfcsfKcv/BP7tqClGVimV0mOVKurM0RlBCGupkv+8Gk=; b=oV4vgml8mgCKGhDQaiK6TpeAvv
+	s4oAYhc8hkPQDRRs/QexxbCaqs9wtcyBDhxgjrnUX95JBND1zsrVIt4hHFQyw9/BqYOtRFQlg7xxc
+	87cTXh2RK2yhkYaxr4QqwhCWoZVEbUhD+x//uz4SyMukxMjkvdGFQBPquJb/aO4rQhUffhQoPT05x
+	tza7ww5QIQXGY5v02b9MgyflbZZ/CYO/JULBzcFHLjWRV/YyOOdaTIHEuL24jgiq+foseOen4jABx
+	Ij1KED0OYU/+75xLiFB+hV0J7fcZEleERaV1B8YRhRTAfxLv4XnsxqFRNZXOmvBVmpfhcM2qJGKop
+	MHejOdoA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vL3Ja-0000000GYx5-1GEQ;
-	Mon, 17 Nov 2025 17:46:58 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vL3iG-0000000GbUw-1cep;
+	Mon, 17 Nov 2025 18:12:28 +0000
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vL3JY-0000000GYwd-33JQ
+	id 1vL3iD-0000000GbUV-40pZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Nov 2025 17:46:56 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id B9E85601EA;
-	Mon, 17 Nov 2025 17:46:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB4C1C2BCB6;
-	Mon, 17 Nov 2025 17:46:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1763401615;
-	bh=8fQeAXFxhDLHZ8XWH5bVVIvjxQoz0qNlME78SIkpr88=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rsgCdPZ36Z3bVe/8qCb1BmS51FkMU+kCpPEgDGsqknMmPH4I1YAoorVLzSplynX4z
-	 PzjCrDLx8f447Xr/nHhHMUBIsEvWZ8KfOv44mjgvdYldPsKDE9N0Fvza28ZufnyX2u
-	 Me+X470C5QBNVCLTm9wZhmJBU2XW0OE2nNlnmouw=
-Date: Mon, 17 Nov 2025 09:46:52 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Guan-Chun Wu <409411716@gms.tku.edu.tw>
-Cc: David Laight <david.laight.linux@gmail.com>,
- andriy.shevchenko@intel.com, axboe@kernel.dk, ceph-devel@vger.kernel.org,
- ebiggers@kernel.org, hch@lst.de, home7438072@gmail.com, idryomov@gmail.com,
- jaegeuk@kernel.org, kbusch@kernel.org, linux-fscrypt@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- sagi@grimberg.me, tytso@mit.edu, visitorckw@gmail.com, xiubli@redhat.com
-Subject: Re: [PATCH v5 3/6] lib/base64: rework encode/decode for speed and
- stricter validation
-Message-Id: <20251117094652.b04c6cf841d6426f70f23d22@linux-foundation.org>
-In-Reply-To: <aRmnYTHmfPi1lyix@wu-Pro-E500-G6-WS720T>
-References: <20251114055829.87814-1-409411716@gms.tku.edu.tw>
-	<20251114060132.89279-1-409411716@gms.tku.edu.tw>
-	<20251114091830.5325eed3@pumpkin>
-	<aRmnYTHmfPi1lyix@wu-Pro-E500-G6-WS720T>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+	Mon, 17 Nov 2025 18:12:27 +0000
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-7a9cdf62d31so5614574b3a.3
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Nov 2025 10:12:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763403145; x=1764007945; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZfcsfKcv/BP7tqClGVimV0mOVKurM0RlBCGupkv+8Gk=;
+        b=NglCBhs+x0MYJQILM395S9ht/x4cm1+Vjh3LFEEdDWdhf1m8wnt+nDlh4gops5afnV
+         Oieq5aVXI7KA0vEU+qwm5YmFABU2hmW0RFytsdzMYTFApGOEhouKOFvbmeSf6i22poDO
+         jdujM0OAJRNZg1tTXB2A+0aCtPIsnJjnl+HERimU6B1xVw5oqYjh2CpVrmZerqA7oa/U
+         /x0sBv70zcuSSIQMiH7ck1nph+l/BfiZ7kHYVVW01ywLo8ZgVrrf328oQLE3lT4TPg99
+         1DN5Uh0g46ImXlDwrAl7gfqR8IAMv2g/lwj/rHuBuMTt6OJxUOEFRiItCdaM1SYcYT++
+         9Zgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763403145; x=1764007945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZfcsfKcv/BP7tqClGVimV0mOVKurM0RlBCGupkv+8Gk=;
+        b=wJpnaezj0eeyXeo0DpJS05N8CnvVNP+s59St9XtPq17n6v3B9Rq+LRnqe6Ctn6LJMB
+         8utM33JQC8WIDtvGh2q3u/SlpFlDVNJlTZDfqdYSXH7EQlFrHZxveRZm11WL+aVhBuly
+         tOC7ci6nf1BokZQZXxmvqBTs5yRpy0YLlkVp1fGy2+uBRltvmoEf3HyomAkf89HYkDof
+         gS6/eMaUqym1KhbUqi0WFELAuzRciyADaQSmRaWzY7xtgVR45mCWpuaSKBQElCh1V8Uv
+         PlXFbnS0MR1RXCQc3PFTGWLyO9Y22rT9SXl18DhmHuzB2IHaSSUBU9uW7PeMTJ+H3ehL
+         xWgA==
+X-Gm-Message-State: AOJu0YwluI/p31sOOvvbJaw4MP/CZWeXdkZW4/sn7dvF0Fb7BbzKV4WO
+	9HNleqJ10VBCiW/mFH9tZyLdRk8RfT8OGW4uUifBdu7x3Ce8Gbi0ABv6c26dT13C
+X-Gm-Gg: ASbGncsZjaq7JXKVv+lSVf0X0jy7n8yCC6HwNa+RU0nILIIw3CAwbjjqLMn7PsroyOr
+	ZlvW3fnQyubK1Z/hQVepSvxe72xah5dl1tvPiMBIF/RIg2SUlK8PmVp9OQfZJ1TkEqW98FWCjoQ
+	oLb8as2es3lAk+Pc5VhIvkfIzA3zjGmnxALVnnycbdnij5Exds1hscb4/SqFyp0gJS4iPklbisK
+	zJHPhH7zx9z4FyDuwsdy9HO4foXz8hCS/O2C5JCqhsHMLT04Mmckw+eayCbDXnrkM9/Y+Q2/NBW
+	oaJt4Q7NHvBmwjnHHkIsjjUZQsWx60o7hhJ5clqLoxN+cjriw/ZBh6VtZZgIXEyYd1owCETwEuO
+	x6owDjlJJ9NJytcjIJCuqZ37hCRL9SRLz6PLpCq6sCLHX8ZdjobLsLM2xWpR3dCmxSfPg6gulJM
+	CwIl8Z3BEv/nAZOTgJV05Jk6H3TYEBiOMi3VgqvIDa0iOmOlm/CwFYR5qhcXK020RJeCd8AMxHU
+	rQXPS8X1JatkRD0vs5q
+X-Google-Smtp-Source: AGHT+IHpTuvGJYLOUO2ZWin4A8dTZjs9rm9P6OGmQeUB7EQVJ3WpuDHrUNwlJ555cdwI1pdBEVozWw==
+X-Received: by 2002:a05:7022:6990:b0:11b:78e6:8323 with SMTP id a92af1059eb24-11b78e684admr5002172c88.37.1763403144217;
+        Mon, 17 Nov 2025 10:12:24 -0800 (PST)
+Received: from dhcp-10-231-55-133.dhcp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11b060885e3sm49942351c88.0.2025.11.17.10.12.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Nov 2025 10:12:23 -0800 (PST)
+From: Justin Tee <justintee8345@gmail.com>
+To: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: jsmart2021@gmail.com,
+	justin.tee@broadcom.com,
+	Justin Tee <justintee8345@gmail.com>,
+	Daniel Wagner <wagi@kernel.org>,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 1/1] nvme-fabrics: add ENOKEY to no retry criteria for authentication failures
+Date: Mon, 17 Nov 2025 10:43:43 -0800
+Message-Id: <20251117184343.97605-1-justintee8345@gmail.com>
+X-Mailer: git-send-email 2.38.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251117_101225_995695_B20F4016 
+X-CRM114-Status: GOOD (  12.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,53 +100,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, 16 Nov 2025 18:28:49 +0800 Guan-Chun Wu <409411716@gms.tku.edu.tw> wrote:
+With authentication, in addition to EKEYREJECTED there is also no point in
+retrying reconnects when status is ENOKEY.  Thus, add -ENOKEY as another
+criteria to determine when to stop retries.
 
-> > Reviewed-by: David Laight <david.laight.linux@gmail.com>
-> > 
-> > But see minor nit below.
-> 
-> Hi David,
-> 
-> Thanks for the review and for pointing this out.
-> 
-> Andrew, would it be possible for you to fold this small change 
-> (removing the redundant casts) directly when updating the patch?
-> If that’s not convenient, I can resend an updated version of the
-> series instead. 
+Cc: Daniel Wagner <wagi@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>
+Closes: https://lore.kernel.org/linux-nvme/20250829-nvme-fc-sync-v3-0-d69c87e63aee@kernel.org/
+Signed-off-by: Justin Tee <justintee8345@gmail.com>
+---
+ drivers/nvme/host/fabrics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sure, I added this:
-
-
---- a/lib/base64.c~lib-base64-rework-encode-decode-for-speed-and-stricter-validation-fix
-+++ a/lib/base64.c
-@@ -83,7 +83,7 @@ int base64_encode(const u8 *src, int src
- 	const char *base64_table = base64_tables[variant];
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 3d4d6d8e88c4..fb7765bf0cdf 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -594,7 +594,7 @@ bool nvmf_should_reconnect(struct nvme_ctrl *ctrl, int status)
+ 	if (status > 0 && (status & NVME_STATUS_DNR))
+ 		return false;
  
- 	while (srclen >= 3) {
--		ac = (u32)src[0] << 16 | (u32)src[1] << 8 | (u32)src[2];
-+		ac = src[0] << 16 | src[1] << 8 | src[2];
- 		*cp++ = base64_table[ac >> 18];
- 		*cp++ = base64_table[(ac >> 12) & 0x3f];
- 		*cp++ = base64_table[(ac >> 6) & 0x3f];
-@@ -95,7 +95,7 @@ int base64_encode(const u8 *src, int src
+-	if (status == -EKEYREJECTED)
++	if (status == -EKEYREJECTED || status == -ENOKEY)
+ 		return false;
  
- 	switch (srclen) {
- 	case 2:
--		ac = (u32)src[0] << 16 | (u32)src[1] << 8;
-+		ac = src[0] << 16 | src[1] << 8;
- 		*cp++ = base64_table[ac >> 18];
- 		*cp++ = base64_table[(ac >> 12) & 0x3f];
- 		*cp++ = base64_table[(ac >> 6) & 0x3f];
-@@ -103,7 +103,7 @@ int base64_encode(const u8 *src, int src
- 			*cp++ = '=';
- 		break;
- 	case 1:
--		ac = (u32)src[0] << 16;
-+		ac = src[0] << 16;
- 		*cp++ = base64_table[ac >> 18];
- 		*cp++ = base64_table[(ac >> 12) & 0x3f];
- 		if (padding) {
-_
+ 	if (ctrl->opts->max_reconnects == -1 ||
+-- 
+2.38.0
 
 
