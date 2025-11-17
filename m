@@ -4,61 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 950AACE8D6B
-	for <linux-nvme@archiver.kernel.org>; Mon, 17 Nov 2025 20:01:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C568CEBF91
+	for <linux-nvme@archiver.kernel.org>; Mon, 17 Nov 2025 20:24:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BVvPqaflgD3zq1gAMWAEEd3+uC6uZRgwMlGcX4JdXHM=; b=Se4noiybgxPnhG0YmGdJGSQXRJ
-	WHl5wBruxz06/j3JzThEiLooANhhe/7Ke5zfZO1Zo2+fOGZdgvTWTo1p1IMI49+8IhFINEGKs6DHW
-	gv24z4Z0G8/bRkpluWOG7LFp6AN8nPv65u3TdcRct4gzycTaFj5BWgU4FCSVk2eiuxj6OlOyx9Lq6
-	2X9y5sz41zzkb2xbPnlDVu4ITJHnx5NWNsuTobe1NMPb3gajrTeADhsZN+M9zduI8/2a+o0CiX/Qb
-	oNRuBkuZrv47ntZhZi7hTfo0eVNB8gPwThxnxqisUHqJeX93AXoFU9dhMdRjHtGSocPiJujWLkeKK
-	CXdN7Q2g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=onsK98uoUhT0XwWIqjQPKdP2gqDAphdg/ek+7mT4eqQ=; b=bLXedJotP3gQtBVCh2U0PxY3i4
+	G8Sm2FZQtBh339AHhnWGcUWoJY7i6ee9PUlyE7m49xn6dprs9GLG41jDaw+9zw5X6fDcWLKzWmzLQ
+	GUHw0H9PnkA0F4oO9AbGemrnKONFq+5pGJ221LYqpOgJW+iVHVgIn/8ezTbWbnQAZ1ggjM+oZMHg+
+	PlTVP4eldAKn7kdNEKXZQR4ynT27FuY/qRPdYRpdDrH2J8ehUdaD8gFHsh4R0/hdKA2sXqi7WmTax
+	BjPC5sW9ZdLr6qCDYOQLQgYQU5V7iDJFXorH0WGuFYT6PcFdhZLfMfkXHKeoVuAEHhb4qMzbOESO8
+	4JwgxkBQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vL5Q2-0000000Gnos-234E;
-	Mon, 17 Nov 2025 20:01:46 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vL5mK-0000000GowG-1QOV;
+	Mon, 17 Nov 2025 20:24:48 +0000
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vL5Q0-0000000Gnof-3APJ
+	id 1vL5mH-0000000Govb-0quD
 	for linux-nvme@lists.infradead.org;
-	Mon, 17 Nov 2025 20:01:45 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id E15CB601B6;
-	Mon, 17 Nov 2025 20:01:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1A4C4AF0B;
-	Mon, 17 Nov 2025 20:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763409703;
-	bh=lHKjnHmwld4J7UpdFKFeqpdnk+sIlNnF2boW1e9EfYw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jxz27avfTpyBV3WFr9fOPyqhVvxz89VNv4Hiz8xg+q0g/Mekwy2Z+jeba4zQFsNJ4
-	 XkmcRiEONR14SZwWBRhhj8ydjJCsDypBS6V4zm+PK2xoDPCcZ+gTRicF/wmJpkzLu7
-	 YwCRujVaWY60OGCR+6TvWC1oIDnHLdmqf0iZFUSSk5DmQc6/W3Z/IAfi9n8ycsx4/o
-	 EWCCP/PVZjf9r3DEHKpU9tG4mBcZ8p7IEWo5uzxoV5iRAhJKqgQBn8maIwEIgsW44J
-	 4zm/2rHXw5z6uavy31Cimy8EhB4sI0pURkBMd55PXbOHOInjA99pZH5gv2annPwy0s
-	 CItIkgbfMqiCA==
-Date: Mon, 17 Nov 2025 22:01:38 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	Mon, 17 Nov 2025 20:24:46 +0000
+Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-bc8198fbaf8so2942049a12.1
+        for <linux-nvme@lists.infradead.org>; Mon, 17 Nov 2025 12:24:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1763411084; x=1764015884; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=onsK98uoUhT0XwWIqjQPKdP2gqDAphdg/ek+7mT4eqQ=;
+        b=TGCX2l+tLx79lHwkiQZDp54tKyPAFLVfYKsHPk6/1CRUflk8RLN/nLplfbGsq89NvU
+         Pmb9OYKVMl1oU6MBDsPva1nKFIyu9yOU3XxGrcQA5ArQ7oYYEmRyV+7nE2/OxEts2q4P
+         pgAo4PnnAEyXUTXJiOTxs4yFXJeJXbHcCrsNcGXQnBBUQxQ4j0BtJ17+e1tHpIDCJnsD
+         sN2SwM4MOryNg2+04mozpgPr0WXIU5CmNfbF3To0GZF7B0vqKbyiylRPz+WYeHo+A6vP
+         g/sidSNjtJBv56WUev7K9opcZdC5EFPE7n/aG0bIGuRvi33YZw2bD9ObPeYIE7sHQTKh
+         HKfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763411084; x=1764015884;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=onsK98uoUhT0XwWIqjQPKdP2gqDAphdg/ek+7mT4eqQ=;
+        b=r6/cluLZFDi36k24JlKtjwkj+2JVFfqnS/Omeoa30DqAnFRMvkJ2aVlt6LoBwIjcls
+         yB0rsSEPqnr48mi7lUbao3RbJRIY9p9TQDUQ1n2BLV8WTRs8H5KooapEqUknqG4K5qMU
+         jUrblzaJDHJ+AQsrItBmWxi42ec1Vhn7z+DyBvmGaxR5D9STLBkCyhTP+/Vkdsqm4pwr
+         ifxI+Gnsz/sb0aBj9xnj6RJgl6vdcJTYF+7x6bC0DBRVpWzZXcMRIqBEAWEzdMt/YWD8
+         J7k5J44JBWAM3ItHB0GrL1CfGKsbdDIjeIjbtjHEwh4kGJ+wF9XhNvvMFOSgLX9aih39
+         soFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGXfCTxZNYBcfB3ESFZqNvu2td/TT2UqaU9ZJl6bN3WW/cEEK2VtJPbrM4GRnn/RffDOhz/ZwX9pkB@lists.infradead.org
+X-Gm-Message-State: AOJu0YyuezznB1XixlSOWqvyJGk96DnH6CeYygLsL92hHY/+j5V8jEY7
+	tdbhMP4vVcP/OcbZbXihHHtSw/mLQMfNpp0VkVnFwIUI5ie9JtnM0L0rDuLQjES3O+s=
+X-Gm-Gg: ASbGncsnR2IaAjmKMHpOSn3D6OVC/S6OsHJ6LiYiuMJTCASZZ2OLPJFjH0GB7pz/Cvp
+	FSXlOPJ0NJ8JrJmjzL+gn3lFJQJG0GusZwuaG1lQg663xCEWueyMwf9D+axmra2TX6jFLR0PEin
+	GTY0lyUY8N9W8Hc1U3dilXpAFN/td/LU1jina0jwbP6vv3PvPWdKv9iX+yRcmRciyEimpK/1gB3
+	47f5F8JIfRG1tOco4bhttb6Dz5vkYiyk2NdBdJCKnqtTOxDFhpbpLvmcif+7FE2LJF5IFi7TzUW
+	MQLFuKLL1PeOY12geCNqIgOoM4i4G2nb4GShmNW/mAPDHv+O1JHJy30E7I5uFagd1DUSntxI+hk
+	dzerSKuU/5p17sAfY26RH4cG1UROCFMmY2kv3u0k+QwVHbSblpoZDkTXDbOYZVodN5Z6ZVswK82
+	T9gxWboNrvBs1WuVuBgW/YjihxDaKyj+xyu4vlIXYizxEs
+X-Google-Smtp-Source: AGHT+IEdhFd42XGtdY73xnyG2hr/76Hbk1CjMiITvZ1VDOj8aki8ecB4bkyUXogqVL/y2/Mbq+4Cyw==
+X-Received: by 2002:a05:7300:cc83:b0:2a4:3593:9695 with SMTP id 5a478bee46e88-2a4abb32b86mr5625538eec.18.1763411083462;
+        Mon, 17 Nov 2025 12:24:43 -0800 (PST)
+Received: from apollo.purestorage.com ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2a49db7a753sm49298281eec.6.2025.11.17.12.24.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 12:24:43 -0800 (PST)
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v2 1/2] nvme-pci: Use size_t for length fields to handle
- larger sizes
-Message-ID: <20251117200138.GE147495@unreal>
-References: <20251117-nvme-phys-types-v2-0-c75a60a2c468@nvidia.com>
- <20251117-nvme-phys-types-v2-1-c75a60a2c468@nvidia.com>
- <aRt5DPnMwzDw8_dF@kbusch-mbp>
+Cc: Casey Chen <cachen@purestorage.com>,
+	Vikas Manocha <vmanocha@purestorage.com>,
+	Yuanyuan Zhong <yzhong@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Ming Lei <ming.lei@redhat.com>,
+	linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mohamed Khalfella <mkhalfella@purestorage.com>
+Subject: [PATCH v2 0/1] nvme: Convert tag_list mutex to rwsemaphore to avoid deadlock
+Date: Mon, 17 Nov 2025 12:23:52 -0800
+Message-ID: <20251117202414.4071380-1-mkhalfella@purestorage.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aRt5DPnMwzDw8_dF@kbusch-mbp>
+Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251117_122445_310773_9398FE1C 
+X-CRM114-Status: UNSURE (   8.54  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,25 +107,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 17, 2025 at 12:35:40PM -0700, Keith Busch wrote:
-> On Mon, Nov 17, 2025 at 09:22:43PM +0200, Leon Romanovsky wrote:
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index e5ca8301bb8b..b61ec62b0ec6 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -290,14 +290,14 @@ struct nvme_iod {
-> >  	u8 flags;
-> >  	u8 nr_descriptors;
-> >  
-> > -	unsigned int total_len;
-> > +	size_t total_len;
-> 
-> Changing the generic phys_vec sounds fine, but the nvme driver has a 8MB
-> limitation on how large an IO can be, so I don't think the driver's
-> length needs to match the phys_vec type.
+Changes from v1:
 
-I'm big fan of keeping same types in all places, but can drop nvme changes,
-if you think that it is right thing to do.
+- Keep existing behavior do not freeze newly added "q" when
+  transitioning tagset from unshared to shared.
+- Delete blk_mq_update_tag_set_shared() and explicitly freeze "firstq"
+  and "q" and set their shared status.
+- Add comment explaining why we are downgrading the semaphore before
+  freezing "firstq".
 
-Thanks
+v1: https://lore.kernel.org/all/20251113202320.2530531-1-mkhalfella@purestorage.com/
+
+Mohamed Khalfella (1):
+  nvme: Convert tag_list mutex to rwsemaphore to avoid deadlock
+
+ block/blk-mq-sysfs.c   | 10 ++---
+ block/blk-mq.c         | 95 +++++++++++++++++++++++-------------------
+ include/linux/blk-mq.h |  4 +-
+ 3 files changed, 58 insertions(+), 51 deletions(-)
+
+-- 
+2.51.0
+
 
