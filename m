@@ -4,82 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 724DDCCD19A
-	for <linux-nvme@archiver.kernel.org>; Tue, 18 Nov 2025 04:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA055CCD19A
+	for <linux-nvme@archiver.kernel.org>; Tue, 18 Nov 2025 04:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+za5bpe7k71RSNz1ZZSlS9cG3UfbTIZDcQkUGjZWi8g=; b=pvkkVchoZms2PmgyAuEwqBGcfd
-	XL7tZAqMko/CIxaghwyZGey41hcxGiZUp9Zc1leoBVQ+dJMUVF7fPrdzeNLVpbk6X/WtRUOGkWNPo
-	+vD6nl+2KtloNSNg9IyyocqP6y5o0V1TkX6ln70uuVL43nxEwlzEvv/1LogQCxnKU82nZd3Ox04WR
-	BGYgsmFbhznGVNzMV16+hzmGrBF6Dj3/nEHM7nYp9d+ZbSeauj6Y9QDJAF3DrA4Q2QXasZMIMkaZI
-	DmPTszYq7+SZTGVh+rhvqFvv09lJkGfhMERf4KN0UkAjMTrsx5lfNCSP1CPiYrQU8bqdwQcnuwH4b
-	6t2AUmRQ==;
+	bh=gfVuqROq08l6hYt1EfrQacjXhvUODJUDuxkJpI7w6cg=; b=jt/lXt6Jzkg64z40bLXRFBHJJX
+	ZTZCGKdHl/GVYA89OhDAQVZi3n5XyYBnTxI+r1vzbVhXugPK6JH0geFbBoFs9seBslRd907ts0xUM
+	9MZw4OYyMZXPJR+QztfgSRtBkUd+dExeIq95N9GGEG5NhHoyjZSmRRu2fUZovI6Z+WJLYFmA+fz2s
+	ifXdilaLsY4nqEYzIkmuuKXOwEkxL2T4DZkA8VAHVLcdmHrl7GlG8HiP2ZWLe71YienbqakiUGkEM
+	d3ukcK7CzXE1GqHBoP7SdhytWJatwvIdPqC1NbUnN0kpOW3Z2PG23trhV0S+4r9WcAvP3VjlKRzwr
+	J5UB5+qg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLD8s-0000000HM1p-1Gue;
-	Tue, 18 Nov 2025 04:16:34 +0000
+	id 1vLDgP-0000000HNP8-2N0a;
+	Tue, 18 Nov 2025 04:51:13 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLD8o-0000000HM1S-2PJc
+	id 1vLDgK-0000000HNOj-2SyD
 	for linux-nvme@lists.infradead.org;
-	Tue, 18 Nov 2025 04:16:32 +0000
+	Tue, 18 Nov 2025 04:51:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763439389;
+	s=mimecast20190719; t=1763441467;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+za5bpe7k71RSNz1ZZSlS9cG3UfbTIZDcQkUGjZWi8g=;
-	b=H/vd0BCy+MS8tRW1w9ckmM7Laz2JfU14Q1dUSDrZ+Jd00lclu8YiGd1PSbRLpq/+CyYnRJ
-	aDu8ergI3WX9Dm4JF11pfQgWsXSfhT7D5q6ZL50oJebpVFCFckAwozsZM1WWuNOPZq+twS
-	CPwm/swxNu4U8MWAfA1KXxECogicDFU=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=gfVuqROq08l6hYt1EfrQacjXhvUODJUDuxkJpI7w6cg=;
+	b=RLSgGCcdQ8SrAJkwEO8dFuVHveFnHnwUGeH1yPfH+m2vmprdVwXcl82TYTJKMfb5xcXgHO
+	rZc3Lb93xCRB8EcFjIJyUg8Xz+/nhLL5Reo0WrYEqQxNVkmYP0dSLDdcTUuvoGkJvSE627
+	4SxH4ss6HSup3P59Y5Oj7b3+m5z3suw=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-553-_WonIOKVOMGBMmOshQOHGQ-1; Mon,
- 17 Nov 2025 23:16:25 -0500
-X-MC-Unique: _WonIOKVOMGBMmOshQOHGQ-1
-X-Mimecast-MFC-AGG-ID: _WonIOKVOMGBMmOshQOHGQ_1763439383
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-659-gSEGF8ynP3SFd5cYjHkKKQ-1; Mon,
+ 17 Nov 2025 23:51:04 -0500
+X-MC-Unique: gSEGF8ynP3SFd5cYjHkKKQ-1
+X-Mimecast-MFC-AGG-ID: gSEGF8ynP3SFd5cYjHkKKQ_1763441463
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 549C1180028A;
-	Tue, 18 Nov 2025 04:16:23 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B5CC619560B3;
+	Tue, 18 Nov 2025 04:51:02 +0000 (UTC)
 Received: from fedora (unknown [10.72.116.204])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C30611800451;
-	Tue, 18 Nov 2025 04:16:15 +0000 (UTC)
-Date: Tue, 18 Nov 2025 12:16:10 +0800
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A1EC43003777;
+	Tue, 18 Nov 2025 04:50:57 +0000 (UTC)
+Date: Tue, 18 Nov 2025 12:50:52 +0800
 From: Ming Lei <ming.lei@redhat.com>
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Casey Chen <cachen@purestorage.com>,
-	Vikas Manocha <vmanocha@purestorage.com>,
-	Yuanyuan Zhong <yzhong@purestorage.com>,
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+To: Waiman Long <llong@redhat.com>
+Cc: Hillf Danton <hdanton@sina.com>,
+	Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 1/1] nvme: Convert tag_list mutex to rwsemaphore to
  avoid deadlock
-Message-ID: <aRvzCs_FXa_liTWv@fedora>
+Message-ID: <aRv7LJgYP9AVJnfD@fedora>
 References: <20251117202414.4071380-1-mkhalfella@purestorage.com>
- <20251117202414.4071380-2-mkhalfella@purestorage.com>
- <aRvTM5LbnehQU77-@fedora>
- <20251118021504.GC2197103-mkhalfella@purestorage.com>
- <aRvaXFA9mG2WDIXA@fedora>
- <20251118034405.GB2376676-mkhalfella@purestorage.com>
+ <20251118013442.9414-1-hdanton@sina.com>
+ <5db3bb06-0bf2-4ba3-b765-c217acda1b0c@redhat.com>
+ <aRvjQ6QluONcObXD@fedora>
+ <8b07bdd3-5779-4fe4-be05-a8c8efc89f9d@redhat.com>
+ <aRvv9-FZ2Q95phNg@fedora>
+ <702d904c-2d9a-42b4-95b3-0fa43d91e673@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251118034405.GB2376676-mkhalfella@purestorage.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+In-Reply-To: <702d904c-2d9a-42b4-95b3-0fa43d91e673@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251117_201631_033737_96271C58 
-X-CRM114-Status: GOOD (  30.12  )
+X-CRM114-CacheID: sfid-20251117_205108_966898_D3B82A70 
+X-CRM114-Status: GOOD (  57.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,77 +91,278 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Nov 17, 2025 at 07:44:05PM -0800, Mohamed Khalfella wrote:
-> On Tue 2025-11-18 10:30:52 +0800, Ming Lei wrote:
-> > On Mon, Nov 17, 2025 at 06:15:04PM -0800, Mohamed Khalfella wrote:
-> > > On Tue 2025-11-18 10:00:19 +0800, Ming Lei wrote:
-> > > > On Mon, Nov 17, 2025 at 12:23:53PM -0800, Mohamed Khalfella wrote:
-> > > > >  static void blk_mq_add_queue_tag_set(struct blk_mq_tag_set *set,
-> > > > >  				     struct request_queue *q)
-> > > > >  {
-> > > > > -	mutex_lock(&set->tag_list_lock);
-> > > > > +	struct request_queue *firstq;
-> > > > > +	unsigned int memflags;
-> > > > >  
-> > > > > -	/*
-> > > > > -	 * Check to see if we're transitioning to shared (from 1 to 2 queues).
-> > > > > -	 */
-> > > > > -	if (!list_empty(&set->tag_list) &&
-> > > > > -	    !(set->flags & BLK_MQ_F_TAG_QUEUE_SHARED)) {
-> > > > > -		set->flags |= BLK_MQ_F_TAG_QUEUE_SHARED;
-> > > > > -		/* update existing queue */
-> > > > > -		blk_mq_update_tag_set_shared(set, true);
-> > > > > -	}
-> > > > > -	if (set->flags & BLK_MQ_F_TAG_QUEUE_SHARED)
-> > > > > -		queue_set_hctx_shared(q, true);
-> > > > > -	list_add_tail(&q->tag_set_list, &set->tag_list);
-> > > > > +	down_write(&set->tag_list_rwsem);
-> > > > > +	if (!list_is_singular(&set->tag_list)) {
-> > > > > +		if (set->flags & BLK_MQ_F_TAG_QUEUE_SHARED)
-> > > > > +			queue_set_hctx_shared(q, true);
-> > > > > +		list_add_tail(&q->tag_set_list, &set->tag_list);
-> > > > > +		up_write(&set->tag_list_rwsem);
-> > > > > +		return;
-> > > > > +	}
-> > > > >  
-> > > > > -	mutex_unlock(&set->tag_list_lock);
-> > > > > +	/* Transitioning firstq and q to shared. */
-> > > > > +	set->flags |= BLK_MQ_F_TAG_QUEUE_SHARED;
-> > > > > +	list_add_tail(&q->tag_set_list, &set->tag_list);
-> > > > > +	downgrade_write(&set->tag_list_rwsem);
-> > > > > +	queue_set_hctx_shared(q, true);
+On Mon, Nov 17, 2025 at 11:35:56PM -0500, Waiman Long wrote:
+> On 11/17/25 11:03 PM, Ming Lei wrote:
+> > On Mon, Nov 17, 2025 at 10:42:04PM -0500, Waiman Long wrote:
+> > > On 11/17/25 10:08 PM, Ming Lei wrote:
+> > > > On Mon, Nov 17, 2025 at 09:24:21PM -0500, Waiman Long wrote:
+> > > > > On 11/17/25 8:34 PM, Hillf Danton wrote:
+> > > > > > On Mon, 17 Nov 2025 12:23:53 -0800 Mohamed Khalfella wrote:
+> > > > > > > blk_mq_{add,del}_queue_tag_set() functions add and remove queues from
+> > > > > > > tagset, the functions make sure that tagset and queues are marked as
+> > > > > > > shared when two or more queues are attached to the same tagset.
+> > > > > > > Initially a tagset starts as unshared and when the number of added
+> > > > > > > queues reaches two, blk_mq_add_queue_tag_set() marks it as shared along
+> > > > > > > with all the queues attached to it. When the number of attached queues
+> > > > > > > drops to 1 blk_mq_del_queue_tag_set() need to mark both the tagset and
+> > > > > > > the remaining queues as unshared.
+> > > > > > > 
+> > > > > > > Both functions need to freeze current queues in tagset before setting on
+> > > > > > > unsetting BLK_MQ_F_TAG_QUEUE_SHARED flag. While doing so, both functions
+> > > > > > > hold set->tag_list_lock mutex, which makes sense as we do not want
+> > > > > > > queues to be added or deleted in the process. This used to work fine
+> > > > > > > until commit 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> > > > > > > made the nvme driver quiesce tagset instead of quiscing individual
+> > > > > > > queues. blk_mq_quiesce_tagset() does the job and quiesce the queues in
+> > > > > > > set->tag_list while holding set->tag_list_lock also.
+> > > > > > > 
+> > > > > > > This results in deadlock between two threads with these stacktraces:
+> > > > > > > 
+> > > > > > >      __schedule+0x48e/0xed0
+> > > > > > >      schedule+0x5a/0xc0
+> > > > > > >      schedule_preempt_disabled+0x11/0x20
+> > > > > > >      __mutex_lock.constprop.0+0x3cc/0x760
+> > > > > > >      blk_mq_quiesce_tagset+0x26/0xd0
+> > > > > > >      nvme_dev_disable_locked+0x77/0x280 [nvme]
+> > > > > > >      nvme_timeout+0x268/0x320 [nvme]
+> > > > > > >      blk_mq_handle_expired+0x5d/0x90
+> > > > > > >      bt_iter+0x7e/0x90
+> > > > > > >      blk_mq_queue_tag_busy_iter+0x2b2/0x590
+> > > > > > >      ? __blk_mq_complete_request_remote+0x10/0x10
+> > > > > > >      ? __blk_mq_complete_request_remote+0x10/0x10
+> > > > > > >      blk_mq_timeout_work+0x15b/0x1a0
+> > > > > > >      process_one_work+0x133/0x2f0
+> > > > > > >      ? mod_delayed_work_on+0x90/0x90
+> > > > > > >      worker_thread+0x2ec/0x400
+> > > > > > >      ? mod_delayed_work_on+0x90/0x90
+> > > > > > >      kthread+0xe2/0x110
+> > > > > > >      ? kthread_complete_and_exit+0x20/0x20
+> > > > > > >      ret_from_fork+0x2d/0x50
+> > > > > > >      ? kthread_complete_and_exit+0x20/0x20
+> > > > > > >      ret_from_fork_asm+0x11/0x20
+> > > > > > > 
+> > > > > > >      __schedule+0x48e/0xed0
+> > > > > > >      schedule+0x5a/0xc0
+> > > > > > >      blk_mq_freeze_queue_wait+0x62/0x90
+> > > > > > >      ? destroy_sched_domains_rcu+0x30/0x30
+> > > > > > >      blk_mq_exit_queue+0x151/0x180
+> > > > > > >      disk_release+0xe3/0xf0
+> > > > > > >      device_release+0x31/0x90
+> > > > > > >      kobject_put+0x6d/0x180
+> > > > > > >      nvme_scan_ns+0x858/0xc90 [nvme_core]
+> > > > > > >      ? nvme_scan_work+0x281/0x560 [nvme_core]
+> > > > > > >      nvme_scan_work+0x281/0x560 [nvme_core]
+> > > > > > >      process_one_work+0x133/0x2f0
+> > > > > > >      ? mod_delayed_work_on+0x90/0x90
+> > > > > > >      worker_thread+0x2ec/0x400
+> > > > > > >      ? mod_delayed_work_on+0x90/0x90
+> > > > > > >      kthread+0xe2/0x110
+> > > > > > >      ? kthread_complete_and_exit+0x20/0x20
+> > > > > > >      ret_from_fork+0x2d/0x50
+> > > > > > >      ? kthread_complete_and_exit+0x20/0x20
+> > > > > > >      ret_from_fork_asm+0x11/0x20
+> > > > > > > 
+> > > > > > > The top stacktrace is showing nvme_timeout() called to handle nvme
+> > > > > > > command timeout. timeout handler is trying to disable the controller and
+> > > > > > > as a first step, it needs to blk_mq_quiesce_tagset() to tell blk-mq not
+> > > > > > > to call queue callback handlers. The thread is stuck waiting for
+> > > > > > > set->tag_list_lock as it tires to walk the queues in set->tag_list.
+> > > > > > > 
+> > > > > > > The lock is held by the second thread in the bottom stack which is
+> > > > > > > waiting for one of queues to be frozen. The queue usage counter will
+> > > > > > > drop to zero after nvme_timeout() finishes, and this will not happen
+> > > > > > > because the thread will wait for this mutex forever.
+> > > > > > > 
+> > > > > > > Convert set->tag_list_lock mutex to set->tag_list_rwsem rwsemaphore to
+> > > > > > > avoid the deadlock. Update blk_mq_[un]quiesce_tagset() to take the
+> > > > > > > semaphore for read since this is enough to guarantee no queues will be
+> > > > > > > added or removed. Update blk_mq_{add,del}_queue_tag_set() to take the
+> > > > > > > semaphore for write while updating set->tag_list and downgrade it to
+> > > > > > > read while freezing the queues. It should be safe to update set->flags
+> > > > > > > and hctx->flags while holding the semaphore for read since the queues
+> > > > > > > are already frozen.
+> > > > > > > 
+> > > > > > > Fixes: 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> > > > > > > Signed-off-by: Mohamed Khalfella<mkhalfella@purestorage.com>
+> > > > > > > ---
+> > > > > > >     block/blk-mq-sysfs.c   | 10 ++---
+> > > > > > >     block/blk-mq.c         | 95 +++++++++++++++++++++++-------------------
+> > > > > > >     include/linux/blk-mq.h |  4 +-
+> > > > > > >     3 files changed, 58 insertions(+), 51 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
+> > > > > > > index 58ec293373c6..f474781654fb 100644
+> > > > > > > --- a/block/blk-mq-sysfs.c
+> > > > > > > +++ b/block/blk-mq-sysfs.c
+> > > > > > > @@ -230,13 +230,13 @@ int blk_mq_sysfs_register(struct gendisk *disk)
+> > > > > > >     	kobject_uevent(q->mq_kobj, KOBJ_ADD);
+> > > > > > > -	mutex_lock(&q->tag_set->tag_list_lock);
+> > > > > > > +	down_read(&q->tag_set->tag_list_rwsem);
+> > > > > > >     	queue_for_each_hw_ctx(q, hctx, i) {
+> > > > > > >     		ret = blk_mq_register_hctx(hctx);
+> > > > > > >     		if (ret)
+> > > > > > >     			goto out_unreg;
+> > > > > > >     	}
+> > > > > > > -	mutex_unlock(&q->tag_set->tag_list_lock);
+> > > > > > > +	up_read(&q->tag_set->tag_list_rwsem);
+> > > > > > >     	return 0;
+> > > > > > >     out_unreg:
+> > > > > > > @@ -244,7 +244,7 @@ int blk_mq_sysfs_register(struct gendisk *disk)
+> > > > > > >     		if (j < i)
+> > > > > > >     			blk_mq_unregister_hctx(hctx);
+> > > > > > >     	}
+> > > > > > > -	mutex_unlock(&q->tag_set->tag_list_lock);
+> > > > > > > +	up_read(&q->tag_set->tag_list_rwsem);
+> > > > > > >     	kobject_uevent(q->mq_kobj, KOBJ_REMOVE);
+> > > > > > >     	kobject_del(q->mq_kobj);
+> > > > > > > @@ -257,10 +257,10 @@ void blk_mq_sysfs_unregister(struct gendisk *disk)
+> > > > > > >     	struct blk_mq_hw_ctx *hctx;
+> > > > > > >     	unsigned long i;
+> > > > > > > -	mutex_lock(&q->tag_set->tag_list_lock);
+> > > > > > > +	down_read(&q->tag_set->tag_list_rwsem);
+> > > > > > >     	queue_for_each_hw_ctx(q, hctx, i)
+> > > > > > >     		blk_mq_unregister_hctx(hctx);
+> > > > > > > -	mutex_unlock(&q->tag_set->tag_list_lock);
+> > > > > > > +	up_read(&q->tag_set->tag_list_rwsem);
+> > > > > > >     	kobject_uevent(q->mq_kobj, KOBJ_REMOVE);
+> > > > > > >     	kobject_del(q->mq_kobj);
+> > > > > > > diff --git a/block/blk-mq.c b/block/blk-mq.c
+> > > > > > > index d626d32f6e57..9211d32ce820 100644
+> > > > > > > --- a/block/blk-mq.c
+> > > > > > > +++ b/block/blk-mq.c
+> > > > > > > @@ -335,12 +335,12 @@ void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set)
+> > > > > > >     {
+> > > > > > >     	struct request_queue *q;
+> > > > > > > -	mutex_lock(&set->tag_list_lock);
+> > > > > > > +	down_read(&set->tag_list_rwsem);
+> > > > > > >     	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+> > > > > > >     		if (!blk_queue_skip_tagset_quiesce(q))
+> > > > > > >     			blk_mq_quiesce_queue_nowait(q);
+> > > > > > >     	}
+> > > > > > > -	mutex_unlock(&set->tag_list_lock);
+> > > > > > > +	up_read(&set->tag_list_rwsem);
+> > > > > > >     	blk_mq_wait_quiesce_done(set);
+> > > > > > >     }
+> > > > > > > @@ -350,12 +350,12 @@ void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set)
+> > > > > > >     {
+> > > > > > >     	struct request_queue *q;
+> > > > > > > -	mutex_lock(&set->tag_list_lock);
+> > > > > > > +	down_read(&set->tag_list_rwsem);
+> > > > > > >     	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+> > > > > > >     		if (!blk_queue_skip_tagset_quiesce(q))
+> > > > > > >     			blk_mq_unquiesce_queue(q);
+> > > > > > >     	}
+> > > > > > > -	mutex_unlock(&set->tag_list_lock);
+> > > > > > > +	up_read(&set->tag_list_rwsem);
+> > > > > > >     }
+> > > > > > >     EXPORT_SYMBOL_GPL(blk_mq_unquiesce_tagset);
+> > > > > > > @@ -4274,56 +4274,63 @@ static void queue_set_hctx_shared(struct request_queue *q, bool shared)
+> > > > > > >     	}
+> > > > > > >     }
+> > > > > > > -static void blk_mq_update_tag_set_shared(struct blk_mq_tag_set *set,
+> > > > > > > -					 bool shared)
+> > > > > > > -{
+> > > > > > > -	struct request_queue *q;
+> > > > > > > -	unsigned int memflags;
+> > > > > > > -
+> > > > > > > -	lockdep_assert_held(&set->tag_list_lock);
+> > > > > > > -
+> > > > > > > -	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+> > > > > > > -		memflags = blk_mq_freeze_queue(q);
+> > > > > > > -		queue_set_hctx_shared(q, shared);
+> > > > > > > -		blk_mq_unfreeze_queue(q, memflags);
+> > > > > > > -	}
+> > > > > > > -}
+> > > > > > > -
+> > > > > > >     static void blk_mq_del_queue_tag_set(struct request_queue *q)
+> > > > > > >     {
+> > > > > > >     	struct blk_mq_tag_set *set = q->tag_set;
+> > > > > > > +	struct request_queue *firstq;
+> > > > > > > +	unsigned int memflags;
+> > > > > > > -	mutex_lock(&set->tag_list_lock);
+> > > > > > > +	down_write(&set->tag_list_rwsem);
+> > > > > > >     	list_del(&q->tag_set_list);
+> > > > > > > -	if (list_is_singular(&set->tag_list)) {
+> > > > > > > -		/* just transitioned to unshared */
+> > > > > > > -		set->flags &= ~BLK_MQ_F_TAG_QUEUE_SHARED;
+> > > > > > > -		/* update existing queue */
+> > > > > > > -		blk_mq_update_tag_set_shared(set, false);
+> > > > > > > +	if (!list_is_singular(&set->tag_list)) {
+> > > > > > > +		up_write(&set->tag_list_rwsem);
+> > > > > > > +		goto out;
+> > > > > > >     	}
+> > > > > > > -	mutex_unlock(&set->tag_list_lock);
+> > > > > > > +
+> > > > > > > +	/*
+> > > > > > > +	 * Transitioning the remaining firstq to unshared.
+> > > > > > > +	 * Also, downgrade the semaphore to avoid deadlock
+> > > > > > > +	 * with blk_mq_quiesce_tagset() while waiting for
+> > > > > > > +	 * firstq to be frozen.
+> > > > > > > +	 */
+> > > > > > > +	set->flags &= ~BLK_MQ_F_TAG_QUEUE_SHARED;
+> > > > > > > +	downgrade_write(&set->tag_list_rwsem);
+> > > > > > If the first lock waiter is for write, it could ruin your downgrade trick.
+> > > > If the 1st waiter is for WEITE, rwsem_mark_wake() simply returns and grants
+> > > > read lock to this caller, meantime wakes up nothing.
 > > > > 
-> > > > queue_set_hctx_shared(q, true) should be moved into write critical area
-> > > > because this queue has been added to the list.
+> > > > That is exactly what this use case expects, so can you explain in detail why
+> > > > `it could ruin your downgrade trick`?
 > > > > 
-> > > 
-> > > I failed to see why that is the case. What can go wrong by running
-> > > queue_set_hctx_shared(q, true) after downgrade_write()?
-> > > 
-> > > After the semaphore is downgraded we promise not to change the list
-> > > set->tag_list because now we have read-only access. Marking the "q" as
-> > > shared should be fine because it is new and we know there will be no
-> > > users of the queue yet (that is why we skipped freezing it).
-> >  
-> > I think it is read/write lock's use practice. The protected data shouldn't be
-> > written any more when you downgrade to read lock.
+> > > > > That is true. The downgrade will wake up all the waiting readers at the
+> > > > > front of the wait queue, but if there is one or more writers in the mix. The
+> > > > > wakeup will stop when the first writer is hit and all the readers after that
+> > > > > will not be woken up.
+> > > > So waiters for WRITE won't be waken up by downgrade_write() if I understand correctly,
+> > > > and rwsem_downgrade_wake() documents this behavior too.
+> > > > 
+> > > > > We can theoretically provide a downgrade variant that wakes up all the
+> > > > > readers if it is a useful feature.
+> > > > The following up_read() in this code block will wake up the waiter for
+> > > > WRITE, which finally wakes up other waiters for READ, then I am confused
+> > > > what is the problem with this usage?
+> > > I am just referring to the fact that not all the readers may be woken up. So
+> > > if the deadlock is caused by one of those readers that is not woken up, it
+> > > can be a problem. I haven't analyzed the deadlock scenario in detail to see
+> > > if that is really the case. It is up to you and others who are more familiar
+> > > with this code base to figure this out.
+> > Follows the code base, which isn't special compared with other
+> > downgrade_write() usages:
 > > 
-> > In this case, it may not make a difference, because it is one new queue and
-> > the other readers don't use the `shared` flag, but still better to do
-> > correct things from beginning and make code less fragile.
+> > blk_mq_del_queue_tag_set()/blk_mq_add_queue_tag_set():
 > > 
+> > 	down_write(&set->tag_list_rwsem);
+> > 	...
+> > 	downgrade_write(&set->tag_list_rwsem);
+> > 	...
+> > 	up_read(&set->tag_list_rwsem);
+> > 
+> > All others are readers:
+> > 
+> > 	down_read(&set->tag_list_rwsem);
+> > 	...
+> > 	up_read(&set->tag_list_rwsem);
+> > 
+> > 
+> > You mentioned reader may not be waken up in case of r/w mixed waiters, but I
+> > don't see it is possible.
 > 
-> set->tag_list_rwsem protects set->tag_list. It does not protect
-> hctx->flags. hctx->flags is protected by the context. In the case of "q"
-> it is new and we are not expecting request allocation. In case of
-> "firstq" the queue is frozen which makes it safe to update hctx->flags.
-> I prefer to keep the code as it is unless there is a reason to change
-> it.
+> I don't know if concurrent calls to blk_mq_del_queue_tag_set() is possible
 
-Fair enough, given it is done for `firstrq`.
+Both blk_mq_del_queue_tag_set() and blk_mq_add_queue_tag_set() can be
+called concurrently with same `struct blk_mq_tag_set *` and different
+'struct request_queue *'.
+
+> or not. There is also the blk_mq_update_nr_hw_queues() function that will
+> acquire the write lock.
+
+blk_mq_update_nr_hw_queues() doesn't add/remove queue to set->tag_list, so
+I guess read lock may be enough.
+
+Also blk_mq_update_nr_hw_queues() can be run concurrently with the above
+two helpers.
 
 
-Thanks, 
+Thanks,
 Ming
 
 
