@@ -4,83 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9BA0CF34DE
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Nov 2025 16:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C783CF6487
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Nov 2025 22:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6a1vqyvMCaPVVtYVkMVoZIxbeKQ+m35ydMGq/Kf18zQ=; b=aIInQStxyZi6gXTUISAoKPTdzP
-	jEcK9idfWYxPa2MOjOpU6hIBjdJALjzZi0kyxqJdJT737kr6V+vKAwQKldSiBZDTxRbUfPdtpcAx7
-	pm2eiQybawu54weX06g7VFVRCLwsFk9sDFZyV1de7GMC+yRIhGRe8BfNOvI+fd5mJubWyrCXYrtf9
-	nnYU2tS/JrWntasjY90qrCN/s7n5NzBDrj9Ep92Xb73tKqIsKt6DlZzzjQBVVUhcg3S7MU8RSeZ8u
-	dnD+JdFGzkI5FoTM7G9pLeIc6atImRFx9pibnB1B1siAlSALAxLv3K1twNCxYN0aKd90xAL4haGV1
-	/t0lLQ4g==;
+	bh=INS73H9fpfKpTzIXcq0TyWJMVVqIF72st9McdWRmVUY=; b=0Za2rWXNC4sQH/5teV2UlLFiYl
+	DoAofTEfSmPXlIa7tN6ssQuA0vPhFt649a+bCw6pQmN9hJq981oRRg7aGe7jTTQ/v6iM6nbl8aH3p
+	6RCUSMlGGr3uB6mQe/gZ3YQmEWuwZy9pTlUMRbi9VsRfAqFVYIaKFQ5VOBARC5EkVcxT4UMKKFldp
+	iCqyeLKr/GLhBrVt5ax4VkoMunafydn35jClyojAqNKQMG5DTwSNhGeLjJoB+Ng1xAWyb6RbPiS2M
+	+Z+bJakOizk9cTuHObDoOKAclmV0lq3bYZksnn0B4iDaxWaysEmsIE5Oxdoyay7RBwNO/Ytkh33dO
+	CLx5+Sxg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLkct-00000003cty-0gEj;
-	Wed, 19 Nov 2025 16:01:47 +0000
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+	id 1vLqtJ-00000005oEi-0rSB;
+	Wed, 19 Nov 2025 22:43:09 +0000
+Received: from mailtransmit04.runbox.com ([2a0c:5a00:149::25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLkcq-00000003ct0-0Nl9
+	id 1vLqtB-00000005oDt-2yO8
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Nov 2025 16:01:45 +0000
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-7b8ba3c8ca1so855953b3a.2
-        for <linux-nvme@lists.infradead.org>; Wed, 19 Nov 2025 08:01:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1763568103; x=1764172903; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6a1vqyvMCaPVVtYVkMVoZIxbeKQ+m35ydMGq/Kf18zQ=;
-        b=DH5Iau4ElXZsBHAsQVxGmDrzMoA/gJw8QKgN0lNty25K5VuKQDRs7ygBq9L7gdAl7M
-         C1eLdIK8bCiXd/CW8D+bYedCdaqmwCLzfuDLX0gV/KQ38WT5VvcYwnbqdqYyJzK4Y5am
-         XIjZujveGENwjAT5n2fNfnq3Q8kV/EcSqT6/BPpjqlcy3E9M12Q6zCOZB902nfhCk0/6
-         8zo8EZCl4PHrecmd3XRu33UELqfEWnL7ack7m6dZE3Bu/pH4OfyzeaBz0thydhIY4bop
-         aELS1q69QDRU81VfdtdR3Z348K/Sjcl66HPiToL1IfmVKlAwPYuFGysW9f/BfVuHP7MR
-         fplA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763568103; x=1764172903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6a1vqyvMCaPVVtYVkMVoZIxbeKQ+m35ydMGq/Kf18zQ=;
-        b=X7SHyPK4/SO96rjhKngJQztdqC7hdAqOAT3BbeKyrN73SrCYi6rfIBuFsT8/d76BIo
-         L/NbmA0cchzqfW/QEf5cs3v9AxTqxKFt0vqY+sgbBF+UuYVwc+DQ6EBKtxLgH4tScgFu
-         loikHyMjxfhAfFfnVeUdq/aV2tJw15IeneIJUxhdmjF3n7PeGmH81v8+u/3m6g5mgxgr
-         SPp+XxKPbGt7B2KTYQZLwtl87/4GrSJkcEJBjvnNtm43s8Fny+7Jkwcu5CJYkvUqhxza
-         nY4Np+zX72iLfpCmgHNVsu1hlWb1gC80B1JRyRmJ2atQ7nFZ4HzckiRdZ/gUcQ/QR1Er
-         rylQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJGVkhlEttcvQ/MUwMrVTVHOMivh2tz9w1IHVdWBgpkQjrcYZI+UFKUfIVhaapmoTD0MHEjFxd/3zj@lists.infradead.org
-X-Gm-Message-State: AOJu0YykpYPUSImfsYbMfBuM6H0SSV4hTbcC1ojdCgC0121PULlnFT9m
-	xxFxw9OgUKg3+yHtanvLrPziIRe9QnZLsvVqt6PIY1Qs08L+YUHaDOiFJ/BCXfyUVIi3QSCZ6ou
-	dkTzlANUmWdW5GodbiORZp9fkJ0gSxN9sRdxxM0j3WZVXMbQXW5CQxU0=
-X-Gm-Gg: ASbGncugBW0YSQTeOZhZSEpyG9in69wi+KwyE64BblmNBExo0a17nLnUseGnC+ddczz
-	psf4jlvZNgAnybFEae0UAnOe0QaLIp4lvvmI3YFs3FxaZHdfPVEjyD5XHnD/lX6dRaKQz8IW8Hj
-	+uVJ27MbYKIV//2jVqp9cpEdSia6pQG8MCz061cYdEqsDp6QZ4XR1UbIwXTs3EicejNW4lhBwWv
-	g/Z04QPnSrhPh67seeG+jAx80szIJDYf7qJptfbychWW2GQO5aFk2xPt+ta2BdYiJBaOUUz
-X-Google-Smtp-Source: AGHT+IGukixJPfcKJftm+wkI6JOcgTfeG6urJwQknk5JHoyi0JVg4VUmxfv1l5dC2sDyAQChlh82zKSq1b6jfBH12iQ=
-X-Received: by 2002:a05:701b:240e:b0:119:e56b:46b9 with SMTP id
- a92af1059eb24-11c7967602amr1176763c88.3.1763568102834; Wed, 19 Nov 2025
- 08:01:42 -0800 (PST)
+	Wed, 19 Nov 2025 22:43:03 +0000
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <david.laight.linux_spam@runbox.com>)
+	id 1vLqt3-006yx8-Mr; Wed, 19 Nov 2025 23:42:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+	 s=selector1; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
+	:Message-Id:Date:Subject:Cc:To:From;
+	bh=INS73H9fpfKpTzIXcq0TyWJMVVqIF72st9McdWRmVUY=; b=yC8kwNa+YVjK5AcjHJjwXb3Gvt
+	uXqDA6KXj2213Be1u7D3HuvZ4X8Bds23OamTIfyV7fEylE8QAnQcsS+mOHwU9fWLlAr6u0OB4MZZj
+	aBprvZBLOsh+3i3Ab8nBivV2nX1Zn5YfLKDOxZi5ZR7a0KAl7OUyRDD8XWfjP6BGhr7A0f9kJMCEm
+	iWaY0rzLcN9hzhF4pPmjeldP842gJxTRxDACHKFKTCJRcjNc6EJqQwcgZ2cvnXs60Psl0X6PfsIih
+	dMXTaKCM/8OK3aYf/RGYcOIJ8LzYUQBNHnGhI45L0ngkV3xNeAmJhj5yh/WU2ZTmgp+wzWT8XzEGS
+	Wj/wmy3Q==;
+Received: from [10.9.9.74] (helo=submission03.runbox)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <david.laight.linux_spam@runbox.com>)
+	id 1vLqt3-00086p-CJ; Wed, 19 Nov 2025 23:42:53 +0100
+Received: by submission03.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	id 1vLqsf-00Fos6-Da; Wed, 19 Nov 2025 23:42:29 +0100
+From: david.laight.linux@gmail.com
+To: linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	David Laight <david.laight.linux@gmail.com>
+Subject: [PATCH 22/44] drivers/nvme: use min() instead of min_t()
+Date: Wed, 19 Nov 2025 22:41:18 +0000
+Message-Id: <20251119224140.8616-23-david.laight.linux@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20251119224140.8616-1-david.laight.linux@gmail.com>
+References: <20251119224140.8616-1-david.laight.linux@gmail.com>
 MIME-Version: 1.0
-References: <20251119021701.3165123-1-csander@purestorage.com> <20251119054848.GA20072@lst.de>
-In-Reply-To: <20251119054848.GA20072@lst.de>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Wed, 19 Nov 2025 08:01:30 -0800
-X-Gm-Features: AWmQ_bnR096ZCCQTdPW7YomxbTb_LYxXPIPVr9QPp089IXgpriuy9m9VvTQY_E4
-Message-ID: <CADUfDZosKsY3TBwPRoEvOCTErcaC3HcR3ChHj=io+=m_EPqX+Q@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: deduplicate empty request list checks in nvme_queue_rqs()
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251119_080144_277764_E8005B24 
-X-CRM114-Status: GOOD (  16.15  )
+X-CRM114-CacheID: sfid-20251119_144302_362021_C3A4E504 
+X-CRM114-Status: GOOD (  14.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,26 +81,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 18, 2025 at 9:48=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
-> On Tue, Nov 18, 2025 at 07:17:00PM -0700, Caleb Sander Mateos wrote:
-> > nvme_queue_rqs() checks that nvmeq is non-NULL before calling
-> > nvme_submit_cmds() and nvme_submit_cmds() checks that submit_list is
-> > non-empty before doing anything. A NULL nvmeq means no requests were
-> > processed from the rqlist in nvme_queue_rqs() since the last call to
-> > nvme_submit_cmds(), which implies submit_list is empty. So just check
-> > that submit_list is non-empty before calling nvme_submit_cmds() and dro=
-p
-> > the check for NULL nvmeq.
->
-> What is the rationale for this?  I had a hard time understanding the
-> logic in the new version, so I don't think this helps with readability
-> at least.
+From: David Laight <david.laight.linux@gmail.com>
 
-Just trying to avoid some branches. But if you prefer the current
-version, that's fine.
+min_t(unsigned int, a, b) casts an 'unsigned long' to 'unsigned int'.
+Use min(a, b) instead as it promotes any 'unsigned int' to 'unsigned long'
+and so cannot discard significant bits.
 
-Best,
-Caleb
+In this case the 'unsigned long' value is small enough that the result
+is ok.
+
+Detected by an extra check added to min_t().
+
+Signed-off-by: David Laight <david.laight.linux@gmail.com>
+---
+ drivers/nvme/host/pci.c | 3 +--
+ drivers/nvme/host/zns.c | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 72fb675a696f..c74be555a7e9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3412,8 +3412,7 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 	 * Limit the max command size to prevent iod->sg allocations going
+ 	 * over a single page.
+ 	 */
+-	dev->ctrl.max_hw_sectors = min_t(u32,
+-			NVME_MAX_BYTES >> SECTOR_SHIFT,
++	dev->ctrl.max_hw_sectors = min(NVME_MAX_BYTES >> SECTOR_SHIFT,
+ 			dma_opt_mapping_size(&pdev->dev) >> 9);
+ 	dev->ctrl.max_segments = NVME_MAX_SEGS;
+ 	dev->ctrl.max_integrity_segments = 1;
+diff --git a/drivers/nvme/host/zns.c b/drivers/nvme/host/zns.c
+index cce4c5b55aa9..c0b05a220f36 100644
+--- a/drivers/nvme/host/zns.c
++++ b/drivers/nvme/host/zns.c
+@@ -126,8 +126,7 @@ static void *nvme_zns_alloc_report_buffer(struct nvme_ns *ns,
+ 	const size_t min_bufsize = sizeof(struct nvme_zone_report) +
+ 				   sizeof(struct nvme_zone_descriptor);
+ 
+-	nr_zones = min_t(unsigned int, nr_zones,
+-			 get_capacity(ns->disk) >> ilog2(ns->head->zsze));
++	nr_zones = min(nr_zones, get_capacity(ns->disk) >> ilog2(ns->head->zsze));
+ 
+ 	bufsize = sizeof(struct nvme_zone_report) +
+ 		nr_zones * sizeof(struct nvme_zone_descriptor);
+-- 
+2.39.5
+
 
