@@ -4,94 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5222CEE35E
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Nov 2025 02:17:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 050FDCF2564
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Nov 2025 02:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=gifhH+ouh+mmQPCG7Mlt+a64mECIBHFCW6GZClRn09k=; b=CmPcgm/zYA8BdqB9s5JXsC2dT+
-	P5Hxg+l7wbnP337Nt9ds73NuOrspc5rpUiWvgxrlZo9MZLjfWMNdl/9wsQjxYtgiUwpjqf+GWGvcz
-	c1/2vs6rCBOP0k/BiTBNisay5ksS600N80k3QC009SmtDNwGwNMhixT3CfN7PgjqqTnfF7iFuq6m+
-	U81C+3s7EbdNfanWXPsdtEQ0mTBTOn/uHu7qdvXpNn2srYfnCWICLZgZBRy3Nk/zC56y0X+SSLNRo
-	pQD8ouDJhDJYfbVOEbdI1j76Y9dr2esRabpNmsY/AYDg+NkWX9zzRHtuVcP1fP0BZgGYi21C2IPl3
-	qrQMDbZA==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ERhc3kyA7JX4Urw2bAq/JV95xDSepXh0EM2zNlz9K1o=; b=Avor1pLYN7qOPHFqWkdjQjIiCD
+	IbfjkUQ5roYSNSds6Y9vIW5E/bQl1iLpFCZITJ6Wv3ehPcYTV4hL7j3MdjNhlAaZqqR4I9FjrhmDz
+	/uRQoTJPRM2EoyOkp7lXSrZ6oy6Y+d9urlz7rfE1PDeNk7K4EAWgqUiYQUaZP5oo+IFEwkh19f/bQ
+	JsMynALIl32L7BfiSzFXhBFSQxtxuyIkCEmsvGEh2ex+bfpdla1HZh6fDFYRvdCY8mXEVRdxHm2iQ
+	ATwVm+SXXgNUxBJiCK0Rv8WOK3oRdYkJCQfiEXTFBSYiIMGaEyLZye8VIqshGhUiAQ7JaLSggmVrV
+	oeDXtkTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLXkq-00000001Nlg-25qn;
-	Wed, 19 Nov 2025 02:17:08 +0000
-Received: from mail-io1-xd64.google.com ([2607:f8b0:4864:20::d64])
+	id 1vLYAD-00000001P67-1eVl;
+	Wed, 19 Nov 2025 02:43:21 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLXkn-00000001Nkv-3BRw
+	id 1vLYA9-00000001P5g-33yq
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Nov 2025 02:17:07 +0000
-Received: by mail-io1-xd64.google.com with SMTP id ca18e2360f4ac-949066a7ff4so15135539f.0
-        for <linux-nvme@lists.infradead.org>; Tue, 18 Nov 2025 18:17:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1763518624; x=1764123424; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gifhH+ouh+mmQPCG7Mlt+a64mECIBHFCW6GZClRn09k=;
-        b=gMHHc/tYL0HIfg1+AZxlMdZ2UBx8xcURMkfM8OaPQp3PzDBcuWpfZiJxjgMjo3nthE
-         tAxGpqfXcJOf1zuyCVg8qqPa7Xhw1R7+Snp9WNLyth8on2BjZYJbjH/u1jSqHHIK8soF
-         RtipTsa4sG4K7bwlb0aQRJYOLtsHz5ifR+PJ53a5MwJ0pBA2xGNwyhH+2IeW5hJl6UUX
-         jFnBgVpuTf2tBu4DLfhDNqmvPR7w/I/kDDoTBD+NvA9FEx55m/RS2AOBky3Mh6RQnMfs
-         rtf51sy1bC/s5ziaoBBleupWW+wU4LCyoc34Awd+7KVM9xdXGl3oUmBVA+6D1leFVadK
-         IC6g==
+	Wed, 19 Nov 2025 02:43:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763520196;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ERhc3kyA7JX4Urw2bAq/JV95xDSepXh0EM2zNlz9K1o=;
+	b=Ur7EmRUhOUpF82NbS9mfYz8kj03XmaQ83+Ajnbp3KUsLRaotjNMJ9xfMj6zOOtLNU8q14S
+	F5NvtqG6R9YoIYcDs4sw37rAppFSzG5j15A7LA7rvbeg3GdyyQniwflcBy2vuyt4RS8ylH
+	bav+rTUfYxLmCpgpnhHUkeCQIkriwfY=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-407-_wO-IFznO4epnP3dG-pWpQ-1; Tue, 18 Nov 2025 21:43:13 -0500
+X-MC-Unique: _wO-IFznO4epnP3dG-pWpQ-1
+X-Mimecast-MFC-AGG-ID: _wO-IFznO4epnP3dG-pWpQ_1763520192
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-37a39ed76c8so39727261fa.2
+        for <linux-nvme@lists.infradead.org>; Tue, 18 Nov 2025 18:43:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763518624; x=1764123424;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gifhH+ouh+mmQPCG7Mlt+a64mECIBHFCW6GZClRn09k=;
-        b=n9DVxHIZHxnU9/yX2MufiHKBSDJV3sqsKgP8qWkRPEcaQfSOpF/i3rKJUemxeiXMZx
-         47de5yIny8gx5AoYr8LBQmhRtfikCWjRxrD5y4nvXFnEZJBip1opF270y57asiFTWY2j
-         O6qHhu1c8VIBP1wW4V14Wqp09DwA9vGMtQ+hNuygJVo5iwFtMl8zUoXsK1MV4JzYzqxj
-         g56UNFfGqiAC2nysD0rMUSZtJmXtDR/SE7WYpnRzUESihUL+Y8AnimFNYYFPztFeooWE
-         4q250KmmCcwezjRGHvdfblEgm6bF8j7Zum5IbuBdvWTqxh9Qsa3Ybx64tib0Q33ffm1e
-         hyDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWtyFAuEWc8z0LqvNZMLshS4jMuiJmNg21FR3RS6s2wf/i4xP1nq5ndNQQaCM6VY0HIHSOg04VqPCOZ@lists.infradead.org
-X-Gm-Message-State: AOJu0YxdhKJ1AQPdopCycNWZ7w2BP0XDrJhurFh/yTvIS3XYr1mEg43k
-	nfwJXSawvzBM+jT3xkAJ10uC2FAi+O363wwPmJMCvPVTDtyFXooYMCZOwWxzP8JV9h12+KOHaoi
-	HSLB23PojLDOAoCNTgfoKxFMu5WGaBM0GD9csckrQY6KWNIQ36jca
-X-Gm-Gg: ASbGncvC9+wKkpVige6T3FHchXzx+qJhIXd724Hzq7S5CXxkH06DZALpISilpQT7mlq
-	KKUkhnHesLGatyBHSNLfegYGpxw+vku19Uy613LdAmcl2EajnJcAde+ZbM2v/T5yIX5Oq6M+SHF
-	MAgfnZArgEXIhPrypf9gR/MOTte2VIOEe2fF/9i3KGtUq7RDsdKZ4XvsxF2J8QyE2LAJprV4uSB
-	ZPIwiCxJunzzlo1KmCQNcTeaAFCMMbuEJBN5kMRfKhiLc0CwGSVV7S2CGmAEg9x/yRD3ssQnX/A
-	jXrwEumLsvvXJD4LdeQrHxl+XCFt6rtvvnk6dEstHhbwjF22pjl+GOi2BKUm7K/VzxdpSlX31lz
-	axu1+4e8NCjc+fxqlxRqNNPyxkUw=
-X-Google-Smtp-Source: AGHT+IGOR0ugmF8HlYOxXeeCF+7YKOfSX53SMdxQqW18SDQIzOnLaPZwyGP25uViKl+PqgVOUp+UmXSnNmS7
-X-Received: by 2002:a05:6638:378f:b0:5b7:c10b:230d with SMTP id 8926c6da1cb9f-5b7fc7053a1mr2425426173.2.1763518624246;
-        Tue, 18 Nov 2025 18:17:04 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id 8926c6da1cb9f-5b7bd246865sm1242893173.1.2025.11.18.18.17.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 18:17:04 -0800 (PST)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (unknown [IPv6:2620:125:9007:640:ffff::1199])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id DB3A53400EA;
-	Tue, 18 Nov 2025 19:17:03 -0700 (MST)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id CE3A2E41A05; Tue, 18 Nov 2025 19:17:03 -0700 (MST)
-From: Caleb Sander Mateos <csander@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Caleb Sander Mateos <csander@purestorage.com>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-pci: deduplicate empty request list checks in nvme_queue_rqs()
-Date: Tue, 18 Nov 2025 19:17:00 -0700
-Message-ID: <20251119021701.3165123-1-csander@purestorage.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1763520191; x=1764124991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ERhc3kyA7JX4Urw2bAq/JV95xDSepXh0EM2zNlz9K1o=;
+        b=amRamnscIP/wSJdRAwaqwu6nJ1c9c2eK+UQsKhqwLzmVPWD1uU8zWnMM4ziWyz9weh
+         ZR5dntfqEmVIqui4u2cEyNJggiwcXPvpvA4GbqkUKWYvC7sfyrMuf5S6CmLIYaQJA5sM
+         0y6e98Yk10b8KDxaXYhDak0S49FxoBEXYU0Sx1+afrBuRfnyxQi8yu47N8Xp/qKnNeYO
+         zBUyNsFHncNeEsuRe0ZdAi9TWB31clbF+WG1k3yFDWWwV04s1Sw+CXkTTag4khkJg6K9
+         Fwb7ZowzVoO8DBrVNFD6wsDW5/wixg0/9VNJbZin/YCpRug4G63NsVZRU3+1iVQXuwk1
+         oKEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWaTu5ZrlM8z+Ft++33JGGZIGR7Vn/v0iAbZM+RI0vC95uvnNdGIXrFopnNvGdIDrbZ/S/alqU1SRW+@lists.infradead.org
+X-Gm-Message-State: AOJu0YyBa0GgEWahQ9IgzD6iehtT3B+dzpUX8R9npPTvGwVyb2qAeP21
+	dJ1vtpmylIrRr9a2rMcHeR5lCBFWLiG0zCZKSxZDmBZ7fXgpx3iVa/+a+rgvlF26Na9/UHkA7NS
+	WWRr7o8fGbPiiaMDMRxU34s/qIB8PBUfNcKAsHsF9HiA5Wdcn7GOyQ0Tn9YrROjqp5FXnAwRgjM
+	WuGVYGAQwPQAc20Z+LfGBHOd9270CcvFqwrdAOLFeA0EA=
+X-Gm-Gg: ASbGncviljK9W+tPx+syNH7dC+qn6z7rSsQma7dTDgDtrW3AYkjCkLURP5zTR4oQRMy
+	/yQ+P/7IVKVS6eVflnYVC1LHTKm1MdQ0ap5P0ml1+duicbgJZmrmAddvafMg5JLLsBBAkOoTOFj
+	TN5CSrDwn9sizZXWQrY/kPORuMMVdmMnKK7F8YW67Itq2kOT+9btIBTd40rVU//GpJGJE=
+X-Received: by 2002:a05:651c:1cc:b0:37a:95a7:335e with SMTP id 38308e7fff4ca-37babd6effemr40549541fa.38.1763520191403;
+        Tue, 18 Nov 2025 18:43:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHRwPTQ1n5jJURyzgMIw4NU+lrV5aFN0zv83APVbn5eIYprtn38pTXBeMkplTnDyOhqsqp1ptdQD+88M+sL0LA=
+X-Received: by 2002:a05:651c:1cc:b0:37a:95a7:335e with SMTP id
+ 38308e7fff4ca-37babd6effemr40549471fa.38.1763520190902; Tue, 18 Nov 2025
+ 18:43:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAHj4cs9Ez5f+SsHMcbYVeKGScuL9vq71i57kRgu2KneRtXRwmw@mail.gmail.com>
+ <05281713-80b3-4199-8e76-672e84fcc33e@kernel.dk>
+In-Reply-To: <05281713-80b3-4199-8e76-672e84fcc33e@kernel.dk>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Wed, 19 Nov 2025 10:42:57 +0800
+X-Gm-Features: AWmQ_bkSVEUvGDIuiZ5gdpcI9QuVieaHQDaYJgovcIpnTKVTeKkzJNOSJpQciS4
+Message-ID: <CAHj4cs8+Xgz1qgf3H0sDMFhVAmzb9EsVmuJoRLBOgP7bQymodw@mail.gmail.com>
+Subject: Re: [bug report] kernel BUG at mm/hugetlb.c:5868! triggered by
+ blktests nvme/tcp nvme/029
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block <linux-block@vger.kernel.org>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: gj8JcmTar1j5IutM4rWGSjeRuGhd7QgVOrcCmjcq2d4_1763520192
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251118_181705_830314_2F0B4940 
-X-CRM114-Status: GOOD (  16.09  )
+X-CRM114-CacheID: sfid-20251118_184317_846572_38AEC57F 
+X-CRM114-Status: GOOD (  19.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,68 +107,134 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_queue_rqs() checks that nvmeq is non-NULL before calling
-nvme_submit_cmds() and nvme_submit_cmds() checks that submit_list is
-non-empty before doing anything. A NULL nvmeq means no requests were
-processed from the rqlist in nvme_queue_rqs() since the last call to
-nvme_submit_cmds(), which implies submit_list is empty. So just check
-that submit_list is non-empty before calling nvme_submit_cmds() and drop
-the check for NULL nvmeq.
-
-Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
----
- drivers/nvme/host/pci.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 15c12e6cba88..8b562563ef89 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1199,13 +1199,10 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- static void nvme_submit_cmds(struct nvme_queue *nvmeq, struct rq_list *rqlist)
- {
- 	struct request *req;
- 
--	if (rq_list_empty(rqlist))
--		return;
+On Tue, Nov 18, 2025 at 10:57=E2=80=AFPM Jens Axboe <axboe@kernel.dk> wrote=
+:
+>
+> On 11/18/25 7:51 AM, Yi Zhang wrote:
+> > Hi
+> >
+> > The following BUG was triggered during CKI tests. Please help check it
+> > and let me know if you need any info/test for it. Thanks.
+> >
+> > commit: for-next - 5674abb82e2b
+> >
+> > [ 1486.502840] run blktests nvme/029 at 2025-11-17 21:34:13
+> > [ 1486.551942] loop0: detected capacity change from 0 to 2097152
+> > [ 1486.563593] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> > [ 1486.580648] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+> > [ 1486.627702] nvmet: Created nvm controller 1 for subsystem
+> > blktests-subsystem-1 for NQN
+> > nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+> > [ 1486.631269] nvme nvme0: creating 32 I/O queues.
+> > [ 1486.639689] nvme nvme0: mapped 32/0/0 default/read/poll queues.
+> > [ 1486.655324] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+> > 127.0.0.1:4420, hostnqn:
+> > nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+> > [ 1487.242297] ------------[ cut here ]------------
+> > [ 1487.242945] kernel BUG at mm/hugetlb.c:5868!
+> > [ 1487.243628] Oops: invalid opcode: 0000 [#1] SMP NOPTI
+> > [ 1487.243923] CPU: 3 UID: 0 PID: 56899 Comm: nvme Not tainted
+> > 6.18.0-rc5 #1 PREEMPT(lazy)
+> > [ 1487.244450] Hardware name: HP ProLiant DL385p Gen8, BIOS A28 03/14/2=
+018
+> > [ 1487.244807] RIP: 0010:__unmap_hugepage_range+0x79b/0x7f0
+> > [ 1487.245098] Code: 89 ef 48 89 c6 e8 25 90 ff ff 48 8b 3c 24 e8 fc
+> > c3 df 00 e9 d0 fb ff ff 0f 0b 49 8b 50 30 48 f7 d2 4c 85 e2 0f 84 ec
+> > f8 ff ff <0f> 0b 0f 0b 65 48 8b 05 f1 4e 10 03 48 8b 10 f7 c2 00 00 00
+> > 10 74
+> > [ 1487.246461] RSP: 0018:ffffd4108e577a20 EFLAGS: 00010206
+> > [ 1487.246784] RAX: 0000000000400000 RBX: 0000000000000000 RCX: 0000000=
+000000009
+> > [ 1487.247559] RDX: 00000000001fffff RSI: ffff8ca241389800 RDI: ffffd41=
+08e577b98
+> > [ 1487.248566] RBP: ffffffffffffffff R08: ffffffff963c0658 R09: 0000000=
+000200000
+> > [ 1487.249340] R10: 00007f6ee0c05000 R11: ffff8ca4772ec000 R12: 00007f6=
+ee0a05000
+> > [ 1487.250191] R13: ffffd4108e577b98 R14: ffff8ca241389800 R15: ffffd41=
+08e577b40
+> > [ 1487.250962] FS:  00007f6ee1bfa840(0000) GS:ffff8ca6a1838000(0000)
+> > knlGS:0000000000000000
+> > [ 1487.251416] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > [ 1487.252127] CR2: 00007f6ee1a7ccf0 CR3: 0000000441bcf000 CR4: 0000000=
+0000406f0
+> > [ 1487.252933] Call Trace:
+> > [ 1487.253094]  <TASK>
+> > [ 1487.253638]  ? unmap_page_range+0x257/0x400
+> > [ 1487.253876]  unmap_vmas+0xa6/0x180
+> > [ 1487.254482]  exit_mmap+0xf0/0x3b0
+> > [ 1487.255095]  __mmput+0x3e/0x140
+> > [ 1487.255713]  exit_mm+0xaf/0x110
+> > [ 1487.256328]  do_exit+0x1ad/0x450
+> > [ 1487.256905]  ? filemap_map_pages+0x27e/0x3d0
+> > [ 1487.257540]  do_group_exit+0x30/0x80
+> > [ 1487.257789]  __x64_sys_exit_group+0x18/0x20
+> > [ 1487.258008]  x64_sys_call+0x14fa/0x1500
+> > [ 1487.258251]  do_syscall_64+0x84/0x800
+> > [ 1487.258472]  ? do_read_fault+0xf5/0x220
+> > [ 1487.258687]  ? do_fault+0x156/0x280
+> > [ 1487.259260]  ? __handle_mm_fault+0x55c/0x6b0
+> > [ 1487.259911]  ? count_memcg_events+0xdd/0x1b0
+> > [ 1487.260555]  ? handle_mm_fault+0x220/0x340
+> > [ 1487.260784]  ? do_user_addr_fault+0x2c3/0x7f0
+> > [ 1487.261419]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > [ 1487.261712] RIP: 0033:0x7f6ee1a7cd08
+> > [ 1487.261954] Code: Unable to access opcode bytes at 0x7f6ee1a7ccde.
+> > [ 1487.262691] RSP: 002b:00007ffdb391b628 EFLAGS: 00000206 ORIG_RAX:
+> > 00000000000000e7
+> > [ 1487.263484] RAX: ffffffffffffffda RBX: 00007f6ee1ba7fc8 RCX: 00007f6=
+ee1a7cd08
+> > [ 1487.264266] RDX[ 1487.359221] R10: 00007ffdb391b420 R11:
+> > 0000000000000206 R12: 0000000000000001
+> > [ 1487.365268] R13: 0000000000000001 R14: 00007f6ee1ba6680 R15: 00007f6=
+ee1ba7fe0
+> > [ 1487.366071]  </TASK>
+> > [ 1487.366251] Modules linked in: nvmet_tcp nvmet nvme_tcp
+> > nvme_fabrics nvme nvme_core nvme_keyring nvme_auth rtrs_core rdma_cm
+> > iw_cm ib_cm ib_core hkdf rfkill sunrpc amd64_edac edac_mce_amd
+> > ipmi_ssif acpi_power_meter acpi_ipmi ipmi_si ipmi_devintf kvm
+> > irqbypass i2c_piix4 ipmi_msghandler hpilo tg3 acpi_cpufreq i2c_smbus
+> > fam15h_power k10temp pcspkr loop fuse nfnetlink zram lz4hc_compress
+> > lz4_compress xfs ata_generic pata_acpi polyval_clmulni
+> > ghash_clmulni_intel hpsa mgag200 serio_raw i2c_algo_bit
+> > scsi_transport_sas hpwdt sp5100_tco pata_atiixp i2c_dev [last
+> > unloaded: nvmet]
+> > [ 1487.369378] ---[ end trace 0000000000000000 ]---
+> > [ 1487.373697] ERST: [Firmware Warn]: Firmware does not respond in time=
+.
+> > [ 1487.374212] pstoreffff R08: ffffffff963c0658 R09: 0000000000200000
+> > [ 1487.775150] R10: 00007f6ee0c05000 R11: ffff8ca4772ec000 R12: 00007f6=
+ee0a05000
+> > [ 1487.776024] R13: ffffd4108e577b98 R14: ffff8ca241389800 R15: ffffd41=
+08e577b40
+> > [ 1487.776853] FS:  00007f6ee1bfa840(0000) GS:ffff8ca6a1838000(0000)
+> > knlGS:0000000000000000
+> > [ 1487.777313] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > [ 1487.778210] CR2: 00007f6ee1a7ccf0 CR3: 0000000441bcf000 CR4: 0000000=
+0000406f0
+> > [ 1487.778978] Kernel panic - not syncing: Fatal exception
+> > [ 1487.779714] Kernel Offset: 0x11a00000 from 0xffffffff81000000
+> > (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+> > [ 1487.814610] ---[ end Kernel panic - not syncing: Fatal exception ]--=
 -
- 	spin_lock(&nvmeq->sq_lock);
- 	while ((req = rq_list_pop(rqlist))) {
- 		struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 
- 		nvme_sq_copy_cmd(nvmeq, &iod->cmd);
-@@ -1230,25 +1227,26 @@ static bool nvme_prep_rq_batch(struct nvme_queue *nvmeq, struct request *req)
- 
- static void nvme_queue_rqs(struct rq_list *rqlist)
- {
- 	struct rq_list submit_list = { };
- 	struct rq_list requeue_list = { };
--	struct nvme_queue *nvmeq = NULL;
-+	struct nvme_queue *nvmeq;
- 	struct request *req;
- 
- 	while ((req = rq_list_pop(rqlist))) {
--		if (nvmeq && nvmeq != req->mq_hctx->driver_data)
-+		if (!rq_list_empty(&submit_list) &&
-+		    nvmeq != req->mq_hctx->driver_data)
- 			nvme_submit_cmds(nvmeq, &submit_list);
- 		nvmeq = req->mq_hctx->driver_data;
- 
- 		if (nvme_prep_rq_batch(nvmeq, req))
- 			rq_list_add_tail(&submit_list, req);
- 		else
- 			rq_list_add_tail(&requeue_list, req);
- 	}
- 
--	if (nvmeq)
-+	if (!rq_list_empty(&submit_list))
- 		nvme_submit_cmds(nvmeq, &submit_list);
- 	*rqlist = requeue_list;
- }
- 
- static __always_inline void nvme_pci_unmap_rq(struct request *req)
--- 
-2.45.2
+> > [-- MARK -- Mon Nov 17 21:35:00 2025]
+>
+> The usual:
+>
+
+I did a 1000-cycle run for blktests nvme/029, but with no luck to
+reproduce it, I will try to find one reliable reproducer for it.
+Thanks.
+
+> 1) is it reproducible just re-running the test?
+> 2) if so, please bisect
+>
+> --
+> Jens Axboe
+>
+
+--
+Best Regards,
+  Yi Zhang
 
 
