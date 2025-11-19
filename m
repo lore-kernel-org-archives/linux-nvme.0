@@ -4,87 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CA61CF2561
-	for <linux-nvme@archiver.kernel.org>; Wed, 19 Nov 2025 00:25:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F49CCF2564
+	for <linux-nvme@archiver.kernel.org>; Wed, 19 Nov 2025 00:46:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CDZlStSLRHB3VrSicxQ2qOMHZ8N/BI1QCw7fvMhZCOY=; b=dpvCgtHQEdBr7ih+SXZDYSiI7P
-	Vs4NrwD0bb1Ah+rc70LxhNEuEfI+uJXfTZNeAJZSaS3oeBz9BXmhL7rUzhZW22z2g0CUHISNFJWbu
-	TZ5wb/gSrM2fk5o2BEneFJca+h/G9/lrHguq+LlUG/S7X8Ip8ADCaIT3C6asHqqbaJUNJ5dw8+6o+
-	LXPtmYLc+tH92plBb8HBz6OSjxM1kjgq7G9xUbDjO/Xbo/kbLuaAgiK1NF7Hm/wiKIn8EdZGvfMMs
-	LTc/NHbbjHXL63XRyzs5pALH4EsSGLBXPBJowGgmvHoahh2+NFXr4N41zLq4n52o54cp028+2jjnV
-	NDf8rQ4w==;
+	bh=loI2m1i6xyLqte3KlXwI/N6FlLk9b2LOtEWlW5hvUIk=; b=DbmlAvj1ywmhnJ69jWkfFl06NI
+	7bpJp20nThCEzKAHuu1x4J4KYHVMH5/h2TyOYGIzlA46+4ac60xPBSNmNw9gcqTQLyJnTGp5b+TvX
+	sWYbJP+8j3wADnyCFNsMUPg8KW96BLQrbEQLfpQ2+Uf3sS/qChkFz1sLkIgdZ4lgzwnibJ0zjGhjT
+	XvrTxU0rrfB7zjBVYtJ6KckBVogdfP9JnjW5TF2CNunF5q2fqv8D9cRNqFjgrGp7eK6rGhFmeu/VR
+	sT39/UsASEkULK70/kQj9losZ9GnOV+mTW4uA1XvT95BWHG9CJ70QWvyIrUAnH9p1EWDUKP5G5h/0
+	3tOJJM5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLW0T-00000001Hln-0VmY;
-	Wed, 19 Nov 2025 00:25:09 +0000
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+	id 1vLWKp-00000001J9z-1xSj;
+	Wed, 19 Nov 2025 00:46:11 +0000
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLW0Q-00000001HlE-0lBR
+	id 1vLWKi-00000001J8k-3JeQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Nov 2025 00:25:07 +0000
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-b71397df721so902000466b.1
-        for <linux-nvme@lists.infradead.org>; Tue, 18 Nov 2025 16:25:05 -0800 (PST)
+	Wed, 19 Nov 2025 00:46:09 +0000
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-64175dfc338so11346412a12.0
+        for <linux-nvme@lists.infradead.org>; Tue, 18 Nov 2025 16:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763511904; x=1764116704; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1763513163; x=1764117963; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CDZlStSLRHB3VrSicxQ2qOMHZ8N/BI1QCw7fvMhZCOY=;
-        b=ZkpfHSEGJav51RtHqU3Crn+jNUP1upvkAv+wMDuVtRaMguiAMLNGuWpXwETsIC9NPk
-         v0UAah/vAEN3G+8MtkazT5jOl+0XVchXkexnXt1xOIcGakIL69tC0ohZlfqk78otwt3I
-         OGgeL58W+FtUG0ZbWHtP8mN2LqtWqPHnbqbBgByMe2b7Bn+AnlpmSKc6OSn8DA8wz0gO
-         T3zI4rzL9Rz5NiouYxTlODNrqEEfawMo8tZz02p9NE/Lz3QxON6qusyM1u8eHjrjBZdM
-         7RyFtsCf7sT+GckvZjx/ezSTgscIC7SKtkcSXdh2wrHrI08mR7YpC1FQ48QtjP1Lfkrk
-         tLxA==
+        bh=loI2m1i6xyLqte3KlXwI/N6FlLk9b2LOtEWlW5hvUIk=;
+        b=hsgQszRiLUy6FzqdNjsigNbcd1ZyVp1JB5Y9PWTmyTdcCGd0ye6J4kBg0Bt1YXDshf
+         WXhk7iKMFGUtDZHxc+W1D0lkM8L5TKubG9hPh1gt8JjbwQlU7WXn5TIBECYxW9ttWGjg
+         LR9oE79WT7oJtGPnXmL1PDACznCjDf/FhaGiwt6AkQu1QSQjR0NDjmUsP1zIYo69bCGC
+         SpmeOvvNAEFEzP5nf7NTWYY2Vk/5BvzZYCM1yMmkR9jClEjiJr4LLnVKoTnAq0mUv7PC
+         Z4iVkqZSvsfOZhEcMZkk3zRfHyPB+BuTT3TDojPQXpseBH1WrtQcDzUfE6hpeQrA4tPJ
+         xkWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763511904; x=1764116704;
+        d=1e100.net; s=20230601; t=1763513163; x=1764117963;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CDZlStSLRHB3VrSicxQ2qOMHZ8N/BI1QCw7fvMhZCOY=;
-        b=hV8JmJcLVQpd8Kuqqpp/kY7k13eDXCYT56G5OJ7QJLj2u8XOSCzgi6pjtrd5dAWSsK
-         99jQN1DQKrWO5flbo8dBGHnRxY9xpDtKx3woRh5gjeYQCjFV9D5C/kVYSKB5kCDU/PWh
-         Y4I+6d0Y7ygO2SYepTpiizh9TQxz7ShHzZtYxJUeCG6nGzWBhKci6qqA/A5Tpy9ZT2JV
-         Ha54e2hMuGj+tP2ADR3o7nGkM/i8J/BelQ5V00NghH57Rmg84Cjaj7+M7NUPnGeu72FV
-         +0CmjYiqQjLuy+klrIxVmDpHPg48EWb4gR1unEOEyfxapuOsKFxx82102aq4LpXBFA5Z
-         TkHw==
-X-Forwarded-Encrypted: i=1; AJvYcCXuZpDQ5bnJyE5DjW7fsD3LArs2SaF0qNrBfKoGYmLpAEd42mLHa4Vi/+OznQCSXa0MoCt7WNVK6rWf@lists.infradead.org
-X-Gm-Message-State: AOJu0YzWbnEefMKc4rwoHf280gPDqvkuYncN0mCnUDvzeJCJOG12AAtj
-	EIKrAi3riYIKnMvqMoOIpV8B//McTnmsBKgaUI050HL32KhQaK0L0wt1uDXbpIfnLLv14Vg4fU/
-	1mc8Fvdf481EVffnH6Dp7xFQILVFQii4=
-X-Gm-Gg: ASbGncuReEvrcxlUVkRDEZ2Ps65uelkcbcZqsRvPQ5gRYHEHdG4HzrnGLtBhuuxGQ/T
-	EscFPmZqPEnwHmuIFd7vBvCqTXP3p0+qLhzmBYBqRv80ARdaaMFipGg14L7r0TCs6ph+dJH+ruR
-	xchGLdABjTwZZQfnWsri0RGuh1meB2BXJiYt/QALu8FPnbc2SugBr5iXsANkFj7JqEqrQsaOGIk
-	jkMXHxsI9JsFeV847Y1Trgf2/skdWLLfkVhmuqgGGSKsIt8otcduCB/m2lTzqnGL8cPVKkVkTqW
-	TuVa9FcxBNO6OAsGEIn2vdqBAuk2yvRZAt12MdZj2QYSCCs=
-X-Google-Smtp-Source: AGHT+IGJ82kw4JuhyBfJ1zrbQP9vpSnZiRsvQ/OSf0EXheKPfj127CoqmQ4qHj8ia3M8KK+x6sWjaMVR7ECCMvYxLTs=
-X-Received: by 2002:a17:907:1c01:b0:b0e:d477:4972 with SMTP id
- a640c23a62f3a-b736780c3b1mr1595969166b.25.1763511903760; Tue, 18 Nov 2025
- 16:25:03 -0800 (PST)
+        bh=loI2m1i6xyLqte3KlXwI/N6FlLk9b2LOtEWlW5hvUIk=;
+        b=a3RFAluHyP8QnN/drgfbkpl7J0g5KKTZqNMbCbIF4psZMiNwnnQQpvuefnTV1yKB1C
+         oLr+TMHyQpoP18PqXrcXBZ6vhE6EWMcABWBYBC1Ths9mgmtLcRoVVHaiJ+UIyLr1yPSl
+         pIKPaYsw1b8IeoLnYU8hhNoahbAgevI9Hqdt2OAEc4AZ35OrqbO8Grl2weh5nPSK0iBx
+         IuL6DLPHsAfCEKpYOUILTkp+8ds6eSuOa76R+35Md52I10GKSJM5y8JGra3HR3JocxDG
+         Hg8Wy9P1RaowTAe+nVgNi3Ft/WalNTAEQnXu08f9Pl9VB/4sC9c6P/SGA34Y6ZZaE8DP
+         5VSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXMaqw/dJtH8i6QGxUQEEfEezAK+jleAH4tOvBBfttp8NVSBuBiVa643u+js+aT7R3//c72E8DEzlqy@lists.infradead.org
+X-Gm-Message-State: AOJu0YyMOJwgxARTvPYWgGaLE3IQzTExGt0sUd5eIHxJML8DD1BpMlz3
+	84KFI4T/eUbQsu5sLBjzP9WCVBCrXhl5oBmrPSa0dewAg4FnwFvlLpHwW3o8+LTdK0F7UuJm7iN
+	0IRj+bgCWfNyy7PJUiszCod5n0SvLGDE=
+X-Gm-Gg: ASbGnctCnxJOLOK9BT1vSg23pEPwZ/1/RLZ/AgjuVYjnfHU0StBG3anDzFG3DVXkpBf
+	xx4+fDFz/9ZoZJCaiDNB6S7BxerAbpstc+1PcAyYmRchmrXaM2/jlt6HlDmP0/vIcHCPvpXO3nc
+	ccE+GE2lth2scQlXQ8794/h/hKGSJAGwFWLklko/xSoZX3Nuft/FfdmJqlUrh6OCFkVIODB9tUh
+	H2btZRFKSwByoM3O3JBeY63gX1/QX+nwXjVJcRcYZUwTsgGfg2YrJ5Bd7wK2YCP6iR/2N7x+OCr
+	Jq37Ep7FFFiiuHv/3tTWbUO1uE8cFKnHVA8R
+X-Google-Smtp-Source: AGHT+IHKMqkDthFKtYfvCVwMYSITSXJVaoUFOv3eLMP9EBqh8xFPyDn9xeDCWp1fry5+1S+80eX3hQ6WLWmiyUtz3wA=
+X-Received: by 2002:a17:906:594a:b0:b73:68f5:41af with SMTP id
+ a640c23a62f3a-b7368f54466mr1465687166b.51.1763513162635; Tue, 18 Nov 2025
+ 16:46:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20251114045850.1898865-1-alistair.francis@wdc.com>
- <20251114045850.1898865-5-alistair.francis@wdc.com> <e15b39ad-bfdf-4177-86b7-99c84975825e@suse.de>
- <CAKmqyKNViQjZHyftdj7anoF1Wsf9qeRZQiZ9yfM_FsJAcmx7jg@mail.gmail.com> <fd9c30d3-2a9f-4ddc-9d71-436034637acb@suse.de>
-In-Reply-To: <fd9c30d3-2a9f-4ddc-9d71-436034637acb@suse.de>
+References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+ <20251112042720.3695972-3-alistair.francis@wdc.com> <49bbe54a-4b55-48a7-bfb4-30a222cb7d4f@oracle.com>
+ <CAKmqyKN4SN6DkjaRMe4st23Xnc3gb6DcqUGHi72UTgaiE9EqGw@mail.gmail.com>
+ <0d77853e-7201-47c4-991c-bb492a12dd29@oracle.com> <13cf56a7-31fa-4903-9bc2-54f894fdc5ed@oracle.com>
+ <CAKmqyKObzFKHoW3_wry6=8GuDBdJiKQPE6LWPOUHebwGOH2PJA@mail.gmail.com> <1cc19e43-26b4-4c38-975e-ab29e0e52168@oracle.com>
+In-Reply-To: <1cc19e43-26b4-4c38-975e-ab29e0e52168@oracle.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 19 Nov 2025 10:24:37 +1000
-X-Gm-Features: AWmQ_bkzH6_ruoAzNR8in6LwIpewMc1DsvuF-q4owdFRKloisaCfq2zmaCPwaPU
-Message-ID: <CAKmqyKMNESv2T=0pqVAqXg-5NfmTJ1qzaHAi3c9e7tCe5uF6Kw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] nvme: Allow reauth from sysfs
-To: Hannes Reinecke <hare@suse.de>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
-	kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+Date: Wed, 19 Nov 2025 10:45:36 +1000
+X-Gm-Features: AWmQ_bk8QCuKCQLb67DqdaocyJffENaewjAIfRWVrYKjotLKWyJRkrS5UCmlPPw
+Message-ID: <CAKmqyKMjZWAvbc23JQ358kyWyJ0ZajHd8o0eFgF-i1eXX85-jA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/6] net/handshake: Define handshake_sk_destruct_req
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: hare@kernel.org, kernel-tls-handshake@lists.linux.dev, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-nfs@vger.kernel.org, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
+	sagi@grimberg.me, kch@nvidia.com, hare@suse.de, 
 	Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251118_162506_262590_7E0DE608 
-X-CRM114-Status: GOOD (  42.91  )
+X-CRM114-CacheID: sfid-20251118_164604_873023_D1F66E27 
+X-CRM114-Status: GOOD (  47.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,174 +104,190 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 18, 2025 at 9:50=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
+On Sat, Nov 15, 2025 at 12:14=E2=80=AFAM Chuck Lever <chuck.lever@oracle.co=
+m> wrote:
 >
-> On 11/18/25 01:52, Alistair Francis wrote:
-> > On Fri, Nov 14, 2025 at 5:15=E2=80=AFPM Hannes Reinecke <hare@suse.de> =
-wrote:
+> On 11/13/25 10:44 PM, Alistair Francis wrote:
+> > On Fri, Nov 14, 2025 at 12:37=E2=80=AFAM Chuck Lever <chuck.lever@oracl=
+e.com> wrote:
 > >>
-> >> On 11/14/25 05:58, alistair23@gmail.com wrote:
-> >>> From: Alistair Francis <alistair.francis@wdc.com>
+> >> On 11/13/25 9:01 AM, Chuck Lever wrote:
+> >>> On 11/13/25 5:19 AM, Alistair Francis wrote:
+> >>>> On Thu, Nov 13, 2025 at 1:47=E2=80=AFAM Chuck Lever <chuck.lever@ora=
+cle.com> wrote:
+> >>>>>
+> >>>>> On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
+> >>>>>> From: Alistair Francis <alistair.francis@wdc.com>
+> >>>>>>
+> >>>>>> Define a `handshake_sk_destruct_req()` function to allow the destr=
+uction
+> >>>>>> of the handshake req.
+> >>>>>>
+> >>>>>> This is required to avoid hash conflicts when handshake_req_hash_a=
+dd()
+> >>>>>> is called as part of submitting the KeyUpdate request.
+> >>>>>>
+> >>>>>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> >>>>>> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> >>>>>> ---
+> >>>>>> v5:
+> >>>>>>  - No change
+> >>>>>> v4:
+> >>>>>>  - No change
+> >>>>>> v3:
+> >>>>>>  - New patch
+> >>>>>>
+> >>>>>>  net/handshake/request.c | 16 ++++++++++++++++
+> >>>>>>  1 file changed, 16 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/net/handshake/request.c b/net/handshake/request.c
+> >>>>>> index 274d2c89b6b2..0d1c91c80478 100644
+> >>>>>> --- a/net/handshake/request.c
+> >>>>>> +++ b/net/handshake/request.c
+> >>>>>> @@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *=
+sk)
+> >>>>>>               sk_destruct(sk);
+> >>>>>>  }
+> >>>>>>
+> >>>>>> +/**
+> >>>>>> + * handshake_sk_destruct_req - destroy an existing request
+> >>>>>> + * @sk: socket on which there is an existing request
+> >>>>>
+> >>>>> Generally the kdoc style is unnecessary for static helper functions=
+,
+> >>>>> especially functions with only a single caller.
+> >>>>>
+> >>>>> This all looks so much like handshake_sk_destruct(). Consider
+> >>>>> eliminating the code duplication by splitting that function into a
+> >>>>> couple of helpers instead of adding this one.
+> >>>>>
+> >>>>>
+> >>>>>> + */
+> >>>>>> +static void handshake_sk_destruct_req(struct sock *sk)
+> >>>>>
+> >>>>> Because this function is static, I imagine that the compiler will
+> >>>>> bark about the addition of an unused function. Perhaps it would
+> >>>>> be better to combine 2/6 and 3/6.
+> >>>>>
+> >>>>> That would also make it easier for reviewers to check the resource
+> >>>>> accounting issues mentioned below.
+> >>>>>
+> >>>>>
+> >>>>>> +{
+> >>>>>> +     struct handshake_req *req;
+> >>>>>> +
+> >>>>>> +     req =3D handshake_req_hash_lookup(sk);
+> >>>>>> +     if (!req)
+> >>>>>> +             return;
+> >>>>>> +
+> >>>>>> +     trace_handshake_destruct(sock_net(sk), req, sk);
+> >>>>>
+> >>>>> Wondering if this function needs to preserve the socket's destructo=
+r
+> >>>>> callback chain like so:
+> >>>>>
+> >>>>> +       void (sk_destruct)(struct sock sk);
+> >>>>>
+> >>>>>   ...
+> >>>>>
+> >>>>> +       sk_destruct =3D req->hr_odestruct;
+> >>>>> +       sk->sk_destruct =3D sk_destruct;
+> >>>>>
+> >>>>> then:
+> >>>>>
+> >>>>>> +     handshake_req_destroy(req);
+> >>>>>
+> >>>>> Because of the current code organization and patch ordering, it's
+> >>>>> difficult to confirm that sock_put() isn't necessary here.
+> >>>>>
+> >>>>>
+> >>>>>> +}
+> >>>>>> +
+> >>>>>>  /**
+> >>>>>>   * handshake_req_alloc - Allocate a handshake request
+> >>>>>>   * @proto: security protocol
+> >>>>>
+> >>>>> There's no synchronization preventing concurrent handshake_req_canc=
+el()
+> >>>>> calls from accessing the request after it's freed during handshake
+> >>>>> completion. That is one reason why handshake_complete() leaves comp=
+leted
+> >>>>> requests in the hash.
+> >>>>
+> >>>> Ah, so you are worried that free-ing the request will race with
+> >>>> accessing the request after a handshake_req_hash_lookup().
+> >>>>
+> >>>> Ok, makes sense. It seems like one answer to that is to add synchron=
+isation
+> >>>>
+> >>>>>
+> >>>>> So I'm thinking that removing requests like this is not going to wo=
+rk
+> >>>>> out. Would it work better if handshake_req_hash_add() could recogni=
+ze
+> >>>>> that a KeyUpdate is going on, and allow replacement of a hashed
+> >>>>> request? I haven't thought that through.
+> >>>>
+> >>>> I guess the idea would be to do something like this in
+> >>>> handshake_req_hash_add() if the entry already exists?
+> >>>>
+> >>>>     if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags))=
+ {
+> >>>>         /* Request already completed */
+> >>>>         rhashtable_replace_fast(...);
+> >>>>     }
+> >>>>
+> >>>> I'm not sure that's better. That could possibly still race with
+> >>>> something that hasn't yet set HANDSHAKE_F_REQ_COMPLETED and overwrit=
+e
+> >>>> the request unexpectedly.
+> >>>>
+> >>>> What about adding synchronisation and keeping the current approach?
+> >>>> From a quick look it should be enough to just edit
+> >>>> handshake_sk_destruct() and handshake_req_cancel()
 > >>>
-> >>> Allow userspace to trigger a reauth (REPLACETLSPSK) from sysfs.
-> >>> This can be done by writing  a zero to the sysfs file.
-> >>>
-> >>> echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/tls_configured_k=
-ey
-> >>>
-> >>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> >>> ---
-> >>> v3:
-> >>>    - Only trigger if a 0 is written to `tls_configured_key`
-> >>>    - Add documentation
-> >>> v2:
-> >>>    - Trigger on any value written to `tls_configured_key`
-> >>>
-> >>>    Documentation/ABI/testing/sysfs-nvme | 13 +++++++++++
-> >>>    drivers/nvme/host/sysfs.c            | 34 ++++++++++++++++++++++++=
-+++-
-> >>>    2 files changed, 46 insertions(+), 1 deletion(-)
-> >>>    create mode 100644 Documentation/ABI/testing/sysfs-nvme
-> >>>
-> >>> diff --git a/Documentation/ABI/testing/sysfs-nvme b/Documentation/ABI=
-/testing/sysfs-nvme
-> >>> new file mode 100644
-> >>> index 000000000000..16aaf0dca9e2
-> >>> --- /dev/null
-> >>> +++ b/Documentation/ABI/testing/sysfs-nvme
-> >>> @@ -0,0 +1,13 @@
-> >>> +What:                /sys/devices/virtual/nvme-fabrics/ctl/.../tls_c=
-onfigured_key
-> >>> +Date:                November 2025
-> >>> +KernelVersion:       6.19
-> >>> +Contact:     Linux NVMe mailing list <linux-nvme@lists.infradead.org=
->
-> >>> +Description:
-> >>> +             The file is avaliable when using a secure concatanation
-> >>> +             connection to a NVMe taget. Reading the file will retur=
-n
-> >>> +             the serial of the currently negotiated key.
-> >>> +
-> >>> +             Writing 0 to the file will trigger a PSK reauthenticati=
-on
-> >>> +             (REPLACETLSPSK) with the target. After a reauthenticati=
-on
-> >>> +             the value returned by tls_configured_key will be the ne=
-w
-> >>> +             serial.
-> >>> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> >>> index 6d10e12136d0..7ff9a5053c3f 100644
-> >>> --- a/drivers/nvme/host/sysfs.c
-> >>> +++ b/drivers/nvme/host/sysfs.c
-> >>> @@ -806,7 +806,39 @@ static ssize_t tls_configured_key_show(struct de=
-vice *dev,
-> >>>
-> >>>        return sysfs_emit(buf, "%08x\n", key_serial(key));
-> >>>    }
-> >>> -static DEVICE_ATTR_RO(tls_configured_key);
-> >>> +
-> >>> +static ssize_t tls_configured_key_store(struct device *dev,
-> >>> +                                     struct device_attribute *attr,
-> >>> +                                     const char *buf, size_t count)
-> >>> +{
-> >>> +     struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
-> >>> +     int error, qid;
-> >>> +
-> >>> +     error =3D kstrtoint(buf, 10, &qid);
-> >>> +     if (error)
-> >>> +             return error;
-> >>> +
-> >>> +     /*
-> >>> +      * We currently only allow userspace to write a `0` indicating
-> >>> +      * generate a new key.
-> >>> +      */
-> >>> +     if (!qid)
-> >>> +             return -EINVAL;
-> >>> +
-> >>> +     if (!ctrl->opts || !ctrl->opts->concat)
-> >>> +             return -EOPNOTSUPP;
-> >>> +
-> >>> +     error =3D nvme_auth_negotiate(ctrl, 0);
-> >>> +     if (error < 0)
-> >>> +             return error;
-> >>> +
-> >>> +     error =3D nvme_auth_wait(ctrl, 0);
-> >>> +     if (error < 0)
-> >>> +             return error;
-> >>> +
-> >>> +     return count;
-> >>> +}
-> >>> +static DEVICE_ATTR_RW(tls_configured_key);
-> >>>
-> >>>    static ssize_t tls_keyring_show(struct device *dev,
-> >>>                struct device_attribute *attr, char *buf)
-> >>
-> >> Hmm.
-> >> Now we are just running (re-) authentication, but that does
-> >> not affect the TLS connection (which continues to use the
-> >> original key). So you would need to reset the connection
-> >> here to re-establish a new TLS connection.
+> >>> Or make the KeyUpdate requests somehow distinctive so they do not
+> >>> collide with initial handshake requests.
 > >
-> > Is the connection supposed to be reset? I don't see any mention of
-> > that in the spec
+> > Hmmm... Then each KeyUpdate needs to be distinctive, which will
+> > indefinitely grow the hash table
+>
+> Two random observations:
+>
+> 1. There is only zero or one KeyUpdate going on at a time. Certainly
+> the KeyUpdate-related data structures don't need to stay around.
+
+That's the same as the original handshake req though, which you are
+saying can't be freed
+
+>
+> 2. Maybe a separate data structure to track KeyUpdates is appropriate.
+>
+>
+> >> Another thought: expand the current _req structure to also manage
+> >> KeyUpdates. I think there can be only one upcall request pending
+> >> at a time, right?
 > >
-> Yeah, that's a bit hard to read (as usual).
-> The base spec just claims (Fig. 733, Secure Channel Protocol Identifiers)=
-:
+> > There should only be a single request pending per queue.
+> >
+> > I'm not sure I see what we could do to expand the _req structure.
+> >
+> > What about adding `HANDSHAKE_F_REQ_CANCEL` to `hr_flags_bits` and
+> > using that to ensure we don't free something that is currently being
+> > cancelled and the other way around?
 >
-> 03h: This {PSK, PSK Identity} pair replaces the {PSK, PSK Identity}
->    pair that was used to set up the TLS secure channel over which the
->    authentication transaction is performed.
->
-> So from that your implementation is correct, as it just replaces the
-> PSK (without actually using them). However, the TCP spec clarifies
-> (section 3.6.1.4: PSK Use):
->
-> Once the TLS secure channel for the Admin Queue of an association
-> has been set up with a generated {PSK, PSK Identity} pair, that
-> generated {PSK, PSK Identity} pair should be replaced periodically
-> (e.g., every hour) or on demand by performing a reauthentication
-> with the SC_C field in the AUTH_Negotiate message set to REPLACETLSPSK
-> (refer to the AUTH_Negotiate Message section of the NVM Express
-> Base Specification) over the Admin Queue of that association. The most
-> recently generated PSK, if any, is the generated PSK associated with
-> that Admin Queue.
+> A CANCEL can happen at any time during the life of the session/socket,
+> including long after the handshake was done. It's part of socket
+> teardown. I don't think we can simply remove the req on handshake
+> completion.
 
-Yeah, to me "associated with" doesn't necessarily mean that we reset
-the connection to use the new PSK.
-
->
-> And the only way to associate a PSK with the admin queue is to use
-> it for the TLS encryption, ie re-run the TLS handshake.
->
-> Or indeed use the KeyUpdate mechanism.
-
-This is the part that I think is weird.
-
-If we do need to use the new PSK, once a host issues a REPLACETLSPSK
-we have to tear down and restart the TLS connection. Which seems
-really clunky and the spec doesn't seem to mention that at all.
-
-If the host wants to replace the TLS keys it can just issue a
-KeyUpdate, which doesn't involve tearing down the entire connection.
-So do we actually need to reset the TLS connection after a
-REPLACETLSPSK?
-
->
-> But I'll ask the FMDS group for clarification.
-
-Thanks!
+Does that matter though? If a cancel is issued on a freed req we just
+do nothing as there is nothing to cancel.
 
 Alistair
 
 >
-> Cheers,
 >
-> Hannes
 > --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> Chuck Lever
 
