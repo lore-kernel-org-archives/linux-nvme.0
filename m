@@ -4,158 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2498CF64A6
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Nov 2025 02:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D6C5CF8548
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Nov 2025 06:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vH8FIvcSxGANwVWko1oGmXX5GS5gNWUC/JCXBzpAFv8=; b=knHxbyjuJgNv5xU7AlieVO/TIJ
-	+MxpA1IiIpzcBKGwRVH749DR1biBlIbn+P555d6smkMGuNS8VSh3bGW666nv8sXWWbYx98YPgC6Ka
-	7B40HF/DXu51zmEvzB/CkN3UvsR/PFwboSeSdYiYp5vTilYgQBiAUnPS16ChPKXLP0lmK0MwXBbJX
-	SRrrBaLdLSb1d0srMpfJBNvQGlXah/UYtMLzz8/vRkNqnhLNjlBfhfLSJCVkUPVC7AyMmZM247Kgb
-	s3kuPbH3lfQb23/sjNN8CVLivPvuSWV8jjshtfgqWi5ZfhJeT2cdQeW0NcPgbvvba8eFjYk78/96G
-	KubUSJ+Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=LojWGAx9mVL2XXlyW5uWQ7RbZXgndIU5zwtr1ptBVro=; b=3QO9JaLe5bCV/vsYtta1V7lXqF
+	LG3khe0Y2qaB0CBKPgljf+IMn6YXXpy3q6BISIIpO+FdlRySMur8IiX825BTT+dp3zqPfueYjuDd+
+	truQInblI0933GAJXpJrwGEHC7c6ki+/Qi/081rPDoLnaBvw7bjwMNAJ/XIZraBUWeqb5fc6shsmz
+	1Avjt2ijxm7mMQeY/0Td5AijMa1uSaJ5vfNtK05NlAMfR1aTgdJ0VP+McNYzU65Tu5iXT2jJx+aUl
+	/UyqmJR4qyhqSLShnkAUgc07kimBbW9GorRqUrGpew7hRPRVaA6lWj2nHCpJh+phvCvMjdHpusr/q
+	KdJyY+pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLuqY-000000061Ne-0zQz;
-	Thu, 20 Nov 2025 02:56:34 +0000
-Received: from mailtransmit04.runbox.com ([2a0c:5a00:149::25])
+	id 1vLyUZ-00000006EzF-1Y6r;
+	Thu, 20 Nov 2025 06:50:07 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLqtJ-00000005oF7-26Rv
+	id 1vLyUW-00000006EuF-2aRX
 	for linux-nvme@lists.infradead.org;
-	Wed, 19 Nov 2025 22:43:10 +0000
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vLqsC-006yiG-CY; Wed, 19 Nov 2025 23:42:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector1; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-	Subject:Cc:To:From; bh=vH8FIvcSxGANwVWko1oGmXX5GS5gNWUC/JCXBzpAFv8=; b=PsN5RG
-	Yw4adVp36kJvtQBzaOeT30b6SW8wtA5jYGrJdbMMMsYsvDj4CzgnWokM1Sou28r+uOGKmcLsCEfjF
-	x7vRqk4x0ZUk5Q3m4pLyHeUUi+2iNW4NTnKESfxwnZdG/Am3FVwILrLSmsIUe5z7hIsRaqS00FKIb
-	wpBgN3ajl01apzJtdlTrMHmSUaRE77jg78EefkqX+M/OVhBFzrdgCcdKMETn1d8vUsGL8F9h+RdA+
-	wbd/Fhu7XqijCSkRTMRCMNALzN5ANR/Nkxu1LF1FZnjDAvEZUMlegQ7pY4fPBR4It4haMp7qd5v5s
-	K6zPsakFUTM6CKZVixkuDzeoxeCg==;
-Received: from [10.9.9.74] (helo=submission03.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1vLqs5-0007yi-PP; Wed, 19 Nov 2025 23:41:53 +0100
-Received: by submission03.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1vLqs1-00Fos6-6h; Wed, 19 Nov 2025 23:41:49 +0100
-From: david.laight.linux@gmail.com
-To: linux-kernel@vger.kernel.org
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Christian Brauner <brauner@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	David Hildenbrand <david@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dennis Zhou <dennis@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	John Allen <john.allen@amd.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Juergen Gross <jgross@suse.com>,
-	Kees Cook <kees@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Mika Westerberg <westeri@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	nic_swsd@realtek.com,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Olivia Mackall <olivia@selenic.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tejun Heo <tj@kernel.org>,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	x86@kernel.org,
-	Yury Norov <yury.norov@gmail.com>,
-	amd-gfx@lists.freedesktop.org,
-	bpf@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	io-uring@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mptcp@lists.linux.dev,
-	netdev@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH 00/44] Change a lot of min_t() that might mask high bits
-Date: Wed, 19 Nov 2025 22:40:56 +0000
-Message-Id: <20251119224140.8616-1-david.laight.linux@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	Thu, 20 Nov 2025 06:50:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6A02468B05; Thu, 20 Nov 2025 07:49:55 +0100 (CET)
+Date: Thu, 20 Nov 2025 07:49:55 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-pci: deduplicate empty request list checks in
+ nvme_queue_rqs()
+Message-ID: <20251120064955.GA30432@lst.de>
+References: <20251119021701.3165123-1-csander@purestorage.com> <20251119054848.GA20072@lst.de> <CADUfDZosKsY3TBwPRoEvOCTErcaC3HcR3ChHj=io+=m_EPqX+Q@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADUfDZosKsY3TBwPRoEvOCTErcaC3HcR3ChHj=io+=m_EPqX+Q@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251119_144309_707979_7562D450 
-X-CRM114-Status: GOOD (  24.87  )
-X-Mailman-Approved-At: Wed, 19 Nov 2025 18:56:32 -0800
+X-CRM114-CacheID: sfid-20251119_225004_798592_D3FBE29A 
+X-CRM114-Status: GOOD (  24.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -170,176 +62,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: David Laight <david.laight.linux@gmail.com>
+On Wed, Nov 19, 2025 at 08:01:30AM -0800, Caleb Sander Mateos wrote:
+> On Tue, Nov 18, 2025 at 9:48 PM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > On Tue, Nov 18, 2025 at 07:17:00PM -0700, Caleb Sander Mateos wrote:
+> > > nvme_queue_rqs() checks that nvmeq is non-NULL before calling
+> > > nvme_submit_cmds() and nvme_submit_cmds() checks that submit_list is
+> > > non-empty before doing anything. A NULL nvmeq means no requests were
+> > > processed from the rqlist in nvme_queue_rqs() since the last call to
+> > > nvme_submit_cmds(), which implies submit_list is empty. So just check
+> > > that submit_list is non-empty before calling nvme_submit_cmds() and drop
+> > > the check for NULL nvmeq.
+> >
+> > What is the rationale for this?  I had a hard time understanding the
+> > logic in the new version, so I don't think this helps with readability
+> > at least.
+> 
+> Just trying to avoid some branches. But if you prefer the current
+> version, that's fine.
 
-It in not uncommon for code to use min_t(uint, a, b) when one of a or b
-is 64bit and can have a value that is larger than 2^32;
-This is particularly prevelant with:
-	uint_var = min_t(uint, uint_var, uint64_expression);
-
-Casts to u8 and u16 are very likely to discard significant bits.
-
-These can be detected at compile time by changing min_t(), for example:
-#define CHECK_SIZE(fn, type, val) \
-	BUILD_BUG_ON_MSG(sizeof (val) > sizeof (type) && \
-		!statically_true(((val) >> 8 * (sizeof (type) - 1)) < 256), \
-		fn "() significant bits of '" #val "' may be discarded")
-
-#define min_t(type, x, y) ({ \
-	CHECK_SIZE("min_t", type, x); \
-	CHECK_SIZE("min_t", type, y); \
-	__cmp_once(min, type, x, y); })
-
-(and similar changes to max_t() and clamp_t().)
-
-This shows up some real bugs, some unlikely bugs and some false positives.
-In most cases both arguments are unsigned type (just different ones)
-and min_t() can just be replaced by min().
-
-The patches are all independant and are most of the ones needed to
-get the x86-64 kernel I build to compile.
-I've not tried building an allyesconfig or allmodconfig kernel.
-I've also not included the patch to minmax.h itself.
-
-I've tried to put the patches that actually fix things first.
-The last one is 0009.
-
-I gave up on fixing sched/fair.c - it is too broken for a single patch!
-The patch for net/ipv4/tcp.c is also absent because do_tcp_getsockopt()
-needs multiple/larger changes to make it 'sane'.
-
-I've had to trim the 124 maintainers/lists that get_maintainer.pl finds
-from 124 to under 100 to be able to send the cover letter.
-The individual patches only go to the addresses found for the associated files.
-That reduces the number of emails to a less unsane number.
-
-David Laight (44):
-  x86/asm/bitops: Change the return type of variable__ffs() to unsigned
-    int
-  ext4: Fix saturation of 64bit inode times for old filesystems
-  perf: Fix branch stack callchain limit
-  io_uring/net: Change some dubious min_t()
-  ipc/msg: Fix saturation of percpu counts in msgctl_info()
-  bpf: Verifier, remove some unusual uses of min_t() and max_t()
-  net/core/flow_dissector: Fix cap of __skb_flow_dissect() return value.
-  net: ethtool: Use min3() instead of nested min_t(u16,...)
-  ipv6: __ip6_append_data() don't abuse max_t() casts
-  x86/crypto: ctr_crypt() use min() instead of min_t()
-  arch/x96/kvm: use min() instead of min_t()
-  block: use min() instead of min_t()
-  drivers/acpi: use min() instead of min_t()
-  drivers/char/hw_random: use min3() instead of nested min_t()
-  drivers/char/tpm: use min() instead of min_t()
-  drivers/crypto/ccp: use min() instead of min_t()
-  drivers/cxl: use min() instead of min_t()
-  drivers/gpio: use min() instead of min_t()
-  drivers/gpu/drm/amd: use min() instead of min_t()
-  drivers/i2c/busses: use min() instead of min_t()
-  drivers/net/ethernet/realtek: use min() instead of min_t()
-  drivers/nvme: use min() instead of min_t()
-  arch/x86/mm: use min() instead of min_t()
-  drivers/nvmem: use min() instead of min_t()
-  drivers/pci: use min() instead of min_t()
-  drivers/scsi: use min() instead of min_t()
-  drivers/tty/vt: use umin() instead of min_t(u16, ...) for row/col
-    limits
-  drivers/usb/storage: use min() instead of min_t()
-  drivers/xen: use min() instead of min_t()
-  fs: use min() or umin() instead of min_t()
-  block: bvec.h: use min() instead of min_t()
-  nodemask: use min() instead of min_t()
-  ipc: use min() instead of min_t()
-  bpf: use min() instead of min_t()
-  bpf_trace: use min() instead of min_t()
-  lib/bucket_locks: use min() instead of min_t()
-  lib/crypto/mpi: use min() instead of min_t()
-  lib/dynamic_queue_limits: use max() instead of max_t()
-  mm: use min() instead of min_t()
-  net: Don't pass bitfields to max_t()
-  net/core: Change loop conditions so min() can be used
-  net: use min() instead of min_t()
-  net/netlink: Use umin() to avoid min_t(int, ...) discarding high bits
-  net/mptcp: Change some dubious min_t(int, ...) to min()
-
- arch/x86/crypto/aesni-intel_glue.c            |  3 +-
- arch/x86/include/asm/bitops.h                 | 18 +++++-------
- arch/x86/kvm/emulate.c                        |  3 +-
- arch/x86/kvm/lapic.c                          |  2 +-
- arch/x86/kvm/mmu/mmu.c                        |  2 +-
- arch/x86/mm/pat/set_memory.c                  | 12 ++++----
- block/blk-iocost.c                            |  6 ++--
- block/blk-settings.c                          |  2 +-
- block/partitions/efi.c                        |  3 +-
- drivers/acpi/property.c                       |  2 +-
- drivers/char/hw_random/core.c                 |  2 +-
- drivers/char/tpm/tpm1-cmd.c                   |  2 +-
- drivers/char/tpm/tpm_tis_core.c               |  4 +--
- drivers/crypto/ccp/ccp-dev.c                  |  2 +-
- drivers/cxl/core/mbox.c                       |  2 +-
- drivers/gpio/gpiolib-acpi-core.c              |  2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c  |  4 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  2 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
- drivers/i2c/busses/i2c-designware-master.c    |  2 +-
- drivers/net/ethernet/realtek/r8169_main.c     |  3 +-
- drivers/nvme/host/pci.c                       |  3 +-
- drivers/nvme/host/zns.c                       |  3 +-
- drivers/nvmem/core.c                          |  2 +-
- drivers/pci/probe.c                           |  3 +-
- drivers/scsi/hosts.c                          |  2 +-
- drivers/tty/vt/selection.c                    |  9 +++---
- drivers/usb/storage/protocol.c                |  3 +-
- drivers/xen/grant-table.c                     |  2 +-
- fs/buffer.c                                   |  2 +-
- fs/exec.c                                     |  2 +-
- fs/ext4/ext4.h                                |  2 +-
- fs/ext4/mballoc.c                             |  3 +-
- fs/ext4/resize.c                              |  2 +-
- fs/ext4/super.c                               |  2 +-
- fs/fat/dir.c                                  |  4 +--
- fs/fat/file.c                                 |  3 +-
- fs/fuse/dev.c                                 |  2 +-
- fs/fuse/file.c                                |  8 ++---
- fs/splice.c                                   |  2 +-
- include/linux/bvec.h                          |  3 +-
- include/linux/nodemask.h                      |  9 +++---
- include/linux/perf_event.h                    |  2 +-
- include/net/tcp_ecn.h                         |  5 ++--
- io_uring/net.c                                |  6 ++--
- ipc/mqueue.c                                  |  4 +--
- ipc/msg.c                                     |  6 ++--
- kernel/bpf/core.c                             |  4 +--
- kernel/bpf/log.c                              |  2 +-
- kernel/bpf/verifier.c                         | 29 +++++++------------
- kernel/trace/bpf_trace.c                      |  2 +-
- lib/bucket_locks.c                            |  2 +-
- lib/crypto/mpi/mpicoder.c                     |  2 +-
- lib/dynamic_queue_limits.c                    |  2 +-
- mm/gup.c                                      |  4 +--
- mm/memblock.c                                 |  2 +-
- mm/memory.c                                   |  2 +-
- mm/percpu.c                                   |  2 +-
- mm/truncate.c                                 |  3 +-
- mm/vmscan.c                                   |  2 +-
- net/core/datagram.c                           |  6 ++--
- net/core/flow_dissector.c                     |  7 ++---
- net/core/net-sysfs.c                          |  3 +-
- net/core/skmsg.c                              |  4 +--
- net/ethtool/cmis_cdb.c                        |  7 ++---
- net/ipv4/fib_trie.c                           |  2 +-
- net/ipv4/tcp_input.c                          |  4 +--
- net/ipv4/tcp_output.c                         |  5 ++--
- net/ipv4/tcp_timer.c                          |  4 +--
- net/ipv6/addrconf.c                           |  8 ++---
- net/ipv6/ip6_output.c                         |  7 +++--
- net/ipv6/ndisc.c                              |  5 ++--
- net/mptcp/protocol.c                          |  8 ++---
- net/netlink/genetlink.c                       |  9 +++---
- net/packet/af_packet.c                        |  2 +-
- net/unix/af_unix.c                            |  4 +--
- 76 files changed, 141 insertions(+), 176 deletions(-)
-
--- 
-2.39.5
+I find the current version easier to follow.  If there is a good
+reason for the new variant I'm ok with it.
 
 
