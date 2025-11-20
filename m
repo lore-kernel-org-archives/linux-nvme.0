@@ -4,122 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07D42CFC28F
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Nov 2025 16:13:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D2A1CFC28C
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Nov 2025 16:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=; b=wvGJgeycZJFGQk/gzfj4ZR3gTX
-	3HMQgKHtQx/ACrLWJ9/Uy/ofebeuTS3wAH2UGEfuo6ZhY8EyiCx4mFqNGdkoymc0lnOpEsoaFZbL/
-	mQXIu2kD+0li1xsIbW4HZxaJiaT5g6BVqrOZFfFJp1asMZTn2LCZD3CvNlA95oR5Dh5FbTRTO+N/J
-	Q7nrM9ypSc27oGpgng+cnkoKA2MznfaHGclGTFD4v9GKUey/BKDBCK1zWWJKArzdruLiPyXeQUs0m
-	B1AEq7X0CkRHsENtOVkcDdG5LL/jvOTqU83Al+qG0cWKHVxJ7EEF1A5x6PHBqjRE9vlxGAAJU7iS3
-	/LT771Kw==;
+	bh=mIp1emodWmrQX+c6TjoXmEBGWcecINECr9nK+dGHBUw=; b=VWa7FwvCs8kKG3OiorYEUkT2OB
+	7T7KXW54r+in9C2zYORjsCEZlUca/zZLqEeAKkLmodv1WCZFIrmk3a74ub18OumolEeXBKlhudWzY
+	EHqCWHDnOEaeAbMSB3LlubvTfrpIMLB13p7JXgKosLl/4CRYIumBBwhDFOqd2+XSB5ZywrqsfNWNU
+	osncytkNqQxOD7RhcywGuh5Moaoz9PzWGtYhsAg6MpbE+RyCrkV/IyULmYO846nkKlH852fXMxSga
+	K3NbNR9u2jHNPG6Kjq8QLx3jK8fofZu7Brcz1GE1UvTzGNiX/32SDrlm8qndHa0DClBG+kqGEOj6x
+	YH+XSelQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMTlf-00000008hDo-35NZ;
-	Fri, 21 Nov 2025 16:13:51 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1vMU3s-00000008j6X-3BB8;
+	Fri, 21 Nov 2025 16:32:40 +0000
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMTle-00000008hDi-1zPo
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 21 Nov 2025 16:13:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=; b=S5/p+e705Jc6W14C9PLVVs0z0y
-	NsLtdglqOlv9pW0bkvkaknf3wmnvJ3f+GmovzoJbQW/CdLpfAiEi12w7kjYsDC4Ebfe8Txf4sCiW0
-	z340gZyv2FXLO0HnmH6//nE2AJha2ojMNQqKtqJPuXlCqxzeUhrUL7w5RrnMqWMdADjVoxwDgVqwK
-	YhVSDzd4I6ZL/gLbj2LTxCT9Hq/TxPOOJyOtmJt1BGHm/Cb2FgWmOcP8/m4YcLdftidCO8UmYoFnp
-	7N21KRX65xTcYttGdFEtlZQw0HB23lzOlrk5GKabPxvNW+8YJnHtmtQe0S5DybGuYoxkLTlGMqres
-	msvaxzug==;
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMStz-0000000HC5I-0vWe
+	id 1vM61g-00000006sjg-2JsU
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Nov 2025 15:18:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763741616;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=;
-	b=iq5ZtkutUGVMco87IEC0Q3etvm4rU/AdKhiHa24FdKQvfyN7gKXBgVLzM1idPgJtVTHK3C
-	nJCn5UGY6wIg1ACJBvbZhEl97imErHihYgivy85UOZOhgH6Rq40s07NqbHkL4ow2jfH245
-	MJ912EBlL1kN/I3iDJfg9JZVMcxCyic=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763741625;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=;
-	b=VattK0Dym/nxRNrTXXxomvk3Rmg/qTq5UThSp/Awmid9yQVxTjltOgQzYpAeR3p8h04xVT
-	NLGI7IWkyINBNKN5yJ1xDH0nz9gEPft/JmWeEWoOmbYVFlOTz+BFc2lZYWPgKHSm0bNpqy
-	jv0eHg69EtT6P66SLfqkjAuhJ5oFxZQ=
-Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
- [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-n0arO-2DO26ixIJn8eWfSQ-1; Fri, 21 Nov 2025 11:13:32 -0500
-X-MC-Unique: n0arO-2DO26ixIJn8eWfSQ-1
-X-Mimecast-MFC-AGG-ID: n0arO-2DO26ixIJn8eWfSQ_1763741612
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-63e3421b8f3so2705779d50.0
-        for <linux-nvme@lists.infradead.org>; Fri, 21 Nov 2025 08:13:32 -0800 (PST)
+	Thu, 20 Nov 2025 14:52:50 +0000
+Received: by mail-il1-x12a.google.com with SMTP id e9e14a558f8ab-435a16798feso7420165ab.0
+        for <linux-nvme@lists.infradead.org>; Thu, 20 Nov 2025 06:52:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1763650367; x=1764255167; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mIp1emodWmrQX+c6TjoXmEBGWcecINECr9nK+dGHBUw=;
+        b=jAAyF8Z5gd7EvN1kDnRbZJW7eyfjT0am45AKeVKs01IM1CRRW3QjJujUlJDMY89efh
+         g9/iOcXEMA9K/8r5UufPVVp2pZFEm+yUtX32bPASllGe6uHtY0BakXf53owBKxmNskJj
+         Mc1dmYcpftrijwCFkmo+YQZRDiQ4AtHdQU2Q1KttGLxzSjOG+OpjB3eiQdzlcwDlxY/i
+         4EagHYkrfPTmbAcT+svqYktSGua7edaSbI6dswWjj0Frv47iIoDkIKNNiYFicuQUtI3X
+         3WXJKzjrn8R3oOstBzCTSRZ1BjkyMH374zbQ8ILMBvHCvyqlftcRZyCE56/f1SxahuZO
+         pBNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763741612; x=1764346412;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1763650367; x=1764255167;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=;
-        b=TqdKqq8xo0FIRbVmYg2SU9Yu+r1CjevEJB+wYY8DZNZMrxPriBp/Uphnet1u38HuY0
-         zmb1I2YdK2mrPuVNLxgVvB4ra3R6snA/YAaqvkkfrfhQNAY5mHvxiSwMyUIff9/M+q0J
-         u3yMWkolb7JOdJxibhWs6KDhkjbEEbimCmHcLuhJ+urqEL3aVA338ND1uEHJE37BoBmo
-         ypekqTzav6OnRxFE7Hd2oPp050xdf9Z/H4ECcnE1B+u4AooIhQWgXNF2FyKwXB7qwWNh
-         b1XpfSlREnVrNEa+NajnR+ztAChOySXchle/NhB/1dwu4q+XcppLQFuu6a+NQ9YVAff4
-         bVLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWo6FyAqHRyw+lMfRLaMRzJ3FuhHBrxntsEx/S56Hx6479JlrnzN6RQAZ+nAXLi/AV5RRR4+VodnKjr@lists.infradead.org
-X-Gm-Message-State: AOJu0YwnUAKc0huNG/x98wEnjnS740Q4lDUWOvLmf3M9RYCZzTG/9GP5
-	EkP+d72KWZj3RATSO67Hcc3eJ+PRR/BX0id9MhVIJ86gXdsYkJ11LOqH9cDnH2uT5N77BOMYF62
-	O6BTiHVlabKn/kHxC2vUgC9s5EY7EWS/SvZIL0YUsWIT8adOov8EeLfeDS9gikqygsFuCWJiW4E
-	xjbtQOMf2D0fWSGtsflvxyYaiDRjsp15JZeZsZ8JMP8ok=
-X-Gm-Gg: ASbGnct6btRmVrAuYc0Bp//qfjPOk0QJkJZOqHdC0TtZi0Jlur5SxXnt7xC8VknKA0M
-	8LwU7IgMqP9re8PKuDGo8qrlapna9rkqlinArOkTq3tFwtw73xaqF+U6cMDRavNBQ63d+NuXxvf
-	SHRxQmWN9zi8mEwYecwgn9tHyfGyVeU73aVcG76CmghhEPEjWWpdQkj1tkWWfoBVxL
-X-Received: by 2002:a05:690e:1699:b0:641:f5bc:6979 with SMTP id 956f58d0204a3-64302b122d9mr1963770d50.85.1763741612187;
-        Fri, 21 Nov 2025 08:13:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFQHJg27kBmo+3qPSDwMS0FzdloscgwgQdqDmCn0XCLoSgo3nmRsjJwwBETY525KvvMg6grxlgTavlZWQ/uK4U=
-X-Received: by 2002:a05:690e:1699:b0:641:f5bc:6979 with SMTP id
- 956f58d0204a3-64302b122d9mr1963750d50.85.1763741611792; Fri, 21 Nov 2025
- 08:13:31 -0800 (PST)
+        bh=mIp1emodWmrQX+c6TjoXmEBGWcecINECr9nK+dGHBUw=;
+        b=muHUjSMtAZaxTDZO0pVeizKcv6hZxlWDrYyehiUltm8d8YUd2ZqvE8vG7ON13Po+QF
+         NTEzLKC6Ifl4k7O2jN8WatR4+AsotCyTyphZNIpxHyUa2zMnROlqS8CfPdbbtumk/c6Z
+         CmDf4tDAnamUdcOiKtfsZQQrkNnh7SWnQvKLDNDHgB7PoivexLOzoMEh8Pw0jov83lzT
+         5UYnlxurtshyWgi6ZjT5/ojD1x5mMbj2nX0kcM8oRsxKO+2682bCOFnqIhPdWaS5hHe0
+         pxMVwO4ntidtQ4bCVkk6QWVPKltTqyDg4jzRqMbFndM3/cJP8CT3CIXcBXa4X10pm9dO
+         fpJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ36lIb5qjSpCz6lQK+AH3CnezWynpQmk/g46k0R59dhhPOvh+ww1Z8Ha+ICJdCFfJxaNfLJX5ZFKC@lists.infradead.org
+X-Gm-Message-State: AOJu0YxPbSVEU9L2eGAyCDMb4etSc/ZBopJZZPYFaxzaDh6c/YHMFGq7
+	W9Uvq/JdALkgUAHM1ZG9WOW41HIhzp6kL5h8j7Too63g/LGMHIjKlj44a4t333q39TA=
+X-Gm-Gg: ASbGncsC9vBz1xplboyogVQsTkIAbqOnn+kGNwz7Kzb4BfsT8BIq9KaeBCO39f5OJgn
+	U28ltkPgIA+1cvSpT+STndXSeUDneloKriNJIJJ8ai8/A2xB9hUz6b1eiXKsyuAek1GyI5xpuDi
+	8hge9Gz0E0IveL82CPtrEFDgAWS9TMgZzEqIOFYHKfF6VMWceddiz/rmnJuoOJ+CFFp9nSxeQLY
+	0S2ugT7vks1IYf6KPI3cgX1uOPCtLcewglPEHCwlLxAa/4MCrma66pdRhT4872knJm6k52OHSTB
+	zPDFdwkRrlXzT4nq/QjcY6Qct8fcOJBklo5g/Hte5mVpCJX4Xn3Z510oLabOo0tVDuw6s9/2mi3
+	rUuQdW2pH6f20UhhoFEB8KLC2wQdp1V8UDOYkK9/C0C+UW+WTj6ps1u57PUQ5Mak1MeRleE4fES
+	wY+Q==
+X-Google-Smtp-Source: AGHT+IEmRlVKCe07qbgo1t2w3uFpBKsqx62crTftDC+8sZ0oUBIrcGL53VTRakva//fmnWvcfQrQww==
+X-Received: by 2002:a05:6e02:1c01:b0:433:1d5a:5157 with SMTP id e9e14a558f8ab-435aa88e822mr21434775ab.6.1763650367018;
+        Thu, 20 Nov 2025 06:52:47 -0800 (PST)
+Received: from [127.0.0.1] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5b954b207d7sm1008611173.33.2025.11.20.06.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 06:52:46 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-kernel@vger.kernel.org, david.laight.linux@gmail.com
+Cc: Alan Stern <stern@rowland.harvard.edu>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Alexei Starovoitov <ast@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Andrew Lunn <andrew@lunn.ch>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Ard Biesheuvel <ardb@kernel.org>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Borislav Petkov <bp@alien8.de>, 
+ Christian Brauner <brauner@kernel.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Dan Williams <dan.j.williams@intel.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, David Ahern <dsahern@kernel.org>, 
+ Davidlohr Bueso <dave@stgolabs.net>, 
+ "David S. Miller" <davem@davemloft.net>, Dennis Zhou <dennis@kernel.org>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Jakub Sitnicki <jakub@cloudflare.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ Jiri Slaby <jirislaby@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ John Allen <john.allen@amd.com>, 
+ Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Juergen Gross <jgross@suse.com>, Kees Cook <kees@kernel.org>, 
+ KP Singh <kpsingh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Mika Westerberg <westeri@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Namhyung Kim <namhyung@kernel.org>, 
+ Neal Cardwell <ncardwell@google.com>, nic_swsd@realtek.com, 
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+ Olivia Mackall <olivia@selenic.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Huewe <peterhuewe@gmx.de>, 
+ Peter Zijlstra <peterz@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Sean Christopherson <seanjc@google.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
+ Theodore Ts'o <tytso@mit.edu>, Thomas Gleixner <tglx@linutronix.de>, 
+ Tom Lendacky <thomas.lendacky@amd.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, x86@kernel.org, 
+ Yury Norov <yury.norov@gmail.com>, amd-gfx@lists.freedesktop.org, 
+ bpf@vger.kernel.org, cgroups@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, 
+ kvm@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-block@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, linux-mm@kvack.org, 
+ linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, mptcp@lists.linux.dev, netdev@vger.kernel.org, 
+ usb-storage@lists.one-eyed-alien.net, David Hildenbrand <david@kernel.org>
+In-Reply-To: <20251119224140.8616-1-david.laight.linux@gmail.com>
+References: <20251119224140.8616-1-david.laight.linux@gmail.com>
+Subject: Re: (subset) [PATCH 00/44] Change a lot of min_t() that might mask
+ high bits
+Message-Id: <176365036384.566630.2992984118137417732.b4-ty@kernel.dk>
+Date: Thu, 20 Nov 2025 07:52:43 -0700
 MIME-Version: 1.0
-References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
- <20251121081748.1443507-2-zhangshida@kylinos.cn> <aSA_dTktkC85K39o@infradead.org>
-In-Reply-To: <aSA_dTktkC85K39o@infradead.org>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Fri, 21 Nov 2025 17:13:20 +0100
-X-Gm-Features: AWmQ_bmosC4btoZ-wa-ksr6NsYAdeqQOhz6k6QYvia4F3jK6NJjmea5Iy6uFTHo
-Message-ID: <CAHc6FU7NpnmbOGZB8Z7VwOBoZLm8jZkcAk_2yPANy9=DYS67-A@mail.gmail.com>
-Subject: Re: [PATCH 1/9] block: fix data loss and stale date exposure problems
- during append write
-To: Christoph Hellwig <hch@infradead.org>
-Cc: zhangshida <starzhangzsd@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
-	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	zhangshida@kylinos.cn
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FV7K802ikU9qNNXsoR-SRm5mkE1AIfAw_AaD-LbAptY_1763741612
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251121_151823_418321_ED0ECD59 
-X-CRM114-Status: GOOD (  17.73  )
+X-CRM114-CacheID: sfid-20251120_065248_600987_B401D0D9 
+X-CRM114-Status: GOOD (  13.62  )
+X-Mailman-Approved-At: Fri, 21 Nov 2025 08:32:39 -0800
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,51 +160,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Nov 21, 2025 at 11:38=E2=80=AFAM Christoph Hellwig <hch@infradead.o=
-rg> wrote:
-> On Fri, Nov 21, 2025 at 04:17:40PM +0800, zhangshida wrote:
-> > From: Shida Zhang <zhangshida@kylinos.cn>
-> >
-> > Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
-> > ---
-> >  block/bio.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/block/bio.c b/block/bio.c
-> > index b3a79285c27..55c2c1a0020 100644
-> > --- a/block/bio.c
-> > +++ b/block/bio.c
-> > @@ -322,7 +322,7 @@ static struct bio *__bio_chain_endio(struct bio *bi=
-o)
-> >
-> >  static void bio_chain_endio(struct bio *bio)
-> >  {
-> > -     bio_endio(__bio_chain_endio(bio));
-> > +     bio_endio(bio);
->
-> I don't see how this can work.  bio_chain_endio is called literally
-> as the result of calling bio_endio, so you recurse into that.
 
-Hmm, I don't actually see where: bio_endio() only calls
-__bio_chain_endio(), which is fine.
+On Wed, 19 Nov 2025 22:40:56 +0000, david.laight.linux@gmail.com wrote:
+> It in not uncommon for code to use min_t(uint, a, b) when one of a or b
+> is 64bit and can have a value that is larger than 2^32;
+> This is particularly prevelant with:
+> 	uint_var = min_t(uint, uint_var, uint64_expression);
+> 
+> Casts to u8 and u16 are very likely to discard significant bits.
+> 
+> [...]
 
-Once bio_chain_endio() only calls bio_endio(), it can probably be
-removed in a follow-up patch.
+Applied, thanks!
 
-Also, loosely related, what I find slightly odd is this code in
-__bio_chain_endio():
+[12/44] block: use min() instead of min_t()
+        commit: 9420e720ad192c53c8d2803c5a2313b2d586adbd
 
-        if (bio->bi_status && !parent->bi_status)
-                parent->bi_status =3D bio->bi_status;
+Best regards,
+-- 
+Jens Axboe
 
-I don't think it really matters whether or not parent->bi_status is
-already set here?
 
-Also, multiple completions can race setting bi_status, so shouldn't we
-at least have a WRITE_ONCE() here and in the other places that set
-bi_status?
-
-Thanks,
-Andreas
 
 
