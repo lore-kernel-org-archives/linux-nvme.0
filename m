@@ -4,223 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42B88CF885A
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Nov 2025 13:52:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BF8D8CF885C
+	for <linux-nvme@archiver.kernel.org>; Thu, 20 Nov 2025 13:52:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IJ7eQvR7EwSwELZGE+LvHdK/sQBaMgZg3PBGuAV667A=; b=pj5rVi72xSNjjw7buVl6fxTl79
-	8h4uCXVeizDC3L5OFGRLvEBTWhxfN84n8mWbohrBy1g8+TxGKhLtIwCCm8TVmdhGluuggQKlwXyHa
-	zv9JhvMvNYKjqv4hsmJdubofrgTWnSHp76rymxYETQ3Irs3aXIVIzwImBb99/HGjLIRbCi5asz2mU
-	iFBohQ93D60U/1TMAIN9wQe637A1yqpZmkHU345gmdjtFix9PVlyf9Ij5SRoJoats0fo32HglswSC
-	IXouOS9TvFsXScMtahMtl6XvrLeaGLKy7r6XogEylmq75WKQ//SgdyKQOwtJcyNDZY4Dd83p+IQnY
-	QbvGTCCQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1j1mwtDM2Tr4by8W9IObZodW1ax59zk4BIBZFcSUeBs=; b=WhY5OBdnfMAj9LflU8TbF4hqDU
+	/P6aDVbaVEwi5CauqxuGd/uXk3y+AbowU2JJhZso80i2oCgzFuSr3p9P/lX9fW8FUpviW2Rggf7aS
+	tAD2urWY47EblzXdxOEXaWH6wtk9VZhMsa9GgpvwA+fDbXoSpq/JvVzIF26g9ZUgln3IrBbibSz70
+	Bsp3Gz4dBg7/nHawxm1YNJ8oYzl9oFoYI3BJmopFSP9MaUiXNkthuJhK3ELtWf0cwXgXqCeD/pVsx
+	AOQry85U+N2W2tjmMhBocPWGKcHScupa+kQ6VPVT06uYud5n6TIVra0u1z+vHEMCplXD0NJzDsrLM
+	EkEpT3lQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vM553-00000006lkw-1NEQ;
-	Thu, 20 Nov 2025 13:52:13 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1vM55h-00000006lts-17xE;
+	Thu, 20 Nov 2025 13:52:53 +0000
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vM54z-00000006ljL-0UU4
+	id 1vM55e-00000006lt6-3bnx
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Nov 2025 13:52:12 +0000
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AKCfvss024693;
-	Thu, 20 Nov 2025 13:51:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=IJ7eQvR7EwSwELZGE+LvHdK/sQBaMgZg3PBGuAV667A=; b=
-	OgAEKowpHawcqA3StQ9R/RPMz3+N/K6cZzQ/W4upd08aJysnaQAMfprkejm/ss3f
-	tutBFXTmjLwiOcQVPM9YtnwZr+gT8Vv96o0WrkfYK+bKRA+dLdTOzvGckC7gE4vM
-	NgMVW3SV8TxJPCiV5ceWVlWpwzoeYUwb9azQuRvSSay1sL7LJXHpCwyr5z0q7Af6
-	zFNsvDH8Q8R8orwnz3aUw2COu9yTZl7cB/Yj1xfG1c6XYzWQsIc8VFkhxlLjO2wM
-	CcenVAbAlSm9wQK+DKTCekSpuFJXEdRtkmxANVYp1hF9rn9Z4QLgkVwgcjUhez2M
-	HV0Tlc/cl+Rr4/DT2ZBeMw==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4aejbq158h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 Nov 2025 13:51:57 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5AKBp3Qc002564;
-	Thu, 20 Nov 2025 13:51:57 GMT
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012014.outbound.protection.outlook.com [52.101.53.14])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4aefyc3nj7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 20 Nov 2025 13:51:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dtychvVsH7kSYI5J5TNBB85cE9atk03HUDB/PqxNSV6uixMI80KC/IzEZV9Tnb23GWyUkFKEMKUgZaILANW6Tz2yQNdNP310NM2ilVpdz0SbJFOWO55OLxuhT0Lh7HWyLG6duMN3xlR/vSIrXaGgAq+KQVfOeiRmmksF5TvvpJf6nc2AeETR+1zAVsh4QfGai8rRY1kFheU5AFtnSWwYmUWIBJZ+LThz8lOojP29pggNlaZEIzBrrGaTtUzc3aLStpqBgRMSHiyM49YElVl4LZW2K1InI20lMY9vdwPgSJNNYSBpEufNFYmG/vaMliiZEs9qk3dU9bewWob1wlM2mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IJ7eQvR7EwSwELZGE+LvHdK/sQBaMgZg3PBGuAV667A=;
- b=w/AsXl+k7BcIesNmvS8zm5T/ZoLioOsy5zJJYu8l9Jyr3k3Qt6EOjQHA1GKyxwBLEnNGBFUZf5JqCt58Alvs0GWmZZ4P7Y9FUnipzSz22guJodhTjQxfQtsKsAaO6bHtbxvfu8sFnRS1Bc5mOvCJOD/37GSQpB9MZ+UUi2wvWu5VdtLSg8FOfJ1D+MAu/n2jxE9PXxADwXNwAW8oUaPLeUp4qWDtqXShdhL02xe6hydPaF1UYIKK2sivDNeRpI18z/grZrvqVGZvdgLpA6TJYaOZtSusBTkAq4fsjC+tvYtzq535SpdLKnu59U6Blj1pkfJSdLktE6MI5b5NkEQtYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Thu, 20 Nov 2025 13:52:52 +0000
+Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-644fcafdce9so1346304a12.1
+        for <linux-nvme@lists.infradead.org>; Thu, 20 Nov 2025 05:52:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IJ7eQvR7EwSwELZGE+LvHdK/sQBaMgZg3PBGuAV667A=;
- b=MhT7CKIlYlUsH9ot91BRpNf1f9KeqUwpoG7G65h/XyOd3txI7CwtX8tFq7NyyVvndR+7cXWmUcBOtYo6Dia+DKIHQ79+QO5/Peg/wbAVP69lVLLPglQjm5NDpGlwHz89+QRULwJxT7aGKa1vLL4AHza1jj8Ywc8vKFtJXMi44pA=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by CH0PR10MB5114.namprd10.prod.outlook.com (2603:10b6:610:dd::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
- 2025 13:51:52 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90%4]) with mapi id 15.20.9343.011; Thu, 20 Nov 2025
- 13:51:52 +0000
-Message-ID: <14f4ee67-d1dc-4eb0-a677-9472a36ae3bc@oracle.com>
-Date: Thu, 20 Nov 2025 08:51:49 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] net/handshake: Define handshake_sk_destruct_req
-To: Alistair Francis <alistair23@gmail.com>
-Cc: hare@kernel.org, kernel-tls-handshake@lists.linux.dev,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-nfs@vger.kernel.org, kbusch@kernel.org, axboe@kernel.dk,
-        hch@lst.de, sagi@grimberg.me, kch@nvidia.com, hare@suse.de,
-        Alistair Francis <alistair.francis@wdc.com>
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-3-alistair.francis@wdc.com>
- <49bbe54a-4b55-48a7-bfb4-30a222cb7d4f@oracle.com>
- <CAKmqyKN4SN6DkjaRMe4st23Xnc3gb6DcqUGHi72UTgaiE9EqGw@mail.gmail.com>
- <0d77853e-7201-47c4-991c-bb492a12dd29@oracle.com>
- <13cf56a7-31fa-4903-9bc2-54f894fdc5ed@oracle.com>
- <CAKmqyKObzFKHoW3_wry6=8GuDBdJiKQPE6LWPOUHebwGOH2PJA@mail.gmail.com>
- <1cc19e43-26b4-4c38-975e-ab29e0e52168@oracle.com>
- <CAKmqyKMjZWAvbc23JQ358kyWyJ0ZajHd8o0eFgF-i1eXX85-jA@mail.gmail.com>
-Content-Language: en-US
-From: Chuck Lever <chuck.lever@oracle.com>
-In-Reply-To: <CAKmqyKMjZWAvbc23JQ358kyWyJ0ZajHd8o0eFgF-i1eXX85-jA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH5P220CA0022.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:610:1ef::28) To BN0PR10MB5128.namprd10.prod.outlook.com
- (2603:10b6:408:117::24)
+        d=gmail.com; s=20230601; t=1763646768; x=1764251568; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1j1mwtDM2Tr4by8W9IObZodW1ax59zk4BIBZFcSUeBs=;
+        b=gzUT1cngK3jnxp+dQBtju345EtHMRPN5/ynPjS8pVb3z54dY1epEwd9oY5CSq8XoTn
+         TZXVt+z/3OQr89dbFjaVr5a78g0CUaDXs6S0aFX9GvnR6ybQekxqB4Jakm0867mqEGw1
+         2QxNIxk+dlQdXgNSdRwtT6koI0K4DBKYjEZPu2xo8xqeFbSdCw6sAp7ctWsk850S/sXU
+         ZzTcEcQhMxDru6JwxvXWtqHnIgovTJNAW/ogntn2dYr7dVebAY+60vP4dFzoGeP+wkKH
+         ef7mOzjItTbWJiJMXFoJaah4L5iaOSZWjWMr38LK64bPXc7thvwn/L7EoNdSQfQ8gmWd
+         6Amg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763646768; x=1764251568;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1j1mwtDM2Tr4by8W9IObZodW1ax59zk4BIBZFcSUeBs=;
+        b=xB1OpLo10kdXgSRL58UooOUHKqA04+LKMtKWXXNNHgAaKswvKk1oBiWIiuEmHqcyu5
+         iq1xJiyc3L5Pyd3jrPoqjjZZjZ3mr+Jvt3dLgHAV1/dC+TLHIPYl2/KsQ8F++F7JbUqc
+         d0vHys5g5b+6PiW5E5EnIJZ7J+rK669PBHXi2eCYlEevlR2zyM9HRhdzJgMBkeP7zeHZ
+         gRSHC/B0XhiChnGkPrfxIOV9YCbOxKgNAcfGoNuJTTNUf40RZpR9KDvk+it6LM/u7ukD
+         R0yHyKuujX0Yg5MyxEoToGNXFNInJrAuyUF7bpiWi0oa+ICAx2Swf7nrc1mrv0fXq5e4
+         GzGA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZsuRHt/+p2ZDXRDUV7Qi+qM3eQSdlxa0IPKbc0obj1uWFvJ4BP8WuanAt5qKsxnlDuTvZDNsxlSJi@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy6votRLuqgiKXbYIuGckvBI1vmuGf6mkUeMqoWYTRqudzVny2L
+	Hs0R+ngjHv504YxdtT+9MO/yH0F+DOd0LBAsLtAU0Vuq+F+CKVcJwNZ+P4EEYxozXUi3ziHmYwX
+	Pb30xg1ymu/9+97Ew+Q6wWANtsPX5RI8=
+X-Gm-Gg: ASbGncs77Xg24bMiXT9k0hSQ4FvUpo9O+LmSlk/fPBhuWfvZ+ICkf/GNEAfosi9F6PS
+	CNjVvQWlWGn+NUhVBlmYbEcrlXLRfqx7v+FhxSRaucDA4l17uQG2z5QIM/YMLJF+8VZiMV10Cc1
+	wzi2ByOoUVV8DtKJMSa1B2pJr7D/eF3iI1+p3fa39Cgl2QQtYLEjyBW1PdxvAidhPUoxl6Ye/ZE
+	HbFCATF/PRHapMuJBS6x6wmlTxRLrJA+jQEp+JonQqqNK+mHT/GRHRrOBN5+b7rojr8OyTmXTYD
+	28TQfqbqqLF9lXl98J5ZaUDcSozsgHSnDg7UanR1m/EduTTpfGXT+4Ky3PvTxhiIu8hMZwjKynw
+	5+ctoRcKxp4rk0Opbl0EKfkY=
+X-Google-Smtp-Source: AGHT+IHUXB1kp6zrYBv6auSQMAL/sgB0VPXpLwXG5pjIHFCT7XGZo/7zo/8Ujx6/q2Kbra3iLMvapvXsSsE74W/tFhA=
+X-Received: by 2002:a05:6402:40c9:b0:641:6535:6ccc with SMTP id
+ 4fb4d7f45d1cf-64536402014mr2925732a12.10.1763646768323; Thu, 20 Nov 2025
+ 05:52:48 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|CH0PR10MB5114:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ef4d5dd-94fc-40fa-d10a-08de283bf567
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bXA5Qkg0Ulk2K1pLZkR3Y21GbGJJazNCOUpJa0xTNGZJZng2dndZMlowQWRI?=
- =?utf-8?B?S1U2aXJYWDJrQXdLS2dNaFlLVCthSkc5T0kwWlVnRHQwNWJnZGhiRU4rK1dL?=
- =?utf-8?B?WmJMZmtKcmdRQmlCMkloVEI4cndqNUZuQVEwNmN1aEZNb3lhL1F1WWVGNnpN?=
- =?utf-8?B?MGhoM0xsempNa2tYVHMwdnliY1pjMU51L2pkMy82LzFza1A1YjFLQlU0bi9F?=
- =?utf-8?B?TFhKaTUwSUp6YTJtbG1CQm5zNEZnbW15TDZ5UUpVNTNUVFJDQUVPbHE3Z28y?=
- =?utf-8?B?R0Q4YXNLaFJLZ0FHcmR5ZUpHb1FsWit2QVpTMmYyVENHU1hHWGltMWRqUjE1?=
- =?utf-8?B?TGtiL2Jta2w2TVU5Yjl4cEZTb1FQc3VhTnAwVHBUcFNsVWhZa05ueWtjelZl?=
- =?utf-8?B?Vjg5SUU0TlovVlhoWlBCZTV3c0hCNmozU3VHZDJMeVBGdEJaWUh4NW96eW1K?=
- =?utf-8?B?SzZoZGpZZVlhdVNIK2RDUXIrWjVBSWRBTE1xYVhMZC9PZ0xjWWg4Y1g0OGhD?=
- =?utf-8?B?aGJlR3AyeUpHL1l3c3RYQ0xZMW80c0FnRUdkUFJ2VXowK1NEZk1zdy9GTm0y?=
- =?utf-8?B?UWZ2UTZhQWY0clBKZjMrN3I2bnVpS1FYeldsclRmNllGOUtjL2xZTS9DUDRi?=
- =?utf-8?B?RnRycFErcDVyODU5UXFPT2hZRkVOUDl2Rkp0dXc0TzA0TXVoYXNrWEVBS2NZ?=
- =?utf-8?B?NDAwemVrK3BNVGl4SEFYeXUzaWMwQWc1dzFOWDFqK0NYVHdSdHB3U2lrMTYr?=
- =?utf-8?B?Y1RtUVB2MDdvNVJZRGw0UkxGVHByRjY2QXdjSzgwQUt4dFdTM05uUkNDZloz?=
- =?utf-8?B?RnZ2dnVZazVLbjNkWG9XckU3UDFhZUxSKzdyczZXZzdTU2pmSXdFOE1taXhI?=
- =?utf-8?B?NVFsTUgwaEQ1UWpWOFZMb0pOS3JLeUx2Zm5UWEpQcjF5OXJtbThVZzlzcFMr?=
- =?utf-8?B?ekhDQnBKNzcxekhRRHUxbSt2SzJHRUFMM1FMbWpzbEo1aVhlcGRRYTZVdFBC?=
- =?utf-8?B?QXZScnY0RWxRZktMWmVwOFpwbzFzcWJYMDB3SzQ3UnY2L2RyeE81cktsdU00?=
- =?utf-8?B?N1RuZGdHUGJtRVZNcjRwRGtrc0tVWVhWQnp0U1hOUGNrbi9iVDlpVnFLK2F0?=
- =?utf-8?B?U0x1Ry9IbW11MlFCWWRuQkp1MEpkMzh1dXlBTUovVDZaZUNaZU81dHpjK0Fk?=
- =?utf-8?B?cXFDbU1Rck1Gd3ZSUGFIVU9CZWlYT3pGQWVKdnNVcE12VFBHcTlsUW1WekZR?=
- =?utf-8?B?SHVyU3dqR2RVdVdRekNNVitid1IybWsySTVhS3daYkhWTFpnTkxkOXplK0Fu?=
- =?utf-8?B?VG9wbUdjNkNyemg4TmZSaEIxMS9EcDJWQWlvUWNna1IwMUptQlFibXZuMUVH?=
- =?utf-8?B?V0VSMzUwellCbnZaSnFUVHgxS1p1bzduZFR5L2ZVa3hMb0RXQ2NhRW0yZ3Bh?=
- =?utf-8?B?Q2hmcU5zT2EydVNMYlgxQkdKbjROYmlhbnhMa1VPQ3RwM3BzY1pLZ3lqNXRL?=
- =?utf-8?B?WC9aSVJQME5vWnN2WnlqOGNuc0hkcFllM1g1cE91OGIrZVJhU1lONTU5d1Fa?=
- =?utf-8?B?SEdUeThnSDM3K3pxb3lzUXQvd3B4cGMyZWxlblVpVUNXSEZuSDBiNXBmcnJy?=
- =?utf-8?B?SHh2K1ZpR0ZXUmFJc1FlZjZ5SkJWUTUxcVpFSlUraEJiZExvOWpzbCszMWRr?=
- =?utf-8?B?aWU2Q09SQXI1VHl6RXRiWU93VWFkZm5pSkp3Zjl2aFk1YmcxbWh1WGVlZzZB?=
- =?utf-8?B?QWJIWFZMWUU4ZU5abHUyeWtNa3pWalVMNU51R2NMemtscXc4UkJzSXRpTW5X?=
- =?utf-8?B?L29iQ3lnQktYZ0ZSRWwxZmU0c1dqQXJqZ2pValZHVk1EZG1NMXN6bkMyTU9P?=
- =?utf-8?B?UlNMWHRZN1pSM2xwY1JWaVgzSmV3NmZTNTFrd0w0NXpLTzFnak10b3FqY3lW?=
- =?utf-8?Q?/6hYmGhQIdlIPAoOrN6nN1E2b4Bz+5m/?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEsvL1N5TGR0blZQSGZvZEd4VGJtZFIzNjlUOWNiZVd5bm5GRXpzYkg0c3NV?=
- =?utf-8?B?SFZMbWI3TDl3SUsxQ2grUmg2WW9VT2lJN1JBa29pQ0ZpQ0p5MjNCWW5WOUE2?=
- =?utf-8?B?UW1RT1JGYnZFSE45M2hCRVk5QjlHUkd3Snl2U1ZBSVgxelpvd0MyWmlzY09v?=
- =?utf-8?B?NW81ZXZtYmZUQmtWRmJYUVdqRG41cElQNnJlTXl0d2xlTGFNTnhLZ1ZzNU03?=
- =?utf-8?B?SHBUT21lYXA3dXRtUFZGNUxJTHZ3N0x2MU1DcjBKaXFrZDFNc3JlMHdCOFNW?=
- =?utf-8?B?NjlVbWtoNFd1V2RyWlZVM3FleVM0VWI2TjFUejJlWDZmSnZOU1FRTlpMN3Ex?=
- =?utf-8?B?VjhJNVdsNzVlbFhibGFYcmQ0djh4L1BTd21UMlR6d1o1bXdFWWdVc2t5N2lH?=
- =?utf-8?B?a3BneElzOGZ1UnpTZGMxZ2JUanBBSW5SdHAwWlloSGNDV1dFamdtRFRWdXNU?=
- =?utf-8?B?R0xhd1hGbFJsVm8xd3VUbFI1b1d1WWZ6by9uSWdWUFd0TW1Fc21jUVcrTXpX?=
- =?utf-8?B?Ni9taGwxMm5SeERSZ2RhOUJGYS9qMElsSlZyRVg0NWREcFhXK01uTmtPR3hy?=
- =?utf-8?B?RnZ6M2ZqcSs2L0dIMWtqUVVkNGdoL0QvbWJBQW56dk4rdVI4SDc5MjFsTXdN?=
- =?utf-8?B?WEpUSlQxSGx5WDZDN0N4eWFmMk9qclk5R3BrUG1nNGU2Ty9jQ25NWXZvV2Fy?=
- =?utf-8?B?WE1Gem1vUnJSZkpyOXpTcjBHeDBudkpFemZMSXQrT0JES0FWNmxZQnFLN1R3?=
- =?utf-8?B?UzA1SnI1VWt4Sk1tbEFDc0t3Rm5MZ2pBVnF3R2U0TmNtY1dFcEpjZityVnZH?=
- =?utf-8?B?N01wOXZneDhEZ3phZitHQlpuSEl2dFpkWVVZeGl5SkxmL2RMTnp2TDVpNzZY?=
- =?utf-8?B?V2pDZ0x6KzZYVlpBYjhTL3lVbGpVRVpGeUdtNmtMRmY3bVYxS1ZCNy91bTNv?=
- =?utf-8?B?TjhMOC82ZmVXNVRRdUFncWdBblU2cHdVZzNPeEFqcCtveDRSL2QxV0tncXRH?=
- =?utf-8?B?UFpESCtTMXdaY1dxZTZrL05hV3B6UHJqaEhtaDgvZ2d2UytpditUZytZQ1VK?=
- =?utf-8?B?ekRPMm0vNXEwbmp1RlpveGxvTnlJa1dIYk9Fa29na0JnWmZ0V1I0MTM2Ykk0?=
- =?utf-8?B?ZnJDbWVXRzZnYmVoZHdkYWpGWGc1OHVabFNpd1MzSWtqNGJ5bnRyR2dpS1BU?=
- =?utf-8?B?OVQyS2NCb3dQaTN5Y3lkZytyNzlrQm5ITmFXd0I0aUVPTGVMN2FVL05RWGJR?=
- =?utf-8?B?WVYrbURnRXowRzEzZU9ac2VMZXlqZmdQUkk5Qmw2VXFCdXBWeDd2SkkzeDY5?=
- =?utf-8?B?OFNEdXBrL2lBUjhCQU5GVnhlQlJ0R2pRMlhXYXpkSjBRY2hwcVdzd3ZUY2Zn?=
- =?utf-8?B?NXJqenh6RjBHdlFtc0FuQ0tYZmhHZ1o0dWYwUXNRUjgvZEI3eG5DcXFybFh2?=
- =?utf-8?B?Z0NoUDFINURaVFI0QU5adW0vdGdYSEdTdFY2WjUwUmNEOTB6bExiUGtyQ2VL?=
- =?utf-8?B?VVhSRDJ0N2JXRC84eDN4OTJSOWNKQWFDZlZuREFJMkVTZGM4eHplNXhrQWRY?=
- =?utf-8?B?dWFzZGd5WjNmMDc4M1NkOTRDbHVseGllb1dTWWxqaTRJc0lSWjNGR3pPWW5z?=
- =?utf-8?B?c0g0Z2VIc0xSWnRyaWtxSnI0U0gwNVQyZnR4azByelZ6VHVXTU5RNTZhTlA2?=
- =?utf-8?B?Q0o4Rzg1dzhTVE1QcExDWWN5YzByYTUrTjNQSllkMlR2a3dZeDh2eHVhZjBL?=
- =?utf-8?B?cUE2b0hzT29MT2RsNzdyK2U0Q096RmxQN2daS2tLQjhJZE5jcUVVUll2TTZG?=
- =?utf-8?B?b0lrUElxK0lxckh4WE9ONTR4bElOKzEvRFNKcFhiYWF1SnNhRlBKMGp1WVJw?=
- =?utf-8?B?M0hKNzk1ZmZQbHVvakZBS0k0OFVPNjZjZkVwYnQ5QzI5K2svZkQrRnloOHVJ?=
- =?utf-8?B?WkhBZjhCcFZpSmZDN3JSTEVLUEc5SDN6NUlxM2tXcmFYeUxMQ2ZCcWpHYjE2?=
- =?utf-8?B?bFVQeE9HaW9sWTBGejl5OFlzRWNaSlFwNnZDbEZvWjZ4KzVsTko0TXhYNGxY?=
- =?utf-8?B?cjhWcE5QaXl0ZjIxcmFpSEQ1T1VpVmFGeVVrMDREaHJ4UEF5LzNFd25wN2ZS?=
- =?utf-8?B?ZkRwQWg5V1JXYmNPWjlJU1h1ak9RVUdQeWMrZmxNU0FhU3JGVDd6dGFITzk4?=
- =?utf-8?B?RUE9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: pG5vXx5MV5PQGgGTX5C/5ntdqdB3KaO9k4NwbOjr4LvzR9oP0S11TfHbJofXKsLGXEaN69RKPk9RKZc+g9fLSUr6Enwxjj7F56CWYz0dMFJG2KP9U7t0fOPHPTAo1SISoAffQ8204wFXttGmTLSLqw9pnydHjdArRyUmn5d2NafGH50UiKbDW6z5NIQfNKdTf0cgzhg+WrVWVhgYGgC1WBilj/bfGCOqlewAVmWEXO2crIAyM1BAX6Hxqp7ixhdhyDvdfpN3yHG2p7FEjQc+yyVjjoJ9P81U9lMB4Hik/bwrmhcY1CvP9wEPDDP4fextb6DAwdvmTVXdagaPJ5PyQoZMiai6ogOqfofF/NV1GBAZzOwAs+J5Z9LGnV4uBKaZZQfTD0OUSy6GaMWBa2RkQ+hNBRV0qVDNiEJejj5+2VrjJL/oWsXKCDK/ofnigNWlgVqgsnHuNwUF0LgjjKfvHdmtYSKNmBu0v7fVDY0TMhjUCN6F3BagamcY49mCr2lJ8QKfOCEJFVS2LBEKbmW85+MajUjz1bHrCJyGQsWj+bHnbIcap93KDxD61zj8IEtL8B6De9A6POgSk6QqE/rsXPJZkaEgpdiHw2Kg5BUZLmI=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ef4d5dd-94fc-40fa-d10a-08de283bf567
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 13:51:52.0956
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3ZeIScbjLZoZub5YNS/UnQLdEEUKUvbaMnrvBHJB/q0yAn5UpBpJeel23mAkET/IU7DdGUzBdMBdGvysiKqFeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB5114
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-20_05,2025-11-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
- malwarescore=0 suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2510240000 definitions=main-2511200089
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMSBTYWx0ZWRfX+jtFMJNLF3Os
- 8OjGxqNWWB6hpkuFlhnQfGILXjZAMCZW83Seu7KW6lcpIZuVfhuFosV4hf/0/y8QjAu2/ZEZeHP
- huyzx5EBmBJM5dmvrN+oWKQr8oYawyz8AFr978k7ZBR73o4lN2eryIM4SuxdG/DVlnGCL3VZ1gJ
- BQpxlSDAZirQ3gegUry2CuckmcO7lzyMpvT+LXk9miQ+GHO1mhq3GlTo4s/Ar7usubZJ8Yn8DnY
- S7rCIxv591fUreeYCFiMa4XBnvVC6zKsHT/mQFo296faDg4gtgGDct8MwznOO6yd+uGEVqhFVh8
- 47nqU6Hy9r5AnJ+gXpUnAR4wHG/z4DG6/+3VmwWeNhCk+PynvhfggL6p8GZ/nq0PNJoci6RZvVj
- hvRTvIjNbeEfXf0wWCBzvJFIN4go2g==
-X-Proofpoint-ORIG-GUID: Xf19WOtFhFZTPIL1ASs180NL75WyILQo
-X-Proofpoint-GUID: Xf19WOtFhFZTPIL1ASs180NL75WyILQo
-X-Authority-Analysis: v=2.4 cv=a+o9NESF c=1 sm=1 tr=0 ts=691f1cfd b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6UeiqGixMTsA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=pGLkceISAAAA:8 a=JF9118EUAAAA:8 a=TcJFfKN58SS5vaPbdZwA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=xVlTc564ipvMDusKsbsT:22
+References: <CACbz5yFi8hiPD0Avg=KVTpdEeJC=3MMSkGtYOBQ=OmB_O0khyQ@mail.gmail.com>
+ <aRzb6U1se40SrQRM@kbusch-mbp>
+In-Reply-To: <aRzb6U1se40SrQRM@kbusch-mbp>
+From: Thomas ten Cate <ttencate@gmail.com>
+Date: Thu, 20 Nov 2025 14:52:22 +0100
+X-Gm-Features: AWmQ_bl3y2pawOYKcPVHvJcKxuWAaIacPRETQh2uNwfRV1iZn-6nDtoP7kE2BS0
+Message-ID: <CACbz5yE1RNmJkg-RSBe2u60Y5yd1zxkEZ=pVy_gTa2JLh9d5xQ@mail.gmail.com>
+Subject: Re: "controller is down; will reset" on SK Hynix NVMe drive in Lenovo
+ IdeaPad Pro 5
+To: Keith Busch <kbusch@kernel.org>
+Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251120_055209_182724_4E40995B 
-X-CRM114-Status: GOOD (  12.90  )
+X-CRM114-CacheID: sfid-20251120_055250_906723_41E40742 
+X-CRM114-Status: GOOD (  17.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -235,178 +99,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/18/25 7:45 PM, Alistair Francis wrote:
-> On Sat, Nov 15, 2025 at 12:14 AM Chuck Lever <chuck.lever@oracle.com> wrote:
->>
->> On 11/13/25 10:44 PM, Alistair Francis wrote:
->>> On Fri, Nov 14, 2025 at 12:37 AM Chuck Lever <chuck.lever@oracle.com> wrote:
->>>>
->>>> On 11/13/25 9:01 AM, Chuck Lever wrote:
->>>>> On 11/13/25 5:19 AM, Alistair Francis wrote:
->>>>>> On Thu, Nov 13, 2025 at 1:47 AM Chuck Lever <chuck.lever@oracle.com> wrote:
->>>>>>>
->>>>>>> On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
->>>>>>>> From: Alistair Francis <alistair.francis@wdc.com>
->>>>>>>>
->>>>>>>> Define a `handshake_sk_destruct_req()` function to allow the destruction
->>>>>>>> of the handshake req.
->>>>>>>>
->>>>>>>> This is required to avoid hash conflicts when handshake_req_hash_add()
->>>>>>>> is called as part of submitting the KeyUpdate request.
->>>>>>>>
->>>>>>>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->>>>>>>> Reviewed-by: Hannes Reinecke <hare@suse.de>
->>>>>>>> ---
->>>>>>>> v5:
->>>>>>>>  - No change
->>>>>>>> v4:
->>>>>>>>  - No change
->>>>>>>> v3:
->>>>>>>>  - New patch
->>>>>>>>
->>>>>>>>  net/handshake/request.c | 16 ++++++++++++++++
->>>>>>>>  1 file changed, 16 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/net/handshake/request.c b/net/handshake/request.c
->>>>>>>> index 274d2c89b6b2..0d1c91c80478 100644
->>>>>>>> --- a/net/handshake/request.c
->>>>>>>> +++ b/net/handshake/request.c
->>>>>>>> @@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *sk)
->>>>>>>>               sk_destruct(sk);
->>>>>>>>  }
->>>>>>>>
->>>>>>>> +/**
->>>>>>>> + * handshake_sk_destruct_req - destroy an existing request
->>>>>>>> + * @sk: socket on which there is an existing request
->>>>>>>
->>>>>>> Generally the kdoc style is unnecessary for static helper functions,
->>>>>>> especially functions with only a single caller.
->>>>>>>
->>>>>>> This all looks so much like handshake_sk_destruct(). Consider
->>>>>>> eliminating the code duplication by splitting that function into a
->>>>>>> couple of helpers instead of adding this one.
->>>>>>>
->>>>>>>
->>>>>>>> + */
->>>>>>>> +static void handshake_sk_destruct_req(struct sock *sk)
->>>>>>>
->>>>>>> Because this function is static, I imagine that the compiler will
->>>>>>> bark about the addition of an unused function. Perhaps it would
->>>>>>> be better to combine 2/6 and 3/6.
->>>>>>>
->>>>>>> That would also make it easier for reviewers to check the resource
->>>>>>> accounting issues mentioned below.
->>>>>>>
->>>>>>>
->>>>>>>> +{
->>>>>>>> +     struct handshake_req *req;
->>>>>>>> +
->>>>>>>> +     req = handshake_req_hash_lookup(sk);
->>>>>>>> +     if (!req)
->>>>>>>> +             return;
->>>>>>>> +
->>>>>>>> +     trace_handshake_destruct(sock_net(sk), req, sk);
->>>>>>>
->>>>>>> Wondering if this function needs to preserve the socket's destructor
->>>>>>> callback chain like so:
->>>>>>>
->>>>>>> +       void (sk_destruct)(struct sock sk);
->>>>>>>
->>>>>>>   ...
->>>>>>>
->>>>>>> +       sk_destruct = req->hr_odestruct;
->>>>>>> +       sk->sk_destruct = sk_destruct;
->>>>>>>
->>>>>>> then:
->>>>>>>
->>>>>>>> +     handshake_req_destroy(req);
->>>>>>>
->>>>>>> Because of the current code organization and patch ordering, it's
->>>>>>> difficult to confirm that sock_put() isn't necessary here.
->>>>>>>
->>>>>>>
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>  /**
->>>>>>>>   * handshake_req_alloc - Allocate a handshake request
->>>>>>>>   * @proto: security protocol
->>>>>>>
->>>>>>> There's no synchronization preventing concurrent handshake_req_cancel()
->>>>>>> calls from accessing the request after it's freed during handshake
->>>>>>> completion. That is one reason why handshake_complete() leaves completed
->>>>>>> requests in the hash.
->>>>>>
->>>>>> Ah, so you are worried that free-ing the request will race with
->>>>>> accessing the request after a handshake_req_hash_lookup().
->>>>>>
->>>>>> Ok, makes sense. It seems like one answer to that is to add synchronisation
->>>>>>
->>>>>>>
->>>>>>> So I'm thinking that removing requests like this is not going to work
->>>>>>> out. Would it work better if handshake_req_hash_add() could recognize
->>>>>>> that a KeyUpdate is going on, and allow replacement of a hashed
->>>>>>> request? I haven't thought that through.
->>>>>>
->>>>>> I guess the idea would be to do something like this in
->>>>>> handshake_req_hash_add() if the entry already exists?
->>>>>>
->>>>>>     if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
->>>>>>         /* Request already completed */
->>>>>>         rhashtable_replace_fast(...);
->>>>>>     }
->>>>>>
->>>>>> I'm not sure that's better. That could possibly still race with
->>>>>> something that hasn't yet set HANDSHAKE_F_REQ_COMPLETED and overwrite
->>>>>> the request unexpectedly.
->>>>>>
->>>>>> What about adding synchronisation and keeping the current approach?
->>>>>> From a quick look it should be enough to just edit
->>>>>> handshake_sk_destruct() and handshake_req_cancel()
->>>>>
->>>>> Or make the KeyUpdate requests somehow distinctive so they do not
->>>>> collide with initial handshake requests.
->>>
->>> Hmmm... Then each KeyUpdate needs to be distinctive, which will
->>> indefinitely grow the hash table
->>
->> Two random observations:
->>
->> 1. There is only zero or one KeyUpdate going on at a time. Certainly
->> the KeyUpdate-related data structures don't need to stay around.
-> 
-> That's the same as the original handshake req though, which you are
-> saying can't be freed
-> 
->>
->> 2. Maybe a separate data structure to track KeyUpdates is appropriate.
->>
->>
->>>> Another thought: expand the current _req structure to also manage
->>>> KeyUpdates. I think there can be only one upcall request pending
->>>> at a time, right?
->>>
->>> There should only be a single request pending per queue.
->>>
->>> I'm not sure I see what we could do to expand the _req structure.
->>>
->>> What about adding `HANDSHAKE_F_REQ_CANCEL` to `hr_flags_bits` and
->>> using that to ensure we don't free something that is currently being
->>> cancelled and the other way around?
->>
->> A CANCEL can happen at any time during the life of the session/socket,
->> including long after the handshake was done. It's part of socket
->> teardown. I don't think we can simply remove the req on handshake
->> completion.
-> 
-> Does that matter though? If a cancel is issued on a freed req we just
-> do nothing as there is nothing to cancel.
+On Tue, Nov 18, 2025 at 9:49=E2=80=AFPM Keith Busch <kbusch@kernel.org> wro=
+te:
+>
+> The "report a bug" message was originally pointed at hardware vendors
+> rather than kernel. Something is wrong with the SSD, the PCIe slot, or
+> both if the power features cause the endpoint to drop off the bus. The
+> only recourse we have in the nvme driver is a quirk to disable APST for
+> the device. The driver doesn't control the PCIe ASPM settings though, so
+> that would have to be a different quirk if it's really necessary. Do you
+> need all three of those parameters, or is disabling the nvme driver's
+> apst sufficient on its own? These parameters do have a negative impact
+> on your machine's power consumption, so you'd usually want to hone in if
+> it's just the deepest power state or if every power saving feature
+> really needs to be disabled.
 
-I confess I've lost a bit of the plot.
+Thanks for your reply!
 
-I still don't yet understand why the req has to be removed from the
-hash rather than re-using the socket's existing req for KeyUpdates.
+Just `nvme_core.default_ps_max_latency_us=3D0` appears to be sufficient,
+so presumably it's the drive, not the bus. I wouldn't even know where
+to begin reporting a bug to the manufacturer.
 
+Still, it's odd that the problem manifested differently, and much less
+severely, on an older kernel. =C2=AF\_(=E3=83=84)_/=C2=AF
 
--- 
-Chuck Lever
+I've linked to this thread on the Arch wiki [1] to let others chime
+in, in case a single report is not enough evidence to add a quirk to
+the driver.
+
+[1] https://wiki.archlinux.org/title/Solid_state_drive/NVMe#Controller_fail=
+ure_due_to_broken_APST_support
 
