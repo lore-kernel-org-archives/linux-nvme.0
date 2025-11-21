@@ -4,64 +4,139 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BB06CFA447
-	for <linux-nvme@archiver.kernel.org>; Thu, 20 Nov 2025 21:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 917A6CFA477
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Nov 2025 07:44:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/6eqfYU/jUUuYoHuv7StAp45WC6GEI72VxPYF//OYgQ=; b=YLsLpHhsWoChbCpRt7PlBqiQza
-	tkfXRrodgDVichjWLrqmnVrods4Lba1h9U53+g1zeBdKxxd+6CYMLtDpUW0XBkggPUrvMtLyQudX1
-	VYZBd6LJ0UB3Vx8Qs20GHZWgc1KCt4ssI6xePa34xXk6L/21j/hq0DK6v9jw80lgq+U06+8M+NLhc
-	QyMI2ex8Mr0De5Ao/F7PA/XKQ9xhlUkVa90NJFN9lFMhF6kVEqM+9tL9hsR6sRn6NP/dQNiDwTzv6
-	Rf/e6upyg7IpN9yCudwrWBmE7bRIhBj0jIg8Mletp/sQg7JDcNFAWu/QNne90d1lWB54YTZozNTII
-	07bs2J7w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=SsCxjeXE1rBrqccQpZvQF/zKGW2+sRbJZgEftDug/HU=; b=D+dTqYsn3V0sLz6LCBNJ8ju+Bt
+	pRM7Fsb+ve0TNEoKXXNmBcXjowXrvSoE+c8N0DEah1/VyDi7OMjkRmuZ8GjxkUlMuJq7SSmP+CWWt
+	axCrqYwCLt5AmZvjNr6UpGeg1uezbrxl8xvqJNTqSufDTtlv+RYgY62lLqdXqGdGvYeRCeg5yXs4R
+	GZxlFvNuWDIJdi5/EXObja4+atFUi15F1G7ue5oZK89UZRWtxlVvPk5/O2w5ohGrmggaKIV7awzU+
+	2w4esRW3LIjbIkESHDHOQBntcuK7I06PC2mTx/Daqpe4O0glNW/tn8+okaLrGJJ0AxdJ57zQFYq7D
+	itMmPIUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMBpH-00000007Oef-15wF;
-	Thu, 20 Nov 2025 21:04:23 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vMLod-00000007zNE-2XrR;
+	Fri, 21 Nov 2025 07:44:23 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMBpE-00000007Oe9-0d8G
+	id 1vMLoX-00000007zLO-2JCa
 	for linux-nvme@lists.infradead.org;
-	Thu, 20 Nov 2025 21:04:21 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 70C0140954;
-	Thu, 20 Nov 2025 21:04:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E534C4CEF1;
-	Thu, 20 Nov 2025 21:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763672659;
-	bh=D6UrdPQuPLa1mnOY4xB+Z4g11uxAOCrC9tuUkAZw2Tw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZA6BhQiTL0+adEMBD5DPDx0J/6ODDMmzTfAVgUirHZp8qPOJm19aqk6ahj+u327ch
-	 kBQEu4nm0hPNqccOeQla9JFlt7WNYEFmoz+cjCl8n8y+abVF81nsK6YKI28MxNIFqc
-	 3lG+g9065tJzAc+geqyCnQMdD68vp7HBKshTg2YPoGoVM9rNhyV123ecYjtg880f6C
-	 pvHLoCQ3rYKMyT+a0hYHfcayji+IsdwCpZzyot0S5NxpjS/M3Amqz/c19sgY05AOb9
-	 oYqWMlSAR1ecCq6Km0/8iv+xD8jjbMZpeN5IrAzwj64+3B5IJhtjTWUUNFPv1ARaLw
-	 ZigO6j24fkkew==
-Date: Thu, 20 Nov 2025 14:04:17 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Thomas ten Cate <ttencate@gmail.com>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: "controller is down; will reset" on SK Hynix NVMe drive in
- Lenovo IdeaPad Pro 5
-Message-ID: <aR-CUUzWzQKIAfqx@kbusch-mbp>
-References: <CACbz5yFi8hiPD0Avg=KVTpdEeJC=3MMSkGtYOBQ=OmB_O0khyQ@mail.gmail.com>
- <aRzb6U1se40SrQRM@kbusch-mbp>
- <CACbz5yE1RNmJkg-RSBe2u60Y5yd1zxkEZ=pVy_gTa2JLh9d5xQ@mail.gmail.com>
+	Fri, 21 Nov 2025 07:44:18 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B4EC720EAE;
+	Fri, 21 Nov 2025 07:44:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763711054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SsCxjeXE1rBrqccQpZvQF/zKGW2+sRbJZgEftDug/HU=;
+	b=Rzkc1QEGcYWSAdiUwyBeuPMFMURj+sGKizQ350rvIRkDe1DvSCYem8lVQfVqHVsxRJshqL
+	OJ0eB3Am7tynACqKwzVzU29gpsKDaHfWcZLw2/mnMQMxS1sVeu/5dHzDX5J6zm86djganb
+	r7zjuG7ZrETl59ub9FgrCU8Jwqr+nU0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763711054;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SsCxjeXE1rBrqccQpZvQF/zKGW2+sRbJZgEftDug/HU=;
+	b=cD/0121YKeBxdKcebGgFRa5C1yHihYoV6w4/do1uodBIzFO6zAVJsJRxY2xnvCboB11JaF
+	9xEfUwLXqCa3tQBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=apTtJHgf;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0HFFqhLB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763711053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SsCxjeXE1rBrqccQpZvQF/zKGW2+sRbJZgEftDug/HU=;
+	b=apTtJHgfu7m2IWGsDaZSdiBG/2bteprYxcqaxl+9Lbtcrtw6NEgW2hiqCk5cd2sBm9PJFb
+	JvHfXfzQ6ozRIdHBSv1Bh5AdUPOFzeSgmGPtjrYJfwi1Ca/RkHB5914dtkgG9igBeOY/fn
+	78cNl7xIyNceKz/AdEz3K/GNwroHJ8I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763711053;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SsCxjeXE1rBrqccQpZvQF/zKGW2+sRbJZgEftDug/HU=;
+	b=0HFFqhLBnxJo9SZWm8AezDtD2hX3b9WzVddjd57dT1f8ND5zx8ua/BQnNckmbD6yr40NoQ
+	GFxOgEqV+FvCaHBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 66EDE3EA61;
+	Fri, 21 Nov 2025 07:44:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LQMUF00YIGmPEAAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 21 Nov 2025 07:44:13 +0000
+Message-ID: <e281da57-caa0-4e36-8ff2-80175bc43090@suse.de>
+Date: Fri, 21 Nov 2025 08:44:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bug report] kernel BUG at mm/hugetlb.c:5868! triggered by
+ blktests nvme/tcp nvme/029
+To: Yi Zhang <yi.zhang@redhat.com>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-block <linux-block@vger.kernel.org>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>, Ming Lei <ming.lei@redhat.com>
+References: <CAHj4cs9Ez5f+SsHMcbYVeKGScuL9vq71i57kRgu2KneRtXRwmw@mail.gmail.com>
+ <05281713-80b3-4199-8e76-672e84fcc33e@kernel.dk>
+ <CAHj4cs8+Xgz1qgf3H0sDMFhVAmzb9EsVmuJoRLBOgP7bQymodw@mail.gmail.com>
+ <CAHj4cs_4-5g5oW-Wx7KwceALy8F-Ku4cxQGMZ88ARpvZN4HRjg@mail.gmail.com>
+ <CAHj4cs9AUA94ntY0uhDDAmoWTMA3kxpSCArKG9MHcgkVASJfAg@mail.gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAHj4cs9AUA94ntY0uhDDAmoWTMA3kxpSCArKG9MHcgkVASJfAg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACbz5yE1RNmJkg-RSBe2u60Y5yd1zxkEZ=pVy_gTa2JLh9d5xQ@mail.gmail.com>
+X-Rspamd-Queue-Id: B4EC720EAE
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251120_130420_233863_4185D9AE 
-X-CRM114-Status: GOOD (  21.67  )
+X-CRM114-CacheID: sfid-20251120_234417_734527_2F6298A7 
+X-CRM114-Status: UNSURE (   9.27  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,33 +151,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 20, 2025 at 02:52:22PM +0100, Thomas ten Cate wrote:
-> On Tue, Nov 18, 2025 at 9:49 PM Keith Busch <kbusch@kernel.org> wrote:
-> >
-> > The "report a bug" message was originally pointed at hardware vendors
-> > rather than kernel. Something is wrong with the SSD, the PCIe slot, or
-> > both if the power features cause the endpoint to drop off the bus. The
-> > only recourse we have in the nvme driver is a quirk to disable APST for
-> > the device. The driver doesn't control the PCIe ASPM settings though, so
-> > that would have to be a different quirk if it's really necessary. Do you
-> > need all three of those parameters, or is disabling the nvme driver's
-> > apst sufficient on its own? These parameters do have a negative impact
-> > on your machine's power consumption, so you'd usually want to hone in if
-> > it's just the deepest power state or if every power saving feature
-> > really needs to be disabled.
+On 11/20/25 16:18, Yi Zhang wrote:
+> I did more testing today, and found that this issue cannot be
+> reproduced if I don't set the nr_hugepages
 > 
-> Thanks for your reply!
+> https://github.com/linux-blktests/blktests/blob/master/tests/nvme/029#L71
 > 
-> Just `nvme_core.default_ps_max_latency_us=0` appears to be sufficient,
-> so presumably it's the drive, not the bus. I wouldn't even know where
-> to begin reporting a bug to the manufacturer.
 
-I assume vendor 0x1c5c for SK Hynix, but we also need the device id to
-make a quirk. You can get that info from sysfs, for example if your
-device is enumerated as "nvme0":
+But is the inverse also true, namely _can_ you reproduce it when
+nr_hugepages is set?
 
-  # cat /sys/class/nvme/nvme0/device/device
+After all, there seems to be an issue with hugepages, so it's not
+surprising that we don't see it if we don't use hugepages...
 
-There's two quirks we can try: NVME_QUIRK_NO_DEEPEST_PS first, then
-NVME_QUIRK_NO_APST if the first one wasn't successful.
+Cheers
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
