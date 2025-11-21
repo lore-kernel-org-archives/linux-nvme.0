@@ -4,88 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CE00CFC271
-	for <linux-nvme@archiver.kernel.org>; Fri, 21 Nov 2025 13:07:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07D42CFC28F
+	for <linux-nvme@archiver.kernel.org>; Fri, 21 Nov 2025 16:13:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qQG4w/4j8cgCrLBTRPU2/d9Bsk4842ntkRe0AXOKvEg=; b=UH+VTr5s90vIMAfcpcgJCgqOva
-	GJTSnHGEn95TkxLeEAfV0YsxTzCJ8Z+ptN0Z5dKrG9qcrxGu4co39OB5h6IvgYMtxf9KmUTF+QJa4
-	KQejz47+mYqlfGrmCnQx4/EHbLe7T6I7f/VNE33+uCJ5Uz1LPa7Ry6y46hO7kjcMVs18xDV8Bfzy8
-	2yFGVNqVX2WuyobCKDDPoWIPy5SGBEeyaaMUxJU+F5gSWtmRlkSZSVkVRfAp7uZEUctFPZhvAO3hT
-	Cx5HoqxulXNbSuB5AfI/nYULSVhDTp0s8ys3mpDp7Q1gKntRULvxDEEk/O1TMxymg9c4oBRBRatst
-	vvDwgwPA==;
+	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=; b=wvGJgeycZJFGQk/gzfj4ZR3gTX
+	3HMQgKHtQx/ACrLWJ9/Uy/ofebeuTS3wAH2UGEfuo6ZhY8EyiCx4mFqNGdkoymc0lnOpEsoaFZbL/
+	mQXIu2kD+0li1xsIbW4HZxaJiaT5g6BVqrOZFfFJp1asMZTn2LCZD3CvNlA95oR5Dh5FbTRTO+N/J
+	Q7nrM9ypSc27oGpgng+cnkoKA2MznfaHGclGTFD4v9GKUey/BKDBCK1zWWJKArzdruLiPyXeQUs0m
+	B1AEq7X0CkRHsENtOVkcDdG5LL/jvOTqU83Al+qG0cWKHVxJ7EEF1A5x6PHBqjRE9vlxGAAJU7iS3
+	/LT771Kw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMQql-00000008OTo-2B47;
-	Fri, 21 Nov 2025 13:06:55 +0000
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+	id 1vMTlf-00000008hDo-35NZ;
+	Fri, 21 Nov 2025 16:13:51 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMQqi-00000008OTL-2S40
+	id 1vMTle-00000008hDi-1zPo
+	for linux-nvme@bombadil.infradead.org;
+	Fri, 21 Nov 2025 16:13:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=; b=S5/p+e705Jc6W14C9PLVVs0z0y
+	NsLtdglqOlv9pW0bkvkaknf3wmnvJ3f+GmovzoJbQW/CdLpfAiEi12w7kjYsDC4Ebfe8Txf4sCiW0
+	z340gZyv2FXLO0HnmH6//nE2AJha2ojMNQqKtqJPuXlCqxzeUhrUL7w5RrnMqWMdADjVoxwDgVqwK
+	YhVSDzd4I6ZL/gLbj2LTxCT9Hq/TxPOOJyOtmJt1BGHm/Cb2FgWmOcP8/m4YcLdftidCO8UmYoFnp
+	7N21KRX65xTcYttGdFEtlZQw0HB23lzOlrk5GKabPxvNW+8YJnHtmtQe0S5DybGuYoxkLTlGMqres
+	msvaxzug==;
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vMStz-0000000HC5I-0vWe
 	for linux-nvme@lists.infradead.org;
-	Fri, 21 Nov 2025 13:06:53 +0000
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-640a503fbe8so3397255a12.1
-        for <linux-nvme@lists.infradead.org>; Fri, 21 Nov 2025 05:06:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763730410; x=1764335210; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qQG4w/4j8cgCrLBTRPU2/d9Bsk4842ntkRe0AXOKvEg=;
-        b=ejAP0UNIVsCecl4xkem7KCCvx23FnjtQlGb2NQZxtpjunJp+n1uwiNm/Ty0jJt/AvY
-         ux9uH+MuUnrpL4kv0DJ2wK2XeksxwcROhnBj29rkHVLk0f5UH+uVzclZMqsQMB2aHoDL
-         2m8PmsbUWhptEITFauLw+dUjCilDNye+ZSZg2HTAPArQU/6oBqrwqYmS150SET/1lvQc
-         Vicea6i2q7dqD/99Pt/ism9v6hrK1BvkwHqt27MWW5xZ433wv+2FIUenH7XICtQzS78U
-         KRMwcXHvJUH5MSdGiVV0jKjrhffkpokjG3/E8qZsgbp3LH/ri+o6puw25Hj6539ZlbbV
-         ja0A==
+	Fri, 21 Nov 2025 15:18:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763741616;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=;
+	b=iq5ZtkutUGVMco87IEC0Q3etvm4rU/AdKhiHa24FdKQvfyN7gKXBgVLzM1idPgJtVTHK3C
+	nJCn5UGY6wIg1ACJBvbZhEl97imErHihYgivy85UOZOhgH6Rq40s07NqbHkL4ow2jfH245
+	MJ912EBlL1kN/I3iDJfg9JZVMcxCyic=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763741625;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=;
+	b=VattK0Dym/nxRNrTXXxomvk3Rmg/qTq5UThSp/Awmid9yQVxTjltOgQzYpAeR3p8h04xVT
+	NLGI7IWkyINBNKN5yJ1xDH0nz9gEPft/JmWeEWoOmbYVFlOTz+BFc2lZYWPgKHSm0bNpqy
+	jv0eHg69EtT6P66SLfqkjAuhJ5oFxZQ=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-n0arO-2DO26ixIJn8eWfSQ-1; Fri, 21 Nov 2025 11:13:32 -0500
+X-MC-Unique: n0arO-2DO26ixIJn8eWfSQ-1
+X-Mimecast-MFC-AGG-ID: n0arO-2DO26ixIJn8eWfSQ_1763741612
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-63e3421b8f3so2705779d50.0
+        for <linux-nvme@lists.infradead.org>; Fri, 21 Nov 2025 08:13:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763730410; x=1764335210;
+        d=1e100.net; s=20230601; t=1763741612; x=1764346412;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qQG4w/4j8cgCrLBTRPU2/d9Bsk4842ntkRe0AXOKvEg=;
-        b=VNaI3JNcAd1KTBADmlGkAx6JkJByuDWjL6gKr0r7G05LG+MtbjjSqxiqAITGnk483o
-         5VSSwj4gKG+HXG+lXtmEZ1RbEeBVHRqiXGFKOqHCWdEkOQUdhDNxMGPZ8qrSY1xK/Xge
-         mfkbsMA1nn0sPxNzfOGLbgorYME1TjjjCIhonBrQv1tnWdP04AD4lBhQIIhjb8YS5W4I
-         fGmG+a2JpZz5AbnSVIeHKBfZcfVjK9lPfBBsCidPIa2yX7H9fXSo5FQo1yMlIrl3z7wE
-         +TfHLSaYIvQ9Tq1KOLLDqIDdX9qMLwuJ33rp+uS2ib6nRbb1F2gezyeGqy7P9mSDz8XD
-         Iq9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV2uV4frQXW0nm35RbaCbyDrzEaaoFXqn1mdrdRddhEvnzOJXa4Bp7JubIXwjcgH4b0H31ZhCOo7kk/@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx9j3QrpRUIJ8d0tddZzNecReoJGqn8EYCeGMPyOF9ZVSeMq4Am
-	5aiuoarDVVzEQ2Ob5uKUHJQsF/5v9JiMaZKSKRNxOQVdC4todW/osdACQRoj37j9Kwb+BCSC0KJ
-	+waODtTm8YAi8cO6fiy5Gl1x5HXlO9vCEjg==
-X-Gm-Gg: ASbGncvJ0b/WiJFLmdl7ckZXrgKBhOmN2OOluVelGcjwoJ3mTA5QHwniBglBcAhmlL7
-	1g5fY1wmDJXAgzE8TsqQ1Acpzq8EzGHnwJ0dPeQK5rG7RVAVLAd84Ty9u5XmfsDxh/oGkbVqimb
-	NqzX1q3g3H2xouTBcXP2skWALw8gqGjhiClDAxEpf2VC3hZZNMNa+krx927Hee7EgdcmEtt93K1
-	ENqdipJ4rZFRbaQJ3c7ZN3QfXBkp+YB3seQO2DXJS1vZ3HT1NWJ5yGesYWA5OpVO5fUgliDA4d+
-	SEZpj4/c1l0vy5QzQBd7znnbawnRqCnxRS9oQG948z71bQHfi7W9GZM764jOVCDWoHZEkS34p9s
-	Q6eZyCQWWk9BGcvnnCfGn1gI=
-X-Google-Smtp-Source: AGHT+IEv1fnmCBYJ0lqxFncXGcTVYaGmR8vxxcXXSz3bTlZAYbpBZUU6MZvkz4NpbOibHzfMa47OC3ytxLmZImIarKA=
-X-Received: by 2002:a05:6402:34c7:b0:640:edb3:90b5 with SMTP id
- 4fb4d7f45d1cf-645543493b7mr2079518a12.7.1763730410186; Fri, 21 Nov 2025
- 05:06:50 -0800 (PST)
+        bh=hh93R5tPjAC6W1rTnWq/i2ZvU4feR2Tgy6yZhs+i3/0=;
+        b=TqdKqq8xo0FIRbVmYg2SU9Yu+r1CjevEJB+wYY8DZNZMrxPriBp/Uphnet1u38HuY0
+         zmb1I2YdK2mrPuVNLxgVvB4ra3R6snA/YAaqvkkfrfhQNAY5mHvxiSwMyUIff9/M+q0J
+         u3yMWkolb7JOdJxibhWs6KDhkjbEEbimCmHcLuhJ+urqEL3aVA338ND1uEHJE37BoBmo
+         ypekqTzav6OnRxFE7Hd2oPp050xdf9Z/H4ECcnE1B+u4AooIhQWgXNF2FyKwXB7qwWNh
+         b1XpfSlREnVrNEa+NajnR+ztAChOySXchle/NhB/1dwu4q+XcppLQFuu6a+NQ9YVAff4
+         bVLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWo6FyAqHRyw+lMfRLaMRzJ3FuhHBrxntsEx/S56Hx6479JlrnzN6RQAZ+nAXLi/AV5RRR4+VodnKjr@lists.infradead.org
+X-Gm-Message-State: AOJu0YwnUAKc0huNG/x98wEnjnS740Q4lDUWOvLmf3M9RYCZzTG/9GP5
+	EkP+d72KWZj3RATSO67Hcc3eJ+PRR/BX0id9MhVIJ86gXdsYkJ11LOqH9cDnH2uT5N77BOMYF62
+	O6BTiHVlabKn/kHxC2vUgC9s5EY7EWS/SvZIL0YUsWIT8adOov8EeLfeDS9gikqygsFuCWJiW4E
+	xjbtQOMf2D0fWSGtsflvxyYaiDRjsp15JZeZsZ8JMP8ok=
+X-Gm-Gg: ASbGnct6btRmVrAuYc0Bp//qfjPOk0QJkJZOqHdC0TtZi0Jlur5SxXnt7xC8VknKA0M
+	8LwU7IgMqP9re8PKuDGo8qrlapna9rkqlinArOkTq3tFwtw73xaqF+U6cMDRavNBQ63d+NuXxvf
+	SHRxQmWN9zi8mEwYecwgn9tHyfGyVeU73aVcG76CmghhEPEjWWpdQkj1tkWWfoBVxL
+X-Received: by 2002:a05:690e:1699:b0:641:f5bc:6979 with SMTP id 956f58d0204a3-64302b122d9mr1963770d50.85.1763741612187;
+        Fri, 21 Nov 2025 08:13:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFQHJg27kBmo+3qPSDwMS0FzdloscgwgQdqDmCn0XCLoSgo3nmRsjJwwBETY525KvvMg6grxlgTavlZWQ/uK4U=
+X-Received: by 2002:a05:690e:1699:b0:641:f5bc:6979 with SMTP id
+ 956f58d0204a3-64302b122d9mr1963750d50.85.1763741611792; Fri, 21 Nov 2025
+ 08:13:31 -0800 (PST)
 MIME-Version: 1.0
-References: <CACbz5yFi8hiPD0Avg=KVTpdEeJC=3MMSkGtYOBQ=OmB_O0khyQ@mail.gmail.com>
- <aRzb6U1se40SrQRM@kbusch-mbp> <CACbz5yE1RNmJkg-RSBe2u60Y5yd1zxkEZ=pVy_gTa2JLh9d5xQ@mail.gmail.com>
- <aR-CUUzWzQKIAfqx@kbusch-mbp>
-In-Reply-To: <aR-CUUzWzQKIAfqx@kbusch-mbp>
-From: Thomas ten Cate <ttencate@gmail.com>
-Date: Fri, 21 Nov 2025 14:06:23 +0100
-X-Gm-Features: AWmQ_bl8X6mhJEpIQfsjfeU1r17Y4IhSzZuCVaC6xwMtMnbkfDAQD7RXNpSJDCg
-Message-ID: <CACbz5yE52zBkN_mhMhY_bA62z0Fajt3K+K65Fyf8bWBd13yC-Q@mail.gmail.com>
-Subject: Re: "controller is down; will reset" on SK Hynix NVMe drive in Lenovo
- IdeaPad Pro 5
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
+ <20251121081748.1443507-2-zhangshida@kylinos.cn> <aSA_dTktkC85K39o@infradead.org>
+In-Reply-To: <aSA_dTktkC85K39o@infradead.org>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Fri, 21 Nov 2025 17:13:20 +0100
+X-Gm-Features: AWmQ_bmosC4btoZ-wa-ksr6NsYAdeqQOhz6k6QYvia4F3jK6NJjmea5Iy6uFTHo
+Message-ID: <CAHc6FU7NpnmbOGZB8Z7VwOBoZLm8jZkcAk_2yPANy9=DYS67-A@mail.gmail.com>
+Subject: Re: [PATCH 1/9] block: fix data loss and stale date exposure problems
+ during append write
+To: Christoph Hellwig <hch@infradead.org>
+Cc: zhangshida <starzhangzsd@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
+	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
+	zhangshida@kylinos.cn
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: FV7K802ikU9qNNXsoR-SRm5mkE1AIfAw_AaD-LbAptY_1763741612
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251121_050652_650008_C6E724E7 
-X-CRM114-Status: GOOD (  11.29  )
+X-CRM114-CacheID: sfid-20251121_151823_418321_ED0ECD59 
+X-CRM114-Status: GOOD (  17.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,36 +134,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Nov 20, 2025 at 10:04=E2=80=AFPM Keith Busch <kbusch@kernel.org> wr=
-ote:
+On Fri, Nov 21, 2025 at 11:38=E2=80=AFAM Christoph Hellwig <hch@infradead.o=
+rg> wrote:
+> On Fri, Nov 21, 2025 at 04:17:40PM +0800, zhangshida wrote:
+> > From: Shida Zhang <zhangshida@kylinos.cn>
+> >
+> > Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
+> > ---
+> >  block/bio.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/block/bio.c b/block/bio.c
+> > index b3a79285c27..55c2c1a0020 100644
+> > --- a/block/bio.c
+> > +++ b/block/bio.c
+> > @@ -322,7 +322,7 @@ static struct bio *__bio_chain_endio(struct bio *bi=
+o)
+> >
+> >  static void bio_chain_endio(struct bio *bio)
+> >  {
+> > -     bio_endio(__bio_chain_endio(bio));
+> > +     bio_endio(bio);
 >
-> I assume vendor 0x1c5c for SK Hynix,
+> I don't see how this can work.  bio_chain_endio is called literally
+> as the result of calling bio_endio, so you recurse into that.
 
-Correct.
+Hmm, I don't actually see where: bio_endio() only calls
+__bio_chain_endio(), which is fine.
 
-> but we also need the device id to
-> make a quirk. You can get that info from sysfs, for example if your
-> device is enumerated as "nvme0":
->
->   # cat /sys/class/nvme/nvme0/device/device
+Once bio_chain_endio() only calls bio_endio(), it can probably be
+removed in a follow-up patch.
 
-0x1d59
+Also, loosely related, what I find slightly odd is this code in
+__bio_chain_endio():
 
-> There's two quirks we can try: NVME_QUIRK_NO_DEEPEST_PS first, then
-> NVME_QUIRK_NO_APST if the first one wasn't successful.
+        if (bio->bi_status && !parent->bi_status)
+                parent->bi_status =3D bio->bi_status;
 
-I tried adding the following to linux/drivers/nvme/host/core.c, in the
-core_quirks[] array. It takes a model name, not a device id, which I
-took from /sys/class/nvme/nvme0/model.
+I don't think it really matters whether or not parent->bi_status is
+already set here?
 
-{
-  .vid =3D 0x1c5c,
-  .mn =3D "SKHynix_HFS001TEJ4X112N",
-  .quirks =3D NVME_QUIRK_NO_APST,
-}
+Also, multiple completions can race setting bi_status, so shouldn't we
+at least have a WRITE_ONCE() here and in the other places that set
+bi_status?
 
-With NVME_QUIRK_NO_DEEPEST_PS, it still hung almost immediately. With
-NVME_QUIRK_NO_APST, it appears to be stable.
+Thanks,
+Andreas
 
-Would you like me to send a patch?
 
