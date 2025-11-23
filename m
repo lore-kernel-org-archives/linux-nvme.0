@@ -4,72 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D28C8CFD316
-	for <linux-nvme@archiver.kernel.org>; Sun, 23 Nov 2025 22:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71BB7CFD313
+	for <linux-nvme@archiver.kernel.org>; Sun, 23 Nov 2025 22:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zxuKr9/wD0hv1o+9Q16IeSgRkNQrWSlYyRysfxG3AMc=; b=v+utmL5Le9r7Kq+pBPKohnnwWL
-	x2psNPbAlzO8rbmPaTkwKrdY0+AkzIgnLDyfWtzxDt538EfYISHfsXEzbDskX8xPVLDo33ceWfH5M
-	KU8BLgOwhXPmGeMr7hY5W8sWnNbr67yfq6P0OG+BEASA8vugq7Aac8dS6EEt0wW3jHrth0uELFaR5
-	2j5ho7D8BDjJEbV4Vz/ZVWIVUaF5M915vAAmB5bovTSAQrCi/u6oEtV2yBuCDPwa84/uUqcqQNkzU
-	yUwGClUmV3btV2BBZEyTiChlNlgKIC8KqkfE4QgyQZf4J8eu3LNF8o66rPReGgOx8qf+UsC7pcNkN
-	ErlUABTA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=QZk9sSNTwOxRpwZ/DRrF1dwGfvdtNtexBNm/jAu7ryY=; b=QsZfStDfTzTYe8uoF/KaUqRgR1
+	jP01Qos71BTYa3EZwVW246ShamShyFFlVe6xBynSK0f3bE23iTtf+lUNh8O91+8dpum0Vug6dYS/U
+	436Aeo0EHu1V7AzMDt0MYfHYSv+hZiG75JK2Arkwn2YCbzMDplR/geWKgaBv1NLCz2OlBquzN0L4H
+	7KTVwsjMd5eV6KAMDCX+dPDLP2m3HqAzyg4pdwkab9GOdSqGyx/V2pEyYMfx2mGmdP+lrp9p3XE3N
+	rNga96WMcQLf/dz1LeAjXTrePVFOAZa6oezLOlb8itCzScPLwjUpwweCPpuGybeg2mKCi4+c2rm3a
+	03vBlM7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNIvx-0000000AkkI-1DIV;
-	Sun, 23 Nov 2025 22:51:53 +0000
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+	id 1vNIvn-0000000Akfd-1mjg;
+	Sun, 23 Nov 2025 22:51:43 +0000
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNIvu-0000000AkiG-2QU9
+	id 1vNIvk-0000000AkfI-2a5w
 	for linux-nvme@lists.infradead.org;
-	Sun, 23 Nov 2025 22:51:51 +0000
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so20956175e9.1
-        for <linux-nvme@lists.infradead.org>; Sun, 23 Nov 2025 14:51:50 -0800 (PST)
+	Sun, 23 Nov 2025 22:51:42 +0000
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-4779adb38d3so25640725e9.2
+        for <linux-nvme@lists.infradead.org>; Sun, 23 Nov 2025 14:51:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763938309; x=1764543109; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zxuKr9/wD0hv1o+9Q16IeSgRkNQrWSlYyRysfxG3AMc=;
-        b=kNB6byIcfR+f0ahmxnsdSM8qeMg0R/8O2aHlKQAm7Jv31iOsxUbCPx/4Sc6gME+c1G
-         Wl0ADdyeIvmphvSXTFUJIVa6pLXjbGhEDVmAAxouPuwfor2zrdt8Kt2K96d3sOetb58w
-         TZhhS4/tlxBjinjNsr20ySVHk2D2Jl6fS/gKkr1IvrSGnu2388NFBxftqSN9RjOPCLMQ
-         7TI37f26lWszt6hdnJzhsKxRfaYNup/3ELdtSw7RTGh41G/WHyLZVooZ7PS0VAfaWpqT
-         +ScIaP8LVVguglrlhcmVU2bdBZv4rJurToVKQoh6hCZG2rxpEmd++9cPgAOhimRp4qOG
-         NbcQ==
+        d=gmail.com; s=20230601; t=1763938298; x=1764543098; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QZk9sSNTwOxRpwZ/DRrF1dwGfvdtNtexBNm/jAu7ryY=;
+        b=KZzq7A81RsBZVLg88OVkLOuOUs7B63+sqNP4s1rmSIR7t1wEAeY3AM1PK2N6pL4Kvk
+         cnIefteHMQzWZbKn/XLK8rSrxY+JJl6REcvke8144jRUa/ewsiZ8ksn6Bw6PrXsfghNp
+         38b8FWjSDYlb2au6tPSb9dKNg6VwSuKBjtjLARbZzE5yS7eHX3kYz4EruLa6N6S3QAAt
+         31vt1bcDDQPlCcO+eTppe80BRJZtPyewlQGjQo5PWbUpOls7q4AP3vcECI0l33w7MYhZ
+         OkngnQq/b5d8gHkMMsdJBs5/4z6GovuThnQ5YZOZXTBPiqjlufI2PIptzYjWe8JE647d
+         wm1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763938309; x=1764543109;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zxuKr9/wD0hv1o+9Q16IeSgRkNQrWSlYyRysfxG3AMc=;
-        b=m1Na+IWj+si+wCMZUPGUzqMuRlY4TBcoVpqTi1h71EHf5ies6/EnfOo6xW84qSR98I
-         ThTwpvXhnl8L6NdgU8Va0exlEF616yI998nLzEitqgbCaNN6I1AeB3/fPxG2HlwE+ovm
-         TLevBuw5NM7OwWxRPQG2FgMDBwHUDxOtozmIlZIWRlO9kTsJj3pcmnxVKePfbZXQyJ91
-         CjToEqY/zxWbySwud8fIxYV8s+9k6pEWxG2ggdBJDZCbQoi8Pyy6RqvS2ZnskIKEt9Em
-         rirpUR/MBKfgn7nVOk0BTuzCB6JJCgHXCGqTLi3A2MXXgJme2JEVaWfWWwCuyKCfxp6q
-         QAQw==
-X-Forwarded-Encrypted: i=1; AJvYcCVXsvsER1dLP1nLss79PkyJ8mi2t8qRZmW5pyqIVKZO0flBELO5xYJnpmTWPhg1hruwabwOvCtr4A7z@lists.infradead.org
-X-Gm-Message-State: AOJu0YyESH9xb+WI9R8ULHyD9XPwE27+vnVakWkgpTlDMXTJd8jNarBV
-	qXh1bVMng//bTyrWV0N+dfDbB5Uz931jIcPFuyP4k9foPlLHTHK12eFl
-X-Gm-Gg: ASbGncsjxyKbdHDxzTKwQBu4o+qh3Cp7pROIb3d84647DdEJTFcG2mbr31ZOacPe2/O
-	2DwpuDNDuXIO9WryXz7U0rGXudnii7ZxEmyvl2sUrRcqmtf7yk88iUgWlB5RWHCM7h6WPLu667L
-	89a+CQaB7/3OIN8XP/t42LKfSKd+5XmhHXgACgyGqiXHgSBeWZC3UNhfYFeLKFEFKqzGUmgRTgC
-	ioVzr23315qSjTTYGsusdhiSgJ0TRONdYoOWcRnLD5Vq8vnNh8BhU06FbVRdoJfAlNaI+8UTMr3
-	R+yroOGh4gmDtryy988LtT+8BFOu9jBhhYAc/hb7V+fOtpAVZpRZSDMIAr7rUT849TnhT2Adg6X
-	1sRf6Ode7sIseWuPQT0HdIvsfH61wqnpNgx8CGVX3AHw8cvTOawO8NPfd2fITwqUptZ4cSRqyri
-	Pap1b2lRlI5zEd3c4rZgSlzYga
-X-Google-Smtp-Source: AGHT+IF9Tqh/ORJZEo3R5Xg7ZJWy7sWzF8MjqLc9q+tvrWwYorpVbwyCo218uq/Fj/Pad8uOgoxn1g==
-X-Received: by 2002:a05:600c:840f:b0:477:7479:f081 with SMTP id 5b1f17b1804b1-477c0181443mr112383465e9.12.1763938308511;
-        Sun, 23 Nov 2025 14:51:48 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763938298; x=1764543098;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QZk9sSNTwOxRpwZ/DRrF1dwGfvdtNtexBNm/jAu7ryY=;
+        b=W1HeOiGSFiAksZCqhnDLpLifeaqdcobEzD70DbyHJjvhbT7ZX23TGCE1H1JURLIKjr
+         k4aP5ToTi/BSqV3tsgEujONNB1mktQmp3LrVrUhRxVfcvpm9eAP7aO8Jx4ENhw55YIJe
+         SeHauFAHtqUC88Jf7fBV/1DI88WAbAWVbvBJNWda04aE6qbbbE8tB8FbfNCiCVxaD20F
+         EIhyHmVZ3j4IFBDbm9TlPKSfHiQ+29N0aQHBTkfINltXLsTaf7nE2pYIyMcG5s9ZGFm5
+         P7CDL73O4y4u7f+YKd+JXXGN5JMXQe5chA5dMlnv/Yj9EqNLztJtBHlR/7ZMnnUwCYB3
+         eyNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUsukyU6x8mo+bd6ntWNJse7jLPZrm6Fji8TeHkZereOHbCRGIEd0c5GeO20JAGtzD10GNSTItQ4YPe@lists.infradead.org
+X-Gm-Message-State: AOJu0YxxL7YI7l0uVK5A8+HISvkXMoEeMHYZbEMqb8Ac6gswISTABLcS
+	lDXkfTmJtX3Bdc+D7+9eFkry4mFbVYrEXIzwowxhsq0MHbXZQFUkzsdx
+X-Gm-Gg: ASbGncsRoCZg4fHx1YAa9KU7MPaoVNAeqlOTemreQDjUpoRFxxj41DKYzRwGZX4CwEw
+	bysxlzuWI8cMQzHZI3EFSn1pOCZKofvfrH6UOhIaw8Cf55iVsZw3ONr30d7HhA4CeprKWAvwNuS
+	aVu4+vNZ+WE5fQRC7DGUsbTM2gK/hoqqHv40napqhvMADTvGnbKqMxMHEQckpLZhKDpIBw8U2gG
+	tMsf2KwBIC8ifQ/Cs9RO5LntkND8eHeO5v/uh1rI//b0vWw2hrS4z9GxSRtmLhVoWsDx91qrt1b
+	HdF0HW30aJ4IZpEfZ3Mmbm61Y4MSgYj5C0aSNSvx1hx1o+npaNxqlgNWKZiC9ok77vqhLPxeoWZ
+	N7wXGytF3StSzXxoPaWwBX9V4uAP9wpWSt3znVR5/qWXOo2OkBhgpBOaF8aJmpwcj2NpmcIYiOm
+	i7G6+9YTMgy/d4wQ==
+X-Google-Smtp-Source: AGHT+IEIzt6XAqBENWHKeltpmV3b1E5pfBhghZPeIUxjN0aB1YgGqF8Sp/+lNyxIs5uZ/0aP6PM4yA==
+X-Received: by 2002:a05:600c:5491:b0:477:fcb:226b with SMTP id 5b1f17b1804b1-477c016e60cmr94038575e9.2.1763938298240;
+        Sun, 23 Nov 2025 14:51:38 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 14:51:47 -0800 (PST)
+        Sun, 23 Nov 2025 14:51:36 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -91,17 +90,15 @@ Cc: Vishal Verma <vishal1.verma@intel.com>,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 04/11] block: introduce dma token backed bio type
-Date: Sun, 23 Nov 2025 22:51:24 +0000
-Message-ID: <12530de6d1907afb44be3e76e7668b935f1fd441.1763725387.git.asml.silence@gmail.com>
+Subject: [RFC v2 00/11] Add dmabuf read/write via io_uring
+Date: Sun, 23 Nov 2025 22:51:20 +0000
+Message-ID: <cover.1763725387.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
-References: <cover.1763725387.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251123_145150_656647_FB4EA207 
-X-CRM114-Status: GOOD (  24.07  )
+X-CRM114-CacheID: sfid-20251123_145140_699899_26662C21 
+X-CRM114-Status: GOOD (  18.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,218 +113,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Premapped buffers don't require a generic bio_vec since these have
-already been dma mapped. Repurpose the bi_io_vec space for the dma
-token as they are mutually exclusive, and provide setup to support
-dma tokens.
+Picking up the work on supporting dmabuf in the read/write path. There
+are two main changes. First, it doesn't pass a dma addresss directly by
+rather wraps it into an opaque structure, which is extended and
+understood by the target driver.
 
-In order to use this, a driver must implement the dma_map blk-mq op,
-in which case it must be aware that any given bio may be using a
-dma_tag instead of a bio_vec.
+The second big change is support for dynamic attachments, which added a
+good part of complexity (see Patch 5). I kept the main machinery in nvme
+at first, but move_notify can ask to kill the dma mapping asynchronously,
+and any new IO would need to wait during submission, thus it was moved
+to blk-mq. That also introduced an extra callback layer b/w driver and
+blk-mq.
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- block/bio.c               | 21 +++++++++++++++++++++
- block/blk-merge.c         | 23 +++++++++++++++++++++++
- block/blk.h               |  3 ++-
- block/fops.c              |  2 ++
- include/linux/bio.h       | 19 ++++++++++++++++---
- include/linux/blk_types.h |  8 +++++++-
- 6 files changed, 71 insertions(+), 5 deletions(-)
+There are some rough corners, and I'm not perfectly happy about the
+complexity and layering. For v3 I'll try to move the waiting up in the
+stack to io_uring wrapped into library helpers.
 
-diff --git a/block/bio.c b/block/bio.c
-index 7b13bdf72de0..8793f1ee559d 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -843,6 +843,11 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
- 		bio_clone_blkg_association(bio, bio_src);
- 	}
- 
-+	if (bio_flagged(bio_src, BIO_DMA_TOKEN)) {
-+		bio->dma_token = bio_src->dma_token;
-+		bio_set_flag(bio, BIO_DMA_TOKEN);
-+	}
-+
- 	if (bio_crypt_clone(bio, bio_src, gfp) < 0)
- 		return -ENOMEM;
- 	if (bio_integrity(bio_src) &&
-@@ -1167,6 +1172,18 @@ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
- 	bio_set_flag(bio, BIO_CLONED);
- }
- 
-+void bio_iov_dma_token_set(struct bio *bio, struct iov_iter *iter)
-+{
-+	WARN_ON_ONCE(bio->bi_max_vecs);
-+
-+	bio->dma_token = iter->dma_token;
-+	bio->bi_vcnt = 0;
-+	bio->bi_iter.bi_bvec_done = iter->iov_offset;
-+	bio->bi_iter.bi_size = iov_iter_count(iter);
-+	bio->bi_opf |= REQ_NOMERGE;
-+	bio_set_flag(bio, BIO_DMA_TOKEN);
-+}
-+
- static unsigned int get_contig_folio_len(unsigned int *num_pages,
- 					 struct page **pages, unsigned int i,
- 					 struct folio *folio, size_t left,
-@@ -1349,6 +1366,10 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
- 		bio_iov_bvec_set(bio, iter);
- 		iov_iter_advance(iter, bio->bi_iter.bi_size);
- 		return 0;
-+	} else if (iov_iter_is_dma_token(iter)) {
-+		bio_iov_dma_token_set(bio, iter);
-+		iov_iter_advance(iter, bio->bi_iter.bi_size);
-+		return 0;
- 	}
- 
- 	if (iov_iter_extract_will_pin(iter))
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index d3115d7469df..c02a5f9c99e6 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -328,6 +328,29 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
- 	unsigned nsegs = 0, bytes = 0, gaps = 0;
- 	struct bvec_iter iter;
- 
-+	if (bio_flagged(bio, BIO_DMA_TOKEN)) {
-+		int offset = offset_in_page(bio->bi_iter.bi_bvec_done);
-+
-+		nsegs = ALIGN(bio->bi_iter.bi_size + offset, PAGE_SIZE);
-+		nsegs >>= PAGE_SHIFT;
-+
-+		if (offset & lim->dma_alignment || bytes & len_align_mask)
-+			return -EINVAL;
-+
-+		if (bio->bi_iter.bi_size > max_bytes) {
-+			bytes = max_bytes;
-+			nsegs = (bytes + offset) >> PAGE_SHIFT;
-+			goto split;
-+		} else if (nsegs > lim->max_segments) {
-+			nsegs = lim->max_segments;
-+			bytes = PAGE_SIZE * nsegs - offset;
-+			goto split;
-+		}
-+
-+		*segs = nsegs;
-+		return 0;
-+	}
-+
- 	bio_for_each_bvec(bv, bio, iter) {
- 		if (bv.bv_offset & lim->dma_alignment ||
- 		    bv.bv_len & len_align_mask)
-diff --git a/block/blk.h b/block/blk.h
-index e4c433f62dfc..2c72f2630faf 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -398,7 +398,8 @@ static inline struct bio *__bio_split_to_limits(struct bio *bio,
- 	switch (bio_op(bio)) {
- 	case REQ_OP_READ:
- 	case REQ_OP_WRITE:
--		if (bio_may_need_split(bio, lim))
-+		if (bio_may_need_split(bio, lim) ||
-+		    bio_flagged(bio, BIO_DMA_TOKEN))
- 			return bio_split_rw(bio, lim, nr_segs);
- 		*nr_segs = 1;
- 		return bio;
-diff --git a/block/fops.c b/block/fops.c
-index 5e3db9fead77..41f8795874a9 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -354,6 +354,8 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		 * bio_iov_iter_get_pages() and set the bvec directly.
- 		 */
- 		bio_iov_bvec_set(bio, iter);
-+	} else if (iov_iter_is_dma_token(iter)) {
-+		bio_iov_dma_token_set(bio, iter);
- 	} else {
- 		ret = blkdev_iov_iter_get_pages(bio, iter, bdev);
- 		if (unlikely(ret))
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index c75a9b3672aa..f83342640e71 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -108,16 +108,26 @@ static inline bool bio_next_segment(const struct bio *bio,
- #define bio_for_each_segment_all(bvl, bio, iter) \
- 	for (bvl = bvec_init_iter_all(&iter); bio_next_segment((bio), &iter); )
- 
-+static inline void bio_advance_iter_dma_token(struct bvec_iter *iter,
-+						unsigned int bytes)
-+{
-+	iter->bi_bvec_done += bytes;
-+	iter->bi_size -= bytes;
-+}
-+
- static inline void bio_advance_iter(const struct bio *bio,
- 				    struct bvec_iter *iter, unsigned int bytes)
- {
- 	iter->bi_sector += bytes >> 9;
- 
--	if (bio_no_advance_iter(bio))
-+	if (bio_no_advance_iter(bio)) {
- 		iter->bi_size -= bytes;
--	else
-+	} else if (bio_flagged(bio, BIO_DMA_TOKEN)) {
-+		bio_advance_iter_dma_token(iter, bytes);
-+	} else {
- 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
- 		/* TODO: It is reasonable to complete bio with error here. */
-+	}
- }
- 
- /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
-@@ -129,6 +139,8 @@ static inline void bio_advance_iter_single(const struct bio *bio,
- 
- 	if (bio_no_advance_iter(bio))
- 		iter->bi_size -= bytes;
-+	else if (bio_flagged(bio, BIO_DMA_TOKEN))
-+		bio_advance_iter_dma_token(iter, bytes);
- 	else
- 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
- }
-@@ -398,7 +410,7 @@ static inline void bio_wouldblock_error(struct bio *bio)
-  */
- static inline int bio_iov_vecs_to_alloc(struct iov_iter *iter, int max_segs)
- {
--	if (iov_iter_is_bvec(iter))
-+	if (iov_iter_is_bvec(iter) || iov_iter_is_dma_token(iter))
- 		return 0;
- 	return iov_iter_npages(iter, max_segs);
- }
-@@ -452,6 +464,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
- 		unsigned len_align_mask);
- 
- void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
-+void bio_iov_dma_token_set(struct bio *bio, struct iov_iter *iter);
- void __bio_release_pages(struct bio *bio, bool mark_dirty);
- extern void bio_set_pages_dirty(struct bio *bio);
- extern void bio_check_pages_dirty(struct bio *bio);
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index cbbcb9051ec3..3bc7f89d4e66 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -275,7 +275,12 @@ struct bio {
- 
- 	atomic_t		__bi_cnt;	/* pin count */
- 
--	struct bio_vec		*bi_io_vec;	/* the actual vec list */
-+	union {
-+		struct bio_vec		*bi_io_vec;	/* the actual vec list */
-+		/* Driver specific dma map, present only with BIO_DMA_TOKEN */
-+		struct dma_token	*dma_token;
-+	};
-+
- 
- 	struct bio_set		*bi_pool;
- };
-@@ -315,6 +320,7 @@ enum {
- 	BIO_REMAPPED,
- 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
- 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
-+	BIO_DMA_TOKEN, /* Using premmaped dma buffers */
- 	BIO_FLAG_LAST
- };
- 
+For now, I'm interested what is the best way to test move_notify? And
+how dma_resv_reserve_fences() errors should be handled in move_notify?
+
+The uapi didn't change, after registration it looks like a normal
+io_uring registered buffer and can be used as such. Only non-vectored
+fixed reads/writes are allowed. Pseudo code:
+
+// registration
+reg_buf_idx = 0;
+io_uring_update_buffer(ring, reg_buf_idx, { dma_buf_fd, file_fd });
+
+// request creation
+io_uring_prep_read_fixed(sqe, file_fd, buffer_offset,
+                         buffer_size, file_offset, reg_buf_idx);
+
+And as previously, a good bunch of code was taken from Keith's series [1].
+
+liburing based example:
+
+git: https://github.com/isilence/liburing.git dmabuf-rw
+link: https://github.com/isilence/liburing/tree/dmabuf-rw
+
+[1] https://lore.kernel.org/io-uring/20220805162444.3985535-1-kbusch@fb.com/
+
+Pavel Begunkov (11):
+  file: add callback for pre-mapping dmabuf
+  iov_iter: introduce iter type for pre-registered dma
+  block: move around bio flagging helpers
+  block: introduce dma token backed bio type
+  block: add infra to handle dmabuf tokens
+  nvme-pci: add support for dmabuf reggistration
+  nvme-pci: implement dma_token backed requests
+  io_uring/rsrc: add imu flags
+  io_uring/rsrc: extended reg buffer registration
+  io_uring/rsrc: add dmabuf-backed buffer registeration
+  io_uring/rsrc: implement dmabuf regbuf import
+
+ block/Makefile                   |   1 +
+ block/bdev.c                     |  14 ++
+ block/bio.c                      |  21 +++
+ block/blk-merge.c                |  23 +++
+ block/blk-mq-dma-token.c         | 236 +++++++++++++++++++++++++++++++
+ block/blk-mq.c                   |  20 +++
+ block/blk.h                      |   3 +-
+ block/fops.c                     |   3 +
+ drivers/nvme/host/pci.c          | 217 ++++++++++++++++++++++++++++
+ include/linux/bio.h              |  49 ++++---
+ include/linux/blk-mq-dma-token.h |  60 ++++++++
+ include/linux/blk-mq.h           |  21 +++
+ include/linux/blk_types.h        |   8 +-
+ include/linux/blkdev.h           |   3 +
+ include/linux/dma_token.h        |  35 +++++
+ include/linux/fs.h               |   4 +
+ include/linux/uio.h              |  10 ++
+ include/uapi/linux/io_uring.h    |  13 +-
+ io_uring/rsrc.c                  | 201 +++++++++++++++++++++++---
+ io_uring/rsrc.h                  |  23 ++-
+ io_uring/rw.c                    |   7 +-
+ lib/iov_iter.c                   |  30 +++-
+ 22 files changed, 948 insertions(+), 54 deletions(-)
+ create mode 100644 block/blk-mq-dma-token.c
+ create mode 100644 include/linux/blk-mq-dma-token.h
+ create mode 100644 include/linux/dma_token.h
+
 -- 
 2.52.0
 
