@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 929FECFD31E
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53B8ACFD31D
 	for <linux-nvme@archiver.kernel.org>; Mon, 24 Nov 2025 02:57:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,64 +12,64 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sNwYZl+W2fvcXiK6f1dLRuPmVDUoM4hiP4tOVDl+CUs=; b=vv9g9xW+TOuUxgDd8MzaO0NZuR
-	MM8h8Y/kZBgbyBJ/kDTzSPphk9n+8auviVmOiGod+90cyzd97fZ6QMz6cJ37lyZf6CSUv+QcgKxp7
-	B5TGn5p4KcOCgkRbF+kBQQgDorplLeRY0aFmdt2c1G2hDtADZWD19d2W9mQ8bWR23RVh3PwsjhrT5
-	S5A29YTNQ04N8Vmg64gqYwhDiC1HWq0l7BFumKjl/QOe/G7Ce0o4wToowTMgNzaQ8BpiIj6YZnvdL
-	TZhrmv99TK5YR05fen/LN0jFd7P6Sykru92h3Zb2E3zLpWn0SDMdfmaZX0r32lfEI23+8SO9xVp7p
-	/Sti4yUQ==;
+	bh=4v5MRSjdziMsNVvfMkn8flY57vC+Pu/WImeTNAJo+ww=; b=qGUNmTFfARVAlcUJVKdsK8yp/O
+	esj2UMwtL35ypVLNW0M4BnDzwUZ1TDy50JTNnoG5EI+7FMuH4FnwWH+UuQNK8wVzv9I6K11TD0FHF
+	W0nCVfGgh4WqnaPSQontzb+kCwjWeNEfYnDAvzHI7fqOnRZ+qD2j4DHtvd8SEXLHEAkjjV2YBdkqc
+	eBKpuNY12iEnL2/rqF6H9EYYmIcaDh7gONH7y/S7l0X1wLPmRqtiXW2iWPf9SVXm0gKRbdAl/GVeI
+	//TZ9H79vwItrkvDUf1oTl+7dMIrwEw4PJjYrcNYdIwqZCMp8THb6xCl1FPPxhT3pbwwNZA8xBr/1
+	928oyCdQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNMm1-0000000B00b-0CjS;
-	Mon, 24 Nov 2025 02:57:53 +0000
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+	id 1vNMm0-0000000Azzt-2wOB;
+	Mon, 24 Nov 2025 02:57:52 +0000
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNMlw-0000000AzxL-0h6M
+	id 1vNMlu-0000000Azwz-3kUC
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Nov 2025 02:57:49 +0000
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-7b75e366866so1602870b3a.2
-        for <linux-nvme@lists.infradead.org>; Sun, 23 Nov 2025 18:57:47 -0800 (PST)
+	Mon, 24 Nov 2025 02:57:47 +0000
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-7b6dd81e2d4so3537901b3a.0
+        for <linux-nvme@lists.infradead.org>; Sun, 23 Nov 2025 18:57:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763953067; x=1764557867; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1763953066; x=1764557866; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sNwYZl+W2fvcXiK6f1dLRuPmVDUoM4hiP4tOVDl+CUs=;
-        b=lvMrsE0n2snEAeP++CdDv7p4bqReTca2ZxxCuQ8WiP2a42YVPZZEKdIHMqQqAk40N3
-         GcgbiJxN7qnoVGk1wS06qVUaP9ZYf/WV46zs2awu/9KSsmLNM2hn4JdX87ZpgFy1kYEz
-         2qC01muNnXpjqxGSbmENUeJsP5D743KfKufXw7zfjeogVJriRXrOMw1R4ijnJQTcZua6
-         AxmGz+NsD214665ZENsmJSEKzJg7BGFmXyBK+NT+PkS/MzmNZsN+mCvH+lZ9i4mNBBFz
-         U+obWTBi5xmMsOintbH0FU2OPYZhn9sRHQsCT2US2BefmkSG1Uvev4SN58mzTBEGb18m
-         L+4g==
+        bh=4v5MRSjdziMsNVvfMkn8flY57vC+Pu/WImeTNAJo+ww=;
+        b=bbgTW+7EYKADYE0Zh5fM6ZSQfndvbFyK3g/SSjWEGuwJM4/PJeTM80XwaP7siovna8
+         vsQR8hSGVzwCx7byQ5pLdOElbPKZkOwRbrWRQqavRAtIk9NdW7te7R/9w7fx4Yen9lK0
+         4mvaFyFmlLfQMpHmC5CqklcdZSw+7CWz7xPOEpdhXaqk3vSx/cy04uBhrPh/u5D48nOc
+         r4YMXS9NLdYrdiVIx/vIO40xyxLxjrT7WYl8RRmMccXOyJ3mgNOzKVkqYKOPXWiYNvqk
+         UxydPoKZFWc50H8Iv7FGZR/J9QhEvD+QhIp6vmBvuMsN0XJ1Pn5+Vs3VEQRC/BktUr46
+         b9nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763953067; x=1764557867;
+        d=1e100.net; s=20230601; t=1763953066; x=1764557866;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sNwYZl+W2fvcXiK6f1dLRuPmVDUoM4hiP4tOVDl+CUs=;
-        b=Uv8iZTMX2xtbUWve6Jt8R/+JDMOh/RG/PnM9ai7tuuiSTKkqU5D22lC66yacyfgXm8
-         FyZVi+xKqMX2n3B7N3Td+KvIDEqGiGoChKLP2H2tmKjn6L2AiJTl24uDmEWhkF5xiEpA
-         u2B9zxujzNraxaZAGXM7miFUCZNlPeveUa9xYLuy/yIXB0S8p9IlSeuTOPq9pQwjjZIu
-         FNWIOFUZZkJQu+T5kQfhtJs9dhLO5B/ZgOjisUCuqxgZ0CFN5C1S7AZsaGdXsCJQrPeR
-         jM5A+rSsvBdkGAXtH8llSkB4qln3fhjqpBykX5MEk9UpDsqobwgjkWRCBT9zhB7+kMHs
-         cmAw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqqumhgwe0s8ympYxaM00g3U02ty4NrPao8iTk8Q9mKGlDGoxHtu98rj/bL8E/qf9L+IlRiRN3meZe@lists.infradead.org
-X-Gm-Message-State: AOJu0YzqAjCjVGSdu/qL+HD/k5CnqNfGtO0r/BbdVBGmgEVEHoiuWth3
-	4T0GnTXrJseiEsWN6gRD9iL6VCTN1v1ZVEjlFvIYCI/BjJ3Hlz/Ie5iC
-X-Gm-Gg: ASbGncuSDuJ3vq5ntlSEh/TJjMlSassk8UaF1no79f/lSHX3QN8dlysWIwnxxI5/Lgx
-	GGXs8AsvbLjhPUfa9ICLSkUNbon+FSeqTbEsFlzgR49j0JtbeqXyMnox0PxqyTLS5E9TlpdIUrJ
-	CCVsaZRqD7CIBZBStcSAx9TJhR0BziqFLV7hIAie9EEGpidfreCxLK3NRCXmMh7Pz3xRe0s/J6F
-	bs3cYXqrXAjoKwqCNp4qN7V+MYwXvMxQUShs8UEjj1U6ex+/9R/Y7bIbt1KO6iJSBu/S/2tb+sa
-	knMl7fuu1yb/9dgI+s7BlGpWPhSpK5F7Q7RLuuiq7Wh+u0B1/dcFrekNSAPtpkguwYd/bZdoMLE
-	t+t1OjOVApg1878G1goRZVkHf2V3Rc+e8LtpI+QQhfuECDopLfUgEZQOpZHDz8l4SqP2LscXP4w
-	NDxRK8aV14Pu/7mhMMzwuBOYvtzDBZj4EItORDtyi8CldP72k=
-X-Google-Smtp-Source: AGHT+IEZXRFduMWog8lY/WEBRyb3MZQs6kfaoxzTi2A/dpYZvd44wI5EVbBBu8fatXwqYTbLGqTaxw==
-X-Received: by 2002:a05:7022:6285:b0:11b:923d:774c with SMTP id a92af1059eb24-11c9d613979mr6980540c88.4.1763953067290;
-        Sun, 23 Nov 2025 18:57:47 -0800 (PST)
+        bh=4v5MRSjdziMsNVvfMkn8flY57vC+Pu/WImeTNAJo+ww=;
+        b=HP0WritkITQQfSWNewPUdg7lLU0+W1aPglv2BdIuVj1F6T2g7UiwWy6bZpNvFi+8be
+         Xhy8KbF/1N3j7H8nJ0EseR8lZc4L8VYxDW2Kuq9MuAa8yYKrIvvQz4dt6JlLXkqYuDlv
+         cMopHhIesPJb8w+o2BFdPzoabr+G/Yf7kX1uLKgJ8EZhpLYfDghpDMr5J1LW1fyyleG7
+         IZ+ONkqsCNv3j/l70Xn+zcsQd7Ll9+VgyUm2jt8kfXeHcB+MIEAEbJ25VpjGWxtE6RrM
+         MNP7wRDYpg8XikNLw56EEyXDJAyvkVEn35NjS/Rht6iH4EK1mdSUj2SCNXiVXPnSwep4
+         hHDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXzNW+UdVokVkGil3gfH+WR/bpAv7CwmuMJSAUsqyoMwTlTPYO0Io7XpQqwjLazmqWRkUiDKOFwbd4S@lists.infradead.org
+X-Gm-Message-State: AOJu0YwlixD57aiTgJ8j9Joii+k9J4dUlbN+25AqAw1VKLnRkDU88Wi0
+	qpceEuwH3dlaZU/Vou5kZc/B1YW8m3WtS3iwYkIDHsdBljUYUjiL/Olq
+X-Gm-Gg: ASbGncs3TJtYHstw6ZQdqcq97lhM19I8/iO83chlFWUIiXZrNdQeR7JiL63vGpyP7vv
+	m1dNk9bixIM2di78lg6L23Ea+rc8ComhtuBz2G1EykaX1hoZqZuJHla9uPelmB2/t/Hh1otN3tj
+	3KVot/4hbjG/WPoGmsK1/I1Xvl7HQ3ZxUNpQcbcEN0QWPrWec9J6z3y5v81xYAy2+/tNnmYtRz8
+	brtPdflDWINMmue6MjMOQSYsqeVzN4eQrcLsEVICu6MjH0XbnRFfdvudLzwabGUk+tkbQVaW+vk
+	QcIhx4xTpgPD5lxJrgkJfcrmxXkgSatsw+wgmeMii8y1q0Lc26vPkORyPN405eNnJLp6PXKRoFA
+	SabAZB1sAlxcLe7+psX1bNRphtJDbyUy5S5z4QuPu63SkMxxYw75kucoQ7siQ/Tl8hajE4lA0Cv
+	n6ag4JZHsgZa9s6i7nXDjmpGwArPpQ4H8ErdCFeguZvJvUYII=
+X-Google-Smtp-Source: AGHT+IE2F0nLiNeIHq2g4zMVJnIfiBv34S3msVGeqkx0u3CUtdU5YuLkC01czcghjZ+E6ydM6GCvrQ==
+X-Received: by 2002:a05:7022:6391:b0:11b:79f1:847 with SMTP id a92af1059eb24-11c9d712bd4mr5835461c88.12.1763953065943;
+        Sun, 23 Nov 2025 18:57:45 -0800 (PST)
 Received: from localhost (ip70-175-132-216.oc.oc.cox.net. [70.175.132.216])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11c93de82c1sm45441687c88.3.2025.11.23.18.57.46
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11c93de6d5csm43367228c88.4.2025.11.23.18.57.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 18:57:47 -0800 (PST)
+        Sun, 23 Nov 2025 18:57:45 -0800 (PST)
 From: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
 To: axboe@kernel.dk,
 	agk@redhat.com,
@@ -92,17 +92,17 @@ Cc: linux-block@vger.kernel.org,
 	linux-xfs@vger.kernel.org,
 	bpf@vger.kernel.org,
 	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: [PATCH V2 3/5] nvmet: ignore discard return value
-Date: Sun, 23 Nov 2025 18:57:35 -0800
-Message-Id: <20251124025737.203571-4-ckulkarnilinux@gmail.com>
+Subject: [PATCH V2 2/5] dm: ignore discard return value
+Date: Sun, 23 Nov 2025 18:57:34 -0800
+Message-Id: <20251124025737.203571-3-ckulkarnilinux@gmail.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20251124025737.203571-1-ckulkarnilinux@gmail.com>
 References: <20251124025737.203571-1-ckulkarnilinux@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251123_185748_204625_B578550C 
-X-CRM114-Status: GOOD (  11.13  )
+X-CRM114-CacheID: sfid-20251123_185746_932503_12E4390F 
+X-CRM114-Status: GOOD (  13.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,71 +117,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-__blkdev_issue_discard() always returns 0, making the error checking
-in nvmet_bdev_discard_range() dead code.
+__blkdev_issue_discard() always returns 0, making all error checking
+at call sites dead code.
 
-Kill the function nvmet_bdev_discard_range() and call
-__blkdev_issue_discard() directly from nvmet_bdev_execute_discard(),
-since no error handling is needed anymore for __blkdev_issue_discard()
-call.
+For dm-thin change issue_discard() return type to void, in
+passdown_double_checking_shared_status() remove the r assignment from
+return value of the issue_discard(), for end_discard() hardcod value
+of r to 0 that matches only value returned from
+__blkdev_issue_discard().
+
+md part is simplified to only check !discard_bio by ignoring the
+__blkdev_issue_discard() value.
 
 Signed-off-by: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
 ---
- drivers/nvme/target/io-cmd-bdev.c | 29 ++++++++---------------------
- 1 file changed, 8 insertions(+), 21 deletions(-)
+ drivers/md/dm-thin.c | 12 +++++-------
+ drivers/md/md.c      |  4 ++--
+ 2 files changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 8d246b8ca604..97d868d6e01a 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -362,29 +362,14 @@ u16 nvmet_bdev_flush(struct nvmet_req *req)
- 	return 0;
+diff --git a/drivers/md/dm-thin.c b/drivers/md/dm-thin.c
+index c84149ba4e38..77c76f75c85f 100644
+--- a/drivers/md/dm-thin.c
++++ b/drivers/md/dm-thin.c
+@@ -395,13 +395,13 @@ static void begin_discard(struct discard_op *op, struct thin_c *tc, struct bio *
+ 	op->bio = NULL;
  }
  
--static u16 nvmet_bdev_discard_range(struct nvmet_req *req,
--		struct nvme_dsm_range *range, struct bio **bio)
--{
--	struct nvmet_ns *ns = req->ns;
--	int ret;
--
--	ret = __blkdev_issue_discard(ns->bdev,
--			nvmet_lba_to_sect(ns, range->slba),
--			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
--			GFP_KERNEL, bio);
--	if (ret && ret != -EOPNOTSUPP) {
--		req->error_slba = le64_to_cpu(range->slba);
--		return errno_to_nvme_status(req, ret);
--	}
--	return NVME_SC_SUCCESS;
--}
--
- static void nvmet_bdev_execute_discard(struct nvmet_req *req)
+-static int issue_discard(struct discard_op *op, dm_block_t data_b, dm_block_t data_e)
++static void issue_discard(struct discard_op *op, dm_block_t data_b, dm_block_t data_e)
  {
-+	struct nvmet_ns *ns = req->ns;
- 	struct nvme_dsm_range range;
- 	struct bio *bio = NULL;
-+	sector_t nr_sects;
- 	int i;
--	u16 status;
-+	u16 status = NVME_SC_SUCCESS;
+ 	struct thin_c *tc = op->tc;
+ 	sector_t s = block_to_sectors(tc->pool, data_b);
+ 	sector_t len = block_to_sectors(tc->pool, data_e - data_b);
  
- 	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
- 		status = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
-@@ -392,9 +377,11 @@ static void nvmet_bdev_execute_discard(struct nvmet_req *req)
- 		if (status)
- 			break;
+-	return __blkdev_issue_discard(tc->pool_dev->bdev, s, len, GFP_NOIO, &op->bio);
++	__blkdev_issue_discard(tc->pool_dev->bdev, s, len, GFP_NOIO, &op->bio);
+ }
  
--		status = nvmet_bdev_discard_range(req, &range, &bio);
--		if (status)
--			break;
-+		nr_sects = le32_to_cpu(range.nlb) << (ns->blksize_shift - 9);
-+		__blkdev_issue_discard(ns->bdev,
-+				nvmet_lba_to_sect(ns, range.slba),
-+				nr_sects,
-+				GFP_KERNEL, &bio);
+ static void end_discard(struct discard_op *op, int r)
+@@ -1113,9 +1113,7 @@ static void passdown_double_checking_shared_status(struct dm_thin_new_mapping *m
+ 				break;
+ 		}
+ 
+-		r = issue_discard(&op, b, e);
+-		if (r)
+-			goto out;
++		issue_discard(&op, b, e);
+ 
+ 		b = e;
  	}
+@@ -1188,8 +1186,8 @@ static void process_prepared_discard_passdown_pt1(struct dm_thin_new_mapping *m)
+ 		struct discard_op op;
  
- 	if (bio) {
+ 		begin_discard(&op, tc, discard_parent);
+-		r = issue_discard(&op, m->data_block, data_end);
+-		end_discard(&op, r);
++		issue_discard(&op, m->data_block, data_end);
++		end_discard(&op, 0);
+ 	}
+ }
+ 
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 7b5c5967568f..aeb62df39828 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -9132,8 +9132,8 @@ void md_submit_discard_bio(struct mddev *mddev, struct md_rdev *rdev,
+ {
+ 	struct bio *discard_bio = NULL;
+ 
+-	if (__blkdev_issue_discard(rdev->bdev, start, size, GFP_NOIO,
+-			&discard_bio) || !discard_bio)
++	__blkdev_issue_discard(rdev->bdev, start, size, GFP_NOIO, &discard_bio);
++	if (!discard_bio)
+ 		return;
+ 
+ 	bio_chain(discard_bio, bio);
 -- 
 2.40.0
 
