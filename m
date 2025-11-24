@@ -4,45 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F1C7CFA466
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Nov 2025 06:22:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07026CFD31C
+	for <linux-nvme@archiver.kernel.org>; Mon, 24 Nov 2025 06:24:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dp3mlPd1tGPSHjwalGRl3+OXBzlUltt5c2g4rrDWar4=; b=n+YkG3PZwEgWY85WPR6GQ3X0gk
-	Unfj+jwSJzeRJjcDSZKMbHvmvPiGMuHlufA61NwOBTx1E1M8IpNn7aZAH8HgtIRpPwvVNV4YK9H9F
-	HO0v684ejdBH5wCS6pVhN/z0RwCu6Gc+In24jXlLJPm2uPgbO0bXU+titjaIe6vqI0C/UCLyH/21t
-	MH9mqmUJFQ3hR7HZjW3J/Fg+6vTd00IdqoknJKC4pLMtIxkQX9gIvWKte2yRhY/NcSk5+yQCHBsbo
-	Y8HkS2SruPd7f8KfTqT0G/oxf37dyWxnGxzjUM+MAXHutiENNIVd8d2O5BY0D1tGB9+1VCRc5iEOu
-	Sl1bTAjA==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=4EAmKaZfHEkrqXgahjKKcPMVl/
+	xOUVABtD/d3rzMHSDTFwjYyY4f0B2ZbaXAICM//1grnHdRsLejfCUURrdgHCBbHO6xoL/OVJUCHBv
+	ugH1qSNmkyJyu9tMJ/CC21SstfV55mylBMtCFad3/Em761W9m1EZou1TUHetQNVgMwDxyJDBhDoUL
+	EpEU69sOk8jgz38RZLTNm0VSs7rPXFLdFgG24rVUEd4IsEYh43u1Ujo0mhQwyKXVL5uv78x58cdWD
+	aPS5n0UtES58Odu3YuDZT8EWK4LcSU+xSDaR7Tf95GrLGTbFTUzMK+ij3iItJadX+0Nut73Pl3wf0
+	+DSUyQ3Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNPyF-0000000B913-46s5;
-	Mon, 24 Nov 2025 06:22:43 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNPyE-0000000B90n-31B1;
-	Mon, 24 Nov 2025 06:22:42 +0000
-Date: Sun, 23 Nov 2025 22:22:42 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Stephen Zhang <starzhangzsd@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, nvdimm@lists.linux.dev,
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-	gfs2@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-xfs@vger.kernel.org, zhangshida@kylinos.cn
-Subject: Re: Fix potential data loss and corruption due to Incorrect BIO
- Chain Handling
-Message-ID: <aSP5svsQfFe8x8Fb@infradead.org>
-References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
- <aSBA4xc9WgxkVIUh@infradead.org>
- <CANubcdVjXbKc88G6gzHAoJCwwxxHUYTzexqH+GaWAhEVrwr6Dg@mail.gmail.com>
+	id 1vNPzd-0000000B99p-1tUS;
+	Mon, 24 Nov 2025 06:24:09 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vNPzZ-0000000B98E-0B8t
+	for linux-nvme@lists.infradead.org;
+	Mon, 24 Nov 2025 06:24:06 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BDA2D68B05; Mon, 24 Nov 2025 07:23:55 +0100 (CET)
+Date: Mon, 24 Nov 2025 07:23:55 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Israel Rukshin <israelr@nvidia.com>
+Cc: Linux-nvme <linux-nvme@lists.infradead.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+	Nitzan Carmi <nitzanc@nvidia.com>,
+	Max Gurtovoy <mgurtovoy@nvidia.com>
+Subject: Re: [PATCH] nvme-auth: Use kvfree() for memory allocated with
+ kvcalloc()
+Message-ID: <20251124062355.GA16614@lst.de>
+References: <1763909208-11611-1-git-send-email-israelr@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANubcdVjXbKc88G6gzHAoJCwwxxHUYTzexqH+GaWAhEVrwr6Dg@mail.gmail.com>
+In-Reply-To: <1763909208-11611-1-git-send-email-israelr@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251123_222405_221546_29BBB41B 
+X-CRM114-Status: GOOD (  10.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -57,23 +63,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Nov 22, 2025 at 02:38:59PM +0800, Stephen Zhang wrote:
-> ======code analysis======
-> In kernel version 4.19, XFS handles extent I/O using the ioend structure,
+Looks good:
 
-Linux 4.19 is more than four years old, and both the block I/O code
-and the XFS/iomap code changed a lot since then.
-
-> changes the logic. Since there are still many code paths that use
-> bio_chain, I am including these cleanups with the fix. This provides a reason
-> to CC all related communities. That way, developers who are monitoring
-> this can help identify similar problems if someone asks for help in the future,
-> if that is the right analysis and fix.
-
-As many pointed out something in the analysis doesn't end up.  How do
-you even managed to call bio_chain_endio as almost no one should be
-calling it.  Are you using bcache?  Are the others callers in the
-obsolete kernel you are using?  Are they calling it without calling
-bio_endio first (which the bcache case does, and which is buggy).
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
 
