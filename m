@@ -4,52 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 787CED0EE0D
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 16:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA652D0EE00
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 17:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7eKUbEQxuZZ81A2bCWYhdxQgXMpUbzIZ0U1MPP5CWqI=; b=BRJEuIqrO1iL2zQHYN9BsawtW/
-	tapXCiO467l8t2ph1PtFNGkvuAlN/TkXiwJMbI0UAvRlXHVtZHYXWpm3AqQO6BHWclWWpbNXLf/vd
-	8cISnhGEHlnalaDGlQ+8GFJwQ+jqh4GkhicfDqoY+JcPUJHc5HV5SOnYTLfdagG73DkD+Nv0eq3iE
-	KSXG1mb3TxoyybUJ9UJ1bocUtrntJyrCKnl+bDXzVQJhvWhtjha1PZr2KIjSogPagNhrn7sKb3fzg
-	ZCLkEYoC9/uSufqHjdsOlkJSdlgUPFdhNsmjXIo5daWTrTpJKSROkLHXXVA3EVEG7Ikyggpz074Xj
-	bWQQIhiA==;
+	bh=Y/RYkXbjr0Zws5PkDP81koxcOw7wQafJJolXOcPbtL0=; b=b4Hd6pOOcyjqjJ6urx6UKcLBiK
+	TEEXag0Die+r36fJ7VOjxQ8//eY7aqhvYy/FZ6OuqWhr1FA3juQrt4pBei7qKlmEnWYRsMZGeS0rY
+	r2bEvqtQcW5nSd2IpI8lp+E0MDPOfyKspxcKRg0Q5ph+hFZp7u4Q7fpJVwbhMjJmmDdkjuCwbMcwa
+	jFx2bYWxQIz2BpdXjWphudMv/ZaEy9vgplhvib07mZIAX0XMqZ0X8hClrxq1e6uTyYL9Mu8ER6pM5
+	M43P5YQ0ILGwLcE795gd/fvHJju50gLfC4PDFe7tMAqO+jLpthtnFlerw3OeYV/jDei77Q++gQJMA
+	v/rS4HVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNwLp-0000000Dd39-00ks;
-	Tue, 25 Nov 2025 16:57:13 +0000
-Received: from smtp.witbe.net ([81.88.96.48] helo=smtp-c9.witbe.net)
+	id 1vNwzv-0000000Dfz7-3TMK;
+	Tue, 25 Nov 2025 17:38:39 +0000
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNwLm-0000000Dd1k-2XYL
+	id 1vNwzY-0000000DfxB-43wb
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Nov 2025 16:57:11 +0000
-Received: from riri ([81.88.96.247])
-	by smtp-c9.witbe.net (8.16.1/8.16.1) with ESMTP id 5APGv5Nn025269;
-	Tue, 25 Nov 2025 16:57:05 GMT
-Date: Tue, 25 Nov 2025 17:57:04 +0100
-From: Paul Rolland <rol@as2917.net>
-To: Dragan =?UTF-8?B?TWlsaXZvamV2acSH?= <galileo@pkm-inc.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-nvme@lists.infradead.org,
-        linux-raid@vger.kernel.org
-Subject: Re: WD Red SN700 4000GB, F/W: 11C120WD (Device not ready; aborting
- reset, CSTS=0x1)
-Message-ID: <20251125175704.2dc57a76@riri>
-In-Reply-To: <CALtW_ajVLbtUfVkKZU3tsxQbHMZsJR=jHK7PQNmvmSgjVhiUyg@mail.gmail.com>
-References: <CAO9zADxCYgQVOD9A1WYoS4JcLgvsNtGGr4xEZm9CMFHXsTV8ww@mail.gmail.com>
-	<CALtW_ajVLbtUfVkKZU3tsxQbHMZsJR=jHK7PQNmvmSgjVhiUyg@mail.gmail.com>
-Organization: AS2917.net
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-pc-linux-gnu)
-Face: iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAFVBMVEWsjH1VRjFydFciEg3a1tJxUEM6OCB1zdsDAAACcElEQVQ4jV2Tu3LcMAxFEY7SG/KQNYlY2685Zi1rmF5kQteBNcL/f0JAacfZDUscARePK9itY3Q4Qu5vplJKIFsrvI0t7Ii/8/nmQsERtgJpHAtiGW4ggylOAwhXTxPi0xfIcxDrZIc3qhMGD/kfKdwBExZrAf6l5PeC/Al7cAGfAGD+AgvL5yckcsxegVmG+QZRPgnYXnFUMAC8DLd6QZhAxj6dRo6vT/JNkmZQmPyDtoroMkD2VlaVgHsw2QrCAf1jPM+ou2Ju1j/G8+xINfZT+zGDPDjr7H/xnKewgi6SO4D7zloYoRDafSoogmirP0t9YIOJnN2ibDEKK6zDoSEjTIFXDcYYkwizoO/AjkATm3g+JVsSXPOCZIHwj7uBo2Bi97RMOoflJ4n3b3dvS2kVXDQupjvAk7zvaMEJlu0OJDFy4SsCusRbL95jRynY0LIA/rpyxCMkJ1ie+bWoEy+MG7pzDE3k8Z2C1a5eUdxmi0adGi2mdVjyUr2uvamrW9EeuLTCY84/AUjBj40LtqYbbM23vqolA2mpj5g03gparH45DqBgmsBK2hU0x662+QQLVYJLitxTnHB7yf0es4rraS/xqKW/hF1zPg9lOijpmtIBVrWKOQ6oTSkQjh3YtnarHQc0RrtS1XjtbQnScPrLeNKM6iS+6Qz6e9mVoPvaHHPU6eP5aKu1Ifd2QQvp6EA1bLaP3VREwewXY73xgLppBR2tg4LFg9lXzegHQlusWuxwogLCaswJ+qunQ2cyfuziX6B1p0E26nQazR3Qn2jQarRXVVZT9zP3uB5FV6pNjQG+u03ugbalEsEXqo7/AjAH60VpvOMvAAAAAElFTkSuQmCC
+	Tue, 25 Nov 2025 17:38:38 +0000
+Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-948fbdbc79fso137578939f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Nov 2025 09:38:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1764092296; x=1764697096; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y/RYkXbjr0Zws5PkDP81koxcOw7wQafJJolXOcPbtL0=;
+        b=1NriZOjq1teWzwJDNLYRZc/+KEWnvtu7VNqjCSoCdQ4nvlgN7Xx3xBVH/LxkrZQhIq
+         kbhJ9nIsJA9KYrqiwNbCUII5W3/hm2Nsx7aj0IpTaIaHASUaD8bN88c70mEsqWc2X1yL
+         bChu8Zs/m97VqWGHv78qUkafqbR6mhoWRl5gASurUkm0tV/xgZIZADNfnP6xOlT3KR3B
+         OBt7GHcPsUFCYC9vkkBiOBEvhFvyO6hU5RBotPJSR4tR7Pah4YyW8K8acHWA5dC2c8Jy
+         jXaBfJeLfb8UUZb+jISzBeQPq6v0oVgpSp4ksfa09WsTh28DMy9ZI44gZZA+DOjgEwf2
+         kcmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764092296; x=1764697096;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y/RYkXbjr0Zws5PkDP81koxcOw7wQafJJolXOcPbtL0=;
+        b=m68cxDSLNwPFp4V8XWwQMEZ1HHEU0jp74mLocJJzzPE/pLAyjzQU5rNaG1B+lRHf14
+         tEosNcivHL0Rpyu3Ba/smQbD2XDEh8MSWf4ApWFeiG/QPIqVLrl82f942u2kGujHGRUw
+         SrOVEe22f9pEoZj7ipNlI54OmU6LSs31KY+UiOkOOVaKL+9fnsNaIRfKuN8mFQ51fNgO
+         M8XCpbaDe839QTQ0ch/wgk0W0/i8SgZUCB3ldnqgUEGLSSDuxFMJL6Oq5ujT1nOBQp+V
+         yYPj541eR81AOmgBrS8u5Zr6aXl5phrbDBNHdQEeNdnOQfdpr5pqfyn+8Y7B32won+CB
+         BMRg==
+X-Forwarded-Encrypted: i=1; AJvYcCVPXluaIU4zAi0sSOrG8q+X7/2uOTMvQ0Nse/DItDUihHeiIag5cJ5kjx1CzWkE2h9M67a5Ywu3jEUW@lists.infradead.org
+X-Gm-Message-State: AOJu0YzLZA2AU0kJWgbYEtg60UndeAsWwSBzMYtaUPXyJnOUBNnUXc3S
+	RhyKzHRbHZ9T/IEA8Ul40iSGiTgsNl0uNF2Af+987PpKkVZMkI3P22pgZxdKWdiVtcY=
+X-Gm-Gg: ASbGncsq9fPPRX08QcERWQ3aiw8Ke6Zw911le1TbG6jdHOAb7MWQUOYRKJP4w9wRr03
+	xlzboYjn2mBTKABpDbIiuzwpOLvREFIC/Pkcq3twdaJb+Agwcu77UmCq3sFlSqYIAtZA328u3Vv
+	TleEcgos1UJZDmPskRNCiFjK2aTRNPTcrR/DfLYzLNfAa5VXonQOkJQmW5WDI9m4JTK3BNADyAM
+	e/0YX/qiLYrwIWo4ehuEegst4EFlimeoLpl0bNGrOzAVMD0Ph1+Owu6DtBiISiL+2pttdzpGU2f
+	k4lJ9fvN+wjcwAwxWpiECiIBCsd0hx4Hpe5aT3lEnH8BXDwgNa6ZUkNfZ7SZLhoMhwcQa/DOvDq
+	e7jE1LDPlQgYR21zGu6tU+3rmyF1dNF46TiLF0xyx8m/zwO1jWHaknxSLJZaXLLl8CFc=
+X-Google-Smtp-Source: AGHT+IEIHRk7SwMmVS4xtcTCAS6Qp+OrN5pgC4aYwqKQ9jNrDNwsm/zNssFdQ4CwiXZVR7EmZb+prg==
+X-Received: by 2002:a05:6638:c0fb:b0:5ac:cd9a:4c4c with SMTP id 8926c6da1cb9f-5b999555c41mr3179432173.2.1764092295677;
+        Tue, 25 Nov 2025 09:38:15 -0800 (PST)
+Received: from [192.168.1.99] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5b954b48bdcsm6970840173.45.2025.11.25.09.38.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Nov 2025 09:38:15 -0800 (PST)
+Message-ID: <e3f09e0c-63f4-4887-8e3a-1fb24963b627@kernel.dk>
+Date: Tue, 25 Nov 2025 10:38:13 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 1/6] block: ignore discard return value
+To: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>, agk@redhat.com,
+ snitzer@kernel.org, mpatocka@redhat.com, song@kernel.org, yukuai@fnnas.com,
+ hch@lst.de, sagi@grimberg.me, kch@nvidia.com, jaegeuk@kernel.org,
+ chao@kernel.org, cem@kernel.org
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>
+References: <20251124234806.75216-1-ckulkarnilinux@gmail.com>
+ <20251124234806.75216-2-ckulkarnilinux@gmail.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20251124234806.75216-2-ckulkarnilinux@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251125_085710_900016_DF98C9E1 
-X-CRM114-Status: UNSURE (   7.83  )
+X-CRM114-CacheID: sfid-20251125_093817_035156_D5A5E4F4 
+X-CRM114-Status: UNSURE (   5.90  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -65,28 +110,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+On 11/24/25 4:48 PM, Chaitanya Kulkarni wrote:
+> __blkdev_issue_discard() always returns 0, making the error check
+> in blkdev_issue_discard() dead code.
 
-On Tue, 25 Nov 2025 16:19:27 +0100
-Dragan Milivojevi=C4=87 <galileo@pkm-inc.com> wrote:
+Shouldn't it be a void instead then?
 
-> > Issue/Summary:
-> > 1. Usually once a month, a random WD Red SN700 4TB NVME drive will
-> > drop out of a NAS array, after power cycling the device, it rebuilds
-> > successfully.
-> > =20
->=20
-> Seen the same, although far less frequent, with Samsung SSD 980 PRO on
-> a Dell PowerEdge R7525.
-> It's the nature of consumer grade drives, I guess.
->=20
+-- 
+Jens Axboe
 
-Got some issue long time ago, and used :
-
-nvme_core.default_ps_max_latency_us=3D0 pcie_aspm=3Doff pcie_port_pm=3Doff
-
-to boot the kernel. That fixed issue with SN700 2TB.
-
-Regards,
-Paul
 
