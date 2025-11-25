@@ -4,106 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7E76CFD35F
-	for <linux-nvme@archiver.kernel.org>; Mon, 24 Nov 2025 23:48:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD386CFD36E
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 00:58:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XG0OrcuNbwg29Sl2OBnaF07hgRH6+GSGFVprGloS+Vs=; b=uNlnNDoqLopW2QSlijzwnja0Qw
-	q9xf421sLNjZDyQD4gOto0MGn1bLWSMfTMp1wckFiskIrHaY2x+2x6mi+otkZPDpdXZBtjNxoWNav
-	m0GgrvH+le0XiVOkMnIRVTScLcnRvHr5anj9S7jbmGaw1lsSViqwdDS2hgUo8/o3l+9B7C1OQNdmY
-	fLtmn+UqP8milAEKSxRsnLSAQiyyaWJ32vWb99+kYe2lIbt5NYxNDuA1+JEP05kKED1od0FxRvGJL
-	uXnoV5zBgIQ7yINDoNyzhSYz5rZTMgG2SZm7ypWmiXpi5KcDed7ZfcWYL6+RLecRNU402ykDxRK7m
-	0W/VcjlQ==;
+	bh=3iqGO22Eo84dQQSwH69fcWPJDlu28MR6E9S1mkTawZc=; b=MgxtGUiOopJf4nQTuDbuW7z79Z
+	ZaygCQTyGyQkVRGzNrFK+pD0+uXPXV/5UQ4FJuq3HgJGS8ogKEGsJdGmZxIMISxOPonzT/eFXOM+R
+	q7l9fXgDLcI7NwX51+YHQwx3wLeqjuEumjMV1ndj6S2/2mWhj1iRlQ5bqossOoIKlqRMkuAMPTg9k
+	pLOQIHPxIsdrUGcefJWfMkQxnfZ5wXxtHBAbBkB84XbNpzyDcwkuMjNoWJRDGJFCqkhDqZJv8/L5m
+	8bPHdIllXGGy0e++uITtkszOKkpAiVJGMWOi/IjqwkdtKND/R8jczuP0IrRBFdfqD2eBpBDxmSdOc
+	4xA1m23w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNgIK-0000000CTgW-1Z8e;
-	Mon, 24 Nov 2025 23:48:32 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1vNhNw-0000000CXIR-16eK;
+	Tue, 25 Nov 2025 00:58:24 +0000
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNgII-0000000CTeH-1JIC
+	id 1vNhNt-0000000CXGr-2LpR
 	for linux-nvme@lists.infradead.org;
-	Mon, 24 Nov 2025 23:48:31 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so5845781b3a.2
-        for <linux-nvme@lists.infradead.org>; Mon, 24 Nov 2025 15:48:30 -0800 (PST)
+	Tue, 25 Nov 2025 00:58:22 +0000
+Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-8843ebf2facso69139526d6.1
+        for <linux-nvme@lists.infradead.org>; Mon, 24 Nov 2025 16:58:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764028109; x=1764632909; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764032300; x=1764637100; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XG0OrcuNbwg29Sl2OBnaF07hgRH6+GSGFVprGloS+Vs=;
-        b=IjT4FnrPVgx0CV2oRzxB3QpmxwuiwSESenwBCCoNxfrbSkFFrp4ErdMDGvY3o4MpjR
-         midHbGgW6oVyWjM2NcA3AImpGvfS9GXmZDjkmXQMjJ2V2clHR4iUBl3AJf6mD9d3AYiN
-         WRRD+GIJa/4l5nRvRWpqRiwp81EuJJNpSQLyr0rp3Yw8Ifm0O4OwUJIdf6fMLpqXDXri
-         wzJjT9uPA/SnqPnW73l3clYekVUhW8/KQj0WZPDGTp7LiMjSS0k1Fby29IzcLI3Y8Nt1
-         ptGGLwXSiJ7JjtjCAneCBJIUG0yEBnaPwzRN5jm2/T7cmik3ybLtBDqraBjwAYseLI94
-         pBAw==
+        bh=3iqGO22Eo84dQQSwH69fcWPJDlu28MR6E9S1mkTawZc=;
+        b=JfSmd5LpTnUk2nGeKBz1Y9bLQVM4M6q0o152hWnS6ZpHaFOryP/Nzwd8ZRtGj2RXdf
+         aGHE8GULniz1H/Gtyc0HQkj8fWE6ezHjN9k76OLoVPUzjKD68gnO3hYVWo29hKapYxZQ
+         l86/LrDMWIb0laNVliWDXQMeezvLniGGoyrH5HAeVm3j3HNVn9cx6e8kibM9/i065dpv
+         3Lswy+aNelc7Gyx6r3b0HYIW8ff5z54VljvFVBEeZstufGAKbRzxd86Ua+UVWKlw/sgQ
+         tmNKlb7jjsXA55NBianztvetHo0KpGf1uxoY35ESwSHuxs6/K8VizKDpLR7zHMgJR6eC
+         pq7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764028109; x=1764632909;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1764032300; x=1764637100;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=XG0OrcuNbwg29Sl2OBnaF07hgRH6+GSGFVprGloS+Vs=;
-        b=H9omkIaf/J66dG5YaUJFGKguzN49Kex5N1uLDKn89iodO/7TMcJX1/lVeM79YKa8rs
-         aeU0sTprYPIolwYh9oXxAG2pkOjbWcip0fH7Ng8CFf0xC+1s2p9J8cna/yTnSCgLEknN
-         yQttxnaDFaVyomwiv0bu4oNGMc9vjX/YtvYuFobR6ulfxnngzrFydPhX8t8Xz8MBYwqe
-         OqDaXjvUuefHDADjAcK1F1nUxN/qvnsUY5dyrCHoQmHM2Aq4yp5AadDJs/AyX6HqStH7
-         emKcwamgGD6i//Le06Kdmsqkarsr847+JXTWxB/NugdoOBvtZMTUp/h/+6RWP7DG/Sin
-         kfgA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLDNNl7zocpYwhpJhSblrHMiP1uGNkIV6t+R4/2WT0O7ywQf66p8VTBuL39DwFOxCezQgzSpewzV+C@lists.infradead.org
-X-Gm-Message-State: AOJu0YyV6E0ma5eMlrg2WxgANNdn6Oh5xLKsjLFPRyVEH80h6jusSgMv
-	PpGEggTPTBHpgwE9friL+jHIUx0B4rqNtgmX3fSNxpKs5gMhc9TQv53f
-X-Gm-Gg: ASbGncvk2QWwMrrOjSAHKHUdRSgQM/gyfSJ9Knw8hm3SPtpE1Vcw8Im1MVlcgJ3sBri
-	V0yMT1ys94AqYKipUEO0jw0SihoxJ0BenaZKML+zmDyDNJcPI3bFGPJn4a3+fAioxFuVpfF0M/Z
-	tEyLgbPVsKAO8sc1eZfmiLpOndbn+oTaE13/xA4QnAHEpyLnBgslCAcaxQe6DpAN/ATJZILHFSv
-	lO6a7EJnLc2xP2GimuuXpSxhXTdjwwHg3HxjiS6BzC/e+kgQsreLPPZita1tt2ZPqWMmyK4Xf/Z
-	04gSCddP03sSxezw8NffKdh1UnTm+cwT1ar4FBVJI67PbsUaG9/yVxUMnCniLNcN/P00adDBi4O
-	7lUjV8stFsIS5vwVDFxPmD51/61OokEbrf+Z7tO0nzvJqL3pszzgtGzS+1YWzhtfWkJ9NVgg1Bx
-	BJl74vNQPSFy4MoL0+oiul0IahK6T2LwMfFH0kdTix3CRX1Hc=
-X-Google-Smtp-Source: AGHT+IGsJc67nHzRSaGN7J/UxQrgH96kyTpeGXuRk0eYF4SOZV90nUCcoNrz1/tW/LtO3V9QCDnQOg==
-X-Received: by 2002:a05:7022:e994:b0:11b:ade6:45bd with SMTP id a92af1059eb24-11c9d708d4amr8669000c88.8.1764028109428;
-        Mon, 24 Nov 2025 15:48:29 -0800 (PST)
-Received: from localhost (ip70-175-132-216.oc.oc.cox.net. [70.175.132.216])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11c93db4a23sm76988653c88.2.2025.11.24.15.48.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 15:48:29 -0800 (PST)
-From: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-To: axboe@kernel.dk,
-	agk@redhat.com,
-	snitzer@kernel.org,
-	mpatocka@redhat.com,
-	song@kernel.org,
-	yukuai@fnnas.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	jaegeuk@kernel.org,
-	chao@kernel.org,
-	cem@kernel.org
-Cc: linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dm-devel@lists.linux.dev,
-	linux-raid@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-xfs@vger.kernel.org,
-	bpf@vger.kernel.org,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: [PATCH V3 6/6] xfs: ignore discard return value
-Date: Mon, 24 Nov 2025 15:48:06 -0800
-Message-Id: <20251124234806.75216-7-ckulkarnilinux@gmail.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20251124234806.75216-1-ckulkarnilinux@gmail.com>
-References: <20251124234806.75216-1-ckulkarnilinux@gmail.com>
+        bh=3iqGO22Eo84dQQSwH69fcWPJDlu28MR6E9S1mkTawZc=;
+        b=OFSefwMbY7QvyMwcNzFKDdk/8ZOyGmmeiut9tRVP2scTgLjIgYy3gGVvV/iXu2c+nq
+         fSKUc1d6QULhKWtXVChJrIcSX8c3Pb8MxEPmGmhDsmsA1qFTl08rS2oxw3LT06EL1oFt
+         iC1VAFL3YWBcjXVZQpspmIHcsqvxvMqjsfBL9O00eaDVBVwP1mzWs+2o+B3RASm/9g/V
+         fmXGWpbhHG4EcgYNLmRium7/x6L1mAFmEIVPFe30TvF5idSTx4vIM2jvRX60vJsYrn9I
+         hjkGALz7m4ibGbUjXmyMSAtmtHcxY+HXHUjp5jwmHOT+P7hv7Z5BLKlR6x5YYml0FbE9
+         okgA==
+X-Forwarded-Encrypted: i=1; AJvYcCVuKMbalk3Yl0GNsurkleposO+p0Qm2XGR7y+jJIOreN9KU+zm4Xa0dp7nO3OurgWAj5EkUMfm5FY3F@lists.infradead.org
+X-Gm-Message-State: AOJu0YwRTFPCg6UwxiuhMRVF4sXrKhzJmSsgDWXBeDAm4lMFX+m+7TFF
+	kDcfmymUgSTZQ7XcUs5d0SG3rCT6OPtSUkLfRjrMCpDFDWSsjVUU/tJajEAB788jlFI4DRSysrq
+	dQIAv5TwBZLX2LOWXpm4+bOWD63uhKyw=
+X-Gm-Gg: ASbGncs7r4YUAjfCmluBPN9bKfMWH8rmn0Kx0J+NlLzFwUV3UL8pmB+6h1GDdPDoc/m
+	VXs4dm8isM/NuMrl5mXXPxG6KU2w+a17QEmlZ35USq62dPXiXdeFoExgJ4Cj7JkL+Cc9VIUK2h3
+	/CDshNLqNQE+hzcYNaYoiKP/kf5likOMBAWv6dyhrdSDZi3Y6IzJSyHgek6uhv9SbKA1cNXNZ8x
+	H4uh2CNpzHbq2w8dZ0Fnfu7jq0tcaRQOdZcRmR9SWo7zHOnlSALJ8U6a2kvHnvmBi3sty/+Sa2n
+	EtNyRaU=
+X-Google-Smtp-Source: AGHT+IEFHuOyyLl2r/S4EG+KEx5xlPaf9KPxew2so6lp4s4XSr+jblph3HE559EzoHjN0fQf6DhliiaGkBdgyQrufXA=
+X-Received: by 2002:a05:6214:212c:b0:880:591e:abf0 with SMTP id
+ 6a1803df08f44-8847c515a92mr232851076d6.31.1764032300102; Mon, 24 Nov 2025
+ 16:58:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251117184343.97605-1-justintee8345@gmail.com>
+ <c2b9fb9c-440d-4e41-b4e8-7428fcf9c2ca@suse.de> <de42309a-8103-457c-a150-402488b36ede@flourine.local>
+In-Reply-To: <de42309a-8103-457c-a150-402488b36ede@flourine.local>
+From: Justin Tee <justintee8345@gmail.com>
+Date: Mon, 24 Nov 2025 16:57:29 -0800
+X-Gm-Features: AWmQ_bmm7waRg5MeA62sXNuSgHo6cHseIznPMunmMP_z3mMqVCNOozG_BILpYCE
+Message-ID: <CABPRKS-YF66xeYpsKsw40F3Rs7YJHaEdm=BgkS+pzQYwMaccJQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] nvme-fabrics: add ENOKEY to no retry criteria for
+ authentication failures
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, jsmart2021@gmail.com, justin.tee@broadcom.com, 
+	Daniel Wagner <wagi@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251124_154830_352993_6C971816 
-X-CRM114-Status: GOOD (  14.72  )
+X-CRM114-CacheID: sfid-20251124_165821_637664_AFA0D8FB 
+X-CRM114-Status: GOOD (  14.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,128 +99,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-__blkdev_issue_discard() always returns 0, making all error checking
-in XFS discard functions dead code.
+Hi Daniel,
 
-Change xfs_discard_extents() return type to void, remove error variable,
-error checking, and error logging for the __blkdev_issue_discard() call
-in same function.
+> The patch itself is okay, nothing against it. But it wont close the bug
+> report. blktests nvme/041 just passes because we don't check the return
+> code from 'nvme connect' yet. I wanted to add this for a while, time to
+> do it.
+>
+> Furthermore, the test now races with the kernel. If the worker thread in
+> the kernel is delayed, the 'nvme disconnect' might still see a controller=
+:
+>
+>      Test authenticated connection
+>     -disconnected 1 controller(s)
+>     +disconnected 0 controller(s)
+>
+> Anyway, I am fine with this change just without the 'Closes' tag.
+>
+> Tested-by: Daniel Wagner <wagi@kernel.org>
+> Reviewed-by: Daniel Wagner <wagi@kernel.org>
 
-Update xfs_trim_perag_extents() and xfs_trim_rtgroup_extents() to
-ignore the xfs_discard_extents() return value and error checking
-code.
+Was under the impression that the issue with 041 is that there is a
+lingering reconnect attempt leftover from the =E2=80=9CTest unauthenticated
+connection (should fail)=E2=80=9D portion that interferes with the next =E2=
+=80=9CTest
+authenticated connection=E2=80=9D portion of the blktest.
 
-Update xfs_discard_rtdev_extents() to ignore __blkdev_issue_discard()
-return value and error checking code.
+Through correcting the nvmf_should_reconnect routine, which stops
+retrying reconnect when -ENOKEY, there would be no interference in the
+second part of the test when nvme connect is with an actual key.  So,
+there will be a controller to nvme disconnect, as expected, for the
+=E2=80=9CTest authenticated connection=E2=80=9D portion of the test.
 
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
----
- fs/xfs/xfs_discard.c | 27 +++++----------------------
- fs/xfs/xfs_discard.h |  2 +-
- 2 files changed, 6 insertions(+), 23 deletions(-)
-
-diff --git a/fs/xfs/xfs_discard.c b/fs/xfs/xfs_discard.c
-index 6917de832191..b6ffe4807a11 100644
---- a/fs/xfs/xfs_discard.c
-+++ b/fs/xfs/xfs_discard.c
-@@ -108,7 +108,7 @@ xfs_discard_endio(
-  * list. We plug and chain the bios so that we only need a single completion
-  * call to clear all the busy extents once the discards are complete.
-  */
--int
-+void
- xfs_discard_extents(
- 	struct xfs_mount	*mp,
- 	struct xfs_busy_extents	*extents)
-@@ -116,7 +116,6 @@ xfs_discard_extents(
- 	struct xfs_extent_busy	*busyp;
- 	struct bio		*bio = NULL;
- 	struct blk_plug		plug;
--	int			error = 0;
- 
- 	blk_start_plug(&plug);
- 	list_for_each_entry(busyp, &extents->extent_list, list) {
-@@ -126,18 +125,10 @@ xfs_discard_extents(
- 
- 		trace_xfs_discard_extent(xg, busyp->bno, busyp->length);
- 
--		error = __blkdev_issue_discard(btp->bt_bdev,
-+		__blkdev_issue_discard(btp->bt_bdev,
- 				xfs_gbno_to_daddr(xg, busyp->bno),
- 				XFS_FSB_TO_BB(mp, busyp->length),
- 				GFP_KERNEL, &bio);
--		if (error && error != -EOPNOTSUPP) {
--			xfs_info(mp,
--	 "discard failed for extent [0x%llx,%u], error %d",
--				 (unsigned long long)busyp->bno,
--				 busyp->length,
--				 error);
--			break;
--		}
- 	}
- 
- 	if (bio) {
-@@ -148,8 +139,6 @@ xfs_discard_extents(
- 		xfs_discard_endio_work(&extents->endio_work);
- 	}
- 	blk_finish_plug(&plug);
--
--	return error;
- }
- 
- /*
-@@ -385,9 +374,7 @@ xfs_trim_perag_extents(
- 		 * list  after this function call, as it may have been freed by
- 		 * the time control returns to us.
- 		 */
--		error = xfs_discard_extents(pag_mount(pag), extents);
--		if (error)
--			break;
-+		xfs_discard_extents(pag_mount(pag), extents);
- 
- 		if (xfs_trim_should_stop())
- 			break;
-@@ -496,12 +483,10 @@ xfs_discard_rtdev_extents(
- 
- 		trace_xfs_discard_rtextent(mp, busyp->bno, busyp->length);
- 
--		error = __blkdev_issue_discard(bdev,
-+		__blkdev_issue_discard(bdev,
- 				xfs_rtb_to_daddr(mp, busyp->bno),
- 				XFS_FSB_TO_BB(mp, busyp->length),
- 				GFP_NOFS, &bio);
--		if (error)
--			break;
- 	}
- 	xfs_discard_free_rtdev_extents(tr);
- 
-@@ -741,9 +726,7 @@ xfs_trim_rtgroup_extents(
- 		 * list  after this function call, as it may have been freed by
- 		 * the time control returns to us.
- 		 */
--		error = xfs_discard_extents(rtg_mount(rtg), tr.extents);
--		if (error)
--			break;
-+		xfs_discard_extents(rtg_mount(rtg), tr.extents);
- 
- 		low = tr.restart_rtx;
- 	} while (!xfs_trim_should_stop() && low <= high);
-diff --git a/fs/xfs/xfs_discard.h b/fs/xfs/xfs_discard.h
-index 2b1a85223a56..8c5cc4af6a07 100644
---- a/fs/xfs/xfs_discard.h
-+++ b/fs/xfs/xfs_discard.h
-@@ -6,7 +6,7 @@ struct fstrim_range;
- struct xfs_mount;
- struct xfs_busy_extents;
- 
--int xfs_discard_extents(struct xfs_mount *mp, struct xfs_busy_extents *busy);
-+void xfs_discard_extents(struct xfs_mount *mp, struct xfs_busy_extents *busy);
- int xfs_ioc_trim(struct xfs_mount *mp, struct fstrim_range __user *fstrim);
- 
- #endif /* XFS_DISCARD_H */
--- 
-2.40.0
-
+Regards,
+Justin
 
