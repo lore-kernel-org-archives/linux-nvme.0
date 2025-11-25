@@ -4,98 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA652D0EE00
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 17:38:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB655D0EE14
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 18:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Y/RYkXbjr0Zws5PkDP81koxcOw7wQafJJolXOcPbtL0=; b=b4Hd6pOOcyjqjJ6urx6UKcLBiK
-	TEEXag0Die+r36fJ7VOjxQ8//eY7aqhvYy/FZ6OuqWhr1FA3juQrt4pBei7qKlmEnWYRsMZGeS0rY
-	r2bEvqtQcW5nSd2IpI8lp+E0MDPOfyKspxcKRg0Q5ph+hFZp7u4Q7fpJVwbhMjJmmDdkjuCwbMcwa
-	jFx2bYWxQIz2BpdXjWphudMv/ZaEy9vgplhvib07mZIAX0XMqZ0X8hClrxq1e6uTyYL9Mu8ER6pM5
-	M43P5YQ0ILGwLcE795gd/fvHJju50gLfC4PDFe7tMAqO+jLpthtnFlerw3OeYV/jDei77Q++gQJMA
-	v/rS4HVw==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iQv0f+p2du9ActsUKGTcmvSzfLb7F9qhXkL+U/+TS2w=; b=Ea9tRMDeBWr+8RvRRaRYgoZOtD
+	CGWaYfRFe/Egxe3RhQpvbYdo0sXkX77Me9ilPENairxoV3mJpBZ65/Zt3oohymGOX688yWUNM+KfH
+	jXiwq08CY/cqZ+MNuvD6ADp/wPE6xQXFMae30nBOn9Nj2poDCeNuqQOWqMRehvcP3dhTTNf6i/C/f
+	uSh9XIQv0lknAqM2PBjh59V+4RO7FkBNi5ngai15n6kMWQinKRpCh53T+iieb0mwkTaRGbh+bMGte
+	3yddZwpwGxtNx8VNFNGQwd5R7LO303U+sejyrX0HrAjcshXzomXwTT+1352i0c9umOzLbkI88V5vi
+	rhYOu/Qw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNwzv-0000000Dfz7-3TMK;
-	Tue, 25 Nov 2025 17:38:39 +0000
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30])
+	id 1vNxiC-0000000DlIv-1CjT;
+	Tue, 25 Nov 2025 18:24:24 +0000
+Received: from smtp.hosts.co.uk ([85.233.160.19])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNwzY-0000000DfxB-43wb
+	id 1vNxi9-0000000DlIR-3cfF
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Nov 2025 17:38:38 +0000
-Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-948fbdbc79fso137578939f.0
-        for <linux-nvme@lists.infradead.org>; Tue, 25 Nov 2025 09:38:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1764092296; x=1764697096; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y/RYkXbjr0Zws5PkDP81koxcOw7wQafJJolXOcPbtL0=;
-        b=1NriZOjq1teWzwJDNLYRZc/+KEWnvtu7VNqjCSoCdQ4nvlgN7Xx3xBVH/LxkrZQhIq
-         kbhJ9nIsJA9KYrqiwNbCUII5W3/hm2Nsx7aj0IpTaIaHASUaD8bN88c70mEsqWc2X1yL
-         bChu8Zs/m97VqWGHv78qUkafqbR6mhoWRl5gASurUkm0tV/xgZIZADNfnP6xOlT3KR3B
-         OBt7GHcPsUFCYC9vkkBiOBEvhFvyO6hU5RBotPJSR4tR7Pah4YyW8K8acHWA5dC2c8Jy
-         jXaBfJeLfb8UUZb+jISzBeQPq6v0oVgpSp4ksfa09WsTh28DMy9ZI44gZZA+DOjgEwf2
-         kcmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764092296; x=1764697096;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y/RYkXbjr0Zws5PkDP81koxcOw7wQafJJolXOcPbtL0=;
-        b=m68cxDSLNwPFp4V8XWwQMEZ1HHEU0jp74mLocJJzzPE/pLAyjzQU5rNaG1B+lRHf14
-         tEosNcivHL0Rpyu3Ba/smQbD2XDEh8MSWf4ApWFeiG/QPIqVLrl82f942u2kGujHGRUw
-         SrOVEe22f9pEoZj7ipNlI54OmU6LSs31KY+UiOkOOVaKL+9fnsNaIRfKuN8mFQ51fNgO
-         M8XCpbaDe839QTQ0ch/wgk0W0/i8SgZUCB3ldnqgUEGLSSDuxFMJL6Oq5ujT1nOBQp+V
-         yYPj541eR81AOmgBrS8u5Zr6aXl5phrbDBNHdQEeNdnOQfdpr5pqfyn+8Y7B32won+CB
-         BMRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPXluaIU4zAi0sSOrG8q+X7/2uOTMvQ0Nse/DItDUihHeiIag5cJ5kjx1CzWkE2h9M67a5Ywu3jEUW@lists.infradead.org
-X-Gm-Message-State: AOJu0YzLZA2AU0kJWgbYEtg60UndeAsWwSBzMYtaUPXyJnOUBNnUXc3S
-	RhyKzHRbHZ9T/IEA8Ul40iSGiTgsNl0uNF2Af+987PpKkVZMkI3P22pgZxdKWdiVtcY=
-X-Gm-Gg: ASbGncsq9fPPRX08QcERWQ3aiw8Ke6Zw911le1TbG6jdHOAb7MWQUOYRKJP4w9wRr03
-	xlzboYjn2mBTKABpDbIiuzwpOLvREFIC/Pkcq3twdaJb+Agwcu77UmCq3sFlSqYIAtZA328u3Vv
-	TleEcgos1UJZDmPskRNCiFjK2aTRNPTcrR/DfLYzLNfAa5VXonQOkJQmW5WDI9m4JTK3BNADyAM
-	e/0YX/qiLYrwIWo4ehuEegst4EFlimeoLpl0bNGrOzAVMD0Ph1+Owu6DtBiISiL+2pttdzpGU2f
-	k4lJ9fvN+wjcwAwxWpiECiIBCsd0hx4Hpe5aT3lEnH8BXDwgNa6ZUkNfZ7SZLhoMhwcQa/DOvDq
-	e7jE1LDPlQgYR21zGu6tU+3rmyF1dNF46TiLF0xyx8m/zwO1jWHaknxSLJZaXLLl8CFc=
-X-Google-Smtp-Source: AGHT+IEIHRk7SwMmVS4xtcTCAS6Qp+OrN5pgC4aYwqKQ9jNrDNwsm/zNssFdQ4CwiXZVR7EmZb+prg==
-X-Received: by 2002:a05:6638:c0fb:b0:5ac:cd9a:4c4c with SMTP id 8926c6da1cb9f-5b999555c41mr3179432173.2.1764092295677;
-        Tue, 25 Nov 2025 09:38:15 -0800 (PST)
-Received: from [192.168.1.99] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5b954b48bdcsm6970840173.45.2025.11.25.09.38.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 09:38:15 -0800 (PST)
-Message-ID: <e3f09e0c-63f4-4887-8e3a-1fb24963b627@kernel.dk>
-Date: Tue, 25 Nov 2025 10:38:13 -0700
+	Tue, 25 Nov 2025 18:24:23 +0000
+Received: from host51-14-94-149.range51-14.btcentralplus.com ([51.14.94.149] helo=[192.168.1.171])
+	by smtp.hosts.co.uk with esmtpa (Exim)
+	(envelope-from <antlists@youngman.org.uk>)
+	id 1vNxi2-000000001rw-87yg;
+	Tue, 25 Nov 2025 18:24:15 +0000
+Message-ID: <07500979-eca8-4159-b2a5-3052e9958c84@youngman.org.uk>
+Date: Tue, 25 Nov 2025 18:25:41 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 1/6] block: ignore discard return value
-To: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>, agk@redhat.com,
- snitzer@kernel.org, mpatocka@redhat.com, song@kernel.org, yukuai@fnnas.com,
- hch@lst.de, sagi@grimberg.me, kch@nvidia.com, jaegeuk@kernel.org,
- chao@kernel.org, cem@kernel.org
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>
-References: <20251124234806.75216-1-ckulkarnilinux@gmail.com>
- <20251124234806.75216-2-ckulkarnilinux@gmail.com>
+Subject: Re: WD Red SN700 4000GB, F/W: 11C120WD (Device not ready; aborting
+ reset, CSTS=0x1)
+To: Justin Piszcz <jpiszcz@lucidpixels.com>,
+ LKML <linux-kernel@vger.kernel.org>, linux-nvme@lists.infradead.org,
+ linux-raid@vger.kernel.org, Btrfs BTRFS <linux-btrfs@vger.kernel.org>
+References: <CAO9zADxCYgQVOD9A1WYoS4JcLgvsNtGGr4xEZm9CMFHXsTV8ww@mail.gmail.com>
 Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20251124234806.75216-2-ckulkarnilinux@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Wol <antlists@youngman.org.uk>
+In-Reply-To: <CAO9zADxCYgQVOD9A1WYoS4JcLgvsNtGGr4xEZm9CMFHXsTV8ww@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251125_093817_035156_D5A5E4F4 
-X-CRM114-Status: UNSURE (   5.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251125_102421_910905_CB2381A7 
+X-CRM114-Status: GOOD (  20.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,13 +64,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 11/24/25 4:48 PM, Chaitanya Kulkarni wrote:
-> __blkdev_issue_discard() always returns 0, making the error check
-> in blkdev_issue_discard() dead code.
+Probably not the problem, but how old are the drives? About 2020, WD 
+started shingling the Red line (you had to move to Red Pro to get 
+conventional drives). Shingled is bad news for linux raid, but the fact 
+your drives tend to drop out when idling makes it unlikely this is the 
+problem.
 
-Shouldn't it be a void instead then?
+Cheers,
+Wol
 
--- 
-Jens Axboe
+On 25/11/2025 14:42, Justin Piszcz wrote:
+> Hello,
+> 
+> Issue/Summary:
+> 1. Usually once a month, a random WD Red SN700 4TB NVME drive will
+> drop out of a NAS array, after power cycling the device, it rebuilds
+> successfully.
+> 
+> Details:
+> 0. I use an NVME NAS (FS6712X) with WD Red SN700 4TB drives (WDS400T1R0C):
+> 1. Ever since I installed the drives, there will be a random drive
+> that drops offline every month or so, almost always when the system is
+> idle.
+> 2. I have troubleshot this with Asustor and WD/SanDisk.
+> 3. Asustor noted that they did have other users with the same
+> configuration running into this problem.
+> 4. When troubleshooting with WD/SanDisk's it was noted my main option
+> is to replace the drive, even though the issue occurs across nearly
+> all of the drives.
+> 5. The drives are up to date currently according to the WD Dashboard
+> (when removing them and checking them on another system).
+> 6. As for the device/filesystem, the FS6712X's configuration is
+> MD-RAID6 device with BTRFS on-top of it.
+> 7. The "workaround" is to power cycle the FS6712X and when it boots up
+> the MD-RAID6 re-syncs back to a healthy state.
+> 
+> I am using the latest Asus ADM/OS which uses the 6.6.x kernel:
+> 1. Linux FS6712X-EB92 6.6.x #1 SMP PREEMPT_DYNAMIC Tue Nov  4 00:53:39
+> CST 2025 x86_64 GNU/Linux
+> 
+> Questions:
+> 1. Have others experienced this failure scenario?
+> 2. Are there identified workarounds for this issue outside of power
+> cycling the device when this happens?
+> 3. Are there any debug options that can be enabled that could help to
+> pinpoint the root cause?
+> 4. Within the BIOS settings, which starts 2:18 below there are some
+> advanced settings that are shown, could there be a power saving
+> feature or other setting that can be modified to address this issue?
+> 4a. https://www.youtube.com/watch?v=YytWFtgqVy0
+> 
+> [1] The last failures have been at random times on the following days:
+> 1. August 27, 2025
+> 2. September 19th, 2025
+> 3. September 29th, 2025
+> 4. October 28th, 2025
+> 5. November 24, 2025
+> 
+> Chipset being used:
+> 1. ASMedia Technology Inc.:ASM2806 4-Port PCIe x2 Gen3 Packet Switch
+> 
+> Details:
+> 
+> 1. August 27, 2025
+> [1156824.598513] nvme nvme2: I/O 5 QID 0 timeout, reset controller
+> [1156896.035355] nvme nvme2: Device not ready; aborting reset, CSTS=0x1
+> [1156906.057936] nvme nvme2: Device not ready; aborting reset, CSTS=0x1
+> [1158185.737571] md/raid:md1: Disk failure on nvme2n1p4, disabling device.
+> [1158185.744188] md/raid:md1: Operation continuing on 11 devices.
+> 
+> 2. September 19th, 2025
+> [2001664.727044] nvme nvme9: I/O 26 QID 0 timeout, reset controller
+> [2001736.159123] nvme nvme9: Device not ready; aborting reset, CSTS=0x1
+> [2001746.180813] nvme nvme9: Device not ready; aborting reset, CSTS=0x1
+> [2002368.631788] md/raid:md1: Disk failure on nvme9n1p4, disabling device.
+> [2002368.638414] md/raid:md1: Operation continuing on 11 devices.
+> [2003213.517965] md/raid1:md0: Disk failure on nvme9n1p2, disabling device.
+> [2003213.517965] md/raid1:md0: Operation continuing on 11 devices.
+> 
+> 3.  September 29th, 2025
+> [858305.408049] nvme nvme3: I/O 8 QID 0 timeout, reset controller
+> [858376.843140] nvme nvme3: Device not ready; aborting reset, CSTS=0x1
+> [858386.865240] nvme nvme3: Device not ready; aborting reset, CSTS=0x1
+> [858386.883053] md/raid:md1: Disk failure on nvme3n1p4, disabling device.
+> [858386.889586] md/raid:md1: Operation continuing on 11 devices.
+> 
+> 4. October 28th, 2025
+> [502963.821407] nvme nvme4: I/O 0 QID 0 timeout, reset controller
+> [503035.257391] nvme nvme4: Device not ready; aborting reset, CSTS=0x1
+> [503045.282923] nvme nvme4: Device not ready; aborting reset, CSTS=0x1
+> [503142.226962] md/raid:md1: Disk failure on nvme4n1p4, disabling device.
+> [503142.233496] md/raid:md1: Operation continuing on 11 devices.
+> 
+> 5. November 24th, 2025
+> [1658454.034633] nvme nvme2: I/O 24 QID 0 timeout, reset controller
+> [1658525.470287] nvme nvme2: Device not ready; aborting reset, CSTS=0x1
+> [1658535.491803] nvme nvme2: Device not ready; aborting reset, CSTS=0x1
+> [1658535.517638] md/raid1:md0: Disk failure on nvme2n1p2, disabling device.
+> [1658535.517638] md/raid1:md0: Operation continuing on 11 devices.
+> [1659258.368386] md/raid:md1: Disk failure on nvme2n1p4, disabling device.
+> [1659258.375012] md/raid:md1: Operation continuing on 11 devices.
+> 
+> 
+> Justin
+> 
 
 
