@@ -4,106 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D29BD0E6C7
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 11:55:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51C8FD0E6CD
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 12:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2pxgtrDWmy7eTaSMnEPoviLmQdhhfwo9tIlruuWMXUA=; b=lEQhu8kfRziIAm+/IK4ErYA3V2
-	g3ypZf69ZItcAGnbGZvT23Dx197tRL4HzJWT4UestVebGmMSq+vSVlv8OnPxoMuWNODEQ4PlwBR+0
-	a/jPQmlTqoAKKtzxqxw5EPtIryNoM8OiKcjJ+rf6Utmj/5d4RyQEQe/94b2ku3SOmyVfAMOjaqD9k
-	A8fmJaMcpR2GZSgsF34Xl9O24zQZ40TArwUjlbIdQgt3C1tlFWxUr74cfdU5sQbLw7hY//8sYfHZF
-	rUL8xqk3s+5RmJDGayGwxCElFAmOh8cT8deoVpvjhrriHLkfC/H9WzFzIF8nNXFGjaG4uyyU0NnSw
-	nU/8Dd/w==;
+	bh=6H3ZohGhsJTuXJwPtJPtAzAFvIuUq1M/+91P5tuAAAM=; b=M8QS1Utgx+lEjL0S4dCVDcjiv2
+	P1M1bnuEnNRo64CkWHzfbMQESbgX2TRmlBW+DwGUWAtmCfCLSD8zUSARlK+qK3yZhsIul1rvOp7Jh
+	m8jES5qUPKqlVRlukbMz8JXsWT6ivT41dvtg+xnM3eNkXlvhTTxChnJ53Er0vtdDNygWQp74wKV+W
+	dXsXN2KvyWdIsfoXB3MINepROqGwZTKY/zi11o1V6S0642g9dM8WaWxaSE86vhmc+S/NZO/SkCcGc
+	7HEsHGQrlwJyyuwHIfEMGc8Y3oezOGlekKQHx9omGPNpavdygpAYxNZu4v5pJyksLy1xoEpKdA96U
+	gnOsK55w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNrdI-0000000DFXD-26ZU;
-	Tue, 25 Nov 2025 11:54:56 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vNsEz-0000000DHql-1MDo;
+	Tue, 25 Nov 2025 12:33:53 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNrdF-0000000DFWp-3dXx
+	id 1vNsEw-0000000DHqC-13lt
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Nov 2025 11:54:55 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AP85Lru025998;
-	Tue, 25 Nov 2025 11:54:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=2pxgtr
-	DWmy7eTaSMnEPoviLmQdhhfwo9tIlruuWMXUA=; b=cjbR12Vx6Z+pU+Tuhevt65
-	c9dW2YL+cblYfTERImzQc7IIBb+WLVYoRIcoPe8kaXhIjjuEAfGGrXhy0ortbIVx
-	jwlznSjOeHl01Sfw3sxxxoKMEfDTfEpmdjh71acpgh8A3fD9xfvcYENL3m1PvEsH
-	os6Au+azMQfR6zwCr+CHDOTZomuY+UfLnOrYYJOeb/vS3TEZymGOl2EfYLyJLvUm
-	tgERr178hDz8F+O6npcmXWuQlCHVR6EakSllxMjTStHVsa7x8x15dK1UCM+jlImm
-	Cu6jo0141cyCLbWVwugAsjwNLPYbWz3J1+Lyaw0t62lC0lHtSAVdnySIYhBSP73Q
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ak4phwd40-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Nov 2025 11:54:41 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5APBbCdH010950;
-	Tue, 25 Nov 2025 11:54:40 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ak4phwd3y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Nov 2025 11:54:40 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5APBieds030755;
-	Tue, 25 Nov 2025 11:54:39 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4akqgsbuqw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Nov 2025 11:54:39 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5APBscio24838408
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Nov 2025 11:54:39 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B7A7A58043;
-	Tue, 25 Nov 2025 11:54:38 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E2C7F58059;
-	Tue, 25 Nov 2025 11:54:30 +0000 (GMT)
-Received: from [9.109.198.169] (unknown [9.109.198.169])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 25 Nov 2025 11:54:30 +0000 (GMT)
-Message-ID: <c6e88bc3-8cc9-4503-a472-7692468ac218@linux.ibm.com>
-Date: Tue, 25 Nov 2025 17:24:29 +0530
+	Tue, 25 Nov 2025 12:33:52 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 843325BE71;
+	Tue, 25 Nov 2025 12:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764074026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6H3ZohGhsJTuXJwPtJPtAzAFvIuUq1M/+91P5tuAAAM=;
+	b=uLChw0LO71V8jndqtzmCZ7btu5AMbJbgubtEdv0GIKDaqoHjwVDgBBqkT80YhxrmY41/3A
+	I4NaNNP9hPTA9aNe+m2aMs1ITNji68siNBFjSprR8c9yh5KSLeApJ3dzK7yNnOw6WmJMre
+	sJAj3AD6gk99KhiMA7rWm6GZLKI/2Ug=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764074026;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6H3ZohGhsJTuXJwPtJPtAzAFvIuUq1M/+91P5tuAAAM=;
+	b=BWJrJ9zBNbn0awaKiCsT2NIXmz/r5xo6ywZ8pzCZ6GPksVfOP9fK57rWvgFjYSJi70Lo8D
+	lsHJmjos8g2rsjDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uLChw0LO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BWJrJ9zB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764074026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6H3ZohGhsJTuXJwPtJPtAzAFvIuUq1M/+91P5tuAAAM=;
+	b=uLChw0LO71V8jndqtzmCZ7btu5AMbJbgubtEdv0GIKDaqoHjwVDgBBqkT80YhxrmY41/3A
+	I4NaNNP9hPTA9aNe+m2aMs1ITNji68siNBFjSprR8c9yh5KSLeApJ3dzK7yNnOw6WmJMre
+	sJAj3AD6gk99KhiMA7rWm6GZLKI/2Ug=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764074026;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6H3ZohGhsJTuXJwPtJPtAzAFvIuUq1M/+91P5tuAAAM=;
+	b=BWJrJ9zBNbn0awaKiCsT2NIXmz/r5xo6ywZ8pzCZ6GPksVfOP9fK57rWvgFjYSJi70Lo8D
+	lsHJmjos8g2rsjDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22FA83EA63;
+	Tue, 25 Nov 2025 12:33:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g5PzAymiJWkIdAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 25 Nov 2025 12:33:45 +0000
+Message-ID: <718aae86-a8dd-4b1d-9666-8d3a2bc5bc49@suse.de>
+Date: Tue, 25 Nov 2025 13:33:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC blktests fix PATCH] tcp: use GFP_ATOMIC in tcp_disconnect
-To: Christoph Hellwig <hch@lst.de>
+To: Nilay Shroff <nilay@linux.ibm.com>, Christoph Hellwig <hch@lst.de>
 Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
-        "kbusch@kernel.org" <kbusch@kernel.org>, "hare@suse.de" <hare@suse.de>,
-        "sagi@grimberg.me" <sagi@grimberg.me>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "dlemoal@kernel.org" <dlemoal@kernel.org>,
-        "wagi@kernel.org"
- <wagi@kernel.org>,
-        "mpatocka@redhat.com" <mpatocka@redhat.com>,
-        "yukuai3@huawei.com" <yukuai3@huawei.com>,
-        "xni@redhat.com"
- <xni@redhat.com>,
-        "linan122@huawei.com" <linan122@huawei.com>,
-        "bmarzins@redhat.com" <bmarzins@redhat.com>,
-        "john.g.garry@oracle.com" <john.g.garry@oracle.com>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "ncardwell@google.com" <ncardwell@google.com>,
-        "kuniyu@google.com" <kuniyu@google.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "dsahern@kernel.org" <dsahern@kernel.org>,
-        "kuba@kernel.org"
- <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "horms@kernel.org" <horms@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+ Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "sagi@grimberg.me"
+ <sagi@grimberg.me>, "axboe@kernel.dk" <axboe@kernel.dk>,
+ "dlemoal@kernel.org" <dlemoal@kernel.org>, "wagi@kernel.org"
+ <wagi@kernel.org>, "mpatocka@redhat.com" <mpatocka@redhat.com>,
+ "yukuai3@huawei.com" <yukuai3@huawei.com>, "xni@redhat.com"
+ <xni@redhat.com>, "linan122@huawei.com" <linan122@huawei.com>,
+ "bmarzins@redhat.com" <bmarzins@redhat.com>,
+ "john.g.garry@oracle.com" <john.g.garry@oracle.com>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "ncardwell@google.com" <ncardwell@google.com>,
+ "kuniyu@google.com" <kuniyu@google.com>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "dsahern@kernel.org" <dsahern@kernel.org>, "kuba@kernel.org"
+ <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+ "horms@kernel.org" <horms@kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
 References: <20251125061142.18094-1-ckulkarnilinux@gmail.com>
  <aSVMXYCiEGpETx-X@infradead.org>
  <ea2958c9-4571-4169-8060-6456892e6b15@nvidia.com>
@@ -111,37 +115,46 @@ References: <20251125061142.18094-1-ckulkarnilinux@gmail.com>
  <20251125112111.GA22545@lst.de>
  <234bab6c-6d31-4c93-8a69-5b3687ba9b85@linux.ibm.com>
  <20251125113009.GA22874@lst.de>
+ <c6e88bc3-8cc9-4503-a472-7692468ac218@linux.ibm.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20251125113009.GA22874@lst.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIyMDAxNiBTYWx0ZWRfX+gB8hFGESNa+
- rLSSySu64nxEfDrxZYQGlQRTgJYxxtncZQw0OF8Rlk0+ZjvrJJO4FsugSBSRvtSjZlOZLGxhvw/
- CLEQxhJSL1ura0xsKksySA0ttslXptDO0+EQbVyfOKVW6JZAwSvPv1eRhGcblGSfUiW20afdTQz
- wi/LRZw8gTtSz4pYNKvHCs3q1BcDYIZ0kFi7FPHuF3miOwrLrIDRKWfYmH4leQyQjgNJOG0AuFW
- HbBbtvXLeI4SeX6LqgKkrbZ6XjIkO/rkdBtW1WL6fD0rUUo2N17Asb+N17XToHQjEF52ne5hqka
- HkR8+X6IiIs4tCvJao7GBfkJ46lcyqfyb9gNjkNTw3bnhfmJ11x4mvxxVTpE9eqjV9hpLgyvpyK
- Ij9UiGqf4fxSrP5fMhQzsKuRQbSCUA==
-X-Proofpoint-ORIG-GUID: AEQPSXV2ydGNTqwVbmTapqeQVKAF554X
-X-Authority-Analysis: v=2.4 cv=CcYFJbrl c=1 sm=1 tr=0 ts=69259901 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=Dx6jXT7FOQMUIc5gBgQA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: AyOLiBIDLwXvYgj-rDV-m897x1pRDSHV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 spamscore=0
- phishscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510240000
- definitions=main-2511220016
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <c6e88bc3-8cc9-4503-a472-7692468ac218@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 843325BE71
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[suse.de:email,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[nvidia.com,gmail.com,kernel.org,grimberg.me,kernel.dk,redhat.com,huawei.com,oracle.com,google.com,davemloft.net,vger.kernel.org,lists.infradead.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLykmtnuwwt3p9ueb9muqcqoc7)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim]
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251125_035454_090723_E118FA38 
-X-CRM114-Status: GOOD (  17.91  )
+X-CRM114-CacheID: sfid-20251125_043350_601601_458C8905 
+X-CRM114-Status: GOOD (  17.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,32 +169,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 11/25/25 5:00 PM, Christoph Hellwig wrote:
-> On Tue, Nov 25, 2025 at 04:58:32PM +0530, Nilay Shroff wrote:
->> >From git history, I see that was added to avoid memory reclaim  to avoid
->> possible circular locking dependency. This commit 83e1226b0ee2 ("nvme-tcp:
->> fix possible circular locking when deleting a controller under memory
->> pressure") adds it.
+On 11/25/25 12:54, Nilay Shroff wrote:
 > 
-> I suspect this was intended to be noio, and we should just switch to
-> that.
 > 
-Yeah, I agree that this should be changed to noio. However, it seems that
-this alone may not be sufficient to fix the lockdep splat reported here.
-Since the real work of fput() might be deferred to another thread, using a noio
-scope in this path may not have the intended effect and could end up being
-redundant. 
+> On 11/25/25 5:00 PM, Christoph Hellwig wrote:
+>> On Tue, Nov 25, 2025 at 04:58:32PM +0530, Nilay Shroff wrote:
+>>> >From git history, I see that was added to avoid memory reclaim  to avoid
+>>> possible circular locking dependency. This commit 83e1226b0ee2 ("nvme-tcp:
+>>> fix possible circular locking when deleting a controller under memory
+>>> pressure") adds it.
+>>
+>> I suspect this was intended to be noio, and we should just switch to
+>> that.
+>>
+> Yeah, I agree that this should be changed to noio. However, it seems that
+> this alone may not be sufficient to fix the lockdep splat reported here.
+> Since the real work of fput() might be deferred to another thread, using a noio
+> scope in this path may not have the intended effect and could end up being
+> redundant.
+> 
+> That said, I noticed another fix from Chaitanya [1], where fput() is replaced
+> with __fput_sync(). With that change in place, combining the noio scope adjustment
+> with the switch to __fput_sync() should indeed address the lockdep issue. Given
+> that both problems have very similar lockdep signatures, it might make sense to
+> merge these two changes into a single fix.
+> 
+> [1] https://lore.kernel.org/all/20251125005950.41046-1-ckulkarnilinux@gmail.com/
+> 
+Yes, we should.
+Both address similar symptoms, and I wouldn't be surprised both turn out
+to address the same issue.
+(Frame #0 from here is basically identical to frame #2 in the referenced
+issue).
 
-That said, I noticed another fix from Chaitanya [1], where fput() is replaced
-with __fput_sync(). With that change in place, combining the noio scope adjustment
-with the switch to __fput_sync() should indeed address the lockdep issue. Given
-that both problems have very similar lockdep signatures, it might make sense to
-merge these two changes into a single fix.
+So please roll both into one patch.
 
-[1] https://lore.kernel.org/all/20251125005950.41046-1-ckulkarnilinux@gmail.com/
+Cheers,
 
-Thanks,
---Nilay
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
