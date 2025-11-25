@@ -4,74 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30D67D0EE18
-	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 21:19:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD7F3D0EE0B
+	for <linux-nvme@archiver.kernel.org>; Tue, 25 Nov 2025 22:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zQYbsdoh5iLMfnPIE8gR1Zphgon72BYY58aeFh8jKeY=; b=sk9yaDzdoaSk9V80oJ74j/bhKI
-	pnSkqCx5PVwIOlVGbLw4qA1qBbUj9w89l1LbF7Y6UkD+oEMoEMAG2FSUfpVGPfX8iAKOFP0zkgfLk
-	26qoK3O9Wk+x6P3X4JMU9i3ZIW/9V69mHajzem0VqytvojsZPZyjOoqarkzcCf3Uj6ekWna75PF64
-	p1fTEkCQUy6DzohGzkgk5vHWeqEov/EPLxbxfmNJt8nG3YTrkAaBx7Xyex8riIqCdwgE7E+bQ1yQW
-	e/PbnZdXQp0/0IWGz4D8DeM82/FlgDkbv50sQoa7E2f8NjHiU1xD8EgyRtKRBaXQml4t6Lk7NAZro
-	Yo1S8rZA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=hDjMNlZqfDqbIvK2U/5mC/00Bl2Hc2xccMDPXlkxTCc=; b=lPK95FDTi4b4fHPzjQAcsBRY1M
+	Vm/7QaIGtm2ewQsyP2CJYIOnCt5+vgFQ9MmKb/uCtfL+nTrsCx9YBFZlcqpaJsR3N8lXUHkFBrqGj
+	VruXJuRabaGXb0TbgXfH208+0czL4XMriPUyWDr7OpuA0N8e41n5fDp7+NRBKSxMq6xVtD+k/jFpy
+	X9Gi46qjfCJq7Bgnvj2QgmBXCF/CsV9F5cUAt52BQUwzkIChHrhyn7NxuDSxLWcZr9V1udiq0Oylg
+	UFxYk+IJjov0nlaAJ8gjze+shCr0tARMaYwaJKqk0zbA3FNl0dtRiF/y0hhRWdp5vk6YB7s2WB7hO
+	mGg+Y5ag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vO0RX-0000000Dx0j-2zIq;
-	Tue, 25 Nov 2025 21:19:23 +0000
-Received: from mgamail.intel.com ([198.175.65.10])
+	id 1vO1f5-0000000E0yY-1QHf;
+	Tue, 25 Nov 2025 22:37:27 +0000
+Received: from se.sotapeli.fi ([206.168.212.219])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vO0RU-0000000DwzH-1nZH
+	id 1vO1f1-0000000E0x1-3tIC
 	for linux-nvme@lists.infradead.org;
-	Tue, 25 Nov 2025 21:19:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764105561; x=1795641561;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tHReAClY+18HFickbZdyBGjV0pf+yYtvp16HndzBVuk=;
-  b=fiwfZXSYS+CxLUj/96VU4EYW0QJDtmz3ZcJTPgeTbFeDQ4gZrBCSuDWS
-   mISrKYs/wI7ix72pvoGQpqof+PfpYdeYx1jO8p6gLxeITRWElqfRYt90G
-   Ion7isHPRBCyIF24bffw6PJse77TRTjUO9Om3KD+Y52ECM+T366DPXwOf
-   lNBFdka/lK0Cn4zZ90iJAuswprPRleFlSNW8pepOwiGMLQUNM/X7n3jLX
-   AAWSPLLLWAL4yy3ChWAM4qHXBL3LSYFhLMHEN8/m2wT3t1Z29JaS1vHrg
-   imaoU8WZdVB3r4rD/w77GMq2BUZ2QVEojD/tnvBTrtTHZHer6mE55uUts
-   g==;
-X-CSE-ConnectionGUID: SqIq4HbLTA6zW82mD9n+zQ==
-X-CSE-MsgGUID: SMQDpMCkTQ+QNuxPFHUNig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="83525961"
-X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="83525961"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:19:18 -0800
-X-CSE-ConnectionGUID: G67XL42VQuqp8KxUC3FLAg==
-X-CSE-MsgGUID: 0bQuqz7RS8KvuZSMS1H40A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="216107957"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Nov 2025 13:19:16 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vO0RO-000000002Gv-0ZTN;
-	Tue, 25 Nov 2025 21:19:14 +0000
-Date: Wed, 26 Nov 2025 05:19:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>
-Subject: [linux-nvme:nvme-6.19 3/27] include/linux/kern_levels.h:5:25:
- warning: format '%ld' expects argument of type 'long int', but argument 2
- has type 'size_t' {aka 'unsigned int'}
-Message-ID: <202511260537.R9DHSTOl-lkp@intel.com>
+	Tue, 25 Nov 2025 22:37:25 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5A919181AA00;
+	Tue, 25 Nov 2025 23:37:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sotapeli.fi; s=dkim;
+	t=1764110235; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=hDjMNlZqfDqbIvK2U/5mC/00Bl2Hc2xccMDPXlkxTCc=;
+	b=o1KMyBTqF7/Cf4k41ckSO6jHSI6GgsNgQERvK9BtgrJU5g9rLmwtCnksFNq3n9D4X1TPqw
+	Wz0GA3ZouHNPpt+LjxOhxarh9V5lsj3cHy/bC2cPba+8lboiHjUxWQYkKqVa6pajBgw0Vh
+	+lcj2fbEShDgYNXdqB3qDhNwyeNGUzu2yWjycTXpfVUvf9mnDwSuFl/oLGPB4AOSB3oU7m
+	8vhRbkbCF2RqBEKcED9hh0h0p9CMEfA8hxBxanE8hIUigH3nYo9pLU3qDfGxj0PGOY3663
+	n+1umShlz1x+Due5MvPnl/N+bHuWiKB/YqjwHPMZRJdMnHEMTZhpl2d1BZ0w7Q==
+Message-ID: <8d03ba23-6677-4002-82cd-21502c42821a@sotapeli.fi>
+Date: Wed, 26 Nov 2025 00:37:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: WD Red SN700 4000GB, F/W: 11C120WD (Device not ready; aborting
+ reset, CSTS=0x1)
+To: =?UTF-8?Q?Dragan_Milivojevi=C4=87?= <galileo@pkm-inc.com>,
+ Justin Piszcz <jpiszcz@lucidpixels.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-nvme@lists.infradead.org,
+ linux-raid@vger.kernel.org
+References: <CAO9zADxCYgQVOD9A1WYoS4JcLgvsNtGGr4xEZm9CMFHXsTV8ww@mail.gmail.com>
+ <CALtW_ajVLbtUfVkKZU3tsxQbHMZsJR=jHK7PQNmvmSgjVhiUyg@mail.gmail.com>
+Content-Language: en-US
+From: Jani Partanen <jiipee@sotapeli.fi>
+Autocrypt: addr=jiipee@sotapeli.fi; keydata=
+ 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
+In-Reply-To: <CALtW_ajVLbtUfVkKZU3tsxQbHMZsJR=jHK7PQNmvmSgjVhiUyg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251125_131920_504573_A005589C 
-X-CRM114-Status: GOOD (  10.96  )
+X-CRM114-CacheID: sfid-20251125_143724_568050_6EB0D824 
+X-CRM114-Status: GOOD (  11.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -86,87 +116,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree:   git://git.infradead.org/nvme.git nvme-6.19
-head:   db2792e1d7696594dcd09dcc97f262e69819a820
-commit: 00eecf662c6e30736357ffd007ea2f3964f6eb04 [3/27] nvme-auth: modify nvme_auth_transform_key() to return status
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251126/202511260537.R9DHSTOl-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260537.R9DHSTOl-lkp@intel.com/reproduce)
+On 25/11/2025 17.19, Dragan Milivojević wrote:
+>> Issue/Summary:
+>> 1. Usually once a month, a random WD Red SN700 4TB NVME drive will
+>> drop out of a NAS array, after power cycling the device, it rebuilds
+>> successfully.
+>>
+> Seen the same, although far less frequent, with Samsung SSD 980 PRO on
+> a Dell PowerEdge R7525.
+> It's the nature of consumer grade drives, I guess.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260537.R9DHSTOl-lkp@intel.com/
+I dont know if this WD issue is same issue that I had with WD_BLACK 
+SN770 2TB drive, but I share what I know anyway.
 
-All warnings (new ones prefixed by >>):
+That drive cannot handle 4K LBA. It works fine with 512k LBA, but with 
+4K it will die sooner or later, usually when you hit it with heavy IO.
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from drivers/nvme/common/auth.c:6:
-   drivers/nvme/common/auth.c: In function 'nvme_auth_transform_key':
->> include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/nvme/common/auth.c:278:17: note: in expansion of macro 'pr_warn'
-     278 |                 pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
-         |                 ^~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/nvme/common/auth.c:278:17: note: in expansion of macro 'pr_warn'
-     278 |                 pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
-         |                 ^~~~~~~
+WD has know this for years and havent done anything. So I think it is 
+safe to say that its hardware issue what cannot be fixed with firmware, 
+other than disabling ability to even switch to 4K LBA but they havent 
+done that. What it turns tell me how much they care. Good thing is that 
+there is other brands.
+
+Lot of talk about that issue here: 
+https://github.com/openzfs/zfs/discussions/14793
+
+I think there was also some other WD drives suffering this same issue.
+
+And this is nothing to do with linux or zfs, its purely WD drive issue 
+because I originally got it in windows, then switched drive to linux to 
+test it out and same happened with linux.
 
 
-vim +5 include/linux/kern_levels.h
+// Jani
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
