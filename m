@@ -4,50 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C8EFD1118E
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 20:27:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09016D11196
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 20:33:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ot7woekyNWuumg2uCxzEjyg/N5dw0o6ojbbsxWfAufk=; b=rJ0DuUbeFReGLWi6ASP2Cc8QNu
-	poG71G6npdWIQ8IoytKL4LpyjfyFv4gJ26nJ9oglqwILyaqpWt7kUkMi12DTA4y/nETwCXmCfwbdM
-	SvmEeWvJr1YvJL8gM2ai3o6cPlN+feAtS3nP6DdBN/8A0abYxhb1Ib+c6dtf8An2L2gYqYLNbCED8
-	OddjPhkvY//y3luGTtAEaHCOwkJicOYmY1lZ3tguGZKsWSHSOy3EquB0KbV1LHUvunaJ8JhqNc9XX
-	iV8ksJu4Bz2SNr5+83TDZO0JtiDvBz/zVJ3Lvl5EsgZ9YzK8TbpAcRwCcqxL2CAojPU6RG/DhAjEo
-	XN95yQSQ==;
+	bh=7RhMGEPM+MLc+GUgJs95ruAKU2EOGbAI/+l5HSzQbRU=; b=oLScmq+IRyvbMxSxrWwGPRKzLC
+	BMs8+3tHbPPUktQZsNR/t05F9pmezAFeHEhZ5vsnnE9gBynCjRtgI6sBMJifoxGEcCl6nn1VP5WMw
+	+KKzb69qu5Rs4RVxYy9gtKTge0Ra/6Ez8fHIyFil2yMYGURQ2dAOq8/zVn6kS9fxfd3eMbVjUycIy
+	j6IrE8GmYTNlJANCMkV8r0bXAjxkbnKBBQgsQGpppgvJ8ehtYJOnGWbmfbH5khConkhlAkp56AcdP
+	j8iEJAXYfFkDBGtTMWMdiPGry/3aTzdlk/GnvWiaFVItP3v98M598WzKDA6hCXlatNSrFoZbYyN2z
+	1yGla/Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOM6v-0000000FcGa-2T1q;
-	Wed, 26 Nov 2025 20:27:33 +0000
-Received: from out30-84.freemail.mail.aliyun.com ([115.124.30.84])
+	id 1vOMCa-0000000FcqI-28zz;
+	Wed, 26 Nov 2025 20:33:24 +0000
+Received: from mgamail.intel.com ([198.175.65.9])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOM6t-0000000FcG1-0OCq
+	id 1vOMCX-0000000Fcpq-3gu4
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Nov 2025 20:27:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=aliyun.com; s=s1024;
-	t=1764188847; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=ot7woekyNWuumg2uCxzEjyg/N5dw0o6ojbbsxWfAufk=;
-	b=WrGJiWlrrrWy8hEKao5vQfn4lb2Wz0deqHy4806hCUIftbYpEXEJUU8qruXwVxXhGkrHaiS8FR5qT84LDs5Ysj8vlQOAKYzPN6am6c+lZw/T3206mgGgNlfGUxSVZRVsECUXwQizsH0pxlIHitleINMJsCQllKGQqX7luAm9u50=
-Received: from aliyun.com(mailfrom:ekorenevsky@aliyun.com fp:SMTPD_---0WtU51Xe_1764188843 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 27 Nov 2025 04:27:25 +0800
-Date: Wed, 26 Nov 2025 23:27:21 +0300
-From: Eugene Korenevsky <ekorenevsky@aliyun.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme: nvme_identify_ns_descs: prevent oob
-Message-ID: <aSdiqVR-o6yNav6I@localhost.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+	Wed, 26 Nov 2025 20:33:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764189201; x=1795725201;
+  h=date:from:to:cc:subject:message-id;
+  bh=4NATtTTVWTwMOvRIldlN9oxbZcCMTRs9nOkC9XRIpUc=;
+  b=KwbTRxHCr1YoYcCrslqY4zXsURsGnejU/F1y4+dAOB/X2MvdFUncTjyu
+   7EKXVzfCG/hMPYDulbr6RjSKrHrnyf5QAgY4CnhhG8ZHqhhNlQyzWE7RF
+   01OrBk4gON1pPypJ+ywerZ3dp04cB3jsj8r41LqHuM166Tx6ftwc5vV9p
+   x6VXRm8dH940I9CA7JuCcyhbs+eSANDWL6vYbx7Im9j8nNlLEm0rUTGDS
+   cpC9uL2iQzKj3f2+OWxn0KuAu/o/Uzj8XIP4UYXub3IbI1GvqAtwq3INF
+   b5n7b/NvCPU9bEKwu7HzTC5HgFHaZYUyJ5pjFnRWI3SRYMcCCH0wZZb5L
+   w==;
+X-CSE-ConnectionGUID: 4d657uP2T0mBJiSQ7mq4jg==
+X-CSE-MsgGUID: 3j/bYn9uSOGvM9rmZPl2mQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="88881190"
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
+   d="scan'208";a="88881190"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 12:33:20 -0800
+X-CSE-ConnectionGUID: HU1mUWLwRX2EJnyCxNu7SA==
+X-CSE-MsgGUID: 6Qitdg78RquLyQ5aaOx/0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
+   d="scan'208";a="197531330"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 26 Nov 2025 12:33:20 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vOMCT-000000003L7-3iH0;
+	Wed, 26 Nov 2025 20:33:17 +0000
+Date: Thu, 27 Nov 2025 04:32:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-6.19] BUILD SUCCESS WITH WARNING
+ db2792e1d7696594dcd09dcc97f262e69819a820
+Message-ID: <202511270419.CKiuYhyW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251126_122731_296839_5E6801CD 
-X-CRM114-Status: GOOD (  12.57  )
+X-CRM114-CacheID: sfid-20251126_123321_959775_88384CB0 
+X-CRM114-Status: UNSURE (   5.07  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,144 +83,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Broken or malicious controller can send invalid ns id.
-Out-of-band memory access may occur if remaining buffer size
-is less than .nidl (ns id length) field of `struct nvme_ns_id_desc`
+tree/branch: git://git.infradead.org/nvme.git nvme-6.19
+branch HEAD: db2792e1d7696594dcd09dcc97f262e69819a820  nvme-fabrics: add ENOKEY to no retry criteria for authentication failures
 
-Fix this issue by making nvme_process_id_decs() function aware of
-remaining buffer size.
+Warning (recently discovered and may have been fixed):
 
-Also simplify nvme_process_id_decs(): replace copy-pasted `case`
-branches with table lookup.
+    https://lore.kernel.org/oe-kbuild-all/202511260537.R9DHSTOl-lkp@intel.com
 
-Signed-off-by: Eugene Korenevsky <ekorenevsky@aliyun.com>
----
- drivers/nvme/host/core.c | 80 ++++++++++++++++++++--------------------
- 1 file changed, 39 insertions(+), 41 deletions(-)
+    include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f1f719351f3f..2d1a4b9882ca 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1481,52 +1481,45 @@ static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
- 	return error;
- }
- 
-+struct ns_id_info {
-+	__u8 nidl;
-+	char *name;
-+};
-+
-+#define NS_ID_INFO(nidt) \
-+	[nidt] = {nidt##_LEN, #nidt}
-+
-+static const struct ns_id_info niis[] = {
-+	NS_ID_INFO(NVME_NIDT_EUI64),
-+	NS_ID_INFO(NVME_NIDT_NGUID),
-+	NS_ID_INFO(NVME_NIDT_UUID),
-+	NS_ID_INFO(NVME_NIDT_CSI),
-+};
-+
- static int nvme_process_ns_desc(struct nvme_ctrl *ctrl, struct nvme_ns_ids *ids,
--		struct nvme_ns_id_desc *cur, bool *csi_seen)
-+				struct nvme_ns_id_desc *cur, int remain,
-+				bool *csi_seen)
- {
--	const char *warn_str = "ctrl returned bogus length:";
--	void *data = cur;
-+	const char *warn_fmt = "ctrl returned bogus ns id: %u %u %d %s";
-+	const struct ns_id_info *nii;
- 
- 	switch (cur->nidt) {
-+	case NVME_NIDT_CSI:
-+		*csi_seen = true;
-+		fallthrough;
- 	case NVME_NIDT_EUI64:
--		if (cur->nidl != NVME_NIDT_EUI64_LEN) {
--			dev_warn(ctrl->device, "%s %d for NVME_NIDT_EUI64\n",
--				 warn_str, cur->nidl);
--			return -1;
--		}
--		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
--			return NVME_NIDT_EUI64_LEN;
--		memcpy(ids->eui64, data + sizeof(*cur), NVME_NIDT_EUI64_LEN);
--		return NVME_NIDT_EUI64_LEN;
- 	case NVME_NIDT_NGUID:
--		if (cur->nidl != NVME_NIDT_NGUID_LEN) {
--			dev_warn(ctrl->device, "%s %d for NVME_NIDT_NGUID\n",
--				 warn_str, cur->nidl);
--			return -1;
--		}
--		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
--			return NVME_NIDT_NGUID_LEN;
--		memcpy(ids->nguid, data + sizeof(*cur), NVME_NIDT_NGUID_LEN);
--		return NVME_NIDT_NGUID_LEN;
- 	case NVME_NIDT_UUID:
--		if (cur->nidl != NVME_NIDT_UUID_LEN) {
--			dev_warn(ctrl->device, "%s %d for NVME_NIDT_UUID\n",
--				 warn_str, cur->nidl);
-+		nii = &niis[cur->nidt];
-+		if (cur->nidl != nii->nidl || remain < nii->nidl) {
-+			dev_warn(ctrl->device, warn_fmt,
-+				 cur->nidl, nii->nidl, remain, nii->name);
- 			return -1;
- 		}
- 		if (ctrl->quirks & NVME_QUIRK_BOGUS_NID)
--			return NVME_NIDT_UUID_LEN;
--		uuid_copy(&ids->uuid, data + sizeof(*cur));
--		return NVME_NIDT_UUID_LEN;
--	case NVME_NIDT_CSI:
--		if (cur->nidl != NVME_NIDT_CSI_LEN) {
--			dev_warn(ctrl->device, "%s %d for NVME_NIDT_CSI\n",
--				 warn_str, cur->nidl);
--			return -1;
--		}
--		memcpy(&ids->csi, data + sizeof(*cur), NVME_NIDT_CSI_LEN);
--		*csi_seen = true;
--		return NVME_NIDT_CSI_LEN;
-+			return nii->nidl;
-+		memcpy(&ids->csi, cur + 1, nii->nidl);
-+		return nii->nidl;
- 	default:
- 		/* Skip unknown types */
- 		return cur->nidl;
-@@ -1538,7 +1531,8 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- {
- 	struct nvme_command c = { };
- 	bool csi_seen = false;
--	int status, pos, len;
-+	int status, len, remain;
-+	struct nvme_ns_id_desc *cur;
- 	void *data;
- 
- 	if (ctrl->vs < NVME_VS(1, 3, 0) && !nvme_multi_css(ctrl))
-@@ -1563,17 +1557,21 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- 		goto free_data;
- 	}
- 
--	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
--		struct nvme_ns_id_desc *cur = data + pos;
--
-+	remain = NVME_IDENTIFY_DATA_SIZE;
-+	cur = data;
-+	while (remain >= sizeof(*cur)) {
- 		if (cur->nidl == 0)
- 			break;
- 
--		len = nvme_process_ns_desc(ctrl, &info->ids, cur, &csi_seen);
-+		len = nvme_process_ns_desc(ctrl, &info->ids,
-+					   cur, remain - sizeof(*cur),
-+					   &csi_seen);
- 		if (len < 0)
- 			break;
- 
- 		len += sizeof(*cur);
-+		remain -= len;
-+		cur += len;
- 	}
- 
- 	if (nvme_multi_css(ctrl) && !csi_seen) {
--- 
-2.47.3
+Warning ids grouped by kconfigs:
 
+recent_errors
+`-- arm-allyesconfig
+    `-- include-linux-kern_levels.h:warning:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+
+elapsed time: 2931m
+
+configs tested: 62
+configs skipped: 0
+
+tested configs:
+alpha                   allnoconfig    gcc-15.1.0
+arc                     allnoconfig    gcc-15.1.0
+arc         randconfig-001-20251125    gcc-9.5.0
+arc         randconfig-002-20251125    gcc-8.5.0
+arm                     allnoconfig    clang-22
+arm         randconfig-001-20251125    clang-22
+arm         randconfig-002-20251125    gcc-10.5.0
+arm         randconfig-003-20251125    gcc-10.5.0
+arm         randconfig-004-20251125    gcc-8.5.0
+arm64                   allnoconfig    gcc-15.1.0
+csky                    allnoconfig    gcc-15.1.0
+hexagon                 allnoconfig    clang-22
+hexagon     randconfig-001-20251125    clang-19
+hexagon     randconfig-002-20251125    clang-22
+i386                    allnoconfig    gcc-14
+loongarch               allnoconfig    clang-22
+loongarch   randconfig-001-20251125    gcc-15.1.0
+loongarch   randconfig-002-20251125    gcc-12.5.0
+m68k                    allnoconfig    gcc-15.1.0
+m68k                atari_defconfig    gcc-15.1.0
+microblaze              allnoconfig    gcc-15.1.0
+mips                    allnoconfig    gcc-15.1.0
+mips              qi_lb60_defconfig    clang-22
+nios2                   allnoconfig    gcc-11.5.0
+nios2       randconfig-001-20251125    gcc-8.5.0
+nios2       randconfig-002-20251125    gcc-11.5.0
+openrisc                allnoconfig    gcc-15.1.0
+parisc                  allnoconfig    gcc-15.1.0
+parisc      randconfig-001-20251125    gcc-13.4.0
+parisc      randconfig-002-20251125    gcc-10.5.0
+powerpc                 allnoconfig    gcc-15.1.0
+powerpc     randconfig-001-20251125    clang-19
+powerpc     randconfig-002-20251125    gcc-8.5.0
+powerpc64   randconfig-001-20251125    clang-16
+powerpc64   randconfig-002-20251125    gcc-15.1.0
+riscv                   allnoconfig    gcc-15.1.0
+riscv       randconfig-001-20251125    gcc-8.5.0
+riscv       randconfig-002-20251125    gcc-13.4.0
+s390                    allnoconfig    clang-22
+s390        randconfig-001-20251125    gcc-8.5.0
+s390        randconfig-002-20251125    gcc-14.3.0
+s390             zfcpdump_defconfig    clang-22
+sh                      allnoconfig    gcc-15.1.0
+sh                r7780mp_defconfig    gcc-15.1.0
+sh          randconfig-001-20251125    gcc-15.1.0
+sh          randconfig-002-20251125    gcc-15.1.0
+sparc                   allnoconfig    gcc-15.1.0
+sparc       randconfig-001-20251125    gcc-14.3.0
+sparc       randconfig-002-20251125    gcc-13.4.0
+sparc64                alldefconfig    gcc-15.1.0
+sparc64     randconfig-001-20251125    clang-22
+sparc64     randconfig-002-20251125    gcc-8.5.0
+um                      allnoconfig    clang-22
+um          randconfig-001-20251125    clang-22
+um          randconfig-002-20251125    clang-22
+x86_64                  allnoconfig    clang-20
+xtensa                  allnoconfig    gcc-15.1.0
+xtensa             common_defconfig    gcc-15.1.0
+xtensa        nommu_kc705_defconfig    gcc-15.1.0
+xtensa      randconfig-001-20251125    gcc-8.5.0
+xtensa      randconfig-002-20251125    gcc-8.5.0
+xtensa          smp_lx200_defconfig    gcc-15.1.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
