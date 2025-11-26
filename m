@@ -4,78 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D70FFD10F58
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 16:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF5BED10F58
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 16:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DoS6Oj4etNgwsMajVTmJIqYHnPKCCag9vshgTAQJXtY=; b=BjthbfAuHbRJ752J09OU26N8OD
-	puv5DnBhIaUg2d37zelm3SvPGbksCFx1bHwX6Ty3i4oG0L2bbChQ2QaJobqTrwmvBKYT1dbmVgb55
-	ztTgAuDSSzC0hf3rcJmIJx4ujvEqlYNfk86kLQ7Kkt7DJjirI2MDwO8WLSFmstaLXJ1I7BnueNyXe
-	Erg3551iYovJTCZ1eNYMCFDW5phUBG0D9WjJjykw//fPH2yaRH8GYRQZAHZYlR+nm2gPWoM6+XPxC
-	ZU7PYTpSqscgBw5ijGHAKf6V1wo4tsvXRMpsFE+IhwbMZYg7WeIKFeSnNVVfrYA2YAPO8qJwqOk50
-	hRm6RRnQ==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=n8ULdLo4b3ORYhVubgD3gy7oPbpY6qArrsrgQiRkmsY=; b=mXWAvbbRqasLyhoQA7W0COsJAV
+	ieMNRv5nfxtjmmenMRBaMSOhSLnQ/aaJLY5UQ7j1XXitaoKUdorYaa4OOXwFDq3YRWFWzngaxwOBS
+	8iFZtRH3Ri7s3JQQwgm+ovmvbzYohPo+YmzR8GBZEvyUdMfumUVUjB/locNs3DcFCKt+ucmCcKoOn
+	E3dsZzm4UENqpfW1zftmPEzfp6pCYoS3N2pN6wPrezjgs6Tc5aGXsJnl0SrtIyooItaLDZ9uYF3dm
+	rthUOZ8dsAbXRejFpC+jhT3x4t2SQ+MmOfekORt5nZq/zIG5OUhgje13eLcTiQpDlOuiPuyaT7Gyu
+	HUagm5hw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOIWZ-0000000FJfX-0HCy;
+	id 1vOIWZ-0000000FJgI-1ask;
 	Wed, 26 Nov 2025 16:37:47 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOIWU-0000000FJez-0csB
+	id 1vOIWV-0000000FJfG-24H1
 	for linux-nvme@bombadil.infradead.org;
-	Wed, 26 Nov 2025 16:37:42 +0000
+	Wed, 26 Nov 2025 16:37:43 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:Content-Type:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=DoS6Oj4etNgwsMajVTmJIqYHnPKCCag9vshgTAQJXtY=; b=DuJi0fm1A+VTkoUkXaM/Y7sW9M
-	GLpmZ9fbfCMnOGpFSvTy+gGdcvd6BNsn4UZ4aCnNRG3CZ/9w4OmOjk1sYlbO70lY/KUcxa+oAVqKp
-	mqv3yg4d+dYrDytnhImgehVQ4lqSI5oLXbbfyaf3GdT3y+EQjexJHWARxXh6+qz8sgwtbSVOhEd7k
-	BcYD0C6XSjrdaOFDBQnz0m01O/ArvYIfVO+wXrWoZfnHYMXe0iUuJYtjhtFCAWLMzpegx9GKMabWD
-	IH6sljLob80HfxwALegqKGplqrzRZBO2IY1AxfSPxVK/ah8z6j2bbwxSr/wCTvLTrq8z/OQACsMvz
-	VGmxqIug==;
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=n8ULdLo4b3ORYhVubgD3gy7oPbpY6qArrsrgQiRkmsY=; b=UyLa5RW61cyCJwtQAzBNqDqZ2H
+	PEjJs2v0TvVqydP1KFPtFmNuWERyw+l0t39tIwYVC9p0SouvjiFRHyB0hCCD9u8+1+Dl33kIzpOsi
+	B/wLoYLzPXUPDgG5KTcEaWKSD5xH0yZfo5QnUCuVigWq97apaSOWpZEKAyBDzf3MfJP5paVXL+AID
+	Tehy+1nE1DFa4TxbgglHuC1vgh1jPWXa7yVaHEhVYNQ6MQL9tI5wk5mvqf0fjkFHT2if8Ncxn0qqR
+	VaAEooQ1PfgUY4XAlFQ129yh3NI0lvRRPSkRrHZr3/ZZaKDTrOoak379XVpoAqHMUh0zueCLSok5+
+	+vvJjkJQ==;
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOHeq-00000008PUd-2qsO
+	id 1vOHes-00000008PVM-0myl
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Nov 2025 15:42:18 +0000
+	Wed, 26 Nov 2025 15:42:20 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764175056;
+	s=mimecast20190719; t=1764175059;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DoS6Oj4etNgwsMajVTmJIqYHnPKCCag9vshgTAQJXtY=;
-	b=ZDt2jAvBhiSKlqygNkSclDv7ZAPyeFZ4Yj4FApAV41VnufAnUdeuQnDVmUKSVGpdifdKDj
-	gUk43NQbyHLZqdTqUsaX+F73+wP7Cjvaa/1p0wZfApuXOEPVbaj+dVLBJbTGQdkPAtbUzU
-	2J9zZbamXqBJO0YcAwotpdhtiaAhrBs=
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n8ULdLo4b3ORYhVubgD3gy7oPbpY6qArrsrgQiRkmsY=;
+	b=CLmbl6UrASLAhTsXHdjSkCV47OLZ4bQdHK/HvubvVMcoZaXirgFBa1XgGpb+h+U6mnidNb
+	D7HXYBn9YfriK3TDR3xG9YvrCoV2RBglmwT2QFUJJw50aOmrjVFyF7kou1BUynZHftRADH
+	AeokGGcVvclrB0MXRJBELy490+yT0Vc=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764175056;
+	s=mimecast20190719; t=1764175059;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DoS6Oj4etNgwsMajVTmJIqYHnPKCCag9vshgTAQJXtY=;
-	b=ZDt2jAvBhiSKlqygNkSclDv7ZAPyeFZ4Yj4FApAV41VnufAnUdeuQnDVmUKSVGpdifdKDj
-	gUk43NQbyHLZqdTqUsaX+F73+wP7Cjvaa/1p0wZfApuXOEPVbaj+dVLBJbTGQdkPAtbUzU
-	2J9zZbamXqBJO0YcAwotpdhtiaAhrBs=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n8ULdLo4b3ORYhVubgD3gy7oPbpY6qArrsrgQiRkmsY=;
+	b=CLmbl6UrASLAhTsXHdjSkCV47OLZ4bQdHK/HvubvVMcoZaXirgFBa1XgGpb+h+U6mnidNb
+	D7HXYBn9YfriK3TDR3xG9YvrCoV2RBglmwT2QFUJJw50aOmrjVFyF7kou1BUynZHftRADH
+	AeokGGcVvclrB0MXRJBELy490+yT0Vc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-623-nquCTKv3Ox2_N7An0300BA-1; Wed,
- 26 Nov 2025 11:36:06 -0500
-X-MC-Unique: nquCTKv3Ox2_N7An0300BA-1
-X-Mimecast-MFC-AGG-ID: nquCTKv3Ox2_N7An0300BA_1764174964
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-137-9p40aK1TNFeth8KEkFpF8g-1; Wed,
+ 26 Nov 2025 11:36:09 -0500
+X-MC-Unique: 9p40aK1TNFeth8KEkFpF8g-1
+X-Mimecast-MFC-AGG-ID: 9p40aK1TNFeth8KEkFpF8g_1764174967
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E366B18001FE;
-	Wed, 26 Nov 2025 16:36:03 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 33FAA1800451;
+	Wed, 26 Nov 2025 16:36:07 +0000 (UTC)
 Received: from localhost (unknown [10.2.16.50])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B9D3A18002A6;
-	Wed, 26 Nov 2025 16:36:01 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6C4A319560A2;
+	Wed, 26 Nov 2025 16:36:05 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: linux-block@vger.kernel.org
 Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
@@ -89,16 +91,17 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
 	linux-scsi@vger.kernel.org,
 	Christoph Hellwig <hch@lst.de>,
 	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 0/4] block: add IOC_PR_READ_KEYS and IOC_PR_READ_RESERVATION ioctls
-Date: Wed, 26 Nov 2025 11:35:56 -0500
-Message-ID: <20251126163600.583036-1-stefanha@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH 1/4] scsi: sd: reject invalid pr_read_keys() num_keys values
+Date: Wed, 26 Nov 2025 11:35:57 -0500
+Message-ID: <20251126163600.583036-2-stefanha@redhat.com>
+In-Reply-To: <20251126163600.583036-1-stefanha@redhat.com>
+References: <20251126163600.583036-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251126_154216_900857_F5441628 
-X-CRM114-Status: GOOD (  11.40  )
+X-CRM114-CacheID: sfid-20251126_154218_449702_E58862FA 
+X-CRM114-Status: GOOD (  13.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,31 +116,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This series exposes struct pr_ops pr_read_keys() and pr_read_reservations() to
-userspace as ioctls, making it possible to list registered reservation keys and
-report the current reservation on a block device.
+The pr_read_keys() interface has a u32 num_keys parameter. The SCSI
+PERSISTENT RESERVE IN command has a maximum READ KEYS service action
+size of 65536 bytes. Reject num_keys values that are too large to fit
+into the SCSI command.
 
-The new ioctls are needed by applications or cluster managers that rely on
-inspecting the PR state. This is something that has been possible with SCSI-
-and NVME-specific commands but not with the PR ioctls. I hope to move QEMU from
-SG_IO to PR ioctls so that NVMe host block devices can be supported alongside
-SCSI devices without protocol-specific commands.
+This will become important when pr_read_keys() is exposed to untrusted
+userspace via an <linux/pr.h> ioctl.
 
-These ioctls will also make troubleshooting possible with the blkpr(8)
-util-linux tool, for which I have prepared a separate patch series.
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ drivers/scsi/sd.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-Stefan Hajnoczi (4):
-  scsi: sd: reject invalid pr_read_keys() num_keys values
-  nvme: reject invalid pr_read_keys() num_keys values
-  block: add IOC_PR_READ_KEYS ioctl
-  block: add IOC_PR_READ_RESERVATION ioctl
-
- include/uapi/linux/pr.h | 14 ++++++++
- block/ioctl.c           | 79 +++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/pr.c  |  5 +++
- drivers/scsi/sd.c       | 11 +++++-
- 4 files changed, 108 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 0252d3f6bed17..d65646f35f453 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -1974,9 +1974,18 @@ static int sd_pr_read_keys(struct block_device *bdev, struct pr_keys *keys_info)
+ {
+ 	int result, i, data_offset, num_copy_keys;
+ 	u32 num_keys = keys_info->num_keys;
+-	int data_len = num_keys * 8 + 8;
++	int data_len;
+ 	u8 *data;
+ 
++	/*
++	 * Each reservation key takes 8 bytes and there is an 8-byte header
++	 * before the reservation key list. The total size must fit into the
++	 * 16-bit ALLOCATION LENGTH field.
++	 */
++	if (num_keys > (65536 - 8) / 8)
++		return -EINVAL;
++
++	data_len = num_keys * 8 + 8;
+ 	data = kzalloc(data_len, GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
 -- 
 2.52.0
 
