@@ -4,77 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47566D10384
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 07:33:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 622D0D10389
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 07:39:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2kS/jWNIawxgTJg5C6OhtBDtDgaZEKdArxCMlHpDTmg=; b=Na7vN0rZBPTi+li0wLS54yWrBy
-	WfWFJTdc2cCVX7QqIEiSFVcTUqrhoxMVKh2qKP9BLmdwBa/SQKRqzSr4E0NhkeRvAcMz0zGYD4HDL
-	TKCRKPCKIaz4diHbu9p0y7Q20BCki917d/iSj+8qYS+frLyeS3xn4YXE0FUtg2zFtW6HJ8zwCo9Hl
-	6Y2nwNA6Hy1X2i55W7HO1xRVs+I+IrSA0rftDJVwLnzt7cCXvz77o+vqT93Sey84V7RtSXXjODwsl
-	Vu9RZVwyhjYfkiEny1XdxCE7g57hbVh3P6rMIZlwByoI9Hd1PXTCfZNaMR4f+5Z9TTsXvVObcqA/c
-	B8IK0EZQ==;
+	bh=gDYkrDXhGeOncItQZBSy+CQR9/YE0qzvieyADreltSs=; b=Rc1KPNglOk3/mygsgNBJp1KCaV
+	1SEEudqMM0DKYbVbwFnhD6OZnAKEGqTGFudy+pBJ9lzvD8VuCNHeJ6zVj0n/H/u22aeXTANolS9mg
+	yL+xuE2HPdxuW4S5P7AcO9HyEcav18I3tuBBFLEl0lIC6gkDUJ2BJdfS7XGhWBbTROQx38Aw6kzbW
+	JmYIcJ+0woCSCOEMjqZVmQ/hYG+F9pAhDg3QliQIj7U3Azp6SHIkciwV2HRB58oLdUv80I51Ci3QR
+	fu85dQlXqUWT/iCPt2QhsTRn6WFsLH2d2kuquzJIH8T2EDk25tlWN3zWfA0CWWPTn16WxqsCfWF8d
+	6yy0nQRg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOA1N-0000000EWYi-1RyZ;
-	Wed, 26 Nov 2025 07:33:01 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1vOA7r-0000000EX8V-3gQt;
+	Wed, 26 Nov 2025 07:39:43 +0000
+Received: from mail-wr1-f43.google.com ([209.85.221.43])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOA1K-0000000EWY1-1Gwf
+	id 1vOA7o-0000000EX89-13UQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Nov 2025 07:32:59 +0000
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so41793275e9.0
-        for <linux-nvme@lists.infradead.org>; Tue, 25 Nov 2025 23:32:57 -0800 (PST)
+	Wed, 26 Nov 2025 07:39:41 +0000
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42b427cda88so4292838f8f.0
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Nov 2025 23:39:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764142376; x=1764747176;
+        d=1e100.net; s=20230601; t=1764142778; x=1764747578;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2kS/jWNIawxgTJg5C6OhtBDtDgaZEKdArxCMlHpDTmg=;
-        b=tLzrGQC6cBs9kP8MD1LuAhHoaZGryB8gPOm19uIlXgJCcDMW/5fHc83E865JUPRB7e
-         L0zFwq+aX4hh7OTE7x5aI1VftKElgqfB+d2ZvjN7AxT/JdR+dFSjrAxsezKdLd0UNGEr
-         CA2LvjPElTZRAIilxOgmkD+QNvyLqfEp2HOrEINbaaarle4xBYMFHF3Hdq0sO7qOu1ZI
-         yVzb1n6hur51qZNkQJXUViO4OOUS5nL6HnOdu2JWtnszk5kWORFtpzjbukX7Trasuxir
-         5+M/vWQA20SgKmvhCwu5bTSGaUle6P1UJyriHtIkDMx5p4AgZXiy/w1K7soxMPCaEH2v
-         GVbA==
-X-Forwarded-Encrypted: i=1; AJvYcCUV2rvVIWmiSZTOD2NJ+C7fLXgmKYKs0QkG2MzPUg6JTJtNpnrndUBGEBP8p1NdmjNcxo+WimHDgr5U@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw1FqcGa5bL+PsxpvybG/OeIziwkxSYrFmkpbjQlch6vYzQ+Ax/
-	uVWt9TU2pB8V0xRTY64lpOTrcOErViAPVm+OFIEuc9C5r850nBEUfjPDnAHG/A==
-X-Gm-Gg: ASbGncu694ywBYkdFlUFi3FZFpJKoa+9KkssJxxVYve6RFw0bl+8optbLc6yjFOrsXz
-	18XRGUL6fhowuAZu5I6UgN7MV2XrKOTqMsrPN8+osDrqj3ZTooiH/4OLjnff+Ptq28K1DrYklWa
-	WQ1sGnZVoLJdhm1puyD8fGHKZnfnIFvD6XlfElQJbwSZPx+3xNk9j48l4CEpALH6FlAU2d270kC
-	s/47dSMlo+1jiR0dWpvCzaEk8s28WyRSMkAv3D5Xn9muuBR8v6B4+lb7O9c+aD9A7KKYcR0LG5B
-	V2YCJlAgLMvBTWd8SkEEiN16iNs3mnX/+GQS0g0xz5xUYw4k+961HMvXWn1dFqU63i35Z8HK21k
-	e5d+oQLwZiDJznH9PiyPZXRWGEQ93uYsVR9UcRuqViK90nrrUxkKoVsWnqN5TczzfzxmE6skpI4
-	jzs5Hr8u01XD5AGQsGpJrujbb9AL4zUzX1Q2HUCYQvMvkWFcqntGF+LXJbGdM+djo=
-X-Google-Smtp-Source: AGHT+IEv9orI+YSPNyEwKpciDeUG7oxBpOwdmA/rHeTmTBRiMD/6jOJ6HgTYQMUPbdHl65mvuKiDmQ==
-X-Received: by 2002:a05:600c:4e93:b0:471:9da:5232 with SMTP id 5b1f17b1804b1-477c10e1ccdmr196532805e9.15.1764142376321;
-        Tue, 25 Nov 2025 23:32:56 -0800 (PST)
+        bh=gDYkrDXhGeOncItQZBSy+CQR9/YE0qzvieyADreltSs=;
+        b=Csxa2eH+6H3/B6QAsZdGIKXmhzNYIO8foixPpZPwwdVw7pF9xXKj84b+bWnCbxLtjf
+         hEEyFT/MB/Bg+K8sMP/lirq4tdumqQYF5npD2fk/7K/zVAQuq3aZ4GdFsaW807f18x4c
+         +vWQxKg4HZfNHBi8DFBymu+HPnA5zJv4NTlRTL4N21yjNYe0yawgYVAl5HAYEvxJ6udP
+         nkHGqzotg0Pmeo3Cf6Wdxu1e78FaZOFaDkiFDNOOwWPemXE8+H57NEamkipnRg+kTdT5
+         jMauDt+45FhC9eEspTDv31KD8+SH9q8j1t3QAW3xP4wdH2HYZG+c96orKh/F4JsqjSQ2
+         qMLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIMi5P98nZOzMJp0Otk9Z56PduQkub/ETgV/CbXdQ5XufBjqbEfPfwPFQYte66jLKZgWODujFPuQba@lists.infradead.org
+X-Gm-Message-State: AOJu0YzC9GxMIJmGre70lASHSzwIv/b7kNU8q3/R77Z6FW8I2xz4oGYC
+	vHc9OEHYcslAveye6YzyRmtEJ2aNu/NKWFn+h5ALvq9qSHZj/sf98As3fXrr5w==
+X-Gm-Gg: ASbGncuJH6IU64isoGVRv73Ezxc/HnnX8GdiE3KXfdMt7nAO+xhqUBRfhrjBjH2QD4Y
+	J9PBfLwAUFeW50EWW9SRYFyRYldGkoz0H9HCG65FSPYX7uwtaHjGHkIZWwR4s0Ftzqrxb5kYvrf
+	KqfcyIFtnQ9k8G6QxFuaMC9rxdufbqT5OFs4zNXV3+CA/mzdp8b+kBLfC2dQuSDL6PXRt1aSDXb
+	puiQTvcHZhNh5IUYpYiR3YqrYbuc49h7Szn7q9jd/Wif44bdl3PjmYjydusQW/m1SewjWJS7uf1
+	STcM6jnGtC8DWmvSJXX3xDgfobS2fmF9fener4gL721ZwpBOBPszpdC80sNpoDqypVn8xxaTuh1
+	qAcD/eefSFOrPf/QS9ZRp4gA0l0fdNDF+b+CB/cuby201aD3LBQyl3sxIQFQPtaqYSv5XbOTmva
+	MNt17mWGLFnqlvWVkcbmeZ2w094GfuV0qXyD0k3WGnxjEaYJjH5WRN
+X-Google-Smtp-Source: AGHT+IHNIdtnwD9lhnrh7apCh2ZU4PAkxCee72/fOPCexH8yQYEfFH0rIx3lkXWxyEC0hFsVN4uYXw==
+X-Received: by 2002:a05:6000:1445:b0:42b:3bc4:16c9 with SMTP id ffacd0b85a97d-42cc1d19364mr19307557f8f.51.1764142778241;
+        Tue, 25 Nov 2025 23:39:38 -0800 (PST)
 Received: from [10.50.4.190] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47906cb1f60sm32919325e9.1.2025.11.25.23.32.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f34fe8sm38774891f8f.15.2025.11.25.23.39.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 23:32:55 -0800 (PST)
-Message-ID: <42d6103c-3cbe-49e9-a8c3-6a6c652a60e7@grimberg.me>
-Date: Wed, 26 Nov 2025 09:32:54 +0200
+        Tue, 25 Nov 2025 23:39:37 -0800 (PST)
+Message-ID: <c01b35d7-d1a6-467e-b3e8-a1aa3d613f2d@grimberg.me>
+Date: Wed, 26 Nov 2025 09:39:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] nvme-tcp: Implement recvmsg() receive flow
+Subject: Re: [PATCH 1/9] nvme-auth: modify nvme_auth_transform_key() to return
+ status
 To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20251020085815.20657-1-hare@kernel.org>
+References: <20250528140517.3284-1-hare@kernel.org>
+ <20250528140517.3284-2-hare@kernel.org>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20251020085815.20657-1-hare@kernel.org>
+In-Reply-To: <20250528140517.3284-2-hare@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251125_233258_416220_5349E5EB 
-X-CRM114-Status: GOOD (  40.38  )
+X-CRM114-CacheID: sfid-20251125_233940_513603_60120171 
+X-CRM114-Status: GOOD (  22.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,358 +91,335 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Patch title is misleading. The addition is the transformed secret output...
 
+On 28/05/2025 17:05, Hannes Reinecke wrote:
+> Modify nvme_auth_transform_key() to return a status and provide
+> the transformed data as argument on the command line as raw data.
 
-On 20/10/2025 11:58, Hannes Reinecke wrote:
-> The nvme-tcp code is using the ->read_sock() interface to
-> read data from the wire. While this interface gives us access
-> to the skbs themselves (and so might be able to reduce latency)
-> it does not interpret the skbs.
-> Additionally for TLS these skbs have to be re-constructed from
-> the TLS stream data, rendering any advantage questionable.
-> But the main drawback for TLS is that we do not get access to
-> the TLS control messages, so if we receive any of those message
-> the only choice we have is to tear down the connection and restart.
-> This patch switches the receive side over to use recvmsg(), which
-> provides us full access to the TLS control messages and is also
-> more efficient when working with TLS as skbs do not need to be
-> artificially constructed.
-
-Hannes,
-
-I generally agree with this approach. I'd like to point out though
-that this is going to give up running RX from directly from softirq context.
-I've gone back and forth on weather nvme-tcp should do that, but never
-got to do a thorough comparison between the two. This probably shuts
-the door on that option.
-
-Having said that, I am fine with this approach. recvmsg is a saner 
-interface.
+The patch is missing the why explanation. I mean it looks fine, its unclear
+why we need this change.
 
 >
 > Signed-off-by: Hannes Reinecke <hare@kernel.org>
 > ---
->   drivers/nvme/host/tcp.c | 203 ++++++++++++++++++++++------------------
->   1 file changed, 110 insertions(+), 93 deletions(-)
+>   drivers/nvme/common/auth.c | 72 +++++++++++++++++++++++---------------
+>   drivers/nvme/host/auth.c   | 40 +++++++++++----------
+>   drivers/nvme/target/auth.c | 36 +++++++++----------
+>   include/linux/nvme-auth.h  |  4 +--
+>   4 files changed, 85 insertions(+), 67 deletions(-)
 >
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 9a96df1a511c..081f53fa9fc4 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -17,6 +17,7 @@
->   #include <net/tls_prot.h>
->   #include <net/handshake.h>
->   #include <linux/blk-mq.h>
-> +#include <linux/iov_iter.h>
->   #include <net/busy_poll.h>
->   #include <trace/events/sock.h>
->   
-> @@ -476,6 +477,28 @@ static inline void nvme_tcp_ddgst_update(u32 *crcp,
->   	}
+> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+> index 3b6d759bcdf2..918c92cbd8c5 100644
+> --- a/drivers/nvme/common/auth.c
+> +++ b/drivers/nvme/common/auth.c
+> @@ -237,70 +237,86 @@ void nvme_auth_free_key(struct nvme_dhchap_key *key)
 >   }
+>   EXPORT_SYMBOL_GPL(nvme_auth_free_key);
 >   
-> +static size_t nvme_tcp_ddgst_step(void *iter_base, size_t progress, size_t len,
-> +				  void *priv, void *priv2)
-> +{
-> +	u32 *crcp = priv;
-> +
-> +	*crcp = crc32c(*crcp, iter_base, len);
-> +	return 0;
-> +}
-> +
-> +static int nvme_tcp_ddgst_calc(struct nvme_tcp_request *req, u32 *crcp,
-> +			       size_t maxsize)
-> +{
-> +	struct iov_iter tmp = req->iter;
-> +	int err = 0;
-> +
-> +	tmp.count = maxsize;
-> +	if (iterate_and_advance_kernel(&tmp, maxsize, crcp, &err,
-> +				       nvme_tcp_ddgst_step) != maxsize)
-> +		return err;
-> +	return 0;
-> +}
-> +
->   static inline __le32 nvme_tcp_ddgst_final(u32 crc)
+> -struct nvme_dhchap_key *nvme_auth_transform_key(
+> -		struct nvme_dhchap_key *key, char *nqn)
+> +int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
+> +			    u8 **transformed_secret)
 >   {
->   	return cpu_to_le32(~crc);
-> @@ -827,23 +850,26 @@ static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
->   		"Received C2HTermReq (FES = %s)\n", msg);
->   }
->   
-> -static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct sk_buff *skb,
-> -		unsigned int *offset, size_t *len)
-> +static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
->   {
-> -	struct nvme_tcp_hdr *hdr;
->   	char *pdu = queue->pdu;
-> -	size_t rcv_len = min_t(size_t, *len, queue->pdu_remaining);
-> +	struct msghdr msg = {
-> +		.msg_flags = MSG_DONTWAIT,
-> +	};
-> +	struct kvec iov = {
-> +		.iov_base = pdu + queue->pdu_offset,
-> +		.iov_len = queue->pdu_remaining,
-> +	};
-> +	struct nvme_tcp_hdr *hdr;
->   	int ret;
->   
-> -	ret = skb_copy_bits(skb, *offset,
-> -		&pdu[queue->pdu_offset], rcv_len);
-> -	if (unlikely(ret))
-> +	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
-> +			     iov.iov_len, msg.msg_flags);
-> +	if (ret <= 0)
->   		return ret;
->   
-> -	queue->pdu_remaining -= rcv_len;
-> -	queue->pdu_offset += rcv_len;
-> -	*offset += rcv_len;
-> -	*len -= rcv_len;
-> +	queue->pdu_remaining -= ret;
-> +	queue->pdu_offset += ret;
->   	if (queue->pdu_remaining)
->   		return 0;
->   
-> @@ -907,20 +933,19 @@ static inline void nvme_tcp_end_request(struct request *rq, u16 status)
->   		nvme_complete_rq(rq);
->   }
->   
-> -static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
-> -			      unsigned int *offset, size_t *len)
-> +static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
->   {
->   	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
->   	struct request *rq =
->   		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
->   	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
->   
-> -	while (true) {
-> -		int recv_len, ret;
-> +	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DATA)
-> +		return 0;
->   
-> -		recv_len = min_t(size_t, *len, queue->data_remaining);
-> -		if (!recv_len)
-> -			break;
-> +	while (queue->data_remaining) {
-> +		struct msghdr msg;
-> +		int ret;
->   
->   		if (!iov_iter_count(&req->iter)) {
->   			req->curr_bio = req->curr_bio->bi_next;
-> @@ -940,25 +965,22 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   		}
->   
->   		/* we can read only from what is left in this bio */
-> -		recv_len = min_t(size_t, recv_len,
-> -				iov_iter_count(&req->iter));
-> +		memset(&msg, 0, sizeof(msg));
-> +		msg.msg_iter = req->iter;
-> +		msg.msg_flags = MSG_DONTWAIT;
->   
-> -		if (queue->data_digest)
-> -			ret = skb_copy_and_crc32c_datagram_iter(skb, *offset,
-> -				&req->iter, recv_len, &queue->rcv_crc);
-> -		else
-> -			ret = skb_copy_datagram_iter(skb, *offset,
-> -					&req->iter, recv_len);
-> -		if (ret) {
-> +		ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
-> +		if (ret < 0) {
->   			dev_err(queue->ctrl->ctrl.device,
-> -				"queue %d failed to copy request %#x data",
-> +				"queue %d failed to receive request %#x data",
->   				nvme_tcp_queue_id(queue), rq->tag);
->   			return ret;
->   		}
-> -
-> -		*len -= recv_len;
-> -		*offset += recv_len;
-> -		queue->data_remaining -= recv_len;
-> +		if (queue->data_digest)
-> +			nvme_tcp_ddgst_calc(req, &queue->rcv_crc, ret);
-> +		queue->data_remaining -= ret;
-> +		if (queue->data_remaining)
-> +			nvme_tcp_advance_req(req, ret);
->   	}
->   
->   	if (!queue->data_remaining) {
-> @@ -968,7 +990,7 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   		} else {
->   			if (pdu->hdr.flags & NVME_TCP_F_DATA_SUCCESS) {
->   				nvme_tcp_end_request(rq,
-> -						le16_to_cpu(req->status));
-> +						     le16_to_cpu(req->status));
->   				queue->nr_cqe++;
->   			}
->   			nvme_tcp_init_recv_ctx(queue);
-> @@ -978,24 +1000,9 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
->   	return 0;
->   }
->   
-> -static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
-> -		struct sk_buff *skb, unsigned int *offset, size_t *len)
-> +static int __nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue)
->   {
->   	struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
-> -	char *ddgst = (char *)&queue->recv_ddgst;
-> -	size_t recv_len = min_t(size_t, *len, queue->ddgst_remaining);
-> -	off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
-> -	int ret;
-> -
-> -	ret = skb_copy_bits(skb, *offset, &ddgst[off], recv_len);
-> -	if (unlikely(ret))
-> -		return ret;
-> -
-> -	queue->ddgst_remaining -= recv_len;
-> -	*offset += recv_len;
-> -	*len -= recv_len;
-> -	if (queue->ddgst_remaining)
-> -		return 0;
->   
->   	if (queue->recv_ddgst != queue->exp_ddgst) {
->   		struct request *rq = nvme_cid_to_rq(nvme_tcp_tagset(queue),
-> @@ -1023,40 +1030,32 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
->   	return 0;
->   }
->   
-> -static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
-> -			     unsigned int offset, size_t len)
-> +static int nvme_tcp_recvmsg_ddgst(struct nvme_tcp_queue *queue)
->   {
-> -	struct nvme_tcp_queue *queue = desc->arg.data;
-> -	size_t consumed = len;
-> -	int result;
-> +	char *ddgst = (char *)&queue->recv_ddgst;
-> +	off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
-> +	struct msghdr msg = {
-> +		.msg_flags = MSG_WAITALL,
-> +	};
-
-I don't think we want to use MSG_WAITALL ever. Why are you opting to do 
-that?
-
-> +	struct kvec iov = {
-> +		.iov_base = (u8 *)ddgst + off,
-> +		.iov_len = queue->ddgst_remaining,
-> +	};
+>   	const char *hmac_name;
+>   	struct crypto_shash *key_tfm;
+>   	SHASH_DESC_ON_STACK(shash, key_tfm);
+> -	struct nvme_dhchap_key *transformed_key;
+> -	int ret, key_len;
+> +	u8 *transformed_data;
+> +	u8 *key_data;
+> +	size_t transformed_len;
 > +	int ret;
 >   
-> -	if (unlikely(!queue->rd_enabled))
-> -		return -EFAULT;
-> +	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DDGST)
-> +		return 0;
+>   	if (!key) {
+>   		pr_warn("No key specified\n");
+> -		return ERR_PTR(-ENOKEY);
+> +		return -ENOKEY;
+>   	}
+> +	key_data = kzalloc(key->len, GFP_KERNEL);
+> +	if (!key_data)
+> +		return -ENOMEM;
+> +	memcpy(key_data, key->key, key->len);
+>   	if (key->hash == 0) {
+> -		key_len = nvme_auth_key_struct_size(key->len);
+> -		transformed_key = kmemdup(key, key_len, GFP_KERNEL);
+> -		if (!transformed_key)
+> -			return ERR_PTR(-ENOMEM);
+> -		return transformed_key;
+> +		*transformed_secret = key_data;
+> +		return key->len;
+>   	}
+>   	hmac_name = nvme_auth_hmac_name(key->hash);
+>   	if (!hmac_name) {
+>   		pr_warn("Invalid key hash id %d\n", key->hash);
+> -		return ERR_PTR(-EINVAL);
+> +		ret = -EINVAL;
+> +		goto out_free_data;
+>   	}
 >   
-> -	while (len) {
-> -		switch (nvme_tcp_recv_state(queue)) {
-> -		case NVME_TCP_RECV_PDU:
-> -			result = nvme_tcp_recv_pdu(queue, skb, &offset, &len);
-> -			break;
-> -		case NVME_TCP_RECV_DATA:
-> -			result = nvme_tcp_recv_data(queue, skb, &offset, &len);
-> -			break;
-> -		case NVME_TCP_RECV_DDGST:
-> -			result = nvme_tcp_recv_ddgst(queue, skb, &offset, &len);
-> -			break;
-> -		default:
-> -			result = -EFAULT;
-> -		}
-> -		if (result) {
-> -			dev_err(queue->ctrl->ctrl.device,
-> -				"receive failed:  %d\n", result);
-> -			queue->rd_enabled = false;
-> -			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> -			return result;
-> -		}
-> -	}
-> +	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1, iov.iov_len,
-> +			     msg.msg_flags);
-> +	if (ret <= 0)
-> +		return ret;
+>   	key_tfm = crypto_alloc_shash(hmac_name, 0, 0);
+> -	if (IS_ERR(key_tfm))
+> -		return ERR_CAST(key_tfm);
+> +	if (IS_ERR(key_tfm)) {
+> +		ret = PTR_ERR(key_tfm);
+> +		goto out_free_data;
+> +	}
 >   
-> -	return consumed;
-> +	queue->ddgst_remaining -= ret;
-> +	if (queue->ddgst_remaining)
-> +		return 0;
+> -	key_len = crypto_shash_digestsize(key_tfm);
+> -	transformed_key = nvme_auth_alloc_key(key_len, key->hash);
+> -	if (!transformed_key) {
+> +	transformed_len = crypto_shash_digestsize(key_tfm);
+> +	if (transformed_len != key->len) {
+> +		pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
+> +			transformed_len, hmac_name, key->len);
+> +		ret = -EINVAL;
+> +		goto out_free_tfm;
+> +	}
 > +
-> +	return __nvme_tcp_recv_ddgst(queue);
->   }
+> +	transformed_data = kzalloc(transformed_len, GFP_KERNEL);
+> +	if (!transformed_data) {
+>   		ret = -ENOMEM;
+> -		goto out_free_key;
+> +		goto out_free_tfm;
+>   	}
 >   
->   static void nvme_tcp_data_ready(struct sock *sk)
-> @@ -1356,20 +1355,38 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+>   	shash->tfm = key_tfm;
+>   	ret = crypto_shash_setkey(key_tfm, key->key, key->len);
+>   	if (ret < 0)
+> -		goto out_free_transformed_key;
+> +		goto out_free_transformed_data;
+>   	ret = crypto_shash_init(shash);
+>   	if (ret < 0)
+> -		goto out_free_transformed_key;
+> +		goto out_free_transformed_data;
+>   	ret = crypto_shash_update(shash, nqn, strlen(nqn));
+>   	if (ret < 0)
+> -		goto out_free_transformed_key;
+> +		goto out_free_transformed_data;
+>   	ret = crypto_shash_update(shash, "NVMe-over-Fabrics", 17);
+>   	if (ret < 0)
+> -		goto out_free_transformed_key;
+> -	ret = crypto_shash_final(shash, transformed_key->key);
+> +		goto out_free_transformed_data;
+> +	ret = crypto_shash_final(shash, transformed_data);
+>   	if (ret < 0)
+> -		goto out_free_transformed_key;
+> +		goto out_free_transformed_data;
+>   
+>   	crypto_free_shash(key_tfm);
+> +	*transformed_secret = transformed_data;
+>   
+> -	return transformed_key;
+> +	return transformed_len;
+>   
+> -out_free_transformed_key:
+> -	nvme_auth_free_key(transformed_key);
+> -out_free_key:
+> +out_free_transformed_data:
+> +	kfree(transformed_data);
+> +out_free_tfm:
+>   	crypto_free_shash(key_tfm);
+> +out_free_data:
+> +	kfree(key_data);
+>   
+> -	return ERR_PTR(ret);
+> +	return ret;
+>   }
+>   EXPORT_SYMBOL_GPL(nvme_auth_transform_key);
+>   
+> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+> index f6ddbe553289..9e7c2e889ee0 100644
+> --- a/drivers/nvme/host/auth.c
+> +++ b/drivers/nvme/host/auth.c
+> @@ -24,7 +24,8 @@ struct nvme_dhchap_queue_context {
+>   	struct nvme_ctrl *ctrl;
+>   	struct crypto_shash *shash_tfm;
+>   	struct crypto_kpp *dh_tfm;
+> -	struct nvme_dhchap_key *transformed_key;
+> +	u8 *transformed_secret;
+> +	size_t transformed_len;
+>   	void *buf;
+>   	int qid;
+>   	int error;
+> @@ -437,21 +438,20 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
+>   	dev_dbg(ctrl->device, "%s: qid %d host response seq %u transaction %d\n",
+>   		__func__, chap->qid, chap->s1, chap->transaction);
+>   
+> -	if (!chap->transformed_key) {
+> -		chap->transformed_key = nvme_auth_transform_key(ctrl->host_key,
+> -						ctrl->opts->host->nqn);
+> -		if (IS_ERR(chap->transformed_key)) {
+> -			ret = PTR_ERR(chap->transformed_key);
+> -			chap->transformed_key = NULL;
+> +	if (!chap->transformed_secret) {
+> +		ret = nvme_auth_transform_key(ctrl->host_key,
+> +					      ctrl->opts->host->nqn,
+> +					      &chap->transformed_secret);
+> +		if (ret < 0)
+>   			return ret;
+> -		}
+> +		chap->transformed_len = ret;
+>   	} else {
+>   		dev_dbg(ctrl->device, "%s: qid %d re-using host response\n",
+>   			__func__, chap->qid);
+>   	}
+>   
+>   	ret = crypto_shash_setkey(chap->shash_tfm,
+> -			chap->transformed_key->key, chap->transformed_key->len);
+> +			chap->transformed_secret, chap->transformed_len);
+>   	if (ret) {
+>   		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
+>   			 chap->qid, ret);
+> @@ -517,19 +517,20 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
+>   		struct nvme_dhchap_queue_context *chap)
+>   {
+>   	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
+> -	struct nvme_dhchap_key *transformed_key;
+> +	u8 *transformed_secret;
+> +	size_t transformed_len;
+>   	u8 buf[4], *challenge = chap->c2;
+>   	int ret;
+>   
+> -	transformed_key = nvme_auth_transform_key(ctrl->ctrl_key,
+> -				ctrl->opts->subsysnqn);
+> -	if (IS_ERR(transformed_key)) {
+> -		ret = PTR_ERR(transformed_key);
+> +	ret = nvme_auth_transform_key(ctrl->ctrl_key,
+> +			ctrl->opts->subsysnqn,
+> +			&transformed_secret);
+> +	if (ret < 0)
+>   		return ret;
+> -	}
+> +	transformed_len = ret;
+>   
+>   	ret = crypto_shash_setkey(chap->shash_tfm,
+> -			transformed_key->key, transformed_key->len);
+> +			transformed_secret, transformed_len);
+>   	if (ret) {
+>   		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
+>   			 chap->qid, ret);
+> @@ -595,7 +596,7 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
+>   out:
+>   	if (challenge != chap->c2)
+>   		kfree(challenge);
+> -	nvme_auth_free_key(transformed_key);
+> +	kfree(transformed_secret);
 >   	return ret;
 >   }
 >   
-> -static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-> +static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
+> @@ -657,8 +658,9 @@ static int nvme_auth_dhchap_exponential(struct nvme_ctrl *ctrl,
+>   
+>   static void nvme_auth_reset_dhchap(struct nvme_dhchap_queue_context *chap)
 >   {
-> -	struct socket *sock = queue->sock;
-> -	struct sock *sk = sock->sk;
-> -	read_descriptor_t rd_desc;
-> -	int consumed;
-> +	int result;
-> +	int nr_cqe = queue->nr_cqe;
-> +
-> +	if (unlikely(!queue->rd_enabled))
-> +		return -EFAULT;
-> +
-> +	do {
-> +		switch (nvme_tcp_recv_state(queue)) {
-> +		case NVME_TCP_RECV_PDU:
-> +			result = nvme_tcp_recvmsg_pdu(queue);
-> +			break;
-> +		case NVME_TCP_RECV_DATA:
-> +			result = nvme_tcp_recvmsg_data(queue);
-> +			break;
-> +		case NVME_TCP_RECV_DDGST:
-> +			result = nvme_tcp_recvmsg_ddgst(queue);
-> +			break;
-> +		default:
-> +			result = -EFAULT;
-> +		}
-> +	} while (result >= 0);
-> +
-> +	if (result < 0 && result != -EAGAIN) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"receive failed:  %d\n", result);
-> +		queue->rd_enabled = false;
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +	}
+> -	nvme_auth_free_key(chap->transformed_key);
+> -	chap->transformed_key = NULL;
+> +	kfree(chap->transformed_secret);
+> +	chap->transformed_secret = NULL;
+> +	chap->transformed_len = 0;
+>   	kfree_sensitive(chap->host_key);
+>   	chap->host_key = NULL;
+>   	chap->host_key_len = 0;
+> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+> index b340380f3892..c70d9d259a7f 100644
+> --- a/drivers/nvme/target/auth.c
+> +++ b/drivers/nvme/target/auth.c
+> @@ -297,7 +297,8 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
+>   	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>   	const char *hash_name;
+>   	u8 *challenge = req->sq->dhchap_c1;
+> -	struct nvme_dhchap_key *transformed_key;
+> +	u8 *transformed_secret;
+> +	size_t transformed_len;
+>   	u8 buf[4];
+>   	int ret;
 >   
-> -	rd_desc.arg.data = queue;
-> -	rd_desc.count = 1;
-> -	lock_sock(sk);
-> -	queue->nr_cqe = 0;
-> -	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
-> -	release_sock(sk);
-> -	return consumed == -EAGAIN ? 0 : consumed;
-> +	return result < 0 ? result : (queue->nr_cqe = nr_cqe);
-
-This is changing the semantics of the retcode - can you please document 
-in the commit msg
-the change?
-
->   }
+> @@ -321,15 +322,14 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
+>   		goto out_free_tfm;
+>   	}
 >   
->   static void nvme_tcp_io_work(struct work_struct *w)
-> @@ -1391,7 +1408,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
->   				break;
->   		}
+> -	transformed_key = nvme_auth_transform_key(ctrl->host_key,
+> -						  ctrl->hostnqn);
+> -	if (IS_ERR(transformed_key)) {
+> -		ret = PTR_ERR(transformed_key);
+> +	ret = nvme_auth_transform_key(ctrl->host_key, ctrl->hostnqn,
+> +				      &transformed_secret);
+> +	if (ret < 0)
+>   		goto out_free_tfm;
+> -	}
 >   
-> -		result = nvme_tcp_try_recv(queue);
-> +		result = nvme_tcp_try_recvmsg(queue);
->   		if (result > 0)
->   			pending = true;
->   		else if (unlikely(result < 0))
-> @@ -2800,7 +2817,7 @@ static int nvme_tcp_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
->   	set_bit(NVME_TCP_Q_POLLING, &queue->flags);
->   	if (sk_can_busy_loop(sk) && skb_queue_empty_lockless(&sk->sk_receive_queue))
->   		sk_busy_loop(sk, true);
-> -	ret = nvme_tcp_try_recv(queue);
-> +	ret = nvme_tcp_try_recvmsg(queue);
->   	clear_bit(NVME_TCP_Q_POLLING, &queue->flags);
->   	return ret < 0 ? ret : queue->nr_cqe;
->   }
+> -	ret = crypto_shash_setkey(shash_tfm, transformed_key->key,
+> -				  transformed_key->len);
+> +	transformed_len = ret;
+> +	ret = crypto_shash_setkey(shash_tfm, transformed_secret,
+> +				  transformed_len);
+>   	if (ret)
+>   		goto out_free_response;
+>   
+> @@ -389,7 +389,7 @@ int nvmet_auth_host_hash(struct nvmet_req *req, u8 *response,
+>   	if (challenge != req->sq->dhchap_c1)
+>   		kfree(challenge);
+>   out_free_response:
+> -	nvme_auth_free_key(transformed_key);
+> +	kfree(transformed_secret);
+>   out_free_tfm:
+>   	crypto_free_shash(shash_tfm);
+>   	return ret;
+> @@ -403,7 +403,8 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
+>   	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+>   	const char *hash_name;
+>   	u8 *challenge = req->sq->dhchap_c2;
+> -	struct nvme_dhchap_key *transformed_key;
+> +	u8 *transformed_secret;
+> +	size_t transformed_len;
+>   	u8 buf[4];
+>   	int ret;
+>   
+> @@ -427,15 +428,14 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
+>   		goto out_free_tfm;
+>   	}
+>   
+> -	transformed_key = nvme_auth_transform_key(ctrl->ctrl_key,
+> -						ctrl->subsysnqn);
+> -	if (IS_ERR(transformed_key)) {
+> -		ret = PTR_ERR(transformed_key);
+> +	ret = nvme_auth_transform_key(ctrl->ctrl_key, ctrl->subsysnqn,
+> +				      &transformed_secret);
+> +	if (ret < 0)
+>   		goto out_free_tfm;
+> -	}
+> +	transformed_len = ret;
+>   
+> -	ret = crypto_shash_setkey(shash_tfm, transformed_key->key,
+> -				  transformed_key->len);
+> +	ret = crypto_shash_setkey(shash_tfm, transformed_secret,
+> +				  transformed_len);
+>   	if (ret)
+>   		goto out_free_response;
+>   
+> @@ -500,7 +500,7 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
+>   	if (challenge != req->sq->dhchap_c2)
+>   		kfree(challenge);
+>   out_free_response:
+> -	nvme_auth_free_key(transformed_key);
+> +	kfree(transformed_secret);
+>   out_free_tfm:
+>   	crypto_free_shash(shash_tfm);
+>   	return ret;
+> diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
+> index 60e069a6757f..fd43fa042c88 100644
+> --- a/include/linux/nvme-auth.h
+> +++ b/include/linux/nvme-auth.h
+> @@ -29,8 +29,8 @@ struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
+>   					      u8 key_hash);
+>   void nvme_auth_free_key(struct nvme_dhchap_key *key);
+>   struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash);
+> -struct nvme_dhchap_key *nvme_auth_transform_key(
+> -				struct nvme_dhchap_key *key, char *nqn);
+> +int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
+> +			    u8 **transformed_secret) ;
+>   int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key);
+>   int nvme_auth_augmented_challenge(u8 hmac_id, u8 *skey, size_t skey_len,
+>   				  u8 *challenge, u8 *aug, size_t hlen);
 
 
