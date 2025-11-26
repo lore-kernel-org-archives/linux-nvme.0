@@ -4,123 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 972D6D1036D
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 00:15:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65B4DD10373
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 02:13:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sA8Pu6GjexaoK5oqKYEEM1+zYvyY2pk2eGWfIX+7D+A=; b=XZjw0zqd0wDGUjelboUX+Fp25g
-	IVqGbNkgpzlRj5jAf27gmPtsu2bLAXpIi/RruQiuXqP9L1X3sJqwOFfx6EJTdY7TbwSdYEIpe1quj
-	tPWTKxxtxgdTXeZyY5ciSZn8kBnS3sPb5riSWNWJqtU6cIClLfl1mnwEQxJw/JBrM7RFKP260fzFt
-	3Lh73LE9SVWj+UZwOMrs+MbZsdvCKMWQBky2PqMdg6+ijx5Hwm9gmv/speTFRTZdufMAHxX3+hqTg
-	sDhwtUX/vh9hOBVBzNG/SErx/i8Iz4ZschbaC4VJiwXzsAsLnTkdDduDCVJFxHJuZbHM1YxZq3IaL
-	KTgSA37A==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0DYMwugwCCMRbCMYT3zoF/0wVBmZFEJOOVa8ErucyPQ=; b=sQrLuMxSKAP9gyGmwPsdNYZMDt
+	aXXeyiVs/hx3z6qClovjCr63i5zeUnQ8hmk6A7dYAjMDOLdIOTRK8pOZ4Ae5PRU85tmRHu9dtZvA7
+	SNSiW/aCtiJ1sDXA2s0hH0ciFW91pDC39cvDak1zWpSeUbQ5d4nQBCQoeTfg+1vyTsHdn4KqTGO9G
+	0lcVKsJFylIoqE+XFZkvZnPFuMdHmWOHTvhEcGrouPqwSuXJfEzjBdYVeYF3ywQssn/AIdMvIV7Xy
+	4OF4TMup8KBeieM+91yFvzgDyLpTdQINVtXyYMnlFN4QnCCCVbjpfAMrFfL/jICtNU8WsH/D0mE/y
+	reOZcVIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vO3C3-0000000E6uv-3QHO;
-	Wed, 26 Nov 2025 00:15:35 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1vO525-0000000EDLr-3UqV;
+	Wed, 26 Nov 2025 02:13:25 +0000
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vO3C0-0000000E6uM-3Pun
+	id 1vO523-0000000EDKa-04QO
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Nov 2025 00:15:34 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 308B45BD90;
-	Wed, 26 Nov 2025 00:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1764116129;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sA8Pu6GjexaoK5oqKYEEM1+zYvyY2pk2eGWfIX+7D+A=;
-	b=UsdBUXk7cHjnJmRnaEU9hwoSxw0u7xi4eJ7jNFn9HnGssZlkNWZwdsLkIFz6V7a/SxLO7k
-	OH5tJDOxwP/Cl0D6TUMN5AK/ss8iFCHysTYANRW30I35VkHoEyNxFkIF+et3rKSAPWL2i9
-	Gu2k8Q6/z0Fc4chb2nz+CHvF58tq7xI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1764116129;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sA8Pu6GjexaoK5oqKYEEM1+zYvyY2pk2eGWfIX+7D+A=;
-	b=Z8/2IXWSnC/1meP7MKHEHDgoVGl8DCZqvPJf7YYACY20+CPKSEcP1d07fy9qMQ8h3ocl+1
-	vMCeTvZoyKtQ41Aw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1764116128;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sA8Pu6GjexaoK5oqKYEEM1+zYvyY2pk2eGWfIX+7D+A=;
-	b=H+36ZQqE6tsgUZ3p0kXsOW6BF7+6g0EZJHttR9rj89roCzcqq0wwoYiI4VTpdvNwTtOhE5
-	9u8I4U3p0u7Pgwl/XC77T1G6YADulSY7UGLDPRKsrms/UfSaUHkZeTnd2/O76m7fmMBg6j
-	d5cBTfku1bJoGCuYrdhv8+Pr3xQQsoc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1764116128;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sA8Pu6GjexaoK5oqKYEEM1+zYvyY2pk2eGWfIX+7D+A=;
-	b=ZTyNsXx1x8aGHhtcF6r32cj8hJYdXoDcA8FgNYhp+sToGjV0IzY9+Bgm1d+N/q0ICBD6vQ
-	n9RM9j8RSSAWfqDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1819E3EA63;
-	Wed, 26 Nov 2025 00:15:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fqy4BaBGJmmAEgAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Wed, 26 Nov 2025 00:15:28 +0000
-Date: Wed, 26 Nov 2025 01:15:26 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Wol <antlists@youngman.org.uk>
-Cc: Justin Piszcz <jpiszcz@lucidpixels.com>,
-	LKML <linux-kernel@vger.kernel.org>, linux-nvme@lists.infradead.org,
-	linux-raid@vger.kernel.org,
-	Btrfs BTRFS <linux-btrfs@vger.kernel.org>
-Subject: Re: WD Red SN700 4000GB, F/W: 11C120WD (Device not ready; aborting
- reset, CSTS=0x1)
-Message-ID: <20251126001526.GA13846@twin.jikos.cz>
-References: <CAO9zADxCYgQVOD9A1WYoS4JcLgvsNtGGr4xEZm9CMFHXsTV8ww@mail.gmail.com>
- <07500979-eca8-4159-b2a5-3052e9958c84@youngman.org.uk>
+	Wed, 26 Nov 2025 02:13:24 +0000
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-29806bd47b5so37630465ad.3
+        for <linux-nvme@lists.infradead.org>; Tue, 25 Nov 2025 18:13:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1764123202; x=1764728002; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0DYMwugwCCMRbCMYT3zoF/0wVBmZFEJOOVa8ErucyPQ=;
+        b=W2ugtHuRdz6+PhXsWiB0+qwG7WarGsXb0wpxbhvCPuVgH2QDjXkn57sCKadWWZIhes
+         jEgYAZdM/hS7b44po2dg5nUWnX5lw6FKVc6JCuO+RhSl33rXcoqw7l42xpCxDBon4zNc
+         /zqauHIkRQ9h/XQbbJ7gY6Fi8xvphswcN6gQLRjLiSserOhxmoiIsgNKvs0pw0ZusBo7
+         XqvCos58cf2KrcVPCavavD6MAgH9DRe3f8ZEsf7wC+dGdKO2DmZJKKscjn3co6LePErw
+         cRFCJ+oKJVA1+Gtg2v/1K+zHV6iGEfKDvhLFpV7EVALAuDXq04MnSjemU5qEYhOH2WPz
+         iTJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764123202; x=1764728002;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0DYMwugwCCMRbCMYT3zoF/0wVBmZFEJOOVa8ErucyPQ=;
+        b=FeWBQcnwHeeDC9zjWBPp3W7w0XUsoSaiHRl1YpyShgYDaFsYj/i2SxGtLTyzLNSIXj
+         s+Kb1r5FAbEl7GSaAhkzFLZPlasgavM6XMvMqirlL6MQpA1zBwUdT7NnzKEaJaRW2rjd
+         M8OC6p0vu5sEPZpj24O5zbQs2vqKoIbPLNintc+icq3eFvg9I6sQ1B2wdnFXWz/QrAUz
+         ZtGSOuSILVpF0gtOeKkyfk9+V+Qj1h7CEvY4HSsAf+Ej1lY2P155vBXN5LAHwzhGuWJj
+         LnrWlHILgc45hT9txRqLjnDt1mAaagaG6RtIiopcd16d9YDS/cKKURnKwvAloDchgfxr
+         /Pfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXSYJhMDpRZ6kV+uBfdR+8/YwnDb6TtitlxIbyG1xArpKSIfBIQd7lSgU2c5XoQ+mo4QCwH6lCmRMt@lists.infradead.org
+X-Gm-Message-State: AOJu0YyJ5xPWgzw7H0nfDneLCObABAormvb61GAXEh3JauWw8pvg1NEY
+	6yNG/7PeupUd/x6yv6hcpVsh3r0n23B6T5AEBzzuhu4LNODEYFz4JBRqGBrLzIa0p6U=
+X-Gm-Gg: ASbGncv5nL9anp0yGQAryhzBBZV/65rt+w5go2CJhaY9fr4xvdD7AUCdjxZGbcbooLZ
+	yIMgUgnNbmFVvi7PqFcgfkawRaovwkZ8eqGZadmzrio03V4YsXRhKrSB2y7Hca/6eUclf3x8Rr8
+	etCsSACtXUrlksTYR238opUzhzXyaS3a6CQbPMvlFJDyRY5u3OOavnl9d9uEJueW8wYlQnXUDBs
+	zYCOG5kBgOtvZs1FkcQNKml8YOwVm8tc0LZ4w80fieij2o6uiAYAAlxTff2/54NlCStzuYDJzWh
+	8FKoVHyW6I1g2xmc0ssUHYXoBNhwWKkb+yOdvFS6de3hq0oXsYqfkPZL4RVOqw0aGmhIKQ2dEnk
+	75XUoBil6fvHv22Szx0hfCFPWg1AlyCOFXdSJcReqRgK06cpOnb+/YmSHUQTC0wJRG2C1TffJlL
+	1oCVVNxlL7i1oEcEEqUUsV0N1bKkavAsCMRA==
+X-Google-Smtp-Source: AGHT+IHX3yT5pXdf7LYjSNE6WgFqzyyar12yID69DwGd9ndEqYxMAf61RI2rL1JknD6xXgHVKt+nNg==
+X-Received: by 2002:a05:7022:ec16:b0:119:e56b:91da with SMTP id a92af1059eb24-11c9d811990mr11265772c88.11.1764123201516;
+        Tue, 25 Nov 2025 18:13:21 -0800 (PST)
+Received: from apollo.purestorage.com ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-11cc631c236sm17922979c88.7.2025.11.25.18.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 18:13:21 -0800 (PST)
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Chaitanya Kulkarni <kch@nvidia.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Aaron Dailey <adailey@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Mohamed Khalfella <mkhalfella@purestorage.com>
+Subject: [RFC PATCH 00/14] TP8028 Rapid Path Failure Recovery
+Date: Tue, 25 Nov 2025 18:11:47 -0800
+Message-ID: <20251126021250.2583630-1-mkhalfella@purestorage.com>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <07500979-eca8-4159-b2a5-3052e9958c84@youngman.org.uk>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto,twin.jikos.cz:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251125_161533_002696_801BA94A 
-X-CRM114-Status: UNSURE (   8.34  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251125_181323_219944_F6728A5B 
+X-CRM114-Status: GOOD (  18.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,15 +102,126 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 25, 2025 at 06:25:41PM +0000, Wol wrote:
-> Probably not the problem, but how old are the drives? About 2020, WD 
-> started shingling the Red line (you had to move to Red Pro to get 
-> conventional drives).
+This patchset adds support for TP8028 Rapid Path Failure Recovery for
+both nvme target and initiator. Rapid Path Failure Recovery brings
+Cross-Controller Reset (CCR) functionality to nvme. This allows nvme
+host to send an nvme command to source nvme controller to reset impacted
+nvme controller. Provided that both source and impacted controllers are
+in the same nvme subsystem.
 
-The WD SN700 is an NVMe, though one can imagine how they could be
-actually shingled with slightly tilted overlapping sockets.
+The main use of CCR is when one path to nvme subsystem fails. Inflight
+IOs on impacted nvme controller need to be terminated first before they
+can be retried on another path. Otherwise data corruption may happen.
+CCR provides a quick way to terminate these IOs on the unreachable nvme
+controller allowing recovery to move quickly and avoiding unnecessary
+delays. In case of CCR is not possible, then inflight requests are held
+for duration defined by TP4129 KATO Corrections and Clarifications
+before they are allowed to be retried.
+
+
+On the target side:
+
+- New struct members have been added to support CCR. struct nvme_id_ctrl
+  has been updated with CIU (Controller Instance Uniquifier), CIRN
+  (Controller Instance Random Number), and CQT (Command Quiesce Time).
+  The combination of CIU, CNTLID, and CIRN is used to identify impacted
+  controller in CCR command.
+
+- CCR nvme command implemented on the target causes impacted controller
+  to fail and drop connections to host.
+
+- CCR logpage contains the status of pending CCR requests. An entry is
+  added to the logpage after CCR request is validated. Completed CCR
+  requests are removed from the logpage when controller becomes ready or
+  when requested in get logpage command.
+
+- An AEN is sent when CCR completes to let the host know that it is safe
+  to retry inflight requests.
+
+
+On the host side:
+
+- CIU, CIRN, and CQT have been added to struct nvme_ctrl. CIU and CIRN
+  have been added to sysfs to make the values visible to user. CIU and
+  CIRN can be used to construct and manually send admin-passthru CCR
+  commands.
+
+- New controller state NVME_CTRL_RECOVERING has been added to prevent
+  cancelling timed out inflight requests while CCR is in progress.
+  Controller flag NVME_CTRL_RECOVERED was also added to signal end of
+  time-based recovery.
+
+- Controller recovery in nvme_recover_ctrl() is invoked when LIVE
+  controller hits an error or when a request times out. CCR is attempted
+  to reset impacted controller.
+
+- Updated nvme fabric transports nvme-tcp, nvme-rdma, and nvme-fc to use
+  CCR recovery.
+
+
+Ideally all inflight requests should be held during controller recovery
+and only retried after recovery is done. However, there are known
+situations that is not the case in this implementation. These gaps will
+be addressed in future patches:
+
+- Manual controller reset from sysfs will result in controller going to
+  RESETTING state and all inflight requests to be canceled immediately
+  and maybe retried on another path.
+
+- Manual controller delete from sysfs will also result in all inflight
+  requests to be canceled immediately and maybe retried on another path.
+
+- In nvme-fc nvme controller will be deleted if remote port disappears
+  with no timeout specified. This results in immediate cancellation of
+  requests that maybe retried on another path.
+
+- In nvme-rdma if HCA is removed all nvme controllers will be deleted.
+  This results in canceling inflight IOs and maybe they will be retred
+  on another path.
+
+- In nvme-fc if controller is LIVE and an IO ends with an error from
+  LLDD, only this IO will be completed immediately. However, the rest of
+  inflight IOs will be held correctly because the controller will have
+  transitioned to RECOVERING state.
+
+
+
+Mohamed Khalfella (14):
+  nvmet: Rapid Path Failure Recovery set controller identify fields
+  nvmet/debugfs: Add ctrl uniquifier and random values
+  nvmet: Implement CCR nvme command
+  nvmet: Implement CCR logpage
+  nvmet: Send an AEN on CCR completion
+  nvme: Rapid Path Failure Recovery read controller identify fields
+  nvme: Add RECOVERING nvme controller state
+  nvme: Implement cross-controller reset recovery
+  nvme: Implement cross-controller reset completion
+  nvme-tcp: Use CCR to recover controller that hits an error
+  nvme-rdma: Use CCR to recover controller that hits an error
+  nvme-fc: Decouple error recovery from controller reset
+  nvme-fc: Use CCR to recover controller that hits an error
+  nvme-fc: Hold inflight requests while in RECOVERING state
+
+ drivers/nvme/host/constants.c   |   1 +
+ drivers/nvme/host/core.c        | 197 +++++++++++++++++++++++++++++++-
+ drivers/nvme/host/fc.c          | 194 ++++++++++++++++++++-----------
+ drivers/nvme/host/nvme.h        |  24 ++++
+ drivers/nvme/host/rdma.c        |  51 +++++++--
+ drivers/nvme/host/sysfs.c       |  24 ++++
+ drivers/nvme/host/tcp.c         |  52 +++++++--
+ drivers/nvme/target/admin-cmd.c | 127 ++++++++++++++++++++
+ drivers/nvme/target/core.c      | 103 ++++++++++++++++-
+ drivers/nvme/target/debugfs.c   |  21 ++++
+ drivers/nvme/target/nvmet.h     |  18 ++-
+ include/linux/nvme.h            |  57 ++++++++-
+ 12 files changed, 778 insertions(+), 91 deletions(-)
+
+
+base-commit: fd95357fd8c6778ac7dea6c57a19b8b182b6e91f
+-- 
+2.51.2
+
 
