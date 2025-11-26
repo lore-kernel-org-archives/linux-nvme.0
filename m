@@ -4,78 +4,184 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7309CD10386
-	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 07:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50160D1038C
+	for <linux-nvme@archiver.kernel.org>; Wed, 26 Nov 2025 08:07:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vnJRpP2qonDJzuYdD19JpDSHLL0kUhhye4VrzUEMock=; b=vVqDxWR7jv5C2Mp/Z3rrp7KRNU
-	mJDWQBJQ7/FTsSfmGyjBnHNnOnOtINoJQpdchxZLnesrS5BE37v37GBlYlNPi9kCgvRK8kZ1XLQju
-	zHVILSdBaBcSnuI2Q2y0bd1G5OHVB+R7U0gbCaBC50hJuCthEpZ5C4pO4sFAzACkulFxlI4l8hVai
-	VYQQKCMqld+g5mH1MnsJd85gDN+sBRRgX8wvF8qFz4sN5QpX9tygffnGJeiTC3XLwV2UyN9NjWTdA
-	WFMQPcXi6RCIh3Zb6QCsvJ9v4PGyp/lnVfcpzFNeU8NUBKXn5qhOK2ppk6LrbZ7dLUTFL7D0/QENG
-	jiHNe2Gw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Mqw5O+7e5SyK2j4vzv9GxwyKniINb6eim1H7kOPG6Gs=; b=IGS1KR3RyVGpT0fcUJ2xGl+fUX
+	TKvi5epDOOq00uWvpYwS2+XE/uZfog20eGykjel2Ryfq4DXAS09Jlm+sCFKEhpafxMSapoSquaOph
+	4NCjR5rfCKoBrRocGKgu3R/cXOzp4JmalAJjsJS+YMO49/3knpV+XVXQqgHl+A9pLsWeJ6/5mrKKE
+	LagMyApg9beOJT3zod/l3O4lSHWAXnB4xPGhLpumnnt9gDX2Ku/zLkLJiDXzd+pnOlJa6Ji0Sw8PI
+	OoU9ZhZD8FBZxbAkMDE54BDSdsmnHP2Y1HDJw3WU//c5qrw98+L56CSZZ3WhxsC6GOfTn66miZRY1
+	USR+AlhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOALT-0000000EYgn-2uMd;
-	Wed, 26 Nov 2025 07:53:47 +0000
-Received: from mail-wm1-f50.google.com ([209.85.128.50])
+	id 1vOAYk-0000000EZmP-3EsZ;
+	Wed, 26 Nov 2025 08:07:30 +0000
+Received: from mail-northcentralusazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c105::7] helo=CH4PR04CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOALQ-0000000EYgO-3Uqt
+	id 1vOAYh-0000000EZkn-3sIZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 26 Nov 2025 07:53:46 +0000
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4779aa4f928so52348735e9.1
-        for <linux-nvme@lists.infradead.org>; Tue, 25 Nov 2025 23:53:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764143623; x=1764748423;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vnJRpP2qonDJzuYdD19JpDSHLL0kUhhye4VrzUEMock=;
-        b=F3rvRv+3EiqFrk1Fg08J+ojyDD8RtXDTF0lw0NAJl9ecHxyvq1tZ+HTPRTxyw5+uBa
-         1e3A0LQm9Ib7nDK/PHylppai43KyrxG/KRf/LeevuBLdgIc7cK8XvNiP/287us5EobWV
-         6LEUYN1QvDCjqZbPEUKqtB5QyDT3wS0SyHKF71g+NGAbLdADQn5Opwtj5aW5N+qRyctE
-         YFI52AjDT+mijDtRBj4MT2xvMzFBBk6Qu/0v3TB0GIRgqPGv4jkBfhDbBhr08BbAb7++
-         JZh1epLLv9liWyC9/Ox8OebWhapgLMTsmj4KhzIHFc24tKcDGuFjxZx8qBn0nTfvd77C
-         31XA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvb/ahLFyj+tD1aQDtGXXINgMEn3Z4sUbzRfOUJcSD/dacTWVQwXSD3Z+BGpMW793gYf5r5NfUOsJQ@lists.infradead.org
-X-Gm-Message-State: AOJu0YyXW5hN2vsnph2tj4KoH5ZuRGXdCCRZ+0+u8av6I47F72oLI5yy
-	xH66X+VlLD/rh0WHF/XBdGwLP50nDqt6gJgSQ62ZDSPjJlyg3DrqjvdcxnQudA==
-X-Gm-Gg: ASbGncuvmPaliFQmwgpZKBR1sZcaGY9dHiCqXHhbfuZkqgppkYxw6xKAJbGJ7OjKcvv
-	FYO5k2gNHd/krAx4CovZy1VsitPBcIadRKLBCe2wLndA5gfz/KxD4mnIQR0hJToMYfDrBSwY2ee
-	JBRUMHQvco97N/i1UyHsjgmFV7wNuALagRIHisoL/xMkE6XAcRxfT4z0Sb6mpvPRfY242FJ76HS
-	+bodS8nlISdNiIoH4/UiQ7rNTsK2w+ZLUkmcYnIzXxyoEjf8rsvxsmLZRQvy3owVP+gb7GEJO4F
-	9/Le1m0E45vfx4D1EQ6REix5l8Wskv9QVNpkAwn/h87vQbJBPm4jBect05IZfDnJ2o2lKW7mqAK
-	chG+gRi4O4hkAWYVHbIoN1KNNP1+sCnqrfKuoNmMB13jpFnpxkHuhK65R6Pmx13qesxmkE9jreC
-	VrBVRcjY53vcFJLJmM+XbiWpk+m60htzeY6S2UPpQlm6MJLsc8mAvW
-X-Google-Smtp-Source: AGHT+IGMoBUWHZUuwe76ccRbjKwVyxA1tlztywzbMHVIT77ak77tH7CIQx2eH6hd64d8U2OXKnBDRw==
-X-Received: by 2002:a05:600c:46d2:b0:477:54cd:2030 with SMTP id 5b1f17b1804b1-47904b1afcemr52296285e9.21.1764143622478;
-        Tue, 25 Nov 2025 23:53:42 -0800 (PST)
-Received: from [10.50.4.190] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb8ff3sm41177386f8f.29.2025.11.25.23.53.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 23:53:42 -0800 (PST)
-Message-ID: <834f1966-5a05-4351-b7de-3a54fb5df9cf@grimberg.me>
-Date: Wed, 26 Nov 2025 09:53:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] nvme-auth: switch to use 'struct key'
-To: Hannes Reinecke <hare@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
-References: <20250528140517.3284-1-hare@kernel.org>
- <20250528140517.3284-4-hare@kernel.org>
+	Wed, 26 Nov 2025 08:07:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nde3C4cg/4ewGpAOAO36nPhnY4dq9dgHaDUOS5qQc8yz8jBRoF5MlXFqA0iopG6PdIFnzWf58PHAbM7l33FApoe0kemiZ0+nABOun7IRX4SDGrVMn/2zqj7V16hZ31y/llyl9sn8Tb6qCHsyIjSXrry0Xp365MdJjpL8ndgGYA4J2EeNFqgBuHtqH+nF+qkklSbyxNvEuLGDLIcFqP9i457G5APt8V32zJZEUYrZJ/b0Nmsx2zQxkZe/M9CkFLzLiusyez9lUVzw3ZKRjpxvHBydCRqnpPvJ0Gdn9JDy3oskq7fKqjVvNKwfPbqnMura1pc+6koBc3bKUM8rj4YBcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mqw5O+7e5SyK2j4vzv9GxwyKniINb6eim1H7kOPG6Gs=;
+ b=PeVp++m9WXWyoKBo+bx8h9xPLP6gPojfkV3SkZgc8Q/6S7V4Unk+Udk930pJcaQNVPrFVAyRUuCjYKqdGYuGgOfqOdNEnqpTpAQdC3esCuqneTswVNz1iIiv5Ziaypac5jdt9hP3XdBTmBK6vl9ZqMePAOKHNYELagYIkQTsZgJk46KZq81MenTFxgwGvKdyFnxkR/9LGhogQh45LHd/WdYHXlle0hkbtbrppoYNqx8MY/u4TRTAFeK3WpfkzKlB2LNWvXdLAMOG1uqG385ip5Ye/mIvoyhQj5a4l6MMKz6YnBuBBON8Q+SexNIXC6qNvWzwWciSu9D57O8GwvhfAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mqw5O+7e5SyK2j4vzv9GxwyKniINb6eim1H7kOPG6Gs=;
+ b=aSUAFgz4jvZZQzQrYHiqNSd2152EzA9m0Fytuo2IcqHJEta+q4DWp4ke9LihOTVhrpk1x93Jy7luaq9poOUMxqSBDrmDBvZOI1ZnU0z/kERjArKqPHyiygmSi0sAukYxjzvsv1P+epxSxD2rUrhZPMVcG2CQlwtqnR3LBisd2tWFeXc/SGjOV9+usK/3qgO+flFNfZcsAMNRZWT+AE+1DuNjLzcYOqyW+NQgIz8O+BlC+wQkWVbjxDhv1E4CfKDv/qRwaxNG3Gfbrl9H/UPrSgnMNGnLQ9iWW6dZQcEmaQLVn/6uEHm38kgJNqNutm3bOU3TMsDe5MeLC3YHBHdUXQ==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by DM4PR12MB6351.namprd12.prod.outlook.com (2603:10b6:8:a2::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.11; Wed, 26 Nov 2025 08:07:21 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::57ac:82e6:1ec5:f40b%5]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 08:07:21 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Yongpeng Yang <yangyongpeng.storage@gmail.com>, Chaitanya Kulkarni
+	<ckulkarnilinux@gmail.com>, "axboe@kernel.dk" <axboe@kernel.dk>,
+	"agk@redhat.com" <agk@redhat.com>, "snitzer@kernel.org" <snitzer@kernel.org>,
+	"mpatocka@redhat.com" <mpatocka@redhat.com>, "song@kernel.org"
+	<song@kernel.org>, "yukuai@fnnas.com" <yukuai@fnnas.com>, "hch@lst.de"
+	<hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>, "jaegeuk@kernel.org" <jaegeuk@kernel.org>,
+	"chao@kernel.org" <chao@kernel.org>, "cem@kernel.org" <cem@kernel.org>
+CC: "dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
+	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>, Johannes Thumshirn
+	<johannes.thumshirn@wdc.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>, Yongpeng Yang
+	<yangyongpeng@xiaomi.com>
+Subject: Re: [f2fs-dev] [PATCH V3 6/6] xfs: ignore discard return value
+Thread-Topic: [f2fs-dev] [PATCH V3 6/6] xfs: ignore discard return value
+Thread-Index: AQHcXZzYTTMNsQDUtk+Pu9E/Yu2pabUEP+cAgABcPwA=
+Date: Wed, 26 Nov 2025 08:07:21 +0000
+Message-ID: <218f0cd0-61bf-4afa-afb0-a559cd085d4a@nvidia.com>
+References: <20251124234806.75216-1-ckulkarnilinux@gmail.com>
+ <20251124234806.75216-7-ckulkarnilinux@gmail.com>
+ <b18c489f-d6ee-4986-94be-a9aade7d3a47@gmail.com>
+In-Reply-To: <b18c489f-d6ee-4986-94be-a9aade7d3a47@gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250528140517.3284-4-hare@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|DM4PR12MB6351:EE_
+x-ms-office365-filtering-correlation-id: 8187c75d-5d70-4879-8bf9-08de2cc2d330
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|10070799003|38070700021|921020;
+x-microsoft-antispam-message-info: =?utf-8?B?a1VOUjJkUk1QSGY2eS84cjlBNFYvUzZGTDFXcjNKTnRvU0VJWDhsY3RHeVJw?=
+ =?utf-8?B?Um9ZTU5oSVN1VTc2MlJZSFkxMzFpdDREN2ZIY2w1cy9zZDNoVmpSVUpnT1pR?=
+ =?utf-8?B?enArcWlROHlmV21oYUVndXhpUHRTTjRpd3BYSi91REovN3F1cFhOT0RGRC93?=
+ =?utf-8?B?bFlydGpobEw0Lzh1SW9EY3N0SHUwMWd0WTJhcVI0WVRGWkpDUlpvYmVua2ZQ?=
+ =?utf-8?B?TzNPdFVFU29MbzU1ZTBCWW9jYXFJL3lwZ0U0NXNXK1JLbFowcnpORFVMTVA2?=
+ =?utf-8?B?NW43M045cVRaN0U3bURTTk1nZnE3Z3F6SG9HcjVUTnZMZEJVR3diQlBMTldX?=
+ =?utf-8?B?RXVGVzMxdDBSRDZMSnJ4YW1mVmZYWUlQaUtZU0FhdU1lYnllYlRDdG5Sa29k?=
+ =?utf-8?B?UGhBRE5zU1pKOUFKbk1sWi9aNzVWYTVpaXB3Vm1QaVBxaFIxUW9LaEJZSjFY?=
+ =?utf-8?B?eHBGdVhMdjRyRTZ3WmdzSlJTRkQ1QW1IbmJhOEtJdUVWUXE0aHkzWU50WUts?=
+ =?utf-8?B?MTVDci9xL1M4Rk1QODhwakNJdWdxd0VlRFJwLzVXZDdtL1A4YXA2ZXBDR1ly?=
+ =?utf-8?B?UkVPcmZlaXBkc3FyaHRSdXVFaEFGWXJwK0ljRERLcytaanJ2QVNXTnY4Zjdy?=
+ =?utf-8?B?MkVMNVg4ZkNTanBFSmJrR0xIUGtTUE95NlVQRWM2dmVPUmdNN0F0a3JDVXZ2?=
+ =?utf-8?B?Vlh6a1JSbEJWcGtHRE1JNkJNUjd6M3Y0WlA1S2dBU2tOVEdJZ1MvM3dENkQ1?=
+ =?utf-8?B?UkNkRzJ1QWxBOFNGM1NaNU5yREV4UmhwUjhJa1I1UUZ5TWlYRGk5VmpITXZI?=
+ =?utf-8?B?MkkyYW9hOUQrQ0FNMkxHZmYyQWg4VU1iYVo5SjJ6c3JiVFhUb0htR3laYmVk?=
+ =?utf-8?B?S1ExdndwQWJ2WS9mTXlPbDVjQW02MTg2bjVlNWFDRzQ2c0tmbXpaYmU0YkVC?=
+ =?utf-8?B?R0JGeFpxM0hacEYrbkR2bW1rdWZxTzIyWmdjeWxQUG45M2dEckhGT1Y2enM5?=
+ =?utf-8?B?cVBmY1NGVHF3N2tBQWR6dUY3cnpyTVF1a0hiNW5OSlo2K2xyK3VYYW9VL0xJ?=
+ =?utf-8?B?REg2eUgvVUlXY0wwSGtQRVdPNnNFTDFvNm0xTnUxZ2N4eEc4Q3JoUjhKa2c5?=
+ =?utf-8?B?YUY5dzFzWDQwK3lSd2U5UUsza1k2OFMzSXI4c0tpNEczQUFZeVQvdW9IV0lz?=
+ =?utf-8?B?WTZWQ0ZEZm1nRUpxNlY3eEtEbURrQUpTUkhEbThwM2FHT1FmMG9HbzE5ckFF?=
+ =?utf-8?B?NmQwRjRBczl6RG1hTmlKWmNhM2IxMWVZa2hMbW1sQXhUTy90eEdPeG8vRCs0?=
+ =?utf-8?B?NDhNUjlRcHRESUpMWlpVT0V1NHFRWjZnVm9SUmN3T1p2cUhPWTBpbnJOczZo?=
+ =?utf-8?B?Z0FIa2RJdTAxbFk1WU5BeHNyeDlBcWdSQjhSaml0ZnBRVUdDRm04bmQ4TUZz?=
+ =?utf-8?B?Y3ptdytmWDU1dzc4aXA5eFBkNEN5SnhabEovSWRCWEd2M1VTSHljZDd0TUpa?=
+ =?utf-8?B?bjg2Zjg5cThhUFlCbGVHYTF3dGhkMnVDVVZwSzdMRXJoTHozc2FjR3Jld1VB?=
+ =?utf-8?B?TTM4M3d0UFVNdUQ4THk2enVsYXg4OTVqRHB3U0ExR0JVSjMvNEtRdldOL1k4?=
+ =?utf-8?B?NGNxZHV5dG5pZnFESENzVkVyWTJnYmc2eXQxdDRGdkZTMEt4ZFJMNDdJKzJD?=
+ =?utf-8?B?cnFJZHpZQUNpeWM3d1ZhZ3p3eUZQdHJ1SlIwMURoR2xITlo4NWVnU1VuTU56?=
+ =?utf-8?B?RFl3OGg3T1VxdDZSODJGeEsxTjJkSVdvTVlnS0dlbVh5cU95dGM5eU11SjFZ?=
+ =?utf-8?B?ckRHNkpJZGhPdTVHRThuUUVWd0lzWXhuMU5FenRCNk5KWlRhS3h3Z2RjUGpa?=
+ =?utf-8?B?aFQyYUp1OHdQU1JrQlJWaXZDd2NIS1BkM3Z4QkZKeEJMTVBjRFkwT25sb1J4?=
+ =?utf-8?B?OUdPallWbDd6VzRNN0oycE1zVEV6SEd1WkZnNkFCR2dHZ1JoN2I1QSsyMzZ4?=
+ =?utf-8?B?eGRNbU5scXBlZDlBZXBNSGQ5QlBHOWx2QmpjWnB6M3hsTytxQmE5dDFmS01v?=
+ =?utf-8?B?cm04RmtKbXkrMDU5WUs0eG5tQTdKTys3dEp6QT09?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(10070799003)(38070700021)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Mk9tVUNHWCtQdWhObjd1dEVybUwxMFBKTDBuczVQb2J3QXN4WVFjdVdEd1cz?=
+ =?utf-8?B?blNXSDZkMmRpdlA5MDQ5VHEwOHNuOExQVHNFa284eUdJTUE5R2dLckc1VnVk?=
+ =?utf-8?B?YTlMbVExa0VpRFJKSmhvZ0ZpWGxwNUYzYlU3WWN1YUpQcWVGbXRrRHpRdHB5?=
+ =?utf-8?B?VmNpYytIaFJ0eVBrRk1LazNCVllIb0pRNTRZS0FVVFJGeGpRdmd5N2M5VW9s?=
+ =?utf-8?B?UWg0SnlWS0VHM2tuQXZmR0wxNTk0eVJtRVpWZnhZMEtNOFlKWmhjZ1o4blla?=
+ =?utf-8?B?Rjh5UmwzRktVZ2MwT0RWK2Y3eE1ZcUU1RjNWQjA4R2x2QzQwckJ6N0RSK3di?=
+ =?utf-8?B?cG5Ta1RjSURqd0hsRGhjSXZxK3RwSkVpdlU3RkdIMlFNR2I1SXcvSUEwbnFT?=
+ =?utf-8?B?N2tncXBHSzFxUDhhQlg0VUx0cVZybnliNkNGa1dwMW5jaDgwVitmcElHWlRD?=
+ =?utf-8?B?RVplOGtQaFpDdEwvcVV0U0NwMDgxTlQ2clVLMXc2THYrdkJ1YkRCVTNEYXdZ?=
+ =?utf-8?B?bWM5Umwyc0gzcnFxUzVQd2I4WFlMRllPdGhlZ0E0ZmVVWUlMdlZqVklQcy8v?=
+ =?utf-8?B?dWsxWmI1b0RVMWhFL2liWGJDWFVqaUt1aDdtOUkyYWZob0psNTJ4eVM4cFVx?=
+ =?utf-8?B?bDlOY0I3ZnhVcG5zVzBTS1c3VUJOMFFHdUdqZkpwUHlSMlZxNnBRbW5pZDFI?=
+ =?utf-8?B?TENtdTdTMVZkdWdzWnVnMmR4djU4S2tySGhnS0wrbEFOT3UxOEJrVGFhaDlr?=
+ =?utf-8?B?emhZZ3AyYlRqTEFJSDZWaFFyRjZBbUg0QUZEUUEyYXhGMmpBbi92TDFYNTVl?=
+ =?utf-8?B?MklUMDNFb3l0WFhiTlJvVnNTYW1lNDl4SGtaZVdSNlN4eFBYTVhnOVFSNEow?=
+ =?utf-8?B?UHUrTUhBU1RxK0haQmhBMVYzT1hydlRiaEQ3RWVPMlpPWEtCQkRuM3ZybU9m?=
+ =?utf-8?B?aHcyMWVLdDZNT3Fscyt5UG5Fb3N3ZUtrSFlxN0NhOEg5TGNJUmRZZENEWmxy?=
+ =?utf-8?B?QnVabzZtTEJUVy9Id25ZNSt0dTR0b1dYeHdXS1l2MEtJTHhRK2FXMzRRd1JX?=
+ =?utf-8?B?NTZwUng3Nys0UDJPOTViMkhVSzF1YjR2Y3hCb1VWWHVIVnEwbEM3anJrK2tC?=
+ =?utf-8?B?eEZwWTBtajdFZlVYY29rbDUvcHA0MFFFRVlXalJYVnhrbkZpdktIcml3RHFN?=
+ =?utf-8?B?YU5RUEZaVjMzMnlHaC90ZHAwSnpzTWVLdTRGcXFRRHZ0VEZaN0dqUW1YMU9Y?=
+ =?utf-8?B?R3RNaFhoVDRhbWFFdDB5aDRZMkVmbnhRYlZyUC9VUW1WMkU2Nyt0QU1XS2Vs?=
+ =?utf-8?B?SXV4TEdZTFdqYmErM1hMN0ZKTmViUHFuUDRWcGNYUUVFQS9YNU5xcVhNZS93?=
+ =?utf-8?B?NVh3UTRHOE1IR3VIWlBiUk9ncGRIdWNUYU5oUVZrM0VneldRU2ZyWWVXcXFq?=
+ =?utf-8?B?d05zUlF1WDZLVGZDOFJtMFpQVVhoeEkwQVdRNGhpWUc4dFRqWENlTDdHdW1s?=
+ =?utf-8?B?Y2VIVTR4b0VMand2K3FqcjMzRGRGVG9FL1I5VG9oR21nck8vZWJGL1dVRVln?=
+ =?utf-8?B?UFRGUjgyN2JoVkV4QmE5aU5BRUdLdXQ1MCtYUGkzQlA3b09vcnZ3Y21KTEIr?=
+ =?utf-8?B?bkZncWd6YnNiVmxOaDVLM0lMZ2YxZk05OTBJbHpiWnhGN25DYWtoMFlhSVFo?=
+ =?utf-8?B?ZHlPa1NwZEhMZTdzeDNHT21WQ2hPUlk2TWRFbklpQ0ZzRnhkYzFlQWJCOUlF?=
+ =?utf-8?B?dHkzQVR2a1NvSkgzK2laaDJIeWZReVUvSU45Z3I3Q1N1WTE2cmduanFkUWpi?=
+ =?utf-8?B?ZndNbElBYU9lazFYSjZkZ3AzVlF0cmQrUkc4cFVyTFduL0xXVjVlRHdNUVhv?=
+ =?utf-8?B?cXgrS3BxZllkbXBndXNwY3NWWE11ZjlvK0d6S1Bmb2pBUzRaQ2Z2b01mbUMw?=
+ =?utf-8?B?T3NlbFJIK3pyRnlTZjJUNE9NcDhlMmUwL0xTdDgwMTM0VTJLNEFCSWxjaHJB?=
+ =?utf-8?B?SEptS1FBamhwMGJEWXluNVFyMnk3a1F0bzNvT0R3OHBiU2s3d1hYdDVUN1NB?=
+ =?utf-8?B?SWFTVk9DT2VFZTB3YlFWSGdkYkgxUmd0TlNnVThOeGxkdDA2WEpRcTMwVlNE?=
+ =?utf-8?B?VDMwZi9Ia2RQbVN2Rk1MYjVyNEp1TWRzTFhrTW1WSTBxRCtLRFNWTkdiTHpu?=
+ =?utf-8?Q?XWvQaWNwv+iXwJOLOgfdIAfsad+sIJhRPZo+aGQJAsaQ?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ADEF572C73433C49BFC28F83D1794A71@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8187c75d-5d70-4879-8bf9-08de2cc2d330
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2025 08:07:21.1292
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uPFW3SD4bHXMiw5md0S7cZLO46a6HddjGMK+s8zCMV/sZQnxFHV/r+Q3CNk83AXfvNRoDkZY8THa3foNDmh5gw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6351
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251125_235344_943188_634DC432 
-X-CRM114-Status: GOOD (  30.11  )
+X-CRM114-CacheID: sfid-20251126_000728_024319_28AF0243 
+X-CRM114-Status: GOOD (  17.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,472 +196,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 28/05/2025 17:05, Hannes Reinecke wrote:
-> Use the new key type 'dhchap' to store the DH-HMAC-CHAP keys and modify
-> handling function to use 'struct key'. With that we can drop the now
-> unused 'struct nvme_dhchap_key' definitions.
->
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->   drivers/nvme/common/Kconfig |   1 +
->   drivers/nvme/common/auth.c  | 170 ++++++++++++------------------------
->   drivers/nvme/host/Kconfig   |   1 -
->   drivers/nvme/host/auth.c    |  28 +++---
->   drivers/nvme/host/nvme.h    |   4 +-
->   drivers/nvme/host/sysfs.c   |  25 +++---
->   drivers/nvme/target/Kconfig |   1 -
->   drivers/nvme/target/auth.c  |  40 +++++----
->   drivers/nvme/target/nvmet.h |   4 +-
->   include/linux/nvme-auth.h   |  17 +---
->   10 files changed, 113 insertions(+), 178 deletions(-)
->
-> diff --git a/drivers/nvme/common/Kconfig b/drivers/nvme/common/Kconfig
-> index da963e4f3f1f..8a5521c038c5 100644
-> --- a/drivers/nvme/common/Kconfig
-> +++ b/drivers/nvme/common/Kconfig
-> @@ -13,3 +13,4 @@ config NVME_AUTH
->   	select CRYPTO_DH
->   	select CRYPTO_DH_RFC7919_GROUPS
->   	select CRYPTO_HKDF
-> +	select NVME_KEYRING
-> diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-> index 918c92cbd8c5..8c2ccbfb9986 100644
-> --- a/drivers/nvme/common/auth.c
-> +++ b/drivers/nvme/common/auth.c
-> @@ -14,6 +14,8 @@
->   #include <crypto/hkdf.h>
->   #include <linux/nvme.h>
->   #include <linux/nvme-auth.h>
-> +#include <linux/nvme-keyring.h>
-> +#include <keys/user-type.h>
->   
->   #define HKDF_MAX_HASHLEN 64
->   
-> @@ -153,98 +155,28 @@ size_t nvme_auth_hmac_hash_len(u8 hmac_id)
->   }
->   EXPORT_SYMBOL_GPL(nvme_auth_hmac_hash_len);
->   
-> -u32 nvme_auth_key_struct_size(u32 key_len)
-> +struct key *nvme_auth_extract_key(struct key *keyring, const u8 *secret,
-> +				  size_t secret_len)
->   {
-> -	struct nvme_dhchap_key key;
-> +	struct key *key;
->   
-> -	return struct_size(&key, key, key_len);
-> -}
-> -EXPORT_SYMBOL_GPL(nvme_auth_key_struct_size);
-> -
-> -struct nvme_dhchap_key *nvme_auth_extract_key(unsigned char *secret,
-> -					      u8 key_hash)
-> -{
-> -	struct nvme_dhchap_key *key;
-> -	unsigned char *p;
-> -	u32 crc;
-> -	int ret, key_len;
-> -	size_t allocated_len = strlen(secret);
-> -
-> -	/* Secret might be affixed with a ':' */
-> -	p = strrchr(secret, ':');
-> -	if (p)
-> -		allocated_len = p - secret;
-> -	key = nvme_auth_alloc_key(allocated_len, 0);
-> -	if (!key)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	key_len = base64_decode(secret, allocated_len, key->key);
-> -	if (key_len < 0) {
-> -		pr_debug("base64 key decoding error %d\n",
-> -			 key_len);
-> -		ret = key_len;
-> -		goto out_free_secret;
-> -	}
-> -
-> -	if (key_len != 36 && key_len != 52 &&
-> -	    key_len != 68) {
-> -		pr_err("Invalid key len %d\n", key_len);
-> -		ret = -EINVAL;
-> -		goto out_free_secret;
-> -	}
-> -
-> -	/* The last four bytes is the CRC in little-endian format */
-> -	key_len -= 4;
-> -	/*
-> -	 * The linux implementation doesn't do pre- and post-increments,
-> -	 * so we have to do it manually.
-> -	 */
-> -	crc = ~crc32(~0, key->key, key_len);
-> -
-> -	if (get_unaligned_le32(key->key + key_len) != crc) {
-> -		pr_err("key crc mismatch (key %08x, crc %08x)\n",
-> -		       get_unaligned_le32(key->key + key_len), crc);
-> -		ret = -EKEYREJECTED;
-> -		goto out_free_secret;
-> -	}
-> -	key->len = key_len;
-> -	key->hash = key_hash;
-> +	key = nvme_dhchap_psk_refresh(keyring, secret, secret_len);
-> +	if (!IS_ERR(key))
-> +		pr_debug("generated dhchap key %08x\n",
-> +			 key_serial(key));
->   	return key;
-> -out_free_secret:
-> -	nvme_auth_free_key(key);
-> -	return ERR_PTR(ret);
->   }
->   EXPORT_SYMBOL_GPL(nvme_auth_extract_key);
->   
-> -struct nvme_dhchap_key *nvme_auth_alloc_key(u32 len, u8 hash)
-> -{
-> -	u32 num_bytes = nvme_auth_key_struct_size(len);
-> -	struct nvme_dhchap_key *key = kzalloc(num_bytes, GFP_KERNEL);
-> -
-> -	if (key) {
-> -		key->len = len;
-> -		key->hash = hash;
-> -	}
-> -	return key;
-> -}
-> -EXPORT_SYMBOL_GPL(nvme_auth_alloc_key);
-> -
-> -void nvme_auth_free_key(struct nvme_dhchap_key *key)
-> -{
-> -	if (!key)
-> -		return;
-> -	kfree_sensitive(key);
-> -}
-> -EXPORT_SYMBOL_GPL(nvme_auth_free_key);
-> -
-> -int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
-> +int nvme_auth_transform_key(struct key *key, char *nqn,
->   			    u8 **transformed_secret)
->   {
->   	const char *hmac_name;
->   	struct crypto_shash *key_tfm;
->   	SHASH_DESC_ON_STACK(shash, key_tfm);
-> +	long key_len = 0;
->   	u8 *transformed_data;
-> -	u8 *key_data;
-> +	u8 *key_data, key_hash;
->   	size_t transformed_len;
->   	int ret;
->   
-> @@ -252,17 +184,47 @@ int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
->   		pr_warn("No key specified\n");
->   		return -ENOKEY;
->   	}
-> -	key_data = kzalloc(key->len, GFP_KERNEL);
-> -	if (!key_data)
-> +	down_read(&key->sem);
-> +	ret = key_validate(key);
-> +	if (ret) {
-> +		pr_warn("%s: key %08x invalidated\n",
-> +			__func__, key_serial(key));
-> +		up_read(&key->sem);
-> +		return ret;
-> +	}
-> +	key_len = user_read(key, NULL, 0);
-> +	if (key_len <= 0) {
-> +		pr_warn("failed to get length from key %08x: error %ld\n",
-> +			key_serial(key), key_len);
-> +		up_read(&key->sem);
-> +		return key_len;
-> +	}
-> +	key_data = kzalloc(key_len, GFP_KERNEL);
-> +	if (!key_data) {
-> +		up_read(&key->sem);
->   		return -ENOMEM;
-> -	memcpy(key_data, key->key, key->len);
-> -	if (key->hash == 0) {
-> +	}
-> +
-> +	ret = user_read(key, key_data, key_len);
-> +	key_hash = nvme_dhchap_psk_hash(key);
-> +	up_read(&key->sem);
-> +	if (ret != key_len) {
-> +		if (ret < 0) {
-> +			pr_warn("failed to read data from key %08x: error %d\n",
-> +				key_serial(key), ret);
-> +		} else {
-> +			pr_warn("only read %d of %ld bytes from key %08x\n",
-> +				ret, key_len, key_serial(key));
-> +		}
-> +		goto out_free_data;
-> +	}
-> +	if (key_hash == 0) {
->   		*transformed_secret = key_data;
-> -		return key->len;
-> +		return key_len;
->   	}
-> -	hmac_name = nvme_auth_hmac_name(key->hash);
-> +	hmac_name = nvme_auth_hmac_name(key_hash);
->   	if (!hmac_name) {
-> -		pr_warn("Invalid key hash id %d\n", key->hash);
-> +		pr_warn("Invalid key hash id %d\n", key_hash);
->   		ret = -EINVAL;
->   		goto out_free_data;
->   	}
-> @@ -274,9 +236,9 @@ int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
->   	}
->   
->   	transformed_len = crypto_shash_digestsize(key_tfm);
-> -	if (transformed_len != key->len) {
-> +	if (transformed_len != key_len) {
->   		pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
-> -			transformed_len, hmac_name, key->len);
-> +			transformed_len, hmac_name, key_len);
->   		ret = -EINVAL;
->   		goto out_free_tfm;
->   	}
-> @@ -288,7 +250,7 @@ int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
->   	}
->   
->   	shash->tfm = key_tfm;
-> -	ret = crypto_shash_setkey(key_tfm, key->key, key->len);
-> +	ret = crypto_shash_setkey(key_tfm, key_data, key_len);
->   	if (ret < 0)
->   		goto out_free_transformed_data;
->   	ret = crypto_shash_init(shash);
-> @@ -304,8 +266,9 @@ int nvme_auth_transform_key(struct nvme_dhchap_key *key, char *nqn,
->   	if (ret < 0)
->   		goto out_free_transformed_data;
->   
-> -	crypto_free_shash(key_tfm);
->   	*transformed_secret = transformed_data;
-> +	crypto_free_shash(key_tfm);
-> +	kfree(key_data);
->   
->   	return transformed_len;
->   
-> @@ -454,31 +417,6 @@ int nvme_auth_gen_shared_secret(struct crypto_kpp *dh_tfm,
->   }
->   EXPORT_SYMBOL_GPL(nvme_auth_gen_shared_secret);
->   
-> -int nvme_auth_generate_key(u8 *secret, struct nvme_dhchap_key **ret_key)
-> -{
-> -	struct nvme_dhchap_key *key;
-> -	u8 key_hash;
-> -
-> -	if (!secret) {
-> -		*ret_key = NULL;
-> -		return 0;
-> -	}
-> -
-> -	if (sscanf(secret, "DHHC-1:%hhd:%*s:", &key_hash) != 1)
-> -		return -EINVAL;
-> -
-> -	/* Pass in the secret without the 'DHHC-1:XX:' prefix */
-> -	key = nvme_auth_extract_key(secret + 10, key_hash);
-> -	if (IS_ERR(key)) {
-> -		*ret_key = NULL;
-> -		return PTR_ERR(key);
-> -	}
-> -
-> -	*ret_key = key;
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL_GPL(nvme_auth_generate_key);
-> -
->   /**
->    * nvme_auth_generate_psk - Generate a PSK for TLS
->    * @hmac_id: Hash function identifier
-> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-> index 4d64b6935bb9..65a5a5fd82f9 100644
-> --- a/drivers/nvme/host/Kconfig
-> +++ b/drivers/nvme/host/Kconfig
-> @@ -115,7 +115,6 @@ config NVME_HOST_AUTH
->   	bool "NVMe over Fabrics In-Band Authentication in host side"
->   	depends on NVME_CORE
->   	select NVME_AUTH
-> -	select NVME_KEYRING
->   	help
->   	  This provides support for NVMe over Fabrics In-Band Authentication in
->   	  host side.
-> diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-> index 9e7c2e889ee0..c5be0c13e85b 100644
-> --- a/drivers/nvme/host/auth.c
-> +++ b/drivers/nvme/host/auth.c
-> @@ -1068,14 +1068,22 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
->   	INIT_WORK(&ctrl->dhchap_auth_work, nvme_ctrl_auth_work);
->   	if (!ctrl->opts)
->   		return 0;
-> -	ret = nvme_auth_generate_key(ctrl->opts->dhchap_secret,
-> -			&ctrl->host_key);
-> -	if (ret)
-> +	ctrl->host_key = nvme_auth_extract_key(ctrl->opts->keyring,
-> +					       ctrl->opts->dhchap_secret,
-> +					       strlen(ctrl->opts->dhchap_secret));
-
-It is a bit confusing that you replace a generate_key with an 
-extract_key function.
-Can you explain a bit on this?
-
-> +	if (IS_ERR(ctrl->host_key)) {
-> +		ret = PTR_ERR(ctrl->host_key);
-> +		ctrl->host_key = NULL;
->   		return ret;
-> -	ret = nvme_auth_generate_key(ctrl->opts->dhchap_ctrl_secret,
-> -			&ctrl->ctrl_key);
-> -	if (ret)
-> +	}
-> +	ctrl->ctrl_key = nvme_auth_extract_key(ctrl->opts->keyring,
-> +					       ctrl->opts->dhchap_ctrl_secret,
-> +					       strlen(ctrl->opts->dhchap_ctrl_secret));
-> +	if (IS_ERR(ctrl->ctrl_key)) {
-> +		ret = PTR_ERR(ctrl->ctrl_key);
-> +		ctrl->ctrl_key = NULL;
->   		goto err_free_dhchap_secret;
-> +	}
->   
->   	if (!ctrl->opts->dhchap_secret && !ctrl->opts->dhchap_ctrl_secret)
->   		return 0;
-> @@ -1097,10 +1105,10 @@ int nvme_auth_init_ctrl(struct nvme_ctrl *ctrl)
->   
->   	return 0;
->   err_free_dhchap_ctrl_secret:
-> -	nvme_auth_free_key(ctrl->ctrl_key);
-> +	key_put(ctrl->ctrl_key);
->   	ctrl->ctrl_key = NULL;
->   err_free_dhchap_secret:
-> -	nvme_auth_free_key(ctrl->host_key);
-> +	key_put(ctrl->host_key);
->   	ctrl->host_key = NULL;
->   	return ret;
->   }
-> @@ -1122,11 +1130,11 @@ void nvme_auth_free(struct nvme_ctrl *ctrl)
->   		kfree(ctrl->dhchap_ctxs);
->   	}
->   	if (ctrl->host_key) {
-> -		nvme_auth_free_key(ctrl->host_key);
-> +		key_put(ctrl->host_key);
->   		ctrl->host_key = NULL;
->   	}
->   	if (ctrl->ctrl_key) {
-> -		nvme_auth_free_key(ctrl->ctrl_key);
-> +		key_put(ctrl->ctrl_key);
->   		ctrl->ctrl_key = NULL;
->   	}
->   }
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 1de1b843afa5..3dd83a48532a 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -378,8 +378,8 @@ struct nvme_ctrl {
->   	struct work_struct dhchap_auth_work;
->   	struct mutex dhchap_auth_mutex;
->   	struct nvme_dhchap_queue_context *dhchap_ctxs;
-> -	struct nvme_dhchap_key *host_key;
-> -	struct nvme_dhchap_key *ctrl_key;
-> +	struct key *host_key;
-> +	struct key *ctrl_key;
->   	u16 transaction;
->   #endif
->   	key_serial_t tls_pskid;
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index a48d30c31d51..b3b63453df1c 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
-> @@ -596,8 +596,6 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
->   		return -EINVAL;
->   	if (count < 7)
->   		return -EINVAL;
-> -	if (memcmp(buf, "DHHC-1:", 7))
-> -		return -EINVAL;
->   
->   	dhchap_secret = kzalloc(count + 1, GFP_KERNEL);
->   	if (!dhchap_secret)
-> @@ -605,13 +603,12 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
->   	memcpy(dhchap_secret, buf, count);
->   	nvme_auth_stop(ctrl);
->   	if (strcmp(dhchap_secret, opts->dhchap_secret)) {
-> -		struct nvme_dhchap_key *key, *host_key;
-> -		int ret;
-> +		struct key *key, *host_key;
->   
-> -		ret = nvme_auth_generate_key(dhchap_secret, &key);
-> -		if (ret) {
-> +		key = nvme_auth_extract_key(opts->keyring, dhchap_secret, count);
-> +		if (IS_ERR(key)) {
->   			kfree(dhchap_secret);
-> -			return ret;
-> +			return PTR_ERR(key);
->   		}
->   		kfree(opts->dhchap_secret);
->   		opts->dhchap_secret = dhchap_secret;
-> @@ -619,7 +616,7 @@ static ssize_t nvme_ctrl_dhchap_secret_store(struct device *dev,
->   		mutex_lock(&ctrl->dhchap_auth_mutex);
->   		ctrl->host_key = key;
->   		mutex_unlock(&ctrl->dhchap_auth_mutex);
-> -		nvme_auth_free_key(host_key);
-> +		key_put(host_key);
->   	} else
->   		kfree(dhchap_secret);
->   	/* Start re-authentication */
-> @@ -663,13 +660,13 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
->   	memcpy(dhchap_secret, buf, count);
->   	nvme_auth_stop(ctrl);
->   	if (strcmp(dhchap_secret, opts->dhchap_ctrl_secret)) {
-> -		struct nvme_dhchap_key *key, *ctrl_key;
-> -		int ret;
-> +		struct key *key, *ctrl_key;
->   
-> -		ret = nvme_auth_generate_key(dhchap_secret, &key);
-> -		if (ret) {
-> +		key = nvme_auth_extract_key(opts->keyring,
-> +					    dhchap_secret, count);
-> +		if (IS_ERR(key)) {
->   			kfree(dhchap_secret);
-> -			return ret;
-> +			return PTR_ERR(key);
->   		}
->   		kfree(opts->dhchap_ctrl_secret);
->   		opts->dhchap_ctrl_secret = dhchap_secret;
-> @@ -677,7 +674,7 @@ static ssize_t nvme_ctrl_dhchap_ctrl_secret_store(struct device *dev,
->   		mutex_lock(&ctrl->dhchap_auth_mutex);
->   		ctrl->ctrl_key = key;
->   		mutex_unlock(&ctrl->dhchap_auth_mutex);
-> -		nvme_auth_free_key(ctrl_key);
-> +		key_put(ctrl_key);
->   	} else
->   		kfree(dhchap_secret);
->   	/* Start re-authentication */
-> diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-> index 4c253b433bf7..5761bb52c46c 100644
-> --- a/drivers/nvme/target/Kconfig
-> +++ b/drivers/nvme/target/Kconfig
-> @@ -5,7 +5,6 @@ config NVME_TARGET
->   	depends on BLOCK
->   	depends on CONFIGFS_FS
->   	select NVME_KEYRING if NVME_TARGET_TCP_TLS
-> -	select KEYS if NVME_TARGET_TCP_TLS
->   	select SGL_ALLOC
->   	help
->   	  This enabled target side support for the NVMe protocol, that is
-> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-> index c70d9d259a7f..7f87dc39a2de 100644
-> --- a/drivers/nvme/target/auth.c
-> +++ b/drivers/nvme/target/auth.c
-> @@ -145,6 +145,7 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq)
->   	int ret = 0;
->   	struct nvmet_host_link *p;
->   	struct nvmet_host *host = NULL;
-> +	u8 host_hash, ctrl_hash;
->   
->   	down_read(&nvmet_config_sem);
->   	if (nvmet_is_disc_subsys(ctrl->subsys))
-> @@ -190,42 +191,43 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq)
->   		ctrl->shash_id = host->dhchap_hash_id;
->   	}
->   
-> -	/* Skip the 'DHHC-1:XX:' prefix */
-> -	nvme_auth_free_key(ctrl->host_key);
-> -	ctrl->host_key = nvme_auth_extract_key(host->dhchap_secret + 10,
-> -					       host->dhchap_key_hash);
-> +	key_put(ctrl->host_key);
-> +	ctrl->host_key = nvme_auth_extract_key(NULL, host->dhchap_secret,
-> +					       strlen(host->dhchap_secret));
-
-Does extract_key have multiple usages? generation and extraction?
+T24gMTEvMjUvMjUgMTg6MzcsIFlvbmdwZW5nIFlhbmcgd3JvdGU6DQo+PiBkaWZmIC0tZ2l0IGEv
+ZnMveGZzL3hmc19kaXNjYXJkLmMgYi9mcy94ZnMveGZzX2Rpc2NhcmQuYw0KPj4gaW5kZXggNjkx
+N2RlODMyMTkxLi5iNmZmZTQ4MDdhMTEgMTAwNjQ0DQo+PiAtLS0gYS9mcy94ZnMveGZzX2Rpc2Nh
+cmQuYw0KPj4gKysrIGIvZnMveGZzL3hmc19kaXNjYXJkLmMNCj4+IEBAIC0xMDgsNyArMTA4LDcg
+QEAgeGZzX2Rpc2NhcmRfZW5kaW8oDQo+PiDCoMKgICogbGlzdC4gV2UgcGx1ZyBhbmQgY2hhaW4g
+dGhlIGJpb3Mgc28gdGhhdCB3ZSBvbmx5IG5lZWQgYSBzaW5nbGUgDQo+PiBjb21wbGV0aW9uDQo+
+PiDCoMKgICogY2FsbCB0byBjbGVhciBhbGwgdGhlIGJ1c3kgZXh0ZW50cyBvbmNlIHRoZSBkaXNj
+YXJkcyBhcmUgY29tcGxldGUuDQo+PiDCoMKgICovDQo+PiAtaW50DQo+PiArdm9pZA0KPj4gwqAg
+eGZzX2Rpc2NhcmRfZXh0ZW50cygNCj4+IMKgwqDCoMKgwqAgc3RydWN0IHhmc19tb3VudMKgwqDC
+oCAqbXAsDQo+PiDCoMKgwqDCoMKgIHN0cnVjdCB4ZnNfYnVzeV9leHRlbnRzwqDCoMKgICpleHRl
+bnRzKQ0KPj4gQEAgLTExNiw3ICsxMTYsNiBAQCB4ZnNfZGlzY2FyZF9leHRlbnRzKA0KPj4gwqDC
+oMKgwqDCoCBzdHJ1Y3QgeGZzX2V4dGVudF9idXN5wqDCoMKgICpidXN5cDsNCj4+IMKgwqDCoMKg
+wqAgc3RydWN0IGJpb8KgwqDCoMKgwqDCoMKgICpiaW8gPSBOVUxMOw0KPj4gwqDCoMKgwqDCoCBz
+dHJ1Y3QgYmxrX3BsdWfCoMKgwqDCoMKgwqDCoCBwbHVnOw0KPj4gLcKgwqDCoCBpbnTCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGVycm9yID0gMDsNCj4+IMKgIMKgwqDCoMKgwqAgYmxrX3N0YXJ0X3Bs
+dWcoJnBsdWcpOw0KPj4gwqDCoMKgwqDCoCBsaXN0X2Zvcl9lYWNoX2VudHJ5KGJ1c3lwLCAmZXh0
+ZW50cy0+ZXh0ZW50X2xpc3QsIGxpc3QpIHsNCj4+IEBAIC0xMjYsMTggKzEyNSwxMCBAQCB4ZnNf
+ZGlzY2FyZF9leHRlbnRzKA0KPj4gwqAgwqDCoMKgwqDCoMKgwqDCoMKgIHRyYWNlX3hmc19kaXNj
+YXJkX2V4dGVudCh4ZywgYnVzeXAtPmJubywgYnVzeXAtPmxlbmd0aCk7DQo+PiDCoCAtwqDCoMKg
+wqDCoMKgwqAgZXJyb3IgPSBfX2Jsa2Rldl9pc3N1ZV9kaXNjYXJkKGJ0cC0+YnRfYmRldiwNCj4+
+ICvCoMKgwqDCoMKgwqDCoCBfX2Jsa2Rldl9pc3N1ZV9kaXNjYXJkKGJ0cC0+YnRfYmRldiwNCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgeGZzX2dibm9fdG9fZGFkZHIoeGcs
+IGJ1c3lwLT5ibm8pLA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBYRlNf
+RlNCX1RPX0JCKG1wLCBidXN5cC0+bGVuZ3RoKSwNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgR0ZQX0tFUk5FTCwgJmJpbyk7DQo+DQo+IElmIGJsa19hbGxvY19kaXNjYXJk
+X2JpbygpIGZhaWxzIHRvIGFsbG9jYXRlIGEgYmlvIGluc2lkZQ0KPiBfX2Jsa2Rldl9pc3N1ZV9k
+aXNjYXJkKCksIHRoaXMgbWF5IGxlYWQgdG8gYW4gaW52YWxpZCBsb29wIGluDQo+IGxpc3RfZm9y
+X2VhY2hfZW50cnl7fS4gSW5zdGVhZCBvZiB1c2luZyBfX2Jsa2Rldl9pc3N1ZV9kaXNjYXJkKCks
+IGhvdw0KPiBhYm91dCBhbGxvY2F0ZSBhbmQgc3VibWl0IHRoZSBkaXNjYXJkIGJpb3MgZXhwbGlj
+aXRseSBpbg0KPiBsaXN0X2Zvcl9lYWNoX2VudHJ5e30/DQo+DQo+IFlvbmdwZW5nLA0KDQoNCkNh
+bGxpbmcgX19ibGtkZXZfaXNzdWVfZGlzY2FyZCgpIGtlZXBzIG1hbmFnaW5nIGFsbCB0aGUgYmlv
+IHdpdGggdGhlDQphcHByb3ByaWF0ZSBHRlAgbWFzaywgc28gdGhlIHNlbWFudGljcyBzdGF5IHRo
+ZSBzYW1lLiBZb3UgYXJlIGp1c3QNCm1vdmluZyBtZW1vcnkgYWxsb2NhdGlvbiB0byB0aGUgY2Fs
+bGVyIGFuZCBwb3RlbnRpYWxseSBsb29raW5nIGF0DQppbXBsZW1lbnRpbmcgcmV0cnkgb24gYmlv
+IGFsbG9jYXRpb24gZmFpbHVyZS4NCg0KVGhlIHJldHJ5IGZvciBkaXNjYXJkIGJpbyBtZW1vcnkg
+YWxsb2NhdGlvbiBpcyBub3QgZGVzaXJlZCBJIHRoaW5rLA0Kc2luY2UgaXQncyBvbmx5IGEgaGlu
+dCB0byB0aGUgY29udHJvbGxlci4NCg0KVGhpcyBwYXRjaCBpcyBzaW1wbHkgY2xlYW5pbmcgdXAg
+ZGVhZCBlcnJvci1oYW5kbGluZyBicmFuY2hlcyBhdCB0aGUNCmNhbGxlcnMgbm8gYmVoYXZpb3Jh
+bCBjaGFuZ2VzIGludGVuZGVkLg0KDQpXaGF0IG1heWJlIHVzZWZ1bCBpcyB0byBzdG9wIGl0ZXJh
+dGluZyBvbmNlIHdlIGZhaWwgdG8gYWxsb2NhdGUgdGhlDQpiaW8gWzFdLg0KDQotY2sNCg0KWzFd
+IFBvdGVudGlhbCBhZGRpdGlvbiBvbiB0aGUgdG9wIG9mIHRoaXMgdG8gZXhpdCBlYXJseSBpbiBk
+aXNjYXJkIGxvb3ANCiAgICAgb24gYmlvIGFsbG9jYXRpb24gZmFpbHVyZS4NCg0KZGlmZiAtLWdp
+dCBhL2ZzL3hmcy94ZnNfZGlzY2FyZC5jIGIvZnMveGZzL3hmc19kaXNjYXJkLmMNCmluZGV4IGI2
+ZmZlNDgwN2ExMS4uMTUxOWY3MDhiYjc5IDEwMDY0NA0KLS0tIGEvZnMveGZzL3hmc19kaXNjYXJk
+LmMNCisrKyBiL2ZzL3hmcy94ZnNfZGlzY2FyZC5jDQpAQCAtMTI5LDYgKzEyOSwxMyBAQCB4ZnNf
+ZGlzY2FyZF9leHRlbnRzKA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgeGZzX2di
+bm9fdG9fZGFkZHIoeGcsIGJ1c3lwLT5ibm8pLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgWEZTX0ZTQl9UT19CQihtcCwgYnVzeXAtPmxlbmd0aCksDQogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBHRlBfS0VSTkVMLCAmYmlvKTsNCisgICAgICAgICAgICAgICAvKg0K
+KyAgICAgICAgICAgICAgICAqIFdlIGZhaWxlZCB0byBhbGxvY2F0ZSBiaW8gaW5zdGVhZCBvZiBj
+b250aW51aW5nIHRoZSBsb29wDQorICAgICAgICAgICAgICAgICogc28gaXQgd2lsbCBsZWFkIHRv
+IGluY29uc2lzdGVudCBkaXNjYXJkcyB0byB0aGUgZGlzaw0KKyAgICAgICAgICAgICAgICAqIGV4
+aXQgZWFybHkgYW5kIGp1bXAgaW50byB4ZnNfZGlzY2FyZF9idXN5X2NsZWFyKCkuDQorICAgICAg
+ICAgICAgICAgICovDQorICAgICAgICAgICAgICAgaWYgKCFiaW8pDQorICAgICAgICAgICAgICAg
+ICAgICAgICBicmVhazsNCiAgICAgICAgIH0NCiAgDQogICAgICAgICBpZiAoYmlvKSB7DQoNCklm
+IHdlIGtlZXAgbG9vcGluZyBhZnRlciB0aGUgZmlyc3QgYmlvID09IE5VTEwsIHRoZSByZXN0IG9m
+IHRoZSByYW5nZSBpcw0KZ3VhcmFudGVlZCB0byBiZSBpbmNvbnNpc3RlbnQgYW55d2F5cywgYmVj
+YXVzZSBldmVyeSBzdWJzZXF1ZW50IGl0ZXJhdGlvbg0Kd2lsbCBmYWxsIGludG8gb25lIG9mIHRo
+cmVlIGNhc2VzOg0KDQotIFRoZSBhbGxvY2F0b3Iga2VlcHMgcmV0dXJuaW5nIE5VTEwsIHNvIG5v
+bmUgb2YgdGhlIHJlbWFpbmluZyBMQkFzIHJlY2VpdmUNCiAgIGRpc2NhcmQuDQotIFJlc3Qgb2Yg
+dGhlIGFsbG9jYXRvciBzdWNjZWVkcywgYnV0IHdl4oCZdmUgYWxyZWFkeSBza2lwcGVkIGEgY2h1
+bmssIGxlYXZpbmcNCiAgIGEgaG9sZSBpbiB0aGUgZGlzY2FyZCByYW5nZS4NCi0gV2UgZ2V0IGlu
+dGVybWl0dGVudCBzdWNjZXNzZXMsIHdoaWNoIHByb2R1Y2VzIGFsdGVybmF0aW5nIGNodW5rcyBv
+Zg0KICAgZGlzY2FyZGVkIGFuZCB1bmRpc2NhcmRlZCBibG9ja3MuDQoNCkluIGVhY2ggb2YgdGhv
+c2Ugc2NlbmFyaW9zLCB0aGUgZGlzayBlbmRzIHVwIHdpdGggYSBwYXJ0aWFsbHkgZGlzY2FyZGVk
+DQpyYW5nZSwgc28gdGhlIGNvcnJlY3QgZml4IGlzIHRvIGJyZWFrIG91dCBvZiB0aGUgbG9vcCBp
+bW1lZGlhdGVseSBhbmQNCnByb2NlZWQgdG8geGZzX2Rpc2NhcmRfYnVzeV9jbGVhcigpIG9uY2Ug
+dGhlIHZlcnkgZmlyc3QgYWxsb2NhdGlvbiBmYWlscy4NCg0KDQoNCg==
 
