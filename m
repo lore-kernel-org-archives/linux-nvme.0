@@ -4,79 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8869CFD2F6
-	for <linux-nvme@archiver.kernel.org>; Thu, 27 Nov 2025 15:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B33DCD116F6
+	for <linux-nvme@archiver.kernel.org>; Thu, 27 Nov 2025 18:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Or+hOooxS4SFn2ETCxdT77BmFRIW+dZi7o2KBfzpbfo=; b=LyPb6AizH6vmok4axL3xvvgdZl
-	5vqxOn2DYZXt3Ds0t2OWqIuSlsK746ZaKnUTDiic/IlkFJ61iyEaCtVoHsiYoEcIXT6jIV/hyUbbl
-	jrQmaumiejNpNrbVEhqLAxqd8IdFd2/lQYfYooEUtKft398RYWtOvm3oUeGZ6DUrggxEXWGlhG2C9
-	7lvB1JAoQGnNIIFLKE6J+VoDADn/SXWxZd6O7k/D//aKE/jmyz4RnPkdpDwS2NC3sO9Y+Ln1CVgHe
-	FkOGuTRx6Nd02zIQ97BvDk6ihxNPRNBSHPQfXdl+BF6dbMqTQbfKDtAGXYqcf7tPr/o4QHD6PhANA
-	slwEAbug==;
+	bh=UXwOJqPQn7tI1KgWPuA2BrBC2jrBW1HxngC1Xi1a91I=; b=fvLWgDkQC8DdkxSGfrHKFLmGdL
+	XYRmVZcH2lTNkuwe5yrLfRiCQHcOCZ6ivk7T589qa8N/GDzod27weW52Jj6b4Nd3suzlQ2aWTn+p4
+	5QQ9gT+PrbbLO65TgDvhp+MEj9lw2VhWoNwk3BT0unOhfMSOXKynbbmLYJvT0ELbiHDa8EO0C8G8Y
+	oP5JYOBtJllxpaV/FzW9f9BNQ/WYjqPwVnoqdcWzYRTsS3H25YbwKzjEupBGj2OwbvzSJppBOcb1R
+	S638/tJ0mvhEAJT43gbVp/2p2E01jjXLOMap86b0S2OvPlw4uvZ87TxNtUlw7zYJBhT+ND9xCQCqP
+	bMVxoN1g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOeKV-0000000GsR1-3j6O;
-	Thu, 27 Nov 2025 15:54:47 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vOgLX-0000000H2kn-3ecV;
+	Thu, 27 Nov 2025 18:03:59 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOeKT-0000000GsOI-0BYI
+	id 1vOgLR-0000000H2kH-34Qz
 	for linux-nvme@lists.infradead.org;
-	Thu, 27 Nov 2025 15:54:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764258884;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	Thu, 27 Nov 2025 18:03:54 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E9A23336A4;
+	Thu, 27 Nov 2025 18:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764266632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Or+hOooxS4SFn2ETCxdT77BmFRIW+dZi7o2KBfzpbfo=;
-	b=Czc1qiKq8lt5p8GQvHa3ZlrSxTo05f+UZ9oAw6AAk8YkVLMBKB4rfO/GURfZByYsjgzxUq
-	/SjEue0sSOM2+gBSPLjKa/PI3oF+TYAGcupOFpA6cdXdZUQsWZWp4udp1bOHF/KUIY1Adm
-	I9ifEkdrYl1zQgGm+fo3+Ud5hwRcBMA=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-59-jbZUp9cMNLmpgzKEOzE8Kw-1; Thu,
- 27 Nov 2025 10:54:38 -0500
-X-MC-Unique: jbZUp9cMNLmpgzKEOzE8Kw-1
-X-Mimecast-MFC-AGG-ID: jbZUp9cMNLmpgzKEOzE8Kw_1764258875
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	bh=UXwOJqPQn7tI1KgWPuA2BrBC2jrBW1HxngC1Xi1a91I=;
+	b=mQi2lsqh49h6oESXXOAmMchwCcvTGOaqPhGefxY1VXOWHqV3ZOa7ZPoz++rgeEU8nweFqY
+	Ohzo1aFNxFthLYyB/ZiisFZvL8Xetd9WG2IFscr9YA4qcszHc42Dh32b+Ru1VjK57dN3eb
+	aHqu1uKKfrjhNVitLqbJf118D08xfYY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764266632;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UXwOJqPQn7tI1KgWPuA2BrBC2jrBW1HxngC1Xi1a91I=;
+	b=JImYMuvYdKON4oiSf/wJxQ6gUJ34OLb5icpD9AekipxqnZyMqM+Hld71rnwAToJJgzBxsz
+	thk5AALAGdXLtcDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764266631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UXwOJqPQn7tI1KgWPuA2BrBC2jrBW1HxngC1Xi1a91I=;
+	b=ZJg3kSoCn20Hr4CNrS49ssji512WmJLHCX/RuUJWGL4JjpWqKqjoDDTZBYGSCNBz539QKY
+	4dhcd5lhU3u5BAFGTAgBrdWYNWXliOqUvwZPLZEKHhxCs8Bjhje9+2lltHoKxNotjS6cMR
+	NywImEGgiEv75/Er6HYPI0ZNvDrzKHM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764266631;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UXwOJqPQn7tI1KgWPuA2BrBC2jrBW1HxngC1Xi1a91I=;
+	b=fUi6AXHsPl8Gf5n9ra0dzrJz5N3bY89LF/LDJ5umaV3nbGJRPOVGSa9MnGQKnZ+vnGdlh8
+	Ppl9VkI5IPTuXVDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1A7E61800342;
-	Thu, 27 Nov 2025 15:54:35 +0000 (UTC)
-Received: from localhost (unknown [10.2.16.53])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 737531800451;
-	Thu, 27 Nov 2025 15:54:34 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: linux-block@vger.kernel.org
-Cc: Keith Busch <kbusch@kernel.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-kernel@vger.kernel.org,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Mike Christie <michael.christie@oracle.com>,
-	linux-nvme@lists.infradead.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-scsi@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v2 3/4] block: add IOC_PR_READ_KEYS ioctl
-Date: Thu, 27 Nov 2025 10:54:23 -0500
-Message-ID: <20251127155424.617569-4-stefanha@redhat.com>
-In-Reply-To: <20251127155424.617569-1-stefanha@redhat.com>
-References: <20251127155424.617569-1-stefanha@redhat.com>
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81C593EA63;
+	Thu, 27 Nov 2025 18:03:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RH4QHoeSKGnhXgAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 27 Nov 2025 18:03:51 +0000
+Message-ID: <4eb8b77a-6553-42ec-ab85-a1cddb7d8f23@suse.de>
+Date: Thu, 27 Nov 2025 19:03:51 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] scsi: sd: reject invalid pr_read_keys() num_keys
+ values
+To: Stefan Hajnoczi <stefanha@redhat.com>, linux-block@vger.kernel.org
+Cc: Keith Busch <kbusch@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-kernel@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Christoph Hellwig <hch@lst.de>, Mike Christie <michael.christie@oracle.com>,
+ linux-nvme@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+ linux-scsi@vger.kernel.org, Sagi Grimberg <sagi@grimberg.me>
+References: <20251127155424.617569-1-stefanha@redhat.com>
+ <20251127155424.617569-2-stefanha@redhat.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251127155424.617569-2-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251127_075445_162945_C3BF9865 
-X-CRM114-Status: GOOD (  18.22  )
+X-CRM114-CacheID: sfid-20251127_100353_916343_BA1197AF 
+X-CRM114-Status: GOOD (  10.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,131 +138,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a Persistent Reservations ioctl to read the list of currently
-registered reservation keys. This calls the pr_ops->read_keys() function
-that was previously added in commit c787f1baa503 ("block: Add PR
-callouts for read keys and reservation") but was only used by the
-in-kernel SCSI target so far.
+On 11/27/25 16:54, Stefan Hajnoczi wrote:
+> The pr_read_keys() interface has a u32 num_keys parameter. The SCSI
+> PERSISTENT RESERVE IN command has a maximum READ KEYS service action
+> size of 65536 bytes. Reject num_keys values that are too large to fit
+> into the SCSI command.
+> 
+> This will become important when pr_read_keys() is exposed to untrusted
+> userspace via an <linux/pr.h> ioctl.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   drivers/scsi/sd.c | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-The IOC_PR_READ_KEYS ioctl is necessary so that userspace applications
-that rely on Persistent Reservations ioctls have a way of inspecting the
-current state. Cluster managers and validation tests need this
-functionality.
+Cheers,
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/uapi/linux/pr.h |  7 +++++
- block/ioctl.c           | 59 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
-
-diff --git a/include/uapi/linux/pr.h b/include/uapi/linux/pr.h
-index d8126415966f3..fcb74eab92c80 100644
---- a/include/uapi/linux/pr.h
-+++ b/include/uapi/linux/pr.h
-@@ -56,6 +56,12 @@ struct pr_clear {
- 	__u32	__pad;
- };
- 
-+struct pr_read_keys {
-+	__u32	generation;
-+	__u32	num_keys;
-+	__u64	keys_ptr;
-+};
-+
- #define PR_FL_IGNORE_KEY	(1 << 0)	/* ignore existing key */
- 
- #define IOC_PR_REGISTER		_IOW('p', 200, struct pr_registration)
-@@ -64,5 +70,6 @@ struct pr_clear {
- #define IOC_PR_PREEMPT		_IOW('p', 203, struct pr_preempt)
- #define IOC_PR_PREEMPT_ABORT	_IOW('p', 204, struct pr_preempt)
- #define IOC_PR_CLEAR		_IOW('p', 205, struct pr_clear)
-+#define IOC_PR_READ_KEYS	_IOWR('p', 206, struct pr_read_keys)
- 
- #endif /* _UAPI_PR_H */
-diff --git a/block/ioctl.c b/block/ioctl.c
-index d7489a56b33c3..63b942392b234 100644
---- a/block/ioctl.c
-+++ b/block/ioctl.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <linux/capability.h>
-+#include <linux/cleanup.h>
- #include <linux/compat.h>
- #include <linux/blkdev.h>
- #include <linux/export.h>
-@@ -423,6 +424,62 @@ static int blkdev_pr_clear(struct block_device *bdev, blk_mode_t mode,
- 	return ops->pr_clear(bdev, c.key);
- }
- 
-+static int blkdev_pr_read_keys(struct block_device *bdev, blk_mode_t mode,
-+		struct pr_read_keys __user *arg)
-+{
-+	const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
-+	struct pr_keys *keys_info __free(kfree) = NULL;
-+	struct pr_read_keys inout;
-+	u64 __user *keys_ptr;
-+	size_t keys_info_len;
-+	size_t keys_copy_len;
-+	u32 num_copy_keys;
-+	int ret;
-+
-+	if (!blkdev_pr_allowed(bdev, mode))
-+		return -EPERM;
-+	if (!ops || !ops->pr_read_keys)
-+		return -EOPNOTSUPP;
-+
-+	if (copy_from_user(&inout, arg, sizeof(inout)))
-+		return -EFAULT;
-+
-+	/*
-+	 * 64-bit hosts could handle more keys than 32-bit hosts, but this
-+	 * limit is more than enough in practice.
-+	 */
-+	if (inout.num_keys > (U32_MAX - sizeof(*keys_info)) /
-+	                     sizeof(keys_info->keys[0]))
-+		return -EINVAL;
-+
-+	keys_info_len = struct_size(keys_info, keys, inout.num_keys);
-+	keys_info = kzalloc(keys_info_len, GFP_KERNEL);
-+	if (!keys_info)
-+		return -ENOMEM;
-+
-+	keys_info->num_keys = inout.num_keys;
-+
-+	ret = ops->pr_read_keys(bdev, keys_info);
-+	if (ret)
-+		return ret;
-+
-+	/* Copy out individual keys */
-+	keys_ptr = u64_to_user_ptr(inout.keys_ptr);
-+	num_copy_keys = min(inout.num_keys, keys_info->num_keys);
-+	keys_copy_len = num_copy_keys * sizeof(keys_info->keys[0]);
-+
-+	if (copy_to_user(keys_ptr, keys_info->keys, keys_copy_len))
-+		return -EFAULT;
-+
-+	/* Copy out the arg struct */
-+	inout.generation = keys_info->generation;
-+	inout.num_keys = keys_info->num_keys;
-+
-+	if (copy_to_user(arg, &inout, sizeof(inout)))
-+		return -EFAULT;
-+	return ret;
-+}
-+
- static int blkdev_flushbuf(struct block_device *bdev, unsigned cmd,
- 		unsigned long arg)
- {
-@@ -644,6 +701,8 @@ static int blkdev_common_ioctl(struct block_device *bdev, blk_mode_t mode,
- 		return blkdev_pr_preempt(bdev, mode, argp, true);
- 	case IOC_PR_CLEAR:
- 		return blkdev_pr_clear(bdev, mode, argp);
-+	case IOC_PR_READ_KEYS:
-+		return blkdev_pr_read_keys(bdev, mode, argp);
- 	default:
- 		return blk_get_meta_cap(bdev, cmd, argp);
- 	}
+Hannes
 -- 
-2.52.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
