@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E71DD116EA
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Nov 2025 08:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CB0DCFD376
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Nov 2025 08:32:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dYdGxu8+S3la90e5ilLAk2WHMl9XT2MOPAJKSPmhLP4=; b=z24P6FSjXXgjWBbPFHzPy9GhEm
-	pxVOQRD1hYM2kLwxYSVKdFFuTAP7DoEuoTCj7oidp03YzfxZTvsaEUKkgKkT7KiW/odfbA0Idi4Uq
-	Nbu2bGGpeZ/ZYmGPhqVsiznEb7BUI+0X/Ezt6FvgVwwwat2KA+wNs4pMtMzvXO1xvPAsdIcYKadQZ
-	QO15RWmixgtjV+y50qt0JFk90gC7+Ox7un0b0ljrVVgKGZUOhhxCFdblXsx3ZWhSIkEjHeH3PLVK4
-	Up4WVNUTepIRlJpZVtwSRvidGY4u3fbUi1935DjzmHJ2+40neTwoh2zrWU3XpwBn++Mi4nmHyl23I
-	vPuegWbQ==;
+	bh=3B+NwUppxNtx5dO3GeNOAlGv3QVGc2Q+cteUdMRhiTw=; b=Jf4DPXx1KUlO++9sMBFRm/odTb
+	qPC5QhrmnEy1xRqMFFsuuAyfGt013gRFtUQJ46vzSh+sb4IlRvccdJTVpvVbC/iBfnwzguAHhBOyx
+	6eKywHTUxx3dCCL62+RSvhUVeaU+6XlXIh9WiNfWKSGtX9LAQz8M6SmmM4kM5mqEs+d973MS30RLk
+	gd/KDbqA7yZAA76aeXunaF+RdlnkPSroIJqpJYVjzKCM+W7eQxgR9uZY53iG9POujrHj44jnObTu4
+	cOTRB07r26P+k0nBpGyGooOU3H+s0VYnrKqqM/4mWj+MW9uFNxcRY2sGgteOBIHfIrd0Vd8Ws8FK6
+	CLouzvLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOtuM-000000009IP-3sGv;
-	Fri, 28 Nov 2025 08:32:50 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1vOtuS-000000009KZ-0x6p;
+	Fri, 28 Nov 2025 08:32:56 +0000
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOtuK-000000009Hg-35U0
+	id 1vOtuQ-000000009Je-05GQ
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Nov 2025 08:32:49 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-298145fe27eso25864525ad.1
-        for <linux-nvme@lists.infradead.org>; Fri, 28 Nov 2025 00:32:48 -0800 (PST)
+	Fri, 28 Nov 2025 08:32:55 +0000
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7b86e0d9615so1899082b3a.0
+        for <linux-nvme@lists.infradead.org>; Fri, 28 Nov 2025 00:32:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764318768; x=1764923568; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1764318773; x=1764923573; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dYdGxu8+S3la90e5ilLAk2WHMl9XT2MOPAJKSPmhLP4=;
-        b=dYp32dDSrOvbf0ydj/+imweIafZi+I7bptNX7/AjPnC/n70x3O3C8C85NrDF7OUmAJ
-         Bv3dr65t7SprHWGiGEXKu5aEZkUabU4gxYsGKNls1P8Emq1MqDC8DEXUMeFrpHoYzkY7
-         8jQP6daEYFhBTnYIMkp7y2VXQWmsJqtbYQ4V6GEh/mkIzkMqVoQEE/ln4+vcMwsEZ3UN
-         4fmbd23RdMaxFJ8V3+Rj0PGEABCjeC6KPLrlBqx7LfTZKQ8bRBwnXW0A4/mdeyqin2/r
-         4xIEktOwOu9riLcaFsjXKip4ef0pCLYXMdpaUkBpexTMyzthHALfv5E3pf0oKY0nqwhG
-         QbgQ==
+        bh=3B+NwUppxNtx5dO3GeNOAlGv3QVGc2Q+cteUdMRhiTw=;
+        b=j/OR6rxuNCoYWzBu4jEuZHga6ZHsuExqSvXg+ZYxWFbvxBctV6+UKiTBjxL1JtIvuH
+         3gBqQY6YjWcKuGPxWZgyK+9TlSulTxEJ/w4RP2P3n00yup1eGBUGajuVJ5am/8loTF/2
+         UPtsl/7IERvFfd7lQctqcTIG3TyXUGxkVwAuG+rSGw35IPXWiISFuMcDMR6RXpX9qkLp
+         MBsBt6sSvn3SxpO8ZX4DbSFt8AEtTRoHynnrcqSgFmrX7FTSDpsV+6W+LsvVBxMztnJx
+         vkfWVlkQH3Ehy0Kv7bLexHBFGdcLg9kZUH1ddfrFeEYribd//0oECKrkETqmZL7sLXMI
+         mI/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764318768; x=1764923568;
+        d=1e100.net; s=20230601; t=1764318773; x=1764923573;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dYdGxu8+S3la90e5ilLAk2WHMl9XT2MOPAJKSPmhLP4=;
-        b=P35sz8tjs58r3oVnGI8NeTEa8UMOPP1ySfA8yf72P4QKenshUHmBaFo49R1va/0fyt
-         PbZEROaVDOGzKrGsFqTC2YEdZSnfAfclo0APS006APUKfVe58F1c3u9G0L2punlAZp6+
-         LQExtM33OJyrBvRbHY7koLODjTzDHrl0SOrKrZoWq9Fe8D0ik1dwhXipZUrP7rFOmOR+
-         RKBK95fBGPlFlH2JRRIglnTP7p41/P/UAgLhIClDZ0ieV2gIix0EorgyBKnaOxTdiVh6
-         zslQ79nOLmlnbD3BSkZm5cfTYgvsXi/TLE+nkOSQCZ3oV74iHnV83E2/SqEZN0gKUouc
-         VJFA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTgafag8d1Dc2qc7ZZuixVXx0L+tiE+cHsE/RJnN9yi0/et25v7QuHCaF6iW/e671/iyMdEVp0beAE@lists.infradead.org
-X-Gm-Message-State: AOJu0YxSG6gpa9LiTDKf4/9E3vFUa5PZ9QJRbx+XUSjWVnqz3QRUBR1u
-	NlPzYq/FqYY7vgl6yw/3DyVwRjHACYQsg7WonGR7mdzCjCkIXDv9LPKkLccicApr
-X-Gm-Gg: ASbGnctxwEdIK2O0ejveXv93qcXSpejyODtwK87hrbS/BmAt43H3LZFj5AcagXTL97J
-	UNQNOQxH2Kvh1K36Mfa40zb3n1bYrQn0XyyO0h5Ny5FKg1ij4+r4cGelpg8IBVEkK6BXFwvmAg+
-	vvUKFfk6IiVk9/5dv36HuPfrHsT+iUHcix/TTrXSrDpJjWq96uxYVLA5neZ5wN4pN2wb9gPCHlu
-	gQ5szb1sw++0ucUyNflQr8Af21MgMfP3QfMir5Io2t6jmv4w+EborFjz8I1Z/QS1urI1HKEKPHg
-	ICzL0N7vm2HlCgLBUTVn51xYOek38kSnEHZilKOBFHDAc2BIdqhnB7lF6EmrAYArdz6YXT9W/pZ
-	1/RBPyu3yr+T5/dNdS9zmLh+AZOtt5ggQ+ZrL+U913Du9iBvsMrUhyDFTdamfn+bP/Hx+SWJdVK
-	hozDn5LN370N1FfT1GlHq0D+4AFA==
-X-Google-Smtp-Source: AGHT+IExXZt7YE3nF+952Md7MiVvxMbDW7G+yswwYtoDXLwvootnd7yuttY35MGv7RVbIjqP5duRMQ==
-X-Received: by 2002:a05:7022:670e:b0:11b:a73b:233b with SMTP id a92af1059eb24-11cb68354b6mr8088695c88.28.1764318767897;
-        Fri, 28 Nov 2025 00:32:47 -0800 (PST)
+        bh=3B+NwUppxNtx5dO3GeNOAlGv3QVGc2Q+cteUdMRhiTw=;
+        b=NRNPLMeLudeeWY3VLstcAwzyZfLV0nCiyPEjNafLJ6kRwqLQOMXYuZ9q4MMZQWIuRb
+         F7dHHxDPgyAWAS8qcSIOp/JLhxT45LqM0KOP51kFYEYbahmDAqxpqlMfyfC/eMHmxvDM
+         0d3Q3Jx27xGSH8jW9WmoLuzQeteja38CYBgcEINs0YcPDX1ZyzJcrZ0WJmWvj+3esRqQ
+         a+sOIkK/mWJfbG50McYohvIR5MHUvjP4tdRnisCW1s9Y9cgKWGuxSleM4VayFcDfvpnM
+         XscXI3YNWQ1mOYLX7+RtIQF9NA4pMSnsYot2c2ljgsJF3on8sIAp0rgefUiOkvALUtOZ
+         BATQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXc9jr4hCXxPs7UECk67oLlpCaYTLu8W22Ymog7TKBYl4hzRDBHBmNrTOu7Umcsf0h0bBpkla1t+hfQ@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyqe76GYt32XF6JQ12PxWGd4u+UryE1B0PztNpi2UczRq2SZHOe
+	Urp77O+p9wruLiWDFCZr8dQfL2dqlVfUjKQoZigReb7IJJZNW2amd1Zo
+X-Gm-Gg: ASbGnct5RaOnagNuBcVxoiBQm2FpNp43cexC/zJfrHVgJJOnKpDVqqYxBPZ4l9kS93H
+	lBH+0AURHIU4LVRQGzCDc28lSRn7XtZkeqolhzPfIZX+oTCPfDncfNP+LambgBegBAiuT3AXszN
+	a7fVhWU3CMix7C8YYoV5VxW4ZyMTffYFJngcnCl9EIbBbhTb3fJUDeo2IGRJcvxSfGFNuflNEV2
+	Evpaf+EUDZA/Vf7VPfaZkxE5E6xpbUK0onEFtbzBNDwAJ47RG4JGAKqcF465Uw7CZyqIC3Ka2ky
+	KlKwew5yBeffwlKevtz6noNRcrN38o8/V83C/I0kPEX+x5QwJiLGhGausQukHThDgzzzkN/JzKr
+	jumVxfc9shPyTPplIi002PWC3J5MYohnmrqfArl0ZgMDY/VdlAEvjZAtALbUQLPXTfu+8ogfxC2
+	zE2S3QiaSt2aVBAQCYOwj1eK4mXw==
+X-Google-Smtp-Source: AGHT+IExpRIXm/rx9JSaduyyoo433z0edlCZgYRCixn+2l+uiE9AooEQRv+QW8QlPPxN5lYcC0yJLw==
+X-Received: by 2002:a05:7022:2390:b0:11b:2de8:6271 with SMTP id a92af1059eb24-11c9d8635bcmr22508225c88.39.1764318773026;
+        Fri, 28 Nov 2025 00:32:53 -0800 (PST)
 Received: from localhost.localdomain ([104.128.72.44])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcaed5f6bsm20941371c88.1.2025.11.28.00.32.43
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcaed5f6bsm20941371c88.1.2025.11.28.00.32.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 00:32:47 -0800 (PST)
+        Fri, 28 Nov 2025 00:32:52 -0800 (PST)
 From: zhangshida <starzhangzsd@gmail.com>
 X-Google-Original-From: zhangshida <zhangshida@kylinos.cn>
 To: Johannes.Thumshirn@wdc.com,
@@ -87,19 +87,18 @@ Cc: linux-block@vger.kernel.org,
 	linux-xfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	zhangshida@kylinos.cn,
-	starzhangzsd@gmail.com,
-	Andreas Gruenbacher <agruenba@redhat.com>
-Subject: [PATCH v2 02/12] block: prevent race condition on bi_status in __bio_chain_endio
-Date: Fri, 28 Nov 2025 16:32:09 +0800
-Message-Id: <20251128083219.2332407-3-zhangshida@kylinos.cn>
+	starzhangzsd@gmail.com
+Subject: [PATCH v2 03/12] md: bcache: fix improper use of bi_end_io
+Date: Fri, 28 Nov 2025 16:32:10 +0800
+Message-Id: <20251128083219.2332407-4-zhangshida@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20251128083219.2332407-1-zhangshida@kylinos.cn>
 References: <20251128083219.2332407-1-zhangshida@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251128_003248_777876_CD0F58E1 
-X-CRM114-Status: GOOD (  12.67  )
+X-CRM114-CacheID: sfid-20251128_003254_067390_310C7751 
+X-CRM114-Status: GOOD (  11.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,39 +115,45 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Shida Zhang <zhangshida@kylinos.cn>
 
-Andreas point out that multiple completions can race setting
-bi_status.
+Don't call bio->bi_end_io() directly. Use the bio_endio() helper
+function instead, which handles completion more safely and uniformly.
 
-The check (parent->bi_status) and the subsequent write are not an
-atomic operation. The value of parent->bi_status could have changed
-between the time you read it for the if check and the time you write
-to it. So we use cmpxchg to fix the race, as suggested by Christoph.
-
-Suggested-by: Andreas Gruenbacher <agruenba@redhat.com>
 Suggested-by: Christoph Hellwig <hch@infradead.org>
 Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
 ---
- block/bio.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/md/bcache/request.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index 55c2c1a0020..aa43435c15f 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -313,9 +313,12 @@ EXPORT_SYMBOL(bio_reset);
- static struct bio *__bio_chain_endio(struct bio *bio)
- {
- 	struct bio *parent = bio->bi_private;
-+	blk_status_t *status = &parent->bi_status;
-+	blk_status_t new_status = bio->bi_status;
-+
-+	if (new_status != BLK_STS_OK)
-+		cmpxchg(status, BLK_STS_OK, new_status);
+diff --git a/drivers/md/bcache/request.c b/drivers/md/bcache/request.c
+index af345dc6fde..82fdea7dea7 100644
+--- a/drivers/md/bcache/request.c
++++ b/drivers/md/bcache/request.c
+@@ -1104,7 +1104,7 @@ static void detached_dev_end_io(struct bio *bio)
+ 	}
  
--	if (bio->bi_status && !parent->bi_status)
--		parent->bi_status = bio->bi_status;
- 	bio_put(bio);
- 	return parent;
+ 	kfree(ddip);
+-	bio->bi_end_io(bio);
++	bio_endio(bio);
+ }
+ 
+ static void detached_dev_do_request(struct bcache_device *d, struct bio *bio,
+@@ -1121,7 +1121,7 @@ static void detached_dev_do_request(struct bcache_device *d, struct bio *bio,
+ 	ddip = kzalloc(sizeof(struct detached_dev_io_private), GFP_NOIO);
+ 	if (!ddip) {
+ 		bio->bi_status = BLK_STS_RESOURCE;
+-		bio->bi_end_io(bio);
++		bio_endio(bio);
+ 		return;
+ 	}
+ 
+@@ -1136,7 +1136,7 @@ static void detached_dev_do_request(struct bcache_device *d, struct bio *bio,
+ 
+ 	if ((bio_op(bio) == REQ_OP_DISCARD) &&
+ 	    !bdev_max_discard_sectors(dc->bdev))
+-		bio->bi_end_io(bio);
++		detached_dev_end_io(bio);
+ 	else
+ 		submit_bio_noacct(bio);
  }
 -- 
 2.34.1
