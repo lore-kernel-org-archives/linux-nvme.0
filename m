@@ -4,90 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00CE9D116EA
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Nov 2025 06:27:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DD97CFD376
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Nov 2025 08:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rNBX+tdFCi976CT3NTPOtFudKzRzrB7upXknWDTBPfs=; b=o4bggI3ZBD/hOIHaGbc1bPInly
-	ImStsdF7XlCkZ5/1xTG2XQgX5Ay3XSlmQ0L94ZKeYba7lIY7uGckgXVOdlY7vjnoHZmpDAuw6FgCo
-	vJblwVCD818U19tvwQzHnWyoObNZHexAk2fxjOOL3ZDyodLQrQmkwDc+Pa7YZgy/eug20NfwXZyNK
-	60v9brprwkQ/SHIApdEeZRXNNL7XTjAnG0/O4DpeGAmesoUxOhxGorfjO7OuloaVApVxxDByP0Xe1
-	dDjBRjU86MnRF5vN+TysSXKJ+HaV05RKgTUD4lnh2IIGUiPWsuZlUchM/pSm04Os519vuayRCWrNv
-	EwdmJLjg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=NqrU9sAvwHlZJQNnImTr6s/wIfO8kcl//WUqMA/q7Cw=; b=DTW/TUYoYsX5J6XzCwWKp31hmx
+	R/OlKh8nI5yCqWrxm1qRU+VGMFJS8AJ6mCQd+HknXomnrSbo4+YQqRggEnRtU29Jm+B0DIO7w89im
+	TjqCr7CfD6KasI47mCUff1D19ec957Y7vOg4H/ROF/2BLYI2PWZeZRJJnfKoau1LEDtSZvXo6Wt9s
+	z2GcEfo/I30Q/4kE3o56+ZqeROXvB+AMTS/KTz/DCg1Ko7w+D0VHzrRyeSp07h1yUbu/NlsHrDZm/
+	O7Tx8Fx7CfvS7HULmgbjP041+/Z4Ef5PNbw4QMlmRJ2cYjmYxdHlM9a6kYxIqHu7NYJYUtZb25Owm
+	fIuLImSA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOrwy-000000002Gh-0bYX;
-	Fri, 28 Nov 2025 06:27:24 +0000
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
+	id 1vOtuD-000000009Fh-1GvU;
+	Fri, 28 Nov 2025 08:32:41 +0000
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOrwv-000000002GE-2py8
+	id 1vOtuB-000000009FJ-0AGv
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Nov 2025 06:27:23 +0000
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-4ed82e82f0fso12808051cf.1
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Nov 2025 22:27:21 -0800 (PST)
+	Fri, 28 Nov 2025 08:32:40 +0000
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-7ba55660769so1359354b3a.1
+        for <linux-nvme@lists.infradead.org>; Fri, 28 Nov 2025 00:32:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764311240; x=1764916040; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rNBX+tdFCi976CT3NTPOtFudKzRzrB7upXknWDTBPfs=;
-        b=AP+XrUdbLuAyW0Ddb000o1MrvGZJkH1prna8jascv4WzpiruRh7576sOTQ9VJLO8gf
-         HEVz0EamWtwfWTUiIZAkEPfwRC4vS1vzoYR66reAf07/LXQLgvUbz7MODxfQJqk+TQnH
-         NJeBDjW6bo1bHU2XyxqBkFpDzMCLTQPVyyaXQYe2UjD5hzDHq/Ym0Pa39wjKqtNgCtEp
-         epJCYhViMAE4v0+SjiZBmGL16VROtkPqG4HAbNe6p4pReYW0hJIEGUqLAyvybaTSq2hO
-         AjKMgYsEVHJdT7PFWDv+R0A2CkgX8kprSy2Zt14/BgUon0uy9CIXSrRPwdB6lajqsVub
-         OUtg==
+        d=gmail.com; s=20230601; t=1764318758; x=1764923558; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NqrU9sAvwHlZJQNnImTr6s/wIfO8kcl//WUqMA/q7Cw=;
+        b=Heaujz7ToMhvRq1TA7rzHuyKsUnnP4COMaXYzVdlq7vsw+W8pM+bctOLlnunEPCJA3
+         duNpQLJQgzawOLs1YZ/KVPWmdZGyDWGt1q1x3YdIWzom276wfTShfaDWXr5FwvP5CyW0
+         7+PpcPN3cgoXl4Yi8XMmAH5+t2425AjNBpV05AfwA2oCNBGu2vf86c8tToJHCgyWmkLk
+         WD4674ImkjyTk+0gYOiI7Ok7VDzx7xRwbd9NChtVCU7++Noox9nHdissoke78UrYFCE7
+         xEM9vqSLb7qVlNr96M2RPPd0w/NBET+UTwMZP33/vz+79WgkVTZ784gTWQgl/+3/dFoR
+         BzAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764311240; x=1764916040;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rNBX+tdFCi976CT3NTPOtFudKzRzrB7upXknWDTBPfs=;
-        b=SnMyhc9FZU2f1D22JWICBiBXxT5VpTcWku00O2pEsUDckeGZwX8af5SbzfvctWKjN/
-         D72eORpUlMS9MoQfvrRUMmeW7rBP6cSBtdcm+P67InIzSbCJVn6N39lhJ8pkyNkeQ3jo
-         oVtOZcHHFVGsacaOvZTW2pcr7VzI5NgL22rNUS2C1X9SgCjgh2Oq6aX8VS1H90yAUqdy
-         oOvG2E8+4ce1wV36yHZYe4yP9xGLTyY9xBONBIwN3/wrQlSGOya3nNC7vrD6OBLyPFNv
-         uyd38i9HqSzCHh6fRJD+tw2fE1nN19E9/3VqiRtmlbZbKdKzE2FUJSL76QYLqaTrck0o
-         N0IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhBsqyuscoSfQPez3V2dLvPgPAQvuG1F1J5+rtELj+qWJTreLG6d2P+ZGc0gNQ3UMllHllgfSpHrRD@lists.infradead.org
-X-Gm-Message-State: AOJu0YwhjV+dmtrVof8xVktK4oV9oNzugeFGxaSZnUVe7/H2F3q03wYt
-	NkJ8p+IzVMx3qrUkgEwT6AVjiuJ51apyWJAn0H8lpWPhC1hrVc5iEDS++6guu+GDy5YjTMERr13
-	PH5XvLmZmqjyh2T7JNpFiz7ynZCrhbjY=
-X-Gm-Gg: ASbGncthRlZ61a7u2nYms0Jp6xXVjVcXtX9Ratu3SnTJ+5jLFu7F7m3jkS5zUqOj9MC
-	P+T9ox8XEsgV85QUd83/7+4vb+TwBPT6xo1o/qKnz+SMk1WyhwKYYMFbfKZiEFc6vi9W6W6bQcF
-	eOmyAqRepRxpxFvGonYoObea/SL8+sYhLdVP8/iYb2hWgpTj4Zw+3LrmlgTGlOk/WAi35NQfvsS
-	+zvFtpdmdmh3DUojLKP8YmXtolYC7xJuNsKaagaMwNvX0zBk0V17M9pC0J4va4WNRA5y68=
-X-Google-Smtp-Source: AGHT+IHqoxxME/wZYacFTCZmpyvjYqen8b7+sN/d+VbUoZE5rC4JPn9P+8N4Y6c+biawDbsHSmqE9yp/CsWDMeNGoss=
-X-Received: by 2002:a05:622a:3d4:b0:4ed:43ae:85f6 with SMTP id
- d75a77b69052e-4ee58911262mr343758661cf.47.1764311240290; Thu, 27 Nov 2025
- 22:27:20 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764318758; x=1764923558;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NqrU9sAvwHlZJQNnImTr6s/wIfO8kcl//WUqMA/q7Cw=;
+        b=Hw1K1KgCqoKPKuiVe+es1R4dwhBvv1qlIxtygdrah9HCjYA9Y4ypC5ayMyel9NH1qP
+         L5/0eLvHGdq9oeQJz7DI+SoxgUUSUq5ooYSmMX+2SfDI56oyRD7oYoA4+Pmo7PJweuq8
+         n+fJ5JwxzsUIyFpyYZVKzsBZeSOig7fLmn+g2pTe1YTp0uyQb7oCvKLW1ZfvGbJNx/Zd
+         XyfbqoSpzkCNfldyJFWb96Qmpf8GOprBKZRIRSXtSj33Y7cGsWMk660un8TaozJQkLvl
+         D3+3QpJBDR8733cc3he4kEbt+zAi/JZc+fXCCeBKQhGurecJiSeTDJqJFHbafCC7lg2y
+         jgHw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4TyYl7sMaM4h4VidxtvVN5+tShXABrdJsrf4e75yNDTUThfpRA6hZsti+aeiKCweBK+ttFV9xHcX9@lists.infradead.org
+X-Gm-Message-State: AOJu0YzahdAcbJWo3EHs9oDCBBQo+G2gE0sT0c9jpyzocQOhNJkYH48m
+	MOo2gXr4cE/L5Dbv6iWjbgPIxQO7ZLyImWwxozKg8nXnXMDw8UPrbL7B
+X-Gm-Gg: ASbGncvPDEFvbwivBHom9KqIOsdrRTgphkwT6K20QfGbJH9mPU2HpWgFiO3H8ca/3UP
+	kwJS7kv7K/WLZSLkK+mX4xf0PN1AQDexVwJaBny0RzqVQxPDpIZWnHRDWlnddHqGOyofbDxA6Wh
+	slCtB4PvfOf9csF1iCZX6zL9YsXbF364a3SIS+Cs7q2tpELnZChHV8Rm4ssGJ09KY5JwgMbsscH
+	1G5MzNGZI3HaHP6zlaLWywuSMHD4WAwbkWHbchBecUG4HWyre+a2jDM3gq1OPnz1nSWcWa/mVVo
+	hO6es1V6sIGwSsjOEnYf9dSJvADJG5jcmq9633PtPfeTKSuOJNLEXOb9g28KaeNpIYB97mq9laK
+	geqPcKhx/0S6DcOVgvZSHa/j6kjuIrs3N/AYxhfBWh+bNKRfLO6UMCRDWPwJZJqI7CawfrSgt2f
+	YnJ3uBwP/PnsFKazAnI/kkABwplQ==
+X-Google-Smtp-Source: AGHT+IHdakmTE4ccsFNQ1yLU+VXJurH34ar1nC0le8zm5bpThSihG4vDxPqEawqzf6sYQkBphfQIBA==
+X-Received: by 2002:a05:7022:ebc2:b0:11a:e610:ee32 with SMTP id a92af1059eb24-11c9d85f282mr16086363c88.25.1764318757636;
+        Fri, 28 Nov 2025 00:32:37 -0800 (PST)
+Received: from localhost.localdomain ([104.128.72.44])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcaed5f6bsm20941371c88.1.2025.11.28.00.32.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 00:32:37 -0800 (PST)
+From: zhangshida <starzhangzsd@gmail.com>
+X-Google-Original-From: zhangshida <zhangshida@kylinos.cn>
+To: Johannes.Thumshirn@wdc.com,
+	hch@infradead.org,
+	gruenba@redhat.com,
+	ming.lei@redhat.com,
+	siangkao@linux.alibaba.com
+Cc: linux-block@vger.kernel.org,
+	linux-bcache@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	gfs2@lists.linux.dev,
+	ntfs3@lists.linux.dev,
+	linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zhangshida@kylinos.cn,
+	starzhangzsd@gmail.com
+Subject: [PATCH v2 00/12] Fix bio chain related issues
+Date: Fri, 28 Nov 2025 16:32:07 +0800
+Message-Id: <20251128083219.2332407-1-zhangshida@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
- <20251121081748.1443507-2-zhangshida@kylinos.cn> <aSA_dTktkC85K39o@infradead.org>
- <CAHc6FU7NpnmbOGZB8Z7VwOBoZLm8jZkcAk_2yPANy9=DYS67-A@mail.gmail.com>
- <CANubcdXzxPuh9wweeW0yjprsQRZuBWmJwnEBcihqtvk6n7b=bQ@mail.gmail.com> <aSk5QFHzCwz97Xqw@infradead.org>
-In-Reply-To: <aSk5QFHzCwz97Xqw@infradead.org>
-From: Stephen Zhang <starzhangzsd@gmail.com>
-Date: Fri, 28 Nov 2025 14:26:44 +0800
-X-Gm-Features: AWmQ_blfmVuM70WOWxBT6SLO-nBFz1VQq0RiOHlp-O6KawgJbGDwoH1nduOeubA
-Message-ID: <CANubcdVTwitvE8ZP2BRtW28u8ZYBvdobxxXQgDSRWP_FbS1Wmg@mail.gmail.com>
-Subject: Re: [PATCH 1/9] block: fix data loss and stale date exposure problems
- during append write
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
-	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	zhangshida@kylinos.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251127_222721_740055_82FF9751 
-X-CRM114-Status: GOOD (  13.08  )
+X-CRM114-CacheID: sfid-20251128_003239_083202_8E4F2016 
+X-CRM114-Status: UNSURE (   9.01  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,28 +111,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph Hellwig <hch@infradead.org> =E4=BA=8E2025=E5=B9=B411=E6=9C=8828=
-=E6=97=A5=E5=91=A8=E4=BA=94 13:55=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, Nov 28, 2025 at 11:22:49AM +0800, Stephen Zhang wrote:
-> > Therefore, we could potentially change it to::
-> >
-> >         if (bio->bi_status && !READ_ONCE(parent->bi_status))
-> >                 parent->bi_status =3D bio->bi_status;
-> >
-> > But as you mentioned, the check might not be critical here. So ultimate=
-ly,
-> > we can simplify it to:
-> >
-> >         if (bio->bi_status)
-> >                 parent->bi_status =3D bio->bi_status;
->
-> It might make sense to just use cmpxchg.  See btrfs_bio_end_io as an
-> example (although it is operating on the btrfs_bio structure)
->
+From: Shida Zhang <zhangshida@kylinos.cn>
 
-Thanks for the suggestion! I learned something new today.
+Hi all,
 
-Thanks,
-Shida
+While investigating another problem [mentioned in v1], we identified
+some buggy code in the bio chain handling logic. This series addresses
+those issues and performs related code cleanup.
+
+Patches 1-4 fix incorrect usage of bio_chain_endio().
+Patches 5-12 clean up repetitive code patterns in bio chain handling.
+
+v2:
+- Added fix for bcache.
+- Added BUG_ON() in bio_chain_endio().
+- Enhanced commit messages for each patch
+
+v1:
+https://lore.kernel.org/all/20251121081748.1443507-1-zhangshida@kylinos.cn/
+
+
+Shida Zhang (12):
+  block: fix incorrect logic in bio_chain_endio
+  block: prevent race condition on bi_status in __bio_chain_endio
+  md: bcache: fix improper use of bi_end_io
+  block: prohibit calls to bio_chain_endio
+  block: export bio_chain_and_submit
+  gfs2: Replace the repetitive bio chaining code patterns
+  xfs: Replace the repetitive bio chaining code patterns
+  block: Replace the repetitive bio chaining code patterns
+  fs/ntfs3: Replace the repetitive bio chaining code patterns
+  zram: Replace the repetitive bio chaining code patterns
+  nvdimm: Replace the repetitive bio chaining code patterns
+  nvmet: use bio_chain_and_submit to simplify bio chaining
+
+ block/bio.c                       | 15 ++++++++++++---
+ drivers/block/zram/zram_drv.c     |  3 +--
+ drivers/md/bcache/request.c       |  6 +++---
+ drivers/nvdimm/nd_virtio.c        |  3 +--
+ drivers/nvme/target/io-cmd-bdev.c |  3 +--
+ fs/gfs2/lops.c                    |  3 +--
+ fs/ntfs3/fsntfs.c                 | 12 ++----------
+ fs/squashfs/block.c               |  3 +--
+ fs/xfs/xfs_bio_io.c               |  3 +--
+ fs/xfs/xfs_buf.c                  |  3 +--
+ fs/xfs/xfs_log.c                  |  3 +--
+ 11 files changed, 25 insertions(+), 32 deletions(-)
+
+-- 
+2.34.1
+
 
