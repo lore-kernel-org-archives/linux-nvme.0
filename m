@@ -4,82 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D091D111A8
-	for <linux-nvme@archiver.kernel.org>; Fri, 28 Nov 2025 01:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE5DDD116F1
+	for <linux-nvme@archiver.kernel.org>; Fri, 28 Nov 2025 03:23:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OCmoVsJTYhvhdEhqnCuQdxLwDfWSRN4iQRhiwDtzkSM=; b=PUoXhR4cwaOSH+wSo15RKb10Og
-	4I2BHxlyCeoc/xNo94oz7QqImobyYWz88j4/mBXdGPteaSgTsrX4udxwhv4GSFTxTn7dtoIoEDhIf
-	0Prb7QVHCZ3etnFcYE8CIIB/P2GLlDtB6rTL7IokOqxn3cDQCh4A5vKRVcEczd4eZoQIr2Dva2Gqf
-	YrQH4LwdVfWsmmBL41rh4r4tiUaYPkxs+N3GXcC1jsTVVs7dX6n5+0tvWA7pt733ZP0DSOKiScNKr
-	vIFXjGsS0gm+3iRIYYvSQMpXHymACGSozmpNPRTcDkV/z4iysYK5/s28G06XvyobfZ0KqbTCRcODW
-	S1hIiwDQ==;
+	bh=QO8NwmkkI9mg0Fvr/iDdQ4VLLlyo+WunqlauIGsbobw=; b=geebjydA/zGO5+m3zl3pY4Gg8v
+	XJ645/d92gvQbTptKuP8wavdI2SkTVc3OF/uE7OfAEzxedUvdYxQsPFi/BFG09oympx4+kYrfUunk
+	cHTJkU3mbWGC8e5lcWSPMV6ak3jkPDIBv4Dwl1LEpPwC1FYDWOKYPhQY/MwfJQmcsK1I+8uW5kpGG
+	dm+LpQbT5GmNEcVu7X0cxx5nGqHnKquVZ+mxyM/jGCbRliVjZVT5JlOmw26ZR7DSAvsppfonqMMpa
+	K8JgFXzf/2h42ct2T7zq9ooWitsRerhBIR378jDcyuqd6CMAZvUinCFOToBO34j+63q6WMuGFBB81
+	JNFzhgig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOnMg-0000000HOva-30HH;
-	Fri, 28 Nov 2025 01:33:38 +0000
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29])
+	id 1vOp4z-0000000HWCm-1cWD;
+	Fri, 28 Nov 2025 03:23:29 +0000
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOnMd-0000000HOvB-1w4n
+	id 1vOp4x-0000000HWCR-1Abh
 	for linux-nvme@lists.infradead.org;
-	Fri, 28 Nov 2025 01:33:36 +0000
-Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-880503ab181so13584266d6.2
-        for <linux-nvme@lists.infradead.org>; Thu, 27 Nov 2025 17:33:35 -0800 (PST)
+	Fri, 28 Nov 2025 03:23:28 +0000
+Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-4ed6882991aso10961761cf.1
+        for <linux-nvme@lists.infradead.org>; Thu, 27 Nov 2025 19:23:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764293614; x=1764898414; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1764300206; x=1764905006; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OCmoVsJTYhvhdEhqnCuQdxLwDfWSRN4iQRhiwDtzkSM=;
-        b=IhxbLVWlxIATWCAWUHZ9aDv3UzKB6Qt5M9nZpaIQC6kACHJoWDLwUrklWzGPin1cXg
-         0o7v3Doqe8WZQ0jQZ/vq3hiFPGAqXy9U+hggLaLNpzcpD0CxeYoNKiCp/n2L+gIdYcfk
-         Lzj2SWeR1QVJXDnUToC7SUYarWUUVFKqydsYyjWEJ0SblAcddHB9HW+sjG5/Z95sdzvm
-         Tow5o/fvN4pqMfHPuFovKDBIrzvHcQrTd8HItc1r678ZA/XBe655qHwffDb8FhJS1jog
-         CrcY/3NEYBJSx+d/+NxUImSVGd2z08m/7Xpt7Xyxrig4uVBvPC2/e9HYA8JhjYuBXwi7
-         BtUw==
+        bh=QO8NwmkkI9mg0Fvr/iDdQ4VLLlyo+WunqlauIGsbobw=;
+        b=ErePFuQsaEIEieZT/JCtepRWZti3cnjZ0BOUcL8lUq/5JCc4r7oDw4b42a632o1H0B
+         2He52IbF/rKE5tRzIsWan6u5Bz95wM1iVYW7DLTqBf4h9ntF15Xj6JPmFJiXfpHAydIf
+         X/QUOqE9w6nEXBdvEgWO3Ke3vsf53cbbpXIBjwL5VCVgsL4VXf0BVJd6HArfz1cEgqTg
+         btCs9AKcrp1XiBK5+U60G8/yh7w2Z0a6Pf+o9y5m/AB3/vHq13Oo9Ot7Voz+xwintIJs
+         ElS1eFSkNer8a1i+i0SAEuc8lSClEhP6uanw87Ul3icPEcUCHE1K8ctNUVVjikHYHjb+
+         KKCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764293614; x=1764898414;
+        d=1e100.net; s=20230601; t=1764300206; x=1764905006;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=OCmoVsJTYhvhdEhqnCuQdxLwDfWSRN4iQRhiwDtzkSM=;
-        b=m0EHzpfg2SljoejtsJTpSGCXNjDtvb3Lrs4ib1NcNlkfLgJ2SSkLNm4n7b0ZpY88P3
-         8bINFZ5Vec8iGb9JaMulCfdtdr2W1dVokey20xvinLGYN9vYz2Jx6aLj4bX6Vef0G+Sc
-         t9hCiPXQACflGa9qe5YoJ1PHXu52rbdYOR1AwaNHcbUP/sg2ofz2DyItWpLL0NmA2pAq
-         1cPg35fuZk4gs09Kz9rTVKr/CZIhUmbXTRJYgsGTzdf0rz+QkRoH6ftZzyw3W9wn0yix
-         UjP5B+98DzIimC0dXUDqPESmMRrQRaaz2yJcksqtI1zpZpgL1jL46tnuYJMGQE4LPDcD
-         jo5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWicm4lrmKbwMo6/z9zPWuRwYD01lATEnxtBBLjCtCNciJwil7APrZkcMzvOvUwcLYlISunrWLlmCMG@lists.infradead.org
-X-Gm-Message-State: AOJu0YxJsJihSugRJfU9EM4FU19hswqHTbQKrX4iWiCQ/Zdu6nsnrnza
-	SfAUM//8wSH0TDS6972NbpUePlW2hYz41LrZjJ7ZcMr+uDd0XgYd9RjVNOepr4wkS3Tmerpq+gj
-	Guazhl2sSCLRj4y+PL6qI8qVBMwUyXCE=
-X-Gm-Gg: ASbGncuCPLPcuIjCmFcQmPWswr2gAkXXL6yGo6g/bPaNrnv5TSO8V7VEpDzewJ++CAo
-	uNAa67AZvnifRTYMyK0aqlYgKuRYdJwC1z2elaG6kWWW54VED3ASBHmiW6JM7kYnfe7LzERa/yP
-	rm6hpaXo4sBXtcJ72Hf1lfQ4NyBLYnvmANNiuMqAzQP3U6L2zCR5L3b5t4Tj7oXPfKpZU9dJyIM
-	glHfzUT4yXfcF81kjkVJDcaDQzkKRfPt7POZPfwXeW9CFM0HMUjK11kAxSKQlHlY4tG6Gg=
-X-Google-Smtp-Source: AGHT+IE6nrHo52NkC3u4arv+NV93c/YfHBRAs+svXfCqzbJAogT20JAMk+GOCyu5yn5XMiOUt3k5WhNEc+/7Yy6kmls=
-X-Received: by 2002:a05:622a:1a13:b0:4ec:ef6e:585 with SMTP id
- d75a77b69052e-4ee5894f748mr348305511cf.73.1764293614202; Thu, 27 Nov 2025
- 17:33:34 -0800 (PST)
+        bh=QO8NwmkkI9mg0Fvr/iDdQ4VLLlyo+WunqlauIGsbobw=;
+        b=owyuQnobfj+F9WZsUC9iKN+VY0/6MBAP6ln65qoTRLgyXbtNnnL9NNIUl6HvqjzE5I
+         scCA/cHp+2kYkaCAfKX24uuHAd6PfZijXY9gftHmBIEdLnCGdq7688JjwR4+8R1wjUnN
+         oXwPLSRybYvvlYsj2s/ACOReiHF1GqbA9iONCKO81IkAP1WvxnXKnpJX1lEmXNbG6KaB
+         OtMrAqZ3IlORc0ltF5T+lgvy089EzBQXisb/Hl2adqxyQFrYq5bAXq3QjkkA3KwaSt5I
+         IDQq6JyfSCFMyiSR3JZExzEALzQfkgQD6/ACW8J0L0vFqnkKshsFqvbraCnSxNkTl4pC
+         0P5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWtkOKEwkrnwVNiLPJA9vK+gTmPNqR8LTaQhXHqdSItIwJKImxYKoB85dsIXyhY5klqrIA3J1pVnHAT@lists.infradead.org
+X-Gm-Message-State: AOJu0YyJcXAg6AQ8ojq9aGT812kHd1otaAQuKo+RmS+COdOdD0KT9Y6h
+	a3P9QNS0PXyaySI+jWIF1VjrvA3zjZs3sI65YafsH7MajJdrhVppVk+TtH8AvzZSqO1GU1AutWU
+	XQgxKi6MEGUxrUXQDjAS9xxQQbVJuews=
+X-Gm-Gg: ASbGncvBgMsB8ctTTGutYqNh3iFqvUpyH6ww9smkXIZJfh5OFtH39cWbFpW5wMas5A+
+	hW4NKf8+nXE1qqy+YgotYmYbsxJEmlU/+WZZzJWdoHhORJPVmUW+Nv7nR0oOWXQf+LoyOeoNOzz
+	3FC+HgSFCtpcRSkCCkaqb/R8VoTPHnlxC3DvNywmKks9qAPAMvOkp9BoLss5/YdM8nE/n6FckPa
+	UfFIh2tqTHNAdMVk24IlOHOBxzowduY0Fz7nBnFc2xP621plfUgdxl1yhU39jO6lyEonDk=
+X-Google-Smtp-Source: AGHT+IG9mqJdVZgQj3BVyXnihjqxo6smpev5tsviBeKxWgS8ADskcY34A+TMMILps/HKlL0xyNYCt0kJ8fD8XQas0U8=
+X-Received: by 2002:ac8:5e4c:0:b0:4ed:a6b0:5c14 with SMTP id
+ d75a77b69052e-4ee4b54fd07mr426909921cf.23.1764300205954; Thu, 27 Nov 2025
+ 19:23:25 -0800 (PST)
 MIME-Version: 1.0
 References: <20251121081748.1443507-1-zhangshida@kylinos.cn>
- <aSBA4xc9WgxkVIUh@infradead.org> <CANubcdVjXbKc88G6gzHAoJCwwxxHUYTzexqH+GaWAhEVrwr6Dg@mail.gmail.com>
- <aSP5svsQfFe8x8Fb@infradead.org> <CANubcdVgeov2fhcgDLwOmqW1BNDmD392havRRQ7Jz5P26+8HrQ@mail.gmail.com>
- <aSf6T6z6f2YqQRPH@infradead.org> <3a29b0d8-f13d-4566-8643-18580a859af7@linux.alibaba.com>
- <aShkWxt9Yfa7YiSe@infradead.org>
-In-Reply-To: <aShkWxt9Yfa7YiSe@infradead.org>
+ <20251121081748.1443507-2-zhangshida@kylinos.cn> <aSA_dTktkC85K39o@infradead.org>
+ <CAHc6FU7NpnmbOGZB8Z7VwOBoZLm8jZkcAk_2yPANy9=DYS67-A@mail.gmail.com>
+In-Reply-To: <CAHc6FU7NpnmbOGZB8Z7VwOBoZLm8jZkcAk_2yPANy9=DYS67-A@mail.gmail.com>
 From: Stephen Zhang <starzhangzsd@gmail.com>
-Date: Fri, 28 Nov 2025 09:32:58 +0800
-X-Gm-Features: AWmQ_bnqkcJ2TfUO_Hy5DulnmQrOor9Eq1r7gxzBzqTjOKvbRCKHxxHaYPQTzc0
-Message-ID: <CANubcdWh0zZpOqhBhWtKf0uN1+8Ec-RsHiSCQUFrqYXoux2-TA@mail.gmail.com>
-Subject: Re: Fix potential data loss and corruption due to Incorrect BIO Chain Handling
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, linux-kernel@vger.kernel.org, 
+Date: Fri, 28 Nov 2025 11:22:49 +0800
+X-Gm-Features: AWmQ_blj83ISfyC32dpt8HHM0xujFYlidvaYOqxvcTwKucopW11tVoED-TPviuI
+Message-ID: <CANubcdXzxPuh9wweeW0yjprsQRZuBWmJwnEBcihqtvk6n7b=bQ@mail.gmail.com>
+Subject: Re: [PATCH 1/9] block: fix data loss and stale date exposure problems
+ during append write
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org, 
 	linux-block@vger.kernel.org, nvdimm@lists.linux.dev, 
 	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
 	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
@@ -87,8 +85,8 @@ Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, Ming Lei <ming.lei@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251127_173335_500718_62679D0F 
-X-CRM114-Status: GOOD (  10.75  )
+X-CRM114-CacheID: sfid-20251127_192327_349599_4016F19B 
+X-CRM114-Status: GOOD (  25.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,25 +101,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Christoph Hellwig <hch@infradead.org> =E4=BA=8E2025=E5=B9=B411=E6=9C=8827=
-=E6=97=A5=E5=91=A8=E5=9B=9B 22:46=E5=86=99=E9=81=93=EF=BC=9A
+Andreas Gruenbacher <agruenba@redhat.com> =E4=BA=8E2025=E5=B9=B411=E6=9C=88=
+22=E6=97=A5=E5=91=A8=E5=85=AD 00:13=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Thu, Nov 27, 2025 at 03:40:20PM +0800, Gao Xiang wrote:
-> > For erofs, let me fix this directly to use bio_endio() instead
-> > and go through the erofs (although it doesn't matter in practice
-> > since no chain i/os for erofs and bio interfaces are unique and
-> > friendly to operate bvecs for both block or non-block I/Os
-> > compared to awkward bvec interfaces) and I will Cc you, Ming
-> > and Stephen then.
+> On Fri, Nov 21, 2025 at 11:38=E2=80=AFAM Christoph Hellwig <hch@infradead=
+.org> wrote:
+> > On Fri, Nov 21, 2025 at 04:17:40PM +0800, zhangshida wrote:
+> > > From: Shida Zhang <zhangshida@kylinos.cn>
+> > >
+> > > Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
+> > > ---
+> > >  block/bio.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/block/bio.c b/block/bio.c
+> > > index b3a79285c27..55c2c1a0020 100644
+> > > --- a/block/bio.c
+> > > +++ b/block/bio.c
+> > > @@ -322,7 +322,7 @@ static struct bio *__bio_chain_endio(struct bio *=
+bio)
+> > >
+> > >  static void bio_chain_endio(struct bio *bio)
+> > >  {
+> > > -     bio_endio(__bio_chain_endio(bio));
+> > > +     bio_endio(bio);
+> >
+> > I don't see how this can work.  bio_chain_endio is called literally
+> > as the result of calling bio_endio, so you recurse into that.
 >
-> Thanks.  I'll ping Coly for bcache.
+> Hmm, I don't actually see where: bio_endio() only calls
+> __bio_chain_endio(), which is fine.
+>
+> Once bio_chain_endio() only calls bio_endio(), it can probably be
+> removed in a follow-up patch.
+>
+> Also, loosely related, what I find slightly odd is this code in
+> __bio_chain_endio():
+>
+>         if (bio->bi_status && !parent->bi_status)
+>                 parent->bi_status =3D bio->bi_status;
+>
+> I don't think it really matters whether or not parent->bi_status is
+> already set here?
+>
+> Also, multiple completions can race setting bi_status, so shouldn't we
+> at least have a WRITE_ONCE() here and in the other places that set
+> bi_status?
 >
 
-I would like the opportunity to fix this issue in bcache. From my analysis,=
- it
-seems the solution may be as straightforward as replacing the ->bi_end_io
-assignment with a call to bio_endio().
+I'm considering whether we need to add a WRITE_ONCE() in version 2
+ of this series.
+
+From my understanding, WRITE_ONCE() prevents write merging and
+tearing by ensuring the write operation is performed as a single, atomic
+access. For instance, it stops the compiler from splitting a 32-bit write
+into multiple 8-bit writes that could be interleaved with reads from other
+CPUs.
+
+However, since we're dealing with a single-byte (u8/blk_status_t) write,
+it's naturally atomic at the hardware level. The CPU won't tear a byte-size=
+d
+write into separate bit-level operations.
+
+Therefore, we could potentially change it to::
+
+        if (bio->bi_status && !READ_ONCE(parent->bi_status))
+                parent->bi_status =3D bio->bi_status;
+
+But as you mentioned, the check might not be critical here. So ultimately,
+we can simplify it to:
+
+        if (bio->bi_status)
+                parent->bi_status =3D bio->bi_status;
 
 Thanks,
 shida
+
+> Thanks,
+> Andreas
+>
 
