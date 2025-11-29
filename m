@@ -4,50 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6494CFD2F6
-	for <linux-nvme@archiver.kernel.org>; Sat, 29 Nov 2025 14:32:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87D97D116EA
+	for <linux-nvme@archiver.kernel.org>; Sat, 29 Nov 2025 14:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HpY+J6P3/Gagevw/5wVHdFlkW8rSJKimi23DIxOyex8=; b=yeg2yrVs5oCLOS21PbQshn8oKF
-	c0sL+rwq5DIlWTkBebhhejaEsq1zrVTqQwPCydF0B47kHsDPD0Nu72YhhQ7qfoNpzdBMvJzGlXuBM
-	kwTppdVP7rvnSyXEN7ycE96KvA1OWnOUJcFRXVuUS7VK19b6jpZt7Baq50vkJFQvBnPnvSMwOccJG
-	wMajncgNbljJSTzr4v/OCoqGCSd8keMLaWHKzxD1OxkpoIhqTC/d0g/KWRl/9ktLfym8zQPp2TGcx
-	7YnTXELOmmifr83R/mKyMjutJ/VqhD5Pa2SJjIR3TPfNY4NF1DXEBDMMz5oBCT/PPg3xHNI+bp6kJ
-	IJ2a6dWQ==;
+	bh=DfeZeduvlZY627YMoS/egL2WgudGgAMQo6eZqTyqJRA=; b=Cr0yXp7wys7R82mTQ7r3eAj0/Y
+	Uvcnm6sWRgisid02KLoe+OBXN+rmviamjegQB74aJauUq1mAQ//7W1/pC1CAEed31X/S+KeNabKKT
+	NQ7tyPZeStYg9ui07r+BgEX8dFrUZ0K1NTeELwxwTJMJH4u2Qezyn4SNc5CqJQHRsztErENPs5mCy
+	JxeBZayKLvmV2lVHlbO10D+Jb1wadx8+C1N5Wl8a+UH7IBieh+wuix3x34/5wtaimMOxVp7VHErpZ
+	6pTKqBR3nNeKTWpqQH8bCkWdrU3pvrsM7B2YGHSzsx6co/zFrXbzlDtZdYeV0Z8NfjeaNsOg97eTE
+	i48xSZFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vPLzT-00000001avY-2lb1;
-	Sat, 29 Nov 2025 14:31:59 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vPM0B-00000001b1T-3hT4;
+	Sat, 29 Nov 2025 14:32:43 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vPLzR-00000001avA-2ZXe
+	id 1vPM0A-00000001b0x-0k5m
 	for linux-nvme@lists.infradead.org;
-	Sat, 29 Nov 2025 14:31:58 +0000
+	Sat, 29 Nov 2025 14:32:42 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0EEE7419F8;
-	Sat, 29 Nov 2025 14:31:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30437C4CEF7;
-	Sat, 29 Nov 2025 14:31:53 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 0AA2960127;
+	Sat, 29 Nov 2025 14:32:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3B6C4CEF7;
+	Sat, 29 Nov 2025 14:32:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764426716;
-	bh=b9WvgFAubhzEgsS0DvAfHxvKsNmcEmEcmJNVo2OtCOw=;
+	s=k20201202; t=1764426760;
+	bh=cFAC6QvAOPZT3CRPWG19TRi/7+EuAMeQCu0XGL2Q+j4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BZQd7Dh8bF2OS6cYEGrhzmxXIcbNiT8gpCTAcLhVIAbfZeCtUTciycL5zPRZmot14
-	 0A0baN2tUIbod/XxTzjPDvGpHLxhEUmPu1e2rLwLhpezv8Qo0CIQER+bOwfuO7jZiX
-	 PUJraJXZRLUDp47BHEfBWQtSTja8GI7j/KFz5SUQhPSECKUCJUgfBILMCUrQhZc4zk
-	 tEqn60v7NRbmTPwQrfq6T2C14zDLcONAfm6awFySOCrsfMiUryOL/x1G+Y5gziZjUT
-	 HErr2i1GjGHk5EnaQueBh1rADNmVILMtIbcoEjUTOtDoOPXYWxLE+rtfAUrRmzZUa8
-	 dMB1WBjsvCvZA==
-Message-ID: <84343571-2b89-4fa1-8b52-5b6ff1d33e88@kernel.org>
-Date: Sat, 29 Nov 2025 15:31:52 +0100
+	b=sI8nj46NuVY72OsGYGu9PFnJIHyVvzIwUjg1tA+mSgKbJQsJZn5N7cpEGQPOt0ZK0
+	 8FtUptkMJyAfNFSV36izwaV6j75A8CK0mWecVDppEZND5KvEBBw56YTz2s9fFsSi7Q
+	 0iOJVSO7dwajqrhlm7JJZIdX7pjhcVeYDw5y8KhSOjiVVImgwwrNl049KSzo354EZ8
+	 eEoCPMjiXxP6tvD9AdjQszh38jTdQSoijG9XVEZkduABJG2yuTjPwOKUnviFcHptL/
+	 ssRC6gQzz+c3yw2C2vK2H/DApYVCxFImkrgMN+5x5AHCSOhJjUyzC+NbC48I35b7QA
+	 YTr1TbT/Et6Bg==
+Message-ID: <89bdc184-363c-4d14-bad6-dd4ab65b80d9@kernel.org>
+Date: Sat, 29 Nov 2025 15:32:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 3/4] block: add IOC_PR_READ_KEYS ioctl
-To: Stefan Hajnoczi <stefanha@redhat.com>, linux-block@vger.kernel.org
+To: Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ linux-block@vger.kernel.org
 Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
  linux-kernel@vger.kernel.org,
  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
@@ -57,6 +58,7 @@ Cc: "Martin K. Petersen" <martin.petersen@oracle.com>,
  Christoph Hellwig <hch@lst.de>
 References: <20251126163600.583036-1-stefanha@redhat.com>
  <20251126163600.583036-4-stefanha@redhat.com>
+ <cfd7cace-563b-4fcb-9415-72ac0eb3e811@suse.de>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,12 +104,9 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251126163600.583036-4-stefanha@redhat.com>
+In-Reply-To: <cfd7cace-563b-4fcb-9415-72ac0eb3e811@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251129_063157_695642_19F1A366 
-X-CRM114-Status: GOOD (  12.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,45 +121,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 26/11/2025 17:35, Stefan Hajnoczi wrote:
-> +
->  #define PR_FL_IGNORE_KEY	(1 << 0)	/* ignore existing key */
->  
->  #define IOC_PR_REGISTER		_IOW('p', 200, struct pr_registration)
-> @@ -64,5 +70,6 @@ struct pr_clear {
->  #define IOC_PR_PREEMPT		_IOW('p', 203, struct pr_preempt)
->  #define IOC_PR_PREEMPT_ABORT	_IOW('p', 204, struct pr_preempt)
->  #define IOC_PR_CLEAR		_IOW('p', 205, struct pr_clear)
-> +#define IOC_PR_READ_KEYS	_IOWR('p', 206, struct pr_read_keys)
->  
->  #endif /* _UAPI_PR_H */
-> diff --git a/block/ioctl.c b/block/ioctl.c
-> index d7489a56b33c3..e87c424c15ae9 100644
-> --- a/block/ioctl.c
-> +++ b/block/ioctl.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  #include <linux/capability.h>
-> +#include <linux/cleanup.h>
->  #include <linux/compat.h>
->  #include <linux/blkdev.h>
->  #include <linux/export.h>
-> @@ -423,6 +424,54 @@ static int blkdev_pr_clear(struct block_device *bdev, blk_mode_t mode,
->  	return ops->pr_clear(bdev, c.key);
->  }
->  
-> +static int blkdev_pr_read_keys(struct block_device *bdev, blk_mode_t mode,
-> +		struct pr_read_keys __user *arg)
-> +{
-> +	const struct pr_ops *ops = bdev->bd_disk->fops->pr_ops;
-> +	struct pr_keys *keys_info __free(kfree) = NULL;
+On 27/11/2025 08:07, Hannes Reinecke wrote:
+> 
+>> +	size_t keys_info_len = struct_size(keys_info, keys, inout.num_keys);
+>> +
+>> +	keys_info = kzalloc(keys_info_len, GFP_KERNEL);
+>> +	if (!keys_info)
+>> +		return -ENOMEM;
+>> +
+>> +	keys_info->num_keys = inout.num_keys;
+>> +
+>> +	ret = ops->pr_read_keys(bdev, keys_info);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Copy out individual keys */
+>> +	u64 __user *keys_ptr = u64_to_user_ptr(inout.keys_ptr);
+>> +	u32 num_copy_keys = min(inout.num_keys, keys_info->num_keys);
+>> +	size_t keys_copy_len = num_copy_keys * sizeof(keys_info->keys[0]);
+> 
+> We just had the discussion about variable declarations on the ksummit 
+> lists; I really would prefer to have all declarations at the start of 
+> the scope (read: at the start of the function here).
 
-
-This is an undesired syntax explicitly documented as one to avoid. You
-need here proper assignment, not NULL. Please don't use cleanup.h if you
-do not intend to follow it because it does not make the code simpler.
-
-
+Then also cleanup.h should not be used here.
 
 Best regards,
 Krzysztof
