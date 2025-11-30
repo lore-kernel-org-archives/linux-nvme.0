@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7F9DCFD376
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Nov 2025 21:35:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 42C29CFD376
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Nov 2025 21:38:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cjrM7aAawVVVIU9hDdkUNIJq9Dx05qeU3NVzTNZ7oFI=; b=km1MaxZy4k4UZFA/jfoIm1VR/h
-	zIyofGOC6mTmXCov1sUOmqG1Cl1y406fgXNJJq92hAg5WY/cYvYn25eFSFw+2S5cFFctyHz2e1NwJ
-	CY+h89ucRavwJHZnI7aseuHewIQ5hLgyjhUy0vyt3slcSTcvws/SXfEQWy89OlqRbPZMfWiKsRc+8
-	0ZIIbAuHeJnL7YfGSngr5jtfmY/qPVQ/MXvCvblN1hQ3VT0kPR/a2d2jXIBxo1+XJL/B05REoHVx8
-	QcgzCQeu70gmBzKOXTU0dTEBUct7+jjd1kNJUytfFHVX6a5ZYOx2u/IluqRbwSRWAQGKiyYYLsIii
-	kbPqVSuw==;
+	bh=mmR5QD5XPmIXPMRPoieuZEYevd27cqMDCVSmYG8PKNo=; b=L24ib2jlgvO1sblTmvGEOy1VK6
+	35OjZh9aY2D1bgdoYYvb+7EKmS95HiP8R2RIvBiDpgooAjGsY0q082vvuc9g5Et7MWhNoSclCYgRH
+	861bENCdnlNVwOLOImAO5p3hnUAesC1Z0Mh7ExrzU9IE2RiI4VIKFtc70A3dP+IJyTB0zfv5gBiFK
+	hyvThexbrJafb915bu3DCDvAhbEujbxdBo63hKXQ4IR7nZD7teLccApjv92NCtbtkKSmYo0MlYuEr
+	C1Slu7NCIfaPEwdMdZZLD4PUW10r7jfLI18a96yjEIEB/SHk+Ef3+2b27xCQo4TTWZKzqA++pdoD7
+	JyDYPr0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vPp56-00000002aJk-28vu;
-	Sun, 30 Nov 2025 21:35:44 +0000
-Received: from mail-wm1-f41.google.com ([209.85.128.41])
+	id 1vPp7w-00000002aTP-07z9;
+	Sun, 30 Nov 2025 21:38:40 +0000
+Received: from mail-wm1-f43.google.com ([209.85.128.43])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vPp4z-00000002aJN-3ySd
+	id 1vPp7u-00000002aSz-0tNK
 	for linux-nvme@lists.infradead.org;
-	Sun, 30 Nov 2025 21:35:39 +0000
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47755de027eso22924665e9.0
-        for <linux-nvme@lists.infradead.org>; Sun, 30 Nov 2025 13:35:36 -0800 (PST)
+	Sun, 30 Nov 2025 21:38:39 +0000
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso37252365e9.3
+        for <linux-nvme@lists.infradead.org>; Sun, 30 Nov 2025 13:38:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764538535; x=1765143335;
+        d=1e100.net; s=20230601; t=1764538716; x=1765143516;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cjrM7aAawVVVIU9hDdkUNIJq9Dx05qeU3NVzTNZ7oFI=;
-        b=JwIdlUh8NhEMmRni2x27px7h4UYcd793yPh5SkA3R1HlXT7gqsd9xmDZo6dTgxmwpS
-         R8tRv8nSqQ9xrrFDl3/RTKIpHO8JazCuTvxp7oJcDJmyWYZng/gwCsX49W9eM6493rKi
-         C2mqpD4vGILkyTIfKvevwpSPjqfCBy/Q4Jb8ejBfhO25NsJW5pnburcSnsZzNFeMkCHr
-         e/D2+uYK5n+V7sNCXoUPF9pwWL+KvXZKKwbZ4lrgwOHlvVNFmRskKFLopb5SH6JFdatc
-         KxuV35IK5MWaVIl+RLvqV8NXq75YVJCROhWYhxqEYhj+O1W7mkpJU0Vc0vj1R82q1SQh
-         9uoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVt79Hlg8x+s1gK45FpC4JfccpHpusLzDGUylgdMdBKSMbMbkLyzoRSmnHE4Osc7nEXXLm3oUVsRd+@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy5j088tQCd/Dtl70fXEvQUlZ3/kiT7jIKD7ufkzlvhdMivThPb
-	LUEGkTDh27becBfc+MfB+TAO9MyYCeoILqYi3/UVha6tpS4RXMsovQBTIDd2Ag==
-X-Gm-Gg: ASbGnctjZFJ/vW7sVst5jF6ujjR+aaVnNk6+MwmyE3UEYH/Ygq7yKBagaOmuQ9BqTwB
-	fViMaN9vFGY9vAQfdg3dbhh/eLRWUp5GbRtso219HRVfmNMifJ/nScZDOCmrRWib0jOnZ2C+a3g
-	Nw8hSbIWhlEm+tPlienKJYem0t7znupI8mZuAglSrN+ursUeIfdsKAOEF6PrCyZOK2MYH6844K2
-	nzUoS4loVsCiV95LsUFLEay4YR6nASY1rffS2BQzH90MGh9LoJXxYn+/0ZDX1EwE2PKiu5lKZww
-	mU55qCGgo6LXL88tyHt85UolGbEBQs1k2iGxyYRELT+KLxbX99KvndwVmGUYzB+S8fYHbrXhp2Y
-	zdBQ9rMeBtwI+PqaYpUZ8iVdHyDc/igutNExe/ypDkRyiqbke/9MaQ0tpMq1zr7u04QADXXnntE
-	58drv3gTaqaMcwVfas/cmLKgP1FVHnWyExW+lNeYJZhtdZ0Kgy7qg=
-X-Google-Smtp-Source: AGHT+IG62vWXN8eD3t3pZpWaywEVJ3i73L/VIKw1D6j2OP3K1oQ3OEB6PenKzE6GddoaoDRMZSiU1Q==
-X-Received: by 2002:a05:600c:1c27:b0:471:13dd:bae7 with SMTP id 5b1f17b1804b1-47904b2bfd9mr244785255e9.30.1764538534661;
-        Sun, 30 Nov 2025 13:35:34 -0800 (PST)
+        bh=mmR5QD5XPmIXPMRPoieuZEYevd27cqMDCVSmYG8PKNo=;
+        b=PMGW0pWuW4s4EKxsB72a/Rg2r9N5mVKqw6SsQAbs0tepI/f7ly2k+DtJoDZgylWdcg
+         cJuvTq+6RqhPfkml+Ws/1WoyfR8sYe5+K+azAQl4WLTs1eja5U8FFue+y1P1vYG6SNEJ
+         IGMRrANMS+dcTM0bUyWN5mcAMZBK0IVYnvww0rJWgSb1lqu9cIoxjyE5sgvuIAzpvClK
+         D4mYFUQ0vbMaIyyY+oJjX/7FIDAUu8IYvyNgP7Hiwu4GtuyfF7sxpOvkBtulyFliwPXN
+         WGLoGjTCfmJdgibp56L3rolpz0qOAVElXNCyInGiomSG6gMC/2eI1uFjn0OURTRSkSld
+         C/lw==
+X-Forwarded-Encrypted: i=1; AJvYcCWH4RVp28wyhcZRKFMOmOZg4AobZZL9/b3e6CYpDuwwYRKZps1MQ6T9MYu8HPNz2cctIIJEnCMsBa1b@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxt4YLGW4UgSCaGlpF50Li6hAcBx2R5+NlJfp+Zk0qANUnklSTw
+	VL5pZUpOU67mC5bPwhUNGitWxaCixOSkAFOfduNPh/SPhjlIhqEWQMSw
+X-Gm-Gg: ASbGncuuEWhH6EIKsSEoWTg2mENgtftampEd3r87+NdIOutH2aWWRPrBXLQOybANqlg
+	1at9TNIBsuJvDbHYo6aBM3mluDm5Q/ZrbyyqvGxYQ4sSikEMyFDUlUUSeWMoLPALmCWQcBncCiZ
+	E534Q6nBcg2kxQ75PpF7OaBcJTidxZl7o1hWU4i9EIbm/DVRC0mLIk8IQGg7SBGXvN5RXemHacQ
+	WOjJtLQF3m7ksOlGUipp5fBgnFRkiomZxaXIuzoYSzmMlXxgom1qomhiJP5dW+JuvaYUbyoPFFY
+	XHxwLBVZcrPxyvGwdEUs8er95v7HcqQztCNt/kijRgI+dX0EKZ/wT1bRtVLSY8tImOIufPrAhzH
+	NZKQhKv+iYff1ZGGHP81Skkdu1HXtQ1D7my1ND8ftCwo/mTm++4uWZDQCnhYe3w/W2/Mj6s3ZuH
+	TSn0czywo2do3gc6Nos7LOA6TM6zELzNVoNmWaqpkb
+X-Google-Smtp-Source: AGHT+IFXyCDi1y9ZkYXnNFPrbkZLQhsuDvPQu4qMhG7WcJ3qYnBN6XSKr6/E/nKvKELrZgEqxoZgZw==
+X-Received: by 2002:a05:600c:19cd:b0:477:c37:2ea7 with SMTP id 5b1f17b1804b1-477c1115febmr280591635e9.21.1764538716261;
+        Sun, 30 Nov 2025 13:38:36 -0800 (PST)
 Received: from [10.100.102.74] (89-138-71-2.bb.netvision.net.il. [89.138.71.2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47903e5fae6sm148282575e9.0.2025.11.30.13.35.33
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479040bd209sm143282595e9.3.2025.11.30.13.38.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Nov 2025 13:35:34 -0800 (PST)
-Message-ID: <aebb3431-2216-4ccf-88e8-ba499417892c@grimberg.me>
-Date: Sun, 30 Nov 2025 23:35:32 +0200
+        Sun, 30 Nov 2025 13:38:35 -0800 (PST)
+Message-ID: <bc44fabe-fcf4-4f63-86cf-0188f63cb2df@grimberg.me>
+Date: Sun, 30 Nov 2025 23:38:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCHv2] nvme-tcp: Implement recvmsg() receive flow
@@ -70,14 +70,15 @@ Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
 References: <20251020085815.20657-1-hare@kernel.org>
  <42d6103c-3cbe-49e9-a8c3-6a6c652a60e7@grimberg.me>
  <809dc274-939a-436d-8293-37c6246ec3bf@suse.de>
+ <3e20b46c-d0a8-454b-9c1d-6d010c2e2e42@suse.de>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <809dc274-939a-436d-8293-37c6246ec3bf@suse.de>
+In-Reply-To: <3e20b46c-d0a8-454b-9c1d-6d010c2e2e42@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251130_133538_019029_7E619CE7 
-X-CRM114-Status: GOOD (  21.74  )
+X-CRM114-CacheID: sfid-20251130_133838_299152_BC2E2A47 
+X-CRM114-Status: GOOD (  36.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,51 +95,156 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 27/11/2025 9:52, Hannes Reinecke wrote:
-> On 11/26/25 08:32, Sagi Grimberg wrote:
+On 27/11/2025 13:47, Hannes Reinecke wrote:
+> On 11/27/25 08:52, Hannes Reinecke wrote:
+>> On 11/26/25 08:32, Sagi Grimberg wrote:
+>>>
+>>>
+>>> On 20/10/2025 11:58, Hannes Reinecke wrote:
+>>>> The nvme-tcp code is using the ->read_sock() interface to
+>>>> read data from the wire. While this interface gives us access
+>>>> to the skbs themselves (and so might be able to reduce latency)
+>>>> it does not interpret the skbs.
+>>>> Additionally for TLS these skbs have to be re-constructed from
+>>>> the TLS stream data, rendering any advantage questionable.
+>>>> But the main drawback for TLS is that we do not get access to
+>>>> the TLS control messages, so if we receive any of those message
+>>>> the only choice we have is to tear down the connection and restart.
+>>>> This patch switches the receive side over to use recvmsg(), which
+>>>> provides us full access to the TLS control messages and is also
+>>>> more efficient when working with TLS as skbs do not need to be
+>>>> artificially constructed.
+>>>
+>>> Hannes,
+>>>
+>>> I generally agree with this approach. I'd like to point out though
+>>> that this is going to give up running RX from directly from softirq 
+>>> context.
+>>
+>> Yes.
+>>
+>>> I've gone back and forth on weather nvme-tcp should do that, but never
+>>> got to do a thorough comparison between the two. This probably shuts
+>>> the door on that option.
+>>>
+>> The thing with running from softirq context is that it would only
+>> make sense if we could _ensure_ that the softirq context is running
+>> on the cpu where the blk-mq hardware context is expecting it to.
+>> Not only would that require fiddling with RFS contexts, but we also
+>> found that NVMe-over-fabrics should _not_ try to align with hardware
+>> interrupts but rather rely on the driver to abstract things away.
+>>
+>>> Having said that, I am fine with this approach. recvmsg is a saner 
+>>> interface.
+>>>
+>> Thanks!
 >>
 >>
->> On 20/10/2025 11:58, Hannes Reinecke wrote:
->>> The nvme-tcp code is using the ->read_sock() interface to
->>> read data from the wire. While this interface gives us access
->>> to the skbs themselves (and so might be able to reduce latency)
->>> it does not interpret the skbs.
->>> Additionally for TLS these skbs have to be re-constructed from
->>> the TLS stream data, rendering any advantage questionable.
->>> But the main drawback for TLS is that we do not get access to
->>> the TLS control messages, so if we receive any of those message
->>> the only choice we have is to tear down the connection and restart.
->>> This patch switches the receive side over to use recvmsg(), which
->>> provides us full access to the TLS control messages and is also
->>> more efficient when working with TLS as skbs do not need to be
->>> artificially constructed.
+>> [ .. ]>> @@ -1023,40 +1030,32 @@ static int nvme_tcp_recv_ddgst(struct
+>>>> nvme_tcp_queue *queue,
+>>>>       return 0;
+>>>>   }
+>>>> -static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct 
+>>>> sk_buff *skb,
+>>>> -                 unsigned int offset, size_t len)
+>>>> +static int nvme_tcp_recvmsg_ddgst(struct nvme_tcp_queue *queue)
+>>>>   {
+>>>> -    struct nvme_tcp_queue *queue = desc->arg.data;
+>>>> -    size_t consumed = len;
+>>>> -    int result;
+>>>> +    char *ddgst = (char *)&queue->recv_ddgst;
+>>>> +    off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
+>>>> +    struct msghdr msg = {
+>>>> +        .msg_flags = MSG_WAITALL,
+>>>> +    };
+>>>
+>>> I don't think we want to use MSG_WAITALL ever. Why are you opting to 
+>>> do that?
+>>>
+>> Hmm. You are right, it's not needed.
 >>
->> Hannes,
+>> [ .. ]>> @@ -1356,20 +1355,38 @@ static int nvme_tcp_try_send(struct
+>>>> nvme_tcp_queue *queue)
+>>>>       return ret;
+>>>>   }
+>>>> -static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+>>>> +static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
+>>>>   {
+>>>> -    struct socket *sock = queue->sock;
+>>>> -    struct sock *sk = sock->sk;
+>>>> -    read_descriptor_t rd_desc;
+>>>> -    int consumed;
+>>>> +    int result;
+>>>> +    int nr_cqe = queue->nr_cqe;
+>>>> +
+>>>> +    if (unlikely(!queue->rd_enabled))
+>>>> +        return -EFAULT;
+>>>> +
+>>>> +    do {
+>>>> +        switch (nvme_tcp_recv_state(queue)) {
+>>>> +        case NVME_TCP_RECV_PDU:
+>>>> +            result = nvme_tcp_recvmsg_pdu(queue);
+>>>> +            break;
+>>>> +        case NVME_TCP_RECV_DATA:
+>>>> +            result = nvme_tcp_recvmsg_data(queue);
+>>>> +            break;
+>>>> +        case NVME_TCP_RECV_DDGST:
+>>>> +            result = nvme_tcp_recvmsg_ddgst(queue);
+>>>> +            break;
+>>>> +        default:
+>>>> +            result = -EFAULT;
+>>>> +        }
+>>>> +    } while (result >= 0);
+>>>> +
+>>>> +    if (result < 0 && result != -EAGAIN) {
+>>>> +        dev_err(queue->ctrl->ctrl.device,
+>>>> +            "receive failed:  %d\n", result);
+>>>> +        queue->rd_enabled = false;
+>>>> + nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+>>>> +    }
+>>>> -    rd_desc.arg.data = queue;
+>>>> -    rd_desc.count = 1;
+>>>> -    lock_sock(sk);
+>>>> -    queue->nr_cqe = 0;
+>>>> -    consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+>>>> -    release_sock(sk);
+>>>> -    return consumed == -EAGAIN ? 0 : consumed;
+>>>> +    return result < 0 ? result : (queue->nr_cqe = nr_cqe);
+>>>
+>>> This is changing the semantics of the retcode - can you please 
+>>> document in the commit msg
+>>> the change?
+>>>
+>> That was done to be compatible with the polling interface.
+>> I'll check if it's needed after all.
 >>
->> I generally agree with this approach. I'd like to point out though
->> that this is going to give up running RX from directly from softirq 
->> context.
+> Actually, I don't think I'm changing the interface.
+> The original interface would return either a negative number on error,
+> '0' if no PDUs have been processed, or the number of processed PDUs.
+> And the new recvmsg interface does the same (I think).
+> The only change which I did was to _not_ map out -EAGAIN, as this will
+> be handled by the 'data_ready' callback.
+
+Which is a change that needs to be documented.
+
+> (Reasoning: -EAGAIN is returned when there is no (or not enough) data
+> to be read, and the network layer will call ->data_ready once the
+> situation improves. If we continue with the loop we will race/compete
+> with the networking layer, causing us to do duplicated work as the
+> io_work thread will be picking up the new data _and_ the data_ready
+> callback will be scheduling the io_work callback to pick up the new
+> data. So we can safely stop on -EAGAIN knowing that we'll be woken
+> up once we can continue to read data.).
+
+There is TX work that may be pending as well, IIRC there is an 
+assumption that
+io_work will NOT return if there is any TX work pending (we've seen 
+stalls in the
+past due to issues like that).
+
+> (And arguably this was an issue with the original code, too.).
 >
-> Yes.
->
->> I've gone back and forth on weather nvme-tcp should do that, but never
->> got to do a thorough comparison between the two. This probably shuts
->> the door on that option.
->>
-> The thing with running from softirq context is that it would only
-> make sense if we could _ensure_ that the softirq context is running
-> on the cpu where the blk-mq hardware context is expecting it to.
+> So where is the change in semantics?
 
-What is this statement based on? softirq runs where the NIC interrupt
-happens, which eliminates the context switch to the workqueue io_cpu
-which is not guaranteed to affinitize where userspace is, in fact it often
-isn't in nvme-tcp...
-
-> Not only would that require fiddling with RFS contexts, but we also
-> found that NVMe-over-fabrics should _not_ try to align with hardware
-> interrupts but rather rely on the driver to abstract things away.
-
-I did not expect anyone to fiddle with RFS for softirq context. The main
-benefit of softirq context RX (outside of latency reduction) is that it
-makes io_work handle ONLY TX, which is probably somewhat more efficient.
+Exactly where you described it.
 
