@@ -4,80 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C006D111A8
-	for <linux-nvme@archiver.kernel.org>; Sun, 30 Nov 2025 22:20:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7E1DD111A8
+	for <linux-nvme@archiver.kernel.org>; Sun, 30 Nov 2025 22:22:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MK8iOyT68uTwYDM4nUUD7HACjnrHxqKZjkHBRY78i1g=; b=tyccF7QS4sdufK5iWzANZ/t3pa
-	hHodBC6VqD40mj5ppoDcpTsfgKNuBwhuvHy0+DJa7pscEALxNxO+cqwfoQfJjoS6+HCPMoRhajWV7
-	NDmSO6OBjRvzkFLR5mRWzifhqv3COTHMMMd8JCD7/cJ1DeQ996g067Q/5WSCaVTKq8J/7ufiYMiyi
-	hyuBmIpcAG2CBDB8fpXp20B0SJSyKbaarMtWJpRWYDH/4cIQ+FdLW3Hj7NwiVtpG4afRCG6kpLO4I
-	iFrsBPQgwaopLwYP0DKMOSYt54oOoCCLfwq0y0jM5di0i+30/wNWi1ZWXc3S7TEvXHkXj6jaKrqoT
-	scnvhVEQ==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=vKFHsYG5K1isCiaVI+O5iXUyfP
+	x+LlD1R8e55GtD2dPmWgdcyPRQz2J5OzGZIA+6LO/ZCw1Z7xm45n9SKEbcCBbFO/xKOIPKEtsHqY+
+	jJGL2kjWmhe0pa8SqGsb8u+EkwnVdR9W0gN6dGm9FvdH68dmRX2NliHlUNa18YnTT1sVv8jt0T0ta
+	K1p34gacOwN6+SLTBQEfnTj5MTnF2jJHqmMLGHCLj690bziYwoiB4TAlIOuMDngTHFFvMlrY1rkGd
+	0eyr7BlMoS1Ee4e/bi4jtLPf/U54JOCJmNeov3QGnu6FMxk/PbpxyyZhbLn6bw+d8zQl3l96F2DRj
+	2vOtPSsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vPpm5-00000002cdC-3Vq4;
-	Sun, 30 Nov 2025 22:20:09 +0000
-Received: from mail-wm1-f43.google.com ([209.85.128.43])
+	id 1vPpnu-00000002ckz-16yP;
+	Sun, 30 Nov 2025 22:22:02 +0000
+Received: from mail-wm1-f48.google.com ([209.85.128.48])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vPpm3-00000002ccp-487V
+	id 1vPpnr-00000002ckW-2Wkv
 	for linux-nvme@lists.infradead.org;
-	Sun, 30 Nov 2025 22:20:09 +0000
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so22625645e9.3
-        for <linux-nvme@lists.infradead.org>; Sun, 30 Nov 2025 14:20:07 -0800 (PST)
+	Sun, 30 Nov 2025 22:22:00 +0000
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477a1c28778so40371455e9.3
+        for <linux-nvme@lists.infradead.org>; Sun, 30 Nov 2025 14:21:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764541206; x=1765146006;
+        d=1e100.net; s=20230601; t=1764541318; x=1765146118;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MK8iOyT68uTwYDM4nUUD7HACjnrHxqKZjkHBRY78i1g=;
-        b=FTqLxSEEhHp6bRm+7/d3ejo4gZ1LL+xzMQ4MoBirxn+kHPY4R/cEhBrJy/K6wdvQXN
-         /6Ct8biQa07zS2A1GHYSXJQCObessYlxkknSCOYEL6VmXN3mq1poGpowVDJ0dXdHQgZu
-         yn0/FVPrlhV400CfwvJqNjypwGk8obeiEI9h9FAnfdVtUJi+dl1P+TXB2wvWh+Fl4DEx
-         sCcF7l/rTZM3FQtWj/L+64yvuT9t2o6O60PlkTYBHzMCd2uuH/m3MZs1k5t5l8GskHA2
-         vCkxXsH3Ag4dHy9CUS5SLyLxtCGB2n0SAkud8Pb1KX298seavEL/mKefSXpdAfNPIYvK
-         OVvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJWK7PuFw5+8SYonJ1o+cX54Rk8vZR6jlN+7fdfEypBh4TEFxoTLrOLMwjzHZ3cuxCOt7VC39C8V5c@lists.infradead.org
-X-Gm-Message-State: AOJu0YztcHcSFEc1zXG2UJx8WAYLC/h7Jy4hLKk6/MxXf599hVQjRWym
-	zvShgAwYAvLrIrpa8j206lnyZrtK/FLeljqNaJflfBwDAG8MWOMxpZDD4SnXkg==
-X-Gm-Gg: ASbGncsMIJycXz5f+67EnkoIgeJCly5InEZNHjG/wGE2tlh92kqftjbKAKyoDLEcvXm
-	bt3cXLS/YqtTrGMtDBRyc0JHdFqmFdNAO9XrqtBlcZoxmjr39riD0S40TNePz7kFHwcWm4s+Nhn
-	mZrZK/aFahkpK0EbPA1NT3BAMhXCidgfbGpfNhoWQGlEWyXvC1VpHBvnN2AXLkGFug7ixNNxPIr
-	Sbe9nTQXsr52Klv8P4pkLBkbxPSKYqrLUHhYWwn5GMVW2668rw75j7DayoUakH9YG62PZATLAEj
-	aB93YsmQ1wL0Yoa1tgjpSJN2RqFRRfAYdalTbzGpg1YSbWuSlBvQFhXmjQEJCCHNgWLIDack20e
-	hBgq4SxU9tMDmV2PGeEPl814UXmorD8Ac8VMOI4iWDPvvYeaTt34cruoBhITzkSgEnP4jLyQG/q
-	hdqAhKtR8518lTfUNmP2V6svN6FnWl/o9e4qSp8MsA
-X-Google-Smtp-Source: AGHT+IF5uQOTcJv09f95vlUdzQFWw4u3uwwRi1AYDrMwsvowx8yGwq1f6KIXa1PJBgPPJypVSpOrrQ==
-X-Received: by 2002:a05:600c:1f8f:b0:477:a0dd:b2af with SMTP id 5b1f17b1804b1-477c01ea502mr321465525e9.33.1764541206088;
-        Sun, 30 Nov 2025 14:20:06 -0800 (PST)
+        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
+        b=o/ATvIbiCTC8XNzdW0gEyuTyf7SEOIKEBZZcTXHL81p1zkTVMgaTFTMKhMIUHuZVbN
+         r/0m48PZZgAPMOOEMguFeVg5x/tdXyc+xAqkiMdg1FpAbzhWXwZitPM1yhdt76EA3qOh
+         jfG0uTcTL8mJGxvfGYRKFb/QZEpPORo81DBJP+kh6f3EcNrqbvWysbL4WWFbEPtp//nj
+         dkgdksQjyquGV71P7HQaKG7ttnqb3tpC5dNGJeQHGSywAtjEk+Sm61Zs7I4dylBMezh2
+         xSYu8mGCZqIwXkx6TIIdrJfC3SflF0NyCY0YHg7x8dChPqJnnFG7pta6opraJ3BOpnWk
+         65BA==
+X-Forwarded-Encrypted: i=1; AJvYcCVhHHxw7hDKTGoQ8Tb9wMrPoesNc2KX3npXOhAsQq0/ZWKuG2aXeS3u44Qx9GdXfaUkHuNuc3LElv68@lists.infradead.org
+X-Gm-Message-State: AOJu0YzLswVaKvPZC5Nde7DsPfGIkaJS5mdfGFxAeuHaZKCYBhVzbs2I
+	VoJGy+2nZplXRfqoALtUM5RjLQCGH4TeSezfFQY4iA4fjZrauJV3Izdo
+X-Gm-Gg: ASbGncv/54zL0CzW4qalUx1pC160h/isfoljMiFioL8H+xd4WlFy8fPnXHz/LsXPLwq
+	/EG42ZG0vGWTlkqePPZZgAAD1HpXZuDb36c6wvBh1WqNs5JG0xpM1Gex1tGzx0OJr6hS/ACH3O+
+	sgAq/p4K5v+Lm8YfCUiXZIeBBEcrkZMhPkSygYuES4owrIiU5X/+Gd3NfOJZ4gSMTABNWsTWMkn
+	40uyJHylL7OZ8d3MUlOisv5UCUlr6sZ14Safoq4PzGAOG2jnmzsUlXQ/y18YzzpOuK738fEqPwO
+	TlBmqVW0Ft2vuzVHCM5idcVDT69iXKNglmxw3220/SGtRtePFEnqT+rlhQs8TDz4GLEluznYvZg
+	JASurmnCfTd6ZvYXi4SDugNm0z0BYijT6lKyyYu0Eb5sCOaYTICugjQOeDzS8DUzG5RcLcCSztd
+	AQbItx/CqNtvreoGITjwPb20F0J/b+0sKjR06Fh7VU
+X-Google-Smtp-Source: AGHT+IEaDq7D6ajMDVwbhmEysEzsY+1ogXGwoywM0VuEEVuoRMtFYjkQRVWQHiyxGuNw2ezMfnKldQ==
+X-Received: by 2002:a05:600c:1c1b:b0:471:14b1:da13 with SMTP id 5b1f17b1804b1-47904aebebdmr256111855e9.14.1764541317764;
+        Sun, 30 Nov 2025 14:21:57 -0800 (PST)
 Received: from [10.100.102.74] (89-138-71-2.bb.netvision.net.il. [89.138.71.2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479111565a1sm201200255e9.5.2025.11.30.14.20.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790530f0a4sm142367985e9.8.2025.11.30.14.21.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Nov 2025 14:20:05 -0800 (PST)
-Message-ID: <3d2cb8e7-aecc-4ae4-a114-04bd59741e7c@grimberg.me>
-Date: Mon, 1 Dec 2025 00:20:04 +0200
+        Sun, 30 Nov 2025 14:21:57 -0800 (PST)
+Message-ID: <93c631e9-a07e-4293-a59e-81be85270687@grimberg.me>
+Date: Mon, 1 Dec 2025 00:21:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: nvme_identify_ns_descs: prevent oob
-To: Eugene Korenevsky <ekorenevsky@aliyun.com>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <aSdiqVR-o6yNav6I@localhost.localdomain>
- <aSdoeEX_L2-3ccpF@kbusch-mbp> <20251127144916.GA9423@lst.de>
- <aStQImuBjWph8Ywd@localhost.localdomain>
+Subject: Re: [PATCH v5 1/6] net/handshake: Store the key serial number on
+ completion
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, kch@nvidia.com,
+ hare@suse.de, Alistair Francis <alistair.francis@wdc.com>
+References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+ <20251112042720.3695972-2-alistair.francis@wdc.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <aStQImuBjWph8Ywd@localhost.localdomain>
+In-Reply-To: <20251112042720.3695972-2-alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251130_142008_057511_8D4D6146 
-X-CRM114-Status: GOOD (  10.00  )
+X-CRM114-CacheID: sfid-20251130_142159_638587_329A3FA0 
+X-CRM114-Status: UNSURE (   4.29  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,16 +96,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 29/11/2025 21:57, Eugene Korenevsky wrote:
-> On Thu, Nov 27, 2025 at 03:49:16PM +0100, Christoph Hellwig wrote:
->
->> I think we'll need a somewhat more complex check that at there
->> is at least enough space for the len member.  But I prefer that
->> style over a table lookup and magic name pasting macros.
-> Okay, simplified the patch. See v2.
-
-Did you send it?
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
