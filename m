@@ -4,129 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D49C2D116F1
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Dec 2025 15:03:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7827BD116F1
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Dec 2025 15:06:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0+/sBb0QuFPKiwbZo1c3rhA705+/7SgQwHsuzeJjY4s=; b=utOSIXylBIdgsf7GOX2pmDa20j
-	FZPaZkLsdR/fG39fWQZFIxMDe83gzvf6I1O9dihdFiperAlfKLELmcbcnTJZR0EtZ8/4vNMzdsjdD
-	db2M/WCtnJaKswrdEgoxSPTkny855N5ToQYdsM7NM860NEprKc2Pg493L6XQ299E1MPlNe2fLTjdN
-	aSNwbH8b9diAkR82gxA6DOhtl1DQoi/RmDyHHC3W9z3vh6tFmFnqc4yrAOTYGx5RE7R2iNS0rV2o+
-	YHAf8nMllNeaiEdLeceCnEFQySl4uFpyvh5/ryKdh1R3rIT/JukS0GHGNXMaKi+/2DHpU3Sy0uZiE
-	2A/YBe1w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0taldGU/p3RQUsqrVclk++ge/JmFmUsQeYAw3t0jxA0=; b=0jNPGEQSGvBbJ6BwNXt+FBLWgQ
+	/CHApdjpoylzdm6DydkMR72r5WHUefoInbcb92/+PekZpWf2Zas48lkdkzYJJu2zleL/DXtuiuzFH
+	AyIY2viGvKkZLV8gtpxoYIIGkNTaYy1B/rFkE9IoTOwkYlbl9tYdfomHRgOEG0ksCKIBVG9qHfZ07
+	vcwDQtdtldwFPmZCvJxlCiDjoupDc1NbJ+jLggrb5GHMlDeycGh0m3bgD/uiQtYzrgGJUdTHUCRMU
+	PCzurzjT5chLBRRfUrvymt264ExJ4s2f7k3s/76wzgEAoMgymSZTGvYOAfb57PUp3ewZw5C6iYGRq
+	XojItTbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQ5Qv-000000049AI-2zaN;
-	Mon, 01 Dec 2025 15:03:21 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1vQ5UN-000000049Xd-3Utl;
+	Mon, 01 Dec 2025 15:06:55 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQ5Qt-0000000499o-0K4h
+	id 1vQ5UI-000000049Wy-2FRR
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Dec 2025 15:03:20 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Mon, 01 Dec 2025 15:06:53 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1764601608;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0taldGU/p3RQUsqrVclk++ge/JmFmUsQeYAw3t0jxA0=;
+	b=Ms1e5StmQwwRI1eNZNnfvigDQ4J8k5iTZk5mTQNr9Cqhba4NFBBj2/qHZrhkfU07AeCTPD
+	LbHzXm/NO0S9XUTz4whcwKMQqMMrLawU2Igd6IoBw4jaBMZFRObF1riNaVfgiZyDbA3ZDB
+	SDoi8s3AaJz9xaa77gS1YRwMzX5RQ9U=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-658-TodEzmINNRugQ6nx2slY1w-1; Mon,
+ 01 Dec 2025 10:06:43 -0500
+X-MC-Unique: TodEzmINNRugQ6nx2slY1w-1
+X-Mimecast-MFC-AGG-ID: TodEzmINNRugQ6nx2slY1w_1764601601
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C3905BCDD;
-	Mon,  1 Dec 2025 15:03:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764601397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0+/sBb0QuFPKiwbZo1c3rhA705+/7SgQwHsuzeJjY4s=;
-	b=Otz3ol7hVL8dgj8XwQYLS4O6ThG2gWzgCBKzHplfr548Z0GwOiQ7RUeM+4AFTtSaJ7O1OV
-	1B7c0MU8E9XkFav/+g7/aN7BeEr3xOY+sEOQXMTnLRMeDM/FVA0YwJCRfrtcFS7UUSbAwW
-	OS1irsFYL3YNtDGsDGjsjajHWEJmJBk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764601397;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0+/sBb0QuFPKiwbZo1c3rhA705+/7SgQwHsuzeJjY4s=;
-	b=aCvFk72a4UJMMiP7SsjIh4U6awDUrdO93fG7cbYDxCO3QMCpDKpotBppgSMD5q3hyNF2Er
-	vufwKCdAFSqtceDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764601395; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0+/sBb0QuFPKiwbZo1c3rhA705+/7SgQwHsuzeJjY4s=;
-	b=wZPKoFuWgwWvWE4shtxgbCb1NteX1v/h+KdXbKw6U3gS8tNH8iIZVrzBJNVegrDDK2sLMT
-	9rLaIyRvt6HuWT5NfyFG1hpC0HG2AgPDh1eBoUI8PtxHcgAOBQiSdTMEahT9UA3p4xgoo6
-	psiBCMOVO4VgrCNQa17iTpbiea0yFZ4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764601395;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0+/sBb0QuFPKiwbZo1c3rhA705+/7SgQwHsuzeJjY4s=;
-	b=kOFl22MPnxm3PjeqizEhyy8ohZZ0GTujtGKwpV1xj6FpzEdAOdbOjea1aLnd95iRLVRRQR
-	2REoCoiUqU4k/8AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF5BE3EA63;
-	Mon,  1 Dec 2025 15:03:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1smHOTKuLWkFCgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 01 Dec 2025 15:03:14 +0000
-Message-ID: <61eb76df-ae82-4078-87a9-5d170c99d245@suse.de>
-Date: Mon, 1 Dec 2025 16:03:14 +0100
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 597B0195608F;
+	Mon,  1 Dec 2025 15:06:40 +0000 (UTC)
+Received: from localhost (unknown [10.2.16.172])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 48F3830001A4;
+	Mon,  1 Dec 2025 15:06:38 +0000 (UTC)
+Date: Mon, 1 Dec 2025 10:06:36 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>, linux-block@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-kernel@vger.kernel.org,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-scsi@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 3/4] block: add IOC_PR_READ_KEYS ioctl
+Message-ID: <20251201150636.GA866564@fedora>
+References: <20251126163600.583036-1-stefanha@redhat.com>
+ <20251126163600.583036-4-stefanha@redhat.com>
+ <cfd7cace-563b-4fcb-9415-72ac0eb3e811@suse.de>
+ <89bdc184-363c-4d14-bad6-dd4ab65b80d9@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/6] nvme-tcp: Support KeyUpdate
-To: Alistair Francis <alistair23@gmail.com>
-Cc: chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-6-alistair.francis@wdc.com>
- <f7a91a49-9f82-492a-8bf9-520ee1c832ba@suse.de>
- <CAKmqyKPU2w2GrzdMtMn1rO8auOpDCTovQH04P8RxptA45Oy6XQ@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CAKmqyKPU2w2GrzdMtMn1rO8auOpDCTovQH04P8RxptA45Oy6XQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.981];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,wdc.com:email];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/C/EfXMAoYrl/InE"
+Content-Disposition: inline
+In-Reply-To: <89bdc184-363c-4d14-bad6-dd4ab65b80d9@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251201_070319_280932_182197E0 
-X-CRM114-Status: GOOD (  14.06  )
+X-CRM114-CacheID: sfid-20251201_070650_663678_4E4C8B3B 
+X-CRM114-Status: GOOD (  21.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,49 +92,81 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/1/25 05:18, Alistair Francis wrote:
-> On Thu, Nov 27, 2025 at 11:31 PM Hannes Reinecke <hare@suse.de> wrote:
->>
->> On 11/12/25 05:27, alistair23@gmail.com wrote:
->>> From: Alistair Francis <alistair.francis@wdc.com>
-[ .. ]>>> @@ -976,10 +986,26 @@ static int nvme_tcp_recvmsg_data(struct 
-nvme_tcp_queue *queue)
->>>
->>>                ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
->>>                if (ret < 0) {
->>> -                     dev_err(queue->ctrl->ctrl.device,
->>> -                             "queue %d failed to receive request %#x data",
->>> -                             nvme_tcp_queue_id(queue), rq->tag);
->>> -                     return ret;
->>> +                     /* If MSG_CTRUNC is set, it's a control message,
->>> +                      * so let's read the control message.
->>> +                      */
->>> +                     if (msg.msg_flags & MSG_CTRUNC) {
->>> +                             memset(&msg, 0, sizeof(msg));
->>> +                             msg.msg_flags = MSG_DONTWAIT;
->>> +                             msg.msg_control = cbuf;
->>> +                             msg.msg_controllen = sizeof(cbuf);
->>> +
->> This is not correct; reading the control message implies a kernel
->> memory allocation as message buffer, not an interator (as it's the
->> case here).
-> 
-> I don't follow what you mean
-> 
-Ah, right. My comment refers to users of tls_alert_recv(), which we
-don't do here.
-Sorry for the noise.
 
-You can add my:
+--/C/EfXMAoYrl/InE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+On Sat, Nov 29, 2025 at 03:32:35PM +0100, Krzysztof Kozlowski wrote:
+> On 27/11/2025 08:07, Hannes Reinecke wrote:
+> >=20
+> >> +	size_t keys_info_len =3D struct_size(keys_info, keys, inout.num_keys=
+);
+> >> +
+> >> +	keys_info =3D kzalloc(keys_info_len, GFP_KERNEL);
+> >> +	if (!keys_info)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	keys_info->num_keys =3D inout.num_keys;
+> >> +
+> >> +	ret =3D ops->pr_read_keys(bdev, keys_info);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	/* Copy out individual keys */
+> >> +	u64 __user *keys_ptr =3D u64_to_user_ptr(inout.keys_ptr);
+> >> +	u32 num_copy_keys =3D min(inout.num_keys, keys_info->num_keys);
+> >> +	size_t keys_copy_len =3D num_copy_keys * sizeof(keys_info->keys[0]);
+> >=20
+> > We just had the discussion about variable declarations on the ksummit=
+=20
+> > lists; I really would prefer to have all declarations at the start of=
+=20
+> > the scope (read: at the start of the function here).
+>=20
+> Then also cleanup.h should not be used here.
 
-Cheers,
+Hi Krzysztof,
+The documentation in cleanup.h says:
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+ * Given that the "__free(...) =3D NULL" pattern for variables defined at
+ * the top of the function poses this potential interdependency problem
+ * the recommendation is to always define and assign variables in one
+       ^^^^^^^^^^^^^^
+ * statement and not group variable definitions at the top of the
+ * function when __free() is used.
+
+This is a recommendation, not mandatory. It is also describing a
+scenario that does not apply here.
+
+There are many examples of existing users of __free() initialized to
+NULL:
+
+  $ git grep '__free(' | grep ' =3D NULL' | wc -l
+  491
+
+To me it seems like it is okay to use cleanup.h in this fashion. Did I
+miss something?
+
+Thanks,
+Stefan
+
+--/C/EfXMAoYrl/InE
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmktrvwACgkQnKSrs4Gr
+c8i7bAf9HNfOvXB6gX5exTG1f7E+v7bUNWhclZTjpR5u8BtEtSCbwk2zvR4o81B2
+9ROH8bQvPQv+NeT+zqIcGdsoBC6rbfZmDSHlALtvCsGb51Y2nZ9sZhpH1EcycjsS
+yIFFFCmSzkHRMf/oSNs5g+lS9oXs0sUW8mCZD6oofK8hSFv0Qa+BbgUhF36dAQO8
+OSp+PGYyJgQ/GnBqxxJ2lhTBVxoX/k3p7rwUY1MuPAa8wMa+skIT5uCa8zIP+Li/
+Uv6qRE1wUmmAMJJvyRHTo+fJAH8Si01hMa2hzw8efDv781qLxzLj4NKL9MpQDxbC
+wb1TkzyzAqb7unNVO/A2XFcrzeIObw==
+=mmRd
+-----END PGP SIGNATURE-----
+
+--/C/EfXMAoYrl/InE--
+
 
