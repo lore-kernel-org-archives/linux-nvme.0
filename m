@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86EDED116F1
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Dec 2025 16:26:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44193D116F1
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Dec 2025 16:27:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=V0YPZlX2uHKG21u0JOhLkWV86rnxTMO4NL/roEbkRmY=; b=OdyGFlbamGt1hMri/ENhLBMt52
-	eEDqAszSfDRvtVKwGwVKdaTQORcNvuA4crtjKKQrFBQ44jZ/Ly5RoO0P43AVbUMQul2+/Rj3BVa89
-	BndVuyFyPX91dkCy0IF5HHxOqrlMoUkz8nXYIwjHgDGiGNfUvYeDhaB4EN4JDDU90PfLhTyhODNyr
-	zSPMULQoWxwcYHbkMBUUgG0w2b+kusPcOjV0+ABd5W+T4BTUyBzC+bvVQpPC40/w/BvVdH2xvpIFP
-	fCkkcXEvP3t/aIfTkEL73rmjobRpbD5gMfDUYwImP41ny9/6QSMfchqIrRsSIoE9WT8f4gxcu6Zf/
-	0dr+RtDg==;
+	bh=WLTqCH1uALSCuIA1Wc2FcITu7l3xHOAcyMDZmNXDVMw=; b=pucYe22Ws4IdfsI4ScfGppgxFr
+	tqFjPMqb+FHq17Lv9CC2JTM/Ut+MmXHWeMPzLLenDeiJ8rw6sRE4egawThbSLtkafJD4+AAuZ77w2
+	IDP3bIeAw8NoxT2W4I6evA8kmR8IVhxWaYzViq1nOUmMfFMA93t7kcphUUNR1hzPeTARBss9uDpnC
+	Ns8uziebt82LvwXwbVhvbbr566b+/LFyHE92JbKa4HNBt7powvhJjHgx+MQvZF1t21DFJAqNZiYEP
+	HOc5lSmOeBYNnkCKUFEKoI0Jp4zjTJb/FabCIIJ3mO95afVSeYjk+GIB7GXcJCmMX9f+5T4p8TpX7
+	mhoKYlsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQ6jS-00000004G9Q-3bsO;
-	Mon, 01 Dec 2025 16:26:34 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vQ6kN-00000004GJM-2My9;
+	Mon, 01 Dec 2025 16:27:31 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQ6jQ-00000004G8r-38au
+	id 1vQ6kM-00000004GIL-09lV
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Dec 2025 16:26:33 +0000
+	Mon, 01 Dec 2025 16:27:30 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2569543528;
-	Mon,  1 Dec 2025 16:26:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B873C4CEF1;
-	Mon,  1 Dec 2025 16:26:28 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 6CB636016B;
+	Mon,  1 Dec 2025 16:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43A56C4CEF1;
+	Mon,  1 Dec 2025 16:27:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764606392;
-	bh=svSOkwWJi2p/kuYLhrjOtrS2/POoZwGwh72SVTyxwQQ=;
+	s=k20201202; t=1764606449;
+	bh=LV4hBHr7fsw54iTPCFyoYsVQDd4nhWpRhydi4Nc2LNI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BHfJk4W/+KnkpPfeGZMWdd8R/Dzodczxx2SHaCE9vV+ZAwtDiePAUW4CRgmIHSWSs
-	 V1BlAk8JGxCUaeVE4ednVBYmH6sUNvy9zyqhw5RGrCdasFqu6Xgd0nYVl0OkshTcue
-	 nbD/4xAA66n2F9NletrJ0gwae6nnSUqfKtH3wLgKggxtBSlpx60rdMPYYlEqb/VKYz
-	 UlI8VxQJwU58cGpV/ayQvCc5bZlRkXV4ha15TXy279x0BGoGncZI8sCOwkC9NgG4Xp
-	 CdHFuLI8cbm9u/CIypG/HBrD15DdQsq9GdSx3HYKFsFKyKGr54B02wubvooOVC3BFy
-	 tdBGTfNW4gxCQ==
-Message-ID: <fadbd728-6810-49de-905d-214c2f72a857@kernel.org>
-Date: Mon, 1 Dec 2025 17:26:27 +0100
+	b=Mhk1L55GPvbQG+iqngfQVjWf6N9h9T03+OR7YaJJjhn00bizI57AHfjWJ2vabKMmy
+	 UhnpGpd5xRuWf+fuucMPwQBKHmKgRJNYiqMwizvFit4WhxusnaR5851zjgl6b2kL7G
+	 /RDPigopoq8ZrcJyNYT3SoWIUeWM0Nq19YTlbSbrV1h+c2kS9MMxs6OGID+bomuuIj
+	 y0O8+34EEPn6r3mN/6DeNtmY6GSnOmJ4DPL1/1XkdCeK0ovOqw0MWWCkr4XeLTIJPP
+	 p4s3UE4kr/peLTUGop9tBVpO9MRiISK/Rf0AQs8fUpZWGw/7rQXVY+jMuqUYN7OuDv
+	 AVzwYagh/D0Jg==
+Message-ID: <d6edf8ad-1ceb-45ae-810a-f68246dd1e2f@kernel.org>
+Date: Mon, 1 Dec 2025 17:27:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 3/4] block: add IOC_PR_READ_KEYS ioctl
@@ -60,7 +60,7 @@ References: <20251126163600.583036-1-stefanha@redhat.com>
  <20251126163600.583036-4-stefanha@redhat.com>
  <cfd7cace-563b-4fcb-9415-72ac0eb3e811@suse.de>
  <89bdc184-363c-4d14-bad6-dd4ab65b80d9@kernel.org>
- <20251201150636.GA866564@fedora>
+ <20251201151418.GC866564@fedora>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,12 +106,9 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251201150636.GA866564@fedora>
+In-Reply-To: <20251201151418.GC866564@fedora>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251201_082632_856479_A09E7BFB 
-X-CRM114-Status: GOOD (  22.74  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,7 +123,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 01/12/2025 16:06, Stefan Hajnoczi wrote:
+On 01/12/2025 16:14, Stefan Hajnoczi wrote:
 > On Sat, Nov 29, 2025 at 03:32:35PM +0100, Krzysztof Kozlowski wrote:
 >> On 27/11/2025 08:07, Hannes Reinecke wrote:
 >>>
@@ -154,49 +151,16 @@ On 01/12/2025 16:06, Stefan Hajnoczi wrote:
 >> Then also cleanup.h should not be used here.
 > 
 > Hi Krzysztof,
-> The documentation in cleanup.h says:
+> Christoph Hellwig replied to the v2 series, also against using __free().
+
+That's perfectly fine to dislike cleanup.h. It's fair. What is not fine
+is using it against its recommendations. Either you take entire
+cleanup.h with its oddities or don't use it.
+
+> Regardless of the reply I just sent to you about whether cleanup.h may
+> or may not be used in code that forbids declarations midway through a
+> scope, I will be dropping it in v3.
 > 
->  * Given that the "__free(...) = NULL" pattern for variables defined at
->  * the top of the function poses this potential interdependency problem
->  * the recommendation is to always define and assign variables in one
->        ^^^^^^^^^^^^^^
->  * statement and not group variable definitions at the top of the
->  * function when __free() is used.
-> 
-> This is a recommendation, not mandatory. It is also describing a
-> scenario that does not apply here.
-
-If you have actual argument, so allocation in some if branch, the of course.
-
-> 
-> There are many examples of existing users of __free() initialized to
-> NULL:
-> 
->   $ git grep '__free(' | grep ' = NULL' | wc -l
->   491
-> 
-
-There is tons of incorrect usage, some I started already fixing.
-Maintainers were changing when applying the correct code (correct patch)
-into incorrect declaration without constructor and separate assignment.
-
-Then contributors started adding patches at least making NULL
-assignment, but still not following recommendation.
-
-Then contributors started adding patches mixing cleanup.h with gotos,
-also clearly discouraged.
-
-Sorry, but please never use that argument. People did not read cleanup.h
-and produced poor code. Maintainers did not read cleanup.h and changed
-correct code into poor code.
-
-Existing poor code, just its existence, is never the actual argument in
-discussion.
-
-> To me it seems like it is okay to use cleanup.h in this fashion. Did I
-> miss something?
-
-
 
 Best regards,
 Krzysztof
