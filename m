@@ -4,50 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B09D7D116F1
-	for <linux-nvme@archiver.kernel.org>; Mon,  1 Dec 2025 19:43:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1051FD116F6
+	for <linux-nvme@archiver.kernel.org>; Mon,  1 Dec 2025 21:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Content-Type:Message-ID:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2JWxJbOofoBM/+VVtNq/4gaPlvGNVnbgA53eVeG52eA=; b=LNj9gO/3+sdZf37s7Ixd6N9Ord
-	YoNTbIVoO0uYiEU7IZ80KWOktVad0Ug55u43om2iKBOQVjbhqIAaM0znZm590COTdq5LSdIl3y2up
-	rEblM6AOBufd9t4sbXhdChBYb+AXKHLASnizb0ntSWjd5N3RO+GVgo5AR/N2d/ECdp2C06IAt+WJ/
-	T2TDB7aVqe8c0aGUm4Y+l23q0A0O4iQ5zbbNXpV6QDtfCGEsOKyaFT3GH3OaaKWJzaNkUAOnqMAgf
-	1ZtxLPaInLrh7oVf4xRc53aY+jy3zT/Q666MUzSm5An/qHVyUYrOsBA6yqxlLmPkKfrA01nFXuGeh
-	6mBy1M2Q==;
+	bh=yrYQN3GFchT9vktyOBuE240rtI/tNrya4XeIT60BS5g=; b=HyY3lMoBMW6dBCJuKCXwrxJTI9
+	MecQ0B4P/H0NUEhy/bpgIpLc1yCxIiRXkLq9Pjb5WoimO398vyzGd3meLwhLAKIU9V079ArRUiDkl
+	Ntbss6tqUOrprWmGURtlVRPiJCfsjXWk6uDyKcNYTTn8biKl44JktnFQsxOq72ko+tj1V+uq0m8xQ
+	NY0XISq6QrlOUGPvAno7Pf5XTpxwn5oRZl35sGt/tkzQuN3j7A2ojosClXvL3Lbqx3pkuuaBKvxba
+	VTQpMmlzixSNE+3LzSs6yrIj/d3p2W+pSXcVwBSnMP31Sd7AfAbso1BFrDs/uFAO1ykiYqpZ4kDsp
+	4P4QILOQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQ9oB-00000004TFy-2a0M;
-	Mon, 01 Dec 2025 19:43:39 +0000
-Received: from out30-86.freemail.mail.aliyun.com ([115.124.30.86])
+	id 1vQBgW-00000004Y3U-0CWC;
+	Mon, 01 Dec 2025 21:43:52 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQ9o8-00000004TF8-1eGI
+	id 1vQBgM-00000004Y1I-18N3
 	for linux-nvme@lists.infradead.org;
-	Mon, 01 Dec 2025 19:43:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=aliyun.com; s=s1024;
-	t=1764618210; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=2JWxJbOofoBM/+VVtNq/4gaPlvGNVnbgA53eVeG52eA=;
-	b=OBMDfyLW4Bh8H3N+yAdLPvp2hZ0zObtH/k+9C/7bQ4DLSRdl0cAuXQrOm3ap6Esc6dbd1wha2d8FQZuz98Ul1o+ulS2/1F0S9pQ89tac9eUpHKKSfZVt3L8wBNicjAl2caioFp/8PI9R83+aKFvmfLOkcQzZGEO79csRTck/RGU=
-Received: from aliyun.com(mailfrom:ekorenevsky@aliyun.com fp:SMTPD_---0WttVQ--_1764618205 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 02 Dec 2025 03:43:27 +0800
-Date: Mon, 1 Dec 2025 22:43:23 +0300
-From: Eugene Korenevsky <ekorenevsky@aliyun.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] nvme: nvme_identify_ns_descs: prevent oob
-Message-ID: <aS3v2_VcV8IwsT6g@localhost.localdomain>
+	Mon, 01 Dec 2025 21:43:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1764625420;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yrYQN3GFchT9vktyOBuE240rtI/tNrya4XeIT60BS5g=;
+	b=Mj0wkjSfWYt3muGtgZFjRt9ZO8pRXLQEPMDbFfj3vijwXZUujRUSlul0aGBd93LuDNOjmi
+	PI9AMTB/69RjCBIvEL6CKzgT0UkS9fjpfWnuALjzkvV0PUKeffs+Jo2y9/hGu9qYFoIG6C
+	uQ3Ml2aXZp1DKfsTkP6asZo4/bGeYHY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-326-aBrDrz7yNLyJJu19yzJ8HQ-1; Mon,
+ 01 Dec 2025 16:43:34 -0500
+X-MC-Unique: aBrDrz7yNLyJJu19yzJ8HQ-1
+X-Mimecast-MFC-AGG-ID: aBrDrz7yNLyJJu19yzJ8HQ_1764625413
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 101991800452;
+	Mon,  1 Dec 2025 21:43:32 +0000 (UTC)
+Received: from localhost (unknown [10.2.16.172])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CE40F19560A7;
+	Mon,  1 Dec 2025 21:43:30 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: linux-block@vger.kernel.org
+Cc: Christoph Hellwig <hch@lst.de>,
+	linux-kernel@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Mike Christie <michael.christie@oracle.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH v3 0/4] block: add IOC_PR_READ_KEYS and IOC_PR_READ_RESERVATION ioctls
+Date: Mon,  1 Dec 2025 16:43:25 -0500
+Message-ID: <20251201214329.933945-1-stefanha@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251201_114337_031481_AF7B36DD 
-X-CRM114-Status: GOOD (  12.63  )
+X-CRM114-CacheID: sfid-20251201_134342_398544_9966ECEB 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,76 +90,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Broken or malicious controller can send invalid ns id.
-Out-of-band memory access may occur if remaining buffer size
-is less than .nidl (ns id length) field of `struct nvme_ns_id_desc`
+v3:
+- Use checked_mul_overflow(), struct_size(), etc to avoid duplicating size calculations [Christoph]
+- Don't use __free() from cleanup.h [Christoph, Krzysztof]
+- Drop one-time use num_copy_keys local variable [Christoph]
+- Rename inout local variable to read_keys [Christoph]
 
-Fix this issue by checking (header size + .nidl) against
-remaining buffer length.
+v2:
+- Fix num_keys validation in patches 1-3 [Hannes]
+- Declare local variables at beginning of scope [Hannes]
 
-Also small minor related fix: `pos` should be unsigned size_t,
-not signed int.
+This series exposes struct pr_ops pr_read_keys() and pr_read_reservations() to
+userspace as ioctls, making it possible to list registered reservation keys and
+report the current reservation on a block device.
 
-Signed-off-by: Eugene Korenevsky <ekorenevsky@aliyun.com>
----
-v1->v2:
- * Simplification: do not touch nvme_process_ns_desc()
- * Update commit description
-v2->v3:
- * Even more simplification
- * Replace while with do-while as first pre-loop condition
-   check is pointless
- * Change `pos` type: int -> size_t
- * Update commit description
----
- drivers/nvme/host/core.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+The new ioctls are needed by applications or cluster managers that rely on
+inspecting the PR state. This is something that has been possible with SCSI-
+and NVME-specific commands but not with the PR ioctls. I hope to move QEMU from
+SG_IO to PR ioctls so that NVMe host block devices can be supported alongside
+SCSI devices without protocol-specific commands.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f1f719351f3f..73263545e3cd 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1538,8 +1538,10 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- {
- 	struct nvme_command c = { };
- 	bool csi_seen = false;
--	int status, pos, len;
-+	int status, len;
-+	size_t pos;
- 	void *data;
-+	struct nvme_ns_id_desc *cur;
- 
- 	if (ctrl->vs < NVME_VS(1, 3, 0) && !nvme_multi_css(ctrl))
- 		return 0;
-@@ -1563,18 +1565,23 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
- 		goto free_data;
- 	}
- 
--	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
--		struct nvme_ns_id_desc *cur = data + pos;
-+	pos = 0;
-+	do {
-+		cur = data + pos;
- 
- 		if (cur->nidl == 0)
- 			break;
-+		/* check ns id desc does not exceed remaining buffer by size */
-+		if (cur->nidl + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE - pos)
-+			break;
- 
- 		len = nvme_process_ns_desc(ctrl, &info->ids, cur, &csi_seen);
- 		if (len < 0)
- 			break;
- 
--		len += sizeof(*cur);
--	}
-+		pos += sizeof(*cur);
-+		pos += len;
-+	} while (pos < NVME_IDENTIFY_DATA_SIZE - sizeof(*cur));
- 
- 	if (nvme_multi_css(ctrl) && !csi_seen) {
- 		dev_warn(ctrl->device, "Command set not reported for nsid:%d\n",
+These ioctls will also make troubleshooting possible with the blkpr(8)
+util-linux tool, for which I have prepared a separate patch series.
+
+Stefan Hajnoczi (4):
+  scsi: sd: reject invalid pr_read_keys() num_keys values
+  nvme: reject invalid pr_read_keys() num_keys values
+  block: add IOC_PR_READ_KEYS ioctl
+  block: add IOC_PR_READ_RESERVATION ioctl
+
+ include/uapi/linux/pr.h | 14 +++++++
+ block/ioctl.c           | 84 +++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/pr.c  |  6 ++-
+ drivers/scsi/sd.c       | 12 +++++-
+ 4 files changed, 114 insertions(+), 2 deletions(-)
+
 -- 
-2.47.3
+2.52.0
 
 
