@@ -4,90 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4A358D1171E
-	for <linux-nvme@archiver.kernel.org>; Tue,  2 Dec 2025 17:52:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D9BAD1171E
+	for <linux-nvme@archiver.kernel.org>; Tue,  2 Dec 2025 18:22:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:
-	Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sq3/uyeuFrXhQAVmVJjbGubVsI3fsJsI0zwIy0cR2aY=; b=eBQsjIqdB7CTHQUR96JsHdhQei
-	XsByzPD2bR8/r3Rv5wHoMx8jE6AJ2XgNinWRH5oqFmmjGugUcDf789OPxdv2ONB6N5C2t/QA6a8gS
-	TFEuCEzIaX3B7ffsdupfFfxpax/wvXstdDPfj/N7WINEtxt1uDcBgcX1qTLqFou0lbzdMCfvU46Dy
-	BmjT6p4sXffYbMRbOMnVB6+dLLrfmrdFFRYTE669qgrlnqh56jfYNNnn0jsImXszy0nyl2uU/QS2o
-	28kA2+42zVw5enmEpQFA6nCSAbgEjU3WOLuxPcpH48J+umYCsU0q9lbSe4ysYvxQcOHumn0mSPHXG
-	twLnDOBg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:To:From:Date:Reply-To:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=43Z+6YU1jcdWT/ySItftgvu9uMoMRRIwlJCZgUIbD6k=; b=tvIy8A7yJGR6djmLBe3XRW1n5z
+	xVoIJtFtZZUzVxZi1/tTQL6Dpdw5+kS6h+SIPM7t6d2q31EnSiG9o2gi38v6A96Lk0WZDRAO7GCeI
+	Zx1MOG2dPxYMZvnyiVL3w3bpBRIXunMz0AHvJ2JGc6fcKZwfbETkMXgj6NV9bDvwM5UAJQKNOGcdu
+	ucLhidpCKMrrDCpcB6bugOUkZYnGzcb2hDfTntBM0XFc78rwUxdNm9sPToMw8MqDWtnTihb3KJDKR
+	WlbsUPxh5Zvlo3MExM0BdomJ7MBZC9Iu5QZk+B4VzLqv8JVwXVAP1H2rp144X/3vYz5sS8RlF3zn6
+	1qntlnDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQUXv-00000005gjB-1Teg;
-	Tue, 02 Dec 2025 17:52:15 +0000
-Received: from fra-out-007.esa.eu-central-1.outbound.mail-perimeter.amazon.com ([3.75.33.185])
+	id 1vQV17-00000005iQd-33zp;
+	Tue, 02 Dec 2025 18:22:25 +0000
+Received: from out30-84.freemail.mail.aliyun.com ([115.124.30.84])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQUXs-00000005giq-462r
+	id 1vQV15-00000005iQF-0VrF
 	for linux-nvme@lists.infradead.org;
-	Tue, 02 Dec 2025 17:52:14 +0000
+	Tue, 02 Dec 2025 18:22:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1764697933; x=1796233933;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:mime-version:
-   content-transfer-encoding;
-  bh=sq3/uyeuFrXhQAVmVJjbGubVsI3fsJsI0zwIy0cR2aY=;
-  b=TB3UnkDL1RhOyQLl2fU6f6tJRFdNngRNFPlIyOA0Rb0x5TpD7zcxB2Q+
-   Qq01CCE6OyF4pFm7aQYTK1e0TZFHhHMbVmyxt0iXEuO5x2t3wo72dvHWl
-   5vLtRViNh5t2LvcbDNs1lWEjnZrs2PvZmfNjqxM3Mo7sm4FADp3Xk2Z2H
-   4C+KAoLv+OhXwlglHcQV/DN9XEuMbBFl0oapBcqN86S9Wyxnk3StaI4gI
-   NXgc3CgsOovxRkU8kFfS88bKufym5UT+ugKAU8SHSWLf2N1F+/rtQ5Y0m
-   tBRHQ7jhCLcIDQgGrdml1j1k1t4DF6qdgQJ1nmIayuHXy1NYEIOhYJTFX
-   w==;
-X-CSE-ConnectionGUID: PEKxHDPZTNWfnPTkd2uiww==
-X-CSE-MsgGUID: iTmpsolST/OALeUqjMdEag==
-X-IronPort-AV: E=Sophos;i="6.20,243,1758585600"; 
-   d="scan'208";a="6132405"
-Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
-  by internal-fra-out-007.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 17:51:44 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.228:19767]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.46.211:2525] with esmtp (Farcaster)
- id 59332ee5-d083-42ff-8e8e-68e6e0ab314c; Tue, 2 Dec 2025 17:51:44 +0000 (UTC)
-X-Farcaster-Flow-ID: 59332ee5-d083-42ff-8e8e-68e6e0ab314c
-Received: from EX19D008EUC004.ant.amazon.com (10.252.51.148) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Tue, 2 Dec 2025 17:51:36 +0000
-Received: from EX19D008EUC001.ant.amazon.com (10.252.51.165) by
- EX19D008EUC004.ant.amazon.com (10.252.51.148) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Tue, 2 Dec 2025 17:51:36 +0000
-Received: from EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1]) by
- EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1%3]) with mapi id
- 15.02.2562.029; Tue, 2 Dec 2025 17:51:36 +0000
-From: "Heyne, Maximilian" <mheyne@amazon.de>
-To: Keith Busch <kbusch@kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, "Sagi
- Grimberg" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] nvme: Let the blocklayer set timeouts for requests
-Thread-Topic: [PATCH] nvme: Let the blocklayer set timeouts for requests
-Thread-Index: AQHcY7RNpRG0rKo2fE2fBNMXvetFmw==
-Date: Tue, 2 Dec 2025 17:51:36 +0000
-Message-ID: <20251202-78-chops-11b0312d@mheyne-amazon>
-References: <20251202-arrow-debris-c25524e1@mheyne-amazon>
- <aS8kP-bfOmZ-3W9E@kbusch-mbp>
-In-Reply-To: <aS8kP-bfOmZ-3W9E@kbusch-mbp>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.253.68.42]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <163DC25D524D114CA2879E5DC661D2C5@amazon.com>
+	d=aliyun.com; s=s1024;
+	t=1764699739; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=43Z+6YU1jcdWT/ySItftgvu9uMoMRRIwlJCZgUIbD6k=;
+	b=TUrY6u9NIPE1TW1uTUXtmkSieLLORKUMuW6nwh6M8OI/B4f55L9MFPAp6Ptl6xF8KI+7Bhz9rc3aQfCWTqTH1FT1ydFApTWVFFIXBC0Y6lmRPMwaKwEMNggjK8eAVM4Q1NSrNIaiJfysnnbpdCs7ANSXJbxc581LQTD0qhWeY7k=
+Received: from aliyun.com(mailfrom:ekorenevsky@aliyun.com fp:SMTPD_---0WtxZP9a_1764699736 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 03 Dec 2025 02:22:18 +0800
+Date: Tue, 2 Dec 2025 21:22:13 +0300
+From: Eugene Korenevsky <ekorenevsky@aliyun.com>
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] nvme: nvme_identify_ns_descs: prevent oob
+Message-ID: <aS8uVVBz_n4lI3bM@localhost.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251202_095213_337618_884B9CDB 
-X-CRM114-Status: GOOD (  21.80  )
+X-CRM114-CacheID: sfid-20251202_102223_325042_C3FB1EA9 
+X-CRM114-Status: GOOD (  11.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,50 +62,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 02, 2025 at 10:39:11AM -0700, Keith Busch wrote:
-> On Tue, Dec 02, 2025 at 01:58:19PM +0000, Heyne, Maximilian wrote:
-> > When initializing an nvme request which is about to be send to the block
-> > layer, we do not need to initialize its timeout. If it's left
-> > uninitialized at 0 the block layer will use the request queue's timeout
-> > in blk_add_timer (via nvme_start_request which is called from
-> > nvme_*_queue_rq). These timeouts are setup to either NVME_IO_TIMEOUT or
-> > NVME_ADMIN_TIMEOUT when the request queues were created.
-> > =
+Broken or malicious controller can send invalid ns id.
+Out-of-band memory access may occur if remaining buffer size
+is less than .nidl (ns id length) field of `struct nvme_ns_id_desc`
 
-> > Because the io_timeout of the IO queues can actually be modified via
-> > sysfs, the following situation can occur:
-> > =
+Fix this issue by checking (header size + .nidl) against
+remaining buffer length.
 
-> > 1) NVME_IO_TIMEOUT =3D 30 (default module parameter)
-> > 2) nvme1n1 is probed. IO queues default timeout is 30 s
-> > 3) manually change the IO timeout to 90 s
-> >    echo 90000 > /sys/class/nvme/nvme1/nvme1n1/queue/io_timeout
-> > 4) nvme zns report-zones /dev/nvme1n1
-> >    This command issues IO commands with timeout 30 s instead of the
-> >    wanted 90 s which might be more suitable for this device.
-> =
+Signed-off-by: Eugene Korenevsky <ekorenevsky@aliyun.com>
+---
+v1->v2:
+ * Simplification: do not touch nvme_process_ns_desc()
+ * Update commit description
+v2->v3:
+ * Even more simplification
+ * Replace while with do-while as first pre-loop condition
+   check is pointless
+ * Change `pos` type: int -> size_t
+ * Update commit description
+v3->v4:
+ * Replace do-while with for. A bit exceeded 80 hard limit but still in
+   100 soft limit
+ * Restore `pos` type. This is subject of another patch if we prefer
+   minimalism
+---
+ drivers/nvme/host/core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> Does this example really use 30s, though? User space commands should be
-> going through nvme_submit_user_cmd(), which overrides the timeout set
-> from the nvme_init_request with whatever the user requested (usually 0).
-
-You're right. I actually worked on multiple (older) kernel versions and
-forgot about this case. It was actually commit 470e900c8036ff ("nvme:
-refactor nvme_alloc_request") which subtly changed the behavior but only
-for the ioctl case. So ioctl's are fine then but, for example,
-everything which goes via nvme_submit_sync_cmd shows the issue. So we
-need to update the commit message accordingly. Sorry for that. I'll give
-it a day or two for further comments on this patch and then send it with
-a more correct message.
-
-
-
-Amazon Web Services Development Center Germany GmbH
-Tamara-Danz-Str. 13
-10243 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Christof Hellmis
-Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
-Sitz: Berlin
-Ust-ID: DE 365 538 597
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f1f719351f3f..253d35937f03 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1540,6 +1540,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
+ 	bool csi_seen = false;
+ 	int status, pos, len;
+ 	void *data;
++	struct nvme_ns_id_desc *cur;
+ 
+ 	if (ctrl->vs < NVME_VS(1, 3, 0) && !nvme_multi_css(ctrl))
+ 		return 0;
+@@ -1563,11 +1564,14 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl,
+ 		goto free_data;
+ 	}
+ 
+-	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
+-		struct nvme_ns_id_desc *cur = data + pos;
++	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE - sizeof(*cur); pos += len) {
++		cur = data + pos;
+ 
+ 		if (cur->nidl == 0)
+ 			break;
++		/* check ns id desc does not exceed remaining buffer by size */
++		if (cur->nidl + sizeof(*cur) > NVME_IDENTIFY_DATA_SIZE - pos)
++			break;
+ 
+ 		len = nvme_process_ns_desc(ctrl, &info->ids, cur, &csi_seen);
+ 		if (len < 0)
+-- 
+2.47.3
 
 
