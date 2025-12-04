@@ -4,85 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7A0BD29FB2
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 19:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 022B8D2A521
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 19:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fFGZ0sYYFsGCnTMv4S29PKuw5mxfEDY6J90QuiyCqko=; b=175WeicKdYHFtH+J27Lpn9aZrQ
-	Pos/Iahog7bmp+T1ZAdArLGVwwmeli4KVSZUG/0LrjEjXrRFLLGr3QiDWFEnl5D4TacwdEg0fzZgz
-	Foo5slFa4221tFNc7bTRddqWKSeNisvznCL2UcGtm1eCfvmLC/AFs5Vk0D99jUmG5ToxuIQeoHBYx
-	V3qXSW8uVL9S0tvejaqg4z2G8Ff/qeXqqPMubZBVGyPkCWH6hnOcRJVUQxd+uM2IR0uyywY7U9N9B
-	7o5Jsasz6f4RmToYE4E8r9XsoAj9gxMP4qYCnyUbvxbfmRgAeD9/ulny442CCaNPJhU+4SR3r3EiA
-	oKTFbMSA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=K85hLvlaLvTs7QWXRfbHiJadW8G+Kx4QGeXhEF8abl0=; b=ArtpSi9D/ILAaxo9fTZM+pyyKK
+	vNDzJqRXCMEeq3sGlIxYPalTKyk0lEEubhXTcVRJ2DyZa3EgYUwxfXYFadYjyR11kkBYWw+XZWIUw
+	F4zoy6fUl+I9lSHUfRWdSAK0j6+oagK6jE9DMAzfqy1dUVXZ41jmuFgQcANCo9qqfda4fGL6b7kSp
+	nEdOiqkp9XTdMTvdchYtfO/bIRS2iRpxuwXOmdcQoThhSzwGHWYFarlwfk3wF4ycLyZAPPLmHOidF
+	s33Fw/XYrBVySz46BZXbLQp0YvnCUGXt4moH3tNJAwgVLRdM+3Gs8Ht6W/zUhv7JzfeVR4l95Yy5w
+	38c2Hpmg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRFQ6-00000008XBG-2IZk;
-	Thu, 04 Dec 2025 19:55:18 +0000
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+	id 1vRFSp-00000008XLi-0O2G;
+	Thu, 04 Dec 2025 19:58:07 +0000
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRFQ3-00000008XAm-13fB
+	id 1vRFSm-00000008XLG-39u8
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Dec 2025 19:55:16 +0000
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so1173671b3a.0
-        for <linux-nvme@lists.infradead.org>; Thu, 04 Dec 2025 11:55:15 -0800 (PST)
+	Thu, 04 Dec 2025 19:58:06 +0000
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-b79af62d36bso234699766b.3
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Dec 2025 11:58:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764878114; x=1765482914; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fFGZ0sYYFsGCnTMv4S29PKuw5mxfEDY6J90QuiyCqko=;
-        b=L2Y9KBwsjC1vb1Y+F6Jai810t6QJnH8UAtOML3kGIP5YQ5rDapNk1WJv1e+uOC9wxp
-         xFj8FiNfl5xOPbrmWQ4DG5KbmtbxLcogOtkkBb7+wPKui2pbI+vF3XrBUxrqJXPtRIpV
-         V0QTmpWflEHXD6tlRVYPtx/rJ1f2V85ckZ8Vqfc3fjb1XKqGlw80z4zY5AwAU7lejiel
-         JhuTaW8O9liEGveRub0E9zVI22KsOa9dxvcC+sZ1ZnISGnZNQv3E9/sr+odT/XkOsSrE
-         efZr6fZPJRj1P3nRhFkINvtkwDfdtCea0hD4h/qI4ojuHAk7V6gBN+9ImmCnzNpkUS7K
-         tVJQ==
+        d=purestorage.com; s=google2022; t=1764878283; x=1765483083; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=K85hLvlaLvTs7QWXRfbHiJadW8G+Kx4QGeXhEF8abl0=;
+        b=YLaL/IBIoeEOW0+UXBnS6cF6Om8kcZDbfr5xp+PbZqn9nuTf10DUT8BoxS600pPWMs
+         B0vN5U40yhHDjDCw/xc+bW9lEWe5MtL4/KRzqmsVHKiRG+FTBbb6Gyt3Qd8Gn+UI5Qzt
+         2XWEOBwT20Knc0gOzuWPOWr7QIy/0lO3pv/lXS4+MsHua6D1Pmf34myp6Gv894/iQlcx
+         UwcPPoHpWX/A41b9vb9u8rhPKqeueBQQ89psJCsLzX3m1BG6GgYt0TMrRu5C+WTX39NJ
+         rcFHGqpnLLNaFof8moKc61nNt8Ey68WlYEYjuv5ESvtB8az81KGwG16l9SYpST+ixIGG
+         Xc0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764878114; x=1765482914;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fFGZ0sYYFsGCnTMv4S29PKuw5mxfEDY6J90QuiyCqko=;
-        b=nA25xqBu5PqvhVt2PeVLAf2b7POb7NmQuJfnXgVVYSQUKTT5UQpmhAcPCgfQY4Q/vL
-         lLJ258sB23fsmVSLkJdFviyYXk/oAacLwbewK+ne8K1P7B8esutFiDELkEQUMF+kRgXf
-         65HHxPo91tM1Np0HPDhVHlE+yPdkuFDoNGEfgxzu7wPwWExCSDgxfz/kFq4XbBwuwQKO
-         JaLj9pbW7LLanGeJMOF1g7S5DSO4g2cIjIHn2YKBzIw4h/88jmg+My1MV8e/yql8XdVV
-         g9gnSZJBTU4Q7tf+IZGiw8trOrofVee6lB3Y4OXD42Kgw2821nKOer4pOZWQejpVqeOd
-         E4dA==
-X-Gm-Message-State: AOJu0YxBD2BJ81KiZtqufjLWpS+x0gZT6sRpDU+P++TqEvRmLRXZCwOJ
-	rkZu9DJHR8goolZiJBmXo0T3qaqOTf9IwQuh3pud99b+2WKRUxmd34qiwD1k9w==
-X-Gm-Gg: ASbGncun7CPx7bwS1SNlJzdvW8apqif5tJr5Q6L/0FKQWZx8bbNWjx+w2IUsGkKcHYt
-	mQYI/PDGEq4XVkgg+me3SN/9eyitOX/8Ywu8cl1C4zZOpsY4ltZ94GOA/T7uXIIui1o1QFrEepT
-	xpKXVsWr/xTBRAml8r/Vxt1b/OQW1YiPityFg2IBlRcZl1cAijubSlUn+t3FapQjbWDPtSc2nqg
-	i08QcEqD3WJ6n+DXGT9k4fceqwNzuc1OeaeyaK3hJopjINnUKZhnEHWiWrQEvbcz8FM08pP8/B/
-	VzzsF3hkwj1EQJXxWzUBn9umyi6FHE5yzNZBeM01V1T3GaRaE7nPXuU4qsbCL93w4VIExqmTkt3
-	kIL7oJtB1Q4c6fRANFte35R1Amw4muRsT0KUyaTzYSbEjZ9ZufuhfnTteO0d7eSlbGOTmoHjVYZ
-	v35Lh4HURbV+QOk0VtqROCSAu/En/fWGxoD9mWG38/t7s14i3bZzCXKpZuwfnAMtTWs3HIjAo=
-X-Google-Smtp-Source: AGHT+IFlprDjqQY7sgD9BnpIiqqaHtQfj+I/Av3oM3JlSQ607UcG/22eC2lV+/v1aH5ULHDziVaxTQ==
-X-Received: by 2002:a05:7022:628f:b0:11a:23fb:16e2 with SMTP id a92af1059eb24-11df643c6e0mr3231998c88.9.1764878113920;
-        Thu, 04 Dec 2025 11:55:13 -0800 (PST)
-Received: from dhcp-10-231-55-133.dhcp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11df76e2f3csm9664083c88.5.2025.12.04.11.55.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Dec 2025 11:55:13 -0800 (PST)
-From: Justin Tee <justintee8345@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Justin Tee <justintee8345@gmail.com>,
-	Aristeu Rozanski <aris@redhat.com>,
-	Daniel Wagner <wagi@kernel.org>,
-	"Ewan D . Milne" <emilne@redhat.com>
-Subject: [PATCH 1/1] nvmet-fcloop: Check remoteport port_state before calling done callback
-Date: Thu,  4 Dec 2025 12:26:13 -0800
-Message-Id: <20251204202613.14908-1-justintee8345@gmail.com>
-X-Mailer: git-send-email 2.38.0
+        d=1e100.net; s=20230601; t=1764878283; x=1765483083;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K85hLvlaLvTs7QWXRfbHiJadW8G+Kx4QGeXhEF8abl0=;
+        b=XDDEVXKrvM5xPOOaHVPrnVSiE1DeCe+lOuyVJNF4zzLgXSICIllfMCMtD/vUXFwzIu
+         4hEt/NAAOeaQMOJ0jbqDvWohGdNKml2zlvN94EvCOSmTxD+ks2kYp/Kvom5Jo8r+t9ZA
+         /9AztanVcJa52udFDUUIcX4pEbnn5rb97jQZpOXSBAXOeU9eK68mAno+PPYlOtSex11F
+         mXfr5RFgAS3Ar71Y2VozuKq6oK1NBkIvhZzwJpzgB61RuUo88pZ0HbRApxAGm8fZK/wc
+         S+GYDnlu1lcvAbTrXwW43rXcjvv5SjxOm3Mj5MJYj5EY5sikhl1zRrNh9wK4b//uAyzg
+         dRmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUqFqtyeN481DdtEgsV6i9jiKsftBDhuv7A2/18M2SDDy6clWTMPU97l2bJlC4SoBOIQeTQR8hMmfj7@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz4sOcAYzZ6aOUU6we+ECqyVIrTiQrKnLdfwxHabDLZcMPD+n52
+	f0JSgTn6hdf3E7gPLIo+zdk/K3mEbc0NmCXRBbZCIQXunMH1X9RkK2S+xo0fd7ctgXE=
+X-Gm-Gg: ASbGncsCkhWmom1ZPrQn7OFZbDZbeHFQnTU+WhgRrPhEMieCZBshUXVl4vknO4ZgTBk
+	9oKL/XIKcq+Mc5MVJy4ZMRUZ9/TG6sF4S1J2HE3805YVGdlu919Lf7Kkll/+uujSu9cJ0i5IQY0
+	1ilnzjMAK3F8DlCocACVY4GyOoay2qVW8iMHc3fpBsNzkqxO7YCoWbUSwCplSv+YDD4VLtmOTUn
+	t7HWdO+CtdLudH3rzOcOKqLg1xnfRMHzMESPQ1mfPuhNEdCkBc60feP1kVbfanLI25WPy2hUvlv
+	aDNj2H8/jz7kPpfXT29Vwg13z7uU/bOtGr64XloWeoRgFuZHcFM7yg1+dlVy08G6quHQzjqAgPT
+	wf7xTbZICPQ6WRfN+hbm8twRV3AXXZnZsf/6sVKmHaelKjrJfqbfvO6Wgb4hGjJBKg2Ng1okunS
+	9teqwjByTRVq1EVTVKQfGMvq8Etc+xmgo=
+X-Google-Smtp-Source: AGHT+IHUPzhRdk1tJWg+WYux5jYGrf/7CZPDqfa+5xnHk5ZwVdIiMDev2CwK7tTMHnl9R6P38XGmgw==
+X-Received: by 2002:a17:907:3d8f:b0:b73:9a71:13bb with SMTP id a640c23a62f3a-b79ec67421bmr451758966b.32.1764878282667;
+        Thu, 04 Dec 2025 11:58:02 -0800 (PST)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with UTF8SMTPSA id a640c23a62f3a-b79f4976027sm193456466b.39.2025.12.04.11.58.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 11:58:02 -0800 (PST)
+Date: Thu, 4 Dec 2025 11:57:59 -0800
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Casey Chen <cachen@purestorage.com>,
+	Yuanyuan Zhong <yzhong@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>,
+	Waiman Long <llong@redhat.com>, Hillf Danton <hdanton@sina.com>,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] block: Use RCU in blk_mq_[un]quiesce_tagset()
+ instead of set->tag_list_lock
+Message-ID: <20251204195759.GC337106-mkhalfella@purestorage.com>
+References: <20251204181212.1484066-1-mkhalfella@purestorage.com>
+ <20251204181212.1484066-2-mkhalfella@purestorage.com>
+ <5450d3fa-3f00-40ae-ac95-1f08886de3b6@acm.org>
+ <20251204184243.GZ337106-mkhalfella@purestorage.com>
+ <71e9950f-ace7-4570-a604-ceca347eea20@acm.org>
+ <20251204191555.GB337106-mkhalfella@purestorage.com>
+ <77c5c064-2539-4ad9-8657-8a1db487522f@acm.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77c5c064-2539-4ad9-8657-8a1db487522f@acm.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251204_115515_293688_2B4C76C4 
-X-CRM114-Status: GOOD (  14.84  )
+X-CRM114-CacheID: sfid-20251204_115804_871005_42A329D1 
+X-CRM114-Status: GOOD (  23.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,63 +112,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In nvme_fc_handle_ls_rqst_work, the lsrsp->done callback is only set when
-remoteport->port_state is FC_OBJSTATE_ONLINE.  Otherwise, the
-nvme_fc_xmt_ls_rsp's LLDD call to lport->ops->xmt_ls_rsp is expected to
-fail and the nvme-fc transport layer itself will directly call
-nvme_fc_xmt_ls_rsp_free instead of relying on LLDD's done callback to free
-the lsrsp resources.
+On Thu 2025-12-04 09:31:55 -1000, Bart Van Assche wrote:
+> On 12/4/25 9:15 AM, Mohamed Khalfella wrote:
+> > The stacktraces are from old 6.6.9 kernel.
+> 
+> Please always include stack traces from a recent upstream kernel in
+> patch descriptions.
+> 
 
-Update the fcloop_t2h_xmt_ls_rsp routine to check remoteport->port_state.
-If online, then lsrsp->done callback will free the lsrsp.  Else, return
--ENODEV to signal the nvme-fc transport to handle freeing lsrsp.
+Good point. Will do that in next version of the patch.
 
-Cc: Aristeu Rozanski <aris@redhat.com>
-Cc: Daniel Wagner <wagi@kernel.org>
-Cc: Ewan D. Milne <emilne@redhat.com>
-Closes: https://lore.kernel.org/linux-nvme/21255200-a271-4fa0-b099-97755c8acd4c@work/
-Fixes: 10c165af35d2 ("nvmet-fcloop: call done callback even when remote port is gone")
-Signed-off-by: Justin Tee <justintee8345@gmail.com>
----
- drivers/nvme/target/fcloop.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+> > However, the issue is still
+> > applicable to recent kernels. This is an example from 6.13 kernel.
+> 
+> Thanks, these stack traces make it clear what is causing the deadlock.
+> 
+>  From nvme_timeout():
+> 
+> 	/*
+> 	 * Reset immediately if the controller is failed
+> 	 */
+> 	if (nvme_should_reset(dev, csts)) {
+> 		nvme_warn_reset(dev, csts);
+> 		nvme_dev_disable(dev, false);
+> 		nvme_reset_ctrl(&dev->ctrl);
+> 		return BLK_EH_DONE;
+> 	}
+> 
+> Is my understanding correct that the above code is involved in the
+> reported deadlock? If so, has it been considered to run the code inside
+> the if-statement asynchronously (queue_work()) instead of calling it
+> synchronously? Would this be sufficient to fix the deadlock?
+> 
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index c30e9a3e014f..38bd2db3d6bb 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -491,6 +491,7 @@ fcloop_t2h_xmt_ls_rsp(struct nvme_fc_local_port *localport,
- 	struct fcloop_rport *rport = remoteport->private;
- 	struct nvmet_fc_target_port *targetport = rport->targetport;
- 	struct fcloop_tport *tport;
-+	int ret = 0;
- 
- 	if (!targetport) {
- 		/*
-@@ -500,12 +501,18 @@ fcloop_t2h_xmt_ls_rsp(struct nvme_fc_local_port *localport,
- 		 * We end up here from delete association exchange:
- 		 * nvmet_fc_xmt_disconnect_assoc sends an async request.
- 		 *
--		 * Return success because this is what LLDDs do; silently
--		 * drop the response.
-+		 * Return success when remoteport is still online because this
-+		 * is what LLDDs do and silently drop the response.  Otherwise,
-+		 * return with error to signal upper layer to perform the lsrsp
-+		 * resource cleanup.
- 		 */
--		lsrsp->done(lsrsp);
-+		if (remoteport->port_state == FC_OBJSTATE_ONLINE)
-+			lsrsp->done(lsrsp);
-+		else
-+			ret = -ENODEV;
-+
- 		kmem_cache_free(lsreq_cache, tls_req);
--		return 0;
-+		return ret;
- 	}
- 
- 	memcpy(lsreq->rspaddr, lsrsp->rspbuf,
--- 
-2.38.0
+Yes, the above code is involved in the deadlock. I do not see how
+running this code in another thread will solve the problem. It will
+still cause a deadlock between blk_mq_quiesce_tagset() and 
+blk_mq_del_queue_tag_set(). The later is holding the mutex and while
+waiting for the queue to be frozen. The former wants the mutex in order
+to make progress and cancel inflight requests to let the queue to be
+frozen. I do not see how this will make a difference.
 
+> Thanks,
+> 
+> Bart.
 
