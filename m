@@ -4,85 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5674ED206A8
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 14:12:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37B6CD206A9
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 14:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:Message-ID:Date:Subject:CC:From:Reply-To:To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=zHAkc3aSRt4H58MO7hMNVzjrvfIHCs6a3GVXcfFgctw=; b=PW6y7hWXcCwXlThcPO/bNx5vzC
-	ky4xo3dh+/zXbCy+jEzY4S49Sl/vU2tl9WfX83YyEwU8CgoV24OwpT0mDHD+bAyVg5j+cUPIgDF6q
-	M/9/CRupDWGg2HTO3tCVGfCwI8FAL7NcrXw980kWR+P93YywRiUFAWIzb4B3HEhI2moverL2e32g6
-	Y2ypP4LLdpr4EMKwtol6tPcK+bKlH45v6FZ5pO1c22rsvl+BRispreHwS8gVGJE+7xvpftJRpNh/s
-	gyn23QhOapGfRIfBJj3Fo7ZKbSARQoE3lwCaiT708bB1UganOCYjH7lQYmwCGpjEUcnBb59PsxIF+
-	7vpdJ+6Q==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=PXVjDv2oTpvWk9JEN5P/mooYr1Wl4BQmv5s69QzcXNU=; b=BfHazi2WdDNzl35FujWQcHkz8L
+	e08Kteh5VaQElpqfydFuOIYBvyLS6zH3UK6nFnyMmQRAdDF7S4POfbTg0CLv+2X3XyMkncWhke6YZ
+	yMrL9BrImWrWSqatGAQUH49yIkjcTpDyaVC8Nfj9PbLtN5wPJziAzOFcZgLks25BQSAYlXyRCde3R
+	OUQhXl2LNBQTAocxbbEwf5b54Xm8P2ih6UrzkjkkIjqfHHskhN3zynFnKL8FXC6ep3mRsRxcj74jo
+	C//4hwUFzvmxlVwm584hoC2NWZZM7QNZBrWZvnZlFJn3WGzXlgZxewdBP4fZ+ff9bG1cv6AcYotM7
+	yFDW6a/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRA45-000000086Oe-2yiX;
-	Thu, 04 Dec 2025 14:12:13 +0000
-Received: from fra-out-006.esa.eu-central-1.outbound.mail-perimeter.amazon.com ([18.197.217.180])
+	id 1vRADh-0000000874l-2JlD;
+	Thu, 04 Dec 2025 14:22:09 +0000
+Received: from mail-oa1-x43.google.com ([2001:4860:4864:20::43])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRA42-000000086O1-2clK
+	id 1vRADe-00000008741-1l8R
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Dec 2025 14:12:12 +0000
+	Thu, 04 Dec 2025 14:22:08 +0000
+Received: by mail-oa1-x43.google.com with SMTP id 586e51a60fabf-3e8f418e051so734683fac.3
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Dec 2025 06:22:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1764857530; x=1796393530;
-  h=from:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zHAkc3aSRt4H58MO7hMNVzjrvfIHCs6a3GVXcfFgctw=;
-  b=RzMgZeVsuzW22Ff/9D+0Kwn5QoEEjBgKc/8CxYn5fnfYKLXyOcnsnwh9
-   4/aIoN059YjyiDdwADdz0O9cAk1HvHyiVO93gNpH2gIbnupBxr4rKXsHI
-   hf3VRamZ6nuLlRxCHk6rRO+neFDwtYjFKrMQyFeYfw0e+J9ns9V2oyqJY
-   KKatYjonqw0UWt8T9S4lbi0l/jEwUlfA3MDATYV2muVg5tuY5qQpromEx
-   3HQfVKUC18t0NtQ2R+dJAgwB3aYarTm8lByDJEkhBJASKrvs7zgE02KbN
-   dteCv/qiqrzMj4AgA+gWsmcskzyJttJElG7XfAnPvuOSfxPa6/dbxuyvn
-   w==;
-X-CSE-ConnectionGUID: 6v7uMLzkQECqsHpUxOH2jw==
-X-CSE-MsgGUID: yMfl4VxmQLWEY7OOKlSdqA==
-X-IronPort-AV: E=Sophos;i="6.20,249,1758585600"; 
-   d="scan'208";a="6237372"
-Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
-  by internal-fra-out-006.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 14:11:51 +0000
-Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:13953]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.24.148:2525] with esmtp (Farcaster)
- id 5c9fd160-a5ea-47ec-9c7e-ac7ae8294279; Thu, 4 Dec 2025 14:11:50 +0000 (UTC)
-X-Farcaster-Flow-ID: 5c9fd160-a5ea-47ec-9c7e-ac7ae8294279
-Received: from EX19D008EUC002.ant.amazon.com (10.252.51.146) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.124) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Thu, 4 Dec 2025 14:11:50 +0000
-Received: from EX19D008EUC001.ant.amazon.com (10.252.51.165) by
- EX19D008EUC002.ant.amazon.com (10.252.51.146) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Thu, 4 Dec 2025 14:11:50 +0000
-Received: from EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1]) by
- EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1%3]) with mapi id
- 15.02.2562.029; Thu, 4 Dec 2025 14:11:50 +0000
-From: "Heyne, Maximilian" <mheyne@amazon.de>
-CC: "Heyne, Maximilian" <mheyne@amazon.de>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] nvme: Let the blocklayer set timeouts for requests
-Thread-Topic: [PATCH v2] nvme: Let the blocklayer set timeouts for requests
-Thread-Index: AQHcZSfu6ypIT7DcmUS6OdgGRPM68A==
-Date: Thu, 4 Dec 2025 14:11:50 +0000
-Message-ID: <20251204-tests-bryce-8b3b2823@mheyne-amazon>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.253.68.42]
-Content-Type: text/plain; charset="iso-8859-1"
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1764858125; x=1765462925; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PXVjDv2oTpvWk9JEN5P/mooYr1Wl4BQmv5s69QzcXNU=;
+        b=r74LsVqm2rmAexWVPNaaamDzwFgqPdK/wgtrKST5FTYNIsjIjE9ACEjjYm81pL9IeT
+         heKctDf8KlzgPknl77dXEWuAFt/gyQHLFu7SToArqzs9BpAzaf8ZD0/aax0dwntA79Ol
+         eyDmROSnBKcDJpntv5tor4IeA1umD5isyQkcLv+dJOVPjSD8lhZfBcy13kXaL3yuj7aT
+         3qFRzyM3oHZzrGOAvMjiI7j4N8+IR1M5adHqtJjUYxiLv5G9Ugse0SgSb5bp+whptwGJ
+         xnkBfb3oQf3jcQ24VsbX/DKTJdmC8LhONvepcU0ODCFX8Bd+Z0v2LKZeusgY2MCPd16w
+         75dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764858125; x=1765462925;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PXVjDv2oTpvWk9JEN5P/mooYr1Wl4BQmv5s69QzcXNU=;
+        b=tU1yoIoyBMKRqDhZihiUgQh61aS8VsnjAc52MyprR3gZAxGeOhXUe/S7MkP1CxRasg
+         j9HYrKWA9koqDnpLwxoNRur/6kmNO5FC6jL3Tx2muBvI0zVzo030WwVe8pbJLYFJBayT
+         MWGWS08yO54dcDlE8uebGBr2EO0SBWTPho9a271gLhk+TqkdX0AZQAOoLiGsMCQ+YqfM
+         SuFi3XMQ49bFg8mHr3LzCgXYYISZkjw6JWiCRuZnDy/x6KFxSM/YJOOUzXAXZzJXIM2b
+         /t6yG3T9rjeq7DIe0ecb+42zWfkVn2tImx9s8shaGWW70NWF7WNTwtlAUimVzgqXAbLD
+         +bjA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCMfe1ntzAi9nAcf8TODLuzykkHzZQrezkVWqDp1BfrK4X/IfY3FxB9cTm2qoX6wJswzAC5S2HU8vc@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxqj+HEVf/pSBC2wsO6S4IMUScNZaua+g3Sgakf+YIYgOy0x6Dw
+	BE8plVT4yDQWeG6YRkaWTvY3UgBPxEpPzGQqyXcDTNWRPv68OdZUWi7/gYUQY7dKwgA=
+X-Gm-Gg: ASbGncs7HnY+3cAxq0oG2j5n3pc8bFZp9vgINuz00ZoQvPwOjuENZBw5TBXIaE2QXQs
+	cmqtJA6VUUM5Dprt7PR0KosIXNKFt76FwvGFnkSnsRE6Swl7bXC3NmvYLmvjJXAf2v3JeGoKSyB
+	H1/oxNsNwDUNP5FbT0soRQgb8e2L/VBfyF2q2icRsmkSjN1zj3pf6sBA9jQC5gZnsP4q6WWpuWl
+	l86IXV3qSEDCD1qfCiim2aPFD68yBoHJqTptZEM4S1Uxcj4L01YLynzsntCZ9RKuNxqpK1pz6VJ
+	NJXyX89VTufUXfPkdtN8c3VSnRMcjUWffZ3lSCr5aqBqIC/Y2rFG4/z6ESc/dhadtUp5pp9lUOh
+	5lRyemHy9tkT2RlUQssRGHNsjx25U0Y1/etr75YiniAxTe1ynNqV05g9sG0V7XutpOF4lEYYpcs
+	BAMwfrWEo=
+X-Google-Smtp-Source: AGHT+IHaFfZ3+cHcCfO4oF2Ib4EN6e7NxZ61maB+d4wtZwSX45wEyqMGZ0TPKbpTNr+eIovSQf38EA==
+X-Received: by 2002:a05:6870:cb8b:b0:3ea:e4ff:9843 with SMTP id 586e51a60fabf-3f16918a238mr3491649fac.5.1764858124958;
+        Thu, 04 Dec 2025 06:22:04 -0800 (PST)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3f50aa9675fsm1374643fac.6.2025.12.04.06.22.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Dec 2025 06:22:04 -0800 (PST)
+Message-ID: <08fd7006-3dd7-4762-9bd3-cde2a7e7f3d9@kernel.dk>
+Date: Thu, 4 Dec 2025 07:22:03 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme updates for Linux 6.19
+To: Keith Busch <kbusch@kernel.org>
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+References: <aTCNwTd9E186RsXE@kbusch-mbp>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <aTCNwTd9E186RsXE@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251204_061210_958913_1CEDBAE8 
-X-CRM114-Status: GOOD (  16.20  )
+X-CRM114-CacheID: sfid-20251204_062206_710090_DD504EDF 
+X-CRM114-Status: GOOD (  12.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,71 +101,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When initializing an nvme request which is about to be send to the block
-layer, we do not need to initialize its timeout. If it's left
-uninitialized at 0 the block layer will use the request queue's timeout
-in blk_add_timer (via nvme_start_request which is called from
-nvme_*_queue_rq). These timeouts are setup to either NVME_IO_TIMEOUT or
-NVME_ADMIN_TIMEOUT when the request queues were created.
+On 12/3/25 12:21 PM, Keith Busch wrote:
+> This is a bit later than usual as we dropped part of the original set to
+> provide additional time to resolve some late comments.
+> 
+> The following changes since commit d211a2803551c8ffdf0b97d129388f7d9cc129b5:
+> 
+>   block/rnbd: correct all kernel-doc complaints (2025-12-01 07:19:50 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-6.19-2025-12-03
+> 
+> for you to fetch changes up to fd87c8a7982fdb555133a6d225b636984d12c7db:
+> 
+>   nvme-fabrics: add ENOKEY to no retry criteria for authentication failures (2025-12-01 13:45:58 -0800)
+> 
+> ----------------------------------------------------------------
+> nvme updates for Linux 6.19
+> 
+>  - Subsystem usage cleanups (Max)
+>  - Endpoint device fixes (Shin'ichiro)
+>  - Debug statements (Gerd)
+>  - FC fabrics cleanups and fixes (Daniel)
+>  - Consistent alloc API usages (Israel)
+>  - Code comment updates (Chu)
+>  - Authentication retry fix (Justin)
 
-Because the io_timeout of the IO queues can be modified via sysfs, the
-following situation can occur:
+Pulled, thanks.
 
-1) NVME_IO_TIMEOUT =3D 30 (default module parameter)
-2) nvme1n1 is probed. IO queues default timeout is 30 s
-3) manually change the IO timeout to 90 s
-   echo 90000 > /sys/class/nvme/nvme1/nvme1n1/queue/io_timeout
-4) Any call of __submit_sync_cmd on nvme1n1 to an IO queue will issue
-   commands with the 30 s timeout instead of the wanted 90 s which might
-   be more suitable for this device.
-
-Commit 470e900c8036 ("nvme: refactor nvme_alloc_request") silently
-changed the behavior for ioctl's already because it unconditionally
-overrides the request's timeout that was set in nvme_init_request. If it
-was unset by the user of the ioctl if will be overridden with 0 meaning
-the block layer will pick the request queue's IO timeout.
-
-Following up on that, this patch further improves the consistency of IO
-timeout usage. However, there are still uses of NVME_IO_TIMEOUT which
-could be inconsistent with what is set in the device's request_queue by
-the user.
-
-Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
----
- drivers/nvme/host/core.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7bf228df6001..b9315f0abf80 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -724,10 +724,8 @@ void nvme_init_request(struct request *req, struct nvm=
-e_command *cmd)
- 		struct nvme_ns *ns =3D req->q->disk->private_data;
- =
-
- 		logging_enabled =3D ns->head->passthru_err_log_enabled;
--		req->timeout =3D NVME_IO_TIMEOUT;
- 	} else { /* no queuedata implies admin queue */
- 		logging_enabled =3D nr->ctrl->passthru_err_log_enabled;
--		req->timeout =3D NVME_ADMIN_TIMEOUT;
- 	}
- =
-
- 	if (!logging_enabled)
--- =
-
-2.47.3
-
-
-
-
-Amazon Web Services Development Center Germany GmbH
-Tamara-Danz-Str. 13
-10243 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Christof Hellmis
-Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
-Sitz: Berlin
-Ust-ID: DE 365 538 597
+-- 
+Jens Axboe
 
 
