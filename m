@@ -4,56 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DBC8D216A8
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 22:53:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D359BD2CDE4
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 23:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=XdOC2bXCm16B8qQJ17K3O/WjBBWRLSKALaqp4XBBPD0=; b=aRZr75Jw7ORvyQf6Yelp6jNwhZ
-	bBO+MUXc1pMBwled4dsD/2lZjTeDk3rzQZuMQbZC9bG0DyBqALpaoQKavA56lI/PdLfoCBEY/oQWG
-	au7QBKwQ9Pd5OWQUccpKEAGmMdySOJi1+++8QuahgwswkuD3023AIEdkkGO/LlVTECfXxqhblIg5z
-	UxWN/iWNLTNAjrndfHTOs/AKHAwaKJDEC4P0j/D49fc3AgR/70WVpYb5ZlFrGJw3AyzM9GdVH3a25
-	jmPMg+nzyHFer8ebno2ynqS1H9yDc3abANjGKy0uUPlNYX/R+Wfy8DQHUaU2WWZp3LMmWzYTVo2/J
-	/Lc6sJ0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=l83Pny9GYXrwKC6pNJtZuDPNUiGnu/Vd9NOnnwLpAL8=; b=Kn7oQNlaqh9HIuWSlQyxEY/0p2
+	13x9loRsnt4/mfwHkvz+PpJ5933fRN4Fd+evPbYPf6/h2TfdXoVJJ+UrWV7vxfBtpLcC2wlEEv4mA
+	GkAu2jLATqlyh2cnPVGAvtPv3N4HbmsgZ3T4ONVB1umEyYbm5FIsNBsCxA1O2I5Pcc1/BS2iBUo73
+	xEACIWF/nAvqzz4+ynFDhFSWgLZwbt4QHtxT1/F0jYeAR/6O0yVsy40EUWgQLHLLbVqUG3JMa5QzJ
+	zSHAda9yJcVKfAJF2YRdFLCM4UW0jRN/gj1HLwfo+reZZqsRfPZW6lQuxe1bA1fb7sg94uGW3XvPE
+	dOrAH3Xw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRICj-00000008kOM-3Dhr;
-	Thu, 04 Dec 2025 22:53:41 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vRIfE-00000008lvu-0Iph;
+	Thu, 04 Dec 2025 23:23:08 +0000
+Received: from 011.lax.mailroute.net ([199.89.1.14])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRICi-00000008kNt-02rV
+	id 1vRIfB-00000008lvR-0009
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Dec 2025 22:53:41 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id B1B7343F54
-	for <linux-nvme@lists.infradead.org>; Thu,  4 Dec 2025 22:53:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6524EC113D0;
-	Thu,  4 Dec 2025 22:53:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764888817;
-	bh=s0ZtjASLmYtaq5FiEd+nxq3ZS5ZOyOLD20Az6B5cLuk=;
-	h=Date:From:To:Cc:Subject:From;
-	b=IdQqP6xXa6W6JynJnqjMhhIHS4GIIhvKb+ICy52XrJSjA5ud/lm5sA0Nr9RZcp+WD
-	 933AfatD2xKhJXUFfHKnXmhUtLV73e9VwSe05FFNsv6UoY42BYAdkz/0HuGQhka///
-	 6JDFOMW6RkqqdUAvcvXFc9Mygu++ZeVllgThRmV9pwvX8ZDUzGVTyhHJJkVPiVkXHO
-	 7thrfp8E30jS6/6njFh+qnVJo+grf1Uem9TQ3le0Tw7jKo22T6BdWHfJCo+ZMST4PU
-	 4Vr7tvtNHpZES7iwRiWhh9ApmzVnCGvk+32YFRmfDyuKQDZL4uVFOQ+tDwpFLNKVCw
-	 pZfFfxw/TFwEw==
-Date: Thu, 4 Dec 2025 15:53:35 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: axboe@kernel.org
-Cc: linux-nvme@lists.infradead.org
-Subject: [GIT PULL v2] nvme updates for Linux 6.19
-Message-ID: <aTIQ78l7TLpOGPWA@kbusch-mbp>
+	Thu, 04 Dec 2025 23:23:06 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4dMrCX3ByMz1XLksh;
+	Thu,  4 Dec 2025 23:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1764890581; x=1767482582; bh=l83Pny9GYXrwKC6pNJtZuDPN
+	UiGnu/Vd9NOnnwLpAL8=; b=sH0eaJo3AYqTeDnqXPUzIam0eBKY7WvIX7EjIbq2
+	kAVb59TQmTFQhGmXI1W9EaEHeFGFPciarIMZtDfDAp+fNfjtePe+1K+VEaPfefs5
+	bDVHA9zqabMcyKk5nruNAjh4FPnh3WkfGJec36KwcENjvbxozhyspcc3ZE7qCo4W
+	jLW9yw4wjxne1ZyoXZ2uQSSfHdA04v9K12A4J+f7jXcnZ22Up+W8gNpps0EXErsx
+	X8n+vDL46aSAOOWXZifiHJmGEFQ8Qeqiz/TdxEn7Ma8zFMkTKtKppnnz6AuXHuP+
+	xWe9lslBCDBCbYOmQTRAut0YGCDcf/tgvRHj5KxF3s/oSw==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id pzA6pr0CsDbO; Thu,  4 Dec 2025 23:23:01 +0000 (UTC)
+Received: from [10.22.10.72] (syn-098-153-230-237.biz.spectrum.com [98.153.230.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4dMrCJ6QBtz1XM0ty;
+	Thu,  4 Dec 2025 23:22:52 +0000 (UTC)
+Message-ID: <201a7e9e-4782-4f71-a73b-9d58a51ee8ec@acm.org>
+Date: Thu, 4 Dec 2025 13:22:49 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] block: Use RCU in blk_mq_[un]quiesce_tagset() instead
+ of set->tag_list_lock
+To: Keith Busch <kbusch@kernel.org>
+Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+ Casey Chen <cachen@purestorage.com>, Yuanyuan Zhong
+ <yzhong@purestorage.com>, Hannes Reinecke <hare@suse.de>,
+ Ming Lei <ming.lei@redhat.com>, Waiman Long <llong@redhat.com>,
+ Hillf Danton <hdanton@sina.com>, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251204181212.1484066-1-mkhalfella@purestorage.com>
+ <20251204181212.1484066-2-mkhalfella@purestorage.com>
+ <5450d3fa-3f00-40ae-ac95-1f08886de3b6@acm.org>
+ <20251204184243.GZ337106-mkhalfella@purestorage.com>
+ <71e9950f-ace7-4570-a604-ceca347eea20@acm.org>
+ <20251204191555.GB337106-mkhalfella@purestorage.com>
+ <77c5c064-2539-4ad9-8657-8a1db487522f@acm.org>
+ <20251204195759.GC337106-mkhalfella@purestorage.com>
+ <6994b9a7-ef2b-42f3-9e72-7489a56f8f8e@acm.org> <aTH8opTiwJxH2PMA@kbusch-mbp>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <aTH8opTiwJxH2PMA@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251204_145340_075432_BA0D30CE 
-X-CRM114-Status: GOOD (  10.18  )
+X-CRM114-CacheID: sfid-20251204_152305_096223_DFA49B2C 
+X-CRM114-Status: GOOD (  15.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,75 +98,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Resending due to missing Sign-off-by tags in the previous revision.
 
-The following changes since commit d211a2803551c8ffdf0b97d129388f7d9cc129b5:
+On 12/4/25 11:26 AM, Keith Busch wrote:
+> On Thu, Dec 04, 2025 at 10:24:03AM -1000, Bart Van Assche wrote:>> Hence, the deadlock can be
+>> solved by removing the blk_mq_quiesce_tagset() call from nvme_timeout()
+>> and by failing I/O from inside nvme_timeout(). If nvme_timeout() fails
+>> I/O and does not call blk_mq_quiesce_tagset() then the
+>> blk_mq_freeze_queue_wait() call will finish instead of triggering a
+>> deadlock. However, I do not know whether this proposal seems acceptable
+>> to the NVMe maintainers.
+> 
+> You periodically make this suggestion, but there's never a reason
+> offered to introduce yet another work queue for the driver to
+> synchronize with at various points. The whole point of making blk-mq
+> timeout handler in a work queue (it used to be a timer) was so that we
+> could do blocking actions like this.
+Hi Keith,
 
-  block/rnbd: correct all kernel-doc complaints (2025-12-01 07:19:50 -0700)
+The blk_mq_quiesce_tagset() call from the NVMe timeout handler is
+unfortunate because it triggers a deadlock with
+blk_mq_update_tag_set_shared().
 
-are available in the Git repository at:
+I proposed to modify the NVMe driver because I think that's a better
+approach than introducing a new synchronize_rcu() call in the block
+layer core.
 
-  git://git.infradead.org/nvme.git tags/nvme-6.19-2025-12-04
+However, there may be better approaches for fixing this in the NVMe
+driver than what I proposed so far.
 
-for you to fetch changes up to 13989207ee29c40501e719512e8dc90768325895:
+Thanks,
 
-  nvme-fabrics: add ENOKEY to no retry criteria for authentication failures (2025-12-04 14:46:17 -0800)
-
-----------------------------------------------------------------
-nvme updates for Linux 6.19
-
- - Subsystem usage cleanups (Max)
- - Endpoint device fixes (Shin'ichiro)
- - Debug statements (Gerd)
- - FC fabrics cleanups and fixes (Daniel)
- - Consistent alloc API usages (Israel)
- - Code comment updates (Chu)
- - Authentication retry fix (Justin)
-
-----------------------------------------------------------------
-Chu Guangqing (1):
-      nvme: fix typo error in nvme target
-
-Daniel Wagner (5):
-      nvme-fc: don't hold rport lock when putting ctrl
-      nvme-fc: check all request and response have been processed
-      nvmet-fcloop: check all request and response have been processed
-      nvmet-fcloop: remove unused lsdir member.
-      nvmet-fc: use pr_* print macros instead of dev_*
-
-Gerd Bayer (2):
-      nvme-pci: print error message on failure in nvme_probe
-      nvme-pci: add debug message on fail to read CSTS
-
-Israel Rukshin (3):
-      nvmet-rdma: use kvcalloc for commands and responses arrays
-      nvmet-tcp: use kvcalloc for commands array
-      nvme-auth: use kvfree() for memory allocated with kvcalloc()
-
-Justin Tee (1):
-      nvme-fabrics: add ENOKEY to no retry criteria for authentication failures
-
-Max Gurtovoy (2):
-      nvmet: add sanity checks when freeing subsystem
-      nvmet: remove redundant subsysnqn field from ctrl
-
-Shin'ichiro Kawasaki (2):
-      nvmet: pci-epf: move DMA initialization to EPC init callback
-      nvmet: pci-epf: fix DMA channel debug print
-
- drivers/nvme/host/auth.c        |  2 +-
- drivers/nvme/host/fabrics.c     |  2 +-
- drivers/nvme/host/fc.c          |  8 ++++++--
- drivers/nvme/host/pci.c         |  2 ++
- drivers/nvme/target/admin-cmd.c |  2 +-
- drivers/nvme/target/auth.c      | 18 ++++++++++--------
- drivers/nvme/target/core.c      |  5 +++--
- drivers/nvme/target/fc.c        | 48 +++++++++++++++++++++---------------------------
- drivers/nvme/target/fcloop.c    |  9 ++++++---
- drivers/nvme/target/nvmet.h     |  1 -
- drivers/nvme/target/passthru.c  |  2 +-
- drivers/nvme/target/pci-epf.c   | 14 ++++++++------
- drivers/nvme/target/rdma.c      | 12 ++++++------
- drivers/nvme/target/tcp.c       |  6 +++---
- 14 files changed, 69 insertions(+), 62 deletions(-)
+Bart.
 
