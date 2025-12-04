@@ -4,90 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9F00D2A520
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 19:34:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52883D29FB2
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 19:47:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:
-	Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tt0jeeHG96lYyQ3MRmKmVjXhW+gT4Y5+n4BDpq9oRuM=; b=thVRUdzWQeWr6EE8jOU1X022Aa
-	rv17G9mUcASwbagJyJVNwH5d4UOmYk4wsN2EyMwJGQThfspMV26hlzwi+JKonNqJSpiQ54FHGnN5M
-	6Xd6ZmTM/TXLwCUl8wyWjn/4bGdlH3IPqSt95oU1lSZZpcGro8YKRZYHko0BtLVfG3Ps7qwyZ80uy
-	p6SByThNlwWyGA4BnBWDSX8qxPjSwv4KlEBm8Fi4xnZRptPJbfpSZsDG8ZAz44fLEpmTSyjvuuXxj
-	gRBVEf+0wxKJ6OYNCRJQSSSfT3Til5texm+/pnQBQZUXISYePX9Dv3W5wxrDS/HOICx+tKasG8smD
-	VofOGWsQ==;
+	bh=jJB8cnxCczj8gnT21hmIzpL3HBpQcF1qbwkCZVuj7jw=; b=QcYNqdabVIfP2lAi2rTIDLwknG
+	Fi7YmjZLfdpIPr3SJPy6Hh86zkcSqtEcJ/8txYMQ2o60LtTbPsJr2RgWUz/hmoC005HWSVWol4fCj
+	nwIaDgeYpNaaiNVThN1DhBKsrqxt/3MbQp4vX4dYIALfJ7tgCWvUeM0ck9dKxKxs/dA4wtm+t0AI0
+	BVKVdc2lh7DUGdzv6xVkVjcjUBnqvgzibgLLbU5Dx9aEFGnwCszN6S4v8SW1W4JvhVTlboMFbF1Eg
+	fOncmDaZ1qH0vfqjfPe2xxQIigf4zPeJC4C8jaBe+B0aQUHL7sPJUCopvmS9j2RDHPdZWsi8WSes5
+	FG8ZdRbw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRF6I-00000008Vly-0Mh4;
-	Thu, 04 Dec 2025 19:34:50 +0000
-Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com ([63.178.143.178])
+	id 1vRFIo-00000008WVE-1A6j;
+	Thu, 04 Dec 2025 19:47:46 +0000
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRF6D-00000008VlV-45bK
+	id 1vRFIk-00000008WUW-48pQ
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Dec 2025 19:34:48 +0000
+	Thu, 04 Dec 2025 19:47:45 +0000
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-8823dfa84c5so13367456d6.3
+        for <linux-nvme@lists.infradead.org>; Thu, 04 Dec 2025 11:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1764876886; x=1796412886;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:mime-version:
-   content-transfer-encoding;
-  bh=tt0jeeHG96lYyQ3MRmKmVjXhW+gT4Y5+n4BDpq9oRuM=;
-  b=Zvw1px6IoUcj9fo71SWW8Vjbo741vkyBXgwFtVQpXM7HYvSvLaE20fZC
-   J71x16e0kBz3MUyHXIbJeNdidLNw/Lf2SasATNeWNi7KTv0ri+2Cazw/q
-   qgWKRUOQDEGHlkmLm961okcmBCoH8bJAyZt0OCblslM+imw/IDjXBe2iw
-   W/zZWmtp7G8bXCEhhDfp28CGE8ZTEbKuxHAUa5A2efeXpmgu5QXEC+Fo6
-   +9bLLt5otp1qdSdosEcQ3aSV8w+r8vZVgCxsboL3m8V4RK+EtLaYYdV6Z
-   bPdAdRZG8exCZVAY528tGZD8txb81v5sQ71/QU/UUA6Ll/tcCwHbuno/L
-   w==;
-X-CSE-ConnectionGUID: tUVq+AV9RNqo+IgycCjtvQ==
-X-CSE-MsgGUID: Mor2QI/JT96/9N6jeVNQag==
-X-IronPort-AV: E=Sophos;i="6.20,249,1758585600"; 
-   d="scan'208";a="6152081"
-Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
-  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 19:34:27 +0000
-Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.228:10065]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.37.108:2525] with esmtp (Farcaster)
- id ddf07f3e-1eb0-4f32-8d0d-4abba4de6cf9; Thu, 4 Dec 2025 19:34:27 +0000 (UTC)
-X-Farcaster-Flow-ID: ddf07f3e-1eb0-4f32-8d0d-4abba4de6cf9
-Received: from EX19D008EUC002.ant.amazon.com (10.252.51.146) by
- EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Thu, 4 Dec 2025 19:34:27 +0000
-Received: from EX19D008EUC001.ant.amazon.com (10.252.51.165) by
- EX19D008EUC002.ant.amazon.com (10.252.51.146) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Thu, 4 Dec 2025 19:34:26 +0000
-Received: from EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1]) by
- EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1%3]) with mapi id
- 15.02.2562.029; Thu, 4 Dec 2025 19:34:26 +0000
-From: "Heyne, Maximilian" <mheyne@amazon.de>
-To: Keith Busch <kbusch@kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, "Sagi
- Grimberg" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] nvme: Let the blocklayer set timeouts for requests
-Thread-Topic: [PATCH v2] nvme: Let the blocklayer set timeouts for requests
-Thread-Index: AQHcZVUAJ2T0ZF2M10Kiw4GQ0UHdFg==
-Date: Thu, 4 Dec 2025 19:34:26 +0000
-Message-ID: <20251204-pause-lima-29ecb942@mheyne-amazon>
-References: <20251204-tests-bryce-8b3b2823@mheyne-amazon>
- <aTGzL5t7Gu1tpebp@kbusch-mbp>
-In-Reply-To: <aTGzL5t7Gu1tpebp@kbusch-mbp>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.253.68.42]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <449F71F3AF39C94CA8FB419F2C3D9BC5@amazon.com>
+        d=gmail.com; s=20230601; t=1764877661; x=1765482461; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jJB8cnxCczj8gnT21hmIzpL3HBpQcF1qbwkCZVuj7jw=;
+        b=A8cLIcQ6rrA1wHIDsTyDrxgNGYzh33bxF6T/2Xej2incv2aIerfpCXzYd1PA6nVfri
+         cWDe3CRGpUsIWWrOgUmfKZbfT2TYLOk/qhbi378bDvijtIaah+ERyrs6d79md/DlXpkb
+         mDJjITiw5vE4BhJ7l8jCJgIbsUyXxl9iXe80OVmjOJOEixllVA5isfeVZkr2bsgB5N4d
+         oUyGhszC/G8Q89w6JhnHuUzu/NlvgeNUdF9TZFsByGF7yPcQj90+MbgvqBjtNXEhnmT6
+         8LVxkP9N6Z1sd3W1Zt16WGDBhA5vMre+rWryH8DoDw/XAzGwwWJS96GfbgKiYXRERSut
+         H1Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764877662; x=1765482462;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jJB8cnxCczj8gnT21hmIzpL3HBpQcF1qbwkCZVuj7jw=;
+        b=nY0CmeEC9EHamJNi7+6TbEw7Tv+x5//sfPe+RlDsNo84oD3RD3tCk4N5cbYqf/ECeS
+         fzn6Ec4kAZYjd23Gg1eYHL4Y34md0rtIpO8vw7Y1+3lW9lpxPVtmXtnC/y4v/OZRla+Z
+         3HFmJUq05cJOECQgA8eSUBzUQpeXeGDiAmPvttak/wm8QlKOYxWOI/Pykml0fZ/qdqR1
+         lnQOl0QDH1Qt1L/jvx4gMHkVyEybaBK4kkd60MsCGjiDT1m/EYhnqOF6vK2b1xUPOezQ
+         ddqlvulMZfQr3k70YPvkXw7iglHZk4xOAbcxkegVns0d8IrLVqOZOd8k1Gfmq0eQ6XZC
+         p+iw==
+X-Forwarded-Encrypted: i=1; AJvYcCVS0KYSSkud+CWKRCNmYtBoI6NYKiNzynrJZ+X4vP6wEXhOX5zJUOY4VCgwS9w/Gfno8dVTeZrWnIw3@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx5MJ7B84DFFqgekFuXe5rWOE/t75hb0iD+iesKv1zP0bFkwkku
+	kaKIHw3XECu9kvhByHbTobRU46V8SwdaAxTnCaIO8p1Wv08rPSieohIc5liFWFZSANQ2O9uoMbl
+	1YwhjwgJEZxzoCD4idKVe3PK3lql+4hI=
+X-Gm-Gg: ASbGncuYj4Hk8r4xK7YZ9Osf4Tk9aY/pbUoj7grjv4+bIKM8IDA5J87lnirPLeGRRw1
+	dDSrcqpjyWlxCzSukLi0GzBCX9IcA+4eNMzlYMfIbAXLHyx06ztEJjzjEWkONwaascsbMG/ouhT
+	xQb889472JKJMLJ9B1UDiNmheal/5iaIjo9vfLHWcr7ID+sd88VfDNiKiCV1fm0+qE3W3Mk9qaR
+	VTws+jlyrzHMX6Re5w3sLnoz9+Xh5uNhLcD/qMGuQghMteIgTje+DCT4wLDm5dvrGNTR7X9
+X-Google-Smtp-Source: AGHT+IEcysjQTdL81Q7lNbnwJOiGlShrjQHYbYkzo6XR86OJfOc6Uz5sAXVis694rd6mA+1Ov/Ce9CBlVgxi1rpUmn0=
+X-Received: by 2002:a05:6214:3387:b0:880:5636:6241 with SMTP id
+ 6a1803df08f44-88819594cd7mr110930506d6.65.1764877661633; Thu, 04 Dec 2025
+ 11:47:41 -0800 (PST)
 MIME-Version: 1.0
+References: <21255200-a271-4fa0-b099-97755c8acd4c@work> <CAGtn9rmSq9+6o1-=tQwYGRKRUSOXkSJnCdSosNnpW0BvnxaNLQ@mail.gmail.com>
+ <6440e968-a181-419b-b203-a354b924341b@work> <05b455fc-d08c-4fb2-81db-a818771b9c42@gmail.com>
+ <fb66da17-65b5-483f-8d49-e3dfa38b27d3@work> <CABPRKS-e9pXDyFejW+o42vRfzhy6EkUnOVxe46iZqqm4OMk4yg@mail.gmail.com>
+ <CABPRKS-UZMwfKNCK6Mx17_MxYK-ZieKddx0N7YBM3hf5Ur=4Ug@mail.gmail.com>
+ <CAGtn9rmQW9w42oMVGpXZB4OuifwF3XzgVaxuHyXN1aYpzjRskg@mail.gmail.com>
+ <CABPRKS-j+J1XKKoMOXx-d-8d_yxo2JhF6G6jYYFvFXOdy5x3tw@mail.gmail.com> <b1e0835e-cdc1-448d-bb24-1bd7afee8158@work>
+In-Reply-To: <b1e0835e-cdc1-448d-bb24-1bd7afee8158@work>
+From: Justin Tee <justintee8345@gmail.com>
+Date: Thu, 4 Dec 2025 11:46:42 -0800
+X-Gm-Features: AWmQ_bmNEhhsiis4ofn-JqFcGLWNvEyvwS9_8dCDygtbWgai8oWe6rOguP-FlfA
+Message-ID: <CABPRKS-kEzVcHzDxEtrk1+OPC9xvObhykxEnXNHTuHOEqcz8Ng@mail.gmail.com>
+Subject: Re: [PATCH] nvme: fc: stop lsrcv workqueue before freeing a rport
+To: Aristeu Rozanski <aris@redhat.com>
+Cc: Ewan Milne <emilne@redhat.com>, linux-nvme@lists.infradead.org, 
+	Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251204_113446_301930_A41AFD68 
-X-CRM114-Status: GOOD (  16.62  )
+X-CRM114-CacheID: sfid-20251204_114744_399701_27BA282F 
+X-CRM114-Status: UNSURE (   7.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,45 +104,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Dec 04, 2025 at 09:13:35AM -0700, Keith Busch wrote:
-> On Thu, Dec 04, 2025 at 02:11:50PM +0000, Heyne, Maximilian wrote:
-> > @@ -724,10 +724,8 @@ void nvme_init_request(struct request *req, struct=
- nvme_command *cmd)
-> >  		struct nvme_ns *ns =3D req->q->disk->private_data;
-> >  =
+> FWIW, test kernel with the revert still running since this morning (~13h)=
+, no
+> crashes.
+Thanks for confirming Aristeu.  I=E2=80=99ll be raising a patch for review =
+very soon.
 
-> >  		logging_enabled =3D ns->head->passthru_err_log_enabled;
-> > -		req->timeout =3D NVME_IO_TIMEOUT;
-> >  	} else { /* no queuedata implies admin queue */
-> >  		logging_enabled =3D nr->ctrl->passthru_err_log_enabled;
-> > -		req->timeout =3D NVME_ADMIN_TIMEOUT;
-> >  	}
-> =
-
-> I was trying to think of any in-kernel path using __submit_sync_cmd with
-> an IO queue, and quick search shows there's just one: zns report zones.
-> =
-
-> Everything else uses the admin queue, which doesn't have a sysfs tunable
-> for its request_queue's default timeout. All we have is the nvme module
-> parameter, which is writable after loading. Since that's the only way a
-> user can modify the default time for that queue, I think we need to
-> leave that req->timeout value as-is.
-
-Ok sound like a v3 is needed where I only delete the line with
-NVME_IO_TIMEOUT but leave the NVME_ADMIN_TIMEOUT and add a comment about
-it. Will prepare such a patch.
-
-Thanks for you reviews.
-
-
-
-Amazon Web Services Development Center Germany GmbH
-Tamara-Danz-Str. 13
-10243 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Christof Hellmis
-Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
-Sitz: Berlin
-Ust-ID: DE 365 538 597
-
+Regards,
+Justin
 
