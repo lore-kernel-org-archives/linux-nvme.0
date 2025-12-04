@@ -4,86 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B95CD1CDCB
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 04:00:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2811DD1D892
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 09:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YKVZ1aW6qd/ymkfafuY8+6Gxc/lRyN29Kqly/Nt2dc0=; b=VW2SlfPrYkdXZOVJ6oQ313ulie
-	0jfWt9BcmHNfp7ROf9KTqpzdpMZ83Dx0KDvURj7EZoUjUGmtDlEWYByAAns8EJdUMrypHEYxcVMmd
-	kopJ4n4wQaxz8+EF+iTtPfKaphMVMTrjVCGUf8JCMV+7HVd0B5zKw8CTAVXkvfL+av6OrdaT51AvE
-	g7LpjzvYclk5sqt6BBSVXMk1UEHbkwpHBgPXVAQGC6FQeW9m7hzC2ZPq83pXgoPRZrFMe4SgYiUPU
-	cqZVIjeBk8LnDPS33946L5NlILRCN4G30ckvE5QIAqEvit862lFhCoPILq5Mhj1zjUy+UJK+yfmSq
-	AYU56tiA==;
+	bh=S6wiXlBUa9vx6zmqdr1nGFk31v/Tk2eLR8c964Zf7q8=; b=ftE6ONbHgVZwXjX07YAkFbeZH+
+	WaZKCnC6DxgdhvVFnTYol8nLoKtJ3RM+YT1nv87lq3H6XwjeO24zSiLcQW6XB2NAh70zBm7YtHDG9
+	P3hsjTZM13bD7541yPcXXT+w/DBACLjxoa5XpGjzQzNUNoAYK0ynqBlck+n0+YRsrxeRvWtTodNzQ
+	t4T9LPUloRz5syIAYVO9vb68ihBwPiW1/w5wzJ6STo2IdSzYm4Tdbc7xps1GNQaXAfY+wnSebMoW0
+	FOvNhKXtsDZ5J9nDl28IFyy+B4hX9JatMfG2EoWUdkzbFm/R+L127iihAQPXnV6/zCJ7L0WwTw+8L
+	zRvzRuAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vR0Va-00000007Qab-3yCa;
-	Thu, 04 Dec 2025 03:59:58 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vR5d1-00000007lZf-2xJy;
+	Thu, 04 Dec 2025 09:27:59 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vR0VY-00000007QaH-3ut4
+	id 1vR5cz-00000007lYP-1iYq
 	for linux-nvme@lists.infradead.org;
-	Thu, 04 Dec 2025 03:59:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764820794;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YKVZ1aW6qd/ymkfafuY8+6Gxc/lRyN29Kqly/Nt2dc0=;
-	b=ULlW+KAcmnm+FXpIagtNmRrE5aR5pdsdVCaj0827s2nweRNVj1rJ26rh0PjzGDRone/Jkb
-	cYrXXozffXgSoNVwnenHrSTga32/3uwSctVIeZVC5DBNiH201icuaJj+MF6ZfEe0Gi4DOB
-	/QytGMohCkSsMB4lj8Y48aL7B1qLKN4=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-653-hLh1_lQnMEuc70BzgyXxoA-1; Wed,
- 03 Dec 2025 22:59:48 -0500
-X-MC-Unique: hLh1_lQnMEuc70BzgyXxoA-1
-X-Mimecast-MFC-AGG-ID: hLh1_lQnMEuc70BzgyXxoA_1764820787
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 71E1E1956050;
-	Thu,  4 Dec 2025 03:59:46 +0000 (UTC)
-Received: from napanee.usersys.redhat.com (unknown [10.22.88.76])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A479A30001A2;
-	Thu,  4 Dec 2025 03:59:44 +0000 (UTC)
-Received: by napanee.usersys.redhat.com (Postfix, from userid 1000)
-	id 01F5FC1977; Wed,  3 Dec 2025 22:59:43 -0500 (EST)
-Date: Wed, 3 Dec 2025 22:59:43 -0500
-From: Aristeu Rozanski <aris@redhat.com>
-To: Justin Tee <justintee8345@gmail.com>
-Cc: Ewan Milne <emilne@redhat.com>, linux-nvme@lists.infradead.org, 
-	Justin Tee <justin.tee@broadcom.com>, Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, 
-	Paul Ely <paul.ely@broadcom.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: [PATCH] nvme: fc: stop lsrcv workqueue before freeing a rport
-Message-ID: <b1e0835e-cdc1-448d-bb24-1bd7afee8158@work>
-References: <21255200-a271-4fa0-b099-97755c8acd4c@work>
- <CAGtn9rmSq9+6o1-=tQwYGRKRUSOXkSJnCdSosNnpW0BvnxaNLQ@mail.gmail.com>
- <6440e968-a181-419b-b203-a354b924341b@work>
- <05b455fc-d08c-4fb2-81db-a818771b9c42@gmail.com>
- <fb66da17-65b5-483f-8d49-e3dfa38b27d3@work>
- <CABPRKS-e9pXDyFejW+o42vRfzhy6EkUnOVxe46iZqqm4OMk4yg@mail.gmail.com>
- <CABPRKS-UZMwfKNCK6Mx17_MxYK-ZieKddx0N7YBM3hf5Ur=4Ug@mail.gmail.com>
- <CAGtn9rmQW9w42oMVGpXZB4OuifwF3XzgVaxuHyXN1aYpzjRskg@mail.gmail.com>
- <CABPRKS-j+J1XKKoMOXx-d-8d_yxo2JhF6G6jYYFvFXOdy5x3tw@mail.gmail.com>
+	Thu, 04 Dec 2025 09:27:59 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B9A8D227AAD; Thu,  4 Dec 2025 10:27:38 +0100 (CET)
+Date: Thu, 4 Dec 2025 10:27:38 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Abdulla Nasirli <nasirabd@fit.cvut.cz>
+Subject: Re: [PATCH] nvmet: lift blocksize restriction to 64k
+Message-ID: <20251204092738.GA19941@lst.de>
+References: <20251203113000.67212-1-hare@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CABPRKS-j+J1XKKoMOXx-d-8d_yxo2JhF6G6jYYFvFXOdy5x3tw@mail.gmail.com>
-User-Agent: NeoMutt/20241114-35-62db1e
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gx6UnY_55k2Imr5QmaEZvv0TTLnZfrBv99-XDD38Sss_1764820787
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251203113000.67212-1-hare@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251203_195957_065425_AE4554D5 
-X-CRM114-Status: GOOD (  10.46  )
+X-CRM114-CacheID: sfid-20251204_012757_591273_21EABAAB 
+X-CRM114-Status: GOOD (  10.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,13 +60,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 03, 2025 at 05:44:14PM -0800, Justin Tee wrote:
-> I have a patch in mind to resolve this, and will report back.
+On Wed, Dec 03, 2025 at 12:30:00PM +0100, Hannes Reinecke wrote:
+> -			file_inode(ns->file)->i_blkbits, 12);
+> +			file_inode(ns->file)->i_blkbits, 16);
 
-FWIW, test kernel with the revert still running since this morning (~13h), no
-crashes.
+Make that ilog(SZ_64K) instead of the magic number shift?
 
--- 
-Aristeu
+Otherwise looks good.
 
 
