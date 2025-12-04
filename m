@@ -4,28 +4,28 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 896B4D1F9B0
-	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 10:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0E1ED1F9AE
+	for <linux-nvme@archiver.kernel.org>; Thu,  4 Dec 2025 10:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iQm2kJ4t3N0jqrRweZW6C1TbB4FQZ8BUzhz52YJ0IVE=; b=1N41BXFyv2iPznk2vSCuuKBWk2
-	dunCg1TLW79R4IaE9/SZh82tYW3j2eS0XQwkkJiRY3URTgE5318R1cIbz5BM46/CG1RBfa3KRbkHY
-	ASABqVkbMu7G7cJlf7szzBf0EtGOIxxkZNMdb0xUaARBwn6aD8tgQzoVFXz323iAq1LQj2Vf5f7C8
-	GUO4x7dgqI50r8bCr7hya/5SCpksR9Q/hwX1sZal1G4ESgq7Y8laqjmNF+1TtHr6iwkG+bhC8+ptS
-	SY4zbFtQjeDPJhbEEXMSRHpKhKJiV81cpPnkwpvW6VLEljMODHxtvsP7en1C41Fw7Wvr5wPESihG7
-	3AYTTkDA==;
+	bh=idCFnFrcUwTtb74aqgqX3OChCwMLLJI8Rgwiu4DAog0=; b=tMke+AGFGTqHKXZir3UI0T1K2N
+	c0uSCCozlxVvTFOC/KEZAnMmwznEmhVELy0nuqoLncj12I9X2r+aUFLiLniideYf6lC6RHKL5ioTA
+	Tab1cajDwsMh78ajYsgeI1qCkJRl92n2xzH3hW7YPujvOMwdAOJNHy/LHP0QTrBC8T8c6GXVg3vPI
+	ro6AGtRSPlyxajOsSLPufLGzH4wOtXJIj2cJ/TiAcLYjyXQFNHaEZBi5DC12prGdpJW8oelKarhSY
+	aWl6WZyPiGwH1zdVG7V7xpAZS/hyqYUQ4bk9fDB8/wLRNFZi0erUpQ9fzYJ/8YdOtzoBewJGCqDeU
+	P9SpTEHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vR6nw-00000007r7G-3Vii;
-	Thu, 04 Dec 2025 10:43:20 +0000
+	id 1vR6oH-00000007rBd-0lAl;
+	Thu, 04 Dec 2025 10:43:41 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vR6nv-00000007r6y-17Mu;
-	Thu, 04 Dec 2025 10:43:19 +0000
-Date: Thu, 4 Dec 2025 02:43:19 -0800
+	id 1vR6oF-00000007rBA-2kX4;
+	Thu, 04 Dec 2025 10:43:39 +0000
+Date: Thu, 4 Dec 2025 02:43:39 -0800
 From: Christoph Hellwig <hch@infradead.org>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org,
@@ -40,15 +40,14 @@ Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC v2 02/11] iov_iter: introduce iter type for pre-registered
- dma
-Message-ID: <aTFlx1Rb-zS5vxlq@infradead.org>
+Subject: Re: [RFC v2 03/11] block: move around bio flagging helpers
+Message-ID: <aTFl290ou0_RIT6-@infradead.org>
 References: <cover.1763725387.git.asml.silence@gmail.com>
- <f57269489c4d6f670ab1f9de4d0764030d8d080c.1763725387.git.asml.silence@gmail.com>
+ <6cb3193d3249ab5ca54e8aecbfc24086db09b753.1763725387.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f57269489c4d6f670ab1f9de4d0764030d8d080c.1763725387.git.asml.silence@gmail.com>
+In-Reply-To: <6cb3193d3249ab5ca54e8aecbfc24086db09b753.1763725387.git.asml.silence@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,19 +62,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Nov 23, 2025 at 10:51:22PM +0000, Pavel Begunkov wrote:
-> diff --git a/include/linux/uio.h b/include/linux/uio.h
-> index 5b127043a151..1b22594ca35b 100644
-> --- a/include/linux/uio.h
-> +++ b/include/linux/uio.h
-> @@ -29,6 +29,7 @@ enum iter_type {
->  	ITER_FOLIOQ,
->  	ITER_XARRAY,
->  	ITER_DISCARD,
-> +	ITER_DMA_TOKEN,
+On Sun, Nov 23, 2025 at 10:51:23PM +0000, Pavel Begunkov wrote:
+> We'll need bio_flagged() earlier in bio.h in the next patch, move it
+> together with all related helpers, and mark the bio_flagged()'s bio
+> argument as const.
+> 
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 
-Please use DMABUF/dmabuf naming everywhere, this is about dmabufs and
-not dma in general.
+Looks good:
 
-Otherwise this looks good.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+Maybe ask Jens to queue it up ASAP to get it out of the way?
+
 
