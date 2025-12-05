@@ -4,73 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11968D339AA
-	for <linux-nvme@archiver.kernel.org>; Fri,  5 Dec 2025 18:11:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D707D3748E
+	for <linux-nvme@archiver.kernel.org>; Fri,  5 Dec 2025 19:40:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tSi943pevgOoyLSZn45OdOvqLqbQTsdHUcnRUVpyjXY=; b=3cYjxJj1V7N9kDkxiJaqnN2y0w
-	Qb1MgWS9PoFVjPWNPtoJm3T+VPjZKpE1j1G2w+PgJ8PSjDWhzRlzPa2T8wEcKh41b4o0SZIvn/pIZ
-	D6NtAIeBSJ1yYY2HH1PmmZxv1y8ucpCmLU0txKLJL+zCo2I3AV1M/VGB3qEXC/qI25ciok3PJPKYI
-	ZZZoaQGZYMOV/lSzOq2MzeJEkrcwMss4GzDCxVrd+xm+qUyMaVbAosuAfiaWcpi1gD5vgP5Jb9/0Z
-	jh6EGepTVGjvEuek8NLO0Lq5ygMF7+DzaQOWi3QM7kOj/AHtsaN+3Se0V766yYD+5+oKNQtP6E49B
-	L2p2qNEA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rbb6DnIFL19sHhzSyzn1uQHP0JyVMURa342Hs2z5OI4=; b=knaTA1Lt6gU1KEoeGYIkO1T7Ol
+	wzXcusPmMi67c3LhrUvG2u7TRYMigUxshBzA6wEbMEIxzUNDidn94r5Q6ZFJggGWIb0aHnJ0PHVC8
+	ut8bZcQfBeOVLanPFdKJeaRBHdQB9DwSFi290zKrvPYP0z1qx5DGfKf6soBrNPSwLpT9oLQDwVu2n
+	1OsBQ5PaDSFLgVxBDZNyLlT5p+q3TWOwcYyxmr7H2YH2SoJTySjG6Jkk+0kdN1ht4g9xMsKX7w+hy
+	ZOoM6sjysVWioBH5UpiCXz8vkqPnIJGy37gUX05sc8kMWx1CZxmio4S8dcWWSy10xJNAjJbkv+9PP
+	UKu0xoNw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRaHC-00000009mmL-3CRA;
-	Fri, 05 Dec 2025 18:11:30 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vRbel-00000009xP3-0QSX;
+	Fri, 05 Dec 2025 19:39:55 +0000
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRaHA-00000009mmF-2X6T
+	id 1vRbeh-00000009xMg-3dQS
 	for linux-nvme@lists.infradead.org;
-	Fri, 05 Dec 2025 18:11:28 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 96E3A60010;
-	Fri,  5 Dec 2025 18:11:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE33C4CEF1;
-	Fri,  5 Dec 2025 18:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764958287;
-	bh=xvJiMqYzv2lBABxfbmsAKWvxtjq41CSjpip/GdWHMHM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JLkGoCdUM+QqS7cLYuIjhmYVYVk64SMe3tUmgVbdaJsHW8T0AvuwaowVlbCRFLb31
-	 Ko5npbaonrnhBIj6xPlWQapkWtbqWT74SbYsLU4FzfGQkw3Yryr60UT+nMZ/txJnTm
-	 u07qpC8AHNqR9wy/jcVSgw1xbf7aGUwjZphmOEWm2hQHjV4X+L6rv+RDhVKX9hCgZ5
-	 JhpXMiGh2yMitaqb35JmAZaKZ+5/qo05Up4/JfSiOEH8Ez8G38tfyagTUsYHaRygqK
-	 UoqgOkdT6RIQtl8yuAGagMUt9xi7NWLCRmZGKgr27I+AJIZPQFKdAslz7YMmkkY/MM
-	 9zgJbLPVsTRhA==
-Date: Fri, 5 Dec 2025 11:11:23 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Bart Van Assche <bvanassche@acm.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
-	Casey Chen <cachen@purestorage.com>,
-	Yuanyuan Zhong <yzhong@purestorage.com>,
-	Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>,
-	Waiman Long <llong@redhat.com>, Hillf Danton <hdanton@sina.com>,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] block: Use RCU in blk_mq_[un]quiesce_tagset()
- instead of set->tag_list_lock
-Message-ID: <aTMgS0njg-R-T0pT@kbusch-mbp>
-References: <20251204184243.GZ337106-mkhalfella@purestorage.com>
- <71e9950f-ace7-4570-a604-ceca347eea20@acm.org>
- <20251204191555.GB337106-mkhalfella@purestorage.com>
- <77c5c064-2539-4ad9-8657-8a1db487522f@acm.org>
- <20251204195759.GC337106-mkhalfella@purestorage.com>
- <6994b9a7-ef2b-42f3-9e72-7489a56f8f8e@acm.org>
- <aTH8opTiwJxH2PMA@kbusch-mbp>
- <201a7e9e-4782-4f71-a73b-9d58a51ee8ec@acm.org>
- <aTI2L6j50VWjp7aW@kbusch-mbp>
- <20251205163926.GI2376676-mkhalfella@purestorage.com>
+	Fri, 05 Dec 2025 19:39:53 +0000
+Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-88057f5d041so24148476d6.1
+        for <linux-nvme@lists.infradead.org>; Fri, 05 Dec 2025 11:39:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764963590; x=1765568390; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rbb6DnIFL19sHhzSyzn1uQHP0JyVMURa342Hs2z5OI4=;
+        b=Whon3IdyFBg/nC4Q2NO1X94hUCyiZbSY+OEVBUsLPeHjlsFk9Gr/sRHm0Z2HJ0qRJj
+         WXZBves+c4QxlrBSrKwk0ZYcw08Xc+C2iLXThxNQvTiPx86ZDd2mYW7WN+x+CdjeqWKT
+         G1YcnNpdnmM7eNmCtNvBZYQtT1S96NntAxgjEcYhIdxzr+w1FA+ieHsgRL/FttpQMYi8
+         rp5C9Mi/+3GbRmM9JVbnUS20njj4q6E9YuZ+khZSgEdnGxq2V58EJMk3eztMCqUQPXKW
+         Py5GOHc+iMbRXYGepNWMi+c9rOGdxhXe+dpERt2EKwDlfEMG00On2EzIUn5t6oJseByy
+         twZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764963590; x=1765568390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rbb6DnIFL19sHhzSyzn1uQHP0JyVMURa342Hs2z5OI4=;
+        b=oF6GevR9VTkTfn0ajkJYAeN8gDvl7dfsrRfUBmsWZU7rFsvYfwtXwT9q7gQL6lRiab
+         iIZO4/+i6AVa6PcFTpABuAjIybmp6rdyITeRKNzhwfBRSWLr6MSL7dHMM+AYmemcEr1y
+         YBcv1lhOHpoSvrZv9diyDb38nBXP8Nz3Zjc9gF0AG6oX8ZZPnMfDjxq79T+AxZx1Sxjh
+         vxlnFIDwouVnZ3JZkq7/75frYFAw9w8ETZRUhNIm5QMh2mZ7D2JfTifQVdnSpXcHIvDZ
+         JpH72rHJFKe91S7ya1gqcfbk/W2IVTctN4I5+tC4OOjbF8XwOMtiL9AeSe8/AU2Ar0XZ
+         G2Vg==
+X-Gm-Message-State: AOJu0YyGNg49o2ZroX5kDcIRsqtZFrJoNFSs/uOAeFxys8q3jIPzG2c6
+	WLq2v2MJILCaCijoPWkaASe4gj7TFG9W0oS/FLq/4qjJnmsV+wk/v3uZr9n0SlGa2P3ETc685f4
+	J5LZNWtaMVnKLV6u++yj6o8RRTZmNgoUDikq3
+X-Gm-Gg: ASbGncu8iMLNgj9i5JpnsBPoYMZNJ/ahbfnFkWhC/NDnwnz6ENRqm2VJs+fhIh3rhqT
+	96N4/0DHsB1TsvEx4neS8YhrD7OoKKd7aeqAbGyps9L5DnOQ0W/mxkkdlKCx32h/HUuLE34bVzy
+	R27rfV0T4yCD47ntQTF7PZuB/rpvLph2T5m1DdbJCckVmLGtOXcCeW0GOXL6/3NE6VNTXFijRX1
+	x7lV6vSHRK2cqOu0c4HgKwff3vWCxQ2VMIcg5kNBuLgB6nrgIwYKSIXWBZJ2TyelyuxIGq1
+X-Google-Smtp-Source: AGHT+IEMH7EqmKFtV0XWG46RodbN2zteEdjzv/7Thxj4Kq0+P/lVGgfxJetfGTQ0OjHM/QpiDPrmJ4R/WDCNlFZU+y8=
+X-Received: by 2002:a05:6214:2a84:b0:888:1e72:afb5 with SMTP id
+ 6a1803df08f44-8883db41db1mr3277606d6.2.1764963590184; Fri, 05 Dec 2025
+ 11:39:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251205163926.GI2376676-mkhalfella@purestorage.com>
+References: <20251204202613.14908-1-justintee8345@gmail.com> <ecb2482e-966a-4815-9069-834dd74c6def@work>
+In-Reply-To: <ecb2482e-966a-4815-9069-834dd74c6def@work>
+From: Justin Tee <justintee8345@gmail.com>
+Date: Fri, 5 Dec 2025 11:38:49 -0800
+X-Gm-Features: AQt7F2oFriMeox693dIvITkoPd-EedYvwCrbMFKMy5VITnnWGQB7lJnTl0r2rOQ
+Message-ID: <CABPRKS-Bmf-g9N5Jnw93Sy3rKvZy=T6=5t6nuZNTE50VzBZekg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] nvmet-fcloop: Check remoteport port_state before
+ calling done callback
+To: Daniel Wagner <wagi@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Aristeu Rozanski <aris@redhat.com>, 
+	"Ewan D . Milne" <emilne@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251205_113951_933010_AF73BC4D 
+X-CRM114-Status: GOOD (  11.67  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,19 +95,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Dec 05, 2025 at 08:39:26AM -0800, Mohamed Khalfella wrote:
-> Why sychronize_rcu() is intolerable in this blk_mq_del_queue_tag_set()?
-> This code is not performance sensitive, right?
+> Is this what the hardware/driver would do as well? Originally, when
+> adding this code it return always an error and James told me that this
+> is not how the hardware/driver work. Though this was without checking
+> the port_state.
+>
+> That said, I am fine doing this though, as it clearly fixes a problem.
+> Just wondering how far we can deviate from the 'real' thing.
 
-synchronize_rcu() gets expensive on servers with many CPUs. While this
-is not a fast path, I think adding it here would still be harmful, if
-only just to testing when devices are frequently created and deleted.
+Great question, and I can help explain from lpfc driver perspective
+that I think this patch does not deviate from real FC LLDD behavior:
 
-> Looking at the code again, I _think_ synchronize_rcu() along with 
-> INIT_LIST_HEAD(&q->tag_set_list) can be deleted. I do not see usecase
-> where "q" is re-added to a tagset after it is deleted from one.
-> Also, "q" is freed in blk_free_queue() after end of RCU grace period.
+For the lpfc driver, two sanity checks are made:
 
-I think you could skip the synchronize since the queue's memory free is
-done in blk_free_queue_rcu from a call_rcu() callback.
+1.) In  __lpfc_nvme_xmt_ls_rsp, axchg->state is checked to have to be
+in LPFC_NVME_STE_LS_RCV.  Otherwise, non-zero error is returned back
+to nvme_fc transport when .xmt_ls_rsp is called.
+
+2.) LPFC_NVME_STE_LS_RCV could only be set for a remoteport that is
+online and has completed PRLI-NVME.  This check is in
+lpfc_nvme_unsol_ls_handler with log message id 6216 in lpfc driver,
+which is part of the queue work item after the interrupt handler for
+unsolicited NVME frames.  An ndlp=E2=80=99s state (lpfc=E2=80=99s object fo=
+r a
+remoteport) is checked before setting axchg->state to
+LPFC_NVME_STE_LS_RCV.
 
