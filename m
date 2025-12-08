@@ -4,91 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57F06D1CDC6
-	for <linux-nvme@archiver.kernel.org>; Sun,  7 Dec 2025 10:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B450D1CDC6
+	for <linux-nvme@archiver.kernel.org>; Mon,  8 Dec 2025 02:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oU+vvCeHMKSGHwu1ci54jpS3s8eATvZ3aiVnEThBVIc=; b=XEae9pVAHK1IVgNJhitGusJlZb
-	KOcnrboV/cUlIf/GFMmMTk8yAcWQye8XFc2JsgcxHk9gPX/D45T2cEPNTPlkyGhY/h/2NY2oprRZq
-	BLsHeuzEt6BFJjMb17+Z/iVgYXq8yGKRrb+RS5ABVRoxD84N9g3dSxLOajymjz6Cr+P2BNRahvR3W
-	LfaIK3eX5sFN/q+7lbdct4phn1k/YFK5gnFzyvkEOoV55JB9rzlPHjtmXhTcY8QlD7skT+PSLIfeT
-	HJbTdEo7SmG3oGLf1Mc2phDjRZ6/Jwez3CAUeVOwhR4gszmtm+1sDyT3Mv0Q6iuZ1mttHc5i+XOun
-	yrXnRA3Q==;
+	bh=Kl1NMCtZ2Jsf9Or9+XsKcM+aoIigdMHQaw+fiv4O1UQ=; b=Wnpt5vMSq/W3nibLftHn1E+Etz
+	T8IZEPWqZMikq6YTFdwS1PrSAZ8KTxsK1RHc4qLPG7LnaOVT4ZWcl/O5apXZ1DJy6m6673IhACzgh
+	74J1lEoE0VDnG0ezrSemgShOjpewxAD6AsPo4S51pHpOXWt4ww7a3rNJ64hDkDACIeb5xvTE7uJUJ
+	peB5UYd0EnXjnysjWmhn+cuvdCQ0qnf2uWFA2sXf8e/laftzKJxbXos8lYD5g6Ev1B9Z5L0MHSkT7
+	qwHh8+MukDot7pY8OedmTtlHkoXP6gRcjuEBDAWDIRUBFAwHRzLzyiYllpopGt5ZtYX7ca+qlR4np
+	eiZLy50A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSBd7-0000000Bee5-2d75;
-	Sun, 07 Dec 2025 10:04:37 +0000
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
+	id 1vSRHs-0000000CV8h-1f46;
+	Mon, 08 Dec 2025 02:47:44 +0000
+Received: from mgamail.intel.com ([198.175.65.14])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSBd1-0000000Bedc-2gHT
+	id 1vSRHp-0000000CV8G-2PLN
 	for linux-nvme@lists.infradead.org;
-	Sun, 07 Dec 2025 10:04:33 +0000
-Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-4ee1939e70bso29112861cf.3
-        for <linux-nvme@lists.infradead.org>; Sun, 07 Dec 2025 02:04:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765101870; x=1765706670; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oU+vvCeHMKSGHwu1ci54jpS3s8eATvZ3aiVnEThBVIc=;
-        b=kCO/+iTcfGKP8yCAm8pzG0R2w1ljTrJ+/poyUT9ZhSa0OEPX0LIeMer6gEhF35Fstx
-         00BI+S/34qvRYGZDwz11GzBTpnvEvNW6k+P1o9llzMgoL45deKEjMHRoYc7k7pcmMLds
-         6DbnnvKqCRzH+RrlQhkRBiwaiPAKnnlWdQ/Wcb2hY/p41RTSMWX4F3IcMg7ciW46LdAG
-         KD9XqkgPqdRmCkX/KxVyIn+oP897lzF2vIxxNZLTkbsLjoL7ZijpKkUC4jaINtOATk7F
-         nP0R2pEVUX4/ui42uBolUr2CH+3dGsYgs2wdtR0ZiQRHRA5rMQWmNJ329Se19hcIrL8P
-         A0ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765101870; x=1765706670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oU+vvCeHMKSGHwu1ci54jpS3s8eATvZ3aiVnEThBVIc=;
-        b=cytz94S/mFx4se1c5BcgOaxmgBnazVm8U5Fg1Nm6/jLlMH0WXKqDqJHfBru9ond+3B
-         VliXI6OdJFys4YbN0F7RaMuVAOHe9v4Q3an8/7a96QBaNo0FxypW/pHFf0vKvsLR4kGs
-         1WxxK5TvzC6KGkxfQGsm+SPRgrQPflLbh8inT7L74bRQ+/MK+aNfUF/9Mqatzkn0y6LD
-         9qOrS0FgNORZeksTyQWoA+UjB9CZwSeu8vnGC4tPHHMBb5zH/XbfqdF8D6Ll2oWohV/d
-         L4qdOg32IGPFRuBw2+OPHK5qpB5zqr4VxOn6PWQvUpjdMrLxIhxBNNDvw9H9ozBObd3I
-         6m/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWONCD2nNk77/YbiNRiVUt3g+Y8Z6SPtUH3njpkYZUeFGv1KfQ5bcwZPmWPZ0Xe+F6EjveeV8DejxqZ@lists.infradead.org
-X-Gm-Message-State: AOJu0YxOY1bBlFPx1Vovf+6PkxZGClQggIv5CjFJ6M04mtQNueYC2Tb/
-	sGjNDjtDFDDa1Suv5w4jH3RXus9MTVsnI/ko7TjyDBCh+orN0BpWswjcfQlNPNbPYp7y8Z07m62
-	GvKTk1lep3l+0kv7DE0LY1R40wfK+6CM=
-X-Gm-Gg: ASbGncuaih5M6P1dXJ0+Tv4f6EjXN4j7do4Vj1S2jm0LOsl138tUUU9lBcOXD1qeFQM
-	oDPuZA/VDMYczIu9US7wfagwuGYRvuwPxsDsnJcXIMKAwY0Ii3tC3pVMyKk0yHRFnci9Xp7iUAd
-	wAgFjT1M07rTq41Qk3kFntALDc9xuPnHIAIPXRNt8gSTPPdwUi5tKp37BvLdmRWC9eTp1/sJ679
-	hp+mo6D07L0O9PYCmTtPShWOITG4sG/WIpiV0wltExB70GiNi+4oqKAeYZiPZpWiUj2ULE=
-X-Google-Smtp-Source: AGHT+IFyS19gciaAgZhRx4HvH1R1sNPMXGO05IWdCy0tyufd5AG5DROw9tSZhuIt2ZeFQYvOMOepLj8Zf3YwFI1IGTs=
-X-Received: by 2002:a05:622a:1249:b0:4ed:aeaa:ec4d with SMTP id
- d75a77b69052e-4f03ff48c23mr65405971cf.77.1765101869874; Sun, 07 Dec 2025
- 02:04:29 -0800 (PST)
+	Mon, 08 Dec 2025 02:47:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765162061; x=1796698061;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=6TwHcb5iUovQX1XFCXHnFY38ZruK56VM+5PnT7qnu20=;
+  b=jlxYSQnwk5nAkZxzetA7E9U9SlwhBs1zkIZLkGEfUDJSnJagDeEvmvGr
+   kCuz18Dc8w77ZQmJhhSDHXDkbM8RuFXwv70f3jLm5MvliHyAkRSPP9elr
+   x/ik2oTqQBcC/Ffe+WnoB5rDnV7Oj1T+HxDS7o5xoYHIvu2vh2ipQzker
+   OQsI3dLoHvFgaO+85E/uwLk30nquYB+GYCOxLZFvXUdhlZQTuCvDjNVdt
+   Vb6cNsP7nXDfoIWYPyRiDXBiSOSeCUml+PHtubG/8thItnJSgeV151veY
+   tUz660l01qNOqdQaRpdow42f6iKVaH19OgwWldSrN+GYmykSmEWgqy/Yy
+   Q==;
+X-CSE-ConnectionGUID: KXkBFZegSqyiqe3gZtHCgA==
+X-CSE-MsgGUID: 5etq6RQNQ4qTpteWeVJM3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="70957769"
+X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
+   d="scan'208";a="70957769"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 18:47:40 -0800
+X-CSE-ConnectionGUID: uJPi9MaPTbeYe7fO5XbNjw==
+X-CSE-MsgGUID: aPr5tsLvTxWcHxRb5YKL8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
+   d="scan'208";a="195848648"
+Received: from unknown (HELO [10.238.3.27]) ([10.238.3.27])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 18:47:36 -0800
+Message-ID: <585538f9-10b8-4da9-8566-179fa789f4ab@intel.com>
+Date: Mon, 8 Dec 2025 10:47:26 +0800
 MIME-Version: 1.0
-References: <20251128083219.2332407-1-zhangshida@kylinos.cn>
- <20251128083219.2332407-7-zhangshida@kylinos.cn> <CANubcdUtncH7OxYg0+4ax0v9OmbuV337AM5DQHOpsBVa-A1cbA@mail.gmail.com>
- <CAHc6FU5DAhrRKyYjuZ+qF84rCsUDiPo3iPoZ67NvN-pbunJH4A@mail.gmail.com>
- <CAHc6FU57xqs1CTSOd-oho_m52aCTorRVJQKKyVAGJ=rbfh5VxQ@mail.gmail.com>
- <CANubcdVuRNfygyGwnXQpsb2GsHy4=yrzcLC06paUbAMS60+qyA@mail.gmail.com> <CAHc6FU4G+5QnSgXoMN726DOTF9R-d88-CrfYMof0kME6P_o-7w@mail.gmail.com>
-In-Reply-To: <CAHc6FU4G+5QnSgXoMN726DOTF9R-d88-CrfYMof0kME6P_o-7w@mail.gmail.com>
-From: Stephen Zhang <starzhangzsd@gmail.com>
-Date: Sun, 7 Dec 2025 18:03:53 +0800
-X-Gm-Features: AQt7F2r1YNFWGA2Q9VwdNr_tG5KYi4lqES_2HjNJQ6tE7fdz6CI5_Dt06IQV2e4
-Message-ID: <CANubcdVAitTW_aBqwxC=TV77rg_iie0uX54_qEtMCjgdN+zeig@mail.gmail.com>
-Subject: Re: [PATCH v2 06/12] gfs2: Replace the repetitive bio chaining code patterns
-To: Andreas Gruenbacher <agruenba@redhat.com>, sashal@kernel.org
-Cc: Johannes.Thumshirn@wdc.com, hch@infradead.org, ming.lei@redhat.com, 
-	Gao Xiang <hsiangkao@linux.alibaba.com>, linux-block@vger.kernel.org, 
-	linux-bcache@vger.kernel.org, nvdimm@lists.linux.dev, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
-	gfs2@lists.linux.dev, ntfs3@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, zhangshida@kylinos.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] lib/group_cpus: make group CPU cluster aware
+From: "Guo, Wangyang" <wangyang.guo@intel.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, virtualization@lists.linux-foundation.org,
+ linux-block@vger.kernel.org, Tianyou Li <tianyou.li@intel.com>,
+ Tim Chen <tim.c.chen@linux.intel.com>, Dan Liang <dan.liang@intel.com>
+References: <20251111020608.1501543-1-wangyang.guo@intel.com>
+ <aRKssW96lHFrT2ZN@fedora> <b94a0d74-0770-4751-9064-2ef077fada14@intel.com>
+ <aRMnR5DRdsU8lGtU@fedora> <a101fe80-ca0b-4b4b-94b1-f08db1b164fc@intel.com>
+ <aRU2sC5q5hCmS_eM@fedora> <da1d6b4e-038c-48dc-830d-5eadb3ac943f@intel.com>
+ <aR0i2f91VGv47swo@fedora> <7ec85f26-25fa-4c77-9e46-347261723d95@intel.com>
+Content-Language: en-US
+In-Reply-To: <7ec85f26-25fa-4c77-9e46-347261723d95@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251207_020431_800241_F7686B38 
-X-CRM114-Status: GOOD (  23.41  )
+X-CRM114-CacheID: sfid-20251207_184741_698371_74CD2096 
+X-CRM114-Status: GOOD (  26.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,90 +94,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Andreas Gruenbacher <agruenba@redhat.com> =E4=BA=8E2025=E5=B9=B412=E6=9C=88=
-5=E6=97=A5=E5=91=A8=E4=BA=94 16:55=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, Dec 5, 2025 at 8:46=E2=80=AFAM Stephen Zhang <starzhangzsd@gmail.=
-com> wrote:
-> > Andreas Gruenbacher <agruenba@redhat.com> =E4=BA=8E2025=E5=B9=B412=E6=
-=9C=884=E6=97=A5=E5=91=A8=E5=9B=9B 17:37=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > On Mon, Dec 1, 2025 at 11:31=E2=80=AFAM Andreas Gruenbacher <agruenba=
-@redhat.com> wrote:
-> > > > On Sat, Nov 29, 2025 at 3:48=E2=80=AFAM Stephen Zhang <starzhangzsd=
-@gmail.com> wrote:
-> > > > > This one should also be dropped because the 'prev' and 'new' are =
-in
-> > > > > the wrong order.
-> > > >
-> > > > Ouch. Thanks for pointing this out.
-> > >
-> > > Linus has merged the fix for this bug now, so this patch can be
-> > > updated / re-added.
-> > >
-> >
-> > Thank you for the update. I'm not clear on what specifically has been
-> > merged or how to verify it.
-> > Could you please clarify which fix was merged,
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D8a157e0a0aa5
-> "gfs2: Fix use of bio_chain"
->
->
+On 11/24/2025 3:58 PM, Guo, Wangyang wrote:
+> On 11/19/2025 9:52 AM, Ming Lei wrote:
+>> On Tue, Nov 18, 2025 at 02:29:20PM +0800, Guo, Wangyang wrote:
+>>> On 11/13/2025 9:38 AM, Ming Lei wrote:
+>>>> On Wed, Nov 12, 2025 at 11:02:47AM +0800, Guo, Wangyang wrote:
+>>>>> On 11/11/2025 8:08 PM, Ming Lei wrote:
+>>>>>> On Tue, Nov 11, 2025 at 01:31:04PM +0800, Guo, Wangyang wrote:
+>>>>>> They still should share same L3 cache, and cpus_share_cache() 
+>>>>>> should be
+>>>>>> true when the IO completes on the CPU which belong to different L2 
+>>>>>> with the
+>>>>>> submission CPU, and remote completion via IPI won't be triggered.
+>>>>> Yes, remote IPI not triggered.
+>>>>
+>>>> OK, in my test on AMD zen4, NVMe performance can be dropped to 1/2 - 
+>>>> 1/3 if
+>>>> remote IPI is triggered in case of crossing L3, which is 
+>>>> understandable.
+>>>>
+>>>> I will check if topo cluster can cover L3, if yes, the patch still 
+>>>> can be
+>>>> simplified a lot by introducing sub-node spread by changing 
+>>>> build_node_to_cpumask()
+>>>> and adding nr_sub_nodes.
+>>>
+>>> Do you mean using cluster as "NUMA" nodes to spread CPU, instead of two
+>>> level NUMA-cluster spreading?
+>>
+>> Yes, I think the change may be minimized by introducing sub-numa-node for
+>> covering it, what do you think of this approach?
+>>
+>> However, it is bad to use cluster as sub-numa-node at default, because 
+>> cluster
+>> is aligned with CPUs sharing L2 cache, so there could be too many 
+>> clusters
+>> for many systems in which one cluster just includes two CPUs, then the 
+>> finally
+>> calculated mapping crosses clusters inevitably because nr_queues is
+>> less than nr_clusters.
+>>
+>> I'd suggest to map CPUs sharing L3 cache into one sub-numa-node.
+>>
+>> For your case, either adding one kernel parameter, or adding 
+>> group_cpus_cluster()
+>> API for the unusual case by sharing single code path.
+> 
+> Yes, it will make the change simpler, but no matter using cluster or L3 
+> cache as sub-numa-node, as CPU core count increase, there is potential 
+> risk that nr_queues < nr_sub_numa_node, which will make CPU spreading no 
+> affinity at all.
+> 
+> I think we need to keep two level NUMA/sub-NUMA spreading to avoid such 
+> regression.
+> 
+> For most platforms, there is no need for 2nd level spreading since L2 is 
+> not shared between physical cores and L3 mapping is the same as NUMA. I 
+> think we can add a platform specified configuration: by default, only 
+> NUMA spreading is used; if platform like Intel Xeon E or some AMD 
+> platform need second level spreading, we can config it to use L3 or 
+> cluster as sub-numa-node for 2nd level spreading.
+> 
+> How does that sound to you?
 
-Thank you for the detailed clarification. Here is a polite and
-professional rephrasing of your message:
+Hi Ming,
 
----
+Hope you're doing well.
 
-[WARNING]
-Hello,
+Just wanted to kindly follow up on my previous email. Please let me know 
+if you have any further feedback/guidance on the proposed changes or if 
+there’s anything I can do to help move this forward.
 
-I may not have expressed myself clearly, and you might have
-misunderstood my point.
+Thanks for your time and guidance!
 
-In the original code, the real end I/O handler (`gfs2_end_log_read`)
-was placed at the end of the chained bio list, while the newer
-`bio_chain_endio` was placed earlier. With `bio_chain(new, prev)`,
-the chain looked like:
+BR
+Wangyang
 
-`bio1 =E2=86=92 bio2 =E2=86=92 bio3`
-`bio_chain_endio =E2=86=92 bio_chain_endio =E2=86=92 gfs2_end_log_read`
-
-This ensured the actual handler (`gfs2_end_log_read`) was triggered
-at the end of the chain.
-
-However, after the fix changed the order to `bio_chain(prev, new)`,
-the chain now looks like:
-
-`bio1 =E2=86=92 bio2 =E2=86=92 bio3`
-`gfs2_end_log_read =E2=86=92 bio_chain_endio =E2=86=92 bio_chain_endio`
-
-This seems to place `gfs2_end_log_read` at the beginning rather
-than the end, potentially preventing it from being executed as intended.
-
-I hope I misunderstand the gfs2 code logic, and your fix may still be
-correct. However, given how quickly the change was made and ported
-back, I wanted to highlight this concern in case the original behavior
-was intentional.
-
-Thank you for your attention to this matter.
-
-Best regards,
-Shida
-
-
-
-
-> > and if I should now resubmit the cleanup patches?
-> >
-> > Thanks,
-> > Shida
-> >
-> > > Thanks,
-> > > Andreas
-> > >
-> >
->
 
