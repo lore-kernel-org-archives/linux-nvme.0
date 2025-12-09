@@ -4,129 +4,221 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B400D3B7EA
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Dec 2025 07:30:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2048D3B7EA
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Dec 2025 08:26:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=; b=PKaqajbVRr0HfHouX2+iO49i5w
-	Mpme4Y2xBTox1/yZM9MRe4d9L8WRtId9WEQhVFpE6fprcZNYUxMvWc1VR1jSO0vsGy5n+h/aloxfu
-	qfKpYH0eGOWmKoBVMZtHqJB9pCeLFY9zEiyCn1tCcpPbszUm5AaNT0trdorb1E3gIXTxea4KN0Qsl
-	FNnrLKsegaB8oE29ZxoAqYkA/9yrUgjsJJBoibJjJNGEvvKMwWcSK6REusvpjgZEdLbfBLsYKpvRa
-	wlz08Pk1fEtLO/fSlca49nJWPdgAodft9QO+pXnznLVgGD59ct5G4JK0kLWvhApGoEGfJFjWCs3Rv
-	FiuAIJCA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=K9ffPdUQyRyWar3yGAbxY2ZCUv08J1ICbfgJ6TAfYo8=; b=1vY44K/Ac6ZidwyoxMnFtXDxRK
+	jcUAn+tZzsj/CQ9b5fZ8ltkFAbSS6RNeGFraYu9YsLzcdP94fi8O7/4taiIcF0G8++bDo8HJ418xA
+	HCEfaHIyjQnKVICOh8M/W8H+ci1tNawCTxugObriGFnu8AQT+Hm8klsJGQD+OVJWElEsB3fMV644M
+	IX5nAsaB0TQN2V//uwZcEpThKRQOONJfkWyHm/ZQP+WJObOqtS4BnkRxoLN2eKLElZcrF3CRQxJd7
+	yXElnHfTuRGHIWaZJyJUpyMNPPHkvl7fzrDmvN3euBz4NWj9YdoAr5zwJkeW7F+yKmjJ8mNhOKFwN
+	IOiN8QLg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSsBL-0000000DwxQ-2JhX;
-	Tue, 09 Dec 2025 07:30:47 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1vSt33-0000000DzWv-2K93;
+	Tue, 09 Dec 2025 08:26:17 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSsB9-0000000Dwwc-0C7q
+	id 1vSt30-0000000DzWZ-1uBP
 	for linux-nvme@lists.infradead.org;
-	Tue, 09 Dec 2025 07:30:46 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9CB6533796;
-	Tue,  9 Dec 2025 07:30:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765265431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
-	b=Nsp0vVSQYd6LGJPC2Zmdw0R2n7m3Tr9UQS9D7UbvULjamwV0BU3Hq8M80UXaHNHexzn78R
-	vnFGwgQWRggzW0aRK4in4NiIu1iClI5LccKu+jqFXzmSDu5/jViyMrRMFZhuB069yYO2UN
-	hJDgaNt6jIlof87rark34Hozq5mxxds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765265431;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
-	b=3Div0tf8QcaAan5uAaeXYjDcesmI4TR/0D0y7a5k8zPQbVQSR5VKUQXSpeG8kqYYrqdsrB
-	2SZbTkIi1LlSm6Ag==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765265431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
-	b=Nsp0vVSQYd6LGJPC2Zmdw0R2n7m3Tr9UQS9D7UbvULjamwV0BU3Hq8M80UXaHNHexzn78R
-	vnFGwgQWRggzW0aRK4in4NiIu1iClI5LccKu+jqFXzmSDu5/jViyMrRMFZhuB069yYO2UN
-	hJDgaNt6jIlof87rark34Hozq5mxxds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765265431;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
-	b=3Div0tf8QcaAan5uAaeXYjDcesmI4TR/0D0y7a5k8zPQbVQSR5VKUQXSpeG8kqYYrqdsrB
-	2SZbTkIi1LlSm6Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2A283EA63;
-	Tue,  9 Dec 2025 07:30:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QSKwIxLQN2nuSgAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 09 Dec 2025 07:30:26 +0000
-Message-ID: <eb03af5f-6371-4e3b-acfc-9c3d75403d18@suse.de>
-Date: Tue, 9 Dec 2025 08:30:23 +0100
-MIME-Version: 1.0
+	Tue, 09 Dec 2025 08:26:16 +0000
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B97g1bc245705;
+	Tue, 9 Dec 2025 08:26:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=K9ffPdUQyRyWar3yGAbxY2ZCUv08J1ICbfgJ6TAfYo8=; b=
+	IawcLA6oEmovg9URMvNySIdneAFVxAxwfzHEl2UuW5Htb/XGNM2SEV1UumenCH5q
+	uQEZSy+mLtMU9L4GmBjXLOiI3z4+a7gkyqj7+wYwkM4sKajWxN6oJMtgIQfqe6AH
+	PyyQjkiQwqvaiX0rTm8rwCv4D4Fko2PFv3Sut0AL1NZ911ZUQ1x8agRSnwwqGf3v
+	e6vyFuHx0hFDViKvmEMGnrkJYfTWX8iA/gmE273ePlWSja+Gkyt/MGQRa7+r5Ade
+	/HVN+HYr283DFOZETxLxGs1CwjOQP0Kmhrw6jlv1mx37XcsuIPR21YSC4l4hVTkz
+	uOzWJYR8Yb6pITQKJeOrbQ==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4axf9hr2bq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 09 Dec 2025 08:26:06 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5B98IYpL040225;
+	Tue, 9 Dec 2025 08:26:05 GMT
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010021.outbound.protection.outlook.com [52.101.193.21])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4avaxjj8ty-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 09 Dec 2025 08:26:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g2sBOL0mwDZrxiwGlR+w7g8AkU2qKQ3YC8lj6LyZ6VIuuADAj6Ws3EBfv2CaPitXAeKqP3McKKDQah/2s0jVhEchMeZ8osmNGLpvLDQOeeHdK8UtRliO8d3MxoL1PtNqdThyb5cwXq59IEEbocxazQwxMsyXyRg5x9+5jZR49VoJq4H+KPRIv/D5LFw8eeJHAS0F9UoOz3+O6QBgFORiChbG1qp1dENZNcGB3bzgQwTi8On7LuetPvKsJkvO8kYQKhy0f+fVPnLXk57EWC8+iNxVKFxfGTceVqjICZd2H+RSTTX/7+JxSkE+JcoHWJOQNBYmpwOXLBznyzyvB+3w1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K9ffPdUQyRyWar3yGAbxY2ZCUv08J1ICbfgJ6TAfYo8=;
+ b=YkHlzhxutcukHOQ9ZTtcCNUz25g1Me8q1ppOkbB4MDkoKOFAH+2bNeMvEEmLQqfxrI9/BpXNCfOxKPhTV6VZRkpigoNhUYEU+cVMwONSRlFyfwfVzF3JBUb/wDNQg+UiQ3xyyQHSBVGA/yvFRSLgHBWVaegd0yELZ+N+jj6MbgZKpyMhfURXMK3qQlr+4wORXBmkYubduIzNATEKsxT/CCXZ4ex6lf2jJ8TYM6qFxAa6lBkxBjGmnHXRKM8geRjovCd0tUZvOVoepHvlo8qpWYoAyJGGKumdmlpoFHDYU7H8uWbgNKqRgGYzIhoqdXXR3l9TB8vc4O22ScR+Gy7/QA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K9ffPdUQyRyWar3yGAbxY2ZCUv08J1ICbfgJ6TAfYo8=;
+ b=V6h7Un1AZI7cRzdjI4tWy8PhagDTfufJzL2IAjWG1z5dWLFgVf8e82iwsI4i7/0A5GL0m9R8uQkZfKJswyD6BCtxpS2RV72PJJ7lJezwgKMQN4z+cCpXlozeqYPrBbBfFKR55uWrMUJPvUBUGU7YV5fdPd2l5WUMe5ukgyUnJ/U=
+Received: from IA4PR10MB8729.namprd10.prod.outlook.com (2603:10b6:208:56b::14)
+ by DS0PR10MB8102.namprd10.prod.outlook.com (2603:10b6:8:202::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.6; Tue, 9 Dec
+ 2025 08:26:03 +0000
+Received: from IA4PR10MB8729.namprd10.prod.outlook.com
+ ([fe80::1779:493f:b5d:395a]) by IA4PR10MB8729.namprd10.prod.outlook.com
+ ([fe80::1779:493f:b5d:395a%3]) with mapi id 15.20.9366.012; Tue, 9 Dec 2025
+ 08:26:03 +0000
+Message-ID: <d2ce6a5d-f6e4-441c-957c-fefc33f3758d@oracle.com>
+Date: Tue, 9 Dec 2025 08:26:01 +0000
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/1] block: Use RCU in blk_mq_[un]quiesce_tagset()
- instead of set->tag_list_lock
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: Casey Chen <cachen@purestorage.com>,
- Yuanyuan Zhong <yzhong@purestorage.com>, Ming Lei <ming.lei@redhat.com>,
- Waiman Long <llong@redhat.com>, Hillf Danton <hdanton@sina.com>,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251205211738.1872244-1-mkhalfella@purestorage.com>
- <20251205211738.1872244-2-mkhalfella@purestorage.com>
+Subject: Re: What should we do about the nvme atomics mess?
+To: Nilay Shroff <nilay@linux.ibm.com>, Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+        linux-block@vger.kernel.org
+References: <20250707141834.GA30198@lst.de>
+ <ee663f87-0dbd-4685-a462-27da217dd259@linux.ibm.com>
+ <aG7fArgdSWIjXcp9@kbusch-mbp>
+ <27a01d31-0432-4340-9f45-1595f66f0500@linux.ibm.com>
+ <a454f040-327c-46d1-8d0a-7745eb8a7aaf@oracle.com>
+ <501169ee-37e9-4b15-89ae-8f2b57da270f@linux.ibm.com>
+ <e7873ec2-c447-4eda-9725-80e614c3e210@oracle.com>
+ <eaeaaf10-2e60-4ce1-9a84-42aaff1b7fc5@linux.ibm.com>
+ <4023a0ad-ef60-4307-aca6-514ee790d6c6@linux.ibm.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251205211738.1872244-2-mkhalfella@purestorage.com>
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <4023a0ad-ef60-4307-aca6-514ee790d6c6@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.980];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[sina.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[purestorage.com,redhat.com,sina.com,lists.infradead.org,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-ClientProxiedBy: LO4P123CA0461.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1aa::16) To IA4PR10MB8729.namprd10.prod.outlook.com
+ (2603:10b6:208:56b::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA4PR10MB8729:EE_|DS0PR10MB8102:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9d06715a-b35d-49b0-df72-08de36fc9745
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K0pJM3ZVT3VwY3M4cXBaTHc5UGlJRXV6NzZPS1MvTC9IYWRWVGsvMFhGSUZV?=
+ =?utf-8?B?blE5MEFsMkMyTDNnb0UzLzNONlhhVDZjdS9IWVg2djNrQjZqYkhqNGl0REpx?=
+ =?utf-8?B?c1Z5R2tvR3d0SllrT25kNFNDc241YjZqNkQ0ZnAyY05yUmRYQXFFczBEaGlV?=
+ =?utf-8?B?ckhweDh5empXaGJXV0QrNkhCYzhqRGtBMTJaV2pnZUtpUkVMMzNtU1QwditX?=
+ =?utf-8?B?ajRDZisyeWtSaUlscmRmb0srOFQyUDhkWHhaT2lrMGNRWTVuR3piUkI0NFd2?=
+ =?utf-8?B?TzVCK1RFRzZzeHJaTU5lTGpTUmY5T1J0STYwcUkxdlBzSzMwQ0ZRKy9Xb3VI?=
+ =?utf-8?B?eUU1dTZ5dUtaQ1ZsaS8zbW55R1Z3UmhEL1gyVXRvaExkZlM1THJudnYwOWp1?=
+ =?utf-8?B?ajRwTWN5ZWlVRjNFTE9YMTA5dFcvME82UEMvU0hNWTJoUlJ3SkZ2bzNGRnZ4?=
+ =?utf-8?B?WU1kMlBLY1dlTGxXQktQWU5kVC9VTldlN25acHlDay80NGMxNjFaTENCNkll?=
+ =?utf-8?B?L1BUeEJpWXRyZzl6b1RiZXBHR3pKU0NnUWY0cWNxOVk0dTFIU0JxV2RlSzUx?=
+ =?utf-8?B?SFVYK3I5dzBpRU45NjJjQ251ZUMyaTBpNWZwc05BeUNvOTZoNWhNK2Q3RDUr?=
+ =?utf-8?B?Z3pYUzNkaTV4clEzdWduSGFWUWg2RENZenJUbG01SktYYWo0NmtvN2Fqcklr?=
+ =?utf-8?B?WllnaEtyeHVVTEhiTTEzR2lBS3lhVy9FSmtTQXJWRCs5cDNocDRrd2dMenl1?=
+ =?utf-8?B?ZDRxRE45VVk0RGJVRDJSR0xUenJyY3d2ckRKSlE4RHZDbkpld2VCNzVOanZt?=
+ =?utf-8?B?dVVBVUY2VTE4bDUxbkFmZjZMUFlmSk40cktTaSszempkajFYRGQ3THhxL29k?=
+ =?utf-8?B?c2owS1JSZWVZamtjam04VEVrb2dHc1Jkcy9yU3haOTVtVWVJcFpsM1ltaHZY?=
+ =?utf-8?B?QmV5N0ZJTWl6VTRQMytUbC9FOE5TYXJXamZXSXlNNXZVZGVFTmphRnNTZWFQ?=
+ =?utf-8?B?ZHI2NlpGRnQydkUvV3lzK0hzSlFrV0lZQXZOaDY5UHpQeEI5eFRGL0VNdUJv?=
+ =?utf-8?B?WnZ6MUFhTXNrcGlHR1JlTVNUUUNyc3pNQktVazRQWG1RbXVmWlgxbEpCdVp6?=
+ =?utf-8?B?aGtFYkxQYnE3M1NZaVhLc1M3eXAvb2J0c1NzTnVOR2IrajI0UEpNLzJaOGxy?=
+ =?utf-8?B?QW5pTTJPYmV2M2l1Nk54STBCMVB2WXF4aTl0RDFXZ2lmcHRUMFE0MzZib0FE?=
+ =?utf-8?B?d3drTG10UWNHNGF4amtRNFE2Q0R4OThtaS9GQWx4SjdDRXZ1UFkwbkdhVHp6?=
+ =?utf-8?B?MDBBRDZTQ0ZxNENxU3dtb1ZLWHdzS2tBdWo0NW4yZ29PeVJub0c4MmNsa1V1?=
+ =?utf-8?B?bDhFTFVLU1EvbXllZFduUlpkR2RqNk9IMnZMdklFK0EyZTZkWjFYL1hUQmRZ?=
+ =?utf-8?B?Uk9qbFE0d2E2ekV5SzVRMVdGMnRlSTNYY1UzM240bldPNEQrTUJ3K0kwMnpq?=
+ =?utf-8?B?RkxTRWh1eGRyQlRlbG0vS20wRE5raEp6eUJCRjNJNDFVMjQzWEFvUlQ4eEhm?=
+ =?utf-8?B?ektyODNmK1Z6WW9kMjE5c1J3TlNRSFdHeDF3NDV3OEtGcndsZWVOQzc5Ri9F?=
+ =?utf-8?B?SEw1Um1ZVHJHU2YybXFvUUp4K1V3akFmMExjQ0J4Z1hEY0YwTFhQZHR5NHd2?=
+ =?utf-8?B?c25LSVdKY2ZGRG9XZklxbDZzWllEMXFCY2hyY2RsNVRScE9Zb0RlL2IrQUtS?=
+ =?utf-8?B?YWNsaU9Ga2R6cWhLT3JQV0NuakR1ajU0LzQ2dzRBN1ZKOHcrTmcxUktzd1VD?=
+ =?utf-8?B?MUNpMFVaUkV6WjJHeDdnSHBtRHpmY29CR3NLdUQ2ZnIwcHlPd0U4MDdpcDVE?=
+ =?utf-8?B?NklPSGFGTlkwckJDNVkzWUhLampMZVVaUFcyS1YwUHZtT0ltdm5UK3NNR0lx?=
+ =?utf-8?Q?Yx4P4xHpbm5iYT+wHkL+AAR5evd3YX+s?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA4PR10MB8729.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWRWNnBsNWlpdjcreU9FeGMvOHJlOFFpUjZhcU1vdEVWUWVGc1ZNS0JkVGlo?=
+ =?utf-8?B?NmRlQTBLUXROV2c5ZU1FckovbVZNZk9Cb2NNdE1URGpkTnVPMTdtOUs0ZlNn?=
+ =?utf-8?B?WlJFb2hLVEQ3QUVzbzdBN3YvYTRocngzT3VHWTBYWnVZQXEyc2QxSnNObTYx?=
+ =?utf-8?B?UGhTREhHQlhlYVU1RldYaWpNZVUrTUVTdk9yWlBmM2pIQmFlYnNTZTB1c1RF?=
+ =?utf-8?B?TzYwYnFOa1kyaGFiZDQ0VlhCR0p4U1FzbzA3RnZzRlVWeWllWEVJaXlFeUI2?=
+ =?utf-8?B?K0QvVDc5RU9Tc2ZhSFZoN3JpWTVQaE5iUlZDdHlBdEVZTzJ2NS80d0JrM2dl?=
+ =?utf-8?B?dXF0U1d6Si9ya0I3aVVReUJZbithTjRxR21Kck5HLzlJYno1Q1VDMEp6RWNH?=
+ =?utf-8?B?LzB3dXlUZkhHS3BOT3N1QUdvSURxdGo0QVFDWjJvN0hic3hqRWhJb1dWWk1E?=
+ =?utf-8?B?N0FPenJIajJ1MGtNNkRNQnBOZkZSLzdnRHpaK25uWVdVSU9WT1NyNGxFZVgz?=
+ =?utf-8?B?VFIvR05vMDUybnJJanUybWJPYmlKNFB5clRwa2JrUVJMcnhFTERXbzlDdWFV?=
+ =?utf-8?B?ODl4UTNkL0RmSDhBNzhBU1Z6ai81aVRNbGdRU05wNk9oemdwUTVxUHFFRmh3?=
+ =?utf-8?B?TG1XcnlZcVIyVWUrUlg3NWRqRUZ2L3ZjK3ZoZWZsSWJUMFpJU2hqYS9DU0Zr?=
+ =?utf-8?B?YkhlZXpVWCtwSld6VTd4OVhiRWxjRkRhZGNsZkFNRDRxZE9TeGhhLzBVMUty?=
+ =?utf-8?B?MElaVExiUWRmV2diZVdaRm9SdEk3Yll4enlKdm9sVXpQQ3hoNHhTUXo0V3Y1?=
+ =?utf-8?B?VmlaUENWVGR6eVBkTjczOWh2aVFTUC9wSWpMUXdhOVB2RWRaeEZOVHhTTWxY?=
+ =?utf-8?B?bHRGeE5sZ1RmbmlJaklXNWhXc2tLbUJ3aE15ektFNk5xbnplcmxrOHU5NDNp?=
+ =?utf-8?B?WUJ2RjVXazJYS1c3Z1AwckhKMzc5SDBkVk9LbFRJL1dCcnRWZkFsRUQ3Yit1?=
+ =?utf-8?B?eC9pZGZtSWoxYlpYZDl2MU9uZUx3WW45aDZoK3drU2Z0OWZaNVU2KzYxVWgz?=
+ =?utf-8?B?TGVFUmx5dFhMQjhlZ1A4VzJWNUg3QmhEOCtibnZxWDNhOW9VOFFVeFJaOVdI?=
+ =?utf-8?B?d3FWMElUSFpsZGxVcUcxNENrZ2wySEtOQmNWUk5DTHhJcjFPTHUrY1JtTTVs?=
+ =?utf-8?B?MWtSaFdlSkJsNHo1MkU2cWxueWw1ZTcrMWE2RHFOTittWG02ZzFJbm1WdlBL?=
+ =?utf-8?B?cXMzMGE0ZHloMXhPMi9Bd1BBVFkzUmhSNERjOUEwZEJGd2VOeEV1ODB4VHdU?=
+ =?utf-8?B?YVhrYW9yTXZrM2VaazJHSzdWUmQrTmQ4dEdJczZ1dDBGU0lpNjkxN3dGeFd2?=
+ =?utf-8?B?Z2NwL1dBa3U3UDZrcTdsMFJuUklvdUdZajRSbHRUaVJYTDJ5c201VU81R3Q3?=
+ =?utf-8?B?RVJVc0MrbHFzQjUzT28xTG9ROVRoYWhRY1dONnlCem5MZFdMQjZMOVhFeXk0?=
+ =?utf-8?B?UER2aTd1bGFwVll5dTdocFEvQWY3VkU3V25DN2trNTRpUzZQeTFFMUY0RDdK?=
+ =?utf-8?B?OUZQZjUyZ0pLVXR2YVpiZXpHQlBZU1lTR3lsdWNkTGpKamJpNTR2eVF5L0p5?=
+ =?utf-8?B?U0hzbmNpeUdBdG5lWElRY0RiTFhSSlZQblBsUWhNbjMvSVI0OWdmbDRGa3Z1?=
+ =?utf-8?B?Yzh0RmwwK2YyVDYyZjhKZjMrNHNWWHlTU0NRdWNqQ2N2NVYzZTVRTy9Fcms5?=
+ =?utf-8?B?ZzdkM1lHQ2RWeDZVKzFtNlV4NU5nWHJsaHFBQkZ5OGh4NGM0WEJoUUlSUmU5?=
+ =?utf-8?B?Nmo2NjNlbGFGQ3ZZbDgwd25Cd3BmOUVPbkFBS2NwVFZxR2hjbG9tSGxjYzRN?=
+ =?utf-8?B?M095ek5Mc0tkTlhNUmhCdHB4K1hhcWZwOURySXNRQ0hSZmtoYnRPUFpocnJK?=
+ =?utf-8?B?NnNDU2tNMUF5bmIxTVNMcS9oUWZpRWVNU05QcXpHdWJMMEFacFZiSU5ZSysr?=
+ =?utf-8?B?N2cwdFp2NHNrYW1LaWRUTm05M2xtUDZFbE5YMVJDU3NZZjhYOEx1emhnK1Y1?=
+ =?utf-8?B?Z3JPY2VmbUVtQ3R4em53RnRUL2ZwT0t5LytnTkRtSWJjZEZhNE12K2ZrL0Fw?=
+ =?utf-8?Q?4Y2UlqHmrIEZkYWMF8OjsGg1l?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: eFrZmbS/uT5JpciNwk5ghKiBQyrs+93HFJ35LVH2CgSRM++5IGp4YwjDRhcitmd91Pl2FRj+iJkrh+fc4cVAqNHfZ12fERPPhturfa5yqLfYtgfOwR0e5s+sNlkhOcU1ADqarARgr633r5v9fIdjs9fZ0Z+ibrpvlceKD9G2fHQwLRkNDmFnr59fp+Eip2ARsUTsHCGMUS+sZ3wWba0lguP+1g21487gYD/MOTksFJ9C/yULlXBGa/EHQhxstojQk1UR6OghErxHYduLshOPZcjreij753EOqNeSJOIu17HTwUeUGWYXbGm7dkDW9C7SOJLQttFLS0VoiBsffKMtgesupcn87/jKGwgcPtfZcbtLjblHhuXJztdJpHHuPrew/nB7dIB0ULvzw0HugSRDNuTAbl9tI1HWEyEdVL4pMgvhRnrEyCETrqypEZI2Rx5VPLfa+42J9VRVMpSV1TE+w+31vusTY6bdN8zLHlvPpLrs01GrVbmjRc6D6SDVLcf8MMxQYwNjrPbakBh09hNU6GfcgiBt65sc6WnLKQeeh64TAaBQpe6qhNHoK3Vz0mYYkVMqxBkIlyM7TlwEHGBDekh+9lMvbQ4cmwKUNdQzvGM=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d06715a-b35d-49b0-df72-08de36fc9745
+X-MS-Exchange-CrossTenant-AuthSource: IA4PR10MB8729.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 08:26:03.3301
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ONUvdS2nyjgipSYiiwT2VmVwxyHpFyTLLJ8Bl0DznEFK32r3UBVqpSX2P83Mhu/zJbHULYsUtRcrvSWuvrnWrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB8102
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_01,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
+ definitions=main-2512090060
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDA2MCBTYWx0ZWRfX1yGMCgq2Kdft
+ ggafqNytzNMw43mSD6gS1+l+QX6ZrYM+65BNkxEHtGBRrS0uUBI6FQ+t+PCl7QNf1I7fs5RAvn/
+ l58zwWiGgXmZB3V9m1uL+pIaCUu2QsxwOToyCmvalcQhrwgZw7EZJ3j3v16T8CwyKyVSuafpssS
+ YV94wkABxaBuaty/p/Nq0jmP+xiSEf+1I01rxmkCGOLCM8eZIF4c9Mct7CBVymWqmuMfxA46yWD
+ rl8YY8b08gnotbiiogN02vB2m1CQn9bwmOsJv3aukD71ExuQRxfUVICQxwsZGM8KO1JDikfVnw6
+ YRrdQLnLiFFVzX9M6k0+cOqXEc3ZMzGuJmC3u6HnyUB6M2R1ktKkbMJ2KYI2Kzsaclvx9nc3EO5
+ HXNAiF3y0XEtP3oRcF5Nn5nuA/qyKTdqAC3migN6kXlh5wyRKiQ=
+X-Authority-Analysis: v=2.4 cv=GMkF0+NK c=1 sm=1 tr=0 ts=6937dd1e b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=I5r0CxplrSDLCy34:21 a=xqWC_Br6kY4A:10
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=GoEa3M9JfhUA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=RDetRKujpk2TfiE0F94A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 cc=ntf awl=host:12099
+X-Proofpoint-ORIG-GUID: 8a3kfAp99P2T_nCdieVBnFOaImRtJBXS
+X-Proofpoint-GUID: 8a3kfAp99P2T_nCdieVBnFOaImRtJBXS
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251208_233035_241088_22A7FD25 
-X-CRM114-Status: GOOD (  30.64  )
+X-CRM114-CacheID: sfid-20251209_002614_611767_6B9CDF38 
+X-CRM114-Status: GOOD (  16.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -141,160 +233,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/5/25 22:17, Mohamed Khalfella wrote:
-> blk_mq_{add,del}_queue_tag_set() functions add and remove queues from
-> tagset, the functions make sure that tagset and queues are marked as
-> shared when two or more queues are attached to the same tagset.
-> Initially a tagset starts as unshared and when the number of added
-> queues reaches two, blk_mq_add_queue_tag_set() marks it as shared along
-> with all the queues attached to it. When the number of attached queues
-> drops to 1 blk_mq_del_queue_tag_set() need to mark both the tagset and
-> the remaining queues as unshared.
+On 08/12/2025 12:11, Nilay Shroff wrote:
+>>> Do you think that you could check with the OEM for updated firmware (that reports NAWUPF)?
+>> Yes, certainly — we can check with the disk vendor for updated firmware that correctly reports
+>> NAWUPF. I’ve already discussed this with my manager, and he’ll arrange a call with the vendor
+>> so that I can directly explain the issue and what we want from the kernel perspective.
+>> I’ll follow up with you once I’ve spoken to the vendor.
+>>
+> Just an update...
 > 
-> Both functions need to freeze current queues in tagset before setting on
-> unsetting BLK_MQ_F_TAG_QUEUE_SHARED flag. While doing so, both functions
-> hold set->tag_list_lock mutex, which makes sense as we do not want
-> queues to be added or deleted in the process. This used to work fine
-> until commit 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
-> made the nvme driver quiesce tagset instead of quiscing individual
-> queues. blk_mq_quiesce_tagset() does the job and quiesce the queues in
-> set->tag_list while holding set->tag_list_lock also.
+> We met with the vendor team and explained the current situation regarding atomic
+> writes and the NVMe Linux kernel driver. I’m happy to report that they acknowledged
+> the issue and agreed to provide updated firmware that advertises atomic write support
+> using NAWUPF instead of AWUPF.
 > 
-> This results in deadlock between two threads with these stacktraces:
-> 
->    __schedule+0x47c/0xbb0
->    ? timerqueue_add+0x66/0xb0
->    schedule+0x1c/0xa0
->    schedule_preempt_disabled+0xa/0x10
->    __mutex_lock.constprop.0+0x271/0x600
->    blk_mq_quiesce_tagset+0x25/0xc0
->    nvme_dev_disable+0x9c/0x250
->    nvme_timeout+0x1fc/0x520
->    blk_mq_handle_expired+0x5c/0x90
->    bt_iter+0x7e/0x90
->    blk_mq_queue_tag_busy_iter+0x27e/0x550
->    ? __blk_mq_complete_request_remote+0x10/0x10
->    ? __blk_mq_complete_request_remote+0x10/0x10
->    ? __call_rcu_common.constprop.0+0x1c0/0x210
->    blk_mq_timeout_work+0x12d/0x170
->    process_one_work+0x12e/0x2d0
->    worker_thread+0x288/0x3a0
->    ? rescuer_thread+0x480/0x480
->    kthread+0xb8/0xe0
->    ? kthread_park+0x80/0x80
->    ret_from_fork+0x2d/0x50
->    ? kthread_park+0x80/0x80
->    ret_from_fork_asm+0x11/0x20
-> 
->    __schedule+0x47c/0xbb0
->    ? xas_find+0x161/0x1a0
->    schedule+0x1c/0xa0
->    blk_mq_freeze_queue_wait+0x3d/0x70
->    ? destroy_sched_domains_rcu+0x30/0x30
->    blk_mq_update_tag_set_shared+0x44/0x80
->    blk_mq_exit_queue+0x141/0x150
->    del_gendisk+0x25a/0x2d0
->    nvme_ns_remove+0xc9/0x170
->    nvme_remove_namespaces+0xc7/0x100
->    nvme_remove+0x62/0x150
->    pci_device_remove+0x23/0x60
->    device_release_driver_internal+0x159/0x200
->    unbind_store+0x99/0xa0
->    kernfs_fop_write_iter+0x112/0x1e0
->    vfs_write+0x2b1/0x3d0
->    ksys_write+0x4e/0xb0
->    do_syscall_64+0x5b/0x160
->    entry_SYSCALL_64_after_hwframe+0x4b/0x53
-> 
-> The top stacktrace is showing nvme_timeout() called to handle nvme
-> command timeout. timeout handler is trying to disable the controller and
-> as a first step, it needs to blk_mq_quiesce_tagset() to tell blk-mq not
-> to call queue callback handlers. The thread is stuck waiting for
-> set->tag_list_lock as it tries to walk the queues in set->tag_list.
-> 
-> The lock is held by the second thread in the bottom stack which is
-> waiting for one of queues to be frozen. The queue usage counter will
-> drop to zero after nvme_timeout() finishes, and this will not happen
-> because the thread will wait for this mutex forever.
-> 
-> Given that [un]quiescing queue is an operation that does not need to
-> sleep, update blk_mq_[un]quiesce_tagset() to use RCU instead of taking
-> set->tag_list_lock, update blk_mq_{add,del}_queue_tag_set() to use RCU
-> safe list operations. Also, delete INIT_LIST_HEAD(&q->tag_set_list)
-> in blk_mq_del_queue_tag_set() because we can not re-initialize it while
-> the list is being traversed under RCU. The deleted queue will not be
-> added/deleted to/from a tagset and it will be freed in blk_free_queue()
-> after the end of RCU grace period.
-> 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> Fixes: 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
-> ---
->   block/blk-mq.c | 17 ++++++++---------
->   1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index d626d32f6e57..05db3d20783f 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -335,12 +335,12 @@ void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set)
->   {
->   	struct request_queue *q;
->   
-> -	mutex_lock(&set->tag_list_lock);
-> -	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(q, &set->tag_list, tag_set_list) {
->   		if (!blk_queue_skip_tagset_quiesce(q))
->   			blk_mq_quiesce_queue_nowait(q);
->   	}
-> -	mutex_unlock(&set->tag_list_lock);
-> +	rcu_read_unlock();
->   
->   	blk_mq_wait_quiesce_done(set);
->   }
-> @@ -350,12 +350,12 @@ void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set)
->   {
->   	struct request_queue *q;
->   
-> -	mutex_lock(&set->tag_list_lock);
-> -	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(q, &set->tag_list, tag_set_list) {
->   		if (!blk_queue_skip_tagset_quiesce(q))
->   			blk_mq_unquiesce_queue(q);
->   	}
-> -	mutex_unlock(&set->tag_list_lock);
-> +	rcu_read_unlock();
->   }
->   EXPORT_SYMBOL_GPL(blk_mq_unquiesce_tagset);
->   
-> @@ -4294,7 +4294,7 @@ static void blk_mq_del_queue_tag_set(struct request_queue *q)
->   	struct blk_mq_tag_set *set = q->tag_set;
->   
->   	mutex_lock(&set->tag_list_lock);
-> -	list_del(&q->tag_set_list);
-> +	list_del_rcu(&q->tag_set_list);
->   	if (list_is_singular(&set->tag_list)) {
->   		/* just transitioned to unshared */
->   		set->flags &= ~BLK_MQ_F_TAG_QUEUE_SHARED;
-> @@ -4302,7 +4302,6 @@ static void blk_mq_del_queue_tag_set(struct request_queue *q)
->   		blk_mq_update_tag_set_shared(set, false);
->   	}
->   	mutex_unlock(&set->tag_list_lock);
-> -	INIT_LIST_HEAD(&q->tag_set_list);
->   }
->   
-I'm ever so sceptical whether we can remove the INIT_LIST_HEAD() here.
-If we can it was pointless to begin with, but I somehow doubt that.
-Do you have a rationale for that (except from the fact that you
-are moving to RCU, and hence the 'q' pointer might not be valid then).
+> We shall first receive a test firmware build with this change. Once our test team
+> verifies that it behaves as expected, the vendor will proceed with a formal firmware
+> release. I’ll keep you posted once we receive the updated firmware.
 
-Cheers,
+Thanks for the update. It's good to know that this vendor will provide 
+the required FW update.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Cheers
 
