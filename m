@@ -4,73 +4,129 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AE4CD1CDC6
-	for <linux-nvme@archiver.kernel.org>; Tue,  9 Dec 2025 07:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B400D3B7EA
+	for <linux-nvme@archiver.kernel.org>; Tue,  9 Dec 2025 07:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mwWBWfZp1i8yd4XQtPH2gxDceGUJc2weFjC9EQRRPCA=; b=owTEvRxs2X6wcV9TQjUH5Xab/M
-	HI1RRIsBp9zHNYrhdZuRGZ4/kK/WNJBNPsP18ujgSDkvAgn+oCWZN0SwQ59VwcnUvVDZ8rlpE6Get
-	8atQ1+BnrFUPlm3RrHfTKhohHxz5cMgY8N9wMVH0VxUWuhO/gxjoMAFTcAP3w2L0HwojQOHDlAFCt
-	3/BNGZg/p+CJ9DGLoob7LrFsg53O/LsfE011biovY+0RSgKBj4NuaimL9l4as1DO+muqzhk0P2Nwh
-	S158gMwdZZXGuf2jrat04i3R/HmBmZ111kD44Nm7zxQOMj5Wvycw1rPnhkmFt62bmnu1FHtvNCTjb
-	HnyE6vjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=; b=PKaqajbVRr0HfHouX2+iO49i5w
+	Mpme4Y2xBTox1/yZM9MRe4d9L8WRtId9WEQhVFpE6fprcZNYUxMvWc1VR1jSO0vsGy5n+h/aloxfu
+	qfKpYH0eGOWmKoBVMZtHqJB9pCeLFY9zEiyCn1tCcpPbszUm5AaNT0trdorb1E3gIXTxea4KN0Qsl
+	FNnrLKsegaB8oE29ZxoAqYkA/9yrUgjsJJBoibJjJNGEvvKMwWcSK6REusvpjgZEdLbfBLsYKpvRa
+	wlz08Pk1fEtLO/fSlca49nJWPdgAodft9QO+pXnznLVgGD59ct5G4JK0kLWvhApGoEGfJFjWCs3Rv
+	FiuAIJCA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSs18-0000000DwRE-07PW;
-	Tue, 09 Dec 2025 07:20:14 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vSsBL-0000000DwxQ-2JhX;
+	Tue, 09 Dec 2025 07:30:47 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSs14-0000000DwQF-3nzs;
-	Tue, 09 Dec 2025 07:20:12 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 518B5419E0;
-	Tue,  9 Dec 2025 07:20:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 137C4C4CEFB;
-	Tue,  9 Dec 2025 07:20:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765264809;
-	bh=2+RBfirrXuFnkMRxDw7t0EtfDZroa6uDXyUspwpTeIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n/jVDiia6Xt689ozubWpINb6zPps2GAGN4ovKR+yZJbb1pZ3FqoiGlaESeOnFGwnC
-	 oFohj1jB3EQDwexnuAimLRCSTAIkMcqqUUp/Ppk00eblJIMiI/hUSM5ZqNuoxKDqZy
-	 qgunAerivYkbJNWMeG6MbaGPRLrk4rTDm8kPpdrvVO6pUGQ3o1l5c+0pYQxttsTsb0
-	 s+gzBg72oPYzw/GIwTiMssFxRpmpM6CU76gMyTDS9l6ARdgm0Y7ac8cxoaqmsswcKH
-	 AwmLtUYjLUKVPw9RIwCOxo2ni4xc0MAgPG9bSbJcD8Qiv+TID/luQz8wBjVO8pFKff
-	 fxdkxqKFXombQ==
-Date: Tue, 9 Dec 2025 08:20:01 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-nvme@lists.infradead.org, mhi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
-Subject: Re: [PATCH 0/8] dmaengine: Add new API to combine onfiguration and
- descriptor preparation
-Message-ID: <aTfNoU6fKBOcjL5j@ryzen>
-References: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
+	id 1vSsB9-0000000Dwwc-0C7q
+	for linux-nvme@lists.infradead.org;
+	Tue, 09 Dec 2025 07:30:46 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9CB6533796;
+	Tue,  9 Dec 2025 07:30:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765265431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
+	b=Nsp0vVSQYd6LGJPC2Zmdw0R2n7m3Tr9UQS9D7UbvULjamwV0BU3Hq8M80UXaHNHexzn78R
+	vnFGwgQWRggzW0aRK4in4NiIu1iClI5LccKu+jqFXzmSDu5/jViyMrRMFZhuB069yYO2UN
+	hJDgaNt6jIlof87rark34Hozq5mxxds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765265431;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
+	b=3Div0tf8QcaAan5uAaeXYjDcesmI4TR/0D0y7a5k8zPQbVQSR5VKUQXSpeG8kqYYrqdsrB
+	2SZbTkIi1LlSm6Ag==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765265431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
+	b=Nsp0vVSQYd6LGJPC2Zmdw0R2n7m3Tr9UQS9D7UbvULjamwV0BU3Hq8M80UXaHNHexzn78R
+	vnFGwgQWRggzW0aRK4in4NiIu1iClI5LccKu+jqFXzmSDu5/jViyMrRMFZhuB069yYO2UN
+	hJDgaNt6jIlof87rark34Hozq5mxxds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765265431;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ww6vuDW1k5TgQKvo8y4siizXxDDlkK0rlGtzyozrFSs=;
+	b=3Div0tf8QcaAan5uAaeXYjDcesmI4TR/0D0y7a5k8zPQbVQSR5VKUQXSpeG8kqYYrqdsrB
+	2SZbTkIi1LlSm6Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2A283EA63;
+	Tue,  9 Dec 2025 07:30:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QSKwIxLQN2nuSgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 09 Dec 2025 07:30:26 +0000
+Message-ID: <eb03af5f-6371-4e3b-acfc-9c3d75403d18@suse.de>
+Date: Tue, 9 Dec 2025 08:30:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/1] block: Use RCU in blk_mq_[un]quiesce_tagset()
+ instead of set->tag_list_lock
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Casey Chen <cachen@purestorage.com>,
+ Yuanyuan Zhong <yzhong@purestorage.com>, Ming Lei <ming.lei@redhat.com>,
+ Waiman Long <llong@redhat.com>, Hillf Danton <hdanton@sina.com>,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251205211738.1872244-1-mkhalfella@purestorage.com>
+ <20251205211738.1872244-2-mkhalfella@purestorage.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251205211738.1872244-2-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.980];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[sina.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[purestorage.com,redhat.com,sina.com,lists.infradead.org,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251208_232010_988801_2AFD3B9D 
-X-CRM114-Status: GOOD (  11.34  )
+X-CRM114-CacheID: sfid-20251208_233035_241088_22A7FD25 
+X-CRM114-Status: GOOD (  30.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,95 +141,160 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 08, 2025 at 12:09:39PM -0500, Frank Li wrote:
-> Frank Li (8):
->       dmaengine: Add API to combine configuration and preparation (sg and single)
->       PCI: endpoint: pci-epf-test: use new DMA API to simple code
->       dmaengine: dw-edma: Use new .device_prep_slave_sg_config() callback
->       dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
->       nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
->       nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
->       PCI: epf-mhi:Using new API dmaengine_prep_slave_single_config() to simple code.
->       crypto: atmel: Use dmaengine_prep_slave_single_config() API
+On 12/5/25 22:17, Mohamed Khalfella wrote:
+> blk_mq_{add,del}_queue_tag_set() functions add and remove queues from
+> tagset, the functions make sure that tagset and queues are marked as
+> shared when two or more queues are attached to the same tagset.
+> Initially a tagset starts as unshared and when the number of added
+> queues reaches two, blk_mq_add_queue_tag_set() marks it as shared along
+> with all the queues attached to it. When the number of attached queues
+> drops to 1 blk_mq_del_queue_tag_set() need to mark both the tagset and
+> the remaining queues as unshared.
 > 
->  drivers/crypto/atmel-aes.c                    | 10 ++---
->  drivers/dma/dw-edma/dw-edma-core.c            | 38 +++++++++++-----
->  drivers/nvme/target/pci-epf.c                 | 21 +++------
->  drivers/pci/endpoint/functions/pci-epf-mhi.c  | 52 +++++++---------------
->  drivers/pci/endpoint/functions/pci-epf-test.c |  8 +---
->  include/linux/dmaengine.h                     | 64 ++++++++++++++++++++++++---
->  6 files changed, 111 insertions(+), 82 deletions(-)
+> Both functions need to freeze current queues in tagset before setting on
+> unsetting BLK_MQ_F_TAG_QUEUE_SHARED flag. While doing so, both functions
+> hold set->tag_list_lock mutex, which makes sense as we do not want
+> queues to be added or deleted in the process. This used to work fine
+> until commit 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> made the nvme driver quiesce tagset instead of quiscing individual
+> queues. blk_mq_quiesce_tagset() does the job and quiesce the queues in
+> set->tag_list while holding set->tag_list_lock also.
+> 
+> This results in deadlock between two threads with these stacktraces:
+> 
+>    __schedule+0x47c/0xbb0
+>    ? timerqueue_add+0x66/0xb0
+>    schedule+0x1c/0xa0
+>    schedule_preempt_disabled+0xa/0x10
+>    __mutex_lock.constprop.0+0x271/0x600
+>    blk_mq_quiesce_tagset+0x25/0xc0
+>    nvme_dev_disable+0x9c/0x250
+>    nvme_timeout+0x1fc/0x520
+>    blk_mq_handle_expired+0x5c/0x90
+>    bt_iter+0x7e/0x90
+>    blk_mq_queue_tag_busy_iter+0x27e/0x550
+>    ? __blk_mq_complete_request_remote+0x10/0x10
+>    ? __blk_mq_complete_request_remote+0x10/0x10
+>    ? __call_rcu_common.constprop.0+0x1c0/0x210
+>    blk_mq_timeout_work+0x12d/0x170
+>    process_one_work+0x12e/0x2d0
+>    worker_thread+0x288/0x3a0
+>    ? rescuer_thread+0x480/0x480
+>    kthread+0xb8/0xe0
+>    ? kthread_park+0x80/0x80
+>    ret_from_fork+0x2d/0x50
+>    ? kthread_park+0x80/0x80
+>    ret_from_fork_asm+0x11/0x20
+> 
+>    __schedule+0x47c/0xbb0
+>    ? xas_find+0x161/0x1a0
+>    schedule+0x1c/0xa0
+>    blk_mq_freeze_queue_wait+0x3d/0x70
+>    ? destroy_sched_domains_rcu+0x30/0x30
+>    blk_mq_update_tag_set_shared+0x44/0x80
+>    blk_mq_exit_queue+0x141/0x150
+>    del_gendisk+0x25a/0x2d0
+>    nvme_ns_remove+0xc9/0x170
+>    nvme_remove_namespaces+0xc7/0x100
+>    nvme_remove+0x62/0x150
+>    pci_device_remove+0x23/0x60
+>    device_release_driver_internal+0x159/0x200
+>    unbind_store+0x99/0xa0
+>    kernfs_fop_write_iter+0x112/0x1e0
+>    vfs_write+0x2b1/0x3d0
+>    ksys_write+0x4e/0xb0
+>    do_syscall_64+0x5b/0x160
+>    entry_SYSCALL_64_after_hwframe+0x4b/0x53
+> 
+> The top stacktrace is showing nvme_timeout() called to handle nvme
+> command timeout. timeout handler is trying to disable the controller and
+> as a first step, it needs to blk_mq_quiesce_tagset() to tell blk-mq not
+> to call queue callback handlers. The thread is stuck waiting for
+> set->tag_list_lock as it tries to walk the queues in set->tag_list.
+> 
+> The lock is held by the second thread in the bottom stack which is
+> waiting for one of queues to be frozen. The queue usage counter will
+> drop to zero after nvme_timeout() finishes, and this will not happen
+> because the thread will wait for this mutex forever.
+> 
+> Given that [un]quiescing queue is an operation that does not need to
+> sleep, update blk_mq_[un]quiesce_tagset() to use RCU instead of taking
+> set->tag_list_lock, update blk_mq_{add,del}_queue_tag_set() to use RCU
+> safe list operations. Also, delete INIT_LIST_HEAD(&q->tag_set_list)
+> in blk_mq_del_queue_tag_set() because we can not re-initialize it while
+> the list is being traversed under RCU. The deleted queue will not be
+> added/deleted to/from a tagset and it will be freed in blk_free_queue()
+> after the end of RCU grace period.
+> 
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> Fixes: 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
 > ---
-> base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
-> change-id: 20251204-dma_prep_config-654170d245a2
+>   block/blk-mq.c | 17 ++++++++---------
+>   1 file changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index d626d32f6e57..05db3d20783f 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -335,12 +335,12 @@ void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set)
+>   {
+>   	struct request_queue *q;
+>   
+> -	mutex_lock(&set->tag_list_lock);
+> -	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+> +	rcu_read_lock();
+> +	list_for_each_entry_rcu(q, &set->tag_list, tag_set_list) {
+>   		if (!blk_queue_skip_tagset_quiesce(q))
+>   			blk_mq_quiesce_queue_nowait(q);
+>   	}
+> -	mutex_unlock(&set->tag_list_lock);
+> +	rcu_read_unlock();
+>   
+>   	blk_mq_wait_quiesce_done(set);
+>   }
+> @@ -350,12 +350,12 @@ void blk_mq_unquiesce_tagset(struct blk_mq_tag_set *set)
+>   {
+>   	struct request_queue *q;
+>   
+> -	mutex_lock(&set->tag_list_lock);
+> -	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+> +	rcu_read_lock();
+> +	list_for_each_entry_rcu(q, &set->tag_list, tag_set_list) {
+>   		if (!blk_queue_skip_tagset_quiesce(q))
+>   			blk_mq_unquiesce_queue(q);
+>   	}
+> -	mutex_unlock(&set->tag_list_lock);
+> +	rcu_read_unlock();
+>   }
+>   EXPORT_SYMBOL_GPL(blk_mq_unquiesce_tagset);
+>   
+> @@ -4294,7 +4294,7 @@ static void blk_mq_del_queue_tag_set(struct request_queue *q)
+>   	struct blk_mq_tag_set *set = q->tag_set;
+>   
+>   	mutex_lock(&set->tag_list_lock);
+> -	list_del(&q->tag_set_list);
+> +	list_del_rcu(&q->tag_set_list);
+>   	if (list_is_singular(&set->tag_list)) {
+>   		/* just transitioned to unshared */
+>   		set->flags &= ~BLK_MQ_F_TAG_QUEUE_SHARED;
+> @@ -4302,7 +4302,6 @@ static void blk_mq_del_queue_tag_set(struct request_queue *q)
+>   		blk_mq_update_tag_set_shared(set, false);
+>   	}
+>   	mutex_unlock(&set->tag_list_lock);
+> -	INIT_LIST_HEAD(&q->tag_set_list);
+>   }
+>   
+I'm ever so sceptical whether we can remove the INIT_LIST_HEAD() here.
+If we can it was pointless to begin with, but I somehow doubt that.
+Do you have a rationale for that (except from the fact that you
+are moving to RCU, and hence the 'q' pointer might not be valid then).
 
-For the series (tested using drivers/nvme/target/pci-epf.c):
-Tested-by: Niklas Cassel <cassel@kernel.org>
+Cheers,
 
-Mainline:
-  Rnd read,    4KB,  QD=1, 1 job :  IOPS=5721, BW=22.3MiB/s (23.4MB/s)
-  Rnd read,    4KB, QD=32, 1 job :  IOPS=51.8k, BW=202MiB/s (212MB/s)
-  Rnd read,    4KB, QD=32, 4 jobs:  IOPS=109k, BW=426MiB/s (447MB/s)
-  Rnd read,  128KB,  QD=1, 1 job :  IOPS=2678, BW=335MiB/s (351MB/s)
-  Rnd read,  128KB, QD=32, 1 job :  IOPS=19.1k, BW=2388MiB/s (2504MB/s)
-  Rnd read,  128KB, QD=32, 4 jobs:  IOPS=18.1k, BW=2258MiB/s (2368MB/s)
-  Rnd read,  512KB,  QD=1, 1 job :  IOPS=1388, BW=694MiB/s (728MB/s)
-  Rnd read,  512KB, QD=32, 1 job :  IOPS=4554, BW=2277MiB/s (2388MB/s)
-  Rnd read,  512KB, QD=32, 4 jobs:  IOPS=4516, BW=2258MiB/s (2368MB/s)
-  Rnd write,   4KB,  QD=1, 1 job :  IOPS=4679, BW=18.3MiB/s (19.2MB/s)
-  Rnd write,   4KB, QD=32, 1 job :  IOPS=35.1k, BW=137MiB/s (144MB/s)
-  Rnd write,   4KB, QD=32, 4 jobs:  IOPS=33.7k, BW=132MiB/s (138MB/s)
-  Rnd write, 128KB,  QD=1, 1 job :  IOPS=2490, BW=311MiB/s (326MB/s)
-  Rnd write, 128KB, QD=32, 1 job :  IOPS=4964, BW=621MiB/s (651MB/s)
-  Rnd write, 128KB, QD=32, 4 jobs:  IOPS=4966, BW=621MiB/s (651MB/s)
-  Seq read,  128KB,  QD=1, 1 job :  IOPS=2586, BW=323MiB/s (339MB/s)
-  Seq read,  128KB, QD=32, 1 job :  IOPS=17.5k, BW=2190MiB/s (2296MB/s)
-  Seq read,  512KB,  QD=1, 1 job :  IOPS=1614, BW=807MiB/s (847MB/s)
-  Seq read,  512KB, QD=32, 1 job :  IOPS=4540, BW=2270MiB/s (2381MB/s)
-  Seq read,    1MB, QD=32, 1 job :  IOPS=2283, BW=2284MiB/s (2395MB/s)
-  Seq write, 128KB,  QD=1, 1 job :  IOPS=2313, BW=289MiB/s (303MB/s)
-  Seq write, 128KB, QD=32, 1 job :  IOPS=4948, BW=619MiB/s (649MB/s)
-  Seq write, 512KB,  QD=1, 1 job :  IOPS=901, BW=451MiB/s (473MB/s)
-  Seq write, 512KB, QD=32, 1 job :  IOPS=1289, BW=645MiB/s (676MB/s)
-  Seq write,   1MB, QD=32, 1 job :  IOPS=632, BW=633MiB/s (663MB/s)
-  Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=1756, BW=880MiB/s (923MB/s)
- IOPS=1767, BW=886MiB/s (929MB/s)
-
-
-Mainline + this series applied:
-  Rnd read,    4KB,  QD=1, 1 job :  IOPS=3681, BW=14.4MiB/s (15.1MB/s)
-  Rnd read,    4KB, QD=32, 1 job :  IOPS=54.8k, BW=214MiB/s (224MB/s)
-  Rnd read,    4KB, QD=32, 4 jobs:  IOPS=123k, BW=479MiB/s (502MB/s)
-  Rnd read,  128KB,  QD=1, 1 job :  IOPS=2132, BW=267MiB/s (280MB/s)
-  Rnd read,  128KB, QD=32, 1 job :  IOPS=19.0k, BW=2369MiB/s (2485MB/s)
-  Rnd read,  128KB, QD=32, 4 jobs:  IOPS=18.7k, BW=2341MiB/s (2454MB/s)
-  Rnd read,  512KB,  QD=1, 1 job :  IOPS=1135, BW=568MiB/s (595MB/s)
-  Rnd read,  512KB, QD=32, 1 job :  IOPS=4546, BW=2273MiB/s (2384MB/s)
-  Rnd read,  512KB, QD=32, 4 jobs:  IOPS=4708, BW=2354MiB/s (2469MB/s)
-  Rnd write,   4KB,  QD=1, 1 job :  IOPS=3369, BW=13.2MiB/s (13.8MB/s)
-  Rnd write,   4KB, QD=32, 1 job :  IOPS=31.7k, BW=124MiB/s (130MB/s)
-  Rnd write,   4KB, QD=32, 4 jobs:  IOPS=31.1k, BW=122MiB/s (127MB/s)
-  Rnd write, 128KB,  QD=1, 1 job :  IOPS=1820, BW=228MiB/s (239MB/s)
-  Rnd write, 128KB, QD=32, 1 job :  IOPS=5703, BW=713MiB/s (748MB/s)
-  Rnd write, 128KB, QD=32, 4 jobs:  IOPS=5813, BW=727MiB/s (762MB/s)
-  Seq read,  128KB,  QD=1, 1 job :  IOPS=1958, BW=245MiB/s (257MB/s)
-  Seq read,  128KB, QD=32, 1 job :  IOPS=18.8k, BW=2345MiB/s (2459MB/s)
-  Seq read,  512KB,  QD=1, 1 job :  IOPS=1319, BW=660MiB/s (692MB/s)
-  Seq read,  512KB, QD=32, 1 job :  IOPS=4542, BW=2271MiB/s (2382MB/s)
-  Seq read,    1MB, QD=32, 1 job :  IOPS=2325, BW=2325MiB/s (2438MB/s)
-  Seq write, 128KB,  QD=1, 1 job :  IOPS=2174, BW=272MiB/s (285MB/s)
-  Seq write, 128KB, QD=32, 1 job :  IOPS=5697, BW=712MiB/s (747MB/s)
-  Seq write, 512KB,  QD=1, 1 job :  IOPS=1035, BW=518MiB/s (543MB/s)
-  Seq write, 512KB, QD=32, 1 job :  IOPS=1462, BW=731MiB/s (767MB/s)
-  Seq write,   1MB, QD=32, 1 job :  IOPS=720, BW=721MiB/s (756MB/s)
-  Rnd rdwr, 4K..1MB, QD=8, 4 jobs:  IOPS=2029, BW=1018MiB/s (1067MB/s)
- IOPS=2037, BW=1023MiB/s (1072MB/s)
-
-
-Small performance boost, but I think the nicest thing with this series is
-to be able to remove the ugly mutex in pci-epf.c.
-
-
-Kind regards,
-Niklas
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
