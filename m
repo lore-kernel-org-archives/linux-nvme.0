@@ -4,96 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64642D3C92B
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Dec 2025 16:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E84C9D3C92B
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Dec 2025 17:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
 	References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n4vjuiVWtSeDDJf5R2NBM1m79JOYpshPwskFvViMdAw=; b=RElKpxsTcf/v9Hld2H6OvxhmPK
-	MwLWtBiIUXVlHohqzm/EDslr+L/EO5OWfCmfaD3DeN+98YxYZwNZwifrK2Z1vZHbi+yxNprpef8jW
-	E0MhsOvHPhBt67gMvhG6MOxyNM4F3qskymRoIKjvKdK+klrpDcS58FbqNvOojbdbC60JlFsGJeDtd
-	W9F/dO9I2dT7FxAGlAgJhVlmXhRyIgHAboU0JYTrcqdQ37cGQcPSs3Qnhhl1VrWSJIvjnQl/fI+2e
-	qnpjbvf8qDoY+XJqhpRBveaPTRMZOZuELDu0E9AvbyLlJ7Y6H5OSNq9T7T97TJfXYt5Jqt1RVrpHF
-	yjRMhFQQ==;
+	bh=8ajtU3yfJbX06BLmikcUePQ/6Tt1KKMvvS1DqwC86HA=; b=blj939AtpAJHzl+HCrp30oPR9c
+	R5SowqHBABGWeaMWMXRcCA1wy/wvr+pUyyPbQri8vLLDX6FwSRxKzuKdH+8UT2Ppc/ZXaMBsOy/ZE
+	hVCwnuiE1Y01mImdze7KbjtjVIi1eZXoUBoyNaur+XbRgQueDtx5rrdIp1DX70ZJcPfnZX3iIb1I8
+	LrNrDQDPAsKLMPZXC8uH225nd0U0APv7UFt8QVGIy2/nbgVMp8tVeGDrQXdZ2BWvYi520wtuoMqj7
+	eHlh8vqFhX2mAAYLhBpgP9D30kcX8EOekYEY4V4JJ/70O562O2rW5dXRFay2ayX4ci0B2iaFec4N1
+	kyaP64NQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vTNVJ-0000000FfT5-1f8S;
-	Wed, 10 Dec 2025 16:57:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vTNjX-0000000FgEf-14HE;
+	Wed, 10 Dec 2025 17:12:11 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vTNVG-0000000FfSh-12dF
+	id 1vTNjV-0000000FgEG-0Ht7
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Dec 2025 16:57:27 +0000
+	Wed, 10 Dec 2025 17:12:10 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1765385842;
+	s=mimecast20190719; t=1765386727;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n4vjuiVWtSeDDJf5R2NBM1m79JOYpshPwskFvViMdAw=;
-	b=GtQOUgUiYFGGcRH62PMmkaKekNitZoWxqIufjh6W9Y1OQup2hIj3riQU3P0dO3ArPtJjIx
-	XcDeXx+BT0Fsn3GIZ/yXrgaeIXiZW3AL3XpHGQl/g3EZUCHSp6ju9JPcBQzB19BvbOx0pf
-	FqyNEA7VAfrNSHLptJtNdpqntmqcZXg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=8ajtU3yfJbX06BLmikcUePQ/6Tt1KKMvvS1DqwC86HA=;
+	b=Gj8NJPiPKDfH0N5FXvbMQb6AeFJ72bg0PgYvBXPSt7mFPKX1RlsEZKEgQ/7g6hMLqJLaQC
+	pXTmzoL8JAatgNfTyAvg4OoDXl2ZUU9dAHHMr8qlDyu5kH0b2PSWdG3fJpTF8uwAYJD0qj
+	jHR1OAynO37daDTuD4mKzBGg5p/vIj4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-686-6sKfyFTsPgeVyjJMWwLRrA-1; Wed, 10 Dec 2025 11:57:21 -0500
-X-MC-Unique: 6sKfyFTsPgeVyjJMWwLRrA-1
-X-Mimecast-MFC-AGG-ID: 6sKfyFTsPgeVyjJMWwLRrA_1765385840
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-42f9ff2913aso1402213f8f.3
-        for <linux-nvme@lists.infradead.org>; Wed, 10 Dec 2025 08:57:20 -0800 (PST)
+ us-mta-437-Vv6xF-hDO-m-1unujqmufA-1; Wed, 10 Dec 2025 12:12:06 -0500
+X-MC-Unique: Vv6xF-hDO-m-1unujqmufA-1
+X-Mimecast-MFC-AGG-ID: Vv6xF-hDO-m-1unujqmufA_1765386725
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-42b2ad2a58cso2929177f8f.0
+        for <linux-nvme@lists.infradead.org>; Wed, 10 Dec 2025 09:12:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765385840; x=1765990640;
+        d=1e100.net; s=20230601; t=1765386725; x=1765991525;
         h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=n4vjuiVWtSeDDJf5R2NBM1m79JOYpshPwskFvViMdAw=;
-        b=Sqyw4RV+C40IKWOIbfIZTs8WTTmPNpBx5abegwjsJNtC0HFnLPS2RHKcjGVeiuAUzL
-         VzymvovNMM8takmRozGsUXjYXOidL3GwVsaHa09TMVUkqS31PhSBnBy7pL4kocsULByq
-         uf5EZ9YP4vsyfJFiYZfVbjYNwlM/X90UdlS+kP9Ekrchg5F1oB83ET1majXu61Vl39TE
-         8+NtvyO6mRNpobCP3ZJ5r44oYuVOmwnFvSzFL8BWXoqrQJ2ubVIVZ8PTmY43WHmFpvmV
-         WsMvBkRFBJafYkTBnk+vejjujymk2NUjjVm6d7B21WDOxusCSx1M+OGSSkKMyXBM8CIF
-         sFJA==
-X-Gm-Message-State: AOJu0YzfbWr1rpaHUA2DV3L+UtwNtisD5fGRtknQIPaXWhqHOvgjL4h3
-	6ssvQ58oRzZMNGeLFu3rN/ndEiGq2xPrJRyRPuQ1Li9fTSKql2kVxXU/8J8GF3bNMvlNiZs816K
-	wA8vaXBG0rVSiIcSx0QYa/RJdTN2H7jm+Bf50SDDdcdl/Bl3r9xcaLv5TX5YcgB8MUUno
-X-Gm-Gg: ASbGncvRDJvO1aDVyxf7qKLiAmT25D28w0+glR7TfodCAG5dPJbySw2elMjdIVn19xG
-	Rbb6gP35+UgRLoIHyB5VZo606cnnbPjqTpdbVEdW2zlfNi2zFD6XRF5nTn51d/VAg4GqNjRfR9q
-	JSml3fLMv9g/WWltwPYt6t/WgvwS+vrfmFiP/ey2usAZu6DWWfrS383kaNXQx5NkO9mE1Sr+Yr7
-	a366AfCZUxzx6ksuXgbf5THwSlKW2in4CAEg1lhiWLycd0/9tJ2Cu+gqab6/BxXKyfiCCpsCSLO
-	De7Sxv9s6T0KBwSmqMjsAvH+K2CSd69w+DvKZUfWEnQcI4HORv7AAxFIp6ZhCtM/vv35+cU43Fw
-	aebK/7n7BSsFPezEIci01fchVmkvaeXqDBjoPpHq1ra1kE5lTWWX78vLArug=
-X-Received: by 2002:a05:600c:4703:b0:476:4efc:8ed4 with SMTP id 5b1f17b1804b1-47a8380c006mr28364455e9.11.1765385839637;
-        Wed, 10 Dec 2025 08:57:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE1ErKmvwfO917QfwpOmc3kdwchwTX5DWogSYZNPVxkP8iDCKVQ0toYxrjvCOwIlDXwEtINDA==
-X-Received: by 2002:a05:600c:4703:b0:476:4efc:8ed4 with SMTP id 5b1f17b1804b1-47a8380c006mr28364255e9.11.1765385839191;
-        Wed, 10 Dec 2025 08:57:19 -0800 (PST)
+        bh=8ajtU3yfJbX06BLmikcUePQ/6Tt1KKMvvS1DqwC86HA=;
+        b=wjGlKQMp96oSyXQcBlAlC6tYWrJWI2ekLyRJV87lOYzxH+CmgROjWn4Korjd8fwFhu
+         1COsT6V3DgXv7UzO4s8+9QvnXUcvsxuoh3FkYmIjAo++B//1wqXyY5jPKCNt6Y7skqk5
+         iX5S0hg4XX7M7Ylp2uazPzgSw5L53RHCZ/3MqktsMy3c6okzLYNff9bRaj/jBk/npXC2
+         pgvEfah0f/fKG6nDuwpnayglQzU2ZGPHUZ3R8my5/Cl1g8BC+aHf0ji+YcX1XqU2ao9N
+         Sf3iFzamY1GqURrXeWVIafj177CKH54O5YwQjqEF9hHIbKaok4NJFjarJuWNK+mdpxUy
+         rBjA==
+X-Forwarded-Encrypted: i=1; AJvYcCUuc62sCSQoNgboZW6su00fpHLy5R3n2Nrg5eCDvs3pBEDCGo2671qEd3ABUZrg+amIJHM63AlNHLfF@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzr7zs853inj1IK5M1E0q69vnv0ZVCAzwLVF0CCTtls/0XAk6Ah
+	crupUmB8E2KCTJwP0MWWAfMiSjKgKfnds3HFlDrzgFUhI4InkoNDRQ8eWZIA/qWPMCAf+i/TWa3
+	sXYG+UMUxvPeSDIBu6uR9k7Z4u2i4Q1y5dsR5g+4M5RLcEvV6DBhhOeAh1nnOnATEIgqN
+X-Gm-Gg: AY/fxX7lfldX/Axot0t6SlvfHUf+c8yAobHVOxsKMa3AYkrQ/ZNeP6j0HZIepudXtJV
+	ZPJHNoJfyfJahYVb0TZ6hsL08L97ggNydP8yNTD00faFDZqEWmQlU0KFm3OjvAKU3luSdrIbJ67
+	Uauhlg94gxsY8AhRtQ0sFEb9UMpPGU+XjoaboQ2rI8ayD6IjiNj2cIziaZ6cHKZ2SSYNNvJmYiQ
+	t0FJnT5AdkN4BQoE/3WApTuJmj7KnzoA8wilIKCUfoH6n6KkEJR3LgSuMrhwF5NimUdoeX/i8ni
+	YWTCbluIgz5Qrk5xbWs17zuVp375dM7hhM19ln0q3DCgHAjaGvGTPkKZDfo4IhHpzbW/8XR0Yzs
+	gFAuCInoQRrSyhfYiOSSCqItNXN8+g1aFquf8gQCgzkIQ52ofrqb1UB+xJuE=
+X-Received: by 2002:a5d:5f91:0:b0:429:d1a8:3fa2 with SMTP id ffacd0b85a97d-42fa3b17092mr3315988f8f.48.1765386724823;
+        Wed, 10 Dec 2025 09:12:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IExCXlgcWY7yBdco5ZpK1NFXlvlTRlygsYWJNZD8Qo0xz2z2qNLT3h+7nj8AJhe/t1VfpQnNg==
+X-Received: by 2002:a5d:5f91:0:b0:429:d1a8:3fa2 with SMTP id ffacd0b85a97d-42fa3b17092mr3315940f8f.48.1765386724378;
+        Wed, 10 Dec 2025 09:12:04 -0800 (PST)
 Received: from rh (p200300f6af498100e5be2e2bdb5254b6.dip0.t-ipconnect.de. [2003:f6:af49:8100:e5be:2e2b:db52:54b6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8837fdd5sm1473825e9.13.2025.12.10.08.57.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b9b20dsm27930f8f.38.2025.12.10.09.12.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 08:57:18 -0800 (PST)
-Date: Wed, 10 Dec 2025 17:57:17 +0100 (CET)
+        Wed, 10 Dec 2025 09:12:03 -0800 (PST)
+Date: Wed, 10 Dec 2025 18:12:02 +0100 (CET)
 From: Sebastian Ott <sebott@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-cc: linux-nvme@lists.infradead.org, iommu@lists.linux.dev, 
-    linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-xfs@vger.kernel.org, Jens Axboe <axboe@fb.com>, 
-    Christoph Hellwig <hch@lst.de>, Will Deacon <will@kernel.org>, 
-    Robin Murphy <robin.murphy@arm.com>, Carlos Maiolino <cem@kernel.org>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+cc: Keith Busch <kbusch@kernel.org>, 
+    "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+    "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
+    Robin Murphy <robin.murphy@arm.com>, 
+    "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+    "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>, 
+    Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>, 
+    Will Deacon <will@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+    Leon Romanovsky <leon@kernel.org>
 Subject: Re: WARNING: drivers/iommu/io-pgtable-arm.c:639
-In-Reply-To: <aTlXuhmsil7YFKTR@kbusch-mbp>
-Message-ID: <6cb5157f-c14b-5a86-c26d-50aaadf8d3ca@redhat.com>
-References: <170120f7-dd2c-4d2a-d6fc-ac4c82afefd7@redhat.com> <aTj-8-_tHHY7q5C0@kbusch-mbp> <acb053b0-fc08-91c6-c166-eebf26b5987e@redhat.com> <aTlXuhmsil7YFKTR@kbusch-mbp>
+In-Reply-To: <2fcc9d30-42e8-4382-bbbc-a3f66016f368@nvidia.com>
+Message-ID: <0eec3806-c002-54d5-95a9-7fa201c6b921@redhat.com>
+References: <170120f7-dd2c-4d2a-d6fc-ac4c82afefd7@redhat.com> <4386e0f7-9e45-41d2-8236-7133d6d00610@arm.com> <99e12a04-d23f-f9e7-b02e-770e0012a794@redhat.com> <30ae8fc4-94ff-4467-835e-28b4a4dfcd8f@nvidia.com> <aTjxleV96jE3PIBh@kbusch-mbp>
+ <2fcc9d30-42e8-4382-bbbc-a3f66016f368@nvidia.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7Si67V4TkMU5thJPNJE87xXRD_YkFbVIVlfZkv0nRL0_1765385840
+X-Mimecast-MFC-PROC-ID: 7NZfON1ZTO1hlGB9AIcjJoXmhvE897WttHCsW388Gqw_1765386725
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251210_085726_366063_A2253BF7 
-X-CRM114-Status: GOOD (  18.96  )
+X-CRM114-CacheID: sfid-20251210_091209_193325_F3DE8A40 
+X-CRM114-Status: GOOD (  20.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,40 +115,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, 10 Dec 2025, Keith Busch wrote:
-> On Wed, Dec 10, 2025 at 12:08:36PM +0100, Sebastian Ott wrote:
->> On Wed, 10 Dec 2025, Keith Busch wrote:
->>> On Tue, Dec 09, 2025 at 12:43:31PM +0100, Sebastian Ott wrote:
->>>> got the following warning after a kernel update on Thurstday, leading to a
->>>> panic and fs corruption. I didn't capture the first warning but I'm pretty
->>>> sure it was the same. It's reproducible but I didn't bisect since it
->>>> borked my fs. The only hint I can give is that v6.18 worked. Is this a
->>>> known issue? Anything I should try?
->>>
->>> Could you check if your nvme device supports SGLs? There are some new
->>> features in 6.19 that would allow merging IO that wouldn't have happened
->>> before. You can check from command line:
->>>
->>>  # nvme id-ctrl /dev/nvme0 | grep sgl
->>
->> # nvme id-ctrl /dev/nvme0n1 | grep sgl
->> sgls      : 0xf0002
+On Wed, 10 Dec 2025, Chaitanya Kulkarni wrote:
+> (+ Leon Romanovsky)
 >
-> Oh neat, so you *do* support SGL. Not that it was required as arm64
-> can support iommu granularities larger than the NVMe PRP unit, so the
-> bug was possible to hit in either case for you (assuming the smmu was
-> configured with 64k io page size).
+> On 12/9/25 20:05, Keith Busch wrote:
+>> On Wed, Dec 10, 2025 at 02:30:50AM +0000, Chaitanya Kulkarni wrote:
+>>> @@ -126,17 +126,26 @@ static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
+>>>    		error = dma_iova_link(dma_dev, state, vec->paddr, mapped,
+>>>    				vec->len, dir, attrs);
+>>>    		if (error)
+>>> -			break;
+>>> +			goto out_unlink;
+>>>    		mapped += vec->len;
+>>>    	} while (blk_map_iter_next(req, &iter->iter, vec));
+>>>
+>>>    	error = dma_iova_sync(dma_dev, state, 0, mapped);
+>>> -	if (error) {
+>>> -		iter->status = errno_to_blk_status(error);
+>>> -		return false;
+>>> -	}
+>>> +	if (error)
+>>> +		goto out_unlink;
+>>>
+>>>    	return true;
+>>> +
+>>> +out_unlink:
+>>> +	/*
+>>> +	 * Unlink any partial mapping to avoid unmap mismatch later.
+>>> +	 * If we mapped some bytes but not all, we must clean up now
+>>> +	 * to prevent attempting to unmap more than was actually mapped.
+>>> +	 */
+>>> +	if (mapped)
+>>> +		dma_iova_unlink(dma_dev, state, 0, mapped, dir, attrs);
+>>> +	iter->status = errno_to_blk_status(error);
+>>> +	return false;
+>>>    }
+>> It does look like a bug to continue on when dma_iova_link() fails as the
+>> caller thinks the entire mapping was successful, but I think you also
+>> need to call dma_iova_free() to undo the earlier dma_iova_try_alloc(),
+>> otherwise iova space is leaked.
 >
-> Anyway, thanks for the report, and sorry for the fs trouble the bug
-> caused you.
+> Thanks for catching that, see updated version of this patch [1].
+>
+>> I'm a bit doubtful this error condition was hit though: this sequence
+>> is largely the same as it was in v6.18 before the regression. The only
+>> difference since then should just be for handling P2P DMA across a host
+>> bridge, which I don't think applies to the reported bug since that's a
+>> pretty unusual thing to do.
+>
+> That's why I've asked reporter to test it.
+>
+> Either way, IMO both of the patches are still needed.
+>
 
-No worries, it was a test system in need for an upgrade anyway.
-Thanks for the quick fix!
-
-> I'm working on a blktest to specifically target this
-> condition so we don't regress again. I just need to make sure to run it
-> on a system with iommu enabled (usually it's off on my test machine).
-
-Great!
+The patch Keith posted fixes the issue for me. Should I do another run
+with only these 2 applied?
 
 
