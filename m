@@ -4,62 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9993D3C52A
-	for <linux-nvme@archiver.kernel.org>; Wed, 10 Dec 2025 11:21:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BA76D3C52A
+	for <linux-nvme@archiver.kernel.org>; Wed, 10 Dec 2025 11:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ErKLI5Jg7IXUgWVfhNQQNs0mgrgy9aPnv0Wg8I3UlEs=; b=EsQEwddNFyzcksiSaSxy+SikZn
-	gabdUUB++65Lw6fEO6aOCJ2zlRPH6NLs8yOmCTrNHFlEPQ/Awd9hWohYDjGGjnZuEbgv4iFR18jm6
-	S8kCVDf4Y/nnqhPZcBFOK485/M/gt/K+ZKDPJ9Mh/R6m24ubhWsiCGytC2Xa19OKxfUyvbpZw4oma
-	JmdcJ+TyG4c06vuMS/OZvLHhYZEH0Q1XQrfLp7sqS8WO9u6wORzsELKjxXJSgYprV8nXesBmk6G5b
-	Mb0c/Ak8qTBlOJRrizL46oRLVPLN1MVivOSczLyvq3MtAR1LYxhs5luHv6LN4GZPNx8ISpgRkZtfw
-	S/WV+uew==;
+	bh=39YBv5d2YqLQdDEnItuIY/opvZj5W2WOx1eF0cnY4/k=; b=mKqBa1d4lYXLxfWgTut/m4O96g
+	Gu2DxC1DTPtNtRp0L+ry2KkPQRkSsa0cjSrBEkC21UcJKqYccITZ6COIBBdmq+cA9kY7wKSck8vzF
+	QOfeaQsf4dbZ65ha5EJNZhpafEfqFQQdhD1JUNS7p0YtDcConuqGnJ58/v5mlhh4skvD9xAGd9s2S
+	DUgG7bbCeF7sDu3FC4+F4AlFVtnTFJAU2hpqHRvxuE4WTo4KNAs+oXKUxQU8obHl2Nb6IOMsAlc1G
+	cfJmVKv12Kt3ZS60v2TQehUz/39CEu7xtYZOU6uiSFltC+/j8XHp5R5B02EI1INsHFE8GPz1uoFGU
+	YZwGjlKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vTIGJ-0000000FN9F-0U6T;
-	Wed, 10 Dec 2025 11:21:39 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vTIMu-0000000FNZW-2gLj;
+	Wed, 10 Dec 2025 11:28:28 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vTIGH-0000000FN95-0HPN
+	id 1vTIMq-0000000FNYu-08tJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 10 Dec 2025 11:21:37 +0000
+	Wed, 10 Dec 2025 11:28:27 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9A849600AC;
-	Wed, 10 Dec 2025 11:21:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 538DBC4CEF1;
-	Wed, 10 Dec 2025 11:21:33 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 6FA2643626;
+	Wed, 10 Dec 2025 11:28:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4FAC19421;
+	Wed, 10 Dec 2025 11:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765365695;
-	bh=02TJf16fnJk3ighp6vgdi/0FMeoZ8SlIQNCacUajNgU=;
+	s=k20201202; t=1765366103;
+	bh=gg8hl7nTHDakoQLZv6QxgPTOn2zhObCa9+AvPzyKdXs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qVwGVVZpPeY58SfN5rAE+y4vep7KmrLCjyhECcDA/28CraNn3LqLDFaAtH5r2cPhV
-	 VY8i0KcS02ZfXJGzmXCxFKclwNhiZbedhrtb7GeLcF8KmNAbbIL7Z+tsTfNs2xF/hm
-	 gcTOb4e85Q7y6gl7wJjXOrd2QLggNdZ670UirSSgeBNfkMfbYWmkxTJV4/BuP4upOp
-	 drToIyNGT4CAiuR3mGqXiSsvqESoeHtNNeTD8DiuTUEwJgBGfKfuKiOAqxwE7wK9Q/
-	 nzNrN9kg2CoFgi4OFX5nwkkyJwdVd3CxxC66L9dxKsDKAPuialzI83fK7Lkh8M8L3d
-	 xgGkj+6BO8qWQ==
-Date: Wed, 10 Dec 2025 20:21:30 +0900
+	b=SGqk9OWiUeYLcSid5N2CFDeHMDLKlbx3Xthod0DimM1ITfI21ZX8DeGD4RFD98wqh
+	 n1TGpk0/J9DS1V42TVy5abFvhp3bMvb9hV5xWmTv//ZuxY9my0DiIy+f17p1Nm6iQw
+	 Sd16TyqbtNDf8cf0SYXDZPJ3GZaW2kTwy5/BLPvOj9ySS7QCVEB/Af/ZkUdlCQzrsH
+	 8W7Dbhp0oEFgtwy+YjkofXApmpkZWkfDB3EJbtIqHz7B8hE/pgP0HWnpDPw3PqYpMH
+	 DwtuaFQkTxUwH5CvkhX4dKfF2YMOT2FiXtby6DIsKpdIr8qZNoAt2I0RfTn/XUkphB
+	 Eq57rP7w9vN6w==
+Date: Wed, 10 Dec 2025 20:28:19 +0900
 From: Keith Busch <kbusch@kernel.org>
-To: Sebastian Ott <sebott@redhat.com>
-Cc: linux-nvme@lists.infradead.org, iommu@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Carlos Maiolino <cem@kernel.org>
-Subject: Re: WARNING: drivers/iommu/io-pgtable-arm.c:639
-Message-ID: <aTlXuhmsil7YFKTR@kbusch-mbp>
-References: <170120f7-dd2c-4d2a-d6fc-ac4c82afefd7@redhat.com>
- <aTj-8-_tHHY7q5C0@kbusch-mbp>
- <acb053b0-fc08-91c6-c166-eebf26b5987e@redhat.com>
+To: Max Gurtovoy <mgurtovoy@nvidia.com>
+Cc: Christoph Hellwig <hch@lst.de>, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, kch@nvidia.com, axboe@kernel.dk,
+	linux-block@vger.kernel.org
+Subject: Re: [PATCH 1/1] nvme-pci: set virt boundary according to capability
+Message-ID: <aTlZU_2SqgajJ64v@kbusch-mbp>
+References: <20251208222620.13882-1-mgurtovoy@nvidia.com>
+ <20251209064015.GC27728@lst.de>
+ <6649eb8e-ae68-460d-95db-deece134e9d1@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acb053b0-fc08-91c6-c166-eebf26b5987e@redhat.com>
+In-Reply-To: <6649eb8e-ae68-460d-95db-deece134e9d1@nvidia.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251210_032826_488181_0546EF6C 
+X-CRM114-Status: GOOD (  13.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,31 +74,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Dec 10, 2025 at 12:08:36PM +0100, Sebastian Ott wrote:
-> On Wed, 10 Dec 2025, Keith Busch wrote:
-> > On Tue, Dec 09, 2025 at 12:43:31PM +0100, Sebastian Ott wrote:
-> > > got the following warning after a kernel update on Thurstday, leading to a
-> > > panic and fs corruption. I didn't capture the first warning but I'm pretty
-> > > sure it was the same. It's reproducible but I didn't bisect since it
-> > > borked my fs. The only hint I can give is that v6.18 worked. Is this a
-> > > known issue? Anything I should try?
-> > 
-> > Could you check if your nvme device supports SGLs? There are some new
-> > features in 6.19 that would allow merging IO that wouldn't have happened
-> > before. You can check from command line:
-> > 
-> >  # nvme id-ctrl /dev/nvme0 | grep sgl
+On Tue, Dec 09, 2025 at 01:31:21PM +0200, Max Gurtovoy wrote:
+> dma_set_min_align_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1);
 > 
-> # nvme id-ctrl /dev/nvme0n1 | grep sgl
-> sgls      : 0xf0002
+> and
+> 
+> lim->dma_alignment = 3;
+> 
+> to ease the restriction for capable devices with NVME_CTRL_SGLS_BYTE_ALIGNED
+> support ?
 
-Oh neat, so you *do* support SGL. Not that it was required as arm64
-can support iommu granularities larger than the NVMe PRP unit, so the
-bug was possible to hit in either case for you (assuming the smmu was
-configured with 64k io page size).
+Yeah, the dma_alignment is the limit you'd need to change. Note, you
+can't actually set the dma_alignment to be byte aligned as it's a mask,
+so you'd want the value to be 0 to allow any alignment, but the block
+layer currently won't let it be 0, so you'd have to set it to 1, for
+word alignment.
 
-Anyway, thanks for the report, and sorry for the fs trouble the bug
-caused you. I'm working on a blktest to specifically target this
-condition so we don't regress again. I just need to make sure to run it
-on a system with iommu enabled (usually it's off on my test machine).
+But I'm surprised to hear of a device that can do byte aligned SGLs, as
+PCIe fundamentally can't do byte aligned DMA. It's all dword based, so
+if you have a device that does report byte alignment, it's still sending
+dwords over the wire. It's just using the "byte enable" fields in the
+TLP header to have the receiver strip off preceding and/or trailing
+bytes, so it is a bit inefficient way to transfer data.
 
