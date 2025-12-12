@@ -4,91 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59B73D59D8F
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Dec 2025 19:32:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DB4BD59D8F
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Dec 2025 19:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qkIrV0+1XK3G25k3vcZgoQ5O2NefayvpABFzazqYeUQ=; b=Ov7ZwpXIb9dtLbAFUo3aBOzSDF
-	Twtcb59+t6WGvmpRuXbLunYkpQfSt/9p1EDnH6GhdfBu9+M5hDgaPID7Qg/dP3SKJvIizPeB0IhDQ
-	zAVO+TOZ6pbxTq9ndpMuBmM+KqQsxy++15CNIloBPELfnN8wf6QdtFAG+3bSiJFq0yzV4xCpu/6De
-	lK5FmZ1Iu+QOXy9qRjKZWDVFEG2ciZv9l+el1JzYhCDmuonRRcm12zFkTfmaRE1sO6LRHCbXMWHzE
-	9gC3j5FkV59p8JCA8dnhDGlt9ZNNLa7uubhr9FxpmFFKb5XabhpadxhMOKJ9b9CKLfGp2iNpmUlzJ
-	f8SMXSjg==;
+	bh=StTVbGf1mPsXgZZ3d28QJjsQQzKmymRGuXpSNQalBC0=; b=VRVH/1ELclC9VJ4BisIpP6Y4+/
+	UpOz/g3rMsHynFa+2eYlNTXNWye4vsV6Vi0phQNq+tNEyfXY7YVLB0+Ww83+2z+NleKN+HdfJAFh9
+	+42qi6+dugec9QdRUJCyde+1XqxE629RHNETZPBYxoGRkHgb2lwfXnrkUAoM2GgqOgyYFKedMCZa/
+	eyWceT+9p+mncCati7123tYxtTR3eLr+1bhgq0qEij9krjtbNB0vx3xWfm5jx8UCa9jcRIedsVH8A
+	qE7yl08uC5EqxbcRkWRHHC7rRcW1ztaOR14h3ujxOlwrw3OUn0+BEtFlzfnCQTgsiWdBUM5zVDGhj
+	l/IF2KKQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vU8rx-00000000zZk-1qEC;
-	Fri, 12 Dec 2025 19:32:01 +0000
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f])
+	id 1vU8y2-00000000zrn-1Enf;
+	Fri, 12 Dec 2025 19:38:18 +0000
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vU8rs-00000000zZB-0APG
+	id 1vU8xh-00000000zq0-0Jjn
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Dec 2025 19:32:01 +0000
-Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-8b220ddc189so202268685a.0
-        for <linux-nvme@lists.infradead.org>; Fri, 12 Dec 2025 11:31:55 -0800 (PST)
+	Fri, 12 Dec 2025 19:38:17 +0000
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-3437c093ef5so1636708a91.0
+        for <linux-nvme@lists.infradead.org>; Fri, 12 Dec 2025 11:37:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765567914; x=1766172714; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1765568276; x=1766173076; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qkIrV0+1XK3G25k3vcZgoQ5O2NefayvpABFzazqYeUQ=;
-        b=H4MzUZyNYxs6Yz/x4D+uojYvMHWUbhfDYq4YBRBUhE7FePivda2FLnIgeA8dAMyhxK
-         +kdxFgAPCE7QGmgSmdHffRwSlbnDI/MjVlaEEr6Jrhb4SYFbYyElGwp1Cr4zyPZvAYZ4
-         5QBmlsBGTvCOKXxwqw79+XKw9X7SEDFkrer+85uqD+1kF3fZP2sqBhTKmwPW46+tNTTZ
-         CglpSBib1ET651YKMn/+OApy1JCGUdNGTeSwJ6yndEg+xgYKsobA7wjqqfqf+CtjOIFl
-         X4N4HHQ+Hf3JqphdLYPLhcwlSj7Yt6Lu1Urllt8pqeI+tgjnaFQWOBc484NKUaKyrdmW
-         qskg==
+        bh=StTVbGf1mPsXgZZ3d28QJjsQQzKmymRGuXpSNQalBC0=;
+        b=gRgvg+3cBOCsCwTW1wRU3cUKIYO9FOYl0eaCOWxdG8EpZIScX/8JC1J8SOWpquAbq+
+         sQvcZ8LjgMjAvgTYGxO0gyiK9lcoXgMrFjNWnHKW/8XOeHIZ6M59C8KqfhdWNCjo+Qtx
+         2tCKCBxIaxS9pUpVKZM9/PWDvsUZDwrCwXSAp47Qhdn80KDiCFCz2eiNNwaVHpNbBxZ/
+         tPUQZmaStKhXnbbmquhlSDYox9m7ihOVFz87XLxv7t9QW8CP0BEugB4QIffqm2KH9QUP
+         Fdy5/qXPfQcJxQnCoRPHnDmgZgsUBOS7XHI9rzAcKIpSwKONReFvYzCADwOp6+LxKyc/
+         b2sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765567914; x=1766172714;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1765568276; x=1766173076;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qkIrV0+1XK3G25k3vcZgoQ5O2NefayvpABFzazqYeUQ=;
-        b=Bpa+AftR1egj1h+PGqBf6tM+AyGckSb1a6GbilCYXkNuAZ6BKwMNXA5jgOSZwiynyt
-         OUt/FoT9VlRD0SPtiqNMKWRpmrSXypmfRZ3O12z62mdNLGbfzrCoUduxUDjCJziKfFqq
-         78pmJsbzNlgzV0y0jQP6AVT0l5ZQCsBYe3PlVUbNTHAC6dB2fI2FJFRSkBPJZcP1jSl9
-         7tD6DHJqlFtQSIyI22KRanUs6D2mcNzorx/CXhuyt11zn/skvrNGxIeCB20WLR5XLwOC
-         tcs4WY0lftcTHWn44HXs5J5M07M/tRtnHsxWdr5o0sBNdHXKhzYsF5Gu5W3JNxcTQTrr
-         5LpQ==
-X-Gm-Message-State: AOJu0YzFbfRuOKT8mm+t7nBddZYyV1WWzcd410N+oWGHsav/KKRHR0qS
-	L9Qwt85ErAdWx+uvTAlnIx7uLDuEhJXUu4izYI27Dkd30Kq87HKIq1xr3zLKTgNc
-X-Gm-Gg: AY/fxX7/mSgTcZ+jNgASxRqzv1zh6jtQngDBXLa16JVvvOetGOwwP0yveUZYQkkuhJr
-	1OkfivNwjG1Ej93CWlo4xxAmG2HN7AloixIlYCsmUtNDyFNqSp9H1KRhKK+WxgCCRR8nCsSPP8Z
-	xZcaWKnBXrvX3/BMEEUTpiR8y54KI5quZ4B9OmwBEWIN1nByJyxc3RcavdxkM7SYKjHUFE5ZLl9
-	3dBbxrH0tHEf08QeHr6h4skJUiUUtMRWHLYhwWv1sA8INP2dz+U5LukCGQqtQjhp/JsYeElNgMB
-	u9Q2Wjs0P9yFAFzqp829GHj896GJWaVO4YUIiEBm3dkGMOSb296bld1ZYARIjlZdZdGPTUZlu/1
-	aadkWLqgvYadSOE4I9ZooRUaGGWfmi76JgTfxPVOGflM2+yYZcGlyMXAbhR4BnFv+HAIurS/J5P
-	I7sg9rmWOXP5J3km7O85tYHwxtBDDZfFUxo2YHfZ3YSvArqCYf0CdjoCjMkdI=
-X-Google-Smtp-Source: AGHT+IEfZku+LKRGQlk2ElfAccQXj2X+kb+V1QadvH/DFtFYdOispfu2CJNeIaesViHbn7nZtrkmBA==
-X-Received: by 2002:a05:620a:1723:b0:8b2:f9ac:a893 with SMTP id af79cd13be357-8bb3a387723mr420295385a.66.1765567913890;
-        Fri, 12 Dec 2025 11:31:53 -0800 (PST)
-Received: from rc-szhan197-01.ad.syr.edu (its-crushnat.syr.edu. [128.230.103.233])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88881825253sm17424536d6.17.2025.12.12.11.31.53
+        bh=StTVbGf1mPsXgZZ3d28QJjsQQzKmymRGuXpSNQalBC0=;
+        b=Gj54TPDCubLHrnWffOhCe2ClZpI24yUG4K0I7z/fDxeewkI1b2acismgIUDJZllbQ4
+         Fk0NRaZmp1R0gSkMHN2f0eGZEwXu/+2dZQIoeQEVKPYct3/4scMioUxxi7V09Z8vji2i
+         CzizP+a0YFcnB6AQYr8iAnJk/O7mqjtPWHZsOoi0W9paJnvRyIdSlRe773OXr7F0zZXy
+         wRIR7hdbndqxruIHKefiqyQ8LwM6OnRNWp33xk/JnY7XL0mCHLxkmuB/ui1i+2TPcQm7
+         3qPGgEQd7u1HEKfNFe3rCkwgjjfuRSxA/dX6SYVs6lKkyvTCnt8v66utc2CyApinTpvd
+         bHyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUClYYcj25qQ3qLDzsesGOKEpzPdA9W4xqx+pmdrkkMsAUZylf/8xJOlm8Lm2+O33uNM+m+jLFt71yt@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx/ZtokVO0i67lg8hLY5OAWB3J02oJHfZBgHCWoLuNwkydT83ei
+	fT+72tJBNPzfqb2GsoR1dJxGU+JuMcsJTrKFXBp1f/N2aivTt+EllaGp0HwqaIV1+kg=
+X-Gm-Gg: AY/fxX4l3jWDVgA7lBabo0ybJ7rIffIcM3HUS9i8oMeBs1Mr1eqPd4aq54XLGLDeFZG
+	OyUDXbBH383nAoyPkkmoYjNQ2i/BhIJMUO2VJfS5HlX5VwgBn7S3jn/sqst7U7z/sgXtxo7aYxy
+	DTMYi8CpPIj+rUVu1S9Dy0nflRux2VJC3hf052oEbdzQ8R6g2MEoOQXCko+MW5Jeg9b//7rVzFQ
+	sVsOyYnhlQZF3w/BRU7UzU7B3bBy1cn/2rtqw0zq7Sw8zC0/UAXhJyVo9wS7hJZEEZ8AASEhYRF
+	0THapDxFDhYruqHHRCB+8+gHzkWhFu3PXYKGFZ3TbvySbdzxHwJvlsWDhXeGViBRDs5tDeZ/E9f
+	6pYFfHSCppSbQIIov1zrncOLQ4/O2fsE67Xcak/AQ4wKgJo6a0kZupnWR2F1KTtt4F3xkVWdtDR
+	XYEzQM49+VF997vR9WWDB1o5NJlsR0SA1XBVAiXBhACk5JYK3DfLY9iKWp
+X-Google-Smtp-Source: AGHT+IGRg2Nd8ny+lEY1UTB7dhC5oApF/NmRzRo0kswvAor/xhBJns1Qxh+lICHO2/Y0nRHD/a4u7Q==
+X-Received: by 2002:a05:7022:e1c:b0:11e:354:32cb with SMTP id a92af1059eb24-11f34c39abemr3023356c88.49.1765568275584;
+        Fri, 12 Dec 2025 11:37:55 -0800 (PST)
+Received: from [127.0.0.1] (221x255x142x61.ap221.ftth.ucom.ne.jp. [221.255.142.61])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b4867sm20294552c88.6.2025.12.12.11.37.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 11:31:53 -0800 (PST)
-From: Shivam <kumar.shivam43666@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: sagi@grimberg.me,
-	kch@nvidia.com,
-	hch@lst.de,
-	kbusch@kernel.org,
-	gregkh@linuxfoundation.org,
-	Shivam <skumar47@syr.edu>
-Subject: [PATCH] NVMe/TCP: Fixed the out of order H2C PDU Crash
-Date: Fri, 12 Dec 2025 14:31:24 -0500
-Message-Id: <20251212193124.1022096-1-kumar.shivam43666@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <BL3PR01MB684908447A2F3F7D2AFC57DAC8A3A@BL3PR01MB6849.prod.exchangelabs.com>
-References: <BL3PR01MB684908447A2F3F7D2AFC57DAC8A3A@BL3PR01MB6849.prod.exchangelabs.com>
+        Fri, 12 Dec 2025 11:37:54 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-block@vger.kernel.org, io-uring@vger.kernel.org, 
+ Pavel Begunkov <asml.silence@gmail.com>
+Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
+References: <cover.1763725387.git.asml.silence@gmail.com>
+Subject: Re: (subset) [RFC v2 00/11] Add dmabuf read/write via io_uring
+Message-Id: <176556827123.851918.9976241171726294701.b4-ty@kernel.dk>
+Date: Fri, 12 Dec 2025 12:37:51 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251212_113156_099907_2C073F58 
-X-CRM114-Status: UNSURE (   9.43  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251212_113757_361210_1235EA90 
+X-CRM114-Status: GOOD (  12.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,37 +109,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Shivam <skumar47@syr.edu>
 
-Signed-off-by: Shivam Kumar <skumar47@syr.edu>
----
- drivers/nvme/target/tcp.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+On Sun, 23 Nov 2025 22:51:20 +0000, Pavel Begunkov wrote:
+> Picking up the work on supporting dmabuf in the read/write path. There
+> are two main changes. First, it doesn't pass a dma addresss directly by
+> rather wraps it into an opaque structure, which is extended and
+> understood by the target driver.
+> 
+> The second big change is support for dynamic attachments, which added a
+> good part of complexity (see Patch 5). I kept the main machinery in nvme
+> at first, but move_notify can ask to kill the dma mapping asynchronously,
+> and any new IO would need to wait during submission, thus it was moved
+> to blk-mq. That also introduced an extra callback layer b/w driver and
+> blk-mq.
+> 
+> [...]
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 15416ff0eac4..cbd9286eabf4 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -982,6 +982,18 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
- 		pr_err("H2CData PDU len %u is invalid\n", cmd->pdu_len);
- 		goto err_proto;
- 	}
-+	/*
-+	* Ensure command data structures are initialized. we must check both
-+	* cmd->req.sg and cmd->iov because they can have different NULL state:
-+	*- Unintialized commands: both NULL
-+	*- READ commands: cmd->req.sg allocated, cmd->iov NULL
-+	*- WRITE commands: both allocated
-+	*/
-+	if (unlikely(!cmd->req.sg || !cmd->iov)) {
-+		pr_err("queue %d: H2CData PDU received for invalid command state (ttag %u)\n",
-+			queue->idx, data->ttag);
-+		goto err_proto;
-+	}
- 	cmd->pdu_recv = 0;
- 	nvmet_tcp_build_pdu_iovec(cmd);
- 	queue->cmd = cmd;
+Applied, thanks!
+
+[03/11] block: move around bio flagging helpers
+        commit: d9f514d3e6ee48c34d70d637479b4c9384832d4f
+
+Best regards,
 -- 
-2.34.1
+Jens Axboe
+
+
 
 
