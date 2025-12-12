@@ -4,92 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C9A6D59D91
-	for <linux-nvme@archiver.kernel.org>; Fri, 12 Dec 2025 20:11:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05FEBD59D96
+	for <linux-nvme@archiver.kernel.org>; Fri, 12 Dec 2025 21:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NCgRY3rQWWKu/okTJdv9CQLBwy4PnH2zdkYMzdDERp4=; b=cTE8TigNX0Nz7da2Jks9ptTdlL
-	/VEeSfN6P8w6gGlID2YXRqUv21+b+WfaRDWXoZPT9aE2dukILyFxR2iyK3VqETG69dTfybKNhXUM/
-	MdeIADbGJIVX8pKxXq3kntqoItPkwPCraE9gRwqB9RemZfMLCOBusBW6uq092cZ/sKdaoZQI6iIKu
-	bL5rtsYA/RWrn0akbf2K3/6bEN9h47XK16ieANIsvhAnMWMfvED+mlVzd+bkpSatgnP7AsdzxRT6t
-	lFVgF+3pbYGj7skclo+KNdkQSlO45Sb4ax1HPlRWSPV6oan5ok1w8NDpFfIrVOgtKB1lWEQprGNuI
-	Z1zE1W/A==;
+	bh=GC6IvZWZUQnXXYpx6jpGvClGW8GwD7o+6Enl7mwIwho=; b=KDcl/TxSYp3yUKERFH/wtpzN3u
+	tFFXo6uxMKgnA4Vz77G0kEuPJcKlyF0HKFO8hfta88TZ1ii0aWFIk3Wv7Z9t04VpbHWKgvqXAfK4U
+	dO0zpwt00aHwIO2oEtUczAhKuS8dheWa+DKrh4gg09eOlxdX3fotofiUx88M/WLTwxxYe+blxDvfi
+	dg45Dm9qLzcPK341Qi92kVz6kQJEWP98tj3K7RXObh/Nve/dcaxfiGJbIUswhGIeRRV7rjBChWfqD
+	5ssxcb/5UnaxkfXCcLRlNwsUluoLzj6Qr5yNk8pPzWKDq/l5iPOy/YZ57KMrJiOaOdDevZByn5vE9
+	KYGTp79g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vU9UY-000000012Dd-2YMo;
-	Fri, 12 Dec 2025 20:11:54 +0000
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+	id 1vUAO0-0000000160b-3BtB;
+	Fri, 12 Dec 2025 21:09:12 +0000
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vU9UW-000000012D0-0ZfG
+	id 1vUANu-00000001602-0Am2
 	for linux-nvme@lists.infradead.org;
-	Fri, 12 Dec 2025 20:11:53 +0000
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so1396173b3a.3
-        for <linux-nvme@lists.infradead.org>; Fri, 12 Dec 2025 12:11:51 -0800 (PST)
+	Fri, 12 Dec 2025 21:09:11 +0000
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-8b144ec3aa8so152952085a.2
+        for <linux-nvme@lists.infradead.org>; Fri, 12 Dec 2025 13:09:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1765570311; x=1766175111; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NCgRY3rQWWKu/okTJdv9CQLBwy4PnH2zdkYMzdDERp4=;
-        b=MS1RtzN6o9LsWkL6JI3jKfTmgvqIP4NdYQtCRWf/DnAnv78M+8cTklAIL2ANUW6QVz
-         IsEgB+/1YGe/rOe+JMsOpr37wIs4KSGmLNv0TrxjWhUwq7e6CtE9ALBG5/1A35hE2SCG
-         P3cou1Xn/N3MmMTWCCmV329bI8RFuxr3GPnpMxUMX1spRVk3jkWuTQJiNiRVrmSywoF1
-         dUA0tdIXpvJv8o8FFXQgARYhXCARloIRjon29p6PwLm2U9IhbY/odxIEymvx0hue+dAy
-         Lk1CY7Iepgpw7QygF/v+0lPRj49DKBJgdlnNDYv9oGIauiYg1vl0J4XyUwCZGQIS6cPB
-         SppA==
+        d=gmail.com; s=20230601; t=1765573744; x=1766178544; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GC6IvZWZUQnXXYpx6jpGvClGW8GwD7o+6Enl7mwIwho=;
+        b=D70/h36//EZIsYVLbjWf9Qy8AWX19B4jFacE7S2SfJT3MzrLsG4Ow6jgyLZrnrC1hd
+         9AHlda/CZMQ5hA9Qo9zpcY5mK2iJ5rp2ZN+H8Mz7zNQMYj+5NlHQNKuitXY3YjE2GJip
+         OO0a40xMPe0nyJHa2ljg0BgUVc0WJn7KKOc+YlmLnuHwuFx4bq8TQHbOW4XyyIOGV62p
+         GNqyFI0U4lPU+uvDiv0iFD1eK50s58Fr5gUsdeAAOSGXU83lgrCQyd36OhbqObHH7cMu
+         KOvqOF3lYxcHw2BiFKZyS1SxCFY0SZxj2UJkDq2ENIyN/lL1hwr8wwQf6RCoJU6VC6YB
+         1C9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765570311; x=1766175111;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NCgRY3rQWWKu/okTJdv9CQLBwy4PnH2zdkYMzdDERp4=;
-        b=jjNexNpv5x8NoL1UrZm2aienc2KG5WcJyDzeePxYsGSWOGRUc0nHuF8EOX5FkYW9lL
-         IzpRAkH2G2xuPaC15h5E5qFEppjmSkmmHHSmf69hEWA5SwmifBJLmjOkB4BLjyYif6/F
-         nVMj5J+dE29x7AJYZhHpPOuQGfCcQp8g2Q9LZ0lwP2Inx+sOiQWg/7tukx8x9l2Wc4pO
-         /a5E/WIwXiP2jO7Fa0K2y6Ua9TZ9PdD6Dn2MAtuRCHD9cMTdjmYX+paFiTIzT0KqkYbv
-         i8vpH8a7pfvWfrhOEW99WMsNgI7RxTHSDsfpbj8RFSQXG7u1HU0SRaS5umDKiKybg67M
-         9k+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAipKz1fGk87NlHGRfvS3hSjMHq4AqKoab9d91VEWrQ8+NW+zCQp31CJS5TGC6mSddOD8RrcOCpW2x@lists.infradead.org
-X-Gm-Message-State: AOJu0YxH2ydknHHhTnmDz5/4BmxnrN4BLn6VqehXnxcsb0z+gojdfEsX
-	9Z9SxCgZFV1KkJHr3dXBTFSk3i/9zrPBRunp7xnXVoNp4z5nnDrUOLNzeHCSvXr+ODg=
-X-Gm-Gg: AY/fxX4k1oNhO4AT4NxAY9r3NvcMeovwCUZRZG6VX+wI5DP/O0rq+bRM+d3FkUQZFJ8
-	PvhbKHpkdYkR3hzE+0PanA6KC3jux2p+0yQvhdXgvl+SdG8cEMnXTlgA3Btj8S0xBBZlR0Xz+5t
-	Gb7i71SoxsSBD3r+yfFV9AgAnrrnNwk66BRNfsfPISTTYt6Q4iduPFiJ2y09w1XIrJN1dOQgdXx
-	G0hlD3AOSYYcZaXSyw2Bq9L6mhuN3gmL8CRSrdFV5Zk4kUU9pOy3syCk24iI7OhF56bnaVGrHwA
-	x5hjuZLaMX17yNORZFdfsDtCrerhNNIUbZA9kq4sX3buBQB9znXqEdw2tR7zCDXgmh1txzRV+YT
-	czzqhDAyF2DZsj8qazFMDNQsYgaS0HFOQzhUTZoI11XKqsV+CkRuzB0I/PDCd68DCoEiRx/HrMv
-	K0SkBnXD34ixDd09enrFscSrZocSGkDz6doMpPbo/UQz7SZPU7CA==
-X-Google-Smtp-Source: AGHT+IHGJJscBv1tmA5frlmQCAb9BnUJ4d1QiIClXpGlAsDgfMmJ6LAx59zRPGMnF3Hc/v1LWbUgAw==
-X-Received: by 2002:a05:701a:ca0b:b0:11b:b3a1:713c with SMTP id a92af1059eb24-11f349a24b8mr2224071c88.9.1765570311149;
-        Fri, 12 Dec 2025 12:11:51 -0800 (PST)
-Received: from [172.20.4.188] (221x255x142x61.ap221.ftth.ucom.ne.jp. [221.255.142.61])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b46f5sm19902376c88.5.2025.12.12.12.11.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Dec 2025 12:11:50 -0800 (PST)
-Message-ID: <d5fbb80b-ed25-476c-a53a-2d9ce98a58ff@kernel.dk>
-Date: Fri, 12 Dec 2025 13:11:48 -0700
+        d=1e100.net; s=20230601; t=1765573744; x=1766178544;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GC6IvZWZUQnXXYpx6jpGvClGW8GwD7o+6Enl7mwIwho=;
+        b=caXT3Q8eBG/xCE0XoTp64RY8RKIf6HtrzT6se2grEvAs5IyFkuBJPfsYsmD/OpN+6x
+         HzYDg9ZKao4MXyi35R3l+0RDEGetRZIXzK5ePnv0vWj+KX+GlTiAHdh8OyFJZ8ksvCDU
+         XU1AEMyOPvrbgd9W4yIXUYcF9bVNQzuylgR37o9MsFofQmVzWZoULbbHwHvkMxyKeMYJ
+         dkvobRc7E9UQ1IVBHKSfToKcHImahkEUvJaqmz29yEWH70+BpoMc0uCm2iDNLBaTPY6I
+         asa/2s02Unn8GfnYzrc9srfcXYc7/DoearEhqIsLgCAe44XzanxQ4t+CKiTpd3ucl4ad
+         JzdA==
+X-Gm-Message-State: AOJu0YwHLbGLWL6j+z5NzBXGJgBWo1xOo8md3+UySEoHjR3asWwfGnl5
+	Q8tvxKzEn7u6Ry1Rus9cLgCm1plaihPLRCf3lSGLEl+GUq+w+17IGcuJKdEBuiFY
+X-Gm-Gg: AY/fxX6ckmd/vSH2STx66KCsEwBWJPQd0WReBZTNfamJweIr2C2ZiCz7yKzJ4suRpvI
+	LNAZJTHiHhB71km1cSJjMbaiJ3B8ooHIhIQHfZSxXrsMBrwTkblyfMVvuQtikwT0oI85kSD3vx+
+	6C6++fItRWNFXw3pmuxZW2VqG5UO5dDMvB9zMh2R1rCZ8pZYF3CrE9UKfo2DZvtAk5R6AlFLdOT
+	Xksf24ZdvvMFahzs3cuaD7R4jQd8aGAyjZ1448Sk3Z0XBRNhH0B5+Hml5EBffTB1iDcOHZOc5Bt
+	ykHrzHzpJBD/ssHkULd/B2/AXuxF9EAeAVeiF63hlMVWnRb9X1Pj4FCdytLN2efgL+sY+pi33v9
+	K/2hWpq14SjylsNUk4bSV+nMFixjzuOSMO0pX4lJD4CqELDZNQBDj5S+L52Z8BEkV1b5LL3S9GD
+	e68xAlFWgvVTznSW/kfax/8D1Kyycw3iK0WF5Ezf5Mg6zTx9MqSvxkEc/28UA=
+X-Google-Smtp-Source: AGHT+IHojb/6JlhvtbPcOtoxIiuj02Gvcn2jApJ2FcRBvq7e9/WMDjxAmhgDh+dF4MbQSDf5e0T8cg==
+X-Received: by 2002:a05:620a:1786:b0:8b2:df32:b8fd with SMTP id af79cd13be357-8bb3a6222bcmr451119285a.0.1765573744246;
+        Fri, 12 Dec 2025 13:09:04 -0800 (PST)
+Received: from rc-szhan197-01.ad.syr.edu (its-crushnat.syr.edu. [128.230.103.233])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8bab5d3f637sm550577085a.39.2025.12.12.13.09.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Dec 2025 13:09:03 -0800 (PST)
+From: Shivam <kumar.shivam43666@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: axboe@kernel.dk,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	hch@lst.de,
+	kbusch@kernel.org,
+	gregkh@linuxfoundation.org,
+	Shivam <skumar47@syr.edu>
+Subject: [PATCH v2] nvme-tcp: fix NULL pointer dereferences in nvmet_tcp_build_pdu_iovec
+Date: Fri, 12 Dec 2025 16:08:50 -0500
+Message-Id: <20251212210850.1025123-1-kumar.shivam43666@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <d5fbb80b-ed25-476c-a53a-2d9ce98a58ff@kernel.dk>
+References: <d5fbb80b-ed25-476c-a53a-2d9ce98a58ff@kernel.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] NVMe/TCP: Fixed the out of order H2C PDU Crash
-To: Shivam <kumar.shivam43666@gmail.com>, linux-nvme@lists.infradead.org
-Cc: sagi@grimberg.me, kch@nvidia.com, hch@lst.de, kbusch@kernel.org,
- gregkh@linuxfoundation.org, Shivam <skumar47@syr.edu>
-References: <BL3PR01MB684908447A2F3F7D2AFC57DAC8A3A@BL3PR01MB6849.prod.exchangelabs.com>
- <20251212193124.1022096-1-kumar.shivam43666@gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20251212193124.1022096-1-kumar.shivam43666@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251212_121152_179327_C386863C 
-X-CRM114-Status: UNSURE (   5.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251212_130906_088352_444ED467 
+X-CRM114-Status: GOOD (  11.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,14 +104,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 12/12/25 12:31 PM, Shivam wrote:
-> From: Shivam <skumar47@syr.edu>
-> 
-> Signed-off-by: Shivam Kumar <skumar47@syr.edu>
+From: Shivam <skumar47@syr.edu>
 
-You forgot to write an actual commit message.
+The CVE-2023-6356 patch added ttag bounds checking and data_offset
+validation in nvmet_tcp_handle_h2c_data_pdu(), but it did not validate
+whether the command's data structures (cmd->req.sg and cmd->iov) have
+been properly initialized before processing H2C_DATA PDUs.
 
+The nvmet_tcp_build_pdu_iovec() function dereferences these pointers
+without NULL checks. This can be triggered by sending an H2C_DATA PDU
+immediately after the ICREQ/ICRESP handshake, before sending a CONNECT
+command or NVMe write command.
+
+Attack vectors that trigger NULL pointer dereferences:
+1. H2C_DATA PDU sent before CONNECT → both pointers NULL
+2. H2C_DATA PDU for READ command → cmd->req.sg allocated, cmd->iov NULL
+3. H2C_DATA PDU for uninitialized command slot → both pointers NULL
+
+The fix validates both cmd->req.sg and cmd->iov before calling
+nvmet_tcp_build_pdu_iovec(). Both checks are required because:
+- Uninitialized commands: both NULL
+- READ commands: cmd->req.sg allocated, cmd->iov NULL
+- WRITE commands: both allocated
+
+Reported-by: Shivam Kumar <skumar47@syr.edu>
+Signed-off-by: Shivam Kumar <skumar47@syr.edu>
+---
+ drivers/nvme/target/tcp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 15416ff0eac4..d5966d007ba3 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -982,6 +982,18 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
+ 		pr_err("H2CData PDU len %u is invalid\n", cmd->pdu_len);
+ 		goto err_proto;
+ 	}
++       /*
++	* Ensure command data structures are initialized. We must check both
++	* cmd->req.sg and cmd->iov because they can have different NULL states:
++	* - Uninitialized commands: both NULL
++	* - READ commands: cmd->req.sg allocated, cmd->iov NULL
++	* - WRITE commands: both allocated
++	*/
++	if (unlikely(!cmd->req.sg || !cmd->iov)) {
++		pr_err("queue %d: H2CData PDU received for invalid command state (ttag %u)\n",
++			queue->idx, data->ttag);
++		goto err_proto;
++	}
+ 	cmd->pdu_recv = 0;
+ 	nvmet_tcp_build_pdu_iovec(cmd);
+ 	queue->cmd = cmd;
 -- 
-Jens Axboe
+2.34.1
 
 
