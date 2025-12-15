@@ -4,88 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64A13D5B16F
-	for <linux-nvme@archiver.kernel.org>; Mon, 15 Dec 2025 13:53:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD32AD5B841
+	for <linux-nvme@archiver.kernel.org>; Mon, 15 Dec 2025 15:32:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tQxdhYlcswN8swYV4vl95P9JjfGKeOqKl9wIF+3ss1Q=; b=aHcpfpNJ8t2+actlcOQBZ+ZLkF
-	63QMkJyHpypcUkOa42+H3MTl1f60W5Q1H6C7wt2eKHNXlj77adEd5GdHwnjZ+MHUjFS260Vwe4PtR
-	sm4fr5yxqA2noyvDTlSwzjstsEAIy1pxN/mQj+jfUY6y1GiO9k5Z3GLq8yoxHG9nEvrwM737oGJlg
-	0tPYNNcmV3+7gR5DpM/bXi6V79HNVQN/uuYEg1o0PP/NTV495i/BIqBXlzTD0hvVigBlTCWAe7F5i
-	eg96n8Th/gDLqAUqRU37UGg+cg1noRqbe3ZRsFuQ/av6yNQpZywqi3gmceHJJmoqnrw6A3IyALkTC
-	/fZOOxDA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1SIbo5gsrFw/49WZUB9+/6kb3koas7oJqYCp1fcr7tk=; b=4IZaZ1phz3Qt8zBLVspwhhXKTn
+	5w3LmkrtaGOwUhCrfHEcUehocl4LBGun5f7jPw5jH3jqlljt6PAQ6dxfpZGZr3Yw4fbjeY2CvSk7d
+	OfBJtgmKN6QiR1BMx0WpTpugNGraTnovt/cyBRuTQLDHnvHzJwxrcrVsJGHfJTuBfmWPp6DhYtwPW
+	jSxrcrbeyOM+ylt8ItpJU0wsBDRcgJa6y7etpxVBQPXJVIqg8z2r64EhMKe4+my8oA9ffAopt7DjC
+	L+T8d9PYk385YBER/SD3RN1I+sJ4jlP8bVVG3WMaLSd/5UBPTm5glnFmIiP6Uwb3frOeYM9t5FxwR
+	4KoHDn3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vV90Z-00000003iJy-0sU3;
-	Mon, 15 Dec 2025 13:53:03 +0000
-Received: from relay3.mymailcheap.com ([217.182.119.157])
+	id 1vVAZ8-00000003tvx-2eZB;
+	Mon, 15 Dec 2025 15:32:50 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vV90X-00000003iJc-1hQl
+	id 1vVAZ5-00000003tvY-38ru
 	for linux-nvme@lists.infradead.org;
-	Mon, 15 Dec 2025 13:53:02 +0000
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay3.mymailcheap.com (Postfix) with ESMTPS id 1425A3E8D1;
-	Mon, 15 Dec 2025 13:52:57 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id D46CF40361;
-	Mon, 15 Dec 2025 13:52:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1765806774; bh=YFS5o96Yz0eaybLLRmzVvwZiVwnKR0HlzbfCmYPtZv0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=wHZ/fFlJoF4x645taA9fnQ+d5Xy+E3jUeUR0q5rzd1NSOOPU9qw/X98QOKZEjwrmG
-	 1ohU8pVp+5XMDZN4bHAEnT9vlY2V9fRxFdFHd6Sbvxz1J1sDOTOKLg4y2f6OhZEuPu
-	 w6VHF60cMQYWxJCWyxGI49jfzn/vRbbwBN3hvy9s=
-Received: from [192.168.5.7] (unknown [111.40.58.141])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id B8EBD409C4;
-	Mon, 15 Dec 2025 13:52:50 +0000 (UTC)
-Message-ID: <b20b5f10-eb69-423b-aa5c-9ed0d3d84cbe@aosc.io>
-Date: Mon, 15 Dec 2025 21:52:38 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Mon, 15 Dec 2025 15:32:48 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 431AE418F6;
+	Mon, 15 Dec 2025 15:32:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2342C4CEF5;
+	Mon, 15 Dec 2025 15:32:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765812766;
+	bh=aEQVMiLbvDRSXHO/8bGJyPa2l7Ci/SRkpraFLP/Lxc8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B+4bq+mhKwot8aSJYeW0tdN0x+gxVdcVpZtnse60m5xOxnKjUZatO+dWukN5A1QmI
+	 tqZNR1Hhoe9PYIbd01Quy9sesiTrhd2xtP7sBzB9/mX/2wC2i8aKoZBXRUJV+6l9VP
+	 bczCfpdQAVicEkiL0abzB5MnRzB8Yqnkya/prkgVjPHRScSHKdNU6xezdIba/w/05p
+	 8WUU8fxHM6Wot6VMSok+zL2uYXUAuJCuRpXgp2XINXl8dUMx+uGKrrm/H4KNjVTzMs
+	 e977KYL5eKsAGcwvWzKCx8VX7twfBrnxoRUpY8FJ6x6zzfB5MICaKOUthAGFppHwgV
+	 aIreOqAPniyow==
+Date: Mon, 15 Dec 2025 23:32:40 +0800
+From: Keith Busch <kbusch@kernel.org>
+To: Ilikara Zheng <ilikara@aosc.io>
+Cc: linux-kernel@vger.kernel.org, Wu Haotian <rigoligo03@gmail.com>,
+	Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>,
+	stable@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
 Subject: Re: [PATCH] nvme-pci: add quirk for Wodposit WPBSNM8-256GTP to
  disable secondary temp thresholds
-To: linux-kernel@vger.kernel.org
-Cc: Wu Haotian <rigoligo03@gmail.com>, Mingcong Bai <jeffbai@aosc.io>,
- Kexy Biscuit <kexybiscuit@aosc.io>, stable@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+Message-ID: <aUAqGO7GXRrTk4Vq@kbusch-mbp>
 References: <20251208132340.1317531-1-ilikara@aosc.io>
-From: Ilikara Zheng <ilikara@aosc.io>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20251208132340.1317531-1-ilikara@aosc.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D46CF40361
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-1.49 / 10.00];
-	BAYES_HAM(-1.39)[90.83%];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	MID_RHS_MATCH_FROM(0.00)[];
-	SPFBL_URIBL_EMAIL_FAIL(0.00)[ilikara.aosc.io:server fail,stable.vger.kernel.org:server fail];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,aosc.io,vger.kernel.org,kernel.org,kernel.dk,lst.de,grimberg.me,lists.infradead.org];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251215_055301_615665_C7711B55 
-X-CRM114-Status: GOOD (  17.95  )
+X-CRM114-CacheID: sfid-20251215_073247_811867_65DD300B 
+X-CRM114-Status: UNSURE (   7.81  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,38 +76,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi all,
-Just a gentle ping on this patch.
-
-On 12/8/2025 9:23 PM, Ilikara Zheng wrote:
-> Secondary temperature thresholds (temp2_{min,max}) were not reported
-> properly on this NVMe SSD. This resulted in an error while attempting to
-> read these values with sensors(1):
->
->    ERROR: Can't get value of subfeature temp2_min: I/O error
->    ERROR: Can't get value of subfeature temp2_max: I/O error
->
-> Add the device to the nvme_id_table with the
-> NVME_QUIRK_NO_SECONDARY_TEMP_THRESH flag to suppress access to all non-
-> composite temperature thresholds.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ilikara Zheng <ilikara@aosc.io>
-> ---
->   drivers/nvme/host/pci.c | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index e5ca8301bb8b..31049f33f27d 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3997,6 +3997,8 @@ static const struct pci_device_id nvme_id_table[] = {
->   		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
->   	{ PCI_DEVICE(0x1e49, 0x0041),   /* ZHITAI TiPro7000 NVMe SSD */
->   		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
+On Mon, Dec 08, 2025 at 09:23:40PM +0800, Ilikara Zheng wrote:
 > +	{ PCI_DEVICE(0x1fa0, 0x2283),   /* Wodposit WPBSNM8-256GTP */
-> +		.driver_data = NVME_QUIRK_NO_SECONDARY_TEMP_THRESH, },
->   	{ PCI_DEVICE(0x025e, 0xf1ac),   /* SOLIDIGM  P44 pro SSDPFKKW020X7  */
->   		.driver_data = NVME_QUIRK_NO_DEEPEST_PS, },
->   	{ PCI_DEVICE(0xc0a9, 0x540a),   /* Crucial P2 */
+
+I'm not finding vendor 1FA0 registered on the public pci-ids, nor in the
+pcisig.com members list. I just want to make sure the identifier is
+officially registered.
 
