@@ -4,46 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80F50D609B2
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 15:43:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4DDDD609B7
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 15:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sNZ29PXPWaJHxUEAABq5WyvNSfOGiRAU7qqEK1X4BWI=; b=UcHFDXRBX1H74B7ucASGBAoRGy
-	00X9fYU2szkn3Rgg7kOTK2OX59UsY1X4+vmYa/CPHWoJrvXfudGwXRIVkpDAR651JJGAynGxGHIq7
-	3wTm3VryFrc4wF3qLdl6aur7q+PiM0bRJ54QeYiKKnzfTjmh3KeDAL8rb9YXpvw9weMkyzp5v7qFS
-	6B8gTZmplvEIUDDQy3dkHuAVgPkpndw7S93G2mBJa7wCLDrQ/Ql2TeaqTqNzjxGqR8v32+J6LdZ3K
-	pYlOCURXciTnwAAL+aBXBVEIIiWFNXLRDTmF6MC2y4L4Fpx80BwPv4kZxiCXgWPGhdRDy94zCKmZy
-	bv+7qPWg==;
+	bh=rWKRvvQqrWnyJvD6H3w1zuqhISioJQivJla4pZjnjvs=; b=kMUlJJqaTDagDizJbpCOE7BPvk
+	J+2qG3IqDLOXLnSj2J1Ncz2vSMHdczNocO1O2SX0MBcIQnHtGMMMOkKL8ugJC4+DUA/quBbKVLDD8
+	b+TKeLbXpqliFvIMIeIocErjwtH+eHqwID+kH7z9T3blzrr7IlFvfnxLY1h6CuR/pB0Llf/VmTLwG
+	vXUq3fkQOX54WfOwCQ7O0WbKgw5LjsK+cYNN1xc3Gj+FDmvIrB7LfGM1shVWxlPBzZLMCxkxX0ZEi
+	u4Js4xvtHze999b5hBq4OMfYO073xklN6yLblvLB7pjK6hQRzTWN8aV1Zk7OIuu1s+u59ZxlvLajf
+	v/Ek0Kpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVXCk-00000005T1b-27Aq;
-	Tue, 16 Dec 2025 15:43:14 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vVXOn-00000005UHI-2sRz;
+	Tue, 16 Dec 2025 15:55:41 +0000
+Received: from mail-norwayeastazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c20f::7] helo=OSPPR02CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVXCi-00000005T1A-2A01;
-	Tue, 16 Dec 2025 15:43:13 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 97AF36017B;
-	Tue, 16 Dec 2025 15:43:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8A9C4CEF1;
-	Tue, 16 Dec 2025 15:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765899791;
-	bh=ZJTJypfLe1H/1AUEwksCTkMoXxELG4u7pdR81YdX+EQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=avTeetSCg2f1iVCLtIL2eMD8lxo6IXEVPcYP29oezKOpSlnYbzQvySLzpryda+R1A
-	 ew6Qmjryuhzff4o2BNqhJbYikZ/FxB9nsZ+SVx/fEVe4+Vk8KAAXNTxXKgB1dOxfC6
-	 74+SKOUxUYH7bvsWWQn3Q5qwYcHK43xEPD2CbWjHDldkEanlq21fmXVgnU0XBWMqbv
-	 BNwMTA5V4T1ZdwdXE45rLHOcG/cKJ0JLceGyQuUmh04zLBAqknv3qYM1zyCFIEZrg6
-	 xNyoNgN2Bk8xHpe+jauDCs8GKdRJcRNBlYtSaJq0IBEmiVa1MMIQaZqoQDY1frH7eC
-	 nyyoTKRn0yS8A==
-Date: Tue, 16 Dec 2025 21:13:07 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Frank Li <Frank.li@nxp.com>
+	id 1vVXOl-00000005UGO-22rn;
+	Tue, 16 Dec 2025 15:55:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=khk6Kvyw0HvxDPeIJlky/ex/kZMmr93eGfIFg+DzRGEmJGvxb4eeoL81AxoJTQ3Z6Isof8sELimZ4NZgFS4TTqOEDUUdubgrdSyfR1EbOppd2dSg1HM1HAnO2bgTvrQCdkXwLKLU4NgoIJNydykakZlGzENqLRq77B3CyMkxbQh7aF5v+lcm2EhXHkz+oq29DENNO8m2lvcTxKEpLqbnuQILO/I6KWAlFLc4jd6EM7V9OcyMXoLNH0cTOm1QFPFLSQJC+2OAPVlu+DzVAOXgq69nEqgBoPaLK38epE5jIzlGA+GhoEj2qladPN1c1Zwyuc3k48rzY4Roe35Vq+4THg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rWKRvvQqrWnyJvD6H3w1zuqhISioJQivJla4pZjnjvs=;
+ b=pGQlxv5sQibem6bIXN+c3BxmJJPHUjhOwEm/yK1zgf6BGEcekokuAfrKzFKxfP28wd22pcTiqJAtNZxPM7SzkJKj4pvpSLYRPFqhR025R/6pk/2+YBI0vFth2ZNxfPO5tRr++BopXqqpeluUTyYOLn8qZiPMAqtdIaM6bSyPHjC5C2dqmgliZjkF+Z0lg4sAJ8MrFTuoNe6V2HrDNhXd5ULABx8lWwJ/yMHbn9EfAF+BD5xler3s3GzzX3NAPmdb0kwCbrOF1bTc+TMbcIxItV0U2W0u+t1g4q0/bIaLOO6tMTnKtFOow7kwLszri6MEfl+GX/Lt/6k1Sfe3ZDKZvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rWKRvvQqrWnyJvD6H3w1zuqhISioJQivJla4pZjnjvs=;
+ b=MIxWhb2pfGAo2dGS2wGP4AFdrnhCfJ4XFMKHZfg/uxHD/PVUcZ/lbQCvk3cvyDMbewgIfOJhCQOw1gxQJ5srhBSkEILnng6pEmrrvDqsOO5TwOIT7IGvF+QTxIXMM5WbzZBAYTblK/TVsBDB3qqaLbvkJ3uamw2FNNbtTWzX5PdAKZh6gZgpOH2CIip+dWzRgT6mbhQZEUXsCW8jJdzOeqJoh9gFJJsFPmoRSFhjx9t7blsc/hPhX3E8FtJus96kEkerhJh2oT+I53fTzFhyOj0FqhZCVT1tO5llMNyvvoubC0n+BYzx9P6rJWCR9FmpzPcOIqGHU4BsWFz6acgpSw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by AM9PR04MB8954.eurprd04.prod.outlook.com (2603:10a6:20b:409::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Tue, 16 Dec
+ 2025 15:55:34 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
+ 15:55:34 +0000
+Date: Tue, 16 Dec 2025 10:55:26 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Vinod Koul <vkoul@kernel.org>
 Cc: Manivannan Sadhasivam <mani@kernel.org>,
 	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
@@ -63,14 +73,93 @@ Cc: Manivannan Sadhasivam <mani@kernel.org>,
 	imx@lists.linux.dev
 Subject: Re: [PATCH 0/8] dmaengine: Add new API to combine onfiguration and
  descriptor preparation
-Message-ID: <aUF-C8iUCs-dYXGm@vaman>
+Message-ID: <aUGA7tmDYm1MhRXn@lizhi-Precision-Tower-5810>
 References: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
  <aUFUX0e_h7RGAecz@vaman>
  <aUF2SX/6bV2lHtF0@lizhi-Precision-Tower-5810>
-MIME-Version: 1.0
+ <aUF-C8iUCs-dYXGm@vaman>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aUF2SX/6bV2lHtF0@lizhi-Precision-Tower-5810>
+In-Reply-To: <aUF-C8iUCs-dYXGm@vaman>
+X-ClientProxiedBy: SN7PR04CA0235.namprd04.prod.outlook.com
+ (2603:10b6:806:127::30) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|AM9PR04MB8954:EE_
+X-MS-Office365-Filtering-Correlation-Id: f632ccca-1e06-4802-15bf-08de3cbb8c1a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|19092799006|376014|52116014|7416014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?b9YMGedgganElge629YlXO3Z5ArbwvhE9GEtmKg8WoG89zdHT4l4qhTnw/ip?=
+ =?us-ascii?Q?p8BY3AK1ukYexiElBVJHRLlZPSCei2ymhyfoD3sfq9gGuzen8yRxNH8n7nT9?=
+ =?us-ascii?Q?Tndz5LxWwD46HjHjEcI/ui2in+Ab0OxdDpTQuKXltq1JyVuGpbg90u8/+6aV?=
+ =?us-ascii?Q?t14P7qwOob3TgL/SeT4xPatKEf/cJxqi4m1u+90Gme+n03zKmfhxYN58ue7b?=
+ =?us-ascii?Q?6HRAmo8C5fzCXfvD0F8A2KOEfHEBnEUL9/GWj0I7M7oIqRFJAuAkhoRoHWf5?=
+ =?us-ascii?Q?7+s0RBVM0vH6KBpSHWsWqVY0P7Vno4h4g70AJQ/V2BPHoyumXhl6chua7raY?=
+ =?us-ascii?Q?g65zBsu633+4oK7NN1zSG47w0YO5i987qhBf7ts3RXCYfO47oW02S9Y9LbOt?=
+ =?us-ascii?Q?kCB28kPKhR5GY/lhjsKZHiXGgphw+tEByH7qM2HHAAnSzIUK8li4DFGWuvRB?=
+ =?us-ascii?Q?PuaROQsPJGU9I5C0VAaTcl29StRZDcKE8LqgRDdTjegdda6+sGMjCFnpdyWE?=
+ =?us-ascii?Q?ienWbPGRegxsuMekAxLMmCyXdEgyncEmfj8PVErbtYa9wI8+ZqqOWNOxNfR6?=
+ =?us-ascii?Q?21fV1M6uaQAxcr5lR6RR+i1s1xp3qEhuNmsG9oxzjbYb4r/wIPchgCbPJ1p8?=
+ =?us-ascii?Q?qQ/HV+fDOS5RWyCPBQebZwQCk9wh6mj/XNpatTm3sMLBmc9CtTlcCiQ+YzH5?=
+ =?us-ascii?Q?KaJLEun8nZMRSTmz8oLqXYqct67WsdtgYM8tkaXewWkDoDxUqeSw/U2Z5nRG?=
+ =?us-ascii?Q?dabMCwoYWL1ogKlulWaOEqE+XbPlAD2AaQ5JtlNpA2MQi4SxO7KzAVx/gqk3?=
+ =?us-ascii?Q?9NxCuxD1aEmA/fD/jSCJztLXXJPSgUymUlcvfLaHtG8usbxyGsjQqAlxksTc?=
+ =?us-ascii?Q?TcOL041JcYNUAtNhoDwgkxr/gJ6QAV4XVR05pA0DSChNZ1wEyOIOGgNVBMKz?=
+ =?us-ascii?Q?wiR/Y3bpEGe12lXGzgoGfFiOy7kDW/dESeJ0WBYF+Q6kYmUGSLSuMItCobfp?=
+ =?us-ascii?Q?NTpVPZpZdOgEFTcFNCgBi4coe7vjpsUj4VKLYv9O7sCkIuZwh0+opF1NCQCe?=
+ =?us-ascii?Q?rmNVvC6q3tyCPgrKityzO9h0rQQ7iaTr2nNKvD/SkXfXax6fGjHbYT4lmQVC?=
+ =?us-ascii?Q?YF1O7y3MjQ5BHFpHUjWiV+ykGjNRlRyih8ku99q6ee41Gf55fAV2a2NwqJpX?=
+ =?us-ascii?Q?GTF3m6KEQlCp+3ipN7PJNgT56oZ98rQ54+W2fGn5hyGCe1gnWG1HJU7t+03H?=
+ =?us-ascii?Q?0lJhkM8zJ/IUsK7rurzeXzJPxE1hzTrRn2/gGIBLvZ3kEcGV8yQ93enNwmvn?=
+ =?us-ascii?Q?U4VyBfgfP83C1RjWcJAvYCKC61y10YuJH/pSupZrF240OzZsakdPzSbF3Xb2?=
+ =?us-ascii?Q?IlKQnfoiIbbnYMge+aHxvlIX0XCcaf3WDDB+sFrLQT9iLf1DNwtwjI0M3n1T?=
+ =?us-ascii?Q?auG1gZKtLIyWX7k3uFHkVXJnwUtxlWsO7U/y34fznU1CMCFFIfHimzQbJAoC?=
+ =?us-ascii?Q?frJS27drQXeT1hDbGr/pvMwni7+9pBnYVmT5?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(52116014)(7416014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iB2L/0CIEBXx1PmYT7v9VCUKzc59mBuvpXG1BpauRoOhvxEoyOUqDHOOXM24?=
+ =?us-ascii?Q?2sr4IHMvZOUIfo3OHTkVq9ytp4Z/57Y21JxYyzY6dtYHQhgeqUGkCZ9e+B0j?=
+ =?us-ascii?Q?SXLBXAMoczBGq4FbzFTG9GdBQq7OP/H4qnGMW+3PwNnHXZ5L+D4yuBlhYx3F?=
+ =?us-ascii?Q?sjmiTdiZutQm3f0TiDhSRkPmH7kU9zT8z7DZsSf0LI72x+fgKhGDtq1RyD4F?=
+ =?us-ascii?Q?+EpwCrSKXFtMIeyNFDFZWKDd5RDJIJ+SCWBidBUhVWuKy8o5RPyJFhC85JLg?=
+ =?us-ascii?Q?vme4n9FVH2k8QPOM2oiOB9+i+BIfMsuTdCvpOvRrLTKuJLkbqyc3Kl4lJVyR?=
+ =?us-ascii?Q?GpIYGhDyB7gbjzwmL8ik3IkJbKnvhHKI2sInNJT4Rnkuzptwi0q1YKDxvGC2?=
+ =?us-ascii?Q?Fvt2gWsNh9dbBqRvZp9Flq8pe4RHQYWRbIzvrtBhxlEvxM5oYrICD6rLzEGF?=
+ =?us-ascii?Q?/GzRtKmHz775CXsnhRo/A5TyK5l7IgrQ0SLiK24TgJiADC15LyiiekFDkfAn?=
+ =?us-ascii?Q?sm4VsMUjLcaoswFX3vQlfsIsf8Wx1YjdqA9hh3XunggYpfQ0ChyoZzGTz4Sk?=
+ =?us-ascii?Q?nxbLVfc9io3IV6SlM6rWQYHxStrS/eGaltD7SAbp2MNxN8uK8X46A6Q3D2nW?=
+ =?us-ascii?Q?7inRk0GCwrS1y4HGCqXOG5Nm0eo85xVykbg8/bWGD4GIvgiwnEQOr9pQpib4?=
+ =?us-ascii?Q?e5VXEQ7kdAJI3OwtIAtl3gKU3jfvDF7Tx6b1Pgis1KHURVRl/4v090NW27fW?=
+ =?us-ascii?Q?vVEs4yMcM6/76lj8/N8mDIhFUp4VZ1lRv9awGrVNtCASGbGCb60CSIrrxdSZ?=
+ =?us-ascii?Q?Wt0aV4PHv9Zk2FnYiArnyel8s3H2l+fXY3NY7n3OTwC+XdoFOU7BRzT3wLD2?=
+ =?us-ascii?Q?JqmrooINZD9StVE0JpdO7FH54WvnhZO8zmnWVxcq4kapDBN7uHd7aMkdY/pi?=
+ =?us-ascii?Q?bKsImGLong9daMhBaX144GpJburnTgnx0zyYTV+L0iO9+yJGyw7ZRysqTSLs?=
+ =?us-ascii?Q?3ykxz+0YwAKUILINgbc9JzPCpluLNqnlQ7NwsYBzEUxezjf7SHMbKJ+5fpGZ?=
+ =?us-ascii?Q?w0KbTU85V0A7ZNT72tG2Xz89XROcdZXI7Pvn7tmdqRuQK0b9EOakt0pQmG4q?=
+ =?us-ascii?Q?fADPwpW33jyPRfgFzzv1ADu53sSAvIh7fVO5YAAzKH6Pfp+W0GA5zkdWBJGX?=
+ =?us-ascii?Q?e49zQj+YvAM2qEstqx5K7t+FHenem3bIDdUE/ULcp3d/KnNgGcobmrCzX6GD?=
+ =?us-ascii?Q?bMdDdSZvpRsncQmzWaG4CD0g3h4Z05GigZcRFXdD76IyjD0SN3A7Lyj4c5p4?=
+ =?us-ascii?Q?RU1bO58AkBSgw0t/xJ2HSLfnWSCRn3M3k2r0nmBAftB8410reA02tIOQsyzd?=
+ =?us-ascii?Q?ZOP8vnBWZU5ya1aA6wbrc28Qi7MasHnuwqmkHPL8jzDvvNjqv3OYiBRRkYTt?=
+ =?us-ascii?Q?4sGxPM5Vr3pc+lAIk9pixZfV3oTrbPP8unmsiAjnVHExXxfbx9Zqxor37A7Q?=
+ =?us-ascii?Q?YI/AOsdareS6peLQbDnQUUSf/RVrNcoaoZaMDgW+YENxKxkietNXQjlg4alA?=
+ =?us-ascii?Q?jq18+gDJCzrTfuarmWmjqOznpXBGfg3PQZgUMwBE?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f632ccca-1e06-4802-15bf-08de3cbb8c1a
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 15:55:34.3562
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z55vdi7hIw/1NNMsD4xM83rlsi2JYA+NW9fLPc2Vxb/Q9cBelnwosPBimuKsYwFvkVN7Q6L/OlR/WYiVkedzIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8954
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251216_075539_557224_7A10B0E3 
+X-CRM114-Status: GOOD (  36.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,110 +174,127 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 16-12-25, 10:10, Frank Li wrote:
-> On Tue, Dec 16, 2025 at 06:15:19PM +0530, Vinod Koul wrote:
-> > On 08-12-25, 12:09, Frank Li wrote:
+On Tue, Dec 16, 2025 at 09:13:07PM +0530, Vinod Koul wrote:
+> On 16-12-25, 10:10, Frank Li wrote:
+> > On Tue, Dec 16, 2025 at 06:15:19PM +0530, Vinod Koul wrote:
+> > > On 08-12-25, 12:09, Frank Li wrote:
+> > >
+> > > Spell check on subject please :-)
+> > >
+> > > > Previously, configuration and preparation required two separate calls. This
+> > > > works well when configuration is done only once during initialization.
+> > > >
+> > > > However, in cases where the burst length or source/destination address must
+> > > > be adjusted for each transfer, calling two functions is verbose.
+> > > >
+> > > > 	if (dmaengine_slave_config(chan, &sconf)) {
+> > > > 		dev_err(dev, "DMA slave config fail\n");
+> > > > 		return -EIO;
+> > > > 	}
+> > > >
+> > > > 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags);
+> > > >
+> > > > After new API added
+> > > >
+> > > > 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags, &sconf);
+> > >
+> > > Nak, we cant change the API like this.
 > >
-> > Spell check on subject please :-)
+> > Sorry, it is typo here. in patch
+> > 	dmaengine_prep_slave_single_config(chan, dma_local, len, dir, flags, &sconf);
 > >
-> > > Previously, configuration and preparation required two separate calls. This
-> > > works well when configuration is done only once during initialization.
-> > >
-> > > However, in cases where the burst length or source/destination address must
-> > > be adjusted for each transfer, calling two functions is verbose.
-> > >
-> > > 	if (dmaengine_slave_config(chan, &sconf)) {
-> > > 		dev_err(dev, "DMA slave config fail\n");
-> > > 		return -EIO;
-> > > 	}
-> > >
-> > > 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags);
-> > >
-> > > After new API added
-> > >
-> > > 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags, &sconf);
+> > > I agree that you can add a new way to call dmaengine_slave_config() and
+> > > dmaengine_prep_slave_single() together.
+> > > maybe dmaengine_prep_config_perip_single() (yes we can go away with slave, but
+> > > cant drop it, as absence means something else entire).
 > >
-> > Nak, we cant change the API like this.
-> 
-> Sorry, it is typo here. in patch
-> 	dmaengine_prep_slave_single_config(chan, dma_local, len, dir, flags, &sconf);
-> 
-> > I agree that you can add a new way to call dmaengine_slave_config() and
-> > dmaengine_prep_slave_single() together.
-> > maybe dmaengine_prep_config_perip_single() (yes we can go away with slave, but
-> > cant drop it, as absence means something else entire).
-> 
-> how about dmaengine_prep_peripheral_single() and dmaengine_prep_peripheral_sg()
-> to align recent added "dmaengine_prep_peripheral_dma_vec()"
+> > how about dmaengine_prep_peripheral_single() and dmaengine_prep_peripheral_sg()
+> > to align recent added "dmaengine_prep_peripheral_dma_vec()"
+>
+> It doesnt imply config has been done, how does it differ from usual
+> prep_ calls. I see confusions can be caused!
 
-It doesnt imply config has been done, how does it differ from usual
-prep_ calls. I see confusions can be caused!
+dmaengine_prep_peripheral_single(.., &sconf) and
+dmaengine_prep_peripheral_sg(..., &sconf).
 
-> I think "peripheral" also is reduntant. dmaengine_prep_single() and
-> dmaengine_prep_sg() should be enough because
+The above two funcitions have pass down &sconf.
 
-Then you are missing the basic premises of dmaengine that we have memcpy
-ops and peripheral dma ops (aka slave) Absence of peripheral always
-implies that it is memcpy
+The usual prep_ call have not sconf argument, which need depend on previous
+config.
 
-> - dmaengine_prep_dma_cyclic() is actually work with prepiperial FIFO
-> - some prepierial FIFO work like memory, by use shared memory method, like
-> PCIe map windows.
-> - argument: config and dir already passdown information to indicate if it
-> is device preiperial. So needn't indicate at function name.
-> - maybe later extend to support mem to mem by config becuase adjust burst
-> size for difference alignment or difference bus fabric port to optimaze
-> performance.
-> 
-> Frank
-> 
+further, If passdown NULL for config, it means use previuos config.
+
+>
+> > I think "peripheral" also is reduntant. dmaengine_prep_single() and
+> > dmaengine_prep_sg() should be enough because
+>
+> Then you are missing the basic premises of dmaengine that we have memcpy
+> ops and peripheral dma ops (aka slave) Absence of peripheral always
+> implies that it is memcpy
+
+Okay, it is not big deal. is dmaengine_prep_dma_cyclic() exception? which
+have not "peripheral" or "slave", but it is not for memcpy.
+
+Frank
+>
+> > - dmaengine_prep_dma_cyclic() is actually work with prepiperial FIFO
+> > - some prepierial FIFO work like memory, by use shared memory method, like
+> > PCIe map windows.
+> > - argument: config and dir already passdown information to indicate if it
+> > is device preiperial. So needn't indicate at function name.
+> > - maybe later extend to support mem to mem by config becuase adjust burst
+> > size for difference alignment or difference bus fabric port to optimaze
+> > performance.
 > >
-> > I would like to retain the dmaengine_prep_slave_single() as an API for
-> > users to call and invoke. There are users who configure channel once as
-> > well
+> > Frank
 > >
 > > >
-> > > Additional, prevous two calls requires additional locking to ensure both
-> > > steps complete atomically.
+> > > I would like to retain the dmaengine_prep_slave_single() as an API for
+> > > users to call and invoke. There are users who configure channel once as
+> > > well
 > > >
-> > >     mutex_lock()
-> > >     dmaengine_slave_config()
-> > >     dmaengine_prep_slave_single()
-> > >     mutex_unlock()
+> > > >
+> > > > Additional, prevous two calls requires additional locking to ensure both
+> > > > steps complete atomically.
+> > > >
+> > > >     mutex_lock()
+> > > >     dmaengine_slave_config()
+> > > >     dmaengine_prep_slave_single()
+> > > >     mutex_unlock()
+> > > >
+> > > > after new API added, mutex lock can be moved. See patch
+> > > >      nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
+> > > >
+> > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > > ---
+> > > > Frank Li (8):
+> > > >       dmaengine: Add API to combine configuration and preparation (sg and single)
+> > > >       PCI: endpoint: pci-epf-test: use new DMA API to simple code
+> > > >       dmaengine: dw-edma: Use new .device_prep_slave_sg_config() callback
+> > > >       dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
+> > > >       nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
+> > > >       nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
+> > > >       PCI: epf-mhi:Using new API dmaengine_prep_slave_single_config() to simple code.
+> > > >       crypto: atmel: Use dmaengine_prep_slave_single_config() API
+> > > >
+> > > >  drivers/crypto/atmel-aes.c                    | 10 ++---
+> > > >  drivers/dma/dw-edma/dw-edma-core.c            | 38 +++++++++++-----
+> > > >  drivers/nvme/target/pci-epf.c                 | 21 +++------
+> > > >  drivers/pci/endpoint/functions/pci-epf-mhi.c  | 52 +++++++---------------
+> > > >  drivers/pci/endpoint/functions/pci-epf-test.c |  8 +---
+> > > >  include/linux/dmaengine.h                     | 64 ++++++++++++++++++++++++---
+> > > >  6 files changed, 111 insertions(+), 82 deletions(-)
+> > > > ---
+> > > > base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
+> > > > change-id: 20251204-dma_prep_config-654170d245a2
+> > > >
+> > > > Best regards,
+> > > > --
+> > > > Frank Li <Frank.Li@nxp.com>
 > > >
-> > > after new API added, mutex lock can be moved. See patch
-> > >      nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
-> > >
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > > Frank Li (8):
-> > >       dmaengine: Add API to combine configuration and preparation (sg and single)
-> > >       PCI: endpoint: pci-epf-test: use new DMA API to simple code
-> > >       dmaengine: dw-edma: Use new .device_prep_slave_sg_config() callback
-> > >       dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
-> > >       nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
-> > >       nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
-> > >       PCI: epf-mhi:Using new API dmaengine_prep_slave_single_config() to simple code.
-> > >       crypto: atmel: Use dmaengine_prep_slave_single_config() API
-> > >
-> > >  drivers/crypto/atmel-aes.c                    | 10 ++---
-> > >  drivers/dma/dw-edma/dw-edma-core.c            | 38 +++++++++++-----
-> > >  drivers/nvme/target/pci-epf.c                 | 21 +++------
-> > >  drivers/pci/endpoint/functions/pci-epf-mhi.c  | 52 +++++++---------------
-> > >  drivers/pci/endpoint/functions/pci-epf-test.c |  8 +---
-> > >  include/linux/dmaengine.h                     | 64 ++++++++++++++++++++++++---
-> > >  6 files changed, 111 insertions(+), 82 deletions(-)
-> > > ---
-> > > base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
-> > > change-id: 20251204-dma_prep_config-654170d245a2
-> > >
-> > > Best regards,
 > > > --
-> > > Frank Li <Frank.Li@nxp.com>
-> >
-> > --
-> > ~Vinod
-
--- 
-~Vinod
+> > > ~Vinod
+>
+> --
+> ~Vinod
 
