@@ -4,71 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 081D3D5E146
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 12:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46BB4D5E150
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 13:48:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CsgXMl+b5fLImo6rOwQPtIyzxVMp1rnzJtYCNyjVFfc=; b=OnfL7WjKhZ9l073HVvxdrP3FoE
-	4V1iONSSfQhGZKh3LoXuvNm6Ex2QE1HQ1+RbMOvaONBq5UI/lK2INfg3Ey22p60DVTVyhoSLpMiPH
-	Ltmb4smf/setgUe5Yc7LFT+0VW8mmgVIofblK3u7fWx1RHdtBrgjZTITNtCIpfP7qZpHcStAbhJXy
-	FpReyIlX+9JGSmvOzNpmSKsfEjtznHO7EvO9Xortn/MNJ34ixoqJJ+cZJ3kDy6a+dj/I1j3RnWAfm
-	yJ3HChb1qy33jdALX6Gj3LoQOu2y41gzs94fRVqmY1DeZrIaWEH86dG/rslLXuRJAPEFLghtkW+B7
-	W2jbkPwA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Vm7HudL1aqGJfiPkRkarTR7MZeS1NbOn4sFaOu3DkXY=; b=TeujPKNvunYGp72DjXHGlsZIg2
+	YAx6S8jUCeFcNBq1LKzvO4hOKhFmqPA3zrEIIHFzreqcTuA6ABatXFyNobln6m8rzAba/8M+pHPl+
+	+23POD4rgWuklDulnm244OVNFwVVtYiOcXLE/R0kQjjYSvCdAmgETih8V3Lv3Z6qD5QbAzg7qC9cq
+	PreZAbKuwcY1OKzOZN5iHhyQsrAvk8zGSKW8lVqeWRfKW1FpgosFx90HT35mDoZv0ytHGvvf2Z2zR
+	Tzg5nHOxqWJfhql63Jw19xBY38Tf3APQNj/2Nfev2jvgfqT72PgOm5m/J0ZxlKuJOi7CccIp5ke5m
+	LJ31X+8Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVUQl-00000005Clc-2RDh;
-	Tue, 16 Dec 2025 12:45:31 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vVVPP-00000005IHa-0qeU;
+	Tue, 16 Dec 2025 13:48:11 +0000
+Received: from relay4.mymailcheap.com ([137.74.80.156])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVUQe-00000005ClC-1ivX;
-	Tue, 16 Dec 2025 12:45:26 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5039E6053F;
-	Tue, 16 Dec 2025 12:45:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8388FC4CEF1;
-	Tue, 16 Dec 2025 12:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765889123;
-	bh=BB7cuc1NoM/ZjbE9WkcQ3syZOkeMW0I8NGbpaVWvHrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZnoL6OaLXuO+HTBjme5kokBg0mnjS5RwOuZ6J05mjCYsgC+8P5QwHuW5NKH2ESn6J
-	 G3W5VhnMayk+dn5VjLfT5UFuTX93YBBL9G/2FKYLk/kw3iPFRGcDCSZtUBKzRMSV/a
-	 RouZAANdXw1Db478Bn39VjR3zqFC0RYvl5Id7A9t1MT39UIG2Jd87pr3U/+5olFHoC
-	 sbo5M9OnE+as1zxfENAdombBcAwZECL0O0bltvRPFc1jAQuExxy57AQ05hCuQs4JP5
-	 JLaTsl2h5ZXDDzL+jnGJYuCiJB+YdY2g2Siou/HnXT76l2YwUQRT7WyHzz09vv+OZ4
-	 9GDNXf1AYoSfQ==
-Date: Tue, 16 Dec 2025 18:15:19 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH 0/8] dmaengine: Add new API to combine onfiguration and
- descriptor preparation
-Message-ID: <aUFUX0e_h7RGAecz@vaman>
-References: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
+	id 1vVVPM-00000005IHB-40Uz
+	for linux-nvme@lists.infradead.org;
+	Tue, 16 Dec 2025 13:48:10 +0000
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay4.mymailcheap.com (Postfix) with ESMTPS id F16E920057;
+	Tue, 16 Dec 2025 13:48:05 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 53A3A40085;
+	Tue, 16 Dec 2025 13:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1765892885; bh=MJJFPU5l/IkQvxNX9Lq0VP/ykfAP0Eh22OmWK6Qz+T4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=affPBMq4Au3vfK2G3vwYTZGIYEBMc7oUU909vh6pNNIfosmNkmc76vuVkloSPOQx/
+	 vLjIwF9fnWYU6SSAIdLI2LhXxbzXdklgCY1NM/ptG6dSWDkI3f4nmRYvE8lBfPFxZd
+	 MQEULRgfxXMf01dNKiXAS8YQ/KAkW4TU26VtPJCo=
+Received: from [192.168.5.7] (unknown [111.40.58.141])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id E292743ADF;
+	Tue, 16 Dec 2025 13:47:57 +0000 (UTC)
+Message-ID: <84cb474d-c41e-40dd-9a75-704b9ebaaf45@aosc.io>
+Date: Tue, 16 Dec 2025 21:47:48 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-pci: add quirk for Wodposit WPBSNM8-256GTP to
+ disable secondary temp thresholds
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Wu Haotian <rigoligo03@gmail.com>,
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>,
+ stable@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
+References: <20251208132340.1317531-1-ilikara@aosc.io>
+ <aUAqGO7GXRrTk4Vq@kbusch-mbp>
+From: Ilikara Zheng <ilikara@aosc.io>
+In-Reply-To: <aUAqGO7GXRrTk4Vq@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Rspamd-Queue-Id: 53A3A40085
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-0.46 / 10.00];
+	BAYES_HAM(-0.36)[76.71%];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,aosc.io,kernel.dk,lst.de,grimberg.me,lists.infradead.org];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[]
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251216_054809_175428_72810529 
+X-CRM114-Status: GOOD (  11.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,76 +101,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 08-12-25, 12:09, Frank Li wrote:
+Hi Keith,
 
-Spell check on subject please :-)
+On 12/15/2025 11:32 PM, Keith Busch wrote:
+> I'm not finding vendor 1FA0 registered on the public pci-ids, nor in the
+> pcisig.com members list.
 
-> Previously, configuration and preparation required two separate calls. This
-> works well when configuration is done only once during initialization.
-> 
-> However, in cases where the burst length or source/destination address must
-> be adjusted for each transfer, calling two functions is verbose.
-> 
-> 	if (dmaengine_slave_config(chan, &sconf)) {
-> 		dev_err(dev, "DMA slave config fail\n");
-> 		return -EIO;
-> 	}
-> 
-> 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags);
-> 
-> After new API added
-> 
-> 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags, &sconf);
+When I run command lspci -vvnnk, I got outputs below:
 
-Nak, we cant change the API like this.
-I agree that you can add a new way to call dmaengine_slave_config() and
-dmaengine_prep_slave_single() together.
-maybe dmaengine_prep_config_perip_single() (yes we can go away with slave, but
-cant drop it, as absence means something else entire).
+     01:00.0 Non-Volatile memory controller [0108]: Device [1fa0:2283] 
+(prog-if 02 [NVM Express])
+             Subsystem: Device [1fa0:2283]
+             Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- 
+ParErr- Stepping- SERR- FastB2B- DisINTx+
+             Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast 
+ >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+             Latency: 0
+             Interrupt: pin A routed to IRQ 37
+             NUMA node: 0
+             Region 0: Memory at 40110000 (64-bit, non-prefetchable) 
+[size=16K]
+             Expansion ROM at 40000000 [disabled] [size=64K]
+             Capabilities: <access denied>
+             Kernel driver in use: nvme
 
-I would like to retain the dmaengine_prep_slave_single() as an API for
-users to call and invoke. There are users who configure channel once as
-well
+ > I just want to make sure the identifier is officially registered.
 
-> 
-> Additional, prevous two calls requires additional locking to ensure both
-> steps complete atomically.
-> 
->     mutex_lock()
->     dmaengine_slave_config()
->     dmaengine_prep_slave_single()
->     mutex_unlock()
-> 
-> after new API added, mutex lock can be moved. See patch
->      nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Frank Li (8):
->       dmaengine: Add API to combine configuration and preparation (sg and single)
->       PCI: endpoint: pci-epf-test: use new DMA API to simple code
->       dmaengine: dw-edma: Use new .device_prep_slave_sg_config() callback
->       dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
->       nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
->       nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
->       PCI: epf-mhi:Using new API dmaengine_prep_slave_single_config() to simple code.
->       crypto: atmel: Use dmaengine_prep_slave_single_config() API
-> 
->  drivers/crypto/atmel-aes.c                    | 10 ++---
->  drivers/dma/dw-edma/dw-edma-core.c            | 38 +++++++++++-----
->  drivers/nvme/target/pci-epf.c                 | 21 +++------
->  drivers/pci/endpoint/functions/pci-epf-mhi.c  | 52 +++++++---------------
->  drivers/pci/endpoint/functions/pci-epf-test.c |  8 +---
->  include/linux/dmaengine.h                     | 64 ++++++++++++++++++++++++---
->  6 files changed, 111 insertions(+), 82 deletions(-)
-> ---
-> base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
-> change-id: 20251204-dma_prep_config-654170d245a2
-> 
-> Best regards,
-> --
-> Frank Li <Frank.Li@nxp.com>
-
--- 
-~Vinod
+I have no idea why they didn't use their PCI Vendor ID, see 
+https://pcisig.com/membership/member-companies where they used a 
+different Vendor ID (0x2094).
 
