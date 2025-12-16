@@ -4,86 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DD7C9D5B161
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 03:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 081D3D5E146
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 12:45:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mYkM7ChDobuz6+UKi1Gzhfiq4lvRZrzGNb6NVDjbMWs=; b=0Algu4VgTJD4hQX1i8ammgDO+W
-	JWQ3wBEK0Af9GYOzOuoNFvWhIgF3w1RvBn+sVt9mdn0jvhJYLJTArF0SKhRtdXp2gLzOjkdFrSBWS
-	EfmN6Wlh2p4q0fpGGymDbGzL8mOrGE2JI80cf7hQxZ8wzTI1tjWoESbh+hC1FIyBFPFMJOMUSubGH
-	pqdmjBPnPvECGvxF9v+bZOu4OhsGy0qXLweO1+AwjCxzwI7m09PisfctmfvN95hLZK6xIxkE4vt5S
-	Cn+mYT2rxsy+jG6u4XnOxdTFeBuabFz0qpykJczOjRnfYau1plCKphEPNXt02aOsEHqcR+exGw9sg
-	CnyF0dyw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=CsgXMl+b5fLImo6rOwQPtIyzxVMp1rnzJtYCNyjVFfc=; b=OnfL7WjKhZ9l073HVvxdrP3FoE
+	4V1iONSSfQhGZKh3LoXuvNm6Ex2QE1HQ1+RbMOvaONBq5UI/lK2INfg3Ey22p60DVTVyhoSLpMiPH
+	Ltmb4smf/setgUe5Yc7LFT+0VW8mmgVIofblK3u7fWx1RHdtBrgjZTITNtCIpfP7qZpHcStAbhJXy
+	FpReyIlX+9JGSmvOzNpmSKsfEjtznHO7EvO9Xortn/MNJ34ixoqJJ+cZJ3kDy6a+dj/I1j3RnWAfm
+	yJ3HChb1qy33jdALX6Gj3LoQOu2y41gzs94fRVqmY1DeZrIaWEH86dG/rslLXuRJAPEFLghtkW+B7
+	W2jbkPwA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVLmq-00000004d4X-1B0o;
-	Tue, 16 Dec 2025 03:31:44 +0000
-Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36])
+	id 1vVUQl-00000005Clc-2RDh;
+	Tue, 16 Dec 2025 12:45:31 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVLmm-00000004d4B-2Ycg
-	for linux-nvme@lists.infradead.org;
-	Tue, 16 Dec 2025 03:31:41 +0000
-Received: by mail-vs1-xe36.google.com with SMTP id ada2fe7eead31-5dfa9bfa9c7so3027611137.1
-        for <linux-nvme@lists.infradead.org>; Mon, 15 Dec 2025 19:31:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1765855899; x=1766460699; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mYkM7ChDobuz6+UKi1Gzhfiq4lvRZrzGNb6NVDjbMWs=;
-        b=NgBW8CjLbR/9IoA4XOgefYOFY7Wev7Xc/nK+jJmJPSmihe84wZTgbOuEKMkKHN10Az
-         j/C2e4oIBmdp+GAgByrdFLYj3KLtG7yRZEZlIRZ3zl+yRRlCgN9LDR2h5K6iLbbmP19G
-         FFkLGrbrGrYK8zkf5JgKb9VAWrO+DvfzuY75hsV2Lr4lnJR64EtyNh3g3DdHWav6lvur
-         398HXFCS3YmuouNbt8ikvTLQaNcVjKawNF04X02SN9+1fVQTvjUEttOvlFdvAWYwuAfc
-         TWNaL9doTM2r1b+Gt0189WJBmaGDxPxMVxQ+pVx/JxMt3PgpV3oWMV/uSrjSBScn8Ya6
-         FgbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765855899; x=1766460699;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mYkM7ChDobuz6+UKi1Gzhfiq4lvRZrzGNb6NVDjbMWs=;
-        b=wzvllHy5FENveVabRGE3DzgOaMbohKEt2fbrz6zE+KbziShFKSF/Y7HEwTT0ZNcCjj
-         XQofVqBGCIIz/2nbd2QIEIjaM7neF/mTXCHYohoTRmGsQpsPjlrTvLquX869U1m1aInk
-         UiFMwdF4/RoFv6oGwlw8FszMEdr1K9PFHAe6pMX1Ddd+nneWmZdrBTqyvbcleLgfhGI0
-         HdqCKtvlGBcBytbPZzccFVKs4DWOFg4FPn1DKa2KkEc8Op6M6N9ZvZb/+fxqHoqFdsNB
-         rFQnrYUvbprrvsDDct4QKHWJR84bOABF4oGGdNSAQhDgg5W7nXmxwYmDvS8sVFIlFiSW
-         NzBA==
-X-Forwarded-Encrypted: i=1; AJvYcCVv3S2iFgaAay2wLEuwzKSzchKKsq6LlXdpzJHxUrvgh0W4YJM3JNTHzsG1pTXjkRWN6TRwj6fwU4PC@lists.infradead.org
-X-Gm-Message-State: AOJu0YxYBxgLPG5hrof9XvgGdZBC7vH7q6zNHEQujQXoRCax5IHgwNGu
-	ecDZzYs2WroKaCQOXhpYuE7hZAzd0TaCyg6TMbcqosVBu4wa5EPF6wwqP4Qk7vrQwJO3SBOQirG
-	/dcwX9gdDESI7R2AsiT0p9p+sEbfEOb2w4n9+yahWfA==
-X-Gm-Gg: AY/fxX7i3MJnn700pS2DLxoM9hKQOK8G2MjKl78DbxpGHm0DqFu0CQ7qZdVdzYFZdW4
-	wOL+pqKAbV0oOwQUBHHjbGkeLaXtbMHBgAc0L1XfH2izXr1pifA258NAkOMwm8WVUEzvrje4/3z
-	oS5w69lo9zENJFrfCINbfTElMrvkZhXxK6KMoJaRQRnZ1AFjW/leYdeF1cMktlTntfRv8g3pwOK
-	BXnKI4f/f5VeHi3A2u+Zj1x1gm4wjN62a6r9ngWY9MrK+1n2chaNObK+vmPr/2+17ZGK9k=
-X-Google-Smtp-Source: AGHT+IHaalmn78dhTh86kqWml+wV89K5l2y8egDLEJIgBEFuXKNAkSLcy8KhEA1IbMVsqB4/oIS8kfJsRIeoQnfER7w=
-X-Received: by 2002:a05:6102:5111:b0:5db:d2b7:9518 with SMTP id
- ada2fe7eead31-5e8277e7185mr5328816137.34.1765855899409; Mon, 15 Dec 2025
- 19:31:39 -0800 (PST)
+	id 1vVUQe-00000005ClC-1ivX;
+	Tue, 16 Dec 2025 12:45:26 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5039E6053F;
+	Tue, 16 Dec 2025 12:45:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8388FC4CEF1;
+	Tue, 16 Dec 2025 12:45:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765889123;
+	bh=BB7cuc1NoM/ZjbE9WkcQ3syZOkeMW0I8NGbpaVWvHrA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZnoL6OaLXuO+HTBjme5kokBg0mnjS5RwOuZ6J05mjCYsgC+8P5QwHuW5NKH2ESn6J
+	 G3W5VhnMayk+dn5VjLfT5UFuTX93YBBL9G/2FKYLk/kw3iPFRGcDCSZtUBKzRMSV/a
+	 RouZAANdXw1Db478Bn39VjR3zqFC0RYvl5Id7A9t1MT39UIG2Jd87pr3U/+5olFHoC
+	 sbo5M9OnE+as1zxfENAdombBcAwZECL0O0bltvRPFc1jAQuExxy57AQ05hCuQs4JP5
+	 JLaTsl2h5ZXDDzL+jnGJYuCiJB+YdY2g2Siou/HnXT76l2YwUQRT7WyHzz09vv+OZ4
+	 9GDNXf1AYoSfQ==
+Date: Tue, 16 Dec 2025 18:15:19 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev
+Subject: Re: [PATCH 0/8] dmaengine: Add new API to combine onfiguration and
+ descriptor preparation
+Message-ID: <aUFUX0e_h7RGAecz@vaman>
+References: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
 MIME-Version: 1.0
-References: <20251126021250.2583630-1-mkhalfella@purestorage.com> <20251126021250.2583630-6-mkhalfella@purestorage.com>
-In-Reply-To: <20251126021250.2583630-6-mkhalfella@purestorage.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Mon, 15 Dec 2025 19:31:27 -0800
-X-Gm-Features: AQt7F2pfORgH-XA59Y41UMye1zb8yk-Sw9SEhBPzAfAd4yIGxXInCYCaA6Cnj1I
-Message-ID: <CAPpK+O3Rrb2Lk8B12VMUydcvOYCPYdK07Sn9DoBKQ6w3pXOJ8w@mail.gmail.com>
-Subject: Re: [RFC PATCH 05/14] nvmet: Send an AEN on CCR completion
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Aaron Dailey <adailey@purestorage.com>, John Meneghini <jmeneghi@redhat.com>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251215_193140_646962_93B84482 
-X-CRM114-Status: UNSURE (   7.82  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,14 +83,76 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 25, 2025 at 6:13=E2=80=AFPM Mohamed Khalfella
-<mkhalfella@purestorage.com> wrote:
->
-> Send an AEN to initiator when impacted controller exists. The
-> notification points to CCR log page that initiator can read to check
-> which CCR operation completed.
->
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+On 08-12-25, 12:09, Frank Li wrote:
 
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
+Spell check on subject please :-)
+
+> Previously, configuration and preparation required two separate calls. This
+> works well when configuration is done only once during initialization.
+> 
+> However, in cases where the burst length or source/destination address must
+> be adjusted for each transfer, calling two functions is verbose.
+> 
+> 	if (dmaengine_slave_config(chan, &sconf)) {
+> 		dev_err(dev, "DMA slave config fail\n");
+> 		return -EIO;
+> 	}
+> 
+> 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags);
+> 
+> After new API added
+> 
+> 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags, &sconf);
+
+Nak, we cant change the API like this.
+I agree that you can add a new way to call dmaengine_slave_config() and
+dmaengine_prep_slave_single() together.
+maybe dmaengine_prep_config_perip_single() (yes we can go away with slave, but
+cant drop it, as absence means something else entire).
+
+I would like to retain the dmaengine_prep_slave_single() as an API for
+users to call and invoke. There are users who configure channel once as
+well
+
+> 
+> Additional, prevous two calls requires additional locking to ensure both
+> steps complete atomically.
+> 
+>     mutex_lock()
+>     dmaengine_slave_config()
+>     dmaengine_prep_slave_single()
+>     mutex_unlock()
+> 
+> after new API added, mutex lock can be moved. See patch
+>      nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Frank Li (8):
+>       dmaengine: Add API to combine configuration and preparation (sg and single)
+>       PCI: endpoint: pci-epf-test: use new DMA API to simple code
+>       dmaengine: dw-edma: Use new .device_prep_slave_sg_config() callback
+>       dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
+>       nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
+>       nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
+>       PCI: epf-mhi:Using new API dmaengine_prep_slave_single_config() to simple code.
+>       crypto: atmel: Use dmaengine_prep_slave_single_config() API
+> 
+>  drivers/crypto/atmel-aes.c                    | 10 ++---
+>  drivers/dma/dw-edma/dw-edma-core.c            | 38 +++++++++++-----
+>  drivers/nvme/target/pci-epf.c                 | 21 +++------
+>  drivers/pci/endpoint/functions/pci-epf-mhi.c  | 52 +++++++---------------
+>  drivers/pci/endpoint/functions/pci-epf-test.c |  8 +---
+>  include/linux/dmaengine.h                     | 64 ++++++++++++++++++++++++---
+>  6 files changed, 111 insertions(+), 82 deletions(-)
+> ---
+> base-commit: bc04acf4aeca588496124a6cf54bfce3db327039
+> change-id: 20251204-dma_prep_config-654170d245a2
+> 
+> Best regards,
+> --
+> Frank Li <Frank.Li@nxp.com>
+
+-- 
+~Vinod
 
