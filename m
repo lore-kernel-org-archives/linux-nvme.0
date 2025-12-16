@@ -4,86 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6CF3D5C0C0
-	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 03:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8EDC6D5C0C0
+	for <linux-nvme@archiver.kernel.org>; Tue, 16 Dec 2025 03:30:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yjG2lX7n7wOSZfD8CTEfqlnriLEqiqwwz+HBAZVFE5Q=; b=MH4galHIB3xs0kolnD61YoOKJn
-	tP/IcGnKY8TJlnoQd6UaKa+mHB6Ra3nwbNe5ofWueIbLnrGFNVeOlk3ZnrgxaWgYX+uAJvIHxSzoM
-	8u+x8g23tUsSzqvN3i0zy/raGAMPw3wozXCRgQ8yftMCMOFJ1ffLMjr6UT/MelN4GHJKMGuMDCJ8N
-	mfVbHmop8/GIYKR4mZg2BtxWC2UgcXhlZNZdeChjJMCiYM9DaEsl431Ai312kOmbCbFlHMdQYnySz
-	qOEr86AzGtqfSgIbkr72FIKgi4ScMKOYI0AcJ5AIrZTWSLlpGjrz0h5eYy45fnKsrW11ie0YRExkW
-	ez6jOyUw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=s7KiqxoW7OuDvSS5G5yRhDEwx5kawPqlO3S3lfywhww=; b=aNLQFgTE6XlFQuGi43mf+bxurU
+	cI8TN6rd1kY94J7m8L8cmG2o9j+dsN+Cy/udzlpto/UqJvcnJoRa/FGnrjfCllQwlvUmaLTltmJ+h
+	OrHx34yjnfyOxef/VwYVVc2fLMFQWqv2zOulwGPu/ME/F8mjJE54H5MQiySViIa/HMwbowxbvj9Ih
+	vU6sMveccD6gDS1MFESh2mS7LrP+BTz+ti0RzxHfnVVySie7tSW5nlap+taVCfQkM9RgYCn6jLVdd
+	09U0ZejPefZiLo/Cewm9NxQXQxdw7Al61bGMxgjAl694BTR9ej9oFq/NP72tHgCVgHaerBegD4IHO
+	UbRvKqtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVLTl-00000004bxF-0bor;
-	Tue, 16 Dec 2025 03:12:01 +0000
-Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
+	id 1vVLl7-00000004cvi-2koX;
+	Tue, 16 Dec 2025 03:29:57 +0000
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVLTh-00000004bwp-0Hkj
+	id 1vVLl5-00000004cuu-1gDY
 	for linux-nvme@lists.infradead.org;
-	Tue, 16 Dec 2025 03:11:59 +0000
-Received: by mail-vs1-xe2c.google.com with SMTP id ada2fe7eead31-5dfa9c01c54so2794084137.0
-        for <linux-nvme@lists.infradead.org>; Mon, 15 Dec 2025 19:11:56 -0800 (PST)
+	Tue, 16 Dec 2025 03:29:56 +0000
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-2a09d981507so18436745ad.1
+        for <linux-nvme@lists.infradead.org>; Mon, 15 Dec 2025 19:29:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1765854715; x=1766459515; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yjG2lX7n7wOSZfD8CTEfqlnriLEqiqwwz+HBAZVFE5Q=;
-        b=HhfEDeOFiI5N1wGnwbYh/lrVjeuHaySRVu3wnL9ZJnrq7NlhYyqBObHtr9jOvhrbkr
-         6d3E9gXucNdYua9wCgLQ4hbrEvJe2ve9bVliaCMWpOxOzZoiGipEAQ4myC3VQBEzGpKK
-         coiZ0PNTmFQHKorfczqfzO2weILGHb+6KIBe6iTEt0eV8fKem91BZUmAyk1QCoTHFa1+
-         84mZJJpcP1Nhofb8dd8xlsqUWs9/rB4nhMD1HIyj6Gt7klcNVfNbfxBi3yzqsJIEZTr9
-         TESkzlyXxnwc+MzknBAbtaiu4DlE322q9VJEexx74571eGPOaYdRQrY0oyKS3bGivygg
-         6ZvQ==
+        d=gmail.com; s=20230601; t=1765855794; x=1766460594; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s7KiqxoW7OuDvSS5G5yRhDEwx5kawPqlO3S3lfywhww=;
+        b=FSDWq5Hr5wXWSjTQHIuag/oItTJ/fkig/8uk/t+K+LIvHsQHbi5J4antKIWuivMpHN
+         0wf1XgZe07vrhjCg8HStTEEUdd/pViKUEaRWtk0hlnFlpEymS6lhzMKbKYk4VPv5iqkb
+         Se3T/kvakbdz2/EupFoYb+ImTSE5yOLzI9cIEKdwlmpF2QX16oT7+81RVxiEm48kPt4A
+         pAeP4n9vr6iB/aBW0OjBtbCyeWJEaSJUkH8YNUK86ODuGk8EotGlh1GImQZG5WiqEkgJ
+         04F5nqxhUhfd4efmWYxYz6dUiaWkaRbHz4nnr3yZovPh6h/WZSx07chUT3AXeZSPjxj3
+         3oCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765854716; x=1766459516;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yjG2lX7n7wOSZfD8CTEfqlnriLEqiqwwz+HBAZVFE5Q=;
-        b=mXNkBti+c/aEUJ3v0FRS/+oi7x1GAX2zMII1H3KNe2ILcKeM1DndLhWLNJ7tyxPt1Y
-         ky6KUdl+TUs5bUyJTtW4Q2JTcQCkP4O4v5s3WXmNd6FFD59So0bT9eceBfBtACWZmigP
-         kOURk4RbW0wsFx6j3oEI1fI0UOzecAUZUxs7BYiB+330lGi0NWyzYlu2diDqVkerttbc
-         DCSHTXSgEgUpCndvqoS/NyjoXXzJ9XeDlgv5IDlcULqur6XkKTElzBZ4XTwWqNenXJ0S
-         VnGF901A3ReL7PQWoQWvsuihnzHR1K8dmqGV+oTRul48jxttDUeSBKodrfypRcNF5bnQ
-         FA9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVmIz9EkcOfSEdiyS9ww1XjQ/Q9/twXXZ0wbqMiIE+Xp2IFdD+6qFn0QhI7+cWWBixK4vpLR81zKQia@lists.infradead.org
-X-Gm-Message-State: AOJu0YxDPR3VQvu9WS2VJEz/y4O1YVimkyqg8413bXGN3o5h7Im9u+z/
-	UUVmL+uk5KQVa4r0Po09AN9PcRgZbsV3kkjnbwZkTNSXjZjTziuXEDHthG78JKYSkMesA9zWPqm
-	YJpbw5x8yZzMlF9cDVa2+nvRwf2/IT2YVg51d1TO9qw==
-X-Gm-Gg: AY/fxX6Q2OdvWq4k0kvYJr26hXtYHnHT2/c+v5CeLxCi1o2wedOtLFgz+wxtFUqAPmC
-	gCgwkKzcJl5Fi/LRGMWNwIRVdyPGphON9HnNsIDfUcsNTfAE6yFHnbcJAmRQJLcrM7WZavEqcFb
-	N4KZkD43+RQY97xbfqOBOfROraoYim2Bghh9EzCwGSKsxhXQRUhrziEuUfK59/aZM9XhsmX7dbu
-	bZz6VMWG8VkEQ1SQWwH6zfNZPVNpAmjwRr2U6pOwx+g57Gsg9LxfOnU2/QeSiL7ANCAZug=
-X-Google-Smtp-Source: AGHT+IEiWXPvoqHbZ/a5BNEZi8tWeKrWGWn5ltal3AQZ2rEKT3QMFjqqU7xw/OEuBhmZqyDroRNoJrdVMItRo4N12QM=
-X-Received: by 2002:a05:6102:330a:b0:5db:cf38:f506 with SMTP id
- ada2fe7eead31-5e8277d5685mr4651508137.23.1765854715657; Mon, 15 Dec 2025
- 19:11:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765855794; x=1766460594;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s7KiqxoW7OuDvSS5G5yRhDEwx5kawPqlO3S3lfywhww=;
+        b=gEhzasWHvU0aW0XXufLsCzUjKRF9dgBIBR7U13rGUNK4YtXe0XSjvZw87plToIUTpN
+         2cBFD9cTvp41dhXaY6oD+NJZmOL/DwGqImV3hRoXhajprXM+Eum1AeAlCFan5sZdubzv
+         1DkjIClxDd2YMBTZ4AyoEaq/sb87BfHJ40DI//ZJ88JdXXcmQVYpMchTowJJQU53poDn
+         2ullLb8/CPEwbjjGHtpdcQujPhrQLfrGoH5wfFGEZtyt9y+4Pt61UgzWt4+vmEo5SJql
+         /qQ9OOjf0A38sEUN8s+6ihm/mny/8HtwakTwnlqYjfQc3lHOy0UBhB/dt6glTkicTSGm
+         3U2Q==
+X-Gm-Message-State: AOJu0YxLexkX4e4VD+vp2qNKMeIZ9TYfTofsh21B8R1QZ4Puq+b0AoFi
+	NYmb4iS4sqQ4QYbRXxSgPSyGoH4335i3CqpuQGS+T7Tfjl+GcPV5iNB9
+X-Gm-Gg: AY/fxX5VR5wjCffJdU4aC/4Cv7qMqVVqwOO/GIowyRrzSbGqM6gj/arM2FRXqsHZ4RU
+	Q7t/TMIHYGimQjTCGwi+kDPNwoF951EbUi0OwTwew7dVI+OhfM1DP/eX436ml1VvXbX1KoFwnB3
+	A1O958P8eLhhSA+W1KNYGkOtmKn3LFt2pCdjo0pIeeWZCjzcJ5fvR7yxjJ4t95ECKzKxHk5stw4
+	HlcTMqCGF7KNeBJqXk17wIHSCnsR/oSvWf/3vaQ5UawB1LYehHt4hHeepkAniUOmJACTulntwGa
+	XkMCdQK/tRZCM/AHE6JOOzLMlmkhN/x0cLZo4o60+ce5oSySJmROm5/GgZiQIu7v0vmPe3cvlJy
+	hNvQZeq5odiH/cBFsUxIZhWSg+b2URQsExqi6ySbvU/BeXYYDjRvu4pjxNIGpiYoxKsQbusV6OG
+	n/uHT7d6zFJYp4/r4B
+X-Google-Smtp-Source: AGHT+IG35pM8GkbEHWoRnO4S4k3ksgy2LntJzB1Jl7litUALtsKTKhoxceaVdhVWG57+Pb4Es//ydg==
+X-Received: by 2002:a17:902:da92:b0:295:28a4:f0c6 with SMTP id d9443c01a7336-29f24800550mr145716255ad.0.1765855793945;
+        Mon, 15 Dec 2025 19:29:53 -0800 (PST)
+Received: from zenbook ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea04b7bdsm145290875ad.85.2025.12.15.19.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 19:29:53 -0800 (PST)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: James Smart <james.smart@broadcom.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH 1/2] nvmem/core: fixup minor typo
+Date: Tue, 16 Dec 2025 13:29:31 +1000
+Message-ID: <20251216032931.1305349-2-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-References: <20251126021250.2583630-1-mkhalfella@purestorage.com> <20251126021250.2583630-5-mkhalfella@purestorage.com>
-In-Reply-To: <20251126021250.2583630-5-mkhalfella@purestorage.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Mon, 15 Dec 2025 19:11:43 -0800
-X-Gm-Features: AQt7F2rXpdFj9mHVe4mlG63Z53WvOvhHvnqbczcj0jpc1JD-mkd5fGvcrE0acdQ
-Message-ID: <CAPpK+O09NHye50m4prAGOJeKUBabAqsFJLikbPi7LOSHi5o1EQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 04/14] nvmet: Implement CCR logpage
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Aaron Dailey <adailey@purestorage.com>, John Meneghini <jmeneghi@redhat.com>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251215_191157_113413_A46121F4 
-X-CRM114-Status: UNSURE (   6.85  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251215_192955_483992_6AF41045 
+X-CRM114-Status: GOOD (  13.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,14 +101,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 25, 2025 at 6:13=E2=80=AFPM Mohamed Khalfella
-<mkhalfella@purestorage.com> wrote:
->
-> Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
-> Reset) log page contains an entry for each CCR request submitted to
-> source controller. Implement CCR logpage for nvme linux target.
->
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+ drivers/nvmem/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 980123fb4dde..d90ffd0e4085 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -1224,7 +1224,7 @@ static void devm_nvmem_device_release(struct device *dev, void *res)
+ }
+ 
+ /**
+- * devm_nvmem_device_put() - put alredy got nvmem device
++ * devm_nvmem_device_put() - put already got nvmem device
+  *
+  * @dev: Device that uses the nvmem device.
+  * @nvmem: pointer to nvmem device allocated by devm_nvmem_cell_get(),
+@@ -1242,7 +1242,7 @@ void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem)
+ EXPORT_SYMBOL_GPL(devm_nvmem_device_put);
+ 
+ /**
+- * nvmem_device_put() - put alredy got nvmem device
++ * nvmem_device_put() - put already got nvmem device
+  *
+  * @nvmem: pointer to nvmem device that needs to be released.
+  */
+-- 
+2.52.0
+
 
