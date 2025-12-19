@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31B26D767CB
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 10:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FCEAD767CB
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 10:39:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kjayKuqVLWDIo7A3OJvcFGeeRhpR+qJsPK3CDegnWjk=; b=uIDNOv099v07qPEJAN2oAdV34O
-	5hUJH+JgzofhI15S1vbbvSVS8FLq/EwefVKSh7ui2MqM9LRFtzQHqvvjSnx8UY99oYuyXgaMa817o
-	x6uN9jvwz/m7dkd+2xGZP0Ux1cNTNWLiawS1cmxvNBt8/iWCkuvPlzSa5a4rGJchkp/1XhCZmEhzx
-	56zP3gQ7DaCy7+c6PdRbFFxegbeQC5z4I1To5KJJ9BgaW0DlIT4aZHXe49XryL6ierNh+1ZnC8RlM
-	5Tj4Ofi2fvvsi29iObJbXnYYYwcqXXLfv2yX0/rsXtvBEECP+dhM4rYnIrgUn5A9KPVMijKQLhniy
-	cu2gnJDg==;
+	bh=HZUv6PVQX03BQcCMuDJZjgSOx0iTY7jH1mAWIXCBM/4=; b=hbCNnvThJy2xiDlgbjxDduMa2h
+	6alBXqiNurtXEY3iqc0NVp2IY6xCEo6uSAdvwxhG4CsQ0qUtf9+A6OmUam3Xc7OLS9USlp528zOQC
+	bPtEmtiQBCkCfyx+GRNtLG4PhZyes6MOA6FCJTbnvagy2pG4ztBLqmfwci2z2VMA/Djv4S63oCyiU
+	pKX196n9W8PMowSoaBqhKLus2QH1bujDsIvfx+KRIXokSa7YmEvJZwXqWZ6RANgqCHd1Grb8YQzY7
+	gdO+GlYSSpH3lDY6fqEc8UzGyTJ+qjlERWf+SIh3DSswpgI5jOg/79/AgeyHzP1fPxYurPw23kggD
+	dgwIJERg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWXsE-0000000A7o6-2iaR;
-	Fri, 19 Dec 2025 10:38:14 +0000
+	id 1vWXsy-0000000A8DZ-1bjV;
+	Fri, 19 Dec 2025 10:39:00 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWXsC-0000000A7mC-3hFZ;
-	Fri, 19 Dec 2025 10:38:12 +0000
+	id 1vWXsx-0000000A8CE-0kMZ;
+	Fri, 19 Dec 2025 10:38:59 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3C7E260008;
-	Fri, 19 Dec 2025 10:38:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF531C116B1;
-	Fri, 19 Dec 2025 10:38:08 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 8AC6960052;
+	Fri, 19 Dec 2025 10:38:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A87C4CEF1;
+	Fri, 19 Dec 2025 10:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766140691;
-	bh=TKxHdYDWPMHS6PrRcH0CtD5eVxCTGhtjbjlyqik0m/o=;
+	s=k20201202; t=1766140738;
+	bh=JojbryuXzuZwBViUbKuSYpD99u7Ev05B8Sqdbjq3JeA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=E1fDJI5JmYCCrnC3Xi03l3Q/ACQw/BfazpJ2GrSaVBNYE1cxHPCne/bMKl6nRjQCE
-	 BjlcE+Zj/3/p6G6izv1O0fbpSDHB+WUyZMHxi4uvr6UvZpzPY38mnUbffSAzWsUNg4
-	 6RJ4OTerbo7WCvZUwsncP7NuxFyc2gLAsEU4+fcGHjlwfsfQ4ggN1T7nIRn5DALMmT
-	 cn2KCeJ6y3NJGbqjngYwSwDKIpouXL9u/OavqvqM8/f2gGeQAA14yPlCN3rY0lsrAu
-	 GyPDm5PMwLDio+dRAalT1cEMVpLQSMHIVN6sUW4pxp79UT3/hzW+Xj7xpE+9ygtjA8
-	 mIWWZ/t+CRV5g==
-Message-ID: <bff84f52-a23c-4a76-977b-9deb2306b154@kernel.org>
-Date: Fri, 19 Dec 2025 19:38:07 +0900
+	b=RTyqXLh+pnMEDRL7QCn4ZVL5I48+KSFBkbfWLELWPIeGp5NlOGtMixn93HSyIUib1
+	 VsXEFv6pp43x4ac+Ik1lR16wRZoTgERZyNybDBDrEdsksBKON8ZwHK+UjmvsqQ25Up
+	 NicNvwtPw0uXTVVnF0tvXLWxU5N3EIikmt2XlOs9WCGgKeBy8C+XM1a4f21WmaW1HL
+	 kzCa3N6gEjcuqriwV5jf2V1IrftSL6eodz2qshTNJlzsNkvBQ5/UsbP/PLEv2/8tA7
+	 EOzMcZBtd8f5GjqLWa87NigJQdEnNa79jA6TIcgqP3qKIinOEECXzZvvyhNjrmtPrq
+	 cgX4J/3C22GhA==
+Message-ID: <8d4ae6b3-096a-4e12-8fa8-abaad2e953ad@kernel.org>
+Date: Fri, 19 Dec 2025 19:38:53 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/8] dmaengine: dw-edma: Pass dma_slave_config to
- dw_edma_device_transfer()
+Subject: Re: [PATCH v2 5/8] nvmet: pci-epf: Remove unnecessary
+ dmaengine_terminate_sync() on each DMA transfer
 To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
  Manivannan Sadhasivam <mani@kernel.org>,
  =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
@@ -65,11 +65,11 @@ Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  imx@lists.linux.dev
 References: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
- <20251218-dma_prep_config-v2-4-c07079836128@nxp.com>
+ <20251218-dma_prep_config-v2-5-c07079836128@nxp.com>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20251218-dma_prep_config-v2-4-c07079836128@nxp.com>
+In-Reply-To: <20251218-dma_prep_config-v2-5-c07079836128@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -87,50 +87,19 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 12/19/25 00:56, Frank Li wrote:
-> Pass dma_slave_config to dw_edma_device_transfer() to support atomic
-> configuration and descriptor preparation when a non-NULL config is
-> provided to device_prep_config_sg().
+> dmaengine_terminate_sync() cancels all pending requests. Calling it for
+> every DMA transfer is unnecessary and counterproductive. This function is
+> generally intended for cleanup paths such as module removal, device close,
+> or unbind operations.
+> 
+> Remove the redundant calls for success path and keep it only at error path.
 > 
 > Tested-by: Niklas Cassel <cassel@kernel.org>
 > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  drivers/dma/dw-edma/dw-edma-core.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> index e005b7bdaee156a3f4573b4734f50e3e47553dd2..1863254bf61eb892cb0cf8934e53b40d32027dfa 100644
-> --- a/drivers/dma/dw-edma/dw-edma-core.c
-> +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> @@ -230,6 +230,15 @@ static int dw_edma_device_config(struct dma_chan *dchan,
->  	return 0;
->  }
->  
-> +static struct dma_slave_config *
-> +dw_edma_device_get_config(struct dma_chan *dchan,
-> +			  struct dma_slave_config *config)
-> +{
-> +	struct dw_edma_chan *chan = dchan2dw_edma_chan(dchan);
-> +
-> +	return config ? config : &chan->config;
-> +}
 
-I would rewrite this as:
+Looks good.
 
-static struct dma_slave_config *
-dw_edma_device_get_config(struct dma_chan *dchan,
-			  struct dma_slave_config *config)
-{
-	struct dw_edma_chan *chan;
-
-	if (config)
-		return config;
-
-	chan = dchan2dw_edma_chan(dchan);
-
-	return &chan->config;
-}
-
-That avoids the call to dchan2dw_edma_chan() if config is specified.
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
 -- 
 Damien Le Moal
