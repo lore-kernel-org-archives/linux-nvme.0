@@ -4,75 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD6B7D711D3
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 01:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2428D711D5
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 01:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fFUFgiXfv6GbfxBhT/hrLBb+Ak9ukfn2i8tdw0T34GM=; b=aL6xe8vb0y/f+gOHqZRiAJJAMC
-	bROZzYabv1557O6z0YbDVLmT/7oeoTj8kgvGT/jNssKxc2r3W+/wTluN//mnNs+TQJTLP1oDbaUqT
-	iBa1JqBjEm6iRS1lWG2Cc6+8lPz5UsXgfod96Jam6++p1wODyRZYcfP7MVKwZPFFqrMzkon1yOduG
-	BUfa6Z1sjEHzX9TRZvIv9GolGUFrVl7Ud/Nys82+JnawGeK8WpJOoHaT1CCShQKBKUDrNSNMNGOGY
-	BVo+NdkX2rxGvksO8S3+5nTvWlm+NVRSo8qIu0SZhHpFubimhctsutvFbNQ/mjR3DJsI/NfR3p+h7
-	VZ3CacEw==;
+	bh=NFKWjCEKYgPRBt5jR8fhc9vEzWDxbCeMyrMZ7xG0Qao=; b=nYTRGMgm3dg1kcc2/0GlwhLW6S
+	iBmhq72y765y3xqlEN1f1d6JY4TglZL5seHo9KBnDldRLEGQJflw5TDmGaagQTqD6TCGKlvHplDu9
+	Ok6boiIRaz9NUlylQb/LqTWUC4kEHVo0fzKOKJ31/XZyUifLxlzCE2SsK5b1cyNA6AQqwQtGTiC2E
+	xNy7zO0g4GmthSae0ilQ3n6rLI4Exa4qVITJn+SE9F3T6OwWU3OjygfJ6L/gqClquf1iCs9wKj++j
+	LY9JeWB/e50nIphQ1tfG6sK1McAvecGbFUavOKWhbhRFOA2usjwGegCsbwypsyh6v4oavDUiitFik
+	ADtHgqVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWPBq-00000009QWw-2Q67;
-	Fri, 19 Dec 2025 01:21:54 +0000
-Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932])
+	id 1vWPKx-00000009RBy-2TaD;
+	Fri, 19 Dec 2025 01:31:19 +0000
+Received: from mail-ua1-x933.google.com ([2607:f8b0:4864:20::933])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWPBn-00000009QWO-06fU
+	id 1vWPKv-00000009RBU-2tC5
 	for linux-nvme@lists.infradead.org;
-	Fri, 19 Dec 2025 01:21:52 +0000
-Received: by mail-ua1-x932.google.com with SMTP id a1e0cc1a2514c-93f500ee7b8so675295241.3
-        for <linux-nvme@lists.infradead.org>; Thu, 18 Dec 2025 17:21:50 -0800 (PST)
+	Fri, 19 Dec 2025 01:31:18 +0000
+Received: by mail-ua1-x933.google.com with SMTP id a1e0cc1a2514c-93723104137so369706241.3
+        for <linux-nvme@lists.infradead.org>; Thu, 18 Dec 2025 17:31:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1766107309; x=1766712109; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1766107876; x=1766712676; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fFUFgiXfv6GbfxBhT/hrLBb+Ak9ukfn2i8tdw0T34GM=;
-        b=c4dmXkwIUNritby+pmFP0QwmbQLw7KVED7DJ7+2UDVOQHnMr0+CC8mQDUV09gp5NvE
-         uU5ZRAFt/CG3uOkEiSgEyznJ2wiMyIdefy/4lZLV9n8XtINBHaf5vd2nEe1IiOhoPpSE
-         nHN5tECAVKOz9dBLrcFDBAOGkbp8ohhWOsGxx7TCddk/R40eia1MgjCcqNtom7eWxC1J
-         ikQelf4+Rr7z4guBzlQVd8pGzywAp+BMN7n2X0mPM5HEEwK+IvuUIiT2RhjXC8JQ4JN3
-         okN5XYTjYk5T7XIrr89iCJWA8c+tBPtCMufI3JrCY7xvQgNM8uDqOhOgAcpIkqSmettA
-         hgSA==
+        bh=NFKWjCEKYgPRBt5jR8fhc9vEzWDxbCeMyrMZ7xG0Qao=;
+        b=aFJHoPlwg1vRqwHd7H0T+HPMkF4Cz873Shh4NMZYZIGDskVS9KTjTiNl/lcd8aUrRh
+         yOhBBZU6U2QqTSzm4gWYGdqELDOFMKtR3bT1LhPswnh1M5rEYkHWtEVjycZbKa8gv4AO
+         dVMtkTIcgoel6Z+gaiYzq4b7ltZ47DHQOpQjUCjo41jl2WhY1yygNVT85qrqp85rDY1n
+         OptkB3lGx+yHMuiiJxzNuVanjH1QLzM/WV0yDOqUOwk6/NaArpD60+wxffkXBTMcwobl
+         gZsnmwZoK6OnxSTVXRmLh2MPwqq3gY/7h+t6NTJmIM65Sh5k9wroXqC+JDl9KaOr3TZX
+         mj/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766107309; x=1766712109;
+        d=1e100.net; s=20230601; t=1766107876; x=1766712676;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fFUFgiXfv6GbfxBhT/hrLBb+Ak9ukfn2i8tdw0T34GM=;
-        b=Cezyx8hEvsOFPV5raiK4uOgSgqLdlOsfm5w0S0RB9896+LUm+HtS4caitXmN2hZ/7g
-         DHKHgi1Iidea4b8GmqrryhRXr1Ex6xiNpY1kcetE3h8igHF+v3yILNbdbyp8PJExYzWH
-         iwrHtt2iQDgPiEyUvlUAzMmuotVsfLfva/OYSGraUQVnVFf6QFcCGxmOS9us6JHQg7I3
-         Ho/Esk1iW0zxQZYul5jbSIooL2XEad+nxqDgzZXA9XLdv0fq0SNUVueXT8MpnGAyBuIl
-         GxswJ0UjUvswltQSAmU1N6TudtyGiZbCKnFLPraltC34q/7UU+aeHNI/oxZx7JmyzDAX
-         OK9A==
-X-Forwarded-Encrypted: i=1; AJvYcCVDH9550Mi3wI1v94BVWHWe+TIm/sxVGuzSGVaJ+3GBzZYRWFAJDDXBJRocFaPrI+AyJLHuKK9HsCMp@lists.infradead.org
-X-Gm-Message-State: AOJu0YwVepcuI39swo45DKcbbO+SAXLSftJLo1mnuwesMkgkPkldUip8
-	HkXiN4ntS24d+QBlKMgcArXn5yasBgp1uaqdO+EW0oZ7FCuFwYRvtGk1koprx34Beeyeb4RTtgB
-	ShPnQ88B0E2XIcSRKl5LYwZvrTl0jb5j+aY9Oq5IxUg==
-X-Gm-Gg: AY/fxX5/gNdYfFc/qNTXotCJPMmSCGUkqj1PMguYQQNEKzIM3Iun1NhXXUke87p3OPT
-	XKYgQhcEbN6hgNd5n7kOFY7btgA6SyW4Llr75JxvHkWOnz9fjbhcPzV1/oL3fFQ6L7OolBUEqs1
-	t5snWqjQ415R2658IHO6HTK5bSb2XYLx24viP2rVpAp0FVPFDEysPJ4F7hxUNPPuX3P4jaTN32C
-	T/xtBrVo0mJ1dE+suW45mhDUK5lzz/P2VEwswLAn+sUTfbe2fdoUjNpRSp0xdpIeWShXuFw
-X-Google-Smtp-Source: AGHT+IEH1pg7GatCusUqMJpLa6vp72tzaOkDAsqMEu6XHRpaWdQMUYrtPbN6aH262yCoktinZtjBtOLflPVPm1yMtX8=
-X-Received: by 2002:a05:6102:3f4d:b0:5db:9ab3:4291 with SMTP id
- ada2fe7eead31-5eb1a81837dmr452927137.33.1766107309508; Thu, 18 Dec 2025
- 17:21:49 -0800 (PST)
+        bh=NFKWjCEKYgPRBt5jR8fhc9vEzWDxbCeMyrMZ7xG0Qao=;
+        b=m0H1iHSg1+rZIqvzLCxd+yMG+kaFesbPK0GvliSwOjLzvVjkiBYzacvEddB90eBPCt
+         e1jRAHyUthWvqmG+zacAYMvXpiDXw5TVjCG1OAEksL0yM0MqumLv4VEGGb08Wdg+vcSV
+         A+O9z3xM1q2BnaXzvpsDjJ0BC1d8D6nfldoGWh3nLbxNuvD/y2r5i/r7mfTTIY9ETNDR
+         mUDQzD6tG0NmxTN/51coXjrMm68C9nHGucJFm2B/OabU9ail4/1ycf9TpDc38623Y+HM
+         uK2Bgv6RrJ7P7nF8AiL5cUlPYYLrpQcji3UENfQkKg59vpmGIyWgwP9wwFJj0+tMeQ/D
+         3lTg==
+X-Forwarded-Encrypted: i=1; AJvYcCXC/ijD2wLdYqppjNJAjejiUq1BFSfYXlzNR7FvrGBiFHNqpVlcK7IIkSyYahRlewAts/YhKr0DHKxC@lists.infradead.org
+X-Gm-Message-State: AOJu0YyXDimBgcTWJoiIPiLMe8Rc2rsuyBkBeDYIyZ1OOflC8XjV0/Dh
+	DN/Oz6ItkPNPtjPbHPiuuS9rUGCq8G+J19+4RmbLupC4lHC/KDd2H6jvCKhX7IUO3uipx3pH+91
+	HU8vMtvHWGaf4COhQ0aYztlntbClsAd3gyogtDnTTLg==
+X-Gm-Gg: AY/fxX48lvR6M2pK/+/rohJv/o+yMxaBKgRcDqY13waynKpGet1qnsVxLu6TpbVNCiO
+	RYfrNIHKTyAcWgxKS8fdzJBIVorIOEdMz+CCCe8zf1xOeO/DTWmwNNo6BZ6/7q89neoFVxV0h7e
+	KkbIRhV+PBcXVxBvwP5t/jwdSpzAQlhlfEUwJESIgTTGdl22qYP2jnkh7WctzlF5KSV+yaCJtBR
+	onl08eoU2T/Sa5EC3cONjbJ8TmXaDpRYVsPqKwNii6+lcVA30c84obCzWZ3giWLlZb0BANA
+X-Google-Smtp-Source: AGHT+IH8XOy4BYSrOfX1CFoo9OL+XnvlKNVF05FAHe0GVI/noYmXQvWkhb9b1/kBguNIvsiLF5yan2f3TMxvE0Ialmo=
+X-Received: by 2002:a05:6102:e0d:b0:5dd:b32c:66f7 with SMTP id
+ ada2fe7eead31-5eb1a656de4mr345365137.13.1766107876294; Thu, 18 Dec 2025
+ 17:31:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20251126021250.2583630-1-mkhalfella@purestorage.com> <20251126021250.2583630-9-mkhalfella@purestorage.com>
-In-Reply-To: <20251126021250.2583630-9-mkhalfella@purestorage.com>
+References: <20251126021250.2583630-1-mkhalfella@purestorage.com> <20251126021250.2583630-10-mkhalfella@purestorage.com>
+In-Reply-To: <20251126021250.2583630-10-mkhalfella@purestorage.com>
 From: Randy Jennings <randyj@purestorage.com>
-Date: Thu, 18 Dec 2025 17:21:36 -0800
-X-Gm-Features: AQt7F2r7wFcp9-_xtSd6cFlR-elIglffODHKpRnL40f_GW49VR1D6Znbs9pStWY
-Message-ID: <CAPpK+O1PW7cwWPsbQ701wQGyDH56Y80=yX4kZ7R-Op2ZP9py1A@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/14] nvme: Implement cross-controller reset recovery
+Date: Thu, 18 Dec 2025 17:31:03 -0800
+X-Gm-Features: AQt7F2rnImFh3hijF2m782dU9qpZqyul_GTDTLjnmI_pZqcD7ZXSaps4L7VFPCY
+Message-ID: <CAPpK+O1sfhthFkLq2D2zSL=aYHunnC0hrmnGrecd2Ecd_297SQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 09/14] nvme: Implement cross-controller reset completion
 To: Mohamed Khalfella <mkhalfella@purestorage.com>
 Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
 	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
@@ -81,8 +81,9 @@ Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Ax
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251218_172151_107116_ECEBA412 
-X-CRM114-Status: GOOD (  13.65  )
+X-CRM114-CacheID: sfid-20251218_173117_739052_D56C9DF3 
+X-CRM114-Status: UNSURE (   7.46  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,31 +101,12 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On Tue, Nov 25, 2025 at 6:13=E2=80=AFPM Mohamed Khalfella
 <mkhalfella@purestorage.com> wrote:
 >
-> A host that has more than one path connecting to an nvme subsystem
-> typically has an nvme controller associated with every path. This is
-> mostly applicable to nvmeof. If one path goes down, inflight IOs on that
-> path should not be retried immediately on another path because this
-> could lead to data corruption as described in TP4129. TP8028 defines
-> cross-controller reset mechanism that can be used by host to terminate
-> IOs on the failed path using one of the remaining healthy paths. Only
-> after IOs are terminated, or long enough time passes as defined by
-> TP4129, inflight IOs should be retried on another path. Implement core
-> cross-controller reset shared logic to be used by the transports.
+> An nvme source controller that issues CCR command expects to receive an
+> NVME_AER_NOTICE_CCR_COMPLETED when pending CCR succeeds or fails. Add
+> sctrl->ccr_work to read NVME_LOG_CCR logpage and wakeup any thread
+> waiting on CCR completion.
 >
 > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-
-> +unsigned long nvme_recover_ctrl(struct nvme_ctrl *ictrl)
-
-> +       now =3D jiffies;
-> +       deadline =3D now + msecs_to_jiffies(timeout);
-> +       while (time_before(now, deadline)) {
-
-> +               now =3D jiffies;
-> +       }
-I would use a for-loop to keep the advancing statement close to the conditi=
-on.
 
 Reviewed-by: Randy Jennings <randyj@purestorage.com>
 
