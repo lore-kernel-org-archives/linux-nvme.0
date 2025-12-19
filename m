@@ -4,86 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAD1DD711D5
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 02:59:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D06FBD767D7
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 10:33:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Z3TECe0SBwj1XaJbGYaOS05lmYl8mf6axe8WfauAgqk=; b=BFTuSz1UbA3Tm5K2uqGmDK1mEz
-	03AVV5Z/v/7exAwPOBvJiEQAWKYbpYKgdx2LQYssBcbnKOOjbYhtNcKojvNb75nK8gs3qrn+QP3p4
-	SoaP3lMJG1jpmWdQTqEqcJ2OQKeJjirm+iiDIFJS1kht/R1Vva2vsSNjCfOD9yhftn/RmeLiyveeF
-	E6wGyzr3HeG+mYkCg4PtogQCLOGcJTDwIVR03ac+/ejNlv3Aw/UlH1644m9d/LBzokpMgqoxixP0t
-	4JFpYDTwLHWKgpLXtxjKgsjQtPIfNPStvLUTNLfTBUGg4v9TbCA5Upp7ABmK2ttrQLb+aJZyeugH6
-	swlnLUBA==;
+	bh=bVToKlo2g/yaVVoCzSHX1c5j9FWAt/41cjRQRap5AXs=; b=uN5OfOHxby6sypHzI+WDmB9Ijy
+	aNnXScGSyVl/EuWfGE3YN2e+J7vVOs6V1W9IM7BoxS+EzpaDCVnz/Fgn/poe8vobJoqKp499R2oav
+	L3fYmYYTfx04JT5sQWftSBDlinQahqs0XmxGWmtm2cOzTrXCOR5ZNT6myE/F9S1PpQazjPmHt7nhV
+	fo2Tr2Hi1qb6kK6d4c5GKh5KKTnTMAkxPAcWbmNObIkmQFF0hJq+Lkb7M4Nkind0IfaQLCq8jd+fV
+	B22Vt79mkSQl6WCTZE82gCsl+oaXZnAUU8nwQa5OhdaWLFJ9kBj3CrEsnR8lZNOHPDonLZh/CHXxk
+	cGuihNFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWQiF-00000009WIv-3zPl;
-	Fri, 19 Dec 2025 02:59:27 +0000
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
+	id 1vWXo2-0000000A59t-2ydQ;
+	Fri, 19 Dec 2025 10:33:54 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWQiC-00000009WIX-2773
-	for linux-nvme@lists.infradead.org;
-	Fri, 19 Dec 2025 02:59:26 +0000
-Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-5dfaceec8deso795432137.0
-        for <linux-nvme@lists.infradead.org>; Thu, 18 Dec 2025 18:59:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1766113163; x=1766717963; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z3TECe0SBwj1XaJbGYaOS05lmYl8mf6axe8WfauAgqk=;
-        b=cjcWa43MSpw2AqbGh5bI4YFBgQbIkVkNUtSVTaGSxBsrkU+dEiG96XixArzHxNGv1u
-         6/NSqIcX7aJNPV/QmROk4Bel6xctqbo5tQlC11gRdD6XN6DxcG7rhsUBSRIWlLHD+qCg
-         qUFcH28N1WqnLz9cf1VVnk/cxwSDFwvx0YurSgndjFLqyvCDIkSSucC2GQrEkh1zaD0c
-         +I5LGC3R6h5uABBtHrFoJgc1fC+vM7xz6UQdcCJPXY5afk8i1fxGpssLQ/KUWyodeNF0
-         Rudg5uxUOWriqa8JsRYeSAke69umV3d22uyrCtpxVFCCOAB+NEcZslZA1DZfBU6+SEk9
-         rC8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766113163; x=1766717963;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Z3TECe0SBwj1XaJbGYaOS05lmYl8mf6axe8WfauAgqk=;
-        b=j7Bop9+0RPm2V1NG7C2G4SQVDGr2X6XtaXtwlem6Iq++Yd1y93DJeKj10nLMtWEJX6
-         PSmIS0+FlhDei7fUEAol+Be4pWDABX5GSqVPUBvAC6Fu1bW3OJ8xHm+7mHsWBqrU7KAg
-         kgKJVtENFOs2+x5X/ZcxAvicH1pn05t2LTzqpgXLItfbFMD6dO/GHYHHzyR25jUTLu10
-         HxnTPbVyIqtCY9kRZCjdwOeQHFoUQNUh1WH8GahgBxo5T1z/5EGFqTITCmU1cmLPcKW/
-         GicoDOqF+SuDhRxgge15X63pityS/sutpqA6GD/zsg0w/4lk+ODuhMDjW24Z+XjZGfC+
-         OkkA==
-X-Forwarded-Encrypted: i=1; AJvYcCVCY3rsvgGz3bk+8r+FTQCUOo7BO9o+4fqe2NutxQ/KJ8wzX1hG+aOrMqPESTskLU1KkwEBKIoykkrp@lists.infradead.org
-X-Gm-Message-State: AOJu0YysYm9MRJNfPlf1bX/KqamJxpCeAW9OflzEYLheUmaI9nKe5AH2
-	XqAZ67ZjGvGALUUwjJ2pBCDzps05oewDxHxUzvYGgJT4VgNKhHeDxswvNr8RaaOUfexBnIxP9pR
-	UMIGf8+SXXwdoAIkpqYFs0T8NdCsm+ZXejqVizjfQ+Q==
-X-Gm-Gg: AY/fxX5x5bGLATB3bRa+v6MgFifMuf36wl70j82JKA5lBFfje7oS9N4y1m8dYu+O6aB
-	XTEoKhxy79H1pqres3/qnyaZcjM0OcBuKuZmW4emdVz+QuPjDg7NxpwGhXDcYExwThstbuSqwRH
-	NKt8cE+jzt9WrZPpjYm11e8BM6VT1gvxqjo5cTiRxV8DwlRjWHdKxMGwaEQ9FgK/BUOIh0SaYVY
-	YwtIJuMG7Fghl3nfMBuBeMRzkplWJdDNfqFCfop+Sfu8ias4Y01vbnXNLA6SufDNZrRp8Al
-X-Google-Smtp-Source: AGHT+IHHxE/nNt3qZfZsE49JXCZAnqrVwp2jqtpdcCis+TWwHz5rVILjC9qbGx+2UB8rUhZ9afstQ8OO5ePRs2khaTQ=
-X-Received: by 2002:a05:6102:3710:b0:5db:3c3b:7767 with SMTP id
- ada2fe7eead31-5eb187045a8mr605141137.16.1766113163051; Thu, 18 Dec 2025
- 18:59:23 -0800 (PST)
+	id 1vWXnw-0000000A58i-0uMd;
+	Fri, 19 Dec 2025 10:33:49 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id C2DC6442EB;
+	Fri, 19 Dec 2025 10:33:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96CA0C4CEF1;
+	Fri, 19 Dec 2025 10:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766140426;
+	bh=dtZQq9Tz8X9IApzFIIAr/KFy4FgR9nC4AkGBbD+ruV4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dvhFZA9mSqbLJ4yx1jwkajLjdYyJpg/f+9SuszQZkDtJpoVGrKr+VuyI2UpSTAk63
+	 TbgkCcHbt6vnU8Dl3ct5fdt4iBv5tNkB3tpX0Ymis8/x5zv4SfOtQfEcVOrNwoPr9d
+	 o/TqZs5FaoTMNrlNnl00Lylv9lHjgr2455clLXs9cY+cW7ut5VonZQRs2WBZw5JhQN
+	 qr7EiJyCLb8rxiesfFq0oCoVFmMig7iSpgXbkpL+6dL9bdP2ZAwrUZLFqsJjtL4uF8
+	 Cq4Odqpe3E285Sx/9maLb8nrVVpavMQg9va7oh7H1FeAJgKgnoLQPS5eiDC9K7Z9/y
+	 a8J56MSdiktog==
+Message-ID: <b081d13b-4af2-4b60-83e5-3553939c1749@kernel.org>
+Date: Fri, 19 Dec 2025 19:33:42 +0900
 MIME-Version: 1.0
-References: <20251126021250.2583630-1-mkhalfella@purestorage.com> <20251126021250.2583630-13-mkhalfella@purestorage.com>
-In-Reply-To: <20251126021250.2583630-13-mkhalfella@purestorage.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Thu, 18 Dec 2025 18:59:09 -0800
-X-Gm-Features: AQt7F2qmCjCywovby4jc2khbEC8OM1yNeiN5GE72MDs1O96UiLrRy_LoPInHlzI
-Message-ID: <CAPpK+O1G6_xxp1b01Px0=YBc5qWb539MtiMfGsH6BdyMTQuxSg@mail.gmail.com>
-Subject: Re: [RFC PATCH 12/14] nvme-fc: Decouple error recovery from
- controller reset
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Aaron Dailey <adailey@purestorage.com>, John Meneghini <jmeneghi@redhat.com>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] dmaengine: Add API to combine configuration and
+ preparation (sg and single)
+To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Koichiro Den <den@valinux.co.jp>,
+ Niklas Cassel <cassel@kernel.org>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev
+References: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
+ <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251218_185924_643544_3B90E81B 
-X-CRM114-Status: GOOD (  12.01  )
+X-CRM114-CacheID: sfid-20251219_023348_298296_BC4731E2 
+X-CRM114-Status: GOOD (  27.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,51 +89,169 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 25, 2025 at 6:13=E2=80=AFPM Mohamed Khalfella
-<mkhalfella@purestorage.com> wrote:
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+On 12/19/25 00:56, Frank Li wrote:
+> Previously, configuration and preparation required two separate calls. This
+> works well when configuration is done only once during initialization.
+> 
+> However, in cases where the burst length or source/destination address must
+> be adjusted for each transfer, calling two functions is verbose and
+> requires additional locking to ensure both steps complete atomically.
+> 
+> Add a new API dmaengine_prep_config_single() and dmaengine_prep_config_sg()
+> and callback device_prep_config_sg() that combines configuration and
+> preparation into a single operation. If the configuration argument is
+> passed as NULL, fall back to the existing implementation.
+> 
+> Add a new API dmaengine_prep_config_single_safe() and
+> dmaengine_prep_config_sg_safe() for re-entrancy, which require driver
+> implement callback device_prep_config_sg().
+> 
+> Tested-by: Niklas Cassel <cassel@kernel.org>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> change in v2
+> - add () for function
+> - use short name device_prep_sg(), remove "slave" and "config". the 'slave'
+> is reduntant. after remove slave, the function name is difference existed
+> one, so remove _config suffix.
+> ---
+>  Documentation/driver-api/dmaengine/client.rst |   9 +++
+>  include/linux/dmaengine.h                     | 103 ++++++++++++++++++++++++--
+>  2 files changed, 105 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
+> index d491e385d61a98b8a804cd823caf254a2dc62cf4..02c45b7d7a779421411eb9c68325cdedafcfe3b1 100644
+> --- a/Documentation/driver-api/dmaengine/client.rst
+> +++ b/Documentation/driver-api/dmaengine/client.rst
+> @@ -80,6 +80,10 @@ The details of these operations are:
+>  
+>    - slave_sg: DMA a list of scatter gather buffers from/to a peripheral
+>  
+> +  - config_sg: Similar with slave_sg, just pass down dma_slave_config
+> +    struct to avoid call dmaengine_slave_config() every time if need
 
-> +static void nvme_fc_start_ioerr_recovery(struct nvme_fc_ctrl *ctrl,
-> +                                        char *errmsg);
->
->  /* *********************** FC-NVME Port Management *********************=
-*** */
+...struct to avoid calling dmaengine_slave_config() every time adjusting the
+burst length or the FIFO address is needed.
 
+> +    adjust burst length or FIFO address.
+> +
 
-> @@ -983,7 +985,7 @@ fc_dma_unmap_sg(struct device *dev, struct scatterlis=
-t *sg, int nents,
->  static void nvme_fc_ctrl_put(struct nvme_fc_ctrl *);
->  static int nvme_fc_ctrl_get(struct nvme_fc_ctrl *);
->
-> -static void nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errm=
-sg);
-> +static void nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl);
-does it make sense for nvme_fc_error_recovery() to move to be with
-nvme_fc_start_ioerr_recovery()?
+> +static inline struct dma_async_tx_descriptor *
+> +dmaengine_prep_config_single_safe(struct dma_chan *chan, dma_addr_t buf,
+> +	size_t len, enum dma_transfer_direction dir, unsigned long flags,
+> +	struct dma_slave_config *config)
+>  {
+>  	struct scatterlist sg;
+> +
+>  	sg_init_table(&sg, 1);
+>  	sg_dma_address(&sg) = buf;
+>  	sg_dma_len(&sg) = len;
+>  
+> -	if (!chan || !chan->device || !chan->device->device_prep_slave_sg)
+> +	if (!chan || !chan->device || !chan->device->device_prep_config_sg)
+> +		return NULL;
 
-> @@ -2497,39 +2508,6 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctr=
-l *ctrl, bool start_queues)
->                 nvme_unquiesce_admin_queue(&ctrl->ctrl);
->  }
->
-> -static void
-> -nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+While at it, please move this arguments check before the sg initialization.
+Otherwise, this is a little odd (argument checks generally are done first).
 
-> @@ -3347,6 +3315,26 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
->         }
->  }
->
-> +static void
-> +nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl)
-I'm curious about the motivation for moving the function.
-
-
+> +
+> +	return chan->device->device_prep_config_sg(chan, &sg, 1, dir,
+> +						   flags, config, NULL);
+> +}
+> +
+> +static inline struct dma_async_tx_descriptor *
+> +dmaengine_prep_config_single(struct dma_chan *chan, dma_addr_t buf, size_t len,
+> +	enum dma_transfer_direction dir, unsigned long flags,
+> +	struct dma_slave_config *config)
 > +{
-> +       nvme_stop_keep_alive(&ctrl->ctrl);
-This is a new addition.  I think it is a good one; FC can use
-keep alives, and nvme_stop_keep_alive() is called in one
-other place, but I do not think the Linux nvme-fc driver
-uses keep alives.
+> +	struct scatterlist sg;
+> +
+> +	sg_init_table(&sg, 1);
+> +	sg_dma_address(&sg) = buf;
+> +	sg_dma_len(&sg) = len;
+> +
+> +	if (!chan || !chan->device)
+> +		return NULL;
 
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
+Same here. Check these before initializing sg.
+
+> +
+> +	if (chan->device->device_prep_config_sg)
+> +		return dmaengine_prep_config_sg_safe(chan, &sg, 1, dir,
+> +						     flags, config);
+> +
+> +	if (config)
+> +		if (dmaengine_slave_config(chan, config))
+> +			return NULL;
+> +
+> +	if (!chan->device->device_prep_slave_sg)
+>  		return NULL;
+>  
+>  	return chan->device->device_prep_slave_sg(chan, &sg, 1,
+>  						  dir, flags, NULL);
+>  }
+>  
+> +static inline struct dma_async_tx_descriptor *
+> +dmaengine_prep_slave_single(struct dma_chan *chan, dma_addr_t buf, size_t len,
+> +			    enum dma_transfer_direction dir,
+> +			    unsigned long flags)
+> +{
+> +	return dmaengine_prep_config_single(chan, buf, len, dir, flags, NULL);
+> +}
+> +
+>  /**
+>   * dmaengine_prep_peripheral_dma_vec() - Prepare a DMA scatter-gather descriptor
+>   * @chan: The channel to be used for this descriptor
+> @@ -1009,17 +1079,36 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
+>  							    dir, flags);
+>  }
+>  
+> -static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
+> +static inline struct dma_async_tx_descriptor *dmaengine_prep_config_sg(
+
+Very odd line split. Please split this after the "*" of the return type.
+
+>  	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
+> -	enum dma_transfer_direction dir, unsigned long flags)
+> +	enum dma_transfer_direction dir, unsigned long flags,
+> +	struct dma_slave_config *config)
+>  {
+> -	if (!chan || !chan->device || !chan->device->device_prep_slave_sg)
+> +	if (!chan || !chan->device)
+> +		return NULL;
+> +
+> +	if (chan->device->device_prep_config_sg)
+> +		return dmaengine_prep_config_sg_safe(chan, sgl, sg_len,
+> +					dir, flags, config);
+> +
+> +	if (config)
+> +		if (dmaengine_slave_config(chan, config))
+> +			return NULL;
+> +
+> +	if (!chan->device->device_prep_slave_sg)
+>  		return NULL;
+>  
+>  	return chan->device->device_prep_slave_sg(chan, sgl, sg_len,
+>  						  dir, flags, NULL);
+>  }
+>  
+> +static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
+
+Same comment here.
+
+> +	struct dma_chan *chan, struct scatterlist *sgl, unsigned int sg_len,
+> +	enum dma_transfer_direction dir, unsigned long flags)
+> +{
+> +	return dmaengine_prep_config_sg(chan, sgl, sg_len, dir, flags, NULL);
+> +}
+> +
+>  #ifdef CONFIG_RAPIDIO_DMA_ENGINE
+>  struct rio_dma_ext;
+>  static inline struct dma_async_tx_descriptor *dmaengine_prep_rio_sg(
+> 
+
+
+-- 
+Damien Le Moal
+Western Digital Research
 
