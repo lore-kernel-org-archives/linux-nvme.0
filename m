@@ -4,49 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9FCEAD767CB
-	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 10:39:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3B23D767CB
+	for <linux-nvme@archiver.kernel.org>; Fri, 19 Dec 2025 10:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HZUv6PVQX03BQcCMuDJZjgSOx0iTY7jH1mAWIXCBM/4=; b=hbCNnvThJy2xiDlgbjxDduMa2h
-	6alBXqiNurtXEY3iqc0NVp2IY6xCEo6uSAdvwxhG4CsQ0qUtf9+A6OmUam3Xc7OLS9USlp528zOQC
-	bPtEmtiQBCkCfyx+GRNtLG4PhZyes6MOA6FCJTbnvagy2pG4ztBLqmfwci2z2VMA/Djv4S63oCyiU
-	pKX196n9W8PMowSoaBqhKLus2QH1bujDsIvfx+KRIXokSa7YmEvJZwXqWZ6RANgqCHd1Grb8YQzY7
-	gdO+GlYSSpH3lDY6fqEc8UzGyTJ+qjlERWf+SIh3DSswpgI5jOg/79/AgeyHzP1fPxYurPw23kggD
-	dgwIJERg==;
+	bh=1FgO2pL15PsScy8aQL3Xjbk032xA+KBbUo274204kdU=; b=mrVkzTwAiznkxO8AKC89HV4PER
+	E9XGuEKsEeY9J6Xw1BtckCkJFLetaOChuid08cnVhOGyy9w5xWgWsNx3q9nALfoEMXioxFSbRpTg+
+	OuvHYD9s+v8E9NrsElFUCNg4MoeVosCiHDtXSLzXl9UIl+kz2iqhtdlXYAm5R6WRfQFuaOfwmALD9
+	1I6yP0cHa+fkNyqj5iAnORh4Lt91lwgKQVkxIO0Md8OjOOsGTZDZ/IE0LDF6imCrB3aDAaf49JHwv
+	HzoOenAPTM6HHTdpC/y9+CAZ5UvYZPM8kQTgvPi/JESkFwl6WrgOlTheDY9UpISewDP08fa1KIPDu
+	LHWa9Uww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWXsy-0000000A8DZ-1bjV;
-	Fri, 19 Dec 2025 10:39:00 +0000
+	id 1vWXwx-0000000A8wV-0QIw;
+	Fri, 19 Dec 2025 10:43:07 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWXsx-0000000A8CE-0kMZ;
-	Fri, 19 Dec 2025 10:38:59 +0000
+	id 1vWXwt-0000000A8vn-1CpH;
+	Fri, 19 Dec 2025 10:43:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8AC6960052;
-	Fri, 19 Dec 2025 10:38:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A87C4CEF1;
-	Fri, 19 Dec 2025 10:38:55 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5B3BE60018;
+	Fri, 19 Dec 2025 10:43:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA22C116B1;
+	Fri, 19 Dec 2025 10:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766140738;
-	bh=JojbryuXzuZwBViUbKuSYpD99u7Ev05B8Sqdbjq3JeA=;
+	s=k20201202; t=1766140982;
+	bh=xkz5LUlBElFB9CvO+KaW9xJq6o3zkwL/JUJof/pyJKA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RTyqXLh+pnMEDRL7QCn4ZVL5I48+KSFBkbfWLELWPIeGp5NlOGtMixn93HSyIUib1
-	 VsXEFv6pp43x4ac+Ik1lR16wRZoTgERZyNybDBDrEdsksBKON8ZwHK+UjmvsqQ25Up
-	 NicNvwtPw0uXTVVnF0tvXLWxU5N3EIikmt2XlOs9WCGgKeBy8C+XM1a4f21WmaW1HL
-	 kzCa3N6gEjcuqriwV5jf2V1IrftSL6eodz2qshTNJlzsNkvBQ5/UsbP/PLEv2/8tA7
-	 EOzMcZBtd8f5GjqLWa87NigJQdEnNa79jA6TIcgqP3qKIinOEECXzZvvyhNjrmtPrq
-	 cgX4J/3C22GhA==
-Message-ID: <8d4ae6b3-096a-4e12-8fa8-abaad2e953ad@kernel.org>
-Date: Fri, 19 Dec 2025 19:38:53 +0900
+	b=IoSCk23sz5zIAMhhpVSs+yWPq39dQ9XP469p2h5DRvRKuQSWJCW2G3aAoGFxmnsjR
+	 Y32S/nKLSMqJ8XvXJKKPt1Pzpofi4UzTmoFWnZQTyGWFQz4ePg61LHGxoS+EcGC+NQ
+	 rfPbh8jYbxXKaB/AGYclGcYhStpeiAoJ/12kcGwbssjeStmDEloHn/SePTEosz4mwy
+	 G+vuPh2d0k95qzFbVEsc/KQWud+YIsUIaPB8UK+YQUGKiFYja2/8mIkLB/xrgH7i4X
+	 V+i7y2DKw0yuhlxec2sGVW+fAC912w7KlOivIwf7iRrBCC+ahIV3bcQIFwCrmc/BQQ
+	 Lj3bhY4plfj4w==
+Message-ID: <0fa95ea2-4539-472b-adae-300e46a78f20@kernel.org>
+Date: Fri, 19 Dec 2025 19:42:57 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] nvmet: pci-epf: Remove unnecessary
- dmaengine_terminate_sync() on each DMA transfer
+Subject: Re: [PATCH v2 6/8] nvmet: pci-epf: Use
+ dmaengine_prep_config_single_safe() API
 To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
  Manivannan Sadhasivam <mani@kernel.org>,
  =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
@@ -65,11 +65,11 @@ Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  imx@lists.linux.dev
 References: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
- <20251218-dma_prep_config-v2-5-c07079836128@nxp.com>
+ <20251218-dma_prep_config-v2-6-c07079836128@nxp.com>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20251218-dma_prep_config-v2-5-c07079836128@nxp.com>
+In-Reply-To: <20251218-dma_prep_config-v2-6-c07079836128@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
@@ -87,19 +87,76 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 12/19/25 00:56, Frank Li wrote:
-> dmaengine_terminate_sync() cancels all pending requests. Calling it for
-> every DMA transfer is unnecessary and counterproductive. This function is
-> generally intended for cleanup paths such as module removal, device close,
-> or unbind operations.
+> Use the new dmaengine_prep_config_single_safe() API to combine the
+> configuration and descriptor preparation into a single call.
 > 
-> Remove the redundant calls for success path and keep it only at error path.
+> Since dmaengine_prep_config_single_safe() performs the configuration and
+> preparation atomically and dw edma driver implement prep_config_sg() call
+> back, so dmaengine_prep_config_single() is reentriable, the mutex can be
+> removed.
+
+What about for platforms other than DesignWare EDMA ?
+This is a generic endpoint driver that can work on any platform that is endpoint
+capable and that has a DMA channel for the PCI endpoint.
+
+The dmaengine_prep_config_single_safe() API should be handling everything
+transparently for any platform, regardless of the DMA channel driver
+implementing or not the prep_config_sg() callback.
+
+For platforms that do not implement it, I suspect that the mutex will still be
+needed here. So how to we resolve this ? Ideally, all of that should be hidden
+by the DMA API. The endpoint driver should not need to deal with these differences.
+
 > 
 > Tested-by: Niklas Cassel <cassel@kernel.org>
 > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  drivers/nvme/target/pci-epf.c | 18 ++++--------------
+>  1 file changed, 4 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+> index 56b1c6a7706a9e2dd9d8aaf17b440129b948486c..8b5ea5d4c79dfd461b767cfd4033a9e4604c94b1 100644
+> --- a/drivers/nvme/target/pci-epf.c
+> +++ b/drivers/nvme/target/pci-epf.c
+> @@ -388,22 +388,15 @@ static int nvmet_pci_epf_dma_transfer(struct nvmet_pci_epf *nvme_epf,
+>  		return -EINVAL;
+>  	}
+>  
+> -	mutex_lock(lock);
+> -
+>  	dma_dev = dmaengine_get_dma_device(chan);
+>  	dma_addr = dma_map_single(dma_dev, seg->buf, seg->length, dir);
+>  	ret = dma_mapping_error(dma_dev, dma_addr);
+>  	if (ret)
+> -		goto unlock;
+> -
+> -	ret = dmaengine_slave_config(chan, &sconf);
+> -	if (ret) {
+> -		dev_err(dev, "Failed to configure DMA channel\n");
+> -		goto unmap;
+> -	}
+> +		return ret;
+>  
+> -	desc = dmaengine_prep_slave_single(chan, dma_addr, seg->length,
+> -					   sconf.direction, DMA_CTRL_ACK);
+> +	desc = dmaengine_prep_config_single_safe(chan, dma_addr, seg->length,
+> +						 sconf.direction,
+> +						 DMA_CTRL_ACK, &sconf);
+>  	if (!desc) {
+>  		dev_err(dev, "Failed to prepare DMA\n");
+>  		ret = -EIO;
+> @@ -426,9 +419,6 @@ static int nvmet_pci_epf_dma_transfer(struct nvmet_pci_epf *nvme_epf,
+>  unmap:
+>  	dma_unmap_single(dma_dev, dma_addr, seg->length, dir);
+>  
+> -unlock:
+> -	mutex_unlock(lock);
+> -
+>  	return ret;
+>  }
+>  
+> 
 
-Looks good.
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
 -- 
 Damien Le Moal
