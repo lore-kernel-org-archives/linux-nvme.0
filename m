@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8471CE668B5
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 04:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D1D6E668B7
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 04:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m0a8LllONtNh1UCp+2iZ2NJSy0wT09r5z7SBh1hn+ec=; b=17al8YyvvwZXy4cPfimzGBN4i1
-	73+kvY1pLLn97um1m8QQ/M2M32SpLsIEOAPcE7RSjdLU9lyjawkAQmG+yLwL+fjxWCJDK1nb0iEVr
-	Libq2CCZlOOjHOHVZSAMI+H8t7DN4NomY569s44tLNWhoxa10AMmrjNVCzcVadUzeNsXvuI3gfz0D
-	9K82Nwqv0dDFMVJSv/uO3h5iZJatsQvqwaRbiLGOB3u3TAavhQKU5MPgmqTr3rsiDCMdZ/MMvRDNP
-	QAItyBBDQe3Dks2XGBP5OEb/OU5PWCZm3N0EaIRKd0wA01W9RG+kKHAnaBilqrmZXoEOfgq02B6H7
-	tciwsLGg==;
+	bh=XKsnNvUSr27kee3JjeXFHI5WQ8OlSVuj58nXTCA4NXA=; b=tOHIR8ENkw/F013k5/m2wpS103
+	zCtHXTu8DOtXPfRtAmEcfEDY0TZ8wNEygE/pwzioOnC7j9MYX9MRVaEdjTZoT0H/ESTalxkXVDkO5
+	3ppgixbayfn3CaqFC0MeCkrkFtHRwy5718PYWEGeIVak/6xs41boA97Kr5sbo5D01oZFVLMYfIQ4H
+	k7iR6L7th21gy6Mn3NiX4KOpu3kH3BGGchKv+7iat8GrcyA9dIboa5feNT7o96KKmjxQOrwIvvVon
+	/g/FiTBTHIPr6f9FpzJOuDV5EWNHbPlMlPCpM4eSwKdp00Ezh+f/PHi7YikP6TJ1lbjNvQZuoUQp0
+	CqahCktg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWoOG-0000000BGWy-3gFC;
-	Sat, 20 Dec 2025 04:16:24 +0000
-Received: from dggsgout11.his.huawei.com ([45.249.212.51])
+	id 1vWoOH-0000000BGY6-2YUG;
+	Sat, 20 Dec 2025 04:16:25 +0000
+Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWoOA-0000000BGOz-28UJ
+	id 1vWoOA-0000000BGOu-3F1j
 	for linux-nvme@lists.infradead.org;
 	Sat, 20 Dec 2025 04:16:21 +0000
 Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dYB080kXNzYQthl
-	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:15:36 +0800 (CST)
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dYB0T6Np5zKHM0S
+	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:15:53 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 6EDD940583
+	by mail.maildlp.com (Postfix) with ESMTP id 11C5A4058A
 	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:16:07 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.87.129])
-	by APP4 (Coremail) with SMTP id gCh0CgD3WPn5IkZpFwpFAw--.56015S12;
-	Sat, 20 Dec 2025 12:16:07 +0800 (CST)
+	by APP4 (Coremail) with SMTP id gCh0CgD3WPn5IkZpFwpFAw--.56015S8;
+	Sat, 20 Dec 2025 12:16:06 +0800 (CST)
 From: Hou Tao <houtao@huaweicloud.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-pci@vger.kernel.org,
@@ -57,19 +57,19 @@ Cc: linux-pci@vger.kernel.org,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	houtao1@huawei.com
-Subject: [PATCH 08/13] mm/huge_memory: add helpers to insert huge page during mmap
-Date: Sat, 20 Dec 2025 12:04:41 +0800
-Message-Id: <20251220040446.274991-9-houtao@huaweicloud.com>
+Subject: [PATCH 04/13] kernfs: add support for may_split and pagesize callbacks
+Date: Sat, 20 Dec 2025 12:04:37 +0800
+Message-Id: <20251220040446.274991-5-houtao@huaweicloud.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20251220040446.274991-1-houtao@huaweicloud.com>
 References: <20251220040446.274991-1-houtao@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgD3WPn5IkZpFwpFAw--.56015S12
-X-Coremail-Antispam: 1UD129KBjvJXoWxZryfJFyfCF45JrW8WF47twb_yoW5uF17pF
-	97GFn8ZrWIqrnrurnxWFs8Ary3X3yxWayUKFW7WF1ava17t34F9a1kJw15tF15JryUCFs3
-	Xa17GFy5uFyUWa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+X-CM-TRANSID: gCh0CgD3WPn5IkZpFwpFAw--.56015S8
+X-Coremail-Antispam: 1UD129KBjvJXoW7KrWUCw4fWFyfZw15Xr17GFg_yoW8KF15pF
+	4fKw15XrW8W3s3Cr9xXF4kZ343t3s7Gay7X34fu3sYy3W3tFnIvFyFgr98Ar15AryrJr4f
+	tw42yryYka15Ww7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPvb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
 	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
 	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
 	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
@@ -79,14 +79,14 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxZryfJFyfCF45JrW8WF47twb_yoW5uF17pF
 	7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262
 	kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
 	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
-	v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvE
-	c7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
-	pf9x07j4fO7UUUUU=
+	v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+	c7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
+	AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuY
+	vjxUxubkUUUUU
 X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251219_201618_921359_0E8C9F97 
-X-CRM114-Status: GOOD (  11.91  )
+X-CRM114-CacheID: sfid-20251219_201619_203370_1F222E31 
+X-CRM114-Status: GOOD (  15.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,116 +103,82 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hou Tao <houtao1@huawei.com>
 
-vmf_insert_folio_{pmd,pud}() can be used to insert huge page during page
-fault. However, for simplicity, the mapping of p2pdma memory inserts all
-necessary pages during mmap. Therefore, add vm_insert_folio_{pmd|pud}
-helpers to support inserting pmd-sized and pud-sized page during mmap.
+->may_split() and ->pagesize() callbacks are necessary for the support
+of compound page. ->may_split() will check whether the splitting of
+compound page is allowed during mprotect or remap, and ->pagesize() will
+output the correct page size in /proc/${pid}/smap file. These two
+callbacks will be used by the following patch to enable the mapping of
+compound page of p2pdma memory into userspace, therefore, add the
+support for these two callbacks.
 
 Signed-off-by: Hou Tao <houtao1@huawei.com>
 ---
- include/linux/huge_mm.h |  4 +++
- mm/huge_memory.c        | 66 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 70 insertions(+)
+ fs/kernfs/file.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index a4d9f964dfde..8cf8bb85be79 100644
---- a/include/linux/huge_mm.h
-+++ b/include/linux/huge_mm.h
-@@ -45,6 +45,10 @@ vm_fault_t vmf_insert_folio_pmd(struct vm_fault *vmf, struct folio *folio,
- 				bool write);
- vm_fault_t vmf_insert_folio_pud(struct vm_fault *vmf, struct folio *folio,
- 				bool write);
-+int vm_insert_folio_pmd(struct vm_area_struct *vma, unsigned long addr,
-+			struct folio *folio);
-+int vm_insert_folio_pud(struct vm_area_struct *vma, unsigned long addr,
-+			struct folio *folio);
- 
- enum transparent_hugepage_flag {
- 	TRANSPARENT_HUGEPAGE_UNSUPPORTED,
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 40cf59301c21..11d19f8986da 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1644,6 +1644,41 @@ vm_fault_t vmf_insert_folio_pmd(struct vm_fault *vmf, struct folio *folio,
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index 9773b5734a2c..5df45b1dbb36 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -384,6 +384,46 @@ static void kernfs_vma_open(struct vm_area_struct *vma)
+ 	kernfs_put_active_of(of);
  }
- EXPORT_SYMBOL_GPL(vmf_insert_folio_pmd);
  
-+int vm_insert_folio_pmd(struct vm_area_struct *vma, unsigned long addr,
-+			struct folio *folio)
++static int kernfs_vma_may_split(struct vm_area_struct *vma, unsigned long addr)
 +{
-+	struct mm_struct *mm = vma->vm_mm;
-+	struct folio_or_pfn fop = {
-+		.folio = folio,
-+		.is_folio = true,
-+	};
-+	pgd_t *pgd;
-+	p4d_t *p4d;
-+	pud_t *pud;
-+	pmd_t *pmd;
-+	vm_fault_t fault_err;
++	struct file *file = vma->vm_file;
++	struct kernfs_open_file *of = kernfs_of(file);
++	int ret;
 +
-+	mmap_assert_write_locked(mm);
++	if (!of->vm_ops)
++		return 0;
 +
-+	pgd = pgd_offset(mm, addr);
-+	p4d = p4d_alloc(mm, pgd, addr);
-+	if (!p4d)
-+		return -ENOMEM;
-+	pud = pud_alloc(mm, p4d, addr);
-+	if (!pud)
-+		return -ENOMEM;
-+	pmd = pmd_alloc(mm, pud, addr);
-+	if (!pmd)
-+		return -ENOMEM;
++	if (!kernfs_get_active_of(of))
++		return -ENODEV;
 +
-+	fault_err = insert_pmd(vma, addr, pmd, fop, vma->vm_page_prot,
-+			       vma->vm_flags & VM_WRITE);
-+	if (fault_err != VM_FAULT_NOPAGE)
-+		return -EINVAL;
++	ret = 0;
++	if (of->vm_ops->may_split)
++		ret = of->vm_ops->may_split(vma, addr);
 +
-+	return 0;
++	kernfs_put_active_of(of);
++	return ret;
 +}
 +
- #ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
- static pud_t maybe_pud_mkwrite(pud_t pud, struct vm_area_struct *vma)
++static unsigned long kernfs_vma_pagesize(struct vm_area_struct *vma)
++{
++	struct file *file = vma->vm_file;
++	struct kernfs_open_file *of = kernfs_of(file);
++	unsigned long size;
++
++	if (!of->vm_ops)
++		return PAGE_SIZE;
++
++	if (!kernfs_get_active_of(of))
++		return PAGE_SIZE;
++
++	size = PAGE_SIZE;
++	if (of->vm_ops->pagesize)
++		size = of->vm_ops->pagesize(vma);
++
++	kernfs_put_active_of(of);
++	return size;
++}
++
+ static vm_fault_t kernfs_vma_fault(struct vm_fault *vmf)
  {
-@@ -1759,6 +1794,37 @@ vm_fault_t vmf_insert_folio_pud(struct vm_fault *vmf, struct folio *folio,
- 	return insert_pud(vma, addr, vmf->pud, fop, vma->vm_page_prot, write);
- }
- EXPORT_SYMBOL_GPL(vmf_insert_folio_pud);
-+
-+int vm_insert_folio_pud(struct vm_area_struct *vma, unsigned long addr,
-+			struct folio *folio)
-+{
-+	struct mm_struct *mm = vma->vm_mm;
-+	struct folio_or_pfn fop = {
-+		.folio = folio,
-+		.is_folio = true,
-+	};
-+	pgd_t *pgd;
-+	p4d_t *p4d;
-+	pud_t *pud;
-+	vm_fault_t fault_err;
-+
-+	mmap_assert_write_locked(mm);
-+
-+	pgd = pgd_offset(mm, addr);
-+	p4d = p4d_alloc(mm, pgd, addr);
-+	if (!p4d)
-+		return -ENOMEM;
-+	pud = pud_alloc(mm, p4d, addr);
-+	if (!pud)
-+		return -ENOMEM;
-+
-+	fault_err = insert_pud(vma, addr, pud, fop, vma->vm_page_prot,
-+			       vma->vm_flags & VM_WRITE);
-+	if (fault_err != VM_FAULT_NOPAGE)
-+		return -EINVAL;
-+
-+	return 0;
-+}
- #endif /* CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD */
+ 	struct file *file = vmf->vma->vm_file;
+@@ -449,9 +489,11 @@ static int kernfs_vma_access(struct vm_area_struct *vma, unsigned long addr,
  
- /**
+ static const struct vm_operations_struct kernfs_vm_ops = {
+ 	.open		= kernfs_vma_open,
++	.may_split	= kernfs_vma_may_split,
+ 	.fault		= kernfs_vma_fault,
+ 	.page_mkwrite	= kernfs_vma_page_mkwrite,
+ 	.access		= kernfs_vma_access,
++	.pagesize	= kernfs_vma_pagesize,
+ };
+ 
+ static unsigned long kernfs_get_unmapped_area(struct file *file, unsigned long uaddr,
 -- 
 2.29.2
 
