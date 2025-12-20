@@ -4,91 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E834DD78797
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 00:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD33DE668AA
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 01:21:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=0b+OXrygZ1J1Hfb+NWdhuR5R53IopwscYd6YvtLJjJ0=; b=TrURyZ2lTCGNCnUA8LzeOt63RZ
-	VWC1YORiK295T6C2Z72MyOslZxUGrH7qT4TVKJNGkR6ZsD1oj+THFN25+PzfaDHlrhxVRap9Ot8ri
-	CwbSQWoxfU/eDWago7wdMazOF8WMK+g6hk3YBL2DG6kLNLi83ayviGZfhIo1Jz0beLNqE+zVsklvv
-	mw0krVGLd274nlsFt/FGmW18tgzIEl967mOHuFUE8KlsC4rErEVh7xrS9cIG6J//k4ijyRhs/uTOr
-	1ws05DKJKF1v0uMbmGCuppUGE2ASY8RUT4W+a+R8PvT2vch1Nd5umdiSmD36ZzX2uGHqTKbP5Nnk/
-	vbXhad4g==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=7PrJnszBLojqKrV78aw+xEkBElYTLkB4kwu8K7rO+Uo=; b=qXuCAZSzcME0a1HWOp3QOfh3Qw
+	ssd3izC+vqppRxU4o8Dn4My3yqhbdrnDEXErLC3wt7dEYlvxIB+UnHhG7oaQPnpM+woou3szKvDeF
+	/IeGKkRAiBX7n23/Dle2ItysRd39rpm+b1X2vwqwGB8FQW+Zca/VAE7YxAMdmfG/pecu/vE2OCF2+
+	xHRVN5Cm7D/XnBh8wRGKkCXLBtl4jrcSR1Jd+oTshP0GBi97lVxQWfFl4rMJZTx2XSye4FSS+Od1r
+	NbD+FXhmUrLX+ZGF26MEu7j37nHExxiFL4z1alnkJVHWSpNsWOLBI34DsF+5hbAlLk4Ceo8Exb9tF
+	T6xgWQPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWkgK-0000000B7V7-1g2o;
-	Sat, 20 Dec 2025 00:18:48 +0000
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+	id 1vWlf4-0000000BAKg-1ioK;
+	Sat, 20 Dec 2025 01:21:34 +0000
+Received: from mail-vk1-xa32.google.com ([2607:f8b0:4864:20::a32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWkgI-0000000B7Ue-1MaF
+	id 1vWlf2-0000000BAKG-1sbM
 	for linux-nvme@lists.infradead.org;
-	Sat, 20 Dec 2025 00:18:47 +0000
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-c03ec27c42eso1299943a12.1
-        for <linux-nvme@lists.infradead.org>; Fri, 19 Dec 2025 16:18:46 -0800 (PST)
+	Sat, 20 Dec 2025 01:21:33 +0000
+Received: by mail-vk1-xa32.google.com with SMTP id 71dfb90a1353d-56021b53e9eso796320e0c.2
+        for <linux-nvme@lists.infradead.org>; Fri, 19 Dec 2025 17:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766189925; x=1766794725; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0b+OXrygZ1J1Hfb+NWdhuR5R53IopwscYd6YvtLJjJ0=;
-        b=CmERSvB/dbBgaaU+/UalBRs1ZuI6bC+LSXdwFrk/tXYpZADyuWGgre8yLIBXvyzqmZ
-         9Xmq0KnoqZ5E9FOZCsbkDh4wHB2xT0k/+u4mgJVBeCzeqn+mlZ6yoZr8sUm+qA6frgOb
-         68ML5H0zRPOdeF3wQQwoMMStm6UYJ91rERdcFC84m5t5sJBK+3wPwf9dSxq5IeYtgLOX
-         vVSRvydvaDrnpCCifE5dfko5kM2hgCgckmbwavo1jIBDT4qUmYeX+pminC+sh0Oi1Vqe
-         Dlm6t5c8ugDoJfmddM1yabrDJNcBj/FXxDGyUFosdUomyKM+bsXqV3agzonMyA4QbFhY
-         3Rfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766189925; x=1766794725;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=purestorage.com; s=google2022; t=1766193690; x=1766798490; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0b+OXrygZ1J1Hfb+NWdhuR5R53IopwscYd6YvtLJjJ0=;
-        b=xPnF3XtuUgaopO0cIODV4v5j7ltfnFf0q6CjR0ZrZvELJaprgGNw8vGu07RR5s8hKd
-         NEmwXPUh4Ire3PDB7E3fu7gAYyn/nkbWvNBVJAQ7wmH8rrRn1LfzbIy9YTqc2dalqa7h
-         Zxb5xt9YoHUgVteOTxyxywBpWWItom9g2bg2b9zwgnHaIF6tB0ZNSER8rZcXqkLc4yQF
-         w5l/67ygfHfi+yc8PQgnbUis6R76JslfpYqWVsgYlP1B5vOestdr3REz2YY+jhShjvPM
-         iQiuUZzsiozWo6uPZZepWUTk1Hd7Ww00bDoqm7j/3s5pj8Vxwwanh5sP+Vcl2Qc1I3Ot
-         yr3A==
-X-Gm-Message-State: AOJu0YwagwWaS/mebe+nmfATGT259l6ECMR6K8/xqMX7M2SeWJyPDHzg
-	+hJR6lKif8jfcp431K2H9jJJhaXGLneFPvan9k0zsHvTTnvy4AfwRXmhqoo8AQ==
-X-Gm-Gg: AY/fxX5zrPAw1WmD84yylyiVEkr30rfr8XQCNikmH79T35xokgxLECnWDB9H2XLWs7T
-	uo6+E9e1ebBtdFAOQ2hzKwBaWprkycSjbTkaDS17Zo4AZbR+3jX8exn32ez8HVwIpa/Qky0dkm3
-	1QVr5owbc0SyUx4IIBTEhLGBmoaTF+Af57POQg3P0EAc3/nqzX/tOR72QGUh4yL/OwC8cONuDfz
-	79mCUsE92lZ0Bn+3jChcY++Imu9HaNTEFPrPnfWDhU/RZT2lndCXRDeGR5vDULPfze2GjQTdtvd
-	hB/ZxrBdJz9pLURveRkIwDJ4soELB81W1PywC/TDrrX76gj00bybkiHxXVSt2ZbTYKFS8YJm13R
-	bu4rkJPNtSh4bFbSDaRHMBGW8+irrV66SG3x4AhH+Hdbh2KO6oqmBpayMbkyIzJIff546ml97aP
-	s8CYPvkX5NEG47OcUoFpsA3tAQFwlPsKaSZNUqtab9218q75k=
-X-Google-Smtp-Source: AGHT+IFc33B+pCduC8zmMz/6SEqTDcWW2WOZ9sjIwoHNBXmAfK/xJv0LnLqxkIMhQLSmXDidwU5TJA==
-X-Received: by 2002:a05:7301:dd82:b0:2a4:3593:466d with SMTP id 5a478bee46e88-2b05ebdd4a7mr4914285eec.9.1766189925029;
-        Fri, 19 Dec 2025 16:18:45 -0800 (PST)
-Received: from localhost (ip70-175-132-216.oc.oc.cox.net. [70.175.132.216])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05fcfc1b7sm9729910eec.0.2025.12.19.16.18.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 16:18:44 -0800 (PST)
-From: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com,
-	paul.ely@broadcom.com,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	yi.zhang@redhat.com,
-	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Subject: [BUG FIX PATCH COMPILE TESTED ONLY] nvme-fc: release admin tagset if init fails
-Date: Fri, 19 Dec 2025 16:18:42 -0800
-Message-Id: <20251220001842.6027-1-ckulkarnilinux@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        bh=7PrJnszBLojqKrV78aw+xEkBElYTLkB4kwu8K7rO+Uo=;
+        b=ajF29NTN1iQjbzOoW6VGsFm2tpwO8PCMK7DDSmAOqF/hDutAV2khI8T5GnF088orVN
+         /7ykadkTbcYMPUJVKHd589OAH9LWk3r5CzG04nSAcYFHw962P+pYdxbW+qSYytnnCXCh
+         W0+BTn5nU3SZFkoNve9ZlRihKEPQZs5531vWPHKzCLA/d9QZqZ5hnUYpsGvsfopt4PBi
+         Z4+GCFpif+hsTpz4vot/axJJ00IMsgYdP83pVpO6vCD2w6zSIxWr+PbVNBb9iRLnIZBq
+         lTOLhldpP9MH2nFlLdjpMiDscK95XBOwAawSmLWkxo/GjDEz3xN6VnTk5dU1U8p1StJ8
+         2q1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766193690; x=1766798490;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7PrJnszBLojqKrV78aw+xEkBElYTLkB4kwu8K7rO+Uo=;
+        b=X/vNyWQdGTGNJS7hZLh+Favj3L5qw+sBrFmJnq5GHf63eU/JyMPvgoM1efamoVE/RX
+         WwmXY/RmbNnvz2Z+hYnU9VYK8NK0yWJ5yBxiXI/VbYAr0GLNl6Bw0CVvnMuysYZzlDK0
+         +FRYJqE9k7gp83lgCGkU7NVgblbxzNVlfsbJk5kGA1fAaghti9z48BhhhK487crTDoXl
+         xLa73H/uzBIAYwKnTWJZ1auo937WdP9ncn/tgACnzb1bZsyQLX/317lgy0J56oehvQnY
+         XierNuVFoK7u7j/Bh3mQd8u5KZWKSrl8o6mJZIQmvJsfdYwkCi2y+cjza7ixJ8E0rcVB
+         1Snw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLTuhql8qpZxTHqc7U3oeAdpyYoQiiq1w52AdWpkJtgi00O7y29d393XvUnBu5nEoEoomTCeb75sHF@lists.infradead.org
+X-Gm-Message-State: AOJu0YyEBcPThX9gRrjTKGHXGpGvWGnVPzrMzAKEkNv4M197reNdoyBM
+	ASguTemxL3woTIPjNtSgO23HmvpcGvOp23BRd4RIivQY8/hvsGPZm65/jtyEq1WsJkhkU5TD7ww
+	neNvaHYPZTokHK4d44tH3V7jlhWjI1XkOdbPQOOTDr7bzd66IAW0C53iwxQ==
+X-Gm-Gg: AY/fxX56rsmP5Y1aY2gnVtlm9CXV9SjdTLBZfkGRxRRbgDR/9NGABMORd8cNDm/eZaK
+	CP1ac+TUjjm0ySSB8sJam61k0ckEVhh6S25soOqSabzjfqAsdg6oihW5MjaxXBgyf9bWKnJkyCK
+	QdRvhcZ9HGkB6Hb21G6UNw0sPPlpbKuqjA68lGOhX8ZvUgIHELn17zVYgN5n9Bsm3i5ljshdBby
+	tUXoig49tRp38+VmOMlMYYZBh91xhGNhZuwiNcshj6ceZ3kPmF3A0rbX/WM/qwCZgo02y8=
+X-Google-Smtp-Source: AGHT+IEAohaMZzHDChaXAY4ZHYfg8fxcwnJwg/jG5OT7jaSYaIiqW15GXMiM17UYvMKtATUc7d/jsfdr7g5EDnq+h3g=
+X-Received: by 2002:a05:6102:3347:b0:5de:62f:65b3 with SMTP id
+ ada2fe7eead31-5eb1a8530damr1291543137.39.1766193690469; Fri, 19 Dec 2025
+ 17:21:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251126021250.2583630-1-mkhalfella@purestorage.com> <20251126021250.2583630-14-mkhalfella@purestorage.com>
+In-Reply-To: <20251126021250.2583630-14-mkhalfella@purestorage.com>
+From: Randy Jennings <randyj@purestorage.com>
+Date: Fri, 19 Dec 2025 17:21:19 -0800
+X-Gm-Features: AQt7F2oC8n1NhHo2f5aP9w7GI-EduP30-XHKUTZn6_ij-sxT15j46oBH4EqgRs0
+Message-ID: <CAPpK+O3n2o7bJWorPZgO2eJFqn3+K0ZRwZwaumjC9WnrrPyCSw@mail.gmail.com>
+Subject: Re: [RFC PATCH 13/14] nvme-fc: Use CCR to recover controller that
+ hits an error
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Aaron Dailey <adailey@purestorage.com>, John Meneghini <jmeneghi@redhat.com>, 
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251219_161846_364791_522E016A 
-X-CRM114-Status: UNSURE (   9.47  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251219_172132_533975_5FC9649F 
+X-CRM114-Status: GOOD (  16.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,44 +98,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_fabrics creates an NVMe/FC controller in following path:
+On Tue, Nov 25, 2025 at 6:13=E2=80=AFPM Mohamed Khalfella
+<mkhalfella@purestorage.com> wrote:
+>
+> An alive nvme controller that hits an error will now move to RECOVERING
+> state instead of RESETTING state. In RECOVERING state, ctrl->err_work
+> will attempt to use cross-controller recovery to terminate inflight IOs
+> on the controller. If CCR succeeds, then switch to RESETTING state and
+> continue error recovery as usuall by tearing down the controller, and
+> attempting reconnect to target. If CCR fails, the behavior of recovery
+"usuall" -> "usual"
+"attempt reconnecting" -> "attempting to reconnect"
 
-    nvmf_dev_write()
-      -> nvmf_create_ctrl()
-        -> nvme_fc_create_ctrl()
-          -> nvme_fc_init_ctrl()
+it would read better with "the" added:
+"reconnect to the target"
 
-nvme_fc_init_ctrl() allocates the admin blk-mq resources right after
-nvme_add_ctrl() succeeds.  If any of the subsequent steps fail (changing
-the controller state, scheduling connect work, etc.), we jump to the
-fail_ctrl path, which tears down the controller references but never
-frees the admin queue/tag set.  The leaked blk-mq allocations match the
-kmemleak report seen during blktests nvme/fc.
+> depends on whether CQT is supported or not. If CQT is supported, switch
+> to time-based recovery by holding inflight IOs until it is safe for them
+> to be retried. If CQT is not supported proceed to retry requests
+> immediately, as the code currently does.
 
-Check ctrl->ctrl.admin_tagset in the fail_ctrl path and call
-nvme_remove_admin_tag_set() when it is set so that all admin queue
-allocations are reclaimed whenever controller setup aborts.
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
 
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Signed-off-by: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
----
- drivers/nvme/host/fc.c | 2 ++
- 1 file changed, 2 insertions(+)
+> @@ -1862,11 +1862,48 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl=
+ *ctrl,
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index bc455fa98246..6948de3f438a 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3587,6 +3587,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	ctrl->ctrl.opts = NULL;
- 
-+	if (ctrl->ctrl.admin_tagset)
-+		nvme_remove_admin_tag_set(&ctrl->ctrl);
- 	/* initiate nvme ctrl ref counting teardown */
- 	nvme_uninit_ctrl(&ctrl->ctrl);
- 
--- 
-2.40.0
+> +static int nvme_fc_recover_ctrl(struct nvme_ctrl *ctrl)
 
+> +       queue_delayed_work(nvme_reset_wq, &to_fc_ctrl(ctrl)->ioerr_work, =
+rem);
+Just like nvme_rdma_recover_ctrl,
+nvme_fc_recover_ctrl is exactly the same as
+nvme_tcp_recover_ctrl. Seems like a core.c function
+nvme_recover_ctrl could take a delayed work queue,
+unifying the code.
+
+>  nvme_fc_ctrl_ioerr_work(struct work_struct *work)
+>  {
+
+> +       if (nvme_ctrl_state(&ctrl->ctrl) =3D=3D NVME_CTRL_RECOVERING) {
+> +               if (nvme_fc_recover_ctrl(&ctrl->ctrl))
+> +                       return;
+> +       }
+>
+>         nvme_fc_error_recovery(ctrl);
+Inside of nvme_fc_error_recovery(), we call nvme_stop_keep_alive().
+The state of the controller should not be LIVE while waiting for
+recovery, so I do not think we will succeed in sending keep alives,
+but I think this should move to before (or inside of)
+nvme_fc_recover_ctrl().  You have replaced all the calls to
+nvme_fc_error_recovery() with nvme_fc_start_ioerr_recovery(),
+so that might be okay.
+
+Sincerely,
+Randy Jennings
 
