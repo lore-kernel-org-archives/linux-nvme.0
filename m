@@ -4,88 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E96C9E668B4
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 15:57:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B84BE668B1
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 17:38:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lzkROV+8+ZPemaiG7wDR+25RDFXtoSWM+BuOBMKEnXw=; b=o0rz3p7EE99N/xO6yuFS9UmNad
-	ScVK365OKIpG9G6w3hbRkaQx63gNjISbDYV9abgyLM77HAvq7NZbQYnsEblntRVoGqvKnVyaX9WQ0
-	bs2wF5wZsG2XUJsTy98Hhrsah90dg+Neg7BtiZc6NVJXkm6aUyB/HCrtAxS5/2nKjjeqLYKoHovh6
-	m0s6viJsC/aFGq/BlP9JEmanNAOftMCwDG1hbRfUaR87nCrtxVjwU15xRQHXMuTsH3dmwCj9NYKeo
-	umAib3OIScW/MDnxPMWOfvWDImCDKZjQ79980w3MSYAVy/b1FZyQvfNGE9ZIu+dEEdvz3aa/LWf1z
-	64qUebgg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=pWVHQnXJHLnZGKwql2taywHS0CwUooADxiatSjOPg0c=; b=FzaF94rDfM7Q/35zNNYwAhsAt1
+	AVqKx6dE6rEny0gofP2REySkmybpRIj0jBWEO+K3zticW5ymkSes4m2bw2LTZMS4wxqt/rpVgX/6b
+	CkHCpRxIIAU/MKCfiHN22gxBL3gXm9JhbNSIHZAVppHUoh95aBXBHBRA80By/9DeXOADoA8DYC6SM
+	yX6KYBwDncI486cJqPihUXs9FXjkwH5WHrthWBj/g7X32CJzIyHOcRsSLykIEHa/HAz79y8ekr9Qi
+	eX172NGiC/Ctbn4XZl2ZueYq1kTE7QfyWi52uTeT0DJtm7qNMSHzqPEWdEjrU+zioKq3dMkDsWrTj
+	t9LdqDDA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWzKi-0000000BhrZ-3pmd;
-	Sat, 20 Dec 2025 15:57:28 +0000
-Received: from mgamail.intel.com ([192.198.163.13])
+	id 1vX0uj-0000000BmnU-31ip;
+	Sat, 20 Dec 2025 17:38:45 +0000
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWzKg-0000000BhrE-0bQ6
+	id 1vX0uh-0000000Bmmz-2dAT
 	for linux-nvme@lists.infradead.org;
-	Sat, 20 Dec 2025 15:57:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766246246; x=1797782246;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mvgKR5eBPfsudG+7ydx/1/S0torXhJ+RG9LyOYP6tlY=;
-  b=PE9QxOcC91ijSXABanApfWrqJz82Pg/1+dioaE/O//cn11Ew0IbIfAZn
-   vFXGuDgY51FHyFapoB/gXqC3yfZAMK5NgSeth69oIcGDQp6b+8gi5IiNl
-   OZqBs1duYMDJzoiDUBtJkhgbcj/rDRhowLqfGMKOpSQj3gz2b8tKVBbwo
-   mQyhnHMI63yYf7414/1Ah+eA4VUV7cegI15eIO5l4iLqiQqInq8PfkR2R
-   +KJHg8ZZ85GOTuxwSkA6gMFtm87fHIe7qc7TwlP0ObyzL52I3xT9bD6hp
-   +T8Zvrue1krWmwhmqZNZCSJ2rypgVvc8cHWFC+NJ2e8v22nKbzkEqK9ey
-   w==;
-X-CSE-ConnectionGUID: Edp1NzOtTRSpUyZ0u7CsTA==
-X-CSE-MsgGUID: xN/9DYglQUKTDvGF8uiaaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70748113"
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="70748113"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:57:25 -0800
-X-CSE-ConnectionGUID: OK5FWqYtSzGM3+TRRKERfw==
-X-CSE-MsgGUID: UyYosMaJTDaoOZl/8+B6Nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199642886"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 07:57:20 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vWzKX-000000004nl-31dx;
-	Sat, 20 Dec 2025 15:57:17 +0000
-Date: Sat, 20 Dec 2025 23:57:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, Bjorn Helgaas <helgaas@kernel.org>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	houtao1@huawei.com
-Subject: Re: [PATCH 03/13] kernfs: add support for get_unmapped_area callback
-Message-ID: <202512202338.qFqw6FI8-lkp@intel.com>
-References: <20251220040446.274991-4-houtao@huaweicloud.com>
+	Sat, 20 Dec 2025 17:38:44 +0000
+Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-37d275cb96cso26917811fa.2
+        for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 09:38:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766252321; x=1766857121; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pWVHQnXJHLnZGKwql2taywHS0CwUooADxiatSjOPg0c=;
+        b=d7tZ8Z9YTtKqyIlz19J0e+HJjVpHzCrzTSyk6MhoCvNI9iuZ98R0jXPtO8kMuERGOE
+         /bCDbiwPJmUEyjzK9e4Zs7MNRgwhojF2/1Hv4weNQvJXGVrft8YFZYYOjhW74bk82IFG
+         cp7aDrtc5od7W3dHGDfqziKTKDhMAhqo1TUi4uq1Mlb+Ep3QlogAe+/yWvZKWwpj4gVU
+         G2v07ecan1PvyLBH1gtfu2oZeiAlYA1Q5IeIRQm6PmJlsu8L8bUhOzUtpuk20kgHnXW0
+         slVUXjBEhSrzulELTE1Scu56r7CRlJ1Au+75VIJxYp/CHkDDEbt6hEFTqc0XD5OQ+cdO
+         8tvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766252321; x=1766857121;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pWVHQnXJHLnZGKwql2taywHS0CwUooADxiatSjOPg0c=;
+        b=TiC1DgN2o1o9DmlXKzBywAwRZJS555uYQxr7rF1q64lXqy4FqYlhWmhtYo5ApSOKKd
+         cQIUPmuPsPLcFLwnPXbEwKKoYDz9v9JzgHxZIZtqQU1X0oWMq043BI1C+/ZPWDJgapV1
+         MzzgtpuBTxMP29idGO34iBx9xCH7dtbDkeMrVIwbQkzYW+CwAu3r6QxkvZdW1NC0BvIC
+         wawORbbbn5/NWwHrVoPjbdVbF9RmJf4JO2pPRRJ+we6b0B/Tb65AEAd+Dyh900mfktIj
+         gcO3LSiylrJfJMgr28OzUZDWWKe4/xJtgcSOn3SynOwX5Xp76idFBRKFHsV0SEQPNcgX
+         raaA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfKqluajdnVa4H1h7RjQRqZMcVpKjkzpukErc3dfWAqUeCcVgHkYnUZzvuCxrsbNThv39Rlq7uBx7r@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzru9cHoJHpU/YLxDComz2QMon/ZjtN8kOqawShR/GvWaJ3yzvW
+	WxAwO0IZ/qSFLTHrpr3M3E2smykLPpiVHN66cmUj0DaKIAAXQHt/DyFL
+X-Gm-Gg: AY/fxX521IhSGqOozsNvC9CrNVbOYq6TtHa7WBXhdL9iEvMYh52NIvh5nn9BW0v3zuz
+	wTGtQbUFj1J9vwxh/PXjm+gVFFn0FRZwJ/jfVixPFDsV5U/NN/nJ/7oZ4KYKCNA5NNMXZTlzgZ0
+	XcZwxTUMvA4CQy/YDtlriR1uU2gITF8YgUSvhG88OOj1acxXuQ4W0c+/ZQBJqhwRX+7KiKMmGHf
+	eSvA16ffGgETuSQZ0Nd20sVKPey6atfBRHMWaKnRi1nYq9YeIimm5kirwzd6jr01zq8Ijn6R1c+
+	sP2OHk2kco942kmVC2yCs/bJx4QMb5tNDQP38Ifc6FG+8w8izYR3R1rbQqYkKfSW542PLG/HBe+
+	xkpMD0IETF+QDfnrNbgxyDYxLGFRphan1mefHhDh1b2MSlHLU5ky9NsPkZYrxERsg1pfai9Prgc
+	8WwD8K+D8dZpcmCeu92859v34x1ND2tzmyW6pbsXgaG/1F
+X-Google-Smtp-Source: AGHT+IF4oZaM2X0MjOhaWnNrJhiLDqITwDIXbBo4fYLLk5BmYfUmhvV6jmaDiuDNjWd2FalLYanAKw==
+X-Received: by 2002:a05:651c:41c6:b0:37b:9ab6:a071 with SMTP id 38308e7fff4ca-3812162d6a9mr21438191fa.28.1766252321190;
+        Sat, 20 Dec 2025 09:38:41 -0800 (PST)
+Received: from mismas.lan ([176.62.179.109])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3812269da5esm12685351fa.50.2025.12.20.09.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Dec 2025 09:38:40 -0800 (PST)
+From: Vitaliy Filippov <vitalifster@gmail.com>
+To: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: Vitaliy Filippov <vitalifster@gmail.com>
+Subject: [PATCH] Do not require atomic writes to be power of 2 sized and aligned on length boundary
+Date: Sat, 20 Dec 2025 20:38:33 +0300
+Message-ID: <20251220173833.71176-1-vitalifster@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251220040446.274991-4-houtao@huaweicloud.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251220_075726_254286_B0FB0695 
-X-CRM114-Status: GOOD (  13.86  )
+X-CRM114-CacheID: sfid-20251220_093843_673728_725A0C1C 
+X-CRM114-Status: UNSURE (   7.38  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,80 +97,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Hou,
+It contradicts NVMe specification where alignment is only required when atomic
+write boundary (NABSPF/NABO) is set and highly limits usage of NVMe atomic writes
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Vitaliy Filippov <vitalifster@gmail.com>
+---
+ fs/read_write.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-[auto build test ERROR on driver-core/driver-core-testing]
-[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus akpm-mm/mm-everything linus/master v6.19-rc1 next-20251219]
-[cannot apply to pci/next pci/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hou-Tao/PCI-P2PDMA-Release-the-per-cpu-ref-of-pgmap-when-vm_insert_page-fails/20251220-121804
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20251220040446.274991-4-houtao%40huaweicloud.com
-patch subject: [PATCH 03/13] kernfs: add support for get_unmapped_area callback
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251220/202512202338.qFqw6FI8-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b324c9f4fa112d61a553bf489b5f4f7ceea05ea8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202338.qFqw6FI8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202338.qFqw6FI8-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/kernfs/file.c:480:9: error: call to undeclared function 'mm_get_unmapped_area'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     480 |         addr = mm_get_unmapped_area(file, uaddr, len, pgoff, flags);
-         |                ^
-   fs/kernfs/file.c:480:9: note: did you mean '__get_unmapped_area'?
-   include/linux/mm.h:3671:1: note: '__get_unmapped_area' declared here
-    3671 | __get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
-         | ^
-   1 error generated.
-
-
-vim +/mm_get_unmapped_area +480 fs/kernfs/file.c
-
-   456	
-   457	static unsigned long kernfs_get_unmapped_area(struct file *file, unsigned long uaddr,
-   458						      unsigned long len, unsigned long pgoff,
-   459						      unsigned long flags)
-   460	{
-   461		struct kernfs_open_file *of = kernfs_of(file);
-   462		const struct kernfs_ops *ops;
-   463		long addr;
-   464	
-   465		if (!(of->kn->flags & KERNFS_HAS_MMAP))
-   466			return -ENODEV;
-   467	
-   468		mutex_lock(&of->mutex);
-   469	
-   470		addr = -ENODEV;
-   471		if (!kernfs_get_active_of(of))
-   472			goto out_unlock;
-   473	
-   474		ops = kernfs_ops(of->kn);
-   475		if (ops->get_unmapped_area) {
-   476			addr = ops->get_unmapped_area(of, uaddr, len, pgoff, flags);
-   477			if (!IS_ERR_VALUE(addr) || addr != -EOPNOTSUPP)
-   478				goto out_put;
-   479		}
- > 480		addr = mm_get_unmapped_area(file, uaddr, len, pgoff, flags);
-   481	
-   482	out_put:
-   483		kernfs_put_active_of(of);
-   484	out_unlock:
-   485		mutex_unlock(&of->mutex);
-   486	
-   487		return addr;
-   488	}
-   489	
-
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 833bae068770..8b901be75a9f 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -1807,12 +1807,6 @@ int generic_atomic_write_valid(struct kiocb *iocb, struct iov_iter *iter)
+ 	if (!iter_is_ubuf(iter))
+ 		return -EINVAL;
+ 
+-	if (!is_power_of_2(len))
+-		return -EINVAL;
+-
+-	if (!IS_ALIGNED(iocb->ki_pos, len))
+-		return -EINVAL;
+-
+ 	if (!(iocb->ki_flags & IOCB_DIRECT))
+ 		return -EOPNOTSUPP;
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
 
