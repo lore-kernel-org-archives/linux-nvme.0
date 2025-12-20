@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A233E668B3
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA8ABE668BC
 	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 04:16:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,29 +12,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=52FytA84TX05ZJauWansx1ZnrZwF9IDwipMMg6E/ADU=; b=nUR0F8T3k9gC77cB3pj8YyZ6jy
-	1gzPXwBrB330h0kzgkkyDMtHxqzSVVbILUx7RomvgsL6RoThGAzVMUBSxWPbc74/Ng5qXT2frCoyK
-	xXbADOKXePqNypa1tu83hHfayJqar0lXxsYkqxfl1SuuOTuv3Ql4o2HkbvmfKpBgGV7n7UbI4HUQm
-	Z0wigpa3Yp43RAz4vm2NInOnVm4vL9veevciEbXRqAcefz6HHEJVUAyZu0ZWEjiUWC/oWZ1tRj3Q8
-	l+V0TqAfHg0lg0xfKaJXTDEEWKimZne9CTEGG1p6GBNVqKQireMIXBd++nOBDvE85CHfeRcMEVaPY
-	jnHE7IqA==;
+	bh=KT8JjtzAf38iL8X+gBQNnh0tR7lsAFfn57Ng7z4QAak=; b=wcW2lxZmLw1lmR/QzEBChb6NoI
+	bPGxuZvSiTcTNIgTWtg4Yo3zqbeE26ykIUB/BqNgn1IQp/1NKN/RljHOdbfiDBiFPr58SziF/b2vo
+	UZzyEkVm2GKJf9WEaHsYa5uupswYPTZi2Weqw4CxfQ2l6tOdJOUSNoNsmTHuAVJjpWUmqi76pttN8
+	cnqfD4EWjdtWP6NfExVH0+J+kWlfUlGWYAdKyOKx5n8njxdQY6blG32mpZ+GwSoCVoqdUKx/izj8r
+	ODkKE4g1KLajbpNbLgqXBpTCh+bqSdgZHW0VGv9YDFNN1NgbAWGvXwSE0CI/awyvJOj+qBZo0dS6h
+	AGRhsg7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWoOJ-0000000BGaU-1d7w;
-	Sat, 20 Dec 2025 04:16:27 +0000
+	id 1vWoOK-0000000BGbl-11p9;
+	Sat, 20 Dec 2025 04:16:28 +0000
 Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWoOE-0000000BGSO-1mam
+	id 1vWoOE-0000000BGSg-3yo6
 	for linux-nvme@lists.infradead.org;
-	Sat, 20 Dec 2025 04:16:23 +0000
+	Sat, 20 Dec 2025 04:16:24 +0000
 Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dYB08383JzYQtjb
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dYB083bmczYQtjT
 	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:15:36 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id C2DAB4056D
+	by mail.maildlp.com (Postfix) with ESMTP id D2ED94056B
 	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:16:07 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.87.129])
-	by APP4 (Coremail) with SMTP id gCh0CgD3WPn5IkZpFwpFAw--.56015S16;
+	by APP4 (Coremail) with SMTP id gCh0CgD3WPn5IkZpFwpFAw--.56015S17;
 	Sat, 20 Dec 2025 12:16:07 +0800 (CST)
 From: Hou Tao <houtao@huaweicloud.com>
 To: linux-kernel@vger.kernel.org
@@ -57,36 +57,36 @@ Cc: linux-pci@vger.kernel.org,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	houtao1@huawei.com
-Subject: [PATCH 12/13] nvme-pci: introduce cmb_devmap_align module parameter
-Date: Sat, 20 Dec 2025 12:04:45 +0800
-Message-Id: <20251220040446.274991-13-houtao@huaweicloud.com>
+Subject: [PATCH 13/13] PCI/P2PDMA: enable compound page support for p2pdma memory
+Date: Sat, 20 Dec 2025 12:04:46 +0800
+Message-Id: <20251220040446.274991-14-houtao@huaweicloud.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20251220040446.274991-1-houtao@huaweicloud.com>
 References: <20251220040446.274991-1-houtao@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgD3WPn5IkZpFwpFAw--.56015S16
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFykWw48tw1xKr1xWF43trb_yoW8try3pa
-	4DZFn8XFWakF1ay3yaywsrZas8Zw4v93yUAFW3Gw17u347tFZayFyUGa4YgFy5WrWDuF13
-	AF42kryxWay7AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-	AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7
-	xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE
-	7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262
-	kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
-	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
-	v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvE
-	c7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-	AFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
-	pf9x07j4fO7UUUUU=
+X-CM-TRANSID: gCh0CgD3WPn5IkZpFwpFAw--.56015S17
+X-Coremail-Antispam: 1UD129KBjvdXoWruF13Jw1xKFWxGw48Zw4fKrg_yoWDWwbEvF
+	4UZ34rXr4kGa42gFyqy34xZrW5tay8Wr1kWF4vya45ZFy09a1vvr1qvry5Xry8Wr97WF98
+	CasrCF1I9ryjkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbgAYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r126s
+	0DM28IrcIa0xkI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
+	Y2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
+	v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAF
+	wI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
+	WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCj
+	c4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4
+	kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E
+	5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZV
+	WrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY
+	1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
+	AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZE
+	Xa7IU0FJmUUUUUU==
 X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251219_201622_850220_42FDB9C5 
-X-CRM114-Status: GOOD (  13.42  )
+X-CRM114-CacheID: sfid-20251219_201623_229249_4884C626 
+X-CRM114-Status: GOOD (  11.65  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,58 +103,38 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hou Tao <houtao1@huawei.com>
 
-P2PDMA memory has supported compound page. It is best to enable compound
-page for p2pdma memory automatically accordingly to the address, the
-size and the offset of the CMB, however, for nvme device, the p2pdma
-memory may be used in the kernel space (e.g., for SQ entries) and it
-will incur a lot of waste when a PUD or PMD-sized page is enabled for
-nvme device.
-
-Therefore, introduce a module parameter cmb_devmap_align to control the
-alignment of p2pdma memory mapping. Its default value is PAGE_SIZE. When
-its value is zero, it will use pci_p2pdma_max_pagemap_align() to find
-the maximal possible mapping alignment.
+Compound page support for P2PDMA memory in both kernel and user space is
+now in place. Enable it by allowing PUD_SIZE and PMD_SIZE alignment.
 
 Signed-off-by: Hou Tao <houtao1@huawei.com>
 ---
- drivers/nvme/host/pci.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/pci/p2pdma.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b070095bae5e..ca0126e36834 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -79,6 +79,10 @@ static bool use_cmb_sqes = true;
- module_param(use_cmb_sqes, bool, 0444);
- MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
- 
-+static unsigned long cmb_devmap_align = PAGE_SIZE;
-+module_param(cmb_devmap_align, ulong, 0444);
-+MODULE_PARM_DESC(cmb_devmap_align, "the mapping alignment of CMB");
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 4a133219ac43..969bdacdcf8b 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -452,9 +452,19 @@ static inline int pci_p2pdma_check_pagemap_align(struct pci_dev *pdev, int bar,
+ 						 u64 size, size_t align,
+ 						 u64 offset)
+ {
++	if (has_transparent_pud_hugepage() && align == PUD_SIZE)
++		goto more_check;
++	if (has_transparent_hugepage() && align == PMD_SIZE)
++		goto more_check;
+ 	if (align == PAGE_SIZE)
+ 		return 0;
+ 	return -EINVAL;
 +
- static unsigned int max_host_mem_size_mb = 128;
- module_param(max_host_mem_size_mb, uint, 0444);
- MODULE_PARM_DESC(max_host_mem_size_mb,
-@@ -2266,6 +2270,7 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 	u64 size, offset;
- 	resource_size_t bar_size;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	size_t align;
- 	int bar;
++more_check:
++	if (IS_ALIGNED(pci_resource_start(pdev, bar), align) &&
++	    IS_ALIGNED(size, align) && IS_ALIGNED(offset, align))
++		return 0;
++	return -EINVAL;
+ }
  
- 	if (dev->cmb_size)
-@@ -2309,7 +2314,10 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 			     dev->bar + NVME_REG_CMBMSC);
- 	}
- 
--	if (pci_p2pdma_add_resource(pdev, bar, size, PAGE_SIZE, offset)) {
-+	align = cmb_devmap_align;
-+	if (!align)
-+		align = pci_p2pdma_max_pagemap_align(pdev, bar, size, offset);
-+	if (pci_p2pdma_add_resource(pdev, bar, size, align, offset)) {
- 		dev_warn(dev->ctrl.device,
- 			 "failed to register the CMB\n");
- 		hi_lo_writeq(0, dev->bar + NVME_REG_CMBMSC);
+ /**
 -- 
 2.29.2
 
