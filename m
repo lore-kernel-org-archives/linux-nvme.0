@@ -4,37 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF862D637B2
-	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 04:16:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D820EE668B6
+	for <linux-nvme@archiver.kernel.org>; Sat, 20 Dec 2025 04:16:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SJkD/tBeeEEJmstxapoYxLUzG9IOFg4LsR8Q3wzbbGs=; b=DMagu1vZtf8Ojlgu3azM2Aoc4A
-	r+n70HXwLReskeDAor79TkE/CV1etZNK1nYRDO1nzp/74X5QZMc6QpsmGnUvcy4Qv1ln4Wp9mGOy1
-	1BAleGR69ZRGyEeFAjgyrV/ACS3LM3TLl4L+DoqYUeYIAN09f4dYTWQi/UblGrZ1iZDrZAJn2Yt78
-	lfQN8ASZnt1+8668+MLi/OFeSPRKwkw28H0rsRKpksYUm00k7FpjesKBSspRpb2ND+T4D+wY0YeF8
-	oeXyZDAwJ/bB5gTeJWcx+vqFVwLBFsPWpeQx33WLvpZug+bXUs0+ObsofJcTJ1ZQvQX0DjaAwjybV
-	s6XCrr+Q==;
+	bh=nHSxXsmvYGLR7vfZHfzfTQz8iHaAe/U5mySPzzgTYXM=; b=HAKkHBlFhNCGNhn1QTfM0CTuBE
+	dgI7F8eQ2UGPYEwbV6W2GC8w26Hr1WC19kQA2tAWW61zm3lNOmuvLgGZT5aeNQoK+FsDMkM3aiygO
+	EBLmdqNCkMmrkASuBBV9F0K/1wJAweBd8YlqO4wEw9IF4F92Kb2rnkZMvyrBRvqamPi6EfftrngTc
+	zvgbKaGLtGevFvMB/11AIUQ/tYpoOxtufSMLLWvT7nx3r72M4xWfR/Udc3d4LemYNUcdGniQZT54Y
+	GNmFGn8GIlUFULEr/mE6YxT0WNlDv7zHf4FwumU6tybDqtrN3tIJ9fJ74xdAj6jCufluO0eluzWZu
+	c1Gjh+ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWoOC-0000000BGRp-1rjv;
-	Sat, 20 Dec 2025 04:16:20 +0000
+	id 1vWoOH-0000000BGXQ-11R5;
+	Sat, 20 Dec 2025 04:16:25 +0000
 Received: from dggsgout12.his.huawei.com ([45.249.212.56])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vWoO8-0000000BGOv-2Ji9
+	id 1vWoOA-0000000BGOr-383T
 	for linux-nvme@lists.infradead.org;
-	Sat, 20 Dec 2025 04:16:19 +0000
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dYB0V0F64zKHLx3
-	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:15:54 +0800 (CST)
+	Sat, 20 Dec 2025 04:16:21 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dYB0T5F5FzKHMHn
+	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:15:53 +0800 (CST)
 Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 314254056B
-	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:16:07 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTP id D935F40576
+	for <linux-nvme@lists.infradead.org>; Sat, 20 Dec 2025 12:16:06 +0800 (CST)
 Received: from huaweicloud.com (unknown [10.50.87.129])
-	by APP4 (Coremail) with SMTP id gCh0CgD3WPn5IkZpFwpFAw--.56015S9;
+	by APP4 (Coremail) with SMTP id gCh0CgD3WPn5IkZpFwpFAw--.56015S6;
 	Sat, 20 Dec 2025 12:16:06 +0800 (CST)
 From: Hou Tao <houtao@huaweicloud.com>
 To: linux-kernel@vger.kernel.org
@@ -57,36 +57,36 @@ Cc: linux-pci@vger.kernel.org,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
 	houtao1@huawei.com
-Subject: [PATCH 05/13] sysfs: support get_unmapped_area callback for binary file
-Date: Sat, 20 Dec 2025 12:04:38 +0800
-Message-Id: <20251220040446.274991-6-houtao@huaweicloud.com>
+Subject: [PATCH 02/13] PCI/P2PDMA: Fix the warning condition in p2pmem_alloc_mmap()
+Date: Sat, 20 Dec 2025 12:04:35 +0800
+Message-Id: <20251220040446.274991-3-houtao@huaweicloud.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20251220040446.274991-1-houtao@huaweicloud.com>
 References: <20251220040446.274991-1-houtao@huaweicloud.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: gCh0CgD3WPn5IkZpFwpFAw--.56015S9
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF48Xw1DWw45tr1rXFy8AFb_yoW8uF4rpF
-	sYk343XrZ7G3srKr9xAFW5W343KwnrGr1q9rZ2g343AwnrtF9Ig3yjya15JryrJrW8Cr1x
-	KF429ryYkrW5G37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-	AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7
-	xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE
-	7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262
-	kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
-	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
-	v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvE
-	c7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
-	pf9x07j4fO7UUUUU=
+X-CM-TRANSID: gCh0CgD3WPn5IkZpFwpFAw--.56015S6
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr18GF15tF13WF1DAr1DWrg_yoW8Ar13pF
+	W3GF17GrWktr43JF4DJ3Z8ury5Aan3uFWUKFWUXw1UuF13urWjkw48tF95Jry5try8Ar1S
+	qFs8ur1jyF1DAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXw
+	A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMc
+	Ij6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkE
+	bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7
+	AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_Wr
+	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
+	WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU
+	xXTmDUUUU
 X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251219_201616_935583_C094AA8B 
-X-CRM114-Status: GOOD (  14.01  )
+X-CRM114-CacheID: sfid-20251219_201619_156593_E9A9278E 
+X-CRM114-Status: GOOD (  14.47  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,64 +103,41 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Hou Tao <houtao1@huawei.com>
 
-Add support for ->get_unmapped_area callback for binary sysfs file. The
-following patch will use it to support compound page for p2pdma device
-memory when the device memory is mapped into userspace.
+Commit b7e282378773 has already changed the initial page refcount of
+p2pdma page from one to zero, however, in p2pmem_alloc_mmap() it uses
+"VM_WARN_ON_ONCE_PAGE(!page_ref_count(page))" to assert the initial page
+refcount should not be zero and the following will be reported when
+CONFIG_DEBUG_VM is enabled:
 
+ page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x380400000
+ flags: 0x20000000002000(reserved|node=0|zone=4)
+ raw: 0020000000002000 ff1100015e3ab440 0000000000000000 0000000000000000
+ raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+ page dumped because: VM_WARN_ON_ONCE_PAGE(!page_ref_count(page))
+ ------------[ cut here ]------------
+ WARNING: CPU: 5 PID: 449 at drivers/pci/p2pdma.c:240 p2pmem_alloc_mmap+0x83a/0xa60
+
+Fix by using "page_ref_count(page)" as the assertion condition.
+
+Fixes: b7e282378773 ("mm/mm_init: move p2pdma page refcount initialisation to p2pdma")
 Signed-off-by: Hou Tao <houtao1@huawei.com>
 ---
- fs/sysfs/file.c       | 15 +++++++++++++++
- include/linux/sysfs.h |  4 ++++
- 2 files changed, 19 insertions(+)
+ drivers/pci/p2pdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
-index 3825e780cc58..e843795ebdc2 100644
---- a/fs/sysfs/file.c
-+++ b/fs/sysfs/file.c
-@@ -164,6 +164,20 @@ static ssize_t sysfs_kf_bin_write(struct kernfs_open_file *of, char *buf,
- 	return battr->write(of->file, kobj, battr, buf, pos, count);
- }
- 
-+static unsigned long sysfs_kf_bin_get_unmapped_area(struct kernfs_open_file *of,
-+						    unsigned long uaddr, unsigned long len,
-+						    unsigned long pgoff, unsigned long flags)
-+{
-+	const struct bin_attribute *battr = of->kn->priv;
-+	struct kobject *kobj;
-+
-+	if (!battr->get_unmapped_area)
-+		return -EOPNOTSUPP;
-+
-+	kobj = sysfs_file_kobj(of->kn);
-+	return battr->get_unmapped_area(of->file, kobj, battr, uaddr, len, pgoff, flags);
-+}
-+
- static int sysfs_kf_bin_mmap(struct kernfs_open_file *of,
- 			     struct vm_area_struct *vma)
- {
-@@ -268,6 +282,7 @@ static const struct kernfs_ops sysfs_bin_kfops_mmap = {
- 	.mmap		= sysfs_kf_bin_mmap,
- 	.open		= sysfs_kf_bin_open,
- 	.llseek		= sysfs_kf_bin_llseek,
-+	.get_unmapped_area = sysfs_kf_bin_get_unmapped_area,
- };
- 
- int sysfs_add_file_mode_ns(struct kernfs_node *parent,
-diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-index c33a96b7391a..f4a50f244f4d 100644
---- a/include/linux/sysfs.h
-+++ b/include/linux/sysfs.h
-@@ -321,6 +321,10 @@ struct bin_attribute {
- 			 loff_t, int);
- 	int (*mmap)(struct file *, struct kobject *, const struct bin_attribute *attr,
- 		    struct vm_area_struct *vma);
-+	unsigned long (*get_unmapped_area)(struct file *, struct kobject *,
-+					   const struct bin_attribute *attr,
-+					   unsigned long uaddr, unsigned long len,
-+					   unsigned long pgoff, unsigned long flags);
- };
- 
- /**
+diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+index 218c1f5252b6..dd64ec830fdd 100644
+--- a/drivers/pci/p2pdma.c
++++ b/drivers/pci/p2pdma.c
+@@ -147,7 +147,7 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
+ 		 * we have just allocated the page no one else should be
+ 		 * using it.
+ 		 */
+-		VM_WARN_ON_ONCE_PAGE(!page_ref_count(page), page);
++		VM_WARN_ON_ONCE_PAGE(page_ref_count(page), page);
+ 		set_page_count(page, 1);
+ 		ret = vm_insert_page(vma, vaddr, page);
+ 		if (ret) {
 -- 
 2.29.2
 
