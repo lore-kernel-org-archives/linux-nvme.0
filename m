@@ -4,56 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B4DFE66886
-	for <linux-nvme@archiver.kernel.org>; Sun, 21 Dec 2025 23:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5956D711D5
+	for <linux-nvme@archiver.kernel.org>; Mon, 22 Dec 2025 09:03:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iyLpVsiA8ORSOe0sQppKrZn+L7O20ZMfPMTxTtlpZKI=; b=nuzB6UIm3atNk5ag/YS8yII+qY
-	qys3iIaLuG2UoQvUP7yO5uDR5tNBM9pO2JG5uOK6kbSnw911rDenwuz8uyKjpVkNephc4mRxgzXVe
-	MznIpZTbjh1MqACEVvkYSChgowmlr4Hr7DZKjjY4uz+KQnMOu7Rc+L5NsTveIxPtfuJJavqMStlMi
-	nQsGt0KQ7AVIiE/KaN9LGhsGEBiAiyWkXSD+XpMUdNcxYERmsnnEzjp2enm/U0UdivGRlaqiX4A8g
-	IW4nCnnKqH4NhllSvfUtIwYgTbzyLwD0L1pEo32rtyEuOvgsNwwN++FCGsixu8pIwr9jLSpKE7qBs
-	SealeDKA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rBf3jQVFnGCeJlMPbA0E+WWQIPnf9AfAJW4UEB5U3Ig=; b=aSkAox0rp5+l9+kxEf7lQMOjKN
+	WEvqdXpei1qfnAUuNOZghQvpX6F8e9/eE3AVxUwDpseMaOPXjXtFCS6YyLhWj2V0XxvUVACBBStRC
+	L7CJ/y5Hc1bLoovOuRhZ1xxpaJSTCjoKYZaU1SR1st7jnIjBFoBV39ScZ4tn0HTv+hx1lWMGyc3WG
+	RGQAIbV6EsQ3qK2lUZH4vzOE3VwCKpfzJkOJXQ3o90VrAeFxsVncJjNfw8kRkyQ5TzZnxIo8mxrXQ
+	aMa1x1MAyX5IRg3kFKNvyKGcFfAInKpCx+oeQoBkDHVVM2EaRwUE0Lvmtgd5el1ugTgAT+4oaqoFB
+	XfcXCAUQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vXSg1-0000000CrC6-3Hjr;
-	Sun, 21 Dec 2025 23:17:25 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vXboe-0000000DUoW-1c7v;
+	Mon, 22 Dec 2025 09:02:56 +0000
+Received: from mail.vexro.pl ([141.94.250.70])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vXSfz-0000000CrBx-43zP
+	id 1vXbob-0000000DUoB-1rld
 	for linux-nvme@lists.infradead.org;
-	Sun, 21 Dec 2025 23:17:24 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 772E8600C3;
-	Sun, 21 Dec 2025 23:17:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8794DC4CEFB;
-	Sun, 21 Dec 2025 23:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766359041;
-	bh=iyLpVsiA8ORSOe0sQppKrZn+L7O20ZMfPMTxTtlpZKI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F1gvv86ktTBvn942fUjwHDB3KbNVedHydJlz6r+8aCGit7JP20j2FnCmEw6DpohFH
-	 iMqrURAKlPP/A+QeD+k4P/UsSVr4onBr9SvYNC9nkkB6x3nssfDQiOo3w1uPhC5dag
-	 2jNnZyMRnXQ6Dq4c7Xl4FAmLSgQwJ9v/Np/OHPWrB26c/xauGiW4uZu+5bXxFd4DYv
-	 JxPsgWq7yXh/jlr88o2FW3Vgsl4fdHHYKYf+oAy1h17XpTYMftUTjz/yIqCHEnCNzF
-	 SI/v6pb929TSk9CeTSZFRVb/nvXJ5b2ZUsUZnc2YwIzilAMp9adVdJ9AxslibaTXOX
-	 RR+fwMQEKEARA==
-Date: Mon, 22 Dec 2025 07:17:15 +0800
-From: Keith Busch <kbusch@kernel.org>
-To: Vitaliy Filippov <vitalifster@gmail.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2] Do not require atomic writes to be power of 2 sized
- and aligned on length boundary
-Message-ID: <aUh_--eKRKYOHzLz@kbusch-mbp>
-References: <20251221132402.27293-1-vitalifster@gmail.com>
+	Mon, 22 Dec 2025 09:02:54 +0000
+Received: by mail.vexro.pl (Postfix, from userid 1002)
+	id C40F5A5501; Mon, 22 Dec 2025 10:01:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vexro.pl; s=mail;
+	t=1766394072; bh=rBf3jQVFnGCeJlMPbA0E+WWQIPnf9AfAJW4UEB5U3Ig=;
+	h=Date:From:To:Subject:From;
+	b=oMaMnwdlq2WkvBlqGq0pLYeXmB/SN6PDB1qmK6Ujy36uCDpEDofukGeiRUKJuvGcF
+	 d5lk0WNwiGymA9m5KjE2zFIPKZz0/2Ol9gTWCuLjQF55NCAE4/0+8KFnCrC0NdhMNt
+	 njs8SB/CDR4N8nDBi5sbXYfPbn0eZ49Yw5JAOyQGBHH74rDNMhjqiv4OOTKAYsAro9
+	 ZdbhmEmW0sHXmBiLgwvOpNyQyp+X5PwLEYvk/zC08XkevmeAkTbxVAm+RCZrNoRIO9
+	 cG1kc5vMvkNVzsf6aE0zouhoEBP6PfYkigWRZa55Mx/gV5JnaFikXWZ2rWh5blywTs
+	 UpzSSpK2eKiSA==
+Received: by mail.vexro.pl for <linux-nvme@lists.infradead.org>; Mon, 22 Dec 2025 09:00:58 GMT
+Message-ID: <20251222084500-0.1.pc.4sj0y.0.4hrote2bnk@vexro.pl>
+Date: Mon, 22 Dec 2025 09:00:58 GMT
+From: "Adam Drzewiecki" <adam.drzewiecki@vexro.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: W sprawie samochodu 
+X-Mailer: mail.vexro.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251221132402.27293-1-vitalifster@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20251222_010253_621749_36F70EBC 
+X-CRM114-Status: UNSURE (   2.64  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,21 +66,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Dec 21, 2025 at 04:24:02PM +0300, Vitaliy Filippov wrote:
-> It contradicts NVMe specification where alignment is only required when atomic
-> write boundary (NABSPF/NABO) is set and highly limits usage of NVMe atomic writes
+Dzie=C5=84 dobry,
 
-Commit header is missing the "fs:" prefix, and the commit log should
-wrap at 72 characters.
+czy istnieje mo=C5=BCliwo=C5=9B=C4=87 porozmawiania z Pa=C5=84stwem o wsp=
+=C3=B3=C5=82pracy?
 
-On the techincal side, this is a generic function used by multiple
-protocols, so you can't just appeal to NVMe to justify removing the
-checks.
+Dostarczamy i wdra=C5=BCamy system, kt=C3=B3rego efektem jest obni=C5=BCe=
+nie koszt=C3=B3w za paliwo, szybsze pokonywanie tras, skr=C3=B3cenie czas=
+u dostaw oraz wi=C4=99ksze bezpiecze=C5=84stwo kierowc=C3=B3w na drodze.
 
-NVMe still has atomic boundaries where straddling it fails to be an
-atomic operation. Instead of removing the checks, you'd have to replace
-it with a more costly operation if you really want to support more
-arbitrary write lengths and offsets. And if you do manage to remove the
-power of two requirement, then the queue limit for nvme's
-atomic_write_hw_unit_max isn't correct anymore.
+Prosz=C4=99 o kontakt, je=C5=9Bli interesuje Pa=C5=84stwa poznanie mo=C5=BC=
+liwo=C5=9Bci lub bezp=C5=82atny test tego typu narz=C4=99dzia.
+
+
+Pozdrawiam
+Adam Drzewiecki
 
