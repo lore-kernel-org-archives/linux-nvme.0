@@ -4,122 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B071E6F093
-	for <linux-nvme@archiver.kernel.org>; Tue, 23 Dec 2025 14:51:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3ABC9E748FC
+	for <linux-nvme@archiver.kernel.org>; Wed, 24 Dec 2025 01:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bIEhp4UY7pviuKnzV/rKR/twHOoEZByeg3c+uZvBSYY=; b=XlAzZ4B/hh27yerwosZCvVSLbi
-	EcFysBkqqtOeWtfqfyV22QMlbRZCQeX9s/4ct7b4RNnO0/UHa6WyIJODoz1LFUDqSDXD3MOjLg544
-	Pwh7+WBB9CbVivb0mD+u5OaqV3Xthms1VdEyagQuwdxW0jN42vG0GSDAlzh2WcoDRlnwPU4Gh6zTr
-	jfOyhqNJqEW0EbPjzmENIZWm8EIPBiNR0j5qQec/e4KUusm0KipxPXY+GrOQrn93rD2weuAfsCvDW
-	LKvwN0QYIPuz3YuWo7pkoK9a/k/7MvxdjnkPcM4h4jg0jZYK9V7OTMIKPhyyaXGHfzxN2xWkAeBTh
-	9e+uoLkg==;
+	bh=a0H/5L4cjCxNPuDapNyiObFAKiyy3Wa8aIU9Ie8pgAk=; b=RID7bH0E4DbWJ/U438xFmkIaqy
+	cVOSKpVzmK95cgjqGcMMKe58XnmOVHPUToSAC4o2XykbagFIHLk6HhDmOU57UlwcEOYSkYcjp6ftV
+	ZsqOEU7Gx3ixsrgPGUWgG+SjDbVdDqhCQ8H5+lekHWfUkqtE/LB8Ayi6EYrZTX0ep1TkyLwjHvYvX
+	O/vlPb6fhHMAnlg9RxT4CUV3Q8UXOWtqe7hsR1ticg66/xzdAGV2l5QRNsv7hgSv/g8BHkrh3Vzx4
+	qCAXcdDwKV/eKgYt8Miu5tyYtMmwSAqh/y0c1Wg0vw/Yuqq1ZAJ/GyZs8RHHCzQNvXX8xbb1wJiL1
+	KVx5Girg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vY3j8-0000000Fdqx-0BEJ;
-	Tue, 23 Dec 2025 14:51:06 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vYDpX-0000000GHZ1-4AQK;
+	Wed, 24 Dec 2025 01:38:24 +0000
+Received: from dggsgout11.his.huawei.com ([45.249.212.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vY3j1-0000000FdqY-1rsL
+	id 1vYDpU-0000000GHYP-1kk9
 	for linux-nvme@lists.infradead.org;
-	Tue, 23 Dec 2025 14:51:00 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BNClQqY006456;
-	Tue, 23 Dec 2025 14:50:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=bIEhp4
-	UY7pviuKnzV/rKR/twHOoEZByeg3c+uZvBSYY=; b=G9NIocZk0V/bG7oJ1jqH/C
-	9CStt2zHu6vZZ5bw+LHfS0yesTC789BRp5ocVhI1DdDMiKfGNYIUt3l+RTE2akMK
-	zfaLCIX1zavghI67P1+KSaX2fS1i1yz1G9GNo9VyGstPEP53IinhK0DgmNTAXNCL
-	klenn4n2F3Ghiy6UwxMU9cCQF51Vwh6KDoTbaG/2GKqYZUZlESF9lIMJRxWstslo
-	Bh+gy3YpcBZKN+WzszZHBnYHM9Er1IFMH3p2egAtI0wmx+91GS+OF3PQjWqhHx1+
-	VN9pNquqmqOu0OGZSQmwQph8Sn31ngRqzJ8cFmqaHfYigr//M4u0vQ34ZHA7vY2w
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5ka3daq2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 14:50:42 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BNEmNH8023182;
-	Tue, 23 Dec 2025 14:50:41 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5ka3dapx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 14:50:41 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BNEA4Vw005259;
-	Tue, 23 Dec 2025 14:50:40 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b67mk3kcm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 14:50:40 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BNEodXJ28901940
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Dec 2025 14:50:39 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8356158060;
-	Tue, 23 Dec 2025 14:50:39 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2859C5805A;
-	Tue, 23 Dec 2025 14:50:35 +0000 (GMT)
-Received: from [9.111.82.67] (unknown [9.111.82.67])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 23 Dec 2025 14:50:34 +0000 (GMT)
-Message-ID: <03a08de2-07af-43f9-8d68-f5ef6b048536@linux.ibm.com>
-Date: Tue, 23 Dec 2025 20:20:32 +0530
+	Wed, 24 Dec 2025 01:38:23 +0000
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dbZHs6RN5zYQtG3
+	for <linux-nvme@lists.infradead.org>; Wed, 24 Dec 2025 09:37:29 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id C24A040577
+	for <linux-nvme@lists.infradead.org>; Wed, 24 Dec 2025 09:38:07 +0800 (CST)
+Received: from [10.174.179.156] (unknown [10.174.179.156])
+	by APP4 (Coremail) with SMTP id gCh0CgA3l_fjQ0tpM74RBQ--.51212S2;
+	Wed, 24 Dec 2025 09:38:03 +0800 (CST)
+Subject: Re: [PATCH 00/13] Enable compound page for p2pdma memory
+To: Leon Romanovsky <leon@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Keith Busch
+ <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ houtao1@huawei.com
+References: <20251220040446.274991-1-houtao@huaweicloud.com>
+ <20251221121915.GJ13030@unreal>
+ <416b2575-f5e7-7faf-9e7c-6e9df170bf1a@huaweicloud.com>
+From: Hou Tao <houtao@huaweicloud.com>
+Message-ID: <996c64ca-8e97-2143-9227-ce65b89ae35e@huaweicloud.com>
+Date: Wed, 24 Dec 2025 09:37:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCHv5 2/7] nvme-multipath: add support for adaptive I/O
- policy
-To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>,
-        linux-nvme@lists.infradead.org
-Cc: hch@lst.de, kbusch@kernel.org, dwagner@suse.de, axboe@kernel.dk,
-        kanie@linux.alibaba.com, gjoyce@ibm.com
-References: <20251105103347.86059-1-nilay@linux.ibm.com>
- <20251105103347.86059-3-nilay@linux.ibm.com>
- <6d7c519c-122e-41a6-9f76-a3c4dedb52f5@grimberg.me>
- <abe16085-f0dd-4f82-b48c-f2eb125da2ee@linux.ibm.com>
- <7358ab3b-b04c-4451-85b0-5bb8073f7134@grimberg.me>
- <bf31f0e2-ebef-49ff-852b-fd5003eed165@linux.ibm.com>
- <afcc3e2b-0317-42c0-8968-ed771ac6af14@suse.de>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <afcc3e2b-0317-42c0-8968-ed771ac6af14@suse.de>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <416b2575-f5e7-7faf-9e7c-6e9df170bf1a@huaweicloud.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iWS1YWqDA40MJtBTuXppeLRk0fCVqWxq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDEyMiBTYWx0ZWRfX6ZYfU050cpuy
- CCKG3orrlFNw6ImphBeZ6NyY799yGNbiq/UF2ao07tMqm6bws096qreYwXBTaddUyEuBBIs3hce
- FZZQ7XIaj5ccx6mrdrh79KFL7kbLTq0WvTFDws2J8/Hk26GvB26lnDoCiq3Wu7gTv3ItSiMsFSq
- B/QFK1epNzspZUhmdjntwXJUzdMZfp6kAAUJ3NIJbGgkB9nJt2/vJd8LpncDrW1K3q9bjImxPGQ
- 0xXmAL6MnwPXC8um0FoZoXobcrVSqakp8hH1OrxYcM8D0yAMws/7RzWgmvhA6L+YZ6WHZ2vqp4F
- pxsVfwh2W91sEHLFD3MO8PWooIhHPPNXHi/rbrLFtzklHCwfkGOM9TJzTL7Yg39TvsyNkE683rX
- fCgR2H5FHJXLpiHqGxzFv36EFA6gSp5PZqzBSg3qmSPkc4yfG890zKbC/CQpXXWOdXJ1riZC0i6
- bdxzZGuHbBN0NRRaPcg==
-X-Proofpoint-ORIG-GUID: Lom-QpVbm-_k1lD_m4E60SQp4mAUY36x
-X-Authority-Analysis: v=2.4 cv=dqHWylg4 c=1 sm=1 tr=0 ts=694aac42 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=_NRy9K33mJgpA5ZZIJEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-23_03,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 clxscore=1015 lowpriorityscore=0
- impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2512120000
- definitions=main-2512230122
+Content-Language: en-US
+X-CM-TRANSID: gCh0CgA3l_fjQ0tpM74RBQ--.51212S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFWUWw15XF15Zr4xZw4fKrg_yoWrAr4kpF
+	Z5KF1rJryDG342y3sIv3WDCF1avwn5KFWjqryxKry3AwnxtFn2vw4jyF15u34UXr47G3Wr
+	KF47ZFy3uwn5XaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Ib4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+	e2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4I
+	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
+	WwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
+	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
+	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
+	IYCTnIWIevJa73UjIFyTuYvjxUIa0PDUUUU
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251223_065059_499186_1C42C979 
-X-CRM114-Status: GOOD (  29.79  )
+X-CRM114-CacheID: sfid-20251223_173820_818894_030B745D 
+X-CRM114-Status: GOOD (  22.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,153 +99,93 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
-[...]
->>> I am not sure that normalizing to 512 blocks is a good proxy. I think that large IO will
->>> have much lower amortized latency per 512 block. which could create an false bias
->>> to place a high weight on a path, if that path happened to host large I/Os no?
+
+On 12/24/2025 9:18 AM, Hou Tao wrote:
+> Hi,
+>
+> On 12/21/2025 8:19 PM, Leon Romanovsky wrote:
+>> On Sat, Dec 20, 2025 at 12:04:33PM +0800, Hou Tao wrote:
+>>> From: Hou Tao <houtao1@huawei.com>
 >>>
->> Hmm, I think yes, good point, I think for nvme over fabrics this could be true.
->>
-> Although technically we are then measure two different things (IO latency vs block latency). But yeah, block latency might be better
-> suited for the normal case; I do wonder, though, if for high-speed
-> links we do see a difference as the data transfer time is getting
-> really fast...
-> 
-For a high speed/bandwidth NIC card the transfer speed would be very fast,
-though I think for a very large I/O size, we would see a higer latency due
-to tcp segmentation and re-assembly.
-
-On my nvmf-tcp testbed, I do see the latency differences as shown below 
-for varying I/O size (captured for random-read direct I/O workload):
-I/O-size	Avg-latency(usec)
- 512            12113
- 1k             10058  
- 2k             11246
- 4k             12458
- 8k             12189
- 16k            11617 
- 32k            17686
- 64k            28504 
- 128k           59013
- 256k           118984 
- 512k           233428
- 1M             460000   
-
-As can be seen, for smaller block sizes (512B–16K), latency remains relatively
-stable in the ~10–12 ms range. Starting at 32K and more noticeably at 64K and
-above, latency increases significantly and roughly doubles with each step in
-block size. Based on this data, I propose using coarse-grained I/O size buckets
-to preserve latency characteristics while avoiding excessive fragmentation of
-statistics. The suggested bucket layout is as follows:
-
-Bucket		block-size-range
-small		512B-32k
-medium		32k-64k
-large-64k	64k-128k
-large-128k	128k-256k
-large-256k	256k-512k
-large-512k	512k-1M
-very-large	>=1M
-
-In this model,
-- A single small bucket captures latency for I/O sizes where latency remains
-  largely uniform.
-- A medium bucket captures the transition region.
-- Separate large buckets preserve the rapidly increasing latency behavior
-  observed for larger block sizes.
-- A very-large bucket handles any I/O beyond 1M.
-
-This approach allows the adaptive policy to retain meaningful latency distinctions across
-I/O size regimes while keeping the number of buckets manageable and statistically stable,
-make sense? 
-
-> [ .. ]
->>>> I understand your concern about whether it really makes sense to keep this
->>>> per-cpu-per-ns, and I see your point that you would prefer maintaining the
->>>> stat per-hctx instead of per-CPU.
->>>>
->>>> However, as mentioned earlier, during path selection we cannot reliably map an
->>>> I/O to a specific hctx, so using per-hctx statistics becomes problematic in
->>>> practice. On the other hand, maintaining the metrics per-CPU has an additional
->>>> advantage: on a NUMA-aware system, the measured I/O latency naturally reflects
->>>> the NUMA distance between the workload’s CPU and the I/O controller. This means
->>>> that on multi-node systems, the policy can automatically favor I/O paths/controllers
->>>> that are local/near to the CPU issuing the request, which may lead to better
->>>> latency characteristics.
+>>> Hi,
 >>>
->>> With this I tend to agree. but per-cpu has lots of other churns IMO.
->>> Maybe the answer is that paths weights are maintained per NUMA node?
->>> then accessing these weights in the fast-path is still cheap enough?
+>>> device-dax has already supported compound page. It not only reduces the
+>>> cost of struct page significantly, it also improve the performance of
+>>> get_user_pages when 2MB or 1GB page size is used. We are experimenting
+>>> to use p2p dma to directly transfer the content of NVMe SSD into NPU.
+>> I’ll admit my understanding here is limited, and lately everything tends  
+>> to look like a DMABUF problem to me. Could you explain why DMABUF support 
+>> is not being used for this use case?
+> I have limited knowledge of dma-buf, so correct me if I am wrong. It
+> seems that as for now there is no available way to use the dma-buf to
+> read/write files. For the userspace vaddr backended by  the dma-buf, it
+> is a PFN mapping, get_user_pages() will reject such address.
+
+Hit the send button too soon :) So In my understanding, the advantage of
+dma-buf is that it doesn't need struct page, and it also means that it
+needs special handling to support IO from/to dma-buf (e.g.,  [RFC v2
+00/11] Add dmabuf read/write via io_uring [1])
+
+[1]
+https://lore.kernel.org/io-uring/cover.1763725387.git.asml.silence@gmail.com/
+>> Thanks
 >>
->> That’s a fair point, and I agree that per-CPU accounting can introduce additional
->> variability. However, moving to per-NUMA path weights would implicitly narrow the
->> scope of what we are trying to measure, as it would largely exclude components of
->> end-to-end latency that arise from scheduler behavior and application-level scheduling
->> effects. As discussed earlier, the intent of the adaptive policy is to capture the
->> actual I/O cost observed by the workload, which includes not only path and controller
->> locality but also fabric, stack, and scheduling effects. From that perspective, IMO,
->> maintaining per-CPU path weights remains a better fit for the stated goal. It also
->> offers a dual advantage: naturally reflecting NUMA locality on a per-CPU basis while
->> preserving a true end-to-end view of path latency, agreed?
->>
-> Well, for fabrics you can easily have several paths connected to the same NUMA node (like in the classical 'two initiator ports cross-connected to two target ports', resulting in four paths in total.
-> But two of these paths will always be on the same NUMA node).
-> So that doesn't work out.
-> 
->> I conducted an experiment on my NVMe-oF TCP testbed while simultaneously running
->> iperf3 TCP traffic to introduce both CPU and network load alongside fio. The
->> host system has 32 cpus, so iperf3 was configured with 32 parallel TCP streams.
->> And fio was configured with numjobs=32, iodepth=32, bs=4K, direct I/O, and
->> ioengine=io_uring. Below are the aggregated throughput results observed under
->> different NVMe multipath I/O policies:
->>
->>          numa         round-robin   queue-depth  adaptive
->>          -----------  -----------   -----------  ---------
->> READ:   61.1 MiB/s   87.2 MiB/s    93.1 MiB/s   107 MiB/s
->> WRITE:  95.8 MiB/s   138 MiB/s     159 MiB/s    179 MiB/s
->> RW:     R:29.8 MiB/s R:53.1 MiB/s  R:58.8 MiB/s R:66.6 MiB/s
->>          W:29.6 MiB/s W:52.7 MiB/s  W:58.2 MiB/s W:65.9 MiB/s
->>
->> These results show that under combined CPU and network stress, the adaptive I/O policy
->> consistently delivers higher throughput across read, write, and mixed workloads when
->> comapred against existing policies.
->>   
-> And that is probably the best argument; we should put it under stress with various scenarios. I must admit I am _really_ in favour of this
-> iopolicy, as it would be able to handle any temporary issues on the fabric (or backend) without the need of additional signalling.
-> Talk to me about FPIN ...
-> 
+>>> The size of NPU HBM is 32GB or larger and there are at most 8 NPUs in
+>>> the host. When using the base page, the memory overhead is about 4GB for
+>>> 128GB HBM, and the mapping of 32GB HBM into userspace takes about 0.8
+>>> second. Considering ZONE_DEVICE memory type has already supported the
+>>> compound page, enabling the compound page support for p2pdma memory as
+>>> well. After applying the patch set, when using the 1GB page, the memory
+>>> overhead is about 2MB and the mmap costs about 0.04 ms.
+>>>
+>>> The main difference between the compound page support of device-dax and
+>>> p2pdma is that p2pdma inserts the page into user vma during mmap instead
+>>> of page fault. The main reason is simplicity. The patch set is
+>>> structured as shown below:
+>>>
+>>> Patch #1~#2: tiny bug fixes for p2pdma
+>>> Patch #3~#5: add callbacks support in kernfs and sysfs, include
+>>> pagesize, may_split and get_unmapped_area. These callbacks are necessary
+>>> for the support of compound page when mmaping sysfs binary file.
+>>> Patch #6~#7: create compound page for p2pdma memory in the kernel. 
+>>> Patch #8~#10: support the mapping of compound page in userspace. 
+>>> Patch #11~#12: support the compound page for NVMe CMB.
+>>> Patch #13: enable the support for compound page for p2pdma memory.
+>>>
+>>> Please see individual patches for more details. Comments and
+>>> suggestions are always welcome.
+>>>
+>>> Hou Tao (13):
+>>>   PCI/P2PDMA: Release the per-cpu ref of pgmap when vm_insert_page()
+>>>     fails
+>>>   PCI/P2PDMA: Fix the warning condition in p2pmem_alloc_mmap()
+>>>   kernfs: add support for get_unmapped_area callback
+>>>   kernfs: add support for may_split and pagesize callbacks
+>>>   sysfs: support get_unmapped_area callback for binary file
+>>>   PCI/P2PDMA: add align parameter for pci_p2pdma_add_resource()
+>>>   PCI/P2PDMA: create compound page for aligned p2pdma memory
+>>>   mm/huge_memory: add helpers to insert huge page during mmap
+>>>   PCI/P2PDMA: support get_unmapped_area to return aligned vaddr
+>>>   PCI/P2PDMA: support compound page in p2pmem_alloc_mmap()
+>>>   PCI/P2PDMA: add helper pci_p2pdma_max_pagemap_align()
+>>>   nvme-pci: introduce cmb_devmap_align module parameter
+>>>   PCI/P2PDMA: enable compound page support for p2pdma memory
+>>>
+>>>  drivers/accel/habanalabs/common/hldio.c |   3 +-
+>>>  drivers/nvme/host/pci.c                 |  10 +-
+>>>  drivers/pci/p2pdma.c                    | 140 ++++++++++++++++++++++--
+>>>  fs/kernfs/file.c                        |  79 +++++++++++++
+>>>  fs/sysfs/file.c                         |  15 +++
+>>>  include/linux/huge_mm.h                 |   4 +
+>>>  include/linux/kernfs.h                  |   3 +
+>>>  include/linux/pci-p2pdma.h              |  30 ++++-
+>>>  include/linux/sysfs.h                   |   4 +
+>>>  mm/huge_memory.c                        |  66 +++++++++++
+>>>  10 files changed, 339 insertions(+), 15 deletions(-)
+>>>
+>>> -- 
+>>> 2.29.2
+>>>
+>>>
 
-I ran additional experiments on the NVMe-oF TCP testbed. The host has 32 cpus so fio
-was configured with numjobs=32, iodepth=32, bs=4K, direct I/O, and ioengine=io_uring. 
-Below are the aggregated throughput results observed under different NVMe multipath
-I/O policies.
-
-i) Stressing all 32 cpus using stress-ng 
-
-All 32 CPUs were stressed using:
-# stress-ng --cpu 0 --cpu-method all -t 60m
-
-         numa          round-robin   queue-depth  adaptive
-         -----------   -----------   -----------  ---------
-READ:    159 MiB/s     193 MiB/s     215 MiB/s    255 MiB/s   
-WRITE:   188 MiB/s     186 MiB/s     195 MiB/s    199 MiB/s
-RW:      R:83.4 MiB/s  R:101 MiB/s   R:104 MiB/s  R: 111 MiB/s
-         W:83.3 MiB/s  W:101 MiB/s   W:105 MiB/s  W: 112 MiB/s
-
-ii) Symmetric paths (No CPU stress and no induced network load):
-
-         numa          round-robin   queue-depth   adaptive
-         -----------   -----------   -----------   ---------
-READ:    171 MiB/s     298 MiB/s     320 MiB/s     348 MiB/s
-WRITE:   229 MiB/s     419 MiB/s     442 MiB/s     460 MiB/s 
-RW:     R: 93.0 MiB/s  R: 166 MiB/s  R: 171 MiB/s  R: 179 MiB/s
-        W: 94.2 MiB/s  W: 168 MiB/s  W: 168 MiB/s  W: 178 MiB/s
-
-These results show that the adaptive I/O policy consistently delivers higher
-throughput under CPU stress and asymmetric path conditions. In case of symmetric
-paths the adaptive policy achieves throughput comparable to—or slightly
-better than—existing policies. 
-
-Thanks,
---Nilay
 
