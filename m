@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6C1AE7AD66
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Dec 2025 17:33:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA0B3E7AD62
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Dec 2025 18:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=j5EC01ePkdkVNX3nDSKOcSuhVJygES9lIvbPYyKJrtk=; b=G1A/Y23UKpHcNmxz8PKcS8JPtg
-	lFnaIXL9f6CrqXewKzLI8zJQAQ8EV3xQseu5ClYqqguUauD6q9d7WNM3vrU2oPoghebheYQfJARLU
-	9es0nQWO1iKSNCPxq+WdZXMCFHRPe/w4kf3Rpi1SJN9x+gGCAngJUcNcF5VKyzlispv9kHn1HHKhT
-	qZtZCAUls2hlYEip6wcElx00rrmlE6iYMJd5f2H57Y00IT7nHkCe7eDfr5U+f/RPCXQUchMLB1iiF
-	OBbpAwGN2rxkPzHVLN4Qe7LvY09qdSXKNjgIartgGTi5qOsoKM1Bp30tyFvy10ZSjQMsShGM8ZoJ1
-	rfZ1jNnw==;
+	bh=6hgD7o3iJ2HUveiHrqiwWb4S5cgYHnaYDUDf9EQETEc=; b=4Cm6aete0mc93QMU23xLAYUw5E
+	xnjzlw3VWz/mMjv91qzdCZ8Bb/KtQWRQ0NFcZHRQ1KHGXoCr1Ee9dahs7r09CSthn5rOFuWhovULT
+	ihiEKVfeSD/ft8YhggSGVZRtsCZ6SCu6to/xErXve4ofTukL/hbdhkEneied4LVdV5vjmTDTcU0US
+	zx13UhvqoYNaLgETXaRgCZy7Hqpj+fCgxA+hIXC5gxjDp6Ha35ymhwEFH/Kuid1vpYrzPV/yEufVw
+	RbOJvd0MHkYpbmX99rhMvxKFlOyfeh7xJncJZ3K9N5GCzNtyEHHpl0lfQNrIPnqvfP/fk+KozXx6l
+	ob8E0/fQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vYpDf-00000000Zht-2GU2;
-	Thu, 25 Dec 2025 17:33:47 +0000
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+	id 1vYppv-00000000bCd-0BSR;
+	Thu, 25 Dec 2025 18:13:19 +0000
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vYpDd-00000000ZhU-20Q3
+	id 1vYpps-00000000bCE-2swT
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Dec 2025 17:33:46 +0000
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-29efd139227so89711215ad.1
-        for <linux-nvme@lists.infradead.org>; Thu, 25 Dec 2025 09:33:45 -0800 (PST)
+	Thu, 25 Dec 2025 18:13:18 +0000
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-c2a9a9b43b1so1544258a12.2
+        for <linux-nvme@lists.infradead.org>; Thu, 25 Dec 2025 10:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1766684024; x=1767288824; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1766686396; x=1767291196; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j5EC01ePkdkVNX3nDSKOcSuhVJygES9lIvbPYyKJrtk=;
-        b=ee0+BaVoT59V55yTgz87kjkFy3nnRqBPfBjTvd9uNd5SmRn5VAEi/DD9ctWhoeUXmr
-         vNpUF9xE24rFtoiRkrRh/XyWpZYc342XNNMk54aRfOqAusw2g27Nw22dTGLOk0ybXZfS
-         AwX1Ad9kIgpN1JDyjidVZwfvjfCW1WJPOfHongo5Ea2CBh6FZse0vCQxBkUDYb/4Ogxl
-         Z0rtZ1hSWOB9opdi3nqiausjqV3TfzsPbHsRtwOC9ZO7ybOLcwZFDUmOfDggFPV/AmQJ
-         DMvilCPF5iTUP6a5r0p/0VjBW/QkTPLX2jSWwWOb9HiuwjKD+APay+o3a6nZ2A75l4Pb
-         Xumg==
+        bh=6hgD7o3iJ2HUveiHrqiwWb4S5cgYHnaYDUDf9EQETEc=;
+        b=Xb0NaWKlX5Gl/u7ARtccHHc97LB0yte8tzUKx6QEWG0/3wk3D+2f6USLgqQIQMY2Xi
+         nj3DNtO8qA3lMknNT5x1RGMTARQ0o8FbscbuV7BhndPxR378RGBgsnbJ25xoSJnlX8s6
+         I3AMXyB3nTwhBrmvt7vPO/uY/k/Uez+8RB0wKs10iMPEI4qAkBb9G5+wzb7o+kiiUPnw
+         fXZT9yRJqjfQeGslmA+Ct7n6bg55cns+qtZa7gugdR/FAbpElzsDvjVDsvTmxm45XDbG
+         eJ2FdN6oIOsuQ1GX3BBm2NUfFnlEkDwBTtxD4Bk7wptbLurrZYA15B/YgAcwxbVyZfh0
+         zW8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766684024; x=1767288824;
+        d=1e100.net; s=20230601; t=1766686396; x=1767291196;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j5EC01ePkdkVNX3nDSKOcSuhVJygES9lIvbPYyKJrtk=;
-        b=iTSIxzx3POCcJ/J/gHssnxIHlgbp0JmlAyjAvzbLWv5inU29V1y/UG4uQgW17SfAZl
-         oVZ3+kfsdNQb21/Gfd7aEgtL+PlnIN62Nrflyd1R/xXFrquYG02hlva1OseV8YwVZ7KI
-         +MJUqCAjoUAXMxkdfAsi1CkwSMcjWQ/nRs9JSCqkC0XLgvc1tCF7N7046lyu0tECnc2L
-         XNtXXfPAgZwUaWygyoeUgOiyHuL5JuaAERqZTk2KtbG8r5M6m6vCypz/aGLBtLBicpV+
-         jI3ieVLaBe+nQBLEiIc/wXbTPwB+EeMQxH06ZMp2iOXCN+E+gI2fsYJrwVvb/byC61gI
-         x6Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4fXKSYboyQZ5NNcWZM0Rey5CK57RPEimlKbX310aoqLtrVdZdYlR70UZD0/fi2L2AEd2sbxfaNGOp@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz9vcw1fdKKW3fPNmXHgSMF8EzTYZPBH093w/6xsf/OLOTqMero
-	p7P1FEQMePaAmM8qo3U144CseD0mzVi5nWxar01HL1gpwiOAm/iKZzlZKzC9mZbTlzU=
-X-Gm-Gg: AY/fxX5pcDEmv+A24bz6uMhJMsN25kYlyxw2o6Qn5MnpGh1GiFKTa8GW4tgAV4qXgND
-	6wy2J3VdXrH76jAN6LxK0qjSG606sSKaH+M1EVwR4iQjBwbtiNwoo9r0qXNSapFzJMZQaBuR1SV
-	L7RtGLoRZVVZ6lxV+zyg6do0+qt3JuCgsQHhxYpbrQdo2kRSxo3AfY5riP1OrhGFplrARBVQdmu
-	FYmcTMXQlyYY1Bi0vsC1wKn5VqDm2zyoKfDAooD3bxbxjUXBpdCjCDWvBx5K4IUp17WERmMkVbd
-	XrAi0hmDGqBlQgG4UqzHC1cmwdlBb/HgIUzicMwdS8DkHb4y+/I1J96ii8PIs+OId26QQZIzKT6
-	PGadc/phpcv7wJcnpk4vD0cNo65mZLqydjJAd8Wsy6/XBRjBjB0o2N7rO00K6ZGNWHYlYENHD0B
-	Rp47G6ZupYo9JjRh0=
-X-Google-Smtp-Source: AGHT+IHvDPVi7MfkxykM6GkuJHP8TD2suiOScF3/pn4zZdLHiPPU1gilWhZbMT9py8BRxehOWyMs7g==
-X-Received: by 2002:a05:7022:eac1:b0:11d:c91e:3b58 with SMTP id a92af1059eb24-121722e9e26mr17987214c88.39.1766684024292;
-        Thu, 25 Dec 2025 09:33:44 -0800 (PST)
+        bh=6hgD7o3iJ2HUveiHrqiwWb4S5cgYHnaYDUDf9EQETEc=;
+        b=rWxlzeqWBrBe1TbmfHlYwW96dq606kSaE2scbg+gkQEOw5fTb9dE8FUotrKl0F45Ge
+         91A84CloVRJO3P+QK8TjXfSQgqelsdhbXDCU9LIfwTvlloENm1qFWjbu6RyFgI7TAQ5A
+         pyNPQbxE5nPkyWtXopjw/YrGFR9aGWkGn/dbLbrV5ObUfJkKiJcQ2BWcLpLbIJKFtvKg
+         TAddppmpiNnzZ6QggtXoZHzI7ZEppJiDwSL/mwGra+f42XqiTL6+7gEUN6ZAFcUSDIow
+         6WzYnuFvBV2TkU0CTfja7LYD7R2MfFKoVf4zQugH0X8Rag6QDnZ7VcVxqKCLlLUPYbUh
+         KG3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV8hG5HbijMLw+o24ZCFszeIi/QNSqc48/XtB4tKEoHWDO2RpmA5QSXw7n5+s8JSuw+3+eZqSm4PCLR@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy3fD+jNWxy1FoVx3/c3NxkfwScB01j9ByxyBiR9IPUbOr3IbTf
+	sISrqIbgSPtQ03oA7gY8Vl0w/JJKd0HDmHqbNpXAYAEZhiPyNE2+tTx8EFmJZVT+Qho=
+X-Gm-Gg: AY/fxX7KPD2gHP7RlmdZElwp69UZ81XD3NmsG8CglvAYSAefJcJgrauLXIaqDSQrPiV
+	X9VuDZ0gB1HtDpYhJP/kttcodaiFqvUbdgBzWGX7vaGaX9l79T6xOg2vSvS18MIIiLR7dt0/ZHp
+	AoDfYYjkEoY77SIElvOvXGiPRTalfW+bXThrrnN6WXdUsl3aSAmoIiF42K+yyxTf3db94JEDUAs
+	AQ1mG1MHGcHCwdbVzHAyfudcgFfA561V/IIqGXR/PUi2yMW+IsWJz158e/Zw+SCmm+8hauTHX4q
+	I/9+Up8WvFxuc1jfu7hsz5pL8tZUwX8H3nr8YfmVBH5djv+GlY4xLIa6MlAForWE6jaF9ddVzho
+	zQV0hKB/gtfck/vDOKU9iJjub4e5pOq6pHvHaSKASHZEFkWhD8hnEKICtb4tSBRrc2WYcqaM/HT
+	lqQoTfUikzxLoeCLQ=
+X-Google-Smtp-Source: AGHT+IGg/8ZqY1GLplovc57sq7jXcZokEvESLzzFd8J3CScL0LLjIaQVQtIE5xKF/k84Sv74zPO3Gg==
+X-Received: by 2002:a05:7022:6291:b0:119:e569:f61e with SMTP id a92af1059eb24-121722e12e7mr18317369c88.23.1766686395398;
+        Thu, 25 Dec 2025 10:13:15 -0800 (PST)
 Received: from medusa.lab.kspace.sh ([2601:640:8202:6fb0::1305])
-        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-1217243bbe3sm81422741c88.0.2025.12.25.09.33.43
+        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-121724ddc30sm80960225c88.6.2025.12.25.10.13.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Dec 2025 09:33:43 -0800 (PST)
-Date: Thu, 25 Dec 2025 09:33:42 -0800
+        Thu, 25 Dec 2025 10:13:15 -0800 (PST)
+Date: Thu, 25 Dec 2025 10:13:13 -0800
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
@@ -79,18 +79,18 @@ Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
 	John Meneghini <jmeneghi@redhat.com>,
 	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 03/14] nvmet: Implement CCR nvme command
-Message-ID: <20251225173342.GB8129-mkhalfella@purestorage.com>
+Subject: Re: [RFC PATCH 05/14] nvmet: Send an AEN on CCR completion
+Message-ID: <20251225181313.GC8129-mkhalfella@purestorage.com>
 References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
- <20251126021250.2583630-4-mkhalfella@purestorage.com>
- <3f2c8a9e-2e1c-4cb8-b296-8f61ab16b03a@grimberg.me>
+ <20251126021250.2583630-6-mkhalfella@purestorage.com>
+ <13c2bf9c-6eac-4c48-b12c-f76e86c8ef32@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3f2c8a9e-2e1c-4cb8-b296-8f61ab16b03a@grimberg.me>
+In-Reply-To: <13c2bf9c-6eac-4c48-b12c-f76e86c8ef32@grimberg.me>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251225_093345_521779_C095D0C8 
-X-CRM114-Status: GOOD (  26.06  )
+X-CRM114-CacheID: sfid-20251225_101316_731836_AA53F77D 
+X-CRM114-Status: GOOD (  25.50  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,124 +105,99 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu 2025-12-25 15:14:31 +0200, Sagi Grimberg wrote:
+On Thu 2025-12-25 15:23:51 +0200, Sagi Grimberg wrote:
 > 
 > 
 > On 26/11/2025 4:11, Mohamed Khalfella wrote:
-> > Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
-> > Reset) command is an nvme command the is issued to source controller by
-> > initiator to reset impacted controller. Implement CCR command for linux
-> > nvme target.
+> > Send an AEN to initiator when impacted controller exists. The
+> > notification points to CCR log page that initiator can read to check
+> > which CCR operation completed.
 > >
 > > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 > > ---
-> >   drivers/nvme/target/admin-cmd.c | 79 +++++++++++++++++++++++++++++++++
-> >   drivers/nvme/target/core.c      | 69 ++++++++++++++++++++++++++++
-> >   drivers/nvme/target/nvmet.h     | 13 ++++++
-> >   include/linux/nvme.h            | 23 ++++++++++
-> >   4 files changed, 184 insertions(+)
+> >   drivers/nvme/target/core.c  | 27 +++++++++++++++++++++++----
+> >   drivers/nvme/target/nvmet.h |  3 ++-
+> >   include/linux/nvme.h        |  3 +++
+> >   3 files changed, 28 insertions(+), 5 deletions(-)
 > >
-> > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> > index aaceb697e4d2..a55ca010d34f 100644
-> > --- a/drivers/nvme/target/admin-cmd.c
-> > +++ b/drivers/nvme/target/admin-cmd.c
-> > @@ -376,7 +376,9 @@ static void nvmet_get_cmd_effects_admin(struct nvmet_ctrl *ctrl,
-> >   	log->acs[nvme_admin_get_features] =
-> >   	log->acs[nvme_admin_async_event] =
-> >   	log->acs[nvme_admin_keep_alive] =
-> > +	log->acs[nvme_admin_cross_ctrl_reset] =
-> >   		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
-> > +
+> > diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> > index 7dbe9255ff42..60173833c3eb 100644
+> > --- a/drivers/nvme/target/core.c
+> > +++ b/drivers/nvme/target/core.c
+> > @@ -202,7 +202,7 @@ static void nvmet_async_event_work(struct work_struct *work)
+> >   	nvmet_async_events_process(ctrl);
 > >   }
 > >   
-> >   static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
-> > @@ -1615,6 +1617,80 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
-> >   	nvmet_req_complete(req, status);
-> >   }
+> > -void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+> > +static void nvmet_add_async_event_locked(struct nvmet_ctrl *ctrl, u8 event_type,
+> >   		u8 event_info, u8 log_page)
+> >   {
+> >   	struct nvmet_async_event *aen;
+> > @@ -215,12 +215,17 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+> >   	aen->event_info = event_info;
+> >   	aen->log_page = log_page;
 > >   
-> > +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
+> > -	mutex_lock(&ctrl->lock);
+> >   	list_add_tail(&aen->entry, &ctrl->async_events);
+> > -	mutex_unlock(&ctrl->lock);
+> >   
+> >   	queue_work(nvmet_wq, &ctrl->async_event_work);
+> >   }
+> > +void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+> > +		u8 event_info, u8 log_page)
 > > +{
-> > +	struct nvmet_ctrl *ictrl, *ctrl = req->sq->ctrl;
-> > +	struct nvme_command *cmd = req->cmd;
-> > +	struct nvmet_ccr *ccr, *new_ccr;
-> > +	int ccr_active, ccr_total;
-> > +	u16 cntlid, status = 0;
-> > +
-> > +	cntlid = le16_to_cpu(cmd->ccr.icid);
-> > +	if (ctrl->cntlid == cntlid) {
-> > +		req->error_loc =
-> > +			offsetof(struct nvme_cross_ctrl_reset_cmd, icid);
-> > +		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-> > +		goto out;
-> > +	}
-> > +
-> > +	ictrl = nvmet_ctrl_find_get_ccr(ctrl->subsys, ctrl->hostnqn,
-> 
-> What does the 'i' stand for?
-
-'i' stands for impacted controller. Also, if you see sctrl the 's'
-stands for source controller. These terms are from TP8028.
-
-> 
-> > +					cmd->ccr.ciu, cntlid,
-> > +					le64_to_cpu(cmd->ccr.cirn));
-> > +	if (!ictrl) {
-> > +		/* Immediate Reset Successful */
-> > +		nvmet_set_result(req, 1);
-> > +		status = NVME_SC_SUCCESS;
-> > +		goto out;
-> > +	}
-> > +
-> > +	new_ccr = kmalloc(sizeof(*ccr), GFP_KERNEL);
-> > +	if (!new_ccr) {
-> > +		status = NVME_SC_INTERNAL;
-> > +		goto out_put_ctrl;
-> > +	}
-> 
-> Allocating this later when you actually use it would probably simplify 
-> error path.
-
-Right, it will save us kfree(). Will do that.
-
-> 
-> > +
-> > +	ccr_total = ccr_active = 0;
 > > +	mutex_lock(&ctrl->lock);
-> > +	list_for_each_entry(ccr, &ctrl->ccrs, entry) {
-> > +		if (ccr->ctrl == ictrl) {
-> > +			status = NVME_SC_CCR_IN_PROGRESS | NVME_STATUS_DNR;
-> > +			goto out_unlock;
-> > +		}
-> > +
-> > +		ccr_total++;
-> > +		if (ccr->ctrl)
-> > +			ccr_active++;
-> > +	}
-> > +
-> > +	if (ccr_active >= NVMF_CCR_LIMIT) {
-> > +		status = NVME_SC_CCR_LIMIT_EXCEEDED;
-> > +		goto out_unlock;
-> > +	}
-> > +	if (ccr_total >= NVMF_CCR_PER_PAGE) {
-> > +		status = NVME_SC_CCR_LOGPAGE_FULL;
-> > +		goto out_unlock;
-> > +	}
-> > +
-> > +	new_ccr->ciu = cmd->ccr.ciu;
-> > +	new_ccr->icid = cntlid;
-> > +	new_ccr->ctrl = ictrl;
-> > +	list_add_tail(&new_ccr->entry, &ctrl->ccrs);
+> > +	nvmet_add_async_event_locked(ctrl, event_type, event_info, log_page);
 > > +	mutex_unlock(&ctrl->lock);
+> > +}
+> >   
+> >   static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
+> >   {
+> > @@ -1788,6 +1793,18 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+> >   }
+> >   EXPORT_SYMBOL_GPL(nvmet_alloc_ctrl);
+> >   
+> > +static void nvmet_ctrl_notify_ccr(struct nvmet_ctrl *ctrl)
+> > +{
+> > +	lockdep_assert_held(&ctrl->lock);
 > > +
-> > +	nvmet_ctrl_fatal_error(ictrl);
+> > +	if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_CCR_COMPLETE))
+> > +		return;
+> > +
+> > +	nvmet_add_async_event_locked(ctrl, NVME_AER_NOTICE,
+> > +				     NVME_AER_NOTICE_CCR_COMPLETED,
+> > +				     NVME_LOG_CCR);
+> > +}
+> > +
+> >   static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
+> >   {
+> >   	struct nvmet_subsys *subsys = ctrl->subsys;
+> > @@ -1801,8 +1818,10 @@ static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
+> >   	list_for_each_entry(sctrl, &subsys->ctrls, subsys_entry) {
+> >   		mutex_lock(&sctrl->lock);
+> >   		list_for_each_entry(ccr, &sctrl->ccrs, entry) {
+> > -			if (ccr->ctrl == ctrl)
+> > +			if (ccr->ctrl == ctrl) {
+> > +				nvmet_ctrl_notify_ccr(sctrl);
+> >   				ccr->ctrl = NULL;
+> > +			}
 > 
-> Don't you need to wait for it to complete?
-> e.g. flush_work(&ictrl->fatal_err_work);
-> 
-> Or is that done async? will need to look downstream...
+> Is this double loop necessary? Would you have more than one controller 
+> cross resetting the same
 
-No, we do not need to wait for ictrl->fatal_err_work to complete. An AEN
-will be sent when ictrl exits. It is okay if AEN is sent before CCR
-request is completed. The initiator should expect this behavior and deal
-with it.
+As it is implemented now CCRs are linked to sctrl. This decision can be
+revisited if found suboptimal. At some point I had CCRs linked to
+ctrl->subsys but that led to lock ordering issues. Double loop is
+necessary to find all CCRs in all controllers and mark them done.
+Yes, it is possible to have more than one sctrl resetting the same
+ictrl.
+
+> controller? Won't it be better to install a callback+opaque that the 
+> controller removal will call?
+
+Can you elaborate more on that? Better in what terms?
+
+nvmet_ctrl_complete_pending_ccr() is called from nvmet_ctrl_free() when
+we know that ctrl->ref is zero and no new CCRs will be added to this
+controller because nvmet_ctrl_find_get_ccr() will not be able to get it.
 
