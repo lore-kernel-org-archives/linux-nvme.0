@@ -4,79 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 643D0E7AD44
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Dec 2025 13:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54137E7AD44
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Dec 2025 13:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9Xua9hOavOYUb8TN2m61oLEdLKwfrx2F+tesXEcTW3A=; b=l/6KyGUbqzeLNMWUBAMsMNtTGe
-	llhjXRZx7WwIVp80TBHpu/sC8g0DFsHQzViHcQZFPEHzfTYS9vBx8CTWd7Oq4nRt2PRkMRVyeVYC3
-	yEeuxRzcq5NoiXy1/ryFhX5vq3P9T1grTRAg5PFjTOLThT/mlcS+ROOfPxXcAG6NYpEYjGl3NORGK
-	KOTO0a5Xtuf7P4fYltVAqrWaZsNqdPy2TESi/HdjwgOoSpkD1B9c7ScW58Z13x0ZtB6yI2FZG2e6e
-	4NjE0hRfm15d99PC8FtNdDAwrYRT45pINSNz6JpiJZCHD3q4XLjjyLKBXTq+AS3r1FKzI9pEocuTO
-	bDRsvXRQ==;
+	bh=FBgdEXalUb5he9o3+VbaIAmoleCwvYIFnU8MOfTz47A=; b=5F+FghdGcXKpM++ygEtPMEJO3U
+	Cd5gaA9xBaBI8UcMcbEqFcYrW5UgmY9RD6mSTDNeiyUnhUlbtD2S/oRC4uuLHUJjJ6Q3G/xqushPA
+	RLIfV6+xvI1x1+NoaeZTDcc3Y6bnBDL5J02MsSkK149Q3pzfqeIJvIG/M8ycZv/Rxd8BfrMbPQI8w
+	BjGC4Whr0AO81jYE2hscUkDdw+QRjwcgaDBj4kXDHkqYt2GPJDHp1/8Qe2W7BKuHg/ObuVoZgr4Ok
+	G3g9QjDQXNeVo7lVra1CBUoTuxxfoVD54Y+kl+oDLUnk8ijGbkvS1Gq1OqVN/PHcu4qfr1apoMQ0/
+	XAcvxrDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vYkx6-00000000QSp-1v1q;
-	Thu, 25 Dec 2025 13:00:24 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1vYlAt-00000000Qv6-3mxm;
+	Thu, 25 Dec 2025 13:14:39 +0000
+Received: from mail-wr1-f49.google.com ([209.85.221.49])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vYkx0-00000000QSN-3GeQ
+	id 1vYlAq-00000000Quh-0183
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Dec 2025 13:00:21 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47a8195e515so42661415e9.0
-        for <linux-nvme@lists.infradead.org>; Thu, 25 Dec 2025 05:00:18 -0800 (PST)
+	Thu, 25 Dec 2025 13:14:37 +0000
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-430f57cd471so3461261f8f.0
+        for <linux-nvme@lists.infradead.org>; Thu, 25 Dec 2025 05:14:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766667617; x=1767272417;
+        d=1e100.net; s=20230601; t=1766668474; x=1767273274;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9Xua9hOavOYUb8TN2m61oLEdLKwfrx2F+tesXEcTW3A=;
-        b=MQ7VtJbYPWnZthEM4L7hpXmHHLuGjXY1gh6hL9U959qckQ/Xyz2USFytIwjagJHyft
-         rZbr3693dmS6B60FjpoyoUK6rgOhY0HPu+ybsElCaU0rO637E0EwQ7kJBiUaOnAAHVP6
-         Z56ca3xWzSSrZ3dJJ7y4alttoYwnCZ2xu5GxCuokkCgBxJbFj946jIaXY0yul7iXI2O8
-         OPOm3+U5DaczEvcaxLBox7p7c4fb4m5oqWVqSUCp6/jf3WUOOxlYPeobp9eg25VsrhIV
-         GTHsn7BtQaDmJZsJTNnrckpWLaGHNexgKMTx0kB6J2dRPmuFYmMuLUTkXVo/DVTnGEW0
-         2TEQ==
-X-Gm-Message-State: AOJu0Yxqb28+3KTyBvo6SwhGs8B7tBeVYAwaNlWyrfTT/wJzZukpLhWY
-	61rmMokkE285isOW1scQuZ4/Vge7xQvgXQ5Cfq0519y0AY3wmAekATAFpVf1oR5W
-X-Gm-Gg: AY/fxX7P5s9r7fRs4rusUnJrDjbu3qQk+ylE4LDk1+2DsGxKXj+QqENt/xkaxN11f1L
-	tbT0yypUZT38a6BMZ8yS/0r98hejnyJkWmTBEgxJNhCsI4xrlYq1HXCIGoodcTMOol4DQoDzUpg
-	L4ouxjiwMfqm7VUQSHsDuCENMBCUGTziWfCGxuM7huRDijJlevROx4rzI3PgRg/V53qw76Is09j
-	Ci9D2mfS7Z1S24qOe2DpZXy0p9CbRoDr39XqqV3rQzn2VAXr/0NiWjnptoFo6d1cuzpiPrT+52A
-	9HcezZ1kERF64yA0qqBmtBpY1cxKg0nYxKsy7CZxaUsRak9ZMpg/rppNXVXgfq8j1h0wlPDYmiE
-	Ibm73TVKKJt8ylFj9hi1FzlrZV+4uFotg/j+2rzhXf6itYSJOCIfyvH9unT0PsIoerWFb03cNHt
-	l59HBo14W5P9PIPq70XV+OcQJ4HBy0kYvgAxus2LsDPLDaHw==
-X-Google-Smtp-Source: AGHT+IHIXcx10qChFU5FmVsyqyrCwzoH7C2OeaOopRCcSiiG7oXGEm+PH+5VxgOVI03k+nRQNPkrKQ==
-X-Received: by 2002:a05:600c:348a:b0:46e:1a5e:211 with SMTP id 5b1f17b1804b1-47d1958a755mr231404915e9.21.1766667616566;
-        Thu, 25 Dec 2025 05:00:16 -0800 (PST)
+        bh=FBgdEXalUb5he9o3+VbaIAmoleCwvYIFnU8MOfTz47A=;
+        b=NXMIoJdNqeQsgyIC+lsr1abXZ84oWRqo0gALBjsf77mhrVM6ckLdjFXpnr9L22pjRE
+         PnB90UxF6Kgq3AG69yWpAxLu9Y79VJvZe88xAIGl4pYKtjTKZE9YaqEcnKN0gzF7n+kr
+         rGy0a+Jz+822h/Bsgo+X12rYr9Mq9Dx13e8j06iwdWymVnkTLOYqDKnxpHGF6RnXt8tD
+         e6RyBT0QhdSD16OeVJBrAwFAtSCQop97vmLSlPGNSHBwuVdUm22siP/7deVDVIBYP5Zb
+         tKCMVMqNifUi6i3JbatLwnq4tgL6ZGfCWsVOEvBmxZzq53VfTUH8/2SvtSBWwQZy3D0h
+         8Kfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVlKiDTKB9mwq6lMcR0ign6kKX0gwTQWSM0TclRTnecSl7nKo0ErtJ3Qe8P+SzharlxKUbxYW2HI9Uu@lists.infradead.org
+X-Gm-Message-State: AOJu0YzwDmoDvtbY1fGDcYsQ19hw9fB3tF59G1k5DygqUngLAk84mTqx
+	lgXYZi/6bMWP2Bhu9aQMoE90awoF69lC+p91yyLJGwiGYKWx2tTQh9pI
+X-Gm-Gg: AY/fxX6Z0yyrcaCP5v0764//tN7lF0kJVGaPHANkCIhW/duU3seAYl/l0JSbiQqehBS
+	IC6MnIGqMkwFEQctaqolYzVJY73to218udZpAe/Sf/rgpYwdUfBL1BHeKtG9kOmMZWVMNsu2l/k
+	hKlFjcfiDrz0ch5MnhOx5BvMsSpPf/8AORJ2dZK6IHhGUYYCbTy2tGKbdJjhCdy+FVub7kyJNGq
+	cAHm6n3KN71+l+Avk/sG69qBH7EGuy9a4OCQmz54jSdoP/4XPrBWzx1FvQZNxBglAylwd0e5SrL
+	9jxYa9oNTAhr2NmnBQBlSINBxpPJiZOWgd+c7lfDte9wwrd7M7zG/9u2WdQgsLhvLkba7XE9pH/
+	rbmK+5hcF9YjeJzU6GUzDRl0K5Jea0zWQSutsO9MY4I20hetWbi3+qn8kPudL/WUnEFXTQQidID
+	9FuJOpX49G+8UAtUjbENZ4GJqOZhXN7HL78/T0X4j5RuokwA==
+X-Google-Smtp-Source: AGHT+IG6PCGAIMcz62HJU1GeU/Kc0QPrcysQZWICO22rA4h6DFOn/bv2y/DCv97PA34yS05KXYGOqA==
+X-Received: by 2002:a05:6000:22c8:b0:430:f6c0:6c47 with SMTP id ffacd0b85a97d-4324e4cbea8mr23733293f8f.21.1766668473706;
+        Thu, 25 Dec 2025 05:14:33 -0800 (PST)
 Received: from [10.100.102.74] (89-138-78-197.bb.netvision.net.il. [89.138.78.197])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3ac5409sm152916315e9.15.2025.12.25.05.00.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4325b6bfe88sm31933520f8f.19.2025.12.25.05.14.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Dec 2025 05:00:16 -0800 (PST)
-Message-ID: <88f1a3af-c6f4-42eb-bf63-504998028973@grimberg.me>
-Date: Thu, 25 Dec 2025 15:00:14 +0200
+        Thu, 25 Dec 2025 05:14:32 -0800 (PST)
+Message-ID: <3f2c8a9e-2e1c-4cb8-b296-8f61ab16b03a@grimberg.me>
+Date: Thu, 25 Dec 2025 15:14:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvme/host: add delayed retries upon non-fatal error
- during ns validation
-To: Alex Tran <alex.t.tran@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20251221-nvme_ns_validation-v1-0-9f7a385707af@gmail.com>
- <20251221-nvme_ns_validation-v1-2-9f7a385707af@gmail.com>
+Subject: Re: [RFC PATCH 03/14] nvmet: Implement CCR nvme command
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
+Cc: Aaron Dailey <adailey@purestorage.com>,
+ Randy Jennings <randyj@purestorage.com>, John Meneghini
+ <jmeneghi@redhat.com>, Hannes Reinecke <hare@suse.de>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
+ <20251126021250.2583630-4-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20251221-nvme_ns_validation-v1-2-9f7a385707af@gmail.com>
+In-Reply-To: <20251126021250.2583630-4-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251225_050019_808135_066116B1 
-X-CRM114-Status: GOOD (  23.32  )
+X-CRM114-CacheID: sfid-20251225_051436_166893_089A50F0 
+X-CRM114-Status: GOOD (  18.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,83 +97,109 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 21/12/2025 23:26, Alex Tran wrote:
-> If a non-fatal error is received during nvme namespace validation, it
-> should not be ignored and the namespace should not be removed immediately.
-> Rather, delayed retires should be performed on the namespace validation
-> process.
+On 26/11/2025 4:11, Mohamed Khalfella wrote:
+> Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
+> Reset) command is an nvme command the is issued to source controller by
+> initiator to reset impacted controller. Implement CCR command for linux
+> nvme target.
 >
-> This handles non-fatal issues more robustly, by retrying a few times before
-> giving up and removing the namespace. The number of retries is set
-> to 3 and the interval between retries is set to 3 seconds.
->
-> Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 > ---
->   drivers/nvme/host/core.c | 43 +++++++++++++++++++++++++++++++++++++++----
->   drivers/nvme/host/nvme.h |  9 +++++++++
->   2 files changed, 48 insertions(+), 4 deletions(-)
+>   drivers/nvme/target/admin-cmd.c | 79 +++++++++++++++++++++++++++++++++
+>   drivers/nvme/target/core.c      | 69 ++++++++++++++++++++++++++++
+>   drivers/nvme/target/nvmet.h     | 13 ++++++
+>   include/linux/nvme.h            | 23 ++++++++++
+>   4 files changed, 184 insertions(+)
 >
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index fab321e79b7cdbb89d96d950c1cc8c1128906770..2e208d894b27f85f7f6358eb697be262ce45aed6 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -139,6 +139,7 @@ static void nvme_update_keep_alive(struct nvme_ctrl *ctrl,
->   				   struct nvme_command *cmd);
->   static int nvme_get_log_lsi(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page,
->   		u8 lsp, u8 csi, void *log, size_t size, u64 offset, u16 lsi);
-> +static void nvme_validate_ns_work(struct work_struct *work);
->   
->   void nvme_queue_scan(struct nvme_ctrl *ctrl)
->   {
-> @@ -4118,6 +4119,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
->   	ns->ctrl = ctrl;
->   	kref_init(&ns->kref);
->   
-> +	INIT_DELAYED_WORK(&ns->validate_work, nvme_validate_ns_work);
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index aaceb697e4d2..a55ca010d34f 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -376,7 +376,9 @@ static void nvmet_get_cmd_effects_admin(struct nvmet_ctrl *ctrl,
+>   	log->acs[nvme_admin_get_features] =
+>   	log->acs[nvme_admin_async_event] =
+>   	log->acs[nvme_admin_keep_alive] =
+> +	log->acs[nvme_admin_cross_ctrl_reset] =
+>   		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
 > +
->   	if (nvme_init_ns_head(ns, info))
->   		goto out_cleanup_disk;
+>   }
 >   
-> @@ -4215,6 +4218,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->   {
->   	bool last_path = false;
+>   static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
+> @@ -1615,6 +1617,80 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
+>   	nvmet_req_complete(req, status);
+>   }
 >   
-> +	cancel_delayed_work_sync(&ns->validate_work);
+> +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
+> +{
+> +	struct nvmet_ctrl *ictrl, *ctrl = req->sq->ctrl;
+> +	struct nvme_command *cmd = req->cmd;
+> +	struct nvmet_ccr *ccr, *new_ccr;
+> +	int ccr_active, ccr_total;
+> +	u16 cntlid, status = 0;
 > +
->   	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
->   		return;
->   
-> @@ -4285,12 +4290,42 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
->   out:
->   	/*
->   	 * Only remove the namespace if we got a fatal error back from the
-> -	 * device, otherwise ignore the error and just move on.
-> -	 *
-> -	 * TODO: we should probably schedule a delayed retry here.
-> +	 * device, otherwise delayed retries are performed.
->   	 */
-> -	if (ret > 0 && (ret & NVME_STATUS_DNR))
-> +	if (ret > 0 && (ret & NVME_STATUS_DNR)) {
->   		nvme_ns_remove(ns);
-> +	} else if (ret > 0) {
-> +		if (ns->validate_retries < NVME_NS_VALIDATION_MAX_RETRIES) {
-> +			ns->validate_retries++;
+> +	cntlid = le16_to_cpu(cmd->ccr.icid);
+> +	if (ctrl->cntlid == cntlid) {
+> +		req->error_loc =
+> +			offsetof(struct nvme_cross_ctrl_reset_cmd, icid);
+> +		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+> +		goto out;
+> +	}
 > +
-> +			if (!nvme_get_ns(ns))
-> +				return;
-> +
-> +			dev_warn(
-> +				ns->ctrl->device,
-> +				"validation failed for nsid %d, retry %d/%d in %ds\n",
-> +				ns->head->ns_id, ns->validate_retries,
-> +				NVME_NS_VALIDATION_MAX_RETRIES,
-> +				NVME_NS_VALIDATION_RETRY_INTERVAL);
-> +			memcpy(&ns->pending_info, info, sizeof(*info));
-> +			schedule_delayed_work(
-> +				&ns->validate_work,
-> +				NVME_NS_VALIDATION_RETRY_INTERVAL * HZ);
+> +	ictrl = nvmet_ctrl_find_get_ccr(ctrl->subsys, ctrl->hostnqn,
 
-Given that ns scanning is already async, wouldn't it be simpler to 
-simply retry locally
-in a loop?
+What does the 'i' stand for?
+
+> +					cmd->ccr.ciu, cntlid,
+> +					le64_to_cpu(cmd->ccr.cirn));
+> +	if (!ictrl) {
+> +		/* Immediate Reset Successful */
+> +		nvmet_set_result(req, 1);
+> +		status = NVME_SC_SUCCESS;
+> +		goto out;
+> +	}
+> +
+> +	new_ccr = kmalloc(sizeof(*ccr), GFP_KERNEL);
+> +	if (!new_ccr) {
+> +		status = NVME_SC_INTERNAL;
+> +		goto out_put_ctrl;
+> +	}
+
+Allocating this later when you actually use it would probably simplify 
+error path.
+
+> +
+> +	ccr_total = ccr_active = 0;
+> +	mutex_lock(&ctrl->lock);
+> +	list_for_each_entry(ccr, &ctrl->ccrs, entry) {
+> +		if (ccr->ctrl == ictrl) {
+> +			status = NVME_SC_CCR_IN_PROGRESS | NVME_STATUS_DNR;
+> +			goto out_unlock;
+> +		}
+> +
+> +		ccr_total++;
+> +		if (ccr->ctrl)
+> +			ccr_active++;
+> +	}
+> +
+> +	if (ccr_active >= NVMF_CCR_LIMIT) {
+> +		status = NVME_SC_CCR_LIMIT_EXCEEDED;
+> +		goto out_unlock;
+> +	}
+> +	if (ccr_total >= NVMF_CCR_PER_PAGE) {
+> +		status = NVME_SC_CCR_LOGPAGE_FULL;
+> +		goto out_unlock;
+> +	}
+> +
+> +	new_ccr->ciu = cmd->ccr.ciu;
+> +	new_ccr->icid = cntlid;
+> +	new_ccr->ctrl = ictrl;
+> +	list_add_tail(&new_ccr->entry, &ctrl->ccrs);
+> +	mutex_unlock(&ctrl->lock);
+> +
+> +	nvmet_ctrl_fatal_error(ictrl);
+
+Don't you need to wait for it to complete?
+e.g. flush_work(&ictrl->fatal_err_work);
+
+Or is that done async? will need to look downstream...
 
