@@ -4,66 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0D9AE7AD4F
-	for <linux-nvme@archiver.kernel.org>; Thu, 25 Dec 2025 13:24:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21BEFE7AD44
+	for <linux-nvme@archiver.kernel.org>; Thu, 25 Dec 2025 13:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6BLy1y+Nnd8HejAEuGrNJybNHg4mcI0uPSHEnvoSFJI=; b=mQ+a8vc2Ut6Icmp8XXHEWtx3N+
-	GrsD/M4Q20Z+hP1ZRpmm/OR0/o8uIT/vyFBtE0017mg4Ee8l4J0i+nOxb881p/4T+s5fZqUJ85OEL
-	sCXmWY9l2KmyWhkzoc7vFKBE0xtdqjClO+M/zj74Y8jC3vwX3wZvBo01+KvjYPBNJL89UpsGejISe
-	Uszwld1MDDkY5aPF5IKe0vM152q9Ml888wT3BSua16m7BOlBhDDQO4dxNIAdjWL9gjrJ+1JwpJOJ5
-	wohnuiwUyHqcn6d0ahoJ+E+h3Tmc/tcGjkM74Bm/ChU+CvayH/aXFIjMKwICBMvPJoNGBmEy1pbtI
-	NrlReFzA==;
+	bh=4sd9dYjXkenqQupf8A2IMgR8ufMui6YRHhpSwrBay/M=; b=XRqi1o/mQrt78rnA8oUP+Xrn0H
+	jyYwAtXAxnKF4v4zNC17Yf4innAP3GOgLclU03vKZ+Lv7prdRcS2I6p0VKQziZyTwob85g6zVIg+I
+	aZnqTmvQyclv9wUUlC3OmUhfyXGXC6HK9BnJbq2SGngstrnf27kQJCUaazLJPJANucgXjZAW5ljgC
+	9k+RuWKOv4mvP3D3Tk50uiXcM5eSPk9hyBDIiZMOyxlLJgKxEJhZK8MwGW7SVSN6G3ppN7Nbm0D4z
+	j9IhCpRi8fquztIUb2OVcM6zYqQGc/8BxauaiV6mIsMwCm/eCe1aKcbyKM1dsTRSYmRiWmtTGgaug
+	Cy2vxbQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vYlJu-00000000RJg-0qGI;
-	Thu, 25 Dec 2025 13:23:58 +0000
-Received: from mail-wm1-f47.google.com ([209.85.128.47])
+	id 1vYlPm-00000000Rbf-1g8t;
+	Thu, 25 Dec 2025 13:30:02 +0000
+Received: from mail-wm1-f53.google.com ([209.85.128.53])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vYlJs-00000000RJJ-0VY4
+	id 1vYlPg-00000000Rak-2yBn
 	for linux-nvme@lists.infradead.org;
-	Thu, 25 Dec 2025 13:23:57 +0000
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so48845755e9.1
-        for <linux-nvme@lists.infradead.org>; Thu, 25 Dec 2025 05:23:55 -0800 (PST)
+	Thu, 25 Dec 2025 13:29:59 +0000
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso67215785e9.0
+        for <linux-nvme@lists.infradead.org>; Thu, 25 Dec 2025 05:29:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766669034; x=1767273834;
+        d=1e100.net; s=20230601; t=1766669395; x=1767274195;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6BLy1y+Nnd8HejAEuGrNJybNHg4mcI0uPSHEnvoSFJI=;
-        b=ZnS+Ldu0rqazIbspdK35W/7GByFXoxwccyHVDLhz0xQ8xgmPg2p9clDHAWezXuQMmr
-         J7GuKm1iz/MBp5w8QkoftuL9Q1VPgsoQwuI5Ow4+sw92f2ovk0dexIbjmOB9DI8WiAs4
-         UV6dcysYCruYvpQ7D68QI6HQfBKnC7YpR/TLinxOrBZwn3O1s3omnAU82GO1H/JdapOL
-         kcqO/YiEvueoYy2cSdbkW/6jxbF36B4bhaM6LbEqYesCJ200Zz+UhtyNrzcUyE9oX2so
-         oBznhNnR3NED6uFXqIshYiZ06bk0LqfjDVy6TUDCY6iMtumlB/G6r8AgoF1VteL0bd4F
-         NaYA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWppaYyHXe36S2nCvUj5pGkUKlzdz8sOQvV+4oEub9uwTDU19zZDLA7xNDZ6Oa7Tx+yoZX10wlvAyT@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx9mT5lKpnFTQ0sC6Qbpzn7xwRC3a1oBqpdOnYSjP+LjF2zzAWX
-	H/XVhCAZ4aPw6EhrHMa5u7GbpYeq9k3MTR6GAJMT2pRIkYOPiywmCCmJ
-X-Gm-Gg: AY/fxX6tARdbF/xA7MhQxrb82AZ+L66y1xW6KdTwXMa0+QhIyrSiQi78LN3TslkY8iS
-	aj9Xni/TX6Q5mfaSgBCW/T8O6LyvuIAurw01RuMsCbYS3akutgHCVaXP3QhggNWtFKP7kKtw43p
-	p9eJEzfNtSbVlARM5ONb1A70kAR5suLr/bMsj3U5lhPIN6sPyaCU8uZiqYxvur6iIglsxoQxUYn
-	Ui5mwW9YCNgd+WlZhFBTPwmxhru0qZ/iYDGrubz5PRzHWSEqB6IFAqk4YBrCmZma3Agh2CpJp27
-	dyDlDWN1V0dxG48nZMGsGtpmpZNnk+KJxtlw440k+a/R5OsjrI0xE4NM1mBA1afbm7cbRZFzBs3
-	OeQ8rT/VKzs/EHXqi1FaabSQQiqecdM4iCapeAqTU7c7z94xU7G4oXqam2l6qfw99iRV5iOr2sx
-	ta5ghEUH/mu8Qe6cjJT2ZI8yW3i9lF2yeKxdZr798K2fZ4/w==
-X-Google-Smtp-Source: AGHT+IGJJG4xzrR/BvmC8H40fIqocVBQQ0JspOij6L3jUUnZYoH5cpmVOt2bZrYBBoq6YIO1MMBp/w==
-X-Received: by 2002:a05:600c:8b11:b0:477:55ce:f3bc with SMTP id 5b1f17b1804b1-47d2d273515mr151140315e9.19.1766669033944;
-        Thu, 25 Dec 2025 05:23:53 -0800 (PST)
+        bh=4sd9dYjXkenqQupf8A2IMgR8ufMui6YRHhpSwrBay/M=;
+        b=qfZx6R8GGMWPPliubXmJsxg9cn0nwKKtYSxIaP3lTIbdw/VfMDen5sY5Hcr2XpCAwb
+         ZMWYQYL+GMfaP9HVs9Xr2u/wmMu9lvDMRojsGRXRs2bdZY+Tsz3Sat04LyhOS/44x+O1
+         vpxY81gaP9PG0BcRGBG2Jx/TqPiEkIZgEQF/fwQS0n/wu8qy40y633bgD+njX6AvHYCl
+         a+zWAU/8JlcyUTiYRkobA2kgNtaG94MQmdC/EAkJSZgfp8gVhc0bBo0G+Fnba3TveIpw
+         GffBWIDYqhfHi/Q4pfSfnnS1FMgOStBkZcLdnq/x8zDvfHYaFMSJS6amTjZPHz0M1/YG
+         dIuw==
+X-Forwarded-Encrypted: i=1; AJvYcCUpBRWDilcuNqFxBjbLZZdGfTXezP4AcJWn7nWHQO7IZ5bzRgCYmAGEBVkudvxsAmwNgKJdOK8T7uWD@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy4guJNfgG95pssInjETa44g6su9Bs78TD4NACcPqF0g8ey8hwJ
+	D1tXbWwxGm08ZMjSXWVjTd0Y3gIUyjtibF6N9lE8dzMYKkFTTDxQUC9A
+X-Gm-Gg: AY/fxX7JItE1bmWj7fhbGriAo+HRNu6AxDuruGfNu+xy/xdDIjKGQB2F2ZKMBk9yqKD
+	TWAhmWDxYqfhvzlJYcu246hWRZ1qe/kDxfRsWFW0Dv7oQd6dC5FrdF6ner/6xkOe8i/Aec3uGyL
+	poeJhYWk7zf0zVqVaDXoEp0kqTiwjyhftr6bjSq67RxBQIYcbHx4rxZxz576rv/soa7IxBg+AXE
+	Q09P9jO4SrYdUFM7/XXb82fZTs42j91QLcNxwzl8xQThbgaOwX7kc+hgVUPVQIDCLxxqgs7y+DZ
+	rjUxvQiV3auSSQ6cnTFU2Gj2CuiSeArmgMVFpZsXGAoiocDWsq31C9ZS4HYX0vf3p+R4jPl5NVL
+	oQQCPatx90WyhS1cT89UjZ3rxfZylSvJib4OieTEEiF2T5o71gHy0/fsxCPgEHxYt8epYaA2VTJ
+	b6M+UoNd1QWmBF0sERaNIV20ta2Rz61qAMG3rQxA8lbSUUUw==
+X-Google-Smtp-Source: AGHT+IFPES71QjGOTgGEkackpnMHbs0cevNfhfxVitS7PdL54rAx+Ncj4W0HtihRveEL9oncqVy1Yw==
+X-Received: by 2002:a05:600c:620d:b0:47b:da85:b9ef with SMTP id 5b1f17b1804b1-47d19569c23mr255792135e9.16.1766669394572;
+        Thu, 25 Dec 2025 05:29:54 -0800 (PST)
 Received: from [10.100.102.74] (89-138-78-197.bb.netvision.net.il. [89.138.78.197])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193d4e91sm335411545e9.13.2025.12.25.05.23.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193d4e91sm335601365e9.13.2025.12.25.05.29.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Dec 2025 05:23:53 -0800 (PST)
-Message-ID: <13c2bf9c-6eac-4c48-b12c-f76e86c8ef32@grimberg.me>
-Date: Thu, 25 Dec 2025 15:23:51 +0200
+        Thu, 25 Dec 2025 05:29:53 -0800 (PST)
+Message-ID: <e9bb2664-9d96-45f0-a39d-6deaad0829e9@grimberg.me>
+Date: Thu, 25 Dec 2025 15:29:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 05/14] nvmet: Send an AEN on CCR completion
+Subject: Re: [RFC PATCH 07/14] nvme: Add RECOVERING nvme controller state
 To: Mohamed Khalfella <mkhalfella@purestorage.com>,
  Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
  Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
@@ -72,15 +72,15 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
  <jmeneghi@redhat.com>, Hannes Reinecke <hare@suse.de>,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
- <20251126021250.2583630-6-mkhalfella@purestorage.com>
+ <20251126021250.2583630-8-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20251126021250.2583630-6-mkhalfella@purestorage.com>
+In-Reply-To: <20251126021250.2583630-8-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251225_052356_283183_6DDB63D4 
-X-CRM114-Status: GOOD (  18.60  )
+X-CRM114-CacheID: sfid-20251225_052957_061884_0970D029 
+X-CRM114-Status: GOOD (  21.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,81 +98,52 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 26/11/2025 4:11, Mohamed Khalfella wrote:
-> Send an AEN to initiator when impacted controller exists. The
-> notification points to CCR log page that initiator can read to check
-> which CCR operation completed.
+> Add NVME_CTRL_RECOVERING as a new controller state to be used when
+> impacted controller is being recovered. A LIVE controller enters
+> RECOVERING state when an IO error is encountered. While recovering
+> inflight IOs will not be canceled if they timeout. These IOs will be
+> canceled after recovery finishes. Also, while recovering a controller
+> can not be reset or deleted. This is intentional because reset or delete
+> will result in canceling inflight IOs. When recovery finishes, the
+> impacted controller transitions from RECOVERING state to RESETTING state.
+> Reset codepath takes care of queues teardown and inflight requests
+> cancellation.
+
+Is RECOVERING really capturing the nature of this state? Maybe RESETTLING?
+or QUIESCING?
+
+>
+> Note, there is no transition from RECOVERING to RESETTING added to
+> nvme_change_ctrl_state(). The reason is that user should not be allowed
+> to reset or delete a controller that is being recovered.
+>
+> Add NVME_CTRL_RECOVERED controller flag. This flag is set on a controller
+> about to schedule delayed work for time based recovery.
 >
 > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 > ---
->   drivers/nvme/target/core.c  | 27 +++++++++++++++++++++++----
->   drivers/nvme/target/nvmet.h |  3 ++-
->   include/linux/nvme.h        |  3 +++
->   3 files changed, 28 insertions(+), 5 deletions(-)
+>   drivers/nvme/host/core.c  | 10 ++++++++++
+>   drivers/nvme/host/nvme.h  |  2 ++
+>   drivers/nvme/host/sysfs.c |  1 +
+>   3 files changed, 13 insertions(+)
 >
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 7dbe9255ff42..60173833c3eb 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -202,7 +202,7 @@ static void nvmet_async_event_work(struct work_struct *work)
->   	nvmet_async_events_process(ctrl);
->   }
->   
-> -void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-> +static void nvmet_add_async_event_locked(struct nvmet_ctrl *ctrl, u8 event_type,
->   		u8 event_info, u8 log_page)
->   {
->   	struct nvmet_async_event *aen;
-> @@ -215,12 +215,17 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
->   	aen->event_info = event_info;
->   	aen->log_page = log_page;
->   
-> -	mutex_lock(&ctrl->lock);
->   	list_add_tail(&aen->entry, &ctrl->async_events);
-> -	mutex_unlock(&ctrl->lock);
->   
->   	queue_work(nvmet_wq, &ctrl->async_event_work);
->   }
-> +void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-> +		u8 event_info, u8 log_page)
-> +{
-> +	mutex_lock(&ctrl->lock);
-> +	nvmet_add_async_event_locked(ctrl, event_type, event_info, log_page);
-> +	mutex_unlock(&ctrl->lock);
-> +}
->   
->   static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
->   {
-> @@ -1788,6 +1793,18 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
->   }
->   EXPORT_SYMBOL_GPL(nvmet_alloc_ctrl);
->   
-> +static void nvmet_ctrl_notify_ccr(struct nvmet_ctrl *ctrl)
-> +{
-> +	lockdep_assert_held(&ctrl->lock);
-> +
-> +	if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_CCR_COMPLETE))
-> +		return;
-> +
-> +	nvmet_add_async_event_locked(ctrl, NVME_AER_NOTICE,
-> +				     NVME_AER_NOTICE_CCR_COMPLETED,
-> +				     NVME_LOG_CCR);
-> +}
-> +
->   static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
->   {
->   	struct nvmet_subsys *subsys = ctrl->subsys;
-> @@ -1801,8 +1818,10 @@ static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
->   	list_for_each_entry(sctrl, &subsys->ctrls, subsys_entry) {
->   		mutex_lock(&sctrl->lock);
->   		list_for_each_entry(ccr, &sctrl->ccrs, entry) {
-> -			if (ccr->ctrl == ctrl)
-> +			if (ccr->ctrl == ctrl) {
-> +				nvmet_ctrl_notify_ccr(sctrl);
->   				ccr->ctrl = NULL;
-> +			}
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index aa007a7b9606..f5b84bc327d3 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -574,6 +574,15 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   			break;
+>   		}
+>   		break;
+> +	case NVME_CTRL_RECOVERING:
+> +		switch (old_state) {
+> +		case NVME_CTRL_LIVE:
+> +			changed = true;
+> +			fallthrough;
+> +		default:
+> +			break;
+> +		}
+> +		break;
 
-Is this double loop necessary? Would you have more than one controller 
-cross resetting the same
-controller? Won't it be better to install a callback+opaque that the 
-controller removal will call?
+That is a strange transition...
 
