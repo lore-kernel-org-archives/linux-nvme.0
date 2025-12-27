@@ -4,63 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 453E2E8FDD6
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Dec 2025 09:52:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DA09E8FDD6
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Dec 2025 09:55:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jgcM212eZ5IZC+3tPshHf9Zv88sbBRWIfvekrW2A8FA=; b=M2G2DCyBaxGvIMPRmlBRf1qY3s
-	Sr3GtVx2mFgDRPzkXLcazbMLb+pNLf73ttoafYuF14CMvrKUAZ6VZ8JTNTlYUrD04mt8MuytJAQXA
-	JBGgBcCr/SI9r/24zIi/dohpp7HGabw36gw0IFz1jdwP/5zRxIy17Fg+IRXsie2AeUu+qVeCEdSzb
-	/XHcUCu8/Nofa6yebvj7F78ltE8TERk8JsSNofdOKh+cb3HBSLLlTd5g9BQXvg6ys5YdmVLuUEFl0
-	Ap0Zjfbnkod7VMkN+CfrUicnFrc5qk1sv45nQNBEE0FVWWLMGvr9jy35B0cf+4NNHeaYWutpHPrIv
-	pjEDkJpQ==;
+	bh=MgeNdy0YuWWyqKLgp+AdynMOEeVGb+eYNCxj8IBexms=; b=RYVJXEkA4FTcPj6NXzRBN+0/16
+	xnngCB78y0wGKDOIRiJLfdtSbpBSI9ZrsgtCpjDKwEZSqYsum+bPOx/LTx9qtVF5pF4JFZAbaPpQ/
+	dH+n1hDTXF0Z7WjdAVSH9LK3BQhbKcoN/qWK4iDu9qIwmsn/7o+IByfYfO9Yq1+VjsFyD/uCjz+wP
+	N/5pdpN4qm96PBRs9udY9VwJgR26P6rSxmTTODPnHpP75GfRWi786BMEXIV3E8iaKW9kQn+K4IVu+
+	2EAQhVZOyt8NPhnkuNcCyh3rhEV52iwzSIIxJf/ES8XDElns3kYxjyF9UoPvXZQxhbYDH05T4kjdh
+	lUPm039A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZQyT-00000001qA6-2ZHf;
-	Sat, 27 Dec 2025 09:52:37 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1vZR0t-00000001qKS-1lBC;
+	Sat, 27 Dec 2025 09:55:07 +0000
+Received: from mail-wm1-f45.google.com ([209.85.128.45])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZQyQ-00000001q9l-3pwj
+	id 1vZR0r-00000001qJa-3282
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Dec 2025 09:52:36 +0000
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso75180805e9.3
-        for <linux-nvme@lists.infradead.org>; Sat, 27 Dec 2025 01:52:34 -0800 (PST)
+	Sat, 27 Dec 2025 09:55:06 +0000
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4775895d69cso32522895e9.0
+        for <linux-nvme@lists.infradead.org>; Sat, 27 Dec 2025 01:55:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766829153; x=1767433953;
+        d=1e100.net; s=20230601; t=1766829304; x=1767434104;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jgcM212eZ5IZC+3tPshHf9Zv88sbBRWIfvekrW2A8FA=;
-        b=g7GYNtpZiuxP0rKZdqfANEDdxIf1ljCMPnIzCnLu+jzB0HzM1e7azkjReXD6LnPrOv
-         qCLLx3oFb3LiP4wbVg325YFTcKwjbcp2d1+TXYUm0mgrVoIfF2RATp9eZoGaeXx3MwsG
-         F9fwZs1XjuRu6EtVqEObKDzUcrCXeVAVL65NpZamlCsOSRrmCDFjMPpqoFJlBtj4OPpm
-         qALUq/fiIQUhHtbNcpw7lmkm7ZQOg+OJJTwQvASTK/cdbrpxqAyH1yoxFadNJmRNmrHE
-         uB/2fFyLQEAYwlTmFgUx8yPMEmWYnimhUWYBqTLpp9Q3Q1qYcfxtW2gHQBiDUBVROzxg
-         ng7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVnu3n1a9VhyVjDzPJ3SA3kNOdzOrRQJwWsX5qnfN9yp/tRdfSKfUI9cj+hGuj9lR0L6NUcgTyt018t@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyx2NNgoZuYbypUOqoskplaDfohAqdI5IBW9xYhstkitT6OnmAo
-	N1zwJnVmP/IFhGqQsRU5x+m3zQjz8p/TciQjqMVPvBhX0eKpmwmejO7y
-X-Gm-Gg: AY/fxX51kmHGjOYn1B0czEaazKhAdybiJgfcVVDUY8HykcjX7vbvM9TreEtmo4yqHAy
-	56izDeI/Ob2fMYwhlRQYb5vuFxHRKskA8wmXR4nqgBkK/A+O2KP+9w5ttBqGxhL8hprPUsSpCee
-	S2JJXHQpcvt7R+JQYq7/N7NKWGEMPMezM3fNDiaZkYVdiaXwWDXP3dY31nDiosWKVkjdxqDaPJf
-	ag5T6sHLqU6QXsWkdNXTN6vbn8+g/2ocXNj2lkQLvZuCj5vSuFJQ9d2Srf/APKBEihFwX3WqV+s
-	w++JiuGIOg8xU0+3zplkQ/7/VVbdSJ5R9sbQCHNN2YMEGnaBP/xJuoBTIxY0iZvONcVC2dyE8jc
-	YNCEtc7l7Oa7x+IQEnbqVU7UnyCGe/HC358dFlsxAkGVTvkk8ccRz6y8YbByD7dtpxBoxeo000I
-	o6yJTQXD95lheNBI1mIKcLxcU/mEBsPfpjU6EUorie6qM=
-X-Google-Smtp-Source: AGHT+IGF+PTs3/0FBpyzP5pmpET5EtAb9pJL2wZUN/njQ8yeMyhfKj/upxx48WTYQBlPxLJB65Ct5g==
-X-Received: by 2002:a05:600c:6388:b0:477:639d:bca2 with SMTP id 5b1f17b1804b1-47d1956ec01mr262967525e9.4.1766829152922;
-        Sat, 27 Dec 2025 01:52:32 -0800 (PST)
+        bh=MgeNdy0YuWWyqKLgp+AdynMOEeVGb+eYNCxj8IBexms=;
+        b=hF0hNw9vjU4+aKoYIrhnZNTqPmwURbiCcVWh88IwOEjKZzVNXNATmn04tteOAGsoiW
+         vt/L5ijySqtQp9a2LsHkHHvnwezJaPXDGhHMxj0rNRf/bGlD8G7FjDSEAXTI21t2DcjS
+         fV3Y6/+Z5WXa8uIDYRErihUbIE6uM1IunFf/w6FBm1gV5EpK2k8Drl4fHkX4ccUr1ohc
+         SUePDfJ7V1VF9zUA4esTinQQ68W/OBae2Stad8YJKXuYaJspmrM35xC7TAgx/QgzeYOL
+         xj+bKlExz4WD+I73dOZ3K2RH+QNlN9JepfNbXnrMmKXxK5xSTlEJ4Gu8eMz/leT/e40Z
+         Heew==
+X-Forwarded-Encrypted: i=1; AJvYcCX03TAT2ad3tq2k+b9hpIWs1tXipD9LkG6a/p4+hHDwaz7NwHIQFhjpg2TDBpGIJDlS758YRwMAAuUI@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz5GT9M9lvASWr28kSy+s4gRqb5ZHqEaWGadiCEwYbMQWPPb/lG
+	YjExs7Q4gCfQpC0k4OHwO4W2vC2G2CZcnmA/jgLDnRQKhDG0wIaZRW13
+X-Gm-Gg: AY/fxX7egM0nI0RnoQiDw+M43HVNTP6cD8Dsmu153i335hs4/0nCNxNGs4i8vMfQxtd
+	iRNP8+0eBUCznl1+UyYLj4SfsTrv+/BQNdCJI1CMz6GakMk402oWqfN3vvOcacy9aoqAd8jGbwr
+	0sKMEbD66N6MZP56x1MspAdfePHAjT7s3QzK8NLFm7OteSpjyrdFZy3Aa35HxutZl3JEb1BSxro
+	Tb16/1J6eHdJccWFbxPDqyxGCr/frY4btibAy4JUNIvRoqEUal2ZbbMzQp8SJ7GtU6kv41myvOl
+	9uglx8ylLu35n4qudDtQ+Lyza37DUJ/Yewi8gDoVc7+6nAzCG3bXrCeYGMb3YJfxLV2I4PpV472
+	c+d6xO4a9CqI6iM7/Pj5rcGdpyQTxBT5j/qmZrRWuCzgj3vvfeLJaJBb8ZyJWZFVABmqR1bbWtj
+	EjiDIU79/7IxbS3zOM/MavAm7+v6tBoawrDmwD3b0/S353UTXJw5DW8Q==
+X-Google-Smtp-Source: AGHT+IG+l0xXVfn/4KRXXX22pOz4Ge/Cx7X0UB1DTt9IgD0ZtWp7FnyqM1ZBFwbrjAr4tWDaUm+Yaw==
+X-Received: by 2002:a05:600c:3b2a:b0:477:b734:8c22 with SMTP id 5b1f17b1804b1-47d1953bd29mr266480285e9.8.1766829303709;
+        Sat, 27 Dec 2025 01:55:03 -0800 (PST)
 Received: from [10.100.102.74] (89-138-76-94.bb.netvision.net.il. [89.138.76.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be27b0d5asm490675175e9.13.2025.12.27.01.52.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d193d5372sm453678675e9.14.2025.12.27.01.55.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Dec 2025 01:52:32 -0800 (PST)
-Message-ID: <fc33dcfe-244c-412a-ab06-a554a66ada1b@grimberg.me>
-Date: Sat, 27 Dec 2025 11:52:31 +0200
+        Sat, 27 Dec 2025 01:55:03 -0800 (PST)
+Message-ID: <f627fab9-9d8b-4a05-b2fd-e951ebb17fba@grimberg.me>
+Date: Sat, 27 Dec 2025 11:55:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 07/14] nvme: Add RECOVERING nvme controller state
@@ -81,8 +81,8 @@ In-Reply-To: <20251225171709.GA8129-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251227_015235_040264_A3BA07B8 
-X-CRM114-Status: GOOD (  18.67  )
+X-CRM114-CacheID: sfid-20251227_015505_777201_2BAA3802 
+X-CRM114-Status: GOOD (  10.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,45 +117,7 @@ On 25/12/2025 19:17, Mohamed Khalfella wrote:
 >> or QUIESCING?
 > Naming is hard. QUIESCING sounds better, I will renaming it to
 > QUIESCING.
->
->>> Note, there is no transition from RECOVERING to RESETTING added to
->>> nvme_change_ctrl_state(). The reason is that user should not be allowed
->>> to reset or delete a controller that is being recovered.
->>>
->>> Add NVME_CTRL_RECOVERED controller flag. This flag is set on a controller
->>> about to schedule delayed work for time based recovery.
->>>
->>> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
->>> ---
->>>    drivers/nvme/host/core.c  | 10 ++++++++++
->>>    drivers/nvme/host/nvme.h  |  2 ++
->>>    drivers/nvme/host/sysfs.c |  1 +
->>>    3 files changed, 13 insertions(+)
->>>
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>> index aa007a7b9606..f5b84bc327d3 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -574,6 +574,15 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->>>    			break;
->>>    		}
->>>    		break;
->>> +	case NVME_CTRL_RECOVERING:
->>> +		switch (old_state) {
->>> +		case NVME_CTRL_LIVE:
->>> +			changed = true;
->>> +			fallthrough;
->>> +		default:
->>> +			break;
->>> +		}
->>> +		break;
->> That is a strange transition...
-> Why is it strange?
->
-> We transition to RECOVERING state only if controller is LIVE. This is
-> when we expect to have inflight user IOs to be quiesced by CCR. We do
-> not care about inflight requests in other states.
 
-Sorry, got confused myself - I read it as the other way around...
-I am missing RECOVERING -> RESETTING transition in this patch.
+I actually think that FENCING is probably best to describe what the 
+state is used for...
 
