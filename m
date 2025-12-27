@@ -4,85 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B052DE8FDD5
-	for <linux-nvme@archiver.kernel.org>; Sat, 27 Dec 2025 10:36:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60008E8FDD6
+	for <linux-nvme@archiver.kernel.org>; Sat, 27 Dec 2025 10:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=x150ohOiZKjj0JH1SGEJ2xmrmckvT0TTgs5U+Y4eDkI=; b=4J/qJI2xmUvhQY/jZ6nz3TVmg+
-	/9VwZ4tymgIj7kMXGmUnzIKMBLfYEZPdFslapvcs5a7L3VFa94EFPeBNre80ALLHqVqCtzCJpgXTy
-	kR6SuVL6NfXroGS+Fi9fG/Bg1pEfYNi+Mx7PxmDBPEFDLhjj07wEtnYkhAzCFfOp+h+7O5YLHEMLX
-	Zh4pqPb2XQHZLjVcNfOJ+myJDfY5PEcjoFUg3zK14HRzVMJxTY+tMl0kzvl/Sa2uDWV48A7JcG9v9
-	J1DDGUsUO9xzwV4rF0Co1/hXfrAnmiFuqZ6msqWJvuhs+lJo02U80c+IRP0xrD3DooSV3v90kMSQn
-	3XQKsI+Q==;
+	bh=LtLBBtJhALKfBZ8r2HTslPHOEI+CfYAyFADAeQFApKA=; b=nk3kIgiePityxWh0yrT5ztGoTE
+	V/xpCJsQbGS0+NFGvwNLsLufAVBzWmRcst2QNv0N4hJT0kaFhvavtPfOtAlOBkMoHNveO5orOEHNZ
+	Am8mrRbunJ9d0FPTl2b/2PHkVljh7l8RUi7EMU2aJL/31RreR5bbaa1B4+L4NL+BFh3z3wl1icn15
+	JJl9eDFFLk4z9kCI92AiBqa4hPjfDTC1mVO4QKKijK38aErrnGk4ZsNXsM7wiqmLRymXd+SirQbPd
+	CVxb/hSTH9YHEBXErtlBMgqkwuDFEl6gJ3GoZFmdFhyJPSTz0xZ+CYxbTKBe7yxwT9xvEYz5DR6cO
+	vaYs8gpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZRed-00000001rfS-2bpm;
-	Sat, 27 Dec 2025 10:36:11 +0000
-Received: from mail-ed1-f53.google.com ([209.85.208.53])
+	id 1vZRkz-00000001rtM-2KEd;
+	Sat, 27 Dec 2025 10:42:45 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZReY-00000001res-3y5M
+	id 1vZRkx-00000001rt0-0ofS
 	for linux-nvme@lists.infradead.org;
-	Sat, 27 Dec 2025 10:36:08 +0000
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64b9cb94ff5so8981134a12.2
-        for <linux-nvme@lists.infradead.org>; Sat, 27 Dec 2025 02:36:06 -0800 (PST)
+	Sat, 27 Dec 2025 10:42:44 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-47d3ffa5f33so9066785e9.2
+        for <linux-nvme@lists.infradead.org>; Sat, 27 Dec 2025 02:42:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766831765; x=1767436565;
+        d=1e100.net; s=20230601; t=1766832161; x=1767436961;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x150ohOiZKjj0JH1SGEJ2xmrmckvT0TTgs5U+Y4eDkI=;
-        b=lF9vGq0zO27kmY+ePKjiRfJ31w9XhK1+fh+ZodQfbnLLDvfVMlAFbG8EjhrYZ/Ob4C
-         zmk8qPzdxgo/RcQY02nLO8dKIFvDVDiiat669PXe3AKq6w6MQAfEA0nNB11l7Rz9nHqQ
-         4Fqy6mzIZNZr8J+zIh8R+8DOmWJmjwpt+XNWCnnH+u40Ov+xN79xQRBz6r5cSmAZe9R3
-         c5YgyxdNWs4UNYw/BknJM6upRTX6MrIMtyrTRjqv1HAibuvD+jbkTUAMsHiIk9VDVh8t
-         2+6q/fvwFg2ey5EJ2gZRRGF0twQ+NsQEfwQORNt1kLjYJ0S3iminsYS3gPQ0LV1CI9Fj
-         ahdg==
-X-Forwarded-Encrypted: i=1; AJvYcCWN4i950hzbAwCWLAQpAdS7DF+/3VUFodUpv+bbDowoZWG21apMCoKzCl2izc97ERHNi1vsk+1m1bwk@lists.infradead.org
-X-Gm-Message-State: AOJu0YyQufcNFWkgMGI47pnD0rrnqviFTcTd4uO4B9Jel1X9hFUx4lMy
-	nD6e6vFWTPGBwv22nS+OBCTcAWlhPsYty7KdSXnpoqrpkZnrXiciLnKY
-X-Gm-Gg: AY/fxX69qCq64OQ5rOk+m7SFlpnimuDr8GMoFCTsS5nUj8c7IBKghgh5abexP3n35dn
-	CTBdfxE+PTNba40yM3tWA++UxfIjnxH0j9TjTWDOcu7kYyBPPtTn0CUz0HDWrGHUYTqg3KJKb6a
-	3dUzmau6YRX9I8XfRXIWWG+mH5QRZJV1swf6H6KJmgd3QA25L+fvk4+40rOwO11SytbU/iT4oi2
-	LGyw7g/SmEkkUQIXOWRb0ah2VwwVCAC1gYnmW07Apdeq79ZvhXSR2fAX3/u5kjQ7tB/hYWM1BCF
-	/aSxlprM8RL/bswXwNBrIjye0bPdhYjDKUFKt1inI76RzqPkpZPqE7itU4sMi/S3qSuVh1WI7nM
-	iySRcWmGv9daaHz+GwnM/uv3f+ogMVeryBdXS/J9uin2lOKzIwL3NNs4kJ2Inm2EDbcHHTFW2zV
-	fUWu+MOUnntWqDuLTuwwCErqqDRd7gnruKI4PmdEITigs=
-X-Google-Smtp-Source: AGHT+IGVKayjBEyqqDuVKg64jiyyc4F41ac5DZNsU59a9LgIPWAfgCq+L4zR4zjTGCr9BmzQUJXfUQ==
-X-Received: by 2002:a17:907:1c17:b0:b76:31e6:2ee1 with SMTP id a640c23a62f3a-b8036f65331mr2462582566b.18.1766831764759;
-        Sat, 27 Dec 2025 02:36:04 -0800 (PST)
+        bh=LtLBBtJhALKfBZ8r2HTslPHOEI+CfYAyFADAeQFApKA=;
+        b=C8+9dyvp/mUMzZLMoIU+YCmYQFK6bA0HknQTGF9OFT1jFNAsMP7RtrvbJbmCgCFXln
+         6TngGse5pOcAPN2Cn91i1LncznLB6ON5zqLTbLrqGpiFqxxxF+0gQRdMfS3+AvTxc55M
+         ogDAsUkTmfahcuOHdXwtFrfF10jBTr/S7BS9+WedfvXp/3ptXJNSe2/P1Rqqxyp0ZmMU
+         fdFy5gJVbcIuyZx/2Cjl8yDxIZMwVeUMn7j+vHvSnbO8S5pW9jhNGxG7J11gvVrFlGho
+         cEkDcopswOQ/13o5E0Tv/SbBBGgZuvZPc1LwXlfJ/LZdNrZZfWKZMcZ9VLL7vUYbLDgZ
+         +V3A==
+X-Gm-Message-State: AOJu0YytSo4koKjkTf6ZIp1JA+wyFJH25iVWikIoYOPT8XUK4M4+48jt
+	8vkarx76NL8uCnFsXji44l3DzsNbjVdEdGjQ6cXYviVRzVlpVzmH7xgO
+X-Gm-Gg: AY/fxX7rpRCs1ZBO1IIsvwzJPy9DZafmnTg3Oh3TBabWr96D229Iw7xabocUfHkYkly
+	/5B32Wp4ziJ1wXTZIhaVETEWNJSsKnVor4mGDVy2nc6hUFntG6bkck6qSQnxZ0LOHbQqhqfPJP1
+	yWmGcgutJwI3uLW4JfQfrK1Y33xwsspWBV1/7V7oHGTxiPYJP1g5p9gg3MooPDpQU0MYK23OpO8
+	yBsii3oVfYdKjZIaJg/Py+q6gu9SL4Zip8yXXlKnMjWe61ZMPQwHA9OQtRiH67NJqj7YuqmL5Em
+	QdTC+pts+fi1VGjEJJevxNXRiqUFnEr4LAlXQhpeR3uR2Di2nAqpvuqawQ3CEvQnLvA819qKSSe
+	uCJ5f9Z2V4CtJLxN+oRxE6FRPGlcIS9/V3S7JPGaIcnig3xFv5HHFqQOO31yEq0k4T6h6jM2P5Y
+	BpGRtTmZqhihoL3u6Ftf/dLT0aF4ga3f35qQdjJbI7G8s=
+X-Google-Smtp-Source: AGHT+IFifuKoIXgl+8sbJHAXGbEeChOXwycxKAlvotTjNABbq8Myxb19pNbT8slbgYzuKWDeS2s9sw==
+X-Received: by 2002:a05:600c:1550:b0:477:9fcf:3ff9 with SMTP id 5b1f17b1804b1-47d19589575mr261915915e9.27.1766832160985;
+        Sat, 27 Dec 2025 02:42:40 -0800 (PST)
 Received: from [10.100.102.74] (89-138-76-94.bb.netvision.net.il. [89.138.76.94])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037ab86cesm2660242066b.19.2025.12.27.02.36.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3a203d4sm189837855e9.1.2025.12.27.02.42.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Dec 2025 02:36:04 -0800 (PST)
-Message-ID: <8d61f3db-4294-4032-8c38-428f902c48ff@grimberg.me>
-Date: Sat, 27 Dec 2025 12:36:02 +0200
+        Sat, 27 Dec 2025 02:42:40 -0800 (PST)
+Message-ID: <91ed7327-bf4c-4912-a490-ce7606b854a7@grimberg.me>
+Date: Sat, 27 Dec 2025 12:42:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 11/14] nvme-rdma: Use CCR to recover controller that
- hits an error
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>
-Cc: Aaron Dailey <adailey@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>, John Meneghini
- <jmeneghi@redhat.com>, Hannes Reinecke <hare@suse.de>,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
- <20251126021250.2583630-12-mkhalfella@purestorage.com>
+Subject: Re: [PATCH v2] nvme/host: add delayed retries upon non-fatal error
+ during ns validation
+To: Alex Tran <alex.t.tran@gmail.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20251226-nvme_ns_validation-v2-1-0e1b3a142553@gmail.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20251126021250.2583630-12-mkhalfella@purestorage.com>
+In-Reply-To: <20251226-nvme_ns_validation-v2-1-0e1b3a142553@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251227_023606_995170_EE3592CB 
-X-CRM114-Status: UNSURE (   4.20  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20251227_024243_263134_80E27373 
+X-CRM114-Status: GOOD (  30.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,5 +90,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Same comments from nvme-tcp...
+
+
+On 26/12/2025 19:54, Alex Tran wrote:
+> If a non-fatal error is received during nvme namespace validation, it
+> should not be ignored and the namespace should not be removed immediately.
+> Rather, delayed retries should be performed on the namespace validation
+> process.
+>
+> This handles non-fatal issues more robustly, by retrying a few times before
+> giving up and removing the namespace. The number of retries is set
+> to 3 and the interval between retries is set to 3 seconds.
+>
+> The retries are handled locally. Upon success then end. Upon fatal error
+> then remove the namespace before ending. Upon non-fatal error, retry
+> until the max retry amount is hit before ending.
+>
+> Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+> ---
+> Changes in v2:
+> - Simplify retry logic with local loop instead of delayed work.
+> ---
+>   drivers/nvme/host/core.c | 37 +++++++++++++++++++++++++++++--------
+>   drivers/nvme/host/nvme.h |  6 ++++++
+>   2 files changed, 35 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 7bf228df6001f1f4d0b3c570de285a5eb17bb08e..6cd1ce4a60af55e5673e5fd0ec2053a028fae4f2 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4289,23 +4289,44 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
+>   static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
+>   {
+>   	int ret = NVME_SC_INVALID_NS | NVME_STATUS_DNR;
+> +	unsigned int i;
+>   
+>   	if (!nvme_ns_ids_equal(&ns->head->ids, &info->ids)) {
+> -		dev_err(ns->ctrl->device,
+> -			"identifiers changed for nsid %d\n", ns->head->ns_id);
+> +		dev_err(ns->ctrl->device, "identifiers changed for nsid %d\n",
+> +			ns->head->ns_id);
+>   		goto out;
+>   	}
+>   
+> -	ret = nvme_update_ns_info(ns, info);
+> +	for (i = 0; i <= NVME_NS_VALIDATION_MAX_RETRIES; i++) {
+> +		ret = nvme_update_ns_info(ns, info);
+> +		if (ret == 0)
+> +			return;
+> +
+> +		if (ret > 0 && (ret & NVME_STATUS_DNR))
+> +			goto out;
+> +
+> +		if (i == NVME_NS_VALIDATION_MAX_RETRIES) {
+> +			dev_err(ns->ctrl->device,
+> +				"validation failed for nsid %d after %d retries\n",
+> +				ns->head->ns_id,
+> +				NVME_NS_VALIDATION_MAX_RETRIES);
+> +			return;
+> +		}
+
+This is really redundant. just make the loop (i < 
+NVME_NS_VALIDATION_MAX_RETRIES)
+and print in the end outside the loop.
+BTW, don't you need to remove the ns here?
+
+> +
+> +		dev_warn(ns->ctrl->device,
+> +			 "validation failed for nsid %d, retry %d/%d in %dms\n",
+> +			 ns->head->ns_id, i + 1, NVME_NS_VALIDATION_MAX_RETRIES,
+> +			 NVME_NS_VALIDATION_RETRY_INTERVAL);
+
+This can safely be debug print.
+
+> +
+> +		msleep(NVME_NS_VALIDATION_RETRY_INTERVAL);
+> +	}
+> +
+>   out:
+>   	/*
+>   	 * Only remove the namespace if we got a fatal error back from the
+> -	 * device, otherwise ignore the error and just move on.
+> -	 *
+> -	 * TODO: we should probably schedule a delayed retry here.
+> +	 * device.
+>   	 */
+> -	if (ret > 0 && (ret & NVME_STATUS_DNR))
+> -		nvme_ns_remove(ns);
+> +	nvme_ns_remove(ns);
+>   }
+>   
+>   static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 9a5f28c5103c5c42777bd9309a983ef0196c1b95..dcbdc7fa8af0cb838b3f1a774d4c67fa69a00050 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -46,6 +46,12 @@ extern unsigned int admin_timeout;
+>   #define NVME_CTRL_PAGE_SHIFT	12
+>   #define NVME_CTRL_PAGE_SIZE	(1 << NVME_CTRL_PAGE_SHIFT)
+>   
+> +/*
+> + * Default to 3 retries in intervals of 3000ms for namespace validation
+> + */
+> +#define NVME_NS_VALIDATION_MAX_RETRIES 3
+> +#define NVME_NS_VALIDATION_RETRY_INTERVAL 3000
+> +
+>   extern struct workqueue_struct *nvme_wq;
+>   extern struct workqueue_struct *nvme_reset_wq;
+>   extern struct workqueue_struct *nvme_delete_wq;
+>
+> ---
+> base-commit: fa084c35afa13ab07a860ef0936cd987f9aa0460
+> change-id: 20251225-nvme_ns_validation-310a07aa8b2b
+>
+> Best regards,
+
 
