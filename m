@@ -4,84 +4,184 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B131D3B7E5
-	for <linux-nvme@archiver.kernel.org>; Sun, 28 Dec 2025 06:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BFACD3B7E5
+	for <linux-nvme@archiver.kernel.org>; Mon, 29 Dec 2025 07:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=E4ewT3eQeEpO8GTqQ/uFr2WOBVB+M9+hPqtp97ZRDoU=; b=gHqTYvSqwaSR6w9V1C03PZhUqK
-	UtEHwIRZ4jk2CHs6hWSVqzv4wy9R4xNIAuO0QzWouLOJrzOo5eZtRwViSUfv47FFlxeiNiwHRgLQP
-	OHU10UPYO4al7lD/z6kwElQvHqU7+KwyvIk+hSNIJnd9rTzkkLOwIqKr/HI1mnR0wHlBZ3EBfxyBK
-	m35LzrzhruFJhGF/dbHDSMNN9mhrNNINkceWHcQp+qymMNSQ5vqZS+zWCOPhtcqPIwx2Fmmmxbqa+
-	QwqDXcKWxr0rBCrOHUQfejsjxSU0HlafJl0ukPEAI5PCk0v23Fwh+Q2zv9mDqoowX7UfXzX1+u8vA
-	FVYVbqzQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:Message-ID:Subject:CC:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=AqpKnKFxt3qAfiNmYZg4IpEdUz502OweBmcGdGEuWgc=; b=JYhHh31T9lsvmV
+	z/jX6K3qT/3K4G2tZicVmD7jQcUNHeBu2jiq2a5ALVusrdwiUPdMFcKnOZok49L54AkVeqNTEpwsZ
+	miCRkrVKAQHOtIbVzuSfzX3Jn9Brtn7/clQWghqOOpYusO78LqaMKwc1OSgwBPw8aaKrcjWLU4M8i
+	PGQiIKbWmkjuJOqLvpqiwk0jqj+1xiNZLgFQoNfntyOBJkTIp8lEAIghEzQmqXyQ8KB7RObOFCQs1
+	oI9JhCBb7DwehwzwEZUKzQIvAfRjkTFvNZT9cTGBQtHCjVzDUx7XeUKg+59psqiizrTzZ1lfs3KbR
+	+qbHHXoXoOwS182+XEwg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZkBj-00000002Y3J-1dkT;
-	Sun, 28 Dec 2025 06:23:35 +0000
-Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a])
+	id 1va7Tf-00000003Pbm-3bYR;
+	Mon, 29 Dec 2025 07:15:39 +0000
+Received: from mgamail.intel.com ([198.175.65.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vZkBc-00000002Y2y-1oQi
+	id 1va7TZ-00000003PbP-0NYz
 	for linux-nvme@lists.infradead.org;
-	Sun, 28 Dec 2025 06:23:29 +0000
-Received: by mail-vk1-xa2a.google.com with SMTP id 71dfb90a1353d-559748bcf99so7171879e0c.3
-        for <linux-nvme@lists.infradead.org>; Sat, 27 Dec 2025 22:23:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766903006; x=1767507806; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E4ewT3eQeEpO8GTqQ/uFr2WOBVB+M9+hPqtp97ZRDoU=;
-        b=C9i6opWPUUkyl8iqKd2L4t+IuD9WQ8Bp004QKvJEzYsQOyQi02izsLPUjf9QjwxMMs
-         /C5OX5kz6jfBg6ZWoB7fTaAtEi0K/Pb0Ij/JN4zu+QHst13qFc8AsaED/XCLAzoJKWjV
-         YpWM7za3IPFaBvhgLctqLqPQ025vDoJkam3NHp4GMLUEPuA5z6dKVuQHjEE6T0sMY++9
-         wNBIZnKUJ317ntLuVXLcRwAl9A9me+9i+6w9YzCajHs62fnjGU7YLMGghFRcE4zyipi2
-         yPwdSWRWYebTIDpDojb/dyKiSaZCZtSZYWder0tHTdTwYJDjOmpp6MjENYvG6ZGABiVj
-         Ft0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766903006; x=1767507806;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E4ewT3eQeEpO8GTqQ/uFr2WOBVB+M9+hPqtp97ZRDoU=;
-        b=Myu8rcVqmVvVk7YEGdHY5iJ3yFBYe4Y0s7fM/jhCZoG5bT8mkFMTLIOxNLJT2CFrtd
-         IWNZws4p/FXkyBc0h3oBEBTXd/N0rIaqiBw756xT1KgAJ3GSwDIaRlvEAqwDNTMHoosc
-         7d+ieL3UPuRjPtquAEf2Az8ckwezcYEG71tRVyTi0r5JMJNVmDqJmHVKTTaaBuPrY0Fm
-         /IUgo8ZyFixreFyRfIl04lBqoCdK3YpHQ7ba6slDhzgR17E+MLdlPt5rM0a4J4Me0DmQ
-         n5HEKkqKAus01AIuFXvbzZNjMKQOHgzRB6tPADjRqTCAmuRKX9GWTWDh5DptJ3CAkBtU
-         nRxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWB80r5nx/qKq4NRe9BV+y9Qe8E43MHw6TlEB0bnlbUa0gL8Xq0PWJcOAEZUN6L3Xe50da3yjvSEY5F@lists.infradead.org
-X-Gm-Message-State: AOJu0YzDG5ObWdL4oxVugGeRJkVhVmY/2a6OJ5193OtCgKWsG3MkWZ1A
-	/fTLLxrXLMXbvAhBWmbyUIPhkUcc57ByFroBbd99JMpzV7Fj/cuzB+Y7DEC5q/b4zg7GetUC1o4
-	OZ3g3dYNTuPz6Ov9Co6daqt827vI1K78=
-X-Gm-Gg: AY/fxX6ZCVppbI3zP5sPnjzjlvnjNbUSKoe1kmkO19X3u2BTSaXDB20bkuuDKjJ92DA
-	VQqq/FFQ1dRkPwOkqJQRhC8Aq/H+doCkhHp6lH2B/iyJ+8MT1ZutfNqT9777PjWkCcXgSnoM/If
-	MuRW12gb7t6jCwlhsM23bPfydKDZG0AwzsT4x3Lw4cMq1a8FvM7s5iuK6Gi8k/feWmq/1bag/Gz
-	2tTNxHzMA9eHqccaWrAX6rcsdI+6HvcTS1ViK9B0/MOh0sgeUAFz1pjGjJhjhAL8JDlVGny
-X-Google-Smtp-Source: AGHT+IFhW+TQXQtttOEJMCZi9X4DFxLh1FDK8YUuBZmkSvQrGvO1V7StkNck/UWxU+qTD4Ffb2BLep221xAGlicRz30=
-X-Received: by 2002:a05:6122:4fa4:b0:557:c743:e14c with SMTP id
- 71dfb90a1353d-5615be07393mr8728554e0c.11.1766903006291; Sat, 27 Dec 2025
- 22:23:26 -0800 (PST)
+	Mon, 29 Dec 2025 07:15:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766992533; x=1798528533;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=gxgra3WWqGd/qDa2IaZhe/bkonVAup2E0j8BDMpBKCI=;
+  b=CX0eplu/YdDzW6n9O+Yu1YPSwx1cbRl6zwqJKa7m8fCSYeDv/JhrVxgY
+   VUg4rTM1v5hjPVUQ8+aEl9uL4lONhrVI8uwK5IUv0c/mjHiheOUY2sx9v
+   AY+gVfnuppbHOAD4pQcidx8uz9eqdOsk1AuiavgTAZvVhi89yMoUEfrEV
+   NFLc1uOvf0uRVJeUF+eQKheF1rFOj+PB7Uxzu6dPQDc+HkYXurYBs9o0B
+   fdefblG2yZZl99LRs7QwccGKtcYrVopepl+d9yMBEbK4Zos6RZ+kdl2Qh
+   EUQz0EVsNbZRCjj4DpGLEnboq7vo86V9u8sWi1MhJy2z+4gOyq8Ugaxta
+   Q==;
+X-CSE-ConnectionGUID: a9E6TUm4SRaMRYJT4kTrLg==
+X-CSE-MsgGUID: b2eM55k8SFqxQcPBEdAbdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="80055711"
+X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
+   d="scan'208";a="80055711"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 23:15:28 -0800
+X-CSE-ConnectionGUID: p+ejvzfmRi+q1CEtU5iusw==
+X-CSE-MsgGUID: 5Pswykw8QtOUchvKtembUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
+   d="scan'208";a="199990350"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 23:15:28 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Sun, 28 Dec 2025 23:15:27 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Sun, 28 Dec 2025 23:15:27 -0800
+Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.18) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Sun, 28 Dec 2025 23:15:27 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aBSDNlKYShLwjfH7hWtdpyGkYwCnBQ+HtctB0xFNzftu3yQ5OiQIaLxrLHjgCp8Qn/L5MzoOzux4YlMlKBwt8X+35l7Paa1niz5mzuenOMsldIC+U+VaIaEgZuI98X/X6KmXDVa0zrImM9j3lwjYBxuRzY+o2bM1rvmfg0oyUpPYf8atqyWqcZQLJ/d0kqhVMyVhXmkQHGVv9m+EJlCJFW5uDG2Et4pOkS11jy+E3Tn6PDE+Ny2SgRIVfJjf4g6EmHQo7JXtenGcLS+/sSkKI9YBoW3+RbRZcLFkrJWhjkjoKzu81IpcgZwFaR7wiuBqASJK7LBlRdnF1T8qU4rntw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AqpKnKFxt3qAfiNmYZg4IpEdUz502OweBmcGdGEuWgc=;
+ b=Sk5Zn9axLfcr9yzhihvsWGgywVOihJLy22BblgOnN8Km5qNVN0FzzJo7qI6RhkGdsnhj3vfILfaagtEhx5fzuHUpOouaoMBVBDRMgJWoutHn3y/KBY/OoBap4YaJZmieLL4fJldeKIaS11FaEvKdHKx+hiPMyuHw4Va6eObRaITouMm0sf6YzAWOfFWhY70O+iSTBVs4+HaHtzIvagOMZsjnDKXcCGJWTKD7roYyT/dhcIQny9IiDp4Fqt6O4LbeTNkTqmEUAFBGBEmOgTQeo8w6yZ/piI+Y+Svq4Llr8OBOB/JrHn5jRhg1vvb+hgcxHWhcm0EL7rP4vHIiYAkJOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by SJ0PR11MB4958.namprd11.prod.outlook.com (2603:10b6:a03:2ae::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Mon, 29 Dec
+ 2025 07:15:24 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.9456.013; Mon, 29 Dec 2025
+ 07:15:24 +0000
+Date: Mon, 29 Dec 2025 15:15:15 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Vitaliy Filippov <vitalifster@gmail.com>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
+	<linux-fsdevel@vger.kernel.org>, <linux-block@vger.kernel.org>,
+	<linux-nvme@lists.infradead.org>, Vitaliy Filippov <vitalifster@gmail.com>,
+	<oliver.sang@intel.com>
+Subject: Re: [PATCH] fs: remove power of 2 and length boundary atomic write
+ restrictions
+Message-ID: <202512291503.11709b09-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251224115312.27036-1-vitalifster@gmail.com>
+X-ClientProxiedBy: KUZPR01CA0023.apcprd01.prod.exchangelabs.com
+ (2603:1096:d10:26::10) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
-References: <20251226-nvme_ns_validation-v2-1-0e1b3a142553@gmail.com> <91ed7327-bf4c-4912-a490-ce7606b854a7@grimberg.me>
-In-Reply-To: <91ed7327-bf4c-4912-a490-ce7606b854a7@grimberg.me>
-From: Alex Tran <alex.t.tran@gmail.com>
-Date: Sat, 27 Dec 2025 22:23:15 -0800
-X-Gm-Features: AQt7F2rLzjktL10VGVxaXrASxI0j_kz6PQ8aABx3Faye27WvOdTGInmlJ_NJ9F8
-Message-ID: <CA+hkOd7_+n2qiXdOw1Z9nYTHP1tosqNOwDBXZwML0kND2WmG8w@mail.gmail.com>
-Subject: Re: [PATCH v2] nvme/host: add delayed retries upon non-fatal error
- during ns validation
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SJ0PR11MB4958:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4de545e2-c51c-464b-6263-08de46aa0932
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NqCCQ9ISJh1gbAsZPL3k92wXTR2hU+UdpVJcdN5N5jnDi2Fx918Bw87MfjP4?=
+ =?us-ascii?Q?jitFrBaRGhpQqr1hgDLK6vvgud82EL3eyji6Mk8zg+BEJNhfbWQDXYvw4GIj?=
+ =?us-ascii?Q?57VorBLAAh64l11My2iLNQo+mbWp5+OQ+7NQzfXanjrAOOt4x7Wsx54L8ULW?=
+ =?us-ascii?Q?5TK60PTDOejlUHRApG+6Xph2xGEHSqSOsAUeNyC7vSUd98HYspqv5Q4/de4q?=
+ =?us-ascii?Q?QMgQAKRq1lgn5wkwGRYysO1nlhdEh0Vouwa25l6PsSg8QssJMTd81h0Pu7Lg?=
+ =?us-ascii?Q?RWP0z8YMD9VTdo5ltdBDd4/fVo4yE5yGndYwvt2Gm5UFkCJGomQnx83pmeQT?=
+ =?us-ascii?Q?4GWTqErp7G8LfoUQDsTAiDdtpRr+iTZy1gY9uLzmwmeMxY36BYhtybBEEzpk?=
+ =?us-ascii?Q?UQ6BfLvWy74AmCRCw3kk9tlSaEdcV1a+UmX/pObuxvffNE29T0cz066IghVo?=
+ =?us-ascii?Q?p37yk+kLuRq2kRfiLgAvcnwZRNonvPDbZ1jpziu4LkI/1BCYkFaVEd3aOb2p?=
+ =?us-ascii?Q?fFpG/wAFX4zaSRmrxhC7fL4xsF7BjyvzBfe0TVS22vQX6sNYOylRcf2ZCl6Z?=
+ =?us-ascii?Q?3tw0scFGOv4bcumJQFOrrH9zaoRfJ+AXyPq8LITXtKPP5sNdsKwLRPaLqqUu?=
+ =?us-ascii?Q?pruuFofU0MdVIWX4KwNE5f7Zb80h3ROPHxuQPHz4v47XzUfZcKfIEDI9ul7M?=
+ =?us-ascii?Q?on5CRtzmBLTc5Sdj+kbBvC3acUWzu9ccd0B+x4+NQ4SCuZX2qyf1h9tWWhU0?=
+ =?us-ascii?Q?G1FD9Sl0L4QRzwDN6fXLnqWt9FjRcPwSkzaKr7VRbryE93u6nFV4ymGwjRft?=
+ =?us-ascii?Q?RFRJlJ1Gdpo/0GMjh+jTiz9I9mSIs4dwq1O18Gr2XrGrpEk4otzypNXx48gK?=
+ =?us-ascii?Q?FgtNXO3qHI+0CGCHzjIuhtD6/8DpJkibzKrw9zOb4KRVTizJRwckUGuh0fzh?=
+ =?us-ascii?Q?uyWh2vbwpKYaJhIsK19mkvoZoIq2IGPYt3CReFdIgP+K6IpRimrvq/3EAD3G?=
+ =?us-ascii?Q?35CFN0HNaLkV5MTIMF7nicNtypF6FoOmMChEn/rF8LnX0tV0zn5XkxOab6IZ?=
+ =?us-ascii?Q?dsoISuq7MbNev+2JK7GVKrdIfy/2SPvEv5DoVCsaDvfF19ryVgES3tNpd4M6?=
+ =?us-ascii?Q?rQMfhIQkWixI0vtmN/Thlwfk7sbQqI0O1+QidEOZxHzsO2z9YdPoi3k6OB5p?=
+ =?us-ascii?Q?pitZYiZLX2m7cuV3jeDE7Uqfsti+YYkS4PrHi/GwFKMw3imPF2YFIeXdBYaf?=
+ =?us-ascii?Q?tOCa4moRpfwt/PuIvTvDs2MAg/s33qLX32UM6GkAYQ3azNup0Kdsj6qC/yFd?=
+ =?us-ascii?Q?q9oyRAwcA5b2wL6AwxaHPV3l7HvjU3JmFfNrF5gbIjmwV4Gk3qNyBQWE4FFo?=
+ =?us-ascii?Q?3sUKSuHp+GHGofZ9e+mCFitx/BOBG/aCpfbVpMD+ra1Y3qO1eveGDbBgfqEB?=
+ =?us-ascii?Q?F+JYA6MHA0Lji6RlcFn3OMljH/FFm12dIkQpH8DYWNqJQCeeHbdEbA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KnylMxVWo9NzzU72cdBwUb6YMk3NbX9dQqecTVHiun6biC6FhgyMnjeJ3jDm?=
+ =?us-ascii?Q?xYZL9Ka3QooNVuGVLGeF+ANzgCjD5gVV7gzOwoxH2jZQL74YbnaVn7akoqh5?=
+ =?us-ascii?Q?gKyBPM8V3w9pdzk1Q709O1Evap5BiP2KDVCqJvmMjFJ9bNZQANLj3jZKcyRa?=
+ =?us-ascii?Q?bYIxOBLfk8JsrN1TO7MTAoNJdVeniPkgu4n6UBax3ibyhkWufs6TQPK6wnOL?=
+ =?us-ascii?Q?b0hKUrkHIBhuy7PogTMJQpFn/rQ72TqlYF5wuydIPkigobJsAL2w/9Z9d7fg?=
+ =?us-ascii?Q?UKDbv8E6Ewgp/RlfSuVL+u/VqJLjLvKDyNtQU3yr51+zdDN8U6fBOpyAEqOc?=
+ =?us-ascii?Q?SkPXLO/6D9Rlzso4kHgbUz9ecnGx3az/JpSUccMMe7LLnbV0GJcvw//FCp0M?=
+ =?us-ascii?Q?mralhxgWL0RI8HQZAV9RdRhCybjpDsG+P+ENiC8uQ8YZBGk6YOERqpO+HMn/?=
+ =?us-ascii?Q?Wp2WMmqJZudDZxEq7JTw2mHEhuUxhLF4MlDaCmYuaKplwCJ3BwUBoLBtrI+C?=
+ =?us-ascii?Q?5WQg2JSntDXS0SuwVxZinIM05ivGIoUTikM4WQGMxj/397vT25F2fJAf7WDK?=
+ =?us-ascii?Q?IWdUN0HdDdDG/NUqUtkd6+HzFL0iD+ivEQEC1/mBkyiCJaYFKnurbhyHQXA3?=
+ =?us-ascii?Q?NviXZI5+Lth4gDluKXmp3DYpR4TVchz4VcUeunLBGkewIenZoast7hwwdR3i?=
+ =?us-ascii?Q?yMZv72U6rKzoP3gw01c93KNFzV3vqQPI/pbzBaQUuz7/FIO+w372O6zZtF++?=
+ =?us-ascii?Q?HxVQukPkFUPmxji+xml2Bp7hUApEPm/ks8mTk0VBmFbCvWG2rsYj35BWIWyn?=
+ =?us-ascii?Q?rkElKYAz9IL4UKxu4ugj/hS7y5LWAerYo/ALGgAAiNaxBfk1prDjRAJSpjrr?=
+ =?us-ascii?Q?24AjllGcZYygsT4iEfesdhrh0yw2WyLtAdmKI5dMaTnkMUeWtvrHESPvS3BW?=
+ =?us-ascii?Q?QnRtrcTttAZTHLHbyw+H4GYy3nsnsoqqd0pHslUwGF96kQbmOXPEhw/XRR3n?=
+ =?us-ascii?Q?fY1ETtU7HKrGFu9mVHSrvFH1EsSRA8JDjI3kZU3vT+kptGFdsotbFqea4kGE?=
+ =?us-ascii?Q?9mKcVuCIHck5+/sO+k2UMbqslXU1DU8rAi1c30AyZHPLElnZ3LhyLlbzxPKH?=
+ =?us-ascii?Q?bck34qvCOUBmPuHozjyoFH5bPWsxF36ceFYbiHzq4O2gO7HAtYS5iBVGtQ2z?=
+ =?us-ascii?Q?NQCdCLQBtEcciXttwzzEKpMvSzBZIZFHsH76PTMRGxdf32q+1Ow94sCSgf9v?=
+ =?us-ascii?Q?1gkruj1mCFx9p3opp0zjW9FUCq9DjZNJXABMl+z0zyURK/5ctyz7io6O2oxp?=
+ =?us-ascii?Q?POOSNawoBtemSjFgOYEAhrtsLS/LuiYYUMWZjfA1VR+mujqPCdvwHmhAm4id?=
+ =?us-ascii?Q?MQ4sxaCd/M9/g5oWUpN+aPir0GgOqcTzI6jJOcXj9deThAVWabTm0GQOX54N?=
+ =?us-ascii?Q?LrYo/pC7k8Q9BN3kn2rzYhcRgECcEwwkRMf/8ENVY6nAWHCEP8HiRK973Ddo?=
+ =?us-ascii?Q?TI6ARVVaWEiYNv1XENC9fsAihWO4dUnHV2swidzSVumy2Q7JzHtxvcS6rON8?=
+ =?us-ascii?Q?AQTIPollMm3gIVCsi1MagiMielwPGpNAMxQ6sw7/NJyv/45OeYsju0hPUrBS?=
+ =?us-ascii?Q?5kh2AYEcY/5O2fjE6rikDA+zXLDHMjNmbgw75CkfSvdDKfD7xwIWBJAnvv70?=
+ =?us-ascii?Q?EwZ7IxyonRgSyJWKJ6zTrqNhdeXbm8d6LDCXL/HV0Va0BqbP21wMqUbkiwVY?=
+ =?us-ascii?Q?mo9d+sZDbA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4de545e2-c51c-464b-6263-08de46aa0932
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2025 07:15:24.6887
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QsRwErINI8Vti2dxYIL2v2wHVlZKu92AxFi+aLAgAk5ryoLlwv+akcvNA/rV5hD0XzBnNfdK3GMTf+E5VaD9Og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4958
+X-OriginatorOrg: intel.com
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251227_222328_483696_DEA58B09 
-X-CRM114-Status: GOOD (  28.14  )
+X-CRM114-CacheID: sfid-20251228_231533_255776_B4763505 
+X-CRM114-Status: UNSURE (   8.25  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,85 +196,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 27, 2025 at 2:42=E2=80=AFAM Sagi Grimberg <sagi@grimberg.me> wr=
-ote:
->
->
->
-> On 26/12/2025 19:54, Alex Tran wrote:
-> > If a non-fatal error is received during nvme namespace validation, it
-> > should not be ignored and the namespace should not be removed immediate=
-ly.
-> > Rather, delayed retries should be performed on the namespace validation
-> > process.
-> >
-> > This handles non-fatal issues more robustly, by retrying a few times be=
-fore
-> > giving up and removing the namespace. The number of retries is set
-> > to 3 and the interval between retries is set to 3 seconds.
-> >
-> > The retries are handled locally. Upon success then end. Upon fatal erro=
-r
-> > then remove the namespace before ending. Upon non-fatal error, retry
-> > until the max retry amount is hit before ending.
-> >
-> > Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
-> > ---
-> > Changes in v2:
-> > - Simplify retry logic with local loop instead of delayed work.
-> > ---
-> >   drivers/nvme/host/core.c | 37 +++++++++++++++++++++++++++++--------
-> >   drivers/nvme/host/nvme.h |  6 ++++++
-> >   2 files changed, 35 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 7bf228df6001f1f4d0b3c570de285a5eb17bb08e..6cd1ce4a60af55e5673e5fd=
-0ec2053a028fae4f2 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -4289,23 +4289,44 @@ static void nvme_ns_remove_by_nsid(struct nvme_=
-ctrl *ctrl, u32 nsid)
-> >   static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info =
-*info)
-> >   {
-> >       int ret =3D NVME_SC_INVALID_NS | NVME_STATUS_DNR;
-> > +     unsigned int i;
-> >
-> >       if (!nvme_ns_ids_equal(&ns->head->ids, &info->ids)) {
-> > -             dev_err(ns->ctrl->device,
-> > -                     "identifiers changed for nsid %d\n", ns->head->ns=
-_id);
-> > +             dev_err(ns->ctrl->device, "identifiers changed for nsid %=
-d\n",
-> > +                     ns->head->ns_id);
-> >               goto out;
-> >       }
-> >
-> > -     ret =3D nvme_update_ns_info(ns, info);
-> > +     for (i =3D 0; i <=3D NVME_NS_VALIDATION_MAX_RETRIES; i++) {
-> > +             ret =3D nvme_update_ns_info(ns, info);
-> > +             if (ret =3D=3D 0)
-> > +                     return;
-> > +
-> > +             if (ret > 0 && (ret & NVME_STATUS_DNR))
-> > +                     goto out;
-> > +
-> > +             if (i =3D=3D NVME_NS_VALIDATION_MAX_RETRIES) {
-> > +                     dev_err(ns->ctrl->device,
-> > +                             "validation failed for nsid %d after %d r=
-etries\n",
-> > +                             ns->head->ns_id,
-> > +                             NVME_NS_VALIDATION_MAX_RETRIES);
-> > +                     return;
-> > +             }
->
-> This is really redundant. just make the loop (i <
-> NVME_NS_VALIDATION_MAX_RETRIES)
-> and print in the end outside the loop.
-> BTW, don't you need to remove the ns here?
->
-In the original, a non-fatal error was just ignored without removing
-the ns, so I assumed the same behavior, even when still receiving a
-non-fatal error after the max retries. Unless it is preferred to
-remove the namespace after failing max retry times?
+
+
+Hello,
+
+kernel test robot noticed "xfstests.generic.767.fail" on:
+
+commit: b493223bbb16c8b00af5ba371d8bb2ca56506527 ("[PATCH] fs: remove power of 2 and length boundary atomic write restrictions")
+url: https://github.com/intel-lab-lkp/linux/commits/Vitaliy-Filippov/fs-remove-power-of-2-and-length-boundary-atomic-write-restrictions/20251224-195553
+base: https://git.kernel.org/cgit/linux/kernel/git/vfs/vfs.git vfs.all
+patch link: https://lore.kernel.org/all/20251224115312.27036-1-vitalifster@gmail.com/
+patch subject: [PATCH] fs: remove power of 2 and length boundary atomic write restrictions
+
+in testcase: xfstests
+version: xfstests-x86_64-a668057f-1_20251209
+with following parameters:
+
+	disk: 4HDD
+	fs: xfs
+	test: generic-767
+
+
+config: x86_64-rhel-9.4-func
+compiler: gcc-14
+test machine: 4 threads Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz (Skylake) with 32G memory
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202512291503.11709b09-lkp@intel.com
+
+2025-12-26 12:13:54 cd /lkp/benchmarks/xfstests
+2025-12-26 12:13:54 export TEST_DIR=/fs/sda1
+2025-12-26 12:13:54 export TEST_DEV=/dev/sda1
+2025-12-26 12:13:54 export FSTYP=xfs
+2025-12-26 12:13:54 export SCRATCH_MNT=/fs/scratch
+2025-12-26 12:13:54 mkdir /fs/scratch -p
+2025-12-26 12:13:54 export SCRATCH_DEV=/dev/sda4
+2025-12-26 12:13:55 export SCRATCH_LOGDEV=/dev/sda2
+meta-data=/dev/sda1              isize=512    agcount=4, agsize=13107200 blks
+         =                       sectsz=4096  attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=1
+         =                       reflink=1    bigtime=1 inobtcount=1 nrext64=1
+         =                       exchange=0   metadir=0
+data     =                       bsize=4096   blocks=52428800, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1, parent=0
+log      =internal log           bsize=4096   blocks=25600, version=2
+         =                       sectsz=4096  sunit=1 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+         =                       rgcount=0    rgsize=0 extents
+2025-12-26 12:13:55 export MKFS_OPTIONS=-mreflink=1
+2025-12-26 12:13:55 echo generic/767
+2025-12-26 12:13:55 ./check generic/767
+FSTYP         -- xfs (non-debug)
+PLATFORM      -- Linux/x86_64 lkp-skl-d03 6.19.0-rc1-00037-gb493223bbb16 #1 SMP PREEMPT_DYNAMIC Fri Dec 26 19:51:19 CST 2025
+MKFS_OPTIONS  -- -f -mreflink=1 /dev/sda4
+MOUNT_OPTIONS -- /dev/sda4 /fs/scratch
+
+generic/767        - output mismatch (see /lkp/benchmarks/xfstests/results//generic/767.out.bad)
+    --- tests/generic/767.out	2025-12-09 15:20:52.000000000 +0000
+    +++ /lkp/benchmarks/xfstests/results//generic/767.out.bad	2025-12-26 12:14:08.927883699 +0000
+    @@ -6,5 +6,4 @@
+     one EOPNOTSUPP for buffered atomic
+     pwrite: Operation not supported
+     one EINVAL for unaligned directio
+    -pwrite: Invalid argument
+     Silence is golden
+    ...
+    (Run 'diff -u /lkp/benchmarks/xfstests/tests/generic/767.out /lkp/benchmarks/xfstests/results//generic/767.out.bad'  to see the entire diff)
+Ran: generic/767
+Failures: generic/767
+Failed 1 of 1 tests
+
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20251229/202512291503.11709b09-lkp@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
