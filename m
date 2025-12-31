@@ -4,88 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28E2EEE57CA
-	for <linux-nvme@archiver.kernel.org>; Wed, 31 Dec 2025 00:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FFB2EE6427
+	for <linux-nvme@archiver.kernel.org>; Wed, 31 Dec 2025 10:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XAmWZXxttt9n0R6KB/WSt+Zpt3ntHIlEbsHWqNmT1/k=; b=trXzlNNpRAU6jwKKDGWVWT9jg9
-	mT/8kEy16kZXXATrB5yJiunb/BiONIQekDHqFhcRHRzIkuDpKy69nPNwzaogZTqNn54dKiqRADxLh
-	M9uLt7w8bipOmfKGmA0jpaYK/K2QMZxmwAMDVxYVTiNC55jgGlNGiR5DHC37jNfRf7E8q3HlWilfW
-	PgL/T7KCBrzZ7prw8RzxH/I9IU6cGqgt57K9qig6fOPcjrXeGnQgQK/FkKLnXtr/MNOSRpMOMxruw
-	J0lpsnxbTiKq30qcuDu3R0rY8jwPPN2GSTGZL5eBcpJ+IwklQqNb6I9/b+z09GPdr24uzrWaZtFV6
-	HrTVPIag==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=u99kyjHIdrk8TOgcfR0ihUIFHQzHwPedb8Ibv3lFtdk=; b=2GT8Ddq/c9sOUMDjRn1P0d0tCU
+	b+DMDO0GPueIqWU5ghHttV4q43llODWG1a4RP93SG2LuA40+M/4KnU4GP0qCnPglmnoYSV/cCDVEA
+	C1oVj3mDlyP5VMXeMfAhsxJHsRQqgRu2C+axD3s6+rWNSLEwofxo7HevDZ9Obynhh/NKP0YSyGG36
+	0VYGms6SO4twIDmtZKGgtpkq4d2kzz4SQpqyDUKVVe5LGXarIWguMqLCnJYt95uQCShHWw5RJQ5zz
+	42UFhaggnHx1j3LZPFgE56OXQ/9xWs86xvt7oS8ENN51asJ1ajrhdmQzkrvgeFhJ/MM5FHvTFcdnf
+	WoJpi7Cw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vajqF-00000005UU2-1nv0;
-	Wed, 31 Dec 2025 00:13:31 +0000
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+	id 1vatAf-00000005rMJ-48nU;
+	Wed, 31 Dec 2025 10:11:13 +0000
+Received: from fhigh-b8-smtp.messagingengine.com ([202.12.124.159])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vajqC-00000005UTI-2qGK
-	for linux-nvme@lists.infradead.org;
-	Wed, 31 Dec 2025 00:13:29 +0000
-Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-5dfcfbcbcc0so3673572137.2
-        for <linux-nvme@lists.infradead.org>; Tue, 30 Dec 2025 16:13:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1767140007; x=1767744807; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XAmWZXxttt9n0R6KB/WSt+Zpt3ntHIlEbsHWqNmT1/k=;
-        b=Omb0ZIRtHK5L8i4mMvXwC8pu3YgQXur+g3Ipz4g8l4lKjI6c+QOZd2xemSFvp4RVNP
-         Gnh+b0tKAqbYoc5+qhSeT6Mre9ba35172U/VuK6etKp04fkjHflEGURfu/AE3LOgSOs+
-         Bw34lG1VvLwEmD5QaH4sU3kWHboPQ4bj4BucRhIxuN2c2Azn7iT5JkcuOK87BxoxcajW
-         FXdfX8gfayRP4tsU0lkjuBiLbUMlu9CqtVHMdQHY4RVjrv9JFHVS8lBwcj9r5oCK6ixh
-         6tWZUDnzqynQFHoUpwEuBcd3XB5Aij+dLfLCTUCZ68/+9MRT0X4YTY6I20HaUoRp13W6
-         4vdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767140007; x=1767744807;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XAmWZXxttt9n0R6KB/WSt+Zpt3ntHIlEbsHWqNmT1/k=;
-        b=RifOzzLx1fxZBxlCSabF1xt8oXE26k0N173ej1SGQ3G12xteGrszdeARGJy+vwBJ0Q
-         tI477vYrHf7HG7YSSfNfnbfU4LLSHf5cCwS5xqzxH0CF/ypxMmq8uT3T7Bw4FHyTJfgh
-         U9Djoogd/6SAR/4uAyN0PKI32i8h8MFcx/w83JqbmqO6Z/FQxJwwTOub4UZVjMrzeK1X
-         ocWc8TYBnfYgkcWPuh4WO9IDK5Wva55GoyCFjIiXnEHQ057f0Wd5fnIM3Afe2CfbgoKe
-         8Vtnjm2ELumfTOAq38kskhEoJimPCwgOxnrJZqo4X8RdVVvEsSUcpzvI7/u5vmYiIzrX
-         2GkA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZmuh1k6TzGJoRS9KydenKHGmdLKyQMhLWQW82b7wJKywWVv1EITlKhqG8Dgg7AF6NoM+Ky/E1iCxA@lists.infradead.org
-X-Gm-Message-State: AOJu0YxhdrggquBWzvoRPHz4U5fkhP5yGmfIezHfV/Ee7dCv65e/l+WD
-	N3DI2i0U/EP8UYTuC+V0ASYwwSqz0myFjYSmdhpb+BIc2UK5E6ahlKgS/htsCUlVaU6l0uaiVNm
-	ZMWKWeBa1Y8X8We068LU6M8LGKvVgcE7WHL36NlROaw==
-X-Gm-Gg: AY/fxX5wXWslIr1c5d3RH79vgVeT7ulxRXKAzohQga4SQxvVyHhP9v8Bn/mbdDppFC4
-	OeMz2JkJcYbKmvmadGt1b2RAdWuz6P00uJZfdb/DIDks9l32DjQP4Km0ggn6BfvbW84bNZ8o+L2
-	Tv2kXlRUZbPhkIf447jzVW1Rk8jAb8QpibYM/jreMbmK1NqVYtyt23ZJYI+OMGUoYZK3Msxostz
-	gw99tRbJlGMLU962comAJ0e2+zlH2t1409TyAbRR2pU0hlIawXOqv0c2YEsgnwRw1xvruSnOnaM
-	XDRXXw==
-X-Google-Smtp-Source: AGHT+IHJoiDbYVRupeMyPyw6s3A+3xwVSJiIVFXkfzjcR4XUzJ8+e+g7XQsZSVevvUNv7MsmQQOk4Wu8ymn1EvsmSzE=
-X-Received: by 2002:a05:6102:6b01:b0:5e1:82e5:200b with SMTP id
- ada2fe7eead31-5eb1a817e40mr10371410137.30.1767140007277; Tue, 30 Dec 2025
- 16:13:27 -0800 (PST)
+	id 1vatAW-00000005rLC-01M9;
+	Wed, 31 Dec 2025 10:11:08 +0000
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 462627A0130;
+	Wed, 31 Dec 2025 05:11:02 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 31 Dec 2025 05:11:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1767175862; x=1767262262; bh=u9
+	9kyjHIdrk8TOgcfR0ihUIFHQzHwPedb8Ibv3lFtdk=; b=RXuURktULgqHTOm5p2
+	LU9l8A33grZkd73wFvFpEShwP5TFW5MUCNqotFyGLYm1aJahQvklel3VvmDEIbii
+	TxeX015y3kM0JATyNQObOxt3I+1iXnicDlERKHsTBO27rkpHaF3jfSSG6a6rI+Wq
+	mnLhSD5xdeaG3vxvKFn5HLoVJVNEdzA9UV9lel9Z9Q09QN2YWzedNcACdwGbrI7D
+	LGtxznKRAHGZYf8pMd2PajKL6KXSxeaUFzi/JNT3Y14fRv0vtJTynuDQSKk5bsXJ
+	TwpULRBbEzRkEEK04s4cbm0wzY39CUg+XT8t//SPTzoYiyow216SfG3FQZaUAv55
+	bJPQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1767175862; x=1767262262; bh=u99kyjHIdrk8TOgcfR0ihUIFHQzH
+	wPedb8Ibv3lFtdk=; b=MlAtCwQ1rchxIyK+JrkCZo/WFvPw29NyOtNQBeAF38om
+	1nzVH4wvUhiHCOEb6zD+aKnAbeOHDI/mE4ZZ7Dy7JFwyKkRRnCjkC+LDN0ltAkkG
+	0wDJTuaJ6ZuSIQMAnkwSAqATpaD42Zb2iJKF74nD9OLIhcChu4HuYpdVrIZ3ikuB
+	Rv3pTwA0qInE5FmeLt5UxUuElqV31Vu32Cz9jI9KXm0hivS+iiWGtdNEam05uoYt
+	1uY7TpLm/I1oa8EVZJUjjpW4LZP2T9rHvEcxWoEMU1GDI3umpBUCtO5mM3d8wNt9
+	7Er2pwDafw38ejTCelzlSYXFmt+ksmNZ9nbT6+mc7w==
+X-ME-Sender: <xms:tfZUaRla3d4UwZBrqj2eCPNgrhMNk55uy9dGcnQb4JRJ89cbP-wzEA>
+    <xme:tfZUaSAavrCTsqj_xd1zop-SopBsmAo-lhDjOwxw1tfiltNLnVrcxTMJEXInOqInq
+    SgRDtBs-aaZcdx54o7Jt7un5wUE1LOhLSw2pQsNBENRbYlpQgBIMpE>
+X-ME-Received: <xmr:tfZUabBnVAHQ4rhxIgAF3q0n1oHFCVEml5WgGIgamEw7aFtb3SxKSOzfysHWj_ctU1EdtpEMwRW0UEjFDIECCLU6_tTzIpjH7FFU6w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekvdeifecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
+    uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpeefheeltd
+    ehfeetjeefvdehteeutddtteelgeduueetjeevteeifeeuvdefffdvieenucffohhmrghi
+    nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedufedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhesjhgrnhhnrghurdhnvghtpdhrtg
+    hpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheprghsrghhiheslh
+    hishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
+    pdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheprgigsghovgeskhgvrhhnvghlrdgukhdprhgtphhtthhopehlihhnuhigqdgrrhhm
+    qdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhope
+    hsrghgihesghhrihhmsggvrhhgrdhmvg
+X-ME-Proxy: <xmx:tfZUaRGFdjrAjOsB4h5j5vSEBP-seUe1rKRsD3V2ejiEqnCcbcJ7Pg>
+    <xmx:tfZUaa6BK6yXd70L-pCL9crcN_5gzw6V2IZccZRC315QuATri1IlHQ>
+    <xmx:tfZUaQQLURa_QhUecD5M0uCXigMZvhuHSzBLYRRmtwU8BtYIgNGWXg>
+    <xmx:tfZUad7Z0jJ55pAMNZrIFkeLjKSYHvWFadQWPNtvsqlk-YFCfQOXcA>
+    <xmx:tvZUaQgGPvXNkXVN7-Edapio7OXyCpoXNQN8EK-9scB1basXbBFxnNCb>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 31 Dec 2025 05:11:00 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Wed, 31 Dec 2025 11:10:57 +0100
+Subject: [PATCH] nvme-apple: Add "apple,t8103-nvme-ans2" as compatible
 MIME-Version: 1.0
-References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
- <20251126021250.2583630-11-mkhalfella@purestorage.com> <5befc95c-b66a-4dd8-bb72-7cc6839c7c4b@grimberg.me>
-In-Reply-To: <5befc95c-b66a-4dd8-bb72-7cc6839c7c4b@grimberg.me>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Tue, 30 Dec 2025 16:13:14 -0800
-X-Gm-Features: AQt7F2rdxlzDAY75v64pqW79gxkGGthemhWwlIUj4omLQbVesNbCO1W3xWn5Eqo
-Message-ID: <CAPpK+O1g+Z=CYDfA1u6-iBx8L5tuhFOgipbyVvmj=oqW9UbLkg@mail.gmail.com>
-Subject: Re: [RFC PATCH 10/14] nvme-tcp: Use CCR to recover controller that
- hits an error
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Mohamed Khalfella <mkhalfella@purestorage.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Aaron Dailey <adailey@purestorage.com>, John Meneghini <jmeneghi@redhat.com>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251231-nvme-apple-t8103-base-compat-v1-1-dc11727dc930@jannau.net>
+X-B4-Tracking: v=1; b=H4sIALD2VGkC/x3MwQqEIBAA0F+JOTegtrrRr0SH0aZ2oEw0YiH69
+ 5U9vsu7oXAWLjA0N2S+pMgRK3TbQPhQXBllrgajjNXKOIzXzkgpbYxnr1WHngpjOPZEJ3a296S
+ sey1vB7VImRf5/vtxep4fSrzdnG4AAAA=
+X-Change-ID: 20251026-nvme-apple-t8103-base-compat-358ba0564f76
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1949; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=Z6UfWp3DVlHIsal4wMPx5lIHO6KQiRUKtFUsnXt0oXg=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsyQb5tV12pHblu1a0ZetWv+Tdu9zU6Kxy1aF7iLKHupp
+ 134/+JHRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgImkeTMy/DhuqvHLaaL3sv0e
+ z2uUrErmr1F48f18f/3xBauXR6Vo3Wf47xw29bD89zuMTlGcDQ9FFoYsqq9seX7p7WrfJ07eHhL
+ 3OQE=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20251230_161328_724338_EAC626D4 
-X-CRM114-Status: GOOD (  12.91  )
+X-CRM114-CacheID: sfid-20251231_021104_114070_A3CCEE49 
+X-CRM114-Status: GOOD (  11.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,37 +127,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Dec 27, 2025 at 2:35=E2=80=AFAM Sagi Grimberg <sagi@grimberg.me> wr=
-ote:
-> On 26/11/2025 4:11, Mohamed Khalfella wrote:
-...
-> > +     dev_info(ctrl->device,
-> > +              "CCR failed, switch to time-based recovery, timeout =3D =
-%ums\n",
-> > +              jiffies_to_msecs(rem));
-> > +     set_bit(NVME_CTRL_RECOVERED, &ctrl->flags);
-> > +     queue_delayed_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work, r=
-em);
-> > +     return -EAGAIN;
->
-> I don't think that reusing the same work to handle two completely
-> different things
-> is the right approach here.
->
-> How about splitting to fence_work and err_work? That should eliminate
-> some of the
-> ctrl state inspections and simplify error recovery.
-If the work was independent and could happen separately (probably
-in parallel), I could understand having separate work structures.  But they
-are not independent, and they have a definite relationship.  Like Mohamed,
-I thought of them as different stages of the same work.  Having an extra
-work item takes up more space (I would be concerned about scalability to
-thousands or 10s of thousands of associations and then go one order of
-magnitude higher for margin), and it also causes a connection object
-(referenced during IO) to take up more cache lines.  Is it worth taking up
-that space, when the separate work items would be different, dependent
-stages in the same process?
+After discussion with the devicetree maintainers we agreed to not extend
+lists with the generic compatible "apple,nvme-ans2" anymore [1]. Add
+"apple,t8103-nvme-ans2" as fallback compatible as it is the SoC the
+driver and bindings were written for.
 
-Sincerely,
-Randy Jennings
+[1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+
+Cc: stable@vger.kernel.org # v6.18+
+Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+This is split off from the v1 series adding Apple M2 Pro/Max/Ultra
+device trees in [2]. Handling this as fix adding a device id only for
+v6.18+ for two reasons. apple_nvme_of_match gained hw_data in v6.18 and
+device trees using this compatible were only added in v6.18.
+    
+2: https://lore.kernel.org/r/20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net
+    
+Changes compared to the patch in that series:
+- rebased onto v6.19-rc1 since commit 04d8ecf37b5e ("nvme: apple: Add
+  Apple A11 support") introduced hw data for the match table
+---
+ drivers/nvme/host/apple.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 15b3d07f8ccdd023cd3be75eedd349b747c1ecad..ed61b97fde59f7e02664798d9c2612ac16307f5c 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1704,6 +1704,7 @@ static const struct apple_nvme_hw apple_nvme_t8103_hw = {
+ 
+ static const struct of_device_id apple_nvme_of_match[] = {
+ 	{ .compatible = "apple,t8015-nvme-ans2", .data = &apple_nvme_t8015_hw },
++	{ .compatible = "apple,t8103-nvme-ans2", .data = &apple_nvme_t8103_hw },
+ 	{ .compatible = "apple,nvme-ans2", .data = &apple_nvme_t8103_hw },
+ 	{},
+ };
+
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20251026-nvme-apple-t8103-base-compat-358ba0564f76
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
 
