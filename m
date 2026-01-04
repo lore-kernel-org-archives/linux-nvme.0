@@ -4,97 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED0C1FA3753
-	for <linux-nvme@archiver.kernel.org>; Fri,  2 Jan 2026 19:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97E68C2A069
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 Jan 2026 00:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lZkU2g9pwmc1oWeUP+RIyHBKEVsfAki23US80eINbcU=; b=lFvdopZQm84WEpJlBs6yXDBOKd
-	pi2y2Ic5ai0caYazcAu84dSn6oP+o4Zg4a3RhcMC6k0dXP84A/hsF4jGJ/N94Sk4Pr4XWZyvGD0/J
-	IZg49atR7XvZrXDdtfTwB8eAzSi9ocrwTP6dhsOjhYi/R5/E4wsTM2TwVw6HOVaY1wdQk/PJN+7/w
-	MxOEiTBs6gDeou5GvvIMRyGWVzOqEGCaR5G+20mJnRqC1mrK3KhDdERm/qCrFHBqPOLheGQ/NxW70
-	k1n9K4GXx5Wf6oKqrrRzuVIwq98gfKi43038PVjA6SXPjYAfVWcovSo7hSIX/ollgBhonnvjbRPaM
-	70yGJsPQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=xOuESBykRjwInDeyHixzVLD+QYGInpmQJHsDXEQedTE=; b=r4geqPz8GorlI0Oaz2j6XxZ82e
+	1uvAjkRYBpS9Vsye2HR9A81MaSN2tctpKGv43y4RXk+2PLZ4g0QENQkQDjMK1yqRAG8Xa9OGAclxa
+	738DWx4A4rCA6dmn54BZMNFh65ize49GWtFj0vgUiZjiv0VcMeH/IqLOm+YgUvPSLy8YqQpX1fs6K
+	QaaP+F4NR+jyyk7MH7hmcLPAWY7/bLnStFnPT8V80BETODcnQ8PfJA/Zwrs7Hq2vBcWa0cq0dYJ9x
+	EB0UTTH3bYvyoeMAMuc8jlqfSTr97A9t8va0f40dYci0kQRiXZxTal+x2H8ixOmgzTeYVsCAzIhjo
+	iIaEdXMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbkUJ-00000008f1y-0T3Y;
-	Fri, 02 Jan 2026 19:07:03 +0000
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+	id 1vcCLs-00000009vBz-3Nj0;
+	Sun, 04 Jan 2026 00:52:12 +0000
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vbkUG-00000008f1c-1q0J
+	id 1vcCLl-00000009vBb-0HkF
 	for linux-nvme@lists.infradead.org;
-	Fri, 02 Jan 2026 19:07:01 +0000
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-bc29d64b39dso6576674a12.3
-        for <linux-nvme@lists.infradead.org>; Fri, 02 Jan 2026 11:06:59 -0800 (PST)
+	Sun, 04 Jan 2026 00:52:07 +0000
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-2a0d06ffa2aso160595875ad.3
+        for <linux-nvme@lists.infradead.org>; Sat, 03 Jan 2026 16:52:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1767380819; x=1767985619; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lZkU2g9pwmc1oWeUP+RIyHBKEVsfAki23US80eINbcU=;
-        b=YhFkinkcbisSpXOIU0fbz0MdkRNDs7Hj1RDTZ9zon8F9w5TniaeOrdjOGrd3yjeIqU
-         EhpiKSlKwxU66/zSYKIF3yyrbi4w7+refe4v3V6Q60GvxLOEb/UUou52Uo2cb3SzpX1W
-         G41xFlGIPM+HzBzaB0Z+YxHN94c0sCilHiOyc8dspc0RUmcFUUcZZ6/0okP/O2K4JFeJ
-         TujsBMpsPNyiJlbf1tIlW4n/E9xB+09Jj0AXwKzEZKpNqkHZ5dr/GdpaV9mVRxh3LOmD
-         gqrmxUXcsKzWukCDuDudYUCo0l+VqZ/tDnaU1BGl8nnT3HldgPSneiKmaHAPKqf2B1nb
-         rSJg==
+        d=gmail.com; s=20230601; t=1767487923; x=1768092723; darn=lists.infradead.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xOuESBykRjwInDeyHixzVLD+QYGInpmQJHsDXEQedTE=;
+        b=UMIZ+5pMYJl7Mb58/WDDG3LkZ9+8oOHfIKyizCNpZuzoSrEo+FqQEkO+dXgfcMq+1m
+         T2xHuC94HXQAdM3Mx8IySQvw4z2Jv5flro/C4q/yFUzhLA8J+DHpxRHlW3y8kVhaJm/I
+         JIydAjLMGbw2VODQwn+AtnBahsLMXBEBHYCDMJqhQrkLEGHS/PIlzjPRtHj4JBByoMBe
+         CSW5MlS4n/knX8Pq7qEbqYCEGALW9RVKrBsKULWG/oqAR656yDKo5A0Jz9D7AkTfiIl3
+         zBqntlppE25eq9G/M+Keq25vwoFb5OtfAbP5fj+6j8OlTY9pvuWRmrYRpZ+1KiIOBz7Q
+         8XmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767380819; x=1767985619;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lZkU2g9pwmc1oWeUP+RIyHBKEVsfAki23US80eINbcU=;
-        b=pXbMWCmsMPNlYGg1hEchLpIUOajdk+/ASoTggtuRGLPiWp2m66astIRxEzCEBjUdWs
-         JDnRVBEIRZDHVvWPo7LU+QnKUQVoaiMe0OCUlMopQHJzBwvsc+z2HODc3ItFaZTwQr8c
-         GLJ9Kv/M6bfjbj+ghO9WBV+ke8nD3vKJf1TZgV3YmqFYF1IgIGE+hrgHVX4r18mFtu72
-         VYuDGyZhSi/QS2z6oSnCYntaqlI8lgFTB8S1nHsW18/SvuYipacV4RjzAEuWWz5cukZj
-         l827OjWKjqZktPuL9px0QQgEFdJP/qqwDjsbIysqTSRHhhLIVjk4YPpdKQ73q+pwN5kF
-         fDCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBud+3/rXq2/eKw2TTRuDU73S81QjalpqHxdHjtCAAewazh9ebECb9Ar36YmNVy0Jeis1Icdv7kLaf@lists.infradead.org
-X-Gm-Message-State: AOJu0YzVd4z0mecgXNZDGz9PTsS/DzN6G6uMMZCj758q2MqLjoCQTxGu
-	A6OzLazulffv7jBAFSc+oLoea8Zj8zEkBDQDggoIsRCPinz533dA15JEspW02cOGpCg=
-X-Gm-Gg: AY/fxX69p+7+6sGVw8j1ux+hlSFfXeNn+DkZVv4PuVczO5Zf+LncHoYVMqGwEiK8g26
-	BVbrsudpCmgYz8H6YA9ComU3g+5wYNGhIkmraQen9hkLuckbthWDmYjqyi2eodAHiLbylfXUYpx
-	8ihrf3gvI7brKEm4Ie4Yh+aveKz0itwqANOis8E1Fp5tBRJ6OlhPTsmvbg+2GE/PZ0mpEpmcg+e
-	SNGsnRgODO2vAfBtsSYDsFJ5RHoC71R42tLERgE+l//ItKUTG+Y+GPaA01Tb8G43P8PebjoMH9q
-	tcL0JQilbsR7BgXgdDGpQyxcdh+sWLedL13/4ZhW5ZNlCAwVESKHB+EENeuZgI3/eguVIYsu3Gp
-	VozeEyUH3HWpbX8UrxLU05WhSf+qw4eTM0jEmvSJeoTve0YczE0WZ3wrhRQB93cgbh+r0orDXI3
-	5olnZyjWWDrzQyNemHpBZ4KUZctFah2740LPcoiB8y7A==
-X-Google-Smtp-Source: AGHT+IG0JO9l2BkWn3kSOLFClKo9cRMw5aP1DvhpwcNfZqrILZIMkJaMjN6WBCxm1Mg/gTF/PX2QCw==
-X-Received: by 2002:a05:7301:1a12:b0:2a4:3593:ddd6 with SMTP id 5a478bee46e88-2b05ebb6038mr30508125eec.3.1767380818821;
-        Fri, 02 Jan 2026 11:06:58 -0800 (PST)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with UTF8SMTPSA id 5a478bee46e88-2b140c42e8bsm1644691eec.26.2026.01.02.11.06.58
+        d=1e100.net; s=20230601; t=1767487923; x=1768092723;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xOuESBykRjwInDeyHixzVLD+QYGInpmQJHsDXEQedTE=;
+        b=gLTGHxPTNrrk8j0Dc2yU4Ts16aVyrkeO/skJWSDINkw1SulAn6Y92CZLZTRHF3LQYW
+         4kevbuOGErcWpoMYTeC7iFpTJEtEePZu6gdMMhYmDp1wkIFvoN/tGtoBCHlRKK5FVe2a
+         iGQZ7u4ucp3OW7AJHj2+HEsK33PRH2LkxE8PQU8lnfrR2QCHzaAcUBYY9USY53dmhDeZ
+         JvThUE2xTL0ngPs3rF+2G4iRQDrtPYHUJPQPaeD+4HmmiU4XmiXTB+BTOxxkNfYh6nOO
+         r/CB5ULDU1tn+2m1HIrBrfsjQwadAPjmRaltJE19zeItwos+m+BVjkgHZkMWYPHU1ZYl
+         PDaA==
+X-Gm-Message-State: AOJu0YzqI07Xn29MXhykQLrUqlpe2l3t2ck1exIszscGmm0esxByzi41
+	Y/B4OVo4MwgCTkaaB3k+S27QBpzARi4RGfm0efOe2KeOV/gxrfBL3qe+
+X-Gm-Gg: AY/fxX4s05/45Z7H0dJRKyCaCgiUyPnk20Ld55aCZfl/H1PqSAHzcP6RGEVJPW6PB/7
+	g+LJrb9+vnNRBarKPw6fIxwBnYk5o+XBZWQSalHxs1qxEByJlQH29CigEvKj5cCKoVn8FNOWkex
+	FaDltIMZlHoCLKGY+1S45UWpgwck3jrvEzyasx0AXw965jtSMcdFiWrzgqPs+5vWl70XWyOVdt2
+	QiB3t2AhGAIRj/gc0o6QtrTSYklJnEe0AzdznxcttdlzZ3wM2LqR2s3l01SHN1Tn43MZ3Vp1pQb
+	g29gcW2MweXMU+b997yH3zbnWHENFunV4bhgHsbPwdLsHbh3CotjrCYIlgyOZjymjHuIeSqjDZP
+	HZ3WSXF/cK1AcIIW3LWa5LjIoYha5i9d9kW6DiBPwQ20p1DFWdUvK6XF+yOXMpq/zY+BzRVUO79
+	fLgETUJQRuOUu9WHQ=
+X-Google-Smtp-Source: AGHT+IEM5YAVp1hO4jI8G+b/4iCizVJHAgrtd7TCV9On/0SPTxyMk5C5L+hZm5jw6QCdCoo6CaArJg==
+X-Received: by 2002:a17:903:2441:b0:2a0:b02b:210c with SMTP id d9443c01a7336-2a2f2208e65mr421259995ad.1.1767487922746;
+        Sat, 03 Jan 2026 16:52:02 -0800 (PST)
+Received: from [192.168.1.83] ([61.71.57.214])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c82a10sm409701275ad.26.2026.01.03.16.52.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Jan 2026 11:06:58 -0800 (PST)
-Date: Fri, 2 Jan 2026 11:06:57 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Randy Jennings <randyj@purestorage.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Aaron Dailey <adailey@purestorage.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 06/14] nvme: Rapid Path Failure Recovery read
- controller identify fields
-Message-ID: <20260102190657.GT3864520-mkhalfella@purestorage.com>
-References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
- <20251126021250.2583630-7-mkhalfella@purestorage.com>
- <CAPpK+O28VGH0BZA8Kw5p7g+1HvULhwuOOn4rr-zWWd1rq928OA@mail.gmail.com>
- <20251231222637.GL3864520-mkhalfella@purestorage.com>
+        Sat, 03 Jan 2026 16:52:02 -0800 (PST)
+From: Alex Tran <alex.t.tran@gmail.com>
+Date: Sat, 03 Jan 2026 16:52:00 -0800
+Subject: [PATCH v3] nvme/host: add delayed retries upon non-fatal error
+ during ns validation
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251231222637.GL3864520-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260103-nvme_ns_validation-v3-1-c9ce67393261@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAK+5WWkC/22NwQqDMBBEf0X23JRk07Slp/5HEVl1qwsaJZHQI
+ v57U6G3Ht8w82aFyEE4wq1YIXCSKJPPYA8FND35jpW0mQE1OoPolE8jVz5WiQZpacl1ZY0mfSG
+ 61lhDHs6Bn/LapY8ycy9xmcJ7/0j4TX+68z9dQmWUZlNbMid0zt67kWQ4NtMI5bZtH6LV73m0A
+ AAA
+X-Change-ID: 20251225-nvme_ns_validation-310a07aa8b2b
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Alex Tran <alex.t.tran@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3896; i=alex.t.tran@gmail.com;
+ h=from:subject:message-id; bh=Cmmmomj8lhHqur2QMx2mor83y6/OVMYkXUWMVB/Tmio=;
+ b=owEBbQKS/ZANAwAKAXT5fTREJs3IAcsmYgBpWbmyrRM6uJeouHP8gKRBMipO5IqvBgyoSZQAa
+ 2mS+CmKMkiJAjMEAAEKAB0WIQQAohViG04SVxUVrcd0+X00RCbNyAUCaVm5sgAKCRB0+X00RCbN
+ yK2LD/9QzRtiQ0VrzSGxW6r4k89QDB3aDqGnWajqOBMpVu5HJ+clfTbKqwtMB305Dug6OXiQjvk
+ NxnVECJ9fFqA98XaVWVgWDvu9tzOJ601l2cZjNQyXvqQePtujt3F7Jpf8sWL19Ia30m5SMkB+Qw
+ zuKm2Vl7wI9rPxyZdgK3VNgBfyVwYrYi31P9FSuruznX8Xxr5Cn2QTRm4KCdUXPCoV9/oH7F3Fn
+ rdcYNyv1B8sH0HBWDFhcqy9UZQhfQPGR9UhlqgrxXellgy17CDxpaH6NyU5HOFSUeDc+d7JIQHH
+ rh0Km2cG03vz4Zr2yErixNOibYm+Sr5bLEUsrZPXeAQT5fQ6HruCU9A5+NzBvbwh+vOW8u+sVZX
+ iD6FvTxXzivIxNHf6ThBl25M9Dz2OpGAoKGKRdLnDdGelcC8BWBnQQHbPwXqDuoF0dfmactDvjj
+ v1Ae46NKJq/rG09IbhP7vQFelyvSlxq22d3sbDmaLPp9jcVzgaKWiAmeJAPvVkBor7dI5YMjPsx
+ OHOXgt2LuN2LH15jr0xlWvcGTvKyTvCvi1Wln+f1623Bw+F1w4DjAU/buhOL9dU1MXIRokxUv9a
+ OBWki/z/oyMx3sbZFWKYMwRxAY5knr1LMSgI+FE7szMlD4XpJ/PYiPmRGa+owWjTb+562xEQDKX
+ aOwH9uhC/UctraA==
+X-Developer-Key: i=alex.t.tran@gmail.com; a=openpgp;
+ fpr=00A215621B4E12571515ADC774F97D344426CDC8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260102_110700_483855_DFFC9C14 
-X-CRM114-Status: GOOD (  36.05  )
+X-CRM114-CacheID: sfid-20260103_165205_412680_61D30F7D 
+X-CRM114-Status: GOOD (  21.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,133 +119,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed 2025-12-31 14:26:39 -0800, Mohamed Khalfella wrote:
-> On Thu 2025-12-18 07:22:41 -0800, Randy Jennings wrote:
-> > On Tue, Nov 25, 2025 at 6:13 PM Mohamed Khalfella
-> > <mkhalfella@purestorage.com> wrote:
-> > >
-> > > TP2028 Rapid path failure added new fileds to controller identify
-> > TP8028
-> 
-> Fixed.
-> 
-> > > response. Read CIU (Controller Instance Uniquifier), CIRN (Controller
-> > > Instance Random Number), and CCRL (Cross-Controller Reset Limit) from
-> > > controller identify response. Expose CIU and CIRN as sysfs attributes
-> > > so the values can be used directrly by user if needed.
-> > >
-> > > TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
-> > > Time) which is used along with KATO (Keep Alive Timeout) to set an upper
-> > > limite for attempting Cross-Controller Recovery.
-> > "limite" -> "limit"
-> 
-> Fixed.
-> 
-> > >
-> > > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> > > ---
-> > >  drivers/nvme/host/core.c  |  5 +++++
-> > >  drivers/nvme/host/nvme.h  | 11 +++++++++++
-> > >  drivers/nvme/host/sysfs.c | 23 +++++++++++++++++++++++
-> > >  3 files changed, 39 insertions(+)
-> > >
-> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > index fa4181d7de73..aa007a7b9606 100644
-> > > --- a/drivers/nvme/host/core.c
-> > > +++ b/drivers/nvme/host/core.c
-> > > @@ -3572,12 +3572,17 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
-> > >         ctrl->crdt[1] = le16_to_cpu(id->crdt2);
-> > >         ctrl->crdt[2] = le16_to_cpu(id->crdt3);
-> > >
-> > > +       ctrl->ciu = id->ciu;
-> > > +       ctrl->cirn = le64_to_cpu(id->cirn);
-> > > +       atomic_set(&ctrl->ccr_limit, id->ccrl);
-> > Seems like it would be good for the target & init to use the same
-> > name for these fields.  I have a preference for these over
-> > instance_uniquifier and random because they are more concise, but
-> > the preference is not strong.
-> 
-> The field names in the spec are concise, but they are also cryptic.
-> 
-> > 
-> > > +
-> > >         ctrl->oacs = le16_to_cpu(id->oacs);
-> > >         ctrl->oncs = le16_to_cpu(id->oncs);
-> > >         ctrl->mtfa = le16_to_cpu(id->mtfa);
-> > >         ctrl->oaes = le32_to_cpu(id->oaes);
-> > >         ctrl->wctemp = le16_to_cpu(id->wctemp);
-> > >         ctrl->cctemp = le16_to_cpu(id->cctemp);
-> > > +       ctrl->cqt = le16_to_cpu(id->cqt);
-> > >
-> > >         atomic_set(&ctrl->abort_limit, id->acl + 1);
-> > >         ctrl->vwc = id->vwc;
-> > I cannot discern an ordering to the attributes set here.  Any
-> > particular reason, you placed cqt away from the others you added?
-> 
-> No reason. Moved ctrl->cqt initialization up with other fields.
-> 
-> > 
-> > > diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> > > index 29430949ce2f..ae36249ad61e 100644
-> > > --- a/drivers/nvme/host/sysfs.c
-> > > +++ b/drivers/nvme/host/sysfs.c
-> > > @@ -388,6 +388,27 @@ nvme_show_int_function(queue_count);
-> > >  nvme_show_int_function(sqsize);
-> > >  nvme_show_int_function(kato);
-> > >
-> > > +static ssize_t nvme_sysfs_uniquifier_show(struct device *dev,
-> > > +                                         struct device_attribute *attr,
-> > > +                                         char *buf)
-> > > +{
-> > > +       struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> > > +
-> > > +       return sysfs_emit(buf, "%02x\n", ctrl->ciu);
-> > > +}
-> > > +static DEVICE_ATTR(uniquifier, S_IRUGO, nvme_sysfs_uniquifier_show, NULL);
-> > > +
-> > > +static ssize_t nvme_sysfs_random_show(struct device *dev,
-> > > +                                         struct device_attribute *attr,
-> > > +                                         char *buf)
-> > > +{
-> > > +       struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> > > +
-> > > +       return sysfs_emit(buf, "%016llx\n", ctrl->cirn);
-> > > +}
-> > > +static DEVICE_ATTR(random, S_IRUGO, nvme_sysfs_random_show, NULL);
-> > > +
-> > > +
-> > >  static ssize_t nvme_sysfs_delete(struct device *dev,
-> > >                                 struct device_attribute *attr, const char *buf,
-> > >                                 size_t count)
-> > > @@ -734,6 +755,8 @@ static struct attribute *nvme_dev_attrs[] = {
-> > >         &dev_attr_numa_node.attr,
-> > >         &dev_attr_queue_count.attr,
-> > >         &dev_attr_sqsize.attr,
-> > > +       &dev_attr_uniquifier.attr,
-> > > +       &dev_attr_random.attr,
-> > >         &dev_attr_hostnqn.attr,
-> > >         &dev_attr_hostid.attr,
-> > >         &dev_attr_ctrl_loss_tmo.attr,
-> > > --
-> > > 2.51.2
-> > >
-> > 
-> > These are the names used in the target code (uniquifer & random.
-> > I'd rather have them match (identify structure will have spec's
-> > abbreviations; ctrl & debug/sysfs for target & initiator either be
-> > ciu/cirn or uniquifer/random.
-> 
-> I think it matters for sysfs attributes. I do not know the right thing
-> to do. Should we use spec names like "cirn" or call it "random"?
+If a non-fatal error is received during nvme namespace validation, it
+should not be ignored and the namespace should not be removed immediately.
+Rather, delayed retries should be performed on the namespace validation
+process.
 
-Now I am thinking about it, I think sticking to the spec's abbreviations
-makes more sense here. names like "random" and "uniquifier" in sysfs are
-not descriptive enough. I changed struct member names, sysfs, and
-debugfs file names to match the spec.
+This handles non-fatal issues more robustly, by retrying a few times before
+giving up and removing the namespace. The number of retries is set
+to 3 and the interval between retries is set to 3 seconds.
 
-> 
-> > 
-> > But this is small stuff.
-> > 
-> > Reviewed-by: Randy Jennings <randyj@purestorage.com>
+The retries are handled locally. Upon success then end. Upon fatal error
+then remove the namespace before ending. Upon non-fatal error, retry
+until the max retry amount is hit before ending and removing the ns.
+
+Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+---
+Changes in v3:
+- Simplify retry loop to i < NVME_NS_VALIDATION_MAX_RETRIES
+- Use dev_dbg print
+- Remove ns when still receiving non-fatal error after max retries
+- Link to v2: https://lore.kernel.org/r/20251226-nvme_ns_validation-v2-1-0e1b3a142553@gmail.com
+
+Changes in v2:
+- Simplify retry logic with local loop instead of delayed work.
+---
+ drivers/nvme/host/core.c | 31 +++++++++++++++++++++++--------
+ drivers/nvme/host/nvme.h |  6 ++++++
+ 2 files changed, 29 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7bf228df6001f1f4d0b3c570de285a5eb17bb08e..ed28abb6462e46ca1203a6a8b16894d36817db2c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4289,23 +4289,38 @@ static void nvme_ns_remove_by_nsid(struct nvme_ctrl *ctrl, u32 nsid)
+ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
+ {
+ 	int ret = NVME_SC_INVALID_NS | NVME_STATUS_DNR;
++	unsigned int i;
+ 
+ 	if (!nvme_ns_ids_equal(&ns->head->ids, &info->ids)) {
+-		dev_err(ns->ctrl->device,
+-			"identifiers changed for nsid %d\n", ns->head->ns_id);
++		dev_err(ns->ctrl->device, "identifiers changed for nsid %d\n",
++			ns->head->ns_id);
+ 		goto out;
+ 	}
+ 
+-	ret = nvme_update_ns_info(ns, info);
++	for (i = 0; i < NVME_NS_VALIDATION_MAX_RETRIES; i++) {
++		ret = nvme_update_ns_info(ns, info);
++		if (ret == 0)
++			return;
++
++		if (ret > 0 && (ret & NVME_STATUS_DNR))
++			goto out;
++
++		dev_dbg(ns->ctrl->device,
++			"validation failed for nsid %d, retry %d/%d in %dms\n",
++			ns->head->ns_id, i + 1, NVME_NS_VALIDATION_MAX_RETRIES,
++			NVME_NS_VALIDATION_RETRY_INTERVAL);
++		msleep(NVME_NS_VALIDATION_RETRY_INTERVAL);
++	}
++
++	dev_err(ns->ctrl->device,
++		"validation failed for nsid %d after %d retries\n",
++		ns->head->ns_id, NVME_NS_VALIDATION_MAX_RETRIES);
+ out:
+ 	/*
+ 	 * Only remove the namespace if we got a fatal error back from the
+-	 * device, otherwise ignore the error and just move on.
+-	 *
+-	 * TODO: we should probably schedule a delayed retry here.
++	 * device or if a non-fatal error still appears after max retries.
+ 	 */
+-	if (ret > 0 && (ret & NVME_STATUS_DNR))
+-		nvme_ns_remove(ns);
++	nvme_ns_remove(ns);
+ }
+ 
+ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9a5f28c5103c5c42777bd9309a983ef0196c1b95..dcbdc7fa8af0cb838b3f1a774d4c67fa69a00050 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -46,6 +46,12 @@ extern unsigned int admin_timeout;
+ #define NVME_CTRL_PAGE_SHIFT	12
+ #define NVME_CTRL_PAGE_SIZE	(1 << NVME_CTRL_PAGE_SHIFT)
+ 
++/*
++ * Default to 3 retries in intervals of 3000ms for namespace validation
++ */
++#define NVME_NS_VALIDATION_MAX_RETRIES 3
++#define NVME_NS_VALIDATION_RETRY_INTERVAL 3000
++
+ extern struct workqueue_struct *nvme_wq;
+ extern struct workqueue_struct *nvme_reset_wq;
+ extern struct workqueue_struct *nvme_delete_wq;
+
+---
+base-commit: fa084c35afa13ab07a860ef0936cd987f9aa0460
+change-id: 20251225-nvme_ns_validation-310a07aa8b2b
+
+Best regards,
+-- 
+Alex Tran <alex.t.tran@gmail.com>
+
 
