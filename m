@@ -4,85 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C6DBC2A069
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 Jan 2026 21:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA478C2A069
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 Jan 2026 21:16:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qNq8Dlg9dgt9AwcFJgT9Gsr/YTM893QKcON0HPwwdp8=; b=acen6Q4NMBIovPGq/0fl7DBRzW
-	xxsRw+1JlqvankvwGyZr3q9oscVot2rU5L21nLxHT2j8zrhoofv6DoUzirtQm1o3tmwAhgTv6d4x0
-	UNwfu7tB63/L16H0EwZeSGfqeC0QvDsbNWvYYdFGYoipAcrGfb5HmiqE2raao1O6xW/vZ4lipNeCO
-	o6zaEc8iyKCS3ec8A1pgoaCIQuNLJXHrCHHLZADVCfFFn2paOt5hT8FDNTN53cF3bSB1HKBDccN9t
-	EmbrSZxnQy1hQotqzi4TnWZNCIxuEtm1zOW4RMKUf0wwZKJpALwOPmw7NsNwwUL1V0ANJJnl4Moqr
-	LTce4OBw==;
+	bh=daXsAWuw3CezWGchWWVZ+gi3L1ayf/lBLGdEjsaYwUA=; b=iWS4anuR/Yr5mNpYGhgm8qH8Ib
+	9Nb0J4uIDHRMOmmoLmQzk4sss62bXFYjyY34MdQpmqkCCirFIk/5n4BECRM3/AxOs8z3EXBe8zd71
+	8gZIAkJZ2luHuPZ2Q1awmDs6f2o38Fb8VV3U/QZ8gWu0pxvCnZD+rs0CPXbWd/VXPyg0pyds/fHos
+	1wGvenJMxLxVrPMW2KXrVTIzKXZ2oLdbZZf2mYJ/k+uj8SSKX6tk+vVw9LHlcw18Gx8FMfKh+Tye3
+	NyVwFA/ijc7amSUZlKINjG0BvynHGcbDutk5WZs0+lz0NJkCa6UWS7AufLAmTYRE0jdVkGifNmLeq
+	e1EgIhyQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vcVR0-0000000ASYE-3zUa;
-	Sun, 04 Jan 2026 21:14:46 +0000
-Received: from mail-wm1-f46.google.com ([209.85.128.46])
+	id 1vcVSE-0000000ASf1-2ecu;
+	Sun, 04 Jan 2026 21:16:02 +0000
+Received: from mail-wm1-f51.google.com ([209.85.128.51])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vcVQw-0000000ASXo-1XLG
+	id 1vcVS9-0000000ASeV-1VRW
 	for linux-nvme@lists.infradead.org;
-	Sun, 04 Jan 2026 21:14:45 +0000
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so145726215e9.2
-        for <linux-nvme@lists.infradead.org>; Sun, 04 Jan 2026 13:14:41 -0800 (PST)
+	Sun, 04 Jan 2026 21:15:59 +0000
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-47bdbc90dcaso85426775e9.1
+        for <linux-nvme@lists.infradead.org>; Sun, 04 Jan 2026 13:15:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767561280; x=1768166080;
+        d=1e100.net; s=20230601; t=1767561355; x=1768166155;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qNq8Dlg9dgt9AwcFJgT9Gsr/YTM893QKcON0HPwwdp8=;
-        b=LhvjNyDQhcbbrKTO5JMQFCJUZjsz8dORX4ucqMQnTc6g4HGw8cfDT88O7R7VXS6UPS
-         mK2HPlyQ206g4cjUPbsd7CjYi+8znIjdym7P5wkbpz71tvFRN94gsDFVc7b/9+FWal3J
-         DPBsLHBJAmFh6LKZB4DvVUKy4llP2/swSrRNENLvh5IZPZc7rzUtqCpJ86vkdWLppXv6
-         BjgtGhSV5sJAP+L9TuqDNrI7+XwcFkW9go23D7V0WZITEzhSD5C71Gg823tgRDsvbofx
-         f9VH/PsiHiuzUNYfQOHY2Vqvt4CCGuGyQ4q26KH56geYnuqFfm+cZIhuHwpuVnMjG+y6
-         cMpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpqsceqkp3ocOnspH7+cRONRWRlaRdQdWrfmMgAeHego1szLaNlPDlapp4s0024B6IG1ksGUIyNinx@lists.infradead.org
-X-Gm-Message-State: AOJu0YxhzTbzA3x0yJAZIiPahZuKQAkIO+oNJ14VccixMoZoH2lv6Ugj
-	MYaxj7ysDoCBP+K4ZqRXTfF7emfd6/pKSdBaTAgXNdU543/XsCKMHT+6
-X-Gm-Gg: AY/fxX44J1Is7XMSw45YAhVlvmFfQPuvzpRusEAvC2A6BuOCZPxtUJVw7BOq6B23qWf
-	2Bi4ncmy1kF1HMrWthiJPadkusRlynPIlGNCAdc/wjxGC3MEjLNgaTKnzogCRt1S4siKz81X3bQ
-	aTSjPP+f8BLVyJfPhen5vm7rCgxkEkffZDsGYmnhx6xOWxqxMSxTEN2j42jfpcmkfCrKfpLVT4a
-	gAPbbFJRFhhKixU8Sa3Z8nkFK8S1sladBr7hqEzKVMNFuo0iGucpmJWe+vHhvcK/Wdc5WVM5yuu
-	AST7tRbbzsnHx2UpvZ3F/k1iSxABehwwwRBgsqOB+tEvZ7oyawTcXqRnHcbBEdo5xsc1e9KSYtU
-	1KMW6Q+JA86AfNu/ulRXVFS1pKepEw3f9CXUc+F3U2/gXR3UP1oU6VI0sjyL1qbJroRH5Hc22oW
-	m5dWU7Gd6zHa/lwM3SleEJmJyb8ZgUvR33Uf/6d2GIyoI=
-X-Google-Smtp-Source: AGHT+IHs2arPN3RkmiegOcVtY/bLcuBg3k5L5UufZRXlnha3S7kV/nLqLCoygpJQqggk7WxemF89FA==
-X-Received: by 2002:a05:600c:4e49:b0:471:13dd:bae7 with SMTP id 5b1f17b1804b1-47d195911b8mr534608505e9.30.1767561280324;
-        Sun, 04 Jan 2026 13:14:40 -0800 (PST)
+        bh=daXsAWuw3CezWGchWWVZ+gi3L1ayf/lBLGdEjsaYwUA=;
+        b=tw+RGtQFrkjIhoJNhhTZlTGp7Ev3PUOCf6sk8awDsYFgyyfJ2Fz48bFOu1E7pZ8N9+
+         nUONqZHW5lB1/1jxua73nPuLDEDN3b/yFYstO/hCS4r2hdQ+rOty6C8cFD9cEaD4eWA0
+         j+TwEWqxzierJTAZu7cGFcgo4Bk6c0Vd8Ckus3lqoQtfiyJt4Fmweyd+7+/meqelG5lj
+         fmTKvTD1FS3kS0lQsqbr20beuvojdroEjo9zszdExHqZVkbdHYl/3MWhtPkDAtoRU3d0
+         qTcB1KRJv6hN6gHV3mouZef4gHcLqXxaQtuny+43VhmYBLHaw6BhWw9Skx3oJuZwjtSu
+         2wpg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+Bs9oFT1xwCQZWB8Gv3tO9Glg0mtHlfuCuaP8JiRWggeHTI9MYlVUIQzmBUmlsood41kEeQm9SMlI@lists.infradead.org
+X-Gm-Message-State: AOJu0YzdIES/UnIjUflZDYhZH8weRKXQoltTw8pc9evKVkUrSIUQEuHV
+	fx+2a+86ahqlEjT/QglPvR/3j+wjP5gbFkBelUYulBzxKmv/RS6d/VaH
+X-Gm-Gg: AY/fxX4bTo6LDitVjHK1ZH0tJRJJBojvlNrcWOBGENwimxEskJpS5q40eeapLEK7eyS
+	eorv3WSJabjL/xcvYUxdeM9jdxQhDJBS05zp19XtmphwNCFuxGJPL9v6suWFmbNquYhxxW4Mpvt
+	SgJU+WDIsbnNIcYHmJhGHD99D/p4VDf3J16lTU25xYIwSp3XfXcxE9F8RQ4qXJwQF5Yyf/yx9kC
+	zjlvXYKCC7SA4jyJK5JPHfzcmJz5lgmuQQ964jxfAF92CK7f6UooPNlCs1oyS8wMN3nmj8f/kRF
+	lVTUngvjcBPcI5bE93TgGvJpJBHXFaN4vRp07RIEAejTcZgDysecOhGV67fwcWuUnsbR5QCF4Co
+	URJXdIQdPGJdv96932y5XJXwFRITHJYXQ+ijN/nVU8tQrp4kcpNjK36Dk/PCp94v6iJsORn69ue
+	vZfJzKhQeBwwUVGNZ72UQU2kApK1d6GXNi4MLJ0t9Vxi/c/f8xRwhxSw==
+X-Google-Smtp-Source: AGHT+IEP+hsUfWylG/sWIOgHL0+7XuPA3aGh+EMyQJjqq/ekSSRpH7T9d0ZX6DEh3VlI0WyQEbVgag==
+X-Received: by 2002:a05:600c:c1c8:10b0:47d:403c:e5a0 with SMTP id 5b1f17b1804b1-47d403ce6e0mr342730905e9.12.1767561355367;
+        Sun, 04 Jan 2026 13:15:55 -0800 (PST)
 Received: from [10.100.102.74] (89-138-76-94.bb.netvision.net.il. [89.138.76.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43277b0efefsm63949382f8f.25.2026.01.04.13.14.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4325b6bfe88sm88962379f8f.19.2026.01.04.13.15.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jan 2026 13:14:39 -0800 (PST)
-Message-ID: <3fb01be3-e162-42fa-8d75-2e96a89b2004@grimberg.me>
-Date: Sun, 4 Jan 2026 23:14:38 +0200
+        Sun, 04 Jan 2026 13:15:54 -0800 (PST)
+Message-ID: <14098277-cbcf-4397-bf72-f9cf1613789b@grimberg.me>
+Date: Sun, 4 Jan 2026 23:15:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 08/14] nvme: Implement cross-controller reset recovery
-To: Randy Jennings <randyj@purestorage.com>
-Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+Subject: Re: [RFC PATCH 09/14] nvme: Implement cross-controller reset
+ completion
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
  Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Aaron Dailey <adailey@purestorage.com>, John Meneghini
+ Aaron Dailey <adailey@purestorage.com>,
+ Randy Jennings <randyj@purestorage.com>, John Meneghini
  <jmeneghi@redhat.com>, Hannes Reinecke <hare@suse.de>,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
- <20251126021250.2583630-9-mkhalfella@purestorage.com>
- <c698d201-0099-47a7-b5b0-d2322da63ea0@grimberg.me>
- <CAPpK+O0dmysf6HxQN68q-JzSm-YATXQ1ZUcz-D56-+4WE-Aj7Q@mail.gmail.com>
+ <20251126021250.2583630-10-mkhalfella@purestorage.com>
+ <9ac9b7c8-139f-48f9-bfd2-bfd03506abf0@grimberg.me>
+ <20251231235136.GQ3864520-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <CAPpK+O0dmysf6HxQN68q-JzSm-YATXQ1ZUcz-D56-+4WE-Aj7Q@mail.gmail.com>
+In-Reply-To: <20251231235136.GQ3864520-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260104_131442_450102_F4E1BBF8 
-X-CRM114-Status: GOOD (  24.06  )
+X-CRM114-CacheID: sfid-20260104_131558_250840_03F75D27 
+X-CRM114-Status: UNSURE (   9.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,50 +101,30 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 31/12/2025 2:04, Randy Jennings wrote:
+On 01/01/2026 1:51, Mohamed Khalfella wrote:
+> On Sat 2025-12-27 12:24:17 +0200, Sagi Grimberg wrote:
+>>> +	log = kmalloc(sizeof(*log), GFP_KERNEL);
+>>> +	if (!log)
+>>> +		return;
 >>> +
->>> +             if (!ret) {
->>> +                     dev_info(ictrl->device, "CCR succeeded using %s\n",
->>> +                              dev_name(sctrl->device));
->>> +                     blk_put_queue(sctrl->admin_q);
->>> +                     nvme_put_ctrl(sctrl);
->>> +                     return 0;
->>> +             }
+>>> +	ret = nvme_get_log(ctrl, 0, NVME_LOG_CCR, 0x01,
+>>> +			   0x00, log, sizeof(*log), 0);
+>>> +	if (ret)
+>>> +		goto out;
 >>> +
->>> +             /* Try another controller */
->>> +             min_cntlid = sctrl->cntlid + 1;
->> OK, I see why min_cntlid is used. That is very non-intuitive.
->>
->> I'm wandering if it will be simpler to take one-shot at ccr and
->> if it fails fallback to crt. I mean, if the sctrl is alive, and it was
->> unable
->> to reset the ictrl in time, how would another ctrl do a better job here?
-> There are many different kinds of failures we are dealing with here
-> that result in a dropped connection (association).  It could be a problem
-> with the specific link, or it could be that the node of an HA pair in the
-> storage array went down.  In the case of a specific link problem, maybe
-> only one of the connections is down and any controller would work.
-> In the case of the node of an HA pair, roughly half of the connections
-> are going down, and there is a race between the controllers which
-> are detected down first.  There were some heuristics put into the
-> spec about deciding which controller to use, but that is more code
-> and a refinement that could come later (and they are still heuristics;
-> they may not be helpful).
+>>> +	spin_lock_irqsave(&ctrl->lock, flags);
+>>> +	for (i = 0; i < le16_to_cpu(log->ne); i++) {
+>>> +		entry = &log->entries[i];
+>>> +		if (entry->ccrs == 0)	/* skip in progress entries */
+>>> +			continue;
+>> What does ccrs stand for?
+> Cross-Controller Reset Status
 >
-> Because CCR offers a significant win of shortening the recovery time
-> substantially, it is worth retrying on the other controllers. This time
-> affects when we can start retrying IO.  KATO is in seconds, and
-> NVMEoF should have the capability of doing a significant amount of
-> IOs in each of those seconds.
+> 0x00 -> In Progress
+> 0x01 -> Success
+> 0x02 -> Failed
+> 0x03 - 0xff -> Reserved
 
-But it doesn't actually do I/O, it issues I/O and then wait for it to 
-time out.
+Let's add it as a proper enumeration please.
 
->
-> Besides, the alternative is just to wait.  Might as well be actively trying
-> to shorten that wait time.  Besides a small increase in code complexity,
-> is there a downside to doing so?
-
-Simplicity is very important when it comes to non-trivial code paths 
-like error recovery.
 
