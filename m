@@ -4,87 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA478C2A069
-	for <linux-nvme@archiver.kernel.org>; Sun,  4 Jan 2026 21:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FB8EC2A062
+	for <linux-nvme@archiver.kernel.org>; Sun,  4 Jan 2026 21:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=daXsAWuw3CezWGchWWVZ+gi3L1ayf/lBLGdEjsaYwUA=; b=iWS4anuR/Yr5mNpYGhgm8qH8Ib
-	9Nb0J4uIDHRMOmmoLmQzk4sss62bXFYjyY34MdQpmqkCCirFIk/5n4BECRM3/AxOs8z3EXBe8zd71
-	8gZIAkJZ2luHuPZ2Q1awmDs6f2o38Fb8VV3U/QZ8gWu0pxvCnZD+rs0CPXbWd/VXPyg0pyds/fHos
-	1wGvenJMxLxVrPMW2KXrVTIzKXZ2oLdbZZf2mYJ/k+uj8SSKX6tk+vVw9LHlcw18Gx8FMfKh+Tye3
-	NyVwFA/ijc7amSUZlKINjG0BvynHGcbDutk5WZs0+lz0NJkCa6UWS7AufLAmTYRE0jdVkGifNmLeq
-	e1EgIhyQ==;
+	bh=8S+hbhFVjYhXYYrd3pwPzijBCkYyEKTYj/qm1LKXfTg=; b=plSGSPNpvSMblcO3P3w7SleF9S
+	V3S9h4JO8MWZ4kF1T0Husx3GCJGE0rauFPJHgoh9BqCovREqDhGkDMB6p3zzSoUh9gk0vjCbyT7Bb
+	1Yi6N0bd9JL0AqYspC+o3pRx2InK0gJyfZjuL14Ez/kiMyd903mAQUetoedsnhjDlDBD/oNWNFL0D
+	TBTA4oK/xGDLnNV+gXa2ybNIAbQuDi6pLZXUICUBJoWSY0QuAOguVv/4XnGXX0h5+veLRK7N8pWw1
+	Z+QVOlHsgdpRb3MlG5xFfAaWldGq7dhb5hxW66Fnm2AGf4Thsmvg+4mpODT7ZOHAD8s3fFcKMI6cS
+	OWqYQISg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vcVSE-0000000ASf1-2ecu;
-	Sun, 04 Jan 2026 21:16:02 +0000
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
+	id 1vcVVK-0000000AStz-3qNT;
+	Sun, 04 Jan 2026 21:19:14 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vcVS9-0000000ASeV-1VRW
+	id 1vcVVI-0000000AStT-3ZjT
 	for linux-nvme@lists.infradead.org;
-	Sun, 04 Jan 2026 21:15:59 +0000
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-47bdbc90dcaso85426775e9.1
-        for <linux-nvme@lists.infradead.org>; Sun, 04 Jan 2026 13:15:56 -0800 (PST)
+	Sun, 04 Jan 2026 21:19:14 +0000
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47a8195e515so80941895e9.0
+        for <linux-nvme@lists.infradead.org>; Sun, 04 Jan 2026 13:19:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767561355; x=1768166155;
+        d=1e100.net; s=20230601; t=1767561551; x=1768166351;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=daXsAWuw3CezWGchWWVZ+gi3L1ayf/lBLGdEjsaYwUA=;
-        b=tw+RGtQFrkjIhoJNhhTZlTGp7Ev3PUOCf6sk8awDsYFgyyfJ2Fz48bFOu1E7pZ8N9+
-         nUONqZHW5lB1/1jxua73nPuLDEDN3b/yFYstO/hCS4r2hdQ+rOty6C8cFD9cEaD4eWA0
-         j+TwEWqxzierJTAZu7cGFcgo4Bk6c0Vd8Ckus3lqoQtfiyJt4Fmweyd+7+/meqelG5lj
-         fmTKvTD1FS3kS0lQsqbr20beuvojdroEjo9zszdExHqZVkbdHYl/3MWhtPkDAtoRU3d0
-         qTcB1KRJv6hN6gHV3mouZef4gHcLqXxaQtuny+43VhmYBLHaw6BhWw9Skx3oJuZwjtSu
-         2wpg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+Bs9oFT1xwCQZWB8Gv3tO9Glg0mtHlfuCuaP8JiRWggeHTI9MYlVUIQzmBUmlsood41kEeQm9SMlI@lists.infradead.org
-X-Gm-Message-State: AOJu0YzdIES/UnIjUflZDYhZH8weRKXQoltTw8pc9evKVkUrSIUQEuHV
-	fx+2a+86ahqlEjT/QglPvR/3j+wjP5gbFkBelUYulBzxKmv/RS6d/VaH
-X-Gm-Gg: AY/fxX4bTo6LDitVjHK1ZH0tJRJJBojvlNrcWOBGENwimxEskJpS5q40eeapLEK7eyS
-	eorv3WSJabjL/xcvYUxdeM9jdxQhDJBS05zp19XtmphwNCFuxGJPL9v6suWFmbNquYhxxW4Mpvt
-	SgJU+WDIsbnNIcYHmJhGHD99D/p4VDf3J16lTU25xYIwSp3XfXcxE9F8RQ4qXJwQF5Yyf/yx9kC
-	zjlvXYKCC7SA4jyJK5JPHfzcmJz5lgmuQQ964jxfAF92CK7f6UooPNlCs1oyS8wMN3nmj8f/kRF
-	lVTUngvjcBPcI5bE93TgGvJpJBHXFaN4vRp07RIEAejTcZgDysecOhGV67fwcWuUnsbR5QCF4Co
-	URJXdIQdPGJdv96932y5XJXwFRITHJYXQ+ijN/nVU8tQrp4kcpNjK36Dk/PCp94v6iJsORn69ue
-	vZfJzKhQeBwwUVGNZ72UQU2kApK1d6GXNi4MLJ0t9Vxi/c/f8xRwhxSw==
-X-Google-Smtp-Source: AGHT+IEP+hsUfWylG/sWIOgHL0+7XuPA3aGh+EMyQJjqq/ekSSRpH7T9d0ZX6DEh3VlI0WyQEbVgag==
-X-Received: by 2002:a05:600c:c1c8:10b0:47d:403c:e5a0 with SMTP id 5b1f17b1804b1-47d403ce6e0mr342730905e9.12.1767561355367;
-        Sun, 04 Jan 2026 13:15:55 -0800 (PST)
+        bh=8S+hbhFVjYhXYYrd3pwPzijBCkYyEKTYj/qm1LKXfTg=;
+        b=beI2DUROZ8437Pn4/4w/T9veDSlpzdTmtkzba+x43ZNFu74K3fPoJ5D+mHxj5R3cKw
+         ckgtjpLmQ9hWghX5/FBmrnpQX/FBV+NasluhdHrQaVnvKjDu9WFCczmFsUIAG6z0i1iB
+         qCSbyPAfsa7S7kXR1dEoTmOoU/j6CwJaMCzUsud0bcron3eF7/4LBUn9PWi7p+yZejQJ
+         sloC7zwFZnAu1o30GGqXC53qXK2tp295qVnBqIvny2jBx/q5+t63uD+JuCLAxFIN8ZNm
+         Qt+7dfK6VjAD3yIR6KbGZxZwd6jcHVSqrKDFJFS0xuy89pJ3sozdc4wJ/ofQZo/UhjTC
+         +Bsw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKtdsCUBtdak3Qjmfa+R6tDraTSsfd3blGMljKaILdmwAT0Ihm6Ga76kr7WPZFd6mLWnGEQN+gjz8u@lists.infradead.org
+X-Gm-Message-State: AOJu0YwuD+Ks55ckBfxWzYnRjGU5zwBiKgOkSRl0iiBD/rYEw2+BGGZ0
+	zPTMxU191FudPSISH0fZ0mJ7AwvN1NijMVVCNbMmZ5vP1DunWMYWpua9
+X-Gm-Gg: AY/fxX6wD1qT+5EjXxbgQ1TmQl1u9JiILIzGDCBdIsX87tNz2O9DT22QilXypmC1b5p
+	+imsfwY3pqXn19fiW9wwZ+hyjj97+gIDdTlvLo3xm+KKEdjrkGzslhTgpPE4Kz601fCmAUpszJf
+	mBKH9eNn/4BxaIaw90+jDfue1P/JChIUbhOLtq2Ti7Zly7qNuyezX6j+h/UsI1ll2TXZQJD7dv+
+	13gLW4Vl/jnvy196HfDH+WRanntoNgcTER/kOf9NM9VhqfLrctEnrPEKels8Ma+/MXka0oHuuir
+	bjQvg4H833iKuRZUB1eOLYbfpTbVc5SiP2cMMP0lgGMeyu2UP6V+QbCySxS815NYmI6piU1hJrV
+	Vr3Hp5MLSlWlvF2aygIdZ5zPNUDRoDZTedP05QGBsXabMSAt0Whv0dBDyq++0xQrDGQbQDnc4jp
+	OdUZ6AxyNBC+izhzD/6nCoUFLnfaKHLXp5d9FThgR3O8Y=
+X-Google-Smtp-Source: AGHT+IGx//L+1uxBIldaz4O0xIb+8nkG9CoGbpmBam23eG14dziukvSqh3xuqTzUuGI5tBY2zC9BHQ==
+X-Received: by 2002:a05:600c:6096:b0:479:3a88:de5f with SMTP id 5b1f17b1804b1-47d1959d6eemr514286355e9.36.1767561550919;
+        Sun, 04 Jan 2026 13:19:10 -0800 (PST)
 Received: from [10.100.102.74] (89-138-76-94.bb.netvision.net.il. [89.138.76.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4325b6bfe88sm88962379f8f.19.2026.01.04.13.15.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6b9efb7dsm47504645e9.0.2026.01.04.13.19.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jan 2026 13:15:54 -0800 (PST)
-Message-ID: <14098277-cbcf-4397-bf72-f9cf1613789b@grimberg.me>
-Date: Sun, 4 Jan 2026 23:15:53 +0200
+        Sun, 04 Jan 2026 13:19:10 -0800 (PST)
+Message-ID: <697242db-b748-4b27-9e60-44e81a6644bb@grimberg.me>
+Date: Sun, 4 Jan 2026 23:19:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 09/14] nvme: Implement cross-controller reset
- completion
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+Subject: Re: [RFC PATCH 10/14] nvme-tcp: Use CCR to recover controller that
+ hits an error
+To: Randy Jennings <randyj@purestorage.com>
+Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
  Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Aaron Dailey <adailey@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>, John Meneghini
+ Aaron Dailey <adailey@purestorage.com>, John Meneghini
  <jmeneghi@redhat.com>, Hannes Reinecke <hare@suse.de>,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20251126021250.2583630-1-mkhalfella@purestorage.com>
- <20251126021250.2583630-10-mkhalfella@purestorage.com>
- <9ac9b7c8-139f-48f9-bfd2-bfd03506abf0@grimberg.me>
- <20251231235136.GQ3864520-mkhalfella@purestorage.com>
+ <20251126021250.2583630-11-mkhalfella@purestorage.com>
+ <5befc95c-b66a-4dd8-bb72-7cc6839c7c4b@grimberg.me>
+ <CAPpK+O1g+Z=CYDfA1u6-iBx8L5tuhFOgipbyVvmj=oqW9UbLkg@mail.gmail.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20251231235136.GQ3864520-mkhalfella@purestorage.com>
+In-Reply-To: <CAPpK+O1g+Z=CYDfA1u6-iBx8L5tuhFOgipbyVvmj=oqW9UbLkg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260104_131558_250840_03F75D27 
-X-CRM114-Status: UNSURE (   9.40  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260104_131912_919933_B79F69EF 
+X-CRM114-Status: GOOD (  16.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,30 +100,40 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 
-On 01/01/2026 1:51, Mohamed Khalfella wrote:
-> On Sat 2025-12-27 12:24:17 +0200, Sagi Grimberg wrote:
->>> +	log = kmalloc(sizeof(*log), GFP_KERNEL);
->>> +	if (!log)
->>> +		return;
->>> +
->>> +	ret = nvme_get_log(ctrl, 0, NVME_LOG_CCR, 0x01,
->>> +			   0x00, log, sizeof(*log), 0);
->>> +	if (ret)
->>> +		goto out;
->>> +
->>> +	spin_lock_irqsave(&ctrl->lock, flags);
->>> +	for (i = 0; i < le16_to_cpu(log->ne); i++) {
->>> +		entry = &log->entries[i];
->>> +		if (entry->ccrs == 0)	/* skip in progress entries */
->>> +			continue;
->> What does ccrs stand for?
-> Cross-Controller Reset Status
->
-> 0x00 -> In Progress
-> 0x01 -> Success
-> 0x02 -> Failed
-> 0x03 - 0xff -> Reserved
+On 31/12/2025 2:13, Randy Jennings wrote:
+> On Sat, Dec 27, 2025 at 2:35 AM Sagi Grimberg <sagi@grimberg.me> wrote:
+>> On 26/11/2025 4:11, Mohamed Khalfella wrote:
+> ...
+>>> +     dev_info(ctrl->device,
+>>> +              "CCR failed, switch to time-based recovery, timeout = %ums\n",
+>>> +              jiffies_to_msecs(rem));
+>>> +     set_bit(NVME_CTRL_RECOVERED, &ctrl->flags);
+>>> +     queue_delayed_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work, rem);
+>>> +     return -EAGAIN;
+>> I don't think that reusing the same work to handle two completely
+>> different things
+>> is the right approach here.
+>>
+>> How about splitting to fence_work and err_work? That should eliminate
+>> some of the
+>> ctrl state inspections and simplify error recovery.
+> If the work was independent and could happen separately (probably
+> in parallel), I could understand having separate work structures.  But they
+> are not independent, and they have a definite relationship.
 
-Let's add it as a proper enumeration please.
+The relationship that is defined here is that error recovery does not start
+before fencing is completed.
 
+>    Like Mohamed,
+> I thought of them as different stages of the same work.  Having an extra
+> work item takes up more space (I would be concerned about scalability to
+> thousands or 10s of thousands of associations and then go one order of
+> magnitude higher for margin), and it also causes a connection object
+> (referenced during IO) to take up more cache lines.  Is it worth taking up
+> that space, when the separate work items would be different, dependent
+> stages in the same process?
+
+Yes, IMO the added space of an additional work_struct is much better than
+adding more state around a single work handler that is queued up multiple
+times doing effectively different things.
 
