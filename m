@@ -4,51 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C43EFCFD626
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 13:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 761DDCFD63E
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 14:34:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EjSM/OmqNAQPRkFiGmCpXmY1C9OGAoxEq/z/SuTL6l8=; b=PIkNMkcErDH2H5BsZgAEBe7h7o
-	12lji0a8WYwg4mt2eKpbsjld3hpB0REk2DBB6iBaZYaEI+j3ZvTQtW77/c/LsNC2y7wkLv3wK4ZRB
-	CsGak3Y1B8ipkaOg/NOQfCECeyYuyQqTDaVWrNkb8/DsEUicdUtj3yEAZqx1er9i+bBwm1LcjjOAC
-	AmYyWsisqmZNKf+eUmnbvFTNMWaC7hLnTEk1m7g85yIQLZVeaUOie+9qjFNR1LM1o/wE4mHLZLy17
-	OfD7EecpbxPckiCgOHY8gpudElAntoczwbAjpP2my+txGA57NugIb06tp5w/Ls0J+s6AiFHSQBNxA
-	kzrzEpZQ==;
+	bh=3bCjh+HsugEPYGnwtLmsQ7GPkRsfYdenz+yJhTVwHn8=; b=PuCWetWEG2Lyq2Umm6H5Fd5nZz
+	JBfU6UrKHORm6NESSUf8WUZngh7YgTpD8RjmdFBN8v+DnTSvtBE1h2z0zF6ZdKWIbckNZLNhrQCpF
+	lq5LDm3uS6o4rGNCO4ev9uNXJs5n8SheV0PUBrVh6aYdzQedeaq8QBehtSt4Lx7fto3cI/9rDwKid
+	HX6h+UoD1h7lfWrlJXqIk8f7eeZeUQ0L9i+RTJj/3Z0uD8voSHPTgKxZ7X5nVyhzZtXENaKGLijMp
+	/YhB9q5vvWUhX1TFDHn7Gq829MZiuf9jxzaSm0M8f/kFMDtJz7v/NlCW/L9jLqMEZDSwKhBjNiZ3O
+	munwODzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdTNl-0000000EzLr-3NYk;
-	Wed, 07 Jan 2026 13:15:25 +0000
+	id 1vdUbo-0000000F69U-0uwW;
+	Wed, 07 Jan 2026 14:34:00 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdTNi-0000000EzL5-2LJu
+	id 1vdUbl-0000000F68w-0zO2
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Jan 2026 13:15:24 +0000
+	Wed, 07 Jan 2026 14:33:58 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 683F4227AAC; Wed,  7 Jan 2026 14:15:16 +0100 (CET)
-Date: Wed, 7 Jan 2026 14:15:15 +0100
-From: hch <hch@lst.de>
-To: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Cc: hch <hch@lst.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"dlemoal@kernel.org" <dlemoal@kernel.org>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] nvme/host: fixup some typos
-Message-ID: <20260107131515.GB7575@lst.de>
-References: <20260105040829.732046-2-wilfred.opensource@gmail.com> <20260107100920.GA26943@lst.de> <7db5ef3b6980270c948f6bd5dd9685e15493302c.camel@wdc.com>
+	id 5359F227A87; Wed,  7 Jan 2026 15:33:51 +0100 (CET)
+Date: Wed, 7 Jan 2026 15:33:51 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Alex Tran <alex.t.tran@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] nvme/host: add delayed retries upon non-fatal error
+ during ns validation
+Message-ID: <20260107143351.GA14506@lst.de>
+References: <20260103-nvme_ns_validation-v3-1-c9ce67393261@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7db5ef3b6980270c948f6bd5dd9685e15493302c.camel@wdc.com>
+In-Reply-To: <20260103-nvme_ns_validation-v3-1-c9ce67393261@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260107_051522_735289_EC7322BE 
-X-CRM114-Status: GOOD (  12.25  )
+X-CRM114-CacheID: sfid-20260107_063357_416600_8F4DCAE4 
+X-CRM114-Status: GOOD (  15.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,17 +61,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 07, 2026 at 10:33:37AM +0000, Wilfred Mallawa wrote:
-> > I don't see a typo here, just a reformatting to a different comment
-> > style not very commonly used in the nvme code.
+On Sat, Jan 03, 2026 at 04:52:00PM -0800, Alex Tran wrote:
+> If a non-fatal error is received during nvme namespace validation, it
+> should not be ignored and the namespace should not be removed immediately.
+> Rather, delayed retries should be performed on the namespace validation
+> process.
 > 
-> It's just the extra white space before the "This avoids". Is that not a
-> typo?
+> This handles non-fatal issues more robustly, by retrying a few times before
+> giving up and removing the namespace. The number of retries is set
+> to 3 and the interval between retries is set to 3 seconds.
+> 
+> The retries are handled locally. Upon success then end. Upon fatal error
+> then remove the namespace before ending. Upon non-fatal error, retry
+> until the max retry amount is hit before ending and removing the ns.
 
-Double spaces after the end of a sentence is common style for fixed
-width font text and recommended by various (usually older) coding
-guidelines.  But even typesetting for variable-sided fonts sometimes
-add extra space, in TeX this is known as "french spacing"
-
+What non-fatal errors do you see?
 
 
