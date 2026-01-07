@@ -4,81 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F200D0D16D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 20:24:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 102F5D0D170
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 20:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/u8/mdCRbNm8MvpUWRoGYHAWAojzapM2ntHzieeqBkA=; b=OWwTjXfSMeByQwRq4UlBmbN4Kl
-	wf7uw6TX8AZl/t+u1631jw9sYnsEAf+SAUfn7BDLLCAdCMch4KSXAfRR50TqJCYHVs2ZREA9dtwC4
-	bW3TJ0T5fyb+tkPsHRs7qEOstpFEvKbGQovCzOVJElW2QBXwKiNrcl4tjRcPvGWKD1lGss80oX6xh
-	9TOwoEqYZBRlpRydE0Bm7PjHYncXtLIegrWSFPNvIgslpZiPk+4rSyHZ7R6THtyE8T8xAmM1R/5E/
-	/Loqc3lr6wSaz5Bs4IWTYEU5vrkudeIbNaQv+yfX42MiS8zxYYmTDZdKWt7z2tdlb3YvVOj4732N6
-	+MWo0v/g==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=zzo+3C/hPTxFw/xRNJRkyrKmK7xeVFmoq79bpzpX3Ls=; b=LzC1zomDtD4mLw
+	8eCjHUp6vkFj+uJnXNAmgp0BmRBHBYPTZkPuIbF/qs4/bH4SUzpaeF2UHod/cifT6Gb/T6MYmPxRl
+	zzZZIT0NknJlibWC9M1UsVR3vQFWOP3jCzN77V8jpJreEXHwnDV8WU7WPuggLSyzsHwPriaewzLJA
+	67hqu/UdNdE7hula4QBnJcKzhQJBbo0I+VnNncmPPeqf7sLBfL2kgisdNcIB5AEC0hr1S3mkE9NmE
+	A2NuBQl2Mb7IQsFA3AIKiDAz9Hq2f+a19WUUiejNPgI8jp0KOKZHox/Jo5QoRzJBGPz7lUrqkNsg0
+	HXKztC82XwI/KtWWlTNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vda50-0000000Fbxw-2EWq;
-	Wed, 07 Jan 2026 20:24:30 +0000
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743])
+	id 1vdaF4-0000000FcXj-2c52;
+	Wed, 07 Jan 2026 20:34:54 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vda4x-0000000FbxN-1Q9p
+	id 1vdaEv-0000000FcX5-34l0
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Jan 2026 20:24:28 +0000
-Received: by mail-qk1-x743.google.com with SMTP id af79cd13be357-8b2ea2b9631so274901085a.3
-        for <linux-nvme@lists.infradead.org>; Wed, 07 Jan 2026 12:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1767817465; x=1768422265; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/u8/mdCRbNm8MvpUWRoGYHAWAojzapM2ntHzieeqBkA=;
-        b=Eix/RzlWRjHm/pGwJvCM8IOeN6WngniJhmtQcm4HA2LVNQJ6+wHV/jtQwNHFj0CfKh
-         3kvgmtOpL+QygnIBrqkbQ0YU6hM0IeiLT0SER5xk/V0L2Rmo3ke702V+3quk1Q8By0Ko
-         NMYQLvXGh27VX8GTQD8nGoBeUI+BAedkQs6pgH7tenx7sOP5XJjIONoWeoXj+HatlbYM
-         r8YSTGrMxk8b+o5Smm4rvnbI64Cp+Gd26hWsf42xNuJkWAdv6aG0mEkO2IQNF2MlcD70
-         C7MEyicVJOkoqUqjRLoMOd1SgpL3HAdVuOQwpwWJBsz7rGz9rfaxijAOEy4WLQ1/46CO
-         Hd6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767817465; x=1768422265;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/u8/mdCRbNm8MvpUWRoGYHAWAojzapM2ntHzieeqBkA=;
-        b=C7FzC260qGjWTfX1Q3Xk7sz0jikJP+HvPw34SAQ0AS+J3ArBKU2yRz1WREY1+ct3FV
-         pNKJMcsOnjJwzPfGxtlj6iAsmTTEuDXKQmdmv5PRIM/IrVtcWHr7vTPJiHJPIwVsCuOQ
-         ulz79T9dS8liXo5k8VRRPLYaCQ57NVfz4hBaeIB/7LZ0gcNsiPHEAx2Eo7U41/sG8EyS
-         E04TBBQIr7ZZTbbuQsj6y1wEJSU0lH4dWlxbHPLrOJLDMQgRVn90oNWLzQMxoI/jr2G+
-         IvxexEVWOjU5h8ZlxUILl0zOhBKnh5+AdPwFPpr7EeSX5bwP0A+X51HLz+y4TUZvQzN7
-         VUQg==
-X-Forwarded-Encrypted: i=1; AJvYcCU56Mwtju1ENA2TOvl5yzeOtnvLUDKHhJcQmQDU59swm1o4Z7+NVBXz+/7BhSykPAZSxr0efEslX7iP@lists.infradead.org
-X-Gm-Message-State: AOJu0YxecOB1s/hku3Y4GCnZloIfk78ekchlLGkKBrTHE5ZpE5NiCm/y
-	Xoa95TIwv/vIZMvtPqgjt2nJoxAHq60T8VCqv0hbrVMiDSKASigWe5Q5R0EDyIvzq7g=
-X-Gm-Gg: AY/fxX7tsjhN/NwfTEbgQnEgtfNm3Fv50hfNq3aCxARW2MKz02hl+cbX7oTnItiokUW
-	MUym+Upvaffjrjvd6LU1ArcqqXhqmBm1Vd0J9EUIu+M7iWkFvlBpyC4NaMQmOR8YxJBCNO7Y7oF
-	9MOFyASHb0Io6wwgrKuSzUjc9hdDxEm2L78IuL7yrBt4ZYg7jUuNPk4TqHBHB03D3rIUJ00RVkt
-	er7FPu39A6ROe601DVbTNKKrDWRrRsYspxw3l+YT0XwIJTUeYv2rz69BsmdzBHiR7HvfzlXe4lr
-	9LHgtdFrwb9BzAsSfgy9cucVYlcOjQT7Uzj59DPd1cCoqMTl/ZMef2sQPKxeTuezTrI7WpGRA6V
-	CvqGdCg6tHTXaRviWLlzvu3lE2uzE2lnaSaDlyX6iWQy8jtMHYRuuJ/oSpJuyREHoiYJf8r603s
-	wzaPkCum1087c4Z9W3l9iKtbG7qRsFOOdZlmbxEPxsEwgdN+VH5lX34vWRkQpG2P2CZ38=
-X-Google-Smtp-Source: AGHT+IFkPMUDNbhV7qApG1EaAD4bH67XKeWGZyq9t6Oa6ftUcT4ea6J2MjhLCsI7jETaTx/wz1BYtw==
-X-Received: by 2002:a05:620a:2681:b0:8b2:e669:987e with SMTP id af79cd13be357-8c3893dcc02mr421767485a.46.1767817465357;
-        Wed, 07 Jan 2026 12:24:25 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51ceb5sm470433485a.35.2026.01.07.12.24.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 12:24:24 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vda4u-00000002F6i-0YUA;
-	Wed, 07 Jan 2026 16:24:24 -0400
-Date: Wed, 7 Jan 2026 16:24:24 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Wed, 07 Jan 2026 20:34:52 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 091944414B;
+	Wed,  7 Jan 2026 20:34:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A76CFC4CEF1;
+	Wed,  7 Jan 2026 20:34:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767818080;
+	bh=AOWaSug2G86K93bzxMiGRrg2OWHdAUJfYh0qmRde9cw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=Zkagjpi/muS2VGzfUQjIxWGGH6i70N++9x5xZTIbkQuBU/DRrQKhH+4pJNASzSy7j
+	 VZVMqRapNWwBVu4ByYANDdpu5Sr1knnVuTrRyvvD9WvCdJEJGw7K64bSO0hKmfhQqY
+	 OThU+sNzp56YiPAIE2t6FI8X1MJjVuPhzRzGd7emskjfYVBBhV532eSF+mtSAlV4PM
+	 /Bk4PfbiIBZ6xke04u2/c0EbrakDa/8EflVBSSO3zKX1nL5AtFS09ovFmx7BrgOCgU
+	 tmdVAzw0ELBLL1dewvzFHL5enSxqyAR/O6JMjvEonF6tFvrO5qIZ2ZFH4+K24yXrjT
+	 cQqiR/XDuYSbQ==
+Date: Wed, 7 Jan 2026 14:34:39 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Logan Gunthorpe <logang@deltatee.com>, Hou Tao <houtao@huaweicloud.com>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
 	Alistair Popple <apopple@nvidia.com>,
 	Leon Romanovsky <leonro@nvidia.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -88,21 +58,17 @@ Cc: Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org,
 	David Hildenbrand <david@kernel.org>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	houtao1@huawei.com
-Subject: Re: [PATCH 10/13] PCI/P2PDMA: support compound page in
+	Sagi Grimberg <sagi@grimberg.me>, houtao1@huawei.com
+Subject: Re: [PATCH 02/13] PCI/P2PDMA: Fix the warning condition in
  p2pmem_alloc_mmap()
-Message-ID: <20260107202424.GC340082@ziepe.ca>
-References: <20251220040446.274991-1-houtao@huaweicloud.com>
- <20251220040446.274991-11-houtao@huaweicloud.com>
- <07a785e5-5d2e-4c81-a834-1237c79fdd51@deltatee.com>
+Message-ID: <20260107203439.GA446340@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <07a785e5-5d2e-4c81-a834-1237c79fdd51@deltatee.com>
+In-Reply-To: <20260107171724.GA432074@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260107_122427_409120_4DC74564 
-X-CRM114-Status: GOOD (  19.83  )
+X-CRM114-CacheID: sfid-20260107_123446_054008_15CE13FA 
+X-CRM114-Status: GOOD (  19.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,47 +83,34 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Dec 22, 2025 at 10:04:17AM -0700, Logan Gunthorpe wrote:
-> I would have expected this code to allocate an appropriately aligned
-> block of the p2p memory based on the requirements of the current
-> mapping, not based on alignment requirements established when the device
-> is probed.
+On Wed, Jan 07, 2026 at 11:17:24AM -0600, Bjorn Helgaas wrote:
+> On Wed, Jan 07, 2026 at 03:39:42PM +0100, Christoph Hellwig wrote:
+> > On Mon, Dec 22, 2025 at 09:50:18AM -0700, Logan Gunthorpe wrote:
+> > > > Fixes: b7e282378773 ("mm/mm_init: move p2pdma page refcount initialisation to p2pdma")
+> > > > Signed-off-by: Hou Tao <houtao1@huawei.com>
+> > > 
+> > > Thanks for the fix
+> > > 
+> > > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> > 
+> > Can we get these fixes queued up ASAP while discussing the new
+> > feature?
+> 
+> I assume you mean the first two patches:
+> 
+>   PCI/P2PDMA: Release the per-cpu ref of pgmap when vm_insert_page() fails
+>   PCI/P2PDMA: Fix the warning condition in p2pmem_alloc_mmap()
+> 
+> I can certainly queue these up.  The second is a warning fix, and the
+> first fixes a hang that has apparently been around since v6.2
+> (7e9c7ef83d78 ("PCI/P2PDMA: Allow userspace VMA allocations through
+> sysfs")).
+> 
+> Given that, I would ordinarily target the v6.20 merge window, but the
+> "ASAP" suggests more urgency.  Do you want one or both for v6.19?
 
-Yeah, I think this is not right too.
+I put the patches above on pci/p2pdma for v6.20 until I hear
+otherwise.
 
-I think the flow has become confused by trying to set a static
-vmemmap_shift when creating the pgmap. That is not how something like
-this should work at all.
-
-Instead the basic idea should be that each mmap systemcall will
-determine what folio order it would like to have, it will allocate an
-aligned range of physical from the genpool, and then it will alter the
-folios in that range into a single high order folio.
-
-Finally the high order folio is installed in one shot with the mm
-dealing with placing it optimally in the right page table levels.
-
-You could use a heuristic (ie I'm 2M size aligned or 1G size aligned)
-or maybe use the MAP_HUGE_2M/MAP_HUGE_1G flags, or something else
-perhaps.
-
-Don't follow what DAX did, this doesn't have the limitations DAX had
-to work with.
-
-I also don't think drivers should be open coding the
-vm_insert_folio_xx() stuff, the mm should have a helper to accept a
-folio of any order, the VA and the phys, then install it optimally. So
-don't export vm_insert_folio_pmd()/etc please.
-
-Finally, Peter Xu has been working on the issue of setting the
-alignment of VMAs when they will be used to hold large aligned folios,
-that would help this be more useful by avoiding the need for MAP_FIXED:
-
-https://lore.kernel.org/kvm/20251204151003.171039-1-peterx@redhat.com/
-
-Assuming the folio size can be determined early enough in the VMA
-process, though Lorenzo's recent refactorying here into mmap_prepare
-may be helpful.
-
-Jason
+Bjorn
 
