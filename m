@@ -4,100 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F023FCF6BE3
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 01:39:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80AF7CF6BE3
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 02:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TR7W5r/PbAp95cVqq4bTecJLCOuOBBQ7DvJmY0gVsC0=; b=W1ZZbZrk1neQNORD9jfavJvSpB
-	7l2gQK7Otp5KT1yRXeSOv0pSAi3E2tUIih3M34mQtsnSUHIv1PsDhxiBXs0TO78EemAMaWmW3y+tx
-	zo2xX4jVgzvU6xa6iofh6UkozSos2+/6rtw2xG/Rx7W6GG0cKwvI4vi0439d9TcXdQNYVD6iysjvR
-	MXOF4Zh0JAS6URgfDN/Ls6FaxzM+9nlJtWcmMf2gHz/gSEwge+jBMmYKvqoUejYo5TXW8k1Op4oLF
-	GTuuwB+VLG1vCJOsxaQSnuX24IxfGarbC/C7hVbdlRw3ppNAAIqc8/xfkMeRXUKkVaIHanSRUPyOx
-	YHYxadNw==;
+	bh=QcTQoUcIXWvvQGWuloMJzBEK7Hz6Zc+n1XoQykXAO6Y=; b=TNmBBbxCHqZFxnPsfdgQBfDI0s
+	bvBnlPmgbhb2cmGMa/ZhbFT2FCnmfyZVXob7+nmg4nnAMXnaT2lypix1zc3/rZPA3kVhTjWq4eNl8
+	rWICt3Xxm9EO91uZGOSkY6StslZ4X4JpOiQ2DNkva+EWCPilutCDS4/n08IoZT/B/8013A+wKKw2N
+	5AGUKe0gGaIn9Ji019w/MhzK7piOE4vvw7Q5FIlgX31Kg3ZGO8azsta+iwxbaAiNsnLPg+bxJQJQr
+	xG70U6C2XfdTyb+hEOMbJ9stCgGxQsiuVpEBs2ktbkM2Fw92PmZ9oaHPyo/m6yMwjLy3s7Q3EMkOs
+	fNVQ11sg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdIVl-0000000E1IQ-2D1v;
-	Wed, 07 Jan 2026 01:38:57 +0000
-Received: from mail-dy1-x132d.google.com ([2607:f8b0:4864:20::132d])
+	id 1vdJ0e-0000000E2ul-3W09;
+	Wed, 07 Jan 2026 02:10:52 +0000
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdIVi-0000000E1Hi-2Y8A
+	id 1vdJ0a-0000000E2oq-3lrR
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Jan 2026 01:38:55 +0000
-Received: by mail-dy1-x132d.google.com with SMTP id 5a478bee46e88-2ae38f81be1so1018796eec.0
-        for <linux-nvme@lists.infradead.org>; Tue, 06 Jan 2026 17:38:53 -0800 (PST)
+	Wed, 07 Jan 2026 02:10:50 +0000
+Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-7c7533dbd87so1180216a34.2
+        for <linux-nvme@lists.infradead.org>; Tue, 06 Jan 2026 18:10:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767749933; x=1768354733; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TR7W5r/PbAp95cVqq4bTecJLCOuOBBQ7DvJmY0gVsC0=;
-        b=Ib5HaPzSsxBeeCP/BR3v4hdFPnrMvvWLjcUZdHYxXyS7KdzRTkD+PQSluv6gTwdFIu
-         T+JQGTxiQliJ+1nZJQm+qaGpERx0IuUKigl9nHPGuaR3qIGjggL5Mt2wXzqT13wrlW0m
-         X8NevYmve+3U2a1i28mdBz59fHa2gENXR/qqXPMDkqd2xrkcCPnkDARzUKjPHWiqizVS
-         Qxc85i8wPsrzB74oaLHfm9XBWpCtjPPYAT3RI32IOk1LcUGyBm4d4+JOHr/sWxfgblWM
-         88F1fErUJO8n1eHWUSsppMH/I2ONZkIWyJpAH8LH+2O/LEJ1IXZ3cqBABJMW2TNWjeMW
-         9wXw==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1767751848; x=1768356648; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QcTQoUcIXWvvQGWuloMJzBEK7Hz6Zc+n1XoQykXAO6Y=;
+        b=FoXrc9ik/MurZgFxwZUzOqxVjx5eQuu8o1QiZG5IbRvL7FjZBN/VR152mkyq5KHiHs
+         OQ7xu2IVmorJDfer9bWK4l2LQzp/uKCQbgXCYQnq87gdqesNNXJi+BDgjABwKLBPIH2k
+         F0BdK6X5xURji8R7kJm++EbQ73xUMakVQ7yfn6bVWjG5bAKiq7nKjTYloMASE2LFsCXp
+         74IhjC3IP81KKyk/26EIbyiYZ+9y/Qhq86PrZDK1yiJPlJeoPfjBW9lch2WQf9RW7HHm
+         RAOSOEbM4JbBER8R45iMou4iYWPplZ6GP2DYTlFVEXuzDAN6+rX2TqeRKq0U1w9w7jfP
+         rRUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767749933; x=1768354733;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TR7W5r/PbAp95cVqq4bTecJLCOuOBBQ7DvJmY0gVsC0=;
-        b=MUAZ9kTxnSf8SolsoysiNtQ+PuhSLzjrc5tScKOiALNE96l+YZ3cxNfKldWMFNZoMm
-         NM8tBGWj+MAmD5ROu92FuMvoo//6CttKw3VTFgo826quSqyqrO/Am1Ojpkyi7Ob399p0
-         FmfXyATND/iRpEOhJzhr4dyFo+V7djS/DP7JmH39UaxsnmKDlVxws+a+S4MDpN1GAqDz
-         X2LxlLRCVrZ9m/1UfJPNIt6I/2WVuxynVzJfByT0f9DGqkKrxUWsUtjTBj6ajxOQk9Gv
-         0fhuM5fIGJs66vYMWxR1b7Z3zrjP28jBY6s5fo15UXskZtvXfI7bn2lp/hAy+4J9Jx1D
-         USow==
-X-Forwarded-Encrypted: i=1; AJvYcCXH9IfwN4zP6IjiDd2dX/Z65++NOX61pKATMb6jMh/+D5jy6wiQmbCViXKYT7AeS/baqlkwK65qGIqr@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxb7zb4dvbC9kkFsFo9+rZ1NYpfqn7xqvJsDFB1PrLVJamOW2B+
-	6sIP0NH+Rojwutu6Ng68Rtu+ga9RaQ2RYURuuxG+UOLL/R2/CvTEQ7Ke
-X-Gm-Gg: AY/fxX6JrE9l4l4SdKtnHH9tULqb3poEJey5npeLwoX647AuSwef8YoWsmRp4Yu8i1V
-	ddiqk33DgrDFGHgFZPAZjcEd5Hm1nv5KNOW+v0RyuOof4T1ZPTGKVIRFOWer5pydSm4089GxyIy
-	13uCxKup3j+BLCDY1cOORZQeR7ALBZ5iMg522qi2LHtHEuQ795wDRwXzw1YSuFw9hcPkDJb9FtS
-	+qjaHgkB9YYwadyoFCho4CrYySaqEWn/GOQp9+xRxKgipqsdx1KQNDWdV88mgcn6Esrvud2cDf2
-	KIAVlvTqw/nWyKxvd8EvcaWbkSoQAD7yur5NNcOZJLDDVu8NUa3hIJ/CDNJga32cPQfmCU1Xuin
-	xAy3+fkUHSdRqZlN8KCKV6d/E1S3xDGrvp2Rm/p54ahhXGvm6/9U/PA+WqDuLBUzDgY8Gy9xH0Q
-	A1HMil7byj5/PDY+yC432Jl6IYWey/wySBntmy9Sc=
-X-Google-Smtp-Source: AGHT+IELfXr93RmAVEj9LLE7yGCjveWF6ss99k6WQLqwMYHXJ1aat3XiEBy89meyczf2HB9sDxhsFw==
-X-Received: by 2002:a05:7301:1c0f:b0:2af:fbb:97d6 with SMTP id 5a478bee46e88-2b17d2e7a1dmr641520eec.42.1767749933090;
-        Tue, 06 Jan 2026 17:38:53 -0800 (PST)
-Received: from [10.69.79.61] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b1706a53cdsm5516546eec.11.2026.01.06.17.38.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jan 2026 17:38:52 -0800 (PST)
-Message-ID: <cddd1db8-3da7-44a5-bcf9-210267c30625@gmail.com>
-Date: Tue, 6 Jan 2026 17:37:33 -0800
+        d=1e100.net; s=20230601; t=1767751848; x=1768356648;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QcTQoUcIXWvvQGWuloMJzBEK7Hz6Zc+n1XoQykXAO6Y=;
+        b=CD8+R+LC7rtow9y9B3A3LUTzokjokoELaYzy1ESL6jJxMSkbtqm9MJCm3gjgbgYdje
+         Hw6pXxMAHqnAhes2Q9HXzi3yJKiqmwC4ZNyat8FUiHWgRy/w0LZcAIXpJoOV6VURB8rY
+         EoYeAP+7hcYdj5K5X1PCFcVN2N7koStrqb3KGlBeNqEKD9KqbKGe5uDA+4VnxXOscLnW
+         fNCoCc8M1Z8BjjVA49ThrpqRK0SOkzljotUG9lSRllfKyIfWgOFtHa4xLb6xuiFg7jal
+         wcEgBx8qgF5au2Vj7hY5DR5nBp/4VcGVIa7NBtu0fR3VHmW1xhvmLgg0rwjDHNc1MVqf
+         tkZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV0nwxkpRlZUcYlFaXhnRpw1fR20TJ16zfcpuG0Z5oNElXRvMOLJM80L6SNTbsYS7OSTK4Dv3pL6LU8@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx/TUiDLG9uwtUpvTh2OjC7MvmIXTY06J0TBtZUJs8o1GnwWqQh
+	rYAIPYvYo+/pOwFHySeB19q8pmOnnw7uO7j9nSH5xq2qOZT32WKtCrk307ebq7OM1/c=
+X-Gm-Gg: AY/fxX5ctI0QA3rKjsdzUFwdfsGaMm1oHP3CAko4xhJpLQDGvkzOxp44Wdmkgw/+r/2
+	cpaZ2Ii/9Ii1CQagm+Ml9fnCvkpTENrXmfqeSpYeS3x57XgEJY2bILpLRAhm/JPN/QjWy8soSIy
+	vfba09Xo77qmeNcrB0Wv+Fi4vjxOfmBcptoe89LMo9bTIdIkhCDqE7BbJ5Gfe6nPJBDrC+KGAzx
+	SEJOhGBismhMeZTHdF/6cv25twDE/KNFdSXwiaacFHEfOgmPTGhJmVbji7/noEEiVxS522Mg4Kh
+	svXMl/7ybqQ0SFboIEtdbySDl5RNfNxIIKU8+25bCglN96BC3Lr56SrPUatZj4A8Z5XQMMUagjX
+	o1eLwXeGpRi5Gl/0VbVUrf+CEC5xC1RdK9IdNUU7UOQ84h49k69MSX/CQTUHQefsMAG3uSNQLIT
+	uFstw=
+X-Google-Smtp-Source: AGHT+IFJHePhw1jDwTbBMyvhpWIyliB0q51lm8NfZmuYk9ACWXlLP38woqs1kc+gNRVBKWouepc6FQ==
+X-Received: by 2002:a05:6830:3c07:b0:7c7:68d6:5925 with SMTP id 46e09a7af769-7ce50bc2392mr551073a34.27.1767751847543;
+        Tue, 06 Jan 2026 18:10:47 -0800 (PST)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce478af8besm2460657a34.14.2026.01.06.18.10.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 18:10:47 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Leon Romanovsky <leon@kernel.org>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-nvme@lists.infradead.org, Chaitanya Kulkarni <kch@nvidia.com>
+In-Reply-To: <20251217-nvme-phys-types-v3-0-f27fd1608f48@nvidia.com>
+References: <20251217-nvme-phys-types-v3-0-f27fd1608f48@nvidia.com>
+Subject: Re: [PATCH v3 0/2] block: Generalize physical entry definition
+Message-Id: <176775184639.14145.18318539882421290236.b4-ty@kernel.dk>
+Date: Tue, 06 Jan 2026 19:10:46 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG FIX PATCH COMPILE TESTED ONLY] nvme-fc: release admin tagset
- if init fails
-To: "yi.zhang@redhat.com" <yi.zhang@redhat.com>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
- <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
- "sagi@grimberg.me" <sagi@grimberg.me>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "justin.tee@broadcom.com" <justin.tee@broadcom.com>,
- "nareshgottumukkala83@gmail.com" <nareshgottumukkala83@gmail.com>,
- "paul.ely@broadcom.com" <paul.ely@broadcom.com>
-References: <20251220001842.6027-1-ckulkarnilinux@gmail.com>
- <ccf8741c-35f0-49bc-90dd-314085f1dbb0@nvidia.com>
-Content-Language: en-US
-From: Justin Tee <justintee8345@gmail.com>
-In-Reply-To: <ccf8741c-35f0-49bc-90dd-314085f1dbb0@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260106_173854_650096_1429FFF5 
-X-CRM114-Status: UNSURE (   4.89  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260106_181049_219099_AA40B7DD 
+X-CRM114-Status: GOOD (  11.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,13 +101,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Yi,
 
-Was there a specific nvme/fc blktest case that triggered this call 
-trace?  Or, was this observed after stress running all nvme/fc blktests 
-in a loop?
+On Wed, 17 Dec 2025 11:41:22 +0200, Leon Romanovsky wrote:
+> Jens,
+> 
+> I would like to ask you to put these patches on some shared branch based
+> on v6.19-rcX tag, so I will be able to reuse this general type in VFIO
+> and DMABUF code.
+> 
+> --------------------------------------------------------------------------------
+> Changelog:
+> v3:
+>  * Rebased on top v6.19-rc1
+>  * Added note that memory size is not changed despite change in the
+>    variable type.
+> v2: https://lore.kernel.org/linux-nvme/20251117-nvme-phys-types-v2-0-c75a60a2c468@nvidia.com/
+>  * Added Chaitanya's Reviewed-by tags.
+>  * Removed explicit casting from size_t to unsigned int.
+> v1: https://patch.msgid.link/20251115-nvme-phys-types-v1-0-c0f2e5e9163d@kernel.org
+> 
+> [...]
 
-Regards,
-Justin Tee
+Applied, thanks!
+
+[1/2] nvme-pci: Use size_t for length fields to handle larger sizes
+      commit: 073b9bf9af463d32555c5ebaf7e28c3a44c715d0
+[2/2] types: move phys_vec definition to common header
+      commit: fcf463b92a08686d1aeb1e66674a72eb7a8bfb9b
+
+Best regards,
+-- 
+Jens Axboe
+
+
 
 
