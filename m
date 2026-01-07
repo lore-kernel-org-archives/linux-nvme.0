@@ -4,88 +4,68 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF876CFD65D
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 16:21:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A528D0D145
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 17:17:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=B9pAsVdOshxg/UeXDrjL8KK7Kf5c9vGq1ci5vjH9hrY=; b=vtqEYGPQMqwHFbmLY97L93wTA3
-	Msg3gBdsVERJIKPG6ZObsEoqF79N5A32w0aA6+thTMWEFwAgKC39Wm9ABcqfOvF/rTOoxMWYPnlEc
-	r9hzOI/anRT13FJbwt8ujwuJq4VGK3Q+bszpEy3SIBYBxUJH1xdN1k/bNvL3sQcF+wc52i+xWK7zw
-	OIVKrYVay2q/VSJxRrXWc4ZZBy9wlYy01ij49NFnHhL0iJQvkUicdEdGQHOwlGSGoDJ554hPbN4z3
-	fImnaqTbeeb0sI0OdQL5jz536pbDVcOPs1ytJp5j7Nv79D1pJqWOCNq+7sPHtQpzk6vSWUqR/rbtx
-	GkRXkeSA==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=qqRRXfsnDn/JT992sHlX9c5HhYEqI89XeJWo7L/gqTk=; b=0ed7ipxp3EoOgs
+	gtjxbc2xkBODXAcauT/zpNVC0/6iYvtDqEzdRq4uTYQPYAh6oCussQGSbRn56+ZCRRrxmNF2JNjMT
+	Ylj7ox047ReHZsto2aoNBIZyriZ4MrOksFhnBQ1WsebqcaNPxBEJqXnLE0nR42NPUbIsbwqHKJoH/
+	VTfRiHh/73VUChj85eR5BmG/UBj1JRdXQWEuJZkKKYYuao+vwXuDIIc2LxnlVnJjsjjUYPMDpo/Ky
+	LN1bpk0Dlb1HkxCQAyWtQf5zRP41E3QKLk2da2fKs/F0iC4D53Ro7Af4N8JySm1jsAUz6++RGmzEM
+	Es8y15L8361QFBBDtA2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdWI7-0000000FFwa-090p;
-	Wed, 07 Jan 2026 16:21:47 +0000
-Received: from mail-ua1-x936.google.com ([2607:f8b0:4864:20::936])
+	id 1vdXA4-0000000FMSj-3lGQ;
+	Wed, 07 Jan 2026 17:17:32 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdWI1-0000000FFvA-116t
+	id 1vdX9z-0000000FMSG-0yKu
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Jan 2026 16:21:44 +0000
-Received: by mail-ua1-x936.google.com with SMTP id a1e0cc1a2514c-93f64ae67dbso702459241.1
-        for <linux-nvme@lists.infradead.org>; Wed, 07 Jan 2026 08:21:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767802900; x=1768407700; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=B9pAsVdOshxg/UeXDrjL8KK7Kf5c9vGq1ci5vjH9hrY=;
-        b=SjO9LURo1f2jXrogTeyG2A0XaHFA6ev3f84vYXsNfl9sBd34D01UcG6g8+HeTw53ja
-         eKPPZzL7Tf9CjZtYw6ZexsfFfH0HjC0UDzzT90zpi4TI8tL80jNBOW+25pQLRqw3olzc
-         2CdnlDUqg2yXz9eg1RDi7r7MFxUvShcu6dW7uhuAEfd2Kh8X8mikwxJGQQ598gPKNcvq
-         L26diO3aYHQPUcYZ1BRlrceq+nOE2QO/UIX2xDA0TIUxgzOGSO1Cm1sdO1B7el6jT6EM
-         4lvxi6GXXIykfnRK84mjbACHrCUWfkgi/XDpxgVrfblmBm42vcy9/MVj0wIklokvudCm
-         fZMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767802900; x=1768407700;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B9pAsVdOshxg/UeXDrjL8KK7Kf5c9vGq1ci5vjH9hrY=;
-        b=ejLvs5juVjwxUZvJqO+aTZZSLCt/4L5USs34HHFS6OMb+kxpJeohWuZ9YYNTa7Mhdt
-         pfd/MpvrRCv7SOpkOvemDbWdP9og/Q3QmlH+V29SQfWqy3LwS0MAIGmqjAtIWheSEmW9
-         vfrI3LsVi91UX5VjWKh5YGkv8gAelhPUYBE7J5YolVVR0ds/s1yZa0/CgAYX0RfbZgiv
-         z3IejnoSC9T0q66u5E+xWl6yPX0E/zpzHU6GFOiEj/cifgoWTLCsFMHCp8yQ5jp+qIQH
-         Vq4W4z9+kk/WHU00wmP5p+J+G3NGZAj5eaIpneF2NUyKTYZRu7d2ZPc3uat2Oe5G0uQN
-         Vf6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUgm8NId7mmuirJ043bAJsPdEjsY+STxamjNZlAe4ljM96zbbKujgrb3oFT2YuetFGwS7Q8ccZ0EFuj@lists.infradead.org
-X-Gm-Message-State: AOJu0YwFbVgklmCUvWjaOxcaCzIuAjRtv0k5/dTxT5i9Gm/23bX5TdLZ
-	lrSZgTFEZL2mKLmKsnr0yP/wwSiMF0jfl/zUKercPY3Raa9AWQ7E5OFETdg5A2QdRaj6yMICOtE
-	EAj0smlI1x1vNOgx9l3Eltu9PnaoDIPs=
-X-Gm-Gg: AY/fxX7NEE5HQeJ1zLAI828OgBfskId3qnWBRO650fBrgvPKgEyOdJqRHk18bnuGr/b
-	CraC8J/MCy44kXmSlHbRI8dC0WuojjGGZ9eimXzXW5vu0pzyfYgCKc/p/4dxRyqxziCL4mSnK+K
-	zlv/wwGaXvu4advQvffZOGznmqcx8S4FyZ3HWvbEdiQJgMpeist63AMTHCNax5SessYbTvfd8XX
-	5KjsGCebKUOdNHE8eyihT74u+Ji9dlTZ+xrcEZMPYTWy7p2viq5nEVV7/t5RuCW3HeQukZkGBRf
-	IwY1MiJxATaRA8HMFGDQYFdXOgcfw7f+7DCwX8o=
-X-Google-Smtp-Source: AGHT+IGxbu5trMeA+bbczjoGPXEJxl0y5C2nnwMIra3RoM/ysryOPmMUaafKF3MGWC+Mlo0zy/QE8hqC9UWzjs48l10=
-X-Received: by 2002:a05:6102:4412:b0:5de:8933:9d0f with SMTP id
- ada2fe7eead31-5ecb5cba9dbmr1165795137.9.1767802899668; Wed, 07 Jan 2026
- 08:21:39 -0800 (PST)
+	Wed, 07 Jan 2026 17:17:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5471E60007;
+	Wed,  7 Jan 2026 17:17:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80D5C4CEF1;
+	Wed,  7 Jan 2026 17:17:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767806246;
+	bh=q4ABnJ3CuJh6SWMrNmKQBlZ1gSO4Xo85FUt+DD5A26g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=eNubg6mCK0SobRhjYoJFNql7uzoEIcWdOyZJ+7syVmoIAFPWxpQ5qk1OOcXtWvMZ/
+	 EbPHNXCZGtKZWWLsyI8zNvbSgvEieOwFWos8HvgZ4qWEKGQTKr05nmNdPviq5otgrV
+	 JoQ/n69F/t8qi0aHv/HswTkB3At6+u3ybtrUr1olX76MWaOP4a8ReA8a6ROjFZW+WV
+	 QJ2qg+4PSGtZcaScVyLanjOBFEZqkgn8fNRL3vAt6Z6WgA/y3ZaRgAa8awY6iNpQcY
+	 4Ye4/PyvwQpPnPzETDMuanANGjYLf2TXtc13gr512AogQUIbY3aQO3Wdt+503UOuhx
+	 yoqZd+rSkrJdg==
+Date: Wed, 7 Jan 2026 11:17:24 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Logan Gunthorpe <logang@deltatee.com>, Hou Tao <houtao@huaweicloud.com>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, houtao1@huawei.com
+Subject: Re: [PATCH 02/13] PCI/P2PDMA: Fix the warning condition in
+ p2pmem_alloc_mmap()
+Message-ID: <20260107171724.GA432074@bhelgaas>
 MIME-Version: 1.0
-References: <20251224115312.27036-1-vitalifster@gmail.com> <cc83c3fa-1bee-48b0-bfda-3a807c0b46bd@oracle.com>
- <CAPqjcqqEAb9cUTU3QrmgZ7J-wc_b7Ai_8fi17q5OQAyRZ8RfwQ@mail.gmail.com>
- <492a0427-2b84-47aa-b70c-a4355a7566f2@oracle.com> <CAPqjcqpPQMhTOd3hHTsZxKuLwZB-QJdHqOyac2vyZ+AeDYWC6g@mail.gmail.com>
- <6cd50989-2cae-4535-9581-63b6a297d183@oracle.com> <CAPqjcqo=A45mK01h+o3avOUaSSSX6g_y3FfvCFLRoO7YEwUddw@mail.gmail.com>
- <58a89dc4-1bc9-4b38-a8cc-d0097ee74b29@oracle.com> <CAPqjcqq+DFc4TwAPDZodZ61b5pRrt4i+moy3K1dkzGhH9r-2Rw@mail.gmail.com>
- <704e5d2a-1b37-43c5-8ad6-bda47a4e7fc6@oracle.com> <CAPqjcqqhFWz0eNGJRW-_PoJhdM7f-yxr=pWN2_AfGSP=-VpyMg@mail.gmail.com>
- <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
-In-Reply-To: <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
-From: Vitaliy Filippov <vitalifster@gmail.com>
-Date: Wed, 7 Jan 2026 19:21:28 +0300
-X-Gm-Features: AQt7F2pv0c-1qcRtTOwSATyr9cBPwXJeCV-fecbO2zRlGG6igeybP32a0NVn8OA
-Message-ID: <CAPqjcqrjNCmnV2JP1Mdezwr0ij0ic4KxH=MVUisHt12QkBNmYQ@mail.gmail.com>
-Subject: Re: [PATCH] fs: remove power of 2 and length boundary atomic write restrictions
-To: John Garry <john.g.garry@oracle.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260107_082143_431015_19822D06 
-X-CRM114-Status: GOOD (  12.12  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107143942.GB14904@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,23 +80,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Note that the alignment rule is not just for atomic HW boundaries. We
-> also support atomic writes on stacked devices, where this is relevant -
-> specifically striped devices, like raid0. Doing an unaligned atomic
-> write on a striped device may result in trying to issue an atomic write
-> which straddles 2x separate devices, which would obviously be broken.
+On Wed, Jan 07, 2026 at 03:39:42PM +0100, Christoph Hellwig wrote:
+> On Mon, Dec 22, 2025 at 09:50:18AM -0700, Logan Gunthorpe wrote:
+> > > Fixes: b7e282378773 ("mm/mm_init: move p2pdma page refcount initialisation to p2pdma")
+> > > Signed-off-by: Hou Tao <houtao1@huawei.com>
+> > 
+> > Thanks for the fix
+> > 
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> 
+> Can we get these fixes queued up ASAP while discussing the new
+> feature?
 
-Ok, then I'd also add atomic boundary checks and
-atomic_write_boundary_bytes = stripe size to /sys/block/**/queue for
-md devices. Not 2^N and length-alignment checks, just the boundary.
+I assume you mean the first two patches:
 
-> It seems that you just want to take advantage of the block layer code to
-> handle submission of an atomic write bio, i.e. reject anything which
-> cannot be atomically written. In essence, that would be to just set
-> REQ_ATOMIC. Maybe that could be done as a passthrough command, I'm not sure.
+  PCI/P2PDMA: Release the per-cpu ref of pgmap when vm_insert_page() fails
+  PCI/P2PDMA: Fix the warning condition in p2pmem_alloc_mmap()
 
-Of course. I thought it was the whole point of RWF_ATOMIC - REQ_ATOMIC
-for userspace.
+I can certainly queue these up.  The second is a warning fix, and the
+first fixes a hang that has apparently been around since v6.2
+(7e9c7ef83d78 ("PCI/P2PDMA: Allow userspace VMA allocations through
+sysfs")).
 
-I don't want passthrough commands, I want to use normal kernel I/O.
+Given that, I would ordinarily target the v6.20 merge window, but the
+"ASAP" suggests more urgency.  Do you want one or both for v6.19?
+
+Bjorn
 
