@@ -4,224 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B6BECD583B
-	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 10:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23AB2CD5854
+	for <linux-nvme@archiver.kernel.org>; Wed,  7 Jan 2026 11:15:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=I9ZyvhgpDhKbHfSUpwc7rAO0BYU01TWBokS0S3C5tJ4=; b=VyFKvrNzQex8easvnD7NF5pe+S
-	n6aspHulwlpng2wxfzz9ik/trQ0tyd6d1Xl0ciA0yXXEzlwgjBzzXWnTopW+tNQiPnDP5WRzxmfh2
-	jADhCKKl8ifRcNrlnbk23y/sEKDLmL6rCtlC0Kp+Fj5wifimVELxT1z5wP2eBUeKgppzl5OhfwP55
-	sJUwh8buKkNtiEmsY5uCtmMLZpRULIQFM8/j/9qW5jetkoEVyuKrOk4gqi6LqTrErUxzddpRXavAi
-	g2Vl3tojbH2bEl/Ulchg/xh9QJAqJhNFIAw/vo2YAKa0mLhJ8on/hi02SLG6dpmed4hh949zIJvCe
-	khNBhBng==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ulJHfC7iSyYI+8Xh6ofHAXqAk33v2C+F4NO+ud+3Hn4=; b=kxESTwTdGA85YhvcZB5/jBhtiW
+	TUzuTmw/RYETk8VbhGSvuD4R8iEXRFQ0drLW9zH+eIijwPhb+b95gDBU/GPcjFVi2QiHWyBMHwwfk
+	TfO8jqz1wNPwTAjyW5qOsf9YXDVig5yiHjw45FW/+1mMUZcXvAtkdM/TapAHsGr0i3vunGsm2Eo79
+	pUyf4pIMdJ20S1n/lX+ajGUPDzWlwSlojFRFMt0dkGypNjb1iAOe4z6gG/bljyOrj6kEOZZvKEmUb
+	6nts4Gj0izZW2b8n4sw7EwmFR7ErhETxO5E1I9njDV2yMe1uyUzR9I17peqbeRGTVcwLCwY+1/Pw6
+	IAH2DuIQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdR8Q-0000000EkeV-1niv;
-	Wed, 07 Jan 2026 10:51:26 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1vdRVk-0000000EoJz-30XO;
+	Wed, 07 Jan 2026 11:15:32 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdR8N-0000000EkdL-0HSq
+	id 1vdRVb-0000000EoHg-0Vfk
 	for linux-nvme@lists.infradead.org;
-	Wed, 07 Jan 2026 10:51:24 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 607AYmuq1512589;
-	Wed, 7 Jan 2026 10:51:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=I9ZyvhgpDhKbHfSUpwc7rAO0BYU01TWBokS0S3C5tJ4=; b=
-	DQDa4r1kzx6adfJONoPrrJkePLmsIfZtLTr0PvcHpxADcFXub1xNWcMfX/K75GMi
-	axwhKUUbjm6+/TacdYHgqzuiWadUfBmD2do+7/HNyphl/ZNoGxzSAD9HJWugu25v
-	fqM/ezSLDhEa6cL39D4BI9LOBXvgYOw+9TnjYYU6i//GKRxA4hSzsqY8Ivoeap6T
-	d59Zrg+l4BDfJxvTU6sPGAtubua7Fb9A+IYrhmN2MFqyPQTIeN9Nq/JEPQno4IkG
-	HmIdMrjZOPNegBjm869X3zGa0qtP5YLx+GBOrc8X6vu87YMXxpOx1Mzq4vWdJ8ss
-	gWJPKOnRe12P3KVd9LLk0A==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bhnuy00g6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 07 Jan 2026 10:51:20 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 607AFjnN027437;
-	Wed, 7 Jan 2026 10:51:20 GMT
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012014.outbound.protection.outlook.com [40.107.209.14])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4besj9f7rh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 07 Jan 2026 10:51:19 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p1TDnfKidq59mYfRJlndTUHkZ9YGUqUNKavYrqz++Gs1KQUChJqYaoDKrdwR7tbB1JhWX7pTh8Xkr0iB+EzYk1fWeDg/IdgFpy9thwJ8Od0zhIzXLK8CX+6t+yDrDRD8OzWm1czyJDqHbvZmaCw/K+Wz+JEsDPCgsF2QwJFpMt64EFW4JoQCYotfgEt4ExNLAgrveyQpLSLJcbAIttNAh3WBsc2q0uiHr0+pvdVdKe2gZQWBg07U7KmJjRollePd11b0E7LR4rCfiOLWb9/Kjalgqh+y/jPXFjg6pjcTGV7vKImOe3tjH+49BMx/yhDsjlMC1Ko6RSca98L56HOQdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I9ZyvhgpDhKbHfSUpwc7rAO0BYU01TWBokS0S3C5tJ4=;
- b=a+4SOe9wcXzgOaCxFt5t0DKWxOiprzSNC8S1UBqOjiDT9cypniSEO/HYWTNsfJCpyR2kxY/QE0bt2zLs3DkGeIIsKFNRcJvTXL3um7umnjisgi6P/9J5M/WbGyZrGUfZYydFNv/LDgyiaTskztf5BIpTrkdt7mU98mfFGEPtHKy/YMzqyDQuFsi6Odjww1md8ibXJuE5XPU7SsOXTw5i+SiA4On622gfg8arI/W0kzm6ZNx1a8T9xJl8/b3WV78vvMpR67e2soXmOKjA3ZLsqKrMf1UgP8euHse0CU2rQ8EsHC5plrncv8gjWHatvWyompZPpPbmW2TO+A332DIe5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I9ZyvhgpDhKbHfSUpwc7rAO0BYU01TWBokS0S3C5tJ4=;
- b=uKqarqwNL73oWe6u9OXaV6oDD1/T1MpjCZJK215ZdZoiaeEnm6ynZB4UX5VEX0KkL64XX9UDnZdMZm16BxdhTimGO82eVB9UA5FDx15tKimoTBSisJzqLDuCNa5/lYmIJFXmjmGdOFwz/hRb0+WfB+UqWu9/olQc3Xd1t8mw3v0=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by CY8PR10MB6635.namprd10.prod.outlook.com
- (2603:10b6:930:55::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
- 2026 10:51:16 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::ba87:9589:750c:6861]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::ba87:9589:750c:6861%8]) with mapi id 15.20.9499.002; Wed, 7 Jan 2026
- 10:51:16 +0000
-Message-ID: <704e5d2a-1b37-43c5-8ad6-bda47a4e7fc6@oracle.com>
-Date: Wed, 7 Jan 2026 10:51:13 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: remove power of 2 and length boundary atomic write
- restrictions
-To: Vitaliy Filippov <vitalifster@gmail.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org
-References: <20251224115312.27036-1-vitalifster@gmail.com>
- <cc83c3fa-1bee-48b0-bfda-3a807c0b46bd@oracle.com>
- <CAPqjcqqEAb9cUTU3QrmgZ7J-wc_b7Ai_8fi17q5OQAyRZ8RfwQ@mail.gmail.com>
- <492a0427-2b84-47aa-b70c-a4355a7566f2@oracle.com>
- <CAPqjcqpPQMhTOd3hHTsZxKuLwZB-QJdHqOyac2vyZ+AeDYWC6g@mail.gmail.com>
- <6cd50989-2cae-4535-9581-63b6a297d183@oracle.com>
- <CAPqjcqo=A45mK01h+o3avOUaSSSX6g_y3FfvCFLRoO7YEwUddw@mail.gmail.com>
- <58a89dc4-1bc9-4b38-a8cc-d0097ee74b29@oracle.com>
- <CAPqjcqq+DFc4TwAPDZodZ61b5pRrt4i+moy3K1dkzGhH9r-2Rw@mail.gmail.com>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <CAPqjcqq+DFc4TwAPDZodZ61b5pRrt4i+moy3K1dkzGhH9r-2Rw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0566.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:33b::16) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
+	Wed, 07 Jan 2026 11:15:27 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6E0DF33D89;
+	Wed,  7 Jan 2026 11:15:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767784517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ulJHfC7iSyYI+8Xh6ofHAXqAk33v2C+F4NO+ud+3Hn4=;
+	b=Xt2Q41IZQJ/HDTuPGBOvK523D9oRFQysgQqpGc5sEW3IC7OqwLkFYh2glRuZ3uwAXBbDWZ
+	/SdosPblB/VyVgk2M/68XjFMWO9+o6tIJSruc6Hf3BPvdaImJmNTXAVa9Z3TStP3vChYa6
+	CSV+9wVq8qg/aKyKlBeT8TaIsV0QVfo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767784517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ulJHfC7iSyYI+8Xh6ofHAXqAk33v2C+F4NO+ud+3Hn4=;
+	b=bTBwjljJ/TXSYgVSultcIBwZatTO3LqzKG736PPm0godqLtvWy9dcXHlBQQz0Ml30KXlI+
+	fE8F1HGl6wWS8kCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xt2Q41IZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bTBwjljJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1767784517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ulJHfC7iSyYI+8Xh6ofHAXqAk33v2C+F4NO+ud+3Hn4=;
+	b=Xt2Q41IZQJ/HDTuPGBOvK523D9oRFQysgQqpGc5sEW3IC7OqwLkFYh2glRuZ3uwAXBbDWZ
+	/SdosPblB/VyVgk2M/68XjFMWO9+o6tIJSruc6Hf3BPvdaImJmNTXAVa9Z3TStP3vChYa6
+	CSV+9wVq8qg/aKyKlBeT8TaIsV0QVfo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1767784517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ulJHfC7iSyYI+8Xh6ofHAXqAk33v2C+F4NO+ud+3Hn4=;
+	b=bTBwjljJ/TXSYgVSultcIBwZatTO3LqzKG736PPm0godqLtvWy9dcXHlBQQz0Ml30KXlI+
+	fE8F1HGl6wWS8kCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31B713EA63;
+	Wed,  7 Jan 2026 11:15:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Cf7MCkVAXmncBQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 07 Jan 2026 11:15:17 +0000
+Message-ID: <e29303e7-b9be-4b49-a607-37bfc25173da@suse.de>
+Date: Wed, 7 Jan 2026 12:15:16 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|CY8PR10MB6635:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10398b16-bab2-4822-6287-08de4ddaae85
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UU13ODNGWTMyamV1K2l0UkRadWJ2b2lyQnVYamNPcjBZRzlyL0lha1BvT0lN?=
- =?utf-8?B?akd3OUsxdlZIalNpUHFOYUhCbUsvL290NVkyamNFam80K3FYSzZJNS9FWVpO?=
- =?utf-8?B?MW9PdUIxQ2xpcTR5R3B0dGxtbmY1aFkzTExrcEVIUE1ZaS9tSzAzY0RzN2o4?=
- =?utf-8?B?OWlhOEt0dWRhcStacjB6a3lMMVhEU3Q2bUZ1Z1kyYjMzVGh0L1FlZ1ExQ0ts?=
- =?utf-8?B?WGVXQStmQkIvSkRBVzBWUlZ2MUxBWWE0NE1CdU16cVZkS3Yvem9HQmkyMzZj?=
- =?utf-8?B?b0h5MnpRRUl3T0oxQTI5aExCZ0VVZ1RyZTdONEpCQ0pvSUZwbmduSWx0dnB2?=
- =?utf-8?B?MEc2TFhpWkt6OFRtRC8waExub1pxSllxeXNUNDl0MWxKQ0JVZi9HdnJnSTZM?=
- =?utf-8?B?aVRKWlBqdEtTb3FVanRUVDlxOVptWjFaamo5Wk5xT3lOMisrbzVHUFpod2Rk?=
- =?utf-8?B?SU9RQzl3OFhkbnlSeURXbVBnYkJrYVI3UUdKbDlwQTVZRWZ2K1Foa1VhbkFB?=
- =?utf-8?B?aHl4Y1pvb1FTUG5mT0NLb2dRRUF5cmxQaVhGMjgyNDJPaWg1ZVlzMENKZ3ZW?=
- =?utf-8?B?Um9qRndBWGw1b0J6L3VuN0xRSjFwZmZpTEZIazVjcTc1R2JDNVFUZXR1dXd2?=
- =?utf-8?B?dEhIQlpDcmJldXR2TlpBR3VBdG9LN2pCelhyWEd3YTl6VG1xZjdqWEt1MDd2?=
- =?utf-8?B?cmZ3TEQ5UThDRGFiUWlJaEdLcmk4ZHc1WXgzTFdNTVNya0lPUWRlaHFNV1pr?=
- =?utf-8?B?bGxqY3N5OE5Gdjk1WmQwVTNTbCtrdC9wMG1KVWZtMUhrY1dPNy80b3EwU3dZ?=
- =?utf-8?B?cnF1eGJJbm9sUDhmQjRaRlBjaGtGTUhmanV0bUtGb0pmQmFPMS9adW5BZXQ4?=
- =?utf-8?B?QlFGbEQ5QTloY0JEMTdqZ2l4MHE5TU0rQ2RPa0ordUpudXViVnZQODRQOUVE?=
- =?utf-8?B?TGJRWVI5ZEF0eGZKam9BVXJmVkw0cnNnVWcybTN6REx1NkRJeklkOWh6dVJh?=
- =?utf-8?B?czY1dnd1eTdHTFNneEphUFh6NmhMbWZYQ0Zwam9SMDRITVcySWREM1Y3cVhm?=
- =?utf-8?B?UmdOd0xPeHlBSFdjcHQzc0FROVVTZE8xcmVLZVZsdlE3THJvTmlzamlKZHJV?=
- =?utf-8?B?N3c4NnBrcWZqa2pqc1VVTm1obEFGb2c3NXA1dHlLa2R6NmdhelhvMkpXTk5v?=
- =?utf-8?B?K1NnbjdhaUYvRFVVV3VEZlpFb3Z5QWNNajl0czFMMjRIZHdhMWlzMnVtc2R5?=
- =?utf-8?B?bFFtNGNtbmpTa2tzTi9SWFZHWU1jcDhwa3dpRnJ2UW01ZkFvL0w4Z05XOXFo?=
- =?utf-8?B?ZngxOXN5R255Q3lISEg4Z09IM0UvYVE5SFlsVnZwaWE1UWNHNXRoS3NOMWw5?=
- =?utf-8?B?NitHRXo3dllVVGs2dlFVQWlzQ1ZQTkV5dEkzdElSNWVRU0FmV0VmOVpVUC94?=
- =?utf-8?B?RnVLQ0wzWnE1UFhyMC9vOU40TzZTT2M3K0hXc3NFaHNUVFdGTmFoTC9vak5w?=
- =?utf-8?B?cmFMRU54cVA2dXZkL3A4eTVzYzBmbGpnUHNsQmJXNFNyYTYwaDlOMmxnTHkx?=
- =?utf-8?B?dEhPNmJSanc2S0QxbVN3ajVscHNoRHUrZ1d1RnNtQ3VUeE9DUTl5OWFRQjZ1?=
- =?utf-8?B?NTVIRmdCdU5TY1dPNnAxSXZia3QvVnp2ekRKWGU1ZGdwVHBUQTZaQno5VlNp?=
- =?utf-8?B?M1RqYUdxRHE2ZG8xVUNGb1hTZ3pwTjQ4Zm01eUJxeWxDYW5kUXhUQ1kwU2Fz?=
- =?utf-8?B?clJMT2lVVE5EMk5NaDFacy9WUG5pTEF0TlB2bGFIdmUxdG5FWDVlc0VTTW5J?=
- =?utf-8?B?YmxtT3grQ3hJVHd0Ry9xR21JWnJZQ2luVWVRYVd5cUw4dUZLaWJoeWgyeW00?=
- =?utf-8?B?SmVxUG82dytScFZ6UjlNb2VkZmpNYk5sU2Y3Y1RIVUdnanU4eUNRKzQrSHov?=
- =?utf-8?Q?Ge0iBA9cnOYOOUoo6W3DPOOIxGW3+Xn+?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VTh2TTVBWnAyMmpXMEcwNjVyZWZNQkdtV2c0dWdqakU4OXkyMElNcUtvUEVa?=
- =?utf-8?B?cEdWaEdQQy94eWFkeko1ZCtUclZEZDU1TzVFcWdNdnU4QlUzYllid2l5Uk9H?=
- =?utf-8?B?Q1VyZkpmb3lPcTlmeTB2Z0R1Uk03anNiamx5a2ZOcEhjVTA3SWEwckFjcjZC?=
- =?utf-8?B?VkJoUWFoc1F2Q3kwbEo0YXYwWVd4Z3ZQR0ZxdGZvTWhMQ2g5cHZFK1RjZUl6?=
- =?utf-8?B?VlZQZitXYTMzYlRaM3BNajUxek9haWt4dFJrVmd2NCttVTF6d0dzeHlKeVM2?=
- =?utf-8?B?NG1Id0hvbDg4dFIyeHlsb3U4eCtuNllKSWptdWNCK255MG5BWlZOelJFTkhJ?=
- =?utf-8?B?aGZsYWJtSzJKSUF1UlNCOHZiSGNVYzhwRDE1Sy9hRW9Lbm5kUzBGZFNrcUdT?=
- =?utf-8?B?TEkxWW4wZ2JQbkRsYlNleWovanU2OVhmNm1CbERsZkFCTGJhY0hnMXkrRlVo?=
- =?utf-8?B?dlZ6anE1QktubFJZTldYTlZkUW45OFJLQzNxcWR2T2JrOXN2bDJuemE0Ly9O?=
- =?utf-8?B?ZEFIUGxpamxVNW5SaDVaYUZ6RWZ2VS9OVVlYanR6S3B5ejVzV1M2OEJzdzM4?=
- =?utf-8?B?NDV0bDdHQ0N5NmRua1lFV2FqT1Z5WkN1N1c1RUhWL2hrUHFWZGsrMHhhSXVM?=
- =?utf-8?B?ZkVqTUdJVFBCSWh4LyszUU9JYVorS1Jzd2tDbEFlSWdzL1UrQ2Nzd21QZW54?=
- =?utf-8?B?eTNINDZoL05DYkRJKzNzUURtQXZDMG9YUzFka200YytFeHNHMnRBeUJ1ODhJ?=
- =?utf-8?B?VTEzYWdES3BldmdtOU9oZHM3SGk0eXJJTUgzcXNaUGZvalY2YVRQbENhcjJL?=
- =?utf-8?B?T0lLOVFtbThmRURwTTFoWUVjNlNVZTZabVE0SzdoZjltb1RvUkpFQjNPeWNK?=
- =?utf-8?B?cjYxZG5KV1RZb3NXeVcvUEphL2Y2Zk9LdkdlTDBrVS91amI5TDF2eGI2QzIy?=
- =?utf-8?B?djNuUkJqQ3dYSVpqY3F6a0VOSlhKTjhNN2IrYTdQc1pWQVh1K0RGdmFDckta?=
- =?utf-8?B?OWg2bTN0WkZWalZtR3c5WEJuUCt5dnpnTURFSlgzNDRGSXNzZm94eXFQNkxL?=
- =?utf-8?B?eDV5U29WdDZLdVhGczhLbkFZekZ2NVBEK0Q2T2w5Mm5FdHVlSkcvL2hYWWF5?=
- =?utf-8?B?Z3hyM2FYZFBscFppdVR2K29zTVRxUUZRdDdUb0JvbXQ0NXBLaU9QZ1ZwRDhB?=
- =?utf-8?B?TXlVSktVM3NPQ3N1S0o2M3JiV2dnZnlHdEtpeGRmcmVkS0ltRFE2YnYvUld4?=
- =?utf-8?B?SzFneW9Pak5EVkVvVlBjbW9ObzJrRDIzeWg3TjNGQ25rYmZNaVhuUStUaVd4?=
- =?utf-8?B?ZGtVUC9taUEwWmM4YzNaL1ZUVmZ6a2RIZnlKVXVRSjZCY251NHhxcmNSck9a?=
- =?utf-8?B?MXlpSW5xK0g0LzkyK0dwaWZHZFRKbGhubUwxZ2NBc0pKWDhlN3J2dUtRbTMz?=
- =?utf-8?B?Q05hZUVoL2hTTTQxUnVld1Q5ZUdscVdaSEtqZXI3R2pZMmlGbTdIZUJKZlp3?=
- =?utf-8?B?S3M3Z0RqK3NacmIraW9xRklwUWVWa281cjNTV01WRG9GcUhQNktmWkQ5dzlV?=
- =?utf-8?B?MDBvQSs0V2FBZHhXRkVhK2hGY2tVOVN0bUgyS1RzVC9KUDl5YVVCclNQTEhi?=
- =?utf-8?B?WnlnYXc3VkliRXM5NGlLNTJPOEhVSHJxaCt1a1JEOXZ1dWl2RlFueGxWb3or?=
- =?utf-8?B?elJHcyt4eEs1TWxKOW1HcFlYWmp2cUFnNDQya1p3d0hPVjFkMGhHblJPS3d6?=
- =?utf-8?B?WXl6V3JkVm9ScVFOUStsYS9oVmVsTllIbzMzS3lDR0pwbFhjNlFYdFpKVkI5?=
- =?utf-8?B?NW1xUVUvNUtQYnZLWUVpVi9uV3ZjT3pMWmFscHRJTDMrcnV3SG5MOVdoVFRX?=
- =?utf-8?B?YWxFVE14K25ST0c2V1c2VlY3OFZHVTJTNW9JMnNBZTcwZVkxaVUxWVZ2ckw5?=
- =?utf-8?B?M2xQMHI1a0ZWalYrclVsRWdlZXZZVWNWamRBMXdxb0RVQ2Z3NVZQcUEzdDd2?=
- =?utf-8?B?TUFjMWlQSXNuUVYwcW82NUpqOGRzN2k4YWlQc1dneEpQQS95dEZWVUZiMS91?=
- =?utf-8?B?bHRzd21vM3Jqd241V1VObEpLc2N5WUhISml3VGp1bGsvS2pURVZxQ2lPQnBB?=
- =?utf-8?B?Wk5mT0FjSmdYd0t0M2Q4NU11UE1RYjFXbDZzVlRoMElVREZlRXUzRXlvaUR5?=
- =?utf-8?B?VVptMGZGclFoemdZK2RSUC9kZnM0RWN1bE8zQjhxazRweDJaYjVqSW9tTTFu?=
- =?utf-8?B?V3R3K2xLMUV3YW00cktWYjZFSDd1R2YwRmxhQTV1SUQyUDkyMDJ6aER1UGxp?=
- =?utf-8?B?V3lVTmRPMnBFRmtuTlZOUGxYZ0loSUdSRlpUcmVXRzFydlo1TXNIdXhITzJw?=
- =?utf-8?Q?IN43M4u1vlGFgTkE=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 3kgOCO8PLPIXFB98TpbwL+eua+Ojk5WQSVtKDFwhQZWU7/sPFBZwbP1orSi4dPqOI0Hd0p/SaI0SgwUB4xg9/s1nWomKHH09XLKkvAK0pVh5znL5pkP89Bv0rLiq5p0xwg7kvVskEJb/dWLDQnh2RcLTKsbd9JWjIygn5uBveXO8+umJGe138Sb2oEFOmzL8ywwoIp4fONJgRMQkrh2vUjVxzIJCST/57fo1l7PyjUdkfDYbH6Kg4sHyh5gLwPmkw267UyjE0FucNlmyipNbgpCcxmgBU5jXHwlmwiH6hZlgpnSrg70/VMkbxP+5Fzg7jKmHeTXgpwHO960FfmpPYlIJ+2nWjZkcT5XdgKAdh8go+cCJ4SLuLoRVPpAniEIdhKdAIECf78QXxtc7Sc1cMUiKK/S+7Mj2KpIaLNInnHDIGGXPINuZgfjtOJDGk0N+dCg19afHZwU1CUKR6Ynt8qC/LvrtruTIDpFZKXHrzldmSq4tlGTcYw0b5LsQfDZ9YAujuKtqKoDBk3VVmztawr/45IyZl1cF+kvk29Mag0fNQiL0Nnw9Cxa5DkKIqh1KIMIYPjxOTnEr5wy6kTSY233se8xdGcY/Po5APHOvi8I=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10398b16-bab2-4822-6287-08de4ddaae85
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 10:51:16.1363
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tiG2NPivjAb07QWcuxq/bX8NjU1hlKblAI+eQAyT2oFy2+rgp9y3Crgg1MYdH8ZsgEJvgohFHUv42POvGJFA8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6635
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-07_01,2026-01-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 suspectscore=0
- mlxscore=0 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601070088
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA3MDA4OCBTYWx0ZWRfX6RQH6kXXXv1r
- jp6BAW4371qYuxNeyYz55iUGEniJhxtQAAWVGqugaAt8eVMnT5JT0RypsQbWBTDalWO3/lV2ayp
- V58GhDzRePewDWNpu17RjkT+vZ6kadUyREXZJGSMh6Rc+eyTom3MLaHyjeGzuIzxqzKBCO75Zq8
- VZJOqLllsbbf6oLjEOqQzpMg7BV50c8PTjHQubhpS6I8R1VzMNVN9vR+yOcpjlQQ0BhQP1PuWDA
- ghXrL9/2LL4hG+KrWWdexlcAA6ZB4mvY0GPdjYOgQue+HzkdjjQt3vUhB7wE0UrrJAyQLhoK761
- y4xggSPJJ14Gay+iFT61upJjy9ixW73DFnA35gKcM3xQgEWmqgc20mBIJS3O9QF4475GX0u+c7s
- lX8BZRXCMk/+KD/ouq/n1WhmutO8ZCx/yDkP/hCfQjaVQkW3ZvXu9svuiyNE2gFxjeNxnPXSpBU
- bI4rvyXdjjHPWD4pO1g==
-X-Proofpoint-GUID: auKmM_-U17Gev1VO5ssoe7HciSmtrAA5
-X-Proofpoint-ORIG-GUID: auKmM_-U17Gev1VO5ssoe7HciSmtrAA5
-X-Authority-Analysis: v=2.4 cv=PJUCOPqC c=1 sm=1 tr=0 ts=695e3aa8 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=ORhbs3clemUywgjE-IAA:9 a=QEXdDO2ut3YA:10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCHv5 2/7] nvme-multipath: add support for adaptive I/O
+ policy
+To: Sagi Grimberg <sagi@grimberg.me>, Nilay Shroff <nilay@linux.ibm.com>,
+ linux-nvme@lists.infradead.org
+Cc: hch@lst.de, kbusch@kernel.org, dwagner@suse.de, axboe@kernel.dk,
+ kanie@linux.alibaba.com, gjoyce@ibm.com
+References: <20251105103347.86059-1-nilay@linux.ibm.com>
+ <20251105103347.86059-3-nilay@linux.ibm.com>
+ <6d7c519c-122e-41a6-9f76-a3c4dedb52f5@grimberg.me>
+ <abe16085-f0dd-4f82-b48c-f2eb125da2ee@linux.ibm.com>
+ <7358ab3b-b04c-4451-85b0-5bb8073f7134@grimberg.me>
+ <bf31f0e2-ebef-49ff-852b-fd5003eed165@linux.ibm.com>
+ <afcc3e2b-0317-42c0-8968-ed771ac6af14@suse.de>
+ <03a08de2-07af-43f9-8d68-f5ef6b048536@linux.ibm.com>
+ <37a61dbc-7d5e-4f28-b6cf-5c5c21e9cdbb@grimberg.me>
+ <81d9feb1-9134-464c-9c4e-393694732426@linux.ibm.com>
+ <b98e91ef-254c-44bc-b46a-0039c66539e2@grimberg.me>
+ <c8fa5728-5ee1-4f79-b288-71edcefe135d@linux.ibm.com>
+ <ccc78156-8969-486d-b1e9-3ed7f05b668d@grimberg.me>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ccc78156-8969-486d-b1e9-3ed7f05b668d@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 6E0DF33D89
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260107_025123_120156_561A6523 
-X-CRM114-Status: GOOD (  14.95  )
+X-CRM114-CacheID: sfid-20260107_031523_334572_F7B0AEED 
+X-CRM114-Status: GOOD (  19.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -236,57 +155,172 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 06/01/2026 13:08, Vitaliy Filippov wrote:
->> For ext4, the maximum atomic write size is limited to the bigalloc
->> cluster size. Disk blocks are allocated to this cluster size granularity
->> and alignment. As such, a properly aligned atomic write <= cluster size
->> can never span discontiguous disk blocks.
+On 1/4/26 22:06, Sagi Grimberg wrote:
 > 
-> Ok, thank you for the explanation.
 > 
-> But it seems that it's an internal implementation detail of ext4,
-> right?
-
-I think that it is fair to say that alignment constraints of atomic 
-write HW should mean specific alignment and granularity of FS disk blocks.
-
-> So this check should be done inside ext4 code. And in fact I
-> suspect it's actually already done there because generic checks which
-> I suggest to remove can't take ext4 cluster size into account, so at
-> least some atomic write validation is already done inside ext4. The
-> only thing that's left is to move the write alignment check there too.
+> On 04/01/2026 11:07, Nilay Shroff wrote:
+>>
+>> On 12/27/25 3:07 PM, Sagi Grimberg wrote:
+>>>>> Can you please run benchmarks with `blocksize_range`/`bssplit`/ 
+>>>>> `cpuload`/`cpuchunks`/`cpumode` ?
+>>>> Okay, so I ran the benchmark using bssplit, cpuload, and cpumode. 
+>>>> Below is the job
+>>>> file I used for the test, followed by the observed throughput result 
+>>>> for reference.
+>>>>
+>>>> Job file:
+>>>> =========
+>>>>
+>>>> [global]
+>>>> time_based
+>>>> runtime=120
+>>>> group_reporting=1
+>>>>
+>>>> [cpu]
+>>>> ioengine=cpuio
+>>>> cpuload=85
+>>>> cpumode=qsort
+>>>> numjobs=32
+>>>>
+>>>> [disk]
+>>>> ioengine=io_uring
+>>>> filename=/dev/nvme1n2
+>>>> rw=<randread/randwrite/randrw>
+>>>> bssplit=4k/10:32k/10:64k/10:128k/30:256k/10:512k/30
+>>>> iodepth=32
+>>>> numjobs=32
+>>>> direct=1
+>>>>
+>>>> Throughput:
+>>>> ===========
+>>>>
+>>>>            numa          round-robin   queue-depth    adaptive
+>>>>            -----------   -----------   -----------    ---------
+>>>> READ:    1120 MiB/s    2241 MiB/s    2233 MiB/s     2215 MiB/s
+>>>> WRITE:   1107 MiB/s    1875 MiB/s    1847 MiB/s     1892 MiB/s
+>>>> RW:      R:1001 MiB/s  R:1047 MiB/s  R:1086 MiB/s   R:1112 MiB/s
+>>>>            W:999  MiB/s  W:1045 MiB/s  W:1084 MiB/s   W:1111 MiB/s
+>>>>
+>>>> When comparing the results, I did not observe a significant throughput
+>>>> difference between the queue-depth, round-robin, and adaptive policies.
+>>>> With random I/O of mixed sizes, the adaptive policy appears to average
+>>>> out the varying latency values and distribute I/O reasonably evenly
+>>>> across the active paths (assuming symmetric paths).
+>>>>
+>>>> Next I'd implement I/O size buckets and also per-numa node weight and
+>>>> then rerun tests and share the result. Lets see if these changes help
+>>>> further improve the throughput number for adaptive policy. We may then
+>>>> again review the results and discuss further.
+>>>>
+>>>> Thanks,
+>>>> --Nilay
+>>> two comments:
+>>> 1. I'd make reads split slightly biased towards small block sizes, 
+>>> and writes biased towards larger block sizes
+>>> 2. I'd also suggest to measure having weights calculation averaged 
+>>> out on all numa-node cores and then set percpu (such that
+>>> the datapath does not introduce serialization).
+>> Thanks for the suggestions. I ran experiments incorporating both points—
+>> biasing I/O sizes by operation type and comparing per-CPU vs per-NUMA
+>> weight calculation—using the following setup.
+>>
+>> Job file:
+>> =========
+>> [global]
+>> time_based
+>> runtime=120
+>> group_reporting=1
+>>
+>> [cpu]
+>> ioengine=cpuio
+>> cpuload=85
+>> numjobs=32
+>>
+>> [disk]
+>> ioengine=io_uring
+>> filename=/dev/nvme1n1
+>> rw=<randread/randwrite/randrw>
+>> bssplit=<based-on-I/O-pattern-type>[1]
+>> iodepth=32
+>> numjobs=32
+>> direct=1
+>> ==========
+>>
+>> [1] Block-size distributions:
+>>      randread  => bssplit = 512/30:4k/25:8k/20:16k/15:32k/10
+>>      randwrite => bssplit = 4k/10:64k/20:128k/30:256k/40
+>>      randrw    => bssplit = 512/20:4k/25:32k/25:64k/20:128k/5:256k/5
+>>
+>> Results:
+>> =======
+>>
+>> i) Symmetric paths + system load
+>>     (CPU stress using cpuload):
+>>
+>>           per-CPU   per-CPU-IO-buckets       per-NUMA   per-NUMA-IO- 
+>> buckets
+>>           (MiB/s)         (MiB/s)             (MiB/s)        (MiB/s)
+>>           -------   -------------------      --------   
+>> -------------------
+>> READ:    636          621                   613           618
+>> WRITE:   1832         1847                  1840          1852
+>> RW:      R:872        R:869                 R:866         R:874
+>>           W:872        W:870                 W:867         W:876
+>>
+>> ii) Asymmetric paths + system load
+>>     (CPU stress using cpuload and iperf3 traffic for inducing network 
+>> congestion):
+>>
+>>           per-CPU   per-CPU-IO-buckets       per-NUMA   per-NUMA-IO- 
+>> buckets
+>>           (MiB/s)         (MiB/s)             (MiB/s)        (MiB/s)
+>>           -------   -------------------      --------   
+>> -------------------
+>> READ:    553          543                   540           533
+>> WRITE:   1705         1670                  1710          1655
+>> RW:      R:769        R:771                 R:784         R:772
+>>           W:768        W:767                 W:785         W:771
+>>
+>>
+>> Looking at the above results,
+>> - Per-CPU vs per-CPU with I/O buckets:
+>>    The per-CPU implementation already averages latency effectively 
+>> across CPUs.
+>>    Introducing per-CPU I/O buckets does not provide a meaningful 
+>> throughput
+>>    improvement and remains largely comparable.
+>>
+>> - Per-CPU vs per-NUMA aggregation:
+>>    Calculating or averaging weights at the NUMA level does not 
+>> significantly
+>>    improve throughput over per-CPU weight calculation. Across both 
+>> symmetric
+>>    and asymmetric scenarios, the results remain very close.
+>>
+>> So now based on above results and assessment, unless there are additional
+>> scenarios or metrics of interest, shall we proceed with per-CPU weight
+>> calculation for this new I/O policy?
 > 
-> Another thing that suggests that it's an internal implementation
-> detail is that a CoW filesystem like ZFS or btrfs can probably provide
-> atomic write guarantees for unaligned writes too, and probably even
-> without hardware atomic write support.
-
-Yes, xfs already does this.
-
+> I think it is counter intuitive that bucketing I/O sizes does not 
+> present any advantage. Don't you?
+> Maybe the test is not good enough of a representation...
 > 
-> Can my change be limited to raw block devices then? 
+> Lets also test what happens with multiple clients against the same 
+> subsystem.
 
-The atomic write API is based on:
-a. doing statx to find atomic write min and max limits.
-b. issuing a write with RWF_ATOMIC means that the write should be 
-naturally aligned and fit within the size limits.
+I am not sure if focussing on NUMA nodes will bring us an advantage 
+here. NUMA nodes would present an advantage if we can keep I/Os to
+different controllers on different NUMA nodes; but with TCP this
+is rarely possible (just think of two connections to different
+controllers via the same interface ...), so I really think we
+should keep the counters per-cpu.
 
-That is the same for both raw block devices and regular FS files. And 
-any atomic write boundary is not part of the API.
+Cheers,
 
->Thanks to your
-> explanation now I understand the motivation for these checks with
-> ext4, but they still make no sense for the raw NVMe disk.
-> 
-> I mean, can you approve my change if I rework it to only lift 2^N and
-> alignment checks for raw block devices and not for file systems? For
-> example if I move these checks directly to the related ext4 and xfs
-> code? I think it's the right place to do them.
-
-What is the actual usecase you are trying to solve? You mentioned "avoid 
-journaling", which does not explain what you want to achieve.
-
-You could arrange your data so that it suits the rules.
-
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
