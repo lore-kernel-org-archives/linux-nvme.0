@@ -4,59 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13128CF6AB9
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 10:17:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 116CECF6ABF
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 10:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mf5Fl5TyeSzTLU/3MWJhqzju+t39rckia/cTJh/0f8I=; b=x+JSPhQ3buS98xKciD2mBFmc90
-	CwHu49Wsy5iToP4kNS6cH1Q3RsIhe28xdN/r6I9RoWV3Ulny9NUb9QpWbt1SN9K1JWK/xlxf5+w+V
-	ViCs/nkXP2yQh0rE5aZNlB18IjIXP80EhiEfNjLTqs//ni09RWTW+dbcvl3FA/nwBChVlVTYes2my
-	oRakuGE7IQAXE3MgVfO4FR8zbnJs/lBQujK43S+3j8KABgZSTR6iVCGs9+LbRewe9R4epytgR4dZi
-	IckZWEjMU6DoJOuBTi9EpWMopYafcKNJyHH9Q96HKoDCeEZmRNbsoDuiTmzvkhOUyLdUfaRkj6GZi
-	brCA/IDQ==;
+	bh=pdn4XVVfc7tr1FkKGsU24Lq1L6n19W850kHj7O11v7A=; b=QOL6iNCgNGXcJFtcFTyryNW4Xd
+	Hx0SQ+ROsm7+LLzetLlIDqHSB1mWPA2it9dfMHuE/P1afi0pw+NvDy9CVqDkw487eI0qHEXYjwgAy
+	bxj76baG66/MJqORSpfm7pLCbSRNbACWCYXAiBXWRkA6OBErjrqhzWSqN4NducNO3oTQV8mYG5M2Y
+	YMw3Fvpn2OmdTrMZtqRcCbG2aF75uMwa0BSdBw9zJppOiWMvlz5WbAD4bCoTOKSEZmu4Jzu57SwAm
+	NlagfGrhczx6lFrrSg9DVChy6sqHf/4l9DsVxHMLQ9piU5NqoS4iFM6sXh+pY3pICs0RuelAVd3zz
+	9uXmWzYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdn4y-0000000Gaez-32ut;
-	Thu, 08 Jan 2026 10:17:20 +0000
+	id 1vdn5T-0000000Gam8-0ZNu;
+	Thu, 08 Jan 2026 10:17:51 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdn4s-0000000GadS-05bQ
+	id 1vdn5P-0000000GalN-236E
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Jan 2026 10:17:15 +0000
+	Thu, 08 Jan 2026 10:17:50 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E3BE3227A87; Thu,  8 Jan 2026 11:17:03 +0100 (CET)
-Date: Thu, 8 Jan 2026 11:17:03 +0100
+	id D7E68227AAA; Thu,  8 Jan 2026 11:17:42 +0100 (CET)
+Date: Thu, 8 Jan 2026 11:17:42 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
-	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Logan Gunthorpe <logang@deltatee.com>,
+	Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
-Message-ID: <20260108101703.GA24709@lst.de>
-References: <cover.1763725387.git.asml.silence@gmail.com> <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com> <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com> <20251204110709.GA22971@lst.de> <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com> <20251204131025.GA26860@lst.de> <aVnFnzRYWC_Y5zHg@fedora> <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com> <20260107160151.GA21887@lst.de> <aV8UJvkt7VGzHjxS@fedora>
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, houtao1@huawei.com
+Subject: Re: [PATCH 02/13] PCI/P2PDMA: Fix the warning condition in
+ p2pmem_alloc_mmap()
+Message-ID: <20260108101742.GB24709@lst.de>
+References: <20260107171724.GA432074@bhelgaas> <20260107203439.GA446340@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aV8UJvkt7VGzHjxS@fedora>
+In-Reply-To: <20260107203439.GA446340@bhelgaas>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260108_021714_197028_61F2B639 
-X-CRM114-Status: GOOD (  18.88  )
+X-CRM114-CacheID: sfid-20260108_021749_022869_B4DE13D5 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,24 +72,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 08, 2026 at 10:19:18AM +0800, Ming Lei wrote:
-> > The feature is in no way nvme specific.  nvme is just the initial
-> > underlying driver.  It makes total sense to support this for any high
-> > performance block device, and to pass it through file systems.
+On Wed, Jan 07, 2026 at 02:34:39PM -0600, Bjorn Helgaas wrote:
+> > 
+> > Given that, I would ordinarily target the v6.20 merge window, but the
+> > "ASAP" suggests more urgency.  Do you want one or both for v6.19?
 > 
-> But why does FS care the dma buffer attachment? Since high performance
-> host controller is exactly the dma buffer attachment point.
+> I put the patches above on pci/p2pdma for v6.20 until I hear
+> otherwise.
 
-I can't parse what you're trying to say here.
-
-> If the callback is added in `struct file_operations` for wiring dma buffer
-> and the importer(host contrller), you will see it is hard to let it cross device
-> mapper/raid or other stackable block devices.
-
-Why?
-
-But even when not stacking, the registration still needs to go
-through the file system even for a single device, never mind multiple
-controlled by the file system.
+Sounds good, thanks!
 
 
