@@ -4,156 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0418ED1489D
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 05:21:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13128CF6AB9
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 10:17:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZlRiDkGG84Gwsj4uUQXSCbXADGbX/b51+87euo3z0/g=; b=vEV7QwlKCSvaR12lCrYSBXMOko
-	Ysi336zpoR2pqC4QHDV3AiDSQSjiVOtx8Aqh1l0cdklVTInPa+k7je6r6/aJ964auVtL2kgmjVjfB
-	aVVyNAQFAf9RzDEDF5cCRSHoynO/SQ7hQMiZbJkkset2gjHWXiNywQoKUqM94hRrjhDqmtGsZpDEy
-	o8Xv98hjFIQRV+slLCGgZ53LOyl9/ytzqmmgPbeFK9CCcU+stSsZHu7MYqEgqKii25h8dbsUMeHU5
-	kn6f7psLGjN+JylMwzmOkGykHHhAr264uRJdLH/8/567gLEnPp86JBLMGy0O/VbpJ6dKoMv2aFrEs
-	9suBz0GA==;
+	bh=mf5Fl5TyeSzTLU/3MWJhqzju+t39rckia/cTJh/0f8I=; b=x+JSPhQ3buS98xKciD2mBFmc90
+	CwHu49Wsy5iToP4kNS6cH1Q3RsIhe28xdN/r6I9RoWV3Ulny9NUb9QpWbt1SN9K1JWK/xlxf5+w+V
+	ViCs/nkXP2yQh0rE5aZNlB18IjIXP80EhiEfNjLTqs//ni09RWTW+dbcvl3FA/nwBChVlVTYes2my
+	oRakuGE7IQAXE3MgVfO4FR8zbnJs/lBQujK43S+3j8KABgZSTR6iVCGs9+LbRewe9R4epytgR4dZi
+	IckZWEjMU6DoJOuBTi9EpWMopYafcKNJyHH9Q96HKoDCeEZmRNbsoDuiTmzvkhOUyLdUfaRkj6GZi
+	brCA/IDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdiSP-0000000FwNJ-38k5;
-	Thu, 08 Jan 2026 05:21:13 +0000
-Received: from mail-westus2azlp170120002.outbound.protection.outlook.com ([2a01:111:f403:c007::2] helo=MW6PR02CU001.outbound.protection.outlook.com)
+	id 1vdn4y-0000000Gaez-32ut;
+	Thu, 08 Jan 2026 10:17:20 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdiSK-0000000FwMx-0DpR
+	id 1vdn4s-0000000GadS-05bQ
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Jan 2026 05:21:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Aqa8x9/9jXTUKO6iHccx98RcYZbZjOv38uAYk8vWJm1pxhud7WloU5fEMpgXKbWZF1jiQ0nU3sVh/bxuXJQ5jcAqebRzPO4B1+/hWIOg6aJYdwgKQeLi1Mw3zRLSj8+KKFzYHTRrYTeDncrhilMq8isuQ0WQ36F8HQgtNQ6nRtt1LrU30hKQgiwIfjSmIr18lG408CIJaZIWEKAIPtLVKoUviZ/bi5wS2W6GLmJxPGvfKhqgeFTWd5sKHzvPyfG/ht6WwA/EMcbGvuNMz1FA+/yKONgw9FEpBu+1cCM6xYZrEVs5ZIAdmDQiBxHH2M8tsPuDrvYBFZGwn8sFUmO8rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZlRiDkGG84Gwsj4uUQXSCbXADGbX/b51+87euo3z0/g=;
- b=hQlUU8V75QaXJMloEVwRTTjM7ipCvagvOJ66AsE2NcYfKLjjTmWb5U9Lw8/EBdP/A5ZcNmx/OeogHeuICMjOBF5EPm8ZWd44UCkjAif8Gtw3CBSG/DuBdEu2kROVFiL6Brnwnhgu8GZ7vt7YJ/03b3c637wCEueySW+dWRlqaeTREhicMA87ElVNaVj55TW1KgqO2NE/qSnpvmAUT2E3uxLASMmfChvzLRg5nz12CZI/uOl/L4WEOxcIRkDvb/YCilqunF13Xwr675GbUtIjtAIw3DECwnl3luTFG/8WMwwB+D7Smun/eY5EEhx02zPbueXro5lU0p6dtkav5DTvQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZlRiDkGG84Gwsj4uUQXSCbXADGbX/b51+87euo3z0/g=;
- b=nv1X6lhthpeqSKhhaf9AO3BXmgIaTiaqACnghP9WcKEodo/Su3mwIDGDuDlzBBLN1pyStedgQ512n/NfsRvdGYRifxdzIFTZ3R4mTBB+yvM0NrGuSRok3WHEW2KqzWvZxnsvR7DcYaocV/olyq52yDiEjy86v67e7VYY1yQHyoJK7bA/a597u4jT6Vi57pqXMLmQdX9DrE7kGq9Qtu2TW5xOU6EfzVSyhngGqLcPaLP62U5qp5NxLaCsSWj5L3ph4EC7zRX2MjC7amEUWBRIu2wJaDoytWQnB/OZSRNqztdPFOR1+tIfWMkon07EDIbEr9L6IK/XsYRV5vW0GnDVKw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- LV2PR12MB5992.namprd12.prod.outlook.com (2603:10b6:408:14e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Thu, 8 Jan
- 2026 05:21:02 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9499.001; Thu, 8 Jan 2026
- 05:21:02 +0000
-Date: Thu, 8 Jan 2026 16:20:58 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: Hou Tao <houtao@huaweicloud.com>
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-mm@kvack.org, linux-nvme@lists.infradead.org, 
-	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, houtao1@huawei.com
-Subject: Re: [PATCH 10/13] PCI/P2PDMA: support compound page in
- p2pmem_alloc_mmap()
-Message-ID: <ru35ev2clily7277fh2uwxuiellerlocfexhjkqim7stixuact@7fp5h7fdmz5h>
-References: <20251220040446.274991-1-houtao@huaweicloud.com>
- <20251220040446.274991-11-houtao@huaweicloud.com>
+	Thu, 08 Jan 2026 10:17:15 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id E3BE3227A87; Thu,  8 Jan 2026 11:17:03 +0100 (CET)
+Date: Thu, 8 Jan 2026 11:17:03 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
+Message-ID: <20260108101703.GA24709@lst.de>
+References: <cover.1763725387.git.asml.silence@gmail.com> <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com> <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com> <20251204110709.GA22971@lst.de> <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com> <20251204131025.GA26860@lst.de> <aVnFnzRYWC_Y5zHg@fedora> <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com> <20260107160151.GA21887@lst.de> <aV8UJvkt7VGzHjxS@fedora>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251220040446.274991-11-houtao@huaweicloud.com>
-X-ClientProxiedBy: SY5P282CA0137.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:205::11) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|LV2PR12MB5992:EE_
-X-MS-Office365-Filtering-Correlation-Id: da66b8bc-7897-4f0b-cb5f-08de4e75b6eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LpSP8yeaCzOPhsLDBKLwDZDUC0uSf5r0XI7UkitrMaKGHa0Rc2lQ6nuEXzzX?=
- =?us-ascii?Q?iDjxJC+HcOO+1KudYFvemWqFseJqDPp3/iO7nXPCNqlDwHL+UKrbIdON/Tnj?=
- =?us-ascii?Q?tahkFiorAY82Hnc4Z9umMBoMzY1OP5i+BmeKk+4QVxtg2uVTw76X6FIrjMG0?=
- =?us-ascii?Q?eKMUhozIu9T/U7ezVQb7ezoQIbAV0tYGaij8gbxXNg1sE4OLAVPGhNfEiCg1?=
- =?us-ascii?Q?/Oep5+7D8P9JwnWGyCwsw/1Yd38JQOBkCgjR0vXJ5j9dTLRy2gyIZSl3Gfdg?=
- =?us-ascii?Q?mltiD7QW7ucinIB6kKkPUM9mc4YV2rfa4x8UIoCFt2yVrN/TLJsSG4ezz23s?=
- =?us-ascii?Q?JkI8KUmJ/7uwamgVCcZ5jmAzVRClmDYjjfRmgIGAitDuUF9HdKozxB3VzxeM?=
- =?us-ascii?Q?7m8vZP3v6NtFCX/sdz5gV9wL04E+Kn+E+EXAOZy2CC7kYSXyezSlVv2EQ/QW?=
- =?us-ascii?Q?qyHaJqNsXCaBAGkrBlOznV59oXIyP/MEi8I3dlxCbSTV2CVw9718QrzXM1c5?=
- =?us-ascii?Q?jLyGscBJSJSTqU5kG3qbf5HkSvyX07LAu/hZ4Nx7MDArbs0Ci47Svn4I7SFl?=
- =?us-ascii?Q?OclRdCp7dSE1CGsBY/o+/7QPSoqRtHC1WJnfFhjxQkPjhzQYDLkpCZ981ncV?=
- =?us-ascii?Q?NVxN8HZvH1aZep/fh4NKhfppjYksW85PGTPk02auyqtNaVWYVpZUbCwJ/mMT?=
- =?us-ascii?Q?K8dNSKC0VGRyq3ol5z3gWXAEggjsy2whi2xZp/Hw3Sf53UU6QrLAtfj72DBz?=
- =?us-ascii?Q?mV2WVDwSydso6vy4Vv8WTblLI8EV5SjWB21+rPNjMrXUqtnpAAMHG9KsQT1f?=
- =?us-ascii?Q?1/yARA1hjVQtDV/fU/FJeLXYMWgfjxgVVg0NCW7UYpKgd0aTyqJlK/XvUREM?=
- =?us-ascii?Q?8xKLnhavi85KrkMcTL3uGmdyadhM10ZNLspxsOqnHAAOcm+GmAYIdJP1KQTp?=
- =?us-ascii?Q?2CSP44SmFAAN5dgUK0TOhXbOZJjUBsz6E9EAOPGESsoaEH9mma7r5WiyDRfj?=
- =?us-ascii?Q?KQ3hcc2SkwZUiXqbU9WTM0/SN6mqfv2cBVaWFugbAEQjJBaslgXVi7kJu7Yi?=
- =?us-ascii?Q?IKDb1WLUV3Ypz+gueRxdm6CaNYWXZsIRXtUugnCH8jq1CC1KixuBSVYbJ1yN?=
- =?us-ascii?Q?4cmIz09sRSb72l7EH8S73ElPZO7xOPRXHAZpKv+f6pfA2yunRx2joIepaAgg?=
- =?us-ascii?Q?/wu0/MzejVBHKe07kZ+cCvV3i+Cq/G2bnZVACx/srtENp3NNTht91jjkVK89?=
- =?us-ascii?Q?RNXY5pTPVW/0ahMlD5pGz8GF4GCsIIzX5U3MULCsQU9s0grHAz9R6yp1U8Vg?=
- =?us-ascii?Q?3mvXK0E5kQzyG4suTclJxKbXXPWtSsPl4EQVSL5KYyhgycNNbuf8Exj7IyOj?=
- =?us-ascii?Q?cuNZseCYAbkjHuYjI71kqXSAgUnQfqdg57JUFF19bQNQKupn/3bd1016MFvE?=
- =?us-ascii?Q?57H4bBiWwSkbzrdb7gpAMqFfxUSRfbdQ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a3u6xaTyqjDGxND80WZd6Kzmd1P5+V5NbNM8wCYA+yrvU0fk3cuChh44IPEN?=
- =?us-ascii?Q?zQjIZ3E3HBBI9ZnABOXVtle9lSuRUsxBWCjUx/UqxtL8qIcxjv3tZ+iqx+Y9?=
- =?us-ascii?Q?bFa4sTPw79xyKV0C2xw68jfmvJUsZtcRICXZgv8zIApc+enmLnvKlaKYTTTr?=
- =?us-ascii?Q?oMIrOtFnOPp8PxF1QPwXUp+97ZtOCLQNgcPSqDOlb5m3INlS8bV3RKcRazzT?=
- =?us-ascii?Q?304z08fxsw6ZfTyQeh6LG+ME8fQEKen5FuYGyikBwZqXqe/3Dbh0G5G4TkwZ?=
- =?us-ascii?Q?+fkXg7cc6+zuAY5F2gj4m9nUTYpptQ/xaYvEANvhxK2MLigQRVDHfAn2yfMa?=
- =?us-ascii?Q?8wB9mFiclLsTTcdpe6/K1qP/SEdx2wjS9pM+SA/zTk/+/vYYCS97vZW/RzOb?=
- =?us-ascii?Q?ceKXUSichrF150uq01rrHturXcXUICe3SCgWyuzDLveRo0+roiIID9kBg2vU?=
- =?us-ascii?Q?igT5twU6Z76eAGninqUx3AP2WqPA0lHIJ121dJRA17Ib7gJCO353GeyNdyyP?=
- =?us-ascii?Q?nw3DNPInE4d1XD+gZE4ZGCW/Ay44zA94IosIwDABPwlU04+Wlhv5moz5scQX?=
- =?us-ascii?Q?Nk3Vh4Ad/pUMinUy4XNFTxMuBcs00JAgCUJgYqO2DIuaw2YDmWdqAUrkfyx6?=
- =?us-ascii?Q?kKlYyJ0G4ep9i8AeFKrqV6jRIV1KwgRF6LQJoW/OH1r+pYIzBDGQugtI1Y71?=
- =?us-ascii?Q?jzMj84sXOvlGLguHeNC2IifMPc6ANjWg+WAvvQnjBcmWc2fT+M18tjIDR9Gl?=
- =?us-ascii?Q?xRf+ZPFsYxMjnJS4GqPnt4YEyKpy/h8bvC2Xzsb1D5TSlbKzWXVoi7+D3Y+v?=
- =?us-ascii?Q?jJFglIBsgJ5DT+ImMZG0tk7Pw5XW8gOt6B3eMrqIR7YHWY1riB73LaCGYdUo?=
- =?us-ascii?Q?dhuobEJTde1qmBNbwuE/kojgRFnttRdU6tbE/eJkKdvNOxAwJtYGE+ypNMSG?=
- =?us-ascii?Q?/kI0wgXIqgAeetwxD7mOsqUL53KUdTegYP5iSg8E3fJN+jxOFYCcBk53vo1X?=
- =?us-ascii?Q?4dqFENnQxP27XODd5etsoUqCae94BLAmtl6sqFcJF849fyoIeBPdN+P+hpKy?=
- =?us-ascii?Q?TmW9SMFQTPoEpdihx8Fk+NtDP0fIUw8KhfUSOrR3kDqr1Mn+RW4zjiPcOCvt?=
- =?us-ascii?Q?s8V6vSE3Hsra8FpxfU57GOb2zAw3mdhxQyFazcQmhcdibIQ4cM6bsNGeKcNi?=
- =?us-ascii?Q?IwM9I5nAIxAThwCeGEZhsD5BmRq/MDPYJyLvztQ26DRZizqiwb0teA+WJfe9?=
- =?us-ascii?Q?MB/wOf8FvZwVSbYwMjvFEDAxLl0DpvezVreZnne60dFV0Px2ViU1mmkxGks1?=
- =?us-ascii?Q?Bp0Oiup8pZ0bC4WAMNywsZ/Gxh1P0uZww5DZDZQOYZgfHztFw4UKsJ+AinX6?=
- =?us-ascii?Q?AH3TKnWV2GEE8e7LxUkFMlqxGbfLExapiAMNJXlzc+ZQ9SlFHvdH2nJKj8vt?=
- =?us-ascii?Q?kU06RkVIt63hAqOM8GpXL5Tlev1artJUmiGrgYMM1g+D3BEuCKWB6TqfoziP?=
- =?us-ascii?Q?eP70RW/OCfT/cD9LV2vDM9hLMK7dMP1jRdLVLUwkpNrLejxbbrvhbBqWbUI8?=
- =?us-ascii?Q?mwtN1g4Oiky7AXAkbKxFeAx/axBEbR9UWSeefDzA9U2kHKp50CZeVaDCPHBm?=
- =?us-ascii?Q?Pr2ini2i3cAV2xnAYhNVQN5XLk8FVrtOhE5xWuwUzUssDmwmJy7eeGAHScx6?=
- =?us-ascii?Q?tSEA+3y5iK9j2KCXNvuwfxq3+yIDhgTJvGwCDI1zrD1DjLhC0jZkT0rg03lE?=
- =?us-ascii?Q?dSrYqEXA4g=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da66b8bc-7897-4f0b-cb5f-08de4e75b6eb
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 05:21:02.2044
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8fqYuKuD944P9gOqYdpwH7r+zbLdw/0+8EOwm++XbhV7GG8tXleWIxbFu6OidPXeWl/9GliLLJ4ZNW0B9TXWxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5992
+In-Reply-To: <aV8UJvkt7VGzHjxS@fedora>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260107_212108_099531_A3E65848 
-X-CRM114-Status: GOOD (  30.28  )
+X-CRM114-CacheID: sfid-20260108_021714_197028_61F2B639 
+X-CRM114-Status: GOOD (  18.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -168,134 +71,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2025-12-20 at 15:04 +1100, Hou Tao <houtao@huaweicloud.com> wrote...
-> From: Hou Tao <houtao1@huawei.com>
+On Thu, Jan 08, 2026 at 10:19:18AM +0800, Ming Lei wrote:
+> > The feature is in no way nvme specific.  nvme is just the initial
+> > underlying driver.  It makes total sense to support this for any high
+> > performance block device, and to pass it through file systems.
 > 
-> P2PDMA memory has already supported compound page and the helpers which
-> support inserting compound page into vma is also ready, therefore, add
-> support for compound page in p2pmem_alloc_mmap() as well. It will reduce
-> the overhead of mmap() and get_user_pages() a lot when compound page is
-> enabled for p2pdma memory.
-> 
-> The use of vm_private_data to save the alignment of p2pdma memory needs
-> explanation. The normal way to get the alignment is through pci_dev. It
-> can be achieved by either invoking kernfs_of() and sysfs_file_kobj() or
-> defining a new struct kernfs_vm_ops to pass the kobject to the
-> may_split() and ->pagesize() callbacks. The former approach depends too
-> much on kernfs implementation details, and the latter would lead to
-> excessive churn. Therefore, choose the simpler way of saving alignment
-> in vm_private_data instead.
-> 
-> Signed-off-by: Hou Tao <houtao1@huawei.com>
-> ---
->  drivers/pci/p2pdma.c | 48 ++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 44 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index e97f5da73458..4a133219ac43 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -128,6 +128,25 @@ static unsigned long p2pmem_get_unmapped_area(struct file *filp, struct kobject
->  	return mm_get_unmapped_area(filp, uaddr, len, pgoff, flags);
->  }
->  
-> +static int p2pmem_may_split(struct vm_area_struct *vma, unsigned long addr)
-> +{
-> +	size_t align = (uintptr_t)vma->vm_private_data;
-> +
-> +	if (!IS_ALIGNED(addr, align))
-> +		return -EINVAL;
-> +	return 0;
-> +}
-> +
-> +static unsigned long p2pmem_pagesize(struct vm_area_struct *vma)
-> +{
-> +	return (uintptr_t)vma->vm_private_data;
-> +}
-> +
-> +static const struct vm_operations_struct p2pmem_vm_ops = {
-> +	.may_split = p2pmem_may_split,
-> +	.pagesize = p2pmem_pagesize,
-> +};
-> +
->  static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
->  		const struct bin_attribute *attr, struct vm_area_struct *vma)
->  {
-> @@ -136,6 +155,7 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
->  	struct pci_p2pdma *p2pdma;
->  	struct percpu_ref *ref;
->  	unsigned long vaddr;
-> +	size_t align;
->  	void *kaddr;
->  	int ret;
->  
-> @@ -161,6 +181,16 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
->  		goto out;
->  	}
->  
-> +	align = p2pdma->align;
-> +	if (vma->vm_start & (align - 1) || vma->vm_end & (align - 1)) {
-> +		pci_info_ratelimited(pdev,
-> +				     "%s: unaligned vma (%#lx~%#lx, %#lx)\n",
-> +				     current->comm, vma->vm_start, vma->vm_end,
-> +				     align);
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
->  	kaddr = (void *)gen_pool_alloc_owner(p2pdma->pool, len, (void **)&ref);
->  	if (!kaddr) {
->  		ret = -ENOMEM;
-> @@ -178,7 +208,7 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
->  	}
->  	rcu_read_unlock();
->  
-> -	for (vaddr = vma->vm_start; vaddr < vma->vm_end; vaddr += PAGE_SIZE) {
-> +	for (vaddr = vma->vm_start; vaddr < vma->vm_end; vaddr += align) {
->  		struct page *page = virt_to_page(kaddr);
->  
->  		/*
-> @@ -188,7 +218,12 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
->  		 */
->  		VM_WARN_ON_ONCE_PAGE(page_ref_count(page), page);
->  		set_page_count(page, 1);
-> -		ret = vm_insert_page(vma, vaddr, page);
-> +		if (align == PUD_SIZE)
-> +			ret = vm_insert_folio_pud(vma, vaddr, page_folio(page));
-> +		else if (align == PMD_SIZE)
-> +			ret = vm_insert_folio_pmd(vma, vaddr, page_folio(page));
+> But why does FS care the dma buffer attachment? Since high performance
+> host controller is exactly the dma buffer attachment point.
 
-This doesn't look quite right to me - where do you initialise the folio
-metadata? I'd expect a call to prep_compound_page() or some equivalent somewhere
-- for example calling something like zone_device_page_init() to set the correct
-folio order, etc.
+I can't parse what you're trying to say here.
 
- - Alistair
+> If the callback is added in `struct file_operations` for wiring dma buffer
+> and the importer(host contrller), you will see it is hard to let it cross device
+> mapper/raid or other stackable block devices.
 
-> +		else
-> +			ret = vm_insert_page(vma, vaddr, page);
->  		if (ret) {
->  			gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
->  			percpu_ref_put(ref);
-> @@ -196,10 +231,15 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
->  		}
->  		percpu_ref_get(ref);
->  		put_page(page);
-> -		kaddr += PAGE_SIZE;
-> -		len -= PAGE_SIZE;
-> +		kaddr += align;
-> +		len -= align;
->  	}
->  
-> +	/* Disable unaligned splitting due to vma merge */
-> +	vm_flags_set(vma, VM_DONTEXPAND);
-> +	vma->vm_ops = &p2pmem_vm_ops;
-> +	vma->vm_private_data = (void *)(uintptr_t)align;
-> +
->  	percpu_ref_put(ref);
->  
->  	return 0;
-> -- 
-> 2.29.2
-> 
+Why?
+
+But even when not stacking, the registration still needs to go
+through the file system even for a single device, never mind multiple
+controlled by the file system.
+
 
