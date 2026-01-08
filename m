@@ -4,88 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96B08D1D486
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 18:19:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C10CD232C1
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 22:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fn/JoGzjgMnLNspl3ck18e3p9KeNwhc/CT4wpLvvEIw=; b=AMB6LwLtHDu/LaV9nOObSx7sZU
-	7nfyksWP7NBNn8szZPku/+ttXwYlFZMGJ/oyLpqmDBw+W7Gj6XwhTsVYXz7R2rMxoT4GzxC2Mp+7r
-	QGxPfmpuU13gSPQ4q93310T71hoKNygsYTJGLz0R7TDxr0Ff2BoZW8F4fd666ooUPmyLlxH066qui
-	/TPIZjlcH8n0qn8QESPFFkLBCfNZFJftLkiVd6Zks3Zcxm6F4m6GeHYSWkXVBeUOJKeSG/Y6ENOnt
-	hfiE9y+5V+zT1n4XvWTsml8l7AXdl0bnhZ42yvgx4OGx2WPoKLnWqpD66r7eaSvtf7nL+H5UKRic2
-	yoFpGuSQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=T5i/ybLFlkR1hRyFiuhAVAYP9FOrA4aBRdQ6o2otIQk=; b=heaA2zq/BghtbrAfJQb3Mqm+Ot
+	a5/kfQAjciYQBUaDJAXu0vKKCUPFnvwc+H2xNCOJcVZ7D+/ocXdPftdUg9O00szWNrZHvBH5Y609n
+	6c7gnj4kwtF1SiihpVfeORHIiYttEhPSHbz8yU4a98qdiFsmHwmUiprc8HIAuZdH+IccGLXhVkkq3
+	DazjWPox6esRyPVGeeV87DiJEs2BT3J7orH/pTX3/PkntQlHnMfk3SS62y3G0CzRNlvfUBtt8T5lZ
+	a1snW1t4bRG1eW9RmVy6hVomgdVjepLaj2t1iQ9F338TR/fnJgg0HmclFpYGvYP6baKkIwLcikxeV
+	tqkZMEVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdub5-00000000aLJ-445T;
-	Thu, 08 Jan 2026 18:18:59 +0000
-Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a])
+	id 1vdyqj-00000000xnJ-292c;
+	Thu, 08 Jan 2026 22:51:25 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdub2-00000000aKj-40XZ
+	id 1vdyqd-00000000xmw-0kKj
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Jan 2026 18:18:57 +0000
-Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-5ed0a9cbb3fso1212439137.3
-        for <linux-nvme@lists.infradead.org>; Thu, 08 Jan 2026 10:18:55 -0800 (PST)
+	Thu, 08 Jan 2026 22:51:23 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-81c5ff546f6so730802b3a.1
+        for <linux-nvme@lists.infradead.org>; Thu, 08 Jan 2026 14:51:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767896335; x=1768501135; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fn/JoGzjgMnLNspl3ck18e3p9KeNwhc/CT4wpLvvEIw=;
-        b=MIaHZRn6ZOrOztya8u8JCFLlEammfUxigXc4seBYpGJ8PAVrhzjvCLLgejr4beewu9
-         BDGEdNSsbvejQrp4uv4DpoAtHuUtvB685SMrR+1JXbasz9MatovAK9GP7I5GC/N7C/3l
-         9NbqnaMUbhjx7QzKr95eJqmJ4mCAAX3DBSDYErOFp3DeIk37cZZ/QFIoRJBM8Jf+q6kV
-         9TCyHYSCi6F4jr5oEHgYf1nMvBjYWMgJIhZFyseybnW8OUhfVE92FGTeWJRussqUi5c9
-         Et+HbSoL5eSL8t+EvfOzUjQFW4XpoHdcQ6X36vnkJswAP+5DoFIVfHuKqHgFBK3WcXEX
-         9+pg==
+        d=gmail.com; s=20230601; t=1767912677; x=1768517477; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T5i/ybLFlkR1hRyFiuhAVAYP9FOrA4aBRdQ6o2otIQk=;
+        b=mY4ZPHWMx5Nih3ImMe2ip240xu70GBqx8BlP8WEDLr9dYyi/hNwa6yipiw1kcuEQa0
+         JZ46M9QVI9UMkt/9ybunTSOXjq6ZzSC9KXIPzApuUKYSOBA/RLGu0Xg8z5Ar/qPhDJli
+         5NvPGueNNLdbKrderi/DU0EMdqScKz80L/+ACeVnRujyYPpgPsPmBl8iYO3ZAC1fVGfr
+         YhWeGsx9x7jNwzhR+dhp77eW5eL8de3QCYacA+nbKLw1UkEBFAYtxZvUMDRPuRF8ifLd
+         9BVhAP7KsqChnepoyFnJ4OxBp+6rPbDG2hgE+uyUnPmtvFgIhEOLql4RFIVyndrAnY/9
+         4V9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767896335; x=1768501135;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fn/JoGzjgMnLNspl3ck18e3p9KeNwhc/CT4wpLvvEIw=;
-        b=p4USDTCPo6VzKNHlJ+hBt59YG+bficHQsxMTTKrAUCCaD5lrOHrET7qitA4TyKAd2K
-         ux+BH1TYWHA3JjTpsi2yfSxhbs2EbhPXrEpmDuXf8Uolc+nelTtZ8tJgMLMW2qo41o6c
-         PA5t7s+zGo0bzqEZ/xxHBmI1a8YdpoRVww4OTGi59zBV4KM2geAHp19U8Hz3wSe99bSN
-         LqVFMfxb9quIIRqYMmPtYHnPzubSNfTD9vEQqSXENcNW0FyzmpyosEBp1poYFCm5Tu0U
-         TL2RBglYE65kxqLRr2zdLBCwVg3I6sFhDHb0NwRVmeXAYg4ZhY8sz2lQ61vYXYof3TSw
-         QCzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUREx3ExLy0OLfB5gQvwyaf6V5XIjKarR4W7TFf/3C/ekyGcK552xews2PDr+5jX0H3MGw1Y6Nmy32J@lists.infradead.org
-X-Gm-Message-State: AOJu0YylrBhxcMVFn4OJu08wC10X5m3ClB4kvFkmqeMiSvXnmzuutjJG
-	CxaKpFzpowet97zK2J5gvg8IVRekge0CINXtI24/QyANhTTzBMAEYgnc4i6wVeF1KX7UwtCRzD+
-	IoDdTe6v9lV95C+LcwiSaxGkOJk2oWGc=
-X-Gm-Gg: AY/fxX4QyNx12TE7lv9NaYpGzrTrXkpQJ6LKBoBCj2UQ8Q0WZQfGtwb53BpUv+NnPpe
-	WwKzQfN3CVvjD1rR363VQcPvM5+Qy+4ZcjrIgiODBHv1UKrBVJpM5+o+n/w/peqr69zW9mNOGnn
-	qcvc8ZPvn/VospB72kMNlN+dH11BZqoNRjCUjRNX6bkAvjTFcZvxoFCClIqSI10t4qlylTlTtAX
-	yumV5eTMFjMfipWYOkugsn9tgRQXMKUFEsqryrjXJihYoIcGJprpFhgtctQDUFCsTKqNK/mZ1Rz
-	nbgCNCXJ6O2MUXfFF0z9Q1++TVjz
-X-Google-Smtp-Source: AGHT+IFZDy2QW6KnuIxIEyHkKpqj6MMEJSR/7O9XSRt3iqhghTeDZkCmQR+L8EcADh1b6vUy07gKP1CBUhZxixK3ryE=
-X-Received: by 2002:a05:6102:4412:b0:5db:f352:afbe with SMTP id
- ada2fe7eead31-5ecb5cbb3e6mr3294188137.6.1767896333290; Thu, 08 Jan 2026
- 10:18:53 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767912677; x=1768517477;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T5i/ybLFlkR1hRyFiuhAVAYP9FOrA4aBRdQ6o2otIQk=;
+        b=JeFzJ14IE+p/yiLotPmHmpDKZb+9olYeFuFCs37E+UtgD9OE47knJwFI/pYqXT7c4z
+         rqw9HeMkclPdP8r4+IDuF8SYcbWezZVrYSMDp2LDYD4+uorV7Q6uJNXVa4qrMbKXcX3s
+         0NlEPMebVQR/5MbcUESWX2YeR/bFxGZ3c9zO+9odPogK9gb8swY9XlpOlN3t6AR2AMFL
+         65aq6cbDiIR7XGm2zdAk4Deih8W7BfCFeVdJFo3A37S08JvafwVtViCOFl4Lmlm1hgkN
+         PNBm5ZVSyppWCk9AZK6F4+hL/W/ArdTKyNFOczRiq7W59sTEgdzvb7vi62avdxTkybmK
+         5LrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVX8TgoNbA7J4NmQ8+lVilNALOPYDRzbCqa3sMCj42PD+i2lFhZTc9gLo1AZQpt9q3giDDDf2r8b8Hx@lists.infradead.org
+X-Gm-Message-State: AOJu0YzMBx78BGeElbhZBZ3lp9HSUExttk08n353o0Vy/b5FmTjFbgn6
+	+qDjR5sgw7NDol9tcvfMklu4jtW1uW0s4OW5txFkwpobWu4vrjZWPd0u
+X-Gm-Gg: AY/fxX6fPhiK9VR+LY/gh49UxO+j5O5F3CmID6XJ37Xed51sDsS3fJ8t7FCDDap4j3m
+	rHzIYxRSNGs353XA2uVHBzti/QZb62pF2mihRp78/zeRAjBv78nCv+HmVNINOJz0ieZFmLTk8jI
+	p/7YgvVFlORMKDkNUzVk+Me7WxQWRBauBWKZnUsrtZQYdnpJy3GrY7nSInac/ig+fH9z0TVoygd
+	2cEgmxDuF6G4UyQ+R76D2vbo93a2yQWW+YesctdAXArUenr9LGJnGRPoFb6Fsz+x8ExwKU/18fF
+	a1vHyRL7GctQ/bMFowNCzuTc/A3v6OqlfX9iAkMZVU6tYLgJHI03aSVYfXp4CHRq/0ALkR17z3T
+	Aclr3BGKJ1nri/5nYT3nqboVaWU7hFQmFDTy3jRIVoF+3bF77Iisx4kZvgu3zTLwm3b9K3YsewU
+	O0hX+2zHD6gzmuiZ1Ja95UWEMIdSiTbw==
+X-Google-Smtp-Source: AGHT+IFFWRYCODeTEAq/SYuIwpfhNwUfdW4jrZJYDOtHaJsBtPLyMtQDy6vl/gckOiumqrvVlx4EBQ==
+X-Received: by 2002:a05:6a00:ab03:b0:7e8:3fcb:bc4c with SMTP id d2e1a72fcca58-81b78e9ae88mr7819855b3a.33.1767912677376;
+        Thu, 08 Jan 2026 14:51:17 -0800 (PST)
+Received: from [10.69.70.117] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81e4c0f183bsm10194b3a.42.2026.01.08.14.51.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jan 2026 14:51:17 -0800 (PST)
+Message-ID: <803071b4-6a13-48e1-ba93-c9f57202cb59@gmail.com>
+Date: Thu, 8 Jan 2026 14:49:54 -0800
 MIME-Version: 1.0
-References: <20251224115312.27036-1-vitalifster@gmail.com> <cc83c3fa-1bee-48b0-bfda-3a807c0b46bd@oracle.com>
- <CAPqjcqqEAb9cUTU3QrmgZ7J-wc_b7Ai_8fi17q5OQAyRZ8RfwQ@mail.gmail.com>
- <492a0427-2b84-47aa-b70c-a4355a7566f2@oracle.com> <CAPqjcqpPQMhTOd3hHTsZxKuLwZB-QJdHqOyac2vyZ+AeDYWC6g@mail.gmail.com>
- <6cd50989-2cae-4535-9581-63b6a297d183@oracle.com> <CAPqjcqo=A45mK01h+o3avOUaSSSX6g_y3FfvCFLRoO7YEwUddw@mail.gmail.com>
- <58a89dc4-1bc9-4b38-a8cc-d0097ee74b29@oracle.com> <CAPqjcqq+DFc4TwAPDZodZ61b5pRrt4i+moy3K1dkzGhH9r-2Rw@mail.gmail.com>
- <704e5d2a-1b37-43c5-8ad6-bda47a4e7fc6@oracle.com> <CAPqjcqqhFWz0eNGJRW-_PoJhdM7f-yxr=pWN2_AfGSP=-VpyMg@mail.gmail.com>
- <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
-In-Reply-To: <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
-From: Vitaliy Filippov <vitalifster@gmail.com>
-Date: Thu, 8 Jan 2026 21:18:41 +0300
-X-Gm-Features: AZwV_Qi1KXJg98wuNlhob-PhKfYxveiRiQnCM2LlNsbeCGFpRxNmbpDflphYfZU
-Message-ID: <CAPqjcqoqR8UdC5K-RCjKvQEoA6jnRBVZc53ieR1fjJKz9-V9=w@mail.gmail.com>
-Subject: Re: [PATCH] fs: remove power of 2 and length boundary atomic write restrictions
-To: John Garry <john.g.garry@oracle.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG FIX PATCH COMPILE TESTED ONLY] nvme-fc: release admin tagset
+ if init fails
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "yi.zhang@redhat.com" <yi.zhang@redhat.com>
+Cc: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
+ <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "justin.tee@broadcom.com" <justin.tee@broadcom.com>,
+ "nareshgottumukkala83@gmail.com" <nareshgottumukkala83@gmail.com>,
+ "paul.ely@broadcom.com" <paul.ely@broadcom.com>
+References: <20251220001842.6027-1-ckulkarnilinux@gmail.com>
+ <ccf8741c-35f0-49bc-90dd-314085f1dbb0@nvidia.com>
+ <cddd1db8-3da7-44a5-bcf9-210267c30625@gmail.com>
+ <a2feda48-515d-4e48-876a-01ea6d8d8398@nvidia.com>
+Content-Language: en-US
+From: Justin Tee <justintee8345@gmail.com>
+In-Reply-To: <a2feda48-515d-4e48-876a-01ea6d8d8398@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260108_101856_997934_B74728CF 
-X-CRM114-Status: UNSURE (   4.12  )
+X-CRM114-CacheID: sfid-20260108_145122_810441_5F252386 
+X-CRM114-Status: UNSURE (   9.03  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -101,5 +114,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Soo, let's remove the 2^N restriction for raw block devices?
+ > thanks for looking into this, it was observed when Yi reported the issue.
+ >
+ > Irrespective of whether it is repro issue, it's still a bug ?
+ >
+ > Can you please provide review comments ?
+
+Yes, agreed after reviewing the current goto fail_ctrl path that there 
+is a missing nvme_remove_admin_tag_set.  I can provide the Reviewed-by 
+stamp.
+
+I guess I’d prefer if we can prove this resolves the issue Yi reported.  
+If Yi could re-rerun nvme-fc blktests on the original failing setup with 
+this patch, that would be great to confirm.
+
+Thanks,
+Justin
 
