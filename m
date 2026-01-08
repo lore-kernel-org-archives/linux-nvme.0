@@ -4,91 +4,156 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A529D1488C
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 02:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5D3ED1489A
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 03:23:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=e58AvOofkAZMERAjCRNSCzg+OQ2/rgznWXJZC9l5yys=; b=G2OUu/xp5tXB2B2UR2cp0CT7xS
-	Gx9tVpiwoTvZicXC7O6yTeNUD4AuuLUBCPF5jhamAQ1FU9f5UlqBT+ymYzl2u3yLUUWZcFHR0YaEG
-	Oo5tbSzf2pKJ01GGQUi/3BstbeBIw1GeXvS5QU87cV0nvt6U66qvGvvpEI5KWKkvoAH9VnxFpq/Cd
-	91xxjHNdtPQV8crDL+jpeLDVJ2p4w9g7eB+ejF8drwc0vCUVdVpQ4LQzoLEM9mh59BHy5HekONINK
-	651hOkup9a9M5Z1USi8HHNJeHs1DvkISfplrc6fLCn4mChPy3XwuBHAqokjuvTqxo7v3r7X1zNMlG
-	39VrY26Q==;
+	bh=k7y3spx1Bqic7FZfqMhPFLJI6X+F+BRR50c1QWqY+3A=; b=tL/kreL1j2IF2w7BPffOr0NcZm
+	y91U5CdWKKcw1zd6lbL/JgLrGQE3BjJGhzQY9c4yI5AvAWI0EtumJUTPsYyKU47q2b/UzqWd2kbZI
+	r0TWZOxsNY1eHJj7GFKIQaSXJ8ZziIH0UlIO0jGc60+s1jaCer//eRfH5t1TootH15b1qjE0G1ICD
+	Wx8WvA0bdepE03nXi2GnNoeA+33Nb9g7kTMZE2Z1r1EZlgGsbyzH4AZnfhF5c+Jw7GD9IGgstIwp1
+	OoIGtdtGbboyEVxibffdcySR/nwWp61Az7ov7dGT4kayGXHZL1fDspeQjRIIpnIwcTJQu3Pysho7i
+	BRflUT0A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdfcp-0000000Fpin-3qIP;
-	Thu, 08 Jan 2026 02:19:47 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vdgcT-0000000FsOe-00hf;
+	Thu, 08 Jan 2026 03:23:29 +0000
+Received: from mail-northcentralusazlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c105::1] helo=CH1PR05CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdfcn-0000000FpiO-1Pxj
+	id 1vdgcQ-0000000FsOC-2V10
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Jan 2026 02:19:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767838782;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e58AvOofkAZMERAjCRNSCzg+OQ2/rgznWXJZC9l5yys=;
-	b=K7EPUa8/avt8LYSvQr1OBeP/JzSuWpa0yq0pZB2l5HLDE3hvqIW+R3iF8Jdj++yjyn65mf
-	kX0cznkHmB/q46MpMzVw8S6d1NCaainFvpcftnRZ3kEm4vjtKz/z/Gm8wRPPMKBrB9eWWl
-	aPHnqbROnXMtct1qoL8Obr6mOumFalA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-696-C5u5R4y1Mv68vhPM4j7ZUg-1; Wed,
- 07 Jan 2026 21:19:39 -0500
-X-MC-Unique: C5u5R4y1Mv68vhPM4j7ZUg-1
-X-Mimecast-MFC-AGG-ID: C5u5R4y1Mv68vhPM4j7ZUg_1767838776
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C016D18005A7;
-	Thu,  8 Jan 2026 02:19:34 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.164])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4FDBC19560A2;
-	Thu,  8 Jan 2026 02:19:23 +0000 (UTC)
-Date: Thu, 8 Jan 2026 10:19:18 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
-	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
-Message-ID: <aV8UJvkt7VGzHjxS@fedora>
-References: <cover.1763725387.git.asml.silence@gmail.com>
- <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com>
- <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com>
- <20251204110709.GA22971@lst.de>
- <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com>
- <20251204131025.GA26860@lst.de>
- <aVnFnzRYWC_Y5zHg@fedora>
- <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com>
- <20260107160151.GA21887@lst.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+	Thu, 08 Jan 2026 03:23:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TXh1FgaLYd1olAwzjjaY1363oSI0AvWHBDDyyVBh13TqwDf8bvsTqPQpICYMxRKuUSmK/tP6qvYFKLJ9ikWMlyjag265pLP3eK0tjLLPlvPQzpP/QFmDwgLYkmr/BaLWk0iD/vew/7Pm7l/HER0PCGwHiTfOfMGm6leXWycW7UxWawBud+lT6bxDQd4A5yAGQWq8vA69S/0Qk5pVKvR0SOQya8FAQZDlVgkshVjkegn7J9ylamfDiU8PDj5rtddgyjWNjJpKOiasEHxbq3YS8HSnAeqJuZIXlDrgIB+Z+LTbIFTfxalSHnruK+tILqzr4GTWxsucF8yRdQb+LAnneA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k7y3spx1Bqic7FZfqMhPFLJI6X+F+BRR50c1QWqY+3A=;
+ b=Re42oEpcOonEjvRYHoy/hE0rzpgeEivW7OY2OyltchIkPiZSXfc6Rnhwe7SQ5rzeULLdn4OCuEFtqCo2QvKfZKrsBs7EM09JwlVHKhsbg2Kn4INV399Jd/GV0CEe3ihbtZ2/g8wY6XA9jOKESpBWnhv2BtsTrOhZLvXpXIFJ/m/BNh32NE0uJPBKDdPt4/mrKpYBLDYI7R2Rcj9rxr+6m5WVRcPGgWPnvXGUp2azmT9Z+UqegtIrYbJl3yWrVoU8+q5kuFgka6+vhWsIMtI9rZ3asJHG4px6EVkC10ab8D9bDZ7MBGMHJHwJ8w0KLCXLiRI1tw43VVDUMcd7Yca4yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k7y3spx1Bqic7FZfqMhPFLJI6X+F+BRR50c1QWqY+3A=;
+ b=V908ietae4mk51ALvW70TQRpHPO/KrXTEjvvvvY/RbhKAQiIgGrGJCU7MPliLUQy2k1aO8tAzIlocmaaLbOeJGMW2s+NGGtz1Giqz4RlWFhPxK+DN1DDBkYYwS2RvhPwlefefMtcUtw036FiFwI/YIxxpigUtWtZFoCg09Vc85/ig4hYQ/iThwEdaSaQX1QC1iORhhjzJjVSwzYR5P7LPmwRttptHFx1zYR5mBOQIymaENYg6PGdAY+gjFExSNDQmB23OPK9cNK21/XL6tBWEkIcPruxv/3sVN8USVoPqa9Y6duyubKscaTNPCWrQZHUzS/+9RlmEu7B8xqlwDnzBw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ CH3PR12MB8909.namprd12.prod.outlook.com (2603:10b6:610:179::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Thu, 8 Jan
+ 2026 03:23:20 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9499.001; Thu, 8 Jan 2026
+ 03:23:20 +0000
+Date: Thu, 8 Jan 2026 14:23:16 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Hou Tao <houtao@huaweicloud.com>
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org, 
+	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, 
+	Leon Romanovsky <leonro@nvidia.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, houtao1@huawei.com
+Subject: Re: [PATCH 01/13] PCI/P2PDMA: Release the per-cpu ref of pgmap when
+ vm_insert_page() fails
+Message-ID: <46lz5szq44vz3chzj6unh2sff4cfnpyvih7zty6fcnitzyrulu@6a2xdopoafxt>
+References: <20251220040446.274991-1-houtao@huaweicloud.com>
+ <20251220040446.274991-2-houtao@huaweicloud.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260107160151.GA21887@lst.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+In-Reply-To: <20251220040446.274991-2-houtao@huaweicloud.com>
+X-ClientProxiedBy: SY5P282CA0167.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:24a::23) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|CH3PR12MB8909:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2742a540-83ae-4cf6-5d59-08de4e6545f6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TewcMrgEDt9NIjI5LLIDwGY3XN4ccvphZdIz5qvEDdL+qFeb3uBVfE0Ue1GW?=
+ =?us-ascii?Q?1BcDOdsbC4KR/8ha4fzt/kAq5gfg15YXYntCWm9h96jBJsNcMhys1RW5++Uj?=
+ =?us-ascii?Q?R4MN3Z3CrSo2hiNlSJnnEiq5EaLaSF0WyP3RqPWZHeK2LiloresDHexnQCxm?=
+ =?us-ascii?Q?LGogx/ZlD0zjcYe7zScl0Mi6WC2kMQ9jtsd2tJwVk/Utu8NJ0+vD3sSj2Qeg?=
+ =?us-ascii?Q?sVLhOlvKRqOPJMFss40eiTvEtwIVh978pVKoMV1dyhLw53XmMzRY1K4LMoVl?=
+ =?us-ascii?Q?xDUcelCrHH9PrgkJLoXGlt8OVaaHHaAjb6sk6dLQWZ1ku5OxonIyoPaD8XC3?=
+ =?us-ascii?Q?q55+c5I2rHMWrhrHQBSGJifSfGsLVWptzDHHcO/uCVtqMWGg5AY1A2OIHeRM?=
+ =?us-ascii?Q?MXJVwYig34ItEGhpFsab48Kueahq98nP63FQ0DxSu8S3Nm5NLhL1C4/ETiv/?=
+ =?us-ascii?Q?RIbYdOoXrLI0sXuwbaji2VnaJlAGFBmXxFibLLlQx2B3oWZMUkpM8Aql+KaP?=
+ =?us-ascii?Q?3T1lEUWSZR2Gt7B+9ZpsR9N/kV3NiQh1lJ7LSJcHZBqQPqWsFLQsWToNK6YY?=
+ =?us-ascii?Q?x4r/1vStjIGAwUSwOP5gMPKpeDyxh3pXz1jU2cRT+rOKD+c/udgT4OWZdWom?=
+ =?us-ascii?Q?r67s1QaY4Vu3hs6j8DCi4O24JWROJAzulOEW9KQmpT/PEUj/hHjWS7QiVI3S?=
+ =?us-ascii?Q?An+Yj3hDy13l42Ew1YTWWxYR3pJ9jIDxrm7MFIIX0zw1AxFNq7QKoC4NvPYs?=
+ =?us-ascii?Q?NPoM4U97XSI80tbm85bMdPW5lf/Ax2ZYoVX6wD++tv9jP2WcE5M+y3EJkq/7?=
+ =?us-ascii?Q?YVDA7ZznZ70Zs95E2facoctVzzVWIguKz5rXGHpUNMwfZvtqxqflKhLOXysy?=
+ =?us-ascii?Q?c5BKfWG9uKJQ/fATpCG4yh/TEoyTh2+Aqeh91HvcOUKda49Te86dHD4ppPpF?=
+ =?us-ascii?Q?n4l8DrlEXJrvwsRdPesy6vp3OYZeeCHqQmG85WLm0DSS8poaQviaMszzTzDq?=
+ =?us-ascii?Q?ZhL6WrEEx0MoP7G79/OZoiAc3eaH6t9RjG77IJUnTR8bx7JDPg8UbZnvMkWY?=
+ =?us-ascii?Q?Kg3Pr8ZZ7T30JjI6Wel5etDeycPKP9nATEWDjPZK2wPGPKfs6BB/bor88kr+?=
+ =?us-ascii?Q?uV3mrWfS93CKj01ww1hcEwHVPVK8oDwjyit75BHX/bcRDHvhRkZ+Enb3AtqH?=
+ =?us-ascii?Q?RBGoSGLltJr1fryG/01okJ1YU9CxbhwqPZvn0yuulntuVXdWfVydkj0q5TNL?=
+ =?us-ascii?Q?zwnFoh4BDdjVLwXSr8V+95PJ6TbX7XcjhVd0+oHAU92KfLQaiDMOYBS1JFYj?=
+ =?us-ascii?Q?Qs6W9ing2kjZVN9DuWxJ99pX9D+pk8Txb2bKEjZP4qr9Nm3Y4HiG5XQuc3a0?=
+ =?us-ascii?Q?ari66JjGEtknIO6QlavLnRJTdNcHB3sanxHrwEq2gkpL7KLqdmfT2dPkcQOy?=
+ =?us-ascii?Q?UfNdFVTPbJrJ3lbyhvgUWCdcTAvGuXRm?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bNJBNuetYyLHrendeP9ct6xHAK6HZJLD2KtVpLEzCG6a64zJhhIGlEtjLZaA?=
+ =?us-ascii?Q?e4qAzJ2FYntKJU0SrKOSSDGT6e4k6TTxSeY4Iujfk0bBlHocVco9pnWlt4Pe?=
+ =?us-ascii?Q?8LJz7cG5krgtHXiNKS+VOIeYitrjyt3Ejuyhe4FQmRlLbWifcD4vRCOSVoD0?=
+ =?us-ascii?Q?h1sXLx3BU3r5pD85nUt1d+Dxsi6+AtdJEG7GW+vCrFy38xej3Y56t5D8pbQz?=
+ =?us-ascii?Q?LdNt0ECgmzWzRetSS5NVG1y9mdt+yodFHRxIz0jJB9pK/1gBJFqWEhRQTgVe?=
+ =?us-ascii?Q?V+49W7GxZASJNdLrQZwWi6X3mBqwgM3/QFZVDJWoEZ8q2Lo7qdt1DJ4dkNsa?=
+ =?us-ascii?Q?2KwS84X1q3JQV8OMyKhak5haycuUx+KTwk8Uj3VBC5Z5JmRpbpOyKTeAX8Uw?=
+ =?us-ascii?Q?s0jHKE7z5ie8i+T1vuOYP/L10qA/bwhmdMXktmsf/wFeovUHFSUQlAASAvMF?=
+ =?us-ascii?Q?MlED7xHWt4+pbGmP/dYc2/jgpyijwDq4lk+bc22Ccmda/JhdwZkZHe248hXo?=
+ =?us-ascii?Q?z+/SKC1abiLXSZg7MGOUQoprGt28l4QCBkGj9NWdizMP6dyz+T1NFrFwLMeT?=
+ =?us-ascii?Q?Jgj6O6wPgOiPtLNudKy8TnARYqEfvO5YkmBoSq1a5nNeimIRh1Nm8ib+N5fF?=
+ =?us-ascii?Q?VY4ajGpC3SUr0V9NFxf08RGIWIzvJqSkfTZ+yVwoo7+OU2PhoubY47xTt1Ec?=
+ =?us-ascii?Q?6HkB0DtWXGRlDE5QMzh4pzDY3TxSdfQqDz5LnmmP6QZN2RsQmplPyCsD/YHE?=
+ =?us-ascii?Q?I+Y6tBU6MXBnvAqlb8tpuStwEziRX1y0XOeYoDtmrMGvWoenD0a8XmNsIyp0?=
+ =?us-ascii?Q?WAKTlcGj/wrs+W7moUcriReOrOLF3XmeqH3UVFv4SfzrGHo/1G/KpZM+9hVG?=
+ =?us-ascii?Q?qaFJtTQeFFeGENLzsVv4F5veUIh1p7e2C7dYS/Cxljsgtk4oQB2CXAkY5WYh?=
+ =?us-ascii?Q?b1a4Xshzfzl4JQ7DXUIpBgzl/fvVojqI0vCN7/w+W/XNWfQpi5d7wE3AqvhD?=
+ =?us-ascii?Q?ShTvKNoYXDtl+Oh20Pvy5+M7sYj92rVvbejxb4fgrNhZ5mwAiwRAXhKXf5YE?=
+ =?us-ascii?Q?jAEXsNnYepJgtJaPXJ//6UdCryCHp1bV6jBfMWLfvbcM3pJ610n7IZNkUyWa?=
+ =?us-ascii?Q?ciOhlAOJIsmpiQInxurGIJL6cpWIgvDaXb789SJU53QxO40HVMfZ0uEXQrjt?=
+ =?us-ascii?Q?GZpHcXd+QxbxJK5yaRt8D6OOd74OWGiDJSVj1A0ytnFKHnUBVNiG8KmbpbBF?=
+ =?us-ascii?Q?yLKQ2jqmalvAla2rjVfg8xytzKtNRKcH1ZlMpz95vpTVkGbdbuVeREnB3qg7?=
+ =?us-ascii?Q?EVf9/TwHwgx2U1zNLp736eMn1u4UmRK44EXDMCYV4oOwpFf34aVY4+4ihs2V?=
+ =?us-ascii?Q?DxFYA4s23pArGZoCD/rtDaTOkUrkrR7J8dPH/iXqHJ/v8lHAusPeZoxWO+yP?=
+ =?us-ascii?Q?tJRzuJUyZ5NjD7rWpVDLeMHS3mOqQwpEDr1hkdBXH1i9JAg1QCh3lVnstaK3?=
+ =?us-ascii?Q?2mG6F92xB2zI6nn1G7o9CHRw7typoUxlL61mO5gSZFMaC72WAApRV0E/MD02?=
+ =?us-ascii?Q?u+pCR8azH3NXPF+uR7e3W0c7nqStunLN712o0tW7lacmhm6+omBoTVoz5MXk?=
+ =?us-ascii?Q?rrWknZmdcz6+9TAWfEjfMPmoY0ulaz0ToGHh/yaPqo6N5LQ3Jj95SUyk/ilQ?=
+ =?us-ascii?Q?4/HR/sUmOcmD/U4Ks9B1hZV4KlMssdXkho4V3Jce7/bl0TGubvuCEFjZiL9J?=
+ =?us-ascii?Q?PoGzY0Pktw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2742a540-83ae-4cf6-5d59-08de4e6545f6
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2026 03:23:20.7124
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F+ZwdkJNQDhigZYPG4XGggbydvitNsrQueBVYEkgLkn3HyOqRL5nzK8h1hKcl2loVH0GiGjIQA3SR1gR0LIDBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8909
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260107_181945_452979_D4F333A1 
-X-CRM114-Status: GOOD (  19.71  )
+X-CRM114-CacheID: sfid-20260107_192326_633735_9455DEB2 
+X-CRM114-Status: GOOD (  17.19  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,26 +168,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Jan 07, 2026 at 05:01:51PM +0100, Christoph Hellwig wrote:
-> On Wed, Jan 07, 2026 at 04:56:05PM +0100, Christian König wrote:
-> > > But I am wondering why not make it as one subsystem interface, such as nvme
-> > > ioctl, then the whole implementation can be simplified a lot. It is reasonable
-> > > because subsystem is exactly the side for consuming/importing the dma-buf.
-> > 
-> > Yeah that it might be better if it's more nvme specific came to me as well.
+On 2025-12-20 at 15:04 +1100, Hou Tao <houtao@huaweicloud.com> wrote...
+> From: Hou Tao <houtao1@huawei.com>
 > 
-> The feature is in no way nvme specific.  nvme is just the initial
-> underlying driver.  It makes total sense to support this for any high
-> performance block device, and to pass it through file systems.
+> When vm_insert_page() fails in p2pmem_alloc_mmap(), p2pmem_alloc_mmap()
+> doesn't invoke percpu_ref_put() to free the per-cpu ref of pgmap
+> acquired after gen_pool_alloc_owner(), and memunmap_pages() will hang
+> forever when trying to remove the PCIe device.
+> 
+> Fix it by adding the missed percpu_ref_put().
 
-But why does FS care the dma buffer attachment? Since high performance host controller
-is exactly the dma buffer attachment point.
+This pairs with the percpu_ref_tryget_live_rcu() above right? Might be worth
+mentioning that as a comment, but overall looks good to me so feel free to add:
 
-If the callback is added in `struct file_operations` for wiring dma buffer
-and the importer(host contrller), you will see it is hard to let it cross device
-mapper/raid or other stackable block devices.
+Reviewed-by: Alistair Popple <apopple@nvidia.com>
 
-Thanks, 
-Ming
-
+> 
+> Fixes: 7e9c7ef83d78 ("PCI/P2PDMA: Allow userspace VMA allocations through sysfs")
+> Signed-off-by: Hou Tao <houtao1@huawei.com>
+> ---
+>  drivers/pci/p2pdma.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 4a2fc7ab42c3..218c1f5252b6 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -152,6 +152,7 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
+>  		ret = vm_insert_page(vma, vaddr, page);
+>  		if (ret) {
+>  			gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
+> +			percpu_ref_put(ref);
+>  			return ret;
+>  		}
+>  		percpu_ref_get(ref);
+> -- 
+> 2.29.2
+> 
 
