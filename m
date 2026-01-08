@@ -4,68 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95A71D1D478
-	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 15:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96B08D1D486
+	for <linux-nvme@archiver.kernel.org>; Thu,  8 Jan 2026 18:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=GL/JyBjUJmShYOyJwPO5n+a/X7IaKmCFq2H7t69Lepk=; b=taZRGZVpy1LetV
-	vY0wJYuzPVz0zvo3pQ83baKsrB1btO3jxEgs/LnZDpv2/i4vbsPpWVsOR9cM3j4ztncwBDjNOlgg/
-	ST9W4I8gLpVN91uTUFBgzFC+EGohC3iVP0d4TLGYjBvwo7OevqP4di53oYbtQCLlEmA4zEY3VVj+z
-	Hwc/iV83yBO7U4446OmnbiN+kZvJQd+aboD12hnPciSYCPT+LNfzdT3mTgEsXomYOj94b/77EsKm/
-	AsnymJxlyi0pQpBXJX3S4dn3CClDNmqH2Qi5srVFxLlt1pvbYB16AZqXy50AfU9mcD/nNee5fWfkO
-	h+xTY/gRUeasf2gHpNaA==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Fn/JoGzjgMnLNspl3ck18e3p9KeNwhc/CT4wpLvvEIw=; b=AMB6LwLtHDu/LaV9nOObSx7sZU
+	7nfyksWP7NBNn8szZPku/+ttXwYlFZMGJ/oyLpqmDBw+W7Gj6XwhTsVYXz7R2rMxoT4GzxC2Mp+7r
+	QGxPfmpuU13gSPQ4q93310T71hoKNygsYTJGLz0R7TDxr0Ff2BoZW8F4fd666ooUPmyLlxH066qui
+	/TPIZjlcH8n0qn8QESPFFkLBCfNZFJftLkiVd6Zks3Zcxm6F4m6GeHYSWkXVBeUOJKeSG/Y6ENOnt
+	hfiE9y+5V+zT1n4XvWTsml8l7AXdl0bnhZ42yvgx4OGx2WPoKLnWqpD66r7eaSvtf7nL+H5UKRic2
+	yoFpGuSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdsMk-000000000ZG-4Bjy;
-	Thu, 08 Jan 2026 15:56:03 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vdub5-00000000aLJ-445T;
+	Thu, 08 Jan 2026 18:18:59 +0000
+Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vdsMj-000000000Ys-32Ld
+	id 1vdub2-00000000aKj-40XZ
 	for linux-nvme@lists.infradead.org;
-	Thu, 08 Jan 2026 15:56:01 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id D35EF60130;
-	Thu,  8 Jan 2026 15:56:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DFD6C116C6;
-	Thu,  8 Jan 2026 15:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767887760;
-	bh=GfulWa/ARu4Yr8rPC67SODwYIn35P8iw0erhJXUkXcY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=smTz0YN5YLFmAlOwB/XE8lSG6WmMP9wwqSDofdB02oq65EsOYfnBlUklxTr+EgvDK
-	 D8lBV6Neawx+hCoXcQ6EgI+F4Vv4Zrwc9mjuyRoN2D9iz15mp/8X/xXkIDpluV8Z1+
-	 2w9Aq1d0cFAIHm7EvNx2GH1ulX6+5eXLtIUGYofhwcoOT947MRxroquuxMdN+9IewD
-	 W929EV3dvo4vDZAvAU27sNCWOs2xaEra2+bel24JzUK8CDMgc77ZvAVp3//FojQ+v7
-	 kOs71Vya+liqOAZf8HJg6nkTyKyr+a/U1QkBeLh3lRWlYEt1McXz1ecpnZeMxewfMx
-	 W9fCRcqMSwgog==
-Date: Thu, 8 Jan 2026 09:55:58 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-mm@kvack.org,
-	linux-nvme@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	houtao1@huawei.com
-Subject: Re: [PATCH 01/13] PCI/P2PDMA: Release the per-cpu ref of pgmap when
- vm_insert_page() fails
-Message-ID: <20260108155558.GA482755@bhelgaas>
+	Thu, 08 Jan 2026 18:18:57 +0000
+Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-5ed0a9cbb3fso1212439137.3
+        for <linux-nvme@lists.infradead.org>; Thu, 08 Jan 2026 10:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767896335; x=1768501135; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fn/JoGzjgMnLNspl3ck18e3p9KeNwhc/CT4wpLvvEIw=;
+        b=MIaHZRn6ZOrOztya8u8JCFLlEammfUxigXc4seBYpGJ8PAVrhzjvCLLgejr4beewu9
+         BDGEdNSsbvejQrp4uv4DpoAtHuUtvB685SMrR+1JXbasz9MatovAK9GP7I5GC/N7C/3l
+         9NbqnaMUbhjx7QzKr95eJqmJ4mCAAX3DBSDYErOFp3DeIk37cZZ/QFIoRJBM8Jf+q6kV
+         9TCyHYSCi6F4jr5oEHgYf1nMvBjYWMgJIhZFyseybnW8OUhfVE92FGTeWJRussqUi5c9
+         Et+HbSoL5eSL8t+EvfOzUjQFW4XpoHdcQ6X36vnkJswAP+5DoFIVfHuKqHgFBK3WcXEX
+         9+pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767896335; x=1768501135;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fn/JoGzjgMnLNspl3ck18e3p9KeNwhc/CT4wpLvvEIw=;
+        b=p4USDTCPo6VzKNHlJ+hBt59YG+bficHQsxMTTKrAUCCaD5lrOHrET7qitA4TyKAd2K
+         ux+BH1TYWHA3JjTpsi2yfSxhbs2EbhPXrEpmDuXf8Uolc+nelTtZ8tJgMLMW2qo41o6c
+         PA5t7s+zGo0bzqEZ/xxHBmI1a8YdpoRVww4OTGi59zBV4KM2geAHp19U8Hz3wSe99bSN
+         LqVFMfxb9quIIRqYMmPtYHnPzubSNfTD9vEQqSXENcNW0FyzmpyosEBp1poYFCm5Tu0U
+         TL2RBglYE65kxqLRr2zdLBCwVg3I6sFhDHb0NwRVmeXAYg4ZhY8sz2lQ61vYXYof3TSw
+         QCzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUREx3ExLy0OLfB5gQvwyaf6V5XIjKarR4W7TFf/3C/ekyGcK552xews2PDr+5jX0H3MGw1Y6Nmy32J@lists.infradead.org
+X-Gm-Message-State: AOJu0YylrBhxcMVFn4OJu08wC10X5m3ClB4kvFkmqeMiSvXnmzuutjJG
+	CxaKpFzpowet97zK2J5gvg8IVRekge0CINXtI24/QyANhTTzBMAEYgnc4i6wVeF1KX7UwtCRzD+
+	IoDdTe6v9lV95C+LcwiSaxGkOJk2oWGc=
+X-Gm-Gg: AY/fxX4QyNx12TE7lv9NaYpGzrTrXkpQJ6LKBoBCj2UQ8Q0WZQfGtwb53BpUv+NnPpe
+	WwKzQfN3CVvjD1rR363VQcPvM5+Qy+4ZcjrIgiODBHv1UKrBVJpM5+o+n/w/peqr69zW9mNOGnn
+	qcvc8ZPvn/VospB72kMNlN+dH11BZqoNRjCUjRNX6bkAvjTFcZvxoFCClIqSI10t4qlylTlTtAX
+	yumV5eTMFjMfipWYOkugsn9tgRQXMKUFEsqryrjXJihYoIcGJprpFhgtctQDUFCsTKqNK/mZ1Rz
+	nbgCNCXJ6O2MUXfFF0z9Q1++TVjz
+X-Google-Smtp-Source: AGHT+IFZDy2QW6KnuIxIEyHkKpqj6MMEJSR/7O9XSRt3iqhghTeDZkCmQR+L8EcADh1b6vUy07gKP1CBUhZxixK3ryE=
+X-Received: by 2002:a05:6102:4412:b0:5db:f352:afbe with SMTP id
+ ada2fe7eead31-5ecb5cbb3e6mr3294188137.6.1767896333290; Thu, 08 Jan 2026
+ 10:18:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <46lz5szq44vz3chzj6unh2sff4cfnpyvih7zty6fcnitzyrulu@6a2xdopoafxt>
+References: <20251224115312.27036-1-vitalifster@gmail.com> <cc83c3fa-1bee-48b0-bfda-3a807c0b46bd@oracle.com>
+ <CAPqjcqqEAb9cUTU3QrmgZ7J-wc_b7Ai_8fi17q5OQAyRZ8RfwQ@mail.gmail.com>
+ <492a0427-2b84-47aa-b70c-a4355a7566f2@oracle.com> <CAPqjcqpPQMhTOd3hHTsZxKuLwZB-QJdHqOyac2vyZ+AeDYWC6g@mail.gmail.com>
+ <6cd50989-2cae-4535-9581-63b6a297d183@oracle.com> <CAPqjcqo=A45mK01h+o3avOUaSSSX6g_y3FfvCFLRoO7YEwUddw@mail.gmail.com>
+ <58a89dc4-1bc9-4b38-a8cc-d0097ee74b29@oracle.com> <CAPqjcqq+DFc4TwAPDZodZ61b5pRrt4i+moy3K1dkzGhH9r-2Rw@mail.gmail.com>
+ <704e5d2a-1b37-43c5-8ad6-bda47a4e7fc6@oracle.com> <CAPqjcqqhFWz0eNGJRW-_PoJhdM7f-yxr=pWN2_AfGSP=-VpyMg@mail.gmail.com>
+ <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
+In-Reply-To: <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
+From: Vitaliy Filippov <vitalifster@gmail.com>
+Date: Thu, 8 Jan 2026 21:18:41 +0300
+X-Gm-Features: AZwV_Qi1KXJg98wuNlhob-PhKfYxveiRiQnCM2LlNsbeCGFpRxNmbpDflphYfZU
+Message-ID: <CAPqjcqoqR8UdC5K-RCjKvQEoA6jnRBVZc53ieR1fjJKz9-V9=w@mail.gmail.com>
+Subject: Re: [PATCH] fs: remove power of 2 and length boundary atomic write restrictions
+To: John Garry <john.g.garry@oracle.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260108_101856_997934_B74728CF 
+X-CRM114-Status: UNSURE (   4.12  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,61 +101,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Jan 08, 2026 at 02:23:16PM +1100, Alistair Popple wrote:
-> On 2025-12-20 at 15:04 +1100, Hou Tao <houtao@huaweicloud.com> wrote...
-> > From: Hou Tao <houtao1@huawei.com>
-> > 
-> > When vm_insert_page() fails in p2pmem_alloc_mmap(), p2pmem_alloc_mmap()
-> > doesn't invoke percpu_ref_put() to free the per-cpu ref of pgmap
-> > acquired after gen_pool_alloc_owner(), and memunmap_pages() will hang
-> > forever when trying to remove the PCIe device.
-> > 
-> > Fix it by adding the missed percpu_ref_put().
-> 
-> This pairs with the percpu_ref_tryget_live_rcu() above right? Might
-> be worth mentioning that as a comment, but overall looks good to me
-> so feel free to add:
-> 
-> Reviewed-by: Alistair Popple <apopple@nvidia.com>
-
-Added your Reviewed-by, thanks!
-
-Would the following commit log address your suggestion?
-
-  When the vm_insert_page() in p2pmem_alloc_mmap() failed, we did not
-  invoke percpu_ref_put() to free the per-CPU pgmap ref acquired by
-  percpu_ref_tryget_live_rcu(), which meant that PCI device removal would
-  hang forever in memunmap_pages().
-
-  Fix it by adding the missed percpu_ref_put().
-
-Looking at this again, I'm confused about why in the normal, non-error
-case, we do the percpu_ref_tryget_live_rcu(ref), followed by another
-percpu_ref_get(ref) for each page, followed by just a single
-percpu_ref_put() at the exit.
-
-So we do ref_get() "1 + number of pages" times but we only do a single
-ref_put().  Is there a loop of ref_put() for each page elsewhere?
-
-> > Fixes: 7e9c7ef83d78 ("PCI/P2PDMA: Allow userspace VMA allocations through sysfs")
-> > Signed-off-by: Hou Tao <houtao1@huawei.com>
-> > ---
-> >  drivers/pci/p2pdma.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> > index 4a2fc7ab42c3..218c1f5252b6 100644
-> > --- a/drivers/pci/p2pdma.c
-> > +++ b/drivers/pci/p2pdma.c
-> > @@ -152,6 +152,7 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
-> >  		ret = vm_insert_page(vma, vaddr, page);
-> >  		if (ret) {
-> >  			gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
-> > +			percpu_ref_put(ref);
-> >  			return ret;
-> >  		}
-> >  		percpu_ref_get(ref);
-> > -- 
-> > 2.29.2
-> > 
+Soo, let's remove the 2^N restriction for raw block devices?
 
