@@ -4,59 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C198BD232E5
-	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jan 2026 05:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D989ED232FD
+	for <linux-nvme@archiver.kernel.org>; Fri,  9 Jan 2026 09:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=X9hkYVDwdxjKLldK/bMIYELRwJHdwlWgGzt4GoFBWnk=; b=1uL4qf3HKPb5Fy698VTpDmSnR9
-	WppgXnKauCaHl1L56DW6CMh9yT3FHOLXpXRi7wLmZ7TovFcUJ6vWwlQmXUcRKug6q4hfv0+L0gxO0
-	+rwTX2ixbKxdIS675ZZ3Jfmpzqrzfo7DGTPSGG5TM6Fe9P+bKWkJ2+dEIeCzBXQOSkMbbL//sn/4E
-	9yMFVcZYSMEY8K+JCAwgN+8BIouOOV2mKm8genuwPUhL4jHtAoyzrPSWsB6F5elc47gYxqrOIJQbK
-	YjM8ogyvQ+fTEiGPXvdjS8wFIYz9YYfY8xhqu9KICONAd83N3q3XHVhd52h6dYCmIaNdq1253KmdB
-	Mcf7SqOA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=Kb7u+lszG/nXqIAGpk/hByhDC/8HGhmWaIRwB9KIYkQ=; b=gZZao+Pt6CUPu+7ulyqWWpc/mg
+	k6D8s1nznEWmlmy4lZuA7ovI0XLRQ3LyEjJuTFVrORjFFoZffNeiv7j+QF6dMPVywIQQZE2rd/y5C
+	f+603QuUgb/xtlDzobs4Pz29BpdmopaPScQQUMEfV+SRqGp53vDJX1MdbjIyiDmPqip0dFW4pOci5
+	4w5UZAZ2DF4cvP9ylfkI5COgoaLjR9SQERDt48cuvs3dWVZSYyT0hYjrqBDRqAQJKK/IOizHp0PxB
+	bSDa0qcVjqwTTrVpw3eVc9w7ADtVAZLbJnU8oIm46GB6LQXVohqXuFiaVIjgN9X/FHjoUHBEx6iA/
+	GjiXI6og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ve5WY-00000001UtT-3CW0;
-	Fri, 09 Jan 2026 05:59:02 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1ve8Zu-00000001z83-1HX5;
+	Fri, 09 Jan 2026 09:14:42 +0000
+Received: from mail.fontri.pl ([51.195.90.156])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ve5WU-00000001UsO-2TKe
+	id 1ve8Zq-00000001z7K-3pZQ
 	for linux-nvme@lists.infradead.org;
-	Fri, 09 Jan 2026 05:59:00 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id ADFF367373; Fri,  9 Jan 2026 06:58:52 +0100 (CET)
-Date: Fri, 9 Jan 2026 06:58:52 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
-	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
-Message-ID: <20260109055852.GA5063@lst.de>
-References: <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com> <20251204110709.GA22971@lst.de> <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com> <20251204131025.GA26860@lst.de> <aVnFnzRYWC_Y5zHg@fedora> <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com> <20260107160151.GA21887@lst.de> <aV8UJvkt7VGzHjxS@fedora> <20260108101703.GA24709@lst.de> <aWBjsa2RZ_uaO9Ns@fedora>
+	Fri, 09 Jan 2026 09:14:41 +0000
+Received: by mail.fontri.pl (Postfix, from userid 1002)
+	id AE888AECC0; Fri,  9 Jan 2026 10:11:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fontri.pl; s=mail;
+	t=1767949947; bh=Kb7u+lszG/nXqIAGpk/hByhDC/8HGhmWaIRwB9KIYkQ=;
+	h=Date:From:To:Subject:From;
+	b=ga9WChXVzMv7Md9O54xs/VM7LUoGQWfaCeoQzYBngBDs2ywyoLBcwS29qQqtv5StO
+	 qG7ZKpYnvVqwXv31HoG9PSOfxeO1dz56aXzfTPFYBrsEuAKAa3TuoRYPlR6sU3YEZ4
+	 Vas8q/fYp832xZ4uQrmv+vf9Z+JbqJEr1bEO7SQfHCIvJ1hGn6Z1QDAS9ojhdZPvWQ
+	 gvOk1/A3GmPEw0CWdpuQt4EFdCH6uxgf9eVuQty4cuSnBJyczEEwPWV7orlrESASzq
+	 SqXT9iCYTgGfks+OCRBJ2RzDkz7P0UruTJxNPFagnpDhe2YVkV7kTt7w7elQ5mCvRi
+	 AjvR9vv/mtliQ==
+Received: by mail.fontri.pl for <linux-nvme@lists.infradead.org>; Fri,  9 Jan 2026 09:11:18 GMT
+Message-ID: <20260109084500-0.1.td.6k9ir.0.qa4ebvfhba@fontri.pl>
+Date: Fri,  9 Jan 2026 09:11:18 GMT
+From: =?UTF-8?Q?"=C5=BBaneta_K=C4=99dzierska"?= <zaneta.kedzierska@fontri.pl>
+To: <linux-nvme@lists.infradead.org>
+Subject: =?UTF-8?Q?Odbi=C3=B3r_w_paczkomacie_?=
+X-Mailer: mail.fontri.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWBjsa2RZ_uaO9Ns@fedora>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260108_215858_961213_95F3323B 
-X-CRM114-Status: GOOD (  26.89  )
+X-CRM114-CacheID: sfid-20260109_011439_328561_7312DD4A 
+X-CRM114-Status: UNSURE (   1.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,36 +66,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 09, 2026 at 10:10:57AM +0800, Ming Lei wrote:
-> On Thu, Jan 08, 2026 at 11:17:03AM +0100, Christoph Hellwig wrote:
-> > On Thu, Jan 08, 2026 at 10:19:18AM +0800, Ming Lei wrote:
-> > > > The feature is in no way nvme specific.  nvme is just the initial
-> > > > underlying driver.  It makes total sense to support this for any high
-> > > > performance block device, and to pass it through file systems.
-> > > 
-> > > But why does FS care the dma buffer attachment? Since high performance
-> > > host controller is exactly the dma buffer attachment point.
-> > 
-> > I can't parse what you're trying to say here.
-> 
-> dma buffer attachment is simply none of FS's business.
+Dzie=C5=84 dobry,
 
-The file systems should indeed never do a dma buffer attachment itself,
-but that's not the point.
+jako lider w us=C5=82ugach kurierskich w Polsce przygotowali=C5=9Bmy elas=
+tyczne rozwi=C4=85zanie dla przedsi=C4=99biorc=C3=B3w.
 
-> > But even when not stacking, the registration still needs to go
-> > through the file system even for a single device, never mind multiple
-> > controlled by the file system.
-> 
-> dma_buf can have multiple importers, so why does it have to go through FS for
-> single device only?
->
-> If the registered buffer is attached to single device before going
-> through FS, it can not support stacking block device, and it can't or not
-> easily to use for multiple block device, no matter if they are behind same
-> host controller or multiple.
+Stworzyli=C5=9Bmy abonament =C5=82=C4=85cz=C4=85cy dostawy do Paczkomat 2=
+4/7 oraz obs=C5=82ug=C4=99 kuriersk=C4=85 - jeden dostawca, jedna faktura=
+ i przewidywalne, sta=C5=82e koszty.=20
 
-Because the file system, or the file_operations instance to be more
-specific, is the only entity that known what block device(s) or other DMA
-capable device(s) like (R)NIC a file maps to.
+Czy mog=C4=99 przedstawi=C4=87, co mo=C5=BCemy zaproponowa=C4=87 wzgl=C4=99=
+dem Pa=C5=84stwa potrzeb?
+
+
+Pozdrawiam
+=C5=BBaneta K=C4=99dzierska
 
