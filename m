@@ -4,72 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC17FD277D9
-	for <linux-nvme@archiver.kernel.org>; Sat, 10 Jan 2026 11:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A953BD277D7
+	for <linux-nvme@archiver.kernel.org>; Sat, 10 Jan 2026 13:25:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=3vUBrhGoGOqeFU4OGZLkjkWj9O9+KsUQhc4d7rj7ACs=; b=AEBgEqvhCeZTdUY55z8V6755mY
-	XlmkpkhRd58KKkQs1JLrmZDtPSkGQ/zpOGm6SD+ZDGMcNQPMHMx0qLiW0myw53hqVPqj6N9A3N4UO
-	ozLX4cfBR8A5tGCVdnmfRdhNio6whY1UgD1i0vv/28bmpO0sw9G+ShVDuOqMn7RfSmccsO8W9L7z+
-	u0TRDgI9SWaPHKadZmQPd64nx7qrnw/LDNDjWSrAQsQDNYjLyPgTGsQOEphTZ9R2TZdJGcBcwXI1a
-	Gh91Iro8oqRrCORkEE2e7DWQqqb/1I1EhiI9sXvUUeuKP82hvY6GzHSV12EnBNpxMvF71hLG0bnfC
-	yuwgQUQg==;
+	bh=t8hmhKecuVTGXZjRDkn2ex5jlI1GPUMbmXgngKLupKI=; b=xV5lCtaY7L6PMT/DXgfCp7VRjM
+	DWzr7fmNnurA4OXkF2I09Z0uIev6rdiOVY3DH2iQRv26zPsPvfG7SfPEFdbNmeNN8uXiB+tGRQc9P
+	DqD8olMqqZXjv0K6Xw8Ka79JzAYbNi5UFYl1Kf1P6TavTeFYVRN779Xybns03TYciT/Q3mTodHghS
+	OLdo1TAMtMdGZ3ChVkzkUiVUXLADVXbDzjThIrXOJOWABEhIkUzkpbZG+anpg2/21JkuG2jmEo0Y2
+	iF5Myyy43g+mTBSMQsGwQ8QgH/I/W4QgJ1E1NiUcOzL9n8i/Stg7qxGTF/wHRw+yDISw17+Vquwgz
+	hmmJWAbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1veWo0-00000003PlR-44Qx;
-	Sat, 10 Jan 2026 11:06:52 +0000
-Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+	id 1veYxg-00000003TEu-0jVl;
+	Sat, 10 Jan 2026 13:25:00 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1veWny-00000003Pky-3w2y
+	id 1veYxd-00000003TEZ-40aR
 	for linux-nvme@lists.infradead.org;
-	Sat, 10 Jan 2026 11:06:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1768043209; x=1799579209;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=H+75Y3z6eC/ktEbqfPekfgyioQ0sAKalaGFAZ8xcfas=;
-  b=lXdXC7iIg9l71u26nJvhZ0GBFYguKrhEW/wNcbVel6vLf1dlZ3rmUVn4
-   ET/+bBgWmpq9sAdvRDtCw4EaqD/A/+ur/pi/EbYhXv0hfz+GmbzADPRWn
-   o4x/aQ2cd/Tbagc8D7C78U4W50/9+sTARvhew0geAMYCoj1tWHxTXlOxm
-   s1uzFUmt2k8ECESdrKnK5o3ncYa2k5WF7MtLw7uLMVBtwkaJRhdcPVO4U
-   tc67ttZmEvMfB46MvLCHmiZ1JLCqWNr77nNiOSCfL3jpCywLuloj9DGRn
-   Emy78WfUdfEhhBMOuqUWcwHLKacaXqoNlOILuuoZiL4ABQ138rs8ygHpb
-   Q==;
-X-CSE-ConnectionGUID: +4lehOkLToG5aEYYSma3DQ==
-X-CSE-MsgGUID: QqyipFqWRPeeJTnamfOo5w==
-X-IronPort-AV: E=Sophos;i="6.21,215,1763395200"; 
-   d="scan'208";a="138318068"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep03.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 10 Jan 2026 19:06:48 +0800
-IronPort-SDR: 696232c9_JXx4ryThzwbOA6nq35xOgt456DyTzb1ADUyHsOoAGUy542c
- SX9RpE05J/oiw3XNXbCUbrOmsaaf2p2ZufM31Xw==
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep03.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 10 Jan 2026 03:06:50 -0800
-WDCIronportException: Internal
-Received: from wdap-aje8z4rbkk.ad.shared (HELO shinmob.wdc.com) ([10.224.109.25])
-  by uls-op-cesaip02.wdc.com with ESMTP; 10 Jan 2026 03:06:48 -0800
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: linux-nvme@lists.infradead.org,
-	Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Subject: [PATCH v2] nvmet: do not copy beyond sybsysnqn string length
-Date: Sat, 10 Jan 2026 20:06:47 +0900
-Message-ID: <20260110110647.197130-1-shinichiro.kawasaki@wdc.com>
-X-Mailer: git-send-email 2.52.0
+	Sat, 10 Jan 2026 13:24:59 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 8CF5F418B9;
+	Sat, 10 Jan 2026 13:24:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66204C4CEF1;
+	Sat, 10 Jan 2026 13:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768051496;
+	bh=XA4YqUHgVUeiBE4BwIy5hjNCCWAzL6nLNBDSXX3oIa4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jdjV/hI9oazcXsnapq++rNYBetnJTCDRp1y0SsdGZQ9mJvOp4uDsRJuu9Aplp/pjE
+	 HIli9Mc6YG1zVJccQyojy4dbZEm0u0u4oqLZIIaPPqIQk1gEft9lfyQr1QjAxOKyRZ
+	 LkDNJd8y+kK6sZhx41M5sHN/+wXzT6K9oHq22GKAvQtGfMG0ZOQ5pXrFSqjvIamnoA
+	 sbYPtzN3H0SeI5hZFjpVtV4Xs09wTfH9c+M9in87y58XFTClsTJumtBme2vHTUZXd0
+	 +xxvB8838GPVI5655N+E1lN3bAxlk1c269Qf3gVOwp/Phtu80PA3RUhJ7ImjXJNgsr
+	 DgFUeKAtm/45w==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-block@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	bpf@vger.kernel.org
+Cc: lsf-pc@lists.linux-foundation.org,
+	linux-kernel@vger.kernel.org
+Subject: LSF/MM/BPF: 2026: Call for Proposals
+Date: Sat, 10 Jan 2026 14:24:17 +0100
+Message-ID: <20260110-lsfmm-2026-cfp-ae970765d60e@brauner>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3604; i=brauner@kernel.org; h=from:subject:message-id; bh=XA4YqUHgVUeiBE4BwIy5hjNCCWAzL6nLNBDSXX3oIa4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQmBTNfW5TyusdikYe/c1Vxhbhzj9Yb+TkB+0RNHjjt4 fm3coN6RykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQEmxgZzpoGuQadvLVQvthV 6leEY91rxzlTngl7mvFk9XC9OZz4iJHh/sXdHe69W85W2X1VetGk33XRcSeThHbBCvFFKWFM3Yu 5AQ==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260110_030650_992218_D86DEC26 
-X-CRM114-Status: GOOD (  16.72  )
+X-CRM114-CacheID: sfid-20260110_052458_039114_95625796 
+X-CRM114-Status: GOOD (  11.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,139 +78,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Commit edd17206e363 ("nvmet: remove redundant subsysnqn field from
-ctrl") replaced ctrl->subsysnqn with ctrl->subsys->subsysnqn. This
-change works as expected because both point to strings with the same
-data. However, their memory allocation lengths differ. ctrl->subsysnqn
-had the fixed size defined as NVMF_NQN_FILED_LEN, while
-ctrl->subsys->subsysnqn has variable length determined by kstrndup().
-Due to this difference, KASAN slab-out-of-bounds occurs at memcpy() in
-nvmet_passthru_override_id_ctrl() after the commit. The failure can be
-recreated by running the blktests test case nvme/033. To prevent such
-failures, replace memcpy() with strscpy(), which copies only the string
-length and avoids overruns.
+The annual Linux Storage, Filesystem, Memory Management, and BPF
+(LSF/MM/BPF) Summit for 2026 will be held May 4–6, 2026 in Zagreb,
+Croatia.
 
-Fixes: edd17206e363 ("nvmet: remove redundant subsysnqn field from ctrl")
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
----
-Changes from v1:
-* Collected Reviewed-by tags
-* Corrected the tense mistake in the commit message
+LSF/MM/BPF is an invitation-only technical workshop to map out
+improvements to the Linux storage, filesystem, BPF, and memory
+management subsystems that will make their way into the mainline
+kernel within the coming years.
 
-FYI, here I share the WARN which caused the blktestes nvme/033 failure.
+LSF/MM/BPF 2026 will be a three-day, stand-alone conference with four
+subsystem-specific tracks, cross-track discussions, as well as BoF and
+hacking sessions. Please check out:
 
-[   32.011546] [    T994] run blktests nvme/033 at 2025-12-20 20:49:57
-[   32.176786] [     T81] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[   32.181701] [     T81] ==================================================================
-[   32.182619] [     T81] BUG: KASAN: slab-out-of-bounds in nvmet_passthru_execute_cmd_work+0xe0a/0x1750 [nvmet]
-[   32.183718] [     T81] Read of size 256 at addr ffff888146030fc0 by task kworker/u16:4/81
-p
-[   32.184899] [     T81] CPU: 1 UID: 0 PID: 81 Comm: kworker/u16:4 Not tainted 6.19.0-rc1+ #69 PREEMPT(voluntary) 
-[   32.184903] [     T81] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-8.fc42 06/10/2025
-[   32.184905] [     T81] Workqueue: nvmet-wq nvmet_passthru_execute_cmd_work [nvmet]
-[   32.184919] [     T81] Call Trace:
-[   32.184921] [     T81]  <TASK>
-[   32.184923] [     T81]  dump_stack_lvl+0x6a/0x90
-[   32.184939] [     T81]  ? nvmet_passthru_execute_cmd_work+0xe0a/0x1750 [nvmet]
-[   32.184950] [     T81]  print_report+0x170/0x4f3
-[   32.184954] [     T81]  ? __virt_addr_valid+0x22e/0x500
-[   32.184958] [     T81]  ? nvmet_passthru_execute_cmd_work+0xe0a/0x1750 [nvmet]
-[   32.184969] [     T81]  kasan_report+0xad/0x150
-[   32.184974] [     T81]  ? nvmet_passthru_execute_cmd_work+0xe0a/0x1750 [nvmet]
-[   32.184986] [     T81]  kasan_check_range+0x115/0x1f0
-[   32.184989] [     T81]  __asan_memcpy+0x1f/0x60
-[   32.184991] [     T81]  nvmet_passthru_execute_cmd_work+0xe0a/0x1750 [nvmet]
-[   32.185003] [     T81]  ? lock_acquire+0x16a/0x2f0
-[   32.185008] [     T81]  ? __pfx_nvmet_passthru_execute_cmd_work+0x10/0x10 [nvmet]
-[   32.185019] [     T81]  ? lock_acquire+0x17a/0x2f0
-[   32.185021] [     T81]  ? process_one_work+0x722/0x1490
-[   32.185024] [     T81]  ? lock_release+0x1ab/0x2f0
-[   32.185027] [     T81]  process_one_work+0x868/0x1490
-[   32.185031] [     T81]  ? __pfx_process_one_work+0x10/0x10
-[   32.185033] [     T81]  ? lock_acquire+0x16a/0x2f0
-[   32.185037] [     T81]  ? assign_work+0x156/0x390
-[   32.185040] [     T81]  worker_thread+0x5ee/0xfd0
-[   32.185044] [     T81]  ? __pfx_worker_thread+0x10/0x10
-[   32.185046] [     T81]  kthread+0x3af/0x770
-[   32.185049] [     T81]  ? lock_acquire+0x17a/0x2f0
-[   32.185051] [     T81]  ? __pfx_kthread+0x10/0x10
-[   32.185053] [     T81]  ? __pfx_kthread+0x10/0x10
-[   32.185055] [     T81]  ? ret_from_fork+0x6e/0x810
-[   32.185058] [     T81]  ? lock_release+0x1ab/0x2f0
-[   32.185060] [     T81]  ? rcu_is_watching+0x11/0xb0
-[   32.185062] [     T81]  ? __pfx_kthread+0x10/0x10
-[   32.185064] [     T81]  ret_from_fork+0x55c/0x810
-[   32.185066] [     T81]  ? __pfx_ret_from_fork+0x10/0x10
-[   32.185068] [     T81]  ? __switch_to+0x10a/0xda0
-[   32.185072] [     T81]  ? __switch_to_asm+0x33/0x70
-[   32.185074] [     T81]  ? __pfx_kthread+0x10/0x10
-[   32.185077] [     T81]  ret_from_fork_asm+0x1a/0x30
-[   32.185081] [     T81]  </TASK>
+          https://events.linuxfoundation.org/lsfmmbpf/
 
-[   32.211854] [     T81] Allocated by task 1052:
-[   32.212651] [     T81]  kasan_save_stack+0x2c/0x50
-[   32.213499] [     T81]  kasan_save_track+0x10/0x30
-[   32.214313] [     T81]  __kasan_kmalloc+0x96/0xb0
-[   32.215104] [     T81]  __kmalloc_node_track_caller_noprof+0x2e7/0x8d0
-[   32.216072] [     T81]  kstrndup+0x53/0xe0
-[   32.216784] [     T81]  nvmet_subsys_alloc+0x243/0x680 [nvmet]
-[   32.217710] [     T81]  nvmet_subsys_make+0x95/0x480 [nvmet]
-[   32.218585] [     T81]  configfs_mkdir+0x457/0xb30
-[   32.219365] [     T81]  vfs_mkdir+0x615/0x970
-[   32.220093] [     T81]  do_mkdirat+0x3a1/0x500
-[   32.220813] [     T81]  __x64_sys_mkdir+0xd3/0x160
-[   32.221583] [     T81]  do_syscall_64+0x95/0x540
-[   32.222333] [     T81]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+for further details on the venue and hotels.
 
-[   32.223734] [     T81] The buggy address belongs to the object at ffff888146030fc0
-                           which belongs to the cache kmalloc-32 of size 32
-[   32.225728] [     T81] The buggy address is located 0 bytes inside of
-                           allocated 21-byte region [ffff888146030fc0, ffff888146030fd5)
+This is a call for proposals for technical topics for this year's event.
 
-[   32.228244] [     T81] The buggy address belongs to the physical page:
-[   32.229238] [     T81] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x146030
-[   32.230466] [     T81] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
-[   32.231539] [     T81] page_type: f5(slab)
-[   32.232239] [     T81] raw: 0017ffffc0000000 ffff888100042780 dead000000000122 0000000000000000
-[   32.233443] [     T81] raw: 0000000000000000 0000000000400040 00000000f5000000 0000000000000000
-[   32.234692] [     T81] page dumped because: kasan: bad access detected
+We are asking that you please let us know you want to be invited by
+February 20, 2026. We realize that travel is an ever-changing target,
+but it helps us to get an idea of possible attendance numbers.
 
-[   32.236259] [     T81] Memory state around the buggy address:
-[   32.237135] [     T81]  ffff888146030e80: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
-[   32.238303] [     T81]  ffff888146030f00: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
-[   32.239531] [     T81] >ffff888146030f80: fa fb fb fb fc fc fc fc 00 00 05 fc fc fc fc fc
-[   32.240676] [     T81]                                                  ^
-[   32.241679] [     T81]  ffff888146031000: fa fb fb fb fb fb fb fb fc fc fc fc fa fb fb fb
-[   32.242843] [     T81]  ffff888146031080: fb fb fb fb fc fc fc fc fa fb fb fb fb fb fb fb
-[   32.244019] [     T81] ==================================================================
-[   32.245229] [     T81] Disabling lock debugging due to kernel taint
-[   32.247366] [   T1063] nvme nvme5: creating 4 I/O queues.
-[   32.249203] [   T1063] nvme nvme5: new ctrl: "blktests-subsystem-1"
-[   32.251921] [     T86] nvme nvme5: Duplicate unshared namespace 1
-[   37.389407] [     T86] nvme nvme5: Removing ctrl: NQN "nqn.2019-08.org.qemu:deadbeef"
-[   38.286242] [   T1179] SoftiWARP attached
-[   38.349942] [    T994] run blktests nvme/033 at 2025-12-20 20:50:03
+(1) Fill out the following Google form to request attendance and
+    suggest any topics for discussion:
 
- drivers/nvme/target/passthru.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+          https://forms.gle/hUgiEksr8CA1migCA
 
-diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-index 96648ec2fadb..67c423a8b052 100644
---- a/drivers/nvme/target/passthru.c
-+++ b/drivers/nvme/target/passthru.c
-@@ -150,7 +150,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
- 	 * code path with duplicate ctrl subsysnqn. In order to prevent that we
- 	 * mask the passthru-ctrl subsysnqn with the target ctrl subsysnqn.
- 	 */
--	memcpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
-+	strscpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
- 
- 	/* use fabric id-ctrl values */
- 	id->ioccsz = cpu_to_le32((sizeof(struct nvme_command) +
--- 
-2.52.0
+    If advance notice is required for visa applications, please point
+    that out in your proposal or request to attend, and submit the topic
+    as soon as possible.
 
+(2) Please send topics to
+
+          lsf-pc@lists.linux-foundation.org
+
+    and to the relevant technical audience:
+
+          FS:     linux-fsdevel@vger.kernel.org
+          MM:     linux-mm@kvack.org
+          Block:  linux-block@vger.kernel.org
+          ATA:    linux-ide@vger.kernel.org
+          SCSI:   linux-scsi@vger.kernel.org
+          NVMe:   linux-nvme@lists.infradead.org
+          BPF:    bpf@vger.kernel.org
+
+(3) Please tag your proposal with [LSF/MM/BPF TOPIC] and ensure that
+    each topic is a separate thread.
+
+(4) The Google form has an area for people to add required/optional
+    attendees. Please encourage new members of the community to submit a
+    request for an invite as well. Maintainers or long-term community
+    members can add nominees to the form to help make sure that new
+    members get the proper consideration.
+
+(5) For discussion leaders, slides and visualizations are encouraged to
+    outline the subject matter and focus the discussions. Please refrain
+    from lengthy presentations and talks in order for sessions to be
+    productive; the sessions are supposed to be interactive, inclusive
+    discussions.
+
+LWN has covered previous iterations of LSF/MM/BPF extensively:
+
+          2014: https://lwn.net/Articles/LSFMM2014/
+          2015: https://lwn.net/Articles/lsfmm2015/
+          2016: https://lwn.net/Articles/lsfmm2016/
+          2017: https://lwn.net/Articles/lsfmm2017/
+          2018: https://lwn.net/Articles/lsfmm2018/
+          2019: https://lwn.net/Articles/lsfmm2019/
+          2020: 404 - Cancelled by The Plague
+          2021: 404 - Cancelled by The Plague
+          2022: https://lwn.net/Articles/lsfmm2022/
+          2023: https://lwn.net/Articles/lsfmmbpf2023/
+          2024: https://lwn.net/Articles/lsfmmbpf2024/
+          2025: https://lwn.net/Articles/lsfmmbpf2025/
+
+The program committee for this year consists of:
+
+          Javier González    (Storage)
+          Martin K. Petersen (Storage)
+          Christian Brauner  (Filesystems)
+          Amir Goldstein     (Filesystems)
+          Jan Kara           (Filesystems)
+          Vlastimil Babka    (MM)
+          Matthew Wilcox     (MM)
+          Daniel Borkmann    (BPF)
+          Martin KaFai Lau   (BPF)
+
+Thank you,
+Christian Brauner
 
