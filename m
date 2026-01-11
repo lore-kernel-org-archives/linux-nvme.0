@@ -4,167 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C971D25026
-	for <linux-nvme@archiver.kernel.org>; Sat, 10 Jan 2026 22:15:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBEEDD2502F
+	for <linux-nvme@archiver.kernel.org>; Sun, 11 Jan 2026 09:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pyESP346nncFFwnnf+rL1k6rZXfknn+BJgHNcqcB42o=; b=F3+5+Dysv3l1CtqSkm/UgOJWQX
-	j6Jm3O73Fp0XnYPjZzivkfr9ensHtameiAi+KvjYkqonkgSY850MAoH68X+MHDIqHS7rmnM8KUvvR
-	5mUVZHWA5XRNy/y9c0+dH9/CRR8CSkQ3nkq7k/T/zqRHQUq2s209FEqfn3h2UTl1/PcIgi3ngTykX
-	u1rVZc7aRJHgwC+JG7eDv/ZMKsIoYBhxR6W35fkVcis7SSjY09RHYo8N2+BVFRhNq8PT8RdqsG00Y
-	pQbgETSuZ2M/4sk0q0o+ZuCt35NbD60WUqqJydIxka2UQ25P0n+p5MX8SaFPJZNmvox51CQpq5Llm
-	F+qJob8w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DzkjtoKrjv1m2dJZv34E0w1zhtTVXdLL7YhctfNiGQY=; b=DTNVipgqZi7kv5X2lSvEha1QHP
+	bPcDNY5jmjmKnt+e7C9ymG8YDUihxq0xxoExSIXtXc41DgHyQf7w2FGNRIKISEG5TZtEZ22av5in4
+	rakfrhmLurJZJJAUhQOnImBDzUKUrRxhcfSNNEUhAfM89HOi6qxmk/JH20HuJTvIfiVITwjHN8niK
+	lr5uLoZqbSV2gbD3iAkTQovvnDoaYRQfwIDjyN9E6UGHVCmGHPV3/RVPYPZs5VGZ/tcH9/mnt1Orv
+	ljC/x/zRNUWtzAs1rr1FW00Ad7ZGFCm6Z6MXZ8WTtjjxMoJdXK8c78ad0CwVYsSIstf4v31iOT45W
+	L8b971/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vehEg-00000003ivo-1hAK;
-	Sat, 10 Jan 2026 22:15:06 +0000
-Received: from mail-eastus2azlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c110::1] helo=BN1PR04CU002.outbound.protection.outlook.com)
+	id 1verq6-000000044G8-1Atr;
+	Sun, 11 Jan 2026 09:34:26 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vehEZ-00000003iv6-02Qo
+	id 1verq4-000000044G1-16JT
+	for linux-nvme@bombadil.infradead.org;
+	Sun, 11 Jan 2026 09:34:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=DzkjtoKrjv1m2dJZv34E0w1zhtTVXdLL7YhctfNiGQY=; b=LMAAaMQgAg2pc7Jcr/C4RzeEV2
+	d8s4qVEKAUE2hTIUjsjzJ8BeYRVW9dT06TWgxpHEfky9z2CmtSMUZIRTR6C5xNiG4lwGychxcw/oS
+	tcYD1D7XPexF6aGqdtVd0FP8qU/ClmopFVGoZ/BmhGDKYa4pNumCiYSdh/shj60ksYzHcjE/fQVLB
+	rgh7dDXD9z5uWsYgFONC04G4QEQd+wsqHcdTdjZzvwtNYdzbyGy5ATaFTEV6zplMv1vttNe0lUssa
+	DpukSH7FtwIXywbRLp5fFHCtcODyy1Q2fY95MJxU8tWgJ7fddhZLMEzK1v++jI0UiOIk9dRbIkirQ
+	vqkkMMCg==;
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1verq0-0000000Gxs7-33CT
 	for linux-nvme@lists.infradead.org;
-	Sat, 10 Jan 2026 22:15:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZVDNKgVqaiUaX5IrSgu3N/exE7Zz56gw4WrUlwMI7fGteHf8VvzfFH4Zw0aUXTUt54VZXnziZSFwaoqXA6Dx6nYPysD6uyzDSGIfx+0Ep8O4GWCkYI7Q6CI9bUJ/4y4IAFGHPRmR+rSFymMXXYVFUwPDcU+xlIAwvUaBcpw8bmMT2uC4/gZZIZQaoVeBWx4PvY0amqEk5r7sZieT+Q3y8hM12oqVbFer5f80/NyAZn1k7FBJAs50C2BxotpJkSFu3NfWzi1/l1hI8yeyArI7iGZrx1OsmqRJR37K+at7LT5YU9sm/4DQ5AWDUfQFyhDBDtpdiLjxg//U8S1l6o3JaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pyESP346nncFFwnnf+rL1k6rZXfknn+BJgHNcqcB42o=;
- b=xLSlYHesE22fwL+0nBOvp1ngP8e5mZwhX10IlWHAHvPS1ztyUcuVlRvWdz9t8dDWs6k30uCSuXlgYyMk6V6X+p5rqmWvWG1Zuizu06Q/SmqEUmVZmFiTfluGhAuN4h4I6ntyCgFFgHgh5kX/VmYVBX/2qIFCPe7s5J7cGQeC3NCcPI2ZiaA21pXqyA9AwXNSPJO8+5xjlbnL2i1+khxWfE9RlMS0LTiMFGxm/L/p1p1ZTW0uG+SeJyiNmNEbjXqbwHuEzjtc+Up9wnHwdAywCzWxfWkUZQ8BodL8EVwdkPJjIfd1Wl071mnEk2MBaACIKbCRwuuyK090qGYCEiP0HA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pyESP346nncFFwnnf+rL1k6rZXfknn+BJgHNcqcB42o=;
- b=HBeOHx86zZeHglTq7bmHNlXnOALdujKGzxO2cRzY8G4x2lWQJbXhELgw+ewJhrPwUiImxgxJd9+U8LvmHZ/+M+2GEYbXUYGT3ht/L+S8Kr5AS4CivWH7VLZjQtJkoST86T+XrJ6vnBmXr7S04jzVzYfKBRkKWqClQeVbUM2wWanpu3R/SmeCxB59J8789aI2WPB6JJHkqByawOrpFyxLw0IPVOxNwaLfHZRKGKWb0D5/oICOTUWLVNlXl+DSPPELIEcfIHRmPLP0skwlV2YY7AbBwbRiaq8Z++UFXsqm5b8s1XvH6kiFxRnuxgZb/sGJVaV/Xc3KoBIVfgyeGMXzQQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA1PR12MB6257.namprd12.prod.outlook.com (2603:10b6:208:3e7::13)
- by MW4PR12MB7142.namprd12.prod.outlook.com (2603:10b6:303:220::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.6; Sat, 10 Jan
- 2026 22:14:52 +0000
-Received: from IA1PR12MB6257.namprd12.prod.outlook.com
- ([fe80::19e6:8541:a93c:de4c]) by IA1PR12MB6257.namprd12.prod.outlook.com
- ([fe80::19e6:8541:a93c:de4c%6]) with mapi id 15.20.9499.005; Sat, 10 Jan 2026
- 22:14:52 +0000
-Message-ID: <7fbcf3e6-693a-49b3-884b-155c90275b6c@nvidia.com>
-Date: Sun, 11 Jan 2026 00:14:49 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvmet: do not copy beyond sybsysnqn string length
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>
-References: <20260110110647.197130-1-shinichiro.kawasaki@wdc.com>
-Content-Language: en-US
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20260110110647.197130-1-shinichiro.kawasaki@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TLZP290CA0008.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:9::20) To IA1PR12MB6257.namprd12.prod.outlook.com
- (2603:10b6:208:3e7::13)
+	Sun, 11 Jan 2026 09:34:23 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60AAtXgt003748;
+	Sun, 11 Jan 2026 09:33:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Dzkjto
+	Krjv1m2dJZv34E0w1zhtTVXdLL7YhctfNiGQY=; b=BkG6sJHNMvW44YaZRW9IwA
+	am67Ph5u7tIO/npYpqa7P9r1hdGt8p07b4MtFDZxd6///kPFAIPLu/ZVKktMebNF
+	nfomDlVgk6b1lCHfB1sK8ahLzjMkCBk9/XGidbfm2BYlvxs3zZTnSWncM8xo6Q8f
+	CgkgLQWFsIhObq2zK5upwECxCczkPZ/KEgGLvvTGkyzbJBE+KukekoJeE3EpAedJ
+	4IQL8+/6iTe0ICHHS2Oiy10Ue2wIw7WpDzIYu0RK0w3qBw6rFEB+5MMz/+QEQb6r
+	3Z609waLbFdywEj/L8aarFVlwPASDcC5D72JHFZ3ViHOBNoZmbDyAyyjsn1Dwkpg
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bkeg43c56-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 11 Jan 2026 09:33:55 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60B8Y5jY029743;
+	Sun, 11 Jan 2026 09:33:54 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bm3aj914v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 11 Jan 2026 09:33:54 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60B9XqNu12255756
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 11 Jan 2026 09:33:52 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9DA565804E;
+	Sun, 11 Jan 2026 09:33:52 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0EAD75803F;
+	Sun, 11 Jan 2026 09:33:46 +0000 (GMT)
+Received: from [9.111.75.249] (unknown [9.111.75.249])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Sun, 11 Jan 2026 09:33:45 +0000 (GMT)
+Message-ID: <833fd772-da6c-4f91-87e3-e13883f1815d@linux.ibm.com>
+Date: Sun, 11 Jan 2026 15:03:43 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6257:EE_|MW4PR12MB7142:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a301e0e-04bb-44c8-33f5-08de5095ad79
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QVg5ald1WENvWlVkYkh2aFdXQW1oUGtxeDNrZVE4MlM2aGNpNXQ3dEh5YVZR?=
- =?utf-8?B?OVJndnp5U3hSTHBYVWUvVlFzbVNmZ0lKMC95NDdTRXBUZWVOZExsTmt3cTV3?=
- =?utf-8?B?c2dZdjNtOUpBSDNUMUtFNE81VDRIelBUTUI5N1puVm9NU1lmYUZEZ3dJNUV1?=
- =?utf-8?B?UDBkcWhlVUV6bTVXKy8wbEl5T1VxSlVXOUNSMGV6ZlpnNEVpNEF4RUJkSHJP?=
- =?utf-8?B?WjQzaSttelE3ck9JeVhBa1BUdHNiVHZEejBPS0pNazRYMHJqeHBhN3pUeWp1?=
- =?utf-8?B?MlJQZ3lMZ0NKdG9UYTl5TTFmL29KbU5zdHhtRnVJQ1JlbE4rOTU0Y05ZMFZ0?=
- =?utf-8?B?TDNUSTNjbDNiRTRuOWJlTTY2UE9SWThudG8xcWJPOVV1L01MbFhWeTJRSXh5?=
- =?utf-8?B?STVNS3lSVE9kbDdkVUV2Umh4RjJWSHQrZEFhVncxTXFmR1JBem9YVVlpMUJ6?=
- =?utf-8?B?RFFGYWxVak5kSnNqdlBxcjV6bUQxeW9PcnZYYmdnKzZtQWxhcTRLcW13VEli?=
- =?utf-8?B?eVhOR204UVBZN3VtT0t0cnJodWZIZi82RXEzTWdMSDlrbllXc1pEa0owenJT?=
- =?utf-8?B?UHpRbllJS2hmOEJUQUVwZnRaSHFVRDJucG4xRnVKMW1aT1VEY3VPM3U5SUJH?=
- =?utf-8?B?UHpFbUNYRUkvSDd6dUEvQ1B2cWpUamdCM2lFcm1hSDhIRjd0OEdLNFlwb0xM?=
- =?utf-8?B?MlA1Unl1bDRLRFZQbThwZDZJaSsrSE5IeVBMNmc3VHRDckhEa0F5ZGtSd09H?=
- =?utf-8?B?L1NKZTYzSnhhMDlEa3BaN1did0NGSFh1aWdQMmZqTTlhdDY0UUpiNXl5dDVq?=
- =?utf-8?B?VEZ1MkttMzE4L2U5a0liQVo2MXFKNjhPTkpJQUdrVnB4cUxBOVJaYWNYOTA1?=
- =?utf-8?B?SndJMkMvUjVZUHZZbm8rRDFIcnFJNGVaTUdjTklCM0RPQTVEUUl0dk5tVVFr?=
- =?utf-8?B?MUVMWWU2WGZ2c0RUOVlUYmo0UjY1SlFvRjBkZ1hGNUZxUkxPMTQ3NWt6aGRH?=
- =?utf-8?B?Y2YyVXRMYU9kR2tHMUhHME1UbzFUWFF3dDdwWWo2OUl6QktkaHg2RkEwTjhD?=
- =?utf-8?B?R1A2U29TamFxY3hFQnJzRUpmcTJCT0FGUU5qM0R4RXo4WGZpdko2YUZoczBs?=
- =?utf-8?B?TnpSVEo1eVUzamJIU2h6eVBzcDZkRUNHdk82RDhTRmlkTmp5SjVVL293a0NY?=
- =?utf-8?B?NTEzRjJpZmlPWkhXSHpXdlRGLzdoWXNiUWFUYWIyNm9tYjh2OUdsSlY3NnBY?=
- =?utf-8?B?WDBWdW9vL2hMVmwzRmlTV0FMMncwMWkvS2tuSUpHdkpXNWR2RHpRUk9QTmVl?=
- =?utf-8?B?SXJXM2tMOFlpMnVVSVo5eEg1M3ZGeThtWGNKRUw2SVFPVnlxVmFLWUIwODFE?=
- =?utf-8?B?RkhwVVdXUlYxUHh5V2ZCQXhQcHJqL3NheVZMUXVLMGkrbm1adFhPT2V4RnhV?=
- =?utf-8?B?QXNST0tYdWpIKy9tMjg5MzlCYkc3MTVBVTJuM3BKTERRWWlVQy82OGJCcGlN?=
- =?utf-8?B?bHRvT1JNaUkrNCt5Z3Y5MWNiZ3UxanVHZ0lTM2FwcTFKZjdVYlAyREk1aURj?=
- =?utf-8?B?dTVlSUF4eGE0cnJQMlRLMlZZQWYzMndNNmRDS01MNUY0di9OS1FTaWdPVEpO?=
- =?utf-8?B?ZTJYUXJhbXJCQkpYaHNmTmd3ODd5Wmd6YjZvMUFLbmo2ZjdHc2R1NDE4OWYr?=
- =?utf-8?B?eUwvQXk0WnllZUxsNXg1cDdKazk1RnZtbjhMWS84TGc1VmJIQ3o4cHVFeHBV?=
- =?utf-8?B?dm42R1V5NUsyUXlPb1pUNTdPRGtieVhhdnpMU0pIbE0zTFExS3RodE1ZMkE4?=
- =?utf-8?B?WGsxNXhQUjA3V2FuMWJpUENkcUd2cUtEU2lkdnNYSy9vSmQ4bm5kZmszYStz?=
- =?utf-8?B?NlB0amppMEx4c3hqZVJYeFpxUGJ2RjlqblVyVlRocDNwNWloQ2tPeStUQW41?=
- =?utf-8?Q?dVqOz9awjD5Jcy64Qx4zbOoSB+D2/9Hr?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6257.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0tHcnBSazVzYlkwOHVSUldoZUQwYmM4VE5HalFNemdzSjcwT0FvcFAzaG8z?=
- =?utf-8?B?dWNWMWlnK25UcUhEL1hjK1dsbTlROWhmTFRndlh0U0l5ODB5K1I3b0RIUU01?=
- =?utf-8?B?KzBlK0s0RUVmcnBCamNnVnJlY1RZTDBOdUlzM3lMcm1pbnJ5U0xWZys5Y2ZI?=
- =?utf-8?B?TUd4MmFPbDJPVFNsd1BHbDFnYzhMVVRQZmlSYmttVUtmS0tiOHQyekk1Ym81?=
- =?utf-8?B?RU4yR0hnSXU0dGF4ZkhNWENUQUtIR0VvRnVTdGtSMjJXS1g1aVE5VEcvQ3BU?=
- =?utf-8?B?aGxQQUFINU5GaEl5WStXVzNPU1JyV0swUVdjU3VOQ3lKKzNheUlOQ01oK3JS?=
- =?utf-8?B?NEJ4NnVPRXNuQnozWTA3ZTYyeVRibEM1cWVVSGQ4cUVLTERIQ2g1MEJtK0xi?=
- =?utf-8?B?WXhEcjZnWjgrK2NIQ0ZSa1FPcURtaE1zdUZ3a092dVVXRFJZUzVydXdmK1VS?=
- =?utf-8?B?NGVVaHNPaDBNRHFGNUNwdW9wVDhSd2dRL0RLYXN2bzZDakdocXcvR2dEbkgv?=
- =?utf-8?B?NEJlY1ZtZjdRMk5KWkd3S3pWcDUwUWdpc0JJa0ZIaDlMYTlyY21vYloxUWEv?=
- =?utf-8?B?MExtRGJkNXpwSnVEbllRdzVSNUw0WmFUYi9jQkpNZzhub3RuVzNkYjU3bzl5?=
- =?utf-8?B?QjJlZjZ4Qmh1OWdqQXY3VGlmN05icncvRnNLZ3NLMG9veFh5Y3VqeU1qd2Qy?=
- =?utf-8?B?aERFc3FHdDdNOHVHVG5mcEtRbG9rRzYrdHB5RnR3YzUveUpKNWoybytOSlly?=
- =?utf-8?B?RzZDV1IxZjZLSDE0b3loKzdpNzNScHkwWjgyZW1nNit2UmhTUXdEVjdlZFVX?=
- =?utf-8?B?RXhoK2hwVVRHZzR2WlI4K096QkJ2ZUQ3TEg2REJIcithVkF1MUN2U1hPdGdm?=
- =?utf-8?B?VWhIR1dOdkJMV2xnTHZENEtKc1RJWEw5RllEUkNIa1lhWGRCOUZjbm94KzB2?=
- =?utf-8?B?Tmhpc3ZOYm9hWklOTU1Wdnd1TktoVUxReldTOWJoa1dNV25XOEQwUHdvQXQy?=
- =?utf-8?B?VXRGNVJzR3hsTFVkYTk4OEUzWXpaUXhrYi95alJYY0E5TG9IQ041a2t3RnU4?=
- =?utf-8?B?OXMzdUUzZTIvaUJrRHFLQVpjbTl6YWZWRS9HNDNya2NzTlViMEo4N3lOSWpL?=
- =?utf-8?B?b0JGM1ZRWEFEVWVoY0ZMWTVTODNhVkdrK2l0Qkx4T05WQkFLRGJJUG5INnBr?=
- =?utf-8?B?Rm1zT0xBY3lzbklZSk0ybDJRMVZJZm5ZOXQrOGpPQ3NoM21SWWo2NEZkai9n?=
- =?utf-8?B?ZGFtdGhhS00rOUtOaEtsV1lLSkFZWUJ5N1g0akhsbURhaEZ0WUxhbExQNnRI?=
- =?utf-8?B?d293VHhCcW1VVmpHT0pWcSszOVhzVjdHeTd3V2kwSG1RSzNlR2x0RWYxakVM?=
- =?utf-8?B?SmdlbVZzYThDODRGUUppVDZ4UDFpcVQ4Y1RDbHRPQ1VJWndiNm9BQUxhdWNO?=
- =?utf-8?B?VGpYV2czOExNNFc1SjdVNjY4bDJtVDdFWUNLYmNQU2ptR2hCOEpqa3JFeXdU?=
- =?utf-8?B?aWdISnVCcEM4YWd6NURFMnJQMGxLU1ZFa3Vra3FRU1BoRE9yeDk5cFJZL1Rr?=
- =?utf-8?B?eFpuQnVBUllXdHZiaENlMkwzTHh4ZzJPUGNxOEdmRVJVSFMzRXFyazBlWlA3?=
- =?utf-8?B?ZlB6eVIwK3oxRHlCamh5Vkt1WVM1N01NRklLOGJpOEYzVXdJOVJtRnh5dzNi?=
- =?utf-8?B?bi9ud3NJMDBLK1J4d1dabUJhZzgweHd1RUt5RFZGTkQ3UXBoRDIwNWZod0s4?=
- =?utf-8?B?Qk1uKzFSN3hMdExHM3dWY2JYTWJ2NU9ZY2R6WmJiYmpEM1N3eW1sSGtVb0lt?=
- =?utf-8?B?c0xpek9xdzhaY1ZTcm9UQjJNNUhmWEJ6L1lPN3dlMXo3OFhPNVlMblpneWMw?=
- =?utf-8?B?Tld3ZHk2QW5nbmQyRXBmTG9QUTJ3R0F5VUNKeGlGZktyeldjMUNzTm05bENj?=
- =?utf-8?B?QUF5WlYrWEhOSmtVc2dmRTlNN1dEUWV0RHZreERrdlRsaTRGRjFwV3laLyt5?=
- =?utf-8?B?cjFvNXZ0bHpDUlRmV3JCK0UxNlhVQnBFVnJhSE5hVkYxYjRESHF2b25JU0J4?=
- =?utf-8?B?UU0vcE4wZjdYNkZoeEJuSmI1aGdjdHplRXNsWWR5UE9UMS9aYzVTK1pucXh5?=
- =?utf-8?B?TjZtb0xPVXAvQWcwd3BQUi85L21MS0RSdU1talIwcDRVUVc1dzBUK2cxUE5F?=
- =?utf-8?B?a1J1dkFqdldOWkJjUGtqTk9RZFNnbEdVRWt6bUpjR0JQd0wyT0dqMUJ6dnQ5?=
- =?utf-8?B?Qk5aZzhGVzhxZVJRV3ZUeEhlNjI1bE95MW9LL09oaHVIaGFzUHg2V205OFlR?=
- =?utf-8?B?NGdSSkhXYS8yeFJGS0dTM21tVUIvUkhlOG9WMHhaRm81MUF3TE4xZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a301e0e-04bb-44c8-33f5-08de5095ad79
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6257.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2026 22:14:52.6454
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BxXUXDB7fU2sIUIb7lbOlv9olk2hUjnXzlskzLrDdQHnA1zrZZeP/DnVK8wRV9EREwB+FsENXqPx/h9k8ZX/cQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7142
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
+To: John Meneghini <jmeneghi@redhat.com>, Daniel Wagner <wagi@kernel.org>,
+        Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+        James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>,
+        Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+        Wen Xiong <wenxiong@linux.ibm.com>,
+        Narayana Murty N <nnmlinux@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Ewan Milne <emilne@redhat.com>,
+        Maurizio Lombardi <mlombard@redhat.com>
+References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
+ <20250214-nvme-fc-fixes-v1-1-7a05d557d5cc@kernel.org>
+ <8574c297-fc02-40d6-ba67-ab43e3d5e394@redhat.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <8574c297-fc02-40d6-ba67-ab43e3d5e394@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTExMDA4MyBTYWx0ZWRfXzWbR2P2rqSXp
+ +YfnCWdNQAfyNc7hRlWteC9xBkMwJ7u9wR1NvAbM0qdBrq/+zfrKDf/m7MrbAApADHkku2wF9rI
+ 6V3ijwuppgCNKlecMOrkzvm+PEAKmFXm5K3f/DHJaOSe2M4eF85DMHr3kaF2HCLcNnfN4GgS/Ly
+ zdEjGiN8zGDR2ioDYkSbco6tXw2QZrXcM0z/MZJrmCXS3DUeqtCOuQvsQ1XGwOzmkmajwARVl1z
+ 8MHosOyRUtqsovX17n9oan22ozpndbQFdUkkgmErXUfWPPwxfK8Ho0HVUVMrUAwnlj7ljw8/IMi
+ UYGmKB5yHbvR93un8lM+bMuKFra8q51RHe/DntEZFNajJURhEl9/mSdcz1yWoT86O2WEMni5/GJ
+ qCjHLMJvioICGp42LaAR1Dlts0+ctIJvSBV0F2sfbT0cd4xPOdVnQGofWv7sY8lQB6GnN5W5XBQ
+ Jg244XD5t5X9NmT1bbg==
+X-Proofpoint-ORIG-GUID: gotUgaBsAhywBiS7bIj_ZAu0ifDxhHhY
+X-Authority-Analysis: v=2.4 cv=B/60EetM c=1 sm=1 tr=0 ts=69636e83 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=20KFwNOVAAAA:8 a=VwQbUJbxAAAA:8 a=KNIaPvg0B0HtyHoiZVoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: gotUgaBsAhywBiS7bIj_ZAu0ifDxhHhY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-11_03,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 phishscore=0 adultscore=0 clxscore=1011 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2601110083
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260110_141459_080276_D02BAF1D 
-X-CRM114-Status: GOOD (  12.03  )
+X-CRM114-CacheID: sfid-20260111_093421_403874_AC6DF320 
+X-CRM114-Status: GOOD (  28.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -179,26 +143,118 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
->   drivers/nvme/target/passthru.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/target/passthru.c b/drivers/nvme/target/passthru.c
-> index 96648ec2fadb..67c423a8b052 100644
-> --- a/drivers/nvme/target/passthru.c
-> +++ b/drivers/nvme/target/passthru.c
-> @@ -150,7 +150,7 @@ static u16 nvmet_passthru_override_id_ctrl(struct nvmet_req *req)
->   	 * code path with duplicate ctrl subsysnqn. In order to prevent that we
->   	 * mask the passthru-ctrl subsysnqn with the target ctrl subsysnqn.
->   	 */
-> -	memcpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
-> +	strscpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
->   
->   	/* use fabric id-ctrl values */
->   	id->ioccsz = cpu_to_le32((sizeof(struct nvme_command) +
-
-Looks good,
-
-Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 
 
+On 1/10/26 12:48 AM, John Meneghini wrote:
+> Unfortunately, it has been discovered that this patch causes a serious regression on powerpc platforms.
+> 
+> If anyone has a powerpc platform with an NVMe/PCIe device installed, please run this simple test and see if it works.
+> 
+> # uname -av
+> Linux rdma-cert-03-lp10.rdma.lab.eng.rdu2.redhat.com 6.19.0-rc4+ #1 SMP Wed Jan  7 21:42:54 EST 2026 ppc64le GNU/Linux
+> 
+> # nvme list-subsys /dev/nvme0n1
+> nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:HHHL:S4WANA0R400032
+>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:1654a627-93b6-4650-ba90-f4dc7a2fd3ee
+>                iopolicy=numa
+> \
+>  +- nvme0 pcie 0018:01:00.0 live optimized
+> 
+> # nvme subsystem-reset /dev/nvme0; nvme list-subsys /dev/nvme0n1; sleep 1; nvme list-subsys /dev/nvme0n1; nvme list-subsys /dev/nvme0n1;
+> nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:HHHL:S4WANA0R400032
+>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:1654a627-93b6-4650-ba90-f4dc7a2fd3ee
+>                iopolicy=numa
+> \
+>  +- nvme0 pcie 0018:01:00.0 resetting optimized
+> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
+> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
+> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
+> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
+> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
+> 
+> # nvme list-subsys /dev/nvme0n1;
+> 
+> # nvme list-subsys /dev/nvme0n1;
+> nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:HHHL:S4WANA0R400032
+>                hostnqn=nqn.2014-08.org.nvmexpress:uuid:1654a627-93b6-4650-ba90-f4dc7a2fd3ee
+>                iopolicy=numa
+> \
+>  +- nvme0 pcie 0018:01:00.0 resetting optimized
+> 
+> At this point the machine is HUNG. It's stuck in the resetting state forever.
+> 
+> Because /dev/nvme0n1 is the root device, I need to power-cycle/reboot the host to recover.
+> /John
+> 
+> On 2/14/25 3:02 AM, Daniel Wagner wrote:
+>> The fabric transports and also the PCI transport are not entering the
+>> LIVE state from NEW or RESETTING. This makes the state machine more
+>> restrictive and allows to catch not supported state transitions, e.g.
+>> directly switching from RESETTING to LIVE.
+>>
+>> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+>> ---
+>>   drivers/nvme/host/core.c | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 818d4e49aab51c388af9a48bf9d466fea9cef51b..f028913e2e622ee348e88879c6e6b7e8f8a1cc82 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -564,8 +564,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>>       switch (new_state) {
+>>       case NVME_CTRL_LIVE:
+>>           switch (old_state) {
+>> -        case NVME_CTRL_NEW:
+>> -        case NVME_CTRL_RESETTING:
+>>           case NVME_CTRL_CONNECTING:
+>>               changed = true;
+>>               fallthrough;
+>>
+> 
+This was broken because with this commit d2fe192348f9 (“nvme: only allow entering LIVE
+from CONNECTING state”) now we don't allow changing controller state from 
+RESETTING -> LIVE. I saw we also had similar state change issue with firmware activation 
+code which was fixed by explicitly transitioning the controller state through RESETTING ->
+CONNECTING -> LIVE. We may employ the similar solution here for subsystem reset case as well. 
+
+Currently, the NVMe PCIe subsystem reset code performs the following steps:
+
+1. Sets the controller state to RESETTING
+2. Writes the subsystem reset command to the NSSR register
+3. Attempts to transition the controller state directly to LIVE
+
+This effectively bypasses the CONNECTING state. The transition to LIVE is artificial but
+intentional, since writing to the NSSR register causes the loss of communication with the
+NVMe adapter and the controller must be marked LIVE so that any in-flight I/O at the time the
+subsystem reset is issued, or an explicit MMIO read, can trigger EEH recovery and ultimately
+restore communication link between the NVMe adapter and the system.
+
+With the stricter state transition rules introduced by commit d2fe192348f9 (“nvme: only allow
+entering LIVE from CONNECTING state”), the direct transition from RESETTING -> LIVE is no longer
+permitted, rendering the current logic ineffective.
+
+Taking a cue from the firmware activation fix, it seems reasonable to explicitly transition
+the controller state through CONNECTING in the subsystem reset path as well. So how about making
+the following change to fix this? 
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0e4caeab739c..3027bba232de 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1532,7 +1532,10 @@ static int nvme_pci_subsystem_reset(struct nvme_ctrl *ctrl)
+        }
+ 
+        writel(NVME_SUBSYS_RESET, dev->bar + NVME_REG_NSSR);
+-       nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE);
++
++       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
++           !nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
++               goto unlock;
+ 
+        /*
+         * Read controller status to flush the previous write and trigger a
+
+Thanks,
+--Nilay
 
