@@ -4,131 +4,156 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EBEEDD2502F
-	for <linux-nvme@archiver.kernel.org>; Sun, 11 Jan 2026 09:34:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 542E7D25031
+	for <linux-nvme@archiver.kernel.org>; Sun, 11 Jan 2026 23:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DzkjtoKrjv1m2dJZv34E0w1zhtTVXdLL7YhctfNiGQY=; b=DTNVipgqZi7kv5X2lSvEha1QHP
-	bPcDNY5jmjmKnt+e7C9ymG8YDUihxq0xxoExSIXtXc41DgHyQf7w2FGNRIKISEG5TZtEZ22av5in4
-	rakfrhmLurJZJJAUhQOnImBDzUKUrRxhcfSNNEUhAfM89HOi6qxmk/JH20HuJTvIfiVITwjHN8niK
-	lr5uLoZqbSV2gbD3iAkTQovvnDoaYRQfwIDjyN9E6UGHVCmGHPV3/RVPYPZs5VGZ/tcH9/mnt1Orv
-	ljC/x/zRNUWtzAs1rr1FW00Ad7ZGFCm6Z6MXZ8WTtjjxMoJdXK8c78ad0CwVYsSIstf4v31iOT45W
-	L8b971/g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dCngUvF7hhyZLH0T1CWE01Biwd5hHIa98WMVSmrS5mA=; b=yg6oxtoEBrebROcp7sVCHD+Ksm
+	6EO2JgZUpC0c0u1VrJpNMSiBuGmbIBlnf+0cjsd/wCYnbkOjIvIyEr77sK4jyKFMQ91uobCJ60adb
+	WLtU9/ZodIGSYMLtLTLAumtKuWtEa+GwssGIABeX7UNP+gBIAMsBzuEIcwttuySKg1ohumg+hyHz7
+	mjCMJ39HQdlkTJxFDeBjVVVqIvxTjg2Vf5vLuOYnSyokGIn0/LwGfr5Kk7VDyCZ7MtpOR/Or+4e6u
+	Uldd/XGSJKjABsU6ETjka5QphoO5ee3P2QTJmue/oOOW+eNs8tXlu7pvN9ThsnkRkYSp7dmfPp4xA
+	07co+sIg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1verq6-000000044G8-1Atr;
-	Sun, 11 Jan 2026 09:34:26 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1vf4kh-00000004ZD3-2Z8H;
+	Sun, 11 Jan 2026 23:21:43 +0000
+Received: from mail-westus3azlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c107::3] helo=PH0PR06CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1verq4-000000044G1-16JT
-	for linux-nvme@bombadil.infradead.org;
-	Sun, 11 Jan 2026 09:34:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=DzkjtoKrjv1m2dJZv34E0w1zhtTVXdLL7YhctfNiGQY=; b=LMAAaMQgAg2pc7Jcr/C4RzeEV2
-	d8s4qVEKAUE2hTIUjsjzJ8BeYRVW9dT06TWgxpHEfky9z2CmtSMUZIRTR6C5xNiG4lwGychxcw/oS
-	tcYD1D7XPexF6aGqdtVd0FP8qU/ClmopFVGoZ/BmhGDKYa4pNumCiYSdh/shj60ksYzHcjE/fQVLB
-	rgh7dDXD9z5uWsYgFONC04G4QEQd+wsqHcdTdjZzvwtNYdzbyGy5ATaFTEV6zplMv1vttNe0lUssa
-	DpukSH7FtwIXywbRLp5fFHCtcODyy1Q2fY95MJxU8tWgJ7fddhZLMEzK1v++jI0UiOIk9dRbIkirQ
-	vqkkMMCg==;
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1verq0-0000000Gxs7-33CT
+	id 1vf4ka-00000004ZCi-0lNA
 	for linux-nvme@lists.infradead.org;
-	Sun, 11 Jan 2026 09:34:23 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60AAtXgt003748;
-	Sun, 11 Jan 2026 09:33:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Dzkjto
-	Krjv1m2dJZv34E0w1zhtTVXdLL7YhctfNiGQY=; b=BkG6sJHNMvW44YaZRW9IwA
-	am67Ph5u7tIO/npYpqa7P9r1hdGt8p07b4MtFDZxd6///kPFAIPLu/ZVKktMebNF
-	nfomDlVgk6b1lCHfB1sK8ahLzjMkCBk9/XGidbfm2BYlvxs3zZTnSWncM8xo6Q8f
-	CgkgLQWFsIhObq2zK5upwECxCczkPZ/KEgGLvvTGkyzbJBE+KukekoJeE3EpAedJ
-	4IQL8+/6iTe0ICHHS2Oiy10Ue2wIw7WpDzIYu0RK0w3qBw6rFEB+5MMz/+QEQb6r
-	3Z609waLbFdywEj/L8aarFVlwPASDcC5D72JHFZ3ViHOBNoZmbDyAyyjsn1Dwkpg
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bkeg43c56-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 11 Jan 2026 09:33:55 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60B8Y5jY029743;
-	Sun, 11 Jan 2026 09:33:54 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bm3aj914v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 11 Jan 2026 09:33:54 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60B9XqNu12255756
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 11 Jan 2026 09:33:52 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9DA565804E;
-	Sun, 11 Jan 2026 09:33:52 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0EAD75803F;
-	Sun, 11 Jan 2026 09:33:46 +0000 (GMT)
-Received: from [9.111.75.249] (unknown [9.111.75.249])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 11 Jan 2026 09:33:45 +0000 (GMT)
-Message-ID: <833fd772-da6c-4f91-87e3-e13883f1815d@linux.ibm.com>
-Date: Sun, 11 Jan 2026 15:03:43 +0530
+	Sun, 11 Jan 2026 23:21:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rvlMzsAiBP7vu7C/G9PELQ0cLLJKfZVfbiLgFwHHjRCs5qWChFPy/Tb36ZzqriKWDZvhI/hVZpWI7yp9pnpv0kYghQOabJvvIDS8M7DppaUlrdJ2d6odbYYjcBddV/fJTjI7lW0mIIP0kYPuQJsaEv5huz8cGxrczPmCmZXgwONBYQ2qLOMvRffv/nk2jnCA4q7WIhEk6oj2Epz5Gb0Oqh2K2bec6rHoe8iI+9w6lXyZfi83CdNHY2VDm2pKS6AfgdqxN9oAetWerEhOjVHatfDxRALDosW/AqpJBTVuTW3MeG1NAT+xnpd2If5mDB9ZLx3R1V2XiY3dsVSgcSvvOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dCngUvF7hhyZLH0T1CWE01Biwd5hHIa98WMVSmrS5mA=;
+ b=ksg90iE1MlOBo8k2fAbNtq8PyuJX1lHgmv/UR6RCC5BCaaiaMjwKxdIdlnmiFNbvp5dNQzzMCxG4aOUHzYEXp/XQAcmsXlZdxn9I1xRQsuPMLn/Wk0Www18jRIr0fZxf3HYZkMEEHAQxBZoXsTENlmBmaw+WJgc4CoRCVnQHzf7OQ+IN2vduRqJC9kmYpOgYu4sdLQ+kxtZttmRDQqjmLqgz2p1kTZritxwPA6HioXe0xGuFKPmAJ9movi237AmRQgQ/vuZyMXoRZFXR63MVA+1Af6YI3W9slHJPM3tZolsReOlfmfQ607wjWT75sHGIcqRn5EEENSnBgiuRLR65QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dCngUvF7hhyZLH0T1CWE01Biwd5hHIa98WMVSmrS5mA=;
+ b=Cx2OLj9+5RkLjH+UxLSxrWDGIABLbrlHGsEWu6PTgHvemX4jUc6Fb7e0u+nz6sJitHv1eMTBRX36JpUypZd837gTTcGBZ91PVuTzepLls/bFap+NDqXt+CHUtNPfWTTbdVhAu1lC37Px3VgWUtuTpiHlj7XwGedtrbC19iL8V/I1EuHw5roeWDX4jqJtdM+V0sHzIIN10L4HK3cdFQ8JWASiAwPd57928tP3easGLWESesWzqzlHORPLfjmRRpw1hMzfPEJ2DtcFPtaoVLbfM33qaLxIUS06VrSAptUFQ+hujPJ3RDAqKLAu2BqSQDI7QkKq+NOEztM03FGnwyHusw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ MN2PR12MB4190.namprd12.prod.outlook.com (2603:10b6:208:1dd::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Sun, 11 Jan
+ 2026 23:21:27 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9499.005; Sun, 11 Jan 2026
+ 23:21:27 +0000
+Date: Mon, 12 Jan 2026 10:21:22 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-nvme@lists.infradead.org, 
+	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, 
+	Leon Romanovsky <leonro@nvidia.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, houtao1@huawei.com
+Subject: Re: [PATCH 01/13] PCI/P2PDMA: Release the per-cpu ref of pgmap when
+ vm_insert_page() fails
+Message-ID: <troogtjpbpaxbx34qu56a3qeu7eat36lzp4pvq4asoejxv3zbp@za7hekzxsgpo>
+References: <vrti6maahtwfrd6xrdmyupunprioodhl7x5alpi2r6kyi4qcyr@ga6a5yrdvmb2>
+ <20260109150342.GA544448@bhelgaas>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260109150342.GA544448@bhelgaas>
+X-ClientProxiedBy: SY5P282CA0099.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:204::8) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
-To: John Meneghini <jmeneghi@redhat.com>, Daniel Wagner <wagi@kernel.org>,
-        Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-        James Smart <james.smart@broadcom.com>, Hannes Reinecke <hare@suse.de>,
-        Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-        Wen Xiong <wenxiong@linux.ibm.com>,
-        Narayana Murty N <nnmlinux@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Ewan Milne <emilne@redhat.com>,
-        Maurizio Lombardi <mlombard@redhat.com>
-References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
- <20250214-nvme-fc-fixes-v1-1-7a05d557d5cc@kernel.org>
- <8574c297-fc02-40d6-ba67-ab43e3d5e394@redhat.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <8574c297-fc02-40d6-ba67-ab43e3d5e394@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTExMDA4MyBTYWx0ZWRfXzWbR2P2rqSXp
- +YfnCWdNQAfyNc7hRlWteC9xBkMwJ7u9wR1NvAbM0qdBrq/+zfrKDf/m7MrbAApADHkku2wF9rI
- 6V3ijwuppgCNKlecMOrkzvm+PEAKmFXm5K3f/DHJaOSe2M4eF85DMHr3kaF2HCLcNnfN4GgS/Ly
- zdEjGiN8zGDR2ioDYkSbco6tXw2QZrXcM0z/MZJrmCXS3DUeqtCOuQvsQ1XGwOzmkmajwARVl1z
- 8MHosOyRUtqsovX17n9oan22ozpndbQFdUkkgmErXUfWPPwxfK8Ho0HVUVMrUAwnlj7ljw8/IMi
- UYGmKB5yHbvR93un8lM+bMuKFra8q51RHe/DntEZFNajJURhEl9/mSdcz1yWoT86O2WEMni5/GJ
- qCjHLMJvioICGp42LaAR1Dlts0+ctIJvSBV0F2sfbT0cd4xPOdVnQGofWv7sY8lQB6GnN5W5XBQ
- Jg244XD5t5X9NmT1bbg==
-X-Proofpoint-ORIG-GUID: gotUgaBsAhywBiS7bIj_ZAu0ifDxhHhY
-X-Authority-Analysis: v=2.4 cv=B/60EetM c=1 sm=1 tr=0 ts=69636e83 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=20KFwNOVAAAA:8 a=VwQbUJbxAAAA:8 a=KNIaPvg0B0HtyHoiZVoA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: gotUgaBsAhywBiS7bIj_ZAu0ifDxhHhY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-11_03,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 bulkscore=0 spamscore=0 impostorscore=0
- malwarescore=0 phishscore=0 adultscore=0 clxscore=1011 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2601110083
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MN2PR12MB4190:EE_
+X-MS-Office365-Filtering-Correlation-Id: abbfb56e-d82c-4240-6e35-08de51682478
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?/9gq8qC4tM2TDQyA0W//kk7+PunPZi2Z7XoFTpLomLRTihrVbAm6e4O3Pbb6?=
+ =?us-ascii?Q?pc0ZRZuGtym6JjE39fwRErmvwYPTJBlvd+MbYZpaW9Adxw82+5yRC6iQjRlW?=
+ =?us-ascii?Q?3TZrRW4BNXkBAz4tSBgR0kqHGzL7hFwjqJcCvU6hTnKFnWaZiZiWNCzV+CbB?=
+ =?us-ascii?Q?byFVLBiV2s8KmghqQbtHmsloXdYud4/DvX/Bb14JJdEJ/WQmUTak4gQYtM3x?=
+ =?us-ascii?Q?unMAKSI7tWcSIleKIg8IrF/nbvw5HYWt7mqZrW45P8BuxNZcVPjX0PTt84vt?=
+ =?us-ascii?Q?QedBGWOkFvgIwn2JLarqZUbf5oK5AkKEn0Z7f/5bEKhBpjNNcm6RIAVPDAEo?=
+ =?us-ascii?Q?ZDAj0a0w5FNy8bAzwNDOA0PLUY6K3cI1HkPQhNkrCszvkBUyLgbbi1+R5ksO?=
+ =?us-ascii?Q?HUmSMby6B06OIheCtBChYIyVEjTZahBTB+nTXGnHpsUVU8s6d3MXbLqMbZhE?=
+ =?us-ascii?Q?pl3Xfg1FF4bU7k7xADgGog37Cgbcf5HSUjGrrnPxrLJtuf/1m3o3qOOyPRkS?=
+ =?us-ascii?Q?SUo1gTy/jfH5fv/GYDvGFA3qX6nRDfpMIADFephnP1uvek76p+Uw/xIupDTT?=
+ =?us-ascii?Q?C6OwayTq7oKBsorFCUNUNu8zqNhqm5hNKImlDVadbyGiB6pD0Q6J40YxYpHP?=
+ =?us-ascii?Q?GtNIbQ79IzFCQd2bC9EIPYIenVuheq0thyhIpM+lxhXLKxmocPtPaAfBLMFr?=
+ =?us-ascii?Q?6XI3dn5FC8WF3AHYVz2wAR5VwHm4xDd2DsNtTOXwvq1DzZEulO0Jcfwbmsc8?=
+ =?us-ascii?Q?0hGDRVFcBmtodRQvBnRXgQLnNyvJSx2w3UruDlnf3ITvioqNDUVza+GuS3ka?=
+ =?us-ascii?Q?BPooY9YjH7IRjntBqd498cmjv7wlqPPRMSG1RORqCK+PabjrTZzNotmVtqPR?=
+ =?us-ascii?Q?4J5Y7vKGtv9d8wNSrCW2MBIo4g+Q+K2Xzwi6/qlBbfygGRqqwHTZvnDO50oR?=
+ =?us-ascii?Q?v+M6aohY3sI1geh+da9egNcab0xWZhuSoe7D7GEogxo53e9r7bYWC/e7fqXC?=
+ =?us-ascii?Q?1t5dsmgMpMay5R5ymhP5G7SI3WtNqjgHx+cEkcG2uPpcx0bnjRhab1eeVtvB?=
+ =?us-ascii?Q?W5EQVoeH6QOV4HP/JJD7bmSvA4X0vTenP4WeI7BtB6S6pzSOZjhrGywcGvCF?=
+ =?us-ascii?Q?grmxxOKszjbM4Nm/j4SNV3klR514/cC9xGDV5k6JDLTwbGEN8V1uIYMcemLs?=
+ =?us-ascii?Q?tkRNYdBgMX2EIj/WzeblAVXylIBn1Hqw/6N663IZz41w+G9Ow21/uFSYz51o?=
+ =?us-ascii?Q?0B0v4zuSqVdWckHqXlgw5dWiddbYlVk5gWe2nLp+UMF8lNXl+c3SfLcI6hGk?=
+ =?us-ascii?Q?2drpzo9gF1sotEhBMtu6T72bFAPeZ8rVJ992zFqEofgizoRULAPN10MVlij7?=
+ =?us-ascii?Q?CBs2TWjB2A7v5vGV/dkyI7w+vROh/Avo0NP2QigKql1+dgceAiz+zyTOxDe3?=
+ =?us-ascii?Q?kJ0mTJUASETGExXw+lJYfZ7BCmX4+W6N?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zc/KbPCxdpOE3GR4EEaJkqJrROE4T2xNcQe0pYSD5xJGalXB2j8jzKmb0Luy?=
+ =?us-ascii?Q?gvW0x8/miLTbojf52xc5bpuLNxSHS2a1I1wGd1BQXaEbAdKctO74Q6BAQRey?=
+ =?us-ascii?Q?dXbqAbGKI7mZmt/tesxP5kxzCYmeA26CSgbftcbztqwVS/4f5ahxxmW4MZA4?=
+ =?us-ascii?Q?6dADRzJaWzYd6V9JEhxw0Q+NpEtjDMwj5onFyIh60KEkgWghn726TPX5dFel?=
+ =?us-ascii?Q?QUYIEwBFH5ZvXXEl9qdFSwC5sY37IoRjyBnV9dckJNTBC6cRQEscOh4nv7KF?=
+ =?us-ascii?Q?FietdCsVHLhsaOcmsbMm5T+HlDFgtDg/xU7dVrVurX3xTsNKWG8H1UoS8G5D?=
+ =?us-ascii?Q?SLX/xO77ObGO6feIT3OkW34VdyMLqpzkJ8AKusG5E01my4STgZ93FQwDTrgZ?=
+ =?us-ascii?Q?FMstoTDQAUIlkDxVQOykR0Pi/ty3pnMOMBeX5k/HTJuoQiD3EkUtm5BP0N9R?=
+ =?us-ascii?Q?naInitflvXcvnndIZA3G8yxvYAnusjYzztmrEu/EWW6XqGyAdvrPde2nrTeH?=
+ =?us-ascii?Q?LXdpphQ8onVMcgqiOAW67lVoCVNLBEK8f3dgPM+Iivp91KjM403tYF34upvz?=
+ =?us-ascii?Q?7+P46WwY5P5qsLI3bZ/RlVyfBtUxCbM5hzHmvF8ew6jYoVxd1Y5xIFkvzdXf?=
+ =?us-ascii?Q?6TZLYr1p6HuxWdMPvABumMh64T0aQXXBMN5RaeBYDamLKzpGI4EHQJ3t/KYu?=
+ =?us-ascii?Q?JYAT8JYNkmRITcZ7Ah/Ph2hNGkOdv5xvzUm5XCqyBJ3yw5x/F3f8l/azW1aB?=
+ =?us-ascii?Q?fODx/2dfeAr05keVT0IjdidZiBVjUVuV3OsJUoupI5miGv/0Tolmr3/5go2M?=
+ =?us-ascii?Q?Idskr02PzFPrQuvMrlNUbCT65cyXuB+Yv+8Yl0KrK4NDenTowOOypJzxCqwi?=
+ =?us-ascii?Q?RFmbQcYj6ov+1HYxtO+1iv8AlgSe9ceO5Ma+fylf3ZXEMwwhTY4m84oTFKxR?=
+ =?us-ascii?Q?nYvm745cfIrcZjY5jp8/Th8sZzTdSRMSAbwF5SaRDb331YT/sxDJBx0ZiQ/y?=
+ =?us-ascii?Q?6k9XQzrY8EaWkYzzuWpUA7fVa7Io/SNDM3IHoWyaTH5nnJJkl2Ln77uBSs3X?=
+ =?us-ascii?Q?Eywrp594oJP/JVwX7+bPJOcgQdazLQq1v8rU7SC0wL7PABWOevvyp2RoX2Oy?=
+ =?us-ascii?Q?EycoSiGtY7HiXy8guCI0YJ52HY/WuyJoSju6yCRBPVr9sCCUpWpak1YWo3lO?=
+ =?us-ascii?Q?WtA8JyS/8sVFfKTLHZd95FM+yeMZ+IpbSJblT7KxtXiwszwmzkQwcr4fiBY/?=
+ =?us-ascii?Q?MeAThsrk5TYX8j8jOjRoN6WL6GttcD/ObvSpb2X2/dALZYkB0twCXu8P+DiW?=
+ =?us-ascii?Q?KaFs3B+x38VBk4WmJBQWisjPO7KREIuT1IQq6yFELo2DaQRjjpHsvt54K2/n?=
+ =?us-ascii?Q?er5YdSBvHOeCsrfocaIamxPufhXlvfiUixJ99KptqS9uMHCSI7SSmw9A+rc7?=
+ =?us-ascii?Q?u+VV/mkSm4tqU4GoonT8xz13qa2qo8jX5MXpfinI6lheMk9xDkJuVmWL9bsT?=
+ =?us-ascii?Q?9lOJ3DwBF02TNflAfSK00rA5kEqG1CkYETO1AprtKdeBDxU94/IPc+ERRQuk?=
+ =?us-ascii?Q?AQOOv8i1Zn1ZyJawK0aHkX7vKwk11/pn5+N2SIdPyGQJ+4IYFzza4XOMceI3?=
+ =?us-ascii?Q?xJ6h/JQQJLS2hmPRO9ovFhNvLRsigbnPlfKu8aIWn50PiJt5/jMW/gLZAC2C?=
+ =?us-ascii?Q?pLFXtRdnbweq5S0PN8gieGLTRU/3gwrkL5AU199iEMQYr0g9qpJYQJ+elxMn?=
+ =?us-ascii?Q?3QPvNCtlXw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: abbfb56e-d82c-4240-6e35-08de51682478
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2026 23:21:27.5500
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dVHgBbzMSgTiLM58oiUGG1V59PQxr509tnfmXUpFXA8FXUXMO5jL6GTMQohskMdY8GEjXC4izFumZBWG93zC7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4190
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260111_093421_403874_AC6DF320 
-X-CRM114-Status: GOOD (  28.92  )
+X-CRM114-CacheID: sfid-20260111_152136_241814_044AAC5A 
+X-CRM114-Status: GOOD (  29.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,118 +168,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2026-01-10 at 02:03 +1100, Bjorn Helgaas <helgaas@kernel.org> wrote...
+> On Fri, Jan 09, 2026 at 11:41:51AM +1100, Alistair Popple wrote:
+> > On 2026-01-09 at 02:55 +1100, Bjorn Helgaas <helgaas@kernel.org> wrote...
+> > > On Thu, Jan 08, 2026 at 02:23:16PM +1100, Alistair Popple wrote:
+> > > > On 2025-12-20 at 15:04 +1100, Hou Tao <houtao@huaweicloud.com> wrote...
+> > > > > From: Hou Tao <houtao1@huawei.com>
+> > > > > 
+> > > > > When vm_insert_page() fails in p2pmem_alloc_mmap(), p2pmem_alloc_mmap()
+> > > > > doesn't invoke percpu_ref_put() to free the per-cpu ref of pgmap
+> > > > > acquired after gen_pool_alloc_owner(), and memunmap_pages() will hang
+> > > > > forever when trying to remove the PCIe device.
+> > > > > 
+> > > > > Fix it by adding the missed percpu_ref_put().
+> > ...
+> 
+> > > Looking at this again, I'm confused about why in the normal, non-error
+> > > case, we do the percpu_ref_tryget_live_rcu(ref), followed by another
+> > > percpu_ref_get(ref) for each page, followed by just a single
+> > > percpu_ref_put() at the exit.
+> > > 
+> > > So we do ref_get() "1 + number of pages" times but we only do a single
+> > > ref_put().  Is there a loop of ref_put() for each page elsewhere?
+> > 
+> > Right, the per-page ref_put() happens when the page is freed (ie. the struct
+> > page refcount drops to zero) - in this case free_zone_device_folio() will call
+> > p2pdma_folio_free() which has the corresponding percpu_ref_put().
+> 
+> I don't see anything that looks like a loop to call ref_put() for each
+> page in free_zone_device_folio() or in p2pdma_folio_free(), but this
+> is all completely out of my range, so I'll take your word for it :)  
 
+That's brave :-)
 
-On 1/10/26 12:48 AM, John Meneghini wrote:
-> Unfortunately, it has been discovered that this patch causes a serious regression on powerpc platforms.
-> 
-> If anyone has a powerpc platform with an NVMe/PCIe device installed, please run this simple test and see if it works.
-> 
-> # uname -av
-> Linux rdma-cert-03-lp10.rdma.lab.eng.rdu2.redhat.com 6.19.0-rc4+ #1 SMP Wed Jan  7 21:42:54 EST 2026 ppc64le GNU/Linux
-> 
-> # nvme list-subsys /dev/nvme0n1
-> nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:HHHL:S4WANA0R400032
->                hostnqn=nqn.2014-08.org.nvmexpress:uuid:1654a627-93b6-4650-ba90-f4dc7a2fd3ee
->                iopolicy=numa
-> \
->  +- nvme0 pcie 0018:01:00.0 live optimized
-> 
-> # nvme subsystem-reset /dev/nvme0; nvme list-subsys /dev/nvme0n1; sleep 1; nvme list-subsys /dev/nvme0n1; nvme list-subsys /dev/nvme0n1;
-> nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:HHHL:S4WANA0R400032
->                hostnqn=nqn.2014-08.org.nvmexpress:uuid:1654a627-93b6-4650-ba90-f4dc7a2fd3ee
->                iopolicy=numa
-> \
->  +- nvme0 pcie 0018:01:00.0 resetting optimized
-> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
-> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
-> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
-> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
-> [Wed Jan  7 21:59:51 2026] block nvme0n1: no usable path - requeuing I/O
-> 
-> # nvme list-subsys /dev/nvme0n1;
-> 
-> # nvme list-subsys /dev/nvme0n1;
-> nvme-subsys0 - NQN=nqn.1994-11.com.samsung:nvme:PM1735:HHHL:S4WANA0R400032
->                hostnqn=nqn.2014-08.org.nvmexpress:uuid:1654a627-93b6-4650-ba90-f4dc7a2fd3ee
->                iopolicy=numa
-> \
->  +- nvme0 pcie 0018:01:00.0 resetting optimized
-> 
-> At this point the machine is HUNG. It's stuck in the resetting state forever.
-> 
-> Because /dev/nvme0n1 is the root device, I need to power-cycle/reboot the host to recover.
-> /John
-> 
-> On 2/14/25 3:02 AM, Daniel Wagner wrote:
->> The fabric transports and also the PCI transport are not entering the
->> LIVE state from NEW or RESETTING. This makes the state machine more
->> restrictive and allows to catch not supported state transitions, e.g.
->> directly switching from RESETTING to LIVE.
->>
->> Signed-off-by: Daniel Wagner <wagi@kernel.org>
->> ---
->>   drivers/nvme/host/core.c | 2 --
->>   1 file changed, 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 818d4e49aab51c388af9a48bf9d466fea9cef51b..f028913e2e622ee348e88879c6e6b7e8f8a1cc82 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -564,8 +564,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->>       switch (new_state) {
->>       case NVME_CTRL_LIVE:
->>           switch (old_state) {
->> -        case NVME_CTRL_NEW:
->> -        case NVME_CTRL_RESETTING:
->>           case NVME_CTRL_CONNECTING:
->>               changed = true;
->>               fallthrough;
->>
-> 
-This was broken because with this commit d2fe192348f9 (“nvme: only allow entering LIVE
-from CONNECTING state”) now we don't allow changing controller state from 
-RESETTING -> LIVE. I saw we also had similar state change issue with firmware activation 
-code which was fixed by explicitly transitioning the controller state through RESETTING ->
-CONNECTING -> LIVE. We may employ the similar solution here for subsystem reset case as well. 
+What happens is the core mm takes over managing the page life time once
+vm_insert_page() has been (successfully) called to map the page:
 
-Currently, the NVMe PCIe subsystem reset code performs the following steps:
+	VM_WARN_ON_ONCE_PAGE(!page_ref_count(page), page);
+	set_page_count(page, 1);
+	ret = vm_insert_page(vma, vaddr, page);
+	if (ret) {
+		gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
+		return ret;
+	}
+	percpu_ref_get(ref);
+	put_page(page);
 
-1. Sets the controller state to RESETTING
-2. Writes the subsystem reset command to the NSSR register
-3. Attempts to transition the controller state directly to LIVE
+In the above sequence vm_insert_page() takes a page ref for each page it maps
+into the user page tables with folio_get(). This reference is dropped when the
+user page table entry is removed, typically by the loop in zap_pte_range().
 
-This effectively bypasses the CONNECTING state. The transition to LIVE is artificial but
-intentional, since writing to the NSSR register causes the loss of communication with the
-NVMe adapter and the controller must be marked LIVE so that any in-flight I/O at the time the
-subsystem reset is issued, or an explicit MMIO read, can trigger EEH recovery and ultimately
-restore communication link between the NVMe adapter and the system.
+Normally the user page table mapping is the only thing holding a reference so
+it ends up calling folio_put()->free_zone_device_folio->...->ref_put() one page
+at a time as the PTEs are removed from the page tables. At least that's what
+happens conceptually - the TLB batching code makes it hard to actually see where
+the folio_put() is called in this sequence.
 
-With the stricter state transition rules introduced by commit d2fe192348f9 (“nvme: only allow
-entering LIVE from CONNECTING state”), the direct transition from RESETTING -> LIVE is no longer
-permitted, rendering the current logic ineffective.
+Note the extra set_page_count(1) and put_page(page) in the above sequence is
+just to make vm_insert_page() happy - it complains it you try and insert a page
+with a zero page ref.
 
-Taking a cue from the firmware activation fix, it seems reasonable to explicitly transition
-the controller state through CONNECTING in the subsystem reset path as well. So how about making
-the following change to fix this? 
+And looking at that sequence there is another minor bug - in the failure
+path we are exiting the loop with the failed page ref count set to
+1 from set_page_count(page, 1). That needs to be reset to zero with
+set_page_count(page, 0) to avoid the VM_WARN_ON_ONCE_PAGE() if the page gets
+reused. I will send a fix for that.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0e4caeab739c..3027bba232de 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1532,7 +1532,10 @@ static int nvme_pci_subsystem_reset(struct nvme_ctrl *ctrl)
-        }
- 
-        writel(NVME_SUBSYS_RESET, dev->bar + NVME_REG_NSSR);
--       nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE);
-+
-+       if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_CONNECTING) ||
-+           !nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-+               goto unlock;
- 
-        /*
-         * Read controller status to flush the previous write and trigger a
+ - Alistair
 
-Thanks,
---Nilay
+> Bjorn
 
