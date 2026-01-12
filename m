@@ -4,81 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBA38C9EC8D
-	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jan 2026 14:02:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB714C9EC8D
+	for <linux-nvme@archiver.kernel.org>; Mon, 12 Jan 2026 14:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:In-Reply-To:Message-Id:Date:Subject:Cc
-	:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F8XIfRGmzdb5XWDs6wzAnnRSl2u/PNPN8Ha1qyK76Ks=; b=d6fEZ6/+WB0Do3Nk2skW/Wtrfb
-	uELRQ8Fz+U+2f3BDuU8yEI40lWS86ykTeqffCH+ZEogkOtyfbd7tyHTPhLon2L+Y7G0nFcw+3tuOh
-	YlXMS6PTUwIZyLdQ+Lb3LU1AF1Nm9x9sGN78zapr3qPP+tinlvlBiSig99U5Cj6ZjihefpY8bkRHi
-	Wygtu+/pVal11kekRWZlEH5i5iBtCsLO0kSlycm0l/mqNG9PFIoikU9HTMyOC4PHAqyzBrvAaKmi1
-	cYK0/ecUYUxWqxg7F/tlOzGsiBjEfieEmcqFAEmuVvRM7pLRsjqUvXbV+Ia3CR7q3FCy/9vUkQNpI
-	MSp4vLcw==;
+	bh=dN85ePjbmA8cBVwNBJs/0K+M664zzuZ8n5sp75jGcq8=; b=gMzJFMIpJ55waaoZx4cES2g++P
+	Kd3iQd6EPKW16D/nc0KXWF23Z9Dc4TFml9plRk25w0ZnPvxOPgM7kiSsEdaIZs0jcApO1/HjRlESk
+	U2R91Ctt6PtbtZ/UB/efmuXwoxwBapiHsAXvuO8727ksQk25RtbesViVQMasVibQGHTWk17dDHx+R
+	ye9r3ye7Zx0EAk776NdVzOBfjyrQT58oeQ1icgsHAR05j4wp8oqQP+G3QytBpFve0woOunx2lE0c3
+	Da7soOtDUd/TXdmRuZp/8eL69uuVB2PIS+DRX1TvKRfwkL+OZrN3Di/RPjp3jeFKzkJQtgdoG06fJ
+	daRFDgtA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfIUs-00000005ThJ-16YB;
-	Mon, 12 Jan 2026 14:02:18 +0000
-Received: from mailout2.samsung.com ([203.254.224.25])
+	id 1vfIb8-00000005UXX-27eN;
+	Mon, 12 Jan 2026 14:08:46 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfIUp-00000005TfV-2W1p
+	id 1vfIb6-00000005UX1-29Eg
 	for linux-nvme@lists.infradead.org;
-	Mon, 12 Jan 2026 14:02:17 +0000
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260112140210epoutp02190552ad3fc921a9f1c84638e8a498e7~KAKkrYNZi0383003830epoutp02u
-	for <linux-nvme@lists.infradead.org>; Mon, 12 Jan 2026 14:02:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260112140210epoutp02190552ad3fc921a9f1c84638e8a498e7~KAKkrYNZi0383003830epoutp02u
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1768226530;
-	bh=F8XIfRGmzdb5XWDs6wzAnnRSl2u/PNPN8Ha1qyK76Ks=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TgJMsC+9MrSRiaIWGKRtv9yZ1FTj9wU0jqNftNmvU/q0jpR4gitZvcc+IeWGJBgiN
-	 7ApUvmmGIO0hvEjZGqWqj1ZeE77WiYu21fWcLoRO/SfThpYd8wIqcKT5J6A8QZZcAL
-	 OAm5wTWpVopxxAtf66lhAy/11LpPeNI58qBfx+AQ=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260112140209epcas5p34a75489e5b704a71f6f1e2d5abfe17f3~KAKkHukyi3268932689epcas5p3c;
-	Mon, 12 Jan 2026 14:02:09 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.92]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4dqYwJ75Pqz6B9m6; Mon, 12 Jan
-	2026 14:02:08 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260112140208epcas5p4c3ef0209b01be379c836f705a10efa7d~KAKiseA2t2139421394epcas5p4s;
-	Mon, 12 Jan 2026 14:02:08 +0000 (GMT)
-Received: from green245.samsungds.net (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260112140203epsmtip102e49e4a80ba13f22199a3e119f3dc9b~KAKeY6_X02303823038epsmtip1h;
-	Mon, 12 Jan 2026 14:02:02 +0000 (GMT)
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
-	Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: nitheshshetty@gmail.com, Nitesh Shetty <nj.shetty@samsung.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 2/2] nvme: blk_rq_dma_map_iter_next is no longer using iova
- state
-Date: Mon, 12 Jan 2026 19:27:35 +0530
-Message-Id: <20260112135736.1982406-2-nj.shetty@samsung.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260112135736.1982406-1-nj.shetty@samsung.com>
+	Mon, 12 Jan 2026 14:08:44 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id EC8C36000A;
+	Mon, 12 Jan 2026 14:08:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71AD2C16AAE;
+	Mon, 12 Jan 2026 14:08:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768226922;
+	bh=p/kjIc8I2+thlOWEzjWlS6wT9qgXJ4+hBaLNZAIGnkg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=D7NIPlFdPgQQBj5p1cViX2P+6mpdYN29mGZZBfHelGeyaGbph1nSlmx4QspeiyZv4
+	 1rrO1XNfd4UM4pQuE6c4dOrgM+N/FPtas45xk2wuOV96FIXFJrfmjjGoHV/W+1Cc7/
+	 Fq1vOlEZjWH11itW6ZTcN9y+qWIbGwe54EYWOGia6IpxNufW4/g8k1nxIuSMehQWUD
+	 ec6JbaYv3w9ad1N/HTf/BI244pQkfLf1CcJryVWwaPuagfziAyrBvE1SiRnO0klHoQ
+	 SwrHwfMqXMrDL+aKosF8i9w8N89JkqI+RcJ20CUr26rlkBgkc4jGnh/b9tf4IqEffX
+	 MGdMpNoplzccg==
+Message-ID: <5b07dbce-2644-4079-a768-9167cbe3e25a@kernel.org>
+Date: Mon, 12 Jan 2026 15:08:38 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260112140208epcas5p4c3ef0209b01be379c836f705a10efa7d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260112140208epcas5p4c3ef0209b01be379c836f705a10efa7d
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] nvme: blk_rq_dma_map_iter_next is no longer using
+ iova state
+To: Nitesh Shetty <nj.shetty@samsung.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: nitheshshetty@gmail.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
 References: <20260112135736.1982406-1-nj.shetty@samsung.com>
-	<CGME20260112140208epcas5p4c3ef0209b01be379c836f705a10efa7d@epcas5p4.samsung.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260112_060215_812566_A075E51E 
-X-CRM114-Status: GOOD (  14.11  )
+ <CGME20260112140208epcas5p4c3ef0209b01be379c836f705a10efa7d@epcas5p4.samsung.com>
+ <20260112135736.1982406-2-nj.shetty@samsung.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260112135736.1982406-2-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,37 +76,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-DMA IOVA state is not used inside blk_rq_dma_map_iter_next
+On 1/12/26 14:57, Nitesh Shetty wrote:
+> DMA IOVA state is not used inside blk_rq_dma_map_iter_next
+> 
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>  drivers/nvme/host/pci.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 3b528369f5454..065555576d2f9 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -823,7 +823,7 @@ static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
+>  
+>  	if (iter->len)
+>  		return true;
+> -	if (!blk_rq_dma_map_iter_next(req, dma_dev, &iod->dma_state, iter))
+> +	if (!blk_rq_dma_map_iter_next(req, dma_dev, iter))
 
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
----
- drivers/nvme/host/pci.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Hu... Why is this not squashed with the previous patch ? If only patch 1 is
+applied, this will not compile, right ?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3b528369f5454..065555576d2f9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -823,7 +823,7 @@ static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
- 
- 	if (iter->len)
- 		return true;
--	if (!blk_rq_dma_map_iter_next(req, dma_dev, &iod->dma_state, iter))
-+	if (!blk_rq_dma_map_iter_next(req, dma_dev, iter))
- 		return false;
- 	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev)) {
- 		iod->dma_vecs[iod->nr_dma_vecs].addr = iter->addr;
-@@ -1010,8 +1010,7 @@ static blk_status_t nvme_pci_setup_data_sgl(struct request *req,
- 		}
- 		nvme_pci_sgl_set_data(&sg_list[mapped++], iter);
- 		iod->total_len += iter->len;
--	} while (blk_rq_dma_map_iter_next(req, nvmeq->dev->dev, &iod->dma_state,
--				iter));
-+	} while (blk_rq_dma_map_iter_next(req, nvmeq->dev->dev, iter));
- 
- 	nvme_pci_sgl_set_seg(&iod->cmd.common.dptr.sgl, sgl_dma, mapped);
- 	if (unlikely(iter->status))
+>  		return false;
+>  	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev)) {
+>  		iod->dma_vecs[iod->nr_dma_vecs].addr = iter->addr;
+> @@ -1010,8 +1010,7 @@ static blk_status_t nvme_pci_setup_data_sgl(struct request *req,
+>  		}
+>  		nvme_pci_sgl_set_data(&sg_list[mapped++], iter);
+>  		iod->total_len += iter->len;
+> -	} while (blk_rq_dma_map_iter_next(req, nvmeq->dev->dev, &iod->dma_state,
+> -				iter));
+> +	} while (blk_rq_dma_map_iter_next(req, nvmeq->dev->dev, iter));
+>  
+>  	nvme_pci_sgl_set_seg(&iod->cmd.common.dptr.sgl, sgl_dma, mapped);
+>  	if (unlikely(iter->status))
+
+
 -- 
-2.39.5
-
+Damien Le Moal
+Western Digital Research
 
