@@ -4,58 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F75FD30CC2
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jan 2026 21:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B484AD30CC2
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jan 2026 21:53:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pNAPAiGZfGs2J+k3DDfhzmYbuE875cEmT0iHXRnEOkM=; b=0g1idOKN5UD2pb9xesOIbARA/5
-	0U/ugWQww+Bw1KbcS0cGZcMSuaR8MjNQasVz6jAveJhQp+0EVHZgVMorWtXKh6H9mp0gx6M+Fzj10
-	yzak3hGZpoNzcZTzMT8nSlrbi26W9mx1sM11wYAJEgvkHC7mYFpMOTEOD7kxAu7AIVWM7V3HsZT8b
-	dLm5e+Ur+na0TycJ+u/b5+mQy5fG955dC8VmgrCG2QkMXViqID2W7lBf3G4/SEP1LS3fDbJKn49QK
-	pNbamI/1xft65EnpNVI2932wDCSmrw/cFKNmRZIqlWqHTMZbiLbWicU8D3ORDJ34YSfSSz3SsjywM
-	FWOx2jAw==;
+	bh=EMpLnXUgXLHVlQzL6pzCW2AMgML7k/j9DSqPtVQMQhY=; b=vR1YywiLD0Sp9oL0KaA5lX6y6y
+	7ACSKMtUO/9U/IAVPT3FlpA4DLu4Kua3eIapV15ofqXCvblKW4AF6Yai/3nUU6xzsZB+1XchwiX4z
+	K7sEUaR07jAp2GYR8GxdOe565ovPpCjOtrld9zdRZXtqjpH0MRs6k6rdQnxn/+ltGfOvlfV4JwWrL
+	hlJ/VdZh3/8Xxqakp+f1PBfFwGiN3cYraLo/IP9taYTb8eSX2GM76WtfYSzqr2c4fo7h4LaiQz1uM
+	4rzTu52H3BXJORDTrJ4APSS6dGlwFLo1tuAhyj8Zhst1+eHbyqDzHgRuwoMHHuOjPVzf2Q4R0UlXW
+	VzDdyipw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfmI4-00000007mQW-0INK;
-	Tue, 13 Jan 2026 21:51:04 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vfmKW-00000007mgz-0dat;
+	Tue, 13 Jan 2026 21:53:36 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfmI3-00000007mQO-0AG4
+	id 1vfmKU-00000007mgr-13Ni
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Jan 2026 21:51:03 +0000
+	Tue, 13 Jan 2026 21:53:34 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 296CB60018;
-	Tue, 13 Jan 2026 21:51:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A72C116C6;
-	Tue, 13 Jan 2026 21:51:00 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 598126000A;
+	Tue, 13 Jan 2026 21:53:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CADE2C116C6;
+	Tue, 13 Jan 2026 21:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768341060;
-	bh=pNAPAiGZfGs2J+k3DDfhzmYbuE875cEmT0iHXRnEOkM=;
+	s=k20201202; t=1768341213;
+	bh=TeNBoWA03tWQIf/AC0DJQTYfI87OLOfbNkTu2M3U6Dc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pMJNy5lKhNS+/6sVCo2acVtwOZmcgQp2gPZoddVeb1lMyzZQQ0HDlQRMqkRzen+dT
-	 2etQlrAOv38k9YX90pfVqwWsSd2VEGjbe/FlfKtCfGrV6uhipu8w9bacXRWKDCOUfO
-	 9y+YLCgIccu3Uncghd4FCE9eDqSv3shfgGNxrZgKzskvmzQ1Vm9249JE0MYQ8/HhhE
-	 iSnIdFW8Y1+Ktx0gpNhVdq6LKMiq8G1MSk1ZHDCJlTwvdrHIxWIo0FJlB1cHVIPlxH
-	 A62b1zOLqzd/oFDe4g8lSVObVwOgFbz1PEEtxiPJ1h9v5IZmzsreYAwKcHuiuqr/Nd
-	 RVuafU+h0KD3A==
-Date: Tue, 13 Jan 2026 14:50:58 -0700
+	b=hMaXqXSFq/w/rncowPebba4OXqxAy+EHpvXxAyp//FhZzDHf8yGwkFbwfJKd+yUUp
+	 fq8tjFVvjjlJje408i6p1G2/1cjG2kNwzZzIqeu8soRGcWUbGmaU3ZyiRjBYirkdZh
+	 nS5QQBpeG2bcTZSYkKco53iXuMKm6hrDjFDgQqXr/OnJKt3SJub2EzoxDsYNLcs/Cq
+	 EJhrhv3sG4opDKkrvOEyu6Zdcq+0Vq1kgG3eulOdkG7R6W+DBrPKkaxnfqVqe9B672
+	 R6SftQ+DbIJkjNesqfhP4PRQzfc1JIJNNM/zUczlBzeawvBg/mVALp0e1v7ZloRE86
+	 0y5/FaVLX73AQ==
+Date: Tue, 13 Jan 2026 14:53:31 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-nvme@lists.infradead.org, Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH] nvmet: do not copy beyond sybsysnqn string length
-Message-ID: <aWa-Qnrggz2IbZ14@kbusch-mbp>
-References: <20251221073714.398747-1-shinichiro.kawasaki@wdc.com>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: mlombard@bsdbackstore.eu, bgurney@redhat.com, bvanassche@acm.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH V2] nvme: expose active quirks in sysfs
+Message-ID: <aWa-209BvYmbYWJc@kbusch-mbp>
+References: <20251103144406.1148401-1-mlombard@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251221073714.398747-1-shinichiro.kawasaki@wdc.com>
+In-Reply-To: <20251103144406.1148401-1-mlombard@redhat.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,18 +68,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Dec 21, 2025 at 04:37:14PM +0900, Shin'ichiro Kawasaki wrote:
-> Commit edd17206e363 ("nvmet: remove redundant subsysnqn field from
-> ctrl") replaced ctrl->subsysnqn with ctrl->subsys->subsysnqn. This
-> change works as expected because both point to strings with the same
-> data. However, their memory allocation lengths differ. ctrl->subsysnqn
-> has the fixed size defined as NVMF_NQN_FILED_LEN, while
-> ctrl->subsys->subsysnqn has variable length determined by kstrndup().
-> Due to this difference, KASAN slab-out-of-bounds occurs at memcpy() in
-> nvmet_passthru_override_id_ctrl() after the commit. The failure can be
-> recreated by running the blktests test case nvme/033. To prevent such
-> failures, replace memcpy() with strscpy(), which copies only the string
-> length and avoids overruns.
+On Mon, Nov 03, 2025 at 03:44:06PM +0100, Maurizio Lombardi wrote:
+> Currently, there is no straightforward way for a user to inspect
+> which quirks are active for a given device from userspace.
+> 
+> Add a new "quirks" sysfs attribute to the nvme controller device.
+> 
+> Reading this file will display a human-readable list
+> of all active quirks, with each quirk name on a new line.
+> If no quirks are active, it will display "none".
 
-Thanks, applied to nvme-6.19.
+Thanks, applied to nvme-7.0.
 
