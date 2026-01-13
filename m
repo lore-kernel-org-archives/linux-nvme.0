@@ -4,87 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0F35D29DE8
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jan 2026 09:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09CEDD2D105
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jan 2026 13:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eZ2WEBXX1l9X8JBQG+YJYxmNxxWGJe/kO7nAXn5RTos=; b=NM98pp5+2V/WzwDc8B18aeyiOT
-	hM/Nk+8MacUNshOuiSqkxRW4+I3x0h0r7xrGB9eJBPyysuSeSfhV+Vbgtgl12V9/l4nfO8QQHhhpU
-	1SpkED5XiOTBpqyGd1KQt843VTlH/mOKV3RdQA5yv8h8FloCwtz6UJeuffUghnO4xozK8g6TGa95D
-	CskSxfojqObzZzKK3HKDZon5WzExQM6djvhlq0cdFClhNbK2gJwonH8Mb4KIqlz2B8JQD7SQvxEby
-	Sy3FPlXYRIqnw4nved1IAtkqgQNIcJ2ZsCPQqaIJZ98iAXxBm1z6KyunpDUq0dKk3KphYIrUT+ins
-	HwSdrJdg==;
+	bh=STv1BbfY1Y1PKMtKIG3A+/vZ+MQak+sv9xGBsiDbmck=; b=Hod2xtBXvtudoWDKbPOy8/2teK
+	DtM3kyL9mk5cBSVOM1e6USjx0OnPQJVK4BBx/eNyOz/aniGI/1OkXn428w1P+aGLGbEmPXfrnJTiO
+	VTmqQv/GlkPe07ickJDADWLkwt8ZIOh2UayzhhSSoH7kSBBx1mleV8DC1QGX1aFK6JF45UQWmhYSs
+	pEJXnYMYXaS24DpnqZbrPzB/bK81Ivy1lBD7ImU0R7ohIweLXO9PLD3moc/f6AFmU5JKTzIUQ+31O
+	AUcvxbj2lBLHewmGVTe35HL9AnkRs4/DNr4JNJrpSQLL0ChwQA8HIE5izqgtlTlJOLaHmnFiuMEzM
+	NLxIupuA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfaP4-00000006obH-3acJ;
-	Tue, 13 Jan 2026 09:09:30 +0000
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
+	id 1vfesM-00000007Bat-1OAm;
+	Tue, 13 Jan 2026 13:56:02 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfaP1-00000006oaS-2Xxc
+	id 1vfesI-00000007BaT-0dY9
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Jan 2026 09:09:29 +0000
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-59b6df3d6b4so7394023e87.0
-        for <linux-nvme@lists.infradead.org>; Tue, 13 Jan 2026 01:09:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1768295365; x=1768900165; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eZ2WEBXX1l9X8JBQG+YJYxmNxxWGJe/kO7nAXn5RTos=;
-        b=MM8QZfixuCS65aZTHb4IHxYJW+IXr0I5OJHCsRCwmKdknfUI9xZst4Fy59U/Nwd430
-         grAbj+P6YNoc/IMFro3n0AAeCX7q4OQy+zcX5PFjXRp6mpiw0A+oe0ROBj4R7wLFQyxh
-         A+9h2izSxtgGy4IoP/EzVCP76UYDg1nTGRF5ffkJDM5cUksw03SP1ayY9fqWZIwaUove
-         frwyUSLtWxdmK1qCVQuH5zlDIXRpK7blw1QGXs7BXgnRZDEvf2xQahEDfia0MSC3VTj1
-         qWtQYDYmvoGJWG9ScDMaNqZveMScDKslUiq/oR5o7Ek+QqZrhas/2jxs/e8BHwYyI84H
-         11Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768295365; x=1768900165;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eZ2WEBXX1l9X8JBQG+YJYxmNxxWGJe/kO7nAXn5RTos=;
-        b=K71coBCofVf898pjbs1bNpyE8/LGmGnXY7e/qRlktGFqVsGfcPCAdW+3JrjJ9FmAuT
-         EfOpPGnAiB0WPZjQcMUK79ESuOIeoTnc52P46Imp/a6OnLsoDiWKjdOfhr6l+t/+EYj0
-         4nJw7OQtfdienkmig94uqb2HPXkP7Fi1Ymjd8OlVGSjRrgXqTH2nJ81Sy1xyzbiR5oPI
-         w/9dHNf7YSwYxjEHrcLy/kgfiUNLg03mZMvluAzeqeERvtYQyNp2QA4DciB5Ykx0LrtR
-         7JwwQwhCwkg7sy5nNKWaqLXEw7gokZQoohirMeXzLX8ClwBDc9xRqcuI/FJcIdwXaFE1
-         AcPA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYdGWQDn2WW8hqUXD239uyOukRsHxhg99NtI8jbztqlcea32TkrDOY/QCjTw7JPVw47rDx6SGFIORX@lists.infradead.org
-X-Gm-Message-State: AOJu0YyYe3Y9GPzkcKtb/F1+2QpXaEkBcAJSYDt6j9DtGZE9lbM+Ol3W
-	mCBLdcMy9QXVtjt3p124Fiwsgex/kIpgHbsUOKNW8eyCvjLjezdNfCVCCDw2F2z51jLp3+qMIK1
-	jwi9bf4MvhPCfy621UQGOoskLK9K8tAOWDUNCyD4beg==
-X-Gm-Gg: AY/fxX6AqzH1LlbkSnSH9rel8y45ciSyUxxI4q5PgiAj/BJGXh5OeyfemknXFHljYLo
-	hmeL2cCKgSlwiwBXK8TUA2TvbfynklNmkd/p8AWjKf5gNq/tBiJYvfi3a+VmXpPw8mztcaBplcA
-	8HDNYAizLcRFhDewwVosRZ7QfgEP0QqdmLIhWQxHFESQ153SjjUIvORlIY/AmxS1D+0FOHCgR4Y
-	AuEWtR3OprFfNTmtt3ueAP+o5YE3DycViBxArLblQjbmvbUWd09fGCTp9nAGsR1hnO0Op7sGWXS
-	spYeTcQ1WqnP1pZB7yo8YAAtXdH9
-X-Google-Smtp-Source: AGHT+IHr11OMrBaPdT1PnT3XnhvTNAcWmdOypWcziomsI3n8WA7rdO+m+Lk5ybRQl5fjJZK8nlm51yx/ovfcCoVIG0c=
-X-Received: by 2002:a05:6512:3d29:b0:59a:183c:4863 with SMTP id
- 2adb3069b0e04-59b6ef028fbmr5936211e87.8.1768295365360; Tue, 13 Jan 2026
- 01:09:25 -0800 (PST)
+	Tue, 13 Jan 2026 13:56:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768312553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=STv1BbfY1Y1PKMtKIG3A+/vZ+MQak+sv9xGBsiDbmck=;
+	b=aOBi37Obz+QtAAI23dcS/PHTvUM41ahjgt7vw51W/+7Er5cJc9G1ERyTh4p2xD85VYGxw4
+	1sPbo+6CaCFItvf3GDqSv0cHMY7vEDkb1jbjgeH+pX1uIH56HDSXbbvrXqj1xRjVGQLAH3
+	fM1Yl4iPu9PgyeymAZNqRFL1sTO/6p4=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-615-Jrk3nPmzNuq4znmchp42lA-1; Tue,
+ 13 Jan 2026 08:55:51 -0500
+X-MC-Unique: Jrk3nPmzNuq4znmchp42lA-1
+X-Mimecast-MFC-AGG-ID: Jrk3nPmzNuq4znmchp42lA_1768312549
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 11CC518002C3;
+	Tue, 13 Jan 2026 13:55:49 +0000 (UTC)
+Received: from [10.22.64.42] (unknown [10.22.64.42])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 392C730001A2;
+	Tue, 13 Jan 2026 13:55:46 +0000 (UTC)
+Message-ID: <0da868c4-8af3-4c59-a146-ba441eb3166a@redhat.com>
+Date: Tue, 13 Jan 2026 08:55:45 -0500
 MIME-Version: 1.0
-References: <20251104112535.139450-1-marco.crivellari@suse.com> <20251104112535.139450-4-marco.crivellari@suse.com>
-In-Reply-To: <20251104112535.139450-4-marco.crivellari@suse.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Tue, 13 Jan 2026 10:09:13 +0100
-X-Gm-Features: AZwV_Qjn0mD5DN6xmpvJWaXwgmzhnB6PONRCrummysbqFjVMRIxJRgEh6K_F68M
-Message-ID: <CAAofZF4beBFQ41Au3H1n=rRpE9hyPvfm4DR4OoLQ1wv5vHPBkg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] nvmet-fc: add WQ_PERCPU to alloc_workqueue users
-To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Michal Hocko <mhocko@suse.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
+To: Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>
+Cc: Daniel Wagner <wagi@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
+ Hannes Reinecke <hare@suse.de>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Wen Xiong <wenxiong@linux.ibm.com>, Narayana Murty N
+ <nnmlinux@linux.ibm.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Ewan Milne <emilne@redhat.com>,
+ Maurizio Lombardi <mlombard@redhat.com>
+References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
+ <20250214-nvme-fc-fixes-v1-1-7a05d557d5cc@kernel.org>
+ <8574c297-fc02-40d6-ba67-ab43e3d5e394@redhat.com>
+ <833fd772-da6c-4f91-87e3-e13883f1815d@linux.ibm.com>
+ <d8512cdc-bdcd-44ff-a56a-974b4464a7a5@flourine.local>
+ <2356e974-2595-429d-983b-42cfa0e24ba8@linux.ibm.com>
+Content-Language: en-US
+From: John Meneghini <jmeneghi@redhat.com>
+Organization: RHEL Core Storge Team
+In-Reply-To: <2356e974-2595-429d-983b-42cfa0e24ba8@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260113_010928_682228_32F356D6 
-X-CRM114-Status: GOOD (  11.27  )
+X-CRM114-CacheID: sfid-20260113_055558_264347_45B518FC 
+X-CRM114-Status: GOOD (  10.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,26 +98,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Nov 4, 2025 at 12:25=E2=80=AFPM Marco Crivellari
-<marco.crivellari@suse.com> wrote:
-> [...]
->  drivers/nvme/target/fc.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 7d84527d5a43..ac730f2e6ea1 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
+On 1/13/26 1:10 AM, Nilay Shroff wrote:
+> I have tested this (and I believe John as well) and this seems tobe working good. From my code walk through, the controller state
+> transition RESETTING -> CONNECTING -> LIVE looks good to me, so I'll
+> send out a formal patch for review.
 
-Hi,
+Sounds good Nilay.  Please send your patch for review and I will test it.
 
-Gentle ping.
+/John
 
-Thanks!
-
---=20
-
-Marco Crivellari
-
-L3 Support Engineer
 
