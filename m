@@ -4,86 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09CEDD2D105
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jan 2026 13:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 434F1D2D10F
+	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jan 2026 14:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=STv1BbfY1Y1PKMtKIG3A+/vZ+MQak+sv9xGBsiDbmck=; b=Hod2xtBXvtudoWDKbPOy8/2teK
-	DtM3kyL9mk5cBSVOM1e6USjx0OnPQJVK4BBx/eNyOz/aniGI/1OkXn428w1P+aGLGbEmPXfrnJTiO
-	VTmqQv/GlkPe07ickJDADWLkwt8ZIOh2UayzhhSSoH7kSBBx1mleV8DC1QGX1aFK6JF45UQWmhYSs
-	pEJXnYMYXaS24DpnqZbrPzB/bK81Ivy1lBD7ImU0R7ohIweLXO9PLD3moc/f6AFmU5JKTzIUQ+31O
-	AUcvxbj2lBLHewmGVTe35HL9AnkRs4/DNr4JNJrpSQLL0ChwQA8HIE5izqgtlTlJOLaHmnFiuMEzM
-	NLxIupuA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5DNSNq9MQd9G2PUa7xawgkaNLF3qeJ9VFaixzQuj+fs=; b=HjoIfaLCAmmYQNWC+A0ris7EdA
+	UxC/Jw5T3w5r2Sl4c/S9lVZ2cS2eHrA6JZ9bZ/yVtvstvPyQMVdFDVsnEhsgYS8/SpCypQQQIxR24
+	7m58S66Hf3W7XDfMiQd6Pj686DLo0FKoPSBev06ghlfNbxezZUsIUI2/myNFDqXOf6awHBKGxI9nA
+	8OlAGjYXo/UOII8scoJSpoGZa5GVfEcFUV0pCVlETDeVN2EPj2n3Zbb1oy9P1Xfp3TWBhkiSlWOfO
+	Mre9O+sFGA82EPAJTWRDBfg8kDsep+mD4GC607xkwIHyJ1uOP78voCQbyOb/2RgLfsFJjlqE/LiNk
+	DbXaQN5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfesM-00000007Bat-1OAm;
-	Tue, 13 Jan 2026 13:56:02 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vffLN-00000007Fbw-3A0s;
+	Tue, 13 Jan 2026 14:26:01 +0000
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfesI-00000007BaT-0dY9
+	id 1vffLL-00000007FbI-31XW
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Jan 2026 13:56:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768312553;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=STv1BbfY1Y1PKMtKIG3A+/vZ+MQak+sv9xGBsiDbmck=;
-	b=aOBi37Obz+QtAAI23dcS/PHTvUM41ahjgt7vw51W/+7Er5cJc9G1ERyTh4p2xD85VYGxw4
-	1sPbo+6CaCFItvf3GDqSv0cHMY7vEDkb1jbjgeH+pX1uIH56HDSXbbvrXqj1xRjVGQLAH3
-	fM1Yl4iPu9PgyeymAZNqRFL1sTO/6p4=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-615-Jrk3nPmzNuq4znmchp42lA-1; Tue,
- 13 Jan 2026 08:55:51 -0500
-X-MC-Unique: Jrk3nPmzNuq4znmchp42lA-1
-X-Mimecast-MFC-AGG-ID: Jrk3nPmzNuq4znmchp42lA_1768312549
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 11CC518002C3;
-	Tue, 13 Jan 2026 13:55:49 +0000 (UTC)
-Received: from [10.22.64.42] (unknown [10.22.64.42])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 392C730001A2;
-	Tue, 13 Jan 2026 13:55:46 +0000 (UTC)
-Message-ID: <0da868c4-8af3-4c59-a146-ba441eb3166a@redhat.com>
-Date: Tue, 13 Jan 2026 08:55:45 -0500
+	Tue, 13 Jan 2026 14:26:00 +0000
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-3ec6c10a295so3354950fac.0
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Jan 2026 06:25:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768314358; x=1768919158; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5DNSNq9MQd9G2PUa7xawgkaNLF3qeJ9VFaixzQuj+fs=;
+        b=SBUU1hN57qPF0u9gy9JMfGtYinYQ/lViAbl8G6Vxz61OMNyXUbMpgKfgMI/ns/gURp
+         BIU2bjs17wsoFDW9QP32RF3XcmJvcF/5TyYwADF1Xe3FSjgtnb386JfxQTcLbwiULz8Z
+         nUa3wyIYEzOdsIGQVopajSvE/Wrq8tUIInFa1SS7QXPpdihCdtyARhQN0CJfypyKEagD
+         wuBrsf+AaAht4veZFqQSuQwNL1QVrdprdXFBZnu5GnlCLLhTV6fe4kDTwXeTGSTi2+Mk
+         aQt/sj5DHHwmV+pu0Hpd3qSRGJ745YOabhrZ5LD/63qWiLV7YT181p9YZM47CJ11doh6
+         KAAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768314358; x=1768919158;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5DNSNq9MQd9G2PUa7xawgkaNLF3qeJ9VFaixzQuj+fs=;
+        b=dMWJd3nTSMzHla6KKTibJ8dxZeMzZImDflVMb7C2GjvUrBDjOin1SoZpbifJVcwk+B
+         lsYp8/F7N3YLhZf1qwvhySSy4u4Ao1gwnZQGXAdkFnXlR4qvNXJD1NLHFPFSbl8rzUet
+         4rzinOyvjXg26BpYEHVwvoTde7JExz/pGYrpaCDDgQUkd/n1B/0zRlw7aw371azh3tU5
+         C7r0TzscfKKlT8ZCpWeqNAkLzTgM751xDYxTe6A2iiXa5YvZ4MF3uQbm6IpMFygjPJAj
+         DRFZqgFMK+od8ioYaC2HqVDhN2SivOYf9WVXLCZxj98De68WfHi+ipfh2UxGTz0A+v8C
+         duUA==
+X-Forwarded-Encrypted: i=1; AJvYcCW0xfyBK17+MjDR6xY5o9ZAfinVMn/Esh3QxUoTgkn7vgTDE6RXihhJ9vWGO2LGizkuc2n8jbF+ngx9@lists.infradead.org
+X-Gm-Message-State: AOJu0YwD6aaGNeVsXLr/bmZ/ykrqnI0k86EDdRDPyuMIKjEoC26dhGQZ
+	AhtczY9HVACTODIG+n4RCKfQ1N+E83T1gksSE1/AeB+iqMAMB26ETgwgnbq68R8lG67+A6Go4Lw
+	tLBQGaPsGVJ1AcvHJUXHFWBJf44vKVOU=
+X-Gm-Gg: AY/fxX6SzipzugyAKInIlEGIPVIZjHQmiGfu6h/Dcndacbn9k+gE9aH+CRBG2ibTf0i
+	LO+8XzWJqyTxr0p99k5LtDx1XtggvmQxdrz2QhjmD7ZF+bQ4qsBAA1ODKcV5U4NrvWdwByRCoSD
+	gtGtMRoEAkMN5ldenpvr/rnn5l72xfQAd+6SW2P377iJiP4dCtpSxTTGcSgsnw3iTMPdMu/Q/KT
+	cPVtjzc6l936q8NQO7c2cWd8lcxVYiE6PiRFne8fh3otEXu4rU81Hucc7dey0Nw4xhDrfOun6K2
+	72DU/wIhqJFvsywekUxMe+BCz99GEHefDehg5JadPkkeB5GX/PHwXZxNEas=
+X-Google-Smtp-Source: AGHT+IGXEVyxh1r5DpDmVWhueY0N+0Jp3e8jPwWMKfuSFBTgriyw1P/K6APHWhYtB6ZeNT6dhK47KGYvJrt1woGnjOU=
+X-Received: by 2002:a05:6870:32d5:b0:3fa:966:a847 with SMTP id
+ 586e51a60fabf-3ffc0bf65acmr10505770fac.47.1768314357848; Tue, 13 Jan 2026
+ 06:25:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] nvme: only allow entering LIVE from CONNECTING state
-To: Nilay Shroff <nilay@linux.ibm.com>, Daniel Wagner <dwagner@suse.de>
-Cc: Daniel Wagner <wagi@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
- Hannes Reinecke <hare@suse.de>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- Wen Xiong <wenxiong@linux.ibm.com>, Narayana Murty N
- <nnmlinux@linux.ibm.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Ewan Milne <emilne@redhat.com>,
- Maurizio Lombardi <mlombard@redhat.com>
-References: <20250214-nvme-fc-fixes-v1-0-7a05d557d5cc@kernel.org>
- <20250214-nvme-fc-fixes-v1-1-7a05d557d5cc@kernel.org>
- <8574c297-fc02-40d6-ba67-ab43e3d5e394@redhat.com>
- <833fd772-da6c-4f91-87e3-e13883f1815d@linux.ibm.com>
- <d8512cdc-bdcd-44ff-a56a-974b4464a7a5@flourine.local>
- <2356e974-2595-429d-983b-42cfa0e24ba8@linux.ibm.com>
-Content-Language: en-US
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <2356e974-2595-429d-983b-42cfa0e24ba8@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+References: <20251224115312.27036-1-vitalifster@gmail.com> <cc83c3fa-1bee-48b0-bfda-3a807c0b46bd@oracle.com>
+ <CAPqjcqqEAb9cUTU3QrmgZ7J-wc_b7Ai_8fi17q5OQAyRZ8RfwQ@mail.gmail.com>
+ <492a0427-2b84-47aa-b70c-a4355a7566f2@oracle.com> <CAPqjcqpPQMhTOd3hHTsZxKuLwZB-QJdHqOyac2vyZ+AeDYWC6g@mail.gmail.com>
+ <6cd50989-2cae-4535-9581-63b6a297d183@oracle.com> <CAPqjcqo=A45mK01h+o3avOUaSSSX6g_y3FfvCFLRoO7YEwUddw@mail.gmail.com>
+ <58a89dc4-1bc9-4b38-a8cc-d0097ee74b29@oracle.com> <CAPqjcqq+DFc4TwAPDZodZ61b5pRrt4i+moy3K1dkzGhH9r-2Rw@mail.gmail.com>
+ <704e5d2a-1b37-43c5-8ad6-bda47a4e7fc6@oracle.com> <CAPqjcqqhFWz0eNGJRW-_PoJhdM7f-yxr=pWN2_AfGSP=-VpyMg@mail.gmail.com>
+ <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
+In-Reply-To: <02c255b8-2ddb-43bd-9bfd-4946ef065463@oracle.com>
+From: Vitaliy Filippov <vitalifster@gmail.com>
+Date: Tue, 13 Jan 2026 17:25:46 +0300
+X-Gm-Features: AZwV_QgGmVCLvOrE1mbQJXUeZhWwA5eYHysOC7ryKk27-LWtIhw5TW2eG5CG-5k
+Message-ID: <CAPqjcqrx=9HOS7+ywoxqsiTQWTtb5G5wE3ydNLzfN4Lq9W-3AA@mail.gmail.com>
+Subject: Re: [PATCH] fs: remove power of 2 and length boundary atomic write restrictions
+To: John Garry <john.g.garry@oracle.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260113_055558_264347_45B518FC 
-X-CRM114-Status: GOOD (  10.42  )
+X-CRM114-CacheID: sfid-20260113_062559_758045_AEAADAFE 
+X-CRM114-Status: UNSURE (   4.53  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,13 +101,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/13/26 1:10 AM, Nilay Shroff wrote:
-> I have tested this (and I believe John as well) and this seems tobe working good. From my code walk through, the controller state
-> transition RESETTING -> CONNECTING -> LIVE looks good to me, so I'll
-> send out a formal patch for review.
+Hi again, so what do you think? Can the restriction be removed for raw devices?
 
-Sounds good Nilay.  Please send your patch for review and I will test it.
-
-/John
-
+Maybe we could consult with someone else about my question?
 
