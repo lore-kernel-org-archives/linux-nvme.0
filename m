@@ -4,123 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B54CD31A31
-	for <linux-nvme@archiver.kernel.org>; Wed, 14 Jan 2026 09:25:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C3CD0D31A3A
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Jan 2026 09:37:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Subject:From:Cc:To:MIME-Version:Date:Message-ID:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ud93IUugcRpRhmKg8xp5rbjvwNkDOy5VvbnfrLYi8hM=; b=SeNYLqN/o0TXKsrwUt1GFuiQQ4
-	DwOIGWeiDexaCFuPST2pUVyQrpvhI45Tx7X5BJSvCX8DRDZ5u94qgVCDv3XpJgcQ2pGZW7myy7ulU
-	WRCw/iCH4sU4gW/oFLJJcaMAPCYok7z7l3Ma6LmN4wSMFwUdpXB14mp+6V+Pp5UUUHyRTVJadwOmB
-	g8hBn/j2wxREt1CQi8JI9LD+BTQe0UZVP/3bNmb9oD6CjOSHALi5RZLRCllJXxvymISUwyFYV4zQ0
-	R3gLXZOAG5OB18sIclpy5RSKRKnvqppGj1gCG7qJ2EML3UxrakrxhU/gg0+Hi5SHTUCOsU577mYl+
-	z6sh7EGw==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5epN4Olmcgde2sHt4b6a5cHNd4DZdXcjefcV1m6RVu4=; b=3BtYAEvIDz5eIDI2raeLSK5IxB
+	a5ZHdlZPA1OzpqQCW503k6E2fnGX8xqTMBS8jnT3J2Y87J6VeyLykKLRpjByskUMasAE6KHQXIOXv
+	F1UndXI6RZCm+HBttvLZjFl0FCGwVCadZ9eIqeIDlhqqT9ujcaVgsPSe7i8DFHtDBbiLF6UqC9Owp
+	gEQZmgw+c0LVraOmMkNa6Vr3K6PDCiVjCeLWkredRn8qobooiuZz/1BPEHZRKPLcnJh0qN3929Myc
+	VzyTxgvby0EVR4FBEUSrvfmXEuCuzJcOplsh2ebUG+dCHS2ozg+uC5/kFjO2xGJ1Jql+P1zxFA4aA
+	AXiCUegQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfx82-00000008XH3-2mHt;
-	Wed, 14 Jan 2026 09:25:26 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1vfxJo-00000008b1D-1Bk1;
+	Wed, 14 Jan 2026 09:37:36 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfx7w-00000008XFi-1fIQ
+	id 1vfxJl-00000008b0p-1qna
 	for linux-nvme@lists.infradead.org;
-	Wed, 14 Jan 2026 09:25:25 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C1C985BFEE;
-	Wed, 14 Jan 2026 09:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768382716; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ud93IUugcRpRhmKg8xp5rbjvwNkDOy5VvbnfrLYi8hM=;
-	b=RDJi7qdOA/+q0TrkEyZhsQpfpu1ZgiDBcHKvUfY+TFW3ykVe23eTuCmgf8DMBtdPzgIzgx
-	KNa9psB8N0DLK29ogL1GlP7j2sYpA6zPNSyYZ3XxSww3XdxQgT7+ZZ8tfJzHVbTc0kAaOw
-	OjIgnT+LbphLgB4Oo2p/bHAM/tkWOXg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768382716;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ud93IUugcRpRhmKg8xp5rbjvwNkDOy5VvbnfrLYi8hM=;
-	b=yAGUgUw3vWJpJe5cEHvNcn6THE+gQYMlrX3n8Ei8mAL0EJwEqCKEv0RWdq/Ub7Nam/qlkP
-	qFWv7DCPhbsrm6Cg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RDJi7qdO;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yAGUgUw3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1768382716; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ud93IUugcRpRhmKg8xp5rbjvwNkDOy5VvbnfrLYi8hM=;
-	b=RDJi7qdOA/+q0TrkEyZhsQpfpu1ZgiDBcHKvUfY+TFW3ykVe23eTuCmgf8DMBtdPzgIzgx
-	KNa9psB8N0DLK29ogL1GlP7j2sYpA6zPNSyYZ3XxSww3XdxQgT7+ZZ8tfJzHVbTc0kAaOw
-	OjIgnT+LbphLgB4Oo2p/bHAM/tkWOXg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1768382716;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ud93IUugcRpRhmKg8xp5rbjvwNkDOy5VvbnfrLYi8hM=;
-	b=yAGUgUw3vWJpJe5cEHvNcn6THE+gQYMlrX3n8Ei8mAL0EJwEqCKEv0RWdq/Ub7Nam/qlkP
-	qFWv7DCPhbsrm6Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD9453EA63;
-	Wed, 14 Jan 2026 09:25:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T4orKfxgZ2mRCgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 14 Jan 2026 09:25:16 +0000
-Message-ID: <06476c7d-a756-4aa5-9b57-9aa525fae842@suse.de>
-Date: Wed, 14 Jan 2026 10:25:06 +0100
+	Wed, 14 Jan 2026 09:37:34 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 860D64021C;
+	Wed, 14 Jan 2026 09:37:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10CE9C4CEF7;
+	Wed, 14 Jan 2026 09:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768383452;
+	bh=xUb0AaNBZhtaOhM/WB69SKt21sFJjoaIShVfPxmD6mo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GYqaekyOYD4Xvb4gWEY6Cd6MG7/PwimcmFM8UWNVc3/32RfZSUU+ZdPAmpWFIcSo9
+	 n6TbSY/grIBnXq7UPHQ6biR9b9hwSugeXQ8Z8eE9quEAoNpp/UWY/b4v77Fx9Dlz1/
+	 WMoFYVREm+iZ90YPOWB6egdQt1zJvs2deagPaQtvypsigg21MI47zf8NG0Gao8eN/B
+	 fMak22IMs3d9tjAAV//sPaaCtCtdjuC17Agzugh7XXmk1VN1L+t2qu40/ci4mP3Ngj
+	 Pd2W0gDozfbj82OWERJs0+4T6cHLPJeEP2e7YaQ4paDlxkKg4lPgbLU1FDaolNvo5z
+	 jMTQgUGzRjlHg==
+From: Daniel Wagner <wagi@kernel.org>
+To: linux-nvme@lists.infradead.org,
+	Nilay Shroff <nilay@linux.ibm.com>
+Cc: Daniel Wagner <wagi@kernel.org>,
+	martinus.gpy@gmail.com
+Subject: Re: [PATCH 0/2] nvme-cli: limit printing iopolicy in subsystem header
+Date: Wed, 14 Jan 2026 10:37:21 +0100
+Message-ID: <176838342296.13428.8512743411331926855.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260112111731.1631091-1-nilay@linux.ibm.com>
+References: <20260112111731.1631091-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: lsf-pc@lists.linux-foundation.org
-Cc: linux-nvme@lists.infradead.org
-From: Daniel Wagner <dwagner@suse.de>
-Subject: [LSF/MM/BPF TOPIC] nvme-fabrics at scale
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.98%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCPT_COUNT_TWO(0.00)[2];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: C1C985BFEE
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260114_012520_715128_ACA0A8C1 
-X-CRM114-Status: UNSURE (   6.90  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260114_013733_506725_AF4B54F7 
+X-CRM114-Status: GOOD (  10.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,16 +73,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-We are working on the next major version of nvme-cli and libnvme. The 
-goal is simple: make the library API more intuitive and fix the "growing 
-pains" of our current design choices. This refactoring is essential for 
-preparing the codebase for future features. So I'd like to give a quick 
-update and gather feedback.
 
-The current discovery/auto-connect process is a "black box" that is hard 
-to debug and tends to struggle in large-scale environments. I like to go 
-through these existing pain points and demonstrate a first PoC for an 
-alternative approach that improves stability and observability.
+On Mon, 12 Jan 2026 16:45:59 +0530, Nilay Shroff wrote:
+> The nvme-cli currently prints the iopolicy value in the subsystem header
+> for both the show-topology and list-subsys commands. This behavior was
+> introduced by commit d0b4c6cf0006 (“nvme: extend show-topology command
+> to add support for multipath”).
+> 
+> Printing the iopolicy value in the output of the show-topology command is
+> intentional and useful. The command also displays additional columns such
+> as Nodes or queue-depth, depending on the configured I/O policy. Including
+> the iopolicy in the header makes it easier to correlate the output with the
+> active policy and understand the resulting I/O path behavior.
+> 
+> [...]
 
-Daniel
+Applied, thanks!
+
+[1/2] nvme: avoid printing iopolicy in list-subsys output
+      commit: 230bc9d4924b99635ae29e2208271c0ee4e39a0e
+[2/2] nvme: add iopolicy field in JSON output
+      commit: f5b985fabd6d03871161b3a6c4a585888dace801
+
+Best regards,
+-- 
+Daniel Wagner <wagi@kernel.org>
 
