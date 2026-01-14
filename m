@@ -4,72 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04A38D30CDB
-	for <linux-nvme@archiver.kernel.org>; Tue, 13 Jan 2026 23:35:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7599CD31A0E
+	for <linux-nvme@archiver.kernel.org>; Wed, 14 Jan 2026 06:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	List-Owner; bh=BSFJmjqkr3SG+Wmzr05iwRwKLgAbLdJHQWRc2GNC65g=; b=4djK8swrF3gNjc
-	TUW4rPOxwRdtEIyMCSK3cUoSg9L5qufg2dcSE7BL5gURx5wmSLbMO3xo0pWBXxSAoQMrQ0LGLbljc
-	YGv9y5j6d/5EuII2pO428jL3dWRHyqpIHy2+7l/+zvy4Qq4YuXJ/8dpWH2XPInD/uGfpi2xwk+flu
-	GMmUTaHvNndwlXNbBGtVW37rU60g2tg39aXTrK7F7vYNkPP1C5Fv2+7l/G17Oo7sgEmgxoECqBccj
-	EEYsqVOCC342y52aucvyNDKEfXooMZPnCNfI1L21zLPYPhYwoMvYMjFvQ0bFkmIjOf8VNIZX3pKhr
-	AbMe+cDtikK8Q/VLKHhQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=58Ty7TClJ+QeBsgoKTO0/8ykFjzXjuiPyWifbxa5cVI=; b=0fWXsTJpkWZxVF6Qrmh9euAXVi
+	485ZcQrDSNcwEAcouLcQa9g2NUBVijDOzGDSTm8UNGAXfkVDNjVMlNoNPd9neFB+zxkvJMLIEfvd5
+	X6znQX6kFuHw7767FaaLtlcXc/F83aSMZBbuNI+fAIRXpETcOuIJSriIXV5YS80Op83W8F9ovqhUa
+	amw5WVQ7hQiZgSCy+gqegLE6CsGMWOJj6AXFeFZNFlwMD57f/BBqh9vtG2A1rrJGWhk3dlMSN7Iup
+	Xf38MCzNykZ+TaOEVgGg9TWVByz32B+7uOBQHaSLmoIamz0ldIKDBlHgNOap3A/aMLGbESCeskZ57
+	onJt2Srw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfnvQ-00000007sSL-0aT8;
-	Tue, 13 Jan 2026 23:35:48 +0000
-Received: from ale.deltatee.com ([204.191.154.188])
+	id 1vfuY2-000000088Si-41CJ;
+	Wed, 14 Jan 2026 06:40:06 +0000
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfnvL-00000007sRa-2rqe
+	id 1vfuXs-000000088RB-0jV4
 	for linux-nvme@lists.infradead.org;
-	Tue, 13 Jan 2026 23:35:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=BSFJmjqkr3SG+Wmzr05iwRwKLgAbLdJHQWRc2GNC65g=; b=j2r+6Q9Rd1jlEMASSc+4qmx7gT
-	wAMSprno495z+UF0PvP/iZLFC+KkJsLKKbfNeXHjm9yNdml575qdsEtvTg8L7oIl/2UpblCFvdllL
-	oDC8D/H3i7ybC4bucF+qUUiDKin2wW90hxwp5txaulpA4sST+834nRRD0Xv+u+lnXBaOy/c5PFyxE
-	9/Eo72mJQSkEJnZ7Ozt5V56yP7w9gAJ4xJe6oJa3an+mbmkx3I7KclYQRqIDXKdXZkbXDpjCo42nB
-	rnFCeC+sYuIx1NohJPt69cjom2QdSDVIpJ62dRl1DbSRhqYj/Zg+rGOmNCKMFWHi8SusF7VxhkwI8
-	VMe4hlOQ==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1vfnvG-00000000mAR-2Lj7;
-	Tue, 13 Jan 2026 16:35:39 -0700
-Message-ID: <e2e4cbdd-2abe-4e25-9cf2-746af5ede443@deltatee.com>
-Date: Tue, 13 Jan 2026 16:34:59 -0700
+	Wed, 14 Jan 2026 06:40:01 +0000
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-81e7477828bso277348b3a.0
+        for <linux-nvme@lists.infradead.org>; Tue, 13 Jan 2026 22:39:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768372795; x=1768977595; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=58Ty7TClJ+QeBsgoKTO0/8ykFjzXjuiPyWifbxa5cVI=;
+        b=Nc+HGRgmh3yzPlq8QC8bCw6VG7vuMkhyaFxzaYkd5dKcbYyIVzEnUPYQVMbzVSwCDB
+         76EbdR+xpo9ut6m2+k0dK8TOJk4rXKCA4Yp3JVYLxLYK7CuqNbahC++XjIVhp+cHuoxR
+         7b+0Ty05feIWK66ikUZSchPtq+J9jpqAS8cMym2sbVDxnJINsLFctAXUZpa1xL+PwAuZ
+         6JESokNwHcOt8xQB1/X+Cgs0/zdtvYHnkhYXOTaObpTasSQRyZbNWV0dbLeWLB7jc/NJ
+         Dww12odZs/WzXla5sfFPkf6hD9kvAHd6XhXRAC+kfMaSurUs2ul40AKJ7EmAAOCnogWe
+         imtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768372795; x=1768977595;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=58Ty7TClJ+QeBsgoKTO0/8ykFjzXjuiPyWifbxa5cVI=;
+        b=bcZ4+exBp3khvWtJcHvWlBsewZoCzjoUTniZWN1MjP+gG7m+8U3ej4ZhZZrMRxgpDs
+         Z2xkOBL/juV2QJS+yIFyC0tkjd4Kgit/wsuFU1ETyu1wqYkYVdF+4sxqvyxOdUbVmP0R
+         Dbj0g/kKoZAsdPgmY0qrdTKIB3GwOtfZuQoKIgV7nibvJtL7JSw22ZOwHPcrpOBBAhR6
+         GjpEEAJClbLKjPy67HtlfrsmtbxC4D6zn7h4OzMZcMnggDRh1sAmsItYpBup8mCAejzB
+         7iL0B3noCLA2AFEzyXAmEKkWNfZLlZzMidp+bRBaQqjPEJF3UzwxAM0bCShGowd49lJ8
+         tvcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVm37S7dY1MHQiK6D20kF960oB13yhbMPUQ1/xbX5uM2J9xBAJ4WVf8B0W0wCcOXy0YppCR3o8f021D@lists.infradead.org
+X-Gm-Message-State: AOJu0YzGfjn0Piv0WYXX4klFD8nZIHPewDQz8R+QQhRq0QWlaKuOGxyk
+	TgQM1BUrEYkDuElLY+lvapV/4dyULn3nXRiqLR9VvnOcbXDIA9SbiJkB
+X-Gm-Gg: AY/fxX7uS8I5IaYKjzkdYBPsY1VPDzL2KGhdBwPJlPyANbd++eS0EYyCTVUuwhTkA5Z
+	6TirAOHM9dupucR2RHWR8Bk/AdQ7tKywMg3KTIGp8q8U9nTTjQa4CjbZqu6tlLD3YSnmpkFu/0e
+	Y/q/1u6A4doXEOKWxjB+1pZgxBtsd4sLbMJXNpXcGTaoQTl7LZFQQWC4InPInkVnrPotdJYFgzk
+	WpcErtNXRC3O79NhVsVOsifj+91bA5f+BNFgGCOVr7cWrom3gYRQ0m0etuVUPD7qkqbodrEqIpJ
+	BEd50QLGWKV6UGsvAlHRmBwJUJjc7YOEeZKl2scFTRkTXVJLkcSWhkl/IwzoIQ42d0wBNc0zyCV
+	Pu60AE9pI2Wq1H8UWau9+yJnKIwN8qZ7A0iRaislScDLDpAEmyFqhkAzfR0m7YZHmZhjaErrcok
+	8PvH8o6DrWG3tkkAgU
+X-Received: by 2002:a05:6a00:a90:b0:81f:804f:af26 with SMTP id d2e1a72fcca58-81f804fc40dmr1916152b3a.19.1768372794847;
+        Tue, 13 Jan 2026 22:39:54 -0800 (PST)
+Received: from zenbook ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f73785b79sm3618062b3a.39.2026.01.13.22.39.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 22:39:54 -0800 (PST)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Damien Le Moal <dlemoal@kernel.org>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH v4] nvme/host: fixup some typos
+Date: Wed, 14 Jan 2026 16:37:24 +1000
+Message-ID: <20260114063722.68846-3-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Alistair Popple <apopple@nvidia.com>, helgaas@kernel.org
-Cc: houtao@huaweicloud.com, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- linux-nvme@lists.infradead.org, bhelgaas@google.com, leonro@nvidia.com,
- gregkh@linuxfoundation.org, tj@kernel.org, rafael@kernel.org,
- dakr@kernel.org, akpm@linux-foundation.org, david@kernel.org,
- lorenzo.stoakes@oracle.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
- sagi@grimberg.me, houtao1@huawei.com
-References: <20260112005440.998543-1-apopple@nvidia.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260112005440.998543-1-apopple@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: apopple@nvidia.com, helgaas@kernel.org, houtao@huaweicloud.com, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org, linux-nvme@lists.infradead.org, bhelgaas@google.com, leonro@nvidia.com, gregkh@linuxfoundation.org, tj@kernel.org, rafael@kernel.org, dakr@kernel.org, akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, houtao1@huawei.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH] PCI/P2PDMA: Reset page reference count when page mapping
- fails
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260113_153543_724782_F54A7001 
-X-CRM114-Status: GOOD (  13.73  )
+X-CRM114-CacheID: sfid-20260113_223956_214461_7B8143F7 
+X-CRM114-Status: GOOD (  14.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,36 +100,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Alistair,
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-On 2026-01-11 17:54, Alistair Popple wrote:
-> When mapping a p2pdma page the page reference count is initialised to
-> 1 prior to calling vm_insert_page(). This is to avoid vm_insert_page()
-> warning if the page refcount is zero. Prior to setting the page count
-> there is a check to ensure the page is currently free (ie. has a zero
-> reference count).
-> 
-> However vm_insert_page() can fail. In this case the pages are freed
-> back to the genalloc pool, but that does not reset the page refcount.
-> So a future allocation of the same page will see the elevated page
-> refcount from the previous set_page_count() call triggering the
-> VM_WARN_ON_ONCE_PAGE checking that the page is free.
-> 
-> Fix this by resetting the page refcount back to zero using
-> set_page_count(). Note that put_page() is not used because that
-> would result in freeing the page twice due to implicitly calling
-> p2pdma_folio_free().
-> 
-> Fixes: b7e282378773 ("mm/mm_init: move p2pdma page refcount initialisation to p2pdma")
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+Fix up some minor typos/grammar in the nvme host tcp driver and a comment
+style to conform to the standard kernel style.
 
-I had time today to pull out some old hardware and run this patch
-through my old p2pdma smoke tests. I don't think the tests exercise the
-change, but it looks correct to me on review.
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+V4:
+	- Minor grammar fixup
+---
+ drivers/nvme/host/tcp.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 69cb04406b47..6658a5806dd9 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -25,7 +25,8 @@
+ 
+ struct nvme_tcp_queue;
+ 
+-/* Define the socket priority to use for connections were it is desirable
++/*
++ * Define the socket priority to use for connections where it is desirable
+  * that the NIC consider performing optimized packet processing or filtering.
+  * A non-zero value being sufficient to indicate general consideration of any
+  * possible optimization.  Making it a module param allows for alternative
+@@ -926,8 +927,9 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct sk_buff *skb,
+ 			req->curr_bio = req->curr_bio->bi_next;
+ 
+ 			/*
+-			 * If we don`t have any bios it means that controller
+-			 * sent more data than we requested, hence error
++			 * If we do not have any bios, it means that the
++			 * controller sent more data than we requested,
++			 * hence error
+ 			 */
+ 			if (!req->curr_bio) {
+ 				dev_err(queue->ctrl->ctrl.device,
+-- 
+2.52.0
 
-Thanks for the fix!
-
-Logan
 
