@@ -4,71 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 447B4D3CCB7
-	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jan 2026 07:29:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7247D41148
+	for <linux-nvme@archiver.kernel.org>; Thu, 15 Jan 2026 09:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QFwleViSn3M4KuTxvCEVzMxCR8r40h5tHelaEOIutwM=; b=A/WuCVRMN/qPzbWY4WJD8OHIwP
-	lDYPdVD/Xog/8kjIx50T0qpDyUufFU5GVtGWV2JjeHjw+FsOwE3y4WoOVYVkqK2khJwBYf2dVRixj
-	GodmukdUg/Gq0JzL1e6NZFXCHDYuMC+UjKT+Sq/6j59h9kcCUGKCDYqMOKieLL4CzWueltIeD+ODq
-	G8WSiiyN8QHAh4vhbW+B+XnF/ZambES4siXpLgdZ+fAjGe8XbnYZBAb2ZoRTzrtjlusE4/PzFPPbC
-	1OFZm5+D+u4YbwlSYup0LD0w5SJvZZEA5FueZBYit1xRfKd46goSvG48b+VHBOW4ge3T8glzQyubI
-	de7RZM3Q==;
+	bh=h/ZZKlHZurqbfW1B7W/nlx38PVNHuIvXpjWS+Iexpd0=; b=eItyBKiutcEX8lNw3Nq49Cdyjm
+	ETwl5ZW1D9rIkLqiWV0oA64mTm97MeEhffvESSv0drd1cr9vEhByGZgb+L8MIZ8gLz4LFGaQtpZtS
+	/T5JpfMmWzTiJbA0ovkoP/rxIp78W3qtCcjc24xAy768Ok8wXmWG+YxilHzmxdXgALWKNqmmIhZQO
+	JPCO54sg4fRIhMpEgRbGMJcoFw1lROZ3QUmvL109XBR+HP3Eoy22xg2rbPwLztkt1ukB3DrBt+E45
+	GXpA9BfZq3fZxZzl2YY8+kxIL9xX3nqZcKwGZrnqBbD7LUMvWUqMdzldjafpebxi3qTdwoEmWn/A8
+	fm42kzzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgHmw-0000000Bvs1-2YzS;
-	Thu, 15 Jan 2026 07:29:02 +0000
-Received: from mgamail.intel.com ([192.198.163.12])
+	id 1vgJDD-0000000C20a-479w;
+	Thu, 15 Jan 2026 09:00:15 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgHmp-0000000Bvrh-2bCL
+	id 1vgJDA-0000000C1zx-3OLn
 	for linux-nvme@lists.infradead.org;
-	Thu, 15 Jan 2026 07:28:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768462136; x=1799998136;
-  h=date:from:to:cc:subject:message-id;
-  bh=OVS0bvieWZVG35Q4jXHKtEHe7EO0e0HQ54FLS++Inhw=;
-  b=Glp7aeQTcMLGAPh8+PdzA+kLEM0AtVYO4DD9dZ5aYq8WiuXjA8lhYS6V
-   8gZ4e4p3B30cvK9SN8Sz560yKMfHBd4AaqM8MB8LJ7OzswmoX16S4bqa4
-   wBe+P4LHKB93TrOX8ORtYXP1oX+3dm44mkOZ+B35dqTNiBLF8MgwdMf3o
-   pSwEDbbq139UTNcaHcgTJouIBhm0WLQ5F7gixP34f1UtMIc6uLPMJliZ5
-   AGlhaYuHcctw9RcpDG2ueJ25mkhW1bht0TdtJEHhXk1+EulsXEV3lhejy
-   kyHa7Vb3Z5UZ44FwgikCPOzLtb8VpJLV1nsqk5mlhUKPYIJb8vu9Pk/MR
-   A==;
-X-CSE-ConnectionGUID: b5fou7OBQsG6/h0u74FbBQ==
-X-CSE-MsgGUID: iHrTTOPCRPCMUI++Ow3fnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="73617182"
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="73617182"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 23:28:53 -0800
-X-CSE-ConnectionGUID: 6MpQ9J+ZSG6d6g6wDn4qLQ==
-X-CSE-MsgGUID: AR73YKjNT+iflRq/CcalyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="205401767"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jan 2026 23:28:52 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgHmj-00000000Hi0-3IkO;
-	Thu, 15 Jan 2026 07:28:49 +0000
-Date: Thu, 15 Jan 2026 15:27:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-6.19] BUILD SUCCESS
- 0edb475ac0a7d153318a24d4dca175a270a5cc4f
-Message-ID: <202601151554.7J90tsb7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Thu, 15 Jan 2026 09:00:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768467610;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=h/ZZKlHZurqbfW1B7W/nlx38PVNHuIvXpjWS+Iexpd0=;
+	b=QFzdADqdUYdKPECsL8DGK2ERBzfjqrLHPoLwAY17+w2Xxafzl947j1Ig3dzLxUu0JnLuG5
+	9Sm2Ihq2MOtu9M/vvz2NoB6EG0XtCzNPhyx8IautPm9iMvR5kdrQs7fiDhLkZxHuEAY543
+	7poG02rSCZIWuX4lntf+hIXg0YsoQlM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-677-Gfgta2fEMFivZQFd505cQA-1; Thu,
+ 15 Jan 2026 04:00:01 -0500
+X-MC-Unique: Gfgta2fEMFivZQFd505cQA-1
+X-Mimecast-MFC-AGG-ID: Gfgta2fEMFivZQFd505cQA_1768467600
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9DFF2180045C;
+	Thu, 15 Jan 2026 08:59:59 +0000 (UTC)
+Received: from localhost (unknown [10.72.116.198])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 275B818004D8;
+	Thu, 15 Jan 2026 08:59:57 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	io-uring@vger.kernel.org
+Cc: linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	Ming Lei <ming.lei@redhat.com>
+Subject: [PATCH] nvme: optimize passthrough IOPOLL completion for local ring context
+Date: Thu, 15 Jan 2026 16:59:52 +0800
+Message-ID: <20260115085952.494077-1-ming.lei@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260114_232855_679386_8029E923 
-X-CRM114-Status: UNSURE (   4.76  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260115_010012_945329_ED124BAE 
+X-CRM114-Status: GOOD (  23.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,226 +81,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-6.19
-branch HEAD: 0edb475ac0a7d153318a24d4dca175a270a5cc4f  nvme: fix PCIe subsystem reset controller state transition
+When multiple io_uring rings poll on the same NVMe queue, one ring can
+find completions belonging to another ring. The current code always
+uses task_work to handle this, but this adds overhead for the common
+single-ring case.
 
-elapsed time: 737m
+This patch passes the polling io_ring_ctx through the iopoll callback
+chain via io_comp_batch and stores it in the request. In the NVMe
+end_io handler, we compare the polling context with the request's
+owning context. If they match (local), we complete inline. If they
+differ (remote) or it's a non-IOPOLL path, we use task_work as before.
 
-configs tested: 206
-configs skipped: 2
+Changes:
+- Add poll_ctx field to struct io_comp_batch
+- Add poll_ctx to struct request's hash/ipi_list union
+- Set iob.poll_ctx in io_do_iopoll() before calling iopoll callbacks
+- Store poll_ctx in request in nvme_ns_chr_uring_cmd_iopoll()
+- Check local vs remote context in nvme_uring_cmd_end_io()
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+~10% IOPS improvement is observed in the following benchmark:
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    clang-22
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-22
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260115    clang-22
-arc                   randconfig-002-20260115    clang-22
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                                 defconfig    gcc-15.2.0
-arm                        keystone_defconfig    clang-22
-arm                            mmp2_defconfig    clang-22
-arm                            mps2_defconfig    clang-22
-arm                          pxa168_defconfig    clang-22
-arm                          pxa168_defconfig    gcc-15.2.0
-arm                          pxa3xx_defconfig    clang-22
-arm                   randconfig-001-20260115    clang-22
-arm                   randconfig-002-20260115    clang-22
-arm                   randconfig-003-20260115    clang-22
-arm                   randconfig-004-20260115    clang-22
-arm                             rpc_defconfig    clang-22
-arm                        shmobile_defconfig    gcc-15.2.0
-arm64                            allmodconfig    clang-22
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260115    clang-22
-arm64                 randconfig-002-20260115    clang-22
-arm64                 randconfig-003-20260115    clang-22
-arm64                 randconfig-004-20260115    clang-22
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260115    clang-22
-csky                  randconfig-002-20260115    clang-22
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon                             defconfig    gcc-15.2.0
-hexagon               randconfig-001-20260115    clang-22
-hexagon               randconfig-002-20260115    clang-22
-i386                             alldefconfig    clang-22
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260115    gcc-14
-i386        buildonly-randconfig-002-20260115    gcc-14
-i386        buildonly-randconfig-003-20260115    gcc-14
-i386        buildonly-randconfig-004-20260115    gcc-14
-i386        buildonly-randconfig-005-20260115    gcc-14
-i386        buildonly-randconfig-006-20260115    gcc-14
-i386                                defconfig    gcc-15.2.0
-i386                  randconfig-001-20260115    clang-20
-i386                  randconfig-002-20260115    clang-20
-i386                  randconfig-003-20260115    clang-20
-i386                  randconfig-004-20260115    clang-20
-i386                  randconfig-005-20260115    clang-20
-i386                  randconfig-006-20260115    clang-20
-i386                  randconfig-007-20260115    clang-20
-i386                  randconfig-011-20260115    gcc-14
-i386                  randconfig-012-20260115    gcc-14
-i386                  randconfig-013-20260115    gcc-14
-i386                  randconfig-014-20260115    gcc-14
-i386                  randconfig-015-20260115    gcc-14
-i386                  randconfig-016-20260115    gcc-14
-i386                  randconfig-017-20260115    gcc-14
-loongarch                        allmodconfig    clang-22
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260115    clang-22
-loongarch             randconfig-002-20260115    clang-22
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                                defconfig    clang-19
-m68k                          hp300_defconfig    clang-22
-m68k                        mvme16x_defconfig    gcc-15.2.0
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-mips                          ath79_defconfig    gcc-15.2.0
-mips                           gcw0_defconfig    clang-22
-mips                       rbtx49xx_defconfig    clang-22
-mips                           xway_defconfig    clang-22
-nios2                            allmodconfig    clang-22
-nios2                             allnoconfig    clang-22
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260115    clang-22
-nios2                 randconfig-002-20260115    clang-22
-openrisc                         alldefconfig    clang-22
-openrisc                         allmodconfig    clang-22
-openrisc                          allnoconfig    clang-22
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-22
-parisc                           allyesconfig    clang-19
-parisc                              defconfig    gcc-15.2.0
-parisc                generic-64bit_defconfig    gcc-15.2.0
-parisc                randconfig-001-20260115    clang-22
-parisc                randconfig-002-20260115    clang-22
-parisc64                            defconfig    clang-19
-powerpc                    adder875_defconfig    gcc-15.2.0
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-22
-powerpc                   currituck_defconfig    clang-22
-powerpc                    ge_imp3a_defconfig    gcc-15.2.0
-powerpc                      mgcoge_defconfig    gcc-15.2.0
-powerpc                     mpc512x_defconfig    clang-22
-powerpc                 mpc8313_rdb_defconfig    clang-22
-powerpc                      pasemi_defconfig    clang-22
-powerpc               randconfig-001-20260115    clang-22
-powerpc               randconfig-002-20260115    clang-22
-powerpc                 xes_mpc85xx_defconfig    clang-22
-powerpc                 xes_mpc85xx_defconfig    gcc-15.2.0
-powerpc64             randconfig-001-20260115    clang-22
-powerpc64             randconfig-002-20260115    clang-22
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    clang-22
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260115    gcc-10.5.0
-riscv                 randconfig-002-20260115    gcc-10.5.0
-s390                             alldefconfig    gcc-15.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260115    gcc-10.5.0
-s390                  randconfig-002-20260115    gcc-10.5.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-22
-sh                               allyesconfig    clang-19
-sh                         ap325rxa_defconfig    clang-22
-sh                                  defconfig    gcc-14
-sh                             espt_defconfig    gcc-15.2.0
-sh                               j2_defconfig    gcc-15.2.0
-sh                          r7785rp_defconfig    gcc-15.2.0
-sh                    randconfig-001-20260115    gcc-10.5.0
-sh                    randconfig-002-20260115    gcc-10.5.0
-sh                           se7206_defconfig    gcc-15.2.0
-sh                           se7721_defconfig    gcc-15.2.0
-sh                           se7751_defconfig    clang-22
-sh                              ul2_defconfig    clang-22
-sh                              ul2_defconfig    gcc-15.2.0
-sparc                             allnoconfig    clang-22
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260115    clang-22
-sparc                 randconfig-002-20260115    clang-22
-sparc64                          allmodconfig    clang-22
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260115    clang-22
-sparc64               randconfig-002-20260115    clang-22
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260115    clang-22
-um                    randconfig-002-20260115    clang-22
-um                           x86_64_defconfig    clang-22
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-22
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260115    clang-20
-x86_64      buildonly-randconfig-002-20260115    clang-20
-x86_64      buildonly-randconfig-003-20260115    clang-20
-x86_64      buildonly-randconfig-004-20260115    clang-20
-x86_64      buildonly-randconfig-005-20260115    clang-20
-x86_64      buildonly-randconfig-006-20260115    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260115    clang-20
-x86_64                randconfig-002-20260115    clang-20
-x86_64                randconfig-003-20260115    clang-20
-x86_64                randconfig-004-20260115    clang-20
-x86_64                randconfig-005-20260115    clang-20
-x86_64                randconfig-006-20260115    clang-20
-x86_64                randconfig-011-20260115    clang-20
-x86_64                randconfig-012-20260115    clang-20
-x86_64                randconfig-013-20260115    clang-20
-x86_64                randconfig-014-20260115    clang-20
-x86_64                randconfig-015-20260115    clang-20
-x86_64                randconfig-016-20260115    clang-20
-x86_64                randconfig-071-20260115    gcc-14
-x86_64                randconfig-072-20260115    gcc-14
-x86_64                randconfig-073-20260115    gcc-14
-x86_64                randconfig-074-20260115    gcc-14
-x86_64                randconfig-075-20260115    gcc-14
-x86_64                randconfig-076-20260115    gcc-14
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-22
-xtensa                           allyesconfig    clang-22
-xtensa                  cadence_csp_defconfig    clang-22
-xtensa                randconfig-001-20260115    clang-22
-xtensa                randconfig-002-20260115    clang-22
+fio/t/io_uring -b512 -d128 -c32 -s32 -p1 -F1 -B[0|1] -O0 -P1 -u1 -n1 /dev/ng0n1
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+ drivers/nvme/host/ioctl.c | 36 ++++++++++++++++++++++++++++--------
+ include/linux/blk-mq.h    |  4 +++-
+ include/linux/blkdev.h    |  1 +
+ io_uring/rw.c             |  7 +++++++
+ 4 files changed, 39 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index a9c097dacad6..0b85378f7fbb 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -425,14 +425,28 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
+ 	pdu->result = le64_to_cpu(nvme_req(req)->result.u64);
+ 
+ 	/*
+-	 * IOPOLL could potentially complete this request directly, but
+-	 * if multiple rings are polling on the same queue, then it's possible
+-	 * for one ring to find completions for another ring. Punting the
+-	 * completion via task_work will always direct it to the right
+-	 * location, rather than potentially complete requests for ringA
+-	 * under iopoll invocations from ringB.
++	 * For IOPOLL, check if this completion is happening in the context
++	 * of the same io_ring that owns the request (local context). If so,
++	 * we can complete inline without task_work overhead. Otherwise, we
++	 * must punt to task_work to ensure completion happens in the correct
++	 * ring's context.
+ 	 */
+-	io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_cb);
++	if (blk_rq_is_poll(req) && req->poll_ctx == io_uring_cmd_ctx_handle(ioucmd)) {
++		/*
++		 * Local context: the polling ring owns this request.
++		 * Complete inline for optimal performance.
++		 */
++		if (pdu->bio)
++			blk_rq_unmap_user(pdu->bio);
++		io_uring_cmd_done32(ioucmd, pdu->status, pdu->result, 0);
++	} else {
++		/*
++		 * Remote or non-IOPOLL context: either a different ring found
++		 * this completion, or this is IRQ/softirq completion. Use
++		 * task_work to direct completion to the correct location.
++		 */
++		io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_cb);
++	}
+ 	return RQ_END_IO_FREE;
+ }
+ 
+@@ -677,8 +691,14 @@ int nvme_ns_chr_uring_cmd_iopoll(struct io_uring_cmd *ioucmd,
+ 	struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
+ 	struct request *req = pdu->req;
+ 
+-	if (req && blk_rq_is_poll(req))
++	if (req && blk_rq_is_poll(req)) {
++		/*
++		 * Store the polling context in the request so end_io can
++		 * detect if it's completing in the local ring's context.
++		 */
++		req->poll_ctx = iob ? iob->poll_ctx : NULL;
+ 		return blk_rq_poll(req, iob, poll_flags);
++	}
+ 	return 0;
+ }
+ #ifdef CONFIG_NVME_MULTIPATH
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index cae9e857aea4..1975f5dd29f8 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -175,11 +175,13 @@ struct request {
+ 	 * request reaches the dispatch list. The ipi_list is only used
+ 	 * to queue the request for softirq completion, which is long
+ 	 * after the request has been unhashed (and even removed from
+-	 * the dispatch list).
++	 * the dispatch list). poll_ctx is used during iopoll to track
++	 * the io_ring_ctx that initiated the poll operation.
+ 	 */
+ 	union {
+ 		struct hlist_node hash;	/* merge hash */
+ 		struct llist_node ipi_list;
++		void *poll_ctx;		/* iopoll context */
+ 	};
+ 
+ 	/*
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 72e34acd439c..4ed708912127 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1820,6 +1820,7 @@ void bdev_fput(struct file *bdev_file);
+ 
+ struct io_comp_batch {
+ 	struct rq_list req_list;
++	void *poll_ctx;
+ 	bool need_ts;
+ 	void (*complete)(struct io_comp_batch *);
+ };
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index c33c533a267e..27a49ce3de46 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -1321,6 +1321,13 @@ int io_do_iopoll(struct io_ring_ctx *ctx, bool force_nonspin)
+ 	struct io_kiocb *req, *tmp;
+ 	int nr_events = 0;
+ 
++	/*
++	 * Store the polling ctx so drivers can detect if they're completing
++	 * a request from the same ring that's polling (local) vs a different
++	 * ring (remote). This enables optimizations for local completions.
++	 */
++	iob.poll_ctx = ctx;
++
+ 	/*
+ 	 * Only spin for completions if we don't have multiple devices hanging
+ 	 * off our complete list.
+-- 
+2.47.1
+
 
