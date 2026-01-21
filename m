@@ -4,89 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54CBCD262B9
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jan 2026 02:50:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EE4FD262B0
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jan 2026 07:41:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:MIME-Version:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=fFeKv09HCEkQRsng29UKXvnp+lJB/36rWHXN5G2fdyg=; b=Sk34fKiDI65DVJmckXrOzXOAym
-	DrhSMHI11B0hLKSCkpS+NciPNbwVzhAf148CvHPaYMWplcaqSKuWZlST/AUEYgSRUWhIDXFrwrXUD
-	owuf5jW3qv3p7ndPzzQ9emBBlNOP3MDQChun9ke9mYdN3kpLtU0IO0OyF6vR4pw47WgeYAD7xYM7R
-	jTlfZZnONL7cOkwKeS5aQ3crHryyyJdE7ckW+Hr+of5hKLlOBI6Yfib+FygR3jUPieJ5ooDXITi6G
-	sdDTiDgxkp+vkEjZ8zXeRx1tlK0kfWDxFeYJkygH7qFRwo4VPqxMhemsZ3kHpoHzCarLXF/5zHC+Y
-	0LFxKC+w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cCLSnw+7Sw2d8mXGXmlBWX5LFNtQ5J3qbnlxpAfMklg=; b=ucfPvWLoDiV4hHpywo+RRkZw51
+	qEt/v1vUVpQj3Bj3jNUK3SyPn6CPj/aEoV2x1QjvWpLZOD4vMNs0hFdxuCOfmpI60CWCh3u8ST5nh
+	vF3F5essGPtAkZGXzl6gaRy5jA0Q1vXVEJLZVH11mIHuOABMvAHFFhz8qukVN5GOlrwiZ0qP0otb+
+	YjZ7wm2eQomYX/a2ShTj4THm42w7hRnH0wmZhypzPZXwzB/Jf9/E0oNum1U6FRavTj+AWccALRHMn
+	flVWA24AtSMrT+etTyEEGNeLOoNzwjlklszggwcGTzEXHeuqSFrJdLbGa85fA3Fogo3CU42qENTkD
+	QRPowtug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viOIZ-00000004oS1-0ONe;
-	Wed, 21 Jan 2026 02:50:23 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1viSqd-000000051sp-2NuG;
+	Wed, 21 Jan 2026 07:41:51 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viOIV-00000004oRh-1bLh
+	id 1viSqY-000000051sM-27UH
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Jan 2026 02:50:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768963816;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=fFeKv09HCEkQRsng29UKXvnp+lJB/36rWHXN5G2fdyg=;
-	b=AygaVcH12+3VTbrsSjuCubxkf7xJhFPUYAYb0V8CxKOs6f08lbXs5gM6dxYY51evoG8KOV
-	a4oBnY9viN1sKbeyj5lDX3fexu0NuCKjTkQHaF78ri+KmgIBbKBGgDbRsM7o0IRYrQMkgU
-	ZpY+sUWHFkCd27OxOdyMrsrIn3e63Vk=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-p-sbH8PzPmK-MABQ8dyYuw-1; Tue, 20 Jan 2026 21:50:15 -0500
-X-MC-Unique: p-sbH8PzPmK-MABQ8dyYuw-1
-X-Mimecast-MFC-AGG-ID: p-sbH8PzPmK-MABQ8dyYuw_1768963814
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-38323e5932eso32192661fa.2
-        for <linux-nvme@lists.infradead.org>; Tue, 20 Jan 2026 18:50:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768963812; x=1769568612;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fFeKv09HCEkQRsng29UKXvnp+lJB/36rWHXN5G2fdyg=;
-        b=rvEHeBeW+Jeq2yNaKUxy+RZcYr0frLNeEXGlJLBi7dZWQyiZ1tLW/WviJTftmv3mIl
-         TuvoYmKdVqnPxkfUyWG7tO56ZgllogE9Sou43HNxvK/X9cre+UkvIQEvEgtH5ns1lc+J
-         n0GW1snAN7p5ex8tcjjNV+k0vEUbq/Dlm8mXBYXQlUtF36mdZ7d0CN1hPaVjY2twHhbe
-         J4fvzDcl6L1CAx4eJwj9kgvtzf1n3SjenSopA9Y5DEPfbYDmnBm2vsGoKY83ozLeVENd
-         +PAsYSJu3E/pOYAriQY/HMHkrR4YLcZ17JQ+eNcYeVmV9z35uwT2m0yTN9lOa6qPM+Td
-         jT1A==
-X-Forwarded-Encrypted: i=1; AJvYcCXRqKIcJahx7Mu3FtzPGEfwW764tmxmrVwX05QnIapY8AlRsslhREy6hki2gZTt+y5VTwUE1rjYEN5n@lists.infradead.org
-X-Gm-Message-State: AOJu0YyvNBn2pdqNKaCFQ5Z1J1AxNNH9p/jseeVDM5qzGd9VJXrls8Q6
-	8ETO9Kq4Zxx3FH9NZ0JCC58u1nHrlgmQDsAr7prAJOnz1OwKpZyXS77SpT7hPOKsZWc3pN3c08V
-	gACOtTMnT6MZreTPZfgPvFwQATTTBfeYuxHpvfFafLKmapUBlbHmqG7P3wX772eExacPDaqrBIR
-	CJqYcEja0f/CXlMObak2U0ZQDSo7lf5f6ilLvO/x7XppR+UQ7BLls7vXvq5Yw=
-X-Gm-Gg: AZuq6aKEIZBkka22ZhuvBteLRl2metNPGEJg2CCiU6kQOD+stMYT4YbE6cOXJIFGYMA
-	YP46yO7zw7n7H5S19dhesHgkCwOs4WNl0e2q2+09tlmo2VodzVWvryvKHxvP9vftReM91eSzjp7
-	nekaltaH6tjHzOrIXHLTTkdXgIr5ZmZcRCHWlnz8lCmi/95zPlaCNQIjvcdIiLT2fjh58=
-X-Received: by 2002:a2e:be0a:0:b0:380:a1c:702b with SMTP id 38308e7fff4ca-38384153c55mr53882781fa.5.1768963812538;
-        Tue, 20 Jan 2026 18:50:12 -0800 (PST)
-X-Received: by 2002:a2e:be0a:0:b0:380:a1c:702b with SMTP id
- 38308e7fff4ca-38384153c55mr53882721fa.5.1768963812089; Tue, 20 Jan 2026
- 18:50:12 -0800 (PST)
+	Wed, 21 Jan 2026 07:41:49 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260121074137epoutp03c70b6dbd6c0e5bf74861259dfc051cd6~Mrx4lHjXJ0030000300epoutp03d
+	for <linux-nvme@lists.infradead.org>; Wed, 21 Jan 2026 07:41:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260121074137epoutp03c70b6dbd6c0e5bf74861259dfc051cd6~Mrx4lHjXJ0030000300epoutp03d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1768981297;
+	bh=cCLSnw+7Sw2d8mXGXmlBWX5LFNtQ5J3qbnlxpAfMklg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Jk/K/kpm1DUt4MPqr+7ZSbYYUGx/y7d63dV9JSaX6fDiCNrRMSGqOvbYJyRHg0zPg
+	 t6ZdGvEtdSBU5c2vZ1cM8qc0W/XcEJMnOJ6a/FrPm+USF+VgQsGpOspY/3hGHOYSXN
+	 S/hrCGEGNVaHhxGLLbl8PiRtdsEoQHvDYvbpDJs8=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260121074137epcas5p161bfa789c85f6b5a0593e02ce69a4f1b~Mrx4MTvvC0369103691epcas5p1B;
+	Wed, 21 Jan 2026 07:41:37 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4dwx341r3vz6B9m5; Wed, 21 Jan
+	2026 07:41:36 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d~Mrx2oy7q42105521055epcas5p2j;
+	Wed, 21 Jan 2026 07:41:35 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260121074133epsmtip2bc265584191911a9589cfd40524cbe39~Mrx0nhTOy2434124341epsmtip2t;
+	Wed, 21 Jan 2026 07:41:33 +0000 (GMT)
+Date: Wed, 21 Jan 2026 13:07:24 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org, Keith Busch
+	<kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v2 05/11] block: add infra to handle dmabuf tokens
+Message-ID: <20260121073724.dja6wyqyf5apkdcx@green245.gost>
 MIME-Version: 1.0
-From: Yi Zhang <yi.zhang@redhat.com>
-Date: Wed, 21 Jan 2026 10:50:00 +0800
-X-Gm-Features: AZwV_QizxBsjzmFkfE3NqLCyhma6GO59nWglwmWfjf5YXHqBLOS6BJ6iFt7QJ8s
-Message-ID: <CAHj4cs9JJu+dDZqAvCd1qPM1CZuV-_b-AHxXpU-vJrGHHO-ExA@mail.gmail.com>
-Subject: [bug report] nvme-tcp poll queue causes busy loop and 100% CPU in
- nvme_tcp_poll() on the latest linux-block/for-next
-To: linux-block <linux-block@vger.kernel.org>, 
-	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>
-Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, Ming Lei <ming.lei@redhat.com>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: zoj0rfxG-PHpgSM1blutTMLWkGp3TVTkQOqxR-ezqYE_1768963814
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+X-CMS-MailID: 20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d
+References: <cover.1763725387.git.asml.silence@gmail.com>
+	<51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+	<CGME20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d@epcas5p2.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260120_185019_494754_41B1C518 
-X-CRM114-Status: UNSURE (   6.86  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260120_234147_997710_047FA6A9 
+X-CRM114-Status: GOOD (  23.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,78 +95,372 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi
+------dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-This issue was observed on the latest linux-block/for-next during CKI
-test, where enabling the poll queues leads to a tight busy polling
-loop and 100% CPU usage during "nvme connect".
-It seems was introduced from v6.19-rc1 and cannot reproduced on v6.18.
-I will try to bisect it.
-I am happy to test any proposed fixes or provide additional traces if needed.
+On 23/11/25 10:51PM, Pavel Begunkov wrote:
+>Add blk-mq infrastructure to handle dmabuf tokens. There are two main
+>objects. The first is struct blk_mq_dma_token, which is an extension of
+>struct dma_token and passed in an iterator. The second is struct
+>blk_mq_dma_map, which keeps the actual mapping and unlike the token, can
+>be ejected (e.g. by move_notify) and recreated.
+>
+>The token keeps an rcu protected pointer to the mapping, so when it
+>resolves a token into a mapping to pass it to a request, it'll do an rcu
+>protected lookup and get a percpu reference to the mapping.
+>
+>If there is no current mapping attached to a token, it'll need to be
+>created by calling the driver (e.g. nvme) via a new callback. It
+>requires waiting, thefore can't be done for nowait requests and couldn't
+>happen deeper in the stack, e.g. during nvme request submission.
+>
+>The structure split is needed because move_notify can request to
+>invalidate the dma mapping at any moment, and we need a way to
+>concurrently remove it and wait for the inflight requests using the
+>previous mapping to complete.
+>
+>Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+>---
+> block/Makefile                   |   1 +
+> block/bdev.c                     |  14 ++
+> block/blk-mq-dma-token.c         | 236 +++++++++++++++++++++++++++++++
+> block/blk-mq.c                   |  20 +++
+> block/fops.c                     |   1 +
+> include/linux/blk-mq-dma-token.h |  60 ++++++++
+> include/linux/blk-mq.h           |  21 +++
+> include/linux/blkdev.h           |   3 +
+> 8 files changed, 356 insertions(+)
+> create mode 100644 block/blk-mq-dma-token.c
+> create mode 100644 include/linux/blk-mq-dma-token.h
+>
+>diff --git a/block/Makefile b/block/Makefile
+>index c65f4da93702..0190e5aa9f00 100644
+>--- a/block/Makefile
+>+++ b/block/Makefile
+>@@ -36,3 +36,4 @@ obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= blk-crypto.o blk-crypto-profile.o \
+> 					   blk-crypto-sysfs.o
+> obj-$(CONFIG_BLK_INLINE_ENCRYPTION_FALLBACK)	+= blk-crypto-fallback.o
+> obj-$(CONFIG_BLOCK_HOLDER_DEPRECATED)	+= holder.o
+>+obj-$(CONFIG_DMA_SHARED_BUFFER) += blk-mq-dma-token.o
+>diff --git a/block/bdev.c b/block/bdev.c
+>index 810707cca970..da89d20f33f3 100644
+>--- a/block/bdev.c
+>+++ b/block/bdev.c
+>@@ -28,6 +28,7 @@
+> #include <linux/part_stat.h>
+> #include <linux/uaccess.h>
+> #include <linux/stat.h>
+>+#include <linux/blk-mq-dma-token.h>
+> #include "../fs/internal.h"
+> #include "blk.h"
+>
+>@@ -61,6 +62,19 @@ struct block_device *file_bdev(struct file *bdev_file)
+> }
+> EXPORT_SYMBOL(file_bdev);
+>
+>+struct dma_token *blkdev_dma_map(struct file *file,
+>+				 struct dma_token_params *params)
+>+{
+>+	struct request_queue *q = bdev_get_queue(file_bdev(file));
+>+
+>+	if (!(file->f_flags & O_DIRECT))
+>+		return ERR_PTR(-EINVAL);
+>+	if (!q->mq_ops)
+>+		return ERR_PTR(-EINVAL);
+>+
+>+	return blk_mq_dma_map(q, params);
+>+}
+>+
+> static void bdev_write_inode(struct block_device *bdev)
+> {
+> 	struct inode *inode = BD_INODE(bdev);
+>diff --git a/block/blk-mq-dma-token.c b/block/blk-mq-dma-token.c
+>new file mode 100644
+>index 000000000000..cd62c4d09422
+>--- /dev/null
+>+++ b/block/blk-mq-dma-token.c
+>@@ -0,0 +1,236 @@
+>+#include <linux/blk-mq-dma-token.h>
+>+#include <linux/dma-resv.h>
+>+
+>+struct blk_mq_dma_fence {
+>+	struct dma_fence base;
+>+	spinlock_t lock;
+>+};
+>+
+>+static const char *blk_mq_fence_drv_name(struct dma_fence *fence)
+>+{
+>+	return "blk-mq";
+>+}
+>+
+>+const struct dma_fence_ops blk_mq_dma_fence_ops = {
+>+	.get_driver_name = blk_mq_fence_drv_name,
+>+	.get_timeline_name = blk_mq_fence_drv_name,
+>+};
+>+
+>+static void blk_mq_dma_token_free(struct blk_mq_dma_token *token)
+>+{
+>+	token->q->mq_ops->clean_dma_token(token->q, token);
+>+	dma_buf_put(token->dmabuf);
+>+	kfree(token);
+>+}
+>+
+>+static inline void blk_mq_dma_token_put(struct blk_mq_dma_token *token)
+>+{
+>+	if (refcount_dec_and_test(&token->refs))
+>+		blk_mq_dma_token_free(token);
+>+}
+>+
+>+static void blk_mq_dma_mapping_free(struct blk_mq_dma_map *map)
+>+{
+>+	struct blk_mq_dma_token *token = map->token;
+>+
+>+	if (map->sgt)
+>+		token->q->mq_ops->dma_unmap(token->q, map);
+>+
+>+	dma_fence_put(&map->fence->base);
+>+	percpu_ref_exit(&map->refs);
+>+	kfree(map);
+>+	blk_mq_dma_token_put(token);
+>+}
+>+
+>+static void blk_mq_dma_map_work_free(struct work_struct *work)
+>+{
+>+	struct blk_mq_dma_map *map = container_of(work, struct blk_mq_dma_map,
+>+						free_work);
+>+
+>+	dma_fence_signal(&map->fence->base);
+>+	blk_mq_dma_mapping_free(map);
+>+}
+>+
+>+static void blk_mq_dma_map_refs_free(struct percpu_ref *ref)
+>+{
+>+	struct blk_mq_dma_map *map = container_of(ref, struct blk_mq_dma_map, refs);
+>+
+>+	INIT_WORK(&map->free_work, blk_mq_dma_map_work_free);
+>+	queue_work(system_wq, &map->free_work);
+>+}
+>+
+>+static struct blk_mq_dma_map *blk_mq_alloc_dma_mapping(struct blk_mq_dma_token *token)
+>+{
+>+	struct blk_mq_dma_fence *fence = NULL;
+>+	struct blk_mq_dma_map *map;
+>+	int ret = -ENOMEM;
+>+
+>+	map = kzalloc(sizeof(*map), GFP_KERNEL);
+>+	if (!map)
+>+		return ERR_PTR(-ENOMEM);
+>+
+>+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
+>+	if (!fence)
+>+		goto err;
+>+
+>+	ret = percpu_ref_init(&map->refs, blk_mq_dma_map_refs_free, 0,
+>+			      GFP_KERNEL);
+>+	if (ret)
+>+		goto err;
+>+
+>+	dma_fence_init(&fence->base, &blk_mq_dma_fence_ops, &fence->lock,
+>+			token->fence_ctx, atomic_inc_return(&token->fence_seq));
+>+	spin_lock_init(&fence->lock);
+>+	map->fence = fence;
+>+	map->token = token;
+>+	refcount_inc(&token->refs);
+>+	return map;
+>+err:
+>+	kfree(map);
+>+	kfree(fence);
+>+	return ERR_PTR(ret);
+>+}
+>+
+>+static inline
+>+struct blk_mq_dma_map *blk_mq_get_token_map(struct blk_mq_dma_token *token)
+>+{
+>+	struct blk_mq_dma_map *map;
+>+
+>+	guard(rcu)();
+>+
+>+	map = rcu_dereference(token->map);
+>+	if (unlikely(!map || !percpu_ref_tryget_live_rcu(&map->refs)))
+>+		return NULL;
+>+	return map;
+>+}
+>+
+>+static struct blk_mq_dma_map *
+>+blk_mq_create_dma_map(struct blk_mq_dma_token *token)
+>+{
+>+	struct dma_buf *dmabuf = token->dmabuf;
+>+	struct blk_mq_dma_map *map;
+>+	long ret;
+>+
+>+	guard(mutex)(&token->mapping_lock);
+>+
+>+	map = blk_mq_get_token_map(token);
+>+	if (map)
+>+		return map;
+>+
+>+	map = blk_mq_alloc_dma_mapping(token);
+>+	if (IS_ERR(map))
+>+		return NULL;
+>+
+>+	dma_resv_lock(dmabuf->resv, NULL);
+>+	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_BOOKKEEP,
+>+				    true, MAX_SCHEDULE_TIMEOUT);
+>+	ret = ret ? ret : -ETIME;
+>+	if (ret > 0)
+>+		ret = token->q->mq_ops->dma_map(token->q, map);
+>+	dma_resv_unlock(dmabuf->resv);
+>+
+>+	if (ret)
+>+		return ERR_PTR(ret);
+>+
+>+	percpu_ref_get(&map->refs);
+>+	rcu_assign_pointer(token->map, map);
+>+	return map;
+>+}
+>+
+>+static void blk_mq_dma_map_remove(struct blk_mq_dma_token *token)
+>+{
+>+	struct dma_buf *dmabuf = token->dmabuf;
+>+	struct blk_mq_dma_map *map;
+>+	int ret;
+>+
+>+	dma_resv_assert_held(dmabuf->resv);
+>+
+>+	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
+>+	if (WARN_ON_ONCE(ret))
+>+		return;
+>+
+>+	map = rcu_dereference_protected(token->map,
+>+					dma_resv_held(dmabuf->resv));
+>+	if (!map)
+>+		return;
+>+	rcu_assign_pointer(token->map, NULL);
+>+
+>+	dma_resv_add_fence(dmabuf->resv, &map->fence->base,
+>+			   DMA_RESV_USAGE_KERNEL);
+>+	percpu_ref_kill(&map->refs);
+>+}
+>+
+>+blk_status_t blk_rq_assign_dma_map(struct request *rq,
+>+				   struct blk_mq_dma_token *token)
+>+{
+>+	struct blk_mq_dma_map *map;
+>+
+>+	map = blk_mq_get_token_map(token);
+>+	if (map)
+>+		goto complete;
+>+
+>+	if (rq->cmd_flags & REQ_NOWAIT)
+>+		return BLK_STS_AGAIN;
+>+
+>+	map = blk_mq_create_dma_map(token);
+>+	if (IS_ERR(map))
+>+		return BLK_STS_RESOURCE;
+>+complete:
+>+	rq->dma_map = map;
+>+	return BLK_STS_OK;
+>+}
+>+
+>+void blk_mq_dma_map_move_notify(struct blk_mq_dma_token *token)
+>+{
+>+	blk_mq_dma_map_remove(token);
+>+}
+>+
+>+static void blk_mq_release_dma_mapping(struct dma_token *base_token)
+>+{
+>+	struct blk_mq_dma_token *token = dma_token_to_blk_mq(base_token);
+>+	struct dma_buf *dmabuf = token->dmabuf;
+>+
+>+	dma_resv_lock(dmabuf->resv, NULL);
+>+	blk_mq_dma_map_remove(token);
+>+	dma_resv_unlock(dmabuf->resv);
+>+
+>+	blk_mq_dma_token_put(token);
+>+}
+>+
+>+struct dma_token *blk_mq_dma_map(struct request_queue *q,
+>+				  struct dma_token_params *params)
+>+{
+>+	struct dma_buf *dmabuf = params->dmabuf;
+>+	struct blk_mq_dma_token *token;
+>+	int ret;
+>+
+>+	if (!q->mq_ops->dma_map || !q->mq_ops->dma_unmap ||
+>+	    !q->mq_ops->init_dma_token || !q->mq_ops->clean_dma_token)
+>+		return ERR_PTR(-EINVAL);
+>+
+>+	token = kzalloc(sizeof(*token), GFP_KERNEL);
+>+	if (!token)
+>+		return ERR_PTR(-ENOMEM);
+>+
+>+	get_dma_buf(dmabuf);
+>+	token->fence_ctx = dma_fence_context_alloc(1);
+>+	token->dmabuf = dmabuf;
+>+	token->dir = params->dir;
+>+	token->base.release = blk_mq_release_dma_mapping;
+>+	token->q = q;
+>+	refcount_set(&token->refs, 1);
+>+	mutex_init(&token->mapping_lock);
+>+
+>+	if (!blk_get_queue(q)) {
+>+		kfree(token);
+>+		return ERR_PTR(-EFAULT);
+>+	}
+>+
+>+	ret = token->q->mq_ops->init_dma_token(token->q, token);
+>+	if (ret) {
+>+		kfree(token);
+>+		blk_put_queue(q);
+>+		return ERR_PTR(ret);
+>+	}
+>+	return &token->base;
+>+}
+>diff --git a/block/blk-mq.c b/block/blk-mq.c
+>index f2650c97a75e..1ff3a7e3191b 100644
+>--- a/block/blk-mq.c
+>+++ b/block/blk-mq.c
+>@@ -29,6 +29,7 @@
+> #include <linux/blk-crypto.h>
+> #include <linux/part_stat.h>
+> #include <linux/sched/isolation.h>
+>+#include <linux/blk-mq-dma-token.h>
+>
+> #include <trace/events/block.h>
+>
+>@@ -439,6 +440,7 @@ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
+> 	rq->nr_integrity_segments = 0;
+> 	rq->end_io = NULL;
+> 	rq->end_io_data = NULL;
+>+	rq->dma_map = NULL;
+>
+> 	blk_crypto_rq_set_defaults(rq);
+> 	INIT_LIST_HEAD(&rq->queuelist);
+>@@ -794,6 +796,7 @@ static void __blk_mq_free_request(struct request *rq)
+> 	blk_pm_mark_last_busy(rq);
+> 	rq->mq_hctx = NULL;
+>
+>+	blk_rq_drop_dma_map(rq);
+blk_rq_drop_dma_map(rq), needs to be added in blk_mq_end_request_batch
+as well[1], otherwise I am seeing we leave with increased reference
+count in dma-buf exporter side.
 
-Reproducer:
-#nvme_trtype=tcp  ./check nvme/047
-nvme/047 (tr=tcp) (test different queue types for fabric transports) [passed]
-    runtime  1061.108s  ...  19857.364s
+Thanks,
+Nitesh
 
-# ps aux | grep "nvme connect"
-root        2492 99.9  0.0  15884  5520 pts/0    R+   01:28   0:13
-nvme connect --traddr 127.0.0.1 --transport tcp --trsvcid 4420 --nqn
-blktests-subsystem-1
---hostnqn=nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
---hostid=0f01fb42-9f7f-4856-b0b3-51e60b8de349 --nr-write-queues=1
---nr-poll-queues=1 --output-format=json
+[1]
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1214,6 +1214,7 @@ void blk_mq_end_request_batch(struct io_comp_batch *iob)
 
-# perf top -p  2492
-Samples: 71K of event 'cycles:P', 4000 Hz, Event count (approx.):
-39693035620 lost: 0/0 drop: 0/0
-Overhead  Shared O  Symbol
-  51.62%  [kernel]  [k] blk_hctx_poll
-  34.64%  [kernel]  [k] nvme_tcp_poll
-  13.39%  [kernel]  [k] __x86_indirect_thunk_rax
-   0.02%  [kernel]  [k] native_irq_return_iret
-   0.02%  [kernel]  [k] native_write_msr
-   0.02%  [kernel]  [k] update_load_avg
-   0.01%  [kernel]  [k] __raw_spin_lock_irqsave
-   0.01%  [kernel]  [k] native_sched_clock
-   0.01%  [kernel]  [k] read_tsc
-   0.01%  [kernel]  [k] sched_balance_trigger
-   0.01%  [kernel]  [k] __hrtimer_run_queues
-   0.01%  [kernel]  [k] __update_load_avg_cfs_rq
-   0.01%  [kernel]  [k] __timekeeping_advance
-   0.01%  [kernel]  [k] native_read_msr
-   0.01%  [kernel]  [k] ktime_get_update_offsets_now
-   0.01%  [kernel]  [k] task_tick_fair
-   0.01%  [kernel]  [k] native_apic_msr_eoi
-   0.01%  [kernel]  [k] sugov_get_util
+                  blk_crypto_free_request(rq);
+                  blk_pm_mark_last_busy(rq);
++               blk_rq_drop_dma_map(rq);
 
-dmesg:
-[ 5514.212238] run blktests nvme/047 at 2026-01-19 16:37:29
-[ 5514.229581] loop0: detected capacity change from 0 to 2097152
-[ 5514.235566] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-[ 5514.244495] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-[ 5514.267088] nvmet: Created nvm controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[ 5514.269066] nvme nvme0: creating 73 I/O queues.
-[ 5514.276926] nvme nvme0: mapped 1/72/0 default/read/poll queues.
-[ 5514.301778] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420, hostnqn:
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-[ 5515.068893] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
-[ 5515.150669] nvmet: Created nvm controller 2 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-[ 5515.152791] nvme nvme0: creating 74 I/O queues.
-[ 5515.161907] nvme nvme0: mapped 1/72/1 default/read/poll queues.
-[25370.530190] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
-127.0.0.1:4420, hostnqn:
-nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-[25371.283929] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+------dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_
+Content-Type: text/plain; charset="utf-8"
 
 
---
-Best Regards,
-  Yi Zhang
-
+------dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_--
 
