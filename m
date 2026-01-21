@@ -4,69 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5E85C44501
-	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jan 2026 09:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51DFAC44501
+	for <linux-nvme@archiver.kernel.org>; Wed, 21 Jan 2026 09:39:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:To:From:Date:Message-ID:Reply-To:Cc:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=Q8rYVmzeb0BIhBpMFUreKtfVcFEbEBQ1myveAe1Z1DY=; b=uSKBrXu7xqy8K6FECLLGJlJi8v
-	DrfF89oMOIopA5Pzcp6BVNeuE0he/0k2dRZa5F6cFBrYXegfa3SeenGfiIJye2GMw03IZhL8Kd9l2
-	j5tl0EqcqqaApJhO2lhQTk6VaWxg8RPXoSA5Zg2wyM7kTvxjIfq0ipQvbGvHPpcAC3o6BwSoP/eoU
-	Us+xdtsDOwIylhrp9hKGmF0guttSC2MPUcvKgHnhIw7JWhR3SEhHMx3msa7q1H0pxZ/vusrwpjLRH
-	tUZxUWTdpBgu+jnrt3bPcfCXdcMXNUP7iMfYLyDwpzrMlkTNMrfQTThJ9Nl2KGZcXR5op7UhUS2pu
-	x1i+Xztw==;
+	bh=p5jzsHOIycUcrMTy/H8KSOotdO8DAPpOaD75wfpgfoA=; b=THd05jxvM9lJKwOnCfPa3jib7g
+	DNtH7OQmbGdwri7R+CK+K0mz4MBqZUA5mZX6nTK4aBT6lSLe2jHQZ328Z/AixvhCC24Uilwj4qZh7
+	EG7bTzfzfS3IB+RRiHiomuXBSo3dIG3JLpoFygkAYa4gk367bMSW8Gs5L4BtM5ixQixich5OvC9DF
+	iQ1K1NMPD4m4Ik2CkzNvm9bumYK7vSgpJ9IZb5nGJORmUj/MN8PLaFN161V46+WcvufQBE/rZbmvY
+	Cjovrw/Ecrhreg6SE4vmnxpFUpBysOXxzKpW3XUzc746xtM5L8xmrdfinuCqk4Zd3IXxb/oZj5hMA
+	fI6iL55w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viUKV-00000005Abb-2coX;
-	Wed, 21 Jan 2026 09:16:47 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1viUgZ-00000005CKw-2CZx;
+	Wed, 21 Jan 2026 09:39:35 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viUKV-00000005AbL-1NGr
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 21 Jan 2026 09:16:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:Subject:To:From:Date:Message-ID:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=Q8rYVmzeb0BIhBpMFUreKtfVcFEbEBQ1myveAe1Z1DY=; b=ABENtx6SqJiSkxknRsokKvFBdQ
-	1dVuq+4u+PzontiJ0HDoarTNiJ8nWID2Mfi1A/IwSdGyQeC7Yp/ULLjoyTN5UT4CIwyMzSPCTQyvU
-	P2crLpqx9f5mKq9Sjr5oTxEgPsD1oEQMFRrcfh2S0/DJ/0Ii5t8TA5rIlZ90vr0oCjKybTiYwCLaz
-	si4uZpszJIrHcc2fxtcqWFN5xW0epyIV2pT/4oVdTF1HheswQoYRaTs/fW/DY1hWc6PQaFsVHUm8N
-	ZHIjeil5fmcFv7Udg0fJpOGjJoliNcYGXtOKuqHRn4b3LfOItRRlOQWca8E17tZ8tNZHTbBHzpKvj
-	3E8IqMdA==;
-Received: from mail.vexro.pl ([141.94.250.70])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1viUKO-0000000FgDV-3h5E
+	id 1viUgX-00000005CKI-0RY4
 	for linux-nvme@lists.infradead.org;
-	Wed, 21 Jan 2026 09:16:46 +0000
-Received: by mail.vexro.pl (Postfix, from userid 1002)
-	id 0197FA742D; Wed, 21 Jan 2026 10:11:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=vexro.pl; s=mail;
-	t=1768986763; bh=Q8rYVmzeb0BIhBpMFUreKtfVcFEbEBQ1myveAe1Z1DY=;
-	h=Date:From:To:Subject:From;
-	b=DvqRIrOeRY33/ggkW2r4kkBrSm36JiVgxSyxv9oXrMYatPPyw2BVwjxzpcIkNxS/7
-	 tz/omqpQ9v2AGods5WwQHNV9uZFsW9/9fg3lIgMpKJNPeKXTVo53o2fZ2pYrrZv43+
-	 wydH6Si5dGUPZpaLCVsWz/kb5u0uNJ74QOGIuDqqKPRLNOwjrqKRlLmUfAZ075tbj9
-	 rYZbiT+C4HcBoc9lKPnYx93TTzHZzD+Ctytg8oWKQBHiVBv1HfoDuxQKNwk5ndjpCu
-	 PCaIJ8xZnoXeyD02VC9qDtCWF45P3tP9egcqgX/lFzLhv07oMBCCjISKAyFF9yBlt9
-	 KLIM9aq8EPf2A==
-Received: by mail.vexro.pl for <linux-nvme@lists.infradead.org>; Wed, 21 Jan 2026 09:10:50 GMT
-Message-ID: <20260121084500-0.1.pt.4z27g.0.ce2va0gq41@vexro.pl>
-Date: Wed, 21 Jan 2026 09:10:50 GMT
-From: "Adam Drzewiecki" <adam.drzewiecki@vexro.pl>
-To: <linux-nvme@lists.infradead.org>
-Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d_?=
-X-Mailer: mail.vexro.pl
+	Wed, 21 Jan 2026 09:39:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1768988371;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=p5jzsHOIycUcrMTy/H8KSOotdO8DAPpOaD75wfpgfoA=;
+	b=L3s87W4j9ABTqYnqu5OjIraoc01BSjSW+XVp1csWINgejq9/xl2fBwFZkcxOFBTHkEEXZI
+	5bb4HLQ3j5lxIG++XF+dS9SW0vsdiTblDkf7KhIfjvIJozjxlm0uBPyx0nMvc1bwOFb7fc
+	jFei4rXxEeZcg08UqsjWoqJaxQmaDrQ=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-312-CGOyXWI3MrC7WyZiDbSpjg-1; Wed,
+ 21 Jan 2026 04:39:25 -0500
+X-MC-Unique: CGOyXWI3MrC7WyZiDbSpjg-1
+X-Mimecast-MFC-AGG-ID: CGOyXWI3MrC7WyZiDbSpjg_1768988364
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 799BA1954B06;
+	Wed, 21 Jan 2026 09:39:23 +0000 (UTC)
+Received: from localhost (unknown [10.72.116.62])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F2A681800665;
+	Wed, 21 Jan 2026 09:39:21 +0000 (UTC)
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org
+Cc: Ming Lei <ming.lei@redhat.com>,
+	Dmitry Bogdanov <d.bogdanov@yadro.com>,
+	stable@vger.kernel.org,
+	Guangwu Zhang <guazhang@redhat.com>
+Subject: [PATCH] nvmet: fix race in nvmet_bio_done() leading to NULL pointer dereference
+Date: Wed, 21 Jan 2026 17:38:54 +0800
+Message-ID: <20260121093854.1705806-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260121_091641_396146_491C0623 
-X-CRM114-Status: UNSURE (   2.62  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260121_013933_216955_674EA147 
+X-CRM114-Status: GOOD (  12.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,20 +83,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Szanowni Pa=C5=84stwo,
+There is a race condition in nvmet_bio_done() that can cause a NULL
+pointer dereference in blk_cgroup_bio_start():
 
-zajmujemy si=C4=99 wdra=C5=BCaniem systemu, kt=C3=B3ry zapewnia pe=C5=82n=
-y nadz=C3=B3r nad pojazdami w czasie rzeczywistym, usprawnia planowanie t=
-ras i redukuje koszty operacyjne.
+1. nvmet_bio_done() is called when a bio completes
+2. nvmet_req_complete() is called, which invokes req->ops->queue_response(req)
+3. The queue_response callback can re-queue and re-submit the same request
+4. The re-submission reuses the same inline_bio from nvmet_req
+5. Meanwhile, nvmet_req_bio_put() (called after nvmet_req_complete)
+   invokes bio_uninit() for inline_bio, which sets bio->bi_blkg to NULL
+6. The re-submitted bio enters submit_bio_noacct_nocheck()
+7. blk_cgroup_bio_start() dereferences bio->bi_blkg, causing a crash:
 
-Platforma automatycznie generuje raporty, wysy=C5=82a powiadomienia o sta=
-nie technicznym aut i dostarcza danych wspieraj=C4=85cych decyzje zarz=C4=
-=85dcze.
+  BUG: kernel NULL pointer dereference, address: 0000000000000028
+  #PF: supervisor read access in kernel mode
+  RIP: 0010:blk_cgroup_bio_start+0x10/0xd0
+  Call Trace:
+   submit_bio_noacct_nocheck+0x44/0x250
+   nvmet_bdev_execute_rw+0x254/0x370 [nvmet]
+   process_one_work+0x193/0x3c0
+   worker_thread+0x281/0x3a0
 
-Czy byliby Pa=C5=84stwo zainteresowani kr=C3=B3tk=C4=85 prezentacj=C4=85 =
-lub bezp=C5=82atnym testem systemu?
+Fix this by reordering nvmet_bio_done() to call nvmet_req_bio_put()
+BEFORE nvmet_req_complete(). This ensures the bio is cleaned up before
+the request can be re-submitted, preventing the race condition.
 
+Fixes: 190f4c2c863a ("nvmet: fix memory leak of bio integrity")
+Cc: Dmitry Bogdanov <d.bogdanov@yadro.com>
+Cc: stable@vger.kernel.org
+Cc: Guangwu Zhang <guazhang@redhat.com>
+Link: http://www.mail-archive.com/debian-kernel@lists.debian.org/msg146238.html
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+ drivers/nvme/target/io-cmd-bdev.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Pozdrawiam
-Adam Drzewiecki
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 8d246b8ca604..0103815542d4 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -180,9 +180,10 @@ u16 blk_to_nvme_status(struct nvmet_req *req, blk_status_t blk_sts)
+ static void nvmet_bio_done(struct bio *bio)
+ {
+ 	struct nvmet_req *req = bio->bi_private;
++	blk_status_t blk_status = bio->bi_status;
+ 
+-	nvmet_req_complete(req, blk_to_nvme_status(req, bio->bi_status));
+ 	nvmet_req_bio_put(req, bio);
++	nvmet_req_complete(req, blk_to_nvme_status(req, blk_status));
+ }
+ 
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+-- 
+2.47.0
+
 
