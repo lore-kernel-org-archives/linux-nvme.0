@@ -4,90 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29F1BC88E58
-	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jan 2026 06:43:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AE53E63C8C
+	for <linux-nvme@archiver.kernel.org>; Mon, 26 Jan 2026 12:56:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FgYLIsXviutSN7PTNv2Iyl9d0HW1SISqmO6vE1C4JDk=; b=sZxtffnymZDORGqHIXSxkkto8y
-	FQlRRqGSUEC6AtRetGXTDaI1V6CyGNyC5CR7I+QJ3oUMWANCgBcPZh3Tt8uaFXOPh8chIxJzMuZDq
-	3LNgTHgpL+rBPvXGeW00UT/BUOLgwYsYGTxknm0sm8hasCc1RcjGUS3qRZ9fM24yeOVHOBTRKoBb/
-	Jb20V1i+erfBQERaZMyO2C7IE5D4uxU6XCx538dZrzswmRYyZhFsBR0YhTzTl+D4181qCQ3yExle6
-	13k8YVLYMT+LZ2V95BiRFCKT0fhlFNm14Bjr435LbWXja9UKT8ys6s49D87VScDKLPdT7N8qgXbPj
-	XIjtBjmw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sUDiUui7nwnan6OsV5OPA/bfEo5yOkkUlqV1T5qFDis=; b=ABX0om9Ix1J6n+wP/Cys13wuQO
+	cEn+wwkjAQGYNd0FonlMHNoVrmEnIhX7lhmHKte9c0ECCCf2sKTXRQDGtAvTB2ayag0JockqntCpF
+	UOaupMQRlySgVTIuru2DiVo40b2bcixUt9NGuWDoENEQ7hrh3o5wc/6Ilr4BCc1iVlrr8qxOfr3G0
+	PFg9e8S835JPXoL+0gDhB7oyhj4zqfFxY4rHQWVCJOqRs5wp93Z1B5fJVvmfPVi882eFVY3xjkj2W
+	1q8kv7CMl8Yj7m68DJYYgpXf/xkpr5YjMvuRB5VvdzTzqCY2Y5/l/2u987V7NuATefKGbfsNyn2+d
+	suEpROPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vkGJV-0000000C0Of-47wb;
-	Mon, 26 Jan 2026 06:43:05 +0000
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+	id 1vkM8f-0000000Ca3d-3Af0;
+	Mon, 26 Jan 2026 12:56:17 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vkGJT-0000000C0OF-3rWm
+	id 1vkM8c-0000000Ca3C-0f97
 	for linux-nvme@lists.infradead.org;
-	Mon, 26 Jan 2026 06:43:05 +0000
-Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-c54f700b5b1so2826033a12.0
-        for <linux-nvme@lists.infradead.org>; Sun, 25 Jan 2026 22:43:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769409782; x=1770014582; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FgYLIsXviutSN7PTNv2Iyl9d0HW1SISqmO6vE1C4JDk=;
-        b=EbAh+RjuiM4LM2qVPW6XHKBBABk9djGsmnwdh/BlkE6EldkwOnomxIfSEvsiZpajAt
-         TvAKGnMz+027ol9Z2TJPuOf9lEDM1u8l6SqEoLY1MybbSKqAcVfO3Rfc95rquG2E6wkf
-         HSGC4/iuXrDxbG/8rZusRbk/IwuMWQlLc7i9xOUfxVztZFKwh4gPwC6mSAqS8AsdUgRs
-         pQyfDvcZ9hxHy91Jw0i5zxGnZI/9U69Gy0m7p3a0LOKPSX9fr0H8trjGlgxQUWYTZUZ9
-         d3mDwY3+sUGbdFp5X/kQO+LLHq2tdOE/3JfqyVwftL98pSnI9vW/IvaXbAbj5Csmhlnm
-         5fvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769409782; x=1770014582;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FgYLIsXviutSN7PTNv2Iyl9d0HW1SISqmO6vE1C4JDk=;
-        b=wXUPbBtyYyxakjvEnJS3elBk9IdIROhErzRjkQmtAGN5MI7WjAk4UtXE4wuKwhQuKR
-         J+184cZee9zNY1W2BB0H8vzFX4706BD6kvH3b870ffWrSxpJaej1IBqywzO67IhUJgmr
-         zZf4e7KX+GmqzJo1lNM3KDG0uNWCEVDdAMT0BmrAXHAbBkk73Apy9pr6f1zgUdQ8CVtZ
-         5V6Uke/Mto2bUnbXagyZNmL7rAXwqGJv8h3W5+C3DcckzUZ27GEQj1s4kcvBcrZAH+go
-         Ns5V6DeyIVCncJh8SfU4gxSpqEOAbJZKguIPUvrGh+M4waEcm3IQxlZF3u65rAiCVZsi
-         Wxcg==
-X-Gm-Message-State: AOJu0YwMbytQsoU8N31aOxQRkHZqNCkR4vJg4zxRIspht1yJ5kGMYNEL
-	9U1sw3Q+wRcLMe93m/R7AYUsUTSuK1e9h8eMBhO4DRVm/aoMJtB/sZg3
-X-Gm-Gg: AZuq6aJtyzXYUPnu7X2jHmkSa00DNrAmHnhwmeAFoTN4cDP+/MJh7PdZVsY/hRARlFR
-	Ib8J0aAl13JhoJOnQ1ayy77huZ20TVk3rk5kPPNhb6BRAOK08BVl2C8PiZbXTBUU62VsuXomiUO
-	02v1htR7R6lb90I+3kFvMazDDz6lKKXu6vE67Ni6Av6v8k7obg+8hQ1S6IdW7j/uMb6Dx+FVffC
-	RYImXa89SrcAFiMLq6iBL7UK05HkC9Yur4DxSii5y0CJAygyubo6ts8sGjCJVS99qkFa38cg6vl
-	6A7AhgC2wr/4eFQGG+GJoqZVIFh5A+L+kndxK7cPNng+OMVRdrdt/DUspEzSO3vjVhnlk/ZHRPR
-	WvssEA/gvS8cjZC/w7S+KE1OYIJUaQYttI+iNsYb0uieYiUlsPdyZvBW786occWUORe6oDOeA9E
-	N0YEN60kzGSUH3DsxQZh7tP2/Zpzf7o7jh
-X-Received: by 2002:a05:6a21:398e:b0:38e:9cc5:217e with SMTP id adf61e73a8af0-38e9f16c589mr2976427637.32.1769409782371;
-        Sun, 25 Jan 2026 22:43:02 -0800 (PST)
-Received: from user-System-Product-Name.. ([210.121.152.246])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c635a42a3fasm7516499a12.30.2026.01.25.22.43.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Jan 2026 22:43:01 -0800 (PST)
-From: YunJe Shin <yjshin0438@gmail.com>
-X-Google-Original-From: YunJe Shin <ioerts@kookmin.ac.kr>
-To: kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	gregkh@linuxfoundation.org,
-	security@kernel.org,
-	YunJe Shin <ioerts@kookmin.ac.kr>
-Subject: [PATCH v3] nvmet-tcp: reject H2CData before ICReq
-Date: Mon, 26 Jan 2026 15:41:52 +0900
-Message-ID: <20260126064248.591202-1-ioerts@kookmin.ac.kr>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <1a3d4d2d-db0c-4358-8229-c7d6f5e83bbe@grimberg.me>
-References: <1a3d4d2d-db0c-4358-8229-c7d6f5e83bbe@grimberg.me>
+	Mon, 26 Jan 2026 12:56:15 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9F665227AAE; Mon, 26 Jan 2026 13:56:06 +0100 (CET)
+Date: Mon, 26 Jan 2026 13:56:06 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: John Garry <john.g.garry@oracle.com>
+Cc: Nilay Shroff <nilay@linux.ibm.com>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org
+Subject: Re: What should we do about the nvme atomics mess?
+Message-ID: <20260126125606.GC28035@lst.de>
+References: <aG7fArgdSWIjXcp9@kbusch-mbp> <27a01d31-0432-4340-9f45-1595f66f0500@linux.ibm.com> <a454f040-327c-46d1-8d0a-7745eb8a7aaf@oracle.com> <501169ee-37e9-4b15-89ae-8f2b57da270f@linux.ibm.com> <e7873ec2-c447-4eda-9725-80e614c3e210@oracle.com> <eaeaaf10-2e60-4ce1-9a84-42aaff1b7fc5@linux.ibm.com> <4023a0ad-ef60-4307-aca6-514ee790d6c6@linux.ibm.com> <d2ce6a5d-f6e4-441c-957c-fefc33f3758d@oracle.com> <fd73dd79-b314-4514-86b7-74f1862aae1c@linux.ibm.com> <c5ad03b7-b5e3-41ee-977c-f0ef1002bf1c@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5ad03b7-b5e3-41ee-977c-f0ef1002bf1c@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260125_224303_963490_99595504 
-X-CRM114-Status: GOOD (  11.80  )
+X-CRM114-CacheID: sfid-20260126_045614_367249_BAB50FFE 
+X-CRM114-Status: GOOD (  15.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,33 +62,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-If H2CData arrives before ICReq/CONNECT, queue->connect is used but its
-iov is not initialized yet, which can lead to a NULL dereference when
-building the PDU iovec. Reject such requests early with -EPROTO.
+On Thu, Jan 22, 2026 at 10:16:53AM +0000, John Garry wrote:
+>> - Recommending other vendors adopt the same reporting model, and
+>> - As it was already proposed earlier, updating the Linux NVMe kernel driver to disregard
+>>    atomic write support for devices that report a non-zero AWUPF at the controller level.
+>
+> Yeah, we can just stop using AWUPF always. Or can further consider my 
+> proposed change to allow AWUPF to be used based on an opt-in, below.
+>
+> Keith, Christoph, Any further thoughts on this?
+>
+> https://lore.kernel.org/linux-nvme/20250820150220.1923826-1-john.g.garry@oracle.com/
 
-Fixes: 872d26a391da ("nvmet-tcp: add NVMe over TCP target driver")
-Signed-off-by: YunJe Shin <ioerts@kookmin.ac.kr>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
----
- drivers/nvme/target/tcp.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 15416ff0eac4..e272d38f285b 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -961,6 +961,9 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
- 		cmd = &queue->cmds[data->ttag];
- 	} else {
- 		cmd = &queue->connect;
-+		/* H2CData before ICReq/CONNECT: connect has no iov. */
-+		if (!cmd->iov)
-+			goto err_proto;
- 	}
- 
- 	if (le32_to_cpu(data->data_offset) != cmd->rbytes_done) {
--- 
-2.43.0
+I'd love to drop support for the controller-level AWUPF.
 
 
