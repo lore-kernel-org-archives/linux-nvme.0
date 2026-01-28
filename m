@@ -4,108 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88E52D35690
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jan 2026 09:36:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87DE1D3569E
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jan 2026 10:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wcmv2pzpCDGs6z4hRe3+HKmdrd/CuzZKNf/l+3924yA=; b=dR93PUDm5KZYgWmd84URTxRtFk
-	2SNWKYDBc+H/mWXlR0uuayu87gBuFa+7saejbf2FsuCAob94U53WhI3PRcGsTQ8klsBD6Cq1EEQYo
-	2iOVOaKMj8xEDYTD78nWJSV4cs5KyhaUJJNv8MgLCj0v/1XKLAoBRcBFJfJ58ZKGytpVI+TA9pNxr
-	NnAw8FN2t44I899hrpJvkzqNVo+4d1GPpVAy6tIr/73qriUYF5NHVg1SiGxfl7PW8Ka+EJYL2LAHj
-	HtVHOEE0+GPDlAGQc7YXOnzQcDFirqzB1hQ6WYEEEKZMt1Sk62IEML0aHS/6CJuJujSqfskONkqC2
-	E8aQu7UA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kzf+X0aMeqFwMUti4RFjsg48EKFkh9MdoSGjttK3JhE=; b=sHrd7mzhO6HmHsGXeZQRvrTO2o
+	61B3YHxVXtqywT72ags0GaWNvK9ZnX9Zr1UFI1RovV66VTfjpRj0WPCQQTpMGd61x16KNlHlE38jB
+	nQasU+GQGyswS80oJ8ykccZ7cGT3KruKiv5gnAEDrUR/8sRBgwd3vx3qcUrD2OlXe1nF55K7/kuFW
+	TfQbaxTZGeaos8Br0U+S6Hn7O9vbiynvNPCsQrYPmS3lK/LbUeiwKrcczYe1U2dXEjb9h8QOxGM4A
+	dmhtkU6uPgdnrALO/rRoDkL1jjWMelmkYpPbVYDMAO4mYQrQ+c8vzM4ymoozDZFs5phhG8U8m6um8
+	qhdqwW7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vl1xv-0000000Fl2u-2O4H;
-	Wed, 28 Jan 2026 09:35:59 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vl2t7-0000000Fq10-2bur;
+	Wed, 28 Jan 2026 10:35:05 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vl1xp-0000000Fl2X-1xY6
+	id 1vl2t5-0000000Fpzs-1y4b
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jan 2026 09:35:57 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60S6VEMN015147;
-	Wed, 28 Jan 2026 09:35:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=wcmv2p
-	zpCDGs6z4hRe3+HKmdrd/CuzZKNf/l+3924yA=; b=dCpOP/zyPDdXR+c2ep8Se0
-	2kD1jM7Zu6YMsrdJGWni5S7J1X8Mj/Xfdcj5GBvoEm0hcPLP3YWcB6eACghdHAbR
-	+877k11IWpNS9x0OVblUG6JXe1vmp0YlQwmCIl7LPJoA7zp8m7gVTImvNt0KEJy9
-	z8Ry8rfflWhhJjcaZU44fSewg/7xbr4Vs9gWi9acnyQ11baClbn8RjIi1G/1SYiG
-	iknw9PjklvdrWIhT6rEX05ibLcjNAKtPFSEFFEd67Qut5nzyXxxXaBiKuYGOKFJW
-	bnnLNgk9MULHt1yuS+oMnM8TUpfmfmxLOz4ld4op547KF8oj4L3ge0ogAOquNGaA
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bvkgmrhhh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Jan 2026 09:35:44 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60S7fwSf023635;
-	Wed, 28 Jan 2026 09:35:43 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bwamjvm1b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Jan 2026 09:35:43 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60S9ZgTJ12976882
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 28 Jan 2026 09:35:42 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6C3F05805A;
-	Wed, 28 Jan 2026 09:35:42 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 183565805F;
-	Wed, 28 Jan 2026 09:35:39 +0000 (GMT)
-Received: from [9.87.137.8] (unknown [9.87.137.8])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 28 Jan 2026 09:35:38 +0000 (GMT)
-Message-ID: <54eee632-0489-4f30-9c2a-ebde4bd30f88@linux.ibm.com>
-Date: Wed, 28 Jan 2026 15:05:36 +0530
+	Wed, 28 Jan 2026 10:35:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769596501;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kzf+X0aMeqFwMUti4RFjsg48EKFkh9MdoSGjttK3JhE=;
+	b=heCTFlHEGSFO6bAKyplQQ6k3GcTqKU/C5o+VlXQ565mljYcUEL+/Zg1dvMI1Ovbv0ZlKCH
+	OrxtqVIZJ8O90y5xnYjNe6TcErwXZloq1ZFOTfGHoJEn9EHLXeJ8mviobI/z5KTqIGV5xn
+	LYlS4WheF9V0pz+xnZUJFKGugZmPlqw=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-440-ERiuMRoWMkiOUE3Iy_nISg-1; Wed,
+ 28 Jan 2026 05:33:26 -0500
+X-MC-Unique: ERiuMRoWMkiOUE3Iy_nISg-1
+X-Mimecast-MFC-AGG-ID: ERiuMRoWMkiOUE3Iy_nISg_1769596404
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C81B7180034D;
+	Wed, 28 Jan 2026 10:33:23 +0000 (UTC)
+Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.45.224.140])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 51B671956095;
+	Wed, 28 Jan 2026 10:33:20 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de,
+	linux-nvme@lists.infradead.org,
+	dwagner@suse.de,
+	hare@suse.de,
+	jmeneghi@redhat.com,
+	emilne@redhat.com,
+	mlombard@bsdbackstore.eu
+Subject: [PATCH 0/1] Enable/Disable NVMe quirks via module parameter
+Date: Wed, 28 Jan 2026 11:33:17 +0100
+Message-ID: <20260128103318.76842-1-mlombard@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] nvme: stop using AWUPF
-To: John Garry <john.g.garry@oracle.com>, hch@lst.de, kbusch@kernel.org,
-        sagi@grimberg.me, axboe@fb.com
-Cc: martin.petersen@oracle.com, linux-nvme@lists.infradead.org
-References: <20260128082623.3945303-1-john.g.garry@oracle.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260128082623.3945303-1-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Gr1PO01C c=1 sm=1 tr=0 ts=6979d870 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=VnNF1IyMAAAA:8 a=vuobHaRB_AI57xyFkLQA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: bHNTmFDgyRstRUUXd8P4f2wHf8f1SL_G
-X-Proofpoint-ORIG-GUID: bHNTmFDgyRstRUUXd8P4f2wHf8f1SL_G
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDA3NSBTYWx0ZWRfXxnsele98P5dt
- RBRjrvT9gYc02raJOCqsc+vv9ySVot7rgi3IcEk04YdxInYS8yrxESe17tgvPrj5SoE3LHzBWtZ
- owGN+BK5URxn8ryFjQ7xt0B3dFzQftErMyLlVz+j3ZjOv2Cq8AJ4ayGIN/JxNz41CkQeUEECAYv
- Su+NF5TRywDmEFeJG6uK3lyTegVAYw8EMDzWXtv9E+KJtBsDgGomlcEbhBqmC5Bkqns5hxnprtH
- R5vqTt2LQwy178bYBGrmMeqDCPqluhX43HHDTM/YSdBHwiKNFjE6kdc9yNSLCbCaUP1QHAa1t3M
- nmvYW2o/gQbuSnNTBDB5zo4juuSumNf2rfDSij6W1jWPuJeMkLqIfPodKg056lirQgONSTzKHDD
- bsMY/eX2tLr3tFCw2YRWrKCROGkdh0INZVmiSVvDEXZEaW2NKbSgzme14xf/TABGNkn2kN40c56
- GtX5ckQe3rFQbmtjv6g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-28_01,2026-01-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1011 lowpriorityscore=0 suspectscore=0
- impostorscore=0 phishscore=0 malwarescore=0 adultscore=0 spamscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2601150000
- definitions=main-2601280075
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: nVOzWUNdSqNL3O5rLD4KxSvnHzxyqhwhozhk2DdCQ10_1769596404
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260128_013556_101754_2DDFAB30 
-X-CRM114-Status: GOOD (  21.45  )
+X-CRM114-CacheID: sfid-20260128_023503_598988_398B69AD 
+X-CRM114-Status: UNSURE (   8.86  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,47 +89,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Recently, some of our customers were very vocal about wanting an
+easy way to enable or disable specific nvme quirks.
+
+I recall that during the ALPSS conference this topic has been briefly
+discussed, and it was proposed to use the generic PCI sysfs "new_id" entry
+to manipulate the quirks.
+
+However, in some cases a quirk may prevent the system from properly booting,
+the kernel may hang or fail to mount the root
+filesystem before the system reaches a state where new_id can be written,
+this makes this solution not exactly user-friendly for end users.
+
+In particular, boot-time hangs have been reported involving the
+bogus_nid quirk.
+
+Therefore, I have been asked to re-propose this module parameter approach
+with a few modifications suggested by Daniel Wagner.
 
 
-On 1/28/26 1:56 PM, John Garry wrote:
-> As described at [0], much of the atomic write parts of the specification
-> are lacking.
-> 
-> For now, there is nothing which we can do in software about the lack of
-> a dedicated NVMe write atomic command.
-> 
-> As for reading the atomic write limits, it is felt that the per-namespace
-> values are mostly properly specified and it is assumed that they are
-> properly implemented.
-> 
-> The specification of NAWUPF is quite clear. However the specification of
-> NABSPF is less clear. The lack of clarity in NABSPF comes from deciding
-> whether NABSPF applies when NSABP is 0 - it is assumed that NSABPF does
-> not apply when NSABP is 0.
-> 
-> As for the per-controller AWUPF, how this value applies to shared
-> namespaces is missing in the specification. Furthermore, the value is in
-> terms of logical blocks, which is an NS entity.
-> 
-> Since AWUPF is so poorly defined, stop using it already together.
-> Hopefully this will force vendors to implement NAWUPF support always.
-> 
-> Note that AWUPF not only effects atomic write support, but also the
-> physical block size reported for the device.
-> 
-> To help users know this restriction, log an info message per NS.
-> 
-> [0] https://lore.kernel.org/linux-nvme/20250707141834.GA30198@lst.de/
-> 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
+# dmesg | grep nvme
+[    0.000000] Command line: root=/dev/vda1 console=ttyS0,115200n8 nvme.quirks=1b36:0010:^bogus_nxid
+[    6.732692] nvme: unrecognized quirk bogus_nxid
 
-Looks good to me. 
+# cat /sys/devices/pci0000:00/0000:00:05.0/nvme/nvme1/quirks
+bogus_nid
+                                                                                                                                                                                                                         
+# dmesg | grep nvme
+[    0.000000] Command line: root=/dev/vda1 console=ttyS0,115200n8 nvme.quirks=1b36:0010:^bogus_nid,no_apst
+                                                                                                                                                                                                                         
+# cat /sys/devices/pci0000:00/0000:00:05.0/nvme/nvme0/quirks                                                                                                                                             
+no_apst
 
-Tested this patch on NVMe device reporting non-zero NAWUPF (and zero
-AWUPF), as well as on device reporting non-zero AWUPF. In both cases,
-the patch works as expected.
+Maurizio Lombardi (1):
+  nvme: add support for dynamic quirk configuration via module parameter
 
-Tested-by: Nilay Shroff <nilay@linux.ibm.com>
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+ .../admin-guide/kernel-parameters.txt         |  13 ++
+ drivers/nvme/host/pci.c                       | 154 ++++++++++++++++++
+ 2 files changed, 167 insertions(+)
+
+-- 
+2.52.0
+
 
