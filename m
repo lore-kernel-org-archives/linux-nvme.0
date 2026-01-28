@@ -4,64 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E77DD35690
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jan 2026 08:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0B38D35698
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jan 2026 08:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1vo2SlSyLD++De3l59xeALGq7lDyhABU6W/zMYAefEw=; b=FZ/nwVp095gLm1ndjZPhAi2qgL
-	TuuD/kwBEClrghH050fEw7bTU0cxcvmshUaSdRVGtqHn7zDbzAKjAyP8tyxTKIU1bCinkNfsJREX6
-	c8/m+FTQX4KYNOvHOY7yoAJC7gM09gAI/hDd5IE0SNozpzVDKVftZaEbErYw8DnK4eAnE6dGLXQQU
-	HmQdpBIep5eoZZL4+acFArIw14Frcgbb97RgNb5kEGqI6WQn5kZ89T+WUzIuMn2kU8zwLEAJsZ+P5
-	oqZw+L9ZqV/yo9j3+LYRL3vH5cX9xUgvUYu0fQt/MWMbUShXtkSxhuYEzAj9s2cRFt/iaiZu4ZJTx
-	Cj/obCcw==;
+	bh=e0zUrA66qVdQUteKftTzbeg7hwj5Ihkp/J+jyknQ7MU=; b=473zaCAnCX8fpg9qgpIP/FB3rJ
+	81TOR8btYNFxw2fjaPpyIswDifYQGevsgHQRvvyR4UTljH7fvlR3RZtSfchYzZA/WgkaGBjecRfrT
+	YL+MI4nvHXf5sR1VPpiBxJzoWBwLnkTCe8CoAttKN5TxetI0i7XGTsADt+u8JXKEEJmvI52RIs5jL
+	qivZQ+rlrCwUahO5HwFA62nWcx3gWMiCUjLJ9omZhuyWuczsvqObP47vncH/QiP8+jiyX/bJQEC0R
+	bheJU94may0S9mbzYi6zYXxYZynP6WUP5jaV/PsXw277q9bKo3cqRAxDSTS1JB/Hrp7Q+W5gnwlKj
+	tmwGqFzg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vl1AH-0000000FgRM-0UZy;
-	Wed, 28 Jan 2026 08:44:41 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vl1Fg-0000000FgvP-2us0;
+	Wed, 28 Jan 2026 08:50:16 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vl1AD-0000000FgRC-2Wam
+	id 1vl1Fd-0000000FgpA-2viZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jan 2026 08:44:37 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id AD20F600B0;
-	Wed, 28 Jan 2026 08:44:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 026DAC4CEF1;
-	Wed, 28 Jan 2026 08:44:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769589876;
-	bh=mHh31OHVlCNHo2EHoX40CREsCDvpuC5j0yYV9f2HMvg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=My5FS7zfwEKjiVhU4LbS6H8CotIprJrRDkSVm4Ytj3pbpfRJzNUcfucSN7pey940V
-	 uGOQYcq+SFrhlNby/bfFBLYjMwF1kiab//7c5SaSYMa7Irw5kvKclxcG9BgBLqv/I4
-	 lOIuRrkfohVcjhj9WtIjOl2G3V8KVCKNHxaXvcOblg2Y2rm2aIDk8aSUjMhPZQlKZq
-	 QBppQ3O04XVCUPT14UMImygloHoBuqWJyMVUAGM4vu2mETY1g9AZE8TDDbC2QFAG+R
-	 IJJPPHuDSUxDzaUMgs/G7X9TAQHvS/sRyO+p2Og5guhnocfJUv6wNUP5mmYrjC2Uhr
-	 v1AtGCQvke1RA==
-Date: Wed, 28 Jan 2026 10:44:32 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Qinyun Tan <qinyuntan@linux.alibaba.com>,
-	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org,
-	Xunlei Pang <xlpang@linux.alibaba.com>,
-	Guixin Liu <kanie@linux.alibaba.com>, oliver.yang@linux.alibaba.com,
-	Guanghui Feng <guanghuifeng@linux.alibaba.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH V1] nvme-pci: disable SR-IOV VFs on driver unbind
-Message-ID: <20260128084432.GA12149@unreal>
-References: <197d75a2-4286-41fb-ab4f-9ad744885bb4@app.fastmail.com>
- <20260127230912.GA385193@bhelgaas>
+	Wed, 28 Jan 2026 08:50:15 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id CEA75227A8E; Wed, 28 Jan 2026 09:49:58 +0100 (CET)
+Date: Wed, 28 Jan 2026 09:49:58 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Roger Pau Monne <roger.pau@citrix.com>
+Cc: xen-devel@lists.xenproject.org, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Subject: Re: [PATCH] nvme-pci: fix parameter order in nvme_free_sgls() call
+Message-ID: <20260128084958.GB9373@lst.de>
+References: <20260127195907.34563-1-roger.pau@citrix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260127230912.GA385193@bhelgaas>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260127195907.34563-1-roger.pau@citrix.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260128_005013_894464_24991EFD 
+X-CRM114-Status: GOOD (  17.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,50 +63,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Jan 27, 2026 at 05:09:12PM -0600, Bjorn Helgaas wrote:
-> [+cc Jakub, author of 38972375ef7b ("PCI/IOV: Reset total_VFs limit
-> after detaching PF driver"), which added the message]
+On Tue, Jan 27, 2026 at 08:59:06PM +0100, Roger Pau Monne wrote:
+> The call to nvme_free_sgls() in nvme_unmap_data() has the sg_list and sge
+> parameters swapped.  This wasn't noticed by the compiler because both share
+> the same type.  On a Xen PV hardware domain, and possibly any other
+> architectures that takes that path, this leads to corruption of the NVMe
+> contents.
 > 
-> On Tue, Jan 27, 2026 at 08:00:42PM +0200, Leon Romanovsky wrote:
-> > On Tue, Jan 27, 2026, at 18:06, Keith Busch wrote:
-> > > On Tue, Jan 27, 2026 at 04:31:43PM +0200, Leon Romanovsky wrote:
-> > >> On Tue, Jan 27, 2026 at 09:48:07AM +0100, Christoph Hellwig wrote:
-> > >> > On Tue, Jan 27, 2026 at 03:33:44PM +0800, Qinyun Tan wrote:
-> > >> > > The NVMe PCI driver exports the sriov_configure callback via
-> > >> > > pci_sriov_configure_simple(), which allows userspace to enable SR-IOV
-> > >> > > VFs through sysfs. However, when the PF driver is unbound, the driver
-> > >> > > does not disable SR-IOV, leaving VFs orphaned in the system.
-> > >> > 
-> > >> > That sounds dangerous.
-> > >> 
-> > >> It is not. In a real SR-IOV device, VFs are created by the hardware and
-> > >> are independent of their PF. There are several use cases where an
-> > >> operator unbinds the PF and reuses it to improve overall device
-> > >> utilization.
-> > >
-> > > If this is expected, should the warn message "driver left SR-IOV
-> > > enabled after remove" be downgraded to 'info' level?
-> > 
-> > It is not important, no one complained about it. People who unbind
-> > PF, simply ignore this warning.
-> > 
-> > BTW, the use case which I presented is for SR-IOV handled by
-> > drivers. Maybe VFs created by NVMe are different here and they must
-> > be destroyed.
-> 
-> If it's to be expected, I do think 'info' would be more appropriate,
-> if nothing else as an indication to code readers that nothing is
-> wrong.  Or maybe even no message at all.
+> Fixes: f0887e2a52d4 ("nvme-pci: create common sgl unmapping helper")
+> Signed-off-by: Roger Pau Monné <roger.pau@citrix.com>
+> ---
+> If possible it would be good for this to go in 6.19.0-rc8, as corruption of
+> the root device as part of a kernel update is unexpected. Sadly 6.18
+> already contained this issue, and no-one noticed, so its impact is limited?
 
-The issue is that not all devices are created equal. Some devices from major
-vendor rely on messages sent from the VF to the PF, and expect the PF driver
-to perform certain configuration steps in response. These devices must disable
-SR-IOV when the PF is unbound.
+This only affects non-IOMMU paths with a non-noop dma_unmap_phys.
+So it is a very common setup, but very severe for those.  Because of
+that we should get into 6.19-rc and -stable ASAP.
 
-From one side, for users of such hardware, this message is important.
-From another, for many other devices, this message is not important.
+The fix looks good:
 
-Like Jakub, I don't have any preference here.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Thanks
+but maybe we can reword the subject to sound less harmless, e.g.:
+
+nvme-pci: DMA unmap the correct regions in nvme_free_sgls
+
+?
 
