@@ -4,106 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 401BBD2F00C
-	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jan 2026 00:45:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26108D3567F
+	for <linux-nvme@archiver.kernel.org>; Wed, 28 Jan 2026 06:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NT3MHDpvH4wglTt+PJSDN4fNGC0w7hDHURkalPPiEWI=; b=TDYfyMHcZALCoq/DRJxK2eEvGX
-	Y1TgO1NnmcndZtvcBK+BYeyyQSDBZX9yFClAXBpYcWoo7veHSaJ7aDoaqJPDrpCJKpO5MBSMvoWYN
-	++4MY9EYYLrEKH9tCLo92eP97WulmVLN/l+kqixPJGQxG/ZwoCTP6LYMPsv8//arqNEBdK7EVOmfB
-	jLAxb+AJG9okkP8o14BSiafHYj01k0Ve6C9gDohLAf7u1owGumCZBcqxJhqJz9h0ft5UzSZM3hwxU
-	Ta17dhrvSXNrsbUCDJfEih5TAkwy1dvYwUoItzboOhMT+sHlgO2u6ZKTB1X3LyzRSwalJoli+9k3j
-	K63LU3QQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=wkoM9QgZ1YTgAjTN7zWEpaspS7u5/QoK+VSk9hQ8ilE=; b=nZwOjL6+bFglSmAq+LDNG8UTLu
+	upAT/nQps6Z5o0OrYwQoH1T+nS33r6M0m5sKWKp4caHZxFiqNNJ6ReZ16qxSBu8WF0ycOQWCtfgoG
+	DeUQmjr2ahREXsD3DY6KBCZMFc3hQzCWgKNguii/ObJgdQvL0QtYu3kxD5aYoL7AqD1C0b14sXWBE
+	069hKOQphEFGz0sZJUsj9CSH8xY3eF6C45ht5FnL25pKelw6zvKkBFhoFLBgHZKJaVO6sxkg9PjXj
+	xPdbhMFJtyMupxjBEoUXRxwHnMUjKmKpL6x5p/JDXTrKRFMkE6fQMR5SmJ3v+ZQllKJo7PgaUWWxl
+	mxKHtnTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vktgw-0000000FE4r-3kW4;
-	Wed, 28 Jan 2026 00:45:54 +0000
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+	id 1vkyj9-0000000FWOE-2HCb;
+	Wed, 28 Jan 2026 06:08:31 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vktgt-0000000FE4U-3mxd
+	id 1vkyj7-0000000FWNT-1FAo
 	for linux-nvme@lists.infradead.org;
-	Wed, 28 Jan 2026 00:45:53 +0000
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-35305538592so5555871a91.0
-        for <linux-nvme@lists.infradead.org>; Tue, 27 Jan 2026 16:45:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769561151; cv=none;
-        d=google.com; s=arc-20240605;
-        b=E2YXykmlSEC4rT3hA3VaDscpBiYSXyAwclT7OZSKNurHz3yi8MBOSXHTB2/5pJX+sh
-         wiDlqvt8oxKjzPIYgz01mp2oipYndaV0QQKlp5UuTdb6PPF0iJM2UNQfsKpDF76cAxGY
-         P03PXlYG70eC9waBzjUCPn534fpCIR/kT+4fqhFRr5p4qM9cZ28s+yJ373mbc3PKt4bG
-         vdsesTrBmS0L7FZeBKhQ4dHYX4zL6wdwc6mEg08sNR3P1HgZG8hiNQXb+NQfeIdcUBC4
-         QMXhD+2IBC6UTubKs5C8eDef13Xf7KN3/cSExUQaEtKGZsLGfvGJaJ972iGnex3GWpeS
-         76DQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NT3MHDpvH4wglTt+PJSDN4fNGC0w7hDHURkalPPiEWI=;
-        fh=ulVWor+SCOhbm/xQZfoqElSmZk9RR+A3clQ/FA0yws0=;
-        b=OE3/UBeeO0zfpWt8WbN4C+CZVPGzaD6LKKGVmFnptDmRT35ttdXgvsBj+eiwL3poNq
-         HCiHTUq+vTWueKeEP+oO9UthDTogsgEnmU8zjG4q23XYmJQOAJz1vof4ZKE6NJt0UCUD
-         k7orBGLl3/F6gUidOzuIL8ct75ypg6Fiq84kF6BuS7aREhiRL5ZJUphF+4xD+DDXF0kB
-         vP6/Il4uhJ/UmjUJjcz3ci3QNrA3XBlsrVyywGYR+eyF3CpHz0fjrAoi4XJbnsyaAs1e
-         iJiixoUm8wYmlgs4xs94XsodQne/WuOFSoPyqHMMrs+od0OziS8yfHQNocJnFiGqtlFG
-         1JiQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769561151; x=1770165951; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NT3MHDpvH4wglTt+PJSDN4fNGC0w7hDHURkalPPiEWI=;
-        b=ZTbqAixtYYOci5tXZXgFxEhEz8ifTd2RL/tdNImoWBPY0FgEgbmgBPlVbdpu1nqpVl
-         6KO5F00Rs9pnRIPvDXipCc6c1At3zqp+sv4JyxfdIxIRJVTmh9zfz6wjBv9wFzk5mr6i
-         lX5j7O3c66wjbNLpp3kgp+K7gnff2owgCmWl9/q6xioy6MOZmAC+n7SPcreRX1yTm8nF
-         gj8S+L3PsMrs1dSDuGfjarrO3Bnaf7k2k7HMdBobIX51qc9bVszl2vmGoANpnU4AR5s1
-         0dPIpCvX7Dc0zE5N/DHdQ2lL/veqecuhqPXdTIrkNwM937URBPJYjhGjdvAfIUei3KW/
-         D21A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769561151; x=1770165951;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NT3MHDpvH4wglTt+PJSDN4fNGC0w7hDHURkalPPiEWI=;
-        b=aO4ZakDP+qjADPB+KEbl0urIkqllD+5WSGwP49HeOJdURy+FfDS/NLoA4qEEbXlRLn
-         Men2vVTUHteK1uR17XGHXdMQDBTqTpPbD0iZqEcLugtvMJmE2qcx39TgZ6txHV5Nozi2
-         CqJlggdwuNecO4sPbd6EdOIWluqU4z2Zu9zUjnUHTGfeITA+KW7Ovs61wOI3Q0Jv6uoY
-         q28P6OP4zZ90mut8uNQiT8VmH1vlCoX8N8IX5XGDT7vcl6cRY0w4w/nUdCjvVHIM0VwE
-         jSmXXn2qVHUCW9LoTIiCYormVspAADzxXJGgHBlrLb+sxkzixXABSKjwccHmBXWjpcES
-         ILww==
-X-Forwarded-Encrypted: i=1; AJvYcCXizfC15zAbksYg+xwZ2mPA1Dt7C3askfBJzhzkZxOT9ZEOjS1uR1RRQZNm+Msp8/w12ife9npnHlBO@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw4voPGMQZRq9lsH+muzbjo4yVLi8trADLhH/qTI0iDQGWA9tdg
-	4p0pfawLwLbZGrwZMVE5COhBMEtWCK+EHajV1PjHWgnebfo6wWnJboSp2u74z/iilt8zRGajELH
-	shrve+Z5ZqiqcDNZT0EctdT0vz7vl8AY=
-X-Gm-Gg: AZuq6aLeO68OUjuYlYofw4qHUy5ZIzQn7BHfbWApdJUsfLenaBibxzUTw2SiXH1LgTa
-	Mn6hjHVXs4rUxpeYF6EZuFRVjSkuSH2nycFzm/7jAgnH0PYCchlrMUgokzlA7iCjzrBweju4Tpq
-	dArETkbTw2W3rbKMTjmvnU/mmeQ8k+ALVHBuao76L49pWZ7SHcKtfRwCum0W6Y1YGcKCE/OixjG
-	GfGehUHKanwEKpHfANEfRGYeObik6/LpRLe/MYB53LZ85Z4Vl4uqiqTmYdARbvDY/9YcqORQw==
-X-Received: by 2002:a17:90b:4a88:b0:353:2e1:9605 with SMTP id
- 98e67ed59e1d1-353fecba4efmr3218487a91.6.1769561150815; Tue, 27 Jan 2026
- 16:45:50 -0800 (PST)
+	Wed, 28 Jan 2026 06:08:30 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60RIBE0o007148;
+	Wed, 28 Jan 2026 06:08:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=wkoM9QgZ1YTgAjTN7zWEpaspS7u5/Q
+	oK+VSk9hQ8ilE=; b=NYFk6/H7AUiZfZutNWIUfjZHR6zZBpf+R/0eEkRVs5gRaM
+	QEOIFMnalxazABCTL1bgzOZexVmod39zLTR9xNixFwZyMBopk8wIiHAAjAlD0kvZ
+	qMEnut52w+aaC2LzJ5A4mTwWf1sJTmR9p0+qfm0jW3nft07AsZkL//gVtmx1hRgo
+	o9ukJWCqa4kjYnAu/TgBnhf/IzMQe7nR8U7x/Uhr6mX/EkQCAc2W+m2qazooIzOl
+	UrTO+Neu4aDZK7cYZQLd89JBsj5TQBnCzeZbx0qa5QKjb6BDpAUTp4qbsNHO5+9z
+	HayyaMTLDymHHRtRjMaF8EF4Vp5OlQ+jodzm6yCA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bvnrthj9r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jan 2026 06:08:27 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 60S63g3D027656;
+	Wed, 28 Jan 2026 06:08:26 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bvnrthj9n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jan 2026 06:08:26 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60S2ZVdr023624;
+	Wed, 28 Jan 2026 06:08:26 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bwamjv11k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Jan 2026 06:08:25 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60S68MVf56033762
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 28 Jan 2026 06:08:24 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C561620043;
+	Wed, 28 Jan 2026 06:08:22 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BEEC120040;
+	Wed, 28 Jan 2026 06:08:21 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.210.170])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 28 Jan 2026 06:08:21 +0000 (GMT)
+Date: Wed, 28 Jan 2026 11:38:19 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Vitaliy Filippov <vitalifster@gmail.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2] Do not require atomic writes to be power of 2 sized
+ and aligned on length boundary
+Message-ID: <aXmn07uJ9qxe4qJt@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <20251221132402.27293-1-vitalifster@gmail.com>
 MIME-Version: 1.0
-References: <1a3d4d2d-db0c-4358-8229-c7d6f5e83bbe@grimberg.me>
- <20260126064248.591202-1-ioerts@kookmin.ac.kr> <DFZFBKPGNCD4.3EKJ4G1H2GBDC@bsdbackstore.eu>
- <DFZG4OIFIHO8.313E3KOTXSDL5@bsdbackstore.eu> <DFZGZT9C3D6B.346BT9Y4IGVFB@bsdbackstore.eu>
-In-Reply-To: <DFZGZT9C3D6B.346BT9Y4IGVFB@bsdbackstore.eu>
-From: yunje shin <yjshin0438@gmail.com>
-Date: Wed, 28 Jan 2026 09:45:39 +0900
-X-Gm-Features: AZwV_Qi0PX9ZSjxNNewqAgK_qBP77Q2Ge6f3BiXJSJivK9fRkCz-GOKmprGBEJE
-Message-ID: <CAMX6_QHuFJQXd=nSaAk6OxEvwfw8Q1SC3G8Cv4_Sfp8KmcYDNA@mail.gmail.com>
-Subject: Re: [PATCH v3] nvmet-tcp: reject H2CData before ICReq
-To: Maurizio Lombardi <mlombard@bsdbackstore.eu>
-Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, hch@lst.de, 
-	sagi@grimberg.me, gregkh@linuxfoundation.org, security@kernel.org, 
-	YunJe Shin <ioerts@kookmin.ac.kr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251221132402.27293-1-vitalifster@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: v2hUHrqSRzzxycWwIH2oCaQ2tvy7finp
+X-Authority-Analysis: v=2.4 cv=Uptu9uwB c=1 sm=1 tr=0 ts=6979a7db cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=TkuBN2Fti-PRllfk:21 a=kj9zAlcOel0A:10 a=vUbySO9Y5rIA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=pGLkceISAAAA:8 a=3Mt9XtWo_b8JSGLEDj0A:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: jmNoTbNoTrvxUjQGk0qTB3R4NWeEqHO7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDA0NCBTYWx0ZWRfX8vM4Ye7MRchu
+ /HWDw03opb+7Ke+41Gjti5bBREzZIbGgHuxZGqpy9XoiIiWQa/qg7ZmFt8qP4ka8lNG3UXxsK6Q
+ dJ39vyguzhbySrEfR5JktB5A+Xobx7uERZ//CTNWHtfw13JtqTDbBKzDsnkaJxF7QNQjV5yAoxR
+ d80I7nGsBFb9zEmAmjB6N8t0J94BpIhy6++UoE0g7n4ewBIGvfWHbPKg9SRGMLpALKcOPtcIYDH
+ Z5VOY9ppWlEbHkbhPbUFRtt22YBn+yi+O187rx5oZWAPCIXXTcRZBUiHIxC+K2CE+QsCDy0ddza
+ ggCYVbyK4XfGtThSILg4uxoz4IsoYQLMIatXnMwAkvPGnQrkp4ZsIEgHI0bf32Sxtjzn+pc/Gq4
+ jAgxjd0qaHeVkiTeNqVsaXgmxjwd2W8CeRWQuEcjyk/YiYaUpo0Hk5khbPtkoqNFEx+BusEipQz
+ JVOU0F/cLCoSwWB4Enw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-27_05,2026-01-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 clxscore=1011 lowpriorityscore=0
+ phishscore=0 adultscore=0 impostorscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2601150000
+ definitions=main-2601280044
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260127_164551_968684_52F511AE 
-X-CRM114-Status: GOOD (  13.96  )
+X-CRM114-CacheID: sfid-20260127_220829_357544_0762874E 
+X-CRM114-Status: GOOD (  25.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,53 +124,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks for letting me know. I'll check it.
+On Sun, Dec 21, 2025 at 04:24:02PM +0300, Vitaliy Filippov wrote:
+> It contradicts NVMe specification where alignment is only required when atomic
+> write boundary (NABSPF/NABO) is set and highly limits usage of NVMe atomic writes
+> 
+> Signed-off-by: Vitaliy Filippov <vitalifster@gmail.com>
 
-YunJe
+Hi Vitaliy,
 
+There's some context to how this feature is designed as such. One of the
+reasons to have powers of 2 is to abstract out device (SCSI, NVME) level
+spec details from the higher level implementation of atomic writes. My
+memory on what the specs say is a bit fuzzy but iirc SCSI defines an
+optional alignment for WRITE_ATOMIC command wheras NVMe can have a
+boundary which shall not be crossed. 
 
-On Wed, Jan 28, 2026 at 12:17=E2=80=AFAM Maurizio Lombardi
-<mlombard@bsdbackstore.eu> wrote:
->
-> On Tue Jan 27, 2026 at 3:37 PM CET, Maurizio Lombardi wrote:
-> >
-> > Nevermind, now I get what you mean: you can hit the bug if you send
-> > H2CData after ICReq but before the execution
-> > of the connect command.
->
-> I was able to reproduce the crash:
->
-> [25362.399746] BUG: kernel NULL pointer dereference, address: 00000000000=
-0000c
-> [25362.403368] #PF: supervisor read access in kernel mode
-> [25362.405451] #PF: error_code(0x0000) - not-present page
->
-> [...]
->
-> [25362.430592] Call Trace:
-> [25362.430945]  <TASK>
-> [25362.431250]  ? show_trace_log_lvl+0x1b0/0x2f0
-> [25362.431910]  ? show_trace_log_lvl+0x1b0/0x2f0
-> [25362.432507]  ? nvmet_tcp_done_recv_pdu+0x299/0x2f0 [nvmet_tcp]
-> [25362.433285]  ? __die_body.cold+0x8/0x12
-> [25362.433810]  ? page_fault_oops+0x148/0x160
-> [25362.434388]  ? exc_page_fault+0x73/0x160
-> [25362.434953]  ? asm_exc_page_fault+0x26/0x30
-> [25362.435573]  ? nvmet_tcp_build_pdu_iovec+0x4c/0xc0 [nvmet_tcp]
-> [25362.436357]  nvmet_tcp_done_recv_pdu+0x299/0x2f0 [nvmet_tcp]
-> [25362.437113]  nvmet_tcp_try_recv_pdu+0x1ef/0x2d0 [nvmet_tcp]
-> [25362.437856]  ? sched_balance_update_blocked_averages+0xdd/0x1a0
-> [25362.438672]  nvmet_tcp_io_work+0x70/0x8c0 [nvmet_tcp]
->
-> But it appears to have been already been fixed by commit 32b63acd78f577b3=
-32d976aa06b56e70d054cbba
-> (nvme-tcp: fix NULL pointer dereferences in nvmet_tcp_build_pdu_iovec)
->
-> dmesg output target-side:
->
-> [   54.436869] nvmet_tcp: queue 0: H2CData PDU received for invalid comma=
-nd state (ttag 43981)
->
->
-> Maurizio
+Which means, for a user to perform atomic writes, the physical blocks
+allocated by the filesystem would need to adhere to these limitations,
+which would need knowledge, at the FS level, of what the underlying device
+is and what its limitations are. We wanted to avoid exposing these
+details to the FS. The power of 2 length and alignment becomes a good
+middle ground where if the FS can ensure that the allocated blocks
+follow these limits, then it would satisfy both SCSI and NVMe, without
+having to worry about the individual spec's details.
+
+It also helps that power of 2 simplifies the calculations at a lot of
+places and the first users of the feature ie DBs are okay with this
+limitation.
+
+Yes it might be a bit restrictive and we might have use cases in the
+future that need non power-of-2, but just removing it from the
+generic helpers, like you did, is not the right way. It will be a more
+involved change that might need modifications throughout the stack.
+
+Regards,
+ojaswin
+
+> ---
+>  fs/read_write.c | 8 --------
+>  1 file changed, 8 deletions(-)
+> 
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index 833bae068770..5467d710108d 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -1802,17 +1802,9 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
+>  
+>  int generic_atomic_write_valid(struct kiocb *iocb, struct iov_iter *iter)
+>  {
+> -	size_t len = iov_iter_count(iter);
+> -
+>  	if (!iter_is_ubuf(iter))
+>  		return -EINVAL;
+>  
+> -	if (!is_power_of_2(len))
+> -		return -EINVAL;
+> -
+> -	if (!IS_ALIGNED(iocb->ki_pos, len))
+> -		return -EINVAL;
+> -
+>  	if (!(iocb->ki_flags & IOCB_DIRECT))
+>  		return -EOPNOTSUPP;
+>  
+> -- 
+> 2.51.0
+> 
 
