@@ -4,70 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86B51D46C1E
-	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jan 2026 03:48:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 692CED46C1E
+	for <linux-nvme@archiver.kernel.org>; Thu, 29 Jan 2026 03:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
 	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=T3SW5I6hM74sE/btxfISACs+IrnVZiPoYcnG8R3DKZo=; b=CIYwoRpH4oQe8O1OxgrppRfkoI
-	88W0daWlXuffUDtm0rXoMMVQC9CngyrL3XYBUjXCb9UGzjw2XnKc+vf+SclHCYF9vmwZG015hAXko
-	2MLkrx3ajoNbLc5m4fUnTyimzQEoRZLRwNyqZE1QjpAiLv05epZ+EZUeu2Faip+Tg8EKLVct2+jMj
-	lJYO/H7JqJt15nLAFjKvEAf2zuY6bVYUSPjC7SFIvYdPrlwlRa4W2A0AmTv44ZE1n+wHAhKBHkvF3
-	hCjTZIL0pbz/UTYylnjbVUiV43ZYjK2s4U2DXFmjuSFqExJ9SiSBb7MuYcpgm/aWPTE//m9PzDNZF
-	pQmDUOoQ==;
+	bh=Vb1kfPzTpaoN/bhNddAdH0W2Qbh49ZH4oT5KMyR6NOw=; b=B3B74kFOLSxW20zjQWD5/EQX/s
+	G0k8xADyPOuO6R06KgPBSTOP7N418TtHjsZ8Gz+wtRcogXWtibDK43jquW5oZYe5fpO5thN9YiQKZ
+	STtEk3nrMoYhDd4p0Lmh3unvtP6+WC89s4STuWSriKtq4lb+pmeFnIJ88pr8IW+HHIqmAoU5HAD3q
+	5uGNfR7LWVhGVnAhFFMk8sYI0U4Mlteo/x+4Zt7ZK0emXbuoqqDxmSzK/DeK5gPDG1GClTDjO50Hq
+	05XKCDdqWYV+KCTs8RX1TKf8jYIIS6iU54W5BAjOJSiStN71GeI2QYjFwLg+wFkid9/OYKNb20ddj
+	ipU4zqAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlJ0r-0000000HCZS-1cLj;
-	Thu, 29 Jan 2026 03:48:09 +0000
-Received: from mgamail.intel.com ([198.175.65.17])
+	id 1vlJ3r-0000000HCvz-2cAm;
+	Thu, 29 Jan 2026 03:51:15 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlJ0o-0000000HCZ9-01Ua
+	id 1vlJ3q-0000000HCvP-1Zxe
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 29 Jan 2026 03:51:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=Vb1kfPzTpaoN/bhNddAdH0W2Qbh49ZH4oT5KMyR6NOw=; b=WQU0nLtvahDmqOzP5Bf0kxU8jb
+	Hh3qVJSajK45YnPNZtGUxEC5ueA7taefiaddohu/8MID8mqJcAoTCIJ1Rrxmjg7tJ1KlRDCf2zNRF
+	5l2WkNhHGmFa6cSi0dPzpgfg5yxjINf++5CgVwxJQdzJyf+5Hju0P6tqJfGyjsKoC3fOPWv5uyYLl
+	MOevUffKcoVIgmmcef+BK7ibusEwBph2ZEWtVEZ5Nq+h1f8bMBMOUs3VQVEuBiIywN4Bci/AAsmLU
+	fXljjxz63ykc25iKoMZ4L0gLNrIiulI1Pf+BltENeNFiqLxTrvA8bMz97tNrr+VZfr6iNRXvYUKcY
+	YhvAUxag==;
+Received: from mgamail.intel.com ([198.175.65.14])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vlJ3i-00000009lbA-395L
 	for linux-nvme@lists.infradead.org;
-	Thu, 29 Jan 2026 03:48:07 +0000
+	Thu, 29 Jan 2026 03:51:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769658486; x=1801194486;
+  t=1769658667; x=1801194667;
   h=date:from:to:cc:subject:message-id;
-  bh=JnSp7o0vL9v2sIMdWCA2pbSmR0XbzH37we/GncUQohI=;
-  b=InoB6wfQR1t7FYLQyQ9c+CfJqgapw4QO9RAX0lfzvuwltBxBIKgk55kD
-   R2LFJzWabnV5Q2Da6arrQL4kPEO8uoQp/tgn+SZIa97moeKOpRuvTw/Ko
-   FhlK2RnY7lW6NOVhn8bM+qg56SrssjCBExgGNFt8U+/SIn4XarQ8JSTrg
-   tkuZJziZd09oIGyoRWyyZKS08VsfFkvZrHCTw1V+cUEdjk+rfeaSmc2n+
-   v2GLGHsXEo869e/AVdk5wQGFg9bzVMTwAO8zybD4rfDyYjGu1Sy8OujWA
-   zuFh9XA4C2vQ2sFxYEUIWyvU+vuQG/5Y3dM5oEsETyR9qFJVha2Bpxima
-   w==;
-X-CSE-ConnectionGUID: hs3Zok8HQEmaij8h11DZ6g==
-X-CSE-MsgGUID: qYCulXgASZSBvxq8TFSWXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70859927"
+  bh=4EKqPpXhwJt4whLnefaDKNEh6w22uNI4ZjYfdUvvWlo=;
+  b=OxKWKMihdv3N5U89o6fIDuVdTIo/cVvbm55zel3LPblrf58jvAoboJwb
+   Ip4BBNJogw1qep8DSCRdqQRieG81fcRu3C2s9LOkJAzYK/6lFXjWFzdWF
+   vJMqu4OqRBL0Wd+O5rwd4dz6sk9iOKemc0M3FoSpm8NarBisFEXv4JXiB
+   1pb9E8ht81InVhxiS828bka9Ocaql3oc7bb5m8o1P4Wi5oJre2SjXzdYS
+   UClEh9Qel+waF31toZAikh2HDTsbixPLQ7wWePRoR0Nj52O/N0UIlwCbl
+   uhnOR25RlNPyf+5r1JC9DGDUrf2hUrEPcok6Jb2gMoNuH3Rfs1avIwDio
+   g==;
+X-CSE-ConnectionGUID: piVVjsUUQBWdNhPhDN7fQA==
+X-CSE-MsgGUID: hcPCnAEMRIKRqQ782XzTHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="74734338"
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="70859927"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 19:48:03 -0800
-X-CSE-ConnectionGUID: xFC9HVDZQDiR59LE+SSIWw==
-X-CSE-MsgGUID: 45jgS+XWR+etq6+5/aIlng==
+   d="scan'208";a="74734338"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 19:51:04 -0800
+X-CSE-ConnectionGUID: 9f/vIukwRO6ld9opdtxbTQ==
+X-CSE-MsgGUID: TdnfBIMVTeqYhXWMVtCgZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; 
-   d="scan'208";a="208467169"
+   d="scan'208";a="213000417"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Jan 2026 19:48:02 -0800
+  by orviesa004.jf.intel.com with ESMTP; 28 Jan 2026 19:51:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vlJ0h-00000000b3a-3MBP;
-	Thu, 29 Jan 2026 03:47:59 +0000
-Date: Thu, 29 Jan 2026 11:47:54 +0800
+	id 1vlJ3b-00000000b3g-3nNF;
+	Thu, 29 Jan 2026 03:50:59 +0000
+Date: Thu, 29 Jan 2026 11:50:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Keith Busch <kbusch@kernel.org>
 Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.0] BUILD SUCCESS
- ac30cd304347f2daeece6998bb5f0ae2db64e397
-Message-ID: <202601291149.EBunVweE-lkp@intel.com>
+Subject: [linux-nvme:nvme-6.19] BUILD SUCCESS
+ a54afbc8a2138f8c2490510cf26cde188d480c43
+Message-ID: <202601291123.js0CmqhX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260128_194806_115117_5C5A682C 
-X-CRM114-Status: UNSURE (   4.82  )
+X-CRM114-CacheID: sfid-20260129_035108_936600_9A427512 
+X-CRM114-Status: UNSURE (   4.73  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -83,10 +98,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.0
-branch HEAD: ac30cd304347f2daeece6998bb5f0ae2db64e397  nvme: stop using AWUPF
+tree/branch: git://git.infradead.org/nvme.git nvme-6.19
+branch HEAD: a54afbc8a2138f8c2490510cf26cde188d480c43  nvme-pci: DMA unmap the correct regions in nvme_free_sgls
 
-elapsed time: 728m
+elapsed time: 730m
 
 configs tested: 188
 configs skipped: 3
