@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57378D49C67
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 22:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA563E6BF3F
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 22:36:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BAKqZ559mBTag/q6sjzJcnNya5CtOd9zWOEoYKABV/Q=; b=zOTZQo+IEMKyI2j2xHu0phdPMG
-	TNikA3Y2Rm9CxVwEPATOs0Jmm8POq6A0tXPl+ePKB2Y6VSvzRaUVBJGphY2CidjqQvqX6Z3twPmB4
-	U3LffEISkVvPLecs+FXMMZHSv4Pe9sCeUTbxeGmV1pMChu4hBUnSBdnxnXrZ7loARbQ5GYRPZhEoK
-	nSsIamCQTeYnpXTF8FkLb548d2x4XRS9hBtE7eL+SZDp6duNuWVc0Nlfo6eEU0R+ZPuxQrnL3W96b
-	11NXk0ZTug+IvtviOlG/VA6vKuPh89Jw180llH+9f8a5D25PiijHITOZSfYKF+2wH+RaofTkxXOt3
-	gElPR/4g==;
+	bh=LVIdRGLqMsWSyf1RS7DGFOpPJ0jysmOUh1LqSt0/BVA=; b=qXqE480F8IiGr5VmkZ5ByB7YrR
+	5ZXC5Q7PM2HSDd0mybEYkZDl8nILhJj96WUOnqMyQmYbe3hmXRlDw8iYVblysjHMqxpPouyLWE1k2
+	MjnSoyLsOFHIL551Qbpl3I+Q3k6/JyYSGjctfks+uXbqG80VA9SHC1dmNjAfxAPBe1T4IagUyEj41
+	iBLjwpGnFTMJZCkFof896BIkBLbWfrk6i7ly8vimNKomNA+6hMeQJSgT/kr3JdwBChdrKRl1ocrno
+	RijGT5CtIoVqbqKUsleLFMSa6NzM/hd3rx8CCUgAYbk4qjZtY6Ms2GVEnceEWp0+YqiW5gXTBsQ7+
+	g5sBD5Lg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlx6O-000000022m8-1kTm;
-	Fri, 30 Jan 2026 22:36:32 +0000
-Received: from mail-dl1-x1236.google.com ([2607:f8b0:4864:20::1236])
+	id 1vlx6P-000000022op-3dyb;
+	Fri, 30 Jan 2026 22:36:33 +0000
+Received: from mail-dl1-x122c.google.com ([2607:f8b0:4864:20::122c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlx6L-000000022i8-2YRS
+	id 1vlx6N-000000022kI-1NS5
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jan 2026 22:36:30 +0000
-Received: by mail-dl1-x1236.google.com with SMTP id a92af1059eb24-12336c0a8b6so3674825c88.1
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Jan 2026 14:36:29 -0800 (PST)
+	Fri, 30 Jan 2026 22:36:32 +0000
+Received: by mail-dl1-x122c.google.com with SMTP id a92af1059eb24-1233c155a42so4518882c88.1
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Jan 2026 14:36:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1769812589; x=1770417389; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1769812590; x=1770417390; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BAKqZ559mBTag/q6sjzJcnNya5CtOd9zWOEoYKABV/Q=;
-        b=Xhsv30GWpovNyVsk7w7LgFRwGfUi+ngFhPL1hs/u4YbDojGqLNziymNgWc3PtkSo32
-         lT4my5EXqWCn594e7t0ADOUTE8qmB1SEFaUjdaP7G6CED0OyhgWNQ3n9gYd9HiDr1tsP
-         2tC7m11UALFkEPQyjlvbHYwGxVyoKLFXYxiM5boFL6M3qfH76qAm0FlGXi6NPBV2lJ+/
-         dHF/khj76AYD8sH3RiEOIC5rxEIYmGbqpobIDhVnEYWtUVO/4M01gYIhLTiqpm7hwngW
-         JBFaMc/hcMAoHoCNPWXOhhoynrzRjeAEAGwubS/fteaWw06CS4Dx/Bx0KhnYUemZAd96
-         0uqA==
+        bh=LVIdRGLqMsWSyf1RS7DGFOpPJ0jysmOUh1LqSt0/BVA=;
+        b=V0J1jPNUs3TnOtzVOfLgV29wWg1dxhVyihIpFFu8zOOhzF0KjzGC/DXwz2JkERzT1x
+         JISDRIxxo5pVTgG4HgG/dSoDPiaVSDigjg4UsrMVXWpXUVLpeHxqtv+SUtdzHSS0fYRA
+         M93H9KzGn+/n84dF2mORLUoGT7rFU7wr624B33AB4Nq5ZlCoiyDZkFnDeC4m4mpG0i3I
+         QwkExzkP/8XRptsqYqCUSK5yk/hqtkjfyKP+Tn1l26mvsoRJuRLP29iI9qlADG6X99sX
+         WwAeQJ2u+bvmLpP/hDTfcyCVKDyFW9M69PpIrWu2XBeavWUzSxyAiLlQopeO2d8e9Fwv
+         UrwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769812589; x=1770417389;
+        d=1e100.net; s=20230601; t=1769812590; x=1770417390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BAKqZ559mBTag/q6sjzJcnNya5CtOd9zWOEoYKABV/Q=;
-        b=VgXd+giZinYtyfA7iDkzMbDDXiy+jm+fgCIrtJz9p5D9HWy/ikepdyQT1Ve69gm/7b
-         ECEectbe6dNf0K+o96PPljSc386KNgwoae5oArYnYByStLPG2Shqjvd2AefsD4AYv2yH
-         2K2XAKgcXPH6SCxRtf038CgsQpf6ZLtWsJnvjq9rAsVyT8YnxDSwETWdJcw2FvGEPcqN
-         hfMn1ytNKJU/q8+qRUWLs7Ie9FYFwGLZuYw0X7/aVJb8dWNXDqdNvEzARbIi31Pl/DM0
-         xNGfSn9mbNdkEluVC3EkR8RV9+YMXbQ6+DXz50eKNnOxHQRkeTai8DxsUoHvhoB4VsFG
-         q0gQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV8v2lsIEPgZdRsI6yFRMVWYUKxh1dGXCqUF9hqFi+egliLOaOlMSyZMz+vyk8MZ1v6H//rvdvN7+5v@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyj1+Yg14i1wHScLEpFJaON5M+a2Kcju2bAOMOtu1fbtLndRM2x
-	uA8es6ZdWDTHeqDdFTa2dcbvriOlDG3APaNK2veTk47T25qoRsWKyFkDDKJGxG2nmj4=
-X-Gm-Gg: AZuq6aI7Wy60SKcCyg3TkQhZC3kXUXFNghq7lwdBQaWwAzKue9cFX0msB5ir2AbsWnP
-	/ZpwsCJCfVqAawQOCdYuxmFI8PdEga3gCHZMJXu0BkIM10k4Vd1WZZo6uIo20PnQjIMID4as85y
-	E52YmBhqq1Uns2xXsNrIuguWW7giIpqDMZVLuoFTvr1ovEpRrLfgtoy8Caxb0mNshPVDFZbfS00
-	8rxWRZDtD8UO3eKjWK6b+XUDBBef80hy8TS2pBTavjQe63SCZo2bI4yixwsQNU4UQm0Pk6nBfUe
-	s0PSpjwysOZU9WXNNo+ALc2hLWrxy9TL/vUzqp+KAQBU+KjHM/sZVS4ntrOqGb368iuFI2UnLwJ
-	KjYeiWRqx0RpAjYHZdmeoQWnkuQFqt8gmKIBvhnnQU4gno/ATEWVMzOhKDqnbbJHnLYDmTXhlmt
-	bG9yoyb8QC5h/iNH7NeHYJhYHScOwJHf+h5Q==
-X-Received: by 2002:a05:7022:68aa:b0:119:e569:fbb2 with SMTP id a92af1059eb24-125c1008c5cmr2553740c88.33.1769812588458;
-        Fri, 30 Jan 2026 14:36:28 -0800 (PST)
+        bh=LVIdRGLqMsWSyf1RS7DGFOpPJ0jysmOUh1LqSt0/BVA=;
+        b=GrhGzknJ4N0A6gj8Qt7AM5o+PcP5jHFyzbDm9g3+16yAbeDSfx+wNHEUG0IPAGRC4r
+         fRvnsvEdScZh23pgIZ0DNOOJtFg1du2+oAk2pp1fq5FwT5QFunle4qlgiEP0dcYYy+1+
+         F1VEuo2LbO+o1GpxRDrWUQcEV7oVlqwOH13ZdUkmnSchIQm9gJimScxZmgo64Jtk3Nue
+         8uo1h88TPGC02ZtaLLXiCjj/U+T7ZHjT/iMHz1TLm79C26ZGQeszKhtS+bNnKXfziAIa
+         nrrisO325XtdckTtzvxz77JJ4ROd7vIeVaxGbqIclDe/pLZ2utCwudvrREVDojzqeEEE
+         vlEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrut9VwOmBUBMseM2oksO9JMCUEBH2QsiFlOsDD5444srLHfy2fD2kI9N1vxMXOFuOb1Srz7U0/zjE@lists.infradead.org
+X-Gm-Message-State: AOJu0YwXaJiPzNaulUOaSJeypSiROwDQTWe6bAUT8aFwTraHLAmP1brb
+	KPUutH9yBQ+IdirmiDc5sWJCkwztvx2sPPGITDb8RHSgEHoxGh2VqP4CrwFRErvry5A=
+X-Gm-Gg: AZuq6aKbrdILuQN23cTPIn2YTIhVEKbwnz1sDeC+QXYR3i3PLunTnlH5ti66xrPmpCw
+	q9TAcquckeRRRo3ZojJZmeCAm0oqHJXlnvqiQ390eQi0jo9Uf0Oh2emaYJALYnk5WduITrMty7j
+	iDjVPgKh52t8ASPpCV8a8PEGECPwVnswqWLgD5XimwpoQqxpG3pdTF9OK6G3i1GTxWGiwwpujkR
+	oNPshVk+MfqhM2TV3dgoEsS4E0CDokzFsCz1Rf3fD/pgfERS0IqdyLVeaomYRH5Lf50S8XCUupF
+	D71tH245z5+TcKK7HJ7ahv4EBMB3rOqHmnuIzydeFvBsGbNPx0EaR88xihoqWVYTEXJwFjnjGco
+	40cXd1puGb4gV+rAG3rPCLSa9BpHw6Jnj7awJDXZNHtQmk0F0BBsg3xzazV9Jcj3rPnTkV60Ehw
+	cdlNRtvxIoOcGKNyoWSyVcFh7rEkijhhjJjA==
+X-Received: by 2002:a05:7022:6281:b0:11b:9386:8271 with SMTP id a92af1059eb24-125c10081bamr2364267c88.46.1769812590220;
+        Fri, 30 Jan 2026 14:36:30 -0800 (PST)
 Received: from apollo.purestorage.com ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-124a9d6b906sm13161717c88.4.2026.01.30.14.36.27
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-124a9d6b906sm13161717c88.4.2026.01.30.14.36.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 14:36:28 -0800 (PST)
+        Fri, 30 Jan 2026 14:36:29 -0800 (PST)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Justin Tee <justin.tee@broadcom.com>,
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -85,17 +85,17 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v2 05/14] nvmet: Send an AEN on CCR completion
-Date: Fri, 30 Jan 2026 14:34:09 -0800
-Message-ID: <20260130223531.2478849-6-mkhalfella@purestorage.com>
+Subject: [PATCH v2 07/14] nvme: Introduce FENCING and FENCED controller states
+Date: Fri, 30 Jan 2026 14:34:11 -0800
+Message-ID: <20260130223531.2478849-8-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260130223531.2478849-1-mkhalfella@purestorage.com>
 References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260130_143629_664059_1BAA6451 
-X-CRM114-Status: GOOD (  14.89  )
+X-CRM114-CacheID: sfid-20260130_143631_378888_10D84F81 
+X-CRM114-Status: GOOD (  16.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,120 +110,116 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Send an AEN to initiator when impacted controller exists. The
-notification points to CCR log page that initiator can read to check
-which CCR operation completed.
+FENCING is a new controller state that a LIVE controller enter when an
+error is encountered. While in FENCING state inflight IOs that timeout
+are not canceled because they should be held until either CCR succeeds
+or time-based recovery completes. While the queues remain alive requests
+are not allowed to be sent in this state and the controller can not be
+reset of deleted. This is intentional because resetting or deleting the
+controller results in canceling inflight IOs.
+
+FENCED is a short-term state the controller enters before it is reset.
+It exists only to prevent manual resets to happen while controller is
+in FENCING state.
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 ---
- drivers/nvme/target/core.c  | 25 ++++++++++++++++++++++---
- drivers/nvme/target/nvmet.h |  3 ++-
- include/linux/nvme.h        |  3 +++
- 3 files changed, 27 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c  | 25 +++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h  |  4 ++++
+ drivers/nvme/host/sysfs.c |  2 ++
+ 3 files changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 54dd0dcfa12b..ae2fe9f90bcd 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -202,7 +202,7 @@ static void nvmet_async_event_work(struct work_struct *work)
- 	nvmet_async_events_process(ctrl);
- }
- 
--void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-+static void nvmet_add_async_event_locked(struct nvmet_ctrl *ctrl, u8 event_type,
- 		u8 event_info, u8 log_page)
- {
- 	struct nvmet_async_event *aen;
-@@ -215,13 +215,19 @@ void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 	aen->event_info = event_info;
- 	aen->log_page = log_page;
- 
--	mutex_lock(&ctrl->lock);
- 	list_add_tail(&aen->entry, &ctrl->async_events);
--	mutex_unlock(&ctrl->lock);
- 
- 	queue_work(nvmet_wq, &ctrl->async_event_work);
- }
- 
-+void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-+		u8 event_info, u8 log_page)
-+{
-+	mutex_lock(&ctrl->lock);
-+	nvmet_add_async_event_locked(ctrl, event_type, event_info, log_page);
-+	mutex_unlock(&ctrl->lock);
-+}
-+
- static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
- {
- 	u32 i;
-@@ -1788,6 +1794,18 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
- }
- EXPORT_SYMBOL_GPL(nvmet_alloc_ctrl);
- 
-+static void nvmet_ctrl_notify_ccr(struct nvmet_ctrl *ctrl)
-+{
-+	lockdep_assert_held(&ctrl->lock);
-+
-+	if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_CCR_COMPLETE))
-+		return;
-+
-+	nvmet_add_async_event_locked(ctrl, NVME_AER_NOTICE,
-+				     NVME_AER_NOTICE_CCR_COMPLETED,
-+				     NVME_LOG_CCR);
-+}
-+
- static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
- {
- 	struct nvmet_subsys *subsys = ctrl->subsys;
-@@ -1803,6 +1821,7 @@ static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
- 		list_for_each_entry(ccr, &sctrl->ccr_list, entry) {
- 			if (ccr->ctrl == ctrl) {
- 				ccr->ctrl = NULL;
-+				nvmet_ctrl_notify_ccr(sctrl);
- 				break;
- 			}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8961d612ccb0..3e1e02822dd4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -574,10 +574,29 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 			break;
  		}
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 93d6ac41cf85..00528feeb3cd 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -44,7 +44,8 @@
-  * Supported optional AENs:
-  */
- #define NVMET_AEN_CFG_OPTIONAL \
--	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_ANA_CHANGE)
-+	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_ANA_CHANGE | \
-+	 NVME_AEN_CFG_CCR_COMPLETE)
- #define NVMET_DISC_AEN_CFG_OPTIONAL \
- 	(NVME_AEN_CFG_DISC_CHANGE)
+ 		break;
++	case NVME_CTRL_FENCING:
++		switch (old_state) {
++		case NVME_CTRL_LIVE:
++			changed = true;
++			fallthrough;
++		default:
++			break;
++		}
++		break;
++	case NVME_CTRL_FENCED:
++		switch (old_state) {
++		case NVME_CTRL_FENCING:
++			changed = true;
++			fallthrough;
++		default:
++			break;
++		}
++		break;
+ 	case NVME_CTRL_RESETTING:
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_LIVE:
++		case NVME_CTRL_FENCED:
+ 			changed = true;
+ 			fallthrough;
+ 		default:
+@@ -760,6 +779,7 @@ blk_status_t nvme_fail_nonready_command(struct nvme_ctrl *ctrl,
  
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 3e189674b69e..f6d66dadc5b1 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -863,12 +863,14 @@ enum {
- 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
- 	NVME_AER_NOTICE_ANA		= 0x03,
- 	NVME_AER_NOTICE_DISC_CHANGED	= 0xf0,
-+	NVME_AER_NOTICE_CCR_COMPLETED	= 0xf4,
- };
+ 	if (state != NVME_CTRL_DELETING_NOIO &&
+ 	    state != NVME_CTRL_DELETING &&
++	    state != NVME_CTRL_FENCING &&
+ 	    state != NVME_CTRL_DEAD &&
+ 	    !test_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags) &&
+ 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+@@ -802,10 +822,11 @@ bool __nvme_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 			     req->cmd->fabrics.fctype == nvme_fabrics_type_auth_receive))
+ 				return true;
+ 			break;
+-		default:
+-			break;
++		case NVME_CTRL_FENCING:
+ 		case NVME_CTRL_DEAD:
+ 			return false;
++		default:
++			break;
+ 		}
+ 	}
  
- enum {
- 	NVME_AEN_BIT_NS_ATTR		= 8,
- 	NVME_AEN_BIT_FW_ACT		= 9,
- 	NVME_AEN_BIT_ANA_CHANGE		= 11,
-+	NVME_AEN_BIT_CCR_COMPLETE	= 20,
- 	NVME_AEN_BIT_DISC_CHANGE	= 31,
- };
- 
-@@ -876,6 +878,7 @@ enum {
- 	NVME_AEN_CFG_NS_ATTR		= 1 << NVME_AEN_BIT_NS_ATTR,
- 	NVME_AEN_CFG_FW_ACT		= 1 << NVME_AEN_BIT_FW_ACT,
- 	NVME_AEN_CFG_ANA_CHANGE		= 1 << NVME_AEN_BIT_ANA_CHANGE,
-+	NVME_AEN_CFG_CCR_COMPLETE	= 1 << NVME_AEN_BIT_CCR_COMPLETE,
- 	NVME_AEN_CFG_DISC_CHANGE	= 1 << NVME_AEN_BIT_DISC_CHANGE,
- };
- 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9dd9f179ad88..00866bbc66f3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -251,6 +251,8 @@ static inline u16 nvme_req_qid(struct request *req)
+ enum nvme_ctrl_state {
+ 	NVME_CTRL_NEW,
+ 	NVME_CTRL_LIVE,
++	NVME_CTRL_FENCING,
++	NVME_CTRL_FENCED,
+ 	NVME_CTRL_RESETTING,
+ 	NVME_CTRL_CONNECTING,
+ 	NVME_CTRL_DELETING,
+@@ -777,6 +779,8 @@ static inline bool nvme_state_terminal(struct nvme_ctrl *ctrl)
+ 	switch (nvme_ctrl_state(ctrl)) {
+ 	case NVME_CTRL_NEW:
+ 	case NVME_CTRL_LIVE:
++	case NVME_CTRL_FENCING:
++	case NVME_CTRL_FENCED:
+ 	case NVME_CTRL_RESETTING:
+ 	case NVME_CTRL_CONNECTING:
+ 		return false;
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index f81bbb6ec768..4ec9dfeb736e 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -443,6 +443,8 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
+ 	static const char *const state_name[] = {
+ 		[NVME_CTRL_NEW]		= "new",
+ 		[NVME_CTRL_LIVE]	= "live",
++		[NVME_CTRL_FENCING]	= "fencing",
++		[NVME_CTRL_FENCED]	= "fenced",
+ 		[NVME_CTRL_RESETTING]	= "resetting",
+ 		[NVME_CTRL_CONNECTING]	= "connecting",
+ 		[NVME_CTRL_DELETING]	= "deleting",
 -- 
 2.52.0
 
