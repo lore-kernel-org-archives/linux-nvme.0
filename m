@@ -4,101 +4,163 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E760E6BF30
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 18:21:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2887FE6BF30
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 19:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=6iIRBk8PsIfO0bGy5vZkvJ5MMgdjEtS+rFbcBCh1Jp0=; b=ZJDv+imf1/C67PaPE7OQXkHGeD
-	V8/wCdr7lofJ8O/rbwKLEDLwHAzRdnW2hBGgQjo/9uVKhrzMEXdFAcGKKxI6gwUyUqeXq2bAD8Ix3
-	G74DgdAmZWIXTuYd0OSzm4FfPqmrzL0ghs1qPQErtTgBKztbiJN41wVM/im/KZxvJGHrCfqDzEu5b
-	44675SL+26Ik6ThzdzkOrTNdX3Y8rWv6IOyO/q/KZRAorli0XtFXgf8CBD5FR74al0QVlAI5xDwWz
-	HBvq+zeVntgXea5gy2Gvb++ZVwz94N00yOpq12G7ldtXkUmHGH6SW+PEHzWwpfCKwZyBrWjDZkLE0
-	sE8Doolg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3iXcfhUO+aNfRWufSV2ZwHFJ41ttxSrK/r+nuEgOr0c=; b=vepm+WNy0w6wtp2b0buf03iPLD
+	en1LyC5W4Fi3UlakqGUQzO5wX08fTsY78niKkfUp4WH4v7weRc4m3NsybMTML9BgTGv72Lf6sga+6
+	M+niq2BGNghI9+7AV1nQZSNzKwHiEtkLkEzm3OSHNzMgX/JPz7372wqErOSH7JVZTVEeGgBVkqG4u
+	51S8HY1JXQZNXFOC7kkZKaARNhGbK7iabu48txi2pnhvR9cf42n8rLwsAq6exxdFwkb2/vnRD+Uxe
+	JxOD6If46WnvYqBWQdhlAGQBWIda0R8U4r3YoEsVo+5T4RW37w37JD7kmq2eq9/C6yYB6DJZNyZgs
+	3h/XGHWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlt7I-00000001oyk-0wKy;
-	Fri, 30 Jan 2026 18:21:12 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vlu2V-00000001sTk-3DMu;
+	Fri, 30 Jan 2026 19:20:19 +0000
+Received: from mail-northeuropeazon11011006.outbound.protection.outlook.com ([52.101.65.6] helo=DU2PR03CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlt7A-00000001oxY-3AVm
-	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jan 2026 18:21:06 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 60UGOsig015530;
-	Fri, 30 Jan 2026 18:20:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=6iIRBk8PsIfO0bGy5vZkvJ5MMgdjEtS+rFbcBCh1J
-	p0=; b=svPO7TPvzPTJjdMPGLFnq7ovCSpKNhphKvkaT1To2l9bl/z8XDYyTfF0g
-	MS5fdSzT9uBOqxRGBZrFIw8dikNMXx6GvDyg1lBX/iDcXEj2yob/QFVNHDtzqXyM
-	2K7TUOBT59mDHcYW9ZIwGGY+/2755RWw+1sgPCvxJefvdQY8Ch6GRfui82AbEg+Z
-	WFw/736nt8SFqq/7CMg8iVdBpj9OaTiJn5aGEvDr8lUGP0TeNf23zeGsO1lnhoOs
-	YYIf0V0bLwTP0kFj5Pc8N6a8BCEDRLJbae5yJ5zsSgSVZkNa9VQF+4D3NeE2SjUi
-	NPoA7meu44louW+fumJN45rVGCeGA==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4bvnt87d6p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 30 Jan 2026 18:20:50 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 60UG5inT026357;
-	Fri, 30 Jan 2026 18:20:49 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4bw9wkq95j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 30 Jan 2026 18:20:49 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 60UIKjWY40894836
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 30 Jan 2026 18:20:45 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 792262004B;
-	Fri, 30 Jan 2026 18:20:45 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 384C420040;
-	Fri, 30 Jan 2026 18:20:41 +0000 (GMT)
-Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.87.154.17])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 30 Jan 2026 18:20:40 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-        hare@suse.de, dwagner@suse.de, wenxiong@linux.ibm.com, gjoyce@ibm.com,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH 0/7] nvme: export additional diagnostic counters via sysfs
-Date: Fri, 30 Jan 2026 23:50:17 +0530
-Message-ID: <20260130182028.885089-1-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.52.0
+	id 1vlu2T-00000001sT2-15F9;
+	Fri, 30 Jan 2026 19:20:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HPLVli/TYdsMZl0pVgx10OpMbB7etSUEAMfsL4iSbwnb+JN/jS5mIthSXui5sRApSeVWqX6QUfgmIooCwROyNpzLsF8m1Ja5Ek5vvzhJ4PESDTGkXrq4ucmHS4vVbrgQKg8TU8wMXof68XxCuv2U9kiHYAVeBVOi3SCri/4qK8MhZcY7ikjuP1/HtxXqhwpSy34ivOeNbFuDKJbPAGAfLCmdf7rlc1dJn/opw4wMCEO8aKyaSHAGsyevdokerdPRK54gvMwWhRDufopXQrlhlRAJjn/ZQwNCnyM5Aoj+nBHJ91jUiF+MPTWACvzYYi9ot4HVepM+pG+Mjl3AlSWVJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3iXcfhUO+aNfRWufSV2ZwHFJ41ttxSrK/r+nuEgOr0c=;
+ b=OOe+QLkLlyPC8QjcaHchnxgp6LzkUd+vZl16hBndr84yaNhHyeq2jbPtnvFc374I5fY/zywGwo1O2u/Hb7z2vZe6oDF4EK9Cno8g6pbg0/SBKCNcP+uNAdDcfgrLz99vTDj6qln38aPu+gQQGPf9/JDr6IYP+dSIBKtsX4PVZaVmRatD6cSXuj31OBEma7cxY6xQo3oq/v+yci2jM1JP7AZXD8mieMxRub7hyIBF8vR6HuR9Y4gNh0exwPXVdgLvxnSZTm9ZqW0yUNW9lT+ioOkBKydu3oTeMoPgP0DjazK3kWd58lU0VE30B+9ccr3QMyH4n+B/9XUWhcVdEh387Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3iXcfhUO+aNfRWufSV2ZwHFJ41ttxSrK/r+nuEgOr0c=;
+ b=LUzqOzfs2FrJPyBapphgA6OS9ZcbEgrtysu5z/MXxb5hSTqQlbTHCpC1KtFbjyRcrBLI/oR6JHyCkCVZrI7EyzyzR/nygwkdYeYOIOj409wxuIAIn2YfwegyzjkzytYQxN9krU+npmh8DSe0ZL4HZoBGbYjpvUXJu874RYuqd+OHtQQ4J/7TRF908yuT5IILs8C9lANzYQxWs9vG3UiGzsHRLM8wZgfiLUB7Dbu+JIgkx0mEDXzrBZuZd+5ZgEW9N4NKQKKhcRVz1VaRQ5xwzWd+A9JM1i8+OokIkxXQUzdC5Ssz9c1xVLj1uM+I0Fzq7iU/4XWb4JPmyU3dgkzNOw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by PAXPR04MB8157.eurprd04.prod.outlook.com (2603:10a6:102:1cf::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Fri, 30 Jan
+ 2026 19:20:11 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9564.010; Fri, 30 Jan 2026
+ 19:20:10 +0000
+Date: Fri, 30 Jan 2026 14:19:58 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v3 0/9] dmaengine: Add new API to combine configuration
+ and descriptor preparation
+Message-ID: <aX0EXjM4LlO3Hygd@lizhi-Precision-Tower-5810>
+References: <20260105-dma_prep_config-v3-0-a8480362fd42@nxp.com>
+ <aXD/EYqhhRJEN8oy@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXD/EYqhhRJEN8oy@lizhi-Precision-Tower-5810>
+X-ClientProxiedBy: SJ0PR13CA0173.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::28) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: N15RRS2RJBvk_gQuzXoihBlir34kl-Xr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTMwMDE1MCBTYWx0ZWRfX/A0Nqs+U5mjz
- Mhf/AUjxEfgki8KVuPyH/YviCsuJhwWuAx4GXdn3p9jfQvrECBdgai8hGOxKo6A9sHjQ0qSUi1u
- c38P+Fx0znf0lVcNwGdUbQCPJ9oFxhTQnH390OGspdMiK8T5DucdgTWASEsT06QXqxl7ZFK7+lo
- 4CCl1mCqRvgFI8eJgNK1Ryiijllnp3qgqiMj74vZvKKmURBWQNhwlkPnHAV/37id5Pywp+2rfy1
- R41vZvy8yJpe9OX+GNGK4jnCU8a/Cj5iIZqy8wbj3G3953gfhtvVkoIrE2yuflXwsYUJqyhJpa+
- xWboAU4J0ufO02QXDW4dxzGzM9S48qBUVhOUCowEwMCw4Q37ELZZQHcwQVB3AtCoWc6Tz8tUK7k
- +18P81JOPxzVhmX1BZngRiBsJKfDefmqRnO+GAKXmfau/bUhbkV8Gn09okKqjLyGeUGbcuxhCwP
- MlrpjPje3dbi1VtUe2Q==
-X-Authority-Analysis: v=2.4 cv=Zs3g6t7G c=1 sm=1 tr=0 ts=697cf682 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=y4OcVJxQ2b40wQSunWoA:9
-X-Proofpoint-ORIG-GUID: N15RRS2RJBvk_gQuzXoihBlir34kl-Xr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-30_02,2026-01-30_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 adultscore=0 phishscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2601150000 definitions=main-2601300150
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PAXPR04MB8157:EE_
+X-MS-Office365-Filtering-Correlation-Id: be7e65d5-5353-429c-cf85-08de603495cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|19092799006|38350700014|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cpIrGDs650IFBa+361QfFtXyupR0UnPXKYODFK8o6swbKS6RMKN3qI85ggS9?=
+ =?us-ascii?Q?TMa4xVNAFyy0WzpwBKJvDrXwuwK1JpC22gcHL0vYfLu/ErCOMpP7zHAuxDgn?=
+ =?us-ascii?Q?zmT0Mhyrxvd9pZKZ1LW3VqIc+V5mShJw9vMU+s2fkJL7bOIcdbYoJHc0P4kx?=
+ =?us-ascii?Q?iFOl5JU6Z/QOMRUEJKApTxsPfL6Kf6tnVeTCkd0lpRMk4nb2hGMAquRu5Ous?=
+ =?us-ascii?Q?HpmAE1GF/oPme0Wy6kw/6lMX9xjKaHNfrNURIjHQKtY3RTtmgh5+24JKpk4C?=
+ =?us-ascii?Q?GuNRoBj9hbd7jCO+C8Th9h0SZKlRsXy+C1OnpaWFQmeEXXfagL8aiJh6+VGU?=
+ =?us-ascii?Q?ZsfRGgtu+5DpPpGep4RL4rv12CegdKv9R8RChsxAaRCCYD1NCRzGfjaZpuKD?=
+ =?us-ascii?Q?xPXd5IUDfuW8oKyKceyZwwP8DhXZgULQQvrr8o8CZ08G3+fPOB/0wlCmlBxg?=
+ =?us-ascii?Q?ajPk4Woo4NmL846h5lCBFMRDBLK3sb+vvMuw6bYxNv15aosdZz+cuLyyjq9T?=
+ =?us-ascii?Q?m3b1H5ErJMFprm5eNO4QjR0gTv1Sxb8RCAybzE31M/3sY2J0MhBagzTA2GfX?=
+ =?us-ascii?Q?OWgUrVxLXJ4uvkjRog41F2Iv6MR+opJtdkDVe3L85N+iw0RHCiRF+E15l9z4?=
+ =?us-ascii?Q?dpYmFHfo/s4Hm2kDkXOxPyV9LIq9C19rbrV3rk9jEU4NY6Mdigf+cR015pgP?=
+ =?us-ascii?Q?VIwvpVKTvMqcruOviGmN7L3BJL6xSBzmXO5ggXbZo+5PbsVoFyEM9hDlFIxh?=
+ =?us-ascii?Q?oLqilljQOduPJs8/fcyo7KT9m4g+u0lXr9qle2wm0tES7KEgJwASliN2vqLS?=
+ =?us-ascii?Q?kUXSGR9YBD1Cce7VfjnWGRXexveUaUZqoKzXc4OCDXtm7HgUxLPO8WUbmiJX?=
+ =?us-ascii?Q?ze0CddRz4pIMrKDdwPhMt0NXSS1leozwaIVQ6Y0VySAPvAvM4fy9yjZlDKUM?=
+ =?us-ascii?Q?pdxXAoeTKRKoX652EjmrXJMbLGi/Hi3Quscf9yoRd2MF5hfnsTQ2kDlAuTvz?=
+ =?us-ascii?Q?ATnbGXukDPKYYT00wRb4bjw8/IwFCfXPt25zO83feVsAtdHUBZfMv14usHoI?=
+ =?us-ascii?Q?x51p3/bSCO+hIOQvE+I6XkmWkJuW5kpf8gka/QjSkD5d+l2RT6s2NU6Peyx8?=
+ =?us-ascii?Q?enSyqp7HrKR4gW760/mGzxzdGhIbtEmJK1gpb9IZS9qi3Jxe7PKy3bhk1dt3?=
+ =?us-ascii?Q?wUXyEqyQW4Xi8BVReIWH3iPFrMU076PoYBEe+h2q8/rwvyUWGPrH22PO2VUV?=
+ =?us-ascii?Q?h0wWbeYmjnVz7H7lLYHgCj02CHJFkE5dERGNGUjZmDSYRJG8NBdVoUL6A58Q?=
+ =?us-ascii?Q?1os2GqWe2GNOh2QpmoQSgunY/JrorzFfRmcHu3pYLdqL9FBz0V18nvS7WUJ9?=
+ =?us-ascii?Q?M1/OaUHJYAK8oXkS+IA2eOe/l71EKLI3/UNVkItjRujXQPmOnVKH3B5Fw34O?=
+ =?us-ascii?Q?1LS9jadC1MZzzj8hDEGOUgQ8sOWKoYzLhyJDyQ8GMDvPQ2dgeW4ul47h8ZTy?=
+ =?us-ascii?Q?gtXPfgzUamNajKyueV4ZYWJw6d9uWX0AsohhzDt9jl5CGkN+NzgPM9ILOtzY?=
+ =?us-ascii?Q?Q0h79YyiVJ2tTMvTPqh6daevp40lRYNh9GnBFC8pbj5C0KzzvOCXU0uw0y6e?=
+ =?us-ascii?Q?G/WvFdq7dt5luTX4oRjAQfciHxNqG5yTB5Gp9M/kwbzO?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(19092799006)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OaCmW+A1hWR5RORcRGK6LhMkCJ7ztVPBEgOhYX1Z+UaHWlMweTFB+cz59u6C?=
+ =?us-ascii?Q?LoETk2nXqPWz1stbVffhRRKjxRCZR58pw9BWksB/CrnbGqMG1f50r15rlh1D?=
+ =?us-ascii?Q?5OYJqna1C7XniewY1b1SjHz7//61BvPfXqtoK1AmfPFSTxH2ATx9d3ptCwyq?=
+ =?us-ascii?Q?oeLzEoddkggKQtEYr93ytlqWB9pPtraRaXCYVKdwaAX/YmUM9XxfQnPqSyVc?=
+ =?us-ascii?Q?kWhGzBPi4kOd+vDCMIy5V4NeOu6MmeNg8qlNf1Mj4JLoN3ShpmWcC/6cuznF?=
+ =?us-ascii?Q?5JZFKGu15buKFD+RqcuM8i3Uh7nUhL+1Zz5aimMjv6S1Ffh1PjU8IwAWKhof?=
+ =?us-ascii?Q?2k8uhpZSBCeHNkVO1CcNKKhpqsx8/3AIXIZUUflJMU5uEAoSovXuPxmJwhyF?=
+ =?us-ascii?Q?1+RTZ+fUj7I2H0mBi8UXX8oUtxcUEQrXRqlucWAkKp2X9Uj/KM38ZhrKZict?=
+ =?us-ascii?Q?q5SAWFoVozh0j2hf9V+sliXhvtUBP4TfRov2crgLSG83m3bTwO4KpEoIQJXb?=
+ =?us-ascii?Q?5M7uvYb8b74FxQKOfg+Q1oAYPEeMy6rxXfy+CYQxQxbaoI041SOiC5flh10g?=
+ =?us-ascii?Q?XTZLPrF8szNLUkV7WW1HsSO7me6v4Dt2P92TN4ossFwqKrzaj1tpETe2Z48S?=
+ =?us-ascii?Q?Le/diSmvc32JRDUoLgb+J3QQD83Ti+pieY0/y7lZ26ibwwWVunbVErhADXNr?=
+ =?us-ascii?Q?hwdbBG1nrNDDqfZ9mmepTc6kQDoDC6+AuQ8sxmkjMkB9q+9BwDeTUTPkT4LB?=
+ =?us-ascii?Q?0un7Tq9iHKWJhUh9EQtT9GaYeYv4oAaO/71NfzY/RjV9PAWvtdoSid0SrfSN?=
+ =?us-ascii?Q?E4b6+Wg/n5vgPXYF0fSo6w0+ItykKvf2MKb+svv97WLLE7wMkqv28sxPf0yo?=
+ =?us-ascii?Q?rad/dccJyTh3iY2Ean073qtrg1Ht2/QYV34YWnhvxUL7eIp1mDutaaGoco5V?=
+ =?us-ascii?Q?ysox2iebMOOyexLjczckAkuwlQmtDUTl7MHgVFVnO8B3doS+X0T22TCMyvbH?=
+ =?us-ascii?Q?qAgFEC9Jqp/7t55+M18hMNRmZ+E4IcGvleaLIaXn3zKWpUse4D9Ws1KdGF3x?=
+ =?us-ascii?Q?2UM7XZ0jO5unzKHkgCIQtUON1d7tFjoJJDtUizpjkXqnElNysNyXcNorfxFw?=
+ =?us-ascii?Q?2jpA23PnI0VJlbJgnaDzlGwsTEnjOf2x4P79qGH9rGUY8cllTf6qQw/UOjFA?=
+ =?us-ascii?Q?8baSfH2nLqlTT/P3Nfoy5q6sO1rAWMaH4+8FoenRcccOsbxruw3r+oRruD1S?=
+ =?us-ascii?Q?lU8CWdWUYuY2ZBJvJJMbF2mvfTp1FlpVGEp9O8fWICiEqQCBiOGOG7QK1tW5?=
+ =?us-ascii?Q?+uxRsPmevOzXHJz2/rWguCFcsqhKosTKNst66NoKOHVYT12vvK+mcrQEJwhZ?=
+ =?us-ascii?Q?MJdPGzs6V6/Osh+RdC56LVhGcTsAXsVSlYGaBnlFm6A2q4xl/3qO0tBr/4MC?=
+ =?us-ascii?Q?E8dbVOJQZorc5aOqy5g8WqrcGni/WXKHYRo2reL3SPdYb+oAHvwluK876Ztx?=
+ =?us-ascii?Q?hruNqaigS+vUBpdS4RUgUY1zfKMkWQIkZ/8r7xggMMJhf5Fi2EXYgtP0unmm?=
+ =?us-ascii?Q?vT7C0jxW2endfu/gzC9G6MQXiPZto4zpV9qsv4Zg6faBPoKadcZc81Ju6p0r?=
+ =?us-ascii?Q?jc6btpCh9yF5rVQpAOiW0cn1z/Wzt6NJL3Um2nDBYJ7LLCtkaLozi119QkuB?=
+ =?us-ascii?Q?tAFOigFBYCCscp96SHDb6t4aQaWsDfZsnmHcwHDOBNFXmVBn?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be7e65d5-5353-429c-cf85-08de603495cc
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 19:20:10.6238
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CZn5laUxKyzZ0mwl/dXHRU3jly5x64lZPm5J5sxD5qbHYfFVHkmKEKnxXTgPt4aHpHxNl2/MFBYUR24jCNvrPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8157
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260130_102104_792880_64CC9797 
-X-CRM114-Status: GOOD (  11.00  )
+X-CRM114-CacheID: sfid-20260130_112017_319419_7E01194C 
+X-CRM114-Status: GOOD (  24.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,60 +175,98 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+On Wed, Jan 21, 2026 at 11:30:09AM -0500, Frank Li wrote:
+> On Mon, Jan 05, 2026 at 05:46:50PM -0500, Frank Li wrote:
+> > Previously, configuration and preparation required two separate calls. This
+> > works well when configuration is done only once during initialization.
+> >
+> > However, in cases where the burst length or source/destination address must
+> > be adjusted for each transfer, calling two functions is verbose.
+> >
+> > 	if (dmaengine_slave_config(chan, &sconf)) {
+> > 		dev_err(dev, "DMA slave config fail\n");
+> > 		return -EIO;
+> > 	}
+> >
+> > 	tx = dmaengine_prep_slave_single(chan, dma_local, len, dir, flags);
+> >
+> > After new API added
+> >
+> > 	tx = dmaengine_prep_config_single(chan, dma_local, len, dir, flags, &sconf);
+> >
+> > Additional, prevous two calls requires additional locking to ensure both
+> > steps complete atomically.
+> >
+> >     mutex_lock()
+> >     dmaengine_slave_config()
+> >     dmaengine_prep_slave_single()
+> >     mutex_unlock()
+> >
+> > after new API added, mutex lock can be moved. See patch
+> >      nvmet: pci-epf: Use dmaengine_prep_config_single_safe() API
+> >
+> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > ---
+>
+> Vinod:
+> 	Can you take care these patches? At least first 2 patches! So
+> I can did more clean up at next kernel release.
 
-The NVMe driver encounters various events and conditions during normal
-operation that are either not tracked today or not exposed to userspace
-via sysfs. Lack of visibility into these events can make it difficult to
-diagnose subtle issues related to controller behavior, multipath
-stability, and I/O reliability.
+Vinod Koul:
 
-This patchset adds several diagnostic counters that provide improved
-observability into NVMe behavior. These counters are intended to help
-users understand events such as transient path unavailability,
-controller retries/reconnect/reset, failovers, and I/O failures. They
-can also be consumed by monitoring tools such as nvme-top.
+	Do you have chance to pick up (at least first 2 patches) for 6.20?
+So I can start do more cleanup work.
 
-Specifically, this series proposes to export the following counters via
-sysfs:
-  - Command retry count
-  - Multipath failover count
-  - Command error count
-  - I/O requeue count
-  - I/O failure count
-  - Controller reset event counts
-  - Controller reconnect counts
+	There are two serial depend on this one
 
-The patchset consists of seven patches:
-  Patch 1: Export command retry count
-  Patch 2: Export multipath failover count
-  Patch 3: Export command error count
-  Patch 4: Export I/O requeue count
-  Patch 5: Export I/O failure count
-  Patch 6: Export controller reset event counts
-  Patch 7: Export controller reconnect event count
+https://lore.kernel.org/dmaengine/20251212-edma_ll-v1-0-fc863d9f5ca3@nxp.com/
+https://lore.kernel.org/dmaengine/aWT4p7RnFykJnuOz@ryzen/
 
-Please note that this patchset doesn't make any functional change but
-rather export relevant counters to user space via sysfs.
+Frank
 
-As usual, feedback/comments/suggestions are welcome!
-
-Nilay Shroff (7):
-  nvme: export command retry count via sysfs
-  nvme: export multipath failover count via sysfs
-  nvme: export command error counters via sysfs
-  nvme: export I/O requeue count when no path is available via sysfs
-  nvme: export I/O failure count when no path is available via sysfs
-  nvme: export controller reset event count via sysfs
-  nvme: export controller reconnect event count via sysfs
-
- drivers/nvme/host/core.c      | 23 ++++++++-
- drivers/nvme/host/multipath.c | 32 +++++++++++++
- drivers/nvme/host/nvme.h      | 12 ++++-
- drivers/nvme/host/sysfs.c     | 90 +++++++++++++++++++++++++++++++++++
- 4 files changed, 154 insertions(+), 3 deletions(-)
-
--- 
-2.52.0
-
+>
+> Frank
+>
+> > Changes in v3:
+> > - collect review tags
+> > - create safe version in framework
+> > - Link to v2: https://lore.kernel.org/r/20251218-dma_prep_config-v2-0-c07079836128@nxp.com
+> >
+> > Changes in v2:
+> > - Use name dmaengine_prep_config_single() and dmaengine_prep_config_sg()
+> > - Add _safe version to avoid confuse, which needn't additional mutex.
+> > - Update document/
+> > - Update commit message. add () for function name. Use upcase for subject.
+> > - Add more explain for remove lock.
+> > - Link to v1: https://lore.kernel.org/r/20251208-dma_prep_config-v1-0-53490c5e1e2a@nxp.com
+> >
+> > ---
+> > Frank Li (9):
+> >       dmaengine: Add API to combine configuration and preparation (sg and single)
+> >       dmaengine: Add safe API to combine configuration and preparation
+> >       PCI: endpoint: pci-epf-test: Use dmaenigne_prep_config_single() to simplify code
+> >       dmaengine: dw-edma: Use new .device_prep_config_sg() callback
+> >       dmaengine: dw-edma: Pass dma_slave_config to dw_edma_device_transfer()
+> >       nvmet: pci-epf: Remove unnecessary dmaengine_terminate_sync() on each DMA transfer
+> >       nvmet: pci-epf: Use dmaengine_prep_config_single_safe() API
+> >       PCI: epf-mhi: Use dmaengine_prep_config_single() to simplify code
+> >       crypto: atmel: Use dmaengine_prep_config_single() API
+> >
+> >  Documentation/driver-api/dmaengine/client.rst |   9 ++
+> >  drivers/crypto/atmel-aes.c                    |  10 +--
+> >  drivers/dma/dmaengine.c                       |   3 +
+> >  drivers/dma/dw-edma/dw-edma-core.c            |  41 ++++++---
+> >  drivers/nvme/target/pci-epf.c                 |  21 ++---
+> >  drivers/pci/endpoint/functions/pci-epf-mhi.c  |  52 ++++--------
+> >  drivers/pci/endpoint/functions/pci-epf-test.c |   8 +-
+> >  include/linux/dmaengine.h                     | 117 ++++++++++++++++++++++++--
+> >  8 files changed, 177 insertions(+), 84 deletions(-)
+> > ---
+> > base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> > change-id: 20251204-dma_prep_config-654170d245a2
+> >
+> > Best regards,
+> > --
+> > Frank Li <Frank.Li@nxp.com>
+> >
 
