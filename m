@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5286E6BF3F
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 22:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5F78D49C97
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 22:36:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zdXGSegTzhmsQ5qZhBP6CsinO53oPJTvN/vUTL8HtC8=; b=0OQ4JhYKV3LCGAB0E1yLfmD9LY
-	R5vfdYZiO34hpZUFk3FmCs1tSp/Au9FgO1twTLnDUsxYYuFg3Fiz2JB8A96KmcCuDP4Z6qaZOh8qD
-	hUIS/oYurAk6y7rq7Bn9NH9XI2+y7YX6KaL8XBmT7RO9ab1W38KNCjfWS+wKfivd1NY71XXAFq8ba
-	jljRlKa1P7jVkgSOn55pg2inFuRPwMld+B9TpUeVMFMuhxFe2+vSASMfZlEfg+D1skdA/fVsofyeb
-	7hRt2oMqmQznSITNQR8BbiPyXcNntQIHtSe0tFuQN2viacY1zIu+jIJhL5ATl8w4f1fOqyKMdySpS
-	M/GCrAmA==;
+	bh=3tS4KzqYbhEL6jev7Qh8Wf78xstwgPnfDr7XEbpNCcA=; b=TQdnrBI8qtKo9UnA1cllbeMna/
+	xe/McKcKJV1SBrWRpkfvR6JRxo6krS9SFrZ2Fqp2b3nSBkykXc7wnhR+62Y/Qr5jcxhqcz6DIMaj/
+	Vp//5ZLZE2DNwS8aRmLVqjUx6RA7ZaZ6GgOb93w405ddmaSwEij1ZQUPvE0E0WtO+fTO136RpBrNo
+	DMbh2ss1xgErAebpYFQvfotBJxcxrKgYj9cM9vUpVg3cbQjHcuuIDatML7NqT7WCZ5T1Qvj7GL7eM
+	ehm5ciQj49GJDJRDoMIXONHQf45D6qDqUChegwFQjH5XS7x5BGg8d1OmNfkhwPL8IjWDdgKCY1Zyv
+	KoNVEwJg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlx6O-000000022lU-0AWv;
+	id 1vlx6O-000000022ms-3it7;
 	Fri, 30 Jan 2026 22:36:32 +0000
-Received: from mail-dl1-x122f.google.com ([2607:f8b0:4864:20::122f])
+Received: from mail-dl1-x1236.google.com ([2607:f8b0:4864:20::1236])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlx6K-000000022hE-1Di7
+	id 1vlx6M-000000022jD-0fej
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jan 2026 22:36:29 +0000
-Received: by mail-dl1-x122f.google.com with SMTP id a92af1059eb24-12336c0a8b6so3674793c88.1
-        for <linux-nvme@lists.infradead.org>; Fri, 30 Jan 2026 14:36:28 -0800 (PST)
+	Fri, 30 Jan 2026 22:36:31 +0000
+Received: by mail-dl1-x1236.google.com with SMTP id a92af1059eb24-1248d27f2b9so3741630c88.0
+        for <linux-nvme@lists.infradead.org>; Fri, 30 Jan 2026 14:36:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1769812588; x=1770417388; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1769812589; x=1770417389; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zdXGSegTzhmsQ5qZhBP6CsinO53oPJTvN/vUTL8HtC8=;
-        b=MEudR9bmfHnKr+9zIpbzDPgPZ6kn0BbOslYcz6pgfSdS80zP/pJZCIz9z0vt+WYPT7
-         GT9bmKn+ddo6I86h/77Xctg86AOnFKSe5i11LQaqQ3NMiirPYdHNzItcaALUlwhetvmd
-         jSwQceJyCLt5QYpOpj7I5LGvYGyq7mGqAu6PNejVnbVKAQN3tsr4STD0KNReDCOw+66v
-         hVwAU7DaTi176MAz7eiSc6Qn0bICSPT0w7naavXwFNhSxIlrowUP6V1m9kJuLm+3Gl8q
-         YsQieIPpQ1U9rsH2oeWkYr3Dp2DGdmBRkykcajo6LTL9husGqa4uscDLIgo8ZF5Qh3ZN
-         hk+g==
+        bh=3tS4KzqYbhEL6jev7Qh8Wf78xstwgPnfDr7XEbpNCcA=;
+        b=GVmfGltmu8zqTLX55D55kesSM04cMBoDcgsnkNB5GM9i3uqzilQ/9ceU+tD6Q0DaDv
+         dWP5lLVtJbP8fFiHSQOVoIo6enW7yMuKrHbdvLdRu8l9QZxMcLdCETGlCp9qSD125MH+
+         WMoW8K4ccoKExaBoF4nAZgGeHC7GwPMO0nCgiT9R7ic6BHMCeCBXWWmqytEY8IUgnDP1
+         LJ2EJcFsV8EGR1zwwlqLxBqdXTosc6t9szyA7TSrJkmdkbC5xJ5SgZ7RD6U66U9nSR8e
+         Vf61ZNNSY4eEsF2Ti/B6EQqB4knsInxgdkPTRFWe1ulsG+6CyDuwG6LV33aOcEGLNflc
+         QU5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769812588; x=1770417388;
+        d=1e100.net; s=20230601; t=1769812589; x=1770417389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zdXGSegTzhmsQ5qZhBP6CsinO53oPJTvN/vUTL8HtC8=;
-        b=VDgrq70w6Dk2KVoqrelGCLgllQOwvhDJkutg5ixBSkoCsLYqcWbqcu+3TQg+XBtyc4
-         U2zZ4hoZoSpRg2myWH44Uc+0FRKks6yYT5lPCf7WvidtF/R+cc1BBV+xrVWjqDwo9Pdp
-         gEkpB+W7g5CFI9lNAimJDqzikIwYGRdnK8fiFLkt1/FttpT4sbaKQPApy2b8Fo4bYFin
-         3ohUyVGn1jZOacZGjdQ0XQ6yLdTWydrCi9krMng8yW43/s+S5p17Q2SrJn62susXSoRY
-         f9JgPtJ16U7Z3rNu51QisMjQjOJH3MCnjtHERUBEZzANArTjQYMveuEKOkn7Y2seZdmX
-         L+BA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWvBduFMiIkoEQIOJmH0/l6VV4fdmCFlcXEQaV5XCh4sQOHirX9qDHPhq1mh/R5CYzYafQ5XLYIUac@lists.infradead.org
-X-Gm-Message-State: AOJu0YxhWKqzzvUX5wNV4UCmRigJTS6L6OotZ7oLuw3m72hMcHaMmw9p
-	NWTztmws6z5YBgO6JNJNq9RXeWK50r6aZkUUz/eXOEBxiXEA0n9yrxTBnVLjnVG9W58=
-X-Gm-Gg: AZuq6aInWycGdfN888h3Q9zpNucznJF01F6HNcIW7D+Nc0oqxslsqrz8WFIcXxF31D0
-	BEhJc64aZOtIY7jPZjOO8ssYFP4e3N2sYL5qOt6jQu8JRPkMFGrOhi7GkM4+upYZyYlcwYYiIGp
-	9jR15PqM3UEjtPByWl193y49Vo2Ch3xj+52329CzVc/7sYHV/iTNH7BHTwQ/ysw+YCipJgEIEAP
-	lAQzrgJkyaEw1cUDouKXl+9iVWLKXjjr5i3IzNDZvf+UxICtqQayVt6AacdRxSBfhWzsX8qNxNw
-	bV8eSni6krRgI8ELc7haSw6pT/Ya0szHviXehHpya/5XpViCFJnUVi4P1Nwiik3ZuEfTXK0yEj4
-	6d7MZ+saM4TSu2I9EFTAusG6ZzrE8Ahuxg/qE2RiDD9dnCDoN7j7P/0WhG8Bh086epVJTUu15Ad
-	U8PkXq9Fb2Ewe0R9eyxwipJ3GK4N12ugJGEg==
-X-Received: by 2002:a05:7022:419:b0:11e:163:be60 with SMTP id a92af1059eb24-125c0fff8f3mr1909114c88.31.1769812587500;
-        Fri, 30 Jan 2026 14:36:27 -0800 (PST)
+        bh=3tS4KzqYbhEL6jev7Qh8Wf78xstwgPnfDr7XEbpNCcA=;
+        b=oJ7qZpEyQSan8FKiu7Bjf89ThowSWnG2jW5HhYM9T0MucdKFeMQ8qo6qV0q4dE51P+
+         A07HJAvj/htInTkMpJXM4zo5bF2RZQwujZy7MlY6vF8g0gza9/t8zNjvdEpJXIgRMfv9
+         Yn9+4G/z61paoE1h3Nw6UHStXwjxBa/cR8YEVn2SfuJt6ZUNyZVvmDI0MCo6t1VwzuAl
+         zou5owEzU0c1CO3XeLQ8aTZ+O2S29g/txqWpugXOYSIx6n1nhBG1HJgG5v4LLDp9fXsf
+         6WaARAdNxmzeD7Haz1ZNYCN6jB6GfnPzDIQ3zW4Xp3GsZfXdt6JH9lqPXVX6/LTc1zAo
+         Ncuw==
+X-Forwarded-Encrypted: i=1; AJvYcCVUVMEJ+/ZDkO7bD2XcuDHA0C74i+cQ2AwDoLsALQL89NPwJl6VqvD3g9bTeg88GTIAm86TWy3TStsz@lists.infradead.org
+X-Gm-Message-State: AOJu0YzOccwkLmDz9KK9QF1RKloldTWPY7XNuQK6tAfHaQckPRQWMmWc
+	w/wIw7oXx6b+hu2+shrnyonERJpfDhLUyKWHed/cjBRy5431n12GsXkrE5ZqOAhzJ1Q=
+X-Gm-Gg: AZuq6aL9bAWOV5FmSROVNl+KIOL/uHwQ03HNU/0fTmH3nCsaW1XJg3r5dVGWdIz2iXt
+	9uTiw3rTdilITKfAIKcesFwUfdv+KR1IgXSe4JCZbH8tWrOH3mpUBZXCmj5L2dCz/wyzJO19I2r
+	OmWNcXAtHT16KvEtRpuWWuCEuVh1xMARG58wEsoPYlC2O2dnC6L3tpSSTP8XdEp4JYp+CQsZRSp
+	Yk9SW2cuXt/Gg30CSXefEEdcm6cFpTDf5C5vOwHQf1nt3SNTWBpqVcosM8kuLztZmiBz9Kr/o8I
+	RTpV/e9rSVfL9vJ7RgdwVmdwGdZT+ShYrn3xH48Sq+Uyi5qpgP1EVCk+4VszdIaXAac6RNwDVes
+	35JV2b5knoIBi1wdYl4jcRqhpvkC9uragSE2ulhEYIOt1LFnyku2oyamNcU2eCpY9lcj49sB15Z
+	2T9pOYTwOABs1tZ0FQ8RVoj7ODULA9Nk1xqw==
+X-Received: by 2002:a05:7022:e98d:b0:11e:65b5:75ce with SMTP id a92af1059eb24-125c0f9ab5fmr1931557c88.10.1769812589406;
+        Fri, 30 Jan 2026 14:36:29 -0800 (PST)
 Received: from apollo.purestorage.com ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-124a9d6b906sm13161717c88.4.2026.01.30.14.36.26
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-124a9d6b906sm13161717c88.4.2026.01.30.14.36.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 14:36:27 -0800 (PST)
+        Fri, 30 Jan 2026 14:36:29 -0800 (PST)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Justin Tee <justin.tee@broadcom.com>,
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -85,17 +85,17 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v2 04/14] nvmet: Implement CCR logpage
-Date: Fri, 30 Jan 2026 14:34:08 -0800
-Message-ID: <20260130223531.2478849-5-mkhalfella@purestorage.com>
+Subject: [PATCH v2 06/14] nvme: Rapid Path Failure Recovery read controller identify fields
+Date: Fri, 30 Jan 2026 14:34:10 -0800
+Message-ID: <20260130223531.2478849-7-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260130223531.2478849-1-mkhalfella@purestorage.com>
 References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260130_143628_336927_88DE28BA 
-X-CRM114-Status: GOOD (  14.63  )
+X-CRM114-CacheID: sfid-20260130_143630_203266_06442938 
+X-CRM114-Status: GOOD (  13.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,132 +110,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
-Reset) log page contains an entry for each CCR request submitted to
-source controller. Implement CCR logpage for nvme linux target.
+TP8028 Rapid path failure added new fileds to controller identify
+response. Read CIU (Controller Instance Uniquifier), CIRN (Controller
+Instance Random Number), and CCRL (Cross-Controller Reset Limit) from
+controller identify response. Expose CIU and CIRN as sysfs attributes
+so the values can be used directrly by user if needed.
+
+TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
+Time) which is used along with KATO (Keep Alive Timeout) to set an upper
+limit for attempting Cross-Controller Recovery.
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 ---
- drivers/nvme/target/admin-cmd.c | 44 +++++++++++++++++++++++++++++++++
- include/linux/nvme.h            | 29 ++++++++++++++++++++++
- 2 files changed, 73 insertions(+)
+ drivers/nvme/host/core.c  |  5 +++++
+ drivers/nvme/host/nvme.h  | 11 +++++++++++
+ drivers/nvme/host/sysfs.c | 23 +++++++++++++++++++++++
+ 3 files changed, 39 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index c0fd8eca2e44..fdeb79ec348a 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -220,6 +220,7 @@ static void nvmet_execute_get_supported_log_pages(struct nvmet_req *req)
- 	logs->lids[NVME_LOG_FEATURES] = cpu_to_le32(NVME_LIDS_LSUPP);
- 	logs->lids[NVME_LOG_RMI] = cpu_to_le32(NVME_LIDS_LSUPP);
- 	logs->lids[NVME_LOG_RESERVATION] = cpu_to_le32(NVME_LIDS_LSUPP);
-+	logs->lids[NVME_LOG_CCR] = cpu_to_le32(NVME_LIDS_LSUPP);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7bf228df6001..8961d612ccb0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3571,6 +3571,11 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->crdt[1] = le16_to_cpu(id->crdt2);
+ 	ctrl->crdt[2] = le16_to_cpu(id->crdt3);
  
- 	status = nvmet_copy_to_sgl(req, 0, logs, sizeof(*logs));
- 	kfree(logs);
-@@ -608,6 +609,47 @@ static void nvmet_execute_get_log_page_features(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
++	ctrl->ciu = id->ciu;
++	ctrl->cirn = le64_to_cpu(id->cirn);
++	atomic_set(&ctrl->ccr_limit, id->ccrl);
++	ctrl->cqt = le16_to_cpu(id->cqt);
++
+ 	ctrl->oacs = le16_to_cpu(id->oacs);
+ 	ctrl->oncs = le16_to_cpu(id->oncs);
+ 	ctrl->mtfa = le16_to_cpu(id->mtfa);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9a5f28c5103c..9dd9f179ad88 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -326,13 +326,17 @@ struct nvme_ctrl {
+ 	u32 max_zone_append;
+ #endif
+ 	u16 crdt[3];
++	u16 cqt;
+ 	u16 oncs;
+ 	u8 dmrl;
++	u8 ciu;
+ 	u32 dmrsl;
++	u64 cirn;
+ 	u16 oacs;
+ 	u16 sqsize;
+ 	u32 max_namespaces;
+ 	atomic_t abort_limit;
++	atomic_t ccr_limit;
+ 	u8 vwc;
+ 	u32 vs;
+ 	u32 sgls;
+@@ -1225,4 +1229,11 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
+ 	return (ctrl->ctrl_config & NVME_CC_CSS_MASK) == NVME_CC_CSS_CSI;
  }
  
-+static void nvmet_execute_get_log_page_ccr(struct nvmet_req *req)
++static inline unsigned long nvme_fence_timeout_ms(struct nvme_ctrl *ctrl)
 +{
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	struct nvmet_ccr *ccr;
-+	struct nvme_ccr_log *log;
-+	int index = 0;
-+	u16 status;
-+
-+	log = kzalloc(sizeof(*log), GFP_KERNEL);
-+	if (!log) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&ctrl->lock);
-+	list_for_each_entry(ccr, &ctrl->ccr_list, entry) {
-+		u8 flags = NVME_CCR_FLAGS_VALIDATED | NVME_CCR_FLAGS_INITIATED;
-+		u8 status = ccr->ctrl ? NVME_CCR_STATUS_IN_PROGRESS :
-+					NVME_CCR_STATUS_SUCCESS;
-+
-+		log->entries[index].icid = cpu_to_le16(ccr->icid);
-+		log->entries[index].ciu = ccr->ciu;
-+		log->entries[index].acid = cpu_to_le16(0xffff);
-+		log->entries[index].ccrs = status;
-+		log->entries[index].ccrf = flags;
-+		index++;
-+	}
-+
-+	/* Cleanup completed CCRs if requested */
-+	if (req->cmd->get_log_page.lsp & 0x1)
-+		nvmet_ctrl_cleanup_ccrs(ctrl, false);
-+	mutex_unlock(&ctrl->lock);
-+
-+	log->ne = cpu_to_le16(index);
-+	nvmet_clear_aen_bit(req, NVME_AEN_BIT_CCR_COMPLETE);
-+	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
-+	kfree(log);
-+out:
-+	nvmet_req_complete(req, status);
++	if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
++		return 3 * ctrl->kato * 1000 + ctrl->cqt;
++	return 2 * ctrl->kato * 1000 + ctrl->cqt;
 +}
 +
- static void nvmet_execute_get_log_page(struct nvmet_req *req)
- {
- 	if (!nvmet_check_transfer_len(req, nvmet_get_log_page_len(req->cmd)))
-@@ -641,6 +683,8 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
- 		return nvmet_execute_get_log_page_rmi(req);
- 	case NVME_LOG_RESERVATION:
- 		return nvmet_execute_get_log_page_resv(req);
-+	case NVME_LOG_CCR:
-+		return nvmet_execute_get_log_page_ccr(req);
- 	}
- 	pr_debug("unhandled lid %d on qid %d\n",
- 	       req->cmd->get_log_page.lid, req->sq->qid);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 0f305b317aa3..3e189674b69e 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1435,6 +1435,7 @@ enum {
- 	NVME_LOG_FDP_CONFIGS	= 0x20,
- 	NVME_LOG_DISC		= 0x70,
- 	NVME_LOG_RESERVATION	= 0x80,
-+	NVME_LOG_CCR		= 0x1E,
- 	NVME_FWACT_REPL		= (0 << 3),
- 	NVME_FWACT_REPL_ACTV	= (1 << 3),
- 	NVME_FWACT_ACTV		= (2 << 3),
-@@ -1458,6 +1459,34 @@ enum {
- 	NVME_FIS_CSCPE	= 1 << 21,
- };
+ #endif /* _NVME_H */
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 29430949ce2f..f81bbb6ec768 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -388,6 +388,27 @@ nvme_show_int_function(queue_count);
+ nvme_show_int_function(sqsize);
+ nvme_show_int_function(kato);
  
-+/* NVMe Cross-Controller Reset Status */
-+enum {
-+	NVME_CCR_STATUS_IN_PROGRESS,
-+	NVME_CCR_STATUS_SUCCESS,
-+	NVME_CCR_STATUS_FAILED,
-+};
++static ssize_t nvme_sysfs_ciu_show(struct device *dev,
++					  struct device_attribute *attr,
++					  char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
 +
-+/* NVMe Cross-Controller Reset Flags */
-+enum {
-+	NVME_CCR_FLAGS_VALIDATED	= 0x01,
-+	NVME_CCR_FLAGS_INITIATED	= 0x02,
-+};
++	return sysfs_emit(buf, "%02x\n", ctrl->ciu);
++}
++static DEVICE_ATTR(ciu, S_IRUGO, nvme_sysfs_ciu_show, NULL);
 +
-+struct nvme_ccr_log_entry {
-+	__le16			icid;
-+	__u8			ciu;
-+	__u8			rsvd3;
-+	__le16			acid;
-+	__u8			ccrs;
-+	__u8			ccrf;
-+};
++static ssize_t nvme_sysfs_cirn_show(struct device *dev,
++					  struct device_attribute *attr,
++					  char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
 +
-+struct nvme_ccr_log {
-+	__le16				ne;
-+	__u8				rsvd2[6];
-+	struct nvme_ccr_log_entry	entries[NVMF_CCR_PER_PAGE];
-+};
++	return sysfs_emit(buf, "%016llx\n", ctrl->cirn);
++}
++static DEVICE_ATTR(cirn, S_IRUGO, nvme_sysfs_cirn_show, NULL);
 +
- /* NVMe Namespace Write Protect State */
- enum {
- 	NVME_NS_NO_WRITE_PROTECT = 0,
++
+ static ssize_t nvme_sysfs_delete(struct device *dev,
+ 				struct device_attribute *attr, const char *buf,
+ 				size_t count)
+@@ -734,6 +755,8 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_numa_node.attr,
+ 	&dev_attr_queue_count.attr,
+ 	&dev_attr_sqsize.attr,
++	&dev_attr_ciu.attr,
++	&dev_attr_cirn.attr,
+ 	&dev_attr_hostnqn.attr,
+ 	&dev_attr_hostid.attr,
+ 	&dev_attr_ctrl_loss_tmo.attr,
 -- 
 2.52.0
 
