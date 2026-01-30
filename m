@@ -4,58 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 616EBD73E9F
-	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 04:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE316D49C69
+	for <linux-nvme@archiver.kernel.org>; Fri, 30 Jan 2026 07:45:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HISGZJM+I+Kxj44kFEa1AU4S3pBrwScJ7JjgDjf3zv0=; b=cyX389wWHUf4GGRZZd8WyL8spD
-	vvGAshoXnjQ1hA/XcXnemxSLJhV6fFtxdyTyr2Jotwf4PKLMPq8Ai4eoCH0Fp1PIh8zPm+uA3LV+c
-	Y6r+QNRiWWIP5FOHoJr4cCiTvh5ib7VsY6DFsa2H7otY7GgB8utVVO9Bo/tIoxrxwwuzOBkvlo8Wf
-	S6Bq0STWE8KLH4g8fH2YCaxBgrnkOZcbL6ok0+mWuEK2GO0K7MLDCnbehnEjMlmVQcIaL1TbC68ad
-	2eOxIE5dgmjWcdWJRL70ZUq7e6bzB2uYmJanG7NGuRxAOZqhYmshh6IhfRnkesC4nuliD4ZJrt9RS
-	NhuHIbxg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Uh32/EDIQFDFOnj8fdFERKIKqaaMmN6sE/HYcKgTjVw=; b=g7/Vw6B0Yg6BhcrHtqQZwK+iBT
+	dnxM6vde0qnW+eL23DyvC2Hzu4Q5qK7l/zN96cIQFeRdcW25hNn68kH23BbCwoUmIUoKcywVfsdAB
+	lg/yQrmxl7uz7wtiJRP0jinygcZbkCKDOg026baL3dWYf+bGxkmh1frCncGqqaZGhnPMGEoauXbL6
+	cnusaX/KxDIQqF6XsT54EIDnvGbbnPZPdILGNIFraZT6Xe2zQdx4ekz/qz0qhIPBud6aJpRhh1a7U
+	fRlmRSnv+vrQ2Mh3syie9Pul0uF98NoFLJu/Ou0Bqg86WnLNLsD4/gzPbe8+cLmtKWImdJcYHkZsy
+	jE+jekrA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlgW2-000000011KI-0CxE;
-	Fri, 30 Jan 2026 04:53:54 +0000
-Received: from out30-101.freemail.mail.aliyun.com ([115.124.30.101])
+	id 1vljCN-000000019xd-1qFO;
+	Fri, 30 Jan 2026 07:45:47 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlgVy-000000011JM-1fRx
+	id 1vljCJ-000000019xE-48tH
 	for linux-nvme@lists.infradead.org;
-	Fri, 30 Jan 2026 04:53:53 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1769748815; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=HISGZJM+I+Kxj44kFEa1AU4S3pBrwScJ7JjgDjf3zv0=;
-	b=Mn4naTQrfYg3zw7m9hYMQ9uDLChwzi95cUohZD2kS6cMhmhj6JsMtL7Ico62qKbsICQ3UhloIKMBJPT/X7QVzkAFtUePJZNXTZDysCpM9bxcrkg8KPTfIxSNSrJG45w3y2r5iVsIfLoRFp2OjxZj/2/W6lz2+rrf9x1JUXThvoA=
-Received: from 30.178.83.24(mailfrom:qinyuntan@linux.alibaba.com fp:SMTPD_---0Wy9XcF1_1769748806 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 30 Jan 2026 12:53:31 +0800
-Message-ID: <88437e1a-2df0-41e6-a58f-dcc68d4458bc@linux.alibaba.com>
-Date: Fri, 30 Jan 2026 12:53:25 +0800
+	Fri, 30 Jan 2026 07:45:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769759141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Uh32/EDIQFDFOnj8fdFERKIKqaaMmN6sE/HYcKgTjVw=;
+	b=SuOQ44lL+FMxaF9Sf1EMkeIY1Ni6UN3utZhaAm2I5pPiyFRprGvQBxMuLlm81CGYI+f/gv
+	2JSa7+huWbjaOKsDHryAuv+G6jwY7MpP2XG5jaofh/Ih3sBgIB9pBJ8vgDdjNVvD4j7Shu
+	FpoFePQ6FISMxz6/JqvD+HaDDMFjXG4=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-416-10YjuT3uPGq_m-7LVpifxA-1; Fri,
+ 30 Jan 2026 02:45:35 -0500
+X-MC-Unique: 10YjuT3uPGq_m-7LVpifxA-1
+X-Mimecast-MFC-AGG-ID: 10YjuT3uPGq_m-7LVpifxA_1769759134
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0C6D719560B5;
+	Fri, 30 Jan 2026 07:45:34 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.182])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D09AE180086E;
+	Fri, 30 Jan 2026 07:45:27 +0000 (UTC)
+Date: Fri, 30 Jan 2026 15:45:21 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Yi Zhang <yi.zhang@redhat.com>
+Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, justintee8345@gmail.com,
+	Chaitanya Kulkarni <ckulkarnilinux@gmail.com>,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
+	linux-block <linux-block@vger.kernel.org>,
+	Daniel Wagner <dwagner@suse.de>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [bug report] kmemleak observed during blktests nvme/fc
+Message-ID: <aXxhkUXXOlrRw1sG@fedora>
+References: <CAHj4cs9wv3SdPo+N01Fw2SHBYDs9tj2M_e1-GdQOkRy=DsBB1w@mail.gmail.com>
+ <262c8ac1-e625-4e4c-8b3c-85f842aba6fe@gmail.com>
+ <7d718bc8-64b6-4e8f-bad7-7e1615c577ca@nvidia.com>
+ <CAHj4cs9gBTHLB_7JrFpZnJ-imc7jmqnhZpqkemaRVQYLn9j_rQ@mail.gmail.com>
+ <CAHj4cs-84wsWQKeBS2wkd-_Y4Xe7wcTPqzutisNbXtpcAdh8yw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH V1] nvme-pci: disable SR-IOV VFs on driver unbind
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- Xunlei Pang <xlpang@linux.alibaba.com>, Guixin Liu
- <kanie@linux.alibaba.com>, oliver.yang@linux.alibaba.com,
- Guanghui Feng <guanghuifeng@linux.alibaba.com>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
-References: <20260127073344.2489873-1-qinyuntan@linux.alibaba.com>
- <20260127084807.GA342@lst.de>
-From: qinyuntan <qinyuntan@linux.alibaba.com>
-In-Reply-To: <20260127084807.GA342@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHj4cs-84wsWQKeBS2wkd-_Y4Xe7wcTPqzutisNbXtpcAdh8yw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260129_205351_329044_5EFB6754 
-X-CRM114-Status: GOOD (  22.63  )
+X-CRM114-CacheID: sfid-20260129_234544_094716_5F743F00 
+X-CRM114-Status: GOOD (  15.02  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,119 +90,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi All,
+On Thu, Jan 15, 2026 at 05:24:58PM +0800, Yi Zhang wrote:
+> Hi Justin and Chaitanya
+> 
+> It turns out that the kmemleak was caused by nvme-loop. It was
+> observed during the stress nvme loop/tcp/fc[1] test, but the kmemleak
+> log was reported during the nvme/fc test. That's why I didn't
+> reproduce it with the stress nvme/fc test before.
+> 
+> [1]
+> nvme_trtype=loop ./check nvme/
+> nvme_trtype=tcp ./check nvme/
+> nvme_trtype=fc ./check nvme/
+> 
+> unreferenced object 0xffff8881295fd000 (size 1024):
+>   comm "nvme", pid 101335, jiffies 4299282670
+>   hex dump (first 32 bytes):
+>     00 00 00 00 ad 4e ad de ff ff ff ff 00 00 00 00  .....N..........
+>     ff ff ff ff ff ff ff ff e0 3c 57 af ff ff ff ff  .........<W.....
+>   backtrace (crc 414bcfcd):
+>     __kmalloc_cache_node_noprof+0x5f9/0x840
+>     blk_mq_alloc_hctx+0x52/0x810
+>     blk_mq_alloc_and_init_hctx+0x5b9/0x840
+>     __blk_mq_realloc_hw_ctxs+0x20a/0x610
+>     blk_mq_init_allocated_queue+0x2e9/0x1210
+>     blk_mq_alloc_queue+0x17f/0x230
+>     nvme_alloc_admin_tag_set+0x352/0x670 [nvme_core]
+>     nvme_loop_configure_admin_queue+0xdf/0x2d0 [nvme_loop]
+>     nvme_loop_create_ctrl+0x428/0xb13 [nvme_loop]
+>     nvmf_create_ctrl+0x2ec/0x620 [nvme_fabrics]
+>     nvmf_dev_write+0xd5/0x180 [nvme_fabrics]
+>     vfs_write+0x1d0/0xfd0
+>     ksys_write+0xf9/0x1d0
+>     do_syscall_64+0x95/0x520
+>     entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-Thank you all for the insightful discussion!
+It seems regression from 03b3bcd319b3 ("nvme: fix admin request_queue
+lifetime"), can you try the following fix?
 
-I agree with Leon's point that not all devices are created equal when it
-comes to SR-IOV handling during driver unbind.
 
-Looking at existing driver implementations, I found two different 
-approaches:
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 19b67cf5d550..64db8e3d8fd8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4848,6 +4848,15 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ 	struct queue_limits lim = {};
+ 	int ret;
+ 
++	/*
++	 * If a previous admin queue exists (e.g., from before a reset),
++	 * put it now before allocating a new one to avoid orphaning it.
++	 */
++	if (ctrl->admin_q) {
++		blk_put_queue(ctrl->admin_q);
++		ctrl->admin_q = NULL;
++	}
++
+ 	memset(set, 0, sizeof(*set));
+ 	set->ops = ops;
+ 	set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
 
-1) mlx5 - unconditionally disables SR-IOV in remove:
 
-    drivers/net/ethernet/mellanox/mlx5/core/main.c:
-    static void remove_one(struct pci_dev *pdev)
-    {
-        ...
-        mlx5_sriov_disable(pdev, false);
-        ...
-    }
 
-    drivers/net/ethernet/mellanox/mlx5/core/sriov.c:
-    void mlx5_sriov_disable(struct pci_dev *pdev, bool num_vf_change)
-    {
-        struct mlx5_core_dev *dev  = pci_get_drvdata(pdev);
-        struct devlink *devlink = priv_to_devlink(dev);
-        int num_vfs = pci_num_vf(dev->pdev);
-
-        pci_disable_sriov(pdev);  /* Always disable, no 
-pci_vfs_assigned() check */
-        devl_lock(devlink);
-        mlx5_device_disable_sriov(dev, num_vfs, true, num_vf_change);
-        devl_unlock(devlink);
-    }
-
-2) ixgbe - checks pci_vfs_assigned() and skips disable if VFs are in use:
-
-    drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:
-    static void ixgbe_remove(struct pci_dev *pdev)
-    {
-        ...
-    #ifdef CONFIG_PCI_IOV
-        ixgbe_disable_sriov(adapter);
-    #endif
-        ...
-    }
-
-    drivers/net/ethernet/intel/ixgbe/ixgbe_sriov.c:
-    #ifdef CONFIG_PCI_IOV
-        if (pci_vfs_assigned(adapter->pdev)) {
-            e_dev_warn("Unloading driver while VFs are assigned - VFs 
-will not be deallocated\n");
-            return -EPERM;
-        }
-        pci_disable_sriov(adapter->pdev);
-    #endif
-
-Regarding the warning level discussion: I would prefer keeping it as
-dev_warn() rather than downgrading to dev_info(). As Leon mentioned,
-some devices do require SR-IOV to be disabled when the PF is unbound,
-and for those cases, this warning is important for operators to notice
-and take action. A warning level helps ensure it doesn't get lost in
-normal system logs.
-
-Please let me know how you'd like to proceed.
 
 Thanks,
-Qinyun
-
-On 1/27/26 4:48 PM, Christoph Hellwig wrote:
-> On Tue, Jan 27, 2026 at 03:33:44PM +0800, Qinyun Tan wrote:
->> The NVMe PCI driver exports the sriov_configure callback via
->> pci_sriov_configure_simple(), which allows userspace to enable SR-IOV
->> VFs through sysfs. However, when the PF driver is unbound, the driver
->> does not disable SR-IOV, leaving VFs orphaned in the system.
-> 
-> That sounds dangerous.
-> 
->> According to Documentation/PCI/pci-iov-howto.rst, PCI drivers that
->> support SR-IOV should call pci_disable_sriov() in their remove callback
->> to properly clean up VFs before the driver is unloaded.
-> 
-> Bjorn and other PCI folks: is there any reason to not do this in
-> the PCI code and leave a landmine for the drivers?
-> 
->> Fix this by disabling SR-IOV in nvme_remove(). If VFs are not assigned
->> to a guest, disable SR-IOV. If VFs are still assigned, emit a warning
->> since forcibly disabling would disrupt the guest.
-> 
-> Well, I think we have to distrupt it, at least for hot unplug.  This
-> sounds like we need some better handling in the core code as well.
-> 
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index 58f3097888a7..4f2dc13de48b 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -3666,6 +3666,15 @@ static void nvme_remove(struct pci_dev *pdev)
->>   	nvme_stop_ctrl(&dev->ctrl);
->>   	nvme_remove_namespaces(&dev->ctrl);
->>   	nvme_dev_disable(dev, true);
->> +
->> +	if (pci_num_vf(pdev)) {
->> +		if (pci_vfs_assigned(pdev))
->> +			dev_warn(&pdev->dev,
->> +				 "WARNING: Removing PF while VFs are assigned - VFs will not be deallocated!\n");
->> +		else
->> +			pci_disable_sriov(pdev);
->> +	}
->> +
->>   	nvme_free_host_mem(dev);
->>   	nvme_dev_remove_admin(dev);
->>   	nvme_dbbuf_dma_free(dev);
->> -- 
->> 2.43.5
-> ---end quoted text---
+Ming
 
 
