@@ -4,84 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EEB8E7C6FD
-	for <linux-nvme@archiver.kernel.org>; Sun,  1 Feb 2026 03:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 052C0E6529D
+	for <linux-nvme@archiver.kernel.org>; Sun,  1 Feb 2026 17:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=icBR9kiwaK5ieSI1ONSopOpVymHytvb8yTztT1ByJJ0=; b=SWAn1zYLtgmoXawtN9a0gXfwWC
-	3CUY2eoOY1SAYyu9geg2bhxzATQns5JrC4PiGAdpZNhQiX0M8Yl9X5qJNASamM2Vw3t6/Rbiy7ICI
-	TvRGEizq1Oh1giFPHVJWgFuT7GI9PFhEzCpScss2xn5rSGiGZTLL2ciAQrTMnDlh+g1BoB6UnMh0p
-	vahaH2SCZdH4Zsr8/BE1vzCSQJ5W2r1zdYwenIppd4Js1T1zU3tYVRHkH0oEIr5SWSUu1f8kb+kY5
-	2yLI6Abx8SOKXzBpcdEL5QgdnCxpvpVY9ksN4k8vnZehqqwAsMvLy54IW5t8YvUd7GD1l+62HaE3r
-	P8HubohQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Reply-To:Cc:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ZhWs3crfA2G6ueORTmclwUlmcN2OtgYnNiy2QgcLdF8=; b=1MkoPDZXx88ChTeeH/lxIv5j4C
+	QqZHEf2Cuaac9H/JbynUui8bPZNMpUzL5c0ZslvYVKHNAUdWB4SnX9Mssh984QDuPjxZunHGohMwM
+	4mr/RrA8P34BBMJWR3O4ChfXhNpggcwvvqraJuvYAoZjbQbul5FYcImFa20XxCrH0LhQ50q9cHmFm
+	mBm1Bw51NKrJQR49+djdzLVj4sl7+y+8c0mAY3vHaNbs8ymrIQj2S6BOksF6rpygR87hQMQ74riRp
+	juPjvFeeDibxiHosXO22pMQqaQdNOdAjumjdAAmL5K4I0pIfoewxDogkczqYW56LtwPvy70DCuEls
+	GNYFgKFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmNpe-00000003DKR-0LKr;
-	Sun, 01 Feb 2026 03:09:02 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1vmaud-000000041LW-2PCw;
+	Sun, 01 Feb 2026 17:07:03 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmNpW-00000003DJg-3aRB
+	id 1vmaub-000000041Ky-02YZ
 	for linux-nvme@lists.infradead.org;
-	Sun, 01 Feb 2026 03:08:56 +0000
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60VMMevB2775188
-	for <linux-nvme@lists.infradead.org>; Sat, 31 Jan 2026 19:08:53 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2025-q2; bh=icBR9kiwaK5ieSI1ON
-	SopOpVymHytvb8yTztT1ByJJ0=; b=Spi3+a31SAgtLpVX9WygTW72JyX1YAwDl4
-	LZHSNMtVFPB80LANVzT3UBIoZZyPUaMg2OeUeNlg8357bUxKL0uVmuoDS8WgWJz0
-	ABD5YFuoeTJkWHAk23O5qTJ9Z1guPVAQSTSQbZkLZ+91ZmuEJ7fgY8RaNq7/C0h6
-	miqv9FdPW8t1NcU72CnvMrIFkmsPitW414l54Mz0MC8TGR8HOS/tfP9ecj2scYCB
-	myRvkpcFwVeqDAfPkDExmC8fvS2SPdpL/pzZ6aNrFCScnlhEJugMA5VpuiJe6o5W
-	0sin940QnpZD2Qy7D7V3/zxqtrw22kw1OhYcOeSy1uau/bcoiV8Q==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4c1dx2nxw7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Sat, 31 Jan 2026 19:08:53 -0800 (PST)
-Received: from twshared18017.01.snb2.facebook.com (2620:10d:c0a8:1c::1b) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Sun, 1 Feb 2026 03:08:52 +0000
-Received: by devbig010.atn3.facebook.com (Postfix, from userid 224791)
-	id 1D7EF77B21B; Sat, 31 Jan 2026 19:08:40 -0800 (PST)
-From: Daniel Hodges <hodgesd@meta.com>
-To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>
-CC: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        Daniel
- Hodges <hodgesd@meta.com>
-Subject: [PATCH] nvme-fabrics: use kfree_sensitive() for DHCHAP secrets
-Date: Sat, 31 Jan 2026 19:08:40 -0800
-Message-ID: <20260201030840.3173507-1-hodgesd@meta.com>
-X-Mailer: git-send-email 2.47.3
+	Sun, 01 Feb 2026 17:07:02 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9EBD935333;
+	Sun,  1 Feb 2026 17:06:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769965617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZhWs3crfA2G6ueORTmclwUlmcN2OtgYnNiy2QgcLdF8=;
+	b=Q3W+XikXte+zwB8vDEZ2JOJfS9pB5S/C7XdlArNEidopw+i7GLwtDx0Brde3uXk73i5A21
+	3egDpDGg5uxXips9LHgUQgV1IaDEi4T709EjAOeaQheNC5jsc+b6zr84vX8CdlQ7uXgUkn
+	FpNb4DEae/c18kFQUCpQyImRxGDb/50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769965617;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZhWs3crfA2G6ueORTmclwUlmcN2OtgYnNiy2QgcLdF8=;
+	b=WXnGySUQFhe2jRqe8d4DtfUNbJ6/xi0xlcwtuBGzbzBhH2lg7htIFVD8daI94u35g+ZJqD
+	qdEmlHp/ut+O2uCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Q3W+XikX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WXnGySUQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1769965617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZhWs3crfA2G6ueORTmclwUlmcN2OtgYnNiy2QgcLdF8=;
+	b=Q3W+XikXte+zwB8vDEZ2JOJfS9pB5S/C7XdlArNEidopw+i7GLwtDx0Brde3uXk73i5A21
+	3egDpDGg5uxXips9LHgUQgV1IaDEi4T709EjAOeaQheNC5jsc+b6zr84vX8CdlQ7uXgUkn
+	FpNb4DEae/c18kFQUCpQyImRxGDb/50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1769965617;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ZhWs3crfA2G6ueORTmclwUlmcN2OtgYnNiy2QgcLdF8=;
+	b=WXnGySUQFhe2jRqe8d4DtfUNbJ6/xi0xlcwtuBGzbzBhH2lg7htIFVD8daI94u35g+ZJqD
+	qdEmlHp/ut+O2uCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F8CF3EA62;
+	Sun,  1 Feb 2026 17:06:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id J4tDFDGIf2nrWQAAD6G6ig
+	(envelope-from <hare@suse.de>); Sun, 01 Feb 2026 17:06:57 +0000
+Message-ID: <50ee77fa-0c44-422e-9ee2-eece60b189e1@suse.de>
+Date: Sun, 1 Feb 2026 18:06:52 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 129MmUCY2E9dxvXgGRJ_nvDsufkF8wxR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAxMDAyNSBTYWx0ZWRfX25ICAgiCzJmT
- LCP06Qo/mGnvZwvP6/U1rADnA1NmoWQm6gJGyLdH2ofpucxLltGI+bt1HnLzGo5nvZKkaGS2tIz
- e7xtF1ngArjPJP5b1rjcllO3Mf0SdemQgXOSx+o80k7J2A1csWFQ0mm+kli9aAeLpkqwu2kg6i6
- sifj5cX0HxesgXtJ6u/1j9jxwimJ5ZPcthFvKgKz8U/m2Ux4nlfDW/Q/DbrOCmjkMZ0erFFtX9/
- nWa7bWbqVcNx8zSZG2o0D4kKlY2J163Labn8MvQtJ9nB9I8EaSxxhPTlwXmy3eZRGtTI2H++vqW
- lkYPFCBWLqLgIAJlZcrhqXwgXHWqBRzzdhT9aaejtfcqTuUph4YHeyzSU85hkenRxBx1rMouHqq
- yzbTc2G4nmYUVzoMTIuY4JGqGW1DAyP3U9wBl0XK92/iC6995sGNYLVDdY52GOwNtVnbxg7AOxP
- TtY6YH9gaEqvYYBRlYQ==
-X-Proofpoint-ORIG-GUID: 129MmUCY2E9dxvXgGRJ_nvDsufkF8wxR
-X-Authority-Analysis: v=2.4 cv=Tb2bdBQh c=1 sm=1 tr=0 ts=697ec3c5 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VabnemYjAAAA:8
- a=-W7SLkP_sVXSNSbjlKUA:9 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-01_01,2026-01-30_04,2025-10-01_01
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: lsf-pc <lsf-pc@lists.linux-foundation.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+From: Hannes Reinecke <hare@suse.de>
+Subject: [LSF/MM?BFP TOPIC] Block-layer device resets
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 9EBD935333
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260131_190854_896761_8F6C0EBF 
-X-CRM114-Status: GOOD (  10.43  )
+X-CRM114-CacheID: sfid-20260201_090701_192413_C4630E98 
+X-CRM114-Status: UNSURE (   7.76  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,48 +136,32 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The DHCHAP secrets (dhchap_secret and dhchap_ctrl_secret) contain
-authentication key material for NVMe-oF. Use kfree_sensitive() instead
-of kfree() in nvmf_free_options() to ensure secrets are zeroed before
-the memory is freed, preventing recovery from freed pages.
+Hi all,
 
-Signed-off-by: Daniel Hodges <hodgesd@meta.com>
----
- drivers/nvme/host/fabrics.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+We are currently working on implementing cross-controller resets for
+NVMe, which requires to send a command to the target which then should
+terminate all commands on a given controller.
+While we could easily terminate the controller, the specification
+also requires us to terminate all outstanding commands.
+Which then recurses into my all-time favourite topic on how to
+abort outstanding commands from the fs/bio layer.
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 55a8afd2efd5..d37cb140d832 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -1283,22 +1283,22 @@ void nvmf_free_options(struct nvmf_ctrl_options *=
-opts)
- {
- 	nvmf_host_put(opts->host);
- 	key_put(opts->keyring);
- 	key_put(opts->tls_key);
- 	kfree(opts->transport);
- 	kfree(opts->traddr);
- 	kfree(opts->trsvcid);
- 	kfree(opts->subsysnqn);
- 	kfree(opts->host_traddr);
- 	kfree(opts->host_iface);
--	kfree(opts->dhchap_secret);
--	kfree(opts->dhchap_ctrl_secret);
-+	kfree_sensitive(opts->dhchap_secret);
-+	kfree_sensitive(opts->dhchap_ctrl_secret);
- 	kfree(opts);
- }
- EXPORT_SYMBOL_GPL(nvmf_free_options);
-=20
- #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES |=
- \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
- 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
- 				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
- 				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_DHCHAP_SECRET |\
---=20
-2.47.3
+However, here we don't have to dissect/match to individual commands,
+but rather have to abort everything, which seems rather easier.s
+
+So I would like to fathom whether such a thing is feasible/reasonable
+(I think so, obviously, and can think of several other use-cases, too,
+qemu springs to mind here ...) and discuss possible implementations
+(set 'req->deadline' to zero for all pending commands?).
+Or maybe we can do such a thing already and I'm just not aware of it...
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
 
