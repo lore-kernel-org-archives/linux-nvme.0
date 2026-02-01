@@ -4,73 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C369D79770
-	for <linux-nvme@archiver.kernel.org>; Sat, 31 Jan 2026 14:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EEB8E7C6FD
+	for <linux-nvme@archiver.kernel.org>; Sun,  1 Feb 2026 03:09:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=UX3qYGjU4jdpSGNp/Xjte1MBPB66mVoz2MOtkG5CUsw=; b=aPNEgfurY5Jr5EWwHHlOidV4z2
-	YkymcDP02/nnCH2WH8stm+S7Dsp0GufuwRqBdLoBu4O353NjVJO928ZRDE6MoOGz2npBQL4ox1ZVG
-	4IJbZYkjTlGByrQOdj6/QD9+4LTSePBcr1onaPH4IG56WsLFt5zwprRfzb77tksvR8bJiIKtXI6Id
-	nYf0vcY9j5qTmufnZn7+N1UJO4qPBZHQZTAcb9hfLxLDSAQLtletTA9O5ti1+hDtIOr7Lu2yZNNSW
-	WZFb5UIPSEPNfhw+0n7U6fSRHM9xE+wMDoXQQqSOutwsHZxxyWUMWQHHrk+kYjht5dOFdXEbp0ib3
-	xxEvPmRA==;
+	bh=icBR9kiwaK5ieSI1ONSopOpVymHytvb8yTztT1ByJJ0=; b=SWAn1zYLtgmoXawtN9a0gXfwWC
+	3CUY2eoOY1SAYyu9geg2bhxzATQns5JrC4PiGAdpZNhQiX0M8Yl9X5qJNASamM2Vw3t6/Rbiy7ICI
+	TvRGEizq1Oh1giFPHVJWgFuT7GI9PFhEzCpScss2xn5rSGiGZTLL2ciAQrTMnDlh+g1BoB6UnMh0p
+	vahaH2SCZdH4Zsr8/BE1vzCSQJ5W2r1zdYwenIppd4Js1T1zU3tYVRHkH0oEIr5SWSUu1f8kb+kY5
+	2yLI6Abx8SOKXzBpcdEL5QgdnCxpvpVY9ksN4k8vnZehqqwAsMvLy54IW5t8YvUd7GD1l+62HaE3r
+	P8HubohQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmCGz-00000002ib5-3ZEH;
-	Sat, 31 Jan 2026 14:48:29 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vmNpe-00000003DKR-0LKr;
+	Sun, 01 Feb 2026 03:09:02 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmCGw-00000002iai-3bFc
+	id 1vmNpW-00000003DJg-3aRB
 	for linux-nvme@lists.infradead.org;
-	Sat, 31 Jan 2026 14:48:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769870903;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=UX3qYGjU4jdpSGNp/Xjte1MBPB66mVoz2MOtkG5CUsw=;
-	b=ElqRgLyVmGrBNnYWMY6Di+WEVyJdYEOLbMqzOreW6LuqA+1t7MccAZZy5afrLORt9xbE3F
-	C5xSxNZe7uCEKaXKw2UEwj9xQrWGaQqKQy5L8Pw4HqFjfgHGF09D9wPbfGyOu2D/lz9MlC
-	2moEil06u9LIeEGMuxnaa8WVaz3Y0+c=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-286-lc4K7k75OP2I0akuCY3_Ug-1; Sat,
- 31 Jan 2026 09:48:19 -0500
-X-MC-Unique: lc4K7k75OP2I0akuCY3_Ug-1
-X-Mimecast-MFC-AGG-ID: lc4K7k75OP2I0akuCY3_Ug_1769870898
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 67CBB18003FD;
-	Sat, 31 Jan 2026 14:48:18 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.22])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 27AE01956056;
-	Sat, 31 Jan 2026 14:48:15 +0000 (UTC)
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org
-Cc: Ming Lei <ming.lei@redhat.com>,
-	Yi Zhang <yi.zhang@redhat.com>
-Subject: [PATCH] nvme: fix admin queue leak on controller reset
-Date: Sat, 31 Jan 2026 22:48:08 +0800
-Message-ID: <20260131144808.4173338-1-ming.lei@redhat.com>
+	Sun, 01 Feb 2026 03:08:56 +0000
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60VMMevB2775188
+	for <linux-nvme@lists.infradead.org>; Sat, 31 Jan 2026 19:08:53 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=icBR9kiwaK5ieSI1ON
+	SopOpVymHytvb8yTztT1ByJJ0=; b=Spi3+a31SAgtLpVX9WygTW72JyX1YAwDl4
+	LZHSNMtVFPB80LANVzT3UBIoZZyPUaMg2OeUeNlg8357bUxKL0uVmuoDS8WgWJz0
+	ABD5YFuoeTJkWHAk23O5qTJ9Z1guPVAQSTSQbZkLZ+91ZmuEJ7fgY8RaNq7/C0h6
+	miqv9FdPW8t1NcU72CnvMrIFkmsPitW414l54Mz0MC8TGR8HOS/tfP9ecj2scYCB
+	myRvkpcFwVeqDAfPkDExmC8fvS2SPdpL/pzZ6aNrFCScnlhEJugMA5VpuiJe6o5W
+	0sin940QnpZD2Qy7D7V3/zxqtrw22kw1OhYcOeSy1uau/bcoiV8Q==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4c1dx2nxw7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Sat, 31 Jan 2026 19:08:53 -0800 (PST)
+Received: from twshared18017.01.snb2.facebook.com (2620:10d:c0a8:1c::1b) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.35; Sun, 1 Feb 2026 03:08:52 +0000
+Received: by devbig010.atn3.facebook.com (Postfix, from userid 224791)
+	id 1D7EF77B21B; Sat, 31 Jan 2026 19:08:40 -0800 (PST)
+From: Daniel Hodges <hodgesd@meta.com>
+To: <kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>
+CC: <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        Daniel
+ Hodges <hodgesd@meta.com>
+Subject: [PATCH] nvme-fabrics: use kfree_sensitive() for DHCHAP secrets
+Date: Sat, 31 Jan 2026 19:08:40 -0800
+Message-ID: <20260201030840.3173507-1-hodgesd@meta.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ndA2gik5yobs98I7bq5x4PLzglIhjdUa-xs15U6dthE_1769870898
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: 129MmUCY2E9dxvXgGRJ_nvDsufkF8wxR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAxMDAyNSBTYWx0ZWRfX25ICAgiCzJmT
+ LCP06Qo/mGnvZwvP6/U1rADnA1NmoWQm6gJGyLdH2ofpucxLltGI+bt1HnLzGo5nvZKkaGS2tIz
+ e7xtF1ngArjPJP5b1rjcllO3Mf0SdemQgXOSx+o80k7J2A1csWFQ0mm+kli9aAeLpkqwu2kg6i6
+ sifj5cX0HxesgXtJ6u/1j9jxwimJ5ZPcthFvKgKz8U/m2Ux4nlfDW/Q/DbrOCmjkMZ0erFFtX9/
+ nWa7bWbqVcNx8zSZG2o0D4kKlY2J163Labn8MvQtJ9nB9I8EaSxxhPTlwXmy3eZRGtTI2H++vqW
+ lkYPFCBWLqLgIAJlZcrhqXwgXHWqBRzzdhT9aaejtfcqTuUph4YHeyzSU85hkenRxBx1rMouHqq
+ yzbTc2G4nmYUVzoMTIuY4JGqGW1DAyP3U9wBl0XK92/iC6995sGNYLVDdY52GOwNtVnbxg7AOxP
+ TtY6YH9gaEqvYYBRlYQ==
+X-Proofpoint-ORIG-GUID: 129MmUCY2E9dxvXgGRJ_nvDsufkF8wxR
+X-Authority-Analysis: v=2.4 cv=Tb2bdBQh c=1 sm=1 tr=0 ts=697ec3c5 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VabnemYjAAAA:8
+ a=-W7SLkP_sVXSNSbjlKUA:9 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-01_01,2026-01-30_04,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260131_064827_093952_1506006C 
-X-CRM114-Status: GOOD (  11.97  )
+X-CRM114-CacheID: sfid-20260131_190854_896761_8F6C0EBF 
+X-CRM114-Status: GOOD (  10.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,43 +96,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When nvme_alloc_admin_tag_set() is called during a controller reset,
-a previous admin queue may still exist. Release it properly before
-allocating a new one to avoid orphaning the old queue.
+The DHCHAP secrets (dhchap_secret and dhchap_ctrl_secret) contain
+authentication key material for NVMe-oF. Use kfree_sensitive() instead
+of kfree() in nvmf_free_options() to ensure secrets are zeroed before
+the memory is freed, preventing recovery from freed pages.
 
-This fixes a regression introduced by commit 03b3bcd319b3 ("nvme: fix
-admin request_queue lifetime").
-
-Cc: Keith Busch <kbusch@kernel.org>
-Fixes: 03b3bcd319b3 ("nvme: fix admin request_queue lifetime").
-Reported-and-tested-by: Yi Zhang <yi.zhang@redhat.com>
-Closes: https://lore.kernel.org/linux-block/CAHj4cs9wv3SdPo+N01Fw2SHBYDs9tj2M_e1-GdQOkRy=DsBB1w@mail.gmail.com/
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
+Signed-off-by: Daniel Hodges <hodgesd@meta.com>
 ---
- drivers/nvme/host/core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/nvme/host/fabrics.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 19b67cf5d550..4f1f460a6c11 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4865,6 +4865,15 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * If a previous admin queue exists (e.g., from before a reset),
-+	 * put it now before allocating a new one to avoid orphaning it.
-+	 */
-+	if (ctrl->admin_q) {
-+		blk_put_queue(ctrl->admin_q);
-+		ctrl->admin_q = NULL;
-+	}
-+
- 	ctrl->admin_q = blk_mq_alloc_queue(set, &lim, NULL);
- 	if (IS_ERR(ctrl->admin_q)) {
- 		ret = PTR_ERR(ctrl->admin_q);
--- 
-2.47.1
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 55a8afd2efd5..d37cb140d832 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -1283,22 +1283,22 @@ void nvmf_free_options(struct nvmf_ctrl_options *=
+opts)
+ {
+ 	nvmf_host_put(opts->host);
+ 	key_put(opts->keyring);
+ 	key_put(opts->tls_key);
+ 	kfree(opts->transport);
+ 	kfree(opts->traddr);
+ 	kfree(opts->trsvcid);
+ 	kfree(opts->subsysnqn);
+ 	kfree(opts->host_traddr);
+ 	kfree(opts->host_iface);
+-	kfree(opts->dhchap_secret);
+-	kfree(opts->dhchap_ctrl_secret);
++	kfree_sensitive(opts->dhchap_secret);
++	kfree_sensitive(opts->dhchap_ctrl_secret);
+ 	kfree(opts);
+ }
+ EXPORT_SYMBOL_GPL(nvmf_free_options);
+=20
+ #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
+ #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES |=
+ \
+ 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
+ 				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
+ 				 NVMF_OPT_DISABLE_SQFLOW | NVMF_OPT_DISCOVERY |\
+ 				 NVMF_OPT_FAIL_FAST_TMO | NVMF_OPT_DHCHAP_SECRET |\
+--=20
+2.47.3
 
 
