@@ -4,65 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBF24E7DF0F
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Feb 2026 17:13:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24669E7DF11
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Feb 2026 17:18:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AHybV3doxleWHkR/bk785MWqGcxVGFlonO2D/UGWE6Q=; b=ZvJVLh2w9tW5pApUH/okMstylB
-	+GKeF8hWA3uL7zmK14f/1HXVy9CzlMVSAXUJwi5LY6TeLT2tv8QWEJXB84w35zIyeYGPEsZP3168p
-	pUDim03ndI4LGoGlGEk59K8ZAyUqxbR2d6o4tdZ/QBqXaDM6x2FwbDqO0eXxPpmnz2A0mtKy9jch+
-	Ur0wV5MwamfY11TEeGHG7F+19pF/8HiETKyt7BWGlaKey/GZR6xy4NdO9uBqNwp3Il4UUa5glZ0kg
-	ndJ4RXw9J76HS0jz33n8eN8j2Eo/Sc4MnZ8i3DLY2ymTfQdkDRCfHwez0Xi5m9wx6jObsJYcvNIgw
-	AfkUo5BQ==;
+	bh=QTl0FK2nrvj8FfVvONJEIn737ZFAZHCTDTewMuVT+wA=; b=u3K1uy4JW96zRbLeu7LBbPuXX8
+	gVwamBIuvxlWb/UvOgvhFGWyZCJ6Vm9XKVIm8tn9JpeV1tl0hmxY1sdNjKYI+f0vTjJNKAWAK7uIx
+	HGFwa7h1Fr/KqNbSF1bKRXq29D7c3V5Dw/p0YBETM+qmmj5sgHViJ/MTgBqtrH5GiUCdtMK+Z0Hmp
+	7y11haXvBdYV1mVsCh7fbTmQ2MQaT6xRVQruI4Hl03DQS384+zcf93BwpPm9N3gf+SKuGt5rGuoAd
+	857pY/LlYEy+OM+MZ0IxxufzAggLhzMYfyrAtiTkvoIov2LTUS3pAYFdX2Mh+8jY5ytig7UtLz7kR
+	qCDZOhhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmxUQ-00000005LT7-0JpG;
-	Mon, 02 Feb 2026 17:13:30 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vmxZ2-00000005Lmy-1Vv6;
+	Mon, 02 Feb 2026 17:18:16 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmxUN-00000005LSn-3bhn
+	id 1vmxZ1-00000005Lms-25tZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Feb 2026 17:13:29 +0000
+	Mon, 02 Feb 2026 17:18:15 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id A86EE4372D;
-	Mon,  2 Feb 2026 17:13:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0331EC116C6;
-	Mon,  2 Feb 2026 17:13:25 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 9F845600B0;
+	Mon,  2 Feb 2026 17:18:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A003C116C6;
+	Mon,  2 Feb 2026 17:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770052406;
-	bh=PnTeSEz/9pjprKiZcct6cCdCrR2nu+Q2US70gjU2hzI=;
+	s=k20201202; t=1770052694;
+	bh=5ypc+EGOhkIew2b/AMpI7KYgHTEpZ4E9pgp6HK8Z4zI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=efyVT4MmoBoIf9WD108SCrIdqsSzieOnfwoWnz9AkYkccIfV9kRfDX6XRrXJJDc4t
-	 Wewq/KwtZT9e7qlbh8DhLNDkjnpl1w9gd25yaIKGA3hHlZ2uE1aqgO61E8dF5lsahA
-	 tU1CqY/UCbcCkm1D4mziGz5DMwAOMslDzFJYFCcZ8OX7QhqquhGD8S7k3UIBwQrC+o
-	 CiOGI1Ur+L3pCmCw4J8Qr8hVMNGPt/ZjveCIL0v1CRGZYd1QiVPvfTym1Gi9TYIR1f
-	 QL7u7T6u+hSHt26jPsMvc7pjztrUxXAtGl2WZ1XQHezG2yDL8uTjpV77q+2w0iLoVI
-	 VHzSaufqcPAtQ==
-Date: Mon, 2 Feb 2026 10:13:24 -0700
+	b=drzNCPc9jZYc2bKVefwV/w98z5xfh8eUyMeV79r/hr4AC2/YYeW6KfUeS+ZGDI3w0
+	 lPaaJIwfNxb1FqLXPliA8nfR35MdHgVJnvkSApk3xKsneF5q6JVBbiOgaNWwBs610N
+	 1843qP+UgGjATvRt7HEDWLADWcf3l+ZMMA++cyi++B7/oYQyHdNu+DgNSmQL9FA4EC
+	 GPnV8hSvV/LZg0ID32nBOtFeP7JGd5PwUt/F9Clz8pvGPmqZC35hSxfhmeHrJBe1cP
+	 ti8ZLqTi2DpEh6wS0b/oIcqIU/bXHkPqnD5V1+PayPCjS4ieEq53MCr1yaQBZk62Am
+	 GfC/9KNAAcsXw==
+Date: Mon, 2 Feb 2026 10:18:12 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>,
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, nitin.rawat@oss.qualcomm.com,
-	Leon Romanovsky <leon@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
+To: Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>
+Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	nitin.rawat@oss.qualcomm.com
 Subject: Re: [PATCH V1] nvme-pci: Fix NULL pointer dereference in
  nvme_pci_prp_iter_next
-Message-ID: <aYDbNC1z81D3lZ2r@kbusch-mbp>
-References: <20260202143548.GA19313@lst.de>
- <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com>
+Message-ID: <aYDcVDVFTWrBwzw_@kbusch-mbp>
+References: <20260202125738.1194899-1-pradeep.pragallapati@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260202_091328_220415_347E6F99 
-X-CRM114-Status: GOOD (  19.05  )
+In-Reply-To: <20260202125738.1194899-1-pradeep.pragallapati@oss.qualcomm.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,40 +70,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 02, 2026 at 03:16:50PM +0000, Robin Murphy wrote:
-> On 2026-02-02 2:35 pm, Christoph Hellwig wrote:
-> > On Mon, Feb 02, 2026 at 06:27:38PM +0530, Pradeep P V K wrote:
-> > > Fix a NULL pointer dereference that occurs in nvme_pci_prp_iter_next()
-> > > when SWIOTLB bounce buffering becomes active during runtime.
-> > > 
-> > > The issue occurs when SWIOTLB activation changes the device's DMA
-> > > mapping requirements at runtime,
-> > > 
-> > > creating a mismatch between
-> > > iod->dma_vecs allocation and access logic.
-> > > 
-> > > The problem manifests when:
-> > > 1. Device initially operates with dma_skip_sync=true
-> > >     (coherent DMA assumed)
-> > > 2. First SWIOTLB mapping occurs due to DMA address limitations,
-> > >     memory encryption, or IOMMU bounce buffering requirements
-> > > 3. SWIOTLB calls dma_reset_need_sync(), permanently setting
-> > >     dma_skip_sync=false
-> > > 4. Subsequent I/Os now have dma_need_unmap()=true, requiring
-> > >     iod->dma_vecs
-> > 
-> > I think this patch just papers over the bug.  If dma_need_unmap
-> > can't be trusted before the dma_map_* call, we've not saved
-> > the unmap information and the unmap won't work properly.
-> 
-> The dma_need_unmap() kerneldoc says:
-> 
-> "This function must be called after all mappings that might
->  need to be unmapped have been performed."
-> 
-> Trying to infer anything from it beforehand is definitely a bug in the
-> caller.
+On Mon, Feb 02, 2026 at 06:27:38PM +0530, Pradeep P V K wrote:
+> @@ -720,6 +720,7 @@ static void nvme_free_prps(struct request *req, unsigned int attrs)
+>  		dma_unmap_phys(nvmeq->dev->dev, iod->dma_vecs[i].addr,
+>  			       iod->dma_vecs[i].len, rq_dma_dir(req), attrs);
+>  	mempool_free(iod->dma_vecs, nvmeq->dev->dmavec_mempool);
+> +	iod->dma_vecs = NULL;
+>  }
+>  
+>  static void nvme_free_sgls(struct request *req, struct nvme_sgl_desc *sge,
+> @@ -825,7 +826,7 @@ static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
+>  		return true;
+>  	if (!blk_rq_dma_map_iter_next(req, dma_dev, iter))
+>  		return false;
+> -	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev)) {
+> +	if (iod->dma_vecs && !dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev)) {
 
-Well that doesn't really make sense. No matter how many mappings the
-driver has done, there will always be more. ?
+So the return of dma_need_unmap() may change after any call to
+dma_map_*? Does it only go from false -> true, and never back to false?
+
+Since we didn't allocate the dma_vecs here, doesn't that mean the
+completion side is leaking the mapping?
 
