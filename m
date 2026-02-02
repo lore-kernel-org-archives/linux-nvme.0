@@ -4,56 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C20E7E7DEF2
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Feb 2026 15:26:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1C19E7DEFF
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Feb 2026 16:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+uswOk2E7U/Lbv6W6L0DnyT/DCPePbZjx8c0KJmD0f8=; b=zOsn6C9BNc2MflepMnSlN271Ez
-	jcuCEM/ttU9k/9/Bmh6qDsr1OxVxh51x23dASoa07JRd3pSCwZyCVsDbsuAk6gwD5Dm5elBjD8RRp
-	0DVg4XMf/5mSB3V3lGhwl2naI3MNldWEgTWoBp3GLhAzGDqeDpdAcPEP4iwZKxCKHDjOiCf9RpyPl
-	cIBVZPx43axdOmD0gBGNZX5f9GmOFxsAVQs8+K23sWcT2CpvoyHY77Y84jeoZsLUshVlb61ByYvl6
-	XYvwk+sTSmbtannJDoRK8J8CA1nENJKwS2FkYk2w8jeAidMYycjwXCJxvilmpqtUm3x/2kjHJ37vT
-	uyJbEugw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JtJ+MO4XKNqk5AYs7Xhigs03k1ve8lY7wV2S7zekqj4=; b=RwrQ+yixwnDC5A6KQ3xf7VS26+
+	sU+qkLwbJIwmie6+EOd8PmVKbcLXJBPuyDmHCArF9os2AYz2b74okhY1N/smaVzKCyCZmwVaOn0ri
+	r3KAXwhheoROVKLrr3OEZG6IrWGxKsP5mq30ylF+/RDHYAB05ATnZ24hNEo4Y5pXUZi7wMhB/Sbj9
+	HuusYqqr4g7/dT+XCFobpG3izi3PIX5Gup+6GmAlsuT2WN580lpYE8picRo9kUTYBsNHZiHpvPG6x
+	NM/n/POkbmpR+TXRgnbZVvwaGTUxBPdEHwSSaPoXRWwhPtJ8K8WZM9SdDZlK8f2pdxtnQUEkibiCh
+	xq7cKopQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmvow-00000005Bdi-00tZ;
-	Mon, 02 Feb 2026 15:26:34 +0000
-Received: from foss.arm.com ([217.140.110.172])
-	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmvot-00000005BdB-2BqZ
+	id 1vmwPg-00000005GIO-34c5;
+	Mon, 02 Feb 2026 16:04:32 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vmwPe-00000005GHz-0mD5
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Feb 2026 15:26:32 +0000
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 597E8339;
-	Mon,  2 Feb 2026 07:26:23 -0800 (PST)
-Received: from [10.57.54.50] (unknown [10.57.54.50])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE12F3F740;
-	Mon,  2 Feb 2026 07:26:27 -0800 (PST)
-Message-ID: <d82514f1-4c9b-490c-b4db-e259337cd16f@arm.com>
-Date: Mon, 2 Feb 2026 15:26:25 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Mon, 02 Feb 2026 16:04:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 0EE2D40631;
+	Mon,  2 Feb 2026 16:04:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BFA7C116C6;
+	Mon,  2 Feb 2026 16:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770048268;
+	bh=i9C4x2L6jLrWK55vr+wvHQqCEdNNkxwb2ocUf8llZi8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oveCre4dLd+PAyAP86LxStRh0GyZ4GupsC7r9LgN8M+YbpuHGARne83Di/WLjBoPj
+	 sliBZcMcVd95bhSMJiIB1Eu0HssWYbvbEz06Se65JZ5onDcrktxIL/yKbgFtC8J9FS
+	 dxOff70nKtfyn2F+wTYigEblungU6+wAYtI5jn44QmjOz3YmpO9Gb3KqoKufMUbjpr
+	 nZ0U78yMmpO+3Bfs7+iXPXS2wUAs52StbzXodSeYw/YmObV2vTeSXc9wW0MoJzmdxO
+	 n3M9kQ9aCixABgcsdvJgfm0dZhrCYORNJ4iJtNg7ImavkOFgcHYTk0MoEROVvGlZE4
+	 oE7QnSz5b8h3A==
+Date: Mon, 2 Feb 2026 17:58:04 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>,
+	kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	nitin.rawat@oss.qualcomm.com,
+	Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
 Subject: Re: [PATCH V1] nvme-pci: Fix NULL pointer dereference in
  nvme_pci_prp_iter_next
-To: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>, kbusch@kernel.org,
- axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, nitin.rawat@oss.qualcomm.com,
- Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
-References: <20260202125738.1194899-1-pradeep.pragallapati@oss.qualcomm.com>
- <20260202143548.GA19313@lst.de> <20260202152252.GM34749@unreal>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260202152252.GM34749@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <20260202155804.GN34749@unreal>
+References: <20260202143548.GA19313@lst.de>
+ <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260202_072631_882171_4C8BC448 
-X-CRM114-Status: GOOD (  21.12  )
+X-CRM114-CacheID: sfid-20260202_080430_241552_8E2F30D6 
+X-CRM114-Status: GOOD (  18.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,70 +77,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026-02-02 3:22 pm, Leon Romanovsky wrote:
-> On Mon, Feb 02, 2026 at 03:35:48PM +0100, Christoph Hellwig wrote:
->> On Mon, Feb 02, 2026 at 06:27:38PM +0530, Pradeep P V K wrote:
->>> Fix a NULL pointer dereference that occurs in nvme_pci_prp_iter_next()
->>> when SWIOTLB bounce buffering becomes active during runtime.
->>>
->>> The issue occurs when SWIOTLB activation changes the device's DMA
->>> mapping requirements at runtime,
->>>
->>> creating a mismatch between
->>> iod->dma_vecs allocation and access logic.
->>>
->>> The problem manifests when:
->>> 1. Device initially operates with dma_skip_sync=true
->>>     (coherent DMA assumed)
->>> 2. First SWIOTLB mapping occurs due to DMA address limitations,
->>>     memory encryption, or IOMMU bounce buffering requirements
->>> 3. SWIOTLB calls dma_reset_need_sync(), permanently setting
->>>     dma_skip_sync=false
->>> 4. Subsequent I/Os now have dma_need_unmap()=true, requiring
->>>     iod->dma_vecs
->>
->> I think this patch just papers over the bug.
+On Mon, Feb 02, 2026 at 03:16:50PM +0000, Robin Murphy wrote:
+> On 2026-02-02 2:35 pm, Christoph Hellwig wrote:
+> > On Mon, Feb 02, 2026 at 06:27:38PM +0530, Pradeep P V K wrote:
+> > > Fix a NULL pointer dereference that occurs in nvme_pci_prp_iter_next()
+> > > when SWIOTLB bounce buffering becomes active during runtime.
+> > > 
+> > > The issue occurs when SWIOTLB activation changes the device's DMA
+> > > mapping requirements at runtime,
+> > > 
+> > > creating a mismatch between
+> > > iod->dma_vecs allocation and access logic.
+> > > 
+> > > The problem manifests when:
+> > > 1. Device initially operates with dma_skip_sync=true
+> > >     (coherent DMA assumed)
+> > > 2. First SWIOTLB mapping occurs due to DMA address limitations,
+> > >     memory encryption, or IOMMU bounce buffering requirements
+> > > 3. SWIOTLB calls dma_reset_need_sync(), permanently setting
+> > >     dma_skip_sync=false
+> > > 4. Subsequent I/Os now have dma_need_unmap()=true, requiring
+> > >     iod->dma_vecs
+> > 
+> > I think this patch just papers over the bug.  If dma_need_unmap
+> > can't be trusted before the dma_map_* call, we've not saved
+> > the unmap information and the unmap won't work properly.
 > 
-> Agree
+> The dma_need_unmap() kerneldoc says:
 > 
->> If dma_need_unmap can't be trusted before the dma_map_* call, we've not saved
->> the unmap information and the unmap won't work properly.
->>
->> So we'll need to extend the core code to tell if a mapping
->> will set dma_skip_sync=false before doing the mapping.
+> "This function must be called after all mappings that might
+>  need to be unmapped have been performed."
 > 
-> There are two paths that lead to SWIOTLB in dma_direct_map_phys().
-> The first is is_swiotlb_force_bounce(dev), which dma_need_unmap() can
-> easily evaluate. The second is more problematic, as it depends on
-> dma_addr and size, neither of which is available in dma_need_unmap():
-> 
->    102                 if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
->    103                     dma_kmalloc_needs_bounce(dev, size, dir)) {
->    104                         if (is_swiotlb_active(dev))
-> 
-> What about the following change?
-> 
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 37163eb49f9f..1510b93a8791 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -461,6 +461,8 @@ bool dma_need_unmap(struct device *dev)
->   {
->          if (!dma_map_direct(dev, get_dma_ops(dev)))
->                  return true;
-> +       if (is_swiotlb_force_bounce(dev) || is_swiotlb_active(dev))
-> +               return true;
+> Trying to infer anything from it beforehand is definitely a bug in the
+> caller.
 
-This will always be true if a default SWIOTLB buffer exists at all, and 
-thus pretty much defeat the point of whatever optimisation the caller is 
-trying to make.
+At least for HMM, dma_need_unmap() works as expected. HMM doesn't work
+with SWIOTLB.
 
-Thanks,
-Robin.
-
->          if (!dev->dma_skip_sync)
->                  return true;
->          return IS_ENABLED(CONFIG_DMA_API_DEBUG);
-> 
-
+Thanks
 
