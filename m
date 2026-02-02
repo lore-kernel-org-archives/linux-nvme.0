@@ -4,56 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3990BE7DEFB
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Feb 2026 16:10:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBF24E7DF0F
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Feb 2026 17:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9f2cQ+JTUDi5r2PU42FHIqeKjn3jU9sQjf7xROhquGk=; b=tHSaY0inPCr8r/av9MOmr+HOp0
-	AIe10JVnDyAQ+Saxq0frRd5Mp1KmTrKtLOdoqfqOE7ie+N3di3XGJZvqjtHm1uuBlQm19Jx29XgzJ
-	9wAryKA9vhNC51GHaJJs77x3KZKRPBF/AgaJ0/yfcGwQvWFCVkaBegVmTa5SlQWIsnwCpInMSIZe+
-	r7/wC1s3rijFBolPfmq5ryPvKofw1BxUsuKNxd6mmbIE64KQUc2J6SUq5UDuwqGfW7W61BHFz0wUd
-	pOPKL1aqb5k2DLL4YYDxRUtLV/ggjAInJ/fLuVQ5LwwLJfIl2MYMBi8aSGBrGYaMMv3IzTzFb6mqm
-	sWSr8fRg==;
+	bh=AHybV3doxleWHkR/bk785MWqGcxVGFlonO2D/UGWE6Q=; b=ZvJVLh2w9tW5pApUH/okMstylB
+	+GKeF8hWA3uL7zmK14f/1HXVy9CzlMVSAXUJwi5LY6TeLT2tv8QWEJXB84w35zIyeYGPEsZP3168p
+	pUDim03ndI4LGoGlGEk59K8ZAyUqxbR2d6o4tdZ/QBqXaDM6x2FwbDqO0eXxPpmnz2A0mtKy9jch+
+	Ur0wV5MwamfY11TEeGHG7F+19pF/8HiETKyt7BWGlaKey/GZR6xy4NdO9uBqNwp3Il4UUa5glZ0kg
+	ndJ4RXw9J76HS0jz33n8eN8j2Eo/Sc4MnZ8i3DLY2ymTfQdkDRCfHwez0Xi5m9wx6jObsJYcvNIgw
+	AfkUo5BQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmwVE-00000005GxP-33mU;
-	Mon, 02 Feb 2026 16:10:16 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vmxUQ-00000005LT7-0JpG;
+	Mon, 02 Feb 2026 17:13:30 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vmwVD-00000005Gwr-2d0W
+	id 1vmxUN-00000005LSn-3bhn
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Feb 2026 16:10:15 +0000
+	Mon, 02 Feb 2026 17:13:29 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1895B600B0;
-	Mon,  2 Feb 2026 16:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72F27C116C6;
-	Mon,  2 Feb 2026 16:10:14 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A86EE4372D;
+	Mon,  2 Feb 2026 17:13:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0331EC116C6;
+	Mon,  2 Feb 2026 17:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770048614;
-	bh=9f2cQ+JTUDi5r2PU42FHIqeKjn3jU9sQjf7xROhquGk=;
+	s=k20201202; t=1770052406;
+	bh=PnTeSEz/9pjprKiZcct6cCdCrR2nu+Q2US70gjU2hzI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hco48qHS6q4lTNZ/IqEJHVYZpIqTNur2Ji+5GenPtTQbctvY6vmD70tbOSGanN964
-	 KQ49GSrWTdRco4tZxisSR55kHr7sTvVx9CdR2RzfNDDzdk9mZ8hKtihsawAB1o8pBF
-	 uVNu+YgVdCeHntc5vccFJ9SqYhmD7b921usxEjI0M8n6Q4AB22M4q7p4PeoQ6/4Up7
-	 5+SICC9haWM4Cq3oq6Rgmm2ecHHq6G+7j0APNhKlTsbcHGmnWxMyE4Bh3F4UOYEYLY
-	 sbLVzOwzOWSAeYzxtUGE9UpVciNFFKXJ/XYr1ZWuX1VL3sREMY9pLPlAy9kxh8TTTc
-	 yNVJI99lDOfVw==
-Date: Mon, 2 Feb 2026 09:10:12 -0700
+	b=efyVT4MmoBoIf9WD108SCrIdqsSzieOnfwoWnz9AkYkccIfV9kRfDX6XRrXJJDc4t
+	 Wewq/KwtZT9e7qlbh8DhLNDkjnpl1w9gd25yaIKGA3hHlZ2uE1aqgO61E8dF5lsahA
+	 tU1CqY/UCbcCkm1D4mziGz5DMwAOMslDzFJYFCcZ8OX7QhqquhGD8S7k3UIBwQrC+o
+	 CiOGI1Ur+L3pCmCw4J8Qr8hVMNGPt/ZjveCIL0v1CRGZYd1QiVPvfTym1Gi9TYIR1f
+	 QL7u7T6u+hSHt26jPsMvc7pjztrUxXAtGl2WZ1XQHezG2yDL8uTjpV77q+2w0iLoVI
+	 VHzSaufqcPAtQ==
+Date: Mon, 2 Feb 2026 10:13:24 -0700
 From: Keith Busch <kbusch@kernel.org>
-To: Daniel Hodges <hodgesd@meta.com>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme-fabrics: use kfree_sensitive() for DHCHAP secrets
-Message-ID: <aYDMZO7el37ZPQTE@kbusch-mbp>
-References: <20260201030840.3173507-1-hodgesd@meta.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>,
+	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, nitin.rawat@oss.qualcomm.com,
+	Leon Romanovsky <leon@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
+Subject: Re: [PATCH V1] nvme-pci: Fix NULL pointer dereference in
+ nvme_pci_prp_iter_next
+Message-ID: <aYDbNC1z81D3lZ2r@kbusch-mbp>
+References: <20260202143548.GA19313@lst.de>
+ <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260201030840.3173507-1-hodgesd@meta.com>
+In-Reply-To: <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260202_091328_220415_347E6F99 
+X-CRM114-Status: GOOD (  19.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,11 +77,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Jan 31, 2026 at 07:08:40PM -0800, Daniel Hodges wrote:
-> The DHCHAP secrets (dhchap_secret and dhchap_ctrl_secret) contain
-> authentication key material for NVMe-oF. Use kfree_sensitive() instead
-> of kfree() in nvmf_free_options() to ensure secrets are zeroed before
-> the memory is freed, preventing recovery from freed pages.
+On Mon, Feb 02, 2026 at 03:16:50PM +0000, Robin Murphy wrote:
+> On 2026-02-02 2:35 pm, Christoph Hellwig wrote:
+> > On Mon, Feb 02, 2026 at 06:27:38PM +0530, Pradeep P V K wrote:
+> > > Fix a NULL pointer dereference that occurs in nvme_pci_prp_iter_next()
+> > > when SWIOTLB bounce buffering becomes active during runtime.
+> > > 
+> > > The issue occurs when SWIOTLB activation changes the device's DMA
+> > > mapping requirements at runtime,
+> > > 
+> > > creating a mismatch between
+> > > iod->dma_vecs allocation and access logic.
+> > > 
+> > > The problem manifests when:
+> > > 1. Device initially operates with dma_skip_sync=true
+> > >     (coherent DMA assumed)
+> > > 2. First SWIOTLB mapping occurs due to DMA address limitations,
+> > >     memory encryption, or IOMMU bounce buffering requirements
+> > > 3. SWIOTLB calls dma_reset_need_sync(), permanently setting
+> > >     dma_skip_sync=false
+> > > 4. Subsequent I/Os now have dma_need_unmap()=true, requiring
+> > >     iod->dma_vecs
+> > 
+> > I think this patch just papers over the bug.  If dma_need_unmap
+> > can't be trusted before the dma_map_* call, we've not saved
+> > the unmap information and the unmap won't work properly.
+> 
+> The dma_need_unmap() kerneldoc says:
+> 
+> "This function must be called after all mappings that might
+>  need to be unmapped have been performed."
+> 
+> Trying to infer anything from it beforehand is definitely a bug in the
+> caller.
 
-Thanks, applied to nvme-7.0.
+Well that doesn't really make sense. No matter how many mappings the
+driver has done, there will always be more. ?
 
