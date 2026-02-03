@@ -4,108 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23E13E87823
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Feb 2026 13:03:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09A76E87829
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Feb 2026 13:50:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ORAUrY7CCq6jnbgHciSir0WahqPaeKKQcXCTgEj0Tug=; b=emkSAM5H9jHhUu9zdDfn9H3Nho
-	SkefykbRmWwQINoJQBPBxL30lYunlxv9Z1Y/J4NG6RPtNPSAIuQPGzOST9Jccw+0RKfBsYRRWZWEu
-	n3YFuCRWIFGdlw3lrL6I3/vB4ON6U7gCwqTVg6zaMj5KZWlvBhqPGlFT0DitzCupe+qnVmdifYbC4
-	Zmy4/IwA9ed1I3cBye2dNeHf9fMXJJ+1+YRvTJ1jdIpM0WmdcXbWS4IpLJQJWm/XWvYlfNzxwNSrY
-	iV8nn8GWK8uF4YqllnJrVz1FB2lYqeKeeEej2tpPZX1OsSEgIJqjEKY78JnfGZQez3nKqJ/YkEKrg
-	qCRUtVcQ==;
+	bh=Go9eQ9VjpjtYLnPn84LjPSh+9PLJEghIT0dh62MZDrQ=; b=x0pdS1pXqpihDElYIBjg5W157A
+	Q0m7CAYFQ+Gv74rSuS+M1gRLlukrnb2c/an48kAQcFZn2D30eHQkUvO6ui3YB4JUWez7sBo4fC1JK
+	HYclURN6c6FhZZdvZuLT/Z665g8Vj9WFljvC+Kj2HRoV0portd7ryr8xJz9rg/ReB0pYuVsfCzsyq
+	XKodbhHDQuTnm7XsL3xhoFR1e+Qud+cTLi1l8xq0J8ekNC3DBgECt0KQJ2yJwkIk6XDWoJnyBx8r5
+	7d0iyGfmS59ipRNM5L0es5CzG+uyxDYrUjrlmx/5QzZZn0z9kvPyBbtPIlIPp2hVdLJcpB+2cBoeg
+	dK6JGkQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnG4O-00000006dZS-1CbR;
-	Tue, 03 Feb 2026 13:03:52 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnG4M-00000006dZ7-0XTe
+	id 1vnGnP-00000006i6l-0uQT;
+	Tue, 03 Feb 2026 13:50:23 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vnGnL-00000006i6O-03JA
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Feb 2026 13:03:51 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 6139ZIQq022223;
-	Tue, 3 Feb 2026 13:03:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ORAUrY
-	7CCq6jnbgHciSir0WahqPaeKKQcXCTgEj0Tug=; b=U/VRUbIuwKy/ZxZw6taqmD
-	cadbMXW48kNMxhoxH5SoKcoLWJh9nr4FG/k2PKLFE62iBUiM+IS+oL2m7DSf3W/1
-	iweCv81XIVJfGeitV/N7AN2Qh/rX2HZQ+vUs28i1yjKaWrAekdC44cWPf93h9K/b
-	u2S976gZb4bLu1zFGVthfXfEvI2T5cDC13AGz8ObUNZCMKR3yqz6VSkTuT1PnxTK
-	b17/LHjLJJ+GKZxQvsIEE1v/aL3qj1pmEdDT2k/+RP7FbrKEpW2+4Td+a13JXIRS
-	ERR3qzREybD4NU3f3+EBAI6lQQvkzbCKD6Ln7lUpwWP6M7HR6v+l3hYDD/6E5e+w
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c19dt5d1y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Feb 2026 13:03:36 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 613AsGls025696;
-	Tue, 3 Feb 2026 13:03:35 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4c1w2ms6g5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Feb 2026 13:03:35 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 613D3X6W24904210
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 3 Feb 2026 13:03:34 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AF8C258061;
-	Tue,  3 Feb 2026 13:03:33 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 26BC358059;
-	Tue,  3 Feb 2026 13:03:29 +0000 (GMT)
-Received: from [9.111.10.240] (unknown [9.111.10.240])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  3 Feb 2026 13:03:28 +0000 (GMT)
-Message-ID: <a5a9cee9-361d-443d-ab62-662ecdaf0238@linux.ibm.com>
-Date: Tue, 3 Feb 2026 18:33:26 +0530
+	Tue, 03 Feb 2026 13:50:21 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33860339;
+	Tue,  3 Feb 2026 05:50:10 -0800 (PST)
+Received: from [10.57.54.50] (unknown [10.57.54.50])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E1E63F632;
+	Tue,  3 Feb 2026 05:50:14 -0800 (PST)
+Message-ID: <4e375e54-e141-473c-ae71-fc013268d057@arm.com>
+Date: Tue, 3 Feb 2026 13:50:12 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] nvme: export additional diagnostic counters via sysfs
-To: Ming Lei <ming.lei@redhat.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@kernel.dk,
-        hch@lst.de, sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
-        wenxiong@linux.ibm.com, gjoyce@ibm.com
-References: <20260130182028.885089-1-nilay@linux.ibm.com>
- <CAFj5m9KuHZKoqRMeyM6UpoZsVrhg32stx5piEY4BBA-+xkiJPA@mail.gmail.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <CAFj5m9KuHZKoqRMeyM6UpoZsVrhg32stx5piEY4BBA-+xkiJPA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDA5OCBTYWx0ZWRfX9ONkztqxuKTC
- PCLkk4yg8IC4YMtw4eF0SDJAQEv7XVaHJavycXM7YQRd5Kb+FhbzIQbjVVvPeX+vKRREUD5JD3O
- rKb2xeMqQft7GgZYSOPLdX130t63FVU5xebmbPJsITHShsIgWyDxw2k2AbtmoZX/MeBqGHv+LLF
- 48eqgfaUUXU/MTuBy0WBtzjwDmuw0wVydXMHtsIioEbvwXD4ZOj9Yo30Rnl2mSVxWQoi+lUoYKH
- nUpD8c0g3udnE26Y67F9qTuM8XNCrLed4kCEEXg5Bwq7Tt3zx4Z5QjtEhk7xC8TiMwI7dxRkURR
- 69n1YyN5DGou9nIOBQgQDohRCqpSAAAnBh37PDR0dXst5zaTJ0p8hv2X3Tk1dj+qaEii7+Mc5ya
- 6AW7alpPy2EI5tKRE7Pwc21RvcalgoSBSyycutqR6kPrcj+2V2k2zO+WCvbUJyi6MLTNMrCbbRA
- DWF9J9K/JAnrodLeSrw==
-X-Proofpoint-GUID: DHXtQnKr4TSf41wWEdAQIYlaTj-H2Lcy
-X-Proofpoint-ORIG-GUID: DHXtQnKr4TSf41wWEdAQIYlaTj-H2Lcy
-X-Authority-Analysis: v=2.4 cv=LesxKzfi c=1 sm=1 tr=0 ts=6981f228 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VnNF1IyMAAAA:8 a=Cw-_W6gQ4LCMQt-w7yQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-03_04,2026-02-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
- adultscore=0 suspectscore=0 priorityscore=1501 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2601150000 definitions=main-2602030098
+Subject: Re: [PATCH V1] nvme-pci: Fix NULL pointer dereference in
+ nvme_pci_prp_iter_next
+To: Leon Romanovsky <leon@kernel.org>, Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+ Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>, axboe@kernel.dk,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, nitin.rawat@oss.qualcomm.com,
+ Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
+References: <20260202143548.GA19313@lst.de>
+ <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com> <aYDbNC1z81D3lZ2r@kbusch-mbp>
+ <20260202173624.GA32713@lst.de> <aYDz-BeIHMNUMiaF@kbusch-mbp>
+ <20260203094247.GP34749@unreal>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260203094247.GP34749@unreal>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260203_050350_192179_623D9D3D 
-X-CRM114-Status: GOOD (  17.13  )
+X-CRM114-CacheID: sfid-20260203_055019_136685_D58EB030 
+X-CRM114-Status: GOOD (  21.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,35 +71,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2/3/26 5:56 PM, Ming Lei wrote:
-> On Sat, Jan 31, 2026 at 2:22 AM Nilay Shroff <nilay@linux.ibm.com> wrote:
+On 2026-02-03 9:42 am, Leon Romanovsky wrote:
+> On Mon, Feb 02, 2026 at 11:59:04AM -0700, Keith Busch wrote:
+>> On Mon, Feb 02, 2026 at 06:36:24PM +0100, Christoph Hellwig wrote:
+>>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>>> index 2a52cf46d960..f944b747e1bd 100644
+>>> --- a/drivers/nvme/host/pci.c
+>>> +++ b/drivers/nvme/host/pci.c
+>>> @@ -816,6 +816,22 @@ static void nvme_unmap_data(struct request *req)
+>>>   		nvme_free_descriptors(req);
+>>>   }
+>>>   
+>>> +static bool nvme_pci_alloc_dma_vecs(struct request *req,
+>>> +		struct blk_dma_iter *iter)
+>>> +{
+>>> +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+>>> +	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+>>> +
+>>> +	iod->dma_vecs = mempool_alloc(nvmeq->dev->dmavec_mempool,
+>>> +			GFP_ATOMIC);
+>>> +	if (!iod->dma_vecs)
+>>> +		return false;
+>>> +	iod->dma_vecs[0].addr = iter->addr;
+>>> +	iod->dma_vecs[0].len = iter->len;
+>>> +	iod->nr_dma_vecs = 1;
+>>> +	return true;
+>>> +}
+>>> +
+>>>   static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
+>>>   		struct blk_dma_iter *iter)
+>>>   {
+>>> @@ -826,6 +842,8 @@ static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
+>>>   	if (!blk_rq_dma_map_iter_next(req, dma_dev, iter))
+>>>   		return false;
+>>>   	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev)) {
+>>> +		if (!iod->nr_dma_vecs && !nvme_pci_alloc_dma_vecs(req, iter))
+>>> +			return false;
 >>
->> Hi,
+>> In the case where this iteration caused dma_need_unmap() to toggle to
+>> true, this is the iteration that allocates the dma_vecs, and it
+>> initializes the first entry to this iter. But the next lines proceed to
+>> the save this iter in the next index, so it's doubly accounted for and
+>> will get unmapped twice in the completion.
 >>
->> The NVMe driver encounters various events and conditions during normal
->> operation that are either not tracked today or not exposed to userspace
->> via sysfs. Lack of visibility into these events can make it difficult to
+>> Also, if the allocation fails, we should set iter->status to
+>> BLK_STS_RESOURCE so the callers know why the iteration can't continue.
+>> Otherwise, the caller will think the request is badly formed if you
+>> return false from here without setting iter->status.
+>>
+>> Here's my quick take. Boot tested with swiotlb enabled, but haven't
+>> tried to test the changing dma_need_unmap() scenario.
+>> ---
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index 9fc4a60280a07..233378faab9bd 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -816,6 +816,28 @@ static void nvme_unmap_data(struct request *req)
+>>   		nvme_free_descriptors(req);
+>>   }
+>>   
+>> +static bool nvme_pci_prp_save_mapping(struct blk_dma_iter *iter,
+>> +				      struct request *req)
+>> +{
+>> +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+>> +
+>> +	if (!iod->dma_vecs) {
+>> +		struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+>> +
+>> +		iod->dma_vecs = mempool_alloc(nvmeq->dev->dmavec_mempool,
+>> +				GFP_ATOMIC);
+>> +		if (!iod->dma_vecs) {
+>> +			iter->status = BLK_STS_RESOURCE;
+>> +			return false;
+>> +		}
+>> +	}
+>> +
+>> +	iod->dma_vecs[iod->nr_dma_vecs].addr = iter->addr;
+>> +	iod->dma_vecs[iod->nr_dma_vecs].len = iter->len;
+>> +	iod->nr_dma_vecs++;
+>> +	return true;
+>> +}
+>> +
+>>   static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
+>>   		struct blk_dma_iter *iter)
+>>   {
+>> @@ -825,11 +847,8 @@ static bool nvme_pci_prp_iter_next(struct request *req, struct device *dma_dev,
+>>   		return true;
+>>   	if (!blk_rq_dma_map_iter_next(req, dma_dev, iter))
+>>   		return false;
+>> -	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev)) {
+>> -		iod->dma_vecs[iod->nr_dma_vecs].addr = iter->addr;
+>> -		iod->dma_vecs[iod->nr_dma_vecs].len = iter->len;
+>> -		iod->nr_dma_vecs++;
+>> -	}
+>> +	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev))
 > 
-> Not sure if it is true, you may get tons of results by googling `linux
-> bpf observe`.
-> 
-Yeah true, and the intent was not to mention/generalize that _no_ NVMe events
-being tracked today. The goal of this patchset is to export specific event and
-statistic counters that are either not tracked at all or not exposed to userspace
-in a consistent way, and that could be useful for analyzing NVMe device and
-multipath behavior.
-So this patchset proposes to track these counters (command retry, failover, errors,
-I/O requeue, controller reset/reconnect etc.) and export via sysfs. These counters
-are intended to be consumed by tools such as nvme-cli/nvme-top. For nvme-cli, in
-particular, sysfs is currently the only practical and supported interface for
-consuming such statistics. 
-Once these counters exist in the kernel, they can of course also be observed via
-BPF if desired. However, the primary motivation here is to make these events
-explicitly tracked and reliably available, rather than requiring ad-hoc instrumentation
-to infer them.
+> Can dev->dma_skip_sync be modified in parallel with this check?
+> If so, dma_need_unmap() may return different results depending on the
+> time at which it is invoked.
+
+It can if another thread is making mappings in parallel, however as 
+things currently stand that would only lead to the current thread 
+thinking it must save the unmap state for the mappings it's already made 
+even if it technically didn't need to.
+
+In principle it could also change back the other way if another thread 
+reset the device's DMA mask, but doing that with active mappings would 
+fundamentally break things in regard to the dma_skip_sync mechanism anyway.
 
 Thanks,
---Nilay
+Robin.
+
+> 
+>> +		return nvme_pci_prp_save_mapping(iter, req);
+> 
+> Thanks
+
 
