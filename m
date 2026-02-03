@@ -4,48 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A70B4E83058
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Feb 2026 06:14:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9174AE83056
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Feb 2026 06:23:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cdIVbyyRie03PhPOAYQJRMWzaX561jLlwz1v3KDW/X0=; b=z70eahCUlnsclA/t8Bvgm5CEwb
-	JughRePIeKa0cW+Wzf576VKXGWY6sgFvR+Oh9oyjVaFtVd98Z+ROou6GiHb2a2AAAPwl6NqQkcwz6
-	JjJmapvQSEES8zIXEH7ihMRI0tdlhc2/wgsX+qNd0LUS3N0Uii8r8sTLSDEkItPx0ZelYi67sUnP+
-	fRQub8yXXv5WiYDqtE406x0q8Y6dl1GgFAoJNp1d7qlvP7Y9Qv39mDV0ylyNbvnUF4MgiHl3u06k3
-	YzqNbCJ18iWBpRIE7P5y3xXXoEqTi5E/vNqPQxf456vaGgvTmTNOCSxki06tcgRYPYW+gK7ECbSkq
-	PZ3dGTiQ==;
+	bh=J3pEPKhfGz33euKMKqbnesG7l9sRdD9433OJM3NH6d4=; b=Bbky0W9idj4dsswrWNdW4TD/Y0
+	Z+PJ9rSpQXwsKCyTANAGJYs0I/4OD3r1V99a+WRxyrpgNn4a1e4y325CnYWxfT3IQ9zrLVOB1m2K/
+	u298PJK5X+xG28so1gChgMkIjpTjx2zONGVAaLcTDKXI7ygZYiS7qxXZRph1vOZ1sFF7OQS2TNPLs
+	ol+2hCEiEMkt8YbdbO/QKXQu9s8LPGQV2CAFAMBDOcI2tZPauR6keJ7gmW2onKcBX+jvEsVsEd0Qq
+	FOUTlcyGrkiv0Bk8bLsD+skWEfJU7As4uKeG8wMLvXG0au7vzZ4H1TnYckjKYtAcRydQjaBStGLBu
+	O5ccCWRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vn9gD-00000006AbN-1PID;
-	Tue, 03 Feb 2026 06:14:29 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vn9p5-00000006BAD-2ybr;
+	Tue, 03 Feb 2026 06:23:39 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vn9gB-00000006AbH-2kze
+	id 1vn9p3-00000006B9q-1feC
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Feb 2026 06:14:27 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9D04660128;
-	Tue,  3 Feb 2026 06:14:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7C0AC116D0;
-	Tue,  3 Feb 2026 06:14:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770099266;
-	bh=ZRLmHQ6WbGoWDl85DpVVViz2f0mnbKfHUjBEQxspXaU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a25gm59zkLTTTg5ib78zaGpSNSL4Z6hzL/0K/yF7DtEms6jmUt9YfklXea7FgMouW
-	 WDUl/EBex3Y5zOJhH81rog+QdTvd7+K1XjlNyHrUotRdJNX8eHJzCS2cCyjcRmEd0E
-	 6gdAcQhw3MvR7RaSAry3teiFQB6EBjViY/I6eWu1HSdCFDsPpdsNtDaeLYMpotPxi4
-	 IHi1qDDgLqLWJiwZa2WGNEhXV4O7Hour/RMl/NUaHh84RBjg526pxDZPy/Up7cDE/Y
-	 sKJCd5dlwXerhQwVj/Cy/Bdn81SaDz0AmRIuGOPSfh8UYBbM/LWIwzdqXe/FQQa7Es
-	 g/f1M/xzuCzQA==
-Date: Mon, 2 Feb 2026 23:14:23 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>,
+	Tue, 03 Feb 2026 06:23:38 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id F135868B05; Tue,  3 Feb 2026 07:23:34 +0100 (CET)
+Date: Tue, 3 Feb 2026 07:23:34 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
 	Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>,
 	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org, nitin.rawat@oss.qualcomm.com,
@@ -53,17 +40,16 @@ Cc: Robin Murphy <robin.murphy@arm.com>,
 	Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
 Subject: Re: [PATCH V1] nvme-pci: Fix NULL pointer dereference in
  nvme_pci_prp_iter_next
-Message-ID: <aYGSP4luf1nOFhS2@kbusch-mbp>
-References: <20260202143548.GA19313@lst.de>
- <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com>
- <aYDbNC1z81D3lZ2r@kbusch-mbp>
- <20260202173624.GA32713@lst.de>
- <aYDz-BeIHMNUMiaF@kbusch-mbp>
- <20260203052756.GA15839@lst.de>
+Message-ID: <20260203062334.GI16426@lst.de>
+References: <20260202143548.GA19313@lst.de> <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com> <aYDbNC1z81D3lZ2r@kbusch-mbp> <20260202173624.GA32713@lst.de> <aYDz-BeIHMNUMiaF@kbusch-mbp> <20260203052756.GA15839@lst.de> <aYGSP4luf1nOFhS2@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203052756.GA15839@lst.de>
+In-Reply-To: <aYGSP4luf1nOFhS2@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260202_222337_602404_D05E3074 
+X-CRM114-Status: GOOD (  18.78  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,22 +64,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 03, 2026 at 06:27:56AM +0100, Christoph Hellwig wrote:
-> >  	iod->nr_descriptors = 0;
-> >  	iod->total_len = 0;
-> >  	iod->meta_total_len = 0;
-> > +	iod->nr_dma_vecs = 0;
-> > +	iod->dma_vecs = NULL;
+On Mon, Feb 02, 2026 at 11:14:23PM -0700, Keith Busch wrote:
+> On Tue, Feb 03, 2026 at 06:27:56AM +0100, Christoph Hellwig wrote:
+> > >  	iod->nr_descriptors = 0;
+> > >  	iod->total_len = 0;
+> > >  	iod->meta_total_len = 0;
+> > > +	iod->nr_dma_vecs = 0;
+> > > +	iod->dma_vecs = NULL;
+> > 
+> > I don't think we need the dma_vecs initialization here, as everything
+> > is keyed off nr_dma_vecs.
 > 
-> I don't think we need the dma_vecs initialization here, as everything
-> is keyed off nr_dma_vecs.
+> Yes, we should definitely use nr_dma_vecs and skip the NULL setting. I'm
+> a big fan removing unnecessary initialisations. Just a caution, my
+> suggested patch has this check:
+> 
+> 	if (!iod->dma_vecs)
+> 
+> So we just need to update it to use 'iod->nr_dma_vecs' instead, which
+> would have been correct, too.
 
-Yes, we should definitely use nr_dma_vecs and skip the NULL setting. I'm
-a big fan removing unnecessary initialisations. Just a caution, my
-suggested patch has this check:
-
-	if (!iod->dma_vecs)
-
-So we just need to update it to use 'iod->nr_dma_vecs' instead, which
-would have been correct, too.
+Ah, right.
 
