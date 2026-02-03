@@ -4,138 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DA06DE83056
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Feb 2026 05:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 957FFE83052
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Feb 2026 05:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rh0xU695TVYBorZV9UppFbW847oFW59eekzt+WpK9WM=; b=jV5hhLHwJcTfR0vV34Qt8uA+os
-	ExbMrRcIbBzyO1MFBY0WM8dDdmDkL0tTUCe4qiwyzqYx6Yi3blaa5axAvpbBcNppXPqPMtKzagTpq
-	nT9kYtcdpQeY2Q5DktRZh/S7AapBWY3sNjRgvRK8oijw5mo68FtCyKzYA9paV8r2Nxb5yYdX6wYgy
-	hWvP28BPUuKss6cZb4V8zcFkb3xZxip4PZt/Z7wI7s2YHMvZawEJfru87c1mOsd0WYckQW3OE5VnD
-	64lzUdEqPMhrrMejVb/82AejKPVBafmaRlBqIfzFeDbEvdIo/jK+1693auNpPnKBPd6JHRupWtlUc
-	2npXExZg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sFJiMK2yninrUK3zeL6bEIsAtLo3Xl48E97RFmzuFMs=; b=rOjiuaHqmf6mLv6MmaeBXS0tkI
+	7MqOFr9oD4+Ks4Qq7puaudkH3n2YI1tF96Phzd6wSc35g62u8H1nsTD9AzzQ4J91Z3/NI3zCgISnR
+	iy46mz4E/xbOdKy7SiHhSxQhuPi4SwPvAhuUrTaaj8B3ekMe7YabeQ1YGmmlhwtkpd8sw7YvOqWQ4
+	Z8Rp+qK1gcc0GzdVSvABfggBp5OaMvvEe01hqXAVO+U+XgeP9y8PhUdVPnI7Ilu7najvlOKNiEHVm
+	KvVgIWA28Ieo8BhCmXvmIZD7oyYqVyI/tVeRJwoMrCA3gKZtWhtdTP9fgKhorPzbU4jbZ+IHW+APX
+	9ft8PJqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vn8sE-0000000663m-0dLX;
-	Tue, 03 Feb 2026 05:22:50 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1vn8xJ-000000066M3-44zG;
+	Tue, 03 Feb 2026 05:28:05 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vn8sB-0000000663P-3LMN
+	id 1vn8xG-000000066LP-2RuU
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Feb 2026 05:22:49 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BE2CF5BCDB;
-	Tue,  3 Feb 2026 05:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770096165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rh0xU695TVYBorZV9UppFbW847oFW59eekzt+WpK9WM=;
-	b=BlL2R6Ea3iSC/PE9qp6O+6HWbZdgcIR3nBLpnkRbbytKae+wSZX9Cl8dEAkd6iYEh9xHht
-	8doTEWmReLLUsRZqbpAwSCU8wgFzPC+/whq5pc8d1IErRGfZdiuhnsmihl8OhNl/+3s3nQ
-	zNti7PSQB0WGh5xTQWqFOlO1GQ6W0+A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770096165;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rh0xU695TVYBorZV9UppFbW847oFW59eekzt+WpK9WM=;
-	b=mzs6H+lFJGHgYT1O8MdXnFDBC9b+OmV1t3CXCNswkDIJpofYwNyV6st1WvS7AhfwtbJuHS
-	ko/Ix1nsUO4GlrCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BlL2R6Ea;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mzs6H+lF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770096165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rh0xU695TVYBorZV9UppFbW847oFW59eekzt+WpK9WM=;
-	b=BlL2R6Ea3iSC/PE9qp6O+6HWbZdgcIR3nBLpnkRbbytKae+wSZX9Cl8dEAkd6iYEh9xHht
-	8doTEWmReLLUsRZqbpAwSCU8wgFzPC+/whq5pc8d1IErRGfZdiuhnsmihl8OhNl/+3s3nQ
-	zNti7PSQB0WGh5xTQWqFOlO1GQ6W0+A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770096165;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rh0xU695TVYBorZV9UppFbW847oFW59eekzt+WpK9WM=;
-	b=mzs6H+lFJGHgYT1O8MdXnFDBC9b+OmV1t3CXCNswkDIJpofYwNyV6st1WvS7AhfwtbJuHS
-	ko/Ix1nsUO4GlrCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 032713EA62;
-	Tue,  3 Feb 2026 05:22:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VO8fIiCGgWnNNAAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 03 Feb 2026 05:22:40 +0000
-Message-ID: <431d225b-266f-431c-b3a5-03e033a2f63d@suse.de>
-Date: Tue, 3 Feb 2026 06:22:38 +0100
+	Tue, 03 Feb 2026 05:28:04 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 274B568AFE; Tue,  3 Feb 2026 06:27:57 +0100 (CET)
+Date: Tue, 3 Feb 2026 06:27:56 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Pradeep P V K <pradeep.pragallapati@oss.qualcomm.com>,
+	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, nitin.rawat@oss.qualcomm.com,
+	Leon Romanovsky <leon@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>, iommu@lists.linux.dev
+Subject: Re: [PATCH V1] nvme-pci: Fix NULL pointer dereference in
+ nvme_pci_prp_iter_next
+Message-ID: <20260203052756.GA15839@lst.de>
+References: <20260202143548.GA19313@lst.de> <dc34c246-d6ba-4c2e-8593-6fe32a616174@arm.com> <aYDbNC1z81D3lZ2r@kbusch-mbp> <20260202173624.GA32713@lst.de> <aYDz-BeIHMNUMiaF@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/14] nvme: Implement cross-controller reset
- completion
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Justin Tee <justin.tee@broadcom.com>,
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
- Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Aaron Dailey <adailey@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>,
- Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
- <20260130223531.2478849-10-mkhalfella@purestorage.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260130223531.2478849-10-mkhalfella@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,purestorage.com:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[purestorage.com,broadcom.com,gmail.com,nvidia.com,lst.de,kernel.dk,kernel.org,grimberg.me];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: BE2CF5BCDB
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aYDz-BeIHMNUMiaF@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260202_212247_995010_260A7388 
-X-CRM114-Status: GOOD (  24.99  )
+X-CRM114-CacheID: sfid-20260202_212802_799040_942EEEA7 
+X-CRM114-Status: GOOD (  20.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,131 +64,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 1/30/26 23:34, Mohamed Khalfella wrote:
-> An nvme source controller that issues CCR command expects to receive an
-> NVME_AER_NOTICE_CCR_COMPLETED when pending CCR succeeds or fails. Add
-> sctrl->ccr_work to read NVME_LOG_CCR logpage and wakeup any thread
-> waiting on CCR completion.
+On Mon, Feb 02, 2026 at 11:59:04AM -0700, Keith Busch wrote:
+> In the case where this iteration caused dma_need_unmap() to toggle to
+> true, this is the iteration that allocates the dma_vecs, and it
+> initializes the first entry to this iter. But the next lines proceed to
+> the save this iter in the next index, so it's doubly accounted for and
+> will get unmapped twice in the completion.
+
+Yeah.
+
+> Also, if the allocation fails, we should set iter->status to
+> BLK_STS_RESOURCE so the callers know why the iteration can't continue.
+> Otherwise, the caller will think the request is badly formed if you
+> return false from here without setting iter->status.
 > 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> ---
->   drivers/nvme/host/core.c | 49 +++++++++++++++++++++++++++++++++++++++-
->   drivers/nvme/host/nvme.h |  1 +
->   2 files changed, 49 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 13e0775d56b4..0f90feb46369 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1901,7 +1901,8 @@ EXPORT_SYMBOL_GPL(nvme_set_queue_count);
->   
->   #define NVME_AEN_SUPPORTED \
->   	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | \
-> -	 NVME_AEN_CFG_ANA_CHANGE | NVME_AEN_CFG_DISC_CHANGE)
-> +	 NVME_AEN_CFG_ANA_CHANGE | NVME_AEN_CFG_CCR_COMPLETE | \
-> +	 NVME_AEN_CFG_DISC_CHANGE)
->   
->   static void nvme_enable_aen(struct nvme_ctrl *ctrl)
->   {
-> @@ -4866,6 +4867,47 @@ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
->   	kfree(log);
->   }
->   
-> +static void nvme_ccr_work(struct work_struct *work)
-> +{
-> +	struct nvme_ctrl *ctrl = container_of(work, struct nvme_ctrl, ccr_work);
-> +	struct nvme_ccr_entry *ccr;
-> +	struct nvme_ccr_log_entry *entry;
-> +	struct nvme_ccr_log *log;
-> +	unsigned long flags;
-> +	int ret, i;
-> +
-> +	log = kmalloc(sizeof(*log), GFP_KERNEL);
-> +	if (!log)
-> +		return;
-> +
-> +	ret = nvme_get_log(ctrl, 0, NVME_LOG_CCR, 0x01,
-> +			   0x00, log, sizeof(*log), 0);
-> +	if (ret)
-> +		goto out;
-> +
-> +	spin_lock_irqsave(&ctrl->lock, flags);
-> +	for (i = 0; i < le16_to_cpu(log->ne); i++) {
-> +		entry = &log->entries[i];
-> +		if (entry->ccrs == NVME_CCR_STATUS_IN_PROGRESS)
-> +			continue;
-> +
-> +		list_for_each_entry(ccr, &ctrl->ccr_list, list) {
-> +			struct nvme_ctrl *ictrl = ccr->ictrl;
-> +
-> +			if (ictrl->cntlid != le16_to_cpu(entry->icid) ||
-> +			    ictrl->ciu != entry->ciu)
-> +				continue;
-> +
-> +			/* Complete matching entry */
-> +			ccr->ccrs = entry->ccrs;
-> +			complete(&ccr->complete);
-> +		}
-> +	}
-> +	spin_unlock_irqrestore(&ctrl->lock, flags);
-> +out:
-> +	kfree(log);
-> +}
-> +
->   static void nvme_fw_act_work(struct work_struct *work)
->   {
->   	struct nvme_ctrl *ctrl = container_of(work,
-> @@ -4942,6 +4984,9 @@ static bool nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
->   	case NVME_AER_NOTICE_DISC_CHANGED:
->   		ctrl->aen_result = result;
->   		break;
-> +	case NVME_AER_NOTICE_CCR_COMPLETED:
-> +		queue_work(nvme_wq, &ctrl->ccr_work);
-> +		break;
->   	default:
->   		dev_warn(ctrl->device, "async event result %08x\n", result);
->   	}
-> @@ -5131,6 +5176,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
->   	nvme_stop_failfast_work(ctrl);
->   	flush_work(&ctrl->async_event_work);
->   	cancel_work_sync(&ctrl->fw_act_work);
-> +	cancel_work_sync(&ctrl->ccr_work);
->   	if (ctrl->ops->stop_ctrl)
->   		ctrl->ops->stop_ctrl(ctrl);
->   }
-> @@ -5254,6 +5300,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->   	ctrl->quirks = quirks;
->   	ctrl->numa_node = NUMA_NO_NODE;
->   	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
-> +	INIT_WORK(&ctrl->ccr_work, nvme_ccr_work);
->   	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
->   	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
->   	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index fa18f580d76a..a7f382e35821 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -366,6 +366,7 @@ struct nvme_ctrl {
->   	struct nvme_effects_log *effects;
->   	struct xarray cels;
->   	struct work_struct scan_work;
-> +	struct work_struct ccr_work;
->   	struct work_struct async_event_work;
->   	struct delayed_work ka_work;
->   	struct delayed_work failfast_work;
+> Here's my quick take. Boot tested with swiotlb enabled, but haven't
+> tried to test the changing dma_need_unmap() scenario.
 
-This confuses me. Why do we call 'complete()' but do not have a 
-corresponding 'wait_for_completion()' call?
+Looks much better.  Cosmetic nits below.
 
-Please merge with the next patch to allow reviewers to have the full
-picture.
+Pradeep, can you test this with your setup?
 
-Cheers,
+> +	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(dma_dev))
+> +		return nvme_pci_prp_save_mapping(iter, req);
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> +	if (!dma_use_iova(&iod->dma_state) && dma_need_unmap(nvmeq->dev->dev))
+> +		if (!nvme_pci_prp_save_mapping(iter, req))
+> +			return iter->status;
+
+I'd move the dma_use_iova / dma_need_unmap checks into
+nvme_pci_prp_save_mapping to simplify this a bit more.
+
+>  
+>  	/*
+>  	 * PRP1 always points to the start of the DMA transfers.
+> @@ -1218,6 +1231,8 @@ static blk_status_t nvme_prep_rq(struct request *req)
+>  	iod->nr_descriptors = 0;
+>  	iod->total_len = 0;
+>  	iod->meta_total_len = 0;
+> +	iod->nr_dma_vecs = 0;
+> +	iod->dma_vecs = NULL;
+
+I don't think we need the dma_vecs initialization here, as everything
+is keyed off nr_dma_vecs.
 
