@@ -4,131 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72B20E8B383
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Feb 2026 01:50:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34554E8B364
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Feb 2026 02:57:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XETh7uCfctdGb2OZaPCWSvV9qkq65+YtZRyPRLnjLfk=; b=TccADd8FbbkT01bTOfdQxu1K06
-	xvw7dz+Y/lQZAQlLLDX8MOImpYraIdtVEj5ozjHyIOzo/2YgVs6yqu8h3a+ZNmv/sn7wsluoSJO+L
-	WxsdhQze7ySuD3XfczNM/gNdCzorD93RznyfWA6YAqiszJ0mC+tzEC4ca2u8RQYi1l/a9BhYMcXNE
-	Op25shz+GNXRYFgMtbkxQfxyxoo3ZLxUrKX8jxFO/K1kgrFZmUUliqhJh5lIWU/KEkjneRa0XijIS
-	GK1SOuQOUFIVy3Mcxcf/iCC7iObC10Y5wK3b7BwcgerRwH+A7Y/W1DfP+IcC3B9o1yYxHX3PSlOAw
-	pqHXiwtQ==;
+	bh=9IWiKbE6cJTBVaa+480dfdPNb/egc8AygC/qhDUu/tE=; b=m1ysN20FN+CgNdMraO7rm+Fm0+
+	XEB3me/yhQgHG2Om/X22cC3lynZeyPzMHC87FNVMVYSgLTCeHDfQbh2N3+bG2rwJqjw5iyc9FXhpP
+	ab+C4fhb06e6zBkqarIbH/WhMrNl2psoo61b59aj7S7J9T/RmUqNUrN6Oe0aBAVyZia3KkvToXBJR
+	WZmSTiWzIeVkmOPRCuCaTeE2DxWWRTZGR2NaMHYTkwdgklD71QDsOGySBrpGQXf+yrIMhzF0ra11q
+	5rDj5bnUbvoKvw/1ElnWGGYlmd2TWS4BUFOmrocQ/zygBps/7y5FRRYbvwOqFeAzFQfp91rkLnusk
+	qgebbihw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnS27-00000007irR-05Jv;
-	Wed, 04 Feb 2026 01:50:19 +0000
+	id 1vnT5D-00000007ncN-0VEt;
+	Wed, 04 Feb 2026 02:57:35 +0000
 Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnS23-00000007ir7-3HSg
+	id 1vnT5A-00000007nbS-3jQZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Feb 2026 01:50:17 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Wed, 04 Feb 2026 02:57:34 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B93253E6D0;
-	Wed,  4 Feb 2026 01:50:13 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A2E933E6D1;
+	Wed,  4 Feb 2026 02:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770169813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770173850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XETh7uCfctdGb2OZaPCWSvV9qkq65+YtZRyPRLnjLfk=;
-	b=vU9zoOyp349s/aG2IT6k/xJnwMCRRDxxoTK+LtqrIwCALmDFWPTGtc1h9IY9JywsIQ+Mlw
-	4CYPG00fF9OQox4O65gncw7mkBk95Z5RptgkXOW7/PoexZMgpx0Rb/+FiY2DbgNWbqOVgv
-	+ZBBz+T6p5B5EkqaSCpoN2Q1A+mZMf4=
+	bh=9IWiKbE6cJTBVaa+480dfdPNb/egc8AygC/qhDUu/tE=;
+	b=lYkfK/cy5cXTdMaIjmfrQ/LsseuqwQ13sm6DnKGeRfBOWyt0rVkkmEvTV0btdW/GPTOZqt
+	KyNDtw69AsWEK4H4Quaf0vhG5Gnvo6c6KtHSZ+lBC1vpWQzLTgXBSwK3tycQJNJPWMJOgs
+	xU6WVGdnrs/bunpizSYRrwLnda1XgvI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770169813;
+	s=susede2_ed25519; t=1770173850;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XETh7uCfctdGb2OZaPCWSvV9qkq65+YtZRyPRLnjLfk=;
-	b=LMXLdI7dvfSqtNnieS2F+jjWzWT9qQIx/s56aDg9lyX1BaNNrf+gFk5rI1qKR4zt/5ag51
-	WDm+wJi7YYEI55AA==
+	bh=9IWiKbE6cJTBVaa+480dfdPNb/egc8AygC/qhDUu/tE=;
+	b=eGUiGkF9QtNX5/5b6Sc6fYZ2Qyz9+7/IR1D/qhiDg1kebFr7kyKYuCMQ1srLHIG2Q0Vv4/
+	JzUWbWghtrsnwNDA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vU9zoOyp;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LMXLdI7d
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770169813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1770173850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XETh7uCfctdGb2OZaPCWSvV9qkq65+YtZRyPRLnjLfk=;
-	b=vU9zoOyp349s/aG2IT6k/xJnwMCRRDxxoTK+LtqrIwCALmDFWPTGtc1h9IY9JywsIQ+Mlw
-	4CYPG00fF9OQox4O65gncw7mkBk95Z5RptgkXOW7/PoexZMgpx0Rb/+FiY2DbgNWbqOVgv
-	+ZBBz+T6p5B5EkqaSCpoN2Q1A+mZMf4=
+	bh=9IWiKbE6cJTBVaa+480dfdPNb/egc8AygC/qhDUu/tE=;
+	b=lYkfK/cy5cXTdMaIjmfrQ/LsseuqwQ13sm6DnKGeRfBOWyt0rVkkmEvTV0btdW/GPTOZqt
+	KyNDtw69AsWEK4H4Quaf0vhG5Gnvo6c6KtHSZ+lBC1vpWQzLTgXBSwK3tycQJNJPWMJOgs
+	xU6WVGdnrs/bunpizSYRrwLnda1XgvI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770169813;
+	s=susede2_ed25519; t=1770173850;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XETh7uCfctdGb2OZaPCWSvV9qkq65+YtZRyPRLnjLfk=;
-	b=LMXLdI7dvfSqtNnieS2F+jjWzWT9qQIx/s56aDg9lyX1BaNNrf+gFk5rI1qKR4zt/5ag51
-	WDm+wJi7YYEI55AA==
+	bh=9IWiKbE6cJTBVaa+480dfdPNb/egc8AygC/qhDUu/tE=;
+	b=eGUiGkF9QtNX5/5b6Sc6fYZ2Qyz9+7/IR1D/qhiDg1kebFr7kyKYuCMQ1srLHIG2Q0Vv4/
+	JzUWbWghtrsnwNDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 055D93EA63;
-	Wed,  4 Feb 2026 01:50:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C16973EA63;
+	Wed,  4 Feb 2026 02:57:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YXvBKtOlgmltaQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 04 Feb 2026 01:50:11 +0000
-Message-ID: <940f623e-face-4eff-829e-bd1e449ecb62@suse.de>
-Date: Wed, 4 Feb 2026 02:50:03 +0100
+	id 5DoaIJa1gmnxSgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 04 Feb 2026 02:57:26 +0000
+Message-ID: <2c35f0df-5ef3-4919-9f65-3b67eaf8c823@suse.de>
+Date: Wed, 4 Feb 2026 03:57:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BFP TOPIC] Block-layer device resets
-To: Ming Lei <ming.lei@redhat.com>
-Cc: lsf-pc <lsf-pc@lists.linux-foundation.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <50ee77fa-0c44-422e-9ee2-eece60b189e1@suse.de>
- <aYFoBafih46bLK0T@fedora> <65937263-912c-4250-af26-054b2b6be72b@suse.de>
- <aYKdWsdnSVrZ3UC7@fedora>
+Subject: Re: [PATCH v2 10/14] nvme-tcp: Use CCR to recover controller that
+ hits an error
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Aaron Dailey <adailey@purestorage.com>,
+ Randy Jennings <randyj@purestorage.com>,
+ Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
+ <20260130223531.2478849-11-mkhalfella@purestorage.com>
+ <48a05027-9ca2-4e84-a7ac-946391ed1e26@suse.de>
+ <20260203212409.GG3729-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <aYKdWsdnSVrZ3UC7@fedora>
+In-Reply-To: <20260203212409.GG3729-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_CC(0.00)[broadcom.com,gmail.com,nvidia.com,lst.de,kernel.dk,kernel.org,grimberg.me,purestorage.com,lists.infradead.org,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: B93253E6D0
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+	RCVD_COUNT_TWO(0.00)[2];
+	URIBL_BLOCKED(0.00)[purestorage.com:email,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260203_175015_972997_48F2B9BB 
-X-CRM114-Status: GOOD (  20.16  )
+X-CRM114-CacheID: sfid-20260203_185733_236452_EFF69330 
+X-CRM114-Status: GOOD (  47.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -143,55 +145,290 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/4/26 02:14, Ming Lei wrote:
-> On Tue, Feb 03, 2026 at 06:51:25AM +0100, Hannes Reinecke wrote:
->> On 2/3/26 04:14, Ming Lei wrote:
->>> Hi Hannes,
+On 2/3/26 22:24, Mohamed Khalfella wrote:
+> On Tue 2026-02-03 06:34:51 +0100, Hannes Reinecke wrote:
+>> On 1/30/26 23:34, Mohamed Khalfella wrote:
+>>> An alive nvme controller that hits an error now will move to FENCING
+>>> state instead of RESETTING state. ctrl->fencing_work attempts CCR to
+>>> terminate inflight IOs. If CCR succeeds, switch to FENCED -> RESETTING
+>>> and continue error recovery as usual. If CCR fails, the behavior depends
+>>> on whether the subsystem supports CQT or not. If CQT is not supported
+>>> then reset the controller immediately as if CCR succeeded in order to
+>>> maintain the current behavior. If CQT is supported switch to time-based
+>>> recovery. Schedule ctrl->fenced_work resets the controller when time
+>>> based recovery finishes.
 >>>
->>> On Sun, Feb 01, 2026 at 06:06:52PM +0100, Hannes Reinecke wrote:
->>>> Hi all,
->>>>
->>>> We are currently working on implementing cross-controller resets for
->>>> NVMe, which requires to send a command to the target which then should
->>>> terminate all commands on a given controller.
+>>> Either ctrl->err_work or ctrl->reset_work can run after a controller is
+>>> fenced. Flush fencing work when either work run.
 >>>
->>> Can you provide a little background why this reset is required? And for
->>> solve which problem?
+>>> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+>>> ---
+>>>    drivers/nvme/host/tcp.c | 62 ++++++++++++++++++++++++++++++++++++++++-
+>>>    1 file changed, 61 insertions(+), 1 deletion(-)
 >>>
->> Sure. It got triggered by me wanting to use a ublk device as a backing
->> device for nvmet namespace.
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>> index 69cb04406b47..af8d3b36a4bb 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -193,6 +193,8 @@ struct nvme_tcp_ctrl {
+>>>    	struct sockaddr_storage src_addr;
+>>>    	struct nvme_ctrl	ctrl;
+>>>    
+>>> +	struct work_struct	fencing_work;
+>>> +	struct delayed_work	fenced_work;
+>>>    	struct work_struct	err_work;
+>>>    	struct delayed_work	connect_work;
+>>>    	struct nvme_tcp_request async_req;
+>>> @@ -611,6 +613,12 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
+>>>    
+>>>    static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+>>>    {
+>>> +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCING)) {
+>>> +		dev_warn(ctrl->device, "starting controller fencing\n");
+>>> +		queue_work(nvme_wq, &to_tcp_ctrl(ctrl)->fencing_work);
+>>> +		return;
+>>> +	}
+>>> +
+>>
+>> Don't you need to flush any outstanding 'fenced_work' queue items here
+>> before calling 'queue_work()'?
 > 
-> ublk supports it, either delete & re-add the disk or use UBLK_F_USER_RECOVERY &
-> UBLK_F_QUIESCE for keeping disk node.
+> I do not think we need to flush ctr->fencing_work. It can not be running
+> at this time.
 > 
->> During a nvme reconnect the target is supposed to abort/flush all
->> outstanding commands on the backing device. As this is a block device
->> we would need to have an interface into the block layer allowing us
->> to do so.
+Hmm. If you say so ... I'd rather make sure here.
+These things have a habit of popping up unexpectdly.
+
+>>
+>>>    	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+>>>    		return;
+>>>    
+>>> @@ -2470,12 +2478,59 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
+>>>    	nvme_tcp_reconnect_or_remove(ctrl, ret);
+>>>    }
+>>>    
+>>> +static void nvme_tcp_fenced_work(struct work_struct *work)
+>>> +{
+>>> +	struct nvme_tcp_ctrl *tcp_ctrl = container_of(to_delayed_work(work),
+>>> +					struct nvme_tcp_ctrl, fenced_work);
+>>> +	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+>>> +
+>>> +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
+>>> +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+>>> +		queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
+>>> +}
+>>> +
+>>> +static void nvme_tcp_fencing_work(struct work_struct *work)
+>>> +{
+>>> +	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
+>>> +			struct nvme_tcp_ctrl, fencing_work);
+>>> +	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+>>> +	unsigned long rem;
+>>> +
+>>> +	rem = nvme_fence_ctrl(ctrl);
+>>> +	if (!rem)
+>>> +		goto done;
+>>> +
+>>> +	if (!ctrl->cqt) {
+>>> +		dev_info(ctrl->device,
+>>> +			 "CCR failed, CQT not supported, skip time-based recovery\n");
+>>> +		goto done;
+>>> +	}
+>>> +
+>>
+>> As mentioned, cqt handling should be part of another patchset.
 > 
-> It could be hard to provide such generic(ioctl) block interface:
+> Let us suppose we drop cqt from this patchset
 > 
-> 1) use queue freeze
+> - How will we be able to calculate CCR time budget?
+>    Currently it is calculated by nvme_fence_timeout_ms()
 > 
-> - hang risk, because some or many block devices don't implement timeout or
-> error handling
+The CCR time budget is calculated by the current KATO value.
+CQT is the time a controler requires _after_ KATO expires
+to clear out commands.
+
+> - What should we do if CCR fails? Retry requests immediately?
 > 
-> 2) use queue quiesce
+No. If CCR fails we should fall back to error handling.
+In our case it would mean we let the command timeout handler
+initate a controller reset.
+_Eventually_ (ie after we implemented CCR _and_ CQT) we would
+wait for KATO (+ CQT) to expire and _then_ reset the controller.
+
+>>> +	dev_info(ctrl->device,
+>>> +		 "CCR failed, switch to time-based recovery, timeout = %ums\n",
+>>> +		 jiffies_to_msecs(rem));
+>>> +	queue_delayed_work(nvme_wq, &tcp_ctrl->fenced_work, rem);
+>>> +	return;
+>>> +
+>>
+>> Why do you need the 'fenced' workqueue at all? All it does is queing yet
+>> another workqueue item, which certainly can be done from the 'fencing'
+>> workqueue directly, no?
 > 
-> - still need driver cooperation for draining the inflight IOs
+> It is possible to drop ctr->fenced_work and requeue ctrl->fencing_work
+> as delayed work to implement request hold time. If we do that then we
+> need to modify nvme_tcp_fencing_work() to tell if it is being called for
+> 'fencing' or 'fenced'. The first version of this patch used a controller
+> flag RECOVERED for that and it has been suggested to use a separate work
+> to simplify the logic and drop the controller flag.
 > 
-> Basically the hard part is in driver side.
+But that's just because you integrated CCR within the current error 
+recovery.
+If you were to implement CCR as to be invoked from 
+nvme_keep_alive_end_io() we would not need to touch that,
+and we would need just one workqueue.
+
+Let me see if I can draft up a patch.
+
+>>
+>>> +done:
+>>> +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
+>>> +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+>>> +		queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
+>>> +}
+>>> +
+>>> +static void nvme_tcp_flush_fencing_work(struct nvme_ctrl *ctrl)
+>>> +{
+>>> +	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
+>>> +	flush_delayed_work(&to_tcp_ctrl(ctrl)->fenced_work);
+>>> +}
+>>> +
+>>>    static void nvme_tcp_error_recovery_work(struct work_struct *work)
+>>>    {
+>>>    	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
+>>>    				struct nvme_tcp_ctrl, err_work);
+>>>    	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
+>>>    
+>>> +	nvme_tcp_flush_fencing_work(ctrl);
+>>
+>> Why not 'fenced_work' ?
 > 
-Exactly. If there are drivers which do not implement a timeout handler
-we're kinda screwed. But for those we should not implement a device 
-reset function, or rather return an error when that function is called.
-For all others invoking the timeout handler on all outstanding commands
-(and waiting for completions) would be equivalent to a device reset;
-for some implementations (like NVMe) is _is_ equivalent to a device reset.
+> You mean rename nvme_tcp_flush_fencing_work() to
+> nvme_tcp_flush_fenced_work()?
+> 
+> If yes, then I can do that if you think it makes more sense.
+> 
+Thing is, you have two workqueues dealing with CCR.
+You really need to avoid that _both_ are empty when this
+funciton is called.
+
+>>
+>>>    	if (nvme_tcp_key_revoke_needed(ctrl))
+>>>    		nvme_auth_revoke_tls_key(ctrl);
+>>>    	nvme_stop_keep_alive(ctrl);
+>>> @@ -2518,6 +2573,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
+>>>    		container_of(work, struct nvme_ctrl, reset_work);
+>>>    	int ret;
+>>>    
+>>> +	nvme_tcp_flush_fencing_work(ctrl);
+>>
+>> Same.
+>>
+>>>    	if (nvme_tcp_key_revoke_needed(ctrl))
+>>>    		nvme_auth_revoke_tls_key(ctrl);
+>>>    	nvme_stop_ctrl(ctrl);
+>>> @@ -2643,13 +2699,15 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
+>>>    	struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
+>>>    	struct nvme_command *cmd = &pdu->cmd;
+>>>    	int qid = nvme_tcp_queue_id(req->queue);
+>>> +	enum nvme_ctrl_state state;
+>>>    
+>>>    	dev_warn(ctrl->device,
+>>>    		 "I/O tag %d (%04x) type %d opcode %#x (%s) QID %d timeout\n",
+>>>    		 rq->tag, nvme_cid(rq), pdu->hdr.type, cmd->common.opcode,
+>>>    		 nvme_fabrics_opcode_str(qid, cmd), qid);
+>>>    
+>>> -	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
+>>> +	state = nvme_ctrl_state(ctrl);
+>>> +	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_FENCING) {
+>>
+>> 'FENCED' too, presumably?
+> 
+> I do not think it makes a difference here. FENCED and RESETTING are
+> almost the same states.
+> 
+Yeah, but in FENCED all commands will be aborted, and the same action 
+will be invoked when this if() clause is entered. So you need to avoid
+entering the if() clause to avoid races.
+
+>>
+>>>    		/*
+>>>    		 * If we are resetting, connecting or deleting we should
+>>>    		 * complete immediately because we may block controller
+>>> @@ -2904,6 +2962,8 @@ static struct nvme_tcp_ctrl *nvme_tcp_alloc_ctrl(struct device *dev,
+>>>    
+>>>    	INIT_DELAYED_WORK(&ctrl->connect_work,
+>>>    			nvme_tcp_reconnect_ctrl_work);
+>>> +	INIT_DELAYED_WORK(&ctrl->fenced_work, nvme_tcp_fenced_work);
+>>> +	INIT_WORK(&ctrl->fencing_work, nvme_tcp_fencing_work);
+>>>    	INIT_WORK(&ctrl->err_work, nvme_tcp_error_recovery_work);
+>>>    	INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
+>>>    
+>>
+>> Here you are calling CCR whenever error recovery is triggered.
+>> This will cause CCR to be send from a command timeout, which is
+>> technically wrong (CCR should be send when the KATO timeout expires,
+>> not when a command timout expires). Both could be vastly different.
+> 
+> KATO is driven by the host. What does KTO expires mean?
+> I think KATO expiry is more applicable to target, no?
+> 
+KATO expiry (for this implementation) means the nvme_keep_alive_end_io()
+is called with rtt > deadline.
+
+> KATO timeout is a signal of an error that target is not reachable or
+> something is wrong with the target?
+> 
+Yes. It explicitely means that the Keep-Alive command was not completed
+within a time period specified by the Keep-Alive timeout value.
+
+>>
+>> So I'd prefer to have CCR send whenever KATO timeout triggers, and
+>> lease to current command timeout mechanism in place.
+> 
+> Assuming we used CCR only when KATO request times out.
+> What should we do when we hit other errors?
+> 
+Leave it. This patchset is _NOT_ about fixing the error handler.
+This patchset is about implementing CCR.
+And CCR is just a step towared fixing the error handler.
+
+> should nvme_tcp_error_recovery() is called from many places to handle
+> errors and it effectively resets the controller. What should this
+> function do if not trigger CCR?
+> 
+The same things as before. CCR needs to be invoked when the Keep-Alive
+timeout period expires. And that is what we should be implementing here.
+
+It _might_ (and arguably should) be invoked when error handling needs
+to be done. But with a later patchset.
+
+Yes, this will result in a patchset where the error handler still has
+gaps. But it will result in a patchset which focusses on a single thing,
+with the added benefit that the workings are clearly outlined in the 
+spec. So the implementation is pretty easy to review.
+
+Hooking CCR into the error handler itself is _not_ mandated by the spec,
+and inevitably needs to larger discussions (as this thread nicely 
+demonstrates). So I would prefer to keep it simple first, and focus
+on the technical implementation of CCR.
+And concentrate on fixing up the error handler once CCR is in.
 
 Cheers,
 
 Hannes
+>>
+>> Cheers,
+>>
+>> Hannes
+>> -- 
+>> Dr. Hannes Reinecke                  Kernel Storage Architect
+>> hare@suse.de                                +49 911 74053 688
+>> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+>> HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
+
 -- 
 Dr. Hannes Reinecke                  Kernel Storage Architect
 hare@suse.de                                +49 911 74053 688
