@@ -4,59 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 991A0EA7950
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Feb 2026 02:10:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE505EA7959
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Feb 2026 03:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a4ZrmbIrj7yiYceNmxkDL4IaQgUWpX/wSLBeRDcQ4qs=; b=uEQuiMbgGP6IN2+ho4Vz5aXP0Y
-	Z0N/xCRWtLGBBRi2AwBBJlIIkp/MU7ajjLFvSaaV3kUknZHoorev3qGnCd1ciZN/vG19FH2MOWOGJ
-	uIsVBZqWea0BVto5kslwY0MxVqRG7by9BtrrL1G+Up+DH235ACTrTVM3jveXYbKb226qQtpTmoFBj
-	ft51PYLqTQ9bGEus2PUgctZ5rgMFUwWoaxYFCPg2pf7qB/q5bbAmhMWief5HuYLjy+Px7lIZHJnlJ
-	2EkXX0C9QUh5N1f/5M1DM7n1fZILlICaEMBWCxbkCCTvQPRETGs9j2vbHr8HZY9NQ10XpSZ9RaKPO
-	IYg92+Gw==;
+	bh=PU4GlXydM1MAqgXjMDFq3vjCStUesvrTn2wdEAI/iFs=; b=LObJ30R+NK9wU8uDRnb4Wokif0
+	Uy3wQvknlqeOvbkKDDtU9Sye34HLZ0w294wG0csEu2e7zm2ITLK6x/0xwjYZEgEqP1TOk3dgI3s7i
+	vLu1Mq8JOvd9awiHTyZa5opJqaztCmo5rzxtP4BCGckOH6hm8zJzT8noSrPi6BThOcC2Vp/fYCtk3
+	yisGe729zf06oWaDwGXGpp4As0p8qRmNRI6mSwXEAfgrc5esUZJgBcTJ1EBdHMInZWvNDGxmPeeh7
+	ryQmAMe6K2GXgr8+6y4uyJWXgpdygr7BDtWvrbtHumQAW0tm9OalG+VkY56FdtAXZgpFmVULW7FBL
+	7BGzu8zg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnoop-00000009IgB-0Ovj;
-	Thu, 05 Feb 2026 02:10:07 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vnpnE-00000009LgE-3Ihd;
+	Thu, 05 Feb 2026 03:12:32 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnooo-00000009Ig4-0Al2
+	id 1vnpnB-00000009Lfl-1MNX
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Feb 2026 02:10:06 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 126C760010;
-	Thu,  5 Feb 2026 02:10:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F03BC4CEF7;
-	Thu,  5 Feb 2026 02:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770257404;
-	bh=BnHgOlvPZc11r0A/CNMqLP+zlqzs4h//HZ2R0UmErDM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nTC4QlQZ5VgEA3C9GhxHeslqUvTAiPMuXw70W5e0LP6lSISDgbf7RYKVdYwJ/Dwve
-	 p2vEUz/dcAr0WnbepCpvWNmokZNWe1DiWLfseUEWU2N1Wf9sx6Y4Zb2oLcmiu4W1il
-	 qOViDGB4GezqzOpTL29HSc1Wvh75tjpLL26XNwPaXbPjPmCqb7iyI3GUuB5rBitU19
-	 eMGVJYATCFa3YZXZciLWEMitNSS1U/vQp0n2zEdzsll47NHAqL4HvyyduSebRPmPWw
-	 6IgxG88apQluLPHLLmDit5M534dF0BJ3gmfCBgfw2UiAbmn6V+0Ixjuk61572tZn1g
-	 P2O35p4x6Luyg==
-Date: Wed, 4 Feb 2026 19:10:02 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: hch@lst.de, linux-nvme@lists.infradead.org, dwagner@suse.de,
-	hare@suse.de, jmeneghi@redhat.com, emilne@redhat.com,
-	mlombard@bsdbackstore.eu
-Subject: Re: [PATCH V3 1/1] nvme: add support for dynamic quirk configuration
- via module parameter
-Message-ID: <aYP7-r3gdSjImhg4@kbusch-mbp>
-References: <20260204105555.173661-1-mlombard@redhat.com>
- <20260204105555.173661-2-mlombard@redhat.com>
+	Thu, 05 Feb 2026 03:12:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1770261145;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PU4GlXydM1MAqgXjMDFq3vjCStUesvrTn2wdEAI/iFs=;
+	b=iqE0JwnPI7kuhoa9IJo4B9QD3UtMAcAIwYO2trxIpne+yDP2pvU/EkppZTr0g/pK9TXG9r
+	4T0bWTZl8yQ3ljE484nXeTSqKmik2KoHiXj006tILV1v/DG+7WyU9Xoj+ltesBKh184N3o
+	IBRKRIVn05gFmg82niY8KFYu7SiVlFk=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-688-TVTha8Z0ON-75qSXyp4XFg-1; Wed,
+ 04 Feb 2026 22:12:22 -0500
+X-MC-Unique: TVTha8Z0ON-75qSXyp4XFg-1
+X-Mimecast-MFC-AGG-ID: TVTha8Z0ON-75qSXyp4XFg_1770261140
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 74E0C18003F6;
+	Thu,  5 Feb 2026 03:12:19 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.36])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6B1171800465;
+	Thu,  5 Feb 2026 03:12:11 +0000 (UTC)
+Date: Thu, 5 Feb 2026 11:12:05 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-block@vger.kernel.org, io-uring <io-uring@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"Gohad, Tushar" <tushar.gohad@intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+Subject: Re: [LSF/MM/BPF TOPIC] dmabuf backed read/write
+Message-ID: <aYQKhcnTJLimnbEn@fedora>
+References: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: VUF_3e8WyScJ71t_KEV4rdxYlTDzQHLHTwxxlmmUH2M_1770261140
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260204105555.173661-2-mlombard@redhat.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260204_191229_456454_99D0C688 
+X-CRM114-Status: GOOD (  17.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,31 +90,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 04, 2026 at 11:55:55AM +0100, Maurizio Lombardi wrote:
-> Introduce support for enabling or disabling specific NVMe quirks at module
-> load time through the `quirks` module parameter.
-> This mechanism allows users to apply known quirks dynamically based on the
-> device's PCI vendor and device IDs, without requiring to add hardcoded
-> entries in the driver and recompiling the kernel.
+On Tue, Feb 03, 2026 at 02:29:55PM +0000, Pavel Begunkov wrote:
+> Good day everyone,
 > 
-> While the generic PCI new_id sysfs interface exists for dynamic
-> configuration, it is insufficient for scenarios where the system fails
-> to boot (for example, this has been reported to happen because of the
-> bogus_nid quirk). The new_id attribute is writable only after the system
-> has booted and sysfs is mounted.
+> dma-buf is a powerful abstraction for managing buffers and DMA mappings,
+> and there is growing interest in extending it to the read/write path to
+> enable device-to-device transfers without bouncing data through system
+> memory. I was encouraged to submit it to LSF/MM/BPF as that might be
+> useful to mull over details and what capabilities and features people
+> may need.
 > 
-> The `quirks` parameter accepts a list of quirk specifications separated by
-> a '-' character in the following format:
+> The proposal consists of two parts. The first is a small in-kernel
+> framework that allows a dma-buf to be registered against a given file
+> and returns an object representing a DMA mapping. The actual mapping
+> creation is delegated to the target subsystem (e.g. NVMe). This
+> abstraction centralises request accounting, mapping management, dynamic
+> recreation, etc. The resulting mapping object is passed through the I/O
+> stack via a new iov_iter type.
 > 
-> <VID>:<DID>:<quirk_names>[-<VID>:<DID>:<quirk_names>-..]
-> 
-> Each quirk is represented by its name and can be prefixed with `^` to
-> indicate that the quirk should be disabled; quirk names are separated by
-> a ',' character.
-> 
-> Example: enable BOGUS_NID and BROKEN_MSI, disable DEALLOCATE_ZEROES:
-> 
->    $ modprobe nvme quirks=7170:2210:bogus_nid,broken_msi,^deallocate_zeroes
+> As for the user API, a dma-buf is installed as an io_uring registered
+> buffer for a specific file. Once registered, the buffer can be used by
+> read / write io_uring requests as normal. io_uring will enforce that the
+> buffer is only used with "compatible files", which is for now restricted
+> to the target registration file, but will be expanded in the future.
+> Notably, io_uring is a consumer of the framework rather than a
+> dependency, and the infrastructure can be reused.
 
-Thanks, applied to nvme-7.0.
+I am interested in this topic.
+
+Given dma-buf is inherently designed for sharing, I hope the io-uring
+interface can be generic for covering:
+
+- read/write with same dma-buf can be submitted to multiple devices
+
+- read/write with dma-buf can cross stackable devices(device mapper, raid,
+  ...)
+
+
+Thanks,
+Ming
+
 
