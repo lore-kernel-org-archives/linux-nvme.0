@@ -4,156 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D06D3ECD993
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Feb 2026 17:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FCF1ECD994
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Feb 2026 18:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/UjN1EitWDhGyRmiDeCYmS6Ua/kDYSYiwqLTfo54qwk=; b=qhngQc/6XkmkVgrmR3jGFzLRjQ
-	vbgLWN8UZGnjag6su4KnWH8LBEr3bEMfOsBREYelqGlKBEjtjvriGjtL/MODtoz31t3VAD4rSvKIE
-	YkWWW9YpJPCuJ+gNhw0K/FlA8Gfe8vlrIJPWh1Il4Kh3R1johd0iU2W4VCtXMoq61fVtyzKhlnrmv
-	bKOUUmcc84MKiKuimZ00ICF7ybE4NTGsrZe6GOkiPph/PT6Dv3feOhFC7ZeI4MMCnmHVb/+tKcdT3
-	QWSutC1+fsE5hhOyTL5cYo2WswBxaZq4Zb81YlO0x/f/+eObmhO5Z0xrhnYpjxfanowi2v3BcJarn
-	TxE81OeQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=tOIgzh7F0/asMA4wYQkOAKt2bxR52YWhKTa5Hn1hbLY=; b=N5EcaC0JothjT0C/b/z9kJbSYy
+	I0EPTGYyEg7B66zFCG7KXfTuPh7yfU7JO+BVawPtbCKu5dszNNdcmIejBds9iTCvk3FWDh2+sz48O
+	AfbzGolRoVvI9w7okz0fq0U2nCnlQHl4wqL2gPVUZYBrl4/3tlwhY2J2em7fcoiPGON371vN+V0nq
+	oHQdBHBmE24/X0/09Ez1QWFmHWWzz5a8aGCQ5gUJh5nq/BkQnrDNI1EkQnFZi6tR0OOOMRtyxPh+z
+	+atNwgAvRbu7ZesY7mSWCdrC1UGUJ/sjeyCnnVTIR9JwlvfhbvNj90wrP7whfIpWc+6YhfT8t6hxb
+	sGYo/u2A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vo3MS-0000000AJUJ-28xa;
-	Thu, 05 Feb 2026 17:41:48 +0000
-Received: from mail-westus3azlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c107::3] helo=PH0PR06CU001.outbound.protection.outlook.com)
+	id 1vo3rI-0000000ALVe-3QP3;
+	Thu, 05 Feb 2026 18:13:40 +0000
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vo3MP-0000000AJTD-0Rni
+	id 1vo3rG-0000000ALVF-3r5M
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Feb 2026 17:41:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C3Xh5uifUKC2ZVNdY9vyqOcz+Eraa6CrvNv0rob0VewLSHse1Wl8bDLWnlOapl3rPVA61GxXJEmBM4L2vFVYLC1y6ec6SoiSKW2eBB53fBQj1iALkD7PQvMTI3GQ9yJ+x/41tjQ5ww78wmeUkh7qSTIqhPb6X3KsNWNnHPhnT0wYFyn2brCfGfdP98meQ9VQrQ6RBwzHizCSThnRjIK7Iz03bHOLEcw5YnPUXriA7TndwQMsiOY9CNMll7pXT0zuvM8zimwmT3mVpvkHuvCYt0AGbxFJMJx0EU0LG5rHvPMhNkk2tFRRH4oVphXUuGYIqEwObrFt4D+LKtKPwwdkMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/UjN1EitWDhGyRmiDeCYmS6Ua/kDYSYiwqLTfo54qwk=;
- b=c2aDcaBKzXFiUgr+xaL9yol/+mC1+NndNJ4+GiTwbE2j1dS79xAkKJguMKRaWufUUKZrh+hDWFpDUaEor2XL5jp9HMrEsCdyXvoWps9CZAzMt6AlqJbPKyhByhErEU32d65Z3EUEzAERFZqa1LXiZt2nvWW/npqTYRFcm0J01DdFMrnkDLsfIX1+YUVnX70hwuiTnyfpb7e32IdJ8yEzBDxqfTSyuwqAqYvOl2/SQzuVo5rGTMbFO8l5cWqmyXNBStJl9iVHgC5IJ0CLHGmrfbXHl32hIc7ii9oQj6Pi44Tz3KN03p1cH4TQIcEzpkattu9ewl/99gZUn813lcmDPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/UjN1EitWDhGyRmiDeCYmS6Ua/kDYSYiwqLTfo54qwk=;
- b=CjDF/j2n37fHDTK/AtpZQ5kPL/yaePWaQbddl3D11gN8Q7sVlxDe+wvpDsL5WhAJNmHJ8OMQir0Tj2YzAnTZ1d5eTDydaSNjUA/Xy23cGl43B7vfUc4+Sp26H8lBzkW8999mvvTaBrkddmoqyNR3UJ619Qybc7yZsCgigW+DP6SxO1HwRiLJpK4QrxVIpmFTMjHK6btJs6y9F/EfJdN3bNpkOHwrU2nL+E/MafU8J4mMn8n7fQb4HqDLzoxbHWsA8X6o7LEqh6uZbqwHE6mDXxFo+Sa/YSgXy7NLL5OhHJ51C9wWtRmhN8+8jKgfYiwzxlmX8DfmQ25T90V/tunolw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CY1PR12MB9601.namprd12.prod.outlook.com (2603:10b6:930:107::16)
- by MW4PR12MB7032.namprd12.prod.outlook.com (2603:10b6:303:1e9::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Thu, 5 Feb
- 2026 17:41:37 +0000
-Received: from CY1PR12MB9601.namprd12.prod.outlook.com
- ([fe80::cd76:b497:475f:4de3]) by CY1PR12MB9601.namprd12.prod.outlook.com
- ([fe80::cd76:b497:475f:4de3%6]) with mapi id 15.20.9587.010; Thu, 5 Feb 2026
- 17:41:37 +0000
-Date: Thu, 5 Feb 2026 13:41:35 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: linux-block@vger.kernel.org, io-uring <io-uring@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"Gohad, Tushar" <tushar.gohad@intel.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
-Subject: Re: [LSF/MM/BPF TOPIC] dmabuf backed read/write
-Message-ID: <20260205174135.GA444713@nvidia.com>
-References: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
-X-ClientProxiedBy: MN2PR05CA0038.namprd05.prod.outlook.com
- (2603:10b6:208:236::7) To CY1PR12MB9601.namprd12.prod.outlook.com
- (2603:10b6:930:107::16)
+	Thu, 05 Feb 2026 18:13:40 +0000
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-47ff94b46afso13182165e9.1
+        for <linux-nvme@lists.infradead.org>; Thu, 05 Feb 2026 10:13:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770315215; x=1770920015; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tOIgzh7F0/asMA4wYQkOAKt2bxR52YWhKTa5Hn1hbLY=;
+        b=PEavkfptk2fE0qAyk7XeBAqQ7WZRCdOyKuMdLVuN/5WgIbHd8jcG1V55RuGLOZLZjr
+         mEKQUozfecfOEp2IJur9548HA/6+8CE03nOEmmIKwLIlTuhWBl9dhouUeiZft+zw12Sf
+         qxtcRnpsMuw7KMS1PsGMbY1muP6rtjAXVsHG6X9l4GUbX5Mc+zDC5lXmsq1xU3sypxUz
+         jaCa97FLUdi27AUHGsATWftQZcZrk9P0WNVtwzRQZEg5CqxcsVBWkG68rOyLVp7SYi5E
+         AZ3eouw7ENfNSUJ811Tr1T5Jz8sL8QLUCUwYX02JpeGCFCuPSxs0XQ7gzBldPzn47DF2
+         d5Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770315215; x=1770920015;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tOIgzh7F0/asMA4wYQkOAKt2bxR52YWhKTa5Hn1hbLY=;
+        b=Kl/W3yMp0ows4BBvUjGEagpJ8t2xFryPBbXiy8o3iY2o0Fv9IwTLXVmxF5aJn+6UTi
+         fyOzwE62TPkfQEtjV89FEhAn6322YmBzW21fO0t3UcmVQQoTWkagfBtrESO3WzQxhwnQ
+         3tajHW0MIIt67a31blKa+BrYqeGGgjRsFhNB/EfK0HAAnoP55iRV/rx4uzh9HqPhfPZt
+         Ujh+yvjJsSVsCsuXlul0/8G6jxIW4yk1wCOxVTENYUMC5UI+xlIhk/CWk/serf4bDnEQ
+         gVcIAVv/sCwX/ZnzqnU721M78AenJOkP1Y/NLL7p5Pd+thgRadkCfKT98JGt8IWFmCv2
+         DFtw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCCx/w/hEEp/t1R79r5zF9nDGVO1CDrKNig30x2HjEhuBv1biz6HCbchZwqbpJxdbImUrcJmvP4OHq@lists.infradead.org
+X-Gm-Message-State: AOJu0YyVf3heo6CLdxPjeTflesKHul7VYst9cX1Ck9eEK7rN8BhdZEhc
+	M1g7WQAqYzUlGwoDPxdaJqK+uRiGEVxiY6+5C7W6mv1n0/EfajtR7J4f
+X-Gm-Gg: AZuq6aL0SCRmg7bQ3cD3mug0nmCZkzcYWZvZRZ4I6T6cQktovypSfHMea3Ef8lmK8JZ
+	uqyuEdmcGTGB+rK5RWgXSmBWo8v5Urt08E1yOW7cI7xKK6QdKff9PqBmQhuEvksMnDH6JRhSPYJ
+	LibxHVJUQ//h4jIim3HvejD3KPTEzTzGlH0dmUBxaSi9rNE6ybETpClwpJNorSTmQ1457VErOCw
+	6MrjPG5oo2Q5TOMAT9VQVXiCRJ4ArQYZjvNdeQ4m68sOt9blrWNcOIKDD0FqNleRIBzY4VEawnZ
+	2eTBjd4lD3j1zoT2bqWV4H1EuXaVNCEe/d6vWg4rV5vZVEOBoh5BWtQJ4y2NlZ7DaipHgvQoLaI
+	UMAjU+CxEUju9UpMG+Y4xhtTVI1zotohYoRI7PllnHyjGC4SABJcXMHevkuHNcVW1Xs1juXehmD
+	8NOLHVTffHvGfGBiarn03/Nneh6Rq7QMFU5hul1BDPm6Gnm7Y+WWCYJe/8Ez5DSitrYjjx1QzV1
+	a9jfe065NtTZV0BdZNTmrJkZhNw5J27clZVwpU37xYVd4UPkGELp9RNZZKtbZwRog==
+X-Received: by 2002:a05:600c:2eca:b0:477:991c:a17c with SMTP id 5b1f17b1804b1-483178ebb2emr36092105e9.6.1770315214446;
+        Thu, 05 Feb 2026 10:13:34 -0800 (PST)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d2085asm76942305e9.1.2026.02.05.10.13.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Feb 2026 10:13:34 -0800 (PST)
+Message-ID: <2403ae2a-0e9e-4b7f-a507-232dc951155d@gmail.com>
+Date: Thu, 5 Feb 2026 18:13:30 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9601:EE_|MW4PR12MB7032:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff75421a-f588-47d9-ff54-08de64ddcfb0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?uj/ZrHOLav22e69oQr5xZFEiTQahJMt7D72pNWQ4hjMbgEP10ZWDQTIzR/bY?=
- =?us-ascii?Q?5hiLlRnFzJKwo4A6CtM5P8fyd8EZjiqvNbFWhvPwddM7njxkrg/cGQomifvx?=
- =?us-ascii?Q?wY0Z+ST2Rf98AOSRDf9VrMnbecGYwXCeujAHWYr9FeU2/LUjfe13us2bUH4F?=
- =?us-ascii?Q?wNTRIgZBaKbngbtQnNRDMG8T/0k09Sw+Jhrw5cjHdM8WTHSd/BvF6WZx+oxC?=
- =?us-ascii?Q?+lFr7Dc5jeiliThII4eQ8UkCP8QH5NJcSyZzVT0pHDKfLsBnBZClNpxTGiET?=
- =?us-ascii?Q?oGNHD/UHk4Yq4wDLOFftrma08myhg3Z988l1HML2VQssYGgJPhhbcZ4oaVov?=
- =?us-ascii?Q?mtlRdQVc2lBNHnJMfNMjpYsBq071OPFYP+9gBPxa2UXhArQkjwF8qCn2nYYQ?=
- =?us-ascii?Q?rfFoK2UYZxoemi08di+IxdTLLaj2JYg5GOg441WMbofn9r/h/6DhKegMrCRT?=
- =?us-ascii?Q?VdD4K3ynygJ374zzUN5PlULAm3CqsVDVr70oQmpA+9PExGZfYTYeCp1ozMsG?=
- =?us-ascii?Q?xHS3h0UZy/O3DQwlNuUPoJepW6ps3wmoWS1cXlkDamW+jHRtJyWH8FS0Exz4?=
- =?us-ascii?Q?1dAfTtqnboPgDUVehnaHblknuFQ2PHBH1nBlf6XClYWCZPRSIxQd7u/s1Wn3?=
- =?us-ascii?Q?StFW43k/Im2ngzhIQgJU0TJDaDrYgc1JzoEoBz1PGM2Wv8piY9TMuduOaHwz?=
- =?us-ascii?Q?wEbQe1JWQGf/01uzO211y2r3jtj1ILWBT5EQ+Ys1tpuHhs1rjLmmX+PVOR7k?=
- =?us-ascii?Q?eLY92C2H9L6muE1DtnrBViKx2UR98diNT6UYaAcCu60d7xGNGQ0m+BUJTxEE?=
- =?us-ascii?Q?qNVOEMmfrU3Dc6TlD90NJ69rKcIVcRWZO+3YCbGxFbnAknoZbQZCgp0Oa983?=
- =?us-ascii?Q?33Zxf0Upku4KGxaJsoSNbM2fw16EgM82xxO50QjbUPvTP54Z7ppfhOqfnSs3?=
- =?us-ascii?Q?u029XXc+mscyX9v6us0GyH0avtO5dDr+ChCwfjwFJv36RtMZueF+D2RZkint?=
- =?us-ascii?Q?Rc6UTe32xm933k5UMlIRypmjCMfYFeUiDVJ2QwxCmqyLHFBxGe93FNFNbi1v?=
- =?us-ascii?Q?A9/uPLgTIyi88m3GnG7mN7Cl7LiBTz/b7AO1t3MwXErIU7nZTRkQjPKoQBGP?=
- =?us-ascii?Q?Gp4QbJj5/AgN1yXGRHlLA8A8N9XZmNNugUSaXcOJe+9eBDSiFthdqPdzYxyP?=
- =?us-ascii?Q?UQUV9l8N7+ylzdk/dJnHVtx/+ia5t7DS8ByOW7Ajz55oRjOk4NfnKvN7iEGl?=
- =?us-ascii?Q?SQPTfJIoZJ7A2x21+BvGkjgWPZyi8siX0mj0ObqbfkI4rn2SEz/rSIWp9CIP?=
- =?us-ascii?Q?n9wpC5EV8hH3rUOTOMkwUfARBb8Aldb5+5GHs1k35EUPhteQVtZPis92kxzV?=
- =?us-ascii?Q?fL1WK7DzXc1c67bb2sxfjwEbbk1gD/LwCO9s+JZh4zSSta2AIUAJPQGZzSv5?=
- =?us-ascii?Q?3yFlf8/Fyta/Dm1bO0hXxzABUZ41hknov8pSO4h15QkiLHGC3c+v48RKQyeb?=
- =?us-ascii?Q?eYQM52vBtYjeruqpmihOafGCwKuOIpUMBGZte1D9D/QC/ALU7rnbKQI2ZyIp?=
- =?us-ascii?Q?p4vH3rKrnH8cdP2z22w=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9601.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nQdSYpJvZElZXjMh2WMwdV0CcqPNwpWXeqrESBHxZyd5YboziP/ZdsUmHGTR?=
- =?us-ascii?Q?3rQRZ85gqMv5LSlSthnOl5zIgmF2a49bJtLyZ+KOfMzWWyZ+87ZjxiVXD91S?=
- =?us-ascii?Q?+9IWa1fVc73BgY2hjrT6y4dcYhqdfUyLv8xvu55z82vMw4Rx+tePNNOAvf+V?=
- =?us-ascii?Q?B2fDsmWuGnkDQzdy19Aeox6B3MY3qqLaxAQhklXENE7FkhYI6oBJ4YG7Ao/a?=
- =?us-ascii?Q?JraF5WEGHly6FrU4pF5TFBHVE2q4gn0sKH/PlsXyFqdERaRFBQDs8SNHOQai?=
- =?us-ascii?Q?kcdP6+WpfS1Zpf8CjwcZiUHIfwShY8JXejhZ5GiXD9cWcR8fB7FvXP2/qj3H?=
- =?us-ascii?Q?/cFP/7paX+lxSckkrkGzzvm137yCkYnfPPnei+ip/qUb8l7IwMKyGdGQV+Zo?=
- =?us-ascii?Q?0EqENihUZ3uBG/bBf6qgu5O/OH1CQq8PmFqfRrxUSP38NPSqa8MXajxvLdXS?=
- =?us-ascii?Q?HRi/+tb9jIFXe1PtMfPUAdaJUyNu8zDyH/zWV8ziP8/KPHND0aBh8qb6K5Ol?=
- =?us-ascii?Q?xwtAVesHguPcpvXCwbE1HKYZeMx7Hcb5fjAan1DV06RGAOklKruVti6Hsl6N?=
- =?us-ascii?Q?Fr1oW0G9PtL6OBqve6qUr9JR+tP5Kgzp6OiaMjkoT0GLwZpYFl+u02G8QcRV?=
- =?us-ascii?Q?7U9vpQzc6xyNvGtCaTa0QEqOCKVtce9yONo4lK3KLJaeS1am8/qfFrv1vW4x?=
- =?us-ascii?Q?7V8Loj9BnjyAu4Jpbp/x1YyMkc6KmhCO1WiTs2Aa7G5fiouEkQL3rGoAh04Z?=
- =?us-ascii?Q?87BrPzoiUSTxBxLLh8IQfyO+Et7hY7AMP6kdz7NypKHpQtU+F0Zq12BqJrMK?=
- =?us-ascii?Q?kdKevpF0k5igjG8KXNVNd+dYUx0yJUmKHDGM5KhH1BwyRAYv056QF2opLJEv?=
- =?us-ascii?Q?txAL9EfSgrzTpL7YbH43xuGSru9bKAzUwOQLUJQy4xvavtN0yY0dgKdymFP+?=
- =?us-ascii?Q?/keDVsYZpbvBN1/DabyzhiPlLxUMt6D97JK5QIxz6PuOPTAU5e4t8ERt/9iC?=
- =?us-ascii?Q?56fJMJetBA/SbgrY8SMiMeABryijrceIyjHFFnI2MOIFNzhEEEh55E+b2nvy?=
- =?us-ascii?Q?Z0ekCtkxdNigw3OHHLWdX3OnzgI8JvTZw7ZpB2MT5TdEXgTKYAoy2FbtEIvU?=
- =?us-ascii?Q?6ixmEv6ItxlMvnxDTJkSbfEQ+NAmwkVsBj8O7st+9N3dEyMVhR1MQp6uq+5e?=
- =?us-ascii?Q?1Jd6Dh+zJTs8IGwtHhDjdzjH2K4mncxJX7+4PWLQ9M2chw15qpK+Meps9MPf?=
- =?us-ascii?Q?G+xK8EySwzMgroMVZx1e1i7fKlh1jqZUynFMKHAlVOsup7Z/AfvyS+Q5kSCA?=
- =?us-ascii?Q?e7tqH3Y2SXiwa2DXBCPk2+9B64TELXPZj2GWy6wNCsMOrTmLwSTJ35yvHa8l?=
- =?us-ascii?Q?Ib4BgC7O4x4/+tlHOfWPWp/BLSdoc9R0LANHcjOfFCSsMM08tVpxkav4FNs2?=
- =?us-ascii?Q?S/jeqsA4TycNhKdN4P6rUsaCvPF/MFqcdgJwpJi3D8834uFR4XflfhbepAHl?=
- =?us-ascii?Q?1KZu8ntT7P5laURgBkSdHvuYPZK1x1zyWMbYpO2QH+lmkYh+JmQvt5glqAA+?=
- =?us-ascii?Q?sg6U98mAJ4EEHM1OdxojlsXiwUekF4Jq0do3BSBCFJdOlNlI4BxfLnwAFGzG?=
- =?us-ascii?Q?whzsW7SWIjIZHZI3XE5xoFImmFX6Mnev2N4hpV4+AXSxvUu1KqdrXXzr9IMu?=
- =?us-ascii?Q?zlthV+FRMxmnWZZ2HdYItkvlmi2iKCad0bvuIIOi//MD4MD4sH/RP376cKFk?=
- =?us-ascii?Q?s90yvMws2A=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff75421a-f588-47d9-ff54-08de64ddcfb0
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9601.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 17:41:37.0992
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bTqwBcqHsVKwuAVLOx0/NkbdgrSEkH45lrZ/rCWPqsvOVDIJZe4DeyQRpV2eve1O
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7032
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF TOPIC] dmabuf backed read/write
+To: Ming Lei <ming.lei@redhat.com>
+Cc: linux-block@vger.kernel.org, io-uring <io-uring@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "Gohad, Tushar" <tushar.gohad@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+References: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
+ <aYQKhcnTJLimnbEn@fedora>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <aYQKhcnTJLimnbEn@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260205_094145_175487_1094B5A2 
-X-CRM114-Status: UNSURE (   9.27  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260205_101338_981714_77B8523E 
+X-CRM114-Status: GOOD (  17.73  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -168,25 +108,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 03, 2026 at 02:29:55PM +0000, Pavel Begunkov wrote:
+On 2/5/26 03:12, Ming Lei wrote:
+> On Tue, Feb 03, 2026 at 02:29:55PM +0000, Pavel Begunkov wrote:
+>> Good day everyone,
+>>
+>> dma-buf is a powerful abstraction for managing buffers and DMA mappings,
+>> and there is growing interest in extending it to the read/write path to
+>> enable device-to-device transfers without bouncing data through system
+>> memory. I was encouraged to submit it to LSF/MM/BPF as that might be
+>> useful to mull over details and what capabilities and features people
+>> may need.
+>>
+>> The proposal consists of two parts. The first is a small in-kernel
+>> framework that allows a dma-buf to be registered against a given file
+>> and returns an object representing a DMA mapping. The actual mapping
+>> creation is delegated to the target subsystem (e.g. NVMe). This
+>> abstraction centralises request accounting, mapping management, dynamic
+>> recreation, etc. The resulting mapping object is passed through the I/O
+>> stack via a new iov_iter type.
+>>
+>> As for the user API, a dma-buf is installed as an io_uring registered
+>> buffer for a specific file. Once registered, the buffer can be used by
+>> read / write io_uring requests as normal. io_uring will enforce that the
+>> buffer is only used with "compatible files", which is for now restricted
+>> to the target registration file, but will be expanded in the future.
+>> Notably, io_uring is a consumer of the framework rather than a
+>> dependency, and the infrastructure can be reused.
+> 
+> I am interested in this topic.
+> 
+> Given dma-buf is inherently designed for sharing, I hope the io-uring
+> interface can be generic for covering:
+> 
+> - read/write with same dma-buf can be submitted to multiple devices
+> 
+> - read/write with dma-buf can cross stackable devices(device mapper, raid,
+>    ...)
 
-> The proposal consists of two parts. The first is a small in-kernel
-> framework that allows a dma-buf to be registered against a given file
-> and returns an object representing a DMA mapping. 
+Yes, those should be possible to do, IIRC Christoph mentioned it
+as well while asking to change the design of v1. The
+implementation will need to forward registration down and create
+a dma-buf attachment for each device.
 
-What is this about and why would you need something like this?
+-- 
+Pavel Begunkov
 
-The rest makes more sense - pass a DMABUF (or even memfd) to iouring
-and pre-setup the DMA mapping to get dma_addr_t, then directly use
-dma_addr_t through the entire block stack right into the eventual
-driver.
-
-> Tushar was helping and mention he got good numbers for P2P transfers
-> compared to bouncing it via RAM. 
-
-We can already avoid the bouncing, it seems the main improvements here
-are avoiding the DMA map per-io and allowing the use of P2P without
-also creating struct page. Meanginful wins for sure.
-
-Jason
 
