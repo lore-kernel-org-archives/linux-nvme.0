@@ -4,100 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1F27EE6B45
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Feb 2026 17:57:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48430EE6B46
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Feb 2026 18:01:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0xzBXC39VA35TGgzF7BlqtIk0rzDCuWiS//uKoFgvig=; b=HRxpn69YqZkTsWXBObEaixjeRE
-	YGKlhfJMrDXru67ppaLRVUHtqde5R6neTINEpbx+IyTYxokDevTEGDa12L/a8lIQJZF8jgnYVx3eS
-	xfXo/hItfqdDeORWCY3YsQmzzCi8/FmlP8qCOIuPG4v8Uf4igJi7Q+4Or3JGXlPS/tvNdkJWSfmCd
-	oSphatTZ3Py6UdxXTbKKckg9A75ZNsTbMBv+nevAid8+80PQ/rstY0k1o1lSfC3O5K9WgP3yff11d
-	U1A/HHsCRJPZheJdq6QUNLw8IrzB1brbjOkTVErQX27AXtKdRTDuhMkfiorCfuScqT6o3rfyMQWoh
-	MilR5gyA==;
+	bh=chld7W3Rbl2PUp6cBiIbC1iT7uESUsO9DngY57S8hBw=; b=p93j9Ql8Ap9HSLSTrpYVJp4BAh
+	gQ7TuPynALjSXzFKbtRFOaf35tXrh5DcaYdL02i+WopwGJP7a69oicAn7+N2gUK5AJutr6hXH0Smo
+	ryf1PicoiAp+DFL8K6UdfxgmyooLu/3V20yxCcOMLO4bJbK5znZc3XGLS1bLmWcvI0XPuAblixBvJ
+	Sox7zFfu/6S0Yfj/MVYKc5x4No5upHi4MbOJy95NI1/zvlkY7DBqXk2nS2aD5pJVv2NLoy1hz0Xfl
+	irKPYE7rBoytXjmw5UwJ5h/njshnelZblxMDTDjV8MKbeD9+5n+P5C+zuzphbTBPCTmpy2j4pNO48
+	tXsvjAeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1voQ50-0000000Be3X-3BoG;
-	Fri, 06 Feb 2026 17:57:18 +0000
+	id 1voQ98-0000000BeK1-01pH;
+	Fri, 06 Feb 2026 18:01:34 +0000
 Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1voQ4x-0000000Be38-1ONo
+	id 1voQ95-0000000BeJi-3TxL
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Feb 2026 17:57:17 +0000
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-47edd6111b4so29376575e9.1
-        for <linux-nvme@lists.infradead.org>; Fri, 06 Feb 2026 09:57:14 -0800 (PST)
+	Fri, 06 Feb 2026 18:01:32 +0000
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-48068ed1eccso25362915e9.2
+        for <linux-nvme@lists.infradead.org>; Fri, 06 Feb 2026 10:01:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770400633; x=1771005433; darn=lists.infradead.org;
+        d=gmail.com; s=20230601; t=1770400890; x=1771005690; darn=lists.infradead.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0xzBXC39VA35TGgzF7BlqtIk0rzDCuWiS//uKoFgvig=;
-        b=HVinCXpbtQqi0SDBIdnH3G/gyeOzZh1pAjFG9iH0X4kWeW8mphO9BYXxnraeVdUUhG
-         bIV8IQylotdVnhccWw3kyzkXvtoJ1+SxJPXxp+78kjlyKfl2GWQeL1LmvfPxDisAVDpw
-         Qagy2p8ZBkK6L5nSeGVTolzhmxXcKms48nBBBlKtmhSnGo+YyuVhVpJfDeqXcxeFGADC
-         DKp/HasGM3PR2/SULST6q4/dVbcu+7Il/gWZ78Kx/LG2+VrXyg13GLEkG0q119/MrKhr
-         EK2JDe37QmJyvOF4ZhVDbRP4vGB7uX/tbZsUerkNsoECA3VH07HQvVTguswpk6HDGC1f
-         Qzew==
+        bh=chld7W3Rbl2PUp6cBiIbC1iT7uESUsO9DngY57S8hBw=;
+        b=gIVTnA7Mhv+Q3XwdwdDdI9u20Tx+p8bTtW+ogkkTL2lC3/oVRVKElt8Eu989FaMZKe
+         /JjtUyoRSAltDuvVimC8roIBe0gTah4AZGlbiKokIGLODb+OuAZL/261fGsoUEOLF+ri
+         J1mp/E8YOqoiWXWMTYJytQN4z0VccTkjLQPd7s3Fw/zXYjyhiQ4O9Thl51VZup2M3iwQ
+         v82PHousSZfeYUz5KyjSyQihG/3zGAoGPdllcHc12xQiJ+EUzXwCilpwfxgTjoy17m6U
+         wVL7iFYZMRsjM3ptv2vh6TU8u7QspOiZimFPwtIzLsv8Eub9mDG0VWkUwY4B7kuKu+5I
+         m6OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770400633; x=1771005433;
+        d=1e100.net; s=20230601; t=1770400890; x=1771005690;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0xzBXC39VA35TGgzF7BlqtIk0rzDCuWiS//uKoFgvig=;
-        b=fjvDlMBuy46SqHm9r3V0alJHE8zPm0DJjwAGASdhphc0HFABk9Zbkw66RgtTc9J2Tm
-         dSAD9zIPmpbeIcTKiy2z81JdRnqnnqP4FjCOkHS+PLo2WnpZaZEOephEnij0jTv+w7Jk
-         LV6tIspK0Lk0qHcRpl4L7MylqFGgP+wdegdYYm0BNiGls1acCA0kesgEWewmzuJsnLPc
-         hCXoUrvd4Tl5d47sAUbb6WEPZjHBsf3VzLid8zcX1u5Hg7uy5bE1BTZdHHeC1Jp2+0Ge
-         /svscBNM9TwjlWpwnRHsP9woHDrz/xrhxHEtsDwR7EpJMmIn/tloielWbNnKhtEaXcmp
-         Ko7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU3LA+OCTQdJCk9XJfyh9UQxCRgd9esqQ+6aHlB7jKZHWWpxDByFAIa365uxmr2t++NrddOb5QBgeQd@lists.infradead.org
-X-Gm-Message-State: AOJu0YxhpV5h1XAIGPfM/4iqSoDpmwbfM8IbNb4d8Ku5EzXyPST/lX+P
-	Z50bRS4gzDZOQcLTY7+G15VdcCNm1e0qugG+3UFMD8RuIGhS7HsGfHbo
-X-Gm-Gg: AZuq6aJnhapQihb7+F2s5KyXZ6cqz56oYMyflP7+Etz4nTRBepnANpGt4IOrzsmuI0w
-	s27zmKULAdgom6Secp2gtbye1wa0QzuBrlH6q5DozYi86WXD+6pcco5JVjx+7NBOiOy0dbxdcqK
-	+bSQ6QYoRIiJLyBJY+Uv65fzJoik4MHJV6dpeKWtxblRIm12qLgddm7ZCRvez4aqTwZwEPIkguP
-	CRk+8qXI4ESeVX+ZD+R5bJPcypjED4o+6TwTcb7q2FyM7MBrHKruxK8PxTLucApghSbYZgasmxB
-	0nl7M81c0FVynCO07UXsAyyBzxjj3vFNH8XcESm5cGhF/+yb794lBWpQju2hC8JEviQKPiegt/p
-	QYaaoXiyhjaI+U6gnoyQyYrfNphxSUS0Y/mnifWya+aSVSEbxCbYpfvEzehDRcTem0CMPF2qbeM
-	pyZ3r4jDRTtoq8SchYuFwoU5eF5O4RwbTSB4RW/ant2IvZOejhq5u9JoocqNITf1UbBxoJ39M2f
-	CjlX7rR6fdP8j77ZMoDkOczhO4LK5CkHNwvchaG5XnbxOhZPn535OpvmnKNOOx5Yq7rRnWfWZTm
-X-Received: by 2002:a05:600c:1f16:b0:482:eec4:758 with SMTP id 5b1f17b1804b1-4832021fe37mr54462585e9.26.1770400633147;
-        Fri, 06 Feb 2026 09:57:13 -0800 (PST)
+        bh=chld7W3Rbl2PUp6cBiIbC1iT7uESUsO9DngY57S8hBw=;
+        b=rseyz81hGNd9GSK1Ik2WmwGfIvnX6I1wrm6uv3a2AlZJCmsoAzQBkDDed4esxOuNMl
+         vLxjWWGmkivMbN/hNVGgArK4PZwd6N+HjDrb+Dm2vNDdt5F4G7ETlr2mjj1iX2HYArMb
+         ZKtR1CdfjGxGLNmrJyKtAo8EWiZwFJhtIKx1EqCGzPM6X2TkULjcrTmHxhNkF500JMDY
+         X8/P17XXLROtHmljrz6RQJ6HgNVi8dYOARdLNQZ1UjaXY6Ubtp6h9qusHYEGpGWchQRv
+         TQ9um2m/0JkBJYv22SkqGIF+1fyq6szrHWyuJlyUkt+DS1uehApwKRr5l44K/CtbMLQC
+         OHAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWESZHAygOwaw1LR+nwVSpjVr7GjDEuxVSnwj8q0hoobBuIa2gxkNiBReUaMiwCL3AiNgreZJ1XsGlQ@lists.infradead.org
+X-Gm-Message-State: AOJu0YwdxGnVLlq12gi4Y9wmD1BbIgM9DPMSURczT+aJ/2+Ovvh+tFlF
+	qXLHysJh/Ibc4ejD+GaMJwHlI+x0I+sbDAmfVEIGnGkjdKwSKMByfFbf
+X-Gm-Gg: AZuq6aKJE2xc71q7pn/3OambR3hfwtKI+x/8ThW9qlvkeNnU/bw8ruDbSkA2mkWte3K
+	tColbbfVI7o34u11wx0k4mHQAIjc4frsDQz6lM80Fq5+ns0AUPCrbDXWZEx5fNz2G2k45yjo8ed
+	DosM8OsuNHsKWl4RyJL1kuicsPonpUTMuzV8FWNujd8AK25m4z5CTc+rKUndbzOrWJR8kCUyutr
+	eHlqcFhpUS/o5NDe8sPuH7qopb/QLzd5hSwxDgU6KnKi1dYQLElwwNzWk8eBnrBDW4mKhUJ35qW
+	SwZ8mk5jY4SfC9bWBiKFq33dtfXD2BRhe7ubTGHmJG/kAPzB/+//WpVIbdvmXOubqi0+KFrWyxX
+	7I5+D9hQKiSs/P2XtlSwUCjluXiorP6xUvTHf8d7ANXVYwjshBf7CzV52A3dopAOnV2tuSKWMZ9
+	UCjhDLOLpwbTQ0NyCHLTkXglwNBobrCz00uqPq0oP8Gl087UZjBuWvDVhCgQti4wnNLA52NXsg7
+	AQNxoFnoZ9zPg0OfOPkuu1aYQzRYhuLtmIseiinbBE6ePQLH8R6sdf2AQAzm9tYBQ==
+X-Received: by 2002:a05:600c:628d:b0:47d:6856:9bd9 with SMTP id 5b1f17b1804b1-48320216d31mr49104765e9.23.1770400889507;
+        Fri, 06 Feb 2026 10:01:29 -0800 (PST)
 Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48323c12d74sm38492195e9.2.2026.02.06.09.57.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483203e126dsm51230805e9.2.2026.02.06.10.01.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Feb 2026 09:57:12 -0800 (PST)
-Message-ID: <df7fe4d7-ca28-408e-bed3-bd1fa23e7588@gmail.com>
-Date: Fri, 6 Feb 2026 17:57:14 +0000
+        Fri, 06 Feb 2026 10:01:29 -0800 (PST)
+Message-ID: <b0ec01bc-4cbd-431b-bcdd-084cc14553be@gmail.com>
+Date: Fri, 6 Feb 2026 18:01:31 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] dmabuf backed read/write
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: linux-block@vger.kernel.org, io-uring <io-uring@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "Gohad, Tushar" <tushar.gohad@intel.com>,
+Subject: Re: [RFC v2 05/11] block: add infra to handle dmabuf tokens
+To: Anuj gupta <anuj1072538@gmail.com>
+Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+ Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Nitesh Shetty <nj.shetty@samsung.com>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
-References: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
- <20260205174135.GA444713@nvidia.com>
- <dbcc2912-e1df-491d-b1e0-7812279297de@gmail.com>
- <20260205235647.GA4177530@nvidia.com>
- <3281a845-a1b8-468c-a528-b9f6003cddea@gmail.com>
- <20260206152041.GA1874040@nvidia.com>
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+ <CACzX3AupFeAy0-pPsZ51ixd7qW++LYYjiKBZ3aK5Y2JDrB_JWw@mail.gmail.com>
 Content-Language: en-US
 From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260206152041.GA1874040@nvidia.com>
+In-Reply-To: <CACzX3AupFeAy0-pPsZ51ixd7qW++LYYjiKBZ3aK5Y2JDrB_JWw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260206_095715_423683_44D38E21 
-X-CRM114-Status: GOOD (  37.32  )
+X-CRM114-CacheID: sfid-20260206_100131_881320_9A18970D 
+X-CRM114-Status: UNSURE (   9.28  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -112,116 +115,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/6/26 15:20, Jason Gunthorpe wrote:
-> On Fri, Feb 06, 2026 at 03:08:25PM +0000, Pavel Begunkov wrote:
->> On 2/5/26 23:56, Jason Gunthorpe wrote:
->>> On Thu, Feb 05, 2026 at 07:06:03PM +0000, Pavel Begunkov wrote:
->>>> On 2/5/26 17:41, Jason Gunthorpe wrote:
->>>>> On Tue, Feb 03, 2026 at 02:29:55PM +0000, Pavel Begunkov wrote:
->>>>>
->>>>>> The proposal consists of two parts. The first is a small in-kernel
->>>>>> framework that allows a dma-buf to be registered against a given file
->>>>>> and returns an object representing a DMA mapping.
->>>>>
->>>>> What is this about and why would you need something like this?
->>>>>
->>>>> The rest makes more sense - pass a DMABUF (or even memfd) to iouring
->>>>> and pre-setup the DMA mapping to get dma_addr_t, then directly use
->>>>> dma_addr_t through the entire block stack right into the eventual
->>>>> driver.
->>>>
->>>> That's more or less what I tried to do in v1, but 1) people didn't like
->>>> the idea of passing raw dma addresses directly, and having it wrapped
->>>> into a black box gives more flexibility like potentially supporting
->>>> multi-device filesystems.
->>>
->>> Ok.. but what does that have to do with a user space visible file?
->>
->> If you're referring to registration taking a file, it's used to forward
->> this registration to the right driver, which knows about devices and can
->> create dma-buf attachment[s]. The abstraction users get is not just a
->> buffer but rather a buffer registered for a "subsystem" represented by
->> the passed file. With nvme raw bdev as the only importer in the patch set,
->> it's simply converges to "registered for the file", but the notion will
->> need to be expanded later, e.g. to accommodate filesystems.
+On 2/6/26 15:08, Anuj gupta wrote:
+>> +
+>> +       dma_fence_init(&fence->base, &blk_mq_dma_fence_ops, &fence->lock,
+>> +                       token->fence_ctx, atomic_inc_return(&token->fence_seq));
+>> +       spin_lock_init(&fence->lock);
 > 
-> Sounds completely goofy to me.
+> nit lock should be initialized before handing its address to
+> dma_fence_init()
 
-Hmm... the discussion is not going to be productive, isn't it?
-
-> A wrapper around DMABUF that lets you
-> attach to DMABUFs? Huh?
-
-I have no idea what you mean and what "attach to DMABUFs" is.
-dma-buf is passed to the driver, which attaches it (as in
-calls dma_buf_dynamic_attach()).
-
-> I feel like io uring should be dealing with this internally somehow not
-> creating more and more uapi..
-
-uapi changes are already minimal and outside of the IO path.
-
-> The longer term goal has been to get page * out of the io stack and
-> start using phys_addr_t, if we could pass the DMABUF's MMIO as a
-
-Except that I already tried passing device mapped addresses directly,
-and it was rejected because it won't be able to handle more complicated
-cases like multi-device filesystems and probably for other reasons.
-Or would it be mapping it for each IO?
-
-> phys_addr_t around the IO stack then we only need to close the gap of
-> getting the p2p provider into the final DMA mapping.
-> 
-> Alot of this has improved in the past few cycles where the main issue
-> now is the carrying the provider and phys_addr_t through the io to the
-> nvme driver. vs when you started this and even that fundamental
-> infrastructure was missing.
-> 
->>>>>> Tushar was helping and mention he got good numbers for P2P transfers
->>>>>> compared to bouncing it via RAM.
->>>>>
->>>>> We can already avoid the bouncing, it seems the main improvements here
->>>>> are avoiding the DMA map per-io and allowing the use of P2P without
->>>>> also creating struct page. Meanginful wins for sure.
->>>>
->>>> Yes, and it should probably be nicer for frameworks that already
->>>> expose dma-bufs.
->>>
->>> I'm not sure what this means?
->>
->> I'm saying that when a user app can easily get or already has a
->> dma-buf fd, it should be easier to just use it instead of finding
->> its way to FOLL_PCI_P2PDMA.
-> 
-> But that all exists already and this proposal does nothing to improve
-> it..
-
-dma-buf already exists as well, and I'm ashamed to admit,
-but I don't know how a user program can read into / write from
-memory provided by dma-buf.
-
->> I'm actually curious, is there a way to somehow create a
->> MEMORY_DEVICE_PCI_P2PDMA mapping out of a random dma-buf?
-> 
-> No. The driver owning the P2P MMIO has to do this during its probe and
-> then it has to provide a VMA with normal pages so GUP works. This is
-> usally not hard on the exporting driver side.
-> 
-> It costs some memory but then everything works naturally in the IO
-> stack.
-> 
-> Your project is interesting and would be a nice improvement, but I
-> also don't entirely understand why you are bothering when the P2PDMA
-> solution is already fully there ready to go... Is something preventing
-> you from creating the P2PDMA pages for your exporting driver?
-
-I'm not doing it for any particular driver but rather trying
-to reuse what's already there, i.e. a good coverage of existing
-dma-buf exporters, and infrastructure dma-buf provides, e.g.
-move_notify. And trying to do that efficiently, avoiding GUP
-(what io_uring can already do for normal memory), keeping long
-term mappings (modulo move_notify), and so. That includes
-optimising the cost of system memory rw with iommu.
+Good catch, thanks, I'll apply that and other suggestions. And I still
+need to address bits Christoph pointed out during review.
 
 -- 
 Pavel Begunkov
