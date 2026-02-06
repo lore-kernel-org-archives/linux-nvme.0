@@ -4,110 +4,159 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8340EE20AF
-	for <linux-nvme@archiver.kernel.org>; Fri,  6 Feb 2026 15:08:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64683EE20AF
+	for <linux-nvme@archiver.kernel.org>; Fri,  6 Feb 2026 15:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
-	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=IV2wXVQGGux8HdfCehvXRHDBtsaFVEwot7iSA9nA38k=; b=AwgARF1hF63rdUE/tL7ELNEypJ
-	caH5qhmVudollSLcVXObbb4VIbKCcSoz0fwTzlI7ogJqROv5Pg7wowLCkquAa8H3udh2ShxS9wz6C
-	dlKgjQ0/yrnU89MbII+Iiat/hnwfiZ6bz6QBbJrkuCkYwI30KZP0ggA0vizjtOeMcZezBsqkJ26xc
-	a7OEJnbeYRqMt/ycxRsKcyTuPVSiuu+z1dBXercMQXds3OVSsNe/21QFBvnrlph3E0V4FvCCFIPlf
-	zKc4Y29CmK67CthugF3GIwb0YW7LnMtwrLc3WeV1+IfPr8ROWb3W2I48qyCgo+cKgplfyHifPQb7q
-	B2WJJEaA==;
+	bh=xrEr2Zchvi8lIseaBZbYVJQkbfDt2Gj4olYv2k8w9k4=; b=tVvYQIhJx7v9i/AAKd+pJDUXOS
+	Fcv/GZBETrpqykvCcOLpm4aCINIwWGRIWdamB7u9YONQrO/om5aTkdvgeDCux8f4A2RDW88EJbY5d
+	SCwjio5VyKRZoS0QhHzkiiOA7KDQ2UKx569JZ+X69Bx2H/D5Wo+ZXRZn5LGtRkJfscby+ylKhjteT
+	od/ch3V3OAyA4LnKlgHkwuQXOc5LZ819a4zY+Fv77grW1NvJyV/fSMFv7B1xpFPxGS2zeN73Vv1q9
+	CA/DUVjQZDvYZY49tCZum9r6kmMSUVousuQ8vK4Hvki3NlQzcXcfDIHchDGRE/rJpdVRwkGVhcyHJ
+	joKb/+dA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1voNS4-0000000BTRt-29Wt;
-	Fri, 06 Feb 2026 15:08:56 +0000
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+	id 1voNdc-0000000BUvz-3iPN;
+	Fri, 06 Feb 2026 15:20:52 +0000
+Received: from mail-southcentralusazlp170120001.outbound.protection.outlook.com ([2a01:111:f403:c10d::1] helo=SN4PR2101CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1voNS1-0000000BTR2-2tmB
+	id 1voNda-0000000BUuq-0phd
 	for linux-nvme@lists.infradead.org;
-	Fri, 06 Feb 2026 15:08:55 +0000
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-65956402da9so1650276a12.1
-        for <linux-nvme@lists.infradead.org>; Fri, 06 Feb 2026 07:08:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770390532; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WfxMczwxVONIL/jqOaejGn9N6BjEPXN4g2kxguDYHky3R2FzmrWgMGMs9VrlBNQP1O
-         OxixGm1+J0hmOlpuRlwQG2BChNxugBg6TT2sdHsvGUX5DAZFSgNHbUAbx5xzNmw6t969
-         WQtafNfdTCqvCJ+Zp8UKzQ4CixHRCYEpSTU7+5FOJvqg80PuJhmQbviFB5EWig9CuCcg
-         TFMIqBRQSFepGnsbbyn1hR7K+CJVPA6HWOULZbVZal7IjNQyFdjilLFzrP0iKFV32mxO
-         k7EcJaEsfqM0Yq0i7uDLaOU/n6z828U+JqGJagsckVFaEXcyI5Zhrg0CEjfSOimge9G8
-         pkJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=IV2wXVQGGux8HdfCehvXRHDBtsaFVEwot7iSA9nA38k=;
-        fh=svTqqHU1uuMHg+U287m9o+pGAtYe08lL2b2zTG4e0VI=;
-        b=N2rANpetGI7iJWdYUHTJ8eOqxy5JleHBFTX2hT+cR0rj/mTZD/3XUUpYwrSEk1y1vu
-         GdXd9orB0hU3OrrVS9n8wSCp3zVwBMoA7ErWkED8Q7JX8K/3jxk+AnRthuKfzwUajX5/
-         34I1Bhcmq+Uy3R2XYxmXEnRn4BOY4NpyriWiBINJ54pG2Mo8wFj8yT7cJ/huYBjWGgM8
-         HrBfL2Fzr6/8FnrmuJoPYpkIjmEaD/kVjsj3ireifRSoM2I3pFltHYpCHhv/9i7o4yds
-         LYMlxHziVqpbkD9nZHucGbCkuNCFtXKSGQG/LsAaMWGVa+pPPp1gqV2y6OBy9DfUkWjT
-         d61Q==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770390532; x=1770995332; darn=lists.infradead.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IV2wXVQGGux8HdfCehvXRHDBtsaFVEwot7iSA9nA38k=;
-        b=TE30qutqCOjPzIKAHD6rkowjHOKcYuS8GseYsQbSsUOMRO53TIbfiQ7SkTIOj+SHJw
-         E5sDfi2VzNF37AtwQyNAKYRQPAMr20JpAgVg3yvANdsnHcSQBHbD0CJaRXQK1koMqKzP
-         Bh/mWj7UcnKInsg38x4OeT9W1ssqFZ7/fChORmPzN3zXYvnSXJLvTuKh2gLNHTxbhkRl
-         YboOZ1WZgtwdZtyoZW/VjoG2TwRre8FNhXyTL68Wo5GuLRi8LihwDGJoy6SZ2jJydP+P
-         4kNT9twTYPf399x6uEv/Y8HcJhUDUXHMxn8zRT5+RM8e+3sXXpSgo0PwxBEZD8Oub5T+
-         xdhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770390532; x=1770995332;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IV2wXVQGGux8HdfCehvXRHDBtsaFVEwot7iSA9nA38k=;
-        b=woMvecgW7ATiEqrIzkIiw5yY6okitOfbSkxlyRsrsYgcGHuudB34SGOwUTavihp9HR
-         dNO61552Pv6bHFB0EWkulYbfVQchbhLt8Sf951QnqYBfm5hNzyuzT5eJrtjEThmDjWL7
-         eIETM2HORIG7/bDrlytudmLaEUonOUmyMyZpycXr5yZyczouxcBlm1FaLklE/Qkle85F
-         REmTJnasoiXCCsqP+gsCNbK+l8wpXkkaz9nVoVBmQIk6VH7SMN5KuS+obKa+BUoxv69d
-         /nRFjemNzrb1sOLfR4y1+MQQ6AgR8BvoCOXfQuEC/RpL9iY/HmLT1w3HSKJTYlted6dB
-         oYdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZIYGIyveowh/nlF0lj2HnF6D1B0FXkaK3YoFjmyFO5cMtAhJf3kDzmrvlFOGfFGNB4pL050GUuvAL@lists.infradead.org
-X-Gm-Message-State: AOJu0YyX3YYIu0/xn8HP3csM3NleDqY7u9vBfUJXcxAZEwKqYTlLrNOg
-	6NI8GHTAcHjohlrDkmV0LeGQ6XLzDrFGGZFeQYcxNSkfTafDWmdA2s22ihRr14cJV7T7n7Z26Xw
-	R7jMlAkkjTNCjdIkb6a7LErNBOsWx1g==
-X-Gm-Gg: AZuq6aLkMPnE5VNK3mri6TwyOM/w9jxjdxIvHAdycldASCUTNX+WFDzZNtXv/ROifQ5
-	TkJSmCh6Zqdo7FFYkLsSVvwAYcGxmdIh7l2l3nf63mBPuqpoV1l9zK+NvhGFRHDCVk96IYSv/Pb
-	B0pcyajFAA5x35Xo7PlRfYXzsXUJ12Osi3Ji0ejx40eIBJJ0opFTJpXfnVA4M+q/lHnB2VpwLW7
-	9TzeMYnDq606d3IYWiPUUp8smZza9ktXx6wmnkVmG8kWdNRT13QWwSPkSsPNZZ/NNc/OgPpONrR
-	a/uQBJXZZHXNty1iJ4lRsmZaOid01mgUr58MwRj1VjDcP/rrZE8s4ZSfhA==
-X-Received: by 2002:a05:6402:278c:b0:64c:69e6:ad3e with SMTP id
- 4fb4d7f45d1cf-65984192b46mr1665335a12.33.1770390531549; Fri, 06 Feb 2026
- 07:08:51 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1763725387.git.asml.silence@gmail.com> <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
-In-Reply-To: <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
-From: Anuj gupta <anuj1072538@gmail.com>
-Date: Fri, 6 Feb 2026 20:38:13 +0530
-X-Gm-Features: AZwV_QhSbcTXF1vOFniIsckdgf0WRvSvELPcT6UCzLuL9aGCZaYlbLnCwaCB9sE
-Message-ID: <CACzX3AupFeAy0-pPsZ51ixd7qW++LYYjiKBZ3aK5Y2JDrB_JWw@mail.gmail.com>
-Subject: Re: [RFC v2 05/11] block: add infra to handle dmabuf tokens
+	Fri, 06 Feb 2026 15:20:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=F7pNMk6fdGvEP3bsBhAcHeZ37mTXUk0f5x5uQtxVWZMD1UN03oK29O5SUttZb75aio+QkrnkRAdZpFIj9bTqR6gF/bqY0DuoKSpNFWKMFXv8iUnzze7SbWqZuofkaBfjKnns0+sT8ayqkH9oR/z5lqMn2yP1gs88Dd7hmrp0/k8RsRJMEJC1pdKRWDMmKpKjeSxoBLVG2u38tlibz+BLWWo0fKx3hW2rEZ+CLHf7dnb0ka1+sY+9wDHfEBKgTGayYQkt8AoGn4ItSRlPnTixKMFDJ04jXFQdVNjcWZ+TjXvq5qLjyBJG0m0UcYf4ZAWrcEM6P6Rq+shoa312kGbNfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xrEr2Zchvi8lIseaBZbYVJQkbfDt2Gj4olYv2k8w9k4=;
+ b=w/riXolH/0w+SPmgnGts4Ga/LRUlzdyPTZP3w8Nf61YxQGtNSM0rO9pqqljo+5tq1MBi7QiBwZH6/+wicL4nmqL0JD2bpDldhneHB5yfvD5/hdNh/PuNAAQYyJxIU/4FKKnSitQTZxP4p3DDvMDManQqOMWlUnfR2zkAJhWnRaDJlo5uHR0UinZBR4iRmPzyofAWl+yNSQRcZKcSEzokIzdsK891lH3T5Al+IulJkoPQdnseFLaz5fJ0yGVNru0PRRqhnPpLP9dUXE+ukAcOfO2JSDixeC6WjZbk6gYrs1jxX+t5fmifZJUztI9zqkWjVGaDCPiI7dp8MWVTbDdueA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xrEr2Zchvi8lIseaBZbYVJQkbfDt2Gj4olYv2k8w9k4=;
+ b=rTzhfJaeeyc05yFhrIQNQcBopfwcxyUlrAIPlOAYqd75qe8OXSj3cVxww9/7iyJia4ZF2EwBQMx746LhoA+k4TcU/BvJNq4yP8mYlspeU+AogvbEB0Biw5M1a/teVpp9vy+HJiYfkTRqwFf1dUecsuX8+K9QGLXH8DmWr4ealvr7MSxcRIxR36+851laZ00ZK1SRlGEe1HO1t2wSkrKo3dPNxceRNPXnID6Ca4+pl65yyQtPV3PcuEX54IsVy+6aamR2ZCR35FyYebWptHlfi3XjZKWHaCeON+uw6wCB0zhBUCx3s6+2Xk0df/XvN3FFK3Hc6FCIeCejLyETQSPvQA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by IA1PR12MB9465.namprd12.prod.outlook.com (2603:10b6:208:593::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.16; Fri, 6 Feb
+ 2026 15:20:43 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9587.013; Fri, 6 Feb 2026
+ 15:20:42 +0000
+Date: Fri, 6 Feb 2026 11:20:41 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
 To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org, 
-	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Cc: linux-block@vger.kernel.org, io-uring <io-uring@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"Gohad, Tushar" <tushar.gohad@intel.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+Subject: Re: [LSF/MM/BPF TOPIC] dmabuf backed read/write
+Message-ID: <20260206152041.GA1874040@nvidia.com>
+References: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
+ <20260205174135.GA444713@nvidia.com>
+ <dbcc2912-e1df-491d-b1e0-7812279297de@gmail.com>
+ <20260205235647.GA4177530@nvidia.com>
+ <3281a845-a1b8-468c-a528-b9f6003cddea@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3281a845-a1b8-468c-a528-b9f6003cddea@gmail.com>
+X-ClientProxiedBy: MN2PR14CA0027.namprd14.prod.outlook.com
+ (2603:10b6:208:23e::32) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|IA1PR12MB9465:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0abc8731-d730-472d-b85c-08de65934ae1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?jEnPI++6s8FQGU8Qxga0srk8f3ZtlxPTQshT/3WlzWBF77db/o+L2567YaPV?=
+ =?us-ascii?Q?nyQZ3Wt0jbqySUui5ixJOgwIOFkSKBf52jRAGSHGJbX0FVoQ/0dKrn3sbKmD?=
+ =?us-ascii?Q?BNJwwcnS/5mrrn+zRsNhqAgekfgzpdixcoCoCXQw6+j2JUn5AIyo+mjPdfJ2?=
+ =?us-ascii?Q?74CfnkbJhelyRqDHQw3VX3OyGzahvA/Vw+AeF/SF3nVBe5ifTU2rexjVTz7D?=
+ =?us-ascii?Q?AWGueFXDsoXVwU9B0uTpoTC+i5WvxIgZRI36YNlYduLcOqxEOhU7ZXyKVj8T?=
+ =?us-ascii?Q?eJYmbajou7++LH7f0xtLIxFOr5uyUVDMbGQiyZwyL8HpzQaNjFCaLY6QXHB7?=
+ =?us-ascii?Q?EtBJXcuHYoLkGRjEn9hYqLcFWKD4jD/8uc9/AY0GzF03LUUWDNTs5uo95ugj?=
+ =?us-ascii?Q?ug0XaVz9WDqq5MRh5yKVKJEgvpfU7aPf+CVrjTz3BUqK+uklNz0img1LaEZD?=
+ =?us-ascii?Q?DHcfS4YV3uYwRfSSwr7eVku3gL0UN+ZP+BRiCMf5qjdoa6ehT+cCbCEbmzh7?=
+ =?us-ascii?Q?42aFaB73lMVTMYfoAzylzGbhS+eDsFpVZt99Of2Jp4nOLsZLfQvQ37pDHtq/?=
+ =?us-ascii?Q?95FGhdfJSNaGFlknnTBhO6xw8C8nmtCXwnqTrFU1qsYNkMUiC/urM8rLPf4m?=
+ =?us-ascii?Q?XSo9mPo+i88LThJTIAjjkGLb/4xtCijIyXF5waElLKeWDFjnfi6kp6E/TU1x?=
+ =?us-ascii?Q?yX1igLFomxKJLUhGZmyGDdj6WPguCSvmFEFsBjd2hiY4G/4jJRrM5QIfhhG/?=
+ =?us-ascii?Q?xQNX1cdHI0/Aoig7veTFHIsKKHMAvqgmsLRF86Ot1qqbHBz0f9Hi7dQcQXSS?=
+ =?us-ascii?Q?RwyJJHOvgMMnZ+oFUK5iw9cMYYmwh3vCVbsYctzZ7WnnU4FPhxU+6zgVzByU?=
+ =?us-ascii?Q?sXECp16TxQV+l4pX9AVKkMRE4DwNuWjwBWRXK9+AHq2/wO7eFT5hmVHH5sJt?=
+ =?us-ascii?Q?fu54uL4WaKYLXB5AFa5bDp+PWsj73ByQWNoGqSy3DTEmiGejs9sIQYiEVO5E?=
+ =?us-ascii?Q?EKzXcu78jBbETQ3PtGzk7QGCdtUKfgO36URrM7O7fkCVibrTF2uJrK8fW9rP?=
+ =?us-ascii?Q?itrkJCBCQq7k5lzye4fewFQULceoTi66h1wI7GrFOpLxbXXnzzVr0EjRkhna?=
+ =?us-ascii?Q?RQW4D9kNJ4NpNJtSGVTAQUN5DIHJ/RWgYIWp5k5iFQrkS8GvtaWgYYBwS4tJ?=
+ =?us-ascii?Q?yfcbyFvjWl0Fg6DHN8lIcZmWJeVGARjHGOTWuspdDtnFrel5fXvEvBT+B182?=
+ =?us-ascii?Q?p2VCrTEQQkg6DNAFzGVfSs5T5yNWnDRjXydO2UlxUvZ9hWt2+xP0OeZZh4ha?=
+ =?us-ascii?Q?wDuovsM4Btjxzsaf/kAlIk+UYU9LP2CHLdFG6Fo61fL/Nipi98gCsZWSvfYR?=
+ =?us-ascii?Q?OdTycBPvS7zvjA4rgAs5KDerRUsW9z1RKP5STyWuEYisKKeSb6jf24uCS9AV?=
+ =?us-ascii?Q?3FMantp7cWAn49BB6xFwc+/lyMyQECZogLMv4WpdrHJxUYRASZ7aRD9KGE32?=
+ =?us-ascii?Q?8150vT4qIOPy6ayJ4/9oNFjRKdadgjR/3DGoETOGStct1YAlsORLNvVjV3eS?=
+ =?us-ascii?Q?sibNafvlVh0sLSGzDFE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KHA/khnj0suUuKj669gQSaq5iymW1WeVmQgMa6oN2d6C5cbUJlqn+rnazO26?=
+ =?us-ascii?Q?oPkiQSRDZCEwwnjW07SO7bRqT/kSOZ2YmZfT6uOL/kc2/GSP1jGW3cLtmwdi?=
+ =?us-ascii?Q?HxGQWrTJkz95/wmO2OO7wpz6T+QMYB2LXPchyCInxLFo43RtpJQMH1PNnW46?=
+ =?us-ascii?Q?miL0eY/8weu1Gj0I+XLr5qf+ZU3lYZP8sxylh7ST01NqWB27Pa4d7ATNOF8n?=
+ =?us-ascii?Q?svp+/F2XT0FgTAPo8MnbVg5vLYKuvjKDBaBSWEj87+v24YoMOyR4JhotAspB?=
+ =?us-ascii?Q?UnZrdJ2jcM9qxoFKPdx6OruPT+rA+TZRqFO7P+TBZH2rReJKLcC0VaO+iFyQ?=
+ =?us-ascii?Q?HPb34VDpOtdT+2GCrdvPlJ8DSNcp3XhmiEM7XDHhRr8yXR0j/NmIuKd9owad?=
+ =?us-ascii?Q?eAKqaPFwBflFald73+BoS9jMlUEhuf7TEBkKDKLxBkLifUjN8+fAUJn11gAS?=
+ =?us-ascii?Q?QelVSX2Vv0QCsVNlxTOyEizCK7ME0Y9myStd7WWPLsnsNOIJyxZ4WdVkk48S?=
+ =?us-ascii?Q?MwuozA0lJehN6DWQw33S3OWbVdWlPxHqNj3In42I8rs1KA+r1Hsln0LwZeM8?=
+ =?us-ascii?Q?RQWcUkhKnK4svIEcOzsoeHM/9McIOpDyOkyDxlXNy7AzwydX6OaL6BAstGAC?=
+ =?us-ascii?Q?ulPYnlWD4mETKgiDtd+uSF3TbyeUUIh+6wkHmgaUvys9s/pI3fHWu0K56maF?=
+ =?us-ascii?Q?mTHUoyA99G5309D+43YcXpAHFm0U7bKimtR7YpIInCHCe5ZtYcKqV/bED7MG?=
+ =?us-ascii?Q?n0rTdO2suwzTQCJF4rBia+VavZdbaw/doUiokq/oEKtRywBPIcnvc+W/QV2s?=
+ =?us-ascii?Q?dsW3EWUjsaEZwqVyQL3Id/Hf8lJ6hJqZvNS2hGtrhG7ppsGuREFW7i8D0rKT?=
+ =?us-ascii?Q?nRhI3jF0UpJztIBVckdGNc933NI1HCi3mN31XFc3PHfU0P+/Z5d44UwRLEQn?=
+ =?us-ascii?Q?jtew9/qaC3FunMXUv1TR1tu5lZOhBV/DCn51evzJArF6hOiDXEb9BEft5hwp?=
+ =?us-ascii?Q?oXsOTG8GoLtkvZ+IvHZl4UWzgWzDvkQuSOZJCeXsr+22wK7rf02U70PAepo0?=
+ =?us-ascii?Q?foAs90FfrWSUhI/oNRtyWqIJU57NaFFk0ELovzqt31LtbUurdM64dUBYY/4Y?=
+ =?us-ascii?Q?GQme8op2DC2aLF06gcZl4VhcwViRkXIC4pFEP5Gjgn37eFJXZG1tRoiZKIMN?=
+ =?us-ascii?Q?NoIPcp/BXKBi7Camr3BkSV4+M3/lzzHzjs49/4w8y4qOw9Tl38uu2fcqHM3X?=
+ =?us-ascii?Q?6fo/XJfvojxx+fqwKaYj+0UHq8uB9V/0zcXJ0EaT9nWTUoJ+kZMwsHixz2th?=
+ =?us-ascii?Q?knJ1jjwuoYc+cShJGHixXAxG0vgEk137QAi6GD3E/+U+7qf47YQcCrTeOuD6?=
+ =?us-ascii?Q?mFhbOJxYhlkS364p4NGNo9WZjVUWt3lplWAJtsOmaSV8lyN+dq1ebd98AMuG?=
+ =?us-ascii?Q?LOTzeiViG790a4y33kZgc8MyHsuWlMZo0LcM3QT6IVzXu4ptbQsMr7QyejJq?=
+ =?us-ascii?Q?BECNuFYd6JKEZwybpLag3Wt8Unh5M4b1ZAm/CyEwewVc/d9GjH5clBGmBDQ8?=
+ =?us-ascii?Q?4Lvg+A2ZIcMHbpD589ramsiYEfgHMkmkLg4DlX3XQKLTdXESJXpMRI/ARUKT?=
+ =?us-ascii?Q?LhJgTWFDLrZEP/tNs++XVdmj9C7xtUJwk49n0RVLyq0WaVGLtikGCU4ibYpS?=
+ =?us-ascii?Q?N4BFugn6RijFYDwlPekN7ALxeXjDXyKN3xzVhh7tSyBiHn5A2480VCv245J9?=
+ =?us-ascii?Q?JKR/vpAopA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0abc8731-d730-472d-b85c-08de65934ae1
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 15:20:42.6659
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Se+BAvmjccjAiI9sdK1cxRaEyDCz97UxpGov3A4auOD1ScFejgVbi3XxowPWDXjY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9465
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260206_070853_989647_A8385BBB 
-X-CRM114-Status: UNSURE (   7.83  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260206_072050_260252_25A0BA1A 
+X-CRM114-Status: GOOD (  35.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,11 +171,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> +
-> +       dma_fence_init(&fence->base, &blk_mq_dma_fence_ops, &fence->lock,
-> +                       token->fence_ctx, atomic_inc_return(&token->fence_seq));
-> +       spin_lock_init(&fence->lock);
+On Fri, Feb 06, 2026 at 03:08:25PM +0000, Pavel Begunkov wrote:
+> On 2/5/26 23:56, Jason Gunthorpe wrote:
+> > On Thu, Feb 05, 2026 at 07:06:03PM +0000, Pavel Begunkov wrote:
+> > > On 2/5/26 17:41, Jason Gunthorpe wrote:
+> > > > On Tue, Feb 03, 2026 at 02:29:55PM +0000, Pavel Begunkov wrote:
+> > > > 
+> > > > > The proposal consists of two parts. The first is a small in-kernel
+> > > > > framework that allows a dma-buf to be registered against a given file
+> > > > > and returns an object representing a DMA mapping.
+> > > > 
+> > > > What is this about and why would you need something like this?
+> > > > 
+> > > > The rest makes more sense - pass a DMABUF (or even memfd) to iouring
+> > > > and pre-setup the DMA mapping to get dma_addr_t, then directly use
+> > > > dma_addr_t through the entire block stack right into the eventual
+> > > > driver.
+> > > 
+> > > That's more or less what I tried to do in v1, but 1) people didn't like
+> > > the idea of passing raw dma addresses directly, and having it wrapped
+> > > into a black box gives more flexibility like potentially supporting
+> > > multi-device filesystems.
+> > 
+> > Ok.. but what does that have to do with a user space visible file?
+> 
+> If you're referring to registration taking a file, it's used to forward
+> this registration to the right driver, which knows about devices and can
+> create dma-buf attachment[s]. The abstraction users get is not just a
+> buffer but rather a buffer registered for a "subsystem" represented by
+> the passed file. With nvme raw bdev as the only importer in the patch set,
+> it's simply converges to "registered for the file", but the notion will
+> need to be expanded later, e.g. to accommodate filesystems.
 
-nit lock should be initialized before handing its address to
-dma_fence_init()
+Sounds completely goofy to me. A wrapper around DMABUF that lets you
+attach to DMABUFs? Huh?
+
+I feel like io uring should be dealing with this internally somehow not
+creating more and more uapi..
+
+The longer term goal has been to get page * out of the io stack and
+start using phys_addr_t, if we could pass the DMABUF's MMIO as a
+phys_addr_t around the IO stack then we only need to close the gap of
+getting the p2p provider into the final DMA mapping.
+
+Alot of this has improved in the past few cycles where the main issue
+now is the carrying the provider and phys_addr_t through the io to the
+nvme driver. vs when you started this and even that fundamental
+infrastructure was missing.
+
+> > > > > Tushar was helping and mention he got good numbers for P2P transfers
+> > > > > compared to bouncing it via RAM.
+> > > > 
+> > > > We can already avoid the bouncing, it seems the main improvements here
+> > > > are avoiding the DMA map per-io and allowing the use of P2P without
+> > > > also creating struct page. Meanginful wins for sure.
+> > > 
+> > > Yes, and it should probably be nicer for frameworks that already
+> > > expose dma-bufs.
+> > 
+> > I'm not sure what this means?
+> 
+> I'm saying that when a user app can easily get or already has a
+> dma-buf fd, it should be easier to just use it instead of finding
+> its way to FOLL_PCI_P2PDMA.
+
+But that all exists already and this proposal does nothing to improve
+it..
+
+> I'm actually curious, is there a way to somehow create a
+> MEMORY_DEVICE_PCI_P2PDMA mapping out of a random dma-buf? 
+
+No. The driver owning the P2P MMIO has to do this during its probe and
+then it has to provide a VMA with normal pages so GUP works. This is
+usally not hard on the exporting driver side.
+
+It costs some memory but then everything works naturally in the IO
+stack.
+
+Your project is interesting and would be a nice improvement, but I
+also don't entirely understand why you are bothering when the P2PDMA
+solution is already fully there ready to go... Is something preventing
+you from creating the P2PDMA pages for your exporting driver?
+
+Jason
 
