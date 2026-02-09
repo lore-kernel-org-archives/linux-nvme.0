@@ -4,64 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68758E81BDA
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 15:35:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B0B2E7E0BC
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 16:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=37AGiOQdl/AsObR/EHc//6xiGsOr/iLokhD0B3iqDvY=; b=UHjB+DGgElLA4HQgLfM8Lm21Vs
-	3Ce0NhG0sL5zjBbz+o96ThxQ0+x0/5Jstf7DXrqkFjgfZYLlxLWTm2dSo2r6W0FZuT3kPVbdyCzXJ
-	kmQHeKKKgsHgiMwl2UE5BHXuzc3uEvaHcqMov4CCQ/BScU4CsmbYITC9x7jzGGloevdiPE7cMUTpm
-	j4u3GQTcJZbb9NawZvRlqq/BlfwQ04zXTu6+GPnpxOzH7oroSLDI/wCrEVZPM6yU5rhTTmCExzTPs
-	fvGlv84CZjQve222dV56+bZm/hkr4IHaYfA4xhTWtT9lKc0ijHcn5md629+ueY1hB5rVo5cEtHBp2
-	3YpdQczQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Q1K6d3mqNvtObYRv0jI7YV2YMQtcUg2MGGkrrLlVLPg=; b=oKwdxi71OOaVNcvjEKvkJhGbgO
+	E/MzCVrA3IlSLLZ8HXkry2V4i6F+isIF1ScEbOv9woQByLMoPkCmBVbO1OFJlkNqyC77SlDabuuGr
+	CFNgFyqimxnXF2n5TVMDcgvNBxNfVhD6Re2/LzuJ2PTECaPVY98XoK2RcMnfklK+8Kc3t7DG+6BII
+	9GVebi/PwLWJj7bCa/kNa8weUZlFSeeSdKwZ7sBqD/UBIhyur8NexvI3/myPm2F2l9Pyx7ic1aXvJ
+	ohOofsBgC63XEnfVPv2RPwl88SXUJ7Qw6AEyuhu53bx2nml+IOhbE6i70ELGEurPvwMKchFxL7HgQ
+	IXFzU03w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpTIe-0000000FcN5-3Mvo;
-	Mon, 09 Feb 2026 15:35:44 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vpUJY-0000000Fhhf-1Hfr;
+	Mon, 09 Feb 2026 16:40:44 +0000
+Received: from 013.lax.mailroute.net ([199.89.1.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpTIa-0000000FcLs-484w;
-	Mon, 09 Feb 2026 15:35:42 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6A96D4174B;
-	Mon,  9 Feb 2026 15:35:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9F1C116C6;
-	Mon,  9 Feb 2026 15:35:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770651338;
-	bh=0fifQJtiYVqXic/pGE/HONsBR9WXkXWJmgdnGITt1fE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S/i/ej0vQy4DsADNeeCeJA110Giu9VxKPNLcgVrsSDpbfOgtjJCtep8mv7PQDXyPt
-	 WYVVbzL//HHhfvGSpA3NrkGjPagFP/C28J2wMtraTlUElp49ttSQYmwFWKkdG3CA+/
-	 A4JR51GUlctcecXsRM4sf6Ecsvea2tVcc5JvlV074Uw+jGJx57rkBsvBfXIZzBhRHu
-	 IsTYmrVRmzSbuaPN6qVoww3VPstRyrrJHX0nkhtk/3SX1Ijfl9H1/rY42WN0gAOYzi
-	 0eOX7vPLacwa/ZxOEXh9rumO+HYRTGNOyOSB0XkjIqVl6IHlHBvge3bjq+HGc4MvlW
-	 ZJEHkudjVKpTA==
-Date: Mon, 9 Feb 2026 08:35:35 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Yu Kuai <yukuai@fnnas.com>, axboe@kernel.dk, sagi@grimberg.me,
-	sven@kernel.org, j@jannau.net, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, tj@kernel.org, nilay@linux.ibm.com,
-	ming.lei@redhat.com, neal@gompa.dev, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/4] nvme-apple: move blk_mq_update_nr_hw_queues after
- nvme_unfreeze
-Message-ID: <aYn-xwFHCpd7sITJ@kbusch-mbp>
-References: <20260209082953.3053721-1-yukuai@fnnas.com>
- <20260209082953.3053721-4-yukuai@fnnas.com>
- <20260209145832.GC18315@lst.de>
+	id 1vpUJT-0000000Fhh2-2OGU;
+	Mon, 09 Feb 2026 16:40:40 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4f8r6F2zhFzlqg85;
+	Mon,  9 Feb 2026 16:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1770655234; x=1773247235; bh=Q1K6d3mqNvtObYRv0jI7YV2Y
+	MQtcUg2MGGkrrLlVLPg=; b=gXyMG2vmyAaNcISogIa5KKaPQuWdvp6J9luuWn66
+	ue2QPM8f0nsc/37ME9JxNwoY+mM3+/sDEoyiBNvIRsP32cQnWf3FIn3xKmMKx/t1
+	9y0LiGmQNVmsAF60sdkCYczQwyxs3IqGJIV3WYOclERGVj9pkOSg/exSX5lE65Iu
+	NLW1v2gBcgIdTvkSpIfkiVFCa2b89gv3CX1KJdN9jOxZHWRV7G/TRjIEvSU0/Bsk
+	ct+CTFp/bZJ23+RJPk2XQZeQf8rcEltyLt3WtU+CdMOCs1YGytpPEC8qMZuh1GPg
+	SGMYVkGjgNtc04pntPO4QjsgU00JHYyPsrUD5IznkRjtKA==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id i-vtrfhRE5Nj; Mon,  9 Feb 2026 16:40:34 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4f8r664BhGzlqk1m;
+	Mon,  9 Feb 2026 16:40:30 +0000 (UTC)
+Message-ID: <6b18e0bc-efa7-4bd5-b12b-a313941d2ba1@acm.org>
+Date: Mon, 9 Feb 2026 08:40:29 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260209145832.GC18315@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] blk-mq: use blk_queue_enter/exit to protect debugfs
+ file creation
+To: Yu Kuai <yukuai@fnnas.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, sven@kernel.org, j@jannau.net,
+ linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Cc: tj@kernel.org, nilay@linux.ibm.com, ming.lei@redhat.com, neal@gompa.dev,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20260209082953.3053721-1-yukuai@fnnas.com>
+ <20260209082953.3053721-5-yukuai@fnnas.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20260209082953.3053721-5-yukuai@fnnas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260209_073541_134516_7AEDF46B 
-X-CRM114-Status: GOOD (  24.41  )
+X-CRM114-CacheID: sfid-20260209_084039_712657_87ED04DF 
+X-CRM114-Status: GOOD (  15.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,47 +86,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 09, 2026 at 03:58:32PM +0100, Christoph Hellwig wrote:
-> On Mon, Feb 09, 2026 at 04:29:52PM +0800, Yu Kuai wrote:
-> > blk_mq_update_nr_hw_queues() freezes and unfreezes queues internally.
-> > When the queue is already frozen before this call (from nvme_start_freeze
-> > in apple_nvme_disable), the freeze depth becomes 2. The internal unfreeze
-> > only decrements it to 1, leaving the queue still frozen when
-> > debugfs_create_files() is called.
-> > 
-> > This triggers WARN_ON_ONCE(q->mq_freeze_depth != 0) in
-> > debugfs_create_files() and risks deadlock.
-> > 
-> > Fix this by moving nvme_unfreeze() before blk_mq_update_nr_hw_queues()
-> > so the queue is unfrozen before the call, allowing the internal
-> > freeze/unfreeze to work correctly.
-> > 
-> > Signed-off-by: Yu Kuai <yukuai@fnnas.com>
-> > ---
-> >  drivers/nvme/host/apple.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> > index 15b3d07f8ccd..1835753ad91a 100644
-> > --- a/drivers/nvme/host/apple.c
-> > +++ b/drivers/nvme/host/apple.c
-> > @@ -1202,8 +1202,8 @@ static void apple_nvme_reset_work(struct work_struct *work)
-> >  
-> >  	nvme_unquiesce_io_queues(&anv->ctrl);
-> >  	nvme_wait_freeze(&anv->ctrl);
-> > -	blk_mq_update_nr_hw_queues(&anv->tagset, 1);
-> >  	nvme_unfreeze(&anv->ctrl);
-> > +	blk_mq_update_nr_hw_queues(&anv->tagset, 1);
-> 
-> Looks good on it's own, but it would also good to align the
-> apple driver with the PCI one here more.
+On 2/9/26 12:29 AM, Yu Kuai wrote:
+> diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+> index faeaa1fc86a7..03583d0d3972 100644
+> --- a/block/blk-mq-debugfs.c
+> +++ b/block/blk-mq-debugfs.c
+> @@ -613,11 +613,6 @@ static void debugfs_create_files(struct request_queue *q, struct dentry *parent,
+>   				 const struct blk_mq_debugfs_attr *attr)
+>   {
+>   	lockdep_assert_held(&q->debugfs_mutex);
+> -	/*
+> -	 * Creating new debugfs entries with queue freezed has the risk of
+> -	 * deadlock.
+> -	 */
+> -	WARN_ON_ONCE(q->mq_freeze_depth != 0);
+>   	/*
+>   	 * debugfs_mutex should not be nested under other locks that can be
+>   	 * grabbed while queue is frozen.
 
-I'm pretty sure this series would deadlock nvme-pci, as that driver
-still leaves the queue frozen when calling blk_mq_update_nr_hw_queues.
+The above looks fine to me.
 
-We've left it frozen on purpose, though. The idea was to prevent new IO
-from entering a hw context that's no longer backed by a hardware
-resourse. Unfreezing prior opens that window up again. Maybe it's not a
-big deal; I don't often encounter scenarios where the queue count
-changes after a reset.
+> @@ -628,9 +623,19 @@ static void debugfs_create_files(struct request_queue *q, struct dentry *parent,
+>   	if (IS_ERR_OR_NULL(parent))
+>   		return;
+>   
+> +	/*
+> +	 * Avoid creating debugfs files while the queue is frozen, wait for
+> +	 * the queue to be unfrozen and prevent new freeze while creating
+> +	 * debugfs files.
+> +	 */
+> +	if (blk_queue_enter(q, 0))
+> +		return;
+> +
+>   	for (; attr->name; attr++)
+>   		debugfs_create_file_aux(attr->name, attr->mode, parent,
+>   				    (void *)attr, data, &blk_mq_debugfs_fops);
+> +
+> +	blk_queue_exit(q);
+>   }
+
+This is not clear to me. Why are concurrent queue freezes not allowed
+while debugfs attributes are created? I don't see any code in debugfs
+that calls back into the block layer while creating debugfs attributes?
+Did I perhaps overlook something?
+
+Thanks,
+
+Bart.
 
