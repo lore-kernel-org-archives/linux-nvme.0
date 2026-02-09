@@ -4,110 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4DB1E81BA4
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 12:00:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0B1DE81BA9
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 12:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A+gfA25eMHfA0Ec15swNANM4+fiadJ3rCHe2DP6cRvg=; b=otan8VwfKUCZe7o9nrIdn5oOp8
-	O2eeRR73MIbEt0Ohz25Nlvzzi9O9ZxDKdy8aGWUwFuNeVNMY951YAfcz44yxUEhh+l2aGejEbFbuk
-	eoSZVgrnorxd4l167bIHgpCQF6pa4z6A5mSCE94d69IefXCkEjpM2hWz8h04gPbmYIR6Kg4YCNmr9
-	+s7UfOouYzE54/qd7szLjZw7vdEDdzw79s2XLKSCtNAodvHZZ8eAl7n3qI2zDYT3+8UY5jNWBblF1
-	9bHEhfMSnJqFFj9sN34VzVW8+crH7/s6S7d2XWX03fls+R8C4NWu0QSNR098l44EK0y+ZJF1PfyHU
-	zgn9osbg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=W1d2Q44PBPc63sk/1tI/lBXjgDDmI9WU37N5alT7Wlw=; b=BIY5xOw2EoHhnSEZ/edWWJ697e
+	yx2uVjb6czQBWZOvswbF8EKlryM69wREO+94Jn7C7mTCVQ32NCh0W4567ZtTEHrLO82yx19KnTkEP
+	E6NdgGXJ16OYdhjOtx1EwUova25q0kC3K5AWUV9HaBKuNbYsrGC5d+VQwV9MY6/9w5K/dJoJRUzLV
+	z+VINEb9uED/zI72IoNPzInBM/A4lvkHqCYIBDSVsLqD2DaixWB3aSWYVMhTP54nz197GYa+bP5SZ
+	zDyWiu6rsJkrqJ7pUESeIMXqLJkbCQBLqqXHYrPgtdoSCcV8r7xNNQ9ToE7qdsL7FG5XWIOBEAZX9
+	msvs2e7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpPwP-0000000FL3T-2XBv;
-	Mon, 09 Feb 2026 12:00:33 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vpQ6b-0000000FLbQ-02af;
+	Mon, 09 Feb 2026 12:11:05 +0000
+Received: from m16.mail.163.com ([220.197.31.2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpPwN-0000000FL32-1b9y
+	id 1vpQ6Y-0000000FLaf-1I45
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Feb 2026 12:00:32 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 618LFhGq198637;
-	Mon, 9 Feb 2026 12:00:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=A+gfA2
-	5eMHfA0Ec15swNANM4+fiadJ3rCHe2DP6cRvg=; b=gAsxAz3CzJUA0pYXfUxtNc
-	LddV4DESWfLjxQnWKoTPtjYVreplh7/E0Ly3kNQHmJosXVGO0SC3H1IxUVj8Owdt
-	4EgCrO0cFoN7zQirtj4uuf3c4ughtXWejjk3Imtpg2Q38J/yKzuEGWbFJl/CQjX+
-	jJa0+9Yvi5c+u3KzfP26VcmbeEv+GVzNpSaxNOjMO1vNjwcc6KDozCH/r+W5+PtC
-	6wJ964czApxXzsNjvCl/VuuF/hFVFOda8GA7aHRrqxHBvGjPUEIbsrKlUcwu10Bb
-	qL9QJ4zuL2MnSVzvbEUoAVhrnmRva0dsI0QNgmF87ST+JI5QsoB9S7wV17m81Evg
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c696u6wcf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Feb 2026 12:00:17 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6198nfIL012623;
-	Mon, 9 Feb 2026 12:00:16 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4c6h7k4vse-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Feb 2026 12:00:15 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 619C0EaC11731490
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 9 Feb 2026 12:00:14 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B09AE58056;
-	Mon,  9 Feb 2026 12:00:14 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 665EF5803F;
-	Mon,  9 Feb 2026 12:00:10 +0000 (GMT)
-Received: from [9.111.86.70] (unknown [9.111.86.70])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  9 Feb 2026 12:00:09 +0000 (GMT)
-Message-ID: <28e54c89-d7d8-4d3e-9eec-3b95a6100ef2@linux.ibm.com>
-Date: Mon, 9 Feb 2026 17:30:08 +0530
+	Mon, 09 Feb 2026 12:11:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=W1
+	d2Q44PBPc63sk/1tI/lBXjgDDmI9WU37N5alT7Wlw=; b=onmAlw8MwrNfECE3pL
+	2HGySqimQq+8vulHBRpltrSpf66WS4dPfweQoKWI0JR5EG379luSKh+1066t8OGX
+	cGmdVQY4mQ7Mcpmtz/hNV+uobKgjSNBWpzoJUxEkYaHXXtf9sj0Upqo8MWx54ImK
+	wDi5jWP0fgHJU50IlEdCcjlPc=
+Received: from sky.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wDXC_muzolpla36Jw--.11722S2;
+	Mon, 09 Feb 2026 20:10:24 +0800 (CST)
+From: Junnan Zhang <zhangjn_dev@163.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Junnan Zhang <zhangjn_dev@163.com>,
+	Shouxin Sun <sunshx@chinatelecom.cn>,
+	Junnan Zhang <zhangjn11@chinatelecom.cn>,
+	Qiliang Yuan <yuanql9@chinatelecom.cn>,
+	Zhaolong Zhang <zhangzl68@chinatelecom.cn>,
+	Yaxuan Liu <liuyx92@chinatelecom.cn>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme-pci: fix potential I/O hang when CQ is full
+Date: Mon,  9 Feb 2026 20:10:19 +0800
+Message-ID: <20260209121020.119853-1-zhangjn_dev@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 7/7] nvme: export controller reconnect event count via
- sysfs
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, hare@suse.de,
-        dwagner@suse.de, wenxiong@linux.ibm.com, gjoyce@ibm.com
-References: <20260205124810.682559-1-nilay@linux.ibm.com>
- <20260205124810.682559-8-nilay@linux.ibm.com>
- <48d9c8a1-3fb4-40ec-8bd1-67a82a3c2652@grimberg.me>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <48d9c8a1-3fb4-40ec-8bd1-67a82a3c2652@grimberg.me>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=KZnfcAYD c=1 sm=1 tr=0 ts=6989cc51 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=I12hwqHY1Al8NnEqJ1AA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA5MDA5OSBTYWx0ZWRfX4ok/UGs93VjS
- 2ocs2isKp2NNQNyieUWfSO1jecGCWL6Tve7nofcJQJx1tHrLrhrWohtvfcpKkhgyftKgejPPiZi
- 9s7+j+u2iPncJuMZ05aA9770m/06rxS588stunnof69ExtvrT3bCc9Tmf5yThs4/f+m/q85JvpT
- TCCqsFcE6MoDlhDC31iL6t8NZy4QvVePqvrIV+Z3b+j7973yTZsk8/pXPGGsRDfhEJbCFcjJyvP
- NbE5s0SqNDdcjq4GbvYmsP5VVhwxNXD/k9/Gxrk1ganrDWviqE+f6ibJIb6b3jQ6YJSFCBCXbyO
- wH3kdMEb8MfCP70wWMpsemj6XLEWxacksMED0y7crjM992bkoPdHdKZQYEnNtG4Tw0y7VHiQ1v3
- 5cuSWjQzZPPXLKL04qr/jrxMs+FHRPLiWcee3RHfZgmppP8iPrnZLuMKB0skUarsFqqCCe7OfBP
- cWK905gAhUatQWFH9VQ==
-X-Proofpoint-ORIG-GUID: y7PlUCd2BqQoBuO6sz8v98YY6HBI93Pm
-X-Proofpoint-GUID: y7PlUCd2BqQoBuO6sz8v98YY6HBI93Pm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-08_05,2026-02-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 bulkscore=0 priorityscore=1501 adultscore=0
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602090099
+X-CM-TRANSID: _____wDXC_muzolpla36Jw--.11722S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3GryUuF1DWrW7JFW8uF1kGrg_yoW7Wr4rpF
+	W3KrZ8Gas3WryIyw4UXF4jvry8Can5tr9rJF92ka4xJa4qk3sYvFy3K3WYqrW5Wa4DW34Y
+	vFn8trW8uF4rJaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zR3PEDUUUUU=
+X-Originating-IP: [118.112.177.142]
+X-CM-SenderInfo: x2kd0wxmqbvvry6rljoofrz/xtbCxhCcMmmJzrCA9gAA3Q
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260209_040031_423472_DEAE5EA9 
-X-CRM114-Status: GOOD (  15.17  )
+X-CRM114-CacheID: sfid-20260209_041102_717672_BCA10229 
+X-CRM114-Status: GOOD (  19.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,39 +79,142 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+When an NVMe interrupt is triggered, the current implementation first
+handles the CQE and then updates the CQ head. This may lead to a timing
+window causing a lower-level CQ full condition, which in turn leads to
+an I/O hang as described below:
 
+1. NVMe interrupt handling flow: nvme_handle_cqe -> nvme_pci_complete_rq
+-> ... -> blk_mq_put_tag(when not added to the batch processing flow)
+notifies the NVMe driver that it can continue issuing commands.
+2. The NVMe driver issues a new command while the CQ head has not yet
+been updated.
+3. The underlying layer finishes processing the new command immediately
+and attempts to place it into the completion queue. It then detects that
+the CQ is full and discards the command.
+4. The NVMe interrupt flow from step 1 subsequently updates the CQ head.
 
-On 2/7/26 7:07 PM, Sagi Grimberg wrote:
-> 
-> 
-> On 05/02/2026 14:48, Nilay Shroff wrote:
->> When an NVMe-oF link goes down, the driver attempts to recover the
->> connection by repeatedly reconnecting to the remote controller at
->> configured intervals. A maximum number of reconnect attempts is also
->> configured, after which recovery stops and the controller is removed
->> if the connection cannot be re-established.
->>
->> The driver maintains a counter, nr_reconnects, which is incremented on
->> each reconnect attempt. Currently, this counter is only reported via
->> kernel log messages and is not exposed to userspace. Since dmesg is a
->> circular buffer, this information may be lost over time.
->>
->> Expose the nr_reconnects counter via a new sysfs attribute, reconnect_
->> events, to provide persistent visibility into the number of reconnect
->> attempts made by the host. This information can help users diagnose
->> unstable links or connectivity issues.
-> 
-> This unlike the other is zeroed once the controller successfully reconnects.
-> I think it is better to have consistency across these sysfs entries.
+The sequence diagram is as follows:
 
-Yes, that’s correct. The current patch simply exposes an existing counter via
-sysfs, and that counter is reset to zero once a reconnect attempt succeeds. 
-However, agreed, for consistency with the other sysfs entries, it would make
-sense for this value to behave as an accumulator rather than a transient counter.
+      driver              irq             underlying(virtual/hardware)
+      ------             ------                     ------
+  1. Wait for tag
+                        1. Read CQE      CQ is full, wait for head update
+                        2. Handle CQE
+                        3. Wake up tag
+  2. Get tag
+  (blk_mq_put_tag)
+  3. Issue new cmd
+                                          1. Process cmd
+                                          2. Try write to CQ
+                                          3. CQ is full, discard cmd!
+                        4. Update CQ head
+                            (LATE!)
+  4. Cmd timeout
 
-We can introduce a new counter that accumulates the total number of reconnect
-attempts over time and export that through sysfs instead. 
+In this scenario, the NVMe driver observes that the command never completes
+and reports a hung task error.
 
-Thanks,
---Nilay
+[ 7128.239445] INFO: task kworker/u128:1:912 blocked for more than 122 seconds.
+[ 7128.241536] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[ 7128.242675] task:kworker/u128:1  state:D stack:    0 pid:  912 ppid:     2 flags:0x00004000
+[ 7128.243862] Workqueue: kacpi_hotplug acpi_hotplug_work_fn
+[ 7128.244736] Call Trace:
+[ 7128.245283]  __schedule+0x2ea/0x640
+[ 7128.245951]  schedule+0x46/0xb0
+[ 7128.246576]  schedule_timeout+0x1a7/0x2b0
+[ 7128.247364]  ? __next_timer_interrupt+0x110/0x110
+[ 7128.248281]  io_schedule_timeout+0x4c/0x80
+[ 7128.249129]  wait_for_common_io.constprop.0+0x80/0xf0
+[ 7128.250083]  __nvme_disable_io_queues+0x14d/0x1a0 [nvme]
+[ 7128.251084]  ? nvme_del_queue_end+0x20/0x20 [nvme]
+[ 7128.252016]  nvme_dev_disable+0x20b/0x210 [nvme]
+[ 7128.252908]  nvme_remove+0x6d/0x1b0 [nvme]
+[ 7128.253709]  pci_device_remove+0x38/0xa0
+[ 7128.254423]  __device_release_driver+0x172/0x260
+[ 7128.255189]  device_release_driver+0x24/0x30
+[ 7128.255937]  pci_stop_bus_device+0x6c/0x90
+[ 7128.256659]  pci_stop_and_remove_bus_device+0xe/0x20
+[ 7128.257594]  disable_slot+0x49/0x90
+[ 7128.258336]  acpiphp_disable_and_eject_slot+0x15/0x90
+[ 7128.259302]  hotplug_event+0xc8/0x220
+[ 7128.260080]  ? acpiphp_post_dock_fixup+0xc0/0xc0
+[ 7128.260993]  acpiphp_hotplug_notify+0x20/0x40
+[ 7128.261835]  acpi_device_hotplug+0x8c/0x1d0
+[ 7128.262702]  acpi_hotplug_work_fn+0x3d/0x50
+[ 7128.263532]  process_one_work+0x1ad/0x350
+[ 7128.264329]  worker_thread+0x49/0x310
+[ 7128.265114]  ? rescuer_thread+0x370/0x370
+[ 7128.265945]  kthread+0xfb/0x140
+[ 7128.266650]  ? kthread_park+0x90/0x90
+[ 7128.267435]  ret_from_fork+0x1f/0x30
+
+Reproducing method:
+
+In a cloud-native environment, SPDK vfio-user emulates an NVMe disk for
+VMs. The issue can be reliably reproduced by repeatedly attaching and
+detaching one disk via a host shell script that calls virsh
+attatch-interface and virsh detach-interface. Once the issue is
+reproduced, SPDK logs the following messages:
+
+    vfio_user.c:1856:post_completion: ERROR: cqid:0 full
+      (tail=6, head=7, inflight io: 2)
+    vfio_user.c:1116:fail_ctrlr: ERROR: failing controller
+
+Correspondingly, the guest kernel reports a hung task error, displaying
+the call stack detailed in the previous section.
+
+Fix: Update the CQ head first, then process the CQE, and clear the bitmap
+to indicate that free slots are available for further command submission.
+
+Fixes: 324b494c2862 ("nvme-pci: Remove two-pass completions")
+Signed-off-by: Shouxin Sun <sunshx@chinatelecom.cn>
+Signed-off-by: Junnan Zhang <zhangjn11@chinatelecom.cn>
+Signed-off-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
+Signed-off-by: Zhaolong Zhang <zhangzl68@chinatelecom.cn>
+Signed-off-by: Yaxuan Liu <liuyx92@chinatelecom.cn>
+Signed-off-by: Junnan Zhang <zhangjn_dev@163.com>
+---
+ drivers/nvme/host/pci.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d86f2565a92c..904f45761cd2 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1438,7 +1438,9 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
+ 			        struct io_comp_batch *iob)
+ {
+ 	bool found = false;
++	u16 start, end;
+ 
++	start = nvmeq->cq_head;
+ 	while (nvme_cqe_pending(nvmeq)) {
+ 		found = true;
+ 		/*
+@@ -1446,12 +1448,19 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
+ 		 * the cqe requires a full read memory barrier
+ 		 */
+ 		dma_rmb();
+-		nvme_handle_cqe(nvmeq, iob, nvmeq->cq_head);
+ 		nvme_update_cq_head(nvmeq);
+ 	}
++	end = nvmeq->cq_head;
+ 
+-	if (found)
++	if (found) {
+ 		nvme_ring_cq_doorbell(nvmeq);
++		while (start != end) {
++			nvme_handle_cqe(nvmeq, iob, start);
++			if (++start == nvmeq->q_depth)
++				start = 0;
++		}
++	}
++
+ 	return found;
+ }
+ 
+-- 
+2.43.0
+
 
