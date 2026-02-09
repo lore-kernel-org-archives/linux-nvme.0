@@ -4,67 +4,181 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0B1DE81BA9
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 12:11:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA753E81BAF
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 12:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=W1d2Q44PBPc63sk/1tI/lBXjgDDmI9WU37N5alT7Wlw=; b=BIY5xOw2EoHhnSEZ/edWWJ697e
-	yx2uVjb6czQBWZOvswbF8EKlryM69wREO+94Jn7C7mTCVQ32NCh0W4567ZtTEHrLO82yx19KnTkEP
-	E6NdgGXJ16OYdhjOtx1EwUova25q0kC3K5AWUV9HaBKuNbYsrGC5d+VQwV9MY6/9w5K/dJoJRUzLV
-	z+VINEb9uED/zI72IoNPzInBM/A4lvkHqCYIBDSVsLqD2DaixWB3aSWYVMhTP54nz197GYa+bP5SZ
-	zDyWiu6rsJkrqJ7pUESeIMXqLJkbCQBLqqXHYrPgtdoSCcV8r7xNNQ9ToE7qdsL7FG5XWIOBEAZX9
-	msvs2e7Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=orrp3tFHsNhkD42vTRj08Ir7vzIrTb1sWQ/JsZKqcVE=; b=qTlq15sboBAPsksgU0HkdKBvFl
+	BZB94CToXDPpDwtRlwKZ4u7FR3POklxRBxOoDH+MwjfruloZpAPrCyYusOryj+KygxeFx9ME7jiGQ
+	n5/HgIze1BniezYpUWElLcD7puphgoJZIdMgF5mNVpPHNCSztuxLOUSGrGfgDHeXLaKcAFPivGkQI
+	DfPWQ7UduseJq7Ly2spFA0XuKjKZYJTm9LUYtJ+/Zec2GoJx5JSGorSx/06JrNRQ5vUIxZXrDCkVi
+	L6LFSiVUP0Kw1HO1Qqcw8sGR6au7L9ZtNhYoL+wjwSlfnqk1nr1b9Oge9a71axdvCH9pMaK1ls1rf
+	0P00IDXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpQ6b-0000000FLbQ-02af;
-	Mon, 09 Feb 2026 12:11:05 +0000
-Received: from m16.mail.163.com ([220.197.31.2])
+	id 1vpQn6-0000000FOXl-30O1;
+	Mon, 09 Feb 2026 12:55:00 +0000
+Received: from mail-southcentralusazon11011060.outbound.protection.outlook.com ([40.93.194.60] helo=SN4PR0501CU005.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpQ6Y-0000000FLaf-1I45
+	id 1vpQn3-0000000FOX3-3CGO
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Feb 2026 12:11:03 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=W1
-	d2Q44PBPc63sk/1tI/lBXjgDDmI9WU37N5alT7Wlw=; b=onmAlw8MwrNfECE3pL
-	2HGySqimQq+8vulHBRpltrSpf66WS4dPfweQoKWI0JR5EG379luSKh+1066t8OGX
-	cGmdVQY4mQ7Mcpmtz/hNV+uobKgjSNBWpzoJUxEkYaHXXtf9sj0Upqo8MWx54ImK
-	wDi5jWP0fgHJU50IlEdCcjlPc=
-Received: from sky.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wDXC_muzolpla36Jw--.11722S2;
-	Mon, 09 Feb 2026 20:10:24 +0800 (CST)
-From: Junnan Zhang <zhangjn_dev@163.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Junnan Zhang <zhangjn_dev@163.com>,
-	Shouxin Sun <sunshx@chinatelecom.cn>,
-	Junnan Zhang <zhangjn11@chinatelecom.cn>,
-	Qiliang Yuan <yuanql9@chinatelecom.cn>,
-	Zhaolong Zhang <zhangzl68@chinatelecom.cn>,
-	Yaxuan Liu <liuyx92@chinatelecom.cn>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-pci: fix potential I/O hang when CQ is full
-Date: Mon,  9 Feb 2026 20:10:19 +0800
-Message-ID: <20260209121020.119853-1-zhangjn_dev@163.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+	Mon, 09 Feb 2026 12:54:59 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Lr0WLEOZIpidrF5H94I2LXqM85oizkWqna/F0DEbmHVFILNYy5KBSoRt2vwM5OcCztReMwP6J/8yww4zj7YFlbmYW+KrMYwgw6QTROgbyfDLoZT64pm5dFxqjuJ8lRu2jlFnvgp9fi//gJWqaGj9cOZk5NI3O6jRANiuWoANzgSo4Zxc7ZAVBmNEVqdobKOzV7CDClc2cykXL4vX20taJBKncJ47qu+C0O3PAPYgHZFvn43g5ch+tmJOcpVKxbDKZP2ThVI6EnBpOCbjbFJxqDFadW3uMqHkiowoZht92AJitvJj8GvB0usskLXsb/M7NCcKrByOVqH8Ex2QyXYWYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=orrp3tFHsNhkD42vTRj08Ir7vzIrTb1sWQ/JsZKqcVE=;
+ b=W6Y4poGQtzmVOqPBoZIZ/eEKY2CvHEUKkrMNKDWGgHzTWFZfeD0+/V/V5ywsSQMjVn6LA8pHzUwvRpXjKulP97miXajEGkfX1ZAw3WNUfymxQYdxSMS0z2NW8TfzWIX4mR3fQ72NIPxKAOfEV9MM7iy9gbpZ+cJnBykOEN5DfN+DmTHXG+LlYe6MjkhPulKfll6u9WdwhErAwSRhUnavmDlzFd0/RZxEQa4ztnWrnuZosgzAXAsrT9T3InXzJjGQ/X010Wj5sMoH18Ezywuu6cmC065gMgisL3GXlbH1nkbsZXwC6vTELiR5gIiyTizb7t21v68gpSBsUHRIDBhiYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=orrp3tFHsNhkD42vTRj08Ir7vzIrTb1sWQ/JsZKqcVE=;
+ b=qbLFwQT3aQblpcuNaIE0NSq6AYjZlL1wzV8Y2KOhiJC1JFusqh+WhJ4Ojn5fGo0pnV2rvf81m2MlnBZbwpFFCKJxUzBAPGr1pvDpGlbS0XY8ZimqouwyyzsGbeQWFYCpuHG9i3hPGtmdnP/HBXPBPsIT6SvXnBXa7LMdJR6DvUYY/CBHpWMfk5GcTBY+lMxSUB/llpPse6rllJ9RbWsn458A58+99Y43U9blJ1Nnr1VspewTDZzKx7RJCALLBdiDai3tbkPsL5u4L9vCK9HX+yKfQdpgixzYz6AT/ysibOytOqAN+a+DZLqkuqIcHMJP358fDYG9iA0/DEIok+KaLQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by CY5PR12MB6648.namprd12.prod.outlook.com (2603:10b6:930:3e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Mon, 9 Feb
+ 2026 12:54:50 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 12:54:50 +0000
+Date: Mon, 9 Feb 2026 08:54:49 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Kanchan Joshi <joshi.k@samsung.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	linux-block@vger.kernel.org, io-uring <io-uring@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	Christoph Hellwig <hch@lst.de>, Anuj Gupta <anuj20.g@samsung.com>,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
+Subject: Re: [LSF/MM/BPF TOPIC] dmabuf backed read/write
+Message-ID: <20260209125449.GE1874040@nvidia.com>
+References: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
+ <20260205174135.GA444713@nvidia.com>
+ <dbcc2912-e1df-491d-b1e0-7812279297de@gmail.com>
+ <20260205235647.GA4177530@nvidia.com>
+ <3281a845-a1b8-468c-a528-b9f6003cddea@gmail.com>
+ <CGME20260206152216epcas5p293f71122593a41954f8a92bff170202e@epcas5p2.samsung.com>
+ <20260206152041.GA1874040@nvidia.com>
+ <4068f00e-e84e-49b2-b1ac-72180ba19558@samsung.com>
+ <b69f230e-717c-4ad4-b086-ea480cf39b88@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDXC_muzolpla36Jw--.11722S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3GryUuF1DWrW7JFW8uF1kGrg_yoW7Wr4rpF
-	W3KrZ8Gas3WryIyw4UXF4jvry8Can5tr9rJF92ka4xJa4qk3sYvFy3K3WYqrW5Wa4DW34Y
-	vFn8trW8uF4rJaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zR3PEDUUUUU=
-X-Originating-IP: [118.112.177.142]
-X-CM-SenderInfo: x2kd0wxmqbvvry6rljoofrz/xtbCxhCcMmmJzrCA9gAA3Q
+In-Reply-To: <b69f230e-717c-4ad4-b086-ea480cf39b88@amd.com>
+X-ClientProxiedBy: BLAPR03CA0123.namprd03.prod.outlook.com
+ (2603:10b6:208:32e::8) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|CY5PR12MB6648:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40c3e51d-8deb-4453-3494-08de67da6962
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bDVPM3hKbDlDYVR4bDdFRUxFS21XVzdUektlM1d1eE5ycm83VGdNQWV3dVNs?=
+ =?utf-8?B?UFNadis1R3YxVjZlME1XNU5zYUQvakxQNGlYbWRLSFpkNmdrcmRHakZyeTU2?=
+ =?utf-8?B?V0MwanlNT0ZoWEdKUnR6eWFTRW9QV1FHTCt3dWxjTTZnSVpoejFhOVNYMmJO?=
+ =?utf-8?B?eWNaZzBLUGRONnFJc25nMG4xUFExZ3dNNHlZTGJjM1BCMWo5dXFNRDFtVlVT?=
+ =?utf-8?B?NGUrYmJHQ0k3TkRYNDRKRFhSeXBrMldEcGZib0Z2a3h0T2ZqbEZWWmFmSXFr?=
+ =?utf-8?B?T0svU2FPOUlkOE8wQXpEUUNkWGplRzk0RzZkR1ExZXNlUkhtNnZlZWl2aGNS?=
+ =?utf-8?B?OFovbFB4MmlVUnVOekNLK1RjZTFpeVFIaHJHSmFSTjBJOEFhMnZ5TkVUWnh4?=
+ =?utf-8?B?Q0ptS29DdVRuU1pkTzFnTFdUamsxSjVOeVVKMFRhQnRSVmhQb0ZPVlR5Wnp3?=
+ =?utf-8?B?QWgxL01lUnhSaEdWTEtBelFEMmR6T0RsQ25kSm1jeXJ0TUxaeEo1UkdsNnVK?=
+ =?utf-8?B?V2t6OUh5bXVCTVlEbmVTSWhpT3lRRjNQUk9aaGttbHEzZDZyQXVkYXhZZndS?=
+ =?utf-8?B?clloRitrbjNPbWN6ZzVybGdxQmhsb3NXMzRDUHNmamExcXRqSVA5dFJ3d2Rn?=
+ =?utf-8?B?VURnRHNqSzFaK05oeTlNUTUra29lVng4TTRQbVhNVWhFYW4xNGVjZG9TYkVP?=
+ =?utf-8?B?RTIzcWxjczZVV1RrNmtWdWpiZ01jVld5QzUxV2Q4azJTbCtFRXV1c0FCTUhr?=
+ =?utf-8?B?dVJ0MGI5UWRTUEQ1SUEwS3krTlprK2pEZVEzRWl2QWRlMGVCUzdaZE5iRGM5?=
+ =?utf-8?B?V0RVbUIwYlk0ajJWZXFrM2FEY1RXS0lsQURMZVpORmVkS1I0bS9hTWl1eFEw?=
+ =?utf-8?B?MkRJalNiVkhPalg0MDhyVno3ZGFFb0xZeWRQSkhmZWVYMlVHbzRTNlF6MmdT?=
+ =?utf-8?B?Q2Z6bEtUdGF0NzBiVmVWWHVxV2w5TWhta1pIVC9JYnVlVjkwYjA3ZDU3amo2?=
+ =?utf-8?B?Q1BFWFJRUWplSEt1T3RNU1hLTzJKanlCSC9xYkZCTDRRRXJ4WklIRVNJczNN?=
+ =?utf-8?B?T3BON2c5anJLa0drYzEwelE4L3NlRnkrYThnLzh1Tk9HSmtBTVhITDkybzkx?=
+ =?utf-8?B?TkdXNlNKVkVCeEZKSW81RDRubFU2OENXZ3ZaTCtpMzhDdFNHUHdOM2swQTZW?=
+ =?utf-8?B?S2lFSFluSEY0NXh4ZGVhaFEwa2tZTjcvYi9wK2dDVC9iTUY1Vis5TnFxOHdK?=
+ =?utf-8?B?LzhoNVp0YlU1SjJOOUNxQnNhYVN0Q2doeXZ4R3RpUDlEMWJsc2VKTUsxUEZo?=
+ =?utf-8?B?UkdVYkpRYkI5RUxzMHBBdWwzTzNtdUZzR3RlQkFaL1FXanlmRVQ4M3VDWnR6?=
+ =?utf-8?B?bEZsZFk3WHhjaStFUnF5WDFkbTZMREMyODFHKzJMU1BNUklxWGtJQW1LSEV0?=
+ =?utf-8?B?L3YyakdYZ1VrbFBkYm01ZWNLNWhQbHA5YTB6ejJPbGg2SUpkRERiYXdDVExv?=
+ =?utf-8?B?ejNQZnNublA5amNlWXlsR0F2TFB0SHlid3JIejJVUDkvZWNMOXpNMzBRcFps?=
+ =?utf-8?B?YUp2U2ZmZWh1TFhBNkhZdVhLTmtDa1Z5cGJENTNxa1JZMjIvTlhHR256U09v?=
+ =?utf-8?B?VnhWeFZKRXFQMGRGY3U2SkJpTTRwaE5PQmRrem1JNGs4WGpzZ2lwc00zQkgy?=
+ =?utf-8?B?N1VCNGp4WHJzcmU1eE9zTmRhQURZcEh4NnRwa2JRRHFGeHQwRnh6L0JUdVY2?=
+ =?utf-8?B?TFZ2b0ZJTHBVSCtOb2tFelRZNTFiWHVOZTNlUlQxNTh4MkdnNENGeWNtZ2Zh?=
+ =?utf-8?B?eityK1VBNjg1dllRY3kxSEdHQTdhVzdPMDRtc3pYNVhJMmZtQUpoZVVYK1hq?=
+ =?utf-8?B?dXRoQmNBcEtnZENGYnBLUWd2NCtINkM0aHJFa05kanQzNkJtSHRqWVdTamhQ?=
+ =?utf-8?B?N256MStrS0wwaHg4NmxQdnI5TGdkZzBqV2QxTFNBM1FYVlhmRWI5bXpMSUFM?=
+ =?utf-8?B?dkE5L3hDaHRPVzA4TkFqMDVWN3phdEFHUVhoMjNnczBzRFVPbk9adllQdkFy?=
+ =?utf-8?B?c2dyNkJoK0hoNlJDQndDTjQxTm5lcXNPODd3bjZuMzRsTCtQMEYvRDBOb2Ri?=
+ =?utf-8?Q?0nH0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGtsMmpEbU9kVzgraWF5bEw4RWVNck1VU3huUFNmT1U2YlpOYjlOWnd2UnBJ?=
+ =?utf-8?B?YzhFRDFvNFZzK1l5MnA5Z3d6Nm5LRzNtTTFZdlJ2cCt6TWsyakhMS3gyeDBu?=
+ =?utf-8?B?RGs1cVYxc3lOcWNBUlJ0b0haRWpBd3dKL2doL3hPeC90bFNJaG9FcTdyZDVr?=
+ =?utf-8?B?NUJZbDdSNWhrRFJtZWtwRnlsK1dXZjc3b1ozVm5Ndm1lY2UyNUM2Z0l2NURr?=
+ =?utf-8?B?WUFuV25RdmJHQkN0UTk3MnY3d0tiSEpLRU9WNHY3bWJGNmxZRjBNNEYyTGR4?=
+ =?utf-8?B?NTlwaDZveXMrMllrOHpubGdnMW85ZWFJSmx1WlZ2b21vSkJNVGNZK3REVTBV?=
+ =?utf-8?B?NC9kLzJmSXRKV3R5M01OeVBab3liK1FCZDlISzl3MktiRWZ2VHJwaUljWm5S?=
+ =?utf-8?B?Vkk1SzNVcFZjQ2U5N0xBWlhtUlYvL2ZWelZxNS8wVmcxQ2pkYzZCV01SWW1y?=
+ =?utf-8?B?S2dBQXpoNVRndW1ob2dkV3NaaE5BSHR4ZWw1TFdpZ1YwUFBoNlhMQ1RtcFo0?=
+ =?utf-8?B?VGczbWRNUlN4WmtyS2t3NEUrNW9xNkt5QmZLaThFeng4WjNpdGllVlZIdmd1?=
+ =?utf-8?B?aFhUOHZ5K3RHUTRITWk3RXY1RUtCVjdPQ1ZYRllDTzgrN0xWWVFZcFpaVmh6?=
+ =?utf-8?B?OEdaQnVhVW5Mem1qZnN1MXVtaTl2Uk56enNSalBqYmE2YVJDVHBqVDhvbVRX?=
+ =?utf-8?B?a3hrajJ5Q09WOWxDZ1pHNWhEUDd4NkZPWUo2VDNJb2phK2tzQit1TnJ1UWc4?=
+ =?utf-8?B?WEMyQ2tLamx2RURWWEM1eVl6ME93OG0veGZVN2hJeHdweUNuMXdZV2FweVFJ?=
+ =?utf-8?B?SlBHVWRRQ2JZMlNFVysyMkhJNGZ4NERiTGlkU3lQMjZTT29OVXdDVm43UGI3?=
+ =?utf-8?B?OFpRcE5XYzhleVcyR09WTDRLeEszWTZ2Mk1VK1VDYTBjV3RaL3IvWE9PVUVs?=
+ =?utf-8?B?cHN3YnkrMWJqa05lSTNYNDVGMmY5RU54SXp0aVBuRk5JakppbXQzS1BoQkVN?=
+ =?utf-8?B?K056eEY4S1EzZEZ2QkI2MFl0bE91TEJxUG9FNmZ5cTB2UGVYS0NzWkpHeGJi?=
+ =?utf-8?B?VkxjZkV1ZmwzTzFyZERsSXdtZHpYQlJhK3gxaXh3c25yc0R5U2hZeCtSMloz?=
+ =?utf-8?B?dXVXWnZDaHJGN0ExSktvTjNILzJrMDEvQnNaMi9SSE1HcXF4NXhTS2JEbm9Q?=
+ =?utf-8?B?Rk9KZUx3Uk14NjBQbDhHbG93ZWoyYWZxaHVDVXduNTlNdEV4V1JWRmErTWx2?=
+ =?utf-8?B?Z0VTYTViRitSUytlNFNtMy9xSnB3aGZ1K2VNazl5SGlxb2FUdFExWklUbVdx?=
+ =?utf-8?B?Y0ZzVTU5QjgyQlljRDlTMzA5VG51a2dYY2hiaTBaQ2ZGQ1oyVFZvVG5MWlQw?=
+ =?utf-8?B?d0dkQlZyZ2dHZS9tOTN1RnQ4elE3c1RSL0lVdUdxYzN4bjJXMFpPMEpyUTFk?=
+ =?utf-8?B?b2tnWEpEYjRDOUVFTm1ZVEJ5OWFYUEU5MTl3dmo2djlnUzlDY3pVWDVPa0xo?=
+ =?utf-8?B?UHFzUEFnZVFnRW4xZThFTkJtYWxsVm1QSUFOTUdNNDJqUFlGamtCVzJaUVhr?=
+ =?utf-8?B?NENqUWpmOUdsMGpUbVdJdkNqTkt3bUFwaiswUWJFemJXelQxRjNjWjhGMUlZ?=
+ =?utf-8?B?UmVVaHA2WnlLQnVNU0VCTjlvK25zNmIvOXdZa2ZVQXV3aDVpNGlxb3JVblhW?=
+ =?utf-8?B?eGIwamptV2VGczBHT2k5dW9OcE1ObmRvREFBb1Vydms3ZnM4VE94VDdjc0tU?=
+ =?utf-8?B?TTl3dEFBMy8rY2VQb1NRU2tkWEJXdUxWakxGVTFpK0xIOWZ5eHlRa3c2YzJq?=
+ =?utf-8?B?Z2lNVVRoMWF5dHE5bmpIQ24wNnZNTUtDSGNxMm8wbU5Ha0FvMk1QTzREc2hu?=
+ =?utf-8?B?TjdHQlN2S2YyZ1hxV2U5K3dDVVlRMEllQlFGNFFWVzZMclJ2Z1hjbTVwa1lX?=
+ =?utf-8?B?VVdnZXU2QzNIWEpKYUh3NzNYNmV4UTN2djJReU55UDVaNkJqVGs5NkJKTVV1?=
+ =?utf-8?B?a3lwOGdWYjdONHlVNnZTYkwyd0FzbHpMY2JUQkVNWEtmMXVJTzMybENyZW1K?=
+ =?utf-8?B?ckxBVzVxcGZ0RlRTSjgrWU41SmIwUmtWK1lWRWEzcUo3YXVPMGtidGFLbUNB?=
+ =?utf-8?B?R3FONlFKdVU3ZEZtbWFvQU8vWHA1V3J2VFRWYmxrTUhqa3l0bSszZldWc3Za?=
+ =?utf-8?B?WXV6dlpMcXZMK1VDUkoyWTNiVHl1bzZiVndpaTduTmNza01pVGU5QlVRRmE3?=
+ =?utf-8?B?TkM1QjlRNTZQT00xRVNUR1FTOWVQaXBFTDEvZHR2Z1FZeVJYQjdTeGswS29S?=
+ =?utf-8?Q?1/t82M7ArpPBslJZAD?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40c3e51d-8deb-4453-3494-08de67da6962
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 12:54:50.6422
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wGB0KoZeFvk3KZoEqe64eG8R05o+MmBqKCIQnJ6MhX5cZPUbzHNsCRT/o3gg/k3B
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6648
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260209_041102_717672_BCA10229 
-X-CRM114-Status: GOOD (  19.09  )
+X-CRM114-CacheID: sfid-20260209_045457_829038_95B276C8 
+X-CRM114-Status: GOOD (  20.41  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,142 +193,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When an NVMe interrupt is triggered, the current implementation first
-handles the CQE and then updates the CQ head. This may lead to a timing
-window causing a lower-level CQ full condition, which in turn leads to
-an I/O hang as described below:
+On Mon, Feb 09, 2026 at 11:13:42AM +0100, Christian König wrote:
+> On 2/9/26 10:54, Kanchan Joshi wrote:
+> > On 2/6/2026 8:50 PM, Jason Gunthorpe wrote:
+> >>> I'm actually curious, is there a way to somehow create a
+> >>> MEMORY_DEVICE_PCI_P2PDMA mapping out of a random dma-buf?
+> >> No. The driver owning the P2P MMIO has to do this during its probe and
+> >> then it has to provide a VMA with normal pages so GUP works. This is
+> >> usally not hard on the exporting driver side.
+> >>
+> >> It costs some memory but then everything works naturally in the IO
+> >> stack.
+> >>
+> >> Your project is interesting and would be a nice improvement, but I
+> >> also don't entirely understand why you are bothering when the P2PDMA
+> >> solution is already fully there ready to go... Is something preventing
+> >> you from creating the P2PDMA pages for your exporting driver?
+> > 
+> > The exporter driver may have opted out of the P2PDMA struct page path
+> > (MEMORY_DEVICE_PCI_P2PDMA route). This maybe a design choice to avoid
+> > the system RAM overhead.
 
-1. NVMe interrupt handling flow: nvme_handle_cqe -> nvme_pci_complete_rq
--> ... -> blk_mq_put_tag(when not added to the batch processing flow)
-notifies the NVMe driver that it can continue issuing commands.
-2. The NVMe driver issues a new command while the CQ head has not yet
-been updated.
-3. The underlying layer finishes processing the new command immediately
-and attempts to place it into the completion queue. It then detects that
-the CQ is full and discards the command.
-4. The NVMe interrupt flow from step 1 subsequently updates the CQ head.
+Currently you have to pay this tax to use the block stack.
 
-The sequence diagram is as follows:
+It is certainly bad on x86, but for example 64k page size ARM pays
+only 83MB, for the same configuration.
 
-      driver              irq             underlying(virtual/hardware)
-      ------             ------                     ------
-  1. Wait for tag
-                        1. Read CQE      CQ is full, wait for head update
-                        2. Handle CQE
-                        3. Wake up tag
-  2. Get tag
-  (blk_mq_put_tag)
-  3. Issue new cmd
-                                          1. Process cmd
-                                          2. Try write to CQ
-                                          3. CQ is full, discard cmd!
-                        4. Update CQ head
-                            (LATE!)
-  4. Cmd timeout
+> That is a good argumentation, but the killer argument for DMA-buf to
+> not use pages (or folios) is that the exported resource is sometimes
+> not even memory.
 
-In this scenario, the NVMe driver observes that the command never completes
-and reports a hung task error.
+I don't think anyone is saying that all DMA-buf must use pages, just
+that if you want to use the MMIO with the *block stack* then a page
+based approach already exists and is already being used. Usually
+through VMAs.
 
-[ 7128.239445] INFO: task kworker/u128:1:912 blocked for more than 122 seconds.
-[ 7128.241536] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-[ 7128.242675] task:kworker/u128:1  state:D stack:    0 pid:  912 ppid:     2 flags:0x00004000
-[ 7128.243862] Workqueue: kacpi_hotplug acpi_hotplug_work_fn
-[ 7128.244736] Call Trace:
-[ 7128.245283]  __schedule+0x2ea/0x640
-[ 7128.245951]  schedule+0x46/0xb0
-[ 7128.246576]  schedule_timeout+0x1a7/0x2b0
-[ 7128.247364]  ? __next_timer_interrupt+0x110/0x110
-[ 7128.248281]  io_schedule_timeout+0x4c/0x80
-[ 7128.249129]  wait_for_common_io.constprop.0+0x80/0xf0
-[ 7128.250083]  __nvme_disable_io_queues+0x14d/0x1a0 [nvme]
-[ 7128.251084]  ? nvme_del_queue_end+0x20/0x20 [nvme]
-[ 7128.252016]  nvme_dev_disable+0x20b/0x210 [nvme]
-[ 7128.252908]  nvme_remove+0x6d/0x1b0 [nvme]
-[ 7128.253709]  pci_device_remove+0x38/0xa0
-[ 7128.254423]  __device_release_driver+0x172/0x260
-[ 7128.255189]  device_release_driver+0x24/0x30
-[ 7128.255937]  pci_stop_bus_device+0x6c/0x90
-[ 7128.256659]  pci_stop_and_remove_bus_device+0xe/0x20
-[ 7128.257594]  disable_slot+0x49/0x90
-[ 7128.258336]  acpiphp_disable_and_eject_slot+0x15/0x90
-[ 7128.259302]  hotplug_event+0xc8/0x220
-[ 7128.260080]  ? acpiphp_post_dock_fixup+0xc0/0xc0
-[ 7128.260993]  acpiphp_hotplug_notify+0x20/0x40
-[ 7128.261835]  acpi_device_hotplug+0x8c/0x1d0
-[ 7128.262702]  acpi_hotplug_work_fn+0x3d/0x50
-[ 7128.263532]  process_one_work+0x1ad/0x350
-[ 7128.264329]  worker_thread+0x49/0x310
-[ 7128.265114]  ? rescuer_thread+0x370/0x370
-[ 7128.265945]  kthread+0xfb/0x140
-[ 7128.266650]  ? kthread_park+0x90/0x90
-[ 7128.267435]  ret_from_fork+0x1f/0x30
+I'm aware of all the downsides, but this proposal doesn't explain
+which ones are motivating the work. Is the lack of pre-registration or
+the tax the main motivation?
 
-Reproducing method:
-
-In a cloud-native environment, SPDK vfio-user emulates an NVMe disk for
-VMs. The issue can be reliably reproduced by repeatedly attaching and
-detaching one disk via a host shell script that calls virsh
-attatch-interface and virsh detach-interface. Once the issue is
-reproduced, SPDK logs the following messages:
-
-    vfio_user.c:1856:post_completion: ERROR: cqid:0 full
-      (tail=6, head=7, inflight io: 2)
-    vfio_user.c:1116:fail_ctrlr: ERROR: failing controller
-
-Correspondingly, the guest kernel reports a hung task error, displaying
-the call stack detailed in the previous section.
-
-Fix: Update the CQ head first, then process the CQE, and clear the bitmap
-to indicate that free slots are available for further command submission.
-
-Fixes: 324b494c2862 ("nvme-pci: Remove two-pass completions")
-Signed-off-by: Shouxin Sun <sunshx@chinatelecom.cn>
-Signed-off-by: Junnan Zhang <zhangjn11@chinatelecom.cn>
-Signed-off-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
-Signed-off-by: Zhaolong Zhang <zhangzl68@chinatelecom.cn>
-Signed-off-by: Yaxuan Liu <liuyx92@chinatelecom.cn>
-Signed-off-by: Junnan Zhang <zhangjn_dev@163.com>
----
- drivers/nvme/host/pci.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d86f2565a92c..904f45761cd2 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1438,7 +1438,9 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
- 			        struct io_comp_batch *iob)
- {
- 	bool found = false;
-+	u16 start, end;
- 
-+	start = nvmeq->cq_head;
- 	while (nvme_cqe_pending(nvmeq)) {
- 		found = true;
- 		/*
-@@ -1446,12 +1448,19 @@ static inline bool nvme_poll_cq(struct nvme_queue *nvmeq,
- 		 * the cqe requires a full read memory barrier
- 		 */
- 		dma_rmb();
--		nvme_handle_cqe(nvmeq, iob, nvmeq->cq_head);
- 		nvme_update_cq_head(nvmeq);
- 	}
-+	end = nvmeq->cq_head;
- 
--	if (found)
-+	if (found) {
- 		nvme_ring_cq_doorbell(nvmeq);
-+		while (start != end) {
-+			nvme_handle_cqe(nvmeq, iob, start);
-+			if (++start == nvmeq->q_depth)
-+				start = 0;
-+		}
-+	}
-+
- 	return found;
- }
- 
--- 
-2.43.0
-
+Jason
 
