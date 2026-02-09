@@ -4,100 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DDEBEF06F8
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Feb 2026 23:10:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3D3DEF070B
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 05:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=87FEGSXpVAnMUQR8bI4H8RD58BaU52BiJQ1S2S5ywak=; b=COInjPVrD/ZBRc2Jn00IwjxXuE
-	2fQAc9Yjc4nEg8U4EwgDV11hAoEAf76E76h/A+6AP/YG3/yM5yxfmomkInaMDToVKp93gSFEkmkM3
-	964M4PdQNMyGgddT5NxE8CfTyIvayENpSlQHsolzTwzE+oPYUDL7OyLlJ83AExXLMSlb3gHClgzj8
-	3BifcfzBPuqHc87SN/CRle3DvPOZQhdtHg1ve1zKxO0pYk23xSweL4DVayRwJxiGG5gggMSjB9AN8
-	7dFhBpgZBPm1GXRuYM84X+7MN+WlCpmaZ7RgjeRCrlfiQ8atkfHWTrfzLn7HDfXtzBm1g/MupKjcj
-	/jIJy3pw==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:
+	Content-Transfer-Encoding:Cc:References:Date:To:Content-Type:In-Reply-To:
+	Message-Id:Subject:From:Mime-Version:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Owner; bh=EwpT9+shb7SWYR1ITbx642pMm1pREtGm9z1LX2fvQPU=; b=h0B9cBQlaE14T4
+	SEJJywxYFNtS6niEww3dBkKvNdECFQECb3NNOAqmwaAviyF+Jo2xdFDy/GojZ9PVvwWjlkDcLrU2L
+	DAOkS+1Wl49FBvHtdrod/eukag3nuL7d0bSdiMYwF0alehuWArn2wOH49h8L6/wwhWuLzagjTnsGP
+	7wDK4hc4Vg+qpPqCggZRBWfxckVZwvrQy0IQpS4pmQX6LEQibdWXOvNz8LTQhYPyJBYX720pckGmm
+	liCr3UA3P9XZuEfp0j1QwNaAYi2ffXpqQqXwv2VasSr67JbjwvTAddF2LPJukYz6O0KkPGF6NWA/A
+	N6Sw48U95HI6nKlw0L3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpDvR-0000000EY6a-0MEc;
-	Sun, 08 Feb 2026 23:10:45 +0000
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+	id 1vpK2E-0000000ErHL-3RpO;
+	Mon, 09 Feb 2026 05:42:10 +0000
+Received: from sg-1-23.ptr.blmpb.com ([118.26.132.23])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpDvK-0000000EY6E-1Q40
+	id 1vpK28-0000000ErGm-11uS
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Feb 2026 23:10:40 +0000
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-82361bcbd8fso1212317b3a.0
-        for <linux-nvme@lists.infradead.org>; Sun, 08 Feb 2026 15:10:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1770592237; x=1771197037; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=87FEGSXpVAnMUQR8bI4H8RD58BaU52BiJQ1S2S5ywak=;
-        b=Y/NfVMuTw0yTxO2QomJOoi800GZKAYFbyCXEirZd5f4cAj43gWuShYl08z9saJeByC
-         jBT4Zp+dddVR2xiF4muClX+0kgYQsrQfdP54a4dTo70t6mQgIp+8D5PhwGdlADrxJ9HU
-         IhLvtVO0gqMbEqZjY5suhiK4AxCOPEP0zxr/QTGg8iA+ceRppiScI0B6j1rYjvDi9hhP
-         53c6FWQQLnEI4vd3Z3vgqrTN4RWKCQAet+i9WWoFv4ixnUcG0n8/moe1be6Rd2PaoYph
-         qdzqbyUs0xwvV+i7x2fAZBxoKHNipBx5n6olAVhwfYmoztjb/ZhjYecu9JlsZIHM4S1a
-         0dQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770592237; x=1771197037;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=87FEGSXpVAnMUQR8bI4H8RD58BaU52BiJQ1S2S5ywak=;
-        b=FoAqqIp1jACo9JF6JPNWthvzE/DHAl8YNypNLuCpMfcmEZTjwV6t3FUIyvpfrHIRHT
-         E883ip5zXjC89hpO0UzXRmjW3zjni5yrpNoqyZED88/gdBPu/rK2AiJ0aPtO643wOu1o
-         F+GZerHANKUuGkPerPPDoeVoqxS6cfSb4m7BK9JKKzSPp3N504ZhHmF1S2HQfZrWQOqb
-         SUR3FptNW2kK8GIeJvjO+uNiAq4L8OG1nZJZdX+DyZCMaBpj7j+O5j0FHEPe1sGXWkkV
-         F7MEf8vsvkDud0RWqeq1Rz5eqcNeDdGSfZhIXVtDrqCA2gdaF9OoP7zA4iZCe40wUFLM
-         Rh+A==
-X-Forwarded-Encrypted: i=1; AJvYcCX7zsFAG7aQYJIZyiBaExdBtyfn3oWRTq+R/SeWQ9EmzewDnhSLU+kRLPFCN8MWA8E3i885OPyYW4Ww@lists.infradead.org
-X-Gm-Message-State: AOJu0YxRzcg4BjGtFOGDiIbPT0o2g+hZGtr8nxM0y4DOuKUNvrA5J5H4
-	tIWcyBZgXySQ1+Gvd1ZRKqD2DMmrwT2neiRSIRDluzhkkChQq/yRskgf1EhtQNzkY9w=
-X-Gm-Gg: AZuq6aKcGmQo3V13IiSVGd3NqX37osRGc2e6zEOY53RpEJZ6uhBGIdNRoofzaMcOe61
-	byxR4IhowQawzGaD3kHKbPPay0fIOLKImkAMc+a8RsQjc4RLmxqQP0xFL+teie81FfAW/KTai4a
-	GzkJruyZ2qbBIp0qtf9UU/5vFTBXMvT1S2bjoaP+ldtuvuAJip+4TuhKTbsjDuL16P9jUVAmW1d
-	U1JHi3aIzuFOQBb2RtPpoJFsg7XvquRbD4ogv6cIUeDfNZTCe4+sn7qA0gSXRVMh1xkz+oaAejF
-	IUWTqizm20hQxu75Q6j/DOEv/X8TWZZYR4KtVFyarvs5IeVXBx6tCY4DtcLGliD/r2l0Zsq/asR
-	hbd6YmIoAhhznM5VjxIsj5ff3JazPR4RT+eZhF2FAujLY1ar8DRuHwdjpqe7wkySYSFQ2BZGsDv
-	rVROu98SzldG+P8/k=
-X-Received: by 2002:aa7:9062:0:b0:81f:9b0a:812a with SMTP id d2e1a72fcca58-824416097f1mr8006691b3a.14.1770592236722;
-        Sun, 08 Feb 2026 15:10:36 -0800 (PST)
-Received: from medusa.lab.kspace.sh ([2601:640:8202:6fb0::68dd])
-        by smtp.googlemail.com with UTF8SMTPSA id d2e1a72fcca58-824416746cesm8521379b3a.11.2026.02.08.15.10.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Feb 2026 15:10:36 -0800 (PST)
-Date: Sun, 8 Feb 2026 15:10:34 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Hannes Reinecke <hare@suse.de>, Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Aaron Dailey <adailey@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Dhaval Giani <dgiani@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/14] nvmet: Implement CCR nvme command
-Message-ID: <20260208231034.GD2392949-mkhalfella@purestorage.com>
-References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
- <20260130223531.2478849-4-mkhalfella@purestorage.com>
- <77a00fa1-5707-4859-8a7a-e823ca18c9fe@suse.de>
- <20260203184039.GB3729-mkhalfella@purestorage.com>
- <21be273b-b1b2-4813-8178-e01cb0aa6301@suse.de>
- <20260204004417.GK3729-mkhalfella@purestorage.com>
- <d53ac6e1-af6a-46ce-9b91-946a26ee1043@suse.de>
- <20260204175250.GL3729-mkhalfella@purestorage.com>
- <a2b46f72-857d-4145-ba87-c36c88710f18@grimberg.me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a2b46f72-857d-4145-ba87-c36c88710f18@grimberg.me>
+	Mon, 09 Feb 2026 05:42:06 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1770615706;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=EwpT9+shb7SWYR1ITbx642pMm1pREtGm9z1LX2fvQPU=;
+ b=h7TdKoHtsLzYZJWmWzxexq26/ok10pGULF0x+DCETp0foaugkVM1WIV7BAdzk48aXX5jMw
+ QyXhAZ0yBIw4xhBkXYRGczqpsjpKUVSSm4am9o9DS922nQKdZUhvc1djdrZ3xUicGh0Q+o
+ BN5+apBj2/lCGAPK9k8PvFqF7GZ3C/DjnndIW1SMXZtENuH2FGmgQ0HgyEchpb5zbWn+Pf
+ I/kOtD6pAqR0wJfo2GapXJ4Mo2hhMR1gd9FMMF32igMBWXHd3s3RuanfH+BRQNwJs6rrYR
+ lAiE1fEUv5/SAS+6rDrLJeheE0+GPT01wMn76d9FNXR6Npf0fu4leyZy6hiljQ==
+Mime-Version: 1.0
+X-Lms-Return-Path: <lba+269897398+cde6f4+lists.infradead.org+yukuai@fnnas.com>
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+From: "Yu Kuai" <yukuai@fnnas.com>
+Subject: Re: [bug report] WARNING: block/blk-mq-debugfs.c:620 at debugfs_create_files.isra.0+0x54/0x60, CPU#220: kworker/u1036:7/70421
+Message-Id: <c7d588b5-c680-4c31-8d17-94ce8fc443fb@fnnas.com>
+In-Reply-To: <aYWQR7CtYdk3K39g@shinmob>
+Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+To: "Shinichiro Kawasaki" <shinichiro.kawasaki@wdc.com>, 
+	"Yi Zhang" <yi.zhang@redhat.com>
+Date: Mon, 9 Feb 2026 13:41:41 +0800
+Received: from [192.168.1.104] ([39.182.0.137]) by smtp.feishu.cn with ESMTPS; Mon, 09 Feb 2026 13:41:43 +0800
+References: <CAHj4cs9gNKEYAPagD9JADfO5UH+OiCr4P7OO2wjpfOYeM-RV=A@mail.gmail.com> <aYWQR7CtYdk3K39g@shinmob>
+Cc: "linux-block" <linux-block@vger.kernel.org>, 
+	"open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>, 
+	"Ming Lei" <ming.lei@redhat.com>, "Jens Axboe" <axboe@kernel.dk>
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260208_151038_545638_554D0C48 
-X-CRM114-Status: GOOD (  30.73  )
+X-CRM114-CacheID: sfid-20260208_214205_428014_B5CC2E75 
+X-CRM114-Status: GOOD (  10.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,76 +70,199 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: yukuai@fnnas.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat 2026-02-07 15:58:49 +0200, Sagi Grimberg wrote:
-> 
-> 
-> On 04/02/2026 19:52, Mohamed Khalfella wrote:
-> > On Wed 2026-02-04 01:55:18 +0100, Hannes Reinecke wrote:
-> >> On 2/4/26 01:44, Mohamed Khalfella wrote:
-> >>> On Wed 2026-02-04 01:38:44 +0100, Hannes Reinecke wrote:
-> >>>> On 2/3/26 19:40, Mohamed Khalfella wrote:
-> >>>>> On Tue 2026-02-03 04:19:50 +0100, Hannes Reinecke wrote:
-> >>>>>> On 1/30/26 23:34, Mohamed Khalfella wrote:
-> >>>>>>> @@ -1501,6 +1516,38 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
-> >>>>>>>      	return ctrl;
-> >>>>>>>      }
-> >>>>>>>      
-> >>>>>>> +struct nvmet_ctrl *nvmet_ctrl_find_get_ccr(struct nvmet_subsys *subsys,
-> >>>>>>> +					   const char *hostnqn, u8 ciu,
-> >>>>>>> +					   u16 cntlid, u64 cirn)
-> >>>>>>> +{
-> >>>>>>> +	struct nvmet_ctrl *ctrl;
-> >>>>>>> +	bool found = false;
-> >>>>>>> +
-> >>>>>>> +	mutex_lock(&subsys->lock);
-> >>>>>>> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> >>>>>>> +		if (ctrl->cntlid != cntlid)
-> >>>>>>> +			continue;
-> >>>>>>> +		if (strncmp(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE))
-> >>>>>>> +			continue;
-> >>>>>>> +
-> >>>>>> Why do we compare the hostnqn here, too? To my understanding the host
-> >>>>>> NQN is tied to the controller, so the controller ID should be sufficient
-> >>>>>> here.
-> >>>>> We got cntlid from CCR nvme command and we do not trust the value sent by
-> >>>>> the host. We check hostnqn to confirm that host is actually connected to
-> >>>>> the impacted controller. A host should not be allowed to reset a
-> >>>>> controller connected to another host.
-> >>>>>
-> >>>> Errm. So we're starting to not trust values in NVMe commands?
-> >>>> That is a very slippery road.
-> >>>> Ultimately it would require us to validate the cntlid on each
-> >>>> admin command. Which we don't.
-> >>>> And really there is no difference between CCR and any other
-> >>>> admin command; you get even worse effects if you would assume
-> >>>> a misdirected 'FORMAT' command.
-> >>>>
-> >>>> Please don't. Security is _not_ a concern here.
-> >>> I do not think the check hurts. If you say it is wrong I will delete it.
-> >>>
-> >> It's not 'wrong', It's inconsistent. The argument that the contents of
-> >> an admin command may be wrong applies to _every_ admin command.
-> >> Yet we never check on any of those commands.
-> >> So I fail to see why this command requires special treatment.
-> > Okay, I will delete this check.
-> 
-> It is a very different command than other commands that nvmet serves. Format
-> is different because it is an attached namespace, hence the host should 
-> be able
-> to format it. If it would have been possible to access a namespace that 
-> is not mapped
-> to a controller, then this check would have been warranted I think.
-> 
-> There have been some issues lately opened on nvme-tcp that expose 
-> attacks that can
-> crash the kernel with some hand-crafted commands, I'd say that this is a 
-> potential attack vector.
+Hi,
 
-For an attacker to exploit CCR command they will have to guess both CUI
-(8bit) and CIRN(64bit) random values correctly. I do not see how an
-attacker can find these values without being connected to the impacted
-controller.
+=E5=9C=A8 2026/2/6 15:25, Shinichiro Kawasaki =E5=86=99=E9=81=93:
+> On Feb 03, 2026 / 20:28, Yi Zhang wrote:
+>> Hello
+>>
+>> CKI reported the following failure today. Seems it was introduced from
+>> the recently blk-mq-debugfs update, please help check and let me know
+>> if you need any testing/info.
+>>
+>> Reproducer: blktests nvme/tcp nvme/005
+>> Commit message: Merge branch 'for-7.0/block' into for-next
+>>
+>> dmesg:
+>> [  951.319384] run blktests nvme/005 at 2026-02-02 17:59:35
+>> [  951.346116] loop0: detected capacity change from 0 to 2097152
+>> [  951.356428] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+>> [  951.370823] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+>> [  951.397438] nvmet: Created nvm controller 1 for subsystem
+>> blktests-subsystem-1 for NQN
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+>> [  951.412081] nvme nvme0: creating 128 I/O queues.
+>> [  951.425914] nvme nvme0: mapped 128/0/0 default/read/poll queues.
+>> [  951.467027] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr
+>> 127.0.0.1:4420, hostnqn:
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+>> [  951.784608] nvmet: Created nvm controller 2 for subsystem
+>> blktests-subsystem-1 for NQN
+>> nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+>> [  951.798920] nvme nvme0: creating 128 I/O queues.
+>> [  951.871600] nvme nvme0: mapped 128/0/0 default/read/poll queues.
+>> [  951.880680] ------------[ cut here ]------------
+>> [  951.885309] WARNING: block/blk-mq-debugfs.c:620 at
+>> debugfs_create_files.isra.0+0x54/0x60, CPU#220: kworker/u1036:7/70421
+> FYI, I also observe this WARN at debugfs_create_files() using the blktest=
+s test
+> case zbd/012. When I repeat zbd/012 several times on the kernel with the =
+tag
+> next-20260204, the WARN below is reported:
+
+Thanks for the test, although queue is unfrozen before debugfs_create_files=
+() from
+switching elevator, however, it's still possible queue can be frozen from o=
+ther
+context concurrently.
+
+This warning is not false positive, however, we'll have to fix nvme cases f=
+irst
+before we can fix this.
+
+>
+> [ 1304.543824] [  T12755] ------------[ cut here ]------------
+> [ 1304.545792] [  T12755] WARNING: block/blk-mq-debugfs.c:620 at debugfs_=
+create_files+0x247/0x2c0, CPU#2: check/12755
+> [ 1304.547377] [  T12755] Modules linked in: scsi_debug null_blk nft_fib_=
+inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_re=
+ject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv=
+6 nf_defrag_ipv4 nf_tables qrtr sunrpc 9pnet_virtio 9pnet pcspkr netfs i2c_=
+piix4 i2c_smbus loop fuse dm_multipath nfnetlink vsock_loopback vmw_vsock_v=
+irtio_transport_common zram vsock xfs bochs drm_client_lib drm_shmem_helper=
+ drm_kms_helper nvme drm nvme_core floppy sym53c8xx nvme_keyring e1000 scsi=
+_transport_spi nvme_auth hkdf serio_raw ata_generic pata_acpi i2c_dev qemu_=
+fw_cfg [last unloaded: scsi_debug]
+> [ 1304.554851] [  T12755] CPU: 2 UID: 0 PID: 12755 Comm: check Not tainte=
+d 6.19.0-rc8-next-20260204 #383 PREEMPT(full)
+> [ 1304.556421] [  T12755] Hardware name: QEMU Standard PC (i440FX + PIIX,=
+ 1996), BIOS 1.16.3-4.fc42 04/01/2014
+> [ 1304.557886] [  T12755] RIP: 0010:debugfs_create_files+0x247/0x2c0
+> [ 1304.559074] [  T12755] Code: ff e8 1d b0 83 01 83 f8 01 0f 85 67 fe ff=
+ ff 0f 0b e9 60 fe ff ff 0f 0b e9 59 fe ff ff 48 89 ef e8 2e 59 69 ff e9 07=
+ fe ff ff <0f> 0b e9 6e ff ff ff e8 fd 58 69 ff e9 9a fe ff ff 48 89 df e8 =
+30
+> [ 1304.562112] [  T12755] RSP: 0018:ffff888147b77530 EFLAGS: 00010202
+> [ 1304.563343] [  T12755] RAX: 0000000000000000 RBX: ffffffffaa567360 RCX=
+: 0000000000000001
+> [ 1304.564728] [  T12755] RDX: 0000000000000001 RSI: ffffffffaae6910d RDI=
+: ffff888130361a48
+> [ 1304.566104] [  T12755] RBP: ffffffffabe49734 R08: 0000000000000001 R09=
+: ffffed1022804075
+> [ 1304.567487] [  T12755] R10: 0000000000000002 R11: ffff88812610c390 R12=
+: ffff8881140202f0
+> [ 1304.568850] [  T12755] R13: ffff888130361310 R14: ffff888130361310 R15=
+: ffffffffaa567af0
+> [ 1304.570246] [  T12755] FS:  00007f40d67a1740(0000) GS:ffff8884011ea000=
+(0000) knlGS:0000000000000000
+> [ 1304.571721] [  T12755] CS:  0010 DS: 0000 ES: 0000 CR0: 00000000800500=
+33
+> [ 1304.573019] [  T12755] CR2: 000000001e02a810 CR3: 00000001148f6000 CR4=
+: 00000000000006f0
+> [ 1304.574409] [  T12755] Call Trace:
+> [ 1304.575361] [  T12755]  <TASK>
+> [ 1304.576229] [  T12755]  blk_mq_sched_reg_debugfs+0x28/0xe0
+> [ 1304.577287] [  T12755]  elevator_change_done+0x2f2/0x610
+> [ 1304.578342] [  T12755]  ? lockdep_hardirqs_on_prepare+0x50/0x1b0
+> [ 1304.579452] [  T12755]  ? __pfx_elevator_change_done+0x10/0x10
+> [ 1304.580469] [  T12755]  ? find_held_lock+0x2b/0x80
+> [ 1304.581346] [  T12755]  ? elevator_change+0x2ed/0x4f0
+> [ 1304.582246] [  T12755]  ? lock_release+0x1a7/0x320
+> [ 1304.583142] [  T12755]  ? __pfx_sysfs_kf_write+0x10/0x10
+> [ 1304.584087] [  T12755]  elevator_change+0x283/0x4f0
+> [ 1304.584970] [  T12755]  ? __pfx_sysfs_kf_write+0x10/0x10
+> [ 1304.585887] [  T12755]  elv_iosched_store+0x31d/0x3a0
+> [ 1304.586784] [  T12755]  ? __pfx_elv_iosched_store+0x10/0x10
+> [ 1304.587724] [  T12755]  ? lock_acquire+0x1b0/0x340
+> [ 1304.588597] [  T12755]  ? kernfs_fop_write_iter+0x257/0x5e0
+> [ 1304.589523] [  T12755]  ? __pfx___might_resched+0x10/0x10
+> [ 1304.590396] [  T12755]  ? __might_fault+0x97/0x140
+> [ 1304.591265] [  T12755]  ? __pfx_sysfs_kf_write+0x10/0x10
+> [ 1304.592185] [  T12755]  queue_attr_store+0x235/0x360
+> [ 1304.593064] [  T12755]  ? __lock_acquire+0x497/0x2230
+> [ 1304.593929] [  T12755]  ? __pfx_queue_attr_store+0x10/0x10
+> [ 1304.594787] [  T12755]  ? lock_acquire+0x1b0/0x340
+> [ 1304.595629] [  T12755]  ? sysfs_file_kobj+0x1d/0x1b0
+> [ 1304.596473] [  T12755]  ? lock_acquire+0x1c0/0x340
+> [ 1304.597261] [  T12755]  ? find_held_lock+0x2b/0x80
+> [ 1304.598107] [  T12755]  ? sysfs_file_kobj+0xaf/0x1b0
+> [ 1304.598937] [  T12755]  ? lock_release+0x1a7/0x320
+> [ 1304.599766] [  T12755]  ? sysfs_file_kobj+0xb9/0x1b0
+> [ 1304.600598] [  T12755]  ? sysfs_kf_write+0x61/0x160
+> [ 1304.601378] [  T12755]  ? __pfx_sysfs_kf_write+0x10/0x10
+> [ 1304.602276] [  T12755]  kernfs_fop_write_iter+0x3d6/0x5e0
+> [ 1304.603148] [  T12755]  ? __pfx_kernfs_fop_write_iter+0x10/0x10
+> [ 1304.604048] [  T12755]  vfs_write+0x523/0xf80
+> [ 1304.604784] [  T12755]  ? arch_stack_walk+0xb3/0x100
+> [ 1304.605573] [  T12755]  ? __pfx_vfs_write+0x10/0x10
+> [ 1304.606283] [  T12755]  ? lock_acquire+0x1b0/0x340
+> [ 1304.607038] [  T12755]  ? get_close_on_exec+0x1f/0x230
+> [ 1304.607774] [  T12755]  ? get_close_on_exec+0xfc/0x230
+> [ 1304.608502] [  T12755]  ? lock_release+0x1a7/0x320
+> [ 1304.609150] [  T12755]  ksys_write+0xfb/0x200
+> [ 1304.609803] [  T12755]  ? __pfx_ksys_write+0x10/0x10
+> [ 1304.610495] [  T12755]  ? lock_release+0x1a7/0x320
+> [ 1304.611181] [  T12755]  do_syscall_64+0x136/0x1540
+> [ 1304.611845] [  T12755]  ? do_wp_page+0x168d/0x3610
+> [ 1304.612505] [  T12755]  ? lock_acquire+0x1b0/0x340
+> [ 1304.613151] [  T12755]  ? __pfx_do_wp_page+0x10/0x10
+> [ 1304.613803] [  T12755]  ? lock_acquire+0x1b0/0x340
+> [ 1304.614439] [  T12755]  ? do_raw_spin_lock+0x124/0x260
+> [ 1304.615078] [  T12755]  ? lock_acquire+0x1c0/0x340
+> [ 1304.615697] [  T12755]  ? __pfx_do_raw_spin_lock+0x10/0x10
+> [ 1304.616369] [  T12755]  ? __pfx_pte_write+0x10/0x10
+> [ 1304.617022] [  T12755]  ? __handle_mm_fault+0x12b2/0x1d50
+> [ 1304.617677] [  T12755]  ? __lock_acquire+0x497/0x2230
+> [ 1304.618336] [  T12755]  ? __pfx_css_rstat_updated+0x10/0x10
+> [ 1304.619065] [  T12755]  ? lock_acquire+0x1b0/0x340
+> [ 1304.619677] [  T12755]  ? count_memcg_events_mm.constprop.0+0x22/0x130
+> [ 1304.620438] [  T12755]  ? rcu_is_watching+0x11/0xb0
+> [ 1304.621074] [  T12755]  ? count_memcg_events+0x106/0x4a0
+> [ 1304.621741] [  T12755]  ? find_held_lock+0x2b/0x80
+> [ 1304.622376] [  T12755]  ? rcu_read_unlock+0x17/0x60
+> [ 1304.623047] [  T12755]  ? lock_release+0x1a7/0x320
+> [ 1304.623656] [  T12755]  ? find_held_lock+0x2b/0x80
+> [ 1304.624290] [  T12755]  ? exc_page_fault+0x83/0x110
+> [ 1304.624926] [  T12755]  ? lock_release+0x1a7/0x320
+> [ 1304.625553] [  T12755]  ? rcu_is_watching+0x11/0xb0
+> [ 1304.626170] [  T12755]  ? irqentry_exit+0xdd/0x6a0
+> [ 1304.626793] [  T12755]  ? lockdep_hardirqs_on_prepare+0xce/0x1b0
+> [ 1304.627499] [  T12755]  ? irqentry_exit+0xe2/0x6a0
+> [ 1304.628114] [  T12755]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [ 1304.628821] [  T12755] RIP: 0033:0x7f40d681277e
+> [ 1304.629425] [  T12755] Code: 4d 89 d8 e8 d4 bc 00 00 4c 8b 5d f8 41 8b=
+ 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45=
+ 10 0f 05 <c9> c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e =
+fa
+> [ 1304.631432] [  T12755] RSP: 002b:00007ffd15db4a60 EFLAGS: 00000202 ORI=
+G_RAX: 0000000000000001
+> [ 1304.632364] [  T12755] RAX: ffffffffffffffda RBX: 000000000000000c RCX=
+: 00007f40d681277e
+> [ 1304.633275] [  T12755] RDX: 000000000000000c RSI: 000000001e02a810 RDI=
+: 0000000000000001
+> [ 1304.634198] [  T12755] RBP: 00007ffd15db4a70 R08: 0000000000000000 R09=
+: 0000000000000000
+> [ 1304.635127] [  T12755] R10: 0000000000000000 R11: 0000000000000202 R12=
+: 000000000000000c
+> [ 1304.636044] [  T12755] R13: 000000001e02a810 R14: 00007f40d698d5c0 R15=
+: 0000000000000000
+> [ 1304.636962] [  T12755]  </TASK>
+> [ 1304.637532] [  T12755] irq event stamp: 6849
+> [ 1304.638170] [  T12755] hardirqs last  enabled at (6861): [<ffffffffa76=
+e6bae>] __up_console_sem+0x5e/0x70
+> [ 1304.639207] [  T12755] hardirqs last disabled at (6872): [<ffffffffa76=
+e6b93>] __up_console_sem+0x43/0x70
+> [ 1304.640247] [  T12755] softirqs last  enabled at (5936): [<ffffffffa75=
+21b66>] __irq_exit_rcu+0x126/0x240
+> [ 1304.641299] [  T12755] softirqs last disabled at (5925): [<ffffffffa75=
+21b66>] __irq_exit_rcu+0x126/0x240
+> [ 1304.642338] [  T12755] ---[ end trace 0000000000000000 ]---
+>
+--=20
+Thansk,
+Kuai
 
