@@ -4,96 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B37FAE7E0C7
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 11:15:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2611E81BA6
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Feb 2026 11:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3wbG3Hwlnnt7XslslOQ5Ajzf6jd6ChHMQtwpqlWp/yk=; b=QFNQZn9Z9iFAZyzM5CzU5L85na
-	G8ZoRMEuVim78PgVQOI6m/j2+JU5cFS4y1JnuWBE8XXr7adUESjoF42MoPIIo0YzZ98R+R5BYsksi
-	CjZhqFVFdsHVmq5ePkzodKsjBwRKmrgZdy7RizQm90Cf4t2UQQVuwmKCflpmic6KHPMuEl0Osq96L
-	9uyHeTgZsHj3XFGNPhbMR+3xYrBz8axZ7iHlMn6MKoCtn8khDUhj/AIekcLCAk4ijesTl3TZIsuM3
-	VbXZnTnRoQsm2F6HeNMSiH7qCNFOVdnw1fOMBic/tHANeEVM28kRtfVX9USlh72EvWyjPEVj4oWgo
-	s3D4oHbA==;
+	bh=mOOYK3/Jlsquli3Jowz6rlbh4BPb8x5Bt2SgmnbSDsw=; b=FpOIP9cxnv5Nx5rjY+tu9Rk/Ix
+	HhGg+q4v5CHrQPfQQHjJk7gw4p6ELRgyrEmrm4JsYE+CzEPTOwr9sWhhngbOX9hQZTseWanw5mlsr
+	GyTdOFUBGRpOTGQFgVz1YU1mPGInc/3oFjjCaDJaUfBfPPTJVPR2g2Ot2qTsXy2FUvLJVI0si9up5
+	n30pHzQ2SLEfIJy2su4+7GgXwSgGo4QD6ADJrghLM1zGSMDpVECzwuAa5IbN0RzO2ufVM6xHBR247
+	avBxJ/mrePTRWHaqiBZGzwUSgYbjhD87mANF2dIMsdRN6C0QgO6JoSEbifzLBCIC+qkdFVEluATSQ
+	2UrSEGsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpPEk-0000000FHZp-3jvH;
-	Mon, 09 Feb 2026 11:15:26 +0000
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+	id 1vpPku-0000000FK9J-2XCd;
+	Mon, 09 Feb 2026 11:48:40 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpPEj-0000000FHZL-0HCf
+	id 1vpPkr-0000000FK8U-3mSR
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Feb 2026 11:15:26 +0000
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-436e87589e8so1095647f8f.3
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Feb 2026 03:15:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770635723; x=1771240523; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3wbG3Hwlnnt7XslslOQ5Ajzf6jd6ChHMQtwpqlWp/yk=;
-        b=CW8j69dh0o5imRHD3nfZZZcbCBqPx9S83qajT+prWGMm/bBRrhOaNWoKN0vcwq6EK0
-         Td77B2kV+WptWaCcv26zqBnIvjo94g3v6u2BXxwNm0rXsHxljGUIz64bz2S71baEdrBN
-         DS3HhOC8QJPdn5suUtzZiQ7Yf6MEpMjdhqaFySh+Xh14DHkJ6EwxbUltv4FZSY5U9qdW
-         hZv9scUNVV12/gG/XFE+fzFamM0CFX8pGRqf31UYuMPyxphY0tzn7RymKDCwXhtnw6cn
-         Uz+5HuezF+/RJ5aQV5ydJpKGShst/InnjfPKh6xwo2xErMTvI2PUy3RMpjPuvMLxeevG
-         JRpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770635723; x=1771240523;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3wbG3Hwlnnt7XslslOQ5Ajzf6jd6ChHMQtwpqlWp/yk=;
-        b=A5HioqRMntR6tjJntbzm4K968Wo36yvN5vOEIYmu9TwrwFjq+7WoFt2tfEjOHlmlVt
-         fq8YQsRDjbBW+x57T8SBzDb7VpAQxYc8JRJwkXm+YbLK6i/wY/Nz4HGwGyRwSk+p78zT
-         Wv3g5YLHAeytKyFzvVFTzLpRGDHUMQUyTo06do01A5JGgrdKB8J1PvkkbZ1uoOXnXeEc
-         UOhcNylRZdLgN8aokAozUm17wBvZeipUHHkwoQ6hMHpqjZLl8Lz/aJtQf1Hx2S0fPShn
-         GqH/4cscXfZJJmKaR79zTkGKuPMm8kEYYm3n0KhAEkd8wqPdTpFgkNR/CwSEysF1kkxi
-         1Elw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5KoMClEGSYvQHPJ8McG/DiIbRhfpSrs8vxpWc1s9OgED7EjyiqozApjTkH9QbiU6uPdy8J6vdPMaQ@lists.infradead.org
-X-Gm-Message-State: AOJu0YwVabyGR7nFPpvAkP944RZdF755NyiWlvgsEpo6s1CiVhscx5m3
-	tJ2dDzx/PE7u8b1csg6tJUuwoKs27UbNv5LcTg8DoM8/DGOFG2RV9pLO
-X-Gm-Gg: AZuq6aKFT3qH5zIvr14bdkHaK/aIDr1X70ho7yX4KTeSmyKWy5boRr0dWEhYjySXlF/
-	Ak8ic7YR/LSEo6wyN3v5SHxvvWZYRtX/X3Gz3EVSxkLJCVpRfGIPd/A6lLRzD4Df/YSPykSGATP
-	eoFrAh44BCTDsmO5u9KL0xiU0Hqjf3yrSwqSmjGD5VzqxxjZhJKTLuRzrM3ofUAM/11mvepsGj/
-	wgpSxZ6LvEqYOcimvyepL5RCWRARMfFbVPTPw+VieupQhF1hoNNye4M5uDvVIsBTpOtqXx02VIB
-	H7p3ok4/0GaZ3RxQvI4/Ig0mLi/J6ybk2SuGBhNOMt7st/6F5ucArmSV3IGoiYFF5vMDR+yuAsr
-	5aTvF3No5Dz+VaDbmuTFU6urrzlLQJJ+mq4WdymuFKeh3mCfJNmkfzhUtJwsn5H0pxD1BVDxUkG
-	wh4JdIksSnGwgaVH3lxyY4n/fSEAlEXUE6FrsQPP8YT3rYnnI6/pC3B/ocr1v5k1I469Q+IBGEC
-	5i9gutB5dUG3W0CVsrvuNmKtpr7nkbSf86q8LWtsa+UbKc=
-X-Received: by 2002:a05:6000:2209:b0:435:9241:37b4 with SMTP id ffacd0b85a97d-4362938ffe3mr19185555f8f.53.1770635723028;
-        Mon, 09 Feb 2026 03:15:23 -0800 (PST)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:9b67])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4376806626fsm12638100f8f.37.2026.02.09.03.15.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Feb 2026 03:15:22 -0800 (PST)
-Message-ID: <76299bc2-4871-4571-bef6-9886ee0d2c5f@gmail.com>
-Date: Mon, 9 Feb 2026 11:15:22 +0000
+	Mon, 09 Feb 2026 11:48:39 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 618LFNXq213941;
+	Mon, 9 Feb 2026 11:48:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=mOOYK3
+	/Jlsquli3Jowz6rlbh4BPb8x5Bt2SgmnbSDsw=; b=kTpxvTqQi3wXoONt8w9HO6
+	hEai+XelmwrLNqg1/Lfip60h0hnO8rZjCxHdD7hCRsAEueFEf3MfKv8Iq9/c16df
+	Iw8OIUCoIdUUv98XHV/nCPlHYHX5zvPP/7OLHUs+7KFZA0iu3fqUNYVFOE+VO5jT
+	DMkW/fz9Dq35+3Ogq5jJNeLgvRZ7QZZfKvZjMNr9gtPkLHu8l22Dj/SrCy31/+0Y
+	UdHpKKlYL0aTL+0V/rkheiMjVDsisE7ixXKofbgh4srVpKecoa8Fx9zCKS3UBy1z
+	w8RS/nUFT0oIcwar90aSTG/SfRBjeFjXUNUrWBezbQRiEkWafVrx0QRsyUO4lotw
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c696vxuu2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Feb 2026 11:48:18 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6198SYj0001408;
+	Mon, 9 Feb 2026 11:48:17 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4c6gqmvy64-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Feb 2026 11:48:17 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 619BmGjt37749306
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 9 Feb 2026 11:48:16 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7137358054;
+	Mon,  9 Feb 2026 11:48:16 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F08735803F;
+	Mon,  9 Feb 2026 11:48:10 +0000 (GMT)
+Received: from [9.111.86.70] (unknown [9.111.86.70])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  9 Feb 2026 11:48:10 +0000 (GMT)
+Message-ID: <d3093117-cf18-4e7c-81fd-f6a71d4df0a7@linux.ibm.com>
+Date: Mon, 9 Feb 2026 17:18:08 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] dmabuf backed read/write
-To: Nitesh Shetty <nj.shetty@samsung.com>
-Cc: linux-block@vger.kernel.org, io-uring <io-uring@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>
-References: <4796d2f7-5300-4884-bd2e-3fcc7fdd7cea@gmail.com>
- <CGME20260204153051epcas5p1c2efd01ef32883680fed2541f9fca6c2@epcas5p1.samsung.com>
- <20260204152634.gyybb2axszwpewrk@green245.gost>
+Subject: Re: [PATCHv2 1/7] nvme: export command retry count via sysfs
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, hare@suse.de,
+        dwagner@suse.de, wenxiong@linux.ibm.com, gjoyce@ibm.com
+References: <20260205124810.682559-1-nilay@linux.ibm.com>
+ <20260205124810.682559-2-nilay@linux.ibm.com>
+ <172079af-d1c6-4f27-8fff-43ff2c7043c9@grimberg.me>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260204152634.gyybb2axszwpewrk@green245.gost>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <172079af-d1c6-4f27-8fff-43ff2c7043c9@grimberg.me>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=YeCwJgRf c=1 sm=1 tr=0 ts=6989c982 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=BXse_ZEqkTj4_V1LyucA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: IybaqZTs7rJC2KC6G0BmORHzw0E8ZV3u
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA5MDA5OSBTYWx0ZWRfX/5bisUFqrDgi
+ raVI1uc6djgk/RtuvY/C/sodAFgjVrnSAwzpm9+vgYa4MvFVNVWS9V8zOC/NXTxPhpvrmtCK5oF
+ lZ1mR7DXr88Xmr6DQQrlj/pipj+tsFTWavPvE/lHW+BLJ8g3kJUSjPIg1VbBJxthcfz196jZSys
+ 0ZSaSuIDYfTJpyYej+KKT7HviJbAlNrFQpnae2LuIoOocr7PI6sexeD5uXd6IVHq4YptVwIjrtG
+ Bfc1oqf4IjfG5v0kV5FthUthqFAYBx6jxPDYEbfvsdlkLAtbXWyOzVI2BsaqS1clD2vKjtqLibl
+ 7mhR+iJW60KY+mTKYHmAeZ/tkXcL+cTIMbLE9JLax0nJbZlBAGu7avTGhB55jzV6+E+7FHFi8fk
+ hICR2Vf0uAC/2Y08FS8zA18GPpdkQc0MZThmB7NvgUBgCF0MwYckv2JFSHAuYmtRcX3L97M7ON/
+ qc8bwTDpgkHZyOPkNyg==
+X-Proofpoint-ORIG-GUID: IybaqZTs7rJC2KC6G0BmORHzw0E8ZV3u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-08_05,2026-02-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 impostorscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602090099
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260209_031525_128269_6AA2C938 
-X-CRM114-Status: GOOD (  19.67  )
+X-CRM114-CacheID: sfid-20260209_034837_945749_3E087F40 
+X-CRM114-Status: GOOD (  18.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,52 +122,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/4/26 15:26, Nitesh Shetty wrote:
-> On 03/02/26 02:29PM, Pavel Begunkov wrote:
->> Good day everyone,
->>
->> dma-buf is a powerful abstraction for managing buffers and DMA mappings,
->> and there is growing interest in extending it to the read/write path to
->> enable device-to-device transfers without bouncing data through system
->> memory. I was encouraged to submit it to LSF/MM/BPF as that might be
->> useful to mull over details and what capabilities and features people
->> may need.
->>
->> The proposal consists of two parts. The first is a small in-kernel
->> framework that allows a dma-buf to be registered against a given file
->> and returns an object representing a DMA mapping. The actual mapping
->> creation is delegated to the target subsystem (e.g. NVMe). This
->> abstraction centralises request accounting, mapping management, dynamic
->> recreation, etc. The resulting mapping object is passed through the I/O
->> stack via a new iov_iter type.
->>
->> As for the user API, a dma-buf is installed as an io_uring registered
->> buffer for a specific file. Once registered, the buffer can be used by
->> read / write io_uring requests as normal. io_uring will enforce that the
->> buffer is only used with "compatible files", which is for now restricted
->> to the target registration file, but will be expanded in the future.
->> Notably, io_uring is a consumer of the framework rather than a
->> dependency, and the infrastructure can be reused.
->>
-> We have been following the series, its interesting from couple of angles,
-> - IOPS wise we see a major improvement especially for IOMMU
-> - Series provides a way to do p2pdma to accelerator memory
+
+
+On 2/7/26 6:58 PM, Sagi Grimberg wrote:
 > 
-> Here are few topics which I am looking into specifically,
-> - Right now the series uses a PRP list. We need a good way to keep the
->    sg_table info around and decide on‑the‑fly whether to expose the buffer
->    as a PRP list or an SG list, depending on the I/O size.
-> - Possibility of futher optimization for new type of iov iter to reduce
->    per IO cost
+> 
+> On 05/02/2026 14:48, Nilay Shroff wrote:
+>> When Advanced Command Retry Enable (ACRE) is configured, a controller
+>> may interrupt command execution and return a completion status
+>> indicating command interrupted with the DNR bit cleared. In this case,
+>> the driver retries the command based on the Command Retry Delay (CRD)
+>> value provided in the completion status.
+>>
+>> Currently, these command retries are handled entirely within the NVMe
+>> driver and are not visible to userspace. As a result, there is no
+>> observability into retry behavior, which can be a useful diagnostic
+>> signal.
+>>
+>> Expose the command retries count through sysfs to provide visibility
+>> into retry activity. This information can help identify controller-side
+>> congestion under load and enables comparison across paths in multipath
+>> setups (for example, detecting cases where one path experiences
+>> significantly more retries than another under identical workloads).
+>>
+>> This exported metric is intended for diagnostics and monitoring tools
+>> such as nvme-top, and does not change command retry behavior.
+> 
+> This is designed to show an accumulated value of how much retries were
+> done on a namespace since boot? I'm wandering if this does not belong in
+> debugfs?
 
-There is a bunch of improvements that we can have on the NVMe driver
-side, just take a look what Keith was doing in his series ([2] in the
-first email in the thread), that looked very exciting (I dropped it for
-simplicity). I was planning to take a closer look at optimising the driver
-part after, but if someone wants to take it off my hands, it'll definitely
-be welcome!
+Yes, that’s correct — the intent is to expose an accumulated count of command
+retries for a namespace since boot.
+While debugfs could be used for this type of diagnostic information, it would
+not work well for the intended userspace consumption. The retry counter is
+expected to be consumed by tools such as nvme-cli (and potentially nvme-top), 
+so it needs to be available via sysfs. Relying on debugfs would make this
+information unavailable on production systems where debugfs may not be enabled
+or mounted. For that reason, exporting the metric through sysfs ensures it is
+consistently accessible in production environments
 
--- 
-Pavel Begunkov
-
+Thanks,
+--Nilay
 
