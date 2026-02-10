@@ -4,86 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21BF5EB2700
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Feb 2026 19:37:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E4FBEB2700
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Feb 2026 22:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Rwf+20VMTd2+QuwL6pXb4JgxQqWn5LY4vXUwXPa54Pw=; b=I5iri7guwXtQ13DbME8CNaXmsc
-	5IZdP+SnQMFys/4VKqu23zG83/8gIT00I31GVhSFG4Uy+pRClj59BY8XgxpVvcGJtQ5Xv6mSCU0hd
-	JFPr7uDnNWfpPS1goY5nZARr4gpCFottaD5kFX9E5lLnBieoiKeCo4+5AZSm4yFWPxXQ7ipsMeWsx
-	6P3AcuSespWXueT6t/gaJGPzichhDOMStX5Lyd5mO3igkp9+yvPt+vNmdGARcjCBzlJuQ+zzjrSC/
-	3NxamJ/wmsuI9At5+j8FL7mYP7EeB/CgPS4NiH1ojp8xaUoL+4rRzThhswBzqaW3U5Mj+OHqVC/Ly
-	a9j3OEDw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZyWovkRTm+VBO7EWXfO8gUOOoB2/pAnZYbbbLZ/pIDI=; b=gGGblk3j0+DYH1aKcAOK/yTjDb
+	D5DJDsF0/Vgpawb2u7sYFlyyVSUQt7go921P8ADXZ9fJHue3782PN/xJ6lbDyBXfwgo6ktp/+KtrQ
+	NR/FK12DWS9zlrCPETIaYVJToSY0f4dZN9byFEaDJz2Hc+MUPUDtJWb+7QzkXIbxrFvJQj3tJhgxn
+	Cs7x2oBTpibxKt08rcB2nJ4ZAKYqvGHkIrJfXco0WszC9iCFEe+aCQlNbLo3JiqrP1xOXyjiaRfVt
+	xI8Gfvd+RQ+1iuyupQx6zXHYY31+Rs9TXHLxKsEfzfsPfkIslE93G9bGoKFE74ahqazjFjtNGxpaf
+	3Pw4AZjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vptYF-0000000HRiT-1qIY;
-	Tue, 10 Feb 2026 19:37:35 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1vpvvK-0000000HXst-3Tjj;
+	Tue, 10 Feb 2026 22:09:34 +0000
+Received: from mail-dy1-x1332.google.com ([2607:f8b0:4864:20::1332])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vptYC-0000000HRgJ-2fMn
+	id 1vpvvI-0000000HXsY-1W4K
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Feb 2026 19:37:33 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61AG73Ap3098023
-	for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 11:37:31 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=Rwf+20VMTd2+QuwL6pXb4JgxQqWn5LY4vXUwXPa54Pw=; b=SdBve3yGguV1
-	7VU7WDnftD8GtK8ARM27Ph89d/lpyLw+4IoOZwkGsLwLdnBXzaZ6gDMoJUznVX+7
-	b6J8tACfhE9qo1uqDkdRJn9/yEyhh2wufiRjkUjOgFF4TXkvKY2JI3mEbrHLo7cr
-	hS8kpipnaw2U5qnj98qapLa6AaxBwMkgcYgQnArSW26iec/jqK0EgrGAvkzk5jiH
-	peVs1DEoZZwspueOS4tFTOENOvSaH321VGpE0z4I0eYD2NvKSTqDyg1YmYI3q6dT
-	9oQt6vL2feblhT+90bZguaQbpBxFHoPogjIHVNh2rPXB4CSd37+rcpcKRmvxY4H7
-	PAb57iv5Wg==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4c87wrb3ch-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 11:37:31 -0800 (PST)
-Received: from twshared108583.15.frc2.facebook.com (2620:10d:c0a8:1c::1b) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Tue, 10 Feb 2026 19:37:31 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 6AED477808CB; Tue, 10 Feb 2026 11:37:16 -0800 (PST)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>
-Subject: [PATCH 2/3] nvme-pci: cap queue creation to used queues
-Date: Tue, 10 Feb 2026 11:37:14 -0800
-Message-ID: <20260210193715.2543091-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260210193715.2543091-1-kbusch@meta.com>
-References: <20260210193715.2543091-1-kbusch@meta.com>
+	Tue, 10 Feb 2026 22:09:33 +0000
+Received: by mail-dy1-x1332.google.com with SMTP id 5a478bee46e88-2ba94dbf739so885463eec.1
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 14:09:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770761371; x=1771366171; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZyWovkRTm+VBO7EWXfO8gUOOoB2/pAnZYbbbLZ/pIDI=;
+        b=RlHAsq82wsFuhWv9I+n1S6l2c3dOdD/0XeIVUGtuwrMezzhiPu9GusQl8KTg8g1w8+
+         YDrWvBH3ddQRbGKisCK3V6EZibxxxtK4hG3geVbluYLnuWJillUIZwqdkCWMmmfO6qzc
+         HEm03P8UGA/K12jfRGcQjS+vn2YRsv/kqp8MUIhveXVRm2W42qHh4jXMF8GmgdnS2b12
+         WOjG8wQLg5PzOBlwVGULK+PGMX1JT/uEAhB3r7AOCUJTyABFxsgbTEc6UAmkURYGR67K
+         DJtzNS+3/wbHgvve4ylzu+ppMOiocj5V7eVXpw4Z+TB5YlFBh7bNsoX10Wm9hmZZIVcQ
+         O/jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770761371; x=1771366171;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZyWovkRTm+VBO7EWXfO8gUOOoB2/pAnZYbbbLZ/pIDI=;
+        b=oh34j0xO98UAoVk1iL8o5hKR3d5tgz4o6rRv4KsXa0ex7rEqkLawSe9zKZ9/x1Zl20
+         vGdDpb1oaWcH6hiJ9isdHgZ1536cFNI7U2jMdWfZzU5TVpM4HuJRNno2+TThySxpWsV1
+         Qdo98US/xxLilaXyKenMQFJKNIiKB5rosTtKJQu6OanPMQJgt09JSTeGavAsk9BtySFv
+         lDFY5DzFZVO/hcMtCvMiJ64ywIV9iQteL1/AJ2xhk5A9QaRt9SZakSdjEfyPSS5QWFB3
+         DiSzwaiinxBX3jVIq4VsBwPH+YsS50OVB3x3WdLE/mHr60d0LELZzCa8R37QmCOjvWiM
+         dcZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjznCPvkVX1nixj5IzOpNEzGhXPix4UR6+9oj6bCjf+ICEONktiK2f85JCxrQspmhKpXQSK91K3ZZl@lists.infradead.org
+X-Gm-Message-State: AOJu0YyIczxkGmp6ciamAGv9PM6pItbBpsA09cg0BoK3P/XZYnzGXBy2
+	MLMEtpyTilBOyqCs23MesBumjULmu9yhqLuR8gMofCxTm6Bc3Y/cJrdT
+X-Gm-Gg: AZuq6aIWmwt4HxUa8SL/XnHIxoZD5sffMZl+6HDVm6ItNMjYzJDUt1PqDkAOEAzKVRn
+	ffqniN9cLTZdTGXzwwobIc7vF4TXwWXMnP/SfneaY2KgdlK3nnw99D7cgjxJGwDcasA+SHdqcph
+	NAS054fcfiLNxmesUd9+GvICoHzOwOaWqUpDi0YsXwGlbqp5IpoS5I9si/7a8DfTbMeuWVKeyNd
+	JN6kY4aXKUM+KzytCDdozBJDlUbmYUWNMBFOq308wGvag68eUVz3blSZztUCnRl6AWs6F63k9Kp
+	mtpvM2oVxY8ekzzMXUmEmSs7/y5jnp772/I3L7hiu8Zbu/k1cYUsfzjh7gmbbkHkEl9cs/mirYu
+	K55yA3isNq6XDFnueX65yGuyCsuCJf77JQ1V0TpZUguYjybY0TGBq/H8Hy9GmCT7gGqxRs/LUfn
+	MSe7ZhhwsU9ira3E8oCe+ERbCULyMxJWhJbKMXLkHqS9r8r3uyAPmElw==
+X-Received: by 2002:a05:693c:60c3:b0:2b8:6b32:1d16 with SMTP id 5a478bee46e88-2b86b3225eemr3692263eec.30.1770761370711;
+        Tue, 10 Feb 2026 14:09:30 -0800 (PST)
+Received: from [10.69.50.72] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b855b1a6d3sm10586261eec.15.2026.02.10.14.09.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Feb 2026 14:09:30 -0800 (PST)
+Message-ID: <05875e07-b908-425a-ba6f-5e060e03241e@gmail.com>
+Date: Tue, 10 Feb 2026 14:09:27 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: X9yO290AiQd1f0HoScj0UCIeE8f4FVOA
-X-Authority-Analysis: v=2.4 cv=Ta6bdBQh c=1 sm=1 tr=0 ts=698b88fb cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8 a=hhPgRp7qUA8FP5TG6ioA:9
- a=ZXulRonScM0A:10
-X-Proofpoint-GUID: X9yO290AiQd1f0HoScj0UCIeE8f4FVOA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDE2MyBTYWx0ZWRfXw9mHcrMsFOIf
- xJC2VH2oMMtOy6QWGKlAPzLZFZMOM9UcyoOnGAmHnrucXW2E8FcxuW6EUmOakemPBCcYLkXzYBh
- ahVlCDHRbNJrXIV2pHd7QOdhj6Rcwx/cCA5arbcVS/AjxQgEHCja7YuVbadUGjFNQVqHFTDHVGy
- jYq2Ss/MRExGtV89rdTvubgrhjZKUf8uN5wjdf/paH4SHk4yArO6FzyIYyjuk8qLJRAghebC8RQ
- C0wLQcfEKo0qqeKCx6Lc9JwMrj2q6xAZ2r1ZFVb4KIde1VJRP+rEC57U05mHAl6hBo+DP+BNtlk
- 5q8fCDpageq+0394a5SSkqU9AplkmfJXtYGRdr8nV32diatBG4wJIFZlIivuD1rom7WnqLhPs66
- S2AIIDNXBlthc/Kqjne0IN4XNQEeLIfN8eF9jbjBYdqiD3s4USSlFiTF5c0YGjG+9Dkcs/kUBLz
- H4dFJKm/0uHDyHG2qyw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-10_03,2026-02-10_02,2025-10-01_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/14] nvme: Implement cross-controller reset recovery
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Aaron Dailey <adailey@purestorage.com>,
+ Randy Jennings <randyj@purestorage.com>,
+ Dhaval Giani <dgiani@purestorage.com>, Hannes Reinecke <hare@suse.de>,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ jsmart833426@gmail.com
+References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
+ <20260130223531.2478849-9-mkhalfella@purestorage.com>
+Content-Language: en-US
+From: James Smart <jsmart833426@gmail.com>
+In-Reply-To: <20260130223531.2478849-9-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260210_113732_794587_4A6647E5 
-X-CRM114-Status: GOOD (  11.99  )
+X-CRM114-CacheID: sfid-20260210_140932_441140_AC47DDC9 
+X-CRM114-Status: GOOD (  10.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,34 +110,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On 1/30/2026 2:34 PM, Mohamed Khalfella wrote:
+...
+> +unsigned long nvme_fence_ctrl(struct nvme_ctrl *ictrl)
+> +{
+> +	unsigned long deadline, now, timeout;
+> +	struct nvme_ctrl *sctrl;
+> +	u32 min_cntlid = 0;
+> +	int ret;
+> +
+> +	timeout = nvme_fence_timeout_ms(ictrl);
+> +	dev_info(ictrl->device, "attempting CCR, timeout %lums\n", timeout);
+> +
+> +	now = jiffies;
+> +	deadline = now + msecs_to_jiffies(timeout);
+> +	while (time_before(now, deadline)) {
 
-If the user reduces the special queue count at runtime and resets the
-controller, we need to reduce the number of queues and interrupts
-requested accordingly rather than start with the pre-allocated queue
-count.
+Q: don't we have something to identify the controller's subsystem 
+supports CCR before we starting selecting controllers and sending CCR ?
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I would think on older devices that don't support it we should be 
+skipping this loop.   The loop could delay the Time-Based delay without 
+any CCR.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5a3e27305176f..f6d5c242fb689 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2775,7 +2775,8 @@ static int nvme_setup_io_queues(struct nvme_dev *de=
-v)
- 	dev->nr_write_queues =3D write_queues;
- 	dev->nr_poll_queues =3D poll_queues;
-=20
--	nr_io_queues =3D dev->nr_allocated_queues - 1;
-+	nr_io_queues =3D min(nvme_max_io_queues(dev),
-+			   dev->nr_allocated_queues - 1);
- 	result =3D nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
- 	if (result < 0)
- 		return result;
---=20
-2.47.3
+-- james
 
 
