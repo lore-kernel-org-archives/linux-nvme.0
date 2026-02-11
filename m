@@ -4,108 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A06A3EB5946
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 00:51:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59637EB5948
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 01:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pynOJ6xtpyfLsY0oXS0gXXpSBuX00dn52wN+gJKCzVg=; b=elLpalVZzozsKPo95Evs3lkdhY
-	pBYf+NNvrmmXOcfbu2Lb4yUm3FQG2uHGtvTf67w4Rh/e3WLpwACCkAiyi/nvv70unAs0eqxopvVzI
-	OT+OwmsHpApvni4faGgiEnNvh5iJ2kZBdU1akgsiiMCJApLitgy2NjWEzvMFoQ/lO1WfBhNPhPWSp
-	RUpX7SzOM2U5qZHh0ZhYtosMZ9CPABaW9/YEuh2rQ2LF77/6vzOefd9rDFuzlaxV0EmaVEsjFDJ4b
-	+JhaKaSbrcP95P1l9KaDnwRUBMN7/z+z8KB71GWjSJl84i6UjYHKv672VrIGFDH2uUB6V2FrCaDH3
-	GbIqMwlg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YQWt1R0WAX4GXLt31RyEjtHcrk3cWxVVpnwl4fyb9mg=; b=P80ejLt0d0SEyVfKbT2XW39Ics
+	IOTKvYeiJuMZ14oUux9HGzYw8qDjqOFfmm4xonin0UmVlWTzHW/2crMRBHigdTb4a3LKu8t/8QR0f
+	xmwd6xqlEqnPUadDwKbd7xYdKT13oa1vldpfossO3HNv3qccXim3hm1lrXfNc3AUXVrm0s3P6pn8R
+	RPlOjoDOiXIZzE7hqpqYIp8GtKzbYpKfB2GoYsxt5ZHrNdDqgeJzw1TiCs8Tt/HmK9RgZdqoNfPiG
+	Ca268YZi5WemkeTNpUM4rX9YxqpBhPS7tlzbor2UISqaCeY6hudy6P29IstVhZwu0s2Ul/WIg5Gju
+	TpQ7ElXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpyRh-0000000043A-09Ye;
-	Wed, 11 Feb 2026 00:51:09 +0000
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34])
+	id 1vpycy-000000004XT-0ip5;
+	Wed, 11 Feb 2026 01:02:48 +0000
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpyRd-0000000042k-1wHv
+	id 1vpycw-000000004X9-04qu
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Feb 2026 00:51:08 +0000
-Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-5fc4857e080so502658137.0
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 16:51:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770771063; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BaAbiAzTaL0Qc1f12dmOETbNHKtSZQennOCgoXjZnU+BErKSP/QqoAryEubu+/eDJF
-         6qW6PHxK6em71l4NtOGDMf0/vjyl1gq6Kq2CRIyhk+htqIBLuIoNvJvA3kVqOhNgYzJR
-         6YHzzKxfPKZ01HQ2NVfEQ404eFWGpm8ajpGoLq8lFRUIQP970kpHEDuzKDlmJ0bU6jgI
-         F+UjvwLjG/khEmgc765M0xOM4XDUo0K7qfKRTwd/AKGYKiM5muuOp4N1p+cFDP6SWftY
-         hFGbp85YjIw2GPwtAS8S14FxAOYf/tAzcs3LUnOpHFFcbmqcuAgAPiiOg2ZFn+Ht36d/
-         1avQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pynOJ6xtpyfLsY0oXS0gXXpSBuX00dn52wN+gJKCzVg=;
-        fh=hUFp7PBZTODhkJdnnj+rlQ5LLKQOuDHpHxSbM5+HnlA=;
-        b=MrxqpC6VkVEwshIVVJFq725sM74xFNupQRxNkn+iClfFlRQd/gf43rirMr8cKlGE93
-         kPzYO+QA6ebpX45L6ncVmEq8zmyq3Z1XuNC64+75VjQWUXwrCGfeNFws2/o3oHeunplS
-         0H872zoRCszxH8GDnafKGOWM6OUFzateg2TPs8+u/aQay9Judam0naXL37VQ40+lamAJ
-         dO4yGdPOHV4E7QOlc7YyQeznOEcclK3OmbXYFfqQd9o/jc7+pRg5H96FVRNC3uvPyGQK
-         IXsj4zVGdfY1otVnVo39Y/7rLEOSFiFy3AyCIPxwlvL2/rAz54ovy54WYWV58CH46FJT
-         MtYA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Wed, 11 Feb 2026 01:02:47 +0000
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so16760845e9.2
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 17:02:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1770771063; x=1771375863; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pynOJ6xtpyfLsY0oXS0gXXpSBuX00dn52wN+gJKCzVg=;
-        b=C8xFaIA1q70agBPOQLmhF4aFhiFYrusklVryjeO35hPH5pR5j32Js34xWvUt402cDO
-         2lElJO6U+kZop/tfvcLikw2b2e3IhhWYWFCjwvfPOafqxQaVuS7dIhNASJ6PKc8WJoBe
-         Wb/0VTk1tHvgs0GNwNzgXgjnjVq2QC3GtJT9fgFobA4w7a32a7FqtYTkMFjsKZ8I2SIG
-         45VEHaXLm+aWSVO2RsUFb6L0DL3MmJyWIBEkgyEagBRMgwN8y2+85ZP7YDmWsoQeEquZ
-         4o/hJWCswndv1ySEwIV66ULHJA6hvHU9EpSwlIUua4JPEWnqu4EYZ5TJu4Y/hOyV6rSc
-         bNSQ==
+        d=purestorage.com; s=google2022; t=1770771764; x=1771376564; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YQWt1R0WAX4GXLt31RyEjtHcrk3cWxVVpnwl4fyb9mg=;
+        b=T/jakWwcP3bYGH5ACNTyuXHZWVrgmOA3bLnTiPzQA4lgzqGOQtkKdFwSzWSAjR5ZHM
+         jUeyIBTUNT5Fs5XGYLDdWRGb1gPn5iCVDkK7CFc4j8VPq9j3Guta8/UtJdxsSiMqRnNP
+         F7U2WY0ETDT9cgvZDd1l0jvV5hX1b5H1M1u3Bkls6igGmaew9kNjthN3DDc03hgpqwLT
+         UP5k6LYe9yC27ET7IN2X2GVTZrTtZCkFGDCKwL4xhm/rAw1qC+yNnE4gAlmt3tKOVQRj
+         Ct9WGi8YCV7C5iRN9Oz9ZEyDGsp/nQx0AAYa4fJLh+D6ZNulwJU4ioktHHFR3GpyTZQv
+         UdeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770771063; x=1771375863;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pynOJ6xtpyfLsY0oXS0gXXpSBuX00dn52wN+gJKCzVg=;
-        b=ROFl4SgcQTTS6bpaAlp2xYBwRJfDyXo5XnEizdOua9j95ijpO1LI+MR6mP5AQ5hU+6
-         veyRoSV1/hH1UxdzPGwOjnK/y/9qc1H5hLBcnB7F9sJlZmUnCzijJyu8owpOCGfV7nn4
-         yUSzAop5E55JaY2OZtWEWqqF4bzSIXGv5FrC+K3BGvFgMG73U5vIvkzuNG8d9Huzw8UH
-         BYnA/Y5TIBF1DtX2UryuG8hftOQHBxeVHc0q8sYrZpzmOEdX1XhKWblemhtIinmpjLp9
-         Wk7JMtFt3XO3MuIEaBu3i0TnfouyEnsQcaXxnQgs28KrcaHoNagcR8hwB/luQrQDcm1r
-         9fOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWOCUBo9p4vWIyrhwPSnz+CSkyPwpqOmyGkUR3iY4oDZjleErHHU71ePLlaBV2GF451KqKnW3/U/nrP@lists.infradead.org
-X-Gm-Message-State: AOJu0YxvJaBKb08bTPBNH/tBUvTSAtFLHPk1iINxYEPOT00c/0+WPmJN
-	Z+8fm7Uh7ZKNFjYabUal8bLyblpOnxz9cgjx7kJgUohNF7kcQN2dC4jKC0E7KQRbtJxH7dCSSdk
-	107m0RVXa09a8Ruvpc4EBwbSZeKctuj4chl2G3vzZ2Q==
-X-Gm-Gg: AZuq6aLMnk8xIzk2NB/61InIIn5Shba07sdlgzrNk/bhvw0sJzbXxo5EPL0dgtj8ybs
-	r8bk9S1VN7/KgV+Jdsio9aHTNtfM4KfFGJH7lQhOKTO5u79coFmsnQXPp5MRhVzE6681CiQx3m6
-	AL+9HDXEdeGE2YxB0R5fx9h+LHugqZ1BkDB/J9q8497SRl/WJozxuvenHl1qtqVOZpDobfLnaZ7
-	QCQoqghVsezXKirfb1mNGllXaGUWoTYLhe0H2W1lDTuy19MIty1xcWNplsFyqb7Vo39dqJjOyDZ
-	dulFjHA=
-X-Received: by 2002:a05:6102:3ec2:b0:5ec:f42c:79e4 with SMTP id
- ada2fe7eead31-5fde41e7d2amr283659137.12.1770771063336; Tue, 10 Feb 2026
- 16:51:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770771764; x=1771376564;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQWt1R0WAX4GXLt31RyEjtHcrk3cWxVVpnwl4fyb9mg=;
+        b=qEKGiXnKdAv86Lj13Ul4qp9R4WFfxDmryowSD7N8iQZRFcKEnvQByiGX0hAZpfg3GI
+         hSk5bNF8LFXpg41ByQFjA7opzP4dmPzSmlWuWIYxQSSn8g9rs+HO3Aqv024mWbmaknBj
+         shr8tTm5LzzOt7gWfHrqx6puX2TeLNTksDWGeqmKOl8InR/H2bEU9wx9Sumvk7BoZav1
+         nXVywCLZ9fi2M1jilgowpvEp/TLJOn4oohPDkbHUJ1Avizlxu5luQWYabDVL5wzL6njG
+         /xVdwMisBc+gHR254djUmnEINiYwE4ox3urz95mWpFKDms+wPlfUmMZZCBDFI36SLpFD
+         xEew==
+X-Forwarded-Encrypted: i=1; AJvYcCXWb7eGV0FtSl1UGAwOgqFJ5qMAYRjzKPmWB7rglk4BNhD+r4DlTFm/IP4iNmH6fdUv9fSQQIuBnCJY@lists.infradead.org
+X-Gm-Message-State: AOJu0YzQX4Y5g56NsWAf+wbFyz+fzyPo+EYC9Peh27IzZ7Nsbn3SML3M
+	Qa9Dl1BkG2b41R/+Z4tryjvxex+amAHeO1GUUGrZjQJcaMwc/VhG07Dx4FDCTkbbM4o=
+X-Gm-Gg: AZuq6aJsvnXvL99TvztHP3G7DI5COF+5gqPeWqDR1zbo31o02eIJAbhUoWIfGziz7kn
+	ovOKsDDJwCMXA4hsSkDUNN3vFsmnlG9mjk7qGPpelWLUMqCgDZB4HMycg9HxqGFi/iVQ9qx1N0H
+	Uq/wb0FzX3IeLVm1WYGM8AQKU39rgVK9U8asI+2eRujlel4SlKDOdW8JkLffZUkmTkZBX+80r9Y
+	f+4do4O4xKEECa8mS38Uh3sFxmsxYsbYBtwwERIKA+P4C4iSDswimQZN01FHJBvua3idzMvHE+b
+	ym69KckrlU3TiieZGk/MtSs2sDNlDQ1R7aP6LLYDtjoXYrAxjyIR7jno3SX0eKeeqEfHvXyqYlx
+	Oww5jibqSxujM2A/MCOEw+86IGtSjnRph8qgJ2smV11O853HnRimHv+zakL3QaoiOTyif598Znp
+	ji32L1MCUsq/76GiE3PmgTZt2zY3lXaCD+I06lN4F/MXc=
+X-Received: by 2002:a05:600c:8b35:b0:477:af8d:203a with SMTP id 5b1f17b1804b1-48320236695mr244451695e9.27.1770771763806;
+        Tue, 10 Feb 2026 17:02:43 -0800 (PST)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with UTF8SMTPSA id 5b1f17b1804b1-4835dd20519sm6884795e9.15.2026.02.10.17.02.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 17:02:42 -0800 (PST)
+Date: Tue, 10 Feb 2026 17:02:39 -0800
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Randy Jennings <randyj@purestorage.com>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Aaron Dailey <adailey@purestorage.com>,
+	Dhaval Giani <dgiani@purestorage.com>,
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/14] nvmet/debugfs: Add ctrl uniquifier and random
+ values
+Message-ID: <20260211010239.GT3729-mkhalfella@purestorage.com>
+References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
+ <20260130223531.2478849-3-mkhalfella@purestorage.com>
+ <CAPpK+O25W1MUoxoa5bSXYpQf248DM7MreCM2y+MOCoY7MCJY0g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20260130223531.2478849-1-mkhalfella@purestorage.com> <20260130223531.2478849-3-mkhalfella@purestorage.com>
-In-Reply-To: <20260130223531.2478849-3-mkhalfella@purestorage.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Tue, 10 Feb 2026 16:50:51 -0800
-X-Gm-Features: AZwV_Qght9kCfs2QE9tNVGObXx7eldaGy1kB-xXxo_P8zGGh9ykHJT-dXYLbvHg
-Message-ID: <CAPpK+O25W1MUoxoa5bSXYpQf248DM7MreCM2y+MOCoY7MCJY0g@mail.gmail.com>
-Subject: Re: [PATCH v2 02/14] nvmet/debugfs: Add ctrl uniquifier and random values
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Aaron Dailey <adailey@purestorage.com>, Dhaval Giani <dgiani@purestorage.com>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPpK+O25W1MUoxoa5bSXYpQf248DM7MreCM2y+MOCoY7MCJY0g@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260210_165105_680925_17AEE06F 
-X-CRM114-Status: GOOD (  16.17  )
+X-CRM114-CacheID: sfid-20260210_170246_069057_46F13D53 
+X-CRM114-Status: UNSURE (   9.90  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,62 +111,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 30, 2026 at 2:36=E2=80=AFPM Mohamed Khalfella
-<mkhalfella@purestorage.com> wrote:
->
-> Export ctrl->random and ctrl->uniquifier as debugfs files under
-Please update to the new names.
+On Tue 2026-02-10 16:50:51 -0800, Randy Jennings wrote:
+> On Fri, Jan 30, 2026 at 2:36 PM Mohamed Khalfella
+> <mkhalfella@purestorage.com> wrote:
+> >
+> > Export ctrl->random and ctrl->uniquifier as debugfs files under
+> Please update to the new names.
 
-> controller debugfs directory.
->
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> ---
->  drivers/nvme/target/debugfs.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->
-> diff --git a/drivers/nvme/target/debugfs.c b/drivers/nvme/target/debugfs.=
-c
-> index 5dcbd5aa86e1..1300adf6c1fb 100644
-> --- a/drivers/nvme/target/debugfs.c
-> +++ b/drivers/nvme/target/debugfs.c
-> @@ -152,6 +152,23 @@ static int nvmet_ctrl_tls_concat_show(struct seq_fil=
-e *m, void *p)
->  }
->  NVMET_DEBUGFS_ATTR(nvmet_ctrl_tls_concat);
->  #endif
-> +static int nvmet_ctrl_instance_ciu_show(struct seq_file *m, void *p)
-> +{
-> +       struct nvmet_ctrl *ctrl =3D m->private;
-> +
-> +       seq_printf(m, "%02x\n", ctrl->ciu);
-> +       return 0;
-> +}
-> +NVMET_DEBUGFS_ATTR(nvmet_ctrl_instance_ciu);
-> +
-> +static int nvmet_ctrl_instance_cirn_show(struct seq_file *m, void *p)
-> +{
-> +       struct nvmet_ctrl *ctrl =3D m->private;
-> +
-> +       seq_printf(m, "%016llx\n", ctrl->cirn);
-> +       return 0;
-> +}
-> +NVMET_DEBUGFS_ATTR(nvmet_ctrl_instance_cirn);
->
->  int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl)
->  {
-> @@ -184,6 +201,10 @@ int nvmet_debugfs_ctrl_setup(struct nvmet_ctrl *ctrl=
-)
->         debugfs_create_file("tls_key", S_IRUSR, ctrl->debugfs_dir, ctrl,
->                             &nvmet_ctrl_tls_key_fops);
->  #endif
-> +       debugfs_create_file("ciu", S_IRUSR, ctrl->debugfs_dir, ctrl,
-> +                           &nvmet_ctrl_instance_ciu_fops);
-> +       debugfs_create_file("cirn", S_IRUSR, ctrl->debugfs_dir, ctrl,
-> +                           &nvmet_ctrl_instance_cirn_fops);
->         return 0;
->  }
->
-> --
-> 2.52.0
->
+Good catch. Done.
 
