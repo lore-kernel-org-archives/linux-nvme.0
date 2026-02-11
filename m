@@ -4,109 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D9B6EB594B
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 01:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F4A1EB594B
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 01:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=; b=XCKZzbuQb6v2qhDOsJtCDk9Z7M
-	79hXH26AsgvAIOKuWrHPP/veo97F+j3tFfF0rf4MLpf2WxKEr5PnAGxlEhak5hPByik6Vy2eonHLX
-	YXk67ROU+EP/OS4tEepGsJdQcKSGmDMpRI00b1tt96IJZuX2kh6GFOLC+okBR6tbbqr+jzXmLbMHv
-	OoqVRXStKQIOXpUjfa2Rvm3Sw4T6zwm9RU8pj4P6MFGplz+Y3XdHatI9PZYIoJSfPRXRT+avJEh8l
-	+0JQSp1Qj+mqJ0XemRmoeKWmq1AlS8aG3/TXkYkwAIBjYBCka1ykAtpmkt5JttFplUl0bAjQMCHOz
-	rtpe6iFg==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
+	Content-Transfer-Encoding:In-Reply-To:Content-Type:Date:To:References:Cc:
+	Message-Id:Mime-Version:From:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=UG0mqORVxhaZ0a+OZCSMkiGFaCvU9+2moAIWtkDvylc=; b=Taq4PQxWjL4aPOfGDlnEAO7oWn
+	22bF4KN+yj7oCVNbwdeu4OerXbZ0/W7vns+X0gao3bSMusBsbQ+9/W4LWc/DFKmsSpUoc2rd0s1K2
+	9huMqq+eGevuuakDk9sk6vzH+d5EYxIbgsylndhO0xfNOmCPoEzCyW+L2g/V+n7aG/Db1/3LKE9+O
+	Zikwpz8/IgBhApJU75MqlQOeB3fciw4dT1na6EQRabGpXEORjvHkmfq4rfvdNJ2sNE3NWFOpi3m9U
+	4gYzScf+Ho5xDWvcIOodWfcuBq1zLm9h2X35NUBwccWoD2jFs5cihWyLk3+XIDA98S2eWl1Q0WGCA
+	DS1eTh1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpzTJ-000000006l2-2mU9;
-	Wed, 11 Feb 2026 01:56:53 +0000
-Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
+	id 1vpzUA-000000006tA-1IbR;
+	Wed, 11 Feb 2026 01:57:46 +0000
+Received: from sg-1-14.ptr.blmpb.com ([118.26.132.14])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpzTG-000000006kK-3THF
+	id 1vpzU5-000000006ro-3yBQ
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Feb 2026 01:56:52 +0000
-Received: by mail-vs1-xe35.google.com with SMTP id ada2fe7eead31-5fadbc3a453so921969137.2
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 17:56:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770775009; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fT5z37nGMnWfWryDuUMCMWi28t2B+1SMprbqDBS6ZDVjJyH6YKoQaQHag5f6REtGQD
-         4/eB7OBHahTQIAG9Eg5PG7likZYaF23FToojsQWFHV6kSu4Z872TASMk1O65AjS7mcWM
-         PJ6zMoJYEW7I8JGZjCt0rASfk9y37+NBm8o3Gm679Hda6nSRWbg9Vebw8y3AvGoKNiYt
-         VIb8FUTiFlSs84HEfuGhNTPaK1AubytUe3LsfYRo2WtX0du2zfeSg69zGWVBfpZpElrZ
-         VG05SLdx0cUs8xgPqypPoGpbu4A7IJpbqNCs0m1A1mH2V8BjcdhVRGsNc4+/GkZd4wHi
-         CUXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=;
-        fh=5IVfSQKFZIS0ZTRYEK8NoVreI68OhU7y9TCXti+SCMg=;
-        b=L1l0Ohg4aysftMT/A7/wgIhkKTto0LWxg46VLkriBEdSunZyvHBk01JgY53jSJfbT0
-         9/+ql/hfeUH6M9HWhCFKsay0EF2fu/b6zTOQmLuoaunRRbA7NQrwpJx0qs7TxrUyYfMH
-         VPymWZTAuBoyRsgR77yXZS/DMnhAxMSAOzMbxWuzmNPwod9mttqWkFCqyNSF33adgukM
-         2tJfN4O7U5O1i1ZVInZ1KLCmFayLC4NUDZELghcQ0LedU6bP6yFA/g0nPRSdOvPf/DW2
-         6Z6Bb+2PqT0VVMCAkfyn/+9IQixsoXbAve3E6SVD/cfBUoBO5Y0kmqQA56fh4gR3JecI
-         VmGw==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1770775009; x=1771379809; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=;
-        b=dmnkEcP22YvnTfvu6xKKcJcQl7M5oDMB1A72Hu/4GJMBSYIuXGfETZIZM3sKvbNQfk
-         MGPjC2v1zvr6EAo6+U+tdHlmkFf/ZMNIS3XYU7+Yp3hn/f6Dq1MaDtnJ8aBvweXJ3Fpj
-         V5sKxF1TUKKbh0GaoNyQmrUBWxga2Fl3i5Vx0nA3yyw42XCrlonqKLrZy8J+N0y/R6gQ
-         OPZ64USBJcbgTCiQFJMe//tnui7LqzJuYLiwjYoqcRziv5jMgYOEoTaxY2jdwhgBCDaG
-         4UeDJfm7Qwc8z4X6s7vFzwkWfTzdklRnlUS0EvPvi9MbDKXJ5D9ex/Ef7DzVUz6FzAbE
-         cSIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770775009; x=1771379809;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=;
-        b=GLyn6wmOsZUVj3yOUpPhhooDqT1ItX0wV8vc3RgFzzw21jVVo8JHcEpF2WMIJDNHAa
-         1EXj5w/YXygYRXNJq/cPcloPp33/dk49rPnbltahD3zXlmOBhViKl6d2LCVurnfd3ot/
-         BK6Z2f/C1iy4xpUuen5voyc3uLo1ibWHZpqbr4JmWJh7yYiH9Fk51/iRI9dXD6qWonR2
-         iUUc7bmcCYqGNGCnf/+Nt761DmhxgBv0mVfAeWlU5YponJGBeEq8W+9GFE0ahp/nnIMW
-         Btb6aD/trp/WjzdMYmpEH12U24Mae0fySeZ3MKF8Rjt6OnF2Y4NdTxUmhrsNG/wazDbS
-         4RLA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7v+2TH79qYQs7v6Baa//IUZGfvH70fcscjviEahu7Tl9IcHH80FKd56nKdQ8t13XJl7eGqA4iTDPg@lists.infradead.org
-X-Gm-Message-State: AOJu0YzkS8uy35XNnAa439LG+Y29URjeWt3pjRoFoGBNRm3YLbw8dGBl
-	1lPAltHHBiY7SnVs9xK0a/3knf5Mrbwgd6n6e/SU1R5x14De8ZC9puGAN+iZbX/gfxJCmAssuw0
-	XkSnSas53gMBnZm2vJhrLLwz80okLP5bzPLSVkSOigA==
-X-Gm-Gg: AZuq6aJq1fJbZHUUkYoDeiG9O5IQU4YU6fPFo5aEoyTd5IrpwLwE3QMa8w4pUcDYBjt
-	Acg5sY04mJgy/yD17AGUblv+6wvRbbsA3sHf0wunkXC2qZx+JH2XNSe7MrjGI7JVUp/DwBsrWso
-	DwD9Fn8c3SX8J6Nay20d+VsH6CtnBJMY7ooiSFh28JrnHkCm490OmWn630a0dhjs/UU3TFSrAvs
-	+URmyKDnQBHReAFfk5IqGLZT1JWIFYBhQKXIJjMipBWqGHIRI70vFiXpFe4SgN5EwDubAjAoWQF
-	GVBJSGw=
-X-Received: by 2002:a05:6102:cc8:b0:5ef:7221:aa9b with SMTP id
- ada2fe7eead31-5fae8aab91bmr4623011137.18.1770775009419; Tue, 10 Feb 2026
- 17:56:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20260130223531.2478849-1-mkhalfella@purestorage.com> <20260130223531.2478849-7-mkhalfella@purestorage.com>
-In-Reply-To: <20260130223531.2478849-7-mkhalfella@purestorage.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Tue, 10 Feb 2026 17:56:38 -0800
-X-Gm-Features: AZwV_QgcNBZ3z-Vegt9TPNWyZplvjx3Vh6wfL9VrS_A7X9vCt3rK9ZXNro5CBxk
-Message-ID: <CAPpK+O1pTsWDokwVC_c0TpZqg8hsSB2K8p-RvkhodKACs8ek9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 06/14] nvme: Rapid Path Failure Recovery read
- controller identify fields
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Aaron Dailey <adailey@purestorage.com>, Dhaval Giani <dgiani@purestorage.com>, 
-	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+	Wed, 11 Feb 2026 01:57:44 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1770775051;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=UG0mqORVxhaZ0a+OZCSMkiGFaCvU9+2moAIWtkDvylc=;
+ b=vqp1JWRc8DOOZsP7AMzTytrnJyLG3LxiYQvOCDXL8S8Zb2UyLbuelVmjdfEHw4rJmjh5Lw
+ 8yYPelvrgUqQ/0l0gVK7TwqzLW6ySaPA3UjkHuBYcGMnBent6iPSF7/kbx/xLHR2w+WOnn
+ UJpl1oGmnS56WXR6Spe6k2AB85Vb986jt5z9tPLi8QJt3b4cu6pt8VI4eLNoWIWyGyOfDG
+ ua//Fq2A0iK4KMG1EUDp5c3ZokUjCqCiUCK28eNBgkhlKE3ZMWaYrQKxf8AJqNPaJ1hgU7
+ jpVNbJ4GusObE2vYHKWBLvYLQgnqTgMC4dwULqc+2SDF7x6gzO92TdOfBtb3ew==
+From: "Yu Kuai" <yukuai@fnnas.com>
+Mime-Version: 1.0
+Received: from [192.168.1.104] ([39.182.0.137]) by smtp.feishu.cn with ESMTPS; Wed, 11 Feb 2026 09:57:28 +0800
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+X-Lms-Return-Path: <lba+2698be209+5d2abc+lists.infradead.org+yukuai@fnnas.com>
+Message-Id: <baa254f9-c41c-44f7-959a-8ce69e1768fa@fnnas.com>
+Cc: "Christoph Hellwig" <hch@lst.de>, <axboe@kernel.dk>, <sagi@grimberg.me>, 
+	<sven@kernel.org>, <j@jannau.net>, <linux-block@vger.kernel.org>, 
+	<linux-nvme@lists.infradead.org>, <tj@kernel.org>, <nilay@linux.ibm.com>, 
+	<ming.lei@redhat.com>, <neal@gompa.dev>, <asahi@lists.linux.dev>, 
+	<linux-arm-kernel@lists.infradead.org>, <yukuai@fnnas.com>
+Content-Language: en-US
+References: <20260209082953.3053721-1-yukuai@fnnas.com> <20260209082953.3053721-4-yukuai@fnnas.com> <20260209145832.GC18315@lst.de> <aYn-xwFHCpd7sITJ@kbusch-mbp> <e3e7d95b-2712-4365-922d-731449e7193a@fnnas.com> <aYtKFNm-wRKn6l66@kbusch-mbp> <20260210154108.GB2484@lst.de> <aYtWSscg6L9xxlzc@kbusch-mbp> <f3451ddd-96b6-4bc1-9d4c-964e361d56fc@flourine.local>
+To: "Daniel Wagner" <dwagner@suse.de>, "Keith Busch" <kbusch@kernel.org>
+Date: Wed, 11 Feb 2026 09:57:26 +0800
+Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <f3451ddd-96b6-4bc1-9d4c-964e361d56fc@flourine.local>
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] nvme-apple: move blk_mq_update_nr_hw_queues after nvme_unfreeze
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260210_175650_874740_BCBB2B9F 
-X-CRM114-Status: GOOD (  10.08  )
+X-CRM114-CacheID: sfid-20260210_175742_153796_B551BF25 
+X-CRM114-Status: GOOD (  13.20  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,22 +71,54 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: yukuai@fnnas.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Jan 30, 2026 at 2:36=E2=80=AFPM Mohamed Khalfella
-<mkhalfella@purestorage.com> wrote:
+Hi,
+
+=E5=9C=A8 2026/2/11 0:28, Daniel Wagner =E5=86=99=E9=81=93:
+> On Tue, Feb 10, 2026 at 09:01:14AM -0700, Keith Busch wrote:
+>> On Tue, Feb 10, 2026 at 04:41:08PM +0100, Christoph Hellwig wrote:
+>>> On Tue, Feb 10, 2026 at 08:09:08AM -0700, Keith Busch wrote:
+>>>> If you leave the queue quiesced, pending IO will form requests that ar=
+e
+>>>> entered and waiting in the block layer. You can't freeze a queue with
+>>>> entered requests.
+>>>>
+>>>> We unquiesce first to flush any pending IO that had entered during the
+>>>> prior reset. It's not the best way to handle this situation. It would =
+be
+>>>> smarter to steal the bio's from all the entered requests, then end tho=
+se
+>>>> requests, then resubmit the bios after the hw queues are initialized. =
+We
+>>>> don't do that because no one's really complained, probably because the
+>>>> queue counts don't usually change after a reset.
+>>> FYI, Daniel Wagner had been thinking about doing this reinsert for
+>>> something (I forgot what exactly),
+> This feature would solve a tricky problem with isolation patches:
 >
-> TP8028 Rapid path failure added new fileds to controller identify
-> response. Read CIU (Controller Instance Uniquifier), CIRN (Controller
-> Instance Random Number), and CCRL (Cross-Controller Reset Limit) from
-> controller identify response. Expose CIU and CIRN as sysfs attributes
-> so the values can be used directrly by user if needed.
+> https://lore.kernel.org/linux-nvme/87cy7vrbc4.ffs@tglx/
 >
-> TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
-> Time) which is used along with KATO (Keep Alive Timeout) to set an upper
-> limit for attempting Cross-Controller Recovery.
+> Currently, it's not possible to take the cpu hotplug lock which would
+> prevent races in the cpu-queue mapping. The current logic depends on
+> making progress in the error case. If it would be possible to fail the
+> in-flight request in the error handler and reinsert them in the block
+> layer, progress could be guaranteed when holding the cpu hotplug lock.
 >
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
+> Unfortunatly, haven't found time to implement and test this idea so far.
+> Sorry.
+
+Thanks all!
+
+If I understand this correctly, it seems fine to make progress with this se=
+t,
+currently IO can return error during the race window, and this can be final=
+ly
+fixed with this reinsert.
+
+--=20
+Thansk,
+Kuai
 
