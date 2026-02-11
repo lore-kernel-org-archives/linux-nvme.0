@@ -4,96 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17576EB594B
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 01:53:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D9B6EB594B
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 01:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6kNdFfMDc3uvl+iKbEdVPzkeSICVZug5PHFm2lM+Kus=; b=30ErgGC9x6+2KJTSDANNZ+YeQb
-	r1lsHNul2ETT112Qqg9ATMnHyhNXKd7vxe/q3lxFU7RBMYZqovqo0lNu4P+iVFX7h4CGlAwNskIQB
-	EuCUetb4jshQUhbh3PSoPnT0y+6m0UbWY3DYJNIvu8G2+Mqoawi5LzpSCLLTRQDbkXNhZH5COwB5m
-	LCtohYn/5Mtw1bDcmmqEyemNxDd9/lArJnTzS/njgKH2r1eBz2rN8DpLwtfMXd+nt3MSRECTKOAvn
-	L0lJ8lmGePnOPHw8c1SMArhr5l021zB8ReJw7jEH/LRON7YZElx+58hcOuJ5IRCrkHbr9mTm+6MOE
-	N6s12LhA==;
+	bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=; b=XCKZzbuQb6v2qhDOsJtCDk9Z7M
+	79hXH26AsgvAIOKuWrHPP/veo97F+j3tFfF0rf4MLpf2WxKEr5PnAGxlEhak5hPByik6Vy2eonHLX
+	YXk67ROU+EP/OS4tEepGsJdQcKSGmDMpRI00b1tt96IJZuX2kh6GFOLC+okBR6tbbqr+jzXmLbMHv
+	OoqVRXStKQIOXpUjfa2Rvm3Sw4T6zwm9RU8pj4P6MFGplz+Y3XdHatI9PZYIoJSfPRXRT+avJEh8l
+	+0JQSp1Qj+mqJ0XemRmoeKWmq1AlS8aG3/TXkYkwAIBjYBCka1ykAtpmkt5JttFplUl0bAjQMCHOz
+	rtpe6iFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpzPg-000000006LE-2TVr;
-	Wed, 11 Feb 2026 01:53:08 +0000
-Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35])
+	id 1vpzTJ-000000006l2-2mU9;
+	Wed, 11 Feb 2026 01:56:53 +0000
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpzPd-000000006Kg-3EFj
+	id 1vpzTG-000000006kK-3THF
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Feb 2026 01:53:07 +0000
-Received: by mail-vk1-xa35.google.com with SMTP id 71dfb90a1353d-567449b868dso524048e0c.3
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 17:53:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770774784; cv=none;
+	Wed, 11 Feb 2026 01:56:52 +0000
+Received: by mail-vs1-xe35.google.com with SMTP id ada2fe7eead31-5fadbc3a453so921969137.2
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 17:56:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770775009; cv=none;
         d=google.com; s=arc-20240605;
-        b=kTzewb5nK0keGjeeexdoUR28ZncwSTjqzd/8ExV4k0uExQ+lLdvuYebwkL9JnIp6WW
-         VKu1QFliGmKjurZ9tJjy1T7wG9J68I+vIJldL6XYSfEMoyuXHEFsC9JFZ1wmVEou9b9I
-         GV2s82gyrWneS1j6yHKguvSpFslytPSasShobQ7EyVVsIQRInxkEB+pwPvIvPBnrxzwd
-         esWkWwesfO4M8oPReTzxg/xrrhZklKgZPccV1UcllTDQAbb2Ol4xM6QhnjdmCayTvP8Z
-         witZ7HB3thQz7v8bQ2IFFYuf0t6xmRU9M9R6vKlebGJwnhxaIAyzEuVPD9rcmDDYnU07
-         Tqcw==
+        b=fT5z37nGMnWfWryDuUMCMWi28t2B+1SMprbqDBS6ZDVjJyH6YKoQaQHag5f6REtGQD
+         4/eB7OBHahTQIAG9Eg5PG7likZYaF23FToojsQWFHV6kSu4Z872TASMk1O65AjS7mcWM
+         PJ6zMoJYEW7I8JGZjCt0rASfk9y37+NBm8o3Gm679Hda6nSRWbg9Vebw8y3AvGoKNiYt
+         VIb8FUTiFlSs84HEfuGhNTPaK1AubytUe3LsfYRo2WtX0du2zfeSg69zGWVBfpZpElrZ
+         VG05SLdx0cUs8xgPqypPoGpbu4A7IJpbqNCs0m1A1mH2V8BjcdhVRGsNc4+/GkZd4wHi
+         CUXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=6kNdFfMDc3uvl+iKbEdVPzkeSICVZug5PHFm2lM+Kus=;
-        fh=KTZDKZXOP1oTcdxnFM1vp3DUggsRFqe1zGuILy9LLvE=;
-        b=P3kK/MIDjTaiYKCWfN9fCubJEf83B7S0GfIRoKNF/kdk38yCidcshG1l+nwnEKvp1N
-         fNzd3yQmwJQItyx1mvfSjHx9ivUqg//bfVWWseNzgu/FMgBdVouJAK9auBUzIcjxo5FN
-         NYhuWqL2UQmoWonKOIQaSNYKAFSiEUxcxaG6b2TTb5z3F5EyUdGRoOaocXZDcfB8iTnS
-         U2mjT9LH6jFtX8TnJyp5oCz0peBs8u/9fSUeYeLmxgcSva71H29Z7JRLeP3oDEN1uXxZ
-         2tIJN232ZTOiH0JbKZ3vQan2BDAHjKB6wDvaysjEmZ4Ja0ev1/8YB5nzx8XKKbmijp3x
-         no3g==;
+        bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=;
+        fh=5IVfSQKFZIS0ZTRYEK8NoVreI68OhU7y9TCXti+SCMg=;
+        b=L1l0Ohg4aysftMT/A7/wgIhkKTto0LWxg46VLkriBEdSunZyvHBk01JgY53jSJfbT0
+         9/+ql/hfeUH6M9HWhCFKsay0EF2fu/b6zTOQmLuoaunRRbA7NQrwpJx0qs7TxrUyYfMH
+         VPymWZTAuBoyRsgR77yXZS/DMnhAxMSAOzMbxWuzmNPwod9mttqWkFCqyNSF33adgukM
+         2tJfN4O7U5O1i1ZVInZ1KLCmFayLC4NUDZELghcQ0LedU6bP6yFA/g0nPRSdOvPf/DW2
+         6Z6Bb+2PqT0VVMCAkfyn/+9IQixsoXbAve3E6SVD/cfBUoBO5Y0kmqQA56fh4gR3JecI
+         VmGw==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1770774784; x=1771379584; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1770775009; x=1771379809; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6kNdFfMDc3uvl+iKbEdVPzkeSICVZug5PHFm2lM+Kus=;
-        b=LR938reko4CAsaQ+EhkuD7V3x44jYD/F+sjA+Kzurs1EFQdJ3pbKEeob7sXAISaZLV
-         wjVmlkKr7iELm2alPZB2g/v1hCtAQ38gVoXmUf3pINv9BTNZvl1QIdGsvVRMCIr9Gmcg
-         oTngkrad/YrY1h1HQXYlVtmfd30OQr+g72Wi+wfRolV96BUYvnLU+kNifi/+xrgu3kcf
-         bjfrs87EpUFkSs0HLlidAeG3n+1ZgXhrMkdRSMKXhsjalvasJULQZZHolgfb8IZC1e6a
-         im6L53ykrow9xV6ie/kObUyEj/8rJEda8+J/xN8dsvdY27ejWFKaFlL15n5hTWgYpN9V
-         0CYw==
+        bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=;
+        b=dmnkEcP22YvnTfvu6xKKcJcQl7M5oDMB1A72Hu/4GJMBSYIuXGfETZIZM3sKvbNQfk
+         MGPjC2v1zvr6EAo6+U+tdHlmkFf/ZMNIS3XYU7+Yp3hn/f6Dq1MaDtnJ8aBvweXJ3Fpj
+         V5sKxF1TUKKbh0GaoNyQmrUBWxga2Fl3i5Vx0nA3yyw42XCrlonqKLrZy8J+N0y/R6gQ
+         OPZ64USBJcbgTCiQFJMe//tnui7LqzJuYLiwjYoqcRziv5jMgYOEoTaxY2jdwhgBCDaG
+         4UeDJfm7Qwc8z4X6s7vFzwkWfTzdklRnlUS0EvPvi9MbDKXJ5D9ex/Ef7DzVUz6FzAbE
+         cSIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770774784; x=1771379584;
+        d=1e100.net; s=20230601; t=1770775009; x=1771379809;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=6kNdFfMDc3uvl+iKbEdVPzkeSICVZug5PHFm2lM+Kus=;
-        b=hNLcv8RU+n5Ks7uPch6b9UFO0x4hjt1ZoReh5dpL8tMLPcO1oSVv7x4pK4n67EpDj/
-         luVJtx2Ai04ZnK1i50/r9HUXMfRyQt0+bKaRtYpr//dGAv3Y1NL5hArfjNDmkHRs8psO
-         hW06HaqcFS6B4XfcX6AS9U3aCfFyzdVYQ37L4IMCQ8U1i94gGAC/aF9Ky18pKbqI4rDR
-         5lgzBOQoGgaMPkNYcP+oXckcRGiQyaBZvsUhp0hA2XevEaIib8MEn2M75/L0jiCOzstt
-         /C/JSLwDtj/hVikV7pgIh6T5elpqN1ve2YpXntCrXZq4QYfuyuOqH+y2j0Fiuo2+M+8h
-         aVFw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdxP8mpNScYvfE71TIfnPyGiVoHxexkW6ePvriSvSslpS+SZipTYNHa3GyG92MeyS1AlfeLFHrRX9Q@lists.infradead.org
-X-Gm-Message-State: AOJu0YxAu4mRlv9wDRKB4eVcmNwL5UekFHU45aVFmwyFV9W6/3ubMt2Z
-	aZfext8xpcgGQQpEsAyK2/wmWN+QpcYAHiw7rEGOJ5wiBgI8Ot+405W+NS9MoUdiu771zlvLZw3
-	VHHzLgd0MsvpRwp7KSDM4KG47YGoHNgpcXlHFScEBYQ==
-X-Gm-Gg: AZuq6aLmki7rsdnxx1JkiiBrVqdduH4aXg2TCGMaimnmlFtX4BDi6RWT4b3zdhvZ+xW
-	0M/he8Hkhs5Pv3jLSl1iRO+JkxInk/NBGegtpREGRIpad2WOCff04kzej56vSfHx2pf2ci3N/V4
-	NQJL+LCo3AGstPTq9ngcPa4g4Xmj64kLyuRYgQbTa+szZveY6JvXjh3hTicQecK4jAyzGbFnM/G
-	4uYjVZ25oSelBE8g55d3Ecbbxv0t0Chjng0olGhp9qEtWAPwXgTDbMD1Erxfi1vfZSGOJ30FsTO
-	XveWScE=
-X-Received: by 2002:a05:6122:8c12:b0:566:221a:ac27 with SMTP id
- 71dfb90a1353d-56706084eadmr5428055e0c.21.1770774784010; Tue, 10 Feb 2026
- 17:53:04 -0800 (PST)
+        bh=ST660X4hEpUgD6SL2DviuzCimmbNFl5pVnT0exNCSkQ=;
+        b=GLyn6wmOsZUVj3yOUpPhhooDqT1ItX0wV8vc3RgFzzw21jVVo8JHcEpF2WMIJDNHAa
+         1EXj5w/YXygYRXNJq/cPcloPp33/dk49rPnbltahD3zXlmOBhViKl6d2LCVurnfd3ot/
+         BK6Z2f/C1iy4xpUuen5voyc3uLo1ibWHZpqbr4JmWJh7yYiH9Fk51/iRI9dXD6qWonR2
+         iUUc7bmcCYqGNGCnf/+Nt761DmhxgBv0mVfAeWlU5YponJGBeEq8W+9GFE0ahp/nnIMW
+         Btb6aD/trp/WjzdMYmpEH12U24Mae0fySeZ3MKF8Rjt6OnF2Y4NdTxUmhrsNG/wazDbS
+         4RLA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7v+2TH79qYQs7v6Baa//IUZGfvH70fcscjviEahu7Tl9IcHH80FKd56nKdQ8t13XJl7eGqA4iTDPg@lists.infradead.org
+X-Gm-Message-State: AOJu0YzkS8uy35XNnAa439LG+Y29URjeWt3pjRoFoGBNRm3YLbw8dGBl
+	1lPAltHHBiY7SnVs9xK0a/3knf5Mrbwgd6n6e/SU1R5x14De8ZC9puGAN+iZbX/gfxJCmAssuw0
+	XkSnSas53gMBnZm2vJhrLLwz80okLP5bzPLSVkSOigA==
+X-Gm-Gg: AZuq6aJq1fJbZHUUkYoDeiG9O5IQU4YU6fPFo5aEoyTd5IrpwLwE3QMa8w4pUcDYBjt
+	Acg5sY04mJgy/yD17AGUblv+6wvRbbsA3sHf0wunkXC2qZx+JH2XNSe7MrjGI7JVUp/DwBsrWso
+	DwD9Fn8c3SX8J6Nay20d+VsH6CtnBJMY7ooiSFh28JrnHkCm490OmWn630a0dhjs/UU3TFSrAvs
+	+URmyKDnQBHReAFfk5IqGLZT1JWIFYBhQKXIJjMipBWqGHIRI70vFiXpFe4SgN5EwDubAjAoWQF
+	GVBJSGw=
+X-Received: by 2002:a05:6102:cc8:b0:5ef:7221:aa9b with SMTP id
+ ada2fe7eead31-5fae8aab91bmr4623011137.18.1770775009419; Tue, 10 Feb 2026
+ 17:56:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20260130223531.2478849-1-mkhalfella@purestorage.com> <20260130223531.2478849-6-mkhalfella@purestorage.com>
-In-Reply-To: <20260130223531.2478849-6-mkhalfella@purestorage.com>
+References: <20260130223531.2478849-1-mkhalfella@purestorage.com> <20260130223531.2478849-7-mkhalfella@purestorage.com>
+In-Reply-To: <20260130223531.2478849-7-mkhalfella@purestorage.com>
 From: Randy Jennings <randyj@purestorage.com>
-Date: Tue, 10 Feb 2026 17:52:53 -0800
-X-Gm-Features: AZwV_QhKFOrh4IF_ceVAm3XT_Kr52syguPeU5c1rt6xi8FRgNDxMGOVsDjzIPoY
-Message-ID: <CAPpK+O2as+2GY=CgC-zfWuU+2w1DZD+LTie9P6LB21fgwTbAaw@mail.gmail.com>
-Subject: Re: [PATCH v2 05/14] nvmet: Send an AEN on CCR completion
+Date: Tue, 10 Feb 2026 17:56:38 -0800
+X-Gm-Features: AZwV_QgcNBZ3z-Vegt9TPNWyZplvjx3Vh6wfL9VrS_A7X9vCt3rK9ZXNro5CBxk
+Message-ID: <CAPpK+O1pTsWDokwVC_c0TpZqg8hsSB2K8p-RvkhodKACs8ek9Q@mail.gmail.com>
+Subject: Re: [PATCH v2 06/14] nvme: Rapid Path Failure Recovery read
+ controller identify fields
 To: Mohamed Khalfella <mkhalfella@purestorage.com>
 Cc: Justin Tee <justin.tee@broadcom.com>, 
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
@@ -104,9 +105,8 @@ Cc: Justin Tee <justin.tee@broadcom.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260210_175305_852466_823B2BE9 
-X-CRM114-Status: UNSURE (   8.67  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260210_175650_874740_BCBB2B9F 
+X-CRM114-Status: GOOD (  10.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,9 +124,15 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On Fri, Jan 30, 2026 at 2:36=E2=80=AFPM Mohamed Khalfella
 <mkhalfella@purestorage.com> wrote:
 >
-> Send an AEN to initiator when impacted controller exists. The
-> notification points to CCR log page that initiator can read to check
-> which CCR operation completed.
+> TP8028 Rapid path failure added new fileds to controller identify
+> response. Read CIU (Controller Instance Uniquifier), CIRN (Controller
+> Instance Random Number), and CCRL (Cross-Controller Reset Limit) from
+> controller identify response. Expose CIU and CIRN as sysfs attributes
+> so the values can be used directrly by user if needed.
+>
+> TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
+> Time) which is used along with KATO (Keep Alive Timeout) to set an upper
+> limit for attempting Cross-Controller Recovery.
 >
 > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 Reviewed-by: Randy Jennings <randyj@purestorage.com>
