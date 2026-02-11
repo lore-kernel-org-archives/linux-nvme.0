@@ -4,62 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F4A1EB594B
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 01:57:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AB14EB595E
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Feb 2026 03:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Subject:
-	Content-Transfer-Encoding:In-Reply-To:Content-Type:Date:To:References:Cc:
-	Message-Id:Mime-Version:From:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UG0mqORVxhaZ0a+OZCSMkiGFaCvU9+2moAIWtkDvylc=; b=Taq4PQxWjL4aPOfGDlnEAO7oWn
-	22bF4KN+yj7oCVNbwdeu4OerXbZ0/W7vns+X0gao3bSMusBsbQ+9/W4LWc/DFKmsSpUoc2rd0s1K2
-	9huMqq+eGevuuakDk9sk6vzH+d5EYxIbgsylndhO0xfNOmCPoEzCyW+L2g/V+n7aG/Db1/3LKE9+O
-	Zikwpz8/IgBhApJU75MqlQOeB3fciw4dT1na6EQRabGpXEORjvHkmfq4rfvdNJ2sNE3NWFOpi3m9U
-	4gYzScf+Ho5xDWvcIOodWfcuBq1zLm9h2X35NUBwccWoD2jFs5cihWyLk3+XIDA98S2eWl1Q0WGCA
-	DS1eTh1Q==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lNXFAGoFwPPlMl2TNaoGWBMC72GA6Bq9CsHRRvHGD+M=; b=IC0GxaQ3fWNQiGx62hEtGd9JZo
+	zt4cE5TOA0TBZW7p+OGiKlzf0f4Ya456qBZ8cvrMHwMTX1iYZrJi0iW+6KhGjueGOtmtIcIy/AXNG
+	SjzPZOqH/iOHrySGxL6TMk5iftYB+f0hJwY8rQ/AnAQrG0WlCbgoU0FIH06UG3k6uxWMCKUWWhrsz
+	wVBs06dQa8JXy0DTnDF67Ng47/I7wm+0aclg9pVqcICo/iwIkL8iZ3UeT+0hHRXN1/C/lZMSnOkxv
+	hvbP5NfPqVmOTCbwE2xC0E/ZkXt2s46QPWTH/HQ0sECd0qD0w8+HvcL/RIWTCZUtJs57GRXQOK+T7
+	xeIcBnyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpzUA-000000006tA-1IbR;
-	Wed, 11 Feb 2026 01:57:46 +0000
-Received: from sg-1-14.ptr.blmpb.com ([118.26.132.14])
+	id 1vq0yr-000000009xz-2t6R;
+	Wed, 11 Feb 2026 03:33:33 +0000
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpzU5-000000006ro-3yBQ
+	id 1vq0yo-000000009xN-3pdA
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Feb 2026 01:57:44 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1770775051;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=UG0mqORVxhaZ0a+OZCSMkiGFaCvU9+2moAIWtkDvylc=;
- b=vqp1JWRc8DOOZsP7AMzTytrnJyLG3LxiYQvOCDXL8S8Zb2UyLbuelVmjdfEHw4rJmjh5Lw
- 8yYPelvrgUqQ/0l0gVK7TwqzLW6ySaPA3UjkHuBYcGMnBent6iPSF7/kbx/xLHR2w+WOnn
- UJpl1oGmnS56WXR6Spe6k2AB85Vb986jt5z9tPLi8QJt3b4cu6pt8VI4eLNoWIWyGyOfDG
- ua//Fq2A0iK4KMG1EUDp5c3ZokUjCqCiUCK28eNBgkhlKE3ZMWaYrQKxf8AJqNPaJ1hgU7
- jpVNbJ4GusObE2vYHKWBLvYLQgnqTgMC4dwULqc+2SDF7x6gzO92TdOfBtb3ew==
-From: "Yu Kuai" <yukuai@fnnas.com>
-Mime-Version: 1.0
-Received: from [192.168.1.104] ([39.182.0.137]) by smtp.feishu.cn with ESMTPS; Wed, 11 Feb 2026 09:57:28 +0800
-X-Original-From: Yu Kuai <yukuai@fnnas.com>
-X-Lms-Return-Path: <lba+2698be209+5d2abc+lists.infradead.org+yukuai@fnnas.com>
-Message-Id: <baa254f9-c41c-44f7-959a-8ce69e1768fa@fnnas.com>
-Cc: "Christoph Hellwig" <hch@lst.de>, <axboe@kernel.dk>, <sagi@grimberg.me>, 
-	<sven@kernel.org>, <j@jannau.net>, <linux-block@vger.kernel.org>, 
-	<linux-nvme@lists.infradead.org>, <tj@kernel.org>, <nilay@linux.ibm.com>, 
-	<ming.lei@redhat.com>, <neal@gompa.dev>, <asahi@lists.linux.dev>, 
-	<linux-arm-kernel@lists.infradead.org>, <yukuai@fnnas.com>
-Content-Language: en-US
-References: <20260209082953.3053721-1-yukuai@fnnas.com> <20260209082953.3053721-4-yukuai@fnnas.com> <20260209145832.GC18315@lst.de> <aYn-xwFHCpd7sITJ@kbusch-mbp> <e3e7d95b-2712-4365-922d-731449e7193a@fnnas.com> <aYtKFNm-wRKn6l66@kbusch-mbp> <20260210154108.GB2484@lst.de> <aYtWSscg6L9xxlzc@kbusch-mbp> <f3451ddd-96b6-4bc1-9d4c-964e361d56fc@flourine.local>
-To: "Daniel Wagner" <dwagner@suse.de>, "Keith Busch" <kbusch@kernel.org>
-Date: Wed, 11 Feb 2026 09:57:26 +0800
-Content-Type: text/plain; charset=UTF-8
-In-Reply-To: <f3451ddd-96b6-4bc1-9d4c-964e361d56fc@flourine.local>
+	Wed, 11 Feb 2026 03:33:32 +0000
+Received: by mail-ua1-x92e.google.com with SMTP id a1e0cc1a2514c-944168e8c5fso1933563241.2
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Feb 2026 19:33:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770780809; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Kif/JJSYH0nfPTHDcyDm+aIerTt8sOMPIYLK3R9NbFlHiapSYkomJctzSqJkoNIDdg
+         U9+mOAXYiBFLObSZ6eOZ8+cRiykmagHm+JpR+3e4DiGjEEf/iBGlcKrhos0QImb2f+7m
+         YM038itfXG1JvhLTUDtiuZ+kFwI0rq1VP0HRtO4D6J8CUKaCnfQJkqRAJfv2rIuT+Vqz
+         h/MDiL493Sptmj8d9kMqXTjOjrVsOMOeRcQb4BWgVvxH1Eph7m/rKx7dOZAjjBTGnvvC
+         banyljVqQjhISTe69EPLlKc95tfSIhqFRojtEgX2CwYhQpfi3ceSe1qg6RWlY8QejS5B
+         sfyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lNXFAGoFwPPlMl2TNaoGWBMC72GA6Bq9CsHRRvHGD+M=;
+        fh=XyRWtcceCqs4vcXtqRhK9YqwNCdraD2t/WdEXnOL6x4=;
+        b=VpCUkY8tSqQn01JX/+9PSNa/rzgRfi5dZSsrcYTabmKtpNVxxpTI8YYNGk+0rAYj2o
+         90HcYOflqufTRGwduOu5xK/JavlzsUJ7XZcEwfZuKQDXdoRU9A3muFl8G7dIsxw4oqFB
+         DOOfW6IEXWSZmDSa3G5hmOEUjbH34B485hJiyrjTV8d2C/q0RWH4qg4ENvrQTG2u8/hM
+         KGjUBTQ6nlJoz2KybfRqUgr+5Ylpn1+3SIgdE18YF86uwL6Qum5jXjOqXNerEDqWqa4c
+         Pp6aFU0YDymowMcgKNVfzrVWWbHpfI4GnGnEesdJskxnxeQdeUWMclzoXmPXfFmiMrkm
+         ++Sg==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1770780809; x=1771385609; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lNXFAGoFwPPlMl2TNaoGWBMC72GA6Bq9CsHRRvHGD+M=;
+        b=Iz7YGVnvyAHJwWlJ7L/SX+FNvUGH7CgPGcmGTSkztzAN78GVPqm0gnB/1u2FX9r8yh
+         krbKR3RtZkVQeuRmx+F5rGX97q03qv5t5qUye7w+W7hfGm1/OaBcTVZns/pKEKbmarA3
+         wDHmLf4KZ9B4hdfxo57igdyxCeK9COTPmGrKH/jL0y21Xlw6qsLWt6VGs17er6fC/RkF
+         Uyir4JkUIyj0uY/X5s3Vgtpi7Zta5+aLR3OpecKDIDFPCzrdEVvI0z0lBBL/OvRM+XlE
+         iSe7rAoWqH/q4VVPCMqmGcfmNbISdKi3EOpg492ng3nU8H524VKDL6soWT/IKUS1MuzV
+         FXbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770780809; x=1771385609;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lNXFAGoFwPPlMl2TNaoGWBMC72GA6Bq9CsHRRvHGD+M=;
+        b=G4D1/ERDVYKOsEnT2KF0gGYT7kXTflOdruFpwAgo0OI/aVSQFln9ksNyjlDITQjhek
+         U7d9gKQY2VrnxOWWpQRFZAvnKE952JRSNyGPevTzFpphIuro6RznQHxDb/fh3/EiVi4X
+         MWqXtoGLnkx8Jq8fVBINqQKZ+wqtcNhrD90fhsWpZ4AvqwwIPrE3eBJLzc0CEJ4wRwmp
+         DVYnZDItPJYNcFaZy0raE/nYPFJFACIhP8jb++163u2i6H/ZQLqmDt7qdrYTvwUmpsMo
+         VeTEgO04YXLVDQD7UMXR5vRkRP1MH6UDcVKEnSpH2S0WrP1ohhFsoZdZN0xh/RiIUN93
+         wARw==
+X-Forwarded-Encrypted: i=1; AJvYcCXFAvZ7NSx8a1Ps9BR3EJ2e6pit47QNS8wLiv6w2G8p8kJ1bWLXJG3tssYhzRscc23hm1KVMWUQQE7y@lists.infradead.org
+X-Gm-Message-State: AOJu0Yxq98FYYyTFLWFd6n4bU6yGJ3uVqdoy1MrWB6FXRPjmV24jqWrJ
+	WS5IWoF0LfSCFoIM3ecVX1wltZvXURrSE38BWJL/K0jr/T7G7K+Vy4bbUiNXB1UykMI50nv7dX2
+	TuvWDcwEWPIYnFSZZFQq47IgY4MBwZ9TmY6nrCiE/VODPqt3wU+bqB+Y=
+X-Gm-Gg: AZuq6aJTG8p0TfJ/mlY7XWJcTInwJfgtm3nthe3JsH99nKDzg1dSnjsCzc2/aOIkIl2
+	cyEtnbtbevOC0hd3aa75fweaIZT4Gi2Q+jTX5TfKDuMBWX1UpQbsw5jsvKqEKfLblPTwcXjjCx9
+	P00pSMxd8XLXDFFDyBz6AUsXfHP/3syqNSkW8KbJ39QdSBY3XT5MCiAfCsnHjaZfQ873JxqrZZc
+	RS3zNd20lpl8KZpDxFdZ/x2S9eRvQ9xXeS1bvy1SNKSQrRgW5VAMwuyG2GQ3FfFsoP05p1l7G/v
+	UIJ2D5E=
+X-Received: by 2002:a05:6102:2ad5:b0:5ef:8ad:a3bb with SMTP id
+ ada2fe7eead31-5fde4125509mr379575137.9.1770780809432; Tue, 10 Feb 2026
+ 19:33:29 -0800 (PST)
+MIME-Version: 1.0
+References: <20260130223531.2478849-1-mkhalfella@purestorage.com>
+ <20260130223531.2478849-9-mkhalfella@purestorage.com> <05875e07-b908-425a-ba6f-5e060e03241e@gmail.com>
+ <20260210222732.GQ3729-mkhalfella@purestorage.com> <5f3c9cf0-7fee-432a-b6c5-44fb2acb0b1d@gmail.com>
+ <20260210232553.GR3729-mkhalfella@purestorage.com> <20260211001243.GS3729-mkhalfella@purestorage.com>
+In-Reply-To: <20260211001243.GS3729-mkhalfella@purestorage.com>
+From: Randy Jennings <randyj@purestorage.com>
+Date: Tue, 10 Feb 2026 19:33:18 -0800
+X-Gm-Features: AZwV_QhRwZF-ai4n-PTcrQUreIfxI2ZtrNCZvYn76hbyxxqIk84VbTOcu-v8mlA
+Message-ID: <CAPpK+O37eh5tKFcos61DKH8pYsFtw-mcWLw+ZVQRJKdNtJCp-g@mail.gmail.com>
+Subject: Re: [PATCH v2 08/14] nvme: Implement cross-controller reset recovery
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: James Smart <jsmart833426@gmail.com>, Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Aaron Dailey <adailey@purestorage.com>, Dhaval Giani <dgiani@purestorage.com>, 
+	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] nvme-apple: move blk_mq_update_nr_hw_queues after nvme_unfreeze
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260210_175742_153796_B551BF25 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20260210_193330_995182_815C9ADB 
+X-CRM114-Status: GOOD (  43.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,54 +120,100 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: yukuai@fnnas.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
-=E5=9C=A8 2026/2/11 0:28, Daniel Wagner =E5=86=99=E9=81=93:
-> On Tue, Feb 10, 2026 at 09:01:14AM -0700, Keith Busch wrote:
->> On Tue, Feb 10, 2026 at 04:41:08PM +0100, Christoph Hellwig wrote:
->>> On Tue, Feb 10, 2026 at 08:09:08AM -0700, Keith Busch wrote:
->>>> If you leave the queue quiesced, pending IO will form requests that ar=
-e
->>>> entered and waiting in the block layer. You can't freeze a queue with
->>>> entered requests.
->>>>
->>>> We unquiesce first to flush any pending IO that had entered during the
->>>> prior reset. It's not the best way to handle this situation. It would =
-be
->>>> smarter to steal the bio's from all the entered requests, then end tho=
-se
->>>> requests, then resubmit the bios after the hw queues are initialized. =
-We
->>>> don't do that because no one's really complained, probably because the
->>>> queue counts don't usually change after a reset.
->>> FYI, Daniel Wagner had been thinking about doing this reinsert for
->>> something (I forgot what exactly),
-> This feature would solve a tricky problem with isolation patches:
+On Tue, Feb 10, 2026 at 4:12=E2=80=AFPM Mohamed Khalfella
+<mkhalfella@purestorage.com> wrote:
 >
-> https://lore.kernel.org/linux-nvme/87cy7vrbc4.ffs@tglx/
+> On Tue 2026-02-10 15:25:55 -0800, Mohamed Khalfella wrote:
+> > On Tue 2026-02-10 14:49:15 -0800, James Smart wrote:
+> > > On 2/10/2026 2:27 PM, Mohamed Khalfella wrote:
+> > > > On Tue 2026-02-10 14:09:27 -0800, James Smart wrote:
+> > > >> On 1/30/2026 2:34 PM, Mohamed Khalfella wrote:
+> > > >> ...
+> > > >>> +unsigned long nvme_fence_ctrl(struct nvme_ctrl *ictrl)
+> > > >>> +{
+> > > >>> +       unsigned long deadline, now, timeout;
+> > > >>> +       struct nvme_ctrl *sctrl;
+> > > >>> +       u32 min_cntlid =3D 0;
+> > > >>> +       int ret;
+> > > >>> +
+> > > >>> +       timeout =3D nvme_fence_timeout_ms(ictrl);
+> > > >>> +       dev_info(ictrl->device, "attempting CCR, timeout %lums\n"=
+, timeout);
+> > > >>> +
+> > > >>> +       now =3D jiffies;
+> > > >>> +       deadline =3D now + msecs_to_jiffies(timeout);
+> > > >>> +       while (time_before(now, deadline)) {
+> > > >>
+> > > >> Q: don't we have something to identify the controller's subsystem
+> > > >> supports CCR before we starting selecting controllers and sending =
+CCR ?
+> > > >>
+> > > >> I would think on older devices that don't support it we should be
+> > > >> skipping this loop.   The loop could delay the Time-Based delay wi=
+thout
+> > > >> any CCR.
+> > > >
+> > > > I do not think we have something that identifies CCR support at
+> > > > subsystem level. The spec defines CCRL at the controller level. The=
+ loop
+> > > > should not that bad. nvme_find_ctrl_ccr() should return NULL if CCR=
+ is
+> > > > not supported and nvme_fence_ctrl() will return immediately.
+> > > >
+> > > >>
+> > > >> -- james
+> > > >>
+> > >
+> > > I would think CCRL on the failed controller would be enough to assume
+> > > the subsystem supports it.
+> >
+> > ictrl->ccr_limit is a good indication that subsystem supports CCR. I do
+> > not think it is enough though. I say that for two reasons:
+> >
+> > - May be this controller does not support CCR but others do on the same
+> >   subsystem. There is nothing prevents subsystem from putting a cap of
+> >   CCR at subsytem level.
+This is not a concern.  Controllers should support CCR uniformly in
+a subsystem, and it would be unusual for them not to.
+
+> > - May be this controller supports CCR command but not now because all
+> >   CCR slots are used now. This can happen in the case of cascading
+> >   failure.
+This is the concern.  Because the code modifies ccrl as it has ccr cmds
+outstanding, checking ictrl may not give an accurate picture if ccr is
+supported.
+
+
+> >
+> > >
+> > > I'm not worried about the coding on the host is so bad. It's more the
+> > > multiple paths that must have cmds sent to them and getting error
+> > > responses for unknown cmds (should be responded to ok, but you never
+> > > know) as well as creating conditions for other errors where there wil=
+l
+> > > be no return for it - e.g. other paths losing connectivity while the =
+ccr
+> > > outstanding, etc. yes, they all have to work, but why bother adding
+> > > these flows to an old controller that would never do CCR ?
+> >
+> > If nvme_find_ctrl_ccr() returns a source controller to use then we know
+> > the controller supports CCR and does have an available slot to process
+> > this CCR request. I do not see how this code will send CCR request to a=
+n
+> > old controller that does not know about CCR command.
+> >
+> > I am not fully opposed against using ictrl->ccr_limit to return early. =
+I
+> > do not see the need for it. If you feel strongly about it I can update
+> > nvme_fence_ctrl() to do so.
+> >
 >
-> Currently, it's not possible to take the cpu hotplug lock which would
-> prevent races in the cpu-queue mapping. The current logic depends on
-> making progress in the error case. If it would be possible to fail the
-> in-flight request in the error handler and reinsert them in the block
-> layer, progress could be guaranteed when holding the cpu hotplug lock.
->
-> Unfortunatly, haven't found time to implement and test this idea so far.
-> Sorry.
-
-Thanks all!
-
-If I understand this correctly, it seems fine to make progress with this se=
-t,
-currently IO can return error during the race window, and this can be final=
-ly
-fixed with this reinsert.
-
---=20
-Thansk,
-Kuai
+> I forgot to mention that ctrl->ccr_limit is initialized from id->ccrl in
+> nvme_init_identify(). If this value is greater than zero then we know
+> the controller does support CCR. nvme_find_ctrl_ccr() checks for that
+> and the returned source controller must support CCR and has a slot
+> available for it.
 
