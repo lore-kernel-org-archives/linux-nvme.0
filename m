@@ -4,48 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49412EB48F4
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Feb 2026 10:16:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44751EB48FC
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Feb 2026 11:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Lc55MufeLpU24ZftEABb3grhkBRFAd1Jlyep8ro3YWk=; b=3YinnvmGWQLs3A9wC7g/HO8txM
-	sXljw6k4wUEGuX27A41vSuvEyGTqKg243tjtLAmXz2NLKP6gFpcBzGOGp8mC9Np174/P/etuV8g3Y
-	OBdvoA5Z7QanXCDJtz0eMWK1ecAZKZH/zgVl3HnQEb2U74hz0tNVfchyS98eaewf4uqXWZhJDs365
-	Ect5Z0yIohod8vBrSDVDYLXwpghGENs5nnZIVd+magBPucjG5C2iiSG+ODRsGD9QHQHVSL7rRkkdF
-	yt55GCS/IO9ywPNnQmUEUjL2KU+DgmWktEmcb9qUz5+mLSW6i0gK4hSn/X2E2/3Hup1GANzAkkuqm
-	XSkVqzbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YZeLOIZOughry/DmzmInTPi2292n3QN9yJTyYIqRH3E=; b=B8HiOj2hOFIPibBNNmEwz6vFaJ
+	PWHcHtwMOkh4d+aFzhIlCYP+ohPOC4ZgULjxmNXia7ay+dCroiaUgJemaHZ5RS6ep7smIU9uCYMu+
+	SKQAIsWuqy548+nZj33+TPSh7UI7ATJjX+Z/omjoaJsW5Z0bdrZNDK4oczWBuIia7Iz9J3R6NtxwE
+	orKfYzNAbKybkN9Wl5qGVSxh3SK4jL3rMKCibOPxlU4/d6sN2SiYhe4Ths/5eYKg9haXLs7I2woh0
+	Orf49StO2sHP7gRm9PIWav6OMXHRteoxyXN9Cwt6ar7ghiHhJz5v2MD53vjnsXCnGsY+KuTrUAxvI
+	OVDf+LXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqTju-00000001vc3-2w7c;
-	Thu, 12 Feb 2026 10:16:02 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1vqUTV-00000001y4U-2QZH;
+	Thu, 12 Feb 2026 11:03:09 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqTjr-00000001vbB-3QNY
+	id 1vqUTS-00000001y3x-1saQ
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Feb 2026 10:16:01 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 29A3E68D09; Thu, 12 Feb 2026 11:15:54 +0100 (CET)
-Date: Thu, 12 Feb 2026 11:15:53 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linan122@huawei.com, song@kernel.org, yukuai@fnnas.com, hch@lst.de,
-	sagi@grimberg.me, axboe@kernel.dk, linux-raid@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH V4 0/3] block: ignore discard return value
-Message-ID: <20260212101553.GB8615@lst.de>
-References: <20260211204438.22568-1-kch@nvidia.com>
+	Thu, 12 Feb 2026 11:03:07 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CAA2C3E6D7;
+	Thu, 12 Feb 2026 11:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770894184; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YZeLOIZOughry/DmzmInTPi2292n3QN9yJTyYIqRH3E=;
+	b=TiW1gCYjfbQKo7rJp6jXhEWdRPOhZFAQoy71+zM/8jmTIYYvNWmHzKqmrBpkNg0mFjCSKX
+	BBTxyr2nUE3MEkx7raXqA88oUoUHoHyFyIZp1vge3hJPYq8uIj4Di1caMMHaQ8/LDEpRlt
+	HD5qwpbm5t13EmknJFZzYpyo7v4VYKA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770894184;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YZeLOIZOughry/DmzmInTPi2292n3QN9yJTyYIqRH3E=;
+	b=AvBcTcV9NeJPPw5UWAjKP1m+xw69U2tQKVdtqhjoLvsLyM27fP5zu6nLR3xEsvWinUaHed
+	LnaDA4kRDGOZJVCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="nAS7n/y9";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6KjlNl0X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770894182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YZeLOIZOughry/DmzmInTPi2292n3QN9yJTyYIqRH3E=;
+	b=nAS7n/y92QB6RNvxtMuDMqVp210Jj3bkTqnFfaJN1/QpS2AC9RWbYeREkXFAXZAgwPPY89
+	klI7X5zKbJzz6N01d5/+7offArvOM2DsnNqbdUzHhaUM4rB/AjIEJtFTg1uGv+Ovzn1E20
+	4qDtJ6NH733OxIdZoXgrpcFqadzPPyk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770894182;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YZeLOIZOughry/DmzmInTPi2292n3QN9yJTyYIqRH3E=;
+	b=6KjlNl0XhWtTLPY5UkyGG06l2QX9NoTG9lrgYLq+kxqQEs5rGLr0oc5uc8ZA9pJxZNAH05
+	PTuGSE24ThaH4bDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DCBA3EA64;
+	Thu, 12 Feb 2026 11:03:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xo4OF2azjWn9TQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 12 Feb 2026 11:03:02 +0000
+Message-ID: <5eca9b82-c6bc-4d8f-a939-db3399baca57@suse.de>
+Date: Thu, 12 Feb 2026 12:03:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260211204438.22568-1-kch@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvmet-auth: validate negotiate payload length(BUG:
+ KASAN: slab-out-of-bounds)
+To: YunJe Shin <yjshin0438@gmail.com>, hch@lst.de
+Cc: ioerts@kookmin.ac.kr, kbusch@kernel.org, kch@nvidia.com,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me
+References: <20260211160859.GA11869@lst.de>
+ <20260212013338.1417091-1-ioerts@kookmin.ac.kr>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260212013338.1417091-1-ioerts@kookmin.ac.kr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com,lst.de];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: CAA2C3E6D7
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260212_021600_014452_C22F4E73 
-X-CRM114-Status: UNSURE (   9.34  )
+X-CRM114-CacheID: sfid-20260212_030306_636598_9FD04F95 
+X-CRM114-Status: UNSURE (   9.73  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -61,11 +148,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On 2/12/26 02:33, YunJe Shin wrote:
+> From: Yunje Shin <ioerts@kookmin.ac.kr>
+> 
+> AUTH_SEND negotiation requires at least one DH-HMAC-CHAP protocol descriptor.
+> Validate the payload length before parsing the negotiate payload to avoid
+> out-of-bounds reads.
+> 
+> KASAN splat:
+> [ 1224.388857] BUG: KASAN: slab-out-of-bounds in nvmet_execute_auth_send+0x1d24/0x2090
+> [ 1224.407035] The buggy address belongs to the cache kmalloc-8 of size 8
+> [ 1224.407998] allocated 8-byte region [ffff88800a6537c0, ffff88800a6537c8)
+> [ 1224.412412] page dumped because: kasan: bad access detected
+> 
+> Use struct_size() for minimum length computation and move the negotiate
+> restart flow into a helper so the call site stays compact.
+> 
+> Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication")
+> Signed-off-by: Yunje Shin <ioerts@kookmin.ac.kr>
+> ---
+> v2:
+> - use struct_size() for negotiate payload minimum length
+> - split negotiate handling into nvmet_restart_dhchap_auth() helper
+> - use NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD instead of NVMe status
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Cheers,
 
-And maybe Jens can pick this up for 7.0 so that we have a clean
-slate for the new merge window?
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
