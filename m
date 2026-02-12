@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60978EB4917
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Feb 2026 12:10:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 495CEEB4918
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Feb 2026 12:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MmTYg+8lSVcsO57yO3LwOWA4RGUT3WGDBMHU724l4Lc=; b=jsnVqi40G3L+bkycvb4mO0+GH6
-	fnvsVLmDPqKHIveeTknzUD3KPOmxzKusdjXnnbvKAlxZOdPVXlEU3l+XLZvN1xgry4mIOhN7fYYGW
-	Ssa0R9syB0RNUkX0KmFks1OFLVkWS8oLNe/5deZprtqcZcw8pUKXR5AI4j7rIm5wDga+HoR0DOYiD
-	LPDkjY1US5c0TZqucxcDVxPZ8H0pr1cbez4gH28WoUtbaKeAy8fO0hC7gkG19yRh9g+vzN27BY9Sh
-	3PyfaFZyx0eVWmy3N2X+a0kJyYtve39wVnmDaJJ9hCm0GxT6DSWR1gv69G+eaDpfQRKALyKWGPKr3
-	UGjJO7tQ==;
+	bh=Dz34VLBWe6oKm4izUg12u0FQuATKlCzee1YA8g6G2CA=; b=nhZNC+R4rM9hCkiwXNLwKjFREd
+	rQrajnj2lOUuMKPyEpB1j38Uy9DRk3lGZMtFHvYCSb5l33TkUaegW1Pvpz0cI+F1HlYD+TzXSC53T
+	fxdQhA7ArqeCYaqcM6CSDy3TXbrktfIAko+NigBnUKkpUEVyPmzEpum4cFxAZkiWbuEP0/YW6cT85
+	hGz+5PQNiTh0ScHEB1Q+DW+Kxu5s7bMzDcB8dTsDhCQvR9UWxXRyKrx1lsx61Bv3EHGqijNYfEn5v
+	JL4+u6oUUes2oClNfk+KeVOKWBg2oPmvOQc2LbvbZWCqU8s4W9BIanahlkoSVd9wv7zQzz9keJ/oT
+	nvDNlBkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqVWR-000000023ZG-39JV;
-	Thu, 12 Feb 2026 12:10:15 +0000
+	id 1vqVWU-000000023b3-0Tl3;
+	Thu, 12 Feb 2026 12:10:18 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqVWO-000000023XV-1jYk
+	id 1vqVWR-000000023YZ-1w9x
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Feb 2026 12:10:13 +0000
+	Thu, 12 Feb 2026 12:10:16 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770898211;
+	s=mimecast20190719; t=1770898214;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MmTYg+8lSVcsO57yO3LwOWA4RGUT3WGDBMHU724l4Lc=;
-	b=CcQM/aFyli84mOdW2q2ehFyKKTrvatiVSJYqlmKPw1gP2pLr6Cfl95ONuaFh6D3leoOl+e
-	PgH5Y6DouBUq7p1EZKyv7tKsdamyLXzpwRUPGHHwoZ7GQnLFR4swPi8HC9/L6Vb60gwkW+
-	oNfldB6Lx27zWo4pCfNMAlWJTHyCOLI=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=Dz34VLBWe6oKm4izUg12u0FQuATKlCzee1YA8g6G2CA=;
+	b=OarCpkBeUHY7itavCKBBmXHbJV9drG3Y0ZyshEAzfyqo+65C5pjZ47Zq6G8uyWTEiGlHCu
+	maHn0U1AF7GPlB2Cr43/cpIiWsPpW67aIraTRSaJMjScoz6cMvo3fPXAjdYxNqjFI/BewK
+	Y+DtVrKtXPP2SoyCy+4u0eauy5RJvS4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-711-kb06_s2fMviUMth9u9hClQ-1; Thu,
- 12 Feb 2026 07:10:07 -0500
-X-MC-Unique: kb06_s2fMviUMth9u9hClQ-1
-X-Mimecast-MFC-AGG-ID: kb06_s2fMviUMth9u9hClQ_1770898206
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-131-74l2RjmUM1SxudDslg4cSg-1; Thu,
+ 12 Feb 2026 07:10:11 -0500
+X-MC-Unique: 74l2RjmUM1SxudDslg4cSg-1
+X-Mimecast-MFC-AGG-ID: 74l2RjmUM1SxudDslg4cSg_1770898210
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C43291955D88;
-	Thu, 12 Feb 2026 12:10:06 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E269918003F5;
+	Thu, 12 Feb 2026 12:10:09 +0000 (UTC)
 Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.22])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5D4141956095;
-	Thu, 12 Feb 2026 12:10:04 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3DF511956095;
+	Thu, 12 Feb 2026 12:10:07 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: kbusch@kernel.org
 Cc: mheyne@amazon.de,
@@ -61,21 +61,21 @@ Cc: mheyne@amazon.de,
 	linux-nvme@lists.infradead.org,
 	dwagner@suse.de,
 	mlombard@bsdbackstore.eu
-Subject: [PATCH RFC 4/5] nvme: add sysfs attribute to change IO timeout per nvme controller
-Date: Thu, 12 Feb 2026 13:09:50 +0100
-Message-ID: <20260212120951.79738-5-mlombard@redhat.com>
+Subject: [PATCH RFC 5/5] nvme: use per controller timeout waits over depending on global default
+Date: Thu, 12 Feb 2026 13:09:51 +0100
+Message-ID: <20260212120951.79738-6-mlombard@redhat.com>
 In-Reply-To: <20260212120951.79738-1-mlombard@redhat.com>
 References: <20260212120951.79738-1-mlombard@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 0vz6SDBnwKHgJx6rngSGnGSCYCFTGV_-2IY_O-16U_o_1770898206
+X-Mimecast-MFC-PROC-ID: VYAcQWjNln44SkrRU0cTTENyF_fJ9arE6Z0Dib7dlhg_1770898210
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260212_041012_525151_DA5B4288 
-X-CRM114-Status: GOOD (  16.39  )
+X-CRM114-CacheID: sfid-20260212_041015_571746_52D10A61 
+X-CRM114-Status: GOOD (  12.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,130 +90,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently, there is no method to adjust the timeout values
-on a per controller basis with nvme I/O queues.
-Add an io_timeout attribute to nvme so that different
-nvme controllers which may have different timeout
-requirements can have custom I/O timeouts set.
+Instead of passing NVME_IO_TIMEOUT as a parameter with every call to
+nvme_wait_freeze_timeout, use the controller's preferred timeout.
 
 Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
- drivers/nvme/host/apple.c |  2 +-
- drivers/nvme/host/core.c  |  4 +++-
- drivers/nvme/host/nvme.h  |  1 +
- drivers/nvme/host/sysfs.c | 38 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 43 insertions(+), 2 deletions(-)
+ drivers/nvme/host/apple.c | 2 +-
+ drivers/nvme/host/core.c  | 5 +++--
+ drivers/nvme/host/nvme.h  | 2 +-
+ drivers/nvme/host/pci.c   | 2 +-
+ drivers/nvme/host/rdma.c  | 2 +-
+ drivers/nvme/host/tcp.c   | 2 +-
+ 6 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index ed61b97fde59..e9bb64e3ec9c 100644
+index e9bb64e3ec9c..c29c1f45f73a 100644
 --- a/drivers/nvme/host/apple.c
 +++ b/drivers/nvme/host/apple.c
-@@ -1331,7 +1331,7 @@ static int apple_nvme_alloc_tagsets(struct apple_nvme *anv)
- 	if (anv->hw->has_lsq_nvmmu)
- 		anv->tagset.reserved_tags = APPLE_NVME_AQ_DEPTH;
- 	anv->tagset.queue_depth = anv->hw->max_queue_depth - 1;
--	anv->tagset.timeout = NVME_IO_TIMEOUT;
-+	anv->tagset.timeout = anv->ctrl.io_timeout;
- 	anv->tagset.numa_node = NUMA_NO_NODE;
- 	anv->tagset.cmd_size = sizeof(struct apple_nvme_iod);
- 	anv->tagset.driver_data = &anv->ioq;
+@@ -858,7 +858,7 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+ 	 * doing a safe shutdown.
+ 	 */
+ 	if (!dead && shutdown && freeze)
+-		nvme_wait_freeze_timeout(&anv->ctrl, NVME_IO_TIMEOUT);
++		nvme_wait_freeze_timeout(&anv->ctrl);
+ 
+ 	nvme_quiesce_io_queues(&anv->ctrl);
+ 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b9315f0abf80..cc7d725bd6ff 100644
+index cc7d725bd6ff..c1b1a5d08838 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -4169,6 +4169,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
- 		mutex_unlock(&ctrl->namespaces_lock);
- 		goto out_unlink_ns;
- 	}
-+	blk_queue_rq_timeout(ns->queue, ctrl->io_timeout);
- 	nvme_ns_add_to_ctrl_list(ns);
- 	mutex_unlock(&ctrl->namespaces_lock);
- 	synchronize_srcu(&ctrl->srcu);
-@@ -4930,7 +4931,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 	set->cmd_size = cmd_size;
- 	set->driver_data = ctrl;
- 	set->nr_hw_queues = ctrl->queue_count - 1;
--	set->timeout = NVME_IO_TIMEOUT;
-+	set->timeout = ctrl->io_timeout;
- 	set->nr_maps = nr_maps;
- 	ret = blk_mq_alloc_tag_set(set);
- 	if (ret)
-@@ -5107,6 +5108,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
- 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
- 	ctrl->ka_last_check_time = jiffies;
-+	ctrl->io_timeout = NVME_IO_TIMEOUT;
+@@ -5215,16 +5215,17 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_unfreeze);
  
- 	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
- 			PAGE_SIZE);
+-int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
++int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
+ 	int srcu_idx;
++	unsigned long timeout = ctrl->io_timeout;
+ 
+ 	srcu_idx = srcu_read_lock(&ctrl->srcu);
+ 	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
+ 				 srcu_read_lock_held(&ctrl->srcu)) {
+ 		timeout = blk_mq_freeze_queue_wait_timeout(ns->queue, timeout);
+-		if (timeout <= 0)
++		if (!timeout)
+ 			break;
+ 	}
+ 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9a5f28c5103c..ef390a020d8d 100644
+index ef390a020d8d..c59228895bf0 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -316,6 +316,7 @@ struct nvme_ctrl {
- 	u16 mtfa;
- 	u32 ctrl_config;
- 	u32 queue_count;
-+	u32 io_timeout;
+@@ -840,7 +840,7 @@ void nvme_sync_queues(struct nvme_ctrl *ctrl);
+ void nvme_sync_io_queues(struct nvme_ctrl *ctrl);
+ void nvme_unfreeze(struct nvme_ctrl *ctrl);
+ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+-int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
++int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl);
+ void nvme_start_freeze(struct nvme_ctrl *ctrl);
  
- 	u64 cap;
- 	u32 max_hw_sectors;
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 149cd1ab3b3d..0536e4919aa7 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -631,6 +631,43 @@ static struct device_attribute dev_attr_admin_timeout =  \
- 	__ATTR(admin_timeout, S_IRUGO | S_IWUSR, \
- 	nvme_admin_timeout_show, nvme_admin_timeout_store);
+ static inline enum req_op nvme_req_op(struct nvme_command *cmd)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 853cd57e4480..0bd533ddc07c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3096,7 +3096,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		 * if doing a safe shutdown.
+ 		 */
+ 		if (!dead && shutdown)
+-			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
++			nvme_wait_freeze_timeout(&dev->ctrl);
+ 	}
  
-+static ssize_t nvme_io_timeout_show(struct device *dev,
-+			struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+
-+	return sysfs_emit(buf, "%u\n", jiffies_to_msecs(ctrl->io_timeout));
-+}
-+
-+static ssize_t nvme_io_timeout_store(struct device *dev,
-+			struct device_attribute *attr,
-+			const char *buf, size_t count)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvme_ns *ns;
-+	u32 timeout;
-+	int err;
-+
-+	err = kstrtou32(buf, 10, &timeout);
-+	if (err || !timeout)
-+		return -EINVAL;
-+
-+	/* Take the namespaces_lock to avoid racing against nvme_alloc_ns() */
-+	mutex_lock(&ctrl->namespaces_lock);
-+
-+	ctrl->io_timeout = msecs_to_jiffies(timeout);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_queue_rq_timeout(ns->queue, ctrl->io_timeout);
-+
-+	mutex_unlock(&ctrl->namespaces_lock);
-+
-+	return count;
-+}
-+
-+static struct device_attribute dev_attr_io_timeout = \
-+	__ATTR(io_timeout, S_IRUGO | S_IWUSR, \
-+	nvme_io_timeout_show, nvme_io_timeout_store);
-+
- #ifdef CONFIG_NVME_HOST_AUTH
- static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
- 		struct device_attribute *attr, char *buf)
-@@ -773,6 +810,7 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_cntrltype.attr,
- 	&dev_attr_dctype.attr,
- 	&dev_attr_admin_timeout.attr,
-+	&dev_attr_io_timeout.attr,
- #ifdef CONFIG_NVME_HOST_AUTH
- 	&dev_attr_dhchap_secret.attr,
- 	&dev_attr_dhchap_ctrl_secret.attr,
+ 	nvme_quiesce_io_queues(&dev->ctrl);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 35c0822edb2d..c8859367ffff 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -888,7 +888,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 	if (!new) {
+ 		nvme_start_freeze(&ctrl->ctrl);
+ 		nvme_unquiesce_io_queues(&ctrl->ctrl);
+-		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
++		if (!nvme_wait_freeze_timeout(&ctrl->ctrl)) {
+ 			/*
+ 			 * If we timed out waiting for freeze we are likely to
+ 			 * be stuck.  Fail the controller initialization just
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 69cb04406b47..0f78fa8f1cbc 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2193,7 +2193,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+ 	if (!new) {
+ 		nvme_start_freeze(ctrl);
+ 		nvme_unquiesce_io_queues(ctrl);
+-		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
++		if (!nvme_wait_freeze_timeout(ctrl)) {
+ 			/*
+ 			 * If we timed out waiting for freeze we are likely to
+ 			 * be stuck.  Fail the controller initialization just
 -- 
 2.53.0
 
