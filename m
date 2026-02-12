@@ -4,115 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4877ECD6F0
-	for <linux-nvme@archiver.kernel.org>; Thu, 12 Feb 2026 08:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65C87EB48EE
+	for <linux-nvme@archiver.kernel.org>; Thu, 12 Feb 2026 09:43:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yrxxGilDMwdKecEC6njTMZ6elyG5VacJkYCjOMznoJ4=; b=asm44+HuTU0BVl5yo5V8SULik8
-	wda5KraXpZ4x2gWD6LPsXgNxf/Cp4dQmHcSCKA2WyojvkOFQRSBQbWnXJB+cPq2Axcd/AmIOHQdnX
-	6gcHgxHQBzyZ8wBMsMtPlv0PFbpfiYkVnCjdfzVnU4XPpQr2ZN0kQj5qGdOCL6Hin6Tn/73psKEhI
-	fMzJ2TNaGor5Z+en5LvwkbufmJhfs/Ea5qTAKo1AS6KOCqSXwvoCyCxhpPODZqlKk7w1CDRvP+RuO
-	ayEWYopKdLIIA5jw8x+vDLSI0tKsufOaCgnAi9Chn4rOLIEAMVjcwjbZYBAcmUUDE5FZsgpxbeSlO
-	t/RrHtFQ==;
+	bh=u+YJEGp1DSmzcTN6CxzkrYCwPgy3isnREb/xAJqBC0o=; b=G1UhJHdq9KT5ABjf28Uo2yUVl6
+	Qy6u/fXwBsxCvXr2IH3bqL/Qg8su06VLNeYNEtaipP01NKl2eJgCRS6+Sp6q/IRD9UaymmQDdgOBD
+	ObRUyppWEiFU8VlTDiFesoX/X7THLOutQ20kj0W8OB2CXWzPfHbWwlxp5k5Fz0warl6rgRnIGS0oO
+	4LQ8qTrrzT5bNoYLsG43ewOkgfpXyAssaHha5IHmiZsyEMFb0CiF+jfUo54pmFbmnhymGbqLoPfbc
+	T1naaNh6T17wCIureWbUiR1xjE8gECZ2rIL4SeWYh/ttqo4WqkcEJlAHHSBlVvpMxMWaRzxmxLrab
+	zXLr3gTg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqSLX-00000001m9S-2mym;
-	Thu, 12 Feb 2026 08:46:47 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vqTEJ-00000001qsZ-2dR0;
+	Thu, 12 Feb 2026 09:43:23 +0000
+Received: from m16.mail.163.com ([220.197.31.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqSLT-00000001m8X-2ijZ
+	id 1vqTEG-00000001qsD-0fAl
 	for linux-nvme@lists.infradead.org;
-	Thu, 12 Feb 2026 08:46:44 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61BLYcDo3251931;
-	Thu, 12 Feb 2026 08:46:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=yrxxGi
-	lDMwdKecEC6njTMZ6elyG5VacJkYCjOMznoJ4=; b=ptFQ/0Pwu2t1UMJZCUvgWj
-	jijiyxv8OKfRzFZ9uxlWmTopVEiNCQ24Sr05PObasS34/2QbNuzNJ0WG30j0zAVU
-	zooyi+h4IVuR/5QfcrSPygGEUSI/+lyl3IIx6PC2BVoZvMiwfsZFF81ugIhPXTYJ
-	Z4KmZa28vIHptUTcr8RRgVw+idye6VSf3c7M2I9+d6TthO72j8bVD/ZfNM5j8ZQX
-	x+bLJKT6tA28V+2gjmaTMlPyzLjuKxUPE38B4DGbBGYye4o9HrCGh4o0jAjxmnPB
-	5VY2ltCOKyVRxjBYCGbfZ/ymOefQJ5Bg+5w/jOc2JlWjkjJV+SFRPGIa8ygER7Lw
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c696x2m1n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Feb 2026 08:46:12 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61C4ZFsE019251;
-	Thu, 12 Feb 2026 08:46:11 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4c6hxk9ecd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Feb 2026 08:46:11 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61C8kBwX30343890
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 12 Feb 2026 08:46:11 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E696558058;
-	Thu, 12 Feb 2026 08:46:10 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DD34058057;
-	Thu, 12 Feb 2026 08:46:04 +0000 (GMT)
-Received: from [9.109.198.221] (unknown [9.109.198.221])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 12 Feb 2026 08:46:04 +0000 (GMT)
-Message-ID: <88a12e1c-05b6-44de-806e-06a8e2ff7c0a@linux.ibm.com>
-Date: Thu, 12 Feb 2026 14:16:02 +0530
+	Thu, 12 Feb 2026 09:43:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=u+
+	YJEGp1DSmzcTN6CxzkrYCwPgy3isnREb/xAJqBC0o=; b=HZdFRS3Y68Fx+3x/go
+	8lelx0avh+9FByrFdETMK4oRZkFS1u8KR3QjBknsFJOliyoq0Relp9m9ouMmTvOX
+	SFvWInxcuGywCVhfCV9LI6XFlnaZo54uXJdzWdnLBZRnqMaYWalVCSUkYPuP6wNy
+	fKvzMpD1tLzYnu+aOGvEoiVYs=
+Received: from sky.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wDnL6ONoI1p4bGbKw--.42381S2;
+	Thu, 12 Feb 2026 17:42:37 +0800 (CST)
+From: Junnan Zhang <zhangjn_dev@163.com>
+To: kbusch@kernel.org
+Cc: axboe@kernel.dk,
+	hch@lst.de,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	liuyx92@chinatelecom.cn,
+	sagi@grimberg.me,
+	sunshx@chinatelecom.cn,
+	yuanql9@chinatelecom.cn,
+	zhangjn11@chinatelecom.cn,
+	zhangjn_dev@163.com,
+	zhangzl68@chinatelecom.cn
+Subject: Re: [PATCH] nvme-pci: fix potential I/O hang when CQ is full
+Date: Thu, 12 Feb 2026 17:42:36 +0800
+Message-ID: <20260212094237.90855-1-zhangjn_dev@163.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aYx1xoY_yeNvTtF2@kbusch-mbp>
+References: <aYx1xoY_yeNvTtF2@kbusch-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] blk-mq: use NOIO context to prevent deadlock during
- debugfs creation
-To: Yu Kuai <yukuai@fnnas.com>, Jens Axboe <axboe@kernel.dk>,
-        ming.lei@redhat.com, hch@lst.de, Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Yi Zhang <yi.zhang@redhat.com>,
-        Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-        Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-        linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260212080135.1673063-1-yukuai@fnnas.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260212080135.1673063-1-yukuai@fnnas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=WZYBqkhX c=1 sm=1 tr=0 ts=698d9354 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=Ehe4v0DnxFvcZGR6RwMA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: tws8dfR-xQ1APSIwtfGH58Wd5tW-sV6e
-X-Proofpoint-ORIG-GUID: tws8dfR-xQ1APSIwtfGH58Wd5tW-sV6e
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDA2MCBTYWx0ZWRfXwFWDSSGQ0KwY
- QGMWnMr0BWba2MugJVDt3dOhMDuZQ8zihMvJZm016CrD3nQlon9o8X0CxlXw8uXlKfnZoT0ExEK
- xMRjEx0K8YgsPnzsbQg3F/jYvgXN0bL2Q+Y3uSwX1XC3R4HBRujZGkO0LKvAxa4s1e5c7hC8Adp
- KRSXLy9NK61y/tJ5CurZcwbLaXKZbzoSfEut4xj22Wrf3kKrHHyn7V1buDbjzI6/tq6LRX+k2MR
- +XfiKrhEYuxbNfXof4Iq/3BwjKVD35XlbqeuiFCpgg5+iF0a42yfoQnaXgH8KG4bEBeXif0YShc
- 7X6VAduefbm4d8Vz6gztYj1XJSzYCnNwkiRkWy+7ByMVzV3Owd1gFZG+/AlQd3IvBC+6USfh4aC
- TP3WGRotVkyh71tDIJFR1iTtF29WCVh1Bff4zsYDKuc0VDdc5s6g6TekMtdxYDkAWcH9ui3xAi0
- iCqh8eBPgbQPLlfZkXw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-12_02,2026-02-11_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1011 phishscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 impostorscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602120060
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDnL6ONoI1p4bGbKw--.42381S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAw43Wr15GFyDCrykWF47XFb_yoW5Zr1UpF
+	WYgayxAr1ktF4ftas7Kw4UWayfua98GF4DKw4fXry7CrnxGFySgrySkFWjq34DX39Yvr1I
+	vF4jqws5WaykZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pM2NKUUUUUU=
+X-Originating-IP: [118.112.177.142]
+X-CM-SenderInfo: x2kd0wxmqbvvry6rljoofrz/xtbCxQ4JnmmNoI5RjQAA3K
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260212_004643_811581_7E35F1E9 
-X-CRM114-Status: GOOD (  17.91  )
+X-CRM114-CacheID: sfid-20260212_014320_585954_E9CC4DA5 
+X-CRM114-Status: GOOD (  24.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -127,37 +81,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2/12/26 1:31 PM, Yu Kuai wrote:
-> Creating debugfs entries can trigger fs reclaim, which can enter back
-> into the block layer request_queue. This can cause deadlock if the
-> queue is frozen.
+On Wed, 11 Feb 2026 05:27:50 -0700, Keith Busch wrote:
+> On Wed, Feb 11, 2026 at 05:47:44PM +0800, Junnan Zhang wrote:
+> > On Tue, 10 Feb 2026 16:57:12 +0100, Christoph Hellwig wrote:
+> > 
+> > > We can't update the CQ head before consuming the CQEs, otherwise
+> > > the device can reuse them.  And devices must not discard completions
+> > > when there is no completion queue entry, nvme does allow SQs and CQs
+> > > to be smaller than the number of outstanding commands.
+> > 
+> > Updating the CQ head before consuming the CQE would not cause the device to 
+> > reuse these entries, as new commands can only be submitted by the driver after
+> > the CQE is consumed. Therefore, the device does not have the opportunity 
+> > to reuse these entries.
 > 
-> Previously, a WARN_ON_ONCE check was used in debugfs_create_files()
-> to detect this condition, but it was racy since the queue can be frozen
-> from another context at any time.
+> That's just an artifact of how this host implementation constrains its
+> tag space. It's not a reflection of how the NVMe protocol fundamentally
+> works.
 > 
-> Introduce blk_debugfs_mutex_lock()/blk_debugfs_mutex_unlock() helpers
-> that combine the debugfs_mutex with memalloc_noio_save()/restore() to
-> prevent fs reclaim from triggering block I/O. Replace all raw
-> debugfs_mutex lock/unlock pairs with these helpers.
+> A full queue is not an error. It's a spec defined condition that the
+> submitter just has to deal with. The protocol was specifically made to
+> allow scenarios for dispatching more outstanding commands than the
+> queues can hold. Your controller is broken.
 
-It looks like there are still a few places where ->debugfs_mutex is
-taken but the code paths do not enter fs-reclaim. For those cases,
-it may not be necessary to wrap the critical section in a NOIO context.
+Thank you very much. I understand your point. According to Section 3.3.1.2.1
+Completion Queue Flow Control in the NVMe specification:
 
-Perhaps it would make sense to provide two separate helper APIs: one
-that acquires ->debugfs_mutex and also saves/restores the NOIO context
-(using memalloc_noio_save()/restore()), and another that simply acquires
-and releases ->debugfs_mutex without entering NOIO. Callers could then 
-choose the appropriate helper depending on whether the code path may
-trigger fs-reclaim. 
+    If there are no free slots in a Completion Queue, then the controller 
+    shall not post status to that Completion Queue until slots become 
+    available. In this case, the controller may stop processing additional 
+    submission queue entries associated with the affected Completion Queue 
+    until slots become available. The controller shall continue processing 
+    for other Submission Queues not associated with the affected Completion 
+    Queue.
 
-For reference, 
-blk_mq_freeze_queue()/blk_mq_unfreeze_queue() vs
-blk_mq_freeze_queue_nomemsave()/blk_mq_unfreeze_queue_nomemrestore()
+Thus, a full queue is not an error. It is a condition defined by the specification
+that the submitter must handle accordingly.
 
-Thanks,
---Nilay
+In practice, SPDK vfio-user also addresses and resolves this issue. As referenced
+in the following link:
+    
+	https://review.spdk.io/c/spdk/spdk/+/25473
+
+During my testing involving repeated NVMe drive mounting and unmounting, I observed
+the following:
+1. Using the latest kernel version 6.19 + unmodified SPDK: issues occur.
+2. Using the latest kernel version 6.19 + modified SPDK: no issues.
+3. Using the latest kernel version 6.19 with an NVMe patch + unmodified SPDK: no issues.
+
+Test Environment:
+A virtual machine uses SPDK vfio-user to passthrough an NVMe drive. The VM has 64 vCPUs,
+and the backend supports an NVMe I/O queue depth of at least 32 (Note: Since the admin 
+queue depth is 32, the issue only reproduces when the queue depth is >=32). The issue 
+occurs when repeatedly mounting and unmounting the drive on the host. Reproducing the 
+issue typically requires about 10 cycles. Each cycle consists of the following steps:
+1. virsh attach-device <VM> <disk.xml>
+2. sleep 1.5
+3. virsh detach-device <VM> <disk.xml>
+
+Given the third observation - that using kernel 6.19 with an NVMe patch + unmodified SPDK
+does not cause issues, so I was wondering if modifications to the NVMe driver are necessary.
+Your expert guidance would be greatly appreciated.
+
+Best regards,
+Junnan Zhang
+
 
