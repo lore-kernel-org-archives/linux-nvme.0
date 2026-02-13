@@ -4,119 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB23CEDF17E
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Feb 2026 17:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DDC94EDF17E
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Feb 2026 17:30:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+0Qcgov1CiqxYvgChe7cFxxzlsm1LzCXVb+M9TkPGdw=; b=J6Md3lE5snvIFMeIxigYW7o3Oa
-	hUg63kGjIwYrfzPTpGUliI9Pf93Bb8ABRimiEwksbuiyGy7rSmWzzrtVXhVOTp1eEO8sdoMSVR8x1
-	y3dKnDWCDwcbmPHJ0H4okDt+RNs/4Qfonj9OrAPNgMP5dSdghopwJSgXW0hL48UlokYr5Hv6WZOla
-	BqgItVTc44NUrUZ9YHZXlvmPtJni7smrwZ60WEH8PCZ6wn2Q4S1yNT+cWznnNrWRAOINqz/BGi2Vy
-	zjuOOQCh+XSxaZjIUQoKBCSwUQH2AHt8EuFonVguzNUXAfp8CJ0cEZWdSFx7J2+jCnTpwBTRTX+8e
-	scrlxVAA==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Qw+nmt5g75eVQsyFf1dwpb9Qb8LZe3oktqm/rz+BDGk=; b=Wo2ubHadMEx70/dZk102DgMI6V
+	gIY+KmNhyTGcAGgrWuoWRKoceLfdAyGEOcdcxhM1DCWio9wD3xvDy93WReVy6mCKa2IR4SYEhHk8S
+	RsptEI1RSat+2uqUyFekTGEBilDJrt7XcU55k3b7bxzTc48hmYfxUVr2v8njGPRDAQ8JXvVMJr6QC
+	jL0j0lVokqSn+LsZGLlboU7qujn+bbDzCAnNT3Y36QSoY305Q6wyEv8uOFZ8bbeZvjPFYbb7xKnii
+	JW7+ADv9oqw6KuMB/tXIL1nJuSbxJkOLFKKrFb5792c+dty2Y3EbQ9cpHb+s5NOM96wwMFQrzhFNF
+	ugJbhDjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqwqr-00000003jqP-2TCW;
-	Fri, 13 Feb 2026 17:21:09 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1vqwzu-00000003kL1-0II5;
+	Fri, 13 Feb 2026 17:30:30 +0000
+Received: from 013.lax.mailroute.net ([199.89.1.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqwqp-00000003jq0-1QUK
+	id 1vqwzr-00000003kKf-077y
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Feb 2026 17:21:08 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Fri, 13 Feb 2026 17:30:28 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fCK1r4kwWzlgyGl;
+	Fri, 13 Feb 2026 17:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1771003820; x=1773595821; bh=Qw+nmt5g75eVQsyFf1dwpb9Q
+	b8LZe3oktqm/rz+BDGk=; b=D2zogm7MPVwmOtG/PhzIQMBy8uvt5tPBfMvt+iEk
+	LIu0VxyinTQdodPz6m6pf35HxWc+KWL+7PjRktkwTnO8+3tAKi5vLKifa3Xkl4U0
+	ntdqbGsOqxeCUytdTmtn1vAmQQEJHWCD7di2yqm5OUjR7FMMlBEyB0eRoO4Y0YtT
+	DH2wqgbeuMd2fBweuV6JsoKLtYtgjZi7lKp0QlGKPU4yxMyw643IWGWwcrm8iJly
+	0kSSVviJZ+1jVmUwRD6Ib2impNwGZh8WHD5IxgWlDrfPu/EHO38JYnOpNDU+JPZS
+	eXZeSIrClLFN4mdkCkhA98mjgIo2j4tj4yJpy0HWnfB2+w==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id Ys93-gQyVswD; Fri, 13 Feb 2026 17:30:20 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 624F95BCD2;
-	Fri, 13 Feb 2026 17:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771003264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+0Qcgov1CiqxYvgChe7cFxxzlsm1LzCXVb+M9TkPGdw=;
-	b=0KCgaabQvazj0dTodPdCxJR+FoHaOg8WIdH1wMf4ZqXrPfcYbJtjitBTSwnjKQGdQ7ogFP
-	9Wyabwc/wtuEZRjdmcfZ1MbMJnbpiP0Q+pEH7OUxxQnucx4S9v6sesRB6eyPvo0I5BtoOg
-	d0aHdGJwEfTsvl7vYVZR50Gs4SpJ+d0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771003264;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+0Qcgov1CiqxYvgChe7cFxxzlsm1LzCXVb+M9TkPGdw=;
-	b=nNqqbns5vRjWFPaSku5PXp9VvniVGqNwW74Hd1gwYYnayihgkyFsIyhoML7tcllXMPKZVb
-	3+XhXmigFZgL2dBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771003264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+0Qcgov1CiqxYvgChe7cFxxzlsm1LzCXVb+M9TkPGdw=;
-	b=0KCgaabQvazj0dTodPdCxJR+FoHaOg8WIdH1wMf4ZqXrPfcYbJtjitBTSwnjKQGdQ7ogFP
-	9Wyabwc/wtuEZRjdmcfZ1MbMJnbpiP0Q+pEH7OUxxQnucx4S9v6sesRB6eyPvo0I5BtoOg
-	d0aHdGJwEfTsvl7vYVZR50Gs4SpJ+d0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771003264;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+0Qcgov1CiqxYvgChe7cFxxzlsm1LzCXVb+M9TkPGdw=;
-	b=nNqqbns5vRjWFPaSku5PXp9VvniVGqNwW74Hd1gwYYnayihgkyFsIyhoML7tcllXMPKZVb
-	3+XhXmigFZgL2dBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 318B63EA62;
-	Fri, 13 Feb 2026 17:21:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yxXCCoBdj2kgCwAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 13 Feb 2026 17:21:04 +0000
-Message-ID: <b598c5c9-6732-4661-85b2-7ab10a0830d4@suse.de>
-Date: Fri, 13 Feb 2026 18:21:03 +0100
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fCK1d43XCzlfgPv;
+	Fri, 13 Feb 2026 17:30:13 +0000 (UTC)
+Message-ID: <678a951d-7da1-4089-a3d8-f9d9cb48aa35@acm.org>
+Date: Fri, 13 Feb 2026 09:30:12 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Native SCSI multipath support
-To: John Garry <john.g.garry@oracle.com>, lsf-pc@lists.linux-foundation.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org
-References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
+ expansion plan for the storage stack test framework
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>, Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "tytso@mit.edu" <tytso@mit.edu>, Christian Brauner <brauner@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>,
+ "willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ "amir73il@gmail.com" <amir73il@gmail.com>, "vbabka@suse.cz"
+ <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
+References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
+ <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
+ <24634187-a4fd-4fbd-9053-03484eadf16f@wdc.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <24634187-a4fd-4fbd-9053-03484eadf16f@wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260213_092107_560988_4E6CBE72 
-X-CRM114-Status: GOOD (  11.17  )
+X-CRM114-CacheID: sfid-20260213_093027_120136_203EF119 
+X-CRM114-Status: UNSURE (   8.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,34 +100,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/13/26 15:19, John Garry wrote:
-> At ALPSS 25 I presented a proposal for Native SCSI multipath support. 
-> Let's discuss this topic at LSFMM.
-> 
-> The idea for this is that SCSI could natively support multipath, like 
-> how NVMe host driver does today. It is intended as an alternative to dm- 
-> multipath support.
-> 
-> I have been working on the implementation and I plan to post patches in 
-> the next cycle. I am looking at a 3-stage approach:
-> a. create a driver-agnostic multipath library, very heavily based on 
-> NVMe host multipath support.
-> The library would support features such as path management, path 
-> selection/iopolicy, failover recovery, PR, delayed removal, gendisk 
-> management etc.
-> b. switch NVMe over to use this library
-> c. add native SCSI multipath support based on this common library
-> 
-Go for it, John!
+On 2/11/26 11:57 PM, Johannes Thumshirn wrote:
+> One thing that comes to my mind (and that I always wanted to do for
+> fstests but didn't for $REASONS) is adding per-test code coverage
+> information.
 
-I'd be very interested in that.
+Code coverage information is useful but it's important to keep in mind
+that 100% code coverage (which is very hard to achieve) does not
+guarantee code correctness. There are many state machines in the block
+layer and also in block drivers. Code coverage information does not
+reveal what percentage of the states of state machines has been
+triggered.
 
-Cheers,
+Bart.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
