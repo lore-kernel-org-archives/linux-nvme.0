@@ -4,126 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D7718EEA860
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Feb 2026 09:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78D53EDF150
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Feb 2026 10:24:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qBJp+W6+w4hpK1AOjuJLBK8cne5W/Y5VssQKf43ZEcM=; b=bi90ywJirU8QRfvUBh6ipcoaNW
-	YkijVsx0iX7OfSy7/SMnicqdgFmGO8HbG+ItKkkFA47dpQwws0CRwx9kNIOmAVEjATd/c5Uk1Kcic
-	4GoYASb4g78LAiddHIbaIGk07/tvitkHz4DGdXZUqRpEbC2xBV8Ay9rjIhx3Tn/wfEEhwZ6wzUrxf
-	FfiE5yIqrPxdn+0JgYgdcnzrWPh/E2Vn5G3bp4XiXnhzp3HWRTCoTAmkkrszGhwnnvVxTzeQ9zwob
-	wCjG5HaGBd5afFQGsWXv2UIRhM5xUkkMKn/gmYnVbUBfkQZOwLrcyfu8un5cZuxEF7caBg396/Ugy
-	ambhp3Sg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=; b=exsdaOyNsC7jrR7N0HceDEYFCU
+	jil0o+oCl6yChwUbxvf2pK3cgYPxOnEcumLDuuhsbfngB+I/MXMUdmKqV7H2P+Ul0jSoVboxW8L0J
+	vlBkI/B2F8QdkMAgby74/0tfX8ETLw+BNN7OijJrLfRxNf5im/VJq9r2rFmHESlepTaj90snqrFkk
+	xFHMr1b7GMCuWJXno8XAQHP1oDS/JJWUwL5XWQzd+OEXqr75oppPrgpd6bwfuI4W2kzmRgdDsThFx
+	gC6hUMuLflfm++BzpPT0pX91gx7wMvJ2KYg8UyqC6lFO9stOa8QkYszud4dPl7Vx56wfJANnTOWge
+	Psq9djAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqpuM-00000003H5H-276f;
-	Fri, 13 Feb 2026 09:56:18 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1vqqLM-00000003JSo-46Wk;
+	Fri, 13 Feb 2026 10:24:12 +0000
+Received: from [203.254.224.25] (helo=mailout2.samsung.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vqpuK-00000003H4d-3AH0
+	id 1vqqLJ-00000003JRM-20py
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Feb 2026 09:56:18 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9ADC45BCC4;
-	Fri, 13 Feb 2026 09:56:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770976572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qBJp+W6+w4hpK1AOjuJLBK8cne5W/Y5VssQKf43ZEcM=;
-	b=BUrXuVrU4Uj6JeWVtHNxu88KEqTAApBzpLUGAKfVFe2/TCfmIgy6NE5QzmaDN7DKMBOsGG
-	ZckVaiWgkkpXmcY97TGZ4774iAyr3Var34MEz9aYElUmwWpVZkMwG/fGjrNKdd43FcMP0X
-	bKV/xb9tVwCcknG0GeL6ZpYq+lL8Y5M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770976572;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qBJp+W6+w4hpK1AOjuJLBK8cne5W/Y5VssQKf43ZEcM=;
-	b=Ds5zlB7bv4vIWUQYT40lau/zwk7JiXqptX+FGL1vAdKrX94QpSG11m2XlfY0lzWbZ059rP
-	xa9emAAylTWn18Dw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BUrXuVrU;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ds5zlB7b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770976572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qBJp+W6+w4hpK1AOjuJLBK8cne5W/Y5VssQKf43ZEcM=;
-	b=BUrXuVrU4Uj6JeWVtHNxu88KEqTAApBzpLUGAKfVFe2/TCfmIgy6NE5QzmaDN7DKMBOsGG
-	ZckVaiWgkkpXmcY97TGZ4774iAyr3Var34MEz9aYElUmwWpVZkMwG/fGjrNKdd43FcMP0X
-	bKV/xb9tVwCcknG0GeL6ZpYq+lL8Y5M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770976572;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qBJp+W6+w4hpK1AOjuJLBK8cne5W/Y5VssQKf43ZEcM=;
-	b=Ds5zlB7bv4vIWUQYT40lau/zwk7JiXqptX+FGL1vAdKrX94QpSG11m2XlfY0lzWbZ059rP
-	xa9emAAylTWn18Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 813873EA62;
-	Fri, 13 Feb 2026 09:56:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5S3eHjz1jmngDgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Fri, 13 Feb 2026 09:56:12 +0000
-Date: Fri, 13 Feb 2026 10:56:11 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-Subject: Re: blktests failures with v6.19 kernel
-Message-ID: <6ad314f7-f3d2-495a-b1ef-a81a06498952@flourine.local>
-References: <aY7ZBfMjVIhe_wh3@shinmob>
+	Fri, 13 Feb 2026 10:24:12 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260213102356epoutp0290b2a52ebab778b5bc0881b0c4f383a2~Tx1K75CbX0254202542epoutp02R
+	for <linux-nvme@lists.infradead.org>; Fri, 13 Feb 2026 10:23:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260213102356epoutp0290b2a52ebab778b5bc0881b0c4f383a2~Tx1K75CbX0254202542epoutp02R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1770978236;
+	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=u6jhLaa7oUqwNWeXOtTJkiUt7m9imzFt8wycfBskJOwgXukG1uEZTTuZNhi3p2HHQ
+	 +dByZTMXFdFSutoE499WSR8VclGcwHXQ333ks55OTztSmKw6JnHYF9bvB7DnCatFJS
+	 d6kyFhoq+Xi9hkz/j5Uf1LR/BoNGw+fHkYjtd0oc=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260213102356epcas5p151471ac388674537b8c80067bb5f40c8~Tx1Kkc2Md0935709357epcas5p1N;
+	Fri, 13 Feb 2026 10:23:56 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.88]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4fC7Yl3Wfyz6B9m6; Fri, 13 Feb
+	2026 10:23:55 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260213102354epcas5p3aa35e73938a074a37df07480a4f43491~Tx1JUg4Hb2896128961epcas5p3r;
+	Fri, 13 Feb 2026 10:23:54 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260213102354epsmtip1a20557fb9bda35f96948da426eab619b~Tx1IsueMX2680026800epsmtip1v;
+	Fri, 13 Feb 2026 10:23:54 +0000 (GMT)
+Message-ID: <ef55e0f9-5d7b-4d6f-80bd-7c0f5fedaa38@samsung.com>
+Date: Fri, 13 Feb 2026 15:53:53 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aY7ZBfMjVIhe_wh3@shinmob>
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: 9ADC45BCC4
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 1/3] nvme-pci: ensure we're polling a polled queue
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
+Cc: hch@lst.de, Keith Busch <kbusch@kernel.org>
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20260212164733.3006071-2-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260213102354epcas5p3aa35e73938a074a37df07480a4f43491
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260212164747epcas5p303cd6fcf0fdb154291da896b7ce3bb4b
+References: <20260212164733.3006071-1-kbusch@meta.com>
+	<CGME20260212164747epcas5p303cd6fcf0fdb154291da896b7ce3bb4b@epcas5p3.samsung.com>
+	<20260212164733.3006071-2-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260213_015616_951534_F90A73A0 
-X-CRM114-Status: GOOD (  14.12  )
+X-CRM114-CacheID: sfid-20260213_022410_006611_FFB132CF 
+X-CRM114-Status: UNSURE (   5.03  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,120 +92,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 13, 2026 at 07:57:58AM +0000, Shinichiro Kawasaki wrote:
-> [3] lockdep WARN during nvme/058 with fc transport
-> 
-> [  409.028219] [     T95] ============================================
-> [  409.029133] [     T95] WARNING: possible recursive locking detected
-> [  409.030058] [     T95] 6.19.0+ #575 Not tainted
-> [  409.030892] [     T95] --------------------------------------------
-> [  409.031801] [     T95] kworker/u16:9/95 is trying to acquire lock:
-> [  409.032691] [     T95] ffff88813ba54948 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: touch_wq_lockdep_map+0x7e/0x1a0
-> [  409.033869] [     T95] 
->                           but task is already holding lock:
-> [  409.035254] [     T95] ffff88813ba54948 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: process_one_work+0xeef/0x1480
-> [  409.036383] [     T95] 
->                           other info that might help us debug this:
-> [  409.037769] [     T95]  Possible unsafe locking scenario:
-> 
-> [  409.039113] [     T95]        CPU0
-> [  409.039781] [     T95]        ----
-> [  409.040406] [     T95]   lock((wq_completion)nvmet-wq);
-> [  409.041154] [     T95]   lock((wq_completion)nvmet-wq);
-> [  409.041898] [     T95] 
->                            *** DEADLOCK ***
-> 
-> [  409.043609] [     T95]  May be due to missing lock nesting notation
-> 
-> [  409.044960] [     T95] 3 locks held by kworker/u16:9/95:
-> [  409.045721] [     T95]  #0: ffff88813ba54948 ((wq_completion)nvmet-wq){+.+.}-{0:0}, at: process_one_work+0xeef/0x1480
-> [  409.046845] [     T95]  #1: ffff888109797ca8 ((work_completion)(&assoc->del_work)){+.+.}-{0:0}, at: process_one_work+0x7e4/0x1480
-> [  409.048063] [     T95]  #2: ffffffffac481480 (rcu_read_lock){....}-{1:3}, at: __flush_work+0xe3/0xc70
-> [  409.049128] [     T95] 
->                           stack backtrace:
-> [  409.050366] [     T95] CPU: 1 UID: 0 PID: 95 Comm: kworker/u16:9 Not tainted 6.19.0+ #575 PREEMPT(voluntary) 
-> [  409.050370] [     T95] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-4.fc42 04/01/2014
-> [  409.050373] [     T95] Workqueue: nvmet-wq nvmet_fc_delete_assoc_work [nvmet_fc]
-> [  409.050384] [     T95] Call Trace:
-> [  409.050386] [     T95]  <TASK>
-> [  409.050388] [     T95]  dump_stack_lvl+0x6a/0x90
-> [  409.050393] [     T95]  print_deadlock_bug.cold+0xc0/0xcd
-> [  409.050401] [     T95]  __lock_acquire+0x1312/0x2230
-> [  409.050408] [     T95]  ? lockdep_unlock+0x5e/0xc0
-> [  409.050410] [     T95]  ? __lock_acquire+0xd03/0x2230
-> [  409.050413] [     T95]  lock_acquire+0x170/0x300
-> [  409.050415] [     T95]  ? touch_wq_lockdep_map+0x7e/0x1a0
-> [  409.050418] [     T95]  ? __flush_work+0x4e8/0xc70
-> [  409.050420] [     T95]  ? find_held_lock+0x2b/0x80
-> [  409.050423] [     T95]  ? touch_wq_lockdep_map+0x7e/0x1a0
-> [  409.050425] [     T95]  touch_wq_lockdep_map+0x97/0x1a0
-> [  409.050428] [     T95]  ? touch_wq_lockdep_map+0x7e/0x1a0
-> [  409.050430] [     T95]  ? __flush_work+0x4e8/0xc70
-> [  409.050432] [     T95]  __flush_work+0x5c1/0xc70
-> [  409.050434] [     T95]  ? __pfx___flush_work+0x10/0x10
-> [  409.050436] [     T95]  ? __pfx___flush_work+0x10/0x10
-> [  409.050439] [     T95]  ? __pfx_wq_barrier_func+0x10/0x10
-> [  409.050444] [     T95]  ? __pfx___might_resched+0x10/0x10
-> [  409.050454] [     T95]  nvmet_ctrl_free+0x2e9/0x810 [nvmet]
-> [  409.050474] [     T95]  ? __pfx___cancel_work+0x10/0x10
-> [  409.050479] [     T95]  ? __pfx_nvmet_ctrl_free+0x10/0x10 [nvmet]
-> [  409.050498] [     T95]  nvmet_cq_put+0x136/0x180 [nvmet]
-> [  409.050515] [     T95]  nvmet_fc_target_assoc_free+0x398/0x2040 [nvmet_fc]
-> [  409.050522] [     T95]  ? __pfx_nvmet_fc_target_assoc_free+0x10/0x10 [nvmet_fc]
-> [  409.050528] [     T95]  nvmet_fc_delete_assoc_work.cold+0x82/0xff [nvmet_fc]
-> [  409.050533] [     T95]  process_one_work+0x868/0x1480
-> [  409.050538] [     T95]  ? __pfx_process_one_work+0x10/0x10
-> [  409.050541] [     T95]  ? lock_acquire+0x170/0x300
-> [  409.050545] [     T95]  ? assign_work+0x156/0x390
-> [  409.050548] [     T95]  worker_thread+0x5ee/0xfd0
-> [  409.050553] [     T95]  ? __pfx_worker_thread+0x10/0x10
-> [  409.050555] [     T95]  kthread+0x3af/0x770
-> [  409.050560] [     T95]  ? lock_acquire+0x180/0x300
-> [  409.050563] [     T95]  ? __pfx_kthread+0x10/0x10
-> [  409.050565] [     T95]  ? __pfx_kthread+0x10/0x10
-> [  409.050568] [     T95]  ? ret_from_fork+0x6e/0x810
-> [  409.050576] [     T95]  ? lock_release+0x1ab/0x2f0
-> [  409.050578] [     T95]  ? rcu_is_watching+0x11/0xb0
-> [  409.050582] [     T95]  ? __pfx_kthread+0x10/0x10
-> [  409.050585] [     T95]  ret_from_fork+0x55c/0x810
-> [  409.050588] [     T95]  ? __pfx_ret_from_fork+0x10/0x10
-> [  409.050590] [     T95]  ? __switch_to+0x10a/0xda0
-> [  409.050598] [     T95]  ? __switch_to_asm+0x33/0x70
-> [  409.050602] [     T95]  ? __pfx_kthread+0x10/0x10
-> [  409.050605] [     T95]  ret_from_fork_asm+0x1a/0x30
-> [  409.050610] [     T95]  </TASK>
-
-nvmet_fc_target_assoc_free runs in the nvmet_wq context and calls
-
-  nvmet_fc_delete_target_queue
-    nvmet_cq_put
-      nvmet_cq_destroy
-        nvmet_ctrl_put
-         nvmet_ctrl_free
-           flush_work(&ctrl->async_event_work);
-           cancel_work_sync(&ctrl->fatal_err_work);
- 
-The async_event_work could be running on nvmet_wq. So this deadlock is
-real. No idea how to fix it yet.
-
-> [4] WARN during nvme/058 fc transport
-> 
-> [ 1410.913156] [   T1369] WARNING: block/genhd.c:463 at __add_disk+0x87b/0xd50, CPU#0: kworker/u16:12/1369
-
-	/*
-	 * If the driver provides an explicit major number it also must provide
-	 * the number of minors numbers supported, and those will be used to
-	 * setup the gendisk.
-	 * Otherwise just allocate the device numbers for both the whole device
-	 * and all partitions from the extended dev_t space.
-	 */
-	ret = -EINVAL;
-	if (disk->major) {
-		if (WARN_ON(!disk->minors))
-			goto out;
-
-If I read the correct, the gendisk is allocated in nvme_mpath_alloc_disk
-and then added due the ANA change in nvme_update_ana_state. Not sure if
-this is really fc related but I haven't really figured out how this part
-of the code yet.
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
