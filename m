@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96DC7EDF15A
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Feb 2026 04:28:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CAE7EF99FF
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Feb 2026 04:28:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=oVheserzpS3TkYHKpvBl78HcBp8VYTBPF64haSBCcyY=; b=xNWJCidV+t80fHKSBuD8B8FD+z
-	8coMita0tzMLf2VVyrHO2BOwldQyaH4+9mxGlaUPlRmR9bYpvbgA3hbaxCp7qpI7Z+RA5FI5CP+t/
-	XV0Q3T8WOWFujqPZtX6tt/5tXlQkzJoVKpfJW2/qwUK5UxaRkVzJW5tj+Tdoquj5GNGPV1l27algq
-	T4LHwmE0xw/teJkifRZux/YTH4p/QW0XS99oE+MA9IyQVXjPB8VeuM18M8x5kSslrOWDRtVgZ9Dj/
-	8gRYvKtMKqhaBVaf3qtg0hxjCKKx/iYJ5h9QKiLdVZfChy+lvhU8CsmnA+3tYz5rvq4f9tbhfxAQg
-	AsxTEHmA==;
+	bh=G5ZA7/tV4zDqNdP5WkUsqXWJkCvvpgg6msvp7dtPWuI=; b=fUlczTDROlpmVVG05aYv05rIvt
+	EoDvsnz2ppdhmukY7oHM2y8NLMa1crU/Esp8nS8+WLLIBgA0bcLLUGCWW1y0wZYelMqLKoioo7Ypp
+	uHxA4bDGUespH7FYvpStHTCPXTNV2dalwHhiBc9EBbrAISRV4eTr+NP6dM4ANQucHZ5DN3pUC0x00
+	wfKR074SZ6cn3+p2bPDMBM0ZPQpAj/40rTkwAqF5ZIy6JxCYeNr6FOVoDwQ0m/VKkCr9SKdKojI6p
+	PW/7d4WpiLMsVY2K0N764NhKoarFQ2uvpHG2PA9/rdgsPiUFI1y+DWGbZepLVp9S35wVY83k9PVEl
+	/OQ9Pg/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vr7Gw-00000004FUH-14iE;
-	Sat, 14 Feb 2026 04:28:46 +0000
+	id 1vr7Gz-00000004FYi-24dR;
+	Sat, 14 Feb 2026 04:28:51 +0000
 Received: from mail-dl1-x1231.google.com ([2607:f8b0:4864:20::1231])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vr7Gl-00000004FBS-3cWC
+	id 1vr7Gm-00000004FD1-3EMJ
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Feb 2026 04:28:37 +0000
-Received: by mail-dl1-x1231.google.com with SMTP id a92af1059eb24-1248d27f293so3710931c88.0
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Feb 2026 20:28:35 -0800 (PST)
+	Sat, 14 Feb 2026 04:28:38 +0000
+Received: by mail-dl1-x1231.google.com with SMTP id a92af1059eb24-12721cd256bso2118887c88.1
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Feb 2026 20:28:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771043315; x=1771648115; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1771043316; x=1771648116; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oVheserzpS3TkYHKpvBl78HcBp8VYTBPF64haSBCcyY=;
-        b=cOFonlnJ5etGctH6p5GdQFOvP9Hahtsch0Iv1hbmSfPPiUEDeVBWXxUeU91BrRIV4h
-         PEAeZtYxkgJarUeQsJhZBJETA1JfP0/VrIvUb6x3EH6cg7RBHmfE/3ykK/NxzlFCD1qj
-         CIOZGlCycNXA2xTq4YHY9FJRfPy2J4dnu4R8T6pNyKJvbza8v72EV9faWdRZ3JyUofCd
-         Uab89xTqFay2Y4cYiGVc/Tcin48IzOFRBddCaHJi00d5uPRCG+co7sbuW0bMtR0wLx+8
-         12glGsQggdAF22GlPrfpNHNRcvVy8k921jBdFqLKb7uRjlJrtW69WK4movhsO6mi8TKM
-         IKFA==
+        bh=G5ZA7/tV4zDqNdP5WkUsqXWJkCvvpgg6msvp7dtPWuI=;
+        b=Uj26bBO4y2DC2h0Z3XDuk9esKjf5s4sbutnSup4hzQGI0Ju0QyM05wTsiDqLpZ/7sF
+         3IRwaZovIx8PAZTDjBrOGMw3ejJatkVbT4NDHlyjnIAYvc6ge9ZnWNSLsXSc/3Z7STzi
+         IgmqYncMhsiA6egktNW+Cbas5N25zWMXPx8POBU2BmLrhA9SITTSypQqhKVpqEgAt6PY
+         bO+O7xMnlgqdOTtNyhG6DwCZ7+BkO3OD9T7sh3XhTtEjtlCygpmIfygGSf70eFO7zzQX
+         iYM7pfoeZRhhkhQj02vc9ObIcMfID4tXV1v0weCa6USs/RjEObYpST03IKOuljyc7P0h
+         W9/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771043315; x=1771648115;
+        d=1e100.net; s=20230601; t=1771043316; x=1771648116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oVheserzpS3TkYHKpvBl78HcBp8VYTBPF64haSBCcyY=;
-        b=wIMZzllyO8bNk1JxvvDjrIJ2eLdEaeds9Ua6SU87CP7aUGkCOt/U8IGq86gHB7dPMd
-         25dO8snlgRfc6WQQVilhpyAxsOcNhuqDDyVKMlgbcS3ziglr/kT6QBW3b7pu0jFm5IOG
-         59ccUih6tWNdf+mZ1Y98Di0XYBJkZg2sfxtVHNwfeGvTfC7vgVVhk8sD05OQgKreP2j4
-         qAcuJDqLhde6oY3EhFaHo9nsyQTqUV1cY918NTF9uGN7mmRq57k82Yd3eqwve0DFafZD
-         Zb2pPvPus/9+sOLBCsySq9dB9zERCU93pqyWLlGL/ELtAI/6gLowzQqZfRscoyImK9gc
-         joEw==
-X-Forwarded-Encrypted: i=1; AJvYcCWFpzNI8ieMQLhjb9jVt8oOsyk3dIfXL1A6X94gwE392R5laAHO4/oaCRLByjt+mclkB4FQnxaw59oF@lists.infradead.org
-X-Gm-Message-State: AOJu0YyxxJ71Zqg29Rc8mjaRSyKr/jdkiD5PCCneKO7RhuXCS6AeLcuI
-	pxasvaNPxk7C/O8WEWpP0z1GOkoRZz9UAU88ShAIAiNrEEltMVGzyv6ga9NRWxqHJC4=
-X-Gm-Gg: AZuq6aJIA2vg67WuM2wAaCX8FWyXz92wb1IRT/pxpMG5dW8NPtpPGHDmtYsIzrZadVB
-	B9MoJsUygGsyqo/oF0ypagbJq0o2hwTebH9LlWa93a+IJO4uPN1n9l3Jqa3JL4giJa6THHnIXaL
-	BBEf4lLENOC99UpSsh06xM6p0qEJsdxQtHcsUDjSg6y5GFXDw/Y9QU50BxQ/+czpopdQbz49Cpt
-	JWs7LWIiXnfKQAHFLOqWzrRAA48G4hmkXkf+333x57WFAIhjReyJEe0LxBDvpZnz8Dx5jXmpUpF
-	QPnmDCqbXNJqHB4euK5oHMdOYx5OeCE/BZWgOSWkgsEZ+5MvnAhcxdg6kz6dE2PHngLyggU/kH4
-	JwrKVZFPinnd/IXQh8Jw6qnkHxlG0rYQNi1vGVMCvVO9d/NTxgrpygdfZnyrgcGFBFUbEmFYvr3
-	kISRpaMH6uVH2k781R6k2Vv7FQFJhfnOYD3qtZWWuwHJH28w==
-X-Received: by 2002:a05:7022:b93:b0:11d:f682:e475 with SMTP id a92af1059eb24-1273aea73d4mr1856668c88.40.1771043314988;
-        Fri, 13 Feb 2026 20:28:34 -0800 (PST)
+        bh=G5ZA7/tV4zDqNdP5WkUsqXWJkCvvpgg6msvp7dtPWuI=;
+        b=pyZ+d/hd7zMiaY5Hmv8ZR6AVD2wE2RzOl47JqnFbfL2ItOIzuPwkqdAFfjF54PSakO
+         JnekUYaBSwZn3Tmbjyaw3gLsPxCEGtvEwleDsIpQDSDaJCKciNeX2Ri9k7AkmW2PGuwq
+         i88I7mbYuSUlBeaRtkrZnEtqRdP30tk9QZhF3qEhqimHe9PiSOZgnZQYnrjvTblNfD8l
+         7DY6l5L1Z6d1ydR/68MkzXKaUUlKw+qS0xOtlwhCznXADQx/2SioI6QlFOAeNYkKxvQd
+         V940WVmuglJ2T3fIudWzm08xPwCDAp/BG8Q7vGgWmc5r6rfg/bA62tLyjyg8byf9Bpkb
+         kJEA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPpKiENpjPcBAh42b7nngkwgky9jIdH9eKAx01M0H5IZYbnedwrk4kg+iAQPq9+XegBkcB+RscxdE4@lists.infradead.org
+X-Gm-Message-State: AOJu0YwWwKIMx1RYgvnp0HVdQHxcAeo5mH9gkIq5t88t0cU1heJuUX6T
+	M8cqjcEVpeiw3bmTbO2U/BmOqbuqcKfWjegz+MR1GIyvVrDroJlKa9kYv0p/OL66HgQ=
+X-Gm-Gg: AZuq6aIG/cyJAtvgdvT9YmAwR7Kfx3PVTxmDMtBkKS/Hm1sB5CsgG02lkHk7FL1ovab
+	nHZwyo9Wa3tjF5AOK/GN1Lo0+/1mRqiAPMbXaR6n7EBXixzko7ItbMIJrJYdzErKfGX/lDAMZRZ
+	vB8Jj3UA/S18SVDEFrSGoqzoksT/9Z7l0xb0QbnRH5ODCjYUz41tp4ujziC1Xu93ROwNvjE/vyP
+	0Ec4RHwjsjgL2KWaqfrJPqsUuYM/laIYMYy/x1hpqa5w/zYH76ggTBLzciOotN9AFtUfeoqBbEa
+	mrJ8vtcvjvo9MTWJjTBZaY+L89si6gwPDhdskI3GPi+oQNlFVCVf++vmQqsZaGmikBMjOHXMOxr
+	pImagLFc0+efTKoGWFDNLNaxd/nJwD0NkUatJXgXAfEQLrynpRgcg3IDmf7ELTx2YfFkw/t158O
+	Tx8FL0jZceLQDHVMtnIj4LOv037r5Nw2Oq9t4gGWRmuaQ1Bg==
+X-Received: by 2002:a05:7022:662c:b0:11a:4ffb:9849 with SMTP id a92af1059eb24-12741b925d5mr742340c88.21.1771043315759;
+        Fri, 13 Feb 2026 20:28:35 -0800 (PST)
 Received: from apollo.purestorage.com ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-12742cbc900sm1021042c88.14.2026.02.13.20.28.34
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-12742cbc900sm1021042c88.14.2026.02.13.20.28.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 20:28:34 -0800 (PST)
+        Fri, 13 Feb 2026 20:28:35 -0800 (PST)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Justin Tee <justin.tee@broadcom.com>,
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -86,17 +86,17 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v3 17/21] nvme: Add support for CQT to nvme host
-Date: Fri, 13 Feb 2026 20:25:18 -0800
-Message-ID: <20260214042753.4073668-18-mkhalfella@purestorage.com>
+Subject: [PATCH v3 18/21] nvme: Update CCR completion wait timeout to consider CQT
+Date: Fri, 13 Feb 2026 20:25:19 -0800
+Message-ID: <20260214042753.4073668-19-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260214042753.4073668-1-mkhalfella@purestorage.com>
 References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260213_202835_917257_5B52B5CD 
-X-CRM114-Status: GOOD (  14.37  )
+X-CRM114-CacheID: sfid-20260213_202836_843168_CEC2002E 
+X-CRM114-Status: GOOD (  13.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,74 +111,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
-Time) which is used along with KATO (Keep Alive Timeout) to set an upper
-limit for attempting Cross-Controller Recovery. Add ctrl->cqt and
-read its value from controller identify response. Update fence timeout
-to consider ctrl->cqt.
+TP8028 Rapid Path Failure Recovery does not define how much time the
+host should wait for CCR operation to complete. It is reasonable to
+assume that CCR operation can take up to ctrl->cqt. Update wait time for
+CCR operation to be max(ctrl->cqt, ctrl->kato).
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 ---
- drivers/nvme/host/core.c  | 1 +
- drivers/nvme/host/nvme.h  | 5 +++--
- drivers/nvme/host/sysfs.c | 2 ++
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a9fcde1b411b..0680d05900c1 100644
+index 0680d05900c1..ff479c0263ab 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3739,6 +3739,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->ciu = id->ciu;
- 	ctrl->cirn = le64_to_cpu(id->cirn);
- 	atomic_set(&ctrl->ccr_limit, id->ccrl);
-+	ctrl->cqt = le16_to_cpu(id->cqt);
+@@ -631,7 +631,7 @@ static int nvme_issue_wait_ccr(struct nvme_ctrl *sctrl, struct nvme_ctrl *ictrl)
+ 	if (result & 0x01) /* Immediate Reset Successful */
+ 		goto out;
  
- 	ctrl->oacs = le16_to_cpu(id->oacs);
- 	ctrl->oncs = le16_to_cpu(id->oncs);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index af6a4e83053e..a7f382e35821 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -336,6 +336,7 @@ struct nvme_ctrl {
- 	u32 max_zone_append;
- #endif
- 	u16 crdt[3];
-+	u16 cqt;
- 	u16 oncs;
- 	u8 dmrl;
- 	u8 ciu;
-@@ -1245,8 +1246,8 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
- static inline unsigned long nvme_fence_timeout_ms(struct nvme_ctrl *ctrl)
- {
- 	if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
--		return 3 * ctrl->kato * 1000;
--	return 2 * ctrl->kato * 1000;
-+		return 3 * ctrl->kato * 1000 + ctrl->cqt;
-+	return 2 * ctrl->kato * 1000 + ctrl->cqt;
- }
- 
- #endif /* _NVME_H */
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index 1e4261144933..0234e11730bb 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -387,6 +387,7 @@ nvme_show_int_function(numa_node);
- nvme_show_int_function(queue_count);
- nvme_show_int_function(sqsize);
- nvme_show_int_function(kato);
-+nvme_show_int_function(cqt);
- 
- static ssize_t nvme_sysfs_ciu_show(struct device *dev,
- 					  struct device_attribute *attr,
-@@ -759,6 +760,7 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_sqsize.attr,
- 	&dev_attr_ciu.attr,
- 	&dev_attr_cirn.attr,
-+	&dev_attr_cqt.attr,
- 	&dev_attr_hostnqn.attr,
- 	&dev_attr_hostid.attr,
- 	&dev_attr_ctrl_loss_tmo.attr,
+-	tmo = secs_to_jiffies(ictrl->kato);
++	tmo = msecs_to_jiffies(max(ictrl->cqt, ictrl->kato * 1000));
+ 	if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
+ 		ret = -ETIMEDOUT;
+ 		goto out;
 -- 
 2.52.0
 
