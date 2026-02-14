@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7276DEF99FF
-	for <linux-nvme@archiver.kernel.org>; Sat, 14 Feb 2026 04:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 96DC7EDF15A
+	for <linux-nvme@archiver.kernel.org>; Sat, 14 Feb 2026 04:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=60jyQ1ZIQG8Pf4xFK6xEZaP994isrxae0+XCbgekpxA=; b=IN6wrNO6011MuvO1nbfUrO6AFn
-	Kxo6QgtHwyzaPlSATfRjJLnA0KPC7xDCPvToZ+XWNzroaphkZLFTJ5j5zA+shKOs8mbeTAVM8lXhi
-	a4Nbp8G7tRM3qGxWLm/7d4dmj9ijvHAdCPHBYCdBz9PzgKhqUpCn6vaC32r0zmqhkh7XqYl6lHWL7
-	Mk3zs/xt/EafyDlxv7qPHHHWDogsFayHPcPTuwKWwWiPb2z0fM9MH+2AlVmsIi01nujOb8YaUr45J
-	ZJi0Q82p9qJH4xAo+K29sFAWBpzwXFdbW9b2KaoXAQJjSHPbEv2kXLAY4EkmIgN8zoksFnJ1Q+fDd
-	z8rmtQbQ==;
+	bh=oVheserzpS3TkYHKpvBl78HcBp8VYTBPF64haSBCcyY=; b=xNWJCidV+t80fHKSBuD8B8FD+z
+	8coMita0tzMLf2VVyrHO2BOwldQyaH4+9mxGlaUPlRmR9bYpvbgA3hbaxCp7qpI7Z+RA5FI5CP+t/
+	XV0Q3T8WOWFujqPZtX6tt/5tXlQkzJoVKpfJW2/qwUK5UxaRkVzJW5tj+Tdoquj5GNGPV1l27algq
+	T4LHwmE0xw/teJkifRZux/YTH4p/QW0XS99oE+MA9IyQVXjPB8VeuM18M8x5kSslrOWDRtVgZ9Dj/
+	8gRYvKtMKqhaBVaf3qtg0hxjCKKx/iYJ5h9QKiLdVZfChy+lvhU8CsmnA+3tYz5rvq4f9tbhfxAQg
+	AsxTEHmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vr7Gu-00000004FRe-2Qnt;
-	Sat, 14 Feb 2026 04:28:44 +0000
-Received: from mail-dl1-x122d.google.com ([2607:f8b0:4864:20::122d])
+	id 1vr7Gw-00000004FUH-14iE;
+	Sat, 14 Feb 2026 04:28:46 +0000
+Received: from mail-dl1-x1231.google.com ([2607:f8b0:4864:20::1231])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vr7Gl-00000004F9h-1yEX
+	id 1vr7Gl-00000004FBS-3cWC
 	for linux-nvme@lists.infradead.org;
-	Sat, 14 Feb 2026 04:28:36 +0000
-Received: by mail-dl1-x122d.google.com with SMTP id a92af1059eb24-1271195d2a7so1945571c88.0
+	Sat, 14 Feb 2026 04:28:37 +0000
+Received: by mail-dl1-x1231.google.com with SMTP id a92af1059eb24-1248d27f293so3710931c88.0
         for <linux-nvme@lists.infradead.org>; Fri, 13 Feb 2026 20:28:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771043314; x=1771648114; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1771043315; x=1771648115; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=60jyQ1ZIQG8Pf4xFK6xEZaP994isrxae0+XCbgekpxA=;
-        b=gWC4GcauV1dpOOGlH0KlT5OX40KwmZ58jeLwdJWzhDBy/NXAxjy/QSTt576vnlIJ0H
-         1RcIspxWdZjKylkQefC9pCaLLSCzEZqIxe5DO5oLWE8t98rj98lzySEBjf4F2AGzsxKg
-         7rt4EqngtZMEGnZtG3K8x3Z69/kz3Or1YA1xKMCI3XHGtTH53ke9/9DYLgpJIPZPiLYC
-         7YsoxLz9Iisv8Fu+oy2/FZ9YqjhFJenRICtx8asvAlxdrAd1Mw0uM7Ji4KlTsd6RPEkd
-         iusagX5NfF2R4Hd8fytHI7JqpdZe6whMARDUncmJmi3ILfFW8LOE5Qq3cHoeWDgjwRY4
-         B6cg==
+        bh=oVheserzpS3TkYHKpvBl78HcBp8VYTBPF64haSBCcyY=;
+        b=cOFonlnJ5etGctH6p5GdQFOvP9Hahtsch0Iv1hbmSfPPiUEDeVBWXxUeU91BrRIV4h
+         PEAeZtYxkgJarUeQsJhZBJETA1JfP0/VrIvUb6x3EH6cg7RBHmfE/3ykK/NxzlFCD1qj
+         CIOZGlCycNXA2xTq4YHY9FJRfPy2J4dnu4R8T6pNyKJvbza8v72EV9faWdRZ3JyUofCd
+         Uab89xTqFay2Y4cYiGVc/Tcin48IzOFRBddCaHJi00d5uPRCG+co7sbuW0bMtR0wLx+8
+         12glGsQggdAF22GlPrfpNHNRcvVy8k921jBdFqLKb7uRjlJrtW69WK4movhsO6mi8TKM
+         IKFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771043314; x=1771648114;
+        d=1e100.net; s=20230601; t=1771043315; x=1771648115;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=60jyQ1ZIQG8Pf4xFK6xEZaP994isrxae0+XCbgekpxA=;
-        b=Izro3rjEBucirKMi9tSu15Y6f8YebisfQbn7PP8tlDZeWIFPYmE5h2ws3Ek8O5rLcz
-         rVjzXb1AtBvV0V1DrMZSxky8AL5vaWceiTFwMQtAia8YXDiTZ4MBCsvHA3JuYWKPmbT5
-         iUSSUhP6dmhfpR6bTdgych5xeWAHiIV+5FZRJXNHU2KQcE+/I885rBqBezVDMK0mGA1P
-         scXsfl98N+0bG1RjtoNlJOkfnNuLlEbFGBse2xiCJktCLmhupDGJk+RQ9auW71RxGkgp
-         3RHnhD7V7R4Rdp0020SnwOAxCVaLs4j6sV5uagvKIQVAcKzaf1oHJrW2Q4fQkjMuRi0Q
-         GUsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXBciGKHdM+e4p8SBfrOIeM/hA7fLMRXS7/2az8EgTMBfIyyLk2mE4/Jjg0mr+MTDyKAypHIkmXY7my@lists.infradead.org
-X-Gm-Message-State: AOJu0YwfaPmcW2VzeGbDQzSWEp6dj4O0gjTj8Mxbk3MUjhlt5VNoQz83
-	ekmnPRoyu5YLWzDZsA+YkYCExCKbSkJcCuYGuhj4pmevlvXXsMG8hg6jGJRHmzuG2lg=
-X-Gm-Gg: AZuq6aLucfqXnOlqltzW8NS3AZCF/btC7VxosBHR+1C6eEXFCrwjKF1mBLvGJgLUsYn
-	BQmWouknDA5KJk1/abyiArQs7Oz8LNgPXe7782hDaqZSkz0DgOS3JwpRfxGQGa+dKvJKG2sgGB+
-	u7bNo8sRx380rDseB526uAibSSJ/6V6Wjiassh7oINWvgWsAkn6fioD9/Pdzhl1yF5hpXNjt3ED
-	TN3wbeg4Omq/qyc0ayCKgGkUrRfoR4a3RoHausVPRb3omEho9KpE0X8evB7dFPK8lT4BgQaKi81
-	bnfSVZUpX/k6Na/9FZao7jlMA4zGm+k+3Q+KS44NeBUwBVPVcp/RWx8ocG7SI5PJYEBRjMODKef
-	rSiIqCKyiBQzZQYvZ8aldXZmO8r/CpMSYaF2z0qTwx6pjekwloArWtqmz0mniPectaI3JgF9l47
-	dtIuVMkf+58qXOcMJR1Rq5pFqsv0hh0lON2uZHzA6HVwuzaQ==
-X-Received: by 2002:a05:7022:793:b0:124:9acd:32d1 with SMTP id a92af1059eb24-12741b6348bmr821445c88.9.1771043314205;
+        bh=oVheserzpS3TkYHKpvBl78HcBp8VYTBPF64haSBCcyY=;
+        b=wIMZzllyO8bNk1JxvvDjrIJ2eLdEaeds9Ua6SU87CP7aUGkCOt/U8IGq86gHB7dPMd
+         25dO8snlgRfc6WQQVilhpyAxsOcNhuqDDyVKMlgbcS3ziglr/kT6QBW3b7pu0jFm5IOG
+         59ccUih6tWNdf+mZ1Y98Di0XYBJkZg2sfxtVHNwfeGvTfC7vgVVhk8sD05OQgKreP2j4
+         qAcuJDqLhde6oY3EhFaHo9nsyQTqUV1cY918NTF9uGN7mmRq57k82Yd3eqwve0DFafZD
+         Zb2pPvPus/9+sOLBCsySq9dB9zERCU93pqyWLlGL/ELtAI/6gLowzQqZfRscoyImK9gc
+         joEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWFpzNI8ieMQLhjb9jVt8oOsyk3dIfXL1A6X94gwE392R5laAHO4/oaCRLByjt+mclkB4FQnxaw59oF@lists.infradead.org
+X-Gm-Message-State: AOJu0YyxxJ71Zqg29Rc8mjaRSyKr/jdkiD5PCCneKO7RhuXCS6AeLcuI
+	pxasvaNPxk7C/O8WEWpP0z1GOkoRZz9UAU88ShAIAiNrEEltMVGzyv6ga9NRWxqHJC4=
+X-Gm-Gg: AZuq6aJIA2vg67WuM2wAaCX8FWyXz92wb1IRT/pxpMG5dW8NPtpPGHDmtYsIzrZadVB
+	B9MoJsUygGsyqo/oF0ypagbJq0o2hwTebH9LlWa93a+IJO4uPN1n9l3Jqa3JL4giJa6THHnIXaL
+	BBEf4lLENOC99UpSsh06xM6p0qEJsdxQtHcsUDjSg6y5GFXDw/Y9QU50BxQ/+czpopdQbz49Cpt
+	JWs7LWIiXnfKQAHFLOqWzrRAA48G4hmkXkf+333x57WFAIhjReyJEe0LxBDvpZnz8Dx5jXmpUpF
+	QPnmDCqbXNJqHB4euK5oHMdOYx5OeCE/BZWgOSWkgsEZ+5MvnAhcxdg6kz6dE2PHngLyggU/kH4
+	JwrKVZFPinnd/IXQh8Jw6qnkHxlG0rYQNi1vGVMCvVO9d/NTxgrpygdfZnyrgcGFBFUbEmFYvr3
+	kISRpaMH6uVH2k781R6k2Vv7FQFJhfnOYD3qtZWWuwHJH28w==
+X-Received: by 2002:a05:7022:b93:b0:11d:f682:e475 with SMTP id a92af1059eb24-1273aea73d4mr1856668c88.40.1771043314988;
         Fri, 13 Feb 2026 20:28:34 -0800 (PST)
 Received: from apollo.purestorage.com ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-12742cbc900sm1021042c88.14.2026.02.13.20.28.33
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-12742cbc900sm1021042c88.14.2026.02.13.20.28.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 20:28:33 -0800 (PST)
+        Fri, 13 Feb 2026 20:28:34 -0800 (PST)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Justin Tee <justin.tee@broadcom.com>,
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -86,17 +86,17 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v3 16/21] nvmet: Add support for CQT to nvme target
-Date: Fri, 13 Feb 2026 20:25:17 -0800
-Message-ID: <20260214042753.4073668-17-mkhalfella@purestorage.com>
+Subject: [PATCH v3 17/21] nvme: Add support for CQT to nvme host
+Date: Fri, 13 Feb 2026 20:25:18 -0800
+Message-ID: <20260214042753.4073668-18-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260214042753.4073668-1-mkhalfella@purestorage.com>
 References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260213_202835_524178_36615FA8 
-X-CRM114-Status: GOOD (  17.66  )
+X-CRM114-CacheID: sfid-20260213_202835_917257_5B52B5CD 
+X-CRM114-Status: GOOD (  14.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,147 +113,72 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 TP4129 KATO Corrections and Clarifications defined CQT (Command Quiesce
 Time) which is used along with KATO (Keep Alive Timeout) to set an upper
-time limit for attempting Cross-Controller Recovery. CQT is added as a
-subsystem attribute that defaults to 0 to maintain the current behavior.
+limit for attempting Cross-Controller Recovery. Add ctrl->cqt and
+read its value from controller identify response. Update fence timeout
+to consider ctrl->cqt.
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 ---
- drivers/nvme/target/admin-cmd.c |  1 +
- drivers/nvme/target/configfs.c  | 31 +++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c      |  3 +++
- drivers/nvme/target/nvmet.h     |  2 ++
- include/linux/nvme.h            |  5 ++++-
- 5 files changed, 41 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c  | 1 +
+ drivers/nvme/host/nvme.h  | 5 +++--
+ drivers/nvme/host/sysfs.c | 2 ++
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 925a81979278..5077a9ddba44 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -743,6 +743,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->cntlid = cpu_to_le16(ctrl->cntlid);
- 	id->ver = cpu_to_le32(ctrl->subsys->ver);
- 	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
-+		id->cqt = cpu_to_le16(ctrl->cqt);
- 		id->ciu = ctrl->ciu;
- 		id->cirn = cpu_to_le64(ctrl->cirn);
- 		id->ccrl = NVMF_CCR_LIMIT;
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 127dae51fec1..c9b7a2eeeee5 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1637,6 +1637,36 @@ static ssize_t nvmet_subsys_attr_pi_enable_store(struct config_item *item,
- CONFIGFS_ATTR(nvmet_subsys_, attr_pi_enable);
- #endif
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a9fcde1b411b..0680d05900c1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3739,6 +3739,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->ciu = id->ciu;
+ 	ctrl->cirn = le64_to_cpu(id->cirn);
+ 	atomic_set(&ctrl->ccr_limit, id->ccrl);
++	ctrl->cqt = le16_to_cpu(id->cqt);
  
-+static ssize_t nvmet_subsys_attr_cqt_show(struct config_item *item,
-+					  char *page)
-+{
-+	return snprintf(page, PAGE_SIZE, "%u\n", to_subsys(item)->cqt);
-+}
-+
-+static ssize_t nvmet_subsys_attr_cqt_store(struct config_item *item,
-+					   const char *page, size_t cnt)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	struct nvmet_ctrl *ctrl;
+ 	ctrl->oacs = le16_to_cpu(id->oacs);
+ 	ctrl->oncs = le16_to_cpu(id->oncs);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index af6a4e83053e..a7f382e35821 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -336,6 +336,7 @@ struct nvme_ctrl {
+ 	u32 max_zone_append;
+ #endif
+ 	u16 crdt[3];
 +	u16 cqt;
-+
-+	if (sscanf(page, "%hu\n", &cqt) != 1)
-+		return -EINVAL;
-+
-+	down_write(&nvmet_config_sem);
-+	if (subsys->cqt == cqt)
-+		goto out;
-+
-+	subsys->cqt = cqt;
-+	/* Force reconnect */
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
-+		ctrl->ops->delete_ctrl(ctrl);
-+out:
-+	up_write(&nvmet_config_sem);
-+	return cnt;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_cqt);
-+
- static ssize_t nvmet_subsys_attr_qid_max_show(struct config_item *item,
- 					      char *page)
+ 	u16 oncs;
+ 	u8 dmrl;
+ 	u8 ciu;
+@@ -1245,8 +1246,8 @@ static inline bool nvme_multi_css(struct nvme_ctrl *ctrl)
+ static inline unsigned long nvme_fence_timeout_ms(struct nvme_ctrl *ctrl)
  {
-@@ -1677,6 +1707,7 @@ static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_vendor_id,
- 	&nvmet_subsys_attr_attr_subsys_vendor_id,
- 	&nvmet_subsys_attr_attr_model,
-+	&nvmet_subsys_attr_attr_cqt,
- 	&nvmet_subsys_attr_attr_qid_max,
- 	&nvmet_subsys_attr_attr_ieee_oui,
- 	&nvmet_subsys_attr_attr_firmware,
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index a9f8a2242703..886083bb7a83 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1718,6 +1718,7 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
- 	ctrl->cntlid = ret;
+ 	if (ctrl->ctratt & NVME_CTRL_ATTR_TBKAS)
+-		return 3 * ctrl->kato * 1000;
+-	return 2 * ctrl->kato * 1000;
++		return 3 * ctrl->kato * 1000 + ctrl->cqt;
++	return 2 * ctrl->kato * 1000 + ctrl->cqt;
+ }
  
- 	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
-+		ctrl->cqt = subsys->cqt;
- 		ctrl->ciu = get_random_u8() ? : 1;
- 		ctrl->cirn = get_random_u64();
- 	}
-@@ -1958,10 +1959,12 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ #endif /* _NVME_H */
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 1e4261144933..0234e11730bb 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -387,6 +387,7 @@ nvme_show_int_function(numa_node);
+ nvme_show_int_function(queue_count);
+ nvme_show_int_function(sqsize);
+ nvme_show_int_function(kato);
++nvme_show_int_function(cqt);
  
- 	switch (type) {
- 	case NVME_NQN_NVME:
-+		subsys->cqt = NVMF_CQT_MS;
- 		subsys->max_qid = NVMET_NR_QUEUES;
- 		break;
- 	case NVME_NQN_DISC:
- 	case NVME_NQN_CURR:
-+		subsys->cqt = 0;
- 		subsys->max_qid = 0;
- 		break;
- 	default:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 0ed41a3d0562..00528feeb3cd 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -265,6 +265,7 @@ struct nvmet_ctrl {
- 
- 	uuid_t			hostid;
- 	u16			cntlid;
-+	u16			cqt;
- 	u8			ciu;
- 	u32			kato;
- 	u64			cirn;
-@@ -342,6 +343,7 @@ struct nvmet_subsys {
- #ifdef CONFIG_NVME_TARGET_DEBUGFS
- 	struct dentry		*debugfs_dir;
- #endif
-+	u16			cqt;
- 	u16			max_qid;
- 
- 	u64			ver;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index fc33ae48d149..f6d66dadc5b1 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -21,6 +21,7 @@
- #define NVMF_TRADDR_SIZE	256
- #define NVMF_TSAS_SIZE		256
- 
-+#define NVMF_CQT_MS		0
- #define NVMF_CCR_LIMIT		4
- #define NVMF_CCR_PER_PAGE	511
- 
-@@ -368,7 +369,9 @@ struct nvme_id_ctrl {
- 	__u8			anacap;
- 	__le32			anagrpmax;
- 	__le32			nanagrpid;
--	__u8			rsvd352[160];
-+	__u8			rsvd352[34];
-+	__le16			cqt;
-+	__u8			rsvd388[124];
- 	__u8			sqes;
- 	__u8			cqes;
- 	__le16			maxcmd;
+ static ssize_t nvme_sysfs_ciu_show(struct device *dev,
+ 					  struct device_attribute *attr,
+@@ -759,6 +760,7 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_sqsize.attr,
+ 	&dev_attr_ciu.attr,
+ 	&dev_attr_cirn.attr,
++	&dev_attr_cqt.attr,
+ 	&dev_attr_hostnqn.attr,
+ 	&dev_attr_hostid.attr,
+ 	&dev_attr_ctrl_loss_tmo.attr,
 -- 
 2.52.0
 
