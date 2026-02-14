@@ -4,71 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69C99EF99FF
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C1F1EDF142
 	for <linux-nvme@archiver.kernel.org>; Sat, 14 Feb 2026 04:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DWiAfLikzaFr4GnyqsyXng2vgSJVn4kiF95ZAV+60zk=; b=qoJVABlCJArgAH26595KGpM01D
-	N9BDfBVATOHY/g9NisSj6/LwrRj2Z4XTlYYbD+5CrGYFRQr4tHFHCf7Ffu3hx6Q5qM/CpoHK2qh23
-	XqEbL0xTrmbOrhNo0ftneQYE6vPmjVuIrS/g4WwP9f+EfxbnGQB0xtxeswQcfB8jqJLichP8kPEMC
-	PK2gV50Du+Dmx17DguPQIzhWJncR/7gXNPW+xiWmv5Eav/HCofBEqPBqW8PvSjFuwlUZeU7aCLZMm
-	pxybhxhRQx9e3zoteZmlfP+xoS8fnIqJbAHJdYioa3grQ0IlmiY6s3cxSV/LTdCJwt5rgAosXF9ql
-	wmyx9PuA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=vWvrFVliAreSaQBreORol8DpIbPpwaItTUlHVNdYwK8=; b=PPmFUodlqPU43VX+cmedp6mXXb
+	tmppSvnknOuEk7Zr7i2s0XkzuEwLSmBFQhjqDqr4+MBRsf41igpW7c2vZJordn87XP3g3ryvcW2qU
+	ix8pyoF/JR1KMDiSOaimTSWZqwjxupQWFm0zTHG1xqKqVROnbc6/ldzTQ04jbZxn+t+4ZMNVAnOB3
+	Uc3oQ4mzKsQ5BKCtIfVP+6YD8ZVDr6ynLuiI0/y7xwTz2cdLme9iX9zu+v4XoFX7m3QozVPEqAaCd
+	kTmHYzvBSVBl9jzBC6Y3Uj7C4vOWikfDVXcJgFCazqCtXtf/ndsq8Ro5BsSWFzH2ZW5IdS0XVcAov
+	y18OkinA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vr7Gb-00000004Ew9-1uAQ;
+	id 1vr7Gb-00000004Evz-0UA0;
 	Sat, 14 Feb 2026 04:28:25 +0000
-Received: from mail-dl1-x1234.google.com ([2607:f8b0:4864:20::1234])
+Received: from mail-dl1-x1231.google.com ([2607:f8b0:4864:20::1231])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vr7GY-00000004Euz-3Xww
+	id 1vr7GY-00000004Euk-0ctf
 	for linux-nvme@lists.infradead.org;
 	Sat, 14 Feb 2026 04:28:23 +0000
-Received: by mail-dl1-x1234.google.com with SMTP id a92af1059eb24-1270adc5121so2321963c88.0
-        for <linux-nvme@lists.infradead.org>; Fri, 13 Feb 2026 20:28:22 -0800 (PST)
+Received: by mail-dl1-x1231.google.com with SMTP id a92af1059eb24-1270ac5d3efso1594421c88.1
+        for <linux-nvme@lists.infradead.org>; Fri, 13 Feb 2026 20:28:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771043302; x=1771648102; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DWiAfLikzaFr4GnyqsyXng2vgSJVn4kiF95ZAV+60zk=;
-        b=U3qUM4Z/8IpkSuMczVQxYYrwStl/ds6QkCJZO9iz7208eMxE/GJuxivkJE9FumoyfS
-         UxjhfBgKx3fBndf13Gy1oO0/a9zK2McFaYhDwwPu1R/V/Em80bO6t6OWlzXplHwRqUsy
-         ei8hoaldyxi0ghy3v9lY9fdIg54qpfedICf33+zoTm4phmwAKio3sA2htSQfJVzodq65
-         WDPmlpO7Q8W+nOiOrIr0zHwkI03NSjYL0HZ6xBYGHW9NTd0xZ2yK9yqU5rfOn0x/t9XP
-         ZHrWPNWxWpOoHBxu/eQOs1K2pF+1XWf289hs+bLzlmcDcDqm/h9iJqUF+jqwybyn5NW/
-         P12Q==
+        d=purestorage.com; s=google2022; t=1771043301; x=1771648101; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vWvrFVliAreSaQBreORol8DpIbPpwaItTUlHVNdYwK8=;
+        b=F4lQQdhzXG/BvhH4Bvcu4mbFIacEaFN+lgytMtcJLpq2gFvEnRwJCpTBwBAvYEGiCX
+         c1nJVJI0cwQUz8yQRQMmO7/dpmSkkg1aFzcQ2n+/J3/wgi4LyMseH9qvGbPi8kK7lKfp
+         0oiuUHGstP1W6Q4vEY7Ul9ihFx30uU9j6+kidA/0A6iKW1dGu/UuoXIL03VB8/zqy9d/
+         MyD9Wvoq40TEzu4XO2/bwPuyoh2rBddGmKYauoFyIT8iDUz6Lsld7yzHuDKp20Cf/wHF
+         cDhnwL/5PlPmoZrFHr6sc6mpneOlYkB46JU0m611FHUX4aF+Gm6LBU6oKrUXSyGCy7sj
+         VBRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771043302; x=1771648102;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DWiAfLikzaFr4GnyqsyXng2vgSJVn4kiF95ZAV+60zk=;
-        b=T7UzgzmacJPCpLOoFfH0bQN842JboE5285FFxJS+f4f9INEgkxOV1C0oJzbScqb+jH
-         HOHmpEs/tOcwLKRf1xSQJ9vEp4mh8/0FSbnJSQBzL+YcD0T98Bx0nikHM/703TtPjJ/v
-         53DcLcwpgZOxq/2zbedhgxgmFnxhCyb4gjG+lDB43Ua3Ll5d9JOgumOgK42E5UdRw6w7
-         MTVyd/aPd4ssp7HAZH4xTG6YUPdUHN77RfDbB5QeyuGb5oblcS/+zM7SIevXOfFI7PzL
-         cqnnlwVhh5vCb1uWVQcnCtI22r8st9tAsSBFOavNh62x3y7UIL3BZdY42Yi6RVklY4mW
-         tWdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMVoYDR0tKaOKKu/nvWnhFq8JUej7TAy5cquRQjSkZBUihjkFJaEta33bJ4zVtrezQnir63AwX4ubs@lists.infradead.org
-X-Gm-Message-State: AOJu0YwOYezDpZFqdZE9DXVB04MqRb+5fjUNuL/GY5JwXnJbjxwrsYkV
-	JXIsJJizj+mXOh6pmBEnv/PzCvwpMstyX4f7osfOlFIlUMk9fWsJA3ECj+hYueU8JO8=
-X-Gm-Gg: AZuq6aJswn8WGE71S7czlQeu/FG1YDNWN3GpTdsbp/Xm3X9llH4t21Q8SvTMnw0GriU
-	OXYKH4HNyqqhInNX5+SZZYUMTf7xv7DQMVsw9tQ2fw2zcn87snci3xkxx+hfivcmRVH5XIWYQx7
-	fMj2zgui+82+KhDYB1SnWkt9dtK2MGAfgFPHz8wbm3als5JV4au6mzeXw8Tr8yM16kmEOm6TEkP
-	Lc0cVHu0yxpwrSCD+R619eYO98bXlrw4V9qBPWasb7+FLWHgYrB9YLDKFFh+Fvsc+jcxtxAtm9V
-	H7EW5Hdh/2nIwb31vs5FJOf66TnwSwy9lUBxeZm9/wLvNof57ZaKokGKFOEkOIqbBx/H8KI0WuR
-	cWgDrGWJee+VXzwq3J1TooyMtbJzJL/kp/tQ/a61poE4a0ETleRmaZ1Tn1Nv0O7PzJGixh3iTlR
-	dlRdDrk/0L2JBKvnzSsEP3z4FuYignXOKsNg4tNDLN48tqaw==
-X-Received: by 2002:a05:7022:2394:b0:127:33c5:536b with SMTP id a92af1059eb24-1273adf06e3mr1330405c88.1.1771043301717;
-        Fri, 13 Feb 2026 20:28:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771043301; x=1771648101;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vWvrFVliAreSaQBreORol8DpIbPpwaItTUlHVNdYwK8=;
+        b=DTUgKzotK2cy2+4F+CP2gHjQc108qCoszW6q6Sn7CEuRcai+MyCFHZAC60HBYHrbHY
+         O6aZhHwdAcN2edjMYtnIM30eHKqKX+nLcrp7EWg7o3K02iGNqcy7yZMCuf45k3TbUQmh
+         2q5RDyHpRtjzsYForNMf60J+XzjftUsPrFxnASdA/FxLqSSaSGz1Fp423zIM7rcT594e
+         FUOUzXnRva29J++JC5nBi+aElvNd7QTBep/TXJFtCSSfeo24sXt5AhW6lfDCx0y+mOCa
+         EYxNayiykoYitDh+Q+2SguHP7j9FEplJ2bfpZFWBp6B15JPgnl/+gOgmyVjPv642HVLd
+         ZfOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWJ510L7SPzBD53F1o3OWYHswANRdznoPDRrXY2TYQUHZqA+FcFp8MUKvPNT4P7EfnqYW6IZENG0W9@lists.infradead.org
+X-Gm-Message-State: AOJu0YzFfQwp9UzCgLJXlYHzDM1Fz9PYtDrW8/X1nq+9RToTUZ07/fWo
+	KaZnJTL6dk7Cuohad0BHpEWC9Srqk3n0QCMq4ewPCqZFwwkg+vrxB0qezkQMwVeW4do=
+X-Gm-Gg: AZuq6aKd1j/1Cl6ovcLGJt4y2kO316WMM5Xf5bvAuKhRDfxLFODaa+k6oPxG1in6OfU
+	PTYrZqLOEoCddHZZnItUzki5GngqI78HAk894EI/GsAau3k8vw2FtYEpClNH7YZ7yikDv+h88V4
+	S/ejTpSSdXV9TYjXHe1HWEMsVnOx+NMh//2YFYiwUjYQD7rSxUgdCFlHtDyoVfrQiofhm1QfKCW
+	9UwJkY+wko9TqIRyEVDLdvSLBQw/220+CAZX9WHouLEzsyn24VNbNZItkF88XHXI9TBYbREqFl1
+	BbtUJWl91gGfLWVLqARdAO1RrVRUwpXf1WzvrFrTNjgYuCDWH3/9oS2U+9KRISqNjd6XYP2AJqC
+	K9SxbMIEj1SnvfTnMDsMYhLzTjtKCxrhcaanfuX5Y96Klel7lR7Lor/CU6k6QeJ09VNjGhzoAAs
+	W+y/fjmtYxkXv28qxL3aUEPfuX8ZMgr6FrIfx0gjsHdTitDQ==
+X-Received: by 2002:a05:7022:4581:b0:119:e56b:91ea with SMTP id a92af1059eb24-12741bb7e86mr734066c88.27.1771043300889;
+        Fri, 13 Feb 2026 20:28:20 -0800 (PST)
 Received: from apollo.purestorage.com ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-12742cbc900sm1021042c88.14.2026.02.13.20.28.21
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-12742cbc900sm1021042c88.14.2026.02.13.20.28.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 20:28:21 -0800 (PST)
+        Fri, 13 Feb 2026 20:28:20 -0800 (PST)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Justin Tee <justin.tee@broadcom.com>,
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -86,17 +85,15 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v3 01/21] nvmet: Rapid Path Failure Recovery set controller identify fields
-Date: Fri, 13 Feb 2026 20:25:02 -0800
-Message-ID: <20260214042753.4073668-2-mkhalfella@purestorage.com>
+Subject: [PATCH v3 00/21] TP8028 Rapid Path Failure Recovery
+Date: Fri, 13 Feb 2026 20:25:01 -0800
+Message-ID: <20260214042753.4073668-1-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260214042753.4073668-1-mkhalfella@purestorage.com>
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260213_202822_884469_35C9CF4C 
-X-CRM114-Status: GOOD (  14.92  )
+X-CRM114-CacheID: sfid-20260213_202822_220293_5A3D906E 
+X-CRM114-Status: GOOD (  22.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,119 +108,188 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-TP8028 Rapid Path Failure Recovery defined new fields in controller
-identify response. The newly defined fields are:
+This patchset adds support for TP8028 Rapid Path Failure Recovery for
+both nvme target and initiator. Rapid Path Failure Recovery brings
+Cross-Controller Reset (CCR) functionality to nvme. This allows nvme
+host to send an nvme command to a source nvme controller to reset
+the impacted nvme controller, provided that both source and impacted
+controllers are in the same nvme subsystem.
 
-- CIU (Controller Instance UNIQUIFIER): is an 8bit non-zero value that
-is assigned a random value when controller first created. The value is
-expected to be incremented when RDY bit in CSTS register is asserted
-- CIRN (Controller Instance Random Number): is 64bit random value that
-gets generated when controller is crated. CIRN is regenerated everytime
-RDY bit is CSTS register is asserted.
-- CCRL (Cross-Controller Reset Limit) is an 8bit value that defines the
-maximum number of in-progress controller reset operations. CCRL is
-hardcoded to 4 as recommended by TP8028.
+The main use of CCR is when one path to the nvme subsystem fails.
+Inflight IOs on impacted nvme controller need to be terminated first
+before they can be retried on another path. Otherwise data corruption
+may happen. CCR provides a quick way to terminate these IOs on the
+unreachable nvme controller allowing recovery to move quickly avoiding
+unnecessary delays. In case of CCR is not possible, inflight requests
+are held for duration defined by TP4129 KATO Corrections and
+Clarifications before they are allowed to be retried.
 
-Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
----
- drivers/nvme/target/admin-cmd.c |  5 +++++
- drivers/nvme/target/core.c      |  9 +++++++++
- drivers/nvme/target/nvmet.h     |  2 ++
- include/linux/nvme.h            | 10 ++++++++--
- 4 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 5e366502fb75..368e36362ac5 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -696,6 +696,11 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 
- 	id->cntlid = cpu_to_le16(ctrl->cntlid);
- 	id->ver = cpu_to_le32(ctrl->subsys->ver);
-+	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
-+		id->ciu = ctrl->ciu;
-+		id->cirn = cpu_to_le64(ctrl->cirn);
-+		id->ccrl = NVMF_CCR_LIMIT;
-+	}
- 
- 	/* XXX: figure out what to do about RTD3R/RTD3 */
- 	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index eab3e4fc0f74..e5f413405604 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1394,6 +1394,10 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
- 		return;
- 	}
- 
-+	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
-+		ctrl->ciu = ((u8)(ctrl->ciu + 1)) ? : 1;
-+		ctrl->cirn = get_random_u64();
-+	}
- 	ctrl->csts = NVME_CSTS_RDY;
- 
- 	/*
-@@ -1662,6 +1666,11 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
- 	}
- 	ctrl->cntlid = ret;
- 
-+	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
-+		ctrl->ciu = get_random_u8() ? : 1;
-+		ctrl->cirn = get_random_u64();
-+	}
-+
- 	/*
- 	 * Discovery controllers may use some arbitrary high value
- 	 * in order to cleanup stale discovery sessions
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index b664b584fdc8..a36daa5d3a57 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -264,7 +264,9 @@ struct nvmet_ctrl {
- 
- 	uuid_t			hostid;
- 	u16			cntlid;
-+	u8			ciu;
- 	u32			kato;
-+	u64			cirn;
- 
- 	struct nvmet_port	*port;
- 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 655d194f8e72..7746b6d30349 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -21,6 +21,8 @@
- #define NVMF_TRADDR_SIZE	256
- #define NVMF_TSAS_SIZE		256
- 
-+#define NVMF_CCR_LIMIT		4
-+
- #define NVME_DISC_SUBSYS_NAME	"nqn.2014-08.org.nvmexpress.discovery"
- 
- #define NVME_NSID_ALL		0xffffffff
-@@ -328,7 +330,10 @@ struct nvme_id_ctrl {
- 	__le16			crdt1;
- 	__le16			crdt2;
- 	__le16			crdt3;
--	__u8			rsvd134[122];
-+	__u8			rsvd134[1];
-+	__u8			ciu;
-+	__le64			cirn;
-+	__u8			rsvd144[112];
- 	__le16			oacs;
- 	__u8			acl;
- 	__u8			aerl;
-@@ -389,7 +394,8 @@ struct nvme_id_ctrl {
- 	__u8			msdbd;
- 	__u8			rsvd1804[2];
- 	__u8			dctype;
--	__u8			rsvd1807[241];
-+	__u8			ccrl;
-+	__u8			rsvd1808[240];
- 	struct nvme_id_power_state	psd[32];
- 	__u8			vs[1024];
- };
+On the target side:
+
+* New struct members have been added to support CCR. struct nvme_id_ctrl
+  has been updated with CIU (Controller Instance Uniquifier), CIRN
+  (Controller Instance Random Number), and CQT (Command Quiesce Time).
+  The combination of CIU, CNTLID, and CIRN is used to identify impacted
+  controller in CCR command.
+
+* CCR nvme command implemented on the target causes impacted controller
+  to fail and drop connections to host.
+
+* CCR logpage contains the status of pending CCR requests. An entry is
+  added to the logpage after CCR request is validated. Completed CCR
+  requests are removed from the logpage when controller becomes ready or
+  when requested in get logpage command.
+
+* An AEN is sent when CCR completes to let the host know that it is safe
+  to retry inflight requests.
+
+
+On the host side:
+
+* CIU, CIRN, and CQT have been added to struct nvme_ctrl. CIU and CIRN
+  have been added to sysfs to make the values visible to the user.
+  CIU and CIRN can be used to construct and manually send admin-passthru
+  CCR commands.
+
+* New controller states FENCING and FENCED have been added to make sure
+  that inflight request do not get canceled if they timeout during
+  fencing process. FENCED exists so that controller state machine does
+  not have a transition from FENCING to RESETTING. Instead FENCING ->
+  FENCED -> RESETTING. This prevents a controller being fenced from
+  getting reset. Only after fencing finishes the impacted controller is
+  reset.
+
+* Controller recovery in nvme_fence_ctrl() is invoked when LIVE
+  controller hits an error or when a request times out. CCR is attempted
+  first to reset impacted controller. If it fails then inflight requests
+  are held until it is safe to retry them.
+
+* Updated nvme fabric transports nvme-tcp, nvme-rdma, and nvme-fc to
+  use CCR recovery.
+
+
+Ideally all inflight requests should be held during controller recovery
+and only retried after recovery is done. However, there are known
+situations where that is not the case in this implementation. These gaps
+will be addressed in future patches:
+
+* Manual controller reset from sysfs will result in controller going to
+  RESETTING state and all inflight requests to be canceled immediately
+  and may be retried on another path.
+
+* Manual controller delete from sysfs will also result in all inflight
+  requests to be canceled immediately and may be retried on another path.
+
+* In nvme-fc, nvme controller will be deleted if remote port disappears
+  with no timeout specified. This results in immediate cancellation of
+  requests that may be retried on another path.
+
+* In nvme-rdma if HCA is removed all nvme controllers will be deleted.
+  This results in canceling inflight IOs and may be they will be retried
+  on another path.
+
+
+Changes from v2:
+
+- nvmet: Implement CCR nvme command
+  - Minor changes addressing review comments on v2.
+
+- nvme: Rapid Path Failure Recovery read controller identify fields
+  Addressed security concern that CCR can be used to cause denail of
+  service. Changed the permission of CIU and CIRN sysfs attributes
+  from S_IRUGO to S_IRUSR. This makes sure only root user can read
+  these attributes.
+
+- nvme: Introduce FENCING and FENCED controller states
+  Addressed code review comments. Minor changes.
+
+- nvme: Implement cross-controller reset recovery
+  - Refactored nvme_find_ctrl_ccr(), more idiomatic code.
+  - Update nvme_issue_wait_ccr() to return
+    - 0 on success.
+    - EIO in case failure submitting CCR command
+    - ETIMEDOUT timedout waiting for CCR operation.
+    - EREMOTEIO CCR operation failed.
+  - Updated nvme_fence_ctrl() such that CCR is operation
+    is tried on one source controller maximum.
+
+- nvme-tcp: Use CCR to recover controller that hits an error
+  - Dropped ctrl->fenced_work. Moved to CQT patches.
+  - nvme_tcp_fencing_work() resets controller regardless of
+    CCR success or failure.
+
+- nvme-rdma: Use CCR to recover controller that hits an error
+  - Similar to nvme-tcp
+
+- nvme-fc: Decouple error recovery from controller reset
+  - nvme_fc_start_ioerr_recovery() queues ctrl->ioerr_work in case of
+    CONNECTING, DELETING, and DELETING_NOIO without changing controller
+    state.  For CONNECTING it addresses an issue raised during
+    codereview. For DELECTING{_NOIO} it addresses an issue observed
+    during testing where a controller is deleted with inflight IOs.
+  - Updated nvme_fc_ctrl_ioerr_work() to handle CONNECTING state in
+    special way just aborting outstanding IO. This change addresses an
+    issue raised during code review.
+  - nvme_fc_error_recovery() has been updated to flush
+    ctrl->ctrl.async_event_work as mentioned in code review.
+
+- nvme-fc: Use CCR to recover controller that hits an error
+  - Changes similar to nvme-rdma and nvme-tcp
+
+- nvme-fc: Do not cancel requests in io taget before it is initialized
+  - A new patch added to address an issue observed during testing.
+
+- CQT changes have been pulled to separate patches
+  - nvmet: Add support for CQT to nvme target
+  - nvme: Add support for CQT to nvme host
+  - nvme: Update CCR completion wait timeout to consider CQT
+  - nvme-tcp: Extend FENCING state per TP4129 on CCR failure
+  - nvme-rdma: Extend FENCING state per TP4129 on CCR failure
+  - nvme-fc: Extend FENCING state per TP4129 on CCR failure
+
+v2: https://lore.kernel.org/all/20260130223531.2478849-1-mkhalfella@purestorage.com/
+
+Mohamed Khalfella (21):
+  nvmet: Rapid Path Failure Recovery set controller identify fields
+  nvmet/debugfs: Export controller CIU and CIRN via debugfs
+  nvmet: Implement CCR nvme command
+  nvmet: Implement CCR logpage
+  nvmet: Send an AEN on CCR completion
+  nvme: Rapid Path Failure Recovery read controller identify fields
+  nvme: Introduce FENCING and FENCED controller states
+  nvme: Implement cross-controller reset recovery
+  nvme: Implement cross-controller reset completion
+  nvme-tcp: Use CCR to recover controller that hits an error
+  nvme-rdma: Use CCR to recover controller that hits an error
+  nvme-fc: Decouple error recovery from controller reset
+  nvme-fc: Use CCR to recover controller that hits an error
+  nvme-fc: Hold inflight requests while in FENCING state
+  nvme-fc: Do not cancel requests in io taget before it is initialized
+  nvmet: Add support for CQT to nvme target
+  nvme: Add support for CQT to nvme host
+  nvme: Update CCR completion wait timeout to consider CQT
+  nvme-tcp: Extend FENCING state per TP4129 on CCR failure
+  nvme-rdma: Extend FENCING state per TP4129 on CCR failure
+  nvme-fc: Extend FENCING state per TP4129 on CCR failure
+
+ drivers/nvme/host/constants.c   |   1 +
+ drivers/nvme/host/core.c        | 222 +++++++++++++++++++++++++++-
+ drivers/nvme/host/fc.c          | 249 ++++++++++++++++++++++++--------
+ drivers/nvme/host/nvme.h        |  25 ++++
+ drivers/nvme/host/rdma.c        |  63 +++++++-
+ drivers/nvme/host/sysfs.c       |  27 ++++
+ drivers/nvme/host/tcp.c         |  63 +++++++-
+ drivers/nvme/target/admin-cmd.c | 124 ++++++++++++++++
+ drivers/nvme/target/configfs.c  |  31 ++++
+ drivers/nvme/target/core.c      | 113 ++++++++++++++-
+ drivers/nvme/target/debugfs.c   |  21 +++
+ drivers/nvme/target/nvmet.h     |  20 ++-
+ include/linux/nvme.h            |  70 ++++++++-
+ 13 files changed, 953 insertions(+), 76 deletions(-)
+
+
+base-commit: cd7a5651db263b5384aef1950898e5e889425134
 -- 
 2.52.0
 
