@@ -4,128 +4,117 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92730E63F06
-	for <linux-nvme@archiver.kernel.org>; Sun, 15 Feb 2026 18:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6FEBCE63F08
+	for <linux-nvme@archiver.kernel.org>; Sun, 15 Feb 2026 21:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=z3IZXTytivLgsLaRggR5ZSvj+TzkGEdfTe8dQfvKv5s=; b=QErmNKje0vtc4NWx2qjVc70/rz
-	DtZiaFYpZOjsKTYnLxl+YqmBxhPZqw5XuZKRPFrkPlunROtgmOh+I6sw50cuX4NO8InAyVCDVh3hh
-	DmYCyL2lw3y1EncY3XRqS7a2LUrzKjCOWTVEbxJhoA71H97NEc1A4vcIKW3LhAVpOyBGmN5+3VWh/
-	QUQvg38LPtGbJs/WtubiQ+uYZnumk9etG2ZFwtA2tPc3EEDImyeXFCiidTlLdpv3gKQwDyTqowdu+
-	ylUDjixyKqSWBqFdr504tLI1degcsfpdqcctTb+tUOa8+L3VEyE0bUnhIBFJx9kJoZV4JNXubVIbB
-	d45czbvw==;
+	bh=nh5TnaSI7rZPj2uhgnsZBl8QSuJdZuhEOKvh+vqqOKs=; b=emprpKg655gz8ETOYzvmh5egHl
+	Cpphoycp7yiGWipt4ldBm+En6DId3Yy8OyM35yy0XUaPOHbJrozh6zY5/27gYG5LOYKdePlUF4BSU
+	uxqAH4Zo/ntbxrjge4YdXCPWB+3+29GS0DVbDqeK2Uo3wiHqUSMmz/imrbI5Wp+1XSp5h3V+GUxS/
+	IA9saEJzcPkQNRiWleG1nnNzOrE6I3BjWqFdQR78x0rTcCY8bbH4veSw6vJB1E5OQbKUysrGwfqzy
+	3WWyMPW1b9vqxMLr4pWUDt87Yo0FePjVyA78S6IgC/PyypMStxoL5+Yqn77VklEkp5jHLOw/z3PSN
+	ECouFNVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrh1t-00000005ajD-3THR;
-	Sun, 15 Feb 2026 18:39:37 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vrjVv-00000005fjF-0AHe;
+	Sun, 15 Feb 2026 21:18:47 +0000
+Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrh1q-00000005aio-0RYU
+	id 1vrjVr-00000005fiV-3Fpl
 	for linux-nvme@lists.infradead.org;
-	Sun, 15 Feb 2026 18:39:35 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61F7qL4e2084692;
-	Sun, 15 Feb 2026 18:39:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=z3IZXT
-	ytivLgsLaRggR5ZSvj+TzkGEdfTe8dQfvKv5s=; b=do+hSaj5mwRoGttvxj9Hl1
-	g73SmI0xYRjx5SkFClA66fsw4Mm9vSxe+XSdpyD3f/rVFSZpIg5L6w6BX+ZQRed9
-	N8bpVOUMhtMfs96wCjBOet4ZG7VGsNhHlbFHO+VUhA6PhIU/RpgF2aCL2kO26Ev3
-	GsgP/y+X9CQgjVnvWHfj+U8vXn8WQSRpM6NEw4Q7bPMSamcXcufs/IpT0shnaxBg
-	fDlV6bs/hcomrM3S8MgV5jYkq5sdnKt7cUI57emliWkzlRskP9oouVI3UZavk88l
-	DGFgP1fq1wDiMw9T3WkTJZHuo/H7GsM9X9QJ3jpM7AScXVf7IUY4c+wQH5iTfMyA
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cajcj4ekb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 15 Feb 2026 18:39:01 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61FF6r4n029059;
-	Sun, 15 Feb 2026 18:39:00 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cb63129h8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 15 Feb 2026 18:39:00 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61FIcxvT16646782
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 15 Feb 2026 18:39:00 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D181358058;
-	Sun, 15 Feb 2026 18:38:59 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DA1E958057;
-	Sun, 15 Feb 2026 18:38:49 +0000 (GMT)
-Received: from [9.87.129.147] (unknown [9.87.129.147])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 15 Feb 2026 18:38:49 +0000 (GMT)
-Message-ID: <901f4daf-3226-416f-8741-dd15573e736b@linux.ibm.com>
-Date: Mon, 16 Feb 2026 00:08:47 +0530
+	Sun, 15 Feb 2026 21:18:45 +0000
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-385c2f88618so19734851fa.2
+        for <linux-nvme@lists.infradead.org>; Sun, 15 Feb 2026 13:18:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771190320; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hwY9Q18bujzehNROE1ujrTNbk696TDP2/awWbnq3Ha4sBlZiS8PmZ4pKW3ae/llgTg
+         2Z5XQcqKhxme95HgrPrVH8QXJbo1WFrE8Fv2AzfXy5ppac5RhmfbVnQA753UJYcMtMCO
+         APWBnxMy80JqPaNR54+VELmydU56Yhh4TTUgj5qb5fTp10B4Ycki1qUSOE0BXWvtiDBw
+         h9xFsW09ZCw76ggtyUfU1uU0ZksGEX5x1FQSPbfmMDOitd4TyFM3ENdwuHkOt62KJUXH
+         rvx4pfbrhtPK23zbhyZZEgxdowEoP9nrpz5tbkPH4lzm7c4sGNLr4OXR9FljxkZEyHqZ
+         xXmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nh5TnaSI7rZPj2uhgnsZBl8QSuJdZuhEOKvh+vqqOKs=;
+        fh=nuymxc5uNT+WEWKF8cqfiz71eNV+5++NI/l2rvQGE9U=;
+        b=MrTD/sq7gzdm8La4CjwhyjlMRtER8D94TviB/yKI25FGglkT9DLx8zuHE78OeDPBg6
+         9YPkMlyas275CSggpIpy9bsXPf2vKbOrmOMJWG/HbIP63Ugiig0+LjZj4wbkvwqlRixt
+         kxYzB/iVu4g+FRkqsekpg4Edepn02/43IHWUbXoQcvztdc6e92FgLEGRfgNEASTlbVH+
+         quM2QYDc8rW0qbuhZRoUC5gR8CxXvV7RrRTDeGWiaOads78uKuiq28zswvPbfy/4uP8r
+         9HFIkYMKMaD686cj7jYud/+3q76XIjX29pXwRVb6fno39aDLcP9gTd66/QmEduq71iXt
+         xSyw==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google; t=1771190320; x=1771795120; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nh5TnaSI7rZPj2uhgnsZBl8QSuJdZuhEOKvh+vqqOKs=;
+        b=c8jVBIajQ3gtAzDjw9AB4UnQPbXUZNV++umh7kOiU5RP4iLUtSgOItdafrZLlNt0cW
+         CNbNgiKC4pz2VfRh+U0fzPp1QBYYfkZXGuN20MO+nI7Dck5AK4BeC1QH20goXQgFZ6Ia
+         6kc/0gjHA9MEfsNLvxWs5uod4IP445NfLlaHS2qOhfYLx0HD3qD/96EDklfTF18+P8jA
+         B8bI5fojBiC4z3+fOBSFT85NH0eVoSAFKUaPOFcayrw2YwvnuBKKATMgfmxgVs5NzyVP
+         jXt35UnApH9W8NRl4n2v4Q1EpTihGFTKefckvjLhm+9wZ3hK32q07InvjW7NqNt2nZFa
+         mN+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771190320; x=1771795120;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nh5TnaSI7rZPj2uhgnsZBl8QSuJdZuhEOKvh+vqqOKs=;
+        b=gV4xJt7aDt6Y9/ctqwQpHUqfj4oDbLeRODQCFkxaHKmwbvBPpzmOcUBe32qMLy6tUW
+         Px3MvPj0wYUO3DeALtFO9VVsJ6hhZmW7QvBODVHAAQe+/4OV+ksjw89jKckbIboACaTJ
+         clacsfilzKg8kZAvNHvOaWSyOGiqoSBwwxjoSEMJihHvelpgH+SpM7nChBRR4nRKvNX0
+         SExCZyVUcxoSRHvIGqTy1icMS0OEdXpyjpyo5okhdkQ2DqLlazbR5h+IMfNwUB+hD7Fo
+         DvbFr+XexBDYYhj6y0eE6ndSy0A8FhAoJXDVLiF3b+8xC8CxQ8DCaVdkKDCoRWOxOjP+
+         hCGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgeHVGxizd11nxITqndnOvzlpV2MEFwJGPPBhQNYK52yIcfXu6Qa7NLZWSa9VUgjE1CWCvYCMAvjz2@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy4TmuWZ+h4kxOvKon0gT93BA1H6vcfiijJVotMmWc4IaKOdxrs
+	VVTSDRtYxuGkRtCZm8RDsUOXpYp9vaP8opKamI/Fz8qkhTaMQ27ijqOdVDZ7FT7p6WS6YwUAWAR
+	pGG0h6nbwqko0Bi45iEv0zIMkuGd8VIWfm3bcejG2og==
+X-Gm-Gg: AZuq6aJua1995BqAz61SMjXAFi1OvD87fFZwOVhmVGtSAgkVXspr9luinQ1C1nQN2r7
+	pZzVL1p83Mhv0Dug76cvoZEPnrrbqy2JyTS3jgB6Nk5et6vvg6n7TC+n3+2R5ETxEDQCJkjJVzy
+	LLUYrh29dlbmEZ82QH1VP62OBTJwhgwFlgCdiu/aN7WT8KBPZFlwYgd/44fWlTTEyp7+wAYZ0Ys
+	6oO7llupawnMZz4Ftgmq3k5pnAndXJpHzi/YogfzvX8dj3klVALktN0Hm4UTOlX8zSq+ddmxDyp
+	pwWTQkcXIveUA3TGNf3yq18FeibRdEbiogNH6oxilXoFSjSmRBVCF85it9dHJpzHDP7jsUoQB7I
+	Yf/NKQ3HHVqgEfOwBjp9qAZU=
+X-Received: by 2002:a2e:a781:0:b0:383:1d89:8d0c with SMTP id
+ 38308e7fff4ca-38810525294mr24772281fa.15.1771190319860; Sun, 15 Feb 2026
+ 13:18:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
+ <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local> <aY77ogf5nATlJUg_@shinmob>
+In-Reply-To: <aY77ogf5nATlJUg_@shinmob>
+From: Haris Iqbal <haris.iqbal@ionos.com>
+Date: Sun, 15 Feb 2026 22:18:28 +0100
+X-Gm-Features: AaiRm50UiUfxjs0q7nnu2kE7OqfPsAIU6uDVz4YX8OUdHbhFYRNnEhFTdkEJv9w
+Message-ID: <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
 Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
  expansion plan for the storage stack test framework
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-        Daniel Wagner <dwagner@suse.de>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-        Bart Van Assche <bvanassche@acm.org>, Hannes Reinecke <hare@suse.de>,
-        hch <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-        "sagi@grimberg.me" <sagi@grimberg.me>, "tytso@mit.edu" <tytso@mit.edu>,
-        Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-        Christian Brauner <brauner@kernel.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>,
-        "willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-        "amir73il@gmail.com" <amir73il@gmail.com>,
-        "vbabka@suse.cz"
- <vbabka@suse.cz>,
-        Damien Le Moal <dlemoal@kernel.org>
-References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
- <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
- <aY77ogf5nATlJUg_@shinmob>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <aY77ogf5nATlJUg_@shinmob>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: iuM4XSTf3nmzwplSwaI96Fz7Ehw_Njdp
-X-Authority-Analysis: v=2.4 cv=Md9hep/f c=1 sm=1 tr=0 ts=699212c6 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=9DavVDRZC1PGIyvR4eoA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE1MDE1NiBTYWx0ZWRfX9xTEi0WmpuNT
- Nx85veqB+uTT3Po4h/LCWBJkIAnjL25zyEykxRSCvTzJvqfDQrSs6MAecuNs+mk/rxrT0daDvLG
- 9Z8eROeXjhwqbjX37V4C16nsi5BTqnt302CPvEvlg+v4+eMYtU2sQs2ZKHRAO1OLaJeCtQuKO+g
- xB1nNYUdmzAgJa/FhfSZJ2MicZeXCPzSBR10Sla0aXviFSR/6++PWqgDb8HLbz3Ot1lKJ7g/hWB
- RrZAN0nQWZhE0foe31VGjguvnP8D5I8dvL+rTN7hJGA2JZNHwhzZA+sDBXSieF7jtIxR71OIbNM
- 5RuocyxJ/wIJ/C11ydhpn8W5m8rlRpVlqtnvELI37XV8lVqhV/Cm0+hGJG+WTd+iZqyd2sX7N4J
- avl/dR0641EGgClTe5BsFQRt7i+/Rx9dcY9gdHAT/VMi/DC/UGKn9itPBXs3z2xI6o0aHfKW7HV
- vmXcxfTvuiAduAr4CyA==
-X-Proofpoint-GUID: mhOu39Tkuncs14cshF6xz_qZqEAv93qp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-15_06,2026-02-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0 lowpriorityscore=0 spamscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 malwarescore=0 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602150156
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Daniel Wagner <dwagner@suse.de>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, Bart Van Assche <bvanassche@acm.org>, 
+	Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	"sagi@grimberg.me" <sagi@grimberg.me>, "tytso@mit.edu" <tytso@mit.edu>, 
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Christian Brauner <brauner@kernel.org>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>, 
+	"willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	"amir73il@gmail.com" <amir73il@gmail.com>, "vbabka@suse.cz" <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260215_103934_301250_B17DF494 
-X-CRM114-Status: GOOD (  46.97  )
+X-CRM114-CacheID: sfid-20260215_131843_939146_90182F8B 
+X-CRM114-Status: GOOD (  43.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,119 +129,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2/13/26 4:53 PM, Shinichiro Kawasaki wrote:
+On Fri, Feb 13, 2026 at 12:25=E2=80=AFPM Shinichiro Kawasaki
+<shinichiro.kawasaki@wdc.com> wrote:
+>
 > On Feb 12, 2026 / 08:52, Daniel Wagner wrote:
->> On Wed, Feb 11, 2026 at 08:35:30PM +0000, Chaitanya Kulkarni wrote:
->>>    For the storage track at LSFMMBPF2026, I propose a session dedicated to
->>>    blktests to discuss expansion plan and CI integration progress.
->>
->> Thanks for proposing this topic.
-> 
+> > On Wed, Feb 11, 2026 at 08:35:30PM +0000, Chaitanya Kulkarni wrote:
+> > >    For the storage track at LSFMMBPF2026, I propose a session dedicat=
+ed to
+> > >    blktests to discuss expansion plan and CI integration progress.
+> >
+> > Thanks for proposing this topic.
+>
 > Chaitanya, my thank also goes to you.
-> 
-Yes thanks for proposing this!
-
->> Just a few random topics which come to mind we could discuss:
->>
->> - blktests has gain a bit of traction and some folks run on regular
->>   basis these tests. Can we gather feedback from them, what is working
->>   good, what is not? Are there feature wishes?
-> 
+>
+> > Just a few random topics which come to mind we could discuss:
+> >
+> > - blktests has gain a bit of traction and some folks run on regular
+> >   basis these tests. Can we gather feedback from them, what is working
+> >   good, what is not? Are there feature wishes?
+>
 > Good topic, I also would like to hear about it.
-> 
-One improvement I’d like to highlight is related to how blktests are executed
-today. So far, we’ve been running blktests serially, but if it's possible to 
-run tests in parallel to improve test turnaround time and make large-scale or
-CI-based testing more efficient? For instance, adding parallel_safe Tags: Marking tests
-that don't modify global kernel state so they can be safely offloaded to parallel
-workers. Marking parallel_safe tags would allow the runner to distinguish:
-
-Safe Tests: Tests that only perform I/O on a specific, non-shared device or 
-check static kernel parameters.
-
-Unsafe Tests: Tests that reload kernel modules, modify global /sys or /proc entries,
-or require exclusive access to specific hardware addresses.
-
-Yes adding parallel execution support shall require framework/design changes. 
-
-> FYI, from the past LSFMM sessions and hallway talks, major feedbacks I had
+>
+> FYI, from the past LSFMM sessions and hallway talks, major feedbacks I ha=
+d
 > received are these two:
-> 
+>
 >  1. blktests CI infra looks missing (other than CKI by Redhat)
 >     -> Some activities are ongoing to start blktests CI service.
 >        I hope the status are shared at the session.
-> 
+>
 >  2. blktests are rather difficult to start using for some new users
 >     -> I think config example is demanded, so that new users can
 >        just copy it to start the first run, and understand the
 >        config options easily.
-> 
->> - Do we need some sort of configuration tool which allows to setup a
->>   config? I'd still have a TODO to provide a config example with all
->>   knobs which influence blktests, but I wonder if we should go a step
->>   further here, e.g. something like kdevops has?
-> 
+>
+> > - Do we need some sort of configuration tool which allows to setup a
+> >   config? I'd still have a TODO to provide a config example with all
+> >   knobs which influence blktests, but I wonder if we should go a step
+> >   further here, e.g. something like kdevops has?
+>
 > Do you mean the "make menuconfig" style? Most of the blktests users are
 > familiar with menuconfig, so that would be an idea. If users really want
 > it, we can think of it. IMO, blktests still do not have so many options,
 > then config.example would be simpler and more appropriate, probably.
-> 
->> - Which area do we lack tests? Should we just add an initial simple
->>   tests for the missing areas, so the basic infra is there and thus
->>   lowering the bar for adding new tests?
-> 
-> To identify the uncovered area, I think code coverage will be useful. A few
-> years ago, I measured it and shared in LSFMM, but that measurement was done for
-> each source tree directory. The coverage ratio by source file will be more
-> helpful to identify the missing area. I don't have time slot to measure it,
-> so if anyone can do it and share the result, it will be appreciated. Once we
-> know the missing areas, it sounds a good idea to add initial samples for each
+>
+> > - Which area do we lack tests? Should we just add an initial simple
+> >   tests for the missing areas, so the basic infra is there and thus
+> >   lowering the bar for adding new tests?
+>
+> To identify the uncovered area, I think code coverage will be useful. A f=
+ew
+> years ago, I measured it and shared in LSFMM, but that measurement was do=
+ne for
+> each source tree directory. The coverage ratio by source file will be mor=
+e
+> helpful to identify the missing area. I don't have time slot to measure i=
+t,
+> so if anyone can do it and share the result, it will be appreciated. Once=
+ we
+> know the missing areas, it sounds a good idea to add initial samples for =
+each
 > of the areas.
-> 
->> - The recent addition of kmemleak shows it's a great idea to enable more
->>   of the kernel test infrastructure when running the tests.
-> 
+>
+> > - The recent addition of kmemleak shows it's a great idea to enable mor=
+e
+> >   of the kernel test infrastructure when running the tests.
+>
 > Completely agreed.
-> 
->>   Are there more such things we could/should enable?
-> 
+>
+> >   Are there more such things we could/should enable?
+>
 > I'm also interested in this question :)
-> 
->> - I would like to hear from Shin'ichiro if he is happy how things
->>   are going? :)
-> 
-> More importantly, I would like to listen to voices from storage sub-system
+>
+> > - I would like to hear from Shin'ichiro if he is happy how things
+> >   are going? :)
+>
+> More importantly, I would like to listen to voices from storage sub-syste=
+m
 > developers to see if they are happy or not, especially the maintainers.
-> 
-> From my view, blktests keep on finding kernel bugs. I think it demonstrates the
-> value of this community effort, and I'm happy about it. Said that, I find what
-> blktests can improve more, of course. Here I share the list of improvement
-> opportunities from my view point (I already mentioned the first three items).
-> 
+>
+> From my view, blktests keep on finding kernel bugs. I think it demonstrat=
+es the
+> value of this community effort, and I'm happy about it. Said that, I find=
+ what
+> blktests can improve more, of course. Here I share the list of improvemen=
+t
+> opportunities from my view point (I already mentioned the first three ite=
+ms).
+
+A possible feature for blktest could be integration with something
+like virtme-ng.
+Running on VM can be versatile and fast. The run can be made parallel
+too, by spawning multiple VMs simultaneously.
+
+>
 >  1. We can have more CI infra to make the most of blktests
 >  2. We can add config examples to help new users
 >  3. We can measure code coverage to identify missing test areas
 >  4. Long standing failures make test result reports dirty
->     - I feel lockdep WARNs are tend to be left unfixed rather long period.
+>     - I feel lockdep WARNs are tend to be left unfixed rather long period=
+.
 >       How can we gather effort to fix them?
-
-I agree regarding lockdep; recently we did see quite a few lockdep splats.
-That said, I believe the number has dropped significantly and only a small
-set remains. From what I can tell, most of the outstanding lockdep issues
-are related to fs-reclaim paths recursing into the block layer while the
-queue is frozen. We should be able to resolve most of these soon, or at
-least before the conference. If anything is still outstanding after that,
-we can discuss it during the conference and work toward addressing it as
-quickly as possible.
-
->  5. We can refactor and clean up blktests framework for ease of maintainance
+>  5. We can refactor and clean up blktests framework for ease of maintaina=
+nce
 >       (e.g. trap handling)
->  6. Some users run blktests with built-in kernel modules, which makes a number
->     of test cases skipped. We can add more built-in kernel modules support to
+>  6. Some users run blktests with built-in kernel modules, which makes a n=
+umber
+>     of test cases skipped. We can add more built-in kernel modules suppor=
+t to
 >     expand test coverage for such use case.
-
-Thanks,
---Nilay
 
