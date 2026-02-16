@@ -4,111 +4,113 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D9A9E63F30
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 06:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6A3BEEF5860
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 09:38:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ziQmSVpqO3eS+LCV+2ac42zjhmOf5EtRKaeBx4pkGUg=; b=iq0Z8QkzffoyjIuzVaNDXUzcoh
-	UcVOmhT1P02Lx0O/r1XdcHuin8rQQDH9IO/6JpGrH2XRSOXhan+AGDavM7jEhD3FIBcGLr4KgG9M4
-	t8qq4G1Dr8bCogUjQJxPS7Bsg0aklsP+8jQaxr5KayHQbBNguzEvAIuQppoVYmcoLwBCZjd7ZiNJ0
-	HqgUf88whB+3zYh59KmIjBvWR+9d//bF7gNTOGntF++iDlAvZHCYJ5S1vwMyOe0ZIDR9gvM+sKPPU
-	atwaNJ5XFI+d7YlHQ0NoqVQOrK6siIVR2HckafW646mz6oGioI4Z27Hn8GqHzLj4iwDLQZfyM8ih3
-	aexdroVA==;
+	bh=4HrMsi96Cy/CaTxkBTb5YFPGwcrGeCvkrINOL9lL5oI=; b=3JpShmr9RVlE2/WhswD1Oe4nbV
+	OwkWO2h2eI7QPsH2n87DOlcYB4Hjt6DEWAEw8+41f23Dn4F70Ini4lENR81uu1CKBICCQoHqRHhIV
+	AQUV+CSMHmJPO5wi+NeqlKij0ybms0SyMLPGcNn4krw4l10FtMLFlRegRG9GvLTDkaBX/0nMXsls9
+	Aa1Lepm1RnG5KruPDIsGT7yaJ74hEcc3COzGnnPQuAUnxctAhuS5i104AgWRhFBe9sjXlR2I8vLEI
+	NzMN4EngFA2E/+RR+7fj0kLykpt6CygW7T+Ug3NdfQG0BBriKHIdfCc6g/Ty/JgnqR77PvtmdfJ7x
+	F3D/MADA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrsQj-000000063Fq-23SK;
-	Mon, 16 Feb 2026 06:50:01 +0000
+	id 1vrv3T-00000006HXj-2IA1;
+	Mon, 16 Feb 2026 09:38:11 +0000
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrsQh-000000063F8-24a1
+	id 1vrv3R-00000006HWv-0EBk
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Feb 2026 06:50:00 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61FNHZvb3694814;
-	Mon, 16 Feb 2026 06:49:48 GMT
+	Mon, 16 Feb 2026 09:38:10 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61G5tlvD1899745;
+	Mon, 16 Feb 2026 09:38:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ziQmSV
-	pqO3eS+LCV+2ac42zjhmOf5EtRKaeBx4pkGUg=; b=HiBiL22ADwQ5A1etOkj4XC
-	oCpicWsdnvwd5+EQ9JG7aEdANJE4JVGP/eir5cx2XILD4pS5WdTk+sMIhCyjPl5L
-	1hlZMRImJDhw8KqTrTKpIRvVT65AYXZmQRi292mn/PHz3c50MPNhf2U/dEUWwAeg
-	AnYl+5bDmfey3xiJeWzJmuzM9hLf78lFN2/p0DnKkJpDRth604htso6BnLRsroPa
-	UCiLuT2y4NTuMzAqYSHuhOCWu3nypH1sZuILIrhGdQ0AzNtkF70COWupNawxUkK6
-	cWVbnHEmNCN2rZ2+ZqJW82vkxK0+970WiEaDodsONkhf+gd22cxtaoPcxfx/BR0Q
+	:message-id:mime-version:references:subject:to; s=pp1; bh=4HrMsi
+	96Cy/CaTxkBTb5YFPGwcrGeCvkrINOL9lL5oI=; b=bhQteBupFtfXRzSU+E+ZZz
+	lQc8LL+aa3xccbiF8dGfeOPU4ChlHcxXC0rHSca0IOcXEK2Av1yKj7OGLN23TOln
+	2XeOVWT45A4R/yhsrr3ZjM8/PHuAqPE3u7AoXt4rEqzOcqD5/szrgrPR5NwQ2PI3
+	29LNJonJUNym2robOYEBSjZU8nXW8K7ZzMZI+Iy2roJ209FOyEU36hyB66KjwHwh
+	fsR6i4BLlVMX7Knwr0KBF4GEoIiAmDC/Q7NU6Tgq1njrhNdLxJL6GLM6SfUGUAF4
+	oR6WAkbzP6LXot8RxSU87BRC72bvrQ2vgfxJ8mAFj1+7qEZ3DzyJ/SaCRJUDZE8Q
 	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4caj4k633d-1
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4caj63xkvn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Feb 2026 06:49:48 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61G27sbS032487;
-	Mon, 16 Feb 2026 06:49:47 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cb4vjv9n5-1
+	Mon, 16 Feb 2026 09:38:07 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61G6KwFI012621;
+	Mon, 16 Feb 2026 09:38:06 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cb3crvy5f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Feb 2026 06:49:47 +0000
+	Mon, 16 Feb 2026 09:38:06 +0000
 Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61G6nk6d16450298
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61G9c5bY1639122
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Feb 2026 06:49:47 GMT
+	Mon, 16 Feb 2026 09:38:05 GMT
 Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B35FC5805A;
-	Mon, 16 Feb 2026 06:49:46 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 901A75805A;
+	Mon, 16 Feb 2026 09:38:05 +0000 (GMT)
 Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 15BB558054;
-	Mon, 16 Feb 2026 06:49:44 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 06D075805C;
+	Mon, 16 Feb 2026 09:38:03 +0000 (GMT)
 Received: from [9.109.198.164] (unknown [9.109.198.164])
 	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 16 Feb 2026 06:49:43 +0000 (GMT)
-Message-ID: <8e3bc0f7-d69e-4556-b8c2-14c2701abd42@linux.ibm.com>
-Date: Mon, 16 Feb 2026 12:19:42 +0530
+	Mon, 16 Feb 2026 09:38:02 +0000 (GMT)
+Message-ID: <1ea3f9bf-c271-46bf-9310-be489ded05fc@linux.ibm.com>
+Date: Mon, 16 Feb 2026 15:08:01 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Topology-Aware NVMe-TCP I/O Queue Scaling and
- Worker Efficiency
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        lsf-pc <lsf-pc@lists.linux-foundation.org>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-        Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>
-References: <5db8ce78-0dfa-4dcb-bf71-5fb9c8f463e5@linux.ibm.com>
- <055b2be5-96c8-4882-b7a0-93b1765f80b9@nvidia.com>
+Subject: Re: blktests failures with v6.19 kernel
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+References: <aY7ZBfMjVIhe_wh3@shinmob>
 Content-Language: en-US
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "nbd@other.debian.org" <nbd@other.debian.org>
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <055b2be5-96c8-4882-b7a0-93b1765f80b9@nvidia.com>
+In-Reply-To: <aY7ZBfMjVIhe_wh3@shinmob>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDA1NCBTYWx0ZWRfXxcvNhm/nQpnL
- Ve9xmeTrACnLoRTi3aWEzdSDb+w43juTbxqFmuBqXLwiypXfw4bKEsHsoZC8SDXYgiYyVNC/QCH
- 9eiaOqGbJsXqOrrkupRNXRQpTVPUxBdSvNQwGQug/Yxk/d9E+oGPFHEi6gh7gZi4Cc3YWRV1h/J
- ftShoOM3VT8VUJE3KllV/at+ez4zHUq0of/WZX6r9bldD1fygSBe/0uTCA/b5zfIQBbzXQet7dZ
- JvJlljTHneyng85OfPk9Sr+i6uMhXBGUqfu1VekqXdWwXfWWvtakRIveM7HeNRHYsSiOboOvmlw
- pjRv2jHaySX7l29ui36b5MyJbXa8gNE5zbPBJCtW+StEkxZh5TbCbYq0zQgS76Iqx5iPhDFvfjG
- 7s28ymGvBJtIuKhTxtDKpcvu5xJDv5aLnZbJDK1t6ajNBnBAikbEL1MW2wCSyhu0LKkFmvZa8P4
- E53va5nZpT4BgzJb9+Q==
-X-Proofpoint-ORIG-GUID: LHEMgtPlNIrGwjXzjf7-WiM7p2mElC02
-X-Proofpoint-GUID: LHEMgtPlNIrGwjXzjf7-WiM7p2mElC02
-X-Authority-Analysis: v=2.4 cv=M7hA6iws c=1 sm=1 tr=0 ts=6992be0c cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+X-Proofpoint-ORIG-GUID: 02YJqje8rZh6Zxh_b1ejtbuICIlU1eHN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDA3NiBTYWx0ZWRfX9dagytfdB2m7
+ bKVX8PF5kCI102GPsiD8smfB0skHb92xNYXGmf5V+TG42gMwGuumR+xBk7adniDnWObPhul965g
+ R1+Qr4rF3u0OQFUMgr5a54DoiTFhfeOpcaTPn1nC5yQqQ0EzAXn27BuRSIAb76S4DludVtomvzL
+ WwOpVzXbT73mJicNYEBB1wPox3vMiR/3g/TYkQXGOCZvJSBwixJBIENJmZifFmNS5B8Tdxoxn5j
+ SfaOmXdWs8+agR9m5jbHeV5BcmlkSMGog9ngEYTZbxQU+VprHkauo5N4FKmFVjBR48CtUB+xiMy
+ VTXbAB3/OjY27okuhCS5QjWSLHxV/kKNfHfch9EzUunp583SWtp8p+ZbSJEO1BLgohAwxdgAmOx
+ hL5LRql2FCIpm1l8i+k8VkAAxkUSJ/tJkRE9/A7kRa+4WS6pxrimrM1YJhKheyXF85KPT6hyyij
+ E57bNAz+jjthMEyVkLw==
+X-Proofpoint-GUID: 02YJqje8rZh6Zxh_b1ejtbuICIlU1eHN
+X-Authority-Analysis: v=2.4 cv=U+mfzOru c=1 sm=1 tr=0 ts=6992e57f cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=ow_K-2P-sz8p5fD3VioA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
+ a=JF9118EUAAAA:8 a=pGLkceISAAAA:8 a=rseCahVfaKpdl2NpX8UA:9 a=QEXdDO2ut3YA:10
+ a=xVlTc564ipvMDusKsbsT:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-16_02,2026-02-13_01,2025-10-01_01
+ definitions=2026-02-16_03,2026-02-16_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
- impostorscore=0 suspectscore=0 priorityscore=1501 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602160054
+ clxscore=1011 bulkscore=0 impostorscore=0 malwarescore=0 spamscore=0
+ adultscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602160076
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260215_224959_652819_0CC4C7A3 
-X-CRM114-Status: GOOD (  13.83  )
+X-CRM114-CacheID: sfid-20260216_013809_222293_3AF46BA9 
+X-CRM114-Status: GOOD (  17.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,52 +125,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Hi Chaitanya,
 
-
-On 2/16/26 6:05 AM, Chaitanya Kulkarni wrote:
-> On 2/15/26 09:06, Nilay Shroff wrote:
+On 2/13/26 1:27 PM, Shinichiro Kawasaki wrote:
+> Hi all,
 > 
->> The NVMe-TCP host driver currently provisions I/O queues primarily based on CPU
->> availability rather than the capabilities and topology of the underlying network
->> interface. On modern systems with many CPUs but fewer NIC hardware queues, this
->> can lead to multiple NVMe-TCP I/O queues contending for the same transmit/receive
->> queue, increasing lock contention, cacheline bouncing, and tail latency.
+> I ran the latest blktests (git hash: b5b699341102) with the v6.19 kernel. I
+> observed 6 failures listed below. Comparing with the previous report with the
+> v6.19-rc1 kernel [1], two failures were resolved (nvme/033 and srp) and three
+> failures are newly observed (nvme/061, zbd/009 and zbd/013). Recently, kmemleak
+> support was introduced to blktests. Two out of the three new failures were
+> detected by kmemleak. Your actions to fix the failures will be appreciated as
+> always.
+> 
+> [1] https://lore.kernel.org/linux-block/a078671f-10b3-47e7-acbb-4251c8744523@wdc.com/
 > 
 > 
-> Can you share any performance work that you have done prior to the
+> List of failures
+> ================
+> #1: nvme/005,063 (tcp transport)
+> #2: nvme/058 (fc transport)
+> #3: nvme/061 (rdma transport, siw driver)(new)(kmemleak)
+> #4: nbd/002
+> #5: zbd/009 (new)(kmemleak)
+> #6: zbd/013 (new)
 > 
-> LSF session ?
 > 
+> Failure description
+> ===================
+> 
+> #1: nvme/005,063 (tcp transport)
+> 
+>     The test case nvme/005 and 063 fail for tcp transport due to the lockdep
+>     WARN related to the three locks q->q_usage_counter, q->elevator_lock and
+>     set->srcu. Refer to the nvme/063 failure report for v6.16-rc1 kernel [2].
+> 
+>     [2] https://lore.kernel.org/linux-block/4fdm37so3o4xricdgfosgmohn63aa7wj3ua4e5vpihoamwg3ui@fq42f5q5t5ic/
 
-Yes — I’ve started prototyping the queue-scaling and CPU/IRQ-affinity changes and
-have some early performance results from a local setup. These are still preliminary
-and I’m continuing to expand testing, but the initial data looks promising enough
-to motivate the discussion.
+For the lockdep failure reported above for nvme/063, it seems we already had
+solution but it appears that it's not yet upstreamed, check this:
+https://lore.kernel.org/all/20251125061142.18094-1-ckulkarnilinux@gmail.com/
 
-Test setup (current prototype):
-- 32-CPU system
-- NIC exposing 2 TX/RX queues
-- fio (io_uring, direct=1, 32 jobs, iodepth=64)
-
-Throughput results:
-
-              Without patch    With patch
-Randread:     263 MB/s         986 MB/s
-Randwrite:    849 MB/s         1047 MB/s
-Randrw:       R: 142 MB/s      R: 419 MB/s
-              W: 142 MB/s      W: 419 MB/s
-
-The largest gains appear in read-heavy and mixed workloads where multiple NVMe-TCP
-queues were previously contending for a small number of NIC hardware queues. Aligning
-I/O queue count with NIC queue count and improving CPU/IRQ locality significantly
-reduced contention in this configuration.
-
-I’m continuing to refine the prototype and expand testing across different queue
-counts and NUMA layouts. My goal is to have more comprehensive data available ahead
-of the LSFMM+BPF session, and if feasible I plan to demonstrate the impact live using
-fio workloads.
-
-Happy to share updated numbers as the work progresses.
+Can you please update and resend the above patch per the last feedback? I think
+this should fix the lockdep reported under nvme/063.
 
 Thanks,
 --Nilay
