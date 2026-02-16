@@ -4,192 +4,121 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05519E81A25
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 14:36:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1777EE81A40
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 16:32:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Yevk4TuSPcABhljf4K84BgvYoIDP26cWJ2UJtSK7BOk=; b=qBnnErFcooU5eTRIQl/Eqjze6F
-	57wG0LKlYRKPxpLFqqdY8tOO54PFBeRBm+7/GbHuphqhfxksJVR7SzeYxMKuXxxYeFskvlMHTp6+a
-	XDadwGk893RmMTKwnwyd2EfnReLvuIlMz47GP8/t8dRsnHUplBQ8KPZLc7CuSNyrFALscLyewnR9I
-	Jcy2DI23QyVQ54AoXBkmV9kUJr9CZFRI24+w5xWnX25/D7p3tKsq9pNNIbIWJSjG1R2tXjFHU/eo1
-	p5eddAs0ft48NCvnVq69S5lF0Rld0v/DuAeuM7H5fVX0I+/GcxysP4PMedNgwYjYJM6AryCLbaQye
-	Z6IUTbtw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=5qZ+gncTo83Pa/tlAU8PPmKc8PzepOWLFBYa3C1pQmQ=; b=tg+0kCkN8d1Z4gyuBmAImBNZ3F
+	S3hjEAS7nBY3TEKJhKlKLPBgK+8X1yBa11iORFqZnBWu1XwEW/6SmFYO69PlSz5rkLNT3qG2RvRCH
+	vflcrcgWoN7zZQycwPPwdpa5KxtPbk1N9iI1EvcljFX1lsDH1E4D1tMKBaBeXSL4WalL98ocS1PHS
+	Spa767rll6PakCxkF8UhJSc8y+nFWKHiOV8zo/1R92DUrNdW9spS3kZQxo7yC/J710hDGzD7CCESx
+	tEWXxE8RHjdEOYwwwcpyUwRoORwi8sjdm+pHohhVw2WK5IZIeRlvpHz5LpCiANNwAHOGwIt6IGik2
+	i58jGzTQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrziH-00000006npQ-2afO;
-	Mon, 16 Feb 2026 14:36:37 +0000
-Received: from mail-westus2azon11010018.outbound.protection.outlook.com ([52.101.46.18] helo=CO1PR03CU002.outbound.protection.outlook.com)
+	id 1vs1W9-0000000727u-0m9H;
+	Mon, 16 Feb 2026 16:32:13 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrzha-00000006nnV-330l
+	id 1vs1W5-0000000727Z-16WV
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Feb 2026 14:36:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pC7Zpz+oatpH2n5H0lLjP5Q7tX27Pgk/3HcIflTjrvS3ab0X6ypNHCaESSrIkaFuJkgSx6w3ZyDjYKgWHwwX+nbCiBIryzBYdw7LAJXnuCVT8fm4Czqs0mFwrwD6TjXNSGsxlvKpDFsBphOlREeQY2Ggpf5SRQ5JiRAybJ1MONLJznCum7MtO/rnACU2TYdMqvZKuDw0PkVJWv4iQYjE0l22vuXYDMxCjisg+hMd2gNlFZd8NhNvcsIUS2ZL3TTAW1dmfRga/9Ny6KrvykHPfSnzXcfJB745fCsbkmVE0mwtNR98q8B3RVbPpoGcgIWip5IVfI3egAUxxTlyG6ctHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yevk4TuSPcABhljf4K84BgvYoIDP26cWJ2UJtSK7BOk=;
- b=TEZIAmBgTlIU9igABt0VTyqK0ZCD2QDXTz9qTnzuAxibOFcY4vzbZdkWOrAo4LL+3jsX6JFHyeI6FruOkNlEQ78bLfLZww8+4yWDtOZzKaGXlIrWQhKuzJq49NLx5aerJM+JlQixb9loJU5oSJA+aFbpqd/3Fz+PIAwG8FPfrxKIBZBLpSIlXMABxDDjnAxP2K24wAI7Jylo6wa59cwWGg+amQOp1QBAZuBOL0p6RkGd5X906x7ej9a/LzeIWXsNVQ/kalN5URoyM1R4Z0ZE17OK0GOOfnXmZIe6y5TfNtXGoGhkSnsnSbCP+Sskgs2sEbmcf+kt2XjdhK5Jyj08Tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yevk4TuSPcABhljf4K84BgvYoIDP26cWJ2UJtSK7BOk=;
- b=elyX5opuM66ByLd3gWZhc9Ah/kWMB7heoTMRLLiMf9kpHMuIWvqrxBbr1i0EXiHvKLDK+Se5ifRgIBIgUxn0/Bes6yXzl9J33+VVh1/569DUvtCfhvCsEivF5hRlipASNV/AoYAquiUtj+OfaT3Xqu7hVghsvNMezeayYEttl36isyERXN3bmT/SwO3qwCzUHMET/RvUCe41lDFZkkyck/VG64m0zmgW8UDPErWuaYXiWF/7LfJWuA3Aivc+rDWr0f4xClSa1FX6nFLonH/HFP6H9HsJDWWrzOCcqNxSOIRnKVyWvgMPk+kWk62zpXtlC+lIqd1YgmL8F0p4h46azQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
- by IA0PR12MB8280.namprd12.prod.outlook.com (2603:10b6:208:3df::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Mon, 16 Feb
- 2026 14:35:46 +0000
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391%5]) with mapi id 15.20.9611.013; Mon, 16 Feb 2026
- 14:35:46 +0000
-Message-ID: <7157c68e-97f3-43b0-bfb5-e271a8f2a4b8@nvidia.com>
-Date: Mon, 16 Feb 2026 14:35:40 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: krishna.chundru@oss.qualcomm.com, Bjorn Helgaas <helgaas@kernel.org>,
- manivannan.sadhasivam@oss.qualcomm.com, Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- "David E. Box" <david.e.box@linux.intel.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Chia-Lin Kao <acelan.kao@canonical.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <7306256a-b380-489b-8248-b774e6d3d80e@nvidia.com>
- <20260122152903.GA1247682@bhelgaas>
- <5z7c25nkb35prvax6vq6ud7eaeuhzsswbf7fqvmlgys3xftgwb@odocboejrdrv>
- <e44c330b-778b-4fa1-b678-fa909cc05b03@nvidia.com>
- <bf37b6a5-268d-4c07-a536-a826b3d5953b@nvidia.com>
- <unc5zefwndgcv7wufaezz3gkg3qtaymkjlmymhyqdqwzn3wybl@ow2rhbyt772h>
- <f9ac8c8f-8959-416b-ba90-14f0886c5bc0@nvidia.com>
- <a5m4pqtiaxsq5lmq64roro633ganbeq7mypa5ojuuqy4npkvok@wcogdbzaq6xe>
-From: Jon Hunter <jonathanh@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <a5m4pqtiaxsq5lmq64roro633ganbeq7mypa5ojuuqy4npkvok@wcogdbzaq6xe>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LNXP123CA0020.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:d2::32) To DS2PR12MB9750.namprd12.prod.outlook.com
- (2603:10b6:8:2b0::12)
+	Mon, 16 Feb 2026 16:32:10 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 15C5A5BEAF;
+	Mon, 16 Feb 2026 16:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771259527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5qZ+gncTo83Pa/tlAU8PPmKc8PzepOWLFBYa3C1pQmQ=;
+	b=fViQDg7Qdz9huI0oulDTwoA0x6hHSJFIoyRdmeiLDYIBaik91tSR7FXJ9EpGuv3onDYThw
+	br04eWdvnosi/gJ/6B0LujgPZXC45O6nwhiK0tsK8wRVvMNi2OFM9a7QNEPrz5R+Pm8+Sy
+	F3bJF5SwDcXSfy2nFjXtdBWeKtv8CIM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771259527;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5qZ+gncTo83Pa/tlAU8PPmKc8PzepOWLFBYa3C1pQmQ=;
+	b=vYB6yA03PcbPIEDTwNCvsQH8ZZ8hFwkOhCBzN1sXpi8CQnnGCnVTMq8BHDY2/2ucwcGaSo
+	KE5ytuzaPc4gPeAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771259527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5qZ+gncTo83Pa/tlAU8PPmKc8PzepOWLFBYa3C1pQmQ=;
+	b=fViQDg7Qdz9huI0oulDTwoA0x6hHSJFIoyRdmeiLDYIBaik91tSR7FXJ9EpGuv3onDYThw
+	br04eWdvnosi/gJ/6B0LujgPZXC45O6nwhiK0tsK8wRVvMNi2OFM9a7QNEPrz5R+Pm8+Sy
+	F3bJF5SwDcXSfy2nFjXtdBWeKtv8CIM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771259527;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5qZ+gncTo83Pa/tlAU8PPmKc8PzepOWLFBYa3C1pQmQ=;
+	b=vYB6yA03PcbPIEDTwNCvsQH8ZZ8hFwkOhCBzN1sXpi8CQnnGCnVTMq8BHDY2/2ucwcGaSo
+	KE5ytuzaPc4gPeAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C83E93EA62;
+	Mon, 16 Feb 2026 16:32:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Km20IYZGk2kxKwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 16 Feb 2026 16:32:06 +0000
+Message-ID: <a5a0aa42-33e4-401f-ad94-8104cff9368c@suse.de>
+Date: Mon, 16 Feb 2026 17:32:04 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|IA0PR12MB8280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d8c6e4d-c32e-4200-f3f5-08de6d68abf9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|10070799003;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MnZQOXRoRUp3V1VSRTNDWWZLNHdIRGUvR1pPTGZES2xaSTVFYmNDYkM1UXdS?=
- =?utf-8?B?YnFSVG5XTjBxU2FJZ2tsc2Z1YUxZRHVFVm9mTWdhNTZQVlozcHZJZkxUREF1?=
- =?utf-8?B?aVZ0b3BIc2pCT0lxdTY0eGdqb0dTNmZpUzZHbXhCcWdIZnZqdW5BK3VFNWgx?=
- =?utf-8?B?NXFBdSttdUdJSnVWenJLcGx4bVozUWJUR2Zuc2ZZSStXQW1mRlNuRjN2RURM?=
- =?utf-8?B?NDhCaGtITlNJTDhGd0N3c1R0S2NiMXlmRTIzNmRRYzhBeVhUVkZXdkVIeE1p?=
- =?utf-8?B?alAxVUVPaWRaL0ZQZU55bjhYeE8vSzYxWmZGaGxtTEUvVjNYRzllaWMzdTVF?=
- =?utf-8?B?L3dPYmdzTW5ndm5LVmxsaHVEeExKdzBMUEtiQXFEc01hdXVMNlAxNnJUYzdn?=
- =?utf-8?B?N2dKS2dPOUNXTzJqNVp4YnZUdi9BTVdpYWFFOExwWFlTT2pBK3puRTVGNHhC?=
- =?utf-8?B?T015MnBTa0NPdE5INU1VaStGcnNmTWRubyt4dzUzeHcvWU9VaFQ0amJBSHdp?=
- =?utf-8?B?dk1tbnpsVG01THJVMDZZdmdsL1lRU3FDbHRLeWpoWmFqUDN5WE5HanRxd1k0?=
- =?utf-8?B?UTJDTU9iT01PR1paUU9KVXFDRDc4MVdPSEFvMDNmc0dCQ0ZFSXBULzJTQ1Fu?=
- =?utf-8?B?NCtxVHBNOWFveFVXeEord1Nmeno4R3JJSEJiTmRKTE9jSTNLamY0ZUxEdkVW?=
- =?utf-8?B?RHh6Q2ZHbzlkb1JwaXZKNlQ1YWNhK3dPak1TdGpwcDIrY0htOGkyWG5yaGpL?=
- =?utf-8?B?SUNHUXFkR0J6M3lUQmUxTmpXV08yRFJFTXRDS1VaRWdmdGRSdmhhYUczZi94?=
- =?utf-8?B?WWNxZEVBSjBMTnRFUFFKWXR0dWl4OWZ4b2Z2Q3dPanFkS2RsZU1Uem1uWXJ4?=
- =?utf-8?B?N2dsMEgzS2lndE9FK3BzV1o5VFZmWEovN2c4Q1Mrb2JtNFNpemQvMnhSZ1Bv?=
- =?utf-8?B?Yjl1cjdMQWZGLzZJQzlXbklHbjF2RzJuTXdGemVVUU1OM0tycHpKZldkRGNP?=
- =?utf-8?B?aHF6ell5bWdGZ3RDQkRJRGwrdW4zUFQrcGpzVHZPT1pTRDVISWFJVEZzRHpO?=
- =?utf-8?B?d0pEdTMrOHlNbDJUZFFRaHZmRTJidnJIeXE2dkdJUjdCWEllQ2pPZHV3M2xZ?=
- =?utf-8?B?TzV2R2thajk3TGdwUGcwRWRpdXdmRHl1akw1WUw3ZmZPK0dmRGErOEpxdVFr?=
- =?utf-8?B?U2xLS1QybjdNLzZRNXZkV2RERVI4OGh5Q1kyaS9vdzJxRHk3UkJhWERlTU05?=
- =?utf-8?B?WGpjaWVmbDlNYm1HN2pBemw4Vy9hb1hRVEtuSmZObjhtODV0L3R6ako3djJX?=
- =?utf-8?B?cnY5VFJsaUVKb1dpc0FFNW5ucFdMR05MZEpTUmgzZW9MY2ovL2gzbzB5SElV?=
- =?utf-8?B?VXFDVHRxZ1FYUFRhTE4rbGhYMGFYTlFWTm1uYnFwaTg4aEsvWm5MOGpzTWhC?=
- =?utf-8?B?bGlla3lqZ01WRWYxNTFVL0Zsb1JZRVFpcDJFbnNJTitzRkRNNTB2SmVJcjNN?=
- =?utf-8?B?ajdTY0xJcEx5Mk5TazJ5aFNTMU5ZSzR0WG9nZURaY0NOcHk5bDA1c3kvV1gw?=
- =?utf-8?B?QlFLc25QU0plSlV3ZCtBMkJRYXhwZEswai96aUN3ZnVxOEpNVmVtNE8yK01N?=
- =?utf-8?B?RUNnR25CRUZMRFFaMm51eEZsY2VoUnBYM0VLempwWmRlUlliTk5ySi8zdmVY?=
- =?utf-8?B?Vm9uekp5SlY4UjIrcytZTWhEZllOS2syVUd3TiswZ3dTSCtpbXNBRmorMCtl?=
- =?utf-8?B?Z0xub3hGS3U1VW1MU2VDUTAvWTJFaHY1aHNEQUlDdmZWTXA1bUw0eS93cVRt?=
- =?utf-8?B?NlBobEV1RzVwZDBGdW5mYkFsTHg2TjMzL1lJZ1IzMHE0V2IxQnNCWXZSYVRX?=
- =?utf-8?B?OTdxRjJJWXRSTEdNNElYaUlhU0V4eEVnYU5FZU1xWXBaZ3NJZkw3UHVNMUJy?=
- =?utf-8?B?eGFHS08yazVNd0N5OHQ5cWFhSTFwbWZvZktLTytFUjNOMmFnVFdGUU8xVFhV?=
- =?utf-8?B?U2k5M3FUZU02Q01ER2pPeDhEYU5aby9XSEJja0dsOHNhck5BMzg1MUhvMVpB?=
- =?utf-8?B?TTh3ZVNkQlFHR1hnampMYTY5cVF4UnRnTHorSlIwallhdnc0NTBZZ2huZ2lC?=
- =?utf-8?Q?6aeE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1V0UHhDWFp2N2I0SzdySGt6Wll0d3gvTXVMV0VtRDZuMGkvRW5rMGxXN0lY?=
- =?utf-8?B?T0ZyV0JPTkhlVzBETS82MjIyT0RUVEZkL3dqYmtESGNrU0RsNW8rem4vT1ls?=
- =?utf-8?B?VUcyRWl0cXVvZ2RFcjBkODh6NlZ1akF6ejZTYXJwQnRQWk55Q1dUUVhLWjQ4?=
- =?utf-8?B?MkhMd000c0Q2RWJSOFdjZ01xUzU1OGFZT3pRUEd6ajhBTElSMHJTRUNFZlFJ?=
- =?utf-8?B?QjVaNTMwWDRPMGJVbWMwenFhUFJ2Ulo1TWMvRFJuU3ZkcGR2c2pWdEpFV3Bo?=
- =?utf-8?B?aGo1UExwNko0T2RnUmppeVUrY0wxY0pkRWU1UjJsSXJSckNOZU5tTDR3NXFR?=
- =?utf-8?B?ZkZucEl5Rk1sUW1LMVB1NE1JVS9kd2F0SUl2UVdVUzcvdnVlb095NWtQWnpr?=
- =?utf-8?B?V0RsclI5eWZyc2d1QWJtSUtVWkcwZlpqSWIrMEdHZDdJelJON2VKei8rUkNN?=
- =?utf-8?B?KzhqT0NEa0JmbEozS0RXRzZOdGRqSVVRSmkzY3lISEk1N2xFZk9BWnB0MDN5?=
- =?utf-8?B?SU02OGxsVGh0N0JtdWNjdGZ0c2hKTXRTa1pXK0FPMENBZmxEN3RvWjVXMWVP?=
- =?utf-8?B?RytWRGJ6RXRzTk1ZVU1hYVIxS3pYVjdhNFFybWhkZnZwWm5XMEtpVyt0Sk53?=
- =?utf-8?B?ZUlGaW5lcmR3K3BHd3hPSUdwZE4ra1J0YUJaNHVOUVVoVmNQVHlZM1NDOGkw?=
- =?utf-8?B?aVVVSXJhdThyMlNiMUo1VFFEaUd4eHl5UGh5TmZwa05tRlZrTDVvU3VsUncz?=
- =?utf-8?B?ZUNXMlN3NnZjWEwxV1lkMS9BMERUSVRZWmsrNlRwRVlTNHZCRFU1Wjk2Y1Qz?=
- =?utf-8?B?Q3pBQzFGNStqR3RUUVBIcXB2YjZUa2gxUFB5ZXMrNnVsU0toMytBeUVVWXBC?=
- =?utf-8?B?TWpxZk5ERStESVErazY1MXdJOW56ZjhkTFAyOUU3SmdISUdyYkdxc0ZBaXNp?=
- =?utf-8?B?cHFvMDBGZC96SmpNYTJRSDdDcE5wK2pMOEU5ZHZVZmt1d1NIL0FoNjFXMXhi?=
- =?utf-8?B?bzdadHlxY1JTZU9zcmF1Z3IybzhzUFdJd0M0RDJJUWVJQkI3emNxSFZIZUtz?=
- =?utf-8?B?MEt0RHlVUjRtNGdvMzBjRGZMR2pjTU5YaFNDYW15cElZRFdrempKamo1R2Zu?=
- =?utf-8?B?WWFjMEpDeElFdzZvZ05TLzcwVklGZGx5S0VtK1VmNk82dGtZNGlnTC9nSGxL?=
- =?utf-8?B?TlVkclo4WlVBbzBoNjJNMGd2dmVHTFJOaUdJTHpZNDRTdVBJd1d4SDVXblNW?=
- =?utf-8?B?KzE1T2NPbjB6VzFIOFJjUWJWVy8wZlJMWU9qVDAyNUN0NDFvTFQzdnhOem90?=
- =?utf-8?B?YlNxNE5ZQ2VobFNYZTVFMjN3VGZxcXZzcHpOdzZRM29DcXJoOHcyNE05dVdI?=
- =?utf-8?B?NDZ5L2p5blI2RHlreE9peExRRW5GZkZ3QzBJV0ZDZVFFbWVIQW8rQlUwWkZp?=
- =?utf-8?B?bm03WGZRb0UzNzVXeExZOU5Tc2JpTXlZZERIbVlwYkp1cERvUmFQR2tXczBV?=
- =?utf-8?B?a21kdll3MVVGQyt0L25zYzJZaHJ2eUhFdTRaNkg4aXBNRWVFbUQybzhjM1ZT?=
- =?utf-8?B?UldsSloyU3lPbGdvMlhScHZSUDQ0ZGs4ekRDbDVNL1k5SFhvL2RvRndtY1Fo?=
- =?utf-8?B?ZFNJWWdaMjJ6eUNjbVc5R1BFcmFlOXdFKzVMNmtwWDhDalFBa1kvRGVoVmFN?=
- =?utf-8?B?aHZJYjB3RDJzSWdHZDdML0pOd01QSm5SYVpXdjNKRjJYK0FXVjN4UEZNVmFI?=
- =?utf-8?B?dURaRk8rVkd6bUM0eXBoVGVNZnhXVnpPdUJtbGs5K090ZER6alJJMnBPRjFF?=
- =?utf-8?B?ZTgzc1NFTlZsaXRVY3RRbE13ZVRwV3NDTVhySzFWendyZFRjUlBSaUFTbEFK?=
- =?utf-8?B?RkxYSFBDVEhadm8vajk0eXRXOHNxZ2RreXlCOWYwMUh0anNsc3JBalJVbGNE?=
- =?utf-8?B?OUgrQnM1MzIyWW5GN2xOVHpjTjRSNjh0MXBxL0toR0FlTldZN1hJdndHNy9x?=
- =?utf-8?B?SFNPaHU3Q3VFYXdJaUVDcUFydTRyZnVpS3Y1N01LTWN6OFFHTEJodEI5dnBS?=
- =?utf-8?B?MUZ6ZitiaXFiSjdiTVorY2tGV1ViNXVPTHFhejdrR3ZHa2gxb0xQQUlEZGlT?=
- =?utf-8?B?M2tnYzBKcVlWNHYyV0pwVVU1SXZEQThHbU5Ialp1S1JpQUVwK3RYNjZOcHBq?=
- =?utf-8?B?eGZsNTZMcjFsYWtoV1orSVhTUzgvbzBaMTZFL1c0blZwT2RUc0VSRWdua255?=
- =?utf-8?B?U3FWcm11elY1KzB5UndDTHNUZExORzU2eEJEMU9ZWXRLOUI2UUJrYzBadG5H?=
- =?utf-8?B?MjhEY3FkZmhNaGNvU0NlVGJjamtCWm9BUmlxN1Zlclk4bzFRUmRKUVVvdyt0?=
- =?utf-8?Q?CAxeTQFeVoldMdF6q2b+UJ+FsnNPx1ID9bwAUBp3KYC2A?=
-X-MS-Exchange-AntiSpam-MessageData-1: QGCmzUIMhbKgCw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d8c6e4d-c32e-4200-f3f5-08de6d68abf9
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 14:35:46.5031
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RLMbrXVKWnZpW2KJ7cWdCz1MfQuZHW413Pf5uWId7fgxJfFDZn3L1FQ3GHNB+ZptrTxV7ffkac5fXckspKWZsQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8280
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF TOPIC] Native SCSI multipath support
+To: John Garry <john.g.garry@oracle.com>, lsf-pc@lists.linux-foundation.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org
+References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
+ <b598c5c9-6732-4661-85b2-7ab10a0830d4@suse.de>
+ <dbf5fbdd-8894-40b7-b574-0c6385995ec2@oracle.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <dbf5fbdd-8894-40b7-b574-0c6385995ec2@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260216_063615_201439_F8E1350D 
-X-CRM114-Status: GOOD (  17.04  )
+X-CRM114-CacheID: sfid-20260216_083209_452601_E90B7FE1 
+X-CRM114-Status: GOOD (  21.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -204,47 +133,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On 16/02/2026 14:18, Manivannan Sadhasivam wrote:
-> On Mon, Feb 16, 2026 at 02:03:41PM +0000, Jon Hunter wrote:
->> Hi Mani, Krishna,
->>
->> On 23/01/2026 13:56, Manivannan Sadhasivam wrote:
->>
->> ...
->>
->>> So to properly fix it, we need the controller drivers to perform below checks
->>> for all devices under the Root bus(ses) before initiating D3Cold:
+On 2/14/26 10:42, John Garry wrote:
+> On 13/02/2026 17:21, Hannes Reinecke wrote:
+>>> At ALPSS 25 I presented a proposal for Native SCSI multipath support. 
+>>> Let's discuss this topic at LSFMM.
 >>>
->>> 1. Check if the device state is D3Hot. If it is not D3Hot, then the device is
->>> expected to stay in the current D-state by the client driver, so D3Cold should
->>> not be initiated.
+>>> The idea for this is that SCSI could natively support multipath, like 
+>>> how NVMe host driver does today. It is intended as an alternative to 
+>>> dm- multipath support.
 >>>
->>> 2. Check if the device is wakeup capable. If it is, then check if it can support
->>> wakeup from D3Cold (with WAKE#).
+>>> I have been working on the implementation and I plan to post patches 
+>>> in the next cycle. I am looking at a 3-stage approach:
+>>> a. create a driver-agnostic multipath library, very heavily based on 
+>>> NVMe host multipath support.
+>>> The library would support features such as path management, path 
+>>> selection/iopolicy, failover recovery, PR, delayed removal, gendisk 
+>>> management etc.
+>>> b. switch NVMe over to use this library
+>>> c. add native SCSI multipath support based on this common library
 >>>
->>> Only if both conditions are satisfied for all the devices under the Root busses,
->>> then the host controller driver should initiate D3Cold sequence.
->>>
->>> Krishna is going to post a patch that performs the above checks for
->>> pcie-designware-host driver. But since the above checks are platform agnostic,
->>> we should introduce a helper and resuse it across other controllers as well.
+>> Go for it, John!
 >>
->>
->> Do you have a rough idea of when you will be posting patches for this?
->>
+>> I'd be very interested in that.
 > 
-> Krishna posted the series a couple of weeks before but forgot to CC you:
-> https://lore.kernel.org/linux-pci/20260128-d3cold-v1-0-dd8f3f0ce824@oss.qualcomm.com/
+> cheers, in the meantime, I have some comments:
 > 
-> You are expected to use the helper pci_host_common_can_enter_d3cold() in the
-> suspend path.
+> - I need to test PRs for both NVMe and SCSI, any advice on that would be 
+> good. I don't think that blktests covers it. I did see Christoph mention 
+> a testsuite at: https://lore.kernel.org/linux-nvme/1438672271-11309-1- 
+> git-send-email-hch@lst.de/ - I can check that.
+> 
+Well, you might have seen the discussion on the device-mapper list, 
+where stefanha is implementing generic PRs for dm-multipathing.
+Or rather, trying to. We might need to revisit that and see what we
+could be doing on the SCSI side.
+Maybe we should be having a session about PRs at LSF?
 
-Thanks! I will take a look.
+> - I am still not sure on whether we require a multipath version of sg. 
+> We can still have per-path sg. NVMe does have a multipath nvme-generic 
+> dev, but that just handles IOCTLs/uring cmd, and nothing like sg read/ 
+> write fops
+> 
+'sg' is primarily for testing 'raw' SCSI commands. (And dastardly 
+complex to boot). I really would keep it in it's current form, and not
+try to mimick something with SCSI multipathing.
 
-Jon
+> - I have not tried to detangle ALUA support from SCSI DH, so no ALUA 
+> support yet
+> 
+Ouch. But that is the key point of the implementation; ALUA provides
+_all_ the information required for multipathing, so how can you _not_
+have support for it?
 
+Cheers,
+
+Hannes
 -- 
-nvpublic
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
