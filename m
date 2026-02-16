@@ -4,105 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34FB3E63F36
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 17:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69556E83820
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 18:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ox2zOip8ex/pPOz0MZ66YdomhlQUxEYWyv12vdPkcRw=; b=uwqAayz0Uk/3b7lKqjFFgf+JWS
-	LVEjaP9TXhB1nap9yg+iUhepwI7b6OC/EokB+hMXZ2MMfMPM4TgEadP+Aw17WgOkq9uthakSiq+GA
-	kASkGnftjZfdNfykudcwBxqSZzyMOLLmi51na6uqbVopvzgzuAZMUKLbce63+LksLdNU5imEa3Zow
-	voD6fuBNoOGNwVjvfIS3DFlOnp8eFrX50zfujrhzi1RIbgmD43DRaS33SXuswy/xFqUfQcuyewavB
-	hrJvSy4z+DSm6djixFSANdsx+HqERCYae6v57JxLDOsKu427tlVAxkCasaUQG7YPpGNeXmCWvhvdP
-	AD/Sc60Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OG0qAA5xbW3Ibn5X08VvAyN8MqMrXIePKScxqFmmU8A=; b=tKh6wmQN97dPDr6hLsDXd79acA
+	oSO/pGBhdnldw6CbPGDwSzNlQAV+jk2Y0QZYcgnqf4n44vMoAapZCJRhDNPjSBg4ZC4BtOPhacVLY
+	GmsKmXBfeoJMDNr8CK7UuPUZEO7bYjS9YwVkxOCkhLO6x7fDUFfnhvXPBtMlzgawUImpIWCm8kLwe
+	9VlTKdauXAqSghZCL2lz7sPWPnqWgwOFKAS2nUgirqda2yUq7FumvxgOq9O8zY93qvNtDQPzaA+DQ
+	tg75dpHT7NppF1OeVJ+sP2GRq0IHLShFw1XjmVP/S6uaTGpKeyfqiquvt9IZcjnHs9QQ5D92PCuQH
+	W38T4kXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vs2GL-000000075Va-2IQo;
-	Mon, 16 Feb 2026 17:19:57 +0000
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341])
+	id 1vs3b3-00000007AI5-33z7;
+	Mon, 16 Feb 2026 18:45:25 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vs2GF-000000075UR-3FcP
+	id 1vs3az-00000007AHX-3i0h
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Feb 2026 17:19:53 +0000
-Received: by mail-wm1-x341.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso6318075e9.3
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Feb 2026 09:19:50 -0800 (PST)
+	Mon, 16 Feb 2026 18:45:23 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-823081bb15fso1925294b3a.3
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Feb 2026 10:45:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1771262389; x=1771867189; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+        d=purestorage.com; s=google2022; t=1771267518; x=1771872318; darn=lists.infradead.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Ox2zOip8ex/pPOz0MZ66YdomhlQUxEYWyv12vdPkcRw=;
-        b=kK4qxWQbuhprlABbkhQ7G1o+7Th4kaj0ydR3mS1Jms3dVANvs9v1KjFpJ8JYBCtZZx
-         hiIQjZiSi2L+wfUuM62w/jFF18ZrN0P1MwEfHK/7T+OwPbE+FKI+xPBJznppyABDHtHO
-         urGvzrITWAmxFafGYk7UCPMT5oR3p2baD/CulJbKxuUo0QJx342C8tzTdBZB5aw++VoV
-         KRhtwyjj4/9ppwK/MxFg3sSeNraTDNWPtUKQgiFtN4wpZn1LQj9q4ABobLgeoBAKjGKP
-         AMqhPDxduO4H1MvXuzNh69iNmxELOGtCDqPUNqHhx75Ne0JR0MgTJaJUXu4/GK82dpXQ
-         zYWA==
+        bh=OG0qAA5xbW3Ibn5X08VvAyN8MqMrXIePKScxqFmmU8A=;
+        b=JHr/a6rWfLT2z1WlyR9JMe5aJnJbxgbSfxarElKw59v/VK8W1b/pECDtiJYTbCy0sQ
+         rNnqgb/uZnYKfyBN2Idnz/U9Za6EpjI04LgKGglmperhcP9mGBrkOWR3Trsf8HvJK8CM
+         8lCKe8/hD6WXUo5CPflJVKRvCJ1AEKd/j/kvnDNDxtSUifzKwfWZiufFWUibJsjBadt4
+         SMDgd0x8t6seTOmizChCUe/KCcaZdGSPvMM+H+poGq17Eaxfi8pau4mxqrRtgiHmDSR8
+         xZwZFH3gRmDbdY/ttj6FAfB/pQgj0iydlo1pIAOBkCieCIbbLYqw/paFPwVMM40Bv26X
+         BnkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771262389; x=1771867189;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+        d=1e100.net; s=20230601; t=1771267518; x=1771872318;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ox2zOip8ex/pPOz0MZ66YdomhlQUxEYWyv12vdPkcRw=;
-        b=iqOFZfhDoHBDnoNEl4wLeQCASgS0Yzar1U1u6C9lyOdM+wzEzvRx+wI+ces1Yqs6YL
-         w4OcJkdSodqt/BWwP943uqJkJz5RI1QOgUq/GBnektgxq5weQmuNaPXnjpscRiUoRHRM
-         vUGy3WeMA7ZnDFxUxb2pPhfuqaavJ89O3oIsuaXXEKl7ChaJPEoJHDXCevF+mVERGHC5
-         3SD3OSyTfWcdMOiXKBhqIkqWE7wQJkSuQ6c/5ZY/c69+TmmFlZNRY8eoLo1BvsI2fR7g
-         lOvz6SPfaU196KRXkmeVhlHDkHwxrAjJ9FCZsFv0WARRbhdAhHtrMofTrLj/YXQxHz/+
-         5gIg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsF1t/D/RBhwQEXY7sxbqrrGczet4pKeEfvEDCsDhMhwwSwxf2lzufrXv5JmTTwd9a02UEbLptsb7Q@lists.infradead.org
-X-Gm-Message-State: AOJu0YyX4N6Fukas7te8znK3k/tn8sbgvEJ2xGv6Gj7QvELmu5+Efq2Z
-	43pem2Wchp4SxPDrz1Y0MgJqLczPhqtwJX35LAYiyhpjPfbRwuLt6DCeCkDqoI6XQ1c=
-X-Gm-Gg: AZuq6aLCNWRtgezSprQ9Xke0/6RagWYrfFDLPmCZwFXOgq3DJ83Osm8TqbW5iE01rVe
-	dEsleByycMzbjpNiLwU+vP628k6bA25SrWWERNpkmRqwr6HAun6RvaQmyAK1oPRNrp01xV5rUz/
-	+Hlt2qsCjdbh0mtkIjsZS6m2xFYCte35jEc+HWK4l4r8c8w029oZEtIv0yeqq8BvF7WeI9ul/lA
-	rJ0vh/Q9c8JrgKp2rLZvzcOKBwR7jJfk6sIn5fFMz0pWcSkyp1UwZ3LGWt5sXJ6ZeKHgxQLk2ap
-	IIXOqfV3YWw+jO0N8hD3t0GOHTKwV1DgZUhySrMUpTJJYv9/Wy6C923acfvAki7zZFMn606sbM2
-	lXkcnqzSUb1uoJnHc/T0sVrWQO0Xm1Z3p9mmDhV8PkOjpCFXd0uYkXEn/VAgwbXbUWg7YlmYb1e
-	vRXxmr4LZB0AiNO3EkAcmAIcg9tX3LYh0H3nP4gAXsEA==
-X-Received: by 2002:a05:600c:1547:b0:477:afc5:fb02 with SMTP id 5b1f17b1804b1-483710858c8mr218566385e9.21.1771262389276;
-        Mon, 16 Feb 2026 09:19:49 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.215])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d5ebd34sm502143425e9.7.2026.02.16.09.19.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Feb 2026 09:19:48 -0800 (PST)
-Message-ID: <ccf3bfd6-c060-4b88-bf4d-37425aea4cfa@tuxon.dev>
-Date: Mon, 16 Feb 2026 19:19:46 +0200
+        bh=OG0qAA5xbW3Ibn5X08VvAyN8MqMrXIePKScxqFmmU8A=;
+        b=qfFpgfzCBnO0BDXurhl+52JHPjQOJRM+i5EgITb70z+kdkquqJLacLMLleJpP9sEkm
+         FVfjtVAgfauLge5V9nry4z4O6Lox+OBDlE2rBbEkv600jWntEqOmkCB75vK02xzbrCxi
+         5oFKCXUlI4aWkd92Z0IG+dhfFBh+Rv5N/d0uwBPgsfnwjD/qeAoFnUZIrl/wqqII033P
+         MmaM+ma1Opf+qUFPdRWbkmzaNBwnNFjF0kmPOpT46fLYZszs0G6I9uVwv9LwvFqp8Sok
+         r3nkHiIGG4/ExbCjdx6c6aQ/r1u17Nq23kkeX8v/1GtVznCHsSCqL8i06MUwTfiAHDG9
+         dQCw==
+X-Forwarded-Encrypted: i=1; AJvYcCVsk1G6Zlt1mkGX7A0Vyh6gxHRpKNaOmRzbJPjdWXl1ueBXKza92tgqd9dzv9X71HhHQOzt/mJX6FE/@lists.infradead.org
+X-Gm-Message-State: AOJu0YygAxVFuSZviExFvWlfGl5HpCfqGFu6C7WIkY83Oodq4zSWNxWw
+	6kUFlT2d5978SFKS+VbqeRazYDNiI0i7MoY9iZ/i8K/6dHdsecIlZOOzW+wVUfAi6oM=
+X-Gm-Gg: AZuq6aL0ngOcAVX58IGCbo9LTwFFRD2z5rPAiy4vBkgUNcrce94H5leqWH/SXYUQnIT
+	hPRx6Z2aFe2PjUtZj+cPUWGN5XTq/IAgkEiCx+75/JKjwJZ6SLezwOQbV9r/32SQhmxXHvc+1Xu
+	FUgZCZxFRNRQkR5IxefFuqf3ycsml68RoxpiIxVp4D3/Op5/OnZsBYMPzUHwkDC98wcvFw3AHEv
+	X1iLc/Q2Ezl+H41eyhZctgb+SnVCNTZCNJBXPZbbgl88t+vd5Ek4h38HD2RHjS1r2mdRC/vuDW4
+	mF7d6K7e3uqpSY0JEGsI514u6x9fUFzLjyl1lz8eaY9H9dvIF1LhmHE4cn6Py3bFC85Vuh/sCdU
+	25YzhkyPea8Dj2yvhppCJfxuQsphbZAA1arnwr4Kb0FdJTpWcXGwn7Lp/+1rSFnNwpThW5GmHs3
+	GDugsW9EQkYn9sCDljbnBzFfiqHhY=
+X-Received: by 2002:a05:6a00:178c:b0:81f:4999:ae46 with SMTP id d2e1a72fcca58-824d961c463mr7191647b3a.48.1771267517461;
+        Mon, 16 Feb 2026 10:45:17 -0800 (PST)
+Received: from medusa.lab.kspace.sh ([2601:640:8202:6fb0::68dd])
+        by smtp.googlemail.com with UTF8SMTPSA id d2e1a72fcca58-824c6b9528esm10424523b3a.48.2026.02.16.10.45.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 10:45:16 -0800 (PST)
+Date: Mon, 16 Feb 2026 10:45:15 -0800
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <jsmart833426@gmail.com>,
+	Aaron Dailey <adailey@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	Dhaval Giani <dgiani@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 18/21] nvme: Update CCR completion wait timeout to
+ consider CQT
+Message-ID: <20260216184515.GH2392949-mkhalfella@purestorage.com>
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
+ <20260214042753.4073668-19-mkhalfella@purestorage.com>
+ <9d6cf4f9-37d8-4704-bcc1-0b849ad28955@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-To: Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <helgaas@kernel.org>, Jon Hunter <jonathanh@nvidia.com>
-Cc: manivannan.sadhasivam@oss.qualcomm.com,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- "David E. Box" <david.e.box@linux.intel.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Chia-Lin Kao <acelan.kao@canonical.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org, John Madieu <john.madieu.xa@bp.renesas.com>
-References: <7306256a-b380-489b-8248-b774e6d3d80e@nvidia.com>
- <20260122152903.GA1247682@bhelgaas>
- <5z7c25nkb35prvax6vq6ud7eaeuhzsswbf7fqvmlgys3xftgwb@odocboejrdrv>
-Content-Language: en-US
-In-Reply-To: <5z7c25nkb35prvax6vq6ud7eaeuhzsswbf7fqvmlgys3xftgwb@odocboejrdrv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9d6cf4f9-37d8-4704-bcc1-0b849ad28955@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260216_091952_029652_645A5EDE 
-X-CRM114-Status: GOOD (  31.96  )
+X-CRM114-CacheID: sfid-20260216_104521_983221_263A9CE8 
+X-CRM114-Status: GOOD (  23.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,119 +111,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
-On 1/22/26 19:01, Manivannan Sadhasivam wrote:
-> On Thu, Jan 22, 2026 at 09:29:03AM -0600, Bjorn Helgaas wrote:
->> [+cc NVMe folks]
->>
->> On Thu, Jan 22, 2026 at 12:12:42PM +0000, Jon Hunter wrote:
->>> ...
->>
->>> Since this commit was added in Linux v6.18, I have been observing a suspend
->>> test failures on some of our boards. The suspend test suspends the devices
->>> for 20 secs and before this change the board would resume in about ~27 secs
->>> (including the 20 sec sleep). After this change the board would take over 80
->>> secs to resume and this triggered a failure.
->>>
->>> Looking at the logs, I can see it is the NVMe device on the board that is
->>> having an issue, and I see the reset failing ...
->>>
->>>   [  945.754939] r8169 0007:01:00.0 enP7p1s0: Link is Up - 1Gbps/Full -
->>>    flow control rx/tx
->>>   [ 1002.467432] nvme nvme0: I/O tag 12 (400c) opcode 0x9 (Admin Cmd) QID
->>>    0 timeout, reset controller
->>>   [ 1002.493713] nvme nvme0: 12/0/0 default/read/poll queues
->>>   [ 1003.050448] nvme nvme0: ctrl state 1 is not RESETTING
->>>   [ 1003.050481] OOM killer enabled.
->>>   [ 1003.054035] nvme nvme0: Disabling device after reset failure: -19
->>>
->>>  From the above timestamps the delay is coming from the NVMe. I see this
->>> issue on several boards with different NVMe devices and I can workaround
->>> this by disabling ASPM L0/L1 for these devices ...
->>>
->>>   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5011, quirk_disable_aspm_l0s_l1);
->>>   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5036, quirk_disable_aspm_l0s_l1);
->>>   DECLARE_PCI_FIXUP_HEADER(0x1b4b, 0x1322, quirk_disable_aspm_l0s_l1);
->>>   DECLARE_PCI_FIXUP_HEADER(0xc0a9, 0x540a, quirk_disable_aspm_l0s_l1);
->>>
->>> I am curious if you have seen any similar issues?
->>>
->>> Other PCIe devices seem to be OK (like the realtek r8169) but just
->>> the NVMe is having issues. So I am trying to figure out the best way
->>> to resolve this?
->>
->> For context, "this commit" refers to f3ac2ff14834, modified by
->> df5192d9bb0e:
->>
->>    f3ac2ff14834 ("PCI/ASPM: Enable all ClockPM and ASPM states for devicetree platforms")
->>    df5192d9bb0e ("PCI/ASPM: Enable only L0s and L1 for devicetree platforms")
->>
->> The fact that this suspend issue only affects NVMe reminds me of the
->> code in dw_pcie_suspend_noirq() [1] that bails out early if L1 is
->> enabled because of some NVMe expectation:
->>
->>    dw_pcie_suspend_noirq()
->>    {
->>      ...
->>      /*
->>       * If L1SS is supported, then do not put the link into L2 as some
->>       * devices such as NVMe expect low resume latency.
->>       */
->>      if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
->>        return 0;
->>      ...
->>
->> That suggests there's some NVMe/ASPM interaction that the PCI core
->> doesn't understand yet.
->>
+On Mon 2026-02-16 13:54:18 +0100, Hannes Reinecke wrote:
+> On 2/14/26 05:25, Mohamed Khalfella wrote:
+> > TP8028 Rapid Path Failure Recovery does not define how much time the
+> > host should wait for CCR operation to complete. It is reasonable to
+> > assume that CCR operation can take up to ctrl->cqt. Update wait time for
+> > CCR operation to be max(ctrl->cqt, ctrl->kato).
+> > 
+> > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> > ---
+> >   drivers/nvme/host/core.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 0680d05900c1..ff479c0263ab 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -631,7 +631,7 @@ static int nvme_issue_wait_ccr(struct nvme_ctrl *sctrl, struct nvme_ctrl *ictrl)
+> >   	if (result & 0x01) /* Immediate Reset Successful */
+> >   		goto out;
+> >   
+> > -	tmo = secs_to_jiffies(ictrl->kato);
+> > +	tmo = msecs_to_jiffies(max(ictrl->cqt, ictrl->kato * 1000));
+> >   	if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
+> >   		ret = -ETIMEDOUT;
+> >   		goto out;
 > 
-> We have this check in place since NVMe driver keeps the device in D0 and expects
-> the link to be in L1ss on platforms not passing below checks:
+> That is not my understanding. I was under the impression that CQT is the 
+> _additional_ time a controller requires to clear out outstanding
+> commands once it detected a loss of communication (ie _after_ KATO).
+> Which would mean we have to wait for up to
+> (ctrl->kato * 1000) + ctrl->cqt.
+
+At this point the source controller knows about communication loss. We
+do not need kato wait. In theory we should just wait for CQT.
+max(cqt, kato) is a conservative guess I made.
+
 > 
->          if (pm_suspend_via_firmware() || !ctrl->npss ||
->              !pcie_aspm_enabled(pdev) ||
->              (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
+> Cheers,
 > 
-
-We noticed a similar issue with the Renesas RZ/G3S host driver and NVMe devices. 
-We currently have 2 SoCs where we identified this problem (RZ/G3S and RZ/G3E), 
-both present on SoM modules, and the SoM modules could be connected to the same 
-carrier board where the PCIe signals are routed and connectors exists. On the 
-carrier board we have 2 connectors were we can attach NVMe devices, one M.2 Key 
-B and one PCIe x4 connector 
-(https://www.amphenol-cs.com/product/10061913111plf.html).
-
-The issue described in this thread is reproducible for us only after suspend and 
-only for the NVMe device connected to the the PCIe x4 connector. The device is 
-working correctly just after boot. On suspend, power to the most SoC components 
-(including PCIe) is lost but the endpoints remains powered.
-
-The issue is not reproducible if the following command is executed before 
-suspend: echo performance > /sys/module/pcie_aspm/parameters/policy
-
-The difference we identified in terms of signals connected from the SoC to the 
-on board connectors relies in the CLKREQ#. This signal is only connected to the 
-PCIe x4 slot.
-
-On RZ/G3E the CLKREQ# is configured as a individual GPIO pin. On RZ/G3S it is 
-muxed by the pin controller with PCIe function. We tried on RZ/G3E to not 
-configure the CLKREQ# pin at all and with this the NVMe connected on the PCIe x4 
-slot started to work even after suspend. We cannot reproduce the same behavior 
-on RZ/G3S.
-
-Initially, we considered we might have to update the existing code to do 
-specific configuration for the boards were CLKREQ# is not connected (through 
-supports-clkreq DT property that some controllers are using).
-
-Currently, the manual is unclear on how to control CLKREQ#.
-
-Apart from the suggestions mentioned in [1], could you please let me know if you 
-have any others?
-
-Thank you,
-Claudiu
-
-[1] 
-https://lore.kernel.org/all/unc5zefwndgcv7wufaezz3gkg3qtaymkjlmymhyqdqwzn3wybl@ow2rhbyt772h/
+> Hannes
+> -- 
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+> HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
