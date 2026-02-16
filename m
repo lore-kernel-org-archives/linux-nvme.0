@@ -4,90 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6D18BE7BDB8
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 12:54:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C208E7BDB0
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Feb 2026 12:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J3fd7dLITM7yY9eEmNCCHUGJL+2wK7zwHt4EEYrc7x4=; b=fku7XXBcbTjUUGRDTCt+JnvCKg
-	RGFwM0nzmH1C1cGzuxwKtUmSFoyhCAhgehaA6n3e4PAphutA4U3z+UP439JvDQsMtc+7O+HHOttsz
-	7HJt4a2BCdACZRL82DasEfMzEC3ymAI2oz9RcgUv1vfKLoOpCsO0euPdCAFj0s63AnFn4cZ2FC2l3
-	X1hA1Po5b75d7MWUVWk/fyyHtUDM2LFrvwu8xOu5rTo0zwSPreIHJNpc2oN2qSNbj4zLoxbHsBEd4
-	4zbYmqSXkaQoBqC4YPkGvD94A0E059tPHC10yXcxKcTVvjOXIyDnt6d0+XdQBK5GAeyvcWoOvcbFd
-	YMYO88Sg==;
+	bh=RCxCDK23aspZOFlhUg9mht5zCI2ha4oJ/3k0ifk0jXE=; b=SZhaEw61Iy53T1Lw4F266755jm
+	szlMRYYE88+wTNdMiJaYlVKlNZhO3A8v74Xdrfp59zrNu42p8qv7u5JC4b3o45rjtVI55J/LCL91p
+	k1hXrmiFqioRGXt5dpVEjnH6yua6pw2VWkMdG95sQUg3SnUizxBbwrqcce1FqjI1ofWEvbgFZ3LTg
+	pAJeCkqdamyUlzc9cFrWVEq4yrTv7PR/5FTdb7D1X15nDB8z1oPq9iE8qKCe5+syIRxAI5IqLEcdQ
+	RXZM0dkhyAgqt7gbUyGg+TAQUgtv3hcoc1DHb840mLYFsLqaGoXl9PYHWlx6ubcXKYyZFdv/w7/T4
+	kQ6DWNug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vry7Q-00000006YkS-35Ha;
-	Mon, 16 Feb 2026 12:54:28 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1vry9B-00000006Yzz-2D7N;
+	Mon, 16 Feb 2026 12:56:17 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vry7K-00000006Yjm-34t4
+	id 1vry99-00000006Yzf-2lmT
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Feb 2026 12:54:24 +0000
+	Mon, 16 Feb 2026 12:56:17 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9008E3E6FE;
-	Mon, 16 Feb 2026 12:54:20 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A92313E73A;
+	Mon, 16 Feb 2026 12:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771246460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771246573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J3fd7dLITM7yY9eEmNCCHUGJL+2wK7zwHt4EEYrc7x4=;
-	b=pkeotwz7ZQhEZRJz2kCWtqmm5AB3EHaMwYpUMwe35t1q7Hc9RNc73gy2TuJJf2aRdBiikX
-	0oaeiJrDCLAlhCO+7IY1EeR7w+we1PeAXKBVyXwTcewDSQK6rg3+hTm0W8sqWJhp3Bn9Cd
-	QKApWxFglx005te6IhvM6lP129+eP1E=
+	bh=RCxCDK23aspZOFlhUg9mht5zCI2ha4oJ/3k0ifk0jXE=;
+	b=DosU99xxq5JSlHFVnoXu0snxQjweQNFMCXIuS21OEOYSw01KmKZA5QNdTcJPkDBJgShRs9
+	i/R7kMjVM8b+Ez7qmSin86gQaXzDyRafIqM4/ldkpU4OsOBHpnloIIq0/quLxpK1AgwsB5
+	FgpBqPwuATYJmQAkHSkZRpeZ/HQ7hek=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771246460;
+	s=susede2_ed25519; t=1771246573;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J3fd7dLITM7yY9eEmNCCHUGJL+2wK7zwHt4EEYrc7x4=;
-	b=w8f09PkqJOqzOXXhLNBfctI6uPF5HrPsFAw/MZT1NyyoVBZ7DtvkD5a8QMzpHuGtGDZ/sE
-	QcxE/DGp1VPTIiBw==
+	bh=RCxCDK23aspZOFlhUg9mht5zCI2ha4oJ/3k0ifk0jXE=;
+	b=MRCTvpGRuCUKg3c37WMtrLoHEx698IxiHbcyFGc16yIci90RQcnLgjtxENbDY5Ou9idIJB
+	c5x1sRP/vaevlFCQ==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pkeotwz7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=w8f09Pkq
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DosU99xx;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MRCTvpGR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771246460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771246573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J3fd7dLITM7yY9eEmNCCHUGJL+2wK7zwHt4EEYrc7x4=;
-	b=pkeotwz7ZQhEZRJz2kCWtqmm5AB3EHaMwYpUMwe35t1q7Hc9RNc73gy2TuJJf2aRdBiikX
-	0oaeiJrDCLAlhCO+7IY1EeR7w+we1PeAXKBVyXwTcewDSQK6rg3+hTm0W8sqWJhp3Bn9Cd
-	QKApWxFglx005te6IhvM6lP129+eP1E=
+	bh=RCxCDK23aspZOFlhUg9mht5zCI2ha4oJ/3k0ifk0jXE=;
+	b=DosU99xxq5JSlHFVnoXu0snxQjweQNFMCXIuS21OEOYSw01KmKZA5QNdTcJPkDBJgShRs9
+	i/R7kMjVM8b+Ez7qmSin86gQaXzDyRafIqM4/ldkpU4OsOBHpnloIIq0/quLxpK1AgwsB5
+	FgpBqPwuATYJmQAkHSkZRpeZ/HQ7hek=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771246460;
+	s=susede2_ed25519; t=1771246573;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=J3fd7dLITM7yY9eEmNCCHUGJL+2wK7zwHt4EEYrc7x4=;
-	b=w8f09PkqJOqzOXXhLNBfctI6uPF5HrPsFAw/MZT1NyyoVBZ7DtvkD5a8QMzpHuGtGDZ/sE
-	QcxE/DGp1VPTIiBw==
+	bh=RCxCDK23aspZOFlhUg9mht5zCI2ha4oJ/3k0ifk0jXE=;
+	b=MRCTvpGRuCUKg3c37WMtrLoHEx698IxiHbcyFGc16yIci90RQcnLgjtxENbDY5Ou9idIJB
+	c5x1sRP/vaevlFCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 405903EA62;
-	Mon, 16 Feb 2026 12:54:20 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03C083EA62;
+	Mon, 16 Feb 2026 12:56:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /RKcC3wTk2mFSQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 16 Feb 2026 12:54:20 +0000
-Message-ID: <9d6cf4f9-37d8-4704-bcc1-0b849ad28955@suse.de>
-Date: Mon, 16 Feb 2026 13:54:18 +0100
+	id EXHoJ+wTk2mySwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 16 Feb 2026 12:56:12 +0000
+Message-ID: <7fcdb6bb-34b4-4b73-afce-75c423f8400b@suse.de>
+Date: Mon, 16 Feb 2026 13:56:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/21] nvme: Update CCR completion wait timeout to
- consider CQT
+Subject: Re: [PATCH v3 19/21] nvme-tcp: Extend FENCING state per TP4129 on CCR
+ failure
 To: Mohamed Khalfella <mkhalfella@purestorage.com>,
  Justin Tee <justin.tee@broadcom.com>,
  Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -100,10 +100,10 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
  Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-19-mkhalfella@purestorage.com>
+ <20260214042753.4073668-20-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260214042753.4073668-19-mkhalfella@purestorage.com>
+In-Reply-To: <20260214042753.4073668-20-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.51 / 50.00];
@@ -115,8 +115,8 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_TO(0.00)[purestorage.com,broadcom.com,gmail.com,nvidia.com,lst.de,kernel.dk,kernel.org,grimberg.me];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[15];
@@ -133,13 +133,13 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[purestorage.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,purestorage.com:email]
+X-Rspamd-Queue-Id: A92313E73A
 X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 9008E3E6FE
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260216_045423_089270_607C99B8 
-X-CRM114-Status: GOOD (  17.77  )
+X-CRM114-CacheID: sfid-20260216_045615_987374_06792D91 
+X-CRM114-Status: GOOD (  11.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,35 +155,20 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 2/14/26 05:25, Mohamed Khalfella wrote:
-> TP8028 Rapid Path Failure Recovery does not define how much time the
-> host should wait for CCR operation to complete. It is reasonable to
-> assume that CCR operation can take up to ctrl->cqt. Update wait time for
-> CCR operation to be max(ctrl->cqt, ctrl->kato).
+> If CCR operations fail and CQT is supported, we must defer the retry of
+> inflight requests per TP4129. Update ctrl->fencing_work to schedule
+> ctrl->fenced_work, effectively extending the FENCING state. This delay
+> ensures that inflight requests are held until it is safe for them to be
+> retired.
 > 
 > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 > ---
->   drivers/nvme/host/core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/nvme/host/tcp.c | 39 +++++++++++++++++++++++++++++++++++----
+>   1 file changed, 35 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 0680d05900c1..ff479c0263ab 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -631,7 +631,7 @@ static int nvme_issue_wait_ccr(struct nvme_ctrl *sctrl, struct nvme_ctrl *ictrl)
->   	if (result & 0x01) /* Immediate Reset Successful */
->   		goto out;
->   
-> -	tmo = secs_to_jiffies(ictrl->kato);
-> +	tmo = msecs_to_jiffies(max(ictrl->cqt, ictrl->kato * 1000));
->   	if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
->   		ret = -ETIMEDOUT;
->   		goto out;
-
-That is not my understanding. I was under the impression that CQT is the 
-_additional_ time a controller requires to clear out outstanding
-commands once it detected a loss of communication (ie _after_ KATO).
-Which would mean we have to wait for up to
-(ctrl->kato * 1000) + ctrl->cqt.
+Can't you merge / integrate this into the nvme_fence_ctrl() routine?
+The previous patch already extended the timeout to cover for CQT, so
+we can just wait for the timeout if CCR failed, no?
 
 Cheers,
 
