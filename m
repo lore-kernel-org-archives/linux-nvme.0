@@ -4,88 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ABB4DE9A03E
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 20:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D42DEE9A03E
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 20:29:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=RT3bWUDc1jPRcdVhCDKV7mDkH+IAZEfy5Z/kY3CM0oY=; b=tXhJt02qPzt1TRwgglnXN4ZtxN
-	TiH5o27PxlsrQL4tYw/XyjQ4imy8M+DGOCjvRFCw2rYbYf9AX+oDblsBpNmtWnEmAW2JZ91/2K3vQ
-	CLgiO131vJTZkF4XvUmvpSiToxHmigQVd8yp7Q8CeIUBahqb6ygyRmt2XZVYwoyzUzMdwjlhFGsSg
-	RkYzyssWeWOYYf6EMznE+GJOCm5FYx+cOzFoo7LT9NoTpKZhBxHMbo+76KSFXx/YPhy6WO2H20Xne
-	fpbWj0J+gAH/Y/yF6uxxZ2IZIm5JcsD55Sr1j0R74HzgrBmw2bQjL0v22C24qSpSBP08gE9WBvf0X
-	OiqXxs4g==;
+	bh=19W4bESQTthRROBQBDtN6msUOIDUGNQ3AA4N/fS7CoQ=; b=lcel5fJSnEpYIYmf+Dr1/+FLSs
+	mwI2TpO1D+rB/1qrZYCrTXN+/yBjEoTQvg5cojr6JCxWV7RVRfXhfxV5F1/cIJAQi8RIzaJu39ISN
+	/nwsf1dinGthLC/JeXFxSc/MEMzS/SOeNOAY0w9iv+mW4qMVdr60XeshPT/PTvHQz6rdyZgRE9lSK
+	je3cQj6dZcVWrHzuug2NDCHPPbJrSJNGB1EW3UE7Futer6XZ8X1/DTF1BAu4MJJ2yakxGrIft0fAs
+	RiQdznzHu94Ltbwu53EUml4o+kjHtJtvItdLShuwosAaOAAj6EBLDzMjqW4bfvMTPwCQkaFLcYjR1
+	vfzrYjcw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsRdu-00000008rQ9-1R8W;
-	Tue, 17 Feb 2026 20:25:58 +0000
-Received: from mail-dl1-x122a.google.com ([2607:f8b0:4864:20::122a])
+	id 1vsRh8-00000008rgb-1svZ;
+	Tue, 17 Feb 2026 20:29:18 +0000
+Received: from mail-dy1-x132d.google.com ([2607:f8b0:4864:20::132d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsRds-00000008rPj-03Ay
+	id 1vsRh5-00000008rgG-1mzS
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Feb 2026 20:25:57 +0000
-Received: by mail-dl1-x122a.google.com with SMTP id a92af1059eb24-126ea4b77adso5636540c88.1
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 12:25:55 -0800 (PST)
+	Tue, 17 Feb 2026 20:29:16 +0000
+Received: by mail-dy1-x132d.google.com with SMTP id 5a478bee46e88-2b6b0500e06so5311704eec.1
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 12:29:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771359955; x=1771964755; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1771360154; x=1771964954; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RT3bWUDc1jPRcdVhCDKV7mDkH+IAZEfy5Z/kY3CM0oY=;
-        b=DaTAtumXD3CdGelAr/qLFt7Xvy/Z838Q3Kq1MwDYn+lfOB0DYBGyc1v6e3nV8yJE1T
-         DPDLenGwpK+yXWq8vkX9cTdHXa13Stg8gBVZLXgNWEgaaQMNGPu8qRaHrd/rArYS4E+w
-         myHs5NrUf07fR5uMZpJ/+NLeqwzNfoBx+ADLQJwKzb0KV2yGd9gaCTRqsNvUBtbpOyta
-         0yZ0VGCqj37A7ViXDMupTVO6Pl+OEgfDyZs4nfJm3lHtrq9i5im/R2SmC7azbqm0RvDn
-         /kiNp3Ov4kBo+26WidRwAFd3RQyrovTMxNuN2tGe3YaDU/v4qFghW/E818gkmt5uUKHp
-         ZqeA==
+        bh=19W4bESQTthRROBQBDtN6msUOIDUGNQ3AA4N/fS7CoQ=;
+        b=U2KxVpqU79mRFAkXeivM0w9Iiov7Bbu2NuWkKOsUfMT3LCG1q9DgrdRpils6/3m1xf
+         sr1At+tEG9If7WcydE8O1810md/zDurtIHo/3mSGOhOxHgCEpCagxw17DlmHo+Rmv2ui
+         l3JxdDFSqIuFCCYDpPFlWMZBhsixCPyhTQr/KAGx9Y2MR1zPD04C61QvIPpQpOcGYm3z
+         H7Zco9Q7W83HSSHmNZTO7pTM83sQ70QW6eM2yHu9mG0rMwSKzXtF8ZH42EXwwnvcWs3m
+         slNrMhqhLMaYhPAZRTkZbryr9Ufk1OPf+0gIdPOFFasWj/dY0TNrODqRbuYSUx5Wcav3
+         vQmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771359955; x=1771964755;
+        d=1e100.net; s=20230601; t=1771360154; x=1771964954;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RT3bWUDc1jPRcdVhCDKV7mDkH+IAZEfy5Z/kY3CM0oY=;
-        b=hkHhKW1xmAO5J3BdlVk4r0gp4CY0pqMN8Y0fXGqDmEGC+1hPEhZZt7hCMZrv+UqREg
-         HzLxgwD6D1aU7OJVgmM1pEt1A1JdXRagrXmhVnx7UXavNR406eqtqgkzdgEWHzCfljss
-         LHd5BUoCUV9/8uegFqMaChyKtI2Injf8PyLZAoRgpCEmF8s1H+hWJf9LcyTVqXGSxOwM
-         rzsUmS0MOIe+BqvOBf0IXpBXhuE7qqsz0E/vJw4Jmiy4pU/ehdZX/iuNjgymsxAkv/Du
-         zVnZx9o1Nav/Osgu9WkNrct8HZ4wMlmimOFP8b2UFB6Au+WUroH0A0NGu1qtCvn++ge0
-         zNwA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7UgSU0bEo/D0IgHfT6doipUUawN+03IO75w7RVxeNNCkVSR3AjqKIfcETqBoimxih7PkQ9z+hVG1Z@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx/0OAkMV+fJvFdQu86pGvD+IQDc9+aLJiLZm4nx42K+VpUDCrX
-	dG5mhnOeVh4EpHRQV6DgSZDkwbLmqEJ6Nh5+eiTDC1GsDLiezx3OSj8rc0Fj6h52OVg=
-X-Gm-Gg: AZuq6aJJSCSX5dpCJ5GkkSg2TMuHWVKsjpMcmqaLYSSaOFh335BTqiYUEWfuEtRekgy
-	V0yW8bIiHZH1QAz6lkDXSDwV9yUqT7NlLW2rcpcBie/tA3RFAryogssM/dl+QKOeP6UHi+vOSac
-	WzgvZkm5eCyKF9Ojs5ZFVAWpoTB6f+cF/aKP2q1uBebFqbnBFzdoCUP+uMVFXkznMIRe5Z0EX3K
-	YBkY/D+5US7ZMcJD72bT668nZafmQMrwQUj5B0kHtjZukhef5ontJH2pCRB49P9f4qc/0GFHoTe
-	jzWhQTFFzIMkRaZJ4k2I1u9dMl0ZOzsJoRoVygFMojb4aB02M1eFYadFjdQ9XQfKez8LyoP5p+2
-	woStm9tjP30ZUDHXsrI2Qw9cS5JFo8zvohk6LNI08JmCponqzXteZGUAIbJreYPKh88Ii/x56Nv
-	v9tcznJbptpXrmMssuMsoNhZmc+oFhqfpVezB27l1zt5gKuhRjU88OEw==
-X-Received: by 2002:a05:7022:698d:b0:127:366c:8727 with SMTP id a92af1059eb24-1273982c9a7mr6508085c88.40.1771359954853;
-        Tue, 17 Feb 2026 12:25:54 -0800 (PST)
+        bh=19W4bESQTthRROBQBDtN6msUOIDUGNQ3AA4N/fS7CoQ=;
+        b=XBiiMdUd8t1tMp5qwArNZBChKzYY5/KXXM57kIAxpucI8xgD5MQZTaRaOT28jFC8dc
+         VUlVuGNwl9HtImht/kZ3c9OaSG2x9g7FOb8mTW945QXIw4zN4HrmD7JIkr6s4/h1e9cm
+         eTo/kgMpwIuyJiTqqA0Rvu6f3d6N39Z0s5t4yRuVw+wIJqWFHka5yEjUjnbLpcTKZiFU
+         HmIP8HuiGeFU9EkYcA6lCaQU58K+pCDKhIJRgM/cz4gg1DNVZlWfxAxQTbE6acxcPCjj
+         ov1BKYqyr7VCZxFiYGnj8jREmVazn4MrkJW9mCuWS2jDBqlaQGHTOp1doqRyc7XJKRiU
+         ZYMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMJvYsto9dCbNDe33Dn70U6ikylOJNIeEpHtykHYsYCwhEGUWRfL/TXNgOpfkpGbjxYbLSYFFA5xhT@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywedf4PK28A6sqR331a5ET/cg4UrtUVhb4jWSWPsa6jyojCWILo
+	2w7+awyinOtvJEkSgITKn02fjDTFAtqqpmuJimU+b4GuCNoYSOOnuqfPGMflTnoChOc=
+X-Gm-Gg: AZuq6aIECJT2TRf6MzFFjJBrpR5z7D+2h2/wRDhYfoNTb1jhSRUKLH6/UeniTMydEbS
+	r2N9d3DLihxVks08yXsmQ+LRrwco+mo7VV1gp7sfe/UFG9BAir3OA5VTJUiV8/VuvyGBv46aoYW
+	Fd+p3Cz5YLANwdHfHjk+9Xbd3ZS4lOVie5aKTrg9kA74SBdmqRb1Gd5TqIcYjJWnUwCBuFWqMrq
+	2WpEN0LBVpox6UUWZ1rrJLkIeWudMi2laNjhhqkBTTqEQbp5VeXhauQ9o/sK4tuH9S1TBXp6O9R
+	TIAxSoDiF9DqaaZ0ikLhTx5oW7d6j3JIT29nxoM6u8i2KQaC6/A5sMfCqv7DPTBntxET83t/nK2
+	IF+GwBpYoCpFum1wykgeGqt/gUhEi91oAuy7Jht4R0fTmdQvWgfqQf/kET0cbpV1XwJOiv94EeZ
+	7zT5kxwRUWcqFFJNgRC0jsmDvGSkcJ14fzKByNlB6cUWMmLObcMdInqA==
+X-Received: by 2002:a05:7300:d70b:b0:2b8:2910:dc9b with SMTP id 5a478bee46e88-2baba010c12mr6266426eec.3.1771360154154;
+        Tue, 17 Feb 2026 12:29:14 -0800 (PST)
 Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-12742c64282sm20323371c88.5.2026.02.17.12.25.54
+        by smtp.googlemail.com with UTF8SMTPSA id 5a478bee46e88-2bacb5439c6sm18838230eec.6.2026.02.17.12.29.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 12:25:54 -0800 (PST)
-Date: Tue, 17 Feb 2026 12:25:53 -0800
+        Tue, 17 Feb 2026 12:29:13 -0800 (PST)
+Date: Tue, 17 Feb 2026 12:29:12 -0800
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Maurizio Lombardi <mlombard@redhat.com>
 Cc: kbusch@kernel.org, mheyne@amazon.de, emilne@redhat.com,
 	jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
 	dwagner@suse.de, mlombard@bsdbackstore.eu
-Subject: Re: [PATCH RFC 4/5] nvme: add sysfs attribute to change IO timeout
- per nvme controller
-Message-ID: <20260217202553.GJ3435530-mkhalfella@purestorage.com>
+Subject: Re: [PATCH RFC 5/5] nvme: use per controller timeout waits over
+ depending on global default
+Message-ID: <20260217202912.GK3435530-mkhalfella@purestorage.com>
 References: <20260212120951.79738-1-mlombard@redhat.com>
- <20260212120951.79738-5-mlombard@redhat.com>
+ <20260212120951.79738-6-mlombard@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260212120951.79738-5-mlombard@redhat.com>
+In-Reply-To: <20260212120951.79738-6-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260217_122556_061656_B5342A0A 
-X-CRM114-Status: GOOD (  23.21  )
+X-CRM114-CacheID: sfid-20260217_122915_492862_99B48535 
+X-CRM114-Status: GOOD (  19.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,135 +100,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu 2026-02-12 13:09:50 +0100, Maurizio Lombardi wrote:
-> Currently, there is no method to adjust the timeout values
-> on a per controller basis with nvme I/O queues.
-> Add an io_timeout attribute to nvme so that different
-> nvme controllers which may have different timeout
-> requirements can have custom I/O timeouts set.
+On Thu 2026-02-12 13:09:51 +0100, Maurizio Lombardi wrote:
+> Instead of passing NVME_IO_TIMEOUT as a parameter with every call to
+> nvme_wait_freeze_timeout, use the controller's preferred timeout.
 > 
 > Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+
+Reviewed-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+
 > ---
->  drivers/nvme/host/apple.c |  2 +-
->  drivers/nvme/host/core.c  |  4 +++-
->  drivers/nvme/host/nvme.h  |  1 +
->  drivers/nvme/host/sysfs.c | 38 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 43 insertions(+), 2 deletions(-)
+>  drivers/nvme/host/apple.c | 2 +-
+>  drivers/nvme/host/core.c  | 5 +++--
+>  drivers/nvme/host/nvme.h  | 2 +-
+>  drivers/nvme/host/pci.c   | 2 +-
+>  drivers/nvme/host/rdma.c  | 2 +-
+>  drivers/nvme/host/tcp.c   | 2 +-
+>  6 files changed, 8 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index ed61b97fde59..e9bb64e3ec9c 100644
+> index e9bb64e3ec9c..c29c1f45f73a 100644
 > --- a/drivers/nvme/host/apple.c
 > +++ b/drivers/nvme/host/apple.c
-> @@ -1331,7 +1331,7 @@ static int apple_nvme_alloc_tagsets(struct apple_nvme *anv)
->  	if (anv->hw->has_lsq_nvmmu)
->  		anv->tagset.reserved_tags = APPLE_NVME_AQ_DEPTH;
->  	anv->tagset.queue_depth = anv->hw->max_queue_depth - 1;
-> -	anv->tagset.timeout = NVME_IO_TIMEOUT;
-> +	anv->tagset.timeout = anv->ctrl.io_timeout;
->  	anv->tagset.numa_node = NUMA_NO_NODE;
->  	anv->tagset.cmd_size = sizeof(struct apple_nvme_iod);
->  	anv->tagset.driver_data = &anv->ioq;
+> @@ -858,7 +858,7 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+>  	 * doing a safe shutdown.
+>  	 */
+>  	if (!dead && shutdown && freeze)
+> -		nvme_wait_freeze_timeout(&anv->ctrl, NVME_IO_TIMEOUT);
+> +		nvme_wait_freeze_timeout(&anv->ctrl);
+>  
+>  	nvme_quiesce_io_queues(&anv->ctrl);
+>  
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index b9315f0abf80..cc7d725bd6ff 100644
+> index cc7d725bd6ff..c1b1a5d08838 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -4169,6 +4169,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
->  		mutex_unlock(&ctrl->namespaces_lock);
->  		goto out_unlink_ns;
->  	}
-> +	blk_queue_rq_timeout(ns->queue, ctrl->io_timeout);
-
-Given that io tagset->timeout has been initialized to ctrl->io_timeout
-Do we still need the line above?
-
->  	nvme_ns_add_to_ctrl_list(ns);
->  	mutex_unlock(&ctrl->namespaces_lock);
->  	synchronize_srcu(&ctrl->srcu);
-> @@ -4930,7 +4931,7 @@ int nvme_alloc_io_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
->  	set->cmd_size = cmd_size;
->  	set->driver_data = ctrl;
->  	set->nr_hw_queues = ctrl->queue_count - 1;
-> -	set->timeout = NVME_IO_TIMEOUT;
-> +	set->timeout = ctrl->io_timeout;
->  	set->nr_maps = nr_maps;
->  	ret = blk_mq_alloc_tag_set(set);
->  	if (ret)
-> @@ -5107,6 +5108,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->  	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
->  	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
->  	ctrl->ka_last_check_time = jiffies;
-> +	ctrl->io_timeout = NVME_IO_TIMEOUT;
+> @@ -5215,16 +5215,17 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_unfreeze);
 >  
->  	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
->  			PAGE_SIZE);
+> -int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout)
+> +int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl)
+>  {
+>  	struct nvme_ns *ns;
+>  	int srcu_idx;
+> +	unsigned long timeout = ctrl->io_timeout;
+
+nit: Maybe move this to the top before ns?
+
+>  
+>  	srcu_idx = srcu_read_lock(&ctrl->srcu);
+>  	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
+>  				 srcu_read_lock_held(&ctrl->srcu)) {
+>  		timeout = blk_mq_freeze_queue_wait_timeout(ns->queue, timeout);
+> -		if (timeout <= 0)
+> +		if (!timeout)
+>  			break;
+>  	}
+>  	srcu_read_unlock(&ctrl->srcu, srcu_idx);
 > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 9a5f28c5103c..ef390a020d8d 100644
+> index ef390a020d8d..c59228895bf0 100644
 > --- a/drivers/nvme/host/nvme.h
 > +++ b/drivers/nvme/host/nvme.h
-> @@ -316,6 +316,7 @@ struct nvme_ctrl {
->  	u16 mtfa;
->  	u32 ctrl_config;
->  	u32 queue_count;
-> +	u32 io_timeout;
+> @@ -840,7 +840,7 @@ void nvme_sync_queues(struct nvme_ctrl *ctrl);
+>  void nvme_sync_io_queues(struct nvme_ctrl *ctrl);
+>  void nvme_unfreeze(struct nvme_ctrl *ctrl);
+>  void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+> -int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
+> +int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl);
+>  void nvme_start_freeze(struct nvme_ctrl *ctrl);
 >  
->  	u64 cap;
->  	u32 max_hw_sectors;
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index 149cd1ab3b3d..0536e4919aa7 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
-> @@ -631,6 +631,43 @@ static struct device_attribute dev_attr_admin_timeout =  \
->  	__ATTR(admin_timeout, S_IRUGO | S_IWUSR, \
->  	nvme_admin_timeout_show, nvme_admin_timeout_store);
+>  static inline enum req_op nvme_req_op(struct nvme_command *cmd)
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 853cd57e4480..0bd533ddc07c 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3096,7 +3096,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  		 * if doing a safe shutdown.
+>  		 */
+>  		if (!dead && shutdown)
+> -			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+> +			nvme_wait_freeze_timeout(&dev->ctrl);
+>  	}
 >  
-> +static ssize_t nvme_io_timeout_show(struct device *dev,
-> +			struct device_attribute *attr, char *buf)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%u\n", jiffies_to_msecs(ctrl->io_timeout));
-> +}
-> +
-> +static ssize_t nvme_io_timeout_store(struct device *dev,
-> +			struct device_attribute *attr,
-> +			const char *buf, size_t count)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +	struct nvme_ns *ns;
-> +	u32 timeout;
-> +	int err;
-> +
-> +	err = kstrtou32(buf, 10, &timeout);
-> +	if (err || !timeout)
-> +		return -EINVAL;
-> +
-> +	/* Take the namespaces_lock to avoid racing against nvme_alloc_ns() */
-> +	mutex_lock(&ctrl->namespaces_lock);
-> +
-> +	ctrl->io_timeout = msecs_to_jiffies(timeout);
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +		blk_queue_rq_timeout(ns->queue, ctrl->io_timeout);
-> +
-> +	mutex_unlock(&ctrl->namespaces_lock);
-> +
-> +	return count;
-> +}
-> +
-> +static struct device_attribute dev_attr_io_timeout = \
-> +	__ATTR(io_timeout, S_IRUGO | S_IWUSR, \
-> +	nvme_io_timeout_show, nvme_io_timeout_store);
-> +
->  #ifdef CONFIG_NVME_HOST_AUTH
->  static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
->  		struct device_attribute *attr, char *buf)
-> @@ -773,6 +810,7 @@ static struct attribute *nvme_dev_attrs[] = {
->  	&dev_attr_cntrltype.attr,
->  	&dev_attr_dctype.attr,
->  	&dev_attr_admin_timeout.attr,
-> +	&dev_attr_io_timeout.attr,
->  #ifdef CONFIG_NVME_HOST_AUTH
->  	&dev_attr_dhchap_secret.attr,
->  	&dev_attr_dhchap_ctrl_secret.attr,
+>  	nvme_quiesce_io_queues(&dev->ctrl);
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 35c0822edb2d..c8859367ffff 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -888,7 +888,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>  	if (!new) {
+>  		nvme_start_freeze(&ctrl->ctrl);
+>  		nvme_unquiesce_io_queues(&ctrl->ctrl);
+> -		if (!nvme_wait_freeze_timeout(&ctrl->ctrl, NVME_IO_TIMEOUT)) {
+> +		if (!nvme_wait_freeze_timeout(&ctrl->ctrl)) {
+>  			/*
+>  			 * If we timed out waiting for freeze we are likely to
+>  			 * be stuck.  Fail the controller initialization just
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 69cb04406b47..0f78fa8f1cbc 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -2193,7 +2193,7 @@ static int nvme_tcp_configure_io_queues(struct nvme_ctrl *ctrl, bool new)
+>  	if (!new) {
+>  		nvme_start_freeze(ctrl);
+>  		nvme_unquiesce_io_queues(ctrl);
+> -		if (!nvme_wait_freeze_timeout(ctrl, NVME_IO_TIMEOUT)) {
+> +		if (!nvme_wait_freeze_timeout(ctrl)) {
+>  			/*
+>  			 * If we timed out waiting for freeze we are likely to
+>  			 * be stuck.  Fail the controller initialization just
 > -- 
 > 2.53.0
 > 
