@@ -4,108 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26F8CE6816B
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 10:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30B42E909C1
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 15:35:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NZMo/PtOIzSJeD+bvKh62aH9xtqgsP4XaPk4C2v4d9E=; b=znxbDQwYtdDI45ROmY0g5/kGwm
-	lPOwYqGsIjEJZ8mevsBm8wGmxN10hyIuG35YHNq0gXj98Yk6XjL0h3PEK7tpLmVyeJCQhSKY3628D
-	Nzh5MIN6WEsWYO4GYXOGrsvnS4GnPxHgGeiQ2CTa537AlQnF4/io7cD2LuXaVCsvSU5hIg5eyYqwB
-	/bN/bNzq1wnoxx5LQedzv6WIxRtnGluaIykIzaKFW5h3x9cJW3rNXU+nd2d2m9+vH7aDek7G4OqUH
-	YIxGB26VSwH3QMM1V2wh9rR8mM4KbJtJaLPNn1EEzHHeLS4fQn+cVU4g4GZQRfPPAejNJH7FADLHg
-	86vTCh2Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=jzHPwh7gCcw3aD1stz1FwTBp8o4EpMP2ycLOZFh68ak=; b=GrINXRoXVSSviDNC3BmYf1wUA/
+	mzsqbhTG24LHpxuk/VGgJhlkH8uhlQPnJYbF202KHBxikm2pusB0TQ4Rv3uUzezrWtiJYoUpOsC+k
+	vmpyIeQMQqXR06mGoo46/GJ81fw9AdyG/9pOkZW33CwqQOjiRPk4btWufvQ+6Oobgu+H/wVjwCA1/
+	hWE8h79OmZ3D1j/jz29t+glp44P/1e/jPPsT9dmUi7vljdnWFuNHClRG5NTujNuLixmj5SicBOXm+
+	qwjcvwlWd0Tl7r+yx+e6iiaGFFYc6eT44UzEy2wELvYumcWHaJDcpzr3qrxgJSMznFcaIBp616C4j
+	Za6+neZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsISa-000000082RJ-2XfH;
-	Tue, 17 Feb 2026 10:37:40 +0000
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
+	id 1vsN6w-00000008Vqk-1xzg;
+	Tue, 17 Feb 2026 15:35:38 +0000
+Received: from mail-dy1-x1329.google.com ([2607:f8b0:4864:20::1329])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsISV-000000082QQ-2cIO
+	id 1vsN6s-00000008VqO-18Mu
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Feb 2026 10:37:39 +0000
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-387097ae2e3so31770461fa.2
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 02:37:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771324652; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Y47OA8sIU3+Or/RRO7ifGYY8xpimVFZS4X4GPscnwqldl9yEr5E5T1qxvqF6RHW2AY
-         7MfTDkwV7Nd06neNI2OXa0ZNuipr9Rz+Dbat22spbbnB1FTpG12MYfZlQ0K36AzGS6Sz
-         MYMfbLwS6mU8HzGXF9mzCvvRT/MaaURr9SNj1GCdIfmaKtxOhz3NwVaBE0vTFW0Oq7kz
-         mLZ8xy0kz1ViJd9rawsfMInByRli1FxA5dFXdMWaVCSUWmGPGfMrxzk54qj8u+5EjZWR
-         pn3d63ZTElFf1RH7x0IqzB9o4QJ+VHsARZpMepW90RSFWAESRqFOD9HZGcpsAT+ACLOh
-         Qplw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NZMo/PtOIzSJeD+bvKh62aH9xtqgsP4XaPk4C2v4d9E=;
-        fh=Hpu8RfJ8wdI1OeWDGucw3v7mpMfYgKyDLeCnR0fz+lo=;
-        b=PoyJMTEp1BCVoWh29P7S0r8sZAOmt36RKHifq+CgrL/gDhSWKHlPjQkYmxfuNYA2wo
-         6VJXph6FvoJ7bIggnby/AH5RPXpi8LfzN8amfYrp4w6ccM/j3pYbr8BKWgcElTJZzcPs
-         lR/10iOaZlx4e139Jp1S7XhpoLzItv2yOA27tqMW1hY+zBW7D3Zzt3Nc56sOSvIz28U2
-         5IrVqb688w4oIV/81IT3fbLN8GH+pU+IFg0QiaBhSlXn1MgjXwTSru3g9yehsGMAYOsz
-         ktxaeMEHYIaBBuccLUP2e3jfD+M/lDYB4XSan3Wedv9HJuseDyHeoG+t14b7gzKFW/rN
-         ehgQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Tue, 17 Feb 2026 15:35:36 +0000
+Received: by mail-dy1-x1329.google.com with SMTP id 5a478bee46e88-2ba9d13f10eso7571379eec.0
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 07:35:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1771324652; x=1771929452; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NZMo/PtOIzSJeD+bvKh62aH9xtqgsP4XaPk4C2v4d9E=;
-        b=i64VgaW9ai14wgibuFKfFBhOhpEEYkfovyAqdFL39k5DogiYQGI1u7GQ5fS9uetDny
-         eXqr/+awTTp8sQE5Bqul8KFWHr1ezSKAI+SU8O/bR0rWyIJc9bHP8KphbfEkziHGSyTe
-         aDYkiBVo0abyMTQLiQjmIsUaV0fhj/tu/okR60MW4SLA2vJSm6X+ukOtkc6GjEVzcj/b
-         loJI8KKHSGE/gRWHSsPDqRNn9U7NTWIm9/LG3snfE16b4ziVbiMxJYxHH1l98XiWDr6a
-         IUTytkigqZ5t7oVP4mlTF6MhOcTyu/c0GGuSy7/oUn/KlE7KMdytrBYvctne5qg4MK5d
-         DxTw==
+        d=purestorage.com; s=google2022; t=1771342533; x=1771947333; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jzHPwh7gCcw3aD1stz1FwTBp8o4EpMP2ycLOZFh68ak=;
+        b=H7pKFofRb9AQ7UQ2bVwf/B1vV5yU6WuWAYC6nJpzziDj9io8/v2SGBcIXH2eqbOL3l
+         l5PNV6xKjeSyRQc8ixK6PuJ+Y6Wk7P+TU4r9dBvzCuAqbsufNunio4CBLJ/XrrU/egzI
+         0/jOFjT8tgvZPLiLOxUlOTwGO2q3ARXhOFqLdcH7EfUOHG1ngkXNDLgaIlxPmUdUaJjT
+         t9NtWq/nCzq12fsw+f5RqJJQ62GSHpjliWZr7NQZ8iAw8uWFjgiVeuvbiNfSW/qGj+lW
+         RSNbMIrWLbxBP5VOuLXnhDlDbie1qGOXbI5/3RWyfsWbXlUrK84BDYiQCci4J93bWNKs
+         IBbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771324652; x=1771929452;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NZMo/PtOIzSJeD+bvKh62aH9xtqgsP4XaPk4C2v4d9E=;
-        b=S5JJZLzeAX9MjYiYd8DVY5PGbnT+L4PswDFwsUypJj8vuuy987yO4EXAhCpSYomsb5
-         ZKTjuEa1hB7EwwdxABES9G6e5r3tabBEKMqdSUa+kxfKRzIDHeu32hV0SUVhB0AVp2X6
-         yVUAvfvko9zAUpGmiMz97e6eBy9yCst6XBcgplCnpxzZtz3ZIQvQdqx8s/+bsJnTwrBP
-         oLDhEXp8udMLvw+SXXVYnWyM+9mRe+6cl99/ERP/EBMVFxrPgHKlQ5UhonlBXQYOxpaL
-         gLEZAuaqxcUZy7y7Uk7qDmNPN50EKWXQ1xobTKbJTlHzeQquURLEQsQXNNp+s+JFVZiw
-         VjXw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLhoRmZZaeU/i2mjF0TGadGoRHlDgzGs3hhEla3zmw8pGkwktkN2V6vOSsuDvS2+taZVNacCeneH+q@lists.infradead.org
-X-Gm-Message-State: AOJu0YwR3SpdpgX7aCiGudRbRU5uUeNsiJyC9pqwhnP07hbilFTp+yak
-	zguzYen6+3cyjrbvVRQgcFGE5uQ5IDWrWvyA4nGlN9cIxWCgv1xJZCn6XaOxbl8tmPLf/2YpuUg
-	iO2DNcWRakN+1vEkG7UOxoB8itK4QSbdXjO1dC3cf5A==
-X-Gm-Gg: AZuq6aKiXDcYoiVQ0yTnShbiyxoXY5np2WmLVcPiRBUHCUhibaBYt64Xhv7dyxt8nGy
-	ziDqXa5zl8yk8/3kAOyAk/WdjROi7p+rWuIdB0gGaU9A1dHgxKkW8OUE618cMFKn0WvNN2zqlk7
-	nV6eC16wTk40AEWjoMpyZp133h8TKewNVI93tFO69177X/ZqreUuFg1Jxg5TYROlvBkrFS5t9yw
-	tV+LSOvbWZGV2bV46xnVkbYvYw00bEMKxAQ+dB5/oYdqWtuCRjxm6RSyBd4I2ktXKdYPjtJk+OY
-	LIKvSVhSdw+sCQ01HPSM4KcrQjh5oDrCZIAZ5uq7yYw0TsMRJ7+XqwEOaihk57+5Jj48
-X-Received: by 2002:a05:651c:1ca:b0:386:ec21:c87f with SMTP id
- 38308e7fff4ca-3881b99cc9cmr30135731fa.42.1771324651832; Tue, 17 Feb 2026
- 02:37:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771342533; x=1771947333;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jzHPwh7gCcw3aD1stz1FwTBp8o4EpMP2ycLOZFh68ak=;
+        b=oj0ffCle6on9giGFfENpdu/PWWUYj1ktIkCLCmDLN+S2p/r6yw9PB39AWT1mHLTsVN
+         qv8B/GwpHWfK8xbtmtwQ4KqT2sXX8frdmFGeTL0g5wMjURupN3VkUEDSoyIeNmccfw6N
+         f7B28v5ib3SF/pkKdQuuoOlK4zVzJUbS0yeOsUo9mokv/nyLgs4G88p583+iDFHHisVH
+         2N9ajUGVRArX05I9QiLtiKPr5NmjOZEQNHOyzW6arCJRzSWh7Uv13CL8ndVxIbr38eQO
+         ywuh9I76xBx1HydN7j7jiWbGfu97gsX1R/XARmNv9TLR4vOsIVTCQfYBQ7ENAAu9ClsN
+         J1/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXFmE3cA9053zctTkztQizrWSwj4YMtgqUXxylriFFUFpGRsZ0iY0uqm7M5nw8JnJJtoZO7Igg9nFO1@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy8/Y2/QhVTUKQ5ZySitwLo8qEjKqXZlwI39ZYPA5obb32hOmxr
+	B3mHKyFwuO5IDlTY8409GOgEWU8/hUKbu7oUfmKequvuWzlwn5nTsrsD1wzgXoEIm6g=
+X-Gm-Gg: AZuq6aLneAW6aENLyrJKGR860vepjHCwQ8x6e4coAHohSt7/dKMr5ebfmdhp4ltNUoK
+	hje4bgoSX4T1p34NkswC4UWmlEOPvABKwq/U7MWwHtk7ZxcT80yY7Za7IrV0D8lQnJf5eXmUOP9
+	Z1XIzs9yiLjWBrPnUs9i1NM5z0xRYaFjedgr46dxZhKscZWnYKygJq4Cj9D7WwV43iwNiTflgDG
+	i67t00STyZq/4XZCzwq9e2wKTn80yXMcwCrPZK9m2Yn3yNg2bzQ0OzcX6qhVAnTQCXthOeDsZ81
+	aD/tzB0do6zisox1xMRouKRaV+a9yvO8J4v+3CWeMDGqJv1k62bnRRVKXXbDCpNnK7y7yTDo2rB
+	QT+DzHPZwdA11CEAib5AKUmZYgBclJNvxEmlZMm3d4f7Sp4Y1qxGR6Q48zlslEhnaitPoMDTGqV
+	ubLmBzPyvi1Vk/UXhY6goHMAvqgwM=
+X-Received: by 2002:a05:7300:6d22:b0:2b7:f7f:6ad with SMTP id 5a478bee46e88-2babc535b2amr5645107eec.26.1771342533072;
+        Tue, 17 Feb 2026 07:35:33 -0800 (PST)
+Received: from medusa.lab.kspace.sh ([2601:640:8202:6fb0::68dd])
+        by smtp.googlemail.com with UTF8SMTPSA id 5a478bee46e88-2bacb543d4dsm14668289eec.7.2026.02.17.07.35.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 07:35:32 -0800 (PST)
+Date: Tue, 17 Feb 2026 07:35:30 -0800
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <jsmart833426@gmail.com>,
+	Aaron Dailey <adailey@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	Dhaval Giani <dgiani@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 18/21] nvme: Update CCR completion wait timeout to
+ consider CQT
+Message-ID: <20260217153530.GI2392949-mkhalfella@purestorage.com>
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
+ <20260214042753.4073668-19-mkhalfella@purestorage.com>
+ <9d6cf4f9-37d8-4704-bcc1-0b849ad28955@suse.de>
+ <20260216184515.GH2392949-mkhalfella@purestorage.com>
+ <3bad149e-a0fa-4377-9701-7b35ef6b5b88@suse.de>
 MIME-Version: 1.0
-References: <20260110-lsfmm-2026-cfp-ae970765d60e@brauner> <20260119-bagger-desaster-e11c27458c49@brauner>
- <20260129-beidseitig-unwohl-9ae543e9f9f5@brauner> <20260216-ruhelosigkeit-umlegen-548e2a107686@brauner>
-In-Reply-To: <20260216-ruhelosigkeit-umlegen-548e2a107686@brauner>
-From: Haris Iqbal <haris.iqbal@ionos.com>
-Date: Tue, 17 Feb 2026 11:37:19 +0100
-X-Gm-Features: AaiRm52ye33PKO28CcExseV6coNOG-rZ2nBeMP78z80h8Dwp-N455yQLK7UlhmY
-Message-ID: <CAJpMwyg-3-Z=ZDC60Vn0s-8Z78VOPKYmvX9s=Nnvcoao4T5zbg@mail.gmail.com>
-Subject: Re: LSF/MM/BPF: 2026: Call for Proposals
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-block@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	bpf@vger.kernel.org, lsf-pc@lists.linux-foundation.org, 
-	linux-kernel@vger.kernel.org, lwn@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3bad149e-a0fa-4377-9701-7b35ef6b5b88@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260217_023735_756451_79672ABB 
-X-CRM114-Status: GOOD (  15.58  )
+X-CRM114-CacheID: sfid-20260217_073535_201851_EF58E462 
+X-CRM114-Status: GOOD (  31.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,43 +111,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 16, 2026 at 3:28=E2=80=AFPM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Thu, Jan 29, 2026 at 05:13:52PM +0100, Christian Brauner wrote:
-> > On Mon, Jan 19, 2026 at 03:26:39PM +0100, Christian Brauner wrote:
-> > > > (1) Fill out the following Google form to request attendance and
-> > > >     suggest any topics for discussion:
-> > > >
-> > > >           https://forms.gle/hUgiEksr8CA1migCA
-> > > >
-> > > >     If advance notice is required for visa applications, please poi=
-nt
-> > > >     that out in your proposal or request to attend, and submit the =
-topic
-> > > >     as soon as possible.
->
-> This is (likely) the final reminder to put in your invitation request!
-> The invitation request form closes this Friday, 20th February.
+On Tue 2026-02-17 08:09:33 +0100, Hannes Reinecke wrote:
+> On 2/16/26 19:45, Mohamed Khalfella wrote:
+> > On Mon 2026-02-16 13:54:18 +0100, Hannes Reinecke wrote:
+> >> On 2/14/26 05:25, Mohamed Khalfella wrote:
+> >>> TP8028 Rapid Path Failure Recovery does not define how much time the
+> >>> host should wait for CCR operation to complete. It is reasonable to
+> >>> assume that CCR operation can take up to ctrl->cqt. Update wait time for
+> >>> CCR operation to be max(ctrl->cqt, ctrl->kato).
+> >>>
+> >>> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> >>> ---
+> >>>    drivers/nvme/host/core.c | 2 +-
+> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> >>> index 0680d05900c1..ff479c0263ab 100644
+> >>> --- a/drivers/nvme/host/core.c
+> >>> +++ b/drivers/nvme/host/core.c
+> >>> @@ -631,7 +631,7 @@ static int nvme_issue_wait_ccr(struct nvme_ctrl *sctrl, struct nvme_ctrl *ictrl)
+> >>>    	if (result & 0x01) /* Immediate Reset Successful */
+> >>>    		goto out;
+> >>>    
+> >>> -	tmo = secs_to_jiffies(ictrl->kato);
+> >>> +	tmo = msecs_to_jiffies(max(ictrl->cqt, ictrl->kato * 1000));
+> >>>    	if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
+> >>>    		ret = -ETIMEDOUT;
+> >>>    		goto out;
+> >>
+> >> That is not my understanding. I was under the impression that CQT is the
+> >> _additional_ time a controller requires to clear out outstanding
+> >> commands once it detected a loss of communication (ie _after_ KATO).
+> >> Which would mean we have to wait for up to
+> >> (ctrl->kato * 1000) + ctrl->cqt.
+> > 
+> > At this point the source controller knows about communication loss. We
+> > do not need kato wait. In theory we should just wait for CQT.
+> > max(cqt, kato) is a conservative guess I made.
+> > 
+> Not quite. The source controller (on the host!) knows about the
+> communication loss. But the target might not, as the keep-alive
+> command might have arrived at the target _just_ before KATO
+> triggered on the host. So the target is still good, and will
+> be waiting for _another_ KATO interval before declaring
+> a loss of communication.
+> And only then will the CQT period start at the target.
+> 
+> Randy, please correct me if I'm wrong ...
+> 
 
-Hello,
+wait_for_completion_timeout(&ccr.complete, tmo)) waits for CCR operation
+to complete. The wait starts after CCR command completed successfully.
+IOW, it starts after the host received a CQE from source controller on
+the target telling us all is good. If the source controller on the target
+already know about loss of communication then there is no need to wait
+for KATO. We just need to wait for CCR operation to finish because we
+know it has been started successfully.
 
-What is the announcement date for accepted topics and invitations?
-
->
-> Fever has struck me down so all you get is a bad limerick:
->
-> There's a conference called LSFMM,
-> Where maintainers debate and condemn,
-> They argue till dawn
-> What's merged or withdrawn,
-> Then next year do it over again!
->
-> Don't forget to pester^wask^wremind your respective organizations to
-> sponsor LSF/MM/BPF 2026! If it helps, you can tell them that we're
-> considering renaming it LSF/MM/BPF/AI.
->
-> Thanks!
-> Christian
->
+The specs does not tell us how much time to wait for CCR operation to
+complete. max(cqt, kato) is an estimate I think reasonable to make.
 
