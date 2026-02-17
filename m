@@ -4,71 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B9F8E9A031
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 19:33:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8A33E9A03E
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 20:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T4bYYczNcYGm6Sri1HPrON3WM1fljoTB8513tgTbjpU=; b=nQE3rQAD51mVELtMzrpMXZFjbF
-	1lTqRCaeW8IIj+0IpMxMQUfWvTEtSh1iG7l6WOoYTacakMzlKTHPDVOisOu6VXlUDCiOTj/VebgWb
-	UgSHvzB7LdiHFDs262Ny3e0w9HqAH+c1TO48xpPKDbafjC4JKWljkz8kfe9KrIU3gKe4sqUM5rYaS
-	CVKlWSpBsngsYSuMeOllq0Lwn500n91SMMqtN6p7mdcFUcoC19cRWaAkQPDPGO+EpHC/FXFOv+oyN
-	1Y7pUmu01bljnxOXLQQCyqF7USQuGyg1MCeonO4JXixq2FHVfB0FoUrr6+6ZATeP87JgroSpD9iKh
-	+i+Ki8vQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=O3KNzwdv/fZolh9vEe47GHGiaeS4Hpe5Gsp1brWunUU=; b=llqqBEWDxpRZhl9okfzpzTj2SJ
+	iuzGeoV7sXzcZG3SXDAvllNW/8As8KG51WAO/l0FvCMNKyWskSNDRFeAxd3nEyvdvoHXWl75qZtAn
+	JqcZAXT9QRBNhGqRN03ofL4PgmSfWkO7nMqN38LLXQ/G35WgKpWtfmaBPrELQubisVbimcYpg+38I
+	zCSlV4/5GdTOpuUl2wNkSb9chdXGzoqCUlI4q35v82rAidiQ5WX9gSmXrcTNF5P7HNfY0GUNPgKCW
+	6jdLcSLQx2QHv8eMP/OcKoPPGBk2+Kqy/AEOmXHZ2oxPXt12q5tYdWND9lt9yqEXffk6jNW5oh+bO
+	/zeZGBsg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsQp1-00000008oKJ-0fib;
-	Tue, 17 Feb 2026 19:33:23 +0000
-Received: from 013.lax.mailroute.net ([199.89.1.16])
+	id 1vsRS4-00000008qCN-06Ir;
+	Tue, 17 Feb 2026 20:13:44 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsQow-00000008oJw-0dhE
+	id 1vsRS1-00000008qCB-1FjN
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Feb 2026 19:33:21 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fFqYm4mjgzlfftt;
-	Tue, 17 Feb 2026 19:33:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1771356795; x=1773948796; bh=T4bYYczNcYGm6Sri1HPrON3W
-	M1fljoTB8513tgTbjpU=; b=2U3ts7V9suosHzmy4Op6FK+h8TusScpiHd2Rk1jD
-	oVnCcmSnQmhmcZGASIkaYgXvIpNtitXKP27VHuvSL36nTSXgo6NL4O6yc+SMBiiJ
-	rhAOCKUK1uLqgefLDP2hOU1orvaji4RdUAwvXAOFSA4VLKt8g8uAnZ9cZaD55cjm
-	RDrV1uGSx+mj4WG/q7nScODxhGWC+gW38BZgvwRIF/vlYF4kvLLS23w+a+mnLEx0
-	ssyNOMyaYtdak449gD/e8zSHjti03+Q5XaHAAWLe0Bo7ttFwE2lqcv8zzcNQXe4S
-	MyGOVTQLRB9QcPOUbXBJunbL2/wXkuv7kmxxUHK0Cr/UeQ==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id lpWsix-s36xa; Tue, 17 Feb 2026 19:33:15 +0000 (UTC)
-Received: from [10.237.57.149] (173-255-98-114.utilitytelephone.net [173.255.98.114])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fFqYj5VCFzlfdfX;
-	Tue, 17 Feb 2026 19:33:13 +0000 (UTC)
-Message-ID: <049a177d-85d6-4c9d-9a9a-f07391046101@acm.org>
-Date: Tue, 17 Feb 2026 11:33:12 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Tue, 17 Feb 2026 20:13:41 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id BBA0560053;
+	Tue, 17 Feb 2026 20:13:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D5CAC4CEF7;
+	Tue, 17 Feb 2026 20:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771359220;
+	bh=O3KNzwdv/fZolh9vEe47GHGiaeS4Hpe5Gsp1brWunUU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=go5nyuTkw3Ac1hUXhYVUndWAXOiKYJtszHh1P9R2ACAHgkhM7pToXmL8alG0lOSsv
+	 O5V/rrSjAZQkpT2diAPlhAmNGX3Trl7M9m1wajgozmuuRyLDqvbkdhjp7YCRFHs+4t
+	 fLnQNrSexcp8U0sX1jVYnSE5x+xE9IeQuGPXZPO2JnhU07Y17XemWPGux8F+mDr4Gd
+	 sYOSmkz/i24+izPybQRX23xyP8w9WMzPSKHaHKB7EoRD1Vh0lARB9Nkv9SOyfK00t8
+	 wR6EElkoxYpbv95s91Ww73C7quHjPvuE4wWDOMTyNE4dc+Xart6U/p6qBcuf5QZ5e0
+	 h8S6TM2IEpQ2Q==
+Date: Tue, 17 Feb 2026 13:13:38 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: John Garry <john.g.garry@oracle.com>, lsf-pc@lists.linux-foundation.org,
+	linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+	linux-scsi@vger.kernel.org
 Subject: Re: [LSF/MM/BPF TOPIC] Native SCSI multipath support
-To: John Garry <john.g.garry@oracle.com>, lsf-pc@lists.linux-foundation.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org
+Message-ID: <aZTL8srSowTU81Rz@kbusch-mbp>
 References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260217_113318_211334_D5DFF593 
-X-CRM114-Status: GOOD (  11.55  )
+ <049a177d-85d6-4c9d-9a9a-f07391046101@acm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <049a177d-85d6-4c9d-9a9a-f07391046101@acm.org>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,33 +70,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/13/26 6:19 AM, John Garry wrote:
-> At ALPSS 25 I presented a proposal for Native SCSI multipath support. 
-> Let's discuss this topic at LSFMM.
-> 
-> The idea for this is that SCSI could natively support multipath, like 
-> how NVMe host driver does today. It is intended as an alternative to dm- 
-> multipath support.
-> 
-> I have been working on the implementation and I plan to post patches in 
-> the next cycle. I am looking at a 3-stage approach:
-> a. create a driver-agnostic multipath library, very heavily based on 
-> NVMe host multipath support.
-> The library would support features such as path management, path 
-> selection/iopolicy, failover recovery, PR, delayed removal, gendisk 
-> management etc.
-> b. switch NVMe over to use this library
-> c. add native SCSI multipath support based on this common library
+On Tue, Feb 17, 2026 at 11:33:12AM -0800, Bart Van Assche wrote:
+> More important: what will the performance impact be on SCSI devices that
+> do not need multipath support? UFS devices don't need multipath support
+> and soon (later this year) will support more than one million IOPS per
+> device. Further performance improvements are on the roadmap.
 
-A minor comment: maybe "in-kernel" makes more clear what this proposal
-is about than "native"?
-
-More important: what will the performance impact be on SCSI devices that
-do not need multipath support? UFS devices don't need multipath support
-and soon (later this year) will support more than one million IOPS per
-device. Further performance improvements are on the roadmap.
-
-Thanks,
-
-Bart.
+For nvme, we can detect if a device is multipath capable. If not, we
+skip the multipath layer altogether so it has no performance impact. I'd
+imagine the generic library version would similarly require an opt-in
+approach that UFS simply wouldn't subscribe to.
 
