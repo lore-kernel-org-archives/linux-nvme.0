@@ -4,97 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23B5AE9A029
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 17:59:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BCE1BE9A02A
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 18:16:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4dyoQALK3UpZsKvQZapV/kBgywQgWDNhj/strtjOdpc=; b=upfCAA8nlLvmu1CIjcjNf17Yhv
-	bz2X/6cx1pBQgjj2lGyqd/bF91P+D2HdnnWY0ZhCAcNti6Uob4BSms4fK+HSYAjW6o6o7qFLP5hEL
-	zv6ephsxAATtL4dlCOcmMp+7KXZD8BX7kuKlWtD3lYrLsf/DOIgq4ezC6Oew89xqRX6UIlZm8MZmf
-	MlCtHTOq9jO2tVMdgXJFik7yJl0WmBfIayVMQiqAPCFm1Kr+fG6gKFo9Fx9P9sHaDHo9cJdN6C5gf
-	WT9sJwZTMBWnI0DRcnPI+PrBuYN35finxecDRZQa4y7J4q1nGqngWOASdGPHVi1KV95cZ9hABRUfY
-	HeG2C+0A==;
+	bh=JtVQJznWcMU3EtQip6TH1B2G2S7st0X3mSN/8xMUz/w=; b=Y5gT3eSF4601zrAKvBI2oGgx9+
+	rJBAD706ZF7D98SQTTcAKJHz1aR9mTSL5fvtvB6C40Nx0QyJzdEtBdll3yEKCdMUdIuF9ipj5Vnv9
+	80fjmpNr6FixJbHaA+JGAMUNAPRqBQcKbL9dk8BD1BhtrS2T3NKDVfkOZG+VK4Ugyw+o4JspksA9M
+	yFZMHRb4uSP2r7eZ9j7uoihSBmRj53RMlwyyUBK5mcX0euH5nh+Rp97/8RanuA1ZngtBazyunrAtv
+	3TC5gpof3n4ieQtH4B9s6fJ5WrGcn+GnE55cmU+uMAqn0pCCWREl5/CuPlX661xUlEwCt1BUfx3xv
+	236Y0ZwQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsPLg-00000008gnn-1AVs;
-	Tue, 17 Feb 2026 17:59:00 +0000
-Received: from mail-dy1-x1331.google.com ([2607:f8b0:4864:20::1331])
+	id 1vsPcs-00000008hWx-0A4Q;
+	Tue, 17 Feb 2026 18:16:46 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsPLX-00000008gnR-2Ejc
+	id 1vsPco-00000008hWQ-0xvu
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Feb 2026 17:58:53 +0000
-Received: by mail-dy1-x1331.google.com with SMTP id 5a478bee46e88-2ba68df3687so7717671eec.1
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 09:58:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771351130; x=1771955930; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4dyoQALK3UpZsKvQZapV/kBgywQgWDNhj/strtjOdpc=;
-        b=fqJlzYsfZLM3DMD2NksD8RSTtajwdNhT+ORuicZRifXgVSdWUm2NCVUPB80PmaRa9D
-         yHm7ktjclv0m1hBiaSqN+uXHwM6Bxf7E1tif+/9EkOy6qMLlo6FARPWIut8X3lIfytRS
-         3S7BpDyq3ZCQ3Gpfc25jw75/PN54aFGn8Cy2JXmQkC2zh6AMdZQO9Nr7EyKPW3AwlzVU
-         Z2xbvp41hw0P01vPtiLkjEzBy/PGltuIBysk6GQ0WMv2kvLUf4cFvVT0/fEqKceocJeA
-         Ev2icfbLW4L3/Xja+BLOSQwYuNwN1YSeGqgmsh7yEBBft44rD6ttvtY/ALLEDCIWPKwx
-         U/HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771351130; x=1771955930;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4dyoQALK3UpZsKvQZapV/kBgywQgWDNhj/strtjOdpc=;
-        b=nVMYRyeHeOTZUcmkItjT/DzmDZGPhkI8VR8SxxmCzjA94euTi8A9CWDbQJey0KIXh5
-         924qdfUgC2SE4M4W0G9DxDX5bjWIr8tvK3x8i+7vL5qKpMytk+rYMEOaPrOQpyZ39W6u
-         SBMekc1UrYifT06lDQahOO9pYAFUoTIyO5hTYBm4pdbQ00PPXATnyTIXIIHnAirtH7m+
-         om/YZgVBiTq9Phfv6YoNMNLzCwS1qQkb4TjxeCAGMfCLvGoF7HHMz0BBuFWDxsKfnknk
-         i0M+MmEGN22PRFU3Tb/t874IDkSLbW4LcD2GBVSwAWzDIOhawfXO2GhPyLTRtFH6bs09
-         COng==
-X-Forwarded-Encrypted: i=1; AJvYcCX60Tf8FaR7x5YgYWTuwBukRzzXLD8mBe0Tx5COjlB4irP1SEA5+ZPlhZt5YZS/12nVZuzWlFf+zgkb@lists.infradead.org
-X-Gm-Message-State: AOJu0YwBzBRjjb0g6kp1AcK6aDVhAynhV6T9xCfG5dX9vZ/kWKe0SkrV
-	0IZAYV/ukkCPqFuzPuG5Xd4uFm10szDN9nTNY/enBl0V3DjTEGUQbd5xDz2r85uYU88=
-X-Gm-Gg: AZuq6aKUAbW43ovZPZ9v8qyEFfJ/4S1u60QQY43+WeQGzJG72D6oHqTzVXiwcsHyGM8
-	7yXKqy5F/LdE03ULXTy+yvx17D1tNcJMhpN5hvDxs8A0TiZZZuAXfv8pbvgsjdePx1MokVMnduo
-	qjL4iAN72FUDw3fmB6BmPnkJgWc09QnaZhhIMs4T1+BXLAUXHLeihnDyoGrBwPB8U+dWRqnXeXo
-	xljGUu3P/V2QNFDNzO76uQfhuwu6iSwsPeVL4jwpo+RgMFgfq9vm0NGEoDjvuIRfV99RzGCt87I
-	54FOCHEdBIp+cM8wgzCf9jvnXx3ljl14rXgWny7jt3N1ph6KMN7YXXoAAqJN6OB47S2nxIwGpR8
-	+D/btSFo8qg1F640SpVeAs88dnG+vvXw/IwJP2vKVrysXcyx3G/RAngzZIS/zQz5/mMciTyRlIP
-	NDPmgKVqkhuI5e/F9I3t4jMgbntoSY+ZK4+qLwD4RFiyI=
-X-Received: by 2002:a05:7301:4083:b0:2b8:6b32:1cf1 with SMTP id 5a478bee46e88-2bac97c5053mr5778400eec.29.1771351130179;
-        Tue, 17 Feb 2026 09:58:50 -0800 (PST)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with UTF8SMTPSA id 5a478bee46e88-2bacb6782e5sm14878843eec.29.2026.02.17.09.58.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 09:58:49 -0800 (PST)
-Date: Tue, 17 Feb 2026 09:58:48 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <jsmart833426@gmail.com>,
-	Aaron Dailey <adailey@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Dhaval Giani <dgiani@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 19/21] nvme-tcp: Extend FENCING state per TP4129 on
- CCR failure
-Message-ID: <20260217175848.GD3435530-mkhalfella@purestorage.com>
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-20-mkhalfella@purestorage.com>
- <7fcdb6bb-34b4-4b73-afce-75c423f8400b@suse.de>
+	Tue, 17 Feb 2026 18:16:43 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 403B1438BE;
+	Tue, 17 Feb 2026 18:16:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C4FC4CEF7;
+	Tue, 17 Feb 2026 18:16:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771352201;
+	bh=7Kkx2FT+QPwYCHNPkbBayVFbOUk66ixqklHB6vS5Lj8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MgdUwTojIm8NvnsFjtTTJln/KD0QDJFHpDXo9BdBLx0xrlbPL//Vh13OZyqtup5lL
+	 6ibzQ0XFNpSesDqzFbSikMDQfw+AETvkxTI/ySGSYDA7Lc2oupvsAT+DZjBbjL7LGH
+	 y384M0SFt7GYjdWZFkGNVpDSPUVh6KcP/SM5umW0hu43tQ0zfchYTnAxDVWM68e4Du
+	 st0md2qfCpf7gfFKnE7g498b1pRRlI75f6fGqXU8H2YHSXTpGg6qYkaLj3SswVBVYq
+	 vA0xWmjQ4QCrx48ffBXIU+cSvmNvfaWj1V1zQQDBeMZW77iMWCvdlESrkSpFL+vZW7
+	 ZQYDRbyp+hgUQ==
+Date: Tue, 17 Feb 2026 11:16:38 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: hch@lst.de, sagi@grimberg.me, dwagner@suse.de,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvmet: move async event work off nvmet-wq
+Message-ID: <aZSwhqJHPmAFcvd5@kbusch-mbp>
+References: <20260215012151.11684-1-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7fcdb6bb-34b4-4b73-afce-75c423f8400b@suse.de>
+In-Reply-To: <20260215012151.11684-1-kch@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260217_095851_934120_E0AB113D 
-X-CRM114-Status: GOOD (  19.60  )
+X-CRM114-CacheID: sfid-20260217_101642_309831_56537D00 
+X-CRM114-Status: UNSURE (   9.21  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,36 +72,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon 2026-02-16 13:56:10 +0100, Hannes Reinecke wrote:
-> On 2/14/26 05:25, Mohamed Khalfella wrote:
-> > If CCR operations fail and CQT is supported, we must defer the retry of
-> > inflight requests per TP4129. Update ctrl->fencing_work to schedule
-> > ctrl->fenced_work, effectively extending the FENCING state. This delay
-> > ensures that inflight requests are held until it is safe for them to be
-> > retired.
-> > 
-> > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> > ---
-> >   drivers/nvme/host/tcp.c | 39 +++++++++++++++++++++++++++++++++++----
-> >   1 file changed, 35 insertions(+), 4 deletions(-)
-> > 
-> Can't you merge / integrate this into the nvme_fence_ctrl() routine?
+On Sat, Feb 14, 2026 at 05:21:51PM -0800, Chaitanya Kulkarni wrote:
+> @@ -26,6 +26,7 @@ static DEFINE_IDA(cntlid_ida);
+>  
+>  struct workqueue_struct *nvmet_wq;
+>  EXPORT_SYMBOL_GPL(nvmet_wq);
+> +struct workqueue_struct *nvmet_aen_wq;
 
-ctrl->fencing_work and ctrl->fenced_work are in transport specific
-controller, struct nvme_tcp_ctrl in this case. There is no easy way to
-access these members from nvme_fence_ctrl(). One option to go around
-that is to move them into struct nvme_ctrl. But we call error recovery
-after a controller is fenced, and error recovery is implemented in
-transport specific way. That is why the delay is implemented/repeated
-for every transport.
+Looks like you need to export this new symbol since rdma may be compiled
+as a module.
 
-> The previous patch already extended the timeout to cover for CQT, so
-> we can just wait for the timeout if CCR failed, no?
-
-Following on the point above. One change can be done is to reset the
-controller after fencing finishes instead of using error recovery.
-This way everything lives in core.c. But I have not tested that.
-
-Do you think this is better than what has been implemented now?
-
+> --- a/drivers/nvme/target/rdma.c
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -2088,6 +2088,7 @@ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data
+>  	mutex_unlock(&nvmet_rdma_queue_mutex);
+>  
+>  	flush_workqueue(nvmet_wq);
+> +	flush_workqueue(nvmet_aen_wq);
+>  }
 
