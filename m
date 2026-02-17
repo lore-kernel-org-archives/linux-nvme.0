@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A6E4E9A032
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 18:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B603FE9A031
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Feb 2026 18:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HLWRzMtsCpelPtrD3vI1WSb7s2lpiuT1u2xkypQAkdQ=; b=0T6/adOy2EEebsHxat0afMprZo
-	KG6WPsHN01lJoEGh6J/aAIGhPszuKI8nblsNqwG4wIsU61H//VivDA7gMsG0sQq7aOh1Yt9w1VXNj
-	wii7L/KajY6VJ6V+OHzj3k4D2FMT/qXoNF3nGLief0vRPZjXtwGe/1eE130DThQlmhysc5tjyVmr3
-	MBLaGjCzx8beetbnfM2KqFy+N4GjR9Aps8WqVXM+ouIkG3/JwCPT2SBNOjxwTSByYV8R7QnKXdTLa
-	u8iVxOQ7g3sHxsGsUG1seG2jnh1z1ZG1/YfQfo4Phi145lEWhQNZ8sRteuX2tzPljaGRSAClzGKZv
-	lA8oSSng==;
+	bh=Ar3sJnUhQqfIA6ag4F/NsoNaK28/BEdZL0lU+k7vNas=; b=lN8Qa0XWwsiQlkYPS/9o60W4R8
+	NKm72EdjEgL/DFffKGeep//YoPLc+caOOKSpacqgqVwIY6wRRMs2y0hriMuMsQxjqy2h/nexXHu+W
+	mn2K0pVFRrIajuGxvh6TQE407treDu+EUz63xTuN1Rra8Lk+36wu1T/Vm76EeV+28Yv4yUBhtqQHb
+	0svbE6ltIubBGjWTvJ6whbtxAwpv4788T+/tRqAb8zjC7M6Tx1fFNYh5m5P0GyiHOMNYGI8awf+/e
+	7+jF6PiSDmD8cHVpfC4NykWyd+GzuqV/o0bPqtcrLHLZxbxtkYvkww+tH+VBfJwWAt8hX8llNI8tA
+	AOX5HVLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsPlt-00000008iSG-2FCq;
-	Tue, 17 Feb 2026 18:26:05 +0000
-Received: from mail-dy1-x1330.google.com ([2607:f8b0:4864:20::1330])
+	id 1vsPvV-00000008jGl-1dsL;
+	Tue, 17 Feb 2026 18:36:03 +0000
+Received: from mail-dl1-x1235.google.com ([2607:f8b0:4864:20::1235])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsPll-00000008iRi-3Iwx
+	id 1vsPvS-00000008jFw-0tbS
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Feb 2026 18:26:01 +0000
-Received: by mail-dy1-x1330.google.com with SMTP id 5a478bee46e88-2ba895adfeaso4069960eec.0
-        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 10:25:57 -0800 (PST)
+	Tue, 17 Feb 2026 18:35:59 +0000
+Received: by mail-dl1-x1235.google.com with SMTP id a92af1059eb24-124899ee9d3so86457c88.0
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 10:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771352756; x=1771957556; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1771353357; x=1771958157; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HLWRzMtsCpelPtrD3vI1WSb7s2lpiuT1u2xkypQAkdQ=;
-        b=YZEBxgCmLrGua65aJVgzm0z5LSr5UauoDmoUTLeMeQWt4Eyz5jhgV8UW3K8zRkDX33
-         lv3Tu8zwBcfBAQBDAfwzaBb66K0gRAhLASLbne2et5I8FNCciLPyvC8Avy6wbTI0vdK4
-         befZ7acT9PtTx5RGEixRyOREZC4V7b9Wks8H8Am29bIINhfSWjovxBnZbd8XrfQmLT+n
-         o7cTfRlbDub4btInv2ekn+A886tS6YqBIzWp3FdwWLSh3uyZ+zmy5ervbqk4z9ho4S7s
-         V/5/Rlman9ssm7pWdapNKJlA/ErkhfXJz/S9Jr+DfqbUngfbn4K9l4WOm7raRxzfXATS
-         Gltw==
+        bh=Ar3sJnUhQqfIA6ag4F/NsoNaK28/BEdZL0lU+k7vNas=;
+        b=SpiXBcdlMiHnYnonXyNzMlw4yCj2WyxGll+ujBDDA15id4tyTQjWocfxFT0FkZWOaL
+         lcl1O5uAaPOVq5FBXlQHdqyTWL5Se+ffnT2bTHbN4dTHkLXvbQonuKPaQMvvSFJNXUxD
+         WzvhmxfF+tlavDJlneoLY5BNURR8wwRmOo22JZ7GWiPxx51UZjjkcRPv9mJtwImbdcYQ
+         DkHd5go+/Ena+G8KCZBnEa2Rz2K69Lzb5AlHhAYGZP3rBbdhzFhb1Oppm2CxPzaTRXZi
+         lAURTCBlLSXD6vPgsjDLNJ2VAg47v+sBX1eRekXuCxEocEzN5yK3EqJN3GTtZxGNkimk
+         D5PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771352756; x=1771957556;
+        d=1e100.net; s=20230601; t=1771353357; x=1771958157;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HLWRzMtsCpelPtrD3vI1WSb7s2lpiuT1u2xkypQAkdQ=;
-        b=eU/Z2vDfx0UWkS0szIiyv44VXieJUY3bcRlqbYQ6nZBbZprZXjPo+TPFA2+3NZ8Hss
-         eWhh6+aSn2X7qBPNWeKt/fUGldY2vOcJ2LxvWk5fMgj9OU/1gkRYe91DkmGdfdopi/Kc
-         LX4fhyft7DrLZH7cM8S3aqkRyMZCGsSdNsI1O1Cmkzdy1q6khZvBz17cTM+EU2iq6+om
-         xpNVjdJ4i5d76+X1u91XYSBVjdBBGngFRbc3E87aDYpKMACRPFxa1Kd0ot/Dqn0AqCK1
-         GdDan5Tq1apYMxzPPvdyz4epTi6t/KT8flJ4DkbhMhkKip2fV93D+P9uQ7MsDWrspa7K
-         ZroA==
-X-Forwarded-Encrypted: i=1; AJvYcCXk92ENxrgcKr2fyQpS3ufqDgDhUQH4zx/xj9nUCaxhx2mxeEfgc+NkmcmBV+IAalw53K95UJy+Fr14@lists.infradead.org
-X-Gm-Message-State: AOJu0YzgPde1gVARxiu11xoss6V0A1YJJJ9IzkoIjvjoXN0VFRBSi3KV
-	naqQOoh3jneDvBJqNfNS6HIsNr/YMeRcehiHdBSwu6u7pvTl8ku5qdw5Z4WgdUOxg9E=
-X-Gm-Gg: AZuq6aLxZRWtaj/AFPo/K5m2YTUUNzzLHsbZydKtJbcgJ+XauWhRRubbH3FR/nnWmSe
-	QDfTz2VckUhJaHseBzpaaTMLhnCDixPXwZMvr6307jnfcWYcoOe0Z/3PBMIUZnh3c7lXIGgUEa7
-	3PjQrvUxafseq3tRqi2jhl/BZFwtvRwbLH8e42cK0n0UhuTZY8fWoooAOMaa3RzbAN28ZgQaC/e
-	uqrkcGUe9nEXcLonOJqDBQNoQPb0MuPgO0z7TbtPbkSE6QGGg7QygYRZq45ZIqMUWIoN8z87HoC
-	GV5cXt/rQYUly367mxtiJcVDYSKYn5k9wmSCDQqvNxqYyo7bJuK/orIK4Q6GDWXDsq6NBcY8io5
-	8Vknnir8Eo25h7SOE3Gg+ZclK3P2IIEGlVZSA3fKV4xTmeiYW60UBdsUZ/XPJ0jwxHphFPAFrBp
-	CIOWBvLJ+gXAl/sq3y5bwtmanx0v+ojp1AMt4+TKsBSX0=
-X-Received: by 2002:a05:7301:4085:b0:2ba:6e6e:d8ef with SMTP id 5a478bee46e88-2babc53a802mr6429231eec.28.1771352756278;
-        Tue, 17 Feb 2026 10:25:56 -0800 (PST)
+        bh=Ar3sJnUhQqfIA6ag4F/NsoNaK28/BEdZL0lU+k7vNas=;
+        b=l2RugSEkwfuJuW6GPG/pBrgdpX9ktwH+1kp2d3bHXXgh/0cR9yVNoRYIx7f+IhkeK+
+         +dMhH8CmXWNg6lHVszw8o8Ie39VoPt5Oe1d6UbPXFykEeqaDLNgXrhdshcz1rxwNBVwp
+         OoqL16pnw+fsQiOBA908PIlb8Zt8GQy9MmfzFX6ZScjo5LtFoL3Q65E6u32TVOqF6TEb
+         lMUxA9ABz18a+pKAVLYfKsFYqOzNhhgmWSLJ3EKNDZ4zuQaJabGF9mfZD+dTCyJRda20
+         QZOxQR6Ypzgrz3W5V8dVRyR1bTmJhclTlOz55MHhqAWWYqT1wno+lkkQKiSSeZP5IEwd
+         Z25Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW08Sxz2+lM4YxVl5J0ZzVlaDKIvL8svDN1o8aG1y0cqyDD8of4cVd01sJLo3prq5JrG8tl5wlNhvuE@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz3NXDaYSie0prdM0qpnfTdHga1jRWy/1RqsM50cfgs3lWJ5+dh
+	5kMDjcWLIFXjb8ki3h+f9U7sSxu2HaDH0EZNZG4rW4WEW9yqS2i0WDwz7jI7jDpmIDw=
+X-Gm-Gg: AZuq6aKpBpUv+wSxOo10ETCOKbEF4Eii1OjVIrvEhZ1CwsPEh+IsRXIXlF4J+gir3uI
+	Ufvj++E7KQ90R9m2PF/HpW85e1HN+N8pbe6IfQt783JixDcGEi46Bu2y9CAm8dB/viYJ3ssOoeI
+	0nhCmjZyrBC0Jt9qY2S23kMxO3qduZBcJruWDxlEcwaTigk0kQpcDJ5HdQgpjjgh8GBj5sApjHI
+	/MI9RB8h4e9uOX8ivEmH87QTJ3DJaPhmoK0cneS9InTu8+5A9IHw+jth/EaGkN6IIU8+wsGAsdG
+	piKmabm5UJYb0JYXQZUIJxnsX+w1unozeI5bYtphT78S+XZkiW8Gxqc5WZ4bCKUa7oTgbqRsD42
+	3Q41wFWdDxqxWugCDAveDWYszvjePWevQJ5k9tz3qHUP55+lap3iHnrBwW8YiHfEjf6EskRWKok
+	rCTg03pJIfwYIIZzx/KIqocENpsaYI89ZVkuo8RGdrWVU=
+X-Received: by 2002:a05:7022:40f:b0:123:36f3:2d2f with SMTP id a92af1059eb24-1274103e7fdmr6005295c88.26.1771353356746;
+        Tue, 17 Feb 2026 10:35:56 -0800 (PST)
 Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-12742cadb25sm18674000c88.10.2026.02.17.10.25.55
+        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-12742cbc900sm17558009c88.14.2026.02.17.10.35.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 10:25:55 -0800 (PST)
-Date: Tue, 17 Feb 2026 10:25:54 -0800
+        Tue, 17 Feb 2026 10:35:56 -0800 (PST)
+Date: Tue, 17 Feb 2026 10:35:55 -0800
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Hannes Reinecke <hare@suse.de>
 Cc: Justin Tee <justin.tee@broadcom.com>,
@@ -82,19 +82,18 @@ Cc: Justin Tee <justin.tee@broadcom.com>,
 	Randy Jennings <randyj@purestorage.com>,
 	Dhaval Giani <dgiani@purestorage.com>,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/21] nvme: Implement cross-controller reset
- completion
-Message-ID: <20260217182554.GE3435530-mkhalfella@purestorage.com>
+Subject: Re: [PATCH v3 08/21] nvme: Implement cross-controller reset recovery
+Message-ID: <20260217183555.GF3435530-mkhalfella@purestorage.com>
 References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-10-mkhalfella@purestorage.com>
- <3b21ccbd-7948-436b-8faa-a5541c65946a@suse.de>
+ <20260214042753.4073668-9-mkhalfella@purestorage.com>
+ <c5ee3fd5-2bbe-44e0-ae1b-ed77d7d87029@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3b21ccbd-7948-436b-8faa-a5541c65946a@suse.de>
+In-Reply-To: <c5ee3fd5-2bbe-44e0-ae1b-ed77d7d87029@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260217_102557_835099_6D9C2F34 
-X-CRM114-Status: GOOD (  31.65  )
+X-CRM114-CacheID: sfid-20260217_103558_260999_FB533E86 
+X-CRM114-Status: GOOD (  34.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,139 +108,139 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon 2026-02-16 13:43:51 +0100, Hannes Reinecke wrote:
+On Mon 2026-02-16 13:41:39 +0100, Hannes Reinecke wrote:
 > On 2/14/26 05:25, Mohamed Khalfella wrote:
-> > An nvme source controller that issues CCR command expects to receive an
-> > NVME_AER_NOTICE_CCR_COMPLETED when pending CCR succeeds or fails. Add
-> > sctrl->ccr_work to read NVME_LOG_CCR logpage and wakeup any thread
-> > waiting on CCR completion.
+> > A host that has more than one path connecting to an nvme subsystem
+> > typically has an nvme controller associated with every path. This is
+> > mostly applicable to nvmeof. If one path goes down, inflight IOs on that
+> > path should not be retried immediately on another path because this
+> > could lead to data corruption as described in TP4129. TP8028 defines
+> > cross-controller reset mechanism that can be used by host to terminate
+> > IOs on the failed path using one of the remaining healthy paths. Only
+> > after IOs are terminated, or long enough time passes as defined by
+> > TP4129, inflight IOs should be retried on another path. Implement core
+> > cross-controller reset shared logic to be used by the transports.
 > > 
 > > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 > > ---
-> >   drivers/nvme/host/core.c | 49 +++++++++++++++++++++++++++++++++++++++-
-> >   drivers/nvme/host/nvme.h |  1 +
-> >   2 files changed, 49 insertions(+), 1 deletion(-)
+> >   drivers/nvme/host/constants.c |   1 +
+> >   drivers/nvme/host/core.c      | 141 ++++++++++++++++++++++++++++++++++
+> >   drivers/nvme/host/nvme.h      |   9 +++
+> >   3 files changed, 151 insertions(+)
 > > 
+> > diff --git a/drivers/nvme/host/constants.c b/drivers/nvme/host/constants.c
+> > index dc90df9e13a2..f679efd5110e 100644
+> > --- a/drivers/nvme/host/constants.c
+> > +++ b/drivers/nvme/host/constants.c
+> > @@ -46,6 +46,7 @@ static const char * const nvme_admin_ops[] = {
+> >   	[nvme_admin_virtual_mgmt] = "Virtual Management",
+> >   	[nvme_admin_nvme_mi_send] = "NVMe Send MI",
+> >   	[nvme_admin_nvme_mi_recv] = "NVMe Receive MI",
+> > +	[nvme_admin_cross_ctrl_reset] = "Cross Controller Reset",
+> >   	[nvme_admin_dbbuf] = "Doorbell Buffer Config",
+> >   	[nvme_admin_format_nvm] = "Format NVM",
+> >   	[nvme_admin_security_send] = "Security Send",
 > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 765b1524b3ed..a9fcde1b411b 100644
+> > index 231d402e9bfb..765b1524b3ed 100644
 > > --- a/drivers/nvme/host/core.c
 > > +++ b/drivers/nvme/host/core.c
-> > @@ -1916,7 +1916,8 @@ EXPORT_SYMBOL_GPL(nvme_set_queue_count);
-> >   
-> >   #define NVME_AEN_SUPPORTED \
-> >   	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | \
-> > -	 NVME_AEN_CFG_ANA_CHANGE | NVME_AEN_CFG_DISC_CHANGE)
-> > +	 NVME_AEN_CFG_ANA_CHANGE | NVME_AEN_CFG_CCR_COMPLETE | \
-> > +	 NVME_AEN_CFG_DISC_CHANGE)
-> >   
-> >   static void nvme_enable_aen(struct nvme_ctrl *ctrl)
-> >   {
-> > @@ -4880,6 +4881,47 @@ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
-> >   	kfree(log);
+> > @@ -554,6 +554,146 @@ void nvme_cancel_admin_tagset(struct nvme_ctrl *ctrl)
 > >   }
+> >   EXPORT_SYMBOL_GPL(nvme_cancel_admin_tagset);
 > >   
-> > +static void nvme_ccr_work(struct work_struct *work)
+> > +static struct nvme_ctrl *nvme_find_ctrl_ccr(struct nvme_ctrl *ictrl,
+> > +					    u32 min_cntlid)
 > > +{
-> > +	struct nvme_ctrl *ctrl = container_of(work, struct nvme_ctrl, ccr_work);
-> > +	struct nvme_ccr_entry *ccr;
-> > +	struct nvme_ccr_log_entry *entry;
-> > +	struct nvme_ccr_log *log;
+> > +	struct nvme_subsystem *subsys = ictrl->subsys;
+> > +	struct nvme_ctrl *ctrl, *sctrl = NULL;
 > > +	unsigned long flags;
-> > +	int ret, i;
 > > +
-> > +	log = kmalloc(sizeof(*log), GFP_KERNEL);
-> > +	if (!log)
-> > +		return;
-> > +
-> > +	ret = nvme_get_log(ctrl, 0, NVME_LOG_CCR, 0x01,
-> > +			   0x00, log, sizeof(*log), 0);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> > +	spin_lock_irqsave(&ctrl->lock, flags);
-> > +	for (i = 0; i < le16_to_cpu(log->ne); i++) {
-> > +		entry = &log->entries[i];
-> > +		if (entry->ccrs == NVME_CCR_STATUS_IN_PROGRESS)
+> > +	mutex_lock(&nvme_subsystems_lock);
+> > +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> > +		if (ctrl->cntlid < min_cntlid)
 > > +			continue;
 > > +
-> > +		list_for_each_entry(ccr, &ctrl->ccr_list, list) {
-> > +			struct nvme_ctrl *ictrl = ccr->ictrl;
+> > +		if (atomic_dec_if_positive(&ctrl->ccr_limit) < 0)
+> > +			continue;
 > > +
-> > +			if (ictrl->cntlid != le16_to_cpu(entry->icid) ||
-> > +			    ictrl->ciu != entry->ciu)
-> > +				continue;
-> > +
-> > +			/* Complete matching entry */
-> > +			ccr->ccrs = entry->ccrs;
-> > +			complete(&ccr->complete);
+> > +		spin_lock_irqsave(&ctrl->lock, flags);
+> > +		if (ctrl->state != NVME_CTRL_LIVE) {
+> > +			spin_unlock_irqrestore(&ctrl->lock, flags);
+> > +			atomic_inc(&ctrl->ccr_limit);
+> > +			continue;
 > > +		}
+> > +
+> > +		/*
+> > +		 * We got a good candidate source controller that is locked and
+> > +		 * LIVE. However, no guarantee ctrl will not be deleted after
+> > +		 * ctrl->lock is released. Get a ref of both ctrl and admin_q
+> > +		 * so they do not disappear until we are done with them.
+> > +		 */
+> > +		WARN_ON_ONCE(!blk_get_queue(ctrl->admin_q));
+> > +		nvme_get_ctrl(ctrl);
+> > +		spin_unlock_irqrestore(&ctrl->lock, flags);
+> > +		sctrl = ctrl;
+> > +		break;
 > > +	}
-> > +	spin_unlock_irqrestore(&ctrl->lock, flags);
-> > +out:
-> > +	kfree(log);
+> > +	mutex_unlock(&nvme_subsystems_lock);
+> > +	return sctrl;
 > > +}
 > > +
-> >   static void nvme_fw_act_work(struct work_struct *work)
-> >   {
-> >   	struct nvme_ctrl *ctrl = container_of(work,
-> > @@ -4956,6 +4998,9 @@ static bool nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
-> >   	case NVME_AER_NOTICE_DISC_CHANGED:
-> >   		ctrl->aen_result = result;
-> >   		break;
-> > +	case NVME_AER_NOTICE_CCR_COMPLETED:
-> > +		queue_work(nvme_wq, &ctrl->ccr_work);
-> > +		break;
-> >   	default:
-> >   		dev_warn(ctrl->device, "async event result %08x\n", result);
-> >   	}
-> > @@ -5145,6 +5190,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
-> >   	nvme_stop_failfast_work(ctrl);
-> >   	flush_work(&ctrl->async_event_work);
-> >   	cancel_work_sync(&ctrl->fw_act_work);
-> > +	cancel_work_sync(&ctrl->ccr_work);
-> >   	if (ctrl->ops->stop_ctrl)
-> >   		ctrl->ops->stop_ctrl(ctrl);
-> >   }
-> > @@ -5268,6 +5314,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
-> >   	ctrl->quirks = quirks;
-> >   	ctrl->numa_node = NUMA_NO_NODE;
-> >   	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
-> > +	INIT_WORK(&ctrl->ccr_work, nvme_ccr_work);
-> >   	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
-> >   	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
-> >   	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
-> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > index f3ab9411cac5..af6a4e83053e 100644
-> > --- a/drivers/nvme/host/nvme.h
-> > +++ b/drivers/nvme/host/nvme.h
-> > @@ -365,6 +365,7 @@ struct nvme_ctrl {
-> >   	struct nvme_effects_log *effects;
-> >   	struct xarray cels;
-> >   	struct work_struct scan_work;
-> > +	struct work_struct ccr_work;
-> >   	struct work_struct async_event_work;
-> >   	struct delayed_work ka_work;
-> >   	struct delayed_work failfast_work;
+> > +static void nvme_put_ctrl_ccr(struct nvme_ctrl *sctrl)
+> > +{
+> > +	atomic_inc(&sctrl->ccr_limit);
+> > +	blk_put_queue(sctrl->admin_q);
+> > +	nvme_put_ctrl(sctrl);
+> > +}
+> > +
+> > +static int nvme_issue_wait_ccr(struct nvme_ctrl *sctrl, struct nvme_ctrl *ictrl)
+> > +{
+> > +	struct nvme_ccr_entry ccr = { };
+> > +	union nvme_result res = { 0 };
+> > +	struct nvme_command c = { };
+> > +	unsigned long flags, tmo;
+> > +	bool completed = false;
+> > +	int ret = 0;
+> > +	u32 result;
+> > +
+> > +	init_completion(&ccr.complete);
+> > +	ccr.ictrl = ictrl;
+> > +
+> > +	spin_lock_irqsave(&sctrl->lock, flags);
+> > +	list_add_tail(&ccr.list, &sctrl->ccr_list);
+> > +	spin_unlock_irqrestore(&sctrl->lock, flags);
+> > +
+> > +	c.ccr.opcode = nvme_admin_cross_ctrl_reset;
+> > +	c.ccr.ciu = ictrl->ciu;
+> > +	c.ccr.icid = cpu_to_le16(ictrl->cntlid);
+> > +	c.ccr.cirn = cpu_to_le64(ictrl->cirn);
+> > +	ret = __nvme_submit_sync_cmd(sctrl->admin_q, &c, &res,
+> > +				     NULL, 0, NVME_QID_ANY, 0);
+> > +	if (ret) {
+> > +		ret = -EIO;
+> > +		goto out;
+> > +	}
+> > +
+> > +	result = le32_to_cpu(res.u32);
+> > +	if (result & 0x01) /* Immediate Reset Successful */
+> > +		goto out;
+> > +
+> > +	tmo = secs_to_jiffies(ictrl->kato);
+> > +	if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
+> > +		ret = -ETIMEDOUT;
+> > +		goto out;
+> > +	}
+> > +
+> That will be tricky. The 'ccr' comand will be sent with the default
+> command queue timeout which is decoupled from KATO.
+> So you really should set the command timeout for the 'ccr' command
+> to ctrl->kato to ensure it'll be terminated correctly.
 > 
-> We really would need some indicator whether 'ccr' is supported at all.
 
-Why do we need this indicator, other than exporting it via sysfs?
+Agreed. The timeout for CCR request should be ctr->kato just like what
+we do for keep alive request. The easiest way IMO to do is is to extend
+__nvme_submit_sync_cmd() to take request timeout. I do not want to make
+this change in this patchset.
 
-> Using the number of available CCR commands would be an option, if though
-> that would require us to keep two counters (one for the number of
-> possible outstanding CCRs, and one for the number of actual outstanding
-> CCRs.).
-
-Like mentioned above ctrl->ccr_limit gives us the number of ccrs
-available now. It is not 100% indicator if CCR is supported or not, but
-it is enough to implement CCR. A second counter can help us skip trying
-CCR if we know impacted controller does not support it.
-
-Do you think it is worth it?
-
-Iterating over controllers in the subsystem is not that bad IMO. This is
-similar to the point raised by James Smart [1].
-
-1- https://lore.kernel.org/all/05875e07-b908-425a-ba6f-5e060e03241e@gmail.com/
-
+Is it okay I make this change after this patchset gets merged?
 
