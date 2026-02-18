@@ -4,200 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29C5AE9A041
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 02:39:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4261FE9A04A
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 04:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Date:References:Message-ID:In-Reply-To:From:Subject:Cc:To:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P4Qn1OQ73kp9F5IyJLPB2m2qj8hXPpxL8WUsnctgep0=; b=vOEuxmhwOkLopX4D5gmZvCQtPh
-	qCnRFCayjFjILSonh8hz1Som9NmavJScBFXL3jVmBOTAFhXnqJSKjDBnixV3PRxOMoOFusswtAZtT
-	qcQuhxWRjXkLEUngSx4vyMnJybgKiv6D5xHoMd+Oh25RZfTDUcE7TC2kyuQfSf6SR9rT/DwHdb7zz
-	DMBdMw+B1RNYcAWc38UKwWeic4+14Ol7POSvWMhQSwOfJl2oCvkqoqAe2PNIJCU5YK8zj/Er9zezQ
-	D7IDxFKxPOOtmDwz0oFnfeKyRB1D0II/CVr1kQcm6iHAO1/S09PFMW3rim2XBuDUujVF2VNiigNUj
-	530j8Fiw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MbKBSejKyusQlf945oiHYtRQ1Vdoq/8Ld+w4pHyFIPs=; b=QrZnyXw33u4Uxbm+JqD7nfS6c+
+	mbPxd7Ciq8mHBomHAtxINkgPAvNl4k7kQCmfPJ3sgQ8SZGJ8TWvdtIG7Z0FaomEF9+/ThiasDKcv8
+	3kkwmwdonWNdxzKbgCB9z4w+EZhT1nP9d+PLpwY8rXByPIt72SWKeY9eSlkRQGTyoqWrAqbmdm5at
+	LmNF/2AORXU5Fl0FVB8ChvfpoxPsEfi0YBH4RiQAPXg0tuJdPNH3Z0M+oq/I98+yeru2PhWPK0hpQ
+	qikRSw8HeVCTBCUxuskrx9/yPMjuae/ZLzWwfl8o6SEj6Tnq8rfsgMp3JIkrOmicJvVBLZJ29znHb
+	SyzCUzzA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsXTJ-00000009CEm-2RqI;
-	Wed, 18 Feb 2026 02:39:25 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1vsYoB-00000009Fw1-45xC;
+	Wed, 18 Feb 2026 04:05:03 +0000
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsXTG-00000009CER-2IT6
+	id 1vsYo9-00000009FvK-2KZP
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Feb 2026 02:39:23 +0000
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61HGNMoL3675560;
-	Wed, 18 Feb 2026 02:39:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=P4Qn1OQ73kp9F5IyJL
-	PB2m2qj8hXPpxL8WUsnctgep0=; b=XCBah0k6AFwOceM93SUPZ+NjsORBPBFDoC
-	n80A+Ic9axmL18QipqIVD8aEQCoiARRgUJwnBA2lO05E3ivZfXsowbOsRRkzKXYC
-	rcMppr663U1Ij1HJO3H4lIxjiIbXRDnMnWNaCkt6xraIvYkqrCH0f7gdds5jrJJC
-	fi1H0jo8iVgzVWsdBnP/zjEKzxBwZChddPJfZTLAKDxFmmYIi/98LlGz3ILjcElF
-	KHWQjiNOZm35bJRJDb0orfxxjB7ysYct97HQY3Q2LC1WV9A9VIgYjdIl2fReKA3d
-	ADhyJqj2tlQOefuy+JhIuwykP8xgJIv7VQiYB8hqTZRX+ODkCJww==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4caj0avstx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 Feb 2026 02:39:16 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 61I2Dqva037114;
-	Wed, 18 Feb 2026 02:39:14 GMT
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012012.outbound.protection.outlook.com [40.93.195.12])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ccb281kcm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 Feb 2026 02:39:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dlj6Y2e09cKDWIpGJ2OpxN/n+2cHNCt7fSo7fU0HpSHaEMFKDXJ1Ap4ab2R/nsOPwl/lufnastH/zxhVTCS0eXvAjTkSciuqfqmaNMXU1LWqfepo5u1ygizuUBD6GZr+ulmJIq1I2KbT6SrYPp0WqJ2jXLWe2E1u9yP5jEtKNckvT2l5CjUBEly/AMdXAG3SSeojoj30SyjUXbRvwgLznFk2TXEKvTduh3Gyox1wyz+LAIm/FEA28gR1VzGnwpZ5uSte8H2lK5nJnDpuY7O7H/5ChZIKGBRTMB7NPfwhtu6DcfdlUYcv7lfwH26SVfRauQJ0Sw0TJ0gTd/4ZwYlXFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P4Qn1OQ73kp9F5IyJLPB2m2qj8hXPpxL8WUsnctgep0=;
- b=e9OahfgBRZWAyzqVDAVjEKV2Ylw+Of42T5GE5QGV4GeBoEkwPV+62A0ptd4mcLZtVpbPTVOHoJMSV03UbojHOrPF+ti+RXWWsqYvXqAzVYachHsRL4bmtgNb96/7zTTtTn0/V1/XJXcsCwfkylKyUjE6ISALapvDAQGZBtT9unAANoMAi9m2hFZ1uJocYfpcRcUgCl4aHBXwBm2pgnRp3FDv2QBUhuwNlivgd9Yqq4/y7ywephKDAeTb3rYWIvRKtrCWJUz6U7lC5a6UN4qvrwLgJ9vxtdrQBWOYv+c+UzgvNpjyNJQQD/39cH3M5pzWMkMVcPL+mlVI/xza/DuGyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Wed, 18 Feb 2026 04:05:02 +0000
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-c6e2a8db928so1902614a12.1
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Feb 2026 20:05:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771387500; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JlBrGh55M4K3whm2ngB2//R03GgbHa0YHqmK4VHG0v8gOUlg0waLE3lSW8Bn09Trjj
+         ufdTpDfqLCuM64qy4LGRdW4O0NNOvisZMB7SCTgbzQQ8CY8dQUdk2qiYm0tysHazFvH2
+         WSF5UvSLW7FhwxYAqYL2eVKlbt36elNvl77c4zM/AWOa5dhqfmDL6gzJgnRm98Q/HHCX
+         j/wHsbXm3bosKTEHZlRMvwUCENWM5x1Fo+bsAFC21Jc2iRKV4L6AXPGu7bFkdXhNtqhF
+         4dPUTzvW+G/Sw4iIeu/Dbh4/cl8KYPANeie0GiphFxuR4JfmNMhEr84faAzsazcgqaST
+         dRqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MbKBSejKyusQlf945oiHYtRQ1Vdoq/8Ld+w4pHyFIPs=;
+        fh=ZjvzeaUq5rPMLz4ytZus2RrSz7uXIABk1QiWjo5WwMs=;
+        b=ivSbyoX3zsBsXlHJdt8bU8G+sC0wBCoEVKDiVQtGzcuFCjvKomW1V8rMx5DQIDIDhN
+         rt/c73+Jj6hQkD8JgjBkAqjGdceEBAatsoiwLcjF+nJ3Ili63TQnBHnUyzrwnHlph810
+         CfjaAHssLzb57i3EZWCrCI7gJhnPbHBjBgkClWUfq13A57nz5mTwKBCAOsTnGlpkgeH0
+         hh1Ly7nVH6484V0PgSqA3NKllrOPE4KVfBVNdneZkwngyQQJdpVvf7FWRwmcBFDt8j+/
+         uLue0CyaToFY5FIc+t53GOi7te2JXCiYT/208o0vHXBxeUHM5HmsgUxJd1POhh4aYIWJ
+         9q6g==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P4Qn1OQ73kp9F5IyJLPB2m2qj8hXPpxL8WUsnctgep0=;
- b=Z9TsmnJDH8zuHCz9A9DzFcOTfCiOu2aKCQQaVMZRRHm38bQYmXxrJ8c6mXtM/HTVZ8x+fp95hML597m9dDsLYlXVW0DzlJl/sIFL2g8MDh5K6mhTEQEkDMFHYAn3BoG/xfv43atXOVkNIybnKacU9QfeKCd8f2Epg1T++wUFEKM=
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com (2603:10b6:610:cb::8)
- by MN6PR10MB7492.namprd10.prod.outlook.com (2603:10b6:208:471::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Wed, 18 Feb
- 2026 02:39:12 +0000
-Received: from CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::e525:dd71:b002:6ad5]) by CH0PR10MB5338.namprd10.prod.outlook.com
- ([fe80::e525:dd71:b002:6ad5%6]) with mapi id 15.20.9611.013; Wed, 18 Feb 2026
- 02:39:12 +0000
-To: Keith Busch via Lsf-pc <lsf-pc@lists.linux-foundation.org>
-Cc: Bart Van Assche <bvanassche@acm.org>, Keith Busch <kbusch@kernel.org>,
-        John Garry <john.g.garry@oracle.com>, linux-nvme@lists.infradead.org,
-        linux-block@vger.kernel.org, linux-scsi@vger.kernel.org
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Native SCSI multipath support
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <aZTL8srSowTU81Rz@kbusch-mbp> (Keith Busch via Lsf-pc's message
-	of "Tue, 17 Feb 2026 13:13:38 -0700")
-Organization: Oracle Corporation
-Message-ID: <yq1seaydbee.fsf@ca-mkp.ca.oracle.com>
-References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
-	<049a177d-85d6-4c9d-9a9a-f07391046101@acm.org>
-	<aZTL8srSowTU81Rz@kbusch-mbp>
-Date: Tue, 17 Feb 2026 21:39:10 -0500
-Content-Type: text/plain
-X-ClientProxiedBy: YT4PR01CA0240.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:eb::14) To CH0PR10MB5338.namprd10.prod.outlook.com
- (2603:10b6:610:cb::8)
+        d=gmail.com; s=20230601; t=1771387500; x=1771992300; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MbKBSejKyusQlf945oiHYtRQ1Vdoq/8Ld+w4pHyFIPs=;
+        b=Qgev3/0w7C5g6Hs+o1SDx5pRlL3vFI37SK85IVEfN/PeO6+AnYH5jN+E10reKSlqUL
+         VmK6PHA+BpsOl3V38U9nuWZglHP6CO6hdhybxuB1ePObLuFGDPh/xT+NUtMgva2wAXDQ
+         BNAukjKPt8/mOJVUQ++W1YvjE/FFyj9Zl50yPGsYgD2iJ5Cvc38GVxmddKhGts0QZDmk
+         oOx9InDPL8/IO1re1AwJV8jfYFhgWl0XAHLLJtj6LRZX7PXz5ddobCu8SIHBNA0QROIB
+         YrZW7aF5PUt+UlI1dl0bwz7mosxvczwIsCDQGbPkj9Yy7F2yrWso+SZBHPvcoSWjk0QX
+         kFMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771387500; x=1771992300;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MbKBSejKyusQlf945oiHYtRQ1Vdoq/8Ld+w4pHyFIPs=;
+        b=CxSVZNTBPLTGU4OmayMS/jr6AiW33uAtm+PAjqMyhgcRMmMVFtknn36PXHEPDplAv0
+         33zeVSnCbT0yesWf9dXyLVOFk85EUPq3jQGt2lov4m3WnV+qxUKEzD6ba57pheMl2BBX
+         +p02D6yg4fmClSl0zCn24CoZ63GQeRy8UM7pNLdCbe0UsDrA4gUBPIGcA3OiHeydkXhz
+         xc0O6MgL9VeDnUlRdtVFGKhFEFvcJDzFjBNK/RRgCFU6J9NwgRe5tmeAe59/Lob5hW1v
+         +Reu7trT1FwHaSGk3DH6NnKfU7uzyemeitsQqtNR/okaM0UwZiaOLvlkDejKGalEf0Az
+         BP9w==
+X-Forwarded-Encrypted: i=1; AJvYcCVB3UrEhuly2SSmmxqKP3E6QCOCwIxlvbjgMtawfh71IHPLTBOIIXzpH7lbuZcTm/6ca2/S8Fdd8LcP@lists.infradead.org
+X-Gm-Message-State: AOJu0YyOh259YQd3ZesYOmYTum/H5VooaJ7NXIz9r6hBstt0IQavou1p
+	A6bXBksRKvVR/mAAXNhOMdS555kGeavz9jeMXbYMiMGuzNgp6YEOj4kCvD4JDtfnSg5sJB0QqH2
+	iofr1bL5D7s2qpu6TyBYVQiVdvv+nbmw=
+X-Gm-Gg: AZuq6aJqCZCdwtz7claJIsPIEVveLH1J0f/dmsaTX3qkkJJTYQtGfVOMtcMk6a8WcBr
+	3GSBsTZp1zmWP6es3lmkif4/PfaS0OAVKVADmSpFI+CByBjn2ijFb5XzljgbWyBW+wGVObS1abR
+	MU1OP/1UhW6dcd9OYQrq2uD6A4dNVopubKp0LFRwrac39KmcCrkpDI5TtW76r/Owrx8AakWjK0U
+	dh2CFhBD3uzXAUbCtJz1NmV1irsDT8HlrOpzSZEvR7WYdHY5Qj4XlV06/9Ol85mSCARB+zfJAWd
+	MKFQMMEag1BDNOw=
+X-Received: by 2002:a17:903:22c7:b0:2a9:327f:ac56 with SMTP id
+ d9443c01a7336-2ad17597de3mr137011565ad.55.1771387500087; Tue, 17 Feb 2026
+ 20:05:00 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR10MB5338:EE_|MN6PR10MB7492:EE_
-X-MS-Office365-Filtering-Correlation-Id: db88c634-bc26-470e-3389-08de6e96e649
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TgYBczk79ZU9AXcN2KMPYMrEPWL8IfJ4y5jIddvauecEUYOJyVc1V0bP0AJ0?=
- =?us-ascii?Q?4FiWgTrighcmSpEWf1W9ThJHJ9xxe/sUIso0c9kPAkQLnP5sa770uYcokECm?=
- =?us-ascii?Q?Jf7d1NNZM+dF6qYXXmSRokxLvNTxj2R/AGvZ2JVz3xQfMpLANhWwPO0csSMe?=
- =?us-ascii?Q?hoQMXFAgoNY4WwqnjZd6W/4+gp0LG6GtNlpnlKraJTjYtHMB7LIFi8U2JcIS?=
- =?us-ascii?Q?uPLPqH1oixVBqNx6pzfRvyxAcicxaaQRzMkAQ8LewOlW9vttqm0nV2RyhNrt?=
- =?us-ascii?Q?mMZ9UV3LCvR5JMCXroHI7Flw3ZpzNE9l0idabX8K9nlv35exNS76qLT8Ni7e?=
- =?us-ascii?Q?4s9Q103f/6guI8wPNZ4TBQ86l9oOGHQTOiAcRvWtgWFgN7RPhmh0YfCoIZrV?=
- =?us-ascii?Q?dKIV+snD9SI7L3nyrBR0fOjJ0kUvlVdBEfAn3ccvA7F9wIqU7xHYwI73rYKh?=
- =?us-ascii?Q?Z6IzFdpG5Q+LD0eYHK+63+WFx+7wxiH+7hPutIh43OT9l8pA6fziiXIVjfWp?=
- =?us-ascii?Q?rpRwCfKAOzNP1jV58otlzHxVyXP6R3zZGwh6jCUSZjREGFymp50+0/ga0/Jd?=
- =?us-ascii?Q?uxOE0DNxrrI5weK1ue+HQxdAZ1e+Z+EHRKJaCDwvfnWZsX1qLETdlg3tN9v2?=
- =?us-ascii?Q?82/530pVUpVYNTvWh5l+048V8K8z33cPzBwW94Tala4ok4qUaXO+fJPcdYfx?=
- =?us-ascii?Q?k1uWhjFt/rAK8fPCTV0pqcnlZ/DeeWgKIqJCqFLXJJ8Rge/5WSNbYf8YD/oK?=
- =?us-ascii?Q?7zwQ+UkeBHQ2xb5PmWbqlxxRB0otq59rWSPRPAcek+v3RqylrQgWSr+ooqtS?=
- =?us-ascii?Q?FYQQJ3p99yXj/jFO0NeLAKhg3nbRDc+y02VXdA/sv/U6mMmRYCa58ClfscO0?=
- =?us-ascii?Q?pyRx9CnwOmyTZir/koLm074laxU1Wcp9uFRYaNkND4TsXo8VQQIQv1BVv1hS?=
- =?us-ascii?Q?/pj5ZWces6t+l9rXxBpcp/+0CteeGXqp3A1zoKbVskFZyTTcDvmJ3O86r2Ac?=
- =?us-ascii?Q?wnQvpC0e2DOlA7tBC4G9VT89JnTJrMlMj1rMc/gMfd+cOeoq3CVCJ9HsAtVV?=
- =?us-ascii?Q?utCURP6L82jhQCnezBQxRrlmDD5elaq5r0cSJ6HkPHyLAtjylavDgnQqcOGN?=
- =?us-ascii?Q?NdRwWfikJeqevxBVnzC9vfufwOPjssvR+TIOnHx/4n7ABDeWmII4TzXRfPZC?=
- =?us-ascii?Q?hwXu9xazEFYELwx606smYGBzyzX1ahnaki6QJ2hdmpqQsAH+gbbP5hpzDkMg?=
- =?us-ascii?Q?BwLxrOJAMqOD0apqM0NZ6aTCukAJLCRZYQ9wsmqD3Mvs9p4ZTdW2GhUSFnXl?=
- =?us-ascii?Q?AHOhaoPgOBx22JPzJQQ2fZVTLLE871Kd0l3QKCB+6UZ2OwbxaLQnpWSxpvss?=
- =?us-ascii?Q?L7vgComjbZp1yEwPyGEA8fC6DjkPSb4ffcxSMikbcuxez2SYQ/XxmWA1x0sW?=
- =?us-ascii?Q?YyvzwKwLZ40uMhoXoVmnW2ZzJCXF6F9arMRVMO9Q7/qxZAZIRe5Bl72s89VP?=
- =?us-ascii?Q?2lthUpJ6Njh8NPyTplQvvGRPd63sY/X4yeA2/ekxx/MYaWXbChm3+wrT8m0L?=
- =?us-ascii?Q?oVpXmWDCQOqTvbjoxjw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR10MB5338.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HPvYJXs7M4lCWPNBEy+uWMK+l+UUBDE7CS0MsMEmTk9KKdm9WWul6U/qvbSj?=
- =?us-ascii?Q?1eL4gwY86BW01J9flb7q9mnGD2oxZzBc1U3WULe0yPW3YqthK2EzHBWoCuZ0?=
- =?us-ascii?Q?F9Nyw/xEZsIURM+dDfV+tAKLDqwIVIAYjnIpn8dgpjcudRLa4PkalWb7dwJD?=
- =?us-ascii?Q?4lHdcttCXXbUADO5YSdqUyIuzy6/8c+bSmTzSr0L/s7g2B2AtNQl2snCqEtA?=
- =?us-ascii?Q?aMiV0ewLFZwg0WyNBBBS30SyHvbHcZ0So6nNBXElzWeUKw6x/be2x2+dRBKy?=
- =?us-ascii?Q?KubMKIaBOHrHav83XSuhGOJROcGAmJdbGpEbnYsPt3Cs2n51SaTTsbvawEqs?=
- =?us-ascii?Q?of/gyPihAJykJVab0s4ODTaK2Amaj6sYouEMeCndSaG0QIsXKzI8rrITnimK?=
- =?us-ascii?Q?dsKMKY72wIfde1Qxyt3pANWLFnDVA8j0qj8tDcgfDM2z+pV1yFkljwOTRt6N?=
- =?us-ascii?Q?apaAe3K+yeimKuf85UU71BdQ1Ss+j4O7p5rbX5JNzaxbYxlnFJSlPYwUZdvC?=
- =?us-ascii?Q?uqK5sGiie5bla+XSN9FaY+iEx47+ylt659JYHhUVMFulcCkg+L/KCXW5Hxnq?=
- =?us-ascii?Q?t6KN83Et3K+1F2ydWZm9BkYx5YFjR8Dkvuhu4HDYNOk/273R/XRqRHqpfwuE?=
- =?us-ascii?Q?ZXmHaLw34gfmNt1NyLAeop8Xar21nX/VHZ51MJuFjjZBBhEj7qGFnneI92tG?=
- =?us-ascii?Q?u2+miaAvqXa5LMPKFdBgg1aNy2TwOi4lxRaP3yDISbT8CBxir4yGtbJVC2cM?=
- =?us-ascii?Q?LN71MRzJWIfLMkSuge3NIH0BLdMWJfMS/GCdAfdeoxgDXap/chEDsyWd2Fbx?=
- =?us-ascii?Q?l/jkVfuMCq89dBZgz6hok5ordCW5ArnR/svK2Sjdkkvf2tfgMWwib745CrnZ?=
- =?us-ascii?Q?YTM0+W3nihKMIyC8iDCUY5b3r/+NJiAgixhVhDmAvDHSB27xyBmteicttT7y?=
- =?us-ascii?Q?GbknLcKQR+MnbsLsArbaUW2pva7MNiyW7Q9t1h0Ib8qFojN/qaJl7IjsOSQ3?=
- =?us-ascii?Q?PubwrNCtShVUbf305r8gpYmCO8e9SaDvmsjAwyIyS/VrrftV8pMVZ0ua9IJT?=
- =?us-ascii?Q?HnsngO4RM0uF+eJIf2CU0w/J9NwqvuVZp/iwG+iH7qHgrDQyAx5XCuBcrQ3f?=
- =?us-ascii?Q?JKQwxDUYl652+/y/WY5myRiZUlGzLlLmVvnkrDpFN0qsrV9qVn6O8t6beOu6?=
- =?us-ascii?Q?R+WTKw4GWxC7nTD0xq5oqpnu6jF9c2bsfpZ+QPoodyrP/DV/wIfpI5ZW7Lfk?=
- =?us-ascii?Q?qN9QKDxr5BcCLAS+JDEpSVWrC4V4Esb+GD/6Gy1cl8XJUg7ZMuYgKFQoNEfD?=
- =?us-ascii?Q?X6ywQG9xMG5CCUh3DbR7sn810J+d8WzjplHyUsBTmfPi9HEUGiB9WJrQdrA+?=
- =?us-ascii?Q?sKvn+a2V4GjArKBKhvGyjH+sAVXiVoEiZd0ThcyxDsHjaL+PXpqQa8aRcEie?=
- =?us-ascii?Q?OI2r5T51PJ5QXKpAQa5KGnx9MDjYkCyQD8aWGlOdNoSDOjXbJR7rQTti2R4k?=
- =?us-ascii?Q?Z+yukf9m7PWuHeTN5CLsTA7zJjpX6eUK6jCrKnB9ICCGnlanXf/Kf92Cda1C?=
- =?us-ascii?Q?GGsiSV3g9P4FMZUtzFanfepRt8vGqdv00GLnpsWwW1wNSAdnTUg/PN7hemWd?=
- =?us-ascii?Q?pPnWsuQGRh3ufDxi0xGB7vrBJgoTNyEAtwiQja/TJZUHs9X9b3hnDLIi7gTU?=
- =?us-ascii?Q?aSMUDT91EWqggQEHWBXVRFhAjt5jwO/4vUU92xfw3akN4qvi4fjPSePiKHFA?=
- =?us-ascii?Q?ekH0f1T748FQ2oKbHZ7T3oKGl1jVBaQ=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: loTDb+uZuX7wsoeMwmH6DFm2iarPqCPoJ2TvkSr40usQ20foNaLe7AAqafQaaVoL1Cn/wAp9s7l2tK88yWL6lf4J2fnaeQ2t4YddZrNIjr39UWEGsoam7VWDjS+bcoksZbL7iyeOLf8Cv0J2+t0zz9DxvjdEJc1gixxQv7n4HHScayILGdipt35MZytSfVLZacgVW0thLBZ034HnZ8/oOKSlDO4b3HOyWtKNth3JJXHYp+yF9rtLai0VVioyc6dEw6S5UaqYTQLcwzGPBQbFarSRMjhdcGVn67WURh5lQerodyUIxxvjDkRPneQSxycompo+CnJPMqggaqcTyjuQX7kIfHiONLNlA1Z03h6S4p3AoOCR9jV3uhbt0VsvPAO5W+tWTmnTtmiOfBizPdgyB1MW1SJUcnsyTyKosPK8CaxBqVoCQpi3bFnnFLKCoJltA8ooe0h1I3KjtAMzV9q6EKfT4SArG5Y/OutKAuws8FKoH2HtX81ZW2QbVafSkVcbYVByLvqnpNhg1cMFIX2xfYHo+VNUNWRvFUM6BXuGPt1u8QSEmsLV1Yugh6n9buKpvIuYuCHW6nEDPDavv5ixTI6byd+iB6NwfcJPFb/o/UU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db88c634-bc26-470e-3389-08de6e96e649
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 02:39:12.2469
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ihRncLRXNd7vPm8Dyvjs/ddq/RD6ap/ChrFNNrn6yoAdJmcYP/+J2ma6zZ3QQZpWEOet05eZoY7S6jT2JYDxGHMHHmmdMShRn1dlycpZj1g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB7492
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-17_04,2026-02-16_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 adultscore=0
- bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=766 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
- definitions=main-2602180021
-X-Proofpoint-GUID: 7y6V4udbV0-3CMEeuFe7yrQFDYBaZfoW
-X-Proofpoint-ORIG-GUID: 7y6V4udbV0-3CMEeuFe7yrQFDYBaZfoW
-X-Authority-Analysis: v=2.4 cv=UsVu9uwB c=1 sm=1 tr=0 ts=69952654 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
- a=GgsMoib0sEa3-_RKJdDe:22 a=weTNXte9K7PlxK308q4A:9 cc=ntf awl=host:12253
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE4MDAyMSBTYWx0ZWRfX+205SQfBoxFF
- oGFBL9218guankaC08sXoS7VXbAkjgN0ShzdRp/e2g7ltmHKjGf+1fsEvZPLwLUpopilE3DeC4I
- CbgcNbMwYT14PxLPJlpci5owrNpVc8Xu/NKx5XRHjdFMj74aV52w/DMHGrRJ0/bir//+suigPEP
- P9uxcBnsOM4w8o3jU3aQal2mBfcA42bEU7ztQYSfJMTnSMOQZMqPrldO++rICnd043JF/M68h8f
- XJM5QgJ72oxZ2+0tS7JzRGuPY55AWbJmaeYCS3j6zQxH/3GgsAMeSZ/hAQ5b04lgSo4OuqL+OeF
- 02lf2HxKP9hmh9HCbCFqsDpEMrqVEG2QMPxuVFuuQhQCo9+4bQysOIjXvEf8lsVfjbuKuu9+Sk5
- XQfE+SX/gvPz7OtZsOQFZP2A20tHbeV4R23LRd1OWBBdLK21cbSBUDRi3hnNRrpKjcZDl1PBkMC
- 6I8ZaCXb061OhUi2nfmPVKWLXHFU9vegRtZWiviM=
+References: <20260211065925.2878336-1-ioerts@kookmin.ac.kr> <CAMX6_QEQ0MZTPv3+ma6cESW6sXrzHSNttoRTY5wNf9p98caa8A@mail.gmail.com>
+In-Reply-To: <CAMX6_QEQ0MZTPv3+ma6cESW6sXrzHSNttoRTY5wNf9p98caa8A@mail.gmail.com>
+From: yunje shin <yjshin0438@gmail.com>
+Date: Wed, 18 Feb 2026 13:04:49 +0900
+X-Gm-Features: AaiRm53B6BPJOuhS2U91CIFXmp5z3GYOpWxe9sCTo4PlYQb4LNe9lDODXs-rdr0
+Message-ID: <CAMX6_QGn=0riCV+DZewc98b+AAdemj8ani9bQg-T+epFC5kAhw@mail.gmail.com>
+Subject: Re: [PATCH] nvmet: auth: validate dhchap id list lengths(KASAN: slab-out-of-bounds)
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, ioerts@kookmin.ac.kr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260217_183922_592794_FFB02F89 
-X-CRM114-Status: UNSURE (   6.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260217_200501_607756_DC988F36 
+X-CRM114-Status: GOOD (  29.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -212,13 +117,177 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+I've confirmed that the issue is still present and the KASAN
+slab-out-of-bounds read is still reproducible. Please let me know if
+there are any concerns or if a v2 is needed.
 
-Keith,
+Thanks, Yunje Shin
 
-> For nvme, we can detect if a device is multipath capable.
-
-Yep. Same with SCSI...
-
--- 
-Martin K. Petersen
+On Thu, Feb 12, 2026 at 10:49=E2=80=AFAM yunje shin <yjshin0438@gmail.com> =
+wrote:
+>
+> The function nvmet_auth_negotiate() parses the idlist array in the
+> struct nvmf_auth_dhchap_protocol_descriptor payload. This array is 60
+> bytes and is logically divided into two 30-byte halves: the first half
+> for HMAC IDs and the second half for DH group IDs. The current code
+> uses a hardcoded +30 offset for the DH list, but does not validate
+> halen and dhlen against the per-half bounds. As a result, if a
+> malicious host sends halen or dhlen larger than 30, the loops can read
+> beyond the intended half of idlist, and for sufficiently large values
+> read past the 60-byte array into adjacent slab memory, triggering the
+> observed KASAN slab-out-of-bounds read.
+>
+> This patch fixes the issue by:
+>     - Computing the half-size from sizeof(idlist) (idlist_half)
+> instead of hardcoding 30
+>     - Validating both halen and dhlen are within idlist_half
+>     - Replacing the hardcoded DH offset with idlist_half
+>
+> Thanks,
+> Yunje Shin
+>
+> On Wed, Feb 11, 2026 at 3:59=E2=80=AFPM YunJe Shin <yjshin0438@gmail.com>=
+ wrote:
+> >
+> > Validate DH-HMAC-CHAP hash/DH list lengths before indexing the idlist h=
+alves to prevent out-of-bounds reads.
+> >
+> > KASAN report:
+> > [   37.160829] Call Trace:
+> > [   37.160831]  <TASK>
+> > [   37.160832]  dump_stack_lvl+0x5f/0x80
+> > [   37.160837]  print_report+0xd1/0x640
+> > [   37.160842]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+> > [   37.160846]  ? kfree+0x137/0x390
+> > [   37.160850]  ? kasan_complete_mode_report_info+0x2a/0x200
+> > [   37.160854]  kasan_report+0xe5/0x120
+> > [   37.160856]  ? nvmet_execute_auth_send+0x19a9/0x1f00
+> > [   37.160860]  ? nvmet_execute_auth_send+0x19a9/0x1f00
+> > [   37.160863]  __asan_report_load1_noabort+0x18/0x20
+> > [   37.160866]  nvmet_execute_auth_send+0x19a9/0x1f00
+> > [   37.160870]  nvmet_tcp_io_work+0x17a8/0x2720
+> > [   37.160874]  ? __pfx_nvmet_tcp_io_work+0x10/0x10
+> > [   37.160877]  process_one_work+0x5e9/0x1020
+> > [   37.160881]  ? __kasan_check_write+0x18/0x20
+> > [   37.160885]  worker_thread+0x446/0xc80
+> > [   37.160889]  ? __pfx_worker_thread+0x10/0x10
+> > [   37.160891]  kthread+0x2d7/0x3c0
+> > [   37.160894]  ? __pfx_kthread+0x10/0x10
+> > [   37.160897]  ret_from_fork+0x39f/0x5d0
+> > [   37.160900]  ? __pfx_ret_from_fork+0x10/0x10
+> > [   37.160903]  ? __kasan_check_read+0x15/0x20
+> > [   37.160906]  ? __switch_to+0xb45/0xf90
+> > [   37.160910]  ? __switch_to_asm+0x39/0x70
+> > [   37.160914]  ? __pfx_kthread+0x10/0x10
+> > [   37.160916]  ret_from_fork_asm+0x1a/0x30
+> > [   37.160920]  </TASK>
+> > [   37.160921]
+> > [   37.174141] Allocated by task 11:
+> > [   37.174377]  kasan_save_stack+0x3d/0x60
+> > [   37.174697]  kasan_save_track+0x18/0x40
+> > [   37.175043]  kasan_save_alloc_info+0x3b/0x50
+> > [   37.175420]  __kasan_kmalloc+0x9c/0xa0
+> > [   37.175762]  __kmalloc_noprof+0x197/0x480
+> > [   37.176117]  nvmet_execute_auth_send+0x39e/0x1f00
+> > [   37.176529]  nvmet_tcp_io_work+0x17a8/0x2720
+> > [   37.176912]  process_one_work+0x5e9/0x1020
+> > [   37.177275]  worker_thread+0x446/0xc80
+> > [   37.177616]  kthread+0x2d7/0x3c0
+> > [   37.177906]  ret_from_fork+0x39f/0x5d0
+> > [   37.178238]  ret_from_fork_asm+0x1a/0x30
+> > [   37.178591]
+> > [   37.178735] The buggy address belongs to the object at ffff88800aecc=
+800
+> > [   37.178735]  which belongs to the cache kmalloc-96 of size 96
+> > [   37.179790] The buggy address is located 0 bytes to the right of
+> > [   37.179790]  allocated 72-byte region [ffff88800aecc800, ffff88800ae=
+cc848)
+> > [   37.180931]
+> > [   37.181079] The buggy address belongs to the physical page:
+> > [   37.181572] page: refcount:0 mapcount:0 mapping:0000000000000000 ind=
+ex:0x0 pfn:0xaecc
+> > [   37.182393] flags: 0x100000000000000(node=3D0|zone=3D1)
+> > [   37.182819] page_type: f5(slab)
+> > [   37.183080] raw: 0100000000000000 ffff888006c41280 dead000000000122 =
+0000000000000000
+> > [   37.183730] raw: 0000000000000000 0000000000200020 00000000f5000000 =
+0000000000000000
+> > [   37.184333] page dumped because: kasan: bad access detected
+> > [   37.184783]
+> > [   37.184918] Memory state around the buggy address:
+> > [   37.185315]  ffff88800aecc700: fa fb fb fb fb fb fb fb fb fb fb fb f=
+c fc fc fc
+> > [   37.185835]  ffff88800aecc780: fa fb fb fb fb fb fb fb fb fb fb fb f=
+c fc fc fc
+> > [   37.186336] >ffff88800aecc800: 00 00 00 00 00 00 00 00 00 fc fc fc f=
+c fc fc fc
+> > [   37.186839]                                               ^
+> > [   37.187255]  ffff88800aecc880: fa fb fb fb fb fb fb fb fb fb fb fb f=
+c fc fc fc
+> > [   37.187763]  ffff88800aecc900: fa fb fb fb fb fb fb fb fb fb fb fb f=
+c fc fc fc
+> > [   37.188261] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > [   37.188938] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication")
+> > Signed-off-by: YunJe Shin <ioerts@kookmin.ac.kr>
+> > ---
+> >  drivers/nvme/target/fabrics-cmd-auth.c | 13 ++++++++++++-
+> >  1 file changed, 12 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/targ=
+et/fabrics-cmd-auth.c
+> > index 5946681cb0e3..8ad3255aec4a 100644
+> > --- a/drivers/nvme/target/fabrics-cmd-auth.c
+> > +++ b/drivers/nvme/target/fabrics-cmd-auth.c
+> > @@ -36,6 +36,7 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req,=
+ void *d)
+> >         struct nvmet_ctrl *ctrl =3D req->sq->ctrl;
+> >         struct nvmf_auth_dhchap_negotiate_data *data =3D d;
+> >         int i, hash_id =3D 0, fallback_hash_id =3D 0, dhgid, fallback_d=
+hgid;
+> > +       size_t idlist_half;
+> >
+> >         pr_debug("%s: ctrl %d qid %d: data sc_d %d napd %d authid %d ha=
+len %d dhlen %d\n",
+> >                  __func__, ctrl->cntlid, req->sq->qid,
+> > @@ -72,6 +73,15 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req=
+, void *d)
+> >             NVME_AUTH_DHCHAP_AUTH_ID)
+> >                 return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+> >
+> > +       /*
+> > +        * idlist[0..idlist_half-1]: hash IDs
+> > +        * idlist[idlist_half..]: DH group IDs
+> > +        */
+> > +       idlist_half =3D sizeof(data->auth_protocol[0].dhchap.idlist) / =
+2;
+> > +       if (data->auth_protocol[0].dhchap.halen > idlist_half ||
+> > +           data->auth_protocol[0].dhchap.dhlen > idlist_half)
+> > +               return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+> > +
+> >         for (i =3D 0; i < data->auth_protocol[0].dhchap.halen; i++) {
+> >                 u8 host_hmac_id =3D data->auth_protocol[0].dhchap.idlis=
+t[i];
+> >
+> > @@ -98,7 +108,8 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req=
+, void *d)
+> >         dhgid =3D -1;
+> >         fallback_dhgid =3D -1;
+> >         for (i =3D 0; i < data->auth_protocol[0].dhchap.dhlen; i++) {
+> > -               int tmp_dhgid =3D data->auth_protocol[0].dhchap.idlist[=
+i + 30];
+> > +               int tmp_dhgid =3D
+> > +                       data->auth_protocol[0].dhchap.idlist[i + idlist=
+_half];
+> >
+> >                 if (tmp_dhgid !=3D ctrl->dh_gid) {
+> >                         dhgid =3D tmp_dhgid;
+> > --
+> > 2.43.0
+> >
 
