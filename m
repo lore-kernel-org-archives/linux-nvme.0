@@ -4,219 +4,140 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6513DE9A03E
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 08:24:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9333DE9A03B
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 08:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
-	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=A9EUuycQzux6LMYInZ+fNgVyUo4Fk/YVictpKuZiMd8=; b=n90Nq3dx7nVFKm5mfgd94pZ8y/
-	z7lm0lTedaaKdEtdPcFMNEqOz6eDiNbzeAeVCC23m7tb0GVda5jNU4dSzWAveonICTk86WKCpiwDB
-	9VFM7SEhUzEFuSZgDESzk/E/Kb8vyyfqQT6wqrlLIXfqetHgRH8N8AYMg7777rcVE+TKfZ2WwfSdK
-	f5DMmooVt+jgNCYSFHZRzTEUkwz3aBKkZnEc34Bo+pT3m73nUNTIWvGE7FNNa8LQqbu662Pnms6i9
-	J+HdKrj27YDhBDGtufZAo09basARl76+PPK/cyfhdVQy2/2AsTYKlQbho0mhJ8mO2DiHIzLEf2Z1V
-	29tuSV3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uG1W71yVzpq8R4o3XHp5q+zB8HyQY7YKXS4bzpupA+Y=; b=u3VgqVbUg5rPwrSRqhMDCsmAIc
+	VS+Mugm1kojAG2hmEYywL4FVj8InZEs78LfKRzWCceD8/mAA7cs4PjcUN1+hBQgsXzVqIaPJz/jMQ
+	x5EL6oBo6OBe6YtIzbWb74enUh5NWDxPQJ2tIHofJ12Ew8Qi5IRiAQ9J87CvAxhEaXZxFDZKxVA4l
+	yU2VvwU26rg24FP1moorJxLlM/M/fGcy6+GD1HpmD0OU5uXhN7LmHBtuoCz3QgrFB8jIO7AlCg9u1
+	ILz+w4UJyShEDfF8hCZO3a7QkorBZ4RMzeMggSfLV9DU39iTjqATbeGV14E7ql9rudUs9i4DD19FB
+	m0caBTqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vscqj-00000009SkO-0z4t;
-	Wed, 18 Feb 2026 08:23:57 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1vsctJ-00000009T67-12GM;
+	Wed, 18 Feb 2026 08:26:37 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vscqf-00000009Sjg-2xvN
+	id 1vsctG-00000009T5R-2sDH
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Feb 2026 08:23:55 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61I5LP5k1535448;
-	Wed, 18 Feb 2026 08:23:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=A9EUuycQzux6LMYInZ+fNgVyUo4Fk/YVictpKuZiMd8=; b=
-	ZwSeVncTsivgHVmCqUhZjB64hDsmgQJNUWCbkE0hdTW78Mx9LfH49pasIecb16n/
-	eVt6A1knUOp5qMHCRoQUTsXE14vmFpnDGa3AWLkIyIjmAvaULnYDfHc1PgAzOGXf
-	JZkwmu5H4I/S3MW53I/xo4HwqJFnqPq4xHswMHmhJsPyfrK4ZBJPv39bUsgN4Thl
-	v996t2TZQPSyPlQwYSELwJ4NWwSj42vPG0dsUqdK64ytIaco5B6GUT1sl1y4p/eT
-	ob7ykZzXY9+ERNZdRqjx4x/v/hY06S0ZlMrLo4qjYMsSeSThguHcA0pfC6RjDa1I
-	Xw/RRODy5ktjh/G5PN8eEQ==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4caj3t53sc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 Feb 2026 08:23:47 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 61I80GUv037164;
-	Wed, 18 Feb 2026 08:23:47 GMT
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011022.outbound.protection.outlook.com [40.93.194.22])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ccb28ay0d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 Feb 2026 08:23:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hgTbAKSUNSNZEn7n/f+98VxxpyQOg4URwRBcD9kw0Rj5CjG9u65FhYndMN27QDQ7elsT7m1Cfqvg5eJwxvDSCF/sCFngZRP2MPJDT6nhjr9WYoibbctXgiNrw+eRXOc5ofPsfqlPmic+L+WK9iexuqYNb6/Va46Dq0PoFIV2+UD6WrtiAaGD5ENJ0A9XPG1rN6e3y4W1k3EFYlWmcjHJKY0BFsLutU9XtHXizx0ThV/eBm2tCRdX5zv/3rWDYKPyR33oStVDsz/wGnr5/Z4Jgagq2g5WJkYKt7CWh/voJnrs5a8iesGvYKN3cNuZ7z4W9sREYJ3YNT0Ipw+qHDeXcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A9EUuycQzux6LMYInZ+fNgVyUo4Fk/YVictpKuZiMd8=;
- b=JBy4d6roTYrAlxjDjOFbqw9bkvw/grrhZRbcUcMWhbQxMWpoIKsPGEfwt+ggJmG5NS7awRLbiD5azyJ9jhoKdLnqc+rqBTO4uy1Lep1hSbrChnLpupJYIt+nJCKg96DOOisdfXTZHG62H0xmJfAX7ORJ4o0eydg29JNwB/MZcvte74OQAbfNB84fG2gXFcZEJbTXmik+YrAYnX40Tjo/wtqvISdv1s4bHMmA8QphIQFDMt32LZWlbVRYIaj0c+xf4QpCI4xLDUGpldEUT4TnttGGOOn3hLCOkLgdz2VW4KvnOg+1anMh6PpmWZBDDqY7zl+1ja18cO3LrulXjhjVPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A9EUuycQzux6LMYInZ+fNgVyUo4Fk/YVictpKuZiMd8=;
- b=QYThugh1inx2xxmaTn/EjHQLSF/hgFo1SIejeiD2WOsHGqHNo7hTKgpUzlaQmlOIGk9ya+bdKldgzpicV3gk11wGgSV4cB8llEpp3jDPou7FYoLNaf5zv7UrtlNvAIaKDU8dMw/HESbWpF8DyLmDQPLnwP5bbSGa3btXnXYgZ8c=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by CO1PR10MB4532.namprd10.prod.outlook.com
- (2603:10b6:303:6d::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Wed, 18 Feb
- 2026 08:23:44 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::ba87:9589:750c:6861]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::ba87:9589:750c:6861%5]) with mapi id 15.20.9611.012; Wed, 18 Feb 2026
- 08:23:44 +0000
-Message-ID: <79c34a56-4182-40ed-84bc-420185e6c593@oracle.com>
-Date: Wed, 18 Feb 2026 08:23:41 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Native SCSI multipath support
-To: Bart Van Assche <bvanassche@acm.org>, lsf-pc@lists.linux-foundation.org,
-        linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-scsi@vger.kernel.org
-References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
- <049a177d-85d6-4c9d-9a9a-f07391046101@acm.org>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <049a177d-85d6-4c9d-9a9a-f07391046101@acm.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0012.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::7) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
+	Wed, 18 Feb 2026 08:26:36 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BAB923E6E8;
+	Wed, 18 Feb 2026 08:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771403192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uG1W71yVzpq8R4o3XHp5q+zB8HyQY7YKXS4bzpupA+Y=;
+	b=Ord3GcoOV8sHvUT64cepL06gXspm4MbMLYovdbLnjMCvjiK7WpdUx31If1Ab6x+R8LzGAW
+	0FTNGqz99z5r8Cr3zNTDTMkBaXBX6mo8JKHVJuy46OA1Q9zHL50I9vUNEmUabUYVrPs4zY
+	COB0oNLADQEMUA0DLwe148pDMeNPNZc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771403192;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uG1W71yVzpq8R4o3XHp5q+zB8HyQY7YKXS4bzpupA+Y=;
+	b=7f5SR+E7fE3Hj90o+RejnLbj+fBliykmxs3yHOxey6tncy7Pe06dadE4iZQB8acPU3Qsns
+	Sm1y/Pgx7/P/k0BA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ord3GcoO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7f5SR+E7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771403192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uG1W71yVzpq8R4o3XHp5q+zB8HyQY7YKXS4bzpupA+Y=;
+	b=Ord3GcoOV8sHvUT64cepL06gXspm4MbMLYovdbLnjMCvjiK7WpdUx31If1Ab6x+R8LzGAW
+	0FTNGqz99z5r8Cr3zNTDTMkBaXBX6mo8JKHVJuy46OA1Q9zHL50I9vUNEmUabUYVrPs4zY
+	COB0oNLADQEMUA0DLwe148pDMeNPNZc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771403192;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uG1W71yVzpq8R4o3XHp5q+zB8HyQY7YKXS4bzpupA+Y=;
+	b=7f5SR+E7fE3Hj90o+RejnLbj+fBliykmxs3yHOxey6tncy7Pe06dadE4iZQB8acPU3Qsns
+	Sm1y/Pgx7/P/k0BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 528A83EA65;
+	Wed, 18 Feb 2026 08:26:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4Dw1Erh3lWnGIgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 18 Feb 2026 08:26:32 +0000
+Message-ID: <47a898f3-bc2d-4385-b9c0-125daff7cf27@suse.de>
+Date: Wed, 18 Feb 2026 09:26:31 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|CO1PR10MB4532:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c491faa-6844-4a1d-1bc9-08de6ec70809
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dUJteWFycUkzSnN2WWJPOFBFcG5palMzampnTmhOeTFNRTNicWhSSDhIcFpH?=
- =?utf-8?B?OWxrNzR5MkhXazRLMUZTTXg1b0V2WDV0d0UvUyt6MWV1cGFHOEs1SkpwSlJQ?=
- =?utf-8?B?cVdTcCtaR3p5aEhhR2lkVnQ0UUwzZVVCTmEwZzNYaFNIdVRUZjJOb090MTVS?=
- =?utf-8?B?c09FRDNDUDNkcU9VYkFla0dRanRHZ3M4N0pHVnlmMS9HZXZlVTJrZWgwNTlv?=
- =?utf-8?B?UThvWlFNamdybEZlVklCT2dNRUs4SXhOM1pOa1pSbTVYR0JMV1UxK2sxM3lX?=
- =?utf-8?B?MnZZYjZXekdoSHArMjl2UXd6OXBNY2VTdDIwamwzbUNNRFdVOWxwMDdtcTN6?=
- =?utf-8?B?c2p2OXc3UEp1RklITWRWbXYrdXpVeGJvMENFWDhqd2VVbFlJaUIvN1hmNytX?=
- =?utf-8?B?YU1SUTEweGJveUs5YWVpOWV0NXpzR3BBTGc4WUhLMHc5UWRia1lnZHA3c2Vi?=
- =?utf-8?B?RXdiRFVtc1Y1aFZSY0JHTkVYN2pVQm5iOUNFWEtXRWtORkM1MGE2VmZpMUVh?=
- =?utf-8?B?OVV3cGgwVjJDZ1h2OXVqUURkZ2xqWDd3Mit0WmltVzUrVy9mNC80MkxMMVFW?=
- =?utf-8?B?RUdpcHY0Zlc3SDVqZEF1RGJuSnE1RlpqTTVoaVEzeEdpaGE4NWxjL3ZDeU9n?=
- =?utf-8?B?Zk44NGRMd1pFT0djNjhCRHltUFpFNFBuVSszVkZ6UGtNVHZ5S2RWRllXcERJ?=
- =?utf-8?B?OHRMMU9NMGxKeElaTmI4cC9wdjJyRURaMCtSVEQyVW5zZUZoWm9QQ2tlVDZC?=
- =?utf-8?B?UVduUlJkUnU0cGliSnJhM0lrOGFOK0s0aEQxVVVhemhITjhKRFNPdVJZNjNp?=
- =?utf-8?B?dFp0bGN6dXRVYUw0SWQrSmdyK2g5MjFraEVXNzc1MFJzNkZTMnN1OTlIZm1n?=
- =?utf-8?B?U0ZtVmpacG1iQno5TUJEQ3l6MXpwR2t1a2lEUENsdk8vUERYa2FTWEk1ZWhK?=
- =?utf-8?B?cjJWZXhBQmd4Zi9yTFdoK2kwVTR5dS9XZE1BSmR6V1o2VjMvYTRoeW5mbjNh?=
- =?utf-8?B?SWZqaXJnQWZUcWpWM1NMT3J4T1c3RHlTS29TVlFkOUV4TndKZEVJSzJDMHRu?=
- =?utf-8?B?Q1BsRzVQMnJ6SXpFOE56RkhtVzlaM2kvRDlvaVlGUkc2bURwNkdabllERzNC?=
- =?utf-8?B?REhNc1ptbXJmZm5jWFJGTmRjeXByS1VhSW1NVTJJZlJSd2F5YnIwWUVzZVpq?=
- =?utf-8?B?dnY2U0RpMFZPejlCeGJKWUdRSkRrUTQvVm9zMzJ2WmtJd1dJay9hVGR6VUNV?=
- =?utf-8?B?VUtQZThRSTNCUWZSR0d1Z0orT1VXRE10K1dIbSs3MHEvd1JEMlp2ODlhbi9q?=
- =?utf-8?B?TlhuSkkvTkdwWTBpZGNtUHZkRVdLMWNEcDJPRE9TVm9yTVQyNmhDeWNSd0lw?=
- =?utf-8?B?Y1FBMlNpMG1NSkIzUFRUK2FXZnJHTG9vS2E2R2V3Q1lKcTRCaHo3MkJHNUlh?=
- =?utf-8?B?VlErY0hzQm4zeHArRWgyaWV2M1ZFUXp2dW9rcDlHVk0yNjJYN09lK1JwWHh2?=
- =?utf-8?B?RmdLMEhDdmFxUkEreVUyREd2cCtMSWtuNnFXekhkSWZoSkpkV2EwSGNwbzha?=
- =?utf-8?B?U0VKcWI5NHk0OXZRa2hGSnBqV0NpWFNHMEMzYTJCOWYyUHNVQUF1d0Erb0NE?=
- =?utf-8?B?amFlNmU2Ymx0Z0VzN01FTzBMemdIemFzb3BMWERGRUh1RUM5MzlBV0xBVHFQ?=
- =?utf-8?B?WUIxRjFYNDIyb3l5TGNxd0NoREJrYWRUVDRsbmdyN28yQk5Ed3d2MnR4ZmRK?=
- =?utf-8?B?YWVkbVYxY1g5aTk4RnYwK2pwVmJaelBpY3RraUYrMnA0MlQ0VW0wL0R5Rk1j?=
- =?utf-8?B?N0ZieVBpeGxLQktHaDVlQURmZHJoUGhmM1hPQ2FYbUFka3hoL3I1Q2J6YTIx?=
- =?utf-8?B?ZkR3QWlBUk5idDJJOTcwL1lQU3RiM3pJcFh0MDl5SnJYbm1xVm50czFjdzFH?=
- =?utf-8?B?UUdRdTJzVTRrMXRrbkNRTnpnNDR2Nk1EUVdtVFJVai9laEttWXRKSTB4aTZB?=
- =?utf-8?B?ekxsUXF4QmJjeExHTUo3cFVRTkNKbXZrVkhoOENoaG4yQ044SnN6VkFuSUFH?=
- =?utf-8?B?dlNIZzU2bE1hMVAwWUZJL0Y0TnBrME5kWDNaL1MxRkVYbVNNUVBwamZmSnlK?=
- =?utf-8?Q?57IQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ald2cTZheURzZjFjWFFXWGJwN2gyaFJoWWJuRWpUNTA4dUJiRjF4WHNYN29Y?=
- =?utf-8?B?bDlVdlc4ZGxtb2ZWSWplcVRpUTR4UGFPMFoxUHQ3WG1ZaGYyU0tEa0VMbE9v?=
- =?utf-8?B?UndnanVWelJwa1lORDVMNDZRWHlaWm5QS1F2SldxajYxdWJHanNJRjZOZXI1?=
- =?utf-8?B?S0xIN3Rwa1VIanNxWW9aNHRXa1FjVkJwYUdKVlh4S2pTRFdadEUyNWZ1amtv?=
- =?utf-8?B?Ti9PVk1DUytkTkpjRURXUTlDWXVHNWZJU2RxY0VKcG9MMmdmbnVtdUM3QTM1?=
- =?utf-8?B?endGWEhQVXoxbVozbXV4OGNtZjFPL1VXNmlDOGg1dzVTNTBDSHF0a3A4UTdR?=
- =?utf-8?B?SWtNWUo5a1UxY0E5SmJWRWZVSFNxYU04ak8zcWN1R0l2bDBSWVcyT2JGdXgv?=
- =?utf-8?B?d3FvN3RWNGF6YWhMVE1iZlFvRmNWakNTeVlhYWVJYWtPSTMyckFIMWxCcWxp?=
- =?utf-8?B?WDBCY0h6YTRtaFgyRURsckIwUHVnN0dKN0c3Q2V0MWl5Q3Ric0svNkl5YXhJ?=
- =?utf-8?B?WDB0bzZ0amxpOTNZQytIVTNGTjZGSDVTSVVRQzg3ejROclRSamoxc3RIWGM5?=
- =?utf-8?B?Qm1wbnBLbjJxRFpPMGI2SWV5U2ZPL1dlN3VhcG1NUFI3YUxFaUZUMjVGbHd0?=
- =?utf-8?B?djI1dmF0dXhmSndKeUJQbXRLNUZNUWZITTJiN1NLOTY0R05GUm1lTVJsdlpk?=
- =?utf-8?B?bDRTRS9kdTUwM3FwT3hIVEdRQ094d09rSFdSZWRJeHBFTlZxYnI3MFpIdUVG?=
- =?utf-8?B?M01yWS9BUnFxd2FIVThJdjJ4c0Zvemt4YkJYQ2VvbURiSnpudTJhVVRvOTBQ?=
- =?utf-8?B?KzFwZG0yWWlSb3J3ZW51NFdGYjBhb3hvb0NGOUpyUjhoQzd0c3JXSVcvTEVa?=
- =?utf-8?B?cHZIQWw1K3VJNzYzMCtPOFZkbzY4RUhTalFRWmg4L0ZsWkR2MzFwR0QxWGIv?=
- =?utf-8?B?dEpNdm82ZWlhaDA0L3lZbk1zR2ljc1FSY2MwUXJKN0UrTWtkK3QvVlh6dXdl?=
- =?utf-8?B?dTNoejhsYjhhNzU4VVhDZGxKVjh1VkdvczhUNExQR1hjMWd1aWhmaFpmcnVN?=
- =?utf-8?B?K0Y5WjhYWUR0SkxVUktHV0hqNGx6QWdRemcwM2I5ZGJWZ3pjbTU1SW0xRVBF?=
- =?utf-8?B?K1Q3cmd4U0JhczRvRExic2xmeEZ2cXBzYytFWWVzYVYrSHVYRzY4MkxrQUh5?=
- =?utf-8?B?U1VVdG1rTjNPdHdtUFhqdXUrSmtPLzRyYnRvTW5tTjRmRFFQOTNpeHU0MnUw?=
- =?utf-8?B?QmF0REd3dVlCYVFyV2Y2emk3cnhTRnJHNkJSRk0xbm5QVG5JY3dTakpqL25G?=
- =?utf-8?B?SktHUS8zbWJtZjBXbUpHdVVuUUZmMnEzcGYyVlYxWURidmw3NWlzUDd1eUFC?=
- =?utf-8?B?aDZJT3EyWFU0YTFBendVakhXOUIzcWVoT3FIcStDK2RDd2hYS0ZRTzNGUzRz?=
- =?utf-8?B?RUxaZEtHSW0vdlRxQ3c3aFNxZUxjTnpUK0N4RktKSC9USlFCR2VvTi83M2pD?=
- =?utf-8?B?SHBNaUN1aHRZQkphbEo5T25jRVdpVkdRcWdTN0cyTTFneU0vWlZlcDY5VS9o?=
- =?utf-8?B?N1JPbDlQU1FHeDBJaGdPTzFRSEFvNGRFaHR1clBEWkw3Rmh1cXd2dmlZb0Fm?=
- =?utf-8?B?UktrUTM0aGpRcjZvNUJaTXNnMjVIbjltQ05zdmdUWWtnSDBjQzFXSk9OQVdQ?=
- =?utf-8?B?LzVoaXBsVlZxQnNvbkUzc25MRmNWM2ZyM2tocEhsT0JkdFA3S2RjaUF6cURu?=
- =?utf-8?B?STdFNjJQbXMvMGRNWE4wZW5lK2VPM2FVTnpudk5zYTRHcXlENXNHbDZaQno1?=
- =?utf-8?B?bWJPLytsWEdpL1JONTJRbDhnek01VmxGdEY4S2R1YVdKMWpETmNJR0dHWUpk?=
- =?utf-8?B?U3NlcHBzMEdmQU55M25KT2xncTBMSTMvWVhxN1M0UmpPMXNlTGx0Z0htbXEr?=
- =?utf-8?B?VGVaWVduR2VQTTBiS3hRemZwYmpNdDk5aUJWUFBSaFQ0ZVBJZ2Q5ZzcxUUtr?=
- =?utf-8?B?SERwbVB5eFhSMGo2NjZzN3lHRWRiTXV3b2cycnRBN08rOUoydjFlL1BlWmcz?=
- =?utf-8?B?YnRTV2I0c3VtZ2FtVWFUUG1aeGZwV2IxckdZc0s4MjBRbGhjTTRydlFiQWdu?=
- =?utf-8?B?aExoa0R3RkdSNzZpV3NiK05NYkc5dXM4YXl1amppMlBtcjhMQ0ZpWXNCK0Rx?=
- =?utf-8?B?Rzd0eEZnQVlxbnRCeXB1T0RQR1BNalF4WVlsWUpPOXp6bUtSc043MnBTU0w0?=
- =?utf-8?B?YUVFRUp6RExIVkdCU1IzSWRBeDQ3YWNBeGpLRnhwMTkrOTQ2VkN1cG5BR01k?=
- =?utf-8?B?VnJnLzVaNllEcFFISzZSVjhrVTJmSTRPdEE5ZUl0TlhBWDQvcUg5UT09?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: DPoe8obDOLbaw6WpZrGADdT1LplIH/JP6HUFfrD36WcoCyAzLhLAOOPrGLV4WrlUBRSZL+JNoAbs3z2MGidFJiwIQ2jO/JXS/YiaAUXDvaySr2ippAfxy4CbE2cSQShUZjba1Ug1gNPFN8YaldEIxWWmqMSdtw7r4HuQFz5YzVNWr0UT94yFdyVF2XESmq4UBXllewXLkjeJGpQ4QvI6y777fxxrKjneouAR6xwIo4d0ybpDzXNIN/TuVv6k7yyy1KlDrQOZCJPSlfLI6q5BVknoQ3cvBXxpt7v5cAjtC2ZLxOzlgmMbklC+ZUYjLKXqpqQSd9+vL2ejptDHEdlhksg70gLesSSuy772zJLxG50owCPogD8i5EzH5zikvkhbc5pQtpzB4JO1AIAE+BsCtTFbKD3+I2FopDB0S7cnmZifpO7SMhJbBoeiPrW7KYOhjVvO5evPJhyz44KrS+v29s80Xw/WHtQJlNMNIIUilF9f5/nDDictEK1B4EWYCHyo0a4ARm++xrGSBG32wGD5Le2ppVwmpN9dJB6YW3FKVJKZqmZaFXMuBZKipqsrMsvkSgktLpvb+vy2BKFeJO2ucHwFAAQFoiPfGA8uZS7vTPU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c491faa-6844-4a1d-1bc9-08de6ec70809
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 08:23:44.6772
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 00vArPVo7wNmzckluJfH2oYQibwF1PQvulaDwh/lEV+KHf6pN9YeVIWVHlU58jwb6/8fKfRS9ryO78ZZW5uCeQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4532
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-17_04,2026-02-16_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 adultscore=0
- bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
- definitions=main-2602180073
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE4MDA3MyBTYWx0ZWRfX2y4EpFZ4kfcS
- reYAPYHPSTZTg91wv+b6NjLAzbgbPSM4UcQIRpTfyGZR4LwBR9j1G41wUwEPeT2cWD3Y84Eas+C
- JxeYm9Hibij6TfgNBXIKd5pQlw1y9sfHa3Vjfi8qC2+ZlUvTunF+4E4EsBEWgT6W3AAZfbEk+um
- +QKdRZBdwE0FVyb9P+KY8iGCykZoPxEZwliAaRNNVQmZXpXOPQ+baUfRBiCytHWJ70+eoe6Bwzz
- pCBWkED8SXoKxagIl7VJfCXCf5jS3JvyESEkZvSaUwMvLa7PV8MbCc7mg6w2I5hpLxZcYueaQPu
- GQjo4GMyjUYpQ+qqtXu5dWfxWxD+ATnYCJcmxdXg0VTf9Unvq0tC2zlQntU7l+BrtVSBGa+a+eY
- Gbv7QEL0d3N+zX+aCwTfI/zbHSZ4jS9DAY4JTNeKbBzbcMe5OBZmkJixpYTTvN6+FLgA4kwfYj8
- G0tTqt/evoUuIYQwqtHSpcxHLOc/STnsPgl3BU0Q=
-X-Proofpoint-ORIG-GUID: TJikv4eFbzqg0pC-cHxy80mhbUjVFJ9g
-X-Authority-Analysis: v=2.4 cv=b/S/I9Gx c=1 sm=1 tr=0 ts=69957713 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=d3iZZ_kny0dZnE7O9PwA:9
- a=QEXdDO2ut3YA:10 cc=ntf awl=host:12253
-X-Proofpoint-GUID: TJikv4eFbzqg0pC-cHxy80mhbUjVFJ9g
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/21] nvme-tcp: Extend FENCING state per TP4129 on CCR
+ failure
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <jsmart833426@gmail.com>, Aaron Dailey
+ <adailey@purestorage.com>, Randy Jennings <randyj@purestorage.com>,
+ Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
+ <20260214042753.4073668-20-mkhalfella@purestorage.com>
+ <7fcdb6bb-34b4-4b73-afce-75c423f8400b@suse.de>
+ <20260217175848.GD3435530-mkhalfella@purestorage.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260217175848.GD3435530-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[broadcom.com,gmail.com,nvidia.com,lst.de,kernel.dk,kernel.org,grimberg.me,purestorage.com,lists.infradead.org,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email,purestorage.com:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: BAB923E6E8
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260218_002353_881614_507C2852 
-X-CRM114-Status: GOOD (  12.72  )
+X-CRM114-CacheID: sfid-20260218_002634_893619_39D35EED 
+X-CRM114-Status: GOOD (  23.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -231,31 +152,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 17/02/2026 19:33, Bart Van Assche wrote:
-> On 2/13/26 6:19 AM, John Garry wrote:
->> At ALPSS 25 I presented a proposal for Native SCSI multipath support. 
->> Let's discuss this topic at LSFMM.
->>
->> The idea for this is that SCSI could natively support multipath, like 
->> how NVMe host driver does today. It is intended as an alternative to 
->> dm- multipath support.
->>
->> I have been working on the implementation and I plan to post patches 
->> in the next cycle. I am looking at a 3-stage approach:
->> a. create a driver-agnostic multipath library, very heavily based on 
->> NVMe host multipath support.
->> The library would support features such as path management, path 
->> selection/iopolicy, failover recovery, PR, delayed removal, gendisk 
->> management etc.
->> b. switch NVMe over to use this library
->> c. add native SCSI multipath support based on this common library
+On 2/17/26 18:58, Mohamed Khalfella wrote:
+> On Mon 2026-02-16 13:56:10 +0100, Hannes Reinecke wrote:
+>> On 2/14/26 05:25, Mohamed Khalfella wrote:
+>>> If CCR operations fail and CQT is supported, we must defer the retry of
+>>> inflight requests per TP4129. Update ctrl->fencing_work to schedule
+>>> ctrl->fenced_work, effectively extending the FENCING state. This delay
+>>> ensures that inflight requests are held until it is safe for them to be
+>>> retired.
+>>>
+>>> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+>>> ---
+>>>    drivers/nvme/host/tcp.c | 39 +++++++++++++++++++++++++++++++++++----
+>>>    1 file changed, 35 insertions(+), 4 deletions(-)
+>>>
+>> Can't you merge / integrate this into the nvme_fence_ctrl() routine?
 > 
-> A minor comment: maybe "in-kernel" makes more clear what this proposal
-> is about than "native"?
+> ctrl->fencing_work and ctrl->fenced_work are in transport specific
+> controller, struct nvme_tcp_ctrl in this case. There is no easy way to
+> access these members from nvme_fence_ctrl(). One option to go around
+> that is to move them into struct nvme_ctrl. But we call error recovery
+> after a controller is fenced, and error recovery is implemented in
+> transport specific way. That is why the delay is implemented/repeated
+> for every transport.
+> 
+>> The previous patch already extended the timeout to cover for CQT, so
+>> we can just wait for the timeout if CCR failed, no?
+> 
+> Following on the point above. One change can be done is to reset the
+> controller after fencing finishes instead of using error recovery.
+> This way everything lives in core.c. But I have not tested that.
+> 
+> Do you think this is better than what has been implemented now?
+> 
+Yeah, the eternal problem.
+At one point someone will have to explain to my why 'reset' and
+'error handling' are two _distinct_ code paths in nvme-tcp.
+I really don't get that. I _guess_ it's trying to hold requests
+when doing a reset, and aborting requests if it's an error.
+But why one needs to make that distinction is a mystery to
+me; FC combines both paths and seems to work quite happily.
 
-dm-multipath is also in-kernel. It just requires userspace for 
-config/control.
+Thing is, that will get in the way when trying to move fencing
+into the generic layer; you only can call 'nvme_reset_ctrl()',
+and hope that this one will abort commands.
 
-The key difference is that "native" scsi multipathing provides a scsi 
-disk which supports multipathing.
+I'll check.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
