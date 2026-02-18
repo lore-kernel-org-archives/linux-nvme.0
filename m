@@ -4,125 +4,142 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4ACB3E9A03B
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 07:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2D6AE9A03B
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 07:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ykSHjiemRbT1if77r09t0W8Nd+/mBTPm+gvjlcPzmO8=; b=rq6yeyjydpI0+AzcFAqoxY1PNn
-	2YXSYUb8Fdz3WRo/IU5TGh+LByBqYemdeezjsox3KfPuTGT9LafAf3LD90zD4SR+6Xe9wM908uQkR
-	rBT5+/Ptnpa13lnCKxM5fVMqx+Y81Z3/6oED7Fvis7JUGZp1L2hiFAjjdZJ9Ll+dS4JgMuU194ohi
-	kU7izaz5vG0GJpq2DNkj4Lotx11vq/U7x8oFNO7ZOehEX8jdgf1J2Y/7Bm70ZLdYUNomgJ7ZmnxIh
-	pBeaCCs8TLqyjPhXslj8om+FcK9tsesecbbVFWk3+WPU+VpxiWu5MXm/1HFeOTgtnUJMgMPA7DD9y
-	pT1/Q/JQ==;
+	bh=dYRuqwG/NUpxzBvJza7jNBHIpMXKK4N/DcLmhAb2bIs=; b=td2rY7LQPoCD93DXrxRSUh21ru
+	qKLe8zw9okRbBccKGXiIDH+XMWrciNQvqvXPsvEJGzC5UBZWkwQmL9Vy6x6foyI/FRAtpb+FknHtS
+	OQsWCE6hpPOvw7nUM+DENXTT7Xt8Mh2VPzyFOKS4iFLR2Reb5tKJaLAs3c5hjP1Bn/BDpE/1laOWr
+	lKoktgteNA13DcHVWtOHsTwn3U1t+CZpukVZnWUlHSPaaehwPyU9A4mDkqMYLYsmQHKudgi6UCRAq
+	mBa4aRTThpv+I5R+BYtCvzM2R1+yqqn1ittlYn7oPU8ILYMnaK/tnyJhRIcRWPHIW/+3b5qgpWsTR
+	q6sbxq2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsc5s-00000009Ppy-0NBV;
-	Wed, 18 Feb 2026 07:35:32 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1vscLR-00000009QYo-2Mgf;
+	Wed, 18 Feb 2026 07:51:37 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsc5o-00000009PpR-38Xe
+	id 1vscLO-00000009QXg-2KID
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Feb 2026 07:35:30 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Wed, 18 Feb 2026 07:51:35 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D9DA5BCD4;
-	Wed, 18 Feb 2026 07:35:24 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B4E93E6D0;
+	Wed, 18 Feb 2026 07:51:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771400124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771401092; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ykSHjiemRbT1if77r09t0W8Nd+/mBTPm+gvjlcPzmO8=;
-	b=uzxkKbB28emIcSbarrabqTPprY+oaGHZ4vJ6zOp5J1Aw/JoAK2bS5HetVpTRqFjqeoUyON
-	WEljlAlvxoXFqpPqu5UgO8LUGeYg+RNypUlg75QhNaKCj++dXRFFeXQcgiS+BXPSQamDol
-	F48AYJ0Af7QgrsnA8N+bAnccY3Y3QI0=
+	bh=dYRuqwG/NUpxzBvJza7jNBHIpMXKK4N/DcLmhAb2bIs=;
+	b=vPMEq/SvFwMyxUvu1dFyWtE8+me/qKySzIrbEraiXFYA+itKuLJHJJdL8QJ0DhrJVjKcu/
+	Q4jhRnF/BJWPHUZ2CjdnPyNri+7kAB/J4m/LNldeqNvwwlJq3kT4XjGa581MB3QrdvbSj+
+	Pf+bC48ye6pF7yMVaCaaG3XOG1ewMgg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771400124;
+	s=susede2_ed25519; t=1771401092;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ykSHjiemRbT1if77r09t0W8Nd+/mBTPm+gvjlcPzmO8=;
-	b=q9cTEWAT8pbRdRlxv2kmy2mprkdTp7vAcK96o0M0hk4UIX7Hw6E3xuGYCM9uzN0OPhjsD7
-	lYth8a9ynmV+3CCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=dYRuqwG/NUpxzBvJza7jNBHIpMXKK4N/DcLmhAb2bIs=;
+	b=p3ngbRmVeZc+PqBfADmIs5n+zERcNEKpS/qGlmgkAfurxo+KiU5WUj4V1PTQkOqCqb4Vz/
+	4sNPWUmWMGtF3eBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="vPMEq/Sv";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=p3ngbRmV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771400124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1771401092; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ykSHjiemRbT1if77r09t0W8Nd+/mBTPm+gvjlcPzmO8=;
-	b=uzxkKbB28emIcSbarrabqTPprY+oaGHZ4vJ6zOp5J1Aw/JoAK2bS5HetVpTRqFjqeoUyON
-	WEljlAlvxoXFqpPqu5UgO8LUGeYg+RNypUlg75QhNaKCj++dXRFFeXQcgiS+BXPSQamDol
-	F48AYJ0Af7QgrsnA8N+bAnccY3Y3QI0=
+	bh=dYRuqwG/NUpxzBvJza7jNBHIpMXKK4N/DcLmhAb2bIs=;
+	b=vPMEq/SvFwMyxUvu1dFyWtE8+me/qKySzIrbEraiXFYA+itKuLJHJJdL8QJ0DhrJVjKcu/
+	Q4jhRnF/BJWPHUZ2CjdnPyNri+7kAB/J4m/LNldeqNvwwlJq3kT4XjGa581MB3QrdvbSj+
+	Pf+bC48ye6pF7yMVaCaaG3XOG1ewMgg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771400124;
+	s=susede2_ed25519; t=1771401092;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ykSHjiemRbT1if77r09t0W8Nd+/mBTPm+gvjlcPzmO8=;
-	b=q9cTEWAT8pbRdRlxv2kmy2mprkdTp7vAcK96o0M0hk4UIX7Hw6E3xuGYCM9uzN0OPhjsD7
-	lYth8a9ynmV+3CCw==
+	bh=dYRuqwG/NUpxzBvJza7jNBHIpMXKK4N/DcLmhAb2bIs=;
+	b=p3ngbRmVeZc+PqBfADmIs5n+zERcNEKpS/qGlmgkAfurxo+KiU5WUj4V1PTQkOqCqb4Vz/
+	4sNPWUmWMGtF3eBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 133AD3EA65;
-	Wed, 18 Feb 2026 07:35:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CCE063EA65;
+	Wed, 18 Feb 2026 07:51:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GfJ4A7xrlWkcawAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 18 Feb 2026 07:35:24 +0000
-Message-ID: <f658021c-471a-4f30-bd76-1d5c7b7d79de@suse.de>
-Date: Wed, 18 Feb 2026 08:35:23 +0100
+	id d45RMINvlWlEewAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 18 Feb 2026 07:51:31 +0000
+Message-ID: <1a9feff7-5a0d-4385-b582-c9ab60d724db@suse.de>
+Date: Wed, 18 Feb 2026 08:51:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Lsf-pc] [LSF/MM/BPF TOPIC] Native SCSI multipath support
-To: "Martin K. Petersen" <martin.petersen@oracle.com>,
- Keith Busch via Lsf-pc <lsf-pc@lists.linux-foundation.org>
-Cc: Bart Van Assche <bvanassche@acm.org>, Keith Busch <kbusch@kernel.org>,
- John Garry <john.g.garry@oracle.com>, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org
-References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
- <049a177d-85d6-4c9d-9a9a-f07391046101@acm.org> <aZTL8srSowTU81Rz@kbusch-mbp>
- <yq1seaydbee.fsf@ca-mkp.ca.oracle.com>
+Subject: Re: [PATCH v3 09/21] nvme: Implement cross-controller reset
+ completion
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ James Smart <jsmart833426@gmail.com>, Aaron Dailey
+ <adailey@purestorage.com>, Randy Jennings <randyj@purestorage.com>,
+ Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
+ <20260214042753.4073668-10-mkhalfella@purestorage.com>
+ <3b21ccbd-7948-436b-8faa-a5541c65946a@suse.de>
+ <20260217182554.GE3435530-mkhalfella@purestorage.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <yq1seaydbee.fsf@ca-mkp.ca.oracle.com>
+In-Reply-To: <20260217182554.GE3435530-mkhalfella@purestorage.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-8.30 / 50.00];
-	REPLY(-4.00)[];
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[broadcom.com,gmail.com,nvidia.com,lst.de,kernel.dk,kernel.org,grimberg.me,purestorage.com,lists.infradead.org,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 4B4E93E6D0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260217_233528_981959_24130FA4 
-X-CRM114-Status: UNSURE (   9.55  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260217_235134_747698_3A5D3C77 
+X-CRM114-Status: GOOD (  19.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -137,25 +154,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/18/26 03:39, Martin K. Petersen wrote:
+On 2/17/26 19:25, Mohamed Khalfella wrote:
+> On Mon 2026-02-16 13:43:51 +0100, Hannes Reinecke wrote:
+[ .. ]
+>>
+>> We really would need some indicator whether 'ccr' is supported at all.
 > 
-> Keith,
+> Why do we need this indicator, other than exporting it via sysfs?
 > 
->> For nvme, we can detect if a device is multipath capable.
-> 
-> Yep. Same with SCSI...
-> 
-And that's how we handle things currently. We've learned from long and 
-painful experiences that there is _NO_ way to automatically figure out
-if a device is multipathed. That will always be an admin decision, so
-there needs to be an opt-in mechanism.
-And that needs to be set _prior_ to probing.
-And you need a driver-specific opt-out, to disable all devices from
-this driver for multipathing (UFS, USB, ATA, you name it).
+To avoid false positives.
 
-Once you have that you can declare all ALUA capable devices with
-a VPD page 83 device identifier as multipathed. Irrespective of
-how many paths will show up.
+>> Using the number of available CCR commands would be an option, if though
+>> that would require us to keep two counters (one for the number of
+>> possible outstanding CCRs, and one for the number of actual outstanding
+>> CCRs.).
+> 
+> Like mentioned above ctrl->ccr_limit gives us the number of ccrs
+> available now. It is not 100% indicator if CCR is supported or not, but
+> it is enough to implement CCR. A second counter can help us skip trying
+> CCR if we know impacted controller does not support it.
+> 
+> Do you think it is worth it?
+> 
+Yes. The problem is that we want to get towards TP8028 compliance, which
+forces us to wait for 2*KATO + CQT before requests on the failed patch
+can be retried. That will cause a _noticeable_ stall on the application
+side. And the only way to shorten that is CCR; once we get confirmation
+from CCR we can start retrying immediately.
+At the same time the current implementation only waits for 1*KATO before
+retrying, so there will be regression if we switch to TP8028-compliant
+KATO handling for systems not supporting CCR.
+
+So we can (and should) use CCR as the determining factor whether we
+want to switch to TP8028-compliant behaviour or stick with the original
+implementation.
 
 Cheers,
 
