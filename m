@@ -4,94 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06FEFE9A047
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 12:19:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E014EE9A03B
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 12:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:
 	Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=azsZpcvQavPH76tUFHUUDA6k44L1vSUdkP+eQAZBtLw=; b=ZK370iGv22nLBqOFYOJjjKOMFj
-	r7OolgHs0xJMtcVPw8ASlRX8w2zI1HBx97Ttm9qnSIqZoJN4SrTIV6XOyAsNnXvnDn3x+ODLgNix0
-	eZmMEkXN9QQUDbnzJcoOV0N/9cJZ7DzClcQXdJhC+617q+Te3SGVUowJINvJCH8knC0SVjHdlduvi
-	PyR6AxFm/MRYtW/o778exRMxaKLCQbRgDo7ituvT98EBvRP2IOfbQcrOx1hkOwwCmtiKdK/KtbZbb
-	P2yoMcAjdBjU2wKFqb9PQoX1CuBXMRT994oq+4Ew4ksPcxIL8EvOwTiy2sEMHoGT8sxQQRDwaV2gh
-	uQl7to+w==;
+	bh=mVrFz150HLuD/pb4UMBevksGbFoLDbuJMsoQKLPXtWE=; b=rck9JiCiHM0IewMM7e57LhLGlE
+	mBahOvcQXqGFE81aHkyzfJQBDFq1bwc3TXkjThgJtq0AdP370tmSV7FFUJPdquISstY6mwue3cRAP
+	PbUDVD9pfaJAwzUGVC38yNI70eTrX+oNUiZT+o0BGwoJwSMsZk68aumv3uZQ0NzQu+XLnOV2/qL9b
+	AAGRZNNyymMEQWSV18ugiKIeQHCN+vcdHImnXq1cDdkhsauf6UTAdV1rGkoG9SxpGBkokC/GOJOVI
+	TzzeWTp4/Y/xB/rlQnSPIYOqIaApfnBo7rFtG6TZhVKysJtN2yONx81c6QeUdNKh8TMEq05n7o6hs
+	74Em2H0w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsgWT-00000009mGH-0ZNZ;
-	Wed, 18 Feb 2026 12:19:17 +0000
-Received: from fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com ([52.28.197.132])
+	id 1vsgr9-00000009ncp-36PH;
+	Wed, 18 Feb 2026 12:40:39 +0000
+Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com ([63.178.143.178])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsgWP-00000009mEd-3Uyz
+	id 1vsgr3-00000009ncN-3Zt4
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Feb 2026 12:19:15 +0000
+	Wed, 18 Feb 2026 12:40:37 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1771417153; x=1802953153;
+  t=1771418433; x=1802954433;
   h=from:to:cc:subject:date:message-id:references:
    in-reply-to:content-id:mime-version:
    content-transfer-encoding;
-  bh=azsZpcvQavPH76tUFHUUDA6k44L1vSUdkP+eQAZBtLw=;
-  b=ZJnNWAB38TBs/2tZ5fx0R7FqCkQ/pmHyJ5VDYUvWPJdVi0CFvUUTJFn/
-   fX9mzL+I4TGVKKtYCqzamO43OIQApHodBuh5Y+LMs0aHmlOUn2K4MZnBr
-   XmagejitfGppctzt4cIaDu84zpe/kvLwciKS2RnAXspE87FzY8ZRBE7wo
-   NbQNcwi9CioiyfIE8Lqf1JIFcpsE66lBY2CcczjygiuE8FO1qPT6Z+D9N
-   hUgX1JHOOtTDf2F4zW7DsyHUY5WAmyx/OiRM8zV2zVyslYchb8yuKla/4
-   kQZqO3sh+xLFqvdxeVRs4wg4wMBy4MWUtV1bEp3Dr03N6yfHodMNW9bh1
-   Q==;
-X-CSE-ConnectionGUID: RxQKkXvWRKmKBayZVhyknA==
-X-CSE-MsgGUID: pqPVgPE0SgKspBq/vpU0Cg==
+  bh=mVrFz150HLuD/pb4UMBevksGbFoLDbuJMsoQKLPXtWE=;
+  b=VByzS6pkG4JS/TOjbOXUlDVCDMEuYOoeVpXk14U8PdfWHlI2fzfOik5z
+   LDhE5jMHeinvIDisG5Yy+EnUj056j9OShijWfWhyWo6nJ9brBTLaJWyy+
+   iCreHbdvVaiLzjOwIFgGdamZ3FrQqPFE9JHY5Nc64cPQb74WTdOAKd5Si
+   4cy6H0e4QcUzrrR0wNUWUKOsa+cPuqoHGGvsXhJkNTB2p5YXWkQHkXbCj
+   SoDy/vrTLR6JIKzj5itW4L3knNnVIsuMh/FOkdnEuxCHEiT1bxlxfR6tr
+   jR1IRL5pWeiIC3N1Q0XyKQ/DWSpsB7Ya3F2fNSyMCQGy6PmpfDMlup8GR
+   w==;
+X-CSE-ConnectionGUID: Z6awkMWfTrG4zYWC4SoO7g==
+X-CSE-MsgGUID: LCfQlpfwSA+LZJGcC5rtCg==
 X-IronPort-AV: E=Sophos;i="6.21,298,1763424000"; 
-   d="scan'208";a="9503217"
+   d="scan'208";a="9516847"
 Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
-  by internal-fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 12:19:08 +0000
-Received: from EX19MTAEUB001.ant.amazon.com [54.240.197.234:29645]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.4.79:2525] with esmtp (Farcaster)
- id 352cb0ec-2a39-4ffb-87ff-4d5cfb4f91e8; Wed, 18 Feb 2026 12:19:07 +0000 (UTC)
-X-Farcaster-Flow-ID: 352cb0ec-2a39-4ffb-87ff-4d5cfb4f91e8
+  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 12:40:29 +0000
+Received: from EX19MTAEUC001.ant.amazon.com [54.240.197.233:29364]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.5.167:2525] with esmtp (Farcaster)
+ id 0fabc589-286d-4b76-ac94-f541a5ea04f2; Wed, 18 Feb 2026 12:40:29 +0000 (UTC)
+X-Farcaster-Flow-ID: 0fabc589-286d-4b76-ac94-f541a5ea04f2
 Received: from EX19D008EUC004.ant.amazon.com (10.252.51.148) by
- EX19MTAEUB001.ant.amazon.com (10.252.51.26) with Microsoft SMTP Server
+ EX19MTAEUC001.ant.amazon.com (10.252.51.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Wed, 18 Feb 2026 12:19:07 +0000
+ Wed, 18 Feb 2026 12:40:27 +0000
 Received: from EX19D008EUC001.ant.amazon.com (10.252.51.165) by
  EX19D008EUC004.ant.amazon.com (10.252.51.148) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Wed, 18 Feb 2026 12:19:07 +0000
+ Wed, 18 Feb 2026 12:40:27 +0000
 Received: from EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1]) by
  EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1%3]) with mapi id
- 15.02.2562.035; Wed, 18 Feb 2026 12:19:06 +0000
+ 15.02.2562.035; Wed, 18 Feb 2026 12:40:27 +0000
 From: "Heyne, Maximilian" <mheyne@amazon.de>
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-CC: Maurizio Lombardi <mlombard@redhat.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "emilne@redhat.com" <emilne@redhat.com>,
-	"jmeneghi@redhat.com" <jmeneghi@redhat.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "dwagner@suse.de" <dwagner@suse.de>,
-	"mlombard@bsdbackstore.eu" <mlombard@bsdbackstore.eu>
-Subject: Re: [PATCH RFC 1/5] nvme: Let the blocklayer set timeouts for
- requests
-Thread-Topic: [PATCH RFC 1/5] nvme: Let the blocklayer set timeouts for
- requests
-Thread-Index: AQHcoNDGJkUbx/SH5Ua6SirYbW1nVg==
-Date: Wed, 18 Feb 2026 12:19:06 +0000
-Message-ID: <20260218-blank-anne-7bb26acd@mheyne-amazon>
+To: Maurizio Lombardi <mlombard@redhat.com>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "emilne@redhat.com"
+	<emilne@redhat.com>, "jmeneghi@redhat.com" <jmeneghi@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"dwagner@suse.de" <dwagner@suse.de>, "mlombard@bsdbackstore.eu"
+	<mlombard@bsdbackstore.eu>
+Subject: Re: [PATCH RFC 2/5] nvme: add sysfs attribute to change admin timeout
+ per nvme controller
+Thread-Topic: [PATCH RFC 2/5] nvme: add sysfs attribute to change admin
+ timeout per nvme controller
+Thread-Index: AQHcoNPC2i5f5gOirUSr533vTn2g4g==
+Date: Wed, 18 Feb 2026 12:40:27 +0000
+Message-ID: <20260218-sag-snack-a5ed56a2@mheyne-amazon>
 References: <20260212120951.79738-1-mlombard@redhat.com>
- <20260212120951.79738-2-mlombard@redhat.com>
- <20260217201512.GG3435530-mkhalfella@purestorage.com>
-In-Reply-To: <20260217201512.GG3435530-mkhalfella@purestorage.com>
+ <20260212120951.79738-3-mlombard@redhat.com>
+In-Reply-To: <20260212120951.79738-3-mlombard@redhat.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.253.68.42]
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E9670801498BB745A96D9985FCD1222F@amazon.com>
+Content-ID: <3C4571E9942F174FB4C4FBEABA59FDDF@amazon.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260218_041914_170170_9E1B2E95 
-X-CRM114-Status: GOOD (  30.14  )
+X-CRM114-CacheID: sfid-20260218_044034_202689_4236D73D 
+X-CRM114-Status: GOOD (  18.57  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,88 +105,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 17, 2026 at 12:15:12PM -0800, Mohamed Khalfella wrote:
-> On Thu 2026-02-12 13:09:47 +0100, Maurizio Lombardi wrote:
-> > From: "Heyne, Maximilian" <mheyne@amazon.de>
-> > =
+On Thu, Feb 12, 2026 at 01:09:48PM +0100, Maurizio Lombardi wrote:
+> Currently, there is no method to adjust the timeout values
+> on a per controller basis with nvme admin queues.
+> Add an admin_timeout attribute to nvme so that different
+> nvme controllers which may have different timeout
+> requirements can have custom admin timeouts set.
+> =
 
-> > When initializing an nvme request which is about to be send to the block
-> > layer, we do not need to initialize its timeout. If it's left
-> > uninitialized at 0 the block layer will use the request queue's timeout
-> > in blk_add_timer (via nvme_start_request which is called from
-> > nvme_*_queue_rq). These timeouts are setup to either NVME_IO_TIMEOUT or
-> > NVME_ADMIN_TIMEOUT when the request queues were created.
-> > =
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 
-> > Because the io_timeout of the IO queues can be modified via sysfs, the
-> > following situation can occur:
-> > =
+What would it take to have a "queue" directory representing the
+admin_queue for an nvme controller like we have "queue" for the io
+queues of the namespaces? This way we could change/inspect more than
+just the admin_timeout for the admin queue. Or does this not make any
+sense?
 
-> > 1) NVME_IO_TIMEOUT =3D 30 (default module parameter)
-> > 2) nvme1n1 is probed. IO queues default timeout is 30 s
-> > 3) manually change the IO timeout to 90 s
-> >    echo 90000 > /sys/class/nvme/nvme1/nvme1n1/queue/io_timeout
-> > 4) Any call of __submit_sync_cmd on nvme1n1 to an IO queue will issue
-> >    commands with the 30 s timeout instead of the wanted 90 s which might
-> >    be more suitable for this device.
-> > =
+> ---
+>  drivers/nvme/host/sysfs.c | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> =
 
-> > Commit 470e900c8036 ("nvme: refactor nvme_alloc_request") silently
-> > changed the behavior for ioctl's already because it unconditionally
-> > overrides the request's timeout that was set in nvme_init_request. If it
-> > was unset by the user of the ioctl if will be overridden with 0 meaning
-> > the block layer will pick the request queue's IO timeout.
-> > =
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index 29430949ce2f..149cd1ab3b3d 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+> @@ -601,6 +601,36 @@ static ssize_t dctype_show(struct device *dev,
+>  }
+>  static DEVICE_ATTR_RO(dctype);
+>  =
 
-> > Following up on that, this patch further improves the consistency of IO
-> > timeout usage. However, there are still uses of NVME_IO_TIMEOUT which
-> > could be inconsistent with what is set in the device's request_queue by
-> > the user.
-> > =
+> +static ssize_t nvme_admin_timeout_show(struct device *dev,
+> +			struct device_attribute *attr, char *buf)
+> +{
+> +	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%u\n",
+> +				jiffies_to_msecs(ctrl->admin_q->rq_timeout));
+> +}
+> +
+> +static ssize_t nvme_admin_timeout_store(struct device *dev,
+> +			struct device_attribute *attr,
+> +			const char *buf, size_t count)
+> +{
+> +	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+> +	u32 timeout;
+> +	int err;
+> +
+> +	err =3D kstrtou32(buf, 10, &timeout);
+> +	if (err || !timeout)
+> +		return -EINVAL;
+> +
+> +	blk_queue_rq_timeout(ctrl->admin_q, msecs_to_jiffies(timeout));
+> +
+> +	return count;
+> +}
+> +
+> +static struct device_attribute dev_attr_admin_timeout =3D  \
+> +	__ATTR(admin_timeout, S_IRUGO | S_IWUSR, \
+> +	nvme_admin_timeout_show, nvme_admin_timeout_store);
 
-> > Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
-> > ---
-> >  drivers/nvme/host/core.c | 2 --
-> >  1 file changed, 2 deletions(-)
-> > =
+Why not
 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 7bf228df6001..b9315f0abf80 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -724,10 +724,8 @@ void nvme_init_request(struct request *req, struct=
- nvme_command *cmd)
-> >  		struct nvme_ns *ns =3D req->q->disk->private_data;
-> >  =
+  DEVICE_ATTR(admin_timeout, S_IRUGO | S_IWUSR, nvme_admin_timeout_show
+  nvme_admin_timeout_store);
 
-> >  		logging_enabled =3D ns->head->passthru_err_log_enabled;
-> > -		req->timeout =3D NVME_IO_TIMEOUT;
-> >  	} else { /* no queuedata implies admin queue */
-> >  		logging_enabled =3D nr->ctrl->passthru_err_log_enabled;
-> > -		req->timeout =3D NVME_ADMIN_TIMEOUT;
-> >  	}
-> >  =
+?
 
-> >  	if (!logging_enabled)
-> > -- =
+> +
+>  #ifdef CONFIG_NVME_HOST_AUTH
+>  static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
+>  		struct device_attribute *attr, char *buf)
+> @@ -742,6 +772,7 @@ static struct attribute *nvme_dev_attrs[] =3D {
+>  	&dev_attr_kato.attr,
+>  	&dev_attr_cntrltype.attr,
+>  	&dev_attr_dctype.attr,
+> +	&dev_attr_admin_timeout.attr,
+>  #ifdef CONFIG_NVME_HOST_AUTH
+>  	&dev_attr_dhchap_secret.attr,
+>  	&dev_attr_dhchap_ctrl_secret.attr,
+> -- =
 
-> > 2.53.0
-> > =
-
-> > =
+> 2.53.0
+> =
 
 > =
 
-> I wonder what was the impact of these lines given that req->timeout is
-> set to 0 by blk_mq_rq_ctx_init() when the request is allocated?
-> =
-
-
-Looking through the nvme code. blk_mq_rq_ctx_init is always called
-(indirectly, e.g. via blk_mq_alloc_request) before nvme_init_request and
-therefore the timeouts are set to NVME_IO_TIMEOUT/NVME_ADMIN_TIMEOUT.
-Now with these lines removed the timeout is 0 which means the
-request_queue's rq_timeout will be used, see blk_add_timer.
 
 
 
