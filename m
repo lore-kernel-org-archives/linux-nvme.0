@@ -4,101 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5132E9A03B
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 12:47:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D626E9A02C
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Feb 2026 13:11:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5cDJ595EzNlIRPNEWgUvyHB8pLI4M3wyzlKqJjlAins=; b=BlCGOTOd9cHKhngPCO34qSPt4W
-	wFv8BStpRClm3C44b9d0NeMRKiamp9O1MtRRy4+HAd8mfyu3qRYE0hTeZd2lVMsZL0Idv97kvU2vw
-	1GuiEs77LCph61lRvP4CKPn47jx/EN2+Eg6Q3jwPWHxVLU+8FSNPmRvfaFkPLxOVJubC0w1+BD/nS
-	kuT2Mx0LSD8g9gT9pvlHb1A7gPq/d9kxWu3qhX5rwUggbLuDD0N9EsIjkYNAlTrwDwSt5y0ws1KeZ
-	kGzUaHGYYTcmg39KLF6QvfbTGnpgz6/kbnAaNLa2urXLGLkydhjthBwBQVdeZNwM33uFadsCaG5dz
-	eUfYas7A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:
+	Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=S2SlkcRqb7QLXiC7P+amY8KjN5Z25fMFewVuOFV8NZ8=; b=RZdaY92RNj3/HaKBnqurhAwPjx
+	FTbb18ogNZ8QC15QEr4epP1JvuvPQu1ujPOHUN9iqeBaO2LRPSC350xu1qwzZgsv1kCgMF/pnt+1z
+	idM8NwPb/BhKwMfVSbjUO3EtH35t6mJrgg5jwHALLNxxxfGpErB+QC6L/82s0vtTMeGa+PRKN+jEa
+	UXqoe9sC+PSxKP45xifiGXIcwkldmWjfa67Q3uKMV62WdpI2hzBX7dqDXXyGU0hAElyhnx5cO552h
+	P3z8403Hxn60k6vFu4dEw7Ejco2zk6trroawuttvKaqBRZpEx3wig9G/dsaYKUvx8CtX6kx3F5K7W
+	SGVyVlXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsgxX-00000009o3n-05LU;
-	Wed, 18 Feb 2026 12:47:15 +0000
-Received: from mail-dl1-x1229.google.com ([2607:f8b0:4864:20::1229])
+	id 1vshKc-00000009pkI-1v8g;
+	Wed, 18 Feb 2026 13:11:06 +0000
+Received: from fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com ([63.178.132.221])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsgxT-00000009o3P-3aWX
+	id 1vshKY-00000009pjl-092O
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Feb 2026 12:47:13 +0000
-Received: by mail-dl1-x1229.google.com with SMTP id a92af1059eb24-1270adc5121so7119477c88.0
-        for <linux-nvme@lists.infradead.org>; Wed, 18 Feb 2026 04:47:11 -0800 (PST)
+	Wed, 18 Feb 2026 13:11:05 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771418831; x=1772023631; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5cDJ595EzNlIRPNEWgUvyHB8pLI4M3wyzlKqJjlAins=;
-        b=ZD1ysQUb1lTIiauUm30o6WvQweWLvdcSbvaZWaUW58i8VM32yjpAR7+gnT+cBNmrGp
-         NBE4tJm+DYasJxahr2ODg9C6DSe3/tZ9qZ4m3woBSqA6MVGfJA9u1lTK9JKzIkBR2Hzw
-         Q3KdT3MCbgJ0LGnOXbUI3Ih0vZ2xRIP8uppaPXGQ3+VoTistVw+BSUEf9cVUS88RLF9s
-         TPNHRrKMSDQwREStQRqPRWCHSjjNZAbVnnhcATOGq7HYna4HrbHamgMP1FSvqAsQ8hau
-         XBSwAoNz5fNLQEAINoEe52gijXvj2ZZVIBGht/f2IzwTlMqwqjommm94wcxEvkAH/0IT
-         hpVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771418831; x=1772023631;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5cDJ595EzNlIRPNEWgUvyHB8pLI4M3wyzlKqJjlAins=;
-        b=a0pGaWWeF/PLn641ZWGUrXsfT9/8vpmDbI3W16P1C/P1Q/XQtQDym1d86PztTwSO2k
-         dcE0Q4JG6cVYoIRmx1m2F2dlnEyBiwjOrefeBL28Iy7yd9TMLIFOuhKo5Vd/VD4rtQ5N
-         1B11oAwAdxBniThZK1KlbP/5p3up0R+iXq5DIRYY8+yHDajXE8Bx3/9NQ3sX+ykYrbqo
-         otGAv9lWb7yZxglGm06+GHepuBEAnXWIVDu7HCEXJQvU7AVD9k7pLKbJ0KezdFcPAP2O
-         63fAxXR7KQBtl9zq/lbRvSGdYWD9JXiKIb9CkPc5Bj/GvxRsCiwXmQ4u2NXkTIHjAxUn
-         Qg6A==
-X-Forwarded-Encrypted: i=1; AJvYcCVE5lQg1w8S6L8SCRhVnvNTS/FGD1IbyBvbe6pu/ecGa9LLCsF4cU4GAUtZiVfWLA3W+tw+197N7Vta@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxokx+yKWWBsl6lKiqcjSgbK4OCbMlhT1HjLJj0u+10bsBNUQ4p
-	aiJMzRhxI6pmoEaAEONwdnYFwmyILELf8zIFkT+mGVDFbsK5ysuDbGYtUWM9xJPq7WU=
-X-Gm-Gg: AZuq6aI8aXBazul5yWE9fJJsbvV0Fd3CJfTP4kmlyo4jsPD5idauE0Q+Ps6jVdAiHoZ
-	TQ7JzAXAiIcS4jGDKfqLEBRDiY/XeB/aC4584dpSx56noSge9FLfUs7wc2eAz8bA4N/xidbQrBL
-	m7VNEraOxAmNGxFoSO5M+DHTbBwu3CyPFfEnlJ4KksLhV26uTMmAa3TNlOLdOKtmfnSKfsqbxOL
-	12prYiKYliH5PgTX/A7wbOhJ8Wto5Uh0qzZQuXfvGRQ4pC5x/sN+TYyzy+DT61wYBXuqC60JE6V
-	C2ht/Y8sxNSO+4ccuXtc1UEzHuqWsxMUYZfDdaDtidhPbnNssaDX6XbJiOpYvuUb8kaVhowVb0g
-	0s+pnJapXniYBSgMOY5ZWzAASbDNdPD+ugvZ2wXnvVUD4owfCkp7zQjIOaNB/iSx5RgC077kwa0
-	N7rpulAFqizUO/apS1DyFLiuLAqW1w30T+a7BKNA==
-X-Received: by 2002:a05:7300:6d06:b0:2ba:70b6:a162 with SMTP id 5a478bee46e88-2bd502a6853mr696063eec.35.1771418830524;
-        Wed, 18 Feb 2026 04:47:10 -0800 (PST)
-Received: from medusa.lab.kspace.sh ([2601:640:8202:6fb0::68dd])
-        by smtp.googlemail.com with UTF8SMTPSA id 5a478bee46e88-2bacb658509sm17230056eec.19.2026.02.18.04.47.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 04:47:10 -0800 (PST)
-Date: Wed, 18 Feb 2026 04:47:08 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <jsmart833426@gmail.com>,
-	Aaron Dailey <adailey@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Dhaval Giani <dgiani@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/21] nvme: Implement cross-controller reset
- completion
-Message-ID: <20260218124708.GJ2392949-mkhalfella@purestorage.com>
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-10-mkhalfella@purestorage.com>
- <3b21ccbd-7948-436b-8faa-a5541c65946a@suse.de>
- <20260217182554.GE3435530-mkhalfella@purestorage.com>
- <1a9feff7-5a0d-4385-b582-c9ab60d724db@suse.de>
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
+  t=1771420262; x=1802956262;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:mime-version:
+   content-transfer-encoding;
+  bh=S2SlkcRqb7QLXiC7P+amY8KjN5Z25fMFewVuOFV8NZ8=;
+  b=NIdWC+rC10OFqXaw7z5tzkNZc1TjYKl9kQAK725dUypict7d9h3mMSFE
+   CBBfyiOyIpSZCKDPK3FVtZw9Kib7pEWUuvXmA9YngE3cTNfYfEuD97AbT
+   0UFF25MX5SlkgUWdtUnzUYzYlM2c0IwtjCTOgu3E8rseeXXFrzWnxyS78
+   ZGXXJRoGWtXjVzRA1kvwKVhO0AgN+RVvmHb73c4PrNZeWG/KRoWibiS64
+   zEBFB41Ea4tAzxUK7WO8Z6oWzlo4zUxP1z0EPFTevJSBV4nAP1J5QB1Sr
+   WmxBmRcnR9rsN7/BtcS75XgwvvbFmePV76VXrIx3V7qrmTwq0txlHH1L1
+   Q==;
+X-CSE-ConnectionGUID: mMptmnszQVWEGUceiMDgnw==
+X-CSE-MsgGUID: RZjEZ+HrQnChokU9BfVSlw==
+X-IronPort-AV: E=Sophos;i="6.21,298,1763424000"; 
+   d="scan'208";a="9511121"
+Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+  by internal-fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 13:10:57 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:6677]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.44.228:2525] with esmtp (Farcaster)
+ id 63bef8c6-1bd4-4bd4-a365-2a014ce01900; Wed, 18 Feb 2026 13:10:57 +0000 (UTC)
+X-Farcaster-Flow-ID: 63bef8c6-1bd4-4bd4-a365-2a014ce01900
+Received: from EX19D008EUC004.ant.amazon.com (10.252.51.148) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
+ Wed, 18 Feb 2026 13:10:55 +0000
+Received: from EX19D008EUC001.ant.amazon.com (10.252.51.165) by
+ EX19D008EUC004.ant.amazon.com (10.252.51.148) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
+ Wed, 18 Feb 2026 13:10:55 +0000
+Received: from EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1]) by
+ EX19D008EUC001.ant.amazon.com ([fe80::9611:c62b:a7ba:aee1%3]) with mapi id
+ 15.02.2562.035; Wed, 18 Feb 2026 13:10:55 +0000
+From: "Heyne, Maximilian" <mheyne@amazon.de>
+To: Maurizio Lombardi <mlombard@redhat.com>
+CC: "kbusch@kernel.org" <kbusch@kernel.org>, "emilne@redhat.com"
+	<emilne@redhat.com>, "jmeneghi@redhat.com" <jmeneghi@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"dwagner@suse.de" <dwagner@suse.de>, "mlombard@bsdbackstore.eu"
+	<mlombard@bsdbackstore.eu>
+Subject: Re: [PATCH RFC 3/5] nvme: pci: use admin queue timeout over
+ NVME_ADMIN_TIMEOUT
+Thread-Topic: [PATCH RFC 3/5] nvme: pci: use admin queue timeout over
+ NVME_ADMIN_TIMEOUT
+Thread-Index: AQHcoNgDoVzHBwjik0KdrJ9CsX/SPA==
+Date: Wed, 18 Feb 2026 13:10:55 +0000
+Message-ID: <20260218-crepe-bambino-1b6d82d0@mheyne-amazon>
+References: <20260212120951.79738-1-mlombard@redhat.com>
+ <20260212120951.79738-4-mlombard@redhat.com>
+In-Reply-To: <20260212120951.79738-4-mlombard@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.253.68.42]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <000346637A0F1B4EBCDFF3C7B0E5B832@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1a9feff7-5a0d-4385-b582-c9ab60d724db@suse.de>
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260218_044711_926518_0244771E 
-X-CRM114-Status: GOOD (  31.33  )
+X-CRM114-CacheID: sfid-20260218_051102_565014_E426251F 
+X-CRM114-Status: GOOD (  16.34  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,68 +105,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed 2026-02-18 08:51:31 +0100, Hannes Reinecke wrote:
-> On 2/17/26 19:25, Mohamed Khalfella wrote:
-> > On Mon 2026-02-16 13:43:51 +0100, Hannes Reinecke wrote:
-> [ .. ]
-> >>
-> >> We really would need some indicator whether 'ccr' is supported at all.
-> > 
-> > Why do we need this indicator, other than exporting it via sysfs?
-> > 
-> To avoid false positives.
+On Thu, Feb 12, 2026 at 01:09:49PM +0100, Maurizio Lombardi wrote:
+> From: David Jeffery <djeffery@redhat.com>
+> =
 
-We will never try CCR on a controller that does not support it. False
-positive of what?
+> While tearing down its queues, nvme-pci uses NVME_ADMIN_TIMEOUT as its
+> timeout target. Instead, use the configured admin queue's timeout value
+> when available to match the device's existing timeout setting.
+> =
 
-> 
-> >> Using the number of available CCR commands would be an option, if though
-> >> that would require us to keep two counters (one for the number of
-> >> possible outstanding CCRs, and one for the number of actual outstanding
-> >> CCRs.).
-> > 
-> > Like mentioned above ctrl->ccr_limit gives us the number of ccrs
-> > available now. It is not 100% indicator if CCR is supported or not, but
-> > it is enough to implement CCR. A second counter can help us skip trying
-> > CCR if we know impacted controller does not support it.
-> > 
-> > Do you think it is worth it?
-> > 
-> Yes. The problem is that we want to get towards TP8028 compliance, which
-> forces us to wait for 2*KATO + CQT before requests on the failed patch
-> can be retried. That will cause a _noticeable_ stall on the application
-> side. And the only way to shorten that is CCR; once we get confirmation
-> from CCR we can start retrying immediately.
-> At the same time the current implementation only waits for 1*KATO before
-> retrying, so there will be regression if we switch to TP8028-compliant
-> KATO handling for systems not supporting CCR.
+> Signed-off-by: David Jeffery <djeffery@redhat.com>
+> ---
+>  drivers/nvme/host/pci.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> =
 
-The statement above is not correct. Careful consideration and testing
-has been made to not introduce such regression. If CCR is not supported
-then nvme_find_ctrl_ccr() will return NULL and nvme_fence_ctrl() will
-return immediately. No CCR command will be sent and no wait for AEN.
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 58f3097888a7..853cd57e4480 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2911,9 +2911,10 @@ static bool __nvme_delete_io_queues(struct nvme_de=
+v *dev, u8 opcode)
+>  {
+>  	int nr_queues =3D dev->online_queues - 1, sent =3D 0;
+>  	unsigned long timeout;
+> +	struct request_queue *q =3D dev->ctrl.admin_q;
+>  =
 
-What happens next depends on whether ictrl->cqt is supported or not. If
-not supported, which will be the case for systems in the field today,
-then requests will be retried immediately. Requests will not be held in
-this case and no delay will be seen in failover case.
+>   retry:
+> -	timeout =3D NVME_ADMIN_TIMEOUT;
+> +	timeout =3D q ? q->rq_timeout : NVME_ADMIN_TIMEOUT;
 
-> 
-> So we can (and should) use CCR as the determining factor whether we
-> want to switch to TP8028-compliant behaviour or stick with the original
-> implementation.
+Skimming over the code I think the check is unnecessary since
+ctrl.admin_q is only changed in nvme_alloc_admin_tag_set. Only when this
+succeeds, we'll setup io queues. When they get deleted we will still
+have the ctrl.admin_q being valid.
 
-We do check CCR support and availability in nvme_find_ctrl_ccr(). Adding
-a second counter will spare us the loop in nvme_find_ctrl_ccr(), which
-is not worth it IMO.
+>  	while (nr_queues > 0) {
+>  		if (nvme_delete_queue(&dev->queues[nr_queues], opcode))
+>  			break;
+> -- =
 
-> 
-> Cheers,
-> 
-> Hannes
-> -- 
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-> HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> 2.53.0
+> =
+
+> =
+
+
+
+
+Amazon Web Services Development Center Germany GmbH
+Tamara-Danz-Str. 13
+10243 Berlin
+Geschaeftsfuehrung: Christof Hellmis, Andreas Stieger
+Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
+Sitz: Berlin
+Ust-ID: DE 365 538 597
+
 
