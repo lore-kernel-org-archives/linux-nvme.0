@@ -4,99 +4,192 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8941E9A056
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Feb 2026 17:23:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E10DE9A053
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Feb 2026 17:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8C1D3sUvdBYYZCkJc+065BogBWdk8oAZ6MrxwjeZhTM=; b=tRC8jwDbSxb0QzRG6z4lBzCn2b
-	7xUUucOvIRsA/URvgh5eAUQ5u7IvFF73hdL3Xn4/xpqGI7ge9r6blqmfh1fIhFXDtq/adcJOuWtvU
-	nvuyBmB6KsPaj52BVY8C5g0nLr336/hd4vl+wc8yOe6AP68LqpKqi95IJfWhvNHCZ6+vLa6cVRxcC
-	0d2LS7xI5QqtqymDgYWEH8oHUbyzuW09UMaxT20uyw4R/5bW09LETDMx9X7BeRHiYWcrmh0VVNLC1
-	KTjFMSIKMS8t4Y40ZYwduPXG9/nUEyO4T0iD9quE42RnOYWvMkV0xLGSOfSHUO26zue8Outwauez2
-	p1Y36adw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:References:Cc:To:From:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y/kZabprSJeXpovLoHk81MrRkr/7R6ZzIuO9xD7v0sc=; b=BCjf4FLr3x/xYjvoNaZZ0w34en
+	VA8b8I4zhZBWT+PFhj9c8uzN7dz0zUmcMk3RIdSt88uj15haldnc6g5UBhtjZAUtCBgKsIZpyDTQg
+	iUtJjJLcMvp9h/RIRx8aGFJc6APFnvuQzyZRO7WoW1ZnZrji0aNfny/6Hk8G574zesNaRBAZL6ORc
+	UnysYjdvkm0xhhHhdhaUvKtiUgV21IGU9eifWeWFgzCmvrW2NAv80F5z9jw3KIbKvv3LiuZJDV32j
+	DFOEO/RXG+gOBm+RP7e/ftf919cneVTpWoAxuQRgQtJSDrHqoreI3X6kQHn4QqqZsF6Q2VoDxB7Ij
+	Qv4nJnXg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vt7k7-0000000Bh2d-1URK;
-	Thu, 19 Feb 2026 17:23:11 +0000
-Received: from mail-qv1-xf62.google.com ([2607:f8b0:4864:20::f62])
+	id 1vt83C-0000000Binm-3Z2J;
+	Thu, 19 Feb 2026 17:42:54 +0000
+Received: from mail-westusazlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c000::1] helo=BYAPR05CU005.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vt7k2-0000000Bgzv-3niY
+	id 1vt83A-0000000Bin9-1TeG
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Feb 2026 17:23:09 +0000
-Received: by mail-qv1-xf62.google.com with SMTP id 6a1803df08f44-8954b73f8e2so820406d6.3
-        for <linux-nvme@lists.infradead.org>; Thu, 19 Feb 2026 09:23:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771521785; x=1772126585; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8C1D3sUvdBYYZCkJc+065BogBWdk8oAZ6MrxwjeZhTM=;
-        b=NQRPObe+Ve/m3c3BiSyQG9+R+D/njM6E1omrEbEqKDOOcCfkLclVpvezAJyNfWxGM2
-         zj1VaBbmyT2Xjs0NwA5mfp9VsVNO7X2gKmRw9GgjC7RtZUGujN9/ERtfk7rN7l81lWkk
-         +BhgcOk/UHhg10/kklF5hyrEle7eF0zC35dLcUnkMsarBSPMBDL6gxxwmoLnu38jZgSm
-         mlbZRINxjrfrsoFtFqN6xc1Db41qBMyBOFbabVaMj8QLjIlDudm65KOTF4sbFi8cGgIk
-         JMzXs7bY7lXEnDnOY3Bm394bE+DLxQtgVx9i34F7zCurGc6IYQ+slS4hnxUoVlbmRz4E
-         nboQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771521785; x=1772126585;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8C1D3sUvdBYYZCkJc+065BogBWdk8oAZ6MrxwjeZhTM=;
-        b=D3a7O2fX2Czi5MtJtli6tr7v/C/skrSlNGBGyujI3zu4rHJaIu67jvsNgriQhJWiVE
-         6HqIsWLeZ0DgmTrw/AScHXKrlCmatSJVF4i3+rR5c/XUM4LWuEy4UmZkOKPQbe97gie4
-         KL2PezJ+veL0YWstOAVIPUwUACCndHz0nGHGyVAWQ61wJilnQG1oyZ9BFN9F3YvM/rr1
-         SHc6ntBvBfjMyLbb0JdRLFpuij4YgfsXBB2S965zqHMPqtrybKNPD7TFyttUDi8PcrJB
-         +II3DaWGOFfGvGnX59hQ8vmAAPfeyUIieXd9dFxt6gvIKIJ+7vNitIdkpD+njdciXIjy
-         oqJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKewjPUeda3rXE6UuzkEZCKqz8fp1gTJw7IK/L2dRQzdGZh0KYhrCWrCxO+4VsPH+6fPrMqwwgscEg@lists.infradead.org
-X-Gm-Message-State: AOJu0YzjKOUkr+PjoauTiY1Yxecboj+3yvlyUHsvqvA5LiFa0pVlRU0z
-	6Co4zlSf4Y/ANAmWFSLyXtW0fCeAw5WwKsLgnH9UzNzNaVrDFL7dLpmSMUL/t3aulNGM8UEAXv7
-	kjTryskiKuBbR0ONn1iHg88FNWf3l/vG4FKdR1LuALPb3R0MxtD8S
-X-Gm-Gg: AZuq6aKr/tA0jhNFSj5VV1rstgpY6JzG9b6DpODTcd8y3EW9j/US4LkxvUCspBsBOHl
-	/o9hWBso9FZLq9BFbFNuPTi1iRnBo3cJZsGMCk88LFlRAW1hxt6qWLaiB7EeUEyzcQcYkPG5NKd
-	AhJC/wai9ohJsaeltzC73CcsLLoZLklmuaLpjCRLEw0QSKMuVr75b2lFNgFzbSnlEm+U/JOxYZ7
-	CGrY8t8gKDHtu4eYpsOjrFNcYK7UfT6CWX/vuE8oDd/64OGjM3VH1Hr/Ndkie74vs7D/GXy7j1t
-	7VjSefQhd3Y7WH5ZFvROfh3FHje8ClzSm/D7/xuqmrgfEJRWD6Vd34aFGx4I68Ak41eSyvQtqzt
-	OySkTMle6iL/GJSIZoESmHzOF9DFTb3A79/1MAFc=
-X-Received: by 2002:a0c:e002:0:b0:895:3b2c:7708 with SMTP id 6a1803df08f44-897346241b8mr220248196d6.0.1771521785373;
-        Thu, 19 Feb 2026 09:23:05 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id 6a1803df08f44-8971cd75df8sm31539626d6.30.2026.02.19.09.23.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 09:23:05 -0800 (PST)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id B2C07341F2A;
-	Thu, 19 Feb 2026 10:23:04 -0700 (MST)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id AC84CE41AE3; Thu, 19 Feb 2026 10:23:04 -0700 (MST)
-From: Caleb Sander Mateos <csander@purestorage.com>
-To: Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: io-uring@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Anuj gupta <anuj1072538@gmail.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v3 1/4] io_uring: add REQ_F_IOPOLL
-Date: Thu, 19 Feb 2026 10:22:24 -0700
-Message-ID: <20260219172228.429479-2-csander@purestorage.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20260219172228.429479-1-csander@purestorage.com>
-References: <20260219172228.429479-1-csander@purestorage.com>
+	Thu, 19 Feb 2026 17:42:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cM0MmH9wHlhStNojzVTTCPQH7jchvRrZWu33pzDS4Hpjw92ay7PyuFwsNJ9I83EbzE89XZJb8F+U476D4F8ej7W2EkAAbwLy6zBl168QhHd1PxKumNK/nQpfiBe6K7TL3nSgwPxN8/Hp4BYdEagWxqUEIF717gqmMZ8RSTj2OAIZS8NleyvSVK1H7/lNG5cqB8kgSy/VjIH5GJbDASrt+HxCB2udnGb99+9oEek3jFlanHy+xZWaTM3jbNxmFa4j+zd7bt1PR1IE8pv8hBUbdmhK8JAIVWSIxnMdIkf+6XSyNJ4zbeneha8RiuUFrvF6mM6OiriROr9/izq48QeTZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y/kZabprSJeXpovLoHk81MrRkr/7R6ZzIuO9xD7v0sc=;
+ b=N5Ml90E+wyyDuP6flVBSOlysk76Op/BWxKhWiHyAcHpNm5Cz7552IpaG5p9X+wwj770UKJu05pmeYpZzaRtKwWqKjA8XuEBnPhl0RPVSY0mR1tZb/sXLwZCnF/bXDlzXEg93Qd2CgxlHWeVX6xw3/+bmeDkt+Dd1id8w2nycNH1jJim53paitRDK0xpj1VbQfOkwzzyFe4I9U7F/EOu5MOOb92y5GCTCc4Q8DuM/+LOHOPVGh5QmmQj06HLSzKsDl+kRMXH/tsKZ+2hc1tu0xC2xMOU9DArrXosP9dJl/N9wTvAc7V4Ms6d9Pwsl0Dd3q8varkkjkl2sPei69DFjqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y/kZabprSJeXpovLoHk81MrRkr/7R6ZzIuO9xD7v0sc=;
+ b=pjwbUfzDmYB8rh9981RvWCEPnPJ9rdcrhPvkyylr+JO1HBgZHDmeupu9HNx3OvG3DGAcTO0K/mXa0dWTFscJXoQlqxttTevs7TGfSiagEFADw286w38tKPxsiopGnHYnutgDSbveZx+vAQ5YvhYINfBk6hgmzUEea1VBOIAqL7UawkSokahil6ZvscbgnbqmRFNeOcGo7CiDs2qkbYFu86mYn+1hR3UqCRfR5HlEKVDvp3CGBLZep9K86N+MzgZ+WpN6zCEo3iijZqeFfVJtQJrqCHH1kND1jYNamNJgiFAu7lruSgTEUHzfvly363LWQec2YWQ9gi1PJvadFC0F6Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
+ by CYXPR12MB9427.namprd12.prod.outlook.com (2603:10b6:930:d6::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Thu, 19 Feb
+ 2026 17:42:45 +0000
+Received: from DS2PR12MB9750.namprd12.prod.outlook.com
+ ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
+ ([fe80::56a8:d6bf:e24c:b391%5]) with mapi id 15.20.9632.015; Thu, 19 Feb 2026
+ 17:42:44 +0000
+Message-ID: <cf1e685a-a1cb-45ec-bdc3-1ef1a3d1044e@nvidia.com>
+Date: Thu, 19 Feb 2026 17:42:37 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
+ set by BIOS for devicetree platforms
+From: Jon Hunter <jonathanh@nvidia.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+ Manikanta Maddireddy <mmaddireddy@nvidia.com>
+Cc: krishna.chundru@oss.qualcomm.com, Bjorn Helgaas <helgaas@kernel.org>,
+ manivannan.sadhasivam@oss.qualcomm.com, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ "David E. Box" <david.e.box@linux.intel.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Chia-Lin Kao <acelan.kao@canonical.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <7306256a-b380-489b-8248-b774e6d3d80e@nvidia.com>
+ <20260122152903.GA1247682@bhelgaas>
+ <5z7c25nkb35prvax6vq6ud7eaeuhzsswbf7fqvmlgys3xftgwb@odocboejrdrv>
+ <e44c330b-778b-4fa1-b678-fa909cc05b03@nvidia.com>
+ <bf37b6a5-268d-4c07-a536-a826b3d5953b@nvidia.com>
+ <unc5zefwndgcv7wufaezz3gkg3qtaymkjlmymhyqdqwzn3wybl@ow2rhbyt772h>
+ <f9ac8c8f-8959-416b-ba90-14f0886c5bc0@nvidia.com>
+ <a5m4pqtiaxsq5lmq64roro633ganbeq7mypa5ojuuqy4npkvok@wcogdbzaq6xe>
+ <7157c68e-97f3-43b0-bfb5-e271a8f2a4b8@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <7157c68e-97f3-43b0-bfb5-e271a8f2a4b8@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0179.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:311::7) To DS2PR12MB9750.namprd12.prod.outlook.com
+ (2603:10b6:8:2b0::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|CYXPR12MB9427:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6261c227-f49c-4596-af93-08de6fde49b6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?emhIWEZteXlpVG1mYnRtcHJHblNBRnZZRDJtSTFKMkljMWlVeU1Ka3VSb3BJ?=
+ =?utf-8?B?RThieHJqTGZPQmwyUmZTUHdGOEFyT3R5Q1FKTW9hTkt1SEJEcHlNUnpUVUFl?=
+ =?utf-8?B?cW4yQWEwQ01UTlRrSFc5WXVRMXlKU1FkR05nWDQ2anVSVUZLN0o5MnlMQWth?=
+ =?utf-8?B?WmFncGlFZ28yYzgxdE5ublg1TmRGdlF0dmhEekNiTndKVmVoN2QrYnVkVWNS?=
+ =?utf-8?B?Y0hoSUxwVHJzQnJWUUVKMUlOaUllUjlXdHV1emt4dnQydE5NNVhxdmY1dUM1?=
+ =?utf-8?B?RStUUmVyMXpUVkpYWVZmd0xlQmUyQVcxUmJlVzBjQTNWOTdtSjN5WUVmSnp0?=
+ =?utf-8?B?SHF4eGQ0YlVub1NWRFRCckN0ZThabDlHNmlYVk1JVUhsMFhLMlc2c21wOC9t?=
+ =?utf-8?B?ZHk0N3lBcnJPOHR0SE1MUUNWc2JrQk01Sm4wV3dOYk1jZmlHTzlDN1I3dStm?=
+ =?utf-8?B?K3ZGUXpHY0JKZVZ5MHkvZFhyMjFVV2hGRHAzMURCTkxFV0hsNThwZjZwQ0xo?=
+ =?utf-8?B?N0czY0VSMzM3YXpJWlJlMXd6dzBNaDdxSFQyMlEyd1ZqTWxpV3d3N0w2dG02?=
+ =?utf-8?B?Mmx2V0g1djBJZy9DL2FNdUl0QnNGYzVLd3RxaEdxakFzaDNtZlBOdkhaWnBj?=
+ =?utf-8?B?ZlBJS2JGK2ZGVjFuVk94U1NTV0ZXVnllNHpibXJZKzE0YklNVXU4eHBzajhw?=
+ =?utf-8?B?UklwNUZJMWJmMUpNWVlJMlJDdmxYMzAwczJqQWtWd1puUUMwYzVlVm9BVlJH?=
+ =?utf-8?B?c2UyQmp2bFhIZkxSeklRVmJkbEJ2Y21wb3gwamZGTEpReUdQb3hKeCtKSnRy?=
+ =?utf-8?B?TVVaVEc2aGYzc3piWk1sY1BXNU5EVlV6WEJrSW5XeHVCSXhJOGFPVlJmQ21J?=
+ =?utf-8?B?dmFZSGcwZUNFeWpNUllIdWRrM3JsU0Exb3JoQk9Rb1EvbUhlQ24wczNPeEVj?=
+ =?utf-8?B?NXpueG9NRHJxNmNyUmRabTNVUHBZeVVRMTBQNGdvdVA2bkhUdERLSVdCR2FU?=
+ =?utf-8?B?WC93aHRFYkcxQUlhYzBOczRVWmg1QU81Ulh6cC9vcXB0RWdVNndQNW9xc2ha?=
+ =?utf-8?B?SHBSQVBuVzdIY3dXR3RBRVdmaHNoUEF2cXlCUmRna0xqblFLWWVub0gvU1Ez?=
+ =?utf-8?B?Vm1sRTR0QmpzTXBOUnIzdG9KVzdMZnlLV1lqY1RmWUFmSFYvMFFTclNHZEdP?=
+ =?utf-8?B?ZExGTDhPdW5ZMDZKQzM0blRvSnVrTXlnemhOejZMNnVwZUdiLzlUMGgvSUsx?=
+ =?utf-8?B?Q1ZaOE12anNwTkhScUM4RHVtMGl2QkdVQ0l0RXgzaVBlZmJ5ekZ0NDBSVE5I?=
+ =?utf-8?B?cXB3N2hKUGM2N1U1b0NwakJLY05ZdFBQY3JuenBsUnh4bkdDUEdzZEwrWnZh?=
+ =?utf-8?B?UlFKeXV3RjNqMXliTGNiOVBCdThrOXdVaWd4OTJ5eTV2K1c2VklweTFPOHJX?=
+ =?utf-8?B?NlR4M29FYjE4b0grQWpnWXlWWGJ5MzFWV010cXdsVy9UQlIrQjRobS9ocVYv?=
+ =?utf-8?B?OUN5S25oVmd3VzFoYzBkNVNaMjRxRGNsM2l0MHBMVDNEbW9sT2RSWWZuOEJT?=
+ =?utf-8?B?ZkFKN0ZUKy9qSmcvUFlHMDh0RlhKK1d6ZVZoNVQ5emk1OGs3aGtKZ2NMZURa?=
+ =?utf-8?B?NWdqbFE1cWNZWkl4WDY1eXBOb2VzTE84SVVDeXZRQWZETGtMQ0J0U0tZTjh0?=
+ =?utf-8?B?RFhZWlBsR0xZaWxyT0l0dG1yRFZQeWMxYVdkKzZxbEpkQm5wSmR4c2w0T3J2?=
+ =?utf-8?B?OSs1cFJta3pFL2xnRW5taFdUeU8yRmJ3OUMzYm16Nk9BeDBPUEpDZFRubG5n?=
+ =?utf-8?B?bk5kbGtGbjArTGhHeWJRc1FOTFJDRzYzNEd3Y29rQTVOWkZCMGY1bUVueWNt?=
+ =?utf-8?B?emhrVXEzZ2ZnakVwRzNiTTg3djhHMlJpc0N6WTdjMXE3Rks5cWZYbS9Mck5r?=
+ =?utf-8?B?bUhzYUd1aXZnL2RmQ0RnU1BjM0Nzb0JrS2xFSVpubFlhUmZudzdLV3lpRkxn?=
+ =?utf-8?B?QU1LNlhXeENHQzN3OVRXR1NITDJhcDVySWVwVHY4Tk8zdGgrNHFFSkFjekNP?=
+ =?utf-8?B?M1d5M1hlTm9RRnpia3dPZG5Fa0UxVjBoQmN5c2ErMGQxVXhoMjhRMnFrSFRv?=
+ =?utf-8?Q?8CNs=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ck1wTURYYzBYWU9rb3VzeW5pQUl5ZnpNZVNlajlzczgydTdZdkthWW9sVWNr?=
+ =?utf-8?B?eXlveER6NFkrbU9aeVpFaUMxWW4vQ3pSNW9HSGxjT1NadFJLSVhLNWNzU0hO?=
+ =?utf-8?B?YXNvU1l1Y2d3OFI2SU5KRzMwRkNwdklRWDhMMUtIMkhDQTNXcWhHWVloRFBQ?=
+ =?utf-8?B?L3hTaVBSQjlYSEVqblp1ZmFScG1LTSs5MnU5TzJTaHdXcmZUdDZXQk9WY0JY?=
+ =?utf-8?B?UFFBMFNDcjdyQ1c4ZEV6MHFBTVVoNGNHUVJEZkxxRUZwZ21NK1dVZDF3dzYw?=
+ =?utf-8?B?Q0NIR3ZOT3p6a1FxeDNqT2FudHhNV1hYNThOZW84bU4zRDh6Sm0rN1JJc2oz?=
+ =?utf-8?B?Szd0ejZBUU5pcGtMZjZ0bmZYV0ZDQVNLanhVbHgxMm9JalQ1YkxaYlNBUkw4?=
+ =?utf-8?B?ME10dFAvS0FJRnczVklUT2tockhqQ2Z6RWlNSmZmV0VmV3BpS3VnUEoyMFRW?=
+ =?utf-8?B?NzBnMDhjbHJkNzBBRnFiNmg4Y1IwNXFLdml6cVoxQVVFYzRIdXFqeUJCZlVY?=
+ =?utf-8?B?bzJLWWRsTGZCWVVmTGVqWWFwMC90ZGdob09ER2lhdHo4a3hJQmhZQWNKVnRW?=
+ =?utf-8?B?SG9rMURBUjRBTXlsYURVNWQrRC9TbXBuQ1ZqSXdVRUZjS1MxbEdlL1pTNDkv?=
+ =?utf-8?B?aVdYUjB3UGlnb1krZW84cFM1UkNXdW5aM0dRZURndXVtSzFMNGpvcWtKRklZ?=
+ =?utf-8?B?aWlLN3dtQnV1SHNKaFlLV25RL3I1bVZaMC9oUUY3b2JNZE5MMUZsWGxFZ3ll?=
+ =?utf-8?B?MVlGQ2lSOFNYNVBDd1dTQmYwUXlVSkdONkRZR013amlwbjlYMUd5bzJ5OXMx?=
+ =?utf-8?B?RXFxKzNZTzVzeXdtK2pmditZbzB1ell4Q0MxSUV2MVdTNERhbm9ITG9iNEhu?=
+ =?utf-8?B?Y3hKNDRpM2ZvaTl0UFRqK25iNk5hK2FvSnV0U0VuVW8zaGZDMzVyRVQ5SjY0?=
+ =?utf-8?B?QkY2TnhKczkxM3ZFMFVjQWRSY0hnbHRVQVVyUG5kNmtGVFZyNFRhVjRkYkZm?=
+ =?utf-8?B?TnpreDNtYmwvQ2ZVZzhhTWNCWUQ3VjkwQ201UWRrOW5mNkI0N2o1SzlkeXdW?=
+ =?utf-8?B?WVRXNG1hQ0l4L0VhK2FHR3NoTWdtZGlqR1o3bVQ4VUduK0dUUUVwdFF2aCts?=
+ =?utf-8?B?WE94ckdMd3dxajMvRXFrZzJ3QkNjSGdUTXVjNFJtaTNmNWFqa1pPdEFDdHF6?=
+ =?utf-8?B?K1JxL2Z0SzVtRlNnYUJQU041b3U1ejlSYzBnOHFJc2ZSam9ra1liRHFqYlFL?=
+ =?utf-8?B?djdvSDJCYXhPMmhDSkY5T3hsWmJIc2lSZUtxbFVsWGZiYndHNzlGQkxMdld0?=
+ =?utf-8?B?b3Z0OEFzYWhKUTNGYk9LMUdJOWUrMmhyWHhnS042WEpGUStBUTBDQmxHbGpG?=
+ =?utf-8?B?UDJFd3dCNURqbE1NMWdKcVk0SXQ1emF2bkh4bFY2S3hnQ3lyZ0QvRllFZFJ0?=
+ =?utf-8?B?ZDB4UnFZbnlpOHRLMmRyNnlZdk9wV21oNEVaQnRlVCtuaHA4NTdxZ0c2TlJk?=
+ =?utf-8?B?dFBSYWlUbEc5Y1lRNVFYUW5KVGJqNXZvYUJKako2ZC9heDVPUS9Sc0V4d0ZP?=
+ =?utf-8?B?R204bkptbjJEc3VGOTZYNmVHVVkxRi90RXFoWkVDY1hlN01yWS96T2NseDNv?=
+ =?utf-8?B?ckpCOVo4aFY3NGFNaGNjQm1ONFFwR2pYQ1FGdHFUOEM4WnRKeXNlUllTWFJG?=
+ =?utf-8?B?ZEl0Z0UzNXh6bDNBcUpVWWlPVTVvc2JQYi9XVXBRZzJpRytKTU5hY0JYK3ow?=
+ =?utf-8?B?U3ZRekxGd25DWjdacWFNRXdtQ3ZoQ1RpQlk1U3FiUCtnWlBrT0piWFRzbXRi?=
+ =?utf-8?B?UjJZb3lUNFhvNmRVejJhLzBOMFNFQnBKM3hOckxBY2licTNYMzA0UFBiQVZR?=
+ =?utf-8?B?L25sOWd3dHhsNGdDVWRNZU13RUdzaGpWR053bmZFb1NBN1FadUllU3JabjZ4?=
+ =?utf-8?B?M1JYejE5ajRmazlzbGIzc084aTh2WjhjT0tmL00zZzdiUGh2VEd6TW91MFdt?=
+ =?utf-8?B?Ykp5YXpXQWNwaDZrcWk3cDBDYzhMaURZQU5Qb3dOb1JtYXdNNk1RWEV3MUJr?=
+ =?utf-8?B?SGo2anhvK0tCUXZnRWJxQ1NFNlNKTTJMVmpxQWVOMlFHMFI4TloxK2w4ekxl?=
+ =?utf-8?B?b1gyWkYrM3hLb2ZoU1RGSm5ydVROc1BheVRZVDYyTWpZalRKU2c2cEZpWUNB?=
+ =?utf-8?B?VFcyN20wbEtaZ29FeVdvUmtpcEc4Q1ZiLytMTmYzNWhKVmpCdmZxaFpWd0dL?=
+ =?utf-8?B?eTczTlZJeVpnemR1bmRGR2VYbW1CUjZuM3ZraW5zUnhmekM3Y2pWYVY2ODQ5?=
+ =?utf-8?B?cDJoUEh3NEIwRHJIZlhIbmtQSG1ETElpa2Urdk0ybjNkMUI2SEp2QT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6261c227-f49c-4596-af93-08de6fde49b6
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 17:42:44.4848
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C4GEEpHP+syuVyvQycElpQmGdOyUdzOVyDU5NOjbVEq0ry3Z933Rwmoc+tJ8Ewpa+2cfXkhzdiZoSOuUE4nj9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9427
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260219_092306_971938_1FE2AA10 
-X-CRM114-Status: GOOD (  27.83  )
+X-CRM114-CacheID: sfid-20260219_094252_402030_9D6EAD6E 
+X-CRM114-Status: GOOD (  19.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,248 +204,78 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A subsequent commit will allow uring_cmds to commands that don't
-implement ->uring_cmd_iopoll() to be issued to IORING_SETUP_IOPOLL
-io_urings. This means the ctx's IORING_SETUP_IOPOLL flag isn't
-sufficient to determine whether a given request needs to be iopolled.
-Introduce a request flag REQ_F_IOPOLL set in ->issue() if a request
-needs to be iopolled to completion. Set the flag in io_rw_init_file()
-and io_uring_cmd() for requests issued to IORING_SETUP_IOPOLL ctxs. Use
-the request flag instead of IORING_SETUP_IOPOLL in places dealing with a
-specific request.
+Hi Mani,
 
-A future possibility would be to add an option to enable/disable iopoll
-in the io_uring SQE instead of determining it from IORING_SETUP_IOPOLL.
+On 16/02/2026 14:35, Jon Hunter wrote:
 
-Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
----
- include/linux/io_uring_types.h |  3 +++
- io_uring/io_uring.c            |  9 ++++-----
- io_uring/rw.c                  | 11 ++++++-----
- io_uring/uring_cmd.c           |  5 +++--
- 4 files changed, 16 insertions(+), 12 deletions(-)
+...
 
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index 3e4a82a6f817..d74b2a8c7305 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -541,10 +541,11 @@ enum {
- 	REQ_F_BUFFERS_COMMIT_BIT,
- 	REQ_F_BUF_NODE_BIT,
- 	REQ_F_HAS_METADATA_BIT,
- 	REQ_F_IMPORT_BUFFER_BIT,
- 	REQ_F_SQE_COPIED_BIT,
-+	REQ_F_IOPOLL_BIT,
- 
- 	/* not a real bit, just to check we're not overflowing the space */
- 	__REQ_F_LAST_BIT,
- };
- 
-@@ -632,10 +633,12 @@ enum {
- 	 * For SEND_ZC, whether to import buffers (i.e. the first issue).
- 	 */
- 	REQ_F_IMPORT_BUFFER	= IO_REQ_FLAG(REQ_F_IMPORT_BUFFER_BIT),
- 	/* ->sqe_copy() has been called, if necessary */
- 	REQ_F_SQE_COPIED	= IO_REQ_FLAG(REQ_F_SQE_COPIED_BIT),
-+	/* request must be iopolled to completion (set in ->issue()) */
-+	REQ_F_IOPOLL		= IO_REQ_FLAG(REQ_F_IOPOLL_BIT),
- };
- 
- struct io_tw_req {
- 	struct io_kiocb *req;
- };
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index ccab8562d273..43059f6e10e0 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -354,11 +354,10 @@ static struct io_kiocb *__io_prep_linked_timeout(struct io_kiocb *req)
- }
- 
- static void io_prep_async_work(struct io_kiocb *req)
- {
- 	const struct io_issue_def *def = &io_issue_defs[req->opcode];
--	struct io_ring_ctx *ctx = req->ctx;
- 
- 	if (!(req->flags & REQ_F_CREDS)) {
- 		req->flags |= REQ_F_CREDS;
- 		req->creds = get_current_cred();
- 	}
-@@ -376,11 +375,11 @@ static void io_prep_async_work(struct io_kiocb *req)
- 
- 		/* don't serialize this request if the fs doesn't need it */
- 		if (should_hash && (req->file->f_flags & O_DIRECT) &&
- 		    (req->file->f_op->fop_flags & FOP_DIO_PARALLEL_WRITE))
- 			should_hash = false;
--		if (should_hash || (ctx->flags & IORING_SETUP_IOPOLL))
-+		if (should_hash || (req->flags & REQ_F_IOPOLL))
- 			io_wq_hash_work(&req->work, file_inode(req->file));
- 	} else if (!req->file || !S_ISBLK(file_inode(req->file)->i_mode)) {
- 		if (def->unbound_nonreg_file)
- 			atomic_or(IO_WQ_WORK_UNBOUND, &req->work.flags);
- 	}
-@@ -1417,11 +1416,11 @@ static int io_issue_sqe(struct io_kiocb *req, unsigned int issue_flags)
- 
- 	if (ret == IOU_ISSUE_SKIP_COMPLETE) {
- 		ret = 0;
- 
- 		/* If the op doesn't have a file, we're not polling for it */
--		if ((req->ctx->flags & IORING_SETUP_IOPOLL) && def->iopoll_queue)
-+		if ((req->flags & REQ_F_IOPOLL) && def->iopoll_queue)
- 			io_iopoll_req_issued(req, issue_flags);
- 	}
- 	return ret;
- }
- 
-@@ -1433,11 +1432,11 @@ int io_poll_issue(struct io_kiocb *req, io_tw_token_t tw)
- 	int ret;
- 
- 	io_tw_lock(req->ctx, tw);
- 
- 	WARN_ON_ONCE(!req->file);
--	if (WARN_ON_ONCE(req->ctx->flags & IORING_SETUP_IOPOLL))
-+	if (WARN_ON_ONCE(req->flags & REQ_F_IOPOLL))
- 		return -EFAULT;
- 
- 	ret = __io_issue_sqe(req, issue_flags, &io_issue_defs[req->opcode]);
- 
- 	WARN_ON_ONCE(ret == IOU_ISSUE_SKIP_COMPLETE);
-@@ -1531,11 +1530,11 @@ void io_wq_submit_work(struct io_wq_work *work)
- 		 * We can get EAGAIN for iopolled IO even though we're
- 		 * forcing a sync submission from here, since we can't
- 		 * wait for request slots on the block side.
- 		 */
- 		if (!needs_poll) {
--			if (!(req->ctx->flags & IORING_SETUP_IOPOLL))
-+			if (!(req->flags & REQ_F_IOPOLL))
- 				break;
- 			if (io_wq_worker_stopped())
- 				break;
- 			cond_resched();
- 			continue;
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index 1a5f262734e8..3bdb9914e673 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -502,11 +502,11 @@ static bool io_rw_should_reissue(struct io_kiocb *req)
- 	struct io_ring_ctx *ctx = req->ctx;
- 
- 	if (!S_ISBLK(mode) && !S_ISREG(mode))
- 		return false;
- 	if ((req->flags & REQ_F_NOWAIT) || (io_wq_current_is_worker() &&
--	    !(ctx->flags & IORING_SETUP_IOPOLL)))
-+	    !(req->flags & REQ_F_IOPOLL)))
- 		return false;
- 	/*
- 	 * If ref is dying, we might be running poll reap from the exit work.
- 	 * Don't attempt to reissue from that path, just let it fail with
- 	 * -EAGAIN.
-@@ -638,11 +638,11 @@ static inline void io_rw_done(struct io_kiocb *req, ssize_t ret)
- 			ret = -EINTR;
- 			break;
- 		}
- 	}
- 
--	if (req->ctx->flags & IORING_SETUP_IOPOLL)
-+	if (req->flags & REQ_F_IOPOLL)
- 		io_complete_rw_iopoll(&rw->kiocb, ret);
- 	else
- 		io_complete_rw(&rw->kiocb, ret);
- }
- 
-@@ -652,11 +652,11 @@ static int kiocb_done(struct io_kiocb *req, ssize_t ret,
- 	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
- 	unsigned final_ret = io_fixup_rw_res(req, ret);
- 
- 	if (ret >= 0 && req->flags & REQ_F_CUR_POS)
- 		req->file->f_pos = rw->kiocb.ki_pos;
--	if (ret >= 0 && !(req->ctx->flags & IORING_SETUP_IOPOLL)) {
-+	if (ret >= 0 && !(req->flags & REQ_F_IOPOLL)) {
- 		u32 cflags = 0;
- 
- 		__io_complete_rw_common(req, ret);
- 		/*
- 		 * Safe to call io_end from here as we're inline
-@@ -874,10 +874,11 @@ static int io_rw_init_file(struct io_kiocb *req, fmode_t mode, int rw_type)
- 		req->flags |= REQ_F_NOWAIT;
- 
- 	if (ctx->flags & IORING_SETUP_IOPOLL) {
- 		if (!(kiocb->ki_flags & IOCB_DIRECT) || !file->f_op->iopoll)
- 			return -EOPNOTSUPP;
-+		req->flags |= REQ_F_IOPOLL;
- 		kiocb->private = NULL;
- 		kiocb->ki_flags |= IOCB_HIPRI;
- 		req->iopoll_completed = 0;
- 		if (ctx->flags & IORING_SETUP_HYBRID_IOPOLL) {
- 			/* make sure every req only blocks once*/
-@@ -961,11 +962,11 @@ static int __io_read(struct io_kiocb *req, struct io_br_sel *sel,
- 	if (ret == -EAGAIN) {
- 		/* If we can poll, just do that. */
- 		if (io_file_can_poll(req))
- 			return -EAGAIN;
- 		/* IOPOLL retry should happen for io-wq threads */
--		if (!force_nonblock && !(req->ctx->flags & IORING_SETUP_IOPOLL))
-+		if (!force_nonblock && !(req->flags & REQ_F_IOPOLL))
- 			goto done;
- 		/* no retry on NONBLOCK nor RWF_NOWAIT */
- 		if (req->flags & REQ_F_NOWAIT)
- 			goto done;
- 		ret = 0;
-@@ -1186,11 +1187,11 @@ int io_write(struct io_kiocb *req, unsigned int issue_flags)
- 	/* no retry on NONBLOCK nor RWF_NOWAIT */
- 	if (ret2 == -EAGAIN && (req->flags & REQ_F_NOWAIT))
- 		goto done;
- 	if (!force_nonblock || ret2 != -EAGAIN) {
- 		/* IOPOLL retry should happen for io-wq threads */
--		if (ret2 == -EAGAIN && (req->ctx->flags & IORING_SETUP_IOPOLL))
-+		if (ret2 == -EAGAIN && (req->flags & REQ_F_IOPOLL))
- 			goto ret_eagain;
- 
- 		if (ret2 != req->cqe.res && ret2 >= 0 && need_complete_io(req)) {
- 			trace_io_uring_short_write(req->ctx, kiocb->ki_pos - ret2,
- 						req->cqe.res, ret2);
-diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
-index ee7b49f47cb5..b651c63f6e20 100644
---- a/io_uring/uring_cmd.c
-+++ b/io_uring/uring_cmd.c
-@@ -108,11 +108,11 @@ void io_uring_cmd_mark_cancelable(struct io_uring_cmd *cmd,
- 	 * Doing cancelations on IOPOLL requests are not supported. Both
- 	 * because they can't get canceled in the block stack, but also
- 	 * because iopoll completion data overlaps with the hash_node used
- 	 * for tracking.
- 	 */
--	if (ctx->flags & IORING_SETUP_IOPOLL)
-+	if (req->flags & REQ_F_IOPOLL)
- 		return;
- 
- 	if (!(cmd->flags & IORING_URING_CMD_CANCELABLE)) {
- 		cmd->flags |= IORING_URING_CMD_CANCELABLE;
- 		io_ring_submit_lock(ctx, issue_flags);
-@@ -165,11 +165,11 @@ void __io_uring_cmd_done(struct io_uring_cmd *ioucmd, s32 ret, u64 res2,
- 		if (req->ctx->flags & IORING_SETUP_CQE_MIXED)
- 			req->cqe.flags |= IORING_CQE_F_32;
- 		io_req_set_cqe32_extra(req, res2, 0);
- 	}
- 	io_req_uring_cleanup(req, issue_flags);
--	if (req->ctx->flags & IORING_SETUP_IOPOLL) {
-+	if (req->flags & REQ_F_IOPOLL) {
- 		/* order with io_iopoll_req_issued() checking ->iopoll_complete */
- 		smp_store_release(&req->iopoll_completed, 1);
- 	} else if (issue_flags & IO_URING_F_COMPLETE_DEFER) {
- 		if (WARN_ON_ONCE(issue_flags & IO_URING_F_UNLOCKED))
- 			return;
-@@ -258,10 +258,11 @@ int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags)
- 	if (io_is_compat(ctx))
- 		issue_flags |= IO_URING_F_COMPAT;
- 	if (ctx->flags & IORING_SETUP_IOPOLL) {
- 		if (!file->f_op->uring_cmd_iopoll)
- 			return -EOPNOTSUPP;
-+		req->flags |= REQ_F_IOPOLL;
- 		issue_flags |= IO_URING_F_IOPOLL;
- 		req->iopoll_completed = 0;
- 		if (ctx->flags & IORING_SETUP_HYBRID_IOPOLL) {
- 			/* make sure every req only blocks once */
- 			req->flags &= ~REQ_F_IOPOLL_STATE;
+>> Krishna posted the series a couple of weeks before but forgot to CC you:
+>> https://lore.kernel.org/linux-pci/20260128-d3cold-v1-0- 
+>> dd8f3f0ce824@oss.qualcomm.com/
+>>
+>> You are expected to use the helper pci_host_common_can_enter_d3cold() 
+>> in the
+>> suspend path.
+
+
+I have been playing around with this, but so far I have not got anything
+to work. Right now I have just made the following change (note that this
+is based upon Manikanta's fixes series [0]) ...
+
+diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+index 9883d14f7f97..9f88e4c1db08 100644
+--- a/drivers/pci/controller/dwc/pcie-tegra194.c
++++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+@@ -2311,6 +2311,7 @@ static int tegra_pcie_dw_suspend_late(struct device *dev)
+  static int tegra_pcie_dw_suspend_noirq(struct device *dev)
+  {
+         struct tegra_pcie_dw *pcie = dev_get_drvdata(dev);
++       struct dw_pcie *pci = &pcie->pci;
+  
+         if (pcie->of_data->mode == DW_PCIE_EP_TYPE)
+                 return 0;
+@@ -2318,6 +2319,9 @@ static int tegra_pcie_dw_suspend_noirq(struct device *dev)
+         if (!pcie->link_state)
+                 return 0;
+  
++       if (!pci_host_common_can_enter_d3cold(pci->pp.bridge))
++               return 0;
++
+         tegra_pcie_dw_pme_turnoff(pcie);
+         tegra_pcie_unconfig_controller(pcie);
+
+
+At first I was thinking that is we are not actually suspending the
+controller we can skip the configuration of the controller in the
+resume. However, if we skip configuring the controller in the resume
+then the device does not resume at all. So right now I have the
+above, but clearly this is not sufficient. The device resumes but
+the NVMe is not working ...
+
+  nvme nvme0: ctrl state 1 is not RESETTING
+  nvme nvme0: Disabling device after reset failure: -19
+  nvme nvme0: Ignoring bogus Namespace Identifiers
+  Aborting journal on device nvme0n1p1-8.
+  nvme0n1: detected capacity change from 0 to 976773168
+  EXT4-fs error (device nvme0n1p1): __ext4_find_entry:1613: inode #18622533: comm (t-helper): reading directory lblock 0
+  Buffer I/O error on dev nvme0n1p1, logical block 60850176, lost sync page write
+  Buffer I/O error on dev nvme0n1p1, logical block 0, lost sync page write
+  JBD2: I/O error when updating journal superblock for nvme0n1p1-8.
+  EXT4-fs (nvme0n1p1): I/O error while writing superblock
+  EXT4-fs error (device nvme0n1p1): ext4_journal_check_start:86: comm rs:main Q:Reg: Detected aborted journal
+  Buffer I/O error on dev nvme0n1p1, logical block 0, lost sync page write
+  EXT4-fs (nvme0n1p1): I/O error while writing superblock
+  EXT4-fs (nvme0n1p1): Remounting filesystem read-only
+  EXT4-fs (nvme0n1p1): shut down requested (2)
+
+Is the above what you were thinking? Anything else I am missing?
+
+Jon
+
+
+[0] https://lore.kernel.org/linux-tegra/20260208180746.2024338-1-mmaddireddy@nvidia.com/
 -- 
-2.45.2
+nvpublic
 
 
