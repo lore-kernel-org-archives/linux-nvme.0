@@ -4,82 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1833AE9A049
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Feb 2026 13:30:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 152E5E9A04A
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Feb 2026 14:32:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mFh8ufN01XGazkRR2X1ifQgkFck0S1wSjFmaIuMhx6s=; b=Iy+zIEL5aZwGEsNYAjKhTHm6uv
-	QqSZzF3i1MM9MEcyjJhZmf2cOEzQKoTVjqIrrIhIzCxdYMXYmNnDyjjGKBJHL+HrLdq2mOIlR4hAs
-	Z5xdb0q0aE+oKoDidveCh2Kw62rkTGokkLiHoAMpcuAJMnBI4irefEPN85mXMjByl5BBR8wWVgDf2
-	uGTvOHihdYcBY67hj9I3kfeS0yyjAANewludhNozjxx/2PaDUMJtEmNI2eGMAwmBC5MBRMigbQubI
-	XIYP0FNvSg1AFlHXZNMx4HH0Xng392nNsaxQ97ygWHE/404oto/oY5rlnz/YZ5PXj+6vdWbSbZ6Gy
-	ibezJQkg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lIUfsf8JaxJ48qmG5xnIYm98ylX2DhnMOAxi5mf81Yg=; b=oqNBi9IsHT9qfeJAdLRXZJ/JfJ
+	UfayFPOnudUUMZG1KYv3B/dj7dxbCPP2+297HuNqgD9icAWAYuzdXey6MB96fqSQaqwWElgwKrTAc
+	jJm7YNOrklC0TkE5srYwqmnl09FYVmgxI2Zg0OnCRKX9PUGwQixs6fT9nmE8RfTJcRUn6hfGxeE01
+	JSFT7xmPFLATRXFfHng8a6imf3KPRT0jZhUsk6+xKsBRBy/O0oVPpmwdoq/4pDIuPTrF9I30sAZ5x
+	LgAr7ndK78a170HrFzZb0G3frKF4As6WUCeFOIaclTewbaSP5PaAff1ug32LiDT+6U6jw+CS0ktmQ
+	FT1VWxtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vt46p-0000000BOqK-3Wxw;
-	Thu, 19 Feb 2026 13:30:23 +0000
-Received: from mailout1.samsung.com ([203.254.224.24])
+	id 1vt55K-0000000BSfY-1wJV;
+	Thu, 19 Feb 2026 14:32:54 +0000
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vt46m-0000000BOpn-1WI8
+	id 1vt55G-0000000BSdy-3rhJ
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Feb 2026 13:30:23 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260219133010epoutp01dc418be70270ff7cd511e6ad84bf81cf~VqPe6UDcx2500525005epoutp016
-	for <linux-nvme@lists.infradead.org>; Thu, 19 Feb 2026 13:30:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260219133010epoutp01dc418be70270ff7cd511e6ad84bf81cf~VqPe6UDcx2500525005epoutp016
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1771507810;
-	bh=mFh8ufN01XGazkRR2X1ifQgkFck0S1wSjFmaIuMhx6s=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=o3SYBzRt+Vmvu8Ikj1qRIVNpwAJrkpKw56fC5mF1WNKzzomJERkImDaCY5Qpjcaus
-	 Fxbw7clgNInx+uHIh343+fE0ncf1z38JnB2a3mauOfEHbiAwwg+AvT6RMxqCW+y4/k
-	 5AKHSRSkguyr6HDntZ5mqykiKVsnlRCdnf0razbc=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260219133010epcas5p2dc75cae4531132e5393a5106150c088d~VqPesrGvx1122111221epcas5p2g;
-	Thu, 19 Feb 2026 13:30:10 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.95]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4fGvPs0gN8z6B9m7; Thu, 19 Feb
-	2026 13:30:09 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260219133008epcas5p3d668d010d6e2935eb7cdd022bf36a504~VqPdWVILj1696416964epcas5p3X;
-	Thu, 19 Feb 2026 13:30:08 +0000 (GMT)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260219133007epsmtip14753df7f26f6b26a50119176442cf511~VqPcP0d0C3175931759epsmtip1h;
-	Thu, 19 Feb 2026 13:30:07 +0000 (GMT)
-Message-ID: <bbe35147-af86-4066-8732-c0d786c83df5@samsung.com>
-Date: Thu, 19 Feb 2026 19:00:06 +0530
+	Thu, 19 Feb 2026 14:32:53 +0000
+Received: from macsyma.thunk.org (pool-173-48-113-47.bstnma.fios.verizon.net [173.48.113.47])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 61JEWgXE019467
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Feb 2026 09:32:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1771511565; bh=lIUfsf8JaxJ48qmG5xnIYm98ylX2DhnMOAxi5mf81Yg=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=DEZWVjL0xyfCBeyRW70yV9z+bT8dLBgE3Cr2B2R1FFbqVgTk3+cS79TVtarhMc2s9
+	 y5zx36b7cGwjDDPIU1AWw8XobSbXIgAzVzvztzBkdZqcjFJNDQPiWezYsxlg+1EFp+
+	 NAQuCoBvWIlevFLqB2dNFE6pFxImmljumqGA8fl4UQfqVke3xPXcQf6GsSGCmPKXmt
+	 V4E5dQmrjeAAtwvTwwEDK9wAdOUwO6AYyEr05M2XZ20V4BpFkVWhICt9JfAkvDB29L
+	 FNzhu9oZiB2WhB/N+ewidJlIJbLrRavHs4WbMGzOC0EMfOLieSFtmPS+RU1fyX5p0t
+	 0rIcr3WomJl+Q==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id A4E16591BA5C; Thu, 19 Feb 2026 09:32:42 -0500 (EST)
+Date: Thu, 19 Feb 2026 09:32:42 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Hannes Reinecke <hare@suse.de>
+Cc: lsf-pc <lsf-pc@lists.linux-foundation.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        linux-mm@kvack.org
+Subject: Re: [LSF/MM/BPF TOPIC] Memory fragmentation with large block sizes
+Message-ID: <20260219143242.GC69183@macsyma-wired.lan>
+References: <f22caf98-1375-493a-a275-0500ffac3e81@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] io_uring/uring_cmd: allow non-iopoll cmds with
- IORING_SETUP_IOPOLL
-To: Caleb Sander Mateos <csander@purestorage.com>, Jens Axboe
-	<axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Keith Busch
-	<kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20260219014335.9061-1-csander@purestorage.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260219133008epcas5p3d668d010d6e2935eb7cdd022bf36a504
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260219014357epcas5p31a24ed7f17ebfe2d15f850c2a4114ebe
-References: <CGME20260219014357epcas5p31a24ed7f17ebfe2d15f850c2a4114ebe@epcas5p3.samsung.com>
-	<20260219014335.9061-1-csander@purestorage.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f22caf98-1375-493a-a275-0500ffac3e81@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260219_053020_868299_6887909E 
-X-CRM114-Status: GOOD (  17.32  )
+X-CRM114-CacheID: sfid-20260219_063251_261825_2C1F51C1 
+X-CRM114-Status: GOOD (  19.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,25 +75,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/19/2026 7:13 AM, Caleb Sander Mateos wrote:
-> Currently, creating an io_uring with IORING_SETUP_IOPOLL requires all
-> requests issued to it to support iopoll. This prevents, for example,
-> using ublk zero-copy together with IORING_SETUP_IOPOLL, as ublk
-> zero-copy buffer registrations are performed using a uring_cmd. There's
-> no technical reason why these non-iopoll uring_cmds can't be supported.
-> They will either complete synchronously or via an external mechanism
-> that calls io_uring_cmd_done(), so they don't need to be polled.
+On Thu, Feb 19, 2026 at 10:54:48AM +0100, Hannes Reinecke wrote:
+> Hi all,
 > 
-> Allow uring_cmd requests to be issued to IORING_SETUP_IOPOLL io_urings
-> even if their files don't implement ->uring_cmd_iopoll().
+> I (together with the Czech Technical University) did some experiments trying
+> to measure memory fragmentation with large block sizes.
+> Testbed used was an nvme setup talking to a nvmet storage over
+> the network.
+> 
+> Doing so raised some challenges:
+> 
+> - How do you _generate_ memory fragmentation? The MM subsystem is
+>   precisely geared up to avoid it, so you would need to come up
+>   with some idea how to defeat it. With the help from Willy I managed
+>   to come up with something, but I really would like to discuss
+>   what would be the best option here.
 
-For a moment I felt that series is going to change the user-facing 
-behavior of IORING_SETUP_IOPOLL and therefore might require a 
-documentation update [1].
-But the change is limited to uring-cmd and that too for the files that 
-don't implement ->uring_cmd_iopoll().
+I'm trying to understand the goal of the experiment.  I'm guessing
+that the goal was to see how much memory fragmentation would result
+from using large block sizes with the control being to use, say, 4k
+blocks.  Is that correct?
 
+So I guess the question here is what are realstic workloads that
+people would have in real world situations, so we can do the A-B
+experiments to see what using LBS result in?
 
-[1] The man page for IORING_SETUP_IOPOLL: "it is illegal to mix and 
-match polled and non-polled I/O on an io_uring".
+> - What is acceptable memory fragmentation? Are we good enough if the
+>   measured fragmentation does not grow during the test runs?
+
+I can think of two possible metrics.  The first is whether it results
+in degradation of performance given certain real world workloads.
+
+The second is whether given a particular memory pressure, the memory
+fragmentation results in more jobs getting OOM killed.
+
+	      	      	      	   	   - Ted
 
