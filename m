@@ -4,72 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 438CFC54FD2
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 13:30:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D49CC55ABE
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 14:01:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=60SbIRislneZFct6I2kiisv8TuQ9oZeAymgZ5dRj6cQ=; b=1rTo52Tvhatl7T9GmNXvHDUHVQ
-	VYDXK/N/1KHgUw+kRqjjBq9SsfWr2Pg3zELFZv1FVZCNB0K7hlUUclIwVZA+6+E2+GMFnND2m4Q5R
-	11vkWnDOdN63AXB+G/zCFFzTpkamiGoGtOBU75coCzePzPjBB7orBhZovoD7ijB5/rr/TS7P71vG4
-	aWHWkh8nJGgmSV3EEFVBUqciSvpIudMSJUhhxv0PgIYSScIBLVbQGPFs4Cicy8bMzZBC31rnEfRwn
-	x7xBJAPs7C88kjKFa2SS7sPfwl5er6zg/G/8zrb6G9Ow3Dqw9mzunkHtmLdVW1Q9W4r0Tan74Do0+
-	cMMsLffg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=; b=g+j8hrc5vH7Ec05IUrcpZv84Xr
+	3DcyUqH4Z819JoiBXtvzxNtCjs9B9XNpR/IMwnzA6/TPM0OiOEsULV8wIIT6m3YYgE4WfdqqqfmOt
+	vYpUnFi4jJPBeUcvTAGO31aUFahIikLFS1wm8CeYLi3g780yNmKhSgNyHV8yGndANBziX/TmJX8vG
+	yjaaAhusMzBgmONltMdocY0EWGrbZmsyz2OgzdybSVgz9NIsj2CHjElxOOIOiZu5lBxH+X4sIWAfe
+	CQQA/g0/y3XrJqhm9QlgNTCWSd7R7xKqou/hmwl4//2j3hH6jE0Jgtp43Zd14QY3ap35s0iWAtobv
+	hWGEmkUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtQaU-0000000EXuS-2VIx;
-	Fri, 20 Feb 2026 13:30:30 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vtR45-0000000EfjE-19LV;
+	Fri, 20 Feb 2026 14:01:05 +0000
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtQaQ-0000000EXtf-1dB1
+	id 1vtR43-0000000EfiT-0Jao
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 13:30:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771594225;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=60SbIRislneZFct6I2kiisv8TuQ9oZeAymgZ5dRj6cQ=;
-	b=XEYFR0cdze+RY9d8aoPu6xrkpj3DWUxExz5cnIwOYinrgMwG5yPdH5VwJrnA7jP9cPpXEp
-	XFz4TzElfmGUPsZR6k7wpWjg5Q173oyeHlCYQLXk9xYOY6h//cz3giNy2akvitzscSPZoy
-	DPEOg0dy8WD4My4oHs5aJNJJ0VkwD9Q=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-646-Rc8foq1zP2mk8iz39a2RTg-1; Fri,
- 20 Feb 2026 08:30:21 -0500
-X-MC-Unique: Rc8foq1zP2mk8iz39a2RTg-1
-X-Mimecast-MFC-AGG-ID: Rc8foq1zP2mk8iz39a2RTg_1771594220
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 262601800465;
-	Fri, 20 Feb 2026 13:30:20 +0000 (UTC)
-Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.45.224.125])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 41291195419E;
-	Fri, 20 Feb 2026 13:30:17 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org,
-	dwagner@suse.de,
-	mlombard@arkamax.eu
-Subject: [PATCH] nvme-core: do not pass empty queue_limits to blk_mq_alloc_queue()
-Date: Fri, 20 Feb 2026 14:30:16 +0100
-Message-ID: <20260220133016.524192-1-mlombard@redhat.com>
+	Fri, 20 Feb 2026 14:01:04 +0000
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-b8871718b00so341096566b.3
+        for <linux-nvme@lists.infradead.org>; Fri, 20 Feb 2026 06:01:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771596061; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Kud9pC67XpOfiGIQbV4JGnVTqTGXd4KcpEDGFN5pocmLdKbG9Mkntud1J6oUDLpHWG
+         Z3bJxnDCnQqhWsnyUWpLobR4pVvIDi9dTsss7kS+MUTWICN6jR+unOVuOb2FSThWzy2m
+         O75lzu6bVM2j+Q+XacA8LPmPZWQk6RG0iCOcqrGXQ7rYjr1CfqkfEpLMgj99Krv9uysW
+         ITWvpf83jCRpEGyTmkFRoDXRR1nG9bYgQqbIaHaqSL04Q6tqbtHiDy10Cad30B1mO8rg
+         vdNnWmmoG34DipxlSy9tsKAqJk/TWf1GsBZk9Ur6aaZNQnNQNfnuGvLzT3UmIbgJ8rYu
+         BcQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        fh=grtWhA6ep5JZFylxdppWe+wlhVueeiBwFfuRMZQ5W98=;
+        b=AjmHHOBAFMn/Y8AB4BR7bXpDiWnXm1dKxD1+opkwoBZ4skklsjtVIKxTOiZ+mecpNC
+         ZQAaKPjUliZfqAZFSWxzSIYUdukPggkM3m5MWvZ/+i6YETp0Fx3LQaix4aC5xTiqfhr5
+         WS/zF9fcpWWTKBGhbUBqzqwKqCnY1mN+TZ9eZXCeUfp3dYoBw3jLmiy4TOgrbetDsQDD
+         RHvXfVFmRn9mKTJQbT9oLj2T755z2p9YMcbQLOg47FQ0LpP0gqSCPh1vt+uWdlQWCGdJ
+         xebC3VIe1rd/GZcX/n8VPwxkFLcyjtDCSmJ4LfrgUbzPFPadSDAfDr0Jagqh/RASasPM
+         3tAQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771596061; x=1772200861; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        b=nG4nnYHKTJS+Bt8K3RD8/a8/j8ZqFrjg34n8VMY9Kq4HqDDOCN4PsgQxFamEfl5Joh
+         paz+0v0TPdE4yFLqK39rW3mii4/McRVg2eMo/gG5JCCvbv4XT71Z1U+R32dJ7oKW9x0U
+         2Rce10RdsjylvNfiXw2jLQZMS67UJBhAjAqaHe1rBdkj/tiigu7l1Wu7wtsG8kNgmw8G
+         a7wCjj9JxKlhtNtF0FWRpF5AXYnHWsr78raLkfKlC9a6BdEh8Tw0p4wSELD4SHOj3qjj
+         Q9WbQ+EwZBZhyK5Tn9y65HzQqkKqm7LMxcbS5srFVh742QZPdEI3INFn/zbbIZWjjC4J
+         2ihA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771596061; x=1772200861;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        b=vFkuQVvDKGnWZHkrjYawjSxncCUOm/kmfCyz64dLbDdjN5vdZEw6HHGtYN7gItkPG3
+         lZvIxUuw1C4gz8MuNnYrz4ZGTUzAwbQ1qYJcIkZ3TOkJsyFyVdHpoHy3XFhctXOuIduh
+         YbXLAR/nOmFXwExcab/Qi4e8r6NYgckKMpidFcPcqj/bzr983TBPiHWPFg5c+v4NzN6h
+         YJghRXs7/qZhfjUaWQ8ppJPHPdBxEjqGcGL6bnSoAsO6zpfByHxfLEUMeN4UvqwRlIJU
+         YdOD+UDf0GkmBhmMDrduVzlCwrDgxEZ4YsjtoBWxaNwovebJysylUCUTgwq08nZ3AAy9
+         8ijQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXMHWHrM9EwKqXP5TUpFE3O1nETzKq1RN680wApIAwsFe9DSQeNCSLqIrcfI8XeHeeIV1qoX+a3vfIP@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz4wgB9CN6i4N2muxNxPQcyZ7RsHTVpyTjYa8nJJ9e5NUh0ZZGl
+	TZUiPpg02UD7JHbMa6CeBf/x3c0w/Y7X3a8zVXOleOLwwpTlobCDHqPp5lkuicuGnviI7wNLhw7
+	t/Jpmk0FyPz9zs+hlOMOfchGX/LEZww==
+X-Gm-Gg: AZuq6aK4lrSQl5vkDgRWNMUsX5v+MuHbjRgMwyoqV2LBsE53j6C7YIeCBmxd1oaGAJf
+	QvhHF6Mn65lzxpkuoz016m3LYM4dacz8ff6QXSqiEpfTMfQx5J7RiRsJU/z/9mI+NvKBIXB0pI7
+	8/XibNLmCxxhSxIWnMGQ8e/yMB2D7Y3/za1rPThZLHLdx0VK9BV1z0+ccEXLWscAFZhkp5KA91D
+	nVVvLdClneW9fhlzeDAM+7sa9Nu8e5dLSkZT3P8Hg+9OSxM2y3KdEJ4ILLMSwVpU6XKBgwlNtBn
+	KyiJhhDLNazIltVe5vZenZ3vR/H+70FUlxOv6Im5hL6hXeObz2CtbW0tHK4R4alwvgVlBg==
+X-Received: by 2002:a17:906:2083:b0:b90:771b:ceb7 with SMTP id
+ a640c23a62f3a-b90771bd354mr75534866b.27.1771596060364; Fri, 20 Feb 2026
+ 06:01:00 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hhQFTLHevl8adX7RgC8UwZzww5mGy4574udi0fVwlgM_1771594220
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+References: <20260219172228.429479-1-csander@purestorage.com>
+In-Reply-To: <20260219172228.429479-1-csander@purestorage.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Fri, 20 Feb 2026 19:30:23 +0530
+X-Gm-Features: AaiRm52mvs-aOVGGrqp8lgGC97YH_yfaGgyVC_GHRYK1kiT8xDbzNAyi-S50V3g
+Message-ID: <CACzX3AuPPOZdidqoDE0TvPChEXcNpKRFGgX6FZskOnr6f=eXuQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] io_uring/uring_cmd: allow non-iopoll cmds with IORING_SETUP_IOPOLL
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+	Sagi Grimberg <sagi@grimberg.me>, io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Kanchan Joshi <joshi.k@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260220_053026_499565_CEC39A00 
-X-CRM114-Status: GOOD (  10.61  )
+X-CRM114-CacheID: sfid-20260220_060103_142907_6290345A 
+X-CRM114-Status: UNSURE (   7.71  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,42 +116,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-In nvme_alloc_admin_tag_set(), an empty queue_limits struct is
-currently allocated on the stack and passed by reference to
-blk_mq_alloc_queue().
-
-This is redundant because blk_mq_alloc_queue() already handles
-a NULL limits pointer by internally substituting it with a default
-empty queue_limits struct.
-Remove the unnecessary local variable and pass a NULL value.
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 19b67cf5d550..8798a51f735c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4845,7 +4845,6 @@ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
- int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 		const struct blk_mq_ops *ops, unsigned int cmd_size)
- {
--	struct queue_limits lim = {};
- 	int ret;
- 
- 	memset(set, 0, sizeof(*set));
-@@ -4865,7 +4864,7 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 	if (ret)
- 		return ret;
- 
--	ctrl->admin_q = blk_mq_alloc_queue(set, &lim, NULL);
-+	ctrl->admin_q = blk_mq_alloc_queue(set, NULL, NULL);
- 	if (IS_ERR(ctrl->admin_q)) {
- 		ret = PTR_ERR(ctrl->admin_q);
- 		goto out_free_tagset;
--- 
-2.53.0
-
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
 
