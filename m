@@ -4,133 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D0676C53216
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 07:44:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AB7FC54FD0
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 08:07:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v9zZU8rQyq0UhB0/jWOvgsYzj7gv8Vqlnis9ECm8PdA=; b=W/HD2LX90PWDzQ7OOeAMxkJ9ns
-	3CUHhsQchaObPsKKyWLy7OYMSpMIRIQYuH1Ng73MzKFxBED78iSdqoXRRBolowXmOwKmx+/oqT4Vu
-	uoMbs5NoudgmYUXpVhflisCCwaTtLwoGSHLaRUrOlRCQqYjXAy3d6iE9r5Az4YIGeVmQvL2DlWoO2
-	PE5e44yeu6j/uJetvC3yagRU+s+xjI4LiN1ANfJGGJtBCMxp3SEj8bbHCc9AAk7VzT1ouH7AQsKzj
-	zP5b2wyM/mmr+GLg5CINd+m37Isy4UmR9nGC6hMTM2KDg7pL3UAvHRHNdosN6RB+r20J/kRgKGVvo
-	S0g1BTGA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=K4/9aUSUE6n8w/uHcL3Lv248KWBbX6SR//eeHdKv99E=; b=4BJhmmPJGOhmjNW//mV43AR0ku
+	I6Pb33k5NUeGUuJpsvWto0ftUqj3sFr5fFiJRSw8uYuxmC99KyF72NGsc+9YHSRxQ7x876dtftinW
+	M0wz9VRYpxXyH65rlJinyO9GmGFRSGkkxwjb5jmsU0ii7nxI6p8UQVsTS/ILsZIhZ8k2COC2dJ86D
+	uNPu1nMFzdKgyhQOFFBnylA+i6A0+swuHuYHJ0id4hVFgZa63PVNhEeiISUKwNOpYjirZj8JlpROo
+	VOw98mcLCf19Se8Xrrv8zJk6sj3V6EZ61zwxk/y8buayLYBdgymWwxWVVTGhPtry5w2Vb5bjr8fu0
+	kIRzNLMQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtLBI-0000000DMNz-3qf3;
-	Fri, 20 Feb 2026 07:44:08 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1vtLXd-0000000DO4n-20Sy;
+	Fri, 20 Feb 2026 08:07:13 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtLBG-0000000DMNb-2KIY
+	id 1vtLXb-0000000DO4M-2OXu
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 07:44:07 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3DC085BCC2;
-	Fri, 20 Feb 2026 07:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771573444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v9zZU8rQyq0UhB0/jWOvgsYzj7gv8Vqlnis9ECm8PdA=;
-	b=BwGng01SvwKa1gDxtgZNBjoR/YEinPXtLps71cMXhv7vZeEZlevPdFutA797m5DRloHr+F
-	Da/70SwFrPx5Qkl0d/WWAw3eBmMvX8Doz7F+WCsbLdxUzFNqsDq6RMfxUdiUr+/LCS0FNH
-	aV0OIra7orT0sM4SGsSW4NKTVC6Uqog=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771573444;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v9zZU8rQyq0UhB0/jWOvgsYzj7gv8Vqlnis9ECm8PdA=;
-	b=5vZicEWZgitKKdCEQ5uUzWsqL4kiwLAV4vC0HfKiF9WS1RpIXryYHYG6bs8ZxbvfPlimAZ
-	WMR1GtnAUUjiAxCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZzHogcgo;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=njdbUyVP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771573443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v9zZU8rQyq0UhB0/jWOvgsYzj7gv8Vqlnis9ECm8PdA=;
-	b=ZzHogcgoE+vTqZ6Wudm8OaOLN/3bQG8fC9G5EBOl05yVRRgLoi4HCQKJNRwzrLbyuxSJBW
-	cApJ/K7vhiSotHfJqgF8rJV1LC2mKYtjH567TE6D3xFO7E4UA8uWHoh98RoorNupi+kxVM
-	0a+o7lMO3yEVVbeJwazXqx2PrO/6MS4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771573443;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v9zZU8rQyq0UhB0/jWOvgsYzj7gv8Vqlnis9ECm8PdA=;
-	b=njdbUyVPMylL0bvLamqip/1ferRENunYoH3/mgFzOmlsNBmGEJEitKBOJFxOrkKEqap4cw
-	gagR4Q6FQY+mr6CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F3B343EA65;
-	Fri, 20 Feb 2026 07:44:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hQt8OMIQmGm5fAAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 20 Feb 2026 07:44:02 +0000
-Message-ID: <29a7ef25-27a8-49cd-a2f2-8db693ada39c@suse.de>
-Date: Fri, 20 Feb 2026 08:44:02 +0100
+	Fri, 20 Feb 2026 08:07:11 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id A192061843;
+	Fri, 20 Feb 2026 08:07:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEBB1C116C6;
+	Fri, 20 Feb 2026 08:07:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771574830;
+	bh=BMX+FLAheQXGPnaX7sizexLdF65tScxmZFF35Gjo90I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y5KKNjK2sWe7TkaGQ/HrqsT05AKynaFbQkOjSfBV+kBgcewnL4k37JwC9d/wP7CrI
+	 clzc7QMYAHJJKyBJCWe5JpI7sEJjf4agYY03MPfTT/Je3rT4+8KlqPVQMLYTggj2Fh
+	 2nMbx7PsF0I48Z6GMmuag6p+sdFoSkv+alD9La5T8oV0Mzi+Lqa1+Et5RN/mx84RV9
+	 dPgfm/IdCI/s+5FeKBEx/Hss8jZ3e2S06JABj+ODSWuAD51vwTUFrJ0CEiMWVamV6J
+	 Q8pQaXOY26WSIY4MeFmFQdEa0CBX0lW2nZUseAEJscryndYt0G7kFiqD2neWUF68bm
+	 KVpKG4JdcanFQ==
+Date: Fri, 20 Feb 2026 09:07:04 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: [LSF/MM/BPF TOPIC] NVMe Controller Data Queue (CDQ)
+Message-ID: <gk3kjqjcwcrt2uefswjhkv6hucwgciwdgdextubt4hv5nbc2l6@45sqjeotyyvc>
+References: <jrhwaqetlzkyo4gvjql2of2gohxlbrzezkyccqliyh2rybtpqb@kykxmeta5gx6>
+ <27b4c014-adb1-439e-b3f6-bc2030b6009d@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Memory fragmentation with large block sizes
-To: Theodore Tso <tytso@mit.edu>
-Cc: lsf-pc <lsf-pc@lists.linux-foundation.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- linux-mm@kvack.org
-References: <f22caf98-1375-493a-a275-0500ffac3e81@suse.de>
- <20260219143242.GC69183@macsyma-wired.lan>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260219143242.GC69183@macsyma-wired.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3DC085BCC2
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260219_234406_742346_F4D4547D 
-X-CRM114-Status: GOOD (  22.52  )
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="adov2m5zeh4lmmgw"
+Content-Disposition: inline
+In-Reply-To: <27b4c014-adb1-439e-b3f6-bc2030b6009d@nvidia.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,60 +70,107 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/19/26 15:32, Theodore Tso wrote:
-> On Thu, Feb 19, 2026 at 10:54:48AM +0100, Hannes Reinecke wrote:
->> Hi all,
->>
->> I (together with the Czech Technical University) did some experiments trying
->> to measure memory fragmentation with large block sizes.
->> Testbed used was an nvme setup talking to a nvmet storage over
->> the network.
->>
->> Doing so raised some challenges:
->>
->> - How do you _generate_ memory fragmentation? The MM subsystem is
->>    precisely geared up to avoid it, so you would need to come up
->>    with some idea how to defeat it. With the help from Willy I managed
->>    to come up with something, but I really would like to discuss
->>    what would be the best option here.
-> 
-> I'm trying to understand the goal of the experiment.  I'm guessing
-> that the goal was to see how much memory fragmentation would result
-> from using large block sizes with the control being to use, say, 4k
-> blocks.  Is that correct?
-> 
-The main goal was to figure out if we have increased memory 
-fragmentation when using LBS.
-Clearly, most (internal) allocations still work on page-sized
-objects, so one can argue that using LBS might increase fragmentation.
-On the other hand, all _filesystem_ objects will be in LBS sizes,
-so we won't increase fragmentation if we only allocate in LBS sizes.
-So which is it?
 
-> So I guess the question here is what are realstic workloads that
-> people would have in real world situations, so we can do the A-B
-> experiments to see what using LBS result in?
-> 
-Yes.
+--adov2m5zeh4lmmgw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> - What is acceptable memory fragmentation? Are we good enough if the
->>    measured fragmentation does not grow during the test runs?
-> 
-> I can think of two possible metrics.  The first is whether it results
-> in degradation of performance given certain real world workloads.
-> 
-> The second is whether given a particular memory pressure, the memory
-> fragmentation results in more jobs getting OOM killed.
-> 
-That would be ideal, but we first need to have a program exerting
-memory pressure...
+On Thu, Feb 19, 2026 at 07:26:35PM +0000, Chaitanya Kulkarni wrote:
+> On 2/18/26 04:04, Joel Granados wrote:
+> > Hello all.
+> >
+> > I would like to propose Controller Data Queue and how it fits into the =
+NVMe
+> > driver.
+> >
+> > I sent out an RFC back in July [1] describing the first version of a Co=
+ntroller
+> > Data Queue implementation in the kernel. Technical feedback at that poi=
+nt
+> > included:
+> >    1. CDQs are useful **only** for tracking LBAs during live migration =
+(LM)
+> >    2. LM needed to be in a "proper" state for CDQs to be useful in the =
+linux
+> >       kernel
+> >    3. CDQs should be managed like any other queue and not through an io=
+ctl
+> >
+> > Since then, there have been six additional versions [2] that included t=
+hings
+> > like exploring different ways of allocating memory, interactions with I=
+OMMU, use
+> > of the tail pointer trigger and how to involve (or not) user space. I h=
+ave been
+> > reluctant to send out a second RFC as the implementations are still hea=
+vy on the
+> > user space side.
+> >
+> > # Discussion
+> >
+> > Here are some points that I think would be interesting:
+> > 1. Should there be special considerations for the fact that CDQs don't =
+really
+> >     have a submission queue? Specifically: How does the current NVMe qu=
+eue
+> >     implementation need to change in order to include the fact that the=
+re are no
+> >     submissions for CDQs? Do they need to change at all?
+> >
+> > 2. Should the memory backing up the CDQ be segregated from the one used=
+ for
+> >     "regular" queues? This is relevant as CDQs might live longer and be=
+ larger
+> >     (proportional to the device being LM'ed) than "regular" queues.
+> >
+> > 3. Live Migration is the encompassing subject and it would be interesti=
+ng to
+> >     note if we can already define requirements for the CDQ based on exi=
+sting LM
+> >     POCs (if they exist) or LM implementation ideas.
+> >
+> > This proposal came out shorter than I expected, but I believe its a good
+> > opportunity to address the question of how LM/CDQ will look like in the
+> > Linux Kernel.
+> >
+> > Best Regards
+> >
+> > Joel
+> >
+> > [1] https://lore.kerne.org/20250714-jag-cdq-v1-0-01e027d256d5@kernel.org
+> > [2] https://github.com/SamsungDS/linux/tree/sam-cdq-v{2,3,4,5,6,7}
+> >
+>=20
+> What is your usecase for this=A0?
 
-Cheers,
+Not sure I understand your question. Do you want more clarity on the
+usecase for LM? or CDQ? Clarification on the motivation of the
+discussion?
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Best
+
+--=20
+
+Joel Granados
+
+--adov2m5zeh4lmmgw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmmYFicACgkQupfNUreW
+QU/iXAv/Uw3ueiPY1j34ywnTK80VRoveZl8xMpIeei2E/0uPrAFmigDu55JlbEq3
+nSk3FkyhGDkx4b0aOkLDPKHf6/6ATNCdyaADLm+F7eQX80krlwrNWW75YNvr5EtN
+P+W2ghNc6t3dSwecYWGWhxHkitUeiZjchHKQFRj/rC7rpSEt+gmY2n5iLDeF9wxX
+YpCrHuU9uE4hcKIkpEuKuulik8YAzvLILcXSq8e47P7ABZ773AcaIZEVWjU8V5sb
++3ZHkHaglSYr4/3du3RNfvpZMDBlBXTC4Tn/IDaQSlLFExvURitQLFT8Bty8qk2V
+T4+oZuHQ3XKQxbNNSCWtZO/vWeaaGWB81ED9TQ4VQNKEdtVWnmDIPiS8/HTSSeu/
+uHAE4Mt+2H0n2kp2Zdz7PusXzahwpkp0AahsP+wj/cW9RXyrNAIu99wvgH+W+43F
+Ia5Lklfz9r1Po3QzUEI8SMCpMgYJg5ntkD5nYmg2iGk0loy+bWmx3YmgktEcS+c/
+MWyOW/PF
+=+o7R
+-----END PGP SIGNATURE-----
+
+--adov2m5zeh4lmmgw--
 
