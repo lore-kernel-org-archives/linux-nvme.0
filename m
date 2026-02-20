@@ -4,113 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AF38C531F8
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 02:11:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA5E4C531FF
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 03:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1MENmG+bEvSD0SFxF0bGDPSMmGPUDfTcgs9gxNo5RiQ=; b=ZIePUuIZMaXN8NarwH2nDjbnSg
-	GNxpcEjZoYke31mapX8GPSy1pbSsN5wW+eyBn/VeGJDZkbvuyzqHdQNl+Bfj1f9g7il9l0CfiStHk
-	xOOQ1Y9d0sgXoYtQhjNd+tfJOt0TGcGutC4AmrLCvHwq+oDEfjdBbbjt+/IseyO6tGWyhPLHDAuaw
-	D9p7u8+/+XbxK0ETQUpFMrx4h3lYTViSTfcOzzUotNtnM7v7n5TUKK96mBWgxtzWipdHCN+QpIyOW
-	+ZLRtoaHjdHtJOUAssuA8TqBeLCiRKPcziI/m1oQua3WURPnIGvtdKn8bpyD7Q/QXDhsGLiB7JvZT
-	pt7rBCLA==;
+	bh=ptMOCF8NjnbTdAq6XG34n7GRmdz+Z/rsqtMtW/eBnI0=; b=Q2CTaVRT/sdrHHWK8OKlMY7jb8
+	4ClvDcOAoH31V9q2hqMdznY5/uiG546pyccvr30EHMLnhTErG9ZLA6KeqsxIQaPJP4/IMSe3GtkFK
+	VI0FxWo/NDwEyBfdhsy4OoAfg5pDeaNUyDgKlHrF0JICI1F0FXaaCK6mUFIDI++uUEHY/ozw32izF
+	5ZvVgddzZBZXkCf6Z2JumkuP5LpYo5uCDzfWJvJsmDB7+5XIA53la2MsaNLFphQYDIH33QxgAKX1+
+	EZFOb8tjoW1+J+M5G5twCLhgeFgVgZjGc0oZgP/lWudZo4Xb9/TbAOhRKZBKGyur6en9YR2LyCj9o
+	KwDyktNA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtFzC-0000000D22f-2BKT;
-	Fri, 20 Feb 2026 02:11:18 +0000
-Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931])
+	id 1vtHBm-0000000DA9O-09Ts;
+	Fri, 20 Feb 2026 03:28:22 +0000
+Received: from mail-qv1-xf64.google.com ([2607:f8b0:4864:20::f64])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtFzA-0000000D21q-1Qph
+	id 1vtHBh-0000000DA6n-45xg
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 02:11:17 +0000
-Received: by mail-ua1-x931.google.com with SMTP id a1e0cc1a2514c-948bf40406bso586157241.1
-        for <linux-nvme@lists.infradead.org>; Thu, 19 Feb 2026 18:11:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771553475; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IMypXdPXUWmb+TBLHT9dew/98lAx2ntW/HEdIM6uhMfRvZZYqP8WxhL8TT0RLzFaHx
-         LYIH9cjTabFnf0ul6iPxxpW1992EoHidvU4gpI/Wt8x8B4MungaF2wRrN0xeFV3rNr0A
-         o0Ui1GqOSOLViKYures9fQd6WcCVMFaheIX+b3hZmfZePyq/y7pAo25qFaAlap2F2n2a
-         6BjJV5et5qOM99HQr2uuveSrLfX3z6JB4lT2mA3+iap0cc3eK0ee+IGcROUd1oWHwAbR
-         g3JxwFFr6ERzy4k07GsvEab1BCBZ9UND9zefey2lT0R/fEp3hwk5yCAapzNAWBm2x++N
-         8xGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1MENmG+bEvSD0SFxF0bGDPSMmGPUDfTcgs9gxNo5RiQ=;
-        fh=dlyxtKBybaMvMx0XC5QbIQA6+JPyGvfxHmUpKO9ZEAw=;
-        b=DOKyNw7SKQYU6DH9V+sgPlmRKyC35jbBeuw0i2f51Ed3g1XXpBQKb854Q9eAD6BTjQ
-         Baoi+yoyzEBgMUfal0LSpnRXZLw18Pe4gf2YuB/Fn2OWxUjnd9C+jSPVWPnKxf2Ede/y
-         35d3/FipkaE7ZFcW4sAtJRDfjMRQpEjN18iZaGi0G6hjObObK/6veruIK7LoW4meiy3F
-         RN1vW1z15+9cV4rFtK0VVtv9gEhuv8aTHoiI0Lck3NWTRHa58FgPQD4GPHZRndkhJEFs
-         GbSsTbvUaaWPKe5ri2LJh6H96nWQPC1P3FlPi3V0ykmGiCTFt+BZZsy8IlcDZF3dKd8C
-         keyQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Fri, 20 Feb 2026 03:28:20 +0000
+Received: by mail-qv1-xf64.google.com with SMTP id 6a1803df08f44-8946421dd8fso2307906d6.0
+        for <linux-nvme@lists.infradead.org>; Thu, 19 Feb 2026 19:28:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1771553475; x=1772158275; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=purestorage.com; s=google2022; t=1771558097; x=1772162897; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1MENmG+bEvSD0SFxF0bGDPSMmGPUDfTcgs9gxNo5RiQ=;
-        b=eC7Is0qzn3gaiVwdtsl2JDO0N3yTlEUUV4g7QzjjzBuGGHsXbSId+9kPbOz1g6DQyZ
-         ROhOpBlvbp7TP0cTvwSYk3TxSwl1F5jfL5SaQePhltXvx9aSAAMMq0qAsnwG63D+YgnO
-         SF+GRy+dfulk/sRMpDybQ917ykWDunccGFRDvYFjzEkH1832E0SQCKHOkeskoyg3xQgn
-         rkCkngLOrVip0NTD913E/C+H57FU6iQNyUsBh/uMtsAZLCae37Ctu4kSb4fMZkyUFlz+
-         lHvJZiFiQbMTn+N3zcZmC4IH0kie7HpJPTB9KjXk3uUfai+PCtVrBkZi9W/pR+nFgw+s
-         A5+g==
+        bh=ptMOCF8NjnbTdAq6XG34n7GRmdz+Z/rsqtMtW/eBnI0=;
+        b=NsHW4qSjBQiEGOp0qHTDwol4/eACUVfNPHZxrEdAXhff1rpf1KdzLwKIShBVJV3KSj
+         ZLggZg8TSRNY5vIo5saEkVmGNt3BebOGdThATn5Djv1ytKbuvI9GxpA6kXmmC1XT17xO
+         b4gkYYI7A7fgTSosVf2QWfu/RrFRi3PlwKQWeGHttFry6gUZOTUMZCRpH3WrRyrOrqSi
+         42zeSHUjR6YS6RnFUCNWOp7LXDMhIM5Y1hU9P69nx4mNnSKp4hDg3A/MBB/YyvxaoVAn
+         cwZWX2DFY6olouqsk72kOOos4BMDteH7Yy8d7f4KmADmxPeRNUGEZhs2WZDv2FQ1iUOX
+         Xkmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771553475; x=1772158275;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1771558097; x=1772162897;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1MENmG+bEvSD0SFxF0bGDPSMmGPUDfTcgs9gxNo5RiQ=;
-        b=aelv5hh7xF3c/gUQwOMvFRbca17YayU0JqVY7mb2EEIIA9gj/OTYZOMCemgV1amrwB
-         GxeHJRhPkIiaUVn2hhGFTXeZRyhLFmDxNGMo2jBQCf0a0rwqcUDDIC5K+K6G8rQi8K2b
-         8A97qKmqxEwdsJ1l4D4tcAghjiLNidFBQbNM8f3xcGjrUITHZGLDanr4Nj5kY4uajina
-         fYgEBRJeLvfVIp1HNAN9FH7MzWub2vgNc5vVoWgRuGFIimDJz24QDDNjgffgpDUREi/R
-         kPA6X0K6KlZUjmLpVeKDEDM9LZbXLsdbXGtqPpTrlSijOdYZ/BVArIAWkYmhIuwdo3aJ
-         ZN2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUUbYWCAzjcGs45gLWCOsqJ914lfcoFnYz7EKEaUcT6XUAmKkkKAIil3Bzq8FMejdX9CuDi22356KTN@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy32ltqkJcjirYqYBQ9X46FbQJzGAsh7TWYeW49+h929rMkcaWt
-	hCtMozrZZXDslqfGeQYIsiN5SwQi9x2oltZYDx3ZQfwoXq9sOPqDwdxOBBxts/UPMRGcHWPPLSQ
-	fUen7okF8t2Y9jRFwi5QENFcz7PVubrzz0aekbZ1Hzg==
-X-Gm-Gg: AZuq6aKUqOB4kyTfAH3JOkqCmhgZg6E21I/SKCCt7EID5Ob4JCwZO3nL16nSYjTpJOc
-	miIV+W1qAr7zziUyEE6+Lw2obcJ/NymR1viwRlLq4dyLcMdeIKGgcMSk1gxVo6vL30RLiCv0JG1
-	5U9u4b6n4gS8tLpvfn1a7ljLIf9verk19Kp/Oy2xJnwVBgmyFS3DvetEcElGW1UOlMndgh3oZPz
-	kI2/yNTdysJCHZ+iHeCNtbuj1Q33Oa0cPpIUnTI51W+MO1YZdUDiw/K9nXY/UurASMpdlwlrydM
-	mgyw/505YRVBjFThG4wRghx/j3cPLRDpCM5O7Pa+sgzS3exNoZRq+RZ6G6eUCQFNMuzb
-X-Received: by 2002:a05:6102:38d3:b0:5f5:773d:88bb with SMTP id
- ada2fe7eead31-5fe2af25116mr8094274137.28.1771553474611; Thu, 19 Feb 2026
- 18:11:14 -0800 (PST)
+        bh=ptMOCF8NjnbTdAq6XG34n7GRmdz+Z/rsqtMtW/eBnI0=;
+        b=CaNa00xyPDMlDyDLugFB996R8oTLn7vxCrUB8xC1ylleB6pntFdoo07xjw/9Qonk6Z
+         Li0asqAGR1pBIBFRtMBdEIrvrXCNKlR/DXc6xBQGXIr+u8XMaGycosknXk7Pz5cM39zM
+         5gV15x5KQrY4N/Boiilkwg3nzoVnAdqMPZ9BtoV+75Do+X5qhR15oQb6KUlLOhpQSIWS
+         EpTL0ECRSW1cCMXlObuy/Hqs2dvBKi0FQ5DXTVDdN9mszkVva8OB0XgvBceLGmSoItJu
+         G0AbGevZ6ckxWGdS8911QDcOHTDm3J8SLG8V8lJ700m92H/4/TEKLscIyUMe1a7w7S51
+         nLvw==
+X-Gm-Message-State: AOJu0YwL0xSAq4hJeyYUbNbPCs5FrCHxW6ju0kw7D/xqLGT/LfMOkpiu
+	CNm1wnADd1fYVspofeUMhZndEJw6VyTl5BLkFMjJ1Nv6xIVpgSl1PcbW9E1cB7XivWhHUqPTDVC
+	HFN9j30RF1KR7fej2qFdfaZ6u0BdHhAGsFuzTjK8c38vizHfHDcM0
+X-Gm-Gg: AZuq6aKuMbW2TFniG4SZu7naYuwcszu88pl/Q3aIBkFBpl+GnWuYf/TijNOPc+Q7m6h
+	4jIC6HDYDaeuGhOU3rH0IumF4gnO4CXO/e65MAni90IWwo8d+ahpwdZCG541bwsg+5QW3mLVb6W
+	Jx5Js7kerEKax6OxgCy4tb2lx4OnE30j3dlJ1j/b9Dj8GbpdEi5lhfUR48RmIIX98Kz1Rgdbtl0
+	iA7Sv+n8/EB73e7cKYfIy6EdwUN4EgnL4bjEfUwtSqBOsfYj6idXslNnWc69jLol9s5M9cpmjQc
+	S8QOY5/6/W/vQM57QSLd7WK8mLFTbTId6+cP5RhbsWRtEYNaHXd+1Mr9WjLsWyIoN2B1dy7vzCn
+	7wkKNn3g2F/iF6LAq2PdJfAe7l8d4CNSSrWFudZk=
+X-Received: by 2002:ac8:5e53:0:b0:4ee:1db1:a61d with SMTP id d75a77b69052e-506a6831f24mr237407291cf.3.1771558096686;
+        Thu, 19 Feb 2026 19:28:16 -0800 (PST)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id d75a77b69052e-50684a3e737sm27357291cf.2.2026.02.19.19.28.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 19:28:16 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 0B2FF3408B8;
+	Thu, 19 Feb 2026 20:28:16 -0700 (MST)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id 0814AE420F8; Thu, 19 Feb 2026 20:28:16 -0700 (MST)
+From: Caleb Sander Mateos <csander@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Caleb Sander Mateos <csander@purestorage.com>
+Subject: [PATCH 2/6] nvme: update nvme_id_ns OPTPERF constants
+Date: Thu, 19 Feb 2026 20:28:05 -0700
+Message-ID: <20260220032809.758089-3-csander@purestorage.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20260220032809.758089-1-csander@purestorage.com>
+References: <20260220032809.758089-1-csander@purestorage.com>
 MIME-Version: 1.0
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-19-mkhalfella@purestorage.com> <9d6cf4f9-37d8-4704-bcc1-0b849ad28955@suse.de>
- <20260216184515.GH2392949-mkhalfella@purestorage.com> <3bad149e-a0fa-4377-9701-7b35ef6b5b88@suse.de>
- <20260217153530.GI2392949-mkhalfella@purestorage.com> <96ea8e82-ead3-498f-bb87-5b2809089950@gmail.com>
-In-Reply-To: <96ea8e82-ead3-498f-bb87-5b2809089950@gmail.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Thu, 19 Feb 2026 18:11:03 -0800
-X-Gm-Features: AaiRm50uF_ZFRb16GFpksJeZQ3mWNEQzGpDPUHhFovgKAEwhvDk6FW90kGB_QrU
-Message-ID: <CAPpK+O1w7G7XwNAwvAn9pp_U7itwodYSFe=u87xhdpNWV2CxtA@mail.gmail.com>
-Subject: Re: [PATCH v3 18/21] nvme: Update CCR completion wait timeout to
- consider CQT
-To: James Smart <jsmart833426@gmail.com>
-Cc: Mohamed Khalfella <mkhalfella@purestorage.com>, Hannes Reinecke <hare@suse.de>, 
-	Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Aaron Dailey <adailey@purestorage.com>, Dhaval Giani <dgiani@purestorage.com>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260219_181116_402468_5D359A83 
-X-CRM114-Status: GOOD (  47.18  )
+X-CRM114-CacheID: sfid-20260219_192818_074352_E8A8DC97 
+X-CRM114-Status: GOOD (  13.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -125,125 +108,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 19, 2026 at 5:22=E2=80=AFPM James Smart <jsmart833426@gmail.com=
-> wrote:
->
-> On 2/17/2026 7:35 AM, Mohamed Khalfella wrote:
-> > On Tue 2026-02-17 08:09:33 +0100, Hannes Reinecke wrote:
-> >> On 2/16/26 19:45, Mohamed Khalfella wrote:
-> >>> On Mon 2026-02-16 13:54:18 +0100, Hannes Reinecke wrote:
-> >>>> On 2/14/26 05:25, Mohamed Khalfella wrote:
-> >>>>> TP8028 Rapid Path Failure Recovery does not define how much time th=
-e
-> >>>>> host should wait for CCR operation to complete. It is reasonable to
-> >>>>> assume that CCR operation can take up to ctrl->cqt. Update wait tim=
-e for
-> >>>>> CCR operation to be max(ctrl->cqt, ctrl->kato).
-> >>>>>
-> >>>>> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> >>>>> ---
-> >>>>>     drivers/nvme/host/core.c | 2 +-
-> >>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> >>>>> index 0680d05900c1..ff479c0263ab 100644
-> >>>>> --- a/drivers/nvme/host/core.c
-> >>>>> +++ b/drivers/nvme/host/core.c
-> >>>>> @@ -631,7 +631,7 @@ static int nvme_issue_wait_ccr(struct nvme_ctrl=
- *sctrl, struct nvme_ctrl *ictrl)
-> >>>>>           if (result & 0x01) /* Immediate Reset Successful */
-> >>>>>                   goto out;
-> >>>>>
-> >>>>> - tmo =3D secs_to_jiffies(ictrl->kato);
-> >>>>> + tmo =3D msecs_to_jiffies(max(ictrl->cqt, ictrl->kato * 1000));
-> >>>>>           if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
-> >>>>>                   ret =3D -ETIMEDOUT;
-> >>>>>                   goto out;
-> >>>>
-> >>>> That is not my understanding. I was under the impression that CQT is=
- the
-> >>>> _additional_ time a controller requires to clear out outstanding
-> >>>> commands once it detected a loss of communication (ie _after_ KATO).
-> >>>> Which would mean we have to wait for up to
-> >>>> (ctrl->kato * 1000) + ctrl->cqt.
-> >>>
-> >>> At this point the source controller knows about communication loss. W=
-e
-> >>> do not need kato wait. In theory we should just wait for CQT.
-> >>> max(cqt, kato) is a conservative guess I made.
-> >>>
-> >> Not quite. The source controller (on the host!) knows about the
-> >> communication loss. But the target might not, as the keep-alive
-> >> command might have arrived at the target _just_ before KATO
-> >> triggered on the host. So the target is still good, and will
-> >> be waiting for _another_ KATO interval before declaring
-> >> a loss of communication.
-> >> And only then will the CQT period start at the target.
-> >>
-> >> Randy, please correct me if I'm wrong ...
-> >>
-> >
-> > wait_for_completion_timeout(&ccr.complete, tmo)) waits for CCR operatio=
-n
-> > to complete. The wait starts after CCR command completed successfully.
-> > IOW, it starts after the host received a CQE from source controller on
-> > the target telling us all is good. If the source controller on the targ=
-et
-> > already know about loss of communication then there is no need to wait
-> > for KATO. We just need to wait for CCR operation to finish because we
-> > know it has been started successfully.
-> >
-> > The specs does not tell us how much time to wait for CCR operation to
-> > complete. max(cqt, kato) is an estimate I think reasonable to make.
->
-> So, we've sent CCR, received a CQE for the CCR within KATO (timeout in
-> nvme_issue_wait_ccr()), then are waiting another max(KATO, CQT) for the
-> io to die.
->
-> As CQT is the time to wait once the ctrl is killing the io, and as the
-> response indicated it certainly passed that point, a minimum of CQT
-> should be all that is needed. Why are we bringing KATO into the picture?
-Good point.
+Since NVM Command Spec 1.1, OPTPERF comprises both bits 4 and 5 of
+NSFEAT in the Identify Namespace structure. Replace NVME_NS_FEAT_IO_OPT,
+which represented only bit 4, with NVME_NS_FEAT_OPTPERF_SHIFT and
+NVME_NS_FEAT_OPTPERF_MASK.
 
->
-> -- this takes me over to patch 8 and the timeout on CCR response being KA=
-TO:
-> Why is KATO being used ? nothing about getting the response says it is
-> related to the keep alive. Keepalive can move along happily while CCR
-> hangs out and really has nothing to do with KATO.
->
-> If using the rationale of a keepalive cmd processing - has roundtrip
-> time and minimal and prioritized processing, as CCR needs to do more and
-> as the spec allows holding on to always return 1, it should be
-> KATO+<something>, where <something> is no more than CQT.
-Well, CCR was supposed to decide to fail at some time less than CQT
-on the controller.  But I see your reasoning.  Using the normal admin
-timeout time would probably also work.
+Update nvme_update_disk_info() to check both OPTPERF bits, as NPWG and
+NOWS are supported even if only bit 5 is set.
 
-> But given that KATO can be really long as its trying to catch
-> communication failures, and as our ccr controller should not have comm
-> issues, it should be fairly quick. So rather than a 2min KATO, why not
-> 10-15s ?
-Ugh.  2 minute KATO?  Have you seen that in the field?  I've
-seen 5-30 seconds.
+Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+---
+ drivers/nvme/host/core.c | 3 ++-
+ include/linux/nvme.h     | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-> This gets a little crazy as it takes me down paths of why not
-> fire off multiple CCRs (via different ctlrs) to the subsystem at short
-> intervals (the timeout) to finally find one that completes quickly and
-> then start CQT.
-This is an interesting idea.  That said, there was concern in the
-group that controllers would have a low CCRL (like, 4).  And I would
-expect some paths down to be correlated (when connected to
-an HA pair subsystem).
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3a2126584a23..674dd823b209 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2095,11 +2095,12 @@ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
+ 	}
+ 
+ 	phys_bs = bs;
+ 	atomic_bs = nvme_configure_atomic_write(ns, id, lim, bs);
+ 
+-	if (id->nsfeat & NVME_NS_FEAT_IO_OPT) {
++	if (id->nsfeat >> NVME_NS_FEAT_OPTPERF_SHIFT &
++	    NVME_NS_FEAT_OPTPERF_MASK) {
+ 		/* NPWG = Namespace Preferred Write Granularity */
+ 		phys_bs = bs * (1 + le16_to_cpu(id->npwg));
+ 		/* NOWS = Namespace Optimal Write Size */
+ 		if (id->nows)
+ 			io_opt = bs * (1 + le16_to_cpu(id->nows));
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index bc991d4ae89d..f279e5d72e2d 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -593,11 +593,12 @@ enum {
+ };
+ 
+ enum {
+ 	NVME_NS_FEAT_THIN	= 1 << 0,
+ 	NVME_NS_FEAT_ATOMICS	= 1 << 1,
+-	NVME_NS_FEAT_IO_OPT	= 1 << 4,
++	NVME_NS_FEAT_OPTPERF_SHIFT = 4,
++	NVME_NS_FEAT_OPTPERF_MASK = 0x3,
+ 	NVME_NS_ATTR_RO		= 1 << 0,
+ 	NVME_NS_FLBAS_LBA_MASK	= 0xf,
+ 	NVME_NS_FLBAS_LBA_UMASK	= 0x60,
+ 	NVME_NS_FLBAS_LBA_SHIFT	= 1,
+ 	NVME_NS_FLBAS_META_EXT	= 0x10,
+-- 
+2.45.2
 
-I was not sure why the expected limit would be low; the
-implementation I am considering should have a rather large limit,
-so I like your idea.
-
-> And if nothing completes quickly bound the whole thing
-> to fencing start+KATO+CQT ?
-Well, 2x or 3x KATO.
-
-Sincerely,
-Randy Jennings
 
