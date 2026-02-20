@@ -4,105 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22D31C5AD46
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 17:51:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CEBEC5AD46
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 17:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gxgwZDyk2Ay0cZeXVBoht8YTN8INxzRdMbCXTcuJKdg=; b=mCLyO28t9KcApIiLeaJrjYfiOA
-	WP2XSzNm9WQjBgf+2MS7pDTOrwLaeGplG7RqWqbKzxHAk133amtrC6O28D7GONjtDlRvjsx/qEwS6
-	AxLrwtM03SZOylf5KWZ1sG/qmwj4ZTAWr4Co50H1u9fkkUf7Kicwu1chX4MJxnHx3XYytFjsYEIFt
-	S6a8+iS1tU3mJf+fWNQUMKup54EOqpTSStaaQe8Y0kfsJV760FHW2QFrgxdUdmpE+AFFR0vm3wMo9
-	NiJFbOr0viDrWOwZK9JblIXZE7L2+rEOXSqO6SnYbe634a5nMk9WeXIX8SthWjOsQenKnyXdKVj6s
-	GSQEBXAA==;
+	bh=WNUkRVMo4Hn4PrQi8F0uPoeihnl+rBbaiBP+jxHNwa8=; b=LnjwBl79+i6uR5jygqU8NsZRV9
+	JJ953p59t+W5QuaLitqxtswF2a0nM5iI7MNpwRDNP96U1p+v2NpK2Rk40G5GA2rHEZjw8sV6ttliq
+	Qji9Djc+DEhFRW78GCvLMINvESYJMQnuWkQbebMvVIsqVDcKDfncaxspjOLyrYSEDz3yGGAWY3p53
+	npr3REgF5wV/jzW40QNYs/nvxpHZyJyL2fyL1wSWUedjt45bQAHTeQHIyEV5uqZbdHpbhhdrH5qzk
+	KDWz1KGr1WKky6w08zhYq23tmRJPgq9chhleAzc3scRJKGMAsLfuW9mdyzKyah7Bm/DqLzQrZiywz
+	LKA1iC7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtUeu-0000000FP8k-1agK;
-	Fri, 20 Feb 2026 17:51:20 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vtUfE-0000000FPIs-35gA;
+	Fri, 20 Feb 2026 17:51:40 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtUer-0000000FP7C-3LN8
+	id 1vtUf9-0000000FPGN-3FZd
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 17:51:18 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61KEnvkk1273920;
-	Fri, 20 Feb 2026 17:51:12 GMT
+	Fri, 20 Feb 2026 17:51:37 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61KEwIcO1271499;
+	Fri, 20 Feb 2026 17:51:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=gxgwZDyk2Ay0cZeXV
-	Boht8YTN8INxzRdMbCXTcuJKdg=; b=Dq2rf3sqPw2gB8396io8dfn/MdVE1Y6Z/
-	8Y+XM87pAh51sKn/gzqCyFHQnfTgqNT3cvWqKI/WHOkHnlTC++urdEX2eiLJy3CH
-	BMe3LZSbaf/mj+q5UMzA5eJRVzBt/9x+RGTSYFCd++klSPTrJaxOOesQXs91b8kM
-	eTqJBDLD/uSjQZ6B1fNA6smIc5Loy53J5jCRDjw/7EQ7TsQr0i7/w7MG+VkaP6Y2
-	miUiI9tt+EanLj34vwC1DwEHTGWfUWGoHo3GNczgv7xCJHmPUOWLujCq4XgrwWNZ
-	9Z8199JBnZCCdY6HcOJ7Qx2PZ9zgc32hlwou55wKy6obrslKKpRXA==
+	:mime-version:references:subject:to; s=pp1; bh=WNUkRVMo4Hn4PrQi8
+	F0uPoeihnl+rBbaiBP+jxHNwa8=; b=KbrmRy/8uaXjxV7XSmDvHU9MMAzba943v
+	GFvBS5VeehwCU+ZPpUgZSZ/HtnZsAXinD7qCVAfT+UPW6jYpd9pCW8T3Caung3+Y
+	89STVh35Nfu5z65dwBsGmSiA+CMsOcMnU6xpfeVDMRjsVVI65YbRQU0b2+7o2PEA
+	piIuPmomxohQfyDmfyJnGBTiY0CXFbFXfSn9O/YYuFE7zcfm6PFLTVV9kzQii7Fu
+	HU3giU1kYrgLfHK+MyhjG3wYXVLYABkDbL60lVORNZCd84XMRTO96n1Bm7micWuq
+	/DzJ8vzZ1ClWEHqD8kZLjqKOUVqppwnU8DGAPcalO/XUBc6N2pxSw==
 Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4caj6v4brq-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4caj4ktrvv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Feb 2026 17:51:12 +0000 (GMT)
+	Fri, 20 Feb 2026 17:51:28 +0000 (GMT)
 Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61KFEdpw030615;
-	Fri, 20 Feb 2026 17:51:11 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ccb45hcgx-1
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61KEo2Dh030711;
+	Fri, 20 Feb 2026 17:51:27 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ccb45hchs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Feb 2026 17:51:11 +0000
+	Fri, 20 Feb 2026 17:51:27 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61KHp77h53019054
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61KHpNwO51773928
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 20 Feb 2026 17:51:07 GMT
+	Fri, 20 Feb 2026 17:51:23 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BF63B20040;
-	Fri, 20 Feb 2026 17:51:07 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 4ED1920040;
+	Fri, 20 Feb 2026 17:51:23 +0000 (GMT)
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 24A8C20043;
-	Fri, 20 Feb 2026 17:51:03 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 837E820043;
+	Fri, 20 Feb 2026 17:51:08 +0000 (GMT)
 Received: from li-c9696b4c-3419-11b2-a85c-f9edc3bf8a84.ibm.com.com (unknown [9.111.6.227])
 	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 20 Feb 2026 17:51:02 +0000 (GMT)
+	Fri, 20 Feb 2026 17:51:08 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
         hare@suse.de, dwagner@suse.de, wenxiong@linux.ibm.com, gjoyce@ibm.com,
         Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv3 5/7] nvme: export I/O failure count when no path is available via sysfs
-Date: Fri, 20 Feb 2026 23:18:50 +0530
-Message-ID: <20260220175024.292898-6-nilay@linux.ibm.com>
+Subject: [PATCHv3 6/7] nvme: export controller reset event count via sysfs
+Date: Fri, 20 Feb 2026 23:18:51 +0530
+Message-ID: <20260220175024.292898-7-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260220175024.292898-1-nilay@linux.ibm.com>
 References: <20260220175024.292898-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=E+/AZKdl c=1 sm=1 tr=0 ts=69989f10 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIwMDE1MSBTYWx0ZWRfX5shmvXr4tUin
+ IgmgOqmdyYCPI7a5x2H0pQDJnbS1C4Y7Nf8Vj5foejMpCp6Wsc0+scwhtcvClcuvxFictJlgUaY
+ rChBz7zs86qeQiBLicDIJHnkhLq2ruG1L/ZKbyToEzMqm8PCQlW1IT3WX1PKBpw+LE3QTpwtcHO
+ 8EiV3XXOfDaqeLAodl3FgE4y5tgoWVzcCwYd2sbUWB7p4vMfTsWFMdWp0EzivXlMQUUu0s85TRG
+ rpXLAh/B9eV7oe7DTryxdT61nLORzButP6W7bSuofwLJpc1CLHKAsTi98IJXuicxVW8pOcPNwUc
+ jOiYUsTgiDOLZn+G8VvWfsRNgoRxHS7cPgOzWCcnv95Ew0ZyBP8mzCGccZ7qjrnFADobppqDQe6
+ DlHwOKvMt1rn2/KyuNtCj5qQYtJEbTnkguGD67hkoa1GHePlD9HKTMmKY64HJd65j7sgzQli4uQ
+ wtvPgdBzlaNbcRT6tRQ==
+X-Proofpoint-ORIG-GUID: IGdPC314Sgd3V-JjAVaU9mcJTj04_XpN
+X-Proofpoint-GUID: IGdPC314Sgd3V-JjAVaU9mcJTj04_XpN
+X-Authority-Analysis: v=2.4 cv=M7hA6iws c=1 sm=1 tr=0 ts=69989f20 cx=c_pps
  a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=HzLeVaNsDn8A:10 a=sWKEhP36mHoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VnNF1IyMAAAA:8
- a=qQBb9XtKKTvnMxOhsCgA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIwMDE1MSBTYWx0ZWRfX6JDw8cwnddk7
- jVYaVvPjzS9HW3+RvL6CWu+PDW0kmEzjjStZkIwTvp5Ali4QsA4LrwBJ2VMywWS/hGco5mzLwVi
- gx+QMnUb14oq5194FSkzklxx1q/5WFZKdVj2w94MkbIsGYccKFkmb30BaUuw05z6ntBWnqlXi2i
- 20YzW02EdDrVlYI9jsg7hgxrpGpRRlOUbwNfsc5w6Tk8X92H7bmWqAg/x+9NXc3cDl8nt/PFwKr
- wwXezHbwlUqHyDqcoNu07AR+Q2kPWXHd9TkfJoNseNbwMmwWwH/nr6/PbwxxoL6h4X2TqdYet43
- pppQpl1+jyb32JCljhR3GIW6wIkP1tcUMswtaYjgyfnFCvcXUYr4/MaMDUt8vyrHUpOOsrHFQxC
- vvi+931rwz3xbm8UnvKnHt7LeIknHKvpeE6mZ4TMdEUh3vUocJg/eDGSJTAHPnc1VZ6XJF7sz8B
- rMxNYewTc9Ce5sljOEw==
-X-Proofpoint-ORIG-GUID: 1wLAshLz0rHbNk36YlB-3wn5HS2OhfsD
-X-Proofpoint-GUID: 1wLAshLz0rHbNk36YlB-3wn5HS2OhfsD
+ a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
+ a=GgsMoib0sEa3-_RKJdDe:22 a=VnNF1IyMAAAA:8 a=XQ-XxMglAtByCkMZczYA:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-20_02,2026-02-20_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 malwarescore=0 phishscore=0 bulkscore=0
- suspectscore=0 spamscore=0 clxscore=1015 impostorscore=0 adultscore=0
+ spamscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 adultscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602200151
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260220_095117_843128_A23EAD77 
-X-CRM114-Status: GOOD (  19.93  )
+X-CRM114-CacheID: sfid-20260220_095135_999279_DD519F0A 
+X-CRM114-Status: GOOD (  16.68  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,118 +116,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When I/O is submitted to the NVMe namespace head and no available path
-can handle the request, the driver fails the I/O immediately. Currently,
-such failures are only reported via kernel log messages, which may be
-lost over time since dmesg is a circular buffer.
+The NVMe controller transitions into the RESETTING state during error
+recovery, link instability, firmware activation, or when a reset is
+explicitly triggered by the user.
 
-Add a new sysfs counter, fail_no_available_path, to expose the number of
-I/Os that failed due to the absence of an available path. This provides
-persistent visibility into path-related I/O failures and can help users
-diagnose the cause of I/O errors. This counter is also writable and so
-user may reset its value, if needed.
+Expose a controller reset event count via sysfs attribute named
+"reset_events" to provide visibility into these RESETTING state
+transitions. Observing the frequency of reset events can help users
+identify issues such as PCIe errors or unstable fabric links. This
+counter is also writable thus allowing user to reset its value, if
+needed.
 
-This counter can also be consumed by monitoring tools such as nvme-top.
+This counter can also be consumed by monitoring tools such as nvme-top
+to improve controller-level observability.
 
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/host/multipath.c | 31 +++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h      |  2 ++
- drivers/nvme/host/sysfs.c     |  5 +++++
- 3 files changed, 38 insertions(+)
+ drivers/nvme/host/core.c  |  2 ++
+ drivers/nvme/host/nvme.h  |  1 +
+ drivers/nvme/host/sysfs.c | 27 +++++++++++++++++++++++++++
+ 3 files changed, 30 insertions(+)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index c80d5e27d318..a50845833c89 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -545,6 +545,8 @@ static void nvme_ns_head_submit_bio(struct bio *bio)
- 		dev_warn_ratelimited(dev, "no available path - failing I/O\n");
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d07e2ed9e494..1cba460d8563 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -593,6 +593,8 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_LIVE:
+ 			changed = true;
++			WRITE_ONCE(ctrl->nr_reset,
++				size_add(READ_ONCE(ctrl->nr_reset), 1));
+ 			fallthrough;
+ 		default:
+ 			break;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b1ce2857899a..5d90e5fa7298 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -360,6 +360,7 @@ struct nvme_ctrl {
+ 	struct work_struct fw_act_work;
+ 	unsigned long events;
+ 	size_t errors;
++	size_t nr_reset;
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	/* asymmetric namespace access: */
+ 	u8 anacap;
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 790bf875dd1b..f3e6c7208315 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -710,6 +710,32 @@ struct device_attribute dev_attr_adm_errors =
+ 	__ATTR(command_error_count, 0644,
+ 			nvme_adm_errors_show, nvme_adm_errors_store);
  
- 		bio_io_error(bio);
-+		WRITE_ONCE(head->fail_no_available_path,
-+			size_add(READ_ONCE(head->fail_no_available_path), 1));
- 	}
- 
- 	srcu_read_unlock(&head->srcu, srcu_idx);
-@@ -1226,6 +1228,35 @@ static ssize_t requeue_no_usable_path_store(struct device *dev,
- 
- DEVICE_ATTR_RW(requeue_no_usable_path);
- 
-+static ssize_t fail_no_available_path_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
++static ssize_t reset_events_show(struct device *dev,
++		   struct device_attribute *attr, char *buf)
 +{
-+	struct gendisk *disk = dev_to_disk(dev);
-+	struct nvme_ns_head *head = disk->private_data;
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
 +
-+	return sysfs_emit(buf, "%lu\n",
-+			READ_ONCE(head->fail_no_available_path));
++	return sysfs_emit(buf, "%lu\n", READ_ONCE(ctrl->nr_reset));
 +}
 +
-+static ssize_t fail_no_available_path_store(struct device *dev,
++static ssize_t reset_events_store(struct device *dev,
 +		struct device_attribute *attr, const char *buf, size_t count)
 +{
 +	int err;
-+	unsigned long fail_cnt;
-+	struct gendisk *disk = dev_to_disk(dev);
-+	struct nvme_ns_head *head = disk->private_data;
++	unsigned long reset_cnt;
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
 +
-+	err = kstrtoul(buf, 0, &fail_cnt);
++	err = kstrtoul(buf, 0, &reset_cnt);
 +	if (err)
 +		return -EINVAL;
 +
-+	WRITE_ONCE(head->fail_no_available_path, fail_cnt);
++	WRITE_ONCE(ctrl->nr_reset, reset_cnt);
 +
 +	return count;
 +}
 +
-+DEVICE_ATTR_RW(fail_no_available_path);
++static DEVICE_ATTR_RW(reset_events);
 +
- static int nvme_lookup_ana_group_desc(struct nvme_ctrl *ctrl,
- 		struct nvme_ana_group_desc *desc, void *data)
- {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 39e5b5c7885b..b1ce2857899a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -509,6 +509,7 @@ struct nvme_ns_head {
- 	struct delayed_work	remove_work;
- 	unsigned int		delayed_removal_secs;
- 	size_t			requeue_no_usable_path;
-+	size_t			fail_no_available_path;
- #define NVME_NSHEAD_DISK_LIVE		0
- #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
- 	struct nvme_ns __rcu	*current_path[];
-@@ -1006,6 +1007,7 @@ extern struct device_attribute dev_attr_numa_nodes;
- extern struct device_attribute dev_attr_delayed_removal_secs;
- extern struct device_attribute dev_attr_multipath_failover_count;
- extern struct device_attribute dev_attr_requeue_no_usable_path;
-+extern struct device_attribute dev_attr_fail_no_available_path;
- extern struct device_attribute subsys_attr_iopolicy;
+ #ifdef CONFIG_NVME_HOST_AUTH
+ static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
+ 		struct device_attribute *attr, char *buf)
+@@ -857,6 +883,7 @@ static struct attribute *nvme_dev_attrs[] = {
+ #endif
+ 	&dev_attr_adm_passthru_err_log_enabled.attr,
+ 	&dev_attr_adm_errors.attr,
++	&dev_attr_reset_events.attr,
+ 	NULL
+ };
  
- static inline bool nvme_disk_is_ns_head(struct gendisk *disk)
-diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-index a4700ef9d18a..790bf875dd1b 100644
---- a/drivers/nvme/host/sysfs.c
-+++ b/drivers/nvme/host/sysfs.c
-@@ -317,6 +317,7 @@ static struct attribute *nvme_ns_attrs[] = {
- 	&dev_attr_delayed_removal_secs.attr,
- 	&dev_attr_multipath_failover_count.attr,
- 	&dev_attr_requeue_no_usable_path.attr,
-+	&dev_attr_fail_no_available_path.attr,
- #endif
- 	&dev_attr_io_passthru_err_log_enabled.attr,
- 	&dev_attr_command_retries.attr,
-@@ -379,6 +380,10 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 		if (!nvme_disk_is_ns_head(dev_to_disk(dev)))
- 			return 0;
- 	}
-+	if (a == &dev_attr_fail_no_available_path.attr) {
-+		if (!nvme_disk_is_ns_head(dev_to_disk(dev)))
-+			return 0;
-+	}
- #endif
- 	return a->mode;
- }
 -- 
 2.52.0
 
