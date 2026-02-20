@@ -4,79 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 975E6C56203
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 14:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79453C56209
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 15:13:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=; b=VQL0CU65e4iEA3pvvKwc90Gi3q
-	QS8azCNa9p+3D1XtSfqy6pNxx73+xKilbtT5JczG7TWAv7njBkKk2VrIDX0KOnK8tm8v6JwCLiesc
-	0J+LXqihvwgWXYSWbUnhCAs/Lsz//FNjVIumonjIHrdDZSXDE1qPA78qviEeOli2XRnG3t+V5LebU
-	lF+EszP8tKO/MHRNK+YqtO5U0A4d+F85ZpHUSrOm/hKQQtjPq92pINEEHNPRU1+r3e9h6LWb91XEE
-	Uj19xjlXYysheAyrnv55UNqhtmeuVqFMAliHsKYDqqJh/GD6i0Ulg6K3p638Fc+JlQhhneBIkjdXT
-	FKToAy3g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=OIAR0rdCmF4IQhjxJ+gOPwn/w9j9ttggFMVQgkQ7SUg=; b=fsnrmxoA7GkxuIrQZbej/DiN3s
+	ed5YnT7wNc82LUeIrRkb3pkZgnoZ/MmhnnHrdmgwswBb8NZw4rGEl/LFGlj8AA58j0YK0kgmacRFG
+	eqM0Jvoaq646ZgIvxyJK23BO+qF8bwmo+wCKh8k2SE72JT+uMOlHTimFkK0/fIcbPZyQKVxoAHgUv
+	NmdAQsbR/o48rYqgikniEO/BZQeHVhcqTtN1vYhrZrTPIi6dcF6UHYC2XXfqapgYJNf0W2SIKA8Ku
+	AN8LNZz899ZX1wnXAX8ncqw3f8L/xbtAKUlaWomW+OkyAVNsfJ7KxF1CdwpMb9HKVXR4CC3PXckQ7
+	T96GOJ7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtRYq-0000000Eprm-3lMm;
-	Fri, 20 Feb 2026 14:32:52 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1vtSBq-0000000Exuu-3iNg;
+	Fri, 20 Feb 2026 15:13:10 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtRYn-0000000Epnx-3K0k
+	id 1vtSBn-0000000Exsj-4ALk
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 14:32:51 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260220143238epoutp0469533eb728659e57ce92f4f24cf6aa5c~V_vUHFsJg2960529605epoutp04W
-	for <linux-nvme@lists.infradead.org>; Fri, 20 Feb 2026 14:32:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260220143238epoutp0469533eb728659e57ce92f4f24cf6aa5c~V_vUHFsJg2960529605epoutp04W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1771597958;
-	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=Y+6sX1UVEGppiBox34YExXnxX7L3z+PYJ3h4gV0toSnFbyLz493wLQANe6uRpyPA7
-	 BDS7JC++v6+jh4JB2IAx6QdLpY0BqaLrmR+1Snv8hyZzWsmThJgtX5aFRsV1oBaoE7
-	 h8CKK6lr+Mb/n5Hy91gBDB3Es3VYKwlBICNZcHro=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20260220143238epcas5p44aaad8d33d1c301fe9f53269bfe7a354~V_vT6QZC80389803898epcas5p4i;
-	Fri, 20 Feb 2026 14:32:38 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.86]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4fHXlV0lT4z2SSKX; Fri, 20 Feb
-	2026 14:32:38 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260220143237epcas5p48692d42bb58ddf61b4a7be0873fdab3b~V_vTKgODF0388603886epcas5p4v;
-	Fri, 20 Feb 2026 14:32:37 +0000 (GMT)
-Received: from [107.122.11.51] (unknown [107.122.11.51]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260220143236epsmtip1e6a6a37de340f5df06b2a482be967d44~V_vSbZ78S2547425474epsmtip1I;
-	Fri, 20 Feb 2026 14:32:36 +0000 (GMT)
-Message-ID: <425f828d-ddf6-4215-b72d-143e37b74851@samsung.com>
-Date: Fri, 20 Feb 2026 20:02:35 +0530
+	Fri, 20 Feb 2026 15:13:09 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id C0A6744482;
+	Fri, 20 Feb 2026 15:13:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32120C116D0;
+	Fri, 20 Feb 2026 15:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771600386;
+	bh=/uC60Qdao4o+Fcbc87qMgA2iJt/KCdqicuRA6Y9BTAU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qEr9YnsBu1xF2pq8bMNh/X8D9zP55MUQuMTOVS+C0n+W19jtvBLpnBJDnxyUglV2/
+	 0jjsHqnq1YcuX5HBmhwSn0t6SF4FjabNVR+r0sWlJ8UozXz/GSHjYxPNi8A0Udl/GX
+	 NhrvNO5cxyMCuTIyhtDYwap//Xz7z+pRUOiPeC5Oz+O0kfgmw6Sp6JzP3RmdLp86Fh
+	 QGih1s18WK2aUtCZ/fhcwcWSNxCvGX4P5ESZz2e0WWUba0SJ8NW+dR/vtSbBdyrNEs
+	 4On7wkokPDi6ZqFwpwN99IGLUlZZVLxoYV8111dAzmsbGunMnl7ZYQecxiREfQYEEn
+	 MsOSwR7PeUi7w==
+From: Hannes Reinecke <hare@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	linux-nvme@lists.infradead.org,
+	Hannes Reinecke <hare@kernel.org>,
+	Abdulla Nasirli <nasirabd@fit.cvut.cz>
+Subject: [PATCHv2] nvmet: lift blocksize restriction to 64k
+Date: Fri, 20 Feb 2026 16:12:59 +0100
+Message-ID: <20260220151259.20372-1-hare@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-core: do not pass empty queue_limits to
- blk_mq_alloc_queue()
-To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: linux-nvme@lists.infradead.org, dwagner@suse.de, mlombard@arkamax.eu
-Content-Language: en-US
-From: Kanchan Joshi <joshi.k@samsung.com>
-In-Reply-To: <20260220133016.524192-1-mlombard@redhat.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260220143237epcas5p48692d42bb58ddf61b4a7be0873fdab3b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260220133056epcas5p1f981cf74d0f768d1251fdcac73fbca5f
-References: <CGME20260220133056epcas5p1f981cf74d0f768d1251fdcac73fbca5f@epcas5p1.samsung.com>
-	<20260220133016.524192-1-mlombard@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260220_063250_318279_7C538324 
-X-CRM114-Status: UNSURE (   5.47  )
+X-CRM114-CacheID: sfid-20260220_071308_072313_49C2FAB5 
+X-CRM114-Status: UNSURE (   8.45  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -92,5 +73,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
+With commit 47dd67532303 ("block/bdev: lift block size restrictions to 64k")
+we can now support up to 64k block sizes, so lift the restriction on 4k for
+file-backed namespaces.
+
+Reported-by: Abdulla Nasirli <nasirabd@fit.cvut.cz>
+Fixes: 47dd67532303 ("block/bdev: lift block size restrictions to 64k")
+Signed-off-by: Hannes Reinecke <hare@kernel.org>
+---
+ drivers/nvme/target/io-cmd-file.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 2d068439b129..fdc15c59632f 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -50,11 +50,10 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+ 	nvmet_file_ns_revalidate(ns);
+ 
+ 	/*
+-	 * i_blkbits can be greater than the universally accepted upper bound,
+-	 * so make sure we export a sane namespace lba_shift.
++	 * We can support blocksizes up to 64k.
+ 	 */
+ 	ns->blksize_shift = min_t(u8,
+-			file_inode(ns->file)->i_blkbits, 12);
++			file_inode(ns->file)->i_blkbits, ilog2(SZ_64K));
+ 
+ 	ns->bvec_pool = mempool_create(NVMET_MIN_MPOOL_OBJ, mempool_alloc_slab,
+ 			mempool_free_slab, nvmet_bvec_cache);
+-- 
+2.43.0
+
 
