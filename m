@@ -4,54 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 500B1C55AB9
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 12:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0F07FC55ABE
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 12:51:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QG36cuj8x1xlEey9KHNTKXvexo5fPhYAPvqQE/wbZRQ=; b=n2OgZQXG9fQLHgkgSeq1ML7pml
-	I/GkrxNZxqmvP4F4nxPYP0hY2zn5TJoXAn+81yOxDzyurq/zGMA+zDfF1pa2CTuEwBQtxa0q+zYP7
-	B58tZ/e59GuwjHV3FRSu5LpHCpkTIQnM6P+I7YRusOe3+vzxw30pty/5Cim0jarJXrynzcTRLXGFj
-	iuSVzaP5HKDXzCHvJ1ynVLtphhs0SosVcr6grLkA0B+Cbh4nzmQsO54XnS8v/5PNl4NAwYgA8sslg
-	wVZxcGe+eyeH6b/YaKbKKEqBPvrMl6porvS24kKZaXROUAAdUnrUqeLzwDMDBBgRdVvSJoI6eoQSL
-	OQZqwMFQ==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=gpPvI4AjUnF4cdEOdoOVb3TFzSvGjREdyrfQeiH1PSw=; b=cOJ/KuThL70/5ZIupJQSTGzheU
+	uHn+7RIphRD1Oe4jZRF8AkVh2b++5w/nPmgTnnnkSGVenygxbUqHQnE2qe9swUCcrzDPqNaFmr9gE
+	T9ZfDkrUtWuykEQfrGNcmXhitBr2O/+0C9ES5yDKa/C4+ifyah/Ss5huGqMqWL9P8YW1xpIpleIOU
+	NgxHafFOMXB83k2u4M3FnkBAGfPBuGTYhhQu8KqeJG3gfERcdrbcRQRUj8yO7UULE8hBZSemd8qW7
+	donduUfXLfOW4tHK7Xe+JUz4BnwctHTi/VHSO3Q3Je0ZnJfMIyaujot1tIQ0hcunQ4CbxFEXg2OV+
+	RuizM/tA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtPye-0000000EV8u-1evQ;
-	Fri, 20 Feb 2026 12:51:24 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vtPyg-0000000EVA6-1mob;
+	Fri, 20 Feb 2026 12:51:26 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtPyb-0000000EV7S-3fdU
+	id 1vtPye-0000000EV8p-1V1O
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 12:51:23 +0000
+	Fri, 20 Feb 2026 12:51:25 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771591879;
+	s=mimecast20190719; t=1771591883;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=QG36cuj8x1xlEey9KHNTKXvexo5fPhYAPvqQE/wbZRQ=;
-	b=Uhtn3In+AjRouiMseknhmdCe12Kz4+ssm8+0OyVEQkY3yEAmQmt5Yn7EgM9ryOTzldnrye
-	EP/C3HZV7Nf+lRal13dSYAgenRdv0sjs7+3kl9A65MwQQ8q7F7RLWlvs3gZtv4eRcMNWk6
-	1u3OE6nZTThHR+7j2OxChob1uZcEwoY=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gpPvI4AjUnF4cdEOdoOVb3TFzSvGjREdyrfQeiH1PSw=;
+	b=BpsoZ1qvDFLcHalx+Qy7MbiAtM/HneO+9y2amMoUO2AfzLogVCfWEen73wpxyV/hpBi7TX
+	+LgwnYB8FyKA47CxEWJdeStiHar+hA+7Dj3SHKwXXGi8OOjlDVbr2SxHmDzlpbVK7Hsx4E
+	CHuyCCwZNT3/tJ4EPedoj5iqy8v3L4o=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-395--9cMdYNVPhObuYlTKM-w4A-1; Fri,
- 20 Feb 2026 07:51:15 -0500
-X-MC-Unique: -9cMdYNVPhObuYlTKM-w4A-1
-X-Mimecast-MFC-AGG-ID: -9cMdYNVPhObuYlTKM-w4A_1771591874
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-214-G64fKiwuO3GeE77YZS3Gcg-1; Fri,
+ 20 Feb 2026 07:51:18 -0500
+X-MC-Unique: G64fKiwuO3GeE77YZS3Gcg-1
+X-Mimecast-MFC-AGG-ID: G64fKiwuO3GeE77YZS3Gcg_1771591877
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 048961956059;
-	Fri, 20 Feb 2026 12:51:14 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9EAA9180034A;
+	Fri, 20 Feb 2026 12:51:17 +0000 (UTC)
 Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.45.224.125])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 511791800361;
-	Fri, 20 Feb 2026 12:51:10 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 815E61800352;
+	Fri, 20 Feb 2026 12:51:14 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: kbusch@kernel.org
 Cc: mheyne@amazon.de,
@@ -61,19 +62,21 @@ Cc: mheyne@amazon.de,
 	dwagner@suse.de,
 	mlombard@arkamax.eu,
 	mkhalfella@purestorage.com
-Subject: [PATCH V2 0/5] nvme: Refactor and expose per-controller timeout configuration
-Date: Fri, 20 Feb 2026 13:51:03 +0100
-Message-ID: <20260220125108.483250-1-mlombard@redhat.com>
+Subject: [PATCH V2 1/5] nvme: Let the blocklayer set timeouts for requests
+Date: Fri, 20 Feb 2026 13:51:04 +0100
+Message-ID: <20260220125108.483250-2-mlombard@redhat.com>
+In-Reply-To: <20260220125108.483250-1-mlombard@redhat.com>
+References: <20260220125108.483250-1-mlombard@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rRajPJq3-lZxI5xB_vv-3rMThmMgB5i4SCGnZ4GL3Vg_1771591874
+X-Mimecast-MFC-PROC-ID: asEfYMjwvyhx0dyQD7z1v7GK7dXzkVBoxIRJb6wsjoo_1771591877
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260220_045121_992066_E9C3EF7A 
-X-CRM114-Status: GOOD (  11.91  )
+X-CRM114-CacheID: sfid-20260220_045124_473980_3659C081 
+X-CRM114-Status: GOOD (  15.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,104 +91,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This patchset tries to address some limitations in how the NVMe driver handles
-command timeouts.
-Currently, the driver relies heavily on global module parameters
-(NVME_IO_TIMEOUT and NVME_ADMIN_TIMEOUT), making it difficult for users to
-tune timeouts for specific controllers that may have very different
-characteristics. Also, in some cases, manual changes to sysfs timeout values
-are ignored by the driver logic.
+From: "Heyne, Maximilian" <mheyne@amazon.de>
 
-For example this patchset removes the unconditional timeout assignment in
-nvme_init_request. This allows the block layer to correctly apply the request
-queue's timeout settings, ensuring that user-initiated changes via sysfs
-are actually respected for all requests.
+When initializing an nvme request which is about to be send to the block
+layer, we do not need to initialize its timeout. If it's left
+uninitialized at 0 the block layer will use the request queue's timeout
+in blk_add_timer (via nvme_start_request which is called from
+nvme_*_queue_rq). These timeouts are setup to either NVME_IO_TIMEOUT or
+NVME_ADMIN_TIMEOUT when the request queues were created.
 
-It introduces new sysfs attributes (admin_timeout and io_timeout) to the NVMe
-controller. This allows users to configure distinct timeout requirements for
-different controllers rather than relying on global module parameters.
+Because the io_timeout of the IO queues can be modified via sysfs, the
+following situation can occur:
 
-Some examples:
+1) NVME_IO_TIMEOUT = 30 (default module parameter)
+2) nvme1n1 is probed. IO queues default timeout is 30 s
+3) manually change the IO timeout to 90 s
+   echo 90000 > /sys/class/nvme/nvme1/nvme1n1/queue/io_timeout
+4) Any call of __submit_sync_cmd on nvme1n1 to an IO queue will issue
+   commands with the 30 s timeout instead of the wanted 90 s which might
+   be more suitable for this device.
 
-Changes to the controller's io_timeout gets propagated to all
-the associated namespaces' queues:
+Commit 470e900c8036 ("nvme: refactor nvme_alloc_request") silently
+changed the behavior for ioctl's already because it unconditionally
+overrides the request's timeout that was set in nvme_init_request. If it
+was unset by the user of the ioctl if will be overridden with 0 meaning
+the block layer will pick the request queue's IO timeout.
 
-# find /sys -name 'io_timeout' 
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n1/queue/io_timeout
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n2/queue/io_timeout
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n3/queue/io_timeout
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/io_timeout
+Following up on that, this patch further improves the consistency of IO
+timeout usage. However, there are still uses of NVME_IO_TIMEOUT which
+could be inconsistent with what is set in the device's request_queue by
+the user.
 
-# echo 27000 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/io_timeout
-# cat /sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n1/queue/io_timeout
-27000
-# cat /sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n2/queue/io_timeout
-27000
-# cat /sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n3/queue/io_timeout
-27000
+Reviewed-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
+---
+ drivers/nvme/host/core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-When adding a namespace target-side, the io_timeout is inherited from
-the controller's preferred timeout:
-
-* target side *
-# nvmetcli
-/> cd subsystems/test-nqn/namespaces/4 
-/subsystems/t.../namespaces/4> enable
-The Namespace has been enabled.
-
-************
-
-* Host-side *
-nvme nvme0: rescanning namespaces.
-# find /sys -name 'io_timeout' 
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n1/queue/io_timeout
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n2/queue/io_timeout
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n3/queue/io_timeout
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n4/queue/io_timeout <-- new namespace
-/sys/devices/virtual/nvme-fabrics/ctl/nvme0/io_timeout
-
-# cat /sys/devices/virtual/nvme-fabrics/ctl/nvme0/nvme0c0n4/queue/io_timeout
-27000
-***********
-
-io_timeout and admin_timeout module parameters are used as default
-values for new controllers:
-
-# nvme connect -t tcp -a 10.37.153.138 -s 8000 -n test-nqn2
-connecting to device: nvme1
-
-# cat /sys/devices/virtual/nvme-fabrics/ctl/nvme1/nvme1c1n1/queue/io_timeout
-30000
-# cat /sys/devices/virtual/nvme-fabrics/ctl/nvme1/admin_timeout
-60000
-
-
-V2: Drop the RFC tag
-    apply the timeout settings to fabrics_q and connect_q too
-    Code style fixes
-    remove unnecessary check for null admin_q in __nvme_delete_io_queues()
-    Use DEVICE_ATTR() macro
-
-Heyne, Maximilian (1):
-  nvme: Let the blocklayer set timeouts for requests
-
-Maurizio Lombardi (4):
-  nvme: add sysfs attribute to change admin timeout per nvme controller
-  nvme: pci: use admin queue timeout over NVME_ADMIN_TIMEOUT
-  nvme: add sysfs attribute to change IO timeout per nvme controller
-  nvme: use per controller timeout waits over depending on global
-    default
-
-
- drivers/nvme/host/apple.c |  2 +-
- drivers/nvme/host/core.c  |  9 ++---
- drivers/nvme/host/nvme.h  |  3 +-
- drivers/nvme/host/pci.c   |  5 +--
- drivers/nvme/host/rdma.c  |  2 +-
- drivers/nvme/host/sysfs.c | 74 +++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/tcp.c   |  2 +-
- 7 files changed, 87 insertions(+), 10 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 19b67cf5d550..bca3a7a0bd88 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -724,10 +724,8 @@ void nvme_init_request(struct request *req, struct nvme_command *cmd)
+ 		struct nvme_ns *ns = req->q->disk->private_data;
+ 
+ 		logging_enabled = ns->head->passthru_err_log_enabled;
+-		req->timeout = NVME_IO_TIMEOUT;
+ 	} else { /* no queuedata implies admin queue */
+ 		logging_enabled = nr->ctrl->passthru_err_log_enabled;
+-		req->timeout = NVME_ADMIN_TIMEOUT;
+ 	}
+ 
+ 	if (!logging_enabled)
 -- 
 2.53.0
 
