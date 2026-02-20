@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77E6BC5ACD1
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 16:07:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C93AC5ACC1
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 16:08:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dRhqpzlg5VxacVdAZ4Vnpg6i2uj+A8VOglhLhsTzpgs=; b=yOkwTQolLCNvLI6QOpXJ0tD+E3
-	8U4PkfvozqwVMb1DQv43kqEVdCWf/O6SLRximiGkmjBn5vTt/rLp7K/J2RvTczD+DB0RENBt2PSJ6
-	gaQS6KZ3DQU/GFZ0GO6VKmfwqzXt5Hfgy5MTBCk3die+UM6kGZf18aNB2SBVCyxfTWgRpvAX4ChUy
-	Ge0bIXhgiVaqFJK38z4CRammctU6LUHqPrE9193Eq1g7+oQ6HkoieTr4aIQt1SdgOj9dWK4tnF+L7
-	dyS+uEk7vFsrW+byrXwLzhO+pUkrQLc54oMY4NRpZMNRNpKsci6VOdPD3Ldfy0gi5wHGwoA8fGWQY
-	DaeyEq3Q==;
+	bh=vVcyHLQuUkknR71CtFWqukCCln/EGzf2gQM3jagot5Q=; b=jRP9d/YuUeNbECbtMEic1la6P0
+	iZOqUFaR8hElu0EtLDYl6oxsQXQ1e1w4X6YfmkbdkywGBD+O68axS1QzpLi2rAM9PVfWf+O2sJ2B0
+	+VhgTCDPvWquep8mrzudKgzqfM3AItR6fJgcsrTMEn8jxlNlTlWNRkQTIOiG6z+M80M+9RGmR2Ug6
+	MIuIkejD/pSs7Qt6z4FTjYtIYKLkhHQzjulAz3m9bsCPd50ewhIt5NhG+q8w89yf5QuyJIdMKwkeq
+	/TYMeAMwjlqYdCAoC74LQLA2fK7dmvZ+ugH3YlZpe6vV3Pbt76mVhLWcwyYFp/NjjzrQ6r8SpK+z8
+	GeciIZZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtT2f-0000000FAl9-093r;
-	Fri, 20 Feb 2026 16:07:45 +0000
+	id 1vtT3S-0000000FAyZ-1r0K;
+	Fri, 20 Feb 2026 16:08:34 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtT2d-0000000FAkM-2Kfo
+	id 1vtT3Q-0000000FAx1-21Ff
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 16:07:44 +0000
+	Fri, 20 Feb 2026 16:08:33 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 84DE668B05; Fri, 20 Feb 2026 17:07:41 +0100 (CET)
-Date: Fri, 20 Feb 2026 17:07:41 +0100
+	id 542BE68B05; Fri, 20 Feb 2026 17:08:30 +0100 (CET)
+Date: Fri, 20 Feb 2026 17:08:30 +0100
 From: Christoph Hellwig <hch@lst.de>
 To: Caleb Sander Mateos <csander@purestorage.com>
 Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] nvme: update nvme_id_ns OPTPERF constants
-Message-ID: <20260220160741.GC15071@lst.de>
-References: <20260220032809.758089-1-csander@purestorage.com> <20260220032809.758089-3-csander@purestorage.com>
+Subject: Re: [PATCH 3/6] nvme: always issue I/O Command Set specific
+ Identify Namespace
+Message-ID: <20260220160830.GD15071@lst.de>
+References: <20260220032809.758089-1-csander@purestorage.com> <20260220032809.758089-4-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260220032809.758089-3-csander@purestorage.com>
+In-Reply-To: <20260220032809.758089-4-csander@purestorage.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260220_080743_735109_519436CA 
-X-CRM114-Status: GOOD (  11.76  )
+X-CRM114-CacheID: sfid-20260220_080832_662351_D1E1D049 
+X-CRM114-Status: GOOD (  17.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,15 +62,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 19, 2026 at 08:28:05PM -0700, Caleb Sander Mateos wrote:
-> Since NVM Command Spec 1.1, OPTPERF comprises both bits 4 and 5 of
-> NSFEAT in the Identify Namespace structure. Replace NVME_NS_FEAT_IO_OPT,
-> which represented only bit 4, with NVME_NS_FEAT_OPTPERF_SHIFT and
-> NVME_NS_FEAT_OPTPERF_MASK.
+On Thu, Feb 19, 2026 at 08:28:06PM -0700, Caleb Sander Mateos wrote:
+> Currently, the I/O Command Set specific Identify Namespace structure is
+> only fetched for controllers that support extended LBA formats. This is
+> because struct nvme_id_ns_nvm is only used by nvme_configure_pi_elbas(),
+> which is only called when the ELBAS bit is set in the CTRATT field of
+> the Identify Controller structure.
+> 
+> However, the I/O Command Set specific Identify Namespace structure will
+> soon be used in nvme_config_discard(), so always try to obtain it in
+> nvme_update_ns_info_block() if the controller supports NVMe version 2.0
+> or later.
 
-As you're deeper in this than me:  do the older specs require the
-other bit to be cleared to zero and this is all compatible?  Or do
-we need to guard it somehow?
+This was done kinda intentionally to avoid extra roundtrips and
+tripping over buggy implementations.  But I think you have a good
+use case to extent this, so:
 
-Otherwise looks good.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+>  			goto out;
+>  	}
+>  
+> -- 
+> 2.45.2
+---end quoted text---
 
