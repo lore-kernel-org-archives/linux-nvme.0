@@ -4,76 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E876C56201
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 14:25:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 975E6C56203
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Feb 2026 14:32:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OECCMeypFHxrRoOewaiO0T6PUMLs0FQsh+k5BaXKk4g=; b=UZexKTJvrjigvBu9JODFjXDksi
-	4Lx6A9DejNEdpfhnYk8/SmfhO1W3E9VVHNJI5MqpxrjwqlSAF0cqUopKfECGZt7Zw+rDqrK0gasFI
-	e7DeARSW82xLP2e1T3V/d40AE6M1bQP76tScIwEU61KW7IGQq6Dsbnyote0aLL/lisM5A+CDd1TmL
-	w5N+yEJZKF/M5y1FVS/59FP+0fQhWL+8JR+3wsgKgYOkdMjzx1svtvtZkHXsuBQtu2Mp+6xtMG7S5
-	OSWdcQJRtzd65H1FJ7NGEDgmywR1tgNe3ZNfbzIPAUwWQlQUUFSZ7gXy8MbDzEal/KICTaNZVZ0Gi
-	TSyZteVg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=; b=VQL0CU65e4iEA3pvvKwc90Gi3q
+	QS8azCNa9p+3D1XtSfqy6pNxx73+xKilbtT5JczG7TWAv7njBkKk2VrIDX0KOnK8tm8v6JwCLiesc
+	0J+LXqihvwgWXYSWbUnhCAs/Lsz//FNjVIumonjIHrdDZSXDE1qPA78qviEeOli2XRnG3t+V5LebU
+	lF+EszP8tKO/MHRNK+YqtO5U0A4d+F85ZpHUSrOm/hKQQtjPq92pINEEHNPRU1+r3e9h6LWb91XEE
+	Uj19xjlXYysheAyrnv55UNqhtmeuVqFMAliHsKYDqqJh/GD6i0Ulg6K3p638Fc+JlQhhneBIkjdXT
+	FKToAy3g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtRRg-0000000EnVG-0ziK;
-	Fri, 20 Feb 2026 14:25:28 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vtRYq-0000000Eprm-3lMm;
+	Fri, 20 Feb 2026 14:32:52 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtRRe-0000000EnUD-0JEo
+	id 1vtRYn-0000000Epnx-3K0k
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Feb 2026 14:25:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771597523;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OECCMeypFHxrRoOewaiO0T6PUMLs0FQsh+k5BaXKk4g=;
-	b=ahGVCc4bZsKlN79yOtzesoFpbWJNVtTFjDGP3kx8zUnH/YMRWH789+fCnHWNhhh+jfgRKH
-	uhpJWsffn/SFRebyM+aPFEoG3kdPngD8Ih/wOfh9hw/lpsVkQNlTk1ZzZHWP3L2HQMeO/b
-	mZOeywZmgNiwD9Phl8rZ6zYd7pocTJQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-227-j29xDchaMBKLccF3kU7JhQ-1; Fri,
- 20 Feb 2026 09:25:19 -0500
-X-MC-Unique: j29xDchaMBKLccF3kU7JhQ-1
-X-Mimecast-MFC-AGG-ID: j29xDchaMBKLccF3kU7JhQ_1771597518
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 465CB1800366;
-	Fri, 20 Feb 2026 14:25:17 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.11])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4F271954117;
-	Fri, 20 Feb 2026 14:25:09 +0000 (UTC)
-Date: Fri, 20 Feb 2026 22:25:04 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Anuj gupta <anuj1072538@gmail.com>,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v3 0/4] io_uring/uring_cmd: allow non-iopoll cmds with
- IORING_SETUP_IOPOLL
-Message-ID: <aZhuwOku9lFe33UM@fedora>
-References: <20260219172228.429479-1-csander@purestorage.com>
+	Fri, 20 Feb 2026 14:32:51 +0000
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260220143238epoutp0469533eb728659e57ce92f4f24cf6aa5c~V_vUHFsJg2960529605epoutp04W
+	for <linux-nvme@lists.infradead.org>; Fri, 20 Feb 2026 14:32:38 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260220143238epoutp0469533eb728659e57ce92f4f24cf6aa5c~V_vUHFsJg2960529605epoutp04W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1771597958;
+	bh=MPy2dmqKlCsrw5okIZFwkiGzwVi0bWXg1j0NfWvMFRQ=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=Y+6sX1UVEGppiBox34YExXnxX7L3z+PYJ3h4gV0toSnFbyLz493wLQANe6uRpyPA7
+	 BDS7JC++v6+jh4JB2IAx6QdLpY0BqaLrmR+1Snv8hyZzWsmThJgtX5aFRsV1oBaoE7
+	 h8CKK6lr+Mb/n5Hy91gBDB3Es3VYKwlBICNZcHro=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20260220143238epcas5p44aaad8d33d1c301fe9f53269bfe7a354~V_vT6QZC80389803898epcas5p4i;
+	Fri, 20 Feb 2026 14:32:38 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.86]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4fHXlV0lT4z2SSKX; Fri, 20 Feb
+	2026 14:32:38 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260220143237epcas5p48692d42bb58ddf61b4a7be0873fdab3b~V_vTKgODF0388603886epcas5p4v;
+	Fri, 20 Feb 2026 14:32:37 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260220143236epsmtip1e6a6a37de340f5df06b2a482be967d44~V_vSbZ78S2547425474epsmtip1I;
+	Fri, 20 Feb 2026 14:32:36 +0000 (GMT)
+Message-ID: <425f828d-ddf6-4215-b72d-143e37b74851@samsung.com>
+Date: Fri, 20 Feb 2026 20:02:35 +0530
 MIME-Version: 1.0
-In-Reply-To: <20260219172228.429479-1-csander@purestorage.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: rPikbGdyX4P5aloYYkGQZcyWWMlOpevXTBAebmyxIN4_1771597518
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-core: do not pass empty queue_limits to
+ blk_mq_alloc_queue()
+To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org, dwagner@suse.de, mlombard@arkamax.eu
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20260220133016.524192-1-mlombard@redhat.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260220143237epcas5p48692d42bb58ddf61b4a7be0873fdab3b
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260220133056epcas5p1f981cf74d0f768d1251fdcac73fbca5f
+References: <CGME20260220133056epcas5p1f981cf74d0f768d1251fdcac73fbca5f@epcas5p1.samsung.com>
+	<20260220133016.524192-1-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260220_062526_183197_5A49FA2F 
-X-CRM114-Status: GOOD (  12.92  )
+X-CRM114-CacheID: sfid-20260220_063250_318279_7C538324 
+X-CRM114-Status: UNSURE (   5.47  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,23 +92,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 19, 2026 at 10:22:23AM -0700, Caleb Sander Mateos wrote:
-> Currently, creating an io_uring with IORING_SETUP_IOPOLL requires all
-> requests issued to it to support iopoll. This prevents, for example,
-> using ublk zero-copy together with IORING_SETUP_IOPOLL, as ublk
-> zero-copy buffer registrations are performed using a uring_cmd. There's
-> no technical reason why these non-iopoll uring_cmds can't be supported.
-> They will either complete synchronously or via an external mechanism
-> that calls io_uring_cmd_done(), so they don't need to be polled.
-
-For sync uring command, it is fine to support for IOPOLL.
-
-However, there are async uring command, which may be completed in irq
-context, or in multishot way, at least the later isn't supported in
-io_do_iopoll() yet.
-
-
-Thanks, 
-Ming
-
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
