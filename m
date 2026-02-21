@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D40CAC5DF7B
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5DC0C5DF7C
 	for <linux-nvme@archiver.kernel.org>; Sat, 21 Feb 2026 03:33:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,68 +12,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0AEEfE6xiusQnEvNeZM84fhKgvDhfLyCCrKC1bZTQl0=; b=Wcx7QyFK1ZyZK7w9MWDJ/AeGvO
-	7NhhBVh7mPxipCChnA9XeA8AYF99Xtd7xYJS9CpY3CI6D8jWXZIJbs3px6DKvrpXjrOz2I7LuaGum
-	jWCYwomWrcNvevGy9DEKN9F8wGRm/AVurTlEWsDLJBW0xQ448qh0Cc75VAkmi7Nsta+MN/+WaHree
-	9eFGgmsPlZfyzdtwg1nEi1e+j6y5UP7I9FoCdzkTVoMzReqOH5tD4hPfyCMmMUxflMfHlYf4F0okN
-	ksYOv+N9gXEoCsOuLvSIwiUolYNekL5Yyxb6FcopupcikOqQ50FAboSrjRtndMrmcqMPFn6PR5gaE
-	pxrVlE0g==;
+	bh=d5MnxCfiSl8pO88LgItQirBF6Sk69OYbyQL24d2UZK0=; b=cDZuujtYzQBOLApGoiKZPPBjrP
+	ASj/4RatVT8NjI6rEPCIcMNWxUayNWGNwaOap3t2vAF0ghntpLe9dQQ1PJ0sbtRqq65NACSX5+ujo
+	Zw/o5/zybeOaq9Xjm1FZYXG/tz18bnOxKQE3aJ56WmGcWJmKohVKfCSDjJ+UKknUJCLPSByLqYcWn
+	5bx4RPLw3hEF1qU0yMQBdECDX5/Q6ULPpiK0gPfi4qDCjE5tZUS4AtXOEmCLQBXyrQPVYyrGveq8K
+	M1swkxaZx4bfVjgMjMAtyDcCddTI6nh7JuFd99zem8fMZbxo2JCLaALMmqHpmxzExpiXLTtPvYbsS
+	PqKgrOpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtdk0-0000000Fnbk-4B87;
-	Sat, 21 Feb 2026 03:33:12 +0000
-Received: from mail-pf1-x461.google.com ([2607:f8b0:4864:20::461])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vtdjw-0000000FnWv-0bq6
-	for linux-nvme@lists.infradead.org;
+	id 1vtdjy-0000000FnZX-3DVz;
 	Sat, 21 Feb 2026 03:33:10 +0000
-Received: by mail-pf1-x461.google.com with SMTP id d2e1a72fcca58-8218237420eso220427b3a.1
-        for <linux-nvme@lists.infradead.org>; Fri, 20 Feb 2026 19:33:07 -0800 (PST)
+Received: from mail-pl1-x661.google.com ([2607:f8b0:4864:20::661])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vtdjw-0000000FnWy-0oX1
+	for linux-nvme@lists.infradead.org;
+	Sat, 21 Feb 2026 03:33:09 +0000
+Received: by mail-pl1-x661.google.com with SMTP id d9443c01a7336-2ab1c8fdc40so4139565ad.1
+        for <linux-nvme@lists.infradead.org>; Fri, 20 Feb 2026 19:33:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=purestorage.com; s=google2022; t=1771644787; x=1772249587; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0AEEfE6xiusQnEvNeZM84fhKgvDhfLyCCrKC1bZTQl0=;
-        b=LkbbnZvi1JNpnVJ1vgOWSa3vRduM/Di6ENvx/qMjBJPLKtIQIkIR2hhtATiG6n9A7/
-         MBIW4HkKmtyuPyQq77mpfmBWphploXfqrlyctyZ1iO0mt1kmM9MgbtsHzDKTUcxlVMoo
-         Vh2UI+9zybCqglnSu5AcBj6CwE1EWYBJFuj1JeQpBOWe0XQpY43bPfuifYRfCNm1mcKk
-         ykrtYJfVsnvsLhd33TTPcgcyPQjBgpXUYBP1DoQ0p+oiK6RBYHseCyiaKy+OU0OECRXA
-         It0FDtSPh3uVwdCK3dH7V6HjDH+IB7K9yI44Lhqfe46I1z7MLOsWjl9fNa/pFzn7TBZA
-         oniQ==
+        bh=d5MnxCfiSl8pO88LgItQirBF6Sk69OYbyQL24d2UZK0=;
+        b=S00ZBTsCTIW4FLanuW4XwzS9HL3h4pswLNfzOCU4BjXqe/cPVk3IArCSaHndxmlHXe
+         bw3GiUnUerdn8WNsJYjlbce4T/HyuNUFhjF3uz3k9cGTS03IntsFHK2X0R3rFXgYavVE
+         5ovhOa/Dr9vjazA+otLvnBf0nNVgRf7UHtFxTsyLa0nVbYf/FaT72TV9O1p868WAzpCr
+         azErbJha4GWL+hxhLW053nO+RFmODyXfd1XgpFhzdScXf1NBB5idx3E88nPQpg1hNFqn
+         dQ1td51AkB5hvMYKvQfZ13cK3AN/p1Orpn7VLQ/jRZ69Q7lrJmCejja7r0PxZCak47yi
+         ZX/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1771644787; x=1772249587;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0AEEfE6xiusQnEvNeZM84fhKgvDhfLyCCrKC1bZTQl0=;
-        b=P78pKMI98L0H71zta23WXDm8q5zOeD2yzqDfbn6WErrlgfaZ9xRIMg/E8Zw4iyB50/
-         vjcBUAT4yUkNc4OkKYUOvmwvdM9RiOFO8mV/bG4PlTiivmy/eO+F4OcasuZ+8ykuN/b1
-         1r5m5RUYSQ8OOYPQptM5eEQQK9fEwEPqde1/iOOe90LIsqR/ybp9NmqX7fEZ2s6qgOcD
-         WL40ip8fTgmSWoOT9DZX7/2+O61n+/qFUxIkCTUGWID9HfETKyCkHnj4YZ2CLHz0A7aq
-         wKH2rlOuRXz3nFEHqZsEGeNkdrwXTWveb4RUiCtbkoY4vyPm6cNeVsjwckBGm/+efkAw
-         rAiQ==
-X-Gm-Message-State: AOJu0Yw9ybMHLACpf7ahup7hzENhFmSC6QaHQfaIDMij2DpZRpQRTEKx
-	5iC4ATqGhv2AnxoZZIm5Br6O3PLJriNKAsX/vEfgd9ED8s4u7hL45dp1fJ2Yd6MCHbsgp7Fm+9x
-	0n8t2L++raUG6nYcasn+NT0xpYsnW7N7uZ71cpyeiLTDDXUtvo5PR
-X-Gm-Gg: AZuq6aI2UxKL2PanWFHjVBvHDMH1HSPfjDA8d08jutPGcATYgd+5SM0lBxmMFX12l4T
-	fgkFRp0SZ+/XejQskbrSFSTTilrQJAFoABWDA0oYpF54eF+XwjYSdw95lAwNDe2jRvF2RO/mWWN
-	SS5QrNZ5R4I8ONn4BYLHARqqRnE7KI/G5ohHYPMisw5NeYxKn8ZE8ElHRMZj1HQyd7BLhcGv2/P
-	v45Oz1rMuDNutJ/bkltrN4+QwE8RYoXfq++s+ICVXhCiRht2BSUsgrNUogubN9tC6YQCvXzbUEe
-	enMFkMoHvj1P9+DXFguv1qIDglGHmc5nbw16H786w4+pgmntz3BA/H0NJHkYYDGGEPZiMLYr0yU
-	SY7/3lCCTjjKp2OxG6206OiSKfOpY0n2oymk6cwQ=
-X-Received: by 2002:a05:6a00:1993:b0:7b7:90de:e18d with SMTP id d2e1a72fcca58-826daaf4226mr1064232b3a.6.1771644787098;
+        bh=d5MnxCfiSl8pO88LgItQirBF6Sk69OYbyQL24d2UZK0=;
+        b=jQCuNhxMi0EpBaJYCRWS2Dsatxxebvy54O/xUu7p2iGTf0BE34ZgVpHakBvWr7TeVZ
+         bsJc5UxZzva9PbNqxfxK1ZTb2+XD6P2NUlZt46+KlYKfCUuHvKTjtB/+myGGqqY107hW
+         5r+5Qi4f0cKoWWDw71QbZ5YVlLmja5ckqyDUIMFXXxMNVuEybboAWZzI4qDGr7w26h3U
+         +W3z22cTc7s1yZfw4miPiXvMSMHXFU6PXZN1b+FreXwTg0WLo4qiZu9jRBt+HgcBebM3
+         TlYjGYhrCqLVqxVK14XdzWQx7FuLwD1oee6voERWleSWk/U5FAP38Zb2ACrcd72QWyl1
+         ybrQ==
+X-Gm-Message-State: AOJu0YwizCmjXTOIvCX4EC5ksSL4AG9+ZPVGurwcFw//zi6CwQoSPYXu
+	/puTVQ/Fk8/xu4TpPhdaWe38bckp8MLny7ukv7JJKqJ5dZbgYoDH2yJpOn5mUIlnY6kOhDt58jm
+	Lzi5tpYktlklib0WGStxGxBP6LpDKPdurV4HAXdKy9OinWQoKo7Rh
+X-Gm-Gg: AZuq6aLILcmieNEKLV+8aUYJuYyT+38WylDEm7wLFIop7c5I/9RECjZ+4Mw3dM2DfA8
+	dvYQu6OjRmv4l0BU9FH3ohOAQJBhn1MBNv+RJ/LtDU6m+YJb5MVesuceawYi4bISmrtl/eZEu9u
+	7VuimAzAiTrp8HHmo1Ce1yOnoFbCgxjuho/41Yeovf3eDz3i254VGLMFPVMtbHTbE4wEs22/hJk
+	nNVevdD+dqBc4PvxjBSvDadiCUVrLRYSQ3+hqiShhuK5vEG4KfXICdu5+yqyaRc+q/z38IGwpjZ
+	nHtimGtCVTtT/yC+5Mz2TeqiqHx5T/GHbAagbCi+5WVBvTZ+P02TIb0nIK/pZbJCao615GxZeln
+	/O2LgbjAx+M52GRGsCnNFT7SdzM/mrg19ZWLYyjc=
+X-Received: by 2002:a17:902:f607:b0:2a3:bf5f:9267 with SMTP id d9443c01a7336-2ad744d1bddmr11993925ad.4.1771644787570;
         Fri, 20 Feb 2026 19:33:07 -0800 (PST)
 Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id d2e1a72fcca58-826dd844942sm164449b3a.7.2026.02.20.19.33.06
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2ad74e03b5asm1599765ad.2.2026.02.20.19.33.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 20 Feb 2026 19:33:07 -0800 (PST)
 X-Relaying-Domain: purestorage.com
 Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 55EEC340648;
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id C91E8340705;
 	Fri, 20 Feb 2026 20:33:06 -0700 (MST)
 Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 51094E427CB; Fri, 20 Feb 2026 20:33:06 -0700 (MST)
+	id BF616E427C8; Fri, 20 Feb 2026 20:33:05 -0700 (MST)
 From: Caleb Sander Mateos <csander@purestorage.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -83,17 +83,17 @@ To: Keith Busch <kbusch@kernel.org>,
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v2 7/7] nvmet: report NPDGL and NPDAL
-Date: Fri, 20 Feb 2026 20:33:02 -0700
-Message-ID: <20260221033302.1451669-8-csander@purestorage.com>
+Subject: [PATCH v2 4/7] nvme: always issue I/O Command Set specific Identify Namespace
+Date: Fri, 20 Feb 2026 20:32:59 -0700
+Message-ID: <20260221033302.1451669-5-csander@purestorage.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20260221033302.1451669-1-csander@purestorage.com>
 References: <20260221033302.1451669-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260220_193308_178056_8A763BDE 
-X-CRM114-Status: GOOD (  17.90  )
+X-CRM114-CacheID: sfid-20260220_193308_231037_DBF55282 
+X-CRM114-Status: GOOD (  16.87  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,100 +108,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A block device with a very large discard_granularity queue limit may not
-be able to report it in the 16-bit NPDG and NPDA fields in the Identify
-Namespace data structure. For this reason, version 2.1 of the NVMe specs
-added 32-bit fields NPDGL and NPDAL to the NVM Command Set Specific
-Identify Namespace structure. So report the discard_granularity there
-too and set OPTPERF to 11b to indicate those fields are supported.
+Currently, the I/O Command Set specific Identify Namespace structure is
+only fetched for controllers that support extended LBA formats. This is
+because struct nvme_id_ns_nvm is only used by nvme_configure_pi_elbas(),
+which is only called when the ELBAS bit is set in the CTRATT field of
+the Identify Controller structure.
+
+However, the I/O Command Set specific Identify Namespace structure will
+soon be used in nvme_update_disk_info(), so always try to obtain it in
+nvme_update_ns_info_block() if the controller supports NVMe version 2.0
+or later.
 
 Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/admin-cmd.c   |  2 ++
- drivers/nvme/target/io-cmd-bdev.c | 19 +++++++++++++++----
- drivers/nvme/target/nvmet.h       |  2 ++
- 3 files changed, 19 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 3da31bb1183e..72e733b62a2c 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -1056,10 +1056,12 @@ static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
- 	if (!id) {
- 		status = NVME_SC_INTERNAL;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bff6f26d7bcf..2b433478f328 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2352,11 +2352,11 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		ret = -ENXIO;
  		goto out;
  	}
-+	if (req->ns->bdev)
-+		nvmet_bdev_set_nvm_limits(req->ns->bdev, id);
- 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
- 	kfree(id);
- out:
- 	nvmet_req_complete(req, status);
- }
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index d94f885a56d9..485b5cd42e4f 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -28,15 +28,15 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
- 	id->nawun = lpp0b;
- 	id->nawupf = lpp0b;
- 	id->nacwu = lpp0b;
+ 	lbaf = nvme_lbaf_index(id->flbas);
  
- 	/*
--	 * OPTPERF = 01b indicates that the fields NPWG, NPWA, NPDG, NPDA, and
--	 * NOWS are defined for this namespace and should be used by
--	 * the host for I/O optimization.
-+	 * OPTPERF = 11b indicates that the fields NPWG, NPWA, NPDG, NPDA,
-+	 * NPDGL, NPDAL, and NOWS are defined for this namespace and should be
-+	 * used by the host for I/O optimization.
- 	 */
--	id->nsfeat |= 0x1 << NVME_NS_FEAT_OPTPERF_SHIFT;
-+	id->nsfeat |= 0x3 << NVME_NS_FEAT_OPTPERF_SHIFT;
- 	/* NPWG = Namespace Preferred Write Granularity. 0's based */
- 	id->npwg = to0based(bdev_io_min(bdev) / bdev_logical_block_size(bdev));
- 	/* NPWA = Namespace Preferred Write Alignment. 0's based */
- 	id->npwa = id->npwg;
- 	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
-@@ -50,10 +50,21 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
- 	/* Set WZDS and DRB if device supports unmapped write zeroes */
- 	if (bdev_write_zeroes_unmap_sectors(bdev))
- 		id->dlfeat = (1 << 3) | 0x1;
- }
+-	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_ELBAS) {
++	if (ns->ctrl->vs >= NVME_VS(2, 0, 0)) {
+ 		ret = nvme_identify_ns_nvm(ns->ctrl, info->nsid, &nvm);
+ 		if (ret < 0)
+ 			goto out;
+ 	}
  
-+void nvmet_bdev_set_nvm_limits(struct block_device *bdev,
-+			       struct nvme_id_ns_nvm *id)
-+{
-+	/*
-+	 * NPDGL = Namespace Preferred Deallocate Granularity Large
-+	 * NPDAL = Namespace Preferred Deallocate Alignment Large
-+	 */
-+	id->npdgl = id->npdal = cpu_to_le32(bdev_discard_granularity(bdev) /
-+					    bdev_logical_block_size(bdev));
-+}
-+
- void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
- {
- 	if (ns->bdev_file) {
- 		fput(ns->bdev_file);
- 		ns->bdev = NULL;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index b664b584fdc8..3a7efd9cb81a 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -547,10 +547,12 @@ void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl);
- void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl);
- 
- u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
- u32 nvmet_connect_cmd_data_len(struct nvmet_req *req);
- void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id);
-+void nvmet_bdev_set_nvm_limits(struct block_device *bdev,
-+			       struct nvme_id_ns_nvm *id);
- u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_bdev_zns_parse_io_cmd(struct nvmet_req *req);
- u32 nvmet_admin_cmd_data_len(struct nvmet_req *req);
- u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
 -- 
 2.45.2
 
