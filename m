@@ -4,111 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFBDAC636A0
-	for <linux-nvme@archiver.kernel.org>; Sun, 22 Feb 2026 15:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47C74C636B6
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Feb 2026 20:42:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3pLZO2XxRbGi6S5b/IAgjH0Kp7SFWr/FmhyWvV6Gwwo=; b=TMpEDfWRD87EmE3Eodh1Oy0/nN
-	pvv1HM87GU0pJliK42bWGWYRdMfFdyZAjqM1a0/eNha+i75sThMdkugjdXxM45eVhzhGSdbflossf
-	A6UcC9IqC7RwwrObymRgRaiFt9cpCkw6D8vN3Mi8L2qSHXbfLDCeo+QUq7e2080p528KIZJYyH61E
-	6zsnRjxZ10J0nb6jIU1h75f4gBoAoO6VwazpKbE8g06kioHZMIUj58KuO6pdttlU9Fkla2V3VSkXb
-	7Q8IOqfyVpSI1VjZUbyGIpYpC8/vnc5v4Mu/WODxGY+Fz3YqaJsSKEjWC2/A81R3Jw1WSB9ueY1JF
-	dp5ZrJHA==;
+	bh=zZTwSLil6o8k5yCa0yfQKc7kgAm4MwFkLJ1cSlsEfCM=; b=WX7z1/6QNTVtibyp1NVCLgBPPB
+	lowIhVV6mrkeVHaHioxHS900nztmZHwPw6v9doaPBseji6aAumCe8zXEPHGf4PO3+MnSG3U2SqvXM
+	bVnRcg/lZ3+MkqAL4aJSxkaNy9K6fVr8PQrElvTPAwVrYR+TWVtDi6ardjOLirPKEkzc6qWfR9Ml5
+	veIRshuQklafQS5e3M2yNpHr/8hIGhhkQT9QH4SFV53TBe7yT+ZQJNFGd0uJYfVB3ew5hg2qpJU52
+	Fvg3sRB/7jeVDmQzE4pKAAA24fn5bfcLG4HXSWMlNIw7W+4l+TVkCFylVK8eizECRxpcfqtk8sLHd
+	syeu4fNQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuB37-0000000GlfF-3l8M;
-	Sun, 22 Feb 2026 15:07:09 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vuGHk-0000000Gvlf-1U7O;
+	Sun, 22 Feb 2026 20:42:36 +0000
+Received: from mail-ed1-f50.google.com ([209.85.208.50])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuB35-0000000Gleu-1Ve1
+	id 1vuGHh-0000000GvlI-1hmF
 	for linux-nvme@lists.infradead.org;
-	Sun, 22 Feb 2026 15:07:08 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61M8UC0M1098719;
-	Sun, 22 Feb 2026 15:06:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=3pLZO2
-	XxRbGi6S5b/IAgjH0Kp7SFWr/FmhyWvV6Gwwo=; b=bcOGINUHdE9BUA9Kw8M4aY
-	myLAJmPuLE0N1JxSq1ccvpvCYSCHYh+XjHEHfqPJb5+ZKVX1z2yvpU9lQoZ+il4/
-	vvSxOQfEXo0mu88Zp8QbDQeXk8ve6cz9pxPNG0nu/N7eyc4AOa3C2dkUHM/ZtWzn
-	DAnIz2CCY8451inGRbSb3J6qZO2eQsYfQHPQwnzfxh+g5njExhNB6TaLCWQG7BAR
-	nvox7kASFJzmNOExlfQSgre5n2oE2Zp+yzbBvqdcfzvsIjbDiSXgkuDEsWKFqz1M
-	ZaRs8GrbSNM8PmyU3aX61G8lxeixHtFmQeATzSSgFVtxwtat0hQTia2+L/xMt6NQ
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf4e34822-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 22 Feb 2026 15:06:55 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61MA7ZTn004541;
-	Sun, 22 Feb 2026 15:06:54 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfs8jhgry-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 22 Feb 2026 15:06:54 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61MF6rXi33030810
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 22 Feb 2026 15:06:53 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 137A65805D;
-	Sun, 22 Feb 2026 15:06:53 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 899A55805C;
-	Sun, 22 Feb 2026 15:06:49 +0000 (GMT)
-Received: from [9.61.253.145] (unknown [9.61.253.145])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Sun, 22 Feb 2026 15:06:49 +0000 (GMT)
-Message-ID: <5fa4ac53-0303-4c60-92da-04026e718417@linux.ibm.com>
-Date: Sun, 22 Feb 2026 20:36:47 +0530
+	Sun, 22 Feb 2026 20:42:34 +0000
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-658b6757f7fso6671701a12.1
+        for <linux-nvme@lists.infradead.org>; Sun, 22 Feb 2026 12:42:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771792951; x=1772397751;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zZTwSLil6o8k5yCa0yfQKc7kgAm4MwFkLJ1cSlsEfCM=;
+        b=UTbI6OPBWuGPWydvWel+oz55Z/ZjqYCsznpqhyr4zKUvOFHnVMK0ZWn5GRrGp33LBT
+         HwnyzR9RMnYuxrZ95ra3nNrphLRU0TKnYgv4oH1n+7cZ9kEr6wl9ljC2+SaZnxOx8feL
+         Pgsw5m1x0RjlasUvDTX/XHNoBL98Uv6ck+0I0vl6YizBJI30ktACgcP6XwsMKwWppQ9e
+         ke7Xq4BKgUfUbDzzbO44LtIlX2CqthkAKdSAk6BmBNS+gE3pGVr5LJK32ntgNzg91vLx
+         VWLD26My4aBBE16MlNwmLuFfBwlk4u0Qphr4zBXCBewIp2q4WM5VyX8Ko1km9r7nzPfd
+         7spQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXg+HjorKXyIYFAxcEK+KnU75nxRJpCd50cxB67yrPwN1akiq59g55/Chc65hjVQL5sQjQfQ4HIEsOz@lists.infradead.org
+X-Gm-Message-State: AOJu0YyW7Qd9nZrqgpfYS5VEXtSuTJ6u1w/jfmyZZpAzkbfZzjcB0osX
+	Ajwdd7TU5aYfYw7RHLGJ4R25Vf8iLWAoDRitQEIJaP0OSC91wPFPOcBVGm2Mng2Tcfo=
+X-Gm-Gg: AZuq6aJZuhMosU/sQGMcNDMs8002kVFBnr7Tdz8YNclAY7E3YEI0EYizPUsC4dZvHRw
+	cDgQvoFtFQoSXxDbxhqmJlM+7yaWpdyuhpuXZ+16SKj4wFwt0C4xJ8G0nuXLgXq04uYihVWkN/L
+	NJg6EajPTAOxGVYUExr9GHP03s6To3gOl4NsU5/apmy3DSRRutaluVeVj7IkxyhoXlbyWiJlRFW
+	jzp0wyukXkR8CJaswnnBSSVI2HYS58nBaMlnI1vOeLDzi7XoRHLRzPBjofnw5H/S5sRuSxV1n1r
+	3i0buYWsZpOqXYaA9QLvYLN/VlobAAxippiEZC+ubq6dGf+3BmB2U7iKMIXUyrLsVJtNgcEeH1Y
+	d8LshUCAgC2kaug8RXc852jAmPt+vovBqp6oR6wFLGbOHJiH/Ylw52tcZOlEkXtlhVlK7ddK3hD
+	W5M+zHtFfTMGRGG6o0c5hdKvpoNiz3wc7Fwbdxm7XaHaSPwk/+e9X5W4g=
+X-Received: by 2002:a05:6402:2348:b0:65a:1b27:b64f with SMTP id 4fb4d7f45d1cf-65ea4ebe959mr3829982a12.13.1771792950740;
+        Sun, 22 Feb 2026 12:42:30 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65eab9abeadsm2015520a12.12.2026.02.22.12.42.26
+        for <linux-nvme@lists.infradead.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Feb 2026 12:42:28 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4358fb60802so2695571f8f.1
+        for <linux-nvme@lists.infradead.org>; Sun, 22 Feb 2026 12:42:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXcGUD2i2fkbGbrm2ZbyeKljpJYKNJhizTx7xmN43/9fA7b10n0UbRS79qnCA2t9Z1AHR0thjcZCkry@lists.infradead.org
+X-Received: by 2002:a05:6000:26ce:b0:435:96e9:cde8 with SMTP id
+ ffacd0b85a97d-4396fda9b18mr11126510f8f.12.1771792945976; Sun, 22 Feb 2026
+ 12:42:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 0/7] nvme: export additional diagnostic counters via
- sysfs
-Content-Language: en-GB
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, axboe@kernel.dk,
-        hch@lst.de, sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
-        wenxiong@linux.ibm.com, gjoyce@ibm.com
-References: <20260220175024.292898-1-nilay@linux.ibm.com>
- <37EF3123-DD53-4280-8299-DF49868CFF8E@linux.ibm.com>
- <a5861e66-b1fd-4ef8-815f-d4655880a22e@linux.ibm.com>
-From: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-In-Reply-To: <a5861e66-b1fd-4ef8-815f-d4655880a22e@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=XMs9iAhE c=1 sm=1 tr=0 ts=699b1b8f cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VnNF1IyMAAAA:8
- a=N06o56H0tzwM1UHp-ToA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: 8kNG06FgXwFiVbOsLT_795q9OhPU8kqN
-X-Proofpoint-ORIG-GUID: 8kNG06FgXwFiVbOsLT_795q9OhPU8kqN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIyMDE0MiBTYWx0ZWRfX0OvZ/7TjoaHY
- CNB0lgoMO9bxOGtJ/Bd8+0I3JJAhJ73+DlUZ17BaO1jkPRH5s2EOYMYcupyF3ntoEDZDMBoIg7T
- Xqe2x85rtNYZheGMzAGNW9e7zPGfYESoMvRixln3gkhDUBvXpcwD18sKtMFz3LKjWFSdDyV38ny
- KyaXJ3w2Rzq162gTikEtE0QEAoLX5PCN5ckN8AFwryU8iKpSmuRbfh5t4TgbCc0lviHXI+FJ8vf
- X/aAOlAtatR6Q2dres4uZxevhSWsj7wSfhfOFd7m/WX0bW2vP9TWQmp2r9yfJY4aXWsbS+bZZLo
- dloit93GkB05k+XFM6Pt8j4SiLSUsx/T/FyEdfVjZ4mRiCY+/diMPvILllLid4M5L4jyTvbPBDk
- 1bfd4gXtW6bbLQKG2Z3h5R5kkWbLKMMgI3AiY5uzsA8b8ZXUECXEea96y39eSevcu+q+dqzY+5q
- HomhydD9kvmX1+SmHdA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-22_03,2026-02-20_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
- clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602220142
+References: <20260216003541.161806-2-iam@sung-woo.kim>
+In-Reply-To: <20260216003541.161806-2-iam@sung-woo.kim>
+From: Sungwoo Kim <iam@sung-woo.kim>
+Date: Sun, 22 Feb 2026 15:42:09 -0500
+X-Gmail-Original-Message-ID: <CAJNyHpLi6VrrYdaLwFz_P=+FYcG2eMX6sL6MZmV-f1DjzzOwgg@mail.gmail.com>
+X-Gm-Features: AaiRm53c7fpNhWFEUrY_QoCJWcdpjGz_i_HGwj6aP3YALDWDpHnpAEKdfqYib60
+Message-ID: <CAJNyHpLi6VrrYdaLwFz_P=+FYcG2eMX6sL6MZmV-f1DjzzOwgg@mail.gmail.com>
+Subject: Re: [PATCH] nvme: fix memory allocator in nvme_pr_read_keys()
+To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Cc: Chao Shi <cshi008@fiu.edu>, Weidong Zhu <weizhu@fiu.edu>, Dave Tian <daveti@purdue.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260222_070707_440515_03BB9E02 
-X-CRM114-Status: GOOD (  11.95  )
+X-CRM114-CacheID: sfid-20260222_124233_471210_9607A650 
+X-CRM114-Status: GOOD (  20.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,78 +96,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+Gentle ping.
 
-On 22/02/26 7:40 pm, Nilay Shroff wrote:
+On Sun, Feb 15, 2026 at 7:35=E2=80=AFPM Sungwoo Kim <iam@sung-woo.kim> wrot=
+e:
 >
-> On 2/22/26 6:06 PM, Venkat wrote:
->> Hello Nilay,
->>
->> I tested this patch series and found couple of attributes are missing.
->>
->> Missing diag counters:
->>
->> 1. I/O requeue count
->> 2. I/O failure count
-> These counters are exported under head node. So you should be able
-> to access it under here:
+> If IOC_PR_READ_KEYS is called with num_keys =3D=3D PR_KEYS_MAX,
+> nvme_pr_read_keys() may request more than 4MB memory via kzalloc().
+> This always fails since kzalloc() does not allocate memory more than
+> 4MB. As a result, ioctl() fails with ENOMEM, which is incorrect.
+> To fix this, use kvzalloc() instead of kzalloc().
 >
-> # ll /sys/block/nvme3nX
-
-
-Thanks Nilay, for pointing it to me. With this, all the counters are 
-exposed.
-
-
-
-Tested-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-
-
-=== /sys/block/nvme4n1 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n10 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n2 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n3 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n4 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n5 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n6 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n7 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n8 ===
-fail_no_available_path
-requeue_no_usable_path
-
-=== /sys/block/nvme4n9 ===
-fail_no_available_path
-requeue_no_usable_path
-
-
-Regards,
-
-Venkat.
-
+> WARNING: mm/page_alloc.c:5216 at __alloc_frozen_pages_noprof+0x5aa/0x2300=
+ mm/page_alloc.c:5216, CPU#1: syz-executor117/272
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 272 Comm: syz-executor117 Not tainted 6.19.0 #1 PREEMP=
+T(voluntary)
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-=
+ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+> RIP: 0010:__alloc_frozen_pages_noprof+0x5aa/0x2300 mm/page_alloc.c:5216
+> Code: ff 83 bd a8 fe ff ff 0a 0f 86 69 fb ff ff 0f b6 1d f9 f9 c4 04 80 f=
+b 01 0f 87 3b 76 30 ff 83 e3 01 75 09 c6 05 e4 f9 c4 04 01 <0f> 0b 48 c7 85=
+ 70 fe ff ff 00 00 00 00 e9 8f fd ff ff 31 c0 e9 0d
+> RSP: 0018:ffffc90000fcf450 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: 1ffff920001f9ea0
+> RDX: 0000000000000000 RSI: 000000000000000b RDI: 0000000000040dc0
+> RBP: ffffc90000fcf648 R08: ffff88800b6c3380 R09: 0000000000000001
+> R10: ffffc90000fcf840 R11: ffff88807ffad280 R12: 0000000000000000
+> R13: 0000000000040dc0 R14: 0000000000000001 R15: ffffc90000fcf620
+> FS:  0000555565db33c0(0000) GS:ffff8880be26c000(0000) knlGS:0000000000000=
+000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 000000002000000c CR3: 0000000003b72000 CR4: 00000000000006f0
+> Call Trace:
+>  <TASK>
+>  alloc_pages_mpol+0x236/0x4d0 mm/mempolicy.c:2486
+>  alloc_frozen_pages_noprof+0x149/0x180 mm/mempolicy.c:2557
+>  ___kmalloc_large_node+0x10c/0x140 mm/slub.c:5598
+>  __kmalloc_large_node_noprof+0x25/0xc0 mm/slub.c:5629
+>  __do_kmalloc_node mm/slub.c:5645 [inline]
+>  __kmalloc_noprof+0x483/0x6f0 mm/slub.c:5669
+>  kmalloc_noprof include/linux/slab.h:961 [inline]
+>  kzalloc_noprof include/linux/slab.h:1094 [inline]
+>  nvme_pr_read_keys+0x8f/0x4c0 drivers/nvme/host/pr.c:245
+>  blkdev_pr_read_keys block/ioctl.c:456 [inline]
+>  blkdev_common_ioctl+0x1b71/0x29b0 block/ioctl.c:730
+>  blkdev_ioctl+0x299/0x700 block/ioctl.c:786
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:597 [inline]
+>  __se_sys_ioctl fs/ioctl.c:583 [inline]
+>  __x64_sys_ioctl+0x1bf/0x220 fs/ioctl.c:583
+>  x64_sys_call+0x1280/0x21b0 mnt/fuzznvme_1/fuzznvme/linux-build/v6.19/./a=
+rch/x86/include/generated/asm/syscalls_64.h:17
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x71/0x330 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> RIP: 0033:0x7fb893d3108d
+> Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f=
+7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff=
+ ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007ffff61f2f38 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 00007ffff61f3138 RCX: 00007fb893d3108d
+> RDX: 0000000020000040 RSI: 00000000c01070ce RDI: 0000000000000003
+> RBP: 0000000000000001 R08: 0000000000000000 R09: 00007ffff61f3138
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+> R13: 00007ffff61f3128 R14: 00007fb893dae530 R15: 0000000000000001
+>  </TASK>
 >
-> Thanks,
-> --Nilay
+> Fixes: 5fd96a4e15de (nvme: Add pr_ops read_keys support)
+> Acked-by: Chao Shi <cshi008@fiu.edu>
+> Acked-by: Weidong Zhu <weizhu@fiu.edu>
+> Acked-by: Dave Tian <daveti@purdue.edu>
+> Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
+> ---
+>  drivers/nvme/host/pr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
+> index ad2ecc2f4..5394b6cb0 100644
+> --- a/drivers/nvme/host/pr.c
+> +++ b/drivers/nvme/host/pr.c
+> @@ -242,7 +242,7 @@ static int nvme_pr_read_keys(struct block_device *bde=
+v,
+>         if (rse_len > U32_MAX)
+>                 return -EINVAL;
+>
+> -       rse =3D kzalloc(rse_len, GFP_KERNEL);
+> +       rse =3D kvzalloc(rse_len, GFP_KERNEL);
+>         if (!rse)
+>                 return -ENOMEM;
+>
+> --
+> 2.47.3
+>
 
