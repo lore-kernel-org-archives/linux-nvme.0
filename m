@@ -4,70 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFD12EC1112
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 17:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54103EC1112
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 17:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P90vw/KWtem1WCNNgNpg1BwJkR7vXWZPVCTvb7IRCEA=; b=IZ3YXaVcYPgMVI4RpSNzAuGVGB
-	bt2PfAseBG3G4rAWjWYs3b+fL3eeogEAtz/lpsIganf7axXQ865w2wkOhBxOzkh3sdkqlF61cWE/A
-	qYQKw7i1O6OhvfM5ZzpPHXDuOJpzDnnJ7I7SYrpc12osxXQhemYH1paO+38yj6HfRfF5KbH1NMjXM
-	WqgeAIhiSYRnqe117zsjzTjemX4NRftuYlQlORUiGQqVKeysc6mWLhLU0N+iIHpO0kFVc13I5tPgl
-	/Ao+kel6oVLLgwjIC9n1Vn4k+aVC1CPD2/br12XxqTOPS5WZAp31u/Rr/Cp84AO2GTfS3mPsd61WG
-	1ssJerbw==;
+	bh=orzynsfZe+CfKZLFbnSw+MMwoOIvE1/9JZb6UfpnxUs=; b=Vi8dPNQHU7/EOXPux5HNJzUCNc
+	CbENs6oAPLkkyqJbj4xQkhyUmDgyD4aIAn/YH7ejBz9edDex1HvPzvNS3K8tWM5arVQT4/YR3P3Ma
+	TpcexD6LKDHOd3exhFPwrGCs1nV8Uy4eA9jb/r9fKFVP2/0oBxhQw8lmK5ASwGAAxqaK1H+pM6TFC
+	+Wk2XY8rArE/0sz1WbrnuSvXvfg5YBzXPCzjgNgqVnduiBKgyD+ndxeg36QNkoW5iiAx9qXJ4I01x
+	B6P1IWfn4B1WwRU5WPMN1RBdAZ8Y2vzV8sGCDRYXHXCiLCB+nZozCHmaz/x4dvr7tt+NoyT4Ie4jW
+	B0nCExdw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuZe9-00000000lbZ-1QPp;
-	Mon, 23 Feb 2026 17:23:01 +0000
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+	id 1vuZeD-00000000ldI-2iEL;
+	Mon, 23 Feb 2026 17:23:05 +0000
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuZe6-00000000las-2Vjg
+	id 1vuZeC-00000000lcS-0Dk7
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Feb 2026 17:22:59 +0000
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-c70bfef17a4so1086928a12.2
-        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 09:22:58 -0800 (PST)
+	Mon, 23 Feb 2026 17:23:05 +0000
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-8249aca0affso2384282b3a.3
+        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 09:23:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudlinux.com; s=google; t=1771867378; x=1772472178; darn=lists.infradead.org;
+        d=cloudlinux.com; s=google; t=1771867383; x=1772472183; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P90vw/KWtem1WCNNgNpg1BwJkR7vXWZPVCTvb7IRCEA=;
-        b=SzD7l9j4JsG0DhqkdgSZyCZlFSGcZjGn6MFh1TmD82QIESg7X0p1NCfxX/DXFnB2Ca
-         ogENd7jDjW2IJojqkXdfx7nhgjP4ApnGOie4cBhqg/liyFEQG6zD5A5Dx6prQxjA8k33
-         ttuSv244GRGVAYiFehXVUWX+y9iY8zfEEkf9YtEZulAIlZOKPV3rNHNeLea0vUy3uGau
-         d9q5SDzOdcgh0WV55mZ+r/SeQTk4qaQAYUK9PpgORsGLWx5/DLIj0EmceXa9eybQd6V7
-         8nPhHWAvZCpC5lhZ6SVUCZcyaEddHLnlF/P3VQYELu0XsnorxnSARwmcemfPHfTvSOOB
-         UzKQ==
+        bh=orzynsfZe+CfKZLFbnSw+MMwoOIvE1/9JZb6UfpnxUs=;
+        b=JngwHyZF0+dsidgehg8U51Mqt0ENQ0XZvvJqs9tLQ3N4+JcS09YYBF4rKRK0MGLuU1
+         FZZZHyUsLudLmWBLpFfoi1F2ZvXS/iddi8HxvxX7BbIAfEDokxdsWfv1kp01HMdH8LQL
+         y1trUK94ZxMttBXuMdkq+22WqLVJHKYdP1+tbRSr/BBJAOBx9TresAlSUqyEnnnEc4mJ
+         F8LKIPqwENLNSGfQ5i8aH3cXM0EAwCJWB3PqvU2wMe/9P/MtAvH0cClswsUZQ1jQM+LC
+         23wBup3VyJRJWZnhA+iStfDl7w2VSjtiR7nGzybysq4BXDF1JAbaxig1URn/U50oBpa+
+         MUPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771867378; x=1772472178;
+        d=1e100.net; s=20230601; t=1771867383; x=1772472183;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=P90vw/KWtem1WCNNgNpg1BwJkR7vXWZPVCTvb7IRCEA=;
-        b=aS+xeGKfQi1+k62ikHQLnPVbvMFPHX5WEQf6wCb5v6qUjACZOsXqPp5x3lZk9P3FjQ
-         wE5tgu0PAVa9jksXtJFlbmM7+CqZEvqJ75vWBgp0/88INYtx1KTAMEyokU4S3jd2RSHn
-         iwWk0TTZCaokrRnuJSu8Sf6VNAs77aA+70IhGk4BJ2IlnyMSLyFwlfOJWGFEsGnuXfrY
-         +IP8hA74YI0kpazJiBKXM9i3wCm08idsDFPVajsdDtXn5mgOsBN+TZ4NSGmWpP4LON6b
-         vvM9IdU+hhWoP0wmFcHLe71j7hxy7D42RdOmu2WFJMiU76UH3WDBlkPoJIipyy2qMucP
-         EoVA==
-X-Gm-Message-State: AOJu0YxAlnfO5C692Zy+J0kFe8ySyr3sMKLqIg98fjD5o5DkU8uBzTHq
-	Rw8jwQvQnW6nRL9r54ESdMqSpyUzKrx0LGdywra8mNxVqxMqmFD21vOAcJJEuNsoMyM=
-X-Gm-Gg: AZuq6aJJtDcOCFVng9fx64RYqezpfKL0EUIaDkz1OwSnbgG3AV5Njnt9gOdbPygmri7
-	msKEYpA/IlQgJfCM2X2akkiZvmhYsIp9fDYZ81kshWyDHipgvFTmeLVIpEcjbBjigGg9xra0dQ1
-	fZGHcr+PF0TkM+TmEvw+mjsYhh+f+Trken7GeMC/jGDHCme5MVEEsBZjDoafKud0XGl5McRKcyZ
-	wNgnC6PPJINqMSsjlSoWaWHdXYLbc5TBQ5LmNd7tVI0xwd6hhFmVyMo2fIwCQBbCfd3xFH+/1O9
-	jnqycBH71T5XEc97Zqzj7KF8oOA4rkbT83/i/aINMfz3r8Imgf1UAqdiFEOQ8ewJ833t9Ghxp1f
-	F8gX/mhyncPOv5FNCcFemuijr7sc+bB7qca5aaGquluU4zXMZe8bZs1N7eaUy5SMvOS74r5IhJs
-	W1i/ZL618MQvFZpJnf0PzKvrVJQbJCmtE=
-X-Received: by 2002:a05:6a20:1595:b0:393:73e5:7404 with SMTP id adf61e73a8af0-39545f88f2bmr8621279637.52.1771867377615;
-        Mon, 23 Feb 2026 09:22:57 -0800 (PST)
+        bh=orzynsfZe+CfKZLFbnSw+MMwoOIvE1/9JZb6UfpnxUs=;
+        b=exa1mxBI1mSmkdQoGOS01mqWVlB6wEIt/ZqkHId/g2+ENrO+q2AZI83/wL+ZTElG3i
+         gdxLZdGKALDeRmQAh+9NOeAw7YrKMMYVXqN9g3IOPQZElnak4QpTgEcUE9Ga+lokyJVZ
+         1+UDadY1eRrkOzC6/aGV++JldBMD4P1AGuSKZopIYTbSXgv4oGl+ajrAQcbcmFrrZk7y
+         wAGdIr9m834b5AeAVlygL5pcH2fk+v6m9T1QW8jss4hu/VDjGo3pvsMwF2Xp7wnpQwWl
+         P9o7wWiWyrnGDfaR90OEx0jLhS7RgcB6rUEUdZkgCDvQktci7QyCPWPlegDEIpEb2//y
+         qFJA==
+X-Gm-Message-State: AOJu0Yy2mhhSVm8BY4xUX58lUr/aLY3NisFil5SeqpNmavKDd96dWtpX
+	85t1i48CXSyPX8fl0qFWYtTKUR5LibRsJuKThZqhRj9pvXG0gV5u+ysa1JRcnCLWw8A=
+X-Gm-Gg: AZuq6aKKmb53TyiqL64PZWWQfizNq9FPaU2Z1u6sXJ9yXW5h3K/ZqwkJItqbZTzJDB7
+	/0AAJobB4cl4dfA3p6D40V5desMy23s88rJuLArTRWhM6vkfHYhN3NqFI75vPREODbhhc0rnT+6
+	u5oaAyzya5qbahX/PrSDoJCD+8FNGYO8QhGjSHv97Na1Zw6jeCXEUtxTThAFnn/kKNuHAIG6lie
+	ElAff5+SQyNxoUscGQJZ+U+wTZxvd+ncgD4zFH2Qr9kBTlvJSSs6AQpKkk/41I1h61xAxh23Gbq
+	yWihwVVxakZtdNC2WGXbg9LPIg6yNL7qtNnXDpvRNPm65SdsCnXSoCSisAK5bKudzywRVNFrpZh
+	z4zsid8HqDrwBuZwTrcfiLmNfAKAz+MwNmQO7W9Awa9caYu/OT38hzSMWLD2QR2YLSZhbQp9Alv
+	1+2jnjLr7HJ+Vt4NNdNazmicbZOAU+Cys=
+X-Received: by 2002:a05:6a21:1519:b0:38d:ee68:2c60 with SMTP id adf61e73a8af0-39545f8b3c4mr8941153637.52.1771867383087;
+        Mon, 23 Feb 2026 09:23:03 -0800 (PST)
 Received: from outpost.localdomain ([110.44.9.85])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70b7269771sm7942918a12.30.2026.02.23.09.22.54
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70b7269771sm7942918a12.30.2026.02.23.09.22.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 09:22:57 -0800 (PST)
+        Mon, 23 Feb 2026 09:23:02 -0800 (PST)
 From: Jaskaran Singh <jsingh@cloudlinux.com>
 To: stable@vger.kernel.org,
 	james.smart@broadcom.com,
@@ -78,18 +78,21 @@ To: stable@vger.kernel.org,
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	gregkh@linuxfoundation.org,
-	Jaskaran Singh <jsingh@cloudlinux.com>
-Subject: [PATCH 5.10.y 1/2] Revert "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()"
-Date: Mon, 23 Feb 2026 22:52:40 +0530
-Message-Id: <20260223172241.291649-2-jsingh@cloudlinux.com>
+	Jaskaran Singh <jsingh@cloudlinux.com>,
+	Marco Patalano <mpatalan@redhat.com>,
+	Justin Tee <justin.tee@broadcom.com>,
+	"Ewan D . Milne" <emilne@redhat.com>
+Subject: [PATCH 5.10.y 2/2] nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
+Date: Mon, 23 Feb 2026 22:52:41 +0530
+Message-Id: <20260223172241.291649-3-jsingh@cloudlinux.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260223172241.291649-1-jsingh@cloudlinux.com>
 References: <20260223172241.291649-1-jsingh@cloudlinux.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260223_092258_639917_E304164A 
-X-CRM114-Status: GOOD (  11.85  )
+X-CRM114-CacheID: sfid-20260223_092304_096352_79BD4273 
+X-CRM114-Status: GOOD (  14.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,39 +107,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This reverts commit 3d78e8e01251da032a5f7cbc9728e4ab1a5a5464.
+commit 0a2c5495b6d1ecb0fa18ef6631450f391a888256 upstream.
 
-The backport of upstream commit 0a2c5495b6d1 was incorrectly applied.
-The cancel_work_sync() call for ->ioerr_work was added to
-nvme_fc_reset_ctrl_work() instead of nvme_fc_delete_ctrl().
+nvme_fc_delete_assocation() waits for pending I/O to complete before
+returning, and an error can cause ->ioerr_work to be queued after
+cancel_work_sync() had been called.  Move the call to cancel_work_sync() to
+be after nvme_fc_delete_association() to ensure ->ioerr_work is not running
+when the nvme_fc_ctrl object is freed.  Otherwise the following can occur:
 
-Revert this commit so the correct fix can be applied.
+[ 1135.911754] list_del corruption, ff2d24c8093f31f8->next is NULL
+[ 1135.917705] ------------[ cut here ]------------
+[ 1135.922336] kernel BUG at lib/list_debug.c:52!
+[ 1135.926784] Oops: invalid opcode: 0000 [#1] SMP NOPTI
+[ 1135.931851] CPU: 48 UID: 0 PID: 726 Comm: kworker/u449:23 Kdump: loaded Not tainted 6.12.0 #1 PREEMPT(voluntary)
+[ 1135.943490] Hardware name: Dell Inc. PowerEdge R660/0HGTK9, BIOS 2.5.4 01/16/2025
+[ 1135.950969] Workqueue:  0x0 (nvme-wq)
+[ 1135.954673] RIP: 0010:__list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1135.961041] Code: c7 c7 98 68 72 94 e8 26 45 fe ff 0f 0b 48 c7 c7 70 68 72 94 e8 18 45 fe ff 0f 0b 48 89 fe 48 c7 c7 80 69 72 94 e8 07 45 fe ff <0f> 0b 48 89 d1 48 c7 c7 a0 6a 72 94 48 89 c2 e8 f3 44 fe ff 0f 0b
+[ 1135.979788] RSP: 0018:ff579b19482d3e50 EFLAGS: 00010046
+[ 1135.985015] RAX: 0000000000000033 RBX: ff2d24c8093f31f0 RCX: 0000000000000000
+[ 1135.992148] RDX: 0000000000000000 RSI: ff2d24d6bfa1d0c0 RDI: ff2d24d6bfa1d0c0
+[ 1135.999278] RBP: ff2d24c8093f31f8 R08: 0000000000000000 R09: ffffffff951e2b08
+[ 1136.006413] R10: ffffffff95122ac8 R11: 0000000000000003 R12: ff2d24c78697c100
+[ 1136.013546] R13: fffffffffffffff8 R14: 0000000000000000 R15: ff2d24c78697c0c0
+[ 1136.020677] FS:  0000000000000000(0000) GS:ff2d24d6bfa00000(0000) knlGS:0000000000000000
+[ 1136.028765] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1136.034510] CR2: 00007fd207f90b80 CR3: 000000163ea22003 CR4: 0000000000f73ef0
+[ 1136.041641] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 1136.048776] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+[ 1136.055910] PKRU: 55555554
+[ 1136.058623] Call Trace:
+[ 1136.061074]  <TASK>
+[ 1136.063179]  ? show_trace_log_lvl+0x1b0/0x2f0
+[ 1136.067540]  ? show_trace_log_lvl+0x1b0/0x2f0
+[ 1136.071898]  ? move_linked_works+0x4a/0xa0
+[ 1136.075998]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.081744]  ? __die_body.cold+0x8/0x12
+[ 1136.085584]  ? die+0x2e/0x50
+[ 1136.088469]  ? do_trap+0xca/0x110
+[ 1136.091789]  ? do_error_trap+0x65/0x80
+[ 1136.095543]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.101289]  ? exc_invalid_op+0x50/0x70
+[ 1136.105127]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.110874]  ? asm_exc_invalid_op+0x1a/0x20
+[ 1136.115059]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.120806]  move_linked_works+0x4a/0xa0
+[ 1136.124733]  worker_thread+0x216/0x3a0
+[ 1136.128485]  ? __pfx_worker_thread+0x10/0x10
+[ 1136.132758]  kthread+0xfa/0x240
+[ 1136.135904]  ? __pfx_kthread+0x10/0x10
+[ 1136.139657]  ret_from_fork+0x31/0x50
+[ 1136.143236]  ? __pfx_kthread+0x10/0x10
+[ 1136.146988]  ret_from_fork_asm+0x1a/0x30
+[ 1136.150915]  </TASK>
 
+Fixes: 19fce0470f05 ("nvme-fc: avoid calling _nvme_fc_abort_outstanding_ios from interrupt context")
+Cc: stable@vger.kernel.org
+Tested-by: Marco Patalano <mpatalan@redhat.com>
+Reviewed-by: Justin Tee <justin.tee@broadcom.com>
+Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Jaskaran Singh <jsingh@cloudlinux.com>
 ---
  drivers/nvme/host/fc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index db905c30fbc6..31a9ae0eb2a7 100644
+index 31a9ae0eb2a7..3deca0d9a26b 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -3259,6 +3259,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+@@ -3259,13 +3259,13 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
  {
  	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
  
-+	cancel_work_sync(&ctrl->ioerr_work);
+-	cancel_work_sync(&ctrl->ioerr_work);
  	cancel_delayed_work_sync(&ctrl->connect_work);
  	/*
  	 * kill the association on the link side.  this will block
-@@ -3322,7 +3323,6 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
- 
- 	/* will block will waiting for io to terminate */
+ 	 * waiting for io to terminate
+ 	 */
  	nvme_fc_delete_association(ctrl);
--	cancel_work_sync(&ctrl->ioerr_work);
++	cancel_work_sync(&ctrl->ioerr_work);
+ }
  
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
- 		dev_err(ctrl->ctrl.device,
+ static void
 -- 
 2.43.7
 
