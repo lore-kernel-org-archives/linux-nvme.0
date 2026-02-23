@@ -4,69 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37BFDEC110E
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 17:24:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB11DEC1112
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 17:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=bvVS//J2RIviT1EM5PNeofKo+JkNGh+uX8BdQ0DJA+0=; b=FVRl7HCpfxFKyQ+EyL1IZvAX8+
-	O04CS0DMHyyrhB137Eur62UeKgAVqQXxznaGMVBlrePW2AlWf0uYD9qzLokiC5i0QPryqhqYomqup
-	V83bJurd+PCqd0kw0ct+ITjQd4EMXk4wmWXg/Xy10umurTyQD54jCwwlhlIqvhxhigph/xUjUQrW9
-	PlUzx4H62HYkISDOD1FnRig1AXu2feuj8FHhSM4mkszOJ0hFdiVSlEEfhP69RQLhkr3e73oa3YXe/
-	lrH+Xu+9dfi+uVUb9BKMqeJp3/1bgYwiM1Pzpn74RUxCJxt6UNEQRjbaFnRG9X8RDHq79FTpvKyTW
-	GWLPVrjA==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WNHyGNAyEqFR3uHLeuiUimMy9GKVCPy3eo7HwiOI0Rs=; b=lC9+TkM5Wo5ChlIxS8T3mfc6Vw
+	3tOwwr3fOccIApWkAopz1bw99o7Ac3ZW1FZ/S9UFJ7PI9/t2TVC0dYMddz6eZZMv20CmuJTlCNcxw
+	sVr84cNWV33MakYXxTPB0wkRc0auj0qtcBknRBgorUAb+9qPPrCuAfUdzJyDkTcJFC0HhX2e/LKMF
+	g4gACuFwQqOpBJ4v14tAPptTCh0+Uv4Tz2cGfQrITvBRsb/1flus21mF82R1vDuIc3mgI6txjjdZI
+	FQ0nugWTJgDtjP4T7x/sFQffa7SsvbHn0O9dgAfGL2LZB7g0E5m09AOP8BzKS7Q64weGGUCfw0zm+
+	WamfIBKw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuZfL-00000000m5x-2oXF;
-	Mon, 23 Feb 2026 17:24:15 +0000
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+	id 1vuZfQ-00000000m9W-0v1L;
+	Mon, 23 Feb 2026 17:24:20 +0000
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuZfJ-00000000m4p-30cj
+	id 1vuZfN-00000000m7J-2fMQ
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Feb 2026 17:24:14 +0000
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-82361bcbd8fso2318157b3a.0
-        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 09:24:13 -0800 (PST)
+	Mon, 23 Feb 2026 17:24:18 +0000
+Received: by mail-pg1-x533.google.com with SMTP id 41be03b00d2f7-c6de0527ce1so2596478a12.2
+        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 09:24:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudlinux.com; s=google; t=1771867453; x=1772472253; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bvVS//J2RIviT1EM5PNeofKo+JkNGh+uX8BdQ0DJA+0=;
-        b=ljt4+biBsHX1XNmw3J986ukijUgJpU6Aczze5aVtRgtnxVe50Iu9ucmB/cer8/BSp4
-         94rmkzBV3r4gteelN3lfDEpJTwoG+I716ci3nfgw5/sn33HmQBSVemhWACY20P41F6p+
-         Tz4gBfNwPbRDrSJ+664uz88e+yabmmEIeoFG6Ir0pCCiTkSFuKmRmrFjVbvzOf9GZmZS
-         ZgElhRnSGpvy2JuAQ/EB6K5FTHDVkIDY5OFL/IaQzH5RbpIgqD4NOHZbRM0cC1svX9vf
-         AxGS+DU4dUan9MYVolK9XRsiQ9FoHYGGaetIktweFYBwH+hIdJbpG+vyxBCjLFE1pCAN
-         kMvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771867453; x=1772472253;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=cloudlinux.com; s=google; t=1771867457; x=1772472257; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bvVS//J2RIviT1EM5PNeofKo+JkNGh+uX8BdQ0DJA+0=;
-        b=qpVvk1dsKbau6J9qYjUjdaoPp3ptMxngyrFecGjQL1CAMU7tOQfP2PjONH8LJ03T0n
-         +qyCUeBTNrN3Fy2L78KaLiPBD5Pe2ZLVDYZFSwOdHg2giv3lBB0GfOQs9O4ZqyzDe4HE
-         O9vtUCSEFQ8wk3Kl+muLtRO7NsUBTbmZq6HshnMDRKkwgcH57BVGvVGtuLFvEkKUKB7m
-         EuUWAmsB7nnbrqJOaiT9x8R5/qD0zpvizXCCzLCrye5HNUrt10jhCN4loqW1DXsuriSP
-         y5KlyfoyXGbt7k3P3pT8WXUgKVFNOZyINr5+VoTiPhvDXxEgT/Fyj/J0Z4kZ2T5oRmnp
-         5FrA==
-X-Gm-Message-State: AOJu0YzctVTya8bHu2QZllYSwLakyYiUIVr6BfmAiKhF+WDH9phxocIC
-	yC590Dd+7oNLVrUu3uwXGsJB/r0e73pOBnMZ37kgAKIPhDiotZPZpzy6KpTd11Doryg=
-X-Gm-Gg: AZuq6aJfSrvG3o5A4DvVOF/3ieVYw23jyiMGln5HIDw5rgNJ1Qf3y4YnSTa+9JS3Hie
-	iSZgc+6O2UuOJw/E73EGicAXWtsNuuVnq3l4P9+9t2kaQvpxZ1ED0ng4KLNTvPOTvUn1CqIXzzh
-	qQG4Kn1381rY+pd67fxS6Frbcmgq07ZPUMn/Or24xsYKKbbYgtHvuejkfO6jlOGrv7PsM14cAPD
-	PDMRUbIT5zJkKsJvCmP3ecaJKOmpYY1FnURyzt+/GjaY9l9g73k6g8Y3jIzfimqjHBGWx2ToCao
-	8CGITBz09Ype8HXaj4J7cjBcIGsOLs7acwCvSkFz12Pdd4kYJvhbXjz2NEPE9GiQrLtU/1zwzpC
-	kKzHoR/6oeO3W3NnpWdPGR4ZSgzbWFY07tHLKcPbFlhWETYhhqsI0UjWEb+pIsShPZnbfC29nU0
-	YytF40IjLno6HSuige6EB/IDhDlFdwDNo=
-X-Received: by 2002:a05:6a20:2593:b0:38e:9ae0:3d5f with SMTP id adf61e73a8af0-39545ea4176mr8013265637.17.1771867452758;
-        Mon, 23 Feb 2026 09:24:12 -0800 (PST)
+        bh=WNHyGNAyEqFR3uHLeuiUimMy9GKVCPy3eo7HwiOI0Rs=;
+        b=hAc88JFI7vm/cvxZmTqZcl4FOzL/mCzxEwjSMXqujxBboX8UXkRmIkvP1A+B2ywtm8
+         qPBc7bGTFpTlGSxmDp2SdDBkrprN55kbs5MLsZVM2J+hTq7BWsQcdDecKkO8FHaYDvc5
+         7GNvCPQkFqIqXD8/4krS+Y5xYOCaUcIGPP1c8ldN52CrVJk9HDcQCrIgB9UaxqQfZT1r
+         TFW8FxWDq+wMKuhkEKINcpLRK74lPWU+wOoLld6EK+xj8TJWAIYQSTU55pkxoFMKiaaL
+         ORbJmDp7UxYkL0DfVVFRpd36LqLEXcIA2kJsk/3cjUn0b9eIzDic225u/QKlmVXQOBCg
+         kTow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771867457; x=1772472257;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WNHyGNAyEqFR3uHLeuiUimMy9GKVCPy3eo7HwiOI0Rs=;
+        b=xBzAuUpGwhp5tbXwFShkX4al9xn9vtpVhFHCR1eaoNls7GMg9mJYxtBptRymDG+LlR
+         BnXAhqyo/ZtGnxlM+ybd6DFMI7dzKFfslysG9YAl57dPepqiI1M058v7AhpG4UhUjxgl
+         O4C1EwSXeHgMKalUJs51w0t7EQhgjJRyiGce3AmwXfkxcfMzXqSGVOIKKd8JyNrKAEUg
+         wGPM7fqHpKL4r5jqghpvoqGv8YBASaOh5kRQ2b7/7wemhJmgWEdPECNnWRkCfHQNzphk
+         4BHoszzWl6qa8lFHM+m0TA05I3jv74PFOFMyRHpzNBSUkwua8SlD3oIJlTlg4O6fhzxw
+         QW+w==
+X-Gm-Message-State: AOJu0YyCBxuFbyBHg7qyoJEZ5XueVeZg0zRSO1okDNkJP7UFUMF+WVj+
+	Fp0m1FFHLT7Gfl3HtgGlRx5zgMLFa/C+xZkdIEY/EQfhKkIK+hYNU7S/32c+kF5lR8g=
+X-Gm-Gg: AZuq6aJcWOgk2um6WgeTx4VBtaz6hpPxQDVHiYAIo3Re7041c7UynppTbzkkPHFy9bg
+	+RerowwolAggfnFQJ1O8p+q/smmCDEi8Mh3uaBam0vnBl1G04h0GWFvqwIuszNLWtS9RECr8G3o
+	VGAoNGDtZkj03kbtF3ovFB/3tXThxGQXZjWFOA3LAEt4IuG+9u+iXZzHKOXc8KePSf8OxcxnHz7
+	W4++UOSrEYLrs6Gs0wZnhoctIP4Sk7njLsXqEHnn6IvoCA/3dkhmLGyZKAMzmZNE1M+RgazaYrs
+	8njwrZipr7/1ohlN9dVSPROWG1wvoPJhip68JsT3D94cxkxC29rgjXHpXcWKoeA2SHWDVtkJ9oE
+	vEMherLKSF2v+KJrSYJQJvBpOIcobyJW0s7rd2pqSPPwzaM0Rpqm/5kWJO6+CV2n211+1UpVkGD
+	q8JM4h9/s3+Of/ZbjXt4UcpKd4QUDxPrY=
+X-Received: by 2002:a05:6a20:d43:b0:393:5fcd:cec5 with SMTP id adf61e73a8af0-39545f7b08emr6929576637.58.1771867456515;
+        Mon, 23 Feb 2026 09:24:16 -0800 (PST)
 Received: from outpost.localdomain ([110.44.9.85])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70b724321esm7802332a12.16.2026.02.23.09.24.09
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70b724321esm7802332a12.16.2026.02.23.09.24.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 09:24:12 -0800 (PST)
+        Mon, 23 Feb 2026 09:24:16 -0800 (PST)
 From: Jaskaran Singh <jsingh@cloudlinux.com>
 To: stable@vger.kernel.org,
 	james.smart@broadcom.com,
@@ -78,16 +79,17 @@ Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	gregkh@linuxfoundation.org,
 	Jaskaran Singh <jsingh@cloudlinux.com>
-Subject: [PATCH 6.1.y 0/2] Fix incorrect backport of nvme-fc ioerr_work cancel_work_sync()
-Date: Mon, 23 Feb 2026 22:54:03 +0530
-Message-Id: <20260223172405.292040-1-jsingh@cloudlinux.com>
+Subject: [PATCH 6.1.y 1/2] Revert "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()"
+Date: Mon, 23 Feb 2026 22:54:04 +0530
+Message-Id: <20260223172405.292040-2-jsingh@cloudlinux.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260223172405.292040-1-jsingh@cloudlinux.com>
+References: <20260223172405.292040-1-jsingh@cloudlinux.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260223_092413_752072_0FD21A17 
-X-CRM114-Status: UNSURE (   9.79  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260223_092417_677549_B47754B3 
+X-CRM114-Status: GOOD (  11.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,28 +104,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The backport of upstream commit 0a2c5495b6d1 ("nvme: nvme-fc: Ensure
-->ioerr_work is cancelled in nvme_fc_delete_ctrl()") to linux-6.1.y
-was incorrectly applied as commit 3d81beae4753.
+This reverts commit 3d81beae4753db3b3dc5b70dc300d4036e0d9cb8.
 
-The original upstream fix moves the cancel_work_sync(&ctrl->ioerr_work)
-call within nvme_fc_delete_ctrl() to after nvme_fc_delete_association(),
-so that ->ioerr_work is not running when the nvme_fc_ctrl object is
-freed. However, the stable backport mistakenly placed the
-cancel_work_sync() call in nvme_fc_reset_ctrl_work() instead of
-nvme_fc_delete_ctrl(), leaving the original bug unfixed while
-introducing an unnecessary change to the reset path.
+The backport of upstream commit 0a2c5495b6d1 was incorrectly applied.
+The cancel_work_sync() call for ->ioerr_work was added to
+nvme_fc_reset_ctrl_work() instead of nvme_fc_delete_ctrl().
 
-This series reverts the broken backport and then applies the fix
-correctly.
-
-Jaskaran Singh (2):
-  Revert "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()"
-  nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
-
+Signed-off-by: Jaskaran Singh <jsingh@cloudlinux.com>
+---
  drivers/nvme/host/fc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 63bef22095b4..9b5976c80803 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3264,6 +3264,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
++	cancel_work_sync(&ctrl->ioerr_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+ 	/*
+ 	 * kill the association on the link side.  this will block
+@@ -3334,7 +3335,6 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 
+ 	/* will block will waiting for io to terminate */
+ 	nvme_fc_delete_association(ctrl);
+-	cancel_work_sync(&ctrl->ioerr_work);
+ 
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+ 		dev_err(ctrl->ctrl.device,
 -- 
 2.43.7
 
