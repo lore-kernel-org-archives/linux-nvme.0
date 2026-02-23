@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07030E98E10
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E2F7E98E15
 	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 10:24:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,63 +12,63 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dUyoF2T2gBbaaeCPHjrOWpLkIBgTtnGfzrJoD7Nw1EA=; b=fh2b3D1PtSBZ/6KgKs3fX3HpUt
-	R6K0MM0F5oxam4SIF8N+1/bh22QPMxEQyD8CRZiY+5IdpBUcYOqMbEM3RsuAApKBeLwKNdq4qFBb4
-	brSAk+2XBXR/KfxSJSpYma6meFgx556xulRYFSVB06LqsiUaqE8NoRd4PSfkzPcwIZawsBdkLSm46
-	cZB9B6oq6ep++fkTNy1mMQv6UykEWJklIhp831Us4c05Lm+ALaMmO3X+6HeVWTw4JtTHG2/H8Yo9B
-	uo7UhwgcpZxC7bGH84kSBGjIGIi7zltVF1euu49eYBtx8ruQiJehBNzQQqI7gqzEXY+6fNX/WHpec
-	eiG55O0Q==;
+	bh=eQ8IZEw2bB4rRelBG9i/t9o3cIiKHGPboX690VT2QzA=; b=KY2HvmLP7fF4A3hW0665zrKmFc
+	xNocYRuouAvqyNzCDv0yVN0wGco7+vaZJ94u8+scupoRf5vqrIGnwfIbhEjtF8opxjy2P+5mx4CpH
+	lwrNxwCVFVGKDvpaYojZjOZf49dLzbI4Rvj5Ipd0fkxu85ywDq0GgWfcGDYck1xj2V3NrYsnoCgJO
+	ETEvX2GxzvjDtUKEmOyvlXun8c3AvTlJexgKS7AOBztzQ7yonqajNzQY4XITDkcwmTi1pQpXYXcjo
+	uCR5lhcLuqv+8kqLGK/cs9OExoTUUk2LOkunBH8fEA12MdUC/w68A4sb0ttE2AhCxVq+NU1wWIfK6
+	z9ec31TQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuT6W-0000000032B-0R0y;
-	Mon, 23 Feb 2026 10:23:52 +0000
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342])
+	id 1vuT6V-0000000031j-2h8i;
+	Mon, 23 Feb 2026 10:23:51 +0000
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuT6S-00000000305-3fGO
+	id 1vuT6R-000000002ze-3cuu
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Feb 2026 10:23:50 +0000
-Received: by mail-wm1-x342.google.com with SMTP id 5b1f17b1804b1-480706554beso50419695e9.1
-        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 02:23:48 -0800 (PST)
+	Mon, 23 Feb 2026 10:23:49 +0000
+Received: by mail-wm1-x343.google.com with SMTP id 5b1f17b1804b1-4834826e555so39872005e9.2
+        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 02:23:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1771842227; x=1772447027; darn=lists.infradead.org;
+        d=suse.com; s=google; t=1771842226; x=1772447026; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dUyoF2T2gBbaaeCPHjrOWpLkIBgTtnGfzrJoD7Nw1EA=;
-        b=fNoSIqNbqo6PzrP0/+I3qO735KYy6ZnBDRvMBzYkROaZE931gAd38Yr3mht4YOdCMK
-         KETMDBWly80PqrNH+6VRi9QuNWddxnB8ynB3duHGSYCkTlvbQaTbnuqBm5HWJcuE0quw
-         dJr49540lcVs9U0u2es7P9BG32s2VlKK6QMs6tsB2En0EGH1SB7WNnwfEG1yf06epQDL
-         nTlYWceHkaCV9czHwakHtlKYi+rq//DY1jVyRSqcyQ4vYkp/kUoD8v/9eUZsex2+pj/o
-         URxuj/5j0ibMhSUKKULhi5Q6z2YJGgJUaxNyjXI/+x32WaDhoSfwr44FzngZXJE7hyeH
-         V7Aw==
+        bh=eQ8IZEw2bB4rRelBG9i/t9o3cIiKHGPboX690VT2QzA=;
+        b=egH3mtwSeUFYk0eZ5wy0p3jC9UBw08JgTcPzMXs/+zJwjHAkuiNDLdqwFFkeFRWMcX
+         MqMfL6GC+vxxzxtUF4kw+Mg3UnwxoUNEL1pcYZzDQPKtrk6G9nyd6J+U17ax/fyp4YYI
+         wB8MVNeuA2tkMLwn1wFhpoD5ECecgCDjvv2Vs+KPbNzJU7k6BbvlpXTITLwAOYKHXrF8
+         dtbGnSM0kbhmMiU6WvNN5MP9/0b4AVcuzBiqngJMHVEvuyBRiLbP3llYOdMYlTE14vIv
+         KoAGqwgJVdMFFqSG2jZ3yS9Da5GHBrd+1xFyc3CEIFBC6USAxB7IOwsaqsRoj+Jog+As
+         wV3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771842227; x=1772447027;
+        d=1e100.net; s=20230601; t=1771842226; x=1772447026;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dUyoF2T2gBbaaeCPHjrOWpLkIBgTtnGfzrJoD7Nw1EA=;
-        b=Zg7CV2A2Eq7MrjgLzxyBwAOo5ns+rjK9myqOeE6XsVANaFeAgL0BfCdfZMAx1Ehhkn
-         zE9dyjSL6Ns0vmWSgK1FYuolpCJO2D0RfZm/70zpT/aHK7EW1+bNrILouXPe4coXzGkX
-         du9Ft6CO3Y/+alv7TkwKAwlbGpCt4Pgk91n31mjgCfTmqVDiLU02KxuwpGuGNpCe6XwW
-         PA0mrNs+FkUtoPzlBSzbmdeXi9pS0zU90YvDiN0fFPelS+Ty1d3fI5nlPZ9+qtRoHw9A
-         yX59UdmCPNIImmDPZL60sMlHuQEk7h416DY3mcvX+81L0R9VJHCNw6a/829768yy31WE
-         iyqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVQgWY/UdbUmN++4p7fLAMk2trlCEsnjEEpyyE0Agm0q1R9vWdsX/JpQ6oMUoeamUOQiP2NeQxloy3k@lists.infradead.org
-X-Gm-Message-State: AOJu0YzaZ3WR9xedDBwB0X5WNk8/rP5FgA6hjaosl6l7bNM0vlNV/Sng
-	TBTwn/6VZPxYWZWh+W4K5iffGe4SwFGlEO4kXyUTzZNoI3mjCs40QP3UVKa13ziz6A4=
-X-Gm-Gg: AZuq6aIJ8GzP/HXY3MgviuDqlJ+wdLE3XoXggObWdSR5aqprvI/AJLJB6H1te7fPX3I
-	T820wVH4BmSKYVagpxcI6iqO621Qm3uooa657LOtfV0E+DITf8pkT75jKDrGSx4CSx/0PsZ0BcY
-	2FI03QFGOvmeToYitHC6pwuJwB1wqBe6mFZKKgcsz2CU+d6DZsBsBpPf0PMJG8Tchsocy7JpO6s
-	tvvKHUwAn0gvHjiqneFRqelwp8jQXjIXQ+siX0MHfr/F+8a8KtIQZrsL7kAcykm/Bj/YBB8Wh5Q
-	NJ4CNNBiEhRmUOqkRk/MJ6Z9UzwaPrLNHOKcSELsqTkWN2Xz8/MtU5WbjNVQ6MgB2mDuRTmp61F
-	G4VlFct2BhpkbSLigLmBe20Cd0cOYT3+wbxEYzv4B8bZT6xPqW/8jr8t+ctKSO3qp+GSr3zbpWE
-	rRSAF0uG/kb1n/aag0/LFXInLioamF1NHoNC8HHDJuLNWT
-X-Received: by 2002:a05:600c:8183:b0:47d:3ffa:5f03 with SMTP id 5b1f17b1804b1-483a962e09fmr115119435e9.21.1771842226962;
-        Mon, 23 Feb 2026 02:23:46 -0800 (PST)
+        bh=eQ8IZEw2bB4rRelBG9i/t9o3cIiKHGPboX690VT2QzA=;
+        b=LaHPDN1vhN+64caxhXNwEr2PAIeNnzTr1tUYIC0VidfvL9V9BDTUHZdCXsj3BO7GQJ
+         igl4vBN0ZcpRhAUlntt64GDN1/7pEljp62MyN2QpU1eDxh848WPIL/wcipYQNxNl5gmD
+         V8YV56va6dMSH0p4UDsSD7HDkJBoVTIjolO3VjXqgY6npbKzJSgPDiU/jyi0UOrt9Xdc
+         XpdEFofwNg45VnbjM7RuBLgUow04zMiePPMIbK4NZyKLs0wJ4HF7FYXzAKScbWTzdnTB
+         x5NGo0+fviKaKH9SSQBEKSitCTsxYXfQb1Gcp+iE3TKkUhkHL6gEzhSbZu9jvoi/mk/E
+         /Bfg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9GUNPvqcJIE2NX68MeeGAQaS//P0mEmEWhwhnLFATO91jyrcA1wqyKV3qV4mg9fGnky5KR9wfyYGh@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywgvsdl+eCr/+H60I+PWWsxUik6gM2P/KNCWfbeBbXffFS20J8Z
+	BIQFirKBODk7pl8KKbl3X7MarUP/G14r/H5EacAdxQNVzcc5dQNVii4IFGiTI8kBF7w=
+X-Gm-Gg: AZuq6aJhhQ/n81dIkl/jiUf1URVaqll56rk/SIsLVcySswdfrqWL7AFlHr8hfc9LjGm
+	Ok2ttEq1ivR0dnNN4GFuxUivZoctM/jpasK/Y/FU+tNDbH5kGz4QbGRi/OekHvlHzWezngvP07e
+	jwtMnF/vJ86FCr3VT4NbFfVjNC1Xo6ukO/G8C4h+KprXv9Tv2ksoRFXEAYghQvJ+wkzNJfaGexP
+	NN87wtqY9qN7JKCKECklNhyMzu2ExZlIxeXhNwHgD3YtPUfJ6PUdGpr9Z36F0aV6UTO4X6npYb1
+	03FTry2380WbmzYfFD+8T7vRWoAatsBV3gjLugw1ZoMdWnz/eknUEL5SkMdt5Wv2QE65Ep+V2Iy
+	K0NCoqA4zODCdmG/E6Nekk47wql1R7LdFOGqm9t/o2USkEWMlKRplO3ZK98uRoHOCIV6MFhppL3
+	hTADumMADLfDjV4UShJqIxEXE8H0oFpO41ScUu7OJgMKRm
+X-Received: by 2002:a05:600c:3e05:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-483a9636692mr117427825e9.23.1771842225872;
+        Mon, 23 Feb 2026 02:23:45 -0800 (PST)
 Received: from linux.fritz.box.box ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31bc0e3sm237342465e9.5.2026.02.23.02.23.46
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31bc0e3sm237342465e9.5.2026.02.23.02.23.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 02:23:46 -0800 (PST)
+        Mon, 23 Feb 2026 02:23:45 -0800 (PST)
 From: Marco Crivellari <marco.crivellari@suse.com>
 To: linux-kernel@vger.kernel.org,
 	linux-nvme@lists.infradead.org
@@ -80,13 +80,10 @@ Cc: Tejun Heo <tj@kernel.org>,
 	Michal Hocko <mhocko@suse.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>
-Subject: [PATCH v2 3/3] nvmet-fc: add WQ_PERCPU to alloc_workqueue users
-Date: Mon, 23 Feb 2026 11:23:29 +0100
-Message-ID: <20260223102336.108512-4-marco.crivellari@suse.com>
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH v2 2/3] nvme: add WQ_PERCPU to alloc_workqueue users
+Date: Mon, 23 Feb 2026 11:23:28 +0100
+Message-ID: <20260223102336.108512-3-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260223102336.108512-1-marco.crivellari@suse.com>
 References: <20260223102336.108512-1-marco.crivellari@suse.com>
@@ -94,8 +91,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260223_022348_927848_3113E7A5 
-X-CRM114-Status: GOOD (  12.96  )
+X-CRM114-CacheID: sfid-20260223_022347_917831_D7AAD954 
+X-CRM114-Status: GOOD (  13.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,32 +123,46 @@ must now use WQ_PERCPU. For more details see the Link tag below.
 In order to keep alloc_workqueue() behavior identical, explicitly request
 WQ_PERCPU.
 
-Cc: Justin Tee <justin.tee@broadcom.com>
-Cc: Naresh Gottumukkala <nareshgottumukkala83@gmail.com>
-CC: Paul Ely <paul.ely@broadcom.com>
 Link: https://lore.kernel.org/all/20250221112003.1dSuoGyc@linutronix.de/
 Suggested-by: Tejun Heo <tj@kernel.org>
 Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 ---
- drivers/nvme/target/fc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/target/core.c | 5 +++--
+ drivers/nvme/target/tcp.c  | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 4eaadc711c99..d161707559ce 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -792,9 +792,9 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- 	if (!queue)
- 		return NULL;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 5e43d0acc86e..376d38b62da2 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1942,12 +1942,13 @@ static int __init nvmet_init(void)
+ 	if (!nvmet_bvec_cache)
+ 		return -ENOMEM;
  
--	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", 0, 0,
--				assoc->tgtport->fc_target_port.port_num,
--				assoc->a_id, qid);
-+	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", WQ_PERCPU, 0,
-+					assoc->tgtport->fc_target_port.port_num,
-+					assoc->a_id, qid);
- 	if (!queue->work_q)
- 		goto out_free_queue;
+-	zbd_wq = alloc_workqueue("nvmet-zbd-wq", WQ_MEM_RECLAIM, 0);
++	zbd_wq = alloc_workqueue("nvmet-zbd-wq", WQ_MEM_RECLAIM | WQ_PERCPU,
++				 0);
+ 	if (!zbd_wq)
+ 		goto out_destroy_bvec_cache;
+ 
+ 	buffered_io_wq = alloc_workqueue("nvmet-buffered-io-wq",
+-			WQ_MEM_RECLAIM, 0);
++			WQ_MEM_RECLAIM | WQ_PERCPU, 0);
+ 	if (!buffered_io_wq)
+ 		goto out_free_zbd_work_queue;
+ 
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index acc71a26733f..4b8b02341ddc 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -2225,7 +2225,7 @@ static int __init nvmet_tcp_init(void)
+ 	int ret;
+ 
+ 	nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq",
+-				WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
++				WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_PERCPU, 0);
+ 	if (!nvmet_tcp_wq)
+ 		return -ENOMEM;
  
 -- 
 2.52.0
