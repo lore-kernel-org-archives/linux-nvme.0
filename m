@@ -4,59 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3847FE63C8B
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 10:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61B37EA4FBB
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 13:24:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=VM4egV706YBIeNxCp2+0uiBFD2cw8ReQidhE5I5Vh8g=; b=PQW9qzFKCxnIzdOWfYBAODG343
-	awh4fASWG3qlcTPV4/KFwki2G9m5cm/82wxCKDucH86jdOMLubZLhRKh4plsyGduqk2/Udjv2AAIq
-	o6VrwS9AmmbW7kCABbzkbu2rw+u1SGKzmBfodR5FU9OyRsiTzNutwSQoSzdjFM2ffi13q07iqlUyi
-	y3pE6SsmEURqpS561E5McRuPrHfCFgmA7eWO8fcBbOILDfybkeWrQT291KHh7GaV3xfWr15DohrIF
-	IJnrhXMGtvyr3RurbzatCVCrGqP3GpgMc8XZmluHgXsdFsRl41HRibWKpE6HA/VW5KsYw63oes0Ma
-	Z2GzEZcg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y56KfikU/sPIhAZ17QP4RjQzagilMWbyFB9S7vSDCdg=; b=flWEftGrr3fOylZvjUPTlnoEbU
+	4O/cMtV57W9KGIiHb1116uEfPgCxdxRsVJMga8OW9GeWh59YGS/wiB0yn6LH/429RwpPOHkc/MjrG
+	MGSx+Jv489k1ibzSwxWbMv7mRE+yJtBOTomnLl3cE5GMmpcdFU8vou81syHDh+kUG4iUS/bmKD7Va
+	syJyvdg0G1V/ZkvVAhkkKj/H3kVtVW9Xl4/rUNedhxV/qNULivO8Yr1vJ1DMAPepApzkQFoqmCBRV
+	+QeR1sFRTlacQDPkR6ju/JP71cb2IJCQeDm0VQ5XMXW5OyVJZhs5sVSam7Eg7SUgiLTHHTdb2QCmG
+	ZFv1lpUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuTOw-000000004on-1zaY;
-	Mon, 23 Feb 2026 10:42:54 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1vuVvR-00000000MEd-2j7y;
+	Mon, 23 Feb 2026 13:24:37 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuTOt-000000004oN-46Q5
+	id 1vuVvK-00000000MDw-0oH4
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Feb 2026 10:42:53 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id a4f82591 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 23 Feb 2026 11:36:09 +0100 (CET)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Feb 2026 11:36:07 +0100
-Message-Id: <DGM9WUGICE31.3UDKXWISDQW4G@arkamax.eu>
-Cc: "Maurizio Lombardi" <mlombard@redhat.com>, <kbusch@kernel.org>,
- <mheyne@amazon.de>, <emilne@redhat.com>, <jmeneghi@redhat.com>,
- <linux-nvme@lists.infradead.org>, <dwagner@suse.de>,
- <mlombard@bsdbackstore.eu>
-Subject: Re: [PATCH RFC 4/5] nvme: add sysfs attribute to change IO timeout
- per nvme controller
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Mohamed Khalfella" <mkhalfella@purestorage.com>, "Maurizio Lombardi"
- <mlombard@arkamax.eu>
-X-Mailer: aerc 0.21.0
-References: <20260212120951.79738-1-mlombard@redhat.com>
- <20260212120951.79738-5-mlombard@redhat.com>
- <20260217202553.GJ3435530-mkhalfella@purestorage.com>
- <DGI4FR7YBCQ3.28N1YY210A3PA@arkamax.eu>
- <20260218175452.GK2392949-mkhalfella@purestorage.com>
- <DGJ42477U84O.MIIO0U7J75II@arkamax.eu>
- <DGJSTIHMGMV2.316EK4AH62YKU@arkamax.eu>
- <20260220175323.GL3435530-mkhalfella@purestorage.com>
-In-Reply-To: <20260220175323.GL3435530-mkhalfella@purestorage.com>
+	Mon, 23 Feb 2026 13:24:31 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id DABBE68AFE; Mon, 23 Feb 2026 14:24:20 +0100 (CET)
+Date: Mon, 23 Feb 2026 14:24:20 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] nvme: add preferred I/O size fields to struct
+ nvme_id_ns_nvm
+Message-ID: <20260223132420.GA14767@lst.de>
+References: <20260220032809.758089-1-csander@purestorage.com> <20260220032809.758089-2-csander@purestorage.com> <20260220160639.GB15071@lst.de> <CADUfDZq5xVsWyJuwi2=aWMqjqQDMzScp+sYXkp7YEq-pKz4EtA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADUfDZq5xVsWyJuwi2=aWMqjqQDMzScp+sYXkp7YEq-pKz4EtA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260223_024252_367209_2B22DEDA 
-X-CRM114-Status: GOOD (  18.21  )
+X-CRM114-CacheID: sfid-20260223_052430_397434_F1E39A7E 
+X-CRM114-Status: GOOD (  12.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,74 +62,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri Feb 20, 2026 at 6:53 PM CET, Mohamed Khalfella wrote:
-> On Fri 2026-02-20 13:47:08 +0100, Maurizio Lombardi wrote:
->> On Thu Feb 19, 2026 at 6:22 PM CET, Maurizio Lombardi wrote:
->> > On Wed Feb 18, 2026 at 6:54 PM CET, Mohamed Khalfella wrote:
->> >
->> > So changing the timeout field in the tagset should be doable, the
->> > only problem is avoid racing against nvme_alloc_ns().
->> >
->> > I will try to come up with something.
->>=20
->> I decided to keep the current design, calling blk_queue_rq_timeout()
->> with the namespaces_lock mutex locked is the easiest solution
->>=20
->> I am sending a V2 in a few moments.
->>=20
->
-> How about restricting changing io timeout to LIVE controllers only. This
-> will make the problem easier to solve. Maybe something like the below?
->
-> 	enum nvme_ctrl_state state;
-> 	unsigned long flags;
->
->         spin_lock_irqsave(&ctrl->lock, flags);
-> 	state =3D nvme_ctrl_state(ctrl);
-> 	if (state !=3D NVME_CTRL_LIVE) {
-> 		spin_unlock_irqrestore(&ctrl->lock, flags);
-> 		return -EBUSY
-> 	}
+On Fri, Feb 20, 2026 at 06:55:25PM -0800, Caleb Sander Mateos wrote:
+> Looks like static_assert() was added 3 years before struct nvme_id_ns_nvm :)
+> Definitely agree it's good to assert on these struct sizes.
+> 
+> >
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 
+> Assuming you meant "Reviewed-by". Let me know if you meant something else.
 
-I previously considered this solution, but I discarded it for two reasons:
-
-1) If the user sets the io_timeout too low, the controller ends up
-resetting non-stop. With this patch, it becomes hard to catch the
-controller in a LIVE state and fix the problem, because the controller is
-almost always RESETTING. You essentially have to wait until the driver
-gives up and removes the controller.
-
-2) This doesn't prevent nvme_alloc_ns() from racing against the sysfs
-path.
-Suppose that thread A is executing nvme_alloc_ns() and has just called
-disk =3D blk_mq_alloc_disk(ctrl->tagset, &lim, ns);
-
-immediately after, the user changes io_timeout. Thread B takes the
-namespaces_lock, scans the namespaces list and calls
-blk_queue_rq_timeout() on each namespaces' queues.
-
-thread A now can take the namespaces_lock and adds the new namespace to
-the list, but the problem is that the new namespace is using the stale
-timeout setting it inherited from ctrl->tagset.
-
-Maurizio
-
->
-> 	if (ctrl->queue_count > 1)
-> 		WRITE_ONCE(ctrl->tagset->timeout, timeout);
-> 	spin_unlock_irqrestore(&ctrl->lock, flags);
->
-> 	/* Take the namespaces_lock to avoid racing against nvme_alloc_ns() */
-> 	mutex_lock(&ctrl->namespaces_lock);
->
-> 	ctrl->io_timeout =3D msecs_to_jiffies(timeout);
-> 	list_for_each_entry(ns, &ctrl->namespaces, list)
-> 		blk_queue_rq_timeout(ns->queue, ctrl->io_timeout);
->
-> 	mutex_unlock(&ctrl->namespaces_lock);
->
->
->> Maurizio
->>=20
+Yes, sorry.
 
 
