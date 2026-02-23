@@ -4,85 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 661F0EC1102
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 16:01:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52BBEEC110C
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 17:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jb8EY2Daxeiq/LPx1qaHDExDVJMIoxaVnc1OyFiIyi8=; b=giWscGZR4WUPmreTB7iHKdOU8E
-	opggNqDXJcvFWeubmrt+miRTivsqWQtj/gyjvCigvwCvYaF5FnXKsbWyKme6IPM2yjXJD6e7OxtJy
-	RGnloH59z4ETpPKUd+9ozptoXz5cns3HwlTVLl2ylOM1ROryWw0nD7YYVekBJ13EOB1xfn9TCVNq3
-	fOzSfKvEkJQpyJUzfzeC03btzZFDDllLjYgVMv/Qwt5mutZ+NyjTt9oJxq+lfYwkdsp9e71FMWtmX
-	R9ImSeWpcYPXKWAzpD5mijApcvdHkzHfc2+g44O3Yv99xCZth2hb+D3F3I/n7Zl6r/DlA66ht5puP
-	/JMxO1Tw==;
+	bh=By1Ioj8GbL/V6zno4RRJtTxk1Y+neGd5c2WUwPqo6t4=; b=DQVfuoLjBRyD57cVdiUdwFTzKE
+	TVs7M8FJ+a1w0kD3jwQhy55Hdtf8+LNVsAw6UHLlpicOnonMnalmYsDBylRnfEpDUaXDBhkGoq7O4
+	AbDnF0iQAL1Ge1aAtYirOBBGfpexHDTCKUSNyOgol8x1X+9JuvFmFJXET5b4imd5HLUkk2o5ATaxu
+	DDzwfxj+yEYYwyjmR1hwMT4zFyYR53VHHb153xD1vwyHY9SKXsZkGbk6MFTVsbOCIRR96dGLeItWj
+	QgHhimzzgir0Y8EpXLvE5+oBNrKPD+ID0iMxbAGA8Hkqsn0fTR82+LTc3befW75OaGnG5PrrKg3XD
+	UwpXkwlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuYMk-00000000dC1-0Vta;
-	Mon, 23 Feb 2026 16:00:58 +0000
-Received: from mail-ej1-f41.google.com ([209.85.218.41])
+	id 1vuZQE-00000000jAe-32z3;
+	Mon, 23 Feb 2026 17:08:38 +0000
+Received: from 013.lax.mailroute.net ([199.89.1.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuYMh-00000000dBa-1dap
+	id 1vuZQB-00000000jA6-2rDT
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Feb 2026 16:00:56 +0000
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b90bc00578cso62527566b.0
-        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 08:00:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771862453; x=1772467253;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jb8EY2Daxeiq/LPx1qaHDExDVJMIoxaVnc1OyFiIyi8=;
-        b=Hv0LuzkZ1iZ1YLaOxteYKGE+ZLmvJDfmapFNhy6lEZBxlSnJxQz6T8MtgmneDOgHIs
-         eUnaY5tTHWCSUIxEdPYdoJnLSby+tpEXwqHI+CRHMLg1zCPmkKkOiEB9Ana9FGUZr84Y
-         nwfo7tlc899ROy4khVsaI1zKrArK/wSXDUwEmNG6bYpxVa6ZopWM6db6zeJ7lTXNjEkV
-         whxiVZKNE9rfDaT7mA808TdXZAbL9nqf4fPL/reNJKgje7CzqGoLkxRrvjkSnRGlzA2o
-         i545wUcOAmw9w6raSPLXvctEHDpLwX85Ax10Bi95Kb7PCwT8Waa3Pc/qA3UAz20ZLGVM
-         B/NA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+J+dkFCb0IIOXpJcVa0OWhEn05NPd62+QjU9Q3yCiU2rZ7u9gsFAf1WjDWCsyDjVuBW7xxbo4Ru38@lists.infradead.org
-X-Gm-Message-State: AOJu0YxyplsFo9+fjCkdJGkatCdd4GqVvdlFEWdvpzqwsAfzVFUx0T3x
-	eIoBTdUXqP80+AEGDpesF3jaKuIaLFOYc0k8o/f64+V/7rn5Ze/TNW05pUJp4HPUE/c=
-X-Gm-Gg: AZuq6aJwlCxH5RkjLInBqCrmlvtoXiTJRBpEdhc1kvOBzq84RdhCUQVXIBrZBkNcH3u
-	tw1eWI9p7JvHItbMbOUO/pNQDqd9pPn1ZyzcDDHpVZ28CQH/YSxLOnIXY1onL42CjkeB1mEcMXU
-	WM/9FDsDTZA4A3O8nYZfBzq0sw41pY6zCsjfLVncTrSm4mV/9dMMzLsfkwd0ueOmDiPXeN5Y1vq
-	BmlRkGVvdAm2j9P3MiB6RILDYNSO2NN8h5VK+GbKbp8NyMipcOqtSx9040mEGOXPZegdDMuTz5f
-	fylm9UreteCtjo8sU/YlfJDC2h7ilBR1whibeLpKOQ034vYTErr/Jl6TrwE8H+GU5xLQRHrs2zZ
-	CgB5SPtx0zpv1e38zH1L1bImlCWKo0zbmAXLFS31VvD7RjubsznUAAYgacB+IsbrRDppuyHa33Y
-	L7oIalkmT7FKG/XVbiIXoJmOmzXy+jshebsiG0Nsr79vZdJ49sNHKq3Cw=
-X-Received: by 2002:a17:906:f247:b0:b8a:f9d7:1afe with SMTP id a640c23a62f3a-b9081bd17d5mr470880066b.57.1771862452910;
-        Mon, 23 Feb 2026 08:00:52 -0800 (PST)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com. [209.85.128.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9084ec6deesm346431866b.59.2026.02.23.08.00.52
-        for <linux-nvme@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Feb 2026 08:00:52 -0800 (PST)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4833115090dso43101385e9.3
-        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 08:00:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUvXUsQJG4pwbQ7TAD34A2V0p8z9gTNmDY+4/96ulABjFhZ2LgR75Mv+OelW+qrcs+PlrcRWRNJqEXI@lists.infradead.org
-X-Received: by 2002:a05:600c:548e:b0:47a:935f:61a0 with SMTP id
- 5b1f17b1804b1-483a95643b3mr157300905e9.0.1771862451875; Mon, 23 Feb 2026
- 08:00:51 -0800 (PST)
+	Mon, 23 Feb 2026 17:08:37 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fKS414hq7zlh1Vk;
+	Mon, 23 Feb 2026 17:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1771866509; x=1774458510; bh=By1Ioj8GbL/V6zno4RRJtTxk
+	1Y+neGd5c2WUwPqo6t4=; b=su8kXIo1EVVPqrEph4n4SLJz+IZllnLbmCMPcRRW
+	zHxl9VLPCWWB7lAs/QFZXSzt+jpl1qYPIdQtgrYFZCmVKNY1WrNNdnmofyq7DeFD
+	M6fimJiVVJTwBhkhCJFsK7BBvRT3IrPunQNfjIU4WPzXFFBMwKkFTNeN/anwE/jj
+	Izb6OBxY00m75DfXIdnCTrok6Unii/ABlX+p9C/YSd23OHNYrUpHWZ0W9ECiMtmL
+	F1FiXYAhzVPeM6vyUxVTp+MvD0NWSpYGSheNAQQ30qn5e8G0b81iOp/EEhHzTB8A
+	F4eSZgZpMrTO5rvvjdSoFdq4mu1zqwUh/asrmDi6S3VzUw==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id Snina6HJ5Dga; Mon, 23 Feb 2026 17:08:29 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fKS3q2HxZzlh1Vg;
+	Mon, 23 Feb 2026 17:08:23 +0000 (UTC)
+Message-ID: <40edeeec-dbc3-4aef-ac86-691e1ed2ed06@acm.org>
+Date: Mon, 23 Feb 2026 09:08:22 -0800
 MIME-Version: 1.0
-References: <20260216003541.161806-2-iam@sung-woo.kim> <20260223134104.GA15458@lst.de>
-In-Reply-To: <20260223134104.GA15458@lst.de>
-From: Sungwoo Kim <iam@sung-woo.kim>
-Date: Mon, 23 Feb 2026 11:00:35 -0500
-X-Gmail-Original-Message-ID: <CAJNyHpK79p07b3aBXNzWvcSRCSC6Ri5MEXAwYbAr2uXXt6T8Pw@mail.gmail.com>
-X-Gm-Features: AaiRm52vX_DkyHsYNp5wBmQPa1eeew3ZE66_o6hljPC2vt3zGEgIoN244brpKy8
-Message-ID: <CAJNyHpK79p07b3aBXNzWvcSRCSC6Ri5MEXAwYbAr2uXXt6T8Pw@mail.gmail.com>
-Subject: Re: [PATCH] nvme: fix memory allocator in nvme_pr_read_keys()
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg <sagi@grimberg.me>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Chao Shi <cshi008@fiu.edu>, Weidong Zhu <weizhu@fiu.edu>, Dave Tian <daveti@purdue.edu>, 
-	Mike Christie <michael.christie@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
+ expansion plan for the storage stack test framework
+To: Haris Iqbal <haris.iqbal@ionos.com>,
+ Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: Daniel Wagner <dwagner@suse.de>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "tytso@mit.edu" <tytso@mit.edu>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Christian Brauner <brauner@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>,
+ "willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ "amir73il@gmail.com" <amir73il@gmail.com>, "vbabka@suse.cz"
+ <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
+References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
+ <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
+ <aY77ogf5nATlJUg_@shinmob>
+ <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260223_080055_431590_9ABEAF03 
-X-CRM114-Status: GOOD (  17.51  )
+X-CRM114-CacheID: sfid-20260223_090835_735277_DD0D1F8E 
+X-CRM114-Status: UNSURE (   6.79  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,52 +104,14 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 23, 2026 at 8:41=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
-> s/allocator/allocation/ in the subject.
->
-> > -     rse =3D kzalloc(rse_len, GFP_KERNEL);
-> > +     rse =3D kvzalloc(rse_len, GFP_KERNEL);
->
-> You'll also need it to free it using kvfree if you you use kvzalloc.
+On 2/15/26 1:18 PM, Haris Iqbal wrote:
+> A possible feature for blktest could be integration with something
+> like virtme-ng.
+> Running on VM can be versatile and fast. The run can be made parallel
+> too, by spawning multiple VMs simultaneously.
+Hmm ... this probably would break tests that measure performance and
+also tests that modify data or reservations of a physical storage
+device.
 
-Will do in V2. Thanks for your review.
-
-> We might also want to add some upper bound to the number of keys
-> to not allow the user to allocate 4GB of pinned kernel memory.
-
-Could this be a typo for 4MB? Users cannot request 4GB, since it already
-has an upper bound, PR_KEYS_MAX (64K). The maximum requested memory
-size is 4MB + 64 bytes as follows:
-
-// struct_size(rse, regctl_eds, num_keys)
-64K * 64 + 64 =3D 4M + 64 bytes.
-
-We might still want to know that 4MB is okay. I think it is fine, but
-we can shrink it as
-the current upper bound is more than sufficient, according to the
-relevant conversation:
-
->How about limiting num_keys to 64K (1u << 16)? In practice, PR keys
->are used for shared storage coordination and typical deployments have
->only a handful of hosts, so this should be more than enough for any
->realistic use case.
-https://lore.kernel.org/linux-block/CADhLXY57aFmNB1v4TG2YxhOQL1+_02KkWpB3fE=
-sn8t1GiFqdrg@mail.gmail.com/
-
-On Mon, Feb 23, 2026 at 8:41=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
->
-> s/allocator/allocation/ in the subject.
->
-> > -     rse =3D kzalloc(rse_len, GFP_KERNEL);
-> > +     rse =3D kvzalloc(rse_len, GFP_KERNEL);
->
-> You'll also need it to free it using kvfree if you you use kvzalloc.
->
-> We might also want to add some upper bound to the number of keys
-> to not allow the user to allocate 4GB of pinned kernel memory.
->
->
+Bart.
 
