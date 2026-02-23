@@ -4,91 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52BBEEC110C
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 17:08:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDDEAEC1112
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 17:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=By1Ioj8GbL/V6zno4RRJtTxk1Y+neGd5c2WUwPqo6t4=; b=DQVfuoLjBRyD57cVdiUdwFTzKE
-	TVs7M8FJ+a1w0kD3jwQhy55Hdtf8+LNVsAw6UHLlpicOnonMnalmYsDBylRnfEpDUaXDBhkGoq7O4
-	AbDnF0iQAL1Ge1aAtYirOBBGfpexHDTCKUSNyOgol8x1X+9JuvFmFJXET5b4imd5HLUkk2o5ATaxu
-	DDzwfxj+yEYYwyjmR1hwMT4zFyYR53VHHb153xD1vwyHY9SKXsZkGbk6MFTVsbOCIRR96dGLeItWj
-	QgHhimzzgir0Y8EpXLvE5+oBNrKPD+ID0iMxbAGA8Hkqsn0fTR82+LTc3befW75OaGnG5PrrKg3XD
-	UwpXkwlg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=8Zl7Z+OaO89snmKUAHrxKVDI5oM0jK/483ZZ+xANRJw=; b=wNbLVDYEF37bztsYa82agsL3Un
+	XeCzY2CMozf7MSTVvjuCXZP3O/oFkr1HTHmoQG7YaYhfDn5GmOUW4hq5Qf+WEkLq4qvejLOI3kDSO
+	z1F2UTLC+rPljz8QAxgZG0O0htE3JzFLm32BET3L8uO6E2LiZFdtYcrbr6sqdtABuCwqR1ooQD/1W
+	ECX2G91meXlBSBokReNky/vGOZyqZbcPCUnfJnn2POIU72KE//NBu38zi5DsL/XnA5xDvpOi8lW/v
+	r+rB7K/o6CSsE8N4MkTIeymujafhcl1zrLmdlMy4sRoyfEyvXFiZ2DOJp6i49N0cmFVodxz9mwmls
+	Rfq+YCSw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuZQE-00000000jAe-32z3;
-	Mon, 23 Feb 2026 17:08:38 +0000
-Received: from 013.lax.mailroute.net ([199.89.1.16])
+	id 1vuZe1-00000000lZT-2wkq;
+	Mon, 23 Feb 2026 17:22:53 +0000
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuZQB-00000000jA6-2rDT
+	id 1vuZdz-00000000lYr-28vb
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Feb 2026 17:08:37 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fKS414hq7zlh1Vk;
-	Mon, 23 Feb 2026 17:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1771866509; x=1774458510; bh=By1Ioj8GbL/V6zno4RRJtTxk
-	1Y+neGd5c2WUwPqo6t4=; b=su8kXIo1EVVPqrEph4n4SLJz+IZllnLbmCMPcRRW
-	zHxl9VLPCWWB7lAs/QFZXSzt+jpl1qYPIdQtgrYFZCmVKNY1WrNNdnmofyq7DeFD
-	M6fimJiVVJTwBhkhCJFsK7BBvRT3IrPunQNfjIU4WPzXFFBMwKkFTNeN/anwE/jj
-	Izb6OBxY00m75DfXIdnCTrok6Unii/ABlX+p9C/YSd23OHNYrUpHWZ0W9ECiMtmL
-	F1FiXYAhzVPeM6vyUxVTp+MvD0NWSpYGSheNAQQ30qn5e8G0b81iOp/EEhHzTB8A
-	F4eSZgZpMrTO5rvvjdSoFdq4mu1zqwUh/asrmDi6S3VzUw==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id Snina6HJ5Dga; Mon, 23 Feb 2026 17:08:29 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fKS3q2HxZzlh1Vg;
-	Mon, 23 Feb 2026 17:08:23 +0000 (UTC)
-Message-ID: <40edeeec-dbc3-4aef-ac86-691e1ed2ed06@acm.org>
-Date: Mon, 23 Feb 2026 09:08:22 -0800
+	Mon, 23 Feb 2026 17:22:52 +0000
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-8230f8f27cfso2457946b3a.0
+        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 09:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudlinux.com; s=google; t=1771867370; x=1772472170; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Zl7Z+OaO89snmKUAHrxKVDI5oM0jK/483ZZ+xANRJw=;
+        b=IQSIYz1qYjnO9PV3cmysNIQGhdrYMcZiKAUnSh7hTGwUmbU0cBmzb8P2+KRdgxaztF
+         YKDt2/ik9fmIZfXMfQXyTTKbruFvf/H5R6CGs9a1jLdDda80xpVhGKaxe7C86uK8N52Z
+         0RkaRW6fu7KS5Uc3iT0DpL/su9TAiXPqOFgZVTrdS/VFAi1mjtDcE1RIQcZr4DRAhNmT
+         z9xKZLRih1iwjon0d8qhKVXRtBh3UoHa8ikT2KDMYZrXQGCwM6kG8JorTzc0NPHoP+/a
+         ss8qhbvQE9GWld8T/lCUNlwOFxoEWLCFI+iOcI0v/fReGVRuxa6ep8KhE8eVebSZpcOn
+         6/+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771867370; x=1772472170;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8Zl7Z+OaO89snmKUAHrxKVDI5oM0jK/483ZZ+xANRJw=;
+        b=aUc3y5W8YCQT4tSOH5v2hX5MRsQOahmNfjQ9KDimebwCjtoDRtZPq/ig9AmAeSNmPX
+         ZUZwlsiF89/raQRDiPo56pP/V5qhKmo3+l86zbrRgEpBSgcznLph/sVqCg5ZRtHubiPK
+         OuI/SanZVZLXvD+2ZM51hq9g0IDfzXWqKEhT4GcdL2JlExeduWwNOkZlOfjVPd+Xqt2X
+         imEf9ELsRZRg+K50MgtQC06ANQxznZYq7qsVDi0W0Ly9tmd7EwdLR81YsR2sNQQenKSz
+         M4Sm1z+PPIPCQf6Bu8PLAPpitI310S3wqNtlJPvRo6M8gA9TLeH7Vq+DJPDl2vkFVLwI
+         5+6w==
+X-Gm-Message-State: AOJu0Yy1dkgeAWPjnWEn+sMXqKw2q3cqNjaRsx3ZphqjSD5/SCQ4QxDj
+	BSHclEaTack8qcgiAYxjfaMiSiAmlIXLCVvdOaXqGKbtAcwNKy/bSK2z9k3X+dy6fdHcxVCuPGI
+	YxFf4
+X-Gm-Gg: AZuq6aLSK5RTWNGqI53a1sHVNBTXHoaSvlZV6Fl1NSIGIiPjEl/OtQWGhEG8NbEEt8F
+	5ONgWEZ9c1PZYIuJWRKdg83hCJajLl4ifNcBsBQ4XieN8OOguyafbKsFksBv8KWAkgXTzsCQmGl
+	GbWMOba9UGhwJK5ttLs2rJqRLT53jMM4QFvM9SoZXkX29oFB1dP7w+O6jlbfXAB3Do1ptlgdjt3
+	4M2pGLe5zkPSH0OgwtrAVnTJHkngYXV5bAQ0XfMcj/Ms5s1bNrawzz5czGe6f4A+sUEBNmZkUeU
+	kXiC3qV40EZBhsiaRpQXPiug9ecyjEI5LaENvIlSu2aABNDZpjnC6z1/a8aGYWurh+mOWIO8KHw
+	IpELuZQ2j0ZTVroviiZimEUiATIvH0J9w4FUtFPMwA0q3sU1l6oJLUUkY+Lm+X22EOEr5VFmbRE
+	zZe/QMDdOIxoPKHUjaIyUSpx+Dt3X6cpo=
+X-Received: by 2002:a05:6a21:512:b0:38b:e750:bc31 with SMTP id adf61e73a8af0-39545eeb17fmr7900675637.32.1771867369604;
+        Mon, 23 Feb 2026 09:22:49 -0800 (PST)
+Received: from outpost.localdomain ([110.44.9.85])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70b7269771sm7942918a12.30.2026.02.23.09.22.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 09:22:49 -0800 (PST)
+From: Jaskaran Singh <jsingh@cloudlinux.com>
+To: stable@vger.kernel.org,
+	james.smart@broadcom.com,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	Jaskaran Singh <jsingh@cloudlinux.com>
+Subject: [PATCH 5.10.y 0/2] Fix incorrect backport of nvme-fc ioerr_work cancel_work_sync()
+Date: Mon, 23 Feb 2026 22:52:39 +0530
+Message-Id: <20260223172241.291649-1-jsingh@cloudlinux.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
- expansion plan for the storage stack test framework
-To: Haris Iqbal <haris.iqbal@ionos.com>,
- Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: Daniel Wagner <dwagner@suse.de>,
- Chaitanya Kulkarni <chaitanyak@nvidia.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
- "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
- Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>,
- Jens Axboe <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
- "tytso@mit.edu" <tytso@mit.edu>,
- Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
- Christian Brauner <brauner@kernel.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>,
- "willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- "amir73il@gmail.com" <amir73il@gmail.com>, "vbabka@suse.cz"
- <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
-References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
- <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
- <aY77ogf5nATlJUg_@shinmob>
- <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260223_090835_735277_DD0D1F8E 
-X-CRM114-Status: UNSURE (   6.79  )
+X-CRM114-CacheID: sfid-20260223_092251_563208_4F11B84B 
+X-CRM114-Status: UNSURE (   9.83  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -104,14 +103,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/15/26 1:18 PM, Haris Iqbal wrote:
-> A possible feature for blktest could be integration with something
-> like virtme-ng.
-> Running on VM can be versatile and fast. The run can be made parallel
-> too, by spawning multiple VMs simultaneously.
-Hmm ... this probably would break tests that measure performance and
-also tests that modify data or reservations of a physical storage
-device.
+The backport of upstream commit 0a2c5495b6d1 ("nvme: nvme-fc: Ensure
+->ioerr_work is cancelled in nvme_fc_delete_ctrl()") to linux-5.10.y
+was incorrectly applied as commit 3d78e8e01251.
 
-Bart.
+The original upstream fix moves the cancel_work_sync(&ctrl->ioerr_work)
+call within nvme_fc_delete_ctrl() to after nvme_fc_delete_association(),
+so that ->ioerr_work is not running when the nvme_fc_ctrl object is
+freed. However, the stable backport mistakenly placed the
+cancel_work_sync() call in nvme_fc_reset_ctrl_work() instead of
+nvme_fc_delete_ctrl(), leaving the original bug unfixed while
+introducing an unnecessary change to the reset path.
+
+This series reverts the broken backport and then applies the fix
+correctly.
+
+Jaskaran Singh (2):
+  Revert "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()"
+  nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
+
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.43.7
+
 
