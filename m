@@ -4,95 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E2F7E98E15
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 10:24:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3847FE63C8B
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Feb 2026 10:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eQ8IZEw2bB4rRelBG9i/t9o3cIiKHGPboX690VT2QzA=; b=KY2HvmLP7fF4A3hW0665zrKmFc
-	xNocYRuouAvqyNzCDv0yVN0wGco7+vaZJ94u8+scupoRf5vqrIGnwfIbhEjtF8opxjy2P+5mx4CpH
-	lwrNxwCVFVGKDvpaYojZjOZf49dLzbI4Rvj5Ipd0fkxu85ywDq0GgWfcGDYck1xj2V3NrYsnoCgJO
-	ETEvX2GxzvjDtUKEmOyvlXun8c3AvTlJexgKS7AOBztzQ7yonqajNzQY4XITDkcwmTi1pQpXYXcjo
-	uCR5lhcLuqv+8kqLGK/cs9OExoTUUk2LOkunBH8fEA12MdUC/w68A4sb0ttE2AhCxVq+NU1wWIfK6
-	z9ec31TQ==;
+	bh=VM4egV706YBIeNxCp2+0uiBFD2cw8ReQidhE5I5Vh8g=; b=PQW9qzFKCxnIzdOWfYBAODG343
+	awh4fASWG3qlcTPV4/KFwki2G9m5cm/82wxCKDucH86jdOMLubZLhRKh4plsyGduqk2/Udjv2AAIq
+	o6VrwS9AmmbW7kCABbzkbu2rw+u1SGKzmBfodR5FU9OyRsiTzNutwSQoSzdjFM2ffi13q07iqlUyi
+	y3pE6SsmEURqpS561E5McRuPrHfCFgmA7eWO8fcBbOILDfybkeWrQT291KHh7GaV3xfWr15DohrIF
+	IJnrhXMGtvyr3RurbzatCVCrGqP3GpgMc8XZmluHgXsdFsRl41HRibWKpE6HA/VW5KsYw63oes0Ma
+	Z2GzEZcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuT6V-0000000031j-2h8i;
-	Mon, 23 Feb 2026 10:23:51 +0000
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343])
+	id 1vuTOw-000000004on-1zaY;
+	Mon, 23 Feb 2026 10:42:54 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuT6R-000000002ze-3cuu
+	id 1vuTOt-000000004oN-46Q5
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Feb 2026 10:23:49 +0000
-Received: by mail-wm1-x343.google.com with SMTP id 5b1f17b1804b1-4834826e555so39872005e9.2
-        for <linux-nvme@lists.infradead.org>; Mon, 23 Feb 2026 02:23:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1771842226; x=1772447026; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eQ8IZEw2bB4rRelBG9i/t9o3cIiKHGPboX690VT2QzA=;
-        b=egH3mtwSeUFYk0eZ5wy0p3jC9UBw08JgTcPzMXs/+zJwjHAkuiNDLdqwFFkeFRWMcX
-         MqMfL6GC+vxxzxtUF4kw+Mg3UnwxoUNEL1pcYZzDQPKtrk6G9nyd6J+U17ax/fyp4YYI
-         wB8MVNeuA2tkMLwn1wFhpoD5ECecgCDjvv2Vs+KPbNzJU7k6BbvlpXTITLwAOYKHXrF8
-         dtbGnSM0kbhmMiU6WvNN5MP9/0b4AVcuzBiqngJMHVEvuyBRiLbP3llYOdMYlTE14vIv
-         KoAGqwgJVdMFFqSG2jZ3yS9Da5GHBrd+1xFyc3CEIFBC6USAxB7IOwsaqsRoj+Jog+As
-         wV3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771842226; x=1772447026;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eQ8IZEw2bB4rRelBG9i/t9o3cIiKHGPboX690VT2QzA=;
-        b=LaHPDN1vhN+64caxhXNwEr2PAIeNnzTr1tUYIC0VidfvL9V9BDTUHZdCXsj3BO7GQJ
-         igl4vBN0ZcpRhAUlntt64GDN1/7pEljp62MyN2QpU1eDxh848WPIL/wcipYQNxNl5gmD
-         V8YV56va6dMSH0p4UDsSD7HDkJBoVTIjolO3VjXqgY6npbKzJSgPDiU/jyi0UOrt9Xdc
-         XpdEFofwNg45VnbjM7RuBLgUow04zMiePPMIbK4NZyKLs0wJ4HF7FYXzAKScbWTzdnTB
-         x5NGo0+fviKaKH9SSQBEKSitCTsxYXfQb1Gcp+iE3TKkUhkHL6gEzhSbZu9jvoi/mk/E
-         /Bfg==
-X-Forwarded-Encrypted: i=1; AJvYcCX9GUNPvqcJIE2NX68MeeGAQaS//P0mEmEWhwhnLFATO91jyrcA1wqyKV3qV4mg9fGnky5KR9wfyYGh@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywgvsdl+eCr/+H60I+PWWsxUik6gM2P/KNCWfbeBbXffFS20J8Z
-	BIQFirKBODk7pl8KKbl3X7MarUP/G14r/H5EacAdxQNVzcc5dQNVii4IFGiTI8kBF7w=
-X-Gm-Gg: AZuq6aJhhQ/n81dIkl/jiUf1URVaqll56rk/SIsLVcySswdfrqWL7AFlHr8hfc9LjGm
-	Ok2ttEq1ivR0dnNN4GFuxUivZoctM/jpasK/Y/FU+tNDbH5kGz4QbGRi/OekHvlHzWezngvP07e
-	jwtMnF/vJ86FCr3VT4NbFfVjNC1Xo6ukO/G8C4h+KprXv9Tv2ksoRFXEAYghQvJ+wkzNJfaGexP
-	NN87wtqY9qN7JKCKECklNhyMzu2ExZlIxeXhNwHgD3YtPUfJ6PUdGpr9Z36F0aV6UTO4X6npYb1
-	03FTry2380WbmzYfFD+8T7vRWoAatsBV3gjLugw1ZoMdWnz/eknUEL5SkMdt5Wv2QE65Ep+V2Iy
-	K0NCoqA4zODCdmG/E6Nekk47wql1R7LdFOGqm9t/o2USkEWMlKRplO3ZK98uRoHOCIV6MFhppL3
-	hTADumMADLfDjV4UShJqIxEXE8H0oFpO41ScUu7OJgMKRm
-X-Received: by 2002:a05:600c:3e05:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-483a9636692mr117427825e9.23.1771842225872;
-        Mon, 23 Feb 2026 02:23:45 -0800 (PST)
-Received: from linux.fritz.box.box ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31bc0e3sm237342465e9.5.2026.02.23.02.23.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 02:23:45 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: [PATCH v2 2/3] nvme: add WQ_PERCPU to alloc_workqueue users
-Date: Mon, 23 Feb 2026 11:23:28 +0100
-Message-ID: <20260223102336.108512-3-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260223102336.108512-1-marco.crivellari@suse.com>
-References: <20260223102336.108512-1-marco.crivellari@suse.com>
-MIME-Version: 1.0
+	Mon, 23 Feb 2026 10:42:53 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id a4f82591 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Mon, 23 Feb 2026 11:36:09 +0100 (CET)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 23 Feb 2026 11:36:07 +0100
+Message-Id: <DGM9WUGICE31.3UDKXWISDQW4G@arkamax.eu>
+Cc: "Maurizio Lombardi" <mlombard@redhat.com>, <kbusch@kernel.org>,
+ <mheyne@amazon.de>, <emilne@redhat.com>, <jmeneghi@redhat.com>,
+ <linux-nvme@lists.infradead.org>, <dwagner@suse.de>,
+ <mlombard@bsdbackstore.eu>
+Subject: Re: [PATCH RFC 4/5] nvme: add sysfs attribute to change IO timeout
+ per nvme controller
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Mohamed Khalfella" <mkhalfella@purestorage.com>, "Maurizio Lombardi"
+ <mlombard@arkamax.eu>
+X-Mailer: aerc 0.21.0
+References: <20260212120951.79738-1-mlombard@redhat.com>
+ <20260212120951.79738-5-mlombard@redhat.com>
+ <20260217202553.GJ3435530-mkhalfella@purestorage.com>
+ <DGI4FR7YBCQ3.28N1YY210A3PA@arkamax.eu>
+ <20260218175452.GK2392949-mkhalfella@purestorage.com>
+ <DGJ42477U84O.MIIO0U7J75II@arkamax.eu>
+ <DGJSTIHMGMV2.316EK4AH62YKU@arkamax.eu>
+ <20260220175323.GL3435530-mkhalfella@purestorage.com>
+In-Reply-To: <20260220175323.GL3435530-mkhalfella@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260223_022347_917831_D7AAD954 
-X-CRM114-Status: GOOD (  13.80  )
+X-CRM114-CacheID: sfid-20260223_024252_367209_2B22DEDA 
+X-CRM114-Status: GOOD (  18.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -107,64 +71,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This continues the effort to refactor workqueue APIs, which began with
-the introduction of new workqueues and a new alloc_workqueue flag in:
+On Fri Feb 20, 2026 at 6:53 PM CET, Mohamed Khalfella wrote:
+> On Fri 2026-02-20 13:47:08 +0100, Maurizio Lombardi wrote:
+>> On Thu Feb 19, 2026 at 6:22 PM CET, Maurizio Lombardi wrote:
+>> > On Wed Feb 18, 2026 at 6:54 PM CET, Mohamed Khalfella wrote:
+>> >
+>> > So changing the timeout field in the tagset should be doable, the
+>> > only problem is avoid racing against nvme_alloc_ns().
+>> >
+>> > I will try to come up with something.
+>>=20
+>> I decided to keep the current design, calling blk_queue_rq_timeout()
+>> with the namespaces_lock mutex locked is the easiest solution
+>>=20
+>> I am sending a V2 in a few moments.
+>>=20
+>
+> How about restricting changing io timeout to LIVE controllers only. This
+> will make the problem easier to solve. Maybe something like the below?
+>
+> 	enum nvme_ctrl_state state;
+> 	unsigned long flags;
+>
+>         spin_lock_irqsave(&ctrl->lock, flags);
+> 	state =3D nvme_ctrl_state(ctrl);
+> 	if (state !=3D NVME_CTRL_LIVE) {
+> 		spin_unlock_irqrestore(&ctrl->lock, flags);
+> 		return -EBUSY
+> 	}
 
-   commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-   commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+I previously considered this solution, but I discarded it for two reasons:
 
-The refactoring is going to alter the default behavior of
-alloc_workqueue() to be unbound by default.
+1) If the user sets the io_timeout too low, the controller ends up
+resetting non-stop. With this patch, it becomes hard to catch the
+controller in a LIVE state and fix the problem, because the controller is
+almost always RESETTING. You essentially have to wait until the driver
+gives up and removes the controller.
 
-With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
-must now use WQ_PERCPU. For more details see the Link tag below.
+2) This doesn't prevent nvme_alloc_ns() from racing against the sysfs
+path.
+Suppose that thread A is executing nvme_alloc_ns() and has just called
+disk =3D blk_mq_alloc_disk(ctrl->tagset, &lim, ns);
 
-In order to keep alloc_workqueue() behavior identical, explicitly request
-WQ_PERCPU.
+immediately after, the user changes io_timeout. Thread B takes the
+namespaces_lock, scans the namespaces list and calls
+blk_queue_rq_timeout() on each namespaces' queues.
 
-Link: https://lore.kernel.org/all/20250221112003.1dSuoGyc@linutronix.de/
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/nvme/target/core.c | 5 +++--
- drivers/nvme/target/tcp.c  | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+thread A now can take the namespaces_lock and adds the new namespace to
+the list, but the problem is that the new namespace is using the stale
+timeout setting it inherited from ctrl->tagset.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 5e43d0acc86e..376d38b62da2 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1942,12 +1942,13 @@ static int __init nvmet_init(void)
- 	if (!nvmet_bvec_cache)
- 		return -ENOMEM;
- 
--	zbd_wq = alloc_workqueue("nvmet-zbd-wq", WQ_MEM_RECLAIM, 0);
-+	zbd_wq = alloc_workqueue("nvmet-zbd-wq", WQ_MEM_RECLAIM | WQ_PERCPU,
-+				 0);
- 	if (!zbd_wq)
- 		goto out_destroy_bvec_cache;
- 
- 	buffered_io_wq = alloc_workqueue("nvmet-buffered-io-wq",
--			WQ_MEM_RECLAIM, 0);
-+			WQ_MEM_RECLAIM | WQ_PERCPU, 0);
- 	if (!buffered_io_wq)
- 		goto out_free_zbd_work_queue;
- 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index acc71a26733f..4b8b02341ddc 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -2225,7 +2225,7 @@ static int __init nvmet_tcp_init(void)
- 	int ret;
- 
- 	nvmet_tcp_wq = alloc_workqueue("nvmet_tcp_wq",
--				WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
-+				WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_PERCPU, 0);
- 	if (!nvmet_tcp_wq)
- 		return -ENOMEM;
- 
--- 
-2.52.0
+Maurizio
+
+>
+> 	if (ctrl->queue_count > 1)
+> 		WRITE_ONCE(ctrl->tagset->timeout, timeout);
+> 	spin_unlock_irqrestore(&ctrl->lock, flags);
+>
+> 	/* Take the namespaces_lock to avoid racing against nvme_alloc_ns() */
+> 	mutex_lock(&ctrl->namespaces_lock);
+>
+> 	ctrl->io_timeout =3D msecs_to_jiffies(timeout);
+> 	list_for_each_entry(ns, &ctrl->namespaces, list)
+> 		blk_queue_rq_timeout(ns->queue, ctrl->io_timeout);
+>
+> 	mutex_unlock(&ctrl->namespaces_lock);
+>
+>
+>> Maurizio
+>>=20
 
 
