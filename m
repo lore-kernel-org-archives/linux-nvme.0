@@ -4,51 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20177F3C984
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Feb 2026 14:39:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BC62F3C995
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Feb 2026 15:15:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XCX3zLvOgX3LVI4GIkEI40Z+dwRBRhetwlg/96odtQo=; b=eHYRsCt2SIWbdC4izckNyRCPvl
-	Z0yuaSr8KSOIJ8zjRFd+Jb76bpHDW/3xOJ12bb+2159EOPDDn4hVgcnImOVDOA/aGt/dlUT0qDHkb
-	1G+skOaz7XYfakTdRxR8Lh66fXQFtEPah+5JJ3iydfScnchhLHXeF12fQGMUaIHeeHewrH5DVQyhI
-	I5hgNaDbrlsbkrt0pE34s4t2VDEGTuB0/ysBIeCrW5td4rzzOycjU3Aa6TYWkOWNARHaoubWcLclJ
-	FGHx9uizhBueFQrkswCLA1bLz7ue7eo+a3Y8amk+sdL2d4LZ+8+GQD+N4ikAVlF5mUqjfBhBQEwZ2
-	GOKiZc2Q==;
+	bh=cgnGFiD/I+yCbeeJPo36RUmPnF1upEYK2pESSckUICc=; b=fB8vbUCgXwC4cKdEgyJaKvG5JY
+	A7qkt3Lm2970k5YrV3A7gT0I/EK0o61IKMHEcRf+mNmiBe4x3gBJIAlnZWs92JPZZwdSmQUOaoa1u
+	kR+X16G3XvxzS72ihfGUmuCnufS1jqAouI1cccDxkZy3XLSYOTJ9NwBIRNhn39n5ajbkPj2pnikk4
+	67J4PHYGe4aKUu+fnOEvQqxsZzqB5vi7CHpsopPgcYYmRDFgiFu1ddki5dqzVbp5Y+HiMoM7TzpAQ
+	MzResf4Md3Ue1R7H7GqWiBiwabbfA2rEnuF8MGFGEUrV92tlNu0HcCB8Yyv1X8B/3zaCvL+L6Uqok
+	W1TEFFnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vutZa-00000002FOX-2KUJ;
-	Tue, 24 Feb 2026 14:39:38 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1vuu8F-00000002INT-2pWP;
+	Tue, 24 Feb 2026 15:15:27 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vutZY-00000002FNB-1rOX
+	id 1vuu8D-00000002IN2-1DB7
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Feb 2026 14:39:37 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 79F6E68D07; Tue, 24 Feb 2026 15:39:33 +0100 (CET)
-Date: Tue, 24 Feb 2026 15:39:33 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: kbusch@kernel.org, hch@lst.de, hare@suse.de, chaitanyak@nvidia.com,
-	bvanassche@acm.org, linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	James.Bottomley@HansenPartnership.com, mlombard@arkamax.eu,
-	jmeneghi@redhat.com, emilne@redhat.com, bgurney@redhat.com
-Subject: Re: [PATCH V2 3/3] scsi: Convert async scanning to use the
- completion chain helper
-Message-ID: <20260224143933.GC12308@lst.de>
-References: <20260224122505.52401-1-mlombard@redhat.com> <20260224122505.52401-4-mlombard@redhat.com>
+	Tue, 24 Feb 2026 15:15:26 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 0F5F040763;
+	Tue, 24 Feb 2026 15:15:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 916D0C116D0;
+	Tue, 24 Feb 2026 15:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771946123;
+	bh=k3H/rEVnqAMIHs4Z1Gzb9bMIEAMLvti+HKdykL/Uktc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bvVmugzbOfLJt+KIQCbC1slHVUUEo8DJQAdpw9r561nCKeC1cSvkokK/RwSgfxg5z
+	 zN1/ue20RAzMHQXNx6uEJScdDQt/N7og91IH/kAAIEQfH8LuKH6vc1ouOhLwMHf7R1
+	 dQPPB7FrCcPS/ujKoLBZLod4/Zh6x0oRT6LwkLvLjX/ydqpfMIGbdfxgZL3wbpNEX+
+	 JE2h+vH039tBZSX9mcG113L35Y6kkLeXZLBbK7gKVSdeGetVJqtZIwyfD8CCliwXZK
+	 jy5KFcYKgMWUngeKEc1+QY+gInagmEvlH9bmtgs2aBg3ci9WTT1ZUJhEtt4mlybQbR
+	 6h1BV9pNKvykw==
+Date: Tue, 24 Feb 2026 08:15:21 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/7] nvme: set discard_granularity from NPDG/NPDA
+Message-ID: <aZ3Aib5gQlIiIaEp@kbusch-mbp>
+References: <20260221033302.1451669-1-csander@purestorage.com>
+ <20260221033302.1451669-6-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260224122505.52401-4-mlombard@redhat.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260221033302.1451669-6-csander@purestorage.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260224_063936_622908_280A9BE9 
-X-CRM114-Status: GOOD (  13.20  )
+X-CRM114-CacheID: sfid-20260224_071525_356672_C987BFF5 
+X-CRM114-Status: GOOD (  11.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -63,22 +74,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Feb 24, 2026 at 01:25:05PM +0100, Maurizio Lombardi wrote:
-> diff --git a/drivers/scsi/scsi_priv.h b/drivers/scsi/scsi_priv.h
-> index 7a193cc04e5b..d8a157bc9078 100644
-> --- a/drivers/scsi/scsi_priv.h
-> +++ b/drivers/scsi/scsi_priv.h
-> @@ -132,7 +132,7 @@ extern void scsi_exit_procfs(void);
+On Fri, Feb 20, 2026 at 08:33:00PM -0700, Caleb Sander Mateos wrote:
+> @@ -2113,11 +2114,27 @@ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
+>  	else if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
+>  		lim->max_hw_discard_sectors = UINT_MAX;
+>  	else
+>  		lim->max_hw_discard_sectors = 0;
 >  
->  /* scsi_scan.c */
->  void scsi_enable_async_suspend(struct device *dev);
-> -extern int scsi_complete_async_scans(void);
-> +extern void scsi_complete_async_scans(void);
+> -	lim->discard_granularity = lim->logical_block_size;
+> +	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns->head, UINT_MAX))
+> +		lim->max_hw_discard_sectors =
+> +			nvme_lba_to_sect(ns->head, ctrl->dmrsl);
+> +	else if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
+> +		lim->max_hw_discard_sectors = UINT_MAX;
+> +	else
+> +		lim->max_hw_discard_sectors = 0;
 
-No need for the extern here.
-
-> +DEFINE_COMPL_CHAIN(scanning_hosts);
-
-This looks like it should be marked static.
-
+Something seems off about this patch: these last four new lines added
+here are the same as the unmodified lines preceding it.
 
