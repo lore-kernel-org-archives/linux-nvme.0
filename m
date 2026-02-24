@@ -4,54 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47AF2E9B258
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CA30E9B260
 	for <linux-nvme@archiver.kernel.org>; Tue, 24 Feb 2026 12:25:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QC7EdP580Jc2JbrFb4S2BBJQ9eN/Z9ppfP8JDlFqYR8=; b=qjQUerx7NZ+IXFXICUjh2VLJfQ
-	HKdGj1AeO4zhXPw5W514ociLMCJUxi6eVMXYbcP9S0YH70FugW575IAaMvA/0Zp0yPc+w5B5MRHk8
-	T5UjpDc38sZj41sAEr3vMc+FJVol8p3wYa2aZRCJd6o/72BYptFI46AX/ZlX1RHrcHE+9XHT4PPvY
-	gpwC0kpFMm/qU5niYutsapwM7WZ0Lit95/XogOXJQBe6yo9bk/tUvzHvt7iFG2ej9gkgZN6AvzbPN
-	xNKwFS2tlWlHDYDP/Eq1BGHb6uEIdNvlujRAcp3adnQFjOzwcX3o+y2cP7j2iRFi+j3vXhoTLZ9xg
-	RZi+FvOA==;
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lGIs1mWUQvpjWOdEeiul6WbE3EEGo/gH1iDQuri5mPw=; b=XUjbjJfIz+Dh8JCEga7fKDiHBO
+	La+F0OvezGMClzIzPGt+OQET53CnuKsWkP4N3IgkbLLaUGWfMwfR01sdGi5WYttQB8rz5wCIcNLxe
+	9n+tTWO+Us2uk6fYZsJN6FzpLZ9Bkizgg/OZ17L7gik8ZsNFPGG6S4zbBFNIHyogpvS28GwIhqJo8
+	WeTC+Av+2uygMVp52nD+37Z7XD2Sxta6uWjJzNREr2JcbHWLJHIU1QUFIy+4PrrC09zTBKMj0l4bK
+	ydwZTYwKG0NR2U3uwelsC44BtGqTKNW3QasHwTpgASjjzn5Nh9rr32jCLrGJcc8qFhylHmGoIoFpL
+	rZMWLJlQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vurTi-000000022Io-2mCe;
-	Tue, 24 Feb 2026 12:25:26 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vurTk-000000022Jc-2ae6;
+	Tue, 24 Feb 2026 12:25:28 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vurTg-000000022Hr-3yoW
+	id 1vurTh-000000022Hq-0AKb
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Feb 2026 12:25:26 +0000
+	Tue, 24 Feb 2026 12:25:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1771935924;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=QC7EdP580Jc2JbrFb4S2BBJQ9eN/Z9ppfP8JDlFqYR8=;
-	b=FaiBeNnmePGhjGXIcOXV9eQ6z9Dl1JGEfNfS4AC6epqXGwC6QrmO/9LzEkqkx82j/LyqW3
-	Q7oogipg+Yh5SlYfCBi5AqT3oVk8nllZgdHaNEfxZWuq7JciERif/QnG+x0nWLYRGcA4PR
-	NeMsh1lbHpDQIboUcH79R8FOagTa90M=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lGIs1mWUQvpjWOdEeiul6WbE3EEGo/gH1iDQuri5mPw=;
+	b=OyxQhIlK+sHSJXmDZCeabfdCiqDcjX3Pi8URmVzEymTB9Mb2SjzmBJVHAO23gTctA2LF2H
+	o5DkVY6BWshAeLZVotthOg7HzfyH2L+ezYejS6l6ZQRIBuXLqCZ/51ARA08LmE6pcvxt5s
+	KRMXnWkePfnEI1i9rlfG6jUY9n/pqQM=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-465--Agj7q8kNyC69ggYG0--qA-1; Tue,
- 24 Feb 2026 07:25:14 -0500
-X-MC-Unique: -Agj7q8kNyC69ggYG0--qA-1
-X-Mimecast-MFC-AGG-ID: -Agj7q8kNyC69ggYG0--qA_1771935912
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-616-gSop_Si1NbahDnhuAotycg-1; Tue,
+ 24 Feb 2026 07:25:22 -0500
+X-MC-Unique: gSop_Si1NbahDnhuAotycg-1
+X-Mimecast-MFC-AGG-ID: gSop_Si1NbahDnhuAotycg_1771935921
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 027DE18004BB;
-	Tue, 24 Feb 2026 12:25:12 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BB6401956078;
+	Tue, 24 Feb 2026 12:25:20 +0000 (UTC)
 Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.204])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6EE2919560A2;
-	Tue, 24 Feb 2026 12:25:07 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0210D19560A2;
+	Tue, 24 Feb 2026 12:25:16 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: kbusch@kernel.org
 Cc: hch@lst.de,
@@ -65,18 +66,20 @@ Cc: hch@lst.de,
 	jmeneghi@redhat.com,
 	emilne@redhat.com,
 	bgurney@redhat.com
-Subject: [PATCH V2 0/3] Ensure ordered namespace registration during async scan
-Date: Tue, 24 Feb 2026 13:25:02 +0100
-Message-ID: <20260224122505.52401-1-mlombard@redhat.com>
+Subject: [PATCH V2 2/3] nvme-core: register namespaces in order during async scan
+Date: Tue, 24 Feb 2026 13:25:04 +0100
+Message-ID: <20260224122505.52401-3-mlombard@redhat.com>
+In-Reply-To: <20260224122505.52401-1-mlombard@redhat.com>
+References: <20260224122505.52401-1-mlombard@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: 3FL1RCRTVul2Cz2f9k8bp802js8MrjM2FkhQG09WZsk_1771935912
+X-Mimecast-MFC-PROC-ID: pMpmc6enySuPcOdUIrooGXh65NSDBXSohG8uXxe7LyA_1771935921
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260224_042525_053555_975EA946 
-X-CRM114-Status: GOOD (  10.86  )
+X-CRM114-CacheID: sfid-20260224_042525_147850_9EC01A95 
+X-CRM114-Status: GOOD (  23.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,98 +94,247 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The NVMe fully asynchronous namespace scanning introduced in
-commit 4e893ca81170 ("nvme-core: scan namespaces asynchronously")
-significantly improved discovery times. However, it also introduced
-non-deterministic ordering for namespace registration.
+The fully asynchronous namespace scanning, while fast, can result in
+namespaces being allocated and registered out of order. This leads to
+unpredictable device naming across reboots which can be confusing
+for users.
 
-While kernel device names (/dev/nvmeXnY) are not guaranteed to be stable
-across reboots, this unpredictable ordering has caused considerable user
-confusion and has been perceived as a regression, leading to multiple bug
-reports.
+To solve this, introduce a serialization mechanism for the asynchronous
+namespace scan. This is achieved by using the generic compl_chain helper,
+which ensures that the initialization of one namespace (nvme_alloc_ns)
+completes before the next one begins.
 
-This series introduces a solution to enforce strict sequential
-registration based on NSID order, entirely preserving the performance
-benefits of the asynchronous scan approach.
+This approach preserves the performance benefits of asynchronous
+identification while guaranteeing that the final device registration
+occurs in the correct order.
 
-Instead of adding an NVMe-specific hack, this series abstracts the
-serialization mechanism currently open-coded in the SCSI subsystem
-(drivers/scsi/scsi_scan.c) into a generic library helper called the
-completion chain (compl_chain).
+Performance testing shows that this change has no noticeable impact on
+scan times compared to the fully asynchronous method.
 
-By enforcing a strict First-In, First-Out (FIFO) completion order for
-asynchronous tasks, we can ensure that namespaces are allocated and
-registered sequentially without blocking the underlying parallel discovery
-processes.
+High latency NVMe/TCP, ~150ms ping, 100 namespaces
 
-PATCH 3 Refactors the existing SCSI asynchronous scanning implementation
-to use the new compl_chain helper, stripping out the custom, open-coded task
-list and reducing code duplication.
+Synchronous namespace scan (RHEL-10.1): 32375ms
+Fully async namespace scan (7.0-rc1):    2543ms
+Async namespace scan with dependency chain (7.0-rc1): 2431ms
 
-Original code:
+Low latency NVMe/TCP, ~0.2ms ping, 100 namespaces
 
-$ nvme list
-Node                  Generic               Namespace
---------------------- --------------------- ----------
-/dev/nvme0n1          /dev/ng0n1            0x2
-/dev/nvme0n2          /dev/ng0n2            0x1
-/dev/nvme0n3          /dev/ng0n3            0x5
-/dev/nvme0n4          /dev/ng0n4            0x3
-/dev/nvme0n5          /dev/ng0n5            0x4
-[...]
-/dev/nvme0n10         /dev/ng0n10           0xa
-/dev/nvme0n11         /dev/ng0n11           0x8
-/dev/nvme0n12         /dev/ng0n12           0x12
-/dev/nvme0n13         /dev/ng0n13           0x17
-/dev/nvme0n14         /dev/ng0n14           0xc
-/dev/nvme0n15         /dev/ng0n15           0x11
-/dev/nvme0n16         /dev/ng0n16           0x14
-/dev/nvme0n17         /dev/ng0n17           0x13
-/dev/nvme0n18         /dev/ng0n18           0xe
-/dev/nvme0n19         /dev/ng0n19           0xf
+Synchronous namespace scan (RHEL-10.1): 352ms
+Fully async namespace scan (7.0-rc1):  248ms
+Async namespace scan with dependency chain (7.0-rc1): 191ms
 
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+---
+ drivers/nvme/host/core.c | 94 +++++++++++++++++++++++++---------------
+ drivers/nvme/host/nvme.h |  2 +
+ 2 files changed, 62 insertions(+), 34 deletions(-)
 
-With this patch:
-
-$ nvme list
-Node                  Generic               Namespace
---------------------- --------------------- ----------
-/dev/nvme0n1          /dev/ng0n1            0x1
-/dev/nvme0n2          /dev/ng0n2            0x2
-/dev/nvme0n3          /dev/ng0n3            0x3
-/dev/nvme0n4          /dev/ng0n4            0x4
-/dev/nvme0n5          /dev/ng0n5            0x5
-/dev/nvme0n6          /dev/ng0n6            0x6
-[...]
-/dev/nvme0n10         /dev/ng0n10           0xa
-/dev/nvme0n11         /dev/ng0n11           0xb
-/dev/nvme0n12         /dev/ng0n12           0xc
-/dev/nvme0n13         /dev/ng0n13           0xd
-/dev/nvme0n14         /dev/ng0n14           0xe
-/dev/nvme0n15         /dev/ng0n15           0xf
-/dev/nvme0n16         /dev/ng0n16           0x10
-/dev/nvme0n17         /dev/ng0n17           0x11
-/dev/nvme0n18         /dev/ng0n18           0x12
-/dev/nvme0n19         /dev/ng0n19           0x13
-
-V2: create the compl_chain helper that both SCSI and NVMe can share
-
-Maurizio Lombardi (3):
-  lib: Introduce completion chain helper
-  nvme-core: register namespaces in order during async scan
-  scsi: Convert async scanning to use the completion chain helper
-
- drivers/nvme/host/core.c    |  94 ++++++++++++++++++----------
- drivers/nvme/host/nvme.h    |   2 +
- drivers/scsi/scsi_priv.h    |   2 +-
- drivers/scsi/scsi_scan.c    |  68 +++-----------------
- include/linux/compl_chain.h |  35 +++++++++++
- lib/Makefile                |   2 +-
- lib/compl_chain.c           | 121 ++++++++++++++++++++++++++++++++++++
- 7 files changed, 228 insertions(+), 96 deletions(-)
- create mode 100644 include/linux/compl_chain.h
- create mode 100644 lib/compl_chain.c
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f5ebcaa2f859..24c62bdf8abc 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4105,13 +4105,27 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
+ 	list_add_rcu(&ns->list, &ns->ctrl->namespaces);
+ }
+ 
+-static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
++/**
++ * struct async_scan_task - keeps track of controller & NSID to scan
++ * @entry               link to the completion chain list
++ * @ctrl:		Controller on which namespaces are being scanned
++ * @nsid:		The NSID to scan
++ */
++struct async_scan_task {
++	struct compl_chain_entry chain_entry;
++	struct nvme_ctrl *ctrl;
++	u32 nsid;
++};
++
++static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info,
++				struct compl_chain_entry *cc_entry)
+ {
+ 	struct queue_limits lim = { };
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
+ 	int node = ctrl->numa_node;
+ 	bool last_path = false;
++	int r;
+ 
+ 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
+ 	if (!ns)
+@@ -4134,7 +4148,19 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	ns->ctrl = ctrl;
+ 	kref_init(&ns->kref);
+ 
+-	if (nvme_init_ns_head(ns, info))
++	/*
++	 * Wait for the previous async task to finish before
++	 * allocating the namespace.
++	 */
++	if (cc_entry)
++		compl_chain_wait(cc_entry);
++
++	r = nvme_init_ns_head(ns, info);
++
++	if (cc_entry)
++		compl_chain_complete(cc_entry);
++
++	if (r)
+ 		goto out_cleanup_disk;
+ 
+ 	/*
+@@ -4309,7 +4335,8 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		nvme_ns_remove(ns);
+ }
+ 
+-static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned int nsid,
++				struct compl_chain_entry *cc_entry)
+ {
+ 	struct nvme_ns_info info = { .nsid = nsid };
+ 	struct nvme_ns *ns;
+@@ -4348,40 +4375,30 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ 	ns = nvme_find_get_ns(ctrl, nsid);
+ 	if (ns) {
++		/* Release the chain early so the next task can proceed */
++		if (cc_entry)
++			compl_chain_complete(cc_entry);
+ 		nvme_validate_ns(ns, &info);
+ 		nvme_put_ns(ns);
+ 	} else {
+-		nvme_alloc_ns(ctrl, &info);
++		nvme_alloc_ns(ctrl, &info, cc_entry);
+ 	}
+ }
+ 
+-/**
+- * struct async_scan_info - keeps track of controller & NSIDs to scan
+- * @ctrl:	Controller on which namespaces are being scanned
+- * @next_nsid:	Index of next NSID to scan in ns_list
+- * @ns_list:	Pointer to list of NSIDs to scan
+- *
+- * Note: There is a single async_scan_info structure shared by all instances
+- * of nvme_scan_ns_async() scanning a given controller, so the atomic
+- * operations on next_nsid are critical to ensure each instance scans a unique
+- * NSID.
+- */
+-struct async_scan_info {
+-	struct nvme_ctrl *ctrl;
+-	atomic_t next_nsid;
+-	__le32 *ns_list;
+-};
+-
+ static void nvme_scan_ns_async(void *data, async_cookie_t cookie)
+ {
+-	struct async_scan_info *scan_info = data;
+-	int idx;
+-	u32 nsid;
++	struct async_scan_task *task = data;
++
++	nvme_scan_ns(task->ctrl, task->nsid, &task->chain_entry);
+ 
+-	idx = (u32)atomic_fetch_inc(&scan_info->next_nsid);
+-	nsid = le32_to_cpu(scan_info->ns_list[idx]);
++	/*
++	 * If the task failed early and returned without completing the
++	 * chain entry, ensure the chain progresses safely.
++	 */
++	if (compl_chain_pending(&task->chain_entry))
++		compl_chain_complete(&task->chain_entry);
+ 
+-	nvme_scan_ns(scan_info->ctrl, nsid);
++	kfree(task);
+ }
+ 
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+@@ -4411,14 +4428,12 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+ 	u32 prev = 0;
+ 	int ret = 0, i;
+ 	ASYNC_DOMAIN(domain);
+-	struct async_scan_info scan_info;
++	struct async_scan_task *task;
+ 
+ 	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
+ 	if (!ns_list)
+ 		return -ENOMEM;
+ 
+-	scan_info.ctrl = ctrl;
+-	scan_info.ns_list = ns_list;
+ 	for (;;) {
+ 		struct nvme_command cmd = {
+ 			.identify.opcode	= nvme_admin_identify,
+@@ -4434,20 +4449,30 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+ 			goto free;
+ 		}
+ 
+-		atomic_set(&scan_info.next_nsid, 0);
+ 		for (i = 0; i < nr_entries; i++) {
+ 			u32 nsid = le32_to_cpu(ns_list[i]);
+ 
+ 			if (!nsid)	/* end of the list? */
+ 				goto out;
+-			async_schedule_domain(nvme_scan_ns_async, &scan_info,
++
++			task = kmalloc_obj(*task);
++			if (!task) {
++				ret = -ENOMEM;
++				goto out;
++			}
++
++			task->nsid = nsid;
++			task->ctrl = ctrl;
++			compl_chain_add(&ctrl->scan_chain, &task->chain_entry);
++
++			async_schedule_domain(nvme_scan_ns_async, task,
+ 						&domain);
+ 			while (++prev < nsid)
+ 				nvme_ns_remove_by_nsid(ctrl, prev);
+ 		}
+-		async_synchronize_full_domain(&domain);
+ 	}
+  out:
++	async_synchronize_full_domain(&domain);
+ 	nvme_remove_invalid_namespaces(ctrl, prev);
+  free:
+ 	async_synchronize_full_domain(&domain);
+@@ -4466,7 +4491,7 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl)
+ 	kfree(id);
+ 
+ 	for (i = 1; i <= nn; i++)
+-		nvme_scan_ns(ctrl, i);
++		nvme_scan_ns(ctrl, i, NULL);
+ 
+ 	nvme_remove_invalid_namespaces(ctrl, nn);
+ }
+@@ -5094,6 +5119,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 
+ 	mutex_init(&ctrl->scan_lock);
+ 	INIT_LIST_HEAD(&ctrl->namespaces);
++	compl_chain_init(&ctrl->scan_chain);
+ 	xa_init(&ctrl->cels);
+ 	ctrl->dev = dev;
+ 	ctrl->ops = ops;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9a5f28c5103c..95f8c40ec86b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -17,6 +17,7 @@
+ #include <linux/wait.h>
+ #include <linux/t10-pi.h>
+ #include <linux/ratelimit_types.h>
++#include <linux/compl_chain.h>
+ 
+ #include <trace/events/block.h>
+ 
+@@ -294,6 +295,7 @@ struct nvme_ctrl {
+ 	struct blk_mq_tag_set *tagset;
+ 	struct blk_mq_tag_set *admin_tagset;
+ 	struct list_head namespaces;
++	struct compl_chain scan_chain;
+ 	struct mutex namespaces_lock;
+ 	struct srcu_struct srcu;
+ 	struct device ctrl_device;
 -- 
 2.53.0
 
