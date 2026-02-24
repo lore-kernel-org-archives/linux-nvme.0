@@ -4,112 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91C52F3C9BC
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Feb 2026 16:40:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB943F357C5
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Feb 2026 17:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ttbHm5RTO/Dzl7qCo7SvH4Km/2zZmWiCTwCtb7uTuzA=; b=xsFv7rXf/ve2mA6ERj0LuoL+GP
-	uL11c72To4/IQLDMFlVJ6agFphUbSowQ0eUfp5zbkWrso6TXGsPjr+AaXX96OaN4ZrS0mgSdgy680
-	3gPKnaltv1z9ALgVJZ4+0THgfLIuOB2XhJwIvG3IL2ZvebqsHJwDIknZ6uCfirs3eZ1wJarM9aZaC
-	zQqDE7SCWcHWVz6UIs1xut+eOz/bkQnTG2BMVsJNA5pyg1aFVCrPv5pVxm0DV/mQ3kYTZd5VIeNAj
-	YKyxVrqwZCh1uCgD1nVvF1f9jjjUMF42tSjSaLNr6Gk5mrSN0h7rgA4Y+JNJZoQgGWEaq97FneU1g
-	TDTeeieA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=qCPUB5YteTwm4Su/ndU1zpliegenX1WCgWKjuq5aUfY=; b=n47eB0JcZEy/zqpkNLpaWC7vgC
+	IXtxDlC/L8Vh3M1bozdf1PPH1QkHs6cWBZQrGQ2Ux4x5a+CNSx9e0mQE1a9lJRXb+jXmUC9S9eDaA
+	Ifs4xvE7ISpmczV7r9YwbkrjVA4DRbfk/nbfRvbb3Iak45Bf/95qJ7HJdW/vcDol/aiB9+VVP457B
+	9OulSuLyr/lUjILq4eWOh37n6buHE5WNVomsmaP/aVwRz8y8Qi5sDfEy4rUMy+ZFLDAjXRfSdxJ/F
+	l7kwyftu4yQ21DVjRm0QKfpfzLma50UMLuC9ZGEiavG5I+0gxsp3XBR1yuoN1Sb/txCJrdYQyzCDj
+	ZLYhYD7Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuvSi-00000002Pj1-3ofx;
-	Tue, 24 Feb 2026 16:40:40 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1vuw01-00000002SGu-0TN6;
+	Tue, 24 Feb 2026 17:15:05 +0000
+Received: from mail-vk1-xa61.google.com ([2607:f8b0:4864:20::a61])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuvSf-00000002Pig-4Ba2
+	id 1vuvzy-00000002SEE-3jX5
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Feb 2026 16:40:39 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B5BA5BD8B;
-	Tue, 24 Feb 2026 16:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771951234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ttbHm5RTO/Dzl7qCo7SvH4Km/2zZmWiCTwCtb7uTuzA=;
-	b=oXPIb6YQaaoSuquJ2dgOazaYfr9RJMkpHL/cJpX+F6O3Rvkcnc4tp1d539mOj8oU1YGmXi
-	GtmoclFTnrbShjmUGpwkYmrEWqtxHrTErJQJTSIv/tXFGpcgoo2N3wY3UhmVWcmWMWYt7y
-	jHGLaMkkNyYT7mjpJ/m+opIymq2y8G4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771951234;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ttbHm5RTO/Dzl7qCo7SvH4Km/2zZmWiCTwCtb7uTuzA=;
-	b=wpXVfrxYlXxN7LkA2dr1FU/Sv4e22p8syLbGskBZgPjMWpcNscwTZlLN5WAm7/yTkFTGSZ
-	HOdqv0cjvQF6cuAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771951234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ttbHm5RTO/Dzl7qCo7SvH4Km/2zZmWiCTwCtb7uTuzA=;
-	b=oXPIb6YQaaoSuquJ2dgOazaYfr9RJMkpHL/cJpX+F6O3Rvkcnc4tp1d539mOj8oU1YGmXi
-	GtmoclFTnrbShjmUGpwkYmrEWqtxHrTErJQJTSIv/tXFGpcgoo2N3wY3UhmVWcmWMWYt7y
-	jHGLaMkkNyYT7mjpJ/m+opIymq2y8G4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771951234;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ttbHm5RTO/Dzl7qCo7SvH4Km/2zZmWiCTwCtb7uTuzA=;
-	b=wpXVfrxYlXxN7LkA2dr1FU/Sv4e22p8syLbGskBZgPjMWpcNscwTZlLN5WAm7/yTkFTGSZ
-	HOdqv0cjvQF6cuAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82BA63EA68;
-	Tue, 24 Feb 2026 16:40:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LbO1HoLUnWlKWQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 24 Feb 2026 16:40:34 +0000
-Date: Tue, 24 Feb 2026 17:40:33 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH blktests 0/3] fix module unload failures
-Message-ID: <ad4c1108-8604-4a09-b3fb-e8f77a4abbcf@flourine.local>
-References: <20260223035023.21902-1-shinichiro.kawasaki@wdc.com>
+	Tue, 24 Feb 2026 17:15:04 +0000
+Received: by mail-vk1-xa61.google.com with SMTP id 71dfb90a1353d-5675de6eab6so183852e0c.0
+        for <linux-nvme@lists.infradead.org>; Tue, 24 Feb 2026 09:15:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1771953302; x=1772558102; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qCPUB5YteTwm4Su/ndU1zpliegenX1WCgWKjuq5aUfY=;
+        b=NFkyf6tRcrXMYyBVq1PV1T+Uj29ZGafydXZHIw9+6ivt+WNY3Yb4B39lP7bNO80cF4
+         MEOwW34yCPHO1725vyfBJOrr4xdXQj1HZeJm/lBxMHWmYvPaBExDSAIfFuIiRXbx+5Mg
+         s3GptAoeSCHVxttGeUZ/iwM3hoW1zKFc7jSKtMc1j2HvZKijApi53b8wIJp2cnEzyKsz
+         qkKxjXSkhU+YQh6g4KgLYjeIZAW1Jwk4BPFFZMl2rM+9apOPe3MRnf/DJG5G9Ub9KKCA
+         cYgOXL23FiBS29NFImKnnLeDg8Tdz8OtidxU1+Y1CxBEWycTZgf6e8/8utKJmifus75u
+         b97w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771953302; x=1772558102;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qCPUB5YteTwm4Su/ndU1zpliegenX1WCgWKjuq5aUfY=;
+        b=ZfDCE/rIdz+P+UbyfdfKNvMu88rT0QqWuDlsFKk0U3lrIivd2uNK/M0ym3WNBZVLwq
+         nEkgosSyBCzC4MGvEsrXtfOP87Ueg73DZlpNPtRzq7ofwmHydwZ2xLITw5zqpgBl6hrd
+         4Yk2oa80dzdsGptWC1zIAqtBZsnhLKDmpvD3jJ5r/DNGRhonAHvX/PD/evuV6G+2kaS7
+         xogTH1y9gkN/qCT5JIR5b4pPvSaIdLhkvlX3Q4Sr2Z09TJu+myHgqXngnT/Rgw/jKZMo
+         eUlkTijZbpyOxWMNy9gpJuHomjjUP8JTuRG3LNvu816kbplhXKK/6qOclgUUtvYRex0X
+         oI/w==
+X-Gm-Message-State: AOJu0YwyO9ELXnJlOpqQvZvazaY1LzF8+EZzxz1npZZRLgDAmsMnhvK+
+	2pwDuQaGcJHiLSB9p8Zqv5iH4b29ADQomFSIa96omBjvZwdZtMPHW5CxMlFru/tblIx2u7T/Vam
+	OT9FP8h/aZlxPEoiA7Lv56w4mWiZADA5M6HBHaWzqWeiLbEyge/Ul
+X-Gm-Gg: ATEYQzwg3gjtzJpQdpjScX/1JlyWxK4fdK51SVPWfPzB+CxcL7uwBPWwbn9BKbO8iTL
+	53J5JPqPRQkS5A4/UEIIfDBkrJn2aBfMVB04/yBZU/qdgVnOvSZb8z5w8d92v8qzvHjOl0aGVyo
+	2oP5XIeLeZfSF+yX2OirJknBcR/d+c6Dr9T/doMtzOqDzDe65rhOZ0g9hctlUCFy4Cr6JWJ3IgO
+	CgQPl/yGT8f3KhxZuOJ0hWMXZz/+SpaxFTwOS50LEG8LlQiHNObsOX7YoHuD7YnpunO+ySvCgm3
+	ANM2Ywuj/Op4EVGw28SUAJGVgcVkpmF/+p0J+SekzJrNGmt5WZazjamSGYeYZDkCluc3B3vWeFh
+	Axbvc1sztmTHX72p98AdDm030izTKrqNKhE/aakQ=
+X-Received: by 2002:a05:6122:498c:b0:567:190c:1624 with SMTP id 71dfb90a1353d-568e4885d83mr2152145e0c.2.1771953301647;
+        Tue, 24 Feb 2026 09:15:01 -0800 (PST)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id 71dfb90a1353d-568e58a4261sm1897823e0c.7.2026.02.24.09.15.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 09:15:01 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id E3805341B66;
+	Tue, 24 Feb 2026 10:15:00 -0700 (MST)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id DEB7CE41254; Tue, 24 Feb 2026 10:15:00 -0700 (MST)
+From: Caleb Sander Mateos <csander@purestorage.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Caleb Sander Mateos <csander@purestorage.com>
+Subject: [PATCH v3 1/8] nvme: add preferred I/O size fields to struct nvme_id_ns_nvm
+Date: Tue, 24 Feb 2026 10:14:30 -0700
+Message-ID: <20260224171437.3175993-2-csander@purestorage.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20260224171437.3175993-1-csander@purestorage.com>
+References: <20260224171437.3175993-1-csander@purestorage.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260223035023.21902-1-shinichiro.kawasaki@wdc.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260224_084038_218660_95EDDF3E 
-X-CRM114-Status: GOOD (  20.91  )
+X-CRM114-CacheID: sfid-20260224_091502_956230_03BBCF13 
+X-CRM114-Status: GOOD (  13.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,50 +108,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Feb 23, 2026 at 12:50:20PM +0900, Shin'ichiro Kawasaki wrote:
-> Since the recent commit 7c3ad92d3d8f ("check: check reference count for
-> modprobe --remove --wait success case"), the test case nvme/060 started
-> printing the error message below:
-> 
->   modprobe with --wait option succeeded but still nvmet has references
-> 
-> This error indicates that the nvmet modules failed to unload as
-> expected. While the root cause has existed for a long time, the trigger
-> commit exposed the problem. I took a look in the failure, and observed
-> the failure scenario as follows:
-> 
-> - The failure occurs when the test case is executed multiple times for
->   different transport types. At the first step, nvme/060 is executed for
->   the loop transport. Although nvme/060 was not designed to run for this
->   transport type, its requirement check leaves two modules loaded: nvmet
->   and nvme-loop.
-> 
-> - At the second step, when nvme/060 is executed for the rdma transport,
->   the helper function _setup_nvmet() loads the nvmet-rdma module for
->   testing. After the test completes, the helper function
->   _cleanup_nvmet() attempts to unload the nvmet-rdma and nvmet modules.
->   While it succeeds to unload the nvmet-rdma module, it fails to unload
->   the nvmet module because the nvme-loop module is still using the nvmet
->   module. Hence the error message.
-> 
-> From these observations, I identified two problems below.
-> 
-> 1) The requirement check for the loop transport left the nvmet and nvme-
->    loop modules loaded and it affected the following test. In the
->    current implementation, the helper function _unload_modules() is
->    called once, only after nvme/060 has been executed for all specified
->    transport types. Instead, _unload_modules() should be called after
->    each run of test test case for every transport. This ensures that the
->    modules loaded for the requirement check are unloaded.
-> 
-> 2) When _setup_nvmet() does not load the nvmet module, there is no need
->    for _cleanup_nvmet() to attempts to unload it. _cleanup_nvmet()
->    should unload a module only if it was loaded by _setup_nvmet().
-> 
-> This series addresses these two problems. The first patch fixes the
-> first problem. The other two patches fix the second problem.
+A subsequent change will use the NPDGL and NPDAL fields of the NVM
+Command Set Specific Identify Namespace structure, so add them (and the
+handful of intervening fields) to struct nvme_id_ns_nvm. Add an
+assertion that the size is still 4 KB.
 
-Looks good to me.
+Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+---
+ include/linux/nvme.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 655d194f8e72..1134e6bf2d5c 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -511,13 +511,20 @@ struct nvme_id_ctrl_zns {
+ struct nvme_id_ns_nvm {
+ 	__le64	lbstm;
+ 	__u8	pic;
+ 	__u8	rsvd9[3];
+ 	__le32	elbaf[64];
+-	__u8	rsvd268[3828];
++	__le32	npdgl;
++	__le32	nprg;
++	__le32	npra;
++	__le32	nors;
++	__le32	npdal;
++	__u8	rsvd288[3808];
+ };
+ 
++static_assert(sizeof(struct nvme_id_ns_nvm) == 4096);
++
+ enum {
+ 	NVME_ID_NS_NVM_STS_MASK		= 0x7f,
+ 	NVME_ID_NS_NVM_GUARD_SHIFT	= 7,
+ 	NVME_ID_NS_NVM_GUARD_MASK	= 0x3,
+ 	NVME_ID_NS_NVM_QPIF_SHIFT	= 9,
+-- 
+2.45.2
+
 
