@@ -4,82 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D82B7E9B25F
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Feb 2026 12:25:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 449DAE9B262
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Feb 2026 13:37:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=F2iCvOoWoI3K13VjIVBcjR+9i4/bt3pv2v9tnY2kEKE=; b=FhxVJRtydLt7+0PX8XLAyDn3eX
-	l4oYeyXYrPWZOVJwd+wckyEy/TlWa2FpCd5rWIdugEDQm4wJhikBkTLkOD9ROlKKb1PGw7eXa/qpR
-	k6eRjjlrZ18ahZQHlc20z08unTy1kzR0y+RQRH9istrLx/jLIdIG4tjwlXyhDll6yTJbZfgL4Z+s/
-	EeCyvnQpSFEfIURyGy/Yxp8aUD482EODphcyXthX8y2e5/TxTUCx7V9M4ooVirWLDiVILTtrvs+js
-	2TGirs9Fg3G/hvPBIqiSfOy7E7y7tX+Bcsw82WaNrdWvPYzdlh83xUDv1aq26ab5sisFsZ+do/hls
-	US7Judbw==;
+	bh=y0L3OiG/Bshj5QulCb3i7BYzyJry8ZHoOhbOX2vPl4Y=; b=cLnNWqxRkRDtCN904MhUjkwJs4
+	8VWEP5/8xUW3XfKqbTK1BAfwhcK0/ZvsRmbElhEjaN0D/rwyf7WOgq54qbjiknLD5Jy3uUwWLSWXp
+	OA5aKVG0W3YCt2MdsmV5Pm9up2PIA0CEOAfLzKYuiiwjCx20vVrI2I89+RC7h3tqbSPPrAZDq95Tu
+	sxOPI8IcHMrVfrPhy0arVh4vpuxC42JkHfGlNvkrIJzzZfIcSt1gfDiA6EbD7BSz4jA1dxOIbt81C
+	ZNz4wwP17rD48zfIzoU967YMxeTHNHeqR7mMBc9FNfvarFGkiBiMDPJV/HbiQlpuxuF60Purn6nkF
+	C2BXkfBg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vurTi-000000022Iv-448D;
-	Tue, 24 Feb 2026 12:25:26 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vusbe-0000000299B-3JXj;
+	Tue, 24 Feb 2026 13:37:42 +0000
+Received: from lamorak.hansenpartnership.com ([2604:f440:8:8::2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vurTg-000000022Hp-3odl
+	id 1vusbZ-0000000298R-0Hv4
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Feb 2026 12:25:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771935922;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F2iCvOoWoI3K13VjIVBcjR+9i4/bt3pv2v9tnY2kEKE=;
-	b=cbxiqmyv7815jwPHZHFVj8bOf6feOs9w5RMNHuBpSY9o/3adD0JrkIIdiDNubR9xKQslhq
-	GLovQ5i5FCNKicZz4vZs69gIXDFl/amzErcebivH6HriKqLOUQZNMfsb2Z9rIEzaf7RLJr
-	qyYcU/b92BdYFTR2DkUFJeitBre8RFk=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-137-rmf9pA4kOz2dd5bsDsg2EQ-1; Tue,
- 24 Feb 2026 07:25:18 -0500
-X-MC-Unique: rmf9pA4kOz2dd5bsDsg2EQ-1
-X-Mimecast-MFC-AGG-ID: rmf9pA4kOz2dd5bsDsg2EQ_1771935917
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	Tue, 24 Feb 2026 13:37:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1771940252;
+	bh=N+y9fema4fxMIXCGy9yuAezozfWEywSX0IbLhPWbQXk=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=NGlk9KXQNPaoBvbjaF6D5At679PxdxNFUxH7x9mNGOShwMMH8lmGNd1cOx20OC7Ob
+	 08ABzVn8Fb4pPl+yaBi6SgsLuCcJgcK0O6QQz9O7BTly4IE47dMUasgXnBXxa1jIUJ
+	 IjUSIe2pGLbSTOuEkRPpsvBUMgk2icZB57FiKIrk=
+Received: from [IPv6:2601:5c4:4300:d341::a774] (unknown [IPv6:2601:5c4:4300:d341::a774])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 834CE1956072;
-	Tue, 24 Feb 2026 12:25:16 +0000 (UTC)
-Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.204])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 77DF919560AD;
-	Tue, 24 Feb 2026 12:25:12 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: hch@lst.de,
-	hare@suse.de,
-	chaitanyak@nvidia.com,
-	bvanassche@acm.org,
-	linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	James.Bottomley@HansenPartnership.com,
-	mlombard@arkamax.eu,
-	jmeneghi@redhat.com,
-	emilne@redhat.com,
-	bgurney@redhat.com
-Subject: [PATCH V2 1/3] lib: Introduce completion chain helper
-Date: Tue, 24 Feb 2026 13:25:03 +0100
-Message-ID: <20260224122505.52401-2-mlombard@redhat.com>
-In-Reply-To: <20260224122505.52401-1-mlombard@redhat.com>
-References: <20260224122505.52401-1-mlombard@redhat.com>
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 8BB401C033A;
+	Tue, 24 Feb 2026 08:37:32 -0500 (EST)
+Message-ID: <72f731b8153106fd32ee991da10f847a3a8d768a.camel@HansenPartnership.com>
+Subject: Re: LSF/MM/BPF: 2026: Call for Proposals
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+  linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
+ bpf@vger.kernel.org,  lwn@lwn.net
+Cc: lsf-pc@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Date: Tue, 24 Feb 2026 08:37:31 -0500
+In-Reply-To: <20260224-sangen-aufatmen-06ba16719f33@brauner>
+References: <20260110-lsfmm-2026-cfp-ae970765d60e@brauner>
+	 <20260119-bagger-desaster-e11c27458c49@brauner>
+	 <20260129-beidseitig-unwohl-9ae543e9f9f5@brauner>
+	 <20260216-ruhelosigkeit-umlegen-548e2a107686@brauner>
+	 <20260224-sangen-aufatmen-06ba16719f33@brauner>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: gGRorFy90XcWHspWt4RQon49vX74Z-WzqV9F_lcbXsM_1771935917
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260224_042525_023004_B2F1F0FB 
-X-CRM114-Status: GOOD (  26.15  )
+X-CRM114-CacheID: sfid-20260224_053737_174763_47C80BC5 
+X-CRM114-Status: GOOD (  13.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,219 +78,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a new helper library, the completion chain, designed to serialize
-asynchronous operations that must execute in a strict First-In, First-Out
-(FIFO) order.
+On Tue, 2026-02-24 at 10:53 +0100, Christian Brauner wrote:
+> > Don't forget to pester^wask^wremind your respective organizations
+> > to sponsor LSF/MM/BPF 2026! If it helps, you can tell them that
+> > we're considering renaming it LSF/MM/BPF/AI.
+>=20
+> I have just looked at the sponsorship site for LSF/MM/BPF/AI again
+> and we all really need to go out and go steal some of that AI funding
+> money and funnel it into one of the conferences that really drives
+> development of the operating system that drives the compute for all
+> of this.
+>=20
+> Please go and remind your organizations to sponsor. They should know
+> how to get in touch with the Linux Foundation. Just going by the
+> sponsorship page we're missing a bunch of large organizations that we
+> would appreciate if they decided to pitch in. :)
 
-Certain workflows, particularly in storage drivers, require operations to
-complete in the same sequence they were submitted.
-This helper provides a generic mechanism to enforce this ordering.
+Just on this point, at least for Linux Plumbers Conference, we've found
+that increasingly OSPOs (which usually hold the LF contacts) are
+aligned with Marketing organizations and don't see as much value in
+sponsoring pure engineering events (like LSF and LPC).  We've thus
+started getting our money from the Engineering organizations themselves
+(where you are all better placed to wield influence).  To convince your
+engineering management chain (who may never have done this before) you
+need to articulate the value (it's the place where Linux features
+you're working on get presented, discussed and decided so a good
+showing by your engineers can drastically shorten the time to
+acceptance of something, or actually set direction better than a
+mailing list discussion, which provides more roadmap certainty for VPs)
+and provide the details, so the sponsor prospectus is here:
 
-compl_chain: The main structure representing the queue of operations
-compl_chain_entry: An entry embedded in a per-operation structure
+http://events.linuxfoundation.org/sponsor-lsfmm-bp-f26
 
-The typical usage pattern is:
+You have to go high enough in your organization to find someone with an
+actual budget, which can be a bit daunting, so if you need outside
+help, the PC (lsf-pc@lists.linuxfoundation.org) will be able to help
+articulate the value once you've found the person to convince.
 
-    * An operation is enqueued by calling compl_chain_add().
+If you manage to convince them to sponsor, the address to request a
+contract and a PO is
 
-    * The worker thread for the operation calls
-      compl_chain_wait(), which blocks until the previously
-      enqueued operation has finished.
+sponsorships@linuxfoundation.org
 
-    * After the work is done, the thread calls compl_chain_complete().
-      This signals the next operation in the chain that it can now
-      proceed and removes the current entry from the list.
+Regards,
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- include/linux/compl_chain.h |  35 +++++++++++
- lib/Makefile                |   2 +-
- lib/compl_chain.c           | 120 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 156 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/compl_chain.h
- create mode 100644 lib/compl_chain.c
-
-diff --git a/include/linux/compl_chain.h b/include/linux/compl_chain.h
-new file mode 100644
-index 000000000000..a2bf271144e0
---- /dev/null
-+++ b/include/linux/compl_chain.h
-@@ -0,0 +1,35 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_COMPLETION_CHAIN_H
-+#define _LINUX_COMPLETION_CHAIN_H
-+
-+#include <linux/list.h>
-+#include <linux/completion.h>
-+#include <linux/spinlock.h>
-+
-+struct compl_chain {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
-+
-+#define COMPL_CHAIN_INIT(name) \
-+	{ .lock = __SPIN_LOCK_UNLOCKED((name).lock), \
-+	  .list = LIST_HEAD_INIT((name).list) }
-+
-+#define DEFINE_COMPL_CHAIN(name) \
-+	struct compl_chain name = COMPL_CHAIN_INIT(name)
-+
-+struct compl_chain_entry {
-+	struct compl_chain *chain;
-+	struct list_head list;
-+	struct completion prev_finished;
-+};
-+
-+void compl_chain_init(struct compl_chain *chain);
-+void compl_chain_add(struct compl_chain *chain,
-+			struct compl_chain_entry *entry);
-+void compl_chain_wait(struct compl_chain_entry *entry);
-+void compl_chain_complete(struct compl_chain_entry *entry);
-+bool compl_chain_pending(struct compl_chain_entry *entry);
-+void compl_chain_flush(struct compl_chain *chain);
-+
-+#endif /* _LINUX_COMPLETION_CHAIN_H */
-diff --git a/lib/Makefile b/lib/Makefile
-index 1b9ee167517f..c3ccd82bb190 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -58,7 +58,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
- 	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
- 	 percpu-refcount.o rhashtable.o base64.o \
- 	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
--	 generic-radix-tree.o bitmap-str.o
-+	 generic-radix-tree.o bitmap-str.o compl_chain.o
- obj-y += string_helpers.o
- obj-y += hexdump.o
- obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
-diff --git a/lib/compl_chain.c b/lib/compl_chain.c
-new file mode 100644
-index 000000000000..4e4f47b1cff9
---- /dev/null
-+++ b/lib/compl_chain.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Author: Maurizio Lombardi <mlombard@redhat.com>
-+ */
-+#include <linux/compl_chain.h>
-+
-+/**
-+ * compl_chain_init - Initialize a completion chain
-+ * @chain: The completion chain to be initialized.
-+ *
-+ * Initializes a compl_chain structure
-+ */
-+void compl_chain_init(struct compl_chain *chain)
-+{
-+	spin_lock_init(&chain->lock);
-+	INIT_LIST_HEAD(&chain->list);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_init);
-+
-+/**
-+ * compl_chain_add - Add a new entry to the tail of the chain
-+ * @chain: The completion chain to add the entry to.
-+ * @entry: The entry to be enqueued.
-+ *
-+ * Adds a new operation to the end of the queue.
-+ * If the chain is empty when this entry is added, it is
-+ * immediately marked as ready to run, as there is no
-+ * preceding operation to wait for.
-+ */
-+void compl_chain_add(struct compl_chain *chain,
-+			struct compl_chain_entry *entry)
-+{
-+	init_completion(&entry->prev_finished);
-+	INIT_LIST_HEAD(&entry->list);
-+
-+	WRITE_ONCE(entry->chain, chain);
-+
-+	spin_lock(&chain->lock);
-+	if (list_empty(&chain->list))
-+		complete_all(&entry->prev_finished);
-+	list_add_tail(&entry->list, &chain->list);
-+	spin_unlock(&chain->lock);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_add);
-+
-+/**
-+ * compl_chain_wait - Wait for the preceding operation to finish
-+ * @entry: The entry for the current operation.
-+ *
-+ * Blocks the current execution thread until the
-+ * previous entry in the chain has called compl_chain_complete().
-+ */
-+void compl_chain_wait(struct compl_chain_entry *entry)
-+{
-+	WARN_ON(!entry->chain);
-+
-+	wait_for_completion(&entry->prev_finished);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_wait);
-+
-+/**
-+ * compl_chain_complete - Mark an operation as complete and signal the next one
-+ * @entry: The entry for the operation that has just finished.
-+ *
-+ * Removes the current entry from the chain and signals the next waiting
-+ * operation (if one exists) that it is now allowed to proceed.
-+ */
-+void compl_chain_complete(struct compl_chain_entry *entry)
-+{
-+	struct compl_chain *chain = entry->chain;
-+
-+	WARN_ON(!chain);
-+
-+	wait_for_completion(&entry->prev_finished);
-+
-+	spin_lock(&chain->lock);
-+	list_del(&entry->list);
-+	if (!list_empty(&chain->list)) {
-+		struct compl_chain_entry *next =
-+			list_first_entry(&chain->list,
-+					 struct compl_chain_entry, list);
-+		complete_all(&next->prev_finished);
-+	}
-+	spin_unlock(&chain->lock);
-+
-+	WRITE_ONCE(entry->chain, NULL);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_complete);
-+
-+/**
-+ * compl_chain_pending - Check if an operation is pending
-+ * @entry: The entry to check.
-+ *
-+ * Returns true if an entry has been added to a chain and hasn't yet
-+ * been completed.
-+ */
-+bool compl_chain_pending(struct compl_chain_entry *entry)
-+{
-+	return READ_ONCE(entry->chain) != NULL;
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_pending);
-+
-+/**
-+ * compl_chain_flush - Wait for all operations currently in the chain to finish
-+ * @chain: The completion chain to flush.
-+ *
-+ * Enqueues a dummy entry into the chain and immediately waits for it to
-+ * complete. Because operations execute in strict FIFO order, this acts as
-+ * a barrier, blocking the calling thread until all previously enqueued
-+ * operations have finished.
-+ */
-+void compl_chain_flush(struct compl_chain *chain)
-+{
-+	struct compl_chain_entry dummy_entry;
-+
-+	compl_chain_add(chain, &dummy_entry);
-+	compl_chain_complete(&dummy_entry);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_flush);
-+
--- 
-2.53.0
+James
 
 
