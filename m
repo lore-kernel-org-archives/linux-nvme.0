@@ -4,122 +4,156 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 974F1EFD206
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 08:11:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B036EFD20A
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 08:26:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=; b=PKQLM6nA9BudXKc2kcgJumUjOA
-	nyvvPZM6grYznhaHkdGthelJrk/twMcg402rJ0acyn5SnLFWIB1rm89BvTgeAkUlbmDDkVQT9VIEi
-	xiGkPEUrsfpQNTwojoD1XcfqzzwhzHWHNEJghp88HeG8CIfSdGC1hvqHcMChH8YnyC3OZy78qvSBY
-	0g/rpEwWGkKtoDjTyrln4gCKhDIi+8KebtZea2SNjqR7+iA1OUUvtxjlo4PXzoMc/bGIEbvubx7X7
-	ey3aPp4iwPzZONMvwzUNNws31T7nYajjVJdI1CxmqxWzjgRG9o2lfJ0VTsnAzBaRbNOoWFMvAMXRM
-	G7nqv+aA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=RGduqUr7kos/2KaqUjyU01gGePXmBmLdQaEyH5RSqAM=; b=vTDCqv4j/nUA9jV/RYNwb00d+N
+	7qkrlwOca+jfej3g4K6fAovbIavWyA5r3WN6fj/3S7G5pMRnwOU2CxCb7fIZcgSkExl4GDayJqIqn
+	3L8NozwCOnutZJGP0g3mfsTBjLYIHVXzT380WakizBTFVZJzuGymq1gNOk6jukDOiTMjYr9fLVF7s
+	FJf7SQ6dfqlfyGzy72kU3fUUi2W1NukohG1Ajhnmvibt33fFFKl5iMAw7LWTARTLV8YiyNsIRhhHa
+	iD5DFF8PIdLlbDZQSjiTPxPvr/hU+jST4VHHmm827LLEpGfdufOUs8aattfvYBx/XzYKQsN0eBkMp
+	n1lDp46g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vv9zE-00000003TW5-0DJY;
-	Wed, 25 Feb 2026 08:11:12 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1vvAE2-00000003Z47-3EWj;
+	Wed, 25 Feb 2026 08:26:30 +0000
+Received: from mail-japaneastazlp170100000.outbound.protection.outlook.com ([2a01:111:f403:c405::] helo=TY3P286CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vv9zC-00000003TV6-0rfZ
+	id 1vvADz-00000003Z3I-1OUv
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Feb 2026 08:11:11 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 83F553F6D2;
-	Wed, 25 Feb 2026 08:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772007066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
-	b=mMtgbQ339ta6FU0XTED0h+40xDyL5aM/deQNd1mnahKJxGQFnLyRxYyMVQa4Z36pMhRMwH
-	lsv+ALst/r7Da2jOFMS9q82RHCgB4MhrzEC9NT7/FepFA9ZkcgULwzlXOT3J3Scgt1VYXZ
-	+AHLdLMgDkxn8WIN/zkcQa+uPH3Y1PY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772007066;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
-	b=D7Fgbhv8hbdx99qzzkFVJTNx12tSQ4AW8N352bDH7ZwGNqfn4H+b8xVqDorJxf03NXkGnp
-	1IqgF8U7MBHTZ+BQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772007066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
-	b=mMtgbQ339ta6FU0XTED0h+40xDyL5aM/deQNd1mnahKJxGQFnLyRxYyMVQa4Z36pMhRMwH
-	lsv+ALst/r7Da2jOFMS9q82RHCgB4MhrzEC9NT7/FepFA9ZkcgULwzlXOT3J3Scgt1VYXZ
-	+AHLdLMgDkxn8WIN/zkcQa+uPH3Y1PY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772007066;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
-	b=D7Fgbhv8hbdx99qzzkFVJTNx12tSQ4AW8N352bDH7ZwGNqfn4H+b8xVqDorJxf03NXkGnp
-	1IqgF8U7MBHTZ+BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 240DB3EA65;
-	Wed, 25 Feb 2026 08:11:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /ip0BpqunmmRRgAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 25 Feb 2026 08:11:06 +0000
-Message-ID: <0a6ec8d3-7623-4809-b275-3eccb94419d4@suse.de>
-Date: Wed, 25 Feb 2026 09:11:05 +0100
+	Wed, 25 Feb 2026 08:26:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sI3iXJgoc1m628xxhfwlDiF8woC+jfvD3aBQ/Hiy4+DvPJpZIHuNFnNa8gjgZT57WKUx9qTbCBVKbx3Sqjmeo2C58R2JaGzgD7v0AaCWFzNdaDqA8ve8LEoMQTcTBlYxv+lrtlEGWY4FPBoFQs+X5qgKenLr7WnKeL4mlaTLnL084Aa191pJcHYlQMLYQIU9UA3Ize0shplpcVyot2KJbrPIRk61HLbbkQKTlFf7NUrSGk7Bdg+pKKSOUgVu0kHUHUHsH5t9BabJx76Mtaj0ljanGd+lZoOAcev5pFiOF1Vw3sdag4HHw6BVzR+Xz6Edwd9Z2DZocZlZvAcA2gXD3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RGduqUr7kos/2KaqUjyU01gGePXmBmLdQaEyH5RSqAM=;
+ b=c9TCzVE0OYTyEXTk199JlIBaqHa+gfIc++kvxF8GsdKSUYGCCZZyu4W1uiTBpw9RFVy0AtoQQ3VV4Y2rqM9lO2p3ZnyRL4jGP+6u66f6eJcaH4+p+rMsQJAYCadSd0uIpRGJbkCmJK8JZs1z7UFydMcJ7O/gMXlbUo3H0GTGrGplFeeUl93Mor5k7Lw+kA7EacYsbzf9PQdEon491xPDJ/NkZVZ5HlsRqnrEAtDTICXydCXPU1xvoqfZSxOlYSF+P/6n+/PnuJzTiIHTWWZ1hP1iTmieMkrl5ziN93sdfPo1iZoOeLARflatZTxilhZVVzdcdh0hmP3YLZ9AAEdZgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RGduqUr7kos/2KaqUjyU01gGePXmBmLdQaEyH5RSqAM=;
+ b=JaxWuiH3C0JvGMHYF19g0pim+yHltKGtEs5tmGiMngQ3txxZSvxZUpP07tr+xm4lhWdT8q5CqPyY3Fb/XjHyo4lDg3m2Jeyp++0sWtxr6dd8+yIpUf4ih6bh7Ly3c7tgJ4JQOiux8YReOgetPzEiFblMRnOk4YOIrAedtJcGQNo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TY3P286MB2628.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:23f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.23; Wed, 25 Feb
+ 2026 08:26:03 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
+ 08:26:03 +0000
+Date: Wed, 25 Feb 2026 17:26:02 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Christoph Hellwig <hch@lst.de>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, imx@lists.linux.dev
+Subject: Re: [PATCH v2 01/11] dmaengine: dw-edma: Add spinlock to protect
+ DONE_INT_MASK and ABORT_INT_MASK
+Message-ID: <d7mh5d2amod6uzmzib4qnun46al73r77uljzhizq2v6w5ame4v@et65inoxhexa>
+References: <20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com>
+ <20260109-edma_ll-v2-1-5c0b27b2c664@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260109-edma_ll-v2-1-5c0b27b2c664@nxp.com>
+X-ClientProxiedBy: TY4P301CA0082.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36f::14) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [LSF/MM/BPF TOPIC] Native SCSI multipath support
-To: Benjamin Marzinski <bmarzins@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>
-Cc: John Garry <john.g.garry@oracle.com>, lsf-pc@lists.linux-foundation.org,
- linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
- linux-scsi@vger.kernel.org, dm-devel@lists.linux.dev
-References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
- <aZnuSC0qYfw0hiwM@kernel.org> <aZ5GbVxDT3gcS6WE@redhat.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <aZ5GbVxDT3gcS6WE@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY3P286MB2628:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c96d607-a926-4c58-7631-08de7447837e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|7416014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rHboryX6Lv8cm7kxKmuVCqCCmg5aaPcqh2Z2d2j2E5wIXRMdKLqDggvk9hCq?=
+ =?us-ascii?Q?2gOcx3hrrC2oYh+IELc8qFMaSqISB/bIWmqWLg2vQ/YrfJU2LsFGM6dKY8m3?=
+ =?us-ascii?Q?zd2hRey5nxtxXSe3SFn7CFp2TtRfnMenrSDCy5Fm/S9TDbCH0ftFyqyOcnAe?=
+ =?us-ascii?Q?tQRf3ivyE2dv5YZgpuK1nev/0hC+HH0K759GESAa9cFpX0IaJO0NygrJAGwo?=
+ =?us-ascii?Q?KU255p8XkC1g6j0GL8ctdzs3JshofVG5HrpnaCh/jxgpFiWTXRVL9CgyAYCX?=
+ =?us-ascii?Q?/A/8QAVFp6nbaZDlOchqWWM8ZZ/OaOVMJ/35KoC0XAHbvKcBFHcoaAFwamOl?=
+ =?us-ascii?Q?9WB9RkDJDVPNM53XvptxCaH1+g+125DYgNKiXyUNJh9F36ssCI+T48VCnuhJ?=
+ =?us-ascii?Q?DcgIfKrN6qH/cTxYFZw3SUABlyW27b2CV6M08bOjbP7WumuqlsIXsqs7WsGs?=
+ =?us-ascii?Q?RBK4koDSAPLjgJcaNbEmbi9ikidOuDkhnepBa9NmeT8SSef2eJpCIVdyOTdJ?=
+ =?us-ascii?Q?ePwIC2q27/XfvwBI1/DPbhzetRRGe4NjkkQcwZFqTA8bYv4FTJZ/VEgxSZ+w?=
+ =?us-ascii?Q?j151YHmCQu6aFX4wliR8IrWMGRagcslIgL/zIPmuEOvN+iZhCT5TJ6AnlPat?=
+ =?us-ascii?Q?FHKy2jgVKKuT/SGx8jj6kcS5vyyLEyM2XW1MLn3q0NrMDwy4AsN/5OHx/EdG?=
+ =?us-ascii?Q?13bYjBt4QbsuEspUuub+BtUy2hNcZsIb2k0ox3gXJAciNTX4ccrh1TZf9bXT?=
+ =?us-ascii?Q?Dc8bjE9uEvAeCL6mMPS3r/ndu6chqXSbCc4uRSBAh9ST7FbNkGxL7RROo9oC?=
+ =?us-ascii?Q?D0tlKs01tLSdX5TBa20ArmJGZhjlSu4l37bRy27aWBQP/oawm2ErU3c8fU5u?=
+ =?us-ascii?Q?EFmQlmK63K2TkPv0cD+QXCKglr8gKXaQCuCD58pCsJKFqj0PM8mvVqg3JCVE?=
+ =?us-ascii?Q?cAZTSKqWvmcqn6C0TG+iMrTKgrYBZmKuVf1+dmaWmfTXU5qb+DeyY8mdMuXf?=
+ =?us-ascii?Q?heyzhgrJAQnnBnnCrropMu8WQeP67gvaLsywBDG3jo3eHKIp6y5m65eeG6L/?=
+ =?us-ascii?Q?2DVUI2gAVw1+PzrilUEAUU7ZW6eR6cq4wcmK+MEahReYGQt2jLRQgNp4+jNp?=
+ =?us-ascii?Q?g+OMcKFl3lZzVFvOQDsJgeWG7raiL9S4H9n4VGKZOmBIqfUif+iEN67wpJ/e?=
+ =?us-ascii?Q?CNPT0cm/L82odsc0fTMcjV7R3Xy8u5OjvFKEHsMN4lSfqmDanRKC2rvzvAni?=
+ =?us-ascii?Q?mAO7drRaPUhmHm3+xiVO9lS0GL9oyrQlspl6D68pyDUihw239/tLpj6mZzMq?=
+ =?us-ascii?Q?vq4Ft0Cz6rPl22RnbPdz8iAcDW58EtpzVxEheuvyJ77ZssuYfYlMIuUtbDDQ?=
+ =?us-ascii?Q?VkRONaS55x3n32CV9DDCIPgOlW45i5KEi6SXmiwhyXrpNDwlu4bQBeBGpjy5?=
+ =?us-ascii?Q?Y8xsbh+HOeWG8NsFgYzF/ekt/V/N7sX1K2i91fhJSLfumQTUCqltiZqtqnPs?=
+ =?us-ascii?Q?3BpRa1z90DrgFiEef6I8QMeZF+uFgLCazBvz1ISsaArnzPsVOoyMAhKRlTgM?=
+ =?us-ascii?Q?G/5YIJb/C33FPFPfKM4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U0fSEPbf204d7kzHMMIhuwoC8JiM96tQVbvMl6mHnM29KUTD1J52J+v8R5Jh?=
+ =?us-ascii?Q?ySfox6vQnFAdpwn94d7v+MqfZC0mURVOJiKUXA85VNE020PdaQNvpy5zaGPH?=
+ =?us-ascii?Q?WLrGkZB6ht6az3TnZqLFybREOJk3JoL7LVLOOOgV/Po7d94PGi1z51M18pMp?=
+ =?us-ascii?Q?sereBbbM+Dtqsww2RTfjHQkKh5xhewKHxfZh9EmZ6/U1bIEnFuBrj7gsL+GU?=
+ =?us-ascii?Q?lY/NAUDYLov5vJl2yoh6HPofF/NAMf0ll8saAXXMdcBnZ7CMQ8MEh/Nffk9S?=
+ =?us-ascii?Q?YiYt8Pw5ZI+s57G1EIk11/YE7F+cQEZWp4ANwyG/Fz3q8o844/jiLWxTaV8s?=
+ =?us-ascii?Q?CxCtP/SHe44pY7p+GUS1iaghAw0OmOFH2wPJjwlJmSIYqcQtcvrtoojiP/n4?=
+ =?us-ascii?Q?mOf7GCNqVQR6tK97+EWD+o/1y5HmFCxAGa0WC7M50DP5NACIuUaS1Tf4U548?=
+ =?us-ascii?Q?Yp7bnL8hIMdzkKPjdG5xom1HVFv2T4ir61H0zjhdwDOP71MM5td6Pxr0usUO?=
+ =?us-ascii?Q?Mf4dkryl0NdAZiOdotp2SK1gv2/mzsLiKGBRRuAc38nHKspA3adKJv7MTZNu?=
+ =?us-ascii?Q?0gt2ToEVCFcwlOlOkQ6EgB26TgGocSlVrWUQos8Ta/bmFSnlTkgoyNX/Bl5G?=
+ =?us-ascii?Q?sf/zm6nD09x1/nOUQtwwj+WW+2gOOQOt/+BxeQ113uVrtUlLYielncJnASwx?=
+ =?us-ascii?Q?FGTuMbkJTJ/gRhKsgqadJu7vuVQa9QZScVlqTl9l2qYS2WqSPxR1ZVCmnLfW?=
+ =?us-ascii?Q?P8x7sXYIuaCp9SO/zeD/CuI781QwDMbjSPuNJSiF6k8aCJoC+P2A5fhgcg44?=
+ =?us-ascii?Q?7ZoeNjO8D2LK7b5Kl6d5QwNMdKO8jZecI3IKeLM1DBEiFr+ZHq0S/1zYdb5T?=
+ =?us-ascii?Q?Wd14NG55bDROFNVK8FBeutfOentw3QQY0ZoB1dndri2Xybvdqst5Y2HrA0rd?=
+ =?us-ascii?Q?Crj12Bxsgb/ce+peeHTCR9uZ1TajgKY/cyDblh84a2jraRp35d0Opd4tU6mG?=
+ =?us-ascii?Q?ljw6JpadJa8SIdciFzh/o+6uon980PmXKc/qkHoA6ts/C8rnZRceoj4/hneI?=
+ =?us-ascii?Q?Y/ZztAHFkd39uOU7YxX4NpoWLkiXeb63mFWdVhQmenoJp0n0WMe7e8S9po8u?=
+ =?us-ascii?Q?FvZIHx0CecUazLKbKQPYZMj1JzpMZK6JRkFqWVTLbHvUSRbbp+RiVodWyavW?=
+ =?us-ascii?Q?eUsxVfaowB20KqOaXwyQmwC/Xv6GrIn86lwZd3bfL5KNCRnDPEzOt1XWAW6y?=
+ =?us-ascii?Q?tcY1xJumJmmFhTWS51DVRx2XvwedxRl9BZ8cfV25xPP4zIZM0iSyRWE/HLH2?=
+ =?us-ascii?Q?wShUwnL2pD8FG27XMuaMnW1U9kC/csjc8ts/dMmua46mV95d3XEMeHBTv3lN?=
+ =?us-ascii?Q?Q0u3R1VoG2w0PH5NrQad/OWswBWbnC1WK5KLzGqj/RMKLcM20ym8f3ITuWBa?=
+ =?us-ascii?Q?FGpKbH9gRlPmDsBiBOAKuRNrMcJD/O558QiFbwkuhN3fQSwrFhykYQFP8muo?=
+ =?us-ascii?Q?2U+n4h2B9Der4i0kZBqEg+5QNPewQKD6mQ2wZ0kNRsdZGWD6ASfZqJg8PXX+?=
+ =?us-ascii?Q?oX6v5amrNFg71RScg0d/S9ytU+pzaoBWhCk00A3tgxhHX1s0eYkdXaoG75VW?=
+ =?us-ascii?Q?XLEziwxqQXa3LjptEkMuMNoVxuIV8QLy2PyT71jCionIRZ3D7PbGfAWj3fKi?=
+ =?us-ascii?Q?AC/ALL/hROS8T2QmK4tkVYHJS7gTn0W2xWcFee0WvwykXyM/BPXxQ03MW68/?=
+ =?us-ascii?Q?eWnrhWYgaTG6F1x6XBm39A+S3a2E2TxsXiXr+KCOQDOmjGXMGygN?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c96d607-a926-4c58-7631-08de7447837e
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 08:26:03.2524
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xxHtAHYQ03OQ7VmKCn/cm5U8/UIizhIB/sPhUYW1KVu2IoKqmdcxh6szORMU7lir7+o+zP26GlbNVerG7o6U8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3P286MB2628
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_001110_392586_8108AE20 
-X-CRM114-Status: GOOD (  22.94  )
+X-CRM114-CacheID: sfid-20260225_002627_397189_89EF9C33 
+X-CRM114-Status: GOOD (  19.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,64 +168,74 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/25/26 01:46, Benjamin Marzinski wrote:
-> On Sat, Feb 21, 2026 at 12:41:28PM -0500, Mike Snitzer wrote:
->> On Fri, Feb 13, 2026 at 02:19:11PM +0000, John Garry wrote:
->>> At ALPSS 25 I presented a proposal for Native SCSI multipath support. Let's
->>> discuss this topic at LSFMM.
->>>
->>> The idea for this is that SCSI could natively support multipath, like how
->>> NVMe host driver does today. It is intended as an alternative to
->>> dm-multipath support.
->>>
->>> I have been working on the implementation and I plan to post patches in the
->>> next cycle. I am looking at a 3-stage approach:
->>> a. create a driver-agnostic multipath library, very heavily based on NVMe
->>> host multipath support.
->>> The library would support features such as path management, path
->>> selection/iopolicy, failover recovery, PR, delayed removal, gendisk
->>> management etc.
->>> b. switch NVMe over to use this library
->>
->> I can appreciate that the kernel to userspace interface of DM
->> multipath is clearly unwanted (hence NVMe multipath and now SCSI
->> multipath).
->>
->> But you should really be switching DM-multipath over to using it too;
->> or at least detailing _why_ the core of DM multipath
->> (drivers/md/dm-mpath.c) cannot be updated to use this common backend
->> library.
->>
->> This line of work makes little sense to me if it just ignores
->> dm-multipath.
->>
->> Mike
+On Fri, Jan 09, 2026 at 10:28:21AM -0500, Frank Li wrote:
+> The DONE_INT_MASK and ABORT_INT_MASK registers are shared by all DMA
+> channels, and modifying them requires a read-modify-write sequence.
+> Because this operation is not atomic, concurrent calls to
+> dw_edma_v0_core_start() can introduce race conditions if two channels
+> update these registers simultaneously.
 > 
-> Thinking about this work from a DM multipath perspective, I'm more
-> interested in how much it plans to handle the more annoying niche cases
-> of dealing with SCSI devices, like paths that confidently report that
-> they are able to accept IO, only to fail all IO sent to them. Also, I
-> wonder how/if this is planning on handling Persistent Reservations. The
-> arrays, I assume, are still going to see this as a collection of I_T
-> Nexuses (some of which may be down and unable to accept commands at any
-> given time, and to which new ones my be added) instead of a single one.
+> Add a spinlock to serialize access to these registers and prevent race
+> conditions.
 > 
-> I also think this would be useful to talk about at LSF.
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> vc.lock protect should be another problem. This one just fix register
+> access for difference DMA channel.
 > 
-And that even makes me wonder whether we should have a discussion about
-persistent reservations at LSF, too.
-I seem to be involved in discussions about PRs from various angles now
-(live migration seems to want to join the fray), so maybe we could get
-together to discuss things.
+> Other improve defer to dynamtic append descriptor works later.
+> ---
+>  drivers/dma/dw-edma/dw-edma-v0-core.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-And I _still_ want to have a blktests for persistent reservations ...
+Hi Frank,
 
-Cheers,
+I'm very interested in seeing the work toward the "dynamic append" series land,
+but in my opinion this one can be submitted independently.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Even in the current mainline, under concurrent multi-channel load, this race can
+already be triggered.
+
+Also, with this patch, dw->lock is no longer "Only for legacy", so we should
+probably update the comment in dw-edma-core.h.
+
+Best regards,
+Koichiro
+
+> 
+> diff --git a/drivers/dma/dw-edma/dw-edma-v0-core.c b/drivers/dma/dw-edma/dw-edma-v0-core.c
+> index b75fdaffad9a4ea6cd8d15e8f43bea550848b46c..2850a9df80f54d00789144415ed2dfe31dea3965 100644
+> --- a/drivers/dma/dw-edma/dw-edma-v0-core.c
+> +++ b/drivers/dma/dw-edma/dw-edma-v0-core.c
+> @@ -364,6 +364,7 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
+>  {
+>  	struct dw_edma_chan *chan = chunk->chan;
+>  	struct dw_edma *dw = chan->dw;
+> +	unsigned long flags;
+>  	u32 tmp;
+>  
+>  	dw_edma_v0_core_write_chunk(chunk);
+> @@ -408,6 +409,8 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
+>  			}
+>  		}
+>  		/* Interrupt unmask - done, abort */
+> +		raw_spin_lock_irqsave(&dw->lock, flags);
+> +
+>  		tmp = GET_RW_32(dw, chan->dir, int_mask);
+>  		tmp &= ~FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
+>  		tmp &= ~FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
+> @@ -416,6 +419,9 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
+>  		tmp = GET_RW_32(dw, chan->dir, linked_list_err_en);
+>  		tmp |= FIELD_PREP(EDMA_V0_LINKED_LIST_ERR_MASK, BIT(chan->id));
+>  		SET_RW_32(dw, chan->dir, linked_list_err_en, tmp);
+> +
+> +		raw_spin_unlock_irqrestore(&dw->lock, flags);
+> +
+>  		/* Channel control */
+>  		SET_CH_32(dw, chan->dir, chan->id, ch_control1,
+>  			  (DW_EDMA_V0_CCS | DW_EDMA_V0_LLE));
+> 
+> -- 
+> 2.34.1
+> 
 
