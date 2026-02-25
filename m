@@ -4,82 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8ED7FD376A
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 16:12:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92216FD376A
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 16:30:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JstW4CsGx3nvh8BHD4J/2v6QO9Ow8LLoVZjyVIADmFI=; b=neqkn6yYZISIoNFyVtGAd3KK4c
-	HMAn8ye2t0avrlCzmepqZZ3uRfCrz/HheGNE9CngwKhvSBsYG1Fo+cFt2NlDmTX//bF1drJpdwu5D
-	Lm+pwR6GrLzyI6SW3Gt4tupPmt+4HP+nV8L814DFPYHkEtjXc74cO2oKWvbHQNlvVSfvkbLwlwUuO
-	avhD1t9afTqs8zVCjVlw5ARP2g6my3UyPOfqamFcSVLuYvKv/oWI9QMj7D0FYcuGDQvZO3OoUMN9b
-	aqE7cKlX7EbWmEBMnoI7ey2TF1z4Ho8asP775UDNCsFuQqBE/cHazKUZJBi6suU8srHCuobZOP0We
-	8zhi0glw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vJ804UQQ83e2Rnv1VzpHVArw1fg05t5j1rsobVSyUnM=; b=kbw3bWDtGMSQZkJ172TkLGPxR7
+	TbFnE/hABVfmX+oNjoL3pi7aeMuJQljjhURa76rmp7plmTk8pz9g0hrLfXIALRaq1GDqrbVAJYZEB
+	jEPgDXTRcf8poUsfo76aDHowsDAF8s+3F3oqQAoxZn2ylbHcPUpHX3T2yu4Xw0467eKHua7iSnrIr
+	TCfGMv1Lg3u4kQ7LMyRWzoMVahpgTnz/ce79en82Z1fqUeYkx+Yh7lg4SQZJ1nrK6UJd+4TmRufkc
+	/yzDaLLSg+5PCd80HZL7oscChmcCaj/jkmTxRiuh5CRl9ejQeTRWfYNo8XXoJP8E7cMyHGSIKLxMJ
+	Lb+UgEVw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvHV1-00000004SuW-3zIb;
-	Wed, 25 Feb 2026 16:12:31 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vvHmC-00000004WWY-2XNF;
+	Wed, 25 Feb 2026 16:30:16 +0000
+Received: from 013.lax.mailroute.net ([199.89.1.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvHUy-00000004SrI-33hg
+	id 1vvHmA-00000004WW2-3LqK
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Feb 2026 16:12:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772035947;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JstW4CsGx3nvh8BHD4J/2v6QO9Ow8LLoVZjyVIADmFI=;
-	b=GN58T9lvTQDsDi4xU8zXNz9CCZm6yaU+x/7bfD7J73HzujR/KaJB/84wenDUEdFDgortkY
-	ZJxNRDNGtgpvLnZ1uGds3Mr2VdckTIsUnfNYAZ7+m9Bq3rTfSC4u/BZk7mE0vYjSFMyklI
-	U1xSs/e+t3P4EwqY2fGaOXge9itKLqw=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-605-SjQ3nlA-NC6E1NqEeRcA5A-1; Wed,
- 25 Feb 2026 11:12:26 -0500
-X-MC-Unique: SjQ3nlA-NC6E1NqEeRcA5A-1
-X-Mimecast-MFC-AGG-ID: SjQ3nlA-NC6E1NqEeRcA5A_1772035945
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	Wed, 25 Feb 2026 16:30:15 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fLg6r5kwPzlh1W5;
+	Wed, 25 Feb 2026 16:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1772037008; x=1774629009; bh=vJ804UQQ83e2Rnv1VzpHVArw
+	1fg05t5j1rsobVSyUnM=; b=oKDqJRh0D6vrq2hrDuQAWCr7+ZHvJBmruObJB2yC
+	0iJ5hP0MKKYub9DnzowIBVtpaYR/t1o/q2lsH/q+ZGip59k5WZlnRwcRJ3hibvzk
+	XX1zZWi9SYyGvIhXtbI6y2DMxwCBZd7nE2u12PNF2f480MWUS/V3sUnc8j/kIImp
+	ApjjQ5WxkD+DnWPSO6JWfzOa6/FVB48s1+C5FiIxzJlBcnnjWF7zR9ZYrEnlBk+M
+	cAwRLs79KryJ2bd69dnH9kQoBbzxFZrTTxSVnwppuYjtyNVMQsiF+bcuY0xQw1be
+	Tba3TOYq0lPendvfe3Rydfg39DaTa8uZl1TFSzqSCOMxhA==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id WG1e1sKu4RAY; Wed, 25 Feb 2026 16:30:08 +0000 (UTC)
+Received: from [192.168.51.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DBEF01956095;
-	Wed, 25 Feb 2026 16:12:24 +0000 (UTC)
-Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.217])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BF4C61800370;
-	Wed, 25 Feb 2026 16:12:20 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: hch@lst.de,
-	hare@suse.de,
-	chaitanyak@nvidia.com,
-	bvanassche@acm.org,
-	linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	James.Bottomley@HansenPartnership.com,
-	mlombard@arkamax.eu,
-	jmeneghi@redhat.com,
-	emilne@redhat.com,
-	bgurney@redhat.com
-Subject: [PATCH V3 3/3] scsi: Convert async scanning to use the completion chain helper
-Date: Wed, 25 Feb 2026 17:12:03 +0100
-Message-ID: <20260225161203.76168-4-mlombard@redhat.com>
-In-Reply-To: <20260225161203.76168-1-mlombard@redhat.com>
-References: <20260225161203.76168-1-mlombard@redhat.com>
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fLg6Y0fk6zlgr48;
+	Wed, 25 Feb 2026 16:29:56 +0000 (UTC)
+Message-ID: <4bc30e61-e83d-4368-98bd-78f7d22c3f2e@acm.org>
+Date: Wed, 25 Feb 2026 08:29:56 -0800
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: 95PnQd1P0DcLFBv5HDjxzL3wf1hq8r1SAMDN736dc_Y_1772035945
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
+ expansion plan for the storage stack test framework
+To: Haris Iqbal <haris.iqbal@ionos.com>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Daniel Wagner <dwagner@suse.de>, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
+ Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>,
+ Jens Axboe <axboe@kernel.dk>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ "tytso@mit.edu" <tytso@mit.edu>,
+ Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+ Christian Brauner <brauner@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>,
+ "willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ "amir73il@gmail.com" <amir73il@gmail.com>, "vbabka@suse.cz"
+ <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
+References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
+ <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
+ <aY77ogf5nATlJUg_@shinmob>
+ <CAJpMwyis1iZB2dQMC4VC8stVhRhOg0mfauCWQd_Nv8Ojb+X-Yw@mail.gmail.com>
+ <40edeeec-dbc3-4aef-ac86-691e1ed2ed06@acm.org>
+ <CAJpMwygzTcBnKVp=bJWZpW9X5JdcP9Lj4H1BRBu2bNV_kGyDQQ@mail.gmail.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAJpMwygzTcBnKVp=bJWZpW9X5JdcP9Lj4H1BRBu2bNV_kGyDQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_081228_962786_2DAA0BDC 
-X-CRM114-Status: GOOD (  17.79  )
+X-CRM114-CacheID: sfid-20260225_083014_884595_1355DF9C 
+X-CRM114-Status: GOOD (  10.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,160 +104,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The asynchronous host scanning logic in scsi_scan.c uses a custom,
-open-coded implementation to serialize scans. This involves a manually
-managed list of tasks, each with its own completion, to ensure that hosts
-are scanned and added to the system in a deterministic order.
+On 2/25/26 2:07 AM, Haris Iqbal wrote:
+> Regarding data modification, if the tests do not involve any crash or
+> reboot, then the VMs can be started in "snapshot" mode.
+I'm not sure that proposal makes sense. If e.g. an NVMe device is
+specified in the blktests config file, it probably is the intention of
+the person who runs the test to test the NVMe driver and/or the NVMe
+device. Using any method to create a "snapshot" of the device and to
+run blktests against that snapshot changes the kernel driver and also
+the physical device that are tested. Not modifying the kernel driver
+or physical device that are tested implies using PCIe passthrough. And
+the PCIe passthrough mechanism can only be used by one VM at a time as
+far as I know.
 
-Refactors the SCSI async scanning implementation to use the new compl_chain
-helper. This simplifies the scsi_scan.c code and makes the serialization
-logic more readable.
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/scsi/scsi_priv.h |  2 +-
- drivers/scsi/scsi_scan.c | 68 +++++-----------------------------------
- 2 files changed, 9 insertions(+), 61 deletions(-)
-
-diff --git a/drivers/scsi/scsi_priv.h b/drivers/scsi/scsi_priv.h
-index 7a193cc04e5b..274fdd7edac4 100644
---- a/drivers/scsi/scsi_priv.h
-+++ b/drivers/scsi/scsi_priv.h
-@@ -132,7 +132,7 @@ extern void scsi_exit_procfs(void);
- 
- /* scsi_scan.c */
- void scsi_enable_async_suspend(struct device *dev);
--extern int scsi_complete_async_scans(void);
-+void scsi_complete_async_scans(void);
- extern int scsi_scan_host_selected(struct Scsi_Host *, unsigned int,
- 				   unsigned int, u64, enum scsi_scan_mode);
- extern void scsi_forget_host(struct Scsi_Host *);
-diff --git a/drivers/scsi/scsi_scan.c b/drivers/scsi/scsi_scan.c
-index 60c06fa4ec32..f19f2c73f042 100644
---- a/drivers/scsi/scsi_scan.c
-+++ b/drivers/scsi/scsi_scan.c
-@@ -36,6 +36,7 @@
- #include <linux/async.h>
- #include <linux/slab.h>
- #include <linux/unaligned.h>
-+#include <linux/compl_chain.h>
- 
- #include <scsi/scsi.h>
- #include <scsi/scsi_cmnd.h>
-@@ -112,14 +113,11 @@ MODULE_PARM_DESC(inq_timeout,
- 		 "Timeout (in seconds) waiting for devices to answer INQUIRY."
- 		 " Default is 20. Some devices may need more; most need less.");
- 
--/* This lock protects only this list */
--static DEFINE_SPINLOCK(async_scan_lock);
--static LIST_HEAD(scanning_hosts);
-+static DEFINE_COMPL_CHAIN(scanning_hosts);
- 
- struct async_scan_data {
--	struct list_head list;
-+	struct compl_chain_entry chain_entry;
- 	struct Scsi_Host *shost;
--	struct completion prev_finished;
- };
- 
- /*
-@@ -146,48 +144,10 @@ void scsi_enable_async_suspend(struct device *dev)
-  * started scanning after this function was called may or may not have
-  * finished.
-  */
--int scsi_complete_async_scans(void)
-+void scsi_complete_async_scans(void)
- {
--	struct async_scan_data *data;
--
--	do {
--		scoped_guard(spinlock, &async_scan_lock)
--			if (list_empty(&scanning_hosts))
--				return 0;
--		/* If we can't get memory immediately, that's OK.  Just
--		 * sleep a little.  Even if we never get memory, the async
--		 * scans will finish eventually.
--		 */
--		data = kmalloc(sizeof(*data), GFP_KERNEL);
--		if (!data)
--			msleep(1);
--	} while (!data);
--
--	data->shost = NULL;
--	init_completion(&data->prev_finished);
--
--	spin_lock(&async_scan_lock);
--	/* Check that there's still somebody else on the list */
--	if (list_empty(&scanning_hosts))
--		goto done;
--	list_add_tail(&data->list, &scanning_hosts);
--	spin_unlock(&async_scan_lock);
--
- 	printk(KERN_INFO "scsi: waiting for bus probes to complete ...\n");
--	wait_for_completion(&data->prev_finished);
--
--	spin_lock(&async_scan_lock);
--	list_del(&data->list);
--	if (!list_empty(&scanning_hosts)) {
--		struct async_scan_data *next = list_entry(scanning_hosts.next,
--				struct async_scan_data, list);
--		complete(&next->prev_finished);
--	}
-- done:
--	spin_unlock(&async_scan_lock);
--
--	kfree(data);
--	return 0;
-+	compl_chain_flush(&scanning_hosts);
- }
- 
- /**
-@@ -1960,18 +1920,13 @@ static struct async_scan_data *scsi_prep_async_scan(struct Scsi_Host *shost)
- 	data->shost = scsi_host_get(shost);
- 	if (!data->shost)
- 		goto err;
--	init_completion(&data->prev_finished);
- 
- 	spin_lock_irqsave(shost->host_lock, flags);
- 	shost->async_scan = 1;
- 	spin_unlock_irqrestore(shost->host_lock, flags);
- 	mutex_unlock(&shost->scan_mutex);
- 
--	spin_lock(&async_scan_lock);
--	if (list_empty(&scanning_hosts))
--		complete(&data->prev_finished);
--	list_add_tail(&data->list, &scanning_hosts);
--	spin_unlock(&async_scan_lock);
-+	compl_chain_add(&scanning_hosts, &data->chain_entry);
- 
- 	return data;
- 
-@@ -2008,7 +1963,7 @@ static void scsi_finish_async_scan(struct async_scan_data *data)
- 		return;
- 	}
- 
--	wait_for_completion(&data->prev_finished);
-+	compl_chain_wait(&data->chain_entry);
- 
- 	scsi_sysfs_add_devices(shost);
- 
-@@ -2018,14 +1973,7 @@ static void scsi_finish_async_scan(struct async_scan_data *data)
- 
- 	mutex_unlock(&shost->scan_mutex);
- 
--	spin_lock(&async_scan_lock);
--	list_del(&data->list);
--	if (!list_empty(&scanning_hosts)) {
--		struct async_scan_data *next = list_entry(scanning_hosts.next,
--				struct async_scan_data, list);
--		complete(&next->prev_finished);
--	}
--	spin_unlock(&async_scan_lock);
-+	compl_chain_complete(&data->chain_entry);
- 
- 	scsi_autopm_put_host(shost);
- 	scsi_host_put(shost);
--- 
-2.53.0
-
+Bart.
 
