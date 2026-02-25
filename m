@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C10FFD3773
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 16:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40491FD3770
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 16:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YwY473jKOyj8ZUeGWCvtQw/AcjeylegdXSOtGtl9HpU=; b=wPX4vOvJb2kgFGblZlN8QOrhzI
-	BHvqcFTqwTUJhwtR/+1RC0mmCiDBeg+wAgGzMrr9TUiVHta81FdUuDzMsXbfLhhhFn+urO1tYNt0F
-	+OyDJQRyvjpjf8YOyYDrzd2juSFvg13hT7AWOZIYUqIGwRbY1hII2DCjzHK9KQkaeNrEEHUW9F0Rd
-	FDhKr/4hAyrQV+9ZiSIaVItr2bVhQkc0f2dlhRuZ66Dv7uu8zZg92yH4msev6qABxQ+usBBurMMcc
-	kAdGvOaY2S48dgq77bC5ZOp1IDUBDJQ4MUdfMpOjRBoy0FU08pmhcCmjijtVH5vNpJgv0skcMTBrx
-	oor6juEg==;
+	bh=ux/CvGzf7qyqSJDYmqWRIpZaefrk35ba/xB4W8rxVvo=; b=gUxa5AGpwFQ8Cg4aEZK1WEtAdp
+	jOXbr6mmrDf7GeEHRsEHdhvQQV+ez1rBFYzgLKNompt184BVz7jTnzEKnsLj5CAVUnbXfFjh2b0CY
+	R/H7OClU9ldgCRIklhrjgqN5yEq32gnzuBuUaLbuklxt0Dx+dLXNJXSvLvN13HnZ48IMxXOzTVYH5
+	My97QIhzACXZ0i75W41o4K5SlgT+QLEZSLXkYZiiz0GSrxTWASmaqdFYxUI9XrHgVDCgpXgz0zH88
+	PKuKypEKTmuubwTUsdoSUZOkNJwJnvDMjsBLbex5U7vkC4L4ClUfe/fqQHgZGbIyAW732WnIBhxSQ
+	LbF4HEhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvHUu-00000004SpI-27mD;
-	Wed, 25 Feb 2026 16:12:24 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vvHV1-00000004Su4-2Gce;
+	Wed, 25 Feb 2026 16:12:31 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvHUr-00000004SnU-3JE9
+	id 1vvHUy-00000004SrO-33uY
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Feb 2026 16:12:22 +0000
+	Wed, 25 Feb 2026 16:12:29 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772035941;
+	s=mimecast20190719; t=1772035947;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YwY473jKOyj8ZUeGWCvtQw/AcjeylegdXSOtGtl9HpU=;
-	b=VmONySl5dyeamHEXb+MvQjgU490q9wtzNscz6Gb4Ta9Jab47kMRHtmBHR7ueZg9tkpm61J
-	lxVtE3P+onnY/jIeQIEGx5nAgAaZBzUtITRk//OFUw/YFu/PGjZE0v88CLu78NFHpDbF00
-	CiFbZf7IFWc7v8z62S47IGYaLlQ/luI=
+	bh=ux/CvGzf7qyqSJDYmqWRIpZaefrk35ba/xB4W8rxVvo=;
+	b=jSlM6fNqNJqpffSMfee5ySfs/CX2II1NGfW1SzWuf9y1vK+6lNsu1zLrjKGSGIf47DBdMm
+	HsenBJC9/UVc6tMUG1huy5NH2A/VUGIjVT8k7tIMjHa+y0ItqJMICXodduXFYZ6l3J+52Y
+	+/rV+VRzB2eRfN6ZB53t6EC9eNC0SLk=
 Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-482-K7yY-THmOeul8Rr9EMn42Q-1; Wed,
- 25 Feb 2026 11:12:17 -0500
-X-MC-Unique: K7yY-THmOeul8Rr9EMn42Q-1
-X-Mimecast-MFC-AGG-ID: K7yY-THmOeul8Rr9EMn42Q_1772035936
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-461-wq7uSuqcOgeMkY4WMkxAFA-1; Wed,
+ 25 Feb 2026 11:12:22 -0500
+X-MC-Unique: wq7uSuqcOgeMkY4WMkxAFA-1
+X-Mimecast-MFC-AGG-ID: wq7uSuqcOgeMkY4WMkxAFA_1772035941
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 47DD01956055;
-	Wed, 25 Feb 2026 16:12:15 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4AE77195605C;
+	Wed, 25 Feb 2026 16:12:20 +0000 (UTC)
 Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.217])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 27A601800370;
-	Wed, 25 Feb 2026 16:12:10 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BD964180067A;
+	Wed, 25 Feb 2026 16:12:15 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: kbusch@kernel.org
 Cc: hch@lst.de,
@@ -66,20 +66,20 @@ Cc: hch@lst.de,
 	jmeneghi@redhat.com,
 	emilne@redhat.com,
 	bgurney@redhat.com
-Subject: [PATCH V3 1/3] lib: Introduce completion chain helper
-Date: Wed, 25 Feb 2026 17:12:01 +0100
-Message-ID: <20260225161203.76168-2-mlombard@redhat.com>
+Subject: [PATCH V3 2/3] nvme-core: register namespaces in order during async scan
+Date: Wed, 25 Feb 2026 17:12:02 +0100
+Message-ID: <20260225161203.76168-3-mlombard@redhat.com>
 In-Reply-To: <20260225161203.76168-1-mlombard@redhat.com>
 References: <20260225161203.76168-1-mlombard@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: QzYEwQxw0_xeFsz9HLVp2Rqj-sU2lGNYLXVBFJqwHI0_1772035936
+X-Mimecast-MFC-PROC-ID: fdtykbxZLR-IkLFSNge9EQKcoi_Rji-Y3cwhWNtyibE_1772035941
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_081221_923555_9C4286EB 
-X-CRM114-Status: GOOD (  25.78  )
+X-CRM114-CacheID: sfid-20260225_081228_844426_75844452 
+X-CRM114-Status: GOOD (  24.35  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,217 +94,248 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Introduce a new helper library, the completion chain, designed to serialize
-asynchronous operations that must complete in a strict First-In, First-Out
-(FIFO) order.
+The fully asynchronous namespace scanning, while fast, can result in
+namespaces being allocated and registered out of order. This leads to
+unpredictable device naming across reboots which can be confusing
+for users.
 
-Certain workflows, particularly in storage drivers, require operations to
-complete in the same sequence they were submitted.
-This helper provides a generic mechanism to enforce this ordering.
+To solve this, introduce a serialization mechanism for the asynchronous
+namespace scan. This is achieved by using the generic compl_chain helper,
+which ensures that the initialization of one namespace (nvme_alloc_ns)
+completes before the next one begins.
 
-compl_chain: The main structure representing the queue of operations
-compl_chain_entry: An entry embedded in a per-operation structure
+This approach preserves the performance benefits of asynchronous
+identification while guaranteeing that the final device registration
+occurs in the correct order.
 
-The typical usage pattern is:
+Performance testing shows that this change has no noticeable impact on
+scan times compared to the fully asynchronous method.
 
-    * An operation is enqueued by calling compl_chain_add().
+High latency NVMe/TCP, ~150ms ping, 100 namespaces
 
-    * The worker thread for the operation calls
-      compl_chain_wait(), which blocks until the previously
-      enqueued operation has finished.
+Synchronous namespace scan (RHEL-10.1): 32375ms
+Fully async namespace scan (7.0-rc1):    2543ms
+Async namespace scan with dependency chain (7.0-rc1): 2431ms
 
-    * After the work is done, the thread calls compl_chain_complete().
-      This signals the next operation in the chain that it can now
-      proceed and removes the current entry from the list.
+Low latency NVMe/TCP, ~0.2ms ping, 100 namespaces
+
+Synchronous namespace scan (RHEL-10.1): 352ms
+Fully async namespace scan (7.0-rc1):  248ms
+Async namespace scan with dependency chain (7.0-rc1): 191ms
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
- include/linux/compl_chain.h |  35 +++++++++++
- lib/Makefile                |   2 +-
- lib/compl_chain.c           | 118 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 154 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/compl_chain.h
- create mode 100644 lib/compl_chain.c
+ drivers/nvme/host/core.c | 94 +++++++++++++++++++++++++---------------
+ drivers/nvme/host/nvme.h |  2 +
+ 2 files changed, 62 insertions(+), 34 deletions(-)
 
-diff --git a/include/linux/compl_chain.h b/include/linux/compl_chain.h
-new file mode 100644
-index 000000000000..a2bf271144e0
---- /dev/null
-+++ b/include/linux/compl_chain.h
-@@ -0,0 +1,35 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_COMPLETION_CHAIN_H
-+#define _LINUX_COMPLETION_CHAIN_H
-+
-+#include <linux/list.h>
-+#include <linux/completion.h>
-+#include <linux/spinlock.h>
-+
-+struct compl_chain {
-+	spinlock_t lock;
-+	struct list_head list;
-+};
-+
-+#define COMPL_CHAIN_INIT(name) \
-+	{ .lock = __SPIN_LOCK_UNLOCKED((name).lock), \
-+	  .list = LIST_HEAD_INIT((name).list) }
-+
-+#define DEFINE_COMPL_CHAIN(name) \
-+	struct compl_chain name = COMPL_CHAIN_INIT(name)
-+
-+struct compl_chain_entry {
-+	struct compl_chain *chain;
-+	struct list_head list;
-+	struct completion prev_finished;
-+};
-+
-+void compl_chain_init(struct compl_chain *chain);
-+void compl_chain_add(struct compl_chain *chain,
-+			struct compl_chain_entry *entry);
-+void compl_chain_wait(struct compl_chain_entry *entry);
-+void compl_chain_complete(struct compl_chain_entry *entry);
-+bool compl_chain_pending(struct compl_chain_entry *entry);
-+void compl_chain_flush(struct compl_chain *chain);
-+
-+#endif /* _LINUX_COMPLETION_CHAIN_H */
-diff --git a/lib/Makefile b/lib/Makefile
-index 1b9ee167517f..c3ccd82bb190 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -58,7 +58,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
- 	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
- 	 percpu-refcount.o rhashtable.o base64.o \
- 	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
--	 generic-radix-tree.o bitmap-str.o
-+	 generic-radix-tree.o bitmap-str.o compl_chain.o
- obj-y += string_helpers.o
- obj-y += hexdump.o
- obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
-diff --git a/lib/compl_chain.c b/lib/compl_chain.c
-new file mode 100644
-index 000000000000..b1cb43753f52
---- /dev/null
-+++ b/lib/compl_chain.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Author: Maurizio Lombardi <mlombard@redhat.com>
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f5ebcaa2f859..d186c0082cc8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4105,13 +4105,27 @@ static void nvme_ns_add_to_ctrl_list(struct nvme_ns *ns)
+ 	list_add_rcu(&ns->list, &ns->ctrl->namespaces);
+ }
+ 
+-static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
++/**
++ * struct async_scan_task - keeps track of controller & NSID to scan
++ * @entry:	link to the completion chain list
++ * @ctrl:	Controller on which namespaces are being scanned
++ * @nsid:	The NSID to scan
 + */
++struct async_scan_task {
++	struct compl_chain_entry chain_entry;
++	struct nvme_ctrl *ctrl;
++	u32 nsid;
++};
++
++static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info,
++				struct compl_chain_entry *cc_entry)
+ {
+ 	struct queue_limits lim = { };
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
+ 	int node = ctrl->numa_node;
+ 	bool last_path = false;
++	int r;
+ 
+ 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
+ 	if (!ns)
+@@ -4134,7 +4148,19 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+ 	ns->ctrl = ctrl;
+ 	kref_init(&ns->kref);
+ 
+-	if (nvme_init_ns_head(ns, info))
++	/*
++	 * Wait for the previous async task to finish before
++	 * allocating the namespace.
++	 */
++	if (cc_entry)
++		compl_chain_wait(cc_entry);
++
++	r = nvme_init_ns_head(ns, info);
++
++	if (cc_entry)
++		compl_chain_complete(cc_entry);
++
++	if (r)
+ 		goto out_cleanup_disk;
+ 
+ 	/*
+@@ -4309,7 +4335,8 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		nvme_ns_remove(ns);
+ }
+ 
+-static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned int nsid,
++				struct compl_chain_entry *cc_entry)
+ {
+ 	struct nvme_ns_info info = { .nsid = nsid };
+ 	struct nvme_ns *ns;
+@@ -4348,40 +4375,30 @@ static void nvme_scan_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ 	ns = nvme_find_get_ns(ctrl, nsid);
+ 	if (ns) {
++		/* Release the chain early so the next task can proceed */
++		if (cc_entry)
++			compl_chain_complete(cc_entry);
+ 		nvme_validate_ns(ns, &info);
+ 		nvme_put_ns(ns);
+ 	} else {
+-		nvme_alloc_ns(ctrl, &info);
++		nvme_alloc_ns(ctrl, &info, cc_entry);
+ 	}
+ }
+ 
+-/**
+- * struct async_scan_info - keeps track of controller & NSIDs to scan
+- * @ctrl:	Controller on which namespaces are being scanned
+- * @next_nsid:	Index of next NSID to scan in ns_list
+- * @ns_list:	Pointer to list of NSIDs to scan
+- *
+- * Note: There is a single async_scan_info structure shared by all instances
+- * of nvme_scan_ns_async() scanning a given controller, so the atomic
+- * operations on next_nsid are critical to ensure each instance scans a unique
+- * NSID.
+- */
+-struct async_scan_info {
+-	struct nvme_ctrl *ctrl;
+-	atomic_t next_nsid;
+-	__le32 *ns_list;
+-};
+-
+ static void nvme_scan_ns_async(void *data, async_cookie_t cookie)
+ {
+-	struct async_scan_info *scan_info = data;
+-	int idx;
+-	u32 nsid;
++	struct async_scan_task *task = data;
+ 
+-	idx = (u32)atomic_fetch_inc(&scan_info->next_nsid);
+-	nsid = le32_to_cpu(scan_info->ns_list[idx]);
++	nvme_scan_ns(task->ctrl, task->nsid, &task->chain_entry);
+ 
+-	nvme_scan_ns(scan_info->ctrl, nsid);
++	/*
++	 * If the task failed early and returned without completing the
++	 * chain entry, ensure the chain progresses safely.
++	 */
++	if (compl_chain_pending(&task->chain_entry))
++		compl_chain_complete(&task->chain_entry);
++
++	kfree(task);
+ }
+ 
+ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+@@ -4411,14 +4428,12 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+ 	u32 prev = 0;
+ 	int ret = 0, i;
+ 	ASYNC_DOMAIN(domain);
+-	struct async_scan_info scan_info;
++	struct async_scan_task *task;
+ 
+ 	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
+ 	if (!ns_list)
+ 		return -ENOMEM;
+ 
+-	scan_info.ctrl = ctrl;
+-	scan_info.ns_list = ns_list;
+ 	for (;;) {
+ 		struct nvme_command cmd = {
+ 			.identify.opcode	= nvme_admin_identify,
+@@ -4434,20 +4449,30 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+ 			goto free;
+ 		}
+ 
+-		atomic_set(&scan_info.next_nsid, 0);
+ 		for (i = 0; i < nr_entries; i++) {
+ 			u32 nsid = le32_to_cpu(ns_list[i]);
+ 
+ 			if (!nsid)	/* end of the list? */
+ 				goto out;
+-			async_schedule_domain(nvme_scan_ns_async, &scan_info,
++
++			task = kmalloc_obj(*task);
++			if (!task) {
++				ret = -ENOMEM;
++				goto out;
++			}
++
++			task->nsid = nsid;
++			task->ctrl = ctrl;
++			compl_chain_add(&ctrl->scan_chain, &task->chain_entry);
++
++			async_schedule_domain(nvme_scan_ns_async, task,
+ 						&domain);
+ 			while (++prev < nsid)
+ 				nvme_ns_remove_by_nsid(ctrl, prev);
+ 		}
+-		async_synchronize_full_domain(&domain);
+ 	}
+  out:
++	async_synchronize_full_domain(&domain);
+ 	nvme_remove_invalid_namespaces(ctrl, prev);
+  free:
+ 	async_synchronize_full_domain(&domain);
+@@ -4466,7 +4491,7 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl)
+ 	kfree(id);
+ 
+ 	for (i = 1; i <= nn; i++)
+-		nvme_scan_ns(ctrl, i);
++		nvme_scan_ns(ctrl, i, NULL);
+ 
+ 	nvme_remove_invalid_namespaces(ctrl, nn);
+ }
+@@ -5094,6 +5119,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 
+ 	mutex_init(&ctrl->scan_lock);
+ 	INIT_LIST_HEAD(&ctrl->namespaces);
++	compl_chain_init(&ctrl->scan_chain);
+ 	xa_init(&ctrl->cels);
+ 	ctrl->dev = dev;
+ 	ctrl->ops = ops;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9a5f28c5103c..95f8c40ec86b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -17,6 +17,7 @@
+ #include <linux/wait.h>
+ #include <linux/t10-pi.h>
+ #include <linux/ratelimit_types.h>
 +#include <linux/compl_chain.h>
-+
-+/**
-+ * compl_chain_init - Initialize a completion chain
-+ * @chain: The completion chain to be initialized.
-+ *
-+ * Initializes a compl_chain structure
-+ */
-+void compl_chain_init(struct compl_chain *chain)
-+{
-+	spin_lock_init(&chain->lock);
-+	INIT_LIST_HEAD(&chain->list);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_init);
-+
-+/**
-+ * compl_chain_add - Add a new entry to the tail of the chain
-+ * @chain: The completion chain to add the entry to.
-+ * @entry: The entry to be enqueued.
-+ *
-+ * Adds a new entry to the end of the queue.
-+ * If the chain is empty when this entry is added, it is immediately marked
-+ * as ready to run, as there is no preceding entry to wait for.
-+ */
-+void compl_chain_add(struct compl_chain *chain,
-+			struct compl_chain_entry *entry)
-+{
-+	init_completion(&entry->prev_finished);
-+	INIT_LIST_HEAD(&entry->list);
-+
-+	WRITE_ONCE(entry->chain, chain);
-+
-+	spin_lock(&chain->lock);
-+	if (list_empty(&chain->list))
-+		complete_all(&entry->prev_finished);
-+	list_add_tail(&entry->list, &chain->list);
-+	spin_unlock(&chain->lock);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_add);
-+
-+/**
-+ * compl_chain_wait - Wait for the preceding operation to finish
-+ * @entry: The entry for the current operation.
-+ *
-+ * Blocks the current execution thread until compl_chain_complete()
-+ * is executed against the previous entry in the chain.
-+ */
-+void compl_chain_wait(struct compl_chain_entry *entry)
-+{
-+	WARN_ON(!entry->chain);
-+
-+	wait_for_completion(&entry->prev_finished);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_wait);
-+
-+/**
-+ * compl_chain_complete - Mark an entry as completed and signal the next one
-+ * @entry: The entry to mark as completed.
-+ *
-+ * Removes the current entry from the chain and signals the next waiting
-+ * entry (if one exists) that it is now allowed to proceed.
-+ */
-+void compl_chain_complete(struct compl_chain_entry *entry)
-+{
-+	struct compl_chain *chain = entry->chain;
-+
-+	WARN_ON(!chain);
-+
-+	wait_for_completion(&entry->prev_finished);
-+
-+	spin_lock(&chain->lock);
-+	list_del(&entry->list);
-+	if (!list_empty(&chain->list)) {
-+		struct compl_chain_entry *next =
-+			list_first_entry(&chain->list,
-+					 struct compl_chain_entry, list);
-+		complete_all(&next->prev_finished);
-+	}
-+	spin_unlock(&chain->lock);
-+
-+	WRITE_ONCE(entry->chain, NULL);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_complete);
-+
-+/**
-+ * compl_chain_pending - Check if an entry is pending
-+ * @entry: The entry to check.
-+ *
-+ * Returns true if an entry has been added to a chain and hasn't yet
-+ * been completed.
-+ */
-+bool compl_chain_pending(struct compl_chain_entry *entry)
-+{
-+	return READ_ONCE(entry->chain) != NULL;
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_pending);
-+
-+/**
-+ * compl_chain_flush - Wait for all entries currently in the chain to finish
-+ * @chain: The completion chain to flush.
-+ *
-+ * Enqueues a dummy entry into the chain and immediately calls
-+ * compl_chain_complete() against it. Because operations execute in strict
-+ * FIFO order, this acts as a barrier, blocking the calling thread until
-+ * all previously enqueued entries have finished.
-+ */
-+void compl_chain_flush(struct compl_chain *chain)
-+{
-+	struct compl_chain_entry dummy_entry;
-+
-+	compl_chain_add(chain, &dummy_entry);
-+	compl_chain_complete(&dummy_entry);
-+}
-+EXPORT_SYMBOL_GPL(compl_chain_flush);
+ 
+ #include <trace/events/block.h>
+ 
+@@ -294,6 +295,7 @@ struct nvme_ctrl {
+ 	struct blk_mq_tag_set *tagset;
+ 	struct blk_mq_tag_set *admin_tagset;
+ 	struct list_head namespaces;
++	struct compl_chain scan_chain;
+ 	struct mutex namespaces_lock;
+ 	struct srcu_struct srcu;
+ 	struct device ctrl_device;
 -- 
 2.53.0
 
