@@ -4,76 +4,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D397F5545D
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 05:58:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 974F1EFD206
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 08:11:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+WTYB6lVXw606x/HBX2m1Jcvv1uQbq325pOYgX2g38U=; b=Jd/J+i+B/bGEwZptBWdJkxkg21
-	uydBaJ6MnYE+rUT2KnxzL/SJg9yzAtMvWn365S7JMyDdkGLCQRvPCTTQ5P5AgTjLwY6F3GeDnTGH0
-	QecHL8hzaXeyUYWbXrRRN/k9JUtMtJpDgwyA8fN26ZCrkysKK8uRDQXhArUWq5C1IbJl1BH3yD4IA
-	TAu7IkeL5d6zcABGt2gt/Ce2u6s2yT0NZWmfTviSwuy1ZZaXmg7XG8PZbhBxKvCfG6//QGX1ExhLy
-	bJ96upZAhTB9ZGJ0naUEpFcwajMkwyfVPx5vc5271yWOqyEE/yEcdUCcXV9SIJDPyessxGDigr0O6
-	t7ZhQ8vQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=; b=PKQLM6nA9BudXKc2kcgJumUjOA
+	nyvvPZM6grYznhaHkdGthelJrk/twMcg402rJ0acyn5SnLFWIB1rm89BvTgeAkUlbmDDkVQT9VIEi
+	xiGkPEUrsfpQNTwojoD1XcfqzzwhzHWHNEJghp88HeG8CIfSdGC1hvqHcMChH8YnyC3OZy78qvSBY
+	0g/rpEwWGkKtoDjTyrln4gCKhDIi+8KebtZea2SNjqR7+iA1OUUvtxjlo4PXzoMc/bGIEbvubx7X7
+	ey3aPp4iwPzZONMvwzUNNws31T7nYajjVJdI1CxmqxWzjgRG9o2lfJ0VTsnAzBaRbNOoWFMvAMXRM
+	G7nqv+aA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vv7ud-00000003Gfw-3ppq;
-	Wed, 25 Feb 2026 05:58:19 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1vv9zE-00000003TW5-0DJY;
+	Wed, 25 Feb 2026 08:11:12 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vv7ua-00000003GfT-26lQ
+	id 1vv9zC-00000003TV6-0rfZ
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Feb 2026 05:58:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771999092;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+WTYB6lVXw606x/HBX2m1Jcvv1uQbq325pOYgX2g38U=;
-	b=hiGQOqxl9j8/a0/Znybu4WvxKvPAdOaW6zVfcSTVbmoTx0IwBxvYAFQIyW3p7KznNNW76F
-	Q51d2RHdUK7huOvFMNuYL62ntNgddNSo0teTaDM6ovidCF+EVGUnP4b0ke0gdE1IRtXX+8
-	NPGS3jFvKW+y4W9m5CyJSh095a4WERA=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-379-Ts0wPBUmODWpQO4ks_ZNpw-1; Wed,
- 25 Feb 2026 00:58:08 -0500
-X-MC-Unique: Ts0wPBUmODWpQO4ks_ZNpw-1
-X-Mimecast-MFC-AGG-ID: Ts0wPBUmODWpQO4ks_ZNpw_1771999087
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	Wed, 25 Feb 2026 08:11:11 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 001B8195605A;
-	Wed, 25 Feb 2026 05:58:07 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.18])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EE4261955D71;
-	Wed, 25 Feb 2026 05:57:59 +0000 (UTC)
-Date: Wed, 25 Feb 2026 13:57:54 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Geliang Tang <geliang@kernel.org>
-Cc: lsf-pc@lists.linux-foundation.org, linux-nvme@lists.infradead.org,
-	mptcp@lists.linux.dev, Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Hannes Reinecke <hare@suse.de>
-Subject: Re: [LSF/MM/BPF TOPIC] NVMe over MPTCP: Multi-Fold Acceleration for
- NVMe over TCP in Multi-NIC Environments
-Message-ID: <aZ6PYgJ0ZWeSc_GS@fedora>
-References: <a9f115aa5719e1088702a3fdeee766a3166611b1.camel@kernel.org>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 83F553F6D2;
+	Wed, 25 Feb 2026 08:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772007066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
+	b=mMtgbQ339ta6FU0XTED0h+40xDyL5aM/deQNd1mnahKJxGQFnLyRxYyMVQa4Z36pMhRMwH
+	lsv+ALst/r7Da2jOFMS9q82RHCgB4MhrzEC9NT7/FepFA9ZkcgULwzlXOT3J3Scgt1VYXZ
+	+AHLdLMgDkxn8WIN/zkcQa+uPH3Y1PY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772007066;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
+	b=D7Fgbhv8hbdx99qzzkFVJTNx12tSQ4AW8N352bDH7ZwGNqfn4H+b8xVqDorJxf03NXkGnp
+	1IqgF8U7MBHTZ+BQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772007066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
+	b=mMtgbQ339ta6FU0XTED0h+40xDyL5aM/deQNd1mnahKJxGQFnLyRxYyMVQa4Z36pMhRMwH
+	lsv+ALst/r7Da2jOFMS9q82RHCgB4MhrzEC9NT7/FepFA9ZkcgULwzlXOT3J3Scgt1VYXZ
+	+AHLdLMgDkxn8WIN/zkcQa+uPH3Y1PY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772007066;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cv61eXul4+Id0Xk3dMKov6St1E/xGPF7i7RC/RbLP28=;
+	b=D7Fgbhv8hbdx99qzzkFVJTNx12tSQ4AW8N352bDH7ZwGNqfn4H+b8xVqDorJxf03NXkGnp
+	1IqgF8U7MBHTZ+BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 240DB3EA65;
+	Wed, 25 Feb 2026 08:11:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /ip0BpqunmmRRgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 25 Feb 2026 08:11:06 +0000
+Message-ID: <0a6ec8d3-7623-4809-b275-3eccb94419d4@suse.de>
+Date: Wed, 25 Feb 2026 09:11:05 +0100
 MIME-Version: 1.0
-In-Reply-To: <a9f115aa5719e1088702a3fdeee766a3166611b1.camel@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: aiKePlcLoit65AHkzl02nH5mDaMMDkYnGuC2C4J-B_8_1771999087
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF TOPIC] Native SCSI multipath support
+To: Benjamin Marzinski <bmarzins@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>
+Cc: John Garry <john.g.garry@oracle.com>, lsf-pc@lists.linux-foundation.org,
+ linux-nvme@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dm-devel@lists.linux.dev
+References: <69349b51-72c2-47f9-948f-f89843af62e4@oracle.com>
+ <aZnuSC0qYfw0hiwM@kernel.org> <aZ5GbVxDT3gcS6WE@redhat.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <aZ5GbVxDT3gcS6WE@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260224_215816_639135_69F99C9C 
-X-CRM114-Status: GOOD (  19.87  )
+X-CRM114-CacheID: sfid-20260225_001110_392586_8108AE20 
+X-CRM114-Status: GOOD (  22.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,64 +134,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Geliang,
+On 2/25/26 01:46, Benjamin Marzinski wrote:
+> On Sat, Feb 21, 2026 at 12:41:28PM -0500, Mike Snitzer wrote:
+>> On Fri, Feb 13, 2026 at 02:19:11PM +0000, John Garry wrote:
+>>> At ALPSS 25 I presented a proposal for Native SCSI multipath support. Let's
+>>> discuss this topic at LSFMM.
+>>>
+>>> The idea for this is that SCSI could natively support multipath, like how
+>>> NVMe host driver does today. It is intended as an alternative to
+>>> dm-multipath support.
+>>>
+>>> I have been working on the implementation and I plan to post patches in the
+>>> next cycle. I am looking at a 3-stage approach:
+>>> a. create a driver-agnostic multipath library, very heavily based on NVMe
+>>> host multipath support.
+>>> The library would support features such as path management, path
+>>> selection/iopolicy, failover recovery, PR, delayed removal, gendisk
+>>> management etc.
+>>> b. switch NVMe over to use this library
+>>
+>> I can appreciate that the kernel to userspace interface of DM
+>> multipath is clearly unwanted (hence NVMe multipath and now SCSI
+>> multipath).
+>>
+>> But you should really be switching DM-multipath over to using it too;
+>> or at least detailing _why_ the core of DM multipath
+>> (drivers/md/dm-mpath.c) cannot be updated to use this common backend
+>> library.
+>>
+>> This line of work makes little sense to me if it just ignores
+>> dm-multipath.
+>>
+>> Mike
+> 
+> Thinking about this work from a DM multipath perspective, I'm more
+> interested in how much it plans to handle the more annoying niche cases
+> of dealing with SCSI devices, like paths that confidently report that
+> they are able to accept IO, only to fail all IO sent to them. Also, I
+> wonder how/if this is planning on handling Persistent Reservations. The
+> arrays, I assume, are still going to see this as a collection of I_T
+> Nexuses (some of which may be down and unable to accept commands at any
+> given time, and to which new ones my be added) instead of a single one.
+> 
+> I also think this would be useful to talk about at LSF.
+> 
+And that even makes me wonder whether we should have a discussion about
+persistent reservations at LSF, too.
+I seem to be involved in discussions about PRs from various angles now
+(live migration seems to want to join the fray), so maybe we could get
+together to discuss things.
 
-Looks one interesting topic!
+And I _still_ want to have a blktests for persistent reservations ...
 
-On Thu, Jan 29, 2026 at 12:13:25PM +0800, Geliang Tang wrote:
-> As one of the MPTCP upstream developers, I'm recently working on adding
-> MPTCP support to 'NVMe over TCP'. This approach achieves a multi-fold
-> performance improvement over using standard TCP. The implementation and
-> testing phases are largely complete. The code is currently in the RFC
-> stage and has undergone several rounds of discussion and iteration on
-> the MPTCP mailing list [1]. It will be sent to the NVMe mailing list
-> shortly.
-> 
-> 1. Introduction to MPTCP
-> 
-> Multipath TCP (MPTCP), standardized in RFC 8684, represents a major
-> evolution of the TCP protocol. It enables a single transport connection
-> to utilize multiple network paths simultaneously, providing benefits in
-> redundancy, resilience, and bandwidth aggregation. Since its
-> introduction in Linux kernel v5.6, it has become a key technology for
-> modern networking, particularly in multi-NIC environments.
-> 
-> On a supported system such as Linux, an MPTCP socket is created by
-> specifying the IPPROTO_MPTCP protocol in the socket() system call:
-> 
-> 	int fd = socket(AF_INET, SOCK_STREAM, IPPROTO_MPTCP);
-> 
-> This creates a socket that appears as a standard TCP socket to the
-> application but uses the MPTCP protocol stack underneath.
-> 
-> For more details, please visit the project website: https://mptcp.dev.
-> 
-> 2. Implementation
-> 
-> 'NVMe over TCP' establishes multiple TCP connections between the target
-> and host for data transfer. This includes one admin queue connection
-> for management traffic and multiple I/O queue connections for data
-> traffic, with the number typically scaling with available CPU cores.
-> While these multiple TCP connections (using the same IP address but
-> different ports) help distribute computational load across CPUs, all
-> data traffic still flows through a single network interface card (NIC),
-> even in multi-NIC environments.
-> 
-> The 'NVMe over MPTCP' solution enhances 'NVMe over TCP' by replacing
-> the multiple TCP connections with multiple MPTCP connections, leaving
-> other mechanisms unchanged. Internally, each MPTCP connection can
-> establish multiple subflows based on the number of configured NICs.
-> This distributes data traffic across all available NICs, thereby
-> increasing aggregate transmission speed.
+Cheers,
 
-NVMe supports multipath, which can apply load balance or sort of algorithm
-to maximize network link/bandwidth too.
-
-Maybe you can compare mptcp with multipath in this viewpoint.
-
-
-
-Thanks,
-Ming
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
