@@ -4,133 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0E51FD3762
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 15:51:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62AB1FD3770
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Feb 2026 16:12:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c5WeJceSRnwNjdh835HAjuGI7eITjb/uUESY9vybVmI=; b=nI/rHGdsiOdgw/Xiok9lJhgOt+
-	YppiGhAezoYo2kdv3sFKqSZ2vbD72NrlhSJzTeCJzTOI7IM4xVEsFVIgVxJG49EhwQO5pSHtg6zoP
-	BWLBLzimeTnk+6oZc6BQsSR2BDEzBrv7O3rlBTiW0hyAKMp48LxVcYLnTzjJfYDVawTJdfw3+fBzy
-	kiG/d+43tXFnT0qdlLnzOq+gYlEToGfY5V3SpHrTTpEFCqJ3nXF7t/M2PPXDDOQZ2WrmEJDKnT1xu
-	hAJKvKZxz5eJzpQbWdLZ8jMCdNf6QWeq61q2PtXuQ3FO5NzkdzNM1hMI2uDw6rCOjOcmc10F/hK+x
-	ThE3thBw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=0ie7X8G/aioYQL267xphe9M0Dn97fy0rBJ1VdwmGLSc=; b=1hY8tfALojYJ3MoPhNR+J6DA4h
+	mYpfDhjryS1t07fddVVg0PbSeVxtVEJDd26fsiIYfTJNyUSVA2NGJNpGtv812cR3Cz+QaSlnWIp0i
+	1AWzHXhg+dbOu3y0PMKUBMwnOnY4oWReRZkjD+4cyqMBr/bF246FlF3YI7z6CbtWOTuAqXKOmReVn
+	ulQn/jBVEUnJzaN0MD8DIuXlB4BczEWBSgYTYZvoA54YBZwBhSC6yQ+awIPndHSXQ+PfIR/tgn4xB
+	AP7GJIi62xDtyz37zAQNk1c+QNBnaOyyUbO+ysPqsL2nN3fqDnKqx5mDsRphOQS2kQL00D6fQKHHl
+	Y9+7Puuw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvHAA-00000004Puw-3eK6;
-	Wed, 25 Feb 2026 15:50:58 +0000
-Received: from mail-swedencentralazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c202::7] helo=GVXPR05CU001.outbound.protection.outlook.com)
+	id 1vvHUr-00000004SnX-2eoc;
+	Wed, 25 Feb 2026 16:12:21 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvHA8-00000004PuP-3OVu
+	id 1vvHUp-00000004SmC-0KXY
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Feb 2026 15:50:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AbZVopnMYulDhCw23BNwXTyJmfjvx93dd7FbrTkDOXVEbRSxwN4Ra1Ya8ABZniHyNBK7FrpFD1A/3WN31SBjiF8NR8nWKmsQPvdBfGtMT1eb4nLWyRJ7iQEhoOHDStlnl+yZHMmXqjiaQLbvxXo+/KhnczAHVmb/y5yMuCU36g4N2GXW/ea5ie/0rt5mQXHComGxj4IYs2JpNvrw5xUtCHcz9VOdHzLHaJ+zXZGFxy8TJetF8MJSPBPxXfCmC3YCTNx3duscsJSUGPH+CP9FYv7QQXKJB8j5irDsDO/80axxk9fcdhkffnKjma14vu43NjXTh+2BCyVQdW890SnFGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c5WeJceSRnwNjdh835HAjuGI7eITjb/uUESY9vybVmI=;
- b=JEeOnUD40/Qe36kBhdN5rXkSJ+hko63atf1CZH7o8oZNRWHG2R1El6pr8p66ZZb+rGAVO42uy1ENEzuR7HGLnt7ERqqbwgd8ukaSv8yJGHrbftLjEopeFtTuLkf7EYAdtl6K863QyQytiIfH9V+NT8lTvSMt+ulSp2kOi4AZ28TGY9jrs8YCYO0nSn75wQTYhCHedzVr3eMDL6C4NgQk0Bz5zxdRblEtQya0OH+xNlY2LMsXp7XQ1wGx/xLsUrT9FWdOzzx+1vJXqQMYTsWBG/6umK04FoJq2Z1UwNi8Cab9Ut4cTgsVy7FEteB6GnZjTRlJLm02w5k8ZyEz89VWFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c5WeJceSRnwNjdh835HAjuGI7eITjb/uUESY9vybVmI=;
- b=kpHYkpvGHvsHa09oNFOIR3yHrtECqRvfCMA8irCrPLTAhRACTRcvc2YWwZ5eueWrPD1ujebt19sXhkL32d1X05udG8cvs/76lRPtWaxXZk88X/rM0cfhpZbUEnlKpJuh4PmZPP/CC14QuIrCksvTztVx5QaBYKFCgSCwx4P+lJ/DoFGxCCgYfiaK5KH/D3s4RnIBYZ9E3tMFkCHplanNNWEIuBA8DjwWclOI8LVn/S5Mdmj6spP2gViKaI0ULmm9RgGoQ4bBBVNVVKgKqMnw6klQtCMn3+COE35IQho5M5i9EpDji76897SVWOIxUtipp4dILVXUDoaJA5EIfMc1nQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by PA2PR04MB10424.eurprd04.prod.outlook.com (2603:10a6:102:419::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Wed, 25 Feb
- 2026 15:50:49 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
- 15:50:49 +0000
-Date: Wed, 25 Feb 2026 10:50:41 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v2 01/11] dmaengine: dw-edma: Add spinlock to protect
- DONE_INT_MASK and ABORT_INT_MASK
-Message-ID: <aZ8aUcV4RN2EL5n3@lizhi-Precision-Tower-5810>
-References: <20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com>
- <20260109-edma_ll-v2-1-5c0b27b2c664@nxp.com>
- <d7mh5d2amod6uzmzib4qnun46al73r77uljzhizq2v6w5ame4v@et65inoxhexa>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7mh5d2amod6uzmzib4qnun46al73r77uljzhizq2v6w5ame4v@et65inoxhexa>
-X-ClientProxiedBy: PH1PEPF00013311.namprd07.prod.outlook.com
- (2603:10b6:518:1::c) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	Wed, 25 Feb 2026 16:12:20 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772035936;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0ie7X8G/aioYQL267xphe9M0Dn97fy0rBJ1VdwmGLSc=;
+	b=TwQTtJ1G/TWFKJ+wfm9H7slyU27PJFZ50BduwJ9w7gML1BPoieXHiSsac1PXYIzOLb87aK
+	iOqZ4iGBaF5p8OsMGDqnjKUyumQWf7yqP7u5MTFrVlzI0AQjSTytEFBt8wsBcBzv7TbzRD
+	AIMo0gqK9AP+YpaRfh0TqicRc5aDIm0=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-548-kOUKdMH1NimkPFuuXtRElQ-1; Wed,
+ 25 Feb 2026 11:12:12 -0500
+X-MC-Unique: kOUKdMH1NimkPFuuXtRElQ-1
+X-Mimecast-MFC-AGG-ID: kOUKdMH1NimkPFuuXtRElQ_1772035931
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A9A7A19560B2;
+	Wed, 25 Feb 2026 16:12:10 +0000 (UTC)
+Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.217])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 886AD180066B;
+	Wed, 25 Feb 2026 16:12:05 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: hch@lst.de,
+	hare@suse.de,
+	chaitanyak@nvidia.com,
+	bvanassche@acm.org,
+	linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	James.Bottomley@HansenPartnership.com,
+	mlombard@arkamax.eu,
+	jmeneghi@redhat.com,
+	emilne@redhat.com,
+	bgurney@redhat.com
+Subject: [PATCH V3 0/3] Ensure ordered namespace registration during async scan
+Date: Wed, 25 Feb 2026 17:12:00 +0100
+Message-ID: <20260225161203.76168-1-mlombard@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PA2PR04MB10424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38309916-0cef-4f9d-903e-08de7485a569
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|52116014|376014|7416014|1800799024|366016|19092799006|38350700014;
-X-Microsoft-Antispam-Message-Info: hPqqWb6fongKR/Cpj3AwqKrVJZMoE7D1zSagTnt5rhV1GNvR0TFD7mtJ2ggeRu81zmAq/FEWmDI8FdbMBRSB5t4bb6RGNDc082QuWWb1tpZ4cFeEnkneswgYjp5d24I3AC6kHjNKOt8Vs0si6qTWcJy8c4SicX3kcbaBsbYo6fetEwb8TFrBEGU/ScKVSQq8pU8ODD1t822olUBnYYBZH0Hw01dKiZwC+F+s5Z1yf9PZsc6zLILZH3pdx8evZYwyxfYeWUVyEQpkTAMUXYxLlNjGtoh4nk9BmnvQwttpLPGqw+sWAOskZHtZJ6MfsGoQro6+H5VGL0kKunHL7sOkkIntpojR8jBE3sdvJizPCaX7UZCeYjeA070Sawgxaf5uqcIDqBoNIdOSV64eMwAc7lrelJhAeHGCXG+Z1Letzh4KBmzO4lTHTflzimsBeuryapzw89pvMkmWr+/DHQJCSFn754h+PmAGs9Pzrqq3QNHXN/NWOlEg14fMviK0xppV6EGl5dJ6K1BsImTMSK9mnkY/3Waz2mNbqSKa5sXvr2nHSaW1tmBbwmYZOqBKN7Q2oJEna+hgGKVlv3YIG2hZw5aWEC+45x5F8rP9mfwjJOdHw37Ma7Ls7vU2bs4ch/6IBLqHk84GyA8wrhqf4jRMB+ZmfHk0F7DthAfht+sCQPo1s69XlwZzRY9GHg73nfesPX2xZwj18+CyZDWEonJqsoFakM0VCUnGUqmk3I2Uy/Hp2kjqirFRkVHRyi4W9xs7hoS8S2PMTDc3y7eHgtCfUQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(1800799024)(366016)(19092799006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j3IZSzSk8jZPNqRCizTjN1F8Ite6y3wzPEB7KvlUH7m3O4sJEI02JFODH4QE?=
- =?us-ascii?Q?cGkQ7RlqL8x0VNHQQDyUfwQGXchpIArHpCysz/CryqilZibvuww3+LplDGCy?=
- =?us-ascii?Q?xnV/YUk2REm1+t1CZY8cJijEFVv7uwq2m7AOfhzV+BI6BQxsXCMZH04Ekpm1?=
- =?us-ascii?Q?ckMS3lkYlt92JOQxJi15aC/jfUG55UU5pibq+g19WErQ68jKPE0ALxoLysmQ?=
- =?us-ascii?Q?ijWEyvSmbMAbn+DZF0t68mejD8QjBFy2o6htT3hj494NzRafQbqZDsmKMygb?=
- =?us-ascii?Q?oDAod/Fy8MB4Tb1EEkVWRawQ5os6fJ+L2rUz8HS6ASi7bUZKtSuSQq4JBPfc?=
- =?us-ascii?Q?8tIKVwsKqAsaZlJtvaQEHRwnAKuQ9QupVLgeVYKorZd1JOKQL83jwLwM9Gx3?=
- =?us-ascii?Q?mVxH/bwX7w5BfFCze2nxRYw8pVkcNpJeT1OcvayYg6vY3pp0ncipOutvrSM+?=
- =?us-ascii?Q?bwP1xskbssOWWvD0Xf5V4mcCUa9sW3N7x54PzAwmJZDDbFXqS2MfE3xsNpJH?=
- =?us-ascii?Q?dPA0SolBohmXIezTqZNwkp/XH0Ejj5jfHmD7qUwx8LUFbuo1Xb5uy4RwajgM?=
- =?us-ascii?Q?4SITV1d9kfyW9ucyma9Kg0+ijnujwR/J1hg7VYOT9H+rp9sozAM8QJ4vA0W3?=
- =?us-ascii?Q?VmIl4x9j09xd92o2iPfoWHdPTAG0gG6CSbDWbKnBBGG01QlRGPD1xbBRmylU?=
- =?us-ascii?Q?pboN2wmya7tMjmD0wZfmVCLWuOI/+sVCTKC6t7VF3TzNf8Tb2uRJ8VjnWJc9?=
- =?us-ascii?Q?ujIW5jHM6uEXzFddNtJ6ep6OMPcuj5tZG4gKCTlu54y5/pINJbnupAMomwNM?=
- =?us-ascii?Q?M8BXJELgBRjHNbq02WHKWVs/qT5PQvTOUQxY2HEqlNZAiWWoHzcrzWIIYsBt?=
- =?us-ascii?Q?fm1rztP2WdsYRxj6mRdday8+0anOm3RT6NI8hCLlmYC5bgA0eTcHSrPVOIGy?=
- =?us-ascii?Q?mnMs6UHZcWn8g5jfKBcpejUP0zYO6qY+KbghF1rk9/nigUVhDV/x2rxftpTA?=
- =?us-ascii?Q?A5FsCSyErxE89vFzQrZs8Vnmikjej7O6GUhAQqNluECSnvuyRM6GTRcjEWLr?=
- =?us-ascii?Q?JQqT9lm+zMlP/W4/CnIJKLI2Dy2vBrV2yl9p/xkBGmwtii998UAn99mnJPAH?=
- =?us-ascii?Q?zIOPQw/+T1AL+H6AKkNWQAXiHnmIQF6em7aBQQlmYWmMJIRwyB2l8Y9jyqxu?=
- =?us-ascii?Q?aiRY7tTmUaghUuGpwRPMZGjHrsidvkA7NE3X7IGhBKkKyieIOymuae504gRS?=
- =?us-ascii?Q?P6r5MfXkOeVHnxp9MCN5sApFvleKUTbS0KqCdby34oAbNg9kYYNn7noy+fH8?=
- =?us-ascii?Q?+6Wss3LwnGYEF5tZ+LeoER7q1lZdpHWXm3B5SR9m8N+oQ9hW0qWjI5d4fPDR?=
- =?us-ascii?Q?lZwo37v9SYY9B4eyDb0dpGcBjE7tM5r/wiHcC6GMvfna1jLLDiB+qywDTpjY?=
- =?us-ascii?Q?txfbd7SMGYS6LrhfvD8E5vSSpepnyRjSlsiJkHq3HGbBFyeKOONbTflpqxLZ?=
- =?us-ascii?Q?mBz3v8ElPVE8HMFjVIdHDyJMtWEqBPALF6yygdg9UFFqxeecm+Bx50/4RbSR?=
- =?us-ascii?Q?XQgUQO2bAb5ebtayJpjCQvU3cYTZYynxgNaW01LtXp5v6WukoWBsi7y8sk4n?=
- =?us-ascii?Q?Sh2tFx7DjHaT0M4sofIfeJqEbBIxY26x/Kbc9JEHxuacTZzd/BaYIzWq5tPC?=
- =?us-ascii?Q?qq/1HjY79SF64JqjTLIfuvcw0Kim9EO2OfiB0uxiU8xwnR7F?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38309916-0cef-4f9d-903e-08de7485a569
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 15:50:49.0239
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Sj4JaEzPpo17A3v4TXOm43PhIpuY92cd9E5MO3ggSKWWIcj6ZtOBIeBTbhlw8VcTdZEz6eXrVjXNC7ErM7cdfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10424
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: cxGeiSTpJ0F5LnZRY4OiZsC_vDXrrJanQdC8uyRpMqM_1772035931
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_075056_852719_4DC341D2 
-X-CRM114-Status: GOOD (  27.74  )
+X-CRM114-CacheID: sfid-20260225_081219_189180_9CDAF80A 
+X-CRM114-Status: GOOD (  11.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,80 +91,104 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 25, 2026 at 05:26:02PM +0900, Koichiro Den wrote:
-> On Fri, Jan 09, 2026 at 10:28:21AM -0500, Frank Li wrote:
-> > The DONE_INT_MASK and ABORT_INT_MASK registers are shared by all DMA
-> > channels, and modifying them requires a read-modify-write sequence.
-> > Because this operation is not atomic, concurrent calls to
-> > dw_edma_v0_core_start() can introduce race conditions if two channels
-> > update these registers simultaneously.
-> >
-> > Add a spinlock to serialize access to these registers and prevent race
-> > conditions.
-> >
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> > vc.lock protect should be another problem. This one just fix register
-> > access for difference DMA channel.
-> >
-> > Other improve defer to dynamtic append descriptor works later.
-> > ---
-> >  drivers/dma/dw-edma/dw-edma-v0-core.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
->
-> Hi Frank,
->
-> I'm very interested in seeing the work toward the "dynamic append" series land,
-> but in my opinion this one can be submitted independently.
+The NVMe fully asynchronous namespace scanning introduced in
+commit 4e893ca81170 ("nvme-core: scan namespaces asynchronously")
+significantly improved discovery times. However, it also introduced
+non-deterministic ordering for namespace registration.
 
-This patch serial is actually straight forwards. we can ask vnod pick first
-one in case have other problems. put together to reduce patch's dependency.
+While kernel device names (/dev/nvmeXnY) are not guaranteed to be stable
+across reboots, this unpredictable ordering has caused considerable user
+confusion and has been perceived as a regression, leading to multiple bug
+reports.
 
-Frank
->
-> Even in the current mainline, under concurrent multi-channel load, this race can
-> already be triggered.
->
-> Also, with this patch, dw->lock is no longer "Only for legacy", so we should
-> probably update the comment in dw-edma-core.h.
->
-> Best regards,
-> Koichiro
->
-> >
-> > diff --git a/drivers/dma/dw-edma/dw-edma-v0-core.c b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > index b75fdaffad9a4ea6cd8d15e8f43bea550848b46c..2850a9df80f54d00789144415ed2dfe31dea3965 100644
-> > --- a/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > +++ b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > @@ -364,6 +364,7 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> >  {
-> >  	struct dw_edma_chan *chan = chunk->chan;
-> >  	struct dw_edma *dw = chan->dw;
-> > +	unsigned long flags;
-> >  	u32 tmp;
-> >
-> >  	dw_edma_v0_core_write_chunk(chunk);
-> > @@ -408,6 +409,8 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> >  			}
-> >  		}
-> >  		/* Interrupt unmask - done, abort */
-> > +		raw_spin_lock_irqsave(&dw->lock, flags);
-> > +
-> >  		tmp = GET_RW_32(dw, chan->dir, int_mask);
-> >  		tmp &= ~FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> >  		tmp &= ~FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > @@ -416,6 +419,9 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> >  		tmp = GET_RW_32(dw, chan->dir, linked_list_err_en);
-> >  		tmp |= FIELD_PREP(EDMA_V0_LINKED_LIST_ERR_MASK, BIT(chan->id));
-> >  		SET_RW_32(dw, chan->dir, linked_list_err_en, tmp);
-> > +
-> > +		raw_spin_unlock_irqrestore(&dw->lock, flags);
-> > +
-> >  		/* Channel control */
-> >  		SET_CH_32(dw, chan->dir, chan->id, ch_control1,
-> >  			  (DW_EDMA_V0_CCS | DW_EDMA_V0_LLE));
-> >
-> > --
-> > 2.34.1
-> >
+This series introduces a solution to enforce strict sequential
+registration based on NSID order, entirely preserving the performance
+benefits of the asynchronous scan approach.
+
+Instead of adding an NVMe-specific hack, this series abstracts the
+serialization mechanism currently open-coded in the SCSI subsystem
+(drivers/scsi/scsi_scan.c) into a generic library helper called the
+completion chain (compl_chain).
+
+By enforcing a strict First-In, First-Out (FIFO) completion order for
+asynchronous tasks, we can ensure that namespaces are allocated and
+registered sequentially without blocking the underlying parallel discovery
+processes.
+
+PATCH 3 Refactors the existing SCSI asynchronous scanning implementation
+to use the new compl_chain helper, stripping out the custom, open-coded task
+list and reducing code duplication.
+
+Original code:
+
+$ nvme list
+Node                  Generic               Namespace
+--------------------- --------------------- ----------
+/dev/nvme0n1          /dev/ng0n1            0x2
+/dev/nvme0n2          /dev/ng0n2            0x1
+/dev/nvme0n3          /dev/ng0n3            0x5
+/dev/nvme0n4          /dev/ng0n4            0x3
+/dev/nvme0n5          /dev/ng0n5            0x4
+[...]
+/dev/nvme0n10         /dev/ng0n10           0xa
+/dev/nvme0n11         /dev/ng0n11           0x8
+/dev/nvme0n12         /dev/ng0n12           0x12
+/dev/nvme0n13         /dev/ng0n13           0x17
+/dev/nvme0n14         /dev/ng0n14           0xc
+/dev/nvme0n15         /dev/ng0n15           0x11
+/dev/nvme0n16         /dev/ng0n16           0x14
+/dev/nvme0n17         /dev/ng0n17           0x13
+/dev/nvme0n18         /dev/ng0n18           0xe
+/dev/nvme0n19         /dev/ng0n19           0xf
+
+
+With this patch:
+
+$ nvme list
+Node                  Generic               Namespace
+--------------------- --------------------- ----------
+/dev/nvme0n1          /dev/ng0n1            0x1
+/dev/nvme0n2          /dev/ng0n2            0x2
+/dev/nvme0n3          /dev/ng0n3            0x3
+/dev/nvme0n4          /dev/ng0n4            0x4
+/dev/nvme0n5          /dev/ng0n5            0x5
+/dev/nvme0n6          /dev/ng0n6            0x6
+[...]
+/dev/nvme0n10         /dev/ng0n10           0xa
+/dev/nvme0n11         /dev/ng0n11           0xb
+/dev/nvme0n12         /dev/ng0n12           0xc
+/dev/nvme0n13         /dev/ng0n13           0xd
+/dev/nvme0n14         /dev/ng0n14           0xe
+/dev/nvme0n15         /dev/ng0n15           0xf
+/dev/nvme0n16         /dev/ng0n16           0x10
+/dev/nvme0n17         /dev/ng0n17           0x11
+/dev/nvme0n18         /dev/ng0n18           0x12
+/dev/nvme0n19         /dev/ng0n19           0x13
+
+V3: fixed some comments
+    PATCH 3: declare scanning_hosts as static
+    remove "extern" keyword from scsi_complete_async_scans()
+    prototype declaration
+
+V2: create the compl_chain helper that both SCSI and NVMe can share
+
+Maurizio Lombardi (3):
+  lib: Introduce completion chain helper
+  nvme-core: register namespaces in order during async scan
+  scsi: Convert async scanning to use the completion chain helper
+
+ drivers/nvme/host/core.c    |  94 +++++++++++++++++-----------
+ drivers/nvme/host/nvme.h    |   2 +
+ drivers/scsi/scsi_priv.h    |   2 +-
+ drivers/scsi/scsi_scan.c    |  68 +++------------------
+ include/linux/compl_chain.h |  35 +++++++++++
+ lib/Makefile                |   2 +-
+ lib/compl_chain.c           | 118 ++++++++++++++++++++++++++++++++++++
+ 7 files changed, 225 insertions(+), 96 deletions(-)
+ create mode 100644 include/linux/compl_chain.h
+ create mode 100644 lib/compl_chain.c
+
+-- 
+2.53.0
+
 
