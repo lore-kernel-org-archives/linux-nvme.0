@@ -4,139 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A00DFD4609
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 02:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B162AFD4609
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 02:58:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JvG3sp+tK2Hd+lIwEz+cV0SdmB7fBfQ0JvujxR/8ed8=; b=QflIkNy3ze5QrwS2AHFjtOCIpT
-	omXbrdWFR+OiqBnOIwbt2O4KNyQkCYZtjz+5fz/Vo73ZjmeF2Tbv2VmeSQTvbKRT+63C30ldKCYwm
-	CYyCO7rHArxyf3hPjMpNh4wozx2InBcvlYT+iOXb0YCLSG+le3QfwdXPFVms5vWryKKxRaAEgXq8I
-	cXXZB0TtdvCc3Zbgd4htahqHZRTa2UJzIBuf+494TK/7AJVUVqkZUNovPPv618SbuZGFPmCY0SuIq
-	BjN6t6LZMhNPW9mBr9/tYDDgjv7L1RzIoO/OhGmPSUU20bdXAitnALX4zgfvMEffvTRer8RW5MYMi
-	uS6TNTVA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BTYCdFy5XF1WcVGlkXFfAd2liIM1AgmUuFoTDc0IJlk=; b=HmL39fE1svlcwhSXLv53lGZumF
+	YS5bT1qLacGaUX7lIUNcg6BaogIB/ScliwSH5ZiKfkcsnjZWSxVXxqU5VufbX8E5phazgaCpNDEca
+	uml55Fmj8Rljbu/aQJTQ7H5pMJQWJoA8/Lfs3/V8sFnp82hG8YkZsWb9HvVpAl+GX6RDRWtxPtKUe
+	W71KkoKGozmsp5f7OvT/csqFhW+FyMJuGSQWNheHXoeF8YLbGZWTtJsOPdRacqDkBVtNn4v05oqAQ
+	y8Czp+wrfqd5Id4Yq0VyqI8yxWRgfj8HHAlEiFVbwUghKmlwS6Hjm+v5uS/LkA5fcRUIQm+5cOZpN
+	hBc/dw2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvRUm-00000005Gkr-0vmK;
-	Thu, 26 Feb 2026 02:52:56 +0000
-Received: from mail-westus2azon11012063.outbound.protection.outlook.com ([52.101.48.63] helo=MW6PR02CU001.outbound.protection.outlook.com)
+	id 1vvRZh-00000005H8M-2Rci;
+	Thu, 26 Feb 2026 02:58:01 +0000
+Received: from mail-eastus2azlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c110::1] helo=BN1PR04CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvRUi-00000005GkV-2eDN
+	id 1vvRZe-00000005H7e-0nvl
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 02:52:53 +0000
+	Thu, 26 Feb 2026 02:57:59 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=boHPx/JnClcDNQFa7peRmIspJq/IiGNIBRUhBAGIjBUXMR/HcmLCDw78eDeLdGxXwEncHqZqv1lqTjL6u53d5TaoUM/mJRRnA/GTBPd/G8+3wTrAoGVoNMmTV7IRjk5f+48CEe+SaMhFkQzFdoR9lW4KvDrhIy9zG2wrMYu5khrdX4BbKgtk0iE2y9NS6XCQJN+iUmITpTD7a1bwjvtYZ3XLTTtSQSobIOBZdcHUzD2sN+MVOKYzf0F7sVA8cS6stxe4t2Ns7l/Ch+cNrM6Ec323BB41rErw2iz+fJWWj5tDjaK9ZsmATGE2REqO3Lp2fqGN00U9dDcRr74kYeqYtw==
+ b=nqNHQdbaUDWiINfpHakikw6uS65Z1HE4JgicKj0QZZOFHaollKX+qQEYlSqh7kVP3rDtu/D2+1F2CgR0TCQFE1J8dSfw1iwV+yfnxDVk2gRjkMIkD3XO8+/f/QIRsV8rupQrDIV07pcvV4SW80j2phTxe1tAZj5IoTmB1TuyIiF1CW43ChzUiVuKm8fRDDpKTQYgyL7v30UI+dzxQCdogd8wXnWLd/SsXsou+esZzG1lIbT799fg5nsFIjlfob3mjyqOPx2S3H+92PbwOKIIVh4FlcXukdEi7jz9o/hZvUrvlWgREX5G7B54D93mVM2Kqm7aj4SNS3cZ/FplvB4quw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JvG3sp+tK2Hd+lIwEz+cV0SdmB7fBfQ0JvujxR/8ed8=;
- b=JhcvuPxsClrwI0B6Aepc1/GV06gJ4+7XId1BnQJ4LO/9lWS6lIWM+WPBMAsEVugpwEEKUpVUqu5NlxWslpYsNLBf1clRbnY0+fpWhQl2k0gzaBikGIzqMzO5LIu1sIw95Lm16unTIYzrqu5iCFtWEG8Qw/n1qHqWyHTOK+jqaLMYN5x9uZ2vf6EagRyyvmY6vXwbLDjwtuf7ros5pui9n2ZDkshV3VYcn04+FLKTUtK18pZypv2VbqmEr+Bd8+OCnAZm9eBvU+l2WPbJI7KtjezQ19NELSiHv8YVTVSbAQI6mconlbDllBwSofObm1HkmtAZYnBoVpOS4ysvl9fYIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=BTYCdFy5XF1WcVGlkXFfAd2liIM1AgmUuFoTDc0IJlk=;
+ b=CTrGGOlxkSOt30lyR3qen4TuzpbsxThcME0og4cbuJ02T5zkSjgDs4JVbCxuAaKsMRdpmk/amnEAzys0kKYNJIB00BqWKa6m8aM5W4H7KjebBUcb4PiZFxVU9vsBobBzbpIt1GI6Xas6AF/VaQaHwTwRJKYBd6CfZhoR+iyM7qil2/evWcl3oj79nY7m0jbq0EZUQt8k7+IYEt3OycBE6enG7daw3hsHTeOIQQAOtw3+zPt/aQv0UzuFimcocTkVtTp9Jva3Y6qUOsqgEX8tJSaSD/UsMJ1JrmPaTxh0yETnOOdAp/lWhzOkGP0j+aQuVqCcFWOlwn0/dV3utpLeFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JvG3sp+tK2Hd+lIwEz+cV0SdmB7fBfQ0JvujxR/8ed8=;
- b=XbD0vrWYmbngP/dzuzpi8Nlj3bWz/vqjgj9HDSLeWhYEM7JN+dZD/g19fjt+V/J80dtGEZooLRIZcg54kHrm9jzJIjRLaFxytwOL8VMRNOgXqWll6BvONrBk9YdwQdyON1GqKrdqOoQQwSSU6QK13PlF+dlQE4nwNSYHdU6u9Va4yKq+AREC7CJHhjkrdCdCK9+jKSo6x+Y3DjkSiF1EdJePhoO951FCyTezCFlslA4xe8yvNs3GU55xCUqXX8On/95zPfuVEp7N+FuwbHGxYc0XBlcyqGDYoRI0gc0hLNUeqBSMPF7kZ1/dakqY983CeaoOluKYGs6PfVMhb+qFmg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- DM4PR12MB7574.namprd12.prod.outlook.com (2603:10b6:8:10e::9) with Microsoft
+ bh=BTYCdFy5XF1WcVGlkXFfAd2liIM1AgmUuFoTDc0IJlk=;
+ b=hYkzKSRHjaDY5AfeopgWM8y/OhJCeztYQbo6el5CffUjKPoA8DKuU2UMVP2tJM2qu1KdyqXeEABTRBTNkMFFT1Ga2NBqAFVuLerUGPoTcURsQscHXTdpYbtxePOFkECDBtE3uaTzto966iN8cZIWZ8ktz5giHcwOqpEOSRTabuKniTAuxOUAH2OuCE3FNRdOAL4K5CC6VjviW1PuxEe9fvtEgUOWN+sqJaFM/sOmYn9T21w7MHRzzYftIU38T30VVDHdbiDSqxDSEwSr9RGF2xM2gjErTvdkTcD4d6GhWmTPGW9FM/78uDDJFxvdgDrkswqm1oVJiYURu/q/h5//tQ==
+Received: from MN2PR03CA0011.namprd03.prod.outlook.com (2603:10b6:208:23a::16)
+ by IA1PR12MB6580.namprd12.prod.outlook.com (2603:10b6:208:3a0::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Thu, 26 Feb
+ 2026 02:57:45 +0000
+Received: from BL02EPF0001A0F9.namprd03.prod.outlook.com
+ (2603:10b6:208:23a:cafe::e2) by MN2PR03CA0011.outlook.office365.com
+ (2603:10b6:208:23a::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.25 via Frontend Transport; Thu,
+ 26 Feb 2026 02:57:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BL02EPF0001A0F9.mail.protection.outlook.com (10.167.242.100) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.22; Thu, 26 Feb 2026 02:52:43 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9654.007; Thu, 26 Feb 2026
- 02:52:43 +0000
-Message-ID: <0cbf0f20-e374-4360-8dbb-1f9536774c31@nvidia.com>
-Date: Wed, 25 Feb 2026 19:52:40 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: LSF/MM/BPF: 2026: Call for Proposals
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org,
- bpf@vger.kernel.org, lwn@lwn.net
-Cc: lsf-pc@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-References: <20260110-lsfmm-2026-cfp-ae970765d60e@brauner>
- <20260119-bagger-desaster-e11c27458c49@brauner>
- <20260129-beidseitig-unwohl-9ae543e9f9f5@brauner>
- <20260216-ruhelosigkeit-umlegen-548e2a107686@brauner>
- <20260224-sangen-aufatmen-06ba16719f33@brauner>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20260224-sangen-aufatmen-06ba16719f33@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR06CA0015.namprd06.prod.outlook.com
- (2603:10b6:a03:d4::28) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+ 15.20.9632.12 via Frontend Transport; Thu, 26 Feb 2026 02:57:45 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 25 Feb
+ 2026 18:57:33 -0800
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 25 Feb
+ 2026 18:57:32 -0800
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
+	<nilay@linux.ibm.com>, <hare@suse.de>, <dwagner@suse.de>
+CC: <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH V3] nvme-tcp: teardown circular lockng fixes
+Date: Wed, 25 Feb 2026 18:56:58 -0800
+Message-ID: <20260226025658.86496-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|DM4PR12MB7574:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0dac6e78-6691-473a-0aaf-08de74e21cfb
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0F9:EE_|IA1PR12MB6580:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc53a642-a32b-4e47-67a8-08de74e2d152
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|3613699012;
-X-Microsoft-Antispam-Message-Info: rZGZTEnTXygE0fdSp2kODT9lIHTseRmEHFVA+ZVQff4LtuuVG6KCbHxskP989r1gOwL/4AXEZd5s5nsLu0Rl0Qg2DTQX0cpdt9xhb+yVvoJOUWoWOJhWYUch8lBfj7Va0Z8Vr0YNOzr7KFCUTTDOO+ipSjHUHFyiCBV5IJG5KxrtwilHjP4mr4y6AZwH/P0SIww6A0C1jZ8I69rNkck1V0MrEjvn+TSejHp7Nax0x4D3bV9ApEpHp+loExqCKGTW5ckOECvcbRaPN6SPmgAdWCoJuyOw6At+UYzuCnX9rsFQDPN3R7HWniab02WF0nLBFb9QFDlkLUPuGgNFzObpUfD8wY3okLLLDqoeXZT3OBmD0Vko9lxowgQ/qSckCc7kwshnp9UsnNXFGbF5O2bf4rbiXNRfXDuBdC77NOvRJ/ZvumIAC1hmqSs0ERSYfCFYgHK4fFzEiew8F7SWJ1ACmMvXjbOyBnAkk5JKaQMPRWlyzZgR5INFWXhOCVpRORjiJ+YdtnSLDXWuSJigTdQ5pqXjlKdIGnmH6Xok9S4adEua6y57Dc9KloUHpt1UaIrcbUFRBzPO9h0zeE0vcSC6caA92jMnFUeFd9r/s97ahrRikeAepJ2BNqt0+JbEGKhp1iyzSX1+d4v2myZo7xm3hQwzqg9gbMAegbR4VppXabAIjfvwjUWYSG6+r0grXf9YAeIlCJSyBHyCFaja17ZQQGiKAbzSMNT+YRJplGCoWpjZUBdBKU7V9bfllULoNGAjgf16At+DpFyzCqWWZxFqUz9N8PG3Iv4RynBssnoWtTM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(3613699012);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700013|13003099007;
+X-Microsoft-Antispam-Message-Info: Vo7cyC+PCAfeeMzJH4JlPzaSFvHf6+peXVWz6f++/bXaDasnmwIG/UOfNr3zGbSxmr2Qph919wbP9VB6WbQRPAbzVQ65dYaYIJaJ4CkLiHsTJkCtvEe7CnuvTGCqLz9bykgP0tGy4FisOs6mc0Q9PtzO9EM0GBqadXzPo3SDI5dkFBx1rOS9hh5hl2rHKpytDB3CVruMZ74lerdJZjqgKKV7H3kFvHG0JrvtAUX5NiRTVUyzPwQWN2K8oO60NA/FG8+fQ+otklzRWl1b/wPFYSdLmClxyHZdQ4Rjhw2KxgBnAeztNJ1GOUD6xtHXgdBUKhYvNNLTgIT19b7T/GEJV/AdwdBDKi2QCxmlLhtRHETz48/9DtyFjnfJQL3M3YxZ1ZshsvkUBN4e94I/wqrbFXECEMnxp4tb2Sa2m6Khf+pvE4ibCXG0OduIdPqjwUGH7CK3pUrX5ErApSA5wJ3kUMr2y9t64WAcVNBBmJ/eXZXQ8QtHsLYfnn+REGGR6liXVOIK+XYoWxwtMwiPCM4e4QhQTNnU7H5Kh97ozz71g40WrkVWRie3O9JG5b0vBiJtAXU1lqw/K5XJjb8UAq64z+LGt/ki97/8/fyMlDC7h1fMdgvHGjSbegUfzaI4DdoRFwEQUsvOsk9A29YHUtXp42cGZ39f9bU66TJc5RfVvSULQzVVine0LEsZCitX4UvS6QKInGmDDIIw5lC3K+3kReqGvSE04A25PM9ZWfaVkfbxkMMPcWPnJeY/JImCp/yjJMehgJyA+HPiSYhaQpEr1K8A+eDPVDug6nP0+CikQv4DUFYMSNvGv9zfwZRkpX/Lnfz9KAA77SNb0QhWJ3se3g==
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGsxYWc5V20zMjljb1ExRGIzMEo3bmU2dzZlOUdFL0ljc0hTb040U0pkZDM0?=
- =?utf-8?B?QmxaNEZJUll0NEswLzQrckRlY1YrS1ZOcE53TmtVUFJxNHYzR1BJbjNhelZl?=
- =?utf-8?B?NC9iRy9yQ2lDYTJCaWZ0K2FmWjh2N2dBTU9yWHBpblU1YUpqbXppV3pCUVNS?=
- =?utf-8?B?dmhHYnB2QXlvUVo0cExUMW1oVHJ6NmhBMndSN1gvakdmamRiZnJ1NmovVUdm?=
- =?utf-8?B?OTJ6UTlJTzhTa2F4WkZ3WVV5SWl5UzdaaE9kdVJweVl2QjlKWGxkU3M4bnRF?=
- =?utf-8?B?eUhoaC9TOVFMZzB5ZjFuUHFkQzY0b0UvdmVIcU5oNm5va3BLSC93bElyOCtw?=
- =?utf-8?B?Nmx6NmRnZFFiRFFieFpsUGh6elp4UDlYMjg0d291NXVOUHB5eDNoVUFHNTQ1?=
- =?utf-8?B?clJXT1RsazdsbFYzZnVrdWt4OExobFZxMlgrbmJUQnNSM3hzajRJQ1NTdVV6?=
- =?utf-8?B?SWpVaEw1d3V6ak4rSzBramJUeFJHeTlpeXh0cUYwcHVmSkptRW43dlRYTTJH?=
- =?utf-8?B?YzBUeVVBK1NpMHozSDJ5azJyWThwN2JSR1pHUWw4ay85K0V6MWRVdmd1dTRa?=
- =?utf-8?B?ZzU2QTh5NzlWQW9RaGM4ZEQxVjB1aWxsK1h3eHRBTGtpVGVNb3ZRdkkvMmZR?=
- =?utf-8?B?RGRDNmNMSS9oN3FuUUlVT2FuaDhuWHlWRFlidjNZUm94SS9GaW5HWU1hT1Fl?=
- =?utf-8?B?cSs3YnZhZi8rcytaQTVGa0pxQjZPQ1pjRkM4cFUxRTc5S3Uya0g2M09CaHl5?=
- =?utf-8?B?T2xSaC8rYklnREhjME9EaVZFbXBwZ0hhV001V3F4dDB1MVFrR0M1TUtYc2Ix?=
- =?utf-8?B?bW12SEM1ZWRPa0VrWkprNHErd044OGRuczExNXpESXIveXg3dWEyeWhIMXlu?=
- =?utf-8?B?ZWlZSDZFNnRUN2J0SnlIbnFNbkxGMXU4TENFR2RVZ0g1LzFkdXlHUFQ0cFBG?=
- =?utf-8?B?M0V2ZnVPWHdGUTBGYWdSYzVKbzNJRlV0MkRBejJkL0hIRWdSNERzUVM0YkFF?=
- =?utf-8?B?U3FkWEpSdTdRWHYzVFZON1RNT2JvUXZXQXRYWXBBMlR5dnFvQ3BCZ3JvNkZR?=
- =?utf-8?B?SEkyemh6N2tUeWhJaWhKYlVEb2FOaGhTcG56dXhNRzBFRnRsSUdnNXVWWE5u?=
- =?utf-8?B?cWg0aCtYK2dKdnFzM01MMjV5dEp2R0xTc0cyNGF6UWpVREg0TytzbnBZMFJi?=
- =?utf-8?B?OE9BeGRTcEFMZGpGZGhTNy8rT1hjK0IvZWFRV0ovQmQ3bEYxZUk1N2YxTEY3?=
- =?utf-8?B?K0lGTTVicGVrZzF3VjBWNzFUY0ZNR2tLMFNvZEFwcEtyQU9vNE8zVHM5QjEr?=
- =?utf-8?B?TEo5ZW00cTAzYmlwOGQxeEM2TUswVFhoQ216T0ZKUG1QU1ljT3Z6aGk3eDJ1?=
- =?utf-8?B?cTczbkllcDFZWWVHRWo1NnlqdGhzSCtCMmRVOWNhdkFnMENaNXJ5eEJPTGhm?=
- =?utf-8?B?OTRNYUdWUEw0VU1OUnpZNGhvQlZFMnRoVWZNWkdJVmU5Wll0TnJudUxQMElo?=
- =?utf-8?B?VDRtc01rMmMvaXNuS0tUWWpLQzJWSk5MaEtlcmhPMmthU1hYSFh2dWhMREF5?=
- =?utf-8?B?dHM2SGwrc21USnBucGhKZDNEUG1oSWVZWjNlY09kbHp3M3BhclRiZlU4Qkd5?=
- =?utf-8?B?dXVCcDdzdkhhRnNuWWprRGJxdnRhekpub1cwU1kxVUR6MWl1bVpYRS81bDVI?=
- =?utf-8?B?VSt2akxRQlhmKy9tcnhRT1I5OUVYUWJnZGY2eUhuTjhpS2dMSTB2WTB6STd0?=
- =?utf-8?B?ZUI1NnEyckV3aS9GVi9OKzRGcDdCT0hjbDlCZEtvbTBZSXBiREUwcUQ3Mzcz?=
- =?utf-8?B?VStyZkJ6RFhMeE5aZEU2RjNDVExtYW5Ub1FPZmNvZlNBcko0NE9HdGd3R3NI?=
- =?utf-8?B?MlUxRUdsZkozaEJYUGNhQ1V6MkRZblBFMllIS1hoWjVXclRrakphbkZhYWsw?=
- =?utf-8?B?aU9qK3NtSzlnSGtLS3NXZGt3Y2xBSDNwWFZnc0h0bTlXSVBaTUJTN09kQTFs?=
- =?utf-8?B?NGJiZHFyR2RKQngwQ3pzaHdKMDhHclk3UmlON2g1WXR3YlE4MDdUNlEwVkNj?=
- =?utf-8?B?ajVzWmh2L2JIK3BtcnBla1lVTWF1VG5kR0VHcmNpNHh6cUZOMXNwL0FUVEVx?=
- =?utf-8?B?am9EeW5ta2RFRkhhUFp4NklESlE0Qm12L3RBN0kzWTdPbkJPb0JmNWN3Zzgx?=
- =?utf-8?B?d2RWdWw1WVBVdG54bGtudVNETWNWc2FpYWN6MGF6WDBsNkdGaUQzZit0Z3Jy?=
- =?utf-8?B?L09FVUdYNml0Z0p3ckJkaEt1ektLblY4YmY2Z3dNWnNUL2swNGg5ZW90SnBP?=
- =?utf-8?B?Q1JXSFVZNHJYKy93SHh6TFo5Vm5udzJ1RDRpN29FR1VCL0pHUkIyUT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: TxGsDeLrBj1RwLs8NpzKI4dy4eNyxwTbqv+OnxezEtpHYpOK79mKA0I2Nxl5dtKaPD9Eo5gXnKV4wvWTE5FIaJE2Y/0Oa78RjR1T3GFWgTtyY1QBrP9XwAl3O63dW5i9eVcqskE4oU4wEq34/WAk/+ZMp1QLcMddToYzJCKIhwWcDMGpElXQgbfomN3O2og3QMsLgb76paorUikDJ8iRurlb/u3Pdoh49rgf9Uo4M0TmoEI7oqrfcDNOrOuP1Ppywrbj3mUGSO7XIl9ZnXkSsH9gRMfY0WDqOL8hUgfzQ0/Ph3uILjMD0Hm66twVygqxUdqxav93bo0L/U+kn4v0Giv7T+fNeA5/j09rXBcc7HY/Eejvk2StmZ4c/OpzbzMd097aZ3nF/IcKrZNaTPTZq6cU97Wmf0B6tG/c2TrfH7WJpso6Qx+A3gPINs28nO4Q
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0dac6e78-6691-473a-0aaf-08de74e21cfb
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 02:52:43.3498
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 02:57:45.4652
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc53a642-a32b-4e47-67a8-08de74e2d152
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f/SIxtUputapC89b9rg9ZGDBwqc78A2YW+x7azCvwzf+fntQP+sUNHkzQTkRbiNzVggTtWuP99oqBNgI69wGlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7574
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0F9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6580
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_185252_679514_43C7F3D4 
-X-CRM114-Status: GOOD (  13.71  )
+X-CRM114-CacheID: sfid-20260225_185758_337069_8D4C40CF 
+X-CRM114-Status: UNSURE (   9.29  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -151,43 +124,302 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/24/26 2:53 AM, Christian Brauner wrote:
->> Don't forget to pester^wask^wremind your respective organizations to
->> sponsor LSF/MM/BPF 2026! If it helps, you can tell them that we're
->> considering renaming it LSF/MM/BPF/AI.
-> 
-> I have just looked at the sponsorship site for LSF/MM/BPF/AI again and
+When a controller reset is triggered via sysfs (by writing to
+/sys/class/nvme/<nvmedev>/reset_controller), the reset work tears down
+and re-establishes all queues. The socket release using fput() defers
+the actual cleanup to task_work delayed_fput workqueue. This deferred
+cleanup can race with the subsequent queue re-allocation during reset,
+potentially leading to use-after-free or resource conflicts.
 
-Logos only show up there after the sponsorship agreement is completed.
-If you are on the LSF/MM committee and are wondering what sponsorships
-are really in the pipeline, then I'd recommend checking with your
-Linux Foundation contacts, they might be allowed to tell you what is
-in the pipeline (maybe?).
+Replace fput() with __fput_sync() to ensure synchronous socket release,
+guaranteeing that all socket resources are fully cleaned up before the
+function returns. This prevents races during controller reset where
+new queue setup may begin before the old socket is fully released.
 
-In particular, I've been handling the NVIDIA sponsorships for LSF/MM
-since 2017, we've done it every year, and we're doing it again this
-this year as well.
+* Call chain during reset:
+  nvme_reset_ctrl_work()
+    -> nvme_tcp_teardown_ctrl()
+      -> nvme_tcp_teardown_io_queues()
+        -> nvme_tcp_free_io_queues()
+          -> nvme_tcp_free_queue()       <-- fput() -> __fput_sync()
+      -> nvme_tcp_teardown_admin_queue()
+        -> nvme_tcp_free_admin_queue()
+          -> nvme_tcp_free_queue()       <-- fput() -> __fput_sync()
+    -> nvme_tcp_setup_ctrl()             <-- race with deferred fput
 
-But it's still getting signed and finalized, so you won't see the
-logo up on the LSF/MM page yet. Soon.
+memalloc_noreclaim_save() sets PF_MEMALLOC which is intended for tasks
+performing memory reclaim work that need reserve access. While PF_MEMALLOC
+prevents the task from entering direct reclaim (causing __need_reclaim() to
+return false), it does not strip __GFP_IO from gfp flags. The allocator can
+therefore still trigger writeback I/O when __GFP_IO remains set, which is
+unsafe when the caller holds block layer locks.
 
+Switch to memalloc_noio_save() which sets PF_MEMALLOC_NOIO. This causes
+current_gfp_context() to strip __GFP_IO|__GFP_FS from every allocation in
+the scope, making it safe to allocate memory while holding elevator_lock and
+set->srcu.
 
-thanks,
+* The issue can be reproduced using blktests:
+
+  nvme_trtype=tcp ./check nvme/005
+blktests (master) # nvme_trtype=tcp ./check nvme/005
+nvme/005 (tr=tcp) (reset local loopback target)              [failed]
+    runtime  0.725s  ...  0.798s
+    something found in dmesg:
+    [  108.473940] run blktests nvme/005 at 2025-11-22 16:12:20
+
+    [...]
+    ...
+    (See '/root/blktests/results/nodev_tr_tcp/nvme/005.dmesg' for the entire message)
+blktests (master) # cat /root/blktests/results/nodev_tr_tcp/nvme/005.dmesg
+[  108.473940] run blktests nvme/005 at 2025-11-22 16:12:20
+[  108.526983] loop0: detected capacity change from 0 to 2097152
+[  108.555606] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+[  108.572531] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+[  108.613061] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+[  108.616832] nvme nvme0: creating 48 I/O queues.
+[  108.630791] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+[  108.661892] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+[  108.746639] nvmet: Created nvm controller 2 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+[  108.748466] nvme nvme0: creating 48 I/O queues.
+[  108.802984] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+[  108.829983] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+[  108.854288] block nvme0n1: no available path - failing I/O
+[  108.854344] block nvme0n1: no available path - failing I/O
+[  108.854373] Buffer I/O error on dev nvme0n1, logical block 1, async page read
+
+[  108.891693] ======================================================
+[  108.895912] WARNING: possible circular locking dependency detected
+[  108.900184] 6.17.0nvme+ #3 Tainted: G                 N
+[  108.903913] ------------------------------------------------------
+[  108.908171] nvme/2734 is trying to acquire lock:
+[  108.911957] ffff88810210e610 (set->srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x17/0x170
+[  108.917587]
+               but task is already holding lock:
+[  108.921570] ffff88813abea198 (&q->elevator_lock){+.+.}-{4:4}, at: elevator_change+0xa8/0x1c0
+[  108.927361]
+               which lock already depends on the new lock.
+
+[  108.933018]
+               the existing dependency chain (in reverse order) is:
+[  108.938223]
+               -> #4 (&q->elevator_lock){+.+.}-{4:4}:
+[  108.942988]        __mutex_lock+0xa2/0x1150
+[  108.945873]        elevator_change+0xa8/0x1c0
+[  108.948925]        elv_iosched_store+0xdf/0x140
+[  108.952043]        kernfs_fop_write_iter+0x16a/0x220
+[  108.955367]        vfs_write+0x378/0x520
+[  108.957598]        ksys_write+0x67/0xe0
+[  108.959721]        do_syscall_64+0x76/0xbb0
+[  108.962052]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  108.965145]
+               -> #3 (&q->q_usage_counter(io)){++++}-{0:0}:
+[  108.968923]        blk_alloc_queue+0x30e/0x350
+[  108.972117]        blk_mq_alloc_queue+0x61/0xd0
+[  108.974677]        scsi_alloc_sdev+0x2a0/0x3e0
+[  108.977092]        scsi_probe_and_add_lun+0x1bd/0x430
+[  108.979921]        __scsi_add_device+0x109/0x120
+[  108.982504]        ata_scsi_scan_host+0x97/0x1c0
+[  108.984365]        async_run_entry_fn+0x2d/0x130
+[  108.986109]        process_one_work+0x20e/0x630
+[  108.987830]        worker_thread+0x184/0x330
+[  108.989473]        kthread+0x10a/0x250
+[  108.990852]        ret_from_fork+0x297/0x300
+[  108.992491]        ret_from_fork_asm+0x1a/0x30
+[  108.994159]
+               -> #2 (fs_reclaim){+.+.}-{0:0}:
+[  108.996320]        fs_reclaim_acquire+0x99/0xd0
+[  108.998058]        kmem_cache_alloc_node_noprof+0x4e/0x3c0
+[  109.000123]        __alloc_skb+0x15f/0x190
+[  109.002195]        tcp_send_active_reset+0x3f/0x1e0
+[  109.004038]        tcp_disconnect+0x50b/0x720
+[  109.005695]        __tcp_close+0x2b8/0x4b0
+[  109.007227]        tcp_close+0x20/0x80
+[  109.008663]        inet_release+0x31/0x60
+[  109.010175]        __sock_release+0x3a/0xc0
+[  109.011778]        sock_close+0x14/0x20
+[  109.013263]        __fput+0xee/0x2c0
+[  109.014673]        delayed_fput+0x31/0x50
+[  109.016183]        process_one_work+0x20e/0x630
+[  109.017897]        worker_thread+0x184/0x330
+[  109.019543]        kthread+0x10a/0x250
+[  109.020929]        ret_from_fork+0x297/0x300
+[  109.022565]        ret_from_fork_asm+0x1a/0x30
+[  109.024194]
+               -> #1 (sk_lock-AF_INET-NVME){+.+.}-{0:0}:
+[  109.026634]        lock_sock_nested+0x2e/0x70
+[  109.028251]        tcp_sendmsg+0x1a/0x40
+[  109.029783]        sock_sendmsg+0xed/0x110
+[  109.031321]        nvme_tcp_try_send_cmd_pdu+0x13e/0x260 [nvme_tcp]
+[  109.034263]        nvme_tcp_try_send+0xb3/0x330 [nvme_tcp]
+[  109.036375]        nvme_tcp_queue_rq+0x342/0x3d0 [nvme_tcp]
+[  109.038528]        blk_mq_dispatch_rq_list+0x297/0x800
+[  109.040448]        __blk_mq_sched_dispatch_requests+0x3db/0x5f0
+[  109.042677]        blk_mq_sched_dispatch_requests+0x29/0x70
+[  109.044787]        blk_mq_run_work_fn+0x76/0x1b0
+[  109.046535]        process_one_work+0x20e/0x630
+[  109.048245]        worker_thread+0x184/0x330
+[  109.049890]        kthread+0x10a/0x250
+[  109.051331]        ret_from_fork+0x297/0x300
+[  109.053024]        ret_from_fork_asm+0x1a/0x30
+[  109.054740]
+               -> #0 (set->srcu){.+.+}-{0:0}:
+[  109.056850]        __lock_acquire+0x1468/0x2210
+[  109.058614]        lock_sync+0xa5/0x110
+[  109.060048]        __synchronize_srcu+0x49/0x170
+[  109.061802]        elevator_switch+0xc9/0x330
+[  109.063950]        elevator_change+0x128/0x1c0
+[  109.065675]        elevator_set_none+0x4c/0x90
+[  109.067316]        blk_unregister_queue+0xa8/0x110
+[  109.069165]        __del_gendisk+0x14e/0x3c0
+[  109.070824]        del_gendisk+0x75/0xa0
+[  109.072328]        nvme_ns_remove+0xf2/0x230 [nvme_core]
+[  109.074365]        nvme_remove_namespaces+0xf2/0x150 [nvme_core]
+[  109.076652]        nvme_do_delete_ctrl+0x71/0x90 [nvme_core]
+[  109.078775]        nvme_delete_ctrl_sync+0x3b/0x50 [nvme_core]
+[  109.081009]        nvme_sysfs_delete+0x34/0x40 [nvme_core]
+[  109.083082]        kernfs_fop_write_iter+0x16a/0x220
+[  109.085009]        vfs_write+0x378/0x520
+[  109.086539]        ksys_write+0x67/0xe0
+[  109.087982]        do_syscall_64+0x76/0xbb0
+[  109.089577]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  109.091665]
+               other info that might help us debug this:
+
+[  109.095478] Chain exists of:
+                 set->srcu --> &q->q_usage_counter(io) --> &q->elevator_lock
+
+[  109.099544]  Possible unsafe locking scenario:
+
+[  109.101708]        CPU0                    CPU1
+[  109.103402]        ----                    ----
+[  109.105103]   lock(&q->elevator_lock);
+[  109.106530]                                lock(&q->q_usage_counter(io));
+[  109.109022]                                lock(&q->elevator_lock);
+[  109.111391]   sync(set->srcu);
+[  109.112586]
+                *** DEADLOCK ***
+
+[  109.114772] 5 locks held by nvme/2734:
+[  109.116189]  #0: ffff888101925410 (sb_writers#4){.+.+}-{0:0}, at: ksys_write+0x67/0xe0
+[  109.119143]  #1: ffff88817a914e88 (&of->mutex#2){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x10f/0x220
+[  109.123141]  #2: ffff8881046313f8 (kn->active#185){++++}-{0:0}, at: sysfs_remove_file_self+0x26/0x50
+[  109.126543]  #3: ffff88810470e1d0 (&set->update_nr_hwq_lock){++++}-{4:4}, at: del_gendisk+0x6d/0xa0
+[  109.129891]  #4: ffff88813abea198 (&q->elevator_lock){+.+.}-{4:4}, at: elevator_change+0xa8/0x1c0
+[  109.133149]
+               stack backtrace:
+[  109.134817] CPU: 6 UID: 0 PID: 2734 Comm: nvme Tainted: G                 N  6.17.0nvme+ #3 PREEMPT(voluntary)
+[  109.134819] Tainted: [N]=TEST
+[  109.134820] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+[  109.134821] Call Trace:
+[  109.134823]  <TASK>
+[  109.134824]  dump_stack_lvl+0x75/0xb0
+[  109.134828]  print_circular_bug+0x26a/0x330
+[  109.134831]  check_noncircular+0x12f/0x150
+[  109.134834]  __lock_acquire+0x1468/0x2210
+[  109.134837]  ? __synchronize_srcu+0x17/0x170
+[  109.134838]  lock_sync+0xa5/0x110
+[  109.134840]  ? __synchronize_srcu+0x17/0x170
+[  109.134842]  __synchronize_srcu+0x49/0x170
+[  109.134843]  ? mark_held_locks+0x49/0x80
+[  109.134845]  ? _raw_spin_unlock_irqrestore+0x2d/0x60
+[  109.134847]  ? kvm_clock_get_cycles+0x14/0x30
+[  109.134853]  ? ktime_get_mono_fast_ns+0x36/0xb0
+[  109.134858]  elevator_switch+0xc9/0x330
+[  109.134860]  elevator_change+0x128/0x1c0
+[  109.134862]  ? kernfs_put.part.0+0x86/0x290
+[  109.134864]  elevator_set_none+0x4c/0x90
+[  109.134866]  blk_unregister_queue+0xa8/0x110
+[  109.134868]  __del_gendisk+0x14e/0x3c0
+[  109.134870]  del_gendisk+0x75/0xa0
+[  109.134872]  nvme_ns_remove+0xf2/0x230 [nvme_core]
+[  109.134879]  nvme_remove_namespaces+0xf2/0x150 [nvme_core]
+[  109.134887]  nvme_do_delete_ctrl+0x71/0x90 [nvme_core]
+[  109.134893]  nvme_delete_ctrl_sync+0x3b/0x50 [nvme_core]
+[  109.134899]  nvme_sysfs_delete+0x34/0x40 [nvme_core]
+[  109.134905]  kernfs_fop_write_iter+0x16a/0x220
+[  109.134908]  vfs_write+0x378/0x520
+[  109.134911]  ksys_write+0x67/0xe0
+[  109.134913]  do_syscall_64+0x76/0xbb0
+[  109.134915]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  109.134916] RIP: 0033:0x7fd68a737317
+[  109.134917] Code: 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+[  109.134919] RSP: 002b:00007ffded1546d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+[  109.134920] RAX: ffffffffffffffda RBX: 000000000054f7e0 RCX: 00007fd68a737317
+[  109.134921] RDX: 0000000000000001 RSI: 00007fd68a855719 RDI: 0000000000000003
+[  109.134921] RBP: 0000000000000003 R08: 0000000030407850 R09: 00007fd68a7cd4e0
+[  109.134922] R10: 00007fd68a65b130 R11: 0000000000000246 R12: 00007fd68a855719
+[  109.134923] R13: 00000000304074c0 R14: 00000000304074c0 R15: 0000000030408660
+[  109.134926]  </TASK>
+[  109.962756] Key type psk unregistered
+
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+
+v2->v3
+
+1. Replace noreclaim with noio in the nvme_tcp_free_queue() (Nilay, Christoph)
+2. Merge replacing noreclaim to noio into this patch (Hannes, Nilay)
+   https://lore.kernel.org/linux-nvme/718aae86-a8dd-4b1d-9666-8d3a2bc5bc49@suse.de/
+
+---
+ drivers/nvme/host/tcp.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 74cbbf48a981..296b1c69ea63 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1438,18 +1438,32 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
+ {
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
+ 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
+-	unsigned int noreclaim_flag;
++	unsigned int noio_flag;
+ 
+ 	if (!test_and_clear_bit(NVME_TCP_Q_ALLOCATED, &queue->flags))
+ 		return;
+ 
+ 	page_frag_cache_drain(&queue->pf_cache);
+ 
+-	noreclaim_flag = memalloc_noreclaim_save();
+-	/* ->sock will be released by fput() */
+-	fput(queue->sock->file);
++	/**
++	 * Prevent memory reclaim from triggering block I/O during socket
++	 * teardown. The socket release path fput -> tcp_close ->
++	 * tcp_disconnect -> tcp_send_active_reset may allocate memory, and
++	 * allowing reclaim to issue I/O could deadlock if we're being called
++	 * from block device teardown (e.g., del_gendisk -> elevator cleanup)
++	 * which holds locks that the I/O completion path needs.
++	 */
++	noio_flag = memalloc_noio_save();
++
++	/**
++	 * Release the socket synchronously. During reset in
++	 * nvme_reset_ctrl_work(), queue teardown is immediately followed by
++	 * re-allocation. fput() defers socket cleanup to delayed_fput_work
++	 * in workqueue context, which can race with new queue setup.
++	 */
++	__fput_sync(queue->sock->file);
+ 	queue->sock = NULL;
+-	memalloc_noreclaim_restore(noreclaim_flag);
++	memalloc_noio_restore(noio_flag);
+ 
+ 	kfree(queue->pdu);
+ 	mutex_destroy(&queue->send_mutex);
+@@ -1901,8 +1915,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ err_rcv_pdu:
+ 	kfree(queue->pdu);
+ err_sock:
+-	/* ->sock will be released by fput() */
+-	fput(queue->sock->file);
++	/* Use sync variant - see nvme_tcp_free_queue() for explanation */
++	__fput_sync(queue->sock->file);
+ 	queue->sock = NULL;
+ err_destroy_mutex:
+ 	mutex_destroy(&queue->send_mutex);
 -- 
-John Hubbard
-
-> we all really need to go out and go steal some of that AI funding money
-> and funnel it into one of the conferences that really drives development
-> of the operating system that drives the compute for all of this.
-> 
-> Please go and remind your organizations to sponsor. They should know how
-> to get in touch with the Linux Foundation. Just going by the sponsorship
-> page we're missing a bunch of large organizations that we would
-> appreciate if they decided to pitch in. :)
-> 
-> Christian
-> 
-
-
+2.39.5
 
 
