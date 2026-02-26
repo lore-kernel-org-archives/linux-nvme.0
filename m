@@ -4,56 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 740C9FCE07F
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 13:41:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D043FFCE081
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 13:41:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=FRHNXphwNP7t4vq4xEpGdyfYFjTpXfkIlOlZBWbkJuI=; b=VblpT6/7IYA/+D
-	54leuO5EAGFX0RL+sX8QQMkob8sojALSjWXPFQgmxTidU1o/0XPfe1P6HfxwaCLwzkvj5yPb1XiE8
-	3qgqOjcZtt5AIv83c2ZH7kAFhq36O56xink9gTAbAdHHHh2rYNQ6+xYmSVeCE4kSYtndOU99xd0zc
-	g+pL0jVX/mE/lxj+o5tnm+nORoPJsyNlghJ46TZr15jMVzDmGpPwaDVrXOpN7a3j1g2oMHqxw8IDD
-	okoKUkjDGXJKhzRsMl5RSZ1/Zhl6pKR53BxXPlkP44sAHXkXvYgxD5zYfPP2timiQ5GdGYMONN+8d
-	lzdHHwdUEjMSeQWgFRvw==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ScEf/UjzJu4SVAF1Ly8BRZm4tWFDWyrZM6SsTsPF4Nc=; b=wm69Z1xBVv7dKEgOaZvWCB834x
+	eqXiYDiFWSnkww4TaUfSTlSwCemUJRm6NPgi9D7fQCecMr+OVlLnv1v4pEg8Wz6IBqIQh0L0zEytN
+	1m0QPaZG9ybVckNjpqeTLhJOC5r5zcpJdmSB10LqGolphpV/AI9Ob2H/D44EB+puu3+aYVr2SBToS
+	MmZO4Qi1tpf6F/vV+3NPWREwCciLWmBJPrq8ecSM4hxQllMNzYHWdYGhq1ND9NbWF6QOjeiUAkdiE
+	TyxxGfRJXnS9YVd8MVv+5JJtyAc2FDAdqDXgZAQ/xmDfQKjB0VE+PPVKsTWk5uvxOkIryir3RUeCq
+	aJ9H2cRw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvbbu-00000006EkY-43th;
-	Thu, 26 Feb 2026 13:40:58 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1vvbby-00000006Emi-3jym;
+	Thu, 26 Feb 2026 13:41:02 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvbbt-00000006EkQ-3Kor
+	id 1vvbbx-00000006ElU-3hZA
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 13:40:57 +0000
+	Thu, 26 Feb 2026 13:41:01 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4BA9560054;
-	Thu, 26 Feb 2026 13:40:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF39C116C6;
-	Thu, 26 Feb 2026 13:40:54 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id E84CD60122;
+	Thu, 26 Feb 2026 13:41:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BFB8C19422;
+	Thu, 26 Feb 2026 13:41:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772113255;
-	bh=5ZcuTz3+YBdE+R8fryGg6F5tFWRxAHOThfKfUi/9ASM=;
-	h=From:Subject:Date:To:Cc:From;
-	b=vNP8X/S1tpF9GlxszO3VoRbNEMKwCSWJXtjVrO65gxhxA89w//ozcZwi5VQruoruz
-	 ah6AQG1DoFBYgdph9RZeaFL2ON7aXOFtZ14fATjwyVD9SuWSB3b0Eoa0EVJtNdtZtu
-	 CHMkDURH2nOw1pMG5MO65Fo3w6JYGh/A8Tjp3MbnQY12yGgaDWoQVhmqu9pkrcHRcp
-	 /OgvR4rkmPE6owQA0uwrh2YncQR2eMjMmZtatc0RS5NOBZeyTLPCa9ObpK+Rag7BDZ
-	 V26u67PO4+4mUqj+e8LTSDrlB4YKG+sEET1sk4rEulaCwjjOS8umz3ryawmL3ymH3m
-	 J5zlHDtNx+t3w==
+	s=k20201202; t=1772113260;
+	bh=uEwx2TPo5bfwJfl0eBFkq0lqqN7InLdCO/Qn2mw7YgI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=AQ8BujHVTKAinfaFgOcgtKPuftXbumYS0fdhV1gpVwRr+jjblOn7IAu2xNO09I03r
+	 YhjU45iMhqyEpQkeDLU+zKgSrw9hd8FTPt9qzZnUgV3akMPwMRl4+jwGWyVFaxgN3Y
+	 rpBFELtzgXBK6UHYaJTtSGBiAkJ3Y5zoDnyOr00hmMx+MpVRpYLd8vzYqbkSJCsBFY
+	 eObkNluFAkD0k9SiMInSynrHmn8UYAa9qG06qEIyY2OomkgZ9RIrD3+PeuMAEEkInE
+	 a2zSQdR/X4diIf1kjseHcOh283KzewT5qw2LLMOgeLvfHI4LDPMI81gveF5aLMYnnc
+	 MSbWfgdW9Fxbw==
 From: Daniel Wagner <wagi@kernel.org>
-Subject: [PATCH 0/3] block: revert avoid acquiring cpu hotplug lock in
- group_cpus_evenly
-Date: Thu, 26 Feb 2026 14:40:34 +0100
-Message-Id: <20260226-revert-cpu-read-lock-v1-0-eb005072566e@kernel.org>
+Date: Thu, 26 Feb 2026 14:40:36 +0100
+Subject: [PATCH 2/3] blk-mq: add handshake for offlinig hw queues
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2M3QpAQBBGX0VzbWpsrJ9XkYttDSZCu0jJu5vcn
- VPn+x6IHIQjNMkDgS+Jsq0qWZqAn9w6MkqvDoaMJWMsasThQL+fiq7HZfMz1rmtCqKSKnKg0z3
- wIPd/23bv+wERvvVCZgAAAA==
-X-Change-ID: 20260226-revert-cpu-read-lock-94685007080a
+Message-Id: <20260226-revert-cpu-read-lock-v1-2-eb005072566e@kernel.org>
+References: <20260226-revert-cpu-read-lock-v1-0-eb005072566e@kernel.org>
+In-Reply-To: <20260226-revert-cpu-read-lock-v1-0-eb005072566e@kernel.org>
 To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
  Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>
 Cc: Guangwu Zhang <guazhang@redhat.com>, 
@@ -76,92 +73,195 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The 0263f92fadbb ("lib/group_cpus.c: avoid acquiring cpu hotplug lock in
-group_cpus_evenly") commit removed the CPU read lock.
+The CPU hotplug offline handler in the block layer checks for any
+in-flight requests on a CPU going offline. It prevents the CPU hotplug
+state engine from progressing as long as there are pending requests.
 
-The lock was removed because the nvme-pci driver reset handler attempted to
-acquire the CPU read lock during CPU hotplug offlining (holds the write lock).
-As a result, the block layer offline callback could not make progress because
-in-flight requests were detected.
+This is done by checking for any allocated requests on the hardware
+context that is going offline. The driver is responsible for completing
+all in-flight requests.
 
-	static bool blk_mq_has_request(struct request *rq, void *data)
-	{
-		struct rq_iter_data *iter_data = data;
-	
-		if (rq->mq_hctx != iter_data->hctx)
-			return true;
-	
-		iter_data->has_rq = true;
-		return false;
-	}
+However, the driver might be performing error recovery simultaneously.
+Therefore, the request queue might be in a frozen or quiesced state. In
+this case, requests may not make progress (see
+blk_mq_sched_dispatch_requests for an example).
 
-In order to bring back the CPU read lock, introduce an explicit handshake
-protocol between the driver and the block layer. This allows the driver to
-signal when it is safe to ignore any remaining pending requests.
-
-I've tried several different approaches, like looking at the request_queue state
-in blk_mq_has_request or at the request state but I could not convienced myself
-that this works.
-
-For example, when a requests is right before nvme_prep_rq in nvme_queue_rq, the
-request is not yet marked as in flight nor are there any queue state checks left
-in the remaining path:
-
-	static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
-				 const struct blk_mq_queue_data *bd)
-	{
-		[...]
-	
-		if (unlikely(!nvme_check_ready(&dev->ctrl, req, true)))
-			return nvme_fail_nonready_command(&dev->ctrl, req);
-	
-		ret = nvme_prep_rq(req);
-		if (unlikely(ret))
-			return ret;
-		spin_lock(&nvmeq->sq_lock);
-		nvme_sq_copy_cmd(nvmeq, &iod->cmd);
-		nvme_write_sq_db(nvmeq, bd->last);
-		spin_unlock(&nvmeq->sq_lock);
-		return BLK_STS_OK;
-	}
-	
-Thus a check like
-
-	 if (!blk_mq_request_started(rq) && blk_queue_quiesced(rq->q))
-
-in blk_mq_has_request is not enough.
-
-I've tested this by a hammering the system with PCI resets and CPU
-onlining/offlining while generating load with fio. The original problem was
-fairly simple to reproduce (wihtin a minute or so) and with this patches it
-survived a whole night.
-
-This unblocks my isolcpu work which touches group_cpus_evenly.
-
-https://lore.kernel.org/linux-nvme/87cy7vrbc4.ffs@tglx/
+Introduce an explicit handshake protocol between the driver and the
+block layer. This allows the driver to signal when it is safe to ignore
+any remaining pending requests.
 
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
-Daniel Wagner (3):
-      nvme: failover requests for inactive hctx
-      blk-mq: add handshake for offlinig hw queues
-      Revert "lib/group_cpus.c: avoid acquiring cpu hotplug lock in group_cpus_evenly"
+ block/blk-mq-debugfs.c   |  1 +
+ block/blk-mq.c           | 36 ++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/core.c | 28 ++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/pci.c  |  3 +++
+ include/linux/blk-mq.h   |  3 +++
+ 6 files changed, 73 insertions(+)
 
- block/blk-mq-debugfs.c        |  1 +
- block/blk-mq.c                | 36 +++++++++++++++++++
- drivers/nvme/host/core.c      | 83 ++++++++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/multipath.c | 43 ----------------------
- drivers/nvme/host/nvme.h      |  3 +-
- drivers/nvme/host/pci.c       |  3 ++
- include/linux/blk-mq.h        |  3 ++
- lib/group_cpus.c              | 21 +++--------
- 8 files changed, 132 insertions(+), 61 deletions(-)
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260226-revert-cpu-read-lock-94685007080a
+diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+index 28167c9baa55..a312cb6b6127 100644
+--- a/block/blk-mq-debugfs.c
++++ b/block/blk-mq-debugfs.c
+@@ -162,6 +162,7 @@ static const char *const hctx_state_name[] = {
+ 	HCTX_STATE_NAME(TAG_ACTIVE),
+ 	HCTX_STATE_NAME(SCHED_RESTART),
+ 	HCTX_STATE_NAME(INACTIVE),
++	HCTX_STATE_NAME(IDLE),
+ };
+ #undef HCTX_STATE_NAME
+ 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 9af8c3dec3f6..359f19b8238a 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -112,6 +112,31 @@ void blk_mq_in_driver_rw(struct block_device *part, unsigned int inflight[2])
+ 	inflight[WRITE] = mi.inflight[WRITE];
+ }
+ 
++static void __blk_update_hw_queue_idle(struct request_queue *q, bool idle)
++{
++	struct blk_mq_hw_ctx *hctx;
++	unsigned long i;
++
++	queue_for_each_hw_ctx(q, hctx, i) {
++		if (idle)
++			set_bit(BLK_MQ_S_IDLE, &hctx->state);
++		else
++			clear_bit(BLK_MQ_S_IDLE, &hctx->state);
++	}
++}
++
++void blk_mq_set_hw_queues_idle(struct request_queue *q)
++{
++	__blk_update_hw_queue_idle(q, true);
++}
++EXPORT_SYMBOL_GPL(blk_mq_set_hw_queues_idle);
++
++void blk_mq_clear_hw_queues_idle(struct request_queue *q)
++{
++	__blk_update_hw_queue_idle(q, false);
++}
++EXPORT_SYMBOL_GPL(blk_mq_clear_hw_queues_idle);
++
+ #ifdef CONFIG_LOCKDEP
+ static bool blk_freeze_set_owner(struct request_queue *q,
+ 				 struct task_struct *owner)
+@@ -3679,6 +3704,17 @@ static bool blk_mq_has_request(struct request *rq, void *data)
+ 
+ 	if (rq->mq_hctx != iter_data->hctx)
+ 		return true;
++
++	/*
++	 * The driver ensures that all hardware queue resources are freed, even
++	 * if a request has a tag allocated to a CPU that is going offline. This
++	 * applies to requests not yet handed to the hardware. Essentially those
++	 * 'in-flight' between the block layer and the hardware (e.g., a request
++	 * blocked because the queue is quiesced).
++	 */
++	if (test_bit(BLK_MQ_S_IDLE, &iter_data->hctx->state))
++		return false;
++
+ 	iter_data->has_rq = true;
+ 	return false;
+ }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e84df1a2d321..1b736a58e467 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -5354,6 +5354,34 @@ void nvme_unquiesce_admin_queue(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_unquiesce_admin_queue);
+ 
++static void __nvme_set_hw_queues_idle(struct nvme_ctrl *ctrl, bool idle)
++{
++	struct nvme_ns *ns;
++	int srcu_idx;
++
++	srcu_idx = srcu_read_lock(&ctrl->srcu);
++	list_for_each_entry_srcu(ns, &ctrl->namespaces, list,
++				 srcu_read_lock_held(&ctrl->srcu)) {
++		if (idle)
++			blk_mq_set_hw_queues_idle(ns->queue);
++		else
++			blk_mq_clear_hw_queues_idle(ns->queue);
++	}
++	srcu_read_unlock(&ctrl->srcu, srcu_idx);
++}
++
++void nvme_set_hw_queues_idle(struct nvme_ctrl *ctrl)
++{
++	__nvme_set_hw_queues_idle(ctrl, true);
++}
++EXPORT_SYMBOL_GPL(nvme_set_hw_queues_idle);
++
++void nvme_clear_hw_queues_idle(struct nvme_ctrl *ctrl)
++{
++	__nvme_set_hw_queues_idle(ctrl, false);
++}
++EXPORT_SYMBOL_GPL(nvme_clear_hw_queues_idle);
++
+ void nvme_sync_io_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index dbd063413da9..d199009982f1 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -834,6 +834,8 @@ void nvme_quiesce_io_queues(struct nvme_ctrl *ctrl);
+ void nvme_unquiesce_io_queues(struct nvme_ctrl *ctrl);
+ void nvme_quiesce_admin_queue(struct nvme_ctrl *ctrl);
+ void nvme_unquiesce_admin_queue(struct nvme_ctrl *ctrl);
++void nvme_set_hw_queues_idle(struct nvme_ctrl *ctrl);
++void nvme_clear_hw_queues_idle(struct nvme_ctrl *ctrl);
+ void nvme_mark_namespaces_dead(struct nvme_ctrl *ctrl);
+ void nvme_sync_queues(struct nvme_ctrl *ctrl);
+ void nvme_sync_io_queues(struct nvme_ctrl *ctrl);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2f0c05719316..0097a4f71f97 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3211,6 +3211,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 	nvme_unquiesce_admin_queue(&dev->ctrl);
+ 	mutex_unlock(&dev->shutdown_lock);
+ 
++	nvme_set_hw_queues_idle(&dev->ctrl);
++
+ 	/*
+ 	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
+ 	 * initializing procedure here.
+@@ -3243,6 +3245,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result)
+ 		goto out;
+ 
++	nvme_clear_hw_queues_idle(&dev->ctrl);
+ 	/*
+ 	 * Freeze and update the number of I/O queues as those might have
+ 	 * changed.  If there are no I/O queues left after this reset, keep the
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 18a2388ba581..8885e84a7889 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -721,6 +721,7 @@ enum {
+ 	BLK_MQ_S_SCHED_RESTART,
+ 	/* hw queue is inactive after all its CPUs become offline */
+ 	BLK_MQ_S_INACTIVE,
++	BLK_MQ_S_IDLE,
+ 	BLK_MQ_S_MAX
+ };
+ 
+@@ -934,6 +935,8 @@ void blk_mq_stop_hw_queues(struct request_queue *q);
+ void blk_mq_start_hw_queues(struct request_queue *q);
+ void blk_mq_start_stopped_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
+ void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
++void blk_mq_set_hw_queues_idle(struct request_queue *q);
++void blk_mq_clear_hw_queues_idle(struct request_queue *q);
+ void blk_mq_quiesce_queue(struct request_queue *q);
+ void blk_mq_wait_quiesce_done(struct blk_mq_tag_set *set);
+ void blk_mq_quiesce_tagset(struct blk_mq_tag_set *set);
 
-Best regards,
 -- 
-Daniel Wagner <wagi@kernel.org>
+2.53.0
 
 
