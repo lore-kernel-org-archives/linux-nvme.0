@@ -4,96 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00D87FD8FFB
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 19:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F28BDFD8FFA
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 19:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=chF3cAD1j09EpR3bM9lUaumkQDJZpAeYYRmoTp9QLII=; b=fkIXoANflnTY53BT/qJBR/JQGA
-	asIgU3nFLT5MzYuprpS1JVMYm7S4livKC8ZKR8H/5CUnTP/1JavNC9jF71KPa4zwcoUSZS2drOlk3
-	KBbHwOLmlFBeHYej9bnT8qOKk+244mGUWk5oE5102cR+5Nh9s3z5kRLW9MK+HacsiNSyrcNouAWCp
-	9bWKqg3zTgQHHjAZJ49X4RRWY6/QuxD0oJwXMWq2VwfdWMk5oz+9hUPCtYceRLCDn+UgJYVkKjNIb
-	xMiWSo27w2O1cokLIvXks+rLVFkVmmej9Jrh1mtMpMV/c8aV4e6bfPjjPJ6eE1Zbd0ILS3NtYM8KM
-	qcqCzEsg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=++xuCr28Ycai15gmKTGN1o19+GYKFPx9ZXqK/fr0xkg=; b=TdUMTmhfy9wjyEDk/wqZ0WaJdO
+	wjhvICBc5K5dgCVgz1Ry3vfAcg4PJEcEw3ZOp/zqgfMASxXG7YacB7zgExo2GzrbJjwfKP73tqE19
+	veKpKz7hKYF2ilrgtO0GOffddLZvFcSC3x/7L7fQfDPWz9180Jzu5f8epnxWaOYIAX8MUF0KVuAeW
+	fljwHmaXd+Op2+Uj3onVXYS/dcJUuyPZyd6RXl5X6d+KWj6EudaPlerNlrkeUStQrzdZJlOcb4VY0
+	5qYWeKvrfB+LKxXNW2BKdWqGzBZCN+qCj4m3GncDG7aOQtJ4rqTWnxA3mX3hVaRpYzgV/LEcoVy9M
+	VoyvqQoQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvgf1-000000070Yy-1M8g;
-	Thu, 26 Feb 2026 19:04:31 +0000
-Received: from mail-qt1-x863.google.com ([2607:f8b0:4864:20::863])
+	id 1vvgk0-000000071Ur-0SOI;
+	Thu, 26 Feb 2026 19:09:40 +0000
+Received: from mgamail.intel.com ([192.198.163.13])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvget-000000070S9-1YXb
+	id 1vvgjw-000000071UC-2oP0
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 19:04:26 +0000
-Received: by mail-qt1-x863.google.com with SMTP id d75a77b69052e-506984b6e65so1490521cf.0
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Feb 2026 11:04:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1772132662; x=1772737462; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=chF3cAD1j09EpR3bM9lUaumkQDJZpAeYYRmoTp9QLII=;
-        b=eRVdSKEZQgUzxdb6ku9E6yhNOT2tnXCv253T+Nrz1jTT3CGH6kaIjefe8xGe7ezuIu
-         b42l9knmUgGLyRCjuaOy3yikTdFk9rrYhSTImnpe8QYcyvWajcXHfr4QrVj/qsXjN50N
-         GDdskbThy5oSKPX9pLXAZcNsdj8CNlORA12nH2PGhu08HiL3vfT3/JDu4Vtxph8f/sP1
-         vEzmRcNuKh+tBqDq6huaFVYJH7ffg0mzLiZWPnuioH9ij6X8U+orup/qJIJ9vOuvoVxy
-         rBufgKqgVog+7HsLvBzIXDV0+nRfWlLoFsc1TaQSkw80texdidt6p/ttPl+rDcAqJKXO
-         98DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772132662; x=1772737462;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=chF3cAD1j09EpR3bM9lUaumkQDJZpAeYYRmoTp9QLII=;
-        b=Jh3b4GMytOqgbTfDNYdyexaLFyjtTPpfPMaVRKW12IVDIOXASUTbfBmCyK7TFYyHGo
-         Ph5BGwzZyKNLJQHvXclQXpF+ZKmQHR+rRN5q/MNMxeeJMOW0+TMfLN7Ak6nut4h31NOd
-         ellNarQ0lC/MKyZyZNHX4u12MxN19ZJ9mA1z8oVydF5LIgnlIW+edN2iAl0PcCrTIeK9
-         bNO5tbki08W44RQflyeB5LrHq4hUhjFdM+ncHxC2MLQ3ANr7fRzopOeJrJHh/lF6kEOg
-         HFOhCYtpqw0mp4XskQB5eY6wDCNi1qImKaFcdiKpGtERWv2IZrpZEVki0fSNeRZuWiXP
-         461Q==
-X-Gm-Message-State: AOJu0YxE8FMWQUpd3k7uwL5T1Y6TbLBDQgIfI78cjH07qK/cGSWtWX0e
-	UjrZTETeeh1XWwhhD/IORbRJkm1ZrGLeMOXRbvkgvbVJZ1WDjwpzytVFH/L5pGAMMo6sV68Sjqj
-	Vk+eNzXKBWmuI4hWcz7UWBAUXsH6WhY3wRSPe
-X-Gm-Gg: ATEYQzyJlGjZAmqcu8iQYGU3ctjaqZwmKtVhjBsGujfouN2gyhmBaW0HXAUQpyEzO3g
-	h5KwXxC8ch+QV64SD3Q+yS1vy4PiCJ8/Uuz4XprRxpoIx3lMBH40QWWYTBtFQiYyhPc81DYI/xr
-	a58wyTAo7XPxZk6/+njKcc24kuo5TaueJNEWRsXcdW1WWDJo7+V/DXsNA80Z6TuqVd4XvC3lxNh
-	4dv6fdr2wgsgdZSkXCW5kCCwqv9/WC61tbRNSNOM+uZNKerNQvO9HAFX8sKx32ugaMah2rGgDoJ
-	tcVELkZV5FjNM5kfU3Y8K5VMeEMGJprJplotbh6b3x7O8E8aQck3p2t6dj8uCIXbdEqMbTrW+WO
-	0ut79C0uWqNd4nSmfOKzrNmqF0ynBeDijQwqs76lyNzBHfFsqKN3E8A==
-X-Received: by 2002:a05:622a:4c7:b0:4ee:87e:dedf with SMTP id d75a77b69052e-507528847dcmr126891cf.8.1772132661604;
-        Thu, 26 Feb 2026 11:04:21 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.129])
-        by smtp-relay.gmail.com with ESMTPS id d75a77b69052e-50744a369d9sm3317611cf.5.2026.02.26.11.04.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 11:04:21 -0800 (PST)
-X-Relaying-Domain: purestorage.com
-Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id DB507340245;
-	Thu, 26 Feb 2026 12:04:20 -0700 (MST)
-Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id D652EE41254; Thu, 26 Feb 2026 12:04:20 -0700 (MST)
-From: Caleb Sander Mateos <csander@purestorage.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v4 7/8] nvmet: use NVME_NS_FEAT_OPTPERF_SHIFT
-Date: Thu, 26 Feb 2026 12:04:14 -0700
-Message-ID: <20260226190416.297725-8-csander@purestorage.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20260226190416.297725-1-csander@purestorage.com>
-References: <20260226190416.297725-1-csander@purestorage.com>
+	Thu, 26 Feb 2026 19:09:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772132976; x=1803668976;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=noNLMleja5KkzJa/XZrdilXoG6G+OvxB4N81KlMZWL4=;
+  b=eZxOKgB38BelSySrbp5kDVisrrg+40vY0LHr8U1V3RO2cPg4qsqM0Ebs
+   XLZDoQZ3I/+Ri31nipPs4fEHW7kmujjbfCoCCkeaG6zw3tCZlIkQtcy7f
+   q72CdlwEyvvXy82NpL1FXbbGzt37DhEI9rrMrn3SEHVhX+Gmm8QMnVoqY
+   ib1ma25bSdCpd49WcVnwu7vCT9/2C77+fzqZxhB2XWNsTtZdgxDATtOd0
+   g5QKEbQNRrBGVj6ZoNzYqKxY/1nK2zYI6KGgpuqOdZMtjuUR+Xw5yYtup
+   CzcFYbRiXsNNpRjBC47B0l1Oyt1uSI6f3AibgmzmhJkMTdtpiQ+vO+OGK
+   g==;
+X-CSE-ConnectionGUID: NcIxubkPT1m5cF8J9U6lRA==
+X-CSE-MsgGUID: Pa+MDBS9T6G3EnvhMXgHiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="75808672"
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="75808672"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 11:09:35 -0800
+X-CSE-ConnectionGUID: YzBoAAYlT1Cgm8XTmJ6J2A==
+X-CSE-MsgGUID: wOLQ6I1WSZeV9LdOLimqfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="214596012"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Feb 2026 11:09:33 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vvgjq-000000009n1-1RbV;
+	Thu, 26 Feb 2026 19:09:30 +0000
+Date: Fri, 27 Feb 2026 03:09:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Wagner <wagi@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Ming Lei <ming.lei@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Guangwu Zhang <guazhang@redhat.com>,
+	Chengming Zhou <zhouchengming@bytedance.com>,
+	Thomas Gleixner <tglx@kernel.org>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Daniel Wagner <wagi@kernel.org>
+Subject: Re: [PATCH 1/3] nvme: failover requests for inactive hctx
+Message-ID: <202602270348.j0MMNhUj-lkp@intel.com>
+References: <20260226-revert-cpu-read-lock-v1-1-eb005072566e@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226-revert-cpu-read-lock-v1-1-eb005072566e@kernel.org>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260226_110423_419080_9155CAF6 
-X-CRM114-Status: GOOD (  15.77  )
+X-CRM114-CacheID: sfid-20260226_110936_726158_3A3BAEB0 
+X-CRM114-Status: GOOD (  15.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,39 +93,110 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the NVME_NS_FEAT_OPTPERF_SHIFT constant in nvmet_bdev_set_limits()
-to set the OPTPERF bits of the nvme_id_ns NSFEAT field instead of the
-magic number 4.
+Hi Daniel,
 
-Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/target/io-cmd-bdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 8d246b8ca604..d94f885a56d9 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -28,15 +28,15 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
- 	id->nawun = lpp0b;
- 	id->nawupf = lpp0b;
- 	id->nacwu = lpp0b;
- 
- 	/*
--	 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
-+	 * OPTPERF = 01b indicates that the fields NPWG, NPWA, NPDG, NPDA, and
- 	 * NOWS are defined for this namespace and should be used by
- 	 * the host for I/O optimization.
- 	 */
--	id->nsfeat |= 1 << 4;
-+	id->nsfeat |= 0x1 << NVME_NS_FEAT_OPTPERF_SHIFT;
- 	/* NPWG = Namespace Preferred Write Granularity. 0's based */
- 	id->npwg = to0based(bdev_io_min(bdev) / bdev_logical_block_size(bdev));
- 	/* NPWA = Namespace Preferred Write Alignment. 0's based */
- 	id->npwa = id->npwg;
- 	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+[auto build test ERROR on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-failover-requests-for-inactive-hctx/20260226-224213
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260226-revert-cpu-read-lock-v1-1-eb005072566e%40kernel.org
+patch subject: [PATCH 1/3] nvme: failover requests for inactive hctx
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20260227/202602270348.j0MMNhUj-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 9a109fbb6e184ec9bcce10615949f598f4c974a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270348.j0MMNhUj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602270348.j0MMNhUj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/nvme/host/core.c:457:13: error: redefinition of 'nvme_failover_req'
+     457 | static void nvme_failover_req(struct request *req)
+         |             ^
+   drivers/nvme/host/nvme.h:1020:20: note: previous definition is here
+    1020 | static inline void nvme_failover_req(struct request *req)
+         |                    ^
+>> drivers/nvme/host/core.c:472:45: error: no member named 'ana_log_buf' in 'struct nvme_ctrl'
+     472 |         if (nvme_is_ana_error(status) && ns->ctrl->ana_log_buf) {
+         |                                          ~~~~~~~~  ^
+>> drivers/nvme/host/core.c:474:34: error: no member named 'ana_work' in 'struct nvme_ctrl'
+     474 |                 queue_work(nvme_wq, &ns->ctrl->ana_work);
+         |                                      ~~~~~~~~  ^
+>> drivers/nvme/host/core.c:477:31: error: no member named 'requeue_lock' in 'struct nvme_ns_head'
+     477 |         spin_lock_irqsave(&ns->head->requeue_lock, flags);
+         |                            ~~~~~~~~  ^
+   include/linux/spinlock.h:376:39: note: expanded from macro 'spin_lock_irqsave'
+     376 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |                                              ^~~~
+   include/linux/spinlock.h:244:34: note: expanded from macro 'raw_spin_lock_irqsave'
+     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                                                ^~~~
+>> drivers/nvme/host/core.c:494:28: error: no member named 'requeue_list' in 'struct nvme_ns_head'
+     494 |         blk_steal_bios(&ns->head->requeue_list, req);
+         |                         ~~~~~~~~  ^
+   drivers/nvme/host/core.c:495:36: error: no member named 'requeue_lock' in 'struct nvme_ns_head'
+     495 |         spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+         |                                 ~~~~~~~~  ^
+>> drivers/nvme/host/core.c:499:35: error: no member named 'requeue_work' in 'struct nvme_ns_head'
+     499 |         kblockd_schedule_work(&ns->head->requeue_work);
+         |                                ~~~~~~~~  ^
+   7 errors generated.
+
+
+vim +472 drivers/nvme/host/core.c
+
+   456	
+   457	static void nvme_failover_req(struct request *req)
+   458	{
+   459		struct nvme_ns *ns = req->q->queuedata;
+   460		u16 status = nvme_req(req)->status & NVME_SCT_SC_MASK;
+   461		unsigned long flags;
+   462		struct bio *bio;
+   463	
+   464		if (nvme_ns_head_multipath(ns->head))
+   465			nvme_mpath_clear_current_path(ns);
+   466	
+   467		/*
+   468		 * If we got back an ANA error, we know the controller is alive but not
+   469		 * ready to serve this namespace.  Kick of a re-read of the ANA
+   470		 * information page, and just try any other available path for now.
+   471		 */
+ > 472		if (nvme_is_ana_error(status) && ns->ctrl->ana_log_buf) {
+   473			set_bit(NVME_NS_ANA_PENDING, &ns->flags);
+ > 474			queue_work(nvme_wq, &ns->ctrl->ana_work);
+   475		}
+   476	
+ > 477		spin_lock_irqsave(&ns->head->requeue_lock, flags);
+   478		for (bio = req->bio; bio; bio = bio->bi_next) {
+   479			if (nvme_ns_head_multipath(ns->head))
+   480				bio_set_dev(bio, ns->head->disk->part0);
+   481			if (bio->bi_opf & REQ_POLLED) {
+   482				bio->bi_opf &= ~REQ_POLLED;
+   483				bio->bi_cookie = BLK_QC_T_NONE;
+   484			}
+   485			/*
+   486			 * The alternate request queue that we may end up submitting
+   487			 * the bio to may be frozen temporarily, in this case REQ_NOWAIT
+   488			 * will fail the I/O immediately with EAGAIN to the issuer.
+   489			 * We are not in the issuer context which cannot block. Clear
+   490			 * the flag to avoid spurious EAGAIN I/O failures.
+   491			 */
+   492			bio->bi_opf &= ~REQ_NOWAIT;
+   493		}
+ > 494		blk_steal_bios(&ns->head->requeue_list, req);
+   495		spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+   496	
+   497		nvme_req(req)->status = 0;
+   498		nvme_end_req(req);
+ > 499		kblockd_schedule_work(&ns->head->requeue_work);
+   500	}
+   501	
+
 -- 
-2.45.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
