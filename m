@@ -4,76 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86FBDFD8FFA
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 19:04:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 704E6FD8FFF
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 19:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=MCbjgYzJFkz4xvVSToR+yG/8UzWEaIR4Ya96q2o9rOo=; b=zzoZpusINQrM/1C3hHau4wf2Cx
-	ww8T8q+dsEfxEPV0oII3tfmURJOhHwpd0ENYjQkNxP3eY0Ge/zDPQbJVzezCYCQ5HmJN43FUSrcKp
-	OVVpaOD5JgEfp+1qa0dwpjNYqLA24NyZGBLTn+txOOHWasXMMWqmaizuDWbVRRdw21e7viFdh9Cmw
-	MAvs1GMo9wpTqfsVi+XR6jMipf3uZ1yVMUxqiI6aWtlS/kmtAEuXtuWxvEKgg+LyO9v71XMznvPma
-	4RUMFR/yK5W21hqiiHMcYrM5mjw9H/a64/Cni7Z2jniKcNr2/gK/clIGPjZzUA/82BnzepmQvkJ/c
-	tyfTNt8g==;
+	bh=rLGXbc0gXctnroosx2bL2/uz0im7hCkKsBk3ALVli3I=; b=ved3BLC16H19xTQCG9gx1CK4W8
+	MJeonaiC7pYRN30VF2R+Fi5BFFoR7dpw9powf04D8ax61rgftLfXbtZEGX3PhxkoyMbPeZXomP5c5
+	KM9kp2Gs/3yP994ds0yupiK0YIxNAOVMd8egECK5k2mTWis5qx6zfXgYSgH5vz/f0H0I6rF4zeXRR
+	51xwQN+CIcssfyHevpLhqeJ+qqXae7a5oXJkceMBY6Nt0H/nXyB6YCwgdFFJU0YRiqm0Hd1pcZg4Y
+	b560sGREwZ6HCH0k+rYpkl7Fz9tXyXQUBmQ3scFHwoTlkV/lazPB8Ywrmq/rhBCoFGX6jHVg7ywnz
+	jDaV50iQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvgf0-000000070XS-3byg;
-	Thu, 26 Feb 2026 19:04:30 +0000
-Received: from mail-pl1-x662.google.com ([2607:f8b0:4864:20::662])
+	id 1vvgf1-000000070ZP-2lJb;
+	Thu, 26 Feb 2026 19:04:31 +0000
+Received: from mail-pl1-x664.google.com ([2607:f8b0:4864:20::664])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvget-000000070S8-0fuP
+	id 1vvget-000000070So-1auj
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 19:04:25 +0000
-Received: by mail-pl1-x662.google.com with SMTP id d9443c01a7336-2aad6094702so820675ad.0
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Feb 2026 11:04:22 -0800 (PST)
+	Thu, 26 Feb 2026 19:04:26 +0000
+Received: by mail-pl1-x664.google.com with SMTP id d9443c01a7336-2ab08e6c553so1553705ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 26 Feb 2026 11:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=purestorage.com; s=google2022; t=1772132662; x=1772737462; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MCbjgYzJFkz4xvVSToR+yG/8UzWEaIR4Ya96q2o9rOo=;
-        b=G8krtmA/q7ayGiK1v0AgbVw7DKNq3WZNP1mN5XD1EW06/FxrF9c1c+nQG+SJU6FSY6
-         b+6Z5WGEk+XLf/KtLt4O40RUqC0Fcn2WvqKoAg9A3VEAjWKKY9WdPLtbATSZQkXid8oL
-         shyP6CzMFZCNUrvMoFdaTtivZ0nmDw8TTFcCgQoC7OUtp2QbBcjTbP30IGfjJBPVC/MS
-         92ifYPIEystd9NmhsdmKkrhbAcx9xK32Lu6N9hjzpGJkjar9I1ewo8u5USRAm7iiVaRl
-         Axa3McWwcp5W6sd/3vTBxWv0waAeu7meN+8RN0tAFmby/KJD2iVMzfXXfykPIXja9qPf
-         OFNg==
+        bh=rLGXbc0gXctnroosx2bL2/uz0im7hCkKsBk3ALVli3I=;
+        b=FnzTgniaYnRhuwBoacrG5rEmMqZ9Q+PMb0nfSkc0pIZjKInDFgFMu8KJEc8Iv/VmL/
+         0bnvNizHuP9GUHOFS032+vDwJdoJ0kat/yXin2axwPUsqhCFBXsRkVS04mvtnwNE7rF+
+         qFNPm/PYzEZ/wga95T8lG+vTyPHDcRnAEovjTZGVzMZpAhUqPdJVEGllcEkkD54SuZBh
+         Gdc0Jdnu7pAWVRb09zK84ZpvL8SseB1gB+v+lTwCsOLgFOkRNv2z5gJ5JuZOa8MdW+tm
+         uGOlwHrKztDbWmYxA0D6joPqCiy5bgYXurhdMtvZRDGh2JaeeD2A1GdSGhGqh3Y1uN7A
+         H9NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1772132662; x=1772737462;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MCbjgYzJFkz4xvVSToR+yG/8UzWEaIR4Ya96q2o9rOo=;
-        b=gLSH8+f3mrDQ14O4wjW0Xw8qzTKxnVSJB5xpvwu/R3y6uNwD4Cp0h/UBoXzBDdTvwP
-         gP4Gjq5eLN1aU2VdJcGuIq0XNVaVMlScPPWhAF9mUNX140EiU9RhM1+tB8wTO7VpsZdE
-         DKGiBxOwuiWMxYYEkfGLnSPJR1EqaExT6B23i4vlFsZfcAz9P4E3K0M6FYwQEqwws1ZZ
-         56AgFas9slJBGYJv5VRpphmJdl2v+A+J16E9V0xnYIveBoqilWIvGkzNXQqE0TGoQUxK
-         VGxDVYS+D/AYReloY7zGdZ2LxHdQ1m166oIDJZSomtxqJixjNG73I+/6EcTizrIBqm4b
-         ubKQ==
-X-Gm-Message-State: AOJu0YycGNX0pfgp33JFNWfyoTV6zNfsgxW9XgzbQLzONHIvUtOVdxhE
-	Qm4fr9bbx25mLoaFWT5mk3aJrc9vzGySKJ7z2PKYacscyawfnDZB0/kK+3k73vPsGgvCAejarpt
-	MQnlUWY8KBRZbtmglTWdMozGbiy3V6iI3bNyQnFj0UZqo1iWnUk/+
-X-Gm-Gg: ATEYQzwS13U8u4iwpdUft+/WyeKosmhh8FAUM9qxft3/eOlAmCDr0GOQ0C0FX/gOttF
-	B1itF8e5jTQbx2NTqSINs4NwKUMGQ0bS1D9FX7pguvq6hCfjc5qusAV9lFLLnh8JxkaD9NH6Rwu
-	KLXpHDgp2+CfvDAtPV5BlgDZknbPmHUW2bXwA/NVv3oONCGnuiM17VLdVWSP7PZFvsD+qR3ApOA
-	EjjgYtritG/QKQUz1Ii2oiynJmQa3+MDvWUq+XK0E7rD0G63mkqul0kwtXqEk+HyAwMUEYx60Gj
-	b3VqD9XcwvhJDRnB6r/qys31mMKF44hvFvZfdhjyfecgZlK1FvbsgWRWUtYcMfPi9h1jhngQLWr
-	rvN8JWDJ/9PT0Pq6OWycKAhaaHEUVxqId0q5gOaU=
-X-Received: by 2002:a17:90b:2d84:b0:358:f02c:b94e with SMTP id 98e67ed59e1d1-35965ce4b48mr126053a91.6.1772132661836;
-        Thu, 26 Feb 2026 11:04:21 -0800 (PST)
+        bh=rLGXbc0gXctnroosx2bL2/uz0im7hCkKsBk3ALVli3I=;
+        b=bnZ6hHaImG8BxUuGvEpW3yKuxv2pYOuZ4SCI0mVtFcSATXCW74aJPQWsGlGYFJugja
+         T7C+ep8x2swa/G2xJTJOFKHj5dJNphxKfKWYfb01ac84HVUAaDixG2+x929eTLv4W9XQ
+         v4vYdlpgaZQLjpaIwjgHW0KvgEB1xG5bhuq1379LRPQ3UsjK3rxL3T8SV278kXrjtVRk
+         Tk5DJFk4NtPMAP2gVabVIGw+MDkAKJnr4hTmhuCJBPZJLOBcYcmDhQTpXLhYU5WY4ffF
+         JamSmM9UgyqzOP7SU04TkAgqrHWkuQpWZkwQDzFTJ6SB/UBlQAvD7FeYVr0ATovNJRkI
+         xLRQ==
+X-Gm-Message-State: AOJu0YwdgIhew+8eJesr1fliyIOz6yn1Xh1JEJRim6EV2w7r0vBrV86l
+	vHktTxGihxqJq0Bj95aYoI3+74mZwhPAaLUiOz2RpKas6LYS3PzcYBmms9AizfK64dNkM7VEozd
+	YcHXSuui0FT8GPDxCRcg8oISaonBEBPOqOL+WjD6ZM4srD6v7T3fj
+X-Gm-Gg: ATEYQzwoQh2hv1iCl78/creYK5SUsQP88D1RnSib2L11J6+2XvNVLx0DkoKEuYGjRWN
+	uSYkyJo8znh+H+bttKWuSDT5HrGk+ewjq3WQnfzvULkzyOUw00DSQ5UFDiNkJ5SZ4b3ypkMIpjv
+	K6SxajyXDouV2Z7c/9RvN9J1OkpiHogKWbJDlzqzzDJIeP3ByLOO/jXRaW06Z87yjlqF2PY6YWW
+	96XllCumiUvHBsjZO0+25vFqo4jD+7pfrS4ok3fa0+ljgm30tgfKUCKeEztRcr7hsGU0ik41hyc
+	C05g4X4wJkGcj7FSze58JBZSvDRxSOmCdUayHlRqxFE7au0y5NbJBUBokhUYqVTAjxIlpZhoAKD
+	a5/4xX4tBNw0gXFY3nhuL/9Pf7JNevRlYZqJ7TAc=
+X-Received: by 2002:a17:902:ce8b:b0:2aa:d1e1:29d8 with SMTP id d9443c01a7336-2ad745690d1mr144139165ad.6.1772132662194;
+        Thu, 26 Feb 2026 11:04:22 -0800 (PST)
 Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2adfb16ae40sm3247365ad.13.2026.02.26.11.04.21
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2adfb61600asm3394745ad.54.2026.02.26.11.04.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 11:04:21 -0800 (PST)
+        Thu, 26 Feb 2026 11:04:22 -0800 (PST)
 X-Relaying-Domain: purestorage.com
 Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id AD6D8342161;
-	Thu, 26 Feb 2026 12:04:20 -0700 (MST)
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 19AAA3402EE;
+	Thu, 26 Feb 2026 12:04:21 -0700 (MST)
 Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id A8554E41254; Thu, 26 Feb 2026 12:04:20 -0700 (MST)
+	id 14BBFE41254; Thu, 26 Feb 2026 12:04:21 -0700 (MST)
 From: Caleb Sander Mateos <csander@purestorage.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -83,17 +83,17 @@ To: Keith Busch <kbusch@kernel.org>,
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v4 6/8] nvme: set discard_granularity from NPDG/NPDA
-Date: Thu, 26 Feb 2026 12:04:13 -0700
-Message-ID: <20260226190416.297725-7-csander@purestorage.com>
+Subject: [PATCH v4 8/8] nvmet: report NPDGL and NPDAL
+Date: Thu, 26 Feb 2026 12:04:15 -0700
+Message-ID: <20260226190416.297725-9-csander@purestorage.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20260226190416.297725-1-csander@purestorage.com>
 References: <20260226190416.297725-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260226_110423_212653_BA3B3D2F 
-X-CRM114-Status: GOOD (  22.33  )
+X-CRM114-CacheID: sfid-20260226_110423_476531_4ECEDC32 
+X-CRM114-Status: GOOD (  18.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,106 +108,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently, nvme_config_discard() always sets the discard_granularity
-queue limit to the logical block size. However, NVMe namespaces can
-advertise a larger preferred discard granularity in the NPDG or NPDA
-field of the Identify Namespace structure or the NPDGL or NPDAL fields
-of the I/O Command Set Specific Identify Namespace structure.
-
-Use these fields to compute the discard_granularity limit. The logic is
-somewhat involved. First, the fields are optional. NPDG is only reported
-if the low bit of OPTPERF is set in NSFEAT. NPDA is reported if any bit
-of OPTPERF is set. And NPDGL and NPDAL are reported if the high bit of
-OPTPERF is set. NPDGL and NPDAL can also each be set to 0 to opt out of
-reporting a limit. I/O Command Set Specific Identify Namespace may also
-not be supported by older NVMe controllers. Another complication is that
-multiple values may be reported among NPDG, NPDGL, NPDA, and NPDAL. The
-spec says to prefer the values reported in the L variants. The spec says
-NPDG should be a multiple of NPDA and NPDGL should be a multiple of
-NPDAL, but it doesn't specify a relationship between NPDG and NPDAL or
-NPDGL and NPDA. So use the maximum of the reported NPDG(L) and NPDA(L)
-values as the discard_granularity.
+A block device with a very large discard_granularity queue limit may not
+be able to report it in the 16-bit NPDG and NPDA fields in the Identify
+Namespace data structure. For this reason, version 2.1 of the NVMe specs
+added 32-bit fields NPDGL and NPDAL to the NVM Command Set Specific
+Identify Namespace structure. So report the discard_granularity there
+too and set OPTPERF to 11b to indicate those fields are supported.
 
 Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 33 ++++++++++++++++++++++++++++++---
- 1 file changed, 30 insertions(+), 3 deletions(-)
+ drivers/nvme/target/admin-cmd.c   |  2 ++
+ drivers/nvme/target/io-cmd-bdev.c | 19 +++++++++++++++----
+ drivers/nvme/target/nvmet.h       |  2 ++
+ 3 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 14e52b260f5d..20441985cad1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2055,16 +2055,17 @@ static void nvme_set_ctrl_limits(struct nvme_ctrl *ctrl,
- 	lim->max_segment_size = UINT_MAX;
- 	lim->dma_alignment = 3;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 3da31bb1183e..72e733b62a2c 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -1056,10 +1056,12 @@ static void nvme_execute_identify_ns_nvm(struct nvmet_req *req)
+ 	id = kzalloc(sizeof(*id), GFP_KERNEL);
+ 	if (!id) {
+ 		status = NVME_SC_INTERNAL;
+ 		goto out;
+ 	}
++	if (req->ns->bdev)
++		nvmet_bdev_set_nvm_limits(req->ns->bdev, id);
+ 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+ 	kfree(id);
+ out:
+ 	nvmet_req_complete(req, status);
  }
- 
- static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
--		struct queue_limits *lim)
-+		struct nvme_id_ns_nvm *nvm, struct queue_limits *lim)
- {
- 	struct nvme_ns_head *head = ns->head;
- 	struct nvme_ctrl *ctrl = ns->ctrl;
- 	u32 bs = 1U << head->lba_shift;
- 	u32 atomic_bs, phys_bs, io_opt = 0;
-+	u32 npdg = 1, npda = 1;
- 	bool valid = true;
- 	u8 optperf;
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index d94f885a56d9..485b5cd42e4f 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -28,15 +28,15 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 	id->nawun = lpp0b;
+ 	id->nawupf = lpp0b;
+ 	id->nacwu = lpp0b;
  
  	/*
- 	 * The block layer can't support LBA sizes larger than the page size
-@@ -2113,11 +2114,37 @@ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
- 	else if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
- 		lim->max_hw_discard_sectors = UINT_MAX;
- 	else
- 		lim->max_hw_discard_sectors = 0;
+-	 * OPTPERF = 01b indicates that the fields NPWG, NPWA, NPDG, NPDA, and
+-	 * NOWS are defined for this namespace and should be used by
+-	 * the host for I/O optimization.
++	 * OPTPERF = 11b indicates that the fields NPWG, NPWA, NPDG, NPDA,
++	 * NPDGL, NPDAL, and NOWS are defined for this namespace and should be
++	 * used by the host for I/O optimization.
+ 	 */
+-	id->nsfeat |= 0x1 << NVME_NS_FEAT_OPTPERF_SHIFT;
++	id->nsfeat |= 0x3 << NVME_NS_FEAT_OPTPERF_SHIFT;
+ 	/* NPWG = Namespace Preferred Write Granularity. 0's based */
+ 	id->npwg = to0based(bdev_io_min(bdev) / bdev_logical_block_size(bdev));
+ 	/* NPWA = Namespace Preferred Write Alignment. 0's based */
+ 	id->npwa = id->npwg;
+ 	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+@@ -50,10 +50,21 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
+ 	/* Set WZDS and DRB if device supports unmapped write zeroes */
+ 	if (bdev_write_zeroes_unmap_sectors(bdev))
+ 		id->dlfeat = (1 << 3) | 0x1;
+ }
  
--	lim->discard_granularity = lim->logical_block_size;
++void nvmet_bdev_set_nvm_limits(struct block_device *bdev,
++			       struct nvme_id_ns_nvm *id)
++{
 +	/*
-+	 * NVMe namespaces advertise both a preferred deallocate granularity
-+	 * (for a discard length) and alignment (for a discard starting offset).
-+	 * However, Linux block devices advertise a single discard_granularity.
-+	 * From NVM Command Set specification 1.1 section 5.2.2, the NPDGL/NPDAL
-+	 * fields in the NVM Command Set Specific Identify Namespace structure
-+	 * are preferred to NPDG/NPDA in the Identify Namespace structure since
-+	 * they can represent larger values. However, NPDGL or NPDAL may be 0 if
-+	 * unsupported. NPDG and NPDA are 0's based.
-+	 * From Figure 115 of NVM Command Set specification 1.1, NPDGL and NPDAL
-+	 * are supported if the high bit of OPTPERF is set. NPDG is supported if
-+	 * the low bit of OPTPERF is set. NPDA is supported if either is set.
-+	 * NPDG should be a multiple of NPDA, and likewise NPDGL should be a
-+	 * multiple of NPDAL, but the spec doesn't say anything about NPDG vs.
-+	 * NPDAL or NPDGL vs. NPDA. So compute the maximum instead of assuming
-+	 * NPDG(L) is the larger. If neither NPDG, NPDGL, NPDA, nor NPDAL are
-+	 * supported, default the discard_granularity to the logical block size.
++	 * NPDGL = Namespace Preferred Deallocate Granularity Large
++	 * NPDAL = Namespace Preferred Deallocate Alignment Large
 +	 */
-+	if (optperf & 0x2 && nvm && nvm->npdgl)
-+		npdg = le32_to_cpu(nvm->npdgl);
-+	else if (optperf & 0x1)
-+		npdg = from0based(id->npdg);
-+	if (optperf & 0x2 && nvm && nvm->npdal)
-+		npda = le32_to_cpu(nvm->npdal);
-+	else if (optperf)
-+		npda = from0based(id->npda);
-+	lim->discard_granularity = max(npdg, npda) * lim->logical_block_size;
++	id->npdgl = id->npdal = cpu_to_le32(bdev_discard_granularity(bdev) /
++					    bdev_logical_block_size(bdev));
++}
++
+ void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
+ {
+ 	if (ns->bdev_file) {
+ 		fput(ns->bdev_file);
+ 		ns->bdev = NULL;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index b664b584fdc8..3a7efd9cb81a 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -547,10 +547,12 @@ void nvmet_start_keep_alive_timer(struct nvmet_ctrl *ctrl);
+ void nvmet_stop_keep_alive_timer(struct nvmet_ctrl *ctrl);
  
- 	if (ctrl->dmrl)
- 		lim->max_discard_segments = ctrl->dmrl;
- 	else
- 		lim->max_discard_segments = NVME_DSM_MAX_RANGES;
-@@ -2378,11 +2405,11 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 	ns->head->nuse = le64_to_cpu(id->nuse);
- 	capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
- 	nvme_set_ctrl_limits(ns->ctrl, &lim, false);
- 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm, info);
- 	nvme_set_chunk_sectors(ns, id, &lim);
--	if (!nvme_update_disk_info(ns, id, &lim))
-+	if (!nvme_update_disk_info(ns, id, nvm, &lim))
- 		capacity = 0;
- 
- 	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
- 	    ns->head->ids.csi == NVME_CSI_ZNS)
- 		nvme_update_zone_info(ns, &lim, &zi);
+ u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
+ u32 nvmet_connect_cmd_data_len(struct nvmet_req *req);
+ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id);
++void nvmet_bdev_set_nvm_limits(struct block_device *bdev,
++			       struct nvme_id_ns_nvm *id);
+ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_bdev_zns_parse_io_cmd(struct nvmet_req *req);
+ u32 nvmet_admin_cmd_data_len(struct nvmet_req *req);
+ u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
 -- 
 2.45.2
 
