@@ -4,132 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F1F3FD4609
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 02:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0470CFD4606
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 02:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6qOiChlAXH1FzXwCLqBw2AijsvpzWjMCUwfsn8OzPyw=; b=wuH8y2SJG4dtJqaewamn6SvDS5
-	bn77Ol5mY/cgFlmqv1Cxs9jwz8zFMihv/b8kQW1262Qw5KsY2zOrAlegbE/fR3HloN2IjAdJQcO87
-	x26uHm8xovtp5BcStVidKAlcZIMlyaqnpxIWGtGW9RToEUImq9Uqdnenh1fQvaYi6nnQCg2wSngRC
-	oDkMAlnPLrmcdxbWAf6JFlnF/eugZfOTgJkfNHMdzXAOpu35vcBCD4/610qGc5VqdiUDOuLqApZEy
-	EIlx1uz9TwVtn57WLUKo0q/tr1TCuVoUf4wgH/dVD+YGmR+75o5dT6rpyiYYheFegenQ2VfjcqyzT
-	RcCn7m4g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ZYeiddlSt/e97JeTDQU/H53HrO7Irao8ocaMB2ZBK5s=; b=b+Wol1eLarBe7I7aazORxS/2zD
+	oSPlKix/iRPxMCAM723XzKT4Q7FD43777hH0tWFHMs/QfO0mz8Pyqnws6g4lsKI4NtY8sr1Kcz2uq
+	g3WIXHE4l/b780Rxj/88wLnNsfJQCyMib7yXCjONQw3LQKbDdB8tW0rQNiW9mzYKCNIYwBZBr2KG4
+	1ZbVPQ9uR46p9GlhVr4QuD82Y3xVbxLtFilQ8x5yJ+Bd692M7ImT2H7fpcLi9qNmj+rASEAdDiaDc
+	D5H5bWb/V4QUKMU464wNj7V0Yyj21olJ5F24qwLlGSmRxpRwwkWfF6PK87R4Pi5tkPsYxvsPehe+Z
+	tAMoEGCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvR1g-00000005FZP-2aoY;
-	Thu, 26 Feb 2026 02:22:52 +0000
-Received: from mail-japanwestazlp170100003.outbound.protection.outlook.com ([2a01:111:f403:c407::3] helo=OS0P286CU011.outbound.protection.outlook.com)
+	id 1vvRGL-00000005G5C-2cqd;
+	Thu, 26 Feb 2026 02:38:01 +0000
+Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvR1d-00000005FYf-3hFs
+	id 1vvRGH-00000005G4o-1rap
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 02:22:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IUtCz0c2pNc41OKQ2McQFShrmjF+nSb+IU3Q26F9xYDLWh5pFV5yAMM4XbcBAVemePapW1MFvCLkDDsk2antGZrO7HzDESmQk0/11f4wYN0132AohNF3wYXJMgAySnPx9hz3SYkhWqjIaj7TsEwrWxCNUr6+EeoFaRJsvW/NHWG/YFSUXbypfYnKAk0OVoDTB0jEaj0ogGej+Mpg6OzS4ubyw3Vagxx1V1a6xug6GCATsa4cXA2jgD2FCpGF92CrZFoF+tFmlU/QO94wc5L7ry2CmpTBfQ0Pmixfv8jrNPJuMMN7AwVhcd/M9dVu7Z4tDmSJspkLUrtA3RijbVaEKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6qOiChlAXH1FzXwCLqBw2AijsvpzWjMCUwfsn8OzPyw=;
- b=XD8ycj/jcB/i9JvnUN1NOdMeauSqZjBKvn9ecL18P2cIXZllC+IH5QJjPxwa5wyzxj6CJfQ+yDqLhILEAMMvvcjFJHTUz+jk7ptLd6f8xUmNuSJVkNt8cDnD8hat0qisv5V0sb0nzSwvYdKwaqZfmu84hHB8AQlnXrB9w+Mqks3msRw4cT3F8uogSo8zpcCRmFGilr3ij4MP+KceQj+VMKpljgvQU5Kn9INGWlhcPXPq0tyCBSmtBAo0HP5cc6753v65MKduzoif6M7D65FE4mGpG9k/wtBxLt8sLSZDCg5OFYnxZhE4skcIMhDEmypdFyt4D264QdRnrgGd6bjFyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6qOiChlAXH1FzXwCLqBw2AijsvpzWjMCUwfsn8OzPyw=;
- b=EZZHcRmYWasUrRARe+vRqQyNXLH/AfZRS3abfzO/vfK/mKFVs49Qj6jFaNktLq2KbkrowzsRe9cWbLSBuuC+p4aHkjdSYikoDp+8UTZ8ECZYplySIvQpWMggNpa+Y+QrI5yWvXy9RjmpJGJ65BUDqvUNCP6ZG9QgoMzSPcCPe6c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TYTP286MB3452.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3a2::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Thu, 26 Feb
- 2026 02:22:43 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9632.017; Thu, 26 Feb 2026
- 02:22:43 +0000
-Date: Thu, 26 Feb 2026 11:22:41 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Christoph Hellwig <hch@lst.de>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, imx@lists.linux.dev
-Subject: Re: [PATCH v2 01/11] dmaengine: dw-edma: Add spinlock to protect
- DONE_INT_MASK and ABORT_INT_MASK
-Message-ID: <jjklzlblwbqleshgnhiedqioxskt45awph5rlkh5bymvitk3fq@blisaiwi3zor>
-References: <20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com>
- <20260109-edma_ll-v2-1-5c0b27b2c664@nxp.com>
- <d7mh5d2amod6uzmzib4qnun46al73r77uljzhizq2v6w5ame4v@et65inoxhexa>
- <aZ8aUcV4RN2EL5n3@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aZ8aUcV4RN2EL5n3@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: TY4P286CA0093.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:369::9) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	Thu, 26 Feb 2026 02:37:59 +0000
+Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-5ff125cba0fso56839137.2
+        for <linux-nvme@lists.infradead.org>; Wed, 25 Feb 2026 18:37:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772073476; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WuoGTRDFhiUCHIzUI7xuhd1WAXbvzdgoUvmItH0GlYLqMaPfjrEtR7PSALp4LIKALN
+         xxR4oUzwUzPpRUpQyRfH3Ar1cxEqwlPv4BxjSDUJDaR/kQAtigc47g/v0dtGrmuamEFv
+         Vcuz9mYylM8xR8Dhbv9EjGJKAS/s83Lev5pJAlbn5YaG3LATVmy3eQS9caxkA9z1yvUU
+         za3Kn2rzvZ7SfAkdTzcJxmdfbWfp9RKefnimZEPZxH8c1UyOthZZMVNpESmHrb/+Yspt
+         IJbWD0L18cBW9Wb7U7+dxQkk3BW+vT0arb4WtUbhktb0Gi7KNsnkVimZ9P+VU3lwSxVc
+         7Y4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZYeiddlSt/e97JeTDQU/H53HrO7Irao8ocaMB2ZBK5s=;
+        fh=UzXUaG+f3ywR3HZcEIE33eyjAcyeiWzFd+NG2hDN7Yw=;
+        b=DbrhzWKLmdpHl4rTObgs4BkYiCbcU2uHhyz7C9Bo66nDyYUWKnnfBrOMNKLSFVSZAn
+         Ahlp88/S0wkjxngpHHW7fVAQAYp/O0heSuAJUyTSpjboRo4KQHLYJWcd1SSIKiNwyzaG
+         5MxqlmfabRqSLe82u7Dm4JFXPEFpUJJzGpjuOUEEdAohQEDPbi9dQDDPKW7X8mq7NtKP
+         yAXLQjaZO/QL77/SA9bEL7UDj9IrIi7sfXeqDqaBzhCEEc04KKQYDCOjwQJaipRO46YW
+         YOqioGmnNgNZ5iBvzXYgE/5nZAcVMeXrQLxFdE2dOztTiEjBauY8Lny3pVj4DOYKveS1
+         VOew==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1772073476; x=1772678276; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZYeiddlSt/e97JeTDQU/H53HrO7Irao8ocaMB2ZBK5s=;
+        b=P9pHT1p7DChicTjYNJo8H8HOHWvuYCmZGjAG0XJ4b8vrofIXgRorFT8Dqa1Y2So8Ag
+         6Ah2SR/JMqcPwVUljjVF2e1EBsWFd72CgbB/U/s1b8GjIXlQG2fF/7BBH78jl45Vn1RY
+         tyizaAJY9jyRhn0aNBXcO28HDFKuZ7ahq5ygd7b10PyfmVQqQ6lInm1VRi3PCyplH38Q
+         izeKlHRwrh1nNwgTkbbi2XZONxIy16XdFsIma6i+nRkac+XEw22mnud9nQ0CCCqVT6Js
+         dbUhmWrCvhqXCUu/kcwBKKpAqp9DN4MOFP3FfyhKeMmHIId8j1645jZ2xkg1rq04cHKS
+         ZxHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772073476; x=1772678276;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZYeiddlSt/e97JeTDQU/H53HrO7Irao8ocaMB2ZBK5s=;
+        b=obCKdxjBBb3j62qb2lzJoSDoiaVXsPz7nCoZDw8KLRYWalMHw1nx/LUu3YP+pztjtL
+         b0veekBUaWyZ0Ed9bXguauFHcgltU/mJTICC2gEm+NvdTwCoz03AUQ6Iu2sdpi6dHSsG
+         1y6ci5MLVxCtqvfjCCsj/OJfcsf0AAUHlTMcYK2vrb/P1/+YYq40GwjFrZx0gVicpim8
+         De5tEKnKhkMBSWJFSUaBXY/+3L7WFTidhC/Gz0GOot1G3Q9R0nEDROhQJEwYvKnWRrGa
+         YU77IGi4McrLXJOFvR7t+24AN3z+mKbuxATuGfgskWK//JA/hbOPDjcOv3wKADzmo1pD
+         g2lg==
+X-Forwarded-Encrypted: i=1; AJvYcCWrpXn0B3FSfCoQN5uKVziAnCofJ84SyEzQnIfNKv+BDExFGE436SuFeKFTqhsEWoxnN16EHYbp7t+0@lists.infradead.org
+X-Gm-Message-State: AOJu0YwMErovfe3+JhJJ6Fh8ESZTA0uhoISodpLkgQUpaNg/r70LqVug
+	rDDOi9NvbVyEq5u7rB1q/Q1uUQv88j0OQCwxxMC6Gx0FDWCAshSC6dTPmrpju/ZcjiAaOEhRonG
+	4iTlIPSWLcQ4OtaGi9J/nhwnIMUhfU2wIvIE0xNJmzA==
+X-Gm-Gg: ATEYQzxRcdEAZRguZfO94hiSuv384kRwxyKvS3tkFHlXz7jpuT88Ty1XY5slwpmE823
+	cP6Vtv/fueTfnGMJihDQT73aKKncPxRABY2oMJWcMxB0RVNw8BG07oQW8ZbGVBNA33grlH0VvrL
+	B0rT4+WzmkNIxS9KoBFyuTKBKYT1CMu7jXNkpd9Cps0lcpKHihFQfTPm7/mpvARL1Goqy8QpOW3
+	NyXbhnZGMPYAmHkkzHNnLazKXzvlFyZ5BBzUl8haBdLeTQyAxk23MYB4yjHJsldykFHmjJy9aP8
+	ra3sOw++svMNZKld4i/RJ0zhD63tPTDenlWypmQ7HOh/GHJuifjwc5CDcANLWwwws8d9Fw==
+X-Received: by 2002:a05:6102:c8c:b0:5fd:f509:c97 with SMTP id
+ ada2fe7eead31-5ff13eed831mr1186869137.18.1772073476251; Wed, 25 Feb 2026
+ 18:37:56 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYTP286MB3452:EE_
-X-MS-Office365-Filtering-Correlation-Id: af2fd275-3d20-43f6-e244-08de74ddec13
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|10070799003|7416014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: BLE7sOxPQQw8jPe5MMCWhgDT8lqBtYEaOT284U+ztr4/uS86vsKuttJw/1pFNzqnAYvB16tLePGjWRfPbtaOF0MQfpoMQJmlg5W3HDSQDS5EC6NFemThqmQ3mssSjcn4ghFeHZri+khK3vU1s0pKgnzcIADDyHIVK/r5zQj5Z+w1e8oltevbzqqF8MKGHyPGVKUWMaKR8+d7gKGCtgQP/V1pl5IjyZAanAdn0UXwQRrOinEtZacUHd5vTEAQdfbVplNW9r3vqHgBF8mES+XQDRtmv+omggQgu3KLF3tEDUuumgL/wXc/p+jzgOSlzSRie2+AIw8pNfULerg5VOE6Mryu9tEjlQwHHukoneixGeO+zHQYICCN89R59o9kTZHYhrvtvVtOn3CG2/G0DsZyNPF0MZZcwLrU+TpEtcy7/FnrdjiLXzwy1HDwCV76apzu2zl7B1eLvMQIZBFVGJ28RwjckAuPhuSFPvRccotl6mBBKJsDnCHt/BCL9hhQE1rmY5Lsdxayj9Nqdavz4/XHoL17ctCxMz89WFq00eb5LVb07ZzaTyYlJBAk6sHg5Vs6SRA4hiTOf8M5DKNbclfyiQVtNIYvXx5K0OAK0l3J9niz4RPXl4HhKHGYVZNrDS8mS6+wFV3NE7ZCOBMxKQ3IsbU5ABxRdGR/sPRu/Qe317dwQO1Bt0sbvoB8l/mISxeFY2cDlZUYG3PRFcmDTmGj1SKgUfDYTl5rkhUNtidU0Fs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?w0UHzdeTRAUEZ3z0DiAJWG9i1GwjIQu2zf4kTyzEcNJ101CCaI6+FTVb2dXM?=
- =?us-ascii?Q?F/UV2UIGDOSBycNfMRrq3FooC/KES8zV0Z9g84Lc3qnV3VLZsPBbSy2cIQ8o?=
- =?us-ascii?Q?X3SaFze9W6oD2uFzlZpdF000fSsBNQovkdynorcUOJsAhw7WJqv2qt510hj0?=
- =?us-ascii?Q?XDPSk3mqIMi5dhCowuhd/+DTt85swtmM+fhyGHBiatrYhyeRyJOgV+f4rUKy?=
- =?us-ascii?Q?rwJDMogtltg4MFjsoA8IHtmY7rYQQMAljiJmqfXPY61c8bjLjqHwYI1/Yt0h?=
- =?us-ascii?Q?n2/FfQNhEFmnUCB2eUM9FPCLAFYQyDFBk6abvBea4UKSy2w5UpHRwpbaDmlp?=
- =?us-ascii?Q?rLHiGMBv+paw0NqdpGDvaci220LX9ey2mCNlFzEP/Xje85VMMts47yCt2pJS?=
- =?us-ascii?Q?/qMKWXgk2lhMPabYFjvwv2Lt6PxPZO49eWtB/2V4GVI1bC4y91c72ksCEaCA?=
- =?us-ascii?Q?q/0wlCihuriujPflGVlz1g3WfR29Eb2O5amDz92fJbTXGMarP1ZTJme4XV2j?=
- =?us-ascii?Q?mp+nXNS2e+DSx+3knMuK26s0gfSdLHWl+hgW6CpWW97z4Y1bgKC1ZADRbSFp?=
- =?us-ascii?Q?7GqiV5C/O24Tw/zEQy5FhvBZW4mq7gD8vFaOAKBbshJ7fAjLxT+qX5cmIunb?=
- =?us-ascii?Q?F75F6SZRSVRciIBcGmUhCoRtXu03JJmj70gTpwA4ccJg75fCtvogZO//sQPk?=
- =?us-ascii?Q?5PrTHK53gjz6gMKaTzsXkIt4qAt0SbvpaCuSRaOZSg2l/R3ZRt7MvI9rDnJd?=
- =?us-ascii?Q?VBnW6qIJURxFlUA3Bf9wiyCR3/tzeXw+ToCzq6QFL1kBzilLQITcZ6jCuE/T?=
- =?us-ascii?Q?cFxe2qwkOpoZ/0BliisHDQeA7TQB+mgZEXtiFTo62fGKUxMHL2KoGSTMRibl?=
- =?us-ascii?Q?nPm1vESSi5rPd5G0IpJbDdflCxZfKlfSFk7MdXeltWKk43htF/J3TMnBsk3Z?=
- =?us-ascii?Q?lrGzanXueERN331VBZzfwcGH5ZLi4q2v9PXO7b5K9EJ6AnjeJZBo+oaaLMch?=
- =?us-ascii?Q?YlvtjInDxzsAakVeQfH3wr4iTm84W7mhdZxhRCWVfAZKBUzWA8zk7CzMMHY/?=
- =?us-ascii?Q?mOsNK6wkHytB7GHxmKz8MX41c5QqE5S+kGp2OLwUEYa5UcxlRdeHLh8waRgw?=
- =?us-ascii?Q?EeYWtEjc5yMcC0OdqFRuEiUvqsjpNepAFbPhxNwGPMF4QD4ywReZG7wM1Dp2?=
- =?us-ascii?Q?0dYfUdITClSYtIwvVxFC6v+K1PQ8QpTh4opattQDsVD1EcWpaHdugpAPC5SS?=
- =?us-ascii?Q?LyyfumtQIfzzH85j8fXab3a5s/MZ2QLotc8k4TdTU8LBFRrtwvT7e+vOW8wa?=
- =?us-ascii?Q?gCIrP/wg9jzgPNpPSDwqEzlTkR0xEQfqDNypa9JmZCqbXxojb7eLddU3+vEv?=
- =?us-ascii?Q?YWRetlcXESq/0RbJTuGRTwsPXYyg8nMNfU8f/hP3XYput2Kg3g71TcUVrvtV?=
- =?us-ascii?Q?3aj+nC5QlKNk32tvw8edgmi3SPUsxv/4gmhMgg6QExuEbk+WnkvQVX2ehF2J?=
- =?us-ascii?Q?M14Vaz/KkrszdXS0V082jZBAD5o28X0ONy7IdOBbGt6YzB248ZIkYFXKCbYk?=
- =?us-ascii?Q?0FY/mU4T0xPD8H0kLkzZ9vbbv86Spkw49ZTKhNpJk2yl2UJMbq786SkLJpRM?=
- =?us-ascii?Q?wsQfseZtVGGJrAO+oCi8sNUg+PV4KTo8ZJ7yLV0cP85RFgrNRsHIao+J5kor?=
- =?us-ascii?Q?JMBhlkqZ8yKatkg75zxqgWlo3JAMliGYV7/+bAHioQVWCMVZik7DZ50Fi2DL?=
- =?us-ascii?Q?zGsImcTC0N83HLVaZQOdnRK69srJjKmdqeX4FoX4dJx0G0UvEUVi?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: af2fd275-3d20-43f6-e244-08de74ddec13
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 02:22:43.1179
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S7w6Z+9DVZ0p+WF39PQ1j3TriZvYRUvpTmJc2XYvDqa+jKZfsmeTHvTL3Kh8JajVBk86Qs/rB+gb34DkJFsA4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYTP286MB3452
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com> <20260214042753.4073668-9-mkhalfella@purestorage.com>
+In-Reply-To: <20260214042753.4073668-9-mkhalfella@purestorage.com>
+From: Randy Jennings <randyj@purestorage.com>
+Date: Wed, 25 Feb 2026 18:37:44 -0800
+X-Gm-Features: AaiRm51cvr7V4SAhOA_Hp9PQOxrfj-PirQEyjxYmDuwtDT4YlF3Ohlnv7XsJMSM
+Message-ID: <CAPpK+O3wwqOM0B8AzmHXTkVYV_8_X4NKwpw3GiGaRO7e313FDw@mail.gmail.com>
+Subject: Re: [PATCH v3 08/21] nvme: Implement cross-controller reset recovery
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	James Smart <jsmart833426@gmail.com>, Hannes Reinecke <hare@suse.de>, 
+	Aaron Dailey <adailey@purestorage.com>, Dhaval Giani <dgiani@purestorage.com>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_182249_949743_9FC97463 
-X-CRM114-Status: GOOD (  31.91  )
+X-CRM114-CacheID: sfid-20260225_183757_661307_07E140A5 
+X-CRM114-Status: GOOD (  15.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -144,101 +121,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 25, 2026 at 10:50:41AM -0500, Frank Li wrote:
-> On Wed, Feb 25, 2026 at 05:26:02PM +0900, Koichiro Den wrote:
-> > On Fri, Jan 09, 2026 at 10:28:21AM -0500, Frank Li wrote:
-> > > The DONE_INT_MASK and ABORT_INT_MASK registers are shared by all DMA
-> > > channels, and modifying them requires a read-modify-write sequence.
-> > > Because this operation is not atomic, concurrent calls to
-> > > dw_edma_v0_core_start() can introduce race conditions if two channels
-> > > update these registers simultaneously.
-> > >
-> > > Add a spinlock to serialize access to these registers and prevent race
-> > > conditions.
-> > >
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > > vc.lock protect should be another problem. This one just fix register
-> > > access for difference DMA channel.
-> > >
-> > > Other improve defer to dynamtic append descriptor works later.
-> > > ---
-> > >  drivers/dma/dw-edma/dw-edma-v0-core.c | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> >
-> > Hi Frank,
-> >
-> > I'm very interested in seeing the work toward the "dynamic append" series land,
-> > but in my opinion this one can be submitted independently.
-> 
-> This patch serial is actually straight forwards. we can ask vnod pick first
-> one in case have other problems. put together to reduce patch's dependency.
+On Fri, Feb 13, 2026 at 8:28=E2=80=AFPM Mohamed Khalfella
+<mkhalfella@purestorage.com> wrote:
+>
+> A host that has more than one path connecting to an nvme subsystem
+> typically has an nvme controller associated with every path. This is
+> mostly applicable to nvmeof. If one path goes down, inflight IOs on that
+> path should not be retried immediately on another path because this
+> could lead to data corruption as described in TP4129. TP8028 defines
+> cross-controller reset mechanism that can be used by host to terminate
+> IOs on the failed path using one of the remaining healthy paths. Only
+> after IOs are terminated, or long enough time passes as defined by
+> TP4129, inflight IOs should be retried on another path. Implement core
+> cross-controller reset shared logic to be used by the transports.
+>
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> +static int nvme_issue_wait_ccr(struct nvme_ctrl *sctrl, struct nvme_ctrl=
+ *ictrl)
+> +       if (!wait_for_completion_timeout(&ccr.complete, tmo)) {
+> +               ret =3D -ETIMEDOUT;
+> +               goto out;
+> +       }
+The more I look at this, the less I can ignore that this tmo should be
+capped by deadline - now..
 
-Yes, I see.
-
-My understanding is that the originally planned dependency chain was:
-
-  #1->#2->#3
-
-#1 [PATCH v2 0/8] dmaengine: Add new API to combine onfiguration and descriptor preparation
-   https://lore.kernel.org/dmaengine/20251218-dma_prep_config-v2-0-c07079836128@nxp.com/
-#2 (this series)
-#3 [PATCH RFT 0/5] dmaengine: dw-edma: support dynamtic add link entry during dma engine running
-   https://lore.kernel.org/dmaengine/20260109-edma_dymatic-v1-0-9a98c9c98536@nxp.com/
-
-I'm not sure whether #1 will proceed, as the thread appears to have stalled. I
-might be missing something, though. In any case, #1 is semantically orthogonal
-to #2, so I believe #2 can be considered independently.
-
-Thanks,
-Koichiro
-
-> 
-> Frank
-> >
-> > Even in the current mainline, under concurrent multi-channel load, this race can
-> > already be triggered.
-> >
-> > Also, with this patch, dw->lock is no longer "Only for legacy", so we should
-> > probably update the comment in dw-edma-core.h.
-> >
-> > Best regards,
-> > Koichiro
-> >
-> > >
-> > > diff --git a/drivers/dma/dw-edma/dw-edma-v0-core.c b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > index b75fdaffad9a4ea6cd8d15e8f43bea550848b46c..2850a9df80f54d00789144415ed2dfe31dea3965 100644
-> > > --- a/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > +++ b/drivers/dma/dw-edma/dw-edma-v0-core.c
-> > > @@ -364,6 +364,7 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> > >  {
-> > >  	struct dw_edma_chan *chan = chunk->chan;
-> > >  	struct dw_edma *dw = chan->dw;
-> > > +	unsigned long flags;
-> > >  	u32 tmp;
-> > >
-> > >  	dw_edma_v0_core_write_chunk(chunk);
-> > > @@ -408,6 +409,8 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> > >  			}
-> > >  		}
-> > >  		/* Interrupt unmask - done, abort */
-> > > +		raw_spin_lock_irqsave(&dw->lock, flags);
-> > > +
-> > >  		tmp = GET_RW_32(dw, chan->dir, int_mask);
-> > >  		tmp &= ~FIELD_PREP(EDMA_V0_DONE_INT_MASK, BIT(chan->id));
-> > >  		tmp &= ~FIELD_PREP(EDMA_V0_ABORT_INT_MASK, BIT(chan->id));
-> > > @@ -416,6 +419,9 @@ static void dw_edma_v0_core_start(struct dw_edma_chunk *chunk, bool first)
-> > >  		tmp = GET_RW_32(dw, chan->dir, linked_list_err_en);
-> > >  		tmp |= FIELD_PREP(EDMA_V0_LINKED_LIST_ERR_MASK, BIT(chan->id));
-> > >  		SET_RW_32(dw, chan->dir, linked_list_err_en, tmp);
-> > > +
-> > > +		raw_spin_unlock_irqrestore(&dw->lock, flags);
-> > > +
-> > >  		/* Channel control */
-> > >  		SET_CH_32(dw, chan->dir, chan->id, ch_control1,
-> > >  			  (DW_EDMA_V0_CCS | DW_EDMA_V0_LLE));
-> > >
-> > > --
-> > > 2.34.1
-> > >
+> +unsigned long nvme_fence_ctrl(struct nvme_ctrl *ictrl)
+> +       deadline =3D now + msecs_to_jiffies(timeout);
+> +       while (time_before(now, deadline)) {
+...
+> +               ret =3D nvme_issue_wait_ccr(sctrl, ictrl);
+...
+> +       }
+Sincerely,
+Randy Jennings
 
