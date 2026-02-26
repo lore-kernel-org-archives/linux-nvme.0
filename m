@@ -4,103 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76C1FFD45FF
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 01:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F9EEFD45F9
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 02:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sEWUQMZ05EtBjzI5lji+PdbLp/pfTrbiE6YP6gDAUAk=; b=XPDL5NJ6Uh52oatWedfwAhGv6E
-	scqelRQpAe0vHqrlXHzmJDNIEI8UVuLgOnn7fxEN1lOEJUEXj2MtdGPelIxc+qmqrxdsKK2ywsR6h
-	g4IH4SiicTFJ1Y92WzGaL4cBL0mSgIKmIxcZFif2lvTeIRWH8x4vzzqFAQUAePUZROI2BO4G7yr/m
-	lYhsbMkC1gGigGjaa14RntSFXyQezA0LnNakuSpzIkOXEbn9wczwwXbC9wKqOsAtWQpjMor2D4uET
-	5kM1Y9P9kAcj2iHR+RSF8Fx2KL4ULO+HBymxZBhYCtNlmuqnND6rJqt66183P5glHqCFaHHO8RT1+
-	LxBhwMww==;
+	bh=hJmYuxjS0nD2lV0lsEQm+chlolOaID++/wSzcaTxkiM=; b=tewE6eHCBTx1iPH51fverTxg6N
+	D+omWFkAB6KfhKHdKN2aBwSTIYlSV04S3UmFOFvy/Ge1dTc3gXf+STpfjJ7GB3bqbc65r7RsAfb69
+	kQM+0yRTUN9AFGY2gQc3gidQQzC1LoC5+mnBPrt53RR3B6hcc72Ej/btJXjBJ8XU+SKKApUtOCDiJ
+	5swLuPecjzKTHvfi4rUoHpBCELS2YTON3KPjjmYdibOmTqHUIapjOpWAFIylCAklzjA9xJffeebmv
+	8eZy9CryjWzCQAnYKsFZnFUF9o6IF2lfE16nhS7nT9ASKN0+EBeiInYruMCfjjuPl4bW1UryzdFpG
+	43Qsnx/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvQEp-00000005BnO-44Zx;
-	Thu, 26 Feb 2026 01:32:23 +0000
-Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f])
+	id 1vvQvf-00000005ELg-311M;
+	Thu, 26 Feb 2026 02:16:39 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvQEn-00000005Bn1-1XnZ
+	id 1vvQvd-00000005ELK-140b
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 01:32:23 +0000
-Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-5ff19e74779so168098137.0
-        for <linux-nvme@lists.infradead.org>; Wed, 25 Feb 2026 17:32:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772069539; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JMiI5O9ydRIK/pxNUHjhZTrbIz7jmAm20WLwVuI+vlLx4j9U2+URGSm/e9muaLPrgp
-         3KcHVj1EdhuVm1s0b6px6BaJ7dggT4Pldxkifmh8cdJhasDZ8W18hQmAwpUuMgkBq5Bo
-         jt1eTJLILUG+8n/yuD46NdV+3mds76JhjHYuSKntGdCU+jTnCSO+CchIEU/8bz2Qe9Ot
-         3IHbdAl8eMo16I3iik0xhF/m2QxI9JcAGOE1QNEjMIoLk+77KOHWTgU2BZdgrIvjEw/a
-         L2m65LpTAZiQIiAQLc6FKMSPF83VcpopQPdz7JhBqrLJyIGAyK33gMWfC3ff7/hUTvIp
-         py3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sEWUQMZ05EtBjzI5lji+PdbLp/pfTrbiE6YP6gDAUAk=;
-        fh=twMB5GDl5QIZsVr3K4XIDNW8P6A9YiW0raI3ZOvIYQA=;
-        b=a0ERKou5Hk63JvgOhTY3nnh6ZljbO1YBUvAbFBzOUysI7I1T235M+BilrFIA2Kf2dw
-         RufCIDwAS+NvdgiiP3u+6z4Z2a/FO5okBqqcwCLq2ri0/+hYzDFwZydVnUnkymS2WdKY
-         CvY98AdNyGJWm6yvMJqwc2JQW6Ddpx9PC31HzybyPBup4P8scvaD3gMqkMZphVDfQWaQ
-         ZsBVb/kSxUA0Hcw1+xzIUAME2vqNHfF9vgTCI8SXiDsxJDj+MwwcYwFkIzXJ8l1LVLsA
-         8s2S/3Hy2ukhcFACayJzj7O8+is+or4F82X/PtYqkcV8Zr2kTYvNFvJxf60z/GqDp7Ko
-         1MoA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1772069539; x=1772674339; darn=lists.infradead.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sEWUQMZ05EtBjzI5lji+PdbLp/pfTrbiE6YP6gDAUAk=;
-        b=QDVHbZLOPdKGkjFrb2jGsagWbQ9D4HV/xfdHl6fYultS1K+htxTMXve0RFw2jMJO9S
-         EL0ddaWOGxX9jCT6cHagvxteN9W96xBjE1htBMSOCy4BdohondRMtMv9eSkj5WrfW7vx
-         MOlgwoOrG1nfUdafTL2MsDo1sjVFRPH/r36IJwSNfl6chyMfzzy1t5gbLmROrUyU2p3j
-         3pJCmjuTCjmXirn4Gzmqaxj/j7k1nii+Rlrg9nCDwHpqA9zH8Vw88efXYiPd53Sgq0Wd
-         pmaeXHi0EG1l+gR+RxNyxDAfDoodPG4y83kQ3S4+Njq2W1fxNfn0c4uvYfDqTyXSJD9i
-         kTtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772069539; x=1772674339;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sEWUQMZ05EtBjzI5lji+PdbLp/pfTrbiE6YP6gDAUAk=;
-        b=krLpogfeVJ1gBwq0lwtJwnh+wdrtwB3B0VLFA6OLVf+FB8YeGMxAVbdiYaeVrWhhP/
-         JHcuZe9ZKCde5IiUBE/DRLVTRBQW0JFdEZfFiay58dApLc6wjPUb32H3kYf8ZRAoOlCk
-         iT8jziHfgTq4CBbloBEE4vCMTss681y+JbjOUl9PIzL0Hk2N9ZGccNvnsdGFJpfN1YB8
-         5bkE6Z77JUz+WTR/axWWc9zXALlrgbKoRelefoeFDYIjiE4XwgO+3cjr28VIGsyFmFDM
-         Ll/0xA6hY8E58ZKp6U5a1tSPG9/oBvFjJ9dzdsNG6FoGqbBb5eJqOPglsqLvYq1b43WD
-         dUaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXw5hLrG8nJ6kkREj1A/IQOnGEAruiQHZF8dbx/N2QUcyJwK/lTcUfR1wOUL3Fyqo4H13CCsqQo+gfs@lists.infradead.org
-X-Gm-Message-State: AOJu0YwmuHxEq/DCmXgicVz22Jt+RftFKjLS5VQKZCd5/FsneOnaj7el
-	OBZIn6Pd+iBFKxjS136FOdCg9imdge3fQ4+FdtU1M16xSm6ZuTfk3ZZ+njKwvlGDRn+qK7Ozvj2
-	14KQPl9ht0eli+KVzvgmgYnlQJ7kBsTz4/XW6WHmkWaXIyipDwwBI2pM=
-X-Gm-Gg: ATEYQzxVd7vVzqYL232n5+z0uc1+CqosAGvCwBGJ1s4TpkS96zp/+EzaeL4/0WI6vOI
-	uDgwhjHrbF+KUeQATeYQgzID8t0fPkvb5NFwb2bG4y6M9MBg6Sh3ONEkabui7otoGIdI3D04Su9
-	da5HHv54F17U5gxWR2oWA42jb6SWVSr8wfMl4ZZIl9Ay5/AIBwdTiicvUg9XD/7T0PT2pe2xHHU
-	H+C3unChRSF6zl9V7oq03EsqeJwjxuGCIgweGf1F5SQGEllkuqeaDyGux8AwejxH7XNjjWRSbrC
-	ZUSj7GguvbMmQTQ6DOfuRQCar+2+W94nRpGO85Urmr8t1mFtwlrOvjlvDIjaZJCiOIqS1g==
-X-Received: by 2002:a05:6102:2906:b0:5ff:172c:2d92 with SMTP id
- ada2fe7eead31-5ff209d5c8fmr265860137.8.1772069539167; Wed, 25 Feb 2026
- 17:32:19 -0800 (PST)
+	Thu, 26 Feb 2026 02:16:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772072194;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hJmYuxjS0nD2lV0lsEQm+chlolOaID++/wSzcaTxkiM=;
+	b=gI+pPS8SRqeg08WWx13yJ73L3LDIxGMj9rNnGfNgeHyh0Gx0iMvE7x1GJLRdkF6LiWU6/Y
+	fs+EOo0uN+V0eHafSa58QHHlMySXp1thsXD/nruIIHArDWFuO9dhGjhvwvavw43sHkV8e6
+	b0KDp4xSqFT987vTx0jw4B/otJl8oU4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-684-kv6YtGLNMKaescy-QcRm1g-1; Wed,
+ 25 Feb 2026 21:16:30 -0500
+X-MC-Unique: kv6YtGLNMKaescy-QcRm1g-1
+X-Mimecast-MFC-AGG-ID: kv6YtGLNMKaescy-QcRm1g_1772072188
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EDDCC180057E;
+	Thu, 26 Feb 2026 02:16:27 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (unknown [10.6.23.247])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DA4D13003D88;
+	Thu, 26 Feb 2026 02:16:26 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (localhost [127.0.0.1])
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.17.1) with ESMTPS id 61Q2GPtm1678244
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 21:16:25 -0500
+Received: (from bmarzins@localhost)
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.18.1/Submit) id 61Q2GO3e1678243;
+	Wed, 25 Feb 2026 21:16:24 -0500
+Date: Wed, 25 Feb 2026 21:16:24 -0500
+From: Benjamin Marzinski <bmarzins@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        hare@suse.com, jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 02/13] libmultipath: Add basic gendisk support
+Message-ID: <aZ-s-JNWBOA1xqVG@redhat.com>
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-3-john.g.garry@oracle.com>
 MIME-Version: 1.0
-References: <CAPpK+O3zB4Y7L6u0jmVkM2eQs2D1DEJJMG_AXgM+HBs4wkLStg@mail.gmail.com>
-In-Reply-To: <CAPpK+O3zB4Y7L6u0jmVkM2eQs2D1DEJJMG_AXgM+HBs4wkLStg@mail.gmail.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Wed, 25 Feb 2026 17:32:08 -0800
-X-Gm-Features: AaiRm51dXLBdHZXafeN6ZXBh2Im_3ISQg6sNjkDbyPISk5yYAa9nQxnE66RBpXw
-Message-ID: <CAPpK+O3fFkbs-E05a8t+JfwCb+Wpj-trNOi05uO_zp8wF65nCg@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] demo Linux nvme initiator driver stretched and
- dispersed subsystems
-To: lsf-pc@lists.linux-foundation.org, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260225153225.1031169-3-john.g.garry@oracle.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: 2XWEWJ6qFVHm1oOX2vBEpAulVAj0JhPA_Hnej-fWyIQ_1772072188
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_173221_556424_367CA120 
-X-CRM114-Status: GOOD (  10.43  )
+X-CRM114-CacheID: sfid-20260225_181637_359926_EF5393E7 
+X-CRM114-Status: GOOD (  14.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,25 +96,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Feb 13, 2026 at 5:16=E2=80=AFPM Randy Jennings <randyj@purestorage.=
-com> wrote:
->
-> I'd like to demonstrate the Linux nvme initiator driver interacting
-> with a stretched and a dispersed subsystem, run through some workflows
-> and illustrate usecases that are possible with one and not the other.
-> No, this is not necessarily production code.
-A few more details:
-I am still interested in extending the namespace mobility and
-synchronous replication use cases to NVMe. As instructed, stretched
-subsystems have been implemented on Pure=E2=80=99s array. I will demonstrat=
-e a
-Linux host and Pure array stepping through these use cases. I will
-also demonstrate and discuss the limitations that come from this
-approach and solicit alternatives. Finally, I will demonstrate a
-hacked Linux initiator that implements dispersed namespaces that
-avoids those limitations (this is not even a prototype, just a
-demonstration).
+On Wed, Feb 25, 2026 at 03:32:14PM +0000, John Garry wrote:
+> Add support to allocate and free a multipath gendisk.
+> 
+> NVMe has almost like-for-like equivalents here:
+> - mpath_alloc_head_disk() -> nvme_mpath_alloc_disk()
+> - multipath_partition_scan_work() -> nvme_partition_scan_work()
+> - mpath_remove_disk() -> nvme_remove_head()
+> - mpath_device_set_live() -> nvme_mpath_set_live()
+> 
+> struct mpath_head_template is introduced as a method for drivers to
+> provide custom multipath functionality.
+> 
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+> +
+> +void mpath_device_set_live(struct mpath_disk *mpath_disk,
+> +			struct mpath_device *mpath_device)
+> +{
+> +	struct mpath_head *mpath_head = mpath_disk->mpath_head;
 
-Sincerely,
-Randy Jennings
+You're dereferencing mpath_disk here, before the check if it's NULL.
+
+-Ben
+
+> +	int ret;
+> +
+> +	if (!mpath_disk)
+> +		return;
+> +
+> +	if (!test_and_set_bit(MPATH_HEAD_DISK_LIVE, &mpath_head->flags)) {
+> +		dev_set_drvdata(disk_to_dev(mpath_disk->disk), mpath_disk);
+> +		ret = device_add_disk(mpath_disk->parent, mpath_disk->disk,
+> +				mpath_head->mpdt->device_groups);
+> +		if (ret) {
+> +			clear_bit(MPATH_HEAD_DISK_LIVE, &mpath_head->flags);
+> +			return;
+> +		}
+> +		queue_work(mpath_wq, &mpath_disk->partition_scan_work);
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(mpath_device_set_live);
+> +
+>  struct mpath_head *mpath_alloc_head(void)
+>  {
+>  	struct mpath_head *mpath_head;
+> -- 
+> 2.43.5
+
 
