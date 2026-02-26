@@ -4,75 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB1F4FC592C
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 11:17:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 740C9FCE07F
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 13:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hsV864K9VqOLeWRQibEnKgbFMuT7XyTvbOFxjZeoSpE=; b=FAEK9UKAscSzlDNI4NsR99+e4e
-	/jyEenKfhDzdF/35DIKrM5xJFanLd7xSUJae5QY9S4WbbMOQRR6Nuzt0GaZaQOl/hcSacxKP+gbKN
-	MYNXVsQYKsgHBTy+A709cVfpjLdnAkRaYFL1s28cPImREC3B/Ncd3tVYGH5O961xSkZvaUzkApELa
-	az8kATzE5cfEU7z36q7KSM/fGLTcXjDDgtYZGvf2kO4WZZ+YJ8eA6wPDJCqjvr6Mvkh75jOrDxSl7
-	hjKUtjEl2X6dBVIm1LExBuYts0fugg0m6QC8TOXJ7hSZJuq+DgyMGVysPyUaYCCeWGoSFrcrEFQyl
-	b4t+lSHw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=FRHNXphwNP7t4vq4xEpGdyfYFjTpXfkIlOlZBWbkJuI=; b=VblpT6/7IYA/+D
+	54leuO5EAGFX0RL+sX8QQMkob8sojALSjWXPFQgmxTidU1o/0XPfe1P6HfxwaCLwzkvj5yPb1XiE8
+	3qgqOjcZtt5AIv83c2ZH7kAFhq36O56xink9gTAbAdHHHh2rYNQ6+xYmSVeCE4kSYtndOU99xd0zc
+	g+pL0jVX/mE/lxj+o5tnm+nORoPJsyNlghJ46TZr15jMVzDmGpPwaDVrXOpN7a3j1g2oMHqxw8IDD
+	okoKUkjDGXJKhzRsMl5RSZ1/Zhl6pKR53BxXPlkP44sAHXkXvYgxD5zYfPP2timiQ5GdGYMONN+8d
+	lzdHHwdUEjMSeQWgFRvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvZMi-00000006118-3t92;
-	Thu, 26 Feb 2026 11:17:08 +0000
+	id 1vvbbu-00000006EkY-43th;
+	Thu, 26 Feb 2026 13:40:58 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvZMh-00000006111-2KBZ
+	id 1vvbbt-00000006EkQ-3Kor
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 11:17:07 +0000
+	Thu, 26 Feb 2026 13:40:57 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 02E5B600AA;
-	Thu, 26 Feb 2026 11:17:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE4D3C116C6;
-	Thu, 26 Feb 2026 11:16:57 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 4BA9560054;
+	Thu, 26 Feb 2026 13:40:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF39C116C6;
+	Thu, 26 Feb 2026 13:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772104626;
-	bh=EBm164YdJF64MvzWiqTVH2bhb4BY80EhzoyHTGgW/3A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ce4wdFn61ewLsnyosxoI+FVPWXeyqhMsd7SX2CPw+LmoCsmu6eIOeriSAU/xeX/o/
-	 HcL4uc9RwB1CWjegvwKQr1W03ZMSkUamL5ZK2l9m+ljoASbLcyoHlK+GJQoNMrwtju
-	 QzKgKZp+lwjpY2BQqXgcePx+73MEm0mGUfdD7/VgOFhwhKmGsf+/UWqa1V0F/j0dQ7
-	 THtcA6jVEjtTQTy387Wx3KAIBaLP6P6tyLcIfpREYefY/HnuA/hGfblLQ4rv/JtuEZ
-	 jUbceZhL8zlBjUwXYge33JMrlGpZoW8JHeG5iTSDsN1uWL4eyC80pEBsj8BbJ+CmOg
-	 +/EzqLIP1okcw==
-Date: Thu, 26 Feb 2026 16:46:52 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Manikanta Maddireddy <mmaddireddy@nvidia.com>, 
-	krishna.chundru@oss.qualcomm.com, Bjorn Helgaas <helgaas@kernel.org>, 
-	manivannan.sadhasivam@oss.qualcomm.com, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, "David E. Box" <david.e.box@linux.intel.com>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Chia-Lin Kao <acelan.kao@canonical.com>, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-Message-ID: <npt2cgwksulq5375dzlhszqaqrurgdvlkz6fdczer6shglqfg5@gp6a6xymymww>
-References: <7306256a-b380-489b-8248-b774e6d3d80e@nvidia.com>
- <20260122152903.GA1247682@bhelgaas>
- <5z7c25nkb35prvax6vq6ud7eaeuhzsswbf7fqvmlgys3xftgwb@odocboejrdrv>
- <e44c330b-778b-4fa1-b678-fa909cc05b03@nvidia.com>
- <bf37b6a5-268d-4c07-a536-a826b3d5953b@nvidia.com>
- <unc5zefwndgcv7wufaezz3gkg3qtaymkjlmymhyqdqwzn3wybl@ow2rhbyt772h>
- <f9ac8c8f-8959-416b-ba90-14f0886c5bc0@nvidia.com>
- <a5m4pqtiaxsq5lmq64roro633ganbeq7mypa5ojuuqy4npkvok@wcogdbzaq6xe>
- <7157c68e-97f3-43b0-bfb5-e271a8f2a4b8@nvidia.com>
- <cf1e685a-a1cb-45ec-bdc3-1ef1a3d1044e@nvidia.com>
+	s=k20201202; t=1772113255;
+	bh=5ZcuTz3+YBdE+R8fryGg6F5tFWRxAHOThfKfUi/9ASM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=vNP8X/S1tpF9GlxszO3VoRbNEMKwCSWJXtjVrO65gxhxA89w//ozcZwi5VQruoruz
+	 ah6AQG1DoFBYgdph9RZeaFL2ON7aXOFtZ14fATjwyVD9SuWSB3b0Eoa0EVJtNdtZtu
+	 CHMkDURH2nOw1pMG5MO65Fo3w6JYGh/A8Tjp3MbnQY12yGgaDWoQVhmqu9pkrcHRcp
+	 /OgvR4rkmPE6owQA0uwrh2YncQR2eMjMmZtatc0RS5NOBZeyTLPCa9ObpK+Rag7BDZ
+	 V26u67PO4+4mUqj+e8LTSDrlB4YKG+sEET1sk4rEulaCwjjOS8umz3ryawmL3ymH3m
+	 J5zlHDtNx+t3w==
+From: Daniel Wagner <wagi@kernel.org>
+Subject: [PATCH 0/3] block: revert avoid acquiring cpu hotplug lock in
+ group_cpus_evenly
+Date: Thu, 26 Feb 2026 14:40:34 +0100
+Message-Id: <20260226-revert-cpu-read-lock-v1-0-eb005072566e@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cf1e685a-a1cb-45ec-bdc3-1ef1a3d1044e@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2M3QpAQBBGX0VzbWpsrJ9XkYttDSZCu0jJu5vcn
+ VPn+x6IHIQjNMkDgS+Jsq0qWZqAn9w6MkqvDoaMJWMsasThQL+fiq7HZfMz1rmtCqKSKnKg0z3
+ wIPd/23bv+wERvvVCZgAAAA==
+X-Change-ID: 20260226-revert-cpu-read-lock-94685007080a
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
+ Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>
+Cc: Guangwu Zhang <guazhang@redhat.com>, 
+ Chengming Zhou <zhouchengming@bytedance.com>, 
+ Thomas Gleixner <tglx@kernel.org>, linux-nvme@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+ Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.14.3
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,93 +76,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 19, 2026 at 05:42:37PM +0000, Jon Hunter wrote:
-> Hi Mani,
-> 
-> On 16/02/2026 14:35, Jon Hunter wrote:
-> 
-> ...
-> 
-> > > Krishna posted the series a couple of weeks before but forgot to CC you:
-> > > https://lore.kernel.org/linux-pci/20260128-d3cold-v1-0-
-> > > dd8f3f0ce824@oss.qualcomm.com/
-> > > 
-> > > You are expected to use the helper
-> > > pci_host_common_can_enter_d3cold() in the
-> > > suspend path.
-> 
-> 
-> I have been playing around with this, but so far I have not got anything
-> to work. Right now I have just made the following change (note that this
-> is based upon Manikanta's fixes series [0]) ...
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index 9883d14f7f97..9f88e4c1db08 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -2311,6 +2311,7 @@ static int tegra_pcie_dw_suspend_late(struct device *dev)
->  static int tegra_pcie_dw_suspend_noirq(struct device *dev)
->  {
->         struct tegra_pcie_dw *pcie = dev_get_drvdata(dev);
-> +       struct dw_pcie *pci = &pcie->pci;
->         if (pcie->of_data->mode == DW_PCIE_EP_TYPE)
->                 return 0;
-> @@ -2318,6 +2319,9 @@ static int tegra_pcie_dw_suspend_noirq(struct device *dev)
->         if (!pcie->link_state)
->                 return 0;
-> +       if (!pci_host_common_can_enter_d3cold(pci->pp.bridge))
-> +               return 0;
-> +
->         tegra_pcie_dw_pme_turnoff(pcie);
->         tegra_pcie_unconfig_controller(pcie);
-> 
-> 
-> At first I was thinking that is we are not actually suspending the
-> controller we can skip the configuration of the controller in the
-> resume. However, if we skip configuring the controller in the resume
-> then the device does not resume at all.
+The 0263f92fadbb ("lib/group_cpus.c: avoid acquiring cpu hotplug lock in
+group_cpus_evenly") commit removed the CPU read lock.
 
-Device mean the 'host' here?
+The lock was removed because the nvme-pci driver reset handler attempted to
+acquire the CPU read lock during CPU hotplug offlining (holds the write lock).
+As a result, the block layer offline callback could not make progress because
+in-flight requests were detected.
 
-> So right now I have the
-> above, but clearly this is not sufficient. The device resumes but
-> the NVMe is not working ...
-> 
->  nvme nvme0: ctrl state 1 is not RESETTING
->  nvme nvme0: Disabling device after reset failure: -19
->  nvme nvme0: Ignoring bogus Namespace Identifiers
->  Aborting journal on device nvme0n1p1-8.
->  nvme0n1: detected capacity change from 0 to 976773168
->  EXT4-fs error (device nvme0n1p1): __ext4_find_entry:1613: inode #18622533: comm (t-helper): reading directory lblock 0
->  Buffer I/O error on dev nvme0n1p1, logical block 60850176, lost sync page write
->  Buffer I/O error on dev nvme0n1p1, logical block 0, lost sync page write
->  JBD2: I/O error when updating journal superblock for nvme0n1p1-8.
->  EXT4-fs (nvme0n1p1): I/O error while writing superblock
->  EXT4-fs error (device nvme0n1p1): ext4_journal_check_start:86: comm rs:main Q:Reg: Detected aborted journal
->  Buffer I/O error on dev nvme0n1p1, logical block 0, lost sync page write
->  EXT4-fs (nvme0n1p1): I/O error while writing superblock
->  EXT4-fs (nvme0n1p1): Remounting filesystem read-only
->  EXT4-fs (nvme0n1p1): shut down requested (2)
-> 
-> Is the above what you were thinking? Anything else I am missing?
-> 
+	static bool blk_mq_has_request(struct request *rq, void *data)
+	{
+		struct rq_iter_data *iter_data = data;
+	
+		if (rq->mq_hctx != iter_data->hctx)
+			return true;
+	
+		iter_data->has_rq = true;
+		return false;
+	}
 
-I can't certainly know what is going wrong. If controller driver suspend is
-skipped, then ideally the controller and the NVMe device should stay powered ON
-during suspend. But if the platform pulls the plug at the end of suspend
-(firmware, gdsc or some other entity), then all the context would be lost and
-that might explain the failure because both the controller driver and NVMe
-driver would expect the RC and NVMe to be active.
+In order to bring back the CPU read lock, introduce an explicit handshake
+protocol between the driver and the block layer. This allows the driver to
+signal when it is safe to ignore any remaining pending requests.
 
-You can try commenting out the whole PM callbacks:
-		// .pm = &tegra_pcie_dw_pm_ops
+I've tried several different approaches, like looking at the request_queue state
+in blk_mq_has_request or at the request state but I could not convienced myself
+that this works.
 
-If the host itself doesn't resume, then it confirms that some other entity is
-pulling the plug (which is common in ARM platforms). In that case, we have to
-let the NVMe driver know about it so that it can shutdown the controller.
+For example, when a requests is right before nvme_prep_rq in nvme_queue_rq, the
+request is not yet marked as in flight nor are there any queue state checks left
+in the remaining path:
 
-- Mani
+	static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+				 const struct blk_mq_queue_data *bd)
+	{
+		[...]
+	
+		if (unlikely(!nvme_check_ready(&dev->ctrl, req, true)))
+			return nvme_fail_nonready_command(&dev->ctrl, req);
+	
+		ret = nvme_prep_rq(req);
+		if (unlikely(ret))
+			return ret;
+		spin_lock(&nvmeq->sq_lock);
+		nvme_sq_copy_cmd(nvmeq, &iod->cmd);
+		nvme_write_sq_db(nvmeq, bd->last);
+		spin_unlock(&nvmeq->sq_lock);
+		return BLK_STS_OK;
+	}
+	
+Thus a check like
 
+	 if (!blk_mq_request_started(rq) && blk_queue_quiesced(rq->q))
+
+in blk_mq_has_request is not enough.
+
+I've tested this by a hammering the system with PCI resets and CPU
+onlining/offlining while generating load with fio. The original problem was
+fairly simple to reproduce (wihtin a minute or so) and with this patches it
+survived a whole night.
+
+This unblocks my isolcpu work which touches group_cpus_evenly.
+
+https://lore.kernel.org/linux-nvme/87cy7vrbc4.ffs@tglx/
+
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+Daniel Wagner (3):
+      nvme: failover requests for inactive hctx
+      blk-mq: add handshake for offlinig hw queues
+      Revert "lib/group_cpus.c: avoid acquiring cpu hotplug lock in group_cpus_evenly"
+
+ block/blk-mq-debugfs.c        |  1 +
+ block/blk-mq.c                | 36 +++++++++++++++++++
+ drivers/nvme/host/core.c      | 83 ++++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/multipath.c | 43 ----------------------
+ drivers/nvme/host/nvme.h      |  3 +-
+ drivers/nvme/host/pci.c       |  3 ++
+ include/linux/blk-mq.h        |  3 ++
+ lib/group_cpus.c              | 21 +++--------
+ 8 files changed, 132 insertions(+), 61 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260226-revert-cpu-read-lock-94685007080a
+
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Daniel Wagner <wagi@kernel.org>
+
 
