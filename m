@@ -4,107 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA4B1FC5905
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 07:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BDE1FC590A
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 08:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
+	Subject:Cc:To:From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8l4kqlbE2gAMDnm//dHr1GMAMKN6dS+chhJVsTYu7L4=; b=LDQIiTQBFJxuyPYKvO1JCsfbKA
-	tfJqH8QEwiGeE4CT5RZiSdcrmFMCEhiRQSOCr2W+a0cOUmqTPv2SKwPEuosoo3BOxH0afX3z4Hu7Z
-	iKyU7Cf4gfZ94GQEDU30s8SYOLmM5A7/FaowhU+aqtRmc6AG+v098R7zRQlWjHgrDaV8wN/1C+Ru6
-	WRbptWW+Ln9TSz6v6rSVgyqBSblLJuNkEX5ute81AkrAuuIKziNBuMyUv1ID/jFcXoeicWE0t/yLE
-	EaJd5VQd2BTzfZtGQQ7G5NxI042YyIfB2avcIIpUwH82zVBCr6spevlpNJM8QXRm6iiuBMq91nNGH
-	HqmgP51w==;
+	bh=9DRy7yqLQHtCip9HCmObThmwj1ASxznQZpTYJ3+LMWI=; b=RW8jheH6hJrJYmQFqMnoEa9QcN
+	CQh2d3AgF4wLFxs4FW/DZyaaX6j6w2kDMX07nwLNyJJ/qGYxXF6uMV79ymHpSA3n0jYbkuT8s7BC7
+	LXQzHSfmVVlfCLm5lnXlw5SBZO9Ku2v0AsEmz3HAMdrWeoy/5bIbV1IoeW2Ty/AClGpd5QXytW0B8
+	2t8bAZXfFwCEEKUUejJnNcU6MPn0Gx7GMxnjdRH9wW2ClDYOIqscY5LpNYBCngEqIpSRZJqwSi10r
+	gvkBwcD4obA1o1eJEg4GmS3QmOCQ3V7v0G8/YORGbHbznwPf+TjLKFOOxvkZ0/joyZDTU6Mn088mP
+	R7JNPFpA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvVQY-00000005XFq-1ekR;
-	Thu, 26 Feb 2026 07:04:50 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vvWP3-00000005cI0-0h5r;
+	Thu, 26 Feb 2026 08:07:21 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvVQU-00000005XEj-2WmP
+	id 1vvWOw-00000005cH3-0skE
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 07:04:47 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PMUDGj2785927;
-	Thu, 26 Feb 2026 07:04:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=8l4kql
-	bE2gAMDnm//dHr1GMAMKN6dS+chhJVsTYu7L4=; b=F7Mtx9Fo7JWV54uwf1JCSP
-	3HgHrdEjto9hxgThuIUiW5Rkxm6hdCEIarBMgSiHzgz/TCDnWVsY3l9DeVEmLkyW
-	6jZKPKhRggsNpzsxtxLUYbe1Wnk3irNS17B5b7r/UrMWsAmTSmgq8ucVYDplFpGC
-	kLpr73aGAHfxzShbMEHGc1jdz/cs/jADFZccEQvWPVQe1UOv7QBl9lqLQrc03p6l
-	OmHFqWnY70xOsBrPZpegQKwv4+Y0ledi5T94T/AeAA26GJP94AsbTZqsgXjCw0FQ
-	055wVNVp4YaxxA6Au73Sxwv/xt7CoIK+SeKNBXS/KRWPuHs3ySc37h1qyMw0bf1w
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf4cr4t2n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 26 Feb 2026 07:04:44 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61Q3Pf8u030256;
-	Thu, 26 Feb 2026 07:04:43 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cfrhkhqeg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 26 Feb 2026 07:04:43 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61Q74gJk18219572
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 26 Feb 2026 07:04:42 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4D34358043;
-	Thu, 26 Feb 2026 07:04:42 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B52B058055;
-	Thu, 26 Feb 2026 07:04:40 +0000 (GMT)
-Received: from [9.109.198.198] (unknown [9.109.198.198])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 26 Feb 2026 07:04:40 +0000 (GMT)
-Message-ID: <20114be6-d1f7-4678-be25-90016e864c1e@linux.ibm.com>
-Date: Thu, 26 Feb 2026 12:34:35 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nvme: fix unmatched id's under delayed path deletion
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de
-Cc: Keith Busch <kbusch@kernel.org>
-References: <20260225202109.447144-1-kbusch@meta.com>
- <20260225202109.447144-2-kbusch@meta.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260225202109.447144-2-kbusch@meta.com>
+	Thu, 26 Feb 2026 08:07:19 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id d63d3aa3 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 26 Feb 2026 09:07:10 +0100 (CET)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ML3MA2oWcaRf6AKLRMzQv970ePCOii-Y
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA1NyBTYWx0ZWRfXzscsrQDQ1i5y
- 0MTwNsj5h+g2ePQI0i0YWEd8TvhBLvnuZnpdW/mmAHw1rP206iI5/gYhB2u/ZFS0rWDc4L0pGzB
- p3cQ+GzdKJYlu58XpWotolKMtgtEGNKHUOAIB2/REo11BStaEuDx+bKSqMBRkf8M8iU2mcrRB4v
- Y6JPZUhJ8AXHiXb18+bliZR0+tII69xi3gnbwJgQRA6BGW9bNV3/xsGz+hXuzCclbhuTG0tz2ER
- 1B/CuS9VIW64vqeeVw7OxBXrCn3oG/P/AVgaIMlfgO/nIEBz3GSe4LjlW5t3S33C+Org/dH9SO8
- +OUfJGyZ7NVnYGScV3KxwVEodRHff13FdqRZEYBSXmioqbDiVRhdMtizhbXWRoIAc3eZTiBQnEb
- 4sgG34oy1af2dsOqNyFPxLygfYOSEzk3csSoML5Krd6wl5rE0DXiP40UwvFv9O+ioPQEcPJEsfU
- v5SStYOyVgRgGBCqLDQ==
-X-Proofpoint-GUID: ML3MA2oWcaRf6AKLRMzQv970ePCOii-Y
-X-Authority-Analysis: v=2.4 cv=bbBmkePB c=1 sm=1 tr=0 ts=699ff08c cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=-h7Xec-tAQGfP5JERJ8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602260057
+Date: Thu, 26 Feb 2026 09:07:10 +0100
+Message-Id: <DGOQMFJJ6K5P.3KLF45WQT2SAS@arkamax.eu>
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Keith Busch" <kbusch@kernel.org>, "Maurizio Lombardi"
+ <mlombard@redhat.com>
+Cc: <hch@lst.de>, <hare@suse.de>, <chaitanyak@nvidia.com>,
+ <bvanassche@acm.org>, <linux-scsi@vger.kernel.org>,
+ <linux-nvme@lists.infradead.org>, <James.Bottomley@hansenpartnership.com>,
+ <mlombard@arkamax.eu>, <jmeneghi@redhat.com>, <emilne@redhat.com>,
+ <bgurney@redhat.com>
+Subject: Re: [PATCH V3 0/3] Ensure ordered namespace registration during
+ async scan
+X-Mailer: aerc 0.21.0
+References: <20260225161203.76168-1-mlombard@redhat.com>
+ <aZ9sjbZ3CEW_1rW1@kbusch-mbp>
+In-Reply-To: <aZ9sjbZ3CEW_1rW1@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_230446_647278_123EBF35 
-X-CRM114-Status: GOOD (  22.92  )
+X-CRM114-CacheID: sfid-20260226_000714_590388_7585DBBC 
+X-CRM114-Status: GOOD (  21.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,66 +66,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Wed Feb 25, 2026 at 10:41 PM CET, Keith Busch wrote:
+> On Wed, Feb 25, 2026 at 05:12:00PM +0100, Maurizio Lombardi wrote:
+>> The NVMe fully asynchronous namespace scanning introduced in
+>> commit 4e893ca81170 ("nvme-core: scan namespaces asynchronously")
+>> significantly improved discovery times. However, it also introduced
+>> non-deterministic ordering for namespace registration.
+>>
+>> While kernel device names (/dev/nvmeXnY) are not guaranteed to be stable
+>> across reboots, this unpredictable ordering has caused considerable user
+>> confusion and has been perceived as a regression, leading to multiple bu=
+g
+>> reports.
+>
+> The nvme-pci driver also probes the controllers asynchronously, which
+> can also create non-determinisitic names. Is that part not a problem?
+
+Potentially, it is. The difference is that so far no one ever complained
+about it, while with namespace async scanning we immediately received regre=
+ssion
+reports, to the point we had to revert the changes and restore the
+sequential namespaces scan in RHEL.
+
+>
+> Just on the suffix part of the namespace's block handle, I have a
+> potential alternate suggestion here. The instance names pulled from the
+> ida guarantee we'll always have unique names for the lifetime of the
+> backing kobject. I introduced that a while ago, but I'm testing this out
+> now and it seems kobject_del is sufficient to reuse that name. The
+> driver already did that to all the objects when deleting the namespace,
+> so there doesn't appear to be a reason to wait for the final
+> kobject_put.
+>
+> What I'm saying is I may have been mistaken about the naming collision
+> issues and we can just use the head's ns_id to get a consistent and
+> meaningful name based off the backing namespaces. There's some unlikely
+> races with multipath at the moment if we did use ns_id, but I think
+> they're all fixable.
 
 
-On 2/26/26 1:51 AM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
-> 
-> The NVMe controller is allowed to reuse an NSID for a new namespace after
-> deleting the previous namespace that had been using it. The delayed removal may
-> have the stale namespace head in the subsystem list pending the timer, which
-> would cause the scan to falsely report an ID mismatch error for the new
-> namespace. Flush the pending removal work and retry to resolve this.
-> 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  drivers/nvme/host/core.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 3de52f1d27234..e731d3182f095 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3966,6 +3966,7 @@ static int nvme_global_check_duplicate_ids(struct nvme_subsystem *this,
->  
->  static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
->  {
-> +	bool retry = IS_ENABLED(CONFIG_NVME_MULTIPATH);
->  	struct nvme_ctrl *ctrl = ns->ctrl;
->  	struct nvme_ns_head *head = NULL;
->  	int ret;
-> @@ -4008,6 +4009,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
->  		ctrl->quirks |= NVME_QUIRK_BOGUS_NID;
->  	}
->  
-> +again:
->  	mutex_lock(&ctrl->subsys->lock);
->  	head = nvme_find_ns_head(ctrl, info->nsid);
->  	if (!head) {
-> @@ -4033,6 +4035,22 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
->  			goto out_put_ns_head;
->  		}
->  		if (!nvme_ns_ids_equal(&head->ids, &info->ids)) {
-> +			/*
-> +			 * A newly created namespace can reuse an NSID that was
-> +			 * previously deleted. If the head has no active paths,
-> +			 * it is pending delayed removal and still occupying
-> +			 * this NSID in the subsystem list. Flush the removal
-> +			 * work to clear the stale head and retry.
-> +			 */
-> +			if (retry && list_empty(&head->list)) {
-> +				mutex_unlock(&ctrl->subsys->lock);
-> +				flush_delayed_work(&head->remove_work);
-> +				nvme_put_ns_head(head);
-> +				retry = false;
-> +				goto again;
-> +			}
-> +
-> +			WARN_ONCE(list_empty(&head->list));
+Ok, so you'd like to use the namespace's NSID as the suffix.
+I also considered this approach, the reason I didn't implemented
+it is that I wished to have the async namespace scan performance improvemen=
+ts
+while preserving the same enumeration we had for years with the sequential =
+scan:
 
-We need to replace WARN_ONCE with WARN_ON_ONCE (as you already mentioned 
-in another thread), so with that change applied, this looks good to me:
+Before the introduction of the async scan, /dev/nvme0n1 always pointed
+to the first entry of the NSID list, /dev/nvme0n2 to the second
+entry and so on.
 
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+With your proposal, if a user has sparse NSIDs (1, 10, 333)
+then he will get /dev/nvme0n1, /dev/nvme0n10, /dev/nvme0n333.
+On one hand, yes, they are "more stable" and more meaningful too,
+on the other hand this breaks the assumption of contiguous naming.
+This might not be a problem for the mainline kernel, but I suspect we
+will have people complaining again that the /dev/nvmeXnY enumeration change=
+d
+
+Maurizio
+
 
 
