@@ -4,84 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F9EEFD45F9
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 02:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52C5EFD45F9
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Feb 2026 02:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hJmYuxjS0nD2lV0lsEQm+chlolOaID++/wSzcaTxkiM=; b=tewE6eHCBTx1iPH51fverTxg6N
-	D+omWFkAB6KfhKHdKN2aBwSTIYlSV04S3UmFOFvy/Ge1dTc3gXf+STpfjJ7GB3bqbc65r7RsAfb69
-	kQM+0yRTUN9AFGY2gQc3gidQQzC1LoC5+mnBPrt53RR3B6hcc72Ej/btJXjBJ8XU+SKKApUtOCDiJ
-	5swLuPecjzKTHvfi4rUoHpBCELS2YTON3KPjjmYdibOmTqHUIapjOpWAFIylCAklzjA9xJffeebmv
-	8eZy9CryjWzCQAnYKsFZnFUF9o6IF2lfE16nhS7nT9ASKN0+EBeiInYruMCfjjuPl4bW1UryzdFpG
-	43Qsnx/Q==;
+	bh=OK6gebS2zeWUFcgGCB0I453C4wArRfkhHizwF6BtE/w=; b=OoPf8RS63Tx/U1EyrgMECXfAzl
+	MR4UaRiFdB5sin7nFxCBeQe6eRvhLXb5mDz9WufGy3pLiiVbCrKvz2sghy0uiAEskBCWMdzdsAkl5
+	EWNOXYN4mRutz4yK1g0T6L8GQ1JRiVDeLP25wFpsuAKMInaHu8/8sq4qjrgMdQ/eOSY6kj9AbKsZZ
+	6g+S8/qluaMYuCNMDQ09nU95nSPxq4aNPSGyM7XuV10QnQjmcYE2z0XLo/pduMxMAxqVYBmJZGimG
+	HTDFIfuBMCmCkJ5ottmtzwwrQRGVjn10TQkXJHGztvALxaUOmIAEHr814knE6ApGTehUZ7/sY4QTx
+	1C7bVbag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvQvf-00000005ELg-311M;
-	Thu, 26 Feb 2026 02:16:39 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vvQvl-00000005EMf-1SlO;
+	Thu, 26 Feb 2026 02:16:45 +0000
+Received: from mail-japanwestazlp170100003.outbound.protection.outlook.com ([2a01:111:f403:c407::3] helo=OS0P286CU011.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvQvd-00000005ELK-140b
+	id 1vvQvg-00000005ELf-33LE
 	for linux-nvme@lists.infradead.org;
-	Thu, 26 Feb 2026 02:16:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772072194;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hJmYuxjS0nD2lV0lsEQm+chlolOaID++/wSzcaTxkiM=;
-	b=gI+pPS8SRqeg08WWx13yJ73L3LDIxGMj9rNnGfNgeHyh0Gx0iMvE7x1GJLRdkF6LiWU6/Y
-	fs+EOo0uN+V0eHafSa58QHHlMySXp1thsXD/nruIIHArDWFuO9dhGjhvwvavw43sHkV8e6
-	b0KDp4xSqFT987vTx0jw4B/otJl8oU4=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-684-kv6YtGLNMKaescy-QcRm1g-1; Wed,
- 25 Feb 2026 21:16:30 -0500
-X-MC-Unique: kv6YtGLNMKaescy-QcRm1g-1
-X-Mimecast-MFC-AGG-ID: kv6YtGLNMKaescy-QcRm1g_1772072188
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EDDCC180057E;
-	Thu, 26 Feb 2026 02:16:27 +0000 (UTC)
-Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (unknown [10.6.23.247])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DA4D13003D88;
-	Thu, 26 Feb 2026 02:16:26 +0000 (UTC)
-Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (localhost [127.0.0.1])
-	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.17.1) with ESMTPS id 61Q2GPtm1678244
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 25 Feb 2026 21:16:25 -0500
-Received: (from bmarzins@localhost)
-	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.18.1/Submit) id 61Q2GO3e1678243;
-	Wed, 25 Feb 2026 21:16:24 -0500
-Date: Wed, 25 Feb 2026 21:16:24 -0500
-From: Benjamin Marzinski <bmarzins@redhat.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
-        hare@suse.com, jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, dm-devel@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/13] libmultipath: Add basic gendisk support
-Message-ID: <aZ-s-JNWBOA1xqVG@redhat.com>
-References: <20260225153225.1031169-1-john.g.garry@oracle.com>
- <20260225153225.1031169-3-john.g.garry@oracle.com>
-MIME-Version: 1.0
-In-Reply-To: <20260225153225.1031169-3-john.g.garry@oracle.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: 2XWEWJ6qFVHm1oOX2vBEpAulVAj0JhPA_Hnej-fWyIQ_1772072188
-X-Mimecast-Originator: redhat.com
+	Thu, 26 Feb 2026 02:16:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CrbztDVVI1nbDcIceqRzIMTXUpTZGW9jJrtJ2l37/wzrYRmfFqhpxYODyEh5xX/4T+1JEPJ5UjvwyAbuH1iPkUzsbxzMKu1fh6u5iXZ/Kqu0nf6t4MPBmg5Djw+8jAr5736gWepE5reW7w8hNn9s/rfH7B9xk432QwmFTbdUugh2MupWDOqiLpSUprBVIIkBZoWQws6D9WBOw5R2uo9llRjncjr/gPVe49g+0N9ERt6UFBrR8rV2hBqP+D5xtamQbadH10IT6olbNYfsJ7RVSZOFkcRSxrjoqvnzhD5MAttqKXxoE86eUXXBifYKnGBQfUeskaHuUK7O11McdVArDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OK6gebS2zeWUFcgGCB0I453C4wArRfkhHizwF6BtE/w=;
+ b=Nm1QpCGy4CnVFsMh7Cy+AMc7sPFiDrarBEkNWV9NF+UE+yLXIPn+5bqPovsvOq380MJiuRZLq7hr2GJYZPdwFCqJFlX+Sk9UGuD9xMXQ99j1vL7y9Z0TfyPUcswqe+Oi7SVCBIDwzTEQvtLlNVDw3jsdIO3VcCmxJPj9mv+1IuMamFRD1VNTOO/6QQd9p9w85TNlhEx6zcpn5Z0RUFa8aJO6hmiJ7CKJsE5r9SieF5krDI6Zv1dbvCaBbPXi8qaExPC1zfz7i/blRMWVzdpXv5i0e0jpaX2Na2Vd7NMdOgNVgpHtp9lSu4cDotvZZw8On2prFziLk9X+ClZnQBZwBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OK6gebS2zeWUFcgGCB0I453C4wArRfkhHizwF6BtE/w=;
+ b=djV9672M97SZ4hgvw3/Sg9RHAQ/xP28fg57TbQjnzLMCRm/umLE9isA44GQwZJzMSQEomYpi30AA+oXOb94GxpP9QXXlEfEUZLnaOZRJ9Gmvin1RlNRXhWnG6vfHLNpHzYKufRFjn1b5h8YMTycGJEZ8Vg/JpGVixZpRUf1jJz0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by OS9P286MB7487.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:454::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Thu, 26 Feb
+ 2026 02:16:27 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9632.017; Thu, 26 Feb 2026
+ 02:16:27 +0000
+Date: Thu, 26 Feb 2026 11:16:26 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Christoph Hellwig <hch@lst.de>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, imx@lists.linux.dev
+Subject: Re: [PATCH v2 04/11] dmaengine: dw-edma: Remove ll_max = -1 in
+ dw_edma_channel_setup()
+Message-ID: <esdpmy46hffpg577hd67rxmpkfm3agrzrginegi2rczbwvdnlb@urqmwhh3kuff>
+References: <20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com>
+ <20260109-edma_ll-v2-4-5c0b27b2c664@nxp.com>
+ <6d6c222faypvbo6fvs7tad2gtzxqqzlsjkrbefwmgxodt5thbc@lylpaqxozrg7>
+ <aZ8YpKPqSjzDtomb@lizhi-Precision-Tower-5810>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <aZ8YpKPqSjzDtomb@lizhi-Precision-Tower-5810>
+X-ClientProxiedBy: TY4PR01CA0101.jpnprd01.prod.outlook.com
+ (2603:1096:405:378::11) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OS9P286MB7487:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7ff1df6-341d-43f8-ddf8-08de74dd0c04
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|10070799003|7053199007;
+X-Microsoft-Antispam-Message-Info: BAZ7/4nXzs77MFNpkQ7ovXc4f9tMpJAdqPvtUO8/oUPF5sKTb4em/DpMqSoVyidGMZb+WvTDMg0N3CtzQeW1bu5uvEBUF5nDKkyRhvQM7AgH7wvJVLqRfcklZaqCvNSE7OK0Dl8D6vqk4/FY7R6XDkDri+bMHMaQyfGJ+BxotEK4I4n3hidtovhKMylDfzDn2BlhuVr07uAbMqc/SGiM0dz2RvBZqnWByhSjPATNI9vvfygtig098ZegynOcDddJPdEhDHGi0OuVNt2p/Siztg4Sbff/rRNszzWoRx57UbgdsAXtiY9n3xrN4DwrYs9zo/FdLJrkW+g3k7mEoKlG/QwG5MhyOpsbst2CpwSe8yB0huDrHfCTqP7up1Vv/+u1p+JrX/JMYU7+9FTBMVPHeYKWmq/TMQYKZaOh443LD+m5CqsYqnNNAZ2N8F5z4WwMdC6lJgVp1XbJqOxrvSqwb7RVdyYGINY5NP7Xc7wEJaTC19vggBhHwxnEundx/hvRkHuOhOUsv1Kq1yN44sju0UhQTg31hEy9dtmB69+IWjINbpXgp5eABAd+DaxcbEDF5MdneiIv5cQBZpKzeBPZAy5CjzA3yiBmKaumn0a3Ibm1zRcGm6EAx0XAmLG8iIofxoHNmDbdkMbOuV/og/a1D9o64C+QR3ZfeA4UP33Wnlh9cr27XNRcwM288K9bI8mnjaxGpQtwLWXynwGlkHxxTlUUgCvbHTQFtB0A+N40g9w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(10070799003)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uWK9A1UIv7OMQR9/BKUu0g/RZSb4DJSMiWpG8Lrh+3YJeoebtyCOdO8IqDyk?=
+ =?us-ascii?Q?rR1q8vFitH0x/5eNYbIiduRz9cvzGUoS+VOTPEJHDnLx15ME4YpTpezfRxeI?=
+ =?us-ascii?Q?mLutfDredvVUQa6oP1xi8g9oZPNV5eSkvwm4kTNCZBySSw2UzH5aBvuXnwJc?=
+ =?us-ascii?Q?+tIn9A6tuxBf4qJa5WoabZJIbb7CoeX2RfKgx/6BUM+S/1NW5PZ5w6+TzZ6J?=
+ =?us-ascii?Q?y5LbIHCTbuVhacdKsC5tmCeLQAc9KJVBmWy7Fm3zARcahRoT3TcY6kIr3RTH?=
+ =?us-ascii?Q?o+cOiI1exDIOPfrxg9CQ1RbbUaLQpi7TfFdyZN02rigow7paFnpekJW9DcZo?=
+ =?us-ascii?Q?+7/0RS8RjU1Rv0mnsWAPwPfUTU562okzhxqFLu/zB3D12fGk2U7dQb4S3ahR?=
+ =?us-ascii?Q?rhRi6anDFjZfbOpBYNKO/ouD7RZga6mHKV5ZjGjBZGMSVKE3MF7zwZzB/7sS?=
+ =?us-ascii?Q?1wZjzWN6gCTZoknUjxnjGghM5TS74YsVQAsrpXxNTRP7viLATQQonMDqJfhq?=
+ =?us-ascii?Q?YlUdKR194ZHJXFIvQvCnjEMd61NCRD6GQoDAehYxTfFwC3eVXG1XPitY2gyw?=
+ =?us-ascii?Q?A+4+xRIlpMUlv4ee0EE5aFAlSs5yC2fjVNvxD6KYs5hKAHoWq6kgA1DahAn6?=
+ =?us-ascii?Q?mIFCcB/0urxRYsfY2du6OaUuutZd0RKJVjb2XkYClJ5nGJnTFoP8zBklN0/O?=
+ =?us-ascii?Q?42BorGWdy4nyxiqxRfM+ZK+VcGQvS6UB+qrmez68RpJtRvYt6RfFmXSVRJQU?=
+ =?us-ascii?Q?rsifRAgdTQgQ8DXvvHGKi1oAB+/k2nQFfr7nAMGgPH6VdwIkmkKxmzWTeVw0?=
+ =?us-ascii?Q?j4e5JweYBbhDpjiRRZ5pT7yW/UPqjCnGsBQ044jGQNeh6FIpxgYgwDPMUfvW?=
+ =?us-ascii?Q?5WI3xLhif6Yh+/cpm1IsQv9P3idebVSMScF76pC5H3PGX0nsVBaBNcqZpSsn?=
+ =?us-ascii?Q?Q4w83aC/opK1yw5Nuqa1fnhxHfEnk8qoy8L55kvQj9gsERILRvnGlRTm41cu?=
+ =?us-ascii?Q?DsnJEBjKTRXylkCeiJlF4BrLNS8DYwiiuc0ndZZ/X+Q6VlZEF/vdK9/YP510?=
+ =?us-ascii?Q?GPHbm2WFJMRHmqRjTyJqOi62sppF2tGS8DTceb+phBD9JI8ZxMVf8K1khpWz?=
+ =?us-ascii?Q?ab/tXHBw8mhoDHjx/rEud6bAT/Q8Gd9pGfPwbXAuBCU3tv+5hBYshjXGBGDl?=
+ =?us-ascii?Q?TG5Pg7laVUemrJWPuDo/h82SckXbe82PtGLE8vFlQs2Wyp6MzD9U65vqTlkR?=
+ =?us-ascii?Q?taWkVN2LqbCGdMO5YMm+BC+ixi7ArfnjKudrZdW2/ZQjRyVT20PwDhWUzKLq?=
+ =?us-ascii?Q?Uz6XCpcvTrY7m9j/nfzt82FOaUjHB4c2f2g3ro5cGlN9ujbtPPicw3ESV06U?=
+ =?us-ascii?Q?0l+yfBV3X6qugaLqsyS32QYsrZT9hT+h70SHnU8WtJLYLo5VQm/EZYVGaF3A?=
+ =?us-ascii?Q?j20kIQcG+w6/9eXE+xXYyW5cSaftCtsfzw+NiocLbkk35VtOd3isPKVtHVah?=
+ =?us-ascii?Q?hnxQNPiX9gU3FIx3Q2sf12//eK9W1dl/j14ZbF4pha+1yGEyzsh6VlsqH7si?=
+ =?us-ascii?Q?ZFt0hppcE7u9YrjT3FC4LVMBtzMZaOlMh1vaAGinp4UU4h+vPJX58bBANY8r?=
+ =?us-ascii?Q?iJqWvkRPMCqOw5f4vZfK3fMrSp360avFrALruKvbtG/4fIJ6dai8Qn83Xiva?=
+ =?us-ascii?Q?6NXD/AMMHjg3mUqCCdNjUXb/zIGp5V3WHA3gr/oelcrAfDne18OhhK8Tga69?=
+ =?us-ascii?Q?IyXa4NK45SBKjWF9gE2ZzdsvI+7nyi/nzDfCz2glhbhzkxrc0mrB?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7ff1df6-341d-43f8-ddf8-08de74dd0c04
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 02:16:27.2777
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qD9UCa7jpB5/YXm89/Wc+B62oBvvLzIfjjzW8vWpU7yyfjmGTTEuSwPWqTlUsOghYuGPDUHLR+gvHzQYfnpu/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9P286MB7487
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260225_181637_359926_EF5393E7 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20260225_181640_795861_0AA50BD0 
+X-CRM114-Status: GOOD (  25.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,52 +144,60 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 25, 2026 at 03:32:14PM +0000, John Garry wrote:
-> Add support to allocate and free a multipath gendisk.
+On Wed, Feb 25, 2026 at 10:43:32AM -0500, Frank Li wrote:
+> On Wed, Feb 25, 2026 at 05:30:33PM +0900, Koichiro Den wrote:
+> > On Fri, Jan 09, 2026 at 10:28:24AM -0500, Frank Li wrote:
+> > > dw_edma_channel_setup() calculates ll_max based on the size of the
+> > > ll_region, but the value is later overwritten with -1, preventing the
+> > > code from ever reaching the calculated ll_max.
+> > >
+> > > Typically ll_max is around 170 for a 4 KB page and four DMA R/W channels.
+> > > It is uncommon for a single DMA request to reach this limit, so the issue
+> > > has not been observed in practice. However, if it occurs, the driver may
+> > > overwrite adjacent memory before reporting an error.
+> > >
+> > > Remove the incorrect assignment so the calculated ll_max is honored
+> > >
+> > > Fixes: 31fb8c1ff962d ("dmaengine: dw-edma: Improve the linked list and data blocks definition")
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > ---
+> > >  drivers/dma/dw-edma/dw-edma-core.c | 1 -
+> > >  1 file changed, 1 deletion(-)
+> > >
+> > > diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
+> > > index c6b014949afe82f10362711fc8a956fe60a72835..b154bdd7f2897d9a28df698a425afc1b1c93698b 100644
+> > > --- a/drivers/dma/dw-edma/dw-edma-core.c
+> > > +++ b/drivers/dma/dw-edma/dw-edma-core.c
+> > > @@ -770,7 +770,6 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
+> > >  			chan->ll_max = (chip->ll_region_wr[chan->id].sz / EDMA_LL_SZ);
+> > >  		else
+> > >  			chan->ll_max = (chip->ll_region_rd[chan->id].sz / EDMA_LL_SZ);
+> > > -		chan->ll_max -= 1;
+> >
+> > Just curious: wasn't this to reserve one slot for the final link element?
 > 
-> NVMe has almost like-for-like equivalents here:
-> - mpath_alloc_head_disk() -> nvme_mpath_alloc_disk()
-> - multipath_partition_scan_work() -> nvme_partition_scan_work()
-> - mpath_remove_disk() -> nvme_remove_head()
-> - mpath_device_set_live() -> nvme_mpath_set_live()
+> when calculate avaible entry, always use chan-ll_max -1.  ll_max indicate
+> memory size, final link element actually occupted a space.
+
+After the entire series is applied (esp. [PATCH v2 10/11] + [PATCH v2 11/11]),
+yes, that makes sense to me. My concern was that before the semantics of
+"ll_max" changes, this "-1" was required. In other words, this seemed to me not
+a fix but a preparatory patch. Please correct me if I'm misunderstainding.
+
+Thanks,
+Koichiro
+
 > 
-> struct mpath_head_template is introduced as a method for drivers to
-> provide custom multipath functionality.
-> 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> ---
-> +
-> +void mpath_device_set_live(struct mpath_disk *mpath_disk,
-> +			struct mpath_device *mpath_device)
-> +{
-> +	struct mpath_head *mpath_head = mpath_disk->mpath_head;
-
-You're dereferencing mpath_disk here, before the check if it's NULL.
-
--Ben
-
-> +	int ret;
-> +
-> +	if (!mpath_disk)
-> +		return;
-> +
-> +	if (!test_and_set_bit(MPATH_HEAD_DISK_LIVE, &mpath_head->flags)) {
-> +		dev_set_drvdata(disk_to_dev(mpath_disk->disk), mpath_disk);
-> +		ret = device_add_disk(mpath_disk->parent, mpath_disk->disk,
-> +				mpath_head->mpdt->device_groups);
-> +		if (ret) {
-> +			clear_bit(MPATH_HEAD_DISK_LIVE, &mpath_head->flags);
-> +			return;
-> +		}
-> +		queue_work(mpath_wq, &mpath_disk->partition_scan_work);
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(mpath_device_set_live);
-> +
->  struct mpath_head *mpath_alloc_head(void)
->  {
->  	struct mpath_head *mpath_head;
-> -- 
-> 2.43.5
-
+> Frank
+> >
+> > Best regards,
+> > Koichiro
+> >
+> > >
+> > >  		dev_vdbg(dev, "L. List:\tChannel %s[%u] max_cnt=%u\n",
+> > >  			 str_write_read(chan->dir == EDMA_DIR_WRITE),
+> > >
+> > > --
+> > > 2.34.1
+> > >
 
