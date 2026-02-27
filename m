@@ -4,108 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C35E9FD5302
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 06:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF7F0FD5307
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 07:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=AD3Ii58wV2EOha1wfYeoozeOXdglQUIps6n1ldhCb4k=; b=iYF5U8U+9LcRWiVIiNBO7xINiI
-	P+AhXdThNGJzia05p/KY+cC8+KaRwnYwykZVjYsBxHpYoNwKUJT4RG6YBhv8DxVSlqiAMze8DMTxT
-	6pTNHMHCl01nGEZzH2Af5m/tX/M3pDg5HO2Z/BQfH7EQ/N9mk2jtIsbYdWCv7iBAvz0BsnPKe0O9L
-	GuS3LpoVmVI7Z89N15bYSZHHC73vmbu9j47pKyE8YBKQowbuKlLlafmm+JfGqv41U8uEDLoN5UrHg
-	aqqSic9pEwGQ1MVEO2Q6q9bxcaXo6adOVdORiBihqj0o/CIUBgaMKcoUvG4ck2ae/J8J6xOHG6NnM
-	LY/81RjA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fyUxa9nDlaRndLSANamFyrxOUS552dD8cf4pJRT62ww=; b=rFmTEiEF6HDDT0tTHqpg9u5jeH
+	3E0Sf21/8FdDnCM6gxVaaD+J/0qAsptkXglZG0D3iRSRsff5jihLV9r6LdKbijEirjSM/6tVnPW6R
+	LcqsCN9zkPMibwBT/5Y9Qs0sElu1SBEU4fnGLK/2lg+ZQQ7Gne9K8DIxy9HJuKoXQTqpx4Ht3elHS
+	XwjFP4d3Mw7mZKui5IiYMLSW7CgMx/ftAMnsyxP++M2DjFcsqB9UUwvtb2b6B9k0hQEKpRT4UlAvE
+	9Tszxgr++IVkCXLQ8VM4Ln9bQZUF4NKMbhjcqMqVfD/9cX/RSunzd37q4K498QAxPa8ZRsUlxFnan
+	/alZZKqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvrof-00000007qM2-2BG4;
-	Fri, 27 Feb 2026 06:59:13 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1vvsiM-00000007vFa-1oMA;
+	Fri, 27 Feb 2026 07:56:46 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvroc-00000007qLF-1vet
+	id 1vvsiK-00000007vEy-0WmH
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Feb 2026 06:59:11 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61R4aWev2346005;
-	Fri, 27 Feb 2026 06:59:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=AD3Ii5
-	8wV2EOha1wfYeoozeOXdglQUIps6n1ldhCb4k=; b=ZK7iC3YUc2f4IYYqtG3Vhr
-	GJMs8bjcWImD9w7UIX3R9pnH76ZLyvOsSNrIES1xUld3pROYOP0gSjxhL6Rytyd5
-	oIv51/wV1RP1afwgYjPWnQVks2pWzDsv6LNAZpn2j+wZNxQXP61LNCxyGz6M7chk
-	9FpcV14Qqh+bh2hLaUXjWpre9qwnMSzQ3tELoJMDDzxtugjjYf1ywBggwXFK15M4
-	hjAhGtZn31qm1wMo4X+11IBVOVpj6QMx/ztB5YMO3dBzdqJJIphLYwlUCWyFmmrB
-	Jhrq+RUhwcexKhg/hY0/0wYo21ateM8AWMmPszE+X15Cx4jVmQqGiNQ2PpbLOxNg
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ch8590q60-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 27 Feb 2026 06:59:07 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61R6ZHbq013406;
-	Fri, 27 Feb 2026 06:59:06 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cfqdygtnt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 27 Feb 2026 06:59:06 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61R6x6b021627512
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Feb 2026 06:59:06 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 24EF558060;
-	Fri, 27 Feb 2026 06:59:06 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 73F385803F;
-	Fri, 27 Feb 2026 06:59:03 +0000 (GMT)
-Received: from [9.43.3.109] (unknown [9.43.3.109])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 27 Feb 2026 06:59:02 +0000 (GMT)
-Message-ID: <7797a6a3-d47d-440c-a580-40bae546728a@linux.ibm.com>
-Date: Fri, 27 Feb 2026 12:29:00 +0530
+	Fri, 27 Feb 2026 07:56:45 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D06EE5BD5E;
+	Fri, 27 Feb 2026 07:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772178999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fyUxa9nDlaRndLSANamFyrxOUS552dD8cf4pJRT62ww=;
+	b=anIH+pJxbiQXf/Til0aBlKalAOzuhANQ9s0xY+c3wak+rHsCjAX+9D99w/VOAkzSZsCynA
+	IOwToNS89d9dypwcavoQIHaw/qLwEBXAxkAKCxCpYLyEwqnUIvXy/tMT1JGoXxMv1w71c2
+	UUnt+T6iPdWWGKqkeadcgqQDUnK63Cc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772178999;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fyUxa9nDlaRndLSANamFyrxOUS552dD8cf4pJRT62ww=;
+	b=1NUkLgbPiIv0P8LiJxRBN7t26+sTSaex509a+UXSyJrq3LpZHpDyN9zT8dSSyNt944E2jK
+	ez2I9pADtEDRQOAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SvMVMsaR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1F3u3Fp0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772178998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fyUxa9nDlaRndLSANamFyrxOUS552dD8cf4pJRT62ww=;
+	b=SvMVMsaRPCQk4QpTGbtmTiNT+hYfg1ciznrN+ApyngfG2VwPoNirfz0k5JVYwKHuhhn+tP
+	3YcBQkZslhQx8LzEtZhpoouhYHriCccs7cDIs2EzSArS54WAh/hBkjk7LssVtf3/phzJoE
+	7/oRJ7xI8KMg2++DGw3DqY9zTxMr3QQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772178998;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fyUxa9nDlaRndLSANamFyrxOUS552dD8cf4pJRT62ww=;
+	b=1F3u3Fp00PdutustvzT5pEz4cjtvxKaJY3Gkzqodfdb6ry/eGMxS7KWnvv0BKtFKmz7EbN
+	IpHfy6ul0PWHcMBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BE7D33EA69;
+	Fri, 27 Feb 2026 07:56:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6atDLTZOoWmPOAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Fri, 27 Feb 2026 07:56:38 +0000
+Date: Fri, 27 Feb 2026 08:56:38 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, nilay@linux.ibm.com, 
+	hare@suse.de, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH V3] nvme-tcp: teardown circular lockng fixes
+Message-ID: <ec3cdaa2-1f39-4301-a0bb-846243c9d5da@flourine.local>
+References: <20260226025658.86496-1-kch@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2 2/3] nvme-multipath: rescan siblings on last path
- removal
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de
-Cc: Keith Busch <kbusch@kernel.org>
-References: <20260226183216.2098584-1-kbusch@meta.com>
- <20260226183216.2098584-3-kbusch@meta.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260226183216.2098584-3-kbusch@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDA1NSBTYWx0ZWRfX+Qru6hcnCa0e
- 5y9et9uwVN5bD+80LlUXeZwHfCcMCT0qyxBLW0MSjMGYebPteteRH2CeFZbk6KV5wn03HkGvU1h
- DDZrzVmYgbClnQ6AmL4yilUiZ/aoaZ5f660yC/0Q5NBIaI0xnvVSOJLZU2RZ/WF8iDmRzCGpUUj
- vF7cNOMuhianpfqWAcHLGAmZz8PPAF0tYnKDfyC1MjpyO3ZVgE/4MLntc/ohRBFvznp/ji0Eszu
- gW8JMJf9C9Q9j+hLUaulCo78bFSxCmWhGP1R8bPjicG/C4W2IW/OxviyTF+v9Di2ypwfqwJgQYf
- /muoIhhH9pLxVYKeRN6hwTbXEOXj2i2TcZThvZmGva91LlfWS/IwUJiQQzRxQzPwBaYYeXhw13x
- f3PY7h6izYOABvDdkuASpmvydHs7WolzRSmUrzH2o6WVFiGJgm0LXNlzbH7EyN5q3hXoVu8gh2O
- jg5k/UAPUL5OY2dLLfA==
-X-Proofpoint-GUID: X3NvkXbR6K1XrSC8JTR1JrhzcVgRzA0_
-X-Authority-Analysis: v=2.4 cv=S4HUAYsP c=1 sm=1 tr=0 ts=69a140bb cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
- a=FD-8ndJGWIHSRaxKiq4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: X3NvkXbR6K1XrSC8JTR1JrhzcVgRzA0_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-27_01,2026-02-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 impostorscore=0 malwarescore=0 bulkscore=0
- phishscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602270055
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226025658.86496-1-kch@nvidia.com>
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: D06EE5BD5E
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260226_225910_648521_61A27C5A 
-X-CRM114-Status: GOOD (  27.14  )
+X-CRM114-CacheID: sfid-20260226_235644_336982_DCECC010 
+X-CRM114-Status: GOOD (  15.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,88 +135,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-
-On 2/27/26 12:02 AM, Keith Busch wrote:
-> From: Keith Busch <kbusch@kernel.org>
+On Wed, Feb 25, 2026 at 06:56:58PM -0800, Chaitanya Kulkarni wrote:
+> When a controller reset is triggered via sysfs (by writing to
+> /sys/class/nvme/<nvmedev>/reset_controller), the reset work tears down
+> and re-establishes all queues. The socket release using fput() defers
+> the actual cleanup to task_work delayed_fput workqueue. This deferred
+> cleanup can race with the subsequent queue re-allocation during reset,
+> potentially leading to use-after-free or resource conflicts.
 > 
-> When a controller's scan removes the last path to a multipath namespace
-> head, sibling controllers in the same subsystem may need to rescan. A
-> concurrent scan on another controller could have encountered the stale
-> head with mismatched identifiers (e.g. from a recycled NSID) and failed
-> to set up the namespace. Without notification, the sibling won't retry
-> until the next AEN or explicit rescan.
+> Replace fput() with __fput_sync() to ensure synchronous socket release,
+> guaranteeing that all socket resources are fully cleaned up before the
+> function returns. This prevents races during controller reset where
+> new queue setup may begin before the old socket is fully released.
 > 
-> After a scan that performed last-path removals, notify all controllers
-> in the subsystem to rescan by requeueing their scan work. This ensures
-> that recycled NSIDs are promptly discovered by sibling controllers.
+> * Call chain during reset:
+>   nvme_reset_ctrl_work()
+>     -> nvme_tcp_teardown_ctrl()
+>       -> nvme_tcp_teardown_io_queues()
+>         -> nvme_tcp_free_io_queues()
+>           -> nvme_tcp_free_queue()       <-- fput() -> __fput_sync()
+>       -> nvme_tcp_teardown_admin_queue()
+>         -> nvme_tcp_free_admin_queue()
+>           -> nvme_tcp_free_queue()       <-- fput() -> __fput_sync()
+>     -> nvme_tcp_setup_ctrl()             <-- race with deferred fput
 > 
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
-> ---
->  drivers/nvme/host/core.c | 19 ++++++++++++++++++-
->  drivers/nvme/host/nvme.h |  1 +
->  2 files changed, 19 insertions(+), 1 deletion(-)
+> memalloc_noreclaim_save() sets PF_MEMALLOC which is intended for tasks
+> performing memory reclaim work that need reserve access. While PF_MEMALLOC
+> prevents the task from entering direct reclaim (causing __need_reclaim() to
+> return false), it does not strip __GFP_IO from gfp flags. The allocator can
+> therefore still trigger writeback I/O when __GFP_IO remains set, which is
+> unsafe when the caller holds block layer locks.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 3de52f1d27234..5bb4b18511b7b 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4262,8 +4262,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->  	mutex_unlock(&ns->ctrl->namespaces_lock);
->  	synchronize_srcu(&ns->ctrl->srcu);
->  
-> -	if (last_path)
-> +	if (last_path) {
->  		nvme_mpath_remove_disk(ns->head);
-> +		set_bit(NVME_CTRL_SCAN_REMOVED_NS, &ns->ctrl->flags);
-> +	}
->  	nvme_put_ns(ns);
->  }
->  
-> @@ -4530,6 +4532,21 @@ static void nvme_scan_work(struct work_struct *work)
->  	}
->  	mutex_unlock(&ctrl->scan_lock);
->  
-> +	/*
-> +	 * If the scan removed the last path to a namespace, notify all
-> +	 * controllers in the subsystem to rescan. A controller that is
-> +	 * concurrently scanning may have missed the namespace due to the
-> +	 * stale head still occupying the NSID in the subsystem list.
-> +	 */
-> +	if (test_and_clear_bit(NVME_CTRL_SCAN_REMOVED_NS, &ctrl->flags)) {
-> +		struct nvme_ctrl *tmp;
-> +
-> +		mutex_lock(&ctrl->subsys->lock);
-> +		list_for_each_entry(tmp, &ctrl->subsys->ctrls, subsys_entry)
-> +			nvme_queue_scan(tmp);
-> +		mutex_unlock(&ctrl->subsys->lock);
-> +	}
-> +
->  	/* Requeue if we have missed AENs */
->  	if (test_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events))
->  		nvme_queue_scan(ctrl);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 9971045dbc05e..e73cc2e67ac51 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -329,6 +329,7 @@ enum nvme_ctrl_flags {
->  	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
->  	NVME_CTRL_DIRTY_CAPABILITY	= 5,
->  	NVME_CTRL_FROZEN		= 6,
-> +	NVME_CTRL_SCAN_REMOVED_NS	= 7,
->  };
->  
->  struct nvme_ctrl {
+> Switch to memalloc_noio_save() which sets PF_MEMALLOC_NOIO. This causes
+> current_gfp_context() to strip __GFP_IO|__GFP_FS from every allocation in
+> the scope, making it safe to allocate memory while holding elevator_lock and
+> set->srcu.
 
-Should we consider reordering patches 2/3 and 3/3? It seems like this
-patch depends on the changes introduced in 3/3. 
+I gave it a test run on my local machine with blktests and it passed.
+But then, I was not able to reproduce first either.
 
-Without the updates from 3/3, if delayed head removal is still in effect
-and the NSIDs are recycled with mismatched identifiers, a forced rescan
-of the sibling controller may still fail to instantiate the namespace.
-In that case, requeueing the scan alone might not be sufficient.
-
-Thanks,
---Nilay
-
+Reviewed-by: Daniel Wagner <dwagner@suse.de>
 
