@@ -4,114 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29F99FD9E31
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 03:05:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87BCBFD9E34
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 05:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EstLyzavajxQSjr+mlq0lPsb/dLDgYfeCgFO9w4/7Vo=; b=kG1sLRhT+PxklzWBIfVV/+NQXc
-	r+0x6nVUTCnE5zvxIQvbghME6MMO1YeSfnJXLx99zE1CidzoC2BEZP6BHBejde2LGiUa/1IjV9F0z
-	AeJX1/4PJhdiX4YQYaX4MMuvjxVWQPvGrz8IAwuFfQ9TIAuLHP391Ce8GE/h1Nv1TrFpraFd3kRiC
-	bX3X8hHi1Q/pEuzglml8FOQwzyd/9XB5sxZPG1HTugbfluXs1ZB8UKs/gFfYQhJuVrhPz418+blN5
-	l4i9j37INQfwrnaWvFcgnxqkoq2cxf7LlxVjHNuCMnuIBO07rfiGAuUvVyj3mHm4BrXOzl9YJgwkT
-	IntxUDFg==;
+	bh=dbl14ewsJTRR0m2V3h663rFZnwBM4X8TidoOkwLqV/c=; b=F41aHANd/lvf3UuQy3rO3KLblj
+	2I6mdGAUEQMnyqjH7MkGErff1LYN8+MdtU6x2fVjqrM8cWE8O9cOe8VDNmJjFpeet08jCsfTAcqF6
+	owGV0X+KOBs2wC1sGQM32gBhZvn3azUixdBGa0th4GmQUxANdjLcNJPm2M0aaDC/pCKSzulQlLwRT
+	3XMHMw34pWo8UbtDx0oZwZsLOdh64qLa6zB6NZwbFNfnm1OWl9i1nS+uVbb9+3lfoncV2zuOpjSK3
+	NY1ORIkRzjwkftE5Ln2EbMBCSd+baYpGek2ArJBrTLsp3xVufuy73OsN3IVfEf9kiuST26UF+zjUS
+	vwlB8mVg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvoAQ-00000007Z2F-00kL;
-	Fri, 27 Feb 2026 03:05:26 +0000
-Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930])
+	id 1vvqpO-00000007kBr-2p0W;
+	Fri, 27 Feb 2026 05:55:54 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvoAN-00000007Z1s-1dXC
+	id 1vvqpM-00000007kAn-0yBi
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Feb 2026 03:05:24 +0000
-Received: by mail-ua1-x930.google.com with SMTP id a1e0cc1a2514c-94dddb3c3f0so455972241.2
-        for <linux-nvme@lists.infradead.org>; Thu, 26 Feb 2026 19:05:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772161522; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZuBGNb9sbpoqZb3dPRjXZFJhpVVyi35WgIjkoLlD3sa0tyDtEBdnQDjBg2kR9OxTPU
-         43aLjYrFeI55kNJFWl5aWtgtygoN+iA79cvGEhjvZiiDQURzLDFndTOSS/sEfkThXbgm
-         9YsvGQljt3+YDXJgR40icVmNfx9BNXoDz5wPwa4u9Zz6WffG6Vwe3X1xwf2YDA/vVszK
-         7dyx9o9BInY7bEuJRebjj1fK+McyXuuJyoyLE4xkDmqqx2pCaLzMHXchs7Hx/8kxUB+B
-         Sgg7bSq/CgBQdleK+ryAAtu4Q2NSHmApzy4WWrl1ZeqYc/x2JMbJpUNRMy1GYgALSW+Q
-         IHpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EstLyzavajxQSjr+mlq0lPsb/dLDgYfeCgFO9w4/7Vo=;
-        fh=xilbe8FQfWClx2cAdIlp5BAyx8PK2yWF1ll1x5g1vPE=;
-        b=JY/mLPoQYMLtejBmZ0J+Zinns1TGNqpy8W7q8tUqkMRG536bK1AagvUKyHeUt8EwML
-         5ppAmMCDAF5Ht/0j3gd7pjKCwGNB5ELaYlv4uGWj3f3L/QitYm2WjKkiMEzmv5Amr417
-         KZ7kkuDG6vwtF7w0cuUv05OyvwCo0RO97JU0NZerbnOwvqYlULroPCczyczbh6rA2ryJ
-         7V4nX5PhO43qp5X7O9S4eoPuV8G82m3GCUqqqiXkx2xrf0RieCEuww+bs6gRqDkOQgMW
-         EqZ2Rr0Xb+VKti1o/yWam8OGYz/qAJASU/s/dEZi04svo99y03EpDzj1Li89TGJgDvcR
-         ECPA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1772161522; x=1772766322; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EstLyzavajxQSjr+mlq0lPsb/dLDgYfeCgFO9w4/7Vo=;
-        b=Bhu8Dgkf5ECEt+kScwTMc5wO5bby20l5dEgWQG+wF/6SEUIEeXiuY75PiDNSHuHoiw
-         huJJiex6kUg52oI4dK0hZgrapMULdRsve/wQbo91yJNhqNO+j2kP1CciYpS/WpQsecMm
-         /MlpQggnMSZ5LH6RpxU63vjKsbh2YyrxomM/2jyA6BsrKXF31+VepAt6I3BOGqvj20ZL
-         kH/Cvm5+jhZwxMJpV16KrFUhhgW579CNygVFfy/0ThftjzjJMzmrmRTfI340w63B7iGt
-         60aJxIibuKvjjbYRr7g01fQG1E+RJYbgLq+bBip6pLM5tPrH0iU2dn3TNmBY10yXDOXC
-         5D/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772161522; x=1772766322;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EstLyzavajxQSjr+mlq0lPsb/dLDgYfeCgFO9w4/7Vo=;
-        b=uW0rfikNiA/EbzluoX71sd34yxEdiIViu1uOxHBv7hcd8f8jo4EQbOeGA+w62B2mUP
-         APCw33mJHvXiYZCu00myc8UDQtttZNZ1GAFUaXpCfVBbkmJIkKsW77ANI5q1Y4ErACel
-         GeExgqfPt09o57n9QR18wBtOwAP4wKHm4N+iwn3a/nWg5J68f3/cdD0ecp8WderzKlIm
-         ld5pKgRa9CCW98es7MoPLM4DRBS0Sw28iWINsxq9dACHKgjo6dfPUBhDvMXYlMdtQ3mE
-         C3IXmFQctKVsZMNI65L7c2A6FMJv92gDZr2BONr5n8tRsuL61JByAMHUzjcmwm39yMjU
-         cisA==
-X-Forwarded-Encrypted: i=1; AJvYcCVb0HwCfrEvVAGU2VoNB0xW/47WYwINnWmqkeznjry8HktFfRr0+iujw5Jdf5Ju+v+SGGdmUgd0dQw3@lists.infradead.org
-X-Gm-Message-State: AOJu0YyOAp47Si28lcWINmvolkUMbgmcnDyK1Gm7Zk6trxSc/UHEAd3T
-	n67uLHCMkIjCknfI3g4GSDAoXMhdi+Iv+4nyK5yYau4ifwXnRWYQxONg+JOnYSLh2sHuH/C8cB0
-	NIwG087UWdPfHvAAZUisLlTAO8HgbyLU7m0frRPTQTA==
-X-Gm-Gg: ATEYQzySf0lTr0cwfYU+1S2LwMI9jQ/Ysfei7AmEMJBbR+DuRzmYLOJWVaaYO6HsS0V
-	4CicEInQSMr9v9k4j1nj7SYIFAjxrINeYrl76r1ADltt0xt3cbBkYxu29EqNr8SzP594UccF4sW
-	uhNyqVk5x3teRlydgW87H8iieHHhtjTcEY8BQba9C0zE35XokuRj4SR8y0VaJDw+TbsAz4XVE7N
-	tG9dh0TlrMiQw9lGajuY4nD8bxFf9MUm/eSxFHAI7RrQTZOO0pAGZ/7Ow9pFAexDKkIXtOyyx37
-	vXGW7N0cyrsr31DM3SX2L3ErX+2sJRBeJlT+eoqivk462677YWyhZka8LHAx+5cJrUXAww==
-X-Received: by 2002:a05:6102:3e8a:b0:5dd:89af:459b with SMTP id
- ada2fe7eead31-5ff322c4256mr654252137.7.1772161522021; Thu, 26 Feb 2026
- 19:05:22 -0800 (PST)
+	Fri, 27 Feb 2026 05:55:53 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61QKn0lL1936303;
+	Fri, 27 Feb 2026 05:55:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=dbl14e
+	wsJTRR0m2V3h663rFZnwBM4X8TidoOkwLqV/c=; b=k8X6Y5cziY+wo7FJqR/UEB
+	qK9wP4SGGYoAk69OcsGOrf2WU3aufQpxuk7WSJ6INaLkhAIv0y0y6WB6d1a6zszw
+	hSVL8L841O3cPIpZNfrkBAkXh193HcDq6J8pjoaiJT0sHGSZkqRH8e6XWchIvkiC
+	F/qU4lZhgAryxsGODl3M4rtq2xGMn2uyUHMesgwZlSCKoZzndcDjLo8CkrgQJ9rB
+	pQvwJAOXuKSC+rzGIOyyURTH34IdMuvwpnfCNUwXBH1Q6W9LqeM7h7V96jasHykv
+	AfdbW0RRS7ljyTGl6FO+bTXXmKsM1N6/C8yKCahr9U4ZaU1UJ1+gLUqIyWvLsTgA
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf4bsa36p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 05:55:47 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61R4C2KP030267;
+	Fri, 27 Feb 2026 05:55:47 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cfrhkrbrh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 05:55:47 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61R5tPM329295294
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Feb 2026 05:55:25 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C326958064;
+	Fri, 27 Feb 2026 05:55:46 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 02E4858066;
+	Fri, 27 Feb 2026 05:55:44 +0000 (GMT)
+Received: from [9.43.3.109] (unknown [9.43.3.109])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 27 Feb 2026 05:55:43 +0000 (GMT)
+Message-ID: <df61602f-2d34-4283-b5d5-58ab8dfb9b5e@linux.ibm.com>
+Date: Fri, 27 Feb 2026 11:25:40 +0530
 MIME-Version: 1.0
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-19-mkhalfella@purestorage.com> <9d6cf4f9-37d8-4704-bcc1-0b849ad28955@suse.de>
- <20260216184515.GH2392949-mkhalfella@purestorage.com> <3bad149e-a0fa-4377-9701-7b35ef6b5b88@suse.de>
- <20260217153530.GI2392949-mkhalfella@purestorage.com> <CAPpK+O35BBLnQOuPg37v772g7LtOpo6onxENRObUi7C_xLCoPQ@mail.gmail.com>
- <5dd3f2a9-5b8c-4604-a84d-46532b1802fc@suse.de>
-In-Reply-To: <5dd3f2a9-5b8c-4604-a84d-46532b1802fc@suse.de>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Thu, 26 Feb 2026 19:05:10 -0800
-X-Gm-Features: AaiRm51kGTUdWsYFnFR2kNBRTbsID8opSx3V7UF_cYt2YN3RjTrnoCRW2odRlWk
-Message-ID: <CAPpK+O1u2JBpiee+Be3ROT4uSPKuXbJKHrZxBmP2c8xrDWmJdA@mail.gmail.com>
-Subject: Re: [PATCH v3 18/21] nvme: Update CCR completion wait timeout to
- consider CQT
-To: Hannes Reinecke <hare@suse.de>
-Cc: Mohamed Khalfella <mkhalfella@purestorage.com>, Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	James Smart <jsmart833426@gmail.com>, Aaron Dailey <adailey@purestorage.com>, 
-	Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 3/3] nvme: fix unmatched id's under delayed path
+ deletion
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20260226183216.2098584-1-kbusch@meta.com>
+ <20260226183216.2098584-4-kbusch@meta.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260226183216.2098584-4-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: FBE_ESFJboMR1ytzXtayPs8-HwpAsM-8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDA0NCBTYWx0ZWRfX1kKW+XzzUuIq
+ lHJYl/3YrpjM9gS6y+6AR2PmVMtfrW6x/KLHOYjO/NjC3R9asqM01KVUL6HC3SdqYcSCyg36WtV
+ yhaq6+Lpi5s6HUz7Nc4bk/sT2vJ/OZtZ/2A0wW3vV13YkUNzd9uiU7F+cKXgYjXnXwqwl3WaTs8
+ epyRkM+rSZ1t4bChKi1bbANJBlRTaNp6q0euwOCizkjihFEpXsecvMkFnuGwU19OGF5Ic9LwFb4
+ wCYs4OrV1txlntBZ/yoXnQGXPpq1K4WCzSFyfOoTYG/FopFJDt6av/qQ1+k3lSxPP9wuNbdpRrr
+ RqhELtbNROITbsw4fwWI9a4bkwdjZrGhfaF5iAtL6ICdWkQmdHTnRkU49cFFYYRB8F/kf26gkJF
+ AVfHv57RUCnaloq2stcrP2CWXBe4miLC9zVustUEFG8TdA265ankW1pDCBXAJfhcU2DDqBKPO4b
+ lu4iupQJtmYduBiYLBg==
+X-Authority-Analysis: v=2.4 cv=eNceTXp1 c=1 sm=1 tr=0 ts=69a131e3 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=Vuf4bXvDtPRvE5iXt6EA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: FBE_ESFJboMR1ytzXtayPs8-HwpAsM-8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-27_01,2026-02-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602270044
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260226_190523_440494_A109B5E7 
-X-CRM114-Status: GOOD (  20.01  )
+X-CRM114-CacheID: sfid-20260226_215552_393967_DB769725 
+X-CRM114-Status: GOOD (  10.26  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -126,35 +120,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 19, 2026 at 11:25=E2=80=AFPM Hannes Reinecke <hare@suse.de> wro=
-te:
->
-> On 2/20/26 03:01, Randy Jennings wrote:
-> > Hannes,
-> >
-> >> (ctrl->kato * 1000) + ctrl->cqt
-> > As Mohamed pointed out, we have already received a response from a CCR
-> > command.  The CCR, once accepted, communicates the death of the
-> > connection to the impacted controller and starts the cleanup tracked
-> > by CQT.  So, no need to wait for the impacted controller to figure out
-> > the connection is down.
-> >
-> > The max(cqt, kato) was just to give some wait time that should allow
-> > issuing a CCR again from a different controller (in case of losing
-> > communication with this one).  It certainly does not need to be longer
-> > than cqt (and it should be no longer than the remaining duration of
-> > time-based retry; that should get addressed at some point).  I cannot
-> > remember why kato (if larger; I expect it would be smaller) made sense
-> > at the time.
-> >
-> Because we have to wait for the AEN, at which point KATO comes into
-> play yet again.
-> So max(CQT, KATO) is the appropriate waiting time for that.
-I see your point.  It could take ~KATO time for the AEN to show up after
-the CCR operation finishes.  Technically true.  However, if responses
-are taking KATO time to get back to the host, I think would rather retry
-on a more healthy link.
 
-Sincerely,
-Randy Jennings
+
+On 2/27/26 12:02 AM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> The NVMe controller is allowed to reuse an NSID for a new namespace after
+> deleting the previous namespace that had been using it. The delayed removal may
+> have the stale namespace head in the subsystem list pending the timer, which
+> would cause the scan to falsely report an ID mismatch error for the new
+> namespace. Flush the pending removal work and retry to resolve this.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+
+Looks good to me:
+Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+
 
