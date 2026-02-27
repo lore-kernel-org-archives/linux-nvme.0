@@ -4,134 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90AF5FD9E3D
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 06:31:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C35E9FD5302
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 06:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=coeY/EEjYn2cyjve5+ScveIXdBAsUMxp5BZ/tKqfZK4=; b=Mcahcp/oExGu+e3DmF6k6G5YdL
-	/3JpeXmhRGfDVOl6j+EJll/lz1v64sxHVDK+8Py3g6PuAxWjidnHSXscuf+ikFB+JkuZ/s0kuC7tu
-	XXNCO2b/FJ00HBFEqTyDboA4fkU4fjVTbUmDclR1Bvi5bImXmzNwnJpjorSXalJNa0Y9AOB3RjCfC
-	s5YoKLt+F0uyOvq0QkLmES3uF5+3GJoNAzLa/1vzeAXITQR/0e4HI5tlNF6S8kjE6GRGlr1d/mgki
-	lWUfF6ebPv0M0bAo8YPykuLVRxsScB1dURs/PzrJV+5Vs3stH2k0piuOAOR4HKv5TWZFyk7w7PU2n
-	PN/HrPeA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=AD3Ii58wV2EOha1wfYeoozeOXdglQUIps6n1ldhCb4k=; b=iYF5U8U+9LcRWiVIiNBO7xINiI
+	P+AhXdThNGJzia05p/KY+cC8+KaRwnYwykZVjYsBxHpYoNwKUJT4RG6YBhv8DxVSlqiAMze8DMTxT
+	6pTNHMHCl01nGEZzH2Af5m/tX/M3pDg5HO2Z/BQfH7EQ/N9mk2jtIsbYdWCv7iBAvz0BsnPKe0O9L
+	GuS3LpoVmVI7Z89N15bYSZHHC73vmbu9j47pKyE8YBKQowbuKlLlafmm+JfGqv41U8uEDLoN5UrHg
+	aqqSic9pEwGQ1MVEO2Q6q9bxcaXo6adOVdORiBihqj0o/CIUBgaMKcoUvG4ck2ae/J8J6xOHG6NnM
+	LY/81RjA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvrNL-00000007mx3-3nUR;
-	Fri, 27 Feb 2026 06:30:59 +0000
-Received: from mail-japanwestazlp170110001.outbound.protection.outlook.com ([2a01:111:f403:c407::1] helo=OS0P286CU010.outbound.protection.outlook.com)
+	id 1vvrof-00000007qM2-2BG4;
+	Fri, 27 Feb 2026 06:59:13 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vvrNJ-00000007mwS-3s8q
+	id 1vvroc-00000007qLF-1vet
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Feb 2026 06:30:59 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OFZyOydIk+lW6Pnm0lZ37CizPK6fyJyMJDc/9aeTSVj6T5UOpmLB+OmAb3oOKaoCGWRXI6hclCNMStO7X/0QB2p29BnR+BEEN4jqqdfaX0wUbN76gd5gqGCVV1wAwmPZonioxV/ezsuzyV7C2dkM1FdN3ma4p2nue1Ma2U2cG3CF6E5rQNH2VGN4NRF1yY5JPEA7Y56aXHuoLjaTMVceTkYXW3ym/rKacuDxvSv7Dvs/0YQOY0nWHo1llnmRaR1CwP20W2ySQsL7YGLJ6xmsSjbWmJ3IDqwMbWvpya03h3ibs+pTC8uCGCJLFPjGn1okpFo4/bcvvgCYAq7FJSkX1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=coeY/EEjYn2cyjve5+ScveIXdBAsUMxp5BZ/tKqfZK4=;
- b=IuZUmZS8QlbUytDsuyQLUz5wWn/6oBFkTtBiea9MRz2MYVa+yZBynrnWm67oSxF22wqDDL5H+G7n3D0/gobz36e6kWPzl2Lrn/9GW3On6lBgsgYfUcOKfZPZZgFkAeIY4uWvrFTkpJxemy2s5qTitnYI7acQtEM6GAin1sikQSPBTSuom8qvftuKXVGAlqyVyFCmeeSkw14ASiqXQyEQ78CEx29F6+HYAzYmya4yGg6zCKOt89ct6V357UIBsHSjp5qRHJIJ5FHqCY+wGMwjBy2ys1E+qE4CzEjwoj0cmUZujOtrvm6pTW7kIWjHjoZ0ZmdqNI+C8dF4ebfA/D9tmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=coeY/EEjYn2cyjve5+ScveIXdBAsUMxp5BZ/tKqfZK4=;
- b=BG5n1b3CjK9in9IVrI6W0XcpxNbjqjKmt8p0Ve3RakjDZorO7knjimtjeHXgluqls+PucKgV+Uf9EM44zFWdeJWVQS8DaUoLHd69RBWI+GlVQR07e86/80X1Jdr4WTPtYHqKs2EdqtPIv/gfgeBycbzHqBisbrTURNZAgVJFriE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TY7P286MB6657.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:31f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Fri, 27 Feb
- 2026 06:30:50 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9654.013; Fri, 27 Feb 2026
- 06:30:50 +0000
-Date: Fri, 27 Feb 2026 15:30:50 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Christoph Hellwig <hch@lst.de>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, imx@lists.linux.dev
-Subject: Re: [PATCH v2 04/11] dmaengine: dw-edma: Remove ll_max = -1 in
- dw_edma_channel_setup()
-Message-ID: <i5l46rrrsjzozimlcpids54cgf4yvrlscgjodduga6smklf7iy@norudq3os5le>
-References: <20260109-edma_ll-v2-0-5c0b27b2c664@nxp.com>
- <20260109-edma_ll-v2-4-5c0b27b2c664@nxp.com>
- <6d6c222faypvbo6fvs7tad2gtzxqqzlsjkrbefwmgxodt5thbc@lylpaqxozrg7>
- <aZ8YpKPqSjzDtomb@lizhi-Precision-Tower-5810>
- <esdpmy46hffpg577hd67rxmpkfm3agrzrginegi2rczbwvdnlb@urqmwhh3kuff>
- <aaBk-I5jrut5wpT7@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaBk-I5jrut5wpT7@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: TY4P301CA0004.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:26f::13) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	Fri, 27 Feb 2026 06:59:11 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61R4aWev2346005;
+	Fri, 27 Feb 2026 06:59:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=AD3Ii5
+	8wV2EOha1wfYeoozeOXdglQUIps6n1ldhCb4k=; b=ZK7iC3YUc2f4IYYqtG3Vhr
+	GJMs8bjcWImD9w7UIX3R9pnH76ZLyvOsSNrIES1xUld3pROYOP0gSjxhL6Rytyd5
+	oIv51/wV1RP1afwgYjPWnQVks2pWzDsv6LNAZpn2j+wZNxQXP61LNCxyGz6M7chk
+	9FpcV14Qqh+bh2hLaUXjWpre9qwnMSzQ3tELoJMDDzxtugjjYf1ywBggwXFK15M4
+	hjAhGtZn31qm1wMo4X+11IBVOVpj6QMx/ztB5YMO3dBzdqJJIphLYwlUCWyFmmrB
+	Jhrq+RUhwcexKhg/hY0/0wYo21ateM8AWMmPszE+X15Cx4jVmQqGiNQ2PpbLOxNg
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ch8590q60-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 06:59:07 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61R6ZHbq013406;
+	Fri, 27 Feb 2026 06:59:06 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cfqdygtnt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 06:59:06 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61R6x6b021627512
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Feb 2026 06:59:06 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 24EF558060;
+	Fri, 27 Feb 2026 06:59:06 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 73F385803F;
+	Fri, 27 Feb 2026 06:59:03 +0000 (GMT)
+Received: from [9.43.3.109] (unknown [9.43.3.109])
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 27 Feb 2026 06:59:02 +0000 (GMT)
+Message-ID: <7797a6a3-d47d-440c-a580-40bae546728a@linux.ibm.com>
+Date: Fri, 27 Feb 2026 12:29:00 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY7P286MB6657:EE_
-X-MS-Office365-Filtering-Correlation-Id: f665124e-ef65-4abc-1a25-08de75c9c03e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|10070799003|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: W7EKyaRZvsy9yfmqSnZ2WXN53VsYBVyynv1Xk4MZfqHiRlAGH2CBaDNRr2ytTWyOEyvn5Vh71yynbWkL5u0mK4NwV9oZwvJ1+4KyUuLd1AS8OjWuFXXJW6Rndf40PzK8bdK0aW1lIDrfaqTXTE0jyIKwLUAhrDFOYPcSTtJ0V9e77QY2VsEuKAej25vJFFnC2LVUOrZQjNNg+LNwOBHMhNk6lsuVMPw/xDqoe7+MJsYdLDgt1XBwUpsiLEqaH73OQorNheivqi8y8Bh3JE0Ic4GlF5ZnbyNKRJFf+w4CO7UEBJGVVc2KoUl+fzKlSwrK+ZNvDF2gQNzZHIytEQZ7b7purs354jRAZYgwPeoM59N7oJzpW253jh+444KMMEM6s7OLy5V15eJbuskFxduESCYwWSQA2T4DfjnknIQ5zI5JEDYboUedOnqata3AIYz2uAOWBdlb0nl0JpqfUI0AOp0w4Ijid7uZzKxgDpE8K7dkMI0RqC5wdsDs3G9/kKb5eewSZpfZHXSPp2Ew0z5QyQSZ2cXRLjDSwWbkfXFMAoZ6pqafRs4ZfJOsdUV9LMCwwX4Ryw9KVpsRztmcfo9pQjZF7M8i2LXSvcSSyEJwblY7kFDB4FGO/saCCye00RL4cPGOECXUrkDZTKWqos3Iic5xVMRKvubX2czMzLOnJ8yFZis4vD7RdpJofRturokB41bri4TUHYOwW5t28AwJKw9oAYhDgLDrD3yXlzDHWFM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?apTl/8QHKlRXfW4ihArcK2dXFicoY4V3g/rBbpEpoXGKfDsgUHFX+uWJsslk?=
- =?us-ascii?Q?gtf5aOk4zyOn/6SzMUFBi9oYgikmcdK1ta40tbuPug1F2J8ikFu0/dCQ39Z6?=
- =?us-ascii?Q?35ke6qwpgCSkfBbN+ldVUrwr+OSsBsZxYr2nov309bTVrXOblCSyeRo9pSk+?=
- =?us-ascii?Q?zJBlCnVfUpfL/5TKUaL3VZex2Q07SW+MHTC979w2OjWPt+hElFY10+1PNzna?=
- =?us-ascii?Q?E8ImA61ASL2aB5+66N5ANLGIqMTthKrjTNkD6VJzRQNuGkY2O4I17Xh+DSFq?=
- =?us-ascii?Q?vrSejEOsRqHsPPAupk4MSOvbMS2nbRH9MAOKNk3MMAbrjZ4RKavnpMT2R1hq?=
- =?us-ascii?Q?cOrBpJRX7+InwNUBTCtiKhWh3RGPVaN4bvYw+eRXydRVfVQ5q8dJlTJLtUZe?=
- =?us-ascii?Q?rvyV09o9GCtAJAQe3hxi4cm869sMjYz/QcesS+42IT8WcxWhn4OVcRlkFcW9?=
- =?us-ascii?Q?xFDzyetJnPCuCrPPmOO555+KgtOOLcOTU2ho+zJlA/kPyX8dysVB70KkpgCH?=
- =?us-ascii?Q?dJwSzZTBLgXKRFhF9GRsfCL/SA5b4G9hPJQhtUTq7NltQt80A9nJkN6OeQ4x?=
- =?us-ascii?Q?dfZUi07yFWbBDrg+mY0Ktrol+c/t1DZqss+vkBl4AcOsQPIyRJzrUpHpoDeF?=
- =?us-ascii?Q?I4H/3JL2Ppe/AQ/+aS20G8/JmxsGD/7ngaWyp/aoz1glOJiU4mDyKQyjp6qZ?=
- =?us-ascii?Q?OidYP2y1bJ6jm9l49YzY/4gbIimwYbwdJgeRMW+6UXFVGtarrWBHhdiwHOwD?=
- =?us-ascii?Q?cvks+pOLQ5ufSXUHqmfz04zevUHKohUHm/5Pr3EX7TgrreKPnbyJtUusCOtK?=
- =?us-ascii?Q?bcGNtSlZhnNm7yo00PzDYekKEpHdbi4z3Visn+l7rJXkaaYE11qh9VePR75h?=
- =?us-ascii?Q?AYhYFt6q/JSNuKfJVbHi8X7TJeCd3rVqJUiOyI+2lutK2a0H+/w1T+VwHxn+?=
- =?us-ascii?Q?7jTpZu+t+B2oPKBB+oMpgYs/4W/VbQSoDs8r3ILDOd7XfdjeSgDS1Iw3k9Z2?=
- =?us-ascii?Q?d7Tz+PJ3xUEIjPGTf+XIaYkzE9lNtq9LHxA2JBdBhSQLb6Gv4nRelfBy1g1k?=
- =?us-ascii?Q?vwN1PbflVHMEKHxOThVGVhCVLkcAagXFLea8iinrVd1VCf2b4FqaFR4Sclk5?=
- =?us-ascii?Q?RyfYuG8Ke2LAZEMnyaqCnncOyIqtGfjMh2qdaroXwwPvIhY0HEZX0PBfm0KJ?=
- =?us-ascii?Q?BZAFhSuEtRYCsg+dACzObsYymJ0PddLuWWhSukCuXBFOst3jij9jSElUiIZx?=
- =?us-ascii?Q?s8kss6NCxv6fknwh9K53rJPyILx7g5OBYLL/KJ/sBv3XcVUN5OVIYvaOqHIa?=
- =?us-ascii?Q?h4laDDk1fX6IvWIMyxCy7pDPakbzEPXEJyqE/Mru2W0J0w6KMmREAqOPCx2c?=
- =?us-ascii?Q?yL5vgfnrtyMDiH+RwCnOCMhsiXfSxsvsCJ7+v0YW0cpdiEmYe8Tdo9CbuWrS?=
- =?us-ascii?Q?mee1tdJnWRFS9xRsDXOkDfXah4YEr8Y+xw90jz1IgA7P8mFgjZ/y90zhQbEV?=
- =?us-ascii?Q?pol1/4WT+P57eF0CQghTHhISdXcKg7zvO5GP2Qf9gmxo8ES9cXqY2UUPTr83?=
- =?us-ascii?Q?No/JTZna1ZY4UvnfC7LJ/BLkIehBrcfMsdbEk11KfhXXXbNwj6IgCQ+gV29i?=
- =?us-ascii?Q?P2D2Vl1aqyIu6aiIpof6VPSt+iCDtVEcI4EkzCaq1s3Q3k7jFs4NU4ScBCak?=
- =?us-ascii?Q?oJYPLSXPy2g4Gw+HPu77tzx8c6LiwAtKl15Buu6jc4DzBiLv6g/HSSWRAi9u?=
- =?us-ascii?Q?EmoHzSM1jIw37/VoPLlRu0Zpob+85/sQCndZl2mzxSPALS4KGQ39?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: f665124e-ef65-4abc-1a25-08de75c9c03e
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 06:30:50.7958
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MPbx0uTXn4e/RdZdYYr7D4cuaayvhGgxbFKE85Yog/3UIKdC7Y+OUHswZjgP6DjVYrJr07/F9E/H6sc4rdnIFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7P286MB6657
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 2/3] nvme-multipath: rescan siblings on last path
+ removal
+To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20260226183216.2098584-1-kbusch@meta.com>
+ <20260226183216.2098584-3-kbusch@meta.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <20260226183216.2098584-3-kbusch@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDA1NSBTYWx0ZWRfX+Qru6hcnCa0e
+ 5y9et9uwVN5bD+80LlUXeZwHfCcMCT0qyxBLW0MSjMGYebPteteRH2CeFZbk6KV5wn03HkGvU1h
+ DDZrzVmYgbClnQ6AmL4yilUiZ/aoaZ5f660yC/0Q5NBIaI0xnvVSOJLZU2RZ/WF8iDmRzCGpUUj
+ vF7cNOMuhianpfqWAcHLGAmZz8PPAF0tYnKDfyC1MjpyO3ZVgE/4MLntc/ohRBFvznp/ji0Eszu
+ gW8JMJf9C9Q9j+hLUaulCo78bFSxCmWhGP1R8bPjicG/C4W2IW/OxviyTF+v9Di2ypwfqwJgQYf
+ /muoIhhH9pLxVYKeRN6hwTbXEOXj2i2TcZThvZmGva91LlfWS/IwUJiQQzRxQzPwBaYYeXhw13x
+ f3PY7h6izYOABvDdkuASpmvydHs7WolzRSmUrzH2o6WVFiGJgm0LXNlzbH7EyN5q3hXoVu8gh2O
+ jg5k/UAPUL5OY2dLLfA==
+X-Proofpoint-GUID: X3NvkXbR6K1XrSC8JTR1JrhzcVgRzA0_
+X-Authority-Analysis: v=2.4 cv=S4HUAYsP c=1 sm=1 tr=0 ts=69a140bb cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
+ a=FD-8ndJGWIHSRaxKiq4A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: X3NvkXbR6K1XrSC8JTR1JrhzcVgRzA0_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-27_01,2026-02-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015 impostorscore=0 malwarescore=0 bulkscore=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602270055
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260226_223057_961796_A8E81E78 
-X-CRM114-Status: GOOD (  30.83  )
+X-CRM114-CacheID: sfid-20260226_225910_648521_61A27C5A 
+X-CRM114-Status: GOOD (  27.14  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,74 +120,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Feb 26, 2026 at 10:21:28AM -0500, Frank Li wrote:
-> On Thu, Feb 26, 2026 at 11:16:26AM +0900, Koichiro Den wrote:
-> > On Wed, Feb 25, 2026 at 10:43:32AM -0500, Frank Li wrote:
-> > > On Wed, Feb 25, 2026 at 05:30:33PM +0900, Koichiro Den wrote:
-> > > > On Fri, Jan 09, 2026 at 10:28:24AM -0500, Frank Li wrote:
-> > > > > dw_edma_channel_setup() calculates ll_max based on the size of the
-> > > > > ll_region, but the value is later overwritten with -1, preventing the
-> > > > > code from ever reaching the calculated ll_max.
-> > > > >
-> > > > > Typically ll_max is around 170 for a 4 KB page and four DMA R/W channels.
-> > > > > It is uncommon for a single DMA request to reach this limit, so the issue
-> > > > > has not been observed in practice. However, if it occurs, the driver may
-> > > > > overwrite adjacent memory before reporting an error.
-> > > > >
-> > > > > Remove the incorrect assignment so the calculated ll_max is honored
-> > > > >
-> > > > > Fixes: 31fb8c1ff962d ("dmaengine: dw-edma: Improve the linked list and data blocks definition")
-> > > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > > > ---
-> > > > >  drivers/dma/dw-edma/dw-edma-core.c | 1 -
-> > > > >  1 file changed, 1 deletion(-)
-> > > > >
-> > > > > diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> > > > > index c6b014949afe82f10362711fc8a956fe60a72835..b154bdd7f2897d9a28df698a425afc1b1c93698b 100644
-> > > > > --- a/drivers/dma/dw-edma/dw-edma-core.c
-> > > > > +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> > > > > @@ -770,7 +770,6 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
-> > > > >  			chan->ll_max = (chip->ll_region_wr[chan->id].sz / EDMA_LL_SZ);
-> > > > >  		else
-> > > > >  			chan->ll_max = (chip->ll_region_rd[chan->id].sz / EDMA_LL_SZ);
-> > > > > -		chan->ll_max -= 1;
-> > > >
-> > > > Just curious: wasn't this to reserve one slot for the final link element?
-> > >
-> > > when calculate avaible entry, always use chan-ll_max -1.  ll_max indicate
-> > > memory size, final link element actually occupted a space.
-> >
-> > After the entire series is applied (esp. [PATCH v2 10/11] + [PATCH v2 11/11]),
-> > yes, that makes sense to me. My concern was that before the semantics of
-> > "ll_max" changes, this "-1" was required. In other words, this seemed to me not
-> > a fix but a preparatory patch. Please correct me if I'm misunderstainding.
-> 
-> Thanks, I found I make mistake, wrong think it as "chan->ll_max = -1".
-> I will squash this change to patch 10.
 
-Thanks for the confirmation. I agree with the idea of squashing.
 
-Best regards,
-Koichiro
+On 2/27/26 12:02 AM, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> When a controller's scan removes the last path to a multipath namespace
+> head, sibling controllers in the same subsystem may need to rescan. A
+> concurrent scan on another controller could have encountered the stale
+> head with mismatched identifiers (e.g. from a recycled NSID) and failed
+> to set up the namespace. Without notification, the sibling won't retry
+> until the next AEN or explicit rescan.
+> 
+> After a scan that performed last-path removals, notify all controllers
+> in the subsystem to rescan by requeueing their scan work. This ensures
+> that recycled NSIDs are promptly discovered by sibling controllers.
+> 
+> Signed-off-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  drivers/nvme/host/core.c | 19 ++++++++++++++++++-
+>  drivers/nvme/host/nvme.h |  1 +
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 3de52f1d27234..5bb4b18511b7b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4262,8 +4262,10 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>  	mutex_unlock(&ns->ctrl->namespaces_lock);
+>  	synchronize_srcu(&ns->ctrl->srcu);
+>  
+> -	if (last_path)
+> +	if (last_path) {
+>  		nvme_mpath_remove_disk(ns->head);
+> +		set_bit(NVME_CTRL_SCAN_REMOVED_NS, &ns->ctrl->flags);
+> +	}
+>  	nvme_put_ns(ns);
+>  }
+>  
+> @@ -4530,6 +4532,21 @@ static void nvme_scan_work(struct work_struct *work)
+>  	}
+>  	mutex_unlock(&ctrl->scan_lock);
+>  
+> +	/*
+> +	 * If the scan removed the last path to a namespace, notify all
+> +	 * controllers in the subsystem to rescan. A controller that is
+> +	 * concurrently scanning may have missed the namespace due to the
+> +	 * stale head still occupying the NSID in the subsystem list.
+> +	 */
+> +	if (test_and_clear_bit(NVME_CTRL_SCAN_REMOVED_NS, &ctrl->flags)) {
+> +		struct nvme_ctrl *tmp;
+> +
+> +		mutex_lock(&ctrl->subsys->lock);
+> +		list_for_each_entry(tmp, &ctrl->subsys->ctrls, subsys_entry)
+> +			nvme_queue_scan(tmp);
+> +		mutex_unlock(&ctrl->subsys->lock);
+> +	}
+> +
+>  	/* Requeue if we have missed AENs */
+>  	if (test_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events))
+>  		nvme_queue_scan(ctrl);
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 9971045dbc05e..e73cc2e67ac51 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -329,6 +329,7 @@ enum nvme_ctrl_flags {
+>  	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
+>  	NVME_CTRL_DIRTY_CAPABILITY	= 5,
+>  	NVME_CTRL_FROZEN		= 6,
+> +	NVME_CTRL_SCAN_REMOVED_NS	= 7,
+>  };
+>  
+>  struct nvme_ctrl {
 
-> 
-> Frank
-> 
-> >
-> > Thanks,
-> > Koichiro
-> >
-> > >
-> > > Frank
-> > > >
-> > > > Best regards,
-> > > > Koichiro
-> > > >
-> > > > >
-> > > > >  		dev_vdbg(dev, "L. List:\tChannel %s[%u] max_cnt=%u\n",
-> > > > >  			 str_write_read(chan->dir == EDMA_DIR_WRITE),
-> > > > >
-> > > > > --
-> > > > > 2.34.1
-> > > > >
+Should we consider reordering patches 2/3 and 3/3? It seems like this
+patch depends on the changes introduced in 3/3. 
+
+Without the updates from 3/3, if delayed head removal is still in effect
+and the NSIDs are recycled with mismatched identifiers, a forced rescan
+of the sibling controller may still fail to instantiate the namespace.
+In that case, requeueing the scan alone might not be sufficient.
+
+Thanks,
+--Nilay
+
 
