@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 55F831039895
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E49AFEFB51
 	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 20:24:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,68 +12,68 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qCPUB5YteTwm4Su/ndU1zpliegenX1WCgWKjuq5aUfY=; b=bfnyQ63LxXgPocq6QWcdC9MoTs
-	TnCvZLadXjEbiDlCkiYngxYJH+Ruz4IlZfQhc6/A2aYFwBJiKqiaHLHIEh7Y4hInQVAPqXTu8nH3l
-	7VDpMKu0VoJhTgd4MYRvtoyPXqsJbnWKSA0uQ7UDp5Vb+Bx+KRuNWOrhvPkJRSwIDB672jwqjaExI
-	5dUTy9huz3PBsTJpHBZ6qPQJYRJYfdhLc5Tk1NZDUPLhxwkLNTxV8V4wnMNDGS+seFD0lUBzDN4j7
-	cKG4FrOEqZlYEYL8iMSr1dS6ciGq9gzFK51RULD5jaZqUMl179JifhlA7lSyB2DR0soJvM6pOlLKo
-	xrGWUvHw==;
+	bh=iTyR51foYUPBOnnEwYMeOkSAEe5aT2w2QE+WyN/3DlE=; b=wmOD7ZgMMwppIQascrd3+IbJbW
+	nmai2puwvYqMygWF7g/q3dcGeENIHgG4RbXeBPGCdLh6c0Op2cfb/BfTlrQNr3BAvklfV2X8Eeogy
+	ShhKASmfnteKGBIv2ZVGLe3va4wk+xWqW+CZU7BDX/WNAs1H9ddXtwMILuonV1qXxZEROb6gO6nmR
+	ZXsxXiLjqvinSqPGWC5OpviksSqHzPf49NMeLw3DIUEg6s3/g7DvUdgVm4oDd0sH00ABPXqbWeb4k
+	5YF0dL2XEC2WqXxTkeX4uRCamR6nSo5nXR31laFuf+YIrjkmBOgsQST70P5J3E7G2e2he+oV9hte1
+	xRV49ocw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw4Na-000000096Q0-3gG7;
-	Fri, 27 Feb 2026 20:24:06 +0000
-Received: from mail-yx1-xb164.google.com ([2607:f8b0:4864:20::b164])
+	id 1vw4Nd-000000096QA-29Qd;
+	Fri, 27 Feb 2026 20:24:09 +0000
+Received: from mail-vs1-xe61.google.com ([2607:f8b0:4864:20::e61])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw4NX-000000096O8-05nj
+	id 1vw4NX-000000096OA-0yw3
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Feb 2026 20:24:04 +0000
-Received: by mail-yx1-xb164.google.com with SMTP id 956f58d0204a3-64c7ec7e769so304983d50.3
+	Fri, 27 Feb 2026 20:24:05 +0000
+Received: by mail-vs1-xe61.google.com with SMTP id ada2fe7eead31-5fde78685d1so74464137.2
         for <linux-nvme@lists.infradead.org>; Fri, 27 Feb 2026 12:24:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=purestorage.com; s=google2022; t=1772223841; x=1772828641; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qCPUB5YteTwm4Su/ndU1zpliegenX1WCgWKjuq5aUfY=;
-        b=FsI/l6NJVMU08BrqKkrumRp1o57q8dkZImWiyfpPHmghTv2yjkw+KIDC2DMJmjXmYr
-         wKXOMcEut3Xb3iBsnceUfNbjmV4umYFiSllJcX0OFE47O/5mn6xvZOY8/kpvHA6zfuVr
-         KD+/Eeu+AjruyOr1/GoXvYw8rM3upwHipQFkoXNbrK/6iVWVb20ptRDw9Ve8+cYovG/d
-         Anobbfdc+0yeCyUX+oHxegwctcIZhTQKfyg8hli+VrJHt52pw+sSazgSzY0oPrrEoCih
-         Q9SHJcytI6x7u222WziGNT6pzG9cEzvm6hV40uiWvsIOQC/4GkyaUxszlKJRq2RGNEBi
-         2G1g==
+        bh=iTyR51foYUPBOnnEwYMeOkSAEe5aT2w2QE+WyN/3DlE=;
+        b=F6qObVrkbBDkjoScbVF7Q5ya9DcX3WmRYAsAFq+kdkpZ0ane0Kv+cGTRucr/McfQ50
+         2EjuLQoPG7NHGccdFh2lCEYSjWWyPDht0yn3Kty83UyZkAFG/4aGdx1COpmLmtRacAiY
+         iWCUm/sjkQ8u5SqOpG+y9cfHNH1Jghp+xM58YwjV8WzQD27QRzNAYt6xLvGuupSYklgC
+         ErUwYwVo2ZrgeHopr8bT4cJmLbl+hImAu9UziimDTCPFrvUifyiOkCP1SzVxIB+Izzfp
+         y8BjksvoY38ov338H/f+GItyApuP+J5YIJnv3fZ3aGPzC0zUH1036PMsl5TLN7ch5q1j
+         I1sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1772223841; x=1772828641;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qCPUB5YteTwm4Su/ndU1zpliegenX1WCgWKjuq5aUfY=;
-        b=mGQcUDe6/Jhxn9ym4ShHQ4WjlUaRLNCW9RSI4uuzZjZruo2xfP0pzRQlhuMXbtkg9c
-         DN5RFVmQjo9vER6EN6NEsYNlz1esP5kCIMaqcGnrLIbVlxBJOtwlqTOSTEqsMSUCtDpg
-         v0AhOsYrlkBeZKbM23b08+Ig8KdFocScn+TIjyvc2a5FPaLd1NIiJXIYdxIBISL5oEbR
-         SPfiUjD9LUzdRctOF8qxmVM3XbELQPxBupfjEFpYCNQlplHar7JFU5QCtFCuN4sy0K8F
-         YSqaS9WkzB5ASqXdrNzjoHSr61QF31Z58wleM33f9lc0S/7VB0KMkoeGQ6Ioj6LQaSWj
-         7udw==
-X-Gm-Message-State: AOJu0YxWCPrVcMf/JE0lO8acx0AnHBrT4Slbn4VEE1Gdzr3B+G5SF7Ih
-	YKLLjj1A1YcD5AgT46h1wBxmzYoLAK+FInaGLh/kY7cb67B3ZQpCxya7+DO6CxVBSDYnU0mJnXA
-	kF+9Zqo2ajxVuUqOfHIFPlltCzRCgYtLy15PVfCXfLaJd7O3FGN2X
-X-Gm-Gg: ATEYQzzNNeAk25Y4khog03IwX4Ev6BzZSYvL9lL+Y4Ti1O9uF3WpknjrWJpF5e2qb+z
-	+xIbRJ06q/HaqSvjXlYNVP+E6Klxed+CgVcZQH1q51JdGfnAf77t1AREoJUuIa3bBHksRUPgzgh
-	2/1/iDC7abXpZwCGLmGz0l1PFvpTfKOB2D17SlHTaJcMn94p+0LNWMbpL9ZN4S0ygBfX3SScobC
-	cUfKZVOkNW/IwkX0UoQzoxb5fdcpwpc8r7xsxOsgfO9TZKJKdEUNFus3uqDBLdB1EBv+JFPIHwr
-	jaq1zErMOIyxUmu6KS5DG3DgMl131VuQ5rwDSJb2UjB4Qznz4XPXJXeVtThL5Io1Mp7v+11PMB3
-	2Gdzern65t6IbWHCkl6pINLE2qx7YlIIACjJEbt8=
-X-Received: by 2002:a53:ac9c:0:b0:649:bf2a:71d with SMTP id 956f58d0204a3-64cc22be974mr3069800d50.4.1772223841189;
+        bh=iTyR51foYUPBOnnEwYMeOkSAEe5aT2w2QE+WyN/3DlE=;
+        b=b17Nc5dUu8JmUoU+PKKqL0ITndK15Opuzth39IPpkgtL994AM2XIaCl4/NuQDLGR/c
+         3fSX5pjJAoUUVyydaojKHpgxFcV19Vqd11J0OOqs5KR7v68Z17xYnF6OcO+4kkBQm8n0
+         6eoSfguXNCuHDlZT1dXnptO4uagTtO7z81LdWbN5//ILlKxgF6YU1z/ywVwVs9nqpErP
+         HAT9TwWwLwUBEe+xnDGoUH7+IRT+Pow4TybpA/M/CGp4m7otI5TUIotq07rDqI2bf5A/
+         98jLBtF3BDPxG/GG878LaoiMeEb/vVGNMA3W83Qxc6Rbrurd1C7R5vK4UoL+xtUWIqG6
+         dXDw==
+X-Gm-Message-State: AOJu0YyzQNtwY+wG4E3z2Q+V3F2+Rn04yG1AMaInqPQRQ2sHuCuZYCcu
+	g5Ts8qOIniQgL5ma1xjzIi0YvIF6zZWpWzGTrTHCwv1CZmrMsR2pzTtv9ZWsj3U/7y5QMmGmNHE
+	5uhLFMYVMVvd9H8Ef+VP1u/Zndmoy9yJZn2co
+X-Gm-Gg: ATEYQzyXG0KOSxxfkgAjYt32oAatYoJPYeyHhqM7kFuxUdTut1UjR48ipB7lgYHWwap
+	Few+0yIPmqx0iORibXi92xSw3G8beUsyOCwMh0Hf3NPszLC44jpKWsvubyUyKqvM84PI7vqa9Eo
+	GVBxSu2Qt9UTepiP8cR5OBZNoF3kgf26MjdpLK0xzPDizElA6NzphsNAj74oqhVFLZZKE7GU3FH
+	2pMu4c8o55rpyzbrgOijB96asc9Oghv4BlSG8awYnH6uzm5DvU0V5QcHPnJvQCrMAYX6xh+rYee
+	FRgctOg/E+zP5GE9kQOqSQHB0lRddd0TDDbIlIp+UNwWWaAo9Ah7eGiWlxHVzl0PUtQZV3rXwwY
+	DSqMt7A/v9JJ/5wurMYdDlmL9T4iX69W9LiywrfZ6hw1IYWRKQCct4A==
+X-Received: by 2002:a05:6102:d86:b0:5f5:3a57:1e88 with SMTP id ada2fe7eead31-5ff32536282mr1200513137.6.1772223841310;
         Fri, 27 Feb 2026 12:24:01 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id 956f58d0204a3-64cb7590dccsm555012d50.5.2026.02.27.12.24.00
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id a1e0cc1a2514c-94df6542376sm546097241.7.2026.02.27.12.24.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 27 Feb 2026 12:24:01 -0800 (PST)
 X-Relaying-Domain: purestorage.com
 Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 675413404A1;
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 8F7C53405ED;
 	Fri, 27 Feb 2026 13:24:00 -0700 (MST)
 Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 62661E420D8; Fri, 27 Feb 2026 13:24:00 -0700 (MST)
+	id 8A735E420D8; Fri, 27 Feb 2026 13:24:00 -0700 (MST)
 From: Caleb Sander Mateos <csander@purestorage.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -83,17 +83,17 @@ To: Keith Busch <kbusch@kernel.org>,
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v5 1/8] nvme: add preferred I/O size fields to struct nvme_id_ns_nvm
-Date: Fri, 27 Feb 2026 13:23:46 -0700
-Message-ID: <20260227202354.1012322-2-csander@purestorage.com>
+Subject: [PATCH v5 2/8] nvme: fold nvme_config_discard() into nvme_update_disk_info()
+Date: Fri, 27 Feb 2026 13:23:47 -0700
+Message-ID: <20260227202354.1012322-3-csander@purestorage.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20260227202354.1012322-1-csander@purestorage.com>
 References: <20260227202354.1012322-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260227_122403_136681_1CC0D095 
-X-CRM114-Status: GOOD (  12.70  )
+X-CRM114-CacheID: sfid-20260227_122403_300037_486BCAFC 
+X-CRM114-Status: GOOD (  14.94  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,43 +108,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-A subsequent change will use the NPDGL and NPDAL fields of the NVM
-Command Set Specific Identify Namespace structure, so add them (and the
-handful of intervening fields) to struct nvme_id_ns_nvm. Add an
-assertion that the size is still 4 KB.
+The choice of what queue limits are set in nvme_update_disk_info() vs.
+nvme_config_discard() seems a bit arbitrary. A subsequent commit will
+compute the discard_granularity limit using struct nvme_id_ns, which is
+only passed to nvme_update_disk_info() currently. So move the logic in
+nvme_config_discard() to nvme_update_disk_info(). Replace several
+instances of ns->ctrl in nvme_update_disk_info() with the ctrl variable
+brought from nvme_config_discard().
 
 Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- include/linux/nvme.h | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 43 ++++++++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 24 deletions(-)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 655d194f8e72..1134e6bf2d5c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -511,13 +511,20 @@ struct nvme_id_ctrl_zns {
- struct nvme_id_ns_nvm {
- 	__le64	lbstm;
- 	__u8	pic;
- 	__u8	rsvd9[3];
- 	__le32	elbaf[64];
--	__u8	rsvd268[3828];
-+	__le32	npdgl;
-+	__le32	nprg;
-+	__le32	npra;
-+	__le32	nors;
-+	__le32	npdal;
-+	__u8	rsvd288[3808];
- };
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3a2126584a23..8dda2fe69789 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1880,30 +1880,10 @@ static bool nvme_init_integrity(struct nvme_ns_head *head,
+ 		bi->pi_offset = info->pi_offset;
+ 	}
+ 	return true;
+ }
  
-+static_assert(sizeof(struct nvme_id_ns_nvm) == 4096);
+-static void nvme_config_discard(struct nvme_ns *ns, struct queue_limits *lim)
+-{
+-	struct nvme_ctrl *ctrl = ns->ctrl;
+-
+-	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns->head, UINT_MAX))
+-		lim->max_hw_discard_sectors =
+-			nvme_lba_to_sect(ns->head, ctrl->dmrsl);
+-	else if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
+-		lim->max_hw_discard_sectors = UINT_MAX;
+-	else
+-		lim->max_hw_discard_sectors = 0;
+-
+-	lim->discard_granularity = lim->logical_block_size;
+-
+-	if (ctrl->dmrl)
+-		lim->max_discard_segments = ctrl->dmrl;
+-	else
+-		lim->max_discard_segments = NVME_DSM_MAX_RANGES;
+-}
+-
+ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ {
+ 	return uuid_equal(&a->uuid, &b->uuid) &&
+ 		memcmp(&a->nguid, &b->nguid, sizeof(a->nguid)) == 0 &&
+ 		memcmp(&a->eui64, &b->eui64, sizeof(a->eui64)) == 0 &&
+@@ -2078,10 +2058,11 @@ static void nvme_set_ctrl_limits(struct nvme_ctrl *ctrl,
+ 
+ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
+ 		struct queue_limits *lim)
+ {
+ 	struct nvme_ns_head *head = ns->head;
++	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	u32 bs = 1U << head->lba_shift;
+ 	u32 atomic_bs, phys_bs, io_opt = 0;
+ 	bool valid = true;
+ 
+ 	/*
+@@ -2112,15 +2093,30 @@ static bool nvme_update_disk_info(struct nvme_ns *ns, struct nvme_id_ns *id,
+ 	 */
+ 	lim->logical_block_size = bs;
+ 	lim->physical_block_size = min(phys_bs, atomic_bs);
+ 	lim->io_min = phys_bs;
+ 	lim->io_opt = io_opt;
+-	if ((ns->ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES) &&
+-	    (ns->ctrl->oncs & NVME_CTRL_ONCS_DSM))
++	if ((ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES) &&
++	    (ctrl->oncs & NVME_CTRL_ONCS_DSM))
+ 		lim->max_write_zeroes_sectors = UINT_MAX;
+ 	else
+-		lim->max_write_zeroes_sectors = ns->ctrl->max_zeroes_sectors;
++		lim->max_write_zeroes_sectors = ctrl->max_zeroes_sectors;
 +
- enum {
- 	NVME_ID_NS_NVM_STS_MASK		= 0x7f,
- 	NVME_ID_NS_NVM_GUARD_SHIFT	= 7,
- 	NVME_ID_NS_NVM_GUARD_MASK	= 0x3,
- 	NVME_ID_NS_NVM_QPIF_SHIFT	= 9,
++	if (ctrl->dmrsl && ctrl->dmrsl <= nvme_sect_to_lba(ns->head, UINT_MAX))
++		lim->max_hw_discard_sectors =
++			nvme_lba_to_sect(ns->head, ctrl->dmrsl);
++	else if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
++		lim->max_hw_discard_sectors = UINT_MAX;
++	else
++		lim->max_hw_discard_sectors = 0;
++
++	lim->discard_granularity = lim->logical_block_size;
++
++	if (ctrl->dmrl)
++		lim->max_discard_segments = ctrl->dmrl;
++	else
++		lim->max_discard_segments = NVME_DSM_MAX_RANGES;
+ 	return valid;
+ }
+ 
+ static bool nvme_ns_is_readonly(struct nvme_ns *ns, struct nvme_ns_info *info)
+ {
+@@ -2381,11 +2377,10 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm, info);
+ 	nvme_set_chunk_sectors(ns, id, &lim);
+ 	if (!nvme_update_disk_info(ns, id, &lim))
+ 		capacity = 0;
+ 
+-	nvme_config_discard(ns, &lim);
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_ZONED) &&
+ 	    ns->head->ids.csi == NVME_CSI_ZNS)
+ 		nvme_update_zone_info(ns, &lim, &zi);
+ 
+ 	if ((ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT) && !info->no_vwc)
 -- 
 2.45.2
 
