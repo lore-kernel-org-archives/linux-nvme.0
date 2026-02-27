@@ -4,56 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44E3EFEFB6E
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 16:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE26BFEFB6E
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 18:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
-	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3KYrSln3d6erQNd6U1tMUmNFgQsJoupJL2VLPKb1DZ8=; b=rUgMF4WDNYGT03ThYXGNk+uYRn
-	o12BBTud/IPwnmu9i80N15SOzn5nq9laXDtmIXHW4ZrqgQedFfrTiYcQdJhjy/qdmqz34RFyMK5Ra
-	oGh8Lie+p/0CHAwuWA6STojWONdGJTuRYXBtjv2wzANZ5HtGk8iRwh9YdUSxGIfYjx42fl/dG9rpd
-	9c0QaP0onSIfBOeUgBsIS5BvfU6gFK4MfZ5DxMco9Nj4WkACKC3fBfBIIuodI14yhMiULUmt7wCVM
-	VSYSGnh2KCEOHgUyTO0PgN/y8HYeFwX5I/DNFGMs98AX5sulZnaBGRV3wLs3rrwI6DLu/g8dZV6C6
-	3qo3nLDg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iG5lt5XxO/hh9xVt2TbhtRpf4Oxa4xmbAazMvGovJ3Q=; b=X569EK9ge6WSdNMGcieMpbSZ6j
+	ogtcJnhBxGI6UnG2fq1SxAFln47MAQQUv1du05QsuZ5U0ruHV6TNTm1Sk4LhWggUbCSf6Kh4xFxD+
+	LESBU/qfTLobTDbhSbGWdKA3oj4C3tijR/hNogHRMI7lf/C8mTL+1YhM0tubTRoUFt2JWArQAX7fz
+	w83W5P2vBCwLhZa4Kl0fDWM/eCYREyXrJEQ/vi/1yucFkz4X3seR/DHvZvjED3bMw9CuPN/1y18fX
+	torrmddn50syXsPu3LuhqU0tpcLmBSvObtd+DxgxbqvVixl1d0fyatoZ8VQDUJCMLehEgoUeQDmDL
+	XWKyGXbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw0jg-00000008jc5-0wVa;
-	Fri, 27 Feb 2026 16:30:40 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1vw2K5-00000008ttf-0QZu;
+	Fri, 27 Feb 2026 18:12:21 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw0jc-00000008jba-2GC3
+	id 1vw2K1-00000008ttH-13Xs
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Feb 2026 16:30:38 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 581caa50 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 27 Feb 2026 17:30:30 +0100 (CET)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Feb 2026 17:30:29 +0100
-Message-Id: <DGPVYCG1UFY8.2RRII8Y14TXZM@arkamax.eu>
-Subject: Re: [PATCH v3 03/21] nvmet: Implement CCR nvme command
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Mohamed Khalfella" <mkhalfella@purestorage.com>, "Justin Tee"
- <justin.tee@broadcom.com>, "Naresh Gottumukkala"
- <nareshgottumukkala83@gmail.com>, "Paul Ely" <paul.ely@broadcom.com>,
- "Chaitanya Kulkarni" <kch@nvidia.com>, "Christoph Hellwig" <hch@lst.de>,
- "Jens Axboe" <axboe@kernel.dk>, "Keith Busch" <kbusch@kernel.org>, "Sagi
- Grimberg" <sagi@grimberg.me>, "James Smart" <jsmart833426@gmail.com>,
- "Hannes Reinecke" <hare@suse.de>
-Cc: "Aaron Dailey" <adailey@purestorage.com>, "Randy Jennings"
- <randyj@purestorage.com>, "Dhaval Giani" <dgiani@purestorage.com>,
- <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-4-mkhalfella@purestorage.com>
-In-Reply-To: <20260214042753.4073668-4-mkhalfella@purestorage.com>
+	Fri, 27 Feb 2026 18:12:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772215935;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iG5lt5XxO/hh9xVt2TbhtRpf4Oxa4xmbAazMvGovJ3Q=;
+	b=MALaEZhY29vAWYckYccUsguzBTWrlp7SbyVJHu++x19uWE8SI7NQEIHuybdQkLeUhg3H3H
+	I5/26qUNr6ZPJSmoRz9FhpMRL7YRAIBUHeNDYSavL+hidn08eaO14ugrn8623GnrqlKP9W
+	EiQLdW4gIjh3XreQ7CoYTc0Sr+9mI54=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-562-omPVtsOgMy-QsqCfcc6GHw-1; Fri,
+ 27 Feb 2026 13:12:09 -0500
+X-MC-Unique: omPVtsOgMy-QsqCfcc6GHw-1
+X-Mimecast-MFC-AGG-ID: omPVtsOgMy-QsqCfcc6GHw_1772215927
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EFC28180025E;
+	Fri, 27 Feb 2026 18:12:05 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (unknown [10.6.23.247])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3FC081800286;
+	Fri, 27 Feb 2026 18:12:04 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (localhost [127.0.0.1])
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.17.1) with ESMTPS id 61RIC3Le1740709
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 13:12:03 -0500
+Received: (from bmarzins@localhost)
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.18.1/Submit) id 61RIC2001740708;
+	Fri, 27 Feb 2026 13:12:02 -0500
+Date: Fri, 27 Feb 2026 13:12:02 -0500
+From: Benjamin Marzinski <bmarzins@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: John Garry <john.g.garry@oracle.com>, hch@lst.de, sagi@grimberg.me,
+        axboe@fb.com, martin.petersen@oracle.com,
+        james.bottomley@hansenpartnership.com, hare@suse.com,
+        jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/13] libmultipath: Add PR support
+Message-ID: <aaHecneNg9Q8EtiS@redhat.com>
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-10-john.g.garry@oracle.com>
+ <aZ8Z7A4uOFfOTDeY@kbusch-mbp>
+MIME-Version: 1.0
+In-Reply-To: <aZ8Z7A4uOFfOTDeY@kbusch-mbp>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: fSpzy0HR1uWU5JRjrcFWkFEFz6-pAnzybuoc7OdkXD0_1772215927
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260227_083036_938072_4DDA4E03 
-X-CRM114-Status: GOOD (  20.96  )
+X-CRM114-CacheID: sfid-20260227_101217_396763_FBE670B4 
+X-CRM114-Status: GOOD (  29.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,295 +98,125 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat Feb 14, 2026 at 5:25 AM CET, Mohamed Khalfella wrote:
-> Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
-> Reset) command is an nvme command issued to source controller by
-> initiator to reset impacted controller. Implement CCR command for linux
-> nvme target.
->
-> +
-> +	new_ccr =3D kmalloc(sizeof(*new_ccr), GFP_KERNEL);
-> +	if (!new_ccr) {
-> +		status =3D NVME_SC_INTERNAL;
-> +		goto out_unlock;
-> +	}
+On Wed, Feb 25, 2026 at 08:49:00AM -0700, Keith Busch wrote:
+> On Wed, Feb 25, 2026 at 03:32:21PM +0000, John Garry wrote:
+> > +static int mpath_pr_register(struct block_device *bdev, u64 old_key,
+> > +			u64 new_key, unsigned int flags)
+> > +{
+> > +	struct mpath_disk *mpath_disk = dev_get_drvdata(&bdev->bd_device);
+> > +	struct mpath_head *mpath_head = mpath_disk->mpath_head;
+> > +	struct mpath_device *mpath_device;
+> > +	int srcu_idx, ret = -EWOULDBLOCK;
+> > +
+> > +	srcu_idx = srcu_read_lock(&mpath_head->srcu);
+> > +	mpath_device = mpath_find_path(mpath_head);
+> > +	if (mpath_device)
+> > +		ret = mpath_head->mpdt->pr_ops->pr_register(mpath_device,
+> > +				old_key, new_key, flags);
+> > +	srcu_read_unlock(&mpath_head->srcu, srcu_idx);
+> 
+> Instead of having the lower layer define new mp template functions, why
+> not use the existing pr_ops from mpath_device->disk->fops->pr_ops?
 
-Nit: kmalloc_obj is now the preferred function for this kind of memory
-allocations, see commit 69050f8d6d075dc01a and 189f164e573e18d
+I don't think that's the right answer. The regular scsi persistent
+reservation functions simply won't work on a multipath device. Even just
+a simple reservation fails.
 
-scripts/checkpatch.pl is supposed to print a warning
-but there must be a problem with the regex and doesn't catch it
+For example (with /dev/sda being multipath device 0):
+# echo round-robin > /sys/class/scsi_mpath_device/0/iopolicy
+# blkpr -c register -k 0x1 /dev/sda
+# blkpr -c reserve -k 0x1 -t exclusive-access-reg-only /dev/sda
+# dd if=/dev/sda of=/dev/null iflag=direct count=100
+dd: error reading '/dev/sda': Invalid exchange
+1+0 records in
+1+0 records out
+512 bytes copied, 0.00871312 s, 58.8 kB/s
 
-Maurizio
+Here are the kernel messages:
+[ 3494.660401] sd 7:0:1:0: reservation conflict
+[ 3494.661802] sd 7:0:1:0: [sda:1] tag#768 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_OK cmd_age=0s
+[ 3494.664848] sd 7:0:1:0: [sda:1] tag#768 CDB: Read(10) 28 00 00 00 00 01 00 00 01 00
+[ 3494.667092] reservation conflict error, dev sda:1, sector 1 op 0x0:(READ) flags 0x2800800 phys_seg 1 prio class 2
 
-> +
-> +	new_ccr->ciu =3D cmd->ccr.ciu;
-> +	new_ccr->icid =3D cntlid;
-> +	new_ccr->ctrl =3D ictrl;
-> +	list_add_tail(&new_ccr->entry, &sctrl->ccr_list);
-> +
-> +out_unlock:
-> +	mutex_unlock(&sctrl->lock);
-> +	if (status =3D=3D NVME_SC_SUCCESS)
-> +		nvmet_ctrl_fatal_error(ictrl);
-> +	nvmet_ctrl_put(ictrl);
-> +out:
-> +	nvmet_req_complete(req, status);
-> +}
-> +
->  u32 nvmet_admin_cmd_data_len(struct nvmet_req *req)
->  {
->  	struct nvme_command *cmd =3D req->cmd;
-> @@ -1691,6 +1762,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
->  	case nvme_admin_keep_alive:
->  		req->execute =3D nvmet_execute_keep_alive;
->  		return 0;
-> +	case nvme_admin_cross_ctrl_reset:
-> +		req->execute =3D nvmet_execute_cross_ctrl_reset;
-> +		return 0;
->  	default:
->  		return nvmet_report_invalid_opcode(req);
->  	}
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index e5f413405604..38f71e1a1b8e 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -115,6 +115,20 @@ u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off,=
- size_t len)
->  	return 0;
->  }
-> =20
-> +void nvmet_ctrl_cleanup_ccrs(struct nvmet_ctrl *ctrl, bool all)
-> +{
-> +	struct nvmet_ccr *ccr, *tmp;
-> +
-> +	lockdep_assert_held(&ctrl->lock);
-> +
-> +	list_for_each_entry_safe(ccr, tmp, &ctrl->ccr_list, entry) {
-> +		if (all || ccr->ctrl =3D=3D NULL) {
-> +			list_del(&ccr->entry);
-> +			kfree(ccr);
-> +		}
-> +	}
-> +}
-> +
->  static u32 nvmet_max_nsid(struct nvmet_subsys *subsys)
->  {
->  	struct nvmet_ns *cur;
-> @@ -1397,6 +1411,7 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctr=
-l)
->  	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
->  		ctrl->ciu =3D ((u8)(ctrl->ciu + 1)) ? : 1;
->  		ctrl->cirn =3D get_random_u64();
-> +		nvmet_ctrl_cleanup_ccrs(ctrl, false);
->  	}
->  	ctrl->csts =3D NVME_CSTS_RDY;
-> =20
-> @@ -1502,6 +1517,35 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char =
-*subsysnqn,
->  	return ctrl;
->  }
-> =20
-> +struct nvmet_ctrl *nvmet_ctrl_find_get_ccr(struct nvmet_subsys *subsys,
-> +					   const char *hostnqn, u8 ciu,
-> +					   u16 cntlid, u64 cirn)
-> +{
-> +	struct nvmet_ctrl *ctrl, *ictrl =3D NULL;
-> +	bool found =3D false;
-> +
-> +	mutex_lock(&subsys->lock);
-> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> +		if (ctrl->cntlid !=3D cntlid)
-> +			continue;
-> +
-> +		/* Avoid racing with a controller that is becoming ready */
-> +		mutex_lock(&ctrl->lock);
-> +		if (ctrl->ciu =3D=3D ciu && ctrl->cirn =3D=3D cirn)
-> +			found =3D true;
-> +		mutex_unlock(&ctrl->lock);
-> +
-> +		if (found) {
-> +			if (kref_get_unless_zero(&ctrl->ref))
-> +				ictrl =3D ctrl;
-> +			break;
-> +		}
-> +	};
-> +	mutex_unlock(&subsys->lock);
-> +
-> +	return ictrl;
-> +}
-> +
->  u16 nvmet_check_ctrl_status(struct nvmet_req *req)
->  {
->  	if (unlikely(!(req->sq->ctrl->cc & NVME_CC_ENABLE))) {
-> @@ -1627,6 +1671,7 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_al=
-loc_ctrl_args *args)
->  		subsys->clear_ids =3D 1;
->  #endif
-> =20
-> +	INIT_LIST_HEAD(&ctrl->ccr_list);
->  	INIT_WORK(&ctrl->async_event_work, nvmet_async_event_work);
->  	INIT_LIST_HEAD(&ctrl->async_events);
->  	INIT_RADIX_TREE(&ctrl->p2p_ns_map, GFP_KERNEL);
-> @@ -1740,12 +1785,43 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_=
-alloc_ctrl_args *args)
->  }
->  EXPORT_SYMBOL_GPL(nvmet_alloc_ctrl);
-> =20
-> +static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
-> +{
-> +	struct nvmet_subsys *subsys =3D ctrl->subsys;
-> +	struct nvmet_ctrl *sctrl;
-> +	struct nvmet_ccr *ccr;
-> +
-> +	lockdep_assert_held(&subsys->lock);
-> +
-> +	/* Cleanup all CCRs issued by ctrl as source controller */
-> +	mutex_lock(&ctrl->lock);
-> +	nvmet_ctrl_cleanup_ccrs(ctrl, true);
-> +	mutex_unlock(&ctrl->lock);
-> +
-> +	/*
-> +	 * Find all CCRs targeting ctrl as impacted controller and
-> +	 * set ccr->ctrl to NULL. This tells the source controller
-> +	 * that CCR completed successfully.
-> +	 */
-> +	list_for_each_entry(sctrl, &subsys->ctrls, subsys_entry) {
-> +		mutex_lock(&sctrl->lock);
-> +		list_for_each_entry(ccr, &sctrl->ccr_list, entry) {
-> +			if (ccr->ctrl =3D=3D ctrl) {
-> +				ccr->ctrl =3D NULL;
-> +				break;
-> +			}
-> +		}
-> +		mutex_unlock(&sctrl->lock);
-> +	}
-> +}
-> +
->  static void nvmet_ctrl_free(struct kref *ref)
->  {
->  	struct nvmet_ctrl *ctrl =3D container_of(ref, struct nvmet_ctrl, ref);
->  	struct nvmet_subsys *subsys =3D ctrl->subsys;
-> =20
->  	mutex_lock(&subsys->lock);
-> +	nvmet_ctrl_complete_pending_ccr(ctrl);
->  	nvmet_ctrl_destroy_pr(ctrl);
->  	nvmet_release_p2p_ns_map(ctrl);
->  	list_del(&ctrl->subsys_entry);
-> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-> index a36daa5d3a57..b06d905c08c8 100644
-> --- a/drivers/nvme/target/nvmet.h
-> +++ b/drivers/nvme/target/nvmet.h
-> @@ -268,6 +268,7 @@ struct nvmet_ctrl {
->  	u32			kato;
->  	u64			cirn;
-> =20
-> +	struct list_head	ccr_list;
->  	struct nvmet_port	*port;
-> =20
->  	u32			aen_enabled;
-> @@ -314,6 +315,13 @@ struct nvmet_ctrl {
->  	struct nvmet_pr_log_mgr pr_log_mgr;
->  };
-> =20
-> +struct nvmet_ccr {
-> +	struct nvmet_ctrl	*ctrl;
-> +	struct list_head	entry;
-> +	u16			icid;
-> +	u8			ciu;
-> +};
-> +
->  struct nvmet_subsys {
->  	enum nvme_subsys_type	type;
-> =20
-> @@ -576,6 +584,7 @@ void nvmet_req_free_sgls(struct nvmet_req *req);
->  void nvmet_execute_set_features(struct nvmet_req *req);
->  void nvmet_execute_get_features(struct nvmet_req *req);
->  void nvmet_execute_keep_alive(struct nvmet_req *req);
-> +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req);
-> =20
->  u16 nvmet_check_cqid(struct nvmet_ctrl *ctrl, u16 cqid, bool create);
->  u16 nvmet_check_io_cqid(struct nvmet_ctrl *ctrl, u16 cqid, bool create);
-> @@ -618,6 +627,10 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_all=
-oc_ctrl_args *args);
->  struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
->  				       const char *hostnqn, u16 cntlid,
->  				       struct nvmet_req *req);
-> +struct nvmet_ctrl *nvmet_ctrl_find_get_ccr(struct nvmet_subsys *subsys,
-> +					   const char *hostnqn, u8 ciu,
-> +					   u16 cntlid, u64 cirn);
-> +void nvmet_ctrl_cleanup_ccrs(struct nvmet_ctrl *ctrl, bool all);
->  void nvmet_ctrl_put(struct nvmet_ctrl *ctrl);
->  u16 nvmet_check_ctrl_status(struct nvmet_req *req);
->  ssize_t nvmet_ctrl_host_traddr(struct nvmet_ctrl *ctrl,
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 7746b6d30349..d9b421dc1ef3 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -22,6 +22,7 @@
->  #define NVMF_TSAS_SIZE		256
-> =20
->  #define NVMF_CCR_LIMIT		4
-> +#define NVMF_CCR_PER_PAGE	511
-> =20
->  #define NVME_DISC_SUBSYS_NAME	"nqn.2014-08.org.nvmexpress.discovery"
-> =20
-> @@ -1222,6 +1223,22 @@ struct nvme_zone_mgmt_recv_cmd {
->  	__le32			cdw14[2];
->  };
-> =20
-> +struct nvme_cross_ctrl_reset_cmd {
-> +	__u8			opcode;
-> +	__u8			flags;
-> +	__u16			command_id;
-> +	__le32			nsid;
-> +	__le64			rsvd2[2];
-> +	union nvme_data_ptr	dptr;
-> +	__u8			rsvd10;
-> +	__u8			ciu;
-> +	__le16			icid;
-> +	__le32			cdw11;
-> +	__le64			cirn;
-> +	__le32			cdw14;
-> +	__le32			cdw15;
-> +};
-> +
->  struct nvme_io_mgmt_recv_cmd {
->  	__u8			opcode;
->  	__u8			flags;
-> @@ -1320,6 +1337,7 @@ enum nvme_admin_opcode {
->  	nvme_admin_virtual_mgmt		=3D 0x1c,
->  	nvme_admin_nvme_mi_send		=3D 0x1d,
->  	nvme_admin_nvme_mi_recv		=3D 0x1e,
-> +	nvme_admin_cross_ctrl_reset	=3D 0x38,
->  	nvme_admin_dbbuf		=3D 0x7C,
->  	nvme_admin_format_nvm		=3D 0x80,
->  	nvme_admin_security_send	=3D 0x81,
-> @@ -1353,6 +1371,7 @@ enum nvme_admin_opcode {
->  		nvme_admin_opcode_name(nvme_admin_virtual_mgmt),	\
->  		nvme_admin_opcode_name(nvme_admin_nvme_mi_send),	\
->  		nvme_admin_opcode_name(nvme_admin_nvme_mi_recv),	\
-> +		nvme_admin_opcode_name(nvme_admin_cross_ctrl_reset),	\
->  		nvme_admin_opcode_name(nvme_admin_dbbuf),		\
->  		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
->  		nvme_admin_opcode_name(nvme_admin_security_send),	\
-> @@ -2006,6 +2025,7 @@ struct nvme_command {
->  		struct nvme_dbbuf dbbuf;
->  		struct nvme_directive_cmd directive;
->  		struct nvme_io_mgmt_recv_cmd imr;
-> +		struct nvme_cross_ctrl_reset_cmd ccr;
->  	};
->  };
-> =20
-> @@ -2170,6 +2190,9 @@ enum {
->  	NVME_SC_PMR_SAN_PROHIBITED	=3D 0x123,
->  	NVME_SC_ANA_GROUP_ID_INVALID	=3D 0x124,
->  	NVME_SC_ANA_ATTACH_FAILED	=3D 0x125,
-> +	NVME_SC_CCR_IN_PROGRESS		=3D 0x13f,
-> +	NVME_SC_CCR_LOGPAGE_FULL	=3D 0x140,
-> +	NVME_SC_CCR_LIMIT_EXCEEDED	=3D 0x141,
-> =20
->  	/*
->  	 * I/O Command Set Specific - NVM commands:
+If you don't have a multipathed scsi device to try this on, you can run:
+
+targetcli <<EOF
+/backstores/ramdisk create mptest 1G
+/loopback create naa.5001401111111111
+/loopback create naa.5001402222222222
+/loopback create naa.5001403333333333
+/loopback create naa.5001404444444444
+/loopback/naa.5001401111111111/luns create /backstores/ramdisk/mptest
+/loopback/naa.5001402222222222/luns create /backstores/ramdisk/mptest
+/loopback/naa.5001403333333333/luns create /backstores/ramdisk/mptest
+/loopback/naa.5001404444444444/luns create /backstores/ramdisk/mptest
+EOF
+
+to create one.
+
+Handling scsi Persistent Reservations on a multipath device is painful.
+Here is a non-exhaustive list of the problems with trying to make a
+multipath device act like a single scsi device for persistent
+reservation purposes:
+
+You need to register the key on all the I_T Nexuses. You can't just pick
+a single path. Otherwise, when you set up the reservation, you will only
+be able to do IO on one of the paths. That's what happened above.
+
+If an path is down when you do the resevation, you might not be able to
+register the key on that path. You certainly can't do it directly.
+Using the All Target Ports bit (assuming the device supports it) could
+let you extend a reservation from one target port to others, assuming
+your path isn't down because of connection issue on the host side. But
+in general, you have to be able to handle the case where you can't
+register (or unregister) a key on your failed paths. If you don't do
+that (un)registration when the path comes up, before it can get seleted
+for handling IO, you will fail when accessing a path you should be
+allowed allowed to access, or succeed in accessing a path that you are
+should not be allowed to access.
+
+The same is true when new paths are discovered. You need to register
+them.
+
+Except that a preempt can come and remove your registration at any time.
+You can't register the new (or newly active) path if the key has been
+preempted, and this preemption can happen at any moment, even after you
+check if the other paths are still registered. If this isn't handled
+correctly, paths can access storage that they should not be allowed to
+access.
+
+Changing the reservation type (for instance from
+exclusive-access-reg-only to write-exclusive-reg-only) in scsi devices
+is done by preempting the existing reservation. This will remove the
+registered keys from every path except the one issuing the command. The
+key needs to be reregistered on all the other paths again. If any IO
+goes to these paths before they are reregistered, it will fail with a
+reservation conflict, so IO needs to be suspended during this time.
+
+The path that is holding the reservation might be down. In this case,
+you aren't able to release the reservation from that path. The only way
+I figured out to handle this in dm-mpath was for the device to preempt
+it's own key, to move the reservation to a working path. This causes the
+same issues as preempting key to change the reservation type, where you
+need to reregister all the paths with IO suspended.
+
+An actual preemption can come in from another machine while you are
+doing this. In that case, you must not reregister the paths, and if you
+already started, you must unregister them.
+
+I can probably come up with more issues.
+
+I think the best course of action for now is to just fail persistent
+reservations as non-supported for scsi devices. IMHO Making them work
+correctly (where mulitpath device IO won't fail when it should succeed,
+and succeed when it should fail with a reservation conflict) dwarfs the
+amount of work necessary to support ALUA.
+
+dm-mpath previously did a pretty good job handling Persistent
+Reservations. But recently it became much better, because it become very
+clear that pretty good is not good enough for what people what to do
+with Persistent Reservations and multipath devices.
+
+-Ben
 
 
