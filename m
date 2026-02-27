@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DD5510398AD
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0FB971039895
 	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 20:24:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,83 +12,83 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=chF3cAD1j09EpR3bM9lUaumkQDJZpAeYYRmoTp9QLII=; b=UdyA01as/wHgHSC4hFhLFp1Wvg
-	GsX0MLG7qF4C2NHh0se9oOVFQ/fQHkCsZewXEZp7z0eopMU7FG6nEBavw/d7tSRwzMFv3lnrJUBzQ
-	/2Y/cnYFRYr6pQQO8fa67quA62Zq5y/AszI8rVQ0jFJQ3lc2hH0h11MnwjtDpJUv9sGpE/qtCPe8A
-	KHvjmKalw21HYnkfDMYwdxxG6UlNQbVRdL55g7KUicGes68v0AzGiLcuOCoeRdNWPL71KvprPBruJ
-	X34Ok4Gd5v9qdq7CCWSH9GIRf8yC4JgPZS27Ll1sK9UgoGfXCbu4PnTdsC1E9AiRhwQWqJhfkPzXn
-	gyNUbg4Q==;
+	bh=4pe4RREd+BTPRgbiC807YGAMUFduYLhwjMogn+PjJEc=; b=fJmz02IFNcLSW1azpxtvS42FlN
+	AuumBktcVyzNEa5mj07FZIMsXTpeSTjl/b58Uo2eQ50tt+WAZDDDELk8iCANo/7V6W5U6GuYJbxIC
+	kF4rKg9lexEeuE9w5h7gFMivlhpm1+9ZO+K65TlPjBgRIk+JqG89c7Gxf0aUhPx/LggPmiyXlu8UV
+	ojgO7XVj8+Wgb6zhAzzb7B6Hk+o2pShQCnbuG1qHUHqNo2cLAWczSJM2P/2W76SPhOT1aynP5sc9H
+	CmwGBO07aM4jardcg90U1lhE5KV9ZeJYs1fuYAxkoPGR7D7rz3WliszBBouhTNuIHn2wqTIs+pDth
+	vt7Rh96Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw4Nj-000000096Vm-2gIY;
+	id 1vw4Nj-000000096Ur-11Ji;
 	Fri, 27 Feb 2026 20:24:15 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw4Ni-000000096T6-0NPu
+	id 1vw4Ni-000000096T3-033g
 	for linux-nvme@bombadil.infradead.org;
 	Fri, 27 Feb 2026 20:24:14 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
 	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=chF3cAD1j09EpR3bM9lUaumkQDJZpAeYYRmoTp9QLII=; b=O2s7sRHi55xHnOsO2NV5/oqN03
-	PpqUed5OXS331hRJtZkMZ/UYlFD9IlWAmZblBAyCQjudttAlVXFDbe/xYmXXitu3JpPWMoHlSZeVI
-	RwDYC1FBfpaXFx9wY4smWrvHu+cmUBSg0+UA2xR+pEGeZtIMsPm3OSoAQuMEOl8wGW1cbY3IrJp1K
-	SXQUIMFlBYcMsFx5QQ5G8Gl0YCq0eZEGx/9M/yG8FN0PwLZmXGdXKd/Ig/1nfar77faBTSn8D50dj
-	/N819LNmmZI4bdQp1HQ4zJYOEkYSS/J47tq6jlP1UWay15bC1dfC4vYD62YssY2RoNfxEkM5vBUjF
-	T2smr6IA==;
-Received: from mail-pf1-x463.google.com ([2607:f8b0:4864:20::463])
+	bh=4pe4RREd+BTPRgbiC807YGAMUFduYLhwjMogn+PjJEc=; b=m8YN6EK5XZILVhVy6lx57MZTLm
+	xf1VdXJXx5Oqaya4RM//O6SYIdXZv9Pblrc8c+LEWPV6h8c5+VqS5kiHLJ60f9H4+9j3QvpZouZym
+	A5Qc6oE1C/mc/wgUu+/TY2I3v3eRCMeAm0uYccQ68TEfYGpS/QyP0egMyBfKBf1e6YFkH06ciZ9AD
+	cxqqwvVbm1Cc23jgDGJ8rKpECBk5Osb7jchtqQtEJMLwCCpXDP+1kw39aYsJtvgbyTxXmMe8OV5p2
+	5Y5ga8eHtancTtz967yuN6IgLXHYK1wuTShPC6qymvZISmFCr1xtXHsX43L0/jyJIWgrKsMRdybt0
+	0jd0DRVQ==;
+Received: from mail-pl1-x661.google.com ([2607:f8b0:4864:20::661])
 	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw4NZ-0000000Dt7P-3ysl
+	id 1vw4NZ-0000000Dt78-2L0x
 	for linux-nvme@lists.infradead.org;
 	Fri, 27 Feb 2026 20:24:12 +0000
-Received: by mail-pf1-x463.google.com with SMTP id d2e1a72fcca58-8272cea0718so150010b3a.1
-        for <linux-nvme@lists.infradead.org>; Fri, 27 Feb 2026 12:24:04 -0800 (PST)
+Received: by mail-pl1-x661.google.com with SMTP id d9443c01a7336-2a9633ef0d6so3103035ad.0
+        for <linux-nvme@lists.infradead.org>; Fri, 27 Feb 2026 12:24:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1772223843; x=1772828643; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1772223842; x=1772828642; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=chF3cAD1j09EpR3bM9lUaumkQDJZpAeYYRmoTp9QLII=;
-        b=CLCv93W2uO1ptfto4HBRKsxVQpr3m5UMx728zIdHo+f96ciKajDaZV+ihksEqjXnmz
-         JSnThvJLkI9QroRMsRtAA4rYIpH1ifQ3Ausj+eLQ8YKW7eHDB6MjH55YUgrdgYkt4Cu8
-         E78fskO9xGayIqkb2+P0pFjAFi8ovnH1FD66fi+Vmp/Upoa+9Ou5tijJ1FuU8avYBN9s
-         UolKknPZyEBTP6iNiTLw8oiBf/dC/iqmKP50fJ8mIEwvrRWbOZ+oXaWK6aZ4iex7gMBG
-         QfVjCGG2Ph2E1Q/fuNSnwAn/vRFh2zy+aCzHIFm4VzKxuktTAGa8zUTolVWVUbi3uNbF
-         A2PQ==
+        bh=4pe4RREd+BTPRgbiC807YGAMUFduYLhwjMogn+PjJEc=;
+        b=R3kdIHw0p9ZIEapDyzrcY9d/DJ0/8I8ka/7qn/54cOA8cpBBaxpQY5Y8oR3GdFPent
+         owY4EbqZ6wSQbRexAUvnmrng2P4wXdnsgadVfy+xfttYztGyGUvbjsxPK3WNtl0nFLlx
+         FTGQZptqTJROMev85Zb0bWBPxa9ljfNryH5ZWD/QwQRgfZh8dyfBcZGit3RgCyLwSap+
+         eVcVUamLHTvnRpcZ/nmlbhflCUdt9w+zKAM7q40LupZh+741T/U3daVGzjTBp9tjF+kM
+         GVxK6TZLEmBP8MNrGmUMB/YkOeqXjQuKMBSB/O6alEUf1SVOJTal68mYoJfxjkA2xbhr
+         wxbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772223843; x=1772828643;
+        d=1e100.net; s=20230601; t=1772223842; x=1772828642;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=chF3cAD1j09EpR3bM9lUaumkQDJZpAeYYRmoTp9QLII=;
-        b=WdPaxc0cZv1haTcFJHDL3A8k4B6aCL3HmHFj7WMx10PAhkBNPbJxSYxTufW28C6OCC
-         SgV+fmg02TkD1qEklMhp+LBYFdPgdZkfIzG4lmv/0WmT4aDPG4lxQELotDLFvNL+TYWS
-         oNM+9kMAGZqoSDeXIkEERBlfQjthD54CZHdYWJIe5J2cPxiOQrY1vzQqDJWgdLLlJPf0
-         vwhr922qYzhwoQiYziCojPFjEn0aqbGOGDxZ1zh+ZbItj8ObCtMy4R6oTu0aY95qYwIN
-         Kbz6RAQ5EtDXaSBFFIfU34rDaIN8ttcEm3WAJyMCszHJZsrEsvGRoEMxMp2UHogjjYjl
-         38YQ==
-X-Gm-Message-State: AOJu0YyY+cZTBYDGBYbHcDeyYS7q6vHNDKNxQlk0fp8QKuUsnu4Uaflj
-	ieNpyMKAy+SCqcu4+XEAl6ToRDzDL/Csa8lGAH1ZfBVLTY8GIS3EFu/17VwYK2Pq5czHOoGj2na
-	hMERl6aW1aPryzb6palIGtusinpuqswmsb96C
-X-Gm-Gg: ATEYQzyr6F1El/zAWBXYEQodnu+YwuZtNF4B7I+eQUbx3Fl/T4voz7DOFPWd7wIzKWp
-	1j9ZdbIAULR3vOyiA7IRt0T7pWwp9xFdFMQVTwDyjxSfB+/MGsBtcse9pUMDhZmAk/9J830llr/
-	5yKDtUXcEsNGhbGNLUa8mBsXoS+ImuvZ9Im62D+Pgo2qCSZJocV4LqfKB5Ui9WlBSfBLbucYMh0
-	1ZsYW1OF9GpWlZjZq6SJ+lSg9JaGFLZecLPtpCinz9Zmt32xIu7IanRaC1yNAOQGgYfps5Htkcl
-	O7LKuL/6wZ1A5qsZ7Wl1beW74pZ3yVPAnzxS421tSBSfOSVPua+1dyHevT1bB95AQp5SOHWLEWe
-	tYcfepERvNPFv1aoTRrimyA8j3RQzeWrtgFx+PyWhafFn+5o2T9yE6g==
-X-Received: by 2002:a05:6a21:6d88:b0:38b:e7ca:9517 with SMTP id adf61e73a8af0-395c3b422bamr3131161637.7.1772223842730;
+        bh=4pe4RREd+BTPRgbiC807YGAMUFduYLhwjMogn+PjJEc=;
+        b=fvSsjae2rFKM+dy7qpkoxtDj9BkfMMLbifrPK+ICdiUX45fdB15c0tOlEFoPthGwTw
+         ioHcvIdiBDsAUKrhgBeLXrz2kbLTPFYwOB9x3w/bahf5aNKnpRDkA8UWHCcVFVjSDXUR
+         8K8G55ZZIDcF/Dkhj5kwmQu4FgofLvCvtvhNXceSfhKUQDrYGYVwrpGml1Te47fAnzDp
+         sTfruz8+h+G5Nfiln/LxEjYU7j8g9By9QevKRLXyp9TNptofMnTC//397ZsyoAvRUGIr
+         1Aqr4RR6Lf/skmtcBzVnI3UWdUZNMVj5opU0zjRuyy176kCcuf3O0gHhEOl5pbkwxgzj
+         2P8A==
+X-Gm-Message-State: AOJu0YwAlL4wSwRq/tOZDvrus/C1rt0WPbSboGDvEZ6d1o2R2L0Q6W9u
+	wZ/9RkBH05dbEUsAR/0wHHxMUmNG8EVCh9ppz4XaDI3rPt4r3hhmbHkTYcN1s4yRY51RTKmFNA0
+	Nl9YVKrFIpxBHhapmlToAgKM1zdFbWzZzw2KCNTHTDG2NpKnnMqRF
+X-Gm-Gg: ATEYQzzrE8JcxntiM+EH1LOJ9nMvXcoYuf5yRJy8M6MaC9UaoGgGY24sR819ymQOTvi
+	gyHWgvKPhl4AsWbLRuwJhv5NAFx/aEXMaTvh1/vAsaYafQJO39/Jl7ouhf9n1Rvmd2eOUHDfx7W
+	fLN+KutqmXUU7yw71Cq3dqPjt4SigbMl8eL+RG3av4O2btebfLeFfqnf8Vb795ZOePkmH3S3kHF
+	KgShgA33TCm0ssJcdsGLAv0NjTJFbxVwU3h63PU3Up+JFHsvNC6sKfLW9vlEfj/sxhKZ+XsBo8f
+	QpzBjn/itF72PUxMa5q4DenasUP9N40C2Efz9q3UEjAbttr46HHJMpGj0V1n46q65MEQEoQSwzQ
+	J0kGbeUG2CSAQanXnIc6E2+5oIwIXy0Yk81JJgYg=
+X-Received: by 2002:a17:902:f650:b0:2ad:e300:df0f with SMTP id d9443c01a7336-2ae2e4770b7mr31860275ad.4.1772223842043;
         Fri, 27 Feb 2026 12:24:02 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.129])
-        by smtp-relay.gmail.com with ESMTPS id d2e1a72fcca58-82739d70643sm670497b3a.3.2026.02.27.12.24.02
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2adfb267621sm7698445ad.20.2026.02.27.12.24.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 27 Feb 2026 12:24:02 -0800 (PST)
 X-Relaying-Domain: purestorage.com
 Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 5A9693422C9;
-	Fri, 27 Feb 2026 13:24:01 -0700 (MST)
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id D8870342243;
+	Fri, 27 Feb 2026 13:24:00 -0700 (MST)
 Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id 543BBE420D8; Fri, 27 Feb 2026 13:24:01 -0700 (MST)
+	id D3EB5E420D8; Fri, 27 Feb 2026 13:24:00 -0700 (MST)
 From: Caleb Sander Mateos <csander@purestorage.com>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -98,17 +98,17 @@ To: Keith Busch <kbusch@kernel.org>,
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v5 7/8] nvmet: use NVME_NS_FEAT_OPTPERF_SHIFT
-Date: Fri, 27 Feb 2026 13:23:52 -0700
-Message-ID: <20260227202354.1012322-8-csander@purestorage.com>
+Subject: [PATCH v5 4/8] nvme: always issue I/O Command Set specific Identify Namespace
+Date: Fri, 27 Feb 2026 13:23:49 -0700
+Message-ID: <20260227202354.1012322-5-csander@purestorage.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20260227202354.1012322-1-csander@purestorage.com>
 References: <20260227202354.1012322-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260227_202410_584388_CCDBFE84 
-X-CRM114-Status: GOOD (  15.32  )
+X-CRM114-CacheID: sfid-20260227_202410_555629_D263C3B0 
+X-CRM114-Status: GOOD (  16.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,38 +123,41 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Use the NVME_NS_FEAT_OPTPERF_SHIFT constant in nvmet_bdev_set_limits()
-to set the OPTPERF bits of the nvme_id_ns NSFEAT field instead of the
-magic number 4.
+Currently, the I/O Command Set specific Identify Namespace structure is
+only fetched for controllers that support extended LBA formats. This is
+because struct nvme_id_ns_nvm is only used by nvme_configure_pi_elbas(),
+which is only called when the ELBAS bit is set in the CTRATT field of
+the Identify Controller structure.
+
+However, the I/O Command Set specific Identify Namespace structure will
+soon be used in nvme_update_disk_info(), so always try to obtain it in
+nvme_update_ns_info_block(). This Identify structure is first defined in
+NVMe spec version 2.0, but controllers reporting older versions could
+still implement it.
 
 Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/target/io-cmd-bdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 8d246b8ca604..d94f885a56d9 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -28,15 +28,15 @@ void nvmet_bdev_set_limits(struct block_device *bdev, struct nvme_id_ns *id)
- 	id->nawun = lpp0b;
- 	id->nawupf = lpp0b;
- 	id->nacwu = lpp0b;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bff6f26d7bcf..c3b24fcb2274 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2352,11 +2352,11 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		ret = -ENXIO;
+ 		goto out;
+ 	}
+ 	lbaf = nvme_lbaf_index(id->flbas);
  
- 	/*
--	 * Bit 4 indicates that the fields NPWG, NPWA, NPDG, NPDA, and
-+	 * OPTPERF = 01b indicates that the fields NPWG, NPWA, NPDG, NPDA, and
- 	 * NOWS are defined for this namespace and should be used by
- 	 * the host for I/O optimization.
- 	 */
--	id->nsfeat |= 1 << 4;
-+	id->nsfeat |= 0x1 << NVME_NS_FEAT_OPTPERF_SHIFT;
- 	/* NPWG = Namespace Preferred Write Granularity. 0's based */
- 	id->npwg = to0based(bdev_io_min(bdev) / bdev_logical_block_size(bdev));
- 	/* NPWA = Namespace Preferred Write Alignment. 0's based */
- 	id->npwa = id->npwg;
- 	/* NPDG = Namespace Preferred Deallocate Granularity. 0's based */
+-	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_ELBAS) {
++	if (nvme_id_cns_ok(ns->ctrl, NVME_ID_CNS_CS_NS)) {
+ 		ret = nvme_identify_ns_nvm(ns->ctrl, info->nsid, &nvm);
+ 		if (ret < 0)
+ 			goto out;
+ 	}
+ 
 -- 
 2.45.2
 
