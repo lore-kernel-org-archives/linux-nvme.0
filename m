@@ -4,142 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 479CB104891E
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Feb 2026 23:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A1ABC1048925
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Feb 2026 00:12:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YW585wlDaYdc21wQAmz+pF0FypG+qj7RS16MBTsLffQ=; b=ySZ1UKO6qRQw6wqVhhmlaqk8ga
-	uRDVLmoQzIu0krrXyxLv+ES1Wd9Y1Uzb9WwmjzGyXOg4RCw/ohIQfpPqxFPhSAPibdwi8TW0w/80X
-	1JCYiY4xj0F1EK3DvrtTq0cO5v9+KjQvL30Iuk/mcJj7mYYFxkPQM1nMap9WP7uRjxSiTlHMk047c
-	6sddO19c2qVKWVTsLOL7LsNpzR7qtTseYAqxzWfIkfE+SLV6dvyiz1Jmx4aLxMukNvCUXtBwpp5ti
-	iqd3C7DuQ9lqs+e4DAp7lOFmmcIRXDF7TK0uJarHWk0s73VXQXAjNFLGVx0MzA/9yB59a1+PBjg7U
-	ooPRChpA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mlqixyLL+YmCQPrWDOn1p0QVoFl05wbSMCiPcDscAMs=; b=Jqc1WkBQYcKUJjXilsbco2Jkd9
+	Rn3jPquDvS6xHhMiZc21rfuQPmft5hySFB/zd8G/bnUm6cfzlvYuZGRvvH1gJndNFC18Rue2bN3vW
+	fKuckxf/HImqOviulcSz1cnR+1XhgumZuHvlYAozp7W0IrBXD+jvMsFuVlBhnOr9TFsiV0lIJ4AC4
+	VKxvgPbZhQ3YS34QpqsKCF9AQMuvgFtp5dT/2+QIV8Ts8KlsP1oRnfcKccHDpxNSX2L1djcP5gOLf
+	DAxTo4UGcwIiqX7rObg7ypzSsbxNePt3qFRIeOV2PP++L6PJwH2/OcU9230b7KuOVcs950Y1RkaKy
+	sQxVf6ow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw710-00000009FvJ-3f72;
-	Fri, 27 Feb 2026 23:12:58 +0000
-Received: from mail-westcentralusazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c112::7] helo=CY3PR05CU001.outbound.protection.outlook.com)
+	id 1vw7wK-00000009JHm-1n4K;
+	Sat, 28 Feb 2026 00:12:12 +0000
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw70v-00000009Fur-1p3T
+	id 1vw7wI-00000009JGb-2Zza
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Feb 2026 23:12:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DNeByzJeqGVrunj9cdIfdvO3ICoszCuz0Woncglygd1cGecqjc2UErK5sLo6g1ikuIAu4Iei8MaW5viZGa5sPGHHwCdZ0sSsYA7ZgXwVjV5tojd6zWE/hMWIgFOGGbicMtaX0jICQy7ItzaAMh/Y1hRnr27mNxo03DbtMtdghao5iPkjciiBQcl3J3Dh7KNeknyTjN+0E1pmnrgsZulO0zEMq8aIfNTfxpvxcHwdrGQLxm7hxrEF2BW/PNnrasuDOi1BXjl4qLR+up64h1nBxPTfoSe3U3780wAkyKOCMHgcGrrOMHrQhTEQ9HQZC+HVa4zKscVVH57gXKeMWFRWJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YW585wlDaYdc21wQAmz+pF0FypG+qj7RS16MBTsLffQ=;
- b=BUBrIYwGF29L2maSPZog6RVIkCIsvutOn0eo6XCDholnGno41iZiVFUE99BHjHkoutEIAKlnaXGnG1sxuNabTO565X5IGL/9ghXJ9GJM33AlEPKChRKLN3B7Y5yxcxJUZTwefORG22h0bRoVBYp+GXwfdq9vBHNFlvB71uj8rofADTop/oaiavoY7OmQ86Ub54Jc53Kl4fd1Lk9q/PPPYzQeV1La9s9jvhhuKV60rmJdTyf5gAmoloKU+EB4KUQmYcH6R1g1ll3OWqsSyELUbYjiDuw6y4k42BQzWyahuUnAfDEbMHzpC9MYwY10pviJKjx6zCpsT8P+oo/cphpgGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YW585wlDaYdc21wQAmz+pF0FypG+qj7RS16MBTsLffQ=;
- b=WMFOAtjSkh4L72CLg/puDqaX8VXXRkQGcOHV3ZCaEts3e10jzAssaSebjIHp1GfwVp7I0I7dDfqwr4B35OpHC6znVZIvcBbVh8hG88OiY/k4ABFvbV1HHU0+yutkrtXV5LbnC/RADLW+vuUj41IvsrwF0mfa1bHdCibeVKWjJQbwsDbS45KNSW2ReI/pL1nmyYAx3cAsYw/bgfaDBJPKo0d+z/AuDh+8KHE7urLKnB0yHik6NOSLfkzxZ9ZMPdS/9hDQzkQQVC1/Sd/QI5ihoKPEKdAM3YRib5Q6C+QQ8E2PD1ph4MM9YM9z2TkaMqax/6FAD/Bz8GAuPdyDePEj3g==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by PH8PR12MB7109.namprd12.prod.outlook.com (2603:10b6:510:22f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.11; Fri, 27 Feb
- 2026 23:12:46 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::2109:679c:3b3e:b008]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::2109:679c:3b3e:b008%6]) with mapi id 15.20.9654.015; Fri, 27 Feb 2026
- 23:12:46 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: "sagi@grimberg.me" <sagi@grimberg.me>
-CC: "hch@lst.de" <hch@lst.de>, "nilay@linux.ibm.com" <nilay@linux.ibm.com>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"hare@suse.de" <hare@suse.de>, "kbusch@kernel.org" <kbusch@kernel.org>,
-	"dwagner@suse.de" <dwagner@suse.de>, Chaitanya Kulkarni
-	<chaitanyak@nvidia.com>
-Subject: Re: [PATCH V3] nvme-tcp: teardown circular lockng fixes
-Thread-Topic: [PATCH V3] nvme-tcp: teardown circular lockng fixes
-Thread-Index: AQHcpsuyg0Dk+C1Zik60fgvuDocUaLWXL5GA
-Date: Fri, 27 Feb 2026 23:12:45 +0000
-Message-ID: <1f2272c6-f6b8-4a82-a49b-d651fe19a823@nvidia.com>
-References: <20260226025658.86496-1-kch@nvidia.com>
-In-Reply-To: <20260226025658.86496-1-kch@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|PH8PR12MB7109:EE_
-x-ms-office365-filtering-correlation-id: 20743a5c-b0b8-4b7c-fd42-08de7655b799
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|13003099007|38070700021;
-x-microsoft-antispam-message-info: QwiWkEmFh6owVnNdXr8RKW4ZNwJb0GxdyHgloYshw9vQLTNEe1aqwjzmgoYqB5T6x2Uf/Mgfs8zDUYeeFbMSymkJSEojQzAw9x/M9nmhBF+W5IvdDTsPud040G8T9p+A70hjkqTBhPHwGQxpE++mrfSNGt3eB1nIm+nNDkBaarjLsTyFyWWQhhPVlzDFIv0vsVMF5X58iCZBMkC/+6N2/nAOblt+PKKuRUmCrOdDdLK+Fm4+8gQoovtQ7ON5GpDtzPqgnMHsBbvg7vkES32CTXW4gMMMmpic056yGyQhswBehbq9h7NEH9rtue0vPKK4Q4u9ellcrPWvmw+s2dcmoOY+amvokJ6dHLpuj8qAbS8A1U+hMr5NmO3FZRXLr+0lOW7ez95y/nF4u9sBwIyCVmY1eqR5Hu1CILsVE42YvIR2c4dvkOvGwQA/7Ph3eYF/u+FP49eqxBUtlulHI/r7A+Ec3RTgEWR/fvp21hR3EdBywYsWMAFpuK02g6FFPIN4P4bPWoWETOoVHxYYIVfVr9o0GktFxiZFH1/eVHvMuSJysU2twVqSE5sBi4iJTUd02QcV2LQm+eKOXZVH/gudKvF2l01mvYNUEhJq8n3eBuTj4if+0PF72xxHOHXCK6N7zEWxUANmslvd+7ID+mpO1FYtyqVdJFX5ad08/8akUD6DxjE8MJnIdRvUIwflmeEwlHnxO0cDQ47rEqTNxs5upFrWNaPUqJ1swV7eT8UUQ3IXWjRPx52/PqwrLbNjF/trJyNbFMmZpwMgN9J7WcLMrR/7kit/CDNtkz2QtPpKaFo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(13003099007)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cXk1Ulh0Qm9va3ZrRkNxWGw3TWl1MDZpakpkR0k2N2c2M09Eb1hmb0JGbWZw?=
- =?utf-8?B?bHl3aVRhb1hIREtWR1RKSmlScU5SSlJVVGxuMEE5V0JiMDBrcEJHc2JoV3kr?=
- =?utf-8?B?Sng4V1lZWkc1NTdKM0hCc1YwazlRQXNNdE4yQWRYdVQ1MnpZVVhPT1ZkR01G?=
- =?utf-8?B?amdCU0RFRE1WWEJrNWRhTWx1L1lCU2NBdFMyMXBiNndaOGdkSmFhb1NUbW15?=
- =?utf-8?B?UUhodk5CUWhrRjY5VlZwTFBpQ3BsZE1QLy9oWTNiQzlOWDd3MUlRWWoyMCtJ?=
- =?utf-8?B?UWVvUkp2dW45ZXdBMXdTeEV4S3FBRXdlOWhRdWl3UFh6dVUrbzJvSjgvQ3U1?=
- =?utf-8?B?V0JHOHFQb2FPcXpjZFA2UDNNY3RCNkoyTVdZVGZ6SkpoY3pmNHBUeWpsRE0r?=
- =?utf-8?B?YXQzWUtyb0cxUE8veWgwcnVsK3lPeTFOTlJLNUdGSks0bXo5aEthS0ZlellT?=
- =?utf-8?B?SmFmVThlVjYrZGpBUXR5cWFuVklJM09Wc0NzNGphRGV6c3NrSXU4c05oNmk0?=
- =?utf-8?B?V1pCMmw2SVpMVVFtdTNQMkM5QllQVjE4VTk0QUFKMW5PY3ZhR1BGSXRXTno4?=
- =?utf-8?B?V25MajlLdExHdllhOUFwVmR0RHhWVXRiZzBwRDNMTSt1bzlEbm43djZrN1Vw?=
- =?utf-8?B?bjZyN0N6TFpWRzhHa1pPdWh1bjFGWDdJY2Z1cW40bHlBc3AzRktzNTJiTzZH?=
- =?utf-8?B?S1JRWUtqMWdROXlYY1FmMmt6T09ub0hqZzVwajlJT0hTQ09hd2xqd0svTjRJ?=
- =?utf-8?B?TE9nTkpOeHpvTFhWNXR5NTZSMG9rcFQwTWF3MXRKaUhMZ01KSHoxTkRLWjkv?=
- =?utf-8?B?MGhIdkxZQngwbTV6ZWpSc1pGeGJaUVIwYkNzOEFmZUhUWFc4WWticlYxWitx?=
- =?utf-8?B?S1VDUmx5Qkw3RDZqQ00rb25NVXRHK2FUTm5sWXBXZE9Pcy9rbFh1SmpJUUNp?=
- =?utf-8?B?NHJ5M0ZOdk5MMTdaVC8xcGU1cFBEQ1Z3L1JpWkY2WTh1TGJ3OGhzUlhraE1j?=
- =?utf-8?B?K0VuaXFaVENIeUFoajJETTQ4VWRyR1UrblVDaEJaSWQ5NFFmRHhiU3ZQaEFu?=
- =?utf-8?B?Qy9TeTlnU3cxYWtscDgzRXJLQWRUZTFnOHFXZGNYUjA5U0lMK3F4QUZCOHhE?=
- =?utf-8?B?WDhUZk0zSnRwQkJYaEhob3N4aVAyTzJCemxOd0hMc09BUWNNRjgrUi8wejZG?=
- =?utf-8?B?WjdWeEpTRUUxOHJESllyR0NsYUNmTUh2M2w1RSs0RThnMjZiUHQ1d2djSHNo?=
- =?utf-8?B?cmFUMXJ2MjRRZ2hWMzd0YUNxRE4yaENzNWxmYnorZ1dacEYzUmE0bXhFYUlJ?=
- =?utf-8?B?R2RUb2FVaDMxUGtkWHlZMjVTN3N5MENSd2lDLzcrZ3l0VFhJT1BSeFNpZFJm?=
- =?utf-8?B?Z0hpQnVyZkxDekxUVkt4bmFZRFZTUkx0cSthemZTeGJUdDhwRHJiY2d0Zisr?=
- =?utf-8?B?MEgzajhXZ1lKZFpEL0ZjZjZhbXh2RjV6dVZrUHBaaGE1RTZVUlkvSmVQaEpN?=
- =?utf-8?B?TStwYkVucWxkMWRVT2gzc1ZISHNkN1JjTnBWRWxhUkFzZjc5Zkg1T1kydDc2?=
- =?utf-8?B?QlQ1VVM4OWlHSGEwck5pWE1yanF4SHFoMUhmckV3NVYyVXAxNzI3Y2hGQjNE?=
- =?utf-8?B?aUhnaXlRN0c3bGZPUmxLUWVhT1JoRkVCVTZLaWlyeFBjaWFOOGtSMGtCY05y?=
- =?utf-8?B?djJkZXVCTk1KSnR6YWsxT3ZWNmQxN2FIRGFGTWJaMmR0MmQ1b1BtOWVHTzN0?=
- =?utf-8?B?aDZnd0lMN09vMzhDaEwxTDZqZjgvSlh4WnRVSEtqSVlGRVF6T2U4Z0xQL2NT?=
- =?utf-8?B?RkVhUWZIcHpGWDlqZTJFamhxTVM5RjV2eTRobFZpQ2pFenFIV0VZWm1jSTFz?=
- =?utf-8?B?TGZ3YnVqcUpxcWFGc09IV1FOc1p1WUFUbFFyeHMySXZiYjVLenY2OFZPcVRu?=
- =?utf-8?B?bTdBOFRrcFhMZVJiREdHdW1ndjBGVlNmZDM5WXVHYVl4aHh3QW5DQVJIZHFE?=
- =?utf-8?B?MzR4RzBFM2ZBeVhsSXZscisvREg0RG10SHhZUmRxTlJiWHBqTFpQbGRjbUln?=
- =?utf-8?B?a0FJcFl3RWgreVRMT0pIUTRpdW1sMmY4aUZMbHI2aHFSSEZSa2dOR1o5bDdJ?=
- =?utf-8?B?dnBIWUF3ZVBGcXNDcjUxWVNyaVVJc3pFV1NicXZCK0lTS2RGbHlHRHY4ZTFZ?=
- =?utf-8?B?L25PMkg0NExvSlNVeG9oMDN2NE5yV09IdW9TaFhqRUxVSG8zVFlWZ0VCeTdM?=
- =?utf-8?B?dDhEVVJVUVZoLzRUb3hib3ZwNmd1T0VhUVdRbld5b0ZiVmZWQ0QwTUtKWTli?=
- =?utf-8?B?VEdiSVpzL0JxNG43UHkraktBRzZvajlGV2JyL3pESVdtYjMvaEJxem1KNG0v?=
- =?utf-8?Q?DT/F6tr4yT+YJChdFV9aqkHoQwI/vq8I17n7Fu8fxoyQg?=
-x-ms-exchange-antispam-messagedata-1: VUF+5XNcESKd/Q==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C1996921CCC5AB42AA41E84FAF2BB907@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Sat, 28 Feb 2026 00:12:11 +0000
+Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-899a917a4feso43909216d6.1
+        for <linux-nvme@lists.infradead.org>; Fri, 27 Feb 2026 16:12:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772237529; x=1772842329; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mlqixyLL+YmCQPrWDOn1p0QVoFl05wbSMCiPcDscAMs=;
+        b=FH29C45RmL9N7plZcznaARKWaeN2toy6Av+yfgqGiNS/ZmYFImB4zHGAeGnuTJjC/L
+         t6/9IfFhHL62ZGk37iCm5d+WgayUk3TkdS1ucA+nzP2EEVfO3sZG11F0/u5v7RM6zUrP
+         VzTQku4p8TyoAYpwGCaNrl/jFMJ4onbw7baJzDMckSZ4dbDBn4mCZaJ83m7XFJcm6YXU
+         jzJ2LjidZq7UhbSUdbrLql9EAEPgQJPENakrg9uh4326wdCr0sr48oyrQenmENuGwe+5
+         fdGZbm5N7O4B+S7YLmqKlN40Mr7XY+o3rAP8p3xcfbppUVlI0Q2vkKL0qryGcbJuL6hO
+         bkeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772237529; x=1772842329;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mlqixyLL+YmCQPrWDOn1p0QVoFl05wbSMCiPcDscAMs=;
+        b=Kolud/Cb7D3nhAkdhzzsLewVoBylNFom0zhxVYCbCvIOQAx75goXifSXsPrPe4MrfK
+         imC+qXpzgM/E8eizlByRJ5+S114wqvH3jLw89cMjpjrTDCPM1c341V3ZcTVnAtRqevQr
+         Aec65NtRLexA+xr0DWQIPMqIh6ZepPH1WEdwUM73LoZo0JE6mN6iPMO+/2evBU9TyiV0
+         YcNXPXP2dtL9b21vSpBdBD1N9ea1jJMuqsTiyOzspSjIASxZcBOvBDh2vZ6UBpYRoSZH
+         T5CItDR4RNcTeIYJvnAs1j/kzkq7I4bBCrz8efVnU/EJSGfE2eolgrmWnZ9h0cuePA6F
+         aaGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTOyuDuQuNpMWL90OWG8ruCweJgD6p35GQZXjrLv2rMZoF08RABqrssFfVIR/b6LLqgAc6ehoxH0Ag@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz1huB8Ct/Qhnqb11KVfyGgSaKJEuqXD+KN/baWsP3pa6xW/5EP
+	J1aGsLMz6Y0X0mRtbocyYKvEcKCrJL4Q6kgVszMvYSFpI8UjviqG9G4j
+X-Gm-Gg: ATEYQzy6p9u3Ig/8R056qX+O10wnYOUrXgR30+oZKYU/e6KORgt1BSDStoNqTy0BK0O
+	qzRunZ1rUaMhaS4qPcY18G8o+ynSy300XTB17qlTtyy/smvCYcA8hhGQdb9iVc+G4cQwdK1JgGp
+	JRHkYA9ICVEz+gStrvEEqjfc50du1l/xJYxiVWNToY3M1krrXWXt+4ejyS44PsfVBHBVhnwY37R
+	+26d+mJ9LHslQTY0hpdVGagx9Lw9VdRZu/Ej6JWbdhvgzD0GppsZQwRkH1f+Rg+UVF8jnTP564T
+	tunzO+tDs7wzMZsJMlmKHQAg+igWcEBhmMwgvxyZLQGJcyagsr25910T5ITfB5fdgWZbLsK8wxN
+	uTyL52k/WCc54OcPj5H4mVNlGapijf1CjuOVOpgwcXmuXUcYTQXJrHyHHSrU51579GEUZvHuN06
+	72WkEaU2chrS1BBpShARwP993EV4Md+fW5TP6zpmzAUTVfwzTon4jbrOQ=
+X-Received: by 2002:a05:6214:da6:b0:880:51f0:5ba7 with SMTP id 6a1803df08f44-899d1e2b726mr70507756d6.42.1772237528712;
+        Fri, 27 Feb 2026 16:12:08 -0800 (PST)
+Received: from [10.69.56.189] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899c716c53dsm52250196d6.13.2026.02.27.16.12.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 16:12:08 -0800 (PST)
+Message-ID: <f3886902-12ed-4d9c-abee-0b2363a0ada8@gmail.com>
+Date: Fri, 27 Feb 2026 16:12:05 -0800
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20743a5c-b0b8-4b7c-fd42-08de7655b799
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2026 23:12:45.7327
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Bprx3mv8T3QqfZn7Psw+w8FdUDYPGl5FTpsbPCkwz5nIyMUuyyk++6mmV0okvznI0LbpeoeAGh8NnGI+YmvUgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7109
+User-Agent: Mozilla Thunderbird
+From: James Smart <jsmart833426@gmail.com>
+Subject: Re: [PATCH v3 12/21] nvme-fc: Decouple error recovery from controller
+ reset
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Hannes Reinecke <hare@suse.de>
+Cc: Aaron Dailey <adailey@purestorage.com>,
+ Randy Jennings <randyj@purestorage.com>,
+ Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, jsmart833426@gmail.com
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
+ <20260214042753.4073668-13-mkhalfella@purestorage.com>
+Content-Language: en-US
+In-Reply-To: <20260214042753.4073668-13-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260227_151253_498929_13F9DC14 
-X-CRM114-Status: GOOD (  14.32  )
+X-CRM114-CacheID: sfid-20260227_161210_691284_2B5022A9 
+X-CRM114-Status: GOOD (  33.28  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -154,43 +110,368 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMi8yNS8yNiAxODo1NiwgQ2hhaXRhbnlhIEt1bGthcm5pIHdyb3RlOg0KPiBXaGVuIGEgY29u
-dHJvbGxlciByZXNldCBpcyB0cmlnZ2VyZWQgdmlhIHN5c2ZzIChieSB3cml0aW5nIHRvDQo+IC9z
-eXMvY2xhc3MvbnZtZS88bnZtZWRldj4vcmVzZXRfY29udHJvbGxlciksIHRoZSByZXNldCB3b3Jr
-IHRlYXJzIGRvd24NCj4gYW5kIHJlLWVzdGFibGlzaGVzIGFsbCBxdWV1ZXMuIFRoZSBzb2NrZXQg
-cmVsZWFzZSB1c2luZyBmcHV0KCkgZGVmZXJzDQo+IHRoZSBhY3R1YWwgY2xlYW51cCB0byB0YXNr
-X3dvcmsgZGVsYXllZF9mcHV0IHdvcmtxdWV1ZS4gVGhpcyBkZWZlcnJlZA0KPiBjbGVhbnVwIGNh
-biByYWNlIHdpdGggdGhlIHN1YnNlcXVlbnQgcXVldWUgcmUtYWxsb2NhdGlvbiBkdXJpbmcgcmVz
-ZXQsDQo+IHBvdGVudGlhbGx5IGxlYWRpbmcgdG8gdXNlLWFmdGVyLWZyZWUgb3IgcmVzb3VyY2Ug
-Y29uZmxpY3RzLg0KPg0KPiBSZXBsYWNlIGZwdXQoKSB3aXRoIF9fZnB1dF9zeW5jKCkgdG8gZW5z
-dXJlIHN5bmNocm9ub3VzIHNvY2tldCByZWxlYXNlLA0KPiBndWFyYW50ZWVpbmcgdGhhdCBhbGwg
-c29ja2V0IHJlc291cmNlcyBhcmUgZnVsbHkgY2xlYW5lZCB1cCBiZWZvcmUgdGhlDQo+IGZ1bmN0
-aW9uIHJldHVybnMuIFRoaXMgcHJldmVudHMgcmFjZXMgZHVyaW5nIGNvbnRyb2xsZXIgcmVzZXQg
-d2hlcmUNCj4gbmV3IHF1ZXVlIHNldHVwIG1heSBiZWdpbiBiZWZvcmUgdGhlIG9sZCBzb2NrZXQg
-aXMgZnVsbHkgcmVsZWFzZWQuDQo+DQo+ICogQ2FsbCBjaGFpbiBkdXJpbmcgcmVzZXQ6DQo+ICAg
-IG52bWVfcmVzZXRfY3RybF93b3JrKCkNCj4gICAgICAtPiBudm1lX3RjcF90ZWFyZG93bl9jdHJs
-KCkNCj4gICAgICAgIC0+IG52bWVfdGNwX3RlYXJkb3duX2lvX3F1ZXVlcygpDQo+ICAgICAgICAg
-IC0+IG52bWVfdGNwX2ZyZWVfaW9fcXVldWVzKCkNCj4gICAgICAgICAgICAtPiBudm1lX3RjcF9m
-cmVlX3F1ZXVlKCkgICAgICAgPC0tIGZwdXQoKSAtPiBfX2ZwdXRfc3luYygpDQo+ICAgICAgICAt
-PiBudm1lX3RjcF90ZWFyZG93bl9hZG1pbl9xdWV1ZSgpDQo+ICAgICAgICAgIC0+IG52bWVfdGNw
-X2ZyZWVfYWRtaW5fcXVldWUoKQ0KPiAgICAgICAgICAgIC0+IG52bWVfdGNwX2ZyZWVfcXVldWUo
-KSAgICAgICA8LS0gZnB1dCgpIC0+IF9fZnB1dF9zeW5jKCkNCj4gICAgICAtPiBudm1lX3RjcF9z
-ZXR1cF9jdHJsKCkgICAgICAgICAgICAgPC0tIHJhY2Ugd2l0aCBkZWZlcnJlZCBmcHV0DQo+DQo+
-IG1lbWFsbG9jX25vcmVjbGFpbV9zYXZlKCkgc2V0cyBQRl9NRU1BTExPQyB3aGljaCBpcyBpbnRl
-bmRlZCBmb3IgdGFza3MNCj4gcGVyZm9ybWluZyBtZW1vcnkgcmVjbGFpbSB3b3JrIHRoYXQgbmVl
-ZCByZXNlcnZlIGFjY2Vzcy4gV2hpbGUgUEZfTUVNQUxMT0MNCj4gcHJldmVudHMgdGhlIHRhc2sg
-ZnJvbSBlbnRlcmluZyBkaXJlY3QgcmVjbGFpbSAoY2F1c2luZyBfX25lZWRfcmVjbGFpbSgpIHRv
-DQo+IHJldHVybiBmYWxzZSksIGl0IGRvZXMgbm90IHN0cmlwIF9fR0ZQX0lPIGZyb20gZ2ZwIGZs
-YWdzLiBUaGUgYWxsb2NhdG9yIGNhbg0KPiB0aGVyZWZvcmUgc3RpbGwgdHJpZ2dlciB3cml0ZWJh
-Y2sgSS9PIHdoZW4gX19HRlBfSU8gcmVtYWlucyBzZXQsIHdoaWNoIGlzDQo+IHVuc2FmZSB3aGVu
-IHRoZSBjYWxsZXIgaG9sZHMgYmxvY2sgbGF5ZXIgbG9ja3MuDQo+DQo+IFN3aXRjaCB0byBtZW1h
-bGxvY19ub2lvX3NhdmUoKSB3aGljaCBzZXRzIFBGX01FTUFMTE9DX05PSU8uIFRoaXMgY2F1c2Vz
-DQo+IGN1cnJlbnRfZ2ZwX2NvbnRleHQoKSB0byBzdHJpcCBfX0dGUF9JT3xfX0dGUF9GUyBmcm9t
-IGV2ZXJ5IGFsbG9jYXRpb24gaW4NCj4gdGhlIHNjb3BlLCBtYWtpbmcgaXQgc2FmZSB0byBhbGxv
-Y2F0ZSBtZW1vcnkgd2hpbGUgaG9sZGluZyBlbGV2YXRvcl9sb2NrIGFuZA0KPiBzZXQtPnNyY3Uu
-DQo+DQpDYW4geW91IHBsZWFzZSB0YWtlIGEgbG9vayB3aGVuIHlvdSBnZXQgYSBjaGFuY2UgPyBT
-ZWUgYWxzbyBbMV0uDQoNCi1jaw0KDQpbMV0NCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8y
-MDI1MTEyNTAwNTk1MC40MTA0Ni0xLWNrdWxrYXJuaWxpbnV4QGdtYWlsLmNvbS8NCmh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2FsbC8yMDI1MTEyNTAwNTk1MC40MTA0Ni0xLWNrdWxrYXJuaWxpbnV4
-QGdtYWlsLmNvbS8NCg0KDQo=
+On 2/13/2026 8:25 PM, Mohamed Khalfella wrote:
+> nvme_fc_error_recovery() called from nvme_fc_timeout() while controller
+> in CONNECTING state results in deadlock reported in link below. Update
+> nvme_fc_timeout() to schedule error recovery to avoid the deadlock.
+
+This seems misleading on what is changing...
+
+How about:
+Add new nvme_fc_start_ioerr_recovery() routine which effectively
+   "resets" a the controller.
+Refactor error points that invoked routines that reset the controller
+   to now call nvme_fc_start_ioerr_recovery().
+Eliminated io abort on io error, as we will be resetting the controller.
+
+
+> 
+> Previous to this change if controller was LIVE error recovery resets
+> the controller and this does not match nvme-tcp and nvme-rdma. Decouple
+> error recovery from controller reset to match other fabric transports.
+
+Please delete. It's irrelevant to the patch.
+
+
+...
+> @@ -1871,7 +1874,22 @@ nvme_fc_ctrl_ioerr_work(struct work_struct *work)
+>   	struct nvme_fc_ctrl *ctrl =
+>   			container_of(work, struct nvme_fc_ctrl, ioerr_work);
+>   
+> -	nvme_fc_error_recovery(ctrl, "transport detected io error");
+> +	/*
+> +	 * if an error (io timeout, etc) while (re)connecting, the remote
+> +	 * port requested terminating of the association (disconnect_ls)
+> +	 * or an error (timeout or abort) occurred on an io while creating
+> +	 * the controller.  Abort any ios on the association and let the
+> +	 * create_association error path resolve things.
+> +	 */
+> +	if (nvme_ctrl_state(&ctrl->ctrl) == NVME_CTRL_CONNECTING) {
+> +		__nvme_fc_abort_outstanding_ios(ctrl, true);
+> +		dev_warn(ctrl->ctrl.device,
+> +			 "NVME-FC{%d}: transport error during (re)connect\n",
+> +			 ctrl->cnum);
+> +		return;
+> +	}
+> +
+> +	nvme_fc_error_recovery(ctrl);
+>   }
+
+ok - but see below...
+
+
+> +static void nvme_fc_start_ioerr_recovery(struct nvme_fc_ctrl *ctrl,
+> +					 char *errmsg)
+> +{
+> +	enum nvme_ctrl_state state;
+> +
+> +	if (nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING)) {
+> +		dev_warn(ctrl->ctrl.device, "NVME-FC{%d}: starting error recovery %s\n",
+> +			 ctrl->cnum, errmsg);
+> +		queue_work(nvme_reset_wq, &ctrl->ioerr_work);
+> +		return;
+> +	}
+> +
+> +	state = nvme_ctrl_state(&ctrl->ctrl);
+> +	if (state == NVME_CTRL_CONNECTING || state == NVME_CTRL_DELETING ||
+> +	    state == NVME_CTRL_DELETING_NOIO) {
+> +		queue_work(nvme_reset_wq, &ctrl->ioerr_work);
+> +	}
+> +}
+
+What bothers me about this (true of the tcp and rmda transports) is 
+there is little difference between this and using the core 
+nvme_reset_ctrl(), excepting that even when the state change fails, the 
+code continues to schedule the work element that does the reset.
+
+And the latter odd snippet to reset anyway is only to get the CONNECTING 
+code snippet, which failed the RESETTING transition, to be performed. 
+I'd prefer the connecting snippet be at the top of start_ioerr_recovery 
+before any state change attempt so its in the same place as prior.
+
+
+...
+>   static enum blk_eh_timer_return nvme_fc_timeout(struct request *rq)
+>   {
+>   	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+> @@ -2536,24 +2539,14 @@ static enum blk_eh_timer_return nvme_fc_timeout(struct request *rq)
+>   	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
+>   	struct nvme_command *sqe = &cmdiu->sqe;
+>   
+> -	/*
+> -	 * Attempt to abort the offending command. Command completion
+> -	 * will detect the aborted io and will fail the connection.
+> -	 */
+>   	dev_info(ctrl->ctrl.device,
+>   		"NVME-FC{%d.%d}: io timeout: opcode %d fctype %d (%s) w10/11: "
+>   		"x%08x/x%08x\n",
+>   		ctrl->cnum, qnum, sqe->common.opcode, sqe->fabrics.fctype,
+>   		nvme_fabrics_opcode_str(qnum, sqe),
+>   		sqe->common.cdw10, sqe->common.cdw11);
+> -	if (__nvme_fc_abort_op(ctrl, op))
+> -		nvme_fc_error_recovery(ctrl, "io timeout abort failed");
+>   
+> -	/*
+> -	 * the io abort has been initiated. Have the reset timer
+> -	 * restarted and the abort completion will complete the io
+> -	 * shortly. Avoids a synchronous wait while the abort finishes.
+> -	 */
+> +	nvme_fc_start_ioerr_recovery(ctrl, "io timeout");
+>   	return BLK_EH_RESET_TIMER;
+>   }
+
+I eventually gave in on not doing the abort of the io as the 
+start_ioerr_recovery() will be resetting the controller.
+
+
+>   
+> @@ -3352,6 +3345,27 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+>   	}
+>   }
+>   
+> +static void
+> +nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl)
+> +{
+> +	nvme_stop_keep_alive(&ctrl->ctrl);
+> +	nvme_stop_ctrl(&ctrl->ctrl);
+> +	flush_work(&ctrl->ctrl.async_event_work);
+> +
+> +	/* will block while waiting for io to terminate */
+> +	nvme_fc_delete_association(ctrl);
+> +
+> +	/* Do not reconnect if controller is being deleted */
+> +	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+> +		return;
+> +
+> +	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE) {
+> +		queue_delayed_work(nvme_wq, &ctrl->connect_work, 0);
+> +		return;
+> +	}
+> +
+> +	nvme_fc_reconnect_or_delete(ctrl, -ENOTCONN);
+> +}
+>   
+>   static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+>   	.name			= "fc",
+
+There is no reason to duplicate the code that is already in ioerr_work. 
+I prototyped a simple service routine. The net/net is showed what little 
+reason there is to have an ioerr_work and a reset_work - as they are 
+effectively the same. So I then eliminated ioerr_work and use reset_work 
+and the service routine (kept the nvme_fc_error_recovery() name).
+
+
+Here's a revised diff for this patch... I have compiled but not tested.
+
+
+--- fc.c.START	2026-02-27 14:10:07.631705123 -0800
++++ fc.c	2026-02-27 15:41:09.777836476 -0800
+@@ -166,7 +166,6 @@ struct nvme_fc_ctrl {
+  	struct blk_mq_tag_set	admin_tag_set;
+  	struct blk_mq_tag_set	tag_set;
+
+-	struct work_struct	ioerr_work;
+  	struct delayed_work	connect_work;
+
+  	struct kref		ref;
+@@ -227,6 +226,8 @@ static DEFINE_IDA(nvme_fc_ctrl_cnt);
+  static struct device *fc_udev_device;
+
+  static void nvme_fc_complete_rq(struct request *rq);
++static void nvme_fc_start_ioerr_recovery(struct nvme_fc_ctrl *ctrl,
++					char *errmsg);
+
+  /* *********************** FC-NVME Port Management 
+************************ */
+
+@@ -788,7 +789,7 @@ nvme_fc_ctrl_connectivity_loss(struct nv
+  		"Reconnect", ctrl->cnum);
+
+  	set_bit(ASSOC_FAILED, &ctrl->flags);
+-	nvme_reset_ctrl(&ctrl->ctrl);
++	nvme_fc_start_ioerr_recovery(ctrl, "Connectivity Loss");
+  }
+
+  /**
+@@ -985,8 +986,6 @@ fc_dma_unmap_sg(struct device *dev, stru
+  static void nvme_fc_ctrl_put(struct nvme_fc_ctrl *);
+  static int nvme_fc_ctrl_get(struct nvme_fc_ctrl *);
+
+-static void nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char 
+*errmsg);
+-
+  static void
+  __nvme_fc_finish_ls_req(struct nvmefc_ls_req_op *lsop)
+  {
+@@ -1569,7 +1568,8 @@ nvme_fc_ls_disconnect_assoc(struct nvmef
+  	 */
+
+  	/* fail the association */
+-	nvme_fc_error_recovery(ctrl, "Disconnect Association LS received");
++	nvme_fc_start_ioerr_recovery(ctrl,
++				     "Disconnect Association LS received");
+
+  	/* release the reference taken by nvme_fc_match_disconn_ls() */
+  	nvme_fc_ctrl_put(ctrl);
+@@ -1865,15 +1865,6 @@ __nvme_fc_fcpop_chk_teardowns(struct nvm
+  	}
+  }
+
+-static void
+-nvme_fc_ctrl_ioerr_work(struct work_struct *work)
+-{
+-	struct nvme_fc_ctrl *ctrl =
+-			container_of(work, struct nvme_fc_ctrl, ioerr_work);
+-
+-	nvme_fc_error_recovery(ctrl, "transport detected io error");
+-}
+-
+  /*
+   * nvme_fc_io_getuuid - Routine called to get the appid field
+   * associated with request by the lldd
+@@ -2049,9 +2040,8 @@ done:
+  		nvme_fc_complete_rq(rq);
+
+  check_error:
+-	if (terminate_assoc &&
+-	    nvme_ctrl_state(&ctrl->ctrl) != NVME_CTRL_RESETTING)
+-		queue_work(nvme_reset_wq, &ctrl->ioerr_work);
++	if (terminate_assoc)
++		nvme_fc_start_ioerr_recovery(ctrl, "io error");
+  }
+
+  static int
+@@ -2496,7 +2486,7 @@ __nvme_fc_abort_outstanding_ios(struct n
+  }
+
+  static void
+-nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
++nvme_fc_start_ioerr_recovery(struct nvme_fc_ctrl *ctrl,	char *errmsg)
+  {
+  	enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
+
+@@ -2515,17 +2505,15 @@ nvme_fc_error_recovery(struct nvme_fc_ct
+  		return;
+  	}
+
+-	/* Otherwise, only proceed if in LIVE state - e.g. on first error */
+-	if (state != NVME_CTRL_LIVE)
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
+  		return;
+
+  	dev_warn(ctrl->ctrl.device,
+  		"NVME-FC{%d}: transport association event: %s\n",
+  		ctrl->cnum, errmsg);
+-	dev_warn(ctrl->ctrl.device,
+-		"NVME-FC{%d}: resetting controller\n", ctrl->cnum);
+-
+-	nvme_reset_ctrl(&ctrl->ctrl);
++	dev_warn(ctrl->ctrl.device, "NVME-FC{%d}: starting error recovery %s\n",
++		 ctrl->cnum, errmsg);
++	queue_work(nvme_reset_wq, &ctrl->ctrl.reset_work);
+  }
+
+  static enum blk_eh_timer_return nvme_fc_timeout(struct request *rq)
+@@ -2536,24 +2524,14 @@ static enum blk_eh_timer_return nvme_fc_
+  	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
+  	struct nvme_command *sqe = &cmdiu->sqe;
+
+-	/*
+-	 * Attempt to abort the offending command. Command completion
+-	 * will detect the aborted io and will fail the connection.
+-	 */
+  	dev_info(ctrl->ctrl.device,
+  		"NVME-FC{%d.%d}: io timeout: opcode %d fctype %d (%s) w10/11: "
+  		"x%08x/x%08x\n",
+  		ctrl->cnum, qnum, sqe->common.opcode, sqe->fabrics.fctype,
+  		nvme_fabrics_opcode_str(qnum, sqe),
+  		sqe->common.cdw10, sqe->common.cdw11);
+-	if (__nvme_fc_abort_op(ctrl, op))
+-		nvme_fc_error_recovery(ctrl, "io timeout abort failed");
+
+-	/*
+-	 * the io abort has been initiated. Have the reset timer
+-	 * restarted and the abort completion will complete the io
+-	 * shortly. Avoids a synchronous wait while the abort finishes.
+-	 */
++	nvme_fc_start_ioerr_recovery(ctrl, "io timeout");
+  	return BLK_EH_RESET_TIMER;
+  }
+
+@@ -3264,7 +3242,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nc
+  	 * waiting for io to terminate
+  	 */
+  	nvme_fc_delete_association(ctrl);
+-	cancel_work_sync(&ctrl->ioerr_work);
++	cancel_work_sync(&ctrl->ctrl.reset_work);
+
+  	if (ctrl->ctrl.tagset)
+  		nvme_remove_io_tag_set(&ctrl->ctrl);
+@@ -3324,20 +3302,27 @@ nvme_fc_reconnect_or_delete(struct nvme_
+  }
+
+  static void
+-nvme_fc_reset_ctrl_work(struct work_struct *work)
++nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl)
+  {
+-	struct nvme_fc_ctrl *ctrl =
+-		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
+-
++	nvme_stop_keep_alive(&ctrl->ctrl);
++	flush_work(&ctrl->ctrl.async_event_work);
+  	nvme_stop_ctrl(&ctrl->ctrl);
+
+  	/* will block will waiting for io to terminate */
+  	nvme_fc_delete_association(ctrl);
+
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
++		enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
++
++		/* state change failure is ok if we started ctrl delete */
++		if (state == NVME_CTRL_DELETING ||
++		    state == NVME_CTRL_DELETING_NOIO)
++			return;
++
+  		dev_err(ctrl->ctrl.device,
+-			"NVME-FC{%d}: error_recovery: Couldn't change state "
+-			"to CONNECTING\n", ctrl->cnum);
++			"NVME-FC{%d}: error_recovery: Couldn't change "
++			"state to CONNECTING (%d)\n", ctrl->cnum, state);
++	}
+
+  	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE) {
+  		if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
+@@ -3352,6 +3337,15 @@ nvme_fc_reset_ctrl_work(struct work_stru
+  	}
+  }
+
++static void
++nvme_fc_reset_ctrl_work(struct work_struct *work)
++{
++	struct nvme_fc_ctrl *ctrl =
++		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
++
++	nvme_fc_error_recovery(ctrl);
++}
++
+
+  static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+  	.name			= "fc",
+@@ -3483,7 +3477,6 @@ nvme_fc_alloc_ctrl(struct device *dev, s
+
+  	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+  	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
+-	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
+  	spin_lock_init(&ctrl->lock);
+
+  	/* io queue count */
+@@ -3581,7 +3574,6 @@ nvme_fc_init_ctrl(struct device *dev, st
+
+  fail_ctrl:
+  	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
+-	cancel_work_sync(&ctrl->ioerr_work);
+  	cancel_work_sync(&ctrl->ctrl.reset_work);
+  	cancel_delayed_work_sync(&ctrl->connect_work);
+
 
