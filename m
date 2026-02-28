@@ -4,99 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56D0F1048926
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Feb 2026 01:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7884FEE4E8
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Feb 2026 09:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m6eRP1oJT7zYaDw0uvn+FXXWlZ3RPzlF7BDTnIzrj7Y=; b=TgWfRgigKTeo7iYFZ9chtFLRLI
-	LfT1qVKYN3xbSx+yd+eP6MDjryLJgtidNYG+su7GTFzxnMa580jrBLqUSP6E8s/9cY5z771AHh4nc
-	euNnXew3RcwxrbbxNDSUaJGM8jINRMaqxJ1kgsXn1w+cXgdcTwGeyVTy18I9OWdkq3mAuaA35+MSJ
-	FSOJXIhMfn7e8tYZvnZ0KT2Q4h02CP/WQF1+E6dnuHOsooxL9c85VRY/MY38GAk4TeUgE6aN3OSLB
-	dOcbauKhO+jgsEGvfwXWRO4dsCxFtfqv8+4tDCH6vGgTaW5UMolZNTiUFcWQQHIX7ne5+yvEvm+Cc
-	aeUgN4ug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TKa9ExoJrCcyxe887LgwD6P4LJ/v9g4RnssVwA0or+A=; b=fFLTZb0FNCzpLvSZeStGvnggXE
+	lmTEsJKZX2hxpDUyVNhTdAOoHGOcc8wtGHOzqHB5/O/fEN/zOQurV8tPIlWGo/oiTiU3w6FQ/oLuE
+	yMqxcuz+LwQwScZYMeEIg4v7s5lQwSaxxIsdEITajyQ1n9z5rVO8P/b/IfTouhAL0y8ZFXzdSziXF
+	s5rQx901FrS5vh+opcLCgZ6sTCqVTVV7ArlQxan/QILIp1nsGvErBH8LvMw7ubFXDkzZhqTW6S2hB
+	wqyw5sJb7zZ2b/M0wmmky1hwcZCko1wUJbYEgabJNJt0lQZs7zvHebgvMfqBBTJbQqFSyTbJFlRH7
+	KR2BfvZA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw90m-00000009Nvl-0SMF;
-	Sat, 28 Feb 2026 01:20:52 +0000
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833])
+	id 1vwGtx-00000009hPP-1UGN;
+	Sat, 28 Feb 2026 09:46:21 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw90j-00000009NvH-36Gw
+	id 1vwGtt-00000009hOu-3F6m
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Feb 2026 01:20:50 +0000
-Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-506aa68065eso27066181cf.1
-        for <linux-nvme@lists.infradead.org>; Fri, 27 Feb 2026 17:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772241648; x=1772846448; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m6eRP1oJT7zYaDw0uvn+FXXWlZ3RPzlF7BDTnIzrj7Y=;
-        b=ACD/ODiMBTLAG4TxRJ+1RIyx67aqZYHeqWvkkIanKaHxT8CiazR6UonEKJHbpOe6cp
-         SlsgziZCW/5ZHGc2zZFyvjz5O+D9p+vIY8sHnh7G3AQwpVXpKcyS16uuDrW8sLkqm3bx
-         px2s4AbXWT6WwX6q15OpoxED8lmbSyvTt7CogNvslKg3idUkJ/f0s2pWf5xjnW8bxFNC
-         h4gkssFvy5GjK5CZCDQIE0BU2B45KFLEY0hRc9MM7fgVtGFDW1r5Qdlta8OK7+d/YEgz
-         amACxuaqWNoiMolQKNpPXhd+fFbCuQdhziZk2+s5VvsH5pVZPVU1dDwIEVGPyCbGyses
-         /5sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772241648; x=1772846448;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m6eRP1oJT7zYaDw0uvn+FXXWlZ3RPzlF7BDTnIzrj7Y=;
-        b=vuoAWEFm0Qvsa0m514F618pLkCt6fQPI5Mcd3OD+DghPMBzVN+EqZOdUkXM7iSQwkg
-         gvayyNnQfG4yta9ZjLc8bH4YP7IB5NhfmSV5b5efhDelxZfPXjtLWabv3fH+n+9WNGd7
-         ubVJTyIUtEhJG18YydjHM3vIHU6ap//t8DQErbw1mPp+tPwceON8Yfv2taELqIKiNcKP
-         rRFJodoN+usb35QtiwRcHTvHCHEXFQCau3moPpcB7We7b0OR9aEReCJv5T8Fj2IJ4QuL
-         KWnA6gR8/9HmgqWnQpwyJlJgDINXetsnRBprDs0aFm0mzn4KrwEUl7nwvgBucn2ZKAZu
-         cWjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvQzbpKqwBLucNH6aHX5Oq3G9YUOhujrYsLifTptuTWCaQL3Ik5drxzsiKonDpnu841tUa2a9oXzMN@lists.infradead.org
-X-Gm-Message-State: AOJu0YzcPNTEMbfqfX6dGR7TV6G2hDZbYUfTBJQrMepF0XSWwXfulg+9
-	u1E3Rb3pxIhgCUcQh21HlXhYFA78Xa/dOYQlUKihS9BMi+03mzjTFf86
-X-Gm-Gg: ATEYQzyjt2C2QScivgvx5H++4rE2YKCJqxWol0AWY6nuHQjJtjj4Uc1oKdAgU6+R5ZS
-	AL5Ycm5NkDc9K+ZW/+QkyLvk0UcBkd3REK4kTAfKMdwupOFkLx+DOrY7bYQ2rmPUL/5RDYnJqLd
-	EIPgQwernG5b+7W7IC1Dlhw8Cbr2mRV6vmfW8O5nzwKFM44sz1JP/J13EIHstH7nnpDxpeh/gJ7
-	UJCDisYOzd02Y5JFHv5NKG7bKSaMjmXvMmSJcm3piJWxW4XuRWwc5Rssn8sapBrpWv5/JZoeHHk
-	rh6lCXsROpPckVFxYmPkbvcWtC6LjVLDwu3QhLvPunEhjBCWT67U9/BF+i862itgN2bF5WsfVAm
-	ARJI/YZ45E+uUBk8GhvG3uYCnU9S/TIdEwwZX4B9nWvop4m8Nz+HtMZlpEBnf31n3g5cgKNtM58
-	1GLskf5oKar7RZW93VxiJFn0cDNCqF4wz1fCO/8MpswdJV
-X-Received: by 2002:ac8:7f47:0:b0:4f4:ee07:91b9 with SMTP id d75a77b69052e-5075299a340mr57870231cf.47.1772241648332;
-        Fri, 27 Feb 2026 17:20:48 -0800 (PST)
-Received: from [10.69.56.189] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50744ab2fd9sm54220151cf.19.2026.02.27.17.20.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Feb 2026 17:20:47 -0800 (PST)
-Message-ID: <74b4496a-5ce9-496f-8032-a220c2f69cfd@gmail.com>
-Date: Fri, 27 Feb 2026 17:20:45 -0800
+	Sat, 28 Feb 2026 09:46:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772271974;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TKa9ExoJrCcyxe887LgwD6P4LJ/v9g4RnssVwA0or+A=;
+	b=Y7yL19iNSUDCtUAs5DGlBYV1IZA2Rjr+AIG+IwuTdf9dgiOoDb+7/tnS37uetJQZCtunGz
+	TIZ0TmDSMDou58XbELQ2isqmDoeeGITO7oS+HxOPrdC5ISjUJVDJGfo+Dr40dkOWnpt30o
+	YG35MrPi3Beus2VD+xBMAiHjtSLg4OU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-376-Hl12rc4MPT6J_CtYXnIOyQ-1; Sat,
+ 28 Feb 2026 04:46:10 -0500
+X-MC-Unique: Hl12rc4MPT6J_CtYXnIOyQ-1
+X-Mimecast-MFC-AGG-ID: Hl12rc4MPT6J_CtYXnIOyQ_1772271969
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0AE861956080;
+	Sat, 28 Feb 2026 09:46:08 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.144])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 15AE119560B5;
+	Sat, 28 Feb 2026 09:46:00 +0000 (UTC)
+Date: Sat, 28 Feb 2026 17:45:56 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>
+Subject: Re: [PATCH v4 3/5] io_uring: count CQEs in io_iopoll_check()
+Message-ID: <aaK5VIfPR9fOil39@fedora>
+References: <20260227223504.1162421-1-csander@purestorage.com>
+ <20260227223504.1162421-4-csander@purestorage.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 21/21] nvme-fc: Extend FENCING state per TP4129 on CCR
- failure
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Justin Tee <justin.tee@broadcom.com>,
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
- Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
- Hannes Reinecke <hare@suse.de>, jsmart833426@gmail.com
-Cc: Aaron Dailey <adailey@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>,
- Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-22-mkhalfella@purestorage.com>
-Content-Language: en-US
-From: James Smart <jsmart833426@gmail.com>
-In-Reply-To: <20260214042753.4073668-22-mkhalfella@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20260227223504.1162421-4-csander@purestorage.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-MFC-PROC-ID: kxT1LnXAkOTJJA-yuc8NWkdKGC7-tGQ_Qem2MdosHM0_1772271969
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260227_172049_800402_29076885 
-X-CRM114-Status: GOOD (  19.54  )
+X-CRM114-CacheID: sfid-20260228_014617_891726_B08BB42B 
+X-CRM114-Status: GOOD (  26.11  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -111,119 +88,65 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2/13/2026 8:25 PM, Mohamed Khalfella wrote:
-> If CCR operations fail and CQT is supported, we must defer the retry of
-> inflight requests per TP4129. Update ctrl->fencing_work to schedule
-> ctrl->fenced_work, effectively extending the FENCING state. This delay
-> ensures that inflight requests are held until it is safe for them to be
-> retired.
+On Fri, Feb 27, 2026 at 03:35:01PM -0700, Caleb Sander Mateos wrote:
+> A subsequent commit will allow uring_cmds that don't use iopoll on
+> IORING_SETUP_IOPOLL io_urings. As a result, CQEs can be posted without
+> setting the iopoll_completed flag for a request in iopoll_list or going
+> through task work. For example, a UBLK_U_IO_FETCH_IO_CMDS command could
+> call io_uring_mshot_cmd_post_cqe() to directly post a CQE. The
+> io_iopoll_check() loop currently only counts completions posted in
+> io_do_iopoll() when determining whether the min_events threshold has
+> been met. It also exits early if there are any existing CQEs before
+> polling, or if any CQEs are posted while running task work. CQEs posted
+> via io_uring_mshot_cmd_post_cqe() or other mechanisms won't be counted
+> against min_events.
 > 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> Explicitly check the available CQEs in each io_iopoll_check() loop
+> iteration to account for CQEs posted in any fashion.
+> 
+> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 > ---
->   drivers/nvme/host/fc.c | 39 +++++++++++++++++++++++++++++++++++----
->   1 file changed, 35 insertions(+), 4 deletions(-)
+>  io_uring/io_uring.c | 18 +++---------------
+>  1 file changed, 3 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index eac3a7ccaa5c..81088a4ce298 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
->   	struct blk_mq_tag_set	tag_set;
->   
->   	struct work_struct	fencing_work;
-> +	struct delayed_work	fenced_work;
->   	struct work_struct	ioerr_work;
->   	struct delayed_work	connect_work;
->   
-> @@ -1878,6 +1879,18 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
->   	return ret;
->   }
->   
-> +static void nvme_fc_fenced_work(struct work_struct *work)
-> +{
-> +	struct nvme_fc_ctrl *fc_ctrl = container_of(to_delayed_work(work),
-> +					struct nvme_fc_ctrl, fenced_work);
-> +	struct nvme_ctrl *ctrl = &fc_ctrl->ctrl;
-> +
-> +	dev_info(ctrl->device, "Time-based recovery finished\n");
-> +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-> +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> +		queue_work(nvme_reset_wq, &fc_ctrl->ioerr_work);
+> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+> index 46f39831d27c..5f694052f501 100644
+> --- a/io_uring/io_uring.c
+> +++ b/io_uring/io_uring.c
+> @@ -1184,11 +1184,10 @@ __cold void io_iopoll_try_reap_events(struct io_ring_ctx *ctx)
+>  		io_move_task_work_from_local(ctx);
+>  }
+>  
+>  static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
+>  {
+> -	unsigned int nr_events = 0;
+>  	unsigned long check_cq;
+>  
+>  	min_events = min(min_events, ctx->cq_entries);
+>  
+>  	lockdep_assert_held(&ctx->uring_lock);
+> @@ -1205,19 +1204,12 @@ static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
+>  		 * dropped CQE.
+>  		 */
+>  		if (check_cq & BIT(IO_CHECK_CQ_DROPPED_BIT))
+>  			return -EBADR;
+>  	}
+> -	/*
+> -	 * Don't enter poll loop if we already have events pending.
+> -	 * If we do, we can potentially be spinning for commands that
+> -	 * already triggered a CQE (eg in error).
+> -	 */
+> -	if (io_cqring_events(ctx))
+> -		return 0;
+>  
+> -	do {
+> +	while (io_cqring_events(ctx) < min_events) {
 
-sync with comments on patch 12
+It may not handle zero `min_events` correctly, please see AI review result:
 
-> +}
-> +
->   static void nvme_fc_fencing_work(struct work_struct *work)
->   {
->   	struct nvme_fc_ctrl *fc_ctrl =
-> @@ -1886,16 +1899,33 @@ static void nvme_fc_fencing_work(struct work_struct *work)
->   	unsigned long rem;
->   
->   	rem = nvme_fence_ctrl(ctrl);
-> -	if (rem) {
-> +	if (!rem)
-> +		goto done;
-> +
-> +	if (!ctrl->cqt) {
->   		dev_info(ctrl->device,
-> -			 "CCR failed, skipping time-based recovery\n");
-> +			 "CCR failed, CQT not supported, skip time-based recovery\n");
-> +		goto done;
->   	}
->   
-> +	dev_info(ctrl->device,
-> +		 "CCR failed, switch to time-based recovery, timeout = %ums\n",
-> +		 jiffies_to_msecs(rem));
-> +	queue_delayed_work(nvme_wq, &fc_ctrl->fenced_work, rem);
-> +	return;
-> +
-> +done:
->   	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
->   	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
->   		queue_work(nvme_reset_wq, &fc_ctrl->ioerr_work);
->   }
->   
-> +static void nvme_fc_flush_fencing_works(struct nvme_fc_ctrl *ctrl)
-> +{
-> +	flush_work(&ctrl->fencing_work);
-> +	flush_delayed_work(&ctrl->fenced_work);
-> +}
-> +
->   static void
->   nvme_fc_ctrl_ioerr_work(struct work_struct *work)
->   {
-> @@ -1917,7 +1947,7 @@ nvme_fc_ctrl_ioerr_work(struct work_struct *work)
->   		return;
->   	}
->   
-> -	flush_work(&ctrl->fencing_work);
-> +	nvme_fc_flush_fencing_works(ctrl);
->   	nvme_fc_error_recovery(ctrl);
->   }
->   
-> @@ -3396,7 +3426,7 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
->   	struct nvme_fc_ctrl *ctrl =
->   		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
->   
-> -	flush_work(&ctrl->fencing_work);
-> +	nvme_fc_flush_fencing_works(ctrl);
->   	nvme_stop_ctrl(&ctrl->ctrl);
->   
->   	/* will block will waiting for io to terminate */
-> @@ -3573,6 +3603,7 @@ nvme_fc_alloc_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
->   	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
->   	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
->   	INIT_WORK(&ctrl->fencing_work, nvme_fc_fencing_work);
-> +	INIT_DELAYED_WORK(&ctrl->fenced_work, nvme_fc_fenced_work);
->   	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
->   	spin_lock_init(&ctrl->lock);
->   
+https://netdev-ai.bots.linux.dev/ai-review.html?id=6977b6d6-04e4-4990-a96f-b7580fc5acc4
 
-looks ok.
-
-Signed-off-by: James Smart <jsmart833426@gmail.com>
-
--- james
+Thanks,
+Ming
 
 
