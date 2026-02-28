@@ -4,83 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 879201048922
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Feb 2026 00:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B9001048925
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Feb 2026 01:04:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=jxBYsfIl1dQDj7E0Mud0kfpYkTy2bn5OOdrQxDSmBiY=; b=IXmANA6ZzagpPJIQABTSbE8JBH
-	5zPH1ua1ps+D3ri8WmP3ns/NTpufxjFO7uAzjaqq4OIsajC0Qm0F3PMGFl4wyC0b22UpVhoCv4R6u
-	vSRzY3UzykwzUKnoyTSARPBC7BNi6XSLeuAziLe+rdq90OdDBZNmIwyMW+wXxXGB425rDCFR7SLJe
-	V18gn6dlGEGqWDaIflkoltB+lvjLTtGNElVvVgBW74ZLJXlezTNAJdzaEf1WeK73eveomeyjZ+Jy8
-	zHGrUe1DWb+1Wy9d0mhbo4mBzgdA9rdHfpm3KeblE+/xQ60yDE++0+1W0xXv9OPVMt5m6kKJ/hH/H
-	CDkJtL8w==;
+	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=sz+nw9RHvnXIemxs0AJJA/Skq4z5y0Q6hDr8HHtUbVk=; b=FSgwMBTcwz7nxvVvLaAmzBo8Wm
+	R06zEGNlwUxxCxPcQf+ZdWa09YTOSr0KvisI3yanBWbFArAZpQhO5VV04Ue5mFvQ+9IVfwgPbSVqw
+	SvNu0a0+uuiUKaqCFRl9CqIsExzCkNCDhr2iN2X1mohYffu9R7dCwMB9bcUkelgotHNMazA6Dc9MP
+	8ia2zcZn/AIbs5nJ89n10RTzirp6z9pAWE/afHvOOhqt2IpunmOKyQMMBFAhHI4CExPQn6aQLQxTw
+	v1O/zj2wDlNHm73dUmbbbCGF0qTlQ8O7OcWDKJHCS5bZj7Nx7pEYYgt37CvbrZ9BrvlkiVmIRrof7
+	LKPqozQQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw868-00000009K7J-2PcU;
-	Sat, 28 Feb 2026 00:22:20 +0000
-Received: from mail-yx1-f48.google.com ([74.125.224.48])
+	id 1vw8kW-00000009Mft-3Ytj;
+	Sat, 28 Feb 2026 01:04:04 +0000
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw865-00000009K6y-1l0p
+	id 1vw8kT-00000009MfM-0cik
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Feb 2026 00:22:18 +0000
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64ad79dfb7cso2832464d50.2
-        for <linux-nvme@lists.infradead.org>; Fri, 27 Feb 2026 16:22:16 -0800 (PST)
+	Sat, 28 Feb 2026 01:04:04 +0000
+Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-8cb40149037so269740385a.2
+        for <linux-nvme@lists.infradead.org>; Fri, 27 Feb 2026 17:04:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772240639; x=1772845439; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=sz+nw9RHvnXIemxs0AJJA/Skq4z5y0Q6hDr8HHtUbVk=;
+        b=kUjiM/K3M/j/QZwtnypzeDwQ+AG5euXPuMkIyjN8pHLbJVYifjxXlaj1SFWF5HYPME
+         I0ENuOxXTMRsOSCHSlSINMjzvtiFvkfjS8XT1lRYttHMSQNKNG3v5POCn/m+nWNPQI2P
+         7mYiBvujaKOeoFHKiFzI8QfhVziI2JlZ2QQEh+SULvHFUH2M5PG1If/4VChzjEUTjJmW
+         XsBeSb4Bn6CEL437FW6hvXnzLZ3n4c1DSzifQUz0B/wmEo9oB/arD7A05ubtfW+SJf5u
+         lRKZ5Of7kFowgvvAQvEQqbFg2pLXyxsJ7qBfWx2X8ALStaMpQkTzgm5Fre+vmlRe8x5Q
+         9dzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772238135; x=1772842935;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jxBYsfIl1dQDj7E0Mud0kfpYkTy2bn5OOdrQxDSmBiY=;
-        b=m9nvxF/lRkAVk+9WduDWPTobXdIWPFb0723oEipiMg9m1npuDIy5d/sBSRyfTYPS5+
-         IPAzKk2eCNj/Ujb2yxBoQD5Z1ElSMWlpoWda77U3voj7dIiE3wdCDxJnyws6zDxHy92t
-         bGsmSKzkX3ZIKn1ausYJ22pNPbVGyfJkWV3/8JrQkm5c1ShM+zflSoozMcdLhj29tjzG
-         D468Z2oKe3t60UU8XIbzzhq54lHfDDdJCWE5JY7KQ/TUd/Eizy+hjBjYKdMwE8G3h7Yp
-         COhBQVb1yJM7/imkMC8/m5kBHSHLOV6WpCBleUPEWJAe+4j3xVlvwGt7GafGDJVtwp+d
-         h9vg==
-X-Forwarded-Encrypted: i=1; AJvYcCVphXFLGEnVXIg8ro1Lqhs5axpNRKvnZ1tRjR6YNdIDm9cvjxrSbkqyzSTXNjk0gCh7LqhmflVBbvuz@lists.infradead.org
-X-Gm-Message-State: AOJu0YxpCq3pqCpuehs6nskiKRzjuqFRZw/Dt/08/hbQJPu7UoIS2Xb6
-	LugMzcPGuUb2Ei9yMBT5D9yOGisZTwQKJ3UmavIdRzJP9EI3MODxMnIDegTly5k8
-X-Gm-Gg: ATEYQzzLg62vMDLnVLJP13NfzQ29jN/EHc+URnJFOwojFkWu8znvqHiZ2qAZTCMdzpx
-	fKj/zPv8Dcguf9fs9MNvEMa5XV9oDJSE5xhA+oPmwD1r+V6f1keowr3lGIwrs6RKJzSl9pzuEeZ
-	8ygsHp1QEgQcT3jzyyndJwf2VBJAnr8dVr1Kb0iZi+/ON8y3WIhgVLG3ay/P16L19EK0Gy2sCFN
-	c49HyN/7K9FXkIbbeMtMLVoH3u/AiT5EpJAqWrlIf9PDOEHEbLkJTdt0e2UC6TJinpILPbIYMVd
-	og79EJvjv+sOKsdp2UiegynBO/p7XYyzKs7YD4wdhL4sZzi/kMCYD+42G34i/gEE4HZCk9wjSgp
-	NFoevgVv3VIQtfm4X3d/GxfYE1bEJMMSFPluLxHLI2N9nf0SB5kOoY9ZhbT9/FyiUV8TQAremhC
-	Ca7ZxVcnthzA==
-X-Received: by 2002:a53:c9d2:0:b0:64c:9ee6:1ff5 with SMTP id 956f58d0204a3-64cc22fdd04mr3351893d50.65.1772238135399;
-        Fri, 27 Feb 2026 16:22:15 -0800 (PST)
-Received: from tofu.. ([128.210.0.165])
-        by smtp.googlemail.com with ESMTPSA id 956f58d0204a3-64cb75ae57esm2872687d50.9.2026.02.27.16.22.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 16:22:14 -0800 (PST)
-From: Sungwoo Kim <iam@sung-woo.kim>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Hannes Reinecke <hare@suse.de>
-Cc: Sungwoo Kim <iam@sung-woo.kim>,
-	Chao Shi <cshi008@fiu.edu>,
-	Weidong Zhu <weizhu@fiu.edu>,
-	Dave Tian <daveti@purdue.edu>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] nvme: fix memory allocation in nvme_pr_read_keys()
-Date: Fri, 27 Feb 2026 19:19:28 -0500
-Message-ID: <20260228001927.382810-3-iam@sung-woo.kim>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20230601; t=1772240639; x=1772845439;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sz+nw9RHvnXIemxs0AJJA/Skq4z5y0Q6hDr8HHtUbVk=;
+        b=EEmfYioU/ESOi2tSsTZv1etK285JfBByKp8qisg4521IngIejX7JVyDx7v3xfoiGQG
+         cj5AmUXsyGCJilp3NSMPSj1FCm0NVMcQ449JamBqSZblq47N6iL1mGJF8LvYmClCAeuL
+         abW8QHNN6kLjwwBTr3bGkpD0gpfiW6sCGIkIOKp8loDsKK6Rcux1eRJCPjBRHl6YXnXX
+         OSYw13zKPv22w2xuiFY+0AaN/GHDc3/IzUPOZT9JP+Ee/bs65UvMS2aBmKwgiWxqITBn
+         a/gQjU8/JEL8Su9GPahuumEjBl0q77aHXXcONhQlSDxUaUyIZbYUMYHqsLOBtNJxgSuW
+         jlWw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/9ZMAKhrw+YSuX1dnOXgGWLpYT7LS0JfJ35DQGBZpaPmlhhfUqCxGrsHaW/tLLfhza1is12ubHmau@lists.infradead.org
+X-Gm-Message-State: AOJu0YxU0QiIMAopoQe0QauNIu/RgKsDmb39n+K0hnSJlWlbb2SpDLN7
+	/Xe89ciMFDTo60ZhFjBKYYJB1+7KrQpB6PRkT2Hs2V4tRsSrViJ5fPHo
+X-Gm-Gg: ATEYQzzNku70khUVJFTmc1qs6T55iaf4TdlUHolfsJY5yMvjvaZqsHo+tndmx4Tk8c6
+	ZuQcqEFD6D3eSAeSB9dcOMn6V8Egobt7bUr1C5lOTx43I/VWJAnxEw2BZnYHZKQMckEHGWE2L1V
+	EO5AgQsNYWZO5OPcDz/CLhRcicfPT88C+sy3QojvxOZ//cYjeV2U0dtdVS5gbJYjYONTzivsS/m
+	4q6NTasXQI4PvOF294nL//HfKNUiKdKSsSJZkt/YrMCz+5JqOXarGbRIQRZHRaUQ55wmOQN8IEx
+	hXyvTLOhvLk3aHF9nk6HOuYXLtw/ilhZwFHzeHlhA/W+eSPbDD01aj42pjzqsKy+y81wEVdV48M
+	eAkDSPxSPUjb8+vBbQUxSOzGXh3vrbc/nlUP/X0QtSH4bvWUcyKf2faQrB60XwKaqgew2a9wnt8
+	KReSZeQoIcVGI1D0um4dHlPjY8Qp2prUmrJBLQ8IROTbkX
+X-Received: by 2002:a05:620a:470b:b0:8cb:4ad6:6aa0 with SMTP id af79cd13be357-8cbc8e12bc5mr604670985a.68.1772240639428;
+        Fri, 27 Feb 2026 17:03:59 -0800 (PST)
+Received: from [10.69.56.189] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-507449630a0sm53364841cf.6.2026.02.27.17.03.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 17:03:58 -0800 (PST)
+Message-ID: <d6013719-8169-4ad0-bb05-a626a717e8b1@gmail.com>
+Date: Fri, 27 Feb 2026 17:03:55 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: James Smart <jsmart833426@gmail.com>
+Subject: Re: [PATCH v3 13/21] nvme-fc: Use CCR to recover controller that hits
+ an error
+To: Mohamed Khalfella <mkhalfella@purestorage.com>,
+ Justin Tee <justin.tee@broadcom.com>,
+ Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+ Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Hannes Reinecke <hare@suse.de>, jsmart833426@gmail.com
+Cc: Aaron Dailey <adailey@purestorage.com>,
+ Randy Jennings <randyj@purestorage.com>,
+ Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
+ <20260214042753.4073668-14-mkhalfella@purestorage.com>
+Content-Language: en-US
+In-Reply-To: <20260214042753.4073668-14-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260227_162217_485165_9E0A84F4 
-X-CRM114-Status: GOOD (  16.96  )
+X-CRM114-CacheID: sfid-20260227_170401_925790_F22A5DD6 
+X-CRM114-Status: GOOD (  22.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,101 +110,111 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_pr_read_keys() takes num_keys from userspace and uses it to
-calculate the allocation size for rse via struct_size(). The upper
-limit is PR_KEYS_MAX (64K).
+On 2/13/2026 8:25 PM, Mohamed Khalfella wrote:
+> An alive nvme controller that hits an error now will move to FENCING
+> state instead of RESETTING state. ctrl->fencing_work attempts CCR to
+> terminate inflight IOs. Regardless of the success or failure of CCR
+> operation the controller is transitioned to RESETTING state to continue
+> error recovery process.
+> 
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> ---
+>   drivers/nvme/host/fc.c | 30 ++++++++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index e6ffaa19aba4..6ebabfb7e76d 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -166,6 +166,7 @@ struct nvme_fc_ctrl {
+>   	struct blk_mq_tag_set	admin_tag_set;
+>   	struct blk_mq_tag_set	tag_set;
+>   
+> +	struct work_struct	fencing_work;
+>   	struct work_struct	ioerr_work;
+>   	struct delayed_work	connect_work;
+>   
+> @@ -1868,6 +1869,24 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
+>   	}
+>   }
+>   
+> +static void nvme_fc_fencing_work(struct work_struct *work)
+> +{
+> +	struct nvme_fc_ctrl *fc_ctrl =
+> +			container_of(work, struct nvme_fc_ctrl, fencing_work);
+> +	struct nvme_ctrl *ctrl = &fc_ctrl->ctrl;
+> +	unsigned long rem;
+> +
+> +	rem = nvme_fence_ctrl(ctrl);
+> +	if (rem) {
+> +		dev_info(ctrl->device,
+> +			 "CCR failed, skipping time-based recovery\n");
+> +	}
+> +
+> +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
+> +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+> +		queue_work(nvme_reset_wq, &fc_ctrl->ioerr_work);
 
-A malicious or buggy userspace can pass a large num_keys value that
-results in a 4MB allocation attempt at most, causing a warning in
-the page allocator when the order exceeds MAX_PAGE_ORDER.
+catch the rework of prior patch
 
-To fix this, use kvzalloc() instead of kzalloc().
+> +}
+> +
+>   static void
+>   nvme_fc_ctrl_ioerr_work(struct work_struct *work)
+>   {
+> @@ -1889,6 +1908,7 @@ nvme_fc_ctrl_ioerr_work(struct work_struct *work)
+>   		return;
+>   	}
+>   
+> +	flush_work(&ctrl->fencing_work);
+>   	nvme_fc_error_recovery(ctrl);
+>   }
+>   
+> @@ -1915,6 +1935,14 @@ static void nvme_fc_start_ioerr_recovery(struct nvme_fc_ctrl *ctrl,
+>   {
+>   	enum nvme_ctrl_state state;
+>   
+ From prior patch - the CONNECTING logic should be here....
 
-This bug has the same reasoning and fix with the patch below:
-https://lore.kernel.org/linux-block/20251212013510.3576091-1-kartikey406@gmail.com/
+> +	if (nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_FENCING)) {
+> +		dev_warn(ctrl->ctrl.device,
+> +			 "NVME-FC{%d}: starting controller fencing %s\n",
+> +			 ctrl->cnum, errmsg);
+> +		queue_work(nvme_wq, &ctrl->fencing_work);
+> +		return;
+> +	}
+> +
+>   	if (nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING)) {
+>   		dev_warn(ctrl->ctrl.device, "NVME-FC{%d}: starting error recovery %s\n",
+>   			 ctrl->cnum, errmsg);
+> @@ -3322,6 +3350,7 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+>   	struct nvme_fc_ctrl *ctrl =
+>   		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
+>   
+> +	flush_work(&ctrl->fencing_work);
+>   	nvme_stop_ctrl(&ctrl->ctrl);
+>   
+>   	/* will block will waiting for io to terminate */
+> @@ -3497,6 +3526,7 @@ nvme_fc_alloc_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>   
+>   	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+>   	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
+> +	INIT_WORK(&ctrl->fencing_work, nvme_fc_fencing_work);
+>   	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
+>   	spin_lock_init(&ctrl->lock);
+>   
 
-Warning log:
-WARNING: mm/page_alloc.c:5216 at __alloc_frozen_pages_noprof+0x5aa/0x2300 mm/page_alloc.c:5216, CPU#1: syz-executor117/272
-Modules linked in:
-CPU: 1 UID: 0 PID: 272 Comm: syz-executor117 Not tainted 6.19.0 #1 PREEMPT(voluntary)
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
-RIP: 0010:__alloc_frozen_pages_noprof+0x5aa/0x2300 mm/page_alloc.c:5216
-Code: ff 83 bd a8 fe ff ff 0a 0f 86 69 fb ff ff 0f b6 1d f9 f9 c4 04 80 fb 01 0f 87 3b 76 30 ff 83 e3 01 75 09 c6 05 e4 f9 c4 04 01 <0f> 0b 48 c7 85 70 fe ff ff 00 00 00 00 e9 8f fd ff ff 31 c0 e9 0d
-RSP: 0018:ffffc90000fcf450 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 1ffff920001f9ea0
-RDX: 0000000000000000 RSI: 000000000000000b RDI: 0000000000040dc0
-RBP: ffffc90000fcf648 R08: ffff88800b6c3380 R09: 0000000000000001
-R10: ffffc90000fcf840 R11: ffff88807ffad280 R12: 0000000000000000
-R13: 0000000000040dc0 R14: 0000000000000001 R15: ffffc90000fcf620
-FS:  0000555565db33c0(0000) GS:ffff8880be26c000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000002000000c CR3: 0000000003b72000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- alloc_pages_mpol+0x236/0x4d0 mm/mempolicy.c:2486
- alloc_frozen_pages_noprof+0x149/0x180 mm/mempolicy.c:2557
- ___kmalloc_large_node+0x10c/0x140 mm/slub.c:5598
- __kmalloc_large_node_noprof+0x25/0xc0 mm/slub.c:5629
- __do_kmalloc_node mm/slub.c:5645 [inline]
- __kmalloc_noprof+0x483/0x6f0 mm/slub.c:5669
- kmalloc_noprof include/linux/slab.h:961 [inline]
- kzalloc_noprof include/linux/slab.h:1094 [inline]
- nvme_pr_read_keys+0x8f/0x4c0 drivers/nvme/host/pr.c:245
- blkdev_pr_read_keys block/ioctl.c:456 [inline]
- blkdev_common_ioctl+0x1b71/0x29b0 block/ioctl.c:730
- blkdev_ioctl+0x299/0x700 block/ioctl.c:786
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl fs/ioctl.c:583 [inline]
- __x64_sys_ioctl+0x1bf/0x220 fs/ioctl.c:583
- x64_sys_call+0x1280/0x21b0 mnt/fuzznvme_1/fuzznvme/linux-build/v6.19/./arch/x86/include/generated/asm/syscalls_64.h:17
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x71/0x330 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x76/0x7e
-RIP: 0033:0x7fb893d3108d
-Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffff61f2f38 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007ffff61f3138 RCX: 00007fb893d3108d
-RDX: 0000000020000040 RSI: 00000000c01070ce RDI: 0000000000000003
-RBP: 0000000000000001 R08: 0000000000000000 R09: 00007ffff61f3138
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
-R13: 00007ffff61f3128 R14: 00007fb893dae530 R15: 0000000000000001
- </TASK>
+there is a little to be in sync with my comment on the prior patch, but 
+otherwise what is here is fine.
 
-Fixes: 5fd96a4e15de (nvme: Add pr_ops read_keys support)
-Acked-by: Chao Shi <cshi008@fiu.edu>
-Acked-by: Weidong Zhu <weizhu@fiu.edu>
-Acked-by: Dave Tian <daveti@purdue.edu>
-Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
----
-v2: add missing kvfree
+What bothers me in this process is - there are certainly conditions 
+where there is not connectivity loss  where FC can send things such as 
+the ABTS or a Disconnect LS that can inform the controller to start 
+terminating. Its odd that we skip this step and go directly to the CCR 
+reset to terminate the controller.  We should have been able to continue 
+to send the things that start to directly tear down the controller which 
+can be happening in parallel with the CCR.
 
- drivers/nvme/host/pr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pr.c b/drivers/nvme/host/pr.c
-index ad2ecc2f49a97..fe7dbe2648158 100644
---- a/drivers/nvme/host/pr.c
-+++ b/drivers/nvme/host/pr.c
-@@ -242,7 +242,7 @@ static int nvme_pr_read_keys(struct block_device *bdev,
- 	if (rse_len > U32_MAX)
- 		return -EINVAL;
- 
--	rse = kzalloc(rse_len, GFP_KERNEL);
-+	rse = kvzalloc(rse_len, GFP_KERNEL);
- 	if (!rse)
- 		return -ENOMEM;
- 
-@@ -267,7 +267,7 @@ static int nvme_pr_read_keys(struct block_device *bdev,
- 	}
- 
- free_rse:
--	kfree(rse);
-+	kvfree(rse);
- 	return ret;
- }
- 
--- 
-2.47.3
+-- james
 
 
