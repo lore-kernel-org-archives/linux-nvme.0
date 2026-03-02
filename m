@@ -4,85 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC354D58E4B
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 04:08:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 422E3D58E6E
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 06:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=NKGcz8tlyCPU7NrDjoUUnPCQmL3iAFi9IJXAqCR6JYs=; b=ralIsIwuCH1BFlJ3VhTUDiaEBT
-	azHUexU5J9O6t39TP9in3UnseKHlNfodOsXb3H4wqhWBDI+YbKo7jy+pkYEFOlbub8FL135mx/Zds
-	/8QiPA8n6CFXJSJTMktlR/RwbWNVGseuz5x7msZR7y536573Q5udqsrRjV+Zma42FI1psNvESuAhJ
-	Y4ENxw7dVPKtoWa+ow1gxaRGXc4bnnTEyLIaMlSuu1/odGUP8W6ZW9MsNgrMj5JCkYeI9/wewUPem
-	uVpAByyAsGR/lVE7bWyICVRNyP//K7Wq4+1FdXl2xeArU66ZFas+QWU1M/IsT+Cys7ajo07q0o78/
-	UzEjjdMQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Y0p31MFKSng0g7m9o6jOdB4/JvpV9PHTBKYh7jECMMA=; b=DBYqSa7jcfbLoSZT7hKwd3IFLo
+	03rvxa2HD3Db+pYmNtdNcmoUyI82WycPIdQJnOcQUUOUd0ji2Mg/sHOit0FtV35rmJNZq6n6YRctV
+	Rs/2ECSvYLDFceU4C8EgQYyeO8kV3pTw30XuVhHEfqpCRpUwbA6TT1XW18pmpSpmD6KZtpw6OVis+
+	F/9WPUuduoWYZLbHJzorbWj3YZQWc6Om08hKQFffGxYDl6pSPjWeJcphfdk87SqDkObn8wUQcf42N
+	oOZ66v09y16NhoGU1xqVY70m2M5VT4qnxIofFOlWNicgs1S6mpBJf5R4tDL8dKby04v2B4hMa0b7k
+	AjkLDEHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwuaM-0000000CEwr-3Hxx;
-	Mon, 02 Mar 2026 04:08:46 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vwxCs-0000000CNGz-2Icl;
+	Mon, 02 Mar 2026 06:56:42 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwuaK-0000000CEwS-1Hsf
+	id 1vwxCl-0000000CNGB-2eOm
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Mar 2026 04:08:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772424522;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NKGcz8tlyCPU7NrDjoUUnPCQmL3iAFi9IJXAqCR6JYs=;
-	b=h00pofgGzTHRH+ANV3ZWxhb26WT4El6r6omEx1qJUz3o6Mw7+z2lewNTgvotNy9f8m2Z5O
-	HRTIZ1LJcl5Dir84hdBaNdRbx/n11xHpwPsd8wvHD3e5nxRq+WHJEkRm8AZJNv9w+KEx2S
-	UxizI+Ca6F/jSm78X17KL+jo93EoXF0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-464-Q2mNSiM0N7OQD_xm4M8l5A-1; Sun,
- 01 Mar 2026 23:08:39 -0500
-X-MC-Unique: Q2mNSiM0N7OQD_xm4M8l5A-1
-X-Mimecast-MFC-AGG-ID: Q2mNSiM0N7OQD_xm4M8l5A_1772424517
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	Mon, 02 Mar 2026 06:56:37 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0330E1956089;
-	Mon,  2 Mar 2026 04:08:37 +0000 (UTC)
-Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (unknown [10.6.23.247])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E984F19560A3;
-	Mon,  2 Mar 2026 04:08:35 +0000 (UTC)
-Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (localhost [127.0.0.1])
-	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.17.1) with ESMTPS id 62248YjS1832189
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 1 Mar 2026 23:08:34 -0500
-Received: (from bmarzins@localhost)
-	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.18.1/Submit) id 62248Ype1832188;
-	Sun, 1 Mar 2026 23:08:34 -0500
-Date: Sun, 1 Mar 2026 23:08:34 -0500
-From: Benjamin Marzinski <bmarzins@redhat.com>
-To: John Garry <john.g.garry@oracle.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
-        hare@suse.com, jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, dm-devel@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/24] scsi-multipath: add
- scsi_mpath_{start,end}_request()
-Message-ID: <aaUNQgJu8sEx-lsv@redhat.com>
-References: <20260225153627.1032500-1-john.g.garry@oracle.com>
- <20260225153627.1032500-11-john.g.garry@oracle.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6578F3E7C9;
+	Mon,  2 Mar 2026 06:56:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772434592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0p31MFKSng0g7m9o6jOdB4/JvpV9PHTBKYh7jECMMA=;
+	b=uzMaIBUCwTwOeTkjdkSyi20bIacQc8HjX6j6enp6w73XDC7DKLS4QB1FU1CRdtHGiyqeDV
+	EMAqVi8EM7uparAinPEtMH61j5YXUjqX73+G4knn6FAdBhP1YZLcBDgALM9vFwOuOEU6U6
+	O/KJfRk2BnP8ch15HTsj0rKFROBUnms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772434592;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0p31MFKSng0g7m9o6jOdB4/JvpV9PHTBKYh7jECMMA=;
+	b=Z3wtw3VjUHVlhnAowo1kdNFwr0CvokqJHluEaxDwrbb64CWOAVM5g4GgPvClzyAD6wRknm
+	xc4hj0rsMN3BaoCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772434592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0p31MFKSng0g7m9o6jOdB4/JvpV9PHTBKYh7jECMMA=;
+	b=uzMaIBUCwTwOeTkjdkSyi20bIacQc8HjX6j6enp6w73XDC7DKLS4QB1FU1CRdtHGiyqeDV
+	EMAqVi8EM7uparAinPEtMH61j5YXUjqX73+G4knn6FAdBhP1YZLcBDgALM9vFwOuOEU6U6
+	O/KJfRk2BnP8ch15HTsj0rKFROBUnms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772434592;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y0p31MFKSng0g7m9o6jOdB4/JvpV9PHTBKYh7jECMMA=;
+	b=Z3wtw3VjUHVlhnAowo1kdNFwr0CvokqJHluEaxDwrbb64CWOAVM5g4GgPvClzyAD6wRknm
+	xc4hj0rsMN3BaoCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A40BB3EA69;
+	Mon,  2 Mar 2026 06:56:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BYxBJZ80pWmlUwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 02 Mar 2026 06:56:31 +0000
+Message-ID: <ca0c087a-3afb-4a88-97e6-78fe94130ae7@suse.de>
+Date: Mon, 2 Mar 2026 07:56:30 +0100
 MIME-Version: 1.0
-In-Reply-To: <20260225153627.1032500-11-john.g.garry@oracle.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: oyRs1BCv1_YP9ZEcCgUlMDPQOgpkC1E0Odzw0-W9Hx8_1772424517
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme: fix memory allocation in nvme_pr_read_keys()
+To: Sungwoo Kim <iam@sung-woo.kim>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Mike Christie <michael.christie@oracle.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Chao Shi <cshi008@fiu.edu>, Weidong Zhu <weizhu@fiu.edu>,
+ Dave Tian <daveti@purdue.edu>, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260228001927.382810-3-iam@sung-woo.kim>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260228001927.382810-3-iam@sung-woo.kim>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260301_200844_471656_0B53231B 
-X-CRM114-Status: GOOD (  17.68  )
+X-CRM114-CacheID: sfid-20260301_225635_816834_19FB44A1 
+X-CRM114-Status: GOOD (  16.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,54 +136,84 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 25, 2026 at 03:36:13PM +0000, John Garry wrote:
-> Add scsi_mpath_{start,end}_request() to handle updating private multipath
-> request data, like nvme_mpath_{start,end}_request().
+On 2/28/26 01:19, Sungwoo Kim wrote:
+> nvme_pr_read_keys() takes num_keys from userspace and uses it to
+> calculate the allocation size for rse via struct_size(). The upper
+> limit is PR_KEYS_MAX (64K).
 > 
-> Since we may need to update mpath_disk data, add a callbacks in
-> scsi_driver to actually do this work for the scsi driver.
+> A malicious or buggy userspace can pass a large num_keys value that
+> results in a 4MB allocation attempt at most, causing a warning in
+> the page allocator when the order exceeds MAX_PAGE_ORDER.
 > 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> To fix this, use kvzalloc() instead of kzalloc().
+> 
+> This bug has the same reasoning and fix with the patch below:
+> https://lore.kernel.org/linux-block/20251212013510.3576091-1-kartikey406@gmail.com/
+> 
+> Warning log:
+> WARNING: mm/page_alloc.c:5216 at __alloc_frozen_pages_noprof+0x5aa/0x2300 mm/page_alloc.c:5216, CPU#1: syz-executor117/272
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 272 Comm: syz-executor117 Not tainted 6.19.0 #1 PREEMPT(voluntary)
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+> RIP: 0010:__alloc_frozen_pages_noprof+0x5aa/0x2300 mm/page_alloc.c:5216
+> Code: ff 83 bd a8 fe ff ff 0a 0f 86 69 fb ff ff 0f b6 1d f9 f9 c4 04 80 fb 01 0f 87 3b 76 30 ff 83 e3 01 75 09 c6 05 e4 f9 c4 04 01 <0f> 0b 48 c7 85 70 fe ff ff 00 00 00 00 e9 8f fd ff ff 31 c0 e9 0d
+> RSP: 0018:ffffc90000fcf450 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: 1ffff920001f9ea0
+> RDX: 0000000000000000 RSI: 000000000000000b RDI: 0000000000040dc0
+> RBP: ffffc90000fcf648 R08: ffff88800b6c3380 R09: 0000000000000001
+> R10: ffffc90000fcf840 R11: ffff88807ffad280 R12: 0000000000000000
+> R13: 0000000000040dc0 R14: 0000000000000001 R15: ffffc90000fcf620
+> FS:  0000555565db33c0(0000) GS:ffff8880be26c000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 000000002000000c CR3: 0000000003b72000 CR4: 00000000000006f0
+> Call Trace:
+>   <TASK>
+>   alloc_pages_mpol+0x236/0x4d0 mm/mempolicy.c:2486
+>   alloc_frozen_pages_noprof+0x149/0x180 mm/mempolicy.c:2557
+>   ___kmalloc_large_node+0x10c/0x140 mm/slub.c:5598
+>   __kmalloc_large_node_noprof+0x25/0xc0 mm/slub.c:5629
+>   __do_kmalloc_node mm/slub.c:5645 [inline]
+>   __kmalloc_noprof+0x483/0x6f0 mm/slub.c:5669
+>   kmalloc_noprof include/linux/slab.h:961 [inline]
+>   kzalloc_noprof include/linux/slab.h:1094 [inline]
+>   nvme_pr_read_keys+0x8f/0x4c0 drivers/nvme/host/pr.c:245
+>   blkdev_pr_read_keys block/ioctl.c:456 [inline]
+>   blkdev_common_ioctl+0x1b71/0x29b0 block/ioctl.c:730
+>   blkdev_ioctl+0x299/0x700 block/ioctl.c:786
+>   vfs_ioctl fs/ioctl.c:51 [inline]
+>   __do_sys_ioctl fs/ioctl.c:597 [inline]
+>   __se_sys_ioctl fs/ioctl.c:583 [inline]
+>   __x64_sys_ioctl+0x1bf/0x220 fs/ioctl.c:583
+>   x64_sys_call+0x1280/0x21b0 mnt/fuzznvme_1/fuzznvme/linux-build/v6.19/./arch/x86/include/generated/asm/syscalls_64.h:17
+>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>   do_syscall_64+0x71/0x330 arch/x86/entry/syscall_64.c:94
+>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> RIP: 0033:0x7fb893d3108d
+> Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007ffff61f2f38 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 00007ffff61f3138 RCX: 00007fb893d3108d
+> RDX: 0000000020000040 RSI: 00000000c01070ce RDI: 0000000000000003
+> RBP: 0000000000000001 R08: 0000000000000000 R09: 00007ffff61f3138
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+> R13: 00007ffff61f3128 R14: 00007fb893dae530 R15: 0000000000000001
+>   </TASK>
+> 
+> Fixes: 5fd96a4e15de (nvme: Add pr_ops read_keys support)
+> Acked-by: Chao Shi <cshi008@fiu.edu>
+> Acked-by: Weidong Zhu <weizhu@fiu.edu>
+> Acked-by: Dave Tian <daveti@purdue.edu>
+> Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
 > ---
->  drivers/scsi/scsi_lib.c       |  4 ++++
->  include/scsi/scsi_driver.h    |  2 ++
->  include/scsi/scsi_multipath.h | 24 ++++++++++++++++++++++++
->  3 files changed, 30 insertions(+)
+> v2: add missing kvfree
 > 
->  	#ifdef CONFIG_SCSI_MULTIPATH
-> +	void (*mpath_start_cmd)(struct scsi_cmnd *);
-> +	void (*mpath_end_cmd)(struct scsi_cmnd *);
->  	struct mpath_disk *(*to_mpath_disk)(struct request *);
->  	#endif
->  };
-> diff --git a/include/scsi/scsi_multipath.h b/include/scsi/scsi_multipath.h
-> index 07db217edb085..6cb3107260952 100644
-> --- a/include/scsi/scsi_multipath.h
-> +++ b/include/scsi/scsi_multipath.h
-> @@ -56,6 +56,23 @@ void scsi_mpath_add_sysfs_link(struct scsi_device *sdev);
->  void scsi_mpath_remove_sysfs_link(struct scsi_device *sdev);
->  int scsi_mpath_get_head(struct scsi_mpath_head *);
->  void scsi_mpath_put_head(struct scsi_mpath_head *);
-> +
-> +static inline void scsi_mpath_start_request(struct request *req)
-> +{
-> +	struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(req);
-> +
-> +	if (is_mpath_request(req))
-> +		scsi_cmd_to_driver(cmd)->mpath_start_cmd(cmd);
-> +}
-> +
-> +static inline void scsi_mpath_end_request(struct request *req)
-> +{
-> +	struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(req);
-> +
-> +	if (is_mpath_request(req))
-> +		scsi_cmd_to_driver(cmd)->mpath_start_cmd(cmd);
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Copy-paste error. It should be:
+Cheers,
 
-		scsi_cmd_to_driver(cmd)->mpath_end_cmd(cmd);
-
--Ben
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
