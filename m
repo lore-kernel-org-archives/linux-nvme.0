@@ -4,119 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7005BD58E49
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 03:42:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3909FD58E47
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 03:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zrqDabodpEsJKkxhWN4KcMXtyCJKBr+QE9ZCQZCYGgw=; b=OAmZBOBM5os4lyj+FYd2X7Pap3
-	cFPpDZO/BpU/v4WjPe/3UcPcFzfzBkHWKb8i0HcCdCFLJ31yRDTTJkMzMx/+FV8Ur8jTe4Rer7v0I
-	1ni0nHsP6zGydbA1/KrIXCKhXBUwp+qEDVogh1H4NAytFJpKd0urg4mY438A5Gr1zOQHSH2g0xtY0
-	FLOTGROCIEgxUIW776wASorSyrIanz4GnPvT4Xv2/NMumwHBkSeQjVMRAc92c/lGsAiWhD0ADiT0E
-	iU8X23gxuWdadVllk2uHAtGAF9Q5tjFzjcwESiuL4uGVEY8+T92sBMqgZDHXPTz1u30aDszAJJwes
-	YPTSZ2mA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=t17Mj1eHT4BQtcJr+lrLfPnsDWPF4OBSvXbUFhohcuY=; b=Wg5NsYhPzTafirMckcaH6EsDz1
+	mGzSgHgTLm3JDaNcEGpgcB0oz6gsxVoFCPCHudKXUQZ88wbNxJ8p1fFgEib3OcwAofO3n9nVfbkiG
+	E4xA9pJ9Lw5EJJi5PlQ/AXoDqylzPq5UOcn96OYr0qm3u+apXQRFri/FxtO6bvH0E5rVQdrrYyNjI
+	TFPKNxfUQ6tLad0Bq1jLkCwKmjptMlE8TYhBWg3BRWov3sUTxM014/1x4iKC8ym4X1ptKudN2uxve
+	LXgaJYpR2AAO6pifvhDK8eOIsk3BduaohlfOChjk74uz4H90QjWBovM2lI0e5ISx9iyI0LJS6Khgx
+	5wuEOwHQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwuB5-0000000CBxq-1Uil;
-	Mon, 02 Mar 2026 03:42:39 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1vwuQ6-0000000CEJj-14pD;
+	Mon, 02 Mar 2026 03:58:10 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwuB4-0000000CBxf-1D7M
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 02 Mar 2026 03:42:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=zrqDabodpEsJKkxhWN4KcMXtyCJKBr+QE9ZCQZCYGgw=; b=jnHc9xh7+pvd3lKtug5lpcLvKW
-	NCBhTjcCcN5+Spb7NbSNlu7xIsIXF9ELMlTtpuk1E1IrvzxACSk53zIRpxPPEkERntLD3CYibQG3h
-	SUCFqFZvMX/xvUYirrc9koA83HJfeYBe9tyE+f2fJskGAP66RptwggMgTQIfiexHIi+8/zDGk08wF
-	fcgEu04H0DNaZ4mSW+IHH1tMH9MToWDtreObBMtUL0/tpVpacTUE+sOlVChl+CN6chAjXi3z8SfmN
-	I2onePPSt9f0xf4PIkeyd8f1XN1Y3EizlFkS7OzlYttiS7lC6SCkqtTs7YmIijXmrP9iIk4uDm11d
-	RhoHpw5g==;
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwuB0-0000000GkTw-3QJi
+	id 1vwuQ3-0000000CEIt-1yk3
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Mar 2026 03:42:36 +0000
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so6989956a12.1
-        for <linux-nvme@lists.infradead.org>; Sun, 01 Mar 2026 19:42:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772422952; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FLz1G0oWTbeHBBRRRFW+FO9XrwzvWIj/C8rt/7Ez/Pr2VU0oxAgAmdvnSU7dc1E6jT
-         H3PpfH4nlUoJ7ZdGICO0fL9+ZB3nNLVY5uREF8jvoiysqIbVajZwicIIv5kjYVFKFa1X
-         HkRfaWcDPhR9TZ7fP+P39G0DNw4SSxJIbBDaitGxxNO7Z4/X61njVmjkWqzxBToX3pPb
-         nZEETOHGUkrsrShgj7bhlRWyTcRwCDbKwDZYr0ntGu2ho9RXAiD8gyOWzVw3qMsmLuow
-         IbqTuKgv/Qlj+T6ALdz9ek+Ddcj0ohK+1peaaH95AO6wMsuKv0Dzp58GVtf06CFWU/pY
-         bJWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zrqDabodpEsJKkxhWN4KcMXtyCJKBr+QE9ZCQZCYGgw=;
-        fh=KeJGBf/MPSGIrG927m6LiBOUZYcHOleAjgvLlHcBAWk=;
-        b=T30gh+dQUzKHzzl0LBeYHj2Ay6f+Bat8oG6taxKhwingQJKdIuWV3Ub9b2+3TYnECU
-         TKiAuJX9p8gok0tpGL1kUKufW3cUvWxPxwbYMNsc8zQRO8ExdjDeXbApSP0YDOSFr5kt
-         8dmyj6bffqbLIcdH3ppo5DoRgKQ18ZvymgjVs18w6GfB6L+Dih8TheEvHIHLxe1I8v6Q
-         YFzk/k4T8C/awUN2OeMvHHtr8WIkEFLRX3Hst65VbpvJN44DPwM1pU3Lm7+khmfENuoE
-         7QsZw07s8K/gCXhGavUU3BAQl+fpjk5nP1n3XnFOesH3wXPRKKIDbdejXcwBhKIBwqV2
-         pvaA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772422952; x=1773027752; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zrqDabodpEsJKkxhWN4KcMXtyCJKBr+QE9ZCQZCYGgw=;
-        b=KgeGUzVWttMn8DeOWL+JLI/AcrJy/k5Xjc2pzZ+KtsHbNDv/F7OpuA1sdZtgIae2il
-         ErLWY99x9tgxMQWXQE3UUqSgj2Ik8HOCE3tzd/X0LEIakH5eBhXRDY3c+Pi/biBb2/G3
-         QEbSJZn32bLk8ONh8PNFXe0hNVlr+bN9m2mXzDkc0I2k2yrsJl3dIJjLVkfHG3vFXe5s
-         qarPxX6RyHL2xgW0t9g4TWHrASI20VjpzB2hewenOTfs1kD8XA1J2RDdRzbYyMfCb6GD
-         XOhEKfeM3jI+hWquRBlD6AB3Z8v/wwqfnTnQX26bYScfCp44NSHvLU48P68iVzVXsG/Z
-         Ca2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772422952; x=1773027752;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zrqDabodpEsJKkxhWN4KcMXtyCJKBr+QE9ZCQZCYGgw=;
-        b=tJHKXSu5ZObP3rGF4IfiO+jrlrMAQKFKPMUoEffcsPb0nzhdInrMiwXrFXNqEZa8nT
-         bmBL9euGED2yTAFYMdops08wKNPqmdxltmKfxmntqa5uygaEwyfA8RD4mxZt6IZfQxMx
-         SrxbLCDRXWVPBkbryQuAy7dac6UNiBkgFtePfu+mFEzfWIPK7I8NPKBQsUo1fkNAezhd
-         TrRM4SeC1DXRL5uiQsLJaLAmwV3BEG9ziEVoDZyJP3ecEu/UOPlMRgErHfFtwDYQ82rV
-         68YameauT2SJPttL+DcRehosHQ9b3nGtZO/4m/NppPUKFuqILrh8UEo7rm4IB1tnFGQZ
-         EpRA==
-X-Forwarded-Encrypted: i=1; AJvYcCXjB/NprdLPIUJSnXUprYO1Tzkb1V0AodaiKpGNASR37aRxmi6dZrt+eSVzoRkTqZmDrBLOkcVXZiAt@lists.infradead.org
-X-Gm-Message-State: AOJu0YxW4mGx7JIvbOKupoROYFAMSs13gEvn120AAeVH/HoqVNgT9pri
-	dWfMh6TKMPhoZmqvq/xAQy+gTTXAX/BrbTl44O8wRTwEvPx+aIma3R2JtGcvi++IjIsCjnDXTR2
-	JYxbsLf+VQrLUH/5Rq30CGuq0LuaAhhk=
-X-Gm-Gg: ATEYQzznF22GgZAea1YdFk/AjSx1Su9yDwrCJgY6tapj6ZKfv088Ww7+7xuQJ41OY8X
-	sWLfdt2s6ZayBhJabIPOxufrx6Hvo2V5cA7RnXJ8Jv6wzINoWhR1DG3tFH2qVStUpTpuwAiTqB0
-	mTKCHqRNHpp0WQcDHblRpV7+LmC8oGAksw3LeuzT4R1hiCyhdIMU841X+czL5wNU8ONR0OvCoah
-	xY/v27fraUDoDqk0em2cEavH1N5x76UwvlUMXA8cJXCKG9AIKaTHGzgc1UICdE3it15YUTTLupl
-	4Qf5uLulWDVz2EZaLK56hRMo/oX8j4n1YmResQ==
-X-Received: by 2002:a05:6402:444c:b0:658:cbf0:6a08 with SMTP id
- 4fb4d7f45d1cf-65fddce9a96mr4519593a12.17.1772422951788; Sun, 01 Mar 2026
- 19:42:31 -0800 (PST)
+	Mon, 02 Mar 2026 03:58:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772423886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t17Mj1eHT4BQtcJr+lrLfPnsDWPF4OBSvXbUFhohcuY=;
+	b=IcKkb0jc6iMcv8oFWJ34MEqTUVl5UeH0FhqkX4LKXI3yXyhN5neomPuQ+71APb5NzXS6df
+	C7Q1zf8gvW6kOQqLEG+CfkweHr4raeJSNVu3hNK5uM5HUyn+GjNC3jN6wVs2OJ/PK66V0O
+	yvppjZyJ35G9ql0KdPE92WPdaTkSbrE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-676-1u7MPTEFMsGtKZXuyyxYVg-1; Sun,
+ 01 Mar 2026 22:58:02 -0500
+X-MC-Unique: 1u7MPTEFMsGtKZXuyyxYVg-1
+X-Mimecast-MFC-AGG-ID: 1u7MPTEFMsGtKZXuyyxYVg_1772423880
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CBF3E18003FC;
+	Mon,  2 Mar 2026 03:57:59 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (unknown [10.6.23.247])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DB20230001B9;
+	Mon,  2 Mar 2026 03:57:58 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (localhost [127.0.0.1])
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.17.1) with ESMTPS id 6223vve81831914
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sun, 1 Mar 2026 22:57:57 -0500
+Received: (from bmarzins@localhost)
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.18.1/Submit) id 6223vv4F1831913;
+	Sun, 1 Mar 2026 22:57:57 -0500
+Date: Sun, 1 Mar 2026 22:57:57 -0500
+From: Benjamin Marzinski <bmarzins@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        hare@suse.com, jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/24] scsi-multipath: failover handling
+Message-ID: <aaUKxeoT69K435UE@redhat.com>
+References: <20260225153627.1032500-1-john.g.garry@oracle.com>
+ <20260225153627.1032500-10-john.g.garry@oracle.com>
 MIME-Version: 1.0
-References: <20251202051755.1312158-1-alistair.francis@wdc.com>
-In-Reply-To: <20251202051755.1312158-1-alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 2 Mar 2026 13:42:05 +1000
-X-Gm-Features: AaiRm53yH__MmXNc8M2DGIvjFYj6-3caIHh5iQg22smno_PgoGcTVnpNu3kw6-o
-Message-ID: <CAKmqyKMN+g3hRuLwMwF6qnce415O0ZAG56AoUgm_=wDX8Gwqug@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Support PSK reauthentication (REPLACETLSPSK)
-To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
-	hare@suse.de, kch@nvidia.com, linux-nvme@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260225153627.1032500-10-john.g.garry@oracle.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: 4yQJjkruOIlqbjo-y6GpcqOCEV20A-5G8vgJpGjryLk_1772423880
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260302_034235_212703_DE221649 
-X-CRM114-Status: GOOD (  20.23  )
+X-CRM114-CacheID: sfid-20260301_195807_658694_A1DEE5BB 
+X-CRM114-Status: GOOD (  31.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,58 +96,115 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Dec 2, 2025 at 3:18=E2=80=AFPM <alistair23@gmail.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Allow userspace on the host to trigger a reauth (REPLACETLSPSK) from
-> sysfs. This will replace the PSK for the admin queue when using
-> a secure concat connection.
->
-> This can be done by writing 0 to the `tls_configured_key` sysfs file,
-> for example something like this
->
-> ```shell
-> echo 0 > /sys/devices/virtual/nvme-fabrics/ctl/nvme0/tls_configured_key
-> ```
->
-> `tls_configured_key` will only appear for concat connections as that is
-> all that is supported.
->
-> Reading `tls_configured_key` will return the current configured key, whic=
-h
-> changes after each REPLACETLSPSK operation.
->
-> This series also include some fixes for the NVMe target code to ensure
-> this works against a Linux NVMe target.
->
-> v4:
->  - Forcefully reset the connection after updating the keys
-> v3:
->  - Only trigger if a 0 is written to `tls_configured_key`
->  - Add documentation
->
-> Alistair Francis (4):
->   nvmet-tcp: Don't error if TLS is enabed on a reset
->   nvmet-tcp: Don't free SQ on authentication success
->   nvme: Expose the tls_configured sysfs for secure concat connections
->   nvme: Allow reauth from sysfs
+On Wed, Feb 25, 2026 at 03:36:12PM +0000, John Garry wrote:
+> For a scmd which suffers failover, requeue the master bio of each bio
+> attached to its request.
+> 
+> A handler is added in the scsi_driver structure to lookup a
+> mpath_disk from a request. This is needed because the scsi_disk structure
+> will manage the mpath_disk, and the code core has no method to look this
+> up from the scsi_scmnd.
+> 
+> Failover occurs when the scsi_cmnd has failed and it is discovered that the
+> original scsi_device has transport down.
+> 
+> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> ---
+>  drivers/scsi/scsi_error.c     | 12 ++++++
+>  drivers/scsi/scsi_lib.c       |  9 +++-
+>  drivers/scsi/scsi_multipath.c | 80 +++++++++++++++++++++++++++++++++++
+>  include/scsi/scsi.h           |  1 +
+>  include/scsi/scsi_driver.h    |  3 ++
+>  include/scsi/scsi_multipath.h | 14 ++++++
+>  6 files changed, 118 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
+> index f869108fd9693..0fd1b46764c3f 100644
+> --- a/drivers/scsi/scsi_error.c
+> +++ b/drivers/scsi/scsi_error.c
+> @@ -40,6 +40,7 @@
+>  #include <scsi/scsi_ioctl.h>
+>  #include <scsi/scsi_dh.h>
+>  #include <scsi/scsi_devinfo.h>
+> +#include <scsi/scsi_multipath.h>
+>  #include <scsi/sg.h>
+>  
+>  #include "scsi_priv.h"
+> @@ -1901,12 +1902,16 @@ bool scsi_noretry_cmd(struct scsi_cmnd *scmd)
+>  enum scsi_disposition scsi_decide_disposition(struct scsi_cmnd *scmd)
+>  {
 
-This series is ready to merge. Can it be picked up?
+I'm no scsi expert, but the checks in scsi_decide_disposition() don't
+look quite right to me. You only failover in cases were it the code
+might want to retry (and when the device is offline), but there are
+other cases, when you don't want to retry the same path, where it would
+make sense to try another path, DID_TRANSPORT_FAILFAST for example. 
 
-Alistair
+As a more general issue, since you are already cloning the bios,
+couldn't you just trigger the failovers in scsi_mpath_clone_end_io().
+blk_path_error() can tell you which bios should be retried. That seems
+like a much simpler approach than trying to intercept the request before
+it completes the clones, and I don't see what you're losing by letting
+the clones complete, and dealing requeueing there (again, I'm no scsi
+expert).
 
->
->  Documentation/ABI/testing/sysfs-nvme   | 13 ++++++++
->  drivers/nvme/host/sysfs.c              | 46 ++++++++++++++++++++++++--
->  drivers/nvme/target/auth.c             |  4 +--
->  drivers/nvme/target/core.c             |  2 +-
->  drivers/nvme/target/fabrics-cmd-auth.c | 12 +++----
->  drivers/nvme/target/nvmet.h            |  4 +--
->  6 files changed, 68 insertions(+), 13 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-nvme
->
-> --
-> 2.51.1
->
+>  	enum scsi_disposition rtn;
+> +	struct request *req = scsi_cmd_to_rq(scmd);
+>  
+>  	/*
+>  	 * if the device is offline, then we clearly just pass the result back
+>  	 * up to the top level.
+>  	 */
+>  	if (!scsi_device_online(scmd->device)) {
+> +		if (scsi_is_mpath_request(req))
+> +			return scsi_mpath_failover_disposition(scmd);
+> +
+>  		SCSI_LOG_ERROR_RECOVERY(5, scmd_printk(KERN_INFO, scmd,
+>  			"%s: device offline - report as SUCCESS\n", __func__));
+>  		return SUCCESS;
+> diff --git a/drivers/scsi/scsi_multipath.c b/drivers/scsi/scsi_multipath.c
+> index c3e0f792e921f..16b1f84fc552c 100644
+> --- a/drivers/scsi/scsi_multipath.c
+> +++ b/drivers/scsi/scsi_multipath.c
+> @@ -518,6 +518,86 @@ void scsi_mpath_put_head(struct scsi_mpath_head *scsi_mpath_head)
+>  }
+>  EXPORT_SYMBOL_GPL(scsi_mpath_put_head);
+>  
+> +bool scsi_is_mpath_request(struct request *req)
+> +{
+> +	return is_mpath_request(req);
+> +}
+> +EXPORT_SYMBOL_GPL(scsi_is_mpath_request);
+> +
+> +static inline void bio_list_add_clone_master(struct bio_list *bl,
+> +				struct bio *clone)
+> +{
+> +	struct scsi_mpath_clone_bio *scsi_mpath_clone_bio;
+> +	struct bio *master_bio;
+> +
+> +	if (clone->bi_next)
+> +		bio_list_add_clone_master(bl, clone->bi_next);
+
+This is a pretty minimal function, but a request could have a lot of
+merged bios, so you probably want to hande them iteratively, instead of
+recursing into the function, and eating up stack space unnecessarily.
+Also, this reverses the bio's order when adding them to the requeue
+list.
+
+-Ben
+
+> +
+> +	scsi_mpath_clone_bio = scsi_mpath_to_master_bio(clone);
+> +	master_bio = scsi_mpath_clone_bio->master_bio;
+> +
+> +	if (bl->tail)
+> +		bl->tail->bi_next = master_bio;
+> +	else
+> +		bl->head = master_bio;
+> +
+> +	bl->tail = master_bio;
+> +
+> +	bio_put(clone);
+> +}
+
 
