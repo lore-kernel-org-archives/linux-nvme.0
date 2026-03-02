@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23D0BD58E7C
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B21C7D58E73
 	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 08:01:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YbvRYinR34ex5OYjbUDv2W22IlP6ZzZEmSGjwbDXJcY=; b=MgnGEjM5NuVNP7UpYKA7w3NOBf
-	KXw84578i1DfboVZ6tA7t57+rgPGFKEkuGpTcHwQjnRSL0DYNHRTBScqComT4J4ESGBzBAGQJoRS2
-	oKDSE3T3p3gzngQLhTQ83xXfFrxs1eAgbkKQmwz4XjqEVPRqghF7EyRb665cgMxGJUiUKHp3bnXt4
-	huipr3sqVhgN8oVkJl3mURwRKRRWjPTnGpMMZaL0h80ARwSvbddik9TpPglFndGTbed/YyxMYiJ6d
-	v2X1fvx42D3OO8Kvfr6di+4TGWXYC8P5ltmLkYLN9eKabtmMvY0/UNVyI87tFKOqjjQLkX/DJkXl1
-	9nhw6SUw==;
+	bh=jeTWbzy29dJx0b4GO1wdb7g+6wjnmPByLQv6b5yRFdA=; b=iWid4r4el23fNw6Ftlgi+SxQo1
+	dx7H1uJ/ErT57vKG8JK5QUmNlRbhA1JrTLzrEsR4SOp31PHD4VO5SIIPJnB/xx3E3M9lG7SCnSNoX
+	jOr0ll0rF8vNpqg4qUS+n6bBQz+Q1TaS62LB8VDhyRakyHY6HVgxS+U1G4N5tpnTJe/VjLJkBY/Qy
+	Ot2rnyaV7HxifPn18x5g868tV0YpELZTSCzfZSqHx38y5yKM+hIwKP7X38IXqTTmpmQuiI5+xICI4
+	7EWxOrUmf97fDkv4IrhboxTwETy6wgTRKgob7SH7CqYS5y/nLqnF6Uvjo26G7fLC82hzZp1eYfa07
+	by2VdvkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwyDb-0000000CSln-3RYS;
-	Mon, 02 Mar 2026 08:01:31 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1vwyDc-0000000CSmi-1dtk;
+	Mon, 02 Mar 2026 08:01:32 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwyDV-0000000CSbQ-3hhQ
+	id 1vwyDX-0000000CSdU-0o7v
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Mar 2026 08:01:26 +0000
+	Mon, 02 Mar 2026 08:01:27 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8A74044598;
-	Mon,  2 Mar 2026 08:01:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EED1C2BCB5;
-	Mon,  2 Mar 2026 08:01:25 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 9EF7E600B0;
+	Mon,  2 Mar 2026 08:01:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B08C2BCAF;
+	Mon,  2 Mar 2026 08:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772438485;
-	bh=SKD+JW332kXRCdhQRnaHNck9bMn8pphwU1y/tRmQvvQ=;
+	s=k20201202; t=1772438486;
+	bh=o0SzMwmhs68jxLgExtyOWQABbfkTZFlkpk/nVETOC1s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qeYgIhw/ycYFwMWG4AGBmYaJ9qMaF2z9C7jKG+r90n2L0+dUBMXOhDY6+6j9WPfLs
-	 QERgP5PaOfDn6I63xsRlyqotuna/zWZo7rX2j57y2BRzxBGelSED4JJog+rSbI0qnF
-	 ASuXzXD8Km05qMAcp26wLe7/xfxQ+oeJYZLxNCL//6hI/7AbIXFj98odWIdbtelNEo
-	 xBrC7VfPoanB0MxLES33kir5ED7baUe3zo6eoThi1LhIr8b3YIgGmq+VlKvbrkZwJJ
-	 oB9MyBDaQ2gXaFi1W5DWdDZPKt5fwH6edx9JZOwsjZTPkpuYvM5yl1i3ljEC/aeVbz
-	 GM1YXbYin9QaQ==
+	b=VJs4g56JqYSP4oPFx4omBiRs5/Ajd5OQCvW8QBQNR+1AwfsZCTNdUuWlZCqYM/UaK
+	 qGZbE76KFXo3uojwPmPIUFFAuEDN5RRpbcYCB4mxDxWXVnZKstCImKAeNHt13CLzQC
+	 5ik5y2OyyQ1+4hhF7FfSdwoq3Ubfw7B1mZZGyqA/9B4Q4Sk7pQitfndYlXWMeTB4fD
+	 PgYb+yrGXmlXA/arKUAkh4PdQIPNQ7oFXHrTsxk/uhG8If0MjlQ2zHuaBzL6TxTKOD
+	 nQsn/jJHUCywq6T8P9Wzvqbb/d375S+5OBBBvNwkFtoqrPBZEWP3wKgkiF7BQJaWBH
+	 dk7BCMWV4niGQ==
 From: Eric Biggers <ebiggers@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
@@ -54,17 +54,14 @@ Cc: linux-crypto@vger.kernel.org,
 	"Jason A . Donenfeld" <Jason@zx2c4.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH 13/21] nvme-auth: host: use crypto library in nvme_auth_dhchap_setup_host_response()
-Date: Sun,  1 Mar 2026 23:59:51 -0800
-Message-ID: <20260302075959.338638-14-ebiggers@kernel.org>
+Subject: [PATCH 15/21] nvme-auth: host: remove allocation of crypto_shash
+Date: Sun,  1 Mar 2026 23:59:53 -0800
+Message-ID: <20260302075959.338638-16-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302075959.338638-1-ebiggers@kernel.org>
 References: <20260302075959.338638-1-ebiggers@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260302_000125_982232_AC88C6B8 
-X-CRM114-Status: GOOD (  11.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,119 +76,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For the HMAC computation in nvme_auth_dhchap_setup_host_response(), use
-the crypto library instead of crypto_shash.  This is simpler, faster,
-and more reliable.
+Now that the crypto_shash that is being allocated in
+nvme_auth_process_dhchap_challenge() and stored in the
+struct nvme_dhchap_queue_context is no longer used, remove it.
 
 Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 ---
- drivers/nvme/host/auth.c | 59 ++++++++++++++--------------------------
- 1 file changed, 21 insertions(+), 38 deletions(-)
+ drivers/nvme/host/auth.c | 29 ++---------------------------
+ 1 file changed, 2 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 47a1525e876e0..f22f17ad7e2f4 100644
+index 2f27f550a7442..c8cd633cb0eae 100644
 --- a/drivers/nvme/host/auth.c
 +++ b/drivers/nvme/host/auth.c
-@@ -432,11 +432,11 @@ static int nvme_auth_set_dhchap_failure2_data(struct nvme_ctrl *ctrl,
- }
+@@ -5,11 +5,10 @@
  
- static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 		struct nvme_dhchap_queue_context *chap)
- {
--	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
-+	struct nvme_auth_hmac_ctx hmac;
- 	u8 buf[4], *challenge = chap->c1;
- 	int ret;
+ #include <linux/crc32.h>
+ #include <linux/base64.h>
+ #include <linux/prandom.h>
+ #include <linux/unaligned.h>
+-#include <crypto/hash.h>
+ #include <crypto/dh.h>
+ #include "nvme.h"
+ #include "fabrics.h"
+ #include <linux/nvme-auth.h>
+ #include <linux/nvme-keyring.h>
+@@ -20,11 +19,10 @@ static mempool_t *nvme_chap_buf_pool;
  
- 	dev_dbg(ctrl->device, "%s: qid %d host response seq %u transaction %d\n",
- 		__func__, chap->qid, chap->s1, chap->transaction);
-@@ -452,17 +452,15 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 	} else {
- 		dev_dbg(ctrl->device, "%s: qid %d re-using host response\n",
- 			__func__, chap->qid);
+ struct nvme_dhchap_queue_context {
+ 	struct list_head entry;
+ 	struct work_struct auth_work;
+ 	struct nvme_ctrl *ctrl;
+-	struct crypto_shash *shash_tfm;
+ 	struct crypto_kpp *dh_tfm;
+ 	struct nvme_dhchap_key *transformed_key;
+ 	void *buf;
+ 	int qid;
+ 	int error;
+@@ -181,42 +179,21 @@ static int nvme_auth_process_dhchap_challenge(struct nvme_ctrl *ctrl,
+ 			 chap->qid, data->hashid);
+ 		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
+ 		return -EPROTO;
  	}
  
--	ret = crypto_shash_setkey(chap->shash_tfm,
--			chap->transformed_key->key, chap->transformed_key->len);
--	if (ret) {
--		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
--			 chap->qid, ret);
-+	ret = nvme_auth_hmac_init(&hmac, chap->hash_id,
-+				  chap->transformed_key->key,
-+				  chap->transformed_key->len);
-+	if (ret)
- 		goto out;
+-	if (chap->hash_id == data->hashid && chap->shash_tfm &&
+-	    !strcmp(crypto_shash_alg_name(chap->shash_tfm), hmac_name) &&
+-	    crypto_shash_digestsize(chap->shash_tfm) == data->hl) {
++	if (chap->hash_id == data->hashid && chap->hash_len == data->hl) {
+ 		dev_dbg(ctrl->device,
+ 			"qid %d: reuse existing hash %s\n",
+ 			chap->qid, hmac_name);
+ 		goto select_kpp;
+ 	}
+ 
+-	/* Reset if hash cannot be reused */
+-	if (chap->shash_tfm) {
+-		crypto_free_shash(chap->shash_tfm);
+-		chap->hash_id = 0;
+-		chap->hash_len = 0;
 -	}
- 
- 	if (chap->dh_tfm) {
- 		challenge = kmalloc(chap->hash_len, GFP_KERNEL);
- 		if (!challenge) {
- 			ret = -ENOMEM;
-@@ -475,48 +473,33 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- 						    chap->hash_len);
- 		if (ret)
- 			goto out;
+-	chap->shash_tfm = crypto_alloc_shash(hmac_name, 0,
+-					     CRYPTO_ALG_ALLOCATES_MEMORY);
+-	if (IS_ERR(chap->shash_tfm)) {
+-		dev_warn(ctrl->device,
+-			 "qid %d: failed to allocate hash %s, error %ld\n",
+-			 chap->qid, hmac_name, PTR_ERR(chap->shash_tfm));
+-		chap->shash_tfm = NULL;
+-		chap->status = NVME_AUTH_DHCHAP_FAILURE_FAILED;
+-		return -ENOMEM;
+-	}
+-
+-	if (crypto_shash_digestsize(chap->shash_tfm) != data->hl) {
++	if (nvme_auth_hmac_hash_len(data->hashid) != data->hl) {
+ 		dev_warn(ctrl->device,
+ 			 "qid %d: invalid hash length %d\n",
+ 			 chap->qid, data->hl);
+-		crypto_free_shash(chap->shash_tfm);
+-		chap->shash_tfm = NULL;
+ 		chap->status = NVME_AUTH_DHCHAP_FAILURE_HASH_UNUSABLE;
+ 		return -EPROTO;
  	}
  
--	shash->tfm = chap->shash_tfm;
--	ret = crypto_shash_init(shash);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, challenge, chap->hash_len);
--	if (ret)
--		goto out;
-+	nvme_auth_hmac_update(&hmac, challenge, chap->hash_len);
-+
- 	put_unaligned_le32(chap->s1, buf);
--	ret = crypto_shash_update(shash, buf, 4);
--	if (ret)
--		goto out;
-+	nvme_auth_hmac_update(&hmac, buf, 4);
-+
- 	put_unaligned_le16(chap->transaction, buf);
--	ret = crypto_shash_update(shash, buf, 2);
--	if (ret)
--		goto out;
-+	nvme_auth_hmac_update(&hmac, buf, 2);
-+
- 	*buf = chap->sc_c;
--	ret = crypto_shash_update(shash, buf, 1);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, "HostHost", 8);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
--				  strlen(ctrl->opts->host->nqn));
--	if (ret)
--		goto out;
-+	nvme_auth_hmac_update(&hmac, buf, 1);
-+	nvme_auth_hmac_update(&hmac, "HostHost", 8);
-+	nvme_auth_hmac_update(&hmac, ctrl->opts->host->nqn,
-+			      strlen(ctrl->opts->host->nqn));
- 	memset(buf, 0, sizeof(buf));
--	ret = crypto_shash_update(shash, buf, 1);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
--			    strlen(ctrl->opts->subsysnqn));
--	if (ret)
--		goto out;
--	ret = crypto_shash_final(shash, chap->response);
-+	nvme_auth_hmac_update(&hmac, buf, 1);
-+	nvme_auth_hmac_update(&hmac, ctrl->opts->subsysnqn,
-+			      strlen(ctrl->opts->subsysnqn));
-+	nvme_auth_hmac_final(&hmac, chap->response);
-+	ret = 0;
- out:
- 	if (challenge != chap->c1)
- 		kfree(challenge);
-+	memzero_explicit(&hmac, sizeof(hmac));
- 	return ret;
+ 	chap->hash_id = data->hashid;
+@@ -656,12 +633,10 @@ static void nvme_auth_reset_dhchap(struct nvme_dhchap_queue_context *chap)
+ 
+ static void nvme_auth_free_dhchap(struct nvme_dhchap_queue_context *chap)
+ {
+ 	nvme_auth_reset_dhchap(chap);
+ 	chap->authenticated = false;
+-	if (chap->shash_tfm)
+-		crypto_free_shash(chap->shash_tfm);
+ 	if (chap->dh_tfm)
+ 		crypto_free_kpp(chap->dh_tfm);
  }
  
- static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- 		struct nvme_dhchap_queue_context *chap)
+ void nvme_auth_revoke_tls_key(struct nvme_ctrl *ctrl)
 -- 
 2.53.0
 
