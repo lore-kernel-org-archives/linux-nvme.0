@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07879D58E78
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 08:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 30511D58E7D
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 08:01:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uiTjk2uFp82vqg8vMs6u94c+P+ZJab8IvzBIzl2BMBw=; b=gj322vmHKxVykj7c7D7+lzB+4I
-	rdTaqjFoqRxS/f02j0wzagFYl8NwyRycTncxWbcrSPgoH8UbYF6igPoupI/J3VevbLNkMSuRYMw1p
-	GNpy8JKYnraubQMEr4dGwb1arCa+6bCHGy6Q4xBUSaxLCAo5ZowlNhiBEvoYMJErTLxM9W51hWavQ
-	CcrzExE6OXmLEs8dWUKyZldvztJdbhZnK+nNojqPy/O4CmHnvLzqQYctf82nkpSE0Ey+WD03KLKdj
-	xmR8OB7KZaCCx+dkwuC2jnSSDR4WA+CWrJq0n1Aj7VJxCGMT3HPWy5eOO9ii1l7DTFsWyfU396EP7
-	gHaiP0hg==;
+	bh=9p20XPJoNRiLXv2IBANsHIbiS8fe1UZ+GRDerFSuFhY=; b=pdYGXFTNwEICRDgHvDCePRnF9l
+	bb+6rmzjiMcTfthbGzp4jVAk6hWiGb4uES6QqcUuzZoviECukYmv6ampivu2WXUEco3G5OBbr8AU1
+	S5WkduF4QvNBlBA0KKrteQ1ocKqGZ93M7KfB9TFrofA5bVqKI9aRDw+mBI7gHTvLSxBeqKXaVZhzd
+	UmldubPulOCD/3derXwGA5o2/IAHU+4YfKRyDNVGl9NlwWMtZCJRBhp6tCkNdFhXB1F1B0VZ72Gjy
+	ZB4L469tZuRRfgpKLNt6FTks3UJzcOXBoai6p0AEXXlHYfRlriVYHHXxZD80HeNdhB8PsmZbx+zr8
+	dylGwlPQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwyDb-0000000CSkk-1Yx4;
-	Mon, 02 Mar 2026 08:01:31 +0000
+	id 1vwyDS-0000000CSYJ-2nCJ;
+	Mon, 02 Mar 2026 08:01:22 +0000
 Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwyDW-0000000CScj-2jpN
+	id 1vwyDQ-0000000CSXQ-3YmE
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Mar 2026 08:01:26 +0000
+	Mon, 02 Mar 2026 08:01:20 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 172E16057A;
-	Mon,  2 Mar 2026 08:01:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CBDBC2BC87;
-	Mon,  2 Mar 2026 08:01:25 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 342CB6012B;
+	Mon,  2 Mar 2026 08:01:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD821C4AF09;
+	Mon,  2 Mar 2026 08:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772438485;
-	bh=Baj84wAItyGbuhZFMViAVPg9/GpQvbnC2i2OfoH9Krc=;
+	s=k20201202; t=1772438480;
+	bh=xQ5RtD94C3LBzXx6yIdHXsl3lt/lINUQ+CN4ouJkUEA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OQwcaAKCvB1wtwPYtEHFOsAqAeayy37/TnVqpkQNJ0wMWXgZuUPYkkGagbqKkp5yL
-	 H77f5a6KGM8HS2GaIa4bjzG9LqvVHnHFapNwQ5kHQU5ErhQaUsMWO24tIjI5NomNs5
-	 hm8f53xKu++sRwKf2OU7C5SO3TA6MNB716ELj/JulWCb6cDpFsWNRFjp6H4rsyJHIM
-	 0PwUWG4ppC2pKgDFSRd1/DiMT4wslwiAxeAqmBnhKqhU7hA/nTrMzQMb8dT+TUxvZ9
-	 iU6AgpdkX43qDPnGNbrQUC8iOahpxKY9+dLmZTYJh1bYfcYfxS+s1xV8VtmDiNhgti
-	 WebrTMEK/98IA==
+	b=IOI8/EPzmL6q6C262MSNJOTpavVZ7BbeYmZTnf0E5xzXcOevrwwCwO2/xB2j5nDPn
+	 Ebg6zddVEZ/DcQB0k4soRK4v7FuBRPPyL74+cf+iQy9hTw1lWTSZu6/U7FKOycgLN3
+	 hhiOcOa0gYmgRDC+IryfI4ULSa918wNK8uiivOp7E4AW6LPFLQoW+wqKSUQ4QzJ996
+	 XfMykgBIFQwTeeE0Py60XXxaLpxThXpS2YniuTM31Ix8D8+6cK8qIdFWDhkqfYenIE
+	 bMxvKg1sHGTuUPUl0mMeh5U2E+IBBH5K9dxZOrfO2Gatq8zFM8ts1GeQiUdU7+2On7
+	 Et1qcp4m/AK3Q==
 From: Eric Biggers <ebiggers@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
@@ -54,9 +54,9 @@ Cc: linux-crypto@vger.kernel.org,
 	"Jason A . Donenfeld" <Jason@zx2c4.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH 14/21] nvme-auth: host: use crypto library in nvme_auth_dhchap_setup_ctrl_response()
-Date: Sun,  1 Mar 2026 23:59:52 -0800
-Message-ID: <20260302075959.338638-15-ebiggers@kernel.org>
+Subject: [PATCH 01/21] nvme-auth: add NVME_AUTH_MAX_DIGEST_SIZE constant
+Date: Sun,  1 Mar 2026 23:59:39 -0800
+Message-ID: <20260302075959.338638-2-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302075959.338638-1-ebiggers@kernel.org>
 References: <20260302075959.338638-1-ebiggers@kernel.org>
@@ -76,115 +76,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For the HMAC computation in nvme_auth_dhchap_setup_ctrl_response(), use
-the crypto library instead of crypto_shash.  This is simpler, faster,
-and more reliable.
+Define a NVME_AUTH_MAX_DIGEST_SIZE constant and use it in the
+appropriate places.
 
 Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 ---
- drivers/nvme/host/auth.c | 56 +++++++++++++++-------------------------
- 1 file changed, 21 insertions(+), 35 deletions(-)
+ drivers/nvme/common/auth.c | 6 ++----
+ drivers/nvme/host/auth.c   | 6 +++---
+ include/linux/nvme.h       | 5 +++++
+ 3 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index f22f17ad7e2f4..2f27f550a7442 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -502,11 +502,11 @@ static int nvme_auth_dhchap_setup_host_response(struct nvme_ctrl *ctrl,
- }
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index e07e7d4bf8b68..78d751481fe31 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -13,12 +13,10 @@
+ #include <crypto/dh.h>
+ #include <crypto/hkdf.h>
+ #include <linux/nvme.h>
+ #include <linux/nvme-auth.h>
  
- static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- 		struct nvme_dhchap_queue_context *chap)
+-#define HKDF_MAX_HASHLEN 64
+-
+ static u32 nvme_dhchap_seqnum;
+ static DEFINE_MUTEX(nvme_dhchap_mutex);
+ 
+ u32 nvme_auth_get_seqnum(void)
  {
--	SHASH_DESC_ON_STACK(shash, chap->shash_tfm);
-+	struct nvme_auth_hmac_ctx hmac;
- 	struct nvme_dhchap_key *transformed_key;
- 	u8 buf[4], *challenge = chap->c2;
+@@ -767,11 +765,11 @@ int nvme_auth_derive_tls_psk(int hmac_id, u8 *psk, size_t psk_len,
+ 		u8 *psk_digest, u8 **ret_psk)
+ {
+ 	struct crypto_shash *hmac_tfm;
+ 	const char *hmac_name;
+ 	const char *label = "nvme-tls-psk";
+-	static const char default_salt[HKDF_MAX_HASHLEN];
++	static const char default_salt[NVME_AUTH_MAX_DIGEST_SIZE];
+ 	size_t prk_len;
+ 	const char *ctx;
+ 	unsigned char *prk, *tls_key;
  	int ret;
  
- 	transformed_key = nvme_auth_transform_key(ctrl->ctrl_key,
-@@ -514,14 +514,14 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- 	if (IS_ERR(transformed_key)) {
- 		ret = PTR_ERR(transformed_key);
- 		return ret;
+@@ -796,11 +794,11 @@ int nvme_auth_derive_tls_psk(int hmac_id, u8 *psk, size_t psk_len,
+ 	if (!prk) {
+ 		ret = -ENOMEM;
+ 		goto out_free_shash;
  	}
  
--	ret = crypto_shash_setkey(chap->shash_tfm,
--			transformed_key->key, transformed_key->len);
-+	ret = nvme_auth_hmac_init(&hmac, chap->hash_id, transformed_key->key,
-+				  transformed_key->len);
- 	if (ret) {
--		dev_warn(ctrl->device, "qid %d: failed to set key, error %d\n",
-+		dev_warn(ctrl->device, "qid %d: failed to init hmac, error %d\n",
- 			 chap->qid, ret);
- 		goto out;
+-	if (WARN_ON(prk_len > HKDF_MAX_HASHLEN)) {
++	if (WARN_ON(prk_len > NVME_AUTH_MAX_DIGEST_SIZE)) {
+ 		ret = -EINVAL;
+ 		goto out_free_prk;
  	}
+ 	ret = hkdf_extract(hmac_tfm, psk, psk_len,
+ 			   default_salt, prk_len, prk);
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 405e7c03b1cfe..301c858b7c577 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -36,13 +36,13 @@ struct nvme_dhchap_queue_context {
+ 	u8 status;
+ 	u8 dhgroup_id;
+ 	u8 hash_id;
+ 	u8 sc_c;
+ 	size_t hash_len;
+-	u8 c1[64];
+-	u8 c2[64];
+-	u8 response[64];
++	u8 c1[NVME_AUTH_MAX_DIGEST_SIZE];
++	u8 c2[NVME_AUTH_MAX_DIGEST_SIZE];
++	u8 response[NVME_AUTH_MAX_DIGEST_SIZE];
+ 	u8 *ctrl_key;
+ 	u8 *host_key;
+ 	u8 *sess_key;
+ 	int ctrl_key_len;
+ 	int host_key_len;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 655d194f8e722..edfebbce67453 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1835,10 +1835,15 @@ enum {
+ 	NVME_AUTH_HASH_SHA384	= 0x02,
+ 	NVME_AUTH_HASH_SHA512	= 0x03,
+ 	NVME_AUTH_HASH_INVALID	= 0xff,
+ };
  
- 	if (chap->dh_tfm) {
-@@ -544,47 +544,33 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- 		__func__, chap->qid, (int)chap->hash_len, challenge);
- 	dev_dbg(ctrl->device, "%s: qid %d subsysnqn %s\n",
- 		__func__, chap->qid, ctrl->opts->subsysnqn);
- 	dev_dbg(ctrl->device, "%s: qid %d hostnqn %s\n",
- 		__func__, chap->qid, ctrl->opts->host->nqn);
--	shash->tfm = chap->shash_tfm;
--	ret = crypto_shash_init(shash);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, challenge, chap->hash_len);
--	if (ret)
--		goto out;
++/* Maximum digest size for any NVME_AUTH_HASH_* value */
++enum {
++	NVME_AUTH_MAX_DIGEST_SIZE = 64,
++};
 +
-+	nvme_auth_hmac_update(&hmac, challenge, chap->hash_len);
-+
- 	put_unaligned_le32(chap->s2, buf);
--	ret = crypto_shash_update(shash, buf, 4);
--	if (ret)
--		goto out;
-+	nvme_auth_hmac_update(&hmac, buf, 4);
-+
- 	put_unaligned_le16(chap->transaction, buf);
--	ret = crypto_shash_update(shash, buf, 2);
--	if (ret)
--		goto out;
-+	nvme_auth_hmac_update(&hmac, buf, 2);
-+
- 	memset(buf, 0, 4);
--	ret = crypto_shash_update(shash, buf, 1);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, "Controller", 10);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, ctrl->opts->subsysnqn,
--				  strlen(ctrl->opts->subsysnqn));
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, buf, 1);
--	if (ret)
--		goto out;
--	ret = crypto_shash_update(shash, ctrl->opts->host->nqn,
--				  strlen(ctrl->opts->host->nqn));
--	if (ret)
--		goto out;
--	ret = crypto_shash_final(shash, chap->response);
-+	nvme_auth_hmac_update(&hmac, buf, 1);
-+	nvme_auth_hmac_update(&hmac, "Controller", 10);
-+	nvme_auth_hmac_update(&hmac, ctrl->opts->subsysnqn,
-+			      strlen(ctrl->opts->subsysnqn));
-+	nvme_auth_hmac_update(&hmac, buf, 1);
-+	nvme_auth_hmac_update(&hmac, ctrl->opts->host->nqn,
-+			      strlen(ctrl->opts->host->nqn));
-+	nvme_auth_hmac_final(&hmac, chap->response);
-+	ret = 0;
- out:
- 	if (challenge != chap->c2)
- 		kfree(challenge);
-+	memzero_explicit(&hmac, sizeof(hmac));
- 	nvme_auth_free_key(transformed_key);
- 	return ret;
- }
- 
- static int nvme_auth_dhchap_exponential(struct nvme_ctrl *ctrl,
+ /* Defined Diffie-Hellman group identifiers for DH-HMAC-CHAP authentication */
+ enum {
+ 	NVME_AUTH_DHGROUP_NULL		= 0x00,
+ 	NVME_AUTH_DHGROUP_2048		= 0x01,
+ 	NVME_AUTH_DHGROUP_3072		= 0x02,
 -- 
 2.53.0
 
