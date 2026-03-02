@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D628D58E73
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B141D58E7E
 	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 08:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,36 +12,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZoU7bU9OZoBTi1KOuUA7nlze4smwGWyH1ySj2OWb+9k=; b=Vlahw9wyJ9Z3tw9qvbWHIEh8LF
-	s8+d78vk2QYX81epFyYQrGvt2rKjekrOsVJ41iF15yz/m08Wf0tCU9DlfPP1AuIYSsskyn+3A3gjt
-	n0m3OWLhQSXsh8hO4XRSKgk3QZUBKXDBPQL0MlfPDa+7OD5gSUypFb6W2G5/t7E7wAZfg4wXAWZBM
-	NL+YNud9WypBI1ULh+k3jm6aXNNeeWEsfSZDthxY3v0QODw9BNDUiwifbAqeGA+69yRnrW/Z+VQG2
-	Ri+S79nmG1SrioBgc/mDlEaniRqbJwk3EnvpGawN9jzMouU0nyAHNPy8bFmofN7iAxVwB6IzY/YOW
-	PL+/ubuQ==;
+	bh=jT8SAjoRIwnJFYglXrHrV9vZcRcaeggXr3+vQHnkfQ4=; b=mX5TexuvgBkGpcvEkBM4Mmi9jz
+	wAGHybYzHW4bfaz1vvAl8S3SCBCX06dZpw7CCmIxCGxdM8NRFg7IKNdoLQ9lsjuo3Yz7YCxdJSI2z
+	/cfA/5bZEX24uTvWZEWaGxQryY0IlyJCbbp/SyLQo25fmxaTsGfiXfbI18zerRlcFtOHs3+iwwal/
+	807u6gXlCH0hjOyyxXDxU1RW9H/ng/RRBeyRYHMQeArf/IvjQ32Ttvsd61fytEhLrNGPMheK4gxTP
+	vpWTbSQCOj2Z/WYefD8YZbM3tL8FkY+8uMevMvbW/6AuEgDVmQE0kbHAP2GKS9HsFjPZ0O4YrgY04
+	IxqJOnQw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwyDY-0000000CSgB-3bvV;
+	id 1vwyDY-0000000CSfT-1bJ4;
 	Mon, 02 Mar 2026 08:01:28 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vwyDV-0000000CSac-1CN6
+	id 1vwyDU-0000000CSZ1-1aZE
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Mar 2026 08:01:25 +0000
+	Mon, 02 Mar 2026 08:01:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id B26DF61119;
-	Mon,  2 Mar 2026 08:01:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36D32C4AF0D;
-	Mon,  2 Mar 2026 08:01:24 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id CCE766013E;
+	Mon,  2 Mar 2026 08:01:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EB6EC2BCB5;
+	Mon,  2 Mar 2026 08:01:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772438484;
-	bh=xmKb53wJeSwb7NygGgziQp9Cpl0GKPkWIpXtxpOOeJk=;
+	s=k20201202; t=1772438483;
+	bh=bjsE/c+5TFoj0rL/sw+wLvSH57oqh6wELi161NQyhDE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i0uS1CHn2DNbucuDCQqckqtJ3g+x5sH3snc8hgyAQyH651PBMCyRYPWTpXX7uZuhw
-	 nIYN0rrNhwelqw20lQUEi2FjjVrr8eg+jRTjWe6ohCOImUKXhRdZChgsR9vMGcafqP
-	 RlZByHbq/0nDQ/KVO5bH/WNwIm14AoT2VgrnOxYM2NQyN+VLEOUTz0r9EEcMDH0PBR
-	 Cn/rNmg/9sdLhGTDcL3H07i5FbtY9zpPIq+KLJNDXo0pg+ddUzuNK//qGLoy9lQV2U
-	 5FAU4yJ3L/OTvpDMCf44ElzXY72aKh6fL+2NkwAWiOKvgg1JsgfNCW6Fi3qiE3DxUj
-	 iS4x356Y6L/Og==
+	b=tJI0vx94fIn/70pLXINnQh8QSCxhSj9loE/ehLjrwWuaqhugNNn3uzQXOj+9kStn+
+	 zkrTRAzWRXsxFQZrKHIx9Mu7R2CygtQ2/s5EBEKBMwcj3R4BoA7ilu2R9AdprhQTzO
+	 GDUsnbH63zeE/uKvOjmxK9nybpE27IKF3kJQanr4pmVOj3G7EpXgraDD6Qyggwa3t/
+	 omj0V0aUM+7ZKfXFLVGKE3KiQn42mKJw3oE+gFQmgWFUGoGJo+3vK8M8JUk4solmHY
+	 43xQ7NRsyeASF0T/9oj4SenrgxaG0M1X3jHFJHcGU7ARwc2ylkKpk1t18Psfcc8zCM
+	 z+PPTj5qNjWRg==
 From: Eric Biggers <ebiggers@kernel.org>
 To: linux-nvme@lists.infradead.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
@@ -54,9 +54,9 @@ Cc: linux-crypto@vger.kernel.org,
 	"Jason A . Donenfeld" <Jason@zx2c4.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH 11/21] nvme-auth: common: use crypto library in nvme_auth_generate_digest()
-Date: Sun,  1 Mar 2026 23:59:49 -0800
-Message-ID: <20260302075959.338638-12-ebiggers@kernel.org>
+Subject: [PATCH 09/21] nvme-auth: common: use crypto library in nvme_auth_augmented_challenge()
+Date: Sun,  1 Mar 2026 23:59:47 -0800
+Message-ID: <20260302075959.338638-10-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260302075959.338638-1-ebiggers@kernel.org>
 References: <20260302075959.338638-1-ebiggers@kernel.org>
@@ -76,149 +76,144 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-For the HMAC computation in nvme_auth_generate_digest(), use the crypto
-library instead of crypto_shash.  This is simpler, faster, and more
-reliable.  Notably, this eliminates the crypto transformation object
-allocation for every call, which was very slow.
+For the hash and HMAC computations in nvme_auth_augmented_challenge(),
+use the crypto library instead of crypto_shash.  This is simpler,
+faster, and more reliable.  Notably, this eliminates two crypto
+transformation object allocations for every call, which was very slow.
 
 Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 ---
- drivers/nvme/common/auth.c | 87 +++++++++++---------------------------
- 1 file changed, 25 insertions(+), 62 deletions(-)
+ drivers/nvme/common/auth.c | 96 ++++++++++++++------------------------
+ 1 file changed, 36 insertions(+), 60 deletions(-)
 
 diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
-index 781d1d5d46dd3..f0b4e1c6ade7e 100644
+index 321d6e11c2751..be5bc5fcafc63 100644
 --- a/drivers/nvme/common/auth.c
 +++ b/drivers/nvme/common/auth.c
-@@ -559,103 +559,66 @@ EXPORT_SYMBOL_GPL(nvme_auth_generate_psk);
-  */
- int nvme_auth_generate_digest(u8 hmac_id, const u8 *psk, size_t psk_len,
- 			      const char *subsysnqn, const char *hostnqn,
- 			      char **ret_digest)
+@@ -298,10 +298,41 @@ void nvme_auth_hmac_final(struct nvme_auth_hmac_ctx *hmac, u8 *out)
+ 	/* Unreachable because nvme_auth_hmac_init() validated hmac_id */
+ 	WARN_ON_ONCE(1);
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_hmac_final);
+ 
++static int nvme_auth_hmac(u8 hmac_id, const u8 *key, size_t key_len,
++			  const u8 *data, size_t data_len, u8 *out)
++{
++	struct nvme_auth_hmac_ctx hmac;
++	int ret;
++
++	ret = nvme_auth_hmac_init(&hmac, hmac_id, key, key_len);
++	if (ret == 0) {
++		nvme_auth_hmac_update(&hmac, data, data_len);
++		nvme_auth_hmac_final(&hmac, out);
++	}
++	return ret;
++}
++
++static int nvme_auth_hash(u8 hmac_id, const u8 *data, size_t data_len, u8 *out)
++{
++	switch (hmac_id) {
++	case NVME_AUTH_HASH_SHA256:
++		sha256(data, data_len, out);
++		return 0;
++	case NVME_AUTH_HASH_SHA384:
++		sha384(data, data_len, out);
++		return 0;
++	case NVME_AUTH_HASH_SHA512:
++		sha512(data, data_len, out);
++		return 0;
++	}
++	pr_warn("%s: invalid hash algorithm %d\n", __func__, hmac_id);
++	return -EINVAL;
++}
++
+ struct nvme_dhchap_key *nvme_auth_transform_key(
+ 		const struct nvme_dhchap_key *key, const char *nqn)
+ {
+ 	struct nvme_auth_hmac_ctx hmac;
+ 	struct nvme_dhchap_key *transformed_key;
+@@ -332,76 +363,21 @@ struct nvme_dhchap_key *nvme_auth_transform_key(
+ 	nvme_auth_hmac_final(&hmac, transformed_key->key);
+ 	return transformed_key;
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_transform_key);
+ 
+-static int nvme_auth_hash_skey(int hmac_id, const u8 *skey, size_t skey_len,
+-			       u8 *hkey)
+-{
+-	const char *digest_name;
+-	struct crypto_shash *tfm;
+-	int ret;
+-
+-	digest_name = nvme_auth_digest_name(hmac_id);
+-	if (!digest_name) {
+-		pr_debug("%s: failed to get digest for %d\n", __func__,
+-			 hmac_id);
+-		return -EINVAL;
+-	}
+-	tfm = crypto_alloc_shash(digest_name, 0, 0);
+-	if (IS_ERR(tfm))
+-		return -ENOMEM;
+-
+-	ret = crypto_shash_tfm_digest(tfm, skey, skey_len, hkey);
+-	if (ret < 0)
+-		pr_debug("%s: Failed to hash digest len %zu\n", __func__,
+-			 skey_len);
+-
+-	crypto_free_shash(tfm);
+-	return ret;
+-}
+-
+ int nvme_auth_augmented_challenge(u8 hmac_id, const u8 *skey, size_t skey_len,
+ 				  const u8 *challenge, u8 *aug, size_t hlen)
  {
 -	struct crypto_shash *tfm;
--	SHASH_DESC_ON_STACK(shash, tfm);
--	u8 *digest;
-+	struct nvme_auth_hmac_ctx hmac;
-+	u8 digest[NVME_AUTH_MAX_DIGEST_SIZE];
-+	size_t hash_len = nvme_auth_hmac_hash_len(hmac_id);
- 	char *enc;
+-	u8 *hashed_key;
 -	const char *hmac_name;
--	size_t digest_len, hmac_len;
-+	size_t enc_len;
++	u8 hashed_key[NVME_AUTH_MAX_DIGEST_SIZE];
  	int ret;
  
- 	if (WARN_ON(!subsysnqn || !hostnqn))
- 		return -EINVAL;
- 
+-	hashed_key = kmalloc(hlen, GFP_KERNEL);
+-	if (!hashed_key)
+-		return -ENOMEM;
+-
+-	ret = nvme_auth_hash_skey(hmac_id, skey,
+-				  skey_len, hashed_key);
+-	if (ret < 0)
+-		goto out_free_key;
+-
 -	hmac_name = nvme_auth_hmac_name(hmac_id);
 -	if (!hmac_name) {
-+	if (hash_len == 0) {
- 		pr_warn("%s: invalid hash algorithm %d\n",
- 			__func__, hmac_id);
- 		return -EINVAL;
- 	}
- 
--	switch (nvme_auth_hmac_hash_len(hmac_id)) {
-+	switch (hash_len) {
- 	case 32:
--		hmac_len = 44;
-+		enc_len = 44;
- 		break;
- 	case 48:
--		hmac_len = 64;
-+		enc_len = 64;
- 		break;
- 	default:
- 		pr_warn("%s: invalid hash algorithm '%s'\n",
--			__func__, hmac_name);
-+			__func__, nvme_auth_hmac_name(hmac_id));
- 		return -EINVAL;
- 	}
- 
--	enc = kzalloc(hmac_len + 1, GFP_KERNEL);
--	if (!enc)
--		return -ENOMEM;
+-		pr_warn("%s: invalid hash algorithm %d\n",
+-			__func__, hmac_id);
+-		ret = -EINVAL;
+-		goto out_free_key;
+-	}
 -
 -	tfm = crypto_alloc_shash(hmac_name, 0, 0);
 -	if (IS_ERR(tfm)) {
 -		ret = PTR_ERR(tfm);
--		goto out_free_enc;
+-		goto out_free_key;
 -	}
 -
--	digest_len = crypto_shash_digestsize(tfm);
--	digest = kzalloc(digest_len, GFP_KERNEL);
--	if (!digest) {
-+	enc = kzalloc(enc_len + 1, GFP_KERNEL);
-+	if (!enc) {
- 		ret = -ENOMEM;
--		goto out_free_tfm;
-+		goto out;
- 	}
- 
--	shash->tfm = tfm;
--	ret = crypto_shash_setkey(tfm, psk, psk_len);
-+	ret = nvme_auth_hmac_init(&hmac, hmac_id, psk, psk_len);
+-	ret = crypto_shash_setkey(tfm, hashed_key, hlen);
++	ret = nvme_auth_hash(hmac_id, skey, skey_len, hashed_key);
  	if (ret)
--		goto out_free_digest;
+-		goto out_free_hash;
 -
--	ret = crypto_shash_init(shash);
--	if (ret)
--		goto out_free_digest;
--
--	ret = crypto_shash_update(shash, hostnqn, strlen(hostnqn));
--	if (ret)
--		goto out_free_digest;
--
--	ret = crypto_shash_update(shash, " ", 1);
--	if (ret)
--		goto out_free_digest;
--
--	ret = crypto_shash_update(shash, subsysnqn, strlen(subsysnqn));
--	if (ret)
--		goto out_free_digest;
--
--	ret = crypto_shash_update(shash, " NVMe-over-Fabrics", 18);
--	if (ret)
--		goto out_free_digest;
--
--	ret = crypto_shash_final(shash, digest);
--	if (ret)
--		goto out_free_digest;
--
--	ret = base64_encode(digest, digest_len, enc, true, BASE64_STD);
--	if (ret < hmac_len) {
-+		goto out;
-+	nvme_auth_hmac_update(&hmac, hostnqn, strlen(hostnqn));
-+	nvme_auth_hmac_update(&hmac, " ", 1);
-+	nvme_auth_hmac_update(&hmac, subsysnqn, strlen(subsysnqn));
-+	nvme_auth_hmac_update(&hmac, " NVMe-over-Fabrics", 18);
-+	nvme_auth_hmac_final(&hmac, digest);
-+
-+	ret = base64_encode(digest, hash_len, enc, true, BASE64_STD);
-+	if (ret < enc_len) {
- 		ret = -ENOKEY;
--		goto out_free_digest;
-+		goto out;
- 	}
- 	*ret_digest = enc;
- 	ret = 0;
- 
--out_free_digest:
--	kfree_sensitive(digest);
--out_free_tfm:
+-	ret = crypto_shash_tfm_digest(tfm, challenge, hlen, aug);
+-out_free_hash:
 -	crypto_free_shash(tfm);
--out_free_enc:
-+out:
- 	if (ret)
- 		kfree_sensitive(enc);
--
-+	memzero_explicit(digest, sizeof(digest));
+-out_free_key:
+-	kfree_sensitive(hashed_key);
++		return ret;
++	ret = nvme_auth_hmac(hmac_id, hashed_key, hlen, challenge, hlen, aug);
++	memzero_explicit(hashed_key, sizeof(hashed_key));
  	return ret;
  }
- EXPORT_SYMBOL_GPL(nvme_auth_generate_digest);
+ EXPORT_SYMBOL_GPL(nvme_auth_augmented_challenge);
  
- /**
+ int nvme_auth_gen_privkey(struct crypto_kpp *dh_tfm, u8 dh_gid)
 -- 
 2.53.0
 
