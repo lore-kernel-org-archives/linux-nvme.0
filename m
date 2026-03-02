@@ -4,90 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11735E9B354
-	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 10:04:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D786EE9B342
+	for <linux-nvme@archiver.kernel.org>; Mon,  2 Mar 2026 10:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/pKVIpPmX1xfasrJV1zTkUu9jiTfhDgI2idm7xFSgSE=; b=HFN0jejtS6h/3gR4TPMUdZHVmW
-	KI5/0fBdunhvbXmcbIsMOgBQaYEPtp16mecbi4An7caZ1e2u0moS6Fg9fJh+wnHCNNWscoMFVmy4d
-	HM3qY21Cpg4XTbmotIfeiA+V4OfL5ZRBOtTLUzFcAuQVto2WVIweg6/my+b3vEIGaGcPVjX4onhYU
-	HziqnSl6RQCtIrVE1jGGY/DxgRSo6VZyd8zmCtbBD92oWip+0WnkKx4hliupQbgsk+YBIqBQ2mw9V
-	MD13TFsNslwLD6dxqdAVEQs9gpV9y7ScFo/Hq8F1fumF6ZTo4QxXGVVEnqIzKqlRjiRVfcFIyDFcf
-	JWa+7Thw==;
+	bh=gW2Dv5MX3PTpyq2MHkXE7pAGCImHbavoXyxJlpxMrec=; b=S1FnqxaWW/Cq6I4utfgv5j+9eR
+	KwcQHGWptsQ2dWZRRJ6aGtj6KIc4K7ruRBfP2OZfr1TApqXaGs3KFNuqj3UIi9JVtH4c58wswocQW
+	PoEUrnp6NM5YJr/TsBeO/uL7HBdCLgj5Qr/49/d2cQMIEab1upYnyQoPPcLW/CbNMSDaR8iiXD/ar
+	q87hwyBdz+qqwPAK3+dZu7UXw8i8kaS8+8L+fzcaEo/RZpQ78pfGdjYA5MFSlsVNHumTNz/nwCZkC
+	c4bk8PqavLBExPuIYEzqv9n9kEXRbX5kwZ7OwOXBUvBXZOhxZXeoaKEcGL5WQPSI8LrQVCtqR1K7o
+	JDrdPAAQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vx08u-0000000Cekz-2CCv;
-	Mon, 02 Mar 2026 10:04:48 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1vx09S-0000000Cery-0suv;
+	Mon, 02 Mar 2026 10:05:22 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vx08r-0000000CekR-3CCo
+	id 1vx09P-0000000Ceqj-3pCJ
 	for linux-nvme@lists.infradead.org;
-	Mon, 02 Mar 2026 10:04:47 +0000
+	Mon, 02 Mar 2026 10:05:21 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B9C9E3F99E;
-	Mon,  2 Mar 2026 10:04:43 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C1F55BD0E;
+	Mon,  2 Mar 2026 10:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772445883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772445918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/pKVIpPmX1xfasrJV1zTkUu9jiTfhDgI2idm7xFSgSE=;
-	b=c383eBSu14qZi3PY6ELAs/xn/+p1KtjM9MV+wiqWStjU6ctMpNRM8YMLQKS766e2Fih+G/
-	e8BQmHc4svJAeLPww79UvPkRueufXj5sDJMGEd+1+hBYhHqsAUHFhHcV3gn9IuZAO+54U+
-	M5xuDcbRo0lflnePdCHhrAR7jPmHMDA=
+	bh=gW2Dv5MX3PTpyq2MHkXE7pAGCImHbavoXyxJlpxMrec=;
+	b=XQcImHsVdjhmhyo5mMVhhcHAkPPooptlPICn2itpJ8Xmu9eaosetDZfxTHiHvCyiLEjT4Y
+	YQkEa0tpVObzXNn3Xw5eeUg8BYAoO81TPB7pLgutdQU115q+gDoDPzPDEoyI0LZ9rC2x23
+	vdkZ+0w3UJvyb16E1cWhTWhyelq8aJE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772445883;
+	s=susede2_ed25519; t=1772445918;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/pKVIpPmX1xfasrJV1zTkUu9jiTfhDgI2idm7xFSgSE=;
-	b=kuxV0+QUKgbUccGdoHSspDY6yYPyxA+kiVP+sOMRBTzxH+FniVSt3Gno70oZFfawms2BNn
-	RokmAO7fl0hjPPCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=c383eBSu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=kuxV0+QU
+	bh=gW2Dv5MX3PTpyq2MHkXE7pAGCImHbavoXyxJlpxMrec=;
+	b=s0HkiEhbpW5x6ov4wZVWayVsH9R7JprVZqMpk2NXEUZJU3Hh3M4NrHSdDsNTe9oBwrseye
+	s3ynlXCDsp9MJQCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XQcImHsV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=s0HkiEhb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772445883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772445918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/pKVIpPmX1xfasrJV1zTkUu9jiTfhDgI2idm7xFSgSE=;
-	b=c383eBSu14qZi3PY6ELAs/xn/+p1KtjM9MV+wiqWStjU6ctMpNRM8YMLQKS766e2Fih+G/
-	e8BQmHc4svJAeLPww79UvPkRueufXj5sDJMGEd+1+hBYhHqsAUHFhHcV3gn9IuZAO+54U+
-	M5xuDcbRo0lflnePdCHhrAR7jPmHMDA=
+	bh=gW2Dv5MX3PTpyq2MHkXE7pAGCImHbavoXyxJlpxMrec=;
+	b=XQcImHsVdjhmhyo5mMVhhcHAkPPooptlPICn2itpJ8Xmu9eaosetDZfxTHiHvCyiLEjT4Y
+	YQkEa0tpVObzXNn3Xw5eeUg8BYAoO81TPB7pLgutdQU115q+gDoDPzPDEoyI0LZ9rC2x23
+	vdkZ+0w3UJvyb16E1cWhTWhyelq8aJE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772445883;
+	s=susede2_ed25519; t=1772445918;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/pKVIpPmX1xfasrJV1zTkUu9jiTfhDgI2idm7xFSgSE=;
-	b=kuxV0+QUKgbUccGdoHSspDY6yYPyxA+kiVP+sOMRBTzxH+FniVSt3Gno70oZFfawms2BNn
-	RokmAO7fl0hjPPCg==
+	bh=gW2Dv5MX3PTpyq2MHkXE7pAGCImHbavoXyxJlpxMrec=;
+	b=s0HkiEhbpW5x6ov4wZVWayVsH9R7JprVZqMpk2NXEUZJU3Hh3M4NrHSdDsNTe9oBwrseye
+	s3ynlXCDsp9MJQCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C5F73EA69;
-	Mon,  2 Mar 2026 10:04:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E55543EA69;
+	Mon,  2 Mar 2026 10:05:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VJezJbtgpWlYGQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 02 Mar 2026 10:04:43 +0000
-Message-ID: <1de7ef59-4236-4372-81f6-60d5a4f1e253@suse.de>
-Date: Mon, 2 Mar 2026 11:04:43 +0100
+	id 7EaLN91gpWmEGQAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 02 Mar 2026 10:05:17 +0000
+Message-ID: <202c867c-5d9c-4495-af42-c04dc52697cb@suse.de>
+Date: Mon, 2 Mar 2026 11:05:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/21] nvme-auth: common: add KUnit tests for TLS key
- derivation
+Subject: Re: [PATCH 05/21] nvme-auth: rename nvme_auth_generate_key() to
+ nvme_auth_parse_key()
 To: Eric Biggers <ebiggers@kernel.org>, linux-nvme@lists.infradead.org,
  Chaitanya Kulkarni <kch@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>,
  Christoph Hellwig <hch@lst.de>
@@ -95,17 +95,17 @@ Cc: linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ard Biesheuvel <ardb@kernel.org>, "Jason A . Donenfeld" <Jason@zx2c4.com>,
  Herbert Xu <herbert@gondor.apana.org.au>
 References: <20260302075959.338638-1-ebiggers@kernel.org>
- <20260302075959.338638-5-ebiggers@kernel.org>
+ <20260302075959.338638-6-ebiggers@kernel.org>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260302075959.338638-5-ebiggers@kernel.org>
+In-Reply-To: <20260302075959.338638-6-ebiggers@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
@@ -128,10 +128,10 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B9C9E3F99E
+X-Rspamd-Queue-Id: 0C1F55BD0E
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260302_020446_106593_9A9BD833 
-X-CRM114-Status: GOOD (  14.86  )
+X-CRM114-CacheID: sfid-20260302_020520_094041_1C1B75F6 
+X-CRM114-Status: GOOD (  10.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,25 +147,18 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 3/2/26 08:59, Eric Biggers wrote:
-> Unit-test the sequence of function calls that derive tls_psk, so that we
-> can be more confident that changes in the implementation don't break it.
+> This function does not generate a key.  It parses the key from the
+> string that the caller passes in.
 > 
-> Since the NVMe specification doesn't seem to include any test vectors
-> for this (nor does its description of the algorithm seem to match what
-> was actually implemented, for that matter), I just set the expected
-> values to the values that the code currently produces.  In the case
-> of SHA-512, nvme_auth_generate_digest() currently returns -EINVAL, so
-> for now the test tests for that too.  If it is later determined that
-> some other behavior is needed, the test can be updated accordingly.
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> ---
+>   drivers/nvme/common/auth.c | 4 ++--
+>   drivers/nvme/host/auth.c   | 7 +++----
+>   drivers/nvme/host/sysfs.c  | 4 ++--
+>   include/linux/nvme-auth.h  | 2 +-
+>   4 files changed, 8 insertions(+), 9 deletions(-)
 > 
-Nice.
-You are correct, test vectors really would have been a good idea.
-There are some attempts to specify values in the spec, but these
-are woefully underspecified.
-I'll see if we can fix that up.
-
-Which discrepancies do you see between the specified algorithm
-and the implementation?
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
