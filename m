@@ -4,54 +4,114 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BEEE7EC1429
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Mar 2026 10:59:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DBCAEC142A
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Mar 2026 11:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:Cc:To
-	:From:Subject:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jcb0lruLwTXSC5ez0bpWblqLuFGHwcYa05RTdv/1Lzc=; b=ujM+qxBznKBC+1MVbSeuqY2EAW
-	5Ncz1dR1zwM66wzI5uynAvBwU66ALH9OjVPCFqIr5tpN651zMGpWIL8lTnWMwtQrVBRSqFyB0uxSX
-	zo4gznqtAp0cNY81zZISCnDrkDp9fFxC9X3fqGOAr/whj2fkHnNl+mD3+A1BbHchp674ImW5dUzeY
-	gJooC5CZuRAIQvAHj2CS0FPNyhhjv44Qf2bGTPCnRwzI5/f9mDsR5x9hg8AqSV4zaP0/K2wv69Dvn
-	N3oIkbLcILLPRNhs89sAcTf9j6Fl9u/LJEv1KVm4kfF6rdu4/p5Oa1SA0duXuMnjh2xAzurUOhKb/
-	wN8aJF0A==;
+	bh=Pz6W5XTViXjXNBWwPK//f19ZN9+SGTRlKphirex+vPU=; b=zeJL79KhrsNhMB9G80ht00uZqO
+	6nxOfEFE6WNBvcH4+Gw6wyQoIbdE2NmgiUavNt0yW3f5uQ25c+8AfYNXU5O83MtTFr2FtItvPbAs9
+	Vvu8VPfn5eFMLhe/qV5b4rV+eEBXIQtDZnEq+CdI7o+i09JZVRn2r1bvzxUGDxUp4EaExtUQA3uUF
+	NuPO7VifQda1fNus6olobEqgqz1GaymjLSlk/OzSkCLPUKBRvz0VpUZEyqlSAYU9fPwfcc2lp5mRm
+	e1czS/NjDVFEnEhp9A1+s7klmgS232RL0afpFmACdLd7ZNE3+MZlAb6gddxtMf/jonW5gOljuQUrh
+	D+LX0THA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxNTd-0000000F1bZ-456U;
-	Tue, 03 Mar 2026 10:59:45 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1vxNVM-0000000F1tQ-2WYq;
+	Tue, 03 Mar 2026 11:01:32 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxNTW-0000000F1YZ-1Pdd
+	id 1vxNVK-0000000F1sx-0ayG
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Mar 2026 10:59:44 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 0d520796 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 3 Mar 2026 11:59:32 +0100 (CET)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 11:59:32 +0100
-Message-Id: <DGT3F4OEHJB9.218JVJM25CWAV@arkamax.eu>
-Subject: Re: [PATCH] nvmet-tcp: add bounds checks in
- nvmet_tcp_build_pdu_iovec
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Guenter Roeck" <linux@roeck-us.net>, "YunJe Shin"
- <yjshin0438@gmail.com>
-Cc: <kbusch@kernel.org>, <linux-nvme@lists.infradead.org>,
- <gregkh@linuxfoundation.org>, "Christoph Hellwig" <hch@lst.de>,
- <security@kernel.org>, <sagi@grimberg.me>, "YunJe Shin"
- <ioerts@kookmin.ac.kr>, <joonkyoj@yonsei.ac.kr>
-X-Mailer: aerc 0.21.0
-References: <678f42fb-521e-4b5e-b662-331e424ca003@grimberg.me>
- <20260128004136.946596-1-ioerts@kookmin.ac.kr>
- <1bceff87-87ab-4ac7-9a1f-76c990171247@roeck-us.net>
-In-Reply-To: <1bceff87-87ab-4ac7-9a1f-76c990171247@roeck-us.net>
+	Tue, 03 Mar 2026 11:01:31 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 623545Tw2063768;
+	Tue, 3 Mar 2026 11:01:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Pz6W5X
+	TViXjXNBWwPK//f19ZN9+SGTRlKphirex+vPU=; b=dIvcPKEMfH9L0VHBAgRYG5
+	+uV4X1rg853lkKGtgmXizAJX4L3E17/Jy6G62ZbGzJERnspyzC+3i/FZ8SVChuOz
+	C0Gf14bw8zV5SjjmMNwwO52KRZ9LSAi9HyE1pkleCrHMiaayMInM0nitlGXsyaIN
+	1fzvCBZ0Gt3qHO5jkd6VYw70PZZu/sQAq39r6j24a1S9gvLSR6eyBw+1Mau72dip
+	6FEjDf7b6dNpk4nq3yX24psYbebMrSJzJ0VE5FbYyufTlaKWeI7i0tKs3x7dMgRt
+	udZbfKnZ6EF7PdxSUNjqplsiSRUd0Sbcl7temn1oEmcBX1EMDRSbFItwfGJt+15A
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ckskbtaf6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Mar 2026 11:01:09 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 623AYo8Z010335;
+	Tue, 3 Mar 2026 11:01:08 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cmc6k1thj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Mar 2026 11:01:08 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 623B17RB30016112
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 3 Mar 2026 11:01:08 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A9329580D3;
+	Tue,  3 Mar 2026 11:01:07 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DDA51580D2;
+	Tue,  3 Mar 2026 11:01:01 +0000 (GMT)
+Received: from [9.124.211.174] (unknown [9.124.211.174])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  3 Mar 2026 11:01:01 +0000 (GMT)
+Message-ID: <bb4df6e1-cd83-4a73-af67-f83c543d6e6c@linux.ibm.com>
+Date: Tue, 3 Mar 2026 16:31:00 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/13] libmultipath: Add path selection support
+To: John Garry <john.g.garry@oracle.com>, hch@lst.de, kbusch@kernel.org,
+        sagi@grimberg.me, axboe@fb.com, martin.petersen@oracle.com,
+        james.bottomley@hansenpartnership.com, hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-4-john.g.garry@oracle.com>
+ <775dd360-ea41-4e27-9690-e0633e0522d7@linux.ibm.com>
+ <f9fb6d73-9b90-4c11-ae1f-3f2e76773d7f@oracle.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <f9fb6d73-9b90-4c11-ae1f-3f2e76773d7f@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 112SSYPwvQ1fPTytZawkBdxWb6kjkNkm
+X-Authority-Analysis: v=2.4 cv=b66/I9Gx c=1 sm=1 tr=0 ts=69a6bf75 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=yPCof4ZbAAAA:8
+ a=ZfRzAisczin3gzfXZHYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA4MSBTYWx0ZWRfX+DiNchBZqfTc
+ AQzx2tFHh2mKaWkBpjsnPgnxf1RmrBcae8G6vPT2+hXFFFm4sNwgIftrCwT/wW2h6oUb8BXDxEA
+ BP7NCiM332PYNcotWMQ9GrpJMb3gEbLdKqfk4S6fpYWx8uhST3iW1sl99w4UILs9JcLxphDCwbS
+ zmbeHao3nfMncErfISA8fic58zaTyXmjYPH1h2GInfNkR/WKhswtzI8RpV71wuZsU21g29F1C5d
+ WDPCLA9CzCz6XJ/e3sKmGjmjzM96YzFbSns9utKY1mpW6N1iXQzOlbJLNSgGOXg24kQTBTleXFo
+ X78mSOVN5hYjjQKnx+X9K31RSe/qNIrR/jQAePmHiDQq71KYoY+DURlF2ze3j7So8ftVkPttUte
+ tBQD7hEqYx3uTrrTD23nPU+5+tq5UGZzinWUZ+6WxURbumThWDMu3yyPpi3Hy0HtLkZ2fWFL2/7
+ LK5vkGpBrq6+qrRTXsg==
+X-Proofpoint-GUID: 112SSYPwvQ1fPTytZawkBdxWb6kjkNkm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603030081
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260303_025938_722068_6B9E70B6 
-X-CRM114-Status: GOOD (  19.28  )
+X-CRM114-CacheID: sfid-20260303_030130_304536_4C6E5032 
+X-CRM114-Status: GOOD (  23.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,168 +126,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed Feb 25, 2026 at 9:06 PM CET, Guenter Roeck wrote:
-> An experimental AI agent provided the following review feedback.
->
->  If we return early here (or in the other bounds checks added below),
->  cmd->recv_msg.msg_iter is left uninitialized because we skip the
->  iov_iter_bvec() call at the end of the function.
->
->  Since nvmet_tcp_build_pdu_iovec() returns void, callers are unaware
->  of the failure. For example, in nvmet_tcp_handle_h2c_data_pdu():
->
-> 	nvmet_tcp_build_pdu_iovec(cmd);
-> 	queue->cmd =3D cmd;
-> 	queue->rcv_state =3D NVMET_TCP_RECV_DATA;
->
->  Even though nvmet_tcp_fatal_error() correctly sets rcv_state to
->  NVMET_TCP_RECV_ERR, the caller immediately overwrites it with
->  NVMET_TCP_RECV_DATA.
->
->  Does this cause the state machine to proceed and attempt to receive
->  data using the uninitialized cmd->recv_msg.msg_iter? Should this
->  function return an error code so callers can handle the failure?
+On 3/2/26 8:41 PM, John Garry wrote:
+> On 02/03/2026 12:36, Nilay Shroff wrote:
+>> On 2/25/26 9:02 PM, John Garry wrote:
+>>> Add code for path selection.
+>>>
+>>> NVMe ANA is abstracted into enum mpath_access_state. The motivation 
+>>> here is
+>>> so that SCSI ALUA can be used. Callbacks .is_disabled, .is_optimized,
+>>> .get_access_state are added to get the path access state.
+>>>
+>>> Path selection modes round-robin, NUMA, and queue-depth are added, same
+>>> as NVMe supports.
+>>>
+>>> NVMe has almost like-for-like equivalents here:
+>>> - __mpath_find_path() -> __nvme_find_path()
+>>> - mpath_find_path() -> nvme_find_path()
+>>>
+>>> and similar for all introduced callee functions.
+>>>
+>>> Functions mpath_set_iopolicy() and mpath_get_iopolicy() are added for
+>>> setting default iopolicy.
+>>>
+>>> A separate mpath_iopolicy structure is introduced. There is no iopolicy
+>>> member included in the mpath_head structure as it may not suit NVMe, 
+>>> where
+>>> iopolicy is per-subsystem and not per namespace.
+>>>
+>>> Signed-off-by: John Garry <john.g.garry@oracle.com>
+>>> ---
+>>>   include/linux/multipath.h |  36 ++++++
+>>>   lib/multipath.c           | 251 ++++++++++++++++++++++++++++++++++++++
+>>>   2 files changed, 287 insertions(+)
+>>>
+>>> diff --git a/include/linux/multipath.h b/include/linux/multipath.h
+>>> index be9dd9fb83345..c964a1aba9c42 100644
+>>> --- a/include/linux/multipath.h
+>>> +++ b/include/linux/multipath.h
+>>> @@ -7,6 +7,22 @@
+>>>   extern const struct block_device_operations mpath_ops;
+>>> +enum mpath_iopolicy_e {
+>>> +    MPATH_IOPOLICY_NUMA,
+>>> +    MPATH_IOPOLICY_RR,
+>>> +    MPATH_IOPOLICY_QD,
+>>> +};
+>>> +
+>>> +struct mpath_iopolicy {
+>>> +    enum mpath_iopolicy_e    iopolicy;
+>>> +};
+>>> +
+>>> +enum mpath_access_state {
+>>> +    MPATH_STATE_OPTIMIZED,
+>>> +    MPATH_STATE_ACTIVE,
+>>> +    MPATH_STATE_INVALID    = 0xFF
+>>> +};
+>> Hmm so here we don't have MPATH_STATE_NONOPTIMIZED.
+>> We are morphing NVME_ANA_NONOPTIMIZED as MPATH_STATE_ACTIVE.
+> 
+> Yes, well it is treated the same (as NVME_ANA_NONOPTIMIZED) for path 
+> selection.
+> 
+>> Is it because SCSI doesn't have (NONOPTIMIZED) state?
+> 
+> It does have an active (and optimal) state, but I think that keeping 
+> NVMe terminology may be better for now.
+> 
+>>
+>>> +
+>>>   struct mpath_disk {
+>>>       struct gendisk        *disk;
+>>>       struct kref        ref;
+>>> @@ -18,10 +34,16 @@ struct mpath_disk {
+>>>   struct mpath_device {
+>>>       struct list_head    siblings;
+>>> +    atomic_t        nr_active;
+>>>       struct gendisk        *disk;
+>>> +    int            numa_node;
+>>>   };
+>> I haven't seen any API which help set nr_active or numa_node.
+> 
+> I missed setting numa_node for NVMe. About nr_active, that is set/read 
+> by the NVMe code, like nvme_mpath_start_request(). I did try to abstract 
+> that function into a common helper, but it just becomes a mess.
+> 
+The nvme_mpath_start_request() increments ns->ctrl->nr_active, and 
+nvme_mpath_end_request() decrements it. This means that nr_active is 
+maintained per controller. If multiple NVMe namespaces are created and 
+attached to the same controller, their I/O activity is accumulated in 
+the single ctrl->nr_active counter.
 
+In contrast, libmultipath defines nr_active in struct mpath_device, 
+which is referenced from struct nvme_ns. Even if we add code to update 
+mpath_device->nr_active, that accounting would effectively be per 
+namespace, not per controller.
 
-In my opinion this is a valid concern.
-I suspect that it's really possible to create a malicious sequence
-that would make the target crash.
+The nr_active value is used by the queue-depth policy. Currently, 
+mpath_queue_depth_path() accesses mpath_device->nr_active to make 
+forwarding decisions. However, if mpath_device->nr_active is maintained 
+per namespace, it does not correctly reflect controller-wide load when 
+multiple namespaces share the same controller.
 
-I would change nvmet_tcp_build_pdu_iovec() to return an error
-code and its caller so they propagate it up to nvmet_tcp_done_recv_pdu()
+Therefore, instead of maintaining a separate nr_active in struct 
+mpath_device, it may be more appropriate for mpath_queue_depth_path() to 
+reference ns->ctrl->nr_active directly. In that case, nr_active could be 
+removed from struct mpath_device entirely.
 
-Something like this:
+Thanks,
+--Nilay
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index acc71a26733f..3d97257075d3 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -351,7 +351,7 @@ static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp=
-_cmd *cmd)
-
- static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue);
-
--static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
-+static int nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
- {
- 	struct bio_vec *iov =3D cmd->iov;
- 	struct scatterlist *sg;
-@@ -364,22 +364,19 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tc=
-p_cmd *cmd)
- 	offset =3D cmd->rbytes_done;
- 	cmd->sg_idx =3D offset / PAGE_SIZE;
- 	sg_offset =3D offset % PAGE_SIZE;
--	if (!cmd->req.sg_cnt || cmd->sg_idx >=3D cmd->req.sg_cnt) {
--		nvmet_tcp_fatal_error(cmd->queue);
--		return;
--	}
-+	if (!cmd->req.sg_cnt || cmd->sg_idx >=3D cmd->req.sg_cnt)
-+		return -EPROTO;
-+
- 	sg =3D &cmd->req.sg[cmd->sg_idx];
- 	sg_remaining =3D cmd->req.sg_cnt - cmd->sg_idx;
-
- 	while (length) {
--		if (!sg_remaining) {
--			nvmet_tcp_fatal_error(cmd->queue);
--			return;
--		}
--		if (!sg->length || sg->length <=3D sg_offset) {
--			nvmet_tcp_fatal_error(cmd->queue);
--			return;
--		}
-+		if (!sg_remaining)
-+			return -EPROTO;
-+
-+		if (!sg->length || sg->length <=3D sg_offset)
-+			return -EPROTO;
-+
- 		u32 iov_len =3D min_t(u32, length, sg->length - sg_offset);
-
- 		bvec_set_page(iov, sg_page(sg), iov_len,
-@@ -394,6 +391,7 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_=
-cmd *cmd)
-
- 	iov_iter_bvec(&cmd->recv_msg.msg_iter, ITER_DEST, cmd->iov,
- 		      nr_pages, cmd->pdu_len);
-+	return 0;
- }
-
- static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue)
-@@ -931,7 +929,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_queu=
-e *queue)
- 	return 0;
- }
-
--static void nvmet_tcp_handle_req_failure(struct nvmet_tcp_queue *queue,
-+static int nvmet_tcp_handle_req_failure(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd, struct nvmet_req *req)
- {
- 	size_t data_len =3D le32_to_cpu(req->cmd->common.dptr.sgl.length);
-@@ -947,19 +945,19 @@ static void nvmet_tcp_handle_req_failure(struct nvmet=
-_tcp_queue *queue,
- 	if (!nvme_is_write(cmd->req.cmd) || !data_len ||
- 	    data_len > cmd->req.port->inline_data_size) {
- 		nvmet_prepare_receive_pdu(queue);
--		return;
-+		return 0;
- 	}
-
- 	ret =3D nvmet_tcp_map_data(cmd);
- 	if (unlikely(ret)) {
- 		pr_err("queue %d: failed to map data\n", queue->idx);
- 		nvmet_tcp_fatal_error(queue);
--		return;
-+		return ret;
- 	}
-
- 	queue->rcv_state =3D NVMET_TCP_RECV_DATA;
--	nvmet_tcp_build_pdu_iovec(cmd);
- 	cmd->flags |=3D NVMET_TCP_F_INIT_FAILED;
-+	return nvmet_tcp_build_pdu_iovec(cmd);
- }
-
- static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
-@@ -1011,7 +1009,8 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet=
-_tcp_queue *queue)
- 		goto err_proto;
- 	}
- 	cmd->pdu_recv =3D 0;
--	nvmet_tcp_build_pdu_iovec(cmd);
-+	if (nvmet_tcp_build_pdu_iovec(cmd))
-+		goto err_proto;
- 	queue->cmd =3D cmd;
- 	queue->rcv_state =3D NVMET_TCP_RECV_DATA;
-
-@@ -1074,8 +1073,10 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_=
-queue *queue)
- 			le32_to_cpu(req->cmd->common.dptr.sgl.length),
- 			le16_to_cpu(req->cqe->status));
-
--		nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
--		return 0;
-+		ret =3D nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
-+		if (unlikely(ret))
-+			nvmet_tcp_fatal_error(queue);
-+		return ret;
- 	}
-
- 	ret =3D nvmet_tcp_map_data(queue->cmd);
-@@ -1092,8 +1093,10 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_=
-queue *queue)
- 	if (nvmet_tcp_need_data_in(queue->cmd)) {
- 		if (nvmet_tcp_has_inline_data(queue->cmd)) {
- 			queue->rcv_state =3D NVMET_TCP_RECV_DATA;
--			nvmet_tcp_build_pdu_iovec(queue->cmd);
--			return 0;
-+			ret =3D nvmet_tcp_build_pdu_iovec(queue->cmd);
-+			if (unlikely(ret))
-+				nvmet_tcp_fatal_error(queue);
-+			return ret;
- 		}
- 		/* send back R2T */
- 		nvmet_tcp_queue_response(&queue->cmd->req);
-
-
-Maurizio
 
