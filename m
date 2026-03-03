@@ -4,58 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 720EEEDA686
-	for <linux-nvme@archiver.kernel.org>; Tue,  3 Mar 2026 15:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2CC8EDA694
+	for <linux-nvme@archiver.kernel.org>; Tue,  3 Mar 2026 16:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ak4rvzSvNvLPGu6yi0Wcsdf2+0OPRXpBr0AARJsdae0=; b=R/mRwr6hNSfAULUavP6hZ4qECG
-	F75JZGL4synw92MSYWYB6d16PB2x8Qo3IuOGirTRafBBC3dg//oAayYr9rgtvlUdz7zFu7hlGWgKo
-	+KIhL2w3bLBqayvA88wRjeDA6u1PvuIPiLCbv8XYTtguCom5kcpwL9jvMgTGDx7tNin0c7hYBjSyz
-	mEbgqCVUd+/PaKd12yar7Nr+rc2iLQn8N/fLw2qp41X2kQoyeOCN6kJ83Lkif0WTOTG0Z4jZDkAza
-	dfkTrMX3yx1nJ3bOgPolcgFx0baTDmhymThvcwuqg2rXeQDjxYKrqjOtX2rE0s+6TSJhjcjVnpv3N
-	xWttxRwg==;
+	bh=Snjn4s+P6wmBLZ73LdUf0dGDsuXvTetanPghlnx9ewE=; b=ltDKHHEShYMj/pL5WezaTBEdgm
+	Z6pEH32YjyJru8pud8fl1N1U28H0zX1KONdkms74ZMOWSGtBymOinT+zScqnka1mThY5ywmIUAWEX
+	Km6j6x6tCVINHyyXBE3mcrFfRiDCUroLCzUT+xiyzYALP9FXrTM+XyK+vKhhZ0iiKhLW6yxvvaAMJ
+	OdQfWDqgwnkSsPuuxy88zKfr+dBpnsUY04v76IKOFT5LI9Pdb9OO4nmjn3ysONDzRig0pKMLhRRTU
+	ox5/i+FFwzljoWizCoWjEN4R9yZ3ybljwUHpf8nvS8XauwnFvW3kHlvpi4gte6gJbnS2uCWPCfTOB
+	E2KPh52w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxRqr-0000000FRf3-40Zf;
-	Tue, 03 Mar 2026 15:40:01 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vxSRm-0000000FXxC-1wLf;
+	Tue, 03 Mar 2026 16:18:10 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxRqq-0000000FRea-2bJq
+	id 1vxSRk-0000000FXw2-0x5C
 	for linux-nvme@lists.infradead.org;
-	Tue, 03 Mar 2026 15:40:00 +0000
+	Tue, 03 Mar 2026 16:18:09 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 94089600AE;
-	Tue,  3 Mar 2026 15:39:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD247C116C6;
-	Tue,  3 Mar 2026 15:39:58 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 1E8BA40BD8;
+	Tue,  3 Mar 2026 16:18:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C9A1C2BCAF;
+	Tue,  3 Mar 2026 16:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772552399;
-	bh=ak4rvzSvNvLPGu6yi0Wcsdf2+0OPRXpBr0AARJsdae0=;
+	s=k20201202; t=1772554687;
+	bh=HKrZ9fFGSSlpC4H/YmdsdQhTkBYdI7OCy2dmmG6ClUI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tW7wvyJarBqRc0AZ+5PO9Vshep0TF4Z1ZemMTT0IzOOWLnLXwEl8HnIyh1VfIoYgM
-	 82xzM9nfWTkiRLHVtfmf2R4GnZzBLBXPRGLbkTlN7ia8IOw1Tm+1VB3TQE9TjM0rhz
-	 pr/offf3dlOdHfMilLSg5hCDiOGQA69tXzM1RbJI6WBwVxKAYgI0guu82zNvwFh0S9
-	 H88gWD/+vMF4WZ5rp3XuH7/6DhIDyuHHFZXuT+xTGaELbW5/SWIZUYfuPE2xaVi9Dc
-	 eEDb5TUvdxP5SuE32oKyxsXUadZCCP+seGsvX6W95IVGLGtaD3gdGYRsDGof2aAJqQ
-	 LsINfDUh13teA==
-Date: Tue, 3 Mar 2026 08:39:56 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, mlombard@redhat.com, jmeneghi@redhat.com
-Subject: Re: [RFC-PATCH 2/2] nvme: use the namespace id for block device names
-Message-ID: <aacAzGpNJ2RXedvG@kbusch-mbp>
-References: <20260302222532.3400786-1-kbusch@meta.com>
- <20260302222532.3400786-2-kbusch@meta.com>
- <c2ef8067-a5c9-4be7-8e2a-9d74610d446f@suse.de>
+	b=qQeNMC+8TjYaXqWmi1Z5AsSI76NbaOZ40hNtAsZ6GNJQBq79GgyQkmnX039B+sNcP
+	 bDM2JTflnRZD6UVXAC8yjCXqWOSp30wGcd/GLC8km7VHOlR7xLAc31ecTyNeBlJvvX
+	 v+sikuYUYseEEddP2Bl7O2IQ/PyUbkNc24/NiWz3T9MyITRBthI73rba5QYcelnShE
+	 VWivcYQZyOs+RY4Cv5CJ4Za+E+SGMB2D1FhQXjtptQbcNNMA0oYpLceyhY1t48OE7l
+	 EoDm8+Oxtx3GK+n4WcAE1O5RoaMuje7me2Ytjty1HK7bQDh4zgNRAQMsTwCsd6j+Rl
+	 jHWze/5tHPx1g==
+Date: Tue, 3 Mar 2026 21:47:50 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Jon Hunter <jonathanh@nvidia.com>
+Cc: Manikanta Maddireddy <mmaddireddy@nvidia.com>, 
+	krishna.chundru@oss.qualcomm.com, Bjorn Helgaas <helgaas@kernel.org>, 
+	manivannan.sadhasivam@oss.qualcomm.com, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, "David E. Box" <david.e.box@linux.intel.com>, 
+	Kai-Heng Feng <kai.heng.feng@canonical.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Chia-Lin Kao <acelan.kao@canonical.com>, 
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
+ set by BIOS for devicetree platforms
+Message-ID: <kkly3z4durpagtenadvmzdpojlctachgfgi2fdapt6zthdl2gx@n2qhmlud2zb7>
+References: <5z7c25nkb35prvax6vq6ud7eaeuhzsswbf7fqvmlgys3xftgwb@odocboejrdrv>
+ <e44c330b-778b-4fa1-b678-fa909cc05b03@nvidia.com>
+ <bf37b6a5-268d-4c07-a536-a826b3d5953b@nvidia.com>
+ <unc5zefwndgcv7wufaezz3gkg3qtaymkjlmymhyqdqwzn3wybl@ow2rhbyt772h>
+ <f9ac8c8f-8959-416b-ba90-14f0886c5bc0@nvidia.com>
+ <a5m4pqtiaxsq5lmq64roro633ganbeq7mypa5ojuuqy4npkvok@wcogdbzaq6xe>
+ <7157c68e-97f3-43b0-bfb5-e271a8f2a4b8@nvidia.com>
+ <cf1e685a-a1cb-45ec-bdc3-1ef1a3d1044e@nvidia.com>
+ <npt2cgwksulq5375dzlhszqaqrurgdvlkz6fdczer6shglqfg5@gp6a6xymymww>
+ <26ad62ff-4972-4b29-8f9e-1868cd20ee00@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c2ef8067-a5c9-4be7-8e2a-9d74610d446f@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26ad62ff-4972-4b29-8f9e-1868cd20ee00@nvidia.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260303_081808_317255_F2D4F8DB 
+X-CRM114-Status: GOOD (  27.21  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -70,16 +90,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 03, 2026 at 08:34:38AM +0100, Hannes Reinecke wrote:
-> The idea is nice, and I would love to go into that
-> direction.
-> But have you checked how this holds up under
-> rescan/remapping (eg things like blktest/nvme/058)?
-> Removal of the sysfs nodes might be delayed, and we cannot
-> create new entries with the same name until then.
-> So if that is taken care of, fine, but I don't see that in
-> the patch ...
+On Thu, Feb 26, 2026 at 04:52:57PM +0000, Jon Hunter wrote:
+> 
+> On 26/02/2026 11:16, Manivannan Sadhasivam wrote:
+> 
+> ...
+> 
+> > I can't certainly know what is going wrong. If controller driver suspend is
+> > skipped, then ideally the controller and the NVMe device should stay powered ON
+> > during suspend. But if the platform pulls the plug at the end of suspend
+> > (firmware, gdsc or some other entity), then all the context would be lost and
+> > that might explain the failure because both the controller driver and NVMe
+> > driver would expect the RC and NVMe to be active.
+> > 
+> > You can try commenting out the whole PM callbacks:
+> > 		// .pm = &tegra_pcie_dw_pm_ops
+> > 
+> > If the host itself doesn't resume, then it confirms that some other entity is
+> > pulling the plug (which is common in ARM platforms). In that case, we have to
+> > let the NVMe driver know about it so that it can shutdown the controller.
+> 
+> For Tegra, we enter a deep low power state known as SC7 on suspend which
+> does involve firmware. Nonetheless I tried for fun, but this breaks suspend
+> completely.
+> 
 
-I see. I set out to ensure everything was ordered, but apparently I've
-missed this case. Thanks for pointing out the test.
+Ah, this explains the problem. We also have a similar problem on our Qcom Auto
+boards where the firmware completely shuts down the SoC and puts the DRAM in
+self refresh mode. So NVMe driver never resumes properly. We tried multiple ways
+to address this issue in the NVMe driver, but the NVMe maintainers rejected
+every single one of them and asking for some API in the PCI or PM core to tell
+the NVMe driver when to shutdown the device during suspend. But this turned out
+to be not so trivial.
+
+Another way to workaround this issue would be by calling
+pm_set_suspend_via_firmware() from the driver that controls the entity doing
+power management of the SoC (firmware). In your case, it is
+drivers/soc/tegra/pmc.c?
+
+In that case, you can use this patch as a reference:
+https://lore.kernel.org/all/20251231162126.7728-1-manivannan.sadhasivam@oss.qualcomm.com
+
+When pm_set_suspend_via_firmware() is set, NVMe driver assumes that the firmware
+might pull the plug during suspend, so it shutdowns the controller completely
+and brings it back from reset during resume.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
