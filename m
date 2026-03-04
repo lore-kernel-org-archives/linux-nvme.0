@@ -4,123 +4,133 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C317EDEC00
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 07:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F172EDEC12
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 07:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=c2KW9e3b5m/hO+gKjgmse68Y8IAqEKUxVDionruVq64=; b=yaHuC7ZOJwQjveLK2pQOJbOiNV
-	YYe989PB+Yfw3L2dni8PzBUB/brSTWWVFXubRmwx4s6efd7p2D8iIyheQRjGrnu0onDROM/X58c9j
-	G4j1JExeEBUd3bJLrgvmB+L+xEa5LyNbkYVHTbL4faSiL5Y796PHRTGthxjJ/wVK5J2dELvlBvhp+
-	hKzxNJzah538Fo+X+Fi14OgrXkYhNsfSLXA4L0IqpFJMWO7Qju28YgEg0P9WR89DCOuifokJ5O7Af
-	XfPsQCzvPdRnE/aN4ttB/cY8hxRXr4hhdsdIyqZTcWO/xTphbT2MyyndVfl8r4G8xfZxRSFfN6c6p
-	r+6k7AcQ==;
+	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=; b=N29dspWPv0PObJlEXo9wiaF59d
+	9XOJujXKlAdeLiYmHQ9nKacoGPD9CQOXQVmHY7Er8GFjsqLTGaI6A7bsJHSdCBDzn6IK4r+3vGXoT
+	LYHanBg5B7WOd2ItiwAJFAtGvCKqEWyW/WFImLj2tAQ05Ve+Rzwpi6Sw676jDw7OWf0qIERdSvfIL
+	h8ykJK7E4SDrbECaMLZEfBuUi+P8iN8zDN49junqOxNTa9CiitBcdyyescix3T1BEiSz9iEB+Oo2/
+	5668k+NoeTdNNsaE+UFhmlY9itW409xda0VIGl9T2MoGiYePrdBUJxIPaW2c6qNfeqF2zFAnQsMFE
+	8RSlKPIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxgWd-0000000GaHd-2lR4;
-	Wed, 04 Mar 2026 07:20:07 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1vxgX6-0000000GaOO-24yk;
+	Wed, 04 Mar 2026 07:20:36 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxgWY-0000000GaH1-2qAj
+	id 1vxgX4-0000000GaNX-1LHc
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 07:20:05 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Wed, 04 Mar 2026 07:20:35 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 07A033F279;
-	Wed,  4 Mar 2026 07:20:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 801B45BD4B;
+	Wed,  4 Mar 2026 07:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772608801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772608832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=c2KW9e3b5m/hO+gKjgmse68Y8IAqEKUxVDionruVq64=;
-	b=hN0k24ipHUTDTgZH23H5wzTOxWfhswghlpacDRjzh8NMBxgj/3e/sjxZTHw8SQ3u+zsYvI
-	g8xl5plTeEGNuf5LS1uLt09QZb2/kiEmWXpDiyQVUlOpZE0QCXKHLCHVdh0aooUwYk4eLX
-	Qi0PgHbGv84+RtVP4qmQHDeTryxOOcA=
+	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
+	b=VwyR3XUPMwHkz3g9V3/3klEBMEFZsPVFJ3gn+Wz7S+P2SQHdVt0dc2Y7Xsln7Gq76T544d
+	ofRKe0qg37JXyo815kRBt8wFD0yuDrxgG6Pzft62LbGOUKo9XXb0yk1Rg8WgJjINwC3VnE
+	avR3tf7I2nm4oUdSD1UIpjAznvFtMCk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772608801;
+	s=susede2_ed25519; t=1772608832;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=c2KW9e3b5m/hO+gKjgmse68Y8IAqEKUxVDionruVq64=;
-	b=P9HA76O0gsknC4RHhVmxZgsGXoO/RoxkbjMWxGqer9bRjAy68RYW0NvjYandLyTYK2NcQl
-	VcLDIhziw9qGrDAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
+	b=fwjHdyjYh4wwrVT9AMyMUc/9X8aZ7Cgmloh79ptZrxyifKynzXI264XBVzGQL1GAB++Wv3
+	Nm52KZo0nNM+lxDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VwyR3XUP;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fwjHdyjY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772608800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1772608832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=c2KW9e3b5m/hO+gKjgmse68Y8IAqEKUxVDionruVq64=;
-	b=SojPgUT8nmw2gRXR7xho2zNPizqR8JwLtG6cJ4Gf49Mv28ANeWuIXmALrbfFlx6m8LVjcr
-	ajn1L5zNSR5dDEDuVoCbhSNtKYKAbjzFC0pZEJuqWY97tpWWEb3qioKubPIPzd0ERt6cPs
-	y0DBCO5ooZNkm57l7U9YcsX2Z/yVagI=
+	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
+	b=VwyR3XUPMwHkz3g9V3/3klEBMEFZsPVFJ3gn+Wz7S+P2SQHdVt0dc2Y7Xsln7Gq76T544d
+	ofRKe0qg37JXyo815kRBt8wFD0yuDrxgG6Pzft62LbGOUKo9XXb0yk1Rg8WgJjINwC3VnE
+	avR3tf7I2nm4oUdSD1UIpjAznvFtMCk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772608800;
+	s=susede2_ed25519; t=1772608832;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=c2KW9e3b5m/hO+gKjgmse68Y8IAqEKUxVDionruVq64=;
-	b=LoPTDziYgj6ZhvILSPpDQKEuzflbXh5CJue59KZEFz/nsRNNLAIaZKXhL5iNCUMJNQiCRE
-	4/ieXEq7Pnq9X0CA==
+	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
+	b=fwjHdyjYh4wwrVT9AMyMUc/9X8aZ7Cgmloh79ptZrxyifKynzXI264XBVzGQL1GAB++Wv3
+	Nm52KZo0nNM+lxDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AFEB43EA69;
-	Wed,  4 Mar 2026 07:19:59 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35D8B3EA69;
+	Wed,  4 Mar 2026 07:20:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9AaEKB/dp2naRAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 04 Mar 2026 07:19:59 +0000
-Message-ID: <2b40f93f-f987-423d-8263-ba9b10a1bcaf@suse.de>
-Date: Wed, 4 Mar 2026 08:19:59 +0100
+	id 1OeFC0Ddp2kZRQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 04 Mar 2026 07:20:32 +0000
+Message-ID: <786d1145-3ba8-4332-8d03-c0ff2da616d7@suse.de>
+Date: Wed, 4 Mar 2026 08:20:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] nvmet-auth: Don't log DHCHAP keys in
- nvmet_setup_auth()
+Subject: Re: [PATCH 3/3] nvmet-auth: Don't log DHCHAP shared secret in
+ nvmet_auth_ctrl_sesskey()
 To: Thorsten Blum <thorsten.blum@linux.dev>, Christoph Hellwig <hch@lst.de>,
  Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
  Jens Axboe <axboe@kernel.dk>
 Cc: stable@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-kernel@vger.kernel.org
 References: <20260303190350.78705-2-thorsten.blum@linux.dev>
- <20260303190350.78705-4-thorsten.blum@linux.dev>
+ <20260303190350.78705-6-thorsten.blum@linux.dev>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260303190350.78705-4-thorsten.blum@linux.dev>
+In-Reply-To: <20260303190350.78705-6-thorsten.blum@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MX_GOOD(-0.01)[];
 	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email]
+X-Rspamd-Queue-Id: 801B45BD4B
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260303_232002_870274_30FD6A39 
-X-CRM114-Status: GOOD (  17.60  )
+X-CRM114-CacheID: sfid-20260303_232034_500345_D4C81B00 
+X-CRM114-Status: GOOD (  13.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -136,57 +146,33 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 3/3/26 20:03, Thorsten Blum wrote:
-> When debug logging is enabled, nvmet_setup_auth() logs the host and
-> controller DHCHAP key bytes. Remove the keys from debug logs to avoid
-> exposing key material.
+> When debug logging is enabled, nvmet_auth_ctrl_sesskey() logs the DHCHAP
+> shared secret. Remove the log to avoid exposing key material.
 > 
-> Fixes: db1312dd9548 ("nvmet: implement basic In-Band Authentication")
+> Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 > ---
->   drivers/nvme/target/auth.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
+>   drivers/nvme/target/auth.c | 4 ----
+>   1 file changed, 4 deletions(-)
 > 
 > diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-> index 2eadeb7e06f2..f24add0bb86f 100644
+> index f24add0bb86f..f62fed6bd897 100644
 > --- a/drivers/nvme/target/auth.c
 > +++ b/drivers/nvme/target/auth.c
-> @@ -199,10 +199,9 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq)
->   		ctrl->host_key = NULL;
->   		goto out_free_hash;
->   	}
-> -	pr_debug("%s: using hash %s key %*ph\n", __func__,
-> +	pr_debug("%s: using hash %s\n", __func__,
->   		 ctrl->host_key->hash > 0 ?
-> -		 nvme_auth_hmac_name(ctrl->host_key->hash) : "none",
-> -		 (int)ctrl->host_key->len, ctrl->host_key->key);
-> +		 nvme_auth_hmac_name(ctrl->host_key->hash) : "none");
+> @@ -544,10 +544,6 @@ int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
+>   					  req->sq->dhchap_skey_len);
+>   	if (ret)
+>   		pr_debug("failed to compute shared secret, err %d\n", ret);
+> -	else
+> -		pr_debug("%s: shared secret %*ph\n", __func__,
+> -			 (int)req->sq->dhchap_skey_len,
+> -			 req->sq->dhchap_skey);
 >   
->   	nvme_auth_free_key(ctrl->ctrl_key);
->   	if (!host->dhchap_ctrl_secret) {
-> @@ -217,10 +216,9 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq)
->   		ctrl->ctrl_key = NULL;
->   		goto out_free_hash;
->   	}
-> -	pr_debug("%s: using ctrl hash %s key %*ph\n", __func__,
-> +	pr_debug("%s: using ctrl hash %s\n", __func__,
->   		 ctrl->ctrl_key->hash > 0 ?
-> -		 nvme_auth_hmac_name(ctrl->ctrl_key->hash) : "none",
-> -		 (int)ctrl->ctrl_key->len, ctrl->ctrl_key->key);
-> +		 nvme_auth_hmac_name(ctrl->ctrl_key->hash) : "none");
->   
->   out_free_hash:
->   	if (ret) {
-
-Without the key the pr_debug calls are pretty much pointless anyway,
-so you might want to remove them, too.
-
-However, these debug prints really help when trying to figure out
-authentication failures.
-I think it would be better to add a compile-time option to disable
-these outputs entirely.
-
-I'll send a patch.
+>   	return ret;
+>   }
+As indicated in the previous patch, we should use a compile time option
+to disable the messages.
 
 Cheers,
 
