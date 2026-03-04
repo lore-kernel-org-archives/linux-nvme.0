@@ -4,133 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F172EDEC12
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 07:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4609AEDEC1E
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 07:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=; b=N29dspWPv0PObJlEXo9wiaF59d
-	9XOJujXKlAdeLiYmHQ9nKacoGPD9CQOXQVmHY7Er8GFjsqLTGaI6A7bsJHSdCBDzn6IK4r+3vGXoT
-	LYHanBg5B7WOd2ItiwAJFAtGvCKqEWyW/WFImLj2tAQ05Ve+Rzwpi6Sw676jDw7OWf0qIERdSvfIL
-	h8ykJK7E4SDrbECaMLZEfBuUi+P8iN8zDN49junqOxNTa9CiitBcdyyescix3T1BEiSz9iEB+Oo2/
-	5668k+NoeTdNNsaE+UFhmlY9itW409xda0VIGl9T2MoGiYePrdBUJxIPaW2c6qNfeqF2zFAnQsMFE
-	8RSlKPIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+PPCeHP33qvofEgSpuMY+ASCX/FXcAPOF9YknZCof3s=; b=RlcGqJv5Xa2/84imrzM8ag21T2
+	z9O5i1qaJ5ZqUYK9brnNupPY5wjLG8YGydxmx9KQr57x3N53FXu1hnov+KNOeUDAo/9y3efVaHmRR
+	cDiU8GjFwQIUI+6gudd8p+OQUnBoO6if/71n+2Y51hPQ/LtP9hCHtpijadXgh6bSABJKmxZIF/bIu
+	sAPFhB8R6PM5NodygF54xE+E83IGyF7nUYvwQkQAmralDqyIgBhepq1hgl0DVFrJjQdHIuG0ZrGUj
+	USSQKOS64q+hRv//dmXdisL2wLglE68emx2UKq/0k4Vy7qcjwluu67um5O3gfW5zEttpPbPSwQmfE
+	JqjuK7QA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxgX6-0000000GaOO-24yk;
-	Wed, 04 Mar 2026 07:20:36 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1vxgmc-0000000Gc9Z-47Kk;
+	Wed, 04 Mar 2026 07:36:38 +0000
+Received: from mailout3.samsung.com ([203.254.224.33])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxgX4-0000000GaNX-1LHc
+	id 1vxgmY-0000000Gc89-3qTN
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 07:20:35 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 801B45BD4B;
-	Wed,  4 Mar 2026 07:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772608832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
-	b=VwyR3XUPMwHkz3g9V3/3klEBMEFZsPVFJ3gn+Wz7S+P2SQHdVt0dc2Y7Xsln7Gq76T544d
-	ofRKe0qg37JXyo815kRBt8wFD0yuDrxgG6Pzft62LbGOUKo9XXb0yk1Rg8WgJjINwC3VnE
-	avR3tf7I2nm4oUdSD1UIpjAznvFtMCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772608832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
-	b=fwjHdyjYh4wwrVT9AMyMUc/9X8aZ7Cgmloh79ptZrxyifKynzXI264XBVzGQL1GAB++Wv3
-	Nm52KZo0nNM+lxDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VwyR3XUP;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fwjHdyjY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772608832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
-	b=VwyR3XUPMwHkz3g9V3/3klEBMEFZsPVFJ3gn+Wz7S+P2SQHdVt0dc2Y7Xsln7Gq76T544d
-	ofRKe0qg37JXyo815kRBt8wFD0yuDrxgG6Pzft62LbGOUKo9XXb0yk1Rg8WgJjINwC3VnE
-	avR3tf7I2nm4oUdSD1UIpjAznvFtMCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772608832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qeYalW8jhq1NZYwVgh60QQY623yLOr+NtDNXomRTfr0=;
-	b=fwjHdyjYh4wwrVT9AMyMUc/9X8aZ7Cgmloh79ptZrxyifKynzXI264XBVzGQL1GAB++Wv3
-	Nm52KZo0nNM+lxDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35D8B3EA69;
-	Wed,  4 Mar 2026 07:20:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1OeFC0Ddp2kZRQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 04 Mar 2026 07:20:32 +0000
-Message-ID: <786d1145-3ba8-4332-8d03-c0ff2da616d7@suse.de>
-Date: Wed, 4 Mar 2026 08:20:31 +0100
+	Wed, 04 Mar 2026 07:36:37 +0000
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20260304073626epoutp03a6ce63c08f7e7764e5aae227b580b497~ZkzWg7lMW2966129661epoutp03c
+	for <linux-nvme@lists.infradead.org>; Wed,  4 Mar 2026 07:36:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20260304073626epoutp03a6ce63c08f7e7764e5aae227b580b497~ZkzWg7lMW2966129661epoutp03c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1772609786;
+	bh=+PPCeHP33qvofEgSpuMY+ASCX/FXcAPOF9YknZCof3s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uRVX1Rtnu9detBkc2qBJvq4YsPCA7PRpyRao8N3SWTi2Mbtj55SvKLspQSXYirup6
+	 BVjk/aLti+eyxi2ywZ3AjLAEjpN3pfCWwi0FLIDIblkI92kWywWrKZdZPE1zRU+WwF
+	 vcllJ5rB7AZtxOnPWGUg5FWUcBxmNryboWXMlQnk=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
+	20260304073626epcas5p3f6a8cb566088d737039ce9ffd83ae053~ZkzWBeIO30816108161epcas5p3A;
+	Wed,  4 Mar 2026 07:36:26 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4fQkxj0zFXz6B9mP; Wed,  4 Mar
+	2026 07:36:25 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260304073624epcas5p45099e56c0d1c772b233d03f0cd847ea7~ZkzUNpxt01983519835epcas5p4c;
+	Wed,  4 Mar 2026 07:36:24 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260304073622epsmtip139f0fe4255dd6a1be4c1a08abba5f0d5~ZkzSx_EfP1851818518epsmtip1X;
+	Wed,  4 Mar 2026 07:36:22 +0000 (GMT)
+Date: Wed, 4 Mar 2026 13:01:59 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, Jens
+	Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, stable@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] nvme-auth: Don't log shared secret in
+ nvme_auth_dhchap_exponential()
+Message-ID: <20260304073159.olmzwf4xr6gvswut@green245.gost>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] nvmet-auth: Don't log DHCHAP shared secret in
- nvmet_auth_ctrl_sesskey()
-To: Thorsten Blum <thorsten.blum@linux.dev>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Jens Axboe <axboe@kernel.dk>
-Cc: stable@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
+In-Reply-To: <20260303190350.78705-2-thorsten.blum@linux.dev>
+X-CMS-MailID: 20260304073624epcas5p45099e56c0d1c772b233d03f0cd847ea7
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----x4gpVB5grIOn2U3qr3muLlEaegkXp-1X2jjZVqcl5_K7UNzi=_68ce0_"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260304073624epcas5p45099e56c0d1c772b233d03f0cd847ea7
 References: <20260303190350.78705-2-thorsten.blum@linux.dev>
- <20260303190350.78705-6-thorsten.blum@linux.dev>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260303190350.78705-6-thorsten.blum@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email]
-X-Rspamd-Queue-Id: 801B45BD4B
+	<CGME20260304073624epcas5p45099e56c0d1c772b233d03f0cd847ea7@epcas5p4.samsung.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260303_232034_500345_D4C81B00 
-X-CRM114-Status: GOOD (  13.76  )
+X-CRM114-CacheID: sfid-20260303_233635_440292_97AE6581 
+X-CRM114-Status: UNSURE (   8.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -145,41 +93,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/3/26 20:03, Thorsten Blum wrote:
-> When debug logging is enabled, nvmet_auth_ctrl_sesskey() logs the DHCHAP
-> shared secret. Remove the log to avoid exposing key material.
-> 
-> Fixes: 7a277c37d352 ("nvmet-auth: Diffie-Hellman key exchange support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->   drivers/nvme/target/auth.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-> index f24add0bb86f..f62fed6bd897 100644
-> --- a/drivers/nvme/target/auth.c
-> +++ b/drivers/nvme/target/auth.c
-> @@ -544,10 +544,6 @@ int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
->   					  req->sq->dhchap_skey_len);
->   	if (ret)
->   		pr_debug("failed to compute shared secret, err %d\n", ret);
-> -	else
-> -		pr_debug("%s: shared secret %*ph\n", __func__,
-> -			 (int)req->sq->dhchap_skey_len,
-> -			 req->sq->dhchap_skey);
->   
->   	return ret;
->   }
-As indicated in the previous patch, we should use a compile time option
-to disable the messages.
+------x4gpVB5grIOn2U3qr3muLlEaegkXp-1X2jjZVqcl5_K7UNzi=_68ce0_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Cheers,
+On 03/03/26 08:03PM, Thorsten Blum wrote:
+>When debug logging is enabled, nvme_auth_dhchap_exponential() logs the
+>DHCHAP shared secret. Remove the log to avoid exposing key material.
+>
+>Fixes: b61775d185a3 ("nvme-auth: Diffie-Hellman key exchange support")
+>Cc: stable@vger.kernel.org
+>Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+
+------x4gpVB5grIOn2U3qr3muLlEaegkXp-1X2jjZVqcl5_K7UNzi=_68ce0_
+Content-Type: text/plain; charset="utf-8"
+
+
+------x4gpVB5grIOn2U3qr3muLlEaegkXp-1X2jjZVqcl5_K7UNzi=_68ce0_--
 
