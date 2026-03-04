@@ -4,108 +4,189 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54783EF8FED
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 14:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC49AEF8FF0
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 14:39:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=LrqH2SjmPmjJjgNCF5JBINV1IFLel/O9GosCH1Q2vi8=; b=GgaC+dmaTT5FJ5BM+LCeyNab7O
-	1IgZvjhD7GCIx+M2g9W+Yu1oN/7TpyN7r0cUsLOXb1ZJcXEJPohGx0rLJBFQeR+xWEJJApEjQcyOy
-	Y4d5zS1Q0xOd4UJj9HF37Ws0R36jr4+SGQdN+YlH174PZ4huL18tuCLw/LlfhMeM7WmGDjWlT8UFU
-	bzBdxFkB5rWnbNn3gYfkmLKdpW30R6Qu6FV5gw5LAQkB8O0foZWgJ/zd7TjumCB1gEIDS02plAlIN
-	tXTyxUeYdFPJlblvpv+pRMJe4ELRefEUahIjyJxEfPcenouQLMuuqB0uEKvzP/tiJkwIorfx3ktrl
-	/7wS6csQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eVmbSmsLOsNnzB5O95uEys0WC+4RMarmswPRvdynDTA=; b=ZrckF8tDprVEhfk0ruOdjtiRNE
+	t39ushNKvbtyYc7p4/nDC741d7B9/XsBA/+tQlIOCGxdKi5ApWCszC8q7LkAbU8hHeV7Dy6+s/9tX
+	dhKUjtBfZ4YxDdMg94zZn9VBl4LW5UeV/0LU9tle5II72uTnsIwcwvLJNsrzy6GAU+nHuuhN1CLGq
+	7PCATF737Gsda57VvOdlkCyzxxKFsLEBzu05MjnWYy/YZKc9CG1eDZhcuNRfL5DT6vg/6zRnIuMmq
+	uOVoZM++buMpv6QVTxfIG+g7W0hS8QsxMAY3OqlllF/myFtw9DP2U/KCqBuSeFMqYT79n0Skza1Ox
+	xCqsVnZg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxnHv-0000000HPCR-1rhb;
-	Wed, 04 Mar 2026 14:33:23 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vxnNf-0000000HPzb-3tSP;
+	Wed, 04 Mar 2026 14:39:19 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxnHt-0000000HPBs-0KJU
+	id 1vxnNd-0000000HPyL-38Cx
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 14:33:22 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62494dQJ839232;
-	Wed, 4 Mar 2026 14:33:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	Wed, 04 Mar 2026 14:39:18 +0000
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 624EMQ8U043109;
+	Wed, 4 Mar 2026 14:39:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=LrqH2S
-	jmPmjJjgNCF5JBINV1IFLel/O9GosCH1Q2vi8=; b=i6sEp3zC8SxWQHGmazbuDy
-	+XR7GJj8AGCQWMV0zxnem/qSC3187efk+U/VV84hq3G89929uFTTjGcR7Cgxu/b8
-	MzFC3vtMe2/2Ui1PDMe6onnR5nZgf3gS81qiDGyb2hhFhJuuNK9IIsY4s9w8GbrJ
-	qx3PB5LMfvnQgGoUFKleDmJ3phhd79NcfRDj279Qh1A013s19lgAI8q4YwVrXSDo
-	i5cie2kGV9NSDZZVKel837MPjDGmUno+sKXOTtHzCZ6X1j//oIKx0n7vr6IpcW8C
-	F/k99clUwTIiyi1K/5PE+mucl1M1hnKhhDpAckGkiL3CT19V5IMa77C+QPram67g
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ckskby9wn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Mar 2026 14:33:14 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 624Bev7l027713;
-	Wed, 4 Mar 2026 14:33:13 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cmcwjergg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Mar 2026 14:33:13 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 624EXCj117760938
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 4 Mar 2026 14:33:12 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9A65358052;
-	Wed,  4 Mar 2026 14:33:12 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5559858056;
-	Wed,  4 Mar 2026 14:33:09 +0000 (GMT)
-Received: from [9.124.211.174] (unknown [9.124.211.174])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  4 Mar 2026 14:33:08 +0000 (GMT)
-Message-ID: <92f27319-649b-4957-9de7-619d76faa1ce@linux.ibm.com>
-Date: Wed, 4 Mar 2026 20:03:02 +0530
-MIME-Version: 1.0
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=eVmbSmsLOsNnzB5O95uEys0WC+4RMarmswPRvdynDTA=; b=
+	hQ3Tk/WD7XifkRWyy0QidW8OvUNUOWNq+kD51jfW+Jb//qE9dHmzCN8V55or22xZ
+	8/fpbSiy5b75ErAVWPPl9c+fNX1VMrOT0nj4fXquMmud4tCngoRk4n01TbW1YPjj
+	0wbha2cXL9ERPMnDCr5hJ069gBlZGIIozyCvAxMGA9X3dPRApZSCiJYGkAq/Np1x
+	zkmFv+rg7XWn7oUwkITYJskaNMp1pr2mRU64QU1NGB+sukHn+Vnj4msBLR2+JEZN
+	KkL4YqWJ1YdQ/a2Rjt7gJY/aKdszNsUg7kWnD3SiYb3Rjsk6K18Hv6ITCndWWrCL
+	zVXOw4vbhDSdfkeKEosgAQ==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cppep00vb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 04 Mar 2026 14:39:02 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 624EUJ13029955;
+	Wed, 4 Mar 2026 14:39:01 GMT
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013066.outbound.protection.outlook.com [40.93.196.66])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4ckptbuwjs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 04 Mar 2026 14:39:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QrZXZLJfFfQyb5AMu+b1jxOtGeE4X+JaVg9vPfGD5piVG3Qen3iR1rXkRKlpUHKcNgD0ark7yAkSXQ6FWLPz942zwd0np7laZrBrwCmSwkDZRcp3DMx/nrK0xINMzCcRTk3tV4Sz4br0KRGx0Il61v4GeEdAPurX5oO/2AWVEPKWlp8gvVgar3KWvlBaMfPG/ghF1xxQa8YK+FtsogP8AFhurxlAlvkIXgFivAEVTz0jjear1G3YpTjNZblWmxvLW8xqd5lEBhiagDsioa5pC/Rs3t9JvLl5pXT+Xh4j5qdP3l7D3QXDe3O1gIyLK7H00f+D90Ih2/EVc7rH6BnH6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eVmbSmsLOsNnzB5O95uEys0WC+4RMarmswPRvdynDTA=;
+ b=FNDjM0oY3bF76Iwg8xsUq5go9jqFO7+PwoggKhOiMw145MI5KS50DLLb2Exv2QBn4j+SJoMtxhQ+Qkckl1RH1UIAdqDZU676twJJkLH6/7cj86yX1G19viRjgydI4Bm+9pJk0AmEQuQ0W+bFFBXETYyadGFRzmqO4OKPx2I5Y3Iy6Vk4R0GgcNP+nA5wG8h/5yd6k/ibs3mP6pSRQ433rHxCkQPmbBXVFklBcxJ0x2psEffuv1lUZnEqN/YvqA5W/F8Qcz0qTXex5FOdBXoGkLnVVAWw05JRysXPPdOdsW7DllMJzEUzKUJ8NlUrQ4896OhDR6c00rwElGjqLE3bUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVmbSmsLOsNnzB5O95uEys0WC+4RMarmswPRvdynDTA=;
+ b=jEUSnEZYJnXOZaMpvEaxCWgZT8JP+4PpPi/V3auzV/D0JgEE5r65iVUiw/+LiUFCJz16wv/zJiDHdXqLem2Yu3P+mxTDGyKS3LEzHXIye1rVh9aztRzMJt+ZS7McqQ+BxBTOMf1+Uwf+Rq8Hgu5R7Fba0FHfiOQLbjYLkjiku4g=
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54) by IA3PR10MB8395.namprd10.prod.outlook.com
+ (2603:10b6:208:57f::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Wed, 4 Mar
+ 2026 14:38:58 +0000
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a%4]) with mapi id 15.20.9632.017; Wed, 4 Mar 2026
+ 14:38:58 +0000
+Message-ID: <ad42d716-80a7-4cf1-857a-b5cfe102493e@oracle.com>
+Date: Wed, 4 Mar 2026 14:38:54 +0000
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 0/7] nvme: export additional diagnostic counters via
- sysfs
-To: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, hare@suse.de,
-        dwagner@suse.de, wenxiong@linux.ibm.com, gjoyce@ibm.com
-References: <20260220175024.292898-1-nilay@linux.ibm.com>
+Subject: Re: [PATCH 03/13] libmultipath: Add path selection support
+To: Nilay Shroff <nilay@linux.ibm.com>, hch@lst.de, kbusch@kernel.org,
+        sagi@grimberg.me, axboe@fb.com, martin.petersen@oracle.com,
+        james.bottomley@hansenpartnership.com, hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-4-john.g.garry@oracle.com>
+ <93696b95-7c01-4988-8fe2-baf427469f4f@linux.ibm.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260220175024.292898-1-nilay@linux.ibm.com>
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <93696b95-7c01-4988-8fe2-baf427469f4f@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: _TaShbxNevJJR-c05l9g8iKAXjVjsX0e
-X-Authority-Analysis: v=2.4 cv=b66/I9Gx c=1 sm=1 tr=0 ts=69a842aa cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=k9BfXch_nmsN7oKeZygA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDExNCBTYWx0ZWRfX2nCP+Jpt/ZzP
- G2Qzw3p+jnLQHWmDj7s/AmKaXgGZQSQIcpHBxY0p8glVx3klwmEUDcugPjsdn3RBxeCyZvuiCuc
- 0Dkf1rzNW7CEQyp8eIVj79XIKyG7k/0lnP4pwTYeQbzm1tu4w0CZruMO8VUX5knoR+282jVkFwp
- ZovIgDPVrnN9uqUiu50r1OSpUJirtCmOps1mzjXIXMpxWyE2i/hHeH5R7oGavixYlMUh+9NaQ7o
- E4mH4WVx8znmeZCQXVsOeH9brEIfhrrrbf4S78mwiwo+fpNDKSjJSkpIVuFNhlRHJsXOBSSNFuH
- TZsGGk7DRtRCpdI8Ytq9aKYNOb4w5V0b3DLVgUYHxZ70QHWDfmKGuAzn6uCvwFLPqp/Gucbtvkg
- 9Qrhs2WSY4UILJmZKgrlOajeMIUQMB3qgtjyrVkWlaAB6AUTdy33DqGkbr295YYb3uvjydrgR11
- ex8rVeOFvjnGjxnLMrg==
-X-Proofpoint-GUID: _TaShbxNevJJR-c05l9g8iKAXjVjsX0e
+X-ClientProxiedBy: DUZPR01CA0181.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b3::22) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|IA3PR10MB8395:EE_
+X-MS-Office365-Filtering-Correlation-Id: 042bc054-32d0-472a-b00f-08de79fbc503
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: +pLAbOsioUHZ89aGeCAYCnER1GcSAgDTk36yWTG4Ry3kn8zcqrjtLPP5hPcQH+oM1ky9n+c7UJXZs9FrbJkLiN2CsvkBVzafEStXPaGogaKzcnDf9W/NAiaEgpk5Baow5mw18cbAcwZAexSVHXY9YdQlf4BIr+zJEgC9M8aLOXetZX2EBBOj/z/Z/1ieA8P/euciwOqlKT9A2/lRaliIFdN98sjmH8VRDE7BP50bXJcEw4sn1iO16+GaS5iwUlTXAXcZOse7sFC4Y7w/XTEE/PVKP9kSeTf96IWiInm3nFJTI15MfdhSNsJFBd8b2cCH6xdl8KNW9DTW4P+PRHPL3hrDXDmvzTBlu5wd9UvrC7pVbyHAoTOwTb1O/Y8PovhIDJ3sCbt00rJ1R04oRPunPZWcMBnGdzmIi6ApJ1nxjn0r9GgMbt0JHbX0ufurUMSngTP6FppvrC3Zh6sp9cw8KStxXc8/FejVV7kW8+rGscs8dhmWXywhKMCyCcRPd+BUOSs/58NzfRfMEyej0fs5uq73AwWiSVMIALOl5ZZHP1+yeq2mNfINfBBpoDKTq/oBMQ31ioDZbq34d5dgqHe894T3m6WhHPLmzpE1Xa8R8XXxWbirHPid0997CyWGP0EkwARBHnNcamBhY+fLKrvCPWSDi64p5KJWBZqyVYo/JRt+JXH+XN1GlAD0Q5h0OFLwafrQE7fUmftbWZZsvSF9HsuYaXDpDp2ZctIidzn4eSw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTdEMzF4UHFqekVQY3lPREZXajd3ZVYzY29xV0xiWGpVcDBxVnJzUXZWUnBi?=
+ =?utf-8?B?YnVxRzRBUmxQam14UWFpTmUwUzJiZ1lJUEhpd2ZVUkwydzVlbGJRR1NUNHZF?=
+ =?utf-8?B?OFdUaGhIUnU3UHgwT253OVBUd1l4YXNPbTRxcE1JR2hIYzlYNVVoN0taVnZB?=
+ =?utf-8?B?MkhTVHV2SFdaM0E3UE1Lb3FacVdHTzhvMUh2ZWpTUnNvVVNoN29sa2huS3dz?=
+ =?utf-8?B?Q281SURzMEJ5bXVwUFNCYVJWT3lMaDFNWkVZZkpJQjFFT3lTdVNjYnRFcHYr?=
+ =?utf-8?B?bjczc0E1NUdOeWhqMkVyTWd3M0MybzF3NVQzdDk0b3k4MnpXUlRTSlR2UWtn?=
+ =?utf-8?B?SnRqK09SNUpZU0l6NVF3cVljUThHb3ZQeksyTlhRQ0VXQUxkdm50WEQyVCs5?=
+ =?utf-8?B?QnNOQjh5b1ROdXFtOEVZRXQrN0xWSElBbW00NjBpbjZEenpjc05lc2Q5QUll?=
+ =?utf-8?B?N1BKbTBqdFhLZ290S1lMZUdxa2phcXM5UTc1YURXMHFKemFmd0JMZWd5RWcw?=
+ =?utf-8?B?K3hVeUFNaDNEYW9PeHJOcklROVUyNzF1S2ZHRGVIdW9ydzhzVXp2Y0VWd1RS?=
+ =?utf-8?B?eUVPMjRWMTR3ZE8zWVVqK1JXeXJqZUd2WjR0TG9qRHBkdktHT0x1d3ZmRXd0?=
+ =?utf-8?B?ZnJjbGJiUHFVMFJNNm5ObDlSUWhwWnBROWcwU2tzU05WZGlUNUlMcEVXL0dH?=
+ =?utf-8?B?OWp3S1YxalRqaWNxVThlWnp5NWN5Q3JCYVJ4VVpoQjlDSTRVZ0ltSncvUmhn?=
+ =?utf-8?B?ODVwR3RWaUdoYzZEQ21PcnNHMzJQanA1R1hkSkFUU3JrQkZiSDR0bFhJbFpn?=
+ =?utf-8?B?dVFUdTA4aGhnd1ZUUVlHZG9obWl0Mms4ZGVmLzduZEVSdS9iTEVhb3ZxcUEz?=
+ =?utf-8?B?NjFveG1PTmo0ZkZrbUJqbFUxUlZYTEdwdjJ4SnhEKzBUVWw5NTVnODVQZjZI?=
+ =?utf-8?B?aGNKSDlkSHgwWlpCd1NzY3kwT01WdlFnN3BPaWE4azBMSzBmeFgxam9UaFk5?=
+ =?utf-8?B?OHAwYjhEZXN2cmd1YXhuQWI4ZVh4YnZKYmtKbmtpKzJXUjF2K0FzSW5EakE1?=
+ =?utf-8?B?RTA3T2dxblVtbXlRN1lLZGNvWGVncFNydVFjNVRaOG1EdHZXYVNJZ254SDlu?=
+ =?utf-8?B?QmZkNjhyMkZwckw5MXljbWEwZWR3eEJnS1BWTnlISFFlUGpiSDFESWNubFJG?=
+ =?utf-8?B?N1BDM1l4dFhzZkpRS2g5cTVWWnhCUVRaczJNdmtucmszNC9oOW5JbU5jODdI?=
+ =?utf-8?B?a1lLcFpLbmNKMEpwbmc4TEY1V3NNU0dKVkVxL2JwNXBnWlFMOUIvSGZNK0Fx?=
+ =?utf-8?B?cDk4OFgweFY5L0lPNE5FYWl3SUEzSWRnWGVYNytkOUY1b3ZkMHMyK0xEQXJ0?=
+ =?utf-8?B?TURSeGo4TkxHTTRsbzhOQmhDWnloRXVBS0xCK1pYQlNGTnBsVG9uUHBMR3Vi?=
+ =?utf-8?B?Y0ZHejNMYksrTmw5Rk9XamxrMWY1cjAweE5qeGtzZlVvMEtXek5OM0hRL1lo?=
+ =?utf-8?B?UktrK3FZZ25GTnkyS0QrbDdaS3l2cnU0VzZsbnpHTzBSeko2ckE2SzBLdVVq?=
+ =?utf-8?B?a0pQckFFeURxUk1zNFQxeVRmOE1xbXNPdk9zVHdlT2VmVnBMa3ZVQll0TzlP?=
+ =?utf-8?B?cUQyVXFCNWpnUDZuZTh4akFEKzNnYW9VcHhVYmJodlI4b1pwVUZmV2pnWUJp?=
+ =?utf-8?B?V3dhYWx0WFNLLzRaV0RSR1liU1gzc3RxZEo3Z1ZCcjNnMEtZa1ZhanRsVEdt?=
+ =?utf-8?B?YnBNU0czVThDRXM0YnFwdWNSS1ZmRnk0L1B0SmpxZGZTWGZhSFlZQkN6S01o?=
+ =?utf-8?B?Y2xyRjJiZGdoNVRSamZZb212R1hvU21jMy94RjlkMzBsazhadU4wRW1jZ0hO?=
+ =?utf-8?B?MVd5WmF1QUYwMyttRm1NZ0pEeS9Yby94Q29aTVZha01kWGlpdjRaV0RUTjhW?=
+ =?utf-8?B?QUNxK0k5VnVqYmZMWDRHMzU4eUxBZ0JsYlNIaEZYOGxsZUtJN3dvbnVIeE4x?=
+ =?utf-8?B?OE1pQ3lHM0U4MDlsNFRsZHlYSERidnFhVVlpMjgvdWlGWWZuby96VFc5M2NN?=
+ =?utf-8?B?VTRtbHN6VEpxY3YwNG41ZFFQa05FdEduNGd3aGpYR1NNYWREdzRTV1drcmRz?=
+ =?utf-8?B?M3dvbU5YRzhValpwdkR0eExlaWVOZWJXVitMY21CSll1Q3k1aUFoWkowNnc4?=
+ =?utf-8?B?MzJ1V0ZrdHFRVEkydDF4K2tMSE41Q21KLzl5eENRYmQ2eG82RkZ4VDc5UEpY?=
+ =?utf-8?B?L2FSdEZZcDV1Tlc4NGJSMW14LzhHcGkvV05wQlFZNjl3aCtXTFVwSDNhOHJV?=
+ =?utf-8?B?cDFXZVFrdGJjMHU4ZVVBK1FMdWlOV3pqeGJoSHJoYTAwV0VkODlmdz09?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: raH5dpXqMuyzTVcRY3aMT69zI/7t43lSiN1k1nJpoMc404qNHcZAIsPo2Qw6R54k6bIOyn3mCsZne1moI6AHljfiKFt4goOm4cu9LQ6x5z7ChqqyYEdH3aZnYyTPBdnkVzCX+rqka1AcBtuEMt/x76h6yzAn9mVAYu8Hz4qLmN6SZZUWpAMlrOQp8FeZ33tvkdrhcZkeaXPNaIfaluQ6SE1PcXb4lCLFpZbR6LUq6TGB5slqVuOraJ1gR2vvLZosaprF1CCvvXOr6x9y3xrMp72vIkczc7OffgxOFZmH3F5Vf0VIdeH8OBsrvp42id5Jy27y+12LqVmbPHh5OCfVSV1FfNrB7kZXpZU0PMJnHOdfoQEljeKmeV9yf2ojmQ3zUVCiUhU7KdMp8TJQMNzcHKYnOdgR1KTPEm8ccm7ZjJrBBrF9d6rTlqG+2YFuMX+LwQf5o14e84vJqRfi0EXgFU8QYckk37xFYuWWGcujfkgVudDAILVBacHjc5l6BBqPukAakUorhjzHh/cdI5cDB5fzETVXdHQFPOlz4H33e5M88R+8t8j1VAfLddQFITRF7v/2+Gn/lRo5Pvo3FYt711JZFV/yJRdSmbI0qg+u8E4=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 042bc054-32d0-472a-b00f-08de79fbc503
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 14:38:58.5383
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tvsJCA8sUlQZq7HTkmpu6VL5bMqN833qsZ2laIiiZBwlVXhOQ8W1AxPnnVFYNRQxnv8vqF3Zib/K2uOikPmy7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8395
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-04_06,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040114
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 mlxscore=0 adultscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2602130000 definitions=main-2603040118
+X-Authority-Analysis: v=2.4 cv=fvTRpV4f c=1 sm=1 tr=0 ts=69a84406 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=LlNk8V2oR7MhWMaCBtMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: OmdWbXVxPfsGaTOy-BfR0gYCKgUifGyu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDExOCBTYWx0ZWRfXwyvKGakn9+g8
+ tAGhqFIOKMMN09kh72JcHowC9EOorPOTu+TbUZHObdGfD/0SeqywvNNIVUNZkVm2M8c60AMq4ju
+ gQREdSbZVLl4uWXxmE/VkxfZIHpCSH1kG7AlfAUc13zmG8j0ZjzcReuvCZ8rUPZFL38wRi4Moa7
+ xOSkflvp2r5ftN/qWJaZjPixhxEXDaxoMwjWsW0vM47EIB8OqCCl82UcNNiAMI1JBX9UO0l6viD
+ S/UsJVYRdypHUQtcqf1GaOG1xpvYEaeR9fq311fbmBIYmBS/CRCmkkCnQ8rzttWnNBZDC+Vz9ML
+ v1SNQAuXVIAp5UMAynPq+dj2NzA2DzeTurnSnySv+yLxp8w13Oi2v/jmonrs32LAlje0kxSfp1i
+ VM2MS5jzvrWVKc3kPvXEoryANjJ1otHUqv1YWSDVkJr54bSPX1SL0U2W0SB3B7vKgH3L50ZU84B
+ B+vxZxcp3CV2iRPUQDg==
+X-Proofpoint-ORIG-GUID: OmdWbXVxPfsGaTOy-BfR0gYCKgUifGyu
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_063321_245465_DD760CA9 
-X-CRM114-Status: GOOD (  23.79  )
+X-CRM114-CacheID: sfid-20260304_063917_947560_878AF494 
+X-CRM114-Status: GOOD (  13.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,88 +201,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Keith,
+On 04/03/2026 13:10, Nilay Shroff wrote:
+> On 2/25/26 9:02 PM, John Garry wrote:
+>> +static struct mpath_device *__mpath_find_path(struct mpath_head 
+>> *mpath_head,
+>> +            enum mpath_iopolicy_e iopolicy, int node)
+>> +{
+>> +    int found_distance = INT_MAX, fallback_distance = INT_MAX, distance;
+>> +    struct mpath_device *mpath_dev_found, *mpath_dev_fallback,
+>> +            *mpath_device;
+>> +
+> 
+> I think we should initialize mpath_dev_found and mpath_dev_fallback to
+> NULL. Otherwise this may lead upto adding a junk mpath_device pointer
+> in ->current_path[node] when mpath_head->dev_list is empty. This may
+> particularly manifests when a controller is being shutdown and
+> concurrently I/O is forwarded to the same controller.
 
-A gentle ping on this. I’ve incorporated the review comments,
-and the series has already received Reviewed-by and Tested-by tags.
+Right, I see that we were doing the equivalent in __nvme_find_path(). 
+Will fix.
 
-Could you please consider pulling it? Also, please let me know if
-you have any further comments or if additional changes are needed.
-
-Thanks,
---Nilay
-
-On 2/20/26 11:18 PM, Nilay Shroff wrote:
-> Hi,
-> 
-> The NVMe driver encounters various events and conditions during normal
-> operation that are either not tracked today or not exposed to userspace
-> via sysfs. Lack of visibility into these events can make it difficult to
-> diagnose subtle issues related to controller behavior, multipath
-> stability, and I/O reliability.
-> 
-> This patchset adds several diagnostic counters that provide improved
-> observability into NVMe behavior. These counters are intended to help
-> users understand events such as transient path unavailability,
-> controller retries/reconnect/reset, failovers, and I/O failures. They
-> can also be consumed by monitoring tools such as nvme-top.
-> 
-> Specifically, this series proposes to export the following counters via
-> sysfs:
->    - Command retry count
->    - Multipath failover count
->    - Command error count
->    - I/O requeue count
->    - I/O failure count
->    - Controller reset event counts
->    - Controller reconnect counts
-> 
-> The patchset consists of seven patches:
->    Patch 1: Export command retry count
->    Patch 2: Export multipath failover count
->    Patch 3: Export command error count
->    Patch 4: Export I/O requeue count
->    Patch 5: Export I/O failure count
->    Patch 6: Export controller reset event counts
->    Patch 7: Export controller reconnect event count
-> 
-> Please note that this patchset doesn't make any functional change but
-> rather export relevant counters to user space via sysfs.
-> 
-> As usual, feedback/comments/suggestions are welcome!
-> 
-> Changes from v2:
->    - Allow user to write to sysfs attributes so that user could
->      reset stat counters, if needed (Sagi)
->    - The controller reconnect counter nr_reconnects could reset
->      to zero once connection is re-established, so instead of
->      exposing nr_reconnects counter via sysfs introduce a new
->      counter which accumulates the reconnect attempts and export
->      this accumulated counter via sysfs (Sagi)
-> Link to v2: https://lore.kernel.org/all/20260205124810.682559-1-nilay@linux.ibm.com/
-> 
-> Changes from v1:
->    - Remove export of stats for admin command rerty count (Keith)
->    - Use size_add() to ensure stat counters don't overflow (Keith)
-> Link to v1: https://lore.kernel.org/all/20260130182028.885089-1-nilay@linux.ibm.com/
-> 
-> Nilay Shroff (7):
->    nvme: export command retry count via sysfs
->    nvme: export multipath failover count via sysfs
->    nvme: export command error counters via sysfs
->    nvme: export I/O requeue count when no path is available via sysfs
->    nvme: export I/O failure count when no path is available via sysfs
->    nvme: export controller reset event count via sysfs
->    nvme: export controller reconnect event count via sysfs
-> 
->   drivers/nvme/host/core.c      |  18 +++-
->   drivers/nvme/host/fc.c        |   5 +
->   drivers/nvme/host/multipath.c |  89 ++++++++++++++++++
->   drivers/nvme/host/nvme.h      |  13 ++-
->   drivers/nvme/host/rdma.c      |   4 +
->   drivers/nvme/host/sysfs.c     | 167 ++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/tcp.c       |   3 +
->   7 files changed, 297 insertions(+), 2 deletions(-)
-> 
+Thanks for the notice.
 
 
