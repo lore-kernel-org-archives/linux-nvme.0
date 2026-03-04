@@ -4,112 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CDC0EF8FE1
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 13:11:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3576EF8FE1
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 13:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uqJLKJwpEhz8qK4MbW7QESrzLNSyj+3jTip8w/7IyDQ=; b=fyjeSXOXEnciz8vsIgSQZ2gUIe
-	2//5Bd4OQefnYc3fTltD5pGirY0kMgxstFJXUflRAyW6hX1kC2DvmV1SAjA5tbSeVLPLXPxRoNqGj
-	2Calc+bUBFYBVRNYrJaVr04CkC2url0orqTcTwpjb81QjmaU3iaULNJx3TGXWUCvBVYf4DooVD2yf
-	t5M3X95o/By9s4o26jHChHgPPNnKIY5x2SNPMu6WhsiB891MwaeAgmpTi2Ap6FB3+QNeE0FXdngYJ
-	XeoOlRMbDBa+p8nWkQ2op4NPg7FvlhdhjDICDUjDfXbBcS5dUzFbit4B7BGKfI0XUirSoAS5aY8IW
-	IchhQdkQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=pEqqklHexgITSbG0g3d7xNwIzPqfawaNzgS/0G1kBJ4=; b=Z/2sdDTyg49CvNRV40QlefTuyj
+	URuODc2CH+4h/RULg1/vsy7CPt56E6UXvDhC1g0+C2S2320saAQVLfIr9BCEb5k5qjwH/SINuASsG
+	GZQVAs5KsBUIkBoHjQLrlyP7LYHE5ylLupPdqQ7m8NgbK/vTks4353mJxC9XCliLe4qle51SBkwcI
+	XEz77YaZWZARkZDxKGgQTMxLG+VHkyfGFC4o4yDttQvZ/zgf2nivjiiV87GL3d4j21sPAbjO9CATN
+	XGxIkEUP02fORutqHFEsdPgBF971PWdgpe+HDLC7bA6tJBzg99avCHSelf+qvZPEDBJ6hYjI6Vo1j
+	+6/Mh35A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxm0V-0000000HEE1-48XR;
-	Wed, 04 Mar 2026 13:11:19 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vxmCQ-0000000HF30-0Kh9;
+	Wed, 04 Mar 2026 13:23:38 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxm0T-0000000HEDX-21Cg
+	id 1vxmCN-0000000HF2c-2eBM
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 13:11:18 +0000
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 624CSMtH2021490;
-	Wed, 4 Mar 2026 13:11:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=uqJLKJ
-	wpEhz8qK4MbW7QESrzLNSyj+3jTip8w/7IyDQ=; b=h3r7OaJO1ts3VC2QEvUPzF
-	gnucWd10yDnTJFzeBhfJ9fwKHu6k0UaARXrzb9ALUHzQIubHX7ymytRxSrs3+0Nw
-	CqhHOUkSDjDp8MDdvneAYUoUMjuquUILelu1XFp5VHPEWPdqz1VjjjEtB+t2DD3d
-	/MQ7unT8+zQXHq4FUfJmeOdpHY+hAXGj6YjPtQUJDAueVLRIdtwO+F9E30BleOtU
-	GThXLlY9NuNC5OulxoIHfrF27aYTPyrzuDSCMD+Os4o9kAoocyk+K6ZzrgopIVa1
-	eBcBgvxJUpXdQZxW3/CEybCpjw9LFbQbgE+0mYfOAANZDOnJGihyveeK373KqloQ
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cksk3y19e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Mar 2026 13:11:06 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 624BdcjQ027692;
-	Wed, 4 Mar 2026 13:11:05 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cmcwjefeg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Mar 2026 13:11:05 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 624DB5IR18416304
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 4 Mar 2026 13:11:05 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 272665805A;
-	Wed,  4 Mar 2026 13:11:05 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 74ED55805E;
-	Wed,  4 Mar 2026 13:10:59 +0000 (GMT)
-Received: from [9.124.211.174] (unknown [9.124.211.174])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  4 Mar 2026 13:10:59 +0000 (GMT)
-Message-ID: <93696b95-7c01-4988-8fe2-baf427469f4f@linux.ibm.com>
-Date: Wed, 4 Mar 2026 18:40:57 +0530
+	Wed, 04 Mar 2026 13:23:37 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 0227A68D0D; Wed,  4 Mar 2026 14:23:28 +0100 (CET)
+Date: Wed, 4 Mar 2026 14:23:27 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-nvme@lists.infradead.org, Chaitanya Kulkarni <kch@nvidia.com>,
+	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: Re: [PATCH 00/21] nvme-auth: use crypto library for HMAC and
+ hashing
+Message-ID: <20260304132327.GA15515@lst.de>
+References: <20260302075959.338638-1-ebiggers@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/13] libmultipath: Add path selection support
-To: John Garry <john.g.garry@oracle.com>, hch@lst.de, kbusch@kernel.org,
-        sagi@grimberg.me, axboe@fb.com, martin.petersen@oracle.com,
-        james.bottomley@hansenpartnership.com, hare@suse.com
-Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260225153225.1031169-1-john.g.garry@oracle.com>
- <20260225153225.1031169-4-john.g.garry@oracle.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260225153225.1031169-4-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Aaom7RQJ9fQrig_94ibNusALFS6MxUTI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDEwNSBTYWx0ZWRfX5GdPTBXG37lh
- obKehUKoCQlVUGZyUcfC/SdqLQB+cSi+1P1ob56lr79kjlAiXD4OcWk1CMWTcW9NQp9Yh9QdDEb
- PGKfWiZYziTXUe1PNoIe1ilM2tIOjHuEgUqzwr8EXwp5dn/mdhuUEC1c6idtJwp0TQ+P4m6sIDz
- 18dFdPjt+ipaG+nuf3YjwDvUfB9TjU1IWuXWrs6sVG516JhlWsPZFKZsKQejWM0pzgir2+mj8FN
- alHrf/+iTfpQIMBTzmjJUXhRnd4VHyi+QhhWIwn/xwHYMVclX06Yjf9zqVozLCQZP2Bw9gRl7Es
- G2B0Bv2UCja8vqveqkhfkZKlyXSKcWJwesIT80xzZvRqOqcxfzcthHRZeJEDw4eJJ6EdZmG6cqO
- gsuaoofWMQ185sG5VqST6cBcCywBEn/+OOvO3S+OTojNVzi1VC8Q9ePihcQ8LMQuVcH9CoLg9r/
- E+C31FDrk4tl1+qhvZw==
-X-Authority-Analysis: v=2.4 cv=csCWUl4i c=1 sm=1 tr=0 ts=69a82f6a cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=DxhCtTx9tnWbhxYo0-8A:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: Aaom7RQJ9fQrig_94ibNusALFS6MxUTI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-04_06,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 adultscore=0
- clxscore=1015 bulkscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040105
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260302075959.338638-1-ebiggers@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_051117_980938_E5BE695A 
-X-CRM114-Status: GOOD (  11.79  )
+X-CRM114-CacheID: sfid-20260304_052335_839874_F4D26A90 
+X-CRM114-Status: UNSURE (   8.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,23 +65,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi John,
+Thanks, this looks really great:
 
-On 2/25/26 9:02 PM, John Garry wrote:
-> +static struct mpath_device *__mpath_find_path(struct mpath_head *mpath_head,
-> +			enum mpath_iopolicy_e iopolicy, int node)
-> +{
-> +	int found_distance = INT_MAX, fallback_distance = INT_MAX, distance;
-> +	struct mpath_device *mpath_dev_found, *mpath_dev_fallback,
-> +			*mpath_device;
-> +
+Acked-by: Christoph Hellwig <hch@lst.de>
 
-I think we should initialize mpath_dev_found and mpath_dev_fallback to
-NULL. Otherwise this may lead upto adding a junk mpath_device pointer
-in ->current_path[node] when mpath_head->dev_list is empty. This may
-particularly manifests when a controller is being shutdown and
-concurrently I/O is forwarded to the same controller.
-
-Thanks,
---Nilay
 
