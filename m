@@ -4,109 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8B7B5EB7ED4
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 11:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 131AFEB7ED8
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 11:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=; b=ryhArZ/slmrEIpTzoTXfwDy22f
-	rprUt5xTftJRilueGpWUBNiNe5BrTYWtiKgaozG59e+7rhCjPh1b/IHK6w8Bru12D4U5L0Ipk9Hc4
-	oS3CHKUJemjz+9IXBUuU0D1qZMG5EF6Ee0xWTmZk+1t2DbUYxbGKyLF4gORlD5eyO9gd0LqjfWDwO
-	8bOJD8njNztbfp/soWr4pYkTV4ES2P/5x/0D+94eMq2vdNS+f/tZkXfY2qMOrL3YXSWy2UfBK/Ae4
-	txEzGQUU+3yDev/vdrwxCxS3yIMDHLX2fFAKbY0CV/FiLtnxUnbd1PzCdO/w6hjSckP0c9sCj6TsS
-	Suidz5ag==;
+	bh=nuJ+692/j0PYcLR+a9CQWeVOWS8W7ys8LvstW504ltY=; b=A79bVIwTQER0vQFRwa5wPYVTBn
+	9wh1sohk2KDyuJ1eOQeyliTKAMesfrF6qGfPHsT9T90HtVlgDHbAsx9briilqhpxT4OAPeRaNz4Ha
+	Now8i95awdi996AQsgC++TwAYafCE5VxdDpvYHrBKGUJDU3fANePVA6EUKMrBPNj0q8pOM54Fi1Vy
+	RY74niVZhWMO5+2+ZzjeQ4LAM/9GNP6jKce1pvmS4f+nFmnoBMTAssXCEvD5zi0od+RWNS3xOt/5m
+	9fcZigwoccNRMolMxx7piyZJKnJY3R3/En+ccZOGc/iVAQTFaBXopmp7cV08jFrP2kPvxAe+9upd7
+	lQ0GigBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxkY6-0000000H75O-0d71;
-	Wed, 04 Mar 2026 11:37:54 +0000
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+	id 1vxkpN-0000000H8uK-1yFJ;
+	Wed, 04 Mar 2026 11:55:45 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxkY3-0000000H752-16WF
+	id 1vxkpK-0000000H8tw-3NLi
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 11:37:52 +0000
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-65f812e0c83so12668649a12.2
-        for <linux-nvme@lists.infradead.org>; Wed, 04 Mar 2026 03:37:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772624269; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DjUF2myJaGOaMKN8INR29hP9Z+zt5PpJSMs6CEN94HxJs8+PbWYck2xNtDxKlAq5bc
-         83YzfUcyZ2a6aeCeQsczMsfXYiSlnvye8G+h3NQnAxzVKHVUhiv1KKiT25yu/M/IC/ls
-         3T0T4RN5elbDqJ6mb5Cu0eCiyRvSs9xg5b5o+SEWDZBoJQT+XTTCZyyuJD4t5VuwIzIj
-         C3vwiDsW8UurHOGlGYZfgaTYAdeIryMv5CBsfyOXuM48g1VoiQUyaj5NzkMC7Rdj7yQ3
-         hJovyAEV8EmwVe/AJYBvp4+e7V2hTs1MMjz4TUhTRIJ9XsHwQ+myayjHoijJdGptt9QR
-         oQ/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        fh=Di/VeHmtv1EDrCZ4zoxf6thPHB3ZtAESAQbMNNVhgPY=;
-        b=AqVC5OLboD6r1U9oRnfg0LfQrKkkZI9R1iiLhUdsaS/iUJWhbMYD6nETMY1i7ev+SG
-         mvnkt3isWvBBqKdM2g7+0asU5O2rScG8qJnFvqOcwWW/+Nut6dj5aoiiMvIeskjauqRs
-         U/2QgCTwlKYGOKQADnPqwHrc7QKjpMSLHwE+I/ZiBzERGP40aQ3HBd4uzuujj6/58fqP
-         Kn77iAtGZ5w6A7CFGygkJeEJzl3Glh+UmFSiX0as9dW4nw4sHWFnYDa0rV7gOtSdR5cJ
-         GgjwvyFk9QQ5zbhogD1AyBHnnsTfspUX+zHy/ntVege/C2SZAZp2eD/65Wvm4rChQhl2
-         0gDg==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772624269; x=1773229069; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        b=UvMRvkc0UJNWvrPx0wQ5eXNHIJphELIJocSNbs1AF+c7pkdg6SySYdCG+fRVZxQF2P
-         9MQW8fY6arIZfSifu+EmvhbEMImIiMkn8tmUrkgVAQQLSvECLIXGVeETzcOJE6kr5Wxt
-         m0NxFXSI+sjkFSp+TXUkBJAiQEzhu/XO7OY8taNhbUxShgLhNYzqKX4S84hOrCNf4XiA
-         RMOYVkXl3Xi86m4ujamQlqeqay21h2ekATQsovqs9yCF+YucI9XhI+tNFSA/fh7dFoRM
-         dcpttsHLFaBUyiKcO89HQzBUYKLvL8CNWDzrS3mao9tjKaUtfzNJqtUJeF6OPLDl6d7T
-         2amw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772624269; x=1773229069;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        b=wg3YxETfc9fIpKKB9zs2ag1YVkRORr1dn5reE2x3CIFeWrwgw3ugrF3YzGuKS11E1Y
-         0K/VYSTWgE2C/gTkf2AS/AxXgq8gUjorney9myTzMb/56/Wank2dMmueM+5vS5vl3jLJ
-         OawfHisLMYPiypPlBF2imOn/3eJeBV0nBT+b6ZT8qPKV4otmYhADmtfDOEHIyy4LgIi5
-         39VaHmRNHPXJGGa6fmEKVb9zAz65nlTQ0YROrRXpafCfppRa+W7BzIj8sq7WzmJ7azs9
-         4A6I5Td9QM2zkyXebCbqx7aTAISFJYBwwtnHlXRJcRf2OaPVn6dnqfziDghkfgQxQBSd
-         saQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVivoPgOQ2jC/Zz5hxi9D6kyckLJpyaKCWNSImfapnCN9zy+X53kLbf2+sTHT0TUiWxdnJtO/h/+B55@lists.infradead.org
-X-Gm-Message-State: AOJu0YwkXdnajOWnFfBZFnw+c+2LtXZ4Tej2DE2EuU08uStSAfl0U7Xk
-	SF5l+BhYmj/uBFBFT2yJRBpgSVW71HLT5pGrSwmikkM9MDtkDEB7uU9fwJv3hfH7VaDFcqhVU9H
-	Ldh9Z8zcsX9OiktGcE7KjSJwM4Y3rEos=
-X-Gm-Gg: ATEYQzzN+s1FP/uXdJPIw8IJoG+kpnq6UqoXFLlYMfe9h+sJSTtKWJmlW2zIvi2oySv
-	Eicd8qddbmF7cjWlpIkJstCKXGJ8Ph8lL2A3reZ9loKGYXNWlpixk0W5TCN/bCGUfhEWHMWZKVs
-	Dzi/81e1/EKHUxWzglV9A3qsUUDMWiWLbjyDrEXOeNp3zgK/J1bPntB8k9yoZFACa/uJQqpNFTD
-	Yh7iYZwABavPHjS/6bXtqPVsK8DKl9A6ZvJR9D22x/jL6pdxI1pGktFZZN0qZMQMiJVbWt0FkVx
-	ZySlbipjMTbMzkHwXbYbOtXIS2kNZYJv44nmaw==
-X-Received: by 2002:a05:6402:34c9:b0:65f:80cc:a47a with SMTP id
- 4fb4d7f45d1cf-660ef7797f6mr858539a12.1.1772624269071; Wed, 04 Mar 2026
- 03:37:49 -0800 (PST)
+	Wed, 04 Mar 2026 11:55:44 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 623J7Nop2198741;
+	Wed, 4 Mar 2026 11:55:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=nuJ+69
+	2/j0PYcLR+a9CQWeVOWS8W7ys8LvstW504ltY=; b=AJyjpOuqx6pL6yQNqzNuF3
+	TY9GeffpZFCMgMBRwAqFpRmYd4JcDgS5RijNgJwX4vYVuBjn/wrRKR9kxyl1/aZ0
+	NdbiLCPraXPYx2gRwvSsN0pQ1xCGDX6yKABQH3CaSuJNCBprrgca4cW1CkmojJJX
+	U8jHNsxG/1PJzr8PENDEeJR+LmvsHofbF1YxnJzMAOQuG4k7UbmPPCzqshwOJP5A
+	y+rch0Td4zXTL8CztXJ0fza4YNsGe0cDUI/lskEcsZjYz1jt5uPmeZ1WKgRbwqL5
+	Q2M6O04HDUlSeGmUYhlEXCE8/tKevAlbMep3EJ55Ja96GzdK2OXCYUX+2I4602YA
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cksjdf5jm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Mar 2026 11:55:34 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62472KF5008779;
+	Wed, 4 Mar 2026 11:55:33 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cmdd1e6gt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Mar 2026 11:55:33 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 624BtXrr31458034
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 4 Mar 2026 11:55:33 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3A86C58052;
+	Wed,  4 Mar 2026 11:55:33 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8B9825805E;
+	Wed,  4 Mar 2026 11:55:30 +0000 (GMT)
+Received: from [9.124.211.174] (unknown [9.124.211.174])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  4 Mar 2026 11:55:30 +0000 (GMT)
+Message-ID: <d2bc9d0e-dc9b-4c98-b07d-8c8f667b7c0e@linux.ibm.com>
+Date: Wed, 4 Mar 2026 17:25:28 +0530
 MIME-Version: 1.0
-References: <20260304053500.590630-1-alistair.francis@wdc.com>
- <20260304053500.590630-5-alistair.francis@wdc.com> <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
-In-Reply-To: <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 4 Mar 2026 21:37:22 +1000
-X-Gm-Features: AaiRm53Rc8hKqaLsyJSSxrm4evktnm3D1AOZXCuqV_7q51qatQHTgMljJH9bALQ
-Message-ID: <CAKmqyKPdJ2bgT2JaXi_38obyFTjRQ_rR5EdGmP81so8MEJNRVw@mail.gmail.com>
-Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC-PATCH 2/2] nvme: use the namespace id for block device names
+To: Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org, hch@lst.de,
+        mlombard@redhat.com, jmeneghi@redhat.com
+References: <20260302222532.3400786-1-kbusch@meta.com>
+ <20260302222532.3400786-2-kbusch@meta.com>
+ <c2ef8067-a5c9-4be7-8e2a-9d74610d446f@suse.de> <aacAzGpNJ2RXedvG@kbusch-mbp>
+ <aacSCnD-ag9-Llfg@kbusch-mbp>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <aacSCnD-ag9-Llfg@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=M9BA6iws c=1 sm=1 tr=0 ts=69a81db6 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=YW141hWbKyY8GUwSU9wA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: hMMVtL_tzRipgqzLtClE2WoM4at8KG3M
+X-Proofpoint-GUID: hMMVtL_tzRipgqzLtClE2WoM4at8KG3M
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA5MSBTYWx0ZWRfX2fUGpz8XFDLK
+ dc2xawqqXgK48K+5Hw/KuRdHCqiY1gefPIGA6mRaWwu12hXzwcxxMgQiNbgBbHlS00tyuZscILX
+ xRgfecme9/UTDrrd00ix8qh+trJQ4+KaCKyJoct3VyWSwqfNPgTuZaFmr4qHPaDKy51BBqJRdtj
+ a4E43e8KBgvuGSta7MOB7G5X2Wc+oOcpfeu1pYIr3z81Q8fpr08yAbKUPKtVmQ1CvApkhUl0a6A
+ tuEziyndDiA/JW4cH3iFZu9U1XLFIm6B/+mU8DDwgPVP3j4DKh8iLqgbljjrPRnnin+MLY1c0kE
+ RwEIVnlfR18oIP273djl+yDWMJhEFJqapi/TSm4fJ4+/fH2mYPYyoZIiIJ7F0r/zI5hfaqy6mp4
+ 9XvsRwosFPEkYzi72Ew9rmSSZYR1kZ07JdqjksZv8Mv2Xn3wIlOb428EmKEic1QK1S06eDCmjAa
+ gVTcC6diXthKOq5yN1g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-04_05,2026-03-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040091
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_033751_363856_2452AC4D 
-X-CRM114-Status: GOOD (  38.06  )
+X-CRM114-CacheID: sfid-20260304_035543_217244_E78BBC98 
+X-CRM114-Status: GOOD (  32.69  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,184 +122,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 4, 2026 at 5:40=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
-:
->
-> On 3/4/26 06:34, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
-s
-> > on an KeyUpdate event as described in RFC8446
-> > https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
-> >
-> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> > allow the NVMe layer to process the KeyUpdate request and forward the
-> > request to userspace. Userspace must then update the key to keep the
-> > connection alive.
-> >
-> > This patch allows us to handle the NVMe target sending a KeyUpdate
-> > request without aborting the connection. At this time we don't support
-> > initiating a KeyUpdate.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> > v7:
-> >   - Use read_sock_cmsg instead of recvmsg() to handle KeyUpdate
-> > v6:
-> >   - Don't use `struct nvme_tcp_hdr` to determine TLS_HANDSHAKE_KEYUPDAT=
-E,
-> >     instead look at the cmsg fields.
-> >   - Don't flush async_event_work
-> > v5:
-> >   - Cleanup code flow
-> >   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
-> >     and use that to determine if it's a control message
-> > v4:
-> >   - Remove all support for initiating KeyUpdate
-> >   - Don't call cancel_work() when updating keys
-> > v3:
-> >   - Don't cancel existing handshake requests
-> > v2:
-> >   - Don't change the state
-> >   - Use a helper function for KeyUpdates
-> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
-> >   - Remove command message using recvmsg
-> >
-> >   drivers/nvme/host/tcp.c | 59 ++++++++++++++++++++++++++++++++++++++++=
--
-> >   1 file changed, 58 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 8b6172dd1c0f..ade11d2ac9ef 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
-> >       bool                    tls_enabled;
-> >       u32                     rcv_crc;
-> >       u32                     snd_crc;
-> > +     key_serial_t            handshake_session_id;
-> >       __le32                  exp_ddgst;
-> >       __le32                  recv_ddgst;
-> >       struct completion       tls_complete;
-> > @@ -1361,6 +1362,59 @@ static int nvme_tcp_try_send(struct nvme_tcp_que=
-ue *queue)
-> >       return ret;
-> >   }
-> >
-> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> > +{
-> > +     int qid =3D nvme_tcp_queue_id(queue);
-> > +     int ret;
-> > +
-> > +     dev_dbg(queue->ctrl->ctrl.device,
-> > +             "updating key for queue %d\n", qid);
-> > +
-> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> > +                              queue, queue->ctrl->ctrl.tls_pskid,
-> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> > +
-> > +     if (ret < 0) {
-> > +             dev_err(queue->ctrl->ctrl.device,
-> > +                     "failed to update the keys %d\n", ret);
-> > +             nvme_tcp_fail_request(queue->request);
-> > +     }
-> > +}
-> > +
-> > +static int nvme_tcp_recv_cmsg(read_descriptor_t *desc,
-> > +                           struct sk_buff *skb,
-> > +                           unsigned int offset, size_t len,
-> > +                           u8 content_type)
-> > +{
-> > +     struct nvme_tcp_queue *queue =3D desc->arg.data;
-> > +     struct socket *sock =3D queue->sock;
-> > +     struct sock *sk =3D sock->sk;
-> > +
-> > +     switch (content_type) {
-> > +     case TLS_RECORD_TYPE_HANDSHAKE:
-> > +             if (len =3D=3D 5) {
-> > +                     u8 header[5];
-> > +
-> > +                     if (!skb_copy_bits(skb, offset, header,
-> > +                                        sizeof(header))) {
-> > +                             if (header[0] =3D=3D TLS_HANDSHAKE_KEYUPD=
-ATE) {
-> > +                                     dev_err(queue->ctrl->ctrl.device,=
- "KeyUpdate message\n");
-> > +                                     release_sock(sk);
-> > +                                     update_tls_keys(queue);
-> > +                                     lock_sock(sk);
-> > +                                     return 0;
-> > +                             }
-> > +                     }
-> > +             }
-> > +
-> > +             break;
-> > +     default:
-> > +             break;
-> > +     }
->
-> I think a simple 'if' condition would be sufficient here, or do you have
-> handling of other TLS record types queued somewhere?
-> And we should log unhandled TLS records.
-
-I like this approach as it makes it really easy to handle more types
-in the future. I don't have any more record types queued anywhere so I
-can change it to an if statement.
-
-Good point about logging unhandled records
-
-Alistair
-
->
-> > +
-> > +     return -EAGAIN;
-> > +}
-> > +
-> >   static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-> >   {
-> >       struct socket *sock =3D queue->sock;
-> > @@ -1372,7 +1426,8 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queu=
-e *queue)
-> >       rd_desc.count =3D 1;
-> >       lock_sock(sk);
-> >       queue->nr_cqe =3D 0;
-> > -     consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb=
-);
-> > +     consumed =3D sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_rec=
-v_skb,
-> > +                                          nvme_tcp_recv_cmsg);
-> >       release_sock(sk);
-> >       return consumed =3D=3D -EAGAIN ? 0 : consumed;
-> >   }
-> > @@ -1708,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int sta=
-tus, key_serial_t pskid,
-> >                       ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
-> >               key_put(tls_key);
-> >               queue->tls_err =3D 0;
-> > +             queue->handshake_session_id =3D handshake_session_id;
-> >       }
-> >
-> >   out_complete:
-> > @@ -1737,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *n=
-ctrl,
-> >               keyring =3D key_serial(nctrl->opts->keyring);
-> >       args.ta_keyring =3D keyring;
-> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
-> > +     args.ta_handshake_session_id =3D queue->handshake_session_id;
-> >       queue->tls_err =3D -EOPNOTSUPP;
-> >       init_completion(&queue->tls_complete);
-> >       if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
->
-> Otherwise looks good.
->
-> Cheers,
->
-> Hannes
+On 3/3/26 10:23 PM, Keith Busch wrote:
+> On Tue, Mar 03, 2026 at 08:39:56AM -0700, Keith Busch wrote:
+>> On Tue, Mar 03, 2026 at 08:34:38AM +0100, Hannes Reinecke wrote:
+>>> The idea is nice, and I would love to go into that
+>>> direction.
+>>> But have you checked how this holds up under
+>>> rescan/remapping (eg things like blktest/nvme/058)?
+>>> Removal of the sysfs nodes might be delayed, and we cannot
+>>> create new entries with the same name until then.
+>>> So if that is taken care of, fine, but I don't see that in
+>>> the patch ...
+>>
+>> I see. I set out to ensure everything was ordered, but apparently I've
+>> missed this case. Thanks for pointing out the test.
+> 
+> Okay, I think it's as simple as the head unlinking prior to actually
+> doing the del_gendisk creates a time when one scan work makes a new
+> namespace before the stale one is deleted in a different scan. This
+> should fix it:
+> 
+> ---
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 3f2f9b2be87c2..e8dbb6cb85694 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4246,11 +4246,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+> 
+>   	mutex_lock(&ns->ctrl->subsys->lock);
+>   	list_del_rcu(&ns->siblings);
+> -	if (list_empty(&ns->head->list)) {
+> -		if (!nvme_mpath_queue_if_no_path(ns->head))
+> -			list_del_init(&ns->head->entry);
+> +	if (list_empty(&ns->head->list))
+>   		last_path = true;
+> -	}
+>   	mutex_unlock(&ns->ctrl->subsys->lock);
+>   
+>   	/* guarantee not available in head->list */
 > --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+> 
+> This opens a different race where Controller A is deleting the last
+> path, and Controller B is bringing up a new namespace that reused the
+> NSID. An earlier patch from me should fix that by reschudeling B's
+> scan_work once A detects it removed the last path. It should work, but
+> it feels a bit off to me, so I'll think about it a little more.
+> 
+
+I think we need to ensure that the head disk is fully removed from the 
+system before a new head is created that may reuse the same NSID; 
+otherwise we may run into name collisions. Since removal of the sysfs 
+entries associated with the disk can be delayed, a namespace scan may 
+attempt to create a new head with the same name while the previous one 
+is still being torn down.
+
+To avoid this, it might be better to defer removing head->entry from the 
+subsys->nsheads list until after the head node’s gendisk has been 
+removed in nvme_remove_head().
+
+ From your first patch in this series, I see that the removal of
+head->entry from subsys->nsheads was moved to the beginning of 
+nvme_remove_head(). IMO, in addition to the change you proposed above, 
+if we also move the removal of head->entry until after del_gendisk() is 
+called, that should ensure the old disk is fully removed before a new 
+head with the same NSID can be created.
+
+Thanks,
+--Nilay
 
