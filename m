@@ -4,76 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EB07EB7EBC
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 10:33:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C994EB7EB6
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 10:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6c9L5RtHp8CSPnp5zZyBQRyYeXPW3aEtn53qvsfLHHk=; b=fVhaDZuycP2P3MbxTm6Yp5dTaI
-	aT0ZvAoXPzTqeWj7jX3whuunjvvJeSSU81KR5Hja9ARyDgkgQOs/TAljWnDFipDoIxtnJMSA7eLRB
-	RUO/7gkTo6fNxyC9eLhTYchr7Xo4r+jJ2vxcFqUJs19KiCZOWZSpnmu/sfqqNMe4QAGFehsIv6AJk
-	5/KH9rkobXEV89RotobjnweNXk3F9CVMN2SUCQuUDly4dvuP4QFgxI4AFQ3OnyEZAzzAdZok7k91/
-	zocMSGKK5fO6MDmKM1cJ/VMtt+8oitmvy+0sSjt0Ix6ke5FfmsGzzRhksm62ERmDMNUgK8XT3qWIU
-	uTq2XpMw==;
+	bh=oMlg+JMuTmffXCpSX73qKnryNZhq1TzWjo6j1vEJx3g=; b=bIteKvSQRvYdTc2EXItukqeSEV
+	YwY8pdB9NeI4cUjh1upEGEEouqPcsLtIVh9z3PLUaD3z8Jk5QZEynFaJgkKCPSH2ckvu52z+dfILf
+	9VQ/NdsGGMdtdUhzuY9Zv0Q1gZaR0uuwrz2/BYPQX+WWT565YAwSuGZavpaGOmDguH6VowG7hDdAD
+	IVNu0EjvO/q66W6K3Jo4AbSxjlJ12/jM++/xAsRdudXRzwPeA3VgUVfw7lgUYhZGRDome/ni+MY9S
+	OZYFl/nSERYgwl+KHVToZ9bT35Nq9/2OCfGoJQXJkLdqhQWpZ6TvBt4mCRB3nAU15STwhnQX0POBp
+	fFb6DEFQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxjXT-0000000Gzsy-1ZaY;
-	Wed, 04 Mar 2026 10:33:11 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vxjjX-0000000H0g4-2O7o;
+	Wed, 04 Mar 2026 10:45:39 +0000
+Received: from mgamail.intel.com ([198.175.65.14])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxjXQ-0000000Gzsd-2knb
+	id 1vxjjS-0000000H0fJ-3Mc3
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 10:33:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772620385;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6c9L5RtHp8CSPnp5zZyBQRyYeXPW3aEtn53qvsfLHHk=;
-	b=LLZGkCe91QDbe6HUNu0KnWIII5X9Qman7+/1An48LqE0mKWqZQgEbHawrJki5i8+GBWGZV
-	RegdNPOpdTdkQAx+bvIzMNCozwAQAzcrQGhXNE/q2laJRndf8gGWNrVPXTh+dK49dUKrSI
-	ZvtYFNc2UVbs1FR2GFNvnPN5Ms8f388=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-74-TfJoT7MpPLuVRyYeA_WI_Q-1; Wed,
- 04 Mar 2026 05:32:59 -0500
-X-MC-Unique: TfJoT7MpPLuVRyYeA_WI_Q-1
-X-Mimecast-MFC-AGG-ID: TfJoT7MpPLuVRyYeA_WI_Q_1772620378
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 65F251956096;
-	Wed,  4 Mar 2026 10:32:57 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.5])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D582E195608E;
-	Wed,  4 Mar 2026 10:32:50 +0000 (UTC)
-Date: Wed, 4 Mar 2026 18:32:45 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v5 3/5] io_uring: count CQEs in io_iopoll_check()
-Message-ID: <aagKTanM5Az9UDsJ@fedora>
-References: <20260302172914.2488599-1-csander@purestorage.com>
- <20260302172914.2488599-4-csander@purestorage.com>
+	Wed, 04 Mar 2026 10:45:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772621135; x=1804157135;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h7E/8o1/7HTV0SVvlIZbDHxgfXZolheekA9fIw186h4=;
+  b=YL5lmrGr49z8xdbrhftan4XzHf/av8p8GYh5YQbye9y92WwzO7SjAyM9
+   YmeVTO5wJBqbGl7/KAB7fmxpklUndxgcOpFFhyqZPec3V0OTsyfu5nGIB
+   c3q93b1wDrVXs/9nb+/wS7kWhqs3QOUeP1EToTVr4VAVNycNgOSpmnlUB
+   vLB4fka+FddDDiqX0esxzf2Waw/ab+j0K41gdtEmGdKbOy76BDt4DR+1B
+   au91H1Az9solOIcpo1lYku4GSe1cR1ztDfwbvk0IhezBfJ6uopX8lcDXR
+   nT2pPH6cd2D00ojoO7Birei4b2RhBj/DS1mvYFYPH1iakVRJw4C/CKLdg
+   A==;
+X-CSE-ConnectionGUID: cGNFVFsiTk2zqXlvR/tcdw==
+X-CSE-MsgGUID: jM7ZhDBuR2Sf4HmsBfPnsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="77522358"
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="77522358"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 02:45:32 -0800
+X-CSE-ConnectionGUID: oVDTgMTCR6Gc0LsRhX4bPw==
+X-CSE-MsgGUID: 5mOij3zGQFObPS2/aj14bA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="222799590"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 04 Mar 2026 02:45:28 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vxjjJ-000000001fd-2npX;
+	Wed, 04 Mar 2026 10:45:25 +0000
+Date: Wed, 4 Mar 2026 11:44:26 +0100
+From: kernel test robot <lkp@intel.com>
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, hare@suse.de,
+	alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+Message-ID: <202603041124.uCwVY2n8-lkp@intel.com>
+References: <20260304053500.590630-5-alistair.francis@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20260302172914.2488599-4-csander@purestorage.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: KJHQzPabf_f7ouObZ2nbGV-uU_pY3PEnUeQ-YAMkE98_1772620378
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260304053500.590630-5-alistair.francis@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_023308_786877_F20944EB 
-X-CRM114-Status: GOOD (  26.20  )
+X-CRM114-CacheID: sfid-20260304_024534_890029_4E4D4703 
+X-CRM114-Status: GOOD (  11.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,84 +91,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 02, 2026 at 10:29:12AM -0700, Caleb Sander Mateos wrote:
-> A subsequent commit will allow uring_cmds that don't use iopoll on
-> IORING_SETUP_IOPOLL io_urings. As a result, CQEs can be posted without
-> setting the iopoll_completed flag for a request in iopoll_list or going
-> through task work. For example, a UBLK_U_IO_FETCH_IO_CMDS command could
-> call io_uring_mshot_cmd_post_cqe() to directly post a CQE. The
-> io_iopoll_check() loop currently only counts completions posted in
-> io_do_iopoll() when determining whether the min_events threshold has
-> been met. It also exits early if there are any existing CQEs before
-> polling, or if any CQEs are posted while running task work. CQEs posted
-> via io_uring_mshot_cmd_post_cqe() or other mechanisms won't be counted
-> against min_events.
-> 
-> Explicitly check the available CQEs in each io_iopoll_check() loop
-> iteration to account for CQEs posted in any fashion.
-> 
-> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-> ---
->  io_uring/io_uring.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
-> 
-> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-> index 46f39831d27c..b4625695bb3a 100644
-> --- a/io_uring/io_uring.c
-> +++ b/io_uring/io_uring.c
-> @@ -1184,11 +1184,10 @@ __cold void io_iopoll_try_reap_events(struct io_ring_ctx *ctx)
->  		io_move_task_work_from_local(ctx);
->  }
->  
->  static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
->  {
-> -	unsigned int nr_events = 0;
->  	unsigned long check_cq;
->  
->  	min_events = min(min_events, ctx->cq_entries);
->  
->  	lockdep_assert_held(&ctx->uring_lock);
-> @@ -1227,34 +1226,30 @@ static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
->  		 * the poll to the issued list. Otherwise we can spin here
->  		 * forever, while the workqueue is stuck trying to acquire the
->  		 * very same mutex.
->  		 */
->  		if (list_empty(&ctx->iopoll_list) || io_task_work_pending(ctx)) {
-> -			u32 tail = ctx->cached_cq_tail;
-> -
->  			(void) io_run_local_work_locked(ctx, min_events);
->  
->  			if (task_work_pending(current) || list_empty(&ctx->iopoll_list)) {
->  				mutex_unlock(&ctx->uring_lock);
->  				io_run_task_work();
->  				mutex_lock(&ctx->uring_lock);
->  			}
->  			/* some requests don't go through iopoll_list */
-> -			if (tail != ctx->cached_cq_tail || list_empty(&ctx->iopoll_list))
-> +			if (list_empty(&ctx->iopoll_list))
->  				break;
->  		}
->  		ret = io_do_iopoll(ctx, !min_events);
->  		if (unlikely(ret < 0))
->  			return ret;
->  
->  		if (task_sigpending(current))
->  			return -EINTR;
->  		if (need_resched())
->  			break;
-> -
-> -		nr_events += ret;
-> -	} while (nr_events < min_events);
-> +	} while (io_cqring_events(ctx) < min_events);
+Hi,
 
-Before entering the loop, if io_cqring_events() finds any queued CQE,
-io_iopoll_check() returns immediately without polling.
+kernel test robot noticed the following build errors:
 
-If the queued CQE is originated from non-iopoll uring_cmd, iopoll request
-will not be polled, may this be one issue?
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on net/main net-next/main linus/master v7.0-rc2 next-20260303]
+[cannot apply to linux-nvme/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20260304-134148
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260304053500.590630-5-alistair.francis%40wdc.com
+patch subject: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603041124.uCwVY2n8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_try_recv':
+>> drivers/nvme/host/tcp.c:1429:31: error: 'const struct proto_ops' has no member named 'read_sock_cmsg'; did you mean 'read_sock'?
+    1429 |         consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+         |                               ^~~~~~~~~~~~~~
+         |                               read_sock
 
 
-Thanks,
-Ming
+vim +1429 drivers/nvme/host/tcp.c
 
+  1417	
+  1418	static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+  1419	{
+  1420		struct socket *sock = queue->sock;
+  1421		struct sock *sk = sock->sk;
+  1422		read_descriptor_t rd_desc;
+  1423		int consumed;
+  1424	
+  1425		rd_desc.arg.data = queue;
+  1426		rd_desc.count = 1;
+  1427		lock_sock(sk);
+  1428		queue->nr_cqe = 0;
+> 1429		consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+  1430						     nvme_tcp_recv_cmsg);
+  1431		release_sock(sk);
+  1432		return consumed == -EAGAIN ? 0 : consumed;
+  1433	}
+  1434	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
