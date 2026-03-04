@@ -4,96 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C31A8EF9002
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 16:29:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 288FEEF9001
+	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 16:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=P/5lhk6C8jE/PS2fAtX4oJhx14kIa3UNBGxkwqnfz2E=; b=ZxbixHdv+e6LpYPTiUgDGM/Bas
-	6Qj3FfDlMREXj6BZFWgP2T49b3RMX6XfzxQbEv1YgDEWJVckVDRVCtcGVTmoH5nLjlVXyFNBn1Miy
-	YHERlLme/Ixq+H+37pfz5Wf2jywCi/hcMI67wLchSPnTvr9vSARJ6Dxz/z5KdRcQl9PBJMr6IIeEr
-	Pu0vypye41JkUiaA9i0Vii3Lc628ZC3vUD9wCoPRHBtCVDjqhawaFewsQTf7bctNN5yhQBYw3I/XA
-	FVBu/KwSlyRLVsmQtV40/VnMdrFjj7dS8OSrzXRrWLB/o/V2aGQMnZ43Xz25zyxqIVx5VCxcMt9aP
-	tOt8ElpQ==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=/4Y/mgugOFcKKNxSVMEr3vI+i8NKRaR2c1wrGwr3hZs=; b=Ha18CkPidmti4vO/wBpBSqq/HT
+	FxSshLYjsD8jNT44EyOGn3l+UgLPqy3R4ygPi9TAB/hPaNpuRyBlaUH/JC3P9cSi8MDwCZ5mKYPrr
+	Pvh7Wy1sFFMZEGJaBGWbL6nRCSd2vWHZ0R7Lf4z0DGpgG1wuSBKXCsnFRgnE7ra6QtFb12r/TxO/H
+	lWmWM6xahWtzjLqwgzQH7ZnldBEpf/tQspp89FXjsjnKpVrU880aCf2pU8pzLusbFV6J8qnUqFZ+r
+	p02iI8jpAlJbjmMGR+9JYuZzLmiX/jy3ULufHysfJ9To1abfEl1BHHO2SDrGgwjqA0rKDMYjNqRi7
+	jVHYtoDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxp68-000000004lv-0mO0;
-	Wed, 04 Mar 2026 16:29:20 +0000
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
+	id 1vxpHT-000000005zb-0Tb3;
+	Wed, 04 Mar 2026 16:41:03 +0000
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxp65-000000004l8-1QkY
+	id 1vxpHQ-000000005yl-0aAp
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 16:29:18 +0000
-Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-40438e0cba6so1459904fac.1
-        for <linux-nvme@lists.infradead.org>; Wed, 04 Mar 2026 08:29:17 -0800 (PST)
+	Wed, 04 Mar 2026 16:41:01 +0000
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-82742aa5a3eso3560175b3a.1
+        for <linux-nvme@lists.infradead.org>; Wed, 04 Mar 2026 08:40:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772641756; x=1773246556; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P/5lhk6C8jE/PS2fAtX4oJhx14kIa3UNBGxkwqnfz2E=;
-        b=NZ3ecvX8yHvZ3UuH8COSUvhQjZFJNhbMeEhSrxG8EOPmkHeHgYXKTLW5oa7jRQR126
-         uBWakhmsF/4U6+6lFx2PxoRjw4/Oms2WQk+n9fhmLkxB3sBkeuvBUhKyK8G8ixKCzIwq
-         944K3Wf36J0AMzQFukJV2ukwFHzACHs9R4eTP9PrkGBbcSxcD81r5aX5HCwgNYGhHEGh
-         oSiaBsNLYxFKHSyqbd33RulI8h0xgZdP9dK29BYaQRp8hAknOle8mmLhKvoC2UbKWc/Z
-         fF8zBetHQSw7Wz6U5B4024zPy6yqjajZNzm9KjSePMro992wyy4jv70LJlk9z1EvJxnI
-         7hig==
+        d=gmail.com; s=20230601; t=1772642459; x=1773247259; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/4Y/mgugOFcKKNxSVMEr3vI+i8NKRaR2c1wrGwr3hZs=;
+        b=ISX3v3RNbfjxTDEvf2+23pblTnjPb/j5d2gDLQAXnikeWUXq9wpsy8Mg0+JbFeK1pQ
+         seCtNYp8R9rcP/gwTJoWl/9/Xbvep8kzQMMOslcgiMxW1P04+86JXeUrryhRBzOjxJvd
+         gUEjeJtST/oDXg3+dUYadZStQXtoQAJu8KamTNERevlM/xRicoIAmrPZTYImQgvXCpeG
+         S7ORvN+i7q4JSO/X8UReAMQg8lYvECI6RbwLVRl1jdnyL9LJp9HlbXiSVsfxAqW+iW8/
+         9nUVHgStLn2kX/7z9sAQI5GFvFAoBqRJ0tYmgX66pPJROFOtq4aVyMal/9kp7PYIPOVq
+         9ODw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772641756; x=1773246556;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P/5lhk6C8jE/PS2fAtX4oJhx14kIa3UNBGxkwqnfz2E=;
-        b=h8sEzvBRa56vrrIEqiYZG7QF0qB0Bn7vrBMrbF4g9Fv6Cudcnju+XxxZxiaJ1t6B3z
-         aCqQXpB9w0svU0PP1wyCAXKF5jzfMbGH01vFU+TJEVJExFUgLi4nBL2Ii+LH1+ITD5wn
-         1gi38a0rCny2HXnng8FR8rVTjgUARSrZNokMvA95BjfQXc2o127JmaJLNF95TnJ+prjV
-         uXyhtkMVtaA39ky3hG9h1yT59UaE5StuakKrQvC5rNEiw2hDQKIgLe3IdD7og48aUNXz
-         ak4r50guAF4e153mNfa8dD6ydnRs+PTWiOBofKJnFdzkx4WUpkdG52ywiGocjd843IkT
-         BsRA==
-X-Forwarded-Encrypted: i=1; AJvYcCUn1uq1tyU6vdl3E10lmPYErkhYipGNScqHWOzUIAbSfg1YcxaGJrf2GcBCeQ2wzC739DaAZUMGf34S@lists.infradead.org
-X-Gm-Message-State: AOJu0YyLVgH817bl4O9xW0R6yfIPxhDiU8G23DQWlt7vImaOxT9XorsU
-	Umv4PeuNXMG70uWPp3W8YIJZ4Ab74lCt4NwuF0ZHu86COVzseCkSia/RYYirUcJ2LRwsUu6QBLW
-	hAAseBy4=
-X-Gm-Gg: ATEYQzx5vATIxcwbu9SHM8nt3oXotrCwK4HMP4HVfm/KRh6IcEvDMTTvziYwIJgiIoh
-	inY+Df4HpH1iKnI3duNvaTODolhOsPsQgC4vr4kt2Xy91/EenuWLA1RUSo+nADT9a69JXdXMyDF
-	+t0b0+KA8A3H8efQjngZ70CYcvnjQRYMCHNekj/Dt78sUZlGzM27mDV0GhvY6BzIg2uxoDbQkj7
-	J7H8hnBpgLQoXG0r5CD0eybONWJaG3TtFgBjoO9JAbnfZuIu/YMrZjduFfdTPiKlrsf20KKruvk
-	Qj5FD/LpJJ754Ir9FX2BJb735QyI1j62BiYmBgzAGNYif3x6guUCxnmuhljQKZIm9dpPM/koiez
-	9nOk7dgSsDb2Gmn6ZwDo6Ou1FXYbZA2Ua5rL3P1+vzOYRNIgEkRqHDSph6vMxUSZ2Rx59HcS55/
-	LI1+LC4XimRYZ/wzw3LjBS6UyXeqk/S7UBtqXNXm3qfgg1k9KOUfqLZ4yl/O1JBtqEUzu6KWIKL
-	XOPrhii8M8g9/atmwS+
-X-Received: by 2002:a05:6870:d68f:b0:409:5241:8abc with SMTP id 586e51a60fabf-416ab5fd865mr1373419fac.20.1772641756143;
-        Wed, 04 Mar 2026 08:29:16 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4160cf9b24dsm18350522fac.7.2026.03.04.08.29.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2026 08:29:15 -0800 (PST)
-Message-ID: <a6591d03-3707-4f1c-b1fa-49f010f98d53@kernel.dk>
-Date: Wed, 4 Mar 2026 09:29:14 -0700
+        d=1e100.net; s=20230601; t=1772642459; x=1773247259;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/4Y/mgugOFcKKNxSVMEr3vI+i8NKRaR2c1wrGwr3hZs=;
+        b=ZwIhTiMGxO1M8swVNH3n44gS5chhXQnwuB6Joys9r6uZNCQz3Hv14GCTfR38IRcQvs
+         XuX13E8BctOU5Z9y01D4x71BUSeQrM9Eymnbz3n/uJIKer/MMnOEipFhwLAJl0CfiapU
+         /0P3mGKm9g+urZmBq8vK18qqA9mf4YoM8G/nJXTL5gj7eeMZC+kYVoC5UTxXEorTuwTF
+         Rgpv0ZFJe+k6eyOs2Ou88zm0VtR0X7AU3HcOu6TWMvcCfy5OBXxjuTFpGCCctnOjE6Dx
+         ft4rmkXGWVIcxh6sPp24zQZw+iqZ2/5Z3fFuDOMhq+tee4OUAypi0NuurykjxvzxFjwP
+         gC9g==
+X-Gm-Message-State: AOJu0Yz5oqrx9b4XUCx4e5PUH67o2p6187sO7hlHXHOGbYxRQ+dPhzKp
+	KM6iIVVduRnmbU9n7iL2djxFvV4ktdno99IZofYR2JRi7TkaCM7fTcRprkgIFA==
+X-Gm-Gg: ATEYQzxS2uXVqYO9eZsLex++c+T/aacNpsWC99f8QW0KDBRcTy47RJW6BOwTI8aUaEx
+	vUpCLmtUqt3VLvRSmvljx0kVSJLvhJXrs+I+/MZ4gPlgB/KIoe57em8aEcTULYRyrZgptgyYH+Q
+	3Dc1/BUkM0yfaNs9Cqcp+8kmLXgszhMtb8n/vkA6CAbJKlte1TxvttIQqbcQTpcpb1CSjxmGyhq
+	0GZwcVrFCRgNTBp2sYU9emnvG//miAiFLij8z2Klfxi2NN/Z7O7uxIJNux3Nf1Z0j6OQc5APf7+
+	DGsQwUPIpmhW0CvWym4esF+CYxYWYWjLwt3Tb+Dr2JzI1bRVAMFig5d1FfEcKK+RPO8mAsUP5fD
+	OIJnVJoOukR/VoGmWBqKGzI/Oc5EwTn/o36MW1XaKHGrjanMyGAHs1joYBdnEx2oEGO0hDOdwQM
+	7uCPVvkPG9+Jb/VS+768V/PZb1oZaqCWa8qWKA
+X-Received: by 2002:a05:6a00:f0d:b0:7fb:f87d:a0aa with SMTP id d2e1a72fcca58-82972d6152dmr2527792b3a.52.1772642458601;
+        Wed, 04 Mar 2026 08:40:58 -0800 (PST)
+Received: from tokunori-X570-Taichi ([240b:10:2720:5500:8233:ca2e:21d7:331d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8296c9f83f3sm2397616b3a.0.2026.03.04.08.40.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 08:40:58 -0800 (PST)
+From: Tokunori Ikegami <ikegami.t@gmail.com>
+To: linux-nvme@lists.infradead.org
+Cc: Tokunori Ikegami <ikegami.t@gmail.com>
+Subject: [PATCH] nvme/ioctl: combine nvme_user_cmd and nvme_user_cmd64
+Date: Thu,  5 Mar 2026 01:40:22 +0900
+Message-ID: <20260304164053.307236-1-ikegami.t@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/5] io_uring: count CQEs in io_iopoll_check()
-To: Caleb Sander Mateos <csander@purestorage.com>,
- Ming Lei <ming.lei@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, io-uring@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- Anuj Gupta <anuj20.g@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>
-References: <20260302172914.2488599-1-csander@purestorage.com>
- <20260302172914.2488599-4-csander@purestorage.com> <aagKTanM5Az9UDsJ@fedora>
- <CADUfDZozycFBPX0kH=22Gda7njM3xVmL=Cy=zCq6cfXY8JH_dw@mail.gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <CADUfDZozycFBPX0kH=22Gda7njM3xVmL=Cy=zCq6cfXY8JH_dw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_082917_530931_BFBEE3B4 
-X-CRM114-Status: GOOD (  23.80  )
+X-CRM114-CacheID: sfid-20260304_084100_185256_2AFB06B2 
+X-CRM114-Status: GOOD (  14.79  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,95 +93,163 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/4/26 8:46 AM, Caleb Sander Mateos wrote:
-> On Wed, Mar 4, 2026 at 2:33?AM Ming Lei <ming.lei@redhat.com> wrote:
->>
->> On Mon, Mar 02, 2026 at 10:29:12AM -0700, Caleb Sander Mateos wrote:
->>> A subsequent commit will allow uring_cmds that don't use iopoll on
->>> IORING_SETUP_IOPOLL io_urings. As a result, CQEs can be posted without
->>> setting the iopoll_completed flag for a request in iopoll_list or going
->>> through task work. For example, a UBLK_U_IO_FETCH_IO_CMDS command could
->>> call io_uring_mshot_cmd_post_cqe() to directly post a CQE. The
->>> io_iopoll_check() loop currently only counts completions posted in
->>> io_do_iopoll() when determining whether the min_events threshold has
->>> been met. It also exits early if there are any existing CQEs before
->>> polling, or if any CQEs are posted while running task work. CQEs posted
->>> via io_uring_mshot_cmd_post_cqe() or other mechanisms won't be counted
->>> against min_events.
->>>
->>> Explicitly check the available CQEs in each io_iopoll_check() loop
->>> iteration to account for CQEs posted in any fashion.
->>>
->>> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
->>> ---
->>>  io_uring/io_uring.c | 9 ++-------
->>>  1 file changed, 2 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
->>> index 46f39831d27c..b4625695bb3a 100644
->>> --- a/io_uring/io_uring.c
->>> +++ b/io_uring/io_uring.c
->>> @@ -1184,11 +1184,10 @@ __cold void io_iopoll_try_reap_events(struct io_ring_ctx *ctx)
->>>               io_move_task_work_from_local(ctx);
->>>  }
->>>
->>>  static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
->>>  {
->>> -     unsigned int nr_events = 0;
->>>       unsigned long check_cq;
->>>
->>>       min_events = min(min_events, ctx->cq_entries);
->>>
->>>       lockdep_assert_held(&ctx->uring_lock);
->>> @@ -1227,34 +1226,30 @@ static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
->>>                * the poll to the issued list. Otherwise we can spin here
->>>                * forever, while the workqueue is stuck trying to acquire the
->>>                * very same mutex.
->>>                */
->>>               if (list_empty(&ctx->iopoll_list) || io_task_work_pending(ctx)) {
->>> -                     u32 tail = ctx->cached_cq_tail;
->>> -
->>>                       (void) io_run_local_work_locked(ctx, min_events);
->>>
->>>                       if (task_work_pending(current) || list_empty(&ctx->iopoll_list)) {
->>>                               mutex_unlock(&ctx->uring_lock);
->>>                               io_run_task_work();
->>>                               mutex_lock(&ctx->uring_lock);
->>>                       }
->>>                       /* some requests don't go through iopoll_list */
->>> -                     if (tail != ctx->cached_cq_tail || list_empty(&ctx->iopoll_list))
->>> +                     if (list_empty(&ctx->iopoll_list))
->>>                               break;
->>>               }
->>>               ret = io_do_iopoll(ctx, !min_events);
->>>               if (unlikely(ret < 0))
->>>                       return ret;
->>>
->>>               if (task_sigpending(current))
->>>                       return -EINTR;
->>>               if (need_resched())
->>>                       break;
->>> -
->>> -             nr_events += ret;
->>> -     } while (nr_events < min_events);
->>> +     } while (io_cqring_events(ctx) < min_events);
->>
->> Before entering the loop, if io_cqring_events() finds any queued CQE,
->> io_iopoll_check() returns immediately without polling.
->>
->> If the queued CQE is originated from non-iopoll uring_cmd, iopoll request
->> will not be polled, may this be one issue?
-> 
-> I also noticed that logic and thought it seemed odd. I would think
-> we'd always want to wait for min_events CQEs (and iopoll once even if
-> min_events is 0). Looks like Jens added the early return in commit
-> a3a0e43fd770 ("io_uring: don't enter poll loop if we have CQEs
-> pending"), perhaps he can shed some light on it?
+The functions almost duplicated but only changed result value size.
+So combine the functions by adding a "bool is64bit" parameter.
 
-I don't  recall the bug in question, it's been a while... But it always
-makes sense to return events that are ready, and skip polling. It should
-only be done if there are no ready events to reap.
+Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
+---
+ drivers/nvme/host/ioctl.c | 83 +++++++++++----------------------------
+ 1 file changed, 23 insertions(+), 60 deletions(-)
 
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 8844bbd39515..44340f5167f1 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -280,8 +280,10 @@ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
+ 
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		struct nvme_passthru_cmd __user *ucmd, unsigned int flags,
+-		bool open_for_write)
++		bool open_for_write, bool is64bit)
+ {
++	struct nvme_passthru_cmd64 __user *ucmd64 = (void __user *)ucmd;
++	unsigned int flags64 = is64bit ? flags : 0;
+ 	struct nvme_passthru_cmd cmd;
+ 	struct nvme_command c;
+ 	unsigned timeout = 0;
+@@ -308,54 +310,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
+ 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
+ 
+-	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
+-		return -EACCES;
+-
+-	if (cmd.timeout_ms)
+-		timeout = msecs_to_jiffies(cmd.timeout_ms);
+-
+-	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+-			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
+-			cmd.metadata_len, &result, timeout, 0);
+-
+-	if (status >= 0) {
+-		if (put_user(result, &ucmd->result))
+-			return -EFAULT;
+-	}
+-
+-	return status;
+-}
+-
+-static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		struct nvme_passthru_cmd64 __user *ucmd, unsigned int flags,
+-		bool open_for_write)
+-{
+-	struct nvme_passthru_cmd64 cmd;
+-	struct nvme_command c;
+-	unsigned timeout = 0;
+-	int status;
+-
+-	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+-		return -EFAULT;
+-	if (cmd.flags)
+-		return -EINVAL;
+-	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
+-		return -EINVAL;
+-
+-	memset(&c, 0, sizeof(c));
+-	c.common.opcode = cmd.opcode;
+-	c.common.flags = cmd.flags;
+-	c.common.nsid = cpu_to_le32(cmd.nsid);
+-	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
+-	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
+-	c.common.cdw10 = cpu_to_le32(cmd.cdw10);
+-	c.common.cdw11 = cpu_to_le32(cmd.cdw11);
+-	c.common.cdw12 = cpu_to_le32(cmd.cdw12);
+-	c.common.cdw13 = cpu_to_le32(cmd.cdw13);
+-	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
+-	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
+-
+-	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
++	if (!nvme_cmd_allowed(ns, &c, flags64, open_for_write))
+ 		return -EACCES;
+ 
+ 	if (cmd.timeout_ms)
+@@ -363,11 +318,16 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+ 			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
+-			cmd.metadata_len, &cmd.result, timeout, flags);
++			cmd.metadata_len, &result, timeout, flags64);
+ 
+ 	if (status >= 0) {
+-		if (put_user(cmd.result, &ucmd->result))
+-			return -EFAULT;
++		if (is64bit) {
++			if (put_user(result, &ucmd64->result))
++				return -EFAULT;
++		} else {
++			if (put_user(result, &ucmd->result))
++				return -EFAULT;
++		}
+ 	}
+ 
+ 	return status;
+@@ -552,9 +512,10 @@ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
+ {
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write,
++				     false);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write, true);
+ 	default:
+ 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
+ 	}
+@@ -586,7 +547,8 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 		force_successful_syscall_return();
+ 		return ns->head->ns_id;
+ 	case NVME_IOCTL_IO_CMD:
+-		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write);
++		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write,
++				     false);
+ 	/*
+ 	 * struct nvme_user_io can have different padding on some 32-bit ABIs.
+ 	 * Just accept the compat version as all fields that are used are the
+@@ -601,8 +563,8 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 		flags |= NVME_IOCTL_VEC;
+ 		fallthrough;
+ 	case NVME_IOCTL_IO64_CMD:
+-		return nvme_user_cmd64(ns->ctrl, ns, argp, flags,
+-				       open_for_write);
++		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write,
++				     true);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -836,7 +798,7 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
+ 	}
+ 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
+ 
+-	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write);
++	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write, false);
+ 	nvme_put_ns(ns);
+ 	return ret;
+ 
+@@ -854,9 +816,10 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write,
++				     false);
+ 	case NVME_IOCTL_ADMIN64_CMD:
+-		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
++		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write, true);
+ 	case NVME_IOCTL_IO_CMD:
+ 		return nvme_dev_user_cmd(ctrl, argp, open_for_write);
+ 	case NVME_IOCTL_RESET:
 -- 
-Jens Axboe
+2.51.0
+
 
