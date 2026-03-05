@@ -4,67 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C1E8EB7ED8
-	for <linux-nvme@archiver.kernel.org>; Thu,  5 Mar 2026 04:30:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8FD89EEF312
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Mar 2026 07:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TSWe58RMRNZqDGNlk9PvpSGKM172nKbh76SiaqJAak8=; b=3wbp0GfVurvdLB8JDb1PddE4ll
-	Pjc11GRi4aEvk41dToiKyPWqu+CRGaJK9cSm5vazBPNoBcqaTabA5o+vFmO7nuElSleWVLJjV54Tu
-	QEy3hddD148AQSMMTavGi7GpUXlUp3v2AqbNF6kyUs0R5c7bPt4vPAgkwC/A+TS9ZGyoseL4fYpOd
-	YZ/qh8huJ5tR8HaANQoyPoojnQSNYq0ktYg4Axvz2x0XBMgD0GOcl1ixdhvn/xUYd5M4TDIuxzByw
-	V9jYp/NaR9rBqxxBp9W/Kg+WSmLICvX0kZdmFsxKh+8GDs0P6VYZNb1XX+Z7o5jceaBcE/Id3T/Bf
-	o9G6jwrQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=QMTJ1PozO2AoZ88j3KDpW5zK0e/FOV/W6F1EMmR8npY=; b=2ZQJwLOSzcow25Y0M0yzPRdAbE
+	b44nQjriMGSdDbMeF4DdDyO5zLbDry2ZNYAZFfwLs5wGSuoDf3V3KsjX/TOsWKspvGKV0SWWxVlbX
+	hwr4IQUKo1q8BelSxlZoaTaMBC0LJZqUzgcWc0btLmkpOV3nioEtRymsz53eHARLtX7wJ1DI8obR2
+	03iRWVboW29Mg36F6pR/nRX7IRWS0b5hrk7HG9h+AOhm5Ys0G8GepaotSpN9PW+1hfSC/pSL1nQfV
+	QIK7m098YCth0ehQH8p6nxyZwK6XPqmX+zVRLj7SXZ+UJTP8zHht9tQTgaZvaxwD6szL8J/DHKEVq
+	/NjQxATg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vy0Ln-00000000u3b-2aT7;
-	Thu, 05 Mar 2026 04:30:15 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vy3Wj-0000000181h-0zvs;
+	Thu, 05 Mar 2026 07:53:45 +0000
+Received: from mgamail.intel.com ([192.198.163.12])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vy0Lk-00000000u3F-2ftB
+	id 1vy3Wb-00000001815-2Ym5
 	for linux-nvme@lists.infradead.org;
-	Thu, 05 Mar 2026 04:30:13 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 7F0994096A;
-	Thu,  5 Mar 2026 04:30:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12CDBC116C6;
-	Thu,  5 Mar 2026 04:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772685011;
-	bh=sDLL6kdLLLH5WQ7xMSOZqNd8dwEuaVg6Hh8JLKgdj74=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ZUMShbbqoby9u5IISgTeqFjl946q/mr9RwRks6xX4G0+/0f8DsySJIsW+EVX7AhkE
-	 TMX+AYIiJY9rSx2G99uZzy/sHKioM3KFhKaqi5DfWg7qitbd59kZO9Jt5dXYybVTuI
-	 eVonb+pEe0SKtkHW4Me1cRelNTfYth2WEf5V9vRY4r9sIfiNdUVAy2LowRC4iZUDmj
-	 R2PzWReSe6idGrhSqDga1q+03N9w22/zaOzbz7okaUnvajmq3UEZdhTRm7eID1vkR1
-	 O3OzNYhJTcxg6B6LQZZRobXoM0UTj1mRk3Bspdm6ndnFediHiQo9DJKhAqTyBTJMpF
-	 aECdJuXGY4cgw==
-Message-ID: <ffc23fb3bc82988608237be48a3eea7fdd3a4dd7.camel@kernel.org>
-Subject: Re: [LSF/MM/BPF TOPIC] NVMe over MPTCP: Multi-Fold Acceleration for
- NVMe over TCP in Multi-NIC Environments
-From: Geliang Tang <geliang@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>, lsf-pc@lists.linux-foundation.org, 
-	linux-nvme@lists.infradead.org, Ming Lei <ming.lei@redhat.com>, Javier
- =?ISO-8859-1?Q?Gonz=E1lez?=
-	 <javier.gonz@samsung.com>
-Cc: mptcp@lists.linux.dev, Matthieu Baerts <matttbe@kernel.org>, Mat
- Martineau	 <martineau@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Hannes
- Reinecke	 <hare@suse.de>
-Date: Thu, 05 Mar 2026 12:30:06 +0800
-In-Reply-To: <ecb30d89b67b992bfc136186f18550f9fb974baa.camel@kernel.org>
-References: <a9f115aa5719e1088702a3fdeee766a3166611b1.camel@kernel.org>
-		 <48e429f3-e29f-4eac-b4d3-3bf9e0d1c245@linux.ibm.com>
-	 <ecb30d89b67b992bfc136186f18550f9fb974baa.camel@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	Thu, 05 Mar 2026 07:53:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772697218; x=1804233218;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0IRCN5orXpBlDp5bbe+hP/a4OpxCZ/kKP/mq46MHsUc=;
+  b=eN88D4P4J5QSC5grjNSbbiQvTfextxbEKU+PyncPPcpMi5c8FvU+GHON
+   qUDJoXxEj0ISyOTz/n12B4dPcltcmrmldNp8BA7okCzF3IkBzJ8sUMQah
+   gGB/wK50q0OoO+6WJqon56m0lFGSQx+f6P3/Ny9UlUaS0Vh5DQja/acVG
+   AOnAqTLX0rDld1empT5Quh9V1YH9CRGQ3kOXfR6WYG5h/s2WIPOKNEDS+
+   Q5EJPKDH5XhUi/XRj9QApvBZ9H9Bqcu0Wet8k0VVfAy0OuGpzUk/PbkIT
+   iRo76hquAnidwflHZNRHjzu1FkRIKrPae7lD66LPD6PkjjZh1UCtuZoHZ
+   Q==;
+X-CSE-ConnectionGUID: fRfK4e7bShi3FWMsWMTalg==
+X-CSE-MsgGUID: RU91O+kfQHiYcmZA2hYGmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77646907"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="77646907"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 23:53:32 -0800
+X-CSE-ConnectionGUID: w663kWYfQVa8o27u4O5rSw==
+X-CSE-MsgGUID: kwe5FhppRZ2RDxvcFi9xoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="221500100"
+Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 04 Mar 2026 23:53:27 -0800
+Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vy3WF-000000000Du-3zCf;
+	Thu, 05 Mar 2026 07:53:15 +0000
+Date: Thu, 5 Mar 2026 15:52:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kbusch@kernel.org,
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
+	hare@suse.de, alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+Message-ID: <202603051502.9qxZ0noK-lkp@intel.com>
+References: <20260304053500.590630-5-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304053500.590630-5-alistair.francis@wdc.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_203012_749196_044420A0 
-X-CRM114-Status: GOOD (  26.07  )
+X-CRM114-CacheID: sfid-20260304_235338_014126_8A5CD80B 
+X-CRM114-Status: GOOD (  12.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,99 +92,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nilay, Ming,
+Hi,
 
-Thank you again for your interest in NVMe over MPTCP.
+kernel test robot noticed the following build errors:
 
-On Thu, 2026-02-26 at 17:54 +0800, Geliang Tang wrote:
-> Hi Nilay,
-> 
-> Thanks for your reply.
-> 
-> On Wed, 2026-02-25 at 20:37 +0530, Nilay Shroff wrote:
-> > 
-> > 
-> > On 1/29/26 9:43 AM, Geliang Tang wrote:
-> > > 3. Performance Benefits
-> > > 
-> > > This new feature has been evaluated in different environments:
-> > > 
-> > > I conducted 'NVMe over MPTCP' tests between two PCs, each
-> > > equipped
-> > > with
-> > > two Gigabit NICs and directly connected via Ethernet cables.
-> > > Using
-> > > 'NVMe over TCP', the fio benchmark showed a speed of
-> > > approximately
-> > > 100
-> > > MiB/s. In contrast, 'NVMe over MPTCP' achieved about 200 MiB/s
-> > > with
-> > > fio, doubling the throughput.
-> > > 
-> > > In a virtual machine test environment simulating four NICs on
-> > > both
-> > > sides, 'NVMe over MPTCP' delivered bandwidth up to four times
-> > > that
-> > > of
-> > > standard TCP.
-> > 
-> > This is interesting. Did you try using an NVMe multipath iopolicy
-> > other
-> > than the default numa policy? Assuming both the host and target are
-> > multihomed,
-> > configuring round-robin or queue-depth may provide performance
-> > comparable
-> > to what you are seeing with MPTCP.
-> > 
-> > I think MPTCP shall distribute traffic using transport-level
-> > metrics
-> > such as
-> > RTT, cwnd, and packet loss, whereas the NVMe multipath layer makes
-> > decisions
-> > based on ANA state, queue depth, and NUMA locality. In a setup with
-> > multiple
-> > active paths, switching the iopolicy from numa to round-robin or
-> > queue-depth
-> > could improve load distribution across controllers and thus improve
-> > performance.
-> > 
-> > IMO, it would be useful to test with those policies and compare the
-> > results
-> > against the MPTCP setup.
-> 
-> Ming Lei also made a similar comment. In my experiments, I didn't set
-> the multipath iopolicy, so I was using the default numa policy. In
-> the
-> follow-up, I'll adjust it to round-robin or queue-depth and rerun the
-> experiments. I'll share the results in this email thread.
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on net/main net-next/main linus/master v7.0-rc2 next-20260304]
+[cannot apply to linux-nvme/for-next horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Based on your feedback, I have added iopolicy support to the NVMe over
-MPTCP selftest script (see patch 8 in [1]). We can set the iopolicy to
-round-robin like this:
+url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20260304-134148
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260304053500.590630-5-alistair.francis%40wdc.com
+patch subject: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+config: x86_64-buildonly-randconfig-006-20260305 (https://download.01.org/0day-ci/archive/20260305/202603051502.9qxZ0noK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051502.9qxZ0noK-lkp@intel.com/reproduce)
 
- # ./mptcp_nvme.sh mptcp round-robin
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603051502.9qxZ0noK-lkp@intel.com/
 
-This demonstrates that "NVMe over MPTCP" and "NVMe multipath" can work
-simultaneously without conflict.
+All errors (new ones prefixed by >>):
 
-Using this test script, I compared three I/O policies: numa, round-
-robin, and queue-depth. The results for fio were very similar. It's
-possible that this test environment doesn't fully reflect the
-differences in I/O policies. I will continue to follow up with further
-tests.
+>> drivers/nvme/host/tcp.c:1429:24: error: no member named 'read_sock_cmsg' in 'struct proto_ops'
+    1429 |         consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+         |                    ~~~~~~~~~  ^
+   1 error generated.
 
-Thanks,
--Geliang
 
-[1]
-NVME over MPTCP, v4
-https://patchwork.kernel.org/project/mptcp/cover/cover.1772683110.git.tanggeliang@kylinos.cn/
+vim +1429 drivers/nvme/host/tcp.c
 
-> 
-> Thanks,
-> -Geliang
-> 
-> > 
-> > Thanks,
-> > --Nilay
+  1417	
+  1418	static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+  1419	{
+  1420		struct socket *sock = queue->sock;
+  1421		struct sock *sk = sock->sk;
+  1422		read_descriptor_t rd_desc;
+  1423		int consumed;
+  1424	
+  1425		rd_desc.arg.data = queue;
+  1426		rd_desc.count = 1;
+  1427		lock_sock(sk);
+  1428		queue->nr_cqe = 0;
+> 1429		consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+  1430						     nvme_tcp_recv_cmsg);
+  1431		release_sock(sk);
+  1432		return consumed == -EAGAIN ? 0 : consumed;
+  1433	}
+  1434	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
