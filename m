@@ -4,81 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 288FEEF9001
-	for <linux-nvme@archiver.kernel.org>; Wed,  4 Mar 2026 16:41:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6858EFCE58
+	for <linux-nvme@archiver.kernel.org>; Thu,  5 Mar 2026 02:37:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=/4Y/mgugOFcKKNxSVMEr3vI+i8NKRaR2c1wrGwr3hZs=; b=Ha18CkPidmti4vO/wBpBSqq/HT
-	FxSshLYjsD8jNT44EyOGn3l+UgLPqy3R4ygPi9TAB/hPaNpuRyBlaUH/JC3P9cSi8MDwCZ5mKYPrr
-	Pvh7Wy1sFFMZEGJaBGWbL6nRCSd2vWHZ0R7Lf4z0DGpgG1wuSBKXCsnFRgnE7ra6QtFb12r/TxO/H
-	lWmWM6xahWtzjLqwgzQH7ZnldBEpf/tQspp89FXjsjnKpVrU880aCf2pU8pzLusbFV6J8qnUqFZ+r
-	p02iI8jpAlJbjmMGR+9JYuZzLmiX/jy3ULufHysfJ9To1abfEl1BHHO2SDrGgwjqA0rKDMYjNqRi7
-	jVHYtoDg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yBUhNsBoeECXQ2g42ZbRUoURW/9mr3wjydrCeND0ozI=; b=SYQkAkI+ArbQCvSy/KwOyenUB2
+	0a0zs2afxdvtGjcPH7jRn3u49YjGRZNMX/TB5eAMbkl47O6HAnOIIM8P7vMwD2+34WNjigbvADcWy
+	6fH/bgAMKw6w4S+5mXILuARZxDDhYCH5wDhASgeJtMTWu3ir3o95aJNrQPTfiYvmGCPWZA/kyvHpF
+	aT3RYsIHUtyVQaNzuMSjTNBPTp2/4PouJfsU+jZA1T4uElUMDl3eEx2/98ibiWTQ7MWmhV1WHyuID
+	07derWT/AZYtcM+N04FG31tLVG+LrLmSNvngonjOUJqUJrZwG3369TuY88grTlpndIPG/mpvaUPpM
+	uPsPC++Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxpHT-000000005zb-0Tb3;
-	Wed, 04 Mar 2026 16:41:03 +0000
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+	id 1vxyam-00000000nGv-1EiV;
+	Thu, 05 Mar 2026 02:37:36 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxpHQ-000000005yl-0aAp
+	id 1vxyai-00000000nG5-2F1a
 	for linux-nvme@lists.infradead.org;
-	Wed, 04 Mar 2026 16:41:01 +0000
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-82742aa5a3eso3560175b3a.1
-        for <linux-nvme@lists.infradead.org>; Wed, 04 Mar 2026 08:40:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772642459; x=1773247259; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/4Y/mgugOFcKKNxSVMEr3vI+i8NKRaR2c1wrGwr3hZs=;
-        b=ISX3v3RNbfjxTDEvf2+23pblTnjPb/j5d2gDLQAXnikeWUXq9wpsy8Mg0+JbFeK1pQ
-         seCtNYp8R9rcP/gwTJoWl/9/Xbvep8kzQMMOslcgiMxW1P04+86JXeUrryhRBzOjxJvd
-         gUEjeJtST/oDXg3+dUYadZStQXtoQAJu8KamTNERevlM/xRicoIAmrPZTYImQgvXCpeG
-         S7ORvN+i7q4JSO/X8UReAMQg8lYvECI6RbwLVRl1jdnyL9LJp9HlbXiSVsfxAqW+iW8/
-         9nUVHgStLn2kX/7z9sAQI5GFvFAoBqRJ0tYmgX66pPJROFOtq4aVyMal/9kp7PYIPOVq
-         9ODw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772642459; x=1773247259;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/4Y/mgugOFcKKNxSVMEr3vI+i8NKRaR2c1wrGwr3hZs=;
-        b=ZwIhTiMGxO1M8swVNH3n44gS5chhXQnwuB6Joys9r6uZNCQz3Hv14GCTfR38IRcQvs
-         XuX13E8BctOU5Z9y01D4x71BUSeQrM9Eymnbz3n/uJIKer/MMnOEipFhwLAJl0CfiapU
-         /0P3mGKm9g+urZmBq8vK18qqA9mf4YoM8G/nJXTL5gj7eeMZC+kYVoC5UTxXEorTuwTF
-         Rgpv0ZFJe+k6eyOs2Ou88zm0VtR0X7AU3HcOu6TWMvcCfy5OBXxjuTFpGCCctnOjE6Dx
-         ft4rmkXGWVIcxh6sPp24zQZw+iqZ2/5Z3fFuDOMhq+tee4OUAypi0NuurykjxvzxFjwP
-         gC9g==
-X-Gm-Message-State: AOJu0Yz5oqrx9b4XUCx4e5PUH67o2p6187sO7hlHXHOGbYxRQ+dPhzKp
-	KM6iIVVduRnmbU9n7iL2djxFvV4ktdno99IZofYR2JRi7TkaCM7fTcRprkgIFA==
-X-Gm-Gg: ATEYQzxS2uXVqYO9eZsLex++c+T/aacNpsWC99f8QW0KDBRcTy47RJW6BOwTI8aUaEx
-	vUpCLmtUqt3VLvRSmvljx0kVSJLvhJXrs+I+/MZ4gPlgB/KIoe57em8aEcTULYRyrZgptgyYH+Q
-	3Dc1/BUkM0yfaNs9Cqcp+8kmLXgszhMtb8n/vkA6CAbJKlte1TxvttIQqbcQTpcpb1CSjxmGyhq
-	0GZwcVrFCRgNTBp2sYU9emnvG//miAiFLij8z2Klfxi2NN/Z7O7uxIJNux3Nf1Z0j6OQc5APf7+
-	DGsQwUPIpmhW0CvWym4esF+CYxYWYWjLwt3Tb+Dr2JzI1bRVAMFig5d1FfEcKK+RPO8mAsUP5fD
-	OIJnVJoOukR/VoGmWBqKGzI/Oc5EwTn/o36MW1XaKHGrjanMyGAHs1joYBdnEx2oEGO0hDOdwQM
-	7uCPVvkPG9+Jb/VS+768V/PZb1oZaqCWa8qWKA
-X-Received: by 2002:a05:6a00:f0d:b0:7fb:f87d:a0aa with SMTP id d2e1a72fcca58-82972d6152dmr2527792b3a.52.1772642458601;
-        Wed, 04 Mar 2026 08:40:58 -0800 (PST)
-Received: from tokunori-X570-Taichi ([240b:10:2720:5500:8233:ca2e:21d7:331d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8296c9f83f3sm2397616b3a.0.2026.03.04.08.40.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 08:40:58 -0800 (PST)
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Tokunori Ikegami <ikegami.t@gmail.com>
-Subject: [PATCH] nvme/ioctl: combine nvme_user_cmd and nvme_user_cmd64
-Date: Thu,  5 Mar 2026 01:40:22 +0900
-Message-ID: <20260304164053.307236-1-ikegami.t@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	Thu, 05 Mar 2026 02:37:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772678250;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yBUhNsBoeECXQ2g42ZbRUoURW/9mr3wjydrCeND0ozI=;
+	b=KobrVl5FqHEc6W6QcqHB7jfoApopxRvvfVGJGfAqkxZIkCmBwymKP5pa6etg+5MYbNUGUG
+	GqSwLxxYH6/DQ14BKbu+Ih+20y5kWnC6V2JVWIM/tI95gBnryWdpjgAvwC0CON05Aj0lW1
+	g6Ku+RHIhYp2aO1otjJM7Q7ZXAx8qPw=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-408-gnIwOrr_MGynkDKdRAbF8A-1; Wed,
+ 04 Mar 2026 21:37:26 -0500
+X-MC-Unique: gnIwOrr_MGynkDKdRAbF8A-1
+X-Mimecast-MFC-AGG-ID: gnIwOrr_MGynkDKdRAbF8A_1772678244
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 19BF119560A5;
+	Thu,  5 Mar 2026 02:37:23 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (unknown [10.6.23.247])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DEF321800671;
+	Thu,  5 Mar 2026 02:37:21 +0000 (UTC)
+Received: from bmarzins-01.fast.eng.rdu2.dc.redhat.com (localhost [127.0.0.1])
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.17.1) with ESMTPS id 6252bKqD1952898
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 4 Mar 2026 21:37:20 -0500
+Received: (from bmarzins@localhost)
+	by bmarzins-01.fast.eng.rdu2.dc.redhat.com (8.18.1/8.18.1/Submit) id 6252bIIF1952897;
+	Wed, 4 Mar 2026 21:37:18 -0500
+Date: Wed, 4 Mar 2026 21:37:18 -0500
+From: Benjamin Marzinski <bmarzins@redhat.com>
+To: John Garry <john.g.garry@oracle.com>
+Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        hare@suse.com, jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/24] scsi-multipath: add
+ scsi_mpath_{start,end}_request()
+Message-ID: <aajsXqau3gHFIqVG@redhat.com>
+References: <20260225153627.1032500-1-john.g.garry@oracle.com>
+ <20260225153627.1032500-11-john.g.garry@oracle.com>
+ <aafNnO6o2yoeLjPs@redhat.com>
+ <93752514-3225-4cdf-b9a5-e0964d693b5b@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <93752514-3225-4cdf-b9a5-e0964d693b5b@oracle.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: 3UonBy_n3PacPtmSUjjUtcsPsX3N0rSDt91Qt39WaBA_1772678244
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260304_084100_185256_2AFB06B2 
-X-CRM114-Status: GOOD (  14.79  )
+X-CRM114-CacheID: sfid-20260304_183732_992330_9CA85C8F 
+X-CRM114-Status: GOOD (  18.91  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,163 +99,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The functions almost duplicated but only changed result value size.
-So combine the functions by adding a "bool is64bit" parameter.
+On Wed, Mar 04, 2026 at 11:11:08AM +0000, John Garry wrote:
+> On 04/03/2026 06:13, Benjamin Marzinski wrote:
+> > > +	scsi_mpath_end_request(req);
+> > > +
+> > >   	/*
+> > >   	 * In the MQ case the command gets freed by __blk_mq_end_request,
+> > >   	 * so we have to do all cleanup that depends on it earlier.
+> > This looks wrong. We start accounting in scsi_queue_rq(), and we need to
+> > end it whenever we complete or requeue the request, otherwise the
+> > accounting will get off. But not all requests go through
+> > scsi_end_request(). scsi_mpath_failover_req(), for instance, calls
+> > blk_mq_end_request() directly, and other functions, like
+> > scsi_queue_insert() call blk_mq_requeue_request(). I'm pretty sure that
+> > this should go in scsi_complete(), as well in the error path of
+> > scsi_queue_rq().
+> 
+> ok, let me check that further.
+> 
 
-Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
----
- drivers/nvme/host/ioctl.c | 83 +++++++++++----------------------------
- 1 file changed, 23 insertions(+), 60 deletions(-)
+I think I was a little hasty here. Looking at sd_mpath_start_command()
+and sd_mpath_end_command() in patch 17, I can see that they protect
+against repeat calls, so requeueing the request should be o.k. There's
+still a problem when scsi_mpath_failover_req() calls blk_mq_end_request()
+directly, and when scsi_queue_rq() exits with a failure where the
+request won't requeued (all the returns except BLK_STS_OK,
+BLK_STS_RESOURCE, and BLK_STS_DEV_RESOURCE).
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 8844bbd39515..44340f5167f1 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -280,8 +280,10 @@ static bool nvme_validate_passthru_nsid(struct nvme_ctrl *ctrl,
- 
- static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		struct nvme_passthru_cmd __user *ucmd, unsigned int flags,
--		bool open_for_write)
-+		bool open_for_write, bool is64bit)
- {
-+	struct nvme_passthru_cmd64 __user *ucmd64 = (void __user *)ucmd;
-+	unsigned int flags64 = is64bit ? flags : 0;
- 	struct nvme_passthru_cmd cmd;
- 	struct nvme_command c;
- 	unsigned timeout = 0;
-@@ -308,54 +310,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
--	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
--		return -EACCES;
--
--	if (cmd.timeout_ms)
--		timeout = msecs_to_jiffies(cmd.timeout_ms);
--
--	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
--			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
--			cmd.metadata_len, &result, timeout, 0);
--
--	if (status >= 0) {
--		if (put_user(result, &ucmd->result))
--			return -EFAULT;
--	}
--
--	return status;
--}
--
--static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--		struct nvme_passthru_cmd64 __user *ucmd, unsigned int flags,
--		bool open_for_write)
--{
--	struct nvme_passthru_cmd64 cmd;
--	struct nvme_command c;
--	unsigned timeout = 0;
--	int status;
--
--	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
--		return -EFAULT;
--	if (cmd.flags)
--		return -EINVAL;
--	if (!nvme_validate_passthru_nsid(ctrl, ns, cmd.nsid))
--		return -EINVAL;
--
--	memset(&c, 0, sizeof(c));
--	c.common.opcode = cmd.opcode;
--	c.common.flags = cmd.flags;
--	c.common.nsid = cpu_to_le32(cmd.nsid);
--	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
--	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
--	c.common.cdw10 = cpu_to_le32(cmd.cdw10);
--	c.common.cdw11 = cpu_to_le32(cmd.cdw11);
--	c.common.cdw12 = cpu_to_le32(cmd.cdw12);
--	c.common.cdw13 = cpu_to_le32(cmd.cdw13);
--	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
--	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
--
--	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
-+	if (!nvme_cmd_allowed(ns, &c, flags64, open_for_write))
- 		return -EACCES;
- 
- 	if (cmd.timeout_ms)
-@@ -363,11 +318,16 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			cmd.addr, cmd.data_len, nvme_to_user_ptr(cmd.metadata),
--			cmd.metadata_len, &cmd.result, timeout, flags);
-+			cmd.metadata_len, &result, timeout, flags64);
- 
- 	if (status >= 0) {
--		if (put_user(cmd.result, &ucmd->result))
--			return -EFAULT;
-+		if (is64bit) {
-+			if (put_user(result, &ucmd64->result))
-+				return -EFAULT;
-+		} else {
-+			if (put_user(result, &ucmd->result))
-+				return -EFAULT;
-+		}
- 	}
- 
- 	return status;
-@@ -552,9 +512,10 @@ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
- {
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
-+		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write,
-+				     false);
- 	case NVME_IOCTL_ADMIN64_CMD:
--		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
-+		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write, true);
- 	default:
- 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
- 	}
-@@ -586,7 +547,8 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 		force_successful_syscall_return();
- 		return ns->head->ns_id;
- 	case NVME_IOCTL_IO_CMD:
--		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write);
-+		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write,
-+				     false);
- 	/*
- 	 * struct nvme_user_io can have different padding on some 32-bit ABIs.
- 	 * Just accept the compat version as all fields that are used are the
-@@ -601,8 +563,8 @@ static int nvme_ns_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 		flags |= NVME_IOCTL_VEC;
- 		fallthrough;
- 	case NVME_IOCTL_IO64_CMD:
--		return nvme_user_cmd64(ns->ctrl, ns, argp, flags,
--				       open_for_write);
-+		return nvme_user_cmd(ns->ctrl, ns, argp, flags, open_for_write,
-+				     true);
- 	default:
- 		return -ENOTTY;
- 	}
-@@ -836,7 +798,7 @@ static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp,
- 	}
- 	srcu_read_unlock(&ctrl->srcu, srcu_idx);
- 
--	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write);
-+	ret = nvme_user_cmd(ctrl, ns, argp, 0, open_for_write, false);
- 	nvme_put_ns(ns);
- 	return ret;
- 
-@@ -854,9 +816,10 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
-+		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write,
-+				     false);
- 	case NVME_IOCTL_ADMIN64_CMD:
--		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
-+		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write, true);
- 	case NVME_IOCTL_IO_CMD:
- 		return nvme_dev_user_cmd(ctrl, argp, open_for_write);
- 	case NVME_IOCTL_RESET:
--- 
-2.51.0
+-Ben
+
+> Thanks for the notice.
 
 
