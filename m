@@ -4,71 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA2A4FC9EF8
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Mar 2026 12:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDCFDF55102
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 Mar 2026 19:47:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=u7ynZmP91wvExyFli3V5soLbcXcNBZwtflYA53y/pbc=; b=UCoigm9jFzmTjGDd5EATsPpEI9
-	wSMO40T6aH4gGOJME5U1kJF0qU2LKXh/MvhPdUqmvduwYcvIGeRaSnIkuKUbCL8iQn69LZkpqM3Vo
-	zM3cYbT79Zxg/hSOFI7mGfUB9vwsAShG2TnB2qRGk+2yPZruY8G1IMvG30D3nUJp3qoAV2K3w//su
-	IwntvfHAlDf0yW27PcYbHsRc+an31OjaJ0jVMRystD8UUJA6FtMIV1n0tQNutUQ0qmBlueGbTpzQF
-	2eQdQk37hByeWLI9wpNXE6aGYR0D7d+yD7LkDHZ9yOUaB+D0zOsoRApN1y/Jya3pwVCHYMWRFUd9E
-	f8OYcviA==;
+	bh=V8aOBZcZ9tXID5tssFJJhBM5poUTOsJuGpZdRZooCLM=; b=owGwBWo4r7ri2aW/f88jBrP7U6
+	AtCsQokAexWl+WS18DFBAmKi1vf3rNaNUPiZ34odragFSCeHJxe8VMTlROdiH3WXBYWzUOXAy6CvP
+	OMfyCT1m29BXbRzaEPwTthFqX+fcuSNNSso6wpsgrt/ZSh8sw8t0ge23Hd0bK7Fn4H+a68shYb7+K
+	tILKspgi7g3Np3Ntyh3m10Op3D1hrmE/smAsc6eXs2hUhcQH0O6mOr7bN3JNX6zFEMFTWHB4eRs8A
+	FN5/mSU8KW9k4p5zTy1snPVmZUGIyxkvloAea+wAf86Wy0FJfloAMKCFHJHt8UVzGT5sHdi9DEc8l
+	EifggIUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyqVB-00000005BCx-0Q01;
-	Sat, 07 Mar 2026 12:11:25 +0000
-Received: from mgamail.intel.com ([192.198.163.18])
+	id 1vyxcd-00000005Sla-1lNs;
+	Sat, 07 Mar 2026 19:47:35 +0000
+Received: from mail-yw1-f172.google.com ([209.85.128.172])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyqV4-00000005BCJ-1GoJ
+	id 1vyxcX-00000005SlD-1sIL
 	for linux-nvme@lists.infradead.org;
-	Sat, 07 Mar 2026 12:11:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772885478; x=1804421478;
-  h=date:from:to:cc:subject:message-id;
-  bh=UXeR3rnlDhW4djZsaWOo+g9BEKXyS9uosslJW/Q3os0=;
-  b=FFcYqQtRcQUqxyIDH+t1rGRW6KpiMRIcBOiUqMGNatuSJqtpg/5LFypP
-   Jl411K1dSZosYCZSHlRxC7seUAN9lmfogBAb9TXTqjY03tBB2QyDXLf9N
-   f230i40orDLuvUqyLxDEWwxPDONLKWzFRLReGlHLRRZywNhCoAo3OGfme
-   E9xsGdVh8G0qZs1DltV3Voo4DpCO55LGbqHjN4WcB7C4uB0RD6d1Sfg7O
-   w2BQA3BX//UdbvMnC57z+E0Hph+xSS8m+mjuDtBePceWWQfnY0+kiWeIQ
-   NjcnLpuYWBRX8c2m2zML1q0kxLH0TmKj2A9YKQkx2tkO7P2BR2FEMeoT0
-   g==;
-X-CSE-ConnectionGUID: 2uVljv4ASA+u/+G3gJt20w==
-X-CSE-MsgGUID: 8yK19u1wREqp9TZ0TGyiKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73174746"
-X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="73174746"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 04:11:13 -0800
-X-CSE-ConnectionGUID: 1l394RIVTUGJXjdZhdCj1Q==
-X-CSE-MsgGUID: a9tw0/42QGqcs5QPjYd5Tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
-   d="scan'208";a="223961265"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Mar 2026 04:11:11 -0800
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vyqUv-000000001y1-1AO4;
-	Sat, 07 Mar 2026 12:11:09 +0000
-Date: Sat, 07 Mar 2026 20:10:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.1] BUILD SUCCESS
- 8e8a28876df6a80a05c935832d34b240647c2f3c
-Message-ID: <202603072014.GsXz5C0W-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Sat, 07 Mar 2026 19:47:30 +0000
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-79868cde1eeso114411387b3.2
+        for <linux-nvme@lists.infradead.org>; Sat, 07 Mar 2026 11:47:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772912847; x=1773517647;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V8aOBZcZ9tXID5tssFJJhBM5poUTOsJuGpZdRZooCLM=;
+        b=e0A2bo7wcvcBxNxWVpdKkUDJfSX3hP5G0ShVgZEI/x9sy18PVGmJR94WAe6s0W/UEG
+         eXrAPsNHfBk9LTp+8G70RzWx4KIvFsjEffgEoWqkidvlAM9Gl4LWuJETwzW7Ts5Vl2ia
+         /Y+U3PN3uenpNwzf5z2jqrMXQsyXFssZFpNIuClREa4NsLu0e1m16BCEp3woqBJKUE8z
+         EuZzvmUuT7jetSHZWV9BEiY50LZ6+s/2DofY7pm3fuZ5dV2JImf3FVETyvVshAI4vDTa
+         kgK/rQJDa0wIGJ4MWbT2hYo3SFrGvCIVO6pBOON5FuJlH4a4+24+Oz4XB9o+yDQyaA/L
+         GN/w==
+X-Forwarded-Encrypted: i=1; AJvYcCWyUo8dDn8TMq1yrb5IRLOz62K6KHsEeA0zYv8tEzPurrbaw6ae8hR/X6VxF1IKxv35QbyEdUELvKsW@lists.infradead.org
+X-Gm-Message-State: AOJu0YxahjpIQ2N8tCN/8q1XR8DGSb2sXbmHjHXFGo4CLmHLdLz7ndI1
+	DQBDaUrhxkbKXOUj34jR+lA7S6qcxdIwycN9FrJS8Byl7B9lTEYcfch1
+X-Gm-Gg: ATEYQzz1VeAvFiFvS8QQaBUa1c7NKOFp5uENlG0SQv4i9fFDWlZdbm/AqK2Wt8zswN1
+	Xot1RLzMjnxn2iwiJ0Z+nweWYTO9T3l+ZqPpP4sXzMkrI+cgntm/eg1C5Zq5cZsbevAILCgnG9a
+	Vbax1bQAzspDkn73TSdoUuVotdJ46U3RRT6Mghrtle7AWaMNjlC+IkVCtf+GeQYjUwyUH7nq+Vq
+	f3ndUjylO5JKmRrq76S86epq6gjuo8QU3yZ5mt+UQgzD6GHCQ+iaZC4QYVyZcmcdVUNmHXkdufm
+	97sDZFc14V4L2drOdetGtfsoDATrn1GmbgB2r02gJUI1pk3z5wgEo9F+0BGVXxSKFJJ7CdBD574
+	cedtBi1HzKBHoPNdHDJTL1pri8A38hfxgd1DSfuVr4PhXMB7iSG0RRqoC6w0uBYjUyijxQuUKV4
+	uMtr5axZI0pA==
+X-Received: by 2002:a05:690c:dd3:b0:794:7be0:8217 with SMTP id 00721157ae682-798dd775535mr58874817b3.52.1772912847172;
+        Sat, 07 Mar 2026 11:47:27 -0800 (PST)
+Received: from tofu.. ([128.210.0.165])
+        by smtp.googlemail.com with ESMTPSA id 00721157ae682-798ded6eca9sm23409447b3.22.2026.03.07.11.47.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Mar 2026 11:47:26 -0800 (PST)
+From: Sungwoo Kim <iam@sung-woo.kim>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Sungwoo Kim <iam@sung-woo.kim>,
+	Chao Shi <cshi008@fiu.edu>,
+	Weidong Zhu <weizhu@fiu.edu>,
+	Dave Tian <daveti@purdue.edu>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Fix race bug in nvme_poll_irqdisable()
+Date: Sat,  7 Mar 2026 14:46:36 -0500
+Message-ID: <20260307194636.2755443-2-iam@sung-woo.kim>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260307_041118_361575_2386A9BC 
-X-CRM114-Status: UNSURE (   4.96  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260307_114729_497749_7F95FB42 
+X-CRM114-Status: GOOD (  14.52  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,143 +91,114 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.1
-branch HEAD: 8e8a28876df6a80a05c935832d34b240647c2f3c  nvmet: report NPDGL and NPDAL
+In the following scenario, pdev can be disabled between (1) and (3) by
+(2). This sets pdev->msix_enabled = 0. Then, pci_irq_vector() will
+return MSI-X IRQ(>15) for (1) whereas return INTx IRQ(<=15) for (2).
+This causes IRQ warning because it tries to enable INTx IRQ that has
+never been disabled before.
 
-elapsed time: 1224m
+To fix this, save IRQ number into a local variable and ensure
+disable_irq() and enable_irq() operate on the same IRQ number.
+Even if pci_free_irq_vectors() frees the IRQ concurrently, disable_irq()
+and enable_irq() on a stale IRQ number is still valid and safe, and the
+depth accounting reamins balanced.
 
-configs tested: 123
-configs skipped: 1
+task 1:
+nvme_poll_irqdisable()
+  disable_irq(pci_irq_vector(pdev, nvmeq->cq_vector)) ...(1)
+  enable_irq(pci_irq_vector(pdev, nvmeq->cq_vector))  ...(3)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+task 2:
+nvme_reset_work()
+  nvme_dev_disable()
+    pdev->msix_enable = 0;  ...(2)
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-arc                              allmodconfig    gcc-15.2.0
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    gcc-15.2.0
-arc                   randconfig-001-20260307    gcc-14.3.0
-arc                   randconfig-002-20260307    gcc-14.3.0
-arm                               allnoconfig    clang-23
-arm                              allyesconfig    gcc-15.2.0
-arm                   randconfig-001-20260307    clang-23
-arm                   randconfig-002-20260307    gcc-15.2.0
-arm                   randconfig-003-20260307    gcc-13.4.0
-arm                   randconfig-004-20260307    gcc-11.5.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.2.0
-arm64                 randconfig-001-20260307    gcc-8.5.0
-arm64                 randconfig-002-20260307    gcc-11.5.0
-arm64                 randconfig-003-20260307    gcc-15.2.0
-arm64                 randconfig-004-20260307    gcc-8.5.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                  randconfig-001-20260307    gcc-15.2.0
-csky                  randconfig-002-20260307    gcc-15.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-23
-hexagon               randconfig-001-20260307    clang-23
-hexagon               randconfig-002-20260307    clang-23
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260307    gcc-14
-i386        buildonly-randconfig-002-20260307    gcc-14
-i386        buildonly-randconfig-003-20260307    gcc-12
-i386        buildonly-randconfig-004-20260307    clang-20
-i386        buildonly-randconfig-005-20260307    gcc-14
-i386        buildonly-randconfig-006-20260307    clang-20
-i386                  randconfig-011-20260307    clang-20
-i386                  randconfig-012-20260307    clang-20
-i386                  randconfig-013-20260307    clang-20
-i386                  randconfig-014-20260307    clang-20
-i386                  randconfig-015-20260307    gcc-14
-i386                  randconfig-016-20260307    gcc-14
-i386                  randconfig-017-20260307    gcc-14
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-23
-loongarch             randconfig-001-20260307    gcc-15.2.0
-loongarch             randconfig-002-20260307    gcc-15.2.0
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    gcc-15.2.0
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                 randconfig-001-20260307    gcc-10.5.0
-nios2                 randconfig-002-20260307    gcc-8.5.0
-openrisc                         allmodconfig    gcc-15.2.0
-openrisc                          allnoconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    gcc-15.2.0
-parisc                           allyesconfig    gcc-15.2.0
-parisc                randconfig-001-20260307    gcc-12.5.0
-parisc                randconfig-002-20260307    gcc-8.5.0
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    gcc-15.2.0
-powerpc               randconfig-001-20260307    gcc-8.5.0
-powerpc               randconfig-002-20260307    gcc-11.5.0
-powerpc64             randconfig-001-20260307    gcc-8.5.0
-powerpc64             randconfig-002-20260307    gcc-12.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    gcc-15.2.0
-riscv                            allyesconfig    clang-16
-riscv                 randconfig-001-20260307    clang-17
-riscv                 randconfig-002-20260307    clang-23
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                  randconfig-001-20260307    clang-23
-s390                  randconfig-002-20260307    clang-23
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    gcc-15.2.0
-sh                               allyesconfig    gcc-15.2.0
-sh                    randconfig-001-20260307    gcc-15.2.0
-sh                    randconfig-002-20260307    gcc-15.2.0
-sparc                             allnoconfig    gcc-15.2.0
-sparc                 randconfig-001-20260307    gcc-15.2.0
-sparc                 randconfig-002-20260307    gcc-11.5.0
-sparc64                          allmodconfig    clang-23
-sparc64               randconfig-001-20260307    clang-23
-sparc64               randconfig-002-20260307    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                    randconfig-001-20260307    gcc-14
-um                    randconfig-002-20260307    clang-23
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260307    gcc-14
-x86_64      buildonly-randconfig-002-20260307    gcc-14
-x86_64      buildonly-randconfig-003-20260307    gcc-14
-x86_64      buildonly-randconfig-004-20260307    clang-20
-x86_64      buildonly-randconfig-005-20260307    clang-20
-x86_64      buildonly-randconfig-006-20260307    gcc-14
-x86_64                randconfig-011-20260307    gcc-14
-x86_64                randconfig-012-20260307    clang-20
-x86_64                randconfig-013-20260307    gcc-14
-x86_64                randconfig-014-20260307    gcc-14
-x86_64                randconfig-015-20260307    gcc-14
-x86_64                randconfig-016-20260307    gcc-14
-x86_64                randconfig-071-20260307    gcc-14
-x86_64                randconfig-072-20260307    clang-20
-x86_64                randconfig-073-20260307    gcc-14
-x86_64                randconfig-074-20260307    gcc-14
-x86_64                randconfig-075-20260307    gcc-14
-x86_64                randconfig-076-20260307    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.2.0
-xtensa                randconfig-001-20260307    gcc-8.5.0
-xtensa                randconfig-002-20260307    gcc-8.5.0
+crash log:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+------------[ cut here ]------------
+Unbalanced enable for IRQ 10
+WARNING: kernel/irq/manage.c:753 at __enable_irq+0x102/0x190 kernel/irq/manage.c:753, CPU#1: kworker/1:0H/26
+Modules linked in:
+CPU: 1 UID: 0 PID: 26 Comm: kworker/1:0H Not tainted 6.19.0-dirty #9 PREEMPT(voluntary)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+Workqueue: kblockd blk_mq_timeout_work
+RIP: 0010:__enable_irq+0x107/0x190 kernel/irq/manage.c:753
+Code: ff df 48 89 fa 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2 75 79 48 8d 3d 2e 7a 3f 05 41 8b 74 24 2c <67> 48 0f b9 3a e8 ef b9 21 00 5b 41 5c 5d e9 46 54 66 03 e8 e1 b9
+RSP: 0018:ffffc900001bf550 EFLAGS: 00010046
+RAX: 0000000000000007 RBX: 0000000000000000 RCX: ffffffffb20c0e90
+RDX: 0000000000000000 RSI: 000000000000000a RDI: ffffffffb74b88f0
+RBP: ffffc900001bf560 R08: ffff88800197cf00 R09: 0000000000000001
+R10: 0000000000000003 R11: 0000000000000003 R12: ffff8880012a6000
+R13: 1ffff92000037eae R14: 000000000000000a R15: 0000000000000293
+FS:  0000000000000000(0000) GS:ffff8880b49f7000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555da4a25fa8 CR3: 00000000208e8000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ enable_irq+0x121/0x1e0 kernel/irq/manage.c:797
+ nvme_poll_irqdisable+0x162/0x1c0 drivers/nvme/host/pci.c:1494
+ nvme_timeout+0x965/0x14b0 drivers/nvme/host/pci.c:1744
+ blk_mq_rq_timed_out block/blk-mq.c:1653 [inline]
+ blk_mq_handle_expired+0x227/0x2d0 block/blk-mq.c:1721
+ bt_iter+0x2fc/0x3a0 block/blk-mq-tag.c:292
+ __sbitmap_for_each_set include/linux/sbitmap.h:269 [inline]
+ sbitmap_for_each_set include/linux/sbitmap.h:290 [inline]
+ bt_for_each block/blk-mq-tag.c:324 [inline]
+ blk_mq_queue_tag_busy_iter+0x969/0x1e80 block/blk-mq-tag.c:536
+ blk_mq_timeout_work+0x627/0x870 block/blk-mq.c:1763
+ process_one_work+0x956/0x1aa0 kernel/workqueue.c:3257
+ process_scheduled_works kernel/workqueue.c:3340 [inline]
+ worker_thread+0x65c/0xe60 kernel/workqueue.c:3421
+ kthread+0x41a/0x930 kernel/kthread.c:463
+ ret_from_fork+0x6f8/0x8c0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+ </TASK>
+irq event stamp: 74478
+hardirqs last  enabled at (74477): [<ffffffffb5720a9c>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
+hardirqs last  enabled at (74477): [<ffffffffb5720a9c>] _raw_spin_unlock_irq+0x2c/0x60 kernel/locking/spinlock.c:202
+hardirqs last disabled at (74478): [<ffffffffb57207b5>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (74478): [<ffffffffb57207b5>] _raw_spin_lock_irqsave+0x85/0xa0 kernel/locking/spinlock.c:162
+softirqs last  enabled at (74304): [<ffffffffb1e9466c>] __do_softirq kernel/softirq.c:656 [inline]
+softirqs last  enabled at (74304): [<ffffffffb1e9466c>] invoke_softirq kernel/softirq.c:496 [inline]
+softirqs last  enabled at (74304): [<ffffffffb1e9466c>] __irq_exit_rcu+0xdc/0x120 kernel/softirq.c:723
+softirqs last disabled at (74287): [<ffffffffb1e9466c>] __do_softirq kernel/softirq.c:656 [inline]
+softirqs last disabled at (74287): [<ffffffffb1e9466c>] invoke_softirq kernel/softirq.c:496 [inline]
+softirqs last disabled at (74287): [<ffffffffb1e9466c>] __irq_exit_rcu+0xdc/0x120 kernel/softirq.c:723
+---[ end trace 0000000000000000 ]---
+
+Fixes: fa059b856a59 (nvme-pci: Simplify nvme_poll_irqdisable)
+Acked-by: Chao Shi <cshi008@fiu.edu>
+Acked-by: Weidong Zhu <weizhu@fiu.edu>
+Acked-by: Dave Tian <daveti@purdue.edu>
+Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
+---
+ drivers/nvme/host/pci.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d86f2565a..a7fb88aa8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1484,14 +1484,16 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+ static void nvme_poll_irqdisable(struct nvme_queue *nvmeq)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
++	int irq;
+ 
+ 	WARN_ON_ONCE(test_bit(NVMEQ_POLLED, &nvmeq->flags));
+ 
+-	disable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
++	irq = pci_irq_vector(pdev, nvmeq->cq_vector);
++	disable_irq(irq);
+ 	spin_lock(&nvmeq->cq_poll_lock);
+ 	nvme_poll_cq(nvmeq, NULL);
+ 	spin_unlock(&nvmeq->cq_poll_lock);
+-	enable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
++	enable_irq(irq);
+ }
+ 
+ static int nvme_poll(struct blk_mq_hw_ctx *hctx, struct io_comp_batch *iob)
+-- 
+2.47.3
+
 
