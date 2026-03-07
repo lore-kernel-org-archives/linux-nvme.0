@@ -4,82 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D68FFC9EC3
-	for <linux-nvme@archiver.kernel.org>; Sat,  7 Mar 2026 02:36:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA2A4FC9EF8
+	for <linux-nvme@archiver.kernel.org>; Sat,  7 Mar 2026 12:11:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=rqxlIwfDGS1E+lmb9grWkDLKbEw2kPFez03sw9KGHo4=; b=KldTRbVIThD99pMCWh7XZR0wML
-	9xZAFZGOU5fHALnXAIzTEs+QHkC+B9+pVi4x/RuUpBCd2VHmtHyqzaciMuE/dCymi8wc6JmprxX39
-	tLN2NkdGqnbuRgM/Y4ZBDkOvkmzcGiDH5OG0lhtCNLdWs8ltDa0ZynVQrdXjBjgJl7jicqbVFRWsu
-	seZ+2VwrN8gCzhAqojMDJeLBZOex/uPTuly12FgvMYCGn++liKcJnYNZBFT09cx9aJL1R1RBLM7u9
-	q5lBGqO98Vlzjm9DuWIaKJ6y8a2QEfz1nu3sVX0aVJVtatTqG0+7Xl10ly27LrzDj1vm6L6s+gDWM
-	9kaXYO/A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=u7ynZmP91wvExyFli3V5soLbcXcNBZwtflYA53y/pbc=; b=UCoigm9jFzmTjGDd5EATsPpEI9
+	wSMO40T6aH4gGOJME5U1kJF0qU2LKXh/MvhPdUqmvduwYcvIGeRaSnIkuKUbCL8iQn69LZkpqM3Vo
+	zM3cYbT79Zxg/hSOFI7mGfUB9vwsAShG2TnB2qRGk+2yPZruY8G1IMvG30D3nUJp3qoAV2K3w//su
+	IwntvfHAlDf0yW27PcYbHsRc+an31OjaJ0jVMRystD8UUJA6FtMIV1n0tQNutUQ0qmBlueGbTpzQF
+	2eQdQk37hByeWLI9wpNXE6aGYR0D7d+yD7LkDHZ9yOUaB+D0zOsoRApN1y/Jya3pwVCHYMWRFUd9E
+	f8OYcviA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyhWG-00000004oit-0fsW;
-	Sat, 07 Mar 2026 02:35:56 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1vyqVB-00000005BCx-0Q01;
+	Sat, 07 Mar 2026 12:11:25 +0000
+Received: from mgamail.intel.com ([192.198.163.18])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyhWA-00000004ohx-1awl
+	id 1vyqV4-00000005BCJ-1GoJ
 	for linux-nvme@lists.infradead.org;
-	Sat, 07 Mar 2026 02:35:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772850946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rqxlIwfDGS1E+lmb9grWkDLKbEw2kPFez03sw9KGHo4=;
-	b=PFdE6pONjqoB3NCG2bWeInKUM/Fh6H1YaR5zmGISedZRJiXCISoh9ePZN2qz2qIvpnKpnC
-	YFF9R6AhxVw8ySKuPdfhZnfcBt5ZbwduKthmNDfEcG8zgaS1udmgFDvoo/0fbGYWgzso9D
-	PmLJf2dXonddmDZY1oOY3bBTdDTEWPE=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-510-m3m9-pxIM1CwYtLu4knl2w-1; Fri,
- 06 Mar 2026 21:35:42 -0500
-X-MC-Unique: m3m9-pxIM1CwYtLu4knl2w-1
-X-Mimecast-MFC-AGG-ID: m3m9-pxIM1CwYtLu4knl2w_1772850940
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9515819560B5;
-	Sat,  7 Mar 2026 02:35:39 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.24])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C555E1955D71;
-	Sat,  7 Mar 2026 02:35:32 +0000 (UTC)
-Date: Sat, 7 Mar 2026 10:35:27 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>
-Subject: Re: [PATCH v5 3/5] io_uring: count CQEs in io_iopoll_check()
-Message-ID: <aauO72ocnZRhJkiA@fedora>
-References: <20260302172914.2488599-1-csander@purestorage.com>
- <20260302172914.2488599-4-csander@purestorage.com>
- <aagKTanM5Az9UDsJ@fedora>
- <CADUfDZozycFBPX0kH=22Gda7njM3xVmL=Cy=zCq6cfXY8JH_dw@mail.gmail.com>
- <a6591d03-3707-4f1c-b1fa-49f010f98d53@kernel.dk>
- <CADUfDZp0shyZ5FqfEcwbi0tHXOFqwqZKRvwQW=heR-yvaOaw0Q@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CADUfDZp0shyZ5FqfEcwbi0tHXOFqwqZKRvwQW=heR-yvaOaw0Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: MSZl5qgkJpDRCpEgpDSZ7S-aHmkpiwPM6g4Jmvm119w_1772850940
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+	Sat, 07 Mar 2026 12:11:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772885478; x=1804421478;
+  h=date:from:to:cc:subject:message-id;
+  bh=UXeR3rnlDhW4djZsaWOo+g9BEKXyS9uosslJW/Q3os0=;
+  b=FFcYqQtRcQUqxyIDH+t1rGRW6KpiMRIcBOiUqMGNatuSJqtpg/5LFypP
+   Jl411K1dSZosYCZSHlRxC7seUAN9lmfogBAb9TXTqjY03tBB2QyDXLf9N
+   f230i40orDLuvUqyLxDEWwxPDONLKWzFRLReGlHLRRZywNhCoAo3OGfme
+   E9xsGdVh8G0qZs1DltV3Voo4DpCO55LGbqHjN4WcB7C4uB0RD6d1Sfg7O
+   w2BQA3BX//UdbvMnC57z+E0Hph+xSS8m+mjuDtBePceWWQfnY0+kiWeIQ
+   NjcnLpuYWBRX8c2m2zML1q0kxLH0TmKj2A9YKQkx2tkO7P2BR2FEMeoT0
+   g==;
+X-CSE-ConnectionGUID: 2uVljv4ASA+u/+G3gJt20w==
+X-CSE-MsgGUID: 8yK19u1wREqp9TZ0TGyiKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73174746"
+X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
+   d="scan'208";a="73174746"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 04:11:13 -0800
+X-CSE-ConnectionGUID: 1l394RIVTUGJXjdZhdCj1Q==
+X-CSE-MsgGUID: a9tw0/42QGqcs5QPjYd5Tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,106,1770624000"; 
+   d="scan'208";a="223961265"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 07 Mar 2026 04:11:11 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vyqUv-000000001y1-1AO4;
+	Sat, 07 Mar 2026 12:11:09 +0000
+Date: Sat, 07 Mar 2026 20:10:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-7.1] BUILD SUCCESS
+ 8e8a28876df6a80a05c935832d34b240647c2f3c
+Message-ID: <202603072014.GsXz5C0W-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260306_183550_856672_B1283EE1 
-X-CRM114-Status: GOOD (  38.97  )
+X-CRM114-CacheID: sfid-20260307_041118_361575_2386A9BC 
+X-CRM114-Status: UNSURE (   4.96  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,125 +83,143 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 06, 2026 at 05:38:15PM -0800, Caleb Sander Mateos wrote:
-> On Wed, Mar 4, 2026 at 8:29 AM Jens Axboe <axboe@kernel.dk> wrote:
-> >
-> > On 3/4/26 8:46 AM, Caleb Sander Mateos wrote:
-> > > On Wed, Mar 4, 2026 at 2:33?AM Ming Lei <ming.lei@redhat.com> wrote:
-> > >>
-> > >> On Mon, Mar 02, 2026 at 10:29:12AM -0700, Caleb Sander Mateos wrote:
-> > >>> A subsequent commit will allow uring_cmds that don't use iopoll on
-> > >>> IORING_SETUP_IOPOLL io_urings. As a result, CQEs can be posted without
-> > >>> setting the iopoll_completed flag for a request in iopoll_list or going
-> > >>> through task work. For example, a UBLK_U_IO_FETCH_IO_CMDS command could
-> > >>> call io_uring_mshot_cmd_post_cqe() to directly post a CQE. The
-> > >>> io_iopoll_check() loop currently only counts completions posted in
-> > >>> io_do_iopoll() when determining whether the min_events threshold has
-> > >>> been met. It also exits early if there are any existing CQEs before
-> > >>> polling, or if any CQEs are posted while running task work. CQEs posted
-> > >>> via io_uring_mshot_cmd_post_cqe() or other mechanisms won't be counted
-> > >>> against min_events.
-> > >>>
-> > >>> Explicitly check the available CQEs in each io_iopoll_check() loop
-> > >>> iteration to account for CQEs posted in any fashion.
-> > >>>
-> > >>> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-> > >>> ---
-> > >>>  io_uring/io_uring.c | 9 ++-------
-> > >>>  1 file changed, 2 insertions(+), 7 deletions(-)
-> > >>>
-> > >>> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-> > >>> index 46f39831d27c..b4625695bb3a 100644
-> > >>> --- a/io_uring/io_uring.c
-> > >>> +++ b/io_uring/io_uring.c
-> > >>> @@ -1184,11 +1184,10 @@ __cold void io_iopoll_try_reap_events(struct io_ring_ctx *ctx)
-> > >>>               io_move_task_work_from_local(ctx);
-> > >>>  }
-> > >>>
-> > >>>  static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
-> > >>>  {
-> > >>> -     unsigned int nr_events = 0;
-> > >>>       unsigned long check_cq;
-> > >>>
-> > >>>       min_events = min(min_events, ctx->cq_entries);
-> > >>>
-> > >>>       lockdep_assert_held(&ctx->uring_lock);
-> > >>> @@ -1227,34 +1226,30 @@ static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
-> > >>>                * the poll to the issued list. Otherwise we can spin here
-> > >>>                * forever, while the workqueue is stuck trying to acquire the
-> > >>>                * very same mutex.
-> > >>>                */
-> > >>>               if (list_empty(&ctx->iopoll_list) || io_task_work_pending(ctx)) {
-> > >>> -                     u32 tail = ctx->cached_cq_tail;
-> > >>> -
-> > >>>                       (void) io_run_local_work_locked(ctx, min_events);
-> > >>>
-> > >>>                       if (task_work_pending(current) || list_empty(&ctx->iopoll_list)) {
-> > >>>                               mutex_unlock(&ctx->uring_lock);
-> > >>>                               io_run_task_work();
-> > >>>                               mutex_lock(&ctx->uring_lock);
-> > >>>                       }
-> > >>>                       /* some requests don't go through iopoll_list */
-> > >>> -                     if (tail != ctx->cached_cq_tail || list_empty(&ctx->iopoll_list))
-> > >>> +                     if (list_empty(&ctx->iopoll_list))
-> > >>>                               break;
-> > >>>               }
-> > >>>               ret = io_do_iopoll(ctx, !min_events);
-> > >>>               if (unlikely(ret < 0))
-> > >>>                       return ret;
-> > >>>
-> > >>>               if (task_sigpending(current))
-> > >>>                       return -EINTR;
-> > >>>               if (need_resched())
-> > >>>                       break;
-> > >>> -
-> > >>> -             nr_events += ret;
-> > >>> -     } while (nr_events < min_events);
-> > >>> +     } while (io_cqring_events(ctx) < min_events);
-> > >>
-> > >> Before entering the loop, if io_cqring_events() finds any queued CQE,
-> > >> io_iopoll_check() returns immediately without polling.
-> > >>
-> > >> If the queued CQE is originated from non-iopoll uring_cmd, iopoll request
-> > >> will not be polled, may this be one issue?
-> > >
-> > > I also noticed that logic and thought it seemed odd. I would think
-> > > we'd always want to wait for min_events CQEs (and iopoll once even if
-> > > min_events is 0). Looks like Jens added the early return in commit
-> > > a3a0e43fd770 ("io_uring: don't enter poll loop if we have CQEs
-> > > pending"), perhaps he can shed some light on it?
-> >
-> > I don't  recall the bug in question, it's been a while... But it always
-> > makes sense to return events that are ready, and skip polling. It should
-> > only be done if there are no ready events to reap.
-> 
-> Ming, are you okay with preserving that behavior in this patch then? I
-> guess there's a potential fairness concern where REQ_F_IOPOLL requests
-> may not be polled for some time if non-REQ_F_IOPOLL requests continue
-> to frequently post CQEs.
+tree/branch: git://git.infradead.org/nvme.git nvme-7.1
+branch HEAD: 8e8a28876df6a80a05c935832d34b240647c2f3c  nvmet: report NPDGL and NPDAL
 
-IMO, the fairness may not a big deal given userspace should keep polling
-if the iopoll IO isn't done.
+elapsed time: 1224m
 
-But forget to mention, if non-iopoll CQE is posted and ->cq_flush becomes
-true, io_submit_flush_completions() may not get chance to run in case of
-the early return. 
+configs tested: 123
+configs skipped: 1
 
-Maybe something like below is needed:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-@@ -1556,8 +1556,10 @@ static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int min_events)
-         * If we do, we can potentially be spinning for commands that
-         * already triggered a CQE (eg in error).
-         */
--       if (io_cqring_events(ctx))
-+       if (io_cqring_events(ctx)) {
-+               io_submit_flush_completions(ctx);
-                return 0;
-+       }
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    gcc-15.2.0
+arc                   randconfig-001-20260307    gcc-14.3.0
+arc                   randconfig-002-20260307    gcc-14.3.0
+arm                               allnoconfig    clang-23
+arm                              allyesconfig    gcc-15.2.0
+arm                   randconfig-001-20260307    clang-23
+arm                   randconfig-002-20260307    gcc-15.2.0
+arm                   randconfig-003-20260307    gcc-13.4.0
+arm                   randconfig-004-20260307    gcc-11.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.2.0
+arm64                 randconfig-001-20260307    gcc-8.5.0
+arm64                 randconfig-002-20260307    gcc-11.5.0
+arm64                 randconfig-003-20260307    gcc-15.2.0
+arm64                 randconfig-004-20260307    gcc-8.5.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                  randconfig-001-20260307    gcc-15.2.0
+csky                  randconfig-002-20260307    gcc-15.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-23
+hexagon               randconfig-001-20260307    clang-23
+hexagon               randconfig-002-20260307    clang-23
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20260307    gcc-14
+i386        buildonly-randconfig-002-20260307    gcc-14
+i386        buildonly-randconfig-003-20260307    gcc-12
+i386        buildonly-randconfig-004-20260307    clang-20
+i386        buildonly-randconfig-005-20260307    gcc-14
+i386        buildonly-randconfig-006-20260307    clang-20
+i386                  randconfig-011-20260307    clang-20
+i386                  randconfig-012-20260307    clang-20
+i386                  randconfig-013-20260307    clang-20
+i386                  randconfig-014-20260307    clang-20
+i386                  randconfig-015-20260307    gcc-14
+i386                  randconfig-016-20260307    gcc-14
+i386                  randconfig-017-20260307    gcc-14
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-23
+loongarch             randconfig-001-20260307    gcc-15.2.0
+loongarch             randconfig-002-20260307    gcc-15.2.0
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    gcc-15.2.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                 randconfig-001-20260307    gcc-10.5.0
+nios2                 randconfig-002-20260307    gcc-8.5.0
+openrisc                         allmodconfig    gcc-15.2.0
+openrisc                          allnoconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    gcc-15.2.0
+parisc                randconfig-001-20260307    gcc-12.5.0
+parisc                randconfig-002-20260307    gcc-8.5.0
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc               randconfig-001-20260307    gcc-8.5.0
+powerpc               randconfig-002-20260307    gcc-11.5.0
+powerpc64             randconfig-001-20260307    gcc-8.5.0
+powerpc64             randconfig-002-20260307    gcc-12.5.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20260307    clang-17
+riscv                 randconfig-002-20260307    clang-23
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-15.2.0
+s390                  randconfig-001-20260307    clang-23
+s390                  randconfig-002-20260307    clang-23
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    gcc-15.2.0
+sh                    randconfig-001-20260307    gcc-15.2.0
+sh                    randconfig-002-20260307    gcc-15.2.0
+sparc                             allnoconfig    gcc-15.2.0
+sparc                 randconfig-001-20260307    gcc-15.2.0
+sparc                 randconfig-002-20260307    gcc-11.5.0
+sparc64                          allmodconfig    clang-23
+sparc64               randconfig-001-20260307    clang-23
+sparc64               randconfig-002-20260307    gcc-8.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-14
+um                    randconfig-001-20260307    gcc-14
+um                    randconfig-002-20260307    clang-23
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260307    gcc-14
+x86_64      buildonly-randconfig-002-20260307    gcc-14
+x86_64      buildonly-randconfig-003-20260307    gcc-14
+x86_64      buildonly-randconfig-004-20260307    clang-20
+x86_64      buildonly-randconfig-005-20260307    clang-20
+x86_64      buildonly-randconfig-006-20260307    gcc-14
+x86_64                randconfig-011-20260307    gcc-14
+x86_64                randconfig-012-20260307    clang-20
+x86_64                randconfig-013-20260307    gcc-14
+x86_64                randconfig-014-20260307    gcc-14
+x86_64                randconfig-015-20260307    gcc-14
+x86_64                randconfig-016-20260307    gcc-14
+x86_64                randconfig-071-20260307    gcc-14
+x86_64                randconfig-072-20260307    clang-20
+x86_64                randconfig-073-20260307    gcc-14
+x86_64                randconfig-074-20260307    gcc-14
+x86_64                randconfig-075-20260307    gcc-14
+x86_64                randconfig-076-20260307    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                randconfig-001-20260307    gcc-8.5.0
+xtensa                randconfig-002-20260307    gcc-8.5.0
 
-
-
-Thanks,
-Ming
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
