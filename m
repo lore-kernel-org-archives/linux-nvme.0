@@ -4,107 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08AC9EA852A
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Mar 2026 15:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F059CEA853E
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Mar 2026 18:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=T5WNWcUgIDbmPE05x/v8F166/SMHmYy/5mUzpMa0Vcg=; b=fdY8BNcq0rb+kC56qaZwtyNHtC
-	Rh20Y5YQs9qAxeduH1TDZwGBTzQURq8AR0QU4xsYkTTChWEgo4XvfNM4R6xmQ8xvGaHqZ2cJOeLJ/
-	962ugaWHsTF8zq44AbU2Oxc5vsm/zHwRxO+2Cm8NsrHvQggKCG6a0GVd66dul5pdnixirBkfy8ygC
-	B48lUcNCO4z9aVPbwiZRt1SOWzYYmgcmHYITbODpByI3sK1UWe2wYYiM6/w6wvkUVfczdAzJZIDLc
-	N33zkJUApIi0StvLpe7Ub4Lb5VqNRMHf0R5uRzkAGv3PGHAPLwhKlM7u6UBqgUVbasYxqgjtPp41Y
-	/WEGQcIA==;
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ilk3tNOoXXOCLpqUtRhYgurzM03IKV8lFQCWmDJAaOY=; b=irnDilQBoUmrL2lp9EewRypgKS
+	2R2aeYzfXYVuvVZ8j0KmlB3s8vWxqcSXIcxtZdHRCsuDvPAvAVodw0isCQXp3NVhyxmQPGfntCwI+
+	5OEbysoWdH06FruM+5sc8kiUt0aVbmajvD3O7o1+26b+cwUQjZWAI8MyIyqgFOwbXzWIsqg2j0GiH
+	yIrITXraLmJnaTglTMWv4ueE86We0pw+jw5wbIkH3aH5j7b9bzGyg/96sch5dWc+FGy1vzQDbu/mS
+	802Oe3h+vTwwt31+Y0gCeXxmQNUqTCzER7ITNLqleTOifdHuP+7O6dkrPnezK4ZLvX8D01HxYrgXV
+	pD+3e7AQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzFoG-000000067LA-1i3Q;
-	Sun, 08 Mar 2026 15:12:48 +0000
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+	id 1vzIlY-00000006FtH-2tZH;
+	Sun, 08 Mar 2026 18:22:12 +0000
+Received: from mail-yx1-f42.google.com ([74.125.224.42])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzFoE-000000067Kp-0u9r
+	id 1vzIlV-00000006FsS-2dZx
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Mar 2026 15:12:47 +0000
-Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-c06cb8004e8so4190505a12.0
-        for <linux-nvme@lists.infradead.org>; Sun, 08 Mar 2026 08:12:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1772982765; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DLe1uIAdTLz0X9fgMvgwwXZxt75XB0AWkOaNF5+k8xR090WU6UcNlk+gfhGLvhwS99
-         Ul9xIDwhEP/f+Tx2eOZ8HkHJfz9Q6MiFvSrLviXEqINDA1FRQbHOepYHRKNW5lDgyCZ3
-         sEh4UQD/n+T4haviURPLRrulLcvj89J8S/AJNPDrVKhVdZzSz/epZtdlCeq3b7FgmVcH
-         g+lt/lkx2jBOHePWvQD7JA06HhKSzeufPTM9BOr3/vwZSlnf2nuWB6UH1jVI+EN+aVKE
-         RThFN9H31WZUtTaGB5mTsI9Ag/vCvBeiF+dtkg2kG+SRiQmA1SVjuG1xYPQtkdRFbFbw
-         2zcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=T5WNWcUgIDbmPE05x/v8F166/SMHmYy/5mUzpMa0Vcg=;
-        fh=yOMX44ahgglSpgI0KEKiBxpN2v0H21qrBCY3U3Nk7GU=;
-        b=bzTfv7YCedWrRHPaKKdyTJKrKH6g4valRgHdz8R2dHN2k3tZA6PTS3w9K9PPdHMc4g
-         OnGyhGABwW9g0i1ccNIfDQYP+4yALVkVr8XjjEnAHYZ7pwgyTWH6bBfwZkFO5ChNU6wq
-         SnFHIiAQqDteLK8don1oa9ih4RaFZil91YdUAPI/iac4ZOKjDKuvtozehVOxayZGhDPN
-         MasQIYnJm0I28npgOKblDlwnF6+r746F2iWXW1cScAs6FjqVXKFwgtZ5ZSO5pvbS0+50
-         Yfo/yGDjmD44o3YFGHHMeVJSmPscUmpWoo0pmwseohdkP1NncBanBS1GgbCUdTzanuSA
-         keNg==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772982765; x=1773587565; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T5WNWcUgIDbmPE05x/v8F166/SMHmYy/5mUzpMa0Vcg=;
-        b=B7EMOJ95+ciXtt8HjKCPD4CDuQuNPGBxqm7yjWnZ8Us8UE5hr6gvSZeIuChVowwEJq
-         zyXeD6L6do4/61QRmjgcI/hrBZVE2PTC6DrZd607O/lf0F57iLn7P9v9g0PhBxquuWzw
-         c2z3T+O1N9EzqkZzbS/7wdSxdFN6DL9R6/qRNNd7F/P3U1JyWtTQPg3aD2c2QOVaNcQl
-         2Wn7d45DQ1BxROZ59fFIw5hS+lCYXwPVEe+8phL9ab91q4+F7UOqP86NvhnsQXQmTcDu
-         13gLG5C+5hDVZwvPUl2kKsvnu9uS6KpIIyOsByx3CCO96A8f+iY+188KrHCL4wTnkaQC
-         x/og==
+	Sun, 08 Mar 2026 18:22:11 +0000
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64ad79df972so10204768d50.1
+        for <linux-nvme@lists.infradead.org>; Sun, 08 Mar 2026 11:22:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772982765; x=1773587565;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=T5WNWcUgIDbmPE05x/v8F166/SMHmYy/5mUzpMa0Vcg=;
-        b=lAkxWEGYLVQMquuxhY4mjf0Np8GQxsAn1mycIQBDXN57vdYyUSV+EDN0d1qTd8ZLii
-         iOZGvnqQOYKw/rS1y1Xs1UtIsKvosVGGXoADPw068ZdNK6+d0MsBptBeGGxG06Y+Yqjk
-         2u8Enyb3OXnqEXJccQ3pmGemG1wwtAT6pkUlt9oT3AWnG84FDn5Z2mRS+yZGtBwnAgR5
-         Ucvv39AaY6P0GAznhQOAKxPbOYQRu9OFCI6sNONxW0HRIWhAWy0Wg3e3Lu/irp0b3her
-         RPzRklX9PraXY3FaxHnPQhSLTPiAJkJn3Au/y6jmRiCVEdL+lzTttHui4OHlt45q6dRU
-         jz/A==
-X-Forwarded-Encrypted: i=1; AJvYcCU+LQwtb9Za+MN7ssl1lkp1pRj48Pyl/FwCkHvNhjzYY263tE3Pfme0BcXd77Og7ZWhMdYG/JHn9XtA@lists.infradead.org
-X-Gm-Message-State: AOJu0YwMxxfoVoDdr20/CWFMT+AXaZfd53zBQN5NpHouCWFozPwQu17Q
-	FFNDGQpFp10TGRqvbk6M5MyY0TjBrYIitP99bkjzf3dhvO5prB84PoXKed3QI5dcuL3mNAcDPLq
-	8Tyz0a1xo3yrteKkpjKNJ/8kM1xTVK6g=
-X-Gm-Gg: ATEYQzz2Y9bKAcpI6BNf6MW2kYtd6/nyuO8DW4L6G99DsGgf/Mrk0ZqFzQ62h0hfel0
-	aAwMBk5tixQdDoFgU3efpIn8IRXNqhQDtorc1EYcxTYtTDF8EYLIC85PZ5JWJA67p43yE6jc8hf
-	rW9k0USr7wEGk0NLygc3PvJUJOUrbPEE72us6IZ9zp9x2dZzFj7EyxWy2T1Bma52SadBGRqNCRy
-	oaYZmBLHiwVTC9Ne9qasHMybQ/prpfo28nPCtrQ5Ei833bMpt116XgO7PTosCsez5PTxLTLI5a7
-	FLvBtCc=
-X-Received: by 2002:a05:6a20:729a:b0:395:4dbb:7e69 with SMTP id
- adf61e73a8af0-3985908729emr8032682637.45.1772982765360; Sun, 08 Mar 2026
- 08:12:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1772994128; x=1773598928;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ilk3tNOoXXOCLpqUtRhYgurzM03IKV8lFQCWmDJAaOY=;
+        b=hl74B1hWuZaS3amxuKM3Bwp4RuapFNeMeSuYYuOSM2w1uoYnEka5Bnk4g/lVmd8Ufv
+         iuTB7OI6xAEeTDuLRReIz6isJxN3nbB5+EGI5V1+csbRUYEFWyWUYWxodvC0p4CU0A3U
+         WjWYCOChruiYIp+l1Q2DW8JVwj0NPCJNDWXorB7UolOPCkabVKlgVSwTqr4jSBKbGN25
+         OFgKdMJGhaP6m9SSfRl+D8G0gpa/z3iGs8VPj/nLnmC3XdQd8N//HQk2kFjbuJ4eup5j
+         JIgcNm8/98VqRno8BM6SZj0NFtEh7qbrpdB7h8lEm6ZbiOmg6h4of799GxXVSo6Pq0Ux
+         cVXA==
+X-Forwarded-Encrypted: i=1; AJvYcCWCiL9p6t5GeAqKuCDf/AuQycL5s9H9LNWcMGSUxCG1bA5cChQaXJ4DZU2V/57Xo5g9f9ASiwgxLhNM@lists.infradead.org
+X-Gm-Message-State: AOJu0YyaFCnYyofbmOsGCGCDkp5DWQzHOZaXKQt9MhL5j6IWGBiQZF9L
+	jr3yiLGyKL6Xn5OXAQ/nJGFfqUSi1G9qDWixGjIbPvfZeI2IOK5sL5TK
+X-Gm-Gg: ATEYQzxpJbhJgaKaEIsRO6ztOcyNqKlnskS60wvzRRMLUAiAmEgoDx0MHU0h1DthAzm
+	PaYQ9gnCglIR6K8Z8pkWyM0XlOUcc+atmjVHz0cL1RBI3/ySQeOZxil+GSBRm/kd2XjehbjhsMI
+	sXt2O5ht6Z/1EeRwlG3cgGnbIda7Z4uoxyPUo+5OajNfKlW4CyJ9NdE37FasNyQ0sFF3emuKzFn
+	KrBkK1Y81GWLqlApCj7sqCIIqJCeoMMWGjHQ9r+NJIj1GYV95lc6d9kW7lio2Haxwh4ScTp4h+A
+	lIbAYrNu6aWY01w+CLH6+QS/wrJXtDeh+MXdqxXqhD4UckNubvM8mXJuIdoGNfjSdkPJkaDcbo+
+	kvdYOC2yP4twLa8C3uN0sYAyMmMYXAdDOrQ1n/0ULg8bi48It8m0uOH2aOzzDIHXnSdrK2ZN2X9
+	h9TGE4K1GQWw==
+X-Received: by 2002:a05:690e:1c21:b0:64c:f872:bee9 with SMTP id 956f58d0204a3-64d140626d9mr9098803d50.11.1772994128223;
+        Sun, 08 Mar 2026 11:22:08 -0700 (PDT)
+Received: from tofu.. ([128.210.0.165])
+        by smtp.googlemail.com with ESMTPSA id 956f58d0204a3-64d175d2f31sm3598649d50.5.2026.03.08.11.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2026 11:22:07 -0700 (PDT)
+From: Sungwoo Kim <iam@sung-woo.kim>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Minwoo Im <minwoo.im.dev@gmail.com>
+Cc: Sungwoo Kim <iam@sung-woo.kim>,
+	Chao Shi <cshi008@fiu.edu>,
+	Weidong Zhu <weizhu@fiu.edu>,
+	Dave Tian <daveti@purdue.edu>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Fix slab-out-of-bounds in nvme_dbbuf_set
+Date: Sun,  8 Mar 2026 14:20:59 -0400
+Message-ID: <20260308182059.2415316-2-iam@sung-woo.kim>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <20260211160859.GA11869@lst.de> <20260212013338.1417091-1-ioerts@kookmin.ac.kr>
- <5eca9b82-c6bc-4d8f-a939-db3399baca57@suse.de>
-In-Reply-To: <5eca9b82-c6bc-4d8f-a939-db3399baca57@suse.de>
-From: yunje shin <yjshin0438@gmail.com>
-Date: Mon, 9 Mar 2026 00:12:34 +0900
-X-Gm-Features: AaiRm50d0twjesiVtYbCcSqmYJOioCWCCvhfCXKD2lfeCwCpEr9ldyK7-IWe_Ew
-Message-ID: <CAMX6_QG0A=Tow01x7N39iAp=chWCMJGxAF6N+tqGpGQFwjVy6g@mail.gmail.com>
-Subject: Re: [PATCH v2] nvmet-auth: validate negotiate payload length(BUG:
- KASAN: slab-out-of-bounds)
-To: Hannes Reinecke <hare@suse.de>, kbusch@kernel.org
-Cc: hch@lst.de, ioerts@kookmin.ac.kr, kch@nvidia.com, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	sagi@grimberg.me
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260308_081246_259396_1E8D562F 
-X-CRM114-Status: GOOD (  13.47  )
+X-CRM114-CacheID: sfid-20260308_112209_684000_E8291EC0 
+X-CRM114-Status: GOOD (  15.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,53 +93,122 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-Gentle ping on this patch.
-I wanted to check if it can be queued.
+dev->online_queues is a count incremented in nvme_init_queue.
+Thus, valid indices are 0 through dev->online_queues − 1.
 
-Thanks,
-Yunje Shin
+This patch fixes the loop condition to ensure the index stays
+within the valid range.
+Index 0 is excluded because it is the admin queue.
 
-On Thu, Feb 12, 2026 at 8:03=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
-e:
->
-> On 2/12/26 02:33, YunJe Shin wrote:
-> > From: Yunje Shin <ioerts@kookmin.ac.kr>
-> >
-> > AUTH_SEND negotiation requires at least one DH-HMAC-CHAP protocol descr=
-iptor.
-> > Validate the payload length before parsing the negotiate payload to avo=
-id
-> > out-of-bounds reads.
-> >
-> > KASAN splat:
-> > [ 1224.388857] BUG: KASAN: slab-out-of-bounds in nvmet_execute_auth_sen=
-d+0x1d24/0x2090
-> > [ 1224.407035] The buggy address belongs to the cache kmalloc-8 of size=
- 8
-> > [ 1224.407998] allocated 8-byte region [ffff88800a6537c0, ffff88800a653=
-7c8)
-> > [ 1224.412412] page dumped because: kasan: bad access detected
-> >
-> > Use struct_size() for minimum length computation and move the negotiate
-> > restart flow into a helper so the call site stays compact.
-> >
-> > Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication")
-> > Signed-off-by: Yunje Shin <ioerts@kookmin.ac.kr>
-> > ---
-> > v2:
-> > - use struct_size() for negotiate payload minimum length
-> > - split negotiate handling into nvmet_restart_dhchap_auth() helper
-> > - use NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD instead of NVMe status
-> >
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+KASAN splat:
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in nvme_dbbuf_free drivers/nvme/host/pci.c:377 [inline]
+BUG: KASAN: slab-out-of-bounds in nvme_dbbuf_set+0x39c/0x400 drivers/nvme/host/pci.c:404
+Read of size 2 at addr ffff88800592a574 by task kworker/u8:5/74
+
+CPU: 0 UID: 0 PID: 74 Comm: kworker/u8:5 Not tainted 6.19.0-dirty #10 PREEMPT(voluntary)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+Workqueue: nvme-reset-wq nvme_reset_work
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0xea/0x150 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xce/0x5d0 mm/kasan/report.c:482
+ kasan_report+0xdc/0x110 mm/kasan/report.c:595
+ __asan_report_load2_noabort+0x18/0x20 mm/kasan/report_generic.c:379
+ nvme_dbbuf_free drivers/nvme/host/pci.c:377 [inline]
+ nvme_dbbuf_set+0x39c/0x400 drivers/nvme/host/pci.c:404
+ nvme_reset_work+0x36b/0x8c0 drivers/nvme/host/pci.c:3252
+ process_one_work+0x956/0x1aa0 kernel/workqueue.c:3257
+ process_scheduled_works kernel/workqueue.c:3340 [inline]
+ worker_thread+0x65c/0xe60 kernel/workqueue.c:3421
+ kthread+0x41a/0x930 kernel/kthread.c:463
+ ret_from_fork+0x6f8/0x8c0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+ </TASK>
+
+Allocated by task 34 on cpu 1 at 4.241550s:
+ kasan_save_stack+0x2c/0x60 mm/kasan/common.c:57
+ kasan_save_track+0x1c/0x70 mm/kasan/common.c:78
+ kasan_save_alloc_info+0x3c/0x50 mm/kasan/generic.c:570
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0xb5/0xc0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5657 [inline]
+ __kmalloc_node_noprof+0x2bf/0x8d0 mm/slub.c:5663
+ kmalloc_array_node_noprof include/linux/slab.h:1075 [inline]
+ nvme_pci_alloc_dev drivers/nvme/host/pci.c:3479 [inline]
+ nvme_probe+0x2f1/0x1820 drivers/nvme/host/pci.c:3534
+ local_pci_probe+0xef/0x1c0 drivers/pci/pci-driver.c:324
+ pci_call_probe drivers/pci/pci-driver.c:392 [inline]
+ __pci_device_probe drivers/pci/pci-driver.c:417 [inline]
+ pci_device_probe+0x743/0x920 drivers/pci/pci-driver.c:451
+ call_driver_probe drivers/base/dd.c:583 [inline]
+ really_probe+0x29b/0xb70 drivers/base/dd.c:661
+ __driver_probe_device+0x3b0/0x4a0 drivers/base/dd.c:803
+ driver_probe_device+0x56/0x1f0 drivers/base/dd.c:833
+ __driver_attach_async_helper+0x155/0x340 drivers/base/dd.c:1159
+ async_run_entry_fn+0xa6/0x4b0 kernel/async.c:129
+ process_one_work+0x956/0x1aa0 kernel/workqueue.c:3257
+ process_scheduled_works kernel/workqueue.c:3340 [inline]
+ worker_thread+0x65c/0xe60 kernel/workqueue.c:3421
+ kthread+0x41a/0x930 kernel/kthread.c:463
+ ret_from_fork+0x6f8/0x8c0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+The buggy address belongs to the object at ffff88800592a000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 244 bytes to the right of
+ allocated 1152-byte region [ffff88800592a000, ffff88800592a480)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x5928
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+anon flags: 0xfffffc0000040(head|node=0|zone=1|lastcpupid=0x1fffff)
+page_type: f5(slab)
+raw: 000fffffc0000040 ffff888001042000 0000000000000000 dead000000000001
+raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 000fffffc0000040 ffff888001042000 0000000000000000 dead000000000001
+head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 000fffffc0000003 ffffea0000164a01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff88800592a400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff88800592a480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff88800592a500: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                                                             ^
+ ffff88800592a580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff88800592a600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+Fixes: 0f0d2c876c96 (nvme: free sq/cq dbbuf pointers when dbbuf set
+fails)
+Acked-by: Chao Shi <cshi008@fiu.edu>
+Acked-by: Weidong Zhu <weizhu@fiu.edu>
+Acked-by: Dave Tian <daveti@purdue.edu>
+Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a7fb88aa8..3c83076a5 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -400,7 +400,7 @@ static void nvme_dbbuf_set(struct nvme_dev *dev)
+ 		/* Free memory and continue on */
+ 		nvme_dbbuf_dma_free(dev);
+ 
+-		for (i = 1; i <= dev->online_queues; i++)
++		for (i = 1; i < dev->online_queues; i++)
+ 			nvme_dbbuf_free(&dev->queues[i]);
+ 	}
+ }
+-- 
+2.47.3
+
 
