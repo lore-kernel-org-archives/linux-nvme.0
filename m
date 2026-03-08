@@ -4,81 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F059CEA853E
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Mar 2026 18:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BD1FEA853C
+	for <linux-nvme@archiver.kernel.org>; Sun,  8 Mar 2026 18:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ilk3tNOoXXOCLpqUtRhYgurzM03IKV8lFQCWmDJAaOY=; b=irnDilQBoUmrL2lp9EewRypgKS
-	2R2aeYzfXYVuvVZ8j0KmlB3s8vWxqcSXIcxtZdHRCsuDvPAvAVodw0isCQXp3NVhyxmQPGfntCwI+
-	5OEbysoWdH06FruM+5sc8kiUt0aVbmajvD3O7o1+26b+cwUQjZWAI8MyIyqgFOwbXzWIsqg2j0GiH
-	yIrITXraLmJnaTglTMWv4ueE86We0pw+jw5wbIkH3aH5j7b9bzGyg/96sch5dWc+FGy1vzQDbu/mS
-	802Oe3h+vTwwt31+Y0gCeXxmQNUqTCzER7ITNLqleTOifdHuP+7O6dkrPnezK4ZLvX8D01HxYrgXV
-	pD+3e7AQ==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u1LKCmc+VNEggmuvPA93nsmONhKai0+cB0m/mRYsqBw=; b=jk8d70NJdb8BQKoUlUSszYnWPF
+	XPUIG3t5wWzpOqQxuJ+ZUWKHclVdn7xa/efgRO3k5BfqmoGBBfhMHf2SzdjUZPrZQL7+HoCT6VDfG
+	i7ZzoFCSFbZnGjywUOzJmsNgR000w8OcaRlljU4E+nIsWcSe9DIYwI+oGxydNqZrJz3TlE11qJWeP
+	hcDbKH+tecPnaVcyXcRaRHpSu/qkkmz6UERRQ/xpzBLLkgbbZuqx7U/SXkwwa6unnuDcEwt24Lib7
+	LfStZOhx5FWvx+w1PzMhmMsAIL3Q9y07POtyx0rgqA2Mikg4ZHRV0X48TRVIRYzewshUaFDOkz446
+	Gq+fl39g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzIlY-00000006FtH-2tZH;
-	Sun, 08 Mar 2026 18:22:12 +0000
-Received: from mail-yx1-f42.google.com ([74.125.224.42])
+	id 1vzJIY-00000006GxP-06qG;
+	Sun, 08 Mar 2026 18:56:18 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzIlV-00000006FsS-2dZx
+	id 1vzJIU-00000006Gx3-2Hxa
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Mar 2026 18:22:11 +0000
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64ad79df972so10204768d50.1
-        for <linux-nvme@lists.infradead.org>; Sun, 08 Mar 2026 11:22:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772994128; x=1773598928;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ilk3tNOoXXOCLpqUtRhYgurzM03IKV8lFQCWmDJAaOY=;
-        b=hl74B1hWuZaS3amxuKM3Bwp4RuapFNeMeSuYYuOSM2w1uoYnEka5Bnk4g/lVmd8Ufv
-         iuTB7OI6xAEeTDuLRReIz6isJxN3nbB5+EGI5V1+csbRUYEFWyWUYWxodvC0p4CU0A3U
-         WjWYCOChruiYIp+l1Q2DW8JVwj0NPCJNDWXorB7UolOPCkabVKlgVSwTqr4jSBKbGN25
-         OFgKdMJGhaP6m9SSfRl+D8G0gpa/z3iGs8VPj/nLnmC3XdQd8N//HQk2kFjbuJ4eup5j
-         JIgcNm8/98VqRno8BM6SZj0NFtEh7qbrpdB7h8lEm6ZbiOmg6h4of799GxXVSo6Pq0Ux
-         cVXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCiL9p6t5GeAqKuCDf/AuQycL5s9H9LNWcMGSUxCG1bA5cChQaXJ4DZU2V/57Xo5g9f9ASiwgxLhNM@lists.infradead.org
-X-Gm-Message-State: AOJu0YyaFCnYyofbmOsGCGCDkp5DWQzHOZaXKQt9MhL5j6IWGBiQZF9L
-	jr3yiLGyKL6Xn5OXAQ/nJGFfqUSi1G9qDWixGjIbPvfZeI2IOK5sL5TK
-X-Gm-Gg: ATEYQzxpJbhJgaKaEIsRO6ztOcyNqKlnskS60wvzRRMLUAiAmEgoDx0MHU0h1DthAzm
-	PaYQ9gnCglIR6K8Z8pkWyM0XlOUcc+atmjVHz0cL1RBI3/ySQeOZxil+GSBRm/kd2XjehbjhsMI
-	sXt2O5ht6Z/1EeRwlG3cgGnbIda7Z4uoxyPUo+5OajNfKlW4CyJ9NdE37FasNyQ0sFF3emuKzFn
-	KrBkK1Y81GWLqlApCj7sqCIIqJCeoMMWGjHQ9r+NJIj1GYV95lc6d9kW7lio2Haxwh4ScTp4h+A
-	lIbAYrNu6aWY01w+CLH6+QS/wrJXtDeh+MXdqxXqhD4UckNubvM8mXJuIdoGNfjSdkPJkaDcbo+
-	kvdYOC2yP4twLa8C3uN0sYAyMmMYXAdDOrQ1n/0ULg8bi48It8m0uOH2aOzzDIHXnSdrK2ZN2X9
-	h9TGE4K1GQWw==
-X-Received: by 2002:a05:690e:1c21:b0:64c:f872:bee9 with SMTP id 956f58d0204a3-64d140626d9mr9098803d50.11.1772994128223;
-        Sun, 08 Mar 2026 11:22:08 -0700 (PDT)
-Received: from tofu.. ([128.210.0.165])
-        by smtp.googlemail.com with ESMTPSA id 956f58d0204a3-64d175d2f31sm3598649d50.5.2026.03.08.11.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 11:22:07 -0700 (PDT)
-From: Sungwoo Kim <iam@sung-woo.kim>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Minwoo Im <minwoo.im.dev@gmail.com>
-Cc: Sungwoo Kim <iam@sung-woo.kim>,
-	Chao Shi <cshi008@fiu.edu>,
-	Weidong Zhu <weizhu@fiu.edu>,
-	Dave Tian <daveti@purdue.edu>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Fix slab-out-of-bounds in nvme_dbbuf_set
-Date: Sun,  8 Mar 2026 14:20:59 -0400
-Message-ID: <20260308182059.2415316-2-iam@sung-woo.kim>
-X-Mailer: git-send-email 2.47.3
+	Sun, 08 Mar 2026 18:56:16 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6283rWGu3727606;
+	Sun, 8 Mar 2026 18:55:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=u1LKCm
+	c+VNEggmuvPA93nsmONhKai0+cB0m/mRYsqBw=; b=pfCJ/mOOfuT7r9DuuH2R09
+	+zIOc3iGIXoR71zl0h8U5D3TTqS90JEwFHIhRY5MTr0RbjPX8/ptsfrrg2qUFsiU
+	jn0t7mlfEK7vyhRLpEGldJkDzVucXnuuUc4r1RHsm2ke0Ng1lNLjlowj/u/f5J1q
+	Ws8gQK4WrKWhPh9E79+eoVcb5HWxGR1IqUI2koNYkfQSw+OXQTygSiLHV/nCyyuh
+	90uT0wImuylilsS15K1KD+EBJZA/VcPdqNkL9m3eC78U3F9RDBxGzDkLa9LQcr8D
+	GAHDthQlW4OpVchBtwujrHdenKgVPUtyqkPvUHdYWxBi1p69Pd0Z3TLN2mDxlf3A
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4crcvr3ycg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 08 Mar 2026 18:55:56 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 628Ffv6N023217;
+	Sun, 8 Mar 2026 18:55:56 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cryuka7bq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 08 Mar 2026 18:55:56 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 628Itthp32244462
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 8 Mar 2026 18:55:55 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0A34758059;
+	Sun,  8 Mar 2026 18:55:55 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 725D758058;
+	Sun,  8 Mar 2026 18:55:51 +0000 (GMT)
+Received: from [9.39.20.31] (unknown [9.39.20.31])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Sun,  8 Mar 2026 18:55:51 +0000 (GMT)
+Message-ID: <a1acd62e-3e22-42eb-b634-3e9ab18bc39a@linux.ibm.com>
+Date: Mon, 9 Mar 2026 00:25:49 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3 0/7] nvme: export additional diagnostic counters via
+ sysfs
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
+        sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
+        wenxiong@linux.ibm.com, gjoyce@ibm.com
+References: <20260220175024.292898-1-nilay@linux.ibm.com>
+ <92f27319-649b-4957-9de7-619d76faa1ce@linux.ibm.com>
+ <aar6j8S1O-mjqqxN@kbusch-mbp>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <aar6j8S1O-mjqqxN@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA4MDE3MSBTYWx0ZWRfX+B3CZsI7VJAQ
+ RObEQzDqsK0xM5c491qptRqTCOyHLxfMXNkJmEZ+RF8zMh+f3mqtZB+LJOSMBqqtzfBxn/pOZUS
+ rcr5PmRnIU0MnLL5MeAuBkImkEFwPgbpSAnt/h+nAJTxwGtIuJu9QprFaL0ZkQtw9WAoqeCX0VS
+ AZNrarmz1F806yvUzkz/VjoLBiIDE9NIKQbNCpRw/xeaIJmQAvPptS0fkXO3ngJdIxtjwckMmud
+ IGlynT7hv7D1T+VYQ7NC2RT312dDsPErUiYqJ/7IfItAlTRTYxMPHBFBERBlq3Dczr03r4JZlyE
+ XZ+jDMlU0in2wmwMhtkiG5vMhOP2VcE6ebN1YpV+775JzWTcG7l/A2NQuwGxqye7kMeCNMX0OrV
+ 5ZV3hcEHKbaXhmLqgwoZongUxkPN0Y08k3kDqQ7rBAh7tft6Bnd5PzX6wCsUlbmaPWts5eYdwLq
+ acNmJo0kzuoUbLOzHAA==
+X-Proofpoint-GUID: yFXYLCByQ7fPtH3-n8JiyCscETKSxcUo
+X-Proofpoint-ORIG-GUID: yFXYLCByQ7fPtH3-n8JiyCscETKSxcUo
+X-Authority-Analysis: v=2.4 cv=QoFTHFyd c=1 sm=1 tr=0 ts=69adc63d cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=DF0ByOvgJZtk_k9QTT0A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-08_05,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 suspectscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603080171
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260308_112209_684000_E8291EC0 
-X-CRM114-Status: GOOD (  15.09  )
+X-CRM114-CacheID: sfid-20260308_115615_067228_A96EDE34 
+X-CRM114-Status: GOOD (  31.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,122 +124,80 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-dev->online_queues is a count incremented in nvme_init_queue.
-Thus, valid indices are 0 through dev->online_queues − 1.
+On 3/6/26 9:32 PM, Keith Busch wrote:
+> On Wed, Mar 04, 2026 at 08:03:02PM +0530, Nilay Shroff wrote:
+>> Hi Keith,
+>>
+>> A gentle ping on this. I´ve incorporated the review comments,
+>> and the series has already received Reviewed-by and Tested-by tags.
+>>
+>> Could you please consider pulling it? Also, please let me know if
+>> you have any further comments or if additional changes are needed.
+> 
+> Thanks, I was hoping free time would show up to let me look closer at
+> this, but that doesn't appear to be happening, so looks like I have to
+> force the time :)
+> 
+Thanks for your time and review!
 
-This patch fixes the loop condition to ensure the index stays
-within the valid range.
-Index 0 is excluded because it is the admin queue.
+> We always need to be a bit cautious on adding user visible attributes,
+> so just throwing out some thoughts on this feature.
+> 
+> The event counters are not atomic. I know these are informational, so
+> maybe it's not important to be 100% accurate in the reporting, but I
+> don't know. Maybe you do want accuracy in which case using atomic_long_t
+> might be the right type. I think that should be okay to use since none
+> of these counters are in the normal fast path.
 
-KASAN splat:
+Currently the counters are implemented using size_t and updated through
+the size_add() helper to avoid overflow (as you suggested earlier in the
+review). Since these counters are not updated in performance critical
+paths, switching them to atomic_long_t should be fine. I'll  update the
+implementation to use atomic counters.
 
-==================================================================
-BUG: KASAN: slab-out-of-bounds in nvme_dbbuf_free drivers/nvme/host/pci.c:377 [inline]
-BUG: KASAN: slab-out-of-bounds in nvme_dbbuf_set+0x39c/0x400 drivers/nvme/host/pci.c:404
-Read of size 2 at addr ffff88800592a574 by task kworker/u8:5/74
+> 
+> The names of the attributes are a bit inconsistent. Some have a "_count"
+> suffix, some have "_events" suffix, and some have no suffix at all.
+> 
+Yes, I originally chose names that I felt were descriptive while trying
+to keep them concise. However I agree that consistent naming is more
+important. I'd update all attributes to use a uniform "_count" suffix.
 
-CPU: 0 UID: 0 PID: 74 Comm: kworker/u8:5 Not tainted 6.19.0-dirty #10 PREEMPT(voluntary)
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
-Workqueue: nvme-reset-wq nvme_reset_work
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0xea/0x150 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xce/0x5d0 mm/kasan/report.c:482
- kasan_report+0xdc/0x110 mm/kasan/report.c:595
- __asan_report_load2_noabort+0x18/0x20 mm/kasan/report_generic.c:379
- nvme_dbbuf_free drivers/nvme/host/pci.c:377 [inline]
- nvme_dbbuf_set+0x39c/0x400 drivers/nvme/host/pci.c:404
- nvme_reset_work+0x36b/0x8c0 drivers/nvme/host/pci.c:3252
- process_one_work+0x956/0x1aa0 kernel/workqueue.c:3257
- process_scheduled_works kernel/workqueue.c:3340 [inline]
- worker_thread+0x65c/0xe60 kernel/workqueue.c:3421
- kthread+0x41a/0x930 kernel/kthread.c:463
- ret_from_fork+0x6f8/0x8c0 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
- </TASK>
+> In order to keep sysfs a bit cleaner, should we consider moving these
+> attributes under a sub-directory specifically for reporting event
+> counters?
+> 
+The counters are currently exported from different objects depending on
+what they represent. Some are per-namespace path, some per-controller,
+and others are associated with the namespace head. Because of this
+separation, placing all counters under a single sub-directory would
+not be feasible.
 
-Allocated by task 34 on cpu 1 at 4.241550s:
- kasan_save_stack+0x2c/0x60 mm/kasan/common.c:57
- kasan_save_track+0x1c/0x70 mm/kasan/common.c:78
- kasan_save_alloc_info+0x3c/0x50 mm/kasan/generic.c:570
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0xb5/0xc0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5657 [inline]
- __kmalloc_node_noprof+0x2bf/0x8d0 mm/slub.c:5663
- kmalloc_array_node_noprof include/linux/slab.h:1075 [inline]
- nvme_pci_alloc_dev drivers/nvme/host/pci.c:3479 [inline]
- nvme_probe+0x2f1/0x1820 drivers/nvme/host/pci.c:3534
- local_pci_probe+0xef/0x1c0 drivers/pci/pci-driver.c:324
- pci_call_probe drivers/pci/pci-driver.c:392 [inline]
- __pci_device_probe drivers/pci/pci-driver.c:417 [inline]
- pci_device_probe+0x743/0x920 drivers/pci/pci-driver.c:451
- call_driver_probe drivers/base/dd.c:583 [inline]
- really_probe+0x29b/0xb70 drivers/base/dd.c:661
- __driver_probe_device+0x3b0/0x4a0 drivers/base/dd.c:803
- driver_probe_device+0x56/0x1f0 drivers/base/dd.c:833
- __driver_attach_async_helper+0x155/0x340 drivers/base/dd.c:1159
- async_run_entry_fn+0xa6/0x4b0 kernel/async.c:129
- process_one_work+0x956/0x1aa0 kernel/workqueue.c:3257
- process_scheduled_works kernel/workqueue.c:3340 [inline]
- worker_thread+0x65c/0xe60 kernel/workqueue.c:3421
- kthread+0x41a/0x930 kernel/kthread.c:463
- ret_from_fork+0x6f8/0x8c0 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+If the concern is reducing clutter in existing directories, we could
+instead introduce a dedicated sub-directory under each object and export
+the counters there. For example, we could create a "diag" directory under
+the per-ns path, controller, and ns-head directories and then export the
+respective counters under "diag". What do you suggest?
 
-The buggy address belongs to the object at ffff88800592a000
- which belongs to the cache kmalloc-2k of size 2048
-The buggy address is located 244 bytes to the right of
- allocated 1152-byte region [ffff88800592a000, ffff88800592a480)
+> Last thought, as you are probably aware, John Garry is proposing to
+> lift the nvme multipath into a generic library, which suggests many of
+> these events would also need to be generic. Should some of these, like
+> error and retry counts, be appended to the generic disk stats instead?
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x5928
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-anon flags: 0xfffffc0000040(head|node=0|zone=1|lastcpupid=0x1fffff)
-page_type: f5(slab)
-raw: 000fffffc0000040 ffff888001042000 0000000000000000 dead000000000001
-raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-head: 000fffffc0000040 ffff888001042000 0000000000000000 dead000000000001
-head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
-head: 000fffffc0000003 ffffea0000164a01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
+Yes I am aware about libmultipath work.
+I agree that retry and error counters might conceptually fit into
+generic disk statistics. However the intent of these diagnostic counters
+is to capture all relevant events, including passthrough commands.
 
-Memory state around the buggy address:
- ffff88800592a400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff88800592a480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff88800592a500: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                                                             ^
- ffff88800592a580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88800592a600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
+Passthrough requests are typically not accounted for in generic disk
+statistics, which makes that interface unsuitable for these counters.
+Additionally some counters are reported at the controller level, and
+controllers do not have an associated gendisk or block device.
 
-Fixes: 0f0d2c876c96 (nvme: free sq/cq dbbuf pointers when dbbuf set
-fails)
-Acked-by: Chao Shi <cshi008@fiu.edu>
-Acked-by: Weidong Zhu <weizhu@fiu.edu>
-Acked-by: Dave Tian <daveti@purdue.edu>
-Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+For these reasons exporting them through the dedicated sysfs interfaces
+appears to be the most appropriate approach.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a7fb88aa8..3c83076a5 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -400,7 +400,7 @@ static void nvme_dbbuf_set(struct nvme_dev *dev)
- 		/* Free memory and continue on */
- 		nvme_dbbuf_dma_free(dev);
- 
--		for (i = 1; i <= dev->online_queues; i++)
-+		for (i = 1; i < dev->online_queues; i++)
- 			nvme_dbbuf_free(&dev->queues[i]);
- 	}
- }
--- 
-2.47.3
+Thanks,
+--Nilay
 
 
