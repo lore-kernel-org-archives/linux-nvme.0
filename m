@@ -4,186 +4,79 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC0E3F41807
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2026 15:32:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4021FCA16D
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2026 18:04:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:To:Subject
-	:Date:Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gsNgEL5fbtDw6jRMx09hI0sjWPH5Jnm2iY7dtGP+rAA=; b=Jh8gy/Z1c4IdCptrLEDm1WiReg
-	SdDHHUAAYP1uY3eEswJxmumRf76SUlrafU8+d4+ubCKYJZ7IeCCHsiNqDuM4ptZEPl5tPbDiuXMkG
-	aN0PkzNVomAZwuB9ajp/G11YDNbbAgnKZn76T+oz4nBx4VP2V9JRsZACSdiZbNXWaE44c56eTmvT2
-	Jsy2SHkXeKY7hEpiI4OOPl9Yaas/f2UWqtkVvmREDpFN8/BW9GVa7Vsg51k/QbPS5cF6rdV4MErSg
-	id+I4/bggZONlVSIjpmP61bxRYo2UYtc8MuDmtzlO2hlL0JZIGIZRWJSYosW03wIG2ki3EhZNqXsE
-	4c8HWenA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Qqyp7H5JqTdq72rTloWLs2u0RHxjFFUjNAszu/wqacU=; b=RmE3KEPF2zIUp6KYcrUMds60f8
+	MbTzi1uO7TN+dlSLFatYYxQT2Sd2BB0ZlUDzGCDgUl11La63r+eZMH6BANKqVCGikC0phKAfq1nPo
+	XnYkXaItge8XJyz75BuzL4A18DBczDRJNgSAQapedwYYlUF+Mbu5iGAIzV1MGHwzKx6OYY5a1Hgt9
+	PZ2Y7jeCS14CMCtZ2QY6hxrp+sWVPpuUtXxCCCDhOwuANo7Ezg6vjFxQ8JCsF1BkbJaJ6JIxgalwf
+	x9Mk3tvQ9E3zmTVpmtafavAoGcTIzckK7EMSBWFFEtLzFXAtqCKKcI3KIiewIJvUxMuSMHCuuPqbz
+	ePmVQoeg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzcaj-00000007c2C-1a19;
-	Mon, 09 Mar 2026 15:32:21 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1vzey5-00000007s8q-2xfL;
+	Mon, 09 Mar 2026 18:04:37 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzcah-00000007c1G-14AV
+	id 1vzey2-00000007s88-2twO
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Mar 2026 15:32:20 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6298uuJj1352423
-	for <linux-nvme@lists.infradead.org>; Mon, 9 Mar 2026 15:32:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=gsNgEL5fbtDw6jRMx09hI0sjWPH5Jnm2iY7dtGP+rAA=; b=
-	YUbAEdIqSQjV7D2oU0laXikyhwh3gV+s6itMPFsY/c9wnHVyU3GPtastVwwHEbHK
-	yaZy26y8YJxM/9mY9mt0zaybRRTdcSqEzdnU/wsVPc3AaJPupy32bcQtRLrasr3Q
-	gXHULMmx3I9H07U5QCiK6OC5tRN7REINHlsyMFEm4lZp21gxN7HNwAThXQ/cvncO
-	trZQD+RTxJG5QAuCizuFa4Mc7tLnAnRJr5kGo9UMCdlljp3dMZRoqihn0x8iQ6L6
-	V23g/WPR6i6lD6E4aVibhjWpMMD9FRJGmP8ywobRXNbYFRh/fmYkAzJeQFDqcK9n
-	nI4ym/hdLVFStt7b3Ve5sQ==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4csks2h5sg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <linux-nvme@lists.infradead.org>; Mon, 09 Mar 2026 15:32:18 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 629F2iMK039594
-	for <linux-nvme@lists.infradead.org>; Mon, 9 Mar 2026 15:32:17 GMT
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010015.outbound.protection.outlook.com [52.101.201.15])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4craf8vmx9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <linux-nvme@lists.infradead.org>; Mon, 09 Mar 2026 15:32:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rRCbKIkbzGxLZFTZwAfLdWdp5IpXHeIlSsoGmYSQhDkLbdXJLbQ3muGRlcOic4MP5yJgt5XdRYX59QwR3DYVwjqVJTXKxxeYyaGWx+SvAsxLwqSLJhu0/VDJYvOyatqTBBXdlkHi1mvpm1wj7UY8wzO+cBoCKRDfwGcmX7lTpXLWjSyvCcGY6FkJnezIKUwIpdmQebK+8x7AHzlp9BEmXAJxJPcJKfI5rvvOigGfvm+HPBroiQDqIopyDuBbjwJkkDLe8x45pajvfJiC8JYk41ODrI9eOkb0YriSxDGv4pwgoOZq/z8+Rvhpi2zGhdo/lboCd8KJbp24omRigbZ8fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gsNgEL5fbtDw6jRMx09hI0sjWPH5Jnm2iY7dtGP+rAA=;
- b=SphNQusceNXfZ4IdGC2tVFPAk5/xlwDMRcPfLOP87dYmg1q01xCL8/UD6RN8sOHI5Yr7z/5gmBhpvktwsMxtJvzzEPvJjmgkDWQyM7lcD2VyXxfHI6heS956dDcHWrd9DfClp5MAOe/kyhMSIG3ronuDMpPBKw0XfNxIqnIg7s7Pzzj2DudyUd33w7DQzh36LwAzIThcjg48ws2yIoH5SlyRNnT1eas9NkBE3dOiEG0CuAlZTlRgWdGfIm2tyWCAmOc880yH+QzKFCfP/F/vd92chti1eWyJ3hkFZNz6b42k6wErm4kIF5HulBCBSH3lEXtQYIZyp4BtRvzEw2EyGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gsNgEL5fbtDw6jRMx09hI0sjWPH5Jnm2iY7dtGP+rAA=;
- b=FJpafNifIRIqOwfIPFEpxoodUWO2ZKK9VGJLf8nokin8imXOnzI3f6DRFeg+8dkrHcygti3c23vu1fNPuaU26u6tbSDISKfoJhFlooKEtdo+pENPW9TzL72wYVoV43Zg6D0xx0/tz+vhcnbrjPwfm6N8bqEHMkIXMCrs9sAQgSs=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by CO6PR10MB5789.namprd10.prod.outlook.com
- (2603:10b6:303:140::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.24; Mon, 9 Mar
- 2026 15:32:13 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9678.024; Mon, 9 Mar 2026
- 15:32:13 +0000
-Message-ID: <ab4941b7-a722-4495-8bf9-bd1e602a802e@oracle.com>
-Date: Mon, 9 Mar 2026 15:32:10 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 0/7] nvme: export additional diagnostic counters via
- sysfs
-To: linux-nvme@lists.infradead.org
-References: <20260220175024.292898-1-nilay@linux.ibm.com>
- <92f27319-649b-4957-9de7-619d76faa1ce@linux.ibm.com>
- <aar6j8S1O-mjqqxN@kbusch-mbp>
- <a1acd62e-3e22-42eb-b634-3e9ab18bc39a@linux.ibm.com>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <a1acd62e-3e22-42eb-b634-3e9ab18bc39a@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P123CA0085.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:138::18) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
+	Mon, 09 Mar 2026 18:04:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773079471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qqyp7H5JqTdq72rTloWLs2u0RHxjFFUjNAszu/wqacU=;
+	b=TBq2JS5aG3mFTx/3vZLi4p6s+dn+oMqBsgjJc85K/JHBkQxvyX9O2WCPKyoM8DTMbyZaEk
+	k92Nbj+rAbLE48h38bpMLTmG5v1ShX0jPp0Puod1l7zk+5SsaAxAHrWDQaYuaH8Ancqxp/
+	2VycWderibJvcwyBYFJJqWYYdc/ucHM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-450-myLx3K4OPQeaPpmENVtp6g-1; Mon,
+ 09 Mar 2026 14:04:25 -0400
+X-MC-Unique: myLx3K4OPQeaPpmENVtp6g-1
+X-Mimecast-MFC-AGG-ID: myLx3K4OPQeaPpmENVtp6g_1773079464
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 15187180049D;
+	Mon,  9 Mar 2026 18:04:23 +0000 (UTC)
+Received: from my-developer-toolbox-latest (unknown [10.2.16.255])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 75057180075D;
+	Mon,  9 Mar 2026 18:04:20 +0000 (UTC)
+Date: Mon, 9 Mar 2026 11:04:19 -0700
+From: Chris Leech <cleech@redhat.com>
+To: yunje shin <yjshin0438@gmail.com>
+Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, ioerts@kookmin.ac.kr
+Subject: Re: [PATCH] nvmet: auth: validate dhchap id list lengths(KASAN:
+ slab-out-of-bounds)
+Message-ID: <20260309-scalding-propeller-e00bf0af6519@redhat.com>
+References: <20260211065925.2878336-1-ioerts@kookmin.ac.kr>
+ <CAMX6_QEQ0MZTPv3+ma6cESW6sXrzHSNttoRTY5wNf9p98caa8A@mail.gmail.com>
+ <CAMX6_QGn=0riCV+DZewc98b+AAdemj8ani9bQg-T+epFC5kAhw@mail.gmail.com>
+ <CAMX6_QH7xiTxLbF4pZHVs9Umw=j70c-dmb3t97c6XBEEEg-kpA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|CO6PR10MB5789:EE_
-X-MS-Office365-Filtering-Correlation-Id: dad59490-5d63-4378-98e9-08de7df1095c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: oSpRkeeI4fW6A4hoXsxpZjtIWzmZ72cK4k7ITnHiZdkNikHay2hd5r0VMbZKOOwFfGMvm9ZxDtt9M4haxHsXSXnGVbU0wmafxAlvW4tqHUzp30QK2zVDXsf0v/WlbKT7vavetspCQmSgd8df/8MY12Gb315hgBWQmPF9/GFt13kZdc+vbSQJlYNyBeBn0sCQFsTXhxEm25iAdjU9a7UNmsJIZ/kXuKln/WYRdrQZ6EvmV9KLtOvMF8zsbHtYsC0OWFxBxiHJpTMDY3oljl2mpSAjHXGPokcfPUjeeM/HUY4VbdYFHTPEH2FwwmUPmt5RmRk/RYsHzGzeIvU7gUVnSWkGfLQbQxF25qA191rtbgeQPhme5qOcFn2r2dgua2cR6lRaNcB/xRyHrzHlnAuUfVaT42o3uMftqe4qPAGsk8GCjLJGVZ0FguxjGe9/RVIBj+ZHnWceN98HNeQ+DiIbU8lBk7qvrkG31SBb2hoITA7gN4qnC3NJfwePT7N10hTZuh3TlZW8KFXlrnGHkg21eT13dz+6IzIrGH8GtO5TS+du7NBZLOJf00uJUj1Y2k8Qn8AIqwXGMhi4RwIYb1OVh6cOiSLQGW8Rr1mPigf77sQPsviFKHLt7aSmWx9sZC/ndLDJ2BV/7O2EUmIDAocoL08kohW4UiuMKbmA9kp92UrfgMvN9dQdTcoHDC/QhsThFXGvTZiadrPhE85qAZOWpfZMPJOvjsJA7771TDEdSg8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MU0zK0NpR0tkNHlFbWdmR2swdy95Q2JRNm9lcDg4Q0NsVGVuMGcrR2FxZmJ1?=
- =?utf-8?B?SStzSmZEU0gvcC90OG9IWjRtbHMxajBRWGhaTmNlYldGeXUvdnUzK2FXVHJ4?=
- =?utf-8?B?R1E5ZFVKdGpXRnBTS3NYZjJ1Nkh6MFpiUEdLVFdiWDZSSlJ5aWRMa05VeWF2?=
- =?utf-8?B?Q3doYkxHM1NvOGkyQUFrQU5LVUJWZEpjR2J1Ym5CZmR5OFJYQXdER1pzRVdw?=
- =?utf-8?B?eGNkUlhkQVZIVmlndnUxSzFvbUJLZ1BVenBmclBjL2xjdWxRMXRreDBZVTVm?=
- =?utf-8?B?NjQvb0hOZnpWVWQrbEo1N2NGK0RFeGlIM0FpSE1BYzZ5WEpZdzRIOE9aV1ZB?=
- =?utf-8?B?THpyL2lOSDBsR0dPNkFyeW5nVGd2bXk0eThmSUE5bUIwRTlZY3NpS0dXcVc1?=
- =?utf-8?B?ZkMvNEloQ2RiVkZwM1hhRGc4ejVJTGxRTCt0K0tyeWRCNnRMVHYwQ0NPeGIx?=
- =?utf-8?B?b0NFWWoxRU1Qa0FQVWNJV1dmZlRxUzVBbWlOSzN3dTkxaVhING1xOWYwY1lC?=
- =?utf-8?B?UjdHQkw1Wjdid3RSM1pqaUtEblVrZjgyMUt6alpTZEVTQjIwSDJoVVN2VWwy?=
- =?utf-8?B?SHg3YjBQTVQvQ2s2akFWSXRHT1k3RGZJZEpCRG5VQ1A3SEdTbTh4d1VEcVFs?=
- =?utf-8?B?cG80QUtyOUQzUWZtNnZEaGcwYjNkcEQ1WnpPbmY2TXBpS2RSSE4wSFVmdFov?=
- =?utf-8?B?ZHpHUUR3czRsNmhBTXRlVkFLRlkxaG1kbnNPVXFFRUFvZDBlWmZDWGRsRUhV?=
- =?utf-8?B?TGRhenV2M0szSmxrQmQrdWRKK05QcjNMd3VubkxTeE14alA0ckZGMWhTMjhz?=
- =?utf-8?B?OUJ6a3FTVzJ5dFltV210Tks0RTdQYVdVUFo2R1dNQXlvYzR5M2k0NkxJUklx?=
- =?utf-8?B?eEZJb1ZEdjRBdExzVWxVKzg5ZEpuL3d4QVZHY1cvdXhuVUNlNUl5Z3B3ajZm?=
- =?utf-8?B?c2V6MmxJREFaOVBUWmtodS82MmIxK24vQ09JZnYyeDhxNUVKSWRmUDcydHd0?=
- =?utf-8?B?NC90b25XNUR1Z053TFdmL1pURDZYZW9meVA1c0FoRGR4ZG03NmN2Skd6ZTRS?=
- =?utf-8?B?Y1QvRTByQzVYTzIwZzNyNGdKUFl1VGU3WFNBUDZUNHMwQTZDeTR3RkltODJi?=
- =?utf-8?B?cEhoS0J6eHZxZTNpUjNad3NSZWprZmtRMjRhYmFPT0svOE9qRExRUmFoa0hz?=
- =?utf-8?B?azNrVFd1T0E3eXJBTy9lU1g0c1R5OVo3bGw1ZmdtV1pCZUdOSExkZlVXYkpy?=
- =?utf-8?B?c0pxZ1lESkxLTXBGMjZuV09OcFVqdDRINWRjWDlsMG83ajQzeWtzcG5aaVNW?=
- =?utf-8?B?NHhzNlZDWVI5czFlbU14T0ZudFVaYTI4bDd3eTJGdllFY1R0TE95ZFhENkRi?=
- =?utf-8?B?M0NZZG9WTm1yd2xhcmt6OTQ2M3Q0bmNuVnhUeXJvc1BBUWZsVi9RWGRFMnNF?=
- =?utf-8?B?QU1XZ216WTgxOFBrcStsMlR5N3JSZk8wK1ZzaWc3THBFKzVWaWlMUExlSkRE?=
- =?utf-8?B?alpISTBBUmNqbmg4NS9pVDFLNW1PemgwRFhjTEdXY1BHWDZYb3JsS1JxMGVS?=
- =?utf-8?B?T0NOUWRHM2s2eFdMS2kwV2QxQTBrTlRveWR0WHVRb0pSVkd3eEhnZTAycnFX?=
- =?utf-8?B?NzZWanZQTHV5TE96eWJzbHdIYmpVVzdxMVFHd2VWYUM2L1ZJOFdWTng5N1M1?=
- =?utf-8?B?N2I0M0xNaG9LUFJJRWNzRGxYZE4zQkl0QzdocVYzNTFyZ3U0MUJjbDJ1UnlE?=
- =?utf-8?B?MlQzeEc0RFVmV1VJUko3d09hYjNPZlplWjJGaUZaSTJhRTVoUVpteUV1WGtm?=
- =?utf-8?B?QkI3QU1LL2t4MlNkaDZMMDlUNXc0dUsvaE05UDZmSGZrSVpJNlFvTnd1Rmhm?=
- =?utf-8?B?c0haaWpmb2NnZ1RqU3A2bWVyWEI3NnNURncrSVVNN0ZJN2tMMEllME9aMEIy?=
- =?utf-8?B?QW5PdFNWaVByWTNOdE1CV0FRaUI0aXlFNWJ5VEwzNzZqcmRuQnlpVTg5a3dv?=
- =?utf-8?B?a054ajBIRnpGdk5PaVczY3gvTTBaSHFUa1JlYmZOTUN6ZUhta3dVbXd1d242?=
- =?utf-8?B?a2t5c1IwWjY1dXE2VTdGUUNGWm1oVzdlV0JVV1VKNkRRNWxYWUNFL2tqUzFP?=
- =?utf-8?B?VHdjL0Zxa1ZNRHdDOC8zRDY0NHpLQ0xBU3hEZmVTOXBZOHVQRmorS0ljVGJW?=
- =?utf-8?B?RXZzRThiOXRoZzV2UnNaR3oxMjNtVlI4dVoySEYzOC9mTGo0MytmbDhicTRX?=
- =?utf-8?B?MlhDcWEzdHA3dE00ekFWMUtEM1A3TzNvUWVmOGFMc0ovQXVPdDRPWVB1V2Iw?=
- =?utf-8?B?d1ZKZ1Z3V3U1eHNHNXNGUXVlQzVRcHdxRU5ySnZKZ216dVA3a2toZz09?=
-X-Exchange-RoutingPolicyChecked: hDVAq2Pvx7S2S/MDUjFyu4+SUyp1AxAxkiU6DXv1LzFIJMvxsEL6JA4yoDU2oS1n79G7GNQuKLmPpRW1BOnzIStVudeh439Dk17AB6qCUKS5rx6Jinm9jy3xYw2yR5URxsJj4TPRDImNn0FdbTiDy9b7qoLHdxM8U/Iaj27JSUFzJusZSwMcjXz0A2w452xhaO5n/zljM9hVdAo+xjzeMTVC7uzSEApKMV+KUKK96+PBLoRQ9YEHdYiNl1JMb6Y531hOh3FEAA+lqzWI/+fIxBO5ZObrVTWG7qPXr0hH6LttqdyWpKFLi6E9v1By4lsfdxjSkFiZzYCldAlPUu5I7Q==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: DTDCId/D2QxH/CAtVMj9mviQPyRA/bzW8bI0NFCWA6q57SDlATwy/6vy7x2QJvsFBzTB/gu8Jg/Qj3/MSXq56SfWDkePf3AbSy3xnB7wDBEErGl4ZipZXZZttF2S255CEelaxlY5/WEXi7tj4rIy2OmPJFyMAKCHOp0Y8sVkdG+pu9MLmjNxi9yqCF91yk1BGcijjhWCoUqt8meAMjh5XqT0hvIjz2mCsjGE56ugSVXMlsEsOtTAFpp/73QhbhYGJqtR4Dm2NPxqxhqgpmHeJ44UmaZb2UflbcijfR/phnvECSzUFAnYxhoFYkwXJxWlC1JJcaCctao636ZMkIzEKq0eo4/3ut6D3m5cXr3HMv+XyJgnliq+SgeJi8pnWhQ2q9DK0dstL0S3K0d8RzxzBR6I/w2luyilO09DkNoTL32cZDLNESEzeXu+WGyn1ogzquq0iDj2trP+bZGTJP1a8XpIrVYwc2/mlAJ6YgVcDahAVgq34q2WF4XUB364K/KnBMf5A8OaIx8UqsvubWUYRG2WLiBdXbfQtYmGQnztg3TC6e+p+Qe/zrPAIp02yJ+IbSWHkAao9GmTvySSMPJRhQIIqX+xz3OGl8J6fChGb6A=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dad59490-5d63-4378-98e9-08de7df1095c
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 15:32:13.2554
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OOSj6GA0rfagTEsSH33WtsVPVv5Z6o1W776YuVj1Onz+JN7ve22GQEUQDpG7yrrrHaQInCDeq/O0qmTr/wV88A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5789
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-09_04,2026-03-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
- definitions=main-2603090140
-X-Proofpoint-ORIG-GUID: A_vpxSIAumnMG6USQ5u2CqeAh6CgG3qy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE0MCBTYWx0ZWRfX+idFvv/fnguj
- GSaKz+jhSjJGSTm7MKqsBQqllIDmYyL3+uhoFF5PB1B+ZnQISxEYtYs6FJ5pPqXGm0hvd2R9XgU
- 9QAXHg/UPkhongIF9Qct9xXUnIFzr9lnEQQ5NXk0WhkRekftF4eEUruCbWVwHGaSoRFO91Q2Y1H
- Nu8Rq47ccaagAYxbG9YEDQ+b5Z4QZtejwxAkVDJY4/kwJvMKik5miC4P9WRwMuXWslD0/FO5YX+
- VfaFuFTPzOFcDEszWoy5f/u0M5UK7yIS0Db9R+cWBsRiW0Et3A1UertDOtD32xHQxNmv18aexU4
- EJjj/oxCMxwsn1DuvMNXKAsrNMVJsloEfCyiDFfPvFKvpLBIFAguXTb2OILDeKtgem7aC7dUuhF
- yubGiE5J/QJAT3AEtADgQiKzr0HteUegU+zDU0AXbA4QA0Kz9haSZm3G316qiZQVwVccQxcch17
- i/M64MjSyg63Q/VlrdA==
-X-Authority-Analysis: v=2.4 cv=S4vUAYsP c=1 sm=1 tr=0 ts=69aee802 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=bkgejhSUenPj25aotEcA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: A_vpxSIAumnMG6USQ5u2CqeAh6CgG3qy
+In-Reply-To: <CAMX6_QH7xiTxLbF4pZHVs9Umw=j70c-dmb3t97c6XBEEEg-kpA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: 5WlqkErDaHpNJByAT2Kc1wR1wWeoApL3mA2H-R-8HBw_1773079464
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260309_083219_525015_44D3BC17 
-X-CRM114-Status: GOOD (  17.71  )
+X-CRM114-CacheID: sfid-20260309_110434_807832_6EC29B6D 
+X-CRM114-Status: GOOD (  38.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -198,59 +91,172 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 08/03/2026 18:55, Nilay Shroff wrote:
->> Last thought, as you are probably aware, John Garry is proposing to
->> lift the nvme multipath into a generic library, which suggests many of
->> these events would also need to be generic. Should some of these, like
->> error and retry counts, be appended to the generic disk stats instead?
+While validating halen and dhlen is a good idea, I don't understand the
+reasoning behind the idlist_half calculations. idlist is a fixed sized 
+60 byte array, and the DH IDs alway start 30 bytes in.
+
+How did you trigger the KASAN issue?  Are you injecting an invalid
+dhlen?  What is the host side, as the linux host driver has a hard coded
+halen of 3 and dhlen of 6.
+
+- Chris
+
+On Mon, Mar 09, 2026 at 12:09:01AM +0900, yunje shin wrote:
+> Just following up on this patch in case it got buried.
+> The KASAN slab-out-of-bounds read is still reproducible on my side.
+> I'd appreciate any feedback.
+> 
+> Thanks,
+> Yunje Shin
+> 
+> On Wed, Feb 18, 2026 at 1:04 PM yunje shin <yjshin0438@gmail.com> wrote:
+> >
+> > I've confirmed that the issue is still present and the KASAN
+> > slab-out-of-bounds read is still reproducible. Please let me know if
+> > there are any concerns or if a v2 is needed.
+> >
+> > Thanks, Yunje Shin
+> >
+> > On Thu, Feb 12, 2026 at 10:49 AM yunje shin <yjshin0438@gmail.com> wrote:
+> > >
+> > > The function nvmet_auth_negotiate() parses the idlist array in the
+> > > struct nvmf_auth_dhchap_protocol_descriptor payload. This array is 60
+> > > bytes and is logically divided into two 30-byte halves: the first half
+> > > for HMAC IDs and the second half for DH group IDs. The current code
+> > > uses a hardcoded +30 offset for the DH list, but does not validate
+> > > halen and dhlen against the per-half bounds. As a result, if a
+> > > malicious host sends halen or dhlen larger than 30, the loops can read
+> > > beyond the intended half of idlist, and for sufficiently large values
+> > > read past the 60-byte array into adjacent slab memory, triggering the
+> > > observed KASAN slab-out-of-bounds read.
+> > >
+> > > This patch fixes the issue by:
+> > >     - Computing the half-size from sizeof(idlist) (idlist_half)
+> > > instead of hardcoding 30
+> > >     - Validating both halen and dhlen are within idlist_half
+> > >     - Replacing the hardcoded DH offset with idlist_half
+> > >
+> > > Thanks,
+> > > Yunje Shin
+> > >
+> > > On Wed, Feb 11, 2026 at 3:59 PM YunJe Shin <yjshin0438@gmail.com> wrote:
+> > > >
+> > > > Validate DH-HMAC-CHAP hash/DH list lengths before indexing the idlist halves to prevent out-of-bounds reads.
+> > > >
+> > > > KASAN report:
+> > > > [   37.160829] Call Trace:
+> > > > [   37.160831]  <TASK>
+> > > > [   37.160832]  dump_stack_lvl+0x5f/0x80
+> > > > [   37.160837]  print_report+0xd1/0x640
+> > > > [   37.160842]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+> > > > [   37.160846]  ? kfree+0x137/0x390
+> > > > [   37.160850]  ? kasan_complete_mode_report_info+0x2a/0x200
+> > > > [   37.160854]  kasan_report+0xe5/0x120
+> > > > [   37.160856]  ? nvmet_execute_auth_send+0x19a9/0x1f00
+> > > > [   37.160860]  ? nvmet_execute_auth_send+0x19a9/0x1f00
+> > > > [   37.160863]  __asan_report_load1_noabort+0x18/0x20
+> > > > [   37.160866]  nvmet_execute_auth_send+0x19a9/0x1f00
+> > > > [   37.160870]  nvmet_tcp_io_work+0x17a8/0x2720
+> > > > [   37.160874]  ? __pfx_nvmet_tcp_io_work+0x10/0x10
+> > > > [   37.160877]  process_one_work+0x5e9/0x1020
+> > > > [   37.160881]  ? __kasan_check_write+0x18/0x20
+> > > > [   37.160885]  worker_thread+0x446/0xc80
+> > > > [   37.160889]  ? __pfx_worker_thread+0x10/0x10
+> > > > [   37.160891]  kthread+0x2d7/0x3c0
+> > > > [   37.160894]  ? __pfx_kthread+0x10/0x10
+> > > > [   37.160897]  ret_from_fork+0x39f/0x5d0
+> > > > [   37.160900]  ? __pfx_ret_from_fork+0x10/0x10
+> > > > [   37.160903]  ? __kasan_check_read+0x15/0x20
+> > > > [   37.160906]  ? __switch_to+0xb45/0xf90
+> > > > [   37.160910]  ? __switch_to_asm+0x39/0x70
+> > > > [   37.160914]  ? __pfx_kthread+0x10/0x10
+> > > > [   37.160916]  ret_from_fork_asm+0x1a/0x30
+> > > > [   37.160920]  </TASK>
+> > > > [   37.160921]
+> > > > [   37.174141] Allocated by task 11:
+> > > > [   37.174377]  kasan_save_stack+0x3d/0x60
+> > > > [   37.174697]  kasan_save_track+0x18/0x40
+> > > > [   37.175043]  kasan_save_alloc_info+0x3b/0x50
+> > > > [   37.175420]  __kasan_kmalloc+0x9c/0xa0
+> > > > [   37.175762]  __kmalloc_noprof+0x197/0x480
+> > > > [   37.176117]  nvmet_execute_auth_send+0x39e/0x1f00
+> > > > [   37.176529]  nvmet_tcp_io_work+0x17a8/0x2720
+> > > > [   37.176912]  process_one_work+0x5e9/0x1020
+> > > > [   37.177275]  worker_thread+0x446/0xc80
+> > > > [   37.177616]  kthread+0x2d7/0x3c0
+> > > > [   37.177906]  ret_from_fork+0x39f/0x5d0
+> > > > [   37.178238]  ret_from_fork_asm+0x1a/0x30
+> > > > [   37.178591]
+> > > > [   37.178735] The buggy address belongs to the object at ffff88800aecc800
+> > > > [   37.178735]  which belongs to the cache kmalloc-96 of size 96
+> > > > [   37.179790] The buggy address is located 0 bytes to the right of
+> > > > [   37.179790]  allocated 72-byte region [ffff88800aecc800, ffff88800aecc848)
+> > > > [   37.180931]
+> > > > [   37.181079] The buggy address belongs to the physical page:
+> > > > [   37.181572] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0xaecc
+> > > > [   37.182393] flags: 0x100000000000000(node=0|zone=1)
+> > > > [   37.182819] page_type: f5(slab)
+> > > > [   37.183080] raw: 0100000000000000 ffff888006c41280 dead000000000122 0000000000000000
+> > > > [   37.183730] raw: 0000000000000000 0000000000200020 00000000f5000000 0000000000000000
+> > > > [   37.184333] page dumped because: kasan: bad access detected
+> > > > [   37.184783]
+> > > > [   37.184918] Memory state around the buggy address:
+> > > > [   37.185315]  ffff88800aecc700: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+> > > > [   37.185835]  ffff88800aecc780: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+> > > > [   37.186336] >ffff88800aecc800: 00 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc
+> > > > [   37.186839]                                               ^
+> > > > [   37.187255]  ffff88800aecc880: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+> > > > [   37.187763]  ffff88800aecc900: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+> > > > [   37.188261] ==================================================================
+> > > > [   37.188938] ==================================================================
+> > > >
+> > > > Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication")
+> > > > Signed-off-by: YunJe Shin <ioerts@kookmin.ac.kr>
+> > > > ---
+> > > >  drivers/nvme/target/fabrics-cmd-auth.c | 13 ++++++++++++-
+> > > >  1 file changed, 12 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+> > > > index 5946681cb0e3..8ad3255aec4a 100644
+> > > > --- a/drivers/nvme/target/fabrics-cmd-auth.c
+> > > > +++ b/drivers/nvme/target/fabrics-cmd-auth.c
+> > > > @@ -36,6 +36,7 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
+> > > >         struct nvmet_ctrl *ctrl = req->sq->ctrl;
+> > > >         struct nvmf_auth_dhchap_negotiate_data *data = d;
+> > > >         int i, hash_id = 0, fallback_hash_id = 0, dhgid, fallback_dhgid;
+> > > > +       size_t idlist_half;
+> > > >
+> > > >         pr_debug("%s: ctrl %d qid %d: data sc_d %d napd %d authid %d halen %d dhlen %d\n",
+> > > >                  __func__, ctrl->cntlid, req->sq->qid,
+> > > > @@ -72,6 +73,15 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
+> > > >             NVME_AUTH_DHCHAP_AUTH_ID)
+> > > >                 return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+> > > >
+> > > > +       /*
+> > > > +        * idlist[0..idlist_half-1]: hash IDs
+> > > > +        * idlist[idlist_half..]: DH group IDs
+> > > > +        */
+> > > > +       idlist_half = sizeof(data->auth_protocol[0].dhchap.idlist) / 2;
+> > > > +       if (data->auth_protocol[0].dhchap.halen > idlist_half ||
+> > > > +           data->auth_protocol[0].dhchap.dhlen > idlist_half)
+> > > > +               return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+> > > > +
+> > > >         for (i = 0; i < data->auth_protocol[0].dhchap.halen; i++) {
+> > > >                 u8 host_hmac_id = data->auth_protocol[0].dhchap.idlist[i];
+> > > >
+> > > > @@ -98,7 +108,8 @@ static u8 nvmet_auth_negotiate(struct nvmet_req *req, void *d)
+> > > >         dhgid = -1;
+> > > >         fallback_dhgid = -1;
+> > > >         for (i = 0; i < data->auth_protocol[0].dhchap.dhlen; i++) {
+> > > > -               int tmp_dhgid = data->auth_protocol[0].dhchap.idlist[i + 30];
+> > > > +               int tmp_dhgid =
+> > > > +                       data->auth_protocol[0].dhchap.idlist[i + idlist_half];
+> > > >
+> > > >                 if (tmp_dhgid != ctrl->dh_gid) {
+> > > >                         dhgid = tmp_dhgid;
+> > > > --
+> > > > 2.43.0
+> > > >
 > 
 
-Thanks for the mention
-
-> Yes I am aware about libmultipath work.
-> I agree that retry and error counters might conceptually fit into
-> generic disk statistics. However the intent of these diagnostic counters
-> is to capture all relevant events, including passthrough commands.
-> 
-> Passthrough requests are typically not accounted for in generic disk
-> statistics, which makes that interface unsuitable for these counters.
-> Additionally some counters are reported at the controller level, and
-> controllers do not have an associated gendisk or block device.
-> 
-> For these reasons exporting them through the dedicated sysfs interfaces
-> appears to be the most appropriate approach.
-
- From the current list of proposed counters, my thoughts per counter are 
-WRT SCSI:
-"nvme: export command retry count"
-The ACRE which this is based on is not relevant (to SCSI), and I would 
-be reluctant to add such a counter for scsi_devices
-
-"nvme: export multipath failover "
-I think that this could be added for scsi_mpath_device class
-
-"nvme: export command error counters "
-Similar as "nvme: export command retry count"
-
-"nvme: export I/O requeue count when no path is available "
-I think that this could be added for scsi_mpath_device class
-
-"nvme: export I/O failure"
-Not really relevant to SCSI, or more relevant to SCSI low-level drivers 
-(which I would not want to expose as an ABI for SCSI multipath)
-
-"nvme: export controller reset event count "
-Same as "nvme: export I/O failure"
-
-"nvme: export controller reconnect "
-Again, same as "nvme: export I/O failure"
-
-BTW, I think that the counters should be atomic - otherwise we are not 
-getting accurate results. And, as is mentioned, none seem to be in the 
-fastpath (so I don't know why not have them as atomic).
-
-Finally, some of these counters seem to me to be more suitable for a 
-debugfs (and not sysfs).
-
-Cheers!
 
