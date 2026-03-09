@@ -4,78 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3A0BEF36F8
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2026 08:00:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6B71EFCD9A
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2026 11:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iG5cUe+YN0/blrgDC+eLuPZ2HGSdRpdG+sL6fdNqa04=; b=JosrLBeBMgi0VDHkTef5Yj7RpA
-	ekBwSEppd1u9N3p5TiY8YPc9F9waa0KrdzHyViCpB4rfz4ac1DVo1oqhXcE95REoU8s5irzeBS4c/
-	edxkUcnYDgP8uY0WGlCnLVSCO+J5GqBLoPv9g2Pk/qylCVLz1PDKBizT+RXY7We4dc8tUqFjTDhCo
-	y9YwKAAn9ufalD3eDpxSJVaS83eSIcAsE2S/0jyRS45HEFq5vCdhHDMbwILj634EZhuQX1d33N5ZP
-	Cc0wdwroghaZLnZfjme5QOJYAoTYF7EOk4SMkCImOISLyVN7eDOZ1jYx4gYc2CuruiJfuHq3WuNFH
-	dNwQzgPw==;
+	bh=QZNnrKZleJxX1z1TzknkDHHZ6NkSyKVLLXuqB64ZhbQ=; b=Zc5J61Xtwv8d/vKImHY7WcPXPw
+	75t3X9gQm0t4uCbZVUJzfCw54A7Bsj9uv6zBCnYk6cjRM/j+jGdyekA+MCtWz+C+QFJYMa4v9Tvyw
+	6tx7LuCHbIICWi1QnDi1d1JO5qrnvDWR0b+K5dZ+kR+hCKC3qcZ6XHAnrFaLlUeTpq7sZuzKSvhD0
+	WKwX7VkweeWrifSYrCUN5IlqRD8BnDyi3jmq6YlDqrkFtcTrFBK4cMYdOPRQuC2eMJRTrMcnpF3D5
+	anF6NfvtcTZcDaUUS8Pl81im6Ddj8WliwE/YK0qHEfcD1QEDHS25Nf01l8OJ2HzQHLiRN607wjfhZ
+	E2CoIYsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzVXl-00000006r7S-0SMK;
-	Mon, 09 Mar 2026 08:00:49 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1vzYQ6-000000078P9-1VuR;
+	Mon, 09 Mar 2026 11:05:06 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzVXi-00000006r6Y-08zD
-	for linux-nvme@lists.infradead.org;
-	Mon, 09 Mar 2026 08:00:47 +0000
+	id 1vzYQ4-000000078Nx-2GOs;
+	Mon, 09 Mar 2026 11:05:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id B4B5C42E41;
-	Mon,  9 Mar 2026 08:00:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09CEC4CEF7;
-	Mon,  9 Mar 2026 08:00:37 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 8A0C66013E;
+	Mon,  9 Mar 2026 11:05:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6435C4CEF7;
+	Mon,  9 Mar 2026 11:05:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773043244;
-	bh=oLICg3wmajRFE766zc5v+Mhsl02mz5h3ToNTDdVSp04=;
+	s=k20201202; t=1773054303;
+	bh=wEz8Ozl7d1i2Iil0NevpMKFEd8sHrDQan1sUFVnc2jY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CNZItq8LwmKUyF4EsMYfZzw79lQvEZA1PoAqpBMqbYmGVknRBToRujRDKh6Ep4Csh
-	 7tpZ+lWDOH1+lfes2lAtWo8E8mb7XSLrUspgSZuiyeJdMDX8h+FQktz7PZZF1T25lJ
-	 uACXhUtIhn54ju06Ox37MB4fbfLeXj/G/KflaUyci8mylZHqMmJqgZNArwBJ6t83HP
-	 +ji9lZ0aQQJIPvusqwCq22ogl7M502qvPO0+2PuWChQ4mMJGH6LfGAXsdhuF+J6RmM
-	 rBi2SCB9AgU2x6l6VsvNUWrbrxXP0lXmwN7v77tVA0KDh+Q7QJ2Vp4TzMh5TbvnyHz
-	 r73zDPAlQdt7g==
-Date: Mon, 9 Mar 2026 13:30:28 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Manikanta Maddireddy <mmaddireddy@nvidia.com>, 
-	krishna.chundru@oss.qualcomm.com, Bjorn Helgaas <helgaas@kernel.org>, 
-	manivannan.sadhasivam@oss.qualcomm.com, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, "David E. Box" <david.e.box@linux.intel.com>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Chia-Lin Kao <acelan.kao@canonical.com>, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-Message-ID: <y6ssm2pxybi26r54aszgsksg7pijnnqkmrut26lwgw2iawihu7@sw7ctkze7yni>
-References: <bf37b6a5-268d-4c07-a536-a826b3d5953b@nvidia.com>
- <unc5zefwndgcv7wufaezz3gkg3qtaymkjlmymhyqdqwzn3wybl@ow2rhbyt772h>
- <f9ac8c8f-8959-416b-ba90-14f0886c5bc0@nvidia.com>
- <a5m4pqtiaxsq5lmq64roro633ganbeq7mypa5ojuuqy4npkvok@wcogdbzaq6xe>
- <7157c68e-97f3-43b0-bfb5-e271a8f2a4b8@nvidia.com>
- <cf1e685a-a1cb-45ec-bdc3-1ef1a3d1044e@nvidia.com>
- <npt2cgwksulq5375dzlhszqaqrurgdvlkz6fdczer6shglqfg5@gp6a6xymymww>
- <26ad62ff-4972-4b29-8f9e-1868cd20ee00@nvidia.com>
- <kkly3z4durpagtenadvmzdpojlctachgfgi2fdapt6zthdl2gx@n2qhmlud2zb7>
- <3a0ddcfa-9fe6-4744-a9e4-016c43f9400e@nvidia.com>
+	b=lXIOX4YTIHM87gvY4gOrptvS37DMMvPE1iDdRiW0VDS+X9LpNC1KxxZ+qWSOOkWU7
+	 RgJsIjAvzv8p4ooQtA0D45b1dlQGZ1MbUN6T1Un2cjJ17JMUYFmaaZKOItIdYGCPrt
+	 J9FNMn0WlSxn0w0D2zzhpSD1dtXG025bcG/J+IFLBht9EIn4w/xj78dt6UMkUkN2J6
+	 VDJrjG7fwuJ3btdrXogdNq2lZTs0OWIPPd0pJYZoSjkPCoJt/m6Qv/fOHBZVVGcF6j
+	 asZXADR3ahoAmxn6AxQAisPLrDwvDvCNJF8n4E4Xy8SVMnhD/s4QjANpLPnp2TBhvv
+	 xjkSaeQDoyosw==
+Date: Mon, 9 Mar 2026 12:04:59 +0100
+From: Vinod Koul <vkoul@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev
+Subject: Re: [PATCH v2 1/8] dmaengine: Add API to combine configuration and
+ preparation (sg and single)
+Message-ID: <aa6pW-zpxnrZnfPn@vaman>
+References: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
+ <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3a0ddcfa-9fe6-4744-a9e4-016c43f9400e@nvidia.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260309_010046_229871_A9FDB394 
-X-CRM114-Status: GOOD (  24.20  )
+In-Reply-To: <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,44 +84,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 06, 2026 at 04:03:35PM +0000, Jon Hunter wrote:
+On 18-12-25, 10:56, Frank Li wrote:
+> Previously, configuration and preparation required two separate calls. This
+> works well when configuration is done only once during initialization.
 > 
-> On 03/03/2026 16:17, Manivannan Sadhasivam wrote:
+> However, in cases where the burst length or source/destination address must
+> be adjusted for each transfer, calling two functions is verbose and
+> requires additional locking to ensure both steps complete atomically.
 > 
-> ...
+> Add a new API dmaengine_prep_config_single() and dmaengine_prep_config_sg()
+> and callback device_prep_config_sg() that combines configuration and
+> preparation into a single operation. If the configuration argument is
+> passed as NULL, fall back to the existing implementation.
 > 
-> > > For Tegra, we enter a deep low power state known as SC7 on suspend which
-> > > does involve firmware. Nonetheless I tried for fun, but this breaks suspend
-> > > completely.
-> > > 
-> > 
-> > Ah, this explains the problem. We also have a similar problem on our Qcom Auto
-> > boards where the firmware completely shuts down the SoC and puts the DRAM in
-> > self refresh mode. So NVMe driver never resumes properly. We tried multiple ways
-> > to address this issue in the NVMe driver, but the NVMe maintainers rejected
-> > every single one of them and asking for some API in the PCI or PM core to tell
-> > the NVMe driver when to shutdown the device during suspend. But this turned out
-> > to be not so trivial.
-> > 
-> > Another way to workaround this issue would be by calling
-> > pm_set_suspend_via_firmware() from the driver that controls the entity doing
-> > power management of the SoC (firmware). In your case, it is
-> > drivers/soc/tegra/pmc.c?
-> 
-> Actually for newer devices it is PSCI and so ...
-> 
-> > In that case, you can use this patch as a reference:
-> > https://lore.kernel.org/all/20251231162126.7728-1-manivannan.sadhasivam@oss.qualcomm.com
-> 
-> This change fixes the problem as implemented. What is the status of the
-> above? Any plans to get this merged?
-> 
+> Add a new API dmaengine_prep_config_single_safe() and
+> dmaengine_prep_config_sg_safe() for re-entrancy, which require driver
+> implement callback device_prep_config_sg().
 
-It didn't get any love so far. It'd help if you can give your tags to that
-patch.
+Okay to add API
 
-- Mani
+> +	struct dma_async_tx_descriptor *(*device_prep_config_sg)(
+> +		struct dma_chan *chan, struct scatterlist *sgl,
+> +		unsigned int sg_len, enum dma_transfer_direction direction,
+> +		unsigned long flags, struct dma_slave_config *config,
+> +		void *context);
+
+Do we want to have drivers implement one more callback. It does not make
+sense to me. Why not handle this in framework and have it call the
+respective lower level APIs.
+
+Drivers should implement simple apis and collectively the functionality
+can come from the framework.
+
+Would you consider revising as such. Bonus all existing drivers can
+start using this API, no change required for drivers in that case
+
 
 -- 
-மணிவண்ணன் சதாசிவம்
+~Vinod
 
