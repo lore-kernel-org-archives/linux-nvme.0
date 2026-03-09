@@ -4,112 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BD1FEA853C
-	for <linux-nvme@archiver.kernel.org>; Sun,  8 Mar 2026 18:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B456DEA8553
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2026 04:28:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u1LKCmc+VNEggmuvPA93nsmONhKai0+cB0m/mRYsqBw=; b=jk8d70NJdb8BQKoUlUSszYnWPF
-	XPUIG3t5wWzpOqQxuJ+ZUWKHclVdn7xa/efgRO3k5BfqmoGBBfhMHf2SzdjUZPrZQL7+HoCT6VDfG
-	i7ZzoFCSFbZnGjywUOzJmsNgR000w8OcaRlljU4E+nIsWcSe9DIYwI+oGxydNqZrJz3TlE11qJWeP
-	hcDbKH+tecPnaVcyXcRaRHpSu/qkkmz6UERRQ/xpzBLLkgbbZuqx7U/SXkwwa6unnuDcEwt24Lib7
-	LfStZOhx5FWvx+w1PzMhmMsAIL3Q9y07POtyx0rgqA2Mikg4ZHRV0X48TRVIRYzewshUaFDOkz446
-	Gq+fl39g==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=TUR6e5Ssp3gFRl3Qw5xjvdZ0HUviL37ab7eciXMHhqY=; b=WtCzSkFvLCeTeR0f7IgJhOj/jV
+	VborhAGwqlf52sXGezTc6Yc1rx1Zkz4Tax6XzsZaWhY/uxjdeQSr8TdpuUqvp/Op0mLag3YT5guoi
+	kizhb/ewDrbDd8DaU72PzO7HpYX6RDDETc2e7mwvAVz6agWuWr7j0SJFbh7/DyuZIJGJadGiKWh/7
+	wDOKfmDcoyqcmeTl0FceJdnrGno+Idcw8qzQ3b3la2tKHCh2VeunoyZ/Wx5S4fsQuOySspNcMi1tN
+	G9u1hBJ80fD3fcoQ3/45oA1AEEPbGu+9mNrH/F1puVlUn6trsNir1TArwbCQA6we9srvqSjmV0tLk
+	r4Y10Heg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzJIY-00000006GxP-06qG;
-	Sun, 08 Mar 2026 18:56:18 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1vzSDl-00000006eDB-1COu;
+	Mon, 09 Mar 2026 04:27:57 +0000
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzJIU-00000006Gx3-2Hxa
+	id 1vzSDf-00000006eCl-0mWw
 	for linux-nvme@lists.infradead.org;
-	Sun, 08 Mar 2026 18:56:16 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6283rWGu3727606;
-	Sun, 8 Mar 2026 18:55:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=u1LKCm
-	c+VNEggmuvPA93nsmONhKai0+cB0m/mRYsqBw=; b=pfCJ/mOOfuT7r9DuuH2R09
-	+zIOc3iGIXoR71zl0h8U5D3TTqS90JEwFHIhRY5MTr0RbjPX8/ptsfrrg2qUFsiU
-	jn0t7mlfEK7vyhRLpEGldJkDzVucXnuuUc4r1RHsm2ke0Ng1lNLjlowj/u/f5J1q
-	Ws8gQK4WrKWhPh9E79+eoVcb5HWxGR1IqUI2koNYkfQSw+OXQTygSiLHV/nCyyuh
-	90uT0wImuylilsS15K1KD+EBJZA/VcPdqNkL9m3eC78U3F9RDBxGzDkLa9LQcr8D
-	GAHDthQlW4OpVchBtwujrHdenKgVPUtyqkPvUHdYWxBi1p69Pd0Z3TLN2mDxlf3A
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4crcvr3ycg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 08 Mar 2026 18:55:56 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 628Ffv6N023217;
-	Sun, 8 Mar 2026 18:55:56 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cryuka7bq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 08 Mar 2026 18:55:56 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 628Itthp32244462
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 8 Mar 2026 18:55:55 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0A34758059;
-	Sun,  8 Mar 2026 18:55:55 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 725D758058;
-	Sun,  8 Mar 2026 18:55:51 +0000 (GMT)
-Received: from [9.39.20.31] (unknown [9.39.20.31])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Sun,  8 Mar 2026 18:55:51 +0000 (GMT)
-Message-ID: <a1acd62e-3e22-42eb-b634-3e9ab18bc39a@linux.ibm.com>
-Date: Mon, 9 Mar 2026 00:25:49 +0530
+	Mon, 09 Mar 2026 04:27:52 +0000
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-2a7a9b8ed69so124374755ad.2
+        for <linux-nvme@lists.infradead.org>; Sun, 08 Mar 2026 21:27:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773030470; x=1773635270; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TUR6e5Ssp3gFRl3Qw5xjvdZ0HUviL37ab7eciXMHhqY=;
+        b=fTkO1y2Vr6+XfzNItVJFfkkN21OWVivumLKJunkokUxFvpKKKT58e9IHlqLjjR9Zn4
+         2wbaoQ5XCebBlcd5CPOeohEC705Xkkq1zm3WvfF/2mg+V8b0bTkR9AEMDqZPTOgctCR/
+         J0QwtLAiqWtxKfVb92IU/RvbveDSlOmvj7ltS0uIuGfZHgDLC6+u9uDN3MvTPhBC0Zux
+         qytQigZFlayt4WyRieq7ZDUTa6D8cKAC8+/GkXpqTlYcxyI+mPAgah/vz2xnf+K6kLfp
+         E0RzizrCPWvrwMJClIcvWN0WuisCDoS2O2+2+5+NMn74iEjLhGzcwU0JWuiytZo4e4Io
+         C/Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773030470; x=1773635270;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TUR6e5Ssp3gFRl3Qw5xjvdZ0HUviL37ab7eciXMHhqY=;
+        b=HNSZdsv/drgjkVJFiLvdtEtgyuCrvfZgFL7avuqDsYvqGrDTirQCSw0FChz+VbRJvo
+         EXBDmhDVE31CXOBAwzJG7Ac5AigxE+BcfsjOVDMDgBk9uquoip8MGjjhbFJeA0kJj5js
+         2UhM9TLT+pQo0bAOh1QOnh5Xq2edZmLOMRO7GzpSD2oBszFOCfe0C8e1Np84KhfGUf+c
+         uiVt/3G934oKJJSiWqaQYBTwvebTNy6EKZKL634RSwkch8l9W/jQdH/G7ERSGbuK2mz9
+         aPa2x2KJ9Lgu+0QRdBf3MZdcYi73bOEQDbR/BG7o4IjewtSKKdfhRCmkI4F/T8HBHf/3
+         5Zdw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZRa85W/W3qyoXwgxT+bYvqgFokJwDohjkDViw4QAhc2t2nE6HGqLvlbWNL+K5tsmZ2iykctkN4ea7@lists.infradead.org
+X-Gm-Message-State: AOJu0YwZ9RdP57mvtZyuMf6kcQ7HF7lTqOxlZuBq3ihEVMWVIkeU0Ip6
+	sPNjxdPV7Eq/B18JgIOTR//C39RKuBYNURx7plFROE93WMBLzlLmpFqW
+X-Gm-Gg: ATEYQzzrCDrKXv4/e4xKtKBp9Tb5Xo/E2x79NrCi2IJad7DfGBpY2dTYAS/ZsxkDK0e
+	z0q+MNug7jWB6m2fvINjsR7o2IsRsr5xMECpL/oTdLgApxa10eMdwdJXEVb0hDKwxjuoI7/4Lmt
+	b37gF5DFjEyB0VAzjQupVtMe3eyNDoVMZ7NKLEmPsnYbt1LJhghvM0ktH9ojC+zf57ErivmzZE8
+	js/4+lB304h3Je2hHeKQVsUhnZdBPizNGJbSf2A1JN1H0m47LfWz4EcQo7iuYwzc9+wcavQ4wLl
+	22NJZ3uH9pJUuVyzowWobt6bM7/bQcpX/C7h3hNf1P87Hh6qDd8Bv/RwTXF76cW9LhpuWXxx543
+	5rF4L5TqJJw0OAsPb7S3R7aqq9uqJfgQwEroKzrosrszRyymNJvNjMMR4+hSL1pTIjvWhFUeNqo
+	WU04Rb2WNka8ziDWzyKejkxa1b3DpXwd5DWuAYI2y4Dw==
+X-Received: by 2002:a17:903:3904:b0:2ae:4aaf:3b04 with SMTP id d9443c01a7336-2ae82494790mr116959845ad.56.1773030469748;
+        Sun, 08 Mar 2026 21:27:49 -0700 (PDT)
+Received: from toolbx.alistair23.me ([2403:581e:fdf9:0:6209:4521:6813:45b7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e57afesm98517655ad.6.2026.03.08.21.27.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2026 21:27:49 -0700 (PDT)
+From: alistair23@gmail.com
+X-Google-Original-From: alistair.francis@wdc.com
+To: hare@suse.de,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+Subject: [PATCH v2] nvme-auth: Don't propose NVME_AUTH_DHGROUP_NULL with SC_C
+Date: Mon,  9 Mar 2026 14:27:33 +1000
+Message-ID: <20260309042733.1137108-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 0/7] nvme: export additional diagnostic counters via
- sysfs
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org, axboe@kernel.dk, hch@lst.de,
-        sagi@grimberg.me, hare@suse.de, dwagner@suse.de,
-        wenxiong@linux.ibm.com, gjoyce@ibm.com
-References: <20260220175024.292898-1-nilay@linux.ibm.com>
- <92f27319-649b-4957-9de7-619d76faa1ce@linux.ibm.com>
- <aar6j8S1O-mjqqxN@kbusch-mbp>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <aar6j8S1O-mjqqxN@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA4MDE3MSBTYWx0ZWRfX+B3CZsI7VJAQ
- RObEQzDqsK0xM5c491qptRqTCOyHLxfMXNkJmEZ+RF8zMh+f3mqtZB+LJOSMBqqtzfBxn/pOZUS
- rcr5PmRnIU0MnLL5MeAuBkImkEFwPgbpSAnt/h+nAJTxwGtIuJu9QprFaL0ZkQtw9WAoqeCX0VS
- AZNrarmz1F806yvUzkz/VjoLBiIDE9NIKQbNCpRw/xeaIJmQAvPptS0fkXO3ngJdIxtjwckMmud
- IGlynT7hv7D1T+VYQ7NC2RT312dDsPErUiYqJ/7IfItAlTRTYxMPHBFBERBlq3Dczr03r4JZlyE
- XZ+jDMlU0in2wmwMhtkiG5vMhOP2VcE6ebN1YpV+775JzWTcG7l/A2NQuwGxqye7kMeCNMX0OrV
- 5ZV3hcEHKbaXhmLqgwoZongUxkPN0Y08k3kDqQ7rBAh7tft6Bnd5PzX6wCsUlbmaPWts5eYdwLq
- acNmJo0kzuoUbLOzHAA==
-X-Proofpoint-GUID: yFXYLCByQ7fPtH3-n8JiyCscETKSxcUo
-X-Proofpoint-ORIG-GUID: yFXYLCByQ7fPtH3-n8JiyCscETKSxcUo
-X-Authority-Analysis: v=2.4 cv=QoFTHFyd c=1 sm=1 tr=0 ts=69adc63d cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=DF0ByOvgJZtk_k9QTT0A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-08_05,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 priorityscore=1501 phishscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603080171
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260308_115615_067228_A96EDE34 
-X-CRM114-Status: GOOD (  31.60  )
+X-CRM114-CacheID: sfid-20260308_212751_248275_4928EC59 
+X-CRM114-Status: GOOD (  12.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -124,80 +103,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/6/26 9:32 PM, Keith Busch wrote:
-> On Wed, Mar 04, 2026 at 08:03:02PM +0530, Nilay Shroff wrote:
->> Hi Keith,
->>
->> A gentle ping on this. I´ve incorporated the review comments,
->> and the series has already received Reviewed-by and Tested-by tags.
->>
->> Could you please consider pulling it? Also, please let me know if
->> you have any further comments or if additional changes are needed.
-> 
-> Thanks, I was hoping free time would show up to let me look closer at
-> this, but that doesn't appear to be happening, so looks like I have to
-> force the time :)
-> 
-Thanks for your time and review!
+From: Alistair Francis <alistair.francis@wdc.com>
 
-> We always need to be a bit cautious on adding user visible attributes,
-> so just throwing out some thoughts on this feature.
-> 
-> The event counters are not atomic. I know these are informational, so
-> maybe it's not important to be 100% accurate in the reporting, but I
-> don't know. Maybe you do want accuracy in which case using atomic_long_t
-> might be the right type. I think that should be okay to use since none
-> of these counters are in the normal fast path.
+Section 8.3.4.5.2 of the NVMe 2.1 base spec states that
 
-Currently the counters are implemented using size_t and updated through
-the size_add() helper to avoid overflow (as you suggested earlier in the
-review). Since these counters are not updated in performance critical
-paths, switching them to atomic_long_t should be fine. I'll  update the
-implementation to use atomic counters.
+"""
+The 00h identifier shall not be proposed in an AUTH_Negotiate message
+that requests secure channel concatenation (i.e., with the SC_C field
+set to a non-zero value).
+"""
 
-> 
-> The names of the attributes are a bit inconsistent. Some have a "_count"
-> suffix, some have "_events" suffix, and some have no suffix at all.
-> 
-Yes, I originally chose names that I felt were descriptive while trying
-to keep them concise. However I agree that consistent naming is more
-important. I'd update all attributes to use a uniform "_count" suffix.
+We need to ensure that we don't set the NVME_AUTH_DHGROUP_NULL idlist if
+SC_C is set.
 
-> In order to keep sysfs a bit cleaner, should we consider moving these
-> attributes under a sub-directory specifically for reporting event
-> counters?
-> 
-The counters are currently exported from different objects depending on
-what they represent. Some are per-namespace path, some per-controller,
-and others are associated with the namespace head. Because of this
-separation, placing all counters under a single sub-directory would
-not be feasible.
+Signed-off-by: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+v2:
+ - Use a macro for Diffie-Hellman Group Identifier List Offset
+ - Use a pointer for data->auth_protocol[0].dhchap.idlist
 
-If the concern is reducing clutter in existing directories, we could
-instead introduce a dedicated sub-directory under each object and export
-the counters there. For example, we could create a "diag" directory under
-the per-ns path, controller, and ns-head directories and then export the
-respective counters under "diag". What do you suggest?
+ drivers/nvme/host/auth.c | 23 +++++++++++++----------
+ include/linux/nvme.h     |  2 ++
+ 2 files changed, 15 insertions(+), 10 deletions(-)
 
-> Last thought, as you are probably aware, John Garry is proposing to
-> lift the nvme multipath into a generic library, which suggests many of
-> these events would also need to be generic. Should some of these, like
-> error and retry counts, be appended to the generic disk stats instead?
-
-Yes I am aware about libmultipath work.
-I agree that retry and error counters might conceptually fit into
-generic disk statistics. However the intent of these diagnostic counters
-is to capture all relevant events, including passthrough commands.
-
-Passthrough requests are typically not accounted for in generic disk
-statistics, which makes that interface unsuitable for these counters.
-Additionally some counters are reported at the controller level, and
-controllers do not have an associated gendisk or block device.
-
-For these reasons exporting them through the dedicated sysfs interfaces
-appears to be the most appropriate approach.
-
-Thanks,
---Nilay
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 405e7c03b1cf..4e8e4ddd6c8d 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -125,6 +125,8 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+ {
+ 	struct nvmf_auth_dhchap_negotiate_data *data = chap->buf;
+ 	size_t size = sizeof(*data) + sizeof(union nvmf_auth_protocol);
++	u8 dh_list_offset = DH_GID_LIST_OFFSET;
++	u8 *idlist = data->auth_protocol[0].dhchap.idlist;
+ 
+ 	if (size > CHAP_BUF_SIZE) {
+ 		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+@@ -144,16 +146,17 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+ 	data->napd = 1;
+ 	data->auth_protocol[0].dhchap.authid = NVME_AUTH_DHCHAP_AUTH_ID;
+ 	data->auth_protocol[0].dhchap.halen = 3;
+-	data->auth_protocol[0].dhchap.dhlen = 6;
+-	data->auth_protocol[0].dhchap.idlist[0] = NVME_AUTH_HASH_SHA256;
+-	data->auth_protocol[0].dhchap.idlist[1] = NVME_AUTH_HASH_SHA384;
+-	data->auth_protocol[0].dhchap.idlist[2] = NVME_AUTH_HASH_SHA512;
+-	data->auth_protocol[0].dhchap.idlist[30] = NVME_AUTH_DHGROUP_NULL;
+-	data->auth_protocol[0].dhchap.idlist[31] = NVME_AUTH_DHGROUP_2048;
+-	data->auth_protocol[0].dhchap.idlist[32] = NVME_AUTH_DHGROUP_3072;
+-	data->auth_protocol[0].dhchap.idlist[33] = NVME_AUTH_DHGROUP_4096;
+-	data->auth_protocol[0].dhchap.idlist[34] = NVME_AUTH_DHGROUP_6144;
+-	data->auth_protocol[0].dhchap.idlist[35] = NVME_AUTH_DHGROUP_8192;
++	idlist[0] = NVME_AUTH_HASH_SHA256;
++	idlist[1] = NVME_AUTH_HASH_SHA384;
++	idlist[2] = NVME_AUTH_HASH_SHA512;
++	if (chap->sc_c == NVME_AUTH_SECP_NOSC)
++		idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_NULL;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_2048;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_3072;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_4096;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_6144;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_8192;
++	data->auth_protocol[0].dhchap.dhlen = dh_list_offset - DH_GID_LIST_OFFSET;
+ 
+ 	chap->sc_c = data->sc_c;
+ 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 655d194f8e72..bd540ef33b63 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -2332,4 +2332,6 @@ enum nvme_pr_change_ptpl {
+ 
+ #define NVME_PR_IGNORE_KEY (1 << 3)
+ 
++#define DH_GID_LIST_OFFSET 30
++
+ #endif /* _LINUX_NVME_H */
+-- 
+2.53.0
 
 
