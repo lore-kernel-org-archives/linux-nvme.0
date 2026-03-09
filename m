@@ -4,111 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CC53CEB1070
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F31F1EB1060
 	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2026 15:34:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wUJ62UzriDRExITrg9iBzNvEWYzDINBTrPfASD/nLws=; b=qsK5hwLhmLgy0TFdTPiIdu6V/d
-	gapxJQ3IwgyQhMIN9bN2aQDhjetNgW6+JLViqMGzvAvrufWRXvBvUrzQ7DH2QF7YIO7tibLAhuzPx
-	4VVCUI9EUESh2aPOR+KwZPbyXjgZR/RUz8y93r4F8d5MwN0GqQv5IRXRq8CO64zRGu9GjuXUxv10Z
-	YhSR+uZS3DTJjJr8C1k+lGD0uPM5+fBfr3luJNHfcH89G2CPl0RVGsqsk86Famu9Mq32d13i4y4Bu
-	URq684Bt7g4CHVw1MFNrTW1sUl96FYa8Dit2poFEmotKU3cl2C8Laq/zdQR/LCc/nQrxvO1rO1U0x
-	EmSLWqhg==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=cKT0KH0p7R5uMYth9xJvno/l1dgnZFPJ0glm1hSa/Jo=; b=N8yxH4R7ANpBcl5fo2f2YD7XHh
+	iu6CmWcYeEThtb+0cy9dpWJyTULUMuLK/O9PvpJB2oArSXq+fkZAIIO0kaefYqMcfM/xEAAzGWi/u
+	GRbJdelD2V3zrzdJTeTdz3C9131x9gHdcRVGL3i5fc9tNCfU+398/9ovDUKy5DOAAST3GbMGuDRaG
+	Z9UrTQQCyN+V5CU93eVcNvHY0A9j0jCgChlXsnh4TRTH/mbkVpfxnMc3N1aFYUwK414uOABEB8LEm
+	wchG/8Okg8CAdof9MIoNJgX+pFvVHF5UYrj8D5gvrClLmzLJyJ7TXtDqJaHW+kOPqkDWDh4OW8fmm
+	CLYNUokw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzz6L-00000009otk-1Msr;
-	Tue, 10 Mar 2026 15:34:29 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1vzz6K-00000009otY-2j4L;
+	Tue, 10 Mar 2026 15:34:28 +0000
+Received: from mail-yx1-f53.google.com ([74.125.224.53])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzkYG-00000008MC3-35Xc
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 10 Mar 2026 00:02:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=wUJ62UzriDRExITrg9iBzNvEWYzDINBTrPfASD/nLws=; b=TzE/+aRKVh3tIL4Omb6aO4lBKR
-	XhCqqmL7aQXQiV9z2VnTGuU8NLKPALsBdrZ8nVhnsV+YonUOGclb4/KWfmgjASiGPoeSD5J6ILp9W
-	8LjYpibKDihgNlajBZsgyouzMdTrlj/2w6BOSrUdDSHvuqI9IOkx5DqyDCda5oR4yM4U9goQq1rQ1
-	YiClrwc+UDjf0wU1XlAGCZV3OG7x4A8X3QJRCup9guECfTFdW7GVnT/FZnGGID+UX85KWtReIi8T+
-	k4ltutfSEkOXL5nu/eTi7dH0WGmOFxiuvKI8TdHahpr6l+1C2tbOn0SpScw9alUJRsu5hsLtzR7/B
-	OoHOD1xQ==;
-Received: from mail-ej1-f52.google.com ([209.85.218.52])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzkYC-0000000DN64-1ydS
+	id 1vzU8U-00000006jPo-3KC3
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Mar 2026 00:02:18 +0000
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9382e59c0eso975930866b.0
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Mar 2026 17:02:16 -0700 (PDT)
+	Mon, 09 Mar 2026 06:30:40 +0000
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64c9fcc24b3so8565737d50.1
+        for <linux-nvme@lists.infradead.org>; Sun, 08 Mar 2026 23:30:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773100935; x=1773705735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wUJ62UzriDRExITrg9iBzNvEWYzDINBTrPfASD/nLws=;
-        b=KgsfvEgzdf/2sEE2T3rlz6HpN0XhruhwbMke1eKgg9u0DKgyBM93va/QEQucAXwRJj
-         3CLRuSOlGiaZS1sLurfRd0nwrZF3Bji9vUQLKHHlloxMg61VaiZ9oyRZRnx2mc80tHcH
-         yVBsMj2Acli/WhJVUzPXB9o76/7EI4DXZkbgwotnUUKiovQll4i0C/KmdIpMLg+Ltrrg
-         bhYB1aKx9AYYPXF3Rd7pEVaHOlDQPLoF9JxtLErs31uEoA7ln8HotexOVhL1JJ5j7aA8
-         SPsBErylj6cjE1J1+KCbe+20R5Qga2olRS/Lgn7p+UvsR4haaE5rC8t4EJ+1DtbiKwB9
-         KVyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVqayxR150LS0NTG7pfDxjJCmM9slDeyGayTu+9WcpmriH917EeQOe/a8VzA2wAPyuubaSzOrb0eu7U@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzl/B6j8+LMKzJ/hLXmCbYg3iGNxsJ2hOd2ckBWtzkmU1GAvw9p
-	5uvjzI+CD062sT86J+GS+dryjof/RRffV0lpQmXllgVzw9+tOyPFkulL0i0KEsnDvx+187X/
-X-Gm-Gg: ATEYQzxr+Xx1qC1SdretBf1m58PzwZ48aN4Rl0ehgmwe6GksnXhM0KE3ov0OY+g3pZy
-	mDF0suAXHNwdMg2GwCWdkLT72t6jhbioxmdYLeYS1AwkrKu80CknZEvkpNqXRKwWotUSO0REOvO
-	qiBTR6tDhh/KKxB2Xag9pOk2GGqrCRxLsBLv/zX18iGaEOKSt3wBJdVnCdeRAZ0zzc9kRhDXyjq
-	W/T0VfQUX1JV7qDdOcxZi6XSuVkRd5cUiTnjHUjpyp33CSIQ735qrS0lIVTX65vm4TbbJ9gw1gk
-	mS5nncP7lvRW5UMG8US2U0MdArOHr2FsFhbP9r0kPO9/gcdwItkjeB+iLkI17k7PVOHtlrP32Ui
-	s1UP4djOBuAmY8uVg+qyTzQIX1EWHAVYSixGrrrGzKt2PlYo2qvMwK4F7YXOnytvpZM5CPy9nzD
-	Irdj94zBjMmidY3mtWcNyZc2Q43RanEZcCXbP4cZB+QvDd+SKd39DqZFueLbc8BSrV/A==
-X-Received: by 2002:a17:907:962a:b0:b96:ea92:6717 with SMTP id a640c23a62f3a-b96ea92778amr365572766b.23.1773100934819;
-        Mon, 09 Mar 2026 17:02:14 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b942f18baadsm435332866b.67.2026.03.09.17.02.14
-        for <linux-nvme@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2026 17:02:14 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9382e59c0eso975926566b.0
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Mar 2026 17:02:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX56ECMKKHFcQIevc57MSayjqPuV/NwSe8k9iU8Zv+P6ODMLIEirtzkG5hSFyjjIww76eQDyQh1a51/@lists.infradead.org
-X-Received: by 2002:a05:6000:144b:b0:439:ac33:5082 with SMTP id
- ffacd0b85a97d-439da66b72cmr23928350f8f.26.1773100503051; Mon, 09 Mar 2026
- 16:55:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260309062840.2937858-2-iam@sung-woo.kim> <CADUfDZorSQCVtQyfjBuaziwG2Jo28yZiiqLKbp9PkFFw-9VgfQ@mail.gmail.com>
-In-Reply-To: <CADUfDZorSQCVtQyfjBuaziwG2Jo28yZiiqLKbp9PkFFw-9VgfQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1773037837; x=1773642637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cKT0KH0p7R5uMYth9xJvno/l1dgnZFPJ0glm1hSa/Jo=;
+        b=kUj1yIZjBdmMG1Onb6A8MATs7Ol/7Xep9I3scVO4e3exfXaAdOPkFuZgEbtID8wDyo
+         ba2EPJT2ya3BzYlT1529PvUNRVPnFdxOwPSy7o/Sy+StgVbKnI8BVbU4/wtJX4m3aFyK
+         3P+MOecZezL50h2wgRJv5G5Bv/WawCuozNf9S0NEpzd6sbF6i8v2UdTW9FfndeSp+HHL
+         3uByY7LbAjkHBUBm8zVmwoXXf9Nb1cyLVUOLNSm7IjknrPGuNo6Ym4/nhvG66ikAAp5n
+         WDEizzwcaF7N5maRzcwCKYEPfDtXYGWNydkk+pxhUzfu3lp6T9Y4AjfFwaUF7Z21aJCG
+         ADFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUYO1Tlhp5EU8/XWE+JkR8LWREuY8B1Z1Pm31ZW7sE3dawdFHb8grp7ay0Y8ScqEKzH/qmFBaS1byvo@lists.infradead.org
+X-Gm-Message-State: AOJu0YyOh9a1FN6/I1c7rP6/Ml4+o9n9vSzkGowq8qv6F133sUrGSYSr
+	j0D4RGwo0Il+Tqa+XT5lxJ8E2Y0TuNGVt99H8Ot14SJFnSTUenJScGFB
+X-Gm-Gg: ATEYQzzsSJhAKzC+r1H1xLmr0rM1jyo3cXw05ldic6mPVnCIzUkcoSjndWqhPr/9vYh
+	0Meih009Nefz8QzqLnMz5ZHYheOcfntVJSozmtxKfNVHlXqZ7bj3o5GDt61UN2JrjHVgGwJANyA
+	+Ysi09jwTQOf6VH8VgOYqUDpsnPuJb9iWIDOWhubSam3Fhi/dB5WTAI2N7FcC9UbcDascEQyfaC
+	FIscu3Ir1Hp1mzWS4r2zZ1c4PXuyl/tZotVV+jyj2/qGq7iUcjCvZI+H55jdOdDb6h95rkzovUO
+	I0CqEqpifPjPXAmiguZ53TjYr/T1gLG/2TaZJpkw860FnNAcOJJmmnd/2hcPQkr4vWayVoWCwzN
+	RtgOWKCJXKTLkIE1Bfe+WVui2EV7NtSEb3IT0Szs8djUz18leNj5CVE24Cp9qJuTsInw2hUjGHR
+	9f+yrN/t6rMw==
+X-Received: by 2002:a05:690e:12c9:b0:64a:e0bf:3ef5 with SMTP id 956f58d0204a3-64d142c569fmr9032253d50.60.1773037836950;
+        Sun, 08 Mar 2026 23:30:36 -0700 (PDT)
+Received: from tofu.. ([128.210.0.165])
+        by smtp.googlemail.com with ESMTPSA id 956f58d0204a3-64d177032d9sm4290936d50.23.2026.03.08.23.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2026 23:30:36 -0700 (PDT)
 From: Sungwoo Kim <iam@sung-woo.kim>
-Date: Mon, 9 Mar 2026 19:54:47 -0400
-X-Gmail-Original-Message-ID: <CAJNyHp+i3M_ko7rhgTz=nxP=MZYM3oQf3L-y=7YnhnRyeUxayA@mail.gmail.com>
-X-Gm-Features: AaiRm53vE5uEinTHUYE1aa6bIvdkwyOpz0dn9fOlsjLR4PN8Z_3w05vllGJ47mw
-Message-ID: <CAJNyHp+i3M_ko7rhgTz=nxP=MZYM3oQf3L-y=7YnhnRyeUxayA@mail.gmail.com>
-Subject: Re: [PATCH] blk-mq: nvme: Fix general protection fault in nvme_setup_descriptor_pools()
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>, 
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
-	Mikulas Patocka <mpatocka@redhat.com>, dm-devel@lists.linux.dev, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, "James E.J. Bottomley" <jejb@linux.ibm.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Chao Shi <cshi008@fiu.edu>, 
-	Weidong Zhu <weizhu@fiu.edu>, Dave Tian <daveti@purdue.edu>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nbd@other.debian.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
+To: Jens Axboe <axboe@kernel.dk>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	dm-devel@lists.linux.dev,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Sungwoo Kim <iam@sung-woo.kim>,
+	Chao Shi <cshi008@fiu.edu>,
+	Weidong Zhu <weizhu@fiu.edu>,
+	Dave Tian <daveti@purdue.edu>,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nbd@other.debian.org,
+	linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
 	linux-scsi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH] blk-mq: nvme: Fix general protection fault in nvme_setup_descriptor_pools()
+Date: Mon,  9 Mar 2026 02:28:37 -0400
+Message-ID: <20260309062840.2937858-2-iam@sung-woo.kim>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260310_000217_016271_FBAE24FB 
-X-CRM114-Status: GOOD (  19.77  )
+X-CRM114-CacheID: sfid-20260308_233038_867328_8A1A38EB 
+X-CRM114-Status: GOOD (  20.85  )
 X-Mailman-Approved-At: Tue, 10 Mar 2026 08:34:27 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -124,53 +115,320 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 9, 2026 at 11:31=E2=80=AFAM Caleb Sander Mateos
-<csander@purestorage.com> wrote:
->
-> On Sun, Mar 8, 2026 at 11:30=E2=80=AFPM Sungwoo Kim <iam@sung-woo.kim> wr=
-ote:
-> >
-> > The numa_node can be < 0 since NUMA_NO_NODE =3D -1. However,
-> > struct blk_mq_hw_ctx{} defines numa_node as unsigned int. As a result,
-> > numa_node is set to UINT_MAX for NUMA_NO_NODE in blk_mq_alloc_hctx().
->
-> The node argument to blk_mq_alloc_hctx() comes from
-> blk_mq_alloc_and_init_hctx(), which is called by
-> blk_mq_alloc_and_init_hctx() with int node =3D blk_mq_get_hctx_node(set,
-> i). node =3D NUMA_NO_NODE would suggest that blk_mq_hw_queue_to_node()
-> doesn't find any CPU affinitized to the queue. Is that even possible?
+The numa_node can be < 0 since NUMA_NO_NODE = -1. However,
+struct blk_mq_hw_ctx{} defines numa_node as unsigned int. As a result,
+numa_node is set to UINT_MAX for NUMA_NO_NODE in blk_mq_alloc_hctx().
 
-Thanks for your review, Celeb.
+Later, nvme_setup_descriptor_pools() accesses
+descriptor_pools[numa_node]. Due to the above, it tries to access
+descriptor_pools[UINT_MAX]. The address is garbage but accessible
+because it is canonical and still within the slab memory range.
+Therefore, no page fault occurs, and KASAN cannot detect this since it
+is beyond the redzones.
 
-blk_mq_hw_queue_to_node() can return NUMA_NO_NODE if the device queues
-exceed the
-number of CPUs. Afterward, it is adjusted on the caller side to
-numa_node =3D set->numa_node.
+Subsequently, normal I/O calls dma_pool_alloc() with the garbage pool
+address. pool->next_block contains a wild pointer, causing a general
+protection fault (GPF).
 
-set->numa_node can still be NUMA_NO_NODE if CONFIG_NUMA=3Dn (trivial) or
-pcibus_to_node() returns NUMA_NO_NODE if ACPI doesn't provide
-proximity information.
-But I'm not sure if this is usual in the real machines. We found the
-crash in QEMU.
+To fix this, this patch changes the type of numa_node to int and adds
+a check for NUMA_NO_NODE.
 
-> >  static struct nvme_descriptor_pools *
-> > -nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
-> > +nvme_setup_descriptor_pools(struct nvme_dev *dev, int numa_node)
-> >  {
-> > -       struct nvme_descriptor_pools *pools =3D &dev->descriptor_pools[=
-numa_node];
-> > +       struct nvme_descriptor_pools *pools;
-> >         size_t small_align =3D NVME_SMALL_POOL_SIZE;
-> >
-> > +       if (numa_node =3D=3D NUMA_NO_NODE)
-> > +               pools =3D &dev->descriptor_pools[numa_node_id()];
-> > +       else
-> > +               pools =3D &dev->descriptor_pools[numa_node];
->
-> Simpler: if (numa_node =3D=3D NUMA_NO_NODE) numa_node =3D numa_node_id();
->
+Log:
 
-Thanks, I will modify it in V2.
+Oops: general protection fault, probably for non-canonical address 0xe9803b040854d02c: 0000 [#1] SMP KASAN PTI
+KASAN: maybe wild-memory-access in range [0x4c01f82042a68160-0x4c01f82042a68167][FEMU] Err: I/O cmd failed: opcode=0x2 status=0x4002
+CPU: 0 UID: 0 PID: 112363 Comm: systemd-udevd Not tainted 6.19.0-dirty #10 PREEMPT(voluntary)
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+RIP: 0010:pool_block_pop mm/dmapool.c:187 [inline]
+RIP: 0010:dma_pool_alloc+0x110/0x990 mm/dmapool.c:417
+Code: 00 0f 85 a4 07 00 00 4c 8b 63 58 4d 85 e4 0f 84 12 01 00 00 e8 41 1d 93 ff 4c 89 e2 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f 85 a7 07 00 00 49 8b 04 24 48 8d 7b 68 48 89 fa 48
+RSP: 0018:ffffc90002b9efd0 EFLAGS: 00010003
+RAX: dffffc0000000000 RBX: ffff888005466800 RCX: ffffffff94faab7f
+RDX: 09803f040854d02c RSI: 6c9b26c9b26c9b27 RDI: ffff88800c725ea0
+RBP: ffffc90002b9f060 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000003 R11: 0000000000000000 R12: 4c01f82042a68164
+R13: ffff888005466800 R14: 0000000000000820 R15: ffff888007b29000
+FS:  00007f2abc4ff8c0(0000) GS:ffff8880d1ff7000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000056360eb89000 CR3: 000000000a480000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ nvme_pci_setup_data_prp drivers/nvme/host/pci.c:906 [inline]
+ nvme_map_data drivers/nvme/host/pci.c:1114 [inline]
+ nvme_prep_rq.part.0+0x17d3/0x3c90 drivers/nvme/host/pci.c:1243
+ nvme_prep_rq drivers/nvme/host/pci.c:1239 [inline]
+ nvme_prep_rq_batch drivers/nvme/host/pci.c:1321 [inline]
+ nvme_queue_rqs+0x37b/0x8a0 drivers/nvme/host/pci.c:1336
+ __blk_mq_flush_list block/blk-mq.c:2848 [inline]
+ __blk_mq_flush_list+0xaa/0xe0 block/blk-mq.c:2844
+ blk_mq_dispatch_queue_requests+0x4f5/0x990 block/blk-mq.c:2893
+ blk_mq_flush_plug_list+0x232/0x650 block/blk-mq.c:2981
+ __blk_flush_plug+0x2c3/0x510 block/blk-core.c:1225
+ blk_finish_plug block/blk-core.c:1252 [inline]
+ blk_finish_plug+0x64/0xc0 block/blk-core.c:1249
+ read_pages+0x6bd/0x9d0 mm/readahead.c:176
+ page_cache_ra_unbounded+0x659/0x950 mm/readahead.c:269
+ do_page_cache_ra mm/readahead.c:332 [inline]
+ force_page_cache_ra+0x282/0x3a0 mm/readahead.c:361
+ page_cache_sync_ra+0x201/0xbf0 mm/readahead.c:579
+ filemap_get_pages+0x3be/0x1990 mm/filemap.c:2690
+ filemap_read+0x3ea/0xdf0 mm/filemap.c:2800
+ blkdev_read_iter+0x1b8/0x520 block/fops.c:856
+ new_sync_read fs/read_write.c:491 [inline]
+ vfs_read+0x90f/0xd80 fs/read_write.c:572
+ ksys_read+0x14e/0x280 fs/read_write.c:715
+ __do_sys_read fs/read_write.c:724 [inline]
+ __se_sys_read fs/read_write.c:722 [inline]
+ __x64_sys_read+0x7b/0xc0 fs/read_write.c:722
+ x64_sys_call+0x17ec/0x21b0 arch/x86/include/generated/asm/syscalls_64.h:1
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x8b/0x1200 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+RIP: 0033:0x7f2abc7b204e
+Code: 0f 1f 40 00 48 8b 15 79 af 00 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb ba 0f 1f 00 64 8b 04 25 18 00 00 00 85 c0 75 14 0f 05 <48> 3d 00 f0 ff ff 77 5a c3 66 0f 1f 84 00 00 00 00 00 48 83 ec 28
+RSP: 002b:00007fff07113cb8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 000056360eb6a528 RCX: 00007f2abc7b204e
+RDX: 0000000000040000 RSI: 000056360eb6a538 RDI: 000000000000000f
+RBP: 000056360e8d23d0 R08: 000056360eb6a510 R09: 00007f2abc79abe0
+R10: 0000000000040050 R11: 0000000000000246 R12: 000000003ff80000
+R13: 0000000000040000 R14: 000056360eb6a510 R15: 000056360e8d2420
+ </TASK>
+Modules linked in:
 
-Sungwoo.
+Fixes: 320ae51feed5 ("blk-mq: new multi-queue block IO queueing mechanism")
+Fixes: d977506f8863 ("nvme-pci: make PRP list DMA pools per-NUMA-node")
+Acked-by: Chao Shi <cshi008@fiu.edu>
+Acked-by: Weidong Zhu <weizhu@fiu.edu>
+Acked-by: Dave Tian <daveti@purdue.edu>
+Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
+---
+ block/bsg-lib.c                   |  2 +-
+ drivers/block/mtip32xx/mtip32xx.c |  2 +-
+ drivers/block/nbd.c               |  2 +-
+ drivers/md/dm-rq.c                |  2 +-
+ drivers/mmc/core/queue.c          |  2 +-
+ drivers/mtd/ubi/block.c           |  2 +-
+ drivers/nvme/host/apple.c         |  2 +-
+ drivers/nvme/host/fc.c            |  2 +-
+ drivers/nvme/host/pci.c           | 11 ++++++++---
+ drivers/nvme/host/rdma.c          |  2 +-
+ drivers/nvme/host/tcp.c           |  2 +-
+ drivers/nvme/target/loop.c        |  2 +-
+ drivers/scsi/scsi_lib.c           |  2 +-
+ include/linux/blk-mq.h            |  4 ++--
+ 14 files changed, 22 insertions(+), 17 deletions(-)
+
+diff --git a/block/bsg-lib.c b/block/bsg-lib.c
+index 9ceb5d0832f5..e93b1018a346 100644
+--- a/block/bsg-lib.c
++++ b/block/bsg-lib.c
+@@ -299,7 +299,7 @@ static blk_status_t bsg_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ /* called right after the request is allocated for the request_queue */
+ static int bsg_init_rq(struct blk_mq_tag_set *set, struct request *req,
+-		       unsigned int hctx_idx, unsigned int numa_node)
++		       unsigned int hctx_idx, int numa_node)
+ {
+ 	struct bsg_job *job = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index 567192e371a8..8aedba9b5690 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -3340,7 +3340,7 @@ static void mtip_free_cmd(struct blk_mq_tag_set *set, struct request *rq,
+ }
+ 
+ static int mtip_init_cmd(struct blk_mq_tag_set *set, struct request *rq,
+-			 unsigned int hctx_idx, unsigned int numa_node)
++			 unsigned int hctx_idx, int numa_node)
+ {
+ 	struct driver_data *dd = set->driver_data;
+ 	struct mtip_cmd *cmd = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index f6c33b21f69e..e1fac1c0c4cd 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -1888,7 +1888,7 @@ static void nbd_dbg_close(void)
+ #endif
+ 
+ static int nbd_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-			    unsigned int hctx_idx, unsigned int numa_node)
++			    unsigned int hctx_idx, int numa_node)
+ {
+ 	struct nbd_cmd *cmd = blk_mq_rq_to_pdu(rq);
+ 	cmd->nbd = set->driver_data;
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index a6ca92049c10..b687a209256b 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -455,7 +455,7 @@ static void dm_start_request(struct mapped_device *md, struct request *orig)
+ }
+ 
+ static int dm_mq_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-			      unsigned int hctx_idx, unsigned int numa_node)
++			      unsigned int hctx_idx, int numa_node)
+ {
+ 	struct mapped_device *md = set->driver_data;
+ 	struct dm_rq_target_io *tio = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
+index 284856c8f655..06cb29190a88 100644
+--- a/drivers/mmc/core/queue.c
++++ b/drivers/mmc/core/queue.c
+@@ -203,7 +203,7 @@ static unsigned short mmc_get_max_segments(struct mmc_host *host)
+ }
+ 
+ static int mmc_mq_init_request(struct blk_mq_tag_set *set, struct request *req,
+-			       unsigned int hctx_idx, unsigned int numa_node)
++			       unsigned int hctx_idx, int numa_node)
+ {
+ 	struct mmc_queue_req *mq_rq = req_to_mmc_queue_req(req);
+ 	struct mmc_queue *mq = set->driver_data;
+diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
+index b53fd147fa65..1c0bd2b36637 100644
+--- a/drivers/mtd/ubi/block.c
++++ b/drivers/mtd/ubi/block.c
+@@ -312,7 +312,7 @@ static blk_status_t ubiblock_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ static int ubiblock_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct ubiblock_pdu *pdu = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index ed61b97fde59..50ff5e9a168d 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -819,7 +819,7 @@ static int apple_nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 
+ static int apple_nvme_init_request(struct blk_mq_tag_set *set,
+ 				   struct request *req, unsigned int hctx_idx,
+-				   unsigned int numa_node)
++				   int numa_node)
+ {
+ 	struct apple_nvme_queue *q = set->driver_data;
+ 	struct apple_nvme *anv = queue_to_apple_nvme(q);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 6948de3f438a..64d0c5d7613a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2109,7 +2109,7 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 
+ static int
+ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-		unsigned int hctx_idx, unsigned int numa_node)
++		unsigned int hctx_idx, int numa_node)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(set->driver_data);
+ 	struct nvme_fcp_op_w_sgl *op = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3c83076a57e5..a5f12fc7655d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -443,11 +443,16 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, __le32 *dbbuf_db,
+ }
+ 
+ static struct nvme_descriptor_pools *
+-nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
++nvme_setup_descriptor_pools(struct nvme_dev *dev, int numa_node)
+ {
+-	struct nvme_descriptor_pools *pools = &dev->descriptor_pools[numa_node];
++	struct nvme_descriptor_pools *pools;
+ 	size_t small_align = NVME_SMALL_POOL_SIZE;
+ 
++	if (numa_node == NUMA_NO_NODE)
++		pools = &dev->descriptor_pools[numa_node_id()];
++	else
++		pools = &dev->descriptor_pools[numa_node];
++
+ 	if (pools->small)
+ 		return pools; /* already initialized */
+ 
+@@ -516,7 +521,7 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 
+ static int nvme_pci_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 35c0822edb2d..c2514ef94028 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -292,7 +292,7 @@ static void nvme_rdma_exit_request(struct blk_mq_tag_set *set,
+ 
+ static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
+ 		struct request *rq, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(set->driver_data);
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 69cb04406b47..385eef98081b 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -547,7 +547,7 @@ static void nvme_tcp_exit_request(struct blk_mq_tag_set *set,
+ 
+ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 		struct request *rq, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(set->driver_data);
+ 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index fc8e7c9ad858..72a8ea70eae7 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -202,7 +202,7 @@ static int nvme_loop_init_iod(struct nvme_loop_ctrl *ctrl,
+ 
+ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_loop_ctrl *ctrl = to_loop_ctrl(set->driver_data);
+ 	struct nvme_loop_iod *iod = blk_mq_rq_to_pdu(req);
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 4a902c9dfd8b..8958ad31ed2a 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1948,7 +1948,7 @@ static blk_status_t scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+ }
+ 
+ static int scsi_mq_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-				unsigned int hctx_idx, unsigned int numa_node)
++				unsigned int hctx_idx, int numa_node)
+ {
+ 	struct Scsi_Host *shost = set->driver_data;
+ 	struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(rq);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index cae9e857aea4..1a5a3786522c 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -426,7 +426,7 @@ struct blk_mq_hw_ctx {
+ 	struct blk_mq_tags	*sched_tags;
+ 
+ 	/** @numa_node: NUMA node the storage adapter has been connected to. */
+-	unsigned int		numa_node;
++	int		numa_node;
+ 	/** @queue_num: Index of this hardware queue. */
+ 	unsigned int		queue_num;
+ 
+@@ -651,7 +651,7 @@ struct blk_mq_ops {
+ 	 * flush request.
+ 	 */
+ 	int (*init_request)(struct blk_mq_tag_set *set, struct request *,
+-			    unsigned int, unsigned int);
++			    unsigned int, int);
+ 	/**
+ 	 * @exit_request: Ditto for exit/teardown.
+ 	 */
+-- 
+2.47.3
+
 
