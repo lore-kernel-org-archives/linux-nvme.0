@@ -4,72 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6B71EFCD9A
-	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2026 11:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E8F7EFCD9B
+	for <linux-nvme@archiver.kernel.org>; Mon,  9 Mar 2026 11:32:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QZNnrKZleJxX1z1TzknkDHHZ6NkSyKVLLXuqB64ZhbQ=; b=Zc5J61Xtwv8d/vKImHY7WcPXPw
-	75t3X9gQm0t4uCbZVUJzfCw54A7Bsj9uv6zBCnYk6cjRM/j+jGdyekA+MCtWz+C+QFJYMa4v9Tvyw
-	6tx7LuCHbIICWi1QnDi1d1JO5qrnvDWR0b+K5dZ+kR+hCKC3qcZ6XHAnrFaLlUeTpq7sZuzKSvhD0
-	WKwX7VkweeWrifSYrCUN5IlqRD8BnDyi3jmq6YlDqrkFtcTrFBK4cMYdOPRQuC2eMJRTrMcnpF3D5
-	anF6NfvtcTZcDaUUS8Pl81im6Ddj8WliwE/YK0qHEfcD1QEDHS25Nf01l8OJ2HzQHLiRN607wjfhZ
-	E2CoIYsw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aQCAFCa6WqNNAixvt4eitLAbW/d5CqRYReziR86kwaU=; b=18HTGrE3vOAwEB5c2P1SIRK6pJ
+	kFBoI/b7K68EsveeQGtWVqxYtyrYwNg0Ygoj41Mgv4w5/krNdKJFPJdEFTnnD23L17BlC8OkrnRd3
+	+jUd4nLuI2yqvGLqrei5vUAqB8BLLjeX2XTtEE0xZMwoIzvFHzbhuym7LT7AhFjGCtKYqhR8LvdRc
+	x04ROyt/499QwQE9QjKbs1cpabzSmOOsvNY8mWVg/wIpITLntYxU+i2foj3Nmwhoi58PLchSeVFw3
+	NoVUitr4YNnBlURN+x5WMCYpMtrKRUYiUylq8x4RNesng/9zrdMl9x0XUQzwwdQpWilvnKd0Ta9v+
+	o74R0tlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzYQ6-000000078P9-1VuR;
-	Mon, 09 Mar 2026 11:05:06 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1vzYqL-00000007CII-0DJ9;
+	Mon, 09 Mar 2026 11:32:13 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzYQ4-000000078Nx-2GOs;
-	Mon, 09 Mar 2026 11:05:04 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8A0C66013E;
-	Mon,  9 Mar 2026 11:05:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6435C4CEF7;
-	Mon,  9 Mar 2026 11:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773054303;
-	bh=wEz8Ozl7d1i2Iil0NevpMKFEd8sHrDQan1sUFVnc2jY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lXIOX4YTIHM87gvY4gOrptvS37DMMvPE1iDdRiW0VDS+X9LpNC1KxxZ+qWSOOkWU7
-	 RgJsIjAvzv8p4ooQtA0D45b1dlQGZ1MbUN6T1Un2cjJ17JMUYFmaaZKOItIdYGCPrt
-	 J9FNMn0WlSxn0w0D2zzhpSD1dtXG025bcG/J+IFLBht9EIn4w/xj78dt6UMkUkN2J6
-	 VDJrjG7fwuJ3btdrXogdNq2lZTs0OWIPPd0pJYZoSjkPCoJt/m6Qv/fOHBZVVGcF6j
-	 asZXADR3ahoAmxn6AxQAisPLrDwvDvCNJF8n4E4Xy8SVMnhD/s4QjANpLPnp2TBhvv
-	 xjkSaeQDoyosw==
-Date: Mon, 9 Mar 2026 12:04:59 +0100
-From: Vinod Koul <vkoul@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH v2 1/8] dmaengine: Add API to combine configuration and
- preparation (sg and single)
-Message-ID: <aa6pW-zpxnrZnfPn@vaman>
-References: <20251218-dma_prep_config-v2-0-c07079836128@nxp.com>
- <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
+	id 1vzYqI-00000007CHs-3e43
+	for linux-nvme@lists.infradead.org;
+	Mon, 09 Mar 2026 11:32:12 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A52705BDA8;
+	Mon,  9 Mar 2026 11:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773055927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aQCAFCa6WqNNAixvt4eitLAbW/d5CqRYReziR86kwaU=;
+	b=xLSOAGrQafK71WT8V6KOYBfAcme7pERcJidLV0DMnvbxt34+6KtheBaBaRei8Pb1QRtJLi
+	sEa1s2kGoyfacZiMulOg5Lp02ZEbjeJ9ozUhW8+HCGKm4mYx6WBZmBGZYkBwaJrMov6+gD
+	lm0SBTlN8PyAnq9EzfjTDKJCFBtv0a4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773055927;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aQCAFCa6WqNNAixvt4eitLAbW/d5CqRYReziR86kwaU=;
+	b=zIAP4Nie9vQCH28kTS/SdFdSyIZqYfb4sbaVz5+Y9U58j4tOEkqC15gK3uI7nMFRpPwZyp
+	2ohJba5vsF9TWZDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773055927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aQCAFCa6WqNNAixvt4eitLAbW/d5CqRYReziR86kwaU=;
+	b=xLSOAGrQafK71WT8V6KOYBfAcme7pERcJidLV0DMnvbxt34+6KtheBaBaRei8Pb1QRtJLi
+	sEa1s2kGoyfacZiMulOg5Lp02ZEbjeJ9ozUhW8+HCGKm4mYx6WBZmBGZYkBwaJrMov6+gD
+	lm0SBTlN8PyAnq9EzfjTDKJCFBtv0a4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773055927;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aQCAFCa6WqNNAixvt4eitLAbW/d5CqRYReziR86kwaU=;
+	b=zIAP4Nie9vQCH28kTS/SdFdSyIZqYfb4sbaVz5+Y9U58j4tOEkqC15gK3uI7nMFRpPwZyp
+	2ohJba5vsF9TWZDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7759A3EE94;
+	Mon,  9 Mar 2026 11:32:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l3eXHLevrmkhfwAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 09 Mar 2026 11:32:07 +0000
+Message-ID: <5cd2ef61-375f-48ce-b2d6-4246b45e54bc@suse.de>
+Date: Mon, 9 Mar 2026 12:32:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218-dma_prep_config-v2-1-c07079836128@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme-auth: Don't propose NVME_AUTH_DHGROUP_NULL with
+ SC_C
+To: alistair23@gmail.com, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de,
+ sagi@grimberg.me, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+References: <20260309042733.1137108-1-alistair.francis@wdc.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260309042733.1137108-1-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,kernel.dk,lst.de,grimberg.me,lists.infradead.org,vger.kernel.org];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260309_043211_117212_238BD6F2 
+X-CRM114-Status: GOOD (  12.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,42 +136,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 18-12-25, 10:56, Frank Li wrote:
-> Previously, configuration and preparation required two separate calls. This
-> works well when configuration is done only once during initialization.
+On 3/9/26 05:27, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> However, in cases where the burst length or source/destination address must
-> be adjusted for each transfer, calling two functions is verbose and
-> requires additional locking to ensure both steps complete atomically.
+> Section 8.3.4.5.2 of the NVMe 2.1 base spec states that
 > 
-> Add a new API dmaengine_prep_config_single() and dmaengine_prep_config_sg()
-> and callback device_prep_config_sg() that combines configuration and
-> preparation into a single operation. If the configuration argument is
-> passed as NULL, fall back to the existing implementation.
+> """
+> The 00h identifier shall not be proposed in an AUTH_Negotiate message
+> that requests secure channel concatenation (i.e., with the SC_C field
+> set to a non-zero value).
+> """
 > 
-> Add a new API dmaengine_prep_config_single_safe() and
-> dmaengine_prep_config_sg_safe() for re-entrancy, which require driver
-> implement callback device_prep_config_sg().
+> We need to ensure that we don't set the NVME_AUTH_DHGROUP_NULL idlist if
+> SC_C is set.
+> 
+> Signed-off-by: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> v2:
+>   - Use a macro for Diffie-Hellman Group Identifier List Offset
+>   - Use a pointer for data->auth_protocol[0].dhchap.idlist
+> 
+>   drivers/nvme/host/auth.c | 23 +++++++++++++----------
+>   include/linux/nvme.h     |  2 ++
+>   2 files changed, 15 insertions(+), 10 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Okay to add API
+Cheers,
 
-> +	struct dma_async_tx_descriptor *(*device_prep_config_sg)(
-> +		struct dma_chan *chan, struct scatterlist *sgl,
-> +		unsigned int sg_len, enum dma_transfer_direction direction,
-> +		unsigned long flags, struct dma_slave_config *config,
-> +		void *context);
-
-Do we want to have drivers implement one more callback. It does not make
-sense to me. Why not handle this in framework and have it call the
-respective lower level APIs.
-
-Drivers should implement simple apis and collectively the functionality
-can come from the framework.
-
-Would you consider revising as such. Bonus all existing drivers can
-start using this API, no change required for drivers in that case
-
-
+Hannes
 -- 
-~Vinod
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
