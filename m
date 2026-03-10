@@ -4,193 +4,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2CF6FD4F16
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2026 18:14:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9ED93FD4F19
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2026 18:14:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J0D3TmULhhsWU3ON5Riy0H+LkQBW/UG0PgN8hFODUpo=; b=m7meVT2xCA0ijVm6yrG/lYyO42
-	Rv0GvUXRM7mQOdZJvawHgAoMaBkYMXP9IZJNFaMNXQEeZVM1FuD2CV7Jhrf0obh1d0zEK6TzFQtVm
-	WNsYtC60jpeIYkB8Yep1mu7vpE2T0JJibt6j6GRsSOGdUj3C2KVDM/gHiPQ/VaXr8Gx4UDjy0TtW9
-	u1OcNQ2JZvzj4qoIEd8pjg2C1kY7WJ5qD0Xap0OdhiAi+P/S+VdFxebY/ymQ57XyLGZb8NQNgY39r
-	PokEodzEd75LX4gQwRLDBYw4ocQZNZKtuGo3SWjP78pJbw44k6dhYbGli7UBQnw60YucgsOg993a+
-	4SPEdxrg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=48NkwjfxB9Ou5X/gX3NRY0aODFsOoy0dku0gc7W64Mw=; b=LKW6/wbLnucz0xl4ih6kCMPaKA
+	7G6VvG7OA01gUzjISeVwA5yzEW7To8fRy12LXimKiOHruQwueiVW3y/E+eOu6CQa0Iow/SIwsL0HD
+	/hCxFl0L+v+ObzZmot1KoGH37oqFkPHQpRJyu0DytpPtR4WieNa9b8ojAKfZaBk8hx5bmltA9tbbv
+	yx4W5vkcIodL3YkzUoLUcXtu74quKA2Zqk3Ids8xVsG1QQqQIpw1FeMtTaVvv+P71ULQuKgljUaHp
+	TpSpaQt70xpUR8KmRDOupfEKheGHos4svQMp3mxsMXSigi7qBrUcrYeh/WG0D+9byK9sYE69zE+fI
+	xbV4UDQg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w01am-0000000A3Ut-3tGM;
-	Tue, 10 Mar 2026 18:14:04 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1w01ay-0000000A3Yt-1EUv;
+	Tue, 10 Mar 2026 18:14:16 +0000
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w01aj-0000000A3Tv-425d
+	id 1w01av-0000000A3Xr-38Il
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Mar 2026 18:14:03 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62AA6pEU2344410;
-	Tue, 10 Mar 2026 18:13:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=J0D3TmULhhsWU3ON5Riy0H+LkQBW/UG0PgN8hFODUpo=; b=
-	ibjoSqGe0exkmUBCtP0enayK+fdAM4LgDJv58SOayVIV7CftDD/Xue6vom3M/7ch
-	0/895BL19gpdyuzI882en2qzH5ayJqYvJM4E1vz2KmkM5Ca1ajVWF0v5ESVk+52z
-	kLRN3BaVT8zpNQ6T7ZzZKsnt8FK0HU3NjMYjtojhiORAA6a2L1hskPG6Fnnl8+v0
-	xCYazm248Zh0VzHOSPXFA1QfQxmnHYSjeeSSTKK1DfC0JmkuCpP/Khh4O+0oO97x
-	+/VJbKEDzofRLB2SGfXSCFtX8HgzFP5AgStZP8MbVRcfjN20W2kxTWPD0zmajB+G
-	g8I2B1c6RbAJw5ECNf4DVw==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4csks2ke6h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 10 Mar 2026 18:13:50 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62AHxPGC022712;
-	Tue, 10 Mar 2026 18:13:50 GMT
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011060.outbound.protection.outlook.com [40.107.208.60])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4crafafehq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 10 Mar 2026 18:13:49 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xbIfH7ij+SOy0f7g2sKU0h6YVLRiqtq2phmUEIOHGjSZ3vQOVumIZS/72o4IZRv2HailHJQKtp7eLqSDsarGpyF+jflmdYBEjqfCQlUbGo4+CSDiK93IF/nR3GpEOIicyqII4HhJKd+MfqeyK602qem2CswCWkqHcEuEQAmahJTnexGdQCd8DXhE+kjR/B/VvTW91MoWQSHg0azEYi2RXnO2E0BeI9NoT4THiLQ2+uwWBlj0NqgDjJuWYXTr/50Ebj7bEvulHGllSBSZsjlT59L/DLopD/VI1dx6Uk1BWSB0/LEyQEisyhND6dCaUvAsZw9qNOCS0E/JaM7EDJ1/UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J0D3TmULhhsWU3ON5Riy0H+LkQBW/UG0PgN8hFODUpo=;
- b=KnpiXhcW3z5BtSNQdnHLc4uje7J3Z1EghLWvg0iuIVTgZEzZomHIU49IW4DpCQLVhTmRzmAcnVubMXnsbJ1NspWbtOPzLu8b801JTPg/hCt+M/YWHTUv5WX1c8Dy3ytDyTaL0sg6idn33r+i+hW6cCL42JZqPZNiWoJqwNYUl/0/kJw6wSrUzAoVIS5M1gAXPTM/kZzCue5d6KwLrbiRGrCTkn3hI5C/LqGM9WwXpzXkBPokrpfVgjWscrHT/E0EZWSk7MULAQOC5KH4F99Py+BGV8bq1uWFIRSq+WOsrp0C0lhr03Z797MaLsb6kQKdyq1wSO5h895oskMxGKqaFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Tue, 10 Mar 2026 18:14:15 +0000
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-3598e7155bbso6537286a91.2
+        for <linux-nvme@lists.infradead.org>; Tue, 10 Mar 2026 11:14:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773166453; cv=none;
+        d=google.com; s=arc-20240605;
+        b=d54IDTaSLJv3nUIxzKriqgQz5W1g4O5d2GWXfX5MoLqCk/2neFki/2q9LAB1jsXgQD
+         HfcouNDz6uAqox11FstLULkhwXx/V10pfa3jVMPzkVZU4SttyauSEdaJPrKX/3de4Ytl
+         Z/D/A8q4t4ietO8D7P3XOg6j0+8D3n/GwgV9roLp4YezIbI8tnRgKb4Feu4GCU+4/ByC
+         F4tpQxuL8xLPK+VK4dZN/EkTtBhLQN5PFCsHTZYLduGg6j63mvYTbSReYvACQZoPpxRF
+         SXd33Yeba0ibkyA7RltVqtSEdvqdIaLRpf0Jhfk/vleXDjlKNEq/erNwDtP9P3xEybVN
+         rSbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=48NkwjfxB9Ou5X/gX3NRY0aODFsOoy0dku0gc7W64Mw=;
+        fh=+6Jbsur3ge6cs8OW8Z29sDLZhPzUJVDg8cJahHVVF5s=;
+        b=F4Z7lqr9PhQBrcnut2F9yY3z4taTxOeStpErvhjOHiaTUSM2wWBuVAo22vfbQCWIRe
+         F2pBDkB95g3BMZlElBliAQ53g+VIJtiZCv73YRl3dWpuIwtQUcyOsUMxa93nLi+Fdweg
+         sPPtSCd+2b71k9GLYFhgDW8eldC2fHNclWge3yQ/+lwaVrhG964cjxKRd1QcxVIahPzK
+         ZUICZVzwDfF/IXuF1yYu7oYYF8lGy/phyyAinAwoe/H/qZuvli3W8JrN7oe1B6sE8X25
+         gFCNnjWL35lrh3kjhCUSe8/CwXmLBvRcw5CJFJCp4PLM9kPtb1nqeDiDk60YN4Vx1eej
+         KURQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J0D3TmULhhsWU3ON5Riy0H+LkQBW/UG0PgN8hFODUpo=;
- b=ENsR7KcKCAM3YJJ30LzoViI2m1ZWUJjd2JXJmd4C9OZAMjFQJTweGwbexX48a6IFMlmsLzKB+55JMXwBMm8S+XTdixDa3Zeikh/CUAdTkuHTKK5kPlzbZV4UvXsQN9WHj+jAwpXpmE9U/sTfGh1sBcqZM+KGzDdWBppDrE6DlJE=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by PH7PR10MB5813.namprd10.prod.outlook.com
- (2603:10b6:510:132::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
- 2026 18:13:47 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
- 18:13:47 +0000
-Message-ID: <4f6527f2-63bc-4e96-b9c4-3f4a126222c0@oracle.com>
-Date: Tue, 10 Mar 2026 18:13:42 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/8] scsi: scsi-multipath: Add basic ALUA support
-To: Hannes Reinecke <hare@suse.com>, hch@lst.de, kbusch@kernel.org,
-        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
-        bmarzins@redhat.com
-Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org, sagi@grimberg.me,
-        axboe@fb.com, linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, dm-devel@lists.linux.dev,
-        linux-kernel@vger.kernel.org, nilay@linux.ibm.com
-References: <20260310114925.1222263-1-john.g.garry@oracle.com>
- <20260310114925.1222263-6-john.g.garry@oracle.com>
- <f46807c2-0266-4143-9caa-ff938293f7b4@suse.com>
- <3178d371-7a4c-4d07-885c-42496190f242@oracle.com>
- <6b6a822c-4e49-4e80-ba57-57704e3c1307@suse.com>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <6b6a822c-4e49-4e80-ba57-57704e3c1307@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0407.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::16) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
+        d=gmail.com; s=20230601; t=1773166453; x=1773771253; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=48NkwjfxB9Ou5X/gX3NRY0aODFsOoy0dku0gc7W64Mw=;
+        b=IoEMr0zPcc2APRhQRqHrdq/sIBGARGUaEeB8ZRwn9zhpVRQnLUihIk9tDnJhQdzx1g
+         d+LiprqU+tmJCvijAMuFm5xzgoJvfmbJ7uuyR+WYeyQ5cEl1vvdHPnrBonj1tbVtnw2h
+         XgI7VnMoorPqRDGvc7sQe5fbszzUK6tFY9sv8ZwFnvXtKAg3a+iVA02FJoZUjn8VY01+
+         Gl+OZM+SHSXPQ6eefNRlS3hBhQttuQoSJqdOdPpd+ltesz7LK7OdyO6Tpu6WrLLYIEPh
+         BFJ0VKYQT7ClH4bFUxaPgBbKmjBXUGqdZJnNs+asCZUgF1gpFWR4TXuQ2wHp2St3Z69c
+         eaxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773166453; x=1773771253;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=48NkwjfxB9Ou5X/gX3NRY0aODFsOoy0dku0gc7W64Mw=;
+        b=uyLBKlLky9Dov8csvWNiEcimu5rxk7x4/wUQ+Y0HZ2Hwl3YZUPrUxzhtXjsyvGbmtA
+         RpWETR5pKzlpCifqEVtspa9PZor5ppw8p88Z7ZWGpeX4aCJhHxOCieuPSwgoNQqSXK8e
+         wSmpQhJ7DBoYyGDD0jmHg4ztaLT6YdibuXkMz+TkV1Z7JVOs10pDxvRXa4UE/2Xcy7GW
+         wYkqMJFnlcmrL43TxNH7GKPEgODnBsR5hSOvMeJI2l8i5w2G8b3t2x622ddDDmSPxDO+
+         sF5rqR+6T8wIkJJ3KaNX/XkRlQTy5xeOKf6y4BQjev8LBdE/G2YAkMlm4BZY4R04VPh4
+         N34A==
+X-Forwarded-Encrypted: i=1; AJvYcCULG1uyfuYXbyscma/xCj5UjCGZGjoKLnE+eOun6pkdB6vSQdE2GGQ58ZgHg990oyWv8wJjNLX6hvcO@lists.infradead.org
+X-Gm-Message-State: AOJu0YyXzSARiuckOMz4Yedk/EyeZ+ECzir2x9N1XAh6LXLIKAwotK0O
+	I9nsaGY1POXmWE48GgK7n5loR/K3AzVcrcKvB8gAusk2J2txjjx0J9QiQ/KdS8z8n5E7DJ3TKG4
+	XZ4LKYmU2ZyR+/VccrX1cRwnjPEk85vM=
+X-Gm-Gg: ATEYQzxP3g82kzRd4kdSaNu/pLziIoIIT2ULIjfoTwJRDHonjJRvnR9QXZS0Cefm1d+
+	Stln4KVdL6+iN88YQ+f3cLl8knUfXno6zhoJUeKbIF9ElSyjk34g1Z9PQ9nwIo8b1n0O7mUidKA
+	/DUhsdQtYHttO7LKrBEqEt6z/lv3AoIXCpYMcvJ3r3H5C+fMhNRMrfjBI7jAlCYqgOMcaxfjtin
+	QFPKKo4ERf9iu6oZvDE5+p5bLlmnIlIA7qaAj7zkxEi4zAlmUOLElmwn5WLDYGgGbP4XCuf8eQw
+	xks5rLE=
+X-Received: by 2002:a17:90b:39c5:b0:359:99e4:c3fb with SMTP id
+ 98e67ed59e1d1-359be3443bbmr14563435a91.33.1773166452745; Tue, 10 Mar 2026
+ 11:14:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|PH7PR10MB5813:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5af50a52-0ce1-4b0d-97ce-08de7ed0c5ab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info: xr/FGPKR4MCzcv+Jq1CImgc5wIqyl/5mW1EWQNDBgoY/4/Z2d6N/be+Cx2H67Qkogwr0ezIPzxyBbrWbE7WKrI4FGdMrQjiEeO1tb/s3mWo87H5gyuZypudeiw/dDywxURZ9CDLazxapllpy/uK42wNS0QdUV3ePsSGbKaR/E5XqKXj2Rg3eJRyYf3ENktJf949tOJ8ODTfMFehZNQ5WZtGSVEiG/+DRVNpdSqoYd7j2aCtOLqgw75ZN4ZFZgejiCOojGLAUJHaveY+msl0aDjfCw4ATySNKFGX9m5jkr22L/NSNhu/mzW9WMxpdegP9MC31mZubcmRVy/pdTFJ972wP/AikXJ2ymmsweG0uN7+lbtQeF0ElpwERxE+2QvUdG+UknuujKyCd3vFFrKe0H42ZDcM6kNUpybbbTxqpSML3/rnklhURQHLKku7Gc1kDUUP9W3JGtw7pAOc+9jurFeK9DwT/P9Lpn7AXy6ZafIRZIZSQg1jIHJZKORmgbgVOpOVNPDK1gJzRoOjqf73JdjQaM4MoqQrkvWn2AgiPJGqmOyldkvyXDoz2RRVEhwZHvYuRabIy9F2UJuUy2p6MxxM5WBDYFIGexBkCdZhyM13TQx+/ddCLB6AtddhEO2Eijhcvndmq7HRmGOCjLn9NQd1TfyLvBoDpNGGsz37DnK2NS54JiSJauT9EuAamLky0wnlp6ckfb51m78Jb68INjczX96DCl66W//9dBTNO/s4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eTc0NmRyMnhqMnB5MG1yRmtnNXF2dlZFb1gzRUZWY0duTjB0KzdWcVVLaFdF?=
- =?utf-8?B?UnlBWnF1SFBtNnkzL1FOczZER3pGVjZub1E1eHFhSm9DZG9zTXkvNGZUYjg3?=
- =?utf-8?B?UG40OEFzOHdab3lZU2tNeXZQblQ2ZEQzaS9XNlZKb0YyUVhURGZIOHZadjZF?=
- =?utf-8?B?K2NLKy9UYXp3d2hZQmR2M29YbkJkbkVIWlBmR1lkaWJRWVdjSVY2T041RmZ5?=
- =?utf-8?B?Y0pQV2RYTEVZM3RSbzdxcWFMcjNiZVNXTU9mK0tuVFB4dHlUNU81SW4ybFJR?=
- =?utf-8?B?eHB2QW5GdEZuMUhmcG1heDI0YzVuYVlVbUE1QlB3VndYRVdKN0ZENFMrSm9Q?=
- =?utf-8?B?ajNkRXVUcnlFT2dDZWwvRlNERCtaMDN3bFBVcDNtOEZqM2VxRzFrMzBHV0Fm?=
- =?utf-8?B?c0QvRHZLQ1JzNlJJUXZ0NUV1RGVpSEQxbGJBTW9wMTg4K1lCNDNQTitadUQ5?=
- =?utf-8?B?TjNwYzR6aDV0Vnc3NFdFKzZhMTFCN0xHcHNXckE2S2NVRElxUkt1U2pQY2Zy?=
- =?utf-8?B?aTlTcXh5YTk2WGlPQnQ5MGtiamVGN0s3dnQ1QnRwT3M3MmhEZitmU3NTUUov?=
- =?utf-8?B?bVdVNFpEak9YY1ZaNmp2S0pVMDlxVHZoZFZURDkxNnp1U0VxOWlwU0VNUEUy?=
- =?utf-8?B?aDJSK29tK2JURW5IOVZvOVFoVnl0KzRvalgxT1lxcDRnL2ZUaFJrK0V0eU9X?=
- =?utf-8?B?STRlaXZWTDVvQWNHMEw5cy8zVzRGbjVsa2VyMmdHeTh3VGhJdEZnMXc3ZWYr?=
- =?utf-8?B?OVZFNGJqOTFzbFIybGI0S1RaM0dGS1R1cFFPaHVXV1hLSTFaci9qRE9GaVVH?=
- =?utf-8?B?Tmc5bjYvRWFnSmNISWhJaHczRmcwd3hYbDVVVTdkM0w2MEtyQmxETi9iekhU?=
- =?utf-8?B?UVp6MkNFdTJHbnNLaWtJNGpGeHVBMURya0V0MGdhUSs5RzhFVGtJaXZpNEVa?=
- =?utf-8?B?MmxJeHErOFRQb1hiMzBzZFV4REdSQUF5WmJETDk0QlBQYVNJWHhiYThyWHZj?=
- =?utf-8?B?WTZKSHFJcnByMjN0MFg3Y3JEL3I4aFErdThuRnVSZjI1QWMxeVF4a0ZtMXhY?=
- =?utf-8?B?Q0ZSd3ROTDlvWDVFOHN3SWpzbVJPVkdIVC9paXVKYTBxbW1yNFNNVHBnTEln?=
- =?utf-8?B?S0R1L0JtaEJrbDV4TWw1RDZzcFlFdnZtMEFqUjFzQXlVM1hQU052N3YyTFFw?=
- =?utf-8?B?YmZubStLUDE3djlqUGZUVGEwMCt4RHpOL0NVdUhscFlLSUhBTVdoSXpIeWlo?=
- =?utf-8?B?WmROWHJOOW12UWdBTjdQSFV5Ri9pUEVpOWJMR2ExN0EwWlVvRURoRFVkQzF4?=
- =?utf-8?B?UUdqK2hyTHBPWmRmUGZUZGtiTGJRSlArbkowUGc4bkpNQmV0OHR5UUswaHdN?=
- =?utf-8?B?NzUzYnVPeG94Y0YzSm5QWnZmSGdCaGh4RHF2UWtvSmxXd1RobmV1dExyWmRG?=
- =?utf-8?B?ZmM0YVppNjZtVnNkbTY3NXBZVGxLeEZIU0dtakRnc2d5cng5NDdGKzlnK3pn?=
- =?utf-8?B?cStCOHdtZld3aFFmbUpjRWhma0p4YWdUTEIwdXM5R1JWZ2lIbUc0OWdQWG5U?=
- =?utf-8?B?N2FRYU85Sm1PdVE3dTBYekMvM2c1V3Q3Wm5BakRVVEsyTGVaUzI4WXZCQTJG?=
- =?utf-8?B?bnR3SGg5anZUdzUrTWd1Tm5JV1hlRlhuNmsvVGZvMGhYbVdBZnVZRWxXdWsy?=
- =?utf-8?B?dDBndFZ4UERqL2FYWFMyQ3JiTlU0VjJEUmIxa1JZSitYcGk2b09kRjgrT05K?=
- =?utf-8?B?UFAyZkNDTjRMY2c1MTFRQk5zRlJEL2pmbVlVU1poekRDaGpnb0xKNE5YOFJm?=
- =?utf-8?B?VXAxeERodC8zdFZVZjY3SHZjN0lRTDFpckxoaUw3Wk9zNXFHSjZna3ZUdVpa?=
- =?utf-8?B?b1NzNC96VDVXOGtkajRlNFpLcTFZNitYSmtPY2VrVXlFQlJXZzZtNjkraXR4?=
- =?utf-8?B?N0gwdUE0SEhkdW9RbDMxc2t5WGZ2ZXNyejJjV2wrY2NVWDY3Rk5nbmNUR2lK?=
- =?utf-8?B?Z2NCbDhwRC8yYWRZQlJUZ255NjZ0YlhVcjR1eDVBeDRZK2tRekplbmVzMkRO?=
- =?utf-8?B?SjNNRnloc3hLdWJYVXovMHBWQ0xMa3JWOWRFUldYSW9iaUVWcE5oeVd2eGt0?=
- =?utf-8?B?VEozMW8reHczRG9RT01kRHRZRVhvcWJNSTc3dzVlZ3pCOG1OaDRPcmFoR3VU?=
- =?utf-8?B?dG9tR2NDK2VoSS9saW1Sa2FXcDhJUUdxdEw0Ym9GWXJhZHpCWGVkaVJXdEZs?=
- =?utf-8?B?RXFRL0FIVGY5Kzhmc0pGaUswT0xhaStSTGFmOFpEbUhkUTJUMENnVjI4bDhw?=
- =?utf-8?B?M2dMUEtQRjhHZENoNmpQTmU4VG9OazQ1MEw0b0ZWY3NmUVhwVlR4a0JVMzVh?=
- =?utf-8?Q?MX86OXj1s/n6Oa6Q=3D?=
-X-Exchange-RoutingPolicyChecked: voBLT/khV3yRpCBd3SZXqk0TFkEXYiC6VZaY9XFN2fNOfXyIbS5XCLNlAnrlYjWaBZPGnaIFEpFM+I3UFUnlSOgMCDAeoaL17Hf7DuJv7WUlhXIb7FLY8KAaCC/rvN+5HFACvn2F1wnXdvI/4MdCXyHXDTfk143WI4tRdQgI/yhZY2pn/o1kQwoMQkaQ4EmkSJb5WnukwV8lBwERVIvjHfwZ5IwfLBeaQy3gvqR5CblWAEu2giIgh9AbD83ylhmp3PK4WY3Po2jN+Uj0sQEMdB6q53Fmma17mAvN+0K3CaLDc9GJ61GvdmMpJDMKSXuJrQ8etQGKV7pCH+pwWqE7Pg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Co48JCitJGyJR0G6zPYwP7uz8OlBl5msMsmxDcc3xUh0AG8or4E74cZGJGarLtf9NnDeIVngwpzdZUA8P444XDBwIJltacF994OM3EesGBzQgjWwQnjF2ZZr5YVhxXFfvJTKO/cpfN1I4PSbTqCuULd8EMKgGcPAANMtehkD/TcykVXVf7rCQsLTf0GvyjCqV8oE3zPyJ4Rzd/V+mLSSd8cpUb251W4FViN2J+pevO+lxwo7PO26D3kXq4c+Qxgc7pO7IIvQF1JYvMp+T8boL+ix0Ftw+nq3ONhpzF/2wkgKFFD+aW7SGgFUbtiixAJ2po2FRm7nZlzSbuz/RUhu8PZXlKo2fOKIuZWVtY/P7Mxbbhr+d+Z2aSl7YxGzwLnOwJ2gBRAdes74P4nwAAvz4vCZ6Tr4HtlfVIe3Eum0fSjEts45yMxlwCI50gLQ4f8EvX03pEJLGHJtMUmSrc9oKaKaOlIdZkyGVXIG4pcRZnagPf8FxUHcqJAQLcoJ1BWrcMN+ZtGNOCMPLJ7alm4U7EOxUAGARqTV7ADRI9MV68oV/MhKdpE/t/6urSkoGp6TqgqSvME9HejQ1y1atPnykiHsc5pXXJP0Zpwrfdc+iQ0=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5af50a52-0ce1-4b0d-97ce-08de7ed0c5ab
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 18:13:47.0481
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gCKApsRXMr+/B6ix29GfhwJPfn4yBBU+wvFnAIM/fKT0WaUVS1QF6OGUmaHXnGcaHHsDrD2sAyVvyPVeRfVKfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5813
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_04,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 bulkscore=0
- mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
- definitions=main-2603100158
-X-Proofpoint-ORIG-GUID: DZOP3HrFgTbvJaGzHDuu2sYNDDgYV3p7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDE1OCBTYWx0ZWRfX16nbNx9zJyLj
- dMpt6IRXJDbOnl4biUXkTt2AwtxApSza0MWAlNGDVlphvg1BLquhSS50SpPz3Kf+ZJfwq3LFd6D
- friXzZTxGsettyAKFjaALLBbIEhZP55/KbPIpVZEvPB6bnmgnnD3C7LN6OUniMRJm/PIceeU2hr
- 1ehdxwCG5LQHIgAAa+P6PqG564bICeHJIJiYP1qDP7Orhw/scjrQE/1dA2OQVlrq403AlWQHU8L
- QxkX0w11XD75FY2iG7/TkVRJnpv357iPgvOCggmREdIdnFFC6tUZcuH1L5OawGVlY9uGIpvuMs2
- 1IoIOv4helvS2fPUchb5fkaLHG3dUihwQcb/+4VUzDiBMOJHicGQzwhFmVZMGZ/vp/1e0nkdH4N
- Te1IZt+qdnkonJVVI7FP+qZp2TiQmhyQZ89sEQiM8i0NQmTGElraM9vn6q/hlIU+kACb+j/0JJl
- Wz31XB/zJ4qMEcDDTBQ==
-X-Authority-Analysis: v=2.4 cv=S4vUAYsP c=1 sm=1 tr=0 ts=69b05f5e cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=RFK9nMf20UTRqAQgSEIA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: DZOP3HrFgTbvJaGzHDuu2sYNDDgYV3p7
+References: <20260211160859.GA11869@lst.de> <20260212013338.1417091-1-ioerts@kookmin.ac.kr>
+ <5eca9b82-c6bc-4d8f-a939-db3399baca57@suse.de> <CAMX6_QG0A=Tow01x7N39iAp=chWCMJGxAF6N+tqGpGQFwjVy6g@mail.gmail.com>
+In-Reply-To: <CAMX6_QG0A=Tow01x7N39iAp=chWCMJGxAF6N+tqGpGQFwjVy6g@mail.gmail.com>
+From: yunje shin <yjshin0438@gmail.com>
+Date: Wed, 11 Mar 2026 03:14:00 +0900
+X-Gm-Features: AaiRm52sbqN0mX9i8X1Z_G9Xr8E6z6pNuVMY67p3qhj0S-x11p-6B8YldkxEkcE
+Message-ID: <CAMX6_QEbAp7fquLCAPGzxrjNyAg=eP=NdM-a7Ng5CkK84xEyMQ@mail.gmail.com>
+Subject: Re: [PATCH v2] nvmet-auth: validate negotiate payload length(BUG:
+ KASAN: slab-out-of-bounds)
+To: kbusch@kernel.org
+Cc: hch@lst.de, Hannes Reinecke <hare@suse.de>, ioerts@kookmin.ac.kr, kch@nvidia.com, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	sagi@grimberg.me
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260310_111402_009576_3DD64711 
-X-CRM114-Status: GOOD (  22.18  )
+X-CRM114-CacheID: sfid-20260310_111413_823098_3BE51E07 
+X-CRM114-Status: GOOD (  17.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -205,48 +119,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 10/03/2026 17:54, Hannes Reinecke wrote:
->>
->> If yes, to repeat, it is hard to separate the DH stuff out...but I can 
->> try. Examples I would need to deal with (and associated handling):
->>
->> - alua_port_group members like dh_list
->> - alua_dh_data memebers like init_error
->> - everything in alua_queue_data
->>
-> While the port group handling looks nice (and there certainly is
-> a certain neatness to it), it kinda assumes too much about the
-> internal layout of the hierarchy within the target.
-> Technically, a target is only required to provide a device
-> identifier, and a group id (such that you can match with
-> RTPG output). However, you have no idea which of the various
-> device IDs are part of the same enclosure; that information
-> is not required to be present.
-> So you cannot assume that group ID A reported from device X
-> is the same group as group ID A reported from device Y.
-> The only reliable way is to check with the RTPG output, as
-> that contains all device identifiers for the defined group
-> IDs.
-> But: caching RTPG output is problematic (as it'll change
-> whenever a path state change happens), and it'll need to
-> contain references to the SCSI devices, introducing all
-> sorts of locking issues and race conditions.
-> So probably I would not go down that way (at least initially),
-> but rather read RTPG during scanning, and set the values
-> directly in the scsi device.
-> 
-> We then need to re-read that information whenever we hit
-> a relevant sense code, but arguably we'll need to do that
-> anyway.
+Hi Keith,
 
-Hmmm... what you are describing seems to be now more like what I have in 
-this series except only I did not have the ALUA info stored in the 
-scsi_device struct.
+Could you take a look at this patch when you get a chance?
 
-So if I go down these lines, maybe for sense-triggered updates I can 
-have something where scsi-multipath.c or scsi_dh_alua.c can trigger the 
-RTPG to be issued and this updates scsi_device ALUA info. It sounds 
-simple enough, but probably isn't for scsi_dh_alua.c :)
+It fixes a KASAN slab-out-of-bounds in nvmet_execute_auth_send() by
+validating the negotiate payload length before parsing.
 
-Thanks!
+Just wanted to check if this can be queued.
+
+Thanks,
+
+Yunje Shin
+
+On Mon, Mar 9, 2026 at 12:12=E2=80=AFAM yunje shin <yjshin0438@gmail.com> w=
+rote:
+>
+> Hi,
+> Gentle ping on this patch.
+> I wanted to check if it can be queued.
+>
+> Thanks,
+> Yunje Shin
+>
+> On Thu, Feb 12, 2026 at 8:03=E2=80=AFPM Hannes Reinecke <hare@suse.de> wr=
+ote:
+> >
+> > On 2/12/26 02:33, YunJe Shin wrote:
+> > > From: Yunje Shin <ioerts@kookmin.ac.kr>
+> > >
+> > > AUTH_SEND negotiation requires at least one DH-HMAC-CHAP protocol des=
+criptor.
+> > > Validate the payload length before parsing the negotiate payload to a=
+void
+> > > out-of-bounds reads.
+> > >
+> > > KASAN splat:
+> > > [ 1224.388857] BUG: KASAN: slab-out-of-bounds in nvmet_execute_auth_s=
+end+0x1d24/0x2090
+> > > [ 1224.407035] The buggy address belongs to the cache kmalloc-8 of si=
+ze 8
+> > > [ 1224.407998] allocated 8-byte region [ffff88800a6537c0, ffff88800a6=
+537c8)
+> > > [ 1224.412412] page dumped because: kasan: bad access detected
+> > >
+> > > Use struct_size() for minimum length computation and move the negotia=
+te
+> > > restart flow into a helper so the call site stays compact.
+> > >
+> > > Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication"=
+)
+> > > Signed-off-by: Yunje Shin <ioerts@kookmin.ac.kr>
+> > > ---
+> > > v2:
+> > > - use struct_size() for negotiate payload minimum length
+> > > - split negotiate handling into nvmet_restart_dhchap_auth() helper
+> > > - use NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD instead of NVMe stat=
+us
+> > >
+> > Reviewed-by: Hannes Reinecke <hare@suse.de>
+> >
+> > Cheers,
+> >
+> > Hannes
+> > --
+> > Dr. Hannes Reinecke                  Kernel Storage Architect
+> > hare@suse.de                                +49 911 74053 688
+> > SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> > HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
