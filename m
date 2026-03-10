@@ -4,84 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C37EFD4F33
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2026 20:35:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2C5AFFD4F34
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2026 20:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:References:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g0u/y3Cqja7mHQz8jE0GipFJwcuf+/qlsO7j9WUpPbU=; b=idFlhyRas/Shf4CAcWZQQsfexR
-	3hr6kPs1z5UpKWQ72HZmqDFGMWXvinV54dvlVO3U4N3WATCXmDcwHIX55vwfms+L0JVe10TC5qtaL
-	gHbPBFynNtNDFqQDOGqKbOfWFljsO12c63cVgd2frLPSfGCop+tCC6r09iqeLQQP7pbSFiUiJwkjM
-	7dQryZLXqLR0nF3sul/snL/B6Qom/xlvAOJgJfwjLrMtlU+YNMbmWprlJ85c/DMqKXUqAgTz0/LcS
-	/kXfnceaAPiqFRv6ecY9GEk9UbD9jsMtkG6Xo2J2jIA+EAtQAqVRg3Yy1N2GhNYhapioAzmTZwaLy
-	RFuyE3qw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ph8h7Z3c42DjREBZqPAGzIBfE7ES/TtS9+NAaOI9FsU=; b=BvutsBS3PVzsi24oxTzbEQRayM
+	VJb9yDinMgXo/LzBLaIyFAsffw5p4O7pXv0gG5ytf3TELtI5qBHhLujC3j66Iiw5Mi+YPssnaaHTs
+	aKZcF6lnVDHJRzBy7H76Cae4qEO97TeE3tYfIKEN61sgBn0V4V1dHFU2X+AuTbMXIdsg3511JnvY+
+	C+9H8nEwRCe7nAq8SooMrD7pDA5V5HqQsI199lHbRxTfTEuVQ31OZkTOqTVDPCgw2U5OuoGyFmSjQ
+	RGzkpCttH7KSclGWwuvvScYfZ5Wd8OoTgK/faK2sVJxlzWQ7QmSxvNhlBXswvYorPbhUkKuFsxU9z
+	ivwXi6QQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w03nN-0000000AG2e-2N8M;
-	Tue, 10 Mar 2026 20:35:13 +0000
+	id 1w03zE-0000000AGXQ-0d1M;
+	Tue, 10 Mar 2026 20:47:28 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w03nK-0000000AG2A-2J67
+	id 1w03zB-0000000AGX3-1VAN
 	for linux-nvme@lists.infradead.org;
-	Tue, 10 Mar 2026 20:35:13 +0000
+	Tue, 10 Mar 2026 20:47:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773174906;
+	s=mimecast20190719; t=1773175644;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g0u/y3Cqja7mHQz8jE0GipFJwcuf+/qlsO7j9WUpPbU=;
-	b=FG2quaevTC/FDmXTBcCpvhVS94erYJl44YvBoqBagIfEoar1C7Enbh2s273AhWXcz4FsLX
-	AgqtWz/oEhl07R0aa+SqyHqXf9uOK7Aj/0z2BnAJRe3P+3D0Z2iJKrCcV7fZcOwM/WDv5a
-	b4vZjBoHm8Bj9VoxpTfjXQamOfPswBA=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=ph8h7Z3c42DjREBZqPAGzIBfE7ES/TtS9+NAaOI9FsU=;
+	b=D8DD6K1Qrf2pnFvYegPeyi8/colxVXBHcynNqJGT8XC49qwwdoIAiSnM9yS5JEIy+eQIsQ
+	sAnvjodo3y3ACEY4Qvg7B2vICOPEZ+HHAGfrphrxmfHPTA5jI/mA8kRpXj8qRDNdNzHK12
+	plxm2Q0ADFtPxOw7zZOs58HzZoQkaIw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-288-PGggV1CENuyUbzshbn_OLg-1; Tue,
- 10 Mar 2026 16:35:00 -0400
-X-MC-Unique: PGggV1CENuyUbzshbn_OLg-1
-X-Mimecast-MFC-AGG-ID: PGggV1CENuyUbzshbn_OLg_1773174899
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-452-cXEsoc7_P_KZxh4XoI7n5Q-1; Tue,
+ 10 Mar 2026 16:47:17 -0400
+X-MC-Unique: cXEsoc7_P_KZxh4XoI7n5Q-1
+X-Mimecast-MFC-AGG-ID: cXEsoc7_P_KZxh4XoI7n5Q_1773175635
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8AE8618002EA;
-	Tue, 10 Mar 2026 20:34:58 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D5725195608E;
+	Tue, 10 Mar 2026 20:47:14 +0000 (UTC)
 Received: from my-developer-toolbox-latest (unknown [10.2.16.255])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 640A719560A6;
-	Tue, 10 Mar 2026 20:34:35 +0000 (UTC)
-Date: Tue, 10 Mar 2026 13:34:34 -0700
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 9064D3000223;
+	Tue, 10 Mar 2026 20:47:12 +0000 (UTC)
+Date: Tue, 10 Mar 2026 13:47:11 -0700
 From: Chris Leech <cleech@redhat.com>
-To: yunje shin <yjshin0438@gmail.com>
-Cc: Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, ioerts@kookmin.ac.kr
-Subject: Re: [PATCH] nvmet: auth: validate dhchap id list lengths(KASAN:
- slab-out-of-bounds)
-Message-ID: <20260310-stoning-wolf-a5f45a779f3a@redhat.com>
-References: <20260211065925.2878336-1-ioerts@kookmin.ac.kr>
- <CAMX6_QEQ0MZTPv3+ma6cESW6sXrzHSNttoRTY5wNf9p98caa8A@mail.gmail.com>
- <CAMX6_QGn=0riCV+DZewc98b+AAdemj8ani9bQg-T+epFC5kAhw@mail.gmail.com>
- <CAMX6_QH7xiTxLbF4pZHVs9Umw=j70c-dmb3t97c6XBEEEg-kpA@mail.gmail.com>
- <20260309-scalding-propeller-e00bf0af6519@redhat.com>
- <CAMX6_QHe04XZR9s_eD8vg0njhkvLn4B+Xx2cW4R1gcKZFsw4TQ@mail.gmail.com>
- <CAMX6_QG_Xx=1shB+76GKdMyB3-JW9nRiC+1vik=382FyFCT9cg@mail.gmail.com>
- <20260310-ladle-underuse-50f571ba519c@redhat.com>
- <CAMX6_QE64ttVQ03CQP4ULECePiTwooy6OfqUk4_biz+_s=vpbA@mail.gmail.com>
+To: YunJe Shin <yjshin0438@gmail.com>
+Cc: hch@lst.de, hare@suse.de, ioerts@kookmin.ac.kr, kbusch@kernel.org, 
+	kch@nvidia.com, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	sagi@grimberg.me
+Subject: Re: [PATCH v2] nvmet-auth: validate negotiate payload length(BUG:
+ KASAN: slab-out-of-bounds)
+Message-ID: <20260310-video-foyer-58fbf3080e9b@redhat.com>
+References: <20260211160859.GA11869@lst.de>
+ <20260212013338.1417091-1-ioerts@kookmin.ac.kr>
 MIME-Version: 1.0
-In-Reply-To: <CAMX6_QE64ttVQ03CQP4ULECePiTwooy6OfqUk4_biz+_s=vpbA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: Aq5ueCWiuLcug_pGYVVUllXhQPZlYfIPedJfUmL4RrY_1773174899
+In-Reply-To: <20260212013338.1417091-1-ioerts@kookmin.ac.kr>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: v6zLM4yQSX9XXgzlaO0RO17MWZIvS2cwxZrRJCx7qBA_1773175635
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260310_133510_685924_054DA51B 
-X-CRM114-Status: GOOD (  35.44  )
+X-CRM114-CacheID: sfid-20260310_134725_468975_CAC04B77 
+X-CRM114-Status: GOOD (  14.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,111 +87,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 11, 2026 at 04:06:44AM +0900, yunje shin wrote:
-> Thank you for the clarification regarding the 64-byte structural
-> constraints. If this approach looks good to you, I will format it
-> properly with an updated commit message and send out a formal v2
-> patch.
+On Thu, Feb 12, 2026 at 10:33:18AM +0900, YunJe Shin wrote:
+> From: Yunje Shin <ioerts@kookmin.ac.kr>
+> 
+> AUTH_SEND negotiation requires at least one DH-HMAC-CHAP protocol descriptor.
+> Validate the payload length before parsing the negotiate payload to avoid
+> out-of-bounds reads.
+> 
+> KASAN splat:
+> [ 1224.388857] BUG: KASAN: slab-out-of-bounds in nvmet_execute_auth_send+0x1d24/0x2090
+> [ 1224.407035] The buggy address belongs to the cache kmalloc-8 of size 8
+> [ 1224.407998] allocated 8-byte region [ffff88800a6537c0, ffff88800a6537c8)
+> [ 1224.412412] page dumped because: kasan: bad access detected
+> 
+> Use struct_size() for minimum length computation and move the negotiate
+> restart flow into a helper so the call site stays compact.
+> 
+> Fixes: db1312dd95488 ("nvmet: implement basic In-Band Authentication")
+> Signed-off-by: Yunje Shin <ioerts@kookmin.ac.kr>
+> ---
+> v2:
+> - use struct_size() for negotiate payload minimum length
+> - split negotiate handling into nvmet_restart_dhchap_auth() helper
+> - use NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD instead of NVMe status
+> 
+> drivers/nvme/target/fabrics-cmd-auth.c | 48 +++++++++++++++++---------
+>  1 file changed, 32 insertions(+), 16 deletions(-)
+> ...
+> +	size_t min_len = struct_size(neg, auth_protocol, 1);
 
-Yes, that looks much better to me.  Thanks!
+Maybe this could have been struct_size(neg, auth_protocol, neg->napd)?
+But the target code also enforces napd == 1, so it ends up being the same.
 
-- Chris
-
-> diff --git a/drivers/nvme/target/fabrics-cmd-auth.c
-> b/drivers/nvme/target/fabrics-cmd-auth.c
-> index 5946681cb0e3..acba4878a873 100644
-> --- a/drivers/nvme/target/fabrics-cmd-auth.c
-> +++ b/drivers/nvme/target/fabrics-cmd-auth.c
-> @@ -72,6 +72,14 @@ static u8 nvmet_auth_negotiate(struct nvmet_req
-> *req, void *d)
->       NVME_AUTH_DHCHAP_AUTH_ID)
->   return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-> 
-> + /*
-> + * idlist[0..29]: hash IDs
-> + * idlist[30..59]: DH group IDs
-> + */
-> + if (data->auth_protocol[0].dhchap.halen > NVME_AUTH_DHCHAP_MAX_HASH_IDS ||
-> +     data->auth_protocol[0].dhchap.dhlen > NVME_AUTH_DHCHAP_MAX_DH_IDS)
-> + return NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
-> +
->   for (i = 0; i < data->auth_protocol[0].dhchap.halen; i++) {
->   u8 host_hmac_id = data->auth_protocol[0].dhchap.idlist[i];
-> 
-> @@ -97,7 +105,7 @@ static u8 nvmet_auth_negotiate(struct nvmet_req
-> *req, void *d)
->   dhgid = -1;
->   fallback_dhgid = -1;
->   for (i = 0; i < data->auth_protocol[0].dhchap.dhlen; i++) {
-> - int tmp_dhgid = data->auth_protocol[0].dhchap.idlist[i + 30];
-> + int tmp_dhgid = data->auth_protocol[0].dhchap.idlist[i +
-> NVME_AUTH_DHCHAP_MAX_HASH_IDS];
-> 
->   if (tmp_dhgid != ctrl->dh_gid) {
->   dhgid = tmp_dhgid;
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index b09dcaf5bcbc..ea0393ab16fc 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -1824,6 +1824,8 @@ struct nvmf_auth_dhchap_protocol_descriptor {
->   __u8 dhlen;
->   __u8 idlist[60];
->  };
-> +#define NVME_AUTH_DHCHAP_MAX_HASH_IDS 30
-> +#define NVME_AUTH_DHCHAP_MAX_DH_IDS 30
-> 
->  enum {
->   NVME_AUTH_DHCHAP_AUTH_ID = 0x01,
-> -- 
-> 2.43.0
-> 
-> Thanks
-> Yunje Shin.
-> 
-> On Wed, Mar 11, 2026 at 3:07 AM Chris Leech <cleech@redhat.com> wrote:
-> >
-> > On Wed, Mar 11, 2026 at 02:52:36AM +0900, yunje shin wrote:
-> > > Thanks for the review.
-> > >
-> > > Yes, I triggered the KASAN issue by injecting an invalid dhlen The
-> > > reproduction steps are:
-> > > 1. Connect to the NVMe/TCP target on port 4420 (ICReq + Fabrics CONNECT).
-> > > 2. Send AUTH_SEND with a crafted NEGOTIATE payload where dhlen=200. 3.
-> > > The kernel target code in nvmet_auth_negotiate() then iterates
-> > >
-> > >     for (i = 0; i < data->auth_protocol[0].dhchap.dhlen; i++) {
-> > >         int tmp_dhgid = data->auth_protocol[0].dhchap.idlist[i + 30];
-> > >
-> > > With dhlen=200, this reads idlist[30..229], but idlist[] is only 60
-> > > bytes (indices 0..59). The accesses at indices 60 and beyond read past
-> > > the kmalloc'd slab object into adjacent slab memory, which KASAN
-> > > catches as a slab-out-of-bounds read.
-> >
-> > Thank you, I appreciate understanding how this was triggered.
-> >
-> > > While the standard Linux NVMe host driver does use hardcoded halen=3
-> > > and dhlen=6, the NVMe target is network-facing and must validate all
-> > > fields from the wire. A malicious or non-standard host can send
-> > > arbitrary values. The same applies to halen — if halen > 30, the
-> > > first loop also reads out of bounds.
-> >
-> > Yes, this code absolutly should validate halen and dhlen bounds.
-> >
-> > > Regarding idlist_half — yes, idlist is currently a fixed 60-byte array
-> > > and the DH offset is always 30. I derived it from sizeof(idlist)
-> > > rather than hardcoding 30 so that the bounds check and the DH offset
-> > > stay consistent with the array definition. If the struct ever changes,
-> > > the validation adapts automatically instead of silently going stale.
-> >
-> > The 60-byte idlist (and 30:30 split) are part of the NVMe specification.
-> > It's the maximum amount of space while keeping to a 64-byte struct.
-> >
-> > I'd rather see this made clearer with a define for the limit, but not
-> > adding code that appears to calculate it at runtime.
-> >
-> > Thanks,
-> > - Chris
-> >
-> 
+Reviewed-by: Chris Leech <cleech@redhat.com>
 
 
