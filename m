@@ -4,118 +4,191 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B528EB1070
-	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2026 15:34:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D4CDEB1076
+	for <linux-nvme@archiver.kernel.org>; Tue, 10 Mar 2026 15:52:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6+r9RgPpLrGiXVfQx056rbYEWCZcszUA9kQtErD1KEc=; b=XxQ9p0kn5TXXS7Qze+Dj+8RUb/
-	bl85xx3zBDhiTYy+3k8NeogKbtY2wdWrnpKdtNNhAOQ0wFSXqd0wB5YO02pXP7JsKs7yyNBeZk4ZI
-	/1nXQ7vi2YK1ZyhWOEhuQjOlmuIqBt4PtqguyrFwMG+om8XiaVGSZFn3arSAU7U3IASOr3JQ3X+0n
-	cG1D/ifibWnlNxYjS5lpnLX9L4kyOq++JapUIOXtDuG/oYGPTZY7Vieyo0ClBj6aGLj7d26ZhS4An
-	xAOwFCBzc5gqQLS650fBxbVGxz1doivB2rx+OOvHJpgd4EIAlSb8D4vOJ2gC9BuzvEbAfEUt1P278
-	AeB2gw9Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=TRKJI5193voB5Db2CXyzbOP1jIxmLt0/DmfJcVa+r1g=; b=N6IAS52wKjMcxUc8f07tx0Nzbw
+	Cph+SzQ7UsmzwTM+qH+lCuCpPgJh5AsfHoZP7qar17J4cHW56Dli9/LcodWATl+vNvQc/8jYChaLL
+	bikcAokG9c+Rw/KHFpnZHCtYITsWnigPlUwpHkys24QXwPD/Bn5yiE6SqPNBkYbkJcQtYBy5R+tii
+	D53lGpSfSJT71bpJVQB64pOV8DITUedi4tPNfbCZf5RTuL+TRGb+UIXUf/4mxW7tlW9C68ai2IfmV
+	zzDXkSCHXjcOer0fk7QiqUcTrI/QysvFFf1dJefZ5fir5ukLxI82bOKT43lNuwhwk7qswuOqVL47F
+	Ed4mauJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzz6K-00000009ote-49gg;
-	Tue, 10 Mar 2026 15:34:28 +0000
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334])
+	id 1vzzO4-00000009rRy-2yBG;
+	Tue, 10 Mar 2026 15:52:48 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vzca5-00000007bmq-2EaK
+	id 1vzzO0-00000009rQp-1rUm
 	for linux-nvme@lists.infradead.org;
-	Mon, 09 Mar 2026 15:31:44 +0000
-Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-7d738fc8934so86547a34.0
-        for <linux-nvme@lists.infradead.org>; Mon, 09 Mar 2026 08:31:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773070300; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NKsZ4d4NcIFlpfIh0ri+VcSWPxRLmAAWjW0Q/+AomD+psgPTS1+dFnyz6ElpdQhCxo
-         a8IZ7hdN68FAqDtq9ORi+R4YWnkqODKxD8iDly6U+rtopzulAYCQghX52cbpRFiXKd5x
-         WcUUJZbwUja+1MZj25XhHarLPcndmKph10Iem17arcKMydiAUOCAqaWkQSJfavCFOrJP
-         nz0h/DIzjJw3PfcFdPYPQLfAx1YvM8VEqlF64i+JNV1oDbm9hLAECV1qmXuzfw6qz/Rw
-         rDO0ocGUUxdpw0A2tQhIklJJ/wQV0X5oB4i3vkoSKN7YLeQRQ+rdar67we9bGHrrlJTq
-         7F4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6+r9RgPpLrGiXVfQx056rbYEWCZcszUA9kQtErD1KEc=;
-        fh=Z5gB/OC9UTYsU3sZDcYRUhTFdioye1JqZTES/Xj57tY=;
-        b=kgVgB9M+0ciHb7kYPJqINNJ4ADHHFw8hgn04NdomJ1PVPNi0Qo59By9ipmsRSzdOVH
-         /KxCJ2xDqERkTetOY0XWKY+iIj9ognH66APD3eommIuozrll+Evyjm72+uwbIyc/CzJH
-         XAJBdyl/JROyUkKJjrHDQECFbhptDwzy0fWu5t8gOc5UXYINg5AQMBIRdr65kYesNr5E
-         OSdaJcJQyZOJHTrPe3bkxDtaiFCuDqc4yaUMGI/KKQUqJiqW5ZkgrMYXv84Cf14l/15c
-         2ecltVpTastdQ3tNP16TTRnVJH/VbPBg8wvzSVe3pT4H21CBE8ZGTXooPr6o3dvN7JFS
-         ws6Q==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Tue, 10 Mar 2026 15:52:46 +0000
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62AFGnZI3630177;
+	Tue, 10 Mar 2026 15:52:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=TRKJI5193voB5Db2CXyzbOP1jIxmLt0/DmfJcVa+r1g=; b=
+	OhNkknYPd7i0ZGjVnz6whvuqoCJoanpMt6k9pFf+1G8u/ZVm8NEOaudZeqxcfa8a
+	xsEJf1oFLEz4BMa6GVXinmqmjZE/hDHrhqlKQjc+V6WZVhGeH1OVbxP3V0IeRyuz
+	hYVH1BgbXZlQJYQKC6Pq2WETmg0Sxq8sl2jlN2M+oiCVtVEqjbYFQG0+rWMPinF1
+	QnJfQs9doCwumkIRsdVXfmpW/4xQs8XIw7tBpNlLICwjEeVtPjHJW8M11mcQq25T
+	UHD2KW4+/GkfsgLjVo/5U6W8lzzBnlyHaLpufWTqGmbEreUYI4ijfOBJWGeIHSfi
+	/teAL8WOKlhbFCXSlVBp/A==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cskua35gt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 10 Mar 2026 15:52:28 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 62AFYg99020253;
+	Tue, 10 Mar 2026 15:52:27 GMT
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010061.outbound.protection.outlook.com [52.101.46.61])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4crafea667-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 10 Mar 2026 15:52:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mpPbTM7ytSP2w3rN/Gten9XLr1+sRYWV9CtBK/lnxM5sFsKecUJEWFl2Ww5pJq3W6wdSspS2ExQIC0CfB91ZtyIg+S3Gaea6yPPyLkY78T5GKfQgbXUNtKUPOB+HBJfQXDTW6WAJd4zHSGzFIk2J7oRRzc3nokMuShY18++fyG3+r9Y4NYhZ3eXb/h8FNOP7g1ryQeTheMZ5GpCizrkNfGjVmAtzq1QtafOYL9+05Vlkr9KwdsrE7sNPRTkTHW2u0ir8dazA0e5liRXH2Fo7XSgP9onr+XHzacWPu5/VJ6TY4zNf3xFLa0i8EJspjz2KCprJwabeICd0pm2Qh66VPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TRKJI5193voB5Db2CXyzbOP1jIxmLt0/DmfJcVa+r1g=;
+ b=IOEerP4KGBc2Yqf6DaNVx649H01M9i9px1SwzktkqtD43QO17ZpbkRxUDyJe84+yXiggt6hUKWHFWZ51NnmU2sXq8o/eGpKUtUIf/BU5gYhAjf+z5izwPG1371S2reTBcG25ryrG/YFAdArxm9kBN8PP3BniQtcU6ECw4F6nbxYnJ42vE6WJQta8Wg3fDsqAdicDCMHZFwU8r4olAMH4WMI5dhCTR0NGs/3KPJuAa9UIlDG2wkfU+0HYFEwv2Ui47pCHqnWQ3BQGl921SyeXq/eOC2+Q7unDnd+RCCzdh3WSPjuNRKzXxRfEZdLbHNP0bDBI9Tz5t6qHQjgzi9YCow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1773070300; x=1773675100; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6+r9RgPpLrGiXVfQx056rbYEWCZcszUA9kQtErD1KEc=;
-        b=YL0jUmB7Z75YG/prX3U6gaZEZDO5WyME7yAT6cJ/wGRtGQqiDKizawB7AI2ErpzuuO
-         d+yFQvVLdUUXuUnKgc3a8Xymzs++5UqioC9iOcpsyLXcpRvTe5huC9o5lm+h9y7EnTGW
-         lqNoXiVxtzAQz4eEDK8jNz8cfUL0w5eZwQ0B1oBK4YZoxdW2evPDVZJnWh8yTwAT0t7v
-         qBOUQeWoGOa18BP5wxNP8TK4PnFdkaAWppOm1Eb0k2ojNsbMKYz87jjGyJjkK003tns0
-         fCvC5lNW6prMcWcRwbR+IuHNxQGgTblqTSkhMF1gHqnF41gjEARTYuAUkVo1i2R4A5Jn
-         rgkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773070300; x=1773675100;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6+r9RgPpLrGiXVfQx056rbYEWCZcszUA9kQtErD1KEc=;
-        b=PVlpr68CDtgnc9qlkwACLe4v3By4JAWn5cdsFf6oSeP13yyJvt8tL5nBr7DOBQfFN/
-         fFrkVYC2yBngPyaL1IInOkiwxLjiPGVABT/7nwJ4I0QC58XUF+GOYl5eKZeEIPJKf6Cv
-         51VaWvyfEEsdOVhK/hJbs8LQwwoumUVH7BHTeH2xP/GBo1qzd1wZps9EzBECu3mo2BPl
-         ZlYS2eUOPXbsuK74qrfma66Y3tc+wRrWFnWFMYEC4+IUTDGMdmCswhVwiE+nKGeKwml3
-         ntsvIEQSpoQGeCpvjkl1HvxQpUIW98yJqrIxajn+kAPJA7cHXI+kfilMUJZ4bZjr8UFt
-         eaeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUh4pc9W1/5msri1WUJFnISBFESbkl5MbhPcJJdWZ/mudQ4bWpbIJcda9xSxEQyFJObOKbZlIOCXzwV@lists.infradead.org
-X-Gm-Message-State: AOJu0YwsybC6TS8WDenpxbEUZq6eRrB0SbSveuT2kGzC1hFIdSOJThrn
-	UYHMQI0gXucPagc5mvFsGfY2xbmROQxCeWj60V52CCp0nZnZpIMc16jAeF9FUGba3XZ5sihIQoS
-	FKB2aebJ2ByI5G97p9qaZygjrB/48Gt6SUDuzusqPgg==
-X-Gm-Gg: ATEYQzxh/bzJV8dY5K/eAtsp5mmk6MU33dQGOUnq78HkGxZFNX/3LWzOAO26UnvxNtr
-	9sE9b1762siKcn4rzRDx7uPzFjnDYkwMBxrbFNZ4xeb+DE9kDvl312iB3NpLjQLeWVslU9sKFGq
-	V91SKyot1Bck1CWADKG0rNvwDI1agLYAltSvnbBqC0/KAjtZcUaeV3256NLHCirgRIpVFUZV/6d
-	8u//41kuF7trFmOkQJygtDGeE9a0RoiLT162FZs/bDAIZu9KqoDWm7pv4g8JDC6Lz5kXzN2dUaH
-	ZcpNpgc=
-X-Received: by 2002:a05:6830:3495:b0:7d7:40e7:9536 with SMTP id
- 46e09a7af769-7d740e79670mr3723400a34.0.1773070299522; Mon, 09 Mar 2026
- 08:31:39 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TRKJI5193voB5Db2CXyzbOP1jIxmLt0/DmfJcVa+r1g=;
+ b=nElayYFfB1KxK5NYhvDscIvssDWR9rRjhvXnOxmnY88TSm+my2u6kRC+0c/BHyqHOkVo6umuehKdA8Lwj/c7hMmr4+CuYFhF5DXe09PIqizS45fnaY6wVPd7bgAN0xqNniHGNW6zyBlUayM4fjV+aOQtBL8cPI8xfwDqBwJzdNc=
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54) by SA1PR10MB5736.namprd10.prod.outlook.com
+ (2603:10b6:806:232::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.24; Tue, 10 Mar
+ 2026 15:52:21 +0000
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
+ 15:52:20 +0000
+Message-ID: <3178d371-7a4c-4d07-885c-42496190f242@oracle.com>
+Date: Tue, 10 Mar 2026 15:52:10 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/8] scsi: scsi-multipath: Add basic ALUA support
+To: Hannes Reinecke <hare@suse.com>, hch@lst.de, kbusch@kernel.org,
+        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        bmarzins@redhat.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org, sagi@grimberg.me,
+        axboe@fb.com, linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, dm-devel@lists.linux.dev,
+        linux-kernel@vger.kernel.org, nilay@linux.ibm.com
+References: <20260310114925.1222263-1-john.g.garry@oracle.com>
+ <20260310114925.1222263-6-john.g.garry@oracle.com>
+ <f46807c2-0266-4143-9caa-ff938293f7b4@suse.com>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <f46807c2-0266-4143-9caa-ff938293f7b4@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DX0P273CA0020.AREP273.PROD.OUTLOOK.COM
+ (2603:1086:300:5b::16) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54)
 MIME-Version: 1.0
-References: <20260309062840.2937858-2-iam@sung-woo.kim>
-In-Reply-To: <20260309062840.2937858-2-iam@sung-woo.kim>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Mon, 9 Mar 2026 08:31:27 -0700
-X-Gm-Features: AaiRm50lVynE24y1iGtUrsPblHqAJTvTl9abhpAYnSu85cy3kb3SYItst0KXwYA
-Message-ID: <CADUfDZorSQCVtQyfjBuaziwG2Jo28yZiiqLKbp9PkFFw-9VgfQ@mail.gmail.com>
-Subject: Re: [PATCH] blk-mq: nvme: Fix general protection fault in nvme_setup_descriptor_pools()
-To: Sungwoo Kim <iam@sung-woo.kim>
-Cc: Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>, 
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
-	Mikulas Patocka <mpatocka@redhat.com>, dm-devel@lists.linux.dev, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, "James E.J. Bottomley" <jejb@linux.ibm.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Chao Shi <cshi008@fiu.edu>, 
-	Weidong Zhu <weizhu@fiu.edu>, Dave Tian <daveti@purdue.edu>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nbd@other.debian.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|SA1PR10MB5736:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2913d2b2-4bb7-42ed-d58c-08de7ebd0370
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 4pLfq481850YaiqPzQ5GyMIJfvhGsHmt6zy2UH/ru5qVE+zw0fuuvOHpV9cJ4sSVdPXqxjaWqxUGH3PInvue32/iJlTpim2/I3n4LFUFRGQJeT70BaQnK48Dgd5auoVdcq+Mpfg6BIGjLs3p4rxW7HSOp6JIVcvFTGKHfUVH1NAB7egYhG0Lcw+WZXirgB2JP9SrrKzfTjQUoxgdEDDKZhzn4kURtUcXKkdBxDYjhKXaceOFipBFHsMftyVpHXzbCoK4LAGgTe1BrRBH6TIp6VEIUrJWAxW1DO4X6BdoYLw6E1gXBiwAcoN6BPZ7gFleabGkHqz127YDH+0pkDjIblrhcWdlCuRr8vxdBce12LbDmVjEXjsFg6FtAmTT/wls/2BCowc1sWly6odyQovGV1PQzn2g1SLZTkFBFkR/SVTO+xBzjy3RUgLWdd/oJ0bheDMz658Lrzs0uMrnIkVhxoJ74AO4clvj9eVbAy9q9/Rvx7phuraot2oeT8OflKYFOlHv5ASAmkE/LnIYS1FN2KvnX/tg6WkLgYurS6WPsn3HLt3wfMwtk/pC6p3DZmrMrkfVU/CjC9EhK0DWjsEeDjxQJCsDwZghRW4ngB5RdGb1yK50o760yvZjLBbVSInJNeIWm5GuYFUvaUEOEmmTIJPi/bOHgEozuXMDOW/VChrtwEhONmDD/nezzfJ7AipOkPTDHe970XbMGyAY2EgcxWFaSgid3Y1Hcb7wftnq/aU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUNTQ095bUxZU0xPbTZ3WERFM0hIMXF5RU4yV3Y4cXhhNHd0dHdEa3YwajRE?=
+ =?utf-8?B?SkVGWEFCS3NZeDNSKzRBa2E3MzBwbEVXb1M3dUdpZ2RUMGFVRVpDaTJmbnFY?=
+ =?utf-8?B?Mi84YUhLVi9wUm10d1I1UzBTMzAzaHlDWUxNOVd6RkNqT3pTWHBnMkQxNWxn?=
+ =?utf-8?B?Mi9rN0VCZFFXMUR2cDFTNHh0OEZPcGlUdlpidjlCZmdzdkw1QVkxNVV1S1Vk?=
+ =?utf-8?B?V1lEMitTU2VoTmtlcjZnVUVJczNHc0c0c1NOYzN3Tys2VmhRazBCQjE3TER1?=
+ =?utf-8?B?dkNjempwanlXQ1ZSd1JKajZGUzdhVkVlYUZFNGFYYi9iVUNYUlJuODNseXdD?=
+ =?utf-8?B?NVdQYlNVQXVGcUp3OXhyU1lRU3lYaWtLK1d0QjZvRm9qVmZ4eWFhUkx6NGxa?=
+ =?utf-8?B?RXAzR2dER3IwVXMzanJsYjl5S3pHbUNRNjZzb2ZGcWlzQkVkRnBVSWhDWmcv?=
+ =?utf-8?B?Yjk4V2hKNGZvSEFvMDE2b1crTWVNZExCRjBDTTJ0WnV4UzVyNjNBVTBWQzl1?=
+ =?utf-8?B?TUYvQVp4cHk0MGFBelhTd0tocUxCUFZ1THZncWI4d1FqaW5hbDBSZU5CcmFt?=
+ =?utf-8?B?cU5RMWw1WGIzK2JTR29HVlpoY3dLUloydXcxcjZyYlFOV1J6WFpDeGZ1L0Zp?=
+ =?utf-8?B?YmtERmdYbnZoTWZ1aWN1ZEZpeHpyWFp1SjZBd2t2OEl0QmpncEkwSE9KRVlw?=
+ =?utf-8?B?SnJ6K1JsUDVwWG1DbjArdk5rb2tzUFVIMlY2TlBNRWdqZEJKZzg4R2hXVTl2?=
+ =?utf-8?B?bm8vWVJ6SHdFS3Y1VzlyQWtDa0pmL0x1Ym54b3pURy84OG5xckJqYkd6TTls?=
+ =?utf-8?B?bmJIVkZDdVE1cFFFQ0FBY1I2MlA4N1hYSnhzeHhrdjUyNTVoQkQ3RGtXQlpS?=
+ =?utf-8?B?cTBjNVRXZk9YQzNPQmJ6enRybzZMa0tobzdBY1lHRTg2T0ErdWlFaDY0c2Vo?=
+ =?utf-8?B?Uy9OWTVqR1NUTVJ5TWVUenlodGRqZ0MwVFVCN1ZNVW5XT05PcS9JR3FwcHhP?=
+ =?utf-8?B?YXd1S1haZ3NPQ2dTUDdyY1hpU3gyYVorRFJ1THBWVEVJMGp0YTRSZUozMm9V?=
+ =?utf-8?B?UEtRY3EzUXZiQWxpQXNTS1g1TlNYbmhWdTVqclUwdERZWk12MDVVNWFaMU5U?=
+ =?utf-8?B?cHdZRVlSSjd4OTBObFlWcjVScnZYNXp3WVZnTFFZSW5HY1dDakZRZVRVVTFZ?=
+ =?utf-8?B?aXlZelNSSjRXMytTUm4vUXBkMDZXcldodk5vZ0JWMmRXUTR3bFZ3Tnl4czdq?=
+ =?utf-8?B?SkFIVklLbVBaRTRFK2hGUWdZWGtrWExyeGt5N25ML1pndW9ISzBXb0lKckl0?=
+ =?utf-8?B?NW9GRTc0ZHJ1Y2JkWFdnd3NMdEx2bnE5VkQ0dkdRRjFRYWNEZlMvbFVUUGJB?=
+ =?utf-8?B?ZFZZTjlSUHZUb3R3ckhVNlhzQlJERmFRTkZFSW54YXA3QWtLczVXc25IQzM5?=
+ =?utf-8?B?Uit2U0V5d01teHI5S1lPZ1VNOHdpd1NvZm9FWE5xU3Y0RVU2aDBQV1VPZFBx?=
+ =?utf-8?B?b1dFMXM2VURZVmhVSVlDZUMvcXFlU082VEN1SW91cW5NUDNYTG5jUlVsa3p2?=
+ =?utf-8?B?dTF0YUdxZGhzRFNEMUhYWGp0NnNvUXdmY0g5WXM4N0tlTzVzS0xOU3hKSnZM?=
+ =?utf-8?B?QXNpODIya2Z3QjlicndGbTlwWjdha1YwcDVsM2FBZUpOUHdPTno1b0lxYXdJ?=
+ =?utf-8?B?cGpnZmNoM2lOaEEzUENVNXFMS0NablBDZWdVa3BJTkpyWmtsNDBuLzMrdTU3?=
+ =?utf-8?B?cDBzWU5DME54THhBL0p2RWZPcUhnM3lQUURDWVRZZVJka08yTE55NnNweVl2?=
+ =?utf-8?B?YlhrekswSFFlbEQ4WXNURDVhczJlRmphbUVMZUdSektmVUtWL0I2ZzJUMEpY?=
+ =?utf-8?B?ck5LYmg3eTh6UjNtbFF1RitTTU00N1NMa0JGVmhiSXRtVjhsb3NXdmVZTkhr?=
+ =?utf-8?B?cHd6MityNUJDMlZETG93dFZUTVNrTWoveEdvN1diUXB6SzFIVWFMWFhCTEFi?=
+ =?utf-8?B?RjRLRERHQy9LK3BucmpZMDFHRzgvaFl3NXVXeVZvdHg3Q3hKaTMwZlFnOUJv?=
+ =?utf-8?B?R2dheEhQVTdESDk0WXk3N29nd0VOZDVQWCtCMExaOUxjZmZlczhIdkV1Y3Fl?=
+ =?utf-8?B?cENjOENYVU1haldBeDNCVTJxTkdZSEF2V3hSZ0lwY2ExZEdrNC9zVURubW9a?=
+ =?utf-8?B?aVBYcjU1cXpkckRtL1d1Zmh0MXBRK1YvY1hOY2hxREF2RGNsQjFrTkRCeVVu?=
+ =?utf-8?B?K3h6NmxxYmJJWjRRd0U0WHFNM3pKd3VFenB2aE1mamIxTVZEQm14VDNBTzZp?=
+ =?utf-8?B?UEhiL2Y4RVFYOW1QdXJrY0VHTW9YdjVkcm1NN3hhWWgxUEVmSFduaGZXUURw?=
+ =?utf-8?Q?9vjVcXYmQCFyt4yY=3D?=
+X-Exchange-RoutingPolicyChecked: KTlUA6gIL0TSegOMfMaPT4BJM0BdSglXW0IjrjmerT30XW7WFClm33P7YZgDgaidD3tIXcR5O7W6RwAh1R9oiAjYXtQSdJ6vfviVJJSJVllpdnoB2dQwiLRtJoT2AGV4ZlgcJwkVLBmv+rZaLlTUJ9MQFTjy/gafj5k2eKR31ueiiu2aWzNpcPRp/Q2Pkfo0nW3LeJwtOp1az3yCfU5VLpx6a2N+Pm8NYWFG7TVpEUmdn+OikXE3pBWrakt3W9Ph2unbiaWZwndPDZiZO+wBK7ECuLYWcR5Zrf8GBeX8Chc5d7SgGpSvRCgM9W+lrRx4WK5rGBv/5QcB/KrhcrF3Qg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 3XXG5mxeUT0Ng9bcI7uFg91L4TJPpM7aXzuIhuHTd5NdQCbC84ZDgvGOBCYPRGq1y7b6JbsWTijT5ptw02h+veWmnupADhEvDuZ+vHS6D/DqYLO1h07/7qRriIAUzqYT2+m7hlVyk4yHRItmvBmFwYLzXutIW9yYokUqnawHkb1X8hPnp04PlQ0/5Wlp6JrRHYD1O+V7FqptfTHJsztdJNmwbV9EtKwRGw2xWJGMLTyd5wgNnllev0WRCvrGMAWWGjUvJ1dj7DBdQz8/n0GttwP8c1DR2BghD08nWcIKhR2CrV7mWPyaFTYK61Dmh98GQrt69CkgeQyXsljaJ2Qg3lS7vYW5Mb+5drPuMpi0/IPa3Zn2+FyDyQ3vW6L4Cqy71+TSUJLSgV0njnw2ZGqubBCjx5kOtxFz3JtOPAF+nOL4yXriVQMK2RIVHr10Ppg2iCglar8CgjavSYCZFfSGbxjqDvZD3+Lj4jnGZzRBs925eaDvwBojP3oE21+3EznXE56djPQ+jyhj8nfVpEEyKvIKWYlOEveuRjGCTqwyJCKI+q25Dj5RW4f/1AiesXGP1ohxw1TPRwCjLkgEC/D58PlFmSmQjMEkeTv7ZUR94M4=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2913d2b2-4bb7-42ed-d58c-08de7ebd0370
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 15:52:20.8766
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eMyYn7PQcshswp6/BvSA8N3Y9FxbQm6xWnmwLirjx6EtU3nKq+TszoOXl+BHJOE7IIlLTIB+C65qnBETyuN4bA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB5736
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-10_03,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 mlxscore=0
+ mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2602130000
+ definitions=main-2603100137
+X-Authority-Analysis: v=2.4 cv=Methep/f c=1 sm=1 tr=0 ts=69b03e3c b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=LN2AWSDT972AZ8vtVXsA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 cc=ntf awl=host:12272
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDEzOCBTYWx0ZWRfXz/3WXQjUagZ8
+ nZFHPIfQIr07WCLkiCQKj1aA6MfsSWd+ZHJTi5GRWsLi3Bf8U1DBxyTQWZ/FsLNa9pwcXigcJxn
+ w7M6ahazg5RQb58AbNFP6j7RvsAiIsoEDgwrOHyd52M8Zm7rUleFKw9paeoW6DvkztHfkjecG7K
+ Rvi2MNx95u76kVO9g3AFJtmB7Dem4c9TIgdXQo19diRq8m55zbwLX4R5FC4hiVb2G7cnGi8OO0o
+ gIUzV/oRRTQHMSLyp8bIWjghvLKd3xHAAXIVJ+lec/45o2pQm0Xh0MUJ869eXyCH4LjeZFpeckS
+ j0AccvYjwWZRndAdGQGl4vSdoUPNFHvi2LDBiyLgcrryDxBQ253xogO7bS3Ks2CMbeBx7oqJKsE
+ U8d7ZP3lfHwpKPxrGJte2llp2veDb9ZJSc1hBJbJYa9fctbYQL37iZvWkdzd93p8rv5lICR6Zbm
+ +eovgrbCDQ78HXymRZWmILcW8qDgWRLWajLhJOhE=
+X-Proofpoint-ORIG-GUID: APO8qSoUUXWzFr3D954OGWALCV7aYLiC
+X-Proofpoint-GUID: APO8qSoUUXWzFr3D954OGWALCV7aYLiC
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260309_083141_635011_4B1FB9D7 
-X-CRM114-Status: GOOD (  29.17  )
-X-Mailman-Approved-At: Tue, 10 Mar 2026 08:34:27 -0700
+X-CRM114-CacheID: sfid-20260310_085244_622023_BA9342A2 
+X-CRM114-Status: GOOD (  16.39  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -130,376 +203,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Mar 8, 2026 at 11:30=E2=80=AFPM Sungwoo Kim <iam@sung-woo.kim> wrot=
-e:
->
-> The numa_node can be < 0 since NUMA_NO_NODE =3D -1. However,
-> struct blk_mq_hw_ctx{} defines numa_node as unsigned int. As a result,
-> numa_node is set to UINT_MAX for NUMA_NO_NODE in blk_mq_alloc_hctx().
+On 10/03/2026 13:23, Hannes Reinecke wrote:
+>>       sdev->scsi_mpath_dev->index = ida_alloc(&scsi_mpath_head->ida, 
+>> GFP_KERNEL);
+>>       if (sdev->scsi_mpath_dev->index < 0) {
+>>           ret = sdev->scsi_mpath_dev->index;
+>> diff --git a/include/scsi/scsi_multipath.h b/include/scsi/ 
+>> scsi_multipath.h
+>> index 2011447f482d6..7c7ee2fb7def7 100644
+>> --- a/include/scsi/scsi_multipath.h
+>> +++ b/include/scsi/scsi_multipath.h
+>> @@ -38,6 +38,9 @@ struct scsi_mpath_device {
+>>       int            index;
+>>       atomic_t        nr_active;
+>>       struct scsi_mpath_head    *scsi_mpath_head;
+>> +    int            alua_state;
+>> +    int            alua_pref;
+>> +    int            alua_valid_states;
+>>       char            device_id_str[SCSI_MPATH_DEVICE_ID_LEN];
+>>   };
+> 
+> Is there a specific reason why this cannot be in the generic code?
 
-The node argument to blk_mq_alloc_hctx() comes from
-blk_mq_alloc_and_init_hctx(), which is called by
-blk_mq_alloc_and_init_hctx() with int node =3D blk_mq_get_hctx_node(set,
-i). node =3D NUMA_NO_NODE would suggest that blk_mq_hw_queue_to_node()
-doesn't find any CPU affinitized to the queue. Is that even possible?
+Sure, it's possible....
 
->
-> Later, nvme_setup_descriptor_pools() accesses
-> descriptor_pools[numa_node]. Due to the above, it tries to access
-> descriptor_pools[UINT_MAX]. The address is garbage but accessible
-> because it is canonical and still within the slab memory range.
-> Therefore, no page fault occurs, and KASAN cannot detect this since it
-> is beyond the redzones.
->
-> Subsequently, normal I/O calls dma_pool_alloc() with the garbage pool
-> address. pool->next_block contains a wild pointer, causing a general
-> protection fault (GPF).
->
-> To fix this, this patch changes the type of numa_node to int and adds
-> a check for NUMA_NO_NODE.
->
-> Log:
->
-> Oops: general protection fault, probably for non-canonical address 0xe980=
-3b040854d02c: 0000 [#1] SMP KASAN PTI
-> KASAN: maybe wild-memory-access in range [0x4c01f82042a68160-0x4c01f82042=
-a68167][FEMU] Err: I/O cmd failed: opcode=3D0x2 status=3D0x4002
-> CPU: 0 UID: 0 PID: 112363 Comm: systemd-udevd Not tainted 6.19.0-dirty #1=
-0 PREEMPT(voluntary)
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-=
-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
-> RIP: 0010:pool_block_pop mm/dmapool.c:187 [inline]
-> RIP: 0010:dma_pool_alloc+0x110/0x990 mm/dmapool.c:417
-> Code: 00 0f 85 a4 07 00 00 4c 8b 63 58 4d 85 e4 0f 84 12 01 00 00 e8 41 1=
-d 93 ff 4c 89 e2 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 0f=
- 85 a7 07 00 00 49 8b 04 24 48 8d 7b 68 48 89 fa 48
-> RSP: 0018:ffffc90002b9efd0 EFLAGS: 00010003
-> RAX: dffffc0000000000 RBX: ffff888005466800 RCX: ffffffff94faab7f
-> RDX: 09803f040854d02c RSI: 6c9b26c9b26c9b27 RDI: ffff88800c725ea0
-> RBP: ffffc90002b9f060 R08: 0000000000000001 R09: 0000000000000001
-> R10: 0000000000000003 R11: 0000000000000000 R12: 4c01f82042a68164
-> R13: ffff888005466800 R14: 0000000000000820 R15: ffff888007b29000
-> FS:  00007f2abc4ff8c0(0000) GS:ffff8880d1ff7000(0000) knlGS:0000000000000=
-000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000056360eb89000 CR3: 000000000a480000 CR4: 00000000000006f0
-> Call Trace:
->  <TASK>
->  nvme_pci_setup_data_prp drivers/nvme/host/pci.c:906 [inline]
->  nvme_map_data drivers/nvme/host/pci.c:1114 [inline]
->  nvme_prep_rq.part.0+0x17d3/0x3c90 drivers/nvme/host/pci.c:1243
->  nvme_prep_rq drivers/nvme/host/pci.c:1239 [inline]
->  nvme_prep_rq_batch drivers/nvme/host/pci.c:1321 [inline]
->  nvme_queue_rqs+0x37b/0x8a0 drivers/nvme/host/pci.c:1336
->  __blk_mq_flush_list block/blk-mq.c:2848 [inline]
->  __blk_mq_flush_list+0xaa/0xe0 block/blk-mq.c:2844
->  blk_mq_dispatch_queue_requests+0x4f5/0x990 block/blk-mq.c:2893
->  blk_mq_flush_plug_list+0x232/0x650 block/blk-mq.c:2981
->  __blk_flush_plug+0x2c3/0x510 block/blk-core.c:1225
->  blk_finish_plug block/blk-core.c:1252 [inline]
->  blk_finish_plug+0x64/0xc0 block/blk-core.c:1249
->  read_pages+0x6bd/0x9d0 mm/readahead.c:176
->  page_cache_ra_unbounded+0x659/0x950 mm/readahead.c:269
->  do_page_cache_ra mm/readahead.c:332 [inline]
->  force_page_cache_ra+0x282/0x3a0 mm/readahead.c:361
->  page_cache_sync_ra+0x201/0xbf0 mm/readahead.c:579
->  filemap_get_pages+0x3be/0x1990 mm/filemap.c:2690
->  filemap_read+0x3ea/0xdf0 mm/filemap.c:2800
->  blkdev_read_iter+0x1b8/0x520 block/fops.c:856
->  new_sync_read fs/read_write.c:491 [inline]
->  vfs_read+0x90f/0xd80 fs/read_write.c:572
->  ksys_read+0x14e/0x280 fs/read_write.c:715
->  __do_sys_read fs/read_write.c:724 [inline]
->  __se_sys_read fs/read_write.c:722 [inline]
->  __x64_sys_read+0x7b/0xc0 fs/read_write.c:722
->  x64_sys_call+0x17ec/0x21b0 arch/x86/include/generated/asm/syscalls_64.h:=
-1
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x8b/0x1200 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> RIP: 0033:0x7f2abc7b204e
-> Code: 0f 1f 40 00 48 8b 15 79 af 00 00 f7 d8 64 89 02 48 c7 c0 ff ff ff f=
-f eb ba 0f 1f 00 64 8b 04 25 18 00 00 00 85 c0 75 14 0f 05 <48> 3d 00 f0 ff=
- ff 77 5a c3 66 0f 1f 84 00 00 00 00 00 48 83 ec 28
-> RSP: 002b:00007fff07113cb8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-> RAX: ffffffffffffffda RBX: 000056360eb6a528 RCX: 00007f2abc7b204e
-> RDX: 0000000000040000 RSI: 000056360eb6a538 RDI: 000000000000000f
-> RBP: 000056360e8d23d0 R08: 000056360eb6a510 R09: 00007f2abc79abe0
-> R10: 0000000000040050 R11: 0000000000000246 R12: 000000003ff80000
-> R13: 0000000000040000 R14: 000056360eb6a510 R15: 000056360e8d2420
->  </TASK>
-> Modules linked in:
->
-> Fixes: 320ae51feed5 ("blk-mq: new multi-queue block IO queueing mechanism=
-")
-> Fixes: d977506f8863 ("nvme-pci: make PRP list DMA pools per-NUMA-node")
-> Acked-by: Chao Shi <cshi008@fiu.edu>
-> Acked-by: Weidong Zhu <weizhu@fiu.edu>
-> Acked-by: Dave Tian <daveti@purdue.edu>
-> Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
-> ---
->  block/bsg-lib.c                   |  2 +-
->  drivers/block/mtip32xx/mtip32xx.c |  2 +-
->  drivers/block/nbd.c               |  2 +-
->  drivers/md/dm-rq.c                |  2 +-
->  drivers/mmc/core/queue.c          |  2 +-
->  drivers/mtd/ubi/block.c           |  2 +-
->  drivers/nvme/host/apple.c         |  2 +-
->  drivers/nvme/host/fc.c            |  2 +-
->  drivers/nvme/host/pci.c           | 11 ++++++++---
->  drivers/nvme/host/rdma.c          |  2 +-
->  drivers/nvme/host/tcp.c           |  2 +-
->  drivers/nvme/target/loop.c        |  2 +-
->  drivers/scsi/scsi_lib.c           |  2 +-
->  include/linux/blk-mq.h            |  4 ++--
->  14 files changed, 22 insertions(+), 17 deletions(-)
->
-> diff --git a/block/bsg-lib.c b/block/bsg-lib.c
-> index 9ceb5d0832f5..e93b1018a346 100644
-> --- a/block/bsg-lib.c
-> +++ b/block/bsg-lib.c
-> @@ -299,7 +299,7 @@ static blk_status_t bsg_queue_rq(struct blk_mq_hw_ctx=
- *hctx,
->
->  /* called right after the request is allocated for the request_queue */
->  static int bsg_init_rq(struct blk_mq_tag_set *set, struct request *req,
-> -                      unsigned int hctx_idx, unsigned int numa_node)
-> +                      unsigned int hctx_idx, int numa_node)
->  {
->         struct bsg_job *job =3D blk_mq_rq_to_pdu(req);
->
-> diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/m=
-tip32xx.c
-> index 567192e371a8..8aedba9b5690 100644
-> --- a/drivers/block/mtip32xx/mtip32xx.c
-> +++ b/drivers/block/mtip32xx/mtip32xx.c
-> @@ -3340,7 +3340,7 @@ static void mtip_free_cmd(struct blk_mq_tag_set *se=
-t, struct request *rq,
->  }
->
->  static int mtip_init_cmd(struct blk_mq_tag_set *set, struct request *rq,
-> -                        unsigned int hctx_idx, unsigned int numa_node)
-> +                        unsigned int hctx_idx, int numa_node)
->  {
->         struct driver_data *dd =3D set->driver_data;
->         struct mtip_cmd *cmd =3D blk_mq_rq_to_pdu(rq);
-> diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-> index f6c33b21f69e..e1fac1c0c4cd 100644
-> --- a/drivers/block/nbd.c
-> +++ b/drivers/block/nbd.c
-> @@ -1888,7 +1888,7 @@ static void nbd_dbg_close(void)
->  #endif
->
->  static int nbd_init_request(struct blk_mq_tag_set *set, struct request *=
-rq,
-> -                           unsigned int hctx_idx, unsigned int numa_node=
-)
-> +                           unsigned int hctx_idx, int numa_node)
->  {
->         struct nbd_cmd *cmd =3D blk_mq_rq_to_pdu(rq);
->         cmd->nbd =3D set->driver_data;
-> diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
-> index a6ca92049c10..b687a209256b 100644
-> --- a/drivers/md/dm-rq.c
-> +++ b/drivers/md/dm-rq.c
-> @@ -455,7 +455,7 @@ static void dm_start_request(struct mapped_device *md=
-, struct request *orig)
->  }
->
->  static int dm_mq_init_request(struct blk_mq_tag_set *set, struct request=
- *rq,
-> -                             unsigned int hctx_idx, unsigned int numa_no=
-de)
-> +                             unsigned int hctx_idx, int numa_node)
->  {
->         struct mapped_device *md =3D set->driver_data;
->         struct dm_rq_target_io *tio =3D blk_mq_rq_to_pdu(rq);
-> diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
-> index 284856c8f655..06cb29190a88 100644
-> --- a/drivers/mmc/core/queue.c
-> +++ b/drivers/mmc/core/queue.c
-> @@ -203,7 +203,7 @@ static unsigned short mmc_get_max_segments(struct mmc=
-_host *host)
->  }
->
->  static int mmc_mq_init_request(struct blk_mq_tag_set *set, struct reques=
-t *req,
-> -                              unsigned int hctx_idx, unsigned int numa_n=
-ode)
-> +                              unsigned int hctx_idx, int numa_node)
->  {
->         struct mmc_queue_req *mq_rq =3D req_to_mmc_queue_req(req);
->         struct mmc_queue *mq =3D set->driver_data;
-> diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
-> index b53fd147fa65..1c0bd2b36637 100644
-> --- a/drivers/mtd/ubi/block.c
-> +++ b/drivers/mtd/ubi/block.c
-> @@ -312,7 +312,7 @@ static blk_status_t ubiblock_queue_rq(struct blk_mq_h=
-w_ctx *hctx,
->
->  static int ubiblock_init_request(struct blk_mq_tag_set *set,
->                 struct request *req, unsigned int hctx_idx,
-> -               unsigned int numa_node)
-> +               int numa_node)
->  {
->         struct ubiblock_pdu *pdu =3D blk_mq_rq_to_pdu(req);
->
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index ed61b97fde59..50ff5e9a168d 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -819,7 +819,7 @@ static int apple_nvme_init_hctx(struct blk_mq_hw_ctx =
-*hctx, void *data,
->
->  static int apple_nvme_init_request(struct blk_mq_tag_set *set,
->                                    struct request *req, unsigned int hctx=
-_idx,
-> -                                  unsigned int numa_node)
-> +                                  int numa_node)
->  {
->         struct apple_nvme_queue *q =3D set->driver_data;
->         struct apple_nvme *anv =3D queue_to_apple_nvme(q);
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 6948de3f438a..64d0c5d7613a 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2109,7 +2109,7 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
->
->  static int
->  nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
-> -               unsigned int hctx_idx, unsigned int numa_node)
-> +               unsigned int hctx_idx, int numa_node)
->  {
->         struct nvme_fc_ctrl *ctrl =3D to_fc_ctrl(set->driver_data);
->         struct nvme_fcp_op_w_sgl *op =3D blk_mq_rq_to_pdu(rq);
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 3c83076a57e5..a5f12fc7655d 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -443,11 +443,16 @@ static bool nvme_dbbuf_update_and_check_event(u16 v=
-alue, __le32 *dbbuf_db,
->  }
->
->  static struct nvme_descriptor_pools *
-> -nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
-> +nvme_setup_descriptor_pools(struct nvme_dev *dev, int numa_node)
->  {
-> -       struct nvme_descriptor_pools *pools =3D &dev->descriptor_pools[nu=
-ma_node];
-> +       struct nvme_descriptor_pools *pools;
->         size_t small_align =3D NVME_SMALL_POOL_SIZE;
->
-> +       if (numa_node =3D=3D NUMA_NO_NODE)
-> +               pools =3D &dev->descriptor_pools[numa_node_id()];
-> +       else
-> +               pools =3D &dev->descriptor_pools[numa_node];
+> After all, if the device reports anything else than ALUA_STATE_OPTIMAL
+> or ALUA_STATE_ACTIVE I/O will fail, irrespective of multipath being
+> active.
+> 
+> I would love to see that in the generic SCSI code, independent on this 
+> patchset. It would allow us to simplify the device handler code, too,
+> as then device handler really would only be required for explicit
+> ALUA. (And could be ignored for scsi-multipathing).
 
-Simpler: if (numa_node =3D=3D NUMA_NO_NODE) numa_node =3D numa_node_id();
+Right, so you would like to see alua_port_group management in a core 
+ALUA driver as well, right?
 
-> +
->         if (pools->small)
->                 return pools; /* already initialized */
->
-> @@ -516,7 +521,7 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx,=
- void *data,
->
->  static int nvme_pci_init_request(struct blk_mq_tag_set *set,
->                 struct request *req, unsigned int hctx_idx,
-> -               unsigned int numa_node)
-> +               int numa_node)
->  {
->         struct nvme_iod *iod =3D blk_mq_rq_to_pdu(req);
->
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 35c0822edb2d..c2514ef94028 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -292,7 +292,7 @@ static void nvme_rdma_exit_request(struct blk_mq_tag_=
-set *set,
->
->  static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
->                 struct request *rq, unsigned int hctx_idx,
-> -               unsigned int numa_node)
-> +               int numa_node)
->  {
->         struct nvme_rdma_ctrl *ctrl =3D to_rdma_ctrl(set->driver_data);
->         struct nvme_rdma_request *req =3D blk_mq_rq_to_pdu(rq);
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 69cb04406b47..385eef98081b 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -547,7 +547,7 @@ static void nvme_tcp_exit_request(struct blk_mq_tag_s=
-et *set,
->
->  static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
->                 struct request *rq, unsigned int hctx_idx,
-> -               unsigned int numa_node)
-> +               int numa_node)
->  {
->         struct nvme_tcp_ctrl *ctrl =3D to_tcp_ctrl(set->driver_data);
->         struct nvme_tcp_request *req =3D blk_mq_rq_to_pdu(rq);
-> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-> index fc8e7c9ad858..72a8ea70eae7 100644
-> --- a/drivers/nvme/target/loop.c
-> +++ b/drivers/nvme/target/loop.c
-> @@ -202,7 +202,7 @@ static int nvme_loop_init_iod(struct nvme_loop_ctrl *=
-ctrl,
->
->  static int nvme_loop_init_request(struct blk_mq_tag_set *set,
->                 struct request *req, unsigned int hctx_idx,
-> -               unsigned int numa_node)
-> +               int numa_node)
->  {
->         struct nvme_loop_ctrl *ctrl =3D to_loop_ctrl(set->driver_data);
->         struct nvme_loop_iod *iod =3D blk_mq_rq_to_pdu(req);
-> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-> index 4a902c9dfd8b..8958ad31ed2a 100644
-> --- a/drivers/scsi/scsi_lib.c
-> +++ b/drivers/scsi/scsi_lib.c
-> @@ -1948,7 +1948,7 @@ static blk_status_t scsi_queue_rq(struct blk_mq_hw_=
-ctx *hctx,
->  }
->
->  static int scsi_mq_init_request(struct blk_mq_tag_set *set, struct reque=
-st *rq,
-> -                               unsigned int hctx_idx, unsigned int numa_=
-node)
-> +                               unsigned int hctx_idx, int numa_node)
->  {
->         struct Scsi_Host *shost =3D set->driver_data;
->         struct scsi_cmnd *cmd =3D blk_mq_rq_to_pdu(rq);
-> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-> index cae9e857aea4..1a5a3786522c 100644
-> --- a/include/linux/blk-mq.h
-> +++ b/include/linux/blk-mq.h
-> @@ -426,7 +426,7 @@ struct blk_mq_hw_ctx {
->         struct blk_mq_tags      *sched_tags;
->
->         /** @numa_node: NUMA node the storage adapter has been connected =
-to. */
-> -       unsigned int            numa_node;
-> +       int             numa_node;
->         /** @queue_num: Index of this hardware queue. */
->         unsigned int            queue_num;
->
-> @@ -651,7 +651,7 @@ struct blk_mq_ops {
->          * flush request.
->          */
->         int (*init_request)(struct blk_mq_tag_set *set, struct request *,
-> -                           unsigned int, unsigned int);
-> +                           unsigned int, int);
+If yes, to repeat, it is hard to separate the DH stuff out...but I can 
+try. Examples I would need to deal with (and associated handling):
 
-Pre-existing, but naming these integer arguments would be helpful for
-documentation.
+- alua_port_group members like dh_list
+- alua_dh_data memebers like init_error
+- everything in alua_queue_data
 
-Best,
-Caleb
+Thanks
 
->         /**
->          * @exit_request: Ditto for exit/teardown.
->          */
-> --
-> 2.47.3
->
->
 
