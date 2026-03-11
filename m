@@ -4,89 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CD951125847
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 15:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50D10112584E
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 16:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
-	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0BIjwS+gbq180VGTzlx/TXLnnmlA29fWZpFQXzG3WGQ=; b=17OVs++5Llu1yRM9UP8hStkS9K
-	tvCIMBZBf2KrmbPblGZ+394jtJwSs1TaQv8wpEnGtREm6cCh7KdCpJrlhpGkVaL22tfh9U6Uz26lY
-	XSJaZt3ATey9GfQqCq3aqOv0S0YkCSQcnIeMzZcuIMbcV7yaFsDNI8uQugwscSPofJHbbN3oki6fm
-	klrEfxFjNWFsi7MFW8zxqum+HhcsrDYsqSNRGvif1FCKJlVmamMSVaERCDUVXtaUJkHMc6brdjnw/
-	HhcyKWEtf1ZsQw50LZmJa/5g7QxGBkUfS8toR3xoFVWljk1acksq0WW+LsUxNit59v0bO7imDhZ+y
-	zueZc72Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WPkbOrloYj2e5sPJVDwYdPDFwMSpsR7mt6BhM9wEq8U=; b=E4vm6IpRhi9UQEglbNirhrFqzG
+	VPT425Y34CFN1UYOI1t7/V7bzaFkPSwfJ3nnGlcHLgaGrqQq8xruAMmyN2xfgHj8xenIxntRsT0np
+	nQrhix5LhWIlugFrr4kY8bibXpM6pWvYueqkbyj+Jx5niJmz+kAhvUgEzgWqN6Wh8xJ48M95dWz8R
+	3ibnnPwhtH1t5q2W/7tPGT0HMDEaC6lShEUZXdugx6CycwX4/h627UF5DOvMur4LULsWDcu3gSrWL
+	py031JCKwBmXVn4dLUOZCPIqQnott+dd56H6jtUISL1Z5Rc49xZ5Nh2dqDUGP7KeYE/nr2UxPuLCK
+	/DRKh3IA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Lmw-0000000Br5y-48Ef;
-	Wed, 11 Mar 2026 15:47:58 +0000
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+	id 1w0M7s-0000000BtGn-2Pv9;
+	Wed, 11 Mar 2026 16:09:36 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Lmu-0000000Br5Q-0dDY
+	id 1w0M7p-0000000BtDK-234k
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Mar 2026 15:47:57 +0000
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso480675ad.1
-        for <linux-nvme@lists.infradead.org>; Wed, 11 Mar 2026 08:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773244075; x=1773848875; darn=lists.infradead.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0BIjwS+gbq180VGTzlx/TXLnnmlA29fWZpFQXzG3WGQ=;
-        b=DBJ0t8+8oR04ks5sXZ/ISvX3q2GP/ww+MsPQk+mTXTq30irmz9fCVBIW44rkfbvAjO
-         bhiqLY5XY9LBVCaLFkXjJhRiFx/2M+bASFSbF067YeC3M2bHQqmRYe+PsT8RO42QrVIc
-         zYM0biKrwn1kZmQKZQ38Devt/lIO6v78+bLjl+qOCL2I8wxysEodUYhUA+vnsrIR/bPi
-         wn+cj3pvKcNh0Z+TOcCHjzEez8p8fRIXTOkrAnRJE01iMcJMQTYRAWweHtet2TQAJIuG
-         /K6pAZFruVNamN962XhZGJlcyL8gCClhoIoO966QzaJsMm8kzMfASjQL6HOrvSslPBNO
-         081A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773244075; x=1773848875;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0BIjwS+gbq180VGTzlx/TXLnnmlA29fWZpFQXzG3WGQ=;
-        b=ep4PYjx3GqmFE+7i7arvkZXEO0WzmWJ5q73XECOTG+cRnIGMQ4CkRMnORkc5poxQpe
-         if8z2/bLAScR3p/SoqfwJgz++7Q1EMvHd6LMOyNVhc5cWVGjF39o025VJjzF/rwV/zzl
-         V9RrXnioDXHZwioLYJKA9R0DyS3Zp0RJQPodh/QcRjo37P6kHH1PvwiujZbegctgBi8n
-         QQmV3ZnD7w03sU2S3eD2VOwp61MbV3pVeLdeXIRmngH+SROpepO/6Dw+K6+6819Jbjzi
-         RpDbu7hrlB+HcUHy7RUJNyrzmdN5ex4Yx6uMDFib2e+2INNXrZfh81N7Grm0jwUKryC9
-         wC2w==
-X-Forwarded-Encrypted: i=1; AJvYcCW4Bb8pQckqZPvfaHHCPCMg6AN/iMaPaHpSe4cnIAsKD3nCHeCPdedI/2Z7n45TvXmGovAbl3CSiewl@lists.infradead.org
-X-Gm-Message-State: AOJu0Yxamw0F3/gHJVOSdIuJpy5dCzEcQIUvI3T66AP8xKyAWXu5/wFh
-	iHpn62YnlvGNaBnXZbKpVNL86JLmIRiKSCsNBK2aobM5fchtt7wrDW6b
-X-Gm-Gg: ATEYQzzUCGJLKAw8c9KgTxaGXVxWcBxyc1DaTviEceaJEP6eO1OVyi6zYvhb3gtznxe
-	PTUnxe052RCiRtjd7vX1L8RR7tzwOozLQNVlAt7eQC0h/FaNfEkYoLvXGb5d7GwYmpb02Z5UuNm
-	kMvYfFdgLuONShigqlJ+NEq3aybjawGk3ctmrMs2eiCSo/81wgW11yWllDsbrVE8qvClYXIIAJo
-	hY+xp80ziJPRw0kE4YuCEcUAd/KtEN7Y1jdC0poHY2yhTEYv33zWPFnGdbrm7bHyTmaY/IvOIm8
-	f7W/AF7GRp5JHLnbNBoN0SVIWyy7K4XNOh9zyAN/hQRhvKNV8LPKM4fGM4lrUggKVDxsMlGIFno
-	iA2aEZHvmeOSIPBMhV2KJuc2R30/VT3S7VpPfsEvTu8swHSXmqBLNvqasQ4vPkutWXqhImckk7P
-	hO3JqUDhg1WzVOWWffYM38iZjfmO48viQhs6P2
-X-Received: by 2002:a17:902:ef43:b0:2ad:da28:98d with SMTP id d9443c01a7336-2aeae8ba653mr31681565ad.37.1773244074668;
-        Wed, 11 Mar 2026 08:47:54 -0700 (PDT)
-Received: from [10.0.2.15] ([202.3.121.5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae222944sm30058135ad.9.2026.03.11.08.47.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 08:47:54 -0700 (PDT)
-Message-ID: <2fbad8b9c5e100bf04854b20b3790578fb724f89.camel@gmail.com>
-Subject: Re: [PATCH] nvme-auth: Hash DH shared secret to create session key
-From: Martin George <martinus.gpy@gmail.com>
-To: Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org, Hannes
- Reinecke <hare@suse.de>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi
- Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Eric
- Biggers <ebiggers@kernel.org>
-Date: Wed, 11 Mar 2026 21:17:49 +0530
-In-Reply-To: <20260311012116.2504291-1-cleech@redhat.com>
-References: <20260311012116.2504291-1-cleech@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+	Wed, 11 Mar 2026 16:09:35 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773245371;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WPkbOrloYj2e5sPJVDwYdPDFwMSpsR7mt6BhM9wEq8U=;
+	b=R8Vq50FA5lWvQd8fj5d5kudpqIoSWXMEahxgDzHCnxMn+/hSi1Mn1/0t5/OOeH6v8JgShI
+	pngtu7Fy1lFtE6aFE/dyq63jDdhUK+mIYj4eOzjyuvarn2f9zQa+uFF6R04IipTq2gvAfz
+	OCLC8uwe8P2ILLrChDIWI0hiVwXgXiE=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-303-jXyRx8CGMYGiEJeAvfQovA-1; Wed,
+ 11 Mar 2026 12:09:27 -0400
+X-MC-Unique: jXyRx8CGMYGiEJeAvfQovA-1
+X-Mimecast-MFC-AGG-ID: jXyRx8CGMYGiEJeAvfQovA_1773245366
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5AE3919560AA;
+	Wed, 11 Mar 2026 16:09:25 +0000 (UTC)
+Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.138])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C31EE3000223;
+	Wed, 11 Mar 2026 16:09:21 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: linux-nvme@lists.infradead.org,
+	dwagner@suse.de,
+	yjshin0438@gmail.com,
+	hare@suse.de,
+	sagi@grimberg.me,
+	chaitanyak@nvidia.com,
+	mlombard@arkamax.eu
+Subject: [PATCH 0/2] nvmet-tcp: fix receive path error handling and state machine
+Date: Wed, 11 Mar 2026 17:09:18 +0100
+Message-ID: <20260311160920.465209-1-mlombard@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JjGu6d_dSQcos2MaHNB_KcIISWlvS0GHU_RTO5uxmiU_1773245366
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260311_084756_192686_688C62EA 
-X-CRM114-Status: GOOD (  13.22  )
+X-CRM114-CacheID: sfid-20260311_090933_592956_35FE4A0D 
+X-CRM114-Status: UNSURE (   9.67  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,46 +89,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, 2026-03-10 at 18:21 -0700, Chris Leech wrote:
-> The NVMe Base Specification 8.3.5.5.9 states that the session key Ks
-> shall be computed from the ephemeral DH key by applying the hash
-> function selected by the HashID parameter.
->=20
-> The current implementation stores the raw DH shared secret as the
-> session key without hashing it. This causes redundant hash
-> operations:
->=20
-> 1. Augmented challenge computation (section 8.3.5.5.4) requires
-> =C2=A0=C2=A0 Ca =3D HMAC(H(g^xy mod p), C). The code compensates by hashi=
-ng the
-> =C2=A0=C2=A0 unhashed session key in nvme_auth_augmented_challenge() to p=
-roduce
-> =C2=A0=C2=A0 the correct result.
->=20
-> 2. PSK generation (section 8.3.5.5.9) requires PSK =3D HMAC(Ks, C1 ||
-> C2)
-> =C2=A0=C2=A0 where Ks should already be H(g^xy mod p). As the DH shared s=
-ecret
-> =C2=A0=C2=A0 is always larger than the HMAC block size, HMAC internally h=
-ashes
-> =C2=A0=C2=A0 it before use, accidentally producing the correct result.
->=20
-> When using secure channel concatenation with bidirectional
-> authentication, this results in hashing the DH value three times:
-> twice
-> for augmented challenge calculations and once during PSK generation.
->=20
+Patch 1 fixes a potential issue where network data could be read into an
+uninitialized iterator. Currently, nvmet_tcp_build_pdu_iovec() returns void,
+meaning callers are unaware if an out-of-bounds PDU length or offset triggers
+an early return. Consequently, callers blindly overwrite the queue state to
+NVMET_TCP_RECV_DATA. This patch modifies the function to return an error code,
+shifting the handling responsibility to the callers to ensure proper socket
+teardown.
 
-But secure channel concatenation is supported only with unidirectional
-auth and not really with bidirectional auth, isn't it? As per NVMe base
-spec 2.1, section 8.3.4.5.9 Generated PSK for TLS:
-=20
-"The host may request secure channel concatenation with the TLS
-protocol by setting the SC_C field in the AUTH_Negotiate message to
-NEWTLSPSK while performing only unidirectional authentication. In this
-case the host shall still send a challenge value C2 to the controller
-and clear the sequence number S2 to 0h to indicate that controller
-authentication is not requested."
+Patch 2 cleans up redundant, localized calls to nvmet_tcp_fatal_error() scattered
+across the receive path. It delegates the responsibility of executing the fatal
+error function to the top-level caller by bubbling up the error codes.
 
--Martin
+Maurizio Lombardi (2):
+  nvmet-tcp: propagate nvmet_tcp_build_pdu_iovec() errors to its callers
+  nvmet-tcp: remove redundant calls to nvmet_tcp_fatal_error()
+
+ drivers/nvme/target/tcp.c | 75 +++++++++++++++++++--------------------
+ 1 file changed, 37 insertions(+), 38 deletions(-)
+
+-- 
+2.53.0
+
 
