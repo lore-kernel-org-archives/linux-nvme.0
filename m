@@ -4,75 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 084CC1125855
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 16:45:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BB20112588E
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 20:20:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jtQdlcl9F2UIHu4crS5Nr1GPSCLLKEfGdSzPecAesfQ=; b=vioQ1uB9BX9owm1OIzAnULAfBR
-	YTs65ArJ87KnfhEJW5izIEXgq+fDBNl5+9ZCwayaBA2soQDJoi4enfF29MEwwVHHMgASuuHJvwyNA
-	nFQYnq/RrQrsACz0OeQw+VUNWslnqxuzrJ2JSZrc9752nIm7W/PXBxcXjKiWBYJLXbssZ1Ma+7R55
-	lZnMOc0gGeDHP+nhsVXoev6JfL8KMusmRtlRicF6+re8sronXVInx4PCwizIy8kRw17gIyiiioiWj
-	tyd1+k6/H1baBpG3QhK6Mj2jrYpjd1xnSTBnEnpHwjmzU6eh+C7maHkgdpJDNz9Tl3aB4Tzk4CwBG
-	9rCGk2sg==;
+	bh=x7ET1UAqc5Qc8/9IvaRNf3RginEBmqUhLSh3l0yMeCE=; b=E/wFhzK4FzShQwfyDeWUT0kYJi
+	s98PWwLWFAK+gTMSoMCnbc2hVVOcqhSLMUiRliO+4IPejoT6trSm3GqfJA+J8fqxQ3Uca2JyuQ7mf
+	ZUs4Q1LdHRSouoh4ZrALUtlegS56I1r9T8XDtuAsWwD1YPfwT+/7OucflBYbJIR6ubk5dEecnX7Nj
+	Xr3RFXYJG6vxFB39QmodvzhqAHs0Wyjtmex4szAnP2IQTafUfDQ2Z0QvRFXtBz5iE606esnpBCXkU
+	GY/EaFrsQq3wgBGLbGcmQZ0fZmmmYbb96J07/LPWBJ9E8qdZ16CsYPHgl+/5ivYOhaKnt9Z0Xaziv
+	HolldOkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Mg5-0000000BwQg-23xf;
-	Wed, 11 Mar 2026 16:44:57 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1w0Q2o-0000000CTDG-0K5v;
+	Wed, 11 Mar 2026 20:20:38 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Mg2-0000000BwPv-3K18
+	id 1w0Q2l-0000000CTCW-35Op
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Mar 2026 16:44:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773247493;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jtQdlcl9F2UIHu4crS5Nr1GPSCLLKEfGdSzPecAesfQ=;
-	b=gKO8vSRPasz4S9YesmEhegCbhVOJesXjZgcofTsvUnXqO3ooGacGlwJ2Q66J81oIoYRsg4
-	zGoe40+BCQbHYwsjr0+Kzso0+a1MyUjnXdKA+Lz+hHNRhwy/n81v+rpVcONPZeqAOo8GBW
-	S4AuE7WFRWSQwNSQ016tO/lhRkJMmKI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-659-1ZY-LLFQN0a5U8oeGAZjZA-1; Wed,
- 11 Mar 2026 12:44:51 -0400
-X-MC-Unique: 1ZY-LLFQN0a5U8oeGAZjZA-1
-X-Mimecast-MFC-AGG-ID: 1ZY-LLFQN0a5U8oeGAZjZA_1773247490
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E75F71800464;
-	Wed, 11 Mar 2026 16:44:49 +0000 (UTC)
-Received: from my-developer-toolbox-latest (unknown [10.2.16.255])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D4034180035F;
-	Wed, 11 Mar 2026 16:44:47 +0000 (UTC)
-Date: Wed, 11 Mar 2026 09:44:46 -0700
-From: Chris Leech <cleech@redhat.com>
-To: Martin George <martinus.gpy@gmail.com>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Eric Biggers <ebiggers@kernel.org>
-Subject: Re: [PATCH] nvme-auth: Hash DH shared secret to create session key
-Message-ID: <20260311-flirt-autograph-39692a66b23a@redhat.com>
-References: <20260311012116.2504291-1-cleech@redhat.com>
- <2fbad8b9c5e100bf04854b20b3790578fb724f89.camel@gmail.com>
+	Wed, 11 Mar 2026 20:20:36 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 7082A40791;
+	Wed, 11 Mar 2026 20:20:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9FD3C4CEF7;
+	Wed, 11 Mar 2026 20:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773260434;
+	bh=lVtsNba0SRIZChCM3VGua3sO4gb2IS2bKuFIj5W7TBw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HLURtHUOgZnwleK+tM5+JD5fwMhvvud2rrmRGa44BAWFHQxoSdxu/q8cSSJd9wrLk
+	 ytg0lD+w1HLyepUOluyjR6H/xhVa68jLSSEdFKkSzow5cWzp4fGmTXhfGcTPNO84fE
+	 2kmn2wfOXGqH0XVe8xIdVzecBLaqZ4m2jpbUGcgWmLmnwTHv6sbsAVi+pt+ICyw221
+	 2KOMHYWI2WBewa61CI96m21KpUAKTYSi4OjA2jG9+Io4wZC6G7OWKwg01qbr1S4wgO
+	 VaU5sYdb7tb1MxDPnfxItP1trZQmO2bDvVWzYlBz7ySUWmqYmqVFY5YXTx0AdRUFsP
+	 iKeLh2k9GqJiw==
+Date: Wed, 11 Mar 2026 14:20:31 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: linux-nvme@lists.infradead.org, dwagner@suse.de, yjshin0438@gmail.com,
+	hare@suse.de, sagi@grimberg.me, chaitanyak@nvidia.com,
+	mlombard@arkamax.eu
+Subject: Re: [PATCH 1/2] nvmet-tcp: propagate nvmet_tcp_build_pdu_iovec()
+ errors to its callers
+Message-ID: <abHOjxsH3uZlWNEu@kbusch-mbp>
+References: <20260311160920.465209-1-mlombard@redhat.com>
+ <20260311160920.465209-2-mlombard@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2fbad8b9c5e100bf04854b20b3790578fb724f89.camel@gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gg5SvIrtYysodiiUNUjtublaq5Z-tBS_vZYeMnOIV2M_1773247490
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260311160920.465209-2-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260311_094454_899050_127B83E5 
-X-CRM114-Status: GOOD (  15.88  )
+X-CRM114-CacheID: sfid-20260311_132035_797143_96E7714C 
+X-CRM114-Status: GOOD (  14.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,33 +74,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 11, 2026 at 09:17:49PM +0530, Martin George wrote:
-> On Tue, 2026-03-10 at 18:21 -0700, Chris Leech wrote:
-> > When using secure channel concatenation with bidirectional
-> > authentication, this results in hashing the DH value three times:
-> > twice
-> > for augmented challenge calculations and once during PSK generation.
-> > 
+On Wed, Mar 11, 2026 at 05:09:19PM +0100, Maurizio Lombardi wrote:
+> Currently, when nvmet_tcp_build_pdu_iovec() detects an out-of-bounds
+> PDU length or offset, it triggers nvmet_tcp_fatal_error(cmd->queue)
+> and returns early. However, because the function returns void, the
+> callers are entirely unaware that a fatal error has occurred and
+> that the cmd->recv_msg.msg_iter was left uninitialized.
 > 
-> But secure channel concatenation is supported only with unidirectional
-> auth and not really with bidirectional auth, isn't it? As per NVMe base
-> spec 2.1, section 8.3.4.5.9 Generated PSK for TLS:
->  
-> "The host may request secure channel concatenation with the TLS
-> protocol by setting the SC_C field in the AUTH_Negotiate message to
-> NEWTLSPSK while performing only unidirectional authentication. In this
-> case the host shall still send a challenge value C2 to the controller
-> and clear the sequence number S2 to 0h to indicate that controller
-> authentication is not requested."
+> Callers such as nvmet_tcp_handle_h2c_data_pdu() proceed to blindly
+> overwrite the queue state with queue->rcv_state = NVMET_TCP_RECV_DATA
+> Consequently, the socket receiving loop may attempt to read incoming
+> network data into the uninitialized iterator.
+> 
+> Fix this by shifting the error handling responsibility to the callers.
 
-I believe this is specifying how secure channel concatenation can work
-"while performing only unidirectional authentication", not that it's
-only allowed with unidirectional. It's a special case where C2 is sent
-in Reply without expecting an R2 value in Success1 or to send Success2.
+This looks good to me. Just some minor comments below.
 
-It would be counterproductive to forbid the host from authenticating the
-controller when a secure channel is desired.
+> +	ret = nvmet_tcp_build_pdu_iovec(cmd);
+> +	if (unlikely(ret)) {
+> +		pr_err("queue %d: failed to build PDU iovec", queue->idx);
 
-- Chris
+Missing the '\n' in this print.
 
+> @@ -1092,7 +1098,12 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp_queue *queue)
+>  	if (nvmet_tcp_need_data_in(queue->cmd)) {
+>  		if (nvmet_tcp_has_inline_data(queue->cmd)) {
+>  			queue->rcv_state = NVMET_TCP_RECV_DATA;
+> -			nvmet_tcp_build_pdu_iovec(queue->cmd);
+> +			ret = nvmet_tcp_build_pdu_iovec(queue->cmd);
+> +			if (unlikely(ret)) {
+> +				pr_err("queue %d: failed to build PDU iovec\n",
+> +					queue->idx);
+> +				return ret;
+> +			}
+>  			return 0;
+
+Minor nit here, you can squash the two rets into a single 'return ret;'.
 
