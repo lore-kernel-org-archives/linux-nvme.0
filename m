@@ -4,61 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF5E9FD88FF
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 05:14:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCEAFFD064D
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 07:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FnV2DfU6ldlRaffTdYqRxLYaw5d0RnAJCdmdUSnBsuQ=; b=ExvYZ9aqQw0byx2SXOUckJtf3B
-	LdyJ/6CDjHFgu+8wNybhZe/9ZgGBrEPUXJ7x4d1f2b76ZMmtG69cJAOM9Y2iLOFbnLwwCDsRrWOfT
-	XlZdE7NPkEFQSv6pGjYoiNF6GBkyrD8KvV+AL6rlqeYgfU3xnHw1I0NMfDLF5avKJlkCkrmVlNPG+
-	i7A5bUzdRjuT2myJLC9nJ13W2hoG5Q8/XwUp7u0QFQbVfB9SxpgaRxhvF5DDTZpj3S9Tiv2VQP9L0
-	Y3YiWG2ULkvF3XtOjQbREFzZXHwW+tMBwD7hrVvqSly09w2Ua1+Uc5BvW95Tuz4b4JyR1tFr/brsd
-	OSQzImhw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:From:
+	Subject:Cc:To:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=T8qrdW7ad9UeZdBd4OSxjRGPl/Ygb5YzCVAxbPDsNc0=; b=qFYqRBXYTo7iwyicbUnrIb8zCS
+	yxf9Ptd5RuO3cVXz7Karh9S6YcVgFvq1sa9h9JFL9G6atR8/9HKrLrc+Dp6p/s2ibB6GOxJqWCZuw
+	u+6dlNIxw+GfUIEnx9i66V2stVi+amvHAluXKrdr2Ttk0+j21m/V7tAJ+KVcWxsszfXp+LK162Jhb
+	pQ7h1ORiq+G+Z+gMpcmYFfL8KnbDzt3oOKwE/EbZInnJjauZwLY4HyE44HKKCQdsIaD0zOWdDRIyE
+	orFG7gGwrVA0stQciIQKZ8mGlff+mcqpS4VITxCblQ5b4jQcr7t7xhfqdPsQ4NY4Oa5+8thpDXCDw
+	IX0apu2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Bu7-0000000AlS5-1GjM;
-	Wed, 11 Mar 2026 05:14:43 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1w0E7X-0000000B4B4-45Gk;
+	Wed, 11 Mar 2026 07:36:43 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Bu5-0000000AlRZ-1BHV
+	id 1w0E7O-0000000B4AY-1q8C
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Mar 2026 05:14:42 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9556C432E2;
-	Wed, 11 Mar 2026 05:14:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0FBC4CEF7;
-	Wed, 11 Mar 2026 05:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773206080;
-	bh=veBtBZqsPCDiDvE3BhdzsHoI2Ff31H2EGTdGuA2m8oY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ieOmcqdaJz05iBarna7fBEjphEohBZnCW3igbgikBAwCWUGPr8jPtbk6NzdTVswWo
-	 oj6gGRzILTFkTOULDtS/ku35AWf2hvhMnQu8LX29Vj11CONFuUudeyhTc7Q/y2EO9o
-	 +S3nOokoIB3oQ9akgI8E4G3Iaw7MT6RQcKy0WpDBKprV1yq3uzsJro2KpUkfBniAfS
-	 7p0HVwDpf5f9yx2kJvdZQx+OHyVS4ltd6IE0iZYTS9ei3TsRlBEfUjK92rb7rw/NvV
-	 lMBYjrLl2p//Bw1yIdqe0NLTwX9/uk9VbHBCuSCNb/cZOhFPmCsYw2YwXlFj8NIyE/
-	 9ENZZSXAzi90w==
-Date: Tue, 10 Mar 2026 22:13:40 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Chris Leech <cleech@redhat.com>
-Cc: linux-nvme@lists.infradead.org, Hannes Reinecke <hare@suse.de>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH] nvme-auth: Hash DH shared secret to create session key
-Message-ID: <20260311051340.GA2270@sol>
-References: <20260311012116.2504291-1-cleech@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260311012116.2504291-1-cleech@redhat.com>
+	Wed, 11 Mar 2026 07:36:38 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 1f15775b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Wed, 11 Mar 2026 08:29:51 +0100 (CET)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Mar 2026 08:29:51 +0100
+Message-Id: <DGZRYXTKC049.1I6QFQSMSD88H@arkamax.eu>
+To: "Yi Zhang" <yi.zhang@redhat.com>, "Shinichiro Kawasaki"
+ <shinichiro.kawasaki@wdc.com>
+Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "nbd@other.debian.org" <nbd@other.debian.org>, "linux-rdma@vger.kernel.org"
+ <linux-rdma@vger.kernel.org>
+Subject: Re: blktests failures with v7.0-rc1 kernel
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+X-Mailer: aerc 0.21.0
+References: <aZ_-cH8euZLySxdD@shinmob>
+ <CAHj4cs8mzSZez+n2qLu5931YAuQ4=RxNt6D6YJCsMEwGrm4UtA@mail.gmail.com>
+In-Reply-To: <CAHj4cs8mzSZez+n2qLu5931YAuQ4=RxNt6D6YJCsMEwGrm4UtA@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260310_221441_341723_A70403FB 
-X-CRM114-Status: GOOD (  14.09  )
+X-CRM114-CacheID: sfid-20260311_003634_823389_A95AB9DD 
+X-CRM114-Status: UNSURE (   8.73  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,44 +66,91 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 10, 2026 at 06:21:16PM -0700, Chris Leech wrote:
-> +/**
-> + * nvme_auth_gen_session_key() - Generate an ephemeral session key
-> + * @dh_tfm: Diffie-Hellman transform with local private key already set
-> + * @ctrl_key: Peer's public key
-> + * @ctrl_key_len: Length of @ctrl_key
-> + * @sess_key: Output buffer for the session key
-> + * @sess_key_len: Size of @sess_key buffer
-> + * @hash_id: Hash algorithm identifier
-> + *
-> + * NVMe base specification 8.3.5.5.9: The session key Ks shall be computed from
-> + * the ephemeral DH key (i.e., g^xy mod p) ... by applying the hash function
-> + * H() selected by the HashID parameter ... (i.e., Ks = H(g^xy mod p)).
-> + *
-> + * Return: 0 on success, negative errno on failure.
-> + */
-> +int nvme_auth_gen_session_key(struct crypto_kpp *dh_tfm,
->  		const u8 *ctrl_key, size_t ctrl_key_len,
+On Wed Mar 11, 2026 at 1:35 AM CET, Yi Zhang wrote:
+> On Thu, Feb 26, 2026 at 4:09=E2=80=AFPM Shinichiro Kawasaki
+> <shinichiro.kawasaki@wdc.com> wrote:
+>>
+>
+> I also reproduced this kmemleak issue with the blktests nvme/rdma
+> test. Here is the log:
+>
+> unreferenced object 0xffff8882e7545a40 (size 32):
+>   comm "kworker/0:0H", pid 36658, jiffies 4303559899
+>   hex dump (first 32 bytes):
+>     02 81 aa 09 00 ea ff ff 00 00 00 00 00 10 00 00  ................
+>     00 40 a0 6a 82 88 ff ff 00 10 00 00 00 00 00 00  .@.j............
+>   backtrace (crc e5de3e0c):
+>     __kmalloc_noprof+0x6f1/0xa10
+>     sgl_alloc_order+0x9e/0x370
+>     nvmet_req_alloc_sgls+0x294/0x4f0 [nvmet]
+>     nvmet_rdma_map_sgl_keyed+0x25a/0x940 [nvmet_rdma]
+>     nvmet_rdma_handle_command+0x1ed/0x4e0 [nvmet_rdma]
+>     __ib_process_cq+0x139/0x4b0 [ib_core]
+>     ib_cq_poll_work+0x4d/0x160 [ib_core]
+>     process_one_work+0x8b1/0x15e0
+>     worker_thread+0x5e9/0xfc0
+>     kthread+0x36b/0x470
+>     ret_from_fork+0x5bf/0x910
+>     ret_from_fork_asm+0x1a/0x30
+> unreferenced object 0xffff8882e7545280 (size 32):
+>   comm "kworker/0:0H", pid 36658, jiffies 4303559900
+>   hex dump (first 32 bytes):
+>     02 2b 82 0b 00 ea ff ff 00 00 00 00 00 10 00 00  .+..............
+>     00 c0 8a e0 82 88 ff ff 00 10 00 00 00 00 00 00  ................
+>   backtrace (crc 42d20147):
+>     __kmalloc_noprof+0x6f1/0xa10
+>     sgl_alloc_order+0x9e/0x370
+>     nvmet_req_alloc_sgls+0x294/0x4f0 [nvmet]
+>     nvmet_rdma_map_sgl_keyed+0x25a/0x940 [nvmet_rdma]
+>     nvmet_rdma_handle_command+0x1ed/0x4e0 [nvmet_rdma]
+>     __ib_process_cq+0x139/0x4b0 [ib_core]
+>     ib_cq_poll_work+0x4d/0x160 [ib_core]
+>     process_one_work+0x8b1/0x15e0
+>     worker_thread+0x5e9/0xfc0
+>     kthread+0x36b/0x470
+>     ret_from_fork+0x5bf/0x910
+>     ret_from_fork_asm+0x1a/0x30
 
-ctrl_key and ctrl_key_len should be public_key and public_key_len.  It
-is the public key of the other side, which can be either the host or the
-controller.
+Maybe the problem is in the nvmet_rdma_map_sgl_keyed() function
 
-> +	hash_len = nvme_auth_hmac_hash_len(hash_id);
-> +	if (!hash_len) {
-> +		pr_warn("%s: invalid hash algorithm %d\n", __func__, hash_id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (sess_key_len < hash_len) {
-> +		pr_warn("%s: sess_key buffer too small (%zu < %zu)\n",
-> +			__func__, sess_key_len, hash_len);
-> +		return -EINVAL;
-> +	}
+static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+                struct nvme_keyed_sgl_desc *sgl, bool invalidate)
+{
+        u64 addr =3D le64_to_cpu(sgl->addr);
+        u32 key =3D get_unaligned_le32(sgl->key);
+        struct ib_sig_attrs sig_attrs;
+        int ret;
 
-Probably should be tightened to 'sess_key_len != hash_len', since this
-function writes to exactly hash_len bytes and does not report the length
-it actually wrote.
+        rsp->req.transfer_len =3D get_unaligned_le24(sgl->length);
 
-- Eric
+        /* no data command? */
+        if (!rsp->req.transfer_len)
+                return 0;
+
+        if (rsp->req.metadata_len)
+                nvmet_rdma_set_sig_attrs(&rsp->req, &sig_attrs);
+
+        ret =3D nvmet_req_alloc_sgls(&rsp->req);
+        if (unlikely(ret < 0))
+                goto error_out;
+
+        ret =3D nvmet_rdma_rw_ctx_init(rsp, addr, key, &sig_attrs);
+        if (unlikely(ret < 0))
+                goto error_out;
+        rsp->n_rdma +=3D ret;
+
+        if (invalidate)
+                rsp->invalidate_rkey =3D key;
+
+        return 0;
+
+error_out:
+        rsp->req.transfer_len =3D 0;
+        return NVME_SC_INTERNAL;
+}
+
+If nvmet_rdma_rw_ctx_init() fails, shouldn't it call
+nvmet_req_free_sgls() before returning an error?
+
+Maurizio
 
