@@ -4,98 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E60C112583E
-	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 15:02:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A69D112583F
+	for <linux-nvme@archiver.kernel.org>; Wed, 11 Mar 2026 15:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/oF/doq6oyWwDTCyW1l4hS1E5POtzgyvQYrb/7hmVZg=; b=jcM+MC5Yu3FqNZrUO7h3Z3lZi0
-	xLCLClHkN/f7w9VZMGgKhnZjVS61nBClxBHiIit2a6HqFi8XjkVnuUzcodFC6EPoULde2Ls7jCS2G
-	Z1grhev6rOO66CrJzvCU8ePs763ffcPYy8Darnr1f1rMgUQNtucC5/QzA3tZZzpO5oE78BG6yVYNC
-	rOk+/qe73CGgeQ8+W/P9D5xAU1lSeaQwccIa1Q1MGQLLlbas+MKLY2jFlaXEtR18CR0UDGAfpN5F1
-	QwiwcRIOu8VwUHL9GtVx6F4bOOK6j+HmMTDYDbR84ghGA7phEbnovuUjdflUfp/NWqp7RgJqUiA10
-	E7sUg1Qg==;
+	bh=eAixbPiqiWKvxfTtqwLl1ZycNxKKR9XvSIdM8Jl9/1M=; b=nboY1S8qv20ge8jj9Tuy7mF99O
+	sUPTO7N5m1i/B6veITOGzC8UaP1+ODfMVWCjd+K0qHDYuxxlw7arWpn17uIXqIp6DGNjD+kErEd8I
+	Fln+g4yOY3Jzn72C2gJdmm6i7uPgvSLRQUGEhLKbODkV9T0T8B7sybkAfj0itvvCbxUq6a+G38OmH
+	RwXmZA3aadeqxNK+COtgW2semZq2AX06Vc/ndjj2W8/B0Yxj3Z/bxirynmEUJ7nn23f9OQg10lHJT
+	ISX7bKwHAifnVbP0Uv9tUv3hp3AZvF2GUjF3QssWvEHSIAtjNeMC91uZBfky6cTtMb5pxPKoP6l1Z
+	3aZoR2EA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0L4s-0000000BlF5-0cGr;
-	Wed, 11 Mar 2026 15:02:26 +0000
-Received: from mail-ed1-f51.google.com ([209.85.208.51])
+	id 1w0LBW-0000000Blbw-46b4;
+	Wed, 11 Mar 2026 15:09:18 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w08AK-0000000AU2w-1ZIf
+	id 1w0LBS-0000000BlbP-3OKc
 	for linux-nvme@lists.infradead.org;
-	Wed, 11 Mar 2026 01:15:13 +0000
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-660d77cacc2so1099793a12.1
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Mar 2026 18:15:11 -0700 (PDT)
+	Wed, 11 Mar 2026 15:09:16 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773241753;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eAixbPiqiWKvxfTtqwLl1ZycNxKKR9XvSIdM8Jl9/1M=;
+	b=RL5ZMe+scySmI6MzfpFmiQ/AUch0/RAQh9a0i8rQMWqLtLFeFIgLPBaXuTDNIaI70t4Ufg
+	9xibD2hWALCC5foT0fcUG7nGEiXieH8+0h0/kCadEYcMLXMJBvNXtBJk97jL2zntaf7NJz
+	9Qu/BjBGHDwdUlbixoHB4dymApb2qzs=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-160-qoyIDO5rPN-mxA25voDTVw-1; Wed, 11 Mar 2026 11:09:12 -0400
+X-MC-Unique: qoyIDO5rPN-mxA25voDTVw-1
+X-Mimecast-MFC-AGG-ID: qoyIDO5rPN-mxA25voDTVw_1773241751
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-5a118530219so28684e87.1
+        for <linux-nvme@lists.infradead.org>; Wed, 11 Mar 2026 08:09:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773191709; x=1773796509;
+        d=1e100.net; s=20230601; t=1773241750; x=1773846550;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/oF/doq6oyWwDTCyW1l4hS1E5POtzgyvQYrb/7hmVZg=;
-        b=D4jt8FHz+xqp6pQDDHb5tEJhAr8P6eVqQ2ZKKNrPlEzW3oIP8IWVJ28XV6K3NyV+69
-         gjTcBziFKB7GE+qUKmYrcIdmHSCN5ehAxY62IrXLmRYYzT0+Nx4Lckj8V1Qudpk3hB2J
-         PM7h8TGkGtfzvCViTJ5vXA1Yl4H2CxA0CcrCZu05uMEmE/7j2xQwTRkRea3Pwy1ai+Pf
-         X4lbHYSJBjeIsGWfh8WBU1MPxALRik8iHmpDORch/MtS0GLFhS3Yn+FL1vXlIEvegNCl
-         JqME7m8DM1u4MuEPkDDOE3tUJum6F6Vb7tSM2N7E7Y/EgjnbJKzMSBT3WkKf92D9GEfI
-         ZNiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPWE0aYGtSe++WnZj7OjdyzapSxC8+tajtiJ0zk2Ng3YSFr0YdKYrQUBX8TXfyCDBIF0/DDE+ZvxLK@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzo4auVwoGzkqyuJqY0pRPxZN4MKo2kLpIh1X1pnloxGO1OGgf5
-	GLUzu+YpNYUg1EQWM/loYEUVy5gq8q1bdjaFz63SDkXdM3E+v/dx9F01fBfVa3+v
-X-Gm-Gg: ATEYQzwJf6uhzH7hMF8wvfzMeun0uHHAvGjOPhB3t+glwk74z1P+5869nk268wNC0iK
-	vy05VJ73VKnmPfHXk/FNB1PC0V/Oc951e7yrdjzrcw9z7xvIKnnfIt61ZIzvpDeGyvhrScgFU/1
-	OK6ToCHdp7QrdJ9cHU1uG9oSv144iLvmdYHGOQdCCA4p9ozpKHTCMHqWo2x9dELg8aRhQTBTxUc
-	Q04/jXGjGu8F7lnZncwQIsIv04RxUqm86wL7ir6/fybPlyndJ6ZYFB87ZVfub1iHk0Sb/gUzCmX
-	SZHPgOXd9iwWDrarU/fWE2peJ0BVQw6gedu8M/DlGIzueODksSJT5DhA6khBAnSQ6WWuA3Kjz8b
-	kudMTE6Pu0pdiL4fafGNpH11Js9Y6OQ2Js3+YvKKYWchq6/cVI1cuW1XcncweUChTssPSC2yvqO
-	B5mybKKLXfXurvfSeigIz5d8dAFOhXS236V3SQf9GsoAiACVxOxn4W+Dc=
-X-Received: by 2002:a05:6402:3552:b0:65c:76a6:4bdc with SMTP id 4fb4d7f45d1cf-66317bb940amr330147a12.9.1773191709297;
-        Tue, 10 Mar 2026 18:15:09 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6631532dcbcsm201846a12.30.2026.03.10.18.15.08
-        for <linux-nvme@lists.infradead.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 18:15:09 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439b790af67so363871f8f.0
-        for <linux-nvme@lists.infradead.org>; Tue, 10 Mar 2026 18:15:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW6xq74opySthXRdVF2ZBKmAZH2VHSbcKJI3M1sJ0P9+v3PfOFO3atDfyltiFHNoXeR2MKJ0WBXTkkT@lists.infradead.org
-X-Received: by 2002:a5d:5d05:0:b0:439:bb46:7457 with SMTP id
- ffacd0b85a97d-439eff518c7mr10359487f8f.16.1773191708627; Tue, 10 Mar 2026
- 18:15:08 -0700 (PDT)
+        bh=eAixbPiqiWKvxfTtqwLl1ZycNxKKR9XvSIdM8Jl9/1M=;
+        b=Y8hrpFOM2D+GYVmFvWNpUxtOt5wS4p6XkUWxReO8aenOImXfLuL46ZNUKHc0mE8XWc
+         +UuwZ7LLoPhjMBsBLyYO8SiUFUTUIOZR5+AovKIK3O8B0ogef9WG2pda95sgtSbHMXZE
+         FG3B56vYjXZfdnPWBRS+q2bNBDxCRJTK3WLbOWQ4uYj5Ozeogf0BtzUy5/rNBKUUNnHh
+         Xskyfp/a4e15HKDkh9PsIjuc6ejwqlrizoLJAI2R4a2J1gJ/h45Wz/Ou8V7CPkcaZos8
+         9td8aVmbfcC0S6AwTomGqAwOVsVgTAmm93f2+PhUxiEQm5A3rEltmu75Nq03apGgwUMV
+         6lqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXCWJPYzaAH6q5Gen15LcYsNbXi8L+bAUGCLwhuPaEn9uknsPgpAEQwkyTNWwCD8PuhBHUaiaEVUs8q@lists.infradead.org
+X-Gm-Message-State: AOJu0YyyhO3OFJyoiQTAaD3FQD0KEFki+7FQ9LvQdHnwtmEbqDQeJGrN
+	4MDTnV30gTFx3361SeNROyUOm25N4ZHgQutFKNJYSmlINt62wnPtCIUzTdl3fFycV78BHglipmK
+	4UT3CSI03+vLtM2lm/igYwwofuAnngeTselidDIAvpFbQ/Cg/+9sfj3BmRw4/yT4zntEY8YlKGV
+	vSlp/eQc83x2RK07LRf2BifEJlFoNZbh3BqDq+7m8pz3Y=
+X-Gm-Gg: ATEYQzx1HwBL2uB2V6nsokK6MiyxmT7g1xOtxgLPNqhrQuxYB/9S1qjNsI5AOiGiDZ3
+	yB4IF4BdcC3FHJqVPVTNVz+HMr59MUdWc+HDPtPfL6+tKK7VpIJmHY3lucJkA+ZC4VN5yFw2jJP
+	mGYJV6Cvv8JEBVI/CytbjhYofUZQot6P3N3EnrPAFfM5kSVF7/Oi6VXxW5cQpItlamo3Ca+86ek
+	TMQFgGT0IkYeJH7lsplsFT7XScshSSuw75hVTI5SsIc5p7BFik=
+X-Received: by 2002:a05:651c:551:b0:389:ee7b:4d4b with SMTP id 38308e7fff4ca-38a67dd60d3mr11561831fa.12.1773241750316;
+        Wed, 11 Mar 2026 08:09:10 -0700 (PDT)
+X-Received: by 2002:a05:651c:551:b0:389:ee7b:4d4b with SMTP id
+ 38308e7fff4ca-38a67dd60d3mr11561701fa.12.1773241749845; Wed, 11 Mar 2026
+ 08:09:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260309062840.2937858-2-iam@sung-woo.kim> <CADUfDZorSQCVtQyfjBuaziwG2Jo28yZiiqLKbp9PkFFw-9VgfQ@mail.gmail.com>
- <CAJNyHp+i3M_ko7rhgTz=nxP=MZYM3oQf3L-y=7YnhnRyeUxayA@mail.gmail.com> <CADUfDZppWyOOPME0eJbmO1q+qvehxGiCk8Zz_nVxaQk08aukFw@mail.gmail.com>
-In-Reply-To: <CADUfDZppWyOOPME0eJbmO1q+qvehxGiCk8Zz_nVxaQk08aukFw@mail.gmail.com>
-From: Sungwoo Kim <iam@sung-woo.kim>
-Date: Tue, 10 Mar 2026 21:14:52 -0400
-X-Gmail-Original-Message-ID: <CAJNyHpLU7sTJRtDqTbczTz0iayj-Nm8bPHrPaOcsKVb6nQyw1A@mail.gmail.com>
-X-Gm-Features: AaiRm51cz7xo1V1erpi09gKFdY9TTILawmEFCzQE55oadwxdss7qBUImRUPZq3I
-Message-ID: <CAJNyHpLU7sTJRtDqTbczTz0iayj-Nm8bPHrPaOcsKVb6nQyw1A@mail.gmail.com>
-Subject: Re: [PATCH] blk-mq: nvme: Fix general protection fault in nvme_setup_descriptor_pools()
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>, 
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
-	Mikulas Patocka <mpatocka@redhat.com>, dm-devel@lists.linux.dev, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, "James E.J. Bottomley" <jejb@linux.ibm.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Chao Shi <cshi008@fiu.edu>, 
-	Weidong Zhu <weizhu@fiu.edu>, Dave Tian <daveti@purdue.edu>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nbd@other.debian.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org
+References: <aZ_-cH8euZLySxdD@shinmob> <CAHj4cs8mzSZez+n2qLu5931YAuQ4=RxNt6D6YJCsMEwGrm4UtA@mail.gmail.com>
+ <DGZRYXTKC049.1I6QFQSMSD88H@arkamax.eu> <DGZTXRKSHBPC.2B318HF53ZRSN@arkamax.eu>
+In-Reply-To: <DGZTXRKSHBPC.2B318HF53ZRSN@arkamax.eu>
+From: Yi Zhang <yi.zhang@redhat.com>
+Date: Wed, 11 Mar 2026 23:08:41 +0800
+X-Gm-Features: AaiRm52s-EH5ucY3yGw_WaFk4XtbskkABtsWUN8MID31uF9eSwnbqLdAEQHevQY
+Message-ID: <CAHj4cs_nQEbeyvqvos7pwek8k0rLLXCghdoY9EsL4bCgZrxqtA@mail.gmail.com>
+Subject: Re: blktests failures with v7.0-rc1 kernel
+To: Maurizio Lombardi <mlombard@arkamax.eu>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, "nbd@other.debian.org" <nbd@other.debian.org>, 
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: u_cem87iMEpxvobkhWshogfIIz_Cw_NkUxeEFjLDTXc_1773241751
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260310_181512_630008_67522A09 
-X-CRM114-Status: GOOD (  23.35  )
-X-Mailman-Approved-At: Wed, 11 Mar 2026 08:02:23 -0700
+X-CRM114-CacheID: sfid-20260311_080914_941710_95A95764 
+X-CRM114-Status: GOOD (  12.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,56 +108,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 10, 2026 at 11:57=E2=80=AFAM Caleb Sander Mateos
-<csander@purestorage.com> wrote:
+On Wed, Mar 11, 2026 at 5:02=E2=80=AFPM Maurizio Lombardi <mlombard@arkamax=
+.eu> wrote:
 >
-> On Mon, Mar 9, 2026 at 4:55=E2=80=AFPM Sungwoo Kim <iam@sung-woo.kim> wro=
-te:
+> On Wed Mar 11, 2026 at 8:29 AM CET, Maurizio Lombardi wrote:
+> > On Wed Mar 11, 2026 at 1:35 AM CET, Yi Zhang wrote:
 > >
-> > On Mon, Mar 9, 2026 at 11:31=E2=80=AFAM Caleb Sander Mateos
-> > <csander@purestorage.com> wrote:
-> > >
-> > > On Sun, Mar 8, 2026 at 11:30=E2=80=AFPM Sungwoo Kim <iam@sung-woo.kim=
-> wrote:
-> > > >
-> > > > The numa_node can be < 0 since NUMA_NO_NODE =3D -1. However,
-> > > > struct blk_mq_hw_ctx{} defines numa_node as unsigned int. As a resu=
-lt,
-> > > > numa_node is set to UINT_MAX for NUMA_NO_NODE in blk_mq_alloc_hctx(=
-).
-> > >
-> > > The node argument to blk_mq_alloc_hctx() comes from
-> > > blk_mq_alloc_and_init_hctx(), which is called by
-> > > blk_mq_alloc_and_init_hctx() with int node =3D blk_mq_get_hctx_node(s=
-et,
-> > > i). node =3D NUMA_NO_NODE would suggest that blk_mq_hw_queue_to_node(=
-)
-> > > doesn't find any CPU affinitized to the queue. Is that even possible?
-> >
-> > Thanks for your review, Celeb.
+> > If nvmet_rdma_rw_ctx_init() fails, shouldn't it call
+> > nvmet_req_free_sgls() before returning an error?
 >
-> While I'm flattered you consider me a celebrity, my name is Caleb :)
-
-My apologies, Caleb. I'll be more careful.
-
+> Possible fix, not tested:
 >
-> >
-> > blk_mq_hw_queue_to_node() can return NUMA_NO_NODE if the device queues
-> > exceed the
-> > number of CPUs. Afterward, it is adjusted on the caller side to
-> > numa_node =3D set->numa_node.
+Hi Maurizio
+The kmemleak still can be reproduced with this patch:
+
+unreferenced object 0xffff88811db23d80 (size 32):
+  comm "kworker/16:1H", pid 1360, jiffies 4296118279
+  hex dump (first 32 bytes):
+    82 3b 85 04 00 ea ff ff 00 00 00 00 00 10 00 00  .;..............
+    00 e0 4e 21 81 88 ff ff 00 10 00 00 00 00 00 00  ..N!............
+  backtrace (crc 4bb38867):
+    __kmalloc_noprof+0x6f1/0xa10
+    sgl_alloc_order+0x9e/0x370
+    nvmet_req_alloc_sgls+0x294/0x4f0 [nvmet]
+    nvmet_rdma_map_sgl_keyed+0x25d/0x9a0 [nvmet_rdma]
+    nvmet_rdma_handle_command+0x1ed/0x4e0 [nvmet_rdma]
+    __ib_process_cq+0x139/0x4b0 [ib_core]
+    ib_cq_poll_work+0x4d/0x160 [ib_core]
+    process_one_work+0x8b1/0x15e0
+    worker_thread+0x5e9/0xfc0
+    kthread+0x36b/0x470
+    ret_from_fork+0x5bf/0x910
+    ret_from_fork_asm+0x1a/0x30
+
+
+> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> index 2d6eb89f98af..79ae743bb405 100644
+> --- a/drivers/nvme/target/rdma.c
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -892,7 +892,7 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma=
+_rsp *rsp,
 >
-> I thought the NVMe driver capped the number of queues so every queue
-> is affinitized to some CPU (see nvme_max_io_queues()). What am I
-> missing?
+>         ret =3D nvmet_rdma_rw_ctx_init(rsp, addr, key, &sig_attrs);
+>         if (unlikely(ret < 0))
+> -               goto error_out;
+> +               goto error_free_sgl;
+>         rsp->n_rdma +=3D ret;
 >
-> Best,
-> Caleb
+>         if (invalidate)
+> @@ -900,6 +900,8 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma=
+_rsp *rsp,
+>
+>         return 0;
+>
+> +error_free_sgl:
+> +       nvmet_req_free_sgls(&rsp->req);
+>  error_out:
+>         rsp->req.transfer_len =3D 0;
+>         return NVME_SC_INTERNAL;
+>
+> Maurizio
+>
 
-You are right, every hw queue should be affinitized. It seems I'm
-missing a lot. I'll look into the reasons and get back with V2.
 
-I appreciate your review again.
+--=20
+Best Regards,
+  Yi Zhang
 
-Sungwoo.
 
