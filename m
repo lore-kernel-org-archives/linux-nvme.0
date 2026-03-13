@@ -4,55 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 600FF106FD9A
-	for <linux-nvme@archiver.kernel.org>; Fri, 13 Mar 2026 08:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00311105F78C
+	for <linux-nvme@archiver.kernel.org>; Fri, 13 Mar 2026 11:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
 	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
 	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=S/OzRIB1V7sG5jcWOYdKR2r9uqwCY5sjyyYg5MRczds=; b=jr8HNLSSWdmSLkLW4PYNJFT2R0
-	yciZUwMQM6DAfCv3zaUA/ABBhRcW3B5KuQSxj0OacvMKDGbGMFgZSW/0aIcP2MR15hf/5kY/wCmXH
-	QR96SJ3Sd6OGkYCI6+jGp7UyLzEAFkRxkDkQJWOjokmwVKzKDnCJMaJSIB7+UJC4l7XCiXwuGcz7I
-	jTxrWrinVGAfrITSjZvqVPMTgqE+NIlpuC9r1QugXskymKhgleKsz8N+1MpNDQthM9ba6SLMxcdyr
-	ajJl0JOQ1DxK5tl+h/qV6t3IvcVxf9RqR401wJC5nMg/y+8LB5zzsjoZN8zZSq1zlLLm8HYNy17ws
-	OaamfuYA==;
+	bh=itphv8sQ2DwvIAl0h3cu3s7Tt4w31FNRFSGHdhZYKTA=; b=pySxjCV42VHMuTGZDqor0INOG4
+	c1RvgNu/Q+/GbEyf2rfMxMbp3JNpRkSVu1ZsTvOlAz1rP0iBvdE8nQ8PzPWAazrYo+Jt4C29vhxXO
+	ioEPU05olcIhSyb+FA9qbrPqoBzUAN5OnsHbLMxrP9XTiT2axL3OQ61UjeCCbYmc3k2js/O4BeoBi
+	4+qCBTCWEc71eFcPqDhCpZNNii2tPPSdGvhhxtp0waWMnBFsskjR9Ki/ckAB9ukiCQaqRZioeFjX3
+	ZEiI2RnQ1QpzVCR4zifUDfDPt19KhdR4jYck0mNf4QmpOz+nQxjVdo2nmFXImgHrX78f6VA88Dv1r
+	7VeDgUvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0xey-0000000HCdN-04h3;
-	Fri, 13 Mar 2026 08:14:16 +0000
+	id 1w10WE-000000000kp-0YNi;
+	Fri, 13 Mar 2026 11:17:26 +0000
 Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0xet-0000000HCXJ-2O33
+	id 1w10WA-000000000kQ-3g2x
 	for linux-nvme@lists.infradead.org;
-	Fri, 13 Mar 2026 08:14:13 +0000
+	Fri, 13 Mar 2026 11:17:24 +0000
 Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 895ed5a5 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 13 Mar 2026 09:14:09 +0100 (CET)
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 57b367da (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Fri, 13 Mar 2026 12:17:18 +0100 (CET)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 13 Mar 2026 09:14:09 +0100
-Message-Id: <DH1I5XXSY7NV.2ZG8IQ70UHSCS@arkamax.eu>
-Cc: <linux-nvme@lists.infradead.org>, <dwagner@suse.de>,
- <yjshin0438@gmail.com>, <sagi@grimberg.me>, <chaitanyak@nvidia.com>
-Subject: Re: [PATCH V2 2/2] nvmet-tcp: remove redundant calls to
- nvmet_tcp_fatal_error()
+Date: Fri, 13 Mar 2026 12:17:17 +0100
+Message-Id: <DH1M262WZRUE.2FR90L883CA9F@arkamax.eu>
+Cc: <kbusch@kernel.org>, <linux-nvme@lists.infradead.org>,
+ <dwagner@suse.de>, <hare@suse.de>, <sagi@grimberg.me>,
+ <chaitanyak@nvidia.com>, <mlombard@arkamax.eu>
+Subject: Re: [PATCH 0/2] nvmet-tcp: fix receive path error handling and
+ state machine
 From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Hannes Reinecke" <hare@suse.de>, "Maurizio Lombardi"
- <mlombard@arkamax.eu>, "Maurizio Lombardi" <mlombard@redhat.com>,
- <kbusch@kernel.org>
+To: "yunje shin" <yjshin0438@gmail.com>, "Maurizio Lombardi"
+ <mlombard@redhat.com>
 X-Mailer: aerc 0.21.0
-References: <20260312134057.110274-1-mlombard@redhat.com>
- <20260312134057.110274-3-mlombard@redhat.com>
- <5accbc4b-42c3-4d47-a8c5-51b0a7180f11@suse.de>
- <DH1HOH95UR5I.3VIFUN1OMD5TE@arkamax.eu>
- <222658ae-747e-4b90-9491-d49e26c9cbef@suse.de>
-In-Reply-To: <222658ae-747e-4b90-9491-d49e26c9cbef@suse.de>
+References: <20260311160920.465209-1-mlombard@redhat.com>
+ <CAMX6_QHFZE35qNXZyn8-SDkoQ6dUAuSLXSH__65CWxLtSTx5rg@mail.gmail.com>
+In-Reply-To: <CAMX6_QHFZE35qNXZyn8-SDkoQ6dUAuSLXSH__65CWxLtSTx5rg@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260313_011412_018121_FE163DA1 
-X-CRM114-Status: GOOD (  12.03  )
+X-CRM114-CacheID: sfid-20260313_041723_254186_C34C64E9 
+X-CRM114-Status: GOOD (  12.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -67,154 +64,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri Mar 13, 2026 at 9:11 AM CET, Hannes Reinecke wrote:
-> On 3/13/26 08:51, Maurizio Lombardi wrote:
->> On Fri Mar 13, 2026 at 8:20 AM CET, Hannes Reinecke wrote:
->>> On 3/12/26 14:40, Maurizio Lombardi wrote:
->>>> Executing nvmet_tcp_fatal_error() is generally the responsibility
->>>> of the caller (nvmet_tcp_try_recv); all other functions should
->>>> just return the error code.
->>>>
->>>> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
->>>> ---
->>>>    drivers/nvme/target/tcp.c | 22 +++++-----------------
->>>>    1 file changed, 5 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
->>>> index 1fbf12df1183..b250b13854b4 100644
->>>> --- a/drivers/nvme/target/tcp.c
->>>> +++ b/drivers/nvme/target/tcp.c
->>>> @@ -885,7 +885,6 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp=
-_queue *queue)
->>>>    	if (le32_to_cpu(icreq->hdr.plen) !=3D sizeof(struct nvme_tcp_icreq=
-_pdu)) {
->>>>    		pr_err("bad nvme-tcp pdu length (%d)\n",
->>>>    			le32_to_cpu(icreq->hdr.plen));
->>>> -		nvmet_tcp_fatal_error(queue);
->>>>    		return -EPROTO;
->>>>    	}
->>>>   =20
->>>> @@ -951,7 +950,6 @@ static int nvmet_tcp_handle_req_failure(struct nvm=
-et_tcp_queue *queue,
->>>>    	ret =3D nvmet_tcp_map_data(cmd);
->>>>    	if (unlikely(ret)) {
->>>>    		pr_err("queue %d: failed to map data\n", queue->idx);
->>>> -		nvmet_tcp_fatal_error(queue);
->>>>    		return -EPROTO;
->>>>    	}
->>>>   =20
->>>> @@ -1024,7 +1022,6 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct =
-nvmet_tcp_queue *queue)
->>>>   =20
->>>>    err_proto:
->>>>    	/* FIXME: use proper transport errors */
->>>> -	nvmet_tcp_fatal_error(queue);
->>>>    	return -EPROTO;
->>>>    }
->>>>   =20
->>>> @@ -1039,7 +1036,6 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_=
-tcp_queue *queue)
->>>>    		if (hdr->type !=3D nvme_tcp_icreq) {
->>>>    			pr_err("unexpected pdu type (%d) before icreq\n",
->>>>    				hdr->type);
->>>> -			nvmet_tcp_fatal_error(queue);
->>>>    			return -EPROTO;
->>>>    		}
->>>>    		return nvmet_tcp_handle_icreq(queue);
->>>> @@ -1048,7 +1044,6 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_=
-tcp_queue *queue)
->>>>    	if (unlikely(hdr->type =3D=3D nvme_tcp_icreq)) {
->>>>    		pr_err("queue %d: received icreq pdu in state %d\n",
->>>>    			queue->idx, queue->state);
->>>> -		nvmet_tcp_fatal_error(queue);
->>>>    		return -EPROTO;
->>>>    	}
->>>>   =20
->>>> @@ -1065,7 +1060,6 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_=
-tcp_queue *queue)
->>>>    		pr_err("queue %d: out of commands (%d) send_list_len: %d, opcode:=
- %d",
->>>>    			queue->idx, queue->nr_cmds, queue->send_list_len,
->>>>    			nvme_cmd->common.opcode);
->>>> -		nvmet_tcp_fatal_error(queue);
->>>>    		return -ENOMEM;
->>>>    	}
->>>>   =20
->>>> @@ -1086,9 +1080,9 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_=
-tcp_queue *queue)
->>>>    	if (unlikely(ret)) {
->>>>    		pr_err("queue %d: failed to map data\n", queue->idx);
->>>>    		if (nvmet_tcp_has_inline_data(queue->cmd))
->>>> -			nvmet_tcp_fatal_error(queue);
->>>> -		else
->>>> -			nvmet_req_complete(req, ret);
->>>> +			return -EPROTO;
->>>> +
->>>> +		nvmet_req_complete(req, ret);
->>>>    		ret =3D -EAGAIN;
->>>>    		goto out;
->>>>    	}
->>>> @@ -1211,7 +1205,6 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_t=
-cp_queue *queue)
->>>>   =20
->>>>    		if (unlikely(!nvmet_tcp_pdu_valid(hdr->type))) {
->>>>    			pr_err("unexpected pdu type %d\n", hdr->type);
->>>> -			nvmet_tcp_fatal_error(queue);
->>>>    			return -EIO;
->>>>    		}
->>>>   =20
->>>> @@ -1225,16 +1218,12 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet=
-_tcp_queue *queue)
->>>>    	}
->>>>   =20
->>>>    	if (queue->hdr_digest &&
->>>> -	    nvmet_tcp_verify_hdgst(queue, &queue->pdu, hdr->hlen)) {
->>>> -		nvmet_tcp_fatal_error(queue); /* fatal */
->>>> +	    nvmet_tcp_verify_hdgst(queue, &queue->pdu, hdr->hlen))
->>>>    		return -EPROTO;
->>>> -	}
->>>>   =20
->>>>    	if (queue->data_digest &&
->>>> -	    nvmet_tcp_check_ddgst(queue, &queue->pdu)) {
->>>> -		nvmet_tcp_fatal_error(queue); /* fatal */
->>>> +	    nvmet_tcp_check_ddgst(queue, &queue->pdu))
->>>>    		return -EPROTO;
->>>> -	}
->>>>   =20
->>>>    	return nvmet_tcp_done_recv_pdu(queue);
->>>>    }
->>>> @@ -1319,7 +1308,6 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet=
-_tcp_queue *queue)
->>>>    			le32_to_cpu(cmd->exp_ddgst));
->>>>    		nvmet_req_uninit(&cmd->req);
->>>>    		nvmet_tcp_free_cmd_buffers(cmd);
->>>> -		nvmet_tcp_fatal_error(queue);
->>>>    		ret =3D -EPROTO;
->>>>    		goto out;
->>>>    	}
->>>
->>> I seem to be missing something crucial here. But after applying this
->>> patch _all_ invocations to nvmet_tcp_fatal_error() are gone.
->>> (Applying the patches on top of linus tree with topmost commit
->>> 0257f64bdac7fdca30fa3cae0df8b9ecbec7733a)
->>>
->>> I must be missing something crucial here ...
->>=20
->> I've just rebased my branch on top of master and I can still
->> see nvmet_tcp_socket_error() calling nvmet_tcp_fatal_error()
->>=20
->> nvmet_tcp_socket_error() is called by both nvmet_tcp_try_send()
->> and nvmet_tcp_try_recv() in case of errors, so it's still here.
->> with us.
->>=20
-> Right.
-> But now nvmet_tcp_fatal_error() has just a single caller, so please
-> fold it into nvmet_tcp_socket_error() (and remove the forward declaration=
-).
+On Fri Mar 13, 2026 at 6:58 AM CET, yunje shin wrote:
+> On Thu, Mar 12, 2026 at 1:09=E2=80=AFAM Maurizio Lombardi <mlombard@redha=
+t.com> wrote:
+>>
+>> Patch 1 fixes a potential issue where network data could be read into an
+>> uninitialized iterator. Currently, nvmet_tcp_build_pdu_iovec() returns v=
+oid,
+>> meaning callers are unaware if an out-of-bounds PDU length or offset tri=
+ggers
+>> an early return. Consequently, callers blindly overwrite the queue state=
+ to
+>> NVMET_TCP_RECV_DATA. This patch modifies the function to return an error=
+ code,
+>> shifting the handling responsibility to the callers to ensure proper soc=
+ket
+>> teardown.
+>
+> Thank you for the patchset =E2=80=94 the error propagation cleanup looks
+> really clean and makes the receive path error handling much clearer.
+>
+> I've been trying to reproduce this crash scenario on my end [1],
+> but I haven't been able to trigger it reliably in my test
+> environment so far.
 
-Ok, will send a V3.
+I guess that the msg_data_left(&cmd->recv_msg) check in
+nvmet_tcp_try_recv_data() prevents the derefence of the uninitialized
+iterator, so this is why it doesn't crash.
 
-Thanks for the review.
+I see however that it tries to parse junk, so the patchset is useful
+anyway, I will correct the commit message.
+
+
+[  114.122436] nvmet_tcp: unexpected pdu type 75
+[  114.122487] nvmet: ctrl 1 fatal error occurred!
+[  124.660886] nvmet: Created nvm controller 1 for subsystem test-nqn for N=
+QN nqn.2014-08.org.nvmexpress:uuid:eb574a60-a657-4daa-8a7d-c3c1d25033f6.
+[  132.872857] nvmet_tcp: unexpected pdu type 129
+[  132.872871] nvmet_tcp: unexpected pdu type 236
+[  132.872880] nvmet: ctrl 1 fatal error occurred!
+
 
 Maurizio
 
