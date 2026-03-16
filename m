@@ -4,92 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4C676F013FA
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Mar 2026 22:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A45F7FB5E8B
+	for <linux-nvme@archiver.kernel.org>; Mon, 16 Mar 2026 23:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Date:Message-Id:Subject:References:In-Reply-To:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uAp3upALJrMK2vdftm0Mzj9z5vscYKgrSfpwrB2UjPk=; b=RYu6C96jn4i9OR1kgaed6QYSp1
-	Ae0K+POenJByec9K13cuu7cUAYfVyrE15QNYFxfygNwAv6UzuDTPSOtfNr+suwAEAgxIs6EJieOmo
-	MMXZFqvL4dulZMoaTRhZUXNJnXirNx8LhgMlKh2Z9AmlvzYJDqUXLviSsERW0bLHhAEd+E8ucaVXL
-	RK6aeKGX/cLfdfoAPhScJmEF7KZ6BjUBSBju/jiZKuofcaD1ur3e2JlORmxAWHkDCBV4N5RhGe4S8
-	QiVSiFApwiNDgUoLyWpWeXhtpmWH6kPfS2T21HaxGSv5C5GLFcg5FVmV/ElrdPulp5lPWJD+jgsyT
-	h/tRTOqQ==;
+	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YFQ61RTtycUh5p2nWyByuEdkQhIoYRlH2gukTJs5mis=; b=zSAnYDiD+iaUE9+h6kREH2eGAv
+	DCJdd7KfP1owi1nOwkefjcm1j2dxpSxu0oCpg5lFxQDiLVNQUPgQS9fI5pDcr7ZpL8ecR+htJBCA0
+	x9MJto6NKLSzNNs6FqDrGfvkoHlpj911+oEbAuw7Jv40MEjZ14pirsBKQe0XL9vEpqmjwGJJnpkoN
+	AUlSRSrzt9bkkww+7dnUhEztnV49riLszbDTqC+cEjlAnJeLFmPjPauGERUKFnf/hFHzbY1vbrPPq
+	WuT2wHHiFa/96eZFuvF1XlL2j9sRsEJQ1n8Q/j+W7Dgsurz+yHKBsBsH9ZC87pQK9Bg64eQ3mnjj6
+	dVDai/yg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2GD3-00000004zOV-1GOT;
-	Mon, 16 Mar 2026 22:14:49 +0000
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333])
+	id 1w2HKJ-000000054IZ-0nSX;
+	Mon, 16 Mar 2026 23:26:23 +0000
+Received: from 013.lax.mailroute.net ([199.89.1.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2GD1-00000004zNp-0V9S
+	id 1w2HKG-000000054IE-2xLe
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Mar 2026 22:14:48 +0000
-Received: by mail-ot1-x333.google.com with SMTP id 46e09a7af769-7d75ed779bfso5098394a34.2
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Mar 2026 15:14:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1773699286; x=1774304086; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uAp3upALJrMK2vdftm0Mzj9z5vscYKgrSfpwrB2UjPk=;
-        b=r7FrP70YUqAnL3S6NKwDWMIM9fbMyGDUqigmIQxEDyKUDrzcbE/lFxkaaTI69Smg0r
-         1D6TFpVTxFDNH3LpmOSfBRKg76v144B3JYYv7QgypXE96Yb0p2qgG8yo4roOLdIaMhNt
-         VjD+Y1LbWxEnWlUVF82ZpdEZHOd5cJS1qKq1gPKHbM2JmMVdFvWrjmhhdcg8yD77yYEI
-         eBGUmZM0MfZ9kcFt3ND183A9Gmmt/4Hg860rJOw/2a2dsZ3j5uLd4GFLtk58pz11JA6U
-         sm/Vsdp9m8ULJWs7oIpgUsWHJi4ofGBZPE/jjTnTk91Xa637++Nc/lmYiVJcQkV1wZ7S
-         +RJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773699286; x=1774304086;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uAp3upALJrMK2vdftm0Mzj9z5vscYKgrSfpwrB2UjPk=;
-        b=G3EAcjA6wLA59Mhdv2qTRaxoRmV5qyNbzE7gpGfHQofT0EZqX52I3IH2KOE8mKoR0T
-         AEowYqelN0aQQBUlpWYbIOlSrve7Pjaxie8zFJ3iKprnF8g7icTOqO+R7Zwh2orkch5z
-         vUcea1AZuJhXGWE9SPEWkwQHaG1pLP5sY+BWRYYJadHBD1RGx5F62jXZb/7saLENDW0d
-         izCq4YE0WBRgNkq/AvrheMefbSrBoTMIDAJPKJYAWA6gs9l8nLJavdliuKiZzxftiVU2
-         sb8wgKwZ+mEHSHy52pk1zYRMBUBzxCtKzmXXhGO74gQhM0njThYfYeicQ03sd5VBtYsb
-         I/1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUszC8bBXigOpjGRORQdzrFtoD49NB2PdPqE0dlDfncACDPAk2m5NXGEdvZscW99Td/Iqm7tlpJbZGT@lists.infradead.org
-X-Gm-Message-State: AOJu0YzqIK9SoXBguQr+P1R2ebeqzMIBFt8h1VMQUDVH8zyPwqVlmsZh
-	fVUREICsvCPXgQu3lV2lX6WWyheEJvODii92TSaNP+mIspJ33rRQdBbV4lrY8C/GSfA=
-X-Gm-Gg: ATEYQzwXxojKjzvwZfznjugz/7CqkTjYjbb8XMdV7Qrob6lvNLJS0uxkDmMd6QFFOpw
-	MZDHlhWD3S0ebNSsO40kvM/tepw7mECAyt936URyVYG2/CnUgvWUVK0d514eoGT74G6iCcDol3O
-	8MWMbGfQ7RFJUt2uw7oiECCQyMVjs7mlEbKC63qf7TjupMFMzaFdh+hxvfkyb4aPHo741tSKgE0
-	uGquKjDrTUortAGpnT1ghTRUYuFg8YNopDjId+sMZEz49J+dvJkVUTk5a20G0V5nW47v4tLPFqm
-	yADEGIKYLekSWC92g4c/lR4Odz8CaqsozEMxc+/ya3euaE+Df2OU+xoB8rqviRXcK7Qr3ydqcV0
-	FwuNkYfsGr2knAxWkKEPtrq7AL+cnINJJ3/8W8FzclRFFlprmu50EoDizIPByl+OrLQMUWyG8eV
-	H98N07jSkchQ/39IaltFGs4EoEUti04igocvFxVLxYj0jIA7N/NU/mBHzBu1BWpa7+SVMs1ZvQL
-	zFE
-X-Received: by 2002:a05:6830:4107:b0:7cf:d213:7ecf with SMTP id 46e09a7af769-7d7825a0efcmr10863875a34.32.1773699285999;
-        Mon, 16 Mar 2026 15:14:45 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d76aeccd73sm13375261a34.27.2026.03.16.15.14.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 15:14:45 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
- Sagi Grimberg <sagi@grimberg.me>, 
- Caleb Sander Mateos <csander@purestorage.com>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>, 
- Kanchan Joshi <joshi.k@samsung.com>, Ming Lei <ming.lei@redhat.com>
-In-Reply-To: <20260302172914.2488599-1-csander@purestorage.com>
-References: <20260302172914.2488599-1-csander@purestorage.com>
-Subject: Re: [PATCH v5 0/5] io_uring/uring_cmd: allow non-iopoll cmds with
- IORING_SETUP_IOPOLL
-Message-Id: <177369928494.700746.8101380068186003544.b4-ty@kernel.dk>
-Date: Mon, 16 Mar 2026 16:14:44 -0600
+	Mon, 16 Mar 2026 23:26:22 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fZWSB6T9Jzlh1Rb;
+	Mon, 16 Mar 2026 23:26:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:content-language:references:from:from:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1773703575; x=1776295576; bh=YFQ61RTtycUh5p2nWyByuEdk
+	QhIoYRlH2gukTJs5mis=; b=3fbO3MKzJyhSowx5+dbqwzHKCmJZaHbAEnel4Q9P
+	3QxKpWRHJdD55yjZ/xAurR4IDQ5joX0nlqCPlHfy1Cv13NTiGjOTGCr+3tiIqj+P
+	7p50r6VnMmOXPqCJE+5L2Xvekb5sf+vAKTqXtEiAyQvr1uC0M6PtgCUuZJIBkP5P
+	nDB8ELeXzurajKIVnmy4dwplGfiq3q5RVv5H9KNYirOjB8/dDhB/D7crrOjTPmwU
+	sqMecn75EMBDz94EhMdz8AUP8ZtHy60fpvO3sQUj7FX4dUW3xo4EkQ2DH3J6P71U
+	7Cuu4+cSQ5gqKtdKu0GGb+UZSCcb4gvi8x+RVoorDl663A==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id Is6MgBSkwYAp; Mon, 16 Mar 2026 23:26:15 +0000 (UTC)
+Received: from [IPV6:2a00:79e0:2e19:8:245b:9369:f866:f27] (unknown [104.135.180.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fZWS56y1yzlh1Nt;
+	Mon, 16 Mar 2026 23:26:13 +0000 (UTC)
+Message-ID: <8d6fc6da-4406-4609-92a2-c5e7e9475c1f@acm.org>
+Date: Mon, 16 Mar 2026 16:26:13 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [LSF/MM/BPF TOPIC] Memory fragmentation with large block sizes
+From: Bart Van Assche <bvanassche@acm.org>
+To: Hannes Reinecke <hare@suse.de>, lsf-pc
+ <lsf-pc@lists.linux-foundation.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ linux-mm@kvack.org, Theodore Ts'o <tytso@mit.edu>
+References: <f22caf98-1375-493a-a275-0500ffac3e81@suse.de>
+ <e2733d9f-823d-433b-9bfd-24df20b98b7d@acm.org>
+Content-Language: en-US
+In-Reply-To: <e2733d9f-823d-433b-9bfd-24df20b98b7d@acm.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260316_151447_170197_078C538A 
-X-CRM114-Status: GOOD (  11.20  )
+X-CRM114-CacheID: sfid-20260316_162620_784263_0FBA441D 
+X-CRM114-Status: GOOD (  12.12  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,36 +86,43 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2/19/26 6:53 AM, Bart Van Assche wrote:
+> On 2/19/26 1:54 AM, Hannes Reinecke wrote:
+>> I (together with the Czech Technical University) did some experiments=20
+>> trying to measure memory fragmentation with large block sizes.
+>> Testbed used was an nvme setup talking to a nvmet storage over
+>> the network.
+>>
+>> Doing so raised some challenges:
+>>
+>> - How do you _generate_ memory fragmentation? The MM subsystem is
+>> =C2=A0=C2=A0 precisely geared up to avoid it, so you would need to com=
+e up
+>> =C2=A0=C2=A0 with some idea how to defeat it. With the help from Willy=
+ I managed
+>> =C2=A0=C2=A0 to come up with something, but I really would like to dis=
+cuss
+>> =C2=A0=C2=A0 what would be the best option here.
+>> - What is acceptable memory fragmentation? Are we good enough if the
+>> =C2=A0=C2=A0 measured fragmentation does not grow during the test runs=
+?
+>> - Do we have better visibility into memory fragmentation other than
+>> =C2=A0=C2=A0 just reading /proc/buddyinfo?
+>=20
+> The larger the block size, the higher the write amplification (WAF),
+> isn't it? Why to increase the block size since there is a solution
+> available that doesn't increase WAF, namely zoned storage?
 
-On Mon, 02 Mar 2026 10:29:09 -0700, Caleb Sander Mateos wrote:
-> Currently, creating an io_uring with IORING_SETUP_IOPOLL requires all
-> requests issued to it to support iopoll. This prevents, for example,
-> using ublk zero-copy together with IORING_SETUP_IOPOLL, as ublk
-> zero-copy buffer registrations are performed using a uring_cmd. There's
-> no technical reason why these non-iopoll uring_cmds can't be supported.
-> They will either complete synchronously or via an external mechanism
-> that calls io_uring_cmd_done(), io_uring_cmd_post_mshot_cqe32(), or
-> io_uring_mshot_cmd_post_cqe(), so they don't need to be polled.
-> 
-> [...]
+(replying to my own email)
 
-Applied, thanks!
+The following paper shows that it is possible to achieve great
+performance with filesystems like ext4 and ZNS SSDs by implementing
+an FTL in software (ZTL). This could be a more interesting approach
+than optimizing host software for large indirection units. See also
+Sass, Jan, Andr=C3=A9 Brinkmann, Matias Bj=C3=B8rling, Xubin He, and Reza
+Salkhordeh. "ZTL: A block layer ZNS driver." Journal of Systems
+Architecture (2026): 103757.
+(https://www.sciencedirect.com/science/article/pii/S1383762126000755).
 
-[1/5] io_uring: add REQ_F_IOPOLL
-      commit: 9165dc4fa969b64c2d4396ee4e1546a719978dd1
-[2/5] io_uring: remove iopoll_queue from struct io_issue_def
-      commit: 7995be40deb3ab8b5df7bdf0621f33aa546aefa7
-[3/5] io_uring: count CQEs in io_iopoll_check()
-      commit: 3a5e96d47f7ea37fb6adf37882eec1521f8ca75e
-[4/5] io_uring/uring_cmd: allow non-iopoll cmds with IORING_SETUP_IOPOLL
-      commit: 23475637b0c47e5028817c9fd4dabe8f7409ca6c
-[5/5] nvme: remove nvme_dev_uring_cmd() IO_URING_F_IOPOLL check
-      commit: f144dbac4b177cfd026e417ab98da518ff3372cb
-
-Best regards,
--- 
-Jens Axboe
-
-
-
+Bart.
 
