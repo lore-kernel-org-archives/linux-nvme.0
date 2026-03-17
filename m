@@ -4,94 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07EA5FB5E8B
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2026 01:02:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2FA5FB5EA8
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2026 03:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xJmZWcweGo/5CL7dk1HuKW3M8jV+oED2e+YlbfIAvtA=; b=Q9S7Ahl9PN+ZzgM2H1H6llqzVf
-	k0DArnMcSYNMPt7JkR7jASZRlXyKhKYHtBRjX2Xhs61VXZmbHIt6qj1Bqn+mRFCFhixm8I2ZbDw2t
-	9YSmfG7NJe4dkDZDs1h6HLDYxMOC+szf/bPsMqwg5SoxjM086ZeSmmsiC8oxSn8Htb7wUq1chDzht
-	UVr/flKfAmjLJKlje5vbgq3562ChXkgjf3Old93B4mDb8D51JPwKgxb43XDxcewXGZC7pvneQZz2E
-	XSH3ezn4l6He0DB1q3ppG/t18Nouvs4efwyGGde2ERwxGYNY5XoWSDOuPXv/8b015f2kfaX7KIqBC
-	8mxa2jkA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=gu1DU71QEoeriPLtDyr4IxAoMPD9+M+2Obobs0fac7Q=; b=DkdL4iupEu6crYyRnAyE40EsSb
+	Sbm1OXFd18dKvuWflVCBQA+cAfap0ld2bFucvoDjf01zk3E63Dot+h4Vv9anOcPUH12cjiR5uNIsR
+	Aj0bcr2u5oLI0oPc4nnT6EL8GEXpf7H8A2sfMceJhiZf+37tu/8bzYNZbZUo4S3V4bRP+d6CYYPbz
+	eD51+Wjs1lGfWtrQ7+TKVpx6CO6kWuVJcUEDAJHXcpI02diomYLh1/uILp+CRbn0qY+cpKNVLy7Px
+	nSej/Sb4f7k6ez86AjUNhujvNSMt590hHGML2CabiYCHs2kDrSd7H/ojNbUNDAZ6btXN0fw5WV3tC
+	dBX2tfmA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2Ioq-00000005A4l-050Q;
-	Tue, 17 Mar 2026 01:02:00 +0000
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+	id 1w2KsW-00000005Hx4-0D9e;
+	Tue, 17 Mar 2026 03:13:56 +0000
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2Iom-00000005A4M-2mHD
+	id 1w2KsR-00000005HwY-2TUX
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Mar 2026 01:01:58 +0000
-Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-7d748ca8708so3070563a34.0
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Mar 2026 18:01:56 -0700 (PDT)
+	Tue, 17 Mar 2026 03:13:52 +0000
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-8296d553142so2407348b3a.3
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Mar 2026 20:13:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1773709315; x=1774314115; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xJmZWcweGo/5CL7dk1HuKW3M8jV+oED2e+YlbfIAvtA=;
-        b=ktbZdKaLRaluUczZAUle3lPrnSyNEFy9edjL+tTg0CqlQp4dfkpQB4NOXe5Nik8JuX
-         BvJOAwfMxVs9j73ZaUWpxyqoIVuHeEwNeOTvK+5K5YztpubBOJoMDPG9rYp4HXVh0u6C
-         6C9sU36Qy+2+k6wNv+oHscOtyRj0Lkr0loJ+S4hlBqDlx5qfi4N4SepvL5p6sSJ5i+Oa
-         ygDicjJDxXKf1QaIe2oE4pGi4yZyuHADtzzGZ52qunt9sRPiWy8feRfBcoMbuEskGvg0
-         Dao2YWqJIWBN2XQr9M8yarDZT5eKZA+W2KAvFS2Z663+BsWkFC7y2537hxSTuO7w+B+X
-         MmQg==
+        d=gmail.com; s=20230601; t=1773717228; x=1774322028; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gu1DU71QEoeriPLtDyr4IxAoMPD9+M+2Obobs0fac7Q=;
+        b=Hv/ruaQSj19Kiz56W+4IfkkkZqgMu/njysTppDzkQ5rkbSkKoflePtxtFXQSWEy2Mu
+         X2Dl1Euwl5s8K0LRLcDPcIaQiRY/b8e4C6XvBgAtmSw2RCCBWzw0eXQlQnPMCq4UgU6X
+         sP7CAuvua0sWvbq4DlhsgsQiiNs149Jr06lajUO5u2K2rZfPN0erpKGmyyuNParIUTBR
+         3rF6RqMjdS1VNbaBHuMIUfMUrEagBGmCBajY7Q4jUyWc0O2W1B/SFHyn6yO4l6FwBu7f
+         6/ywIYwl+eKhX0IfYkTLNhsPoo/imkS1z7LUDHBpCouIWHZH0Ce5LlF0j9FFnPve53g0
+         QVCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773709315; x=1774314115;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xJmZWcweGo/5CL7dk1HuKW3M8jV+oED2e+YlbfIAvtA=;
-        b=KYIFsRZO4YRWYYT3YQEOEob+hXzPGhRWTQfuukYwDEAoxt8lJ66fv2z0HIvCwJTSTt
-         b64+0u3F0b/765N3U3UciIbf0PyN8cQtnpIy5aJPgn6pgJjnQphM6MVvjbBmEwlf82LP
-         6hbIH4Gqa7nIQaQXiTBCtoAhPDnFGuMuUDQNyQxo3Wy6wnXeyNaCeaOlENWSLoy/J6JG
-         X16rhC5aoeRt9IHaY3pu+5iRlN6zHs9q3BYpuPFTWPr1JqBnIjthx4Nvz1dUWZRvS1Fx
-         txeJHlLL1ctqpP1PsOjD/IGwkrp9bV7tdqHN+EZ/wcgtYUzJ25vACCd0wNZZDt3jp7l1
-         RCWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoLQD2KOsEj35dlhOy2QBaVv8+zJIlOBzU4yNwxfS3AyPG064MKOtP+FwQ86EncBhyDIfbUOn5GOf0@lists.infradead.org
-X-Gm-Message-State: AOJu0Yz7J6nrvp6g0kpCk50qCbzy2Rilwj6IZVqZGiMWVZ2fNvD5dk7H
-	wMVswgRCHBXhWQnqV13Zus37Fohu6mqEchXMpZX4mSTFuttKhlQJ8Vj1+JR4AtwmFro=
-X-Gm-Gg: ATEYQzyUk1R98aHBRGEKlmdgU1xiKQspEdTHcmTf1W2Ygq6FPqtmIUyFd5CRBHMF/Gm
-	6Fb4DC/BzNiHbmB//PYCsFTuxte4MjfQPSyvxN2CnvKOtr8xe74OxIuoRWgrBezh85fi+jiUAAy
-	AMtCB7paI+krKBzqO8ZVnVXWBPu1mYMBsmCw1FrRdLxm939rpdUO4KOfS+ATXdGIEswtTzdghIl
-	DO2l3y8kRYnm891iiAqG2vEqwt1BGQkJOvKx54yuvZ+fKtDMuSVpMvt3Occ5gUWvW8OCzCJNimO
-	XPeLZVAGNANpqm3rWitsB39W9xfORnfHQy591Oj4wv4p0GhhjgHz8LW53FZRR8An//Pps1zqZWl
-	pmeUwPXfTMCCylw59Qqe7NGo8oxUraQXziD4D7eBqHN6eyfnPkyy8T2iC6v94+XeUh0OWDovIH1
-	Vb11DGydaElJCYaWMq1V0mMBL1fbK/3qXU1hWIsUPZyQV4wXbbK11s6ZEFRAUIyiSOIMT/KcYEh
-	6NVYm9CtOYE8MjoMznu
-X-Received: by 2002:a05:6830:3e07:b0:7d5:96a3:f7a5 with SMTP id 46e09a7af769-7d782519025mr10383836a34.18.1773709315458;
-        Mon, 16 Mar 2026 18:01:55 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d77c961e79sm10284487a34.7.2026.03.16.18.01.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 18:01:54 -0700 (PDT)
-Message-ID: <307e4126-91ed-4ca8-9eb0-3f24f1490aa8@kernel.dk>
-Date: Mon, 16 Mar 2026 19:01:53 -0600
+        d=1e100.net; s=20251104; t=1773717228; x=1774322028;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gu1DU71QEoeriPLtDyr4IxAoMPD9+M+2Obobs0fac7Q=;
+        b=me6fABKjCxAwGNGBNbiem5x/tbI7wMnPsVxyMKcCxnNu4/KbkwQ6tIFgFRxo8J0Tux
+         x3mTLLjdd1UxnCre2D9A+vGsUi8t2Z2BnAPjpl8OuemkYVzIQkeB7BLpm5kdGG/rivs0
+         Xj5ijhypdRJA3U/qNPw2x6IXryEnGRMfIRH/issoWU6niGtN91hhkQ/9Gn5gfykZIUbm
+         Iv+NWygtXG4AI4pa+sq+s7GIVCbFzvfK3XMfrJTvKy6suIT9wA5e7BlI2u5/DnD/ewDx
+         7eVoD1/YAf7s6xev4REqGjTd0qPAnVUTgFktJ34hjay5AxagdBKimaY2/G8K6OEgso1C
+         8joQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWtbRooTItQLsTzKzn/I8IFAe6xyNBdchpPInVVtkvxWrHcXdSFl/LNfRcRqRm82aAlFirFacPI1WPt@lists.infradead.org
+X-Gm-Message-State: AOJu0YzAaCKqQORpycnTOILUnXIIcpmW4NwM9EULO7TkJ9MMsn/mCLFj
+	islGXhp0sKUf+6Z4Y0CIlAoj8ZDsAmvAanSrabCqxi0WzbhjqAiEI8+U
+X-Gm-Gg: ATEYQzx0UWJ8JTlMIAG/lF+KQYGj7N0slP53hb36w5NtQZEN2WW31b3Vui0Fek429G2
+	NIMiCS8rECoQTMZozAJjXj1tTWA7/XcFSIPM+GJpek2enoix9UqEcjnl7Ypb/dOJ6k+r57lDjqy
+	FNd2Auc5owxUcrUC8TsB9ePrH5N+Q4Xs/R117R+DsOJwH9iX8zh8TP7i3pGplJTtu+aHCC+14It
+	xuNxAj8vc/U2I6Kv5IQDNj8QrsoATLUSWIfHb/ULkDPJkeBfhjTRgX4ri3Dkh8UmRnW4khapSXH
+	nbLFSzIB7aVmJu02alu95nsV747Wl+GFOg/Sn693d1t1NVsvb/Xcoj36fhcb0pLeokCYoXbw8eP
+	XyrT+4DRj0vXWRc0XfZ/FhClKyGKQ2VRLTwvdlOPhujGb78ut8P3GRy0V/Hq/PyLB0XMzwprn9K
+	zpzUzjHcLiaoKzLHzNKQ3CclDoAxTL0xYgg+Wj6vqoDA==
+X-Received: by 2002:aa7:888f:0:b0:829:73f4:6ff with SMTP id d2e1a72fcca58-82a198cd33cmr11879984b3a.37.1773717228314;
+        Mon, 16 Mar 2026 20:13:48 -0700 (PDT)
+Received: from toolbx.alistair23.me ([2403:581e:fdf9:0:6209:4521:6813:45b7])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07341ed1sm14337206b3a.33.2026.03.16.20.13.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 20:13:47 -0700 (PDT)
+From: alistair23@gmail.com
+X-Google-Original-From: alistair.francis@wdc.com
+To: hare@suse.de,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH] nvme-auth: Include SC_C in RVAL controller hash
+Date: Tue, 17 Mar 2026 13:13:30 +1000
+Message-ID: <20260317031330.2794078-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/5] io_uring/uring_cmd: allow non-iopoll cmds with
- IORING_SETUP_IOPOLL
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>,
- Caleb Sander Mateos <csander@purestorage.com>
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>,
- Kanchan Joshi <joshi.k@samsung.com>, Ming Lei <ming.lei@redhat.com>
-References: <20260302172914.2488599-1-csander@purestorage.com>
- <177369928494.700746.8101380068186003544.b4-ty@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <177369928494.700746.8101380068186003544.b4-ty@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260316_180156_717995_F8708334 
-X-CRM114-Status: GOOD (  11.93  )
+X-CRM114-CacheID: sfid-20260316_201351_635573_794F66A0 
+X-CRM114-Status: GOOD (  12.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -106,36 +103,49 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/16/26 4:14 PM, Jens Axboe wrote:
-> 
-> On Mon, 02 Mar 2026 10:29:09 -0700, Caleb Sander Mateos wrote:
->> Currently, creating an io_uring with IORING_SETUP_IOPOLL requires all
->> requests issued to it to support iopoll. This prevents, for example,
->> using ublk zero-copy together with IORING_SETUP_IOPOLL, as ublk
->> zero-copy buffer registrations are performed using a uring_cmd. There's
->> no technical reason why these non-iopoll uring_cmds can't be supported.
->> They will either complete synchronously or via an external mechanism
->> that calls io_uring_cmd_done(), io_uring_cmd_post_mshot_cqe32(), or
->> io_uring_mshot_cmd_post_cqe(), so they don't need to be polled.
->>
->> [...]
-> 
-> Applied, thanks!
-> 
-> [1/5] io_uring: add REQ_F_IOPOLL
->       commit: 9165dc4fa969b64c2d4396ee4e1546a719978dd1
-> [2/5] io_uring: remove iopoll_queue from struct io_issue_def
->       commit: 7995be40deb3ab8b5df7bdf0621f33aa546aefa7
-> [3/5] io_uring: count CQEs in io_iopoll_check()
->       commit: 3a5e96d47f7ea37fb6adf37882eec1521f8ca75e
-> [4/5] io_uring/uring_cmd: allow non-iopoll cmds with IORING_SETUP_IOPOLL
->       commit: 23475637b0c47e5028817c9fd4dabe8f7409ca6c
-> [5/5] nvme: remove nvme_dev_uring_cmd() IO_URING_F_IOPOLL check
->       commit: f144dbac4b177cfd026e417ab98da518ff3372cb
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Caleb, want to send the liburing tests and documentation updates too?
+Section 8.3.4.5.5 of the NVMe Base Specification 2.1 describes what is
+included in the Response Value (RVAL) hash and SC_C should be included.
+Currently we are hardcoding 0 instead of using the correct SC_C value.
 
+Update the host and target code to use the SC_C when calculating the
+RVAL instead of using 0.
+
+Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ drivers/nvme/host/auth.c   | 2 +-
+ drivers/nvme/target/auth.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 4e8e4ddd6c8d..4ea1a46bad94 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -581,7 +581,7 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
+ 	ret = crypto_shash_update(shash, buf, 2);
+ 	if (ret)
+ 		goto out;
+-	memset(buf, 0, 4);
++	*buf = chap->sc_c;
+ 	ret = crypto_shash_update(shash, buf, 1);
+ 	if (ret)
+ 		goto out;
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 839239fe877a..965690afd1bf 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -477,7 +477,7 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
+ 	ret = crypto_shash_update(shash, buf, 2);
+ 	if (ret)
+ 		goto out;
+-	memset(buf, 0, 4);
++	*buf = req->sq->sc_c;
+ 	ret = crypto_shash_update(shash, buf, 1);
+ 	if (ret)
+ 		goto out;
 -- 
-Jens Axboe
+2.53.0
 
 
