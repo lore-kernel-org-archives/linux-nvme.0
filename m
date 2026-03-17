@@ -4,110 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70317FB5E85
-	for <linux-nvme@archiver.kernel.org>; Mon, 16 Mar 2026 23:39:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07EA5FB5E8B
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2026 01:02:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pX3IZwbQWIREe0cd2yZ6WTCN0aV+1yG3Zml24cd+TQU=; b=S1yKxfnNwwXBezA6/22HcqjWES
-	22B8Fwj7pPQU37xmYcdZcY0ZqYa24qOA+Wec9+D4b08Q9Zo9WZOAtUASng2Azp9gMvixp/5RVnPtM
-	tgqJr8GtzLRgvWf7Gj1/NIVWatwqmiGjy4d7V1JjkG6Atdhl+zC+Q3Lht5UJ/SK7n/0MQCsZ6kugm
-	lusg2pKX7dmmSyHHMw9Zr/YaGtPYV4fUy0/uSEoLjjpJLMZ7w2EyEfl8XeqCELfJL+we7+kh0bNMG
-	/zs9NwHUkjTPQrSpeHEP53KoE2mnAtIDGReOWoJmQmYvJQbxc4nOmWTj+r9z9mP7pmAUOlsyV2DTj
-	Bj2SiQCg==;
+	bh=xJmZWcweGo/5CL7dk1HuKW3M8jV+oED2e+YlbfIAvtA=; b=Q9S7Ahl9PN+ZzgM2H1H6llqzVf
+	k0DArnMcSYNMPt7JkR7jASZRlXyKhKYHtBRjX2Xhs61VXZmbHIt6qj1Bqn+mRFCFhixm8I2ZbDw2t
+	9YSmfG7NJe4dkDZDs1h6HLDYxMOC+szf/bPsMqwg5SoxjM086ZeSmmsiC8oxSn8Htb7wUq1chDzht
+	UVr/flKfAmjLJKlje5vbgq3562ChXkgjf3Old93B4mDb8D51JPwKgxb43XDxcewXGZC7pvneQZz2E
+	XSH3ezn4l6He0DB1q3ppG/t18Nouvs4efwyGGde2ERwxGYNY5XoWSDOuPXv/8b015f2kfaX7KIqBC
+	8mxa2jkA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2HXA-000000055LU-41MF;
-	Mon, 16 Mar 2026 23:39:40 +0000
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+	id 1w2Ioq-00000005A4l-050Q;
+	Tue, 17 Mar 2026 01:02:00 +0000
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2HX7-000000055K1-2G6X
+	id 1w2Iom-00000005A4M-2mHD
 	for linux-nvme@lists.infradead.org;
-	Mon, 16 Mar 2026 23:39:39 +0000
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-41710377bf6so1696493fac.1
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Mar 2026 16:39:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773704376; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HtYfvwp43trNk3WoWgC8e/25htv+oC6jAtoPtV/UHC5kONy9pt0iw0OIGs/7N9meBj
-         BrcchLkIRZXX3hGy4VxpJfLMoVNQsu5YvZO+k+VE/CSDAHNJv9BhRV7R/ze5QL8giccO
-         cfJoCpDmYNOYjwRukKduPOYQg+iObX7HAgD55UYLBBOADjE3bmMIDqto2dS1YrUm8XL1
-         r2fHTttnmrrpfJJaQIr4CvyQ9kf0f2NxFtt0yhOyObexmiY4ggs+JpfpvsKRneE3BDJ/
-         zSNJSdJk/sZhR/mmUxIFNzeDmg6izrzOXasDy8yGc13gZyVcNuVMpwaq65B4o4RQobyT
-         J50w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pX3IZwbQWIREe0cd2yZ6WTCN0aV+1yG3Zml24cd+TQU=;
-        fh=o6vgLiCt95qKRxlTwt3lVVDU8rGP4Hj2AAlMkumpcL0=;
-        b=BHqoTF/ufEFsEu+qtPu8z2hwFqfHgArkYI2y6G60z10r62rADgECKFD6wie1tKICRm
-         FFSbo3ujAVuEFycFkPXbTSBOaG3SErR5937oPwPRrDUkLyxK8YOUi8Gp8IA8ibVmjUGn
-         JaUyFhYUjbSdvYWiE7tNpDgHpLcw20bS7KSSIwrAo/o8stoe8hYKSOtIpcd11MkT5axB
-         PCE6c/4QkniznHdBWHBzG93fmCoqGw3FoXoqN0/HEKVjrKXA++/MlvNhH9Lwt4nWak57
-         x3XByrVKrfMoeBUcGrYd7XYI/LYJ+XqZZuAXu2T0HmbRlhvkO6CcfaRk5Rdm2Wi6z88B
-         v9OQ==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Tue, 17 Mar 2026 01:01:58 +0000
+Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-7d748ca8708so3070563a34.0
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Mar 2026 18:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1773704376; x=1774309176; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pX3IZwbQWIREe0cd2yZ6WTCN0aV+1yG3Zml24cd+TQU=;
-        b=Mw79Yad+Xc6boR5OhgTtYLkBmEmZCjs7Jw3S9VsEtG16tKk1cJeyAj74AYU2yJsCP1
-         MeOU8i9npP9xBMBeswgchwLo3Fg2gFwchs/1dn5PBaE5h9Kvct3HfOSv23JS5+U8IKPp
-         9OwHhm4TfVQcXfwqi2/yqhP9Hj53/r50VGUPD12r5HvzjkG98Glb9rAKR89AsSUvDEez
-         qs94E1MbLMGmN4fSsD/eS2o41zp3/GYkWkShUc/jVOmEU3J6ZkMA8Utc6m4Q4cwbSHHc
-         BTB3splbu30hIvvZkQisHngrehkfTdt2eXgfxYnk16LfklDzLJNJm1LgUeXkogosxED3
-         /wRQ==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1773709315; x=1774314115; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xJmZWcweGo/5CL7dk1HuKW3M8jV+oED2e+YlbfIAvtA=;
+        b=ktbZdKaLRaluUczZAUle3lPrnSyNEFy9edjL+tTg0CqlQp4dfkpQB4NOXe5Nik8JuX
+         BvJOAwfMxVs9j73ZaUWpxyqoIVuHeEwNeOTvK+5K5YztpubBOJoMDPG9rYp4HXVh0u6C
+         6C9sU36Qy+2+k6wNv+oHscOtyRj0Lkr0loJ+S4hlBqDlx5qfi4N4SepvL5p6sSJ5i+Oa
+         ygDicjJDxXKf1QaIe2oE4pGi4yZyuHADtzzGZ52qunt9sRPiWy8feRfBcoMbuEskGvg0
+         Dao2YWqJIWBN2XQr9M8yarDZT5eKZA+W2KAvFS2Z663+BsWkFC7y2537hxSTuO7w+B+X
+         MmQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773704376; x=1774309176;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pX3IZwbQWIREe0cd2yZ6WTCN0aV+1yG3Zml24cd+TQU=;
-        b=jEzG/HlHY6BpPo66hLgygs6P5q5P438zxWeAt+/wBst9GoBV5+FKcn1j7mzwG4pTXc
-         gUny5QhrsBqjY5S/kJBKxERKDgKUPgq5+TVnhGZsKDPyTSDK50jPv/HvdAM1gkNXCW5J
-         CV8ajYHEt67CpcbP1wG8mGC5LVLpXICuHvcKTX8nmxDY9lQwIlAjJm9RAKEcC6mdaRvp
-         76Ii0OZN70E1LZIUE9aSdCWtQFP+JdhkhamBY30DYYQ0OdJA45wGqRtFWqLb1T241qo+
-         471sn8TGFYdo6RstC7bU6qh/tCv8EVJTvWmypOKWVlgxrc3U8Me6AR8BeD3UGqU8WiYx
-         WT/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVxLd/UKCZGyFu5txIbtUDZV09MPlp+tkrH+UynvELx+Llj9qnUXkkHKLhX7JZr0hXQstM2T1yiApP9@lists.infradead.org
-X-Gm-Message-State: AOJu0YxFZIddgcB9RpsrbpwQdZtM4CrU7gfMnrjkkhGwZZ6l/u8lvr8h
-	SG6gPn9e8YeV8SqWoUHyj1UltCXaSKqZAiw/Rtjl0H3hXLpqtOwjtJvQtESYRzcGLOLjYe76FJr
-	NQC2SUm31qwyPIEL9QcMU23W8S+4F8eMYqXxf9RBDEg==
-X-Gm-Gg: ATEYQzxbMMb8MPf6T0iaHFdt96Y82M69yYeEwwXFWKWzbZjUmYldlmxJof9JhD1LWL7
-	u5TYntimf0ECzmbYYqrX5evJAin24jbXPB8u0Ij730w1mblkJMkVZwI5xTBEP6J6AOBEs0eYHLh
-	HkUoa55soFQzna5ecWai59YQI+B3i5xuhM1th5yJpJfc/moqVw27ZV9/tzTR7EULlyBW/Y//Phm
-	/BbLWVn+Z1z/ImNmfe647lbOgScqk+2MP9C7gm/gHy871Z5UzIjpgv3F8RIt+cJWmerCQfgEpQ5
-	El3c1SNl
-X-Received: by 2002:a05:6808:1809:b0:467:17f3:68b6 with SMTP id
- 5614622812f47-46757672b91mr6527707b6e.8.1773704376036; Mon, 16 Mar 2026
- 16:39:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773709315; x=1774314115;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xJmZWcweGo/5CL7dk1HuKW3M8jV+oED2e+YlbfIAvtA=;
+        b=KYIFsRZO4YRWYYT3YQEOEob+hXzPGhRWTQfuukYwDEAoxt8lJ66fv2z0HIvCwJTSTt
+         b64+0u3F0b/765N3U3UciIbf0PyN8cQtnpIy5aJPgn6pgJjnQphM6MVvjbBmEwlf82LP
+         6hbIH4Gqa7nIQaQXiTBCtoAhPDnFGuMuUDQNyQxo3Wy6wnXeyNaCeaOlENWSLoy/J6JG
+         X16rhC5aoeRt9IHaY3pu+5iRlN6zHs9q3BYpuPFTWPr1JqBnIjthx4Nvz1dUWZRvS1Fx
+         txeJHlLL1ctqpP1PsOjD/IGwkrp9bV7tdqHN+EZ/wcgtYUzJ25vACCd0wNZZDt3jp7l1
+         RCWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoLQD2KOsEj35dlhOy2QBaVv8+zJIlOBzU4yNwxfS3AyPG064MKOtP+FwQ86EncBhyDIfbUOn5GOf0@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz7J6nrvp6g0kpCk50qCbzy2Rilwj6IZVqZGiMWVZ2fNvD5dk7H
+	wMVswgRCHBXhWQnqV13Zus37Fohu6mqEchXMpZX4mSTFuttKhlQJ8Vj1+JR4AtwmFro=
+X-Gm-Gg: ATEYQzyUk1R98aHBRGEKlmdgU1xiKQspEdTHcmTf1W2Ygq6FPqtmIUyFd5CRBHMF/Gm
+	6Fb4DC/BzNiHbmB//PYCsFTuxte4MjfQPSyvxN2CnvKOtr8xe74OxIuoRWgrBezh85fi+jiUAAy
+	AMtCB7paI+krKBzqO8ZVnVXWBPu1mYMBsmCw1FrRdLxm939rpdUO4KOfS+ATXdGIEswtTzdghIl
+	DO2l3y8kRYnm891iiAqG2vEqwt1BGQkJOvKx54yuvZ+fKtDMuSVpMvt3Occ5gUWvW8OCzCJNimO
+	XPeLZVAGNANpqm3rWitsB39W9xfORnfHQy591Oj4wv4p0GhhjgHz8LW53FZRR8An//Pps1zqZWl
+	pmeUwPXfTMCCylw59Qqe7NGo8oxUraQXziD4D7eBqHN6eyfnPkyy8T2iC6v94+XeUh0OWDovIH1
+	Vb11DGydaElJCYaWMq1V0mMBL1fbK/3qXU1hWIsUPZyQV4wXbbK11s6ZEFRAUIyiSOIMT/KcYEh
+	6NVYm9CtOYE8MjoMznu
+X-Received: by 2002:a05:6830:3e07:b0:7d5:96a3:f7a5 with SMTP id 46e09a7af769-7d782519025mr10383836a34.18.1773709315458;
+        Mon, 16 Mar 2026 18:01:55 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d77c961e79sm10284487a34.7.2026.03.16.18.01.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 18:01:54 -0700 (PDT)
+Message-ID: <307e4126-91ed-4ca8-9eb0-3f24f1490aa8@kernel.dk>
+Date: Mon, 16 Mar 2026 19:01:53 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/5] io_uring/uring_cmd: allow non-iopoll cmds with
+ IORING_SETUP_IOPOLL
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>,
+ Caleb Sander Mateos <csander@purestorage.com>
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>,
+ Kanchan Joshi <joshi.k@samsung.com>, Ming Lei <ming.lei@redhat.com>
 References: <20260302172914.2488599-1-csander@purestorage.com>
- <20260302172914.2488599-4-csander@purestorage.com> <aagKTanM5Az9UDsJ@fedora>
- <CADUfDZozycFBPX0kH=22Gda7njM3xVmL=Cy=zCq6cfXY8JH_dw@mail.gmail.com>
- <a6591d03-3707-4f1c-b1fa-49f010f98d53@kernel.dk> <CADUfDZp0shyZ5FqfEcwbi0tHXOFqwqZKRvwQW=heR-yvaOaw0Q@mail.gmail.com>
- <aauO72ocnZRhJkiA@fedora> <7dfb5a9b-9af2-4463-b9a1-0eb680fd6c47@kernel.dk>
-In-Reply-To: <7dfb5a9b-9af2-4463-b9a1-0eb680fd6c47@kernel.dk>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Mon, 16 Mar 2026 16:39:25 -0700
-X-Gm-Features: AaiRm50nhenZoBbLC8Sk9TzZIBg4dRriB4JHlfVxfFsnUKJQpFv4BSA4wVnHWLg
-Message-ID: <CADUfDZpJjncxh1URmNkAsuhBjapFY3-MRfDas8rfBiyh8Hi3GQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] io_uring: count CQEs in io_iopoll_check()
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Anuj Gupta <anuj20.g@samsung.com>, 
-	Kanchan Joshi <joshi.k@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <177369928494.700746.8101380068186003544.b4-ty@kernel.dk>
+Content-Language: en-US
+In-Reply-To: <177369928494.700746.8101380068186003544.b4-ty@kernel.dk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260316_163937_638279_77EAD5E3 
-X-CRM114-Status: GOOD (  40.18  )
+X-CRM114-CacheID: sfid-20260316_180156_717995_F8708334 
+X-CRM114-Status: GOOD (  11.93  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,170 +106,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 16, 2026 at 3:11=E2=80=AFPM Jens Axboe <axboe@kernel.dk> wrote:
->
-> On 3/6/26 7:35 PM, Ming Lei wrote:
-> > On Fri, Mar 06, 2026 at 05:38:15PM -0800, Caleb Sander Mateos wrote:
-> >> On Wed, Mar 4, 2026 at 8:29?AM Jens Axboe <axboe@kernel.dk> wrote:
-> >>>
-> >>> On 3/4/26 8:46 AM, Caleb Sander Mateos wrote:
-> >>>> On Wed, Mar 4, 2026 at 2:33?AM Ming Lei <ming.lei@redhat.com> wrote:
-> >>>>>
-> >>>>> On Mon, Mar 02, 2026 at 10:29:12AM -0700, Caleb Sander Mateos wrote=
-:
-> >>>>>> A subsequent commit will allow uring_cmds that don't use iopoll on
-> >>>>>> IORING_SETUP_IOPOLL io_urings. As a result, CQEs can be posted wit=
-hout
-> >>>>>> setting the iopoll_completed flag for a request in iopoll_list or =
-going
-> >>>>>> through task work. For example, a UBLK_U_IO_FETCH_IO_CMDS command =
-could
-> >>>>>> call io_uring_mshot_cmd_post_cqe() to directly post a CQE. The
-> >>>>>> io_iopoll_check() loop currently only counts completions posted in
-> >>>>>> io_do_iopoll() when determining whether the min_events threshold h=
-as
-> >>>>>> been met. It also exits early if there are any existing CQEs befor=
-e
-> >>>>>> polling, or if any CQEs are posted while running task work. CQEs p=
-osted
-> >>>>>> via io_uring_mshot_cmd_post_cqe() or other mechanisms won't be cou=
-nted
-> >>>>>> against min_events.
-> >>>>>>
-> >>>>>> Explicitly check the available CQEs in each io_iopoll_check() loop
-> >>>>>> iteration to account for CQEs posted in any fashion.
-> >>>>>>
-> >>>>>> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-> >>>>>> ---
-> >>>>>>  io_uring/io_uring.c | 9 ++-------
-> >>>>>>  1 file changed, 2 insertions(+), 7 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-> >>>>>> index 46f39831d27c..b4625695bb3a 100644
-> >>>>>> --- a/io_uring/io_uring.c
-> >>>>>> +++ b/io_uring/io_uring.c
-> >>>>>> @@ -1184,11 +1184,10 @@ __cold void io_iopoll_try_reap_events(stru=
-ct io_ring_ctx *ctx)
-> >>>>>>               io_move_task_work_from_local(ctx);
-> >>>>>>  }
-> >>>>>>
-> >>>>>>  static int io_iopoll_check(struct io_ring_ctx *ctx, unsigned int =
-min_events)
-> >>>>>>  {
-> >>>>>> -     unsigned int nr_events =3D 0;
-> >>>>>>       unsigned long check_cq;
-> >>>>>>
-> >>>>>>       min_events =3D min(min_events, ctx->cq_entries);
-> >>>>>>
-> >>>>>>       lockdep_assert_held(&ctx->uring_lock);
-> >>>>>> @@ -1227,34 +1226,30 @@ static int io_iopoll_check(struct io_ring_=
-ctx *ctx, unsigned int min_events)
-> >>>>>>                * the poll to the issued list. Otherwise we can spi=
-n here
-> >>>>>>                * forever, while the workqueue is stuck trying to a=
-cquire the
-> >>>>>>                * very same mutex.
-> >>>>>>                */
-> >>>>>>               if (list_empty(&ctx->iopoll_list) || io_task_work_pe=
-nding(ctx)) {
-> >>>>>> -                     u32 tail =3D ctx->cached_cq_tail;
-> >>>>>> -
-> >>>>>>                       (void) io_run_local_work_locked(ctx, min_eve=
-nts);
-> >>>>>>
-> >>>>>>                       if (task_work_pending(current) || list_empty=
-(&ctx->iopoll_list)) {
-> >>>>>>                               mutex_unlock(&ctx->uring_lock);
-> >>>>>>                               io_run_task_work();
-> >>>>>>                               mutex_lock(&ctx->uring_lock);
-> >>>>>>                       }
-> >>>>>>                       /* some requests don't go through iopoll_lis=
-t */
-> >>>>>> -                     if (tail !=3D ctx->cached_cq_tail || list_em=
-pty(&ctx->iopoll_list))
-> >>>>>> +                     if (list_empty(&ctx->iopoll_list))
-> >>>>>>                               break;
-> >>>>>>               }
-> >>>>>>               ret =3D io_do_iopoll(ctx, !min_events);
-> >>>>>>               if (unlikely(ret < 0))
-> >>>>>>                       return ret;
-> >>>>>>
-> >>>>>>               if (task_sigpending(current))
-> >>>>>>                       return -EINTR;
-> >>>>>>               if (need_resched())
-> >>>>>>                       break;
-> >>>>>> -
-> >>>>>> -             nr_events +=3D ret;
-> >>>>>> -     } while (nr_events < min_events);
-> >>>>>> +     } while (io_cqring_events(ctx) < min_events);
-> >>>>>
-> >>>>> Before entering the loop, if io_cqring_events() finds any queued CQ=
-E,
-> >>>>> io_iopoll_check() returns immediately without polling.
-> >>>>>
-> >>>>> If the queued CQE is originated from non-iopoll uring_cmd, iopoll r=
-equest
-> >>>>> will not be polled, may this be one issue?
-> >>>>
-> >>>> I also noticed that logic and thought it seemed odd. I would think
-> >>>> we'd always want to wait for min_events CQEs (and iopoll once even i=
-f
-> >>>> min_events is 0). Looks like Jens added the early return in commit
-> >>>> a3a0e43fd770 ("io_uring: don't enter poll loop if we have CQEs
-> >>>> pending"), perhaps he can shed some light on it?
-> >>>
-> >>> I don't  recall the bug in question, it's been a while... But it alwa=
-ys
-> >>> makes sense to return events that are ready, and skip polling. It sho=
-uld
-> >>> only be done if there are no ready events to reap.
-> >>
-> >> Ming, are you okay with preserving that behavior in this patch then? I
-> >> guess there's a potential fairness concern where REQ_F_IOPOLL requests
-> >> may not be polled for some time if non-REQ_F_IOPOLL requests continue
-> >> to frequently post CQEs.
-> >
-> > IMO, the fairness may not a big deal given userspace should keep pollin=
-g
-> > if the iopoll IO isn't done.
->
-> I think so.
->
-> > But forget to mention, if non-iopoll CQE is posted and ->cq_flush becom=
-es
-> > true, io_submit_flush_completions() may not get chance to run in case o=
-f
-> > the early return.
-> >
-> > Maybe something like below is needed:
-> >
-> > @@ -1556,8 +1556,10 @@ static int io_iopoll_check(struct io_ring_ctx *c=
-tx, unsigned int min_events)
-> >          * If we do, we can potentially be spinning for commands that
-> >          * already triggered a CQE (eg in error).
-> >          */
-> > -       if (io_cqring_events(ctx))
-> > +       if (io_cqring_events(ctx)) {
-> > +               io_submit_flush_completions(ctx);
-> >                 return 0;
-> > +       }
->
-> We should probably experiment with this a bit, I don't think it's a
-> showstopper for merging this.
+On 3/16/26 4:14 PM, Jens Axboe wrote:
+> 
+> On Mon, 02 Mar 2026 10:29:09 -0700, Caleb Sander Mateos wrote:
+>> Currently, creating an io_uring with IORING_SETUP_IOPOLL requires all
+>> requests issued to it to support iopoll. This prevents, for example,
+>> using ublk zero-copy together with IORING_SETUP_IOPOLL, as ublk
+>> zero-copy buffer registrations are performed using a uring_cmd. There's
+>> no technical reason why these non-iopoll uring_cmds can't be supported.
+>> They will either complete synchronously or via an external mechanism
+>> that calls io_uring_cmd_done(), io_uring_cmd_post_mshot_cqe32(), or
+>> io_uring_mshot_cmd_post_cqe(), so they don't need to be polled.
+>>
+>> [...]
+> 
+> Applied, thanks!
+> 
+> [1/5] io_uring: add REQ_F_IOPOLL
+>       commit: 9165dc4fa969b64c2d4396ee4e1546a719978dd1
+> [2/5] io_uring: remove iopoll_queue from struct io_issue_def
+>       commit: 7995be40deb3ab8b5df7bdf0621f33aa546aefa7
+> [3/5] io_uring: count CQEs in io_iopoll_check()
+>       commit: 3a5e96d47f7ea37fb6adf37882eec1521f8ca75e
+> [4/5] io_uring/uring_cmd: allow non-iopoll cmds with IORING_SETUP_IOPOLL
+>       commit: 23475637b0c47e5028817c9fd4dabe8f7409ca6c
+> [5/5] nvme: remove nvme_dev_uring_cmd() IO_URING_F_IOPOLL check
+>       commit: f144dbac4b177cfd026e417ab98da518ff3372cb
 
-I don't think it's an issue currently. Any path that posts CQEs
-(synchronously during submit, from task work, or iopoll) already calls
-io_submit_flush_completions()/__io_submit_flush_completions(). In
-other words, there's no way to reach this io_cqring_events() branch
-without the CQEs having already been flushed. If a new path were added
-in the future that could post CQEs outside of those contexts, it would
-of course need to ensure io_submit_flush_completions() is called after
-posting the CQEs.
+Caleb, want to send the liburing tests and documentation updates too?
 
->
-> Caleb, I think we can stage this for 7.1 and see how it goes.
+-- 
+Jens Axboe
 
-Sounds good, thank you.
-
---Caleb
 
