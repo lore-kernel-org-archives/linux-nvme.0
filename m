@@ -4,122 +4,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65FD7F33820
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2026 09:26:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E773F33811
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2026 09:30:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SSuc8xjo+7Q8rtFOYaja7Hr7pRPg9ChuLKq3JH6Tx44=; b=zRSwxaq9y4Hlpqzc6F/ti0xVbT
-	5YK6KcxShzmjKFGFmsvo/E0xiqSrOhL4uDvcpRDGaJp9DVfyzbPAmNaJj3ouaS0muaYsjF9NVj+l9
-	61Niyro3TEzhh0A3BvpVoRf7eWOniekQVam+ks4CXe1CTW9EivxE9vuP90bhIezwcsYpVCDZQm5OK
-	SlOXzPJad/w9EwTYDdK3wv1R1uLuU+1Wmna623OTFBUaFwA0HYZtvy7HuGBJUlBz01jsfCgpabAkY
-	17TXBG4xAi3HiILHsrCXMLPP/hZXlD7oX7u6ZZAqeEKWJKr6dMFxVxV+E+ew+EhojT1HPr5A29ZYm
-	ojdH6AJA==;
+	bh=hkB0WxskFqfw1yNbKQVtLzL/a7w2rNNpXSuCjONRaO0=; b=EdFnsPQubdZZ7bBdHHB8j1xJ2g
+	Hnr/qcRd3VZJrFydQRMB9JUSC3sCzNoaKD7f6cAQV/4jgLZ9YHwYU0xNCcDzyto5vLqeY9umVmOhQ
+	zdiIVNTMO+D6ZJr7GiDR5Mix46vW39R18eN2PMhB2dIjHlSit1Gn2qzyUUMESi12sLbmCrvKATTzG
+	GmOAo9UQ/mPAni2fSapKQadOcSzX5/MaW6NMudcmTxi6ZVcsB++2grsfn25CYsXuayA/qGSnEICq0
+	QpBRvPNjvRzL7c+u2ih5BwwGyTPp1RA4dvj/CNenz2bKqRLpv/RabjpKsU/IbKUB/IMWv3b6cmr4/
+	LXp2CNCQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2Qh8-00000005ruB-1k0O;
-	Tue, 17 Mar 2026 09:26:34 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1w2QkV-00000005sDS-0K1W;
+	Tue, 17 Mar 2026 09:30:03 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2Qh5-00000005rtc-1UfE
+	id 1w2QkU-00000005sD4-19vn
+	for linux-nvme@bombadil.infradead.org;
+	Tue, 17 Mar 2026 09:30:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=hkB0WxskFqfw1yNbKQVtLzL/a7w2rNNpXSuCjONRaO0=; b=YmsgWzJ88tv31ljBeRXAAHvrKx
+	xbqtP3oxo1Ulmtimgpg4k0Rw7ldtRAkfKacW8v1MDExUEbhI11YXTGkiNwWwSnG26DHvPHpj7jFIU
+	G5AiGhDqCJe70If5pJbnfxjPYjSfrLJPMo/9MzsysyKcXAdTtMT6AcM+nkaBqoNvHwhwDPkHK15SE
+	OQuvURJ8HZNKnoXaKwLEnLCUtAtkcdPNI3H5IXC47tKVJmrnFC6sRXmZFfCBdMbysjGUSRYQKX7y4
+	DVW/X5IsTzpjhHJ4ACuz1jI6nn71WZn/WQZs2sxU/4bFH28sMHs2zsfFdnRLGpEn2qsRRIaDr0/+i
+	esRH1IBw==;
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w2QkQ-00000008XX3-2bB8
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Mar 2026 09:26:32 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Tue, 17 Mar 2026 09:30:00 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 558305BD9D;
-	Tue, 17 Mar 2026 09:26:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BAE94D240;
+	Tue, 17 Mar 2026 09:29:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773739589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773739796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SSuc8xjo+7Q8rtFOYaja7Hr7pRPg9ChuLKq3JH6Tx44=;
-	b=vjGanU1QPDM32hzAn7F905sPvAT4mihzR/2amLgoK0sEcJ7EhaE/s8uQc4nKMGmCswpo90
-	pdtdHSaWxLz0XJD1SwDVsVeKWRT2BCG8R6Awz5DFV2hoUoqJg22MCpDyCib3WrFaosm+CC
-	SwJo6W4Y+PrAGs3Ts4Quk0NiSoI9RVg=
+	bh=hkB0WxskFqfw1yNbKQVtLzL/a7w2rNNpXSuCjONRaO0=;
+	b=sgP+mFSY1ySx4BZN7d9depi0HVlSdu3swbXXcQRYzn84SzjpPWDFJN2MMhtlNR/uKIDOQp
+	pINhPIIl1GO+ougGGCrepYrSo9DWNTzeCdX6xX5KXi4hIrri2eF0+RX7JOOHkB8NTlYFh/
+	ufB2O3vzcaaLSbFgmpiGJjZ//aKtx3A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773739589;
+	s=susede2_ed25519; t=1773739796;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SSuc8xjo+7Q8rtFOYaja7Hr7pRPg9ChuLKq3JH6Tx44=;
-	b=Ur13HWh7ZMOMabUC92q+3axkzUPtqS2jKEnfrJEhPh+G2qeQgEgeYQfVfiRxAQpfzbQdbY
-	hlB8cpAnhOApCSBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=hkB0WxskFqfw1yNbKQVtLzL/a7w2rNNpXSuCjONRaO0=;
+	b=3oQPwUCKLFeyj1Y8T8YXCwLYc4SJz7dodK76pBTCODNbmYAPtT39khBc5VvNsoGoy96gmH
+	pj4aEm76Zl/ByLCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sgP+mFSY;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3oQPwUCK
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773739589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1773739796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SSuc8xjo+7Q8rtFOYaja7Hr7pRPg9ChuLKq3JH6Tx44=;
-	b=vjGanU1QPDM32hzAn7F905sPvAT4mihzR/2amLgoK0sEcJ7EhaE/s8uQc4nKMGmCswpo90
-	pdtdHSaWxLz0XJD1SwDVsVeKWRT2BCG8R6Awz5DFV2hoUoqJg22MCpDyCib3WrFaosm+CC
-	SwJo6W4Y+PrAGs3Ts4Quk0NiSoI9RVg=
+	bh=hkB0WxskFqfw1yNbKQVtLzL/a7w2rNNpXSuCjONRaO0=;
+	b=sgP+mFSY1ySx4BZN7d9depi0HVlSdu3swbXXcQRYzn84SzjpPWDFJN2MMhtlNR/uKIDOQp
+	pINhPIIl1GO+ougGGCrepYrSo9DWNTzeCdX6xX5KXi4hIrri2eF0+RX7JOOHkB8NTlYFh/
+	ufB2O3vzcaaLSbFgmpiGJjZ//aKtx3A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773739589;
+	s=susede2_ed25519; t=1773739796;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SSuc8xjo+7Q8rtFOYaja7Hr7pRPg9ChuLKq3JH6Tx44=;
-	b=Ur13HWh7ZMOMabUC92q+3axkzUPtqS2jKEnfrJEhPh+G2qeQgEgeYQfVfiRxAQpfzbQdbY
-	hlB8cpAnhOApCSBw==
+	bh=hkB0WxskFqfw1yNbKQVtLzL/a7w2rNNpXSuCjONRaO0=;
+	b=3oQPwUCKLFeyj1Y8T8YXCwLYc4SJz7dodK76pBTCODNbmYAPtT39khBc5VvNsoGoy96gmH
+	pj4aEm76Zl/ByLCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 465334273B;
-	Tue, 17 Mar 2026 09:26:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AC7C4273B;
+	Tue, 17 Mar 2026 09:29:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4CX1D0UeuWmdJwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 17 Mar 2026 09:26:29 +0000
-Date: Tue, 17 Mar 2026 10:26:28 +0100
+	id iLnzFBQfuWlhKwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 17 Mar 2026 09:29:56 +0000
+Date: Tue, 17 Mar 2026 10:29:51 +0100
 From: Daniel Wagner <dwagner@suse.de>
-To: "Ballard, Curtis C (HPE Storage)" <curtis.ballard@hpe.com>
-Cc: Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>, 
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: "Ballard, Curtis C (HPE Storage)" <curtis.ballard@hpe.com>, 
+	Keith Busch <kbusch@kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Hannes Reinecke <hare@suse.de>
 Subject: Re: libnvme API review
-Message-ID: <93520cef-9e3a-4832-9bfa-a0f2c36246e3@flourine.local>
+Message-ID: <f81a70be-6df6-46d1-9cad-30cd2a9de9ef@flourine.local>
 References: <d5b9ca7f-8fd1-48ea-a883-79e92d92ec7e@flourine.local>
  <MW4PR84MB223598544C3E0EC5DA7FAAA09840A@MW4PR84MB2235.NAMPRD84.PROD.OUTLOOK.COM>
+ <a0179550-3210-47e2-918c-323ee5bbd7f6@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <MW4PR84MB223598544C3E0EC5DA7FAAA09840A@MW4PR84MB2235.NAMPRD84.PROD.OUTLOOK.COM>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+In-Reply-To: <a0179550-3210-47e2-918c-323ee5bbd7f6@nvidia.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_HAS_DN(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 6BAE94D240
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260317_022631_792543_676719FF 
-X-CRM114-Status: GOOD (  25.42  )
+X-CRM114-CacheID: sfid-20260317_092958_850073_2AB31C5F 
+X-CRM114-Status: GOOD (  10.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,78 +156,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Curtis,
+On Mon, Mar 16, 2026 at 05:21:25PM +0000, Chaitanya Kulkarni wrote:
+>  From my experience, it always helps to keep the naming aligned with the
+> specification.
 
-On Mon, Mar 16, 2026 at 03:34:39PM +0000, Ballard, Curtis C (HPE Storage) wrote:
-> It looks like these proposed changes are intended to align better with the terms
-> in common use or in the NVMe specifications.
+FWIW, the table is mostly about the library interfaces not the spec so
+much.
+ 
+> We often need to search for the same terms in the code and in the spec,
+> so using consistent naming makes that process much easier.
 
-I think I should provide some background here first.
-
-The libnvme headers previously mixed NVMe spec APIs with library APIs.
-This has been mostly resolved (though some further cleanups are
-necessary, we are almost there).
-
-types.h contains all the "payload" definitions for a command, while
-cmds.h contains helper functions to set up a command structure. While
-cmds.h is fairly clean and closely follows the spec, types.h uses
-different styles. Cleaning this part up will be a major task, and I
-don't have the time or the patience to do it myself. If anyone wants to
-work on this, be my guest.
-
-linux.h, lib.h, ioctl.h, filters.h, and util.h constitute the library
-interface used to set up and submit commands to a controller.
-
-fabrics.h (I just realized the table is missing entries) contains the
-interface for Fabrics commands, such as connect and disconnect.
-
-The tree.h API defines a data structure that connects various
-"resources" such as subsystems, namespaces, and controllers—together.
-The tree is populated by reading from the kernel's sysfs interface.
-Consequently, while this data structure uses the same names as the
-specification, it is not the same thing.
-
-> That may be a side effect of the
-> library authors generally using that to create names rather than being the goal
-> since you refer to library consistency as the goal.
-> 
-> With spec and common use in mind, one proposed changed jumped out at me:
-> | `nvme_subsystem_reset`       | `nvme_reset_subsystem` |
-
-This is from ioctl.h, which provides the interface for interacting with
-the kernel via ioctls. As outlined in the email, the proposal is to
-adopt the nvme_VERB_RESOURCE pattern, which more closely follows the
-kernel's naming scheme (at least within the NVMe subsystem). In this
-specific case, the NVME_IOCTL_SUBSYS_RESET ioctl is issued, which maps
-to
-
-    static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
-    {
-        if (!ctrl->subsystem || !ctrl->ops->subsystem_reset)
-		   return -ENOTTY;
-        return ctrl->ops->subsystem_reset(ctrl);
-    }
-
-inside the kernel.
-
-> The term in the NVMe specifications is "subsystem reset" and that term is used
-> many times but I don't see any use of "reset subsystem". Most common use by
-> those well versed in the technology also is "subsystem reset" though I have
-> seen "reset subsystem" used pretty frequently by people who aren't deep in
-> the NVMe specs.
-
-I see. The problem is that mixing NVMe spec terminology with library
-API terminology could cause confusion.
-
-> I don't know whether there is a 'best' for this term. General software developers
-> might prefer "reset subsystem" but mapping to the specs will be easier with
-> "subsystem reset".
-
-The only way I currently see to resolve this is by using a different
-prefix for the library APIs (e.g., libnvme_) and reserving the nvme_
-prefix exclusively for NVMe spec APIs. However, I am unsure if this
-approach will reach a consensus here.
-
-Thanks,
-Daniel
+Good news, the cmds.h (helpers to setup the commands data structure)
+header file is now following the spec pretty closely. types.h (the
+'payload' for the commands) is still a mixed bag though.
 
