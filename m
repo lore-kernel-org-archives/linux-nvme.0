@@ -4,91 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B2FA5FB5EA8
-	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2026 03:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBD75FB5EBB
+	for <linux-nvme@archiver.kernel.org>; Tue, 17 Mar 2026 04:33:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=gu1DU71QEoeriPLtDyr4IxAoMPD9+M+2Obobs0fac7Q=; b=DkdL4iupEu6crYyRnAyE40EsSb
-	Sbm1OXFd18dKvuWflVCBQA+cAfap0ld2bFucvoDjf01zk3E63Dot+h4Vv9anOcPUH12cjiR5uNIsR
-	Aj0bcr2u5oLI0oPc4nnT6EL8GEXpf7H8A2sfMceJhiZf+37tu/8bzYNZbZUo4S3V4bRP+d6CYYPbz
-	eD51+Wjs1lGfWtrQ7+TKVpx6CO6kWuVJcUEDAJHXcpI02diomYLh1/uILp+CRbn0qY+cpKNVLy7Px
-	nSej/Sb4f7k6ez86AjUNhujvNSMt590hHGML2CabiYCHs2kDrSd7H/ojNbUNDAZ6btXN0fw5WV3tC
-	dBX2tfmA==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yaz+A/EpED8k+5GP/Tf3gk+1D/3xSB3xVR5fmMSDj2Y=; b=xg+TXrQKHWXpgH9O19oIvZzH4t
+	E8pdfB2IWFuZbNSBmKpq1WzUKNwQN3tcBAKp9082DPpBjhad9P/NDCCQizK16l/J4a0arli1ebkvl
+	8WP0iI88Dxq8GQaTHm4EBkBySEvwXHOKGPUcdVZD46se5BsxidxGGEBEyTigT6lNE6nQPWcq4WGSB
+	INSFFRVOX+8ZmSQXfKR1LWkT+wDrn0crGoP+OUSm41TV0Mno2gV2H0SK+7ngWcO5sUI5/t98uO2IU
+	hUinX8LQVFgOVIZBGWdFTFlDxiJhGC0nCfrEfjJHPzoFgUP9wjk8mc401mQ7dmc1maFNqfogT8VGb
+	6MLUyU5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2KsW-00000005Hx4-0D9e;
-	Tue, 17 Mar 2026 03:13:56 +0000
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+	id 1w2M7P-00000005Opr-1f68;
+	Tue, 17 Mar 2026 04:33:23 +0000
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2KsR-00000005HwY-2TUX
+	id 1w2M7I-00000005OpH-2aOd
 	for linux-nvme@lists.infradead.org;
-	Tue, 17 Mar 2026 03:13:52 +0000
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-8296d553142so2407348b3a.3
-        for <linux-nvme@lists.infradead.org>; Mon, 16 Mar 2026 20:13:49 -0700 (PDT)
+	Tue, 17 Mar 2026 04:33:21 +0000
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-82a15b44c3cso2085524b3a.0
+        for <linux-nvme@lists.infradead.org>; Mon, 16 Mar 2026 21:33:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773721995; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EmHk3xoZ3RYL/6kuiIkWJSyiyp7vb6f+ibyh+iuDItXkMXG4TGkj7WSmg3FZBmalqk
+         LF4kZs3n1Wsv9OBpV62COtv+KQWGg9hPjilvVH663R6skyYSoGCyhLanNJ2Js06919M9
+         1xnfFmzUm3d/SQqWKHmIpe7tZYeQGKXK1QU/cR1s68JWbz7vigXJDHYDP8cxSTpZUgyi
+         kRnvJxAgf59ll8YL/HP3Wg18x7KwVBmodOQK4eRJlIhamGUJ9jFq6QTMOYcXw7cWDzDv
+         oamhMUeIYjEA28XeEw7YVX7nX6LDxyQUxQ1FtiqpB5UEOAzwSHUr/TO2tesxfVMG/kAS
+         kCsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yaz+A/EpED8k+5GP/Tf3gk+1D/3xSB3xVR5fmMSDj2Y=;
+        fh=hWRuzTmlz/Ch7uUKOXSGzHwDZtYk6NJD8vREy0UqH2A=;
+        b=CWsAB1qMWkr1szAUZKDNKp6tN/cXk9kfe6tEn0/G1IWtQEQFSJzwZ5qwggNeSu5hgs
+         1RQCCoRLT2dsUjPGjT0k6k1X7pZERtEqO1poRqiOClVgKegaSEV+QN3gTkzOwm6VuXxR
+         DHq35MkqyOlS3FJeQQB2s5ZquV6OndqS+Xmm2iH0HmWX2lFE/YnyKXDhTc8jqIiLcm7v
+         qLu1F2Ss4SOFMT4YPaB9y58R8FfWOp4RkkLidrE2o5/t+47jAupEe6wazEJxHrruLLpE
+         rGs+dD6ABVP35OrDLik5cLVtpCkmzuFtRi8Huf05APDMfuBamY8rNgE/2DZgXeRai0T+
+         wpoQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773717228; x=1774322028; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gu1DU71QEoeriPLtDyr4IxAoMPD9+M+2Obobs0fac7Q=;
-        b=Hv/ruaQSj19Kiz56W+4IfkkkZqgMu/njysTppDzkQ5rkbSkKoflePtxtFXQSWEy2Mu
-         X2Dl1Euwl5s8K0LRLcDPcIaQiRY/b8e4C6XvBgAtmSw2RCCBWzw0eXQlQnPMCq4UgU6X
-         sP7CAuvua0sWvbq4DlhsgsQiiNs149Jr06lajUO5u2K2rZfPN0erpKGmyyuNParIUTBR
-         3rF6RqMjdS1VNbaBHuMIUfMUrEagBGmCBajY7Q4jUyWc0O2W1B/SFHyn6yO4l6FwBu7f
-         6/ywIYwl+eKhX0IfYkTLNhsPoo/imkS1z7LUDHBpCouIWHZH0Ce5LlF0j9FFnPve53g0
-         QVCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773717228; x=1774322028;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773721995; x=1774326795; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gu1DU71QEoeriPLtDyr4IxAoMPD9+M+2Obobs0fac7Q=;
-        b=me6fABKjCxAwGNGBNbiem5x/tbI7wMnPsVxyMKcCxnNu4/KbkwQ6tIFgFRxo8J0Tux
-         x3mTLLjdd1UxnCre2D9A+vGsUi8t2Z2BnAPjpl8OuemkYVzIQkeB7BLpm5kdGG/rivs0
-         Xj5ijhypdRJA3U/qNPw2x6IXryEnGRMfIRH/issoWU6niGtN91hhkQ/9Gn5gfykZIUbm
-         Iv+NWygtXG4AI4pa+sq+s7GIVCbFzvfK3XMfrJTvKy6suIT9wA5e7BlI2u5/DnD/ewDx
-         7eVoD1/YAf7s6xev4REqGjTd0qPAnVUTgFktJ34hjay5AxagdBKimaY2/G8K6OEgso1C
-         8joQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtbRooTItQLsTzKzn/I8IFAe6xyNBdchpPInVVtkvxWrHcXdSFl/LNfRcRqRm82aAlFirFacPI1WPt@lists.infradead.org
-X-Gm-Message-State: AOJu0YzAaCKqQORpycnTOILUnXIIcpmW4NwM9EULO7TkJ9MMsn/mCLFj
-	islGXhp0sKUf+6Z4Y0CIlAoj8ZDsAmvAanSrabCqxi0WzbhjqAiEI8+U
-X-Gm-Gg: ATEYQzx0UWJ8JTlMIAG/lF+KQYGj7N0slP53hb36w5NtQZEN2WW31b3Vui0Fek429G2
-	NIMiCS8rECoQTMZozAJjXj1tTWA7/XcFSIPM+GJpek2enoix9UqEcjnl7Ypb/dOJ6k+r57lDjqy
-	FNd2Auc5owxUcrUC8TsB9ePrH5N+Q4Xs/R117R+DsOJwH9iX8zh8TP7i3pGplJTtu+aHCC+14It
-	xuNxAj8vc/U2I6Kv5IQDNj8QrsoATLUSWIfHb/ULkDPJkeBfhjTRgX4ri3Dkh8UmRnW4khapSXH
-	nbLFSzIB7aVmJu02alu95nsV747Wl+GFOg/Sn693d1t1NVsvb/Xcoj36fhcb0pLeokCYoXbw8eP
-	XyrT+4DRj0vXWRc0XfZ/FhClKyGKQ2VRLTwvdlOPhujGb78ut8P3GRy0V/Hq/PyLB0XMzwprn9K
-	zpzUzjHcLiaoKzLHzNKQ3CclDoAxTL0xYgg+Wj6vqoDA==
-X-Received: by 2002:aa7:888f:0:b0:829:73f4:6ff with SMTP id d2e1a72fcca58-82a198cd33cmr11879984b3a.37.1773717228314;
-        Mon, 16 Mar 2026 20:13:48 -0700 (PDT)
-Received: from toolbx.alistair23.me ([2403:581e:fdf9:0:6209:4521:6813:45b7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07341ed1sm14337206b3a.33.2026.03.16.20.13.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 20:13:47 -0700 (PDT)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
-To: hare@suse.de,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH] nvme-auth: Include SC_C in RVAL controller hash
-Date: Tue, 17 Mar 2026 13:13:30 +1000
-Message-ID: <20260317031330.2794078-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.53.0
+        bh=yaz+A/EpED8k+5GP/Tf3gk+1D/3xSB3xVR5fmMSDj2Y=;
+        b=JDc996wDkuPOcC68VEYyoIhsc/LTypDkGJgobGcnaoHpVEaN7JP8D4r9r/mocUqCwf
+         HVPajb1uCyspy1o50pd3yd5abGE7J9rngOenSaI8og/eYLdLUiCjtUnqT8HujI2oq9vH
+         /oFaZDC73X8lacB24uYwszKExxwNZIjrumRgIkeXVhvxXIXGfp4NlrIfEYwS5/7XnNNW
+         aObJ2PnZJzJSPnTuCaEFBa8wDGbcLMc+X6J3vB+Y/UsAxC80rKV0s9MkACUE7Jp1/B9B
+         6vu7fuPUxb0oywyg5TahZZWLtgT3q+ecj4clQUbAhRwpE5vG3ktMFzBBzFVd0k2CKOYW
+         B6cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773721995; x=1774326795;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yaz+A/EpED8k+5GP/Tf3gk+1D/3xSB3xVR5fmMSDj2Y=;
+        b=K62ZFU4aY5YoUt8Ik2qJp2UhBFAZ2d5fQIxvvaK7sbuRzx/LEbre5kIlE/gl5TOkgb
+         acqG961fGUXUam7OEk/jUePaqTdpois+SIOygyIRQCRriQ1leyxfzu6wveaPCT2gU1ca
+         0D6IJf6e8E89TrU0NO2T/avQdhfKSrLUEmf4S0ZHiuz/fry4MvqbM/M+R+ENRGJGM44V
+         2odo26jkBNGsec1KpBWjtkoTphuDg3MIErXCgsnIYQ2G11l+noc7SzJYyUx6bLXhY6Kv
+         9+YIj4v7FcibB5mTpvxTiAyiD9oBcXbEXzQdvdz5l14pBeKeuhiaGLKAVkrgTkm24fN0
+         5bOg==
+X-Forwarded-Encrypted: i=1; AJvYcCWfNY5fGxghwLWBNASFqK924nKKuj3fMaB2h8nqnd+oc3abWCIJfLAXjiZjtWTP0uIEhxooueuxEWdb@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw7KgjkpV7p/+yoqPPWEniN2uplKnfHzOCUiGf89Xg76LIIl2r8
+	zP4Z2G/JqctOwMat/ECGEo1I7fm3jlFqgEyqDAJZRJCsOOKu7HpSOKMRAmqF/ScqMDEHfmwqyRX
+	ClPoKElnCPSVP14N3auKirA5JIiMdHFc=
+X-Gm-Gg: ATEYQzxUj/pmF04/9bXZSfKY+gD8hkew2A7C4/SEKgCikUFXTViyhpMYEoTEaz+j7AD
+	WAt7TQpVD33IDh60i7H8YNUiaqATobSAvTuPL331nyDeagZmbfshBxuVnkNVxFb5V9AWCnZLl3y
+	YR3JgJQXWySSM3PXvpw5fsTWRv9rmuqXz8jWfNKqLl4Wt63IwYfH9/0oBAdS6HfmbubCzrg6nfB
+	e+O9HUhrn5z34BWWVzDDKrXm4WSGnoGbdFOgxyA9qEBQgmRqhpjgC5jdS46qdqy2raPglDUFYJU
+	HmsYxz+W/g==
+X-Received: by 2002:a05:6a00:6c83:b0:81f:4294:6080 with SMTP id
+ d2e1a72fcca58-82a1983f3e3mr13919021b3a.20.1773721995272; Mon, 16 Mar 2026
+ 21:33:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260316143936.120999-1-mlombard@redhat.com> <20260316143936.120999-2-mlombard@redhat.com>
+In-Reply-To: <20260316143936.120999-2-mlombard@redhat.com>
+From: yunje shin <yjshin0438@gmail.com>
+Date: Tue, 17 Mar 2026 13:33:04 +0900
+X-Gm-Features: AaiRm52l6Uls5KfFcezssIQenVMQ1f_-XPL_HsflIYeamFKEbG-NlKJtGr3zIvQ
+Message-ID: <CAMX6_QFffaDv+1HP2YwJbvVjDUbpyWhiaVUdBj0YABO+ASHmvg@mail.gmail.com>
+Subject: Re: [PATCH V3 1/2] nvmet-tcp: propagate nvmet_tcp_build_pdu_iovec()
+ errors to its callers
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: kbusch@kernel.org, linux-nvme@lists.infradead.org, dwagner@suse.de, 
+	hare@suse.de, sagi@grimberg.me, chaitanyak@nvidia.com, mlombard@arkamax.eu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260316_201351_635573_794F66A0 
-X-CRM114-Status: GOOD (  12.03  )
+X-CRM114-CacheID: sfid-20260316_213316_665651_EF125AA8 
+X-CRM114-Status: GOOD (  21.53  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,49 +117,174 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Alistair Francis <alistair.francis@wdc.com>
+Looks good to me.
 
-Section 8.3.4.5.5 of the NVMe Base Specification 2.1 describes what is
-included in the Response Value (RVAL) hash and SC_C should be included.
-Currently we are hardcoding 0 instead of using the correct SC_C value.
+Reviewed-by: Yunje Shin <ioerts@kookmin.ac.kr>
 
-Update the host and target code to use the SC_C when calculating the
-RVAL instead of using 0.
-
-Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- drivers/nvme/host/auth.c   | 2 +-
- drivers/nvme/target/auth.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
-index 4e8e4ddd6c8d..4ea1a46bad94 100644
---- a/drivers/nvme/host/auth.c
-+++ b/drivers/nvme/host/auth.c
-@@ -581,7 +581,7 @@ static int nvme_auth_dhchap_setup_ctrl_response(struct nvme_ctrl *ctrl,
- 	ret = crypto_shash_update(shash, buf, 2);
- 	if (ret)
- 		goto out;
--	memset(buf, 0, 4);
-+	*buf = chap->sc_c;
- 	ret = crypto_shash_update(shash, buf, 1);
- 	if (ret)
- 		goto out;
-diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
-index 839239fe877a..965690afd1bf 100644
---- a/drivers/nvme/target/auth.c
-+++ b/drivers/nvme/target/auth.c
-@@ -477,7 +477,7 @@ int nvmet_auth_ctrl_hash(struct nvmet_req *req, u8 *response,
- 	ret = crypto_shash_update(shash, buf, 2);
- 	if (ret)
- 		goto out;
--	memset(buf, 0, 4);
-+	*buf = req->sq->sc_c;
- 	ret = crypto_shash_update(shash, buf, 1);
- 	if (ret)
- 		goto out;
--- 
-2.53.0
-
+On Mon, Mar 16, 2026 at 11:39=E2=80=AFPM Maurizio Lombardi <mlombard@redhat=
+.com> wrote:
+>
+> Currently, when nvmet_tcp_build_pdu_iovec() detects an out-of-bounds
+> PDU length or offset, it triggers nvmet_tcp_fatal_error(cmd->queue)
+> and returns early. However, because the function returns void, the
+> callers are entirely unaware that a fatal error has occurred and
+> that the cmd->recv_msg.msg_iter was left uninitialized.
+>
+> Callers such as nvmet_tcp_handle_h2c_data_pdu() proceed to blindly
+> overwrite the queue state with queue->rcv_state =3D NVMET_TCP_RECV_DATA
+> Consequently, the socket receiving loop may attempt to read incoming
+> network data into the uninitialized iterator.
+>
+> Fix this by shifting the error handling responsibility to the callers.
+>
+> Fixes: 52a0a9854934 ("nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu=
+_iovec")
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+> ---
+>  drivers/nvme/target/tcp.c | 51 ++++++++++++++++++++++-----------------
+>  1 file changed, 29 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index acc71a26733f..1fbf12df1183 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -351,7 +351,7 @@ static void nvmet_tcp_free_cmd_buffers(struct nvmet_t=
+cp_cmd *cmd)
+>
+>  static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue);
+>
+> -static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+> +static int nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+>  {
+>         struct bio_vec *iov =3D cmd->iov;
+>         struct scatterlist *sg;
+> @@ -364,22 +364,19 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_=
+tcp_cmd *cmd)
+>         offset =3D cmd->rbytes_done;
+>         cmd->sg_idx =3D offset / PAGE_SIZE;
+>         sg_offset =3D offset % PAGE_SIZE;
+> -       if (!cmd->req.sg_cnt || cmd->sg_idx >=3D cmd->req.sg_cnt) {
+> -               nvmet_tcp_fatal_error(cmd->queue);
+> -               return;
+> -       }
+> +       if (!cmd->req.sg_cnt || cmd->sg_idx >=3D cmd->req.sg_cnt)
+> +               return -EPROTO;
+> +
+>         sg =3D &cmd->req.sg[cmd->sg_idx];
+>         sg_remaining =3D cmd->req.sg_cnt - cmd->sg_idx;
+>
+>         while (length) {
+> -               if (!sg_remaining) {
+> -                       nvmet_tcp_fatal_error(cmd->queue);
+> -                       return;
+> -               }
+> -               if (!sg->length || sg->length <=3D sg_offset) {
+> -                       nvmet_tcp_fatal_error(cmd->queue);
+> -                       return;
+> -               }
+> +               if (!sg_remaining)
+> +                       return -EPROTO;
+> +
+> +               if (!sg->length || sg->length <=3D sg_offset)
+> +                       return -EPROTO;
+> +
+>                 u32 iov_len =3D min_t(u32, length, sg->length - sg_offset=
+);
+>
+>                 bvec_set_page(iov, sg_page(sg), iov_len,
+> @@ -394,6 +391,7 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tc=
+p_cmd *cmd)
+>
+>         iov_iter_bvec(&cmd->recv_msg.msg_iter, ITER_DEST, cmd->iov,
+>                       nr_pages, cmd->pdu_len);
+> +       return 0;
+>  }
+>
+>  static void nvmet_tcp_fatal_error(struct nvmet_tcp_queue *queue)
+> @@ -931,7 +929,7 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_qu=
+eue *queue)
+>         return 0;
+>  }
+>
+> -static void nvmet_tcp_handle_req_failure(struct nvmet_tcp_queue *queue,
+> +static int nvmet_tcp_handle_req_failure(struct nvmet_tcp_queue *queue,
+>                 struct nvmet_tcp_cmd *cmd, struct nvmet_req *req)
+>  {
+>         size_t data_len =3D le32_to_cpu(req->cmd->common.dptr.sgl.length)=
+;
+> @@ -947,19 +945,23 @@ static void nvmet_tcp_handle_req_failure(struct nvm=
+et_tcp_queue *queue,
+>         if (!nvme_is_write(cmd->req.cmd) || !data_len ||
+>             data_len > cmd->req.port->inline_data_size) {
+>                 nvmet_prepare_receive_pdu(queue);
+> -               return;
+> +               return 0;
+>         }
+>
+>         ret =3D nvmet_tcp_map_data(cmd);
+>         if (unlikely(ret)) {
+>                 pr_err("queue %d: failed to map data\n", queue->idx);
+>                 nvmet_tcp_fatal_error(queue);
+> -               return;
+> +               return -EPROTO;
+>         }
+>
+>         queue->rcv_state =3D NVMET_TCP_RECV_DATA;
+> -       nvmet_tcp_build_pdu_iovec(cmd);
+>         cmd->flags |=3D NVMET_TCP_F_INIT_FAILED;
+> +       ret =3D nvmet_tcp_build_pdu_iovec(cmd);
+> +       if (unlikely(ret))
+> +               pr_err("queue %d: failed to build PDU iovec\n", queue->id=
+x);
+> +
+> +       return ret;
+>  }
+>
+>  static int nvmet_tcp_handle_h2c_data_pdu(struct nvmet_tcp_queue *queue)
+> @@ -1011,7 +1013,10 @@ static int nvmet_tcp_handle_h2c_data_pdu(struct nv=
+met_tcp_queue *queue)
+>                 goto err_proto;
+>         }
+>         cmd->pdu_recv =3D 0;
+> -       nvmet_tcp_build_pdu_iovec(cmd);
+> +       if (unlikely(nvmet_tcp_build_pdu_iovec(cmd))) {
+> +               pr_err("queue %d: failed to build PDU iovec\n", queue->id=
+x);
+> +               goto err_proto;
+> +       }
+>         queue->cmd =3D cmd;
+>         queue->rcv_state =3D NVMET_TCP_RECV_DATA;
+>
+> @@ -1074,8 +1079,7 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tcp=
+_queue *queue)
+>                         le32_to_cpu(req->cmd->common.dptr.sgl.length),
+>                         le16_to_cpu(req->cqe->status));
+>
+> -               nvmet_tcp_handle_req_failure(queue, queue->cmd, req);
+> -               return 0;
+> +               return nvmet_tcp_handle_req_failure(queue, queue->cmd, re=
+q);
+>         }
+>
+>         ret =3D nvmet_tcp_map_data(queue->cmd);
+> @@ -1092,8 +1096,11 @@ static int nvmet_tcp_done_recv_pdu(struct nvmet_tc=
+p_queue *queue)
+>         if (nvmet_tcp_need_data_in(queue->cmd)) {
+>                 if (nvmet_tcp_has_inline_data(queue->cmd)) {
+>                         queue->rcv_state =3D NVMET_TCP_RECV_DATA;
+> -                       nvmet_tcp_build_pdu_iovec(queue->cmd);
+> -                       return 0;
+> +                       ret =3D nvmet_tcp_build_pdu_iovec(queue->cmd);
+> +                       if (unlikely(ret))
+> +                               pr_err("queue %d: failed to build PDU iov=
+ec\n",
+> +                                       queue->idx);
+> +                       return ret;
+>                 }
+>                 /* send back R2T */
+>                 nvmet_tcp_queue_response(&queue->cmd->req);
+> --
+> 2.53.0
+>
 
