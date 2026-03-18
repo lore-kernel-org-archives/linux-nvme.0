@@ -4,78 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 94DE9FCD0C3
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 06:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D87BBFCD0C3
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 07:20:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8Yz3GYM6AgusV4j7/th1diQ6CNomYMLLOMCrvFUOvIc=; b=ZsmktvTsvDhVZTgY6i+WznqUJn
-	B67CcpAVjMKjURT7MsI3I7BUg8lTS++90zFgPF4ZmceQgl3Hp9qc0y8A3k3ymHmjhy4Itlaw3JAUu
-	u44NPdlECTkLC1ccmg6AVjQoyZX1+RwXVY4gpj+v5wrgSe5uB2+VI30TzLvlbG047NmAbfxHn4+05
-	iLtRaYHoTabwAtkamKBQ+in1IIA9h8ZqVVyYLw1swzgc+sp4w4psLfH43ztps2dQWjRHTxyEFL1/x
-	edlJESpKxJrZzCJCMN0oGULZj4KAON0bXZaPCXkX/KWgDPOHd1jaj4UwEAHabj6nlvNi0J+Y9ZlKI
-	LHQ+1nbQ==;
+	bh=Of/9XPjU5767m0fIs3RagkayKDqTCmMoqNRmutg7NO8=; b=Z8ZTkFw1MUh3oXC+7iGCsI5pZr
+	zUSSOBTLdiUljwAThNUfskzxAUmupC+yEtKgSsCoOn37DV/z7PFmb8DoZ2MtM/EcX1pQIvFhi7x+K
+	6UcvZNdyRbB8wwpwcfJ9pyLHjjXkMRHm9SzqHeXbmdkYtrQyGAmJR6McfvieiPi/3K6TaxNUv3npv
+	U/OE8xYH2JJ4gnZmgOIh2HrhXNExrf5Yl9zSljmzwx+R8LAJpdt33Wus7jAn0dMDkGMif9IO1KI3B
+	upmNU7Vu/5SrR/6qPYoFp6jlhHlytMTbNDkSuD3NUAMmJwDXws+90QgMAaaTMAD0mTwUpg24OPIQT
+	HIG1TFsw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2kdM-00000007syx-3tsB;
-	Wed, 18 Mar 2026 06:44:00 +0000
-Received: from mgamail.intel.com ([198.175.65.9])
+	id 1w2lCr-00000007v37-48Os;
+	Wed, 18 Mar 2026 07:20:41 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2kdK-00000007syc-33QJ
+	id 1w2lCo-00000007v2f-208Q
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Mar 2026 06:44:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773816239; x=1805352239;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=k+/aIjON1w3XB49p4mTcj8eoPlBg7zpImJv+IVIjRMc=;
-  b=c6zQjy9Pz0OjASqQFGDqa18R7ouWbPoQOF9EEkhpeuKNW0uIfpwOuP4j
-   3xU+P9P7SoaileA0wvPwfrIEF4+6Tqo4kmyJL4QOLhG1nsaTEh3pnWMmh
-   BVOLmjapPAWGHIYS/ta0gQPmnd5IDfL/NL1j+dYPr/UD0dclXViqVD+z3
-   EKTlYhmXaODDfUN3gRCeYPpiEFmyc45DNVvHsHmHQJ2FwSUiBz5zajy9l
-   QS80rYVIxClT5JexL1WCj5w9P8y0OgOIvozwU1pZ0RpmB+oSAm6eq9uHW
-   NAkbtMaLm48yKCthoxt/enqdQfu8awyHWaUel7WxCkR5bhMlRpv6nRcmw
-   w==;
-X-CSE-ConnectionGUID: VJzsCdNkTmecZyGqBYxllQ==
-X-CSE-MsgGUID: NnfCajC1SaywRdrlwXt7Nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="97471348"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="97471348"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 23:43:57 -0700
-X-CSE-ConnectionGUID: uG7nyVY4SGu/cL4EV2HQBg==
-X-CSE-MsgGUID: AJyHP0++QdClngc+/2NzzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="227199465"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 23:43:54 -0700
-Message-ID: <8665ed69-9364-4f8a-9238-6adf9b5590a0@linux.intel.com>
-Date: Wed, 18 Mar 2026 14:42:52 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Linux error `[DMA Write NO_PASID] Request device [3c:00.0] fault
- addr 0x0 [fault reason 0x05] PTE Write access is not set`
-To: Paul Menzel <pmenzel@molgen.mpg.de>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org
-References: <88e33b0c-e89f-47a2-9125-d85693d4816f@molgen.mpg.de>
- <d38a2cda-4b29-43ec-ab08-b55c79714810@linux.intel.com>
- <311a59f3-10bb-4a43-b86d-2f1ef316a01c@molgen.mpg.de>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <311a59f3-10bb-4a43-b86d-2f1ef316a01c@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+	Wed, 18 Mar 2026 07:20:40 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 9878ebe1 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Wed, 18 Mar 2026 08:20:35 +0100 (CET)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Mar 2026 08:20:35 +0100
+Message-Id: <DH5Q5NRU3T5F.353ZBVB5KVQUN@arkamax.eu>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "dwagner@suse.de" <dwagner@suse.de>, "yjshin0438@gmail.com"
+ <yjshin0438@gmail.com>, "hare@suse.de" <hare@suse.de>, "sagi@grimberg.me"
+ <sagi@grimberg.me>, "mlombard@arkamax.eu" <mlombard@arkamax.eu>
+Subject: Re: [PATCH V3 0/2] nvmet-tcp: fix receive path error handling and
+ state machine
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Chaitanya Kulkarni" <chaitanyak@nvidia.com>, "Maurizio Lombardi"
+ <mlombard@redhat.com>, "kbusch@kernel.org" <kbusch@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260316143936.120999-1-mlombard@redhat.com>
+ <3a4e57c8-13ba-41b2-90d4-4b0d4a22cab0@nvidia.com>
+In-Reply-To: <3a4e57c8-13ba-41b2-90d4-4b0d4a22cab0@nvidia.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260317_234358_814296_2867BA55 
-X-CRM114-Status: GOOD (  15.55  )
+X-CRM114-CacheID: sfid-20260318_002038_856709_87F5A397 
+X-CRM114-Status: GOOD (  11.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,55 +65,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/16/26 22:54, Paul Menzel wrote:
->>> On the Intel Kaby Lake laptop Dell XPS 13 9360, Linux logs the error 
->>> below:
->>>
->>>      [17959.189315] ACPI: EC: event unblocked
->>>      [17959.197876] DMAR: DRHD: handling fault status reg 2
->>>      [17959.197882] DMAR: [DMA Write NO_PASID] Request device 
->>> [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is not set
->>>      [17959.198366] DMAR: DRHD: handling fault status reg 2
->>>      [17959.198369] DMAR: [DMA Write NO_PASID] Request device 
->>> [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is not set
->>>      [17959.198923] DMAR: DRHD: handling fault status reg 2
->>>      [17959.201477] nvme nvme0: 4/0/0 default/read/poll queues
->>>
->>> 3c:00.0 is the NVMe controller/device.
->>>
->>>      $ lspci -nn -s 3c:00.0
->>>      3c:00.0 Non-Volatile memory controller [0108]: SK hynix PC300 
->>> NVMe Solid State Drive 512GB [1c5c:1284]
->>>
->>> This seems to happen only *sometimes* when resuming from ACPI S3.
->>>
->>> To my knowledge, this is *not* a new problem. Please find the log 
->>> messages attached. (Ignore the other DMAR error for now.)
+On Wed Mar 18, 2026 at 1:24 AM CET, Chaitanya Kulkarni wrote:
+> On 3/16/26 07:39, Maurizio Lombardi wrote:
+>> Patch 1 fixes a potential issue where network data could be read into an
+>> uninitialized iterator. Currently, nvmet_tcp_build_pdu_iovec() returns v=
+oid,
+>> meaning callers are unaware if an out-of-bounds PDU length or offset tri=
+ggers
+>> an early return. Consequently, callers blindly overwrite the queue state=
+ to
+>> NVMET_TCP_RECV_DATA. This patch modifies the function to return an error=
+ code,
+>> shifting the handling responsibility to the callers to ensure proper soc=
+ket
+>> teardown.
 >>
->> These IOMMU DMA faults are triggered when the NVMe controller attempts
->> DMA writes to system memory address 0x0. The IOMMU hardware blocked
->> these accesses because the system software has not granted the device
->> permission to write to this specific address. It's unlikely a bug or
->> problem in the iommu driver as far as I can see.
-> I am seeing the same issue on a Dell XPS 15 7590 with Intel NVMe 
-> controller:
-> 
->      $ lspci -nn -s 3d:00.0
->      3d:00.0 Non-Volatile memory controller [0108]: Intel Corporation 
-> SSD DC P4101/Pro 7600p/760p/E 6100p Series [8086:f1a6] (rev 03)
-> 
-> Logs from Debian’s Linux 6.19.8:
+>> Patch 2 cleans up redundant, localized calls to nvmet_tcp_fatal_error() =
+scattered
+>> across the receive path. It delegates the responsibility of executing th=
+e fatal
+>> error function to the top-level caller by bubbling up the error codes.
+>>
+>> V3: remove nvmet_tcp_fatal_error(), fold it into nvmet_tcp_socket_error(=
+)
+>>
+>> V2: some cosmetic changes to Patch 1, no functional changes.
+>>
+>> Maurizio Lombardi (2):
+>>    nvmet-tcp: propagate nvmet_tcp_build_pdu_iovec() errors to its caller=
+s
+>>    nvmet-tcp: remove redundant calls to nvmet_tcp_fatal_error()
+>>
+>>   drivers/nvme/target/tcp.c | 88 ++++++++++++++++-----------------------
+>>   1 file changed, 36 insertions(+), 52 deletions(-)
+>>
+> Assuming that you have ran block test on this series with nvme_trtype=3Dt=
+cp
+> and this series is passing without any problem.
 
-Did you see this warning with the v6.18 kernel or earlier?
+Yes, Yi Zhang did run the blktests against this patchset
 
-> 
->      [  726.138732] DMAR: DRHD: handling fault status reg 3
->      [  726.138736] DMAR: [DMA Read NO_PASID] Request device [3d:00.0] 
-> fault addr 0xffffd000 [fault reason 0x06] PTE Read access is not set
->      [  726.141470] nvme nvme0: 12/0/0 default/read/poll queue
-> 
-> It’d be great if this could be fixed.
+The only problem he reported is a circular locking
+warning in the host driver that I think is due to the bug here:
+
+https://lore.kernel.org/linux-nvme/f5065c2c-e30d-418d-8c7a-723e958b54c1@nvi=
+dia.com/T/#mb3a8789682514d5f63b711703d32fd6bd197bcec
+
+No other issues were detected.
 
 Thanks,
-baolu
+Maurizio
+
+
 
