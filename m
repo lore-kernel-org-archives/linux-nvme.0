@@ -4,128 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BC4E2103E168
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 12:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2F17103E168
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 12:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xRlFZNRo7B1S54lKAQFnagJRoVj2t9FAWxbEyIoUHrU=; b=hD8LiGf1rRgXGMXcVB6SAxvXV7
-	W/lrvDWwuhgA1RrnhACM8nS+dqQwRZXNj+6xuihpAwD2qSAXMk7nwTDkCw31M5aE+FU6/4DBouxwF
-	d+6XA2nulNbUAfezXksiI616GOqdGLQKeGjbbXNlP9YW8FJRHKC1b18cZhAsXG+wafZPQrZEJnQFX
-	bk7E9PwOvwQBdqgGL6IZ8yjn4y3QaIPo/+2b8AUsBMLZMdPjpKslnnAn2EcQupjLyc9JEk4VA5xda
-	uuhwcHala2btYQkndWX5tIY4yB0dEbtq3IREQcF4Ua+JQAiH6eNcb2qKhrbV2881iNSIj6+sv1mxK
-	PRFaiqLg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=y+4LhdS8gPrgVbCn0cwFBxkktEkE1iIBw2BlJ5Gx7Sk=; b=Cur+T6RsAgQPHdXbB9/JXfIgWu
+	lrmEKD4Bqg5oEer+JdsAId4odUX0ujxXAt+lPWlDpr/3bLJ5nRMMdRI53PE/G8YjPOe/M4jPdJIxb
+	u7sHzWEwztEPB5/J7QJEp6XwyLYZdox9DsPw6JJCJd5kUyMZzTNtTID34lDuzmcxrXhTu/5tSe+Rw
+	egb6ivgY9L/UOEUJVODHzbETfcGrK7weX0y/iYNmCt93aotBTWsNZJEiqMQD9PTse4StyLcqW+gJX
+	bT5H2C6lNHTKP2+9fZL6nkiN1SmS6X+7v834sLnmr05AYCrP+A/7Y7ydCQU7JWW2RFV/cXejNJ8nQ
+	43jsggvg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2pjQ-00000008Mlq-2p1K;
-	Wed, 18 Mar 2026 12:10:36 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1w2qS6-00000008Qzv-0maM;
+	Wed, 18 Mar 2026 12:56:46 +0000
+Received: from mx3.molgen.mpg.de ([141.14.17.11])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2pjO-00000008Ml6-2P5Y
+	id 1w2qS2-00000008QwC-0qqT
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Mar 2026 12:10:35 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	Wed, 18 Mar 2026 12:56:44 +0000
+Received: from [10.2.102.105] (cbg-alt-client.mpi-cbg.de [141.5.11.254])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2B1995BEB1;
-	Wed, 18 Mar 2026 12:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773835832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xRlFZNRo7B1S54lKAQFnagJRoVj2t9FAWxbEyIoUHrU=;
-	b=mm2remiIE28XSJ5A5Bjqvqer19KcRsuTj7ngSoaRWpwXn1faOXUUwjGPZFQMnaEs4Grdco
-	bEn2zggy2fLL1hywObqz4QJt4FMpqkPf8ymGmnSl6kjDx4L/YZfJ29weEtxt4D3tBR0AIi
-	XmrsZpgJ9iTd7nuLUPnr5Uc3V0VqdWM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773835832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xRlFZNRo7B1S54lKAQFnagJRoVj2t9FAWxbEyIoUHrU=;
-	b=X8KEEFPeFu1/OsSOhjFK4KsvKYbK+cvfP6ine4IUY3bZt8ZOX/HyFvsPu/gQf00vXWygZs
-	AMHKRnQq4MNSnJCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mm2remiI;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=X8KEEFPe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773835832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xRlFZNRo7B1S54lKAQFnagJRoVj2t9FAWxbEyIoUHrU=;
-	b=mm2remiIE28XSJ5A5Bjqvqer19KcRsuTj7ngSoaRWpwXn1faOXUUwjGPZFQMnaEs4Grdco
-	bEn2zggy2fLL1hywObqz4QJt4FMpqkPf8ymGmnSl6kjDx4L/YZfJ29weEtxt4D3tBR0AIi
-	XmrsZpgJ9iTd7nuLUPnr5Uc3V0VqdWM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773835832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xRlFZNRo7B1S54lKAQFnagJRoVj2t9FAWxbEyIoUHrU=;
-	b=X8KEEFPeFu1/OsSOhjFK4KsvKYbK+cvfP6ine4IUY3bZt8ZOX/HyFvsPu/gQf00vXWygZs
-	AMHKRnQq4MNSnJCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 164E44273B;
-	Wed, 18 Mar 2026 12:10:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HWpjATiWumkaTwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 18 Mar 2026 12:10:32 +0000
-Date: Wed, 18 Mar 2026 13:10:27 +0100
-From: Daniel Wagner <dwagner@suse.de>
-To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>, 
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: Re: libnvme API review
-Message-ID: <4a6270e2-258c-4ab2-84d7-a6f60e9169b6@flourine.local>
-References: <d5b9ca7f-8fd1-48ea-a883-79e92d92ec7e@flourine.local>
- <2e26ab34-5568-4b5e-bfbb-7466eb515f13@nvidia.com>
- <f469ac91-a55a-4b19-b251-31081537d403@flourine.local>
- <b13a6910-07c8-407e-8267-13c9a60f2898@nvidia.com>
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 533284C4431226;
+	Wed, 18 Mar 2026 13:55:36 +0100 (CET)
+Message-ID: <3a880676-861b-4447-9775-6197ae74ffd3@molgen.mpg.de>
+Date: Wed, 18 Mar 2026 13:55:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b13a6910-07c8-407e-8267-13c9a60f2898@nvidia.com>
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2B1995BEB1
+User-Agent: Mozilla Thunderbird
+Subject: Re: Linux error `[DMA Write NO_PASID] Request device [3c:00.0] fault
+ addr 0x0 [fault reason 0x05] PTE Write access is not set`
+To: Baolu Lu <baolu.lu@linux.intel.com>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <88e33b0c-e89f-47a2-9125-d85693d4816f@molgen.mpg.de>
+ <d38a2cda-4b29-43ec-ab08-b55c79714810@linux.intel.com>
+ <311a59f3-10bb-4a43-b86d-2f1ef316a01c@molgen.mpg.de>
+ <8665ed69-9364-4f8a-9238-6adf9b5590a0@linux.intel.com>
+Content-Language: en-US
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <8665ed69-9364-4f8a-9238-6adf9b5590a0@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260318_051034_793893_865E10BE 
-X-CRM114-Status: GOOD (  12.53  )
+X-CRM114-CacheID: sfid-20260318_055642_395940_564BAB05 
+X-CRM114-Status: GOOD (  16.33  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -140,16 +71,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 18, 2026 at 12:20:55AM +0000, Chaitanya Kulkarni wrote:
-> Yes I did and then I looked into the spec, then I found that spec may not
-> be that consistent as we keep the code consistent and forcing that
-> consistency on spec for the code is not a good idea in long term.
-> 
-> Hence I'd like to withdraw my earlier argument of sticking to the
-> spec.
+Dear Baolu,
 
-As I said, my motivation is to make the APIs a bit more consistent and
-rename the odd balls. Following blindly a rule is not really my goal.
-There will be always cases where the correct name is just a bit stupid
-(for fun look at mi.h)
+
+Am 18.03.26 um 07:42 schrieb Baolu Lu:
+> On 3/16/26 22:54, Paul Menzel wrote:
+>>>> On the Intel Kaby Lake laptop Dell XPS 13 9360, Linux logs the error 
+>>>> below:
+>>>>
+>>>>      [17959.189315] ACPI: EC: event unblocked
+>>>>      [17959.197876] DMAR: DRHD: handling fault status reg 2
+>>>>      [17959.197882] DMAR: [DMA Write NO_PASID] Request device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is not set
+>>>>      [17959.198366] DMAR: DRHD: handling fault status reg 2
+>>>>      [17959.198369] DMAR: [DMA Write NO_PASID] Request device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is not set
+>>>>      [17959.198923] DMAR: DRHD: handling fault status reg 2
+>>>>      [17959.201477] nvme nvme0: 4/0/0 default/read/poll queues
+>>>>
+>>>> 3c:00.0 is the NVMe controller/device.
+>>>>
+>>>>      $ lspci -nn -s 3c:00.0
+>>>>      3c:00.0 Non-Volatile memory controller [0108]: SK hynix PC300 NVMe Solid State Drive 512GB [1c5c:1284]
+>>>>
+>>>> This seems to happen only *sometimes* when resuming from ACPI S3.
+>>>>
+>>>> To my knowledge, this is *not* a new problem. Please find the log 
+>>>> messages attached. (Ignore the other DMAR error for now.)
+>>>
+>>> These IOMMU DMA faults are triggered when the NVMe controller attempts
+>>> DMA writes to system memory address 0x0. The IOMMU hardware blocked
+>>> these accesses because the system software has not granted the device
+>>> permission to write to this specific address. It's unlikely a bug or
+>>> problem in the iommu driver as far as I can see.
+>> 
+>> I am seeing the same issue on a Dell XPS 15 7590 with Intel NVMe 
+>> controller:
+>>
+>>      $ lspci -nn -s 3d:00.0
+>>      3d:00.0 Non-Volatile memory controller [0108]: Intel Corporation SSD DC P4101/Pro 7600p/760p/E 6100p Series [8086:f1a6] (rev 03)
+>>
+>> Logs from Debian’s Linux 6.19.8:
+> 
+> Did you see this warning with the v6.18 kernel or earlier?
+
+Yes, I did see it with earlier Linux versions. For the Dell XPS 13 9360 
+with SK hynix controller I found logs with Linux 6.16:
+
+     Okt 14 08:10:02 abreu kernel: Linux version 6.16.11+deb14-amd64 
+(debian-kernel@lists.debian.org) (x86_64-linux-gnu-gcc-14 (Debian 
+14.3.0-8) 14.3.0, GNU ld (GNU Binutils for Debian) 2.45) #1 SMP 
+PREEMPT_DYNAMIC Debian 6.16.11-1 (2025-10-07)
+     […]
+     Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
+     Okt 15 21:02:49 abreu kernel: DMAR: [DMA Write NO_PASID] Request 
+device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
+not set
+     Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
+     Okt 15 21:02:49 abreu kernel: DMAR: [DMA Write NO_PASID] Request 
+device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
+not set
+     Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
+     Okt 15 21:02:49 abreu kernel: nvme nvme0: 4/0/0 default/read/poll 
+queues
+
+>>      [  726.138732] DMAR: DRHD: handling fault status reg 3
+>>      [  726.138736] DMAR: [DMA Read NO_PASID] Request device [3d:00.0] fault addr 0xffffd000 [fault reason 0x06] PTE Read access is not set
+>>      [  726.141470] nvme nvme0: 12/0/0 default/read/poll queue
+
+Just for the record, as I missed it, that it’s fault reason 0x05 (PTE 
+*Write* access) on the Dell XPS 13 9360, and 0x06 (PTE *Read* access) on 
+the Dell XPS 15 7590.
+
+>> It’d be great if this could be fixed.
+
+
+Kind regards,
+
+Paul
+
+
+PS: The archive of Linux messages of the project Hardware for Linux [2] 
+contains quite a lot of logs, but most of them are from systems, where 
+no suspend/resume cycle was performed.
+
+
+[1]: https://github.com/linuxhw/Dmesg
+[2]: https://linux-hardware.org/
 
