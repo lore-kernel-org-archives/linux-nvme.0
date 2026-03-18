@@ -4,144 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53387FF6E9A
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 00:24:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB310FED9E9
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 00:47:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=abQJved9+TkKghYgnZnkPOIm8NocmFWXBY6f6nszS0A=; b=SzgURMSrTuyOUb4XBkshVuysCt
-	IaRMotWdwGXKCqjlIoYGHTK6fk0DlqvEe9ob58KLtqdqnaHE2Z7gO5fWrgR7ifSbj0Cx2kSTym8CO
-	onQpV2q0alyKYjdOBKTXRW9aBYXX9iG3sonK/A+j6ie3EAHyqciFrCL0qwek8xp9x7AOUSw2Q3D1t
-	dBBgq2lAs4iPMxqyoCoP1JlUmoCYlOUY4ducMHRM+qb9Xe1rtsfmXbKg0Ibjp0ncJBh7Sb8sYA6zb
-	6RUbM60Pcb3yiCmtvT4K+Ho0GAu488m4Rpjn9jiv/I7BY6UMffZILWn2FYO7uAc4wf0MC6HOCnxox
-	uiDpR5/w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=kAySL08WZH4li/cvsK0A8VcXPldu+e2SzbCzG56Tn7Y=; b=gdFXnXPc+fB4P3yhzSprg76NLC
+	vmuJF0S1lzdIRl8oA0luDxBEFWK99FP7mgL0lbPxY8/lcbd2fv5wPQcPkRekG6XSW0l8B0FPKg0QO
+	j/frpADwPLnc2IY6EYPBRsuqP8Jkdwiq/sRjKeC4trU5hgsuuD0Yo/18hGqVwY7bWhnvesG1yJ+b7
+	5g+L2duyVbncWAlybaXa+5KXZAAYhBnTedtk5LvH7IGW7okt3pi42XL2K2UnVgnBN0wM+MfVrUEY3
+	Zy8FA0t4si392NbIsjXjCU8rIR5MEFoIQD+nIgNl7ut13GevFaRp/Au3iiZ1P9dJVy3em4t4Grbvm
+	VWOopsng==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2eiL-00000007VHS-12Rd;
-	Wed, 18 Mar 2026 00:24:45 +0000
-Received: from mail-centralusazon11011034.outbound.protection.outlook.com ([52.101.62.34] helo=DM5PR21CU001.outbound.protection.outlook.com)
+	id 1w2f43-00000007WQO-00zv;
+	Wed, 18 Mar 2026 00:47:11 +0000
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2eiI-00000007VGe-2Dkp
+	id 1w2f40-00000007WQ3-3SA3
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Mar 2026 00:24:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qnD0qwnRjTkOOEVRJiI/zpW0JG1+q1x2BGvcD9Fc744Z7cESK9qKw8jiGiOnkLYP3XYsc7PljbvPATjKuRjt+36qRqlgewa1m1GJTnjMLBHOUEbghM7uyWJWC709kIl6D/7GnglzaMy4H4WGnoz5v/RcNb+n2/Df7fe3KbtloCBvf42RtSRCHp6u6oiRrjjVkiLgWz/4/m/Itc9spWUGWvYr9+DZjhMZo8G1rjhuqQ7q6eBE9FxZVAN0Uml4glkm1a3pd0WvLrEXMCpT9JJWoWuu/jznkeuUTDi6MaZeNQJLcu0g7R0/5aMrkgDUNvNUws52Ams5aNEsQ0NOPw+t4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=abQJved9+TkKghYgnZnkPOIm8NocmFWXBY6f6nszS0A=;
- b=pi7oldQ7MvMUOvmIQpNawXNsl75ZhfdL9dqDMnkquVuW1T3kIJa9uLZ5gC6yLKtNtw7aOsJQpm8fVKH9iVxkME21SKfarVpRk4V/4OvJ0RixAvMgaSJK491h+Xmb1YzmLrDeTTPXEDyCtXgGEMxNx3+2yxkBsFSComg4+Us3riCU2r/gwStNDrFEX4UUJMNn6Is6oroV/5E6jhqs1Mj46JHL9seu9o8/ahoSedjJowglXEtl69F37SugpH1V+8Vvk11gX505rFHD3eJdKDLlu7kihV7NMWLmgONmyGvTyyWLBIX0Vb15hkegxnMVH5UDS5esbaNiktSgbFjXASFr4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=abQJved9+TkKghYgnZnkPOIm8NocmFWXBY6f6nszS0A=;
- b=aQUUilNysfGawUs47ZZqcij96g2FY0SgdwIaG5iJi0ZgTg7PCyKF/0991JBUb7pCayw3Fzyuil9s8jTxC+ndjb37rHe8Sq3xAq1nh6iXKviE/8aQECzyBGYr/yf3AyHgoZiC5Of/NQSyo0VEZSDLr8g37vJMhyubUxMmEND23YyrFvcK7Ndr9dynE6T9Y7/S4ysfaSFkA6VbewwKn7EpCPWBmjGycQex1DqisRNGDdJGeoYpgdVGnjoAGyLlGI/Ve3yQ+oj8LL+dwYQCc7NyXzDVQfj8QDQZ8JyvA4Xb155bUrohdfGBwRPUc71999F4PcYOBJorkvcXIiIteQ84Jg==
-Received: from CYXPR12MB9386.namprd12.prod.outlook.com (2603:10b6:930:de::20)
- by DM4PR12MB7622.namprd12.prod.outlook.com (2603:10b6:8:109::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
- 2026 00:24:36 +0000
-Received: from CYXPR12MB9386.namprd12.prod.outlook.com
- ([fe80::edab:eb80:ee7e:e9b7]) by CYXPR12MB9386.namprd12.prod.outlook.com
- ([fe80::edab:eb80:ee7e:e9b7%3]) with mapi id 15.20.9723.018; Wed, 18 Mar 2026
- 00:24:36 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Maurizio Lombardi <mlombard@redhat.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"dwagner@suse.de" <dwagner@suse.de>, "yjshin0438@gmail.com"
-	<yjshin0438@gmail.com>, "hare@suse.de" <hare@suse.de>, "sagi@grimberg.me"
-	<sagi@grimberg.me>, "mlombard@arkamax.eu" <mlombard@arkamax.eu>
-Subject: Re: [PATCH V3 0/2] nvmet-tcp: fix receive path error handling and
- state machine
-Thread-Topic: [PATCH V3 0/2] nvmet-tcp: fix receive path error handling and
- state machine
-Thread-Index: AQHctVLCIo8NrOF6L0GRsVgbS/VrFbWzcI0A
-Date: Wed, 18 Mar 2026 00:24:36 +0000
-Message-ID: <3a4e57c8-13ba-41b2-90d4-4b0d4a22cab0@nvidia.com>
-References: <20260316143936.120999-1-mlombard@redhat.com>
-In-Reply-To: <20260316143936.120999-1-mlombard@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CYXPR12MB9386:EE_|DM4PR12MB7622:EE_
-x-ms-office365-filtering-correlation-id: a7fdd2d8-0470-4351-11f5-08de8484bc69
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|10070799003|376014|366016|1800799024|18002099003|56012099003|22082099003|38070700021;
-x-microsoft-antispam-message-info: 3yuMyLZ1xsnomvg3El8QWjGy3Q878Lwhkzw6PxJlVX0fk6nk/Vq33iFx3NDop7vr7hU/4ayHT8Dx5qaCnG8bIZxgnYMSAE6Rlo7WwCm88YbOHPzeg25GGZEQdLUMabURZ0+xVhZLB2gnHLVb3ChjBm/YylGbRsGRmZjwhZ/+Gs1jHEyg21qLm4YfTFM691a1Z73pHXnjEsLGs6mCycpUhvIeo+GwbfmQHTq69E68Qcvn2J2nyhRaPCeXSWIBhtT1OhiHrhJn65hPnBIgcjDh/QcvNeeG5nDV78U8QNwUrXbWtRn35q7R48suL3+cyujvlCEjhQOpkO1MW3aUCuuY87RGaq44tqKzLQ0sroSe3Eb9GQvRq4qtxxM9Mrn9hZfkbP1AqBmPimZgpG4W2Ua7fdQzB1Jt2ZG17SIPJb2VHzTDAexVRb9Ugcm3kxVbpfa+LXOT8TmPYqQGjtp7LPJne2PaJfLUEocnXzcuhsbOcWGzeSIUmaGZMqyV8R+zDjjzaMbcAN1CPhfnA9s+rvzV4/Vs8oxvRquj9nTkzQxS1oSURHH3yErTz79HBaieXnfCNzv7a35N4tR+UXjVUcE7Ri/L1Jq9iycZA1hYfkz2Z+pnJU8zIhj0a/2vxRsOpg65oaWcix8CAlD2vtLvU0kKBdcungrmN8yvOk58NBu5Vg3qhWwHWkX9Qjarx/qHwq2WppWn3vz2A3iTjTfpez+qX+P6jeP4obnUgbUg6779cS0LcNpBo56Ofei+e1KIdk8QCvc2omw53DiAIjO9jReuVKiNobi9KqNq5rkZHv/hsiI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYXPR12MB9386.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(366016)(1800799024)(18002099003)(56012099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QzBpYTBacTZkQzgwcnFCU2hESWw1VnZpUmFlcDl0emEvUVZ6ajN1eXJLRmYz?=
- =?utf-8?B?L0ZlcmQ0ejZYdTk0dkkvWVlySHY5QXdqS3VndUlNZkxMSXUvN0FNb0plQ2hI?=
- =?utf-8?B?ZkRHeFdxWVRmZUpvUGUydURYNVBPOFl3YWV0bVB4a2ZZY2RIdVpEUm1ud053?=
- =?utf-8?B?UCtWVCtwWHF1bTYyZTdWMFpTcWdlbUhzM0pYNm5KSmtWN0dTckNlek1OZ0hZ?=
- =?utf-8?B?UEsvV0pBVktMcXJuN1BucjBWSTgvZFJWbWN4TUIyYW95WHVCZDlVT2EzT2JD?=
- =?utf-8?B?VGl2OGNHbWpaM3dTTTgxeWhMZlFSdE55aDU3bVFlVTBCMnZ5akNEM1pXVVl5?=
- =?utf-8?B?T3ZGa1dWSnA4SUI5YjZPd09FeXo1bEhOek9qZHlFRUprU1VTTk1LYnY2eU9B?=
- =?utf-8?B?YVdYaTVvV3lVb3dxU3hGWitWazE2ZGYwNWZDZ2hiNndiU0pUWFhxTXB3M1dp?=
- =?utf-8?B?RCtvNEVWYkxZaHpjTVBYY1BwVkQ4b1FJbmp3MzdDTlJNNHV6RDJQUVhaL0R5?=
- =?utf-8?B?eStaanJqaElEeXdHQjU1Um9XTmtkVjlucGw2SU5zNWVNTzJtZlhKeG54c010?=
- =?utf-8?B?UVlhaHowcGJkNVRlMlVpRm54S1IxYTd5SllpMDZiTU1hbStsUlNMRHhYd2hl?=
- =?utf-8?B?OGdVaVBhUkZ5SGlxRWdEaC9LWGtKVVUwQ3FhOVVhditQeEd3bk9qYm5DN2k0?=
- =?utf-8?B?SSsycGxUcXlSaEVFTTJCWFZlRWZvTG5GVnhsdis0cy9CQXJoR3J2OGdTcDFK?=
- =?utf-8?B?c2hVdlZFVTA0ejl5bzgxY0ZsMWRLa212MkpKLzhPNkUvYVhRSnNiSWZuN1dR?=
- =?utf-8?B?K1NrNnUxalM1bG5sRWdKbytVbjlhY3hBOGkzVkFaZlhjMVdLV2NNSlFockZW?=
- =?utf-8?B?dnZTZjVXbWdBUEZIb3phK0UxZnFRSTVvSjl2azNOMnNXb1F4MythR0l6UWtG?=
- =?utf-8?B?TWlxSW1aam1IZ3ZQL0JGcFNBUWdBUERZLytWQ3BBRTBMR3dPZytxa3lrMG5W?=
- =?utf-8?B?NnZwNnFxbUpWV0IrWmxDa2MwUXB0WTRMQTlTMnk0R2dBWE9EQWtycVE3UkFV?=
- =?utf-8?B?UzhMdjVXL0dmL21jOFE5V0xPbFFPajBvVVo5cDhwUS9HVnd6eDFhcHJSdEk0?=
- =?utf-8?B?TXFIVTYrRmNJOUNqVEZqOUZJU2RFeVptYWV2RHVjN01KVGFBM21jV1BlUEdj?=
- =?utf-8?B?RTJ1bkgwMW1oUXpMSTBlMHJ3eFhxN0ZIUTRTWDJGaXU5WlBPNDJWYVV2S2g5?=
- =?utf-8?B?c0VyYWpEQ3hWUHhwdFBkcFFMWHE1WVo5RUhDb2JBbDJvMkpSVURTMDhNNU5u?=
- =?utf-8?B?TTZpeGJhQU5JSUJDemQ0Nmk4dVVnNmg2cW1jbHNRY1JnZlJBL1ZBV0ZrSys1?=
- =?utf-8?B?bVVLL1piTG9qempwd0FsSGVmRFRyOHJ5MEtaRUpUMGpLUUpKeFhFT2xvL3gw?=
- =?utf-8?B?N202REF4WGtsd3k4L1lOVkRhTFQ1V3UrWHZRQ2JyaVVibkJicXM2MlVTVm5S?=
- =?utf-8?B?ZVp3blc2MGZWVExZLzJpQXNxWjQ0ay9GcTNFbGlhNXBqNjJUa24yeHFETndm?=
- =?utf-8?B?OFlKaHB1RzlSWS8rWDNaYW1nN3RQSHFZcGs5SXNGaFlMTVpZOVNTcWhvRDR0?=
- =?utf-8?B?c0taSWYzV1dqKy8yZWJpQ0dkSkZLR203cUhnaWdmUEt5S2FvSTU2cEpjUFV5?=
- =?utf-8?B?UzV6TjQrT0lJZmVYZ01pcVJvVC81ME1xYkZMVVI1MjNPdGdlUnVZKzg4WGpM?=
- =?utf-8?B?dU9kcUNxSVY3Y1FiWXlCbk85K1pwRHZnb3l1S2dkdGFZWSt5c1ZRUFFOQWNj?=
- =?utf-8?B?VzM1TDd5VGJONSs1UUgzWURLSXBQYUFjMnBiMHdERkNPalhZbmVSZnhjMGUw?=
- =?utf-8?B?cWttV2Q0VTF1dGNUUyt5Ly80UlFaWjdhWi9JSENKa29STlF3MzBIMHBjRFlR?=
- =?utf-8?B?b2NTekV5NDhtUERQM003dW9oU1JmWjVZUENtTkF3eEtHMG1BYlFSSEtRRGNu?=
- =?utf-8?B?SENDTmlOeW02bFdKbzFBVWZvRmhCdk0xVU11QzR1K25iN1k4elNKajBxSW1C?=
- =?utf-8?B?N0NWZFpMMnBueE8zMjZheXlqbUZHM2NEM3F2c1IyaUdFWmJ4Yk9XK2syV1lj?=
- =?utf-8?B?clVnU3BTZEZQdStkZFBsZWVmVEtpUnFhWTVWZkwrRVlaSm9QUStTMjBsRE9x?=
- =?utf-8?B?ZW9CNUR6Qk9GakJCSEVHQXdpOEhmZ1JjS1pERzBIdDBxcnN1YlBkOEFLZk1h?=
- =?utf-8?B?ZGZYSGhlL0tNQlBWZEZXT29mdTVoSGFpU2duenZ4U3cvSTNQMk9MNXcyQ3pu?=
- =?utf-8?B?RDYwS1dkVUtHbXNwampjUEMwYm5ubGpScDhxZ3pIbHpRcmdTNFp1bDIrcmt4?=
- =?utf-8?Q?mBU9rRZlr8lSRDIEUhpYp+lx6W1xaS+nHpW92G8TC+hVT?=
-x-ms-exchange-antispam-messagedata-1: q4xZyAqcGLIMaQ==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <693379B6EAB16C419B0E1DB5A6E504EE@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 18 Mar 2026 00:47:09 +0000
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-2ab46931cf1so3686445ad.0
+        for <linux-nvme@lists.infradead.org>; Tue, 17 Mar 2026 17:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773794828; x=1774399628; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kAySL08WZH4li/cvsK0A8VcXPldu+e2SzbCzG56Tn7Y=;
+        b=WU2lmez1mmz4DpVfMdw2a5ZWn5pzZwNCcGDWWJSzrBmNG4tLTy35Chjnj3u6I4Cp/N
+         2IoTJPr1KxAcjD1q9O1aXAw0OT30b2mpwXGAPYKW188pRXIdkhP+REegqjwdeyAvjF2M
+         Yp+GIqT4Ahiqa4X2jFRR4vsg22ARxOxxrVxZ0NdnZedEdGIizUSgYIX13rHiHzbVttCs
+         ulO6XgJSlOjIDGycy4qQbLoCkdImSnpdWDZS9Iwn61OxMAx77bZfHOxSg5GEE9uiQ+e4
+         4EwOkcUWjMplu9ItAu5f3dVqvmUu7Uov3BgCIAMiRL0yK88wpVkzIIE7+OI+YrK6hu4+
+         ZCHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773794828; x=1774399628;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kAySL08WZH4li/cvsK0A8VcXPldu+e2SzbCzG56Tn7Y=;
+        b=Po/M/AJrkeC0ObUF9M6GeV+e5HbusUX9QOLgX1TxuDO/6g9mfg+B8xGfPTLwjM3gD+
+         WpA1MM9mYPkqAGElGlgywZwr13Fd19dW8YB8iVDMf3rx8by78EociHmpexqUctRrn1j8
+         On/jPZ3xHTkCEjL00VTTRKhIL4WFs6w7AMr71vAAMUM7CGRLh135flUFINw5IY2KklRC
+         5OqnyKIml1hQpnwrzD5DfSzSFQl9eynZtJE+QNSqA7qxMe0f+dbFBLp2wjwPNTEw8iqZ
+         hEPa3468neSFw/iji/L9whDDEYSNUDCScEdEUWJWwLhCDOCiXyeTM7VJRBGwY9HUaSxo
+         gZ7g==
+X-Forwarded-Encrypted: i=1; AJvYcCW3JqaqEgZRPk5QIidSA5PmIt+sEfWDzAf4Z5xQkKQl2lD4iab/9jx6B2pNOPRt0Ftzt1t/PQ4kIK9I@lists.infradead.org
+X-Gm-Message-State: AOJu0YwMpIdp4wvn0UisNLud7pnMPmlW8NCLGQb0MdlDIDsUaX0+Dzbo
+	UGayHwyvq5vbxocAHYE6UXC6iYrGQJseKNZsvk+vLfy9+cCzXtPpAFHlraiIAlAJ
+X-Gm-Gg: ATEYQzzy8d8bAONKMqwRhgp0TO5u04YFu238XFGgOW/m6xa4/NziJmw+R34ct2cX3dI
+	8GaXjxesG/1q7q7tpMSKpCJ21PiolPf4yZj6aRPSZNq17nts9/iqHrCOkM7AC+OUnDx3RTouZp3
+	F/ZvNdmXdMFAOlM/VF2Ni5SQ6C6OE9FzUTrvIi7tKPohLaeWtx0J85rfJ0xtutboHKoNzZwgCGb
+	SPaulQiRDck3Exk3qAcCMAWYMyr6/99xNLLWtGnnB4x21NHTubCz/Fb5lwvBLaqScO7JCEb+RTi
+	4zZy0Xx8Nno//KRVXnFotiVJ9CZXKgZW+5HdzuRTzJet0Ia79acdex9Axr6Cb1xbBBteT5z9hjc
+	lmMJmQh+zJ5kcH9bh7h+C160Tq3M0vZd+gSkxFlSWBzjyuui8U1CPjTFORVy/dDn5VZ+uw+ymjd
+	mXNXqs+oEjxLbet5/zL7694lWaFg+E60aLHN2BnzYQBg==
+X-Received: by 2002:a17:903:185:b0:2ae:5d90:9d95 with SMTP id d9443c01a7336-2b06e0fb884mr14506645ad.14.1773794827625;
+        Tue, 17 Mar 2026 17:47:07 -0700 (PDT)
+Received: from toolbx.alistair23.me ([2403:581e:fdf9:0:6209:4521:6813:45b7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e5ef3c6sm7406935ad.43.2026.03.17.17.47.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 17:47:07 -0700 (PDT)
+From: alistair23@gmail.com
+X-Google-Original-From: alistair.francis@wdc.com
+To: hare@suse.de,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+Subject: [PATCH v3] nvme-auth: Don't propose NVME_AUTH_DHGROUP_NULL with SC_C
+Date: Wed, 18 Mar 2026 10:46:58 +1000
+Message-ID: <20260318004658.3681991-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CYXPR12MB9386.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7fdd2d8-0470-4351-11f5-08de8484bc69
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2026 00:24:36.4180
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Z0A8VHl0Qfzl96InRBRG4qn2bTkBLduc/XjVyLMm15/sdTVUkWr8BDZX89UVX6YXUw7YbRUgInG9DcJ9osuHQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7622
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260317_172442_571560_921BD47B 
-X-CRM114-Status: GOOD (  14.25  )
+X-CRM114-CacheID: sfid-20260317_174708_872732_5435C380 
+X-CRM114-Status: GOOD (  13.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,30 +103,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gMy8xNi8yNiAwNzozOSwgTWF1cml6aW8gTG9tYmFyZGkgd3JvdGU6DQo+IFBhdGNoIDEgZml4
-ZXMgYSBwb3RlbnRpYWwgaXNzdWUgd2hlcmUgbmV0d29yayBkYXRhIGNvdWxkIGJlIHJlYWQgaW50
-byBhbg0KPiB1bmluaXRpYWxpemVkIGl0ZXJhdG9yLiBDdXJyZW50bHksIG52bWV0X3RjcF9idWls
-ZF9wZHVfaW92ZWMoKSByZXR1cm5zIHZvaWQsDQo+IG1lYW5pbmcgY2FsbGVycyBhcmUgdW5hd2Fy
-ZSBpZiBhbiBvdXQtb2YtYm91bmRzIFBEVSBsZW5ndGggb3Igb2Zmc2V0IHRyaWdnZXJzDQo+IGFu
-IGVhcmx5IHJldHVybi4gQ29uc2VxdWVudGx5LCBjYWxsZXJzIGJsaW5kbHkgb3ZlcndyaXRlIHRo
-ZSBxdWV1ZSBzdGF0ZSB0bw0KPiBOVk1FVF9UQ1BfUkVDVl9EQVRBLiBUaGlzIHBhdGNoIG1vZGlm
-aWVzIHRoZSBmdW5jdGlvbiB0byByZXR1cm4gYW4gZXJyb3IgY29kZSwNCj4gc2hpZnRpbmcgdGhl
-IGhhbmRsaW5nIHJlc3BvbnNpYmlsaXR5IHRvIHRoZSBjYWxsZXJzIHRvIGVuc3VyZSBwcm9wZXIg
-c29ja2V0DQo+IHRlYXJkb3duLg0KPg0KPiBQYXRjaCAyIGNsZWFucyB1cCByZWR1bmRhbnQsIGxv
-Y2FsaXplZCBjYWxscyB0byBudm1ldF90Y3BfZmF0YWxfZXJyb3IoKSBzY2F0dGVyZWQNCj4gYWNy
-b3NzIHRoZSByZWNlaXZlIHBhdGguIEl0IGRlbGVnYXRlcyB0aGUgcmVzcG9uc2liaWxpdHkgb2Yg
-ZXhlY3V0aW5nIHRoZSBmYXRhbA0KPiBlcnJvciBmdW5jdGlvbiB0byB0aGUgdG9wLWxldmVsIGNh
-bGxlciBieSBidWJibGluZyB1cCB0aGUgZXJyb3IgY29kZXMuDQo+DQo+IFYzOiByZW1vdmUgbnZt
-ZXRfdGNwX2ZhdGFsX2Vycm9yKCksIGZvbGQgaXQgaW50byBudm1ldF90Y3Bfc29ja2V0X2Vycm9y
-KCkNCj4NCj4gVjI6IHNvbWUgY29zbWV0aWMgY2hhbmdlcyB0byBQYXRjaCAxLCBubyBmdW5jdGlv
-bmFsIGNoYW5nZXMuDQo+DQo+IE1hdXJpemlvIExvbWJhcmRpICgyKToNCj4gICAgbnZtZXQtdGNw
-OiBwcm9wYWdhdGUgbnZtZXRfdGNwX2J1aWxkX3BkdV9pb3ZlYygpIGVycm9ycyB0byBpdHMgY2Fs
-bGVycw0KPiAgICBudm1ldC10Y3A6IHJlbW92ZSByZWR1bmRhbnQgY2FsbHMgdG8gbnZtZXRfdGNw
-X2ZhdGFsX2Vycm9yKCkNCj4NCj4gICBkcml2ZXJzL252bWUvdGFyZ2V0L3RjcC5jIHwgODggKysr
-KysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQs
-IDM2IGluc2VydGlvbnMoKyksIDUyIGRlbGV0aW9ucygtKQ0KPg0KQXNzdW1pbmcgdGhhdCB5b3Ug
-aGF2ZSByYW4gYmxvY2sgdGVzdCBvbiB0aGlzIHNlcmllcyB3aXRoIG52bWVfdHJ0eXBlPXRjcA0K
-YW5kIHRoaXMgc2VyaWVzIGlzIHBhc3Npbmcgd2l0aG91dCBhbnkgcHJvYmxlbS4NCg0KV2l0aCB0
-aGF0IDotDQoNClJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29t
-Pg0KDQotY2sNCg0KDQo=
+From: Alistair Francis <alistair.francis@wdc.com>
+
+Section 8.3.4.5.2 of the NVMe 2.1 base spec states that
+
+"""
+The 00h identifier shall not be proposed in an AUTH_Negotiate message
+that requests secure channel concatenation (i.e., with the SC_C field
+set to a non-zero value).
+"""
+
+We need to ensure that we don't set the NVME_AUTH_DHGROUP_NULL idlist if
+SC_C is set.
+
+Signed-off-by: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+v3:
+ - Ensure chap->sc_c is set before the if statement
+v2:
+ - Use a macro for Diffie-Hellman Group Identifier List Offset
+ - Use a pointer for data->auth_protocol[0].dhchap.idlist
+
+ drivers/nvme/host/auth.c | 26 ++++++++++++++------------
+ include/linux/nvme.h     |  2 ++
+ 2 files changed, 16 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 405e7c03b1cf..f9efed08997c 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -125,6 +125,8 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+ {
+ 	struct nvmf_auth_dhchap_negotiate_data *data = chap->buf;
+ 	size_t size = sizeof(*data) + sizeof(union nvmf_auth_protocol);
++	u8 dh_list_offset = DH_GID_LIST_OFFSET;
++	u8 *idlist = data->auth_protocol[0].dhchap.idlist;
+ 
+ 	if (size > CHAP_BUF_SIZE) {
+ 		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+@@ -141,21 +143,21 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+ 			data->sc_c = NVME_AUTH_SECP_NEWTLSPSK;
+ 	} else
+ 		data->sc_c = NVME_AUTH_SECP_NOSC;
++	chap->sc_c = data->sc_c;
+ 	data->napd = 1;
+ 	data->auth_protocol[0].dhchap.authid = NVME_AUTH_DHCHAP_AUTH_ID;
+ 	data->auth_protocol[0].dhchap.halen = 3;
+-	data->auth_protocol[0].dhchap.dhlen = 6;
+-	data->auth_protocol[0].dhchap.idlist[0] = NVME_AUTH_HASH_SHA256;
+-	data->auth_protocol[0].dhchap.idlist[1] = NVME_AUTH_HASH_SHA384;
+-	data->auth_protocol[0].dhchap.idlist[2] = NVME_AUTH_HASH_SHA512;
+-	data->auth_protocol[0].dhchap.idlist[30] = NVME_AUTH_DHGROUP_NULL;
+-	data->auth_protocol[0].dhchap.idlist[31] = NVME_AUTH_DHGROUP_2048;
+-	data->auth_protocol[0].dhchap.idlist[32] = NVME_AUTH_DHGROUP_3072;
+-	data->auth_protocol[0].dhchap.idlist[33] = NVME_AUTH_DHGROUP_4096;
+-	data->auth_protocol[0].dhchap.idlist[34] = NVME_AUTH_DHGROUP_6144;
+-	data->auth_protocol[0].dhchap.idlist[35] = NVME_AUTH_DHGROUP_8192;
+-
+-	chap->sc_c = data->sc_c;
++	idlist[0] = NVME_AUTH_HASH_SHA256;
++	idlist[1] = NVME_AUTH_HASH_SHA384;
++	idlist[2] = NVME_AUTH_HASH_SHA512;
++	if (chap->sc_c == NVME_AUTH_SECP_NOSC)
++		idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_NULL;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_2048;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_3072;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_4096;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_6144;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_8192;
++	data->auth_protocol[0].dhchap.dhlen = dh_list_offset - DH_GID_LIST_OFFSET;
+ 
+ 	return size;
+ }
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 655d194f8e72..bd540ef33b63 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -2332,4 +2332,6 @@ enum nvme_pr_change_ptpl {
+ 
+ #define NVME_PR_IGNORE_KEY (1 << 3)
+ 
++#define DH_GID_LIST_OFFSET 30
++
+ #endif /* _LINUX_NVME_H */
+-- 
+2.53.0
+
 
