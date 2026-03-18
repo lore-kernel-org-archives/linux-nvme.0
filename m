@@ -4,76 +4,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5868610775E6
-	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 16:25:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DF5AF10775E1
+	for <linux-nvme@archiver.kernel.org>; Wed, 18 Mar 2026 16:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1g/QSOWMUDAkDML7DdsyKS4nG9HS0WdFD6bZtbSl7jQ=; b=DpWL8lXMeCoIZPScuS7aamAIb+
-	6vMCEfmn3ZZyPqqfYdGuW+KqiRkN5tt3kLxQ50B/17NxyJph2QOqk+rtS3aISkmJdr5Dz+ld4El+d
-	VgJ5ERjg1cfbvaUqA2b4rYiZmdI+HjLp7g2ZZJxa8Q4M2gIoyF7ZlG56qLItGPykSAGMc2QKL49oi
-	pBqrLnUyaRhDU81cm/gn5DhidCg1EX+Lk8Uk70zxcOPFUgiWYlRtopNUDsxxG403+aVFY1tsCiqPK
-	PKKMxx7bkDA50fZm9KYO1mYaK/i5Vodz1UGeJlDBv3ESp+EhTpqBKe3NBf+I3XVdsa/9H7QsMTFck
-	U8mwjOqA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ID1zm2iqh5UB2/KBN9LdtoZvDHClQtDWf4LCSIvKNT0=; b=vHX1uGvAQOF6JcoTAAY5UGUhcA
+	7/k3aO/k9EfA6KqTTc4XA0O5HInxzRR6kflGtoC8SW8hkllVsOO07UXfhkSfPhZFgHtvf0peuMTaM
+	oCk3ncyDht0d//uPk2b5CAbFYHjG+yDsOTolAqi26ZaQuGItbf8oyADZ6BLnNXkdxEPxMNjSzg2hZ
+	LBiBL3ChGOvaF4iw9hadvDY+n557ib94HhxFNeMA7pJ5nJlgmGFbFuS+itHKlgEfddsJ2GYZKDwwh
+	bBAkT0RYhtl6hjUtt3AA6oo7Goz6P6RGK9rm89c5SiGFznVHuCcpEsYkflvLlSNGLDNZ17GDKWik+
+	/CcGIi5A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2ti2-00000008v2p-1ygn;
-	Wed, 18 Mar 2026 16:25:26 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2thz-00000008v2O-1pvh
+	id 1w2tw8-00000008z5T-40hF;
+	Wed, 18 Mar 2026 16:40:00 +0000
+Received: from foss.arm.com ([217.140.110.172])
+	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w2tw6-00000008z2l-1AUd
 	for linux-nvme@lists.infradead.org;
-	Wed, 18 Mar 2026 16:25:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773851120;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1g/QSOWMUDAkDML7DdsyKS4nG9HS0WdFD6bZtbSl7jQ=;
-	b=Y84WhpmyRR17t1mm/URLDLe705828ZtghmXaFZ4mTaaMYGE9jKE9y1RuwUgBv6yL62fBjV
-	OuIEQ3LksIJiyFPXjAvmjf3M6UA4teArj2hm6suUl7xILleWsiUUiAXrROtPZpvZNmk3Ne
-	4k0FDtEIvDFPtw+B1QHFiYoJT7SSffQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-605-uW89ORASOEGH7b-R4QPRxQ-1; Wed,
- 18 Mar 2026 12:25:16 -0400
-X-MC-Unique: uW89ORASOEGH7b-R4QPRxQ-1
-X-Mimecast-MFC-AGG-ID: uW89ORASOEGH7b-R4QPRxQ_1773851114
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0813718005B6;
-	Wed, 18 Mar 2026 16:25:14 +0000 (UTC)
-Received: from my-developer-toolbox-latest (unknown [10.2.16.140])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id AF1F61800576;
-	Wed, 18 Mar 2026 16:25:10 +0000 (UTC)
-Date: Wed, 18 Mar 2026 09:25:09 -0700
-From: Chris Leech <cleech@redhat.com>
-To: Christoph Hellwig <hch@lst.de>, alistair23@gmail.com, 
-	yjshin0438@gmail.com
-Cc: hare@suse.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Alistair Francis <alistair.francis@wdc.com>, Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
-Subject: Re: [PATCH v3] nvme-auth: Don't propose NVME_AUTH_DHGROUP_NULL with
- SC_C
-Message-ID: <20260318-giveaway-lethargy-dbfa148ebbf0@redhat.com>
-References: <20260318004658.3681991-1-alistair.francis@wdc.com>
- <20260318075655.GA25711@lst.de>
+	Wed, 18 Mar 2026 16:40:00 +0000
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5CA081BD0;
+	Wed, 18 Mar 2026 09:39:46 -0700 (PDT)
+Received: from [10.57.59.172] (unknown [10.57.59.172])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 95BB13F778;
+	Wed, 18 Mar 2026 09:39:49 -0700 (PDT)
+Message-ID: <c116c75e-4e85-4f57-abb7-ba80bbc8f863@arm.com>
+Date: Wed, 18 Mar 2026 16:39:47 +0000
 MIME-Version: 1.0
-In-Reply-To: <20260318075655.GA25711@lst.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: xfi05axkmDUvaq4fAdKxUG6kO4xYsjFarX_fxdPqLXs_1773851114
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] scsi: sas: skip opt_sectors when DMA reports no real
+ optimization hint
+To: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: ahuang12@lenovo.com, axboe@kernel.dk, damien.lemoal@opensource.wdc.com,
+ hch@lst.de, iommu@lists.linux.dev, ionut_n2001@yahoo.com,
+ john.g.garry@oracle.com, kbusch@kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ m.szyprowski@samsung.com, sagi@grimberg.me, stable@vger.kernel.org,
+ sunlightlinux@gmail.com
+References: <20260318074314.17372-1-ionut.nechita@windriver.com>
+ <20260318074314.17372-2-ionut.nechita@windriver.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260318074314.17372-2-ionut.nechita@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260318_092523_545341_0573F965 
-X-CRM114-Status: GOOD (  15.31  )
+X-CRM114-CacheID: sfid-20260318_093958_766070_4C4649BA 
+X-CRM114-Status: GOOD (  28.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,32 +72,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Mar 18, 2026 at 08:56:55AM +0100, Christoph Hellwig wrote:
-> On Wed, Mar 18, 2026 at 10:46:58AM +1000, alistair23@gmail.com wrote:
-> >  
-> > +#define DH_GID_LIST_OFFSET 30
+On 2026-03-18 7:43 am, Ionut Nechita (Wind River) wrote:
+> From: Ionut Nechita <ionut.nechita@windriver.com>
 > 
-> Note that we have a target side patch ("nvmet: auth: validate dhchap id
-> list lengths") also adding defines related to this, but in a different
-> place and using different naming:
+> sas_host_setup() unconditionally sets shost->opt_sectors from
+> dma_opt_mapping_size().  When the IOMMU is disabled or in passthrough
+> mode and no DMA ops provide an opt_mapping_size callback,
+> dma_opt_mapping_size() returns min(dma_max_mapping_size(), SIZE_MAX)
+> which equals dma_max_mapping_size() — a hard upper bound, not an
+> optimization hint.
 > 
+> On a Dell PowerEdge R750 with mpt3sas (Broadcom SAS3816, FW 33.15.00.00)
+> and intel_iommu=off the following values are observed:
 > 
-> +#define NVME_AUTH_DHCHAP_MAX_HASH_IDS 30
-> +#define NVME_AUTH_DHCHAP_MAX_DH_IDS 30
+>    dma_opt_mapping_size()  = dma_max_mapping_size() (no real hint)
+>    shost->max_sectors      = 32767
+>    opt_sectors             = min(32767, huge >> 9) = 32767
+>    optimal_io_size         = 32767 << 9 = 16776704
+>                            → round_down(16776704, 4096) = 16773120
 > 
-> Back in the day we usually did nvme.h patch separately to handle these
-> kinds of conflicts a little better.
+> The SAS disk (SAMSUNG MZILT800HBHQ0D3) do not report an
+> Optimal Transfer Length in VPD page B0,so sdkp->opt_xfer_blocks remains 0.
+> sd_revalidate_disk() then uses min_not_zero(0, opt_sectors) = opt_sectors,
+> propagating the bogus value into the block device's optimal_io_size
+> (visible as OPT-IO = 16773120 in lsblk --topology).
 > 
-> YunJe/Alistair, maybe whoever resends next should split this out,
-> add all the required values and add a pointer to the spec?
+> mkfs.xfs picks up optimal_io_size and minimum_io_size and computes:
+> 
+>    swidth = 16773120 / 4096 = 4095
+>    sunit  = 8192 / 4096     = 2
+> 
+> Since 4095 % 2 != 0, XFS rejects the geometry:
+> 
+>    SB stripe unit sanity check failed
+> 
+> This makes it impossible to create XFS filesystems (e.g. for
+> /var/lib/docker) during system bootstrap.
+> 
+> Fix this by only setting opt_sectors when dma_opt_mapping_size() returns
+> a value strictly less than dma_max_mapping_size(), which indicates a
+> genuine DMA optimization constraint from an IOMMU or DMA ops backend.
+> When they are equal, no backend provided a real hint, so leave
+> opt_sectors at its default of 0 ("no preference").
+> 
+> Fixes: 4cbfca5f7750 ("scsi: scsi_transport_sas: cap shost opt_sectors according to DMA optimal limit")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ionut Nechita <ionut.nechita@windriver.com>
+> ---
+>   drivers/scsi/scsi_transport_sas.c | 16 ++++++++++++++--
+>   1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/scsi/scsi_transport_sas.c b/drivers/scsi/scsi_transport_sas.c
+> index 12124f9d5ccd..6b4de5116feb 100644
+> --- a/drivers/scsi/scsi_transport_sas.c
+> +++ b/drivers/scsi/scsi_transport_sas.c
+> @@ -240,8 +240,20 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
+>   			   shost->host_no);
+>   
+>   	if (dma_dev->dma_mask) {
+> -		shost->opt_sectors = min_t(unsigned int, shost->max_sectors,
+> -				dma_opt_mapping_size(dma_dev) >> SECTOR_SHIFT);
+> +		size_t opt = dma_opt_mapping_size(dma_dev);
+> +
+> +		/*
+> +		 * Only set opt_sectors when the DMA layer reports a
+> +		 * genuine optimization constraint.  When opt equals
+> +		 * dma_max_mapping_size() no backend provided a real
+> +		 * hint — the value is just the DMA maximum, which is
+> +		 * not useful as an optimal I/O size and can cause
+> +		 * mkfs.xfs to compute invalid stripe geometry.
+> +		 */
+> +		if (opt < dma_max_mapping_size(dma_dev))
 
-Is there a good reason to keep a single idlist[60] in the struct
-defintiion and need this offset at all? Or can we repalce it with
-somthing like haidlist[30], dhidlist[30]?
+The point is more that dma_opt_mapping_size() is *always* only ever a 
+constraint, never a target. This code should be coming up with its own 
+idea of whether max_sectors is large enough to be meaningless, and 
+picking an initial opt_sectors value based on that, and only *then* 
+potentially reducing that value further if the DMA API indicates it 
+would be more efficient to do so. Making this conditional makes little 
+sense even if it wasn't clearly still broken when dma_opt_mapping_size() 
+== (dma_max_mapping_size() - n) for most non-zero values of n.
 
-NVMe base spec r2.3 section is 8.3.5.5.2, where these are seperate
-fields named HashIDList and DHgIDList.
+That said, the comment in sd_revalidate_disk() implies that opt_sectors 
+itself is also only intended as an upper limit rather than a specific 
+preference, so there wouldn't seem to be any harm in deriving a 
+suitably-aligned value from dma_max_mapping_size() either.
 
-- Chris
+Thanks,
+Robin.
+
+> +			shost->opt_sectors = min_t(unsigned int,
+> +					shost->max_sectors,
+> +					opt >> SECTOR_SHIFT);
+>   	}
+>   
+>   	return 0;
 
 
