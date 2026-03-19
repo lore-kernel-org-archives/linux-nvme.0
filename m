@@ -4,67 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0504108E1E8
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2026 11:06:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A8281090223
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2026 13:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=24kwsAMAlwYZoVwXdAVmmRYBrd4b2C1m2+Cp9HOKi78=; b=LEXnvWtNpS4MJYvTlDhvEe40SR
-	f0EW0cpfYwco1KOpgcYIdPNOx8yKU/MEOXXdZbswz0I5Rc9CHRGtutEdhC08PbmOb60bBYuOw3uzw
-	bCWCdnV0yxgg0/Vp8ERi/7gOm/JsQ24OTdlyWUHm4+DP8Ob/FjDAtVFFH7MWQcZgsjVvBysRD1Y/Y
-	d09vWaw+JGekSFKMGcryHETfVJMtX8di0O+MrThhLbcwdCobGiTAcbfI32g0A+X1GG40+phCn1LY6
-	wctK4ug4bstz3G6USKtUwyAiWTas+rDjfgNOsR9ZOfMtali5n6XHrMeALRCSiVVhyr15/9wgPemHL
-	WrNeOmgw==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=0iJ67ZEcQlfHCV6n4G8T+L/tnVcxOhUiK60LDZquNYo=; b=hhkk/AXwXPb7UEbqcDPwA+1ScY
+	eS2+c7k8c8iLZwWPiehWzlhb12wM5yu0oFLLT/mP3uNU6MjG19mus55Wd+ZA/vzzkxgsUtj4cc84b
+	sl81MnivmhpFqRY9B/B7vR7OD6VZse2STG/6i2eD4psQvyKFpRk8rDdZjrjYWQksrOIlK4o0bSZH9
+	4509NT/TPspmKxHMq0N/FMq20ptXGY30G4OuDNyh1Io+lQcBDffbGI2QXIgapqFnzEy64GvFEF4zT
+	/KqX0wpmg3Nlb/vHKNb0hwJsOuTD5UjI/BUsOyZpjo8ZhZdMuCpjpdeRclslt+9/DckNoUcTfWPIR
+	2Fo//rHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3BCj-0000000AUUB-0nMd;
-	Thu, 19 Mar 2026 11:06:17 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1w3D6j-0000000Aery-3CvA;
+	Thu, 19 Mar 2026 13:08:13 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3BCh-0000000AUTq-3Kmd
+	id 1w3D6a-0000000Aerb-1HGc
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Mar 2026 11:06:15 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 8485A60126;
-	Thu, 19 Mar 2026 11:06:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DF25C19424;
-	Thu, 19 Mar 2026 11:06:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773918374;
-	bh=HtOLA8NR+v9NMav1R6I8Ldubjqi2Fb/1QOf8g53m3XA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nYIOxc6wuiHE1KLRNEIwUIHqRwXsElreuD2+B/6jZqyN4aIdu++mi/L+ZFP6YNh+y
-	 pv+9HlQoSNWZvemE++l3/lT/zSOQ6Bjs+z+TIZoqLHOKA2ThjWNFHlbdE2i/d8NqxP
-	 OafAVmojZqm13lZf5wvFbnu6sW6rMpQvN4ByIusAhKnp6STr84kaBFllVhy2h7AhRL
-	 tm1/xs3SAa1biSxootVlvvXZhBab/8Li/SwuTUuFXbUQx9CLxKmn4yRcM6vQHeKKQP
-	 RyXvw7BxjLLaaSX6u+wTFEDg9v2n7laBP6u4p1xHO9Px9fx994oVeOEU4mq5xXY5rZ
-	 3nEO3+uI7S4Pw==
-Message-ID: <1f370bc0-e547-478b-b60c-8a5c77e7eb2f@kernel.org>
-Date: Thu, 19 Mar 2026 20:06:09 +0900
+	Thu, 19 Mar 2026 13:08:05 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6FF604D1F7;
+	Thu, 19 Mar 2026 13:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773925680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0iJ67ZEcQlfHCV6n4G8T+L/tnVcxOhUiK60LDZquNYo=;
+	b=EtNH8yvOD/DxqRmAELhOC3cneJYlQax8yVjSVDLVxdrIJ6HkQ4kZxV8g0eZcWsj255Kg/N
+	laoU3cdGAlURwL+CypVcKJk6WWhmgw0Zs2xHNp+oBRIWKty74qjc1BV87aAEoKRa6H/th6
+	NSM/vWoHpk7JCAWHO9KqnpsQMZ0GpHI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773925680;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0iJ67ZEcQlfHCV6n4G8T+L/tnVcxOhUiK60LDZquNYo=;
+	b=DZMYkjaZoPSl8ctiyUv7ARwjBl3FqNigbZAHlkA8gHvAXdFQ9hMqLEHcb3H+jEiIxyZ7PU
+	FqPhlfYFJ73IKNBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773925680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0iJ67ZEcQlfHCV6n4G8T+L/tnVcxOhUiK60LDZquNYo=;
+	b=EtNH8yvOD/DxqRmAELhOC3cneJYlQax8yVjSVDLVxdrIJ6HkQ4kZxV8g0eZcWsj255Kg/N
+	laoU3cdGAlURwL+CypVcKJk6WWhmgw0Zs2xHNp+oBRIWKty74qjc1BV87aAEoKRa6H/th6
+	NSM/vWoHpk7JCAWHO9KqnpsQMZ0GpHI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773925680;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0iJ67ZEcQlfHCV6n4G8T+L/tnVcxOhUiK60LDZquNYo=;
+	b=DZMYkjaZoPSl8ctiyUv7ARwjBl3FqNigbZAHlkA8gHvAXdFQ9hMqLEHcb3H+jEiIxyZ7PU
+	FqPhlfYFJ73IKNBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62A1E4273B;
+	Thu, 19 Mar 2026 13:08:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xG+aFzD1u2nXIQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 19 Mar 2026 13:08:00 +0000
+Message-ID: <9d6bda08-8eaf-430b-8cd9-2bd16c5f96cc@suse.de>
+Date: Thu, 19 Mar 2026 14:08:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] scsi: sas: skip opt_sectors when DMA reports no real
- optimization hint
-To: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>,
- linux-scsi@vger.kernel.org
-Cc: James.Bottomley@HansenPartnership.com, ahuang12@lenovo.com,
- axboe@kernel.dk, damien.lemoal@opensource.wdc.com, hch@lst.de,
- iommu@lists.linux.dev, ionut_n2001@yahoo.com, john.g.garry@oracle.com,
- kbusch@kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, m.szyprowski@samsung.com,
- martin.petersen@oracle.com, robin.murphy@arm.com, sagi@grimberg.me,
- stable@vger.kernel.org, sunlightlinux@gmail.com
-References: <20260319083954.21056-1-ionut.nechita@windriver.com>
- <20260319083954.21056-2-ionut.nechita@windriver.com>
+Subject: Re: [LSF/MM/BPF TOPIC] demo Linux nvme initiator driver stretched and
+ dispersed subsystems
+To: Randy Jennings <randyj@purestorage.com>,
+ lsf-pc@lists.linux-foundation.org, linux-nvme@lists.infradead.org
+References: <CAPpK+O3zB4Y7L6u0jmVkM2eQs2D1DEJJMG_AXgM+HBs4wkLStg@mail.gmail.com>
 Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260319083954.21056-2-ionut.nechita@windriver.com>
-Content-Type: text/plain; charset=UTF-8
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAPpK+O3zB4Y7L6u0jmVkM2eQs2D1DEJJMG_AXgM+HBs4wkLStg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260319_060804_559206_0CD2798A 
+X-CRM114-Status: UNSURE (   8.37  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,135 +132,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/19/26 17:39, Ionut Nechita (Wind River) wrote:
-> From: Ionut Nechita <ionut.nechita@windriver.com>
+On 2/14/26 02:16, Randy Jennings wrote:
+> I'd like to demonstrate the Linux nvme initiator driver interacting
+> with a stretched and a dispersed subsystem, run through some workflows
+> and illustrate usecases that are possible with one and not the other.
+> No, this is not necessarily production code.
 > 
-> sas_host_setup() unconditionally sets shost->opt_sectors from
-> dma_opt_mapping_size().  When the IOMMU is disabled or in passthrough
-> mode and no DMA ops provide an opt_mapping_size callback,
-> dma_opt_mapping_size() returns min(dma_max_mapping_size(), SIZE_MAX)
-> which equals dma_max_mapping_size() — a hard upper bound, not an
-> optimization hint.
+Hey, cool, then I can run my sheepdog nvme cluster alongside with that.
+Will be fun.
 
-Please reduce the distribution list. This is now a scsi patch. Nothing to do
-with iommu or nvme.
+So naturally I'd be interested here.
 
-> 
-> On a Dell PowerEdge R750 with mpt3sas (Broadcom SAS3816, FW 33.15.00.00)
-> and intel_iommu=off the following values are observed:
-> 
->   dma_opt_mapping_size()  = dma_max_mapping_size() (no real hint)
->   shost->max_sectors      = 32767
->   opt_sectors             = min(32767, huge >> 9) = 32767
->   optimal_io_size         = 32767 << 9 = 16776704
->                           → round_down(16776704, 4096) = 16773120
-> 
-> The SAS disk (SAMSUNG MZILT800HBHQ0D3) do not report an
-> Optimal Transfer Length in VPD page B0,so sdkp->opt_xfer_blocks remains 0.
-> sd_revalidate_disk() then uses min_not_zero(0, opt_sectors) = opt_sectors,
-> propagating the bogus value into the block device's optimal_io_size
-> (visible as OPT-IO = 16773120 in lsblk --topology).
-> 
-> mkfs.xfs picks up optimal_io_size and minimum_io_size and computes:
-> 
->   swidth = 16773120 / 4096 = 4095
->   sunit  = 8192 / 4096     = 2
-> 
-> Since 4095 % 2 != 0, XFS rejects the geometry:
-> 
->   SB stripe unit sanity check failed
-> 
-> This makes it impossible to create XFS filesystems (e.g. for
-> /var/lib/docker) during system bootstrap.
-> 
-> Fix this by introducing a sas_dma_opt_sectors() helper that only returns
-> a non-zero opt_sectors when dma_opt_mapping_size() is strictly less than
-> dma_max_mapping_size(), indicating a genuine DMA optimization constraint
-> from an IOMMU or DMA ops backend.  The helper also rounds the value down
-> to a power of two so that filesystem geometry calculations always produce
-> clean results.  When the two DMA values are equal, no backend provided a
-> real hint, so opt_sectors stays at 0 ("no preference").
-> 
-> A WARN_ONCE guards against dma_opt_mapping_size() returning a value
-> larger than dma_max_mapping_size(), which would indicate a driver bug.
-> The return value uses min_t(unsigned int, ...) to avoid any potential
-> overflow when shifting the size_t opt value down to sectors.
-> 
-> Fixes: 4cbfca5f7750 ("scsi: scsi_transport_sas: cap shost opt_sectors according to DMA optimal limit")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ionut Nechita <ionut.nechita@windriver.com>
-> ---
->  drivers/scsi/scsi_transport_sas.c | 40 +++++++++++++++++++++++++++----
->  1 file changed, 36 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/scsi/scsi_transport_sas.c b/drivers/scsi/scsi_transport_sas.c
-> index 12124f9d5ccd0..696627b6fe2c3 100644
-> --- a/drivers/scsi/scsi_transport_sas.c
-> +++ b/drivers/scsi/scsi_transport_sas.c
-> @@ -27,6 +27,7 @@
->  #include <linux/module.h>
->  #include <linux/jiffies.h>
->  #include <linux/err.h>
-> +#include <linux/log2.h>
->  #include <linux/slab.h>
->  #include <linux/string.h>
->  #include <linux/blkdev.h>
-> @@ -222,6 +223,38 @@ static int sas_bsg_initialize(struct Scsi_Host *shost, struct sas_rphy *rphy)
->   * SAS host attributes
->   */
->  
-> +/**
-> + * sas_dma_opt_sectors - derive opt_sectors from DMA optimal mapping size
-> + * @dma_dev: device to query DMA parameters for
-> + * @max_sectors: upper bound from the host adapter
-> + *
-> + * When the DMA layer reports a genuine optimization constraint (i.e.
-> + * dma_opt_mapping_size() < dma_max_mapping_size()), convert it to a
-> + * sector count, round it down to a power of two so that filesystem
-> + * geometry calculations stay sane, and cap it at @max_sectors.
-> + *
-> + * When the two values are equal no backend provided a real hint and
-> + * the function returns 0 ("no preference").
-> + */
-> +static unsigned int sas_dma_opt_sectors(struct device *dma_dev,
-> +					unsigned int max_sectors)
-> +{
-> +	size_t opt = dma_opt_mapping_size(dma_dev);
-> +	size_t max = dma_max_mapping_size(dma_dev);
-> +
-> +	if (WARN_ONCE(opt > max,
-> +		      "dma_opt_mapping_size (%zu) > dma_max_mapping_size (%zu)\n",
-> +		      opt, max))
-> +		return 0;
-> +
-> +	if (opt == max)
-> +		return 0;
-> +
-> +	opt = rounddown_pow_of_two(opt);
-> +
-> +	return min_t(unsigned int, opt >> SECTOR_SHIFT, max_sectors);
-> +}
-> +
->  static int sas_host_setup(struct transport_container *tc, struct device *dev,
->  			  struct device *cdev)
->  {
-> @@ -239,10 +272,9 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
->  		dev_printk(KERN_ERR, dev, "fail to a bsg device %d\n",
->  			   shost->host_no);
->  
-> -	if (dma_dev->dma_mask) {
-> -		shost->opt_sectors = min_t(unsigned int, shost->max_sectors,
-> -				dma_opt_mapping_size(dma_dev) >> SECTOR_SHIFT);
-> -	}
-> +	if (dma_dev->dma_mask)
-> +		shost->opt_sectors =
-> +			sas_dma_opt_sectors(dma_dev, shost->max_sectors);
->  
->  	return 0;
->  }
+Cheers,
 
-
+Hannes
 -- 
-Damien Le Moal
-Western Digital Research
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
