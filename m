@@ -4,80 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7318107760A
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2026 06:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C80231075274
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2026 07:59:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vUEBVJdsL0kIDP0dE+Xb5G2CkFlPboUaMj20C4rFXzA=; b=NXRqH8pOPaU0bF7i5uGkVhFRyg
-	J5SOhKeBvpAITuvCpHqmcPK0JdbkAx1vV08hM8FslsaMqLgZTmps97aZE5bQmmHavHX04k10L1ebx
-	7SavkXInreFzzv7u6VEBP+0wNsj1Veu4D5I4+IAOYexFYBHGKvqDUfHF9jlfFDmxr9GCn6oj9o6ue
-	9Yp/qok+HVtA9C1jARe0lyj8ixYBGPE4VPN2hAgi7MNaHaV7Mc6RbUtfBdfKMYY+1TCzptThOFRzV
-	7y3UZrhLzmMhpAiFQ28Hq1IFBSZKEonYTQnxAlnj6YCxcvNpogj/U66/s1rdWJcZxCLt+V0QdnoD1
-	87kB89yw==;
+	bh=iW6CQUF3YxORaCorXro4akbsawM3+QA7ihq+f4V2ctY=; b=KJGMiWHfRnFD0n997/1dU1xXbL
+	LEwBtwzyRI2O3FIte8YXVaRtugHTGPjI3ZyH0MDHYG+xxHhJDbxJe2ld5ufuG/WdxDfauekyH31u8
+	ihl3h56OzWTO0C3ZnOcMHBKIP1xbKDitO8N0DCjDHHN+b3IXHPP7cmKY3rwe5ajCRuKNJJgUh7SOG
+	QJm6Dx6N7KHbnHPj8UufVaK4InQ/VXO4A6BQ+P3n3LKMwld+Y98jC1MyCALIc/jF/MbMspAhCDoUp
+	7cLweGSmiL6joNUdShsA2UAsBFPX7OD8MMxuNO2tRAStWW+Agb6apWhVESlzbtTrC9LQ32rIspxx2
+	Kby8mftw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w36Xr-00000009ydt-0Csh;
-	Thu, 19 Mar 2026 06:07:47 +0000
-Received: from mgamail.intel.com ([192.198.163.13])
+	id 1w38Hn-0000000AC90-20TS;
+	Thu, 19 Mar 2026 07:59:19 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w36Xo-00000009ydR-2O1V
+	id 1w38Hh-0000000AC8P-0oZ1
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Mar 2026 06:07:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773900464; x=1805436464;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=SivmnrAFIYwbeUndZBDy0z7NBvVuI7pZ/eqjqvAqOWw=;
-  b=EOd4GT38A7X+5XoMI+FRqd1ExkKamboHVIWNB+Ao2UPM5JnBLn64/zbF
-   ULx7OU6HhDO2Bf6QLxrxDKCGUePgBnZ6rOeNi+GvUAAQ5d+MuO8vUuiC8
-   x7WUr8bQQuvl1k7RJ1oxFCzjTvN2KeVgAFJIvzoQYqSDYtSsrRDAZbZDz
-   kvNokX2rPSe7XSuaXq2LYIQ5E2rTtPWDFU4DGdo3duokzAlouoIZXq3oi
-   B75Rxak/TMPirjkgjfDGgdBXYi6KhwAGbVOsMwtMMyEUDjQcttMUtlc6W
-   NZTIZ4qK+8GXd8CbmT3tVFN9JLN7g6/IHssYyshmSlauI7Sax0EbGilxc
-   g==;
-X-CSE-ConnectionGUID: /567DlL+SEmi3rYLxlyyQA==
-X-CSE-MsgGUID: hAb6IcQxTKqbJkGTbW/sWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="77574115"
-X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
-   d="scan'208";a="77574115"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 23:07:43 -0700
-X-CSE-ConnectionGUID: Uj6G5AaISgulHqnC05raRg==
-X-CSE-MsgGUID: 9uasM1JKT2uT77r1puqdOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
-   d="scan'208";a="218806151"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 23:07:41 -0700
-Message-ID: <ef328a7e-59a4-4a74-bc72-aa13951b38ff@linux.intel.com>
-Date: Thu, 19 Mar 2026 14:06:37 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Linux error `[DMA Write NO_PASID] Request device [3c:00.0] fault
- addr 0x0 [fault reason 0x05] PTE Write access is not set`
-To: Paul Menzel <pmenzel@molgen.mpg.de>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org
-References: <88e33b0c-e89f-47a2-9125-d85693d4816f@molgen.mpg.de>
- <d38a2cda-4b29-43ec-ab08-b55c79714810@linux.intel.com>
- <311a59f3-10bb-4a43-b86d-2f1ef316a01c@molgen.mpg.de>
- <8665ed69-9364-4f8a-9238-6adf9b5590a0@linux.intel.com>
- <3a880676-861b-4447-9775-6197ae74ffd3@molgen.mpg.de>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <3a880676-861b-4447-9775-6197ae74ffd3@molgen.mpg.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+	Thu, 19 Mar 2026 07:59:18 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 9672f45e (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Thu, 19 Mar 2026 08:59:07 +0100 (CET)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Mar 2026 08:59:06 +0100
+Message-Id: <DH6LLP692EBM.4N82LTNB60WV@arkamax.eu>
+Cc: <security@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
+ <kch@nvidia.com>, <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvmet-tcp: bound sgl->length check in
+ nvmet_tcp_map_data()
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Shivam Kumar" <kumar.shivam43666@gmail.com>,
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0
+References: <2026031805-stretch-skid-ae5b@gregkh>
+ <20260319012630.1802025-1-kumar.shivam43666@gmail.com>
+In-Reply-To: <20260319012630.1802025-1-kumar.shivam43666@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260318_230744_622158_D51E6DCE 
-X-CRM114-Status: GOOD (  19.70  )
+X-CRM114-CacheID: sfid-20260319_005913_566586_7DA1E515 
+X-CRM114-Status: GOOD (  17.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,87 +63,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/18/26 20:55, Paul Menzel wrote:
-> 
-> Am 18.03.26 um 07:42 schrieb Baolu Lu:
->> On 3/16/26 22:54, Paul Menzel wrote:
->>>>> On the Intel Kaby Lake laptop Dell XPS 13 9360, Linux logs the 
->>>>> error below:
->>>>>
->>>>>      [17959.189315] ACPI: EC: event unblocked
->>>>>      [17959.197876] DMAR: DRHD: handling fault status reg 2
->>>>>      [17959.197882] DMAR: [DMA Write NO_PASID] Request device 
->>>>> [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
->>>>> not set
->>>>>      [17959.198366] DMAR: DRHD: handling fault status reg 2
->>>>>      [17959.198369] DMAR: [DMA Write NO_PASID] Request device 
->>>>> [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
->>>>> not set
->>>>>      [17959.198923] DMAR: DRHD: handling fault status reg 2
->>>>>      [17959.201477] nvme nvme0: 4/0/0 default/read/poll queues
->>>>>
->>>>> 3c:00.0 is the NVMe controller/device.
->>>>>
->>>>>      $ lspci -nn -s 3c:00.0
->>>>>      3c:00.0 Non-Volatile memory controller [0108]: SK hynix PC300 
->>>>> NVMe Solid State Drive 512GB [1c5c:1284]
->>>>>
->>>>> This seems to happen only *sometimes* when resuming from ACPI S3.
->>>>>
->>>>> To my knowledge, this is *not* a new problem. Please find the log 
->>>>> messages attached. (Ignore the other DMAR error for now.)
->>>>
->>>> These IOMMU DMA faults are triggered when the NVMe controller attempts
->>>> DMA writes to system memory address 0x0. The IOMMU hardware blocked
->>>> these accesses because the system software has not granted the device
->>>> permission to write to this specific address. It's unlikely a bug or
->>>> problem in the iommu driver as far as I can see.
->>>
->>> I am seeing the same issue on a Dell XPS 15 7590 with Intel NVMe 
->>> controller:
->>>
->>>      $ lspci -nn -s 3d:00.0
->>>      3d:00.0 Non-Volatile memory controller [0108]: Intel Corporation 
->>> SSD DC P4101/Pro 7600p/760p/E 6100p Series [8086:f1a6] (rev 03)
->>>
->>> Logs from Debian’s Linux 6.19.8:
->>
->> Did you see this warning with the v6.18 kernel or earlier?
-> 
-> Yes, I did see it with earlier Linux versions. For the Dell XPS 13 9360 
-> with SK hynix controller I found logs with Linux 6.16:
-> 
->      Okt 14 08:10:02 abreu kernel: Linux version 6.16.11+deb14-amd64 
-> (debian-kernel@lists.debian.org) (x86_64-linux-gnu-gcc-14 (Debian 
-> 14.3.0-8) 14.3.0, GNU ld (GNU Binutils for Debian) 2.45) #1 SMP 
-> PREEMPT_DYNAMIC Debian 6.16.11-1 (2025-10-07)
->      […]
->      Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
->      Okt 15 21:02:49 abreu kernel: DMAR: [DMA Write NO_PASID] Request 
-> device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
-> not set
->      Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
->      Okt 15 21:02:49 abreu kernel: DMAR: [DMA Write NO_PASID] Request 
-> device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
-> not set
->      Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
->      Okt 15 21:02:49 abreu kernel: nvme nvme0: 4/0/0 default/read/poll 
-> queues
+On Thu Mar 19, 2026 at 2:26 AM CET, Shivam Kumar wrote:
+> nvmet_tcp_map_data() reads the SGL length from the incoming NVMe command
+> and passes it to sgl_alloc() for scatter-gather allocation. The only
+> existing size check (len > inline_data_size) is gated behind
+> sgl->type =3D=3D NVME_SGL_FMT_DATA_DESC | NVME_SGL_FMT_OFFSET, meaning an=
+y
+> other SGL type bypasses the validation entirely. A remote attacker can
+> send a CapsuleCmd with a non-offset SGL type and a large sgl->length
+> (e.g. ~3 GB) to trigger an excessive kernel allocation, resulting in a
+> page allocator WARNING and kernel panic when panic_on_warn is set.
+>
+> Add an upper-bound check against NVMET_TCP_MAXH2CDATA before calling
+> sgl_alloc(). This value is already advertised to the host in the ICResp
+> maxdata field as the maximum data transfer size.
+>
+> Signed-off-by: Shivam Kumar <kumar.shivam43666@gmail.com>
+> ---
+>  drivers/nvme/target/tcp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index a456dd2fd8bd..c7253221c342 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -431,6 +431,8 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd *c=
+md)
+>  			return NVME_SC_SGL_INVALID_OFFSET | NVME_STATUS_DNR;
+>  		cmd->pdu_len =3D len;
+>  	}
+> +	if (len > NVMET_TCP_MAXH2CDATA)
+> +		return NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR;
+>  	cmd->req.transfer_len +=3D len;
+> =20
+>  	cmd->req.sg =3D sgl_alloc(len, GFP_KERNEL, &cmd->req.sg_cnt);
 
-The error occurs when the NVMe controller attempts to access system
-memory using IOVA 0. The iommu subsystem reserves IOVA 0 and treats it
-as an invalid address; therefore, the Linux driver is unlikely to
-program a device with IOVA 0 for DMA.
 
-An exception is reserved memory used by firmware, where the regions are
-identity-mapped by the iommu core during the probe process. There was a
-recent fix addressing an issue with identity mapping at address 0:
+I am not sure this patch is correct, the intent is valid but you are confla=
+ting
+the total transfer size with the H2CData maximum PDU size.
 
-https://lore.kernel.org/linux-iommu/20260227080638.208693-1-lkml@antheas.dev/
+In other words, if I understood the code correctly:
 
-Could you please test if this patch helps? It has already been merged
-into the iommu subsystem tree.
+MAXH2CDATA is the limit of a single H2CData packet's size.
+sgl->length is the total amount of data to transfer.
 
-Thanks,
-baolu
+Also, will the request be completed with "NVME_SC_SGL_INVALID_DATA |
+NVME_STATUS_DNR" code? If yes, this would be a violation of the spec
+that states that an H2CDATA with a too large size should trigger a
+fatal transport error.
+
+Maybe the correct fix is to set a sane default for MDTS
+(Maximum Data Transfer Size), at the moment it's left to zero (no limit).
+
+Maurizio
+
 
