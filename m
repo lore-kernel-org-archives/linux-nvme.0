@@ -4,122 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 541AC1088E70
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2026 04:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7318107760A
+	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2026 06:07:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UWY5ogxQFG0MD2zNXgpQVrvKKbiufaHFYO8S1wwxync=; b=tJRssWKOG6aqlcgY/YMeTjhaOj
-	fqeyzlzlx6DecCcht9hKqfVtlHXgOyxpB0u/6lBBRis1cTwJN8DQB+5+XWdhTYLIfuFx2sx1mE0G6
-	JSK9SiXJy+4NaWPTmXX0Rf6jvmvDD6PGzTHxiXgU0ChF/t3+SHCiU5YEJm5rzb8UwDCx5Y/WFb+PU
-	HmOyIaAQK/sqnOuqx/MDoAmax1EWg/aDGj9NE4u2QZWM8CQjnS2ihAY76X6Y/K91Jyb7t6A8mWQas
-	fM41C87Q/oykoUgVRh+KtFKPFhZsVZpSvnTzzPXYnWZ+CEpHGK6FYzjySt2vOdWSaCfiNt4tfkdtL
-	JwAJG0qg==;
+	bh=vUEBVJdsL0kIDP0dE+Xb5G2CkFlPboUaMj20C4rFXzA=; b=NXRqH8pOPaU0bF7i5uGkVhFRyg
+	J5SOhKeBvpAITuvCpHqmcPK0JdbkAx1vV08hM8FslsaMqLgZTmps97aZE5bQmmHavHX04k10L1ebx
+	7SavkXInreFzzv7u6VEBP+0wNsj1Veu4D5I4+IAOYexFYBHGKvqDUfHF9jlfFDmxr9GCn6oj9o6ue
+	9Yp/qok+HVtA9C1jARe0lyj8ixYBGPE4VPN2hAgi7MNaHaV7Mc6RbUtfBdfKMYY+1TCzptThOFRzV
+	7y3UZrhLzmMhpAiFQ28Hq1IFBSZKEonYTQnxAlnj6YCxcvNpogj/U66/s1rdWJcZxCLt+V0QdnoD1
+	87kB89yw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w35IA-00000009uf0-1xNb;
-	Thu, 19 Mar 2026 04:47:30 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1w36Xr-00000009ydt-0Csh;
+	Thu, 19 Mar 2026 06:07:47 +0000
+Received: from mgamail.intel.com ([192.198.163.13])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w35I8-00000009ueu-2Onx
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 19 Mar 2026 04:47:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=UWY5ogxQFG0MD2zNXgpQVrvKKbiufaHFYO8S1wwxync=; b=TuryIGRZfll823y/NRHQG63XXp
-	AqqOCJc85stGhiX5hTiDdjnfj8BIV8wf1pESzsvKjXp/s3hCY9c6N2Mw8ROC6l+pvxk3FoUHZhjqg
-	8wBPhMNP43XPIRma12N/i6beq2jzVBWF1gkGonDL8r9Z9WueYDxARbe3o6pKv1JJ5l/VO+8a3pREC
-	8mGg7AyvM9EvYUye7Cw3b5dqocnEzClborczwvajeP7iGvVoJv7Pi6O/1P/rfnJbUXgw46eVH1bJD
-	h02+XshH/w4reRvaaq9UmYgm7+1UBkLTqoTYbUOqYPc7SfM8ufsFg1uN4xeW4akB1rZBQxxfefIpE
-	qxEKVueQ==;
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w35Hx-0000000CiwZ-1OZ6
+	id 1w36Xo-00000009ydR-2O1V
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Mar 2026 04:47:26 +0000
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-b886fc047d5so83595466b.3
-        for <linux-nvme@lists.infradead.org>; Wed, 18 Mar 2026 21:47:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773895635; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Z+c8mKCL0UfNLpLZDGFX+V1GI8bvZ+xsOgh9hNylKNiQFJb7L2d0cb+ehiQsaDSBjE
-         2qfMcPkmrhfelG2b8OlvROX2gvquqjSnd2TCx4uYIQj5oVfQsLo10cN+oNwIOF3Ebufk
-         uIxSmTbC3Qkxa8a1uOSxheyAhOsVYco3WOnnF7I/70+CKGancLpT1XtC+9UO1ZZVy5bo
-         8K9xCB2aLzV8982RIrw+usyUV+hIRbCtJyCPByb3OivBbf9rOGOXPBGekPYS70mh2CgV
-         vZ16rRa9ZR1M7JWA+HhNA05mLnkh9Vb0c/MTvqAMnNWOCklWLn7f5DzqkgLMAX/KvSMo
-         gS0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UWY5ogxQFG0MD2zNXgpQVrvKKbiufaHFYO8S1wwxync=;
-        fh=C6EDT19p2EnVAh9YYIoGrMEkhEIpFNENkZm/10A85nE=;
-        b=M3DZRyjbjIcbDYiiSlhBcHyJU3MPJHWT4VoX0yfR9N9XMAPE9xZ9mls9Gmdyvkvc7z
-         pTAUP69Y2QcjqpS/fkUMrx9lmndJfIoQ4HbiLIvvTJ3iJjpVSZLuUlZnpkULyn9qG0Qt
-         X2dFilzjV2ZSrzV3skWkty3vhcVzh2OV2ReXTAdSDu4OjApud22AT6K+FQSTUQPstRoK
-         /1VnCG7yQl0hPsdV8bo3t5F5sQ/tWQXK7/milbHk/GtSYTX9nGSMYiL1R5tCTs3VkNwk
-         gaLbgdNbLcwgo72U3h+rQKDfwNtaNG+vhVqrFELxRhubwsnYGXmQ0Z8ucoWbeVec7v8D
-         hiPA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773895635; x=1774500435; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UWY5ogxQFG0MD2zNXgpQVrvKKbiufaHFYO8S1wwxync=;
-        b=cQvw9TJrwFYEhOD5gjXdSORB0mQKqI+XCWKSdb8vSBMeIg1xm06zvWZjiDhhLhFLCT
-         vJFIRbOnbrTr0NLEOtUu6gqTYUF5ipMD6S+MSlpIhyRESr9MdUCYvkhYtdGaYcOcBS8M
-         h23yG6yoFDugs5cnmTDpA5jScVGXDi22osDA7gAuaBWdPW+fhFz3CsHOuqhLTvquwddu
-         JhGRKApwbPDiNvozBN5NyTqCZkI5b5jA52cuqaQ5q3jvS3ixbVwKpFKiYrLGCAh/Igsw
-         kE/0x34tqneAZdhtlEhz8GbbQ9qhc7e+L+MMOL4IeMiBKkexui53MD3/1kkSOW7/gFDd
-         qJWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773895635; x=1774500435;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UWY5ogxQFG0MD2zNXgpQVrvKKbiufaHFYO8S1wwxync=;
-        b=g2+HysL6Bgd8huTEFOQ8REAFlaAd1VXfR8SkAngQMivfSRe/Y1PWTUq3L7e5VWesnM
-         7ijsSXT/X8ChtczYFMuHnCRWs4J/3EZ0d06wNZk+pa8Q6cQf/2GFCPAE4XXmF6CMnhqH
-         WehAQ0c5n4jINKwG42P2YTzbls6kOlzgUHeVx0MAT+01Psa30N9X0Ey1LN9UGM/cVdc5
-         Tk27EtA+WWKfYdVoRTxDgqh0dPtlVR1oQXTEKpPZJCeF3qcDd36yb47k3k24XyQE4u8q
-         IVAHgb2fTe+d1QUEE4v5nAygwzOdftS4FZ97GZX55DRJHtM8pmqN8Dv3OgX9PymHIYTz
-         VvwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV20oM/F/0kmhOZhJa0rSB1hBgFZUOW8ii2F4TYKNx9D3QWBsBlJdHtS+Vgc9pl4xLxWYuaEWA0vAIQ@lists.infradead.org
-X-Gm-Message-State: AOJu0YwCTBNi1vmPT/tP4TUjvhP/IfP78dBoyPbW4JOUySMpRtvOZ25t
-	/eO6Rd1XBqJB91dgNaS7P039uQow3VvLyn6LbKgx2iUf/m3ZF/EC5M//7zC3Xz1jH1oQTLFa09b
-	nhCkBW07ibdt0hAGJrvjMV+M6uucLa8k=
-X-Gm-Gg: ATEYQzxvygCD99zt+Yk5HL6nwDQoncCZG/bTTwe8cESjpcBtG1diVZhtCOyPG5h5Mpn
-	LKOg95nLNFJDWN7LHq5AgLXYP1JU98WMycIoTshj3d47j3+JgKm2Ivt4cvgU2X1yGNlh6daKphw
-	/fO9yxYhsj+fTEk7mKQ4NhxTa+T5NO9dqREYkjwhhKdK2YcjuQKatEXOqzag0GNQtfutwUgLHHQ
-	9ek7Jsp4fSBjaA32DvtfTje2KApe7nSYdrCovgXrDRM/6MLHS071sTZQQ4pRTbO38U7zzpdPRqV
-	s+0PGpaCUllO81uTYXcjO3p0wN0+7e7Z7ofx7A==
-X-Received: by 2002:a17:906:cc8d:b0:b97:306a:cb56 with SMTP id
- a640c23a62f3a-b97f493bf6cmr251478366b.22.1773895635028; Wed, 18 Mar 2026
- 21:47:15 -0700 (PDT)
+	Thu, 19 Mar 2026 06:07:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773900464; x=1805436464;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=SivmnrAFIYwbeUndZBDy0z7NBvVuI7pZ/eqjqvAqOWw=;
+  b=EOd4GT38A7X+5XoMI+FRqd1ExkKamboHVIWNB+Ao2UPM5JnBLn64/zbF
+   ULx7OU6HhDO2Bf6QLxrxDKCGUePgBnZ6rOeNi+GvUAAQ5d+MuO8vUuiC8
+   x7WUr8bQQuvl1k7RJ1oxFCzjTvN2KeVgAFJIvzoQYqSDYtSsrRDAZbZDz
+   kvNokX2rPSe7XSuaXq2LYIQ5E2rTtPWDFU4DGdo3duokzAlouoIZXq3oi
+   B75Rxak/TMPirjkgjfDGgdBXYi6KhwAGbVOsMwtMMyEUDjQcttMUtlc6W
+   NZTIZ4qK+8GXd8CbmT3tVFN9JLN7g6/IHssYyshmSlauI7Sax0EbGilxc
+   g==;
+X-CSE-ConnectionGUID: /567DlL+SEmi3rYLxlyyQA==
+X-CSE-MsgGUID: hAb6IcQxTKqbJkGTbW/sWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="77574115"
+X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
+   d="scan'208";a="77574115"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 23:07:43 -0700
+X-CSE-ConnectionGUID: Uj6G5AaISgulHqnC05raRg==
+X-CSE-MsgGUID: 9uasM1JKT2uT77r1puqdOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,128,1770624000"; 
+   d="scan'208";a="218806151"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 23:07:41 -0700
+Message-ID: <ef328a7e-59a4-4a74-bc72-aa13951b38ff@linux.intel.com>
+Date: Thu, 19 Mar 2026 14:06:37 +0800
 MIME-Version: 1.0
-References: <20260318004658.3681991-1-alistair.francis@wdc.com>
- <20260318075655.GA25711@lst.de> <20260318-giveaway-lethargy-dbfa148ebbf0@redhat.com>
-In-Reply-To: <20260318-giveaway-lethargy-dbfa148ebbf0@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Mar 2026 14:46:48 +1000
-X-Gm-Features: AaiRm51tAUcbTMlheW7r5Zvhs4EnAmkvOClDDqpsiIi23KhMgN-pAyNdZLtIRag
-Message-ID: <CAKmqyKMmW9L5-Op-ohbTk4NZ0mmJ1qb2Gc+HhR4Xf6nStnm53A@mail.gmail.com>
-Subject: Re: [PATCH v3] nvme-auth: Don't propose NVME_AUTH_DHGROUP_NULL with SC_C
-To: Chris Leech <cleech@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, yjshin0438@gmail.com, hare@suse.de, kbusch@kernel.org, 
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>, 
-	Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Linux error `[DMA Write NO_PASID] Request device [3c:00.0] fault
+ addr 0x0 [fault reason 0x05] PTE Write access is not set`
+To: Paul Menzel <pmenzel@molgen.mpg.de>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <88e33b0c-e89f-47a2-9125-d85693d4816f@molgen.mpg.de>
+ <d38a2cda-4b29-43ec-ab08-b55c79714810@linux.intel.com>
+ <311a59f3-10bb-4a43-b86d-2f1ef316a01c@molgen.mpg.de>
+ <8665ed69-9364-4f8a-9238-6adf9b5590a0@linux.intel.com>
+ <3a880676-861b-4447-9775-6197ae74ffd3@molgen.mpg.de>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <3a880676-861b-4447-9775-6197ae74ffd3@molgen.mpg.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260319_044723_384098_F348C554 
-X-CRM114-Status: GOOD (  20.54  )
+X-CRM114-CacheID: sfid-20260318_230744_622158_D51E6DCE 
+X-CRM114-Status: GOOD (  19.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,43 +92,87 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 19, 2026 at 2:25=E2=80=AFAM Chris Leech <cleech@redhat.com> wro=
-te:
->
-> On Wed, Mar 18, 2026 at 08:56:55AM +0100, Christoph Hellwig wrote:
-> > On Wed, Mar 18, 2026 at 10:46:58AM +1000, alistair23@gmail.com wrote:
-> > >
-> > > +#define DH_GID_LIST_OFFSET 30
-> >
-> > Note that we have a target side patch ("nvmet: auth: validate dhchap id
-> > list lengths") also adding defines related to this, but in a different
-> > place and using different naming:
-> >
-> >
-> > +#define NVME_AUTH_DHCHAP_MAX_HASH_IDS 30
-> > +#define NVME_AUTH_DHCHAP_MAX_DH_IDS 30
-> >
-> > Back in the day we usually did nvme.h patch separately to handle these
-> > kinds of conflicts a little better.
-> >
-> > YunJe/Alistair, maybe whoever resends next should split this out,
-> > add all the required values and add a pointer to the spec?
->
-> Is there a good reason to keep a single idlist[60] in the struct
-> defintiion and need this offset at all? Or can we repalce it with
-> somthing like haidlist[30], dhidlist[30]?
->
-> NVMe base spec r2.3 section is 8.3.5.5.2, where these are seperate
-> fields named HashIDList and DHgIDList.
+On 3/18/26 20:55, Paul Menzel wrote:
+> 
+> Am 18.03.26 um 07:42 schrieb Baolu Lu:
+>> On 3/16/26 22:54, Paul Menzel wrote:
+>>>>> On the Intel Kaby Lake laptop Dell XPS 13 9360, Linux logs the 
+>>>>> error below:
+>>>>>
+>>>>>      [17959.189315] ACPI: EC: event unblocked
+>>>>>      [17959.197876] DMAR: DRHD: handling fault status reg 2
+>>>>>      [17959.197882] DMAR: [DMA Write NO_PASID] Request device 
+>>>>> [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
+>>>>> not set
+>>>>>      [17959.198366] DMAR: DRHD: handling fault status reg 2
+>>>>>      [17959.198369] DMAR: [DMA Write NO_PASID] Request device 
+>>>>> [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
+>>>>> not set
+>>>>>      [17959.198923] DMAR: DRHD: handling fault status reg 2
+>>>>>      [17959.201477] nvme nvme0: 4/0/0 default/read/poll queues
+>>>>>
+>>>>> 3c:00.0 is the NVMe controller/device.
+>>>>>
+>>>>>      $ lspci -nn -s 3c:00.0
+>>>>>      3c:00.0 Non-Volatile memory controller [0108]: SK hynix PC300 
+>>>>> NVMe Solid State Drive 512GB [1c5c:1284]
+>>>>>
+>>>>> This seems to happen only *sometimes* when resuming from ACPI S3.
+>>>>>
+>>>>> To my knowledge, this is *not* a new problem. Please find the log 
+>>>>> messages attached. (Ignore the other DMAR error for now.)
+>>>>
+>>>> These IOMMU DMA faults are triggered when the NVMe controller attempts
+>>>> DMA writes to system memory address 0x0. The IOMMU hardware blocked
+>>>> these accesses because the system software has not granted the device
+>>>> permission to write to this specific address. It's unlikely a bug or
+>>>> problem in the iommu driver as far as I can see.
+>>>
+>>> I am seeing the same issue on a Dell XPS 15 7590 with Intel NVMe 
+>>> controller:
+>>>
+>>>      $ lspci -nn -s 3d:00.0
+>>>      3d:00.0 Non-Volatile memory controller [0108]: Intel Corporation 
+>>> SSD DC P4101/Pro 7600p/760p/E 6100p Series [8086:f1a6] (rev 03)
+>>>
+>>> Logs from Debian’s Linux 6.19.8:
+>>
+>> Did you see this warning with the v6.18 kernel or earlier?
+> 
+> Yes, I did see it with earlier Linux versions. For the Dell XPS 13 9360 
+> with SK hynix controller I found logs with Linux 6.16:
+> 
+>      Okt 14 08:10:02 abreu kernel: Linux version 6.16.11+deb14-amd64 
+> (debian-kernel@lists.debian.org) (x86_64-linux-gnu-gcc-14 (Debian 
+> 14.3.0-8) 14.3.0, GNU ld (GNU Binutils for Debian) 2.45) #1 SMP 
+> PREEMPT_DYNAMIC Debian 6.16.11-1 (2025-10-07)
+>      […]
+>      Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
+>      Okt 15 21:02:49 abreu kernel: DMAR: [DMA Write NO_PASID] Request 
+> device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
+> not set
+>      Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
+>      Okt 15 21:02:49 abreu kernel: DMAR: [DMA Write NO_PASID] Request 
+> device [3c:00.0] fault addr 0x0 [fault reason 0x05] PTE Write access is 
+> not set
+>      Okt 15 21:02:49 abreu kernel: DMAR: DRHD: handling fault status reg 2
+>      Okt 15 21:02:49 abreu kernel: nvme nvme0: 4/0/0 default/read/poll 
+> queues
 
-The 2.1 spec kind of implies a single array with an offset of 33 for
-the DHgIDList, which I assume is why this was written the way it is.
+The error occurs when the NVMe controller attempts to access system
+memory using IOVA 0. The iommu subsystem reserves IOVA 0 and treats it
+as an invalid address; therefore, the Linux driver is unlikely to
+program a device with IOVA 0 for DMA.
 
-I'm open to changing it if people free strongly though
+An exception is reserved memory used by firmware, where the regions are
+identity-mapped by the iommu core during the probe process. There was a
+recent fix addressing an issue with identity mapping at address 0:
 
-Alistair
+https://lore.kernel.org/linux-iommu/20260227080638.208693-1-lkml@antheas.dev/
 
->
-> - Chris
->
+Could you please test if this patch helps? It has already been merged
+into the iommu subsystem tree.
+
+Thanks,
+baolu
 
