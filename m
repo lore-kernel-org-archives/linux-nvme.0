@@ -4,92 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1F741091937
-	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2026 00:21:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F0E01093177
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2026 05:21:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=cVxNKhy+wXeBWKHwq1xrJ2npx/pGlGXsl/NeTEQ5RzY=; b=pHI2MxxDZRNdsCPwWk7gWOx9XF
-	4HJLndjuQPTCHTXEkCtGjhKUpTLl3/UIuxZMwEJCYgnwaIu2d2wP7rbPGX+yeRHDwY0fcKTNT+wsX
-	QcQiLmAzCwCkfUo3BlNgLCfqcPY/zG6Brm5mJLWQomzwyfkFZsodByXyKdN2zTxtbxzbKicntPtRa
-	sLWAQvYLDexVjzOz+6aAkf9yEjAK+sRIXqrhwWNTifoLUGpMOPXYYPB58KhIXmG+k4v0Y/iBq08il
-	jFe31RuJeE4niaSRaguhoXVqDvpdyabDZlcW4OVXYKlfvAg02oX29ysLfo2eW1xF8SHF8ebEn2kxE
-	Xi95m2ng==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
+	Content-Type:Content-Transfer-Encoding:Date:Message-ID:CC:To:From:Subject:
+	Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
+	bh=JxQ7E6F74uxBXrdFidaGlt2hT0tYDUqE1zgU7CkwdSI=; b=OmCiiCBM6wmv5dgyDBhqiyNqIn
+	jUyFbGELRzUM/MrFS/Ib6M+lwnHM34UobffxZtToEq2iL8r9nTW+va777wBHfqoeIyzJBpeavgMLW
+	T3iCX5hQTG0rmUaxKp3AGwbyqLLpuMN7CgEmR5739sAesiuvLbrrDfuLovbpVAHP2MpGbf/x8rOb2
+	hMhhd38L6fWA7M7o2fa3QCsARgEVCBQvEuJoMhtIVtXQ/bA/gEvzsH++O3DEQj7/kKjmemPIgEM0k
+	0tBwkFkPKiWDgb8ICGsjoh+Lm+573XnSwV7fYjiaaY+XphR+Lzd4yhxkqZ/0Ae7IDVKk7U3EB2NzJ
+	M6jJ3pFw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3Nbu-0000000Bpmw-0IBE;
-	Fri, 20 Mar 2026 00:21:06 +0000
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+	id 1w3SIS-0000000C62x-3q1s;
+	Fri, 20 Mar 2026 05:21:20 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3Nbo-0000000Bpm0-3r5Z
+	id 1w3SII-0000000C61H-3WX9
 	for linux-nvme@lists.infradead.org;
-	Fri, 20 Mar 2026 00:21:05 +0000
-Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-35bb9070644so71143a91.2
-        for <linux-nvme@lists.infradead.org>; Thu, 19 Mar 2026 17:21:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773966060; x=1774570860; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cVxNKhy+wXeBWKHwq1xrJ2npx/pGlGXsl/NeTEQ5RzY=;
-        b=ULQz8usCs0+V0rcK3E5ZlXHDlMsDUss80vit906x9MIyImWYR8BWoYHfDPU/K5iWkH
-         tIOEboz1aNIMnqr9YRJC6r3zLwoGMWG38kzSYYS9YxIF/ss6vsq47E1lZWJX5w09LAhW
-         0AZcdpxOaYolPzzxU0IGfwCSLaTyzhbsuJULd0EC0+iOHTGzS0yWN1i5DnMpAadFdkMh
-         3AljAl6knmiEEa+L9DjOhAsie6kACiw2k6ldnrw399Ub/3ICt0W6ztelAg8OMvEJlPoP
-         t1JFCaJOTIdjURYktrX1HUWVipdiIvcc+RLg1M7SSGLxeHnz+QjSvYqczvnrS7v2NQJS
-         KwoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773966060; x=1774570860;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cVxNKhy+wXeBWKHwq1xrJ2npx/pGlGXsl/NeTEQ5RzY=;
-        b=C967C3+VRQhvWlU8OdL1nPhOOHhaWJq8PtPsG0RPPFdm7eA4Q8+2D4nkhP1Mu2tR/O
-         qxr1qr/mwXSaqwabHDxsxQYBpCJJHYYbin1Jnlm6bhp2065Ee0PFusIccX2EqiLrHOh2
-         jxE3qIqKLVOxARZNZNqbEmsBDOSkBg6h+oL1hPnqF20GZJW6b8O29mqQnEqqYSzT58T2
-         2fpVwn7w2G+2/7RcgrNiT7YheUKP8b8z5poSy+1Eq4HvVMlU4djom90rrTXyxnt8zhGa
-         jdkPQ2zHnuf2SepH+eFIvgAssBtsYVrJx6OcIZE2p4Fgcqen0J/e3H9AjmEQuU7Wg2Cq
-         sd4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVyxAFxePjkmknH5yCby5hBOAaCtOXLW//2Sv0WoCcoAj6IsruOtnMKYQApnRd22Mzwlhle3WLPu+q/@lists.infradead.org
-X-Gm-Message-State: AOJu0Yzm+glqPWvYKZTRqv5i/mgGZAjzwnKR5LrKWtzhVrO36/pcwc5A
-	9UbQWMsDSaUTRYuPtceQMIAUngr5U+sw4e6Rk0/YfertfVbL6MltsQSz
-X-Gm-Gg: ATEYQzzLm79fX2d/UFw0ygESjcaCeb2sBqhizEG+n4cuYLzRSG9HiLTt8N1mrzrcPuP
-	KbKLWi3x5iCLT10db+aut1vIJObOpmtoonnrzGUdLsI0uRFf2613GjfqjBSNDJ6jj5uBzIfiLmX
-	XMzytXAkqLVI10XqjTW6GWVjlLhIT/KkNsGawVUaXnhQeDLxtPV4oDVfP8dNLWT0h9/AFfeXY+J
-	7AGyrHAjx2Dp5ikTkcFpQnuhm0EViCPB4kA/HzsVM+94tmE8tpyD2XM4B1lYjTaVLZ7gqn6T4Bj
-	/2zH2T2kUKmmfsZ3UrPjNgm2ZJm7mq2UNEeq6tE2c6snxAIpDQU6Y2jmFoHxIXzxbFnXIykjQvX
-	0m7v1S+dU9h0MmnSLOvIjJrtCz8+7XkihORpz3vtRQdXYhXfRqmI/SncZTo9PuK8tRypIZXoNRC
-	d65Zc5FYVG13V9qcnk6lv5l5dH+L9EzHMmG97L7Qu4Fw==
-X-Received: by 2002:a17:90b:2884:b0:359:f77f:8cff with SMTP id 98e67ed59e1d1-35bd2c9b202mr635612a91.19.1773966059990;
-        Thu, 19 Mar 2026 17:20:59 -0700 (PDT)
-Received: from toolbx.alistair23.me ([2403:581e:fdf9:0:6209:4521:6813:45b7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c743a801701sm428255a12.4.2026.03.19.17.20.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 17:20:59 -0700 (PDT)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
-To: hare@suse.de,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	yjshin0438@gmail.com
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v4 1/2] nvme: Add the DHCHAP maximum HD IDs
-Date: Fri, 20 Mar 2026 10:20:44 +1000
-Message-ID: <20260320002045.1927526-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	Fri, 20 Mar 2026 05:21:18 +0000
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260320052102epoutp01a43b2d71e74e8c34e0bd710b5b8262ca~edRsjQW_r1829918299epoutp01M
+	for <linux-nvme@lists.infradead.org>; Fri, 20 Mar 2026 05:21:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260320052102epoutp01a43b2d71e74e8c34e0bd710b5b8262ca~edRsjQW_r1829918299epoutp01M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1773984062;
+	bh=JxQ7E6F74uxBXrdFidaGlt2hT0tYDUqE1zgU7CkwdSI=;
+	h=Subject:Reply-To:From:To:CC:Date:References:From;
+	b=FRp/O6Bw4gYbxIYxd1SvWpFdWWLjFsz1bE2c5E1obVaxhf3HwUBwa1x+O4clUgDKy
+	 o609i5mJPIEFuPXEi3fviJcz039fgMfxWEYrgLKsB1f2SdzktUtbrVdd7/xmSsmZrv
+	 3VhpyAoQ1bqUD0vKaD9i/B9QCkJUP4iVFNkA4ZYc=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
+	20260320052102epcas2p1bad6bc6c6805325c5d09c69067ba6274~edRsHPBob1038710387epcas2p1E;
+	Fri, 20 Mar 2026 05:21:02 +0000 (GMT)
+Received: from epcas2p4.samsung.com (unknown [182.195.38.210]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4fcWB54z77z3hhTB; Fri, 20 Mar
+	2026 05:21:01 +0000 (GMT)
+Mime-Version: 1.0
+Subject: [PATCH] nvme: Move nvme_setup_cmd before hot_pathing
+From: =?UTF-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk"
+	<axboe@kernel.dk>
+CC: "sven@kernel.org" <sven@kernel.org>, "j@jannau.net" <j@jannau.net>,
+	"neal@gompa.dev" <neal@gompa.dev>, "hch@lst.de" <hch@lst.de>,
+	"sagi@grimberg.me" <sagi@grimberg.me>, "justin.tee@broadcom.com"
+	<justin.tee@broadcom.com>, "nareshgottumukkala83@gmail.com"
+	<nareshgottumukkala83@gmail.com>, "paul.ely@broadcom.com"
+	<paul.ely@broadcom.com>, "kch@nvidia.com" <kch@nvidia.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, "asahi@lists.linux.dev"
+	<asahi@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, =?UTF-8?B?7KCE66+87Iud?=
+	<hmi.jeon@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
+Date: Fri, 20 Mar 2026 14:21:01 +0900
+X-CMS-MailID: 20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+cpgsPolicy: CPGSC10-223,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6
+References: <CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260319_172101_333932_6134AD6C 
-X-CRM114-Status: UNSURE (   8.72  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260319_222113_869523_187B210F 
+X-CRM114-Status: GOOD (  22.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,36 +94,184 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: hmi.jeon@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From e54937be5ca0a2b38fffe6611c360625dc0a8903 Mon Sep 17 00:00:00 2001
+From: Minsik Jeon <hmi.jeon@samsung.com>
+Date: Fri, 20 Mar 2026 14:48:07 +0900
+Subject: [PATCH] nvme: Move nvme_setup_cmd before hot_pathing
 
-In preperation for using DHCHAP length in upcoming host and target
-patches let's add the hash and diffie-hellman ID length macros.
+we were checking host_pathing_error before calling nvme_setup_cmd().
+This is caused the command setup to be skipped entirely when a pathing
+error occurred, making it impossible to trace the nvme command via
+trace_cmd nvme_complete_rq().
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+As a result, when nvme_complete_rq() logged a completion with cmdid=0,
+it was impossible to correlate the completion with the nvme command
+request.
+
+This patch reorders the logic to first call nvme_setup_cmd(), then
+perform the host_pathing_error check.
+
+Co-authored-by: Beomsoo Kim <beomsooo.kim@samsung.com>
+Co-authored-by: Eunsoo Lee <euns212.lee@samsung.com>
+Co-authored-by: Steven Seungcheol Lee <sc108.lee@samsung.com>
+Signed-off-by: Minsik Jeon <hmi.jeon@samsung.com>
 ---
-v4:
- - New patch
+ drivers/nvme/host/apple.c  | 6 +++---
+ drivers/nvme/host/fc.c     | 8 ++++----
+ drivers/nvme/host/pci.c    | 8 ++++----
+ drivers/nvme/host/rdma.c   | 8 ++++----
+ drivers/nvme/host/tcp.c    | 8 ++++----
+ drivers/nvme/target/loop.c | 6 +++---
+ 6 files changed, 22 insertions(+), 22 deletions(-)
 
- include/linux/nvme.h | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 655d194f8e72..b9d3dbe2564d 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -2332,4 +2332,8 @@ enum nvme_pr_change_ptpl {
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index ed61b97fde59..2a28c992d024 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -783,13 +783,13 @@ static blk_status_t apple_nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (unlikely(!READ_ONCE(q->enabled)))
+ 		return BLK_STS_IOERR;
  
- #define NVME_PR_IGNORE_KEY (1 << 3)
+-	if (!nvme_check_ready(&anv->ctrl, req, true))
+-		return nvme_fail_nonready_command(&anv->ctrl, req);
+-
+ 	ret = nvme_setup_cmd(ns, req);
+ 	if (ret)
+ 		return ret;
  
-+/* Section 8.3.4.5.2 of the NVMe 2.1 */
-+#define NVME_AUTH_DHCHAP_MAX_HASH_IDS 30
-+#define NVME_AUTH_DHCHAP_MAX_DH_IDS 30
++	if (!nvme_check_ready(&anv->ctrl, req, true))
++		return nvme_fail_nonready_command(&anv->ctrl, req);
 +
- #endif /* _LINUX_NVME_H */
+ 	if (blk_rq_nr_phys_segments(req)) {
+ 		ret = apple_nvme_map_data(anv, req, cmnd);
+ 		if (ret)
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e1bb4707183c..8ea37102a836 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2762,14 +2762,14 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	u32 data_len;
+ 	blk_status_t ret;
+ 
+-	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
+-	    !nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+-		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+-
+ 	ret = nvme_setup_cmd(ns, rq);
+ 	if (ret)
+ 		return ret;
+ 
++	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
++	    !nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
++		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
++
+ 	/*
+ 	 * nvme core doesn't quite treat the rq opaquely. Commands such
+ 	 * as WRITE ZEROES will return a non-zero rq payload_bytes yet
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b78ba239c8ea..ad0363f7e681 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1376,10 +1376,6 @@ static blk_status_t nvme_prep_rq(struct request *req)
+ 	iod->meta_total_len = 0;
+ 	iod->nr_dma_vecs = 0;
+ 
+-	ret = nvme_setup_cmd(req->q->queuedata, req);
+-	if (ret)
+-		return ret;
+-
+ 	if (blk_rq_nr_phys_segments(req)) {
+ 		ret = nvme_map_data(req);
+ 		if (ret)
+@@ -1418,6 +1414,10 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
+ 		return BLK_STS_IOERR;
+ 
++	ret = nvme_setup_cmd(req->q->queuedata, req);
++	if (ret)
++		return ret;
++
+ 	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true)))
+ 		return nvme_fail_nonready_command(&dev->ctrl, req);
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 57111139e84f..96248d81237e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2005,6 +2005,10 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	WARN_ON_ONCE(rq->tag < 0);
+ 
++	ret = nvme_setup_cmd(ns, rq);
++	if (ret)
++		return ret;
++
+ 	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+ 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+ 
+@@ -2020,10 +2024,6 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	ib_dma_sync_single_for_cpu(dev, sqe->dma,
+ 			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 
+-	ret = nvme_setup_cmd(ns, rq);
+-	if (ret)
+-		goto unmap_qe;
+-
+ 	nvme_start_request(rq);
+ 
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 243dab830dc8..1a3640e81b8f 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2705,10 +2705,6 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
+ 	u8 hdgst = nvme_tcp_hdgst_len(queue), ddgst = 0;
+ 	blk_status_t ret;
+ 
+-	ret = nvme_setup_cmd(ns, rq);
+-	if (ret)
+-		return ret;
+-
+ 	req->state = NVME_TCP_SEND_CMD_PDU;
+ 	req->status = cpu_to_le16(NVME_SC_SUCCESS);
+ 	req->offset = 0;
+@@ -2768,6 +2764,10 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
+ 	blk_status_t ret;
+ 
++	ret = nvme_setup_cmd(ns, rq);
++	if (ret)
++		return ret;
++
+ 	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+ 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+ 
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 4b3f4f11928d..475b532d08e8 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -140,13 +140,13 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	bool queue_ready = test_bit(NVME_LOOP_Q_LIVE, &queue->flags);
+ 	blk_status_t ret;
+ 
+-	if (!nvme_check_ready(&queue->ctrl->ctrl, req, queue_ready))
+-		return nvme_fail_nonready_command(&queue->ctrl->ctrl, req);
+-
+ 	ret = nvme_setup_cmd(ns, req);
+ 	if (ret)
+ 		return ret;
+ 
++	if (!nvme_check_ready(&queue->ctrl->ctrl, req, queue_ready))
++		return nvme_fail_nonready_command(&queue->ctrl->ctrl, req);
++
+ 	nvme_start_request(req);
+ 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
+ 	iod->req.port = queue->ctrl->port;
 -- 
-2.53.0
+2.52.0
 
 
