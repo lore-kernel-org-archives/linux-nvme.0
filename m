@@ -4,105 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8C2231091900
-	for <linux-nvme@archiver.kernel.org>; Thu, 19 Mar 2026 18:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13DE71091937
+	for <linux-nvme@archiver.kernel.org>; Fri, 20 Mar 2026 00:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qF9W3zO5gt6g59Tywgu51teuUsXV3uqYu62hZk259SE=; b=ri3WiSVolFQXT5y11w3xSCjWRl
-	BjI6wy6JSlnUAaf1jz4dHvQro5N2g3UbqhwFjvWyaH65vHsxslv6R/B/Ked/85HKXtsUUWdtNTf/G
-	e3u5CyIS2NaN1wMNbSYGnk/dCzDPacBZxr+pLk+wsxLu228K7+y6JNy4R0cXr3UPhWnszlUUTEblz
-	Iu0IAf+9IzRVie4AP0f4QX14XdFEfwbJTqCokEXsVy13YqjTtY/o9iD+6ramLuW47Cs9kk9d0S5gW
-	36+nndid7S3uLrC+Hy0yYeeqKpXF/vYhRn2GTAszSheMJ7oYxUy/fXQY+/WhxBAcPStHLcO+cXAye
-	znJzwrvg==;
+	bh=/oIKZiyv/PcbrVWXm60TvW/iKtw//CE0+Q8NBkuoF3I=; b=UdBHj5Uv30bagh4CqtDbrISM1t
+	60toRsaGZGAARWGpgfn5hlkTgaXHnld15JYchOltF2YHWtZWOlPfxX12ptr8jpBjT0VCmo+e0PxS5
+	X46qRWepwMUEaFlsLjfrfcX8ip8HRTC3dgRrA7csc6tdDJg2AcD/6kx+BXttG3DHWegk2embqbH1H
+	UVxE2nyTkfSs1+soHTIkOBJEZ3ETzdgSFdGwWwqU8mYmmT7T7IQqIfcQ+R1BNI+TPqa/Guci1Bw9o
+	hcFEmFuMRi8cPaD8n/NaSugal4+ciuRXmQ3rnPYB4x7w7r484Km/bbiwKcnlPbWIGQBrbyQsKHRNr
+	RNXTrSGw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3Hfs-0000000BFvS-3Uys;
-	Thu, 19 Mar 2026 18:00:48 +0000
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+	id 1w3Nbx-0000000Bpnv-1fqH;
+	Fri, 20 Mar 2026 00:21:09 +0000
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3Hfl-0000000BFuv-2pPH
+	id 1w3Nbt-0000000Bpmg-3Ijz
 	for linux-nvme@lists.infradead.org;
-	Thu, 19 Mar 2026 18:00:47 +0000
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-439b7c2788dso719103f8f.1
-        for <linux-nvme@lists.infradead.org>; Thu, 19 Mar 2026 11:00:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773943240; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cKk56mSde93+ScnoOMcMbDJuDO1WabrLuxI9NKfPZ3tL2ss5coju538G+hA9Nc9kpc
-         VqAbAektitSYOXwyphzglIW+kYzFCWh2OPfppXmu2ehh+z3s1xaqhUdJrpSzNVSEFO95
-         Hwz5MApmXt07tMLyDm/togqXjivibjz1HNZ3s0Zzshapym3HMwk5/EPxNuSFi0qfA4K2
-         8KM724yq4yFF6UvNA42GYp/CMX3d7b4JFjXBqFPvQdTIfTAsPDOKnWGjKIbT5GMjcbdW
-         x9nHXolvdzfRFsPL50SZV/iq68xM1zFNuHcrhQZABbB+Ec0TAY+ckYsmgRT4E5U3h7Z+
-         j6Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qF9W3zO5gt6g59Tywgu51teuUsXV3uqYu62hZk259SE=;
-        fh=wJcC0M+xEf5edjCtFGGdlyecvXAMClYiPmMOU5IksBk=;
-        b=PGg7jBjtji9w5CK3MRgUFKH28geRvUmT6VaEllV26cSszxzHgEj5bZsHjXwOu66fpn
-         xM4mZTWWSE4mbAAaWpuH0XMhRWbnAuCG8Jr1vreUDxvQkOxzC5RAR01x5PxxEpTMGqB0
-         vqncf22qbsp0UL3BHbKI0LtRPUb98AKYnOMXPXlownjTLrXTtPm9OpNLZlzxf7XVR6JX
-         yKPWB4YyL5cwZCw9XAZjroNgLKOhegD8hfVfqnLcg7sb5UTiloo2VWaiRDZjIY+KwTmB
-         9z/N8UZo1ay0C2XI7xGkG0PWF0KvKtDV9NEAMlx8nZvi6kI8xuK3GN5pU9OQ3M78xI78
-         i/vw==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Fri, 20 Mar 2026 00:21:08 +0000
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-2b07069e2efso7928505ad.3
+        for <linux-nvme@lists.infradead.org>; Thu, 19 Mar 2026 17:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773943240; x=1774548040; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773966065; x=1774570865; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qF9W3zO5gt6g59Tywgu51teuUsXV3uqYu62hZk259SE=;
-        b=lQCI5irdACviOmkZ+AH97dtnf+UPGLTjyuIi/mnzAJfagK5FUBhLb3mvetF/EksfDW
-         VaWc11kWNirAwCmpixHYYZvMvEs1/857Dv04O3GEwYXvCmm0HBdQ34ZIu6QhP97vgK9u
-         c2BFE1DivTrGsPce86WdwSGAZ2NMWNMpQdzl7BLnXRNaH55GpYEQwb/C8pl9PFSMg25q
-         +WRrCgXcNfEeA1XkjdTT6Mw39srEYXI35EMoCcBtmAWEl5xl8JZQND+2b0o6AXCuMnLw
-         8hZW7+XMml2EeTmhCEjTbuzeUu/m9tE0TeJMKeCIT7Z3cjqkLwXaRu6oBZ3ogodLZt1/
-         eeyQ==
+        bh=/oIKZiyv/PcbrVWXm60TvW/iKtw//CE0+Q8NBkuoF3I=;
+        b=hNBS1SbxWJ01eSkPHZCnh0OoK4jAH8aZI8aJ1cBBJ2f+g6PtQ1ufBgsMKOOcW2SoqR
+         vZqHO8dXILCjalm+D1fKKJDn9VObVOCrQGn9vjt09icx5Sj+slHITJB5XM0siu2qmQua
+         dPeyQYH/kkece1ficDFgzd7K6H6ZqNzHCgBVFpX07wq3I6ylsXYP4H3uFYg1YZFZN4zb
+         yNXKSOw41kuhxzGYfnLEgPR/72GdJu4w7ScgtG7q3mpilOZXIRHDvWRsJFTEWxkDVpcq
+         bM1ZMtKvsZ60sd2coV+0KWScONon8rRAevbEQS+Ge2jH7rDVN/mq5eIj3hcmNC9+3i9b
+         G4qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773943240; x=1774548040;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1773966065; x=1774570865;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qF9W3zO5gt6g59Tywgu51teuUsXV3uqYu62hZk259SE=;
-        b=py8cISU+H6l5upBc4YUuSud+F7uGDfXO+zJNgqj7lNVcTkb7LVBezqdyTa90GIwLWP
-         fVuj/W1g2DR0/BV1X3Nxa5pb3FCK9MHvzi5F87znWBFxx6N0K6ZkupNXMX92Ck7Wpxcq
-         Z3LcKaPD6xrYrpZQJvknAl7YuhKomcy5XWy4CPtcSxCmGa4rXiCzo1uRiO56g+UpBPEo
-         92EQdlBKTG4CIeayZQhuByB+MknMLsIXPqRqEakyue19u8IBV4yKKvifiUy7nNyGw9hO
-         ORg3V/tfTf7rRCns78sqPZcmb5bWa3LwrX0mw6dFriLFQqtBrNQuJ8ZEx0VGrULjzYV4
-         AH9g==
-X-Forwarded-Encrypted: i=1; AJvYcCWtcvmu08CLKYQ6+Biy26jMeJrsRZUup0bba3lUbfEE0kzzXnr4UwqvqEvt59eL0rLc8xisNVFMavIk@lists.infradead.org
-X-Gm-Message-State: AOJu0YwCvtZ90mbeo0Y/QvShuod6RdqP0WgeX5f9VdelZj2l4rcVs5Qr
-	9IvJUUeLJsz+p0/PePMyv31QeoBZfgwSRJLlRAYsjzBjyrM+KEIxHApUW2Y0UxwTK4Y5EVC38cs
-	jyPJFVYpv6yF2pCepxA29wVKhc2/8ho62lu5C
-X-Gm-Gg: ATEYQzx6sxiANfofqMv2elkYDtfZewaQjkjwzUSZzkeTKto0BpxHiuY+a0z9YoXu9RA
-	77ecmZlZKGcY/0rQjxp0d/6pVEQNf1isB+QTGFoK7uQdui1y9pISmax5aCZSOhu9EO95DBl7dP4
-	PztuF/GboaaBBIuiv/vZd3+9lNF9TrfO3WrQfijLCtRaqL4ao2HFjsvJ9/0taB0YD7GazcZCTZy
-	sgcD7I+vtWqJmdodMNMEDgjMZPIDRLmK8ZSyRba+A+um19+LZoZErOhUmeIROgfkogGqVnNFa/B
-	HAZU8qCwEA==
-X-Received: by 2002:a05:6000:4007:b0:439:d769:ec56 with SMTP id
- ffacd0b85a97d-43b63fdd30fmr481087f8f.0.1773943239400; Thu, 19 Mar 2026
- 11:00:39 -0700 (PDT)
+        bh=/oIKZiyv/PcbrVWXm60TvW/iKtw//CE0+Q8NBkuoF3I=;
+        b=I12Et2YP1GFUMmIJYWJZwGotorK6oNmIm2qcYUEb7iWEPf5GXHOJ3Ezhlu8qLsXN87
+         l2LhS+IjmXfgegoul2ayd0Nb0jp2Zy9Ud6+VGPI1GyID5deKD776JpbZJjr1CTTukkDc
+         R/E4B6J+qyniUocV67VZC3EIwd767EeAVJeC476D6vmN4CKzINhC95+QhHeYQxjPd0+9
+         uPsgPPwCR9iqvnZLbqiMM2fxTFRrSYz3LigrTw4P8pp+eMZxLKoDNwJ010MsbUgNd1lA
+         8hRjT1PwOFJGWlbXIQH6/MepT/3MIshkspN9tkv7rwjaQC7FaWKUXUDbExtmXiY9c9qp
+         GDgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU315cpw1iXr2XxvKu7vVD0khe7SjoU94T10Bju39d7eRDs3T2SBvliGfD/cmempUPLM/qT+Sq66yNe@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy3fpCnSskHOf3KrDb2dtwQlcT5cUalkDDZMcdqjTf331a5c7Iq
+	8i46W3OdySPV/uC8rMKMQ3/6cNSZyqRLeM39RdaN5SFwSC8TCcywcwAx
+X-Gm-Gg: ATEYQzxK516IKbVpLrj3cSOvPxvgkAJ5vtMsYvGhNNhGzEI+3XXSKgajbzCDz7iSiJl
+	SaXqfAJptXU1u2cTjkou/jnxeZAevjtktHo1+eT/ZhTHqK3AShSLjd21DNmSEthO/dYoSX3t7rP
+	8pno03AVRJzu1nfJasSXJHzbHbHzw5ptriK4D3alCpXMoCczMTAiQNl9yu7lqmwNl4G5ZCGNzps
+	xcIrufsK5WwIac9hMD1C65EcC/m/sgufDgQsmQ6KUAb7QrSgEhIYq1qT+lryYC3Dpp06nW4hN4O
+	yNPQ16TUpHwbo7eRcTSvjYdX72J7PWCCgGvPwV7+EXmJNgtF9DwQJGjRRRb6h2u9hguBhw5EKkd
+	ah1qCTUJ5ppbZh83OtLSOB4sjL+AwMY2HZ12FnvAIPhji4H35RMd9k2HOpl6GmzSbGW+rUnYMRz
+	5Fp4uBUIwSpDgWSYbW8vc3jET4Azd+cDq+OKDD675Vrg==
+X-Received: by 2002:a05:6a20:728a:b0:398:4a1f:8a54 with SMTP id adf61e73a8af0-39bcea1ec6cmr1106337637.2.1773966064970;
+        Thu, 19 Mar 2026 17:21:04 -0700 (PDT)
+Received: from toolbx.alistair23.me ([2403:581e:fdf9:0:6209:4521:6813:45b7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c743a801701sm428255a12.4.2026.03.19.17.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 17:21:04 -0700 (PDT)
+From: alistair23@gmail.com
+X-Google-Original-From: alistair.francis@wdc.com
+To: hare@suse.de,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	yjshin0438@gmail.com
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+Subject: [PATCH v4 2/2] nvme-auth: Don't propose NVME_AUTH_DHGROUP_NULL with SC_C
+Date: Fri, 20 Mar 2026 10:20:45 +1000
+Message-ID: <20260320002045.1927526-2-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260320002045.1927526-1-alistair.francis@wdc.com>
+References: <20260320002045.1927526-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-References: <2026031805-stretch-skid-ae5b@gregkh> <20260319012630.1802025-1-kumar.shivam43666@gmail.com>
- <DH6LLP692EBM.4N82LTNB60WV@arkamax.eu>
-In-Reply-To: <DH6LLP692EBM.4N82LTNB60WV@arkamax.eu>
-From: Shivam Kumar <kumar.shivam43666@gmail.com>
-Date: Thu, 19 Mar 2026 14:00:27 -0400
-X-Gm-Features: AaiRm50Uo7IOWJpKdjbntVz9yfMPNYXSVlq03Qjw6yzYd-GTZ_GOiWICtZ2uDAs
-Message-ID: <CA+ysrSLau_52n+4JMvQ=EtqY-cyWhhZ_pLOyeNL=mwkjkNvoUw@mail.gmail.com>
-Subject: Re: [PATCH] nvmet-tcp: bound sgl->length check in nvmet_tcp_map_data()
-To: Maurizio Lombardi <mlombard@arkamax.eu>
-Cc: gregkh@linuxfoundation.org, security@kernel.org, hch@lst.de, 
-	sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260319_110041_745171_5FE9488C 
-X-CRM114-Status: GOOD (  26.56  )
+X-CRM114-CacheID: sfid-20260319_172105_831553_8F3A7C41 
+X-CRM114-Status: GOOD (  12.71  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,77 +107,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Maurizio
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Thank you for the review. You're right, I was conflating the per-PDU
-H2CData limit with the total transfer size for the command.
-And the error handling should trigger a fatal transport error rather
-than completing the request with an NVMe status code.
+Section 8.3.4.5.2 of the NVMe 2.1 base spec states that
 
-Would setting a sane default for MDTS be the preferred approach here?
-If so, I'm happy to send a v2 implementing that instead.
+"""
+The 00h identifier shall not be proposed in an AUTH_Negotiate message
+that requests secure channel concatenation (i.e., with the SC_C field
+set to a non-zero value).
+"""
 
-Thanks,
-Shivam
+We need to ensure that we don't set the NVME_AUTH_DHGROUP_NULL idlist if
+SC_C is set.
 
-On Thu, Mar 19, 2026 at 3:59=E2=80=AFAM Maurizio Lombardi <mlombard@arkamax=
-.eu> wrote:
->
-> On Thu Mar 19, 2026 at 2:26 AM CET, Shivam Kumar wrote:
-> > nvmet_tcp_map_data() reads the SGL length from the incoming NVMe comman=
-d
-> > and passes it to sgl_alloc() for scatter-gather allocation. The only
-> > existing size check (len > inline_data_size) is gated behind
-> > sgl->type =3D=3D NVME_SGL_FMT_DATA_DESC | NVME_SGL_FMT_OFFSET, meaning =
-any
-> > other SGL type bypasses the validation entirely. A remote attacker can
-> > send a CapsuleCmd with a non-offset SGL type and a large sgl->length
-> > (e.g. ~3 GB) to trigger an excessive kernel allocation, resulting in a
-> > page allocator WARNING and kernel panic when panic_on_warn is set.
-> >
-> > Add an upper-bound check against NVMET_TCP_MAXH2CDATA before calling
-> > sgl_alloc(). This value is already advertised to the host in the ICResp
-> > maxdata field as the maximum data transfer size.
-> >
-> > Signed-off-by: Shivam Kumar <kumar.shivam43666@gmail.com>
-> > ---
-> >  drivers/nvme/target/tcp.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> > index a456dd2fd8bd..c7253221c342 100644
-> > --- a/drivers/nvme/target/tcp.c
-> > +++ b/drivers/nvme/target/tcp.c
-> > @@ -431,6 +431,8 @@ static int nvmet_tcp_map_data(struct nvmet_tcp_cmd =
-*cmd)
-> >                       return NVME_SC_SGL_INVALID_OFFSET | NVME_STATUS_D=
-NR;
-> >               cmd->pdu_len =3D len;
-> >       }
-> > +     if (len > NVMET_TCP_MAXH2CDATA)
-> > +             return NVME_SC_SGL_INVALID_DATA | NVME_STATUS_DNR;
-> >       cmd->req.transfer_len +=3D len;
-> >
-> >       cmd->req.sg =3D sgl_alloc(len, GFP_KERNEL, &cmd->req.sg_cnt);
->
->
-> I am not sure this patch is correct, the intent is valid but you are conf=
-lating
-> the total transfer size with the H2CData maximum PDU size.
->
-> In other words, if I understood the code correctly:
->
-> MAXH2CDATA is the limit of a single H2CData packet's size.
-> sgl->length is the total amount of data to transfer.
->
-> Also, will the request be completed with "NVME_SC_SGL_INVALID_DATA |
-> NVME_STATUS_DNR" code? If yes, this would be a violation of the spec
-> that states that an H2CDATA with a too large size should trigger a
-> fatal transport error.
->
-> Maybe the correct fix is to set a sane default for MDTS
-> (Maximum Data Transfer Size), at the moment it's left to zero (no limit).
->
-> Maurizio
->
+Signed-off-by: Kamaljit Singh <kamaljit.singh@opensource.wdc.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+---
+v4:
+ - Split out header changes
+v3:
+ - Ensure chap->sc_c is set before the if statement
+v2:
+ - Use a macro for Diffie-Hellman Group Identifier List Offset
+ - Use a pointer for data->auth_protocol[0].dhchap.idlist
+
+ drivers/nvme/host/auth.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 405e7c03b1cf..5b936ebb4347 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -125,6 +125,8 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+ {
+ 	struct nvmf_auth_dhchap_negotiate_data *data = chap->buf;
+ 	size_t size = sizeof(*data) + sizeof(union nvmf_auth_protocol);
++	u8 dh_list_offset = NVME_AUTH_DHCHAP_MAX_DH_IDS;
++	u8 *idlist = data->auth_protocol[0].dhchap.idlist;
+ 
+ 	if (size > CHAP_BUF_SIZE) {
+ 		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+@@ -141,21 +143,22 @@ static int nvme_auth_set_dhchap_negotiate_data(struct nvme_ctrl *ctrl,
+ 			data->sc_c = NVME_AUTH_SECP_NEWTLSPSK;
+ 	} else
+ 		data->sc_c = NVME_AUTH_SECP_NOSC;
++	chap->sc_c = data->sc_c;
+ 	data->napd = 1;
+ 	data->auth_protocol[0].dhchap.authid = NVME_AUTH_DHCHAP_AUTH_ID;
+ 	data->auth_protocol[0].dhchap.halen = 3;
+-	data->auth_protocol[0].dhchap.dhlen = 6;
+-	data->auth_protocol[0].dhchap.idlist[0] = NVME_AUTH_HASH_SHA256;
+-	data->auth_protocol[0].dhchap.idlist[1] = NVME_AUTH_HASH_SHA384;
+-	data->auth_protocol[0].dhchap.idlist[2] = NVME_AUTH_HASH_SHA512;
+-	data->auth_protocol[0].dhchap.idlist[30] = NVME_AUTH_DHGROUP_NULL;
+-	data->auth_protocol[0].dhchap.idlist[31] = NVME_AUTH_DHGROUP_2048;
+-	data->auth_protocol[0].dhchap.idlist[32] = NVME_AUTH_DHGROUP_3072;
+-	data->auth_protocol[0].dhchap.idlist[33] = NVME_AUTH_DHGROUP_4096;
+-	data->auth_protocol[0].dhchap.idlist[34] = NVME_AUTH_DHGROUP_6144;
+-	data->auth_protocol[0].dhchap.idlist[35] = NVME_AUTH_DHGROUP_8192;
+-
+-	chap->sc_c = data->sc_c;
++	idlist[0] = NVME_AUTH_HASH_SHA256;
++	idlist[1] = NVME_AUTH_HASH_SHA384;
++	idlist[2] = NVME_AUTH_HASH_SHA512;
++	if (chap->sc_c == NVME_AUTH_SECP_NOSC)
++		idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_NULL;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_2048;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_3072;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_4096;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_6144;
++	idlist[dh_list_offset++] = NVME_AUTH_DHGROUP_8192;
++	data->auth_protocol[0].dhchap.dhlen =
++		dh_list_offset - NVME_AUTH_DHCHAP_MAX_DH_IDS;
+ 
+ 	return size;
+ }
+-- 
+2.53.0
+
 
