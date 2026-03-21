@@ -4,93 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1304E1094488
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Mar 2026 15:29:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37B251094486
+	for <linux-nvme@archiver.kernel.org>; Sat, 21 Mar 2026 15:29:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Q+pw0ziV6HRhXn4P0TToRZdWx7kELmz7mAE1a3PCR70=; b=JwmJmVvCYBF5Vt0s9hdQFjgeoW
-	fW0mCAtTEqKC3BGuVcpGt+85rH4js6rhUKLuZsxgpaAQyDTvalwsv1C9tjRe+h8S2t5YPwSwD7SvI
-	G2o2EXTG4q6wNqM7O2ML9msJr/BcUhGnTmhB9TdGvgf49denH6QugGd9sdW5PUbHZEPoY1BqYMh6E
-	jLTZA4C6/BM1BqMx0N1eAzehH3Fv0Lif2Qi6Zm9E1sfEPDB8CqCOATAnYI+gzCs3FttFkbM6oBVUn
-	5WPXtY5d4lbax+Avdd7MHNE8pWglZaFje5bK0vhyBjPvkCdengYWXtrwuD7ec6OyMXxnUoR5G6Kkm
-	z0L/RxwA==;
+	bh=pw0w5izld27ewNvRTAjfeZwrkkfdwsQwBiS6RaqHi9s=; b=hktRdGWU2kByZaJ/1nCKCZv1ys
+	nB3W5DANlWbEprFGrYEk4iE6yk4uScXI3JjL86s9e5Ize7oJNKaKJ7HyrgG43rgdajpydYRD4/gY6
+	iwIFe2x8IwHbId8k4elvv67aUZ84rFSKhk7R+sWmczVEZZ8UmEXWUaqzqF9KNxz3kO/3c5fYJ9vKv
+	hH1BRdsKKOrwJSAAixHakRsTTKr7s8TpaTV3yWrKHa9aYUGt/tZ+ulwRwMoFiFI/YJSmlxe+CzQPl
+	3ZZt/4Ub7e+nvDGwmH1c3Vi8sLTBypoG6DFiBfl6VhvvZbeCQxKVOX3OkXl7YbFoSYkM+vTihyH/w
+	JQv3JHVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3yG5-0000000Ea6s-1EWw;
-	Sat, 21 Mar 2026 15:29:01 +0000
+	id 1w3yG7-0000000Ea8F-2aM0;
+	Sat, 21 Mar 2026 15:29:03 +0000
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3yG2-0000000Ea51-09si
+	id 1w3yG4-0000000Ea5e-3RwQ
 	for linux-nvme@lists.infradead.org;
-	Sat, 21 Mar 2026 15:28:59 +0000
+	Sat, 21 Mar 2026 15:29:02 +0000
 Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62L3sFmE4146040;
-	Sat, 21 Mar 2026 15:28:49 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62LBwQKQ861448;
+	Sat, 21 Mar 2026 15:28:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=Q+pw0ziV6HRhXn4P0
-	TToRZdWx7kELmz7mAE1a3PCR70=; b=nuIttmNnS7N9MVdKIJNzrbZtU0+sqkHx5
-	es7EtogiLTqYA+H0SA8PprrsEQ+FCik8mxvyDv+lRDn+fhvfs9HO2iVEGG5HsQ6Z
-	e+YeasOtyYo/nj3PEpQd8KCokgjQJkjJTxmpA/EQDsmR0VO+tgayADx6m07TqLbB
-	tng7GgudeopbFXvnsv0Qwk0M21/pwKQ9tJpXTnbpqsN+bcwIRiowAIsssbCMiLSC
-	xt5IFkVZFTIliAUpPJyxsDe66vHdlyMG/pA2OIxVh5CYL4uLv0dlI4J3GJKOglZe
-	WLAmr5e1be/FsF15tQLyIi3Qam2/28iyU0MgU+xLhd0jsGIBvc7Cw==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1ktxh8ty-1
+	:mime-version:references:subject:to; s=pp1; bh=pw0w5izld27ewNvRT
+	AjfeZwrkkfdwsQwBiS6RaqHi9s=; b=qXPrcD2t15EkFjPJkJckPE+OCxUsKVSwq
+	By0YSK4UfcKEncnoH3CSuydcM21j36qZ4dpDKSrqycz8yY20XnBRZXmYASEKZB2Q
+	cwXB0jbccKo2O9VQonY5haAPyBMIK9BlVv+fOokTkFgaYfg8N6btlvQscWaDpyIt
+	9xM+DxHOf+DmU01xnAk8bW9DhYRKEXu1Hpfr8M30rPBAZYeil3wf2YT4Vq8Bxpnd
+	bfJ7/TYiSVMkgclCJaISUVUfMoCB4ROeBB/sX0GBsnMtqS4i1scYAsprQz8IeMLN
+	TIvZZIxuc3DKJ8clubfilDZnKOKt1zcEoFd0mJr78Su9Jsya40WYg==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1ktxh8u8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 21 Mar 2026 15:28:48 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62LA1N5f012180;
-	Sat, 21 Mar 2026 15:28:47 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cwj0sv3hk-1
+	Sat, 21 Mar 2026 15:28:52 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62LAU1ux006315;
+	Sat, 21 Mar 2026 15:28:51 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cwkgkux0p-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 21 Mar 2026 15:28:47 +0000
+	Sat, 21 Mar 2026 15:28:51 +0000
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62LFSiuc50135448
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62LFSlOs26345794
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 21 Mar 2026 15:28:44 GMT
+	Sat, 21 Mar 2026 15:28:48 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0DC4120049;
+	by IMSVA (Postfix) with ESMTP id D206720049;
+	Sat, 21 Mar 2026 15:28:47 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8ADB820040;
 	Sat, 21 Mar 2026 15:28:44 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7C02D20040;
-	Sat, 21 Mar 2026 15:28:38 +0000 (GMT)
 Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.124.222.150])
 	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 21 Mar 2026 15:28:38 +0000 (GMT)
+	Sat, 21 Mar 2026 15:28:44 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
         gjoyce@ibm.com, wenxiong@linux.ibm.com,
         Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH 2/9] libnvme: annotate nvme_path::numa_nodes with !accessors:none
-Date: Sat, 21 Mar 2026 20:58:01 +0530
-Message-ID: <20260321152823.3197870-3-nilay@linux.ibm.com>
+Subject: [PATCH 3/9] libnvme: annotate nvme_subsystem::iopolicy with !accessors:none
+Date: Sat, 21 Mar 2026 20:58:02 +0530
+Message-ID: <20260321152823.3197870-4-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260321152823.3197870-1-nilay@linux.ibm.com>
 References: <20260321152823.3197870-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=IqITsb/g c=1 sm=1 tr=0 ts=69beb930 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+X-Authority-Analysis: v=2.4 cv=IqITsb/g c=1 sm=1 tr=0 ts=69beb934 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
  a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8 a=cXzdoU1T7TFplbsrT5gA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIxMDEyOSBTYWx0ZWRfX391QXGF9o6Yi
- lMq3RDcgix+StAXvdJ0QXqxfPvK7ce24Lqj9T0N/mes5c3tnQIuSZN3Jh1eaUuigafIshQ38+SZ
- 9uwmIoF0Yj2jBrxeEOmF6Y6wvUGgljN4VftexAjB0QK9dE+QJShrslkm3S5FnEYqmSACwNgAanu
- TBpjZVtGhT3Tw/XLHmBxuwkYocwe8k1sCLIPp1A7mXWvO1TvbYbApLZGuVopN8fjmnTWdL4WmuF
- iPOICPbFs+chZvINxKO1eyVB5ccR3esss6RCO5XCz3fHtxEmBxmuoctbUx577NTiYSg1ZokZp/0
- Z6IUcm7UF+gN3U4eF41GqGoJCfxiw96iyOjrDUM+Fslzvj7aXGXz1kiSlNmhr8XSxxSxLIaeQSv
- AdwOwMwpQ6ir3zOHPd/ZVVPk8XkR5OpGvsBmv4/KNS/kjwhmER3XG4WfhuiIRsPeojoIisdpzyn
- UK/LPgdhdZJC8zhyPVA==
-X-Proofpoint-GUID: 96lEfAaDc3_r8FY8n6PP6WMFpa1GvwQl
-X-Proofpoint-ORIG-GUID: 96lEfAaDc3_r8FY8n6PP6WMFpa1GvwQl
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8 a=i8JyOrThOiZbpa8wNwIA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIxMDEyOSBTYWx0ZWRfX2F1Ry9VkPiB9
+ y+zT7gzyRvg51AwN3rXHxEVtgp+uy4Slt40bf45QQtTCMykPzqobCwLOMwLg0oBx9uCRmP7dKWr
+ kS6DKbYEySWhAZXf0bmoxOt7EhmLoFhmEbW5rZXSlcIqS3o2gjOCWL5Eds59o2XGlgBIlFw1RIo
+ P03m1H0dUOm/7wocwh7Vtl4EHK2MqdNSTyFLg1bIPtdpi5dNBeHtPJOaQVWVMCcMPrhbMSzVpL6
+ bo1ySepDAay6WQCPwTHdzLny1tAotlQpIO/7QkvQ70Ru6nFdFPrMcvAGzBF4NF7Vo8xdM2WlFye
+ ysO69wrRjv+uL8sh5Bh14xMPVb+BtbJCoFFBA8qVjZeBSbqmN/v6bBfk8XFb89JpHfj7JPErdic
+ KkOuXAit74NzdERCxsfiPyBuex39lmG6BtDsJ/p0PBjJAHBet1joNp22cdYWXt/GKHPWJsbENvR
+ A1fJRoBf6bzXjw8i6Vg==
+X-Proofpoint-GUID: 6pHlM2QUzTImg6AphrmtOB07JThkCU7d
+X-Proofpoint-ORIG-GUID: 6pHlM2QUzTImg6AphrmtOB07JThkCU7d
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-21_05,2026-03-20_02,2025-10-01_01
@@ -100,8 +100,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603210129
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260321_082858_088098_32ADFD23 
-X-CRM114-Status: GOOD (  15.99  )
+X-CRM114-CacheID: sfid-20260321_082901_058330_060CBCB4 
+X-CRM114-Status: GOOD (  15.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,161 +117,162 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 The default accessor generation creates getters that return cached
-attribute values. However, for nvme_path::numa_nodes, a real-time
+attribute values. However, for nvme_subsystem::iopolicy, a real-time
 (non-cached) value is required.
 
 This is particularly useful for tools such as nvme-top, which rely on
 up-to-date information for displaying a real-time dashboard.
 
-Annotate nvme_path::numa_nodes with "!accessors:none" to disable the
+Annotate nvme_subsystem::iopolicy with "!accessors:none" to disable the
 auto-generated accessor, and provide a custom implementation of
-nvme_path_get_numa_nodes() that returns the current value.
+nvme_subsystem_get_iopolicy() that returns the current value.
 
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
  libnvme/src/accessors.ld     |  2 --
  libnvme/src/libnvme.ld       |  1 +
  libnvme/src/nvme/accessors.c | 13 -------------
- libnvme/src/nvme/accessors.h | 15 ---------------
+ libnvme/src/nvme/accessors.h | 17 -----------------
  libnvme/src/nvme/private.h   |  2 +-
  libnvme/src/nvme/tree.c      | 15 +++++++++++++++
  libnvme/src/nvme/tree.h      |  8 ++++++++
- 7 files changed, 25 insertions(+), 31 deletions(-)
+ 7 files changed, 25 insertions(+), 33 deletions(-)
 
 diff --git a/libnvme/src/accessors.ld b/libnvme/src/accessors.ld
-index 9e5653b92..433767191 100644
+index 433767191..56348a7e5 100644
 --- a/libnvme/src/accessors.ld
 +++ b/libnvme/src/accessors.ld
-@@ -14,8 +14,6 @@ LIBNVME_ACCESSORS_3 {
- 		nvme_path_set_name;
- 		nvme_path_get_sysfs_dir;
- 		nvme_path_set_sysfs_dir;
--		nvme_path_get_numa_nodes;
--		nvme_path_set_numa_nodes;
- 		nvme_path_get_grpid;
- 		nvme_path_set_grpid;
- 		nvme_ns_get_nsid;
+@@ -77,8 +77,6 @@ LIBNVME_ACCESSORS_3 {
+ 		nvme_subsystem_get_subsystype;
+ 		nvme_subsystem_get_application;
+ 		nvme_subsystem_set_application;
+-		nvme_subsystem_get_iopolicy;
+-		nvme_subsystem_set_iopolicy;
+ 		nvme_host_get_hostnqn;
+ 		nvme_host_get_hostid;
+ 		nvme_host_get_dhchap_host_key;
 diff --git a/libnvme/src/libnvme.ld b/libnvme/src/libnvme.ld
-index 0fd86be71..41a170083 100644
+index 41a170083..f842eb770 100644
 --- a/libnvme/src/libnvme.ld
 +++ b/libnvme/src/libnvme.ld
-@@ -143,6 +143,7 @@ LIBNVME_3 {
- 		nvme_path_get_ns;
- 		nvme_path_get_queue_depth;
- 		nvme_path_get_ana_state;
-+		nvme_path_get_numa_nodes;
- 		nvme_filter_paths;
- 		nvme_read_config;
- 		nvme_read_key;
+@@ -176,6 +176,7 @@ LIBNVME_3 {
+ 		nvme_subsystem_first_ns;
+ 		nvme_get_subsystem;
+ 		nvme_subsystem_get_host;
++		nvme_subsystem_get_iopolicy;
+ 		nvme_subsystem_lookup_namespace;
+ 		nvme_subsystem_next_ctrl;
+ 		nvme_subsystem_next_ns;
 diff --git a/libnvme/src/nvme/accessors.c b/libnvme/src/nvme/accessors.c
-index 8b095ed4d..a98f26234 100644
+index a98f26234..55fd11320 100644
 --- a/libnvme/src/nvme/accessors.c
 +++ b/libnvme/src/nvme/accessors.c
-@@ -52,19 +52,6 @@ __public const char *nvme_path_get_sysfs_dir(const struct nvme_path *p)
- 	return p->sysfs_dir;
+@@ -404,19 +404,6 @@ __public const char *nvme_subsystem_get_application(
+ 	return p->application;
  }
  
--__public void nvme_path_set_numa_nodes(
--		struct nvme_path *p,
--		const char *numa_nodes)
+-__public void nvme_subsystem_set_iopolicy(
+-		struct nvme_subsystem *p,
+-		const char *iopolicy)
 -{
--	free(p->numa_nodes);
--	p->numa_nodes = numa_nodes ? strdup(numa_nodes) : NULL;
+-	free(p->iopolicy);
+-	p->iopolicy = iopolicy ? strdup(iopolicy) : NULL;
 -}
 -
--__public const char *nvme_path_get_numa_nodes(const struct nvme_path *p)
+-__public const char *nvme_subsystem_get_iopolicy(const struct nvme_subsystem *p)
 -{
--	return p->numa_nodes;
+-	return p->iopolicy;
 -}
 -
- __public void nvme_path_set_grpid(struct nvme_path *p, int grpid)
- {
- 	p->grpid = grpid;
+ /****************************************************************************
+  * Accessors for: struct nvme_host
+  ****************************************************************************/
 diff --git a/libnvme/src/nvme/accessors.h b/libnvme/src/nvme/accessors.h
-index 3ede23cbc..f9323ad11 100644
+index f9323ad11..9ea96a634 100644
 --- a/libnvme/src/nvme/accessors.h
 +++ b/libnvme/src/nvme/accessors.h
-@@ -68,21 +68,6 @@ void nvme_path_set_sysfs_dir(struct nvme_path *p, const char *sysfs_dir);
+@@ -575,23 +575,6 @@ void nvme_subsystem_set_application(
   */
- const char *nvme_path_get_sysfs_dir(const struct nvme_path *p);
+ const char *nvme_subsystem_get_application(const struct nvme_subsystem *p);
  
 -/**
-- * nvme_path_set_numa_nodes() - Set numa_nodes.
-- * @p: The &struct nvme_path instance to update.
-- * @numa_nodes: New string; a copy is stored. Pass NULL to clear.
+- * nvme_subsystem_set_iopolicy() - Set iopolicy.
+- * @p: The &struct nvme_subsystem instance to update.
+- * @iopolicy: New string; a copy is stored. Pass NULL to clear.
 - */
--void nvme_path_set_numa_nodes(struct nvme_path *p, const char *numa_nodes);
+-void nvme_subsystem_set_iopolicy(
+-		struct nvme_subsystem *p,
+-		const char *iopolicy);
 -
 -/**
-- * nvme_path_get_numa_nodes() - Get numa_nodes.
-- * @p: The &struct nvme_path instance to query.
+- * nvme_subsystem_get_iopolicy() - Get iopolicy.
+- * @p: The &struct nvme_subsystem instance to query.
 - *
-- * Return: The value of the numa_nodes field, or NULL if not set.
+- * Return: The value of the iopolicy field, or NULL if not set.
 - */
--const char *nvme_path_get_numa_nodes(const struct nvme_path *p);
+-const char *nvme_subsystem_get_iopolicy(const struct nvme_subsystem *p);
 -
- /**
-  * nvme_path_set_grpid() - Set grpid.
-  * @p: The &struct nvme_path instance to update.
+ /****************************************************************************
+  * Accessors for: struct nvme_host
+  ****************************************************************************/
 diff --git a/libnvme/src/nvme/private.h b/libnvme/src/nvme/private.h
-index 25fec3216..dcd9079dd 100644
+index dcd9079dd..84852c8b0 100644
 --- a/libnvme/src/nvme/private.h
 +++ b/libnvme/src/nvme/private.h
-@@ -137,8 +137,8 @@ struct nvme_path { /*!generate-accessors*/
- 
- 	char *name;
- 	char *sysfs_dir;
--	char *numa_nodes;
- 	char *ana_state; //!accessors:none
-+	char *numa_nodes; //!accessors:none
- 	int grpid;
- 	int queue_depth; //!accessors:none
+@@ -230,7 +230,7 @@ struct nvme_subsystem { /*!generate-accessors*/
+ 	char *firmware; /*!accessors:readonly*/
+ 	char *subsystype; /*!accessors:readonly*/
+ 	char *application;
+-	char *iopolicy;
++	char *iopolicy; //!accessors:none
  };
+ 
+ struct nvme_host { /*!generate-accessors*/
 diff --git a/libnvme/src/nvme/tree.c b/libnvme/src/nvme/tree.c
-index 1adc2c57a..2984d0ff7 100644
+index 2984d0ff7..18aabe044 100644
 --- a/libnvme/src/nvme/tree.c
 +++ b/libnvme/src/nvme/tree.c
-@@ -820,6 +820,21 @@ __public char *nvme_path_get_ana_state(nvme_path_t p)
- 	return p->ana_state;
+@@ -445,6 +445,21 @@ __public nvme_host_t nvme_subsystem_get_host(nvme_subsystem_t s)
+ 	return s->h;
  }
  
-+__public char *nvme_path_get_numa_nodes(nvme_path_t p)
++__public char *nvme_subsystem_get_iopolicy(nvme_subsystem_t s)
 +{
-+	_cleanup_free_ char *numa_nodes = NULL;
++	_cleanup_free_ char *iopolicy = NULL;
 +
-+	numa_nodes = nvme_get_path_attr(p, "numa_nodes");
-+	if (numa_nodes) {
-+		if (!p->numa_nodes || strcmp(numa_nodes, p->numa_nodes)) {
-+			free(p->numa_nodes);
-+			p->numa_nodes = strdup(numa_nodes);
++	iopolicy = nvme_get_subsys_attr(s, "iopolicy");
++	if (iopolicy) {
++		if (!s->iopolicy || strcmp(iopolicy, s->iopolicy)) {
++			free(s->iopolicy);
++			s->iopolicy = strdup(iopolicy);
 +		}
 +	}
 +
-+	return p->numa_nodes;
++	return s->iopolicy;
 +}
 +
- void nvme_free_path(struct nvme_path *p)
+ __public nvme_ns_t nvme_subsystem_first_ns(nvme_subsystem_t s)
  {
- 	list_del_init(&p->entry);
+ 	return list_top(&s->namespaces, struct nvme_ns, entry);
 diff --git a/libnvme/src/nvme/tree.h b/libnvme/src/nvme/tree.h
-index ec0f4f2e6..1240f3023 100644
+index 1240f3023..39d715508 100644
 --- a/libnvme/src/nvme/tree.h
 +++ b/libnvme/src/nvme/tree.h
-@@ -687,6 +687,14 @@ int nvme_path_get_queue_depth(nvme_path_t p);
+@@ -212,6 +212,14 @@ void nvme_free_subsystem(struct nvme_subsystem *s);
   */
- char *nvme_path_get_ana_state(nvme_path_t p);
+ nvme_host_t nvme_subsystem_get_host(nvme_subsystem_t s);
  
 +/**
-+ * nvme_path_get_numa_nodes() - Numa nodes of an nvme_path_t object
-+ * @p: &nvme_path_t object
++ * nvme_subsystem_get_iopolicy() - Get subsystem iopolicy name
++ * @s:	subsystem
 + *
-+ * Return: Numa nodes of @p
++ * Return: The iopolicy configured in subsystem @s
 + */
-+char *nvme_path_get_numa_nodes(nvme_path_t p);
++char *nvme_subsystem_get_iopolicy(nvme_subsystem_t s);
 +
  /**
-  * nvme_path_get_ctrl() - Parent controller of an nvme_path_t object
-  * @p:	&nvme_path_t object
+  * nvme_ctrl_first_ns() - Start namespace iterator
+  * @c:	Controller instance
 -- 
 2.53.0
 
