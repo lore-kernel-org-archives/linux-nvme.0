@@ -4,104 +4,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07ADD1094486
-	for <linux-nvme@archiver.kernel.org>; Sat, 21 Mar 2026 15:29:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7789FFC72AE
+	for <linux-nvme@archiver.kernel.org>; Sun, 22 Mar 2026 07:17:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iVDw+RDGjCfAeDh+0mKD4Um8UDQRGxqpkoCAbYKaNTo=; b=ZfOyiCm73VYMTUWOkRb+oPmtuL
-	v4cxeGPnoayTuvLdQWjxfn0gNxTkOZ/LJgvJ556AQQM2P4CmNmaOexlG4al3omPI3Kr2VTleDToUs
-	hD6Pidrftb/l1QNMTf2RTj4/3ALgcse7/X3ihMWGaMj1mugIO8/wnrvImfVSlFgDgdeDW8OMAlFE4
-	4XHKBoNajntuVST+JJA4vyxT1YojtLvkGW1xfD7N4acvT1BnqwTXyCnSlHF7qQeTPOeQ4t3rL8s4T
-	llGB2kpQovSMf/UhiDRzKl4/wfT94apYOpDY29s4ap3dcVASm+d1ynuOViWR/7c9NnJgMxhzVm/Qk
-	ve7/S9Pg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=xkJS7XHirsp0vEiCwEwBAUNV80Nd9FD+AW58LPoQNAI=; b=JiACv7a8nSS9YFsvGKZ5n7cMyj
+	7lmHuMLbrJdiaTfsE8GJ101gvP3cb0I2QK/13sE/SBRVWFHni11kcT0j/+9LZSbg1JBb4xX0Rqp4p
+	mNvwnq5GE+K4h0WYhfzhmfYC4Xw6ZVcOZyRc54SK6Rw8+EvTWZiLrIUKMYG1uRowOi4A/6MwphQkd
+	guPALmqlQVHe+rzaEV9LN5hr4mp8y+StXSh4vIEGOEPZuA5ONY5yOUuGoIS1SkYPg4qlpB6iJRNVE
+	i/VazU2TF4EyViSxuq7CpaSRSQdmAR4PhZyI27iamQsWs0cvBPhezsE8qujY8Azpwey/e7d8nxncd
+	YlTw94KA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3yGO-0000000EaWP-0OhY;
-	Sat, 21 Mar 2026 15:29:20 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1w4D3Q-0000000F98H-4BwU;
+	Sun, 22 Mar 2026 07:16:57 +0000
+Received: from mgamail.intel.com ([192.198.163.8])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3yGI-0000000EaPZ-3Vk8
-	for linux-nvme@lists.infradead.org;
-	Sat, 21 Mar 2026 15:29:18 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62LAvAbi637363;
-	Sat, 21 Mar 2026 15:29:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=iVDw+RDGjCfAeDh+0
-	mKD4Um8UDQRGxqpkoCAbYKaNTo=; b=WKQmOolbodVkPkjQGe9WBN1F+9F3/u/Ba
-	bgngrAVHNj1cdEt9LbNdo2tbsYaADPaARCHqkXEypeHYnUm/5dSB5mib/YEO5BrD
-	x75cW2O9EyL8qZtvTMfhM8WGnNuj5PR/ZJudAPdfEsNgz0u2ISbEdlA3uKUP/yCi
-	RFOcTo3Edh1onibOgwtVI7JudAfiI3xFcXPQ6elWNDe2VPzvjvkGkfYbOgErvPQ3
-	xY/GX5GoR/MqdmvUlzVEWnnmjvF/X2GIKX8uRZL+zZbJWq4t2YdsGOKwCbJetW6f
-	1h2tBAmsoVEb9nvpiVmiNUgBQ5AxMAJIU9fSaqjZgcdsipjTk07hg==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1kxys683-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 21 Mar 2026 15:29:11 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62LA8YEc006359;
-	Sat, 21 Mar 2026 15:29:11 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cwkgkux1v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 21 Mar 2026 15:29:10 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62LFT77e45744388
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 21 Mar 2026 15:29:07 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E550A2004B;
-	Sat, 21 Mar 2026 15:29:06 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8ECAC20040;
-	Sat, 21 Mar 2026 15:29:04 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.124.222.150])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 21 Mar 2026 15:29:04 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
-        gjoyce@ibm.com, wenxiong@linux.ibm.com,
-        Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCH 9/9] libnvme: add support for ctrl diagnostic counters
-Date: Sat, 21 Mar 2026 20:58:08 +0530
-Message-ID: <20260321152823.3197870-10-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260321152823.3197870-1-nilay@linux.ibm.com>
-References: <20260321152823.3197870-1-nilay@linux.ibm.com>
+	id 1w4D3N-0000000F97p-2WcH;
+	Sun, 22 Mar 2026 07:16:55 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774163814; x=1805699814;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=kwBSm/78IDtukhguYZn5xQ9aaT99mUU83kPFSMybg3s=;
+  b=DMADZ+JJJouY/8tc75zqiZ4paetx7kiZYmMh0cUnMRLBKUeftByHb8ta
+   tnAmukhqJYoMr5ANmWskv4zT9ngodQBG13t3tzaOmM5fKVxWPxixhHsTN
+   chVVKlcCYF+a2TnbDCCrHxHXhULHvvMfpggzZVD4tPsEfUiFHT5swKtBt
+   c3S7keIgdy+3HsVa6/0pUrwx41htK5aVCmlB8+qn8Gwwu4C5rYe1rc84q
+   dXSel9L1Z//Tlrf+eooBvQRFyooyrFmnPNbtla6kAGP2ofMIsZKwSDTJD
+   AG6kFTF1xfAPpnHQDcovscTsQxDi3rWiylwl1tgHa3zpWrLfkK6qkOL2S
+   w==;
+X-CSE-ConnectionGUID: UdbJ1DBVTTGuIMhXlqn7vQ==
+X-CSE-MsgGUID: TthsNo2QTIK5VaE7kKeoVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11736"; a="92769967"
+X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
+   d="scan'208";a="92769967"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2026 00:16:49 -0700
+X-CSE-ConnectionGUID: bvV48Al9Sd+6ASElmZwosw==
+X-CSE-MsgGUID: I85SOgUtQRW7YzRINARN3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,134,1770624000"; 
+   d="scan'208";a="219411890"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 22 Mar 2026 00:16:46 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4D3D-000000006Jp-2F9v;
+	Sun, 22 Mar 2026 07:16:43 +0000
+Date: Sun, 22 Mar 2026 08:16:39 +0100
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>,
+	"kbusch@kernel.org" <kbusch@kernel.org>,
+	"axboe@kernel.dk" <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, "sven@kernel.org" <sven@kernel.org>,
+	"j@jannau.net" <j@jannau.net>, "neal@gompa.dev" <neal@gompa.dev>,
+	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"justin.tee@broadcom.com" <justin.tee@broadcom.com>,
+	"nareshgottumukkala83@gmail.com" <nareshgottumukkala83@gmail.com>,
+	"paul.ely@broadcom.com" <paul.ely@broadcom.com>,
+	"kch@nvidia.com" <kch@nvidia.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?utf-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
+Subject: Re: [PATCH] nvme: Move nvme_setup_cmd before hot_pathing
+Message-ID: <202603220813.hgb3EFi2-lkp@intel.com>
+References: <20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIxMDEyOSBTYWx0ZWRfX3aNRw00gZWOx
- DbusnfreVOPfHM8iCPevDDgL1rDYqcoqthS6S83vOiffpe74FrJmyVynPHB0rvhEDETJHZMbweQ
- iCjWEY/Plnv1Dn1mpwO6oB0F7NwvhTnbwRjM8wEoyqhFwQYbZ+/8QsSyM0zvsnbKlWD+GSl0Tqm
- 4d+cmQFglumQzNrPaIvTZeG5LubWvwrxmOPMKVMvD7+47xzn2X8mfk/2C5kqkpiAWczlWrR/ydR
- 3h47Ejwe/ua1Ch4aCZgotOAbiwTzjbZnstUfVQsG1XkRfCy1bDYlB91JWJHbwDvEim4X/KFWkAj
- 5k1Q44pZ1xUgddPrclzF26EHnN3n8j9PGGKVDS/7iAkIhLD+Cv5BIIjtLYECWPpb148evQ6lTE2
- 3vXov5DsESdHK32XdcKPIHs5sZE+FCBUhxBzszoDWT9bzeNzK0MmZSR/3rJtTuWMzt+Ij+hFOzr
- JhdnpfjltSujdh5IBbg==
-X-Authority-Analysis: v=2.4 cv=JK42csKb c=1 sm=1 tr=0 ts=69beb947 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=UWddX7ZrEUmAjO3ds3UA:9
-X-Proofpoint-ORIG-GUID: 8pNRR_-9iDj9sKuNMqiaWqVmSHlvx16J
-X-Proofpoint-GUID: 8pNRR_-9iDj9sKuNMqiaWqVmSHlvx16J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-21_05,2026-03-20_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 priorityscore=1501 malwarescore=0 adultscore=0
- spamscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603210129
+In-Reply-To: <20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260321_082917_410951_8F6DE37B 
-X-CRM114-Status: GOOD (  15.47  )
+X-CRM114-CacheID: sfid-20260322_001653_680111_46361ADC 
+X-CRM114-Status: GOOD (  10.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,132 +99,123 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for retrieving ctrl diagnostic counters such as command_
-error_count, reset_count and reconnect_count. These counters improve
-visibility and can be useful for tools such as nvme-top to display
-real-time statistics.
+Hi 전민식,
 
-Unlike other sysfs attributes, these counters can change dynamically.
-Annotate them with "!accessors:none" and provide custom implementations
-to always retrieve the latest (non-cached) values.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- libnvme/src/libnvme.ld     |  3 +++
- libnvme/src/nvme/private.h |  3 +++
- libnvme/src/nvme/tree.c    | 33 +++++++++++++++++++++++++++++++++
- libnvme/src/nvme/tree.h    | 25 +++++++++++++++++++++++++
- 4 files changed, 64 insertions(+)
+[auto build test WARNING on axboe/for-next]
+[also build test WARNING on linux-nvme/for-next linus/master v6.16-rc1 next-20260320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/libnvme/src/libnvme.ld b/libnvme/src/libnvme.ld
-index e3d2ca1bb..964066e8c 100644
---- a/libnvme/src/libnvme.ld
-+++ b/libnvme/src/libnvme.ld
-@@ -16,6 +16,9 @@ LIBNVME_3 {
- 		nvme_ctrl_get_subsysnqn;
- 		nvme_ctrl_get_subsystem;
- 		nvme_ctrl_get_transport_handle;
-+		nvme_ctrl_get_command_error_count;
-+		nvme_ctrl_get_reset_count;
-+		nvme_ctrl_get_reconnect_count;
- 		nvme_ctrl_identify;
- 		nvme_ctrl_next_ns;
- 		nvme_ctrl_next_path;
-diff --git a/libnvme/src/nvme/private.h b/libnvme/src/nvme/private.h
-index f7f8b4f76..12b6351f2 100644
---- a/libnvme/src/nvme/private.h
-+++ b/libnvme/src/nvme/private.h
-@@ -250,6 +250,9 @@ struct nvme_ctrl { /*!generate-accessors*/
- 	bool unique_discovery_ctrl;
- 	bool discovered;
- 	bool persistent;
-+	long command_error_count; //!accessors:none
-+	long reset_count; //!accessors:none
-+	long reconnect_count; //!accessors:none
- 	struct nvme_fabrics_config cfg;
- };
- 
-diff --git a/libnvme/src/nvme/tree.c b/libnvme/src/nvme/tree.c
-index 0f0761005..d15118c21 100644
---- a/libnvme/src/nvme/tree.c
-+++ b/libnvme/src/nvme/tree.c
-@@ -1400,6 +1400,39 @@ __public const char *nvme_ctrl_get_state(nvme_ctrl_t c)
- 	return c->state;
- }
- 
-+__public long nvme_ctrl_get_command_error_count(nvme_ctrl_t c)
-+{
-+	_cleanup_free_ char *error_count = NULL;
-+
-+	error_count = nvme_get_ctrl_attr(c, "command_error_count");
-+	if (error_count)
-+		sscanf(error_count, "%ld", &c->command_error_count);
-+
-+	return c->command_error_count;
-+}
-+
-+__public long nvme_ctrl_get_reset_count(nvme_ctrl_t c)
-+{
-+	_cleanup_free_ char *reset_count = NULL;
-+
-+	reset_count = nvme_get_ctrl_attr(c, "reset_count");
-+	if (reset_count)
-+		sscanf(reset_count, "%ld", &c->reset_count);
-+
-+	return c->reset_count;
-+}
-+
-+__public long nvme_ctrl_get_reconnect_count(nvme_ctrl_t c)
-+{
-+	_cleanup_free_ char *reconnect_count = NULL;
-+
-+	reconnect_count = nvme_get_ctrl_attr(c, "reconnect_count");
-+	if (reconnect_count)
-+		sscanf(reconnect_count, "%ld", &c->reconnect_count);
-+
-+	return c->reconnect_count;
-+}
-+
- __public struct nvme_fabrics_config *nvme_ctrl_get_config(nvme_ctrl_t c)
- {
- 	return &c->cfg;
-diff --git a/libnvme/src/nvme/tree.h b/libnvme/src/nvme/tree.h
-index a34a31601..b79254f86 100644
---- a/libnvme/src/nvme/tree.h
-+++ b/libnvme/src/nvme/tree.h
-@@ -1047,6 +1047,31 @@ unsigned long long nvme_ns_get_write_sectors(nvme_ns_t n, int curr);
-  */
- struct nvme_fabrics_config *nvme_ctrl_get_config(nvme_ctrl_t c);
- 
-+/**
-+ * nvme_ctrl_get_command_error_count() - Get admin command error count
-+ * @c: Controller instance
-+ *
-+ * Return: Number of times admin command issued to controller @c failed or
-+ * returned error status
-+ */
-+long nvme_ctrl_get_command_error_count(nvme_ctrl_t c);
-+
-+/**
-+ * nvme_ctrl_get_reset_count() - Get controller reset count
-+ * @c: Controller instance
-+ *
-+ * Return: Number of timer controller @c is reset
-+ */
-+long nvme_ctrl_get_reset_count(nvme_ctrl_t c);
-+
-+/**
-+ * nvme_ctrl_get_reconnect_count() - Get controller reconnect count
-+ * @c: Controller instance
-+ *
-+ * Return: Number of times controller has to reconnect to the target
-+ */
-+long nvme_ctrl_get_reconnect_count(nvme_ctrl_t c);
-+
- /**
-  * nvme_ctrl_identify() - Issues an 'identify controller' command
-  * @c:	Controller instance
+url:    https://github.com/intel-lab-lkp/linux/commits/nvme-Move-nvme_setup_cmd-before-hot_pathing/20260322-080947
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6%40epcms2p4
+patch subject: [PATCH] nvme: Move nvme_setup_cmd before hot_pathing
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260322/202603220813.hgb3EFi2-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260322/202603220813.hgb3EFi2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603220813.hgb3EFi2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/nvme/host/rdma.c: In function 'nvme_rdma_queue_rq':
+>> drivers/nvme/host/rdma.c:2067:1: warning: label 'unmap_qe' defined but not used [-Wunused-label]
+    2067 | unmap_qe:
+         | ^~~~~~~~
+
+
+vim +/unmap_qe +2067 drivers/nvme/host/rdma.c
+
+71102307196028 Christoph Hellwig 2016-07-06  1991  
+fc17b6534eb839 Christoph Hellwig 2017-06-03  1992  static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+71102307196028 Christoph Hellwig 2016-07-06  1993  		const struct blk_mq_queue_data *bd)
+71102307196028 Christoph Hellwig 2016-07-06  1994  {
+71102307196028 Christoph Hellwig 2016-07-06  1995  	struct nvme_ns *ns = hctx->queue->queuedata;
+71102307196028 Christoph Hellwig 2016-07-06  1996  	struct nvme_rdma_queue *queue = hctx->driver_data;
+71102307196028 Christoph Hellwig 2016-07-06  1997  	struct request *rq = bd->rq;
+71102307196028 Christoph Hellwig 2016-07-06  1998  	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+71102307196028 Christoph Hellwig 2016-07-06  1999  	struct nvme_rdma_qe *sqe = &req->sqe;
+f4b9e6c90c5725 Keith Busch       2021-03-17  2000  	struct nvme_command *c = nvme_req(rq)->cmd;
+71102307196028 Christoph Hellwig 2016-07-06  2001  	struct ib_device *dev;
+3bc32bb1186cca Christoph Hellwig 2018-06-11  2002  	bool queue_ready = test_bit(NVME_RDMA_Q_LIVE, &queue->flags);
+fc17b6534eb839 Christoph Hellwig 2017-06-03  2003  	blk_status_t ret;
+fc17b6534eb839 Christoph Hellwig 2017-06-03  2004  	int err;
+71102307196028 Christoph Hellwig 2016-07-06  2005  
+71102307196028 Christoph Hellwig 2016-07-06  2006  	WARN_ON_ONCE(rq->tag < 0);
+71102307196028 Christoph Hellwig 2016-07-06  2007  
+ae1c609d185960 전민식            2026-03-20  2008  	ret = nvme_setup_cmd(ns, rq);
+ae1c609d185960 전민식            2026-03-20  2009  	if (ret)
+ae1c609d185960 전민식            2026-03-20  2010  		return ret;
+ae1c609d185960 전민식            2026-03-20  2011  
+a97157440e1e69 Andy Chiu         2021-04-26  2012  	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+a97157440e1e69 Andy Chiu         2021-04-26  2013  		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
+553cd9ef82edd8 Christoph Hellwig 2016-11-02  2014  
+71102307196028 Christoph Hellwig 2016-07-06  2015  	dev = queue->device->dev;
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2016  
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2017  	req->sqe.dma = ib_dma_map_single(dev, req->sqe.data,
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2018  					 sizeof(struct nvme_command),
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2019  					 DMA_TO_DEVICE);
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2020  	err = ib_dma_mapping_error(dev, req->sqe.dma);
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2021  	if (unlikely(err))
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2022  		return BLK_STS_RESOURCE;
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2023  
+71102307196028 Christoph Hellwig 2016-07-06  2024  	ib_dma_sync_single_for_cpu(dev, sqe->dma,
+71102307196028 Christoph Hellwig 2016-07-06  2025  			sizeof(struct nvme_command), DMA_TO_DEVICE);
+71102307196028 Christoph Hellwig 2016-07-06  2026  
+6887fc6495f2df Sagi Grimberg     2022-10-03  2027  	nvme_start_request(rq);
+71102307196028 Christoph Hellwig 2016-07-06  2028  
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2029  	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2030  	    queue->pi_support &&
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2031  	    (c->common.opcode == nvme_cmd_write ||
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2032  	     c->common.opcode == nvme_cmd_read) &&
+0372dd4e361717 Daniel Wagner     2023-12-18  2033  	    nvme_ns_has_pi(ns->head))
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2034  		req->use_sig_mr = true;
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2035  	else
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2036  		req->use_sig_mr = false;
+5ec5d3bddc6b91 Max Gurtovoy      2020-05-19  2037  
+fc17b6534eb839 Christoph Hellwig 2017-06-03  2038  	err = nvme_rdma_map_data(queue, rq, c);
+a7b7c7a105a528 Max Gurtovoy      2017-08-14  2039  	if (unlikely(err < 0)) {
+71102307196028 Christoph Hellwig 2016-07-06  2040  		dev_err(queue->ctrl->ctrl.device,
+fc17b6534eb839 Christoph Hellwig 2017-06-03  2041  			     "Failed to map data (%d)\n", err);
+71102307196028 Christoph Hellwig 2016-07-06  2042  		goto err;
+71102307196028 Christoph Hellwig 2016-07-06  2043  	}
+71102307196028 Christoph Hellwig 2016-07-06  2044  
+b4b591c87f2b0f Sagi Grimberg     2017-11-23  2045  	sqe->cqe.done = nvme_rdma_send_done;
+b4b591c87f2b0f Sagi Grimberg     2017-11-23  2046  
+71102307196028 Christoph Hellwig 2016-07-06  2047  	ib_dma_sync_single_for_device(dev, sqe->dma,
+71102307196028 Christoph Hellwig 2016-07-06  2048  			sizeof(struct nvme_command), DMA_TO_DEVICE);
+71102307196028 Christoph Hellwig 2016-07-06  2049  
+fc17b6534eb839 Christoph Hellwig 2017-06-03  2050  	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+f41725bbe16b07 Israel Rukshin    2017-11-26  2051  			req->mr ? &req->reg_wr.wr : NULL);
+16686f3a6c3cd6 Max Gurtovoy      2019-10-13  2052  	if (unlikely(err))
+16686f3a6c3cd6 Max Gurtovoy      2019-10-13  2053  		goto err_unmap;
+71102307196028 Christoph Hellwig 2016-07-06  2054  
+fc17b6534eb839 Christoph Hellwig 2017-06-03  2055  	return BLK_STS_OK;
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2056  
+16686f3a6c3cd6 Max Gurtovoy      2019-10-13  2057  err_unmap:
+16686f3a6c3cd6 Max Gurtovoy      2019-10-13  2058  	nvme_rdma_unmap_data(queue, rq);
+71102307196028 Christoph Hellwig 2016-07-06  2059  err:
+62eca39722fd99 Chao Leng         2021-02-01  2060  	if (err == -EIO)
+62eca39722fd99 Chao Leng         2021-02-01  2061  		ret = nvme_host_path_error(rq);
+62eca39722fd99 Chao Leng         2021-02-01  2062  	else if (err == -ENOMEM || err == -EAGAIN)
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2063  		ret = BLK_STS_RESOURCE;
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2064  	else
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2065  		ret = BLK_STS_IOERR;
+16686f3a6c3cd6 Max Gurtovoy      2019-10-13  2066  	nvme_cleanup_cmd(rq);
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06 @2067  unmap_qe:
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2068  	ib_dma_unmap_single(dev, req->sqe.dma, sizeof(struct nvme_command),
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2069  			    DMA_TO_DEVICE);
+62f99b62e5e3b8 Max Gurtovoy      2019-06-06  2070  	return ret;
+71102307196028 Christoph Hellwig 2016-07-06  2071  }
+71102307196028 Christoph Hellwig 2016-07-06  2072  
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
