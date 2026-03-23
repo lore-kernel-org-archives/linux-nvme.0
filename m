@@ -4,88 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB0BFD58CBB
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Mar 2026 01:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9426DF46101
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Mar 2026 13:10:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Type:Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:CC:To:From
-	:Subject:Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lm3eJzy41fxHu9y8OMr5qQHHqxxNjDpSrF4VTePc+i8=; b=hKvL25K0g8SIft/xaeNrIF94G+
-	NVqhgs22TK+SxOIcy+k2NucfF+HAx3QbHIq8T0QZH4PyGvFpAGqXXdyUa0235YmyF14FtKhWRb/JI
-	SeVrcyMD7xyYNZWoX1g3H434MGUgLaaMsR1VDys/9Xu5wycefqBL6FaHv+fFHf7zVtv+Oy9VqLpmG
-	zGRkzVjRdOUKNM4uYIG87eLSj05cmFVARx6e8Qpg+hlIRn1d5q2xlInUzS/W4Yg7SQdvRnNbNJ9St
-	7OG+zhqrD11qFYE1vlWBwzBN6IP+RqsrTuLW9OUuUb+Zzi0B3wohZ+sxYUlvb2OrjvAlxt/a9XwK6
-	AG/yI1BQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:In-Reply-To:Date:From:Cc:To:Subject:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=ZAlMsHkZ3Etr2CiYNlXdXYSKVMs4YvhQu8M5vcZ+hJM=; b=NRQw8+UOPRQy1pSdnoaxt5rMAn
+	zDHaSzp7/e/B9fzRkeFK8fQhGI3giYaju1S5sZbXIeeYlIkyljDU9ktEmjOB9L9WMkrKCJRcGkitC
+	ZDdz/ApKY4DHcuWbI1B9s+FLnh8JeaIAhoJfkbPwy+GmQ9IWNC1TTAdFC36ZQht5PUHCIR1XeuyvP
+	LwV8TD32RLmgVI96pxzo69a1/4J9Z7HERT4ZdqkL5WXkD3narPfWqDB2C+DS/UK/Ov1X3LMvBEGiA
+	UHLv3MnI7plCnLZnzsraeMBR2OdzewiR70QbsNPMj3LOAypOorvxjyDQoGFSnOdm8SEjcmS+Ut1zP
+	LYM5beeQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4TjI-0000000Fo4i-3jQI;
-	Mon, 23 Mar 2026 01:05:16 +0000
-Received: from [203.254.224.25] (helo=mailout2.samsung.com)
+	id 1w4f2a-0000000Gkze-38ZM;
+	Mon, 23 Mar 2026 13:09:56 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4Tj4-0000000Fo2m-06OK
+	id 1w4f2Z-0000000GkzX-3o4G
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Mar 2026 01:05:11 +0000
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260323010453epoutp02e5e7183618ced008c5fe777281268f65~fUt5oiKdj1896418964epoutp02N
-	for <linux-nvme@lists.infradead.org>; Mon, 23 Mar 2026 01:04:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260323010453epoutp02e5e7183618ced008c5fe777281268f65~fUt5oiKdj1896418964epoutp02N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774227893;
-	bh=lm3eJzy41fxHu9y8OMr5qQHHqxxNjDpSrF4VTePc+i8=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=VK6d4l+XMeEgV8SCEWSHty+Xj8VZIIEaLYkLiW1Xp/KD3bGJqz25m+RU3rrWvVUV6
-	 wo7XfcN0/9sjpuV8DBTtyKFnpQToOTeHT35TjI/lSTp5TR2Y/DX36TRk3zTg/s/g2K
-	 /8rvNiNvsePp/MZzC1bmEgIfRzsDan8fny8gByR8=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPS id
-	20260323010452epcas2p447d6cde507e8a6b13bc49c24b3d48184~fUt5BKSAA1194211942epcas2p4E;
-	Mon, 23 Mar 2026 01:04:52 +0000 (GMT)
-Received: from epcas2p4.samsung.com (unknown [182.195.38.203]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4ffFM82bXDz6B9m8; Mon, 23 Mar
-	2026 01:04:52 +0000 (GMT)
-Mime-Version: 1.0
-Subject: [PATCH v2] nvme: Move nvme_setup_cmd before hot_pathing
-From: =?UTF-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
-To: =?UTF-8?B?7Lm47LCs?= <joshi.k@samsung.com>, "kbusch@kernel.org"
-	<kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>
-CC: "sven@kernel.org" <sven@kernel.org>, "j@jannau.net" <j@jannau.net>,
-	"neal@gompa.dev" <neal@gompa.dev>, "hch@lst.de" <hch@lst.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>, "justin.tee@broadcom.com"
-	<justin.tee@broadcom.com>, "nareshgottumukkala83@gmail.com"
-	<nareshgottumukkala83@gmail.com>, "paul.ely@broadcom.com"
-	<paul.ely@broadcom.com>, "kch@nvidia.com" <kch@nvidia.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "asahi@lists.linux.dev"
-	<asahi@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, =?UTF-8?B?7KCE66+87Iud?=
-	<hmi.jeon@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <981ab856-9c79-4e08-9906-a81ec298a688@samsung.com>
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20260323010451epcms2p38a89259e6c448c3606fe294b6307af45@epcms2p3>
-Date: Mon, 23 Mar 2026 10:04:51 +0900
-X-CMS-MailID: 20260323010451epcms2p38a89259e6c448c3606fe294b6307af45
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-cpgsPolicy: CPGSC10-223,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6
-References: <981ab856-9c79-4e08-9906-a81ec298a688@samsung.com>
-	<20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
-	<CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p3>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260322_180502_724765_F05329B5 
-X-CRM114-Status: GOOD (  23.69  )
+	Mon, 23 Mar 2026 13:09:56 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 34424600AC;
+	Mon, 23 Mar 2026 13:09:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40AF3C4CEF7;
+	Mon, 23 Mar 2026 13:09:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774271394;
+	bh=UczVZRCGrYx6h3T3tDQR13seCRrtFPBGYddvscsKS/M=;
+	h=Subject:To:Cc:From:Date:In-Reply-To:From;
+	b=jqUoM+4bhVvoNIXeE3MHjL+DwCLE44c0af0qzBky/76XOJGZPsxbtMt8u0tPwL43m
+	 PvQj5E68CV//eWnnZTDH4Z0jIW2lN3ZYmKuUPjRYmJwR1H5tZm1DJ+LYivd2kUJN9C
+	 cNfLnbiLNLfUH17YCvvPQ8lmn6mkAGgtU9siRrXQ=
+Subject: Patch "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()" has been added to the 6.1-stable tree
+To: axboe@fb.com,emilne@redhat.com,gregkh@linuxfoundation.org,hch@lst.de,james.smart@broadcom.com,jsingh@cloudlinux.com,justin.tee@broadcom.com,kbusch@kernel.org,linux-nvme@lists.infradead.org,mpatalan@redhat.com,sagi@grimberg.me
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 23 Mar 2026 14:09:24 +0100
+In-Reply-To: <20260223172405.292040-3-jsingh@cloudlinux.com>
+Message-ID: <2026032324-conjoined-swear-60ca@gregkh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,208 +62,123 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: hmi.jeon@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi kanchan
+
+This is a note to let you know that I've just added the patch titled
+
+    nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
+
+to the 6.1-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
+and it can be found in the queue-6.1 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
-The reason for calling nvme_cleanup_cmd in the nvme_prep_rq function 
-is when it fails after calling the nvme_map_data function.
-Therefore, the memory leak does not occur. Did I miss anything?
+From jsingh@cloudlinux.com Mon Feb 23 18:24:22 2026
+From: Jaskaran Singh <jsingh@cloudlinux.com>
+Date: Mon, 23 Feb 2026 22:54:05 +0530
+Subject: nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
+To: stable@vger.kernel.org, james.smart@broadcom.com, kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, Jaskaran Singh <jsingh@cloudlinux.com>, Marco Patalano <mpatalan@redhat.com>, Justin Tee <justin.tee@broadcom.com>, "Ewan D . Milne" <emilne@redhat.com>
+Message-ID: <20260223172405.292040-3-jsingh@cloudlinux.com>
 
-Additionally, the patch v2 that modifies the warrning detected by
-kernel test robot.
+From: Jaskaran Singh <jsingh@cloudlinux.com>
 
->> drivers/nvme/host/rdma.c:2067:1: warning: label 'unmap_qe' defined but not used [-Wunused-label]
-    2067 | unmap_qe:
-         | ^~~~~~~~
+commit 0a2c5495b6d1ecb0fa18ef6631450f391a888256 upstream.
 
+nvme_fc_delete_assocation() waits for pending I/O to complete before
+returning, and an error can cause ->ioerr_work to be queued after
+cancel_work_sync() had been called.  Move the call to cancel_work_sync() to
+be after nvme_fc_delete_association() to ensure ->ioerr_work is not running
+when the nvme_fc_ctrl object is freed.  Otherwise the following can occur:
 
-From 53db77a37bbcdc8f8bc1a61452a0586d195ce8da Mon Sep 17 00:00:00 2001
-From: Minsik Jeon <hmi.jeon@samsung.com>
-Date: Fri, 20 Mar 2026 14:48:07 +0900
-Subject: [PATCH v2] nvme: Move nvme_setup_cmd before hot_pathing
+[ 1135.911754] list_del corruption, ff2d24c8093f31f8->next is NULL
+[ 1135.917705] ------------[ cut here ]------------
+[ 1135.922336] kernel BUG at lib/list_debug.c:52!
+[ 1135.926784] Oops: invalid opcode: 0000 [#1] SMP NOPTI
+[ 1135.931851] CPU: 48 UID: 0 PID: 726 Comm: kworker/u449:23 Kdump: loaded Not tainted 6.12.0 #1 PREEMPT(voluntary)
+[ 1135.943490] Hardware name: Dell Inc. PowerEdge R660/0HGTK9, BIOS 2.5.4 01/16/2025
+[ 1135.950969] Workqueue:  0x0 (nvme-wq)
+[ 1135.954673] RIP: 0010:__list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1135.961041] Code: c7 c7 98 68 72 94 e8 26 45 fe ff 0f 0b 48 c7 c7 70 68 72 94 e8 18 45 fe ff 0f 0b 48 89 fe 48 c7 c7 80 69 72 94 e8 07 45 fe ff <0f> 0b 48 89 d1 48 c7 c7 a0 6a 72 94 48 89 c2 e8 f3 44 fe ff 0f 0b
+[ 1135.979788] RSP: 0018:ff579b19482d3e50 EFLAGS: 00010046
+[ 1135.985015] RAX: 0000000000000033 RBX: ff2d24c8093f31f0 RCX: 0000000000000000
+[ 1135.992148] RDX: 0000000000000000 RSI: ff2d24d6bfa1d0c0 RDI: ff2d24d6bfa1d0c0
+[ 1135.999278] RBP: ff2d24c8093f31f8 R08: 0000000000000000 R09: ffffffff951e2b08
+[ 1136.006413] R10: ffffffff95122ac8 R11: 0000000000000003 R12: ff2d24c78697c100
+[ 1136.013546] R13: fffffffffffffff8 R14: 0000000000000000 R15: ff2d24c78697c0c0
+[ 1136.020677] FS:  0000000000000000(0000) GS:ff2d24d6bfa00000(0000) knlGS:0000000000000000
+[ 1136.028765] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1136.034510] CR2: 00007fd207f90b80 CR3: 000000163ea22003 CR4: 0000000000f73ef0
+[ 1136.041641] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 1136.048776] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+[ 1136.055910] PKRU: 55555554
+[ 1136.058623] Call Trace:
+[ 1136.061074]  <TASK>
+[ 1136.063179]  ? show_trace_log_lvl+0x1b0/0x2f0
+[ 1136.067540]  ? show_trace_log_lvl+0x1b0/0x2f0
+[ 1136.071898]  ? move_linked_works+0x4a/0xa0
+[ 1136.075998]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.081744]  ? __die_body.cold+0x8/0x12
+[ 1136.085584]  ? die+0x2e/0x50
+[ 1136.088469]  ? do_trap+0xca/0x110
+[ 1136.091789]  ? do_error_trap+0x65/0x80
+[ 1136.095543]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.101289]  ? exc_invalid_op+0x50/0x70
+[ 1136.105127]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.110874]  ? asm_exc_invalid_op+0x1a/0x20
+[ 1136.115059]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.120806]  move_linked_works+0x4a/0xa0
+[ 1136.124733]  worker_thread+0x216/0x3a0
+[ 1136.128485]  ? __pfx_worker_thread+0x10/0x10
+[ 1136.132758]  kthread+0xfa/0x240
+[ 1136.135904]  ? __pfx_kthread+0x10/0x10
+[ 1136.139657]  ret_from_fork+0x31/0x50
+[ 1136.143236]  ? __pfx_kthread+0x10/0x10
+[ 1136.146988]  ret_from_fork_asm+0x1a/0x30
+[ 1136.150915]  </TASK>
 
-we were checking host_pathing_error before calling nvme_setup_cmd().
-This is caused the command setup to be skipped entirely when a pathing
-error occurred, making it impossible to trace the nvme command via
-trace_cmd nvme_complete_rq().
-
-As a result, when nvme_complete_rq() logged a completion with cmdid=0,
-it was impossible to correlate the completion with the nvme command
-request.
-
-This patch reorders the logic to first call nvme_setup_cmd(), then
-perform the host_pathing_error check.
-
-Co-authored-by: Beomsoo Kim <beomsooo.kim@samsung.com>
-Co-authored-by: Eunsoo Lee <euns212.lee@samsung.com>
-Co-authored-by: Steven Seungcheol Lee <sc108.lee@samsung.com>
-Signed-off-by: Minsik Jeon <hmi.jeon@samsung.com>
+Fixes: 19fce0470f05 ("nvme-fc: avoid calling _nvme_fc_abort_outstanding_ios from interrupt context")
+Cc: stable@vger.kernel.org
+Tested-by: Marco Patalano <mpatalan@redhat.com>
+Reviewed-by: Justin Tee <justin.tee@broadcom.com>
+Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Jaskaran Singh <jsingh@cloudlinux.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/nvme/host/apple.c  |  6 +++---
- drivers/nvme/host/fc.c     |  8 ++++----
- drivers/nvme/host/pci.c    |  8 ++++----
- drivers/nvme/host/rdma.c   | 10 +++++-----
- drivers/nvme/host/tcp.c    |  8 ++++----
- drivers/nvme/target/loop.c |  6 +++---
- 6 files changed, 23 insertions(+), 23 deletions(-)
+ drivers/nvme/host/fc.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index ed61b97fde59..2a28c992d024 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -783,13 +783,13 @@ static blk_status_t apple_nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (unlikely(!READ_ONCE(q->enabled)))
- 		return BLK_STS_IOERR;
- 
--	if (!nvme_check_ready(&anv->ctrl, req, true))
--		return nvme_fail_nonready_command(&anv->ctrl, req);
--
- 	ret = nvme_setup_cmd(ns, req);
- 	if (ret)
- 		return ret;
- 
-+	if (!nvme_check_ready(&anv->ctrl, req, true))
-+		return nvme_fail_nonready_command(&anv->ctrl, req);
-+
- 	if (blk_rq_nr_phys_segments(req)) {
- 		ret = apple_nvme_map_data(anv, req, cmnd);
- 		if (ret)
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index e1bb4707183c..8ea37102a836 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -2762,14 +2762,14 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	u32 data_len;
- 	blk_status_t ret;
+@@ -3264,13 +3264,13 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nc
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
  
--	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
--	    !nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
--		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
--
- 	ret = nvme_setup_cmd(ns, rq);
- 	if (ret)
- 		return ret;
- 
-+	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
-+	    !nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
-+		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
-+
+-	cancel_work_sync(&ctrl->ioerr_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
  	/*
- 	 * nvme core doesn't quite treat the rq opaquely. Commands such
- 	 * as WRITE ZEROES will return a non-zero rq payload_bytes yet
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b78ba239c8ea..ad0363f7e681 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1376,10 +1376,6 @@ static blk_status_t nvme_prep_rq(struct request *req)
- 	iod->meta_total_len = 0;
- 	iod->nr_dma_vecs = 0;
+ 	 * kill the association on the link side.  this will block
+ 	 * waiting for io to terminate
+ 	 */
+ 	nvme_fc_delete_association(ctrl);
++	cancel_work_sync(&ctrl->ioerr_work);
+ }
  
--	ret = nvme_setup_cmd(req->q->queuedata, req);
--	if (ret)
--		return ret;
--
- 	if (blk_rq_nr_phys_segments(req)) {
- 		ret = nvme_map_data(req);
- 		if (ret)
-@@ -1418,6 +1414,10 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (unlikely(!test_bit(NVMEQ_ENABLED, &nvmeq->flags)))
- 		return BLK_STS_IOERR;
- 
-+	ret = nvme_setup_cmd(req->q->queuedata, req);
-+	if (ret)
-+		return ret;
-+
- 	if (unlikely(!nvme_check_ready(&dev->ctrl, req, true)))
- 		return nvme_fail_nonready_command(&dev->ctrl, req);
- 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 57111139e84f..36f1a5a41ed9 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2005,6 +2005,10 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	WARN_ON_ONCE(rq->tag < 0);
- 
-+	ret = nvme_setup_cmd(ns, rq);
-+	if (ret)
-+		return ret;
-+
- 	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
- 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
-@@ -2020,10 +2024,6 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	ib_dma_sync_single_for_cpu(dev, sqe->dma,
- 			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 
--	ret = nvme_setup_cmd(ns, rq);
--	if (ret)
--		goto unmap_qe;
--
- 	nvme_start_request(rq);
- 
- 	if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
-@@ -2064,7 +2064,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	else
- 		ret = BLK_STS_IOERR;
- 	nvme_cleanup_cmd(rq);
--unmap_qe:
-+
- 	ib_dma_unmap_single(dev, req->sqe.dma, sizeof(struct nvme_command),
- 			    DMA_TO_DEVICE);
- 	return ret;
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 243dab830dc8..1a3640e81b8f 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -2705,10 +2705,6 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 	u8 hdgst = nvme_tcp_hdgst_len(queue), ddgst = 0;
- 	blk_status_t ret;
- 
--	ret = nvme_setup_cmd(ns, rq);
--	if (ret)
--		return ret;
--
- 	req->state = NVME_TCP_SEND_CMD_PDU;
- 	req->status = cpu_to_le16(NVME_SC_SUCCESS);
- 	req->offset = 0;
-@@ -2768,6 +2764,10 @@ static blk_status_t nvme_tcp_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	bool queue_ready = test_bit(NVME_TCP_Q_LIVE, &queue->flags);
- 	blk_status_t ret;
- 
-+	ret = nvme_setup_cmd(ns, rq);
-+	if (ret)
-+		return ret;
-+
- 	if (!nvme_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
- 		return nvme_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 4b3f4f11928d..475b532d08e8 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -140,13 +140,13 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	bool queue_ready = test_bit(NVME_LOOP_Q_LIVE, &queue->flags);
- 	blk_status_t ret;
- 
--	if (!nvme_check_ready(&queue->ctrl->ctrl, req, queue_ready))
--		return nvme_fail_nonready_command(&queue->ctrl->ctrl, req);
--
- 	ret = nvme_setup_cmd(ns, req);
- 	if (ret)
- 		return ret;
- 
-+	if (!nvme_check_ready(&queue->ctrl->ctrl, req, queue_ready))
-+		return nvme_fail_nonready_command(&queue->ctrl->ctrl, req);
-+
- 	nvme_start_request(req);
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 	iod->req.port = queue->ctrl->port;
--- 
-2.52.0
+ static void
 
+
+Patches currently in stable-queue which might be from jsingh@cloudlinux.com are
+
+queue-6.1/revert-nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
+queue-6.1/nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
 
