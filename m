@@ -4,61 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48E47F483DE
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Mar 2026 17:53:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFFDAF483E3
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Mar 2026 18:38:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=alM9fCPgMmqIyhLMRV0kx45bQP20BzWtRXsBmtgT8dM=; b=WZ6uksGuu4g4oz47hMu4Sl8ZX9
-	7w87LEJcchNvIPHh79Toxprv3VfxtD7X6XkjxPAfirdAdORAce8Knnl9MSGCM6LQUbph12qLBhhuU
-	+zug7UjxxknLGZv2uc+FtKyUec2ThrlqWR7m3tm9n9wYdFvdI0DhOqHfxM4JU+AQZB5C6Jha+Ii9I
-	yStVqXNUYmDHTuevV8rtJwSfPkvm6VrZRFPuUzwdRGVIIuWXJmr77rDEQMXdMzOlnz/kGhuUIB6P3
-	UDvRbpINX6/sWwfMsIW6ToPd1ga+RB6nm+MdoJfG4MAmcTKvt7pDMHiawoB16EIAu3UnhH/FtDvnr
-	2hTfEOLQ==;
+	bh=ToOogBdsYrd/3/xbqgvjtW++AB1EHK6SLRL9uHr0BgY=; b=hUvjDuCLzRyJVSCCiahRZkgE7W
+	QTQBZBOhJQQ2Lg7Y7JP+ZtQNCe/AVHSHcZWCqxw29jwGYUzT4Xtq6FPAGiUHfAxeliyUhzbQJgl6E
+	th8Jj1MMbsYi93mEIgR616YKGrsBMjRIlYzY9gcdk36CU08MqK3PREqGm2NrlXNaegJsXxHolD0Ku
+	sT98ANwD0BONZ2Hu3SwO+UK12SmsVdzlNawoOhlU1pIe7ygGhxJGSAFJ7BG3f6EsVowL2j+Zejv3Q
+	lUZmAwTuMspWKMMindrfTERZMlRxr/WVOCTYIk+GmHiO9NAQ8s3mWM4O9k0nnp6Xe/yjEJXZkZdX9
+	u7lKV2PQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4jSz-0000000HGw3-0rN6;
-	Mon, 23 Mar 2026 17:53:29 +0000
+	id 1w4kA2-0000000HM5x-3xrR;
+	Mon, 23 Mar 2026 18:37:58 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4jSx-0000000HGvZ-1agV
+	id 1w4kA0-0000000HM4v-2C2R
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Mar 2026 17:53:28 +0000
+	Mon, 23 Mar 2026 18:37:57 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2C8B744349;
-	Mon, 23 Mar 2026 17:53:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0090C2BC9E;
-	Mon, 23 Mar 2026 17:53:25 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id CAD9343E45;
+	Mon, 23 Mar 2026 18:37:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E849C4CEF7;
+	Mon, 23 Mar 2026 18:37:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774288406;
-	bh=alM9fCPgMmqIyhLMRV0kx45bQP20BzWtRXsBmtgT8dM=;
+	s=k20201202; t=1774291075;
+	bh=9cWlpHllNXUZoJ7LY2GMkPMHETTroz/3ii4+41Mehmo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mKhy1G81lHvy3rKGlLWKPOdutap8hJ6rXiMelt0zSB25quqjTIyFLrgpLeM4Unwbq
-	 f4HRMh8nfp0DZFBJkhtvkonINGWRizgPy0MHDwpQSYMeA+ojL5KylSxtZWvMZo/ZdB
-	 CNcKE/cwjXopc3jk0o+YOVrbVGfu6SiWuqVJftqyH43onGWc+q+Nv9eO0rgpZFqHN8
-	 mslGDLolOdrYsv6joaFZJ69yF1E/MfCwWCfAf2i+Ry4xtm72DM4WRy3UgAQncsHyNF
-	 Rs4iy/A6bALJ54yR9yz002QtTCQiL55L51yC+MnuLfBIPppridMQXhnWGMjBPfew2z
-	 YV8TDZiI5lwGg==
-Date: Mon, 23 Mar 2026 11:53:23 -0600
+	b=pckru7UaNEpGLmZ0N8YZLOgopPVNZAZYGBqlVQ1uv5M0q6hfEWvcea+fG5cQoVlb9
+	 nzYRhMgm/Bi98XcK4NEurlsg8bdU5uWjwz186WBErbITfkVYbS/fNH2G5bkakHBw0X
+	 wYdkld2M5umHVbhZmahbhwt7div6zEOTCxZzGGa+M1XHFhAGqAvVoPvaCOlUNIODfG
+	 bAa0T1OaDqtKJkVf8btm/taUNj3IW2QfNbuu9Tuirw65LWjnjk5zy9UG6qgM++87LD
+	 +ycBs2Kr69wL5QT1e8S7Qsi3KyEgfrhcnvbR23ybW/3GdZ5vNdpiNOgK+NOPmTa5v3
+	 DoOhazik86Njg==
+Date: Mon, 23 Mar 2026 12:37:53 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sungwoo Kim <iam@sung-woo.kim>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Subject: Re: [PATCH] nvme: remove bogus check in nvme_pr_read_keys()
-Message-ID: <acF-E8csusg-YbaO@kbusch-mbp>
-References: <ab5yUf3BqtlN3K-P@stanley.mountain>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/8] nvme: set discard_granularity from NPDG/NPDA
+Message-ID: <acGIgY7TzngPJkxs@kbusch-mbp>
+References: <20260227202354.1012322-1-csander@purestorage.com>
+ <aaXc7oun2IgjJ21F@kbusch-mbp>
+ <CADUfDZoRZ9mZC+C9xVaGna=ufr9wzTP-4BNkY2KyEFzpesYRZg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ab5yUf3BqtlN3K-P@stanley.mountain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADUfDZoRZ9mZC+C9xVaGna=ufr9wzTP-4BNkY2KyEFzpesYRZg@mail.gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260323_105327_443075_2B3DC98E 
-X-CRM114-Status: GOOD (  13.79  )
+X-CRM114-CacheID: sfid-20260323_113756_817125_AC83B77D 
+X-CRM114-Status: GOOD (  22.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,20 +76,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Mar 21, 2026 at 01:26:25PM +0300, Dan Carpenter wrote:
-> This check for if (rse_len > U32_MAX) is confusing because if
-> rse_len is > INT_MAX, that will trigger a WARN() in kvzalloc().
-> Fortunately, the caller blkdev_pr_read_keys(), puts a limit on num_keys.
-> The number of keys can't be more than PR_KEYS_MAX (65536) and the
-> condition is impossible.
+On Mon, Mar 23, 2026 at 08:29:25AM -0700, Caleb Sander Mateos wrote:
+> On Mon, Mar 2, 2026 at 10:54 AM Keith Busch <kbusch@kernel.org> wrote:
+> >
+> > On Fri, Feb 27, 2026 at 01:23:45PM -0700, Caleb Sander Mateos wrote:
+> > > NVMe block devices always report the logical block size for the
+> > > discard_granularity queue limit. However, more accurate values may be
+> > > available in the NPDG/NPDA fields of the Identify Namespace structure or
+> > > the NPDGL/NPDAL fields of the NVM Command Set Specific Identify
+> > > Namespace structure. So use these values to compute discard_granularity.
+> > >
+> > > Also fix the use of the OPTPERF field to better comply with version 2.1
+> > > of the NVMe spec.
+> > >
+> > > Update the target side to report NPDGL and NPDAL as well, in case the
+> > > discard granularity doesn't fit in the 16-bit NPDG and NPDA fields.
+> >
+> > This series looks good to me. I'll queue it up later this week. I just
+> > want to get a pull request for my currently way-behind 7.0 nvme commits,
+> > then rebase the tree for new stuff.
+> 
+> Hi Keith, I see this series in the nvme-7.1 tree, but it looks like
+> you might have accidentally applied v4 instead of v5? I don't see a
+> few of the changes I made in response to your comments on the last
+> revision.
 
-There's actually two callers: blkdev_pr_read_keys() ensures the number of
-keys is smaller than 65536 and iblock_pr_read_keys() is a fixed size at
-16. But begs the question, what guarantee does nvme_pr_read_keys() have
-that all the callers validated the number of keys such that it can
-bravely skip checking it? I think nvme should validate that it's a
-reasonable value before calling kvalloc so we return an apporpriate
-EINVAL instead of ENOMEM. The existing UINT_MAX check is certainly far
-too high, but I think something like a 4MB payload would be a totally
-reasonable upper limit for nvme on this function.
+Oh, thanks for the notice! I'll take a look and fix it up.
 
