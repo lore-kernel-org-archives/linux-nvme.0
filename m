@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9426DF46101
-	for <linux-nvme@archiver.kernel.org>; Mon, 23 Mar 2026 13:10:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9695FF46101
+	for <linux-nvme@archiver.kernel.org>; Mon, 23 Mar 2026 13:10:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:Message-ID:In-Reply-To:Date:From:Cc:To:Subject:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
-	bh=ZAlMsHkZ3Etr2CiYNlXdXYSKVMs4YvhQu8M5vcZ+hJM=; b=NRQw8+UOPRQy1pSdnoaxt5rMAn
-	zDHaSzp7/e/B9fzRkeFK8fQhGI3giYaju1S5sZbXIeeYlIkyljDU9ktEmjOB9L9WMkrKCJRcGkitC
-	ZDdz/ApKY4DHcuWbI1B9s+FLnh8JeaIAhoJfkbPwy+GmQ9IWNC1TTAdFC36ZQht5PUHCIR1XeuyvP
-	LwV8TD32RLmgVI96pxzo69a1/4J9Z7HERT4ZdqkL5WXkD3narPfWqDB2C+DS/UK/Ov1X3LMvBEGiA
-	UHLv3MnI7plCnLZnzsraeMBR2OdzewiR70QbsNPMj3LOAypOorvxjyDQoGFSnOdm8SEjcmS+Ut1zP
-	LYM5beeQ==;
+	bh=uPEYly8I0Oddxh6plhGzrv3JoyU7MRbs1abdNLYK0lM=; b=yJsGuw1ok913M6npxw1SKldK5t
+	Iz4BgeIXq8nt2qDixWgmqB3ZTpgjXD2x3lBOD2pROvM4gWQb+W81zJCi9Az4wXErFJxVYbju9madx
+	BMF5vphAeE2Ac4cqT5J8sK8y5NFQ2ycPzuApsFi6WRaMBKRkWXGjLl37LDu2OLSp+I34h7+QGAX/A
+	Qsi4QEZyaln1Pxpv6VQBpUTBC7NLCvBfauYd/YvVB2i2XQJCOT93XQlb3R6kGBbQXzzhSvBuYuogF
+	FBIh+zuWDKOxqkfaUeirezmBRorlCqWyLnLHYMKGmtkelpCSALDZWr8DhcO+fZf1rwdcnIUv0eax/
+	vCBQkSpQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4f2a-0000000Gkze-38ZM;
-	Mon, 23 Mar 2026 13:09:56 +0000
+	id 1w4f2m-0000000Gl1J-0RQe;
+	Mon, 23 Mar 2026 13:10:08 +0000
 Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4f2Z-0000000GkzX-3o4G
+	id 1w4f2k-0000000Gl18-287M
 	for linux-nvme@lists.infradead.org;
-	Mon, 23 Mar 2026 13:09:56 +0000
+	Mon, 23 Mar 2026 13:10:06 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 34424600AC;
-	Mon, 23 Mar 2026 13:09:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40AF3C4CEF7;
-	Mon, 23 Mar 2026 13:09:54 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id A59866012B;
+	Mon, 23 Mar 2026 13:10:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9222C2BC9E;
+	Mon, 23 Mar 2026 13:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774271394;
-	bh=UczVZRCGrYx6h3T3tDQR13seCRrtFPBGYddvscsKS/M=;
+	s=korg; t=1774271404;
+	bh=Vt0Ac67IHWCZ6CkP9zaM5g4a/v53RGOR0MhQNgYiI2U=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=jqUoM+4bhVvoNIXeE3MHjL+DwCLE44c0af0qzBky/76XOJGZPsxbtMt8u0tPwL43m
-	 PvQj5E68CV//eWnnZTDH4Z0jIW2lN3ZYmKuUPjRYmJwR1H5tZm1DJ+LYivd2kUJN9C
-	 cNfLnbiLNLfUH17YCvvPQ8lmn6mkAGgtU9siRrXQ=
-Subject: Patch "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()" has been added to the 6.1-stable tree
-To: axboe@fb.com,emilne@redhat.com,gregkh@linuxfoundation.org,hch@lst.de,james.smart@broadcom.com,jsingh@cloudlinux.com,justin.tee@broadcom.com,kbusch@kernel.org,linux-nvme@lists.infradead.org,mpatalan@redhat.com,sagi@grimberg.me
+	b=nuPAh4CWTm6+cnU4r8xAJ0rBq9LiRe6qXgVfzRBfhwTta/DNoNgTjnKHb8S2Lh+nF
+	 mHoG6Wm/3dqdOdxBPzdxN7Ly2j1mfqrzHRIobkC2Mvz8uXJSw/orURu9D95Sm7y+Hw
+	 bCalLcWqBSRgixJ0zP79CVc3UNZyh9j16IM2aRmg=
+Subject: Patch "Revert "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()"" has been added to the 6.1-stable tree
+To: axboe@fb.com,gregkh@linuxfoundation.org,hch@lst.de,james.smart@broadcom.com,jsingh@cloudlinux.com,kbusch@kernel.org,linux-nvme@lists.infradead.org,sagi@grimberg.me
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 23 Mar 2026 14:09:24 +0100
-In-Reply-To: <20260223172405.292040-3-jsingh@cloudlinux.com>
-Message-ID: <2026032324-conjoined-swear-60ca@gregkh>
+Date: Mon, 23 Mar 2026 14:09:25 +0100
+In-Reply-To: <20260223172405.292040-2-jsingh@cloudlinux.com>
+Message-ID: <2026032324-herbs-agenda-ca67@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -68,90 +68,35 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 This is a note to let you know that I've just added the patch titled
 
-    nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
+    Revert "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()"
 
 to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
+     revert-nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
 and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From jsingh@cloudlinux.com Mon Feb 23 18:24:22 2026
+From stable+bounces-217804-greg=kroah.com@vger.kernel.org Mon Feb 23 18:31:24 2026
 From: Jaskaran Singh <jsingh@cloudlinux.com>
-Date: Mon, 23 Feb 2026 22:54:05 +0530
-Subject: nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
+Date: Mon, 23 Feb 2026 22:54:04 +0530
+Subject: Revert "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()"
 To: stable@vger.kernel.org, james.smart@broadcom.com, kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, Jaskaran Singh <jsingh@cloudlinux.com>, Marco Patalano <mpatalan@redhat.com>, Justin Tee <justin.tee@broadcom.com>, "Ewan D . Milne" <emilne@redhat.com>
-Message-ID: <20260223172405.292040-3-jsingh@cloudlinux.com>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, Jaskaran Singh <jsingh@cloudlinux.com>
+Message-ID: <20260223172405.292040-2-jsingh@cloudlinux.com>
 
 From: Jaskaran Singh <jsingh@cloudlinux.com>
 
-commit 0a2c5495b6d1ecb0fa18ef6631450f391a888256 upstream.
+This reverts commit 3d81beae4753db3b3dc5b70dc300d4036e0d9cb8.
 
-nvme_fc_delete_assocation() waits for pending I/O to complete before
-returning, and an error can cause ->ioerr_work to be queued after
-cancel_work_sync() had been called.  Move the call to cancel_work_sync() to
-be after nvme_fc_delete_association() to ensure ->ioerr_work is not running
-when the nvme_fc_ctrl object is freed.  Otherwise the following can occur:
+The backport of upstream commit 0a2c5495b6d1 was incorrectly applied.
+The cancel_work_sync() call for ->ioerr_work was added to
+nvme_fc_reset_ctrl_work() instead of nvme_fc_delete_ctrl().
 
-[ 1135.911754] list_del corruption, ff2d24c8093f31f8->next is NULL
-[ 1135.917705] ------------[ cut here ]------------
-[ 1135.922336] kernel BUG at lib/list_debug.c:52!
-[ 1135.926784] Oops: invalid opcode: 0000 [#1] SMP NOPTI
-[ 1135.931851] CPU: 48 UID: 0 PID: 726 Comm: kworker/u449:23 Kdump: loaded Not tainted 6.12.0 #1 PREEMPT(voluntary)
-[ 1135.943490] Hardware name: Dell Inc. PowerEdge R660/0HGTK9, BIOS 2.5.4 01/16/2025
-[ 1135.950969] Workqueue:  0x0 (nvme-wq)
-[ 1135.954673] RIP: 0010:__list_del_entry_valid_or_report.cold+0xf/0x6f
-[ 1135.961041] Code: c7 c7 98 68 72 94 e8 26 45 fe ff 0f 0b 48 c7 c7 70 68 72 94 e8 18 45 fe ff 0f 0b 48 89 fe 48 c7 c7 80 69 72 94 e8 07 45 fe ff <0f> 0b 48 89 d1 48 c7 c7 a0 6a 72 94 48 89 c2 e8 f3 44 fe ff 0f 0b
-[ 1135.979788] RSP: 0018:ff579b19482d3e50 EFLAGS: 00010046
-[ 1135.985015] RAX: 0000000000000033 RBX: ff2d24c8093f31f0 RCX: 0000000000000000
-[ 1135.992148] RDX: 0000000000000000 RSI: ff2d24d6bfa1d0c0 RDI: ff2d24d6bfa1d0c0
-[ 1135.999278] RBP: ff2d24c8093f31f8 R08: 0000000000000000 R09: ffffffff951e2b08
-[ 1136.006413] R10: ffffffff95122ac8 R11: 0000000000000003 R12: ff2d24c78697c100
-[ 1136.013546] R13: fffffffffffffff8 R14: 0000000000000000 R15: ff2d24c78697c0c0
-[ 1136.020677] FS:  0000000000000000(0000) GS:ff2d24d6bfa00000(0000) knlGS:0000000000000000
-[ 1136.028765] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 1136.034510] CR2: 00007fd207f90b80 CR3: 000000163ea22003 CR4: 0000000000f73ef0
-[ 1136.041641] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[ 1136.048776] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
-[ 1136.055910] PKRU: 55555554
-[ 1136.058623] Call Trace:
-[ 1136.061074]  <TASK>
-[ 1136.063179]  ? show_trace_log_lvl+0x1b0/0x2f0
-[ 1136.067540]  ? show_trace_log_lvl+0x1b0/0x2f0
-[ 1136.071898]  ? move_linked_works+0x4a/0xa0
-[ 1136.075998]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
-[ 1136.081744]  ? __die_body.cold+0x8/0x12
-[ 1136.085584]  ? die+0x2e/0x50
-[ 1136.088469]  ? do_trap+0xca/0x110
-[ 1136.091789]  ? do_error_trap+0x65/0x80
-[ 1136.095543]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
-[ 1136.101289]  ? exc_invalid_op+0x50/0x70
-[ 1136.105127]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
-[ 1136.110874]  ? asm_exc_invalid_op+0x1a/0x20
-[ 1136.115059]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
-[ 1136.120806]  move_linked_works+0x4a/0xa0
-[ 1136.124733]  worker_thread+0x216/0x3a0
-[ 1136.128485]  ? __pfx_worker_thread+0x10/0x10
-[ 1136.132758]  kthread+0xfa/0x240
-[ 1136.135904]  ? __pfx_kthread+0x10/0x10
-[ 1136.139657]  ret_from_fork+0x31/0x50
-[ 1136.143236]  ? __pfx_kthread+0x10/0x10
-[ 1136.146988]  ret_from_fork_asm+0x1a/0x30
-[ 1136.150915]  </TASK>
-
-Fixes: 19fce0470f05 ("nvme-fc: avoid calling _nvme_fc_abort_outstanding_ios from interrupt context")
-Cc: stable@vger.kernel.org
-Tested-by: Marco Patalano <mpatalan@redhat.com>
-Reviewed-by: Justin Tee <justin.tee@broadcom.com>
-Signed-off-by: Ewan D. Milne <emilne@redhat.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Jaskaran Singh <jsingh@cloudlinux.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
@@ -160,21 +105,22 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -3264,13 +3264,13 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nc
+@@ -3264,6 +3264,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nc
  {
  	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
  
--	cancel_work_sync(&ctrl->ioerr_work);
++	cancel_work_sync(&ctrl->ioerr_work);
  	cancel_delayed_work_sync(&ctrl->connect_work);
  	/*
  	 * kill the association on the link side.  this will block
- 	 * waiting for io to terminate
- 	 */
- 	nvme_fc_delete_association(ctrl);
-+	cancel_work_sync(&ctrl->ioerr_work);
- }
+@@ -3334,7 +3335,6 @@ nvme_fc_reset_ctrl_work(struct work_stru
  
- static void
+ 	/* will block will waiting for io to terminate */
+ 	nvme_fc_delete_association(ctrl);
+-	cancel_work_sync(&ctrl->ioerr_work);
+ 
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+ 		dev_err(ctrl->ctrl.device,
 
 
 Patches currently in stable-queue which might be from jsingh@cloudlinux.com are
