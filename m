@@ -4,88 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3E5CF532D4
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2026 07:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B9D29F532F8
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2026 08:55:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eJqRw8wJksOuCmbVXg0UKSzuvntxhtDkZlZiq7BcWIo=; b=0w3vAIpPntWsrD0SudPovZI0fp
-	uebFiNUTOY9Xa8T+s/kyDNwAp8N5xQuSruUTu+ygk08DUvL3iDM0Tah6Rpoa1WTN7npG+7ydY/+IF
-	RcF9bKSr23OgM8/ZxByoTnOKX4Py9VcBL0aliE9Lyz8I50Uln6aZn5YbYlaRYdpSzgBGzmP+kA/Pj
-	fxvfVkgWGhCjrTiyF33D4p0EF6lymom+1++EHuz8rWqDYWsDVh13OKmrDBm28CDJgWUWyEVb4bS61
-	WbfrDe4yzMUsMQ9w/Y7ktJDm1694+EiXBS3UZE0TM1Bj3u963uCnJF/MtIQHzgMBdwOjOqXYNpY86
-	GWSUDNtw==;
+	bh=m2+SXCjbCrFKGqZSk/xQwRbAVc92PsYAjGOfnz6HI1Y=; b=fSuoTjrUvxdE870YeVsTGaIzg2
+	j9gusWp6eo7RyfOe0UqZwtwguwfYbOSS7bXeCnc8WwLNdGgWQuFvllPTlR8wRUcsru3zLzQo/wEuy
+	lYxz8UQ1tPOmn+2dHP7u0Z5gO/3Fb81oEA2ckYLgCC9ky2ElLPUZ1lbYwDW4c2XGrbbjfmtHOWxLK
+	9G+kh+SRjN1a4vTFFa1J3hDQAsclL+EvdM/EZblV03oCfgXaRdVtQhjN3K4qbLtpq0SoM8rb9JILN
+	MfinRRsZ31P3ry8mhf/2TKTZov2jR/wLQxkH77v30zGSEe2I4xQzjde3OB7z/7lTlLVer/+pVcq5C
+	j76ZkSfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4vpt-00000000rBs-3ao4;
-	Tue, 24 Mar 2026 07:05:57 +0000
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+	id 1w4xXj-000000011pm-36Rv;
+	Tue, 24 Mar 2026 08:55:19 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4vpq-00000000rB5-41vb
+	id 1w4xXh-000000011pJ-08aG
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Mar 2026 07:05:56 +0000
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-483487335c2so38659455e9.2
-        for <linux-nvme@lists.infradead.org>; Tue, 24 Mar 2026 00:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774335953; x=1774940753; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eJqRw8wJksOuCmbVXg0UKSzuvntxhtDkZlZiq7BcWIo=;
-        b=J5l039Ej3vaEOswMeVnbjgjUTcvHQ/GqbkbCg+71xsaHI8IVlQIyghmYhSyk+57ccv
-         ENWkIPNuhGf5899xoNuDqc6RqwP1EVPVsZf2C9RiSZloWBph4rdZW/nwtj4i/Y8qPtDy
-         u8EIN5HTQgr9ID1hi62M1vdfc/d/weKal169vBrGpS5CHXQvtdxhgPuDg4a5dxe8rwMQ
-         8mShMEozbKIlIT6050xMRmfRNfSB6w4Phg4oRrhSCUhL5WqfNzn90mMg3PnV9BsBM8ux
-         k6x7LXMC1suOFXuA1STmk//ItFbVXb3xoxVZZkc++/CB0zH5G+T6eJnG1NRXi11mJ+lI
-         StBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774335953; x=1774940753;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eJqRw8wJksOuCmbVXg0UKSzuvntxhtDkZlZiq7BcWIo=;
-        b=T6KPiDetN+NX5vPaKSoH9ZfQGvoc4B71+MWDsy2ZhWekIISMkdXEWwG7cPYKfsrU/6
-         CP5esUufnvm6x5XaTm2+/2ci6YHl6dD4upDjAFDO+efqbhfoaGe8rPUREtRaUy0dzIro
-         FBzq/1yvzCKRUKLAqHkJ5aEr39oVCngm/Svfnwx2NWHr0FmQS4Lby9cy3p6wJbenu/vs
-         +Mlsgo2tqMNcdBhofGWKBaKFsqjHRjo2Db/lD3K7zs6lnuGz4u+1h2FGhiKyNDmLWrGt
-         GO0RK2iMuJ+jyBnnXkKhuaaXLbYpjC0/MxJlxhPdMqnYx5n+aQGTd2y0QMdHwhVtgtFT
-         utwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVDDmx07M7e3XbWCUVd0u7nmttMBaOPD2uXmcq9yhmau9EAfS4R8MC9BfaQ7Rr1K2kVFCZvmUO08VmQ@lists.infradead.org
-X-Gm-Message-State: AOJu0YwS0fa6p2CKVnLtt+BBUqaECi9FMZdFgHXBanDTHZHUXzr81pfv
-	dpUQG4HJrAKgCnkaOuZqgd2CxkJoC0c3knh2srxOcFWNDQCgOrIQQaMiXrFSi2+eI/I=
-X-Gm-Gg: ATEYQzz4jjHBssYhjshf9t8PfoxnTOx+b6kwqff/MbugBSKJR4eaFM0kKn54Dz9ky9X
-	oxWGSsvpkUuO2cTWvMuUMa458JyH0TzxJ+rNX0dVWaWNTabHob+73ZzAF+Wb8OTK+whk8pN2p58
-	V8aN7tNepR+k5gPJ7Knjczor74AkNkGnEdEKK8PTSsragBWEXPlOljtywd6taFLEyit5D8C6sPg
-	gyPXzQWOkp6nquh67Kk57QCfm7DV/lgDxkZHD+12hVvCFeV8ADWW+Mdk1/iJQclW0wh+bfgEVNN
-	yONFXlmKC30QDPhz0/PpnE4ZpOFYydMH0aut5QI8dsKSx2Y5VzOjX2DHB3UC57OkOZQQPpyI2CH
-	wYhD++JJBwvV+1zvUOBzyNqbDErdMFe60TmBxLFMJBgb+0HjWEGXRiftTgoZ8Idd3n8zOmQjdPy
-	zsZtLv5bQ3nsLuiyZUJYd2PpxrgUGP
-X-Received: by 2002:a05:600c:3549:b0:485:3fe6:21f5 with SMTP id 5b1f17b1804b1-486fedb5928mr200915295e9.10.1774335952742;
-        Tue, 24 Mar 2026 00:05:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48711022f37sm18358185e9.9.2026.03.24.00.05.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 00:05:52 -0700 (PDT)
-Date: Tue, 24 Mar 2026 10:05:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Sungwoo Kim <iam@sung-woo.kim>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Subject: Re: [PATCH] nvme: remove bogus check in nvme_pr_read_keys()
-Message-ID: <acI3zWfJ-ML-jPmC@stanley.mountain>
-References: <ab5yUf3BqtlN3K-P@stanley.mountain>
- <acF-E8csusg-YbaO@kbusch-mbp>
+	Tue, 24 Mar 2026 08:55:18 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AAE524D2D4;
+	Tue, 24 Mar 2026 08:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774342513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m2+SXCjbCrFKGqZSk/xQwRbAVc92PsYAjGOfnz6HI1Y=;
+	b=V8pNFfKHJmGmESZx9pVwqsIDdJ29+/g9DRI/On0wFa3MZ0cQZmOqIT6gX8ofodoDmsanoY
+	5G4ZwoI9rdnIBW51mT4C9fqlfPXqQgGHTkKNpaf5HcThmTArAydSv8c5ialcmu7IYfaNUa
+	0mxiEgvf5+S2LkmThTju4EO2iPgPNkQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774342513;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m2+SXCjbCrFKGqZSk/xQwRbAVc92PsYAjGOfnz6HI1Y=;
+	b=97XnTLLhPIl6SuBxCXyM1ALbcFzjSsu5EPunapn2zTfDKFIJWMNPPk9kPLyYO2lL+9pgWi
+	ZdtNyKlRypJsTeCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FeyMhmwT;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QcqVvIW5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774342511; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m2+SXCjbCrFKGqZSk/xQwRbAVc92PsYAjGOfnz6HI1Y=;
+	b=FeyMhmwTA5DFsmZgt1smrlm0QtD4yfXR3eBbejGH80x/PYBJYHI9aTK+bQYR+eVt6m7u5k
+	g+67fumMe+aal119+LyjYFp5Kb9+HZSQ/gnbjWIHl/1rHaXbFkwAwyt7d+cZZbDxurc90u
+	33hPon+0voILCGsTnKCK6Qs0sKYqaFY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774342511;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m2+SXCjbCrFKGqZSk/xQwRbAVc92PsYAjGOfnz6HI1Y=;
+	b=QcqVvIW5GxA5pPnvvRB39l4Z7YH/bl+JBFwzZ6Vrk67YXytfqXx7OJ9c/PpQLA4H5hCf5K
+	ECSfXk2/2TAIGyAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A6CE43D5C;
+	Tue, 24 Mar 2026 08:55:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VxeGJG9Rwml9fQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 24 Mar 2026 08:55:11 +0000
+Date: Tue, 24 Mar 2026 09:55:07 +0100
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hare@suse.com, kbusch@kernel.org, 
+	hch@lst.de, gjoyce@ibm.com, wenxiong@linux.ibm.com
+Subject: Re: [PATCH 1/9] libnvme: annotate nvme_path::ana_state with
+ !accessors:none
+Message-ID: <6ed0f13e-2aad-4b2f-a8b7-39e6b3f85606@flourine.local>
+References: <20260321152823.3197870-1-nilay@linux.ibm.com>
+ <20260321152823.3197870-2-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acF-E8csusg-YbaO@kbusch-mbp>
+In-Reply-To: <20260321152823.3197870-2-nilay@linux.ibm.com>
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: AAE524D2D4
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260324_000555_035259_FA83921F 
-X-CRM114-Status: GOOD (  23.31  )
+X-CRM114-CacheID: sfid-20260324_015517_225425_F1F48678 
+X-CRM114-Status: UNSURE (   9.30  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -100,41 +139,23 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 23, 2026 at 11:53:23AM -0600, Keith Busch wrote:
-> On Sat, Mar 21, 2026 at 01:26:25PM +0300, Dan Carpenter wrote:
-> > This check for if (rse_len > U32_MAX) is confusing because if
-> > rse_len is > INT_MAX, that will trigger a WARN() in kvzalloc().
-> > Fortunately, the caller blkdev_pr_read_keys(), puts a limit on num_keys.
-> > The number of keys can't be more than PR_KEYS_MAX (65536) and the
-> > condition is impossible.
-> 
-> There's actually two callers: blkdev_pr_read_keys() ensures the number of
-> keys is smaller than 65536 and iblock_pr_read_keys() is a fixed size at
-> 16. But begs the question, what guarantee does nvme_pr_read_keys() have
-> that all the callers validated the number of keys such that it can
-> bravely skip checking it?
+On Sat, Mar 21, 2026 at 08:58:00PM +0530, Nilay Shroff wrote:
+> +__public char *nvme_path_get_ana_state(nvme_path_t p)
+> +{
+> +	_cleanup_free_ char *ana_state = NULL;
+> +
+> +	ana_state = nvme_get_path_attr(p, "ana_state");
+> +	if (ana_state) {
+> +		if (!p->ana_state || strcmp(ana_state, p->ana_state)) {
+> +			free(p->ana_state);
+> +			p->ana_state = strdup(ana_state);
+> +
+> +	}
 
-We normally wouldn't check the return from struct_size().  We would just
-pass it to the allocation function and let the failure happen since
-nothing can allocate SIZE_MAX.
+a couple of tabs indention here
 
-Linus added the INT_MAX check in kvzalloc() because it used to allocate
-more but we capped it at INT_MAX to avoid a problem where sometimes
-people store sizes int a u32.  vmalloc() can still allocate larger
-sizes than that if you really need to.  Linus has since suggested that
-the WARN() could be removed if people want to since hopefully all the
-people who were using kvmalloc() to allocate more than 2GB have
-changed to vmalloc() now.  So far no one has done that.
-
-> I think nvme should validate that it's a
-> reasonable value before calling kvalloc so we return an apporpriate
-> EINVAL instead of ENOMEM. The existing UINT_MAX check is certainly far
-> too high, but I think something like a 4MB payload would be a totally
-> reasonable upper limit for nvme on this function.
-
-That also works.
-
-regards,
-dan carpenter
-
+> +	}
+> +
+> +	return p->ana_state;
+> +}
 
