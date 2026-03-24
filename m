@@ -4,64 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3431EF54AC6
-	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2026 14:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0C01F54AC5
+	for <linux-nvme@archiver.kernel.org>; Tue, 24 Mar 2026 15:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=zOrPkY3bsGlmHCBSd7W2OUbyWriDJMaMBnGxuw2XRMM=; b=HtKYK7vLLxEzGL7MjQYn5kdMp4
-	ToD8U0eNB/bOxo5fnQrko61S7h33BbBT1fhr/4N4ic5K9mOB3yOtnyvDsHe3NYgqsjM+YU34Frdqz
-	XYfsSYz6rxbKOsNC/TlVBqb4EnOWgccr4M4tREHnasQ1iiTHSPMod4i5QUnL3mu1dQbiJN6fc9TuO
-	dS5ARgRB7GY7jL0Os//Kb0GIVWUTIqTp/5VQYnzcuCZSvb3oSr5JPoPSmt2tA+qWgSt5GU93nkwkf
-	QdN/89WMYtsP1P0M3RhQ9dym7n6PsGjbbXH7svAtJnzbUyhmQ4nEXiH4/skZIBvJQ2xSayJ36ay9F
-	+6pw/2Xg==;
+	bh=d9gbb6OEK32xGLciOtIsfGMH5Tr3SGzQb/01QJISOKQ=; b=f+KtDeu5WlqhTOr0d4BcWdcShJ
+	+wSWNhzvITlF5edNmcBM4gejmtMAXFEkZqTrxJsQAGrQjbzN1aog54UVVrJrZB8qQpntzCxt9Yb12
+	gtrSu/Ajy3+FEbBhz6fzFyMOiwkZmFvqT7UE8zoVXy11yxuelceu44X9t6G/m+RhnsFKjg/kxo8aN
+	IfFW49ScToqO5ClVySAzg2r3SiN87544rP+mPyBWYbPOv8BRN80NY4lw8hiK2e5xid8StzFOOChtj
+	bB7XhvUXHZQ7WhIGoqiKnM3sLj7S+nSvxB/I3SCOIbrwH0e72NwdHwwP3tgkLsNPTieTLQEtWoWN4
+	zHOr8lDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w52w5-00000001fic-0Laq;
-	Tue, 24 Mar 2026 14:40:49 +0000
+	id 1w53KK-00000001icF-29Tu;
+	Tue, 24 Mar 2026 15:05:52 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w52w3-00000001fhu-17bC
+	id 1w53KH-00000001ibY-2zU6
 	for linux-nvme@lists.infradead.org;
-	Tue, 24 Mar 2026 14:40:48 +0000
+	Tue, 24 Mar 2026 15:05:51 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 9C86441A38;
-	Tue, 24 Mar 2026 14:40:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB81C2BCB5;
-	Tue, 24 Mar 2026 14:40:46 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 15E5E40538;
+	Tue, 24 Mar 2026 15:05:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D306C19424;
+	Tue, 24 Mar 2026 15:05:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774363246;
-	bh=QsUM4AaoWAJ6Duqz0b/ac5qONFjO3dFtd6bjcD+Lakk=;
+	s=k20201202; t=1774364749;
+	bh=5hFAGOIzp/eMo2BkSnj3ruVd7WQWbN7gZFXvH2KCv+Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P5IdS4Un5DoUWzsnA4/oOhLECgnDY64Kz/1wxRdil0BEqukrMG4hVc6AU75I1u8S+
-	 My7HNMn6ASDpU5JSLjy8JnKiP9cO5yOvCS+v8IdyMuge1w+tBQwDK1Dvd4/jBMPVHy
-	 L1pUdzky533xCnAF8LtMW/GS3XMm2gNDmrkQtxviRvNNFpoBSJstuDtWP5HabqWWgj
-	 LmYzWXjyt6PoJBPqlCWFntAsf6N1AmeNA8FGCSXbU/I/EetbQRT4sgoakWHIAx+E3K
-	 M7fETVG+JituyLONoU2Gz/bD4AtbX50Ra9bgYp49omsoyjqqP3pGNwK6ic/3DmoNGX
-	 szhGwjd9Rkbiw==
-Date: Tue, 24 Mar 2026 08:40:44 -0600
+	b=ElhEJc243dMRGNhh5WR3M6+3lYx8CnlrfHG+ghChZamKkWoPDQTO8mDTNXbRSn+Fi
+	 Jyr7agja58P1NlLahPI91zRrfVd9dxvRY+tiNS1QtfmW7ruOF1uw+UuBo3FJMRDM1T
+	 M+nLih80AFFJ2fN9TferKAiM/QvyaKNdEkIdWIxtJQkt91chTTAE9FVcqlJkMJ5/WR
+	 UkiQMy0r5A2y1HOxMnXifQG34eVN3HN4wCEYj1QFqXmt6uMHHH1vAkbXAzNClTHxbH
+	 ZAoxmXMXwrWyAImGq3OH0zZxusWTaq6eYoDSW9cQ+M8HxTXwkUmLZ57v281NAEl13u
+	 Or+9f1wZ2RE0Q==
+Date: Tue, 24 Mar 2026 09:05:46 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, song@kernel.org, yukuai@fnnas.com,
-	linan122@huawei.com, axboe@kernel.dk, sagi@grimberg.me,
-	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Kiran Kumar Modukuri <kmodukuri@nvidia.com>
-Subject: Re: [PATCH 2/2] nvme-multipath: enable PCI P2PDMA for multipath
- devices
-Message-ID: <acKibPVk578SwyFR@kbusch-mbp>
-References: <20260323234416.46944-1-kch@nvidia.com>
- <20260323234416.46944-3-kch@nvidia.com>
- <20260324064937.GB1409@lst.de>
+To: Bob Beckett <bob.beckett@collabora.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, kernel@collabora.com,
+	stable@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] nvme: respect NVME_QUIRK_DISABLE_WRITE_ZEROES when
+ wzsl is set
+Message-ID: <acKoSnQ4p8rhBe4P@kbusch-mbp>
+References: <20260320192217.365936-1-bob.beckett@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324064937.GB1409@lst.de>
+In-Reply-To: <20260320192217.365936-1-bob.beckett@collabora.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260324_074047_329747_F7460D22 
-X-CRM114-Status: GOOD (  14.36  )
+X-CRM114-CacheID: sfid-20260324_080549_770061_463E3E71 
+X-CRM114-Status: GOOD (  16.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,26 +74,26 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Mar 24, 2026 at 07:49:37AM +0100, Christoph Hellwig wrote:
-> On Mon, Mar 23, 2026 at 04:44:16PM -0700, Chaitanya Kulkarni wrote:
-> > diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> > index ba00f0b72b85..c49fca43ef19 100644
-> > --- a/drivers/nvme/host/multipath.c
-> > +++ b/drivers/nvme/host/multipath.c
-> > @@ -737,6 +737,9 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
-> >  		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES;
-> >  	if (head->ids.csi == NVME_CSI_ZNS)
-> >  		lim.features |= BLK_FEAT_ZONED;
-> > +	if (ctrl->ops && ctrl->ops->supports_pci_p2pdma &&
-> > +	    ctrl->ops->supports_pci_p2pdma(ctrl))
-> > +		lim.features |= BLK_FEAT_PCI_P2PDMA;
+On Fri, Mar 20, 2026 at 07:22:08PM +0000, Bob Beckett wrote:
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> This assumes all controllers support P2P, but we allow matching
-> over different transports.  So you'll need to do the same scheme
-> as for MD RAID that checks that every member supports P2P.
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 766e9cc4ffca..ce25c8a4e84b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3388,7 +3388,7 @@ static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
+>  
+>  	ctrl->dmrl = id->dmrl;
+>  	ctrl->dmrsl = le32_to_cpu(id->dmrsl);
+> -	if (id->wzsl)
+> +	if (id->wzsl && !(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
+>  		ctrl->max_zeroes_sectors = nvme_mps_to_sectors(ctrl, id->wzsl);
 
-If that is a possible setup, then you could add a path that is non-P2P
-capable sometime after the MD volume was setup with P2P supported, so
-that case might need special handling to notify the stacking device of
-the new limits.
+Interesting. This is from a more recent identification that I would have
+hoped devices going through the trouble of implementing it would have
+figured out by now how to report write zeroes support correctly.
+
+Patches applied to nvme-7.1, thanks.
 
