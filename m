@@ -4,96 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1EB27109C058
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2026 19:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9563A109C05D
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2026 20:21:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3CFNV3fXhTyYK2FfmGVgZlda+hYMW+xdTutgAp9N5H0=; b=cqPfoO5KIeO+kvj7AvepuW1gsK
-	S5Mqcb9K8xDRFYczz0zunPFiu7TzsLPAXbCCqNzfDnPkz2F2y5JHod3NAGcZxv6DENEZeLRPPTGjj
-	FEjGf+s+fiFnMzhZXLlu427Ojj8o04/Kx5Wr0YjwY9xjlQq9f8VSId49KKkOWaANm5o0tXxPA2E+D
-	Ebxe/Qeg7Jq925itpp1b4adpwXuw3Oyey7pjs9h7Vu+3JErLSW/+hZb0HWNFo+dan2Oz02r+yE+Ly
-	+V1nKc2Tr/Xkh7DWjr8hepw5crceReHIPOl4hkWxum/3IWWNeqNLy04IYroJgQDS2i20gtol8IIwL
-	+zr+Gl6A==;
+	bh=i6MkJ9WO56PmVVW9M4QIhq1TaDuwFSwcAXSmKn7LA4g=; b=0yOCixyMQmhiOOIPmIVlqJ7hGT
+	rwaAwisHNGVjOxbhZ/5de6Z+NRcdeO/qa9s6Nvg+sXxoXhKSDWy2TH6lO3DV7At1Uuc7uDku8zqqn
+	LxZy9Hll0XnwEFXixclg0m7LMd4ZQAcnbmpP1dn0UbWgo5EoTWmtMsJbulXNw+Csrmdawg25vjwbv
+	V7TsG89eUd0UN+K2a82ENoZR0g9Tw2VdVPuOqg53QNG3GCSs8A4L5VGAY9A0Vr0SozwpdqOm37jPE
+	E2htc9NeEgkESlN490Dnm/fmqwO+9Erkkte2C8valnUHanoh2Qe8tL9MTErknIvH5ZOLLidnO6OI8
+	h4+bu6mQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5TZf-000000048L5-1lL9;
-	Wed, 25 Mar 2026 19:07:27 +0000
-Received: from mail-dl1-x1229.google.com ([2607:f8b0:4864:20::1229])
+	id 1w5Uis-00000004D4K-1sIZ;
+	Wed, 25 Mar 2026 20:21:02 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5TZc-000000048KZ-0KMy
+	id 1w5Uir-00000004D4B-0VZx
+	for linux-nvme@bombadil.infradead.org;
+	Wed, 25 Mar 2026 20:21:01 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=i6MkJ9WO56PmVVW9M4QIhq1TaDuwFSwcAXSmKn7LA4g=; b=eq2nTvnbqmCuI3OPn/sYC9fz5H
+	Bn22E+yB7/ZZn1pNZNMCsj60Whh5Ceft7UnidjT9tDB7KfsAx/YPw60axg7BTmCn8wqQjnn6JJoxo
+	qvCTbDhbGdVBbcet7ugJuNcvUaPWT+Agg6naR9MJtCarv4R0rEbKzpXcskkYEWsMgksWytHJDYzLI
+	+3EnlqnK7FpE8L6XF6/aj1XearsVbk0qFmdJCVqnsbLfDe38EHRO1lmNXlkfXhjTXkDHMWsAFZjpm
+	OXz0U6DG5q1CkEzi/z7DHe5mOdYjgBpEvfTAhOuXLcuXZCKjD974iZEbj9qrsHsuFwxeAXuXkBmE9
+	jEWbRCMg==;
+Received: from sea.source.kernel.org ([172.234.252.31])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w5Uin-000000070nB-2liT
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Mar 2026 19:07:25 +0000
-Received: by mail-dl1-x1229.google.com with SMTP id a92af1059eb24-1271257ae53so216341c88.1
-        for <linux-nvme@lists.infradead.org>; Wed, 25 Mar 2026 12:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1774465643; x=1775070443; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3CFNV3fXhTyYK2FfmGVgZlda+hYMW+xdTutgAp9N5H0=;
-        b=Nr8udniXzPPw+b1XqobuoAJ1TkXfvoyeuWN6Kpwr8gqRmtzoXmdd+j/smiTdp1bOEr
-         ND/xdu9NeYA/46CK8BYio71yUxKrxAiPFeuGuYzrAWEbBK/P3szLYOgEBka/x1ZpOExD
-         6JSO71j6okczrhBiVnYv2TlkguddLrg1OTrrSWdOpp4UdJZ4LmlY++ClMIxxxFqw9TnU
-         JQ1Y8xAArYMwxnJ44LwizLyn3q1HFZ5RY/JKwp5CmdZM1bTMQ54Vje/+66vbzXcH0qml
-         X9vov3e4PqcLjwYhqmNppDTV3BoOb0V5wf4IBs4E6eVcTdIvKSoqkzTG03pLu+hUgz+l
-         iY6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774465643; x=1775070443;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3CFNV3fXhTyYK2FfmGVgZlda+hYMW+xdTutgAp9N5H0=;
-        b=LSYhXTr8/SGIZVEtE2qUmuhPt8osL0a5ADo02nRp4y4raOIaELbEUEukHtpQ0ZPObF
-         n5qygbrYhbw/+L369Sg2n2JMBWB1IRbTlCXeV1oInfd/5gCKL9jjm7fBPWdgc396qMIx
-         xpAK2gVodXsouM/9PufW5nsBpXZpYcQKow52Z11Ru90IJJ2vkbB/PWMfOaJM7XgsdIyD
-         wi7vOTiVvJES+LIjLiFl09KOXx6dTfErFybajKlKcOBeJsO993Kbnqyka+G+bxfhVWM8
-         TToUhL1/P9X9Z2gkBHN48uifLAWvunKwi9jGoXnncK8JzqxunjZvrAxHY6/wMHhNC3AO
-         cTlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUUf8Bs9riLX66jdWw81XbC4QXtVj9k0o26Tn5DL364A2SCN+gYf+i3wmNjTAPwPCPbDB18uJ1zZMb5@lists.infradead.org
-X-Gm-Message-State: AOJu0YzfnH0/kvf47dBE/wFMx8H4oKnKiiqbFa+e6GitDnDQjwST10jf
-	Gn7TTGQt2p8LQg/6ErBCReXXDUHGm6ux8xcR8oGWR64sDP64zn7rtXbrSa61PJVhYyw=
-X-Gm-Gg: ATEYQzzvbWGzVFtP1N2vo2r6Gslb/dilYh63fWi+zBDRSVAUowJz6dqyjFuE83Kdgba
-	Ug5GQSCnwoI9Yyo2MLN52l4ouGepB38GNFYmluU8HW7oZz/mUHZavTGqBEoG4uZP13r0S7LeS1c
-	v3ZbDJ2B1lJCmBqS7KFYLYw3DXLb7KtjGDGKGVOlDfJhp/XBOrNovuxfsvTwJQl0y870n4fHnYS
-	yGRQbve+ABHvJI7+cq5Z1hi8rzp23Yo0GGU2vE6CbglXQWPzfV3n4r0R3E3xMtZRMWU0rDTVoOX
-	LGVwn4FkTB8jsG5Gxtz9kIsC0iF02MZRtRRFvaTNYWo51vx1iRUk9QujoqgK6WMbBws6MlvCLny
-	js4AcJH22RA4ccouhasC4qbUzuu/QEAvrlV9j3/VwWrLvO34713ErRcQvJ/riG9JkjePuqJ0jrh
-	VAXDKnpnU1znaowg6oe7k/eANQyVwP
-X-Received: by 2002:a05:7022:4a7:b0:11a:23fb:16e2 with SMTP id a92af1059eb24-12a96e4901bmr2240147c88.9.1774465642819;
-        Wed, 25 Mar 2026 12:07:22 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([2601:640:8202:6fb0::9c63])
-        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-12aa6e5b38csm873408c88.2.2026.03.25.12.07.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:07:22 -0700 (PDT)
-Date: Wed, 25 Mar 2026 12:07:21 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: James Smart <jsmart833426@gmail.com>
-Cc: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Wed, 25 Mar 2026 20:20:59 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 1D69A42DE5;
+	Wed, 25 Mar 2026 20:20:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93746C4CEF7;
+	Wed, 25 Mar 2026 20:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774470056;
+	bh=vfTpAReEB03EgkWwWTy/7/I4kxr0oycMmdpafvTBqbw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X9kHOsCXpbnqPbnws8Re1eQA1H0SC5Du96Mv2YFteUdfF5XVSruS0MaMTDfc02+p+
+	 Svq2FldytMFbjAf6QQfwXPa2nGNmdr7ziLF5MYKcLFsV9spuJUZoEcstFZmr8fepyW
+	 1FWoY/dt7/8moXmt3csOCobXx4XTiZurUJFWdRZ6pSFjDwQ7kFdjYPZC8XeLZ5Sk34
+	 Ir56s8WaJNUt/5mwssDfToL5ha/j/5tmd5/xPjPS7YrydBUg9UbjN+cY/17Hv29YTP
+	 2eTzOBUlCi5P196CUBaq4fGzA5EjcX0NrxZyFzKHFHshDeLz7YSPGlNyMOJKekOblU
+	 PJE8z6vGMVKwg==
+Date: Wed, 25 Mar 2026 13:20:53 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
-	Aaron Dailey <adailey@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Dhaval Giani <dgiani@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 21/21] nvme-fc: Extend FENCING state per TP4129 on CCR
- failure
-Message-ID: <20260325190721.GD145093-mkhalfella@purestorage.com>
-References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
- <20260214042753.4073668-22-mkhalfella@purestorage.com>
- <74b4496a-5ce9-496f-8032-a220c2f69cfd@gmail.com>
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH 00/21] nvme-auth: use crypto library for HMAC and hashing
+Message-ID: <20260325202053.GE2305@quark>
+References: <20260302075959.338638-1-ebiggers@kernel.org>
+ <20260304132327.GA15515@lst.de>
+ <20260305193150.GF2796@quark>
+ <aanbGwda2pHmMTMx@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <74b4496a-5ce9-496f-8032-a220c2f69cfd@gmail.com>
+In-Reply-To: <aanbGwda2pHmMTMx@kbusch-mbp>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260325_120724_121986_8ECDDCF0 
-X-CRM114-Status: GOOD (  23.12  )
+X-CRM114-CacheID: sfid-20260325_202057_954219_B9D7E781 
+X-CRM114-Status: GOOD (  14.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -108,125 +95,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri 2026-02-27 17:20:45 -0800, James Smart wrote:
-> On 2/13/2026 8:25 PM, Mohamed Khalfella wrote:
-> > If CCR operations fail and CQT is supported, we must defer the retry of
-> > inflight requests per TP4129. Update ctrl->fencing_work to schedule
-> > ctrl->fenced_work, effectively extending the FENCING state. This delay
-> > ensures that inflight requests are held until it is safe for them to be
-> > retired.
+On Thu, Mar 05, 2026 at 12:35:55PM -0700, Keith Busch wrote:
+> On Thu, Mar 05, 2026 at 11:31:50AM -0800, Eric Biggers wrote:
+> > On Wed, Mar 04, 2026 at 02:23:27PM +0100, Christoph Hellwig wrote:
+> > > Thanks, this looks really great:
+> > > 
+> > > Acked-by: Christoph Hellwig <hch@lst.de>
+> > > 
 > > 
-> > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> > ---
-> >   drivers/nvme/host/fc.c | 39 +++++++++++++++++++++++++++++++++++----
-> >   1 file changed, 35 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> > index eac3a7ccaa5c..81088a4ce298 100644
-> > --- a/drivers/nvme/host/fc.c
-> > +++ b/drivers/nvme/host/fc.c
-> > @@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
-> >   	struct blk_mq_tag_set	tag_set;
-> >   
-> >   	struct work_struct	fencing_work;
-> > +	struct delayed_work	fenced_work;
-> >   	struct work_struct	ioerr_work;
-> >   	struct delayed_work	connect_work;
-> >   
-> > @@ -1878,6 +1879,18 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
-> >   	return ret;
-> >   }
-> >   
-> > +static void nvme_fc_fenced_work(struct work_struct *work)
-> > +{
-> > +	struct nvme_fc_ctrl *fc_ctrl = container_of(to_delayed_work(work),
-> > +					struct nvme_fc_ctrl, fenced_work);
-> > +	struct nvme_ctrl *ctrl = &fc_ctrl->ctrl;
-> > +
-> > +	dev_info(ctrl->device, "Time-based recovery finished\n");
-> > +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-> > +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> > +		queue_work(nvme_reset_wq, &fc_ctrl->ioerr_work);
+> > Thanks.  I assume Keith will pick this series up for 7.1.  Keith, I
+> > forgot to include you explicitly on the recipients list (I must have run
+> > get_maintainer on drivers/nvme/target/ instead of drivers/nvme/common/),
+> > but I assume you received this series via linux-nvme anyway.
 > 
-> sync with comments on patch 12
+> No worries, I'll start up a 7.1 branch and get this queued up. Thanks!
 
-I will do that. It has been suggested to move CQT changes into a
-separate patchset and focus on CCR changes for now. I will drop
-patches [16 - 21] from this patchset to be re-introduced later.
+This hasn't made its way into linux-next yet.  Is that expected?
 
-> 
-> > +}
-> > +
-> >   static void nvme_fc_fencing_work(struct work_struct *work)
-> >   {
-> >   	struct nvme_fc_ctrl *fc_ctrl =
-> > @@ -1886,16 +1899,33 @@ static void nvme_fc_fencing_work(struct work_struct *work)
-> >   	unsigned long rem;
-> >   
-> >   	rem = nvme_fence_ctrl(ctrl);
-> > -	if (rem) {
-> > +	if (!rem)
-> > +		goto done;
-> > +
-> > +	if (!ctrl->cqt) {
-> >   		dev_info(ctrl->device,
-> > -			 "CCR failed, skipping time-based recovery\n");
-> > +			 "CCR failed, CQT not supported, skip time-based recovery\n");
-> > +		goto done;
-> >   	}
-> >   
-> > +	dev_info(ctrl->device,
-> > +		 "CCR failed, switch to time-based recovery, timeout = %ums\n",
-> > +		 jiffies_to_msecs(rem));
-> > +	queue_delayed_work(nvme_wq, &fc_ctrl->fenced_work, rem);
-> > +	return;
-> > +
-> > +done:
-> >   	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-> >   	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> >   		queue_work(nvme_reset_wq, &fc_ctrl->ioerr_work);
-> >   }
-> >   
-> > +static void nvme_fc_flush_fencing_works(struct nvme_fc_ctrl *ctrl)
-> > +{
-> > +	flush_work(&ctrl->fencing_work);
-> > +	flush_delayed_work(&ctrl->fenced_work);
-> > +}
-> > +
-> >   static void
-> >   nvme_fc_ctrl_ioerr_work(struct work_struct *work)
-> >   {
-> > @@ -1917,7 +1947,7 @@ nvme_fc_ctrl_ioerr_work(struct work_struct *work)
-> >   		return;
-> >   	}
-> >   
-> > -	flush_work(&ctrl->fencing_work);
-> > +	nvme_fc_flush_fencing_works(ctrl);
-> >   	nvme_fc_error_recovery(ctrl);
-> >   }
-> >   
-> > @@ -3396,7 +3426,7 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
-> >   	struct nvme_fc_ctrl *ctrl =
-> >   		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
-> >   
-> > -	flush_work(&ctrl->fencing_work);
-> > +	nvme_fc_flush_fencing_works(ctrl);
-> >   	nvme_stop_ctrl(&ctrl->ctrl);
-> >   
-> >   	/* will block will waiting for io to terminate */
-> > @@ -3573,6 +3603,7 @@ nvme_fc_alloc_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
-> >   	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
-> >   	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
-> >   	INIT_WORK(&ctrl->fencing_work, nvme_fc_fencing_work);
-> > +	INIT_DELAYED_WORK(&ctrl->fenced_work, nvme_fc_fenced_work);
-> >   	INIT_WORK(&ctrl->ioerr_work, nvme_fc_ctrl_ioerr_work);
-> >   	spin_lock_init(&ctrl->lock);
-> >   
-> 
-> looks ok.
-> 
-> Signed-off-by: James Smart <jsmart833426@gmail.com>
-> 
-> -- james
-> 
+- Eric
 
