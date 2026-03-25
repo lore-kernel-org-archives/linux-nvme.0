@@ -4,62 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9563A109C05D
-	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2026 20:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F148109C05D
+	for <linux-nvme@archiver.kernel.org>; Wed, 25 Mar 2026 21:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i6MkJ9WO56PmVVW9M4QIhq1TaDuwFSwcAXSmKn7LA4g=; b=0yOCixyMQmhiOOIPmIVlqJ7hGT
-	rwaAwisHNGVjOxbhZ/5de6Z+NRcdeO/qa9s6Nvg+sXxoXhKSDWy2TH6lO3DV7At1Uuc7uDku8zqqn
-	LxZy9Hll0XnwEFXixclg0m7LMd4ZQAcnbmpP1dn0UbWgo5EoTWmtMsJbulXNw+Csrmdawg25vjwbv
-	V7TsG89eUd0UN+K2a82ENoZR0g9Tw2VdVPuOqg53QNG3GCSs8A4L5VGAY9A0Vr0SozwpdqOm37jPE
-	E2htc9NeEgkESlN490Dnm/fmqwO+9Erkkte2C8valnUHanoh2Qe8tL9MTErknIvH5ZOLLidnO6OI8
-	h4+bu6mQ==;
+	bh=vi2bdJY7/Ltc4GZUSD+NKYZWTRK073ecyeFSOXQRINA=; b=VRic3CEcvvlzOdhb04/zC31+Pk
+	1fJ3ZWWGNL505zvoBWTQBuP6wjOaNSoZf2f0xV48srJHD5xGUJkcYfdHduoUNFRSLkZTeqB5CcnVs
+	lehvnv/iRT3bO6ft4bdB/fgA8HxIUycmACBkQ7NKtlU4yBA8aSqdXw9nn2T/raI3K8Eln32RTOf2T
+	LrRi+suzVRvWfYM+WAjPhqXv2Tdj96nAnpEgmr5DOo5htztXa5kf7Oo2VYla5ZHaCF2dZsXzHyWSc
+	f9Ck3asHGX8txg+zDTLsSyz07fD2cKc/xYTD9q80+L5UYmM/0qvQsHlVN8f9PyZPWoyb6dshyrcT3
+	3pXDFxjQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5Uis-00000004D4K-1sIZ;
-	Wed, 25 Mar 2026 20:21:02 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5Uir-00000004D4B-0VZx
-	for linux-nvme@bombadil.infradead.org;
-	Wed, 25 Mar 2026 20:21:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=i6MkJ9WO56PmVVW9M4QIhq1TaDuwFSwcAXSmKn7LA4g=; b=eq2nTvnbqmCuI3OPn/sYC9fz5H
-	Bn22E+yB7/ZZn1pNZNMCsj60Whh5Ceft7UnidjT9tDB7KfsAx/YPw60axg7BTmCn8wqQjnn6JJoxo
-	qvCTbDhbGdVBbcet7ugJuNcvUaPWT+Agg6naR9MJtCarv4R0rEbKzpXcskkYEWsMgksWytHJDYzLI
-	+3EnlqnK7FpE8L6XF6/aj1XearsVbk0qFmdJCVqnsbLfDe38EHRO1lmNXlkfXhjTXkDHMWsAFZjpm
-	OXz0U6DG5q1CkEzi/z7DHe5mOdYjgBpEvfTAhOuXLcuXZCKjD974iZEbj9qrsHsuFwxeAXuXkBmE9
-	jEWbRCMg==;
+	id 1w5VUB-00000004FpT-2606;
+	Wed, 25 Mar 2026 21:09:55 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5Uin-000000070nB-2liT
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w5VU9-00000004Fp9-07W9
 	for linux-nvme@lists.infradead.org;
-	Wed, 25 Mar 2026 20:20:59 +0000
+	Wed, 25 Mar 2026 21:09:54 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1D69A42DE5;
-	Wed, 25 Mar 2026 20:20:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93746C4CEF7;
-	Wed, 25 Mar 2026 20:20:55 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 4456243EAA;
+	Wed, 25 Mar 2026 21:09:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FF5EC4CEF7;
+	Wed, 25 Mar 2026 21:09:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774470056;
-	bh=vfTpAReEB03EgkWwWTy/7/I4kxr0oycMmdpafvTBqbw=;
+	s=k20201202; t=1774472992;
+	bh=5hyCtszn78xanL3/NAItzF/R51/fZ06Mwx7h3Z1IvlI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X9kHOsCXpbnqPbnws8Re1eQA1H0SC5Du96Mv2YFteUdfF5XVSruS0MaMTDfc02+p+
-	 Svq2FldytMFbjAf6QQfwXPa2nGNmdr7ziLF5MYKcLFsV9spuJUZoEcstFZmr8fepyW
-	 1FWoY/dt7/8moXmt3csOCobXx4XTiZurUJFWdRZ6pSFjDwQ7kFdjYPZC8XeLZ5Sk34
-	 Ir56s8WaJNUt/5mwssDfToL5ha/j/5tmd5/xPjPS7YrydBUg9UbjN+cY/17Hv29YTP
-	 2eTzOBUlCi5P196CUBaq4fGzA5EjcX0NrxZyFzKHFHshDeLz7YSPGlNyMOJKekOblU
-	 PJE8z6vGMVKwg==
-Date: Wed, 25 Mar 2026 13:20:53 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Keith Busch <kbusch@kernel.org>
+	b=XUCQnJyoZhUt4VnYhJ8veC05VFp9zs8kQa2c1wzAm+I/r95r3fOHJjFJ4QrUOV+OQ
+	 AJ1GEXBIMy+vi2BNW+A6QL88gNMmZwyUbeMdGRxRRQK/HrYhQfWtVJNuSS9Hsi/Bcv
+	 IKKZgLI1Vc4vYdzJMjHRVORuUGxWgKWgui6QHgfJJBzajti9HYugpYs6z4JZvhiwEJ
+	 n147CnMBhQ/ZvfuD+1sanPvpEAu6W8C4LHAR6OW/V3AySeF4HL07UY6SPLI8vRt7bL
+	 1ub7P0dQqq+IQ4SfMby6Tkl5HkIQt3zSulWcOLMgpoR2Ni9c+knm4kCWKjNsP1cgjy
+	 2pMe06tzHVsVg==
+Date: Wed, 25 Mar 2026 15:09:49 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
@@ -69,18 +54,20 @@ Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
 	Herbert Xu <herbert@gondor.apana.org.au>,
 	Jens Axboe <axboe@kernel.dk>
 Subject: Re: [PATCH 00/21] nvme-auth: use crypto library for HMAC and hashing
-Message-ID: <20260325202053.GE2305@quark>
+Message-ID: <acRPHRZs_hZYDj4O@kbusch-mbp>
 References: <20260302075959.338638-1-ebiggers@kernel.org>
  <20260304132327.GA15515@lst.de>
  <20260305193150.GF2796@quark>
  <aanbGwda2pHmMTMx@kbusch-mbp>
+ <20260325202053.GE2305@quark>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aanbGwda2pHmMTMx@kbusch-mbp>
+In-Reply-To: <20260325202053.GE2305@quark>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260325_202057_954219_B9D7E781 
-X-CRM114-Status: GOOD (  14.07  )
+X-CRM114-CacheID: sfid-20260325_140953_090392_52BCBFA0 
+X-CRM114-Status: UNSURE (   9.85  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,22 +82,12 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 05, 2026 at 12:35:55PM -0700, Keith Busch wrote:
-> On Thu, Mar 05, 2026 at 11:31:50AM -0800, Eric Biggers wrote:
-> > On Wed, Mar 04, 2026 at 02:23:27PM +0100, Christoph Hellwig wrote:
-> > > Thanks, this looks really great:
-> > > 
-> > > Acked-by: Christoph Hellwig <hch@lst.de>
-> > > 
-> > 
-> > Thanks.  I assume Keith will pick this series up for 7.1.  Keith, I
-> > forgot to include you explicitly on the recipients list (I must have run
-> > get_maintainer on drivers/nvme/target/ instead of drivers/nvme/common/),
-> > but I assume you received this series via linux-nvme anyway.
+On Wed, Mar 25, 2026 at 01:20:53PM -0700, Eric Biggers wrote:
 > 
-> No worries, I'll start up a 7.1 branch and get this queued up. Thanks!
+> This hasn't made its way into linux-next yet.  Is that expected?
 
-This hasn't made its way into linux-next yet.  Is that expected?
-
-- Eric
+It's in the nvme-7.1 branch, but linux-next doesn't pull from there.
+I'll need to send a pull to Jens' block tree for linux-next inclusion. I
+suppose it's about time we get the first one sent this week, so I'll
+just double check everything and get something ready for tomorrow.
 
