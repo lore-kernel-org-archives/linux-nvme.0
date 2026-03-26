@@ -4,84 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 90718109C038
-	for <linux-nvme@archiver.kernel.org>; Thu, 26 Mar 2026 07:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A492E10A62DA
+	for <linux-nvme@archiver.kernel.org>; Thu, 26 Mar 2026 14:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7N9TgMHFraFeVXNYuCdXIWNYZyWpOEPnK8jVkVQJ6hE=; b=0SX+/rW8CveiFD9sao7s3iU/Qg
-	3I+WztCpcXMaf29u5/9QQAvFQhtBkwpm19uuRkQMKJQqatg55CiQpUJHwmSr1/SCt3AHgd3Wf3/0/
-	Vp0W84XFgIYCGD0NbXIJI2YiJ3sr60TRClW6rDH892Au9NyxucGwPHe8NXx1K3b8pMMcC/8uqhsJ9
-	+7t/YPc10hYzHRoXxYk0eaCDfcH4Y1Eolem7SDTEbvDTsVeO/dqAwP0h7GBG5V0/tz3sGWDjDCPWm
-	OEfIXmGMr3xUdK4LWshLhDovkjNw3VjbLHa7GCFIjpqk9s5z9iC0ywA+xskP6lbLcgui0C/LBph3w
-	Ks6ThMBA==;
+	bh=y5Pjy4k64ZDVJcCgJ9wS3Tl680xCo3F/CfTrExmvzvU=; b=z2yRGSkWGSN8s4wzx0PwMcHqXd
+	0KN/y2IQa3QppeDp+4imETXKuQB9f8c65gaCl76dtO2hSd2SNafa/zv29P1CISC3VNQbKIscXmt9F
+	zscmZ3Q+JnYIRJD6JmdE4Afcjn2IEURRYp6zUo+YWPyxh2q+QUOUZeErycXUmuR/H5z+C4d+yK+p4
+	Q2+OoADhqeVwWNkaltJ/gsZUs4BhUeFdnCz3LljbWJmJFLdHC6DvtJjLXFIRZ9656eYUdmPGa37pB
+	Gvo9362pzsFi9MfgU5tNbO9VI08RT0BeqMw0k34VOw7aMYINuR3bFFQQ0ZfqrVNGURnORHQETkihn
+	xKkiEDgQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5fMO-00000004x5I-34OJ;
-	Thu, 26 Mar 2026 07:42:32 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1w5lZv-00000005dJj-3vCH;
+	Thu, 26 Mar 2026 14:20:55 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5fML-00000004x4w-3lRm
-	for linux-nvme@lists.infradead.org;
-	Thu, 26 Mar 2026 07:42:31 +0000
-Date: Thu, 26 Mar 2026 08:42:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1774510946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7N9TgMHFraFeVXNYuCdXIWNYZyWpOEPnK8jVkVQJ6hE=;
-	b=eECZh1XmFpbS/h9sFHnwIGna1GvmUDCfAQos+dQQy7vFseAryD3PG2r+4/8b/emKKRMzwS
-	8LGqJ4r4v6+y8ZKKanGxCPKCIBssfvTma4uzQw4ZshiS7FHtoMK6wQPHxIlX9XVIJNnBYP
-	bXwQq+8vaWWg+WwvJOG0qRrChj5DSbHX8gr5GLfupappv2IMcd1ZpHdjhhWZoSCHhjpDfv
-	zrUzLji2YpahDUDw1RkApR4NE8YjXy5z1qu92ZIvt9Yy04sdkvSqNz0jjcYTKI0Z6ERIGx
-	52MNEAYHp5O2fczO/e/Kl+BKhD8eLOJdfm2pZDexQ3S0safZtZFfABr4/3TeqA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1774510946;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7N9TgMHFraFeVXNYuCdXIWNYZyWpOEPnK8jVkVQJ6hE=;
-	b=iO5XW1w6drYoyeU0YbS1Z+G+BkXpW8c24lsR431Gzrtv2oMWBBW5UxNVZLKJXv9QwZwxdz
-	ym3bWlXVBEdmDXBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Daniel Wagner <wagi@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Waiman Long <llong@redhat.com>, Ming Lei <ming.lei@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mel Gorman <mgorman@suse.de>, Hannes Reinecke <hare@suse.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, megaraidlinux.pdl@broadcom.com,
-	linux-scsi@vger.kernel.org, storagedev@microchip.com,
-	virtualization@lists.linux.dev,
-	GR-QLogic-Storage-Upstream@marvell.com
-Subject: Re: [PATCH v8 00/12] blk: honor isolcpus configuration
-Message-ID: <20260326074224.eEozcjTE@linutronix.de>
-References: <20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org>
- <20260325175610.eY-VHHPS@linutronix.de>
+	id 1w5lZs-00000005dIo-2xyz;
+	Thu, 26 Mar 2026 14:20:54 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A842468AFE; Thu, 26 Mar 2026 15:20:47 +0100 (CET)
+Date: Thu, 26 Mar 2026 15:20:47 +0100
+From: "hch@lst.de" <hch@lst.de>
+To: =?utf-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
+Cc: "hch@lst.de" <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Justin Tee <justintee8345@gmail.com>,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
+	"sven@kernel.org" <sven@kernel.org>, "j@jannau.net" <j@jannau.net>,
+	"neal@gompa.dev" <neal@gompa.dev>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"justin.tee@broadcom.com" <justin.tee@broadcom.com>,
+	"nareshgottumukkala83@gmail.com" <nareshgottumukkala83@gmail.com>,
+	"paul.ely@broadcom.com" <paul.ely@broadcom.com>,
+	James Smart <james.smart@broadcom.com>,
+	"kch@nvidia.com" <kch@nvidia.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?utf-8?B?7J207J2A7IiY?= <euns212.lee@samsung.com>,
+	=?utf-8?B?7Lm47LCs?= <joshi.k@samsung.com>
+Subject: Re: [PATCH v5] nvme: Skip trace complete_rq on host path error
+Message-ID: <20260326142047.GA16787@lst.de>
+References: <20260326061443.GA23850@lst.de> <acQxjZMOqj74yIJf@kbusch-mbp> <20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4> <945a3e98-ee75-453c-ae80-f3c9e3e57e58@gmail.com> <20260325063333epcms2p60954532c1b65a1665bad6dcdcfd7d62c@epcms2p6> <CABPRKS8-x6Tfr90inpz1fR0=8a5HD=mkujtfLJ1h9ikEUjTvxg@mail.gmail.com> <20260326014429epcms2p135ffd3c2b2fface6423d045e9614c262@epcms2p1> <CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p5> <20260326065152epcms2p51a18d3bbecb6eb6dc2ddba09651e5152@epcms2p5>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260325175610.eY-VHHPS@linutronix.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260326065152epcms2p51a18d3bbecb6eb6dc2ddba09651e5152@epcms2p5>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260326_004230_082084_AE4C7B43 
-X-CRM114-Status: UNSURE (   8.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260326_072052_888357_115D2592 
+X-CRM114-Status: GOOD (  10.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,13 +74,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026-03-25 18:56:13 [+0100], To Daniel Wagner wrote:
-> I have been just made aware of this. It is still not merged so let me
-> ask the questions before it is too late.
-> What is purpose of managed_irq? Doesn't this sort of aligns with this?
+On Thu, Mar 26, 2026 at 03:51:52PM +0900, 전민식 wrote:
+> Hi hch,
+> 
+> I added a comment about why I do trace skip if it's host path error.
 
-No, it does not. I got the answers. Let me write that down. Move on then=E2=
-=80=A6
+The patch looks good:
 
-Sebastian
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+But such note go below the '--' so that don't end up in git history.
+
 
