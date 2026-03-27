@@ -4,95 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE42710BA432
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2026 06:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5B3E10ED67F
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2026 14:44:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Type:Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:CC:To:From
-	:Subject:Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1+O6aNFLjR2fJGkRkFMDHHc6Xd1lom5HjfhLE8xyfdk=; b=eW3QjyVcmCO6Ehe9Vx9b/MUiyM
-	vbgR8HJkFNUUZhvkV8oN0Bx4lQ6I3vNGmNPO6ZrDPbixc+M5gWZk93sbX5eYgA0oNyUSnuKOOUk9z
-	kntBLm6+L7CrhmpkuvYkFDzVIlD/0RtDy1ry45ACa88ERyGXTxqC44q1+yJ3CTFfs0umD8Oty8Tac
-	Vee9FokBw33mOMRy9khaG4wyAYEN6XkYY/tfUmL1kBifF9kFMRBmpUIFFy+1KmTb0WxD0GT5U8VvJ
-	K7QYyH5yhDvhby2ZinNnqlFff+VohTnUxAGd1q4pUQxvKvrewO/0LXpLESfUok+ZdRWTOQen+EEsF
-	pkU+FyVQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wtqZU6t0lX3Usl4dFvXwksRpAQkLOIbdiHipHUT8Cy4=; b=FmScJXG4hPwlNFXZiipNu5ur6G
+	8oVsQF8zI9IMLkvn+HkQEnz8XR2IU3CfKgw6pE6Pc8lA/sKi5NNn6ZP4si+qMYv1aVdHwqDX1RFRq
+	rH3qalq2EYalCpabX/il65Vj0XGlO/roz2dpbL6hXnebPEj6+jZRJ1bptTJxWScjFkSYy69lW4uC4
+	+UPUZrSkVNe1///l6SygCks7HgoeKzvYxweSBeCh+CPdL4iOBe7nlnoS1BCIDH9Gwmd4E7It0KTd3
+	l2PdbVuHjIG+T+sRt3jiLkrDf9RUzQhChkS7ECrA0wlJRspywCck0nl+n21s//6crdJ4o1PB8zM3q
+	YIjDsgPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w60p6-00000006pcV-1wEA;
-	Fri, 27 Mar 2026 06:37:36 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1w68QP-00000007d8i-0G0N;
+	Fri, 27 Mar 2026 14:44:37 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w60p1-00000006pb0-3MI7
+	id 1w68QO-00000007d8c-1eio
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Mar 2026 06:37:34 +0000
-Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260327063722epoutp04f5c8bf59f0c1b03347fec82e9cf7a25c~gn1VZW0Ib1720017200epoutp04E
-	for <linux-nvme@lists.infradead.org>; Fri, 27 Mar 2026 06:37:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260327063722epoutp04f5c8bf59f0c1b03347fec82e9cf7a25c~gn1VZW0Ib1720017200epoutp04E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774593442;
-	bh=1+O6aNFLjR2fJGkRkFMDHHc6Xd1lom5HjfhLE8xyfdk=;
-	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=K5oZfykvxGQYKRUaqowjfHzqKh454SqP8PZTsCS8db/DUZ402z4wQCglIdPwTHBfI
-	 FK+dN6YUkt2m7DQlbznP/TDIGQNvcxYAlHAI9hn8sEKBziC4Yl8WU+Y5CSGRca81wa
-	 3CkQrZCrHbN9MiBEWBm98SOcbTvECGaRuidS6PeI=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260327063721epcas2p2c4f0a625266a14058ef94d5c52416784~gn1UtWWrK0303903039epcas2p2g;
-	Fri, 27 Mar 2026 06:37:21 +0000 (GMT)
-Received: from epcas2p2.samsung.com (unknown [182.195.38.210]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4fhrXw6mQNz6B9mD; Fri, 27 Mar
-	2026 06:37:20 +0000 (GMT)
-Mime-Version: 1.0
-Subject: Re: [PATCH v5] nvme: Skip trace complete_rq on host path error
-From: =?UTF-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
-To: Keith Busch <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-CC: Justin Tee <justintee8345@gmail.com>, "axboe@kernel.dk"
-	<axboe@kernel.dk>, "sven@kernel.org" <sven@kernel.org>, "j@jannau.net"
-	<j@jannau.net>, "neal@gompa.dev" <neal@gompa.dev>, "sagi@grimberg.me"
-	<sagi@grimberg.me>, "justin.tee@broadcom.com" <justin.tee@broadcom.com>,
-	"nareshgottumukkala83@gmail.com" <nareshgottumukkala83@gmail.com>,
-	"paul.ely@broadcom.com" <paul.ely@broadcom.com>, James Smart
-	<james.smart@broadcom.com>, "kch@nvidia.com" <kch@nvidia.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "asahi@lists.linux.dev"
-	<asahi@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, =?UTF-8?B?7J207J2A7IiY?=
-	<euns212.lee@samsung.com>, =?UTF-8?B?7Lm47LCs?= <joshi.k@samsung.com>,
-	=?UTF-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <acVGECskf5pg3_MY@kbusch-mbp>
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20260327063720epcms2p43a46a694d9cda121cc804bfa2bab8d59@epcms2p4>
-Date: Fri, 27 Mar 2026 15:37:20 +0900
-X-CMS-MailID: 20260327063720epcms2p43a46a694d9cda121cc804bfa2bab8d59
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-cpgsPolicy: CPGSC10-223,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6
-References: <acVGECskf5pg3_MY@kbusch-mbp> <acQxjZMOqj74yIJf@kbusch-mbp>
-	<20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
-	<945a3e98-ee75-453c-ae80-f3c9e3e57e58@gmail.com>
-	<20260325063333epcms2p60954532c1b65a1665bad6dcdcfd7d62c@epcms2p6>
-	<CABPRKS8-x6Tfr90inpz1fR0=8a5HD=mkujtfLJ1h9ikEUjTvxg@mail.gmail.com>
-	<20260326014429epcms2p135ffd3c2b2fface6423d045e9614c262@epcms2p1>
-	<20260326065152epcms2p51a18d3bbecb6eb6dc2ddba09651e5152@epcms2p5>
-	<acVCnozG1WKPkq1L@kbusch-mbp> <20260326143124.GA17507@lst.de>
-	<CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260326_233733_312542_54DF004C 
-X-CRM114-Status: GOOD (  19.54  )
+	Fri, 27 Mar 2026 14:44:36 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5304760054;
+	Fri, 27 Mar 2026 14:44:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB732C19423;
+	Fri, 27 Mar 2026 14:44:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774622675;
+	bh=+vxcQvN5lkVPWgOZm8QWsJgUkMv6+tatS5HQKkOLukU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=BsFc7rBGeklH6H7NIpkvLN5vS945AcnGRKBOOEQVwW+95HBihWEXMTccOtwMgrC17
+	 fIXTy1WwMR02a718VD8hjco3ZOC3Cd0+bAb/L+9cDmy7ZPHFTTAcPDLERuhizC7rBJ
+	 kZ10FfAOhavt3WtoCHnz2hJa7VWS/1wOybVbCTCGIer++rlwWZK7wOP2hI76+24Yk7
+	 4H+7rwKOeQAey9ZEe+kdrrtHLZCi6EYQsK64rmASBiujS6/y72SOPZ/1zSrJR5lbWp
+	 Y+h7DkePubz1z00Ma5/um68QyJS+QG3Jy4R69E2Z9eKdOSy49bsbEX3KwGMAHNcR8m
+	 KBGCP+LnG7gSw==
+Date: Fri, 27 Mar 2026 08:44:33 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme updates for Linux 7.1
+Message-ID: <acaX0TREWsWBDyWp@kbusch-mbp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -104,31 +62,116 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: hmi.jeon@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 26, 2026 at 08:43 -0600, Keith Busch wrote:
-> Yeah, the spec is not very clear on their use. It just defines the codes
-> and a one sentence description, and then never mentioned again. I think
-> it allows the possibility for the controller to internally complete a
-> command with such status from some undefined OOB mechanism. I'm not sure
-> why the host needs to have their own self-generated status codes anyway
-> since it can already attach whatever arbitrary flags it wants to its
-> private data, like how we use NVME_REQ_CANCELLED.
-> 
-> Anyway if a controller did return it for whatever reason, even if it is
-> a bug, we'd want to see it in the trace.
+The following changes since commit 67807fbaf12719fca46a622d759484652b79c7c3:
 
-Sorry, The date is wrong, so I send it again.
-On Thu, Mar 26, 2026 at 08:43 -0600, hch@lst.de wrote:
--> On Thu, Mar 26, 2026 at 14:43PM UTC, Keith Busch wrote:
+  block: fix bio_alloc_bioset slowpath GFP handling (2026-03-23 07:58:32 -0600)
 
-I've confirmed what you discussed, and it seems like the approach you
-proposed is a better one.
-Can I send patch v7 as above?
+are available in the Git repository at:
 
+  git://git.infradead.org/nvme.git tags/nvme-7.1-2026-03-27
 
-Regards,
-Minsik Jeon
+for you to fetch changes up to 886f35201591ded7958e16fe3750871d3ca0bcdf:
+
+  nvme-loop: do not cancel I/O and admin tagset during ctrl reset/shutdown (2026-03-27 07:35:06 -0700)
+
+----------------------------------------------------------------
+nvme updates for Linux 7.1
+
+ - Fabrics authentication updates (Eric, Alistar)
+ - Enanced block queue limits support (Caleb)
+ - Workqueue usage updates (Marco)
+ - A new write zeroes device quirk (Robert)
+ - Tagset cleanup fix for loop device (Nilay)
+
+----------------------------------------------------------------
+Alistair Francis (6):
+      nvmet-tcp: Don't error if TLS is enabed on a reset
+      nvmet-tcp: Don't free SQ on authentication success
+      nvme: Expose the tls_configured sysfs for secure concat connections
+      nvme: Allow reauth from sysfs
+      nvme: Add the DHCHAP maximum HD IDs
+      nvme-auth: Don't propose NVME_AUTH_DHGROUP_NULL with SC_C
+
+Caleb Sander Mateos (8):
+      nvme: add preferred I/O size fields to struct nvme_id_ns_nvm
+      nvme: fold nvme_config_discard() into nvme_update_disk_info()
+      nvme: update nvme_id_ns OPTPERF constants
+      nvme: always issue I/O Command Set specific Identify Namespace
+      nvme: add from0based() helper
+      nvme: set discard_granularity from NPDG/NPDA
+      nvmet: use NVME_NS_FEAT_OPTPERF_SHIFT
+      nvmet: report NPDGL and NPDAL
+
+Eric Biggers (21):
+      nvme-auth: add NVME_AUTH_MAX_DIGEST_SIZE constant
+      nvme-auth: common: constify static data
+      nvme-auth: use proper argument types
+      nvme-auth: common: add KUnit tests for TLS key derivation
+      nvme-auth: rename nvme_auth_generate_key() to nvme_auth_parse_key()
+      nvme-auth: common: explicitly verify psk_len == hash_len
+      nvme-auth: common: add HMAC helper functions
+      nvme-auth: common: use crypto library in nvme_auth_transform_key()
+      nvme-auth: common: use crypto library in nvme_auth_augmented_challenge()
+      nvme-auth: common: use crypto library in nvme_auth_generate_psk()
+      nvme-auth: common: use crypto library in nvme_auth_generate_digest()
+      nvme-auth: common: use crypto library in nvme_auth_derive_tls_psk()
+      nvme-auth: host: use crypto library in nvme_auth_dhchap_setup_host_response()
+      nvme-auth: host: use crypto library in nvme_auth_dhchap_setup_ctrl_response()
+      nvme-auth: host: remove allocation of crypto_shash
+      nvme-auth: target: remove obsolete crypto_has_shash() checks
+      nvme-auth: target: use crypto library in nvmet_auth_host_hash()
+      nvme-auth: target: use crypto library in nvmet_auth_ctrl_hash()
+      nvme-auth: common: remove nvme_auth_digest_name()
+      nvme-auth: common: remove selections of no-longer used crypto modules
+      crypto: remove HKDF library
+
+Marco Crivellari (3):
+      nvmet: replace use of system_wq with system_percpu_wq
+      nvmet-fc: add WQ_PERCPU to alloc_workqueue users
+      nvme: add WQ_PERCPU to alloc_workqueue users
+
+Nilay Shroff (1):
+      nvme-loop: do not cancel I/O and admin tagset during ctrl reset/shutdown
+
+Robert Beckett (2):
+      nvme: respect NVME_QUIRK_DISABLE_WRITE_ZEROES when wzsl is set
+      nvme-pci: add NVME_QUIRK_DISABLE_WRITE_ZEROES for Kingston OM3SGP4
+
+ Documentation/ABI/testing/sysfs-nvme   |  13 +
+ crypto/Kconfig                         |   6 -
+ crypto/Makefile                        |   1 -
+ crypto/hkdf.c                          | 573 --------------------------------
+ drivers/nvme/common/.kunitconfig       |   6 +
+ drivers/nvme/common/Kconfig            |  14 +-
+ drivers/nvme/common/Makefile           |   2 +
+ drivers/nvme/common/auth.c             | 587 +++++++++++++--------------------
+ drivers/nvme/common/tests/auth_kunit.c | 175 ++++++++++
+ drivers/nvme/host/auth.c               | 187 ++++-------
+ drivers/nvme/host/core.c               |  88 +++--
+ drivers/nvme/host/nvme.h               |   6 +
+ drivers/nvme/host/pci.c                |   2 +
+ drivers/nvme/host/sysfs.c              |  50 ++-
+ drivers/nvme/target/admin-cmd.c        |   4 +-
+ drivers/nvme/target/auth.c             | 202 ++++--------
+ drivers/nvme/target/configfs.c         |   3 -
+ drivers/nvme/target/core.c             |   7 +-
+ drivers/nvme/target/fabrics-cmd-auth.c |  18 +-
+ drivers/nvme/target/fc.c               |   6 +-
+ drivers/nvme/target/io-cmd-bdev.c      |  19 +-
+ drivers/nvme/target/loop.c             |   2 -
+ drivers/nvme/target/nvmet.h            |   8 +-
+ drivers/nvme/target/tcp.c              |   2 +-
+ include/crypto/hkdf.h                  |  20 --
+ include/linux/nvme-auth.h              |  41 ++-
+ include/linux/nvme.h                   |  24 +-
+ 27 files changed, 766 insertions(+), 1300 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-nvme
+ delete mode 100644 crypto/hkdf.c
+ create mode 100644 drivers/nvme/common/.kunitconfig
+ create mode 100644 drivers/nvme/common/tests/auth_kunit.c
+ delete mode 100644 include/crypto/hkdf.h
+
 
