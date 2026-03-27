@@ -4,62 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E875710BA426
-	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2026 06:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE42710BA432
+	for <linux-nvme@archiver.kernel.org>; Fri, 27 Mar 2026 06:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
 	Content-Type:Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:CC:To:From
 	:Subject:Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XnJA/5zwAPxZ6vMIZJbzIFubHwh+nIkMH+ZqspPFCx0=; b=uzF9L8RdqhrJq8K/9ADTSsq6Kj
-	sCDxU55FueX+XiKZ8/HJ1OkxHHw/QO54Z1q6lEoCVDXDcfi9W/jOcLPvsovVt8IuoLySZJGKxmN7X
-	OB6b1b+tuGxwQOZU+9evemSvWjTxRUNk8IrjQoq2qdEILcGD1JRihfbnVbXMcEtwY4hI8z3beVfI5
-	mOV/Pw1zGAqUL+r4vlkXjbauA+qHXRT0+IzivB7RLSaqlq9dRUWpLr2M0277MRNGRbzDefT0WOhrb
-	U4KbqiufIuD6q3VJWgfFnNs/EYY6Vmawq4edUkfGAhLVjDn+aqZ8KekZD/AtMyDcWOvDKhEFpUYH+
-	j3Q4hBsg==;
+	bh=1+O6aNFLjR2fJGkRkFMDHHc6Xd1lom5HjfhLE8xyfdk=; b=eW3QjyVcmCO6Ehe9Vx9b/MUiyM
+	vbgR8HJkFNUUZhvkV8oN0Bx4lQ6I3vNGmNPO6ZrDPbixc+M5gWZk93sbX5eYgA0oNyUSnuKOOUk9z
+	kntBLm6+L7CrhmpkuvYkFDzVIlD/0RtDy1ry45ACa88ERyGXTxqC44q1+yJ3CTFfs0umD8Oty8Tac
+	Vee9FokBw33mOMRy9khaG4wyAYEN6XkYY/tfUmL1kBifF9kFMRBmpUIFFy+1KmTb0WxD0GT5U8VvJ
+	K7QYyH5yhDvhby2ZinNnqlFff+VohTnUxAGd1q4pUQxvKvrewO/0LXpLESfUok+ZdRWTOQen+EEsF
+	pkU+FyVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w60Y8-00000006lrA-0MIO;
-	Fri, 27 Mar 2026 06:20:04 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1w60p6-00000006pcV-1wEA;
+	Fri, 27 Mar 2026 06:37:36 +0000
+Received: from mailout4.samsung.com ([203.254.224.34])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w60Y5-00000006lno-0owL
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 27 Mar 2026 06:20:01 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=References:Content-Type:
-	Content-Transfer-Encoding:Date:Message-ID:In-Reply-To:CC:To:From:Sender:
-	Reply-To:Subject:Mime-Version:Content-ID:Content-Description;
-	bh=XnJA/5zwAPxZ6vMIZJbzIFubHwh+nIkMH+ZqspPFCx0=; b=f7zDVLCoc8m45URLWrOLfUOVLu
-	4MM8A6aKydcOgve6yHZBYbngLLDWeMf+4gINlAdqwawA6Irx9t68sAEdwB04b//RBgjJmCKDM7hec
-	iQcHJFdZ+OlVSqvNXotlEFA0//w029fFQNNBgF3mBrrC58GIRNiWSWfoXBDGtSPtiwUpiXl2GO4vH
-	Lrx9tUttEpU6HGUkOnqGv09JQRk+FGmj+baRTYgrhyXH5wHc/LFSEDPApnT6l68SrGjsVmOKo/ItU
-	oGxmw+ly2HK6PDqRcjNgaQtxGBU2DkVB2wcBvo/j4gCjdX9h0vSO0iGHZeWx3ScyYa5MQ9XgaEcRq
-	07mUGmJw==;
-Received: from mailout2.samsung.com ([203.254.224.25])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w60Xy-00000009kqI-373q
+	id 1w60p1-00000006pb0-3MI7
 	for linux-nvme@lists.infradead.org;
-	Fri, 27 Mar 2026 06:19:58 +0000
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260327061942epoutp029816f23990c999a19f0487fb7ed170ac~gnl6Z1Wyi1198011980epoutp026
-	for <linux-nvme@lists.infradead.org>; Fri, 27 Mar 2026 06:19:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260327061942epoutp029816f23990c999a19f0487fb7ed170ac~gnl6Z1Wyi1198011980epoutp026
+	Fri, 27 Mar 2026 06:37:34 +0000
+Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260327063722epoutp04f5c8bf59f0c1b03347fec82e9cf7a25c~gn1VZW0Ib1720017200epoutp04E
+	for <linux-nvme@lists.infradead.org>; Fri, 27 Mar 2026 06:37:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260327063722epoutp04f5c8bf59f0c1b03347fec82e9cf7a25c~gn1VZW0Ib1720017200epoutp04E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1774592382;
-	bh=XnJA/5zwAPxZ6vMIZJbzIFubHwh+nIkMH+ZqspPFCx0=;
+	s=mail20170921; t=1774593442;
+	bh=1+O6aNFLjR2fJGkRkFMDHHc6Xd1lom5HjfhLE8xyfdk=;
 	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-	b=rUoMx9hoGfks4r+dxmr5olSm/bblUxZcyt4PWgT7YJaBNdPalrNlN0cMvjQol1iJz
-	 spAJj3ov5ZFNwm/P1ZcffyGowvWtNOfXs/ZS3bb1XA58vrY5YlcN7fyKFO2w2AyW8V
-	 dhigBaDblg2q8IbpIaE8/WEF2q1syAyqZsN+lIxc=
+	b=K5oZfykvxGQYKRUaqowjfHzqKh454SqP8PZTsCS8db/DUZ402z4wQCglIdPwTHBfI
+	 FK+dN6YUkt2m7DQlbznP/TDIGQNvcxYAlHAI9hn8sEKBziC4Yl8WU+Y5CSGRca81wa
+	 3CkQrZCrHbN9MiBEWBm98SOcbTvECGaRuidS6PeI=
 Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260327061941epcas2p17e4702f290bbe98e79942dda2d496d8c~gnl557Uoj3148231482epcas2p1K;
-	Fri, 27 Mar 2026 06:19:41 +0000 (GMT)
-Received: from epcas2p2.samsung.com (unknown [182.195.38.208]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4fhr8Y3HDzz6B9m4; Fri, 27 Mar
-	2026 06:19:41 +0000 (GMT)
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260327063721epcas2p2c4f0a625266a14058ef94d5c52416784~gn1UtWWrK0303903039epcas2p2g;
+	Fri, 27 Mar 2026 06:37:21 +0000 (GMT)
+Received: from epcas2p2.samsung.com (unknown [182.195.38.210]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4fhrXw6mQNz6B9mD; Fri, 27 Mar
+	2026 06:37:20 +0000 (GMT)
 Mime-Version: 1.0
 Subject: Re: [PATCH v5] nvme: Skip trace complete_rq on host path error
 From: =?UTF-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
@@ -86,9 +71,9 @@ X-Drm-Type: N,general
 X-Msg-Generator: Mail
 X-Msg-Type: PERSONAL
 X-Reply-Demand: N
-Message-ID: <20260327061940epcms2p576446826c1c5336a57ec19f433122386@epcms2p5>
-Date: Fri, 27 Mar 2026 15:19:40 +0900
-X-CMS-MailID: 20260327061940epcms2p576446826c1c5336a57ec19f433122386
+Message-ID: <20260327063720epcms2p43a46a694d9cda121cc804bfa2bab8d59@epcms2p4>
+Date: Fri, 27 Mar 2026 15:37:20 +0900
+X-CMS-MailID: 20260327063720epcms2p43a46a694d9cda121cc804bfa2bab8d59
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
@@ -104,10 +89,10 @@ References: <acVGECskf5pg3_MY@kbusch-mbp> <acQxjZMOqj74yIJf@kbusch-mbp>
 	<20260326014429epcms2p135ffd3c2b2fface6423d045e9614c262@epcms2p1>
 	<20260326065152epcms2p51a18d3bbecb6eb6dc2ddba09651e5152@epcms2p5>
 	<acVCnozG1WKPkq1L@kbusch-mbp> <20260326143124.GA17507@lst.de>
-	<CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p5>
+	<CGME20260320052101epcms2p42ae135da60b36685e9b7fca6849b57a6@epcms2p4>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260327_061956_154672_3DA564AF 
-X-CRM114-Status: GOOD (  18.91  )
+X-CRM114-CacheID: sfid-20260326_233733_312542_54DF004C 
+X-CRM114-Status: GOOD (  19.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,7 +108,7 @@ Reply-To: hmi.jeon@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Mar 26, 2026 at 03:43PM +0100, hch@lst.de wrote:
+On Thu, Mar 26, 2026 at 08:43 -0600, Keith Busch wrote:
 > Yeah, the spec is not very clear on their use. It just defines the codes
 > and a one sentence description, and then never mentioned again. I think
 > it allows the possibility for the controller to internally complete a
@@ -135,11 +120,15 @@ On Thu, Mar 26, 2026 at 03:43PM +0100, hch@lst.de wrote:
 > Anyway if a controller did return it for whatever reason, even if it is
 > a bug, we'd want to see it in the trace.
 
+Sorry, The date is wrong, so I send it again.
+On Thu, Mar 26, 2026 at 08:43 -0600, hch@lst.de wrote:
+-> On Thu, Mar 26, 2026 at 14:43PM UTC, Keith Busch wrote:
 
 I've confirmed what you discussed, and it seems like the approach you
 proposed is a better one.
 Can I send patch v7 as above?
 
-Regrad,
+
+Regards,
 Minsik Jeon
 
