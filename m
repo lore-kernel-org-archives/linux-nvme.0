@@ -4,71 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECA2710F3DC0
-	for <linux-nvme@archiver.kernel.org>; Sat, 28 Mar 2026 00:46:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1BB6C10F3DC2
+	for <linux-nvme@archiver.kernel.org>; Sat, 28 Mar 2026 00:46:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=DRU+bZBKSxxT2z3L8VYfITXheQuE4BxzAm+ofkPTK8s=; b=CVzE6gDmijvqYjzKlm+i55a3U/
-	0hlq2AJnMst1ApROKM0XJtFm1x6f4ejSOXVUK7xBuzdEgUNdWssQvyN+fRZYBRAYSiopBniWP7qpr
-	2B0F+ErNcu78L5jdCtGji2mNH8of+iboZtq9UHUxjBw5iLcS56FtakXrpnaDu773wc8OzdMhcbIrs
-	fiNKyzDFq7ptOb6EqlN67SCpKEBuo+m7RAYhLYwFcSQ8ykNHZ4XDc1S6KAUarLq0kusm74hkUmKZl
-	XqZohzGh1R62jfG0ALGSPun678W2BHrSkuerWMkU6++ornO58e3Fa6Hh1wat0AZBV5EpKgjD3eRP6
-	Dq7uslKg==;
+	bh=5zI5jX/tvcIMUGp5fm4rmIBCKjqdOpV/MaWj1qN2SKQ=; b=dHZsadBOdQImsoFr4vnQivlRzQ
+	WjO/Z1qtLRtEopDt4SCel/SbQ99RVjBFNYWHN6g9qhSNblehh5KBYVCAf/lksi5Ow0bSqQMtKSgpR
+	ps7qM9brTXDhbp9+SQp3NrfTOkCVF4kSy9P4iInq1lO2Q1pHRmdCSlAQuAd+JMgzmLA+hU5MYS3oG
+	oI+Nm+Rldii7+mRrjNsDNKjckYpCM9jvjJWrayatbQK6o0t44iFx/qbpl9YhjhTBQUwYnZxcxZaN9
+	V389LVjPuf2xiXg4Y19NgTeTxKCvFq47jLGhM1224oqvNJWOiALFgq700ZjbN1nlEP61i7gzLZUM7
+	ZjGOq+og==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w6Hog-00000008ODl-35sR;
-	Sat, 28 Mar 2026 00:46:18 +0000
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+	id 1w6Hoh-00000008OFQ-40PY;
+	Sat, 28 Mar 2026 00:46:19 +0000
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w6Hob-00000008O4a-0aBg
+	id 1w6Hoc-00000008O74-05wk
 	for linux-nvme@lists.infradead.org;
-	Sat, 28 Mar 2026 00:46:15 +0000
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2aaf43014d0so18074255ad.2
-        for <linux-nvme@lists.infradead.org>; Fri, 27 Mar 2026 17:46:12 -0700 (PDT)
+	Sat, 28 Mar 2026 00:46:17 +0000
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-2aae4816912so17427465ad.2
+        for <linux-nvme@lists.infradead.org>; Fri, 27 Mar 2026 17:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1774658772; x=1775263572; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1774658773; x=1775263573; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DRU+bZBKSxxT2z3L8VYfITXheQuE4BxzAm+ofkPTK8s=;
-        b=N+YWoV+DQhMnaXV0oevBuLr1jVxJe5ZUt6i00kRk7mcQKLVr7TKV/rtg7NTJDooB7J
-         Lj/oN+vqO0tRAeXOQ/ZOZYGaJQvmnmtQolGG1LyooFfXiKtV8ELS+Gb4ondFZbUdRwfT
-         WhfR94A9B/RFEhnYdqsQGiR//I17jw2DQzxn+03ichuDle9cfdVYGBL9R7FKs013ScWw
-         dHsPQ+St7vtVBqL7rn+Xodsv9TdzSSb4LWfLDahs+1U7WOp+QW/xLw7pYjt0MYf6/pfv
-         YbfEDKswv3hoQZgdGOP9czEsTSpcIrQPIwaRFucriYFZ7yIt+jRSQtQXTazNRWazZakj
-         w8xw==
+        bh=5zI5jX/tvcIMUGp5fm4rmIBCKjqdOpV/MaWj1qN2SKQ=;
+        b=AOPS/u2y1OaL3I6tftUD8J2S5+HrXrikpbqzFSpEOVqaRk+j8F6lezskIKGOHgWisX
+         6XYy/81pbGvwPEGS6w/oAiDuez/r+JrGL7e5jiwZU3nztltAg73J0RXclNo6mb9ccPLw
+         6kuyD5TEyJsxJFtDxHtHByGt4CtgNhlUHsAQcnetzjn0H5cvpRx/EebKWBSbsITOEk1j
+         kkaxJiDwgUQjxhkmJVPo6iDdrcc1bqrpafMJO7+z2gPwDTlrVoQt9NK7VhCc/8mZybqM
+         qZ7wjLptLKrDrY0s2NvzcaVcWwN4phSQxe5LtRSDRlLXdr+PqNr5ztMV7Jw5eh155Ls1
+         A5JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774658772; x=1775263572;
+        d=1e100.net; s=20251104; t=1774658773; x=1775263573;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DRU+bZBKSxxT2z3L8VYfITXheQuE4BxzAm+ofkPTK8s=;
-        b=lcVC9koDwopUAD4PNXMR2QwUztUVzpCT7iOQIdu8UpIflmb580RGfvOsGRZeTajSly
-         a01kk+0wzEdgGxeG5C1/ckIbmZFJF/WZ3Y5QZ1wu0Ax2LsZQvF8dl7IM745UBylEMmdg
-         I4qFsprIIwCAejZS+0/dXki+cdcYDzmpMp+LD9is8axmHyEAAaHSIlT0QOcazX8CJJKR
-         1jP04pK0YORofGQIUMXfg+RCHEOwk6mEKdHxy5IhGI/z+Aj20wwmB4MquCuEQpgveChD
-         IYUyrx/AZ/QxgwgIK+q+rWbR1JAaMD3+B3skF/UI38xHAYONA3eLAnc58JetiTkItWWg
-         DAIA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFcswdRpRf6CghibbDTw53wJfQ5ZHYJWdDnREY04nhUJNVULN+1EH8fElr6FABdJbdYw3/j4BkEd0h@lists.infradead.org
-X-Gm-Message-State: AOJu0Yx3vJ4yw/AsQTPXE5yP06odTS3aTrWid5wiFVmoDw0uyZBhPub8
-	w9V2m3WlKnPhsTJE0w3WLc2hluB8f9zBHIpneL3Yn33O0N3CtvGz0RP8bSGF16e9Rlg=
-X-Gm-Gg: ATEYQzwMxA1G+OnU6VZeXMyDYICAf2aBjC3QScTR41G+tb8Ki5swEukPfQODKkuotf0
-	nO7TisYLeZhqqxukr2is/URwQD3XPMZ23b51P5QJyO3YyANU1Vx8McYa7DnMQa8woe5syHKM5lP
-	RXdDuV+iuYJwo3UimpDTmHKt07VreEAYx3wNQO8AVsyJqPAsE18TGvxtTIxyR2ohVhmljEOsEfN
-	3fRebXoPR6fR1XMNahStso3T12TeHJcSioXzZL9EL7lQsGPvfmgA71ABYTya7ZNziKmArmodFgi
-	+kgvtASIjZhCELRRufYhEYodqpwL1O9S/gt4oMvxE/TJMPFogBqQ4uzV56zArkpYYo5slBy6uF4
-	ahPFbEN7nly+qshn2UU/NQN3zofTWj2+2Nr7kswI9fjRM7HToJWGFJbX6Cnc7HC11q6ogKsBCm/
-	mOftDNmd0=
-X-Received: by 2002:a17:903:984:b0:2b0:58a8:5f9b with SMTP id d9443c01a7336-2b0cdd2137emr47738495ad.49.1774658771480;
-        Fri, 27 Mar 2026 17:46:11 -0700 (PDT)
+        bh=5zI5jX/tvcIMUGp5fm4rmIBCKjqdOpV/MaWj1qN2SKQ=;
+        b=jBabkzoqmqkNY/shDztt0y565eAd1eBj6H1Am7vY9kqZWkjCT+kxFL7XHd1XIVLz5y
+         vIfxFVERwNd/vdzfHaqVcW5kaC94eaM+Ur/C9UvN1h2iRWizJC0u8UwwYLE+D9FollOp
+         vZlxV2MUz79dWL0H6L2j4LAF97ihlhZo94dMZq1BntUy0h0fjK0YnSgyZJmWDNAKHtAh
+         YUbT+GVBY8jpD7L6yKYlaGYGj/g4aN2eOSuE3GmKxvQ+vPGScD2eK7voXYSbejiJCF+j
+         nEnt47/XbOo4M8cUfi4CwnuCfEVsfLHhbq/YN86mJtypWuauvT97TzILYMG89SujretB
+         3cJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXxma/67AL+yPNE4ucVVrqVG51LJWaaOrwBBnBf4I/kvc4il7e0NeHbgmQVY+EqwIL6uvjO+pYMEZdH@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy14jMzjcO1CMHE7afrDDIvXl33Xne7Z9P5EQfhO9Guqu7b9+Gu
+	A2NYuT6fhiZnx/pXMt2x76i+UcSDEQEeJzuFcIRLjwfC/epr8oU95crGNrROGJ/lVaU=
+X-Gm-Gg: ATEYQzxzb21z4q9VqQp7jgtAcD4lroT3S7OYlhadtj+cXtygmDu2IkSczHynZakoj1z
+	Eh2FFu//+sniqtbQxxli9NO46v8MvwURVt4ik+uOaPVcSnjm8uHoy2kHjgmUIL8BE3zovBMEfR0
+	hTEtW0z/3dEOvR7T+kZ+k69sPnXZCQVef/a7SZKS0SOs1B3WERCHGMg5hZGYOz3o96R67nwwEOl
+	bckw6o4ah6898FFkqA0JysydhCJ1MFJ9jjCC0cb1EuogwyD3d3B4a55Wq0GBP9kogcHwfga8bcx
+	UeJ+ixYKUJq0GZtKeZXQdrFvSE0NnC0iNPN40gO3ltPa27JLJdZ0c2OUzco957cI5bndfsjxpBe
+	7e786Vp4NsHjB2zQGnfOVVWJucvE3jRZqhPsjJcn0esO7JYDJ1tHsq2hiTFDNplzwLqggDKjsQc
+	sIqtdc0rk=
+X-Received: by 2002:a17:902:cf03:b0:2b0:c90f:44b2 with SMTP id d9443c01a7336-2b0cdc1027amr46114045ad.12.1774658772780;
+        Fri, 27 Mar 2026 17:46:12 -0700 (PDT)
 Received: from ceto ([2601:640:8202:6fb0::9c63])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2b242683064sm5342705ad.33.2026.03.27.17.46.10
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2b242683064sm5342705ad.33.2026.03.27.17.46.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 17:46:11 -0700 (PDT)
+        Fri, 27 Mar 2026 17:46:12 -0700 (PDT)
 From: Mohamed Khalfella <mkhalfella@purestorage.com>
 To: Justin Tee <justin.tee@broadcom.com>,
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
@@ -85,17 +85,17 @@ Cc: Aaron Dailey <adailey@purestorage.com>,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Mohamed Khalfella <mkhalfella@purestorage.com>
-Subject: [PATCH v4 14/15] nvme-fc: Hold inflight requests while in FENCING state
-Date: Fri, 27 Mar 2026 17:43:45 -0700
-Message-ID: <20260328004518.1729186-15-mkhalfella@purestorage.com>
+Subject: [PATCH v4 15/15] nvme-fc: Do not cancel requests in io taget before it is initialized
+Date: Fri, 27 Mar 2026 17:43:46 -0700
+Message-ID: <20260328004518.1729186-16-mkhalfella@purestorage.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260328004518.1729186-1-mkhalfella@purestorage.com>
 References: <20260328004518.1729186-1-mkhalfella@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260327_174613_220529_42F1FB18 
-X-CRM114-Status: GOOD (  21.88  )
+X-CRM114-CacheID: sfid-20260327_174614_084631_C640BA01 
+X-CRM114-Status: GOOD (  13.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,164 +110,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-While in FENCING state, aborted inflight IOs should be held until fencing
-is done. Update nvme_fc_fcpio_done() to not complete aborted requests or
-requests with transport errors. These held requests will be canceled in
-nvme_fc_delete_association() after fencing is done. nvme_fc_fcpio_done()
-avoids racing with canceling aborted requests by making sure we complete
-successful requests before waking up the waiting thread.
+A new nvme-fc controller in CONNECTING state sees admin request timeout
+schedules ctrl->ioerr_work to abort inflight requests. This ends up
+calling __nvme_fc_abort_outstanding_ios() which aborts requests in both
+admin and io tagsets. In case fc_ctrl->tag_set was not initialized we
+see the warning below. This is because ctrl.queue_count is initialized
+early in nvme_fc_alloc_ctrl().
+
+nvme nvme0: NVME-FC{0}: starting error recovery Connectivity Loss
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+lpfc 0000:ab:00.0: queue 0 connect admin queue failed (-6).
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+Workqueue: nvme-reset-wq nvme_fc_ctrl_ioerr_work [nvme_fc]
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x57/0x80
+ register_lock_class+0x567/0x580
+ __lock_acquire+0x330/0xb90
+ lock_acquire.part.0+0xad/0x210
+ blk_mq_tagset_busy_iter+0xf9/0xc00
+ __nvme_fc_abort_outstanding_ios+0x23f/0x320 [nvme_fc]
+ nvme_fc_ctrl_ioerr_work+0x172/0x210 [nvme_fc]
+ process_one_work+0x82c/0x1450
+ worker_thread+0x5ee/0xfd0
+ kthread+0x3a0/0x750
+ ret_from_fork+0x439/0x670
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+
+Update the check in __nvme_fc_abort_outstanding_ios() confirm that io
+tagset was created before iterating over busy requests. Also make sure
+to cancel ctrl->ioerr_work before removing io tagset.
 
 Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 Signed-off-by: James Smart <jsmart833426@gmail.com>
 ---
- drivers/nvme/host/fc.c | 61 +++++++++++++++++++++++++++++++++++-------
- 1 file changed, 51 insertions(+), 10 deletions(-)
+ drivers/nvme/host/fc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9f6b95415f25..eea5a90d936b 100644
+index eea5a90d936b..e342d522145a 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -172,7 +172,7 @@ struct nvme_fc_ctrl {
- 
- 	struct kref		ref;
- 	unsigned long		flags;
--	u32			iocnt;
-+	atomic_t		iocnt;
- 	wait_queue_head_t	ioabort_wait;
- 
- 	struct nvme_fc_fcp_op	aen_ops[NVME_NR_AEN_COMMANDS];
-@@ -1823,7 +1823,7 @@ __nvme_fc_abort_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_fcp_op *op)
- 		atomic_set(&op->state, opstate);
- 	else if (test_bit(FCCTRL_TERMIO, &ctrl->flags)) {
- 		op->flags |= FCOP_FLAGS_TERMIO;
--		ctrl->iocnt++;
-+		atomic_inc(&ctrl->iocnt);
- 	}
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 
-@@ -1853,20 +1853,29 @@ nvme_fc_abort_aen_ops(struct nvme_fc_ctrl *ctrl)
- }
- 
- static inline void
-+__nvme_fc_fcpop_count_one_down(struct nvme_fc_ctrl *ctrl)
-+{
-+	if (atomic_dec_return(&ctrl->iocnt) == 0)
-+		wake_up(&ctrl->ioabort_wait);
-+}
-+
-+static inline bool
- __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
- 		struct nvme_fc_fcp_op *op, int opstate)
- {
- 	unsigned long flags;
-+	bool ret = false;
- 
- 	if (opstate == FCPOP_STATE_ABORTED) {
- 		spin_lock_irqsave(&ctrl->lock, flags);
- 		if (test_bit(FCCTRL_TERMIO, &ctrl->flags) &&
- 		    op->flags & FCOP_FLAGS_TERMIO) {
--			if (!--ctrl->iocnt)
--				wake_up(&ctrl->ioabort_wait);
-+			ret = true;
- 		}
- 		spin_unlock_irqrestore(&ctrl->lock, flags);
- 	}
-+
-+	return ret;
- }
- 
- static void nvme_fc_fencing_work(struct work_struct *work)
-@@ -1966,7 +1975,8 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 	struct nvme_command *sqe = &op->cmd_iu.sqe;
- 	__le16 status = cpu_to_le16(NVME_SC_SUCCESS << 1);
- 	union nvme_result result;
--	bool terminate_assoc = true;
-+	bool op_term, terminate_assoc = true;
-+	enum nvme_ctrl_state state;
- 	int opstate;
- 
- 	/*
-@@ -2099,16 +2109,38 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- done:
- 	if (op->flags & FCOP_FLAGS_AEN) {
- 		nvme_complete_async_event(&queue->ctrl->ctrl, status, &result);
--		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
-+		if (__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate))
-+			__nvme_fc_fcpop_count_one_down(ctrl);
- 		atomic_set(&op->state, FCPOP_STATE_IDLE);
- 		op->flags = FCOP_FLAGS_AEN;	/* clear other flags */
- 		nvme_fc_ctrl_put(ctrl);
- 		goto check_error;
- 	}
- 
--	__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+@@ -2554,7 +2554,7 @@ __nvme_fc_abort_outstanding_ios(struct nvme_fc_ctrl *ctrl, bool start_queues)
+ 	 * io requests back to the block layer as part of normal completions
+ 	 * (but with error status).
+ 	 */
+-	if (ctrl->ctrl.queue_count > 1) {
++	if (ctrl->ctrl.queue_count > 1 && ctrl->ctrl.tagset) {
+ 		nvme_quiesce_io_queues(&ctrl->ctrl);
+ 		nvme_sync_io_queues(&ctrl->ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+@@ -2951,6 +2951,11 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ out_delete_hw_queues:
+ 	nvme_fc_delete_hw_io_queues(ctrl);
+ out_cleanup_tagset:
 +	/*
-+	 * We can not access op after the request is completed because it can
-+	 * be reused immediately. At the same time we want to wakeup the thread
-+	 * waiting for ongoing IOs _after_ requests are completed. This is
-+	 * necessary because that thread will start canceling inflight IOs
-+	 * and we want to avoid request completion racing with cancellation.
++	 * In CONNECTING state ctrl->ioerr_work will abort both admin
++	 * and io tagsets. Cancel it first before removing io tagset.
 +	 */
-+	op_term = __nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
-+
-+	/*
-+	 * If we are going to terminate associations and the controller is
-+	 * LIVE or FENCING, then do not complete this request now. Let error
-+	 * recovery cancel this request when it is safe to do so.
-+	 */
-+	state = nvme_ctrl_state(&ctrl->ctrl);
-+	if (terminate_assoc &&
-+	    (state == NVME_CTRL_LIVE || state == NVME_CTRL_FENCING))
-+		goto check_op_term;
-+
- 	if (!nvme_try_complete_req(rq, status, result))
- 		nvme_fc_complete_rq(rq);
-+check_op_term:
-+	if (op_term)
-+		__nvme_fc_fcpop_count_one_down(ctrl);
++	cancel_work_sync(&ctrl->ioerr_work);
+ 	nvme_remove_io_tag_set(&ctrl->ctrl);
+ 	nvme_fc_free_io_queues(ctrl);
  
- check_error:
- 	if (terminate_assoc)
-@@ -2747,7 +2779,8 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 		 * cmd with the csn was supposed to arrive.
- 		 */
- 		opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
--		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
-+		if (__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate))
-+			__nvme_fc_fcpop_count_one_down(ctrl);
- 
- 		if (!(op->flags & FCOP_FLAGS_AEN)) {
- 			nvme_fc_unmap_data(ctrl, op->rq, op);
-@@ -3216,7 +3249,7 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 
- 	spin_lock_irqsave(&ctrl->lock, flags);
- 	set_bit(FCCTRL_TERMIO, &ctrl->flags);
--	ctrl->iocnt = 0;
-+	atomic_set(&ctrl->iocnt, 0);
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
- 
- 	__nvme_fc_abort_outstanding_ios(ctrl, false);
-@@ -3225,11 +3258,19 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 	nvme_fc_abort_aen_ops(ctrl);
- 
- 	/* wait for all io that had to be aborted */
-+	wait_event(ctrl->ioabort_wait, atomic_read(&ctrl->iocnt) == 0);
- 	spin_lock_irq(&ctrl->lock);
--	wait_event_lock_irq(ctrl->ioabort_wait, ctrl->iocnt == 0, ctrl->lock);
- 	clear_bit(FCCTRL_TERMIO, &ctrl->flags);
- 	spin_unlock_irq(&ctrl->lock);
- 
-+	/*
-+	 * At this point all inflight requests have been successfully
-+	 * aborted. Now it is safe to cancel all requests we decided
-+	 * not to complete in nvme_fc_fcpio_done().
-+	 */
-+	nvme_cancel_tagset(&ctrl->ctrl);
-+	nvme_cancel_admin_tagset(&ctrl->ctrl);
-+
- 	nvme_fc_term_aen_ops(ctrl);
- 
- 	/*
 -- 
 2.52.0
 
