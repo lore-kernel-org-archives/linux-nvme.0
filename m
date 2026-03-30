@@ -4,66 +4,166 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC785FF60C6
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 06:14:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82292FF60CE
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 06:26:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=sT7PyNZKOhn2pNzLNgyaXeY6YpllylYSRM3J5F5X1cY=; b=nwBWfFNWWWoPb9/BhFHT5o29RG
-	wMuqlooG0uBELHTlH+vXyIyVOp10QK41jfQU8WhmZKOIPPLElwZOSEaB1AzQzKD0YWy9JdT++UDlt
-	6kshhQYUCtSrwFy5PAD9zbQ6/OFInPKidekyFxFXe3YVZSFX/BlMsMboKxyA1TzadfzzNT6os3E8P
-	QhArLM9Mw0fhseoHQlHH6Y1R+o5BqQHmNnUB4h6mNmj1cbp5/0tw5jcG8nNnnn5dCPh9xD9+0S+hW
-	Mmmg0mDVKBuZQlEYdQ4+qQcjyog+VrhElac7zQSjLbl0pWU+DhbAN23/jIBj5Y7XOqklXgUav/qAY
-	rhPz9jHA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cO0UiFQ2IRes4ghqRITa3JO8yWqXB4isrdREy2MaGLM=; b=iMwsqGKh4wNwsI2K6/OOUo86WJ
+	Gs6uMx7f57R8CctbgerJ/vP9Xx5tOiHGlnbeBqyqvDjls/2Svm+lOagaYUTkUZb/u6+YSDOQokQcu
+	4Sh5YVeDI4THVJLhEgBgDGKkCBQIpHnXAbeDXj47wH/I9VdggYJYNQEGWmv5sbqupLRGdTMdfJr1N
+	iNTHOX15ZtHAPVHXcnxEkDvMAx0szU0tv5xYbun4tQmmGsJ6HAuHPiAnOChetmwYzIC8fKU3A11E3
+	1IKfoctTzi3v1AWpEmHzjKPGrC61ymeT+jGU9vcNIjucMTtVXvJrUW4kIEdl+gHV8tU6P+g47F3yC
+	DRkTnN3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7SMY-0000000CLJ5-38QX;
-	Tue, 31 Mar 2026 06:14:06 +0000
-Received: from n169-111.mail.139.com ([120.232.169.111])
-	by bombadil.infradead.org with smtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7SMT-0000000CLIA-0BH6
+	id 1w7SY6-0000000CMG4-3O33;
+	Tue, 31 Mar 2026 06:26:02 +0000
+Received: from mail-uksouthazon11020119.outbound.protection.outlook.com ([52.101.196.119] helo=LO3P265CU004.outbound.protection.outlook.com)
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w7Kp1-0000000BwuM-1XHP
 	for linux-nvme@lists.infradead.org;
-	Tue, 31 Mar 2026 06:14:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=139.com; s=dkim; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=XX8k8QRbqXIEZgRlcW1cUj/YbeS2EM4xl4yRB99U9a95F6o/V8xk21qNre3LCi0XxiJA3EEw/c8D8
-	 FxEd2/nZMD0creav1z/t1DyhkARaP74VT2aOzzk7XCZvGdwzUofFBBl8alU4cerYuduATlmPPO0qm8
-	 pJIzYUVJfjMViVqk=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM: 
-X-RM-SPAM-FLAG: 00000000
-Received: from NTT-kernel-dev (unknown[60.247.85.88])
-	by rmsmtp-lg-appmail-17-12016 (RichMail) with SMTP id 2ef069cb660f3f8-003fd;
-	Tue, 31 Mar 2026 14:13:40 +0800 (CST)
-X-RM-TRANSID: 2ef069cb660f3f8-003fd
-From: Li hongliang <1468888505@139.com>
-To: gregkh@linuxfoundation.org,
-	stable@vger.kernel.org,
-	ming.lei@redhat.com
-Cc: patches@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	yi.zhang@redhat.com,
+	Mon, 30 Mar 2026 22:11:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vN1g+tHoZg/7JXbWZJCcKh0cCUKjcJlels+QPVJ8Vk9esDFsjpx/llZ7yc+Ye/V6PPrlqCvGraD9QgUz4UlzubJq9Z5tl6b37YduOnDqJ3L3rk4pbJe19ckFlsXJTzw7o0ykvOPicmCWQBIJRp+BrgAHs+kchr9/HSH4hRMD6rsbnPqaTsexbw+5QBG0aYKbcM6eaO+F4wrS59MGr/tS3nnTsSeXTdnipuPYL4vOF1O+t+Vd1/RNFEx0e5EVpqnSVLVPzIWhpwvo6W7e29tNbzzMmyRG2eju3ryp9EcCsnMaaOUf506QJlV0Q/FwfOZUrpGsL554oIKWb9Mj0w9LkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cO0UiFQ2IRes4ghqRITa3JO8yWqXB4isrdREy2MaGLM=;
+ b=V+E+zj1p+S5DwF4aSmyTLE6WSi/OTzBDjQPsbqmeu4UbEXVbDrG9dOkOLpcyOIfB9jZXu9BJGwrAXomUBkuPADgmuO7S7s5gZQcVtlinzR5mTAd6B4cObap3tJgdLNq+ZOhnCKgoUREJpZeGtlbL2hfHbff35SIR20SnyaUWZfzw5fmY4PrTPDNHKYw+jEoFRJqlSlF80wPmglxSw4Omurs1KlclgRgJ6279DmJvx7V/xmCoUj7PGm9ybb/vUTk5OWIUlsWDI2Gs9ocr0Zt9BS9jHMgySrgQ7JLAXbpwyInXBGU/gZpCFSrM/LK/pqlt0GWntB+eOCKgFQaFMQwbow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by CWLP123MB6512.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:186::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
+ 2026 22:10:54 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9745.022; Mon, 30 Mar 2026
+ 22:10:54 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: axboe@kernel.dk,
 	kbusch@kernel.org,
-	axboe@fb.com,
 	hch@lst.de,
 	sagi@grimberg.me,
+	mst@redhat.com
+Cc: atomlin@atomlin.com,
+	aacraid@microsemi.com,
+	James.Bottomley@HansenPartnership.com,
+	martin.petersen@oracle.com,
+	liyihang9@h-partners.com,
+	kashyap.desai@broadcom.com,
+	sumit.saxena@broadcom.com,
+	shivasharan.srikanteshwara@broadcom.com,
+	chandrakanth.patil@broadcom.com,
+	sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com,
+	suganath-prabu.subramani@broadcom.com,
+	ranjan.kumar@broadcom.com,
+	jinpu.wang@cloud.ionos.com,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	akpm@linux-foundation.org,
+	maz@kernel.org,
+	ruanjinjie@huawei.com,
+	bigeasy@linutronix.de,
+	yphbchou0911@gmail.com,
+	wagi@kernel.org,
+	frederic@kernel.org,
+	longman@redhat.com,
+	chenridong@huawei.com,
 	hare@suse.de,
 	kch@nvidia.com,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 6.1.y] nvme: fix admin queue leak on controller reset
-Date: Tue, 31 Mar 2026 14:13:39 +0800
-Message-Id: <20260331061339.3121617-1-1468888505@139.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+	ming.lei@redhat.com,
+	steve@abita.co,
+	sean@ashe.io,
+	chjohnst@gmail.com,
+	neelx@suse.com,
+	mproche@gmail.com,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com
+Subject: [PATCH v9 01/13] scsi: aacraid: use block layer helpers to calculate num of queues
+Date: Mon, 30 Mar 2026 18:10:35 -0400
+Message-ID: <20260330221047.630206-2-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260330221047.630206-1-atomlin@atomlin.com>
+References: <20260330221047.630206-1-atomlin@atomlin.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BN9PR03CA0768.namprd03.prod.outlook.com
+ (2603:10b6:408:13a::23) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWLP123MB6512:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3b9816f-6f9b-4719-d629-08de8ea93644
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: PbDSLSbJb7lEPDrb68Q/WBB+F/st32B5m/sELDyDSgItH6ztXIxFwDdohrccl/gQvRYjn6T6a/sa4P1/9sPT4NjS4mioANd4iL7tEENn2yfWrfp4IkhE6Hn71ntHivcBoGD1qO4HwqLVRyvpdHKzmO2QKL6QouxsZ3Dc0enhwlJDJ1mYMPgbmQo+lu9PnsaPIwmsRoRMDITrAJ3CZ9slaamLo+QWbJfr6IiOAVEwOmxqwMjxitND/QfOop32+UrxBAGEPTUDODAw5ORZ8k/5pnors0tTnJfWii2pMySRGrsPz745oyH+CydZdjfJ6V2+bg361FAHmrRHiDW1VvrYTR5i8xpXMH5vcY3ivkimo9A8iQOw1KqBvQInj3AzTwFsQj4PQjvmGR8M31s2+Pe8WzQEzYxiFjMBCbaHoG4CSlQAPiTldyg+UbA1t508MCpA5p+8K0PuQc35c2LbZQgtufmla6NnGBTcFlAhRf6PZKCOHyHiL22y/7rPCyU20KpDS/cyK72bCIYa5zSgWK9buEaTlwwJPuYAOGft6GqDRyuJHsq9L0Uy/eZatepRSgjpy9Bnh357cHVIFwaEwWLrlTayxRPIvst/TlrttSm+Q/8L5tkZz0JQMeQHZBTHf1FfXiCZukmJWDHG2WAG+YQBCLWzeCfM6GgYcN3a6x7ks+3EUFUrIs0Z+84iKocUno0Slt6Jv31w//TTsYOaMenRhS/wNYH7k7jkfJrhInmxEVo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UWop9aZ34icJ28RKidH7XiKmALA4TrJWCYUtw+GQKxs5bk1E8l0lnixyDo2X?=
+ =?us-ascii?Q?5sB3cxu14MdZMRU76np5Af50AWjjbDwQKheIlv1z/UKT1RuoQa9q9/fn61OR?=
+ =?us-ascii?Q?F7hXI7fzyig9qVq8CNWmRN/a/YRtVvwht0B+Iuwza9R28mBTmY7OBNyw/JKG?=
+ =?us-ascii?Q?wZ6DSWnqQn6kQvfePrmearx1oXHwZTNGJsnAQajElgwxgfkO1Hl9WUzyzPkQ?=
+ =?us-ascii?Q?UzEL98nxS3FeTvIuRrjIScYm/1YR4PSo9X9VxI4uU7Ncv9Fk2rv+fpbf2B/X?=
+ =?us-ascii?Q?Ok8MPSoCxIkv/HcqUjqJ5MvaQsHfSDX0XKY147HDOh+S+BI0Myo6dAU8eGxD?=
+ =?us-ascii?Q?YVk9BlKSUlzgGfBo3zX1wG85UvIKaqFwnTuXP2/fhLDWcY0y7hfYV9y80l9Y?=
+ =?us-ascii?Q?lKWILAZQXprN6J5+/qc6G+AWuhw7nn6Knyl5DF1pT9IpPOJQyblsMYtleDRM?=
+ =?us-ascii?Q?r3USPaCbe0rLBhlkIyV0oNXAxoS3kuO6Vs+/m7rfDodmMr0H7NlTqLvyFTcI?=
+ =?us-ascii?Q?fmNIFUwwh8SCLSdMMAYZEgBejTmRFvpNi2blgrm3kcXeV0H3neMXdxo6UaF5?=
+ =?us-ascii?Q?dy3pQyaPEFaz4zA3gFuTYBJSqndxtKrymk6/PFY/oIOExLiFUzNXmli9JPf2?=
+ =?us-ascii?Q?p2jXkUGi0LAPy3Cl2SIlofXUQ2woGvU69Fea1pptYFW5cyQOBk/EbDLLKQCe?=
+ =?us-ascii?Q?BFasuvpy7Yh2AkpFUgP7yRK3qHQTZnwxiyDp3+QhuGQjFJdlrL6dnI4ihbXK?=
+ =?us-ascii?Q?XrTs/yNflI89LpdiNzXPuXaY+H6P+x3i9MNECXaALB2tzucW2mRpWm0XKzAh?=
+ =?us-ascii?Q?y7WNm3VVFxErWxAXuGWEmM0xQ/vQPQ0KdnckwvBk2ecpY23JhRap8oDJPqrO?=
+ =?us-ascii?Q?WZ29+rJe1dT/CWdulO2LuCulXU6R7OK7uX+R87BykPXq0QeCeiacb9ZJH6bX?=
+ =?us-ascii?Q?b7Y9F3hb28F1q7W+I3Y8sG2bg+RlfI8cMtH9lvjMDmaTg2Dt6I0eXbxeNGf8?=
+ =?us-ascii?Q?zbqEl0vN8uXwIOQiceVtgn23z69MBobvsk/q7F6akyPz0it17UpL3C3/X6eQ?=
+ =?us-ascii?Q?uNCFpMoBbwLSAdtJECH7Tl7q9xw0ZfvqE4VhCWWf7V7fEYYbOVsaljFdoa+9?=
+ =?us-ascii?Q?HlBovHaiLf4YSjQLhPCeymamGOSNsj7gZOStPBdd919BEhPb5/0zanvZ3A6c?=
+ =?us-ascii?Q?A6l9ycdLfU3LVq0VDiScAnSsQ5x3Y83IwMG6AO8zul+2gbMkHYK6BOfP5rDt?=
+ =?us-ascii?Q?j5ICPuCcQDcPq00GzwIxhnAsaLPDPmORrjQGW5Pc1hVw/U7ftxTUaiQ4yuBt?=
+ =?us-ascii?Q?3fIzj3sgYGIuuT09B2XgIne50yr53ZrvRN47fLUJnV2Ao8g7nI0FBvtJoR2b?=
+ =?us-ascii?Q?6xLRK1SCOTJ8DWU3spBeQ8x5QPZajcRLHb4Efa8VAaGSIdyZNT1QaAlEB14M?=
+ =?us-ascii?Q?WewBHri0AJEb9zdAWycuzvPpFZaFFpIhEFrhFWV6Xed5OjPYBNiveBcKnmKj?=
+ =?us-ascii?Q?QiBvgOVdt7CrOSDrCwsqThXUR0JlBjdDcqFqECDW8QJIhJcMRa8psRxQDM8v?=
+ =?us-ascii?Q?QutavgXaQghEHyo5nFT827vnGBVfF8A7Pkt8pF22TBZl57mWdJGBhR35KNhm?=
+ =?us-ascii?Q?uHI1rNfzz2a9T3abo6xUMa0vIQyACyEsTsL/+T+AMIYs6kqXiI2MPMd8w5VP?=
+ =?us-ascii?Q?W33//62t+4yfTg1ANi+0ypTC58d+ZvbQY8nrjKhF2333q649OveZLdJ7mWAG?=
+ =?us-ascii?Q?I8nWBc3zLg=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3b9816f-6f9b-4719-d629-08de8ea93644
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 22:10:54.5407
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r/GwaBp+TEbxj7FCMmFsoLHn7TnMplgYKLzYN50z10baUWQNu0reLHJEjcDoUG+k/8oA2ks2P0HqNL41MsCe5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB6512
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260330_231402_058835_FFCCC6C0 
-X-CRM114-Status: GOOD (  10.01  )
+X-CRM114-CacheID: sfid-20260330_151059_405872_A915D65F 
+X-CRM114-Status: GOOD (  10.16  )
+X-Mailman-Approved-At: Mon, 30 Mar 2026 23:26:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,48 +178,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ming Lei <ming.lei@redhat.com>
+From: Daniel Wagner <wagi@kernel.org>
 
-[ Upstream commit b84bb7bd913d8ca2f976ee6faf4a174f91c02b8d ]
+The calculation of the upper limit for queues does not depend solely on
+the number of online CPUs; for example, the isolcpus kernel
+command-line option must also be considered.
 
-When nvme_alloc_admin_tag_set() is called during a controller reset,
-a previous admin queue may still exist. Release it properly before
-allocating a new one to avoid orphaning the old queue.
+To account for this, the block layer provides a helper function to
+retrieve the maximum number of queues. Use it to set an appropriate
+upper queue number limit.
 
-This fixes a regression introduced by commit 03b3bcd319b3 ("nvme: fix
-admin request_queue lifetime").
-
-Cc: Keith Busch <kbusch@kernel.org>
-Fixes: 03b3bcd319b3 ("nvme: fix admin request_queue lifetime").
-Reported-and-tested-by: Yi Zhang <yi.zhang@redhat.com>
-Closes: https://lore.kernel.org/linux-block/CAHj4cs9wv3SdPo+N01Fw2SHBYDs9tj2M_e1-GdQOkRy=DsBB1w@mail.gmail.com/
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Li hongliang <1468888505@139.com>
+Fixes: 94970cfb5f10 ("scsi: use block layer helpers to calculate num of queues")
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/core.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/scsi/aacraid/comminit.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9df33b293ee3..b0c7a055cf20 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5012,6 +5012,13 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 	if (ret)
- 		return ret;
+diff --git a/drivers/scsi/aacraid/comminit.c b/drivers/scsi/aacraid/comminit.c
+index 9bd3f5b868bc..ec165b57182d 100644
+--- a/drivers/scsi/aacraid/comminit.c
++++ b/drivers/scsi/aacraid/comminit.c
+@@ -469,8 +469,7 @@ void aac_define_int_mode(struct aac_dev *dev)
+ 	}
  
-+	/*
-+	 * If a previous admin queue exists (e.g., from before a reset),
-+	 * put it now before allocating a new one to avoid orphaning it.
-+	 */
-+	if (ctrl->admin_q)
-+		blk_put_queue(ctrl->admin_q);
-+
- 	ctrl->admin_q = blk_mq_init_queue(set);
- 	if (IS_ERR(ctrl->admin_q)) {
- 		ret = PTR_ERR(ctrl->admin_q);
+ 	/* Don't bother allocating more MSI-X vectors than cpus */
+-	msi_count = min(dev->max_msix,
+-		(unsigned int)num_online_cpus());
++	msi_count = blk_mq_num_online_queues(dev->max_msix);
+ 
+ 	dev->max_msix = msi_count;
+ 
 -- 
-2.34.1
-
+2.51.0
 
 
