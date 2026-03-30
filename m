@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75707FF60D8
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 06:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BA98FF60D9
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 06:26:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Fk8sHS9gyZc49MOAiv7NA/AEJUmj+UIECf/52br9crs=; b=WP5TQDwnalh9nilr+Bc87lJu4C
-	EJz206DwBra841p650ZSmt0euj9wEYDT8Avjsj5tC+CRVQzxcVnrk4AiV7t2GM2rQ/OQLw52EZE7m
-	X7EPhd1AQdKW27rtMk0WFoiCVadpWzyfj3SMXFiln0KKr07KZ/jPScbTn5VgCdk0kwQ6fztvyGw5i
-	34lU7TcJ1NnH7rB6+CQPas2TEmkCKMfESDIEX/XiaUXF1njGsqtEE7k9na3slLuItcF79UGiHeBsy
-	v4WeFLHH9ir4uD8cJSDqowdx7De3+S29NcAAKnT/WvGe4AwM2UF26K4TYiY4y8RGACsIP2zHbJi/A
-	Q2hGvj1A==;
+	bh=rmWC6QGOVxeNPUHeGnXrU3BrxZ8azJrRPagwYTbPgrs=; b=XcthuI0so3T8YOozSSieWoyapo
+	DqqxVjl8AWR3+vG77tLNUa+DtFH5eGs58HtjdJcqWbN7daA3JfsHFUKbeQ5QpthIjLJt7MdxxBK8e
+	drMdo01mSJOzAHmc8bztI5tuwn7UkMb0N0L5MN0Ha8CCweRNSvnAWGO2k+aCKyfkTtIEgInwE3B/t
+	+xZ+67u1wPY4LrJbS953oZ9f8TChZdnhJw0/5RhOmdQY0RkIVzZ/fPvWKrl6TEy5Z9fWFm9JXlEzh
+	sxZXNR1mQRsRSmiBV4QGSTxcJXB9qu3/A+uu+KprB+4HY/Jb20zHqLtufXQ//UWfsX73xTCMLfNuk
+	F5dDKQfQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7SYA-0000000CMLk-344p;
-	Tue, 31 Mar 2026 06:26:06 +0000
-Received: from mail-ukwestazon11020132.outbound.protection.outlook.com ([52.101.195.132] helo=CWXP265CU008.outbound.protection.outlook.com)
+	id 1w7SYB-0000000CMMz-22P1;
+	Tue, 31 Mar 2026 06:26:07 +0000
+Received: from mail-uksouthazon11022074.outbound.protection.outlook.com ([52.101.96.74] helo=LO0P265CU003.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7KpZ-0000000Bx4I-2Qi1
+	id 1w7Kpg-0000000Bx6c-0QKv
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Mar 2026 22:11:34 +0000
+	Mon, 30 Mar 2026 22:11:41 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GLjNOLm59P7PPPGiJUOFLxxeeZXcQ6ViqbFwLmNgGvhuvZwin4YSid4fMsYXjH2S5rsgCVE5lFWFlK1LAv99bHygjo0KWfe8gBKC6nYOHLW5Zze9B8ir8N6ZMPCArXxew66g7Rfzl7f4oVwIfQSu13MT+diIMBjDMAUmxSe5UGyraeG6gd7qLoJnyizJTwhZZtjhhjTRqs0MPeV9lPr4WWgeJ+/AymHNb3CC90DkgmoT0f5cuZkejp7MFc3hLrY9SPmkkB2IljrzMgBBghfNgMR8ikNShaswTZ922I4CIn2UMBX5d31dhO6IPe1jkN3ta9GednK5KhgoA0YkcpiubQ==
+ b=BEopKRXQSLCJwv0eI/tIA0MJyPdofTMO/9Xt2/Ur7D61BD09kquidsiDJ+0kO4urT8BjNoLvIpX/9TTWEox8yjBPwfFQ0xHv29Cb0qB1aiLcYOTNw/r+NcgdxlWsVW+3eDOWpzLpp5owxf7A6hkfbHtrds15UyS3WxR3gt71yxHr2+COk2DD/YPIT7m9s2fXVFvpg/jnXLAHTLXVOk53fWYXeoJIRA/inrCSl7f7so8mRi9IMorU2iWf5LVUAniyjhpAHtxnp+RXToVYNcDbDfwpPL44fRs8S5i9EtXDmVKpmBkYBPzEC1ur9ra8fJ9WmqzzeyQIZoPbcW+sYDGHLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fk8sHS9gyZc49MOAiv7NA/AEJUmj+UIECf/52br9crs=;
- b=g/YWqxXryrDwHlBjTFT4bAqhDdup3i6eQmm4v0P0uKnuX/I4YbYd0Yukz0EW5lKLBUpL+L1NRa481TouBneOwRDSKBQEmZ4vlUe+H2oTw/0ztqthgYJVrkZ9/L0MpyzSIPNcYq5pwpARybhjEe6nI/SPO6VkTUFhlrlbNJR+ICDKPQgqQPMm9Kgqi0nVP/hhBI/m0OiNI87Oyl6ua2G2BTclJBAQDhr24Wp2cS8DWKCbtKve9KSLs3JPCLYY1wK3dvQ7DFfyJAm8nbjVYeSc3seGfcIQ2TI353D98eWfmP9gYv7Ce9KP6WrxJJoFqIft1jzPMZJKA7SmHGEmNe4y3Q==
+ bh=rmWC6QGOVxeNPUHeGnXrU3BrxZ8azJrRPagwYTbPgrs=;
+ b=sYcMIiElMwh5Oa5A0SFEZteKwZ1+7NlRTcMczKGW9m9NryCQjMa8VXToJDZqfYbwKwSxqoG9uDfgouOQrrP65pnF9C/Zf2P7qFvf1qnIk/JVmSknSvGyybmxTByqdyPdkRA7PTDBiw8413mQyrWeZxXNkE8/ll8L7gDd/pOZhhI8Y/GE5aMDhxCZ4gflUSjBVsxJ/KHmaBsifjGIw3w9nXLdYbXVARAgZId+LVykeXeu1sm6Ahms9tMqFylrEogYOYC3uqpH6mfHJ+LYvmis4GN+CDloj8ghpxXPCHtc+k7XmaWoHCf4Fi7PabV+pf4soj4Ici+U4OlAqWSyAdznNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
  dkim=pass header.d=atomlin.com; arc=none
@@ -43,11 +43,11 @@ Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
  by CWLP123MB3841.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:a9::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Mon, 30 Mar
- 2026 22:11:31 +0000
+ 2026 22:11:37 +0000
 Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9745.022; Mon, 30 Mar 2026
- 22:11:31 +0000
+ 22:11:37 +0000
 From: Aaron Tomlin <atomlin@atomlin.com>
 To: axboe@kernel.dk,
 	kbusch@kernel.org,
@@ -98,71 +98,71 @@ Cc: atomlin@atomlin.com,
 	megaraidlinux.pdl@broadcom.com,
 	mpi3mr-linuxdrv.pdl@broadcom.com,
 	MPT-FusionLinux.pdl@broadcom.com
-Subject: [PATCH v9 11/13] blk-mq: prevent offlining hk CPUs with associated online isolated CPUs
-Date: Mon, 30 Mar 2026 18:10:45 -0400
-Message-ID: <20260330221047.630206-12-atomlin@atomlin.com>
+Subject: [PATCH v9 13/13] docs: add io_queue flag to isolcpus
+Date: Mon, 30 Mar 2026 18:10:47 -0400
+Message-ID: <20260330221047.630206-14-atomlin@atomlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260330221047.630206-1-atomlin@atomlin.com>
 References: <20260330221047.630206-1-atomlin@atomlin.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN1PR12CA0023.namprd12.prod.outlook.com
- (2603:10b6:408:e1::28) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BN9P220CA0001.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:408:13e::6) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:400:70::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWLP123MB3841:EE_
-X-MS-Office365-Filtering-Correlation-Id: 944e7599-648b-451b-f31c-08de8ea94c01
+X-MS-Office365-Filtering-Correlation-Id: d3c8f54e-d209-4090-b5ee-08de8ea94fe5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: vmZZ9CzPU3U9dFEwvx4lIaXSc/mx76H0MYUOwXZjA0GLxG1WiGhvjSiWovLKlmCQobIOop1xwYtUEKrUtCkoIA5ioiQVs/a3TZCjdHftKrOLWqG7SNb+5CMCFdCxfDbj8xEDlIhfO6xpQOjZSCvDo3aR1NsvIEYtPFX2sdioSElRAze8VCbFfNRH6W3ncwscXFT/ND/01aAmhcbFxi9jKXOBXASSGOczL9jPYP7uhxQV3muEULW4KUta4CREJqksmo/kX7PmCjlMyX6bxuGg2Ze1J25Kl06lLB3F6+UU1hP0FnHMX9RmWkqZxxlqvGs6f4hDqF4zqP0PeWASM+p1Nrouoa/3R9qANFBA2j2mIkivz79FadQlL7fpZYb/eJktBzmaTrzzir/y0E/N2lvTHmvsqsXOVpJJSCFf2weaDO2PG4dzU4GJji5v3+NYAAlpcjGhOPsP9C8hAIxgYH+Nj6zucraxhRzDXliytM/UJBGnL4M8EkiEV/FOqkbkZCeKDX7tqzKM8xQ1fVVEDtJckRXOXymDtM8C/nFn1+zpH/ZRX0wSpjFKuPDnpBlKP4w7DelyldcoIXkWbz0pHrtdW+5ANMrBgqiDpZnkKkWu3DtrEdKWO8XvQ9sZQbh2lrsalszA52Rm0fwlNBP9n1DfG2oaMlkBKoPzXW/6zUH4J90hNx1Rriz/4rZ+u87xSzYztHSy4FRzkgGwoJsLh4uqFB8e3+hALLGQHxAyPmwQQ9o=
+X-Microsoft-Antispam-Message-Info: bwOevYgtoZK271KtY0FnpSfJoISBBhsDcJqda2ivxq1jxoorirNxbxLy1Mt+l13EGlhnVgl9PL2bvmGnz+B3anBTvFi+JkQTKEDibx0MfLw9dASDzCU25l+2UfqRACoqfZYeJZnhSdlJ+JQZ2B0dyRa4bbbuI017Y7GhfeT/879x81RZinIbWnNRfzEnIlSfcov/b/mPUaVi5iQVWoQH2bU7g/lY/pgVVK7Pl6yaAvIBX0UVZ24k8wfMiwdNHjTlFnuUEcpnKCttiAS82Yc35kKvtnMMNyffrilgjT+Qji3nRzJSW30bLmWWpEQGj5y3ZQ3bkWWxZV3a+m6zuAaOwJHde70Zc1Qi5YyHN90iI7q9qI01EzpiduogZKQkUTbfqtYsLyqLGJQJsjmtwujj2a7U3iE+JO+VuTnOUj5zf0pVBAfKUDLpg61RTyDOzLYWseJFwvGIs3FtBOOLqc7WG/hHPDPXgyymHbkFF/w0hbVaCimLsrLtCL0cR0bsRWp1x6QKCosYVD9ih9DP04eMVVaAu+YfySDRcR1zIALW8Z21m/zehdGNYhjVQgN3GS4qKoO9NYE+lHYAVyFylTyl4O/ocejUkkwO5p+6dtJkaqM+K4YrBKEkXX38Ak3Vm2qKWGDvUTGEthui8B/dYyKKD+dr8T4bGTqNEd/UaTjJxlTf+IKM5xb2eO/yWV5bQruThXqhQyHSuDwtz290k+lgFYZTUXifcGv7DiM+unMKJWE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QImR91OvfeTKfacL14YPWUJSVPHil/Nf8RM6cp3PpD1fYoBSSwibIr2iRUWn?=
- =?us-ascii?Q?B+RwhjLViL2TFTNFbfuigi/BHQsDbGUMlwWVhrT3POr0I1opzD2lxPzb3YY5?=
- =?us-ascii?Q?maLWEM2psjbCCcWgzv81JG979wvuxkBTs5I/Os6rjvKx4pC6ZDtgcWVnX7y8?=
- =?us-ascii?Q?npI6BLp7KS9otGduDp+nPKr4fgpCII8RJWc5P90revZMV+syZ+rDl8TWKiK/?=
- =?us-ascii?Q?ek25Xp1Llm2/EpUBugbQwfqQyN0UI61idVLBbbrn4oXqaZ6uSkt/xcyDOtm6?=
- =?us-ascii?Q?vYvY2LizD4WbOccxyrU4LREWqxnhCPT6HHlWco0hHHsTHiDeu0WfunKwh34W?=
- =?us-ascii?Q?SVrj0NsIcdrQoKcClNhOoOd80NrrG+i4wzhsQM1eA8uc+5JsqrczBWC/jPqc?=
- =?us-ascii?Q?ncMq3Bk7bQHFGkJFTBoe/LMGLV2/9Q98yTYpdCXRuNcC1i68Gtk5WOhpOHOu?=
- =?us-ascii?Q?dlI7qjxT8s35FtupNVKxfZ3iUl4KQot5N4rBrzfQx8TukESz+j4LxO3/a8vk?=
- =?us-ascii?Q?vzErZnz7a1K9Qyc9VtlD0+TvNqa1t5q5Me8Liopz1Knc9mZFd4g6ZE9P+RFQ?=
- =?us-ascii?Q?HVvyIktlrdEaFHHZo3mn3GrJpkxcanMNdaTdGpUEME5Blw9ayntoCJJ0eMO6?=
- =?us-ascii?Q?jw9X+6PeKOdRKHXH8Zt9/Hfgh8870mAOzjYXHijJPuvRDjMltvMf855T4LIt?=
- =?us-ascii?Q?gr8lsPia5TrXH+V7NJstx+1bEvpyOfYTuETuaLpDZrLLFIC6mdu6knUgJWsP?=
- =?us-ascii?Q?wS4RcPmUsgmEkJ0YFIxd1It76NN8/pN4r9rKGgc5/wsm8KSJ8TMnjbpiJ95b?=
- =?us-ascii?Q?LdLy6MrUr8oeHPKsi5LZh9UOkyZUVPv5sP8w3rQFZXnCIPA7qWiC76jmbpWb?=
- =?us-ascii?Q?Dgu6BgM5iCdHg8u3soI9nQsSC63jfrD5Q3gMs9BN6hj/c6DjvGKYRY0QJcEA?=
- =?us-ascii?Q?lp4ec8zZ+goAxxQaSE1NLqVxvUkYdnUPD8Q9551dp5buU8JBvbEf871RMU30?=
- =?us-ascii?Q?0ZALYSZ4JIpMoa8XYDI5CJwcFC00G0TVy4/BXg3pcKZ5QrfZkpJszZJyKy5m?=
- =?us-ascii?Q?Vi8grnnC9oD7cROipEfddLP/dBDzjLmiGStEowUTUAjZcpmSP5CXsKiigftS?=
- =?us-ascii?Q?iK5naMossBGiA8kDFgxwdyVBG4GREwZ1/ectFJrZsDZeeqytOCL9I9s/eJlZ?=
- =?us-ascii?Q?I6MJ23d9WqgsiIdnt9I5F4Dk2GEVlo7+BDsp/8aOn6RTnbPcoTd3gf1Xu7Ea?=
- =?us-ascii?Q?PvoZ27kUdvoeQFkmU0iVYZUhh5+VMspDq4IQWUzFvGvcIKnb/efMMUNYi7wm?=
- =?us-ascii?Q?Cutw/XVSDvir4FZ2mHfDw6cl4fJNSnuV7Pl0htRfj1AecNi2UqehbNDTUjfi?=
- =?us-ascii?Q?jD6DxeErKycANGZiebnqT+QI9nriaD2nyXZWhNCd7ZRqygYI3Zwj0S9Gk9Cu?=
- =?us-ascii?Q?DdroW4MkRoEVeZhfsrR1cbx0Gax/54nhA0ZqjThSh4CLEjcMQx25h2Q88Nd5?=
- =?us-ascii?Q?+WXfPqYZZ7XUsshjBZ7abLNDGS+88eUrizg44Lds3bSjoqTbofTBza5xeM4V?=
- =?us-ascii?Q?xJtCV5x0MNgyc3iBtTUDGsov29cf39jWYWN6j3cQ4KlNWOXTVFNitgzl4SIT?=
- =?us-ascii?Q?rp9Um3MJWeYKfiGepO+8p7z//S9TjJR3au2Cc+WzenSKQWIvxbi8Ufw33nFk?=
- =?us-ascii?Q?85Boa6d/FCeGRtH5kaD6wUPWQjvB2jmZau9+z/3PUKeYRx9xA2oAKz43yJQc?=
- =?us-ascii?Q?OkRNZW4ktA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Z/G0RWZ7vb/zrDN+23KOagkHa0wApItIz6l9pa5q1OcMnpPDFd6ASLpHsIpY?=
+ =?us-ascii?Q?XvIDoAFvAPZDMVXSe5IB/mt4epWiYDSaIH0po7yq4K5eljL+4CFf/9w+GxgM?=
+ =?us-ascii?Q?Ek0dWNFPXxffHJSuuQJ4dUKbf0gYhQ0Llys5LciK2fDreKaTaCDKeRuSpNhE?=
+ =?us-ascii?Q?0R+OqNkwVmEEx0nc7h45JtUnIinADTRW0zuvcZj6dBXljvNGTb2sltGj13zX?=
+ =?us-ascii?Q?p7cWMFgi+M3ndaocB70fy0hDS30tBcCEkBZsuA73d2UP0QpnL8WvHeNQpdbn?=
+ =?us-ascii?Q?5uU7NoMQmMy/Gj1u4xZXpC1M25iLobzrcKo17DSuvYrAYqi01ibSai+TXWf0?=
+ =?us-ascii?Q?BUiVsi2LDpOFNiWsThuraGu7N4wyWUic/REzwFK+DuHwUf8YZcB2gBPLDhjr?=
+ =?us-ascii?Q?Q/jVI9XY+sDnQ1zrZnTV3WVIHwqA0kvsfoPdjlEQL2UAZY/pU4xItt34x6yt?=
+ =?us-ascii?Q?aW8LUdJvM/xeHsGKzF0txPUNHRiYbypiyFofeVoRzEHCDpaSwGX7rOT+ISFu?=
+ =?us-ascii?Q?JJi+ulETamZqLBgRIgoOD+8G0GEDZLG9LZKN+x+FsJInRLcRaS+Ano7bKoEN?=
+ =?us-ascii?Q?yk6PL1U08TlRyBJAXhNVf/7ywrWASIvIanbJqe6ht3u0upFeneBJnc5s6mkX?=
+ =?us-ascii?Q?FVwdjhaaht0h8zuDY+/mBy47SkuHgax4TN6l3lSj2D6gvw8A5DDmgntte1vx?=
+ =?us-ascii?Q?Sw+r7T2aVgPfJzFaRJ22OzHzFy4t1TDxBVQShmU/XUlvmXAIVXXPObXzzvzG?=
+ =?us-ascii?Q?ZWlDkfnpuGNBnwMB60G9AoV0GJj9h3VmmwPcidjFVea0ksq8vJ3fZwkPqnVa?=
+ =?us-ascii?Q?D3i2SvF5sOc3Slata68fhgrUAiDT7KZDFkke/O1tHYyfz8d1rJc0OzPd34lS?=
+ =?us-ascii?Q?6SeDIPbeEuMWNpXre9zm+vKU3CyrGLY19tlHPilOZ+jIAplQJWmBaIzZm8z8?=
+ =?us-ascii?Q?YyTwHiQohx5/DpHV7PqmcXodiOIwo7u5VgtZ4FZm+Oi8RNRa4scTdpZOaIZc?=
+ =?us-ascii?Q?1BsC0exVGOmYCJPLdUm1Iwj/y16Js8hVFiKn28zkWk7b4f3QDrF8Ows3SD58?=
+ =?us-ascii?Q?SRpuVhUexRKtNW7Y71RPPEUARvTfhgiLWoU/jB9bcMv9v9yICiw82C7I+/ft?=
+ =?us-ascii?Q?e18BV7YtOzNqMJr+PDpjCLNi44+tomBAr/+bJO9NTIM6Widep9dcH8qq8bEZ?=
+ =?us-ascii?Q?x5sxyctvkvym8FhbraWZLz+rI2hCofSAJr9QsMLi8fN5hwyfr+Xlsda5n05u?=
+ =?us-ascii?Q?Vi697AcKFTSTbzW4tSdSZYSRRl6EAnLCxDiYDewYxrNl5+OYbpze+4OhQHuL?=
+ =?us-ascii?Q?hxYuZ7ziBaOUUt1eA7MHE0ipSPNk7LxkfyQK5O3UUA5eoXjaxYIJXUHe2+ze?=
+ =?us-ascii?Q?Au7pRHEwnXliEJ/LX6GDhMZA8KhqHuPViFRNWOvaQpIyEc/tjO0yqOUNL9ke?=
+ =?us-ascii?Q?8EXglu83Sc9nNzHuPp+YYN/OHP7KJsYXlTmj7SGEP9gPb1z5afY2GoHS/jCn?=
+ =?us-ascii?Q?NVrAnoyvgIeT6Z5JWM6OVl/uR4mLQyONKX3rmjAus5M+945U9Si+kcmIpnVr?=
+ =?us-ascii?Q?lircV6SndZNrIYcvggWOAHRRpRtQP7JXRLyNnkiBTIshYLrPlkHIPSc+kIqG?=
+ =?us-ascii?Q?WwqJ+hKZPrWumSAbyV5RW275BuTQO9qgjQI5A09RAXeyQ9dt6C8A/pFUFv6l?=
+ =?us-ascii?Q?qX5ILuTY4VgycEmLQswRIW+qiVrumMwDAsuUy/z/uj6QdnjjYtueDiP4QDco?=
+ =?us-ascii?Q?pdf7+FmFeg=3D=3D?=
 X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 944e7599-648b-451b-f31c-08de8ea94c01
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3c8f54e-d209-4090-b5ee-08de8ea94fe5
 X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 22:11:31.0722
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2026 22:11:37.5134
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VUha+2Tk0lruzh1sfvTpDFujVOS3xowAZz6qT9y3LUIsa+wevTFNDJipEzlutQai/c6tRChKGIpm6X0yPt1+uA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: qlXPCWfJOEsyyRfj5yD41KgKISdUNf7WHxsLudLFXFw9vQ8rc/SZHOUe/N5N9Z9z3ewIllGhH/YHvUw/QiCJwA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB3841
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260330_151133_621154_89776FC6 
-X-CRM114-Status: GOOD (  15.19  )
+X-CRM114-CacheID: sfid-20260330_151140_143061_9D31129B 
+X-CRM114-Status: GOOD (  11.94  )
 X-Mailman-Approved-At: Mon, 30 Mar 2026 23:26:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -180,83 +180,57 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <wagi@kernel.org>
 
-When isolcpus=io_queue is enabled, and the last housekeeping CPU for a
-given hctx goes offline, there would be no CPU left to handle I/O. To
-prevent I/O stalls, prevent offlining housekeeping CPUs that are still
-serving isolated CPUs.
-
-When isolcpus=io_queue is enabled and the last housekeeping CPU
-for a given hctx goes offline, no CPU would be left to handle I/O.
-To prevent I/O stalls, disallow offlining housekeeping CPUs that are
-still serving isolated CPUs.
+The io_queue flag informs multiqueue device drivers where to place
+hardware queues. Document this new flag in the isolcpus
+command-line argument description.
 
 Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 ---
- block/blk-mq.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ .../admin-guide/kernel-parameters.txt         | 22 ++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 3da2215b2912..8671f2170880 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -3699,6 +3699,43 @@ static bool blk_mq_hctx_has_requests(struct blk_mq_hw_ctx *hctx)
- 	return data.has_rq;
- }
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 03a550630644..9ed7c3ecd158 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2816,7 +2816,6 @@ Kernel parameters
+ 			  "number of CPUs in system - 1".
  
-+static bool blk_mq_hctx_can_offline_hk_cpu(struct blk_mq_hw_ctx *hctx,
-+					   unsigned int this_cpu)
-+{
-+	const struct cpumask *hk_mask = housekeeping_cpumask(HK_TYPE_IO_QUEUE);
-+
-+	for (int i = 0; i < hctx->nr_ctx; i++) {
-+		struct blk_mq_ctx *ctx = hctx->ctxs[i];
-+
-+		if (ctx->cpu == this_cpu)
-+			continue;
-+
-+		/*
-+		 * Check if this context has at least one online
-+		 * housekeeping CPU; in this case the hardware context is
-+		 * usable.
-+		 */
-+		if (cpumask_test_cpu(ctx->cpu, hk_mask) &&
-+		    cpu_online(ctx->cpu))
-+			break;
-+
-+		/*
-+		 * The context doesn't have any online housekeeping CPUs,
-+		 * but there might be an online isolated CPU mapped to
-+		 * it.
-+		 */
-+		if (cpu_is_offline(ctx->cpu))
-+			continue;
-+
-+		pr_warn("%s: trying to offline hctx%d but there is still an online isolcpu CPU %d mapped to it\n",
-+			hctx->queue->disk->disk_name,
-+			hctx->queue_num, ctx->cpu);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- static bool blk_mq_hctx_has_online_cpu(struct blk_mq_hw_ctx *hctx,
- 		unsigned int this_cpu)
- {
-@@ -3731,6 +3768,11 @@ static int blk_mq_hctx_notify_offline(unsigned int cpu, struct hlist_node *node)
- 			struct blk_mq_hw_ctx, cpuhp_online);
- 	int ret = 0;
+ 			managed_irq
+-
+ 			  Isolate from being targeted by managed interrupts
+ 			  which have an interrupt mask containing isolated
+ 			  CPUs. The affinity of managed interrupts is
+@@ -2839,6 +2838,27 @@ Kernel parameters
+ 			  housekeeping CPUs has no influence on those
+ 			  queues.
  
-+	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
-+		if (!blk_mq_hctx_can_offline_hk_cpu(hctx, cpu))
-+			return -EINVAL;
-+	}
++			io_queue
++			  Isolate from I/O queue work caused by multiqueue
++			  device drivers. Restrict the placement of
++			  queues to housekeeping CPUs only, ensuring that
++			  all I/O work is processed by a housekeeping CPU.
 +
- 	if (!hctx->nr_ctx || blk_mq_hctx_has_online_cpu(hctx, cpu))
- 		return 0;
++			  The io_queue configuration takes precedence
++			  over managed_irq. When io_queue is used,
++			  managed_irq placement constrains have no
++			  effect.
++
++			  Note: Offlining housekeeping CPUS which serve
++			  isolated CPUs will be rejected. Isolated CPUs
++			  need to be offlined before offlining the
++			  housekeeping CPUs.
++
++			  Note: When an isolated CPU issues an I/O request,
++			  it is forwarded to a housekeeping CPU. This will
++			  trigger a software interrupt on the completion
++			  path.
++
+ 			The format of <cpu-list> is described above.
  
+ 	iucv=		[HW,NET]
 -- 
 2.51.0
 
