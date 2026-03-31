@@ -4,98 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E53FF10F92E0
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 16:55:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9541710F9304
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 21:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=q20Cac3clgAqBT/P1Zedui6ELXRh9/Rh5lb+mmpfWzM=; b=njNvNG/CbhoqFq2myWBLDSS0sj
-	NQy2wOsulNKy65ciALa8ngMM+1Ke/j77iYndXCEp1HN01J12woTEInJ9CJFQnatsyuQ/YdWMgkb40
-	3I0admJ0yU3h/qFnxVc8xHozDuqo3iBaSHdEt6OPelOSns5kzQBHKyD9qhyFTE79WXWEzPztFH7gE
-	Aw0QI9Bj2POgtRFBH/5JIluReCDzd/LBywgR4/kHkQXzYx/XO+N3+rP5R17azt6m/Fwq+N3PYe9Qb
-	y8keFR/vjwaolVPKUoWZ3faR/OiMhaVAH2MQYriyWlDwSewdLDBV6uWULPekX6ufi4ZKzayM0YgmC
-	RMKYQOsA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=w6sq7yH6rB9V7WOiF9G5rleHwipGeDPS1b2iK9xuWMQ=; b=f9J/6faJcBetB7Qf8HwLe+2njy
+	C6WksufWC+mxAe4VFNTQKPwZwuK01Py+XD84euwf/iZ1IBoOUGifkJ9juaKE0XK6PcAlcQ0w8/WHo
+	puAYn7BH6MPuTe8nZcQ0JPDzFoA+BJ9gIM7PXFXOGcjnhvJO3dpT3AagZ2BiU9lh9qLjp1MWCjT1D
+	DuKixv9l3ivtL/Ysj3W9cp5vjpRYxZ+DB/GJZ+iuNW36JJWyEEM+IjgnL+VtfdHs1UxvtyT1HG3Bg
+	r8o4ods0/OAlYT0iOlCzb141S9XjEX0gB1xzEN7qcma37wyuVFxdEskQ7R7951YI9LPd4WlvHcbs3
+	Vrl00wsA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7cN1-0000000DI1P-3ZDj;
-	Tue, 31 Mar 2026 16:55:15 +0000
-Received: from mail-dl1-x1230.google.com ([2607:f8b0:4864:20::1230])
+	id 1w7gtq-0000000Db3J-2eQa;
+	Tue, 31 Mar 2026 21:45:26 +0000
+Received: from se.sotapeli.fi ([2a13:7c81:40::2])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7cMz-0000000DI13-1XDO
+	id 1w7gtm-0000000Db2W-2p0E
 	for linux-nvme@lists.infradead.org;
-	Tue, 31 Mar 2026 16:55:14 +0000
-Received: by mail-dl1-x1230.google.com with SMTP id a92af1059eb24-126ea4e9694so628187c88.1
-        for <linux-nvme@lists.infradead.org>; Tue, 31 Mar 2026 09:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1774976112; x=1775580912; darn=lists.infradead.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=q20Cac3clgAqBT/P1Zedui6ELXRh9/Rh5lb+mmpfWzM=;
-        b=XQDgZ8x9d6jqTzO07n4sbuAIuSKBlRAnpx1q67aJ/OM3XBzCp0x8m+Q39wRTwNMXzj
-         KZmkIk+1h+1/kUsdUuJ4pRpBZwWfD8UTKr187a1hkAX9F+QDWItxQ70k10gVu3Ju3ABg
-         ZDo/A/b1ld/Ltoy8LGYnlIHf7jLRZUNlMGWsedV6N9dV1yLNSAtBz16mW8HRFJdMrRNE
-         wq6niHEE1Y5V98AWYXdmc78GQOWD9f2Rb+aEs0wR3Je5pGifFT5groNSRvQ3cVuEKhIO
-         ED8uxJnAwWUtF8eFDT9eeT5drDgbb+pgCa8zMGgJD5kZ7HHEV2LZP54g1HH9hiL+GpBT
-         rpBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774976112; x=1775580912;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q20Cac3clgAqBT/P1Zedui6ELXRh9/Rh5lb+mmpfWzM=;
-        b=YxG2APyR85MoSvXrccz/owTpU9q9QY+Xarc+ovqBRI2hjB0exBT8dPPkS+qra2gka0
-         QFPvBGI/vRFs5ILAWnW2ZRjhSyv/imRYzE0dpdaZ5ESrrXYuXU/Ebc+L+6OmKY8KCN9g
-         Q0yqnJnAoNcwX33LMv+vXOBGnD8gVM7gENa3g4b+u8lcEK55Dahcos5VEvn4bVndBJTI
-         iak0Pc69m3uLs19gmdxEldMb3P+jrSHjVlDjSMZccCP365nOtHYgo3J46AYqnxJb1uu/
-         6ijQoH+Sj8Osyv7VdVCeKWK1hJ3PbkXRGNlblhJ9dOM7QKCGbFmD6o14ubjppclkrOYH
-         ZlBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXRKh0NJTjf01rer/Vopbhyn2U9RIgfBhiI4Cq5D09BYbbUeqsZK3xK5AdaQy5MjAr6ZGbVxSwRrFrW@lists.infradead.org
-X-Gm-Message-State: AOJu0YzBb+ppC755VhOyMHD8YykPxOsjjKXWUitbmOKIMn5s8WSlouxs
-	aMYuX1JuuGV0VqSJs93P+MOSx0p8K3j+n/7QqAft2WidZ50oYl9Lu6VZxlsyK+bTbi4=
-X-Gm-Gg: ATEYQzzLXYlKDsuOzWz18AlkvAhFmz8uO3CWvNETnsXOJSKUruZzk0DB5azWlRWW+dG
-	A1xbYaiJsSynlmvRSI9Cx+gvJZPmcUwlEm3TQ64wOzebPu3fKeJx+kZ6dGwNB08K4qLhRY2HA4x
-	/eKxH6oysRJTMxQtUJTOMVnkDGtLFa5KK4OkHxyTeFQ6qy1FFx3XtYnFafgrSmNy+V7k2JXLaQ5
-	DBxO6lZapGKs497jxjnyMnXN65kqUMMJ0B6REJ/spALqLiyEIo+msESeLRsYMYhHr/N+/Bjbczr
-	DJU8bbpCCBDW41WC41YbamPNOtwkO/PEgG8x9lw8apO+8jo2VRnFx/VTT1oSCPRp1JYTBJk3kFF
-	gsh9a8OB9/6a+rgknp2MFDM3wEwzSWJy1ka1rwUabrPvfbEyy73uvo9m4uz1gTq8rc+UO1bX85M
-	jIXw9/HjhwPtTOBpq30BTFoA3P/UkiIHxocthiJpMojXy5
-X-Received: by 2002:a05:7022:618a:b0:11b:7970:ea3f with SMTP id a92af1059eb24-12be6578552mr136255c88.25.1774976112230;
-        Tue, 31 Mar 2026 09:55:12 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with UTF8SMTPSA id a92af1059eb24-12aba581027sm16280630c88.4.2026.03.31.09.55.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 09:55:11 -0700 (PDT)
-Date: Tue, 31 Mar 2026 09:55:10 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <jsmart833426@gmail.com>,
-	Aaron Dailey <adailey@purestorage.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Dhaval Giani <dgiani@purestorage.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 09/15] nvme: Implement cross-controller reset
- completion
-Message-ID: <20260331165510.GD2861-mkhalfella@purestorage.com>
-References: <20260328004518.1729186-1-mkhalfella@purestorage.com>
- <20260328004518.1729186-10-mkhalfella@purestorage.com>
- <73a9c0e2-ecd0-4170-8723-259529617ec0@suse.de>
+	Tue, 31 Mar 2026 21:45:24 +0000
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 99F0B181AA12;
+	Tue, 31 Mar 2026 23:45:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sotapeli.fi; s=dkim;
+	t=1774993514; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=w6sq7yH6rB9V7WOiF9G5rleHwipGeDPS1b2iK9xuWMQ=;
+	b=zb75EJP2+TNIzPTycD72FqAZ+Z3t7K+FCGv++/xIxD+8WP+PxoHu2DVdhobYuA/BtjRvtZ
+	4Hko7jQYwoxl1+Uj2HvWTjUvaA/1RHsksd9aXh8YYol9FFGC0MFhoFuuZSEXxVydFVC0qe
+	tB0KTLTcjf+9mQAXT2AvLlAATIyhCMD48vX8787Qfd+la1h0WjlXIFzEvp0K2q2Mp2++K6
+	VN9r/mdRvwe4z/GYot+CE5XNvwzk2Q7Z5Emi/bE8G2doG375BgxLJUN/StCOEV4cjHEORe
+	dVbsSR5ZxRtfx3jfCIqcTeAYNS9lrWeh1UOCuPBvkHJlGl2SIiQA6y9M+0+ziA==
+Message-ID: <8512d83c-5653-44d6-be90-45e349cdde69@sotapeli.fi>
+Date: Wed, 1 Apr 2026 00:45:04 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: 4 TiB WD SN700 drives drop off of Sonnet Card
+To: Justin Piszcz <jpiszcz@lucidpixels.com>,
+ LKML <linux-kernel@vger.kernel.org>, linux-nvme@lists.infradead.org,
+ linux-raid@vger.kernel.org
+References: <CAO9zADxDnb5OVVVZWj64ac70SACH=-G5TC+2F+vfuDmLbZECQA@mail.gmail.com>
+Content-Language: en-US
+From: Jani Partanen <jiipee@sotapeli.fi>
+Autocrypt: addr=jiipee@sotapeli.fi; keydata=
+ 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
+In-Reply-To: <CAO9zADxDnb5OVVVZWj64ac70SACH=-G5TC+2F+vfuDmLbZECQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <73a9c0e2-ecd0-4170-8723-259529617ec0@suse.de>
+X-Last-TLS-Session-Version: TLSv1.3
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260331_095513_430857_EFCA0A65 
-X-CRM114-Status: GOOD (  30.87  )
+X-CRM114-CacheID: sfid-20260331_144523_347707_F5C4D002 
+X-CRM114-Status: GOOD (  12.07  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -110,138 +113,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon 2026-03-30 12:53:07 +0200, Hannes Reinecke wrote:
-> On 3/28/26 01:43, Mohamed Khalfella wrote:
-> > An nvme source controller that issues CCR command expects to receive an
-> > NVME_AER_NOTICE_CCR_COMPLETED when pending CCR succeeds or fails. Add
-> > sctrl->ccr_work to read NVME_LOG_CCR logpage and wakeup any thread
-> > waiting on CCR completion.
-> > 
-> > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> > ---
-> >   drivers/nvme/host/core.c | 49 +++++++++++++++++++++++++++++++++++++++-
-> >   drivers/nvme/host/nvme.h |  1 +
-> >   2 files changed, 49 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 5603ae36444f..793f203bfc38 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -1920,7 +1920,8 @@ EXPORT_SYMBOL_GPL(nvme_set_queue_count);
-> >   
-> >   #define NVME_AEN_SUPPORTED \
-> >   	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | \
-> > -	 NVME_AEN_CFG_ANA_CHANGE | NVME_AEN_CFG_DISC_CHANGE)
-> > +	 NVME_AEN_CFG_ANA_CHANGE | NVME_AEN_CFG_CCR_COMPLETE | \
-> > +	 NVME_AEN_CFG_DISC_CHANGE)
-> >   
-> >   static void nvme_enable_aen(struct nvme_ctrl *ctrl)
-> >   {
-> > @@ -4873,6 +4874,47 @@ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
-> >   	kfree(log);
-> >   }
-> >   
-> > +static void nvme_ccr_work(struct work_struct *work)
-> > +{
-> > +	struct nvme_ctrl *ctrl = container_of(work, struct nvme_ctrl, ccr_work);
-> > +	struct nvme_ccr_entry *ccr;
-> > +	struct nvme_ccr_log_entry *entry;
-> > +	struct nvme_ccr_log *log;
-> > +	unsigned long flags;
-> > +	int ret, i;
-> > +
-> > +	log = kmalloc(sizeof(*log), GFP_KERNEL);
-> > +	if (!log)
-> > +		return;
-> > +
-> > +	ret = nvme_get_log(ctrl, 0, NVME_LOG_CCR, 0x01,
-> > +			   0x00, log, sizeof(*log), 0);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> > +	spin_lock_irqsave(&ctrl->lock, flags);
-> > +	for (i = 0; i < le16_to_cpu(log->ne); i++) {
-> > +		entry = &log->entries[i];
-> > +		if (entry->ccrs == NVME_CCR_STATUS_IN_PROGRESS)
-> > +			continue;
-> > +
-> > +		list_for_each_entry(ccr, &ctrl->ccr_list, list) {
-> > +			struct nvme_ctrl *ictrl = ccr->ictrl;
-> > +
-> > +			if (ictrl->cntlid != le16_to_cpu(entry->icid) ||
-> > +			    ictrl->ciu != entry->ciu)
-> > +				continue;
-> > +
-> > +			/* Complete matching entry */
-> > +			ccr->ccrs = entry->ccrs;
-> > +			complete(&ccr->complete);
-> > +		}
-> > +	}
-> > +	spin_unlock_irqrestore(&ctrl->lock, flags);
-> > +out:
-> > +	kfree(log);
-> > +}
-> > +
-> >   static void nvme_fw_act_work(struct work_struct *work)
-> >   {
-> >   	struct nvme_ctrl *ctrl = container_of(work,
-> > @@ -4949,6 +4991,9 @@ static bool nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
-> >   	case NVME_AER_NOTICE_DISC_CHANGED:
-> >   		ctrl->aen_result = result;
-> >   		break;
-> > +	case NVME_AER_NOTICE_CCR_COMPLETED:
-> > +		queue_work(nvme_wq, &ctrl->ccr_work);
-> > +		break;
-> >   	default:
-> >   		dev_warn(ctrl->device, "async event result %08x\n", result);
-> >   	}
-> > @@ -5144,6 +5189,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
-> >   	nvme_stop_failfast_work(ctrl);
-> >   	flush_work(&ctrl->async_event_work);
-> >   	cancel_work_sync(&ctrl->fw_act_work);
-> > +	cancel_work_sync(&ctrl->ccr_work);
-> >   	if (ctrl->ops->stop_ctrl)
-> >   		ctrl->ops->stop_ctrl(ctrl);
-> >   }
-> > @@ -5267,6 +5313,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
-> >   	ctrl->quirks = quirks;
-> >   	ctrl->numa_node = NUMA_NO_NODE;
-> >   	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
-> > +	INIT_WORK(&ctrl->ccr_work, nvme_ccr_work);
-> >   	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
-> >   	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
-> >   	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
-> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> > index f2bcff9ccd25..776ee8aa5a93 100644
-> > --- a/drivers/nvme/host/nvme.h
-> > +++ b/drivers/nvme/host/nvme.h
-> > @@ -419,6 +419,7 @@ struct nvme_ctrl {
-> >   	struct nvme_effects_log *effects;
-> >   	struct xarray cels;
-> >   	struct work_struct scan_work;
-> > +	struct work_struct ccr_work;
-> >   	struct work_struct async_event_work;
-> >   	struct delayed_work ka_work;
-> >   	struct delayed_work failfast_work;
-> 
-> Hmm. The 'nvme_fence_ctrl' operation introduced in the previous patch
-> is synchronous, yet in this patch we're looking a a log page to figure
-> out if the cross-controller reset is complete.
-> Which is slightly irritating.
-> Wouldn't it be better to make the 'nvme_fence_ctrl' operation 
-> asynchronous, and then have a separate function to wait for the fence
-> operation to complete (which then could look at log pages etc)?
+Hi, if you are running them with 4K LBA format, switch back to 512k. 4K 
+LBA cause issues to many WD drives. WD also know this, its been reported 
+years ago and it never got firmware fix so its quite safe to say that 
+they have harware flaw what cause it and cannot be fixed by firmware.
 
-True nvme_fence_ctrl() is synchronous, but it runs in from ctrl->fencing_work.
-What is it that you find irritating about nvme_fence_ctrl()?
+If you are running your drives with 512k LBA, then this is some other issue.
 
-> 
-> Cheers,
-> 
-> Hannes
-> -- 
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-> HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
+// Jani
+
+On 01/03/2026 13.39, Justin Piszcz wrote:
+> Hello,
+>
+> Kernel: 6.12.73
+> Distribution: Debian Stable Trixie
+>
+> There are long outstanding issues with these WD Red SN700 4TiB drives
+> with an ASUS FlahsStor Gen1.
+>
+> I have 16 drives on two x8 Sonnet boards and the same issue is
+> occurring across two different platforms.  Are these drives completely
+> defective when used in a software raid configuration?
+>
+> Does anyone have a specific kernel parameter to make these drives work
+> without dropping off the busâ€” or is it time to retire/replace these
+> drives?  On various forums the below parameters had been tested
+> previously and did not help.
+>
+> [Sun Mar 1 00:30:58 2026] nvme nvme0: controller is down; will reset:
+> CSTS=0xffffffff, PCI_STATUS=0xffff
+> [Sun Mar 1 00:30:58 2026] nvme nvme0: Does your device have a faulty
+> power saving mode enabled?
+> [Sun Mar 1 00:30:58 2026] nvme nvme0: Try
+> "nvme_core.default_ps_max_latency_us=0 pcie_aspm=off pcie_port_pm=off"
+> and report a bug
+> [Sun Mar 1 00:31:03 2026] nvme 0000:03:00.0: Unable to change power
+> state from D3cold to D0, device inaccessible
+> [Sun Mar 1 00:31:03 2026] nvme nvme0: Disabling device after reset failure: -19
+> [Sun Mar 1 00:31:03 2026] md/raid:md0: Disk failure on nvme0n1p1,
+> disabling device.
+>
+> Justin
+>
 
