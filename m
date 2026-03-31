@@ -4,130 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 38A1CFB3D15
-	for <linux-nvme@archiver.kernel.org>; Mon, 30 Mar 2026 11:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC785FF60C6
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 06:14:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9ep2Ne1zwvkIuZyKM5oDYQk3F+nTH2jmvGRqTmJkI24=; b=1RdMhAj0UG6inH63Gc8DYjdNlS
-	xXqW574qJpMGBMDBQqoVoHBJoorGR0MtfR1zz5OfK1LFhMukusXBuiesTNzes4MLLTZrCOf7rmQQP
-	YJhoJRn8yIAntOg0W/5Y48NAJVb8RcNLIFp5U2Fyo2p9P8rXkPz237jK7PGhfVWFOehWMypbclL+X
-	lgnrBTIHzT/Vz7aNMs8ez2+n+MABSsnVtxQBlNv3AgRiMxhgQKWUIwj/1oGCdWM+upKKe7Dp+cKd6
-	tWMyugTAn92r+bbqS2mC9JjUqM/dhD2sB0M1rGUfMSFjZTsEY9qn7xE4CHIKtmeuhrYuLoPVTvEeE
-	vL3ePeLg==;
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=sT7PyNZKOhn2pNzLNgyaXeY6YpllylYSRM3J5F5X1cY=; b=nwBWfFNWWWoPb9/BhFHT5o29RG
+	wMuqlooG0uBELHTlH+vXyIyVOp10QK41jfQU8WhmZKOIPPLElwZOSEaB1AzQzKD0YWy9JdT++UDlt
+	6kshhQYUCtSrwFy5PAD9zbQ6/OFInPKidekyFxFXe3YVZSFX/BlMsMboKxyA1TzadfzzNT6os3E8P
+	QhArLM9Mw0fhseoHQlHH6Y1R+o5BqQHmNnUB4h6mNmj1cbp5/0tw5jcG8nNnnn5dCPh9xD9+0S+hW
+	Mmmg0mDVKBuZQlEYdQ4+qQcjyog+VrhElac7zQSjLbl0pWU+DhbAN23/jIBj5Y7XOqklXgUav/qAY
+	rhPz9jHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7AM2-0000000B7da-39SS;
-	Mon, 30 Mar 2026 11:00:22 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7AM1-0000000B7dA-01HW
+	id 1w7SMY-0000000CLJ5-38QX;
+	Tue, 31 Mar 2026 06:14:06 +0000
+Received: from n169-111.mail.139.com ([120.232.169.111])
+	by bombadil.infradead.org with smtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w7SMT-0000000CLIA-0BH6
 	for linux-nvme@lists.infradead.org;
-	Mon, 30 Mar 2026 11:00:22 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F2B894D1F1;
-	Mon, 30 Mar 2026 11:00:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774868419; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ep2Ne1zwvkIuZyKM5oDYQk3F+nTH2jmvGRqTmJkI24=;
-	b=LLWs931OThFnQX2sbTLGQjC6P89Um9+b85mX1oxcgfzuG/yhpDqAxyNHP9cikRLonbgbq2
-	pVgdd3z+2LJn/raDa7GNpl7nJGn5jNaFrCaULe+yLi12Lc+kooA3WIEKnsX3Q8syV7+Wb+
-	KSsk47QCFbbyIbUcsce2MeFlvxliwV4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774868419;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ep2Ne1zwvkIuZyKM5oDYQk3F+nTH2jmvGRqTmJkI24=;
-	b=YlSWkQk5H8rCq6o8Kq1fXd3zzVdrFFVYoU2UpO+CrbUgn1U8VErRhk9awQjDn/XvbWiOP/
-	664JCtUGQFOOR4Bw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1774868418; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ep2Ne1zwvkIuZyKM5oDYQk3F+nTH2jmvGRqTmJkI24=;
-	b=li9UhWxOLt31RSZzqSLJ3oX7cGf01DuyoxRmIP9f4d8QEmFaFlGitrnIVLQumnQXm5yGZk
-	dwLSEW9Ih2Pyg2e9kjbOpe1GJYHmpcE+LoQm4KLSQohbOmXTquBPltGzgAwPNfKd6tzA7Z
-	kRu+W2OPc9s64g3YPlZraSJsfD89ZLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1774868418;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9ep2Ne1zwvkIuZyKM5oDYQk3F+nTH2jmvGRqTmJkI24=;
-	b=i1HNBRZHswYjO6/JGOoRPxtcRyesC63mfUAm9Cuua8eObm7OHL5IWRgteGgNz4qw8V6KPq
-	t+/R1dao7wqNe3DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C4AD14A0A2;
-	Mon, 30 Mar 2026 11:00:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pDeeL8FXymmiAQAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 30 Mar 2026 11:00:17 +0000
-Message-ID: <37c751e9-f842-4532-b4fd-919fae7295b4@suse.de>
-Date: Mon, 30 Mar 2026 13:00:17 +0200
+	Tue, 31 Mar 2026 06:14:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=139.com; s=dkim; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=XX8k8QRbqXIEZgRlcW1cUj/YbeS2EM4xl4yRB99U9a95F6o/V8xk21qNre3LCi0XxiJA3EEw/c8D8
+	 FxEd2/nZMD0creav1z/t1DyhkARaP74VT2aOzzk7XCZvGdwzUofFBBl8alU4cerYuduATlmPPO0qm8
+	 pJIzYUVJfjMViVqk=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM: 
+X-RM-SPAM-FLAG: 00000000
+Received: from NTT-kernel-dev (unknown[60.247.85.88])
+	by rmsmtp-lg-appmail-17-12016 (RichMail) with SMTP id 2ef069cb660f3f8-003fd;
+	Tue, 31 Mar 2026 14:13:40 +0800 (CST)
+X-RM-TRANSID: 2ef069cb660f3f8-003fd
+From: Li hongliang <1468888505@139.com>
+To: gregkh@linuxfoundation.org,
+	stable@vger.kernel.org,
+	ming.lei@redhat.com
+Cc: patches@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	yi.zhang@redhat.com,
+	kbusch@kernel.org,
+	axboe@fb.com,
+	hch@lst.de,
+	sagi@grimberg.me,
+	hare@suse.de,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 6.1.y] nvme: fix admin queue leak on controller reset
+Date: Tue, 31 Mar 2026 14:13:39 +0800
+Message-Id: <20260331061339.3121617-1-1468888505@139.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/15] nvme-tcp: Use CCR to recover controller that
- hits an error
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Justin Tee <justin.tee@broadcom.com>,
- Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
- Paul Ely <paul.ely@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, James Smart <jsmart833426@gmail.com>
-Cc: Aaron Dailey <adailey@purestorage.com>,
- Randy Jennings <randyj@purestorage.com>,
- Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20260328004518.1729186-1-mkhalfella@purestorage.com>
- <20260328004518.1729186-11-mkhalfella@purestorage.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260328004518.1729186-11-mkhalfella@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[purestorage.com,broadcom.com,gmail.com,nvidia.com,kernel.dk,kernel.org,grimberg.me];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[purestorage.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260330_040021_194185_B75838BE 
-X-CRM114-Status: GOOD (  22.07  )
+X-CRM114-CacheID: sfid-20260330_231402_058835_FFCCC6C0 
+X-CRM114-Status: GOOD (  10.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,115 +78,48 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 3/28/26 01:43, Mohamed Khalfella wrote:
-> An alive nvme controller that hits an error now will move to FENCING
-> state instead of RESETTING state. ctrl->fencing_work attempts CCR to
-> terminate inflight IOs. Regardless of the success or failure of CCR
-> operation the controller is transitioned to RESETTING state to continue
-> error recovery process.
-> 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> ---
->   drivers/nvme/host/tcp.c | 30 +++++++++++++++++++++++++++++-
->   1 file changed, 29 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 243dab830dc8..6393ec2b3b55 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -194,6 +194,7 @@ struct nvme_tcp_ctrl {
->   	struct sockaddr_storage src_addr;
->   	struct nvme_ctrl	ctrl;
->   
-> +	struct work_struct	fencing_work;
->   	struct work_struct	err_work;
->   	struct delayed_work	connect_work;
->   	struct nvme_tcp_request async_req;
-> @@ -612,6 +613,12 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_queue *queue)
->   
->   static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
->   {
-> +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCING)) {
-> +		dev_warn(ctrl->device, "starting controller fencing\n");
-> +		queue_work(nvme_wq, &to_tcp_ctrl(ctrl)->fencing_work);
-> +		return;
-> +	}
-> +
->   	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
->   		return;
->   
-> @@ -2471,12 +2478,29 @@ static void nvme_tcp_reconnect_ctrl_work(struct work_struct *work)
->   	nvme_tcp_reconnect_or_remove(ctrl, ret);
->   }
->   
-> +static void nvme_tcp_fencing_work(struct work_struct *work)
-> +{
-> +	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
-> +			struct nvme_tcp_ctrl, fencing_work);
-> +	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
-> +	int ret;
-> +
-> +	ret = nvme_fence_ctrl(ctrl);
-> +	if (ret)
-> +		dev_info(ctrl->device, "CCR failed with error %d\n", ret);
-> +
-> +	nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
-> +	if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> +		queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
-> +}
-> +
+From: Ming Lei <ming.lei@redhat.com>
 
-To follow up to my comments on the previous patches:
-As we're already using a work queue, wouldn't it be better / easier
-to make 'nvme_fence_ctrl()' asynchronous and explicitely call 
-'nvme_fence_wait()' or something here?
+[ Upstream commit b84bb7bd913d8ca2f976ee6faf4a174f91c02b8d ]
 
->   static void nvme_tcp_error_recovery_work(struct work_struct *work)
->   {
->   	struct nvme_tcp_ctrl *tcp_ctrl = container_of(work,
->   				struct nvme_tcp_ctrl, err_work);
->   	struct nvme_ctrl *ctrl = &tcp_ctrl->ctrl;
->   
-> +	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
->   	if (nvme_tcp_key_revoke_needed(ctrl))
->   		nvme_auth_revoke_tls_key(ctrl);
->   	nvme_stop_keep_alive(ctrl);
-> @@ -2519,6 +2543,7 @@ static void nvme_reset_ctrl_work(struct work_struct *work)
->   		container_of(work, struct nvme_ctrl, reset_work);
->   	int ret;
->   
-> +	flush_work(&to_tcp_ctrl(ctrl)->fencing_work);
->   	if (nvme_tcp_key_revoke_needed(ctrl))
->   		nvme_auth_revoke_tls_key(ctrl);
->   	nvme_stop_ctrl(ctrl);
-> @@ -2644,13 +2669,15 @@ static enum blk_eh_timer_return nvme_tcp_timeout(struct request *rq)
->   	struct nvme_tcp_cmd_pdu *pdu = nvme_tcp_req_cmd_pdu(req);
->   	struct nvme_command *cmd = &pdu->cmd;
->   	int qid = nvme_tcp_queue_id(req->queue);
-> +	enum nvme_ctrl_state state;
->   
->   	dev_warn(ctrl->device,
->   		 "I/O tag %d (%04x) type %d opcode %#x (%s) QID %d timeout\n",
->   		 rq->tag, nvme_cid(rq), pdu->hdr.type, cmd->common.opcode,
->   		 nvme_fabrics_opcode_str(qid, cmd), qid);
->   
-> -	if (nvme_ctrl_state(ctrl) != NVME_CTRL_LIVE) {
-> +	state = nvme_ctrl_state(ctrl);
-> +	if (state != NVME_CTRL_LIVE && state != NVME_CTRL_FENCING) {
->   		/*
->   		 * If we are resetting, connecting or deleting we should
->   		 * complete immediately because we may block controller
+When nvme_alloc_admin_tag_set() is called during a controller reset,
+a previous admin queue may still exist. Release it properly before
+allocating a new one to avoid orphaning the old queue.
 
-Do we need to call nvme_tcp_error_recovery() even if the controller is
-in 'FENCING'?
-Don't we just need to return BLK_EH_RESET_TIMER when in 'FENCING' ?
+This fixes a regression introduced by commit 03b3bcd319b3 ("nvme: fix
+admin request_queue lifetime").
 
-Cheers,
+Cc: Keith Busch <kbusch@kernel.org>
+Fixes: 03b3bcd319b3 ("nvme: fix admin request_queue lifetime").
+Reported-and-tested-by: Yi Zhang <yi.zhang@redhat.com>
+Closes: https://lore.kernel.org/linux-block/CAHj4cs9wv3SdPo+N01Fw2SHBYDs9tj2M_e1-GdQOkRy=DsBB1w@mail.gmail.com/
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Li hongliang <1468888505@139.com>
+---
+ drivers/nvme/host/core.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Hannes
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9df33b293ee3..b0c7a055cf20 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -5012,6 +5012,13 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * If a previous admin queue exists (e.g., from before a reset),
++	 * put it now before allocating a new one to avoid orphaning it.
++	 */
++	if (ctrl->admin_q)
++		blk_put_queue(ctrl->admin_q);
++
+ 	ctrl->admin_q = blk_mq_init_queue(set);
+ 	if (IS_ERR(ctrl->admin_q)) {
+ 		ret = PTR_ERR(ctrl->admin_q);
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+2.34.1
+
+
 
