@@ -4,143 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24F46109B48C
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 15:30:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18D8610F92E3
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 16:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Frn0D8Q9IR8zZzf56wCiD+ErHidJ5N2S7sdWgAsYyRg=; b=Gbcvfpt5/ZUZb2xaDRe+Sr+BQd
-	D0Nm6NPsQtXIv0tXp+EwB9lPFHdaw+wvSZR9a8/UF6v/48+Qo60jxK86rY+bKtcPLnrMZDxeSegka
-	uBYiRH8paOnGgh3BYy9ad5zjYS13BBSV5MNLp0debRxbSsr/V18bTnMOsBasEOiuw2jBy9uNF5mUa
-	CEfPlv9FO80mjWceXanPTVAuGWO1CiOpcaucwHhN251X2Yx9SQuOCCbLQdLXpDaKUYp+sSqX3xV8+
-	fdWrT5FRZf0uRSpz5b+yEf22/2bundVlYL8XbAxWOy0Q9W5kDLc5bby5xF7aWnW9tqABXcBET8n1i
-	qPCd7dyw==;
+	bh=pn0l+rWCRwk5JlaI6GKau18ILhConWqlWtc8SFEQbyc=; b=MP23gtst5dvJw19+O0hJzT81XN
+	UVGHMHHO6Fannh9VWeQdeWy1mSx7C6FQvcJJrMnFGEi3VXku/rJQvylYaAU3XSBGdbwQMKmj5h3TJ
+	q39bYxV0ZexMff5K2lIxvi7tjZvCNp9AQX1o560RDYHMZkTwXxVxxEDzIDCDDhMOkaD/0hASiSUFw
+	rbUgmYpE/jKWUE6V1gz7d1TyR/Kdoa7OpjmdsTkurKkTIEaYHa4cdVcV66lzC4xRhrQQYngQDoo89
+	KNIv5t6SPGtgU9pbAo4JmhKalKf4YbeDAEKViqqcxTVrBEO40aHVezdtWmq2ZT3vzqklSKsjIKBTW
+	MTJ2oq/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7b30-0000000DBWM-07pe;
-	Tue, 31 Mar 2026 15:30:30 +0000
-Received: from mail-uksouthazlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c205::1] helo=LO3P265CU004.outbound.protection.outlook.com)
+	id 1w7c6W-0000000DGoU-11OK;
+	Tue, 31 Mar 2026 16:38:12 +0000
+Received: from mail-dy1-x132e.google.com ([2607:f8b0:4864:20::132e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7ZIh-0000000D185-0vdc
+	id 1w7c6T-0000000DGo9-2pPe
 	for linux-nvme@lists.infradead.org;
-	Tue, 31 Mar 2026 13:38:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rt0E+dIVmIujbf4Pk3m+SRZ+V8nNkACif0+gleyvzBt5LRuTaFXEmIiV6bnbPH/7mH4HwJe35E1VLcq8JrIEliTeehmCqc81/XHUjV+x3rS+tkQhpXLW9DLFb7XdEyYJ271KHZ/zyyBFVW3kQxYsxpJdcJlrA944/S6v2XkJ56QNtDKpx8aAz3vl1nXcJMMK2JtGw3V51X1nPEZMAPdlekQZhzkTzg7mPDkF+UN38baxUBCAj9ojIxfVQfJMGN7AvMdSxBpMYhrGaRn1KpDZN5dDDshpF+jLdAf4Di1KtC13tJet7MkkUGd79JiMjV2RuMZX+Pp6wDJMeSACLbWKyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Frn0D8Q9IR8zZzf56wCiD+ErHidJ5N2S7sdWgAsYyRg=;
- b=WKjYsXc7yNaS6WWFvhzvao/O5O01/8eZ/9adb5GuMzL3rkNdyyBM7S2yG9pUtVI8Y9/dYDf+2fbQJBjdleagTL10uqBepZP/zQidNWVu+tPn3167jersic5+Foxt8Qkiy1qBt/aUe8xvssdQZJyd/rogyeJyZEKf5w86PCZcXdHbsHFX6s3TRiy7etZRWnHdP7gDf9uSeMNdilWqyjVkouMOu0F9f8QcQetgw9zP/bSnsOPl1MC1jzD21DrP0Pb3UUlNtByNIO+MThiLvd9UyLEPmvFFEN2Z98QS6rj2gD2t369pOQEAshkTnE2WApotZglNty6IsnM5l/7uZRtKyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO7P123MB7840.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:410::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
- 2026 13:38:28 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9745.022; Tue, 31 Mar 2026
- 13:38:28 +0000
-Date: Tue, 31 Mar 2026 09:38:24 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
-	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
-	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
-	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
-	bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, 
-	longman@redhat.com, chenridong@huawei.com, hare@suse.de, kch@nvidia.com, 
-	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
-	mproche@gmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
-	MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v9 00/13] blk: honor isolcpus configuration
-Message-ID: <d7tpb63momaeufwu7o3syov4dn6bcix7rn5rhyvvvhc65rp652@sie6b7vi4dml>
-References: <20260330221047.630206-1-atomlin@atomlin.com>
- <acsc_GHv7Q04U1db@fedora>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ccto2smyg2cbwx4v"
-Content-Disposition: inline
-In-Reply-To: <acsc_GHv7Q04U1db@fedora>
-X-ClientProxiedBy: BN0PR04CA0075.namprd04.prod.outlook.com
- (2603:10b6:408:ea::20) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	Tue, 31 Mar 2026 16:38:11 +0000
+Received: by mail-dy1-x132e.google.com with SMTP id 5a478bee46e88-2c18af885c0so6550865eec.0
+        for <linux-nvme@lists.infradead.org>; Tue, 31 Mar 2026 09:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1774975088; x=1775579888; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pn0l+rWCRwk5JlaI6GKau18ILhConWqlWtc8SFEQbyc=;
+        b=U5XRtZ/DoL5AfTD63s2I4mwkcSEbXBvcjFEHQuse9OCFDjYd+D3HFuJIfQ/GTr/I/o
+         D1dxVMoO0P0A+zYNJFTAa+AqfMOAG8zLClVEEMI+uaH0mLpWuV9Ll60+KfSLTdgsS3FR
+         384uuka0ANYmW38yCKQOoWIikXXZVKssYazhN2X4Byh1hGrg7GLhIx7K/Ck29qIO8lDf
+         euBYpDnZGP4XLopfTO8RNa+MCaDUC+nJ3VbLYZvXj5lC2G5K1MjhRHqqRKyvwgdxOutq
+         bVm527f6UCtm/XI1Y8X92MSUTDeuEl3lDhU55W27Z0yeVNUonMteOw4mAdSq9AOYbCKo
+         e91Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774975088; x=1775579888;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pn0l+rWCRwk5JlaI6GKau18ILhConWqlWtc8SFEQbyc=;
+        b=Udbp+byK2CYJopVpAgRLrfrAE1lpkjL3FURUN+i5m66OdHFUnVPhlCaMIXyWL0r5yC
+         GsEWWrI3OQO/nEFTS0BH0xAPITQ29vfO++1hxP7TWAJCSbC0/oU/PJbC7Av8ho2EbYr4
+         I1XiFdzDJHGHFl2RCuXWHUIdVcPOy6goEs5wy7LNxTW6NWq5EQAJ/Q+PzLn8waBHv7HF
+         rU+lDanjqOOXJo9p95vYqxSaSkmRQPrIE/m11G5p0yd1x+OgK0eFYTdMJvUtTO0VYCmx
+         ORxR+xuU6YFDLY53ricT+LU6Ycg7/+SNXzp5DJ67P7RBF8vj15PV2SsIDhUeBR4EMwDA
+         Dnrg==
+X-Forwarded-Encrypted: i=1; AJvYcCVwPxAvpxbSR7gE8VvUBN9TxaKS7+0ZlguvbmkjfoMYanfKjNfL5B0mZ8eWuM5VHfvETSDUv3qKvujn@lists.infradead.org
+X-Gm-Message-State: AOJu0YzflRk//RXOF4dHA5dWVSZrlm0gHjtpUTlUjeTfLEFQ0iq2NmpC
+	aBQFTnfP0YMz/Qj8htjKYSx/r0M+tYhUUk8e+zS5ftqbvcdidoUkiBSJJ6c+fzgpFAM=
+X-Gm-Gg: ATEYQzy1Z2IPQkLS5jAzHuM8BdGWb+BuVmV1SSwzUZ/f5R6wYX8Qw6ItlfM6u+KqzZc
+	5jOLF22II4NNCCYPY6Vr9orq3Jj7Lq+X4F2Nxo3H+urnhB6cHq+LoKpBgKjul0/ojvnd1cTTIPx
+	dnYqX0JQ3/Lcanr0XytozfVmbDRheJyNOhepqGs1viMTVB98DpAm7MyIyStu7hMWfMNvZUB2lIU
+	5RfEkUbT7rsOMxAHkdH9YHLgy8eRVtdjwHGLQ/9lRNIvvDGAQ9bQ/mHTV5HJVYhrdmaEH7lYAfL
+	mABOB1/lzL/3avIXbRkxHWKD0BCOV6sslW0VJkIqdKiZ/h2yx3WNzfP3YHBv0IqwwBXkhOlaK8V
+	fa3hp5dQZVCS0UHT74gwngrg74rJJWkR2jsu7pnXICb0wSTxX0C02uPt6yTJVP9XCQFxagJW+jE
+	tS/Xftue4vddAhYPMxMrs6T9w1ECL3w/Th37NvkbS2EU2s
+X-Received: by 2002:a05:7300:ac90:b0:2c5:fb3f:70f0 with SMTP id 5a478bee46e88-2c5fb3f7427mr4741988eec.19.1774975088073;
+        Tue, 31 Mar 2026 09:38:08 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with UTF8SMTPSA id 5a478bee46e88-2c3c68b2ff2sm10662742eec.18.2026.03.31.09.38.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 09:38:07 -0700 (PDT)
+Date: Tue, 31 Mar 2026 09:38:06 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <jsmart833426@gmail.com>,
+	Aaron Dailey <adailey@purestorage.com>,
+	Randy Jennings <randyj@purestorage.com>,
+	Dhaval Giani <dgiani@purestorage.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 03/15] nvmet: Implement CCR nvme command
+Message-ID: <20260331163806.GB2861-mkhalfella@purestorage.com>
+References: <20260328004518.1729186-1-mkhalfella@purestorage.com>
+ <20260328004518.1729186-4-mkhalfella@purestorage.com>
+ <204893dd-d256-4f37-955a-1fa724048021@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO7P123MB7840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a1f82e2-0a0d-4dbd-22fa-08de8f2aca1f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: h9UDNpEpu/60qEs/Sd6IK1brGC7i4faxOAH1BKJnzO2LY+KnOURwb4bTAzpelZhUoH7OpXStdVXNSVuglswNa8UWX51LhTi11XmtHicKdXBhK10fto3BGE/5USExqFqztJ7a7jtTQIF77lWLoFCLRvGl51fhT24GoEcTutSgA1V+9X0Pym/K4FEQB+ia5LiVKyxjT3FNQUm5Qeb5D4A/GT/48e3EZOWQNnfDKV6NzRfo8CGykQGJPiRMvg2AXHq+WAU3MHOqh+bAk3F6/N59AsMlOaFnz9s+CiF+AdIgEnl3eUZFDWpOMGe3R7QDhkvbE8Hhlfq9mncujEBsgrjWe7AIVSZJ/43sSn6HfmTh9quUgZgcFUVfTXeI/m4c7BFUOzICn6gTmv11tb1dYf/3Pg3+Q8bRjyn8nd2NX21nLb6rLoukwfoIwD5eY0u97kgWW4d/h0MviMVFpyhRHUJzK/kt1GjlcQ+CCS5CwQFEgO1IYNiotT5rY2grsa9YnkH0FS8vTlMUKOI/ceSQtDlOz4F1FU1UpHeJ4+DCA6qSvuPeGNTN9Zb7cl2rcWt+oHg6bS3/3fZfAQlUGZh2aXSEBYEWL4DI78xOGDATV5buGUHonnuBq5VX6JlqpN0svZC83Sr0VTrOifIkldS3f7zGvjM/IekmX1X/7jAsNExcQ1/OalkYCM8+BVRupTxgxbnIEGsy1DENXe4JOBL0jNNYNQRV2cmM7fyzInHCY8rjPng=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZnBGUURPQyt3VWc4V0p2ZnkwT0REYmVEbFkxaVpubmRubkhScHpUMnk0eWFv?=
- =?utf-8?B?Z0pvaHdMZkg4QklaZXJXZDhIRXQ5ZXNRM3hROW16SWFJMGpWZUhjNzdXRnRn?=
- =?utf-8?B?blZsTXBoL0lHR2JwU2tnbU1Rd25IMjBoeEk2dEZpT1ZmN0V6czNJRy90WlBa?=
- =?utf-8?B?bnpveFIrb2xUcGwvMlYyZTltNTZEaWM1R0hYRitHeGNjT0xMelJ3Q2RoMm9T?=
- =?utf-8?B?UStmRCs5bXZHei8rNUYxcUZnZjN4cE9PSGdPbGt4Z1dYODdMemlYK3BvdG5B?=
- =?utf-8?B?RGFaYUxaSDV2MENEdVpyMTVobzNCMVJ5RXFESVdScG9XS0NSRS81L2JYUTlj?=
- =?utf-8?B?TFhTL0o1R2pMYThUR3pweDV5UVozLzBMdi95aGVKOWpFeVFTMGl0QU9YTi9R?=
- =?utf-8?B?NXR1clF6TTFRQlpCTXhvcmgwaDZ4ODZjZ1VXUmkwa1ZPaVRCNEFuam1wcWEr?=
- =?utf-8?B?VTR4Vi9OUkh3RWNQdGM4U2lqWS9XRjA5Z2NtU1A2S1lyTnB1TjBQeWFtN1Vl?=
- =?utf-8?B?b1ZkVVZlV3ZVdXhaL1E3bHhTMUp1dXNIVTd4TS9oL0Z3K3RaR0hIcEY3NGxq?=
- =?utf-8?B?NnVXSlp4MDJ2Ryt1WURydXZrNFNEOCtVKzNhb1hXVExGc0Uxc3ozR0k4V05k?=
- =?utf-8?B?T2tGSEV1QjNRS3pTcFFVMkJhbmgzdzlvdzBlc2FQU2JiN2lSWEUyYUJKaTVk?=
- =?utf-8?B?eHQvdTFqS2hmUGZDRmhkNXlYK2FqSDBPSDZBL3JrZlg1V2k4b3NrZjl0eXJl?=
- =?utf-8?B?ZHJJbCs5TnZjaUFVWmpaL0xCeFpsRkZPU3o4VWtSdDRUZnVVbk9HbHBIcVZQ?=
- =?utf-8?B?SE10bHdxRjZ2b09YVitld2xVbmZaMmV3eWtaQVkydmNZUDJSbUkycU1nZmFu?=
- =?utf-8?B?MUp4OVp0Z05qazFIdFVQR2tuOUtpTks1UGw1cys5U2JNcDhsWG12czRlWTlX?=
- =?utf-8?B?dVFvOHhzZnJ5enA3bDdXVWYyK09UMlhFaE1xQk1KUVBKREU2Y0Z4M0p3RzBp?=
- =?utf-8?B?MGtmdHVaYmEzMnVtaTNhWXhObmp0c3htTEJxK005bW90Qlh5ckpZMmI1ek8w?=
- =?utf-8?B?QXhRSWFBS3hBUTVxcGphSlVhNFJ1SjdqSnJtL3krNVB3bUZWdG9FeVhETVpy?=
- =?utf-8?B?ajRyNmVENUJTbVFlcjRNUnZnOUtHVENYc2liUDJGK2NNVmVPL0tuRHJXVmFz?=
- =?utf-8?B?VHlSL28zb0VpRVJIcy9HNDErcG9wTmJIN3E3OHdGcXVBVXl1cEwwekpQMnlz?=
- =?utf-8?B?RzNpbTNZUkxWMlFiQ2YzNFgrTWtZYTRHMjcvQUNHMUJkUWprV056OEduMzYv?=
- =?utf-8?B?Q28veHR0eGhtd3U0MmFBZnJkRnRJRU9EOGZueWdldVJld24yL29tK3JObGhF?=
- =?utf-8?B?UytPYXRLQjdGak9JT0kwZndFWC9GRU5paDhWRFZXR2gwMWJTVlg3L0pPL1Nq?=
- =?utf-8?B?Y05RUEFudmFudzA0MEZnT212N2ZZdUxFNnhEZG41NnZESFYwMUxmTXVHMERn?=
- =?utf-8?B?c0h0Qk1YOC9abFlWQTk5VjlPS1BHK2JwMytlajY4RFNHSnVpc0Job1lvVldY?=
- =?utf-8?B?Um5wdUhEbGFvYm94T3poN3lXU3dxMXUxTzUydzhDencwNzBZZWFoVzd5ZDMr?=
- =?utf-8?B?MTJOSUZQTHkrbDZmT0dHMUlxVnhHSDl3Q014Tll1SFFucnZvUnVpRTZ0bWRS?=
- =?utf-8?B?U0hXd2dyNEpqc04rdWVuemp1Z1JNRDQxMXM4QTFYL00wWFlXSXhpeUlWbWN0?=
- =?utf-8?B?L3FxM3Q1R2xtTFpISmYxNDd2OFQvUXRGdU5ZZGtuVmJMRGl6ZzZtRmcrVGlP?=
- =?utf-8?B?MGs4K2cwTVBlTWNPYk1VNlFINmx6S2IxRmVmRENFR1BhYU1vMmJTdHpvdjFj?=
- =?utf-8?B?RTNvR211bkJYQm1yZ2RUcmFCa2xLY3M2S0RGSjhVcWNCYzFWVVhIU3V1ZExp?=
- =?utf-8?B?Wk5RQitBMXNxbDloaWdsTGtSeW1paVdNaHdRNk04OUpXRjZvVDdzT3pweXZJ?=
- =?utf-8?B?eEt3ejU0TFJXQzZjWCtTUWloS0NmaFNPbkttS2FBYXVwSGdpU2hpTFFlMnJy?=
- =?utf-8?B?ME1ZaThFTUt0a3c0NkREaFgrTVlNS1lDNHpMQkx4MEZpdC9vcW5WYThxWmU0?=
- =?utf-8?B?ckducnJkeE1hSkliRTlpdytabkdnazRLRjN0YjlKRTBWeG9mY3hjTjFJVHhX?=
- =?utf-8?B?N05GdUdIOStVUFEyUVhLUUxwaVFXSDNxejByaG1aV09yUkFNditUQkwzZHRl?=
- =?utf-8?B?YzBNU1lMeEltMTRzMFF5NnllbnBXSVRmVmlvWFcyTzdkYTlwNS9nM2NHY2l0?=
- =?utf-8?B?dVJHVXI4dExmYk5BckJtck1TOXhDdmw5RU45ODdiaWd0U0FMWndFQT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a1f82e2-0a0d-4dbd-22fa-08de8f2aca1f
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 13:38:27.8532
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0VDG+mAroNBLtugKoYIem18gI0VPkb93fv4r+8k9C5SwQo+Zzbf+lWeBmIJpKjyzDZ+aCj/rFzfr9DSatdmHXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P123MB7840
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <204893dd-d256-4f37-955a-1fa724048021@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260331_063835_286312_2FA43375 
-X-CRM114-Status: GOOD (  12.29  )
-X-Mailman-Approved-At: Tue, 31 Mar 2026 08:30:28 -0700
+X-CRM114-CacheID: sfid-20260331_093809_759410_1BE1769F 
+X-CRM114-Status: GOOD (  29.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,64 +107,241 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---ccto2smyg2cbwx4v
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v9 00/13] blk: honor isolcpus configuration
-MIME-Version: 1.0
+On Mon 2026-03-30 12:45:57 +0200, Hannes Reinecke wrote:
+> On 3/28/26 01:43, Mohamed Khalfella wrote:
+> > Defined by TP8028 Rapid Path Failure Recovery, CCR (Cross-Controller
+> > Reset) command is an nvme command issued to source controller by
+> > initiator to reset impacted controller. Implement CCR command for linux
+> > nvme target.
+> > 
+> > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> > ---
+> >   drivers/nvme/target/admin-cmd.c | 74 ++++++++++++++++++++++++++++++++
+> >   drivers/nvme/target/core.c      | 76 +++++++++++++++++++++++++++++++++
+> >   drivers/nvme/target/nvmet.h     | 13 ++++++
+> >   include/linux/nvme.h            | 23 ++++++++++
+> >   4 files changed, 186 insertions(+)
+> > 
+> > diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> > index ec09e30eca18..0a37c0eeebb5 100644
+> > --- a/drivers/nvme/target/admin-cmd.c
+> > +++ b/drivers/nvme/target/admin-cmd.c
+> > @@ -376,7 +376,9 @@ static void nvmet_get_cmd_effects_admin(struct nvmet_ctrl *ctrl,
+> >   	log->acs[nvme_admin_get_features] =
+> >   	log->acs[nvme_admin_async_event] =
+> >   	log->acs[nvme_admin_keep_alive] =
+> > +	log->acs[nvme_admin_cross_ctrl_reset] =
+> >   		cpu_to_le32(NVME_CMD_EFFECTS_CSUPP);
+> > +
+> >   }
+> >   
+> >   static void nvmet_get_cmd_effects_nvm(struct nvme_effects_log *log)
+> > @@ -1613,6 +1615,75 @@ void nvmet_execute_keep_alive(struct nvmet_req *req)
+> >   	nvmet_req_complete(req, status);
+> >   }
+> >   
+> > +void nvmet_execute_cross_ctrl_reset(struct nvmet_req *req)
+> > +{
+> > +	struct nvmet_ctrl *ictrl, *sctrl = req->sq->ctrl;
+> > +	struct nvme_command *cmd = req->cmd;
+> > +	struct nvmet_ccr *ccr, *new_ccr;
+> > +	int ccr_active, ccr_total;
+> > +	u16 cntlid, status = NVME_SC_SUCCESS;
+> > +
+> > +	cntlid = le16_to_cpu(cmd->ccr.icid);
+> > +	if (sctrl->cntlid == cntlid) {
+> > +		req->error_loc =
+> > +			offsetof(struct nvme_cross_ctrl_reset_cmd, icid);
+> > +		status = NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
+> > +		goto out;
+> > +	}
+> > +
+> > +	/* Find and get impacted controller */
+> > +	ictrl = nvmet_ctrl_find_get_ccr(sctrl->subsys, sctrl->hostnqn,
+> > +					cmd->ccr.ciu, cntlid,
+> > +					le64_to_cpu(cmd->ccr.cirn));
+> > +	if (!ictrl) {
+> > +		/* Immediate Reset Successful */
+> > +		nvmet_set_result(req, 1);
+> > +		status = NVME_SC_SUCCESS;
+> > +		goto out;
+> > +	}
+> > +
+> > +	ccr_total = ccr_active = 0;
+> > +	mutex_lock(&sctrl->lock);
+> > +	list_for_each_entry(ccr, &sctrl->ccr_list, entry) {
+> > +		if (ccr->ctrl == ictrl) {
+> > +			status = NVME_SC_CCR_IN_PROGRESS | NVME_STATUS_DNR;
+> > +			goto out_unlock;
+> > +		}
+> > +
+> > +		ccr_total++;
+> > +		if (ccr->ctrl)
+> > +			ccr_active++;
+> > +	}
+> > +
+> > +	if (ccr_active >= NVMF_CCR_LIMIT) {
+> > +		status = NVME_SC_CCR_LIMIT_EXCEEDED;
+> > +		goto out_unlock;
+> > +	}
+> > +	if (ccr_total >= NVMF_CCR_PER_PAGE) {
+> > +		status = NVME_SC_CCR_LOGPAGE_FULL;
+> > +		goto out_unlock;
+> > +	}
+> > +
+> > +	new_ccr = kmalloc_obj(*new_ccr, GFP_KERNEL);
+> > +	if (!new_ccr) {
+> > +		status = NVME_SC_INTERNAL;
+> > +		goto out_unlock;
+> > +	}
+> > +
+> > +	new_ccr->ciu = cmd->ccr.ciu;
+> > +	new_ccr->icid = cntlid;
+> > +	new_ccr->ctrl = ictrl;
+> > +	list_add_tail(&new_ccr->entry, &sctrl->ccr_list);
+> > +
+> > +out_unlock:
+> > +	mutex_unlock(&sctrl->lock);
+> > +	if (status == NVME_SC_SUCCESS)
+> > +		nvmet_ctrl_fatal_error(ictrl);
+> > +	nvmet_ctrl_put(ictrl);
+> > +out:
+> > +	nvmet_req_complete(req, status);
+> > +}
+> > +
+> >   u32 nvmet_admin_cmd_data_len(struct nvmet_req *req)
+> >   {
+> >   	struct nvme_command *cmd = req->cmd;
+> > @@ -1690,6 +1761,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+> >   	case nvme_admin_keep_alive:
+> >   		req->execute = nvmet_execute_keep_alive;
+> >   		return 0;
+> > +	case nvme_admin_cross_ctrl_reset:
+> > +		req->execute = nvmet_execute_cross_ctrl_reset;
+> > +		return 0;
+> >   	default:
+> >   		return nvmet_report_invalid_opcode(req);
+> >   	}
+> > diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> > index e8b945a01f35..2e0c31d82bad 100644
+> > --- a/drivers/nvme/target/core.c
+> > +++ b/drivers/nvme/target/core.c
+> > @@ -117,6 +117,20 @@ u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len)
+> >   	return 0;
+> >   }
+> >   
+> > +void nvmet_ctrl_cleanup_ccrs(struct nvmet_ctrl *ctrl, bool all)
+> > +{
+> > +	struct nvmet_ccr *ccr, *tmp;
+> > +
+> > +	lockdep_assert_held(&ctrl->lock);
+> > +
+> > +	list_for_each_entry_safe(ccr, tmp, &ctrl->ccr_list, entry) {
+> > +		if (all || ccr->ctrl == NULL) {
+> > +			list_del(&ccr->entry);
+> > +			kfree(ccr);
+> > +		}
+> > +	}
+> > +}
+> > +
+> >   static u32 nvmet_max_nsid(struct nvmet_subsys *subsys)
+> >   {
+> >   	struct nvmet_ns *cur;
+> > @@ -1399,6 +1413,7 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+> >   	if (!nvmet_is_disc_subsys(ctrl->subsys)) {
+> >   		ctrl->ciu = ((u8)(ctrl->ciu + 1)) ? : 1;
+> >   		ctrl->cirn = get_random_u64();
+> > +		nvmet_ctrl_cleanup_ccrs(ctrl, false);
+> >   	}
+> >   	ctrl->csts = NVME_CSTS_RDY;
+> >   
+> > @@ -1504,6 +1519,35 @@ struct nvmet_ctrl *nvmet_ctrl_find_get(const char *subsysnqn,
+> >   	return ctrl;
+> >   }
+> >   
+> > +struct nvmet_ctrl *nvmet_ctrl_find_get_ccr(struct nvmet_subsys *subsys,
+> > +					   const char *hostnqn, u8 ciu,
+> > +					   u16 cntlid, u64 cirn)
+> > +{
+> > +	struct nvmet_ctrl *ctrl, *ictrl = NULL;
+> > +	bool found = false;
+> > +
+> > +	mutex_lock(&subsys->lock);
+> > +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> > +		if (ctrl->cntlid != cntlid)
+> > +			continue;
+> > +
+> > +		/* Avoid racing with a controller that is becoming ready */
+> > +		mutex_lock(&ctrl->lock);
+> > +		if (ctrl->ciu == ciu && ctrl->cirn == cirn)
+> > +			found = true;
+> > +		mutex_unlock(&ctrl->lock);
+> > +
+> > +		if (found) {
+> > +			if (kref_get_unless_zero(&ctrl->ref))
+> > +				ictrl = ctrl;
+> > +			break;
+> > +		}
+> > +	};
+> > +	mutex_unlock(&subsys->lock);
+> > +
+> > +	return ictrl;
+> > +}
+> > +
+> >   u16 nvmet_check_ctrl_status(struct nvmet_req *req)
+> >   {
+> >   	if (unlikely(!(req->sq->ctrl->cc & NVME_CC_ENABLE))) {
+> > @@ -1629,6 +1673,7 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+> >   		subsys->clear_ids = 1;
+> >   #endif
+> >   
+> > +	INIT_LIST_HEAD(&ctrl->ccr_list);
+> >   	INIT_WORK(&ctrl->async_event_work, nvmet_async_event_work);
+> >   	INIT_LIST_HEAD(&ctrl->async_events);
+> >   	INIT_RADIX_TREE(&ctrl->p2p_ns_map, GFP_KERNEL);
+> > @@ -1739,12 +1784,43 @@ struct nvmet_ctrl *nvmet_alloc_ctrl(struct nvmet_alloc_ctrl_args *args)
+> >   }
+> >   EXPORT_SYMBOL_GPL(nvmet_alloc_ctrl);
+> >   
+> > +static void nvmet_ctrl_complete_pending_ccr(struct nvmet_ctrl *ctrl)
+> > +{
+> > +	struct nvmet_subsys *subsys = ctrl->subsys;
+> > +	struct nvmet_ctrl *sctrl;
+> > +	struct nvmet_ccr *ccr;
+> > +
+> > +	lockdep_assert_held(&subsys->lock);
+> > +
+> > +	/* Cleanup all CCRs issued by ctrl as source controller */
+> > +	mutex_lock(&ctrl->lock);
+> > +	nvmet_ctrl_cleanup_ccrs(ctrl, true);
+> > +	mutex_unlock(&ctrl->lock);
+> > +
+> > +	/*
+> > +	 * Find all CCRs targeting ctrl as impacted controller and
+> > +	 * set ccr->ctrl to NULL. This tells the source controller
+> > +	 * that CCR completed successfully.
+> > +	 */
+> > +	list_for_each_entry(sctrl, &subsys->ctrls, subsys_entry) {
+> > +		mutex_lock(&sctrl->lock);
+> > +		list_for_each_entry(ccr, &sctrl->ccr_list, entry) {
+> > +			if (ccr->ctrl == ctrl) {
+> > +				ccr->ctrl = NULL;
+> > +				break;
+> > +			}
+> > +		}
+> > +		mutex_unlock(&sctrl->lock);
+> > +	}
+> > +}
+> > +
+> 
+> Do I see this correct that with this implementation a CCR is only 
+> complete once the controller resets? IOW the CCR has to wait for
+> the controller to be reset, but it does not invoke a controller reset
+> itself?
+> 
+> Is that intended?
 
-On Tue, Mar 31, 2026 at 09:01:48AM +0800, Ming Lei wrote:
-> Can you share the bug report link?
->=20
-> IMO, it should be solved as a backportable patch first if possible.
-
-Hi Ming,
-
-Thanks for taking a look at the series.
-
-Here is the link to the kernel test robot's bug report:
-https://lore.kernel.org/oe-lkp/202509101342.a803ecaa-lkp@intel.com
-
-Regarding a backportable patch, the NULL pointer dereference is actually
-not an existing mainline bug. It was a regression introduced specifically
-by the previous iteration of this series, specifically by Patch 10:
-"blk-mq: use hk cpus only when isolcpus=3Dio_queue is enabled".
-
-The previously implementation introduced the global static
-blk_hk_online_mask variable, which caused the race condition during the
-robot's cpuhotplug stress tests. Because that flawed logic was confined to
-the unmerged v8 patches and never made it into a mainline release, there is
-nothing to backport to stable trees.
-
-Version 9 simply drops that global mask approach entirely in favour of
-local data_race(cpu_online_mask) snapshots, fixing the architectural flaw
-within the series itself.
-
-
-Kind regards,
---=20
-Aaron Tomlin
-
---ccto2smyg2cbwx4v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnLzk8ACgkQ4t6WWBnM
-d9YVPxAAjpzioSymLGTiMyL9YPgMx3OAPMvhQ93izn4Bh0m6OJmSDpJH16Ktfr0C
-T3lwl6z/6OwcukpOTPGwoaatnAjVPfOIow7LiUkbH7TB9xVml3X9M4bhm+GmIc4a
-CrpBjKh+s6LUfkaNNB4hlKdA8R9W2rbWLkfYqHwzOybQPshn3epH6kUpg35YDqvz
-sZ24napFSNE/gPH9OjTlPDQLzTqF94UsBnM7U0lGNZOLGGcHLg+WPTkhPcLx3QN+
-FKyp0AzkZYiPM+U99GaZSaynzp6lIcluEjVzjs1WeE9R9N87FPBtLYKN1McwFi+P
-fxoLFOHhHHBV+qWt/KEPUJ4eY+ITwAW86oxn038pzi8os23V/lR4U6mtO5YAi0Uu
-XdOLBdLg64/GNhJkdx7xAR0Tqc7B+fvZpWhTbnWzM423d0K1oAyNwPEb4i9owKpb
-4/Im9SCCAtsH+TzEAyZwQ/QIVGuyCqz+K4Uas4jaVVTiVBDSucfJfcWw/se1tD7e
-lWLZG+WV4qf67NGk7/K9BzFqcyFoNWDuqkLqJFCSHV9EWoImo1YeU28N8edI/U/s
-M6oT39NcYzQH3ipOcpj8B/S73DejAqDjscTn2iPmFXjas+/ZMZVddU1piTtLTyka
-/FO4xmmhSlmumedE9wNW1vp+QH/5BgPlXxMRF8S9+FbS1vJ8p1w=
-=11Ct
------END PGP SIGNATURE-----
-
---ccto2smyg2cbwx4v--
+nvmet_execute_cross_ctrl_reset() calls nvmet_ctrl_fatal_error() to cause
+impacted controller to fail. CCR is completed when the impacted
+controller exits.
 
