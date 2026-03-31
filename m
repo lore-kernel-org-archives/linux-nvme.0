@@ -4,66 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F962FF60CF
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 07:37:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DE610FF60E9
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 08:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FnGoddvq9sbCatoW9EQgbQjv9Y5QL+UZ9t5bvuvRuzU=; b=xazwSFKlfxijJ1tFuprFu0BCEM
-	XCqfUB1iTgGNqKAGzWjY2sjl0dp+uyE4PTG8WvL5MZU3fNG/Ve/z7lIcR02dBE+gfPLV7qEDMXTLp
-	r5ybOwGhvJtYSV8xBnKZjHNEYhgG4tNLUejuv3o5AUUxyj5k5sZtvWloW+SKXyIZvOUQOpa61KagS
-	8fL3Q9jga936b+M/TCtyq+MMspszXfqJDPicqr3qns6eJ/ZdYQGlTKzkLv42RO67GtJp+9lP+DNWh
-	ZtvbVs58X8gRjrS3DpIpYNkGdgUyaBA47RgnGmfovCLpeYDVYq1ZRvoClwxDafTqW3eprWmx5HtBH
-	l9UsZRoQ==;
+	bh=L5P7yq7BVs/khnm3XxF9tFrKpSkJd288K2JNJwwVvfs=; b=hjlyZYQqF61rEho/kqlDlZuThM
+	uuPy9YUCCKBw0g72JCay7N+9mh366XZfGIQ+f3g1hMsXfOsf5B/xdsEZ709l7ZVIQGAvw0aU8API0
+	2cFkpPZs8nS5lV1efa8GwM0k0vUnaSYGUCEGEH7g6ezvjSe5GJGgxLTBHjcQ7MCOszTcGXsh2Ogkn
+	YEwHhUXRJOTlLAMjBHCFoZNwrkDFUJx06x8eWPn7tFDXFXeyWdsAZfR3dIvWCYDRTWwmOc13Lmcm1
+	rApo6EuqUJyiWzFN9AMuDliM49xUcU+fGVzW2AupO9u114v0mH5gYZgBX6zGBODs/M4jIzMV/JJcn
+	EhtZt3aA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7Tf4-0000000CVVf-0oR7;
-	Tue, 31 Mar 2026 07:37:18 +0000
-Received: from n169-110.mail.139.com ([120.232.169.110])
-	by bombadil.infradead.org with smtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7Tez-0000000CVUo-2meQ
+	id 1w7UIS-0000000CZHK-2WoI;
+	Tue, 31 Mar 2026 08:18:00 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w7UIQ-0000000CZHD-29cP
 	for linux-nvme@lists.infradead.org;
-	Tue, 31 Mar 2026 07:37:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=139.com; s=dkim; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=vIEXjM98q4aEqI6MCekX8/1EuxSy4cG6Hmr20/WKaZ6G7gVlVnKoz+Y5d3yJl1dQxKlMhzLHJo1dr
-	 +IRDYhzCIThBVVdp0+1/4c1+Hq/3NGNaoJp6Uc1klrW//Be5uGfLg3+D/NJbwXe6avgn1ABbGTPI6i
-	 SW/5y9XJQHi3kE34=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM: 
-X-RM-SPAM-FLAG: 00000000
-Received: from NTT-kernel-dev (unknown[60.247.85.88])
-	by rmsmtp-lg-appmail-09-12087 (RichMail) with SMTP id 2f3769cb799bb1b-00b2a;
-	Tue, 31 Mar 2026 15:37:01 +0800 (CST)
-X-RM-TRANSID: 2f3769cb799bb1b-00b2a
-From: Li hongliang <1468888505@139.com>
-To: gregkh@linuxfoundation.org,
-	stable@vger.kernel.org,
-	ming.lei@redhat.com
-Cc: patches@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	yi.zhang@redhat.com,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	hch@lst.de,
-	sagi@grimberg.me,
-	hare@suse.de,
-	kch@nvidia.com,
+	Tue, 31 Mar 2026 08:17:58 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5238E60131;
+	Tue, 31 Mar 2026 08:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FE1FC19423;
+	Tue, 31 Mar 2026 08:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774945077;
+	bh=s6zLHwh8a097n/NPx1xb4PNBD5Q0+sFQi2geiLQl6wc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a/AT89E/CV0I5DHlE+G+ByCCSri2VoTRBVysr60dFs42tx3dkAmJtQa6GZkeaBryU
+	 bGL/ciZBZHUHQAx5MA6gIgnF4+foStd3AX2Uzrr6xaCU/e4X8VXGt1s/5/QwvOWScX
+	 OutUjFYyAT4fVQm41pIpGHGMsFJSKEjXn2D2bqGDh3FzmGBEroJZK+DLySxsnANraY
+	 l3g5vQCROHBesIBq+bB6+N3Fpna2YofvTEiKziI9sIVuM0fR6RiGdMdPug9xnWppPV
+	 N63svnsb7g5fpHaGGgHMZnELAu2Bf7kVfOI8owYM1H6KN1xCSu53RlQ79HzpeeFFuw
+	 /UR9dTOTs2uhw==
+From: Geliang Tang <geliang@kernel.org>
+To: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>
+Cc: Geliang Tang <tanggeliang@kylinos.cn>,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 6.6.y] nvme: fix admin queue leak on controller reset
-Date: Tue, 31 Mar 2026 15:36:59 +0800
-Message-Id: <20260331073659.3136206-1-1468888505@139.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] nvme: add missing MODULE_ALIAS for fabrics transports
+Date: Tue, 31 Mar 2026 16:17:31 +0800
+Message-ID: <e3076c80ee2e0c4a2cae0374afb617a3365946ea.1774944415.git.tanggeliang@kylinos.cn>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260331_003714_250197_BC465FF5 
-X-CRM114-Status: GOOD (  10.01  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,48 +73,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Ming Lei <ming.lei@redhat.com>
+From: Geliang Tang <tanggeliang@kylinos.cn>
 
-[ Upstream commit b84bb7bd913d8ca2f976ee6faf4a174f91c02b8d ]
+The generic fabrics layer uses request_module("nvme-%s", opts->transport)
+to auto-load transport modules. Currently, the nvme-tcp, nvme-rdma, and
+nvme-fc modules lack MODULE_ALIAS entries for these names, which prevents
+the kernel from automatically finding and loading them when requested.
 
-When nvme_alloc_admin_tag_set() is called during a controller reset,
-a previous admin queue may still exist. Release it properly before
-allocating a new one to avoid orphaning the old queue.
-
-This fixes a regression introduced by commit 03b3bcd319b3 ("nvme: fix
-admin request_queue lifetime").
-
-Cc: Keith Busch <kbusch@kernel.org>
-Fixes: 03b3bcd319b3 ("nvme: fix admin request_queue lifetime").
-Reported-and-tested-by: Yi Zhang <yi.zhang@redhat.com>
-Closes: https://lore.kernel.org/linux-block/CAHj4cs9wv3SdPo+N01Fw2SHBYDs9tj2M_e1-GdQOkRy=DsBB1w@mail.gmail.com/
-Signed-off-by: Ming Lei <ming.lei@redhat.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
-Signed-off-by: Li hongliang <1468888505@139.com>
+Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
 ---
- drivers/nvme/host/core.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Hi,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f09ebcbe1179..215aa871092d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4287,6 +4287,13 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 	if (ret)
- 		return ret;
+Recently, I've been working on adding MPTCP support for NVMe over TCP, so
+I added a new transport called "nvme-mptcp". The AI review in [1] reminded
+me that I should add MODULE_ALIAS("nvme-mptcp"). Then I checked the other
+transports and found that they were all missing the MODULE_ALIAS as well.
+I felt it was necessary to add them, so I sent this patch.
+
+Thanks,
+-Geliang
+
+[1]
+https://sashiko.dev/#/patchset/cover.1774862875.git.tanggeliang@kylinos.cn
+---
+ drivers/nvme/host/fc.c   | 1 +
+ drivers/nvme/host/rdma.c | 1 +
+ drivers/nvme/host/tcp.c  | 1 +
+ 3 files changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e1bb4707183c..e4f4528fe2a2 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3968,3 +3968,4 @@ module_exit(nvme_fc_exit_module);
  
-+	/*
-+	 * If a previous admin queue exists (e.g., from before a reset),
-+	 * put it now before allocating a new one to avoid orphaning it.
-+	 */
-+	if (ctrl->admin_q)
-+		blk_put_queue(ctrl->admin_q);
-+
- 	ctrl->admin_q = blk_mq_init_queue(set);
- 	if (IS_ERR(ctrl->admin_q)) {
- 		ret = PTR_ERR(ctrl->admin_q);
+ MODULE_DESCRIPTION("NVMe host FC transport driver");
+ MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("nvme-fc");
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 57111139e84f..1ec6e867aedb 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2432,3 +2432,4 @@ module_exit(nvme_rdma_cleanup_module);
+ 
+ MODULE_DESCRIPTION("NVMe host RDMA transport driver");
+ MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("nvme-rdma");
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 243dab830dc8..02c95c32b07e 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -3071,3 +3071,4 @@ module_exit(nvme_tcp_cleanup_module);
+ 
+ MODULE_DESCRIPTION("NVMe host TCP transport driver");
+ MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("nvme-tcp");
 -- 
-2.34.1
-
+2.51.0
 
 
