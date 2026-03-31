@@ -4,104 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E84BB109B473
-	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 14:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24F46109B48C
+	for <linux-nvme@archiver.kernel.org>; Tue, 31 Mar 2026 15:30:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ia5Ty/oeq3gcUumq6RGAjuJk6QDvjeGX5TrmLFMEHgU=; b=AnlqgUo8ouJ9ZQ24hc3BWYBrGB
-	B43vuV1cbO+pbz4nR7kiJV1Nj/XLRhJWNUC0ZiHgQDnq3wXHmCeW1DNZaEGsoqHuaH50diZZf0tEu
-	mVXVaf0xQ8HS89q+2c1DqkFy/NxTKErEweFa8MPDUOw9vzUFlQFETilqis/e/Xahl1ccRfj1ifKo8
-	o1RozEFbSYuEhS5B8cPOQxhUsRMsx71KFMiR537eIg9GPVcnbvujioOaYmAIYNcORDGP/yMQ8VP10
-	d4je2T7PLua3U3DFx4CecejiuEXkV/sYPHV7xc5E+Tv87WayCShWpLC66oteiEAAMo+kEc/oks3Xv
-	YOxX62lw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Frn0D8Q9IR8zZzf56wCiD+ErHidJ5N2S7sdWgAsYyRg=; b=Gbcvfpt5/ZUZb2xaDRe+Sr+BQd
+	D0Nm6NPsQtXIv0tXp+EwB9lPFHdaw+wvSZR9a8/UF6v/48+Qo60jxK86rY+bKtcPLnrMZDxeSegka
+	uBYiRH8paOnGgh3BYy9ad5zjYS13BBSV5MNLp0debRxbSsr/V18bTnMOsBasEOiuw2jBy9uNF5mUa
+	CEfPlv9FO80mjWceXanPTVAuGWO1CiOpcaucwHhN251X2Yx9SQuOCCbLQdLXpDaKUYp+sSqX3xV8+
+	fdWrT5FRZf0uRSpz5b+yEf22/2bundVlYL8XbAxWOy0Q9W5kDLc5bby5xF7aWnW9tqABXcBET8n1i
+	qPCd7dyw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7ZpW-0000000D3AJ-115f;
-	Tue, 31 Mar 2026 14:12:30 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1w7b30-0000000DBWM-07pe;
+	Tue, 31 Mar 2026 15:30:30 +0000
+Received: from mail-uksouthazlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c205::1] helo=LO3P265CU004.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7ZpT-0000000D38u-0btm
+	id 1w7ZIh-0000000D185-0vdc
 	for linux-nvme@lists.infradead.org;
-	Tue, 31 Mar 2026 14:12:28 +0000
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62V892t4184140;
-	Tue, 31 Mar 2026 14:12:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=Ia5Ty/oeq3gcUumq6
-	RGAjuJk6QDvjeGX5TrmLFMEHgU=; b=LfvbkkCuDvewztK+Xflwx2BepFkI6K/cj
-	Cwgksv9uFAtz+ap7FX6tuhvg9bvXqJxc0WJw5S0fBm89zveOuFIX3tpMdEoNppQn
-	pHWz2cXbIlhrEWb/cvi+mFujWw/RLqlI376XimmyeZuFEiSTNYaVU5B8GdfGATlZ
-	Cow88wkUESUIOS291O1vRtEuD5cbVeR1m6jTeIXux9mxhvTaJZdQs4e73EHOXayY
-	GbYliUvSIsfUhjEV1WJoU1FFBNcBkEnPSbT4ymlmJc+GYnzJdT4+KYXb7ygVuHp/
-	d5h0HI/u+8udlyEB78tL7U6OoHY/ZcleA2y1gmIVTQnhyXA9maoGg==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d66nnknmc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 31 Mar 2026 14:12:25 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62VCcIZo031007;
-	Tue, 31 Mar 2026 14:12:25 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4d6uhjs87h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 31 Mar 2026 14:12:25 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62VECLVG51577094
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 31 Mar 2026 14:12:21 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 71A5920040;
-	Tue, 31 Mar 2026 14:12:21 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4775920043;
-	Tue, 31 Mar 2026 14:12:20 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.124.210.45])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 31 Mar 2026 14:12:20 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, gjoyce@linux.ibm.com
-Subject: [PATCH 2/2] nvme-cli: extend show-topology tabular output for multipath subsys
-Date: Tue, 31 Mar 2026 19:42:09 +0530
-Message-ID: <20260331141215.3098243-3-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260331141215.3098243-1-nilay@linux.ibm.com>
-References: <20260331141215.3098243-1-nilay@linux.ibm.com>
+	Tue, 31 Mar 2026 13:38:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Rt0E+dIVmIujbf4Pk3m+SRZ+V8nNkACif0+gleyvzBt5LRuTaFXEmIiV6bnbPH/7mH4HwJe35E1VLcq8JrIEliTeehmCqc81/XHUjV+x3rS+tkQhpXLW9DLFb7XdEyYJ271KHZ/zyyBFVW3kQxYsxpJdcJlrA944/S6v2XkJ56QNtDKpx8aAz3vl1nXcJMMK2JtGw3V51X1nPEZMAPdlekQZhzkTzg7mPDkF+UN38baxUBCAj9ojIxfVQfJMGN7AvMdSxBpMYhrGaRn1KpDZN5dDDshpF+jLdAf4Di1KtC13tJet7MkkUGd79JiMjV2RuMZX+Pp6wDJMeSACLbWKyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Frn0D8Q9IR8zZzf56wCiD+ErHidJ5N2S7sdWgAsYyRg=;
+ b=WKjYsXc7yNaS6WWFvhzvao/O5O01/8eZ/9adb5GuMzL3rkNdyyBM7S2yG9pUtVI8Y9/dYDf+2fbQJBjdleagTL10uqBepZP/zQidNWVu+tPn3167jersic5+Foxt8Qkiy1qBt/aUe8xvssdQZJyd/rogyeJyZEKf5w86PCZcXdHbsHFX6s3TRiy7etZRWnHdP7gDf9uSeMNdilWqyjVkouMOu0F9f8QcQetgw9zP/bSnsOPl1MC1jzD21DrP0Pb3UUlNtByNIO+MThiLvd9UyLEPmvFFEN2Z98QS6rj2gD2t369pOQEAshkTnE2WApotZglNty6IsnM5l/7uZRtKyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO7P123MB7840.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:410::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Tue, 31 Mar
+ 2026 13:38:28 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9745.022; Tue, 31 Mar 2026
+ 13:38:28 +0000
+Date: Tue, 31 Mar 2026 09:38:24 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
+	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
+	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
+	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
+	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
+	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
+	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
+	bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, 
+	longman@redhat.com, chenridong@huawei.com, hare@suse.de, kch@nvidia.com, 
+	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
+	mproche@gmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com
+Subject: Re: [PATCH v9 00/13] blk: honor isolcpus configuration
+Message-ID: <d7tpb63momaeufwu7o3syov4dn6bcix7rn5rhyvvvhc65rp652@sie6b7vi4dml>
+References: <20260330221047.630206-1-atomlin@atomlin.com>
+ <acsc_GHv7Q04U1db@fedora>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ccto2smyg2cbwx4v"
+Content-Disposition: inline
+In-Reply-To: <acsc_GHv7Q04U1db@fedora>
+X-ClientProxiedBy: BN0PR04CA0075.namprd04.prod.outlook.com
+ (2603:10b6:408:ea::20) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YlOXCcWJ4AqmvgJymzRu1GkSrgCldBJZ
-X-Authority-Analysis: v=2.4 cv=KslAGGWN c=1 sm=1 tr=0 ts=69cbd64a cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8 a=Er-MWHBOWmKJwVl43MEA:9
- a=LriSsk45NUu7uO0n:21
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMxMDEzNCBTYWx0ZWRfX3EwI1KmAGR1+
- UwDjoAFv8qHGWZsQLASC9DsL5NiIQ0gDGqXn3tgCk0osEkUSo8OoLtiZQiCOKtKLSPDJHMoQmtT
- D5fgWZIn1RoRg+DVYH7tbr/muti89IKbRFL+tNM5ENycR87iLJRlAoPmFiHHHhkegc+WNgDAaXG
- iL3MgbOF+nW2Oi4OMTetI4K5fi67RU9O7nTwWB7YNLOE6L7RRNC+EUiPCDIWR9tza7WTG5Z15Ul
- +HWR1aX9G6+TdOAM4wLf87layqKlNfp0EvDEj6j5Tp/uqM+TCvrSBjfReEw+XxBW2R1euYpDmn8
- Y2FeZgoTpzFMSDpR7mWYPSMDJDDy7cH9LVzTc8RRd/4DyXpmrgHlJeCOXAoV2MCa5iqRwqHca8u
- BtbAJ2FkTvQ8Q2Nn1FtSu1jCi+sV1040lWwTP6vMiC6+WrMLSS1JETMcNNAo6LGrc4ZwTyvZtfv
- Q/Itc4hi48jjkHADDFw==
-X-Proofpoint-ORIG-GUID: YlOXCcWJ4AqmvgJymzRu1GkSrgCldBJZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-31_03,2026-03-31_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 clxscore=1015
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603310134
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO7P123MB7840:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a1f82e2-0a0d-4dbd-22fa-08de8f2aca1f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: h9UDNpEpu/60qEs/Sd6IK1brGC7i4faxOAH1BKJnzO2LY+KnOURwb4bTAzpelZhUoH7OpXStdVXNSVuglswNa8UWX51LhTi11XmtHicKdXBhK10fto3BGE/5USExqFqztJ7a7jtTQIF77lWLoFCLRvGl51fhT24GoEcTutSgA1V+9X0Pym/K4FEQB+ia5LiVKyxjT3FNQUm5Qeb5D4A/GT/48e3EZOWQNnfDKV6NzRfo8CGykQGJPiRMvg2AXHq+WAU3MHOqh+bAk3F6/N59AsMlOaFnz9s+CiF+AdIgEnl3eUZFDWpOMGe3R7QDhkvbE8Hhlfq9mncujEBsgrjWe7AIVSZJ/43sSn6HfmTh9quUgZgcFUVfTXeI/m4c7BFUOzICn6gTmv11tb1dYf/3Pg3+Q8bRjyn8nd2NX21nLb6rLoukwfoIwD5eY0u97kgWW4d/h0MviMVFpyhRHUJzK/kt1GjlcQ+CCS5CwQFEgO1IYNiotT5rY2grsa9YnkH0FS8vTlMUKOI/ceSQtDlOz4F1FU1UpHeJ4+DCA6qSvuPeGNTN9Zb7cl2rcWt+oHg6bS3/3fZfAQlUGZh2aXSEBYEWL4DI78xOGDATV5buGUHonnuBq5VX6JlqpN0svZC83Sr0VTrOifIkldS3f7zGvjM/IekmX1X/7jAsNExcQ1/OalkYCM8+BVRupTxgxbnIEGsy1DENXe4JOBL0jNNYNQRV2cmM7fyzInHCY8rjPng=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZnBGUURPQyt3VWc4V0p2ZnkwT0REYmVEbFkxaVpubmRubkhScHpUMnk0eWFv?=
+ =?utf-8?B?Z0pvaHdMZkg4QklaZXJXZDhIRXQ5ZXNRM3hROW16SWFJMGpWZUhjNzdXRnRn?=
+ =?utf-8?B?blZsTXBoL0lHR2JwU2tnbU1Rd25IMjBoeEk2dEZpT1ZmN0V6czNJRy90WlBa?=
+ =?utf-8?B?bnpveFIrb2xUcGwvMlYyZTltNTZEaWM1R0hYRitHeGNjT0xMelJ3Q2RoMm9T?=
+ =?utf-8?B?UStmRCs5bXZHei8rNUYxcUZnZjN4cE9PSGdPbGt4Z1dYODdMemlYK3BvdG5B?=
+ =?utf-8?B?RGFaYUxaSDV2MENEdVpyMTVobzNCMVJ5RXFESVdScG9XS0NSRS81L2JYUTlj?=
+ =?utf-8?B?TFhTL0o1R2pMYThUR3pweDV5UVozLzBMdi95aGVKOWpFeVFTMGl0QU9YTi9R?=
+ =?utf-8?B?NXR1clF6TTFRQlpCTXhvcmgwaDZ4ODZjZ1VXUmkwa1ZPaVRCNEFuam1wcWEr?=
+ =?utf-8?B?VTR4Vi9OUkh3RWNQdGM4U2lqWS9XRjA5Z2NtU1A2S1lyTnB1TjBQeWFtN1Vl?=
+ =?utf-8?B?b1ZkVVZlV3ZVdXhaL1E3bHhTMUp1dXNIVTd4TS9oL0Z3K3RaR0hIcEY3NGxq?=
+ =?utf-8?B?NnVXSlp4MDJ2Ryt1WURydXZrNFNEOCtVKzNhb1hXVExGc0Uxc3ozR0k4V05k?=
+ =?utf-8?B?T2tGSEV1QjNRS3pTcFFVMkJhbmgzdzlvdzBlc2FQU2JiN2lSWEUyYUJKaTVk?=
+ =?utf-8?B?eHQvdTFqS2hmUGZDRmhkNXlYK2FqSDBPSDZBL3JrZlg1V2k4b3NrZjl0eXJl?=
+ =?utf-8?B?ZHJJbCs5TnZjaUFVWmpaL0xCeFpsRkZPU3o4VWtSdDRUZnVVbk9HbHBIcVZQ?=
+ =?utf-8?B?SE10bHdxRjZ2b09YVitld2xVbmZaMmV3eWtaQVkydmNZUDJSbUkycU1nZmFu?=
+ =?utf-8?B?MUp4OVp0Z05qazFIdFVQR2tuOUtpTks1UGw1cys5U2JNcDhsWG12czRlWTlX?=
+ =?utf-8?B?dVFvOHhzZnJ5enA3bDdXVWYyK09UMlhFaE1xQk1KUVBKREU2Y0Z4M0p3RzBp?=
+ =?utf-8?B?MGtmdHVaYmEzMnVtaTNhWXhObmp0c3htTEJxK005bW90Qlh5ckpZMmI1ek8w?=
+ =?utf-8?B?QXhRSWFBS3hBUTVxcGphSlVhNFJ1SjdqSnJtL3krNVB3bUZWdG9FeVhETVpy?=
+ =?utf-8?B?ajRyNmVENUJTbVFlcjRNUnZnOUtHVENYc2liUDJGK2NNVmVPL0tuRHJXVmFz?=
+ =?utf-8?B?VHlSL28zb0VpRVJIcy9HNDErcG9wTmJIN3E3OHdGcXVBVXl1cEwwekpQMnlz?=
+ =?utf-8?B?RzNpbTNZUkxWMlFiQ2YzNFgrTWtZYTRHMjcvQUNHMUJkUWprV056OEduMzYv?=
+ =?utf-8?B?Q28veHR0eGhtd3U0MmFBZnJkRnRJRU9EOGZueWdldVJld24yL29tK3JObGhF?=
+ =?utf-8?B?UytPYXRLQjdGak9JT0kwZndFWC9GRU5paDhWRFZXR2gwMWJTVlg3L0pPL1Nq?=
+ =?utf-8?B?Y05RUEFudmFudzA0MEZnT212N2ZZdUxFNnhEZG41NnZESFYwMUxmTXVHMERn?=
+ =?utf-8?B?c0h0Qk1YOC9abFlWQTk5VjlPS1BHK2JwMytlajY4RFNHSnVpc0Job1lvVldY?=
+ =?utf-8?B?Um5wdUhEbGFvYm94T3poN3lXU3dxMXUxTzUydzhDencwNzBZZWFoVzd5ZDMr?=
+ =?utf-8?B?MTJOSUZQTHkrbDZmT0dHMUlxVnhHSDl3Q014Tll1SFFucnZvUnVpRTZ0bWRS?=
+ =?utf-8?B?U0hXd2dyNEpqc04rdWVuemp1Z1JNRDQxMXM4QTFYL00wWFlXSXhpeUlWbWN0?=
+ =?utf-8?B?L3FxM3Q1R2xtTFpISmYxNDd2OFQvUXRGdU5ZZGtuVmJMRGl6ZzZtRmcrVGlP?=
+ =?utf-8?B?MGs4K2cwTVBlTWNPYk1VNlFINmx6S2IxRmVmRENFR1BhYU1vMmJTdHpvdjFj?=
+ =?utf-8?B?RTNvR211bkJYQm1yZ2RUcmFCa2xLY3M2S0RGSjhVcWNCYzFWVVhIU3V1ZExp?=
+ =?utf-8?B?Wk5RQitBMXNxbDloaWdsTGtSeW1paVdNaHdRNk04OUpXRjZvVDdzT3pweXZJ?=
+ =?utf-8?B?eEt3ejU0TFJXQzZjWCtTUWloS0NmaFNPbkttS2FBYXVwSGdpU2hpTFFlMnJy?=
+ =?utf-8?B?ME1ZaThFTUt0a3c0NkREaFgrTVlNS1lDNHpMQkx4MEZpdC9vcW5WYThxWmU0?=
+ =?utf-8?B?ckducnJkeE1hSkliRTlpdytabkdnazRLRjN0YjlKRTBWeG9mY3hjTjFJVHhX?=
+ =?utf-8?B?N05GdUdIOStVUFEyUVhLUUxwaVFXSDNxejByaG1aV09yUkFNditUQkwzZHRl?=
+ =?utf-8?B?YzBNU1lMeEltMTRzMFF5NnllbnBXSVRmVmlvWFcyTzdkYTlwNS9nM2NHY2l0?=
+ =?utf-8?B?dVJHVXI4dExmYk5BckJtck1TOXhDdmw5RU45ODdiaWd0U0FMWndFQT09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a1f82e2-0a0d-4dbd-22fa-08de8f2aca1f
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 13:38:27.8532
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0VDG+mAroNBLtugKoYIem18gI0VPkb93fv4r+8k9C5SwQo+Zzbf+lWeBmIJpKjyzDZ+aCj/rFzfr9DSatdmHXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P123MB7840
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260331_071227_190162_FC0835B6 
-X-CRM114-Status: GOOD (  23.33  )
+X-CRM114-CacheID: sfid-20260331_063835_286312_2FA43375 
+X-CRM114-Status: GOOD (  12.29  )
+X-Mailman-Approved-At: Tue, 31 Mar 2026 08:30:28 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,234 +155,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The current tabular output of the show-topology command does not
-display a controller if it has no associated nvme path or namespaces.
-However, it is valid for a controller within a subsystem to have no
-namespaces or paths attached.
+--ccto2smyg2cbwx4v
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v9 00/13] blk: honor isolcpus configuration
+MIME-Version: 1.0
 
-In such cases, it is still useful to display controller information
-such as the controller name, transport type, address, and state, while
-leaving NVMe path and namespace-related fields (e.g., nsid, nshead,
-nspath, anastate etc.) as "--".
+On Tue, Mar 31, 2026 at 09:01:48AM +0800, Ming Lei wrote:
+> Can you share the bug report link?
+>=20
+> IMO, it should be solved as a backportable patch first if possible.
 
-Update the tabular output of the show-topology command to include
-controllers and their associated fields regardless of whether any
-namespaces are present. While we are at it, also dispaly the error
-message using nvme_show_error() instead of using printf().
+Hi Ming,
 
-This change applies to NVMe multipath subsystems.
+Thanks for taking a look at the series.
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
----
- nvme-print-stdout.c | 156 +++++++++++++++++++++++++++++++-------------
- 1 file changed, 111 insertions(+), 45 deletions(-)
+Here is the link to the kernel test robot's bug report:
+https://lore.kernel.org/oe-lkp/202509101342.a803ecaa-lkp@intel.com
 
-diff --git a/nvme-print-stdout.c b/nvme-print-stdout.c
-index 769afa695..064956138 100644
---- a/nvme-print-stdout.c
-+++ b/nvme-print-stdout.c
-@@ -5945,13 +5945,69 @@ static bool subsystem_iopolicy_filter(const char *name, void *arg)
- 	return true;
- }
- 
-+static int subsystem_topology_multipath_add_row(struct table *t,
-+						const char *iopolicy,
-+						const char *nshead,
-+						const char *nsid,
-+						const char *nspath,
-+						const char *anastate,
-+						const char *iopolicy_info,
-+						const char *ctrl,
-+						const char *trtype,
-+						const char *address,
-+						const char *state)
-+{
-+	int row;
-+	int col = -1;
-+
-+	row = table_get_row_id(t);
-+	if (row < 0) {
-+		nvme_show_error("Failed to add subsys topology multipath row");
-+		return row;
-+	}
-+
-+	/* col 0: NSHead */
-+	table_set_value_str(t, ++col, row, nshead, CENTERED);
-+
-+	/* col 1: NSID */
-+	table_set_value_str(t, ++col, row, nsid, CENTERED);
-+
-+	/* col 2: NSPath */
-+	table_set_value_str(t, ++col, row, nspath, CENTERED);
-+
-+	/* col 3: ANAState */
-+	table_set_value_str(t, ++col, row, anastate, CENTERED);
-+
-+	/* col 4: Nodes/Qdepth */
-+	if (!strcmp(iopolicy, "numa") || !strcmp(iopolicy, "queue-depth"))
-+		table_set_value_str(t, ++col, row, iopolicy_info, CENTERED);
-+
-+	/* col 5: Controller */
-+	table_set_value_str(t, ++col, row, ctrl, CENTERED);
-+
-+	/* col 6: TrType */
-+	table_set_value_str(t, ++col, row, trtype, CENTERED);
-+
-+	/* col 7: Address */
-+	table_set_value_str(t, ++col, row, address, CENTERED);
-+
-+	/* col 8: State */
-+	table_set_value_str(t, ++col, row, state, CENTERED);
-+
-+	table_add_row(t, row);
-+
-+	return 0;
-+}
-+
- static void stdout_tabular_subsystem_topology_multipath(nvme_subsystem_t s)
- {
- 	nvme_ns_t n;
- 	nvme_path_t p;
- 	nvme_ctrl_t c;
--	int row, col;
- 	bool first;
-+	char nshead[32], nsid[32];
-+	char iopolicy_info[256];
-+	int ret, num_path;
- 	struct table *t;
- 	const char *iopolicy = nvme_subsystem_get_iopolicy(s);
- 	struct table_column columns[] = {
-@@ -5969,13 +6025,13 @@ static void stdout_tabular_subsystem_topology_multipath(nvme_subsystem_t s)
- 
- 	t = table_create();
- 	if (!t) {
--		printf("Failed to init table\n");
-+		nvme_show_error("Failed to init subsys topology multipath table");
- 		return;
- 	}
- 
- 	if (table_add_columns_filter(t, columns, ARRAY_SIZE(columns),
- 			subsystem_iopolicy_filter, (void *)s) < 0) {
--		printf("Failed to add columns\n");
-+		nvme_show_error("Failed to add subsys topology multipath columns");
- 		goto free_tbl;
- 	}
- 
-@@ -5984,61 +6040,71 @@ static void stdout_tabular_subsystem_topology_multipath(nvme_subsystem_t s)
- 		nvme_namespace_for_each_path(n, p) {
- 			c = nvme_path_get_ctrl(p);
- 
--			row = table_get_row_id(t);
--			if (row < 0) {
--				printf("Failed to add row\n");
--				goto free_tbl;
--			}
--			/* For the first row we print actual NSHead name,
-+			/*
-+			 * For the first row we print actual NSHead name,
- 			 * however, for the subsequent rows we print "arrow"
- 			 * ("-->") symbol for NSHead. This "arrow" style makes
- 			 * it visually obvious that susequenet entries (if
- 			 * present) are a path under the first NSHead.
- 			 */
--			col = -1;
--			/* col 0: NSHead */
- 			if (first) {
--				table_set_value_str(t, ++col, row,
--						nvme_ns_get_name(n), LEFT);
-+				snprintf(nshead, sizeof(nshead), "%s",
-+						nvme_ns_get_name(n));
- 				first = false;
- 			} else
--				table_set_value_str(t, ++col, row,
--						"-->", CENTERED);
--			/* col 1: NSID */
--			table_set_value_int(t, ++col, row,
--					nvme_ns_get_nsid(n), CENTERED);
--			/* col 2: NSPath */
--			table_set_value_str(t, ++col, row,
--					nvme_path_get_name(p), LEFT);
--			/* col 3: ANAState */
--			table_set_value_str(t, ++col, row,
--					nvme_path_get_ana_state(p), LEFT);
-+				snprintf(nshead, sizeof(nshead), "%s", "-->");
-+
-+			snprintf(nsid, sizeof(nsid), "%u", nvme_ns_get_nsid(n));
- 
- 			if (!strcmp(iopolicy, "numa"))
--				/* col 4: Nodes */
--				table_set_value_str(t, ++col, row,
--					nvme_path_get_numa_nodes(p), CENTERED);
-+				snprintf(iopolicy_info, sizeof(iopolicy_info),
-+					"%s", nvme_path_get_numa_nodes(p));
- 			else if (!strcmp(iopolicy, "queue-depth"))
--				/* col 4 : Qdepth */
--				table_set_value_int(t, ++col, row,
--					nvme_path_get_queue_depth(p), CENTERED);
--
--			/* col 5: Controller */
--			table_set_value_str(t, ++col, row,
--					nvme_ctrl_get_name(c), LEFT);
--			/* col 6: TrType */
--			table_set_value_str(t, ++col, row,
--					nvme_ctrl_get_transport(c), LEFT);
--			/* col 7: Address */
--			table_set_value_str(t, ++col, row,
--					nvme_ctrl_get_traddr(c), LEFT);
--			/* col 8: State */
--			table_set_value_str(t, ++col, row,
--					nvme_ctrl_get_state(c), LEFT);
--
--			table_add_row(t, row);
-+				snprintf(iopolicy_info, sizeof(iopolicy_info),
-+					"%d", nvme_path_get_queue_depth(p));
-+
-+			ret = subsystem_topology_multipath_add_row(t,
-+						    iopolicy,
-+						    nshead,
-+						    nsid,
-+						    nvme_path_get_name(p),
-+						    nvme_path_get_ana_state(p),
-+						    iopolicy_info,
-+						    nvme_ctrl_get_name(c),
-+						    nvme_ctrl_get_transport(c),
-+						    nvme_ctrl_get_traddr(c),
-+						    nvme_ctrl_get_state(c));
-+			if (ret < 0)
-+				goto free_tbl;
- 		}
- 	}
-+
-+	/*
-+	 * Next we print controller in the subsystem which may not have any
-+	 * nvme path associated to it.
-+	 */
-+	nvme_subsystem_for_each_ctrl(s, c) {
-+		num_path = 0;
-+		nvme_ctrl_for_each_path(c, p)
-+			num_path++;
-+
-+		if (!num_path) {
-+			ret = subsystem_topology_multipath_add_row(t,
-+					iopolicy,
-+					"--", 	/* NSHead */
-+					"--", 	/* NSID */
-+					"--", 	/* NSPath */
-+					"--", 	/* ANAState */
-+					"--", 	/* Nodes/Qdepth */
-+					nvme_ctrl_get_name(c),
-+					nvme_ctrl_get_transport(c),
-+					nvme_ctrl_get_traddr(c),
-+					nvme_ctrl_get_state(c));
-+			if (ret < 0)
-+				goto free_tbl;
-+		}
-+	}
-+
- 	table_print(t);
- free_tbl:
- 	table_free(t);
--- 
-2.53.0
+Regarding a backportable patch, the NULL pointer dereference is actually
+not an existing mainline bug. It was a regression introduced specifically
+by the previous iteration of this series, specifically by Patch 10:
+"blk-mq: use hk cpus only when isolcpus=3Dio_queue is enabled".
 
+The previously implementation introduced the global static
+blk_hk_online_mask variable, which caused the race condition during the
+robot's cpuhotplug stress tests. Because that flawed logic was confined to
+the unmerged v8 patches and never made it into a mainline release, there is
+nothing to backport to stable trees.
+
+Version 9 simply drops that global mask approach entirely in favour of
+local data_race(cpu_online_mask) snapshots, fixing the architectural flaw
+within the series itself.
+
+
+Kind regards,
+--=20
+Aaron Tomlin
+
+--ccto2smyg2cbwx4v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnLzk8ACgkQ4t6WWBnM
+d9YVPxAAjpzioSymLGTiMyL9YPgMx3OAPMvhQ93izn4Bh0m6OJmSDpJH16Ktfr0C
+T3lwl6z/6OwcukpOTPGwoaatnAjVPfOIow7LiUkbH7TB9xVml3X9M4bhm+GmIc4a
+CrpBjKh+s6LUfkaNNB4hlKdA8R9W2rbWLkfYqHwzOybQPshn3epH6kUpg35YDqvz
+sZ24napFSNE/gPH9OjTlPDQLzTqF94UsBnM7U0lGNZOLGGcHLg+WPTkhPcLx3QN+
+FKyp0AzkZYiPM+U99GaZSaynzp6lIcluEjVzjs1WeE9R9N87FPBtLYKN1McwFi+P
+fxoLFOHhHHBV+qWt/KEPUJ4eY+ITwAW86oxn038pzi8os23V/lR4U6mtO5YAi0Uu
+XdOLBdLg64/GNhJkdx7xAR0Tqc7B+fvZpWhTbnWzM423d0K1oAyNwPEb4i9owKpb
+4/Im9SCCAtsH+TzEAyZwQ/QIVGuyCqz+K4Uas4jaVVTiVBDSucfJfcWw/se1tD7e
+lWLZG+WV4qf67NGk7/K9BzFqcyFoNWDuqkLqJFCSHV9EWoImo1YeU28N8edI/U/s
+M6oT39NcYzQH3ipOcpj8B/S73DejAqDjscTn2iPmFXjas+/ZMZVddU1piTtLTyka
+/FO4xmmhSlmumedE9wNW1vp+QH/5BgPlXxMRF8S9+FbS1vJ8p1w=
+=11Ct
+-----END PGP SIGNATURE-----
+
+--ccto2smyg2cbwx4v--
 
