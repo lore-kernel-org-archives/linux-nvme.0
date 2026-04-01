@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78B60D39430
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50D55D39434
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=FG/kX50CykTg1HxuSfJ70bPTgKYSAEmxY1bSA6FyI+c=; b=cQWUfcABnABzvWQ8ScfIxbs41j
-	pOp/TdBHDpxfNvkQtqwYpfftgUjBbzNhlVnzTIAOkNOuZCO+PTZgwunqdA7HuI86PdG/YXe4xl73u
-	B7BljO911cDIReC9pq9L91RPDh3RKUSuKIrlS//7iTfYkT+cqSabj3zNXRJNmtsGLtM3h6O7aql1F
-	FIJoe5tO7ZPkEGqPKe2rThvGZfBQgDo9EYicXIJ+SHbial0DbVgfshOX7ZEZhJsxPXBLywLTgrVL+
-	CLBo9CTow2Zazxea5IKYmC+/78SOt0DMCcQ11FmZt0s6FrGieU5SXM7goyxhKqquC4Chjttwf6O6P
-	eHppc8LQ==;
+	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nC8FIfm6JDyJ4Odp5vXIliuFQ2shiQemxPMfxaxFsTM=; b=FrGAmYGe6v/Va7Of2Phzg+JY5d
+	tGvuR35VPLMHBIeFpZ5wNnrw7ShU8o9bYJvV0W4l7t+xpWJQxIaaPNZKVeY97wZsVI1Xywx+qP90+
+	s1KaIDjZU7UKcLxfqJLZg+cUU1LLp3sX9pkG/F+U164AMZ00eajGcvF1c01R8VPqGDRwVOLrLF7sc
+	0GUWWDUkzR4RFg4yqoJkQ5t2NEArmhjo/RLWs1LEPl1CdloIjv7hZ63BI5Y/SY6TfBX5fHLbxIJEC
+	ckpSqe1/4QdakFKIX5MwL/Hi4gHWiTB2e79HjvPAyeLeBNMw+CpJA200gerKhLQN3ngDMLtwNf4pu
+	WCo4bKfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8Iom-00000000GIi-1azz;
-	Thu, 02 Apr 2026 14:14:44 +0000
+	id 1w8Ion-00000000GKY-1wHH;
+	Thu, 02 Apr 2026 14:14:45 +0000
 Received: from mail-ukwestazon11020110.outbound.protection.outlook.com ([52.101.195.110] helo=CWXP265CU008.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w83y5-0000000GJBT-3YuH
+	id 1w83yB-0000000GJBT-1UQW
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Apr 2026 22:23:23 +0000
+	Wed, 01 Apr 2026 22:23:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jTcgil2pmdfkdqpYP8hcXp56Q7857PcDZfZt4j7jE+okoSp4RZMkt/yTPE5O7zxzbfjZ3JOmtbEfWrzSqk53VP6nEQvZmPVYucouUEmnCakn/VhuHtZMyeq/G/71ZJ4PAYDAIvC9EwCu9WPz7BKJwzyOfN+mWeCXPOOzfv5a/IqpKZd9HUf2BLSinF5kpfHMDNPuCY6CBHwMrx1/SbFQMfV+XxoncH3cjPxPGKnR7TBtV9Msa4B7j0qoPQ3ev0LNHGlf4lJJRzpbxqysp+NuRfJwvmsSoiaiyrmq7IYoXYj0yhOJhrHD0MtcDw4VIwsweg8VWCQ/MyeQNaERMMYAmA==
+ b=sV9xAI9eyKGuRa4o++BHhMFAVVNuqpP4bxPQvvIYRLjcszKM6S0sGQBBKrnQKC5XjwhkUgFBd0DSvGem2W/ZU7wEZmc9ozox4KtfVD7NDdSKfpbN4de01fE6TtbFppcrSA+1huAgccrVC9JPIShsXhl2nMOQilh8Kvef8hOeGjzf8hof0ZjRE6dKU8kemksboexGCOyKr9N8hsnbSjTMVypd5vWGn6qDbzcyZFGhIjPMsFoh6yGkVbTWB7LHtPUyRxzQmQhYc0KROdil5jwP4qU9+98slRHsAaVXVR6kJWBqz4A/iL4cKnMjx2wacu9xKC6VAr89/pTStLkoRKZqYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FG/kX50CykTg1HxuSfJ70bPTgKYSAEmxY1bSA6FyI+c=;
- b=TjEjB+bCa6kZITBcvWMV3dqHGAV9098rDgaBpq5MMwHOkZL3gfr+5W6UeAj/0tR4kohOWCtE+6/Z6XMz85WGhtOy944/99pk+8296UGOZbWEf1NEdKZe3jw9Xpoxk8gXxRqmtkcEbmkQj1yT87lJVE1thiZQYynPf9vjTxt9uAGkg1PUIHwgVwDq+yzrz5ikFcze2mgMmkk+u0Lk6rqBRNzXn6spT0xbkLoUHwRiINPusO6Fn89wRazb1YjgPmsBjafrDvW1nE37wxbGq6tV0uM6bk2j7AWGzXeOtHv/MHDN4J3Fmgfkwkm5vL5A9WHwe7wrsSCe5smKKi5KtaoNNA==
+ bh=nC8FIfm6JDyJ4Odp5vXIliuFQ2shiQemxPMfxaxFsTM=;
+ b=zLeNOUWvdDHQ/qswHgs8t7q8/R2SQoOJlZKaSjiidSDpwZ+wIimhddGkulVFtryM2pbi857+dfQyeEX+gFElNaidJzkm26XQ58X+ndb+QfLnnX3Mer/n3k7dZ1y+Z1bXkDcGZfHosBRfHz/9hpZToIR2/VYyzrT3WO6Opw/RLKPhzXBMJt8le07CV2al97yl6X22djfKdG38d6VdY0RRKlAMv2iRik/8+O0dkAgmZNqt4WReeJywy/KR302ns64drtggAO92D4Zyk+q8cxM0RZDZQpVWMOfPcYQmDj3FA4z0T6yrVUKTDJN6AAwVXIRpAEQ/xoO+nSe2A/GdzeXVRw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
  dkim=pass header.d=atomlin.com; arc=none
@@ -43,11 +43,11 @@ Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
  by CW1P123MB7844.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:212::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Wed, 1 Apr
- 2026 22:23:15 +0000
+ 2026 22:23:25 +0000
 Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
- 22:23:15 +0000
+ 22:23:25 +0000
 From: Aaron Tomlin <atomlin@atomlin.com>
 To: axboe@kernel.dk,
 	kbusch@kernel.org,
@@ -98,69 +98,71 @@ Cc: atomlin@atomlin.com,
 	megaraidlinux.pdl@broadcom.com,
 	mpi3mr-linuxdrv.pdl@broadcom.com,
 	MPT-FusionLinux.pdl@broadcom.com
-Subject: [PATCH v10 00/13] blk: honor isolcpus configuration
-Date: Wed,  1 Apr 2026 18:22:59 -0400
-Message-ID: <20260401222312.772334-1-atomlin@atomlin.com>
+Subject: [PATCH v10 03/13] lib/group_cpus: Add group_mask_cpus_evenly()
+Date: Wed,  1 Apr 2026 18:23:02 -0400
+Message-ID: <20260401222312.772334-4-atomlin@atomlin.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260401222312.772334-1-atomlin@atomlin.com>
+References: <20260401222312.772334-1-atomlin@atomlin.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN0PR04CA0127.namprd04.prod.outlook.com
- (2603:10b6:408:ed::12) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BN9PR03CA0459.namprd03.prod.outlook.com
+ (2603:10b6:408:139::14) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:400:70::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CW1P123MB7844:EE_
-X-MS-Office365-Filtering-Correlation-Id: fec80d33-ad84-409b-6db9-08de903d44b7
+X-MS-Office365-Filtering-Correlation-Id: d0a63d0d-4fbf-4e9a-f71c-08de903d4ae8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: jxR9bhb6Lig4T+UKg6RZ0Rld6p5KVL44D/95YeO4F5Hfz4jqXI+7Lg7Np6+T9Did2qb8I0pXL8f1d7TH6W/85jFFHLIMDsbHhY6MCqd+7ooR7O4JLNWqdf1U6UtscdAN8PUz6kSkSEBaVLO/3D6vMwgNAtMKVN1FBXqa6n475X7tsf1Clayjwkqdf2rV5H9PtyaQ4Imy5Cfbgs4iJ0gfAiOFl+GP1HZi3UqPRXearH5m5qjsViO9BurOe5W3XNmaJqoKkb6CNFhXHrVtIFDYV9ixd44MVtEp8en3oSqn+QTqgYBQL1USiZFc97eaw8otOExMVkKILKOsSf9tHBi5yAzmAQEFSj+o4vPmGA4S7FWydmLDuyQnxq7im9Vbkjil0eZ3FtSErO8W+0csn0IzUnR8jTxjgJTMEle+b7FCqMnNLwvHQ8gpVEBMNZxg3fpM8MucwS1UTbM7FcGWCEdJM7W3pcAw0s7q14YerJL0jMYwshetISIqLJ13Yd3JMe5EMosU8U3mI7KJIt5dYhXXGfNW7+0D2uzsBMGBoS2mZPgsl+omK+R8lrqr3zrU88MHRcNMXVTfstgz0mms90YhZfa0pT+6dK4UfUnAAe2n5se7umMv1y4QVF6Ju2V3sp0WuWjeVyfb+U7r2NVTpBw0JDdMDlyNS/bDUpgeD4xwtEY1y5D1J4u3dD3Jn18tIpwi
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: UfK4wEPnkuYkJ4QVUC+yvQCPosm16lPa0MJ3tgXg3GadGd2jmw36aIWKG9nAlsMVBPYf+QTTEGi7mMPGF4iMZurGxEmUJbAE5+awfh7BfF+gKmNFf1zVpwcBoa3XrVHb8OUmm5DS//jAG7pSNTFadZqDZIE0smDv5bfrrhKOaahIoGLiLyFiOxJgL8yRQkNsjgftn8O6PqO3uFTa2L5t6FH/RkGltQPB0iKKvJW8Za9HPDVoQ7wxp6A/XK4/0XUDXvktKGNyijokuxRHysrW8rR2glSBDhAw0rcNcsNnt8m8woCvTozpEFwoehw4Bty+nVlV8jpnmvTJlHrJC+R5xwuIDh2YHGgpZ0yOb1CiZcdBvOIsGplguxjVdCMjpbd3ge2sdefWle1uhnp1b6B5JvskPb8SccyPgOcc1F9SI44vntOVaa+AdbuI1bouDLpnPRgrcUphaCLgtxs+mxaUoZpdzdiZkFTtXFAyCk71uNf2QP+vh+El8DQ+9iriM+1SDiHiB6u+sPdQWGKV6utUMe7CzPu5JpyCrEbvFhqYcEPM4x+VCuUhB1hM/StGIyxo/NO29da68xGnIqURAyf5RTVUjjsNDKdKUrZBaDTGZw+iu+Rpq6/cY8Y5MdZWrHyDyWK8tpRiGVnItIO7yd5kgRjfAfcCmW7s2ArrwD64RTZoG4+p08u8Aqh4gfUwpU/gLuEgwh+tNhXerZpcew5qgzLuh0DZilfNRP72xao3y2s=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XcOBkgeV5jJVE+kiFajkv8H1pJnQ4jpWc/GOy+XoonNTUaJRkHQITl+T3mS5?=
- =?us-ascii?Q?8TEZtdR/x6/Vwlr3qjxEh58FKjLVWb0aIVZn37ismjW24aUJBq3Po5rqTZD3?=
- =?us-ascii?Q?Mjqix6W6/f/IP4UtDwaDOxMKzRr30ZlbQ07HMvEF4DtzBKU+LecF776sXKAD?=
- =?us-ascii?Q?b/xuP9id9fRh4aZ07HET3M8bayXACpTXRLHt2ah+f7lxu6tMYcXC4vmWRflT?=
- =?us-ascii?Q?MLRysPH3sK2R9fnrUhj9z9+Bcbd2Ye0Al0i/01bYdvj9XmwTd/lbR68FVunt?=
- =?us-ascii?Q?6Z3mschqsL+W3BYGZ2fddN0C6FTikYCJ6Ezi1TsVESS/FQHsGRGvcHJjXcyB?=
- =?us-ascii?Q?kFznvkHnp8nMc/RqJo7teIgW+Pjfs17ZC2bXkQAHLxrVtLsnt1vxzASRU0VT?=
- =?us-ascii?Q?3xBZ0hipr6f5bHu9IFeoSZkdA0qQW7u2D91r/64OTBz3geteC3cFkl4iaCqE?=
- =?us-ascii?Q?31L/Sm//CgqlmTFHmlhD8UgbhnWZvHKPplfbb/ePwtcrKXO2fxNusXdb9FaU?=
- =?us-ascii?Q?oYMqkP7qch22UoDnVpx2of4Hbht2T7kErHtffYTufBuAW9ZbWRuRd4oeZUa5?=
- =?us-ascii?Q?U4j1NfSympJUcpqu8OYpPMt0fEKrFlPFbDbQ5XUoI4ams+81lTO/QDWmbLeM?=
- =?us-ascii?Q?zjVRVSLBCtksKgjFnUEfFbG90JqNNPQlvh5WxasiC3VZkc8KcIOxX4xnf4Th?=
- =?us-ascii?Q?tx1zlJI9MN68F09MaSVi8JRe+7dh9lnJcOwjnEoNQ9VErZ7c+J/Pwj15etCD?=
- =?us-ascii?Q?ECxqZ6WY9Y3Ev+H4E+aciF5eeBPj3FWoLYaAwtkn+xoeB001WpBDw+ti6l9C?=
- =?us-ascii?Q?WRt9tPx1ItMjRN3djUooddZ+I8EYFcmjw0Duj4epUw+V0EpXlU/k2x/UlRmZ?=
- =?us-ascii?Q?U7bSOG2ozaO+FPwtDYruB7nzcOIrzlJ5D5yrTxZ0jwSkwGeBbkT8/sBGY7k5?=
- =?us-ascii?Q?quAuFjsg4bwCPkUfFBVRmyzqLF9SCZYCc2LxSDn51KUAzMJpxFKmjwBFUwu3?=
- =?us-ascii?Q?2dkS3vHPxDdcz5FXTBk6k3EFD0Hv6qhWxt6PNz8gtdlqYCmLGYzO6S9HYspn?=
- =?us-ascii?Q?r+ujqRysK6mKMjSrnh2D4rVHLFy80AWuywLFll9jXwxHGb8ghV3dfutyIFPq?=
- =?us-ascii?Q?2umXXNW3uUsqHvPj2WzTNB0frJfuXWTwvKyFndO9fRyBORHz832KzGgBfDvf?=
- =?us-ascii?Q?JqurWqmVwd3X6ag55VZ2gdFVgBkhW+6mNQpHkLkCaB51T8vcgqeMhKoHCtru?=
- =?us-ascii?Q?2QRGMx5QsMp/JTDbVFfYGufxjHNFc+eBB8WNOoSjPBvV1F1DLbkEPyPoLmaL?=
- =?us-ascii?Q?2t4MoXnNrMVy+MOM/eMvqp8q7qdowWlHNpCJ5uuoPAqJtNHLaCa0o7KNcmKY?=
- =?us-ascii?Q?0VONCGCGvBU13kBTRwJonESLVjP4DZZMLL98U5M1Td2kuECes/AocDGimqLa?=
- =?us-ascii?Q?hGkRskC3dVT2fkE9Jc5VYwUNDlKqPP4zeDWVek4EYCYJthGBg/GOO7a2AUrV?=
- =?us-ascii?Q?+b0FYbpVxFVejykNwfhuOFZJZGFOgGZV+cIQzVka6+Ja0UUTDf5pk3/EAo7g?=
- =?us-ascii?Q?UZlB7UOuAnYqu9bFXwVfMvvAJf1BZN2dGoFn2Bcdj7gfPLnV8i3W5LjKAdsi?=
- =?us-ascii?Q?NIREVpYuW+Lsz5+9sf534H4BOam4zuke6pIjCgXOIRyXnI1j0jlqnfFQwTRp?=
- =?us-ascii?Q?cJzvm0pBNlS/QEqSOI8Bo7m3R94UE0paf7+qqYSTxxEGb+nCkTL1ADOLDtpF?=
- =?us-ascii?Q?PzpMCGgHfg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j4JMhhaB3EzAlyZ+HDqw5R2ElJSre2h5BvoLbViCh1H8tW4G+kymvOK6suar?=
+ =?us-ascii?Q?yMkHtrLg3L19HIToDFYN98pCv4d6exiVqVSLquHktAaLnJiyk4B04Z/aOQGr?=
+ =?us-ascii?Q?ofFTCT5I3myMT6e36KA6Ao+5gVi9ag/aQxkaDtXDOegwizbH5OdkIRV/xGdv?=
+ =?us-ascii?Q?sRWQ6FPPLUjslAYulwAgxgpQrMBbFv1EjctA5FqVtYdZctbGK/pTJhvaK/7L?=
+ =?us-ascii?Q?87Xd6PM5VyUWQq1XnJPM364AUs3ZRccDr+xzhTqxtlF4w3WrccObc1If8mQK?=
+ =?us-ascii?Q?W04kHKzz9LvfO2BrhGCk9EHMGckMmfQD4YrY1fn4GG03q5JV+oz9qpb4Ut4a?=
+ =?us-ascii?Q?qAjmgvO1dC/J/aeTuemnmq8+1xWnOnlHbJVimGxEie/y9wY2vpcDQhrMTprz?=
+ =?us-ascii?Q?ZXBSK86AKzku1XFIpsrwi6GhuHQggm5wwY2ZNLIsudzcy+9ABkcQ4bVLgA0e?=
+ =?us-ascii?Q?oISmShPc29dhgXxOytREYDz21AuqEQj1ZLzoG9+ULGwUMCM/H80OFejLZMZw?=
+ =?us-ascii?Q?cYkTvMzcrIQ/wMVVxeK1tNd3hJKh3A5TuCVj4UXDF2ZM6sOuQ1bcqOdl6aE8?=
+ =?us-ascii?Q?Z7rHMsmrPaNakrJJGlJ0y5nLJyx5EdEEDF7LLLMoBicRxmJ0D+24L7weHa1W?=
+ =?us-ascii?Q?Ei/9lVNmCVslY37WBbBz8hPa2vDhrGDadWRGfVFmfTxrRdyRtVC7gMUwiiXo?=
+ =?us-ascii?Q?508/2K/zfK9BWys7qxKtmBr1hyXOQ18SwgCelhDh8MwLx35CCLN44NYhSXpI?=
+ =?us-ascii?Q?TYC6uV50hHLDs/jLgOVNXpD275WdcH9Z+UvmrpSnwe0MmiL3DFXDMq+LKp68?=
+ =?us-ascii?Q?iTMRBIrVgyUckM8r01LAkJbZkySDKrSEYPR2OO6uKzB+txxKXS/FnpjoH5JD?=
+ =?us-ascii?Q?DOQHDjvVueSl+5M+eIGGTDYNTPtcEOyb453G0NguCgm+OLanMsyCkv8SYciP?=
+ =?us-ascii?Q?EMNrnZBj2UptwwrH711Yy4812ifcjW5a4RfUtGt84iL0eE/jZvFhVTP4jDN/?=
+ =?us-ascii?Q?tlQcrGs4iQ2V48Pa4si+0tt60mvVN8KoRJTJqNor0DFhhUBbv9hnpUJf3iFl?=
+ =?us-ascii?Q?Nm/tj8z5nRk7YOfD169+fxydQJ5S/yj2Ev6/h/b4crRoXX2e46J7Nh0yxi7s?=
+ =?us-ascii?Q?Yjp2NV9LKHZiiCM226WpoHoF+DiFVRfSf2eDPJ3SJ7LDXBK3h5ck8RM1qpYV?=
+ =?us-ascii?Q?WQ/ZkV52lnR/SVekpIHXSOKePiQyqX4n2BSeEhG0eOvqYkG2QMEmVlnVni8z?=
+ =?us-ascii?Q?4JwRJvX2VulnKyabRp4htVXSI3sEgzKGaZHalpaFR+eyT+CS0hSN1MBBjDld?=
+ =?us-ascii?Q?VivC5LYaeePj79Tg1j0OpFe14earN98TCSkIP3g6f//VpJzTzXj8K9owOWF+?=
+ =?us-ascii?Q?1NYdiZRJa1NRk8bch744n/4hlBOBBVW5f4JQ5r0W3FXD+UeRtEDElewRh7Na?=
+ =?us-ascii?Q?a8ugQIpw59MQeEGV2ZCyNXHFqLm6P+WRHGe1AwBNZJfYtRDcD8FjUcmwt/m/?=
+ =?us-ascii?Q?foJVhJ6Xy1UpibRYnLdqGTgo7x3pYDKTI/szqHacA5rSRkNQNYALwcbppqJD?=
+ =?us-ascii?Q?8uogPz0jsAwsdkclZaXemlKaKNer5GAnur1DRI4AwMqkapVyu4nAwkpLnE4q?=
+ =?us-ascii?Q?Zv/wKIo25F/32lxgvIJ7wj6aUfO5zdNClKmxndZALp7WoYyITZMjys0V4SyO?=
+ =?us-ascii?Q?Le9+xkIkvYfGSn7EHgCBU9BAs2IbCTuuuGlNSI0kq3GbQatUKyK/r/nGppoV?=
+ =?us-ascii?Q?rCGcVxp0QA=3D=3D?=
 X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fec80d33-ad84-409b-6db9-08de903d44b7
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0a63d0d-4fbf-4e9a-f71c-08de903d4ae8
 X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:23:15.5764
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:23:25.8313
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HOZ0wJQWCxYS0FSSvNphFMw0TDS/u3SgoHq1gXXE/Y/tROqgQgveVrj28pa1HwW7+msyLvn5RRf+lFoY8GfVxA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: gPkTbl5RY1NXbDTTgKykyWq0VJ1NW31+bvN9hXlgJLWctEks4bPR6GbIQQ4wfZaEC4xYcIgL3WApZjV6gWCojg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB7844
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260401_152322_041981_E25F56E4 
-X-CRM114-Status: GOOD (  15.21  )
+X-CRM114-CacheID: sfid-20260401_152327_394078_94C347C8 
+X-CRM114-Status: GOOD (  15.04  )
 X-Mailman-Approved-At: Thu, 02 Apr 2026 07:14:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -176,272 +178,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens, Keith, Christoph, Sagi, Michael,
-
-I have decided to drive this series forward on behalf of Daniel Wagner, the
-original author. This iteration addresses the outstanding architectural and
-concurrency concerns raised during the previous review cycle, and the series
-has been rebased on v7.0-rc5-509-g545475aebc2a.
-
-Building upon prior iterations, this series introduces critical
-architectural refinements to the mapping and affinity spreading algorithms
-to guarantee thread safety and resilience against concurrent CPU-hotplug
-operations. Previously, the block layer relied on a shared global static
-mask (i.e., blk_hk_online_mask), which proved vulnerable to race conditions
-during rapid hotplug events. This vulnerability was recently highlighted by
-the kernel test robot, which encountered a NULL pointer dereference during
-rcutorture (cpuhotplug) stress testing due to concurrent mask modification.
-
-To resolve this, the architecture has been fundamentally hardened. The
-global static state has been eradicated. Instead, the IRQ affinity core now
-employs a newly introduced irq_spread_hk_filter(), which safely intersects
-the natively calculated affinity mask with the HK_TYPE_IO_QUEUE mask.
-Crucially, this is achieved using a local, hotplug-safe snapshot via
-data_race(cpu_online_mask). This approach circumvents the hotplug lock
-deadlocks previously identified by Thomas Gleixner, whilst explicitly
-avoiding CONFIG_CPUMASK_OFFSTACK stack bloat hazards on high-core-count
-systems. A robust fallback mechanism guarantees that should an interrupt
-vector be assigned exclusively to isolated cores, it is safely re-routed to
-the system's online housekeeping CPUs.
-
-Furthermore, following rigorous testing of multiple queue maps (such as
-NVMe poll queues) alongside isolated CPUs, this tenth iteration resolves a
-critical page fault regression. The multi-queue mapping logic has been
-corrected to strictly maintain absolute hardware queue indices, ensuring
-faultless queue initialization and preventing out-of-bounds memory access.
-
-Please let me know your thoughts.
-
-
-Changes in v10:
-
- - Fixed a page fault regression encountered when initialising secondary
-   queue maps (e.g., NVMe poll queues). Restored the qmap->queue_offset to
-   the mq_map assignment to ensure CPUs are strictly mapped to absolute
-   hardware indices (Keith Busch)
-
- - Corrected the active_hctx tracker to utilise relative queue indices,
-   preventing out-of-bounds mask assignments
-
- - Fixed the blk_mq_validate() sanity check to properly evaluate absolute
-   queue indices against the offset-adjusted loop index
-
- - Corrected typographical errors within block/blk-mq-cpumap.c
-   (Keith Busch)
-
- - Clarified the commit message regarding the removal of the !SMP fallback
-   code, explicitly noting that the core scheduler now mandates SMP
-   unconditionally (Sebastian Andrzej Siewior)
-
- - Added missing "Signed-off-by:" tags to properly record the patch series
-   chain of custody
-
- - Linked to v9: https://lore.kernel.org/lkml/20260330221047.630206-1-atomlin@atomlin.com/
-
-Changes in v9:
-
- - Added "Reviewed-by:" tags
-
- - Introduced irq_spread_hk_filter() to safely restrict managed IRQ
-   affinity to housekeeping CPUs (Thomas Gleixner)
-
- - Removed the unsafe global static variable blk_hk_online_mask from
-   blk-mq-cpumap.c and blk-mq.c. blk_mq_online_queue_affinity() now returns
-   a stable pointer, delegating safe intersection to the callers to prevent
-   concurrent modification races (Thomas Gleixner, Hannes Reinecke)
-
- - Resolved BUG: kernel NULL pointer dereference in __blk_mq_all_tag_iter
-   reported by the kernel test robot during cpuhotplug rcutorture stress
-   testing
-
- - Linked to v8: https://lore.kernel.org/lkml/20250905-isolcpus-io-queues-v8-0-885984c5daca@kernel.org/
-
-Changes in v8:
-
- - Added commit 524f5eea4bbe ("lib/group_cpus: remove !SMP code")
-
- - Merged the new mapping logic directly into the existing function to
-   avoid special casing
-
- - Refined the group_mask_cpus_evenly() implementation with the following
-   updates:
-
-   - Corrected the function name typo (changed group_masks_cpus_evenly to
-     group_mask_cpus_evenly)
-
-   - Updated the documentation comment to accurately reflect the function's
-     behavior
-
-   - Renamed the cpu_mask argument to mask for consistency
-
- - Added a new patch for aacraid to include the missing number of queues
-   calculation
-
- - Restricted updates to only affect SCSI drivers that support
-   PCI_IRQ_AFFINITY and do not utilize nvme-fabrics
-
- - Removed the __free cleanup attribute usage for cpumask_var_t allocations
-   due to compatibility issues
-
- - Updated the documentation to explicitly highlight the limitations
-   surrounding CPU offlining
-
- - Collected accumulated Reviewed-by and Acked-by tags
-
- - Linked to v7: https://patch.msgid.link/20250702-isolcpus-io-queues-v7-0-557aa7eacce4@kernel.org
-
-Changes in v7:
-
- - Sent out the first part of the series independently:
-   https://lore.kernel.org/all/20250617-isolcpus-queue-counters-v1-0-13923686b54b@kernel.org/
-
- - Added comprehensive kernel command-line documentation
-
- - Added validation logic to ensure the resulting CPU-to-queue mapping is
-   fully operational
-
- - Rewrote the isolcpus mapping code to properly account for active
-   hardware contexts (hctx)
-
- - Introduced blk_mq_map_hk_irq_queues, which utilizes the mask retrieved
-   from irq_get_affinity()
-
- - Refactored blk_mq_map_hk_queues to require the caller to explicitly test
-   for HK_TYPE_MANAGED_IRQ
-
- - Linked to v6: https://patch.msgid.link/20250424-isolcpus-io-queues-v6-0-9a53a870ca1f@kernel.org
-
-Changes in v6:
-
- - Reintroduced the io_queue type for the isolcpus kernel parameter
-
- - Prevented the offlining of a housekeeping CPU if an isolated CPU is
-   still present, upgrading this behavior from a simple warning to a hard
-   restriction
-
- - Linked to v5: https://lore.kernel.org/r/20250110-isolcpus-io-queues-v5-0-0e4f118680b0@kernel.org
-
-Changes in v5:
-
- - Rebased the series onto the latest for-6.14/block branch.
-
- - Updated the documentation regarding the managed_irq parameters
-
- - Reworded the commit message for "blk-mq: issue warning when offlining
-   hctx with online isolcpus" for better clarity
-
- - Split the input and output parameters in the patch "lib/group_cpus: let
-   group_cpu_evenly return number of groups"
-
- - Dropped the patch "sched/isolation: document HK_TYPE housekeeping
-   option"
-
- - Linked to v4: https://lore.kernel.org/r/20241217-isolcpus-io-queues-v4-0-5d355fbb1e14@kernel.org
-
-Changes in v4:
-
- - Added the patch "blk-mq: issue warning when offlining hctx with online
-   isolcpus"
-
- - Fixed the check in group_cpus_evenly(); the condition now properly uses
-   housekeeping_enabled() instead of cpumask_weight(), as the latter always
-   returns a valid mask
-
- - Dropped the Fixes: tag from "lib/group_cpus.c: honor housekeeping config
-   when grouping CPUs"
-
- - Fixed an overlong line warning in the patch "scsi: use block layer
-   helpers to calculate num of queues"
-
- - Dropped the patch "sched/isolation: Add io_queue housekeeping option" in
-   favor of simply documenting the housekeeping hk_type enum
-
- - Added the patch "lib/group_cpus: let group_cpu_evenly return number of
-   groups"
-
- - Collected accumulated Reviewed-by and Acked-by tags
-
- - Split the patchset by moving foundational changes into a separate
-   preparation series:
-   https://lore.kernel.org/linux-nvme/20241202-refactor-blk-affinity-helpers-v6-0-27211e9c2cd5@kernel.org/
-
- - Linked to v3: https://lore.kernel.org/r/20240806-isolcpus-io-queues-v3-0-da0eecfeaf8b@suse.de
-
-Changes in v3:
-
- - Integrated patches from Ming Lei
-   (https://lore.kernel.org/all/20210709081005.421340-1-ming.lei@redhat.com/):
-   "virtio: add APIs for retrieving vq affinity" and "blk-mq: introduce
-   blk_mq_dev_map_queues"
-
- - Replaced all instances of blk_mq_pci_map_queues and
-   blk_mq_virtio_map_queues with the new unified blk_mq_dev_map_queues
-
- - Updated and expanded the helper functions used for calculating the
-   number of queues
-
- - Added the CPU-to-hctx mapping function specifically to support the
-   isolcpus=io_queue parameter
-
- - Documented the hk_type enum and the newly introduced isolcpus=io_queue
-   parameter
-
- - Added the patch "scsi: pm8001: do not overwrite PCI queue mapping"
-
- - Linked to v2: https://lore.kernel.org/r/20240627-isolcpus-io-queues-v2-0-26a32e3c4f75@suse.de
-
-Changes in v2:
-
- - Updated the feature documentation for clarity and completeness
-
- - Split the blk/nvme-pci patch into smaller, logical commits
-
- - Dropped the HK_TYPE_IO_QUEUE macro in favor of reusing
-   HK_TYPE_MANAGED_IRQ
-
- - Linked to v1: https://lore.kernel.org/r/20240621-isolcpus-io-queues-v1-0-8b169bf41083@suse.de
-
-
-Aaron Tomlin (1):
-  genirq/affinity: Restrict managed IRQ affinity to housekeeping CPUs
-
-Daniel Wagner (12):
-  scsi: aacraid: use block layer helpers to calculate num of queues
-  lib/group_cpus: remove dead !SMP code
-  lib/group_cpus: Add group_mask_cpus_evenly()
-  genirq/affinity: Add cpumask to struct irq_affinity
-  blk-mq: add blk_mq_{online|possible}_queue_affinity
-  nvme-pci: use block layer helpers to constrain queue affinity
-  scsi: Use block layer helpers to constrain queue affinity
-  virtio: blk/scsi: use block layer helpers to constrain queue affinity
-  isolation: Introduce io_queue isolcpus type
-  blk-mq: use hk cpus only when isolcpus=io_queue is enabled
-  blk-mq: prevent offlining hk CPUs with associated online isolated CPUs
-  docs: add io_queue flag to isolcpus
-
- .../admin-guide/kernel-parameters.txt         |  22 +-
- block/blk-mq-cpumap.c                         | 199 ++++++++++++++++--
- block/blk-mq.c                                |  42 ++++
- drivers/block/virtio_blk.c                    |   4 +-
- drivers/nvme/host/pci.c                       |   1 +
- drivers/scsi/aacraid/comminit.c               |   3 +-
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c        |   1 +
- drivers/scsi/megaraid/megaraid_sas_base.c     |   5 +-
- drivers/scsi/mpi3mr/mpi3mr_fw.c               |   6 +-
- drivers/scsi/mpt3sas/mpt3sas_base.c           |   5 +-
- drivers/scsi/pm8001/pm8001_init.c             |   1 +
- drivers/scsi/virtio_scsi.c                    |   5 +-
- include/linux/blk-mq.h                        |   2 +
- include/linux/group_cpus.h                    |   3 +
- include/linux/interrupt.h                     |  16 +-
- include/linux/sched/isolation.h               |   1 +
- kernel/irq/affinity.c                         |  38 +++-
- kernel/sched/isolation.c                      |   7 +
- lib/group_cpus.c                              |  65 ++++--
- 19 files changed, 378 insertions(+), 48 deletions(-)
-
-
-base-commit: 545475aebc2a2e8df14fadc911a7a2d03ddd6a1f
+From: Daniel Wagner <wagi@kernel.org>
+
+group_mask_cpu_evenly() allows the caller to pass in a CPU mask that
+should be evenly distributed. This new function is a more generic
+version of the existing group_cpus_evenly(), which always distributes
+all present CPUs into groups.
+
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+---
+ include/linux/group_cpus.h |  3 ++
+ lib/group_cpus.c           | 59 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+
+diff --git a/include/linux/group_cpus.h b/include/linux/group_cpus.h
+index 9d4e5ab6c314..defab4123a82 100644
+--- a/include/linux/group_cpus.h
++++ b/include/linux/group_cpus.h
+@@ -10,5 +10,8 @@
+ #include <linux/cpu.h>
+ 
+ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks);
++struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
++				       const struct cpumask *mask,
++				       unsigned int *nummasks);
+ 
+ #endif
+diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+index b8d54398f88a..d3e9a20250ff 100644
+--- a/lib/group_cpus.c
++++ b/lib/group_cpus.c
+@@ -8,6 +8,7 @@
+ #include <linux/cpu.h>
+ #include <linux/sort.h>
+ #include <linux/group_cpus.h>
++#include <linux/sched/isolation.h>
+ 
+ static void grp_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
+ 				unsigned int cpus_per_grp)
+@@ -563,3 +564,61 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+ 	return masks;
+ }
+ EXPORT_SYMBOL_GPL(group_cpus_evenly);
++
++/**
++ * group_mask_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
++ * @numgrps: number of cpumasks to create
++ * @mask: CPUs to consider for the grouping
++ * @nummasks: number of initialized cpusmasks
++ *
++ * Return: cpumask array if successful, NULL otherwise. Only the CPUs
++ * marked in the mask will be considered for the grouping. And each
++ * element includes CPUs assigned to this group. nummasks contains the
++ * number of initialized masks which can be less than numgrps. cpu_mask
++ *
++ * Try to put close CPUs from viewpoint of CPU and NUMA locality into
++ * same group, and run two-stage grouping:
++ *	1) allocate present CPUs on these groups evenly first
++ *	2) allocate other possible CPUs on these groups evenly
++ *
++ * We guarantee in the resulted grouping that all CPUs are covered, and
++ * no same CPU is assigned to multiple groups
++ */
++struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
++				       const struct cpumask *mask,
++				       unsigned int *nummasks)
++{
++	cpumask_var_t *node_to_cpumask;
++	cpumask_var_t nmsk;
++	int ret = -ENOMEM;
++	struct cpumask *masks = NULL;
++
++	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
++		return NULL;
++
++	node_to_cpumask = alloc_node_to_cpumask();
++	if (!node_to_cpumask)
++		goto fail_nmsk;
++
++	masks = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
++	if (!masks)
++		goto fail_node_to_cpumask;
++
++	build_node_to_cpumask(node_to_cpumask);
++
++	ret = __group_cpus_evenly(0, numgrps, node_to_cpumask, mask, nmsk,
++				  masks);
++
++fail_node_to_cpumask:
++	free_node_to_cpumask(node_to_cpumask);
++
++fail_nmsk:
++	free_cpumask_var(nmsk);
++	if (ret < 0) {
++		kfree(masks);
++		return NULL;
++	}
++	*nummasks = ret;
++	return masks;
++}
++EXPORT_SYMBOL_GPL(group_mask_cpus_evenly);
 -- 
 2.51.0
 
