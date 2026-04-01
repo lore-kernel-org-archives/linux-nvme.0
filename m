@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 97FF7D39435
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D820D39437
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JhLiXCPzR+KdQXTmGMyp7QYYvZ8Gjwav0RePxxHwgjw=; b=PkFxM1PbzhHeT+aGiKpp7qsX+m
-	WXcSJOJMdWc3ePg6ivThD3FPWUFVQq2MtLfsJOIa8Tmj9NIiDWlHemUf+cpUEnnScbcjppR40lFdA
-	yc5gZUrMeTFkSKsFaTUlW3kE7jDCM3AGOuEEQjO+6MB7cNyVVfDoLS62A7kRWw0XNdiDQ1OjglHVM
-	Ee9wXcT9J3u07DmFM7bS+F01Kx4BCXB2/mQP2mHfHllsaLwMavK43k0Jx/rcWZEUj9VTIawMO9qp3
-	45gr3V4tRFQrm2qJRiwHfp7SQQO3V/jfljOAZuFyO1e2LmYLVKk/OQgbHaeHFXjN0pcSFRVIYhypU
-	WiiwGxfQ==;
+	bh=i2JdaUkdYqJZv+sWSdGzZFDC8CSZMUcYmPlzykcGGng=; b=SrGAzM4HrLxi/5lj1odUjxDo4d
+	NFRagjm1aybpikEi/dnkbvCAXwBCUhFO/04EYqS8OYiXmja/JlvNoEh3Y8ld6pzbmc4V8Sjldw+Tc
+	t2dtavT2N5J08ZGGNBzIMB6CxeBX9T9FTMUR/4IY9dqGgINskSMjVzcdQoH6R7WzkBcMP3Wajh2nc
+	Xyw0efniX5/XWIQaTeOVe1rfvlH/MdH7vKJykuvQrUW77GXrWj3qFlDKy4N8wMA5YybGWFzr8VPfi
+	DNkEyZLqIggFmftHPqA+ycqnEao8p8I6Ad7h3sEtlDEgGbK5cQmtATklLVj2BHKBHmbslr90sc4VJ
+	b1kELrqQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8Iop-00000000GNR-3RSz;
-	Thu, 02 Apr 2026 14:14:47 +0000
-Received: from mail-ukwestazon11022079.outbound.protection.outlook.com ([52.101.101.79] helo=CWXP265CU010.outbound.protection.outlook.com)
+	id 1w8Ioq-00000000GOd-2gcd;
+	Thu, 02 Apr 2026 14:14:48 +0000
+Received: from mail-uksouthazon11022120.outbound.protection.outlook.com ([52.101.96.120] helo=LO0P265CU003.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w83yS-0000000GJJj-0xNj
+	id 1w83yZ-0000000GJLt-1qpN
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Apr 2026 22:23:45 +0000
+	Wed, 01 Apr 2026 22:23:52 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s8aXSivFH5l9FFJ32f/8leUJ7+ZUjWxQ77+rBstK75w4cdHJ+Ki0MFoFlEjdA2RQSxFUr2EABv+c4Y/5C8CjZXnGoGxH6FSQP2rw1nCRl+h38c2dxxB1Rz7W6H9sn+iSKMaW8Zka+09AVV0Q+M5f/LgKb94ZxYiMx80AYtL2p8yqGUDg2/JXqYu1hwNp0NuHfbR45vvXbLFHOUj1sODITwPYFULSnq8xvJWicanHwUIV4uxOaDSE6rbD/pkzFVL/OXqALoGJIR/sVpc9uuYhXzaq8JftBC0lRuk+fhAUHzUMbyw0smr2+t+TKxv8zew5WOxgGmAX5GyKBEOFln8e0Q==
+ b=R+AAFP9AaRPtIZhQARyOIxyGcZ94AGsY3TcSHpVerRegWLAWVSyG+49vcc8xoOfy/HIkbeYEkzOWg6qhPg/gxKl4UfCVvAnhA2awlIx28bFaKbkvxzINHRJD4sqrkGsSiWluoj3QzWOpiS804uaTHJzVinOlfhzSuuMFFfNMQVlB7B7SflESrVGN5O72xCIc9OwHqvJViDGnFQtpgHhMltT+BW4Ff6fz3NXnsLCi/MhA2s67oiMdHQ8dbp8icXwPbWll2w4E3evnsz5eeezQz/phz9ufb9PMJnnJSdmf6uF4Ks1BTpEkPVRhN/D5QVQ1wuaNrGf2cTvwr1JS1/I6HA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JhLiXCPzR+KdQXTmGMyp7QYYvZ8Gjwav0RePxxHwgjw=;
- b=vfHYH9JbqYYE5XFJ+y3j2cLpxGklUwBpqQFCz84j6jo6Zu6qgcs0h8EOlZzFYLzNTynWoYiFlS3B3m+QNjg/q2WgupWgW7Sf2G2qrISjwEaWdZxcqDUqES+xceRMkWnejuSqAaMgHywsOMc/MSd7vnL9eZDn93L0p/S/0JIgczGc7srIHA35cI8z1HiJft4zqczU6lVfSEf2qe/obX7bWw1JdJlxNUXuzU2z2hLTc8AmMtxN0iz2Aengj5I841N5JBlTIbdijp53IK6JDjgGK7HrjOoeGsYR9tki+HgZXstttRziz5ucTuivHfh+k8Lmabt8pjIBeXT4sBxwixUinA==
+ bh=i2JdaUkdYqJZv+sWSdGzZFDC8CSZMUcYmPlzykcGGng=;
+ b=stThIkB4wV3mHSpcUCfp1q6FlwHDo854w3f68s0qVVTQX24gbBZdg+yyPvVwrghGNKTpxEvJfxq/PA62wfHQJDrbicCUrIbWGsuXCX7hts400CrI3KLphcZDWUiBeIUI7EndQJl97+R4KExanMzOHqVqXc05ncz2kg3Vgwgel9QSTHRhI6CFkmYPNyU4LDLht5CPp3Xmhh8KkPcfNbVYlAPjijflCpogJsD9M9Oj5DhURkWRnNngKhXsfu01z+wIN9HA0OIYlzgxUhYPFPt2C0keCmZDwfJsveD15/8gRHbwSkMPotu3RwoUERHcOW5EtqzcoyLd953L3WsBhB7vbQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
  dkim=pass header.d=atomlin.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=atomlin.com;
 Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by CW1P123MB7844.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:212::21) with
+ by CWLP123MB2964.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:58::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Wed, 1 Apr
- 2026 22:23:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.24; Wed, 1 Apr
+ 2026 22:23:47 +0000
 Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
- 22:23:40 +0000
+ 22:23:47 +0000
 From: Aaron Tomlin <atomlin@atomlin.com>
 To: axboe@kernel.dk,
 	kbusch@kernel.org,
@@ -98,71 +98,71 @@ Cc: atomlin@atomlin.com,
 	megaraidlinux.pdl@broadcom.com,
 	mpi3mr-linuxdrv.pdl@broadcom.com,
 	MPT-FusionLinux.pdl@broadcom.com
-Subject: [PATCH v10 07/13] scsi: Use block layer helpers to constrain queue affinity
-Date: Wed,  1 Apr 2026 18:23:06 -0400
-Message-ID: <20260401222312.772334-8-atomlin@atomlin.com>
+Subject: [PATCH v10 09/13] isolation: Introduce io_queue isolcpus type
+Date: Wed,  1 Apr 2026 18:23:08 -0400
+Message-ID: <20260401222312.772334-10-atomlin@atomlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260401222312.772334-1-atomlin@atomlin.com>
 References: <20260401222312.772334-1-atomlin@atomlin.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN0PR04CA0041.namprd04.prod.outlook.com
- (2603:10b6:408:e8::16) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BN9PR03CA0557.namprd03.prod.outlook.com
+ (2603:10b6:408:138::22) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:400:70::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CW1P123MB7844:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04dc94d5-e357-4aa4-ff48-08de903d53d7
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWLP123MB2964:EE_
+X-MS-Office365-Filtering-Correlation-Id: aafac445-66a8-46da-01fa-08de903d57e0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: hAsxrOoFCisqjLYr37v53gnqpd0347J0GRFTJABLpP3AoQYuXiw4qib8Ylw+8xI+Hyy0jNHx77JWk8o6Sdd0OWrl/10VWWOuY5aPKT4JzWMVmuGXQJGl6Rvi8HjOL8mprZshLEaSIBNLrZgzh7JyruE09z0WH0byv60eXzhZz4GENDD7u1t+8dV4eWmrF574EHoh7YkrpGgE8NRk5UzdO/G7T9ZwRNia9gm6KmMJS67xgGkcnGxrMlw7YYuDYPcnk5v+lXmJSnAU1BLmsz3pTSsd0LIIkhGTW5Cgh7WbKENWbG3EPm3bX0Ovw8JdKDGgAWhfE8QFxWqLax/9SYF62pezhKGpFDTxka5brzNkYL2bxhGkMjkRTd1QldlMzQHznHVAp2NVYUZEANwf3XxK3SJ2wxVajNYB9QpiPaMmMcO2IDOwrB8OA/w+p5Vp1I1hOsZJhAVeE+O+cj68bvYZMXTfmDQC54FbIuDhrlMqJHVsMAamhv7B9XO+DHuX7op51RkZwd2BNsSGeHYRcYl4O0dAaY94zoWCtoSe+9SqNXrWbOKayGetH1zN0NEk8DD2KAOf03nsoOdMgCtBsBgBxQqo+5ijBiiQ5FEUSdGsZcTX43omTYKETD34tnJBVI2zNqZEQA69T3F0pnw/0DUcYbNEYxtR44MbnLbeW4tjizqFVzD1oF7DVaitUgdza6yDz9BkVfbBXtEz2Sozz7Jek/tgiWI7aFQeLtVgwTGnQsU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: Mqeuvgp7rOYrbQKQGwCeu22guAcv0deGDEXsNh4QGpBDd/A7eraGFnhg0gHcoGMZy1t35NK5JcuwUXvcHQlFpPsRxV+U7RsetrlkbRYlt70YaGVKqJyYseksTUHiKxpNwA+bSx9SFFFuvGskUOimABYNozzyqQWKuFFocJbz/mi9JqGSrE9yw/YJ65a4lVQ4lC+7uQLNlAOc5Cv6sp4Kvoz2SIcpl3aMbVwFwAjENcbBqBV3CcgMK29buW5azwPHm4Ul84QzfLmSyHr4zWpiVATk6isbgKLs5Z9fIKBhZIvVizfI6qwbBh2FKtCG720eKgBymjUu7nAN9LtCpW46Y04dPasxascvJdz5aqEWIcDKGPNLaPVEVqPkB+v7teHK0ZYKCNGrsiszQMDYc4WAaDmSB0jE3HyR+/V+rOyFDyufVYgjEAlg40uWlF2Aw6uskcaT6sR0SbYHEV7XLT8mNV/eGG8zTKPz7pikO0w488LU+QrFOwONHVMkjMEjGoEQoEIr7LF4iu0E7lC+fo7Avvo2AduCD0gv3zXRgZampRa0KLf4mGDsPQdvUTxwlDXgtWSXE6qWPwIfDb7nCakWSU9RqkZLrW57os7mJwcFNGflbueVr/tm2hbcuJsddZQ8QgjEEXQZfE+7hqleXbzo1qH3chBsR1uZs3V839Pc4w05H/iJAr2C9U0fGGlystc8NCQvSBMlOOHJyNRN9quc7a5qw+C0OKQtki9+TBKEG1Q=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yaU1oAln1m7NwtEc6sZ5v8KqE4xH05dUftBDZhvTKFihkR3lz1sjrHoeq2MJ?=
- =?us-ascii?Q?7PC8ldZUX+HDzErpXFVZIae4pA4apsFPZjf4nir9SqixMEigkfwQSFxZTrRl?=
- =?us-ascii?Q?lCM7bLGk8Veud0rLYB9ZTd4z/8+u0pIFAHrjUO6A5gvnyt53YDAvdmfCRLGj?=
- =?us-ascii?Q?5y6mPN4NTeE4QL0gq9g6bap3cyVPD45b22YAlzor8UaXXKTgzyZoRQrHsHEl?=
- =?us-ascii?Q?8xrj9m2zkSsWQhvq3WmnbJaM/avHpsRkjfu+xfboEaHNHAW0RpernuJ7SCAZ?=
- =?us-ascii?Q?L9vxioZ7x2KNnyS35/sgw4DofztToiqH+TXbtr4j4O66qlnvozZtUtoC9lAV?=
- =?us-ascii?Q?Y6NM16lIBT5JpBmVh10tDWAroDLce0dZAFceHTwV2nv4QRMyJl34ahVtqVAy?=
- =?us-ascii?Q?x2jxd4y3Uzfn5QQVaw6bkJ3kGmO4t5iyrk9YIHPllg4GZl/CjZQ7/A10K5lj?=
- =?us-ascii?Q?mzfQ8swzLj+NsUFvRsH5y52IRjrDQiD8mZS+03CoFY4xUymMCcX0579egdhC?=
- =?us-ascii?Q?sNUg9OX+lM8ONShaZe2jZ41D/+PJiH5rsdWrJ8Hc2aD7rvtA44wS/FRLDu35?=
- =?us-ascii?Q?Jjraxzw+9D0fzspMbcGNJQDUAklSDNqqv5j0xlpp2RHoMto7gyuqmh6qVtV7?=
- =?us-ascii?Q?6geGJg9j3WInW2zMzgx6yP56fASdi00nd2yWAEDwte3ACj5vwftrGOqMIr3B?=
- =?us-ascii?Q?8/UD54SGY5c/hnRh5uRa0xGNbv1rGzSPTlswzZ99DMzaH12J6jc8OBTL0r7v?=
- =?us-ascii?Q?Ll1aukK676bxStsadDm8cRtUSvAjiFLxU34Qwsa8WWIU7a4iw77mm9XqO+HI?=
- =?us-ascii?Q?aesaT92fCIntTSA9TggQ0Xva/ctSzPn2WEjAp+dgG/TKMGqOj5fD3xSY8N4U?=
- =?us-ascii?Q?L+y/dl045+Iw1vGnJtcDs2UtxVdgK3iFmIifElyo6tjlbdmBeuSk6BLwMs6P?=
- =?us-ascii?Q?oZhhUScVzHOlo1Tl/vs4sOyx5dsGcZXxM7V1f/INi87wQS8uZ3dextXckYaT?=
- =?us-ascii?Q?h67rwhoSb1oTOb8MYIxXQcrimRVYh89Ir6yaqctyeN9rSFJf5zd2KaJDg/fV?=
- =?us-ascii?Q?Y3MtIlwyy3PHr3u02huW2Cyo3x0ZVqRoFQhkFDJ1peKLezjUnIjsytkq6IKq?=
- =?us-ascii?Q?NFialU1yI3mbSnEGeP4d1o9xCq/BUnUm4IH4h0O9tZsA9hs9iPFjLmDdxu8C?=
- =?us-ascii?Q?3qQ6IQON/05sXYEJIC+c/D9GDSr4xP0jRhEFhB81I4r2otoJkMMXgqIOxdk7?=
- =?us-ascii?Q?XT4syYLJF3AaHeuHDTu10ZKMS5vg18rir7y+u9hIAkCuNe62qPu6PruwyEZq?=
- =?us-ascii?Q?Rr9QF14HDiEEwUYon3tzvd9N4/h3U2fo/bN419vFvMEMX/7eLQmLCdWhZEoF?=
- =?us-ascii?Q?SrPDN7JL8RC/g1G3tI36ygLt54s6PibLPf6yYqYrNq70nU5ayGPuz/5x0Umz?=
- =?us-ascii?Q?FKWEm/MDfimswzA5oLUMOYmWgAqh1YoTJ1GLPBJ6KMdAKjllDfckvSA0/9JR?=
- =?us-ascii?Q?fq+d95+ck0M83luhZAZPpg9O8tBFaiUgPri/SK1mxOyrSwY1m/dzKss5gBqj?=
- =?us-ascii?Q?fX1CYiGYKxX06Wb4J4YReo9fVGepw0Hv8zQFmvRFux8UrHvfwbahJ+eLHiwO?=
- =?us-ascii?Q?OXfCs1VaLC29U2TLcwPjgQjo8F1KWNdOFM5uvGSlKvM0AqzauuzoHdQIJuR9?=
- =?us-ascii?Q?en+ceuKaz5JJoAB8/Rkij+NmF6xf8dWx2jxVtzXBhnJlOjBs6m/6+QYp6nl7?=
- =?us-ascii?Q?Y32eWUS9Ig=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UmyLSqP3MhMI/WgvhOh0wOp6DmVfifGSedX37piHChswRridYT+P3JI5Jwu+?=
+ =?us-ascii?Q?QercyGpqn36NskHsTqhV/3T67pu/z7wMc312KeksRe3YSzwf1654VVXl8AOZ?=
+ =?us-ascii?Q?AaVeXwIegdlYjjhreH26VymqlJ/UAYakkaLBwpDe01G9A4r6CSMdUScqZBLm?=
+ =?us-ascii?Q?qnxF66fluw86ImSFkHd/eRNfp/HF9PobUPW/Wf6sND8RzzMXc8D0loAiPR6k?=
+ =?us-ascii?Q?rff0S2m4qIdGrQbbprCL0KYhS/twKfNDZlxzKZN1bWnsBjtQ7CHE9XXHevzv?=
+ =?us-ascii?Q?U/YymSzmMLJTjIsZ330vKLBe84XYlltOzUEdrEpRQEzxDTgwH/g8BmJI1a6l?=
+ =?us-ascii?Q?S9HCFZXEjllJw3eFqNpbLCOolocLAfq8YW8C2cACVwCLdXBD6IryDdoF0g5r?=
+ =?us-ascii?Q?XqcxAA38sl4dIAc118rFkU9eGYBAnsEmyjUj+/Yot/pN4tl5B0ZR6t3rpfcW?=
+ =?us-ascii?Q?gdT1wG3jG3rN2zyIL+SRuikCRqW4xLlpLKr11c2OwzdREN30z5HBtK9i+AgC?=
+ =?us-ascii?Q?wufv0GB4/Qq7CScnZuhzuGbaby58p6Qwy8hP92Hf9Ul/SfG2nd5QG/G6snRp?=
+ =?us-ascii?Q?UDidyrGtvAtjsmZRxcAh7DyH5YesViEFIRWgYeMXmY+yBFcp/rZPgtOHq2FA?=
+ =?us-ascii?Q?wply87Q85o6iTnNV0we7JxT7NvcPWFoDWW8iErL0iy66kFHNILelSsj2UUme?=
+ =?us-ascii?Q?KHofWVUumFt2KhOVjDU8iFyw7qtFwRgSbWhlFlamNqYiE+LU/Of5/fseyNbL?=
+ =?us-ascii?Q?joYJJ+6aSq4fPkfooo4j9dMMwCp7lQKVaGK2pYrDqfgwKFgZSI/PKaLIMJPG?=
+ =?us-ascii?Q?rurbrHly3Xs/CRX6mlSsC3B7chW0npcdwxwUOQcEmIicBrluNq7GH+u/MVq4?=
+ =?us-ascii?Q?EOALAe/O18YcEyBB91jeWdysY/hgzSPTBy0zPc/EhA3yWT/sbMVZ8ie7UFHV?=
+ =?us-ascii?Q?VxbLTRl7IWwlc1xr5tVdh9ggJhrMHvPD8XcduoTMF663avGRsi6JsxnRSekP?=
+ =?us-ascii?Q?xghvk/BiBgPnXSbIsIqaN4gmHMC1cCmukueO4yTHeGrfd+fzov+jvMQaLsOC?=
+ =?us-ascii?Q?w0PUfFSwmh50ssLVJInocuEZD2xKTdfumDK1ZNCUEYKiIEkgCAlwXFq25RZW?=
+ =?us-ascii?Q?X3aQWopcUd5uiZdFGYvBIeAMhEStFC1DRu/ECcKW8mY9Km6si8Foj9cpaxNv?=
+ =?us-ascii?Q?0BN1adqfARZSzJXHr5qVvkiqmrYY35dA0xAHEJNw7MR9tY8Xii9GgXgpWkfn?=
+ =?us-ascii?Q?AHOgBkwBSAuhMcNy5/4gRBz2feBbG+0jBAv9vax3vE+dGZ8uKDeFURkgZ+3I?=
+ =?us-ascii?Q?FINL2LEbwhfXeVDKlYxlKOhBxTUZnhja0iozdUmGj9i4OyRFZSSUJhpJze9C?=
+ =?us-ascii?Q?uK/XaNlScD9bGdKQ61r1U2N9pv85Hj5k1tnYV12QNv7V0/dK4CacFUszlQ6I?=
+ =?us-ascii?Q?Ix5ZQ3HkBcOTzyOrCBrrN6+83xxR/pA/04Ckbcwpm/+15YfFSY9QzhLyXO2n?=
+ =?us-ascii?Q?uTTLy0ecsJd2whw52vgvLeTM1CqHw1YPUUrLMI2eMsUxtIc3+CylchnV7FAk?=
+ =?us-ascii?Q?HZ7uBghovZ5zA1fo5DHgMBFD/fi77kCO8jnkCFqx3kzvLWgVBx4m9myitgYP?=
+ =?us-ascii?Q?ncFqBb9ZEJroUlXXZJZXzvGkqsbcWO6aVZ4IiwCPBMePuoLFUIdL4m4CXTjy?=
+ =?us-ascii?Q?silF6MTIhquj2Cd9/ID3M3FRpbgXUqBpah9i24hKM8iBszVZifZtIW04MEzP?=
+ =?us-ascii?Q?63CDCYKPRQ=3D=3D?=
 X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04dc94d5-e357-4aa4-ff48-08de903d53d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: aafac445-66a8-46da-01fa-08de903d57e0
 X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:23:40.8834
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:23:47.5862
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wKmdoK/wrGu1HlSLZC0i7pa1eOSREjZT74BbQhEx9YD99gAfN0gLALYXzsBwKpnXjlso0GfP4ZNWq54UmIQJrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB7844
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7wWlBsHLA7Varpq2n3FWpDu30yRCV8CxOabWCDJ4epj/AnA/RT8j3auczMa8YqFTsrjTAyX8ywxmFH98C15csA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB2964
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260401_152344_293471_BD583420 
-X-CRM114-Status: GOOD (  15.18  )
+X-CRM114-CacheID: sfid-20260401_152351_503996_EF02B901 
+X-CRM114-Status: GOOD (  11.88  )
 X-Mailman-Approved-At: Thu, 02 Apr 2026 07:14:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -180,101 +180,61 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <wagi@kernel.org>
 
-Ensure that IRQ affinity setup also respects the queue-to-CPU mapping
-constraints provided by the block layer. This allows the SCSI drivers
-to avoid assigning interrupts to CPUs that the block layer has excluded
-(e.g., isolated CPUs).
+Multiqueue drivers spread I/O queues across all CPUs for optimal
+performance. However, these drivers are not aware of CPU isolation
+requirements and will distribute queues without considering the isolcpus
+configuration.
 
-Only convert drivers which are already using the
-pci_alloc_irq_vectors_affinity with the PCI_IRQ_AFFINITY flag set.
-Because these drivers are enabled to let the IRQ core code to
-set the affinity. Also don't update qla2xxx because the nvme-fabrics
-code is not ready yet.
+Introduce a new isolcpus mask that allows users to define which CPUs
+should have I/O queues assigned. This is similar to managed_irq, but
+intended for drivers that do not use the managed IRQ infrastructure
 
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
 Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
 ---
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    | 1 +
- drivers/scsi/megaraid/megaraid_sas_base.c | 5 ++++-
- drivers/scsi/mpi3mr/mpi3mr_fw.c           | 6 +++++-
- drivers/scsi/mpt3sas/mpt3sas_base.c       | 5 ++++-
- drivers/scsi/pm8001/pm8001_init.c         | 1 +
- 5 files changed, 15 insertions(+), 3 deletions(-)
+ include/linux/sched/isolation.h | 1 +
+ kernel/sched/isolation.c        | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-index f69efc6494b8..d1f689224e7b 100644
---- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-+++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-@@ -2605,6 +2605,7 @@ static int interrupt_preinit_v3_hw(struct hisi_hba *hisi_hba)
- 	struct pci_dev *pdev = hisi_hba->pci_dev;
- 	struct irq_affinity desc = {
- 		.pre_vectors = BASE_VECTORS_V3_HW,
-+		.mask = blk_mq_online_queue_affinity(),
- 	};
+diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
+index dc3975ff1b2e..7b266fc2a405 100644
+--- a/include/linux/sched/isolation.h
++++ b/include/linux/sched/isolation.h
+@@ -18,6 +18,7 @@ enum hk_type {
+ 	HK_TYPE_MANAGED_IRQ,
+ 	/* Inverse of boot-time nohz_full= or isolcpus=nohz arguments */
+ 	HK_TYPE_KERNEL_NOISE,
++	HK_TYPE_IO_QUEUE,
+ 	HK_TYPE_MAX,
  
- 	min_msi = MIN_AFFINE_VECTORS_V3_HW;
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index ac71ea4898b2..7e2a3c187ee0 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -5925,7 +5925,10 @@ static int
- __megasas_alloc_irq_vectors(struct megasas_instance *instance)
- {
- 	int i, irq_flags;
--	struct irq_affinity desc = { .pre_vectors = instance->low_latency_index_start };
-+	struct irq_affinity desc = {
-+		.pre_vectors = instance->low_latency_index_start,
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 	struct irq_affinity *descp = &desc;
- 
- 	irq_flags = PCI_IRQ_MSIX;
-diff --git a/drivers/scsi/mpi3mr/mpi3mr_fw.c b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-index c744210cc901..f9b8b3639c64 100644
---- a/drivers/scsi/mpi3mr/mpi3mr_fw.c
-+++ b/drivers/scsi/mpi3mr/mpi3mr_fw.c
-@@ -830,7 +830,11 @@ static int mpi3mr_setup_isr(struct mpi3mr_ioc *mrioc, u8 setup_one)
- 	int max_vectors, min_vec;
- 	int retval;
- 	int i;
--	struct irq_affinity desc = { .pre_vectors =  1, .post_vectors = 1 };
-+	struct irq_affinity desc = {
-+		.pre_vectors =  1,
-+		.post_vectors = 1,
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 
- 	if (mrioc->is_intr_info_set)
- 		return 0;
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index 79052f2accbd..91e1622b5b77 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -3370,7 +3370,10 @@ static int
- _base_alloc_irq_vectors(struct MPT3SAS_ADAPTER *ioc)
- {
- 	int i, irq_flags = PCI_IRQ_MSIX;
--	struct irq_affinity desc = { .pre_vectors = ioc->high_iops_queues };
-+	struct irq_affinity desc = {
-+		.pre_vectors = ioc->high_iops_queues,
-+		.mask = blk_mq_online_queue_affinity(),
-+	};
- 	struct irq_affinity *descp = &desc;
  	/*
- 	 * Don't allocate msix vectors for poll_queues.
-diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
-index e93ea76b565e..6360fa95bcf4 100644
---- a/drivers/scsi/pm8001/pm8001_init.c
-+++ b/drivers/scsi/pm8001/pm8001_init.c
-@@ -978,6 +978,7 @@ static u32 pm8001_setup_msix(struct pm8001_hba_info *pm8001_ha)
- 		 */
- 		struct irq_affinity desc = {
- 			.pre_vectors = 1,
-+			.mask = blk_mq_online_queue_affinity(),
- 		};
- 		rc = pci_alloc_irq_vectors_affinity(
- 				pm8001_ha->pdev, 2, PM8001_MAX_MSIX_VEC,
+diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
+index ef152d401fe2..3406e3024fd4 100644
+--- a/kernel/sched/isolation.c
++++ b/kernel/sched/isolation.c
+@@ -16,6 +16,7 @@ enum hk_flags {
+ 	HK_FLAG_DOMAIN		= BIT(HK_TYPE_DOMAIN),
+ 	HK_FLAG_MANAGED_IRQ	= BIT(HK_TYPE_MANAGED_IRQ),
+ 	HK_FLAG_KERNEL_NOISE	= BIT(HK_TYPE_KERNEL_NOISE),
++	HK_FLAG_IO_QUEUE	= BIT(HK_TYPE_IO_QUEUE),
+ };
+ 
+ DEFINE_STATIC_KEY_FALSE(housekeeping_overridden);
+@@ -340,6 +341,12 @@ static int __init housekeeping_isolcpus_setup(char *str)
+ 			continue;
+ 		}
+ 
++		if (!strncmp(str, "io_queue,", 9)) {
++			str += 9;
++			flags |= HK_FLAG_IO_QUEUE;
++			continue;
++		}
++
+ 		/*
+ 		 * Skip unknown sub-parameter and validate that it is not
+ 		 * containing an invalid character.
 -- 
 2.51.0
 
