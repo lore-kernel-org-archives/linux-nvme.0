@@ -4,105 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 468A110F6FC5
-	for <linux-nvme@archiver.kernel.org>; Wed,  1 Apr 2026 15:02:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 11FE110F6FD9
+	for <linux-nvme@archiver.kernel.org>; Wed,  1 Apr 2026 15:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WXQBh+3u+MJvhba/wycvWbO/cH1qS5tV/vhN0sfRQX4=; b=q2e8mmZO1R5+DND3XgXEFDn6M0
-	q0oUw3ANx1Vq13CWkACAxC1LURwGsqc6FZhKjUYRaXnYHkFTUO0l7BmJB9JIxcnrQMaKzXYqidRf3
-	YsekqGTAKUpyarPCcTVqPSsPOS49ysbX3Ej9jnMX7knZfGTjouM4CHdbG4OEmkscYzUG3Hqvm3ZlC
-	7G5+Ra9Nav1b2fhhGKkJYGyQHpI6U4PYn7Yl/4O870ldCxIxTXcxXKzOj+PE0rAD+9oNsbG+hrxRs
-	nVWAPmFLlkQdCaEHa4FOeIbTQQTpeBMGLWYf5amVV9XgtE7pGCnTIL5R5swk5OwCk2jyKIGGbKaoL
-	2EX3KXHg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=cx8sAQQ/r32fM6RYRZui+B8m3abyemPhfp6ah4ZmPCo=; b=CP6104OJZG3qR6RXyZ9DKd1DD6
+	vooeSiu5hi1w6MxSAC9xOW9iC9WeVpJfq7+IjYGuYOL0QhJytnZcS3wArNdezro2J3JAFoCeXVEH7
+	FdNMilbXo+6tyhhw9pGnhQpWnRalgES+xkRWFOBG2OUefDnF7ji8QQPyZ0+smYt65yPX69fS2GTcz
+	NbSK2pOCVxPcoSFqQCuq/TwFRi+ZDM5/JREqqjfHZf+ik2dGHm8X/OpMZ7qchPH+i21oLV/7WVjNl
+	uTCtpE77aUNBSOgV7KAVt/UAnQcoHuqXGufAJ0h2gkvxBy/roNbxt8b996OkXAgsXlIDregaTQ/Oj
+	o91irnZQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7x5C-0000000FYxw-0fHU;
-	Wed, 01 Apr 2026 15:02:14 +0000
-Received: from iad-out-007.esa.us-east-1.outbound.mail-perimeter.amazon.com ([3.221.209.22])
+	id 1w7xig-0000000Ff0J-1QeM;
+	Wed, 01 Apr 2026 15:43:02 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w7vkm-0000000FKNI-1dVT;
-	Wed, 01 Apr 2026 13:37:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1775050624; x=1806586624;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version:content-transfer-encoding;
-  bh=WXQBh+3u+MJvhba/wycvWbO/cH1qS5tV/vhN0sfRQX4=;
-  b=Q+WGj/ylqnHBjOShgoBpgha03lldmXMkIHV2QDgyMV13kozJ7f1k84sE
-   TNIk0LRGcwAxTZNPAr6ARJKHEVHo5/357LsMZJtjMdrbfrBgZ6SUtAxNv
-   pnuNGol1P0XulTFRcyl4AoQDxdmBMNpT/Coo/XH36xF3dFlbxLTESnOCq
-   NarTOpCA8NIQ4n1IA76XxeHvEjokmMj+Msqfhy9zbhEvQGithqm+Et+d0
-   AnEmR4HfecV/LNZuu6C44COXBvK2QB+UG8kym2rkWy2+W4f8tx4QRgAy3
-   S2hFOF1mKtjjYcN07igj1yFDvE2JCt7fea5y2xhrhWmBa+tXmhAS5lrv0
-   A==;
-X-CSE-ConnectionGUID: qkzQSM3KQLWzasintYDu2w==
-X-CSE-MsgGUID: 75F1YqcgT1yDcLfS194f3A==
-X-IronPort-AV: E=Sophos;i="6.23,153,1770595200"; 
-   d="scan'208";a="15299613"
-Received: from ip-10-4-10-75.ec2.internal (HELO smtpout.naws.us-east-1.prod.farcaster.email.amazon.dev) ([10.4.10.75])
-  by internal-iad-out-007.esa.us-east-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 13:36:59 +0000
-Received: from EX19MTAUEA001.ant.amazon.com [72.21.196.67:18181]
- by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.17.255:2525] with esmtp (Farcaster)
- id 5a89eca9-fb6b-4296-84c0-9f378bbb3c74; Wed, 1 Apr 2026 13:36:59 +0000 (UTC)
-X-Farcaster-Flow-ID: 5a89eca9-fb6b-4296-84c0-9f378bbb3c74
-Received: from EX19D012UEC001.ant.amazon.com (10.252.135.206) by
- EX19MTAUEA001.ant.amazon.com (10.252.134.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Wed, 1 Apr 2026 13:36:59 +0000
-Received: from EX19D012UEC003.ant.amazon.com (10.252.135.160) by
- EX19D012UEC001.ant.amazon.com (10.252.135.206) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Wed, 1 Apr 2026 13:36:58 +0000
-Received: from EX19D012UEC003.ant.amazon.com ([fe80::67ea:859:1e17:25a9]) by
- EX19D012UEC003.ant.amazon.com ([fe80::67ea:859:1e17:25a9%3]) with mapi id
- 15.02.2562.037; Wed, 1 Apr 2026 13:36:58 +0000
-From: "Heyne, Maximilian" <mheyne@amazon.de>
-To: "stable@vger.kernel.org" <stable@vger.kernel.org>
-CC: "Heyne, Maximilian" <mheyne@amazon.de>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, "Keith
- Busch" <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Hector Martin
-	<marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
-	<alyssa@rosenzweig.io>, "James E.J. Bottomley" <jejb@linux.ibm.com>, "Martin
- K. Petersen" <martin.petersen@oracle.com>, Alim Akhtar
-	<alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, Bart Van Assche
-	<bvanassche@acm.org>, Sasha Levin <sashal@kernel.org>, Peter Wang
-	<peter.wang@mediatek.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Seunghwan Baek <sh8267.baek@samsung.com>, Bean Huo <beanhuo@micron.com>,
-	Thomas Yen <thomasyen@google.com>, Brian Kao <powenkao@google.com>, "Seunghui
- Lee" <sh043.lee@samsung.com>, Sanjeev Yadav <sanjeev.y@mediatek.com>, "Wonkon
- Kim" <wkon.kim@samsung.com>, Hannes Reinecke <hare@suse.de>, Ming Lei
-	<ming.lei@redhat.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "asahi@lists.linux.dev"
-	<asahi@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>
-Subject: [PATCH 6.1.y 2/8] blk-mq: move the call to blk_put_queue out of
- blk_mq_destroy_queue
-Thread-Topic: [PATCH 6.1.y 2/8] blk-mq: move the call to blk_put_queue out of
- blk_mq_destroy_queue
-Thread-Index: AQHcwdycwz+7VPd2vkmdKVAi3XDU9Q==
-Date: Wed, 1 Apr 2026 13:36:58 +0000
-Message-ID: <20260401-plank-yogi-fbc6b91f@mheyne-amazon>
-References: <20260401-defer-gleam-5226cb65@mheyne-amazon>
-In-Reply-To: <20260401-defer-gleam-5226cb65@mheyne-amazon>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.13.235.223]
-Content-Type: text/plain; charset="iso-8859-1"
+	id 1w7xid-0000000FezR-24Ug
+	for linux-nvme@lists.infradead.org;
+	Wed, 01 Apr 2026 15:43:00 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1FE084D1D0;
+	Wed,  1 Apr 2026 15:42:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775058176; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cx8sAQQ/r32fM6RYRZui+B8m3abyemPhfp6ah4ZmPCo=;
+	b=Y3elJa/bXM4Qr/usruPJTo1/ioXr/lbPJZlyWweRzwgqJUBgJsCpKZmqKVmKUC5sYRrTdW
+	zZJVc95nOC1uWBSDuuSoBVh7EJKwgdpfqWWjNe4TskaexkwqvAcWnQOmRVoxNERmsdszXU
+	dpCztTKSEHNTFA2d3rBZhWaaQZVf9JE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775058176;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cx8sAQQ/r32fM6RYRZui+B8m3abyemPhfp6ah4ZmPCo=;
+	b=wHbUO2RM4Ug+Dpx0+VYa1XQr0E1/+ECjCd5+HnbxCMDcZ2E9q5KKDAZfUZWsresgJld+Rg
+	mi91Z7ftyR4LJ9BQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Y3elJa/b";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wHbUO2RM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775058176; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cx8sAQQ/r32fM6RYRZui+B8m3abyemPhfp6ah4ZmPCo=;
+	b=Y3elJa/bXM4Qr/usruPJTo1/ioXr/lbPJZlyWweRzwgqJUBgJsCpKZmqKVmKUC5sYRrTdW
+	zZJVc95nOC1uWBSDuuSoBVh7EJKwgdpfqWWjNe4TskaexkwqvAcWnQOmRVoxNERmsdszXU
+	dpCztTKSEHNTFA2d3rBZhWaaQZVf9JE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775058176;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cx8sAQQ/r32fM6RYRZui+B8m3abyemPhfp6ah4ZmPCo=;
+	b=wHbUO2RM4Ug+Dpx0+VYa1XQr0E1/+ECjCd5+HnbxCMDcZ2E9q5KKDAZfUZWsresgJld+Rg
+	mi91Z7ftyR4LJ9BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F17C4A0B0;
+	Wed,  1 Apr 2026 15:42:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hwh3AgA9zWkBUQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Wed, 01 Apr 2026 15:42:56 +0000
+Date: Wed, 1 Apr 2026 17:42:55 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, hare@suse.com, kbusch@kernel.org, 
+	hch@lst.de, gjoyce@ibm.com, wenxiong@linux.ibm.com
+Subject: Re: [PATCH 4/9] libnvme: add support for retrieving per-path gendisk
+ I/O statistics
+Message-ID: <1e4eb9df-d260-4a72-91e0-b96a2447f6b9@flourine.local>
+References: <20260321152823.3197870-1-nilay@linux.ibm.com>
+ <20260321152823.3197870-5-nilay@linux.ibm.com>
+ <1adcb39b-5e88-4ad0-86fb-8d794adc8744@flourine.local>
+ <cc566b4c-fe9f-47c6-827f-d1d436fa477e@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cc566b4c-fe9f-47c6-827f-d1d436fa477e@linux.ibm.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 1FE084D1D0
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260401_063704_647726_6F6544FC 
-X-CRM114-Status: GOOD (  16.72  )
-X-Mailman-Approved-At: Wed, 01 Apr 2026 08:02:12 -0700
+X-CRM114-CacheID: sfid-20260401_084259_702482_FDBFEF5C 
+X-CRM114-Status: UNSURE (   8.61  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,194 +138,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Christoph Hellwig <hch@lst.de>
+Hi Nilay,
 
-[ Upstream commit 2b3f056f72e56fa07df69b4705e0b46a6c08e77c ]
+Sorry for the late response.
 
-The fact that blk_mq_destroy_queue also drops a queue reference leads
-to various places having to grab an extra reference.  Move the call to
-blk_put_queue into the callers to allow removing the extra references.
+On Tue, Mar 24, 2026 at 06:32:59PM +0530, Nilay Shroff wrote:
+> After updating the stat, the caller/nvme-cli invokes nvme_path_get_xxx()
+> APIs to retrieve specific metrics. These APIs also take the current index
+> and compute results by comparing the current and previous statistics.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Link: https://lore.kernel.org/r/20221018135720.670094-2-hch@lst.de
-[axboe: fix fabrics_q vs admin_q conflict in nvme core.c]
-Signed-off-by: Jens Axboe <axboe@kernel.dk>
-Stable-dep-of: 03b3bcd319b3 ("nvme: fix admin request_queue lifetime")
-Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
----
- block/blk-mq.c            |  4 +---
- block/bsg-lib.c           |  2 ++
- drivers/nvme/host/apple.c |  1 +
- drivers/nvme/host/core.c  | 10 ++++++++--
- drivers/nvme/host/pci.c   |  1 +
- drivers/scsi/scsi_sysfs.c |  1 +
- drivers/ufs/core/ufshcd.c |  2 ++
- 7 files changed, 16 insertions(+), 5 deletions(-)
+Let's try to avoid leaking internal implementation details to the public
+API. This makes it unnecessary hard to maintain.
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index a9697541d67f9..8b9e5ca398242 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -4194,9 +4194,6 @@ void blk_mq_destroy_queue(struct request_queue *q)
- 	blk_sync_queue(q);
- 	blk_mq_cancel_work_sync(q);
- 	blk_mq_exit_queue(q);
--
--	/* @q is and will stay empty, shutdown and put */
--	blk_put_queue(q);
- }
- EXPORT_SYMBOL(blk_mq_destroy_queue);
- =
+The stats update function could take an argument what it should do:
+  - update internal stats, calculate diff -> getters return the diff
+  - update internal stats, getters return the absolute value
 
-@@ -4213,6 +4210,7 @@ struct gendisk *__blk_mq_alloc_disk(struct blk_mq_tag=
-_set *set, void *queuedata,
- 	disk =3D __alloc_disk_node(q, set->numa_node, lkclass);
- 	if (!disk) {
- 		blk_mq_destroy_queue(q);
-+		blk_put_queue(q);
- 		return ERR_PTR(-ENOMEM);
- 	}
- 	set_bit(GD_OWNS_QUEUE, &disk->state);
-diff --git a/block/bsg-lib.c b/block/bsg-lib.c
-index d6f5dcdce748c..435c32373cd68 100644
---- a/block/bsg-lib.c
-+++ b/block/bsg-lib.c
-@@ -325,6 +325,7 @@ void bsg_remove_queue(struct request_queue *q)
- =
-
- 		bsg_unregister_queue(bset->bd);
- 		blk_mq_destroy_queue(q);
-+		blk_put_queue(q);
- 		blk_mq_free_tag_set(&bset->tag_set);
- 		kfree(bset);
- 	}
-@@ -400,6 +401,7 @@ struct request_queue *bsg_setup_queue(struct device *de=
-v, const char *name,
- 	return q;
- out_cleanup_queue:
- 	blk_mq_destroy_queue(q);
-+	blk_put_queue(q);
- out_queue:
- 	blk_mq_free_tag_set(set);
- out_tag_set:
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 262d2b60ac6dd..c5fc293c22123 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -1510,6 +1510,7 @@ static int apple_nvme_probe(struct platform_device *p=
-dev)
- 	if (!blk_get_queue(anv->ctrl.admin_q)) {
- 		nvme_start_admin_queue(&anv->ctrl);
- 		blk_mq_destroy_queue(anv->ctrl.admin_q);
-+		blk_put_queue(anv->ctrl.admin_q);
- 		anv->ctrl.admin_q =3D NULL;
- 		ret =3D -ENODEV;
- 		goto put_dev;
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 938af571dc13e..044e1a9c099b3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -5031,6 +5031,7 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, =
-struct blk_mq_tag_set *set,
- =
-
- out_cleanup_admin_q:
- 	blk_mq_destroy_queue(ctrl->admin_q);
-+	blk_put_queue(ctrl->admin_q);
- out_free_tagset:
- 	blk_mq_free_tag_set(set);
- 	ctrl->admin_q =3D NULL;
-@@ -5042,8 +5043,11 @@ EXPORT_SYMBOL_GPL(nvme_alloc_admin_tag_set);
- void nvme_remove_admin_tag_set(struct nvme_ctrl *ctrl)
- {
- 	blk_mq_destroy_queue(ctrl->admin_q);
--	if (ctrl->ops->flags & NVME_F_FABRICS)
-+	blk_put_queue(ctrl->admin_q);
-+	if (ctrl->ops->flags & NVME_F_FABRICS) {
- 		blk_mq_destroy_queue(ctrl->fabrics_q);
-+		blk_put_queue(ctrl->fabrics_q);
-+	}
- 	blk_mq_free_tag_set(ctrl->admin_tagset);
- }
- EXPORT_SYMBOL_GPL(nvme_remove_admin_tag_set);
-@@ -5099,8 +5103,10 @@ EXPORT_SYMBOL_GPL(nvme_alloc_io_tag_set);
- =
-
- void nvme_remove_io_tag_set(struct nvme_ctrl *ctrl)
- {
--	if (ctrl->ops->flags & NVME_F_FABRICS)
-+	if (ctrl->ops->flags & NVME_F_FABRICS) {
- 		blk_mq_destroy_queue(ctrl->connect_q);
-+		blk_put_queue(ctrl->connect_q);
-+	}
- 	blk_mq_free_tag_set(ctrl->tagset);
- }
- EXPORT_SYMBOL_GPL(nvme_remove_io_tag_set);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 518f8c5012bdf..727585f580362 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1782,6 +1782,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *de=
-v)
- 		 */
- 		nvme_start_admin_queue(&dev->ctrl);
- 		blk_mq_destroy_queue(dev->ctrl.admin_q);
-+		blk_put_queue(dev->ctrl.admin_q);
- 		blk_mq_free_tag_set(&dev->admin_tagset);
- 	}
- }
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index 456b92c3a7811..af81b2ba0c9b3 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1486,6 +1486,7 @@ void __scsi_remove_device(struct scsi_device *sdev)
- 	mutex_unlock(&sdev->state_mutex);
- =
-
- 	blk_mq_destroy_queue(sdev->request_queue);
-+	blk_put_queue(sdev->request_queue);
- 	kref_put(&sdev->host->tagset_refcnt, scsi_mq_free_tags);
- 	cancel_work_sync(&sdev->requeue_work);
- =
-
-diff --git a/drivers/ufs/core/ufshcd.c b/drivers/ufs/core/ufshcd.c
-index f72ba0b206437..a39ffc62d88a1 100644
---- a/drivers/ufs/core/ufshcd.c
-+++ b/drivers/ufs/core/ufshcd.c
-@@ -9651,6 +9651,7 @@ void ufshcd_remove(struct ufs_hba *hba)
- 	ufshpb_remove(hba);
- 	ufs_sysfs_remove_nodes(hba->dev);
- 	blk_mq_destroy_queue(hba->tmf_queue);
-+	blk_put_queue(hba->tmf_queue);
- 	blk_mq_free_tag_set(&hba->tmf_tag_set);
- 	scsi_remove_host(hba->host);
- 	/* disable interrupts */
-@@ -9953,6 +9954,7 @@ int ufshcd_init(struct ufs_hba *hba, void __iomem *mm=
-io_base, unsigned int irq)
- =
-
- free_tmf_queue:
- 	blk_mq_destroy_queue(hba->tmf_queue);
-+	blk_put_queue(hba->tmf_queue);
- free_tmf_tag_set:
- 	blk_mq_free_tag_set(&hba->tmf_tag_set);
- out_remove_scsi_host:
--- =
-
-2.50.1
-
-
-
-
-Amazon Web Services Development Center Germany GmbH
-Tamara-Danz-Str. 13
-10243 Berlin
-Geschaeftsfuehrung: Christof Hellmis, Andreas Stieger
-Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
-Sitz: Berlin
-Ust-ID: DE 365 538 597
-
+Thanks,
+Daniel
 
