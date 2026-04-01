@@ -4,143 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EF9FD3942D
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99CBDD3942F
 	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=25GgvNAoAVsQ0c0HPnOy+tdzboxsONyLGLWu2X3669A=; b=jhq0H7Xmda1dkQw9k14d+wR26N
-	d/HLQYXmndVhaRYSM/u5Df0L3wvvJSRdpY1562zSGw0mX2yrucccC6/v4WosrHd76jxvwmxv8aWG2
-	K6kb11O8P73rD/7AElcL30bKp+0XfpBNWxPVZuySxIXprhXNI7bhOrMqgwk70qf1FLU8mEegOXIm/
-	BT2WSuzIallFAGusZtrhWKEOOy/8+xuGIIHPbnYblSnU8je9ej54Ch+lq4O0OpmGaR5ixqO0VjDtR
-	PnESv6OmUHumB9uH/5W9Fiz85IEul5G4djC+oXL639whJtUpjHsqy5sGkwuTkBmuFbeiTgDz1kwhT
-	Ox0PKTXg==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=YECgA1W4XiOu+H+V0hPI++cSywV+2xeI4LnbCk8QRLE=; b=xOMlj9OnAZrswk
+	sKP8FqkTyuXPqlePShR6K3y6kJ0PfecyyxU3RngR1aTRVsmWbJ8du/I0A0qENUXREMsus/8oFNszj
+	xQjCEAK50HKPqbtlwZfupGMdm7ZPu5ITu7SBvSdhMiQpY8dYo5hO/S88eETUgGpwXTT1Z/4as465d
+	2M2JJPUCGkOZvd4JcYOzBE9jRMzCeOxH8Eg2Q+ehysf69ZLE62sAWw9LDjux2Dzrp7sGspK6n0Sik
+	hvqeg0JcLE1JfETcV2e35xVlcoPUkVto9MNHE4IsVv6S6G2bA5oVi46L2aHCXVFczgImO8U3XjTx9
+	yWbK20aECQ4tQnwgzjEA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8Iok-00000000GHC-3WUv;
-	Thu, 02 Apr 2026 14:14:42 +0000
-Received: from mail-uksouthazlp170120005.outbound.protection.outlook.com ([2a01:111:f403:c205::5] helo=LO0P265CU003.outbound.protection.outlook.com)
+	id 1w8Iol-00000000GHJ-2Zlc;
+	Thu, 02 Apr 2026 14:14:43 +0000
+Received: from mail.ispras.ru ([83.149.199.84])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w81IB-0000000G1Hu-2rT2
-	for linux-nvme@lists.infradead.org;
-	Wed, 01 Apr 2026 19:32:05 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mc/Pp4uqLlTRaAxKz0VDD414ydd+fwdD1mYv/0H8RxfU4rCYwu61Uykq9NO5+cSChmGf/iwtItwnwhLrxXMCPG5IcBZBrLMaffxn/CB2sm9WUO4cGhFitTbz/9Z0FTz2A/OeZSU5GNG3/VUcAGIHxwULYDltPZF3+z1JIgkAtgwYoOIPdJnAq/y+3omPE9+smEH12oNP+MTm13BkAcpfrHhgCMs0AyS14qffiCDPUGvs2+VTm+d/6hLqoq13VAZqRPEioXWmL2LJS++ys7etY0ThhTCBLUWKtGDgafznxDDLlECDjYVijq3XXFh/4EkMTxH1TsBdcfoyolGNebbHaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=25GgvNAoAVsQ0c0HPnOy+tdzboxsONyLGLWu2X3669A=;
- b=PJFpj+rtCZkhFQ2oJwQ0Nxs13YnXwlYKnQAi1QQ3q2/Ny5nNrYqFQjqR9m10xf1jCZFtfalUG0GPtiIfDzslvGcu++rFgKsT1fwqFIEqfNtMYgLOGkKZYoCBZQbi/B30J3Pc2SvMvH9/QxhJpstcp2t/k2RA5WuWDkbLX4odhWg8bLo80DfhsjpmWdX/Y2+3fUovtZLApyZBVs631tpmPVlx742vmVCX1QWA+NHW+oX/yFv2GxPP4hLLByU22l6HRSIAucXnq6l8nG5EAwBIifDtdXFMOYpbQB81P0e8eXJuK3lBvP975J6nR3wYqGYgBTABUZPDrs1x71sqdCKDyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by CW1P123MB8615.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:27b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Wed, 1 Apr
- 2026 19:31:47 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
- 19:31:46 +0000
-Date: Wed, 1 Apr 2026 15:31:42 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
-	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
-	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
-	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
-	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
-	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, ming.lei@redhat.com, 
-	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
-	mproche@gmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
-	MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v9 02/13] lib/group_cpus: remove dead !SMP code
-Message-ID: <eli7act7zn7fzkoqa4d6zjpxl7wdoy3zebeib4bbtxpkvjr5s5@gpwkzk44gu77>
-References: <20260330221047.630206-1-atomlin@atomlin.com>
- <20260330221047.630206-3-atomlin@atomlin.com>
- <20260401122908.hxUnR63u@linutronix.de>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="txbfhqgc7wa7cjxq"
-Content-Disposition: inline
-In-Reply-To: <20260401122908.hxUnR63u@linutronix.de>
-X-ClientProxiedBy: BN0PR04CA0055.namprd04.prod.outlook.com
- (2603:10b6:408:e8::30) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	id 1w82Ry-0000000G4XD-3VaI;
+	Wed, 01 Apr 2026 20:46:08 +0000
+Received: from localhost (unknown [10.10.165.9])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 70C5D4077929;
+	Wed,  1 Apr 2026 20:45:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 70C5D4077929
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1775076357;
+	bh=YECgA1W4XiOu+H+V0hPI++cSywV+2xeI4LnbCk8QRLE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=i7DBaSK7MEMLzy87dC5qHlcQ93SYuEV6yJqTixIYcNJ1p9nCSDtLw1Z3hl8r7+DnU
+	 /CvrNpMt1BEO98BehFHFa/byL7S5z7i1crJOk95P9u2BgPkbx8e8592n9n6F+xWtU+
+	 e8zFXYqrDaK8Mq2lxFQsNxD1fzxrRX7CuMZ2P0vI=
+Date: Wed, 1 Apr 2026 23:45:57 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: "Heyne, Maximilian" <mheyne@amazon.de>, Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, 
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	"James E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, 
+	Bart Van Assche <bvanassche@acm.org>, Sasha Levin <sashal@kernel.org>, 
+	Peter Wang <peter.wang@mediatek.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Seunghui Lee <sh043.lee@samsung.com>, Sanjeev Yadav <sanjeev.y@mediatek.com>, 
+	Wonkon Kim <wkon.kim@samsung.com>, Brian Kao <powenkao@google.com>, Hannes Reinecke <hare@suse.de>, 
+	Ming Lei <ming.lei@redhat.com>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "asahi@lists.linux.dev" <asahi@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
+Subject: Re: [PATCH 6.1.y 5/8] nvme-apple: remove an extra queue reference
+Message-ID: <20260401232116-53765a086f3855a30962fb81-pchelkin@ispras>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CW1P123MB8615:EE_
-X-MS-Office365-Filtering-Correlation-Id: b1c5edfa-50f3-47a2-6cf6-08de90254fd0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: Eym+5R8q7eiQw7AQfzI/aODBHIZ68620vavIAXs+641s3gr5zDszslA5bPRzFEp6b6JhqFNLiBiv4Ky5xgFTG0B9CO4Fx0EicWCDf9Rk3n3Mv0ywIFlHmn/zhSmnw2Feg9nbHXIaG2/Nri1YGAcu/oEoit5wh9JQt/AGXp5zWO+anVsPLlkVYSTx9NGqIFIVWpXL+ixGt57E1lmc6sFxKD3MGUErW/TU7TWQkqDE0zCnp5xgoO35z/wRLcL0uDf0MlZ7+DvffC2bGu7xvHzv6mTNLA5z4O6KIWkEgZe8FTMVNMckTDmlX4i2fd7gxoYTDT+Ksm1IHR0W4MuI5EGnY7xuOXbvazaZfPSKTii7YSppJ7qs9rCmj+DtXKTPi39lujFphrJmGG+g78F0x1eubmIXPQ5MmuDBskIYss8GPNOExmFDICJRPuq6Eon89VJzfnRNdPlGNJkHL/PZKnBl11yQ5GAPhv2SlEyDTmBFnETNDjkypZu9pKVKN5ANqoWoxIAP9Dx3QkU7tBi5/PLFMhEUhg49R0J1DQvAv/tYZOPC2CEqNnVsTERkwW0v4cmljeg3sEjwYvn1bR3bOwnhtF4kdHUvNnsO+bgRLxYInc2nsYRtOwIxW3DrJsLlkMDA1aTsHWtCv/19ODa4mgaWM7ljvMRGza65t5pDbkRV8xAIUVXbwPS4rycLF2MP6kJ5RaBnDb50vyhGs2fXmWZG2bP10QsZs65UKw9ZDZmjFR4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVBFUXlNQzI3M01TL3BJN1F6YUYwdThYRnNsOTE4RzEwMVd3WHJGMmVraElo?=
- =?utf-8?B?UW94Z3ZDdUFCa1gwUCs5VkM3dkJEdngxanhaaGtOL2UyeVR5WThEMk92SHZm?=
- =?utf-8?B?OUhtZmRqczNKenE5RUp6dEM0M1NJRGx1cWR0OElMWjZqQ1pQV2M0Yk5iZ1d0?=
- =?utf-8?B?dHBrbEg5M2ZUUXZ6RmJndE00SFJBQStPZHdKZm1Sa3RBR1hUQlE5eUVtbyt2?=
- =?utf-8?B?NVhxemlXN2VTaXJMMExlNVJQWFpWdUlKYkZweWNkVHFoejQ5aTBPVVpiL3Fu?=
- =?utf-8?B?U0pUUk1zUG5wanJoZDMzS2t1UTRmd1crMktHVnU5UTluUWpyQ2VDL1JhWlNo?=
- =?utf-8?B?aWNxbGNPdEUwYURKSm1wUnZ0SHF2QjY3N0hMM3J1YjEvaTIyUDNnMW81MzRk?=
- =?utf-8?B?SlJab1B6Mzhyby90UlZDa3IyVFgrUGZ6aUlaYjBWUzBGU0EwM3FVUVlnendj?=
- =?utf-8?B?cUNxMEtXeWx3aHVHR3Nhd2x0VDBvQmw5bGt4ZkorNFUySVVzRnFkOVdZQWdi?=
- =?utf-8?B?L1lVMkVydG9CdGFCcTZveFlUYWZmd2ZhQU5aQW9EeThsRE1mK1hwdDBiWUR1?=
- =?utf-8?B?RUQ2L3FVcGZJWHNsSUV1NmdNMDFBbGhldGordWd1K0NLT29SK1k3MGZZY1E1?=
- =?utf-8?B?RmJtY0RRdGVIQVArVjZkcDVvMm9oV2FtOGYzTWR0blE0YXRuM0pUUE5VVDRE?=
- =?utf-8?B?b2ZQdEVIakh0N2FTeStQaEVxeFM5bnJuek43ODJCU3VLRHQzb1BDOTRZWUV3?=
- =?utf-8?B?MjdnNWRpcjU4dUlBNm1vOGVUSDBYZ3MwaWJEQmNoL3pCMDBQVFJNKzRLZ2ND?=
- =?utf-8?B?RTJzRVZ3eXEwdTl0SnNmN3k0aGd5Yy9SbTNhMVM4MTY2WUlBNndhYkNjcjJG?=
- =?utf-8?B?dXFKSVNNbXN5QVBKQUcraExSUHllS3dzT1E2dzJ6S1N6bUlFQS9sYThpZHlP?=
- =?utf-8?B?WmduQUZmWGJmdDIvTjBFZkZSZmc5YjJxbDM2N3FLV094Q0JlbU9RY1JKa3Bx?=
- =?utf-8?B?dWxuNENTZTdxZVF4WjViNGw5SUxjOEc3S3ZWYVpRbHRPZlpTK1dMcU5rNm5D?=
- =?utf-8?B?SGlNd3NLektiR29LNDA2bnAydmFZQVJtTnFOVjc1dXk4V0ZsemNFbVZ6VkJW?=
- =?utf-8?B?TXNLR3BDUjBja3NtVXV2TkFLdjMyZDE0NytqalpqVjlRWWxDVHVhQ2FSNzgw?=
- =?utf-8?B?bE55NFYvYS9CTENFWWdGaitjMEpINHY3L2pFdFpsK09lZkRpeC93WFpNQXdy?=
- =?utf-8?B?QUcwei9YVlpPdEJwOU5GaVVVbTQrNHFuS1NicnRydHloQ3RCKzNiSVB1TDVw?=
- =?utf-8?B?L2lnTEtHbnpKUnpJRlBpZzR3QzBrQWV1NXVtNC9Od2J4MENnQmo2TVJrOVNu?=
- =?utf-8?B?TGJ2cURKTEdFcmFwQm9YcFNEL0RJekRQR3JFaExGaFZtaW04T1h2ZGlBQy9C?=
- =?utf-8?B?NGNtT2I0MjlKbEdZZVhaeSt0dGhENVVQaGRpSmNRcE5OSUxSR204SDdKckJs?=
- =?utf-8?B?blZyME80ejVzZTZkNGRPaFlPYjIrQWlmN0lBZjFsR1AzRGI2Q1pDV3ZCdkZY?=
- =?utf-8?B?bVQ4SzNzMHhNWUlmMkdNK25LdmtKclpneHFjOStTaXRrVUJRMW9rUmlFeUZQ?=
- =?utf-8?B?QkVoM01wamgrd1B6Mmh6S0J3S0tIYXVPVGIzbUJTc2VtL1NwWEU1S3lhR0po?=
- =?utf-8?B?RnVzYVhIdFdHaEExRTRqZ0ZrVW1CS3F3VDVtTkxNUVNVQS94Z1NCa2NkNjJX?=
- =?utf-8?B?MmtlNDAwQXR6aVZqeFZnRGJGbzMySEFZYkM1bi9OS0I2NHEzQjBwZW42SGVB?=
- =?utf-8?B?WnZwazJhZnQ1ckFoMTNCSkdpeHlMeFNuKzhoU3NORVNxWnY4SjZxU2FTSld0?=
- =?utf-8?B?bWFFMERZREsyQW5VRDdBY0d4SXczNUM5WlNKemxxbFNLOGFNeDEyMGI0eWkx?=
- =?utf-8?B?Qnp4ZStlYmRsdWhnNFh3clFpZEJxeXlLN0Q5dmRidDJlREtTbGtIb3ZsYUZ2?=
- =?utf-8?B?OUVxaE5MM2tkdkRRbVRQTlNLWVZRNE1ObTNKRHcrL3l1SlBhYzM2TjBsc0dF?=
- =?utf-8?B?bHNzSzVxOHhTdnN6OGtYd2dsZVM1TmdtMTFsVDJaR3JnNGtnc3BEczBmaWtP?=
- =?utf-8?B?c0kvNDJGNHJ0MVYrc3RiaUNUTXlEaGdmaWNYd1ZBMUZIcWFCVlkvbVk3N2Vi?=
- =?utf-8?B?c3dNMHhNM3N5d2k0VWxUbHFOdUFtbURodGIrRVk4OXRPNDllVjFvbkJjcjZ6?=
- =?utf-8?B?enp4NnBjQkZ0M01IZlVoZDhRVUtMR0VuM0haRnFMZi9CVnM1aEJZQVduT0tW?=
- =?utf-8?B?ZytnSXFtVlcrdnZDR1RCeWdXTlRURzU2eDNUY2M1WkZkYXF4NWhxQT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1c5edfa-50f3-47a2-6cf6-08de90254fd0
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 19:31:46.6237
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jXlQ95394hlYN+JzCCHZgtllxUKCCf3gv6yBOk4j7kTsb/RFE3n94DWo9mCxMk9QSXKUOsWgkOsC9CTxY9/KQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB8615
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260401-pliny-ashley-ff03a0b6@mheyne-amazon>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260401_123158_956315_781AEC05 
-X-CRM114-Status: GOOD (  18.50  )
+X-CRM114-CacheID: sfid-20260401_134607_065018_A4E46A74 
+X-CRM114-Status: GOOD (  19.55  )
 X-Mailman-Approved-At: Thu, 02 Apr 2026 07:14:40 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -156,73 +78,67 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---txbfhqgc7wa7cjxq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v9 02/13] lib/group_cpus: remove dead !SMP code
-MIME-Version: 1.0
+Hello,
 
-On Wed, Apr 01, 2026 at 02:29:08PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-03-30 18:10:36 [-0400], Aaron Tomlin wrote:
-> > From: Daniel Wagner <wagi@kernel.org>
-> >=20
-> > The support for the !SMP configuration has been removed from the core by
-> > commit cac5cefbade9 ("sched/smp: Make SMP unconditional").
->=20
-> !SMP is not dead code here. You can very much compile a !SMP kernel at
-> which point the code below will be used. It is more that the sched
-> department decided that scheduler's maintenance will be easier since we
-> don't have to deal with !SMP case anymore.
->=20
-> If you wish to remove the !SMP case here you need to argue as such.
->=20
-> > Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> > Reviewed-by: Hannes Reinecke <hare@suse.de>
->=20
-> The previous patch, this one and probably the following lack a
-> Signed-off-by line with your name.
->=20
-Hi Sebastian,
+"Heyne, Maximilian" <mheyne@amazon.de> wrote:
+> From: Christoph Hellwig <hch@lst.de>
+> 
+> [ Upstream commit 941f7298c70c7668416e7845fa76eb72c07d966b ]
+> 
+> Now that blk_mq_destroy_queue does not release the queue reference, there
+> is no need for a second admin queue reference to be held by the
+> apple_nvme structure.
 
-Thank you for your review and for clarifying the precise nature of the !SMP
-configuration.
+This patch is probably buggy in upstream.  It removes extra reference
+->get, but doesn't remove the corresponding ->put which is located
+inside apple_nvme_free_ctrl().
 
-Fair point. Describing it broadly as "dead code" is indeed inaccurate,
-given that one can certainly still compile a uniprocessor kernel. I shall
-amend the commit message in the next series to properly articulate the
-reasoning: we are removing this specific !SMP fallback logic because the
-core scheduler now mandates SMP unconditionally (as per commit
-cac5cefbade9), rendering this particular handling redundant for our
-purposes, rather than it being globally obsolete.
+I'm reporting here currently just for the heads up - was looking at the
+same nvme regression problem at 6.1.y, found this thread, and the
+nvme-apple changes appeared suspicious.
 
-Furthermore, my apologies for the oversight regarding the missing
-Signed-off-by tags.
+nvme-apple patch is not required to fix the regression (this also holds
+true for [PATCH 6.1.y 3/8] scsi: remove an extra queue reference).  Maybe
+they shouldn't go to stable.
 
+That said, the other part of the backport series FWIW looks good to me,
+and I've also verified it resolves the 6.1.y regression.
 
-Kind regards,
---=20
-Aaron Tomlin
+Thanks.
 
---txbfhqgc7wa7cjxq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnNcpkACgkQ4t6WWBnM
-d9YvzA//WO2Y3H+oDKPlR4+y1NRkMHTIQj0u35COgDSOqGBDbT/qcmhL6+Q2Cp5n
-PtUHsCMPfeiY+Du4WuiulG71+h45S8FpCotp6u+m9d4Z1uHvIAZj8aFCKKiOxdWK
-Pywf8I44OYbxKrRBMl/xB5eFUMKINZfa8xHU/xVU8yx+aN0PKpi3sJcYkutZaj/3
-gpIGTmMrJyzBmSQew4AVTLY834GhZxXyiEtRSEs26kAPvxWTyuknjkjPAMbpn5FO
-NCVC/mRUTTTCPE72XvoAkYclhDhpwxqJWNvFU1YCssQS4iBELuh4xeOrlAZUsASh
-ZMmwNZXzpww3ITl265uv4AzXM1B3kk75I8oKxFg44+oR/POFG1a+NPAYvD1gLES3
-lzb9M6EtCenv/hE1ySBQwXzKmNOgAve6+Na2/ebfit+mlLqAkSFwvZhhAmMBLsL8
-vBRGfNXErnukyFmYZ0mSQvDSF12/4M2oFtLzYC2fBV+SvEXavfed4rnwVAdiqeTW
-D2aus/lrs5dwB6SvKPfIFw+ll07vfuoq0e6bBdsCKX0yveBjFKBMSkM1iJpUvVT3
-5YTQhpDtAXSL5oERUJi5ZSZEOjOK5ZgC11vFgs/F8MUwVTGSoq4Q6jfuU/egIKT1
-WVej75bJR6lo1NjHInmwP0/ggwiLQGwWo1848N8TtYZRAI+rP/4=
-=sKVn
------END PGP SIGNATURE-----
-
---txbfhqgc7wa7cjxq--
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Reviewed-by: Sven Peter <sven@svenpeter.dev>
+> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> Link: https://lore.kernel.org/r/20221018135720.670094-5-hch@lst.de
+> Signed-off-by: Jens Axboe <axboe@kernel.dk>
+> Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
+> ---
+>  drivers/nvme/host/apple.c | 9 ---------
+>  1 file changed, 9 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index c5fc293c22123..c84ebfcfdeb88 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -1507,15 +1507,6 @@ static int apple_nvme_probe(struct platform_device *pdev)
+>  		goto put_dev;
+>  	}
+>  
+> -	if (!blk_get_queue(anv->ctrl.admin_q)) {
+> -		nvme_start_admin_queue(&anv->ctrl);
+> -		blk_mq_destroy_queue(anv->ctrl.admin_q);
+> -		blk_put_queue(anv->ctrl.admin_q);
+> -		anv->ctrl.admin_q = NULL;
+> -		ret = -ENODEV;
+> -		goto put_dev;
+> -	}
+> -
+>  	nvme_reset_ctrl(&anv->ctrl);
+>  	async_schedule(apple_nvme_async_probe, anv);
+>  
+> -- 
+> 2.50.1
 
