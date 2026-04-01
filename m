@@ -4,66 +4,166 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 99CBDD3942F
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 429DED39433
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=YECgA1W4XiOu+H+V0hPI++cSywV+2xeI4LnbCk8QRLE=; b=xOMlj9OnAZrswk
-	sKP8FqkTyuXPqlePShR6K3y6kJ0PfecyyxU3RngR1aTRVsmWbJ8du/I0A0qENUXREMsus/8oFNszj
-	xQjCEAK50HKPqbtlwZfupGMdm7ZPu5ITu7SBvSdhMiQpY8dYo5hO/S88eETUgGpwXTT1Z/4as465d
-	2M2JJPUCGkOZvd4JcYOzBE9jRMzCeOxH8Eg2Q+ehysf69ZLE62sAWw9LDjux2Dzrp7sGspK6n0Sik
-	hvqeg0JcLE1JfETcV2e35xVlcoPUkVto9MNHE4IsVv6S6G2bA5oVi46L2aHCXVFczgImO8U3XjTx9
-	yWbK20aECQ4tQnwgzjEA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YlGlRDQoWoaBP38ufUIvZwp8c9yE938qEnUmEfpuQ/s=; b=aqAS3IUASn81QKjWWkPKs23puD
+	09ibRk1e2MY+FQ61WcnKB97xQQ0YwE9uN92tgjrcd8YP4VkCFern6KHwt19b1FBEqHiXTiqVldIMV
+	4bgum1/heYHoNNG9ukueZN5IJw3ZmtxGc12u4GQXM15Lg3DkM/p3Pt5430e8OD0EiaRTc6nJlEY6Y
+	vQO91DHrEoRY2wAOULIa2MjondnDU5eebNjFXR6MHjiNwyGFiUpSSOLtfffbBB16Y/g9qv7cmU0mE
+	HFRy3DSK1Bva3mZp/Taczj2k26h4iPunv3Y7YJ4CGVq7GCHGzQsSzadjWdhMn+P5il7QlJr3vGvGx
+	zOeBoIjg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8Iol-00000000GHJ-2Zlc;
-	Thu, 02 Apr 2026 14:14:43 +0000
-Received: from mail.ispras.ru ([83.149.199.84])
+	id 1w8Ion-00000000GJV-0S5Z;
+	Thu, 02 Apr 2026 14:14:45 +0000
+Received: from mail-ukwestazon11020110.outbound.protection.outlook.com ([52.101.195.110] helo=CWXP265CU008.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w82Ry-0000000G4XD-3VaI;
-	Wed, 01 Apr 2026 20:46:08 +0000
-Received: from localhost (unknown [10.10.165.9])
-	by mail.ispras.ru (Postfix) with ESMTPSA id 70C5D4077929;
-	Wed,  1 Apr 2026 20:45:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 70C5D4077929
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1775076357;
-	bh=YECgA1W4XiOu+H+V0hPI++cSywV+2xeI4LnbCk8QRLE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=i7DBaSK7MEMLzy87dC5qHlcQ93SYuEV6yJqTixIYcNJ1p9nCSDtLw1Z3hl8r7+DnU
-	 /CvrNpMt1BEO98BehFHFa/byL7S5z7i1crJOk95P9u2BgPkbx8e8592n9n6F+xWtU+
-	 e8zFXYqrDaK8Mq2lxFQsNxD1fzxrRX7CuMZ2P0vI=
-Date: Wed, 1 Apr 2026 23:45:57 +0300
-From: Fedor Pchelkin <pchelkin@ispras.ru>
-To: "Heyne, Maximilian" <mheyne@amazon.de>, Christoph Hellwig <hch@lst.de>
-Cc: Sagi Grimberg <sagi@grimberg.me>, 
-	"stable@vger.kernel.org" <stable@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	"James E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, 
-	Bart Van Assche <bvanassche@acm.org>, Sasha Levin <sashal@kernel.org>, 
-	Peter Wang <peter.wang@mediatek.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Seunghui Lee <sh043.lee@samsung.com>, Sanjeev Yadav <sanjeev.y@mediatek.com>, 
-	Wonkon Kim <wkon.kim@samsung.com>, Brian Kao <powenkao@google.com>, Hannes Reinecke <hare@suse.de>, 
-	Ming Lei <ming.lei@redhat.com>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "asahi@lists.linux.dev" <asahi@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-Subject: Re: [PATCH 6.1.y 5/8] nvme-apple: remove an extra queue reference
-Message-ID: <20260401232116-53765a086f3855a30962fb81-pchelkin@ispras>
+	id 1w83y9-0000000GJBT-3FsU
+	for linux-nvme@lists.infradead.org;
+	Wed, 01 Apr 2026 22:23:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZPREC/Fyp8dwpf0W+w+NoAr+54CP8SxXP1SFJ3iV1C0I7G9QIPFd8hMxmt1zm7D/JHYDN1FSX9Q4p5t23xP6dSbGUUa1KcAaWik402sUINNzzpmmD+it5K6x5mEMS3gVXzv1abxomSD4qpxvGkw2izrj4DltK4DYji0Gq8bWtfBGjmUV5U8ju4ELyHKdRl+DkXoKT7DTCoRSzKBeX03WOgI+2hOel2aA8exQdHAHktQyxcwO5cEo0vuHmmK8HRTQUlwfC+SLAxrDxHza7g2UsO4H6aGLeXb2C2OT9/rv30SGw9aG2Hyr3FpLx7Mmr89nQ1oSr0FrvXFEooiG19uGOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YlGlRDQoWoaBP38ufUIvZwp8c9yE938qEnUmEfpuQ/s=;
+ b=TBwvnPQheTIetwGNP3LZUlr0cHVlL52HdNjXCU6RyKwCAanQLqwet4KJXHFyay9SpJBOUXkUaeutYk8WFBfyCkKwNPTg5lmSg7kdOS4ScoF87q5CVJxuxiKjQD7x3uMd22yW39VmiaRBC+z3zi2CICIyQFuirU/DuENColPCuJ9BNLBYkA7AEmZHvaP2U8I9sUJ0ytfG7rYYrWsTbKg8EtN0a9gn1hsRdUxkTbulDpCQK/q7HM1sutkraYG/JkMBwtUSXD2G2nSucGu6/f+dwYyGN/29mpey9o6eoHk16aw/ZuEXWFpeHQsTnk/VGj8UhrUN3u+POIN5nNQuTN3O+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by CW1P123MB7844.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:212::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Wed, 1 Apr
+ 2026 22:23:22 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
+ 22:23:22 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: axboe@kernel.dk,
+	kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	mst@redhat.com
+Cc: atomlin@atomlin.com,
+	aacraid@microsemi.com,
+	James.Bottomley@HansenPartnership.com,
+	martin.petersen@oracle.com,
+	liyihang9@h-partners.com,
+	kashyap.desai@broadcom.com,
+	sumit.saxena@broadcom.com,
+	shivasharan.srikanteshwara@broadcom.com,
+	chandrakanth.patil@broadcom.com,
+	sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com,
+	suganath-prabu.subramani@broadcom.com,
+	ranjan.kumar@broadcom.com,
+	jinpu.wang@cloud.ionos.com,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	akpm@linux-foundation.org,
+	maz@kernel.org,
+	ruanjinjie@huawei.com,
+	bigeasy@linutronix.de,
+	yphbchou0911@gmail.com,
+	wagi@kernel.org,
+	frederic@kernel.org,
+	longman@redhat.com,
+	chenridong@huawei.com,
+	hare@suse.de,
+	kch@nvidia.com,
+	ming.lei@redhat.com,
+	steve@abita.co,
+	sean@ashe.io,
+	chjohnst@gmail.com,
+	neelx@suse.com,
+	mproche@gmail.com,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com
+Subject: [PATCH v10 02/13] lib/group_cpus: remove dead !SMP code
+Date: Wed,  1 Apr 2026 18:23:01 -0400
+Message-ID: <20260401222312.772334-3-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260401222312.772334-1-atomlin@atomlin.com>
+References: <20260401222312.772334-1-atomlin@atomlin.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BN1PR13CA0008.namprd13.prod.outlook.com
+ (2603:10b6:408:e2::13) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260401-pliny-ashley-ff03a0b6@mheyne-amazon>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CW1P123MB7844:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0c514d3-fca0-4944-2693-08de903d4906
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: StqyJ3xOv1V3T+7CBnrIdVnlmKkuJ7xVa9nD+pKFYtIMxZXR7FgGeDZvcSCfYFDH6B49PBLhdsF0rYD3YW+OQxU0/Q0zgPuIRvE7eVq8OBT0J1jcWoutJ3NXgtbYyWQSt0lvcoAm2fcnyBFQcyTdsubJZ3BVPTuZmsbxdf42tFVMkRvJ+1JbLnh9RJI9e0cRTkef4CACyEUmzqwr6pWceWeehtfLvGZSxMm+8NqHhPNdrSZv3PUuWGdrS3qQApeMD3DsrcWOMW/WR99QMr0qOJhkqiwrZ+pxpZlBGf8xe+OsPonjd41LCKcMgDWVKRSJ1u5+Kgo3aetmiwER2WDxGeXcJ1Bbq0h7y1Ff+a36qe+9nKkQoMr/qvW+w2cH8wyhGlHa3UWz4fVlRErhWbD4555JXNs8Gbc4KZLMEu7Z/y3iL+CoWjIstZPjtvnZtBenP3xJIMR049IKnRbwHnGmKqygwZM6shB9y1HnceJxu6lVYhVGM/Oo+sjrBKw2/n47hru+ZX9s3BV3fdhuGcz6ljDGrRF9VKNhMrwdztgZKtv9mzW/Q6iSkwRhaqAiU0eYurS1ERxqb5oXDnwSvAPRNJQT1torGKQmRU060ceCHGWHJdcOt+MdddRw1SFXb+MZa1Md4HrUCFJbvOAhZ4fzE+UC82H1P64lGMW4MnbmY40WCKI0jEe7gZ0pHpmpN8E4361d2945vHEfUDayoGsAKNstAeFHAclcvG6TKuJ6sS4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XYV1pnDdPCj72Mjejwtikf6596tnNN5OmJVEeIKpi1ybtpg/YKfeIgwEdxRP?=
+ =?us-ascii?Q?sKD2WwvcjnO2fT1cqpM2yC3cTXEUGgz7W8frrovSCtKc0tx4PdInknqqMm12?=
+ =?us-ascii?Q?Ad8irSxeT3Du5wviQcDJubwqnjAyNpeN2o4/mOVhb9KeUQbFofojT3lx2VNf?=
+ =?us-ascii?Q?VhYRj6lX3WyrQZ8g3kZJqAlBjb1HWxen0MVutwxEfekugXE6b/GuO8mnMSRS?=
+ =?us-ascii?Q?abSJ9PM8rKjjEWFLR1Ym8Wm8pn+HVr6XCIOm2ZgDjeGQXtbOZV+BEIclEv8j?=
+ =?us-ascii?Q?B+z5qcKIsAsNtW+7JlYqmFk39LqEgFtsMw0yZHu99aq/7Nke+m0vS0wkS58o?=
+ =?us-ascii?Q?ARpOoFNvz/IJsBmT0jyS58jvS9QKFZbe9EZL61ay07+hQBGUoI3zL7AbYdBB?=
+ =?us-ascii?Q?StnihRIw4ERieosqmghwTPug/5vfhPuTQ5oLi0Rl+qsfOTd03FCH3xxhapSs?=
+ =?us-ascii?Q?cvIhHXB7OYENypgBC1C84hOL5GWPVu/8ueJm1PfR+MzRL++wgqaPbcpQdb+K?=
+ =?us-ascii?Q?2dLOnsBitDt7vjQRrUj/ls3Vjn5XcYYGPOkUdKG8zp/9/kxEz+2q1yjazhwo?=
+ =?us-ascii?Q?ZLGpwlp16b9TInpvaMYTz0t7OnF/d7CSQPOWuxOaI4rxERLlDUXFlczJQ+jx?=
+ =?us-ascii?Q?YspFoCZar0+hEoTCmgIRedm2jsJ+mik6msUfZJ4Z28ZxDaXSbBSnn+emiqfP?=
+ =?us-ascii?Q?8PrAkCKPvJMEFW9Jh7puU8FzW7C3KDiEm+1S+YWp66iQwPYBVCgXmLD6OH2r?=
+ =?us-ascii?Q?8PThW4khjfySYc2pqIcXh9lrxlU83UpcxlGtOB/X6TL8FhZMpcPAX8lHf0G/?=
+ =?us-ascii?Q?9Ps0DkKjnHscELJn22dqrUxllGmRNWkRkpzWDjF+q4Km84Cc52g28FfhFTop?=
+ =?us-ascii?Q?l162W7wCmvX+sUB5RS6DGX0tOHLF7dgEmx6ULAKlpcXfI6eMs1IJjlcOb8PN?=
+ =?us-ascii?Q?CV5Ixct5fZ3mNRlvSsGZ7n3Nk6HqsWvIe0355H+vvGhDf3OUHl3yqTP/p7iv?=
+ =?us-ascii?Q?To9whtBaF34k2ReC0iUTM2f5GBztCE8SHLGtY9T06rPbzYuh9U6737teuBFc?=
+ =?us-ascii?Q?REHdI/eGvZ4A0xyymio7+eesu2ujAerYSy5h80yTP2OCGxIs5qMGkOQKQh17?=
+ =?us-ascii?Q?KdTpjvCyvcv7v2B0AXtruU+c/EueZb4KyptsRJFSviUrCjBNtqGM19soHJBQ?=
+ =?us-ascii?Q?PaAMdEJpITC0b7Md91PxKqfUzglz00DStqbbHKNJrf87D8XNdbeXsuNmgLjv?=
+ =?us-ascii?Q?A5P2ijbk7Uf5Na7UF/1wr3yZG3GmTJ0OM76uRCcfEQ6eAflLSdEay4KnvVA6?=
+ =?us-ascii?Q?eQ7wupxQmrCnuoHDtI0JMj9YU4VQEcY60tb73ctQix77SYW2GQgx9nvKLImf?=
+ =?us-ascii?Q?+FuoNPF/t8+lkmjJGMuhkBl+PfZJJeYggPN557b6H4kLwlaackotXD4wdBhw?=
+ =?us-ascii?Q?xu2gXjJiRMhwoL02+YZXQ3dRc+SZhdI5KJDZSWZsQhv/BjdzvOEpDVUopFkx?=
+ =?us-ascii?Q?BTvxd1yaeIgkJs8PcaoGruUjCWb6tAbaMrhMpM6QcQR+ozo0UX28V7CYfWpQ?=
+ =?us-ascii?Q?0lAfv9uYb2yf+NOJ54Txo8Piy4l2k+AQrDApn7uGtFhd6iw/mx4pezVveXs3?=
+ =?us-ascii?Q?hiqfwgPbcSbVVrnXleAgamfHYmO54KfT+aYlsGHsbgfxwcM0wVZxJ0ErufD7?=
+ =?us-ascii?Q?oFZuU/KQz+k4LIYUl737QovlaqfONky7z2OFr3y6WJPIz9got2qFuu6zO8Nw?=
+ =?us-ascii?Q?6F2d4hzZCA=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0c514d3-fca0-4944-2693-08de903d4906
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:23:22.6679
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HIJc9GPwzL8fYrF6vIbyZYNxwtW98gE4vNDfuyKKU26a2J5aXEAnRaAllCGxtuZg4wl93bNiTs2acjFLrzNoeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB7844
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260401_134607_065018_A4E46A74 
-X-CRM114-Status: GOOD (  19.55  )
-X-Mailman-Approved-At: Thu, 02 Apr 2026 07:14:40 -0700
+X-CRM114-CacheID: sfid-20260401_152325_815306_FCC95C9A 
+X-CRM114-Status: GOOD (  11.57  )
+X-Mailman-Approved-At: Thu, 02 Apr 2026 07:14:41 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,67 +178,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello,
+From: Daniel Wagner <wagi@kernel.org>
 
-"Heyne, Maximilian" <mheyne@amazon.de> wrote:
-> From: Christoph Hellwig <hch@lst.de>
-> 
-> [ Upstream commit 941f7298c70c7668416e7845fa76eb72c07d966b ]
-> 
-> Now that blk_mq_destroy_queue does not release the queue reference, there
-> is no need for a second admin queue reference to be held by the
-> apple_nvme structure.
+The support for the !SMP configuration has been removed from the core by
+commit cac5cefbade9 ("sched/smp: Make SMP unconditional").
 
-This patch is probably buggy in upstream.  It removes extra reference
-->get, but doesn't remove the corresponding ->put which is located
-inside apple_nvme_free_ctrl().
+While one can technically still compile a uniprocessor kernel, the core
+scheduler now mandates SMP unconditionally, rendering this particular
+!SMP fallback handling redundant. Therefore, remove the #ifdef CONFIG_SMP
+guards and the fallback logic.
 
-I'm reporting here currently just for the heads up - was looking at the
-same nvme regression problem at 6.1.y, found this thread, and the
-nvme-apple changes appeared suspicious.
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+[atomlin: Updated commit message to clarify !SMP removal context]
+Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+---
+ lib/group_cpus.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
-nvme-apple patch is not required to fix the regression (this also holds
-true for [PATCH 6.1.y 3/8] scsi: remove an extra queue reference).  Maybe
-they shouldn't go to stable.
+diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+index e6e18d7a49bb..b8d54398f88a 100644
+--- a/lib/group_cpus.c
++++ b/lib/group_cpus.c
+@@ -9,8 +9,6 @@
+ #include <linux/sort.h>
+ #include <linux/group_cpus.h>
+ 
+-#ifdef CONFIG_SMP
+-
+ static void grp_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
+ 				unsigned int cpus_per_grp)
+ {
+@@ -564,22 +562,4 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+ 	*nummasks = min(nr_present + nr_others, numgrps);
+ 	return masks;
+ }
+-#else /* CONFIG_SMP */
+-struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+-{
+-	struct cpumask *masks;
+-
+-	if (numgrps == 0)
+-		return NULL;
+-
+-	masks = kzalloc_objs(*masks, numgrps);
+-	if (!masks)
+-		return NULL;
+-
+-	/* assign all CPUs(cpu 0) to the 1st group only */
+-	cpumask_copy(&masks[0], cpu_possible_mask);
+-	*nummasks = 1;
+-	return masks;
+-}
+-#endif /* CONFIG_SMP */
+ EXPORT_SYMBOL_GPL(group_cpus_evenly);
+-- 
+2.51.0
 
-That said, the other part of the backport series FWIW looks good to me,
-and I've also verified it resolves the 6.1.y regression.
-
-Thanks.
-
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> Reviewed-by: Sven Peter <sven@svenpeter.dev>
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
-> Link: https://lore.kernel.org/r/20221018135720.670094-5-hch@lst.de
-> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Maximilian Heyne <mheyne@amazon.de>
-> ---
->  drivers/nvme/host/apple.c | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index c5fc293c22123..c84ebfcfdeb88 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -1507,15 +1507,6 @@ static int apple_nvme_probe(struct platform_device *pdev)
->  		goto put_dev;
->  	}
->  
-> -	if (!blk_get_queue(anv->ctrl.admin_q)) {
-> -		nvme_start_admin_queue(&anv->ctrl);
-> -		blk_mq_destroy_queue(anv->ctrl.admin_q);
-> -		blk_put_queue(anv->ctrl.admin_q);
-> -		anv->ctrl.admin_q = NULL;
-> -		ret = -ENODEV;
-> -		goto put_dev;
-> -	}
-> -
->  	nvme_reset_ctrl(&anv->ctrl);
->  	async_schedule(apple_nvme_async_probe, anv);
->  
-> -- 
-> 2.50.1
 
