@@ -4,166 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C8623D39430
-	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0AD1D39439
+	for <linux-nvme@archiver.kernel.org>; Thu,  2 Apr 2026 14:14:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=az4WgduGThZvY6Um24xQWuxzlC406KXWRiasoJJPX+I=; b=TdfeEEzNSynzEL3F0+UanByEoJ
-	UeZdJdC2rgPhieEjvS9aKQESfo8rZ8i4N6mN84tzD1x1veXwq9TbBRNgLxs3+uSEGjlkVFzshHEv8
-	X+kcmqesFtyFZMshknjrW0enqogZ7dxjiN18K5VmH3Hd+NdBicV+xEeIjFKjTrURJEDpJBv2LVl5h
-	YzfvwGTa3Pakn5jBLYzUFJcXy7NCCALwz/fyG5Z59VbSt/+yfJ/m5oc/WMvTP8WMnWLWVcz/EpT+K
-	mSuwcj7Q8UYY4lPMMVHk7dFi8wGdXrTO5xzsnr7HrwqPe1xTGDkmsmkPAuAD+cY3DVRCCsFwkOmFD
-	vDvoNM2g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=fwrBn0MM36ml3NMuCzWd/m89P37wcag8vmF/9UbXMcQ=; b=W0l2d7lULxGAC8Yokuj6codium
+	3O27vL4DpN+k/S6YUAI9zfd/pe0TlCIDrKMjkfV8DXbq6YuwXFkCP49HIp+ZOHJRgPzCHSWAqoTCp
+	jdVVpXPXXGi7CGvVDN/22lJCVBvO3PFpFi6bzcCDohyW/MTz+HI4861o7SWMVtaZ+LVyVbLmNfXbn
+	cquRA2Fq8/GWtiBQcRmhsu4bDg1l7c1M2OKF/bgrdr+naKYQAr9OZRVamWzqe6OldF8Nm6J6YMn45
+	R4vqIjM1ItqmAgmBQcJgirnokJvQe+d2KZxLWFbKlS+vEEjm4NC8+6YX25stSXf7XleR3WYg9hauu
+	kQK8nx8g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8Ior-00000000GQk-3D7s;
-	Thu, 02 Apr 2026 14:14:49 +0000
-Received: from mail-uksouthazon11020108.outbound.protection.outlook.com ([52.101.196.108] helo=LO3P265CU004.outbound.protection.outlook.com)
+	id 1w8Iot-00000000GV6-28hi;
+	Thu, 02 Apr 2026 14:14:51 +0000
+Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w83yj-0000000GJPu-2g0k
+	id 1w8E3e-0000000HE5N-1mG2
 	for linux-nvme@lists.infradead.org;
-	Wed, 01 Apr 2026 22:24:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DNsjQ/06P6jCkHutOv4UuLDuM4LOxtZsM5Zf85BlB3MDDytV4hjG1M6BlxusTYu44f+zwljMlAxv5EavAg6Kwz6ZEnGmlp3cwiWxQTOCxtTrXoEDn6qvT1YzC1ni2gStF+KVQrQWbyWyi7y0IZhvg21jeloB9j5oDkrnaUfmRfrwBu55UVKaB+0suG7vuN1qLTPzHQIBTyzRwnRS6lin0XIjF82qFyH0AyTmYfZBu/kuGsGLN7LIUyNWUl63OgT2QQJFiJdaYCTi5gZPYmMPCxcTHhBD+V6MQ2CKV+x+G1aKIArrwhKwyKykAmFwNb7KcZL+cjArF4GTAETwF6ffdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=az4WgduGThZvY6Um24xQWuxzlC406KXWRiasoJJPX+I=;
- b=LqGAEGMr+lUpQ16hemsMaWGz3hketx4yy+JbJ6I63dpC5V+H/JV1ZFyHGSCdnsxj3F6OzIp/8QNeHniM50EqZhnYuIyalGMOHzJa1z5asAdfeFeIC3MXlvmwJOawqyaDOH+Ey8q0wZfVcYJI6+SnQa1HXAQL9OO85gYXri0W5891zXQEL6FJc6KeCo8hss3CS39U8gtoNuY9AK5anKsRzrodatv/8UqqXkF0mPMDLB5eNeQeLFsZrjAMJ/swRoiP6+taU8UZqPyujHzyV1eyBV79Q3BeT+XX04MuAfT3DNuFLgutJR+UkZopKqcWmFUU/yjG84rmR5Su2bqLI/K+IQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by CWLP123MB2964.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:58::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.24; Wed, 1 Apr
- 2026 22:23:58 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Wed, 1 Apr 2026
- 22:23:58 +0000
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: axboe@kernel.dk,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	mst@redhat.com
-Cc: atomlin@atomlin.com,
-	aacraid@microsemi.com,
-	James.Bottomley@HansenPartnership.com,
-	martin.petersen@oracle.com,
-	liyihang9@h-partners.com,
-	kashyap.desai@broadcom.com,
-	sumit.saxena@broadcom.com,
-	shivasharan.srikanteshwara@broadcom.com,
-	chandrakanth.patil@broadcom.com,
-	sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com,
-	suganath-prabu.subramani@broadcom.com,
-	ranjan.kumar@broadcom.com,
-	jinpu.wang@cloud.ionos.com,
-	tglx@kernel.org,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	akpm@linux-foundation.org,
-	maz@kernel.org,
-	ruanjinjie@huawei.com,
-	bigeasy@linutronix.de,
-	yphbchou0911@gmail.com,
-	wagi@kernel.org,
-	frederic@kernel.org,
-	longman@redhat.com,
-	chenridong@huawei.com,
-	hare@suse.de,
-	kch@nvidia.com,
-	ming.lei@redhat.com,
-	steve@abita.co,
-	sean@ashe.io,
-	chjohnst@gmail.com,
-	neelx@suse.com,
-	mproche@gmail.com,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	megaraidlinux.pdl@broadcom.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com,
-	MPT-FusionLinux.pdl@broadcom.com
-Subject: [PATCH v10 12/13] genirq/affinity: Restrict managed IRQ affinity to housekeeping CPUs
-Date: Wed,  1 Apr 2026 18:23:11 -0400
-Message-ID: <20260401222312.772334-13-atomlin@atomlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260401222312.772334-1-atomlin@atomlin.com>
-References: <20260401222312.772334-1-atomlin@atomlin.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN0PR04CA0097.namprd04.prod.outlook.com
- (2603:10b6:408:ec::12) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	Thu, 02 Apr 2026 09:09:47 +0000
+Date: Thu, 2 Apr 2026 11:09:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1775120983;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fwrBn0MM36ml3NMuCzWd/m89P37wcag8vmF/9UbXMcQ=;
+	b=odde0n62hjn9LZuq2B/dNwt9vUJZXCyajd+XWvOnXWmMaFGfXUE69bDf4leWPam241E+Uo
+	+t41Oorwn99laL8GawIlMBvyPAbCTIGh0H2AUKz00FIWozPRG019it7jkX8/Ire+WLTsc+
+	MGkmMskasKYO/5jh4zdm0Wc6bePiqfI/eNq2qyPIjv8eEvy984XIYnxDEKDs9rnmXk1o0w
+	pa2PYrA1InqHqmCkp/yzbOh8y1YPrIPL9sWcgxzyrS4uoVYs81UxfG3u+yPmEHirc/pDRo
+	jHZqmkz992BIVJYTKebOathyOPxUjscWc4RX4+zhXMHAcUsxLoHvYJo8zu+hMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1775120983;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fwrBn0MM36ml3NMuCzWd/m89P37wcag8vmF/9UbXMcQ=;
+	b=jWPcQeevqgP+QitjhXQzSifCfojusGMWduLoSkX24XZKzhrOV1MXsOOvAlCQ9Xy22O+9/K
+	7W5PFVNeWP3iKtBw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Aaron Tomlin <atomlin@atomlin.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	mst@redhat.com, aacraid@microsemi.com,
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+	liyihang9@h-partners.com, kashyap.desai@broadcom.com,
+	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
+	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
+	ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com,
+	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com,
+	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org,
+	longman@redhat.com, chenridong@huawei.com, hare@suse.de,
+	kch@nvidia.com, ming.lei@redhat.com, steve@abita.co, sean@ashe.io,
+	chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
+Subject: Re: [PATCH v9 09/13] isolation: Introduce io_queue isolcpus type
+Message-ID: <20260402090940.5j0WmVX_@linutronix.de>
+References: <20260330221047.630206-1-atomlin@atomlin.com>
+ <20260330221047.630206-10-atomlin@atomlin.com>
+ <20260401124947.-d4D5Cr-@linutronix.de>
+ <c7phvlvohdn2ksc2jymxk5foolwlqaqq2jzcdv7oic4uzomh3j@yjimbwcnnst3>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWLP123MB2964:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f70d4f7-67a4-4363-952c-08de903d5e2f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: qEmt9hPR4RienPNLGy8NVhRIeIWzeHtFhukMsdPxfxCSz5tmDmc92gg20ISe/8v+8x3qkDSB3WhBF2Y/4RSgXoR8LEw9eFysIIFddZR7IK6kAvEdjuIIr1JfrCxLveFuPWR3mf3xSdU2UjtcZ8wbk1VvWRU9kQfr30nJW+mvwtaUMFsr7prvqzKAi6zx2i0sYWB+4fLtKvgqfScRFz5GuEsy6ZlBPRJpsW5XVGYbLwJRuCEVotR9ApA3PCjpc6RhPtJ+Oz05nF/owvEisSVvz5KbVWaZxeqRBUcb7UUn6y4qHVlp2p2237VohJWOauCOg5ZW3cqVPthRqf/5+fgnpOIfltZCC19pMkK5IUKtHuwO4zrezPLpyWmMgM2PynSm98QSiDeOw7KV0CkOVbXK8jVgSw1Lf1TWA/G2/OS5hFSwPK3dB0HuFeP2uzomP7PEGja8QIWkBOxIoBfBKycOPTZMlw64KJTtLPqaPAPEchWatCKpeZ4LGtjgOTN0bvtLduks0VUde3GwNfcN4pDiTlnocVe93hAxwClOTXtVL1aAbz0iTjKq57RrKXewFZpb7FKLve8fcXNqRaiSBKrRAr5YYy3uOpIyYIKUD8M6PMWy0hDzRnqKK/ok/kluJj0x+8lJhshZK6Gdskax5RP3TkWGkF+z/KIh7CQYJaSAMUHkDTthCIvsMlcoP3WM0MrHWUUiRZ8JhFt+IlS4Gc7NU7wGgHCfIEWx6Q3fqHwTYTc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?B4Fu5YZEy7fPr7y8DSjBuKq/Gt5Nw92uGwiZnyRq1/ELnetJvfiMuK8Oc7YY?=
- =?us-ascii?Q?Jyx8XvdQjoqtTTCkIGooL6eGlLABvIzQcxalhBs88LmZTtZNZQDUKXUWVItq?=
- =?us-ascii?Q?9DIDNE/ZMrXyB5ayesuIbnyHJAcJ5XlZwi3is2vMW2GUgcYBAo9WWI5uHM0Y?=
- =?us-ascii?Q?o++UMg57UIsm/duR2XdbxeE1vKuN3Cy6QKpRg4tcDk2UK+Q20wsUGm3anDVL?=
- =?us-ascii?Q?6buLamk/THHSbaiDIrfSnkpPA4f3vCMKNtI8ixKVo8BJ9P+mjO+OpcEGVaKC?=
- =?us-ascii?Q?infkvjmPIZt1OT5evRWrYE6LcrP2hx4l90HuVFI8fOz/KgYm/NxtsEv5weod?=
- =?us-ascii?Q?3MGMrOTi1RMJIsDlA40Iljt5YWJwXIvMggKW8Nj0mZeeDRog5GqJKZ7ZGNnk?=
- =?us-ascii?Q?cUM/O0suH6byACEqyC0w9T29+8TaA21jdDv9orF7VGLS4cFiEYyKhc6Ab5wS?=
- =?us-ascii?Q?yBdSPFKr0Y+psvQ8v+BMfiI1RL93eXpS1ktj0anP01C7hCNypmhYq/yJyYkp?=
- =?us-ascii?Q?zjfAFxjsSdx9u5iKxT87AGzLt/oJYY3WEK2wb4qv0j8Gq302VnbwTP7fW165?=
- =?us-ascii?Q?5cVh28LBz9u5rtl5M6kktmqD+FahGtBdG8wWBOffv/9v6CtmFE3blN/nb4sV?=
- =?us-ascii?Q?J03mxprI99YeNYVoEaBi4fUOvNg7+21apRE9clQOpD3uKb3K1dwbqqAao91Y?=
- =?us-ascii?Q?KpsG9NQrI/ViN+Sq+eM5a9vhNK5AnIP4IZ5XXtOaP38ONq+1nGVx50D3B7F9?=
- =?us-ascii?Q?U3HmRtjTVlTb87GPJJRJkDS1MgqmAYqmTfPFXajjfKeiTGJV//2hA4XxJG9C?=
- =?us-ascii?Q?G4S7p0yG+vUvCW3VB3tc1miVUNkD3ydIAl//Mr3A7rdpad7bqRz3com5VWhC?=
- =?us-ascii?Q?f2uAgWyaILT/Oezl2qwUIdBchrir0Vm8dWo0qyZSVOOA6dqTsVZxRAhQ6X1n?=
- =?us-ascii?Q?ZEqadHyiz4BuapaGGIgOi+GtWJ+YvEjEG/hew9gNKpdc6m2+IdXX9XKxTgEM?=
- =?us-ascii?Q?RxqloGpDFOrZCiWZ7ytDMuWdsMAP+Gj01LxsOoItVxr8/hc1U3zaMT0QHyb4?=
- =?us-ascii?Q?fqkMrTUWVIc4cHtuYFx8DjTZh3w+j4X9+A/vyMeCUS2x3CHeSxvg+0WHmcKa?=
- =?us-ascii?Q?MuP9HBPIuhbDBu+qv9wfw29zX6Lq6OqqZq4DKD5Npn/O3tHNbVIFU6ERQW4x?=
- =?us-ascii?Q?ItoC43RJnfaQu4aJPThivgY26bHciRupY0JErdgj9T/j4LHiZcvxXhlH3N5v?=
- =?us-ascii?Q?v61fbR7BhdhUcdX5PnCEt+kJaDY9gPRNPOottGtZtEF38xOalUt56Wt7qd45?=
- =?us-ascii?Q?au0bLf9tjNXb0rOjr+sEBfRI37nd303cA9rTWQlmx4xzGrLgXnoRE9jhljeq?=
- =?us-ascii?Q?Rd1/8MetiIRNBvLIaU/bzcz3lWdagbbSqIbUJ4yUGZVQIek/5tWcqPiS+iP4?=
- =?us-ascii?Q?kHMgi35LXkyw5OkYSTOu7KZJgKDJkkROI6mfkX7rmK/ah3nz7a8HOVm4Mr9b?=
- =?us-ascii?Q?XQJ74cg/AKpXSjA8O4U068a3Nn6AaQk0aT7S6so86cM9BsMsgfkhgFwqDPoR?=
- =?us-ascii?Q?X+ZBzQW3MUP/+Ty929YiNNosdBS0ZVYqpBSvAnvjZqBgWMh49gaJjK3ISorI?=
- =?us-ascii?Q?Z3R1cRCQ1yD1FN1SVR6nEZEPSF2WhGH7nzap+MLfzP0isqPLgn3zT9PcfRh0?=
- =?us-ascii?Q?IDGcj9mXSJvTq4vJhvNn0k75bSf7mF4bz7nukcuT5LXddXAC2FgeQ5kH6r/b?=
- =?us-ascii?Q?+zpGxRzYfg=3D=3D?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f70d4f7-67a4-4363-952c-08de903d5e2f
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 22:23:58.2498
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /EJdS0cLE1B95k2n+CFl+oks4oGHlnLb8GwjxzWuPCaYfDUEjfhVTlCGPAG9xh2nuIfFYXcovoxMU7N+ah4cDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB2964
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c7phvlvohdn2ksc2jymxk5foolwlqaqq2jzcdv7oic4uzomh3j@yjimbwcnnst3>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260401_152401_673106_1EAE40F9 
-X-CRM114-Status: GOOD (  14.70  )
-X-Mailman-Approved-At: Thu, 02 Apr 2026 07:14:41 -0700
+X-CRM114-CacheID: sfid-20260402_020946_629977_AB0BCB66 
+X-CRM114-Status: GOOD (  25.28  )
+X-Mailman-Approved-At: Thu, 02 Apr 2026 07:14:40 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -178,93 +96,95 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-At present, the managed interrupt spreading algorithm distributes vectors
-across all available CPUs within a given node or system. On systems
-employing CPU isolation (e.g., "isolcpus=io_queue"), this behaviour
-defeats the primary purpose of isolation by routing hardware interrupts
-(such as NVMe completion queues) directly to isolated cores.
+On 2026-04-01 16:58:22 [-0400], Aaron Tomlin wrote:
+> Hi Sebastian,
+Hi,
 
-Update irq_create_affinity_masks() to respect the housekeeping CPU mask.
-Introduce irq_spread_hk_filter() to intersect the natively calculated
-affinity mask with the HK_TYPE_IO_QUEUE mask, thereby keeping managed
-interrupts off isolated CPUs.
+> Thank you for taking the time to document the "managed_irq" behaviour; it
+> is immensely helpful. You raise a highly pertinent point regarding the
+> potential proliferation of "isolcpus=" flags. It is certainly a situation
+> that must be managed carefully to prevent every subsystem from demanding
+> its own bit.
+> 
+> To clarify the reasoning behind introducing "io_queue" rather than strictly
+> relying on managed_irq:
+> 
+> The managed_irq flag belongs firmly to the interrupt subsystem. It dictates
+> whether a CPU is eligible to receive hardware interrupts whose affinity is
+> managed by the kernel. Whilst many modern block drivers use managed IRQs,
+> the block layer multi-queue mapping encompasses far more than just
+> interrupt routing. It maps logical queues to CPUs to handle I/O submission,
+> software queues, and crucially, poll queues, which do not utilise
+> interrupts at all. Furthermore, there are specific drivers that do not use
+> the managed IRQ infrastructure but still rely on the block layer for queue
+> distribution.
 
-To ensure strict isolation whilst guaranteeing a valid routing destination:
+Could you tell block which queue maps to which CPU at /sys/block/$$/mq/
+level? Then you have one queue going to one CPU.
+Then the drive could request one or more interrupts managed or not. For
+managed you could specify a CPU mask which you desire to occupy.
+You have the case where
+- you have more queues than CPUs
+  - use all of them
+  - use less
+- less queues than CPUs
+  - mapped a queue to more than once CPU in case it goes down or becomes
+    not available
+  - mapped to one CPU
 
-    1.  Fallback mechanism: Should the initial spreading logic assign a
-        vector exclusively to isolated CPUs (resulting in an empty
-        intersection), the filter safely falls back to the system's
-        online housekeeping CPUs.
+Ideally you solve this at one level so that the device(s) can request
+less queues than CPUs if told so without patching each and every driver.
 
-    2.  Hotplug safety: The fallback utilises data_race(cpu_online_mask)
-        instead of allocating a local cpumask snapshot. This circumvents
-        CONFIG_CPUMASK_OFFSTACK stack bloat hazards on high-core-count
-        systems. Furthermore, it prevents deadlocks with concurrent CPU
-        hotplug operations (e.g., during storage driver error recovery)
-        by eliminating the need to hold the CPU hotplug read lock.
+This should give you the freedom to isolate CPUs, decide at boot time
+which CPUs get I/O queues assigned. At run time you can tell which
+queues go to which CPUs. If you shutdown a queue, the interrupt remains
+but does not get any I/O requests assigned so no problem. If the CPU
+goes down, same thing.
 
-    3.  Fast-path optimisation: The filtering logic is conditionally
-        executed only if housekeeping is enabled, thereby ensuring zero
-        overhead for standard configurations.
+I am trying to come up with a design here which I haven't found so far.
+But I might be late to the party and everyone else is fully aware.
 
-Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
----
- kernel/irq/affinity.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+> If managed_irq were solely relied upon, the IRQ subsystem would
+> successfully keep hardware interrupts off the isolated CPUs, but the block
 
-diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-index 076a5ef1e306..dd9e7f5fbdec 100644
---- a/kernel/irq/affinity.c
-+++ b/kernel/irq/affinity.c
-@@ -8,6 +8,24 @@
- #include <linux/slab.h>
- #include <linux/cpu.h>
- #include <linux/group_cpus.h>
-+#include <linux/sched/isolation.h>
-+
-+/**
-+ * irq_spread_hk_filter - Restrict an interrupt affinity mask to housekeeping CPUs
-+ * @mask:            The interrupt affinity mask to filter (in/out)
-+ * @hk_mask:         The system's housekeeping CPU mask
-+ *
-+ * Intersects @mask with @hk_mask to keep interrupts off isolated CPUs.
-+ * If this intersection is empty (meaning all targeted CPUs were isolated),
-+ * it falls back to the online housekeeping CPUs to guarantee a valid
-+ * routing destination.
-+ */
-+static void irq_spread_hk_filter(struct cpumask *mask,
-+				 const struct cpumask *hk_mask)
-+{
-+	if (!cpumask_and(mask, mask, hk_mask))
-+		cpumask_and(mask, hk_mask, data_race(cpu_online_mask));
-+}
- 
- static void default_calc_sets(struct irq_affinity *affd, unsigned int affvecs)
- {
-@@ -27,6 +45,8 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
- {
- 	unsigned int affvecs, curvec, usedvecs, i;
- 	struct irq_affinity_desc *masks = NULL;
-+	const struct cpumask *hk_mask = housekeeping_cpumask(HK_TYPE_IO_QUEUE);
-+	bool hk_enabled = housekeeping_enabled(HK_TYPE_IO_QUEUE);
- 
- 	/*
- 	 * Determine the number of vectors which need interrupt affinities
-@@ -83,8 +103,12 @@ irq_create_affinity_masks(unsigned int nvecs, struct irq_affinity *affd)
- 			return NULL;
- 		}
- 
--		for (int j = 0; j < nr_masks; j++)
-+		for (int j = 0; j < nr_masks; j++) {
- 			cpumask_copy(&masks[curvec + j].mask, &result[j]);
-+			if (hk_enabled)
-+				irq_spread_hk_filter(&masks[curvec + j].mask,
-+						     hk_mask);
-+		}
- 		kfree(result);
- 
- 		curvec += nr_masks;
--- 
-2.51.0
+The managed_irqs can't be influence by userland. The CPUs are auto
+distributed.
 
+> layer would still blindly map polling queues or non-managed queues to those
+> same isolated CPUs. This would force isolated CPUs to process I/O
+> submissions or handle polling tasks, thereby breaking the strict isolation.
+> 
+> Regarding the point about the networking subsystem, it is a very valid
+> comparison. If the networking layer wishes to respect isolcpus in the
+> future, adding a net flag would indeed exacerbate the bit proliferation.
+
+Networking could also have different cases like adding a RX filter and
+having HW putting packet based on it in a dedicated queue. But also in
+this case I would like to have the freedome to decide which isolated
+CPUs should receive interrupts/ traffic and which don't.
+
+> For the present time, retaining io_queue seems the most prudent approach to
+> ensure that block queue mapping remains semantically distinct from
+> interrupt delivery. This provides an immediate and clean architectural
+> boundary. However, if the consensus amongst the maintainers suggests that
+> this is too granular, alternative approaches could certainly be considered
+> for the future. For instance, a broader, more generic flag could be
+> introduced to encompass both block and future networking queue mappings.
+> Alternatively, if semantic conflation is deemed acceptable, the existing
+> managed_irq housekeeping mask could simply be overloaded within the block
+> layer to restrict all queue mappings.
+> 
+> Keeping the current separation appears to be the cleanest solution for this
+> series, but your thoughts, and those of the wider community, on potentially
+> migrating to a consolidated generic flag in the future would be very much
+> welcomed.
+
+I just don't like introducing yet another boot argument, making it a
+boot constraint while in my naive view this could be managed at some
+degree via sysfs as suggested above.
+
+> 
+> Kind regards,
+
+Sebastian
 
