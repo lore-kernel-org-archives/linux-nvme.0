@@ -4,91 +4,144 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5602E88D7F
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEAEEE88D70
 	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 04:44:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KlucbAEqwcNJwIj7lkZqI+Mpg+aVJI04l6WTdjinCag=; b=FwOGTSKKa36DVjoheJ1tKtOxLH
-	UT9Z+x4yq6LbMYa+t2pTnQ22Zer7H0Oveg5nw4M8MBhZbqopykts6uAlXIj/bp8LksYyXNQFrbQDD
-	/N/1fg4urWjTpQn48YCg4SLyF2A/0McoKpJj9TsLfJsRBJtWLixI+6zb71efPpc/Q3oZyjHmSGJ4v
-	MurAx3gFUnQXb4kBuAo5zQscwkKLzSib+R/C6qj1q+Yp85+qTUYrBmEpuOCtl0YlyInBV6E9fcAGM
-	Mlqj1qrQgDyFaMPrjCpKuC1zDTwhkYHzBMIk6H3g0cNeL4EYNYBT598wN8axEtpYn7DYjI7WpOYFy
-	jDq58YxA==;
+	bh=GkknelYFp6HtN4XE3xL83ceBm5cEE9hrZFfrC0l2T2k=; b=MKpYtqRiuu8eY4lAug8zStnpdl
+	WRE5GQohy17dtBDZfUu8lLw/53VZmKSzx3iZoczhCms4HjTCi+as4trI5MmuYEyEEXzKxnM6ps4EP
+	70BaU6obf2zDCSiH8jd9UlK+xF8dHik9B0haJ411F0APZLTOj4c/i1p7QyG0nXFikQbLPTEYCIJiF
+	wR7b6DowGrq5npLsAu6KPZNVsmoFJd7G6H8MC6a1W1J99nbVsLJimcXgJMNlopWkUpixHTPKNEPHJ
+	wFBY+EqurHrtO6M0f33XQlagSH7FXFdxVl4uDOcDx1b3ItoyAl6h0NG7/c9Tt0AGisId+0W73dUQd
+	dfg5JKSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8ss7-000000037H0-224o;
-	Sat, 04 Apr 2026 04:44:35 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1w8ss6-000000037Go-3QDg;
+	Sat, 04 Apr 2026 04:44:34 +0000
+Received: from mail-uksouthazon11021079.outbound.protection.outlook.com ([52.101.95.79] helo=LO2P265CU024.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8TZi-000000013pE-2Hip
+	id 1w8Skb-00000000zSm-0Z8f
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Apr 2026 01:43:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775180633;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KlucbAEqwcNJwIj7lkZqI+Mpg+aVJI04l6WTdjinCag=;
-	b=THmAuYWzdvHxUCVFRHz6gXtjKMMnAD3iNc3oA1EdPgKhp+lz70Gs5Ovx5drBJLhVk75bql
-	ctb3ERmUCZLxQxAIN2O9JRPXc/+hawDHOQP69vPeIQp//JHden7SRfntlSORtFpaMIQJZC
-	kqaujEwAp2Ad3xntzxzWOklQcUGAnk0=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-480-7ZLuw8b1OkyBfyGgFcOEeg-1; Thu,
- 02 Apr 2026 21:43:47 -0400
-X-MC-Unique: 7ZLuw8b1OkyBfyGgFcOEeg-1
-X-Mimecast-MFC-AGG-ID: 7ZLuw8b1OkyBfyGgFcOEeg_1775180623
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F31A9180047F;
-	Fri,  3 Apr 2026 01:43:40 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.83])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 74F381978D41;
-	Fri,  3 Apr 2026 01:43:17 +0000 (UTC)
-Date: Fri, 3 Apr 2026 09:43:12 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	mst@redhat.com, aacraid@microsemi.com,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	liyihang9@h-partners.com, kashyap.desai@broadcom.com,
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
-	ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com,
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com,
-	bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org,
-	frederic@kernel.org, longman@redhat.com, chenridong@huawei.com,
-	hare@suse.de, kch@nvidia.com, steve@abita.co, sean@ashe.io,
-	chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v9 10/13] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-Message-ID: <ac8bMOVqTbpg5Pq_@fedora>
+	Fri, 03 Apr 2026 00:51:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AD6Wua1umsX5aC5bXlN+JQ9uR2ROuzsz54IHnGzOU69rXYv8UMYv5uyY/3qB1lNpb0HCt4bmcNl3KQk7FKkoU49oUxSaTTQqVEkkzNLSiVx87+r2FkD8F5vJ6L+uwUhT+mgPowUOV8kSaiUW3+20P7A56WdMseyybPnlG7J5LLOVtw5dSUwtHs1jc6/yIkiXUkGVN/0T0rTtySj7bPBWPocHTJBNJAFf90+tx7J90LpRghc9QxfmzPGHv00fHD7/y91SzsRuJRlerTSYA6RCEdahLXXVj/qIjQjS0XChjBWf9/b9wSwDm3EqDAad9OovkUZm5YL43U4YW8x3lPskJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GkknelYFp6HtN4XE3xL83ceBm5cEE9hrZFfrC0l2T2k=;
+ b=Pseop/Jb7+Uf08j+R9sQKx93ACKIEUW79qpyhBwtiyMfbRaT6lS3/k6MJyprpmfaCCc6BNeORcKGKhS207mB7NcDlWU5QU2OzLSuadEJyohJ2d7oXK2xoEHjGGtry8NMm28h/ammafZNtyQ/QhetikdO9b5sumfTbqStX8yr8hyWChgT2vviizK7YsaW4zD+LZP1LATJvWehRsOYt/qnWPCMy/4bPQrEnOIe+uNFzgUtCXViSoA0EQSZRpCbNFPYVjkTAX+msptUrYufJm39k26XckKts5Tx3QFrtOOC+2As795AZ6iWNhpbIRvjWaIq0F5OJ531z3nkxgaRoa/C/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO9P123MB7855.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3e4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Fri, 3 Apr
+ 2026 00:50:58 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Fri, 3 Apr 2026
+ 00:50:58 +0000
+Date: Thu, 2 Apr 2026 20:50:55 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
+	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
+	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
+	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
+	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
+	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
+	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
+	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
+	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, ming.lei@redhat.com, 
+	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
+	mproche@gmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com
+Subject: Re: [PATCH v9 09/13] isolation: Introduce io_queue isolcpus type
+Message-ID: <sluplntvagevh6ehfm3kqinbh23d2gnin7stkptxk6drvogh2g@4hpz74fidrq2>
 References: <20260330221047.630206-1-atomlin@atomlin.com>
- <20260330221047.630206-11-atomlin@atomlin.com>
-MIME-Version: 1.0
-In-Reply-To: <20260330221047.630206-11-atomlin@atomlin.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: aRmDTGZBKDQ5-Dew_8gm-QR0hsnm_gXWwmEg4ew529E_1775180623
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+ <20260330221047.630206-10-atomlin@atomlin.com>
+ <20260401124947.-d4D5Cr-@linutronix.de>
+ <c7phvlvohdn2ksc2jymxk5foolwlqaqq2jzcdv7oic4uzomh3j@yjimbwcnnst3>
+ <20260402090940.5j0WmVX_@linutronix.de>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20260402090940.5j0WmVX_@linutronix.de>
+X-ClientProxiedBy: BN9PR03CA0574.namprd03.prod.outlook.com
+ (2603:10b6:408:10d::9) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO9P123MB7855:EE_
+X-MS-Office365-Filtering-Correlation-Id: 511c72d1-3b8d-4141-664c-08de911b11f4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: E/JeTplHmm5B8CmZkmz/BIEERu5Sox3xZmnitQQ3sVrXsHW7MjgksEhXLHWfgfobpxxJSTPu+fUNNigQjCg8Qb7tgwLq1AnBxUxYYoUTAMer4Rp1MdCkQ9g5WE3fNKp4vlRsEQHmamXXYrL3zgGeSh1fwigLaJ+1G1zZ86+MmC44DBHAQrQggDmCIYHg+GroYe7ZJMMha9AxHnx++zgdy/VLplfYxMMQwC9Mssxyd7Q1eAU+Ya30iZlue7hGK+v8w7Zl/MiEGFRX4e+0pe26UX8tHj/QY9WkqPEdhP4QMBM8tN9sAWQR62cwD4WdO+4INQHpBj1J6pfp7nTMPDp05pMyFxwSoSlWNmUOIjBlHz59rbDcAQgfmKXWwv9TzEES2VnA24iogk9Pengaxfs52z9sxpHmf4jsxhJdsc1zZGhG3uX8lzCVuX7o9daj37xlf6avaXGJimVpq2Pw965Z4/VBZNFiYiY5Fsqejb4J9jsDm7u2xFXFEVq/30ejRluolhjsMDlLqUhnbjF9O4NGTArknn4qst/HDzO/qXCCH6oVidnKLIoTiJHJ3oPBWr9XEpLNfRnAM9S4TNSj9hbwKWyGjFR8zbwHKkXYd5fJxota8+TDWDkkGXaa//OpF2PAVn8u4BHxS6YSra9h0qFjXSx+XrcAaLjIybO1lX5Dxk9+3XLzgWPL99T6WhG/Al0Xn2itqV6XDJjSNrhpNM9+jVzk/Gdum90oS57RafYq60w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1BNN1FyR3lZUlBXNzNWa3dRRUVta2tBTnB0TVNWY2k4UkhZS0VsMzJwNXVn?=
+ =?utf-8?B?T25PR0lMQjE3anNuc2d6bFphblkvUnNKRjc1TmMrL0dZMm5nL2N6czhBT0FW?=
+ =?utf-8?B?ZG1jd01BQ1VwZTZnUUQvVndyNkZOYzF4dUpxT0lKZG1hemFpeDNKdExMc0Ji?=
+ =?utf-8?B?QWVOUDVNRWJ4VGtqaFdkZ2cxWC9hbjdxZnNabXhxT1NDQlo3T2dwek11QUhj?=
+ =?utf-8?B?SGtQVzB6djhpWGxRaWlXbWZWZi9CUzVnR3F6aW9NT3J2MDR3V3RvSnh0b0NZ?=
+ =?utf-8?B?bjFEL0w3aUNTaDVGaEtqOGlMaHhCVkhEaVVzcTlYeksrdFNSVFVGYVZPakd5?=
+ =?utf-8?B?bmhnT2pqcG4vMUFlVWovdlVuWDNXWTZsaS9iU0JyZHZONDNPUWZmMjdNN3o3?=
+ =?utf-8?B?WklxUFhUWmROZTNGV0ZXOTJncWwrR01JdmFrdndHQkJhSDQ3SmpIV3lsSTkx?=
+ =?utf-8?B?NFF2NmNKQ3dqSG9kYm5hamtlUk9aODZaWmlMdGxkdjZieEQxR1c3WDRBbTNN?=
+ =?utf-8?B?eDVweVpEUjVoNnhKODAzOW9tTlNUdS9qYUxKTG5wUVppdmlYOHNYSlZCZHB1?=
+ =?utf-8?B?UjBLaGw5K3I0N0xHcURiRVZ6VWYxRlB4bVRqUXhFUjFuTm5UNGhhMkdLdk9l?=
+ =?utf-8?B?K1d0Mk0rZTFyYUZlemNPUVdRbTB4ZGo1RFF5QjJyRm9BRk5iTzd6K0ZibmMy?=
+ =?utf-8?B?WGtlM3VKWkVLaytpOC9YcDNrYWw4clB3dDE5THJGbG5ZVmw4eFIxMzhFbGZy?=
+ =?utf-8?B?SEdzaUNCZW1NUkZ0Zk9wMkRRMEJhZzVwK1h5TXlwR2pvLzZrVGM1YnVMTC9j?=
+ =?utf-8?B?bXQ5ZVg4V1VlMVVrOThSYkJJRTVhL0xJbGVxTG95b3d0djNEYndiZlQyT2li?=
+ =?utf-8?B?SDlKcnVSZVRoempXV2V2VWhxQnZoeEcxRG5KZk1PSzRSVFd6SWgzemRtT2Y2?=
+ =?utf-8?B?ODM4ZmM4ZlJNaTNIRXUxd3RweXpGd1hoYktNSXprZFBFdmp4US9iNmV4Y1U1?=
+ =?utf-8?B?M21kc0F3cTZZNk9pOXd5eWVUWm9oUC90V2lHN2x2dElrQ0p2YlQrdUZtcm5L?=
+ =?utf-8?B?T3JZSnZJRUhXYUdqUDd3VmIrNFgrRlJyei9lN0dLTmxTWTBRUkRSWnI3aHlV?=
+ =?utf-8?B?U3E5QkRvS0FMYnZVLy8rV1hhQ0tLL3d1Zy9vU3crd1FMczhYdmZLaXl3bjVz?=
+ =?utf-8?B?YjlMMll5N1NpUm9zMGtEVEhpajc0RStpRnQ0QmVlWXRLQmFBR012VExxampS?=
+ =?utf-8?B?V3BOME9pejgza1pIS2xzUS9XS1Y4N1RVQUg2N0FBVkUxUWl3c0dqU1J4azhT?=
+ =?utf-8?B?aDNzWjkvQmJSZGRBRk16eEtpWUkzVkNXUWtHNkxJOUthWVQ0M1J4NDVqbVd2?=
+ =?utf-8?B?Z0M2aWx3VjdrZ2NxQUJqa1FVeGp0YjdZUm8wNE1xYUVwNnhHaWh0VFM3U25V?=
+ =?utf-8?B?YU5CZHptUWRiVmdDRk9PcGVGU0kyRHliaDBxNVYrazJkQWs5QTN1TnR6VnNN?=
+ =?utf-8?B?MlZsSURsbmdSdCtrbk12QXFxNERmNUUvMVlTWWNHWGFsb09vYXloVHIzOCs2?=
+ =?utf-8?B?OGhaMFpDbmFleWZPL3VVUHcvcHNQU1l4eFpwY2tsZ21sV2l1RHBDUkFGQysr?=
+ =?utf-8?B?TEpldVFXMkNaMDl2azM5MTQ5YTl2N3h5U2lRQWZaUm5vUk5FWVBjK3FEQ1Vk?=
+ =?utf-8?B?VENGYWsrY0szOGVEVlVlWUcrcGtQWGxJSnYxQjhiZWk1UUFJRzZUM1h0Y0Zh?=
+ =?utf-8?B?VWxzK1dIUlNzOEJIdnJBQjlTUlRQNDZXcktyTGxOckFDOUpVYlMwV2dmTGRW?=
+ =?utf-8?B?Lzdva3VPeTg3T01lNGlUalFTdXhDL0dpSzkveWsySFIvVnlnM1NkWFhBMCtC?=
+ =?utf-8?B?RHV2dnBROEU2K0MzV1NzVEhqV3VudGgwb1BITGZUNWZFN2ZHNmJ6OEx0VDNR?=
+ =?utf-8?B?cHRFVU43MFJXZklkNWl3TlA5SkxsWnZuTHh2a0FQQVF2c3VmRzcyR0VZT3Ft?=
+ =?utf-8?B?eGxoYk5WTEpVY0ZMcHcvNG43cjhESnpsTlpVTUJnWCs4WDkvdzhvc3pqWFcy?=
+ =?utf-8?B?Wld5Q0FkRVF1WUxLWHBOOXlPbVh6SE4xbStYKytBZngyY3Rrb1ExZVRYNHFu?=
+ =?utf-8?B?RWhXaUJ2dWZiY0JadW5xUWEyNUw1U08xT1R3eWV4TWNzUWRzeVp5bnRlOTZD?=
+ =?utf-8?B?aVBpdklRTEZZZ0lVazB6Q0ttSm1VZVRkbllTSHkwUmp3L2RCcURYZ0dEbTBo?=
+ =?utf-8?B?THhkenFrQ3hvWXNRMWE0MmlZVGZBSUpCakRDSUt5SEkrbzkySkVNeThKYlky?=
+ =?utf-8?B?UDBkb3pFcjA2Q0toYnhoQmszYzFvR0ZPbWZBNHNPazN2NGlZZUhaZz09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 511c72d1-3b8d-4141-664c-08de911b11f4
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 00:50:58.7055
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kDWem7TqXyyT6Xw42g9oI/duz/C/Xn3MqaYiPQdZGZo7W47FMZuzvTwW4UEiuKn3BRn4m/3wPmAPhomYHWFfEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P123MB7855
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260402_184354_658979_377826C3 
-X-CRM114-Status: GOOD (  22.67  )
+X-CRM114-CacheID: sfid-20260402_175105_321784_F48DE78F 
+X-CRM114-Status: GOOD (  43.43  )
 X-Mailman-Approved-At: Fri, 03 Apr 2026 21:44:33 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -104,119 +157,138 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Mar 30, 2026 at 06:10:44PM -0400, Aaron Tomlin wrote:
-> From: Daniel Wagner <wagi@kernel.org>
+On Thu, Apr 02, 2026 at 11:09:40AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-04-01 16:58:22 [-0400], Aaron Tomlin wrote:
+> > Hi Sebastian,
+> Hi,
 > 
-> Extend the capabilities of the generic CPU to hardware queue (hctx)
-> mapping code, so it maps houskeeping CPUs and isolated CPUs to the
-> hardware queues evenly.
+> > Thank you for taking the time to document the "managed_irq" behaviour; it
+> > is immensely helpful. You raise a highly pertinent point regarding the
+> > potential proliferation of "isolcpus=" flags. It is certainly a situation
+> > that must be managed carefully to prevent every subsystem from demanding
+> > its own bit.
+> > 
+> > To clarify the reasoning behind introducing "io_queue" rather than strictly
+> > relying on managed_irq:
+> > 
+> > The managed_irq flag belongs firmly to the interrupt subsystem. It dictates
+> > whether a CPU is eligible to receive hardware interrupts whose affinity is
+> > managed by the kernel. Whilst many modern block drivers use managed IRQs,
+> > the block layer multi-queue mapping encompasses far more than just
+> > interrupt routing. It maps logical queues to CPUs to handle I/O submission,
+> > software queues, and crucially, poll queues, which do not utilise
+> > interrupts at all. Furthermore, there are specific drivers that do not use
+> > the managed IRQ infrastructure but still rely on the block layer for queue
+> > distribution.
 > 
-> A hctx is only operational when there is at least one online
-> housekeeping CPU assigned (aka active_hctx). Thus, check the final
-> mapping that there is no hctx which has only offline housekeeing CPU and
-> online isolated CPUs.
+> Could you tell block which queue maps to which CPU at /sys/block/$$/mq/
+> level? Then you have one queue going to one CPU.
+> Then the drive could request one or more interrupts managed or not. For
+> managed you could specify a CPU mask which you desire to occupy.
+> You have the case where
+> - you have more queues than CPUs
+>   - use all of them
+>   - use less
+> - less queues than CPUs
+>   - mapped a queue to more than once CPU in case it goes down or becomes
+>     not available
+>   - mapped to one CPU
 > 
-> Example mapping result:
+> Ideally you solve this at one level so that the device(s) can request
+> less queues than CPUs if told so without patching each and every driver.
 > 
->   16 online CPUs
+> This should give you the freedom to isolate CPUs, decide at boot time
+> which CPUs get I/O queues assigned. At run time you can tell which
+> queues go to which CPUs. If you shutdown a queue, the interrupt remains
+> but does not get any I/O requests assigned so no problem. If the CPU
+> goes down, same thing.
 > 
->   isolcpus=io_queue,2-3,6-7,12-13
+> I am trying to come up with a design here which I haven't found so far.
+> But I might be late to the party and everyone else is fully aware.
 > 
-> Queue mapping:
->         hctx0: default 0 2
->         hctx1: default 1 3
->         hctx2: default 4 6
->         hctx3: default 5 7
->         hctx4: default 8 12
->         hctx5: default 9 13
->         hctx6: default 10
->         hctx7: default 11
->         hctx8: default 14
->         hctx9: default 15
+> > If managed_irq were solely relied upon, the IRQ subsystem would
+> > successfully keep hardware interrupts off the isolated CPUs, but the block
 > 
-> IRQ mapping:
->         irq 42 affinity 0 effective 0  nvme0q0
->         irq 43 affinity 0 effective 0  nvme0q1
->         irq 44 affinity 1 effective 1  nvme0q2
->         irq 45 affinity 4 effective 4  nvme0q3
->         irq 46 affinity 5 effective 5  nvme0q4
->         irq 47 affinity 8 effective 8  nvme0q5
->         irq 48 affinity 9 effective 9  nvme0q6
->         irq 49 affinity 10 effective 10  nvme0q7
->         irq 50 affinity 11 effective 11  nvme0q8
->         irq 51 affinity 14 effective 14  nvme0q9
->         irq 52 affinity 15 effective 15  nvme0q10
+> The managed_irqs can't be influence by userland. The CPUs are auto
+> distributed.
 > 
-> A corner case is when the number of online CPUs and present CPUs
-> differ and the driver asks for less queues than online CPUs, e.g.
+> > layer would still blindly map polling queues or non-managed queues to those
+> > same isolated CPUs. This would force isolated CPUs to process I/O
+> > submissions or handle polling tasks, thereby breaking the strict isolation.
+> > 
+> > Regarding the point about the networking subsystem, it is a very valid
+> > comparison. If the networking layer wishes to respect isolcpus in the
+> > future, adding a net flag would indeed exacerbate the bit proliferation.
 > 
->   8 online CPUs, 16 possible CPUs
+> Networking could also have different cases like adding a RX filter and
+> having HW putting packet based on it in a dedicated queue. But also in
+> this case I would like to have the freedome to decide which isolated
+> CPUs should receive interrupts/ traffic and which don't.
 > 
->   isolcpus=io_queue,2-3,6-7,12-13
->   virtio_blk.num_request_queues=2
+> > For the present time, retaining io_queue seems the most prudent approach to
+> > ensure that block queue mapping remains semantically distinct from
+> > interrupt delivery. This provides an immediate and clean architectural
+> > boundary. However, if the consensus amongst the maintainers suggests that
+> > this is too granular, alternative approaches could certainly be considered
+> > for the future. For instance, a broader, more generic flag could be
+> > introduced to encompass both block and future networking queue mappings.
+> > Alternatively, if semantic conflation is deemed acceptable, the existing
+> > managed_irq housekeeping mask could simply be overloaded within the block
+> > layer to restrict all queue mappings.
+> > 
+> > Keeping the current separation appears to be the cleanest solution for this
+> > series, but your thoughts, and those of the wider community, on potentially
+> > migrating to a consolidated generic flag in the future would be very much
+> > welcomed.
 > 
-> Queue mapping:
->         hctx0: default 0 1 2 3 4 5 6 7 8 12 13
->         hctx1: default 9 10 11 14 15
-> 
-> IRQ mapping
->         irq 27 affinity 0 effective 0 virtio0-config
->         irq 28 affinity 0-1,4-5,8 effective 5 virtio0-req.0
->         irq 29 affinity 9-11,14-15 effective 0 virtio0-req.1
-> 
-> Noteworthy is that for the normal/default configuration (!isoclpus) the
-> mapping will change for systems which have non hyperthreading CPUs. The
-> main assignment loop will completely rely that group_mask_cpus_evenly to
-> do the right thing. The old code would distribute the CPUs linearly over
-> the hardware context:
-> 
-> queue mapping for /dev/nvme0n1
->         hctx0: default 0 8
->         hctx1: default 1 9
->         hctx2: default 2 10
->         hctx3: default 3 11
->         hctx4: default 4 12
->         hctx5: default 5 13
->         hctx6: default 6 14
->         hctx7: default 7 15
-> 
-> The assign each hardware context the map generated by the
-> group_mask_cpus_evenly function:
-> 
-> queue mapping for /dev/nvme0n1
->         hctx0: default 0 1
->         hctx1: default 2 3
->         hctx2: default 4 5
->         hctx3: default 6 7
->         hctx4: default 8 9
->         hctx5: default 10 11
->         hctx6: default 12 13
->         hctx7: default 14 15
-> 
-> In case of hyperthreading CPUs, the resulting map stays the same.
-> 
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> ---
->  block/blk-mq-cpumap.c | 177 +++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 158 insertions(+), 19 deletions(-)
-> 
-> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-> index 8244ecf87835..3b4fa3b291c9 100644
-> --- a/block/blk-mq-cpumap.c
-> +++ b/block/blk-mq-cpumap.c
-> @@ -22,7 +22,18 @@ static unsigned int blk_mq_num_queues(const struct cpumask *mask,
->  {
->  	unsigned int num;
->  
-> -	num = cpumask_weight(mask);
-> +	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
-> +		const struct cpumask *hk_mask;
-> +		struct cpumask avail_mask;
+> I just don't like introducing yet another boot argument, making it a
+> boot constraint while in my naive view this could be managed at some
+> degree via sysfs as suggested above.
 
-This may overflow kernel stack.
+Hi Sebastian,
+
+I believe it would be more prudent to defer to Thomas Gleixner and Jens
+Axboe on this matter.
 
 
-Thanks,
-Ming
+Indeed, I am entirely sympathetic to your reluctance to introduce yet
+another boot parameter, and I concur that run-time configurability
+represents the ideal scenario for system tuning.
 
+At present, a device such as an NVMe controller allocates its hardware
+queues and requests its interrupt vectors during the initial device probe
+phase. The block layer calculates the optimal queue to CPU mapping based on
+the system topology at that precise moment. Altering this mapping
+dynamically at runtime via sysfs would be an exceptionally intricate
+undertaking. It would necessitate freezing all active operations, tearing
+down the physical hardware queues on the device, renegotiating the
+interrupt vectors with the peripheral component interconnect subsystem, and
+finally reconstructing the entire queue map.
+
+Furthermore, the proposed io_queue boot parameter successfully achieves the
+objective of avoiding driver level modifications. By applying the
+housekeeping mask constraint centrally within the core block layer mapping
+helpers, all multiqueue drivers automatically inherit the CPU isolation
+boundaries without requiring a single line of code to be changed within the
+individual drivers themselves.
+
+Because the hardware queue count and CPU alignment must be calculated as
+the device initialises, a reliable mechanism is required to inform the
+block layer of which CPUs are strictly isolated before the probe sequence
+commences. This is precisely why integrating with the existing boot time
+housekeeping infrastructure is currently the most viable and robust
+solution.
+
+Whilst a fully dynamic sysfs driven reconfiguration architecture would be a
+great, it would represent a substantial paradigm shift for the block layer.
+For the present time, the io_queue flag resolves the immediate and severe
+latency issues experienced by users with isolated CPUs, employing an
+established and safe methodology.
+
+This is at least my understanding.
+
+
+Kind regards,
+-- 
+Aaron Tomlin
 
