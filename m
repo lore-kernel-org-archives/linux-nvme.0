@@ -4,111 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C67E9E85376
-	for <linux-nvme@archiver.kernel.org>; Fri,  3 Apr 2026 15:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05432E8538E
+	for <linux-nvme@archiver.kernel.org>; Fri,  3 Apr 2026 19:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5lp5CVd7Fjq/vo+cdZOjA+zcmNrmtn1TM3gFRS8KznQ=; b=Pop9uVP0FyS/i0eyESvJRIfcH6
-	Gunl4NtikgmlERVfic/mrmDOt18ghujxoW8ytdselLhek2AmFq5E5v0sJTnLCEqdo5SRa6euedAaA
-	3J56oALMUYXVARveJ+IqSRrybYAI3bA41jhLNsYFry997H88XB0hBK5HtcK/fijJ7/mXZsSY4cryt
-	Ubjtn8BJYkkJsM3YXEjch0AdJa2KAXfMKX9BiL4TfRyDuZbSjZa0jVrJVKkeW6nNvd1xbnt5HiEKf
-	78Wmp5Wm72lWsBlozu0j6HAClnmVwzQME7N5qPT/fRO6ALcJjTmzVVFueMDIRnyW3i1qRbeB2vIg0
-	2D481Hqg==;
+	bh=5OR26UHwrmX/qKb/xGTxkRmRxVQZGF/pWpTgOpuYDGw=; b=e9VEdsxGiq6gd2sLvv1CDvek6s
+	ZVRwLHY7lJWsCRH1BAdaTxgsPdD1GqOEfQqKYbXtUVKHgYt3sRw8Wl0ymjSxxFyAUZCjYeyN7OahO
+	qqZDv4/50TntUfBF2jKb6z1nlGl9Gk9JmXf2q0AJ6mi9zcw8K94dIBHEF7r/E+ByWKGUO6vgYmYCv
+	4eCzmggnhLH6NXzStm5w+WSyEKKLiJrPHyaL8QhaY3zQNOWvgBXuMLtLAk6muKK4EAMRDiKQQ2E4x
+	1+QxPU7EMgs1FU8FAsJuhRtYJvQisRMBB6dRu7TJG8m67UC45rcuMFZjIOk6xzErEWbCRL05E/bT4
+	RULaixzQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8gkn-00000002EYT-1WnG;
-	Fri, 03 Apr 2026 15:48:13 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1w8kOV-00000002UmA-0rUg;
+	Fri, 03 Apr 2026 19:41:27 +0000
+Received: from mail-dy1-x1362.google.com ([2607:f8b0:4864:20::1362])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8gkl-00000002EY8-0kRO
+	id 1w8kOR-00000002UjG-0Bj1
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Apr 2026 15:48:12 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63380SLB1113742;
-	Fri, 3 Apr 2026 15:48:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=5lp5CV
-	d7Fjq/vo+cdZOjA+zcmNrmtn1TM3gFRS8KznQ=; b=GCAl0dpChQq0xB+KDDmAPs
-	0E0ME+1ZDrsJq1H0vmTIEuloLnjf4A0NhINmfygSmZbNmNYivF8xY4BuXhMUOWFv
-	KzLF+nAepXdbjHErtbOCarDKiNRH2X2bwJF5psAxvSYTPcnkKVd2Ce802CyNWeRQ
-	87rfTgXTImvUshonXPSc1hM8HOv7tWAr7GcB6d3h7rQ7YqWHu08Jgg1VUQWVuO3r
-	E/kb2gMx1Gi5YbxNmDhWMxtY0D6s8Dcn8VmS2xcZetMCTAMoHkn+vdvapO3qWk0v
-	n3bGItEzvNWlabw7JGqobDyBC9Cv5QN3KIzNwz+u6WnayEpUzbJmDLfPbbCkOHjw
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d66q3hauj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 Apr 2026 15:48:06 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 633D9g78006362;
-	Fri, 3 Apr 2026 15:48:05 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d6spyenus-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 03 Apr 2026 15:48:05 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 633Fm3qX25428532
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 3 Apr 2026 15:48:04 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D580D5804E;
-	Fri,  3 Apr 2026 15:48:03 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 680065803F;
-	Fri,  3 Apr 2026 15:47:48 +0000 (GMT)
-Received: from [9.39.19.5] (unknown [9.39.19.5])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  3 Apr 2026 15:47:48 +0000 (GMT)
-Message-ID: <7138eea4-3192-4e1e-bf31-eb0f90897812@linux.ibm.com>
-Date: Fri, 3 Apr 2026 21:17:40 +0530
+	Fri, 03 Apr 2026 19:41:25 +0000
+Received: by mail-dy1-x1362.google.com with SMTP id 5a478bee46e88-2c7e5f38a69so113200eec.1
+        for <linux-nvme@lists.infradead.org>; Fri, 03 Apr 2026 12:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1775245282; x=1775850082; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5OR26UHwrmX/qKb/xGTxkRmRxVQZGF/pWpTgOpuYDGw=;
+        b=FoYmOp19gR+u8Row0O4Ma+3v0B4V66XrfkRlz8Je88f25/BEeDE59ei9jOBd/CKTUr
+         +8Y9LAXdYj8sXDmOKppPghIsnew677lM7ZKbd1usSBd4lk89gvyKywcunoM/yOUqs9GD
+         xTX0l7pv1Ld6b+SuXt0mK7tC0aFiS3nOLdPUKko7OWJk9UecqfelsS8akmLtcEhY67Em
+         8CEIhKg1ubJqeVFzE8queDSsAp9RVv3BRcHmNqjHuxuSZwDzOWkTz0T4mq285LThBIZH
+         iN9YrJOAG15SaTPgykZuNC6xWf47WPY4eWXBUl1fX4jusMcv6GzUk2qb+ew3ytmYOYLr
+         q7jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775245282; x=1775850082;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5OR26UHwrmX/qKb/xGTxkRmRxVQZGF/pWpTgOpuYDGw=;
+        b=rWk+QXwK2DoN8jz40sIAacymkab0M1a/9i+Xxs8tuPGmSGCoK/V0GFN0tnFC42vSQe
+         lQzs7gGYLbNTuyAuJCpv7TSCBP8o/jwalWEOp+Asp4Mhkuhi4KJKUinQ43hJ+RCC+/uj
+         YavIT61/pXWkKp1pLhqDlnMKyN2LTcxBldFrbzOl1VVgTslfwycjbf6H+KQ5GXPlSDCR
+         mroPLfIly9DNwb7mJq9/gzeWx8mvkWUO2pUrgSVVWpKrrZj5ZR800NlmAumeoclMH6fm
+         eOuc+HtN0cFYVgY9VwCNEpumOk0yes1cwLnWAqmVOHx0dB6dbHsPjzB+s58191KJDOgK
+         GiOw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6dFB5OL+GpRpUyMKki+AU3V93yYXAjB8dflTeaF+GIuvSowLwEI8Y+zDwW2CpB3T1TKwHF4B64ffb@lists.infradead.org
+X-Gm-Message-State: AOJu0YzjQDR3DiW2urDgv+TGS//ZVbLDTdUb7a6fB/uhCpZ7YEVgvPr7
+	kN2o+D7Fpy2PRKG7ynmdAg8plQywXbGUGoP4dkQqMNYPUHwNgp25NQ0VzDyucrlJrLg+VoiwBwc
+	Nh50eHQjAP/7I7mdaAPW0lnToUjyq8akZvUtV
+X-Gm-Gg: AeBDiesa5ZvHJuHJ9DoXV1FN79JPsE0s7FPCFBlgEDbUpf/3519qJ/vnDq+qAtHJo9D
+	E03vGyoVF9KaPA0eKeYgwQ5tK8ChlQue+sjR8Vh/YXKFb6chT/rhMpPt4jJn3Dd6c1ljXztCux5
+	ueERI6gxRFqYUhLeZS9L77pVgdOAbT3FewFmS0C1K7mNzNkhCYb5gwWnWh8Dt8MwVwTP8QGvMz6
+	AdpbIUfnIQmYW7VbckWhDrKN675id7WdD1HUBCo6EV21LYcYlZGEu3okWdkyw+8KZ9ruFuczb1S
+	AzmsIszofxkDN9YBz0OhjPcefYmcEFzAYeaDwtfu/ZpFBl5LAJVJia8o01cHmCaRVcm4/NNL1FI
+	b7KrlxmqqV17GwQBoEGXaRyNTaSc6QBsOSkdYAGI4efjuAzVkyLb1Wg==
+X-Received: by 2002:a05:7300:2315:b0:2c4:76a3:bdfc with SMTP id 5a478bee46e88-2cbf6897126mr861527eec.0.1775245281934;
+        Fri, 03 Apr 2026 12:41:21 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id 5a478bee46e88-2ca7bf00671sm474049eec.22.2026.04.03.12.41.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 12:41:21 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 0C47D3422DF;
+	Fri,  3 Apr 2026 13:41:21 -0600 (MDT)
+Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
+	id 029C7E41AC2; Fri,  3 Apr 2026 13:41:21 -0600 (MDT)
+From: Caleb Sander Mateos <csander@purestorage.com>
+To: Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	Caleb Sander Mateos <csander@purestorage.com>
+Subject: [PATCH 3/6] bio-integrity-fs: pass data iter to bio_integrity_verify()
+Date: Fri,  3 Apr 2026 13:41:06 -0600
+Message-ID: <20260403194109.2255933-4-csander@purestorage.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20260403194109.2255933-1-csander@purestorage.com>
+References: <20260403194109.2255933-1-csander@purestorage.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/9] libnvme: add support for per-path diagnostic counters
-To: Daniel Wagner <dwagner@suse.de>
-Cc: linux-nvme@lists.infradead.org, hare@suse.com, kbusch@kernel.org,
-        hch@lst.de, gjoyce@ibm.com, wenxiong@linux.ibm.com
-References: <20260321152823.3197870-1-nilay@linux.ibm.com>
- <20260321152823.3197870-7-nilay@linux.ibm.com>
- <8b123263-297b-43bb-b9ea-272a9dd419c5@flourine.local>
- <afc7e386-e474-4ba4-8e3f-b710eee781f2@linux.ibm.com>
- <22c01a60-f9c1-41ff-8f74-b48dc330e867@flourine.local>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <22c01a60-f9c1-41ff-8f74-b48dc330e867@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Lc_0GyTepj4An0nD10S68u9pExETvgAC
-X-Authority-Analysis: v=2.4 cv=frzRpV4f c=1 sm=1 tr=0 ts=69cfe136 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=CWf0Ohr9OLmK9kstVowA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: Lc_0GyTepj4An0nD10S68u9pExETvgAC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAzMDE0MSBTYWx0ZWRfX1abtS7jN/51V
- l9BAR679mJvNOeCTiRzaNgPVWbSPKl9wHBLYxrhuYRYsdxhcD/rHe5U3CPo562jU9QnX2RecqoE
- 9dh6wHBPqT0T76JiJY3jMMjAL8Zt9EK95YMuNpdnWg/En8waL2d2YjJeeRckYz8kBKkQ08Rux7P
- xHj8TDT3tLWirFB5wNAvwhKgoZ3sVXqwm9qKlS8aRn5aqJ3O5JtfWUOUce07r68AApmeWZ7PQuw
- VTJCK/qKW2TPBVC2nvUyjlycCcWuo3MIRM5/lEpxYFrHQS+aHCVVDEmuPVdJN7NxasyXL+WMeqA
- oicHPpRFMMBIL3bLXwnwX7Kwwd8/EaBpDs8jlD0+Vl0055NYSdHEey8L4pRmiljXQSLE3nt+mgl
- uqlv9Bgxaiijuq6RKBaE8RdJkGMqHyGjtti7CB+UDZopFH5XGW6yzUjtHNefwvffNhxEqpvU4R1
- FoUIvm6n8TtgJOIe1mA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-03_05,2026-04-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604030141
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260403_084811_228384_B6E6DE15 
-X-CRM114-Status: GOOD (  21.94  )
+X-CRM114-CacheID: sfid-20260403_124123_087567_B9248434 
+X-CRM114-Status: GOOD (  13.77  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,48 +112,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/1/26 9:24 PM, Daniel Wagner wrote:
-> On Tue, Mar 24, 2026 at 07:24:11PM +0530, Nilay Shroff wrote:
->> There are essentially two options,
->>
->> 1. Include the diagnostic counter patches now:
->>     In this case, nvme-cli/nvme-top can start using the libnvme APIs immediately.
->>     If the kernel does not yet expose these attributes, the counters will appear
->>     as zero in the dashboard. Once the kernel support lands, the correct values
->>     will automatically be reflected without requiring further changes to libnvme
->>     or nvme-cli (unless the sysfs layout changes).
->>
->> 2. Defer the diagnostic counter patches:
->>     In this case, the counters would be omitted from the nvme-top dashboard for now.
->>     Once kernel support is available, we would need to update nvme-top (and libnvme)
->>     to add them.
->>
->> Given these options, I would lean towards option (1), but I’m happy to go with
->> your preference.
-> 
-> I’m not sure if I read the room right, but I sensed the patches might be
-> blocked by the libmultipath project. If they’re just delayed for the
-> usual reasons, I’m fine with option (1).
-> 
-I think that the proposed kernel changes shouldn't come in way for
-libmultipath work, but let me ping Keith one more time... Oh I see
-Keith is already in this mail list..
+bio_integrity_verify() expects the passed struct bvec_iter to be an
+iterator over bio data, not integrity. So construct a separate data
+bvec_iter without the bio_integrity_bytes() conversion and pass it to
+bio_integrity_verify() instead of bip_iter.
 
-Keith,
-I am not sure if you got a chance to review this:
-https://lore.kernel.org/all/0832f4dd-0ab6-4e11-a404-fdb18ca699b2@linux.ibm.com/
+Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
+Fixes: 0bde8a12b554 ("block: add fs_bio_integrity helpers")
+---
+ block/bio-integrity-fs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-But if possible, would you please help let us know your thought/suggestion about
-the above thread?
-
-> FWIW, the 3.0 release is still months away, so there’s no hurry. I still
-> have a few TODO items and want to wait for feedback from LSFMM. I’ll
-> likely start the -rc cycle after that. Realistically, 3.0 won't land
-> until August.
-
-Yes understood, sounds reasonable...
-
-Thanks,
---Nilay
+diff --git a/block/bio-integrity-fs.c b/block/bio-integrity-fs.c
+index acb1e5f270d2..389372803b38 100644
+--- a/block/bio-integrity-fs.c
++++ b/block/bio-integrity-fs.c
+@@ -53,21 +53,22 @@ EXPORT_SYMBOL_GPL(fs_bio_integrity_generate);
+ 
+ int fs_bio_integrity_verify(struct bio *bio, sector_t sector, unsigned int size)
+ {
+ 	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
+ 	struct bio_integrity_payload *bip = bio_integrity(bio);
++	struct bvec_iter data_iter = {.bi_sector = sector, .bi_size = size};
+ 
+ 	/*
+ 	 * Reinitialize bip->bip_iter.
+ 	 *
+ 	 * This is for use in the submitter after the driver is done with the
+ 	 * bio.  Requires the submitter to remember the sector and the size.
+ 	 */
+ 	memset(&bip->bip_iter, 0, sizeof(bip->bip_iter));
+ 	bip->bip_iter.bi_sector = sector;
+ 	bip->bip_iter.bi_size = bio_integrity_bytes(bi, size >> SECTOR_SHIFT);
+-	return blk_status_to_errno(bio_integrity_verify(bio, &bip->bip_iter));
++	return blk_status_to_errno(bio_integrity_verify(bio, &data_iter));
+ }
+ 
+ static int __init fs_bio_integrity_init(void)
+ {
+ 	fs_bio_integrity_cache = kmem_cache_create("fs_bio_integrity",
+-- 
+2.45.2
 
 
