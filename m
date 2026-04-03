@@ -4,93 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 695E9E88D86
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5CDF9E88D85
 	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 04:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XI1xXgPK4qrsri5D11iFWDjO9+OFx1xcFnxElX9OeLk=; b=DDgG3HpIXRmttViVNa6b98pb8w
-	K82SDwDNwQgHjB5l3QjeWROLWWwP2UFNNO4bKAV3SJM8zNkfbDDiXIH6QMQSB39GFSTOja8BJbTSg
-	OijnVaW8cL8GUJq+Rmg19e9oTPL2J5FVZRhAK0/FPZLCrFXi89d9SQ7n3/EMTqHF7lHqQdCvGLWhF
-	JDOtxZ5kw/yPnWQdI+8+9cqHzT7pGzj0B71qyL5tWfF9Cktwm4ZZi/grmYXtnGAlItUZaWjDyF60y
-	l7ioBDLcZ+Am4AN7tBzvg8YPdYKATU+Z0fyDMFJ3I+lQ1YVdyAK7BrToNL17AuhHIRKA/6OUCOPv9
-	00hyNWWg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=BlTGqnCJGh4mB5RDKBN0tAN5xbPo1gnzhzo9p74pj1Y=; b=MyvbCC2idAO++6
+	F9CVWV3dwfPquhq/p2mP+QMCeJeMLsBeNRiD58ubrAYkJ9oC5TaUL90GnVZF6ebB1UsKDbhbWRo+t
+	vZwLe6M7klmkcduZEXiekWJH0y7AprICx1yyVKlnFqFNg3fn1PorkAR+7zE8uH0DZDdm5BJZWq/RF
+	rsHLPj9Kj26CNbQfSi2dCz+3jkEzI5gPQNDSOf6e28kM2O2CEKfyJZm4K7bfVU6aPiP9LF6JxRQsk
+	bWOcVF/1LXKgXLthRS+yyGALhO3Ly/M3StLwgQQ7VCzUGZHSRKYG3QZ2rAKTXahwG7yofu1idl3d4
+	HAu1djIKv4VY30Artlfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8ssB-000000037Ku-3QFR;
-	Sat, 04 Apr 2026 04:44:39 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1w8ssC-000000037MP-3D6b;
+	Sat, 04 Apr 2026 04:44:40 +0000
+Received: from mail.ispras.ru ([83.149.199.84])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8TwI-000000015Sb-33UD
-	for linux-nvme@lists.infradead.org;
-	Fri, 03 Apr 2026 02:07:16 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775182033;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XI1xXgPK4qrsri5D11iFWDjO9+OFx1xcFnxElX9OeLk=;
-	b=IuRiKBVdieMgtVdpsIXzX1utdfPLNIBWHyHfPw3cTaeLfORdkt3fLCAZrxTW9mf9l6RzNa
-	lW0xMGW27/SxSv2TczLKpDHaMUXfKZFwPlBM22LhB9KoXmLb8qth2XRSXKtc1LSG2wbzaE
-	IDpbjruFgZGiYQk5/msMwO1sZvj/O9Q=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-81-Ds1gYEDpN-CyU9aUId0YKg-1; Thu,
- 02 Apr 2026 22:07:06 -0400
-X-MC-Unique: Ds1gYEDpN-CyU9aUId0YKg-1
-X-Mimecast-MFC-AGG-ID: Ds1gYEDpN-CyU9aUId0YKg_1775182021
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EE06C1800283;
-	Fri,  3 Apr 2026 02:06:59 +0000 (UTC)
-Received: from [10.22.88.243] (unknown [10.22.88.243])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D57F519792E0;
-	Fri,  3 Apr 2026 02:06:51 +0000 (UTC)
-Message-ID: <c6189740-b741-41e5-a9f6-d09e1ddb86ec@redhat.com>
-Date: Thu, 2 Apr 2026 22:06:51 -0400
+	id 1w8b42-00000001psV-04Uc;
+	Fri, 03 Apr 2026 09:43:43 +0000
+Received: from localhost (unknown [10.10.165.6])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 8FFDF40737CA;
+	Fri,  3 Apr 2026 09:43:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 8FFDF40737CA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1775209418;
+	bh=BlTGqnCJGh4mB5RDKBN0tAN5xbPo1gnzhzo9p74pj1Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=ArS3juWVKe95xJXrOX2F6Ro0yZ8cseolXjAQ6iDUHnykQIiPxXKnylqzTCAnec2B8
+	 q535YNWxALE+971ppWvQ43SqWyBv38lZaCMpA0iGwTw8p0Madg3maVBBl5//FHUIaw
+	 ZiJGLy4cUxRlmBaihFSGjT1GykEtfuoERsRO8eis=
+Date: Fri, 3 Apr 2026 12:43:37 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: "Heyne, Maximilian" <mheyne@amazon.de>
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>, 
+	Ming Lei <ming.lei@redhat.com>, Keith Busch <kbusch@kernel.org>, Yi Zhang <yi.zhang@redhat.com>, 
+	Jens Axboe <axboe@kernel.dk>, Hector Martin <marcan@marcan.st>, 
+	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	"James E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, 
+	Bart Van Assche <bvanassche@acm.org>, Sasha Levin <sashal@kernel.org>, 
+	Peter Wang <peter.wang@mediatek.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Seunghwan Baek <sh8267.baek@samsung.com>, Seunghui Lee <sh043.lee@samsung.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Brian Kao <powenkao@google.com>, 
+	Sanjeev Yadav <sanjeev.y@mediatek.com>, Wonkon Kim <wkon.kim@samsung.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>, 
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
+Subject: Re: [PATCH 6.1.y v2 6/6] nvme: fix admin queue leak on controller
+ reset
+Message-ID: <20260403123652-2fd721d0de63be980e2ec1e9-pchelkin@ispras>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 10/13] blk-mq: use hk cpus only when isolcpus=io_queue
- is enabled
-To: Aaron Tomlin <atomlin@atomlin.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, mst@redhat.com
-Cc: aacraid@microsemi.com, James.Bottomley@HansenPartnership.com,
- martin.petersen@oracle.com, liyihang9@h-partners.com,
- kashyap.desai@broadcom.com, sumit.saxena@broadcom.com,
- shivasharan.srikanteshwara@broadcom.com, chandrakanth.patil@broadcom.com,
- sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
- suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com,
- jinpu.wang@cloud.ionos.com, tglx@kernel.org, mingo@redhat.com,
- peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com,
- bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org,
- frederic@kernel.org, chenridong@huawei.com, hare@suse.de, kch@nvidia.com,
- ming.lei@redhat.com, steve@abita.co, sean@ashe.io, chjohnst@gmail.com,
- neelx@suse.com, mproche@gmail.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
- megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
- MPT-FusionLinux.pdl@broadcom.com
-References: <20260401222312.772334-1-atomlin@atomlin.com>
- <20260401222312.772334-11-atomlin@atomlin.com>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260401222312.772334-11-atomlin@atomlin.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: ybpeja6VLT-YwZNgexVKqNFa-pJM6F2MZw71gYTyHhE_1775182021
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260402-fox-attic-82ebf113@mheyne-amazon>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260402_190714_839794_1FA7941B 
-X-CRM114-Status: GOOD (  22.27  )
+X-CRM114-CacheID: sfid-20260403_024342_223060_013517AC 
+X-CRM114-Status: UNSURE (   7.79  )
+X-CRM114-Notice: Please train this message.
 X-Mailman-Approved-At: Fri, 03 Apr 2026 21:44:33 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -106,128 +83,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/1/26 6:23 PM, Aaron Tomlin wrote:
-> From: Daniel Wagner <wagi@kernel.org>
->
-> Extend the capabilities of the generic CPU to hardware queue (hctx)
-> mapping code, so it maps houskeeping CPUs and isolated CPUs to the
-> hardware queues evenly.
->
-> A hctx is only operational when there is at least one online
-> housekeeping CPU assigned (aka active_hctx). Thus, check the final
-> mapping that there is no hctx which has only offline housekeeing CPU and
-> online isolated CPUs.
->
-> Example mapping result:
->
->    16 online CPUs
->
->    isolcpus=io_queue,2-3,6-7,12-13
->
-> Queue mapping:
->          hctx0: default 0 2
->          hctx1: default 1 3
->          hctx2: default 4 6
->          hctx3: default 5 7
->          hctx4: default 8 12
->          hctx5: default 9 13
->          hctx6: default 10
->          hctx7: default 11
->          hctx8: default 14
->          hctx9: default 15
->
-> IRQ mapping:
->          irq 42 affinity 0 effective 0  nvme0q0
->          irq 43 affinity 0 effective 0  nvme0q1
->          irq 44 affinity 1 effective 1  nvme0q2
->          irq 45 affinity 4 effective 4  nvme0q3
->          irq 46 affinity 5 effective 5  nvme0q4
->          irq 47 affinity 8 effective 8  nvme0q5
->          irq 48 affinity 9 effective 9  nvme0q6
->          irq 49 affinity 10 effective 10  nvme0q7
->          irq 50 affinity 11 effective 11  nvme0q8
->          irq 51 affinity 14 effective 14  nvme0q9
->          irq 52 affinity 15 effective 15  nvme0q10
->
-> A corner case is when the number of online CPUs and present CPUs
-> differ and the driver asks for less queues than online CPUs, e.g.
->
->    8 online CPUs, 16 possible CPUs
->
->    isolcpus=io_queue,2-3,6-7,12-13
->    virtio_blk.num_request_queues=2
->
-> Queue mapping:
->          hctx0: default 0 1 2 3 4 5 6 7 8 12 13
->          hctx1: default 9 10 11 14 15
->
-> IRQ mapping
->          irq 27 affinity 0 effective 0 virtio0-config
->          irq 28 affinity 0-1,4-5,8 effective 5 virtio0-req.0
->          irq 29 affinity 9-11,14-15 effective 0 virtio0-req.1
->
-> Noteworthy is that for the normal/default configuration (!isoclpus) the
-> mapping will change for systems which have non hyperthreading CPUs. The
-> main assignment loop will completely rely that group_mask_cpus_evenly to
-> do the right thing. The old code would distribute the CPUs linearly over
-> the hardware context:
->
-> queue mapping for /dev/nvme0n1
->          hctx0: default 0 8
->          hctx1: default 1 9
->          hctx2: default 2 10
->          hctx3: default 3 11
->          hctx4: default 4 12
->          hctx5: default 5 13
->          hctx6: default 6 14
->          hctx7: default 7 15
->
-> The assign each hardware context the map generated by the
-> group_mask_cpus_evenly function:
->
-> queue mapping for /dev/nvme0n1
->          hctx0: default 0 1
->          hctx1: default 2 3
->          hctx2: default 4 5
->          hctx3: default 6 7
->          hctx4: default 8 9
->          hctx5: default 10 11
->          hctx6: default 12 13
->          hctx7: default 14 15
->
-> In case of hyperthreading CPUs, the resulting map stays the same.
->
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> [atomlin: Fixed absolute vs. relative hardware queue index mix-up in
->   blk_mq_map_queues and validation checks; fixed typographical errors.]
-> Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
-> ---
->   block/blk-mq-cpumap.c | 175 +++++++++++++++++++++++++++++++++++++-----
->   1 file changed, 157 insertions(+), 18 deletions(-)
->
-> diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-> index 8244ecf87835..8d09af49a142 100644
-> --- a/block/blk-mq-cpumap.c
-> +++ b/block/blk-mq-cpumap.c
-> @@ -22,7 +22,18 @@ static unsigned int blk_mq_num_queues(const struct cpumask *mask,
->   {
->   	unsigned int num;
->   
-> -	num = cpumask_weight(mask);
-> +	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
-> +		const struct cpumask *hk_mask;
-> +		struct cpumask avail_mask;
-> +
-> +		hk_mask = housekeeping_cpumask(HK_TYPE_IO_QUEUE);
-> +		cpumask_and(&avail_mask, mask, hk_mask);
-> +
-> +		num = cpumask_weight(&avail_mask);
+"Heyne, Maximilian" <mheyne@amazon.de>
+> [ Have to do analogous work in nvme_pci_alloc_admin_tag_set in pci.c due
+>   to missing upstream commit 0da7feaa5913 ("nvme-pci: use the tagset
+>   alloc/free helpers") ]
 
-As said before by Ming Lei, struct cpumask can be rather big in size if 
-NR_CPUS is large. I will suggest using cpumask_weight_and() instead 
-which will eliminate the need of the local variables.
+nit: not actually needed for 6.1.y because the only callsite of
+nvme_pci_alloc_admin_tag_set() there looks like
 
-Cheers,
-Longman
+	if (!dev->ctrl.admin_q) {
+		result = nvme_pci_alloc_admin_tag_set(dev);
 
+Though that doesn't really matter and not worth resending I think.
 
