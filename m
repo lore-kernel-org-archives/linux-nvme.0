@@ -4,103 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ADF6E88D66
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 10:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2A3CE63FF9
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 21:23:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=EhEQb+BqaaDvCox7Zc8d0AHuD8UYxNe5ok0PRm78sGo=; b=zHiLBdKjwXtYBbpyIhVnh1HY1O
-	LFjvzRhgcri9E3coGV2QwnRkgD4MEgYnXYS1TFHAr2GLr3jYbTNntZ6R22/qU46SHPayUAbAI92Yi
-	TQrRKEJ6mgPorcaIheAJOXcZ1bIfiMI3z+qBz7RjPu6sX4kPRsxZO+aiTysqBk6wig+2TZYpItlu4
-	D+1zoBQmoYAiJTwSoStKhql25A+iRsaiE9qd9GDSvLYiBXi0yQp4Xi41+zNaeLKzfjjXelHtbfrG+
-	xU3pDkbOsvnZSpeo4xMz1cZ1151tGG0BtQrPVx/DSewNu9wjMju3GuOy/xvSWUDuShp7oY+PIU2FS
-	zvjt145w==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BpUSN0Z1IHSioYzVwD8gPk5Nfoeljdg8BmOBofC9qpc=; b=eQ8E408Bu2zI8HZmh1H2GjmumN
+	WLDm9tbyuvce4uaRZJQfhRPWzNdn0Uu8bij/6MbPvI6yD09HwRJejMhyk9PZvKxy2nvFQtfimoo+O
+	APZgLn4rig7fl0IB9tM0bcBU4qlq3Nu2Ar1GLzUu4ziNm6ZbfB6GOOx+8K09l8YKxljWEx7vKpkcr
+	R9rtJ4Nrmx2T9x0xVVfAiXJR4AW5xf/TDJOXSS+RquBE50Twv2gqpKlE/jJJ/bM7tjsKdfAYif1WF
+	0no32bwcq9MSecGUJE/Z7uDAvV70DoPD6YtXFm/UEDJhuuBFpGgXLzFZsxqLBLrCeF7+zU3t/IWUB
+	RCc5rY9A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8y2s-00000003MfC-38aC;
-	Sat, 04 Apr 2026 10:16:02 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1w98T9-00000003l08-2prS;
+	Sat, 04 Apr 2026 21:23:51 +0000
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8y2p-00000003Mcp-2Dfg
+	id 1w98T1-00000003kzg-1fSo
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Apr 2026 10:16:00 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6347j4gG3593493;
-	Sat, 4 Apr 2026 10:15:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=EhEQb+BqaaDvCox7Z
-	c8d0AHuD8UYxNe5ok0PRm78sGo=; b=pp4ewgRQytfyOCLtCqFwSngyqRRzKIOer
-	M1yR5lhEEKmAMkAlYTn0K7WoY8N/WkYiUO0hemOaXZ13MQn4u5661DwX4yGnMs6G
-	mxY8i1vw9/ihE7Oj+gVuV+vcN7sTjZFu/TiXHxk8kVilYV5n8ySikzW7t/JmwmJc
-	BjClwfms+6X/Ogu+rsoOXX1JoBfbBw8nPnDvYdPKdCkwEcFN3+hK1SHAEeF5i3iL
-	e17Byi2jFJqnXyWlGj+8oYzrOInUvuFFNw6UKpgZH7knlZvkPT3ejxUv0v+zxuAI
-	tdOr1Pduriueak3Fa10lZdh1FNuQycHm8u+K9Zmx0asOCHwdPbTMQ==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4datc2gqhv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 04 Apr 2026 10:15:57 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6348VBDW022165;
-	Sat, 4 Apr 2026 10:15:55 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d6tanh3r7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 04 Apr 2026 10:15:55 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 634AFp5N46793140
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 4 Apr 2026 10:15:51 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B86A92005A;
-	Sat,  4 Apr 2026 10:15:51 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 379502004E;
-	Sat,  4 Apr 2026 10:15:48 +0000 (GMT)
-Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.124.211.35])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Sat,  4 Apr 2026 10:15:46 +0000 (GMT)
-From: Nilay Shroff <nilay@linux.ibm.com>
-To: linux-nvme@lists.infradead.org
-Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
-        gjoyce@linux.ibm.com, wenxiong@linux.ibm.com
-Subject: [PATCHv2 9/9] libnvme: add support for ctrl diagnostic counters
-Date: Sat,  4 Apr 2026 15:44:59 +0530
-Message-ID: <20260404101504.44539-10-nilay@linux.ibm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260404101504.44539-1-nilay@linux.ibm.com>
-References: <20260404101504.44539-1-nilay@linux.ibm.com>
+	Sat, 04 Apr 2026 21:23:45 +0000
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 6FC483F64A
+	for <linux-nvme@lists.infradead.org>; Sat,  4 Apr 2026 21:23:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1775337819;
+	bh=BpUSN0Z1IHSioYzVwD8gPk5Nfoeljdg8BmOBofC9qpc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
+	b=o0ulnqFmOIz8JdcBHCGEtjP3tMp8MlirYfhdkIeYOL5fHjv6Pm4XGClOQdvjlHzii
+	 RvmJGiSFDcJomyTtDNhMo3raNGBCWM1jb/OERsrgaW6L2JxqcxTQSKSMFzqoHOjbDK
+	 WtlZ3zAoZMlh57AbJr7PoEft/4gbNsh4lU+N9A9lnu1J0pqnz6WTsa7TeYy3ZYixWs
+	 kOoVu664M0V82Ldcyye0F3eGAXcW+nskEYF8L3tFnz1glb2dHcTxG86f3qgTuAAvnu
+	 xxEUW/d9cMWmbwQvUncKl5Z7CbbDMrCJ0dsd4deJjnh18OurUB5QwH8GkZQ8bafFGf
+	 CQhBNWyEGYvZVKrTrBsLsX/UdhbGNUsdQwk8kU8xtqWlwB7p0cR3Usu8bPPSGy0I0y
+	 W+3G4sl+8Pe4laJOQ73uIb8DC4CJhhBWqp/yQnAkOcDCCDbhDE0gPS6thO2RTxQnJx
+	 cnGFYTq3Z0MEX8NYVksRvbL8Ur6njaIRV/s2hQwRSfhdZW0yDbvPBOq5dVxqRqBd22
+	 d8AJHKWuVnW4nZXx5eKI7TqnH1XBPXurZoBFUPw8qjkuioQPSkf1qa68MjdHg4b1kW
+	 oNglJzChv3uUscBdLADc6ArjXSK2+l8jD4zX9LpsT5xi7XPZF84ocijImvYtOmokaA
+	 sFIa4yfQ8Wa2D3HeMUvSx6Ws=
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-48884e969f8so15916945e9.1
+        for <linux-nvme@lists.infradead.org>; Sat, 04 Apr 2026 14:23:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775337819; x=1775942619;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BpUSN0Z1IHSioYzVwD8gPk5Nfoeljdg8BmOBofC9qpc=;
+        b=LQvUgNzgH+0tYG3BkuSdrvCMo+C4npXXxN+S4SqtQWbPlm4ol1RgU8Cv4wZ9HLgGaE
+         WctfFV6S+4h5qnI5cDkP+2qTQ8kDXpleymZ/tyTA9F9mrV7UNTc8SPs3kQP1HQZ28/Pm
+         Ez626miTCS5vSgbMnW9D7W01sHeVGocSy4h2F+yWVXo++/1jfkgplCuiqo9pNYTcrac3
+         s66wbLiZcOEehGkyY7FWdjG9MFpe5dXbVz8FxYh7+RBhQoOMlXWPSQDc0SnztcfkIkKi
+         zmBpn9WY36mzHq4HNXeG082jzaRTnKkrkqe4jFT/Tx3mEPxn6UrQtcVO8gIkzEUujFBB
+         JdKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRoOd2o1eeSPvO2BYW2deBRKK5pYx547hE44qrPGGpJRoP3gKetl1YuS50uoUks38rEzOUd0My+UUB@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz7IC+WZkOV5mnreItyIvJBwh0Ey4RpzwktMS/FnXwS7HxH1s1D
+	9/bG1afMdW/EieQJ47ElUlmn35ju++Wa+qjF7RjU9sJCB2KFemh3AEQcETxhxAQVxu9IHDG1UgM
+	OWDZRqo7IO/Ugug0hPJJKu091lT70ILoILXX0uvyGGCIk9/Vk/akD6Is2M5+zWbNOAfjhhGL+C7
+	OtJMlPcdSRL4pCcgNL
+X-Gm-Gg: AeBDiesPwQmooJYxaPVVECHMZ6RJ3SyqMyrXLoJDAcM5dfGXpAo1/2VOgCLWbacr54g
+	MjKZtGt7m0y9XMJMi0rK9CuNP5qhLRbeHVrbX1vQKA2SKl5xqHxZx/6RXwFkeLYWOTVjm7v8NMw
+	DSdMlWknxzaew8ART3SBLWoQdIUbaij2pdeQg2IH1t1hO7UwrDv06/GZI4RmtiQR+RVT4OZ5OTm
+	cM3XgDMV0oUjvIDLpOUBBOl7Su1X+kic2V16Hk7xa95ozwmCDPXZRykNI03Wy6jXTfh/CNonCmG
+	kMWBEAI+B/ZdgG1C2+4wICaewU5JLsvmkQTXY7Yr9dqPKrLWQeauvNVSzyTA63TYqpI9nj5O4/d
+	L2j7oGzaqaizEO9f5a7ntB04=
+X-Received: by 2002:a05:600c:c8d:b0:486:ffa3:594 with SMTP id 5b1f17b1804b1-488997a6883mr104507605e9.23.1775337818694;
+        Sat, 04 Apr 2026 14:23:38 -0700 (PDT)
+X-Received: by 2002:a05:600c:c8d:b0:486:ffa3:594 with SMTP id 5b1f17b1804b1-488997a6883mr104507345e9.23.1775337818231;
+        Sat, 04 Apr 2026 14:23:38 -0700 (PDT)
+Received: from localhost ([176.41.26.180])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488940e075esm211104355e9.9.2026.04.04.14.23.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Apr 2026 14:23:37 -0700 (PDT)
+From: Cengiz Can <cengiz.can@canonical.com>
+To: stable@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	sashal@kernel.org,
+	ioerts@kookmin.ac.kr,
+	sagi@grimberg.me,
+	kbusch@kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 5.15.y] nvmet-tcp: fix use-before-check of sg in bounds validation
+Date: Sun,  5 Apr 2026 00:23:36 +0300
+Message-ID: <20260404212336.1808498-1-cengiz.can@canonical.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA0MDA4OCBTYWx0ZWRfXwRNS8FdReT7m
- C+73q0zHnwVeKwG5qofTQGqBfWVZpWMnLvL6hPsQTjrzA2Hc1MTKG54W+bjQfj7jZQC/w4Yq6j9
- XhrkgT/VGjpMrao/6rVFoTLLCocTnUFnfZAYy/QF/DcO2H9EvHG8mGHoNMC4L8ZKzqzXdNZEHz8
- GUjvLGxIWm4wtn0G9GX2+3J27OyY8aIaFxH/k3HcLn0kv/0Id2zh5DYlFPw1v9gMiN0VDduxwt4
- 0bo7WxNBLEVveBFIVBL1uUk7MnfYGkBKqrY0+hEWJ9Zh2XqD7Gf+GYciYFtt8jJuKjY59YfW/e3
- sfhPLC32stBJfGRykbbCnmpB78Qmj5FkCtFIrRxajz42VIE1HIe9CNac1uah492DSocxAbizmmg
- xxKVXf+BZhJ4vBdIRqbsNfBaqM9P1t18uTus6N9yZWZzIejSROVy6RjWJD3jMFXaYgCOoT30H/K
- lqEiSAhTjGQscNjusKA==
-X-Proofpoint-GUID: JvVJTdHHJnhyhHtwO_8eT6nipAqj0OoF
-X-Proofpoint-ORIG-GUID: JvVJTdHHJnhyhHtwO_8eT6nipAqj0OoF
-X-Authority-Analysis: v=2.4 cv=HJvO14tv c=1 sm=1 tr=0 ts=69d0e4dd cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=UWddX7ZrEUmAjO3ds3UA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-03_07,2026-04-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
- malwarescore=0 spamscore=0 phishscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604040088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260404_031559_570432_20A38F0C 
-X-CRM114-Status: GOOD (  14.31  )
+X-CRM114-CacheID: sfid-20260404_142343_824421_A5640546 
+X-CRM114-Status: GOOD (  14.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,132 +112,71 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for retrieving ctrl diagnostic counters such as command_
-error_count, reset_count and reconnect_count. These counters improve
-visibility and can be useful for tools such as nvme-top to display
-real-time statistics.
+The stable backport of commit 52a0a9854934 ("nvmet-tcp: add bounds
+checks in nvmet_tcp_build_pdu_iovec") placed the bounds checks after
+the iov_len calculation:
 
-Unlike other sysfs attributes, these counters can change dynamically.
-Annotate them with "!accessors:none" and provide custom implementations
-to always retrieve the latest (non-cached) values.
+    while (length) {
+        u32 iov_len = min_t(u32, length, sg->length - sg_offset);
 
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+        if (!sg_remaining) {    /* too late: sg already dereferenced */
+
+In mainline, the checks come first because C99 allows mid-block variable
+declarations. The stable backport moved the declaration to the top of the
+loop to satisfy C89 declaration rules, but this ended up placing the
+sg->length dereference before the sg_remaining and sg->length guards.
+
+If sg_next() returns NULL at the end of the scatterlist, the next
+iteration dereferences a NULL pointer in the iov_len calculation before
+the sg_remaining check can prevent it.
+
+Fix this by moving the iov_len declaration to function scope and
+keeping the assignment after the bounds checks, matching the ordering
+in mainline.
+
+Fixes: 42afe8ed8ad2 ("nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec")
+Cc: stable@vger.kernel.org
+Cc: YunJe Shin <ioerts@kookmin.ac.kr>
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Signed-off-by: Cengiz Can <cengiz.can@canonical.com>
 ---
- libnvme/src/libnvme.ld     |  3 +++
- libnvme/src/nvme/private.h |  3 +++
- libnvme/src/nvme/tree.c    | 33 +++++++++++++++++++++++++++++++++
- libnvme/src/nvme/tree.h    | 25 +++++++++++++++++++++++++
- 4 files changed, 64 insertions(+)
+ drivers/nvme/target/tcp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/libnvme/src/libnvme.ld b/libnvme/src/libnvme.ld
-index 13bd3995c..52611f38b 100644
---- a/libnvme/src/libnvme.ld
-+++ b/libnvme/src/libnvme.ld
-@@ -16,6 +16,9 @@ LIBNVME_3 {
- 		nvme_ctrl_get_subsysnqn;
- 		nvme_ctrl_get_subsystem;
- 		nvme_ctrl_get_transport_handle;
-+		nvme_ctrl_get_command_error_count;
-+		nvme_ctrl_get_reset_count;
-+		nvme_ctrl_get_reconnect_count;
- 		nvme_ctrl_identify;
- 		nvme_ctrl_match_config;
- 		nvme_ctrl_next_ns;
-diff --git a/libnvme/src/nvme/private.h b/libnvme/src/nvme/private.h
-index ae0b8507e..2009ac3c0 100644
---- a/libnvme/src/nvme/private.h
-+++ b/libnvme/src/nvme/private.h
-@@ -255,6 +255,9 @@ struct nvme_ctrl { /*!generate-accessors*/
- 	bool unique_discovery_ctrl;
- 	bool discovered;
- 	bool persistent;
-+	long command_error_count; //!accessors:none
-+	long reset_count; //!accessors:none
-+	long reconnect_count; //!accessors:none
- 	struct nvme_fabrics_config cfg;
- };
- 
-diff --git a/libnvme/src/nvme/tree.c b/libnvme/src/nvme/tree.c
-index 77aed7eee..210952785 100644
---- a/libnvme/src/nvme/tree.c
-+++ b/libnvme/src/nvme/tree.c
-@@ -1414,6 +1414,39 @@ __public const char *nvme_ctrl_get_state(nvme_ctrl_t c)
- 	return c->state;
- }
- 
-+__public long nvme_ctrl_get_command_error_count(nvme_ctrl_t c)
-+{
-+	_cleanup_free_ char *error_count = NULL;
-+
-+	error_count = nvme_get_ctrl_attr(c, "command_error_count");
-+	if (error_count)
-+		sscanf(error_count, "%ld", &c->command_error_count);
-+
-+	return c->command_error_count;
-+}
-+
-+__public long nvme_ctrl_get_reset_count(nvme_ctrl_t c)
-+{
-+	_cleanup_free_ char *reset_count = NULL;
-+
-+	reset_count = nvme_get_ctrl_attr(c, "reset_count");
-+	if (reset_count)
-+		sscanf(reset_count, "%ld", &c->reset_count);
-+
-+	return c->reset_count;
-+}
-+
-+__public long nvme_ctrl_get_reconnect_count(nvme_ctrl_t c)
-+{
-+	_cleanup_free_ char *reconnect_count = NULL;
-+
-+	reconnect_count = nvme_get_ctrl_attr(c, "reconnect_count");
-+	if (reconnect_count)
-+		sscanf(reconnect_count, "%ld", &c->reconnect_count);
-+
-+	return c->reconnect_count;
-+}
-+
- __public struct nvme_fabrics_config *nvme_ctrl_get_config(nvme_ctrl_t c)
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index 8f7984c53f3f..c6cc1dfef92c 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -312,7 +312,7 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
  {
- 	return &c->cfg;
-diff --git a/libnvme/src/nvme/tree.h b/libnvme/src/nvme/tree.h
-index e6a26efb1..3a86208ef 100644
---- a/libnvme/src/nvme/tree.h
-+++ b/libnvme/src/nvme/tree.h
-@@ -1030,6 +1030,31 @@ unsigned long long nvme_ns_get_write_sectors(nvme_ns_t n);
-  */
- struct nvme_fabrics_config *nvme_ctrl_get_config(nvme_ctrl_t c);
+ 	struct bio_vec *iov = cmd->iov;
+ 	struct scatterlist *sg;
+-	u32 length, offset, sg_offset;
++	u32 length, offset, sg_offset, iov_len;
+ 	unsigned int sg_remaining;
+ 	int nr_pages;
  
-+/**
-+ * nvme_ctrl_get_command_error_count() - Get admin command error count
-+ * @c: Controller instance
-+ *
-+ * Return: Number of times admin command issued to controller @c failed or
-+ * returned error status
-+ */
-+long nvme_ctrl_get_command_error_count(nvme_ctrl_t c);
+@@ -329,8 +329,6 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+ 	sg_remaining = cmd->req.sg_cnt - cmd->sg_idx;
+ 
+ 	while (length) {
+-		u32 iov_len = min_t(u32, length, sg->length - sg_offset);
+-
+ 		if (!sg_remaining) {
+ 			nvmet_tcp_fatal_error(cmd->queue);
+ 			return;
+@@ -340,6 +338,8 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+ 			return;
+ 		}
+ 
++		iov_len = min_t(u32, length, sg->length - sg_offset);
 +
-+/**
-+ * nvme_ctrl_get_reset_count() - Get controller reset count
-+ * @c: Controller instance
-+ *
-+ * Return: Number of timer controller @c is reset
-+ */
-+long nvme_ctrl_get_reset_count(nvme_ctrl_t c);
-+
-+/**
-+ * nvme_ctrl_get_reconnect_count() - Get controller reconnect count
-+ * @c: Controller instance
-+ *
-+ * Return: Number of times controller has to reconnect to the target
-+ */
-+long nvme_ctrl_get_reconnect_count(nvme_ctrl_t c);
-+
- /**
-  * nvme_ctrl_identify() - Issues an 'identify controller' command
-  * @c:	Controller instance
+ 		iov->bv_page = sg_page(sg);
+ 		iov->bv_len = iov_len;
+ 		iov->bv_offset = sg->offset + sg_offset;
 -- 
-2.53.0
+2.43.0
 
 
