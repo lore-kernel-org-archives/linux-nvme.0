@@ -4,103 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD594E88D70
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 05:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFCB2E88D66
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 10:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=; b=cqE0dY/iav8UqmuTXIZKxHv1Ka
-	NOnPtJ00GHyTRgIz/pMQbW0kyVbCBmJE5u/UjrwaFqSrIu+5m/m9yNX4724GLFHodX23dUKS/mNPq
-	jDjh8OxX/X6ypX598jTTK1D7vuwiEoOncWiRJuSQuW0pFOZEdlC5HXc3Tlc4OFCxBtX1jr0KGNJcr
-	pollQecyd4vafL7+i8rq4cHyG5c/NyY5/ONM/vUgbMWkrkoc4n4T9zChO/gkmEf8GGmebOCIvf9qw
-	berZIWBoHYqN0vSO3hXWJyZ/uvH43Bam+FWa+m6+x8ZNVMb5x5NcrMj7P/Cr2Edn8pR/t96ZEZrPB
-	yYHwI2zA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=DHzpb9z6y5MPsVXSv2QPxRfRuIPacxaK4SxJwue9sag=; b=IcB4LoxF1DZiDWPUfNN0pK+JLr
+	rMUHPoLhFn8UZeGpRoCdhSYqPFU5G0dbkX8qXSB8+rIUW+Rkc+CNIn/XMEu8svFc9kdxUBTJy81JZ
+	L+RRUHsYDagQQ5s2u9d0lUX8gv8MML56tm+BoDnKthhT6QONFPnbsQIKvzSqCpqGiTWCXC6fOPMjf
+	o5lNb1MwymaUCwDUZCctCk98E0t6rJzOsUEEJY1tsS3PsQr6ZzOmpl00++2lXnvbB3xes8fFiu/RA
+	wUHiZGuslIqGkkDBY+bPyExv7n64BKSzNJ1ViVPNe+Gr0HOQAN/aT03lXNDuUSv9nLeogCW/nDqmg
+	B7th8njg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8tNC-000000039Pn-1jLk;
-	Sat, 04 Apr 2026 05:16:42 +0000
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
+	id 1w8y2D-00000003MFH-14DT;
+	Sat, 04 Apr 2026 10:15:21 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8tN9-000000039PQ-3rc7
+	id 1w8y2A-00000003MEu-0V9P
 	for linux-nvme@lists.infradead.org;
-	Sat, 04 Apr 2026 05:16:41 +0000
-Received: by mail-qt1-x82b.google.com with SMTP id d75a77b69052e-509069a7a7fso885421cf.0
-        for <linux-nvme@lists.infradead.org>; Fri, 03 Apr 2026 22:16:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775279798; cv=none;
-        d=google.com; s=arc-20240605;
-        b=clyy5R3rgUourxZglcYRY/B1JbykxN/SA9ApWoRtNIFm6+B2EDQ8bHeq9IF83NXJLj
-         bwQPCvW70l11JegnNXXKZNTsflh5YjfcKzMj27BHGtdAoEnzPOFBXl79NI8yobsq85D9
-         zi9RR0coAGQs9MAyG4/9a69+1j2aM+PfCAmBZVswDwyuJzcLfH60uAzue6cosTnRY+3m
-         z4JVrKcODuN7Z1Swbrr16t91GpgfoUZoqCTnEI2eruiEtUlAiAZ0RmVK4L+eZ+rKCngQ
-         lL50GFLt60rBhWc6MB4nBaVtAnXOT9DRHACtAXEbiD1D0zw1iia5L9pMpKl+5NxPrHpb
-         NRyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=;
-        fh=QNvH0HXeHb1AbjBsmcIwXi128VEC7BXGap0tg+ewtR4=;
-        b=j5t2JSNHmhZ5i2Ye11x3PFiuvQMxncsGZ0PywG1FU324iTATIwIssaj3kUHWXOnR19
-         WcLxwq8MPc/deWbch3oYEyL0xwqfq/n2gZHiYn38COtedw871DP+M4q8E3HWiqRHqvrt
-         lLNLNS+R+UyS5E4I4OXbIdOc7zUN/Xk9GyGHYEXfgOuTUs6qLLcW+NgBUa3ehR9kDtz8
-         cPNb5mzhSkcAty9mfvqkukpnY7I5go2pRoXji81+IPxz2U94hmIg6/Dp41sEWCUIGaT4
-         e3nFBJi4g6U+k9W0XbmSOc+bzwJjkwRhx+ozxGFRIREIv357MeSGurtzckyO1KB/GGEp
-         Rv1w==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775279798; x=1775884598; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=;
-        b=NfEwP4uLHfDShfyUTI4IqZOKHFCf89ymzd/F9UZ0f7kIvm3wFTMhrj/HQMnDzxoltM
-         fKB+oWb/FCVi/WBnZN4FEUdTxQj1zEvZlTN3Cpf+418ru8VZv1WXzGM722FQD/sUyjTE
-         UiR+RM3oE4usXPjYXHs0w6JSU9jd6hw9OJFU8AxENbE0jPWJX1ZkV99xgH1SHZr7iRaR
-         x4ogah+CfhyTULHsKERoFVyF95uqtXhaacxbddknWMGGT3xFoCnrGwuWGetS5f46kJEU
-         nkwZ/JvNAHkZaCFS4QYGvg4BlPTpiYOEpzLVZEvKKrXofskJYs3XF7mfAfeSvKrH+XX6
-         qDQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775279798; x=1775884598;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=;
-        b=oCihs1DhgN5SxdIO4AUoIkO+AfTry0V9SBMox6K7DNEhIqjdC80v1RX1ZmlDKAm9Q/
-         QECi7ECB0dHpOeWoOVBy3dWHenCXNXSt3JflUz/IxH3N5havklMLGuv+4SRIMIi8rtrP
-         zkVy04dd+rOTxGk3BS7ZY3XG10aa6bMCSbKZuctox+8ahrNgqcI2jqDf1WeRJk/q5G6O
-         1fDqDe4wHvaNjWZ5jdyTr7PwmjEOAD4rIH67LViPa81RUeLuc0t0zH3PmA+qRTvFd5Y+
-         LSeKJO085IP8e7PXnoCfGgg550HgclfXvPOCSGmKZPeBTx4US03VJ/cep7RtvGoG+GqY
-         pB5w==
-X-Gm-Message-State: AOJu0YzqieDghY4178utzejFvgRYqdBfpquKT2yKwoKgHPqj9Erv2lq9
-	fFR1c6HJ1h3N3mR48u2rZfOQmYyxj3QbYGFPXrSyvQRnWpP4rtnOKEZeitrhiHKF5QEs/XcWj66
-	EJzKFzueEhmWxCIy5dKW8SgmSo9oHBjUw5e0XbV5f
-X-Gm-Gg: AeBDieut0Dq6Pw9ZHsa4ZmBNxOt5sOzFhIh/gIHKXPgsJpSL90bFNiL9tRfhEMzs2G+
-	x5D1ai8rInqd/D4aUx2ySaEcoekXS63mvJpLMePl/jvlDb8EFy/70YLmSX9P/7uij9/STBEZ1mW
-	x0n8xGjVjodqlCaDdragu8KJ1JcB0ekn607RrlK6ZbaRKunHPDf4J4n16oxCrsmsDFyYygAdDCw
-	97xTIh0adGpxMMEsXpiJaZZu9bOFuBObvOjYEXv7YnLYbyZ1ePElL7U0dlqAJiG+yqY03m/VOp3
-	eUAVvlZHJLd1VjfJfswCWQgeXyLszWwmLdwykrIAtvXMEpwNI2A=
-X-Received: by 2002:a05:622a:684f:20b0:509:2cd4:b705 with SMTP id
- d75a77b69052e-50d63eb03bemr17889111cf.4.1775279797390; Fri, 03 Apr 2026
- 22:16:37 -0700 (PDT)
+	Sat, 04 Apr 2026 10:15:19 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6348x9eH3742884;
+	Sat, 4 Apr 2026 10:15:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=DHzpb9z6y5MPsVXSv2QPxRfRuIPacxaK4SxJwue9s
+	ag=; b=fm6WBDEj9o/ZzSZ3IeITAanYXVJ46F64Cfc5HJw4Y+wOpWhUl2SRX0jlG
+	4j5ia8NdtlYFMo8Ih5VGQAl7pkFBsTfMAkzvD/X1xdr4KUFZyTWKU589zLV/m0KZ
+	j/xnqteyP+OdGvoL7c47lFu6yjL87i+oitqejoSOZs3NDsV7TgrC3BlWicJ24hdy
+	AxdIqupFVaCU7+BAAa6n3VnWGnz9E+PwWnPQvWqH+ZSTudT0Gk4ZfUAKZpQOH23R
+	Ca4JXbOWHBXScHNIGdM5x/OhvXy5glwXinBSbIXWVa/jitOHejwf9dBgzFnY7KeO
+	VJH6loALIxSiAtC+0uhkdnFqnhntA==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4datap0qfk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 04 Apr 2026 10:15:15 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 63430qAp008751;
+	Sat, 4 Apr 2026 10:15:14 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4d6v120vrq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 04 Apr 2026 10:15:14 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 634AFAop62456318
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 4 Apr 2026 10:15:10 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9C3912004F;
+	Sat,  4 Apr 2026 10:15:10 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 794B32004E;
+	Sat,  4 Apr 2026 10:15:06 +0000 (GMT)
+Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.124.211.35])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Sat,  4 Apr 2026 10:15:06 +0000 (GMT)
+From: Nilay Shroff <nilay@linux.ibm.com>
+To: linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
+        gjoyce@linux.ibm.com, wenxiong@linux.ibm.com
+Subject: [PATCHv2 0/9] libnvme: add support for retrieving additional NVMe stat
+Date: Sat,  4 Apr 2026 15:44:50 +0530
+Message-ID: <20260404101504.44539-1-nilay@linux.ibm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-References: <20260402073001.2039625-1-shivajikant@google.com>
-In-Reply-To: <20260402073001.2039625-1-shivajikant@google.com>
-From: Shivaji Kant <shivajikant@google.com>
-Date: Sat, 4 Apr 2026 10:46:26 +0530
-X-Gm-Features: AQROBzDtPFB3LrL89ArMSPFgvkXkqsGeNgFG00L9nKVDphRhkke4IXXiw-IqTvI
-Message-ID: <CAMEhMp=zrZ6TmNEP4xu6suES=XtyuRcMQYprntzoJZnorfN9zA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] nvme: enable PCI P2PDMA support for RDMA transport
-To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Pranjal Shrivastava <praan@google.com>, kch@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=Bp+QAIX5 c=1 sm=1 tr=0 ts=69d0e4b3 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
+ a=xxtA3AYBEPDFT9ljYxMA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA0MDA4OCBTYWx0ZWRfX3Q84uyrBNglY
+ KW9DuWSnL1nOWqxnPR17B5GxWaOYDdhfKxuwcDCSSB0TEzA/M4g7oJHRwuBIrx7ArJvgf9EHq5B
+ 5EGooCeTZHisAJRyUpLM7TQXxjnOQb/wAItbNCGtJT4ZAcKdEQdqxQ0aR3plRQ/pJmXE5K6G62A
+ nhk0muheVEC80XDWXiVYIwWd469F7fmZxMRkvi9qqvXij/x9mFo4WXvxyiaFLwECF/20bZyQYGi
+ 3SzVlkQEdE3IjEUzc+YuCchQeehgi1O2Dgn2F4izYlxTg0UHbtTADX/mq7XT/uN23PRTVwwkdyl
+ TxU9WMUdar32uBET5eJ7Wn4UxKsQR5Vbf+qwO6PZB/wmkyhQQkYzOAnJVulyUKh66l+wha62+Z0
+ CFBs//5tlpjU/ORweyun188ihuIP842vdRfYLysSqX2qAjUv3x0lU8E2mWqXdMh1J0fnozo8PfK
+ BOf7BtmGDjtG4eEnnWw==
+X-Proofpoint-GUID: HPngHhHPzkj45sQKhG-HwOTD3l9OBq5D
+X-Proofpoint-ORIG-GUID: HPngHhHPzkj45sQKhG-HwOTD3l9OBq5D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-03_07,2026-04-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 suspectscore=0 adultscore=0 impostorscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604040088
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260403_221640_022152_D4FF53BF 
-X-CRM114-Status: GOOD (  19.27  )
+X-CRM114-CacheID: sfid-20260404_031518_170653_92C8BC08 
+X-CRM114-Status: GOOD (  12.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -115,58 +114,69 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 2, 2026 at 1:00=E2=80=AFPM Shivaji Kant <shivajikant@google.com=
-> wrote:
->
-> Enable BLK_FEAT_PCI_P2PDMA on the NVMe when the underlying
-> RDMA controller supports it.
->
-> This patch depends on the PCI P2PDMA support added in this
-> patch [1].
->
-> Suggested-by: Pranjal Shrivastava <praan@google.com>
-> Signed-off-by: Shivaji Kant <shivajikant@google.com>
-> ---
-> [1] https://lore.kernel.org/all/20260323234416.46944-3-kch@nvidia.com/
-> ---
->  drivers/nvme/host/rdma.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 35c0822edb2d..09eefd7c3ff4 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -2189,6 +2189,13 @@ static void nvme_rdma_reset_ctrl_work(struct work_=
-struct *work)
->         nvme_rdma_reconnect_or_remove(ctrl, ret);
->  }
->
-> +static bool nvme_rdma_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
-> +{
-> +       struct nvme_rdma_ctrl *r_ctrl =3D to_rdma_ctrl(ctrl);
-> +
-> +       return ib_dma_pci_p2p_dma_supported(r_ctrl->device->dev);
-> +}
-> +
->  static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops =3D {
->         .name                   =3D "rdma",
->         .module                 =3D THIS_MODULE,
-> @@ -2203,6 +2210,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_op=
-s =3D {
->         .get_address            =3D nvmf_get_address,
->         .stop_ctrl              =3D nvme_rdma_stop_ctrl,
->         .get_virt_boundary      =3D nvme_get_virt_boundary,
-> +       .supports_pci_p2pdma    =3D nvme_rdma_supports_pci_p2pdma,
->  };
->
->  /*
-> --
-> 2.53.0.1185.g05d4b7b318-goog
->
-JFYI the link to v1 patch:
-https://lore.kernel.org/all/20260401103441.1229964-1-shivajikant@google.com=
-/
+Hi,
 
-Thanks
-Shivaji
+Certain NVMe attributes and statistics can change dynamically at runtime.
+However, the current libnvme implementation caches attribute values while
+scanning and building the topology. Subsequent libnvme API calls return
+these cached values.
+
+While this approach works well for one-shot nvme-cli commands, it is not
+suitable for use cases that require upto date information. In particular,
+real-time monitoring tools such as nvme-top require access to the latest
+(non-cached) values of such attributes.
+
+To address this, this patchset introduces support for retrieving
+non-cached values for selected attributes whose values may change
+dynamically. The first three patches disable auto-generated accessors
+for ana_state, numa_nodes, and iopolicy using "!accessors:none", and
+provide custom implementations that always return the latest values.
+
+In addition, libnvme lacks support for retrieving gendisk statistics, which
+provide useful insight into disk activity (e.g., number of I/Os processed,
+time spent servicing I/O, and in-flight I/O counts). This patchset adds
+support for retrieving gendisk I/O statistics for both per-path and namespace
+gendisks.
+
+Finally, this series adds support for retrieving diagnostic counters at 
+different levels, including per-path, namespace, nshead, and controller.
+These counters should improve visibility into NVMe native multipath behavior.
+
+All of the above statistics and counters can be leveraged by tools such as
+nvme-top to provide real-time monitoring and analysis.
+
+As usual, feedback and suggestions are welcome!
+
+Changes from v1:
+  - Avoid exposing internal state of libnvme to its users
+    while exporting the nvme stat; add a switch while updating
+    nvme stat which determines whether getters shall return the
+    nvme diffstat or absolute stat (Daniel Wagner)
+  - If libnvme API fails then return appropriate error code
+    instead of -1 (Daniel Wagner)
+Link to v1: https://lore.kernel.org/all/20260321152823.3197870-1-nilay@linux.ibm.com/
+
+Nilay Shroff (9):
+  libnvme: annotate nvme_path::ana_state with !accessors:none
+  libnvme: annotate nvme_path::numa_nodes with !accessors:none
+  libnvme: annotate nvme_subsystem::iopolicy with !accessors:none
+  libnvme: add support for retrieving per-path gendisk I/O statistics
+  libnvme: add support for retrieving namespace gendisk I/O statistics
+  libnvme: add support for per-path diagnostic counters
+  libnvme: add support for namespace diagnostic counters
+  libnvme: add support for nshead diagnostic counters
+  libnvme: add support for ctrl diagnostic counters
+
+ libnvme/src/accessors.ld     |   6 -
+ libnvme/src/libnvme.ld       |  36 +++
+ libnvme/src/nvme/accessors.c |  39 ---
+ libnvme/src/nvme/accessors.h |  47 ---
+ libnvme/src/nvme/private.h   |  51 +++-
+ libnvme/src/nvme/tree.c      | 563 +++++++++++++++++++++++++++++++++++
+ libnvme/src/nvme/tree.h      | 297 ++++++++++++++++++
+ 7 files changed, 944 insertions(+), 95 deletions(-)
+
+-- 
+2.53.0
+
 
