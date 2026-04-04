@@ -4,145 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEAEEE88D70
-	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 04:44:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BD594E88D70
+	for <linux-nvme@archiver.kernel.org>; Sat,  4 Apr 2026 05:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GkknelYFp6HtN4XE3xL83ceBm5cEE9hrZFfrC0l2T2k=; b=MKpYtqRiuu8eY4lAug8zStnpdl
-	WRE5GQohy17dtBDZfUu8lLw/53VZmKSzx3iZoczhCms4HjTCi+as4trI5MmuYEyEEXzKxnM6ps4EP
-	70BaU6obf2zDCSiH8jd9UlK+xF8dHik9B0haJ411F0APZLTOj4c/i1p7QyG0nXFikQbLPTEYCIJiF
-	wR7b6DowGrq5npLsAu6KPZNVsmoFJd7G6H8MC6a1W1J99nbVsLJimcXgJMNlopWkUpixHTPKNEPHJ
-	wFBY+EqurHrtO6M0f33XQlagSH7FXFdxVl4uDOcDx1b3ItoyAl6h0NG7/c9Tt0AGisId+0W73dUQd
-	dfg5JKSQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=; b=cqE0dY/iav8UqmuTXIZKxHv1Ka
+	NOnPtJ00GHyTRgIz/pMQbW0kyVbCBmJE5u/UjrwaFqSrIu+5m/m9yNX4724GLFHodX23dUKS/mNPq
+	jDjh8OxX/X6ypX598jTTK1D7vuwiEoOncWiRJuSQuW0pFOZEdlC5HXc3Tlc4OFCxBtX1jr0KGNJcr
+	pollQecyd4vafL7+i8rq4cHyG5c/NyY5/ONM/vUgbMWkrkoc4n4T9zChO/gkmEf8GGmebOCIvf9qw
+	berZIWBoHYqN0vSO3hXWJyZ/uvH43Bam+FWa+m6+x8ZNVMb5x5NcrMj7P/Cr2Edn8pR/t96ZEZrPB
+	yYHwI2zA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8ss6-000000037Go-3QDg;
-	Sat, 04 Apr 2026 04:44:34 +0000
-Received: from mail-uksouthazon11021079.outbound.protection.outlook.com ([52.101.95.79] helo=LO2P265CU024.outbound.protection.outlook.com)
+	id 1w8tNC-000000039Pn-1jLk;
+	Sat, 04 Apr 2026 05:16:42 +0000
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8Skb-00000000zSm-0Z8f
+	id 1w8tN9-000000039PQ-3rc7
 	for linux-nvme@lists.infradead.org;
-	Fri, 03 Apr 2026 00:51:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AD6Wua1umsX5aC5bXlN+JQ9uR2ROuzsz54IHnGzOU69rXYv8UMYv5uyY/3qB1lNpb0HCt4bmcNl3KQk7FKkoU49oUxSaTTQqVEkkzNLSiVx87+r2FkD8F5vJ6L+uwUhT+mgPowUOV8kSaiUW3+20P7A56WdMseyybPnlG7J5LLOVtw5dSUwtHs1jc6/yIkiXUkGVN/0T0rTtySj7bPBWPocHTJBNJAFf90+tx7J90LpRghc9QxfmzPGHv00fHD7/y91SzsRuJRlerTSYA6RCEdahLXXVj/qIjQjS0XChjBWf9/b9wSwDm3EqDAad9OovkUZm5YL43U4YW8x3lPskJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GkknelYFp6HtN4XE3xL83ceBm5cEE9hrZFfrC0l2T2k=;
- b=Pseop/Jb7+Uf08j+R9sQKx93ACKIEUW79qpyhBwtiyMfbRaT6lS3/k6MJyprpmfaCCc6BNeORcKGKhS207mB7NcDlWU5QU2OzLSuadEJyohJ2d7oXK2xoEHjGGtry8NMm28h/ammafZNtyQ/QhetikdO9b5sumfTbqStX8yr8hyWChgT2vviizK7YsaW4zD+LZP1LATJvWehRsOYt/qnWPCMy/4bPQrEnOIe+uNFzgUtCXViSoA0EQSZRpCbNFPYVjkTAX+msptUrYufJm39k26XckKts5Tx3QFrtOOC+2As795AZ6iWNhpbIRvjWaIq0F5OJ531z3nkxgaRoa/C/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO9P123MB7855.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3e4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Fri, 3 Apr
- 2026 00:50:58 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Fri, 3 Apr 2026
- 00:50:58 +0000
-Date: Thu, 2 Apr 2026 20:50:55 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
-	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
-	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
-	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
-	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
-	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, ming.lei@redhat.com, 
-	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
-	mproche@gmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
-	MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v9 09/13] isolation: Introduce io_queue isolcpus type
-Message-ID: <sluplntvagevh6ehfm3kqinbh23d2gnin7stkptxk6drvogh2g@4hpz74fidrq2>
-References: <20260330221047.630206-1-atomlin@atomlin.com>
- <20260330221047.630206-10-atomlin@atomlin.com>
- <20260401124947.-d4D5Cr-@linutronix.de>
- <c7phvlvohdn2ksc2jymxk5foolwlqaqq2jzcdv7oic4uzomh3j@yjimbwcnnst3>
- <20260402090940.5j0WmVX_@linutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260402090940.5j0WmVX_@linutronix.de>
-X-ClientProxiedBy: BN9PR03CA0574.namprd03.prod.outlook.com
- (2603:10b6:408:10d::9) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	Sat, 04 Apr 2026 05:16:41 +0000
+Received: by mail-qt1-x82b.google.com with SMTP id d75a77b69052e-509069a7a7fso885421cf.0
+        for <linux-nvme@lists.infradead.org>; Fri, 03 Apr 2026 22:16:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775279798; cv=none;
+        d=google.com; s=arc-20240605;
+        b=clyy5R3rgUourxZglcYRY/B1JbykxN/SA9ApWoRtNIFm6+B2EDQ8bHeq9IF83NXJLj
+         bwQPCvW70l11JegnNXXKZNTsflh5YjfcKzMj27BHGtdAoEnzPOFBXl79NI8yobsq85D9
+         zi9RR0coAGQs9MAyG4/9a69+1j2aM+PfCAmBZVswDwyuJzcLfH60uAzue6cosTnRY+3m
+         z4JVrKcODuN7Z1Swbrr16t91GpgfoUZoqCTnEI2eruiEtUlAiAZ0RmVK4L+eZ+rKCngQ
+         lL50GFLt60rBhWc6MB4nBaVtAnXOT9DRHACtAXEbiD1D0zw1iia5L9pMpKl+5NxPrHpb
+         NRyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=;
+        fh=QNvH0HXeHb1AbjBsmcIwXi128VEC7BXGap0tg+ewtR4=;
+        b=j5t2JSNHmhZ5i2Ye11x3PFiuvQMxncsGZ0PywG1FU324iTATIwIssaj3kUHWXOnR19
+         WcLxwq8MPc/deWbch3oYEyL0xwqfq/n2gZHiYn38COtedw871DP+M4q8E3HWiqRHqvrt
+         lLNLNS+R+UyS5E4I4OXbIdOc7zUN/Xk9GyGHYEXfgOuTUs6qLLcW+NgBUa3ehR9kDtz8
+         cPNb5mzhSkcAty9mfvqkukpnY7I5go2pRoXji81+IPxz2U94hmIg6/Dp41sEWCUIGaT4
+         e3nFBJi4g6U+k9W0XbmSOc+bzwJjkwRhx+ozxGFRIREIv357MeSGurtzckyO1KB/GGEp
+         Rv1w==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775279798; x=1775884598; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=;
+        b=NfEwP4uLHfDShfyUTI4IqZOKHFCf89ymzd/F9UZ0f7kIvm3wFTMhrj/HQMnDzxoltM
+         fKB+oWb/FCVi/WBnZN4FEUdTxQj1zEvZlTN3Cpf+418ru8VZv1WXzGM722FQD/sUyjTE
+         UiR+RM3oE4usXPjYXHs0w6JSU9jd6hw9OJFU8AxENbE0jPWJX1ZkV99xgH1SHZr7iRaR
+         x4ogah+CfhyTULHsKERoFVyF95uqtXhaacxbddknWMGGT3xFoCnrGwuWGetS5f46kJEU
+         nkwZ/JvNAHkZaCFS4QYGvg4BlPTpiYOEpzLVZEvKKrXofskJYs3XF7mfAfeSvKrH+XX6
+         qDQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775279798; x=1775884598;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yb605lKVp/GZqZOgKkIYclNBctJ6DyMj4RFRGDR1K84=;
+        b=oCihs1DhgN5SxdIO4AUoIkO+AfTry0V9SBMox6K7DNEhIqjdC80v1RX1ZmlDKAm9Q/
+         QECi7ECB0dHpOeWoOVBy3dWHenCXNXSt3JflUz/IxH3N5havklMLGuv+4SRIMIi8rtrP
+         zkVy04dd+rOTxGk3BS7ZY3XG10aa6bMCSbKZuctox+8ahrNgqcI2jqDf1WeRJk/q5G6O
+         1fDqDe4wHvaNjWZ5jdyTr7PwmjEOAD4rIH67LViPa81RUeLuc0t0zH3PmA+qRTvFd5Y+
+         LSeKJO085IP8e7PXnoCfGgg550HgclfXvPOCSGmKZPeBTx4US03VJ/cep7RtvGoG+GqY
+         pB5w==
+X-Gm-Message-State: AOJu0YzqieDghY4178utzejFvgRYqdBfpquKT2yKwoKgHPqj9Erv2lq9
+	fFR1c6HJ1h3N3mR48u2rZfOQmYyxj3QbYGFPXrSyvQRnWpP4rtnOKEZeitrhiHKF5QEs/XcWj66
+	EJzKFzueEhmWxCIy5dKW8SgmSo9oHBjUw5e0XbV5f
+X-Gm-Gg: AeBDieut0Dq6Pw9ZHsa4ZmBNxOt5sOzFhIh/gIHKXPgsJpSL90bFNiL9tRfhEMzs2G+
+	x5D1ai8rInqd/D4aUx2ySaEcoekXS63mvJpLMePl/jvlDb8EFy/70YLmSX9P/7uij9/STBEZ1mW
+	x0n8xGjVjodqlCaDdragu8KJ1JcB0ekn607RrlK6ZbaRKunHPDf4J4n16oxCrsmsDFyYygAdDCw
+	97xTIh0adGpxMMEsXpiJaZZu9bOFuBObvOjYEXv7YnLYbyZ1ePElL7U0dlqAJiG+yqY03m/VOp3
+	eUAVvlZHJLd1VjfJfswCWQgeXyLszWwmLdwykrIAtvXMEpwNI2A=
+X-Received: by 2002:a05:622a:684f:20b0:509:2cd4:b705 with SMTP id
+ d75a77b69052e-50d63eb03bemr17889111cf.4.1775279797390; Fri, 03 Apr 2026
+ 22:16:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO9P123MB7855:EE_
-X-MS-Office365-Filtering-Correlation-Id: 511c72d1-3b8d-4141-664c-08de911b11f4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: E/JeTplHmm5B8CmZkmz/BIEERu5Sox3xZmnitQQ3sVrXsHW7MjgksEhXLHWfgfobpxxJSTPu+fUNNigQjCg8Qb7tgwLq1AnBxUxYYoUTAMer4Rp1MdCkQ9g5WE3fNKp4vlRsEQHmamXXYrL3zgGeSh1fwigLaJ+1G1zZ86+MmC44DBHAQrQggDmCIYHg+GroYe7ZJMMha9AxHnx++zgdy/VLplfYxMMQwC9Mssxyd7Q1eAU+Ya30iZlue7hGK+v8w7Zl/MiEGFRX4e+0pe26UX8tHj/QY9WkqPEdhP4QMBM8tN9sAWQR62cwD4WdO+4INQHpBj1J6pfp7nTMPDp05pMyFxwSoSlWNmUOIjBlHz59rbDcAQgfmKXWwv9TzEES2VnA24iogk9Pengaxfs52z9sxpHmf4jsxhJdsc1zZGhG3uX8lzCVuX7o9daj37xlf6avaXGJimVpq2Pw965Z4/VBZNFiYiY5Fsqejb4J9jsDm7u2xFXFEVq/30ejRluolhjsMDlLqUhnbjF9O4NGTArknn4qst/HDzO/qXCCH6oVidnKLIoTiJHJ3oPBWr9XEpLNfRnAM9S4TNSj9hbwKWyGjFR8zbwHKkXYd5fJxota8+TDWDkkGXaa//OpF2PAVn8u4BHxS6YSra9h0qFjXSx+XrcAaLjIybO1lX5Dxk9+3XLzgWPL99T6WhG/Al0Xn2itqV6XDJjSNrhpNM9+jVzk/Gdum90oS57RafYq60w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1BNN1FyR3lZUlBXNzNWa3dRRUVta2tBTnB0TVNWY2k4UkhZS0VsMzJwNXVn?=
- =?utf-8?B?T25PR0lMQjE3anNuc2d6bFphblkvUnNKRjc1TmMrL0dZMm5nL2N6czhBT0FW?=
- =?utf-8?B?ZG1jd01BQ1VwZTZnUUQvVndyNkZOYzF4dUpxT0lKZG1hemFpeDNKdExMc0Ji?=
- =?utf-8?B?QWVOUDVNRWJ4VGtqaFdkZ2cxWC9hbjdxZnNabXhxT1NDQlo3T2dwek11QUhj?=
- =?utf-8?B?SGtQVzB6djhpWGxRaWlXbWZWZi9CUzVnR3F6aW9NT3J2MDR3V3RvSnh0b0NZ?=
- =?utf-8?B?bjFEL0w3aUNTaDVGaEtqOGlMaHhCVkhEaVVzcTlYeksrdFNSVFVGYVZPakd5?=
- =?utf-8?B?bmhnT2pqcG4vMUFlVWovdlVuWDNXWTZsaS9iU0JyZHZONDNPUWZmMjdNN3o3?=
- =?utf-8?B?WklxUFhUWmROZTNGV0ZXOTJncWwrR01JdmFrdndHQkJhSDQ3SmpIV3lsSTkx?=
- =?utf-8?B?NFF2NmNKQ3dqSG9kYm5hamtlUk9aODZaWmlMdGxkdjZieEQxR1c3WDRBbTNN?=
- =?utf-8?B?eDVweVpEUjVoNnhKODAzOW9tTlNUdS9qYUxKTG5wUVppdmlYOHNYSlZCZHB1?=
- =?utf-8?B?UjBLaGw5K3I0N0xHcURiRVZ6VWYxRlB4bVRqUXhFUjFuTm5UNGhhMkdLdk9l?=
- =?utf-8?B?K1d0Mk0rZTFyYUZlemNPUVdRbTB4ZGo1RFF5QjJyRm9BRk5iTzd6K0ZibmMy?=
- =?utf-8?B?WGtlM3VKWkVLaytpOC9YcDNrYWw4clB3dDE5THJGbG5ZVmw4eFIxMzhFbGZy?=
- =?utf-8?B?SEdzaUNCZW1NUkZ0Zk9wMkRRMEJhZzVwK1h5TXlwR2pvLzZrVGM1YnVMTC9j?=
- =?utf-8?B?bXQ5ZVg4V1VlMVVrOThSYkJJRTVhL0xJbGVxTG95b3d0djNEYndiZlQyT2li?=
- =?utf-8?B?SDlKcnVSZVRoempXV2V2VWhxQnZoeEcxRG5KZk1PSzRSVFd6SWgzemRtT2Y2?=
- =?utf-8?B?ODM4ZmM4ZlJNaTNIRXUxd3RweXpGd1hoYktNSXprZFBFdmp4US9iNmV4Y1U1?=
- =?utf-8?B?M21kc0F3cTZZNk9pOXd5eWVUWm9oUC90V2lHN2x2dElrQ0p2YlQrdUZtcm5L?=
- =?utf-8?B?T3JZSnZJRUhXYUdqUDd3VmIrNFgrRlJyei9lN0dLTmxTWTBRUkRSWnI3aHlV?=
- =?utf-8?B?U3E5QkRvS0FMYnZVLy8rV1hhQ0tLL3d1Zy9vU3crd1FMczhYdmZLaXl3bjVz?=
- =?utf-8?B?YjlMMll5N1NpUm9zMGtEVEhpajc0RStpRnQ0QmVlWXRLQmFBR012VExxampS?=
- =?utf-8?B?V3BOME9pejgza1pIS2xzUS9XS1Y4N1RVQUg2N0FBVkUxUWl3c0dqU1J4azhT?=
- =?utf-8?B?aDNzWjkvQmJSZGRBRk16eEtpWUkzVkNXUWtHNkxJOUthWVQ0M1J4NDVqbVd2?=
- =?utf-8?B?Z0M2aWx3VjdrZ2NxQUJqa1FVeGp0YjdZUm8wNE1xYUVwNnhHaWh0VFM3U25V?=
- =?utf-8?B?YU5CZHptUWRiVmdDRk9PcGVGU0kyRHliaDBxNVYrazJkQWs5QTN1TnR6VnNN?=
- =?utf-8?B?MlZsSURsbmdSdCtrbk12QXFxNERmNUUvMVlTWWNHWGFsb09vYXloVHIzOCs2?=
- =?utf-8?B?OGhaMFpDbmFleWZPL3VVUHcvcHNQU1l4eFpwY2tsZ21sV2l1RHBDUkFGQysr?=
- =?utf-8?B?TEpldVFXMkNaMDl2azM5MTQ5YTl2N3h5U2lRQWZaUm5vUk5FWVBjK3FEQ1Vk?=
- =?utf-8?B?VENGYWsrY0szOGVEVlVlWUcrcGtQWGxJSnYxQjhiZWk1UUFJRzZUM1h0Y0Zh?=
- =?utf-8?B?VWxzK1dIUlNzOEJIdnJBQjlTUlRQNDZXcktyTGxOckFDOUpVYlMwV2dmTGRW?=
- =?utf-8?B?Lzdva3VPeTg3T01lNGlUalFTdXhDL0dpSzkveWsySFIvVnlnM1NkWFhBMCtC?=
- =?utf-8?B?RHV2dnBROEU2K0MzV1NzVEhqV3VudGgwb1BITGZUNWZFN2ZHNmJ6OEx0VDNR?=
- =?utf-8?B?cHRFVU43MFJXZklkNWl3TlA5SkxsWnZuTHh2a0FQQVF2c3VmRzcyR0VZT3Ft?=
- =?utf-8?B?eGxoYk5WTEpVY0ZMcHcvNG43cjhESnpsTlpVTUJnWCs4WDkvdzhvc3pqWFcy?=
- =?utf-8?B?Wld5Q0FkRVF1WUxLWHBOOXlPbVh6SE4xbStYKytBZngyY3Rrb1ExZVRYNHFu?=
- =?utf-8?B?RWhXaUJ2dWZiY0JadW5xUWEyNUw1U08xT1R3eWV4TWNzUWRzeVp5bnRlOTZD?=
- =?utf-8?B?aVBpdklRTEZZZ0lVazB6Q0ttSm1VZVRkbllTSHkwUmp3L2RCcURYZ0dEbTBo?=
- =?utf-8?B?THhkenFrQ3hvWXNRMWE0MmlZVGZBSUpCakRDSUt5SEkrbzkySkVNeThKYlky?=
- =?utf-8?B?UDBkb3pFcjA2Q0toYnhoQmszYzFvR0ZPbWZBNHNPazN2NGlZZUhaZz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 511c72d1-3b8d-4141-664c-08de911b11f4
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 00:50:58.7055
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kDWem7TqXyyT6Xw42g9oI/duz/C/Xn3MqaYiPQdZGZo7W47FMZuzvTwW4UEiuKn3BRn4m/3wPmAPhomYHWFfEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P123MB7855
+References: <20260402073001.2039625-1-shivajikant@google.com>
+In-Reply-To: <20260402073001.2039625-1-shivajikant@google.com>
+From: Shivaji Kant <shivajikant@google.com>
+Date: Sat, 4 Apr 2026 10:46:26 +0530
+X-Gm-Features: AQROBzDtPFB3LrL89ArMSPFgvkXkqsGeNgFG00L9nKVDphRhkke4IXXiw-IqTvI
+Message-ID: <CAMEhMp=zrZ6TmNEP4xu6suES=XtyuRcMQYprntzoJZnorfN9zA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2] nvme: enable PCI P2PDMA support for RDMA transport
+To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pranjal Shrivastava <praan@google.com>, kch@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260402_175105_321784_F48DE78F 
-X-CRM114-Status: GOOD (  43.43  )
-X-Mailman-Approved-At: Fri, 03 Apr 2026 21:44:33 -0700
+X-CRM114-CacheID: sfid-20260403_221640_022152_D4FF53BF 
+X-CRM114-Status: GOOD (  19.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,138 +115,58 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 02, 2026 at 11:09:40AM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-04-01 16:58:22 [-0400], Aaron Tomlin wrote:
-> > Hi Sebastian,
-> Hi,
-> 
-> > Thank you for taking the time to document the "managed_irq" behaviour; it
-> > is immensely helpful. You raise a highly pertinent point regarding the
-> > potential proliferation of "isolcpus=" flags. It is certainly a situation
-> > that must be managed carefully to prevent every subsystem from demanding
-> > its own bit.
-> > 
-> > To clarify the reasoning behind introducing "io_queue" rather than strictly
-> > relying on managed_irq:
-> > 
-> > The managed_irq flag belongs firmly to the interrupt subsystem. It dictates
-> > whether a CPU is eligible to receive hardware interrupts whose affinity is
-> > managed by the kernel. Whilst many modern block drivers use managed IRQs,
-> > the block layer multi-queue mapping encompasses far more than just
-> > interrupt routing. It maps logical queues to CPUs to handle I/O submission,
-> > software queues, and crucially, poll queues, which do not utilise
-> > interrupts at all. Furthermore, there are specific drivers that do not use
-> > the managed IRQ infrastructure but still rely on the block layer for queue
-> > distribution.
-> 
-> Could you tell block which queue maps to which CPU at /sys/block/$$/mq/
-> level? Then you have one queue going to one CPU.
-> Then the drive could request one or more interrupts managed or not. For
-> managed you could specify a CPU mask which you desire to occupy.
-> You have the case where
-> - you have more queues than CPUs
->   - use all of them
->   - use less
-> - less queues than CPUs
->   - mapped a queue to more than once CPU in case it goes down or becomes
->     not available
->   - mapped to one CPU
-> 
-> Ideally you solve this at one level so that the device(s) can request
-> less queues than CPUs if told so without patching each and every driver.
-> 
-> This should give you the freedom to isolate CPUs, decide at boot time
-> which CPUs get I/O queues assigned. At run time you can tell which
-> queues go to which CPUs. If you shutdown a queue, the interrupt remains
-> but does not get any I/O requests assigned so no problem. If the CPU
-> goes down, same thing.
-> 
-> I am trying to come up with a design here which I haven't found so far.
-> But I might be late to the party and everyone else is fully aware.
-> 
-> > If managed_irq were solely relied upon, the IRQ subsystem would
-> > successfully keep hardware interrupts off the isolated CPUs, but the block
-> 
-> The managed_irqs can't be influence by userland. The CPUs are auto
-> distributed.
-> 
-> > layer would still blindly map polling queues or non-managed queues to those
-> > same isolated CPUs. This would force isolated CPUs to process I/O
-> > submissions or handle polling tasks, thereby breaking the strict isolation.
-> > 
-> > Regarding the point about the networking subsystem, it is a very valid
-> > comparison. If the networking layer wishes to respect isolcpus in the
-> > future, adding a net flag would indeed exacerbate the bit proliferation.
-> 
-> Networking could also have different cases like adding a RX filter and
-> having HW putting packet based on it in a dedicated queue. But also in
-> this case I would like to have the freedome to decide which isolated
-> CPUs should receive interrupts/ traffic and which don't.
-> 
-> > For the present time, retaining io_queue seems the most prudent approach to
-> > ensure that block queue mapping remains semantically distinct from
-> > interrupt delivery. This provides an immediate and clean architectural
-> > boundary. However, if the consensus amongst the maintainers suggests that
-> > this is too granular, alternative approaches could certainly be considered
-> > for the future. For instance, a broader, more generic flag could be
-> > introduced to encompass both block and future networking queue mappings.
-> > Alternatively, if semantic conflation is deemed acceptable, the existing
-> > managed_irq housekeeping mask could simply be overloaded within the block
-> > layer to restrict all queue mappings.
-> > 
-> > Keeping the current separation appears to be the cleanest solution for this
-> > series, but your thoughts, and those of the wider community, on potentially
-> > migrating to a consolidated generic flag in the future would be very much
-> > welcomed.
-> 
-> I just don't like introducing yet another boot argument, making it a
-> boot constraint while in my naive view this could be managed at some
-> degree via sysfs as suggested above.
+On Thu, Apr 2, 2026 at 1:00=E2=80=AFPM Shivaji Kant <shivajikant@google.com=
+> wrote:
+>
+> Enable BLK_FEAT_PCI_P2PDMA on the NVMe when the underlying
+> RDMA controller supports it.
+>
+> This patch depends on the PCI P2PDMA support added in this
+> patch [1].
+>
+> Suggested-by: Pranjal Shrivastava <praan@google.com>
+> Signed-off-by: Shivaji Kant <shivajikant@google.com>
+> ---
+> [1] https://lore.kernel.org/all/20260323234416.46944-3-kch@nvidia.com/
+> ---
+>  drivers/nvme/host/rdma.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 35c0822edb2d..09eefd7c3ff4 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -2189,6 +2189,13 @@ static void nvme_rdma_reset_ctrl_work(struct work_=
+struct *work)
+>         nvme_rdma_reconnect_or_remove(ctrl, ret);
+>  }
+>
+> +static bool nvme_rdma_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
+> +{
+> +       struct nvme_rdma_ctrl *r_ctrl =3D to_rdma_ctrl(ctrl);
+> +
+> +       return ib_dma_pci_p2p_dma_supported(r_ctrl->device->dev);
+> +}
+> +
+>  static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops =3D {
+>         .name                   =3D "rdma",
+>         .module                 =3D THIS_MODULE,
+> @@ -2203,6 +2210,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_op=
+s =3D {
+>         .get_address            =3D nvmf_get_address,
+>         .stop_ctrl              =3D nvme_rdma_stop_ctrl,
+>         .get_virt_boundary      =3D nvme_get_virt_boundary,
+> +       .supports_pci_p2pdma    =3D nvme_rdma_supports_pci_p2pdma,
+>  };
+>
+>  /*
+> --
+> 2.53.0.1185.g05d4b7b318-goog
+>
+JFYI the link to v1 patch:
+https://lore.kernel.org/all/20260401103441.1229964-1-shivajikant@google.com=
+/
 
-Hi Sebastian,
-
-I believe it would be more prudent to defer to Thomas Gleixner and Jens
-Axboe on this matter.
-
-
-Indeed, I am entirely sympathetic to your reluctance to introduce yet
-another boot parameter, and I concur that run-time configurability
-represents the ideal scenario for system tuning.
-
-At present, a device such as an NVMe controller allocates its hardware
-queues and requests its interrupt vectors during the initial device probe
-phase. The block layer calculates the optimal queue to CPU mapping based on
-the system topology at that precise moment. Altering this mapping
-dynamically at runtime via sysfs would be an exceptionally intricate
-undertaking. It would necessitate freezing all active operations, tearing
-down the physical hardware queues on the device, renegotiating the
-interrupt vectors with the peripheral component interconnect subsystem, and
-finally reconstructing the entire queue map.
-
-Furthermore, the proposed io_queue boot parameter successfully achieves the
-objective of avoiding driver level modifications. By applying the
-housekeeping mask constraint centrally within the core block layer mapping
-helpers, all multiqueue drivers automatically inherit the CPU isolation
-boundaries without requiring a single line of code to be changed within the
-individual drivers themselves.
-
-Because the hardware queue count and CPU alignment must be calculated as
-the device initialises, a reliable mechanism is required to inform the
-block layer of which CPUs are strictly isolated before the probe sequence
-commences. This is precisely why integrating with the existing boot time
-housekeeping infrastructure is currently the most viable and robust
-solution.
-
-Whilst a fully dynamic sysfs driven reconfiguration architecture would be a
-great, it would represent a substantial paradigm shift for the block layer.
-For the present time, the io_queue flag resolves the immediate and severe
-latency issues experienced by users with isolated CPUs, employing an
-established and safe methodology.
-
-This is at least my understanding.
-
-
-Kind regards,
--- 
-Aaron Tomlin
+Thanks
+Shivaji
 
