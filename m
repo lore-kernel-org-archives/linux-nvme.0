@@ -4,106 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 995AAE9D80D
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2026 19:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41A2FE9D80D
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2026 19:55:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KjBTWmM1cPjY49EOYiuerHROAqOXcRoYVzyzwcieuRs=; b=2nkVj4DUD/SjiCgQn0ApMXaiMU
-	g3stLr4Is0ggA1CRstkyqXsDR/X676hdxqc6KINs9c/em45oiyJq+OLlDEY0Q+L2OiC39sYON0clC
-	UAfUvGkzTTTZJFmz4Q09COpl3GDFT04k3gv+WJ40JLqLv4orI9gD5KW3mWsPr0UUKTQG3wIg1jLUw
-	e/GXzRyWnpV65J0gsoMnH3FWtUCXSWApPEN2g7MeIJxipRvwRAeiw9+c8KB3nWZPmcEK0telrg8n9
-	WvOlS5Vi9wyU8Q1ihDH7YcbHy+H+1E/DDBmngrwRg0j9cZU6I9kAg9KdWlSFmRoSv7rnnnFOUuO5p
-	8EEbRV4g==;
+	bh=sFImrzcAZ+IKqXfGdMJm+cF+3eLOpl4Q3uZEkUAcKmQ=; b=S96+N6LwlCZ4qjhLdWpdOoYl6v
+	ycFsJrw3h8EQzyck94LM2yljTcNImVYOvMzILJQ1h8NESTDaKF+SPUVxMOt4zxWIbCZP6LsNS0Tc7
+	7jLKXuC8dsHZRFpEzUyHDdbaFs/4nqDyTAuAgmzjCkWCnutRHJcvdojqU5EKAlohVRPCLIYJwZCne
+	yKbNI6pPkYyVe5YjvrWEtzg6hpJ7VINhws5UvTiWqn1BKUVPsalxTlgWvHYpkcrSLcqIyHTVeuxnY
+	SihYC7kCWUxDvnbEz8KEYJ3xsaJP6jShnFaJtHcCDyOPgTfWWB2zHOXewtRCQ6BWbyLSPM/btbNpK
+	p1AV+7nw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9TYP-00000004Rus-0EcR;
-	Sun, 05 Apr 2026 19:54:41 +0000
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+	id 1w9TZH-00000004S0Y-1yGF;
+	Sun, 05 Apr 2026 19:55:35 +0000
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9TYM-00000004RuT-1PHH
+	id 1w9TZE-00000004RzU-3GRV
 	for linux-nvme@lists.infradead.org;
-	Sun, 05 Apr 2026 19:54:39 +0000
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-43b983bb07eso1911438f8f.0
-        for <linux-nvme@lists.infradead.org>; Sun, 05 Apr 2026 12:54:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775418876; cv=none;
+	Sun, 05 Apr 2026 19:55:33 +0000
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-43cfb723698so3064991f8f.3
+        for <linux-nvme@lists.infradead.org>; Sun, 05 Apr 2026 12:55:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775418931; cv=none;
         d=google.com; s=arc-20240605;
-        b=K68pB3qFqAIbKjClqjGvCv+sbCqItu/BJ8nt59HhEU8WzSgXnxyJvxGHAd2kti478j
-         Bu4xIzSVSFYRJBzfnpjo5rEAoxTm+OOvNrCDLv8jBnobPeYnC0u5DHQMPE0VSeU8Elc/
-         +GcEEqzT3t/6at64dxPFRKb7ULmWxL5MHUe1ktarWdvqDT/f8cLu/JRsHs9lH8dLTtEX
-         y0orISlyDED5T4QZTItCRET5Y+jPgb6EiM6gbfokFWz4XeZQ82RwxwDnA0aFvXIf+9d+
-         vqo/2Y4Bwvc94kbfqh6/vdnDKJDe/fDfiuHJ+YQIEmi7vPcNszIDrxcwn7qzq1cdH+aJ
-         y6MQ==
+        b=W7+4vSgO0PbP/JhUXk+a7Ay7TFUFHHRmwut1IJC+leIK9urNX8on2hfp4admJDVIrt
+         W31gD2QCeMcl1fxNrkA1u9LIudOxKUYRAHRmyx22qtJbyCM+ZJBLZpPNnbiwl0SIYSkH
+         2tkokiKyCP+hdt0IfzLFouaYX7n7YcOZKSLdhmPw205+tbpkr1X9XqIcMNrdLW8fkOXl
+         XcDIpZNDdGiOp+ih7Z/BDSD1/UhcZAZpv+OHc8jjVi/iEL3gLCE5jMAAPrZ6ClMDQ1vm
+         eG/uEdF2mXOVEdX6vND3Z9c7e9EFkW75dJD5zx1bzs/Sw84AAEaCM8xsNrzHHDQ67P72
+         EqSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=KjBTWmM1cPjY49EOYiuerHROAqOXcRoYVzyzwcieuRs=;
-        fh=z6rBNCpeUpF7w0bRlIu80+6kDNOHAuIqGuQCJff2SKs=;
-        b=lGqPsMUOhMHCXyyxDVIlL/Vp7Ia3L+q5TjnQFu+rDAPTEaQj9y48ldjehfWkqyttR5
-         sGijjuSdB8UVqXfTDAWQsetCp1Qo9dYWeB61bM7wX/NLHhfJBgys+7828rnviUck1B8Y
-         mEqSwj6Eai0nPFIbicMEtzwwFufoXJwiHOvss/XCYukLlMRed9ww3mA0Q6hRzkC3ZfFl
-         UfVgTSOBt/3a6frM7ARdn1ZWVB1mBbqL6hGoc/3Soa8LiPQBHnozcFTElAs6Rs2c9lx9
-         zg0RkYOZp+iPAoyOl3KZUjRc/+Zd1NJaCI6+S6DNvkzg0ejMvdaIEeNZJpvEkedfV12t
-         cKAA==;
+        bh=sFImrzcAZ+IKqXfGdMJm+cF+3eLOpl4Q3uZEkUAcKmQ=;
+        fh=O/nZ0pyd38lZ9QHMd6Z3dsj+P2NycQPnCCqM/tqfeik=;
+        b=Ra5GhNdXcr7FHeHQTBdUCmVUyeHCy6ovP45dWLlhuY1YNTBwH7GKnkpmXJ/ZN/Rzm7
+         xZnk4jXsWbC0htdKZmPX1DAzsabY3ccPxD0S/PxUYQDIuk1fy9dQeKQQwQcLCAHmhddk
+         pSUyDIUXzcydPCeYt0tvBHepIErm4CXvXn4/WeyPIa+DhW7r0a++MPDjZTNAeK00FM1D
+         SRgYPUKEXk4UXccoo42Lk2prKo+90uc4u5WLoVUlBHmSULln+/ZSH+ZKOHVFoqJNQ+cp
+         Aw9kn9hhRa0DEGdNIsVuG5etzkMte0RQ2ukZMUT5rkYYAGK9FMy2HMQh0+w/JmhZSxcE
+         nQeg==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775418876; x=1776023676; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1775418931; x=1776023731; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KjBTWmM1cPjY49EOYiuerHROAqOXcRoYVzyzwcieuRs=;
-        b=gcyoNvfuC5wAw8h35ZO/o0xqk4CO8X+V9r9vcr4BwVbk+HJ4WEzqVaSeg3KCuiS3Hj
-         asGrLEL8gOySsCjIfFYQmBynd/UVmIWcTF1AG9+APRS665ENT9Iv7N/QcMKR6JPb812X
-         ZdszFE6RUfitvoh7VDXHmVI3mJy/vJdB9PweJbTBBf8/lHgSXFxXL9xZf6/0Y3+1qZvI
-         8/Ce7YWj2cgwpuQA7letTimyFaRx21tiMCqvmnUT6b/+1knwG0JXqDpGNN6DP82NXlxR
-         QhTmPP83d0VTSvqjE8jkm0VAASomPXbQU5FmwAQXfEjOX9uILfkDUOY2DGOC3uVuFVwn
-         FgkQ==
+        bh=sFImrzcAZ+IKqXfGdMJm+cF+3eLOpl4Q3uZEkUAcKmQ=;
+        b=hS1TphYVOi3TY325GgGnuHcdkDPi6vuAiIIklpaV8uuWlIf48AnGaFzfuu5EREaxBT
+         nqrps0umrCfHeklcGnhJBVa6VME1U7U9dhUMaLXb+wT7rZIG8k4VskeeMYiks+j8lQpE
+         VXg+nNWXpPFwsaBqN1D+/Pgj8JUdQ/Cy5kOFoPr9wCMlr5oi8XtIJHe6ync4alDlcD+r
+         d94X0QeHd66dKoMoD1/nqu4wqOOAGoGVTJNGxbms2yr3xUGt+ksNL2ZCa0H47hYYD2Jz
+         MDXpcDg2ocw0mLPlqdcId8bLRzvbGcilXf0dObYHdlzVVdyyyYBqLrwuxTuf3LSn/xM8
+         pCWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775418876; x=1776023676;
+        d=1e100.net; s=20251104; t=1775418931; x=1776023731;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=KjBTWmM1cPjY49EOYiuerHROAqOXcRoYVzyzwcieuRs=;
-        b=rMuKIh7sBvImxr4mBl9TkQfOrWc4DruOXjd/djkem/vnPYHbtwzLAN22DvhnwAjPfR
-         kxvL/n/iTulMTum1aPZt/hEaCr+2idDgkv1PELfuCp74ZMBTTKTFMTO4fKd7ljcqGkWs
-         L9eWZXRpFWR4kuyCeKHK7up2qKNTG9oujb7OM28DFO/hbN1ADQ8zU34TFMx6SJstWlnZ
-         h4mAwoT72YwCmz5mL5EpiJ+2nzq5u5B7CnzSojbT+jvpcKNytjcRjohSdQWkf1qKE1KG
-         nuDI8UOAZrB5IF9oe9aNrgFiXiOBdmYuio3O+od+j2Fkp8G2B1bYHDEjXtkUEip4NzcR
-         eGZA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0ajFQ3zSlJ9wSVftBdddZCFI9Is/VHRRD9wMY4ZCKgXDe+eIJO8SEA1LuJLas1UwSi/H/qQ+gWNbs@lists.infradead.org
-X-Gm-Message-State: AOJu0YxJy6Z5Va9FMQzG7oz2ssJdAMpxmYtH7N3vv7lT/1LTCteX29Gk
-	WlJz+4TIUfjMZ7v/hTZpyl83XRCWJ0eTvToH6m5vTikQKEXaO5bO+JqbJilNi3U/8osoLgk6o35
-	xIibkZWSi+/JFfnVHtKDUvHX3qa62280=
-X-Gm-Gg: AeBDieua6jYXCBQFlvuSJJuebSNi2ICYIRDUg80/27rXwsOJUFG4lopTfWN3k2H3mpN
-	N7r6F4Ql2UCLv0hVseu6HY1DxwM6fsDXRGFeAq7EH+zJUz6XFWWe8fLn7Pd+wbpKiSzigcqiUlo
-	sJ2Hg3vdtKLN9TvOmZpT+FOpQoEqMzkBgt1pMejCVIc1ZW2dn7i0SGeIRKKoayx+Kck64J6dsbq
-	tFg45ai7TunsjJQgjO83irt5gGLXfVFDoWIe25xBdfqz8O6Cjjh/AReddMX99IP+Uwcs47zwouh
-	oRllBELB3Myoj53a
-X-Received: by 2002:a05:6000:4010:b0:43d:1e97:d62e with SMTP id
- ffacd0b85a97d-43d292e4100mr16082357f8f.24.1775418876127; Sun, 05 Apr 2026
- 12:54:36 -0700 (PDT)
+        bh=sFImrzcAZ+IKqXfGdMJm+cF+3eLOpl4Q3uZEkUAcKmQ=;
+        b=qPX+SfYeCVdZ9nH0JqRWZIswMvq0irKogRDLHSPAk7dvscmSAaq/lZ8s7G5ctKrY25
+         5bOc8Ng/K+1wTPn7/aU3+oUdOrEWiB8FK8TlCzphI/V/2HKF6c+g1sIjlfH/23jpwFiu
+         bquoLedLzsTPWaAw/9jTpENirz6c++rFI0p7hSg9lNeOWmb0rD7IOd3O9Ovk3mxPAFLk
+         pI6bu1Num2rtFPAqf7dtzhWzpHERYYR7ekhQ71uu0T/soE2mcFr8Dz3GQqYHPDZI5big
+         rBv3cacgOxbIInxS8Jd75EcY00ppCcLto8xFlG2giKoh+UhQ+0iRKc9MrlVz89/+Nl47
+         qsuw==
+X-Forwarded-Encrypted: i=1; AJvYcCUo/0QlzwkpuCcYvtM9sroc/ZwbiyBVCWnYPY4A12p+ol1MWKEEK8cvWh3OaTizheq/UqDkcwkf5BY6@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywdw43NV9au4dKIBb2utDTaMm3UpMDix0QyhHwam93wz6eENWDm
+	xQufXqPDc5uk3hg7KJhSqxAhNVk7Wt4+jihyxXveRkfHksG3RvJQS5EaR+lEefzGcVK2wY9EtK5
+	T1F1ypxwRq26k+9YgIYXhd5KRn/bMrmg=
+X-Gm-Gg: AeBDieso0XGg8gRnLgWKS7v7M2K5XjM42LxTEHesxOAANEpzV0e49ie4Yuh+ZtXrYNO
+	V3GvG2bdrGVxLeUBbYS2A0j9dR/7o7FPVEkiVysaf7fUHQCWq96L3taVIa/3OvlfhIifEPLtUzE
+	N8FrMct7qE6uWRxQ3bMafor34ALDwl87G692ONgxDULZRIuvkr9bOuwFVcYQ0xAqjvDI45b1UNE
+	ux8dN3QHcx2nT+/OnOcjhRuF0Bu5K1Nw1G7eOZ47cGp5J3SPoGcDH9i2d1R8y1MiVhzDVr7Pof8
+	phheCw==
+X-Received: by 2002:a5d:5d05:0:b0:43c:fbcd:4b4f with SMTP id
+ ffacd0b85a97d-43d292e800dmr15910051f8f.47.1775418930684; Sun, 05 Apr 2026
+ 12:55:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <2026031827-carving-overdrawn-5b1f@gregkh> <20260318225658.1760759-1-kumar.shivam43666@gmail.com>
- <20260320074652.GA14485@lst.de>
-In-Reply-To: <20260320074652.GA14485@lst.de>
+References: <CA+ysrS+QrbGfOLk=e0=PZ-py-KO_xZgn827nEg7mh7hGhdUAAw@mail.gmail.com>
+ <2026031827-carving-overdrawn-5b1f@gregkh> <CA+ysrSLcSJSgEC7i0GYXPiRY9sbbyEGT60Nh1SJ6PqXWENgSOw@mail.gmail.com>
+ <CA+ysrSL+3YVGvTKhJ=jL92XZPwjoDpt5D2BK-HeCU975vO-fCQ@mail.gmail.com>
+ <CA+ysrSJQ2tDiB=zL+GwF=ckhmO62v6GC2bWVUVVDVn7d8Km1mw@mail.gmail.com> <27f3f1b4-5f27-41d6-aa5e-646e5f3ce1e9@nvidia.com>
+In-Reply-To: <27f3f1b4-5f27-41d6-aa5e-646e5f3ce1e9@nvidia.com>
 From: Shivam Kumar <kumar.shivam43666@gmail.com>
-Date: Sun, 5 Apr 2026 15:54:24 -0400
-X-Gm-Features: AQROBzCwAsDtahFiwQ387gePW6uyvl7zAG8Jjv5p8qcdKy4RhGl7ks6GS6I1XLc
-Message-ID: <CA+ysrS+Uht6pXJ3odiyGccZ7HrR+WvtrHexNkTB1Gvy=Uxw79w@mail.gmail.com>
-Subject: Re: [PATCH] nvmet-tcp: check INIT_FAILED before nvmet_req_uninit in
- digest error path
-To: Christoph Hellwig <hch@lst.de>
-Cc: gregkh@linuxfoundation.org, security@kernel.org, sagi@grimberg.me, 
-	kch@nvidia.com, linux-nvme@lists.infradead.org
+Date: Sun, 5 Apr 2026 15:55:19 -0400
+X-Gm-Features: AQROBzD4rLHnviJpTXyKgslc-Z_w1S_EzotqZevOJUPh40XorGh1n-rCGGAs-8k
+Message-ID: <CA+ysrSLqMrw0wY8WGcfCxTi=G54v4Gg-jUcEvkw5tyr6J7cLWg@mail.gmail.com>
+Subject: Re: [Bug Report] nvmet-tcp: unbalanced percpu_ref_put on data digest
+ error after nvmet_req_init failure causes refcount underflow, use-after-free,
+ and permanent workqueue deadlock
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Christoph Hellwig <hch@lst.de>, 
+	"sagi@grimberg.me" <sagi@grimberg.me>, "security@kernel.org" <security@kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260405_125438_402464_520DC486 
-X-CRM114-Status: GOOD (  10.76  )
+X-CRM114-CacheID: sfid-20260405_125532_875393_B906D395 
+X-CRM114-Status: GOOD (  32.81  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,20 +124,183 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 Hi all,
 
-Just following up on this patch.
-Please let me know if there are any concerns or if any changes are needed.
+Just following up on this report. Please let me know if there are any
+questions about the analysis or if any additional information would be
+helpful.
 
 Thanks,
 Shivam Kumar
 
-On Fri, Mar 20, 2026 at 3:46=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
-e:
+On Wed, Mar 25, 2026 at 12:29=E2=80=AFAM Chaitanya Kulkarni
+<chaitanyak@nvidia.com> wrote:
 >
-> Looks good to me:
+> +linux-nvme list as well.
 >
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> On 3/24/26 21:22, Shivam Kumar wrote:
+> > Hi Greg, Christoph, Sagi, Chaitanya
+> >
+> > Following up on my previous report (percpu_ref underflow in
+> > nvmet_tcp_try_recv_ddgst). During testing with the percpu_ref patch
+> > applied, I identified a separate vulnerability triggered by the same
+> > PoC. This one affects the queue kref (not the SQ percpu_ref) and has a
+> > different root cause.
+> >
+> > # Bug Overview
+> >
+> > nvmet_tcp_handle_icreq() sets queue->state =3D NVMET_TCP_Q_LIVE without
+> > holding state_lock and without checking whether teardown has already
+> > started. When a client closes the connection immediately after sending
+> > an ICReq and a malformed CapsuleCmd, the FIN can arrive and be
+> > processed before io_work reads the ICReq from the socket buffer. The
+> > FIN handler sets queue->state =3D NVMET_TCP_Q_DISCONNECTING and calls
+> > kref_put (1->0). Then io_work processes the ICReq and handle_icreq
+> > blindly overwrites the state back to NVMET_TCP_Q_LIVE. This defeats
+> > the guard in nvmet_tcp_schedule_release_queue(), which relies on state
+> > =3D=3D NVMET_TCP_Q_DISCONNECTING to prevent a second kref_put.
+> >
+> > When the subsequent digest error triggers nvmet_tcp_fatal_error() ->
+> > kernel_sock_shutdown(), the socket teardown synchronously processes
+> > any pending TCP packets in the socket backlog via release_sock() ->
+> > tcp_done() -> nvmet_tcp_state_change() ->
+> > nvmet_tcp_schedule_release_queue(). Because the state was overwritten
+> > to LIVE, the guard passes and kref_put is called on an already-zero
+> > kref, triggering the underflow.
+> >
+> > # Root Cause
+> >
+> > The vulnerable code in nvmet_tcp_handle_icreq() (tcp.c):
+> >
+> > queue->state =3D NVMET_TCP_Q_LIVE;
+> > nvmet_prepare_receive_pdu(queue);
+> > return 0;
+> >
+> > This state transition is not protected by state_lock and does not
+> > check the current state. All other state transitions to
+> > NVMET_TCP_Q_DISCONNECTING in nvmet_tcp_schedule_release_queue() are
+> > protected by the spinlock, but handle_icreq bypasses this
+> > synchronization entirely.
+> >
+> > # Race Sequence
+> >
+> > The PoC sends ICReq + CapsuleCmd + close() in rapid succession. On the =
+wire:
+> >
+> > [TCP handshake] -> [ICReq] -> [CapsuleCmd] -> [FIN]
+> >
+> > All data arrives in order in the socket buffer, but the FIN triggers
+> > a TCP state change callback (softirq context) that races with io_work
+> > (process context) reading the application data.
+> >
+> > # ftrace evidence (queue 29)
+> >
+> > Step 1: FIN arrives, teardown begins (softirq context):
+> >
+> > kworker/-74 1b..2. 125826488us : nvmet_tcp_state_change: DEBUG queue
+> > 29: In schedule_release before checking state variable state is 0,
+> > kref=3D1, caller=3Dtcp_fin+0x278/0x4f0
+> > kworker/-74 1b..2. 125826492us : nvmet_tcp_state_change: DEBUG queue
+> > 29: kref_put in schedule_release state changed to 3, kref=3D1,
+> > caller=3Dtcp_fin+0x278/0x4f0
+> >
+> > State transitions from CONNECTING(0) to DISCONNECTING(3), kref decremen=
+ted 1->0.
+> >
+> > Step 2: io_work processes ICReq, overwrites state (process context):
+> >
+> > kworker/-74 1..... 125826529us : nvmet_tcp_try_recv_pdu: DEBUG queue
+> > 29: Inside nvmet_tcp_handle_icreq_pdu before changing state is 3,
+> > kref=3D0, caller=3Dnvmet_tcp_io_work+0x12b/0x1fc0
+> > kworker/-74 1..... 125826532us : nvmet_tcp_try_recv_pdu: DEBUG queue
+> > 29: Inside nvmet_tcp_handle_icreq_pdu after changing state is 2,
+> > kref=3D0, caller=3Dnvmet_tcp_io_work+0x12b/0x1fc0
+> >
+> > handle_icreq see's state=3DDISCONNECTING(3) but overwrites it to LIVE(2=
+)
+> > without holding state_lock. kref is already 0.
+> >
+> > Step 3: Digest error triggers fatal_error -> kernel_sock_shutdown
+> > (process context):
+> >
+> > kworker/-74 1..... 125831291us : nvmet_tcp_fatal_error: DEBUG queue
+> > 29: fatal_error, state=3D2, ctrl=3D0000000000000000,
+> > caller=3Dnvmet_tcp_try_recv_ddgst+0x74f/0x9a0
+> >
+> > Step 4: kernel_sock_shutdown -> release_sock processes backlog -> tcp_d=
+one
+> > re-enters state_change, guard bypassed because state is LIVE(2):
+> >
+> > kworker/-74 1b..2. 125831626us : nvmet_tcp_state_change: DEBUG queue
+> > 29: In schedule_release before checking state variable state is 2,
+> > kref=3D0, caller=3Dtcp_done+0x1d7/0x350
+> > kworker/-74 1b..2. 125831629us : nvmet_tcp_state_change: DEBUG queue
+> > 29: kref_put in schedule_release state changed to 3, kref=3D0,
+> > caller=3Dtcp_done+0x1d7/0x350
+> >
+> > schedule_release_queue see's state=3DLIVE(2), guard passes,
+> > kref_put called on kref=3D0 -> underflow -> CRASH.
+> >
+> > The critical evidence is Step 2: handle_icreq reads state=3D3(DISCONNEC=
+TING)
+> > and writes state=3D2(LIVE) =E2=80=94 proving the unsynchronized overwri=
+te.
+> >
+> > # Additional Observation: Double fatal_error Call
+> >
+> > The ftrace also shows that fatal_error is called twice per error: once
+> > from nvmet_tcp_try_recv_ddgst (digest mismatch) and again from
+> > nvmet_tcp_socket_error in nvmet_tcp_io_work (propagated error return).
+> > Both calls invoke kernel_sock_shutdown, doubling the window for the
+> > reentrant state_change.
+> >
+> > # Crash Trace (with percpu_ref patch applied)
+> >
+> > refcount_t: underflow; use-after-free.
+> > WARNING: lib/refcount.c:28 at refcount_warn_saturate+0xc5/0x110
+> > Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
+> > Call Trace:
+> > <TASK>
+> > nvmet_tcp_state_change+0x3e6/0x470
+> > tcp_done+0x1d7/0x350
+> > tcp_rcv_state_process+0x392c/0x6d80
+> > tcp_v4_do_rcv+0x1b1/0xa80
+> > __release_sock+0x2ab/0x340
+> > release_sock+0x58/0x1c0
+> > inet_shutdown+0x1f6/0x3c0
+> > nvmet_tcp_fatal_error+0x13c/0x1c0
+> > nvmet_tcp_try_recv_ddgst+0x74f/0x9a0
+> > nvmet_tcp_io_work+0xd43/0x1fc0
+> > process_one_work+0x8cf/0x1a40
+> >
+> > # Affected Code
+> >
+> > - Subsystem: drivers/nvme/target/tcp.c
+> > - Function: nvmet_tcp_handle_icreq()
+> > - Tested on: Linux 7.0-rc3
+> >
+> > # Suggested Fix Direction
+> >
+> > The state transition in nvmet_tcp_handle_icreq() needs to be
+> > synchronized under state_lock with a check for
+> > NVMET_TCP_Q_DISCONNECTING. If the queue is already tearing down,
+> > handle_icreq should not set the state to LIVE and should stop
+> > processing. I'll defer to you on the exact error handling semantics
+> > (return value and cleanup path).
+> >
+> > This bug is independent of the percpu_ref underflow in the previous
+> > report. The percpu_ref patch fixes the SQ refcount underflow; this bug
+> > affects the queue kref through an unsynchronized state transition.
+> >
+> > I am available for further discussion and testing.
+> >
+> > Thanks,
+> > Shivam Kumar
+> > PhD Student, Computer Science
+> > SYNE Lab, Syracuse University
+> > skumar47@syr.edu
 >
-> Although I'd prefer if someone more familiar with the TCP code could
-> also look over it.
+> I'll try to have a look at this over the weekend.
+>
+> -ck
+>
 >
 
