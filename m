@@ -4,104 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 20F36E63FE8
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2026 11:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 066DBE64019
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2026 11:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
 	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3mKGFGRC8Ir/bEzi2WUjXo1t2+zLxBk0Rpi89ZF+PFE=; b=ue9VfuM3HyzeXPI+Ervi60KWwM
-	JqVhxuJTCzLOWgwQc8rxCzO0XFHjhrsIDd2S42rpGELsthE/BSkt1CfLs9dXLDh+waKXJK60AcQ+F
-	ZFuGlG/CVpIVR8P9gehaXQjfjwDufg9p8RigHJjp6BZEITxyjakwH93y0WwtotmxATl4zOw3TeZL5
-	JeSuIy68IkMO8z4OoD5YuUnDyFqQ3vBTkUFJ+rEbba0/2YZy4/p1iDUH6RCU3FknJX/591vpDu3zm
-	gNmlRoNcLR3cVVTtLNt8bFSUVaxeyyp/PIE3drq/lK9/CykNvrM+wp97COvAqdo7xCfnHKA6wtGuB
-	PLdnKbGA==;
+	bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=; b=ga8TZKSFtJriUz8UpyGyEYtDe5
+	rl8iFeLm5AoqiKSMSS15lcsWlGq+a/cjamM+zOvdp0x9cVq0uK/KpgWbxPmNuyu2Phk4UiNZlcUTr
+	dPzYsn2CyAnzOGuf/hVKmmzT8xOvuz9kkv/z8ZVsGDt9bbE7ZOFrcQ4MjysDL9NXAp9vKI4z0JgxN
+	lNSGZMD88gyWGTWzpsKGNW0b/yi2BYGDLOnbnAcyVnCf+JkI/zZL5QlzyHq8662uSyGg9VYrpqJg6
+	hZA3gzUGjEuxNoku80q9nd28cWq7r8OSvAefT8qt2BoKDy/lDRFNJ9liT1K56tz+9UPtpS63mioYM
+	6I8Oy0QA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9LdZ-000000049iO-3r2d;
-	Sun, 05 Apr 2026 11:27:29 +0000
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+	id 1w9Le7-000000049mE-13p9;
+	Sun, 05 Apr 2026 11:28:03 +0000
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9LdX-000000049i2-2uJz
+	id 1w9Le4-000000049lD-3k47
 	for linux-nvme@lists.infradead.org;
-	Sun, 05 Apr 2026 11:27:28 +0000
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-66e8cc714fbso1644140a12.0
-        for <linux-nvme@lists.infradead.org>; Sun, 05 Apr 2026 04:27:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775388445; cv=none;
+	Sun, 05 Apr 2026 11:28:01 +0000
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so4162117a12.1
+        for <linux-nvme@lists.infradead.org>; Sun, 05 Apr 2026 04:28:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775388479; cv=none;
         d=google.com; s=arc-20240605;
-        b=HIzX7VjbNCxSXDBSPcnr3KCEJqTPse2sKm6nQstuZgCEKlHfXxk1h9unyTRjyyxwlV
-         kBflLm1GyIqmEB2+Ym7NzsWACSeX630KN8h+vHhWbLYQhuFRR2/M+vGorYStR8TR/SXL
-         P2QWdEBLyWUjWO8VaCya7blX3RFDdK3RssDJT8oqCl/EJnNhq+27zVO3L8PtmKtfnfe+
-         gKraC6BAM918oUTMzOS/n/2siN0J/kmw5oVnEcDEmE4DZsGK+8SKAcMNLa0xTMXyBcY1
-         JcwEnDA6JzINAf4dkPSR+w2nfDFpnAOsyVh61T7nXHSj+gc2D8YFpJR6wN3O8rwtHz+C
-         33pw==
+        b=F7yHSnvgz8pirwCchbaPT5o1DMLt/cLaHTvCZj50bEie1jilUA14zqoGuRrGtCr02T
+         njKUpGVP1T+ukFE5znmJBpCpIkez5m8np4JSX15nODKo9usVWzNm1GT3KLSHG3yNwFiC
+         Z7Jxj69XpxVElpoCaDQ4MSM9mztiGU8wqQOfpvTp3edSLlfzy/e3xUho8TE+18gva+RR
+         kqILUMhD336e3n47ZOKDstEBGvnWI2vDlpSEUx5bIO57a9NkjFhv7d3Rx97v/nf5giti
+         6LgS741h/sWcdAELMHETlPCJd4jBEGErMXjIre0wA5OMUZf3jrbAyyCHyKV/ppDdTEzL
+         N5TQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=3mKGFGRC8Ir/bEzi2WUjXo1t2+zLxBk0Rpi89ZF+PFE=;
-        fh=kIP+TZk1C1sekv06Com7+feg8m64Opjp35CVIFWK6UA=;
-        b=L+RdG842ksT6tEUoXERPn2JHzLg37qri+hDHlVXTvgGFTJtPNLUVl8tHp/RSAZid1o
-         afoaivCbcDlVl1O/Wni1kVe4AEKmk59513jLTQ2nLLSB6SeNemLUU5OQaIcPRb0VPZcb
-         WpTDjeZ7CK7ZfY7s48Dgf6HIvZRqQYmWtpNBd4w6Vz9JbYSXwJBCF+nK6yWRxAff/Kd0
-         VX1vSt0/INDMp0ixSROas7Bx+rUTuTNYri7d6TnS1YZk1yMgWZ628dN9Tql/O9UHkApZ
-         fHkbnr8feYT9D0oOF7vNlsu6HVDLJacLYwVyDhQaxnpMI2HB6JEZ5bMg7ieuN85FRhZg
-         0+VA==;
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        fh=Z0QinsNViRstgBqFUPoRim0aBXmS1Ivk8Rl2Tkm8/cA=;
+        b=Rmpky03/FX1hfu9N6YJJOVjfhEC4cEHLVxJTR3R3nSb1jHTtuiXwsn4mXCYZs7+H70
+         LJZRAufq8JjC91jbCN2ZHw1sSxjVQIbxwp7vvd+cbkNHCe87/QNQuQBNMyegdHfj8ZFt
+         936UmZ/O7xA7ny91T0837zYJyemuvqQrQD4fumBaLuyt0Z1NtRpOwZ8luKBLyh0i2r6h
+         CdS4Pky6OepgFX9jTu58fc+MGW0UbrM6iPaU1RdmFnS/Y8xZL3mYCSRltbuCoo7h6Vnh
+         TnYNEHFk8Q0T3hzncIjlosHIjtkY1I/s+JxMiW/wIkefAvIaOuFyP8m6scztpsVnPAnd
+         wlaw==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775388445; x=1775993245; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1775388479; x=1775993279; darn=lists.infradead.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3mKGFGRC8Ir/bEzi2WUjXo1t2+zLxBk0Rpi89ZF+PFE=;
-        b=mrvLdgSbR6J0RhUS6xEDrBTqDb4N25OKQnQxx4Tzhl3nMSZqYQl9HzA5Ri6hOFW5v5
-         gyLSEtHM5hav/2+Lj3j5fCxgEGyRaYqIW9agvisAkkirRFaXzPVXGxIDhYYM0rHwgpo/
-         dDGX+otFB33qWgzpWnEqZoej5wTwhvzC7c3CdUlHRRQyO37vLGt64q2+okkyiGXljeDi
-         NtQOOdqKcypKynn9ll9bR9Wo/ts7rPsqblM/lGbjqoV9mJBiv+jbgBnsaGpf3eih6ptj
-         Uqfqdn//VnMVR/KAIllYj9tYMSITMzBGd3lJEBa83UoIFBntjHBWdE9wolig2Ivw4kGt
-         ZZBQ==
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        b=jsfFXh2PQoz69vr98QtjE/xcSMvYnvEBZzIqWS9aE6ye/IexVQcdGKpdfnqW11OHHX
+         B1Mdoj9mrm1dry8uqYsEHcp+hUvPWPJFzmRrhRTU5TpyL1meD9X/Tg5yfTmggeSl1bd7
+         MWb2mzzdbrfpP/Kjs7mQkhvSbIyxm8dhSpx7BWrrXlTiSXmiK6PaUMjraQiEgH713A6Z
+         BRHiz4tNQlwZcAYfYnzLitp3K4no+iowMScRG6sxBjkCrmw/d5qS5fV07lbDJhivBYM8
+         Aq99wyDIog4mFOmltUuGLYPClPPLhuL1TcVXb4Le+O0JMjII7MukuZhiZWLZt6G3Rk4J
+         xt2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775388445; x=1775993245;
+        d=1e100.net; s=20251104; t=1775388479; x=1775993279;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3mKGFGRC8Ir/bEzi2WUjXo1t2+zLxBk0Rpi89ZF+PFE=;
-        b=n/Wy36iAnReCJ+xTuQul/JaAB7STr0kKxOC1VVbUjQjPo/FayHXKehE5u+UKEFJzZ/
-         H4cFq8rUe5YzqIdL9kAT9VhsgvwIFiM1ajCQfCLSIbFCSVklWGqwu5ag1eJFSy5vv73W
-         ZtreBMlqaEGqvMVmczAXU0NCdeCE7JabJXwBLttGVr8zkaJ8sSo+xXZALExfoz+JuMEt
-         CfrdzgikXrnJNoUf5BWk1cmowhXYpn9g0Bhxnbb0F2ulVE5KMA/NAlVVTkKZqlrryhhx
-         m1tnR/xfgdz3enma2yJKsDK3krCKlVpRfEC9GBpoOt7zn889iXVBYZx8ySATOyEt6rUf
-         lI6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUmHVKLXAzLWo+rTczPg+bWUUmStfpL4mWzHEFFIJg8qbVNn6bN6X8CeYdlcp6aIZb4jzsRFuEdO5QJ@lists.infradead.org
-X-Gm-Message-State: AOJu0YxZrXe9g7grY9CpYyBnG8DMfnOa9RhqRB2QIljeaZ5VTztJ8QZ4
-	4bbIZo8Jol81p17P+RtgZSIHipKbZf0YNDO6Xw1/DU5TJ3/dKStXa6N2zyQuFM6ZldZ8w9pjwK5
-	/Ml1cFZxDp8WRtygO1ZMm2rygcIj9xQ==
-X-Gm-Gg: AeBDiev0gVnpXmhNnurpVz1kXqCibnhNRKFG/5weF9oLmLBYBh3JQz66L3Gh2Az3L9y
-	Q97BU26WTkDKXCq3BsWtwbGdweORZ3xa9KwTKKSays/Na/9nE79pfwqh0MjI5FtdpiKRRk4iml2
-	mvh6ZAVAbs/Kxo7Xps0lO1EnKPR+DYFGkI5aSLjHNhTM85NdbHm2jBCcMGf4zBbwxxUqE3PyJ/6
-	nuaKD0LlxObuMa58+TyDY12Qw1gOw1jcFrwlT+gAxYfF/7ao7CKF3QMhjQtQj2IM2jwm/18p56p
-	slQzZRM0XiF1nfx3wWasWtsj6gNRJ6FElhmahkAUNU5sUSO2lV79sxQUSL5pWW2wVe063w==
-X-Received: by 2002:a05:6402:274e:b0:66e:dfdf:cf1e with SMTP id
- 4fb4d7f45d1cf-66edfdfcfa5mr545956a12.27.1775388444505; Sun, 05 Apr 2026
- 04:27:24 -0700 (PDT)
+        bh=gm1y3HjSbfjetP2qj6SkQ/PvAerOiP935sq/jHQIUpg=;
+        b=TnPkZ4c+FVpC+bgMceTZvG/M99oqkQWXUpGvoUt8YZMq7cQnkVxQdeT7GPRFP0WE/R
+         YTNl4ACiDbZvXhQlX21osupe1j/UDDwTd/kyxUt1yMgUXhtobFJ27J07z/+kUYMuferq
+         HSTzqo8tp9lZ0Dj9N16Y0QDurn9qnxJYkzsB1+R+u2ufy1Co4hhUd8cho6m6o6vsHZ+d
+         pmb7xp4LXJhiU+pScrc+XBCRVKs5E2DGpn1cUfAejr4lEseQpvpR37fZZglnbKX2jnjy
+         SPm3ot4vtG8TGqppmVUJLtllW6PDKYoGxRE15xTQjryJmkNtbD7GA880jSfS5I26DttP
+         qI+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXHIot3kDUYaUPqsFncXJrT3vxKAEQWes9OzNfTRmurrjONQdkAWX8ICiIyrHOI6UCyOKPKY1p4HRCu@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw0iu+bYj5/mLTLTp9M5aC7UFCn71M+Rg+SzbY2zdzaI6gLw0Ti
+	3f75ic68K2rKnO7OaMPFQntupow4L9UtCG7kZkxaXONQo8+O73f7Rs8X4kBSCTxfq9iTZDInghP
+	mq9EdTPsCbiYLB5PhziudDH1YkkIQJQ==
+X-Gm-Gg: AeBDietiuvficBnbEkL0yXS4+nW1lesOoRd1d4kYebK8AlVsY0xx911RAx4vwuNj9qZ
+	nNdFZ5vHBr10Z2JZt260o6s22mdZLGPdxW9aLdG9LOdSei4NdMq1vIEJ93u95iz9pcgze/zCGHX
+	ur5Nh/1BN/8gyXq5fuZQtWBrSeqE9Q+kElLdez5dVWPjsQoP0KeJNYghc/qbFZe5JpK/IW1qrGg
+	ljgqIkh+o9QUQNCqd/K9Vazy8H86W8yNmExWMN2Wpmk0g2ORP7Vhm6wPUc1GCTdfzuaMxZN/F0B
+	+1DsEVrJuT+f1bz4n9yEyuf0RZASA97RQghFCGQir71ADIbErDVzSnIO4FPY5b9n1Oynnw==
+X-Received: by 2002:a05:6402:1ed6:b0:66e:d57a:7023 with SMTP id
+ 4fb4d7f45d1cf-66ed57a708cmr577928a12.6.1775388478798; Sun, 05 Apr 2026
+ 04:27:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260403194109.2255933-1-csander@purestorage.com>
-In-Reply-To: <20260403194109.2255933-1-csander@purestorage.com>
+References: <20260403194109.2255933-1-csander@purestorage.com> <20260403194109.2255933-2-csander@purestorage.com>
+In-Reply-To: <20260403194109.2255933-2-csander@purestorage.com>
 From: Anuj gupta <anuj1072538@gmail.com>
-Date: Sun, 5 Apr 2026 16:56:46 +0530
-X-Gm-Features: AQROBzDs0E7EbtHWRnG-_oRVFkR49Vyn1zNqbc_cUv_MF4CXocoxU69uiac_8Sw
-Message-ID: <CACzX3AvwQ87hL4GOBmpiGDYGqvb9O_HVjkS_e+-jLiJGgA7HPg@mail.gmail.com>
-Subject: Re: [PATCH 0/6] block: fix integrity offset/length conversions
+Date: Sun, 5 Apr 2026 16:57:19 +0530
+X-Gm-Features: AQROBzCwSmUwg2hzQ9ILQEZ1j4iBp-ZNL42-_yQcEJYC_dnQvWOfGvOnI16w6Bs
+Message-ID: <CACzX3Auxb=D1PabMdVng1N7G_7zmn5poknRR-k5r-iJU7aWrGA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] blk-integrity: take sector_t in bio_integrity_intervals()
 To: Caleb Sander Mateos <csander@purestorage.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
 	Chaitanya Kulkarni <kch@nvidia.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, linux-block@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	Anuj Gupta <anuj20.g@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260405_042727_783667_0A259C1F 
-X-CRM114-Status: GOOD (  12.79  )
+X-CRM114-CacheID: sfid-20260405_042800_939865_2ABB18DE 
+X-CRM114-Status: UNSURE (   6.38  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,20 +118,5 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> The block layer's integrity code currently sets the seed (initial
-> reference tag) in units of 512-byte sectors but increments it in units
-> of integrity intervals. Not only do the T10 DIF formats require ref tags
-> to be the lower bits of the logical block address, but mixing the two
-> units means the ref tags used for a particular logical block vary based
-> on its offset within a read/write request. This looks to be a
-> longstanding bug affecting block devices that support integrity with
-> block sizes > 512 bytes; I'm surprised it wasn't noticed before.
->
-This likely went unnoticed because the remap path compensates for it:
-blk_integrity_prepare() rewrites the host-side sector-based ref tag to
-the correct device-visible interval/LBA value, and
-blk_integrity_complete() rewrites it back on reads. So for block-auto
-PI, and for the FS-PI path that goes through the same remap, the
-device-facing ref tag still comes out correct even though the host-side
-seed is semantically wrong.
+Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
 
