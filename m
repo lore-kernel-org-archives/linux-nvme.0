@@ -4,121 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F6C2EEB577
-	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2026 12:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 78647E9D80D
+	for <linux-nvme@archiver.kernel.org>; Sun,  5 Apr 2026 19:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vYueGZ0CiuUgSMM8mx2US3E7rzz17gW/yaKQKaHnRGU=; b=NYwP4SvbgZz0s3WyLTgCkk9ab2
-	3tyC4W9fPk5CcIJgpMaH4qCnuhf4Z6BijO0jxMt79lTHizAQTApGt0u4jojiV4FDBMoDJAoa1IzOl
-	4xgcBUz3cXftoIhiqnQ52bXTn7nerDfYUUAAcB1LrX7QH+FtQ/vQvErrpKBMty2/PxY/tA/on7fxl
-	ozQVWJIqgExOIRbAMP5Ekrwo9lJth+345dH0MXonMI3wqLaLOlP7PbX/Asz1T8JArpsHTovJI/g2b
-	nzZQ6fZi0RGNVf+FihO1NbHdoKwffiM9UArEfQpXKaydODE3weFX5fCSlJjCZbFJxCj3sYW+bJMKr
-	1EuSIQ+Q==;
+	bh=hCdiIRO1XmbFYiWnydomnVIw0bBgHYPUnadUZKk4FQQ=; b=GmihQRwNCVyci5BhtLT/eYJXRw
+	STBW2AeUpgg4LcFIeHq19yqcJrml73ed6f3+7ckdUHNfiie3QLI+xS6HkIfaNWY5Vld4WXx2H3xXg
+	3OAMlMpVLrmvKyUxPBTdJLSuAIRAewBlKzHWi63JVR01esKE1xDqfrOupzxokCIer+W7Yf1V47inx
+	5ogJXFEPpC2nafRgDiY7q3ygQ16JZITGZRCby+AWlzmwPDl+3jVny/9FLKr4GaRjIq2aGRMI7uarR
+	odLIKzIjp5OGWeUCoAHR0RXzq8gIBdGSjLkDIsiTuu/8qY8G3v8TjbMtHvU8ryNA3z9vs/zWPgwOG
+	3xRuHY7A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9N3R-00000004DCf-0fOx;
-	Sun, 05 Apr 2026 12:58:17 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1w9TQT-00000004Rad-0Kjw;
+	Sun, 05 Apr 2026 19:46:29 +0000
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9N3L-00000004DBk-3ifG
+	id 1w9TQQ-00000004RaE-3ahC
 	for linux-nvme@lists.infradead.org;
-	Sun, 05 Apr 2026 12:58:15 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2268D4D7AE;
-	Sun,  5 Apr 2026 12:58:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775393887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vYueGZ0CiuUgSMM8mx2US3E7rzz17gW/yaKQKaHnRGU=;
-	b=QT267Gryvpkby3kN59Qub8n9Xs2nVqe3JShI6xJBcbP/zWcfN6HZlxbUMvmLYJnWmp+bpL
-	XrFudSVPv3qKBa2ILSH366oLCugWw7pgo66X43KtC1tLddm4SozeyD/YXvBVnG33atQ8Ue
-	jOQWlNtC1vrQrHTSVBHchGrIQHUjyv0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775393887;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vYueGZ0CiuUgSMM8mx2US3E7rzz17gW/yaKQKaHnRGU=;
-	b=WZeNipIuScsID2/RPaWA8OyLKkPN2ubiIr3l2ezHm9Ma/tldrAJikqbR3ZLGNBwQZ8lnoz
-	/WWzmf9n8Lc1RNAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775393887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vYueGZ0CiuUgSMM8mx2US3E7rzz17gW/yaKQKaHnRGU=;
-	b=QT267Gryvpkby3kN59Qub8n9Xs2nVqe3JShI6xJBcbP/zWcfN6HZlxbUMvmLYJnWmp+bpL
-	XrFudSVPv3qKBa2ILSH366oLCugWw7pgo66X43KtC1tLddm4SozeyD/YXvBVnG33atQ8Ue
-	jOQWlNtC1vrQrHTSVBHchGrIQHUjyv0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775393887;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vYueGZ0CiuUgSMM8mx2US3E7rzz17gW/yaKQKaHnRGU=;
-	b=WZeNipIuScsID2/RPaWA8OyLKkPN2ubiIr3l2ezHm9Ma/tldrAJikqbR3ZLGNBwQZ8lnoz
-	/WWzmf9n8Lc1RNAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E29DD4A0B0;
-	Sun,  5 Apr 2026 12:58:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0YY6NF5c0mllRwAAD6G6ig
-	(envelope-from <hare@suse.de>); Sun, 05 Apr 2026 12:58:06 +0000
-Message-ID: <4080e4d2-6a95-4d6e-ba53-e576855aac16@suse.de>
-Date: Sun, 5 Apr 2026 14:58:06 +0200
+	Sun, 05 Apr 2026 19:46:27 +0000
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-43ba1f3fa7eso3575071f8f.2
+        for <linux-nvme@lists.infradead.org>; Sun, 05 Apr 2026 12:46:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775418384; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TXVMmfAQYcn1MHn/j7fk8fKo9x+TxeHM230wuhVmXiFRriEgXNNRXulaT76Id3HaKc
+         kG3e7X51Sivi/iNXpcR292KFcg9lVyb2zpHh9FG7GN1b+ppQ4qreRw84ZLdBt6nTSVgx
+         VK2bcy7c/TR5ietDbU8ybhzIxWNhQ0ot1K3W4bOn9KhqP+uLKvGOFcaRj2PdYngxgJcg
+         WJwdZmrJtjfRMA11Rn3GADxPBcdZg6Gcqpri8UvQGPHykbOLCV/wUh7btUvA4PPAKufk
+         FbKWCJTazk5ZQIkqWZ3RPrW9dfvTcmXwj3alrPeBZuXP4AEO6EKqolWD7y3yPIyf0efL
+         eZlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hCdiIRO1XmbFYiWnydomnVIw0bBgHYPUnadUZKk4FQQ=;
+        fh=2bgkBJbUjz2QNGzBJWjjp81MZp8luVsLH6vYWESgegY=;
+        b=KLyoKoIxTaPXTjleeBj4EMhQyHDWvgV84XqW7X1rxC5pXhGevmmSQB9TB1qAHNHJqR
+         6ipM7J1n3xxsZ+EM7k6YNkG5ZykHPxaAN3xVmWzeHsC7be3XzgZl+j0SMfpefy4LZPO3
+         0alfYUdreB0KPofJi7CRRBxrDHR6CvQHq43wuYo4vLuypkUdClvzSm8kkubPYXZ5641V
+         PiDT8Y+2hONd/lTGqECCfTKybN6nXmr8J/snD/OdgjN6HH1MndtyjOeyUyn2OFd4kFs1
+         KLr/gJRK4+nks9CHdG2eT7CR9c288/ePjiIPxyJL6Uc517yf8nfdApwfE0F32LLpePta
+         rw+g==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775418384; x=1776023184; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hCdiIRO1XmbFYiWnydomnVIw0bBgHYPUnadUZKk4FQQ=;
+        b=qh9ox1Nm+wXLrSH6PDwh9PsTXDjcv6/8HPXXu6DLVBOAdYjAeif7WZYR0lluhg1K4a
+         UECcT88UYpM5nw5B0/UHBQeOJHBq6fyWEMby1PcDgGUu9m8YsMJeDbtSYxHW4anplZq/
+         9B6Zm0dbL/D1aGyhkxUyypqMtoNy1f3f81p71NXKrS8Uqigipeqj9SfztV44ADAdyEc+
+         OiPjxT07Jy6LRUapxP6CC3zQyiBFczWz7kVgJM1mNwO0gKqgja5XykkJKpcg6Axy0/RL
+         pPHD9wzfXVTS+U5XEUDGDowzs5YyWydfQ/zLGD8kFwFHtXsZ0GTkdHYhOJfqnuDEqxBA
+         N6EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775418384; x=1776023184;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hCdiIRO1XmbFYiWnydomnVIw0bBgHYPUnadUZKk4FQQ=;
+        b=L6LFTmE9+K/gtLkWErIo2MsDBEkMu0TJb6b8VOswcKHUcbTlh1plT7TIHqQCYdixAx
+         4anlfOA3HlZbyt/lljuE0YY15ByQ6zB+kK0dmIPelB98zjtVCJIcC5A5Ez6WE5VtPS9z
+         SB2iK3wXAttNThNRKoCrzmVRgm+jsn6wWp3bZj4xqwe8+s2HuIVe75ZjacVU9uUpP8Kk
+         ZKQ7GgQS+8K4A0RTfDcJFcZd2iTUoRDGRZ0F+ouLftidfDbp/tv5B5y3WjhEvAbp+y8d
+         qNXVxykMlAtCE+B4l+nhvdYSmczAJ4g0WO3kvve2cYHQpGPvf+dc17jlrFrwHLnCXomu
+         ohUA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5ldoYXOjX2qIXUaDMCEbUBjmmIWS+tho8rSeB2N3s7mu2e/exhYWBvPoM1LY6X+j08kM747dSp739@lists.infradead.org
+X-Gm-Message-State: AOJu0YyhOBEz9HLXtTMEfr7UE2ygJ9F0ngC2EY/QIxe5Z3CitoFhzK/D
+	EMiFW9Y29p6g6Ht4bybRNiV6xrRCAsR2EKYWz+fj+2zONg0J/XvV1zmlYSmzMs+rIJ+Nglcu5ZM
+	rpvmLlC9mfVHBsKiUgRC1nhnN89aN6Pc=
+X-Gm-Gg: AeBDieuQyD1hWsj+47+TqJZIeBD+nh1tsxXCX361NIW2DxATXq8/a76MfsYdX77geiH
+	2L8bhLgAK0P/EoQkJsor5tkZUijtaCZNjqzn91f7leILnuEFzoaBK26BusiF2Wy6nOOUfdK+VsD
+	7lM68YaRnW1EqXMBciMjHXv4pYYarpVoqRWiooP2ixnWBX1NPCidExB4xWFSX34Xy7Og65OEGfk
+	cd0vH0zVhsNr9szugiNhAa9kjg6xobDZstKNKNEL+727U7/WIhw260bnbqC9zA8bEeoqRdFKWyt
+	/nhiOQ==
+X-Received: by 2002:a5d:5f86:0:b0:43d:61d:382d with SMTP id
+ ffacd0b85a97d-43d292a901cmr15367127f8f.22.1775418384124; Sun, 05 Apr 2026
+ 12:46:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] block/nvme: exploring asynchronous durability notification
- semantics
-To: Esteban Cerutti <esteban.cerutti@gmail.com>, linux-kernel@vger.kernel.org
-Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <ac7eHEnFQlLN-vDy@yanara>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ac7eHEnFQlLN-vDy@yanara>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+References: <2026031805-stretch-skid-ae5b@gregkh> <20260319012630.1802025-1-kumar.shivam43666@gmail.com>
+ <DH6LLP692EBM.4N82LTNB60WV@arkamax.eu> <CA+ysrSLau_52n+4JMvQ=EtqY-cyWhhZ_pLOyeNL=mwkjkNvoUw@mail.gmail.com>
+ <20260320074825.GB14485@lst.de>
+In-Reply-To: <20260320074825.GB14485@lst.de>
+From: Shivam Kumar <kumar.shivam43666@gmail.com>
+Date: Sun, 5 Apr 2026 15:46:12 -0400
+X-Gm-Features: AQROBzCusOQ3LKw68Iuv16r_pKhcRmsAkpeQR0YiIi431BxTmScKIghbt7qXNcY
+Message-ID: <CA+ysrS+9bWdF1LvxoZaZW_JLZ97H-RXM548Cm8ZW5KQAD+NCLw@mail.gmail.com>
+Subject: Re: [PATCH] nvmet-tcp: bound sgl->length check in nvmet_tcp_map_data()
+To: Christoph Hellwig <hch@lst.de>
+Cc: Maurizio Lombardi <mlombard@arkamax.eu>, gregkh@linuxfoundation.org, security@kernel.org, 
+	sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260405_055814_271629_24CA4E0E 
-X-CRM114-Status: GOOD (  23.27  )
+X-CRM114-CacheID: sfid-20260405_124626_931760_98FEB208 
+X-CRM114-Status: GOOD (  16.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -133,90 +118,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/2/26 23:22, Esteban Cerutti wrote:
-> Hi,
-> 
-> I would like to explore whether current NVMe completion semantics
-> unnecessarily conflate execution completion with durability, and
-> whether there is room for a more explicit, asynchronous durability
-> notification model between host and device.
-> 
-> Today, a successful write completion indicates command execution,
-> but not necessarily physical persistence to non-volatile media unless
-> FUA or Flush is used. This forces the kernel and filesystems to assume
-> worst-case durability behavior and rely on synchronous flushes and
-> barriers for safety.
-> 
-Not necessarily. Synchronous flushes and barriers are really only
-an issue for ext4 (which happens to rely on that). Other filesystems
-like btrfs work happily without that.
-It's more a design choice; explicit flushes guarantee global visibility,
-something which you need if you have things like superblocks at fixed
-positions. But if you haven't (like btrfs) than you are perfectly fine
-using per-request flushes (eg to ensure the log has been written), and
-then you don't need a global flush.
+Hi Christoph, Maurizio
 
-> The device internally knows when data is staged in volatile buffers
-> versus committed to NAND (or equivalent persistent media), but this
-> information is not exposed to the host.
-> 
-... and not available to the host.
-I'm not aware of any command (or I/O completion information) which
-would tell you if and when an I/O cached internally in the drive is
-written to disk.
+Just following up on this thread.
+Would you like me to send a v2 patch that sets a sane default MDTS for
+the TCP transport? If so, is there a preferred value I should use, or
+should I follow what the other transports do?
 
-> This RFC explores a potential extension model with two components:
-> 
-> 1) Multi-phase completion semantics
-> 
->     - Normal completion continues to signal execution.
->     - The device assigns a persistence token ID.
->     - When the data is physically committed to non-volatile media,
->       the device emits an asynchronous durability confirmation
->       referencing that token.
-> 
-> This would decouple execution throughput from durability
-> confirmation and potentially allow filesystems to close journal
-> transactions only upon confirmed persistence, without forcing
-> synchronous flush fences.
-> 
-... or redesign your filesystem to _not_ rely on synchronous flushes.
+Thanks,
+Shivam Kumar
 
-> 2) Advisory write intent classification
-> 
->     - Host-provided hints such as EPHEMERAL, STANDARD, or CRITICAL.
->     - CRITICAL writes would request immediate durability.
->     - EPHEMERAL writes could tolerate extended volatile staging.
-> 
-> Additionally, I am curious whether host power-state awareness
-> could be relevant in such a model. For example, if the kernel
-> can detect battery-backed operation or confirmed UPS
-> infrastructure, it could advertise a bounded persistence
-> relaxation window (e.g. guaranteed power for N ms), allowing
-> the device to safely extend volatile staging within that
-> window. This would be advisory and revocable, not a mandatory
-> trust model.
-> 
-Been there, done that. Really hard to ensure.
-Some RAID controllers try to do something here by not
-advertising volatile cache if battery backup is not present,
-but that's a really lame thing as you need to ensure that
-you have enough power to keep the HDDs running after a
-power outage until you have written out all data.
-It's getting even harder for on-board HBAs where you have
-no distinct power rails for the HDDs; you'd need to have
-a battery large enough to keep the entire system running,
-but that would be massively overprovisioned for 99% of the
-time. And hence far too expensive.
-
-Doubt it's worth it.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+On Fri, Mar 20, 2026 at 3:48=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> On Thu, Mar 19, 2026 at 02:00:27PM -0400, Shivam Kumar wrote:
+> > Hi Maurizio
+> >
+> > Thank you for the review. You're right, I was conflating the per-PDU
+> > H2CData limit with the total transfer size for the command.
+> > And the error handling should trigger a fatal transport error rather
+> > than completing the request with an NVMe status code.
+> >
+> > Would setting a sane default for MDTS be the preferred approach here?
+> > If so, I'm happy to send a v2 implementing that instead.
+>
+> Yes, if we want to limit the I/O size we have to limit MDTS.  Which all
+> other transports do anyway, so I'm kinda surprised TCP doesn't.
+>
 
