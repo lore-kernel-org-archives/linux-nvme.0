@@ -4,106 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6E13EF4EC2
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 09:15:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4D98EF4EC9
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 09:21:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HKRZUxx0d6eEo6q2GZbMwkNDM+q5e/G8yBg0maNSgFQ=; b=KbRob9xmnapcrMlBX8YmlxwRH8
-	4GMkO35/WCwS7YL9JO1LeB3UTlckKGPCFp6jtRkDq7XdGX2O0/a2EYvKk1LzAVddGBB6ljvvQc3st
-	dbymsjIj77s+IHndPYikqgcW0o2dNVtWKrrX18sgx23vTKcFYacOqXc8H8ZND3VuICChgCUv/M0YF
-	FZjstuib/BoMZKVA0IYrWNFZFGaIsLAkin6crQ8M0/o9V3vLgWpd6iOOiMdDVnVC5UdBLgpnZs7C0
-	SJ2HkENR7Ac1mvT/3x/u6bO36FPs+4eESAkoobWmstyLJOPLdHfcU+2PvSRjlOZpqG8Tp2bseLFdb
-	tyM1HSWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
+	Subject:Message-ID:Mime-Version:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=BDX1PhWlT04ihT2rWEm0Zx1VkEl3UrtVSdzsbOx4DV8=; b=bUl2waXJbMu6BVztlNAP8TATQe
+	3vWYWLN7yOAdSRSV8akYj7HNcWZV4FkPOIr1/RpznUBYj0dvpAPDI9XPJfI40Wwl5NLTxjZQ1NKsu
+	z4STVpD4j9zVH10MghXaGK9pXvSYz0otxooz+2DEDzsTFU+4qQ/LOPn6kKVAjlXWI/Qj3Y1nDB4bb
+	MfcYnSCeL1+963sWu1DRqzgXVW5//Xls6ndJhMP43QnNZXjYt24xOhdwWq1mMgmuOM1qdP94Qko6m
+	encHCrO8c6J8M78ERdD2OvFVcQYffFvOL8tFd3aLXvT5IgKeHoMz8FL1BpKClQ9oSIgggz+kAS6iw
+	m/F4aVyA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9g3I-00000004x5r-1NnH;
-	Mon, 06 Apr 2026 09:15:24 +0000
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d])
+	id 1w9g9P-00000004xPM-18Lz;
+	Mon, 06 Apr 2026 09:21:43 +0000
+Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9g3F-00000004x5E-0pdj
+	id 1w9g9N-00000004xOm-0JLe
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Apr 2026 09:15:22 +0000
-Received: by mail-qt1-x82d.google.com with SMTP id d75a77b69052e-50d864c23bdso548001cf.1
-        for <linux-nvme@lists.infradead.org>; Mon, 06 Apr 2026 02:15:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775466919; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fBEcUiWtkgDzP5vGV2fzyf6pjSH3nz3Ve0uh0S0tA9Av5UdIBHa/fE1FiK7sQODlBd
-         JOunGoVglKFAtYwA3JrC41AfFqRlG1BoWiwQQaS9T7VIOaABNj7Lg1l7ihxFqbiKD+b/
-         f7w8gSHg+tD7gSwX++I8Kk2i4huf0P1ABH70nNWtofOrHESF1EGinjTYcyigAJxQIfI7
-         sPVIyMrXoGAPUdjic6mySS6cECEycncE9H8xeoIADH3Qth6VGrYMKj+sNXYQkGcU2/yT
-         ap2SYJ5ygh2LWBTlisjDYmtndRG3hrhr8p3c8NpFT5YrUoiGRzSeYnu+FDYBTUVdRWlH
-         YH4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HKRZUxx0d6eEo6q2GZbMwkNDM+q5e/G8yBg0maNSgFQ=;
-        fh=lIrReXBuMMSQ8DislkYgdZdVMxpc66zN8hNBSQjQld8=;
-        b=M3k5wHxjva4LAGP2tXAEKvLzJgctQ72rQlopoo0P30V28QK3C/a1K+SQ74bwdXYWvu
-         9z3l433DMvVFE1lJVa29ZfzcTL/CXEY6tXZH/VEmiMCqcJl4ahd0NQeQgUdRycPygG1C
-         xbYxTVA8Nyl7AoUcUoRgRaRQPpAk61nczDFzyQr22aoOSEP86W1/qMTPRfW6RTHx9Cfn
-         cikP/W0m0U9SiTMOU7peeY3SwJiGykZ93AWbjRwqPSKnZEOhbRBnteY4zZE616u+6OIK
-         3QndBsz00ZyCNJvp32ajGs61lr96hbb9qmyhI75E421SEgr5XDCi9eYTXKa+lrXVvcX0
-         OcoA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Mon, 06 Apr 2026 09:21:42 +0000
+Received: by mail-pj1-x1049.google.com with SMTP id 98e67ed59e1d1-3568090851aso9751906a91.1
+        for <linux-nvme@lists.infradead.org>; Mon, 06 Apr 2026 02:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775466919; x=1776071719; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HKRZUxx0d6eEo6q2GZbMwkNDM+q5e/G8yBg0maNSgFQ=;
-        b=exyjN4LrAlOtfY6p/iKfw4gbmCcZi8yvD2MmWSBHUFSr00k5VV3NSEidWWHLqdxFEN
-         IquYWl6B1X05Xdt8GQb5x1A7CTV/vc6cClhVo7LsYxNSA2Ss6Bp363CXEmG3HVSye61l
-         MiCTDAEFpCVUVaAT3TRjEdBnyVMc7BI7oncWRxLXczWfBM6vl7vcWi+tX05JLVeAXLwe
-         yfrJe+PGME9oDdP24Z07LiHUZ7j7r/g9xguMTriHxpZQJ9DX7ZXq8l598S6u/Pppx4AO
-         kWh9AAEipZGN5ZpRiBwaBLtdU+NZvmogILXt5+B+oQghNd7xJpUAFrly7mZhnhtk8dRS
-         Mkzg==
+        d=google.com; s=20251104; t=1775467299; x=1776072099; darn=lists.infradead.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=BDX1PhWlT04ihT2rWEm0Zx1VkEl3UrtVSdzsbOx4DV8=;
+        b=aZKWg/qZfkyqffHUwfqeB+RsjoGyAPiifQCUf3OXUSAO2SlKHt6WRIh+Wyy45twaBw
+         obqxiRTMEtT1P/tJfBxdFQw1N6DpX5uIr/01z3GVwhdjpMTIdpY8mJWMjX3/pGPkkCij
+         mrkepUWLW8Bjlf2FBVGx9yVp8I2QZ8CIbN7UNyXKb5LAerbYZoOjPdmdQis7/UkefCN9
+         zQbQ6FCEnOfItbgIPCBVdV+rrNPjmhredpmfERgM/wmB612KiXtY5QUlVfkyYLkW9KUc
+         ueDxe06PJPewEv5bBe/GXXC53eEi5VFtX+7CfgvJR7mXI2jZrwHz8S3RsdXlXndv3cfE
+         ob+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775466919; x=1776071719;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HKRZUxx0d6eEo6q2GZbMwkNDM+q5e/G8yBg0maNSgFQ=;
-        b=qrAlcM0OtLblJ3wwveFozqzUujXCDs1d/pM7QGLkwObzY+Ild85UDfECJ83979Xu8d
-         wL6F3/gC+CjCWdtFOdlaXTJhN3gCP0EyzAOIxy9hpUi7onIwntKJaK57CUieGLfuy4y3
-         KBL4w5YOo9grtYrIv5lVzBL8J8+R993EBat/hMe1Tf0G5Xw+OG8XR6VM+9lHzeYuCaK1
-         u9ywll+9rbRPp3WjKKIxTFh76S+79fSvf/8smbnGn9CeXuB6crg+DuLtEkhGompVvWBq
-         /CG8a2VzB0btIN1rdY+ewcjQU1LS453ssAAGVH74PNkNjzdNDQwSciGhnzQqZwqp6uSO
-         yDIg==
-X-Forwarded-Encrypted: i=1; AJvYcCXeeeGSGSFC92okBMY7cGhqVuwamNmDHbrgORxu/OlkhXu4REVlzepsUQPoKexiWb8jn0VA8iAWUAH0@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy9Fe8PA1AVIdhKIk19Pr1lCG2YVZvc2uXUYJAK3hqxeg41t8SJ
-	bvltXsUlmU32Vqqk7Kq+KNIfodMnILb8AU1dS3hwOrbRl4lgHjFttM9MEK+lMIhhoa/O7uJTPMV
-	kkCrPE6XK79Q0TtJJlv6akNAbFQi0bxA2S4H2nwdD
-X-Gm-Gg: AeBDietQO27mmzIe0RjmwyDKnzHe3R1KMdYFZf5tC25RIigI03iub1suABcoy0lvs8x
-	uU9nt4wH/0AuDKNHDZvLUt71EwZ8S3wfWtJR4TWIJ6SUnQ2MirwgUTVYid2oFBXBAVY3weVqEFf
-	1pxp0mD+rS+UoKOfx54UzU3AMVvzTmt7V/A5BrPKMiVwDm6Mf5xIIyMYV1cwQjNNr5T0atdyjbQ
-	y+EW33VqqeiMSdH6J6Vyufb9F5UNEF7cTBPgeR1kdtL1V1ciJON6yzHUoqwH0aLxETP/YRVY5lK
-	yt/qY4H8D6+R1i34rGo6NdR0xrndtyLjB+B/0g==
-X-Received: by 2002:a05:622a:244e:b0:509:cd7:aa18 with SMTP id
- d75a77b69052e-50d63fa63b3mr36921051cf.10.1775466918615; Mon, 06 Apr 2026
- 02:15:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260402073001.2039625-1-shivajikant@google.com> <azabfvzjn4juc77xdq6qhszd6py6hkb35jgi2xymplpnkj5ra4@vpjpaoeenvlu>
-In-Reply-To: <azabfvzjn4juc77xdq6qhszd6py6hkb35jgi2xymplpnkj5ra4@vpjpaoeenvlu>
+        d=1e100.net; s=20251104; t=1775467299; x=1776072099;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BDX1PhWlT04ihT2rWEm0Zx1VkEl3UrtVSdzsbOx4DV8=;
+        b=AFekbY7yQ1myZAGgCEzLN9pFsM4WSyR9KliL9Xo5+IXw5cDtndl/EDGbtqVuq1iJ4T
+         BgTz1aqOMNi1rjzGKGmGmTDW4CflRA2mfYw9pHDRGSbzwQuBEjvHfVR5VRmKeqK/XWGC
+         4ZgDYRByJ0+4OWHSJkfjXiLbe+p4KiykJXBLeealNYHXYfjaet/FCYbEI73xhbXT72eO
+         HNClVH1+fHUFue4cpVYmxL6dWcAdiXSvfI3a5p3gPhUQ/cjwpCZaNctGhrw54Ad8TP29
+         1CzCJIT/dp6YwdzkR6kp28WyaMGM15nB+iYKvIqh9OnodJlCs1rkotTfQGWyVdk/fndf
+         nRBA==
+X-Gm-Message-State: AOJu0Yxzs8Xo3St1BqNz0Vn71NYh8CnIQwyLxYVQkNS0k0IbJLAUDYYM
+	yYjcAMQjnhN0ZsTDpp0liozuYhr8QGu0jPP7EwCztel12s3dBpO17sM2Il+XBcLr4VsZSxaSgTe
+	J2FhwRc7z+eW+Kl+qgX5g8d1P4g==
+X-Received: from pgkp23.prod.google.com ([2002:a63:f457:0:b0:c73:987f:4708])
+ (user=shivajikant job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6300:210d:b0:38b:d9b5:5de2 with SMTP id adf61e73a8af0-39f2f1080f2mr11734892637.50.1775467298997;
+ Mon, 06 Apr 2026 02:21:38 -0700 (PDT)
+Date: Mon,  6 Apr 2026 09:21:32 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
+Message-ID: <20260406092132.1333458-1-shivajikant@google.com>
+Subject: [PATCH v3] nvme: enable PCI P2PDMA support for RDMA transport
 From: Shivaji Kant <shivajikant@google.com>
-Date: Mon, 6 Apr 2026 14:45:07 +0530
-X-Gm-Features: AQROBzCBoFtSiCOZ2D6lpeeNP-4-fqlKvW0e9IW54BqrMes9KgUGxPB7EiJOF20
-Message-ID: <CAMEhMpnjmbT1YWDstZfWnxOTU8nwreUziYcz6whsxv1TK7KuTw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] nvme: enable PCI P2PDMA support for RDMA transport
-To: Henrique Carvalho <henrique.carvalho@suse.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, Christoph Hellwig <hch@lst.de>, sagi@grimberg.me, 
-	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Pranjal Shrivastava <praan@google.com>, kch@nvidia.com, linux-nvme@lists.infradead.org
+To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
+	henrique.carvalho@suse.com
+Cc: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Shivaji Kant <shivajikant@google.com>, 
+	Pranjal Shrivastava <praan@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260406_021521_356132_A481B8E4 
-X-CRM114-Status: UNSURE (   7.35  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260406_022141_119673_2A396D46 
+X-CRM114-Status: GOOD (  11.66  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -118,10 +87,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Thanks for reviewing.
+Enable BLK_FEAT_PCI_P2PDMA on the NVMe when the underlying
+RDMA controller supports it.
 
-On Sun, Apr 5, 2026 at 9:59=E2=80=AFPM Henrique Carvalho
-<henrique.carvalho@suse.com> wrote:
->
-> Reviewed-by: Henrique Carvalho <henrique.carvalho@suse.com>
+Suggested-by: Pranjal Shrivastava <praan@google.com>
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
+Reviewed-by: Henrique Carvalho <henrique.carvalho@suse.com>
+Signed-off-by: Shivaji Kant <shivajikant@google.com>
+
+---
+v2: https://lore.kernel.org/all/20260402073001.2039625-1-shivajikant@google.com/
+
+Changes in v3:
+Dropped the reference to multiplath patch from git log as commented
+by Christoph Hellwig.
+---
+ drivers/nvme/host/rdma.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 35c0822edb2d..09eefd7c3ff4 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2189,6 +2189,13 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+ 	nvme_rdma_reconnect_or_remove(ctrl, ret);
+ }
+ 
++static bool nvme_rdma_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
++{
++	struct nvme_rdma_ctrl *r_ctrl = to_rdma_ctrl(ctrl);
++
++	return ib_dma_pci_p2p_dma_supported(r_ctrl->device->dev);
++}
++
+ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.name			= "rdma",
+ 	.module			= THIS_MODULE,
+@@ -2203,6 +2210,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.get_address		= nvmf_get_address,
+ 	.stop_ctrl		= nvme_rdma_stop_ctrl,
+ 	.get_virt_boundary	= nvme_get_virt_boundary,
++	.supports_pci_p2pdma	= nvme_rdma_supports_pci_p2pdma,
+ };
+ 
+ /*
+-- 
+2.53.0.1213.gd9a14994de-goog
+
 
