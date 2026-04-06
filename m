@@ -4,50 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A344E9D837
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 05:41:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35078EF4EA4
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 06:31:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PAcFX8eV8wz3NdGTpj32GcMrJOpNLknTvCObp5xQB7g=; b=1VJ0suFqv3hsEaq/7hqp4xLenj
-	pzb2f+5rzjYwBO0Wh5DOWVLKiMCaDNE0degQJITIpn702FNVhdmrRLoPuaEMU615Yq5CFFpcjf+cO
-	5g3rqWLSIRxi2GtJ54ZKnFJDXA/CyBnL0OwNuR9ObMMERR8UuUrnYXXB5QT3+Ktff3GZcLcudO5c5
-	aOG9zGsOzB4dXEKR3bpFp1lywIDqi7iRVFl7gDCL9SkxGBVzeS2u7Y7qD5HEoACpDEWu8X/cuQ9/k
-	hw5Dya+yOC101v45q7bd7yAIjcdjjKxEPMXSzFmBoWQ6clgbr2YwMWhNLDghuxyVyoET7u6g+p2gO
-	6+un0ZNw==;
+	bh=wZjNM90OxK1bKf31J1TMpT2H4yds1CcGszVY/6ZlN10=; b=RRRQLLkrajOj8J4UUXTNc5LTDh
+	oyRA1YDgGskQ23GaeuWSjZ52HYwWoY1iVGsrBK2XyoDGgzX6kotXnaN10Dual/2ZE9TUz48njysir
+	PyCX8WYFZTwT7rnsnwxiBfvLZkV0ispDJ1hH0qj/v8MrS9DffK9YrJBtoj/2zRSGx/FBBiDOc1hYm
+	Df2BSfVpMDrDJV44H/4/DuKc5KQ+JFScgeOP1L7ccCjqCZ5A88BTymUqVmRpzAcSXykom8RTTFcSB
+	xS4eqYb+mYfHWhyeq7oBvwsdVWzxO7KPbWFjTELhGt/EJ82VWNNpwkJy3l5VAaltEnw/XL2poqgvP
+	Lfiiw2Sg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9ciL-00000004ojm-1RlT;
-	Mon, 06 Apr 2026 05:41:33 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9ciH-00000004oio-2Hmq
-	for linux-nvme@lists.infradead.org;
-	Mon, 06 Apr 2026 05:41:31 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id D17A868BFE; Mon,  6 Apr 2026 07:41:20 +0200 (CEST)
-Date: Mon, 6 Apr 2026 07:41:20 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Shivaji Kant <shivajikant@google.com>
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pranjal Shrivastava <praan@google.com>
-Subject: Re: [RFC PATCH v2] nvme: enable PCI P2PDMA support for RDMA
- transport
-Message-ID: <20260406054120.GA16443@lst.de>
-References: <20260402073001.2039625-1-shivajikant@google.com>
+	id 1w9dUG-00000004qU2-2brL;
+	Mon, 06 Apr 2026 06:31:04 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w9dUC-00000004qTN-0YZE;
+	Mon, 06 Apr 2026 06:31:00 +0000
+Date: Sun, 5 Apr 2026 23:31:00 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Caleb Sander Mateos <csander@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org
+Subject: Re: [PATCH 1/6] blk-integrity: take sector_t in
+ bio_integrity_intervals()
+Message-ID: <adNTJEkpIj0wQ--X@infradead.org>
+References: <20260403194109.2255933-1-csander@purestorage.com>
+ <20260403194109.2255933-2-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260402073001.2039625-1-shivajikant@google.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260405_224129_731493_600314CA 
-X-CRM114-Status: GOOD (  13.07  )
+In-Reply-To: <20260403194109.2255933-2-csander@purestorage.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,21 +58,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 02, 2026 at 07:30:01AM +0000, Shivaji Kant wrote:
-> Enable BLK_FEAT_PCI_P2PDMA on the NVMe when the underlying
-> RDMA controller supports it.
+>  /**
+> - * bio_integrity_intervals - Return number of integrity intervals for a bio
+> + * bio_integrity_intervals - Convert sectors to integrity intervals
+>   * @bi:		blk_integrity profile for device
+> - * @sectors:	Size of the bio in 512-byte sectors
+> + * @sectors:	Number of 512-byte sectors
+>   *
+>   * Description: The block layer calculates everything in 512 byte
+>   * sectors but integrity metadata is done in terms of the data integrity
+>   * interval size of the storage device.  Convert the block layer sectors
+>   * to the appropriate number of integrity intervals.
+>   */
+> -static inline unsigned int bio_integrity_intervals(struct blk_integrity *bi,
+> -						   unsigned int sectors)
+> +static inline u64 bio_integrity_intervals(struct blk_integrity *bi,
+> +					  sector_t sectors)
 
-You can use up to 73 characters per line.
-> 
-> This patch depends on the PCI P2PDMA support added in this
-> patch [1].
+sector_t is a sector number, not a number of sectors.  So if you need a
+64-bit value here, it should just be a u64.
 
-I don't think it actually does.  To support multi-path capable RDMA
-controllers, and those the vast majority, you need the multipath
-support.  But for non-multipath capable controllers your patch
-just works.  So I'd suggest to drop this paragraph and reference
-from the commit log.
+>  {
+>  	return sectors >> (bi->interval_exp - 9);
 
-Otherwise looks good.
+If you touch this, maybe also replace 9 with SECTOR_SHIFT?
 
 
