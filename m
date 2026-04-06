@@ -4,75 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4D98EF4EC9
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 09:21:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BDF8EF4ED4
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 12:19:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:From:
-	Subject:Message-ID:Mime-Version:Date:Reply-To:Content-Transfer-Encoding:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
+	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-Id:Date:
+	Content-Transfer-Encoding:Content-Type:To:Subject:From:Cc:MIME-Version:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=BDX1PhWlT04ihT2rWEm0Zx1VkEl3UrtVSdzsbOx4DV8=; b=bUl2waXJbMu6BVztlNAP8TATQe
-	3vWYWLN7yOAdSRSV8akYj7HNcWZV4FkPOIr1/RpznUBYj0dvpAPDI9XPJfI40Wwl5NLTxjZQ1NKsu
-	z4STVpD4j9zVH10MghXaGK9pXvSYz0otxooz+2DEDzsTFU+4qQ/LOPn6kKVAjlXWI/Qj3Y1nDB4bb
-	MfcYnSCeL1+963sWu1DRqzgXVW5//Xls6ndJhMP43QnNZXjYt24xOhdwWq1mMgmuOM1qdP94Qko6m
-	encHCrO8c6J8M78ERdD2OvFVcQYffFvOL8tFd3aLXvT5IgKeHoMz8FL1BpKClQ9oSIgggz+kAS6iw
-	m/F4aVyA==;
+	bh=SDRqmYeg6v3fflH84Ah+kdR84NPGzz/SH6+lwFoREo0=; b=2jadVCZjupVTlfwB7x88oP9tsg
+	2F7WQeljxd5X1sbj9sF+d7ucYFu0jD7jJ1aw0Vnk1hYdCrXQpm1Ac28IBH2esIarkIN11YXMvl9b8
+	xeJaAjnOp4zTDxMWE3GPaKz/60k8uBM+Qlth/8Jwqsj3J+TsAMPotmPOsIBdtp5UYJHqRXTisEu0F
+	UCBevTDvhnWx3hfm4OjIj2gIYH+ilwPPe3FEQjMvAUIKejhgjk4DG/O6tSxE68N/U9QcZeUiH/s0g
+	hhaVLe67ZaK32GvMsUBqXiR45E3OVUuXoRXZ5oyvKIrmsx3Lqfy+Ebpm/5PPJEp7kiEgcsc4YGN91
+	vMtChl1w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9g9P-00000004xPM-18Lz;
-	Mon, 06 Apr 2026 09:21:43 +0000
-Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
+	id 1w9iuv-000000056AS-1vXW;
+	Mon, 06 Apr 2026 12:18:57 +0000
+Received: from mailer241.gate86.rs.smtp.com ([74.91.86.241])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9g9N-00000004xOm-0JLe
+	id 1w9iut-000000056A7-0vUy
 	for linux-nvme@lists.infradead.org;
-	Mon, 06 Apr 2026 09:21:42 +0000
-Received: by mail-pj1-x1049.google.com with SMTP id 98e67ed59e1d1-3568090851aso9751906a91.1
-        for <linux-nvme@lists.infradead.org>; Mon, 06 Apr 2026 02:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775467299; x=1776072099; darn=lists.infradead.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BDX1PhWlT04ihT2rWEm0Zx1VkEl3UrtVSdzsbOx4DV8=;
-        b=aZKWg/qZfkyqffHUwfqeB+RsjoGyAPiifQCUf3OXUSAO2SlKHt6WRIh+Wyy45twaBw
-         obqxiRTMEtT1P/tJfBxdFQw1N6DpX5uIr/01z3GVwhdjpMTIdpY8mJWMjX3/pGPkkCij
-         mrkepUWLW8Bjlf2FBVGx9yVp8I2QZ8CIbN7UNyXKb5LAerbYZoOjPdmdQis7/UkefCN9
-         zQbQ6FCEnOfItbgIPCBVdV+rrNPjmhredpmfERgM/wmB612KiXtY5QUlVfkyYLkW9KUc
-         ueDxe06PJPewEv5bBe/GXXC53eEi5VFtX+7CfgvJR7mXI2jZrwHz8S3RsdXlXndv3cfE
-         ob+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775467299; x=1776072099;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BDX1PhWlT04ihT2rWEm0Zx1VkEl3UrtVSdzsbOx4DV8=;
-        b=AFekbY7yQ1myZAGgCEzLN9pFsM4WSyR9KliL9Xo5+IXw5cDtndl/EDGbtqVuq1iJ4T
-         BgTz1aqOMNi1rjzGKGmGmTDW4CflRA2mfYw9pHDRGSbzwQuBEjvHfVR5VRmKeqK/XWGC
-         4ZgDYRByJ0+4OWHSJkfjXiLbe+p4KiykJXBLeealNYHXYfjaet/FCYbEI73xhbXT72eO
-         HNClVH1+fHUFue4cpVYmxL6dWcAdiXSvfI3a5p3gPhUQ/cjwpCZaNctGhrw54Ad8TP29
-         1CzCJIT/dp6YwdzkR6kp28WyaMGM15nB+iYKvIqh9OnodJlCs1rkotTfQGWyVdk/fndf
-         nRBA==
-X-Gm-Message-State: AOJu0Yxzs8Xo3St1BqNz0Vn71NYh8CnIQwyLxYVQkNS0k0IbJLAUDYYM
-	yYjcAMQjnhN0ZsTDpp0liozuYhr8QGu0jPP7EwCztel12s3dBpO17sM2Il+XBcLr4VsZSxaSgTe
-	J2FhwRc7z+eW+Kl+qgX5g8d1P4g==
-X-Received: from pgkp23.prod.google.com ([2002:a63:f457:0:b0:c73:987f:4708])
- (user=shivajikant job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6300:210d:b0:38b:d9b5:5de2 with SMTP id adf61e73a8af0-39f2f1080f2mr11734892637.50.1775467298997;
- Mon, 06 Apr 2026 02:21:38 -0700 (PDT)
-Date: Mon,  6 Apr 2026 09:21:32 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
-Message-ID: <20260406092132.1333458-1-shivajikant@google.com>
-Subject: [PATCH v3] nvme: enable PCI P2PDMA support for RDMA transport
-From: Shivaji Kant <shivajikant@google.com>
-To: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, 
-	henrique.carvalho@suse.com
-Cc: linux-nvme@lists.infradead.org, linux-rdma@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Shivaji Kant <shivajikant@google.com>, 
-	Pranjal Shrivastava <praan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+	Mon, 06 Apr 2026 12:18:56 +0000
+X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
+ about your feedback. Please contact abuse@smtp.com for further investigation.
+Received: from [10.0.16.212] (unknown [10.138.12.5])
+	by mtl-mta02-out1 (Halon) with ESMTP
+	id 96f46e2b-4818-4167-b8d8-acd6f21ca893;
+	Mon, 06 Apr 2026 12:18:49 +0000 (UTC)
+Received: Received from 10.138.12.155 by Caffeine (s0-aws-app-swarm-manager-1)
+ with SMTP id 7bc4d56e-32c0-4627-8edc-f101896329da  for
+ linux-nvme@lists.infradead.org;  Mon, 06 Apr 2026 12:18:30 +0000 (UTC)
+Feedback-ID: 9194450:SMTPCOM
+Received: from ObaTech (unknown [50.125.194.31])
+	by s0-aws-app2-mta-in-1 (Halon) with ESMTPSA
+	id 7bc4d56e-32c0-4627-8edc-f101896329da;
+	Mon, 06 Apr 2026 12:18:30 +0000 (UTC)
+From: "Computer Gaming pc" <sales@computergamingpc.com>
+Subject: Q2 Stock Update: Mobile, GPU & Storage Units
+To: <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Date: Mon, 6 Apr 2026 13:18:32 +0100
+Priority: urgent
+X-Priority: 1
+Importance: high
+Message-Id: <06312026041813027CC1A28D-8DF0295F81@computergamingpc.com>
+X-SMTPCOM-Sender-ID: 9194450
+X-SMTPCOM-Tracking-Number: 7bc4d56e-32c0-4627-8edc-f101896329da
+X-SMTPCOM-Message-ID: 32f3fca4-339f-489d-8e0a-a2ddc715ed95
+X-SMTPCOM-Payload: 3lk4US88rhb5_t25REzPSMFjGu-Hy2CTjoeAaHHIU81sD9heDbkIPgYCZQ8JS1zK9GFrIZM7SyzGDhjrOvbl8Ap31R0I9vToSwYNR7fV0RiqaNL6KbdqDBGmH0RiPJ-bXBusfgbzvWrOTQTKlgke0kRIt1vU0SUJsec8vDcFLLWxcdzH_tcPxcqsQzBj_7CSoX0TgJNJZ_A5JmUcitpdjA==
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=computergamingpc.com; i=@computergamingpc.com; q=dns/txt; s=smtpkey;
+ t=1775477912; h=feedback-id : from : subject : to : content-type :
+ content-transfer-encoding : reply-to : date : message-id :
+ list-unsubscribe : list-unsubscribe-post : from : subject : to : date;
+ bh=YNDsaGWOkhOdrKMe0PgSvQX0kMs0IYbABFvmO/mGxxc=;
+ b=SD9F5FhI01fcCiULWCCHbzpsnxizl/EqqfuSA6mkXTs9o7tpLH32YLcEDwXBB81a1VtJO
+ 7hGTCfgkz5UMJkfNaV3a6NVPZtFEsYYlV9B+2RjvyVgRmFh7xX+TQcHqCuKewhN3fL4VhHa
+ ASqYQCnAyshnuxn8502aWBez9rK0gA9w2o7wv2y74SKtJxOTqxHN+PDxESmYnsUz3IsWd1e
+ aakugAvP6UuBv7N/50gRNZAGZEKZMm0EdFTEdPqarmwRxwJgFJ3c/mdLbdRvlr3wSfHPXo+
+ irJePqULoSmmbINqmsfHGuLbwg2Jg8l082FdotD1+WJKyFjjBlyiniQFIWMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpmessage.com;
+ i=@smtpmessage.com; q=dns/txt; s=smtpcustomer; t=1775477912;
+ h=feedback-id : from : subject : to : content-type :
+ content-transfer-encoding : reply-to : date : message-id :
+ list-unsubscribe : list-unsubscribe-post : from : subject : to : date;
+ bh=YNDsaGWOkhOdrKMe0PgSvQX0kMs0IYbABFvmO/mGxxc=;
+ b=dQdEQw3EjRkBw1sE7uZ2cvbxNtkYP8ybQKbkkYLjX4KLcO0I3lDawwMQsQRxK59MjmyYX
+ BpFllKEdqr5NRRORPm1mr2kpswAadi+mDX9dYrVRfnZh6C6qfqeGhMqiWRr17ct3l4uHTdx
+ K1xWIsApUMucwTFsM5AigoppoRP1BfzBrA+qHoUJOTmgwC9vLBCJC/bn3Bs2F15132vhWYZ
+ Fn1YWG1XujzGc5ejLtkscRGQsRMYFq+JRYNr1owDat1I54maJAbTUZAbB4Qpev0W78vQEGV
+ dwAbwd1UvN19H71MRjKX+1Sd8mAuwVGX32n+nojBNSO4LOPvS9yRXp64cZCA==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260406_022141_119673_2A396D46 
-X-CRM114-Status: GOOD (  11.66  )
+X-CRM114-CacheID: sfid-20260406_051855_286322_4D56E5BB 
+X-CRM114-Status: UNSURE (   3.92  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,54 +93,42 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
+Reply-To: sales@computergamingpc.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Enable BLK_FEAT_PCI_P2PDMA on the NVMe when the underlying
-RDMA controller supports it.
+Dear Partner,
+We’re pleased to share a current snapshot of our available inventory for 
+immediate dispatch.
+Mobile & RFID Devices
+Zebra TC53/TC58 (51 units) – $600.00
+Honeywell CT477 (51 units) – $600.00
+MC9300 (60 units) – $600.00
+Zebra TC55 (71 units) – $600.00
+Zebra MC9401 (81 units) – $1,100.00
+Zebra TC22 Standard Range (80 units) – $500.00
+Zebra TC21 (81 units) – $220.00
+Zebra RFD40 Premium RFID Reader/Writer (56 units) – $610.00
+Honeywell CK65 (86 units) – $600.00
 
-Suggested-by: Pranjal Shrivastava <praan@google.com>
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
-Reviewed-by: Henrique Carvalho <henrique.carvalho@suse.com>
-Signed-off-by: Shivaji Kant <shivajikant@google.com>
+GPUs & Accelerators
+RTX 5090 Founders Edition 32GB (90 units) – $2,100.00
+RTX Asus/Gigabyte 4090 24GB (45 units) – $1,680.00
+RTX 4090 Founders Edition 24GB (90 units) – $2,000.00
+RTX A6000 48GB Ada (54 units) – $1,100.00
+RTX 6000 48GB Ada (51 units) – $1,200.00
+Nvidia L40s GPU (45 units) – $3,000.00
+Nvidia H100 80GB PCIe (9 units) – $20,000.00
+Storage & CPUs
+Samsung PM9A3 2.5" SSD PCIe 4.0 7.68TB (115 units) – $250.00
+7.68TB SAS SSD 2.5" 12G Server Drive (140 units) – $250.00
 
----
-v2: https://lore.kernel.org/all/20260402073001.2039625-1-shivajikant@google.com/
-
-Changes in v3:
-Dropped the reference to multiplath patch from git log as commented
-by Christoph Hellwig.
----
- drivers/nvme/host/rdma.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 35c0822edb2d..09eefd7c3ff4 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2189,6 +2189,13 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 	nvme_rdma_reconnect_or_remove(ctrl, ret);
- }
- 
-+static bool nvme_rdma_supports_pci_p2pdma(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_rdma_ctrl *r_ctrl = to_rdma_ctrl(ctrl);
-+
-+	return ib_dma_pci_p2p_dma_supported(r_ctrl->device->dev);
-+}
-+
- static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.name			= "rdma",
- 	.module			= THIS_MODULE,
-@@ -2203,6 +2210,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.get_address		= nvmf_get_address,
- 	.stop_ctrl		= nvme_rdma_stop_ctrl,
- 	.get_virt_boundary	= nvme_get_virt_boundary,
-+	.supports_pci_p2pdma	= nvme_rdma_supports_pci_p2pdma,
- };
- 
- /*
--- 
-2.53.0.1213.gd9a14994de-goog
-
+For quotes, availability, or inspection scheduling, please reach out 
+directly:
+sales@computergamingpc.com
+Call or WhatsApp: +1(774) 559-1248 | +1 (641)232-4364
+Thank you for your continued partnership.
+Jason Denson.
+Computer Gaming PC Trading
+2500 US-6, Iowa City, IA 52240, USA
 
