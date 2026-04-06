@@ -4,145 +4,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64C38F46C47
-	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 15:03:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C37C5F46C76
+	for <linux-nvme@archiver.kernel.org>; Mon,  6 Apr 2026 19:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ge872syXSbs5+S1lwvwTWP6d9BfEbYubRd2a1lZ6/JY=; b=kB4eGm6oSRA4aBZLvyQ6CBHZ/u
-	2Ue/xQvtlhr3RtsYL7vkMmdvH3KebRwoJQNP7hVN5O/tf/iADhO1IEC/ntjkGYc0hdmj70UaDjeMu
-	tjQm5rzm7EAIVAAmnD5gQFVsZHliG5KPSEu+msOVabubAYDwgIFBItGUePumDyBqwpCQk/ap+AM1d
-	UTCMoDwi2IF1ofkFs59MGQsmq9dlB2T6ifWnYga1OjqyMuc2nGIgzyVhhDTVnaHoW24Nq7hqUjxDI
-	q3FopE/nCkibJpvoki8KpxX7vIOGZUCknCgLsEhCaZ5kHjRBna/cWIlq8DLT0+bxjrKkSup08+3BU
-	j0fOwVOg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=mmRqNSjoQ6HmN96H9YNTUi3Ybw54x0ujPHGqFzaEd9A=; b=TpxEJjor7uxMkZi24sNYRAXKBn
+	gtUyTzhU3ElS4D0dOcZkOU2PFRgK04uPV4gBCBI+g35QA9KWVPREefzlTb8u1DfJUtfNFz/IHP2ZJ
+	rU7rMhYtB7TYZNMVue7qoXsWv038c6T8WIE+DT9+NpPFfmHfxwqOK8+2x55ewG1dF0E3ZQDLTK8x3
+	U+DErLwM/+qaqIDT+Gd2hW1f5xwDcXnB7tarxOyJ3asnAtn6pW5AnWjWt49xu2YJ/2DKljhfU6hBT
+	inQrt/Hd7w7ghQwpMmfy7PwRLT5IqRVnrIC2M5sfoMmBx5+3vfv4MD7c5XaW9jU1L2+RGRm425SDi
+	Q0e8Cu0g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9lUJ-00000005EwC-1Xtw;
-	Mon, 06 Apr 2026 15:03:39 +0000
-Received: from mail-uksouthazon11022088.outbound.protection.outlook.com ([52.101.96.88] helo=LO0P265CU003.outbound.protection.outlook.com)
+	id 1w9pa5-00000005S7v-3xgi;
+	Mon, 06 Apr 2026 19:25:53 +0000
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9WbF-00000004Xq1-0EA5
+	id 1w9pa3-00000005S7B-2WkO
 	for linux-nvme@lists.infradead.org;
-	Sun, 05 Apr 2026 23:09:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=raDpZ3BmK4m1JOCCJPFrYUlzhJN9ayRFUzRw3dSoq4AxPC2RZ708R0+DuUJe2B+ioaFjOyimDlpVMhe05NZdIw21HfdxEofClYInac4FB750W9vn35EkgUKynZBEGutGAdSDrM8U0ra2AUel5PTiw+ucynDqx3qNfsCxd/rzmhvI1snAwDQundCYN9R3YFAGo2pRxXfeIWdT9pxI5+0MooCmtUcHMr0VJfczlQN7Mpwe1H42lKGCh7NW1DXtal308KNtsHd/qtD0pvD2Gn33U0O+SmsWazRhkMrZvDaY+loEa0olyJDROy4S1sEZ1vObfeSdxM6FBoPwaGf7bGOj9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ge872syXSbs5+S1lwvwTWP6d9BfEbYubRd2a1lZ6/JY=;
- b=c6mGiZIlSi0wx0gc8o+j+PA8W5FGNJP/NYLVhRnnruG8HQJViMHTHaZvwXpW2K0gI0LqI8we0ADr9arvPUtSndNc/CJIm6nIuI+belvpjOBMdoXg8+F2FDTPncghtTMgT6VTnh8tmcInAnw6x5xyz9FSH+EKfbIxP/pYOhoWg3PqHI4A0hIB5evI4SgwWDFPxVla5YRi1kSgxWsOzgyI8UAlcx2DSCpam/H/Ut7WInn3MAvjYWbbJyU1h9R/WwjIMqijT1IWOkp+InWoQxqyqGCjRm1StZGpZOZRMU44JJd/WDFRr3Oy0jNh/BRx6Sd1ikHAP+gEbypSQ+xrPdUYqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO8P123MB7746.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3d8::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.19; Sun, 5 Apr
- 2026 23:09:43 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Sun, 5 Apr 2026
- 23:09:42 +0000
-Date: Sun, 5 Apr 2026 19:09:36 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Waiman Long <longman@redhat.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
-	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
-	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
-	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
-	bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, 
-	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, ming.lei@redhat.com, 
-	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
-	mproche@gmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
-	MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v10 10/13] blk-mq: use hk cpus only when
- isolcpus=io_queue is enabled
-Message-ID: <3arv4h74lojkgaxtt32yda7m5tl53ukx6jpyad3d4jipwjpcrd@bkmirs7jgjjv>
-References: <20260401222312.772334-1-atomlin@atomlin.com>
- <20260401222312.772334-11-atomlin@atomlin.com>
- <c6189740-b741-41e5-a9f6-d09e1ddb86ec@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xwhxqp3rfibw6dmg"
-Content-Disposition: inline
-In-Reply-To: <c6189740-b741-41e5-a9f6-d09e1ddb86ec@redhat.com>
-X-ClientProxiedBy: BN0PR10CA0009.namprd10.prod.outlook.com
- (2603:10b6:408:143::6) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	Mon, 06 Apr 2026 19:25:52 +0000
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-43b983bb07eso2423968f8f.0
+        for <linux-nvme@lists.infradead.org>; Mon, 06 Apr 2026 12:25:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775503550; cv=none;
+        d=google.com; s=arc-20240605;
+        b=c51w2/ZDzeKMlzN33LVEdbAuwvrYGmvnTRMMP2Kas1/Vny9XzcKWqFdx+aEAj+0jdn
+         6t90U3ELkjekk+Kc4+cW62vA6f+RqzH/u2tmu7Yh4FS0+lxTP7JXY5KPwPjvdv8vb5XR
+         vcOkr1iPAb+btQnuiJ/BrrLiVbpUlSkzctsHzWMkCejIVSTsOAKNSDyRUwvJ6tccS6iv
+         Om0iEx1SRyBMHLuZzNQjzDOSjAOa49/+402NLgCfqPgeRIam/6r/Rqgihz2wmva38+Jm
+         7lsOuNz1bBBfhck/2UizEDvzg3t7v0M+uG94gJ00swWsv0NuPzIWC2pZtqzRh+/sIqul
+         bdqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mmRqNSjoQ6HmN96H9YNTUi3Ybw54x0ujPHGqFzaEd9A=;
+        fh=BPZvehKtNikTlRdhvPKPb1An1yH4PVVMiOubb1WKWSM=;
+        b=NMYfOW/OYLTQ4U2Focp0NeY54ezWxAJYrOQuWKKQQuiNrIMMH0lIX2p45tQ0VihFHc
+         q762TLoblbcQiA0462Lmwj2DvfDKvGYoIJFRkArkYD4ZP3JZtwoqEIk6m4lI2xhszTr/
+         mxOfsuyxj5FHIzcJm/8KG9vADL6lxOZi/XchDgBV/FkJnHp3OR+QU66CVNE8RcX7hz5L
+         d+KirayE6h/26oPx4T4PMejbax6dsmPTJGa2l6Xwtu2ZnXqO+lj6YfkaApAIIJqzSAfR
+         b24Ne8Na6t8YWVfkpzr4uMWUFx3PTJqy6q+bY3VIu6SNxMyCYGUViYa01x2Klm7mLuRB
+         aAfQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775503550; x=1776108350; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mmRqNSjoQ6HmN96H9YNTUi3Ybw54x0ujPHGqFzaEd9A=;
+        b=no+M3a3+aTcGTZHgqVUFhrRcpu0TZYae7GF+kCUY4mr3z8NR772oVqVE9oczinE0kK
+         bLI21G5yP6eP2g4ti7U8TIzhqk5BbDMs6zu2i0oWjHvpvivvto3Nugej2AOTrZOhS1hQ
+         ZjNLoXdbnVVbkptKd2jjCVGFhYUH//YFhhuwKB9Ha4beMF8LmqgVHd6cJ3OCBMTfQ8W4
+         7/7uCZm1XENYTqcY2bWrFEmXeFiZAhidbskFJtw04dU/FXsAjoemlZPD1oJe4GJUFpU6
+         aRZ6Bseu1qvX9O3hSwp3AE1F0qmuKjyP/Sf9TNzHWFMXcA0++pPfIp+dIU7AWn3VVwoq
+         VI7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775503550; x=1776108350;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mmRqNSjoQ6HmN96H9YNTUi3Ybw54x0ujPHGqFzaEd9A=;
+        b=TIOwQKn3c4elipMsMnVEEGUnF8jFofFV5u3HWnWR40xf5y3NpuEAY3SxIM4Mc0jqNk
+         mE5Ds68cz5uzbjEi+m0TJWbPOr2HCOtQzNd3gVxpQJT7opem41Zoa460Y/YdyvyX36Tm
+         aLYOZecG7p4bxwLhk0YeVj6ti6ThI/lLZMzUbYXHflG1ti77q5zzsQ6mx8UVGeAO0hYt
+         ZVP0A1T7tK0tiYkbEddVHl0L1xa3U1kpkSknUIFMy0cXRO/GTbNaSkDEhg+7pGmXFxBm
+         M4SCaIW7Xn7UMAPc3DpsIRP0jkrKAGj+cjP+liAVLiKNgaIxN7UbVOkUJ9qbRL6pGKiF
+         Z5aA==
+X-Forwarded-Encrypted: i=1; AJvYcCWKIIf58WmT2O/rbEIS1ETbNrzZjNodPftTbhlkfp4LgBJHtNys6jb27r7IZaRBh/KUM7DPfDCazWof@lists.infradead.org
+X-Gm-Message-State: AOJu0YymSiTJK88S6zN5qrH2UmukrCvKOgxZ3KSAJ/68UHAUjog/7mag
+	y76fgc74aXdAOi/3woQSDYMZ979F1wzgLEMoIiz2l4DCQh07jXs44zWaUqQTplKnS5MV83EPAy2
+	5tgliL7qNvXcnyViF4LriP1hqVkMEoVY=
+X-Gm-Gg: AeBDies87RUTn3oXnRiP8BcYRi2O+TWsKnzWHTzg6tFabk/EZETaCuIVNuAjvVimmPl
+	rHOMD6D9nBqcnGospfJSjSDFtmwiBDAHqkYNqaTIbVRI5eezlQYCQWkrBeo8bu1kdK1dnYRALzG
+	BugojxBWwDUPfFi490KeWxYVeJdG0HlApG1MNo2yXQI2d+4PRIrEq4h17HFW+iQhnW37Gbd+1Nj
+	JMlfHikJ3AxIKgmpNzJFqFGko8kMVNEepQ8J/z68m5zrOVKJNwBfkN/L2ppl/Ul/UdDC1BZXQPT
+	fap3b04=
+X-Received: by 2002:a05:6000:188e:b0:43d:4c:22a5 with SMTP id
+ ffacd0b85a97d-43d292ff507mr20291458f8f.40.1775503549308; Mon, 06 Apr 2026
+ 12:25:49 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO8P123MB7746:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3013fc6e-354b-4502-35d8-08de93686a48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info: 6q2H+eyiRpy63a1RkLuZq/twJwOLEnQv5L+m47JPXX/Bq9SoPeAVsgLN4EB2xHaZSMPIudFnlj+X9BF9viYp5rEDxmqed5J+TZxlvgpifVsf4V1VWDn+EhI3/lCGiC6pKpoOzqhVtFZNj+WG5VfkQC9zAE1pqTvrdG06a0udGUk8nwW3HxEkaJQFACIKAhYf+ohEgHopo72WM8F3JrVVnxEeEYtrcfx6fPVL7dxbrVkOf4KtLE43Ic9co3vEkd/Bqq4PnvytjQWtUnhxWLl3G/rXZBO+8+dj+gvxofR9zy3oVbAF9PYn+sTSHKnYtXPxdpxV/XigIVPgAtkD1dNXpVLDzCc+904Cso4LAVMTkMrAcN1Ry/BjKE1eCXjepzRM/ZeyHK033mzDPvKz7A+Fo3fcjFdwrTSy1CGrz3y4/x1V1T8yL22izjXCTx0ojypZkwAuNE2pylwFtDj4YLV7c83wwj8WfIjdbZNwcS6KjsZmstrlHi02IuVnqkuXGNxWYN3/T1Fkb2i+t0/LT4ckRp0TdORL8vCEcHDrHpU7ezFRHYsppFsnjyBMJvItZyvrQwj6/g6wFr2ITXyznZjL9cqNskkL4MU8xoPc4mJR3aYc2/ZYEBHY18PCFtIdSwiclDUImVj3yhTUV6411ilEc4+9xXB2H8iO8TpcW+0UWSfL1cHvaXSM+m/NswK3Roqp6e4pb6P3F55zsNbunmjpHvukZe+ee73t6bvXkCsDzrM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VkpoeDZWSjhuSzcxeHdGOHBIR1lCV3owTzBPS3doQ2NSR1ZwbkxkOVRiVzFu?=
- =?utf-8?B?TWFmN01vWmg4VXFjdDZDa3Z0RTlqMElYUXJHNmx5YXhQTXp5Uys4a3kzb2VR?=
- =?utf-8?B?aDJxeE5NbGFjSk9rOFJiV0EvVTJFSnJhNzV0MUhuNUNQMXBuY1dMWDBLeFNu?=
- =?utf-8?B?Y29ZWVV4R2pPOWtQd2cxTDZHQ3dJeE94R1NKanV5cEw0d1lkTDhhczBhQTZr?=
- =?utf-8?B?ZEFrMXpqbVhuM2d3WFZYYTVBN0dBL1JEZ2t2THo3YVhmUmg0NC9ZWit6WU4y?=
- =?utf-8?B?N2x5bzJ0S2J1cjQ0YVh6eW9yZjNqSHh1MUtMVDk4SWJDMFdZa0djRVFkeDlm?=
- =?utf-8?B?SkpwL21HV3lDUkpuREJaSTU3RFRYZUVIV1J4eC9VRG5iQk5iWkhROUpRZmRN?=
- =?utf-8?B?TDNhWGtrYkhsMTUzV1lRKzVYdEwrVFFRRWt6d3NsS0hyTU9DamZUcUVubUt4?=
- =?utf-8?B?T2ZOeFQrckxUVFJpOGVUUmY5OWQvYnB0UUJVaGVNSmFQQldtSDVaUG1ocnpY?=
- =?utf-8?B?Ni9LTXoraEhQa2lDRzVVdDUvNy8xdCt0OUhqMXpHcThZNFExSXpzejNlNlVO?=
- =?utf-8?B?M3lySGxHK1g5Q01OZGpWK2wyVkZyQ3ZsVWhjMnd0NTdqWWJkTkdlUldUNEln?=
- =?utf-8?B?UXhCc09IUVpZZS81aXRVNUFrMzNJMmcwQVJHekU1YThVRmNhT25nOUx4ang0?=
- =?utf-8?B?cjVicHNLaDhsalZERWRYVTZTYm5MU1VMUWl2a2hmNmdQckZNREhERVljMkxW?=
- =?utf-8?B?UGpQWW5INGhVMVZEMnA0eERCcTJ2NHVIa0d5alhRamRSZGxFUEZBSTNQNGNq?=
- =?utf-8?B?TkFZWVBkaGhzTHcwQkNHSWxnZ09GemxjN1loSUkzU2FjQUM1LzA1bVhKdWQv?=
- =?utf-8?B?Um9ZTHRDQ1BVbm1YcUx0OFlNVnk4b0dyTkliS2NqWFNldEtpamdSR0FPYXV2?=
- =?utf-8?B?M1Z4SnBrV3lqd29WWVU3UEdNKzBlcm1ORjRadjRjNE4yRnZSbHFFRkxTRDNv?=
- =?utf-8?B?Mzl2MFNIWkN4YUluVGRieUM4NGp1QytZQ2pOSUJNMlhVNGNIQ1g2Si9yVmpa?=
- =?utf-8?B?bmRnNFBOWUtaeThXVm01aXJ0OEx6T1ZJaFZ4RzBRdHJGeENzbzNQUWR5YVdi?=
- =?utf-8?B?bzJJcWdxMUd0ZHJ1Y3JvRkRSMDJsWjd3eG5RWHpCbm5aYU1xaGE4YitGVnNt?=
- =?utf-8?B?RUJ5MWppRmlLZkNqWXIvQ3FiM3k0V2tYeWpic1pZeFVHT3Uyak81K1k3MVBt?=
- =?utf-8?B?eXZhbHFnRzJJNVVBb0pHZGhYTFFzR0VES0FRQXRQdTkvckJnMU5OTzdQeGcx?=
- =?utf-8?B?UmJMblVVT01hazVZQWJyOFVjcGY5Y1FDVVY5OXl1bGRVZTh4d1BnZjhlSXQr?=
- =?utf-8?B?d29LSWV4SlMvRVNuVkROVWdERmZOZFN0bmdoK0dmS2VyOHhodE0zSDU4Nlo4?=
- =?utf-8?B?Y3ViNlRERldYMWtzd21hVGorWHNSNnUySHhJajNNcDl4TXFxUlA0SzVlMkZF?=
- =?utf-8?B?KzNRWWNSTmtQWjZSNnVET0c0cTlJb2VpV2NNNUVCRm1ydWh5OEx6Z1JyejdZ?=
- =?utf-8?B?dXQ0eWJFd1BhWEp6amEwbVhhQmF4ZlZENU9Lb1BldDUyOGdEdGtQYU0weW1k?=
- =?utf-8?B?L0NHMVVVcVMxV1plNGNneWhMdkFYd0ZuaFZNemNLdVA1SUp3T3ZPMjRndHFV?=
- =?utf-8?B?cXNSWi8wL0hJU080WGlwd05pZk9MTllzcTZkTGxhU2JlYVZTd2h6WXdpTldC?=
- =?utf-8?B?b1c0VlJmeEhHMG1LSGpTTGR6azdiUlZ1OXFrc3QxN05hdXdld3RWK2JNQkxV?=
- =?utf-8?B?Q1RGU3RtbUErUURuZm5FNk5uMEJZemlWczlWQzdXWjBHRlZRSnhmOHI3OUFC?=
- =?utf-8?B?OVdTOEJEK2ZUYnZFZkdrNWJQZHFpaXJ3SE5ZV1JjNVVvdWxESlk3TG1FVnl5?=
- =?utf-8?B?MmY2dklEMDlIbDJWKzliSVh5Rys2UllvWHN6MHhDbnJ2VkVaY2o0cHlvczVQ?=
- =?utf-8?B?aFlwWDU4QlVDSEdqQWt6UjdvWVFQelZhRWNOQ3EyRTdvVTE5THNpSmFXdmVm?=
- =?utf-8?B?azNLSHVNcy9IZkJjWHcyb095aTd2QnhTVkJvSll6a3ZSQmFSVEtTVEV1cEFL?=
- =?utf-8?B?RzYvYVlFUDV4c29OR0xzK3VMU2xZeEs0RGppL0RYWUl3bEs0NU84ckM2UGRk?=
- =?utf-8?B?bSs3Q3h1NjVxUXlQaFRNbFhUeldGdjhCc1doSHl6NG0wMG92UG0xYng2b243?=
- =?utf-8?B?NzdKdUQvL0MrNUhTTTlZQm5HSGJ5blRKZmhUNmVJNkJ4Tk9ab3ZQZU9DM2s4?=
- =?utf-8?B?d0krSlQ0ekJiN2c5U0ZQQzhyb0F4SmdMNmFXN1ViWVFTdFozMzZIUT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3013fc6e-354b-4502-35d8-08de93686a48
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2026 23:09:42.5752
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VEFtsVv7ijb6rKUCtyYFs7p4g5m8cqBxvfgYUn7wyrE0lIkgBOuVGHv6zLqXpBlaFrsUyNWb475PoShtl/kyaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P123MB7746
+References: <CA+ysrS+QrbGfOLk=e0=PZ-py-KO_xZgn827nEg7mh7hGhdUAAw@mail.gmail.com>
+ <2026031827-carving-overdrawn-5b1f@gregkh> <CA+ysrSLcSJSgEC7i0GYXPiRY9sbbyEGT60Nh1SJ6PqXWENgSOw@mail.gmail.com>
+ <CA+ysrSL+3YVGvTKhJ=jL92XZPwjoDpt5D2BK-HeCU975vO-fCQ@mail.gmail.com>
+ <CA+ysrSJQ2tDiB=zL+GwF=ckhmO62v6GC2bWVUVVDVn7d8Km1mw@mail.gmail.com>
+ <27f3f1b4-5f27-41d6-aa5e-646e5f3ce1e9@nvidia.com> <CA+ysrSLqMrw0wY8WGcfCxTi=G54v4Gg-jUcEvkw5tyr6J7cLWg@mail.gmail.com>
+ <e39c9bfa-6b53-4517-a00f-f0068ef0b290@nvidia.com>
+In-Reply-To: <e39c9bfa-6b53-4517-a00f-f0068ef0b290@nvidia.com>
+From: Shivam Kumar <kumar.shivam43666@gmail.com>
+Date: Mon, 6 Apr 2026 15:25:37 -0400
+X-Gm-Features: AQROBzDKDoPUULv-3rUwL9ZmwglK73tM2pAVWwCQ1SqsB6jf1K0X8xnz_4-a4X0
+Message-ID: <CA+ysrSL_cRe4z6ey+W+LodVF-HXSg8jifGa_wLD3sHT2PLoMDQ@mail.gmail.com>
+Subject: Re: [Bug Report] nvmet-tcp: unbalanced percpu_ref_put on data digest
+ error after nvmet_req_init failure causes refcount underflow, use-after-free,
+ and permanent workqueue deadlock
+To: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Christoph Hellwig <hch@lst.de>, 
+	"sagi@grimberg.me" <sagi@grimberg.me>, "security@kernel.org" <security@kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260405_160949_106251_FDBBE5FD 
-X-CRM114-Status: GOOD (  12.45  )
-X-Mailman-Approved-At: Mon, 06 Apr 2026 08:03:38 -0700
+X-CRM114-CacheID: sfid-20260406_122551_747280_81EC28F8 
+X-CRM114-Status: GOOD (  41.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -157,65 +124,281 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---xwhxqp3rfibw6dmg
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v10 10/13] blk-mq: use hk cpus only when
- isolcpus=io_queue is enabled
-MIME-Version: 1.0
+On Mon, Apr 6, 2026 at 12:24=E2=80=AFAM Chaitanya Kulkarni
+<chaitanyak@nvidia.com> wrote:
+>
+> Shivam,
+>
+>
+> On 4/5/26 12:55, Shivam Kumar wrote:
+> > Hi all,
+> >
+> > Just following up on this report. Please let me know if there are any
+> > questions about the analysis or if any additional information would be
+> > helpful.
+> >
+> > Thanks,
+> > Shivam Kumar
+> >
+> > On Wed, Mar 25, 2026 at 12:29=E2=80=AFAM Chaitanya Kulkarni
+> > <chaitanyak@nvidia.com> wrote:
+> >> +linux-nvme list as well.
+> >>
+> >> On 3/24/26 21:22, Shivam Kumar wrote:
+> >>> Hi Greg, Christoph, Sagi, Chaitanya
+> >>>
+> >>> Following up on my previous report (percpu_ref underflow in
+> >>> nvmet_tcp_try_recv_ddgst). During testing with the percpu_ref patch
+> >>> applied, I identified a separate vulnerability triggered by the same
+> >>> PoC. This one affects the queue kref (not the SQ percpu_ref) and has =
+a
+> >>> different root cause.
+> >>>
+> >>> # Bug Overview
+> >>>
+> >>> nvmet_tcp_handle_icreq() sets queue->state =3D NVMET_TCP_Q_LIVE witho=
+ut
+> >>> holding state_lock and without checking whether teardown has already
+> >>> started. When a client closes the connection immediately after sendin=
+g
+> >>> an ICReq and a malformed CapsuleCmd, the FIN can arrive and be
+> >>> processed before io_work reads the ICReq from the socket buffer. The
+> >>> FIN handler sets queue->state =3D NVMET_TCP_Q_DISCONNECTING and calls
+> >>> kref_put (1->0). Then io_work processes the ICReq and handle_icreq
+> >>> blindly overwrites the state back to NVMET_TCP_Q_LIVE. This defeats
+> >>> the guard in nvmet_tcp_schedule_release_queue(), which relies on stat=
+e
+> >>> =3D=3D NVMET_TCP_Q_DISCONNECTING to prevent a second kref_put.
+> >>>
+> >>> When the subsequent digest error triggers nvmet_tcp_fatal_error() ->
+> >>> kernel_sock_shutdown(), the socket teardown synchronously processes
+> >>> any pending TCP packets in the socket backlog via release_sock() ->
+> >>> tcp_done() -> nvmet_tcp_state_change() ->
+> >>> nvmet_tcp_schedule_release_queue(). Because the state was overwritten
+> >>> to LIVE, the guard passes and kref_put is called on an already-zero
+> >>> kref, triggering the underflow.
+> >>>
+> >>> # Root Cause
+> >>>
+> >>> The vulnerable code in nvmet_tcp_handle_icreq() (tcp.c):
+> >>>
+> >>> queue->state =3D NVMET_TCP_Q_LIVE;
+> >>> nvmet_prepare_receive_pdu(queue);
+> >>> return 0;
+> >>>
+> >>> This state transition is not protected by state_lock and does not
+> >>> check the current state. All other state transitions to
+> >>> NVMET_TCP_Q_DISCONNECTING in nvmet_tcp_schedule_release_queue() are
+> >>> protected by the spinlock, but handle_icreq bypasses this
+> >>> synchronization entirely.
+> >>>
+> >>> # Race Sequence
+> >>>
+> >>> The PoC sends ICReq + CapsuleCmd + close() in rapid succession. On th=
+e wire:
+> >>>
+> >>> [TCP handshake] -> [ICReq] -> [CapsuleCmd] -> [FIN]
+> >>>
+> >>> All data arrives in order in the socket buffer, but the FIN triggers
+> >>> a TCP state change callback (softirq context) that races with io_work
+> >>> (process context) reading the application data.
+> >>>
+> >>> # ftrace evidence (queue 29)
+> >>>
+> >>> Step 1: FIN arrives, teardown begins (softirq context):
+> >>>
+> >>> kworker/-74 1b..2. 125826488us : nvmet_tcp_state_change: DEBUG queue
+> >>> 29: In schedule_release before checking state variable state is 0,
+> >>> kref=3D1, caller=3Dtcp_fin+0x278/0x4f0
+> >>> kworker/-74 1b..2. 125826492us : nvmet_tcp_state_change: DEBUG queue
+> >>> 29: kref_put in schedule_release state changed to 3, kref=3D1,
+> >>> caller=3Dtcp_fin+0x278/0x4f0
+> >>>
+> >>> State transitions from CONNECTING(0) to DISCONNECTING(3), kref decrem=
+ented 1->0.
+> >>>
+> >>> Step 2: io_work processes ICReq, overwrites state (process context):
+> >>>
+> >>> kworker/-74 1..... 125826529us : nvmet_tcp_try_recv_pdu: DEBUG queue
+> >>> 29: Inside nvmet_tcp_handle_icreq_pdu before changing state is 3,
+> >>> kref=3D0, caller=3Dnvmet_tcp_io_work+0x12b/0x1fc0
+> >>> kworker/-74 1..... 125826532us : nvmet_tcp_try_recv_pdu: DEBUG queue
+> >>> 29: Inside nvmet_tcp_handle_icreq_pdu after changing state is 2,
+> >>> kref=3D0, caller=3Dnvmet_tcp_io_work+0x12b/0x1fc0
+> >>>
+> >>> handle_icreq see's state=3DDISCONNECTING(3) but overwrites it to LIVE=
+(2)
+> >>> without holding state_lock. kref is already 0.
+> >>>
+> >>> Step 3: Digest error triggers fatal_error -> kernel_sock_shutdown
+> >>> (process context):
+> >>>
+> >>> kworker/-74 1..... 125831291us : nvmet_tcp_fatal_error: DEBUG queue
+> >>> 29: fatal_error, state=3D2, ctrl=3D0000000000000000,
+> >>> caller=3Dnvmet_tcp_try_recv_ddgst+0x74f/0x9a0
+> >>>
+> >>> Step 4: kernel_sock_shutdown -> release_sock processes backlog -> tcp=
+_done
+> >>> re-enters state_change, guard bypassed because state is LIVE(2):
+> >>>
+> >>> kworker/-74 1b..2. 125831626us : nvmet_tcp_state_change: DEBUG queue
+> >>> 29: In schedule_release before checking state variable state is 2,
+> >>> kref=3D0, caller=3Dtcp_done+0x1d7/0x350
+> >>> kworker/-74 1b..2. 125831629us : nvmet_tcp_state_change: DEBUG queue
+> >>> 29: kref_put in schedule_release state changed to 3, kref=3D0,
+> >>> caller=3Dtcp_done+0x1d7/0x350
+> >>>
+> >>> schedule_release_queue see's state=3DLIVE(2), guard passes,
+> >>> kref_put called on kref=3D0 -> underflow -> CRASH.
+> >>>
+> >>> The critical evidence is Step 2: handle_icreq reads state=3D3(DISCONN=
+ECTING)
+> >>> and writes state=3D2(LIVE) =E2=80=94 proving the unsynchronized overw=
+rite.
+> >>>
+> >>> # Additional Observation: Double fatal_error Call
+> >>>
+> >>> The ftrace also shows that fatal_error is called twice per error: onc=
+e
+> >>> from nvmet_tcp_try_recv_ddgst (digest mismatch) and again from
+> >>> nvmet_tcp_socket_error in nvmet_tcp_io_work (propagated error return)=
+.
+> >>> Both calls invoke kernel_sock_shutdown, doubling the window for the
+> >>> reentrant state_change.
+> >>>
+> >>> # Crash Trace (with percpu_ref patch applied)
+> >>>
+> >>> refcount_t: underflow; use-after-free.
+> >>> WARNING: lib/refcount.c:28 at refcount_warn_saturate+0xc5/0x110
+> >>> Workqueue: nvmet_tcp_wq nvmet_tcp_io_work
+> >>> Call Trace:
+> >>> <TASK>
+> >>> nvmet_tcp_state_change+0x3e6/0x470
+> >>> tcp_done+0x1d7/0x350
+> >>> tcp_rcv_state_process+0x392c/0x6d80
+> >>> tcp_v4_do_rcv+0x1b1/0xa80
+> >>> __release_sock+0x2ab/0x340
+> >>> release_sock+0x58/0x1c0
+> >>> inet_shutdown+0x1f6/0x3c0
+> >>> nvmet_tcp_fatal_error+0x13c/0x1c0
+> >>> nvmet_tcp_try_recv_ddgst+0x74f/0x9a0
+> >>> nvmet_tcp_io_work+0xd43/0x1fc0
+> >>> process_one_work+0x8cf/0x1a40
+> >>>
+> >>> # Affected Code
+> >>>
+> >>> - Subsystem: drivers/nvme/target/tcp.c
+> >>> - Function: nvmet_tcp_handle_icreq()
+> >>> - Tested on: Linux 7.0-rc3
+> >>>
+> >>> # Suggested Fix Direction
+> >>>
+> >>> The state transition in nvmet_tcp_handle_icreq() needs to be
+> >>> synchronized under state_lock with a check for
+> >>> NVMET_TCP_Q_DISCONNECTING. If the queue is already tearing down,
+> >>> handle_icreq should not set the state to LIVE and should stop
+> >>> processing. I'll defer to you on the exact error handling semantics
+> >>> (return value and cleanup path).
+> >>>
+> >>> This bug is independent of the percpu_ref underflow in the previous
+> >>> report. The percpu_ref patch fixes the SQ refcount underflow; this bu=
+g
+> >>> affects the queue kref through an unsynchronized state transition.
+> >>>
+> >>> I am available for further discussion and testing.
+> >>>
+> >>> Thanks,
+> >>> Shivam Kumar
+> >>> PhD Student, Computer Science
+> >>> SYNE Lab, Syracuse University
+> >>> skumar47@syr.edu
+> >> I'll try to have a look at this over the weekend.
+> >>
+> >> -ck
+> >>
+> >>
+> Let's avoid top posting. Sorry for the delay.
+>
+> Can the following patch fix the ref count underflow issue ?
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 4b8b02341ddc..69e971b179ae 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1310,7 +1310,8 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tc=
+p_queue *queue)
+>                         queue->idx, cmd->req.cmd->common.command_id,
+>                         queue->pdu.cmd.hdr.type, le32_to_cpu(cmd->recv_dd=
+gst),
+>                         le32_to_cpu(cmd->exp_ddgst));
+> -               nvmet_req_uninit(&cmd->req);
+> +               if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED))
+> +                       nvmet_req_uninit(&cmd->req);
+>                 nvmet_tcp_free_cmd_buffers(cmd);
+>                 nvmet_tcp_fatal_error(queue);
+>                 ret =3D -EPROTO;
+> --
+> 2.39.5
+>
+> and something like following can fix the race between ICReq handling
+> and queue teardown ?
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 69e971b179ae..5c03a6505319 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -408,6 +408,8 @@ static void nvmet_tcp_fatal_error(struct nvmet_tcp_qu=
+eue *queue)
+>   static void nvmet_tcp_socket_error(struct nvmet_tcp_queue *queue, int s=
+tatus)
+>   {
+>         queue->rcv_state =3D NVMET_TCP_RECV_ERR;
+> +       if (status =3D=3D -ESHUTDOWN)
+> +               return;
+>         if (status =3D=3D -EPIPE || status =3D=3D -ECONNRESET)
+>                 kernel_sock_shutdown(queue->sock, SHUT_RDWR);
+>         else
+> @@ -922,11 +924,21 @@ static int nvmet_tcp_handle_icreq(struct nvmet_tcp_=
+queue *queue)
+>         iov.iov_len =3D sizeof(*icresp);
+>         ret =3D kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
+>         if (ret < 0) {
+> -               queue->state =3D NVMET_TCP_Q_FAILED;
+> +               spin_lock_bh(&queue->state_lock);
+> +               if (queue->state !=3D NVMET_TCP_Q_DISCONNECTING)
+> +                       queue->state =3D NVMET_TCP_Q_FAILED;
+> +               spin_unlock_bh(&queue->state_lock);
+>                 return ret; /* queue removal will cleanup */
+>         }
+>
+> +       spin_lock_bh(&queue->state_lock);
+> +       if (queue->state =3D=3D NVMET_TCP_Q_DISCONNECTING) {
+> +               spin_unlock_bh(&queue->state_lock);
+> +               /* Tell nvmet_tcp_socket_error() teardown is already in p=
+rogress. */
+> +               return -ESHUTDOWN;
+> +       }
+>         queue->state =3D NVMET_TCP_Q_LIVE;
+> +       spin_unlock_bh(&queue->state_lock);
+>         nvmet_prepare_receive_pdu(queue);
+>         return 0;
+>   }
+> --
+> 2.39.5
+>
+>
+> -ck
+>
+>
 
-On Thu, Apr 02, 2026 at 10:06:51PM -0400, Waiman Long wrote:
-> > diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-> > index 8244ecf87835..8d09af49a142 100644
-> > --- a/block/blk-mq-cpumap.c
-> > +++ b/block/blk-mq-cpumap.c
-> > @@ -22,7 +22,18 @@ static unsigned int blk_mq_num_queues(const struct c=
-pumask *mask,
-> >   {
-> >   	unsigned int num;
-> > -	num =3D cpumask_weight(mask);
-> > +	if (housekeeping_enabled(HK_TYPE_IO_QUEUE)) {
-> > +		const struct cpumask *hk_mask;
-> > +		struct cpumask avail_mask;
-> > +
-> > +		hk_mask =3D housekeeping_cpumask(HK_TYPE_IO_QUEUE);
-> > +		cpumask_and(&avail_mask, mask, hk_mask);
-> > +
-> > +		num =3D cpumask_weight(&avail_mask);
->=20
-> As said before by Ming Lei, struct cpumask can be rather big in size if
-> NR_CPUS is large. I will suggest using cpumask_weight_and() instead which
-> will eliminate the need of the local variables.
+Hi Chaitanya
 
-Hi Longman,
+I tested both the patches; these patches fix both the crash paths.
 
-I agree. Also, it perfectly circumvents the need for the temporary local
-mask while achieving the exact same intersection count.
+Patch 1 is the same fix I sent earlier, which has Christoph's Reviewed-by.
 
-Kind regards,
---=20
-Aaron Tomlin
+Tested-by: Shivam Kumar<kumar.shivam43666@gmail.com>
 
---xwhxqp3rfibw6dmg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnS66YACgkQ4t6WWBnM
-d9YPqRAAoFcUNHyWdvDMJCO8dOPI9polAhlnfh4VhKeJb/KEtkukH+nZLzDEQWUj
-pvZXRU5qbUiICDMs5nFqy4XJIlcWZyYn8J+w9KxC4m0TI5HR99LWyr99raQdH2by
-ec0NYJWpCmcoqZjX0a5RZlCHjlF3SnC/zdZLCh4eZdGnzY+A6VvSXYJH0c0DpK/Y
-dLurxUtqdvs4ARHp6P4CLIScbiV2byudKewCqGDTMCDQmF1h5FVADF9Cm/nmshI7
-XN+nKehr7QT04LtaddMhtb54lN5n8FCKSunym9jFfaCJ9z9fL7YWnXsb27BF5oGw
-fdxxRgcC3nd8DeK9HtDK5CoTjl6cvcFvhDRij41v+GBD1GxR56+6dEzwJr4YAZIj
-u1m3jq5ZhALc3acLww6VOAtpMTDZWk6f692k6iLWotuR7vFXFO+JewhmisAv3OT2
-jzmaRJoKJhYBggjXn7S/c5Zx5bPbdvDQHJiMSC4MPrL2ZjKf6fyg3+KiX+VyCL2A
-m2yXox2A/2ETKMVQ6apVfzFTsCgZyitSCwIREp3SjCYbQZz6a4bfrlDU+g0eU9Cq
-O4KFcp2qXdSUjXpZA6WID5pFEDOXbuGUjYE/62/dzCj8VzWcgXSgAx1qdzsLYUWO
-3xW8DVoY1jGnBJX0LccMmn6fLS6K6p2xguYkVcK2Mfpbsb5TGn0=
-=Xxni
------END PGP SIGNATURE-----
-
---xwhxqp3rfibw6dmg--
+Thanks,
+Shivam Kumar
 
