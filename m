@@ -4,49 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84628FD5F78
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 05:10:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3562CFD5F6E
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 06:10:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FGVZvsJ7+aFUi9R2AonAN1Szz4uf3rqKeEpjoICbM3I=; b=2QhX3bnv/UGNbRaVGAUDMLpuky
-	TiEWmOzPm4/hNFtdKrobIW1Mo8QpPOpeFkQXS/JLQR8Gi6yQq06WUjOyukitUcr9vW2erEhObZ1UU
-	MpKYSaUGpLTskWHzhtNljxsr31ibxKJ5xIYRr2M8U0G5Dh0o1yAS++uGAt7/QwuVGZ12OmsYDDsHU
-	tR7hN8wk6gyB2KYO77wOev5w40jM/GPaYM+zhRH9tPxk/67mKsyhIIF4PJZkfEYsdUR07J0s/CzBW
-	8NugOvvWCWYwzxsN8q8UNhADk0TJFh02zwdWAnL5hLlecPs8PIvk5I/Vm/ZHroamxlZ3uiYmxHSGB
-	aEW29b+A==;
+	bh=uHjEzV3f75lJN9aC9ZKFYrHk6/GO3/TKMwOQY6GYtUw=; b=A2hshqbjabUX4GqBbBnfD47yoO
+	zxXKhL4xPFnp5L/JofN5pMK6Brb2cxHmJyS7HIh+GFdA5t2Bb0Pq3f81kuPLg7gZ9FS5/eJTb8YYE
+	OY00JH1cvTMgyGC+5HfHH+R3oTUnM1D6j4uC84/ZB5ffeISgB7HKxsKltXfAZkCZx4E1sVhnK0v0T
+	E7SU9s/wsbOb1LvlsBlcj8h1xgyk7Cp6X2IKW9LIW+9gE0vKCS7s0rAdtpDyeX9pzVU5K4cgogYgR
+	yFLHuMNaoAX8N/zb/2fx474zwXr3mT+gbtxWqF/EUwVfibmQ0ppU5uWlkewLKr0e8+HlXGTMB47xV
+	RKCLaaig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wALBG-00000008GxV-3fde;
-	Wed, 08 Apr 2026 05:10:22 +0000
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wALBD-00000008GxA-3rp7;
-	Wed, 08 Apr 2026 05:10:19 +0000
-Date: Tue, 7 Apr 2026 22:10:19 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org
-Subject: Re: [PATCH 2/6] block: use integrity interval instead of sector as
- seed
-Message-ID: <adXjO5y6tLLVz77C@infradead.org>
-References: <20260403194109.2255933-1-csander@purestorage.com>
- <20260403194109.2255933-3-csander@purestorage.com>
- <adNUE67FpIGF_x7Q@infradead.org>
- <CADUfDZqHyTDO6aYed+mtChU9m3iPgW=hghwfifuCV8Z_CzxoFQ@mail.gmail.com>
+	id 1wAM7b-00000008KCT-2HkO;
+	Wed, 08 Apr 2026 06:10:39 +0000
+Received: from verein.lst.de ([213.95.11.211])
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wAM7Z-00000008KBt-169A
+	for linux-nvme@lists.infradead.org;
+	Wed, 08 Apr 2026 06:10:39 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7F16268C4E; Wed,  8 Apr 2026 08:10:28 +0200 (CEST)
+Date: Wed, 8 Apr 2026 08:10:28 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Geliang Tang <geliang@kernel.org>
+Cc: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	Geliang Tang <tanggeliang@kylinos.cn>,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH] nvme: add missing MODULE_ALIAS for fabrics transports
+Message-ID: <20260408061028.GA24559@lst.de>
+References: <e3076c80ee2e0c4a2cae0374afb617a3365946ea.1774944415.git.tanggeliang@kylinos.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADUfDZqHyTDO6aYed+mtChU9m3iPgW=hghwfifuCV8Z_CzxoFQ@mail.gmail.com>
+In-Reply-To: <e3076c80ee2e0c4a2cae0374afb617a3365946ea.1774944415.git.tanggeliang@kylinos.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260407_231037_444210_5F915B42 
+X-CRM114-Status: GOOD (  15.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,28 +64,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 07, 2026 at 09:48:52AM -0700, Caleb Sander Mateos wrote:
-> On Sun, Apr 5, 2026 at 11:35 PM Christoph Hellwig <hch@infradead.org> wrote:
-> >
-> > On Fri, Apr 03, 2026 at 01:41:05PM -0600, Caleb Sander Mateos wrote:
-> > >  void bio_integrity_setup_default(struct bio *bio)
-> > >  {
-> > >       struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
-> > >       struct bio_integrity_payload *bip = bio_integrity(bio);
-> > >
-> > > -     bip_set_seed(bip, bio->bi_iter.bi_sector);
-> > > +     bip_set_seed(bip, bio_integrity_intervals(bi, bio->bi_iter.bi_sector));
-> >
-> > Should we simply switch bip_set_seed to take a bio bvec_iter argument and
-> > lift all this logic into it?  That feels a lot less fragile.
-> 
-> Perhaps I'm misunderstanding the suggestion, but how would that work
-> for initializing the seed from struct uio_meta in
-> bio_integrity_map_iter()?
-> 
-> bip_set_seed(bio_integrity(bio), meta->seed);
+Looks good:
 
-Just open code the assignment there as the code must be build with
-blk-integrityu support?
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+> Recently, I've been working on adding MPTCP support for NVMe over TCP, so
+> I added a new transport called "nvme-mptcp". The AI review in [1] reminded
+> me that I should add MODULE_ALIAS("nvme-mptcp"). Then I checked the other
+> transports and found that they were all missing the MODULE_ALIAS as well.
+> I felt it was necessary to add them, so I sent this patch.
+
+As a reminder:  if you want that to go anywhere you need to engage with
+the nvme technical working group, which requires a nvme membership
+first.  There will be no point in posting or even discussing this on
+Linux mailing lists if it isn't approved by nvme.
 
 
