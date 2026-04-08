@@ -4,62 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 460CE10F9953
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 15:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B19710F994F
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 15:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KsQyl1ZyVyK9D9CF592JArgWi3cqdGNTKg78GwavARM=; b=DFnM5LAKfeL5WEKF7Pnje1xoyM
-	+ce6qXHmQnXdUvv+id1k2iJ+WqbHzQ3T0teUAa+qGJIE8F2sOgwKw6EjFynNMpxp1Q1SaHBBJqXRm
-	ItUlI72BPfODQtSJhpjEfnE2lYhknmkNoMiulSAWWw29zAFxrIi0l3bPFUMWQ8Vo+EPsqosX2viNu
-	0dYP5x6OZ902NxHWzF66lgz72tl7pnx08MRwtBobg3Dm6Eip9F1gEn6S+r5Kd/O4mlWveN1SNLLjG
-	G2p1HChkBQy5egJdcRtZwi120S9m9xKbES+aFbce23rSy2dgrMUD5xeOA/ovykptslVhon6dsH5Au
-	8TsaleRg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=YYeTjtCgmmwwXuEg+0P4T4OJABE+qAeKgo4I+n3aUec=; b=M1LLubeXVLlauVI4oqV3LdMDyN
+	1Bkcem2Gk8HhPKgU4goRfg64WHvHKcnl5LUzKOFQ+8Q7pmglqW1Ej4Jew3yw9bcdkzut3SmqznFG0
+	UZXpUc40hd5r+9bKcl4CC1jqCZnQ4nfnXVmmstL3xiOdgHeKYzgj8S5sIMVkfgiuwHz8RGCf5ZPAD
+	qDCL8wVRBsh5XL5gzBIj77mMbwF8V/HPPBZm/cewbXRLbrMueA/yk5nu06F4MK4IKa1vpQWzyOQPV
+	hdr31fPwEgUVyMsHzFFIwvk4m7MaBRe/lfSj5J7qscdlcn+IoquToqE3SQ96ULKKQseGDw/PPA9tB
+	daqXNSIw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAUnB-000000093LD-3MA6;
-	Wed, 08 Apr 2026 15:26:09 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wAUre-000000093hR-2ctF;
+	Wed, 08 Apr 2026 15:30:46 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAUn8-000000093Kd-18Vy
+	id 1wAUrb-000000093gc-19X2
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Apr 2026 15:26:08 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5AEB34002B;
-	Wed,  8 Apr 2026 15:26:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3FC0C19421;
-	Wed,  8 Apr 2026 15:26:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775661965;
-	bh=KsQyl1ZyVyK9D9CF592JArgWi3cqdGNTKg78GwavARM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z+QOerFDDmaD0SRl/5jE1iYESDvgxtv5U297dpdh1N6IATREv8/kpDqPushIedki/
-	 9dJyZUJqlA3ElUm3zNPsOrkladtTJfZBqaFOhedKbQjzQAWwrEnAA1Cpyjzl2ax8y3
-	 +GWE4VEMhFWLeb1esluazmGuxi+BKyucvwd5kFRo+bnrUwA+pr224EoBY07GiKMp4X
-	 rP1RDImHxSrUYaDl9Xk4TJ+NjFx0SX3rqXyBS+ULSxh9fYg6jUWGoEKFqbrb05IG/d
-	 96/g5zOtwboFvhAEhJt1STafthSpXOXEYa18QShT9ISZxVV3/hQYy6OG/AR2htP2Ii
-	 FrHkGciRtwFUA==
-Date: Wed, 8 Apr 2026 09:26:03 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Shivaji Kant <shivajikant@google.com>
-Cc: axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	henrique.carvalho@suse.com, linux-nvme@lists.infradead.org,
-	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pranjal Shrivastava <praan@google.com>
-Subject: Re: [PATCH v3] nvme: enable PCI P2PDMA support for RDMA transport
-Message-ID: <adZziy_r_5BFMx8U@kbusch-mbp>
-References: <20260406092132.1333458-1-shivajikant@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260406092132.1333458-1-shivajikant@google.com>
+	Wed, 08 Apr 2026 15:30:44 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id be4b3b79 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Wed, 8 Apr 2026 17:30:39 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 08 Apr 2026 17:30:39 +0200
+Message-Id: <DHNVQBI845U4.35LOI7WR51V97@arkamax.eu>
+Cc: <linux-nvme@lists.infradead.org>, <dwagner@suse.de>,
+ <yjshin0438@gmail.com>, <hare@suse.de>, <sagi@grimberg.me>,
+ <chaitanyak@nvidia.com>, <mlombard@arkamax.eu>
+Subject: Re: [PATCH V3 0/2] nvmet-tcp: fix receive path error handling and
+ state machine
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Maurizio Lombardi" <mlombard@redhat.com>, <kbusch@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260316143936.120999-1-mlombard@redhat.com>
+In-Reply-To: <20260316143936.120999-1-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260408_082606_332028_C586CF68 
-X-CRM114-Status: UNSURE (   6.93  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260408_083043_649204_073CE8FC 
+X-CRM114-Status: GOOD (  10.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -74,9 +62,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 06, 2026 at 09:21:32AM +0000, Shivaji Kant wrote:
-> Enable BLK_FEAT_PCI_P2PDMA on the NVMe when the underlying
-> RDMA controller supports it.
+Hello Keith,
 
-Thanks, applied to nvme-7.1.
+this patchset has been reviewed already, could you pick it up?
+
+Thanks,
+Maurizio
+
+On Mon Mar 16, 2026 at 3:39 PM CET, Maurizio Lombardi wrote:
+> Patch 1 fixes a potential issue where network data could be read into an
+> uninitialized iterator. Currently, nvmet_tcp_build_pdu_iovec() returns vo=
+id,
+> meaning callers are unaware if an out-of-bounds PDU length or offset trig=
+gers
+> an early return. Consequently, callers blindly overwrite the queue state =
+to
+> NVMET_TCP_RECV_DATA. This patch modifies the function to return an error =
+code,
+> shifting the handling responsibility to the callers to ensure proper sock=
+et
+> teardown.
+>
+> Patch 2 cleans up redundant, localized calls to nvmet_tcp_fatal_error() s=
+cattered
+> across the receive path. It delegates the responsibility of executing the=
+ fatal
+> error function to the top-level caller by bubbling up the error codes.
+>
+> V3: remove nvmet_tcp_fatal_error(), fold it into nvmet_tcp_socket_error()
+>
+> V2: some cosmetic changes to Patch 1, no functional changes.
+>
+> Maurizio Lombardi (2):
+>   nvmet-tcp: propagate nvmet_tcp_build_pdu_iovec() errors to its callers
+>   nvmet-tcp: remove redundant calls to nvmet_tcp_fatal_error()
+>
+>  drivers/nvme/target/tcp.c | 88 ++++++++++++++++-----------------------
+>  1 file changed, 36 insertions(+), 52 deletions(-)
+
 
