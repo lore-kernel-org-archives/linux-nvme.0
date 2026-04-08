@@ -4,60 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04B801073CBA
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 13:57:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7AFFF10F9940
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 14:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qJ14xyneL5A9/L/KrHb5BAjljVMrFlgO0kngOi7YGhg=; b=2mtPHl9eegt1Ztv/PnZYcBd5ip
-	CBlR7MhJkV8I60bR6nOUKVoWoHJjDpIlo+0Q16+vBtDi+y2NZcVq6GER2g1aR2iPGw+O2TrFpM6AV
-	WY9i/DWiJMXH9f60s3GXd2pvm3msBxiIu0DHndRCxWyTjYCECefV/0RuEAMKWX17sKMbVfZatxnFw
-	NYe5ot92sZJk3BBmckZCMhPn+qJ02RYXDyZd3MQuFUbL2QobUGd4ysGV0Vh57IyWtbdJx8yAQyeKp
-	8xbjkpfaQ+Is58eJxR591qYMZS45qwdRTUuZkORYItgrt3mdkaC84xYQoh0Iezc56s/iTYDMKh9V/
-	lrWsOOUg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ac+ld7PBnDtntUMS9S8A9+sf8tF7fABnrLxBZdtfty8=; b=K5rMdXhj0PwxoHP6GIwXy/EDnu
+	uXy4B0Zj2t7Oj3xQD4NdzMveBK+NuqgxOY6/4ORGKwoPYbeMMZzMXYVlMgYKxei/1SJJAZZoTooUq
+	uFE777QIFbDCKlJjKSZ0xaobDiaGuBbb02iV63LDRB9MJHmLpIl+RdXTZCavG0tz7muc2N0IgE6dX
+	LzvJzCyAWs7HLmQHv1XlJ1mFfE4wQohXKrfwrtV0QiiFltn5oA5ryGkVLqyrttl84epcarBSqjKcx
+	xlGpv+K5wvT0I4i9Xx+oEA6IAJ3kyAYDyQDDZ0WWg9GYBzkyZjPzzONYXw/4vuie4sMdhoP+3tWr0
+	DXfpQL4w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wATPR-00000008xEg-0pwz;
-	Wed, 08 Apr 2026 13:57:33 +0000
+	id 1wATk4-00000008zKh-2fNL;
+	Wed, 08 Apr 2026 14:18:52 +0000
 Received: from mail.ispras.ru ([83.149.199.84])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wATPO-00000008xD6-0ceJ;
-	Wed, 08 Apr 2026 13:57:32 +0000
-Received: from localhost (unknown [10.10.165.28])
-	by mail.ispras.ru (Postfix) with ESMTPSA id 6458F45F7982;
-	Wed,  8 Apr 2026 13:57:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 6458F45F7982
+	id 1wATk1-00000008zKA-3j7S;
+	Wed, 08 Apr 2026 14:18:51 +0000
+Received: from debian.intra.ispras.ru (unknown [10.10.165.28])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 6C47745F7988;
+	Wed,  8 Apr 2026 14:18:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 6C47745F7988
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1775656641;
-	bh=qJ14xyneL5A9/L/KrHb5BAjljVMrFlgO0kngOi7YGhg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EmlW33VMXV1fxuMduQyfKd1YopPc90ric6gVZtN8/MtzyTmT7hA/12yHEKyW1oLlX
-	 Rm/fW5KNwOotqi06xyokYUUgPvmrbux3uR0Fn4rPVOyeT5DnOezrLCrc+00EeTI9JC
-	 m+75ccAjcoRNXJFQoVV4IwxZmYPhn0I4pBdPPMTE=
-Date: Wed, 8 Apr 2026 16:57:21 +0300
+	s=default; t=1775657925;
+	bh=ac+ld7PBnDtntUMS9S8A9+sf8tF7fABnrLxBZdtfty8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KkOo6rDzgOhzmt/Dv2vYogRIIsqUNDCEo1aBqC06+JlxEM7oF8ShhurODjlhSnhiO
+	 8Gc5YQxtPgh9priKaqEXx32AGIIOFoPduVUoOh8SjzvOQ9W+6tKlcNU4dxlOoaiB4I
+	 Zx+p18z7AqSXSL1VrJzTPLlanaWSPAsQ+9NEoGH8=
 From: Fedor Pchelkin <pchelkin@ispras.ru>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, Ming Lei <ming.lei@redhat.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, "Heyne, Maximilian" <mheyne@amazon.de>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	lvc-project@linuxtesting.org, stable@vger.kernel.org
-Subject: Re: [PATCH] nvme-apple: drop invalid put of admin queue reference
- count
-Message-ID: <20260408165531-2a55fd1a87a2369d9a5bea2b-pchelkin@ispras>
-References: <20260403202701.991276-1-pchelkin@ispras.ru>
- <8143e057-4c3b-4365-8780-003e897b9baf@kernel.dk>
+To: Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>
+Cc: Fedor Pchelkin <pchelkin@ispras.ru>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Hannes Reinecke <hare@suse.de>,
+	Ming Lei <ming.lei@redhat.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"Heyne, Maximilian" <mheyne@amazon.de>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] nvme-apple: drop invalid put of admin queue reference count
+Date: Wed,  8 Apr 2026 17:18:14 +0300
+Message-ID: <20260408141815.375695-1-pchelkin@ispras.ru>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8143e057-4c3b-4365-8780-003e897b9baf@kernel.dk>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260408_065730_693427_A0342AB0 
-X-CRM114-Status: GOOD (  10.38  )
+X-CRM114-CacheID: sfid-20260408_071850_099374_FE550221 
+X-CRM114-Status: GOOD (  11.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,25 +79,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, 06. Apr 20:20, Jens Axboe wrote:
-> On 4/3/26 2:27 PM, Fedor Pchelkin wrote:
-> > @@ -1269,8 +1269,6 @@ static void apple_nvme_free_ctrl(struct nvme_ctrl *ctrl)
-> >  {
-> >  	struct apple_nvme *anv = ctrl_to_apple_nvme(ctrl);
-> >  
-> > -	if (anv->ctrl.admin_q)
-> > -		blk_put_queue(anv->ctrl.admin_q);
-> >  	put_device(anv->dev);
-> >  }
-> 
-> Could this just be:
-> 
-> static void apple_nvme_free_ctrl(struct nvme_ctrl *ctrl)
-> {
-> 	put_device(ctrl->dev);
-> }
-> 
-> at this point?
+Commit 03b3bcd319b3 ("nvme: fix admin request_queue lifetime") moved the
+admin queue reference ->put call into nvme_free_ctrl() - a controller
+device release callback performed for every nvme driver doing
+nvme_init_ctrl().
 
-Right, ctrl->dev and anv->dev point to the same device.  I'll simplify in v2.
+nvme-apple sets refcount of the admin queue to 1 at allocation during the
+probe function and then puts it twice now:
+
+nvme_free_ctrl()
+  blk_put_queue(ctrl->admin_q) // #1
+  ->free_ctrl()
+    apple_nvme_free_ctrl()
+      blk_put_queue(anv->ctrl.admin_q) // #2
+
+Note that there is a commit 941f7298c70c ("nvme-apple: remove an extra
+queue reference") which intended to drop taking an extra admin queue
+reference.  Looks like at that moment it accidentally fixed a refcount
+leak, which existed since the driver's introduction.  There were two ->get
+calls at driver's probe function and a single ->put inside
+apple_nvme_free_ctrl().
+
+However now after commit 03b3bcd319b3 ("nvme: fix admin request_queue
+lifetime") the refcount is imbalanced again.  Fix it by removing extra
+->put call from apple_nvme_free_ctrl().  anv->dev and ctrl->dev point to
+the same device, so use ctrl->dev directly for simplification.  Compile
+tested only.
+
+Found by Linux Verification Center (linuxtesting.org).
+
+Fixes: 03b3bcd319b3 ("nvme: fix admin request_queue lifetime")
+Cc: stable@vger.kernel.org
+Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
+---
+
+v2: use ctrl->dev directly for simplification (Jens Axboe)
+link to v1: https://lore.kernel.org/linux-nvme/20260403202701.991276-1-pchelkin@ispras.ru/
+
+ drivers/nvme/host/apple.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index ed61b97fde59..423c9c628e7b 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1267,11 +1267,7 @@ static int apple_nvme_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+ 
+ static void apple_nvme_free_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	struct apple_nvme *anv = ctrl_to_apple_nvme(ctrl);
+-
+-	if (anv->ctrl.admin_q)
+-		blk_put_queue(anv->ctrl.admin_q);
+-	put_device(anv->dev);
++	put_device(ctrl->dev);
+ }
+ 
+ static const struct nvme_ctrl_ops nvme_ctrl_ops = {
+-- 
+2.53.0
+
 
