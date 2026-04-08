@@ -4,52 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3562CFD5F6E
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 06:10:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6AF9AFD5F81
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 06:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uHjEzV3f75lJN9aC9ZKFYrHk6/GO3/TKMwOQY6GYtUw=; b=A2hshqbjabUX4GqBbBnfD47yoO
-	zxXKhL4xPFnp5L/JofN5pMK6Brb2cxHmJyS7HIh+GFdA5t2Bb0Pq3f81kuPLg7gZ9FS5/eJTb8YYE
-	OY00JH1cvTMgyGC+5HfHH+R3oTUnM1D6j4uC84/ZB5ffeISgB7HKxsKltXfAZkCZx4E1sVhnK0v0T
-	E7SU9s/wsbOb1LvlsBlcj8h1xgyk7Cp6X2IKW9LIW+9gE0vKCS7s0rAdtpDyeX9pzVU5K4cgogYgR
-	yFLHuMNaoAX8N/zb/2fx474zwXr3mT+gbtxWqF/EUwVfibmQ0ppU5uWlkewLKr0e8+HlXGTMB47xV
-	RKCLaaig==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=bMIm9Q9ofJ9GhhEsS805lfRCjnN8ijsCSBGBh4tMwq4=; b=X4R75c3+48ieBDZstxfd+Ulzsh
+	5Y79AxtqlDobLDOBvtemtJLrZK8Yy519PCT8aSmDk3ZNeQTbQZOE9TVASO67+5Nc/u93POfBCxpWu
+	Oh4hacz//36VovG39AMUvfvrvrhrq61F9UEl8g8QfBmOe82KUwszi6X1QiRCG+efEchQCn8/Kdhe1
+	TVKoOJELKgxfFwxY/yWghVoBCsp8MXMAZbpgPxJDj4T4+ycTTKbvWSgdKdDB6kEyh/MffJze+sdFr
+	DQJn/Eck5lolsj/IbbE2AyGiHtFim4/wEhkSKm+LmPdvnnfNR2Uib21ZZW0G9WJYTrcv3aa5CpH3h
+	MdMNPbLA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAM7b-00000008KCT-2HkO;
-	Wed, 08 Apr 2026 06:10:39 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wAMQe-00000008LUg-0Ywy;
+	Wed, 08 Apr 2026 06:30:20 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAM7Z-00000008KBt-169A
+	id 1wAMQa-00000008LTc-3TV9
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Apr 2026 06:10:39 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7F16268C4E; Wed,  8 Apr 2026 08:10:28 +0200 (CEST)
-Date: Wed, 8 Apr 2026 08:10:28 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Geliang Tang <geliang@kernel.org>
-Cc: Justin Tee <justin.tee@broadcom.com>,
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
-	Paul Ely <paul.ely@broadcom.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
-	Geliang Tang <tanggeliang@kylinos.cn>,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: add missing MODULE_ALIAS for fabrics transports
-Message-ID: <20260408061028.GA24559@lst.de>
-References: <e3076c80ee2e0c4a2cae0374afb617a3365946ea.1774944415.git.tanggeliang@kylinos.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e3076c80ee2e0c4a2cae0374afb617a3365946ea.1774944415.git.tanggeliang@kylinos.cn>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+	Wed, 08 Apr 2026 06:30:18 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 34a83921 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Wed, 8 Apr 2026 08:30:12 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 08 Apr 2026 08:30:12 +0200
+Message-Id: <DHNK8IM7F6PF.1LX1Z2KTRK5JO@arkamax.eu>
+Cc: "Maurizio Lombardi" <mlombard@arkamax.eu>, <gregkh@linuxfoundation.org>,
+ <security@kernel.org>, <sagi@grimberg.me>, <kch@nvidia.com>,
+ <linux-nvme@lists.infradead.org>
+Subject: Re: [PATCH] nvmet-tcp: bound sgl->length check in
+ nvmet_tcp_map_data()
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Christoph Hellwig" <hch@lst.de>, "Shivam Kumar"
+ <kumar.shivam43666@gmail.com>
+X-Mailer: aerc 0.21.0
+References: <2026031805-stretch-skid-ae5b@gregkh>
+ <20260319012630.1802025-1-kumar.shivam43666@gmail.com>
+ <DH6LLP692EBM.4N82LTNB60WV@arkamax.eu>
+ <CA+ysrSLau_52n+4JMvQ=EtqY-cyWhhZ_pLOyeNL=mwkjkNvoUw@mail.gmail.com>
+ <20260320074825.GB14485@lst.de>
+ <CA+ysrS+9bWdF1LvxoZaZW_JLZ97H-RXM548Cm8ZW5KQAD+NCLw@mail.gmail.com>
+ <20260407063000.GA6992@lst.de>
+In-Reply-To: <20260407063000.GA6992@lst.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260407_231037_444210_5F915B42 
-X-CRM114-Status: GOOD (  15.48  )
+X-CRM114-CacheID: sfid-20260407_233017_197582_A935110E 
+X-CRM114-Status: GOOD (  14.37  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -64,19 +69,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Looks good:
+On Tue Apr 7, 2026 at 8:30 AM CEST, Christoph Hellwig wrote:
+> On Sun, Apr 05, 2026 at 03:46:12PM -0400, Shivam Kumar wrote:
+>> Hi Christoph, Maurizio
+>>=20
+>> Just following up on this thread.
+>> Would you like me to send a v2 patch that sets a sane default MDTS for
+>> the TCP transport?
+>
+> Yes, that would be great!
+>
+>> If so, is there a preferred value I should use, or
+>> should I follow what the other transports do?
+>
+> I'm honestly not sure.  Maurizio/Sagi: any good idea what a TCP default
+> max MDTS might be?
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+I'm not sure there is a "correct" value here. It seems to mostly come
+down to balancing performance vs memory usage, rather than anything
+TCP-specific.
 
-> Recently, I've been working on adding MPTCP support for NVMe over TCP, so
-> I added a new transport called "nvme-mptcp". The AI review in [1] reminded
-> me that I should add MODULE_ALIAS("nvme-mptcp"). Then I checked the other
-> transports and found that they were all missing the MODULE_ALIAS as well.
-> I felt it was necessary to add them, so I sent this patch.
+For reference, pci-epf allows a max MDTS of 2 MiB[1], while RDMA uses 1 MiB=
+.
 
-As a reminder:  if you want that to go anywhere you need to engage with
-the nvme technical working group, which requires a nvme membership
-first.  There will be no point in posting or even discussing this on
-Linux mailing lists if it isn't approved by nvme.
+Personally, I would pick a default of 2 MiB, it should be large
+enough to avoid excessive splitting while still being reasonable from a
+memory perspective.
 
+Sagi? Any thought on that?
+
+I have seen a patch on this mailing list that makes mdts configurable
+via configfs, so in case of need a user could still change it
+to his preferred value.
+
+Maurizio
+
+[1] https://docs.kernel.org/nvme/nvme-pci-endpoint-target.html
 
