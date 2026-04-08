@@ -4,138 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E19DC10F9951
-	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 15:42:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01A2810F995C
+	for <linux-nvme@archiver.kernel.org>; Wed,  8 Apr 2026 16:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=CKz9ql1CuufnhSBLMjDpQRkRbaUAZqr1/g/ZA3DBTWw=; b=1XQpzhIK7N08XryPQYWQnl0kks
-	EjMpayMkiL15IQ1IfVISgWOhJmQmpkneqWD6nE6OJ+6uIbH5Dpta1FF9oVZjhq6P0osb0GPq3keKh
-	brwwqjS0zhi+R3q2y8B3M6EJu//J7YBds0yXY0aaV0ylKtlg84JVZocfNNh6TQ1OJCjuJ8pDfVO1w
-	s52aU+TmRp2g+J39ofz/muYfn5ys0wt8xI3wK91hpA+sUUw/2aKmv8D0OpgZwX1/+gblUHQUL/RKa
-	Tz2MvpLliC9hnjkUxiWy882w85SBNjzdLaZjd9tetqEZdtAOXPUGOjYJoK91oZ2blh+dtbSfWVHuJ
-	9D5BVpXQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=bfrU1EBlwLOZtxmQYmbx9mSQ10Bk6/4xv8JDbnFwsZA=; b=GHST2WyBW2NeI7sSFm559auoH+
+	vT8NMCb8MxnRuEEsCh2HvMDjmNC8kYpx+xZpNjFYLsPtXIRuw7bRywSIFhZe7GXA8Pj1kTxg9qbkA
+	/dEvWrFjrL77hOyOCk+TQAZDxM1Yp9f2KSlymHoFxJ7IE3Yj+v78Nmd9axInANNmw1/1/mWHw6oXQ
+	Z/8oEV67XbPt9vDWW1U6UDpQo1SKPE5iprM2zi5PMqWKHsZ5ALybwXm6bZZVHBwlO1051wQOJjfpE
+	/j/E3iuppJ9ql0CATH2tQhBFvAvF4cBpiMa6mlCCvHQGZTWpwXxjfqVo9n78ZCOXpH6sRikSwzxK+
+	dqkSGYnA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAV2V-000000094SZ-478g;
-	Wed, 08 Apr 2026 15:41:59 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1wAVdK-000000096gM-3lJw;
+	Wed, 08 Apr 2026 16:20:02 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAV2T-000000094RW-22JK
+	id 1wAVdJ-000000096fq-1e9r
 	for linux-nvme@lists.infradead.org;
-	Wed, 08 Apr 2026 15:41:58 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7FD735BCC1;
-	Wed,  8 Apr 2026 15:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775662914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CKz9ql1CuufnhSBLMjDpQRkRbaUAZqr1/g/ZA3DBTWw=;
-	b=k2eayePsHN24KrTjLlCi/sepoKdrvZMmCAWNSV5B/EVM1NaGqcVr9U+Fx7uuc/MyriKh3J
-	oA+f7SrTfq8cpi97GLJ5d306ERvI53w/zYdLyoA4NyXVKEpCnCPd2aLpmDuljC61lMxXwW
-	JORaa+6wSIhaEPpb8rhfhEj1fEC7bnY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775662914;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CKz9ql1CuufnhSBLMjDpQRkRbaUAZqr1/g/ZA3DBTWw=;
-	b=8sYiXysct9640fyxm/Z720qfo//fRhVg378J9Ss51JZWv8qBL+/nILYpgw3tt9CtxHxkKj
-	yusr4T/EBb2djSDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=evDDdQQU;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9JxmCYKv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775662913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CKz9ql1CuufnhSBLMjDpQRkRbaUAZqr1/g/ZA3DBTWw=;
-	b=evDDdQQUr9qwYu/74zTru1hTH+ZokQBQeyOc6WIphRZghh5G4oZQDxW7Y39HHBt9emzcmM
-	VMifsQyBFe34i7ul6SzTbF4ersDGQGaix0Yt3+rhJDJyasBYrMAHi+mfp5O8UU0yXUYXbN
-	6hQGb5q5Q7zZsosgh0JDHp6Yy8HZgLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775662913;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CKz9ql1CuufnhSBLMjDpQRkRbaUAZqr1/g/ZA3DBTWw=;
-	b=9JxmCYKvCChP9i0KLYQTHAEJA3G21j/Vq1vltfHDI7QisB/a0Yr/5k87FWwVH/3e7TUVIf
-	XAUE3eNQASo7EsDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EDDA4A0B3;
-	Wed,  8 Apr 2026 15:41:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dKW5ET131mm2MQAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 08 Apr 2026 15:41:49 +0000
-Message-ID: <6d7a4076-a4ad-4185-8e82-8e27d704d20e@suse.de>
-Date: Wed, 8 Apr 2026 17:41:16 +0200
+	Wed, 08 Apr 2026 16:20:01 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 6A39D600CB;
+	Wed,  8 Apr 2026 16:20:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0266C19421;
+	Wed,  8 Apr 2026 16:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775665200;
+	bh=NzwGjr06o7DnK0+PdngH2ER774q+qcQ8iMjLYndG6mM=;
+	h=From:Date:Subject:To:Cc:From;
+	b=C0jlaLatppaqbzbHgpcSJVcowWVOZmCCEim+zglJFkLk2Uldpudpk9OO3UWIF6O7x
+	 /N2LCFYcaoG+oS/JB+VP6NneP4qcNnL8GLKk1+/oQIV63y41oHzXWAjEWTsDR3JTxP
+	 wFiiD0u+dJNP0w87nbnNjzI3RpKdwyJqA4ajLbUT5TYdXLK5sokUltVJIywar3NNDA
+	 LarPefF3JG4HtPCl8W8/zhyqzZVkpvtCwf0WofWfVzUT1sm3d3u1Iu1JFvbTPGlspk
+	 7em4nCoL4jkLCOKyb+6LKTlRgDkmHV+49AHpIH2qJ+cyS8BaSYmTxR2m+c3Tnirm7O
+	 UXimTA9yc6CMg==
+From: Daniel Wagner <wagi@kernel.org>
+Date: Wed, 08 Apr 2026 18:19:56 +0200
+Subject: [PATCH v3] nvme: expose TLS mode
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] libmultipath: Add delayed removal support
-To: John Garry <john.g.garry@oracle.com>, Nilay Shroff <nilay@linux.ibm.com>,
- hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
- martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
- hare@suse.com
-Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, michael.christie@oracle.com, snitzer@kernel.org,
- bmarzins@redhat.com, dm-devel@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260225153225.1031169-1-john.g.garry@oracle.com>
- <20260225153225.1031169-8-john.g.garry@oracle.com>
- <bc006d17-22b6-49d5-9e04-02eab7dab729@linux.ibm.com>
- <74eb1f9b-265e-4264-9575-177de6c924a0@oracle.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <74eb1f9b-265e-4264-9575-177de6c924a0@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7FD735BCC1
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260408_084157_669379_72425A8E 
-X-CRM114-Status: GOOD (  11.34  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260408-expose-tls-mode-v3-1-b869da028eff@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XNQQ6CMBCF4auQrq3ptEXRlfcwLgodoIqUtNhgC
+ He3xY3GuPyTN9/MxKMz6Mkxm4nDYLyxfQyxyUjVqr5BanRswhnfMcmA4jRYj3TsPL1bjRRYrct
+ cy/ygJYlXg8PaTKt4vrzbP8orVmNi0qI1frTuub4MkHb/9QAUqBRCFUKD5qI+3dD12G2ta0jiA
+ /8Eil+ARwD2iudKSZC6+gKWZXkBPUdGvgIBAAA=
+X-Change-ID: 20260401-expose-tls-mode-10fdb5d459d4
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Daniel Wagner <wagi@kernel.org>
+X-Mailer: b4 0.15.1
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -150,39 +73,148 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/8/26 13:28, John Garry wrote:
-> On 02/03/2026 12:41, Nilay Shroff wrote:
->>> +
->>>   void mpath_add_sysfs_link(struct mpath_disk *mpath_disk)
->>>   {
->>>       struct mpath_head *mpath_head = mpath_disk->mpath_head;
->>> @@ -793,6 +868,8 @@ struct mpath_head *mpath_alloc_head(void)
->>>       mutex_init(&mpath_head->lock);
->>>       kref_init(&mpath_head->ref);
->>> +    mpath_head->delayed_removal_secs = 0;
->>> +
->>>       INIT_WORK(&mpath_head->requeue_work, mpath_requeue_work);
->>>       spin_lock_init(&mpath_head->requeue_lock);
->>>       bio_list_init(&mpath_head->requeue_list);
->>
->> I think we also need to initialize ->drv_module here.
-> 
-> Hi Nilay,
-> 
-> I am just coming back to this now. About NVMe multipath delayed disk 
-> removal, did you consider a blktests testcase to cover it? I might look 
-> at it if I have a chance (and it makes sense to do so).
-> 
+It is not possible to determine the active TLS mode from the
+presence or absence of sysfs attributes like tls_key,
+tls_configured_key, or dhchap_secret.
 
-That look patently like the 'queue_if_no_path' feature from 
-dm-multipath. Any chance of reconciling these two?
+With the introduction of the concat mode and optional DH-CHAP
+authentication, different configurations can result in identical
+sysfs state. This makes user space detection unreliable.
 
-Cheers,
+Expose the TLS mode explicitly to allow user space to
+unambiguously identify the active configuration and avoid
+fragile heuristics in nvme-cli.
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+---
+Fixed visibilty condition, the previous version used opts->tls_key but it should
+opts->tls.
+
+Original cover letter (with fixed example):
+
+I am extending the test suite for nvme-cli to cover the use case of
+nvme connect --tls/--concat.
+
+Currently, nvme-cli uses heuristics to determine whether --tls was used
+to initiate the connection. With the introduction of --concat, these
+heuristics are no longer reliable.
+
+By exposing the TLS mode explicitly, nvme config can now generate a
+configuration based on the currently active connection.
+
+$ nvme connect --transport tcp --traddr 192.168.30.30 --trsvcid 4420  \
+  		--hostnqn nqn.2014-08.org.nvmexpress:uuid:befdec4c-2234-11b2-a85c-ca77c773af36  \
+		--nqn nqn.io-1 --concat  \
+		--dhchap-secret=DHHC-1:01:1+pb0VSbn3cBrOhwP5SHa6gwlbPikdZ0mmBKKXC74Sm0s0pb:   \
+		--dump-config --output-format json
+[
+  {
+    "hostnqn":"nqn.2014-08.org.nvmexpress:uuid:befdec4c-2234-11b2-a85c-ca77c773af36",
+    "hostid":"befdec4c-2234-11b2-a85c-ca77c773af36",
+    "dhchap_key":"DHHC-1:01:1+pb0VSbn3cBrOhwP5SHa6gwlbPikdZ0mmBKKXC74Sm0s0pb:",
+    "subsystems":[
+      {
+        "nqn":"nqn.io-1",
+        "ports":[
+          {
+            "transport":"tcp",
+            "traddr":"192.168.30.30",
+            "trsvcid":"4420",
+            "dhchap_key":"DHHC-1:01:1+pb0VSbn3cBrOhwP5SHa6gwlbPikdZ0mmBKKXC74Sm0s0pb:",
+            "concat":true
+          }
+        ]
+      }
+    ]
+  }
+]
+
+$ nvme config --scan --dump --output-format json /dev/nvme1
+[
+  {
+    "hostnqn":"nqn.2014-08.org.nvmexpress:uuid:befdec4c-2234-11b2-a85c-ca77c773af36",
+    "hostid":"befdec4c-2234-11b2-a85c-ca77c773af36",
+    "dhchap_key":"DHHC-1:01:1+pb0VSbn3cBrOhwP5SHa6gwlbPikdZ0mmBKKXC74Sm0s0pb:",
+    "subsystems":[
+      {
+        "nqn":"nqn.io-1",
+        "ports":[
+          {
+            "transport":"tcp",
+            "traddr":"192.168.30.30",
+            "trsvcid":"4420",
+            "dhchap_key":"DHHC-1:01:1+pb0VSbn3cBrOhwP5SHa6gwlbPikdZ0mmBKKXC74Sm0s0pb:",
+            "concat":true
+          }
+        ]
+      }
+    ]
+  }
+]
+
+$ cat /sys/class/nvme-fabrics/ctl/nvme1/tls_mode
+concat
+---
+Changes in v3:
+- Fixed visibilty conditions to opts->tls instead of opts->tls_key
+- Link to v2: https://patch.msgid.link/20260408-expose-tls-mode-v2-1-17a25aa414dc@kernel.org
+
+Changes in v2:
+- fixed the example output
+- tls_mode only visible when either tls or concat is enabled. avoids 'none'
+- Link to v1: https://patch.msgid.link/20260401-expose-tls-mode-v1-1-433a83d1d23f@kernel.org
+---
+ drivers/nvme/host/sysfs.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 16c6fea4b2db..df25c8fef063 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -841,10 +841,26 @@ static ssize_t tls_keyring_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(tls_keyring);
+ 
++static ssize_t tls_mode_show(struct device *dev,
++			     struct device_attribute *attr, char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	const char *mode;
++
++	if (ctrl->opts->tls)
++		mode = "tls";
++	else
++		mode = "concat";
++
++	return sysfs_emit(buf, "%s\n", mode);
++}
++static DEVICE_ATTR_RO(tls_mode);
++
+ static struct attribute *nvme_tls_attrs[] = {
+ 	&dev_attr_tls_key.attr,
+ 	&dev_attr_tls_configured_key.attr,
+ 	&dev_attr_tls_keyring.attr,
++	&dev_attr_tls_mode.attr,
+ 	NULL,
+ };
+ 
+@@ -866,6 +882,9 @@ static umode_t nvme_tls_attrs_are_visible(struct kobject *kobj,
+ 	if (a == &dev_attr_tls_keyring.attr &&
+ 	    !ctrl->opts->keyring)
+ 		return 0;
++	if (a == &dev_attr_tls_mode.attr &&
++	    !ctrl->opts->tls && !ctrl->opts->concat)
++		return 0;
+ 
+ 	return a->mode;
+ }
+
+---
+base-commit: 7aaa8047eafd0bd628065b15757d9b48c5f9c07d
+change-id: 20260401-expose-tls-mode-10fdb5d459d4
+
+Best regards,
+--  
+Daniel Wagner <wagi@kernel.org>
+
 
