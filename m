@@ -4,117 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 146C6E98FD0
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2026 06:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C899AE9DE60
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2026 08:15:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=b0dEBKYkoDMME7nEkhgrR/yUhnHdtdm3xnurIwXVQyc=; b=05U/7/cx+NUV1Ldksdj4HQEBY2
-	+wTUdxKilDWBRk68PXF/3Jdws+9V3ywGDIqykgPBYdb9yhzX2McQqp9Y54c52grxQZIC5NS6TFkXm
-	qjsyWlPtZptvONn2ruxS4FKT7glWUAulcZlqWDP5tbBoV2IKQlh8/pSOtlhVTtqZ81rWduiepbvfe
-	Qjlp0xKu1Yewefnn+ar/m93Q38dezXoNAfdChQ8R6G52mZoSTObtHOdeCyDXBw5hIdAhLb1TevHAp
-	RtqBAA5nqNpp/Jz2dEF/MMmP5AX5+rifhDJydaMRvVa+6P4x0HuCp9e+h0iljW+1++EulsdzsG0gh
-	cNkaTIFg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=odLFO39bXhfg9n43tA+hKLrtmKzFX/8QBMkrTA1i9ik=; b=NXjh8DbHZfXYcvOOaQZ01gZxl+
+	GLCmpF1vJA2IU5yfqvTCAtDkOVv/+FIPKDsZv3/lirZT4YKr7AqIDyce7uIrhUbgDiIWXNKJMA1RU
+	8lXYeF/Cgjvh+ZjaM3c/mjXZ/FIZ7lxrrucq30zLlrdUm2PI0HydZdBMA1yIGZqgFPFgH6ldZhw07
+	nS2ksn8D0/1UY5JcCqSGWBLY3BX38qSEZGjV+agRiVjUa1Zgq08xDHQVcD6YirTzj87yGw6pemyAv
+	A+ccEiJ8hgf4DfGKMJzPmUl75lkZM9SBAaQJ5wm34pAMiCOPZv310dhVpFO7fU+0vlb1KlAuG37Ef
+	pnaf5MQA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAj1i-00000009mf0-1gh2;
-	Thu, 09 Apr 2026 06:38:06 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wAkY6-00000009vWk-0EHp;
+	Thu, 09 Apr 2026 08:15:38 +0000
+Received: from out28-41.mail.aliyun.com ([115.124.28.41])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAj1g-00000009mec-0AR2
+	id 1wAkY3-00000009vVa-1iet
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Apr 2026 06:38:05 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 638NFUrR665439;
-	Thu, 9 Apr 2026 06:37:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=b0dEBK
-	YkoDMME7nEkhgrR/yUhnHdtdm3xnurIwXVQyc=; b=SrxVuGy3iXYZ8oSGCG9y5+
-	cW+OqNWQbLcIW79IQm6DI5kiYc7gcOpWIIE/hBjGprg16b0OFfX4FBr2QwUOCv1q
-	Hc+cf/2rfk7XJdUVwECyeCqbCHAkAA+xE+dyaMt1rzu1NNPCOPynMV4v1SmfNTWb
-	N+W7dZtt22o7PYUxLouayC4XGm5WXqQS88HmRuuMlu1uizmGvumBo8TPO0YIsEMq
-	Y6LfW/MUAcxDx51mLFEX8No4vAywfkrOiVAfRTiqtt4h0cw1tkQEOMTw+5Dm8Wm+
-	ORErl1J6+RwrhM4VvorsRlw7uQE3vEc4P5Z4RkRmdgAOnmlnEu7+qIKTVKVGnZIw
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2ebmvc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Apr 2026 06:37:51 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6392KXYu013824;
-	Thu, 9 Apr 2026 06:37:50 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dcmf4agb5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Apr 2026 06:37:50 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6396bn1g31851160
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 9 Apr 2026 06:37:49 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9F67A5805A;
-	Thu,  9 Apr 2026 06:37:49 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0412D58052;
-	Thu,  9 Apr 2026 06:37:44 +0000 (GMT)
-Received: from [9.123.2.203] (unknown [9.123.2.203])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  9 Apr 2026 06:37:43 +0000 (GMT)
-Message-ID: <79725a83-3dc1-4398-ac86-c3e317e0e107@linux.ibm.com>
-Date: Thu, 9 Apr 2026 12:07:42 +0530
+	Thu, 09 Apr 2026 08:15:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=alancui.cc; s=default;
+	t=1775722528; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=odLFO39bXhfg9n43tA+hKLrtmKzFX/8QBMkrTA1i9ik=;
+	b=fkIdK6ifi0m0pFas0sUpXBX9jdS9L7uqjG53PGo55DwvWEnQCJZiHRvPIJKfIxBtbrN6S9wEmFuLuw8RamsMPwucn9QVzirRHRL1o/h+Z6RtdRBFxpr672hb9boVrJWUNFzSmhUgtMbLAJxPhLsJpnm8Nlk+vBvd+sVhp+unqGJmr9OgJsp/wCqyZujUQdCdKtH8OUqvyvMhtEJ/haH/jTXDd391HP/1HRerdrdO9zX//lFMqIII1mwHRyYgENPTl8H2Fp1DlRtXhTjlYozwYdEQXH6omazaUSnQj82TeRRzrJgJo7pjUlx4W+fQxTvAPPPK3RnsHriJsUjYl+7S0w==
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.7834899|0.1379718;CH=green;DM=|AD|false|;DS=CONTINUE|ham_system_inform|0.139457-0.00582877-0.854715;FP=10759842631866930947|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033023018039;MF=me@alancui.cc;NM=1;PH=DS;RN=3;RT=3;SR=0;TI=SMTPD_---.h8BWd5o_1775722525;
+Received: from alanarchdesktop.localnet(mailfrom:me@alancui.cc fp:SMTPD_---.h8BWd5o_1775722525 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 09 Apr 2026 16:15:26 +0800
+From: Alan Cui <me@alancui.cc>
+To: linux-nvme@lists.infradead.org, kbusch@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme: add quirk NVME_QUIRK_IGNORE_DEV_SUBNQN for 144d:a808 (Samsung
+ PM981/983/970 EVO Plus )
+Date: Thu, 09 Apr 2026 16:15:25 +0800
+Message-ID: <9600680.CDJkKcVGEf@alanarchdesktop>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] libmultipath: Add delayed removal support
-To: John Garry <john.g.garry@oracle.com>, Hannes Reinecke <hare@suse.de>,
-        hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
-        hare@suse.com
-Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260225153225.1031169-1-john.g.garry@oracle.com>
- <20260225153225.1031169-8-john.g.garry@oracle.com>
- <bc006d17-22b6-49d5-9e04-02eab7dab729@linux.ibm.com>
- <74eb1f9b-265e-4264-9575-177de6c924a0@oracle.com>
- <6d7a4076-a4ad-4185-8e82-8e27d704d20e@suse.de>
- <c5334a6b-8089-4ee5-abd3-8340133db29a@oracle.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <c5334a6b-8089-4ee5-abd3-8340133db29a@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ryGWzV-kxtfoOaaEQla0XCXQw7DbbbdA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDA1NCBTYWx0ZWRfX5XcfgdUgYwDD
- KkdwNvKclumlzdnlNHFpblTJb8dLXPGm773qOMgfkjCHTJKrOq+0harj3CiJH40ATmFzw7lNjG6
- V0W+Y/K5QLt+3nYWuHhQh+jqQMAsx2yQoo+5XinxIxmmxP2LMzJwPuKJXIrQMJ0xlxUREey6HSG
- rDMzHiKuRHJA7j6yn93sNlJ29f0Shih1NLSM3qY5IW3xMNDhzGZEH/+ekS2R0HN4UMXQWdL5I7c
- rzg/IXWZUYe9XGyfVV2UbjvOvtCI+xVtRuHqpOLPMQqIbBWIgvueGIC+I3OvXn/wmcDyqoZQgz7
- hS7aC+k/3HsM+GmjB0ZxjFsIsGUAInm3nsaSti4sWLGb0rAAgxTC2EKkT9JColBhvm+xME+vvXZ
- a54OJmHYfdrTjRvbS+U0uAghg3N+HGO6d2dD4aDVGIZx4aZjbtSa+fBk5me3hyOgj8xjrTPhUen
- ohNzoEVtbumSVvvhFJg==
-X-Authority-Analysis: v=2.4 cv=Cfw4Irrl c=1 sm=1 tr=0 ts=69d7493f cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=qGyuYsBrm1yEalbM7ekA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: ryGWzV-kxtfoOaaEQla0XCXQw7DbbbdA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-09_01,2026-04-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 clxscore=1011 adultscore=0 suspectscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604090054
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260408_233804_092185_128E2EF8 
-X-CRM114-Status: GOOD (  16.60  )
+X-CRM114-CacheID: sfid-20260409_011535_633672_349FAA03 
+X-CRM114-Status: UNSURE (   6.06  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -129,43 +64,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/8/26 9:58 PM, John Garry wrote:
-> On 08/04/2026 16:41, Hannes Reinecke wrote:
->> On 4/8/26 13:28, John Garry wrote:
->>> On 02/03/2026 12:41, Nilay Shroff wrote:
->>>>> +
->>>>>   void mpath_add_sysfs_link(struct mpath_disk *mpath_disk)
->>>>>   {
->>>>>       struct mpath_head *mpath_head = mpath_disk->mpath_head;
->>>>> @@ -793,6 +868,8 @@ struct mpath_head *mpath_alloc_head(void)
->>>>>       mutex_init(&mpath_head->lock);
->>>>>       kref_init(&mpath_head->ref);
->>>>> +    mpath_head->delayed_removal_secs = 0;
->>>>> +
->>>>>       INIT_WORK(&mpath_head->requeue_work, mpath_requeue_work);
->>>>>       spin_lock_init(&mpath_head->requeue_lock);
->>>>>       bio_list_init(&mpath_head->requeue_list);
->>>>
->>>> I think we also need to initialize ->drv_module here.
->>>
->>> Hi Nilay,
->>>
->>> I am just coming back to this now. About NVMe multipath delayed disk removal, did you consider a blktests testcase to cover it? I might look at it if I have a chance (and it makes sense to do so).
->>>
->>
->> That look patently like the 'queue_if_no_path' feature from dm- multipath. Any chance of reconciling these two?
-> 
-> You mean a common blktests testcase, right?
-> 
-> For NVMe, that test would:
-> a. try to remove NVMe ko when we have the delayed removal active
-> b. ensure that we can queue for no path
-> 
-> I suppose that a common testcase could be possible (with dm mpath), but doesn't dm have its own testsuite?
-> 
-Yes, I'd add a blktest for 'queue_if_no_path' feature. But as we know we have
-separate test suite for dm under blktests, I'd first target nvme testcase and
-then later add another testcase for dm-multipath.
-Thanks,
---Nilay
+The firmware for Samsung 970 Evo Plus / PM981 / PM983 does not support SUBNQN. 
+Make quirks to suppress warnings.
+
+# nvme id-ctrl /dev/nvme1n1
+NVME Identify Controller:
+vid       : 0x144d
+ssvid     : 0x144d
+sn        : ***     
+mn        : Samsung SSD 970 EVO Plus 500GB          
+fr        : 2B2QEXM7
+
+mcdqpc    : 0
+subnqn    : 
+ioccsz    : 0
+
+Signed-off-by: Alan Cui <me@alancui.cc>
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e6267a6aa..d4e68cf9a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3375,6 +3375,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+ 	{ PCI_DEVICE(0x1c5f, 0x0540),	/* Memblaze Pblaze4 adapter */
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
++	{ PCI_DEVICE(0x144d, 0xa808),	/* Samsung PM981/983 */
++		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
+ 	{ PCI_DEVICE(0x144d, 0xa821),   /* Samsung PM1725 */
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+ 	{ PCI_DEVICE(0x144d, 0xa822),   /* Samsung PM1725a */
+
+
+
 
