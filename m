@@ -4,190 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACEAFF31E22
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2026 15:21:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 151D7F31E4A
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2026 15:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uG6tdBgk2uaS9CIIj8U1k6+8O8sTL6sGOYH32Rs+CRs=; b=Kk68hN4LRKcd2IIygRCPoo6SRU
-	5/+jO1yTgSKQ5metVZg6qJ8rFOxTD/pLqd78KiOCAiwbo0LR27jvUiX1K7CI0lBsjz3U7rzolmud2
-	xNpyDv5/zpOQKbOV5eUc0rc6lPKJ15OuR0yDd4Qj9I6NjgIb6jkrDhpk7NRRunyzqOUsU/P07KrUC
-	84CIlEZ7vw3LU7ilDkSRFDt1HtaeLtb4y9Dw6265bl66FLO0MouVxau/fOgvCq/04PzxHXCuah/LW
-	79gDv3E6ufzoSPHYa+PQRHp8I2qjnSfhGcfHQ2evWIoYou5v5S6oFw3GSPsIL+jXkuUqTBghDJEHd
-	X/PRbBtQ==;
+	bh=GTFwTS89KRQNt3AnDH61HwNCr5/JkQz2unkME9rYVy0=; b=mvjx/qmAqf3FfRLrl9lCf+PeEu
+	Mnv9haz7LLZz7x7LEo4mJ38Y0kYRRfERYBnqzHuMjXtHSv8BO5a9LuvTM85GsbUALfVOyMrTqsnmm
+	9GRFj2hGWIqmKNiKBi03k6Z/+aJeXpv9YfbDAF+GBhhpU7YTRUHzl5M4t0Nbtm14PKrtoiG7Jf2D3
+	kfrtcxCfk6tgx+Zz9cD8h48tVeZvfFViwD/MeUyUWQTN6LQwzk0Vn6J8eV3ibFtOu2Ozyx4syP8dB
+	NlMz1oipWthkSIb1fogHTfoc8VEDCSfoN0+MfNag0bHvrBiaUghJHte7ko2EVOD8dwm/Lx5tEJjDF
+	qWjR3xaA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wArC0-0000000Amts-215R;
-	Thu, 09 Apr 2026 15:21:16 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1wArdp-0000000As4Y-0wGV;
+	Thu, 09 Apr 2026 15:50:01 +0000
+Received: from out28-54.mail.aliyun.com ([115.124.28.54])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wArBx-0000000AmtI-2fCy
+	id 1wArdk-0000000Arzt-35bl
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Apr 2026 15:21:15 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639DYDJU588153;
-	Thu, 9 Apr 2026 15:21:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=uG6tdBgk2uaS9CIIj8U1k6+8O8sTL6sGOYH32Rs+CRs=; b=
-	opOZI/4r/IdSPQDBUAaBiaMn8necm6HCgBCy0pTJDXvG56ZTPuzfEN4e2oK/x9CY
-	fwbnLlVWxlSRNa2DRda+1Cx37L2fZ2naf9ykm+MLJzV0457c2ikbcZ7Z443Ww44b
-	aPWP5+aVDbOLc3copzbjN91/e78ZEOCLMu/9VMnGZRrUslnv1xTFESYSS+KWIsNi
-	Sks1SX+U2UpUJyJpVPh5C95fwrql6kT3mn2mynrQoNBukbNaydlvDqyV3EiW9ZXO
-	ftP848t63IPQiA4/Ingiav9PjyxGYSB+xAfH8Pp8UH0FaCX5NY9UukxS05gmH5wC
-	IR3fRmg69h2xlKoe+GOdfw==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dcmqbq0gf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Apr 2026 15:21:01 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 639EJT3T006997;
-	Thu, 9 Apr 2026 15:21:01 GMT
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011003.outbound.protection.outlook.com [52.101.57.3])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4dcmembg2q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Apr 2026 15:21:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pVDsVapxn+h3yAqNIxJffx0h862qgoFx0Hh2fY2Fzj+KG811qJVc6jtXMqj9K9NkojVvY7ys5uU2uYnmK5w1WQlRjnmPNVnV/0c7WPiPON6qhAIXpT07Bw/3cKbjuj6JjqtKlz13gwGx0tFXhzLOWqFFO8vVp+AG4QUvDr/3HSjEJh7adYocPlRs1fvQHjLXzBuP73Qr64TPrifK+Wpm1V4BjMONwgITiS3dmTG3f7vCWJILLIpo80vDngYoWg4ENithtxYOJBLyLKLl309GcUG4eUqFCwAvJGh9M5l4rvJb3SKMITOHOScltOg6Dme5xX4cLJc/3o1sBUonuzGokA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uG6tdBgk2uaS9CIIj8U1k6+8O8sTL6sGOYH32Rs+CRs=;
- b=VQQLWo3Rwxa0YiG+mN5V0H10Zz3K27KdoU3Tbi8PC+0NzQUsYLGhILfa0y5XkI/58Iw0lqlSAlx7cMtB/WL3L9jR3xTIIDzEoUcAJNnditDkVdPvdE4Vq+wesjlnPUHoJDZpg38K7ou2bXLxHxfPjRruvkz/vlbs+yuPYy06JHzcCeP2ob/Q0MBG4c5xTpwyqqXA5dDF6MgVUh9mwHn0U9/WczGLAoTF78j5x2RLTsnChBj28UdYjSb0b2RkHg7j+vu+k245qqCI9k+Eq0fbzpMB72aB2oEkFkf4foIzYeXxv60fypGHas/juTXgXa2Ro6XYDsqh+JHQuJvWS0QjNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	Thu, 09 Apr 2026 15:49:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uG6tdBgk2uaS9CIIj8U1k6+8O8sTL6sGOYH32Rs+CRs=;
- b=fdSZWy1C49p6L6flh+jgBIuqSh4ve03bZL62FLcpA8qkAQ85MAqQ2efkdmAktNFwKdXKNQnZFsg43NreJyvbpd7XRLUblp9Hk1a/rPXxqT5Ml9iAL9pBK2u1Yp0ibzknaIELPaWBrc2UWO/l/jTfTMZCJWT3AhrnX0v9ZSNSrOI=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by CH2PR10MB4214.namprd10.prod.outlook.com
- (2603:10b6:610:a6::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Thu, 9 Apr
- 2026 15:20:57 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9769.018; Thu, 9 Apr 2026
- 15:20:57 +0000
-Message-ID: <c2b838cd-ba4a-4ac9-98ca-677ca40859b1@oracle.com>
-Date: Thu, 9 Apr 2026 16:20:52 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/13] libmultipath: Add support for block device IOCTL
-To: Benjamin Marzinski <bmarzins@redhat.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
-        hare@suse.com, jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, dm-devel@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260225153225.1031169-1-john.g.garry@oracle.com>
- <20260225153225.1031169-12-john.g.garry@oracle.com>
- <aaH18HKCMdjuUhUh@redhat.com>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <aaH18HKCMdjuUhUh@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0467.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::22) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
+	d=alancui.cc; s=default;
+	t=1775749793; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=GTFwTS89KRQNt3AnDH61HwNCr5/JkQz2unkME9rYVy0=;
+	b=LjLhsyv8WKg+i9SrRfROaPLkYPgOPVpwBWpqhJ9Vh8cTUYqnd4t18DUnQu3bxCDAFDEL1MKaL0Qf0t+d+yjsBaoMalS4EVpYU8f5wNxmvIWEsMPL508gevpzXKFc71NlU9R2P4c+EfXy8LOb4r+i3RsL4eF0c08eHiULEiiriIdCDuqOrINz+3eTKnixbufAcWBYt1XJQgSO6NJBbCHKIvM3UmZT1S8JzDMJH47P/gCQuUtvacRVJkAwC0PeYmj6Phoont5numWUuCsfOaMkLZPSie43IPl5oJ5hgjnc4GvmcV8v4/tQyn/Ng5KgiQuPR2twgZJM00kc8YVt4aX41w==
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.4877165|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0322866-0.00197673-0.965737;FP=10874171965506968118|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033032027189;MF=me@alancui.cc;NM=1;PH=DS;RN=2;RT=2;SR=0;TI=SMTPD_---.h8SdjTp_1775749792;
+Received: from alanarchdesktop.localnet(mailfrom:me@alancui.cc fp:SMTPD_---.h8SdjTp_1775749792 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 09 Apr 2026 23:49:52 +0800
+From: AlanCui4080 <me@alancui.cc>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: Re: Non-SGL transport mode warnings are set to dev_warn_once will cause
+ confusion
+Date: Thu, 09 Apr 2026 23:49:51 +0800
+Message-ID: <1951542.TLkxdtWsSY@alanarchdesktop>
+In-Reply-To: <ade5iAP4y94z0JDL@kbusch-mbp>
+References: <4770779.LvFx2qVVIh@alanarchdesktop> <ade5iAP4y94z0JDL@kbusch-mbp>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|CH2PR10MB4214:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3f20f58-7759-4cc3-5972-08de964b993a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: gF4vH4ghccM+WzefK+t1taDD7sq/tAMByagLxpJ5M4W8dwPlHg6BBly6eyT5JRftyoxqfEgbtG755Zyitwy63TIUPxovMWNBYk19/xi7tCTfywIS/2oDemokzeT15qLYQT9mY3lH0lC68dJ/rWd6lEok6uheauGlVUwBKDG7ZoRvKIkGKFhLnmUmNkKxuRG5Hr3Odjy7T/eHq/76Ji1JaIn1xF52wukPxQvKUFOuZceUzZYx8jj0c9fekvppFXLYkwdQSIXR3+Vn58PG5CoELGSZTJEtHHSWbhbQ7csMWWJw7o8Cuug2ZEbxDYD2jPpNckTgsdNB1WWBFWjVYd5VZCAJo5C3UCO/XWzd+8zSvnvuaTmXky8gNqTc8dK+wLbhH9jMOEPw/zHHmR3jHLnuWD7ciYos+IVufctAFfqA+5LLhcJa6XmLHzfoId6G3d/fzCS9AiS41Orvgs/s18xtfxLwLcrPve9y65fqRiT5R+x3c3kGLRy/ypeDiryi4Fg8xzXKOPPAb7aHJa4UBE4vfOKMEGK6xCRuAiz/D09Mbx//qts2pP8g+IwlcfSGv6HGwfJ0TIz4TeuqafvdqlqEOgPXlhS9nSHPsa3SDytmBsG7t1Uc88bRtYQMlmwwh5oWDvIgpCK2e04sL6IelxVlX4Bej+PZ3gihaomxVYPRxG9TD9T3kusmlJfb0LvvGXk9tb4rV/0fNT5i4DQFyFDWSizRYUKpNwUKyYRnbIokc14=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHltcm5jWWZPTWlnSW9QT3dDYjZGNXFmY1lqL2thbmVSUDNZM0NJMXpYMmN3?=
- =?utf-8?B?VE5mUUFmNjBISTM2MzJORkF4THhIVWNtMk9EaTdRdGgvN2Q5NTV2cDBVaTgw?=
- =?utf-8?B?N29LcWIxMWxLSyt0dld6ZjV3dVFmNkdKalU4VURkNndhUFk0cUZMam1TUlNu?=
- =?utf-8?B?Q2JtcGZBUFBOeHM4ZVQxN0VmUzg2ZjArSFlua080dlFCY1hRNUFBd3RBMUJY?=
- =?utf-8?B?WW9VYk9LVHA3bURYQ2g1MlBxQ244aWxNVG8yaDYzVzZqd0JMZG1tenlCZ1NU?=
- =?utf-8?B?cEFHL05PVzUvaTl0ZmsvTmFBRFEyRkVmQWw5TE4zK2g4cDJZNmptV2MrZXo1?=
- =?utf-8?B?RFovbXhQck9KTGdDOHhPMVVWR01TZkl4OExTTjRiYmxMTGdSTU9QQmJHaE1J?=
- =?utf-8?B?NDlxandFOVA3Y1FRbkRKc1dNMjk2eThRbEZWOUlVVGNRa2Q3eEpPMkVvVjNu?=
- =?utf-8?B?Z3FEYUtCa2U0Nk1DbTU0MEkzdHB0M3JTUEtOVGVLTHhzUVVBOXJPck5DdEVY?=
- =?utf-8?B?U3hlbityazZ5U0xiUDQrVnhBRUQzNC9hRkhkYXhhSmtYQ0w0SkpJRnJEaEVX?=
- =?utf-8?B?WkJtOXJwbklnUlZzZ2JXU3JLeThXU3V3TTVYODFiNzliRlY5N1JVeHF6M1ZU?=
- =?utf-8?B?eVFlcEtFakpCclNpblpDWmh4V2JsZHBwVWtqL3k5UXg1TmQxb3M1bStEUnNL?=
- =?utf-8?B?VTBUYkNvTFJaOUtNZzdiakRXUUZHM244QnNyK081cms4VTRUcWNEaU5OK0Ju?=
- =?utf-8?B?T3F5UzB6UVJlVEZVeXZTOHVwSURvV1h3bkRnNGI3Y3N4UXllMkdVNTZZaUJU?=
- =?utf-8?B?SFlQdnk2M1o1UUhGMXp4WFBzaW5BNlVuNlpHNFdnb2t6bWFFcDAxeHNlTW5y?=
- =?utf-8?B?U1o2dWVFTVN1aHo2cmp4SW5uVk9lNXJUUXI5ZTRyejhxYlQwcFUwVWl6UFlE?=
- =?utf-8?B?R0FZTTE5dDgwV0p6UzkxZ05kRGdUQmhtdnJ0Ymx5enRhMHZIRm1vY2M3eW83?=
- =?utf-8?B?eFJJTW9UaSt1OFlWVWRzN0d4SW5yQXlGVmdObmlvNGIrS3dJSzhKZDlnWFQ2?=
- =?utf-8?B?dFJ0aW4xemhwRnk5Q25FYXFPZVVrMWNMZEo0Nlc5bmtYT3RISnFNSFNVc2Jw?=
- =?utf-8?B?bVFIeS80VnduNzFLem01RmlhOWtzUTRiQXZrZkl1QTNWZXVKTVBYWVR5VFJG?=
- =?utf-8?B?V05jcTZTQzVaZDRwQU42UElJeDFXV1ZHejFjd09DenExOHlBcnNHVXk1WS9B?=
- =?utf-8?B?WWNyMXBsZGNuOG93UkhnVU5XL0VMNHNrTUF6eHNDNDFaU0tiV3ZJcWU1WndD?=
- =?utf-8?B?aGhUYThFeGZRMVNqU20xWlZ4ZnFkeXlQOGdZSnkxQm1WRVFtNFEwS2xRQ3dn?=
- =?utf-8?B?WmZ0RHN2d2JWRlNOYW5WWFN2WENtWjMzNmd1THVFRDZDZzVKT3VmWDk5UHlN?=
- =?utf-8?B?YUZKdms4NGdJOCsxM05YdnF4M0NFL2RrSGFSbHoxSnNpcjUyb09JbTQzQXpY?=
- =?utf-8?B?ZTZETUFlSjNqVVYzT3IvWCszY2NBSnl6SHVRTVZtNnZDNVdCbno5Nm9Ccjkx?=
- =?utf-8?B?VG5qQnF4dE1CVHlyUjdLYVhPd3BvcmRVQkwvY292Yk93VHRDNDBMNjBpOU1Z?=
- =?utf-8?B?L21KdmwxeUxRUjNIbzFTbnBiYzNqck1OeUdlSW1NcU5LeW1DYlFKRmFZZXUy?=
- =?utf-8?B?Z25FNjNvaUttd0hTZzFBNDR1Z1VETlZkVUdYL1BHRXFGc2phd2dNY0N3SmR5?=
- =?utf-8?B?QUEwc3Y4SDB2bTBtMDdMUk45NThPZnN1bTIvRm43NDJaR3VoWVd2RVl6K29s?=
- =?utf-8?B?SXVCSXNhNW9nYmFjb0RLOHB4dmRZcXdUSXFZbVVLUitLOXl4STNkdHl4RUlC?=
- =?utf-8?B?ZTZ5eTBhQys1a0JhWnhnVytwRmJ4NnZTNXljMXl4WEQvejZFV2xnYVBMa2tl?=
- =?utf-8?B?NW1idUtzQ2c1UVVERjNwa0hpYTkxbGtsUHQvZXBTN08wVFdEZmdBcWc3MlY4?=
- =?utf-8?B?L0Z2RGdSQ2MvMkZZaDI2d0Vmdm9SSTQ5Umo3bFMzdGJpa3FmUFRpejl4ckFC?=
- =?utf-8?B?NUFzQ28wdWsrU2lMR09KNkpFUmo1aytxNEpCaFBXYjR0UWhIdElvSExpS1Rh?=
- =?utf-8?B?T2NlVGpXSkFXb1pKZ3hpQ3NzbDFCZzRGUUVPRU9qd2lJZmZ0cXVyMWNuRHlT?=
- =?utf-8?B?SGgxUGRTeEU0UndKUUtWQXNIdXZEd21zWkEvY0tkMXFZd3dpVjhkVUZTRnRX?=
- =?utf-8?B?VE55TUlPR0NJVkt5RkNMaHdKcU5nRS9wSlpVNW1CSFN4cTViZFFuN0xjOW03?=
- =?utf-8?B?bWNkaVNOd25PTGxHYXVYcGVDNDR4MXpwcUsvYkM5T1JPMU1ldjY4Zz09?=
-X-Exchange-RoutingPolicyChecked: IY/9CI0ya8QAwGk+F66ywCa5S0gm8wo74yAJp94ZcJQls1Mbg4JE8kkfHVKq2AmX2kmaDLK/DyA9OwkzdMp/DEjbRSP8Ark+YffD5TJlp2B3k5gU4OrbxoJ/mybOX2WYpa59eeRCHB4wHnh8O2AlxU5C2T9UirBlXqvMsPFn9Q+bo5REGAvoVd4L8IPinrKWl3LISstpt70xmAz9kk2juz4s/QnSa+DBCjxvC44mVHTiBlRE+iBX0DWmN2BSpyM6TsPIkoMqX48U5cc3uUn7zgsgLsiq1hQF1oSbnkIW08ALSuCfytTUFrcWX3KsWD0vCwBnothOtpFLAyNDOzkwyQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: LJ/LwHJrB4m++woGJx7x9LjUfRi/6Bqnm7QX9Cn/X0f504uLWp5T/DCPbOR0DO7TQm/j99zVPKknPlpNgSPiTCJXhAlfsI7Cuvmp57pYyXs5JOGwwSdos52v3IhbmSZmBIIHB9I+wwWwyXGctEWtomHeIxLn7M5cDxHATXzb39oim+SbvRnEfgoXBY79lmZyayCf8PLW4BzTSgcTtr69xZE17vgyps2jcTZk4fPQJQ/P1gELKr7xFDDBz6IHOrXepaKJeNBqQ1QICkMdRBR2HhpblR2zOShVdtvz6eQay7WHSqY9bnmtLdnV8WDR7CgCLlA+LRYd/u6ueoT6+SMdozB9nigETVDTf7MiO6E1NISm++Q30jfmWnv4S4R6vI5cTIPt15lRUpnDtD4t/amyHl73LNeMHF1L27cIWjgvgRV5aC+i3rcrqMvAqKv3v8Br10uBQdCkQQd60TSs7wPT6yAPmAJW2QsIe724187H1FUgMxyJ6FnEkpw/aBgwMCV1hgg+a2aLxDG9wkHZw9g/1Ld/ZfN0Aypub6/GNr/qHkxCmTtn3hbWSW9k5eexBlO1p1tk6Vm7rI0R7VeBLKMoF9iUIyf5mydkKJxTLC9/VnU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3f20f58-7759-4cc3-5972-08de964b993a
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 15:20:57.3950
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vWWttCpbVr6OAzrb7UpY6pQB93UNblzhKMMAWEapJa9wOJaDcMems2r0FdAICc1hsfnW5L6IZypS4V6RRZAM6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4214
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-09_04,2026-04-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 phishscore=0
- suspectscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2604010000
- definitions=main-2604090140
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDE0MCBTYWx0ZWRfX2UQs6lFUuD17
- rkQn46HEB1l2qGdyvRNpLQ0B2B0Y2Fn8Ort1ldww2egZb4ZAJezDhV4XEk18ljb/hp/lx3lDS3q
- kZJ5UAGzlp1WCQYuECcw8JzV9YPrsOrvooZZFDTNFNyf2xxKzTTcBfHsszbg84ck+F5bd0TNHzW
- kDz31tsktwkwNA0fkPY3RNVy2ENmaz1HipwAdZkOieWpQEw9UwvJQOkZ+UQf+MqQTaJ27mUirOy
- OLtluOv8/dMgv4MIvOrV47IGd1368+gVEcDtgXR3Grgva2vyWxJCtcZqdHn4rvFLlkGtTT8tbvQ
- v37dEgGU42S3fSnVxlsPz74At9F9Q1UGB6w9c5LB6w4L+Ncd+fTQh/F2kdu8ZzqsBMH28/+17Vd
- AUGhjJ6H0Qb9vMISuHPnT93n3j9frgOcOKPLLjXxR+53OKTQNm8ikBnDAuRF1vO59NkIh5yADkd
- y4yQEIXs4D9ea8wDMKvg1Pbuu7sqrzPU9rT3F0sA=
-X-Proofpoint-ORIG-GUID: 1LJVH_QLf51C4m2rLLzYcLP1mgDrPGki
-X-Proofpoint-GUID: 1LJVH_QLf51C4m2rLLzYcLP1mgDrPGki
-X-Authority-Analysis: v=2.4 cv=KO1qylFo c=1 sm=1 tr=0 ts=69d7c3dd b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=C_tuc-koSl-OxiWdQSIA:9
- a=QEXdDO2ut3YA:10 cc=ntf awl=host:13825
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260409_082113_799166_6B6F4F34 
-X-CRM114-Status: GOOD (  19.28  )
+X-CRM114-CacheID: sfid-20260409_084956_978084_7B35DEE9 
+X-CRM114-Status: GOOD (  18.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -202,69 +65,88 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 27/02/2026 19:52, Benjamin Marzinski wrote:
->> diff --git a/include/linux/multipath.h b/include/linux/multipath.h
->> index 3846ea8cfd319..40dda6a914c5f 100644
->> --- a/include/linux/multipath.h
->> +++ b/include/linux/multipath.h
->> @@ -72,6 +72,9 @@ struct mpath_head_template {
->>   	bool (*is_disabled)(struct mpath_device *);
->>   	bool (*is_optimized)(struct mpath_device *);
->>   	enum mpath_access_state (*get_access_state)(struct mpath_device *);
->> +	int (*bdev_ioctl)(struct block_device *bdev, struct mpath_device *,
->> +			blk_mode_t mode, unsigned int cmd, unsigned long arg,
->> +			int srcu_idx);
-> I don't know that this API is going to work out. SCSI persistent
-> reservations need access to all the mpath_devices, not just one, and
-> they are commonly handled via SG_IO ioctls. Unless you want to disallow
-> SCSI persistent reservations via SG_IO, you need to be able to detect
-> them, and handle them using the persistent reservation code with the
-> mpath_head.
+On Thursday, 9 April 2026 22:36=EF=BC=8Cyou wrote=EF=BC=9A
+> Fine with me. The warning was added in response to people filing CVE's
+> against the driver as a sort of acknowledgement that yeah, this
+> interface can't validate transfer lengths under these conditions, so
+> we're trusting the user isn't abusing it. A sort of nudge that perhaps
+> controller vendors might consider supporting the safer option.
 
-I'm just coming back to this ... so I am thinking of not supporting PR 
-for scsi initially - like you mentioned, scsi pr has lots of nuances.
+Yes, in my opnion, the device node can be only access with privilege by=20
+default. Change the premission of /dev/nvmexxx to 0666 is as dangerous as=20
+change /etc/shadow to 0666. So, that's nothing really to worry, every devic=
+e=20
+on PCI-E that can DMA will able to corrupt the kernel unless IOMMU is used.
 
-I am thinking of something like this:
+And as what i saw, the https://lore.kernel.org/linux-nvme/
+20231013051458.39987-1-joshi.k@samsung.com/T/
+#m2a5f9fe3a53322ab67c1dd40d5a448405308ea4b fixed this problem and make it's=
+=20
+safe even the user changed the premission to 0666.
 
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index ded9cb8c57ea..c82adfc6871c 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1295,6 +1295,12 @@ static blk_status_t scsi_setup_scsi_cmnd(struct 
-scsi_device *sdev,
-  {
-  	struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(req);
+> Anyway, it's fine with me to move the message and make it less scary.
+> How about this:
+>=20
+> ---
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index b42d8768d2979..b6aec0e3fbfb8 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3744,6 +3744,10 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl,
+> bool was_suspended) ret =3D nvme_hwmon_init(ctrl);
+>  		if (ret =3D=3D -EINTR)
+>  			return ret;
+> +
+> +		if (!nvme_ctrl_sgl_supported(ctrl))
+> +			dev_info(ctrl->device,
+> +				"passthrough uses implicit buffer=20
+lengths\n");
+>  	}
+>=20
+>  	clear_bit(NVME_CTRL_DIRTY_CAPABILITY, &ctrl->flags);
+> --
 
-+	if (sdev->scsi_mpath_dev) {
-+		blk_status_t ret = scsi_mpath_setup_scsi_cmnd(cmd);
-+		if (ret)
-+			return ret;
-+	}
-+
-  	/*
-  	 * Passthrough requests may transfer data, in which case they must
-  	 * a bio attached to them.  Or they might contain a SCSI command
-diff --git a/drivers/scsi/scsi_multipath.c b/drivers/scsi/scsi_multipath.c
-index 1489c7e97916..1daa62361dac 100644
---- a/drivers/scsi/scsi_multipath.c
-+++ b/drivers/scsi/scsi_multipath.c
-@@ -280,6 +280,18 @@ static int scsi_multipath_sdev_init(struct 
-scsi_device *sdev)
-  	return 0;
-  }
+Since it was a response to a CVE, and if, as I mentioned above, there are=20
+already patches to prevent unprivileged users from corrupting the kernel, t=
+hen=20
+downgrading it to informational might be reasonable? In fact, the CVE ratin=
+g=20
+was downgraded once after this vulnerability was submitted, due to the=20
+difficulty of exploiting it.
 
-+
-+blk_status_t scsi_mpath_setup_scsi_cmnd(struct scsi_cmnd *scmd)
-+{
-+	switch (scmd->cmnd[0]) {
-+	/* Special handling required which is not yet supported */
-+	case PERSISTENT_RESERVE_IN:
-+	case PERSISTENT_RESERVE_OUT:
-+		return BLK_STS_NOTSUPP;
-+	}
-+	return BLK_STS_OK;
-+}
-+
+What about saying "passthrough uses implicit and unchecked buffer lengths f=
+or=20
+privilege user" which may be more descriptive, and add comment which refers=
+ to=20
+the CVE number like:
+```
+		/* See CVE-2023-6238, malformed commands from root users=20
+can overflow the buffer and corrupt the kernel */
+		if (!nvme_ctrl_sgl_supported(ctrl))
+			dev_info(ctrl->device,
+				"passthrough uses implicit and=20
+unchecked buffer lengths for privilege user");
+```
 
-Which should catch SG_IO PR-related commands.
+I recently started back using a Linux desktop again, and this is at least m=
+y=20
+first time using Linux with NVMe drives. I feel that nvme module is a bit t=
+oo=20
+sensitive, even becoming a major source of warnings in my dmesg, including =
+not=20
+only this one, but also "missing or invalid SUBNQN field." And as https://
+lwn.net/Articles/876209/, A warning indicates that the kernel cannot handle=
+ a=20
+certain situation and is running in a degraded manner based on certain=20
+assumptions, which may lead to unexpected situations.I believe that a good=
+=20
+system administrator should review and ensure that each kernel warnings are=
+=20
+either negligible or an action has been taken to eliminate them. :)
+
+Alan.
+
+
+
+
 
