@@ -4,48 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4485E98FB5
-	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2026 06:11:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B949E98FC2
+	for <linux-nvme@archiver.kernel.org>; Thu,  9 Apr 2026 06:27:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=URRgUVJlTWx/CKziBdRiPf0dFdvo3BNwgSk1S+U6O3o=; b=4mY12WXLmoDC5T8Xo+NU/DE1b+
-	knxggIWCulNN378FDsa8DwJIHxT0OFFdjOc2vTEcXM0LKATE/fI1KsxV6zhI88YdIppLxV449Ucen
-	j+t38t3jTmKTkhkh1rsPg5MBRRK2bCxhG9UwCKK0G+v3apt1ZCOqvDpK8wAHB08n1nwEXVfLDAYoF
-	nZAqRCldpmwy2x3uX1k0GbCXZENJxjrzwKsaa3cYCMqoK+ACM1xGcH3zXKItx28mF9CULVuwmHRQF
-	C+CmdTj2nbDgw8T4rF0Sbo45GvzTMsiWqc/iGaHCGmopzebKRHXGdot3RYnfcnF25ENFUR4xMNUL6
-	GCvIKMmQ==;
+	bh=XjnxrByH2GvRBEuNEnFZr53nst0jKv1IcAIuYTn7Ew4=; b=r1MjPvCxzak4WxvrC1azSsQOv9
+	uFOCGwwBmd8AVFtMd9spE3lwD522yuuGvKjAuJX8AmDPp1DRlC3lPg83S1PuFKYJSgzqxQTYIMA4o
+	O49dx4EKuQdhjmDkvy5eyO51bn/9k12CsJEl4cg4XPn+xasF2/cleNul23b/iRri6TGXTliG9Uu2J
+	xmFzZjlxEh/yvEV7a/wntiMcgwxvuuqlkIA2rdSr0N7ccU5Oy4E2s9PniqNCVDwEaIGOSvCN0xWqL
+	9Kd6oICcTag1SZxXqJyahb9ghuapkSBoDImobNTFPDOMWGJMiscKYBTcl+wPmynaE0V/uD3CleabL
+	xYIB7Xvw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAicM-00000009kre-1BkA;
-	Thu, 09 Apr 2026 06:11:54 +0000
+	id 1wAir5-00000009lfp-0CcP;
+	Thu, 09 Apr 2026 06:27:07 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAicH-00000009kqG-3mpt
+	id 1wAir2-00000009lfI-0F7G
 	for linux-nvme@lists.infradead.org;
-	Thu, 09 Apr 2026 06:11:51 +0000
+	Thu, 09 Apr 2026 06:27:05 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 2811C68CFE; Thu,  9 Apr 2026 08:11:47 +0200 (CEST)
-Date: Thu, 9 Apr 2026 08:11:46 +0200
+	id 996B368BFE; Thu,  9 Apr 2026 08:26:59 +0200 (CEST)
+Date: Thu, 9 Apr 2026 08:26:59 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: John Garry <john.g.garry@oracle.com>
-Cc: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-multipath: drop head pointer check in
- nvme_mpath_clear_current_path()
-Message-ID: <20260409061146.GA6514@lst.de>
-References: <20260408080357.3072749-1-john.g.garry@oracle.com>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: song@kernel.org, yukuai@fnnas.com, linan122@huawei.com,
+	kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
+	kmodukuri@nvidia.com
+Subject: Re: [PATCH V2 2/2] nvme-multipath: enable PCI P2PDMA for multipath
+ devices
+Message-ID: <20260409062659.GA7335@lst.de>
+References: <20260408072537.46540-1-kch@nvidia.com> <20260408072537.46540-3-kch@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260408080357.3072749-1-john.g.garry@oracle.com>
+In-Reply-To: <20260408072537.46540-3-kch@nvidia.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260408_231150_149502_4A1FB6A0 
-X-CRM114-Status: GOOD (  11.76  )
+X-CRM114-CacheID: sfid-20260408_232704_243570_2A952950 
+X-CRM114-Status: GOOD (  25.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -60,15 +62,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 08, 2026 at 08:03:57AM +0000, John Garry wrote:
-> A NS will always have a head pointer, so drop the check. As proof in
-> practice, all the nvme_mpath_clear_current_path() callers also
-> dereference ns->head.
+On Wed, Apr 08, 2026 at 12:25:37AM -0700, Chaitanya Kulkarni wrote:
+> From: Kiran Kumar Modukuri <kmodukuri@nvidia.com>
 > 
-> This check has endured since the original changes to support multipath.
+> NVMe multipath does not expose BLK_FEAT_PCI_P2PDMA on the head disk
+> even when the underlying controller supports it.
+> 
+> Set BLK_FEAT_PCI_P2PDMA in nvme_mpath_alloc_disk() when the controller
+> advertises P2PDMA support via ctrl->ops->supports_pci_p2pdma.
+> 
+> Since multipath can match paths across different transports (e.g. PCIe
+> and FC), not all paths are guaranteed to support P2PDMA. Clear
+> BLK_FEAT_PCI_P2PDMA from the head disk in nvme_mpath_add_disk() if the
+> newly added path does not support it, ensuring the feature is only
+> advertised when every member supports it.
+> 
+> Signed-off-by: Kiran Kumar Modukuri <kmodukuri@nvidia.com>
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+>  drivers/nvme/host/multipath.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index ba00f0b72b85..48d920ce803f 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -737,6 +737,9 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+>  		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES;
+>  	if (head->ids.csi == NVME_CSI_ZNS)
+>  		lim.features |= BLK_FEAT_ZONED;
+> +	if (ctrl->ops && ctrl->ops->supports_pci_p2pdma &&
+> +	    ctrl->ops->supports_pci_p2pdma(ctrl))
+> +		lim.features |= BLK_FEAT_PCI_P2PDMA;
 
-Looks good:
+I think we can just add this unconditionally here, similar to all the
+other feaures above the ZNS conditional as any non-supporting controller
+will clear it later.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+>  
+>  void nvme_mpath_add_disk(struct nvme_ns *ns, __le32 anagrpid)
+>  {
+> +	struct nvme_ns_head *head = ns->head;
+> +
+> +	/*
+> +	 * Clear BLK_FEAT_PCI_P2PDMA on the head disk if this path does not
+> +	 * support it. Multipath may span different transports (e.g. PCIe and
+> +	 * FC), so every member must support P2PDMA for it to be safe on the
+> +	 * head disk.
+> +	 */
+> +	if (head->disk && !blk_queue_pci_p2pdma(ns->queue)) {
+> +		struct queue_limits lim =
+> +			queue_limits_start_update(head->disk->queue);
+> +		lim.features &= ~BLK_FEAT_PCI_P2PDMA;
+> +		queue_limits_commit_update(head->disk->queue, &lim);
+> +	}
+
+And this really should go into the core block code in blk_stack_limits,
+so that BLK_FEAT_PCI_P2PDMA is cleared whenever a non-confirming
+device is added, similar to BLK_FEAT_NOWAIT and BLK_FEAT_POLL.
 
 
