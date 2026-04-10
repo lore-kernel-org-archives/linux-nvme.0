@@ -4,61 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FDA5F36B91
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 06:21:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 719A5E99048
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 07:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SP14yjqM3G1o9lLcvgSzra2xXV+TFnFEx5nS87UOZ/U=; b=Kzaljw0iLna7r411MMpwROWFs+
-	QIuFIGhoFDCZRwvmdMvjy1dO9adarFPMWoEZ6PVshUAwqznMsV8bLGSKbpMmr5601hJv0Id3MVEVS
-	EkIQwXRI4uEXTIO9fSAwM0YWGFfxK8SnNtrYG4TX8WQfRTu2G6+7cIpQ0JL/2hnuCDVR23JwvIFKi
-	Kgk2+04IHe/pXpf6ojMQS6T2lWgla3utxC8PwuKdY7fy/iGE7/LdF5MlYCVPqhGxdWotNRSo6S51r
-	qnP095gS8AYuuY6vstBm2aJtXZ57tnfHgRzmnNVDWHu1X6MgAxCj5islShzGDmTY9tfu0hx/ApA0h
-	vkVOhfKA==;
+	bh=jjdWvtz81DpzP/9ibBKHCS6i67LOXAZzB1JC038nklg=; b=NwNX/bLka1LkEif0chdTkgl46e
+	HlU85VHuz1AHSAq+haLGnI7b2AQQ9I1SABM8nbK2xB9kIjdJxH6n4VrzTdLv6QHs7Kryz1K5ftxFg
+	jURkKFWPEJiimWz37EVq/jLXS5qJJEnUN8WtZ6CrlZV5H+Pb9xvSh5xWanxD8Mpnl89jFlQnWHYBZ
+	tIjwTRhIYBfmrVT9D2V5szC3rGn1ORUKfdikwiqQy8oqQuYm/Al+jwRV8BCmtyc12IcROX5dwJPR2
+	UZf+8tvofVKVqR+nqnuHGPORGyf8F4B79KQQzsikEhEuR1yBeO/v/V5nj9Cr70xe+IgwTmmplQqXw
+	I1XKbA+w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB5Ev-0000000BfkJ-1J8f;
-	Fri, 10 Apr 2026 06:21:13 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wB5xB-0000000Bi1o-0Afr;
+	Fri, 10 Apr 2026 07:06:57 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB5Eq-0000000Bfk3-0ZYw
+	id 1wB5x9-0000000Bi1N-0C0c
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Apr 2026 06:21:08 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 27DB060125;
-	Fri, 10 Apr 2026 06:21:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50894C19421;
-	Fri, 10 Apr 2026 06:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775802066;
-	bh=F6j3wwEl/bPkCawkmBKeBxS4pT/N3iFnYY5Ag3UnvH4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=vP35bOCURpBPC8EnceSmJKCY4UNuuB4RGH4DFKl1iBnFtBXT4Ntb41Korbq38Q1lS
-	 a4gNbIIt8h6SVQWFB9piGRxC0PvCPJHEEyqA6e4aEDmMK/DIjlW4UXXe9Yo3adIVBO
-	 9oLIZ1NIVe8LUv5xBurlOtgQ9cja9UR5ZoeNEW1EJvOdoYEaF/taaaOty0FW/6JnaI
-	 5trr7J1MHh+J8J8TqDWPYoSWn/j7x/fUuRRNulqU2XVUFQpH2vnjqL1MxPwSFPNEzW
-	 S2EoaMXBFnEsgRPJV7bkiNi+XH/iFpPLE5HLztAP31QFDO1KaX8c9JrzWOHlBFXLJb
-	 kR7ftnDa5SZrw==
-Message-ID: <f4a46cfdb0c15c9d2167577ccbbaec28216e2803.camel@kernel.org>
-Subject: Re: [PATCH] nvme: add missing MODULE_ALIAS for fabrics transports
-From: Geliang Tang <geliang@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Justin Tee <justin.tee@broadcom.com>, Naresh Gottumukkala	
- <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, Keith
- Busch	 <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Sagi Grimberg	
- <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, Geliang Tang	
- <tanggeliang@kylinos.cn>, linux-nvme@lists.infradead.org
-Date: Fri, 10 Apr 2026 14:20:55 +0800
-In-Reply-To: <20260408061028.GA24559@lst.de>
-References: <e3076c80ee2e0c4a2cae0374afb617a3365946ea.1774944415.git.tanggeliang@kylinos.cn>
-	 <20260408061028.GA24559@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2-4 
+	Fri, 10 Apr 2026 07:06:56 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639Gd0Fv773967;
+	Fri, 10 Apr 2026 07:06:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=jjdWvt
+	z81DpzP/9ibBKHCS6i67LOXAZzB1JC038nklg=; b=IY3mkX2WeyMQTbT8hnVZaJ
+	rN0zYlL6adx4Jb2VYc69NL1EpGgbHt42QIRbp+M6O1KY/Xw17Y9fJFBXZcwLcZRF
+	YN791fdNvGK5vzTf9aYuNQEEeCtIMyn2ZrjfnHfGjGWRodbBuN+ePco25bfl4OEo
+	/hS8G//fXCMsmTVa45AjhIi2PZi9JIMMk7x1iQMwigCc8mHF4idgg9rUM4MtFGbX
+	yk0bWsQSBkXsvjR1RXaUsgsnRVS7q4C4ZLT0KXuHaA/LYm92rFViMeff5khQJJTk
+	+9Q8A8fYudYZU3mHCnU0D3XZFx3m2PFgYHKTfX1NYcycNvFO0+rIzIKpb1Ii50DA
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2hqpaa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Apr 2026 07:06:41 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 63A2ejTN013844;
+	Fri, 10 Apr 2026 07:06:41 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dcmf4eypm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Apr 2026 07:06:41 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63A76e1t31261422
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Apr 2026 07:06:40 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9363658052;
+	Fri, 10 Apr 2026 07:06:40 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B83B65805E;
+	Fri, 10 Apr 2026 07:06:33 +0000 (GMT)
+Received: from [9.39.26.31] (unknown [9.39.26.31])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 10 Apr 2026 07:06:33 +0000 (GMT)
+Message-ID: <da2bfbb0-70ef-4c3a-a235-1343b4a02489@linux.ibm.com>
+Date: Fri, 10 Apr 2026 12:36:31 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] libmultipath: Add delayed removal support
+To: John Garry <john.g.garry@oracle.com>, Hannes Reinecke <hare@suse.de>,
+        hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-8-john.g.garry@oracle.com>
+ <bc006d17-22b6-49d5-9e04-02eab7dab729@linux.ibm.com>
+ <74eb1f9b-265e-4264-9575-177de6c924a0@oracle.com>
+ <6d7a4076-a4ad-4185-8e82-8e27d704d20e@suse.de>
+ <c5334a6b-8089-4ee5-abd3-8340133db29a@oracle.com>
+ <79725a83-3dc1-4398-ac86-c3e317e0e107@linux.ibm.com>
+ <ccfc867c-e744-42a2-9b22-47245a6c06d7@oracle.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <ccfc867c-e744-42a2-9b22-47245a6c06d7@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEwMDA2MSBTYWx0ZWRfX3atOYmuSqHgA
+ 83ISnRFcZNQmY4UX6drZl8sj9IRocDy/eLf2LMo/pdmrYODFzDVlBNwjCEuNzwTKblBhdFha22I
+ zOz74ImcGcc8CyAY4tk19mFAxQFWZXtYrrlp0z8LijDUhh0FyCG7p2nAUOIxp+Eyb25ldQEi7nV
+ S+m2xqT8kJ2PkLW6FnVPKW5fI8KIhZ8G4Fgq/kUSLao/I6kreU+VJcPrH3Ey17eosJGS/d01CFw
+ VxBRPoycpV79PSwXaJyFdDh1oPgKmfskOb/Eh8J5v1v7sQGiI3B1P7OlYJmwpShcSIE5LlAbRbT
+ 5+5YZSrogzEKU17slYtXS4JnkrZ/FM6RQdh4ikELC1co56qN/QtVa4u87JbebHP6PZZ69bk1lcy
+ FBT1DFQl9YlyBsRB/4pgSVwWkFtoEBSSaaRJ9rcXyfN5YnSj+kU0kHeIPgaemG+Yx1EIb1RvDpH
+ Ehv6WC85ViFsFuNQXDw==
+X-Proofpoint-GUID: 9fyxScA-pcIiFl_bT5Yynx1JEic1pTK3
+X-Authority-Analysis: v=2.4 cv=a/wAM0SF c=1 sm=1 tr=0 ts=69d8a181 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=hYD4mLzqdKOEPKpwNsQA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: 9fyxScA-pcIiFl_bT5Yynx1JEic1pTK3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-10_02,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 impostorscore=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604100061
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260410_000655_212206_6055F937 
+X-CRM114-Status: GOOD (  18.44  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,45 +131,126 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Christoph,
-
-On Wed, 2026-04-08 at 08:10 +0200, Christoph Hellwig wrote:
-> Looks good:
+On 4/9/26 6:30 PM, John Garry wrote:
+> On 09/04/2026 07:37, Nilay Shroff wrote:
+>>>
+>>> You mean a common blktests testcase, right?
+>>>
+>>> For NVMe, that test would:
+>>> a. try to remove NVMe ko when we have the delayed removal active
+>>> b. ensure that we can queue for no path
+>>>
+>>> I suppose that a common testcase could be possible (with dm mpath), but doesn't dm have its own testsuite?
+>>>
+>> Yes, I'd add a blktest for 'queue_if_no_path' feature. But as we know we have
+>> separate test suite for dm under blktests, I'd first target nvme testcase and
+>> then later add another testcase for dm-multipath.
 > 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Testing a. is a challenge to be effective, as we would typically not be able to remove the nvme modules anyway due to many other references.
 > 
-> > Recently, I've been working on adding MPTCP support for NVMe over
-> > TCP, so
-> > I added a new transport called "nvme-mptcp". The AI review in [1]
-> > reminded
-> > me that I should add MODULE_ALIAS("nvme-mptcp"). Then I checked the
-> > other
-> > transports and found that they were all missing the MODULE_ALIAS as
-> > well.
-> > I felt it was necessary to add them, so I sent this patch.
+> For b, how about something like the following:
 > 
-> As a reminder:  if you want that to go anywhere you need to engage
-> with
-> the nvme technical working group, which requires a nvme membership
-> first.  There will be no point in posting or even discussing this on
-> Linux mailing lists if it isn't approved by nvme.
+> set_conditions() {
+>      _set_nvme_trtype "$@"
+> }
 > 
+> _delayed_nvme_reconnect_ctrl() {
+>      sleep 2
+>      _nvme_connect_subsys
+> }
+> 
+> test() {
+>      echo "Running ${TEST_NAME}"
+> 
+>      _setup_nvmet
+> 
+>      local nvmedev
+>      local ns
+>      local bytes_written
+> 
+>      _nvmet_target_setup
+>      _nvme_connect_subsys
+> 
+>      # Part a: Ensure writes fail when no path returns
+>      nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>      echo 10 > "/sys/block/"$ns"/delayed_removal_secs"
+>      bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns" 4096)
+>      if [ "$bytes_written" != 4096 ]; then
+>          echo "could not write successfully initially"
+>      fi
+>      sleep 1
+>      _nvme_disconnect_ctrl "${nvmedev}"
+>      sleep 1
+>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>      if [[ "${ns}" = "" ]]; then
+>          echo "could not find ns after disconnect"
+>      fi
+>      bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns" 4096)
+>      if [ "$bytes_written" == 4096 ]; then
+>          echo "wrote successfully after disconnect"
+>      fi
+>      sleep 10
+>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>      if [[ !"${ns}" = "" ]]; then
+>          echo "found ns after delayed removal"
+>      fi
+> 
+>      #echo "now part 2"
+>      # Part b: Ensure writes work for intermittent disconnect
+>      _nvme_connect_subsys
+> 
+>      nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>      echo 10 > "/sys/block/"$ns"/delayed_removal_secs"
+>      bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns" 4096)
+>      if [ "$bytes_written" != 4096 ]; then
+>          echo "could not write successfully initially"
+>      fi
+>      sleep 1
+>      _nvme_disconnect_ctrl "${nvmedev}"
+>      sleep 1
+>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>      if [[ "${ns}" = "" ]]; then
+>          echo "could not find ns after disconnect"
+>      fi
+>      _delayed_nvme_reconnect_ctrl &
+>      sleep 1
+>      bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns" 4096)
+>      if [ "$bytes_written" != 4096 ]; then
+>          echo "could not write successfully with reconnect"
+>      fi
 
-Thank you for the reminder - that was extremely helpful. I've been
-struggling to figure out how to get nvme mptcp support upstream.
+It seems there may be a race here if we attempt to write to $ns before
+the reconnect has completed in _delayed_nvme_reconnect_ctrl.
 
-I left SUSE two years ago, and my current employer does not have a nvme
-membership. I will work internally to push the company to apply for
-one, and then try to join the nvme technical working group to move this
-forward.
+If the intention is simply to verify that the controller reconnect occurs
+within the delayed removal window and test pwrite, then it may be sufficient
+to:
+- perform the reconnect, and
+- then validate the write (pwrite) afterwards.
 
-By the way, I will be presenting a topic on nvme mptcp [1] at next
-month's LSF/MM/BPF 2026 conference. If anyone has any thoughts or
-feedback on this topic, please feel free to share them with me.
+In that case, we could either:
+- run _delayed_nvme_reconnect_ctrl in the foreground, or
+- open-code the reconnect directly in the script before issuing the write.
 
-Thank you very much.
--Geliang
+>      sleep 10
+>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>      if [[ "${ns}" = "" ]]; then
+>          echo "could not find ns after delayed reconnect"
+>      fi
+> 
+>      # Final tidy-up
+>      echo 0 > /sys/block/"$ns"/delayed_removal_secs
+>      nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+>      _nvme_disconnect_ctrl "${nvmedev}"
+>      _nvmet_target_cleanup
+> 
+>      echo "Test complete"
+> }
 
-[1]
-https://lore.kernel.org/linux-nvme/a9f115aa5719e1088702a3fdeee766a3166611b1.camel@kernel.org/
+Otherwise overall this looks good to me.
+
+Thanks,
+--Nilay
 
