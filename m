@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A24EE9904A
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 07:40:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE7B1E9904A
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 07:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
 	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
 	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1w2yi7Y4qGfPvy03af6GZoxCKD/u+DWPSSJWrMPWays=; b=fjKf1VhlFXSYelnAW9beLAKBqy
-	+TqpOkRlDaU2Q96ZI3caAJmpYUo9LCGUNL7OpF8Yeo892Hut6V+X2annVBXIae6GcZD/5H2jHcePP
-	7a4+Jlt0bffDzqHZUNii+7P+1UtvzdLJNOnm9/pK9wU7XdqB79DETjbT7hRhCK5HqkqLuzxOx0yg0
-	kjb5BmK+ZKhQX4WMjWAPu25XPX+preCvl7MG0G8iT8qaf2DG47Gd5Dersb5HmkLZEx2tBMSIhQx1i
-	DO+8NGqzRFRAy4o07U/UzW6Fw+9chYWOby/xypSdZ5TvdrqYjOHoqlae/7IXP2aFmmqzRqtLd8Bwt
-	YAnBwWOg==;
+	bh=lWcwI7XVbwMpMMWFJCRGBr2iI+0OyEEwAssf/4kI+3E=; b=m6Pz9ALJ8LbRFpvef9/8pAw/tN
+	aBDAK3caOoyMBaYrgOa53Emobw0w7rQjlDjgj2OlzGedKyNnn185x46p9e8jQUGz6yrnfEhBmcs+K
+	04FDecWbKAN3I4CLuYFk9x3Y4YIINk94ieQJ6+J2NgOBkHwjvCLFVQwIeZkiGsQsHwyY244/Z2fl6
+	rvZdfVDb23QBTB+Qaypm0k08PzQfzgp7iyupszaDI45GF9l1fUVFLW70zaxry1nVrS7BU77XtPZJ6
+	4RU2UQLbkT7X9M4AvjPnKSPM1vQgIdPrslmLmaUbAQ958WnEMo0Rm2zShHGJa0lm7PMMsop4b4N1/
+	sTOrcpvQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB6TG-0000000BlGT-2Ydu;
-	Fri, 10 Apr 2026 07:40:06 +0000
+	id 1wB6TM-0000000BlMG-43Pu;
+	Fri, 10 Apr 2026 07:40:12 +0000
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB6TD-0000000BlDs-4B6i
+	id 1wB6TJ-0000000BlId-0Rc0
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Apr 2026 07:40:05 +0000
+	Fri, 10 Apr 2026 07:40:11 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775806803;
+	s=mimecast20190719; t=1775806808;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1w2yi7Y4qGfPvy03af6GZoxCKD/u+DWPSSJWrMPWays=;
-	b=jSGB0QiH4HH9CRcu4yPnDjo9iMK7yeBTj5pTHbA9Bn5+LFv1EwhKY81WG6BNfmEZfeLBiG
-	EYMYsWZB5cY9hGDw/FtLL+vMVqarVa/Rn+VNEp26jJUWm+rEutB/KH/2rP6ihDYJpF1C7B
-	xS99k6B8GGVnAPIFblna2RcQwVvlnl4=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=lWcwI7XVbwMpMMWFJCRGBr2iI+0OyEEwAssf/4kI+3E=;
+	b=NGMXy4g1/DK7U7RlnCC+H4mkN44d/qFUoCOK19t9hsKfAXurVXqOVUjdycT+DDe4VVxHCn
+	ddOYZQavaUDsg0XYpOJcbsofgZ2HBbk0VYxHHsdkFR6iK75NYYBVvKDQ4vBhXtG5cy7/nS
+	DM2FcZlOkBMTEBZJIFAAVHYLlv4Os0M=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-711-hOeJsq9lMtimXvcK_8VlgQ-1; Fri,
- 10 Apr 2026 03:40:00 -0400
-X-MC-Unique: hOeJsq9lMtimXvcK_8VlgQ-1
-X-Mimecast-MFC-AGG-ID: hOeJsq9lMtimXvcK_8VlgQ_1775806798
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-141-z-1rl8oAPeGRG-hlO7cQ0A-1; Fri,
+ 10 Apr 2026 03:40:04 -0400
+X-MC-Unique: z-1rl8oAPeGRG-hlO7cQ0A-1
+X-Mimecast-MFC-AGG-ID: z-1rl8oAPeGRG-hlO7cQ0A_1775806802
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 74D50180044D;
-	Fri, 10 Apr 2026 07:39:58 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4ACF0180034A;
+	Fri, 10 Apr 2026 07:40:02 +0000 (UTC)
 Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.170])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1AF2918002A6;
-	Fri, 10 Apr 2026 07:39:54 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EC2441800B7F;
+	Fri, 10 Apr 2026 07:39:58 +0000 (UTC)
 From: Maurizio Lombardi <mlombard@redhat.com>
 To: kbusch@kernel.org
 Cc: mheyne@amazon.de,
@@ -65,21 +65,21 @@ Cc: mheyne@amazon.de,
 	chaitanyak@nvidia.com,
 	hare@kernel.org,
 	hch@lst.de
-Subject: [PATCH V3 7/8] nvmet-loop: do not alloc admin tag set during reset
-Date: Fri, 10 Apr 2026 09:39:23 +0200
-Message-ID: <20260410073924.61078-8-mlombard@redhat.com>
+Subject: [PATCH V3 8/8] nvme-core: warn on allocating admin tag set with existing queue
+Date: Fri, 10 Apr 2026 09:39:24 +0200
+Message-ID: <20260410073924.61078-9-mlombard@redhat.com>
 In-Reply-To: <20260410073924.61078-1-mlombard@redhat.com>
 References: <20260410073924.61078-1-mlombard@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Zxqi9_tKrSsZXnFGBshSAfBqm6_hsCnOGwCmTiHhUDM_1775806798
+X-Mimecast-MFC-PROC-ID: Oyz5ygiPTSOyo57c2ULwAprDaksZn5VJ-Smjld7a8_I_1775806802
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260410_004004_105126_D8F94758 
-X-CRM114-Status: GOOD (  16.07  )
+X-CRM114-CacheID: sfid-20260410_004009_243368_A1367EFF 
+X-CRM114-Status: GOOD (  12.17  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,150 +94,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently, resetting a loopback controller unconditionally invokes
-nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
-Doing so drops the old queue and allocates a new one. Consequently,
-this reverts the admin queue's timeout (q->rq_timeout) back to the
-module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
-timeout values the user may have configured via sysfs and potentially
-racing against the sysfs nvme_admin_timeout_store() function
-that may dereference the admin_q pointer during the RESETTING state.
+Currently, nvme_alloc_admin_tag_set() silently drops and releases
+the existing admin_q if it called on a controller that already
+had one (e.g., during a controller reset).
 
-Add a 'new' boolean parameter to nvme_loop_configure_admin_queue() to
-distinguish between an initial probe and a reset. Only allocate the
-admin tag set during the initial controller creation and do not
-remove it when resetting the controller.
-This ensures the existing queues and their sysfs-configured timeouts
-remain intact across controller resets.
+However, transport drivers should not be reallocating the admin tag
+set and queue during a reset. Dropping the old queue and allocating
+a new one destroys user-configured timeouts and may race against
+nvme_admin_timeout_store()
+
+Since all transport drivers are now expected to preserve the admin queue
+across resets, calling nvme_alloc_admin_tag_set() when ctrl->admin_q
+is already populated is a bug.
+
+Remove the silent cleanup and replace it with a WARN_ON_ONCE() to
+explicitly catch any transport drivers that violate this lifecycle rule
 
 Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
- drivers/nvme/target/loop.c | 38 +++++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 17 deletions(-)
+ drivers/nvme/host/core.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index d98d0cdc5d6f..c9cf0ddc1b85 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -261,7 +261,7 @@ static const struct blk_mq_ops nvme_loop_admin_mq_ops = {
- 	.init_hctx	= nvme_loop_init_admin_hctx,
- };
- 
--static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl)
-+static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl, bool remove)
- {
- 	if (!test_and_clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags))
- 		return;
-@@ -274,7 +274,8 @@ static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl)
- 
- 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
- 	nvmet_cq_put(&ctrl->queues[0].nvme_cq);
--	nvme_remove_admin_tag_set(&ctrl->ctrl);
-+	if (remove)
-+		nvme_remove_admin_tag_set(&ctrl->ctrl);
- }
- 
- static void nvme_loop_free_ctrl(struct nvme_ctrl *nctrl)
-@@ -361,7 +362,7 @@ static int nvme_loop_connect_io_queues(struct nvme_loop_ctrl *ctrl)
- 	return 0;
- }
- 
--static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
-+static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl, bool new)
- {
- 	int error;
- 
-@@ -375,12 +376,15 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 	}
- 	ctrl->ctrl.queue_count = 1;
- 
--	error = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
--			&nvme_loop_admin_mq_ops,
--			sizeof(struct nvme_loop_iod) +
--			NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
--	if (error)
--		goto out_free_sq;
-+	if (new) {
-+		error = nvme_alloc_admin_tag_set(&ctrl->ctrl,
-+				&ctrl->admin_tag_set,
-+				&nvme_loop_admin_mq_ops,
-+				sizeof(struct nvme_loop_iod) +
-+				NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
-+		if (error)
-+			goto out_free_sq;
-+	}
- 
- 	/* reset stopped state for the fresh admin queue */
- 	clear_bit(NVME_CTRL_ADMIN_Q_STOPPED, &ctrl->ctrl.flags);
-@@ -415,7 +419,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 	return error;
- }
- 
--static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
-+static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl, bool remove)
- {
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_quiesce_io_queues(&ctrl->ctrl);
-@@ -426,12 +430,12 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- 	if (nvme_ctrl_state(&ctrl->ctrl) == NVME_CTRL_LIVE)
- 		nvme_disable_ctrl(&ctrl->ctrl, true);
- 
--	nvme_loop_destroy_admin_queue(ctrl);
-+	nvme_loop_destroy_admin_queue(ctrl, remove);
- }
- 
- static void nvme_loop_delete_ctrl_host(struct nvme_ctrl *ctrl)
- {
--	nvme_loop_shutdown_ctrl(to_loop_ctrl(ctrl));
-+	nvme_loop_shutdown_ctrl(to_loop_ctrl(ctrl), true);
- }
- 
- static void nvme_loop_delete_ctrl(struct nvmet_ctrl *nctrl)
-@@ -453,7 +457,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- 	int ret;
- 
- 	nvme_stop_ctrl(&ctrl->ctrl);
--	nvme_loop_shutdown_ctrl(ctrl);
-+	nvme_loop_shutdown_ctrl(ctrl, false);
- 
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
- 		enum nvme_ctrl_state state = nvme_ctrl_state(&ctrl->ctrl);
-@@ -465,7 +469,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- 		return;
- 	}
- 
--	ret = nvme_loop_configure_admin_queue(ctrl);
-+	ret = nvme_loop_configure_admin_queue(ctrl, false);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f3aa7b29d2a2..ae084373a79b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4884,12 +4884,7 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
  	if (ret)
- 		goto out_disable;
+ 		return ret;
  
-@@ -492,7 +496,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- out_destroy_admin:
- 	nvme_quiesce_admin_queue(&ctrl->ctrl);
- 	nvme_cancel_admin_tagset(&ctrl->ctrl);
--	nvme_loop_destroy_admin_queue(ctrl);
-+	nvme_loop_destroy_admin_queue(ctrl, true);
- out_disable:
- 	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
- 	nvme_uninit_ctrl(&ctrl->ctrl);
-@@ -594,7 +598,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
- 	if (!ctrl->queues)
- 		goto out_uninit_ctrl;
+-	/*
+-	 * If a previous admin queue exists (e.g., from before a reset),
+-	 * put it now before allocating a new one to avoid orphaning it.
+-	 */
+-	if (ctrl->admin_q)
+-		blk_put_queue(ctrl->admin_q);
++	WARN_ON_ONCE(ctrl->admin_q);
  
--	ret = nvme_loop_configure_admin_queue(ctrl);
-+	ret = nvme_loop_configure_admin_queue(ctrl, true);
- 	if (ret)
- 		goto out_free_queues;
- 
-@@ -632,7 +636,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
- out_remove_admin_queue:
- 	nvme_quiesce_admin_queue(&ctrl->ctrl);
- 	nvme_cancel_admin_tagset(&ctrl->ctrl);
--	nvme_loop_destroy_admin_queue(ctrl);
-+	nvme_loop_destroy_admin_queue(ctrl, true);
- out_free_queues:
- 	kfree(ctrl->queues);
- out_uninit_ctrl:
+ 	ctrl->admin_q = blk_mq_alloc_queue(set, &lim, NULL);
+ 	if (IS_ERR(ctrl->admin_q)) {
 -- 
 2.53.0
 
