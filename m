@@ -4,73 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4CFE2F45A0A
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 20:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A5BF1F45A11
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 22:29:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:Cc:To:Subject:
+	Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ZiwF1IZ+iqJ62AEoJed1FVgex1uf9oRtCkn8Of99PQc=; b=P+tbvvsmy4qKSOp7eASCcUmNnZ
-	BUXqF4Dgu9BFEl2a7QLOh8L9gSQ8MNPtS772T+f0hUay7m1co1WdJmUlFZqlrx2+Nj/5s9FgsypU8
-	Gydv819NKNqlkpB2R92ENv58/NbeswsjlRt0yNpwF/lHns0XyKMo/AHs25cwQhgHwCeIcsYkd8DsU
-	cm5plJitrhskBEC7+HlyQ4qIppurRgCUn3yC4qs2Rd4tJ2jiqxkAfnE2T1xmlCg5KfkrUvG/t5mhT
-	YsheMOxUTGf20L3Mj6hUfjVJYJJuSsVLb2XM+0t2+PQjjMgQnsiJE6jWWS14pNy6b9KtErNTbokfL
-	WKfyq0jQ==;
+	bh=RLxY3RUXio63RMFVV2S/82uTKGXRqhW5FspTC735xUQ=; b=VwVwZYhNskIrOkpfVlRKU83rPb
+	8VAFRYTbmdGTsdtKQKuM4imJpdZXtamJ7BkIDvZJE+D4sQploCjxX8Po+HnirJCuMblKA2Qkc+L0H
+	AT/viXYw63lZCLADMWEMlvNxI6juRypOZM15/ASoeiSW1stqynK6uzLd0xHWTJA5uVq27lBEbT3sX
+	HVVbokfQgSpCgfgGFffVR5qi1bwwuuFY0rmqd1Drd3fsXCSFIe/8rJnuC4cuAzBo+LZCiTDwfelP3
+	6eA/EbtAMTuX3XOmORCJ6C5fqfLHnwU6BTpwkVtmv1C2iE90w3CbFAcp+LaCCTg42uqmw8+8dOEkq
+	DVQ7LlPA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBIUP-0000000ClsY-21ET;
-	Fri, 10 Apr 2026 20:30:05 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+	id 1wBKM7-0000000CsnU-0vQy;
+	Fri, 10 Apr 2026 22:29:39 +0000
+Received: from mail-yx1-xb133.google.com ([2607:f8b0:4864:20::b133])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBIUN-0000000ClsC-0Bpm
+	id 1wBKM4-0000000Csn1-3B1V
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Apr 2026 20:30:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775853002;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZiwF1IZ+iqJ62AEoJed1FVgex1uf9oRtCkn8Of99PQc=;
-	b=XKCgo8eZZfeHnZQLElBn7cH/by9nGjq6DO87WnCzggrmm6Hy0CHFwpylji16pnIpCy0gm6
-	4y2zsagdPWiqZtpnf1XOueL2p0KuAsYo+G3XFazkckekTUYeybBK2GNwo/a+Op9DYdKQaI
-	tDQpR+pQGirZkWpqF+Xx5wNSQ0x5eTk=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-690-f0E6JlQNOd2OGOKO_j_lOg-1; Fri,
- 10 Apr 2026 16:29:57 -0400
-X-MC-Unique: f0E6JlQNOd2OGOKO_j_lOg-1
-X-Mimecast-MFC-AGG-ID: f0E6JlQNOd2OGOKO_j_lOg_1775852995
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2A3181800371;
-	Fri, 10 Apr 2026 20:29:55 +0000 (UTC)
-Received: from cleech-thinkpadt14sgen2i.rmtusor.csb (unknown [10.2.16.20])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id DCE11195608E;
-	Fri, 10 Apr 2026 20:29:52 +0000 (UTC)
-Date: Fri, 10 Apr 2026 13:29:51 -0700
-From: Chris Leech <cleech@redhat.com>
-To: Daniel Wagner <wagi@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] nvme: expose TLS mode
-Message-ID: <20260410-a7837a6847c8f98c51c89739@redhat.com>
-References: <20260408-expose-tls-mode-v3-1-b869da028eff@kernel.org>
+	Fri, 10 Apr 2026 22:29:38 +0000
+Received: by mail-yx1-xb133.google.com with SMTP id 956f58d0204a3-6501d242e3fso2471955d50.0
+        for <linux-nvme@lists.infradead.org>; Fri, 10 Apr 2026 15:29:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775860175; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TtsYG+Ggm4ebmHpeMlGFKPJ+qLT27WQzQ3ON3ubj19CAkK3z4HNIJC9yiNz2Aw/giX
+         LvRp17n7zrTt83F8tvYeiIhMe76iXnyhauDAedlLR+LhVTJ+kpGIMHPjAhr7BVKG1s0h
+         VEJnfDoBF5fUyatRyE0r68fuiD7rT7tMSdl6DohXfu51bj0ZD98g9kIl3rbzRXUbggpi
+         gF5ExXyyOnxPwFjBtHf+XZuBZsP0iIPlwlrbz3eE9VwrKdzanpaK/Fed9urMO0W35ysV
+         DyZeq40kO8XQmEQPPG56wHxyJ4e1WuTmSCjIO3o8siJGGZgxq11OAEQiV7IabNxXBPIo
+         44SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=RLxY3RUXio63RMFVV2S/82uTKGXRqhW5FspTC735xUQ=;
+        fh=8pgtm7/YrQoilv7dmsi4rBrFdcN+aD3TWfnBF5ccpec=;
+        b=ZMFb8Nd9vRfWAzx2/kb92I79iwppPOz/g7pWtyrwzDEk7yt2sK4VOKZ6RwSA/aj0JG
+         N+TCIw7cdRYpLaAnf2SQjNuHLGeCmw9dljzNlQi8OeBVMG0Vh3IBYjgTS9ZhPZDBbkXK
+         VjXChAC6AhUyHtJPagbn2Ljy4eUwXyICVnh57SVtDsRJo5DttPVE5s0NWG8jy4zLLGqg
+         muvw6pV31xe1d+MixGMjtgGtyO4BBjj1RuK4gCKmd0pnvyMdnYuRspms5vuEO+GSmZCO
+         bZHZAEA+Y5yI71rjnpnopTMZiHfcvXYZLBx5mUiyJwtjrKvJEDMRVZHU80XQcvd3CYEb
+         j6GQ==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=uber.com; s=google; t=1775860175; x=1776464975; darn=lists.infradead.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RLxY3RUXio63RMFVV2S/82uTKGXRqhW5FspTC735xUQ=;
+        b=IfdSq9cN5d9OzI0kMkunif5bk5vfrHxQ1IJIoYsvv5ZDjA+XPCDfAmxP518Mk+rR0W
+         qKkVU04RlIw8Ja4z15+VMIhZPnWnQm8UcK7yebXllc/i3ILdP6a3gRqmFF/hgnx7PFwW
+         Y8KDBubre5VvUpvM8m1up/pUjAeUHWWNyZ5K4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775860175; x=1776464975;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RLxY3RUXio63RMFVV2S/82uTKGXRqhW5FspTC735xUQ=;
+        b=MqIQjeNwahmQBmVZ1+WoEOkAlbSt+uLvAW/rUo7Hl1nRSvH/8YcwBCiSPh6V+XZVV1
+         GRxhFJU7TEN+mSit8LDLbjoQ/JnWH+kpQ1GQQVYP84jJpspJ/qt+GPZKNy/UPeOQpfxP
+         flXUIVR7Q1B8eOdNEJ7zmkZdBdD7J4NzRcnmQK5EQ4yUtJlqUVayvTyXkql+oUvWLWlw
+         TIlF9TDfynDwJEVnG4lGk0pcps37rS3nD3G9p837tEpon0M8C4YqTI66T24qXuzArgXn
+         fCQ+7DWUd1AuXgv+6gSNSuWzektImyEtLUqatwn997oazAGV5PWrgpHZAdREMJlh4Juk
+         sBgg==
+X-Gm-Message-State: AOJu0Yzm7cJqthyQqPcLfbG4v/luOhrdtCp8sZ0Qya6P0umJzvwhgzzU
+	k9Ik7fkUnh39PxtbsmT3BMQN95HyaLLHfn7kneym9IW6i3c4cXhN8Qtxz1vfcMp9RYj18JT0dTf
+	O3aC+bDJMIaXPp8kzQBCCo6Py92CBNgFvw8snPSrDXNyWxkyocWThUg3XT0/9
+X-Gm-Gg: AeBDieuEmy1TuWshKTfEUA1+gQqD9gSDUct9L+MpcNvXgHub9PZMKIwSWvOl0Tg/2rF
+	i5MK6dPCIf+xzfQIgK6ZgeKVCNEfJxPGFdOe3A5c5Dc99OtSyYfe7gvyz//Z3yTV/zk5j1mOCx6
+	1I9Nd39+/nlLQYQjsOTZ5uwZAgXzcqqYmZMgfGKZ2RBR0GEHwg5sSNhOliaQFeyXy9CZkqo7nM2
+	dDYYrjjlzhdCPnGLRN3Z8BHcKKjjFa2lJnM1Kc4KMeWEPlNUrb6vyGNe4OthHcZZb552F0FL2zq
+	stKj2tUL
+X-Received: by 2002:a05:690c:6d84:b0:79a:4fe4:ff4b with SMTP id
+ 00721157ae682-7af71b567a3mr57702457b3.37.1775860174404; Fri, 10 Apr 2026
+ 15:29:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20260408-expose-tls-mode-v3-1-b869da028eff@kernel.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: 90jNciH3hAGkhkbJK7w2wEUKg25OrHTc7jxYVhXVF8o_1775852995
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CA+w=M=SEUeGvXaK6OqdDVjYrbagnzDgAMgCRHbRqoYvS+OgW=w@mail.gmail.com>
+ <c773c37c-b4ce-4f3f-927f-0be8a9b2d7a5@arm.com> <CA+w=M=SmUFUCfS6kGvRh3A4Vq++gSwhuPK7gn-ebWnM6BkpiZQ@mail.gmail.com>
+In-Reply-To: <CA+w=M=SmUFUCfS6kGvRh3A4Vq++gSwhuPK7gn-ebWnM6BkpiZQ@mail.gmail.com>
+From: Alireza Haghdoost <haghdoost@uber.com>
+Date: Fri, 10 Apr 2026 15:29:18 -0700
+X-Gm-Features: AQROBzDIB9oFAIunzApXxKG1DD_NAHg0n4-3ye3q9P7oRIP4fQdJ0M1mHx2g3pg
+Message-ID: <CA+w=M=THPjp9JwDPe_XpLcEpLTLakCf8OiybSbLwOPxjmAHy0w@mail.gmail.com>
+Subject: [PATCH] nvme-pci: fix swapped arguments in SGL DMA unmap path
+To: linux-nvme@lists.infradead.org
+Cc: linux-iommu@vger.kernel.org, iommu@lists.linux.dev, jroedel@suse.de, 
+	Robin Murphy <robin.murphy@arm.com>, will@kernel.org, Nagi Parimi <nparimi@uber.com>, 
+	Kshitij Doshi <kshitijd@uber.com>, Jeff Bean <bean@uber.com>, Vikrant Soman <vsoman@uber.com>, kbusch@kernel.org, 
+	xboe@kernel.dk, hch@lst.de, sagi@grimberg.me, leon@kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260410_133003_157971_EE2C255E 
-X-CRM114-Status: GOOD (  13.22  )
+X-CRM114-CacheID: sfid-20260410_152936_826836_949FD607 
+X-CRM114-Status: GOOD (  13.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -85,24 +114,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 08, 2026 at 06:19:56PM +0200, Daniel Wagner wrote:
-> It is not possible to determine the active TLS mode from the
-> presence or absence of sysfs attributes like tls_key,
-> tls_configured_key, or dhchap_secret.
-> 
-> With the introduction of the concat mode and optional DH-CHAP
-> authentication, different configurations can result in identical
-> sysfs state. This makes user space detection unreliable.
-> 
-> Expose the TLS mode explicitly to allow user space to
-> unambiguously identify the active configuration and avoid
-> fragile heuristics in nvme-cli.
-> 
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+The arguments to nvme_free_sgls() in nvme_unmap_data() are swapped for
+the multi-entry SGL case. The first argument (sge) should be the
+segment descriptor from the NVMe command's data pointer (type
+NVME_SGL_FMT_LAST_SEG_DESC), and the second argument (sg_list) should
+be the pool-allocated array of data descriptors.
 
-Looks good, I look forward to 'nvme config --scan --dump' being able to
-get these configurations correct.  Thanks Daniel.
+With the arguments swapped, sge points to the first data descriptor
+(type NVME_SGL_FMT_DATA_DESC). nvme_free_sgls() sees a data descriptor,
+unmaps only that single entry, and returns -- leaking the DMA mappings
+for all subsequent segments.
 
-Reviewed-by: Chris Leech <cleech@redhat.com>
+This manifests as unbounded iommu_iova slab growth on ARM64 systems
+with 64K pages and IOMMU DMA translation, where IOVA coalescing is
+disabled due to the NVMe 4K page / IOMMU 64K page granularity
+mismatch. On x86 and ARM64 with 4K pages, IOVA coalescing handles
+the unmap via dma_iova_destroy() and the buggy path is never reached.
 
+Fixes: 7ce3c1dd78fc ("nvme-pci: convert the data mapping to blk_rq_dma_map")
+Signed-off-by: Alireza Haghdoost <haghdoost@uber.com>
+---
+ drivers/nvme/host/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 28f638413e122..728999e4247d8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -761,8 +761,8 @@ static void nvme_unmap_data(struct request *req)
+
+        if (!blk_rq_dma_unmap(req, dma_dev, &iod->dma_state, iod->total_len)) {
+                if (nvme_pci_cmd_use_sgl(&iod->cmd))
+-                       nvme_free_sgls(req, iod->descriptors[0],
+-                                      &iod->cmd.common.dptr.sgl);
++                       nvme_free_sgls(req, &iod->cmd.common.dptr.sgl,
++                                      iod->descriptors[0]);
+                else
+                        nvme_free_prps(req);
+        }
+-- 
+2.39.5
 
