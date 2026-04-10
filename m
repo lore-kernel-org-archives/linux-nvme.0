@@ -4,83 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3676E99071
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 10:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24BE7F364DB
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 10:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2vrsmRap/kjG+mEClgsR5dKngCPQVgSMV7MzsfrvrtA=; b=4TdHCy1/pji1p3WG6EGIUAATiP
-	0ZY8XSEiBPVdjWRTGGqWDrYOvrwnyLyINZ2e7RZBeS5xc4zxCNI8eOhF5OxriTgSOcdUEKR9gIfP1
-	bnhK6jR8+HY3S41GHPahtFpf0i9GZYp+GiJgw9LxTWT+TnwS9FvTSzlGyj0qV62BZnypF4/mXtIOg
-	+Wnb5T9jxgoY1stwY29GbI9wHhSw5I9AmYQywQhYpiElp6jI8T46BtBAoG18qGTKGHLXTG7hP/2Ls
-	b/HgwSf4MYnVh5AkO/Ze12dUqJAGmWw7Ar6Gxi1pNjhYQRjEwlEAbAM5LHmGc9RJBDdXam1WnsY/E
-	/COThtTA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=DbnG1c+UOY6Gc+/gmmngithYyqQg6PxOrsYb+WJZxyE=; b=rWQpp8M1Mp95BrQoUxKVeDg1mS
+	1pEVcPvVLJUWBDNeNXyI1AK7WMcJg/BYwrItn8d0eWlFURkxOFoTnDDr8FK46ck2qjepvhQmV52Df
+	PAPeBOdlLbBMEMJzpDoWUpIoCz+nzBhirJ640CWc4uposcks2k+xXQx02Wmc/SOYb+1Tbo3RSveSO
+	ml9lx0jaab9sxhbVjuRg2ukmL/h+rAH/EbFMFcU8ExaAKYlwYPMQ0oL0ClS43kMGa8Y5rQF7+wD3Y
+	n5+rD5bXBunbSfvF5F7I71jepaf5DzkrEajcU65vuthvPJL/0hgq6upKIGXD5JFsGjXu9pr4ejiWe
+	Dekt5gkQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB8sC-0000000BzBQ-2PJo;
-	Fri, 10 Apr 2026 10:14:00 +0000
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+	id 1wB9Su-0000000C2c6-4Bsc;
+	Fri, 10 Apr 2026 10:51:57 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB8s9-0000000BzAB-2LHI
+	id 1wB9Ss-0000000C2bl-1qhg
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Apr 2026 10:13:58 +0000
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-483487335c2so20305205e9.2
-        for <linux-nvme@lists.infradead.org>; Fri, 10 Apr 2026 03:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775816036; x=1776420836; darn=lists.infradead.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2vrsmRap/kjG+mEClgsR5dKngCPQVgSMV7MzsfrvrtA=;
-        b=T4jNlbZ9Zcy8pZPkwBv/eK7Eat+Ok0/KONdN0kcGNJHpvW/FjxCHO5vzERqVjMCq9d
-         6YE77VDp8f44Z8taWSBe9Vk/P9P8LAtqQB6S0MT1O8+I2UY6cts9LDrG80jKJ9UU6dLV
-         HAcgOFkLLaveJL75XHKkAlitjmJij9kxwsJ/OzK5HLaz6mZJkxFXHZtZ3wkzTxfBUSjk
-         CCFtx7Zt843MGkVjw/+wLlpTY6Q+le8Rac7q7/4Xoym4kzW2MHYjTNti9EQMTqz2G8yu
-         H3wYhOtLtoVygTAydj+fyIfnWn9vdduF/61Ce3eVAcAVZYkdrG/PWfkjbMmj+7e6O69r
-         cLUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775816036; x=1776420836;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2vrsmRap/kjG+mEClgsR5dKngCPQVgSMV7MzsfrvrtA=;
-        b=i1IAgzqPWmy3V7XUnt5uJgcwx9n+fSAvaIN+AKRdkpQtCBGZ/wArkR2Fh6QAaF+ANu
-         wn2NxQLCwAVtv+rPHxqIEbWjJVuVyhUd91uB1QxvpW8PpIw+fROalhMoS5MugmA68lZp
-         Ovsj0Rd9zySENaSPNy7WyJS+ervmvxUk3IXg9nONPBsl9GTUyqeTCbJdmvB/o353rfxD
-         7FTb1Z3e6vF4+knwfH+zaMjj9MtHRPt7i3fGGrUOScE4MUpxzLjBhNVwHd9hmqKjEy4o
-         0ElWt8RNN7u4uaHpj5/TjvMabFFgMnEHb+UzUrhv7ZzZubAnVITJBY2OEk8v94xvp06c
-         uqBg==
-X-Gm-Message-State: AOJu0YzEyAasVqqKtQ6Xpg1I1mIyoXbFLGioqEkbF8E19Ucnqk9skuxP
-	P72h/E4nhPlmQbn7XTBwX4CubJ3B7CA523RHnVO2Cpn+XduG2u9mQP+Ou0RK/kxu
-X-Gm-Gg: AeBDievd7kuhp2OellSsubkciAC8SgJI+6gM3uV/BMVgXlPykI/9mV2ZUn/9TjiDbiS
-	HKGV03sZUrQVAKBVAGAcsqnWbNo1tMJd8ydmrC/YOIJPJLC4wgB8PIr89O4hppZ3lpc0eqpgmcU
-	yLtySufJNmsA8QJQAwEHAmXfjsqaQvjceG1ohc4PlvYRUADcADkQEbDsja3SBRYqGU4xljs4Hz2
-	gtFNUpF6mHUEoBfw8ws/Z1f1bj0N986dODUruHoqaVBFgz/lC2ixaMTRLdQHzxEKI0ywlYpfmmL
-	E1YSpf1GtMPPBBrDEEdURotqBTUYQEuby4gxdplwgqkFb++8OTTMLaDjH8MKN7clfZrkZuCKSNy
-	kRYqKt3hR2pRb5f7SUgXps66bXklAU0/m/WOpgVt79CJAOatQ1eaNtOiHn8g4HRyUrr83ns8RSd
-	wkH5I+ppxAtR+MVWYN56I=
-X-Received: by 2002:a05:600c:c0c8:b0:488:af14:f1de with SMTP id 5b1f17b1804b1-488d67b8de8mr22371295e9.4.1775816035557;
-        Fri, 10 Apr 2026 03:13:55 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d67a46bdsm26414045e9.3.2026.04.10.03.13.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 03:13:55 -0700 (PDT)
-Date: Fri, 10 Apr 2026 13:13:52 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: linux-nvme@lists.infradead.org
-Subject: [bug report] nvme: add support for dynamic quirk configuration via
- module parameter
-Message-ID: <adjNYMeHY3hz9Eb3@stanley.mountain>
+	Fri, 10 Apr 2026 10:51:55 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63A0swNj2211703;
+	Fri, 10 Apr 2026 10:51:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=DbnG1c
+	+UOY6Gc+/gmmngithYyqQg6PxOrsYb+WJZxyE=; b=eMjsYncjonhxKK/VPPKq6P
+	GV2WXsJhN202ef0URASgxJU1lQL9GUCIjyhcupnrSBtx9un7BvRoYRMT/+WraZGc
+	cGHGZ/LNtVT7v08ELCd3eC+5FSryjgsT2Hwc43FteTv6JxCv7XeMwnAQLpPqpJX1
+	vdTY6gJPoBPXfJ3Im7XBIAutfdmK78w5mV2154YlddJbpsEkpre+VI03wyUDYUMV
+	SinufMQFVz2u4FraPtSD/19F0ifLb+yExFIrWZwgdYZ02atiP/OeEUdZBjDtlsjW
+	VDM6Xmdw4weLbnW40KJgaDqv53m3C7CNnRYEZxsUALZqkTVdHWd8qtgtAdZ6ws/A
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2hrddp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Apr 2026 10:51:31 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 63A7XSu5018952;
+	Fri, 10 Apr 2026 10:51:30 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dcme9qn00-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Apr 2026 10:51:30 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63AApTQX23069210
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Apr 2026 10:51:30 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BE59658052;
+	Fri, 10 Apr 2026 10:51:29 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A6BEE58045;
+	Fri, 10 Apr 2026 10:51:22 +0000 (GMT)
+Received: from [9.39.26.31] (unknown [9.39.26.31])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 10 Apr 2026 10:51:22 +0000 (GMT)
+Message-ID: <8502c8d6-2958-4c46-bdba-95b91c2ceb10@linux.ibm.com>
+Date: Fri, 10 Apr 2026 16:21:19 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] libmultipath: Add delayed removal support
+To: John Garry <john.g.garry@oracle.com>, Hannes Reinecke <hare@suse.de>,
+        hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-8-john.g.garry@oracle.com>
+ <bc006d17-22b6-49d5-9e04-02eab7dab729@linux.ibm.com>
+ <74eb1f9b-265e-4264-9575-177de6c924a0@oracle.com>
+ <6d7a4076-a4ad-4185-8e82-8e27d704d20e@suse.de>
+ <c5334a6b-8089-4ee5-abd3-8340133db29a@oracle.com>
+ <79725a83-3dc1-4398-ac86-c3e317e0e107@linux.ibm.com>
+ <ccfc867c-e744-42a2-9b22-47245a6c06d7@oracle.com>
+ <da2bfbb0-70ef-4c3a-a235-1343b4a02489@linux.ibm.com>
+ <b77d5eab-d50f-4102-8bfb-f907cf39ca56@oracle.com>
+ <a1d72045-7b0e-4354-8365-f21f03765659@linux.ibm.com>
+ <8d9c2ee9-0c2b-4c64-badc-b5b0fc1eaf67@oracle.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <8d9c2ee9-0c2b-4c64-badc-b5b0fc1eaf67@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEwMDEwMCBTYWx0ZWRfX1zmr8Y+bKRHu
+ 0VCf+ne85SY6PSHYqPMzklCYG/q51ZyieRloBIPXSH2/G7hv8FBa1041ki+sF2VyFsufdikJ30Z
+ 2fUpuz8/1NTuGTtQ0OIzTgjS/gjaREsDqcH7Ok20iwnXKXpC4ZJ45yk4RGWHWlpUHNw6AAU7ynQ
+ LOQg2Yr5I4eS6yRG2gY5WhzGOxo2C1DM34OFU9sovEkOfyEYmjeYw2Dj4aX5k7Dk1bgBTF21rxe
+ UE81Tt0IiLW6eVN/289EqRUWmvVZ1lrwpKd93y/tkWBFPKJXqymXFQ+OFMhHv1u6lLlob3kBsgP
+ E4xkPt3b+Ym2uQQLNOPJxzbSlU2xkmjnPc3A+pLaP/OZ4jYCMUwyB5hRLWNuMHpAsbElcEa3heg
+ gxZIXWyAIMyWhp6RVDDpfl0BM7IAxnOhqGtbq1xOQlUk76fMD90kLZbItdG4fIiAxPlvYDqo+Y1
+ /4YqlUkqQst89R9RZog==
+X-Proofpoint-GUID: gYUJSxx-wEK7G3lebYqOAEZB9s_8uhNr
+X-Authority-Analysis: v=2.4 cv=a/wAM0SF c=1 sm=1 tr=0 ts=69d8d633 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=PvHNxMhgUDqV9Y64InMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: gYUJSxx-wEK7G3lebYqOAEZB9s_8uhNr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-10_03,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 impostorscore=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604100100
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260410_031357_619755_E40768B6 
-X-CRM114-Status: UNSURE (   8.06  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260410_035154_602617_957F4CF0 
+X-CRM114-Status: GOOD (  18.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,74 +135,36 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hello Maurizio Lombardi,
+On 4/10/26 3:19 PM, John Garry wrote:
+> On 10/04/2026 10:09, Nilay Shroff wrote:
+>>>> It seems there may be a race here if we attempt to write to $ns before
+>>>> the reconnect has completed in _delayed_nvme_reconnect_ctrl.
+>>>>
+>>>> If the intention is simply to verify that the controller reconnect occurs
+>>>> within the delayed removal window and test pwrite,
+>>>
+>>> Not exactly. I want to verify that if I write between the disconnect and the reconnect, then we write succeeds.
+>>
+>> Okay, got it — I think I misunderstood the intention earlier.
+>>
+>> So the goal here is to verify that if a write is issued during the
+>> delayed removal window is in progress (i.e., when there is temporarily
+>> no active path), the write should be queued. Once the reconnect succeeds,
+>> the queued write should then be unblocked and sent to the target.
+> 
+> Yeah, that's it. Otherwise, the write will be queued but then eventually fail (for no reconnect).
+> 
+>>
+>> If this understanding is correct, then this looks like a good test
+>> to me.
+> thanks
+> 
+> About the module refcounting, as I mentioned earlier it's hard to test this effectively. We could use lsmod to check refcount on nvme ko during the delayed removal window and ensure that it was incremented. I'm not sure if it is robust and whether the complexity is worth it.
+> 
+Regarding module refcnt, I think that's easily available
+if we read /sys/module/<mod-name>/refcnt. We may not
+need to parse lsmod output.
 
-Commit 7bb8c40f5ad8 ("nvme: add support for dynamic quirk
-configuration via module parameter") from Feb 4, 2026 (linux-next),
-leads to the following Smatch static checker warning:
-
-	drivers/nvme/host/pci.c:216 quirks_param_set()
-	warn: missing error code here? 'nvme_parse_quirk_entry()' failed. 'err' = '0'
-
-drivers/nvme/host/pci.c
-    181 static int quirks_param_set(const char *value, const struct kernel_param *kp)
-    182 {
-    183         int count, err, i;
-    184         struct quirk_entry *qlist;
-    185         char *field, *val, *sep_ptr;
-    186 
-    187         err = param_set_copystring(value, kp);
-    188         if (err)
-    189                 return err;
-    190 
-    191         val = kstrdup(value, GFP_KERNEL);
-    192         if (!val)
-    193                 return -ENOMEM;
-    194 
-    195         if (!*val)
-    196                 goto out_free_val;
-    197 
-    198         count = 1;
-    199         for (i = 0; val[i]; i++) {
-    200                 if (val[i] == '-')
-    201                         count++;
-    202         }
-    203 
-    204         qlist = kcalloc(count, sizeof(*qlist), GFP_KERNEL);
-    205         if (!qlist) {
-    206                 err = -ENOMEM;
-    207                 goto out_free_val;
-    208         }
-    209 
-    210         i = 0;
-    211         sep_ptr = val;
-    212         while ((field = strsep(&sep_ptr, "-"))) {
-    213                 if (nvme_parse_quirk_entry(field, &qlist[i])) {
-    214                         pr_err("nvme: failed to parse quirk string %s\n",
-    215                                 value);
---> 216                         goto out_free_qlist;
-
-Propagate the error code from nvme_parse_quirk_entry()?
-
-    217                 }
-    218 
-    219                 i++;
-    220         }
-    221 
-    222         kfree(nvme_pci_quirk_list);
-    223         nvme_pci_quirk_count = count;
-    224         nvme_pci_quirk_list  = qlist;
-    225         goto out_free_val;
-    226 
-    227 out_free_qlist:
-    228         kfree(qlist);
-    229 out_free_val:
-    230         kfree(val);
-    231         return err;
-    232 }
-
-This email is a free service from the Smatch-CI project [smatch.sf.net].
-
-regards,
-dan carpenter
+Thanks,
+--Nilay
 
