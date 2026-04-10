@@ -4,82 +4,197 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE7B1E9904A
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 07:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 098B6E99057
+	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 08:55:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lWcwI7XVbwMpMMWFJCRGBr2iI+0OyEEwAssf/4kI+3E=; b=m6Pz9ALJ8LbRFpvef9/8pAw/tN
-	aBDAK3caOoyMBaYrgOa53Emobw0w7rQjlDjgj2OlzGedKyNnn185x46p9e8jQUGz6yrnfEhBmcs+K
-	04FDecWbKAN3I4CLuYFk9x3Y4YIINk94ieQJ6+J2NgOBkHwjvCLFVQwIeZkiGsQsHwyY244/Z2fl6
-	rvZdfVDb23QBTB+Qaypm0k08PzQfzgp7iyupszaDI45GF9l1fUVFLW70zaxry1nVrS7BU77XtPZJ6
-	4RU2UQLbkT7X9M4AvjPnKSPM1vQgIdPrslmLmaUbAQ958WnEMo0Rm2zShHGJa0lm7PMMsop4b4N1/
-	sTOrcpvQ==;
+	bh=8uhDRj2Lpiofh5uqwKZrvnOxKdwFt4MW4j7eQIu7Urg=; b=1apbpNOnsoZE/CW3RfG3MhfziV
+	ClZovQ2J/oTeH94jUaReOANzkkKe3BLFOAGGkm8OAqG/DGwRIe3IZCMNZGTlT0Z9HD39zWt5RYyrQ
+	N1PX5/dgefyPgOtH2QUHb/1rKLD61BfqUDWqau/Mn5m5vAouGIA3S5L9zSkfitktt+syPWjp9redO
+	rqplvQbYjgVrh01qhzv3g54F9REvw3bmvv/ExKP8jpMoN07wcRthN+qPURXWvcpZmRdtuxH+6l46H
+	MWC94Nzwxq6Q2XSnO5sysqGxHna2iBqQiUe7kJ0jbe2MY2ZavMeGuM973E1dWGK1ppHnzHNFvc2+V
+	nI/GU5/A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB6TM-0000000BlMG-43Pu;
-	Fri, 10 Apr 2026 07:40:12 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1wB7eW-0000000BrmL-3GDQ;
+	Fri, 10 Apr 2026 08:55:48 +0000
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB6TJ-0000000BlId-0Rc0
+	id 1wB7eS-0000000Brm0-2m4T
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Apr 2026 07:40:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775806808;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lWcwI7XVbwMpMMWFJCRGBr2iI+0OyEEwAssf/4kI+3E=;
-	b=NGMXy4g1/DK7U7RlnCC+H4mkN44d/qFUoCOK19t9hsKfAXurVXqOVUjdycT+DDe4VVxHCn
-	ddOYZQavaUDsg0XYpOJcbsofgZ2HBbk0VYxHHsdkFR6iK75NYYBVvKDQ4vBhXtG5cy7/nS
-	DM2FcZlOkBMTEBZJIFAAVHYLlv4Os0M=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-141-z-1rl8oAPeGRG-hlO7cQ0A-1; Fri,
- 10 Apr 2026 03:40:04 -0400
-X-MC-Unique: z-1rl8oAPeGRG-hlO7cQ0A-1
-X-Mimecast-MFC-AGG-ID: z-1rl8oAPeGRG-hlO7cQ0A_1775806802
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4ACF0180034A;
-	Fri, 10 Apr 2026 07:40:02 +0000 (UTC)
-Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.32.170])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EC2441800B7F;
-	Fri, 10 Apr 2026 07:39:58 +0000 (UTC)
-From: Maurizio Lombardi <mlombard@redhat.com>
-To: kbusch@kernel.org
-Cc: mheyne@amazon.de,
-	emilne@redhat.com,
-	jmeneghi@redhat.com,
-	linux-nvme@lists.infradead.org,
-	dwagner@suse.de,
-	mlombard@arkamax.eu,
-	mkhalfella@purestorage.com,
-	chaitanyak@nvidia.com,
-	hare@kernel.org,
-	hch@lst.de
-Subject: [PATCH V3 8/8] nvme-core: warn on allocating admin tag set with existing queue
-Date: Fri, 10 Apr 2026 09:39:24 +0200
-Message-ID: <20260410073924.61078-9-mlombard@redhat.com>
-In-Reply-To: <20260410073924.61078-1-mlombard@redhat.com>
-References: <20260410073924.61078-1-mlombard@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Oyz5ygiPTSOyo57c2ULwAprDaksZn5VJ-Smjld7a8_I_1775806802
-X-Mimecast-Originator: redhat.com
+	Fri, 10 Apr 2026 08:55:46 +0000
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63A8tWCQ1163290;
+	Fri, 10 Apr 2026 08:55:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=8uhDRj2Lpiofh5uqwKZrvnOxKdwFt4MW4j7eQIu7Urg=; b=
+	I0oH4nD0FfYUd6sM0KV5YIU2IHTWI+UvouYegtHFkwfWBW0OYwIg0+4CbyjaJ2TT
+	AardCjP3OAi1nAyoF8pIwBQDU8JuPVFwauVPL2LZIS3oGTf7LL9iSGNxaysRlHOF
+	jYlfaB/uVhGZY/p1MGQUb4k2JE7uW/M1dtI4daXY4PK3rYuyPOjYZJdq0v/dGLtz
+	XwybilZz3xL8sQBOuROQzDBshJJhW04ueI88D7icd7faIxzcdwEH1f1bxtjifWo8
+	fLVy9AJGFCjafN1+T+yfFnpT0sH9p428al/WuoLVTTpPSrOlG25pxo4WeaCeLYPh
+	6ivBCgyohX/6wgWa7jfPHA==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dcmqeh10d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Apr 2026 08:55:32 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 63A8I3tX005201;
+	Fri, 10 Apr 2026 08:55:28 GMT
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11013057.outbound.protection.outlook.com [40.93.196.57])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4ddgxsxh08-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Apr 2026 08:55:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JNbaO0qdurG1XJZOJ59mNfgN52vvUXz6EeQo91S09JmXZB5BipCRMz0qxmC8QnwI5v3JSnipOjW2K/QygayrqFndItfrfYyMl9fKNM53twLpQFm5ddA6fOEgqq2xQcOGyzkTOuAAmQ4mpda+akH8PEZhZ+YQceu7Eftww7eYhrzxs3oTHf3BTZh+cvE/wF15rsgWY69yL+QUAmP+v9vA18uU6OOv/PNE49N1ZA+O22+LISWpRnZNyWfHPqwIEB628YDXqe63ibPMAnq94Cv754Sfs4OqDSXl7EEGPHXViVFwKA5R7plyFDfohqP5DlDFbSzl8MGCFGriACmjtFEApA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8uhDRj2Lpiofh5uqwKZrvnOxKdwFt4MW4j7eQIu7Urg=;
+ b=QwBi7HCoUbUtb4hzAFwnvUmd6tOdEQ797ti3tmFv7ZDWhI52cl/3XBY0xQ5MAqRwHaDFsPZAXAeUepZHxGrkYN6Ix8PrwGF5k/iQLBku1QGN3trzC7oxA5ltMLmh6O9v0PGXqt396U9/Yx4kP7VAaZSIPjxxetm+z5cTZGB8/jZudxkDYx3a4MxXu+evo/A7ptQ9frhcfyQkVjBCJZSI/YJQ+rR5lg/YQtMGCvL8ZjoWsdJkMmyRBl1Or8XPRdCrm8SodRgymal+LyrbooEeTX5b84JIxoicFImxcpbPVaSRZLHF3xYhOCoQvjVyVHF9QPidSHf2kXRyF+VQIfKN5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8uhDRj2Lpiofh5uqwKZrvnOxKdwFt4MW4j7eQIu7Urg=;
+ b=z0eE7Cc0i4K8Q1z3TVu5OmInsRYoKK+fI8VeO5KWoSBINMJUmqUAE3m5ILKcAXffR7Bz8UEaN8EbFrvDKli5A+DRYU5QalLitrXXfw/810PC5/vljOo+dICLAMsvvcD6vBvuCwO/JqVcWY+aovnv4vW70ggexfn9lo6woQurnbw=
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54) by PH3PPFAF33AAF2A.namprd10.prod.outlook.com
+ (2603:10b6:518:1::7c0) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.42; Fri, 10 Apr
+ 2026 08:55:24 +0000
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9769.018; Fri, 10 Apr 2026
+ 08:55:24 +0000
+Message-ID: <b77d5eab-d50f-4102-8bfb-f907cf39ca56@oracle.com>
+Date: Fri, 10 Apr 2026 09:55:20 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/13] libmultipath: Add delayed removal support
+To: Nilay Shroff <nilay@linux.ibm.com>, Hannes Reinecke <hare@suse.de>,
+        hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
+        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
+        hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-8-john.g.garry@oracle.com>
+ <bc006d17-22b6-49d5-9e04-02eab7dab729@linux.ibm.com>
+ <74eb1f9b-265e-4264-9575-177de6c924a0@oracle.com>
+ <6d7a4076-a4ad-4185-8e82-8e27d704d20e@suse.de>
+ <c5334a6b-8089-4ee5-abd3-8340133db29a@oracle.com>
+ <79725a83-3dc1-4398-ac86-c3e317e0e107@linux.ibm.com>
+ <ccfc867c-e744-42a2-9b22-47245a6c06d7@oracle.com>
+ <da2bfbb0-70ef-4c3a-a235-1343b4a02489@linux.ibm.com>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <da2bfbb0-70ef-4c3a-a235-1343b4a02489@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-ClientProxiedBy: LO4P123CA0374.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::19) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|PH3PPFAF33AAF2A:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8c77a8d-3419-4a57-b6e5-08de96dee766
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: 656CZj+Ne/aXFFctRtQo0e0nCwJ6blSRRXe2jwz3D+ODt51dIuBlfAZhVvubOGrRFrvTUvldeMMkONoYvpVSqNQIi2PqFel2hsc6sNZ6Z+dI51LiWzQsWh9Yr5oBt0xwAN1dKHQnOUqs6EuufuHrl4H+Q1l70GfF8mAzZcLh64h0yqPxJ8fysOmZorTnPyQ2bKffUkc1dTxsFYv2zA634hU++BhuxGCHboyliXGbCgTS2/Rhpr6vSOELgW52KjCtV46UKwl77ZKUjD25woOvxyMldxQPZKnd+7pcCojwONLfSp9SVmh4eJpQIUCv0rgRQtSqBekTtTAHZmCY3GV1/YfsKZ/WTVaJrNH7rwHKBgfis8XJLdWsnPsaesDRzD18kwNZ3Ej+wXKyfM3tqiAPb6FjNvlI6Nhl4iDn4IvbnV06LGnDG60Tq9T6jAsHOBV2O2E0c54Zkr5IsHUjbfSE1vntW5EfbarVQZsnHFusPbqDjMuj3Y575uabaMM27CRdKqIObSsWZp0zVMw7KmrI5mp8bc/XMJyy/0O86MANixneDO5c6O9IeKuhivUti8DVosNoGv/OlXI0c6cje2Mjl0kNZ5pvzGxBwJM1eelRN/2zXwkSPiwhuo/t+vquADwPMhhm42qE/tdVR80xhHeMkMHDkMwZZWEJ2nZ/dvcuOHwXu2hzwaHmSC5ruKhkPLSgjzjwo28y0Qb8eqVO2FfNIqh8Roor+BX5vOO2BC8zgBc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjVMKzlOc0c4V1VJTTY0T1hoV3g0UkZOcUJBWmc2ckZuZ1ZjRCszcUxJVlhP?=
+ =?utf-8?B?NGpmbG5VS3VMQUVEZnJJWTU2MVlTZCtHcGZKaGgzS1Jra2hNbUVFRGFidVRi?=
+ =?utf-8?B?NlJXR3VONnBzbEdHYk9TZmpaaGhTKzlNeVBPRDh4SFJuWGswWXNzWTg0WGhj?=
+ =?utf-8?B?dTMzYXc1dEZtL2NKb2NEc0ZMVjlNUm9XOURKK2FyMzFNWlZucG9VcVZURzMy?=
+ =?utf-8?B?dVRTeENuNE1EdTFVTXlOOFRlR056NC90cEJHdmZrUjlyVlhTbzhNaDJIOTVX?=
+ =?utf-8?B?YmVVOWovcW5DekhiMEExZ3o5bUo3VStGQUY4SC9HajhmOHptb0NISkdBWjNu?=
+ =?utf-8?B?d1k2cGo4VmowOTZpNlU0dFBJN1JFQjFtRFZQaUVKdHU1ZTdOY09GVWJQQ2xL?=
+ =?utf-8?B?UUZYbEczVElIcDBRejk2T2MyODZXWldNRzRqUTdDYmZWenVKanpHYjFESU1T?=
+ =?utf-8?B?a202MEpOWjdMbGVWUmxqVG9BL3VxZEszcVNERHROQmFBREl3N3IxVUpkMG85?=
+ =?utf-8?B?UFoxTThMSHE2RSt4U0hzakYyS2QxWFA5UXFLRE1ORk40VEJOZWNwbXNKYlBk?=
+ =?utf-8?B?ZGgwb2RvTXhzV0kxZTdaZUF6WWYySmNpT24rakhSczZhRW5RQ0NUUXhHZ0dv?=
+ =?utf-8?B?Yms4ejcxVmtRR2ZBdzRza3pMRkhlNzFhSERuYzQ5dTRORHdURkMxdnJOaUx6?=
+ =?utf-8?B?Q2FHV0JmY0xBQmhSNWkxaERqeklvbHBCR2dsbTdERkRnMldpOFRSa1ZBM2xU?=
+ =?utf-8?B?elNYMFZLcWZXb1dRenpoY2Z2UzFwaFNsYnpzOGJNL001S24ydjhCQU52OHEv?=
+ =?utf-8?B?NW1RYTRTWUV6clVFeHhJeGI2bC83UzZSYmNtSmNwa1pTNmlGSGlUMFNIbUIz?=
+ =?utf-8?B?eHgwZmhyK2Y1b0x6Qkl2WXBKa0YrYWR4RDRFeFluNzVETUZBUytPdkN5Z0Z0?=
+ =?utf-8?B?T2JTY1BwQjh5cVZwd1YrWXIwbkQwRXpRL3BCS3FLVWt3QVRPODUrRzZtbkxm?=
+ =?utf-8?B?UmpjTUpLdGs3aWhlLzdSZUt2OERzeWUwZ0xUZHpIcGJ4YVpJbTdEcEcwV2kx?=
+ =?utf-8?B?TFk5V0ZscmIrRnlHeEFhRHBzb2VSMGM2VVlMbW4rcXhqL0Q0WDRYZWdZS2RV?=
+ =?utf-8?B?RWEzMFY4MEd1eExqS1RicUY3d0ZNVzN0VUZyOE1IalBPSUVvLzkwc1B1MHJx?=
+ =?utf-8?B?RTlBaGRTdDJmRVY1OURVa1NISlNhUkI2T2NjQjZOTlBQcUx6cTN1RGJjWXQ5?=
+ =?utf-8?B?c1NrQ01PMGE2TGs4cXFJSlZVY0JoQlkwYWlqWER2cjJ3b3ZXaU1WYXdnS09N?=
+ =?utf-8?B?cmRKU1dQWFdrSXJNK1c0dm9VRW5aOTl6WDRpcERWRmVxRHpSL2JFd3orWnN1?=
+ =?utf-8?B?WUNnZHEreVFBVDgrdlgzcVBmSTBoQkFnRUcwZXlLWi8vQ0FRRTFQckVzMlAr?=
+ =?utf-8?B?Mll0VDlaMWVVVjlhNGE3cVNWWWpqSE1JRG9SRVVNWThRVmN6OFJYejJ2Yzdt?=
+ =?utf-8?B?NVoyUS85eC9VSHIzdng3R1BkSXM3Z2I4Z0krbWxVcHZ0MFdpN0gvdElpNHdP?=
+ =?utf-8?B?UnhUcGNxR1lVLzBTNXJNY1ZyM3lSNHR1d2ttZUErb01USDJDUHd6d3lVRFlZ?=
+ =?utf-8?B?UnhkOXc2WTRLeTRBWnlaUmhQMXFic3IwWnlxL2FWWmw3RXRMNlhPY1R6V1lH?=
+ =?utf-8?B?VEsyazFvNEVMMk1HOVhXL2JsaS9sbmUrWjd3UnY4b2tLaDdrc0owWS9jMEdE?=
+ =?utf-8?B?UDRQQ2FIL3NZd3hsZlp2Wm9iaCtBaXlXVjU3dWVNL0UrN05ONGd2Q0pORnBQ?=
+ =?utf-8?B?SWtYc3ZqblVhVVVDU3RqMmdOUFlvYW4wRHc2Y05YL3Vxb3N0V1lSbjE5dDNx?=
+ =?utf-8?B?dk1URUhMNmF5d3hrbWRuYXpOdmhQTmR2RWlzV2ZNOHFrMEhYRHRiU3NnN0lv?=
+ =?utf-8?B?dkh4RmcvWmhjVldSYzd3TG5BWVowekJqRHlna0hBK2hiVDRmYXlWazc3a1FN?=
+ =?utf-8?B?MzZzQXZwcDU2V0RuaEluTEYrM1llcHRoUWxSUWJwdzJJVlpITnNHalM0QnRJ?=
+ =?utf-8?B?c1R4c2ZwQ1A5ZVUwbHFRU3JlbURZd3UyckNKZDg3bkRIRy9rSXh3SXJMVVF1?=
+ =?utf-8?B?NkZRNGRORHFZNk1rRGpYeDRCcm1ra2oxanVlbGFCSHFmZlVzeVVhd2ZQSHdO?=
+ =?utf-8?B?N0JlSU9EaDNNLzF3NXJ1eVRkVjV0RWRJanVRTkR2RWZPOTZyT3drb041ellX?=
+ =?utf-8?B?dTdLdkpuRFBwek9VcmpGUE1qQ3Rmd3VmZnJEdXo4L1B0Qyt3QUVsVUhPU2VI?=
+ =?utf-8?B?WFg1ZXN6QnNtL09qbmFxc2ZvM1BMYkNRZW9YWlVGWWtHM3JTU2YxQT09?=
+X-Exchange-RoutingPolicyChecked: R/Y7zCH0nQ8R7fg/oE0Uy2YWbgKHqsS+qQ/IsiTkWyfYcIp0GhqFBZITNWwuDWFQl/LqsLIFdad9AcGfMLv8EAAtTdfiMyljwtk9vJnSEGXq2mhYGZr0ZHclkgN7rCXRnW8ENHRjOHhNrgdEIlzGPguqX7llK7QzHqj+XCTNoXx8AXoLqaTCx5XfFOp2dQdO3TANvakmBhtKBfccd8bwi564gZMzLUTOM407BOTAwHumQL9a6iSr8mdkE/gLS9uW1UzwlZtKnQBCPnm3r8X0yRI16MDqzwE9h7Y3pjopXIcrFCRzAtv+KTMRmKifL+BNP+sgzcF2vaQ9Ifrn3uNEUg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: HfAwcLrFlE2NAKtM/FBADpFJzsygq97s/Wx1Px6zdvNH7HujGGUR48wWZIl+U/v1AqLSnl+G2LuoLHrWedepVKh9UCP7unJsraVk+iJ0bz2cZnzJ1AAWB0VuevwUGCutMA1k/zAXFCVUFMSPE7Q064gGLkLEyu0zVr3bnXsM4ZfHuStnT7CjFRQDbPpEwGYX+YcKcwMEISJlzluewmfWT2uOTKBPrAj9CdZa3zl5CEIaaszF+jgHt5HwageXF6oEt9J2uDDB5Kt2Fvmka494YztjduTEP48FITiG3kzEc4r7Dh3v5t1MSFLvWMumSlWsdqrTqWu62i7vXzLanuZcaZEpocSSlOK+Bkl+WDErDNyQ3lIfe2I8n56Jae9Iv0Ry2xQzHF/VVaMmm26nKyiDfJ912xsD7C8732tBhDx9gpD46waepFYniR/0kBGk5ow7eTbma3+eYsCaT/5uArnHg8jr6gY6F7FYee/tdCJgnJzHpz35SDj3X/rAK7YJNH8ZVXFb+1B/FByxOBqS1n7vf4d5F953L7czwrndRoELPDHn9w47pdvtDRvUvuQqVczLqMXaaoMoQeeX4CLU6zXU4uKj46jiawt4kr5LrEDDicg=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8c77a8d-3419-4a57-b6e5-08de96dee766
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 08:55:24.5132
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hk3jCerjZAV7jo3LPhLdMRsxz8SA3ygMBlzh4Ew5Zm+LqixeFzf04DBTLnamgdWcIlGRe7h2DQyK2NZgkt9YhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFAF33AAF2A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-10_02,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2604010000 definitions=main-2604100082
+X-Authority-Analysis: v=2.4 cv=MtJiLWae c=1 sm=1 tr=0 ts=69d8bb04 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=x4eqshVgHu-cdnggieHk:22 a=zEJw8ZNyH9Y5mYKGL7QA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: cFL-gWlERMkqV6lXGxGgmDgzYzPXnIji
+X-Proofpoint-ORIG-GUID: cFL-gWlERMkqV6lXGxGgmDgzYzPXnIji
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEwMDA4MiBTYWx0ZWRfX9PwSUMUrLFYm
+ WNx/Ji+Yh3UmX5mAl9igmmOdN78oA8jTJUbAQkH7zUVLwmyxPUYNwsf2Wl5w4iKiZBKiq8poSl7
+ AFqorWiv8P4oRKdZPs9TrfIlExwG0nS8N12RsANK0TvV1Yt5YtGPDGFY/m2V0uiRjExIt9wGksF
+ L/2OOx34uuFh0la5FFhehQuQcJBy6r/zG9Dj9uNfIuTefeSvYN8DrrZmfuIiCIikxRy6BISPIFQ
+ ps+V/x0LwCtHm9d1qQwBuL2cYnLsCINT1sddOWrWlldhzxXRYFE9JNt2Uv1zwohEFN/EwinO7En
+ /0Turm00fnypBtEv45zZVev3s7T55SH4pE0QKMpw3Jf4oyQh8ThZa72eZ8cWRzmlxcGaap0+w1M
+ za1c1nQ7wqw/si+T2EoX1emuXZXFsOCOFAefiVqwsdHvD+ePsLa+KJzHa2mnuKMjJNIAEivQt6z
+ 1pA33azMO09qdANEYxw==
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260410_004009_243368_A1367EFF 
-X-CRM114-Status: GOOD (  12.17  )
+X-CRM114-CacheID: sfid-20260410_015545_037832_7ED2FB4B 
+X-CRM114-Status: GOOD (  17.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,46 +209,61 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Currently, nvme_alloc_admin_tag_set() silently drops and releases
-the existing admin_q if it called on a controller that already
-had one (e.g., during a controller reset).
+On 10/04/2026 08:06, Nilay Shroff wrote:
+>>    # Part b: Ensure writes work for intermittent disconnect
+>>      _nvme_connect_subsys
+>>
+>>      nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
+>>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>>      echo 10 > "/sys/block/"$ns"/delayed_removal_secs"
+>>      bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns" 4096)
+>>      if [ "$bytes_written" != 4096 ]; then
+>>          echo "could not write successfully initially"
+>>      fi
+>>      sleep 1
+>>      _nvme_disconnect_ctrl "${nvmedev}"
+>>      sleep 1
+>>      ns=$(_find_nvme_ns "${def_subsys_uuid}")
+>>      if [[ "${ns}" = "" ]]; then
+>>          echo "could not find ns after disconnect"
+>>      fi
+>>      _delayed_nvme_reconnect_ctrl &
+>>      sleep 1
+>>      bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns" 4096)
+>>      if [ "$bytes_written" != 4096 ]; then
+>>          echo "could not write successfully with reconnect"
+>>      fi
+> 
+> It seems there may be a race here if we attempt to write to $ns before
+> the reconnect has completed in _delayed_nvme_reconnect_ctrl.
+> 
+> If the intention is simply to verify that the controller reconnect occurs
+> within the delayed removal window and test pwrite,
 
-However, transport drivers should not be reallocating the admin tag
-set and queue during a reset. Dropping the old queue and allocating
-a new one destroys user-configured timeouts and may race against
-nvme_admin_timeout_store()
+Not exactly. I want to verify that if I write between the disconnect and 
+the reconnect, then we write succeeds.
 
-Since all transport drivers are now expected to preserve the admin queue
-across resets, calling nvme_alloc_admin_tag_set() when ctrl->admin_q
-is already populated is a bug.
+> then it may be 
+> sufficient
+> to:
+> - perform the reconnect, and
+> - then validate the write (pwrite) afterwards.
 
-Remove the silent cleanup and replace it with a WARN_ON_ONCE() to
-explicitly catch any transport drivers that violate this lifecycle rule
+I think that this is something subtly different.
 
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/host/core.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+For your revised test, if we reconnect, we always expect the subsequent 
+write to succeed even without the delayed removal, so I am not sure what 
+we achieve.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f3aa7b29d2a2..ae084373a79b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -4884,12 +4884,7 @@ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 	if (ret)
- 		return ret;
- 
--	/*
--	 * If a previous admin queue exists (e.g., from before a reset),
--	 * put it now before allocating a new one to avoid orphaning it.
--	 */
--	if (ctrl->admin_q)
--		blk_put_queue(ctrl->admin_q);
-+	WARN_ON_ONCE(ctrl->admin_q);
- 
- 	ctrl->admin_q = blk_mq_alloc_queue(set, &lim, NULL);
- 	if (IS_ERR(ctrl->admin_q)) {
--- 
-2.53.0
+> 
+> In that case, we could either:
+> - run _delayed_nvme_reconnect_ctrl in the foreground, or
+> - open-code the reconnect directly in the script before issuing the write.
+> 
 
+How would that open-code reconnect look? I was just using the subsystem 
+connect, which I think is not optimal.
+
+Thanks,
+John
 
