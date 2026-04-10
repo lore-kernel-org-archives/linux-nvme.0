@@ -4,94 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E178E937E4
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE899E937E3
 	for <linux-nvme@archiver.kernel.org>; Sun, 12 Apr 2026 15:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6Y42v4l6XRa4Mc3bL0tysYnB0VcDZSP2r5rXfsoOeKc=; b=ycQYfZ1jQJLBv5HS6f+Dyl/wMs
-	KbgRkV4LgOPzSWYzOHvjQXf/nLfBkyaw8lzt18R+aUP+t3N5W5s3W8xOHIurqj0UzlFfLiL9zd2TX
-	q3N/21eyKkv+40S+tYJoho2wrb+5Ja7qJcNRM+/Vkd798xWyWldO012YAQwiVNwT/2DNbbJ8NnrBZ
-	5YD4qcCNLuIUT2ubeDURc4rwwClsUNOoY7PoSZbHiHW+X+lr/Ovk1Nuyl+PLWKXqkcRPtnRi2LrA5
-	jGke9U5dgBHfz5ZcnzW7Szof0b7Yu4XjQL0D2yFILmngDqgxhATXaZMt9lZBqbGKzEv8+oP5W5xPg
-	9wxW5JCw==;
+	bh=cFMNKhMdRGHeqKO5vXnAM8NLbjLbIYXeXyu4djBfaQw=; b=dZh5usyTEpEezGS2YcoljSt29C
+	ug6uISqdGXJdoS3TzGcSNDZn4wkrsJ14iBoxKfQqXNgkYqnT3eljCmGHPNkET7nbQFx0WkdfVFks6
+	eb9Nrddq8+pHfFsFYtIMGhaNzPBAiaWXYIml0rKJBQP4DAGbkLVdjGaveIbOmA0QbfIyM9akvSRgn
+	Lg1Z9xVcnRKrYC2DlqnExQmOjCvP9DUfxVbaqfy8hIZGDd8MwPHQdz70fHGGLZ3MgrFQglk6HPrSs
+	B1XU8bDHMgO4p3tMRqOwPT6iOn56rlQ+8SNhPjlj21gAv4TPv4OFXQglT0NsQT2hWVBItZx3mV2Cj
+	1f2/5TcQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBwLO-0000000EQ7x-23w4;
+	id 1wBwLO-0000000EQ7W-0gwy;
 	Sun, 12 Apr 2026 15:03:26 +0000
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+Received: from mail-ukwestazlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c206::1] helo=CWXP265CU008.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wB1rJ-0000000BUId-2exc
+	id 1wB0vs-0000000BQHh-2mkj
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Apr 2026 02:44:38 +0000
-Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-35d9749c26dso1463555a91.2
-        for <linux-nvme@lists.infradead.org>; Thu, 09 Apr 2026 19:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775789076; x=1776393876; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6Y42v4l6XRa4Mc3bL0tysYnB0VcDZSP2r5rXfsoOeKc=;
-        b=gj9KPZTOLKkuMlpEYEQeAvDiwGfOY3WyD9xSQKhAEGy+O6raPoyDdiQzewyCkak0vl
-         xYE4yrYPGlRUd2iia6TGD6lhohdOFVeRtR+BrqWcTjNio5f8nyL3AzBKJYWGU9gJjJfT
-         fZ1x2K52KSSeoqVj6HzAKcXN4K36YXNebs3VWzgRjV9oykqiy9sKcbjh6GPvXtDlYIef
-         tyDvpwr496aUS9SQggSziP8zE5rNJqgM5qcCr4k51wAqgT9Imy+qkG0EOLDtAvvmIf8U
-         vWrw7qAtcRK6VPeVEpIfGkWHL5efJpSRj+PlUL41ovPqUjtN0BNJzxskcsSX858bYiK2
-         oDpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775789076; x=1776393876;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6Y42v4l6XRa4Mc3bL0tysYnB0VcDZSP2r5rXfsoOeKc=;
-        b=Wlf9yksOSVvS0X/UKkY8nHO/2x3cXwVEFYxjX8Cd7x1X6wqU/XHqQLc2D0cN35VrrT
-         pxeWWUqC6a29Jegdaog9rxX/KEnVM8MTcE7zJh0K04cLzn9BJNAjRZ/F5Eknie68m1x0
-         g6mFg68/+aaUwnhrvoLg0OWHMMxfvwRPqvenXmOpDKqEyzsynkLJAj16n0IcFI6am15O
-         momFpVsf1B2Vn0ND//osf5U/jpq+H2mkRSjALpqIaPSY9uDf3DHEHFbqXVfkb33jBLsL
-         RdctNZXwpLG+qUShdPny95oWuhY/ofrCUo+/xk9WApTK55uB3jJ4+SRfsPxIP3s1Tdx+
-         Oxgg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWCPEQShro9VUP79/qrv1o56I7tgol+B6V/SE0aUyOyGH/WYPL22USYUdvuz3c7521NeMhTUol3xFW@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw8SkFgydnXH4vyZliMsqQ82GhPG3OEIIU+mWYrRKK7SGnEaQKo
-	prNnO+rE6UCiIWz5LkTCbEQJufWW7cTy4Gj2xSYt4/KRKgSs8Bj3Z695
-X-Gm-Gg: AeBDietFQEu1LNn+hbbRJgZuslIhK6ZR5Wu/lf5cqPzv+Qtls0I+VDqvqLpnz9fYeBi
-	nrJzyNMOyIS4wrsc6uriMEXJojfu4bRiGPmLYhLmX7xHiGoe/QH2Q7ROvL0/UE7RUcptxou0MM3
-	Q5Woy2OJu+TwVw06dE4EeHTYivcosDuaKFMXHefGJ1D0i8iL97RZw9c2usB0TEsIXAAFyvv67/f
-	NKdhpqyG7PFtlp7VeshUCx+xOppYRrhM3+JEBJIEsraggKDuxkEFrJHLquoHEcRjvcau6jtaT4j
-	44h6Wj34QSw9qkBf0ON8d5kfczvnWxTscyWt+HoFPiFFz04kWGzbrnyKLkjsV4A2OchG63UmnNX
-	c9WRMootq6rqA6x0LNMhi0n2hsusPQlTmjRI2wzbDo1nn6j9+KmVIw1RO7zaymC8S3WwGUP1Ftu
-	aUr6Wn9PGlysQnCrki77dWfvRgBJ3B8aE3tO1L6GUMYFVAHWbKXVLW
-X-Received: by 2002:a17:90a:e7ca:b0:359:974a:3d65 with SMTP id 98e67ed59e1d1-35e4285280dmr1485690a91.16.1775789075530;
-        Thu, 09 Apr 2026 19:44:35 -0700 (PDT)
-Received: from fedora ([2001:250:3c1e:503:ffff:ffff:74aa:4903])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35e35156445sm4526177a91.14.2026.04.09.19.44.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 19:44:34 -0700 (PDT)
-Date: Fri, 10 Apr 2026 10:44:15 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: Ming Lei <ming.lei@redhat.com>, axboe@kernel.dk, kbusch@kernel.org,
-	hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	liyihang9@h-partners.com, kashyap.desai@broadcom.com,
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
-	ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com,
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com,
-	bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org,
-	frederic@kernel.org, longman@redhat.com, chenridong@huawei.com,
-	hare@suse.de, kch@nvidia.com, steve@abita.co, sean@ashe.io,
-	chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
+	Fri, 10 Apr 2026 01:45:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UYe9l2Bm48Eb+YkhlzgB5AOPn4sZMEgP18ug18wrodosxqAregtLH7MxSVAtKDdRRJQ5uR8hKrBO9eF3U6XITxrq26QVQmnEW0Ak8ewIReyQyw5mp3F8LyOfpcZQLX6MJUYhBO4N4TqXCahBgr0y3zIDkgJ3bTIoY0LJiHb7miXnR0bgFTIpx+lNmotnVttm12ns+VivqA12bPMnK4yK16+q//PaPdebfw8P8DEApVwhlqWZhF7Uo7y4ltbBKFM+naLDIrXP2gC+k9T0xO24p+91gDF3AJTgHfEEXgw21r4kqcgPLYcDIOZrzlUl5xjNDgM6Vte/fvpH5he7sgEAug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cFMNKhMdRGHeqKO5vXnAM8NLbjLbIYXeXyu4djBfaQw=;
+ b=km3L/I+KziTcbJahEQ/yreqFYajL/U0vEjezbWrVf8J8wAk2mpjZqXwgKSRq0uq3KJ/0x+8RV27XaSWHTQG/i/8kUUhmhiZZuVDnmQ03nUCdl4GgNPss6zouwKr5vMFZedvgvx5Lfh/y0BLuF0vab/RTh58Mh9K0auSA8X2ri0tA9AbGJntG+n5lFqS2fGEezmFm6CcKGdFxuhzUb0vC5ur8g0AZuLDJ26UowsxddRorSn5DixDYDtrOYLR5NW/I1VqEvTwehWan7kMhDAn3X3Z4WehVLcsQJ+2c59uIS4+8h8AnSW8FsgI6nD6YtMpF7ykQqE54vMYRKkI/MT3nMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO7P123MB8196.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:44c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.42; Fri, 10 Apr
+ 2026 01:45:09 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Fri, 10 Apr 2026
+ 01:45:09 +0000
+Date: Thu, 9 Apr 2026 21:45:04 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Ming Lei <ming.lei@redhat.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
+	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
+	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
+	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
+	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
+	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
+	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
+	bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, 
+	longman@redhat.com, chenridong@huawei.com, hare@suse.de, kch@nvidia.com, 
+	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
+	mproche@gmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com, "Lei, Ming" <tom.leiming@gmail.com>
 Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
-Message-ID: <adhj_w11cpMfeEgN@fedora>
+Message-ID: <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
 References: <20260401222312.772334-1-atomlin@atomlin.com>
  <20260401222312.772334-14-atomlin@atomlin.com>
  <ac8l-w8ERG1YN2Wm@fedora>
@@ -99,14 +75,76 @@ References: <20260401222312.772334-1-atomlin@atomlin.com>
  <adMoon3Zf6gO-UbA@fedora>
  <zawhqvn53mcp4wf7axsmuq4cg73upxs5h2zgrfta5dpat3sfy4@zctfbz2ttz5m>
  <CAFj5m9JE5e4DRGbzQFxDdZWU76ZPQ3G+C9JpLu0mhTB6aesZ9g@mail.gmail.com>
- <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eqiicvxqwilyoveh"
 Content-Disposition: inline
-In-Reply-To: <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
+In-Reply-To: <CAFj5m9JE5e4DRGbzQFxDdZWU76ZPQ3G+C9JpLu0mhTB6aesZ9g@mail.gmail.com>
+X-ClientProxiedBy: BN9PR03CA0168.namprd03.prod.outlook.com
+ (2603:10b6:408:f4::23) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO7P123MB8196:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf731fe7-fd99-45bc-6248-08de96a2cbe1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|18002099003|22082099003|56012099003|27256017;
+X-Microsoft-Antispam-Message-Info: UA3HiWTYzewFpOIVSlaaooAymhoIkYoDr1OEnPwSXLYdwM3wd5cARuGFtfh/WFoGsD2rvu6t6dYqkFwQdK7kQBVlcyhDAYj96XXj3SRHfPDoU1bj/ehmaBrC7b8iUCm/Pd3IleINWOysMG1Bv2ytQfhs8kst+3ygmrJtLYaEQ1cD/Z5uYwftORpt03hA6p7HQ+o/0NtfVrt8FNZ7sIeCmlNJfThXyvsX6Mxnf3C2aZTA6TNex0NAj+hGlOdunoexD+tB/HQH83I1zQBcl3LK/ALU3RK30vnQxsqXNlHPSnJ6J6l/hyk6FOkqxoXvQxceOnMvINcg2O57ITijP7Fjt/RGrrMoq0f424uprO9uxdVnz3FehdmyQg3qd63c46mWarwQDirjpOkq7zztaLqm03HyxqDoxuYIMKX8SFnErC+PGIvr7ZP3xjupANWvhN3nVfZms4cY4PIgO3anj6ttyHyZFzoL/LpTQLMin8T/zGdWjBnFsJCiJVdIW3EClju9AEoqwAy2mDUZYEksgtLa+5OTSkAxVB4pAC1gm3cXNv4KoOWDnliH7uCRjNYa+tFvjA7SUcmd7QIfs8lkOhDcDUkGtZYBaKWak0FcH37rAGZiexsLnzfODyhjzpWF6EgI4iyFyEgwAC37nMPV2jOOCVT/Xt1HuLBSHRgJ8rzSnmUtjqrSN434DSw01xbMWOqvD5uH6FWyjWU+JXxo3r1IHM55n9D65iCnGiJpTIHt20P13ZLXUvYIYe+wMjP6Q4NjPQH2wgcY+ZQPekHnK9naLgwHJuxdzuCa6RyNBnAf/FI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(18002099003)(22082099003)(56012099003)(27256017);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1BqcVI0aDN1ZUhCOUlsbkc0SXFtMFVwcWpLMzk0emgyeHA3WjJUd0RNVGVU?=
+ =?utf-8?B?R2V1enIydSs1aWsyYnhjR1RGQjQyNHpEM0VDQWQ3OUxGOWswRVlKWU9DSy93?=
+ =?utf-8?B?MTRWblRTVTgvQkU5K21kWXhGRVN5blRoaXRtN2VtK2pKK3FzeDJQNFZLekhQ?=
+ =?utf-8?B?UTV1Q3RUYkdlTEJpYmNnZUZlMnExU0cxN2hnUDRFblA2Y3FwS2ozUUcrZXJL?=
+ =?utf-8?B?d0Q1NEQ3M0VKbDNjdURrcC9GcVIxd2VYQ2xFQ3QwdlQ3UndHUmFXVGpNTUUy?=
+ =?utf-8?B?RFlwQmgrazBFbTJTZ2xHNDNrL0JaWURadnNlV3pvc2RHSkZSNUsrWFBINWhG?=
+ =?utf-8?B?SjFuOGdyTDU1bEM1M0lMRU5rMW94a3Z6QjFhT0I0YXNvQzUxQ3psUzBzOFFw?=
+ =?utf-8?B?RXd4WGdLeTNhdlVmakMzVHdscnV1Mm5MMW1DeTVlNUZzeWoyR3ljaTZjejFF?=
+ =?utf-8?B?LzJyeUZqU2twakJMdFJCVHorekhHdmJBRjhlaXpnVFRCZmFTZHgyUC9aZzdZ?=
+ =?utf-8?B?eUdBRnJLNVBGOFJmM3NyTHQrTXdyZEtOS2tKSXc5R3V2YlRtVFZRMmdpby9F?=
+ =?utf-8?B?Yy94MTM2d01YUWhJemhOYU5leEUyL25lYkVjM1FaQ1hFOWVXU1R2NHNEQW1N?=
+ =?utf-8?B?UWdSeEw1VnpXK25nMVdaUC9WWFltZmplVnh5cy9HbnNTbFdYNkJRUkxsUjdn?=
+ =?utf-8?B?SG9jc09ScHVTQUVHZ1JuNVg0WWZiSHZxZnFJZlQ3VTJYS1lTWitKS3VuQWVD?=
+ =?utf-8?B?Q0Y2emF6YUFFUVAxL01DY0VHUHdmWWRRUmlidGhtUDdlQlBsVitkb3A3RXF3?=
+ =?utf-8?B?QnVKcmp3bjlkaDFkSXEveWtqSzg4SUVvejZUbFk1MHd6eTRSNys1MWpmbk9I?=
+ =?utf-8?B?dENIRENzMFhFcEZ0aERROWc3US83L044Z0JQcjJ5aDlMTmlVaHkvSHJIUnhp?=
+ =?utf-8?B?enMwa041YXhoVmozNTRxSm9JMjlwajZpQlA4YlB4UUU3ZStMNDNWeXYxQi9K?=
+ =?utf-8?B?TVpOSURVT1lyS0kwZzcwWWk3ZWRzMEI0a2dvVWxML3VEblVqLzJMeE1YKyta?=
+ =?utf-8?B?bmQ3ZlAyRnVQUEljVW93NUtxaEQ2Wng3clRQYXZuQ0lWR3hydjJ5R0ZJNjN4?=
+ =?utf-8?B?NWt0Wlcwc0FGYXVNb09jZTVaZVJOMXo2RFlUNE1tWTRvbFliUStKTGw4dzJS?=
+ =?utf-8?B?RzZJams4aEdRVWN3clFDMGZqRGJValArQkx6QTZpN3JLbHduVmZPZjlEUVF4?=
+ =?utf-8?B?Yyt4Z3ZKaDBwS01PRjd1R0FBTDRHZ2ZjMEQwUzZ2akt6ck1sUjVUUDBoWi9J?=
+ =?utf-8?B?RU9aMzBJdXFDTjBhc2FsSzlsSjdZcTNQanorVTF6S29Wa25Vc0k1U3FPVUdj?=
+ =?utf-8?B?VEQxWjJscGVvK2pzalIzS2JrSFFPS3N0a0psL0JBWFFBYVpjVnM3RVV0ckpk?=
+ =?utf-8?B?OUNuS1N4c09kU0MrOWU2a29tQjhqTUs2dlVWMm5wVWJWQ3FjajFqbXRuOGNY?=
+ =?utf-8?B?TzlRU1NnMVRVRHNkaThlNzBxTy9iOWwzbzBsMHY1b3RLTmR5ZzhNY0ZJTVkz?=
+ =?utf-8?B?Z29lVVR4c2ZqQ1BYTDhPYnlCcEhERlVJWnlwQU4yWk9jcnhtRk9yaHhmQTlQ?=
+ =?utf-8?B?UWlhNk1ZSnRMRHBUTm81NXVQaDFNZW9lbWZyeVo1V0NISGpXZklTZ2h1OVkw?=
+ =?utf-8?B?cjFyRk4rZjdDQVZmS2Q1RmdpY3RERllsdmR0b2xvZG9NZFJ1Qm4zVWI3a0tS?=
+ =?utf-8?B?UHA0U2JUaWhLSUdWU2h0ZTdseWY4NFN6SWE1MDUxMlRnRmlLai84Z3pMRUJ6?=
+ =?utf-8?B?VTVKRGpHRW00M0pqakRzcC9tYVBKQS8vL2xqUTlQZDlDaWdrNGY0VW81bmwz?=
+ =?utf-8?B?TUVkdmlsejEzZHBmbkF2Z2hnY1g0U3BmVUJrMUtJUzBNckRnODNYVGhWVDVP?=
+ =?utf-8?B?aGxVSkV4SlZEVXNsdWtYc0VRUk1WajgwUmNiUjZTRnFPM2Nnbno5Z0NQTDBV?=
+ =?utf-8?B?VnpKSytGK2tpUHNYdGNmV25VNEsvV25vdEo4QTJwUW14SVBWZW9sd0JzN005?=
+ =?utf-8?B?Nk9QMTBmSnhRbWkrVmV6NlBwU0VVV3M1cEJrclhsbHI4NkhMWUNxdFJFZDNG?=
+ =?utf-8?B?NktyT2haNlhFUllxU1E4a2FtN0JqSkdtbW9mT1YyeU9vUGVJVWM5dHE4ank1?=
+ =?utf-8?B?YXdyaXp6K1V2RGVRTmNISUFwazcvd3hxUmlLOU9PWE1rekQvNGJUQTNuTm5Z?=
+ =?utf-8?B?dEtrZDVEWDRmWTdkWkthWGsxY0NQRmNya25VemRxc2VicndveHZMLzJ5Qmpw?=
+ =?utf-8?B?OENMTTBOd2FiVnhEREhqWlhlNEc2SUtQQ01kNXF6ZkZxL2VQZ1AyZz09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf731fe7-fd99-45bc-6248-08de96a2cbe1
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 01:45:08.8779
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1R4FXNrUX/wgtwTIHSLj+hdgTsGYpceaaLrrd2YbdTA8k1dblAWxGx0kUTvs7WubgQdBqv+M8UmUw3QYrFVp9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P123MB8196
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260409_194437_690059_50711805 
-X-CRM114-Status: GOOD (  29.87  )
+X-CRM114-CacheID: sfid-20260409_184516_709093_C9E706D6 
+X-CRM114-Status: GOOD (  21.63  )
 X-Mailman-Approved-At: Sun, 12 Apr 2026 08:03:19 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -122,113 +160,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 09, 2026 at 09:45:04PM -0400, Aaron Tomlin wrote:
-> On Thu, Apr 09, 2026 at 11:00:09PM +0800, Ming Lei wrote:
-> > How can the isolated core be scheduled for running polling task?
-> > 
-> > Who triggered it?
-> > 
-> > > loop waiting for the hardware completion. This would completely monopolise
-> > > the core and destroy any real time isolation guarantees without the user
-> > > space application ever having requested it.
-> > 
-> > No.
-> > 
-> > IOPOLL queue doesn't have interrupt, and the ->poll() is only run from
-> > the submission context.  So if you don't submitted polled IO on isolated
-> > CPU cores, everything is just fine.  This is simpler than irq IO actually.
-> 
-> Yes, you are entirely correct. The ->iopoll() is indeed executed strictly
-> within the submission context. In the example below, the file operations
-> iopoll callback is iocb_bio_iopoll():
-> 
->       // file->f_op->iopoll(&rw->kiocb, iob, poll_flags)
->       iocb_bio_iopoll(&rw->kiocb, iob, poll_flags)
->       {
->         struct bio *bio
-> 
->         bio = READ_ONCE(kiocb->private)
->         if (bio)
->           bio_poll(bio, iob, flags)
->             if (queue_is_mq(q))
->               blk_mq_poll(q, cookie, iob, flags)
->               {
->                 if (!blk_mq_can_poll(q))
->                   return 0
-> 
->                 blk_hctx_poll(q, q->queue_hw_ctx[cookie], iob, flags)
->                 {
->                     int ret
-> 
->                     do {
->                         ret = q->mq_ops->poll(hctx, iob)
->                         if (ret > 0)
->                             return ret
->                         if (task_sigpending(current))
->                             return 1
->                         if (ret < 0 || (flags & BLK_POLL_ONESHOT))
->                             break
->                         cpu_relax()
->                     } while (!need_resched())
-> 
->                     return 0
->                 }
->               }
-> 
-> If an application on an isolated CPU does not explicitly submit a polled
-> I/O request, it will not poll. Thank you for correcting me on this.
+--eqiicvxqwilyoveh
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
+MIME-Version: 1.0
 
-Great, you finally get the point.
+On Thu, Apr 09, 2026 at 11:00:09PM +0800, Ming Lei wrote:
+> How can the isolated core be scheduled for running polling task?
+>=20
+> Who triggered it?
+>=20
+> > loop waiting for the hardware completion. This would completely monopol=
+ise
+> > the core and destroy any real time isolation guarantees without the user
+> > space application ever having requested it.
+>=20
+> No.
+>=20
+> IOPOLL queue doesn't have interrupt, and the ->poll() is only run from
+> the submission context.  So if you don't submitted polled IO on isolated
+> CPU cores, everything is just fine.  This is simpler than irq IO actually.
 
-> 
-> > Can you share one example in which managed irq can't address?
-> 
-> Without io_queue, the block layer maps isolated CPUs to these queues, and
-> the device will fire unmanaged interrupts that can freely land on isolated
+Yes, you are entirely correct. The ->iopoll() is indeed executed strictly
+within the submission context. In the example below, the file operations
+iopoll callback is iocb_bio_iopoll():
 
-For unmanaged interrupts, user can set irq affinity on housekeeping cpus
-from /proc or kernel command line.
+      // file->f_op->iopoll(&rw->kiocb, iob, poll_flags)
+      iocb_bio_iopoll(&rw->kiocb, iob, poll_flags)
+      {
+        struct bio *bio
 
-Why is unmanaged interrupts involved with this patchset?
+        bio =3D READ_ONCE(kiocb->private)
+        if (bio)
+          bio_poll(bio, iob, flags)
+            if (queue_is_mq(q))
+              blk_mq_poll(q, cookie, iob, flags)
+              {
+                if (!blk_mq_can_poll(q))
+                  return 0
 
-> CPUs, thereby breaking isolation. By applying the constraint via io_queue
-> at the block layer, we restrict the hardware queue count and map the
-> isolated CPUs to the housekeeping queues, ensuring isolation is maintained
-> regardless of whether the driver uses managed interrupts.
-> 
-> Does the above help?
+                blk_hctx_poll(q, q->queue_hw_ctx[cookie], iob, flags)
+                {
+                    int ret
 
-As I mentioned, managed irq already covers it:
+                    do {
+                        ret =3D q->mq_ops->poll(hctx, iob)
+                        if (ret > 0)
+                            return ret
+                        if (task_sigpending(current))
+                            return 1
+                        if (ret < 0 || (flags & BLK_POLL_ONESHOT))
+                            break
+                        cpu_relax()
+                    } while (!need_resched())
 
-- typically application submits IO from housekeeping CPUs, which is mapped
-  to one hardware, which effective interrupt affinity excludes isolated
-  CPUs if possible.
+                    return 0
+                }
+              }
 
-I'd suggest to share some real problems you found instead of something
-imaginary.
+If an application on an isolated CPU does not explicitly submit a polled
+I/O request, it will not poll. Thank you for correcting me on this.
 
-> 
-> > > >
-> > > > IMO, only two differences from this viewpoint:
-> > > >
-> > > > 1) `io_queue` may reduce nr_hw_queues
-> > > >
-> > > > 2) when application submits IO from isolated CPUs, `io_queue` can complete
-> > > > IO from housekeeping CPUs.
+> Can you share one example in which managed irq can't address?
+
+Without io_queue, the block layer maps isolated CPUs to these queues, and
+the device will fire unmanaged interrupts that can freely land on isolated
+CPUs, thereby breaking isolation. By applying the constraint via io_queue
+at the block layer, we restrict the hardware queue count and map the
+isolated CPUs to the housekeeping queues, ensuring isolation is maintained
+regardless of whether the driver uses managed interrupts.
+
+Does the above help?
+
 > > >
-> > > Acknowledged.
-> > 
-> > Are there other major differences besides the two mentioned above?
-> 
-> I believe the above is sufficient. Please let me know your thoughts.
+> > > IMO, only two differences from this viewpoint:
+> > >
+> > > 1) `io_queue` may reduce nr_hw_queues
+> > >
+> > > 2) when application submits IO from isolated CPUs, `io_queue` can com=
+plete
+> > > IO from housekeeping CPUs.
+> >
+> > Acknowledged.
+>=20
+> Are there other major differences besides the two mentioned above?
 
-Both two are small improvement, not bug fixes. However the user has to pay
-the cost of potential failing of offlining CPU. Not mention the little 
-complicated change: `19 files changed, 378 insertions(+), 48 deletions(-)`
+I believe the above is sufficient. Please let me know your thoughts.
 
-But I won't object if you can update the commit log/kernel command line
-doc and fix the issue found in review.
 
-Thanks,
-Ming
+Kind regards,
+--=20
+Aaron Tomlin
+
+--eqiicvxqwilyoveh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnYVhkACgkQ4t6WWBnM
+d9ZSbA/8CZNdD84tEd3KyK9aESSg/qlPagoo/aiIOy4PxSX0614Eoa5iFzfvGl42
+jKSNIOzxsOcAlN0ZTFCuZtgJQygbpfWRmpwL/nohztWj0zKNg5Zri87NsigOgcIL
+BlQK+7IZ7zFhw6iTDHZeFI4cBYy+kCFZftCNf5pUV4Zi1tWoskepYpgSvZAf/x/J
+stOOELM+SKXWOiDKf08sRgs4WMTBLhuhj+zONk0H6jgXA877pZh5ZMuwEXf7Y62L
+MHPdiIMxm+TK5gVoCTeEzFrQ2dAimTHtHW14I7B2Jxr+HBxQiPeCWtR4iQUb5EIE
+0JYUAP23ol6GstoZiIh5HSvGQgVx19/jg5Z9kAq9jhEtqQhptXt4DiR2R2F3oNjP
+FjSxpOIK2O+UEC9kfmUbV5ABP9TnOMYGTeQrHpIVuuCxoifzTD4Vl7TP93wJhVdX
+ZP2o69x/fK0kmD4fAHRQ0cmC1fh6kAPjW3VAcDXQDxvsU2/A3Cic9AoQXoIwOFli
+qsTptHR4ZFDcWpXHx6vwRK4MArK7DoffoVxQQPgFmmOTzRlANIE8NWv1C3xgO716
+Up4bZvQmJ7nmQ/UJwErp68JHqU+Ce2YuxbDqBLbgz2s1b4gcCKmF6rDl843nJ0UQ
+Yw3coz6GX/Ok2omD4UXF4MogU7A6A83BPYJzfgWdtec1QHx2vvc=
+=BM0O
+-----END PGP SIGNATURE-----
+
+--eqiicvxqwilyoveh--
 
