@@ -4,72 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A429BE937E3
-	for <linux-nvme@archiver.kernel.org>; Sun, 12 Apr 2026 15:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E178E937E4
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 Apr 2026 15:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HzOvPiW8ztwbs3wF3jjs1dxbj2pwYigEFa9b+mMyiMw=; b=hpuuCofxrcDn2uoVkgj0HpaEiu
-	Msaz9o5MNF8aa+Qt94UVuXY4qqkVWxZMcfzT3P4iHNwRz0dadqxHcB70ZoFyzqcgYKY614ixtdKko
-	BS/uSiKPio1xZSz9mGSvMLHoyGMLF3PueviYzXcTNuxTVovmBHc3wpWjl3NHWXHpyhxNFh12gmCOt
-	mTjO7DaF03gfPbo6qmyXlJv3ObdZSA1hUOeFpM0jKVeIR1mE82GHi/G7L7wyG/wmC3MNzR1jEcvp+
-	il9a3Y4thDIK3s5xTJwL5HbiKw7DTfMqJk+QyJboUxoIndzFEqFJ6EEpWxKNLZfRdXxxJg1+k6TdX
-	O/lGQ9qQ==;
+	bh=6Y42v4l6XRa4Mc3bL0tysYnB0VcDZSP2r5rXfsoOeKc=; b=ycQYfZ1jQJLBv5HS6f+Dyl/wMs
+	KbgRkV4LgOPzSWYzOHvjQXf/nLfBkyaw8lzt18R+aUP+t3N5W5s3W8xOHIurqj0UzlFfLiL9zd2TX
+	q3N/21eyKkv+40S+tYJoho2wrb+5Ja7qJcNRM+/Vkd798xWyWldO012YAQwiVNwT/2DNbbJ8NnrBZ
+	5YD4qcCNLuIUT2ubeDURc4rwwClsUNOoY7PoSZbHiHW+X+lr/Ovk1Nuyl+PLWKXqkcRPtnRi2LrA5
+	jGke9U5dgBHfz5ZcnzW7Szof0b7Yu4XjQL0D2yFILmngDqgxhATXaZMt9lZBqbGKzEv8+oP5W5xPg
+	9wxW5JCw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBwLP-0000000EQ8A-0Scx;
-	Sun, 12 Apr 2026 15:03:27 +0000
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+	id 1wBwLO-0000000EQ7x-23w4;
+	Sun, 12 Apr 2026 15:03:26 +0000
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBXp7-0000000DRlu-1ti6
+	id 1wB1rJ-0000000BUId-2exc
 	for linux-nvme@lists.infradead.org;
-	Sat, 11 Apr 2026 12:52:30 +0000
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-b9b1df1a6b3so339580566b.0
-        for <linux-nvme@lists.infradead.org>; Sat, 11 Apr 2026 05:52:28 -0700 (PDT)
+	Fri, 10 Apr 2026 02:44:38 +0000
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-35d9749c26dso1463555a91.2
+        for <linux-nvme@lists.infradead.org>; Thu, 09 Apr 2026 19:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775911947; x=1776516747; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1775789076; x=1776393876; darn=lists.infradead.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HzOvPiW8ztwbs3wF3jjs1dxbj2pwYigEFa9b+mMyiMw=;
-        b=RfHe5buIiGLycOprVrgwZDwHXhkZiv9J92smvIBBG0lpd99Xm008tjuLVh7AvMOYZH
-         vZry2LuJ/uhSuKt/sWibfe9877F+OEbZZOIlshT+45oFLH7Vyhenzh52xhCHj8Q3WTuU
-         rciS+LS0/qKvMnXpvMx+z3MHgoabnB4hysQW6GYYj6Np+yebIJhKAo6UPmE8DYBNrEnN
-         5fgSuRgP9X9MdylHmXhC+oq2mUEiMjgMqxKHVuP0ndOJwT+AYhd/UfyCus4RP820HnUB
-         5nhWQpOMFCZL97agn4+iCiUNqzuVrP3hCqmojVHgSBJcMlm+K444SWZ0sFjUrZvwZ5ha
-         lH6g==
+        bh=6Y42v4l6XRa4Mc3bL0tysYnB0VcDZSP2r5rXfsoOeKc=;
+        b=gj9KPZTOLKkuMlpEYEQeAvDiwGfOY3WyD9xSQKhAEGy+O6raPoyDdiQzewyCkak0vl
+         xYE4yrYPGlRUd2iia6TGD6lhohdOFVeRtR+BrqWcTjNio5f8nyL3AzBKJYWGU9gJjJfT
+         fZ1x2K52KSSeoqVj6HzAKcXN4K36YXNebs3VWzgRjV9oykqiy9sKcbjh6GPvXtDlYIef
+         tyDvpwr496aUS9SQggSziP8zE5rNJqgM5qcCr4k51wAqgT9Imy+qkG0EOLDtAvvmIf8U
+         vWrw7qAtcRK6VPeVEpIfGkWHL5efJpSRj+PlUL41ovPqUjtN0BNJzxskcsSX858bYiK2
+         oDpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775911947; x=1776516747;
+        d=1e100.net; s=20251104; t=1775789076; x=1776393876;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HzOvPiW8ztwbs3wF3jjs1dxbj2pwYigEFa9b+mMyiMw=;
-        b=D5zzXQYGQ4dws9lUb5z473DlqUWGG5DPsHGzCPBD/7ajKC79G9QLBXSEB/UCQ2GBvV
-         RU9nXUXJ0RKtTvyMohGLGRwHvmq4ZU6ONgeDkN1jWKlTqkOxz1WxBbDcpMzX0NIDlIJT
-         egnyDVsUo+rwhDf+BwJ6AEESN1xxEM9M47jHEZIlE8r+v2OXOW6cWGp+Y9Tc6Pxk2D59
-         ohAc8VCs/33r1UbW1Uqk/dDJOpO2GaqOhOb2O4cmf5TgC1+VV4427TLxDvqDyp9f9Izt
-         8hcAXm6V/27ePb70LSO0K4nnTHplh3m54jOVMKjMb95rzgRBIy2dSfVV53MeG5r5AlSZ
-         EKcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMrQ+arUu/wFbueltrE3Xynn7gXwYpaA4zf0h3pp7r3dwomEklttCrwdYXIBHIv3OWfvzWOWPejjsI@lists.infradead.org
-X-Gm-Message-State: AOJu0YxSxIqTWSmtwqJTmcN7pCHebfF9fCIE6+zzX8e8WodjwXTPNQIA
-	8KgSVQuU01kJQHpeQ9ZhYMQvtED7LirOXPfHHuabfvgUDtH/etxI3kdm
-X-Gm-Gg: AeBDiesrZlkuIYnNhO1JbaYpKh18pMfDDyXbdAtMASFNhLh0Ociy0atskPy00cKRz/o
-	vYGRLhUD4ifUQtuR4pFcuJumTDSTjat8cfhMKsz2QLxij7AokhbCB6hMf+71F8j1czaZCDA7SPB
-	F9egY8ysjfOn9S5WcjGfYbOHqO6LrSt/m5W+Rxf0XKFlCfnUjQGZ29OPj+tnlGsckxkTs4sRYKm
-	a99HhO18YWm4tXqO46H2/MDoSHqUcjCEOlnEHJZsDQYD83xLMlQBU7gnrwzHZzIUXTETJarGn5I
-	HNblMEglqQUgJMPxC+fLnfKn7BfLuakqEc+EouQjo9eANzqa9RKrdhk/7ZlTWf8T/VSiu1Tjj8I
-	KaTPlt/PMAx1kbcN8B3XF+a7PhpVURjiBBhvOWgz7kbaa6PJ4xAcwPC7zXMKcqZigP58SCg2OdC
-	iFxD+P8lnwgIH+1vj1cVCukv7IV+yYOHTFz2mtuyD+Z63+mxUBw1/AOzNqT25eoioagUkNkk9jB
-	QJVdil1
-X-Received: by 2002:a17:907:8b98:b0:b87:d09c:1825 with SMTP id a640c23a62f3a-b9d72792c0cmr382274666b.13.1775911946574;
-        Sat, 11 Apr 2026 05:52:26 -0700 (PDT)
-Received: from fedora (185-147-214-8.mad.as62651.net. [185.147.214.8])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6e7f1e87sm159883666b.61.2026.04.11.05.52.05
+        bh=6Y42v4l6XRa4Mc3bL0tysYnB0VcDZSP2r5rXfsoOeKc=;
+        b=Wlf9yksOSVvS0X/UKkY8nHO/2x3cXwVEFYxjX8Cd7x1X6wqU/XHqQLc2D0cN35VrrT
+         pxeWWUqC6a29Jegdaog9rxX/KEnVM8MTcE7zJh0K04cLzn9BJNAjRZ/F5Eknie68m1x0
+         g6mFg68/+aaUwnhrvoLg0OWHMMxfvwRPqvenXmOpDKqEyzsynkLJAj16n0IcFI6am15O
+         momFpVsf1B2Vn0ND//osf5U/jpq+H2mkRSjALpqIaPSY9uDf3DHEHFbqXVfkb33jBLsL
+         RdctNZXwpLG+qUShdPny95oWuhY/ofrCUo+/xk9WApTK55uB3jJ4+SRfsPxIP3s1Tdx+
+         Oxgg==
+X-Forwarded-Encrypted: i=1; AJvYcCWWCPEQShro9VUP79/qrv1o56I7tgol+B6V/SE0aUyOyGH/WYPL22USYUdvuz3c7521NeMhTUol3xFW@lists.infradead.org
+X-Gm-Message-State: AOJu0Yw8SkFgydnXH4vyZliMsqQ82GhPG3OEIIU+mWYrRKK7SGnEaQKo
+	prNnO+rE6UCiIWz5LkTCbEQJufWW7cTy4Gj2xSYt4/KRKgSs8Bj3Z695
+X-Gm-Gg: AeBDietFQEu1LNn+hbbRJgZuslIhK6ZR5Wu/lf5cqPzv+Qtls0I+VDqvqLpnz9fYeBi
+	nrJzyNMOyIS4wrsc6uriMEXJojfu4bRiGPmLYhLmX7xHiGoe/QH2Q7ROvL0/UE7RUcptxou0MM3
+	Q5Woy2OJu+TwVw06dE4EeHTYivcosDuaKFMXHefGJ1D0i8iL97RZw9c2usB0TEsIXAAFyvv67/f
+	NKdhpqyG7PFtlp7VeshUCx+xOppYRrhM3+JEBJIEsraggKDuxkEFrJHLquoHEcRjvcau6jtaT4j
+	44h6Wj34QSw9qkBf0ON8d5kfczvnWxTscyWt+HoFPiFFz04kWGzbrnyKLkjsV4A2OchG63UmnNX
+	c9WRMootq6rqA6x0LNMhi0n2hsusPQlTmjRI2wzbDo1nn6j9+KmVIw1RO7zaymC8S3WwGUP1Ftu
+	aUr6Wn9PGlysQnCrki77dWfvRgBJ3B8aE3tO1L6GUMYFVAHWbKXVLW
+X-Received: by 2002:a17:90a:e7ca:b0:359:974a:3d65 with SMTP id 98e67ed59e1d1-35e4285280dmr1485690a91.16.1775789075530;
+        Thu, 09 Apr 2026 19:44:35 -0700 (PDT)
+Received: from fedora ([2001:250:3c1e:503:ffff:ffff:74aa:4903])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35e35156445sm4526177a91.14.2026.04.09.19.44.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 05:52:25 -0700 (PDT)
-Date: Sat, 11 Apr 2026 20:52:00 +0800
+        Thu, 09 Apr 2026 19:44:34 -0700 (PDT)
+Date: Fri, 10 Apr 2026 10:44:15 +0800
 From: Ming Lei <tom.leiming@gmail.com>
 To: Aaron Tomlin <atomlin@atomlin.com>
 Cc: Ming Lei <ming.lei@redhat.com>, axboe@kernel.dk, kbusch@kernel.org,
@@ -92,7 +91,7 @@ Cc: Ming Lei <ming.lei@redhat.com>, axboe@kernel.dk, kbusch@kernel.org,
 	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
 	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
 Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
-Message-ID: <adpD8M8cNu3IZzEL@fedora>
+Message-ID: <adhj_w11cpMfeEgN@fedora>
 References: <20260401222312.772334-1-atomlin@atomlin.com>
  <20260401222312.772334-14-atomlin@atomlin.com>
  <ac8l-w8ERG1YN2Wm@fedora>
@@ -101,15 +100,13 @@ References: <20260401222312.772334-1-atomlin@atomlin.com>
  <zawhqvn53mcp4wf7axsmuq4cg73upxs5h2zgrfta5dpat3sfy4@zctfbz2ttz5m>
  <CAFj5m9JE5e4DRGbzQFxDdZWU76ZPQ3G+C9JpLu0mhTB6aesZ9g@mail.gmail.com>
  <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
- <adhj_w11cpMfeEgN@fedora>
- <dzpxscrhibmi5okkozf5jfull4dcajgpctldvdyfcjgmpeetk5@tkeyqouyabzy>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dzpxscrhibmi5okkozf5jfull4dcajgpctldvdyfcjgmpeetk5@tkeyqouyabzy>
+In-Reply-To: <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260411_055229_561941_F18CF7E8 
-X-CRM114-Status: GOOD (  27.05  )
+X-CRM114-CacheID: sfid-20260409_194437_690059_50711805 
+X-CRM114-Status: GOOD (  29.87  )
 X-Mailman-Approved-At: Sun, 12 Apr 2026 08:03:19 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -125,122 +122,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 10, 2026 at 03:31:22PM -0400, Aaron Tomlin wrote:
-> On Fri, Apr 10, 2026 at 10:44:15AM +0800, Ming Lei wrote:
-> > For unmanaged interrupts, user can set irq affinity on housekeeping cpus
-> > from /proc or kernel command line.
+On Thu, Apr 09, 2026 at 09:45:04PM -0400, Aaron Tomlin wrote:
+> On Thu, Apr 09, 2026 at 11:00:09PM +0800, Ming Lei wrote:
+> > How can the isolated core be scheduled for running polling task?
 > > 
-> > Why is unmanaged interrupts involved with this patchset?
-> 
-> Thank you for your continued engagement and for ultimately supporting the
-> progression of this series.
-> 
-> To clarify the handling of unmanaged interrupts, while it is entirely true
-> that an administrator could attempt to manually configure "irqaffinity=" or
-> via procfs after the fact, this series actively address unmanaged interrupts.
-> 
-> > > CPUs, thereby breaking isolation. By applying the constraint via io_queue
-> > > at the block layer, we restrict the hardware queue count and map the
-> > > isolated CPUs to the housekeeping queues, ensuring isolation is maintained
-> > > regardless of whether the driver uses managed interrupts.
-> > > 
-> > > Does the above help?
+> > Who triggered it?
 > > 
-> > As I mentioned, managed irq already covers it:
+> > > loop waiting for the hardware completion. This would completely monopolise
+> > > the core and destroy any real time isolation guarantees without the user
+> > > space application ever having requested it.
 > > 
-> > - typically application submits IO from housekeeping CPUs, which is mapped
-> >   to one hardware, which effective interrupt affinity excludes isolated
-> >   CPUs if possible.
+> > No.
 > > 
-> > I'd suggest to share some real problems you found instead of something
-> > imaginary.
+> > IOPOLL queue doesn't have interrupt, and the ->poll() is only run from
+> > the submission context.  So if you don't submitted polled IO on isolated
+> > CPU cores, everything is just fine.  This is simpler than irq IO actually.
 > 
-> If we trace how mpi3mr sets up its ISRs, it relies heavily on the core
-> grouping logic:
+> Yes, you are entirely correct. The ->iopoll() is indeed executed strictly
+> within the submission context. In the example below, the file operations
+> iopoll callback is iocb_bio_iopoll():
 > 
-> mpi3mr_setup_isr
-> {
->   unsigned int irq_flags = PCI_IRQ_MSIX
-> 
->   struct irq_affinity desc = { .pre_vectors =  1, .post_vectors = 1, }
-> 
->   pci_alloc_irq_vectors_affinity(mrioc->pdev, min_vec,
->                                  max_vectors, irq_flags, &desc)
->   {
->     if (flags & PCI_IRQ_MSIX) {
->       // affd != NULL
->       __pci_enable_msix_range(dev, NULL, min_vecs, max_vecs, affd, flags)
+>       // file->f_op->iopoll(&rw->kiocb, iob, poll_flags)
+>       iocb_bio_iopoll(&rw->kiocb, iob, poll_flags)
 >       {
+>         struct bio *bio
 > 
->         for (;;) {
-> 
->           msix_capability_init(dev, entries, nvec, affd)
->           {
->             msix_setup_interrupts(dev, entries, nvec, affd)
->             {
->               // affd
->               irq_create_affinity_masks(nvec, affd)
+>         bio = READ_ONCE(kiocb->private)
+>         if (bio)
+>           bio_poll(bio, iob, flags)
+>             if (queue_is_mq(q))
+>               blk_mq_poll(q, cookie, iob, flags)
 >               {
->                 for (i = 0, usedvecs = 0; i < affd->nr_sets; i++) {
->                   unsigned int nr_masks, this_vecs = affd->set_size[i]
->                   struct cpumask *result = group_cpus_evenly(this_vecs,
->                                                              &nr_masks)
->                   if (!result) {
->                     kfree(masks)
->                     return NULL
->                   }
+>                 if (!blk_mq_can_poll(q))
+>                   return 0
 > 
->                   for (int j = 0; j < nr_masks; j++)
->                     cpumask_copy(&masks[curvec + j].mask, &result[j])
->                   kfree(result);
+>                 blk_hctx_poll(q, q->queue_hw_ctx[cookie], iob, flags)
+>                 {
+>                     int ret
 > 
->                   curvec += nr_masks
->                   usedvecs += nr_masks
+>                     do {
+>                         ret = q->mq_ops->poll(hctx, iob)
+>                         if (ret > 0)
+>                             return ret
+>                         if (task_sigpending(current))
+>                             return 1
+>                         if (ret < 0 || (flags & BLK_POLL_ONESHOT))
+>                             break
+>                         cpu_relax()
+>                     } while (!need_resched())
+> 
+>                     return 0
 >                 }
 >               }
->             }
->           }
->         }
->       }
->     }
->   }
-> }
 > 
-> The critical issue lies at the invocation of group_cpus_evenly(). Without
-> this patchset, the core logic lacks the necessary constraints to respect
-> CPU isolation. It is entirely possible, and indeed happens in practice, for
-> an isolated CPU to be assigned to a CPU mask group.
+> If an application on an isolated CPU does not explicitly submit a polled
+> I/O request, it will not poll. Thank you for correcting me on this.
 
-It is one bug report? No, because it doesn't show any trouble from user
-viewpoint.
-
-Sebastian explains/shows how "isolcpus=managed_irq" works perfectly in the
-following link:
-
-https://lore.kernel.org/all/20260401110232.ET5RxZfl@linutronix.de/
-
-You have reviewed it...
-
-What matters is that IO won't interrupt isolated CPU.
+Great, you finally get the point.
 
 > 
-> The newer implementation of irq_create_affinity_masks() introduced by this
-> series resolves this. It considers the new CPU mask added to the IRQ
-> affinity descriptor. When group_mask_cpus_evenly() is called, this mask is
-> evaluated [1], guaranteeing that isolated CPUs are entirely excluded from
-> the mask groups.
+> > Can you share one example in which managed irq can't address?
 > 
-> [1]: https://lore.kernel.org/lkml/20260401222312.772334-8-atomlin@atomlin.com/
+> Without io_queue, the block layer maps isolated CPUs to these queues, and
+> the device will fire unmanaged interrupts that can freely land on isolated
 
-Not at all.
+For unmanaged interrupts, user can set irq affinity on housekeeping cpus
+from /proc or kernel command line.
 
-isolated CPU is still included in each group's cpu mask, please see patch
-9:
+Why is unmanaged interrupts involved with this patchset?
 
-https://lore.kernel.org/linux-block/20260401222312.772334-1-atomlin@atomlin.com/T/#m59df0689ef144f5361535ce59c9ed5923d6e21d5
+> CPUs, thereby breaking isolation. By applying the constraint via io_queue
+> at the block layer, we restrict the hardware queue count and map the
+> isolated CPUs to the housekeeping queues, ensuring isolation is maintained
+> regardless of whether the driver uses managed interrupts.
+> 
+> Does the above help?
 
+As I mentioned, managed irq already covers it:
 
+- typically application submits IO from housekeeping CPUs, which is mapped
+  to one hardware, which effective interrupt affinity excludes isolated
+  CPUs if possible.
 
-Thanks, 
+I'd suggest to share some real problems you found instead of something
+imaginary.
+
+> 
+> > > >
+> > > > IMO, only two differences from this viewpoint:
+> > > >
+> > > > 1) `io_queue` may reduce nr_hw_queues
+> > > >
+> > > > 2) when application submits IO from isolated CPUs, `io_queue` can complete
+> > > > IO from housekeeping CPUs.
+> > >
+> > > Acknowledged.
+> > 
+> > Are there other major differences besides the two mentioned above?
+> 
+> I believe the above is sufficient. Please let me know your thoughts.
+
+Both two are small improvement, not bug fixes. However the user has to pay
+the cost of potential failing of offlining CPU. Not mention the little 
+complicated change: `19 files changed, 378 insertions(+), 48 deletions(-)`
+
+But I won't object if you can update the commit log/kernel command line
+doc and fix the issue found in review.
+
+Thanks,
 Ming
 
