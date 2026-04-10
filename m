@@ -4,105 +4,150 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 62958F45A12
-	for <linux-nvme@archiver.kernel.org>; Fri, 10 Apr 2026 22:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E28E4E937E4
+	for <linux-nvme@archiver.kernel.org>; Sun, 12 Apr 2026 15:03:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jLwMpFotmNz9qSI+dw+StTfkgSeaXjf1JHydsM6F8ys=; b=zRRTj9sLud+CH4llIANQS89GT8
-	N9tqkX5hUQI9jjDoc34RKZey8nVYDYEnAN7cq+23JOnfSzZb/yAO44+0VE72rboDTg2JvU3f8Me6Y
-	9aj4t6rOR1VHslpwKEko1LCpqfnjfY+nbEhS79/KvRDwV8hMciQVTGAjYquk2QLPenKigT0mc2fu4
-	e+FqZMGbkcLBv2mOUe7TW2vMptXrZDYhXJ9dVV19tmEgFMUnHlUZ8JQPnP0FSkWyzFqXoSP4mDYRv
-	KLqeEIffsjcBPnQTY9Dq9Tv3VftWDxvQgcvNocNlWqNzUKWV+a1AV2WhPjWI0eDWLsJLCCiSFb/8t
-	kRxCetAQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=aN+iqz1D+rKY6m+3GMhmbywHrbXvzNdNU15YhKcPeBY=; b=V+xWKuCZaSZYIS3SBOo1yY6Q8v
+	9zPmp1qBXIRbWlKZfS0/NV9fPd3IOhFq6TOKVUWpYYMPlM5lwqM7EfrrGT7Ug2q4RQH09FfR06zTX
+	7P9xQqvxxqggdqhZc075GcBYu9AcDCS06P0nlzcV+lIJomo9Xusg9K7eOOyesPLJdo5jwrTIfFvBD
+	JiWQvSSPB5UIAxl6LQOm5SvtA06oX34WiFHbx8Y2eB9bigrgy5kzbzK1mkY0njhZCjIk0PAog8SSU
+	XBJbg9vB+kqhYZgSMhmtsAG6dPMsIUiVUWKRsAN7PQtV9xniesaEk7W0qiSY2rxxprUq4NObfTdpz
+	l6TnN0ug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBKVm-0000000CtMG-355N;
-	Fri, 10 Apr 2026 22:39:38 +0000
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e])
+	id 1wBwLO-0000000EQ83-3NcC;
+	Sun, 12 Apr 2026 15:03:26 +0000
+Received: from mail-uksouthazlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c205::3] helo=LO2P265CU024.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBKVk-0000000CtLo-0FVp
+	id 1wBHZk-0000000CjLq-2BtS
 	for linux-nvme@lists.infradead.org;
-	Fri, 10 Apr 2026 22:39:37 +0000
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-79a60975dc5so29376647b3.0
-        for <linux-nvme@lists.infradead.org>; Fri, 10 Apr 2026 15:39:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775860774; cv=none;
-        d=google.com; s=arc-20240605;
-        b=I+jybzmxeBoRoI/yaWlHkM79W5Sjmqb1e6TaBgMwz0g/cuMONtE6H3qQAAe0ONuzJq
-         PMntZc94ToOkcYiX6jU9ExvaEk42BBpygnQImgyzpGME+lpgc+13fEqgiq7pL9eVlqzk
-         ZBt1D77Il2V7wrAhoH+l3YOqzXWy7HZcr5N4Bkg5FEofKsDpFWoX2O9YlSEfi8KQF0O9
-         W7YVpI8NmNDHcd03JhOy0js0cW+LMveWvJfiqiZzoVKXb5hTZuHR9gqXQf1jXll2qzW5
-         TDWIbpp0Dq+CyqNonHJ8rObitfXI8ddOOWZFevE2x+RwcNzmfoLJmTIKP1NrJ+BpB0UQ
-         8DpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jLwMpFotmNz9qSI+dw+StTfkgSeaXjf1JHydsM6F8ys=;
-        fh=8pgtm7/YrQoilv7dmsi4rBrFdcN+aD3TWfnBF5ccpec=;
-        b=FjZmkylAHE1NMr5i5XJlzWEl88sCqhAqCxe0Hr7hUESUgVW1tLpZQLffO1dX17wle/
-         eEgziAUfTAwQpaiN3MgsV8rHi/Pc4jPzgPUY1NQP6JKfbBM4Yzl5QZjrNVNjLWvS6eFe
-         BVJKcavJhc16sMeYh3miMsdf5ngybPfYyYejeae8VMeoCZPYI7OdAuau/rlixyqQe9GT
-         sRpTpaeG6Ugqr4WEfULD9tITQRwPG4cbCNrG3LLQPmydAn0t5a2T3TLS2PnxMRDAERTF
-         58D9JV8GfB0UiRLq8i25uKFUBh7ijOWdR+GYtMotBdtnEdsDi+Ny16uJkY3zn4gkg9an
-         JMlA==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=uber.com; s=google; t=1775860774; x=1776465574; darn=lists.infradead.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jLwMpFotmNz9qSI+dw+StTfkgSeaXjf1JHydsM6F8ys=;
-        b=4KxuWtmELLUAS1eKeGJkZc/V6xLNGHx7dljhtPQ7FjElcW30biHTRWtCO4Zn29VU1W
-         mtK6GiMm45VY8uF0MCFhyOwA2uRDwj88axQKDCixtpFCw9djzY7PDYThmJV86Fe4EMzV
-         1oH54Sh6J1RMYvI64NHJuDINeWhD5bGT+59vc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775860774; x=1776465574;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jLwMpFotmNz9qSI+dw+StTfkgSeaXjf1JHydsM6F8ys=;
-        b=BnY0vMAsB61nF768G3limTJOPFRbb4kHtbQOu7MWZzzg+6bSmJTBVdlLO8CmVVO5m1
-         xoiOz/rMpIB6GRxDbnYAQJOi5UPi1G0F7SSxsHSpEQxKD4CXOgXEYnsSkUe0iRMglKh6
-         zVs+JDG2ls+go18AdE8QMXIfWlqd4qYt/aTZ4271S1izQnBIdLSd945R83yzXbszj6Iw
-         HO4yumlfyqRgAoKs2P4NbYZj4HkjSbh97+BH2aDBzx6UwOOBrBEKMIpNvsbA9BNvonFu
-         IjoKE+Id7SCPfXq/Ndl+LklxIk1DBBdzIdj2BpQOcWkjjsQmkQDJcJskUnG0UkNCoM3q
-         xdcg==
-X-Gm-Message-State: AOJu0YxpobLtteWyHW2AHTIQfofwwUHePSqr48K02gURGdyOlJ/5FRRC
-	zJEKbboVg2d+75qD1WtzZ2ACwMIl/uueo9yZV2vjgMdFVehEXrlHqNUDM+fFYcTidXcZpQKCzQy
-	YVWvOhkpPjrxtce49gQOzCmKCvCHx3niHW4pAXlpee7yZ0SOv92FbPkBm8+vb
-X-Gm-Gg: AeBDietiqkGseaYKCWEMDyYX3S+U5OWrQCa3F4o0bNLtp2v6viX/xhBJkCtQFO0jf8I
-	osZrBCr/Bf9sMQm1U1d61wo2uaA8jPahxZcA6doN/Oxa9P7C8zpHOUiuX++XEorbnzI9I4+wODS
-	w9D6t6D+PDHwacIutAgPfcNUhaZa18iv3rgigzEgUXcglcUIPYo6YZ7k4r/rK4VvC6B8m/BkKhT
-	0WuBKgIUiPf6g1hHwyq98XOpzILOeCfe0UFcNNg4rs2JAm5tvdbVU2cj0ldfi9mPpHzRr7vV3C8
-	LrGVd2PA
-X-Received: by 2002:a05:690c:6612:b0:79a:5164:bb2b with SMTP id
- 00721157ae682-7af6f327722mr51252397b3.7.1775860774045; Fri, 10 Apr 2026
- 15:39:34 -0700 (PDT)
+	Fri, 10 Apr 2026 19:31:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rnPRBDIzAD7EoawlNuuYGsHyrueG+Nr8o5+8l2okajNiBYwMvuh+8sarLCUJaE6jT24BCPwuuahldEGL7tSAPZIq41jIjUfuH45bj2OgiLcSBtk5G40+WPkI1vQtyXj5SrLisGu4aI00N0SW+vB6Yh81TNZQ0s+JrBa5d0v3RH4yWCeQre4e3lxXXI96vnL/kPEBK9ebRoprlGod4jFgUqQOIyj2CID+ulSm3L0IZDTvhhKBx/YxcEeyrTz37kkgNXyhAMupkuH/ZaQ2KBA8uJHSm4om5Z9pI/CB//DY0vipnSYFQB8kYyo/604WHWhmIZazTBRfS8kglEWUL+pu6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aN+iqz1D+rKY6m+3GMhmbywHrbXvzNdNU15YhKcPeBY=;
+ b=j0JwUzgpOqg/JIPGvNslpovFc4jANyJQslY3sfCK6Suz9Av4MD2erS0ySCM6RtEBFgsB6cZ3UHj1RoLtZE87iuxvQTBIaeo5NvXXPmrjJrai5gsAkmN1YeGvJUd2OAEd/bHKigaKCU95M2AWZFPoDrS5Vwir7MeK3FuULw1zu7yDX3aAcHgTfyo0wLAOgesBiD+RdzW/1Lw818369Hah+wV184fDFychILQ/ZkMrQZVztBLcXiqmLLEVVel9oarjoFDBd02lMagfJlUoXNvcTfpxTlFjOEi7Ex3LjBJDSQv/zUi2zxMDih5o1ygvwdMNY3gxYFBJy0RIMyvceaensg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by CWLP123MB3924.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:a1::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.46; Fri, 10 Apr
+ 2026 19:31:27 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.044; Fri, 10 Apr 2026
+ 19:31:27 +0000
+Date: Fri, 10 Apr 2026 15:31:22 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Ming Lei <ming.lei@redhat.com>, axboe@kernel.dk, kbusch@kernel.org, 
+	hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com, 
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com, liyihang9@h-partners.com, 
+	kashyap.desai@broadcom.com, sumit.saxena@broadcom.com, 
+	shivasharan.srikanteshwara@broadcom.com, chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, 
+	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, 
+	jinpu.wang@cloud.ionos.com, tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, vincent.guittot@linaro.org, akpm@linux-foundation.org, 
+	maz@kernel.org, ruanjinjie@huawei.com, bigeasy@linutronix.de, 
+	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
+	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, steve@abita.co, sean@ashe.io, 
+	chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
+	MPT-FusionLinux.pdl@broadcom.com
+Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
+Message-ID: <dzpxscrhibmi5okkozf5jfull4dcajgpctldvdyfcjgmpeetk5@tkeyqouyabzy>
+References: <20260401222312.772334-1-atomlin@atomlin.com>
+ <20260401222312.772334-14-atomlin@atomlin.com>
+ <ac8l-w8ERG1YN2Wm@fedora>
+ <nxe24ixebb4lm2d5w4aubhtwr23df6mumqd663axj35oswdiyv@amtqhtsidyr4>
+ <adMoon3Zf6gO-UbA@fedora>
+ <zawhqvn53mcp4wf7axsmuq4cg73upxs5h2zgrfta5dpat3sfy4@zctfbz2ttz5m>
+ <CAFj5m9JE5e4DRGbzQFxDdZWU76ZPQ3G+C9JpLu0mhTB6aesZ9g@mail.gmail.com>
+ <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
+ <adhj_w11cpMfeEgN@fedora>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="keld3sctnoz6tzs5"
+Content-Disposition: inline
+In-Reply-To: <adhj_w11cpMfeEgN@fedora>
+X-ClientProxiedBy: MN2PR08CA0019.namprd08.prod.outlook.com
+ (2603:10b6:208:239::24) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 MIME-Version: 1.0
-References: <CA+w=M=SEUeGvXaK6OqdDVjYrbagnzDgAMgCRHbRqoYvS+OgW=w@mail.gmail.com>
- <c773c37c-b4ce-4f3f-927f-0be8a9b2d7a5@arm.com> <CA+w=M=SmUFUCfS6kGvRh3A4Vq++gSwhuPK7gn-ebWnM6BkpiZQ@mail.gmail.com>
- <CA+w=M=THPjp9JwDPe_XpLcEpLTLakCf8OiybSbLwOPxjmAHy0w@mail.gmail.com>
-In-Reply-To: <CA+w=M=THPjp9JwDPe_XpLcEpLTLakCf8OiybSbLwOPxjmAHy0w@mail.gmail.com>
-From: Alireza Haghdoost <haghdoost@uber.com>
-Date: Fri, 10 Apr 2026 15:39:17 -0700
-X-Gm-Features: AQROBzAheFmuUjqq6dqy8RnxTIRftTFHZJAZ9Du3u4CTLlxXL3_Uubzg8grCZ_E
-Message-ID: <CA+w=M=TKSo-vDuOfMEZv=SGfaOMZ91XPgG5rJadWbzXtReyM3w@mail.gmail.com>
-Subject: Re: [PATCH] nvme-pci: fix swapped arguments in SGL DMA unmap path
-To: linux-nvme@lists.infradead.org
-Cc: linux-iommu@vger.kernel.org, iommu@lists.linux.dev, jroedel@suse.de, 
-	Robin Murphy <robin.murphy@arm.com>, will@kernel.org, Nagi Parimi <nparimi@uber.com>, 
-	Kshitij Doshi <kshitijd@uber.com>, Jeff Bean <bean@uber.com>, Vikrant Soman <vsoman@uber.com>, kbusch@kernel.org, 
-	xboe@kernel.dk, hch@lst.de, sagi@grimberg.me, leon@kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWLP123MB3924:EE_
+X-MS-Office365-Filtering-Correlation-Id: f052a662-c4e7-4371-e7f4-08de9737c1cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|18002099003|56012099003|22082099003|27256017;
+X-Microsoft-Antispam-Message-Info: JcicWBwxtt2VdRhxksfWJo16GmQPLWodCX5uDezRiFrfEnqBTsg+jU5y+1yTZGyrsA+8GhWhZJemTkMI8vkGCOvVSAsfao2gdVBwXV223ourOwLCZVMHXqlS0DfSMz3btm5MsY8LqIIbPNWISImSm2c+pWW1wS7qneC6Evu7sdFQQlq9vfuJPJEDwaS2DBmZpJZ5NjHMyf4e4YxNswJRZEoISCa64x/h4X7rB0g8DEttZ46GM1Tjf0cl6IO09a8UXcqthiobh/XHgP+1zuFsaA+ajWc3imPYNh1KRVwtBmztL69RmLFg/moS6IdD5IB0Bk+WDc06i/YS5biopFUsZZVGhdCCd+Ps6RG3yJ03bVo/TKSseHuVYQpqgcFvygJJX+bsisIjZ6V3aRYw6zAIKEJYLN4O24PJvNcKL6rgCBWp8af0OUBMVX4BBEezosQeGHEfDub1Bvi+JLnZG7r+wW3/s21C44ITPsDDxQ0EcvNMp1QJQ18bYQvAT9d9S7bhsqWJpc7J0hTXJ7QG5VpvDDjJtu1nhnICBS2bSrsMtGuDLm/+sxg0Lf02k/DwlCLqEMaQfdYwjBkTxDgNlsxg7k1AvGNLz9ZuA1jxyqjwoCLcXJu1agFLNMbVffTh1PMSt5wGGEcylU40kk69sBbcDZaYcZVpqxElNt2IazJy55Vt0F0j2Lt9mt4YrGVHpyP8S4o7oZdY0m7NwIT4wup56cHGntSWxUc3539ftqUj6Jbzz6d3rhe2p5ac0Iq2QBg0LEZApaaE/FuRd8DY9wpHns+G/Oib+UTe0ggqT8zu6Vs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(18002099003)(56012099003)(22082099003)(27256017);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVpHeGk3ZXJZNXhNYnE5d0VkRnpwQ3hKVGpJQ2Z3T2p5QndHemtKUnpDc2ZR?=
+ =?utf-8?B?OXpSR0ZDN3V3N1JlRHVKaUhKT2lTVEczSGhlSFVqMFVaVklNczdPRC90NWM1?=
+ =?utf-8?B?dHpjUFVkQjJKSWFtTC9oTVN0elNQb1ZuSUlURm1iMm5xQyt0eWhuZDc1Z1N0?=
+ =?utf-8?B?UU5hS1B2Vzc1RUxWM2xkQ3laeDc3bGJrMDh1ZWhPcUJibmNSYXhPSnVScy9l?=
+ =?utf-8?B?Q2RmKzBFKzhQdEx2K08zTTI4cjFlTWhVSElST3RCWEV6cEJwV0RwT2kyNjN3?=
+ =?utf-8?B?MzlyMUQxWFR2YmhJbkZSRDEwRGpQVUNoVGpRdGp1ZkhWc2h5bGpQM0N6dGR3?=
+ =?utf-8?B?SG16bkhwRVkrSkhQRDNWckpzTVNSM1Uxc2JZR1VQeXNHRnY1YUlUUmppM2Ja?=
+ =?utf-8?B?bExRTzgrNkc5Y0h2dXRPdmg3a3RSZTNVMTFyWXhEbkJabXhscW5jcFpadUM3?=
+ =?utf-8?B?bUQ2S1dRaDZ1M0ZhTnErZ3FnQTlnbEh3Qjk5dDFNNU1BNGRHTW85YUUvNDhH?=
+ =?utf-8?B?VVRSeXNvNFZpT2ZRWTJRaTlMeFVrT2dNU2owVTlDTnZHZnZCM2hVR3ZPZFhP?=
+ =?utf-8?B?Z0lFa3dUaTBnQ1I3QjN1NVo1dTBxckFNcEtqRjg3MmM5NUpyQTEyTUJEbHJQ?=
+ =?utf-8?B?V011ZlhIVXJxWEU4UzN4Q0JvOGh6UUYrNU1qTXJLdEpaU2oxQTNkRStpaDFX?=
+ =?utf-8?B?YXh6bjZoZnVINCtTQW9NOVVNalZ6V0wyRjhyNm5UY2FkV2xlamswMFBCWFVF?=
+ =?utf-8?B?dWtzOG55dGp1UGxGR1VOT2gxaGY3bHlqdnZ3amIzejJWWkt3Tyt5eXVmR0Ix?=
+ =?utf-8?B?TFB2ODRZUVBCdHU4TW5taWs4SktDN2NKUGdUZWlQVGJacnZiV1VCU3kvYjVw?=
+ =?utf-8?B?dDg2ZHRkUkFTUzFVWEpHeVN5NmZPV0k4WkZCdjZOVm52TFNuTGxmYm1EV0Qr?=
+ =?utf-8?B?dEptY1p1dk0zMDFTVG14OXBRZVVMMEdsU3JmT00zc1hkWGZCcjkvajUranZE?=
+ =?utf-8?B?N2xGUjhURlVwa0xFQnFtVWdqNFZIK25adTlHeHJ5djBMWGE3ekNHa1VFaXZN?=
+ =?utf-8?B?M1RsOHorOXdDOEZRUFlJaW1rZnphZExsY0toNlMzaUw0cUtUcURHd0dVNVpz?=
+ =?utf-8?B?ZExBbHRYVnl0MkIwWTF4YmRpY2NUSVpGVGpkb2IxbStYblRKUWRHWGN6MVFG?=
+ =?utf-8?B?ek1HU1psbmU4bmQ2VThQZ3AxOHVDdGFkaThJMUwrU3A5MjMzUzVqNFJzNzdi?=
+ =?utf-8?B?NW1Jd2puSmNPUjhCeDNodCtMd29QNFpQd2RWSHlqcFR6b1kycFZFd3RKTVEw?=
+ =?utf-8?B?aDZBN1hHTnhYTW9DNXo3R3RodmQ2eDFtdy9hRGNUUWQvZk8rdk1HSzZHOEtX?=
+ =?utf-8?B?UzE1VkdsdVZvYldPT2l1MllNbDB2MVcrSnN5YTFzNXNCaU9LQ1pMMmhjSzI3?=
+ =?utf-8?B?VldaYUU2YnFYOGxWZit4a01kODBhVUxqZ1hpTjlUbnI1TzNmbjVnaC9UMmpU?=
+ =?utf-8?B?anYySjJwYlZiYWRoNmxYWDFLSmdIR2J2ckJrSHVCamdqZStaMll5UzlrVkZR?=
+ =?utf-8?B?VExXNUI5WStWY2kxQ1h2TDdmV3lkMXNlcmEzV0FWajB0MnA0Vi9DUUt6SGF0?=
+ =?utf-8?B?MHhrQzRoUVdDeGtqVk9WTXQzMUZ3aUx6U0o4a0ZUZUFqSHd1MHpzWFViU1Js?=
+ =?utf-8?B?RXRmcXdSeHlHb3FyNTVEMDJUbG5KSFhURjk0RjNKZ1hWcm0vQjBROWhwTi9D?=
+ =?utf-8?B?V2xxV0U5V1ZyUVFwaURIS1NXaWRHcVRNc0FkeTJCMThobjY1WDltNmtxQjlm?=
+ =?utf-8?B?UjZKYnVqL0NqZklxaGtxMDlISnlac2lxYmhITXQvTFAybmRSNmlmK0dwUWJt?=
+ =?utf-8?B?YWhhN1hiUjBPblp6UnhCV2hDSmlNMlhTb3c5WUFMNXJHWGNUemVNWlMrY2Yz?=
+ =?utf-8?B?UnFJK2dZNDg2ajFXYm5uaE15OGw3SEpoZlJOalpsTzh6U1JsUXRSa0p2a1JJ?=
+ =?utf-8?B?c1RCWktmbW9LdjVQd0tzd0lXd2tYaEdGem9YeDZRdEJCbEs5dEpMVFNrdXNH?=
+ =?utf-8?B?bThPbVRIUVBTSzBlZ2hkT0djMk9OK2RTUkVQdXorWlBNbEFESVk1Tnd4Z0dp?=
+ =?utf-8?B?SDNIOHIyNHhNbUwwdU94enVoelpobHdzOHd0MzFyL2VSTVlvS3JTU3lOWWo0?=
+ =?utf-8?B?WEJZd0ZiZDFYR0kzUlVza0tIZDQzc3EzU0huTW1DS0s5UEx2ZzZjRC9kRlhq?=
+ =?utf-8?B?bjVnQkRuWUd5MFVOKzBWN2RRajJYZmNVNW5ENEhqc0xoYTZCZUhHT202MzlF?=
+ =?utf-8?B?YVQrVTAzVUFWbnQ4T2d0Q3Z1Vklvb2hEVE1aOTdhZzN6MGZFeHo3QT09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f052a662-c4e7-4371-e7f4-08de9737c1cc
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 19:31:27.5299
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p/opH2gVWXJr0gOWGJgw7UJTPsHN4QFdFMOPLPnmheVEwHmwo1VaDe9e1OmLVy7ncbKXPwDtGw3ghimrtYe36w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB3924
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260410_153936_103567_A681878D 
-X-CRM114-Status: GOOD (  22.20  )
+X-CRM114-CacheID: sfid-20260410_123132_704981_D3345EF6 
+X-CRM114-Status: GOOD (  25.87  )
+X-Mailman-Approved-At: Sun, 12 Apr 2026 08:03:19 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,61 +162,159 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 10, 2026 at 3:29=E2=80=AFPM Alireza Haghdoost <haghdoost@uber.c=
-om> wrote:
->
-> The arguments to nvme_free_sgls() in nvme_unmap_data() are swapped for
-> the multi-entry SGL case. The first argument (sge) should be the
-> segment descriptor from the NVMe command's data pointer (type
-> NVME_SGL_FMT_LAST_SEG_DESC), and the second argument (sg_list) should
-> be the pool-allocated array of data descriptors.
->
-> With the arguments swapped, sge points to the first data descriptor
-> (type NVME_SGL_FMT_DATA_DESC). nvme_free_sgls() sees a data descriptor,
-> unmaps only that single entry, and returns -- leaking the DMA mappings
-> for all subsequent segments.
->
-> This manifests as unbounded iommu_iova slab growth on ARM64 systems
-> with 64K pages and IOMMU DMA translation, where IOVA coalescing is
-> disabled due to the NVMe 4K page / IOMMU 64K page granularity
-> mismatch. On x86 and ARM64 with 4K pages, IOVA coalescing handles
-> the unmap via dma_iova_destroy() and the buggy path is never reached.
->
-> Fixes: 7ce3c1dd78fc ("nvme-pci: convert the data mapping to blk_rq_dma_ma=
-p")
-> Signed-off-by: Alireza Haghdoost <haghdoost@uber.com>
-> ---
->  drivers/nvme/host/pci.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 28f638413e122..728999e4247d8 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -761,8 +761,8 @@ static void nvme_unmap_data(struct request *req)
->
->         if (!blk_rq_dma_unmap(req, dma_dev, &iod->dma_state, iod->total_l=
-en)) {
->                 if (nvme_pci_cmd_use_sgl(&iod->cmd))
-> -                       nvme_free_sgls(req, iod->descriptors[0],
-> -                                      &iod->cmd.common.dptr.sgl);
-> +                       nvme_free_sgls(req, &iod->cmd.common.dptr.sgl,
-> +                                      iod->descriptors[0]);
->                 else
->                         nvme_free_prps(req);
->         }
-> --
-> 2.39.5
+--keld3sctnoz6tzs5
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
+MIME-Version: 1.0
 
-Apologies, I wasn't aware Roger Pau Monne already submitted this fix
-(commit a54afbc8a2138 "nvme-pci: DMA unmap the correct regions in
-nvme_free_sgls"), which is already in 6.19.y. Please disregard this
-patch.
+On Fri, Apr 10, 2026 at 10:44:15AM +0800, Ming Lei wrote:
+> For unmanaged interrupts, user can set irq affinity on housekeeping cpus
+> from /proc or kernel command line.
+>=20
+> Why is unmanaged interrupts involved with this patchset?
 
-For the record, we independently confirmed the bug on production ARM64
-hosts (64K pages, IOMMU DMA-FQ) where it caused ~490 GiB of leaked
-iommu_iova slab over 42 days. Setting sgl_threshold=3D0 stopped the leak
-immediately.
+Thank you for your continued engagement and for ultimately supporting the
+progression of this series.
 
-Alireza
+To clarify the handling of unmanaged interrupts, while it is entirely true
+that an administrator could attempt to manually configure "irqaffinity=3D" =
+or
+via procfs after the fact, this series actively address unmanaged interrupt=
+s.
+
+> > CPUs, thereby breaking isolation. By applying the constraint via io_que=
+ue
+> > at the block layer, we restrict the hardware queue count and map the
+> > isolated CPUs to the housekeeping queues, ensuring isolation is maintai=
+ned
+> > regardless of whether the driver uses managed interrupts.
+> >=20
+> > Does the above help?
+>=20
+> As I mentioned, managed irq already covers it:
+>=20
+> - typically application submits IO from housekeeping CPUs, which is mapped
+>   to one hardware, which effective interrupt affinity excludes isolated
+>   CPUs if possible.
+>=20
+> I'd suggest to share some real problems you found instead of something
+> imaginary.
+
+If we trace how mpi3mr sets up its ISRs, it relies heavily on the core
+grouping logic:
+
+mpi3mr_setup_isr
+{
+  unsigned int irq_flags =3D PCI_IRQ_MSIX
+
+  struct irq_affinity desc =3D { .pre_vectors =3D  1, .post_vectors =3D 1, }
+
+  pci_alloc_irq_vectors_affinity(mrioc->pdev, min_vec,
+                                 max_vectors, irq_flags, &desc)
+  {
+    if (flags & PCI_IRQ_MSIX) {
+      // affd !=3D NULL
+      __pci_enable_msix_range(dev, NULL, min_vecs, max_vecs, affd, flags)
+      {
+
+        for (;;) {
+
+          msix_capability_init(dev, entries, nvec, affd)
+          {
+            msix_setup_interrupts(dev, entries, nvec, affd)
+            {
+              // affd
+              irq_create_affinity_masks(nvec, affd)
+              {
+                for (i =3D 0, usedvecs =3D 0; i < affd->nr_sets; i++) {
+                  unsigned int nr_masks, this_vecs =3D affd->set_size[i]
+                  struct cpumask *result =3D group_cpus_evenly(this_vecs,
+                                                             &nr_masks)
+                  if (!result) {
+                    kfree(masks)
+                    return NULL
+                  }
+
+                  for (int j =3D 0; j < nr_masks; j++)
+                    cpumask_copy(&masks[curvec + j].mask, &result[j])
+                  kfree(result);
+
+                  curvec +=3D nr_masks
+                  usedvecs +=3D nr_masks
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+The critical issue lies at the invocation of group_cpus_evenly(). Without
+this patchset, the core logic lacks the necessary constraints to respect
+CPU isolation. It is entirely possible, and indeed happens in practice, for
+an isolated CPU to be assigned to a CPU mask group.
+
+The newer implementation of irq_create_affinity_masks() introduced by this
+series resolves this. It considers the new CPU mask added to the IRQ
+affinity descriptor. When group_mask_cpus_evenly() is called, this mask is
+evaluated [1], guaranteeing that isolated CPUs are entirely excluded from
+the mask groups.
+
+[1]: https://lore.kernel.org/lkml/20260401222312.772334-8-atomlin@atomlin.c=
+om/
+
+> > > > > IMO, only two differences from this viewpoint:
+> > > > >
+> > > > > 1) `io_queue` may reduce nr_hw_queues
+> > > > >
+> > > > > 2) when application submits IO from isolated CPUs, `io_queue` can=
+ complete
+> > > > > IO from housekeeping CPUs.
+> > > >
+> > > > Acknowledged.
+> > >=20
+> > > Are there other major differences besides the two mentioned above?
+> >=20
+> > I believe the above is sufficient. Please let me know your thoughts.
+>=20
+> Both two are small improvement, not bug fixes. However the user has to pay
+> the cost of potential failing of offlining CPU. Not mention the little=20
+> complicated change: `19 files changed, 378 insertions(+), 48 deletions(-)`
+>=20
+> But I won't object if you can update the commit log/kernel command line
+> doc and fix the issue found in review.
+
+Thank you again for your rigorous review, patience, and invaluable
+guidance.
+
+
+Kind regards,
+--=20
+Aaron Tomlin
+
+--keld3sctnoz6tzs5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnZUAYACgkQ4t6WWBnM
+d9bYtg//ezxLS+33NSYa3jugqrQclQ2NymsjO1Np8yfQJgItc0uwWSZ2h4dbCq/N
+or0zeCnulJrd1sLPfmMG1ANuRYVdxLMdYjMBTHIKVhnoeZUG31fknVqLH94uqpZS
+GEzPNa9KHfM7/x/l1shJ2UfSPd6xqCtK7KOrqIC3oZpswtdwc50ul9VjtkY1rB3d
+hcW9agmrIZsiCy34+3Rf7I/Q+zQYHeKKLCsuzYgCjMRF3SvfJFe8EYfM33QYvlzG
+osK7hjYa6BH9FvKFaA8Bgcp+yrmWS2or9TWE1bZzdXH+suUgiUzEbsoMzPz5R8vH
+ezZ+oEheBiBXGCMb8U7VFleGyZdRyIvsrhMouknzCrrd2jACgiHPlWfc6PtJZbFJ
+2IT9GHg2g1UMegc42vJE+M+R5/nnij9fB48wwZO22u0mxXhdMa232EddGR97IAxx
+mQlsOtCNJ27nRQZkMbkWUXqJ1PaCClBdqheUtP6OrJtDp07yUS1WRaBG7mtBXYFr
+Q2h8xpSw4AsbRNfiGXw3Er4S3ovvKgmYFr6ULzaAPKxGJZGhnlb5YxBlBFcS1kMT
+SUDpFu0S7aLjqQZIv2L9xnPD89OVr/jDaKNG5ACTn698DgWS5g1vP/RDDWtts+tI
+Su81BdV5WRkGKCzYKGgaBomKi9AHswcMiNoiGFKwOkaNc0IVeTA=
+=oEK5
+-----END PGP SIGNATURE-----
+
+--keld3sctnoz6tzs5--
 
