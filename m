@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0E5D6EBFD21
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2026 09:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34848F34C5C
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2026 14:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=kxjVzw8V9Lcvz+NzEaiY0znxGfFm7EBWoqzTSE59sBQ=; b=xp9xc1DTb5Vj9i+dom7QlNm6dN
-	RDfeYt/l0MPGsp6eMZS/eksfCRiThoDx82TpU16LiqEI9H4+prZs46OIswkijfsOQjqS1wVOh2aFH
-	n08cUjXbSeQbEdnvuS7UmDqLcw8XrEqVslV+jztqyMecAa8HsSpFekAXbXfuNDcouWNoE6NmHaiYm
-	G5iu2Sf1skkhhAVoai8jTpJB7gd+effCOpBlDso54+m8jRvYwVmnkqfZMGI4/qHfhOmdkxq+rCruk
-	MY5e8AU5SxzkoMqZmpckNFA/e54hoz2d4/RSmNBEpoRE/UBFF1eiUggrYotuSNNgHx4aBT/W1Glvq
-	oXnhp/+g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:In-Reply-To:Date:From:Cc:To:Subject:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:References:List-Owner;
+	bh=HP9S3n9ohTA90q7DqlMhkAlv+dj6wUYe3IYkY65BWFk=; b=5EY2Bt4RNCrMeojSP3QlXyV2fT
+	QPKoA6yrK2QbVTBw5HZONj0xxzMtBlrnYvvCxp8F/hTj9elC98cXiuZgMR+/pGlfcYIiBn/Kah4hj
+	slAaE29xfJcAkHzAhn0H6MXbjU3AdNDKXGvWELNiemR951ZOaa/wbiFKh0xhU+Q28o0wTQbM6At/f
+	9RVodpX4xrdeOlHq9wlzc+HAoRIcDBz3ImlzEPUw9ZHhBueYSveyKRbO289nR7RURk2OBJv4bCyt8
+	8I2d5eVKXuMhGeO/VNKDf5/YfOM47txglL/oPmWO81swr9oZL1o4WG1zfEfaxoOLoLtrTutiixUZH
+	d4rhOQKA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCDUS-0000000FM2i-0yQ1;
-	Mon, 13 Apr 2026 09:21:56 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1wCIWe-0000000FtB0-1QXF;
+	Mon, 13 Apr 2026 14:44:32 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCDUO-0000000FM1Z-0bKp
+	id 1wCIWd-0000000FtAn-090w
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Apr 2026 09:21:53 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id c11fd561 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Mon, 13 Apr 2026 11:21:45 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 13 Apr 2026 11:21:45 +0200
-Message-Id: <DHRX0LGNILAX.LTFZVPDRLGOH@arkamax.eu>
-Cc: <mheyne@amazon.de>, <emilne@redhat.com>, <jmeneghi@redhat.com>,
- <linux-nvme@lists.infradead.org>, <dwagner@suse.de>, <mlombard@arkamax.eu>,
- <mkhalfella@purestorage.com>, <chaitanyak@nvidia.com>, <hare@kernel.org>,
- <hch@lst.de>
-Subject: Re: [PATCH V3 0/8] nvme: Refactor and expose per-controller timeout
- configuration
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Hannes Reinecke" <hare@suse.de>, "Maurizio Lombardi"
- <mlombard@redhat.com>, <kbusch@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260410073924.61078-1-mlombard@redhat.com>
- <e7a5ab7f-722e-4767-a9a6-2a1ae73bd8b7@suse.de>
-In-Reply-To: <e7a5ab7f-722e-4767-a9a6-2a1ae73bd8b7@suse.de>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260413_022152_579683_B205A747 
-X-CRM114-Status: GOOD (  15.97  )
+	Mon, 13 Apr 2026 14:44:31 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 157E860180;
+	Mon, 13 Apr 2026 14:44:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FBB0C2BCAF;
+	Mon, 13 Apr 2026 14:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776091469;
+	bh=jbiSzVdz/p/7pNFUJlQ9IB8k9wNNlGKhRKqLC0oxWps=;
+	h=Subject:To:Cc:From:Date:In-Reply-To:From;
+	b=QbayfFZqtaKLKaFL/QlaYrbDzb3oL5Nek04HPtfx4orCIHtQUK8LvcNdYYZwysMRP
+	 VH/9460J5YXibgy2Rv4x/pDn2gGg/47GXPj+IQgP7E4c0uPLXy3fpG+7IwbYEbotT0
+	 2LFtz3Y6yiqDCDg5Jxh1G5EGmTKxhrrCOeq6Wakc=
+Subject: Patch "nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()" has been added to the 5.10-stable tree
+To: axboe@fb.com,emilne@redhat.com,gregkh@linuxfoundation.org,hch@lst.de,james.smart@broadcom.com,jsingh@cloudlinux.com,justin.tee@broadcom.com,kbusch@kernel.org,linux-nvme@lists.infradead.org,mpatalan@redhat.com,sagi@grimberg.me
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 13 Apr 2026 16:43:30 +0200
+In-Reply-To: <20260223172241.291649-3-jsingh@cloudlinux.com>
+Message-ID: <2026041330-domestic-reconcile-28b9@gregkh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,65 +65,120 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Apr 13, 2026 at 10:12 AM CEST, Hannes Reinecke wrote:
-> On 4/10/26 09:39, Maurizio Lombardi wrote:
->> This patchset tries to address some limitations in how the NVMe driver h=
-andles
->> command timeouts.
->> Currently, the driver relies heavily on global module parameters
->> (NVME_IO_TIMEOUT and NVME_ADMIN_TIMEOUT), making it difficult for users =
-to
->> tune timeouts for specific controllers that may have very different
->> characteristics. Also, in some cases, manual changes to sysfs timeout va=
-lues
->> are ignored by the driver logic.
->>=20
->> For example this patchset removes the unconditional timeout assignment i=
-n
->> nvme_init_request. This allows the block layer to correctly apply the re=
-quest
->> queue's timeout settings, ensuring that user-initiated changes via sysfs
->> are actually respected for all requests.
->>=20
->> It introduces new sysfs attributes (admin_timeout and io_timeout) to the=
- NVMe
->> controller. This allows users to configure distinct timeout requirements=
- for
->> different controllers rather than relying on global module parameters.
->>=20
-> What about KATO?
-> With this patchset the user can set arbitrary values to the I/O timeout,
-> which easily can be lower than KATO.
 
-it's worth noting that unless I am missing something the user can already
-trigger this exact scenario today by setting an I/O timeout lower than KATO=
-,
-using the global nvme_io_timeout module parameter.=20
+This is a note to let you know that I've just added the patch titled
 
-> And as per spec a KATO timeout implies a transport disruption, requiring
-> a controller reset.
-> But due to the internal design of the nvme error handling we do conflate
-> transport disruption and command timeout, so an _I/O_ timeout triggers
-> a controller reset.
+    nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
 
-this is true only for TCP and RDMA host drivers,
-because PCI and FC already support I/O aborts.
+to the 5.10-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-Apple doesn't support abort, but it's not clear in the comments if it's
-the driver that lacks support for it or it's the controller that
-doesn't handle the abort command.
+The filename of the patch is:
+     nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
+and it can be found in the queue-5.10 subdirectory.
 
-> Which means that a command timeout lower than KATO will result in false
-> positives, with the controller being reset even though the connection
-> is perfectly happy.
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-Right.
 
-We could try to send abort commands in RDMA and TCP host drivers timeout ha=
-ndlers.
-Maybe cancel, if supported, and falling back to abort if cancel
-commands are not available. I already had patches for this kind of
-stuff.
+From stable+bounces-217799-greg=kroah.com@vger.kernel.org Mon Feb 23 18:23:57 2026
+From: Jaskaran Singh <jsingh@cloudlinux.com>
+Date: Mon, 23 Feb 2026 22:52:41 +0530
+Subject: nvme: nvme-fc: Ensure ->ioerr_work is cancelled in nvme_fc_delete_ctrl()
+To: stable@vger.kernel.org, james.smart@broadcom.com, kbusch@kernel.org, axboe@fb.com, hch@lst.de, sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, Jaskaran Singh <jsingh@cloudlinux.com>, Marco Patalano <mpatalan@redhat.com>, Justin Tee <justin.tee@broadcom.com>, "Ewan D . Milne" <emilne@redhat.com>
+Message-ID: <20260223172241.291649-3-jsingh@cloudlinux.com>
 
-Maurizio
+From: Jaskaran Singh <jsingh@cloudlinux.com>
+
+commit 0a2c5495b6d1ecb0fa18ef6631450f391a888256 upstream.
+
+nvme_fc_delete_assocation() waits for pending I/O to complete before
+returning, and an error can cause ->ioerr_work to be queued after
+cancel_work_sync() had been called.  Move the call to cancel_work_sync() to
+be after nvme_fc_delete_association() to ensure ->ioerr_work is not running
+when the nvme_fc_ctrl object is freed.  Otherwise the following can occur:
+
+[ 1135.911754] list_del corruption, ff2d24c8093f31f8->next is NULL
+[ 1135.917705] ------------[ cut here ]------------
+[ 1135.922336] kernel BUG at lib/list_debug.c:52!
+[ 1135.926784] Oops: invalid opcode: 0000 [#1] SMP NOPTI
+[ 1135.931851] CPU: 48 UID: 0 PID: 726 Comm: kworker/u449:23 Kdump: loaded Not tainted 6.12.0 #1 PREEMPT(voluntary)
+[ 1135.943490] Hardware name: Dell Inc. PowerEdge R660/0HGTK9, BIOS 2.5.4 01/16/2025
+[ 1135.950969] Workqueue:  0x0 (nvme-wq)
+[ 1135.954673] RIP: 0010:__list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1135.961041] Code: c7 c7 98 68 72 94 e8 26 45 fe ff 0f 0b 48 c7 c7 70 68 72 94 e8 18 45 fe ff 0f 0b 48 89 fe 48 c7 c7 80 69 72 94 e8 07 45 fe ff <0f> 0b 48 89 d1 48 c7 c7 a0 6a 72 94 48 89 c2 e8 f3 44 fe ff 0f 0b
+[ 1135.979788] RSP: 0018:ff579b19482d3e50 EFLAGS: 00010046
+[ 1135.985015] RAX: 0000000000000033 RBX: ff2d24c8093f31f0 RCX: 0000000000000000
+[ 1135.992148] RDX: 0000000000000000 RSI: ff2d24d6bfa1d0c0 RDI: ff2d24d6bfa1d0c0
+[ 1135.999278] RBP: ff2d24c8093f31f8 R08: 0000000000000000 R09: ffffffff951e2b08
+[ 1136.006413] R10: ffffffff95122ac8 R11: 0000000000000003 R12: ff2d24c78697c100
+[ 1136.013546] R13: fffffffffffffff8 R14: 0000000000000000 R15: ff2d24c78697c0c0
+[ 1136.020677] FS:  0000000000000000(0000) GS:ff2d24d6bfa00000(0000) knlGS:0000000000000000
+[ 1136.028765] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1136.034510] CR2: 00007fd207f90b80 CR3: 000000163ea22003 CR4: 0000000000f73ef0
+[ 1136.041641] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 1136.048776] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+[ 1136.055910] PKRU: 55555554
+[ 1136.058623] Call Trace:
+[ 1136.061074]  <TASK>
+[ 1136.063179]  ? show_trace_log_lvl+0x1b0/0x2f0
+[ 1136.067540]  ? show_trace_log_lvl+0x1b0/0x2f0
+[ 1136.071898]  ? move_linked_works+0x4a/0xa0
+[ 1136.075998]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.081744]  ? __die_body.cold+0x8/0x12
+[ 1136.085584]  ? die+0x2e/0x50
+[ 1136.088469]  ? do_trap+0xca/0x110
+[ 1136.091789]  ? do_error_trap+0x65/0x80
+[ 1136.095543]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.101289]  ? exc_invalid_op+0x50/0x70
+[ 1136.105127]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.110874]  ? asm_exc_invalid_op+0x1a/0x20
+[ 1136.115059]  ? __list_del_entry_valid_or_report.cold+0xf/0x6f
+[ 1136.120806]  move_linked_works+0x4a/0xa0
+[ 1136.124733]  worker_thread+0x216/0x3a0
+[ 1136.128485]  ? __pfx_worker_thread+0x10/0x10
+[ 1136.132758]  kthread+0xfa/0x240
+[ 1136.135904]  ? __pfx_kthread+0x10/0x10
+[ 1136.139657]  ret_from_fork+0x31/0x50
+[ 1136.143236]  ? __pfx_kthread+0x10/0x10
+[ 1136.146988]  ret_from_fork_asm+0x1a/0x30
+[ 1136.150915]  </TASK>
+
+Fixes: 19fce0470f05 ("nvme-fc: avoid calling _nvme_fc_abort_outstanding_ios from interrupt context")
+Cc: stable@vger.kernel.org
+Tested-by: Marco Patalano <mpatalan@redhat.com>
+Reviewed-by: Justin Tee <justin.tee@broadcom.com>
+Signed-off-by: Ewan D. Milne <emilne@redhat.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Jaskaran Singh <jsingh@cloudlinux.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/nvme/host/fc.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3259,13 +3259,13 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nc
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
+-	cancel_work_sync(&ctrl->ioerr_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+ 	/*
+ 	 * kill the association on the link side.  this will block
+ 	 * waiting for io to terminate
+ 	 */
+ 	nvme_fc_delete_association(ctrl);
++	cancel_work_sync(&ctrl->ioerr_work);
+ }
+ 
+ static void
+
+
+Patches currently in stable-queue which might be from jsingh@cloudlinux.com are
+
+queue-5.10/revert-nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
+queue-5.10/nvme-nvme-fc-ensure-ioerr_work-is-cancelled-in-nvme_fc_delete_ctrl.patch
 
