@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C595F34C64
-	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2026 16:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 47547F34C63
+	for <linux-nvme@archiver.kernel.org>; Mon, 13 Apr 2026 17:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=BD1jBkczqrfaJfcpxMI6452R/PCFv6D19V+P1TdcXeQ=; b=BQ13pvwL3PUYTbfc42OHULBAq+
-	r/SM+v1hKuYKDfQ0OcQZuTrcpMbc2Ss67LhlqaLu/4PsCIWK2y2n1WV4a48f8oN6OhSzjUJg82MIf
-	BjOHTp3hipazkwslhFEVYqeRShHNVE57Wn+jJv7FXAySgHV5Q65xGVa3KpHfS/Ki0BISGNWKo3MGQ
-	iOO3jmAyv3LkGxNLbK8i/o2lpY03CiBjJ6MF/qnR9SJFzCUpVwmEEu+dmpQJphyVa6wfwoI3Kl5zq
-	oJgWEQwDSSBd098HZq7/B/KLniUy70n5mX74uto5idf5U6uOlzqTnfrEDc1vugsr00ZPeldXAYh+B
-	QDLsVCLg==;
+	bh=QU6H28LoAmjDN6oT30Cs3wR+ut2/Ximz1NUOhIF22q8=; b=kcuCGPa3lkSz17TnOLJPYxsT65
+	hA3s3EgnHuCBxuc1jSU5+qwP2ZUHJwLI14ERPzghCgVSPXhP/Iuk+jP9jmiugA/P22t6Z8m6fgV+w
+	mWusRiucsj8zuu4jGyDNLADxhFH5cifwv7I9Z968CjR5BJjYIk/iEyvcLGzeuxszpmG62ebAYSpNi
+	zSdJy5JHKf5bghwiYcosrMZvJy1LgT04z19w3YUL3tnODCxb49FFXfMIuecl8zXlDIfXPrcHuvYAO
+	frsVm9/2KZztyRGcFmjmyU+33ICH+RlST7jyjKiDZUf03hqiHFjKVo5RfhOEULcOc55TkMOrsRjwZ
+	9rdXkhtQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCKJb-0000000G4aY-3uuf;
-	Mon, 13 Apr 2026 16:39:11 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wCKe1-0000000G6Ow-1Qf7;
+	Mon, 13 Apr 2026 17:00:17 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCKJa-0000000G4aR-1FXA
+	id 1wCKe0-0000000G6Oj-1TKf
 	for linux-nvme@lists.infradead.org;
-	Mon, 13 Apr 2026 16:39:10 +0000
+	Mon, 13 Apr 2026 17:00:16 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 9483D61334;
-	Mon, 13 Apr 2026 16:39:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE83BC2BCAF;
-	Mon, 13 Apr 2026 16:39:08 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 7569161858;
+	Mon, 13 Apr 2026 17:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D14B0C2BCAF;
+	Mon, 13 Apr 2026 17:00:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776098349;
-	bh=k+QVXL1KjFCvARB3kwk0lP3ZZBQK0sQHKATkqTwQXmg=;
+	s=korg; t=1776099615;
+	bh=ZWntAkkj+FDQR+Wh+BTq5BACdUov9m/5CpM5nrE0wOI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AllDHoV2edm779Afn0MMc5swZDQ+i1x4yw4iQzwjHsHQA7iFJLWAhzILfdr0qIXDw
-	 23VU5NKsCgDqaxTq5zHWlb3rTHW3JBUhmgEXO6ChnANwSCvTEin7s+2u3wbNwe0VGz
-	 azgbEVAMhQjYY/NO63ZeA3VMe+46qhk6kHQvDY/E=
+	b=ei2CfFetzMDdYZLezjtaK/fs3jUYp73cQj9l3iL/rh6oLIdoLc+qdOnrtOWl4/OPN
+	 r/koPj3RxpdBskppyS5Py1hl2YsVHx8t/kLP0olNONCZv2/EEJ7XHnT9kj1SKdZEha
+	 FbT/EAinJewmeSzmuNJLD7h+gAWYAeTpDxbOOTc8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -49,12 +49,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-nvme@lists.infradead.org,
 	Cengiz Can <cengiz.can@canonical.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 473/570] nvmet-tcp: fix use-before-check of sg in bounds validation
-Date: Mon, 13 Apr 2026 18:00:04 +0200
-Message-ID: <20260413155848.182068742@linuxfoundation.org>
+Subject: [PATCH 5.10 408/491] nvmet-tcp: fix use-before-check of sg in bounds validation
+Date: Mon, 13 Apr 2026 18:00:53 +0200
+Message-ID: <20260413155834.306257066@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260413155830.386096114@linuxfoundation.org>
-References: <20260413155830.386096114@linuxfoundation.org>
+In-Reply-To: <20260413155819.042779211@linuxfoundation.org>
+References: <20260413155819.042779211@linuxfoundation.org>
 User-Agent: quilt/0.69
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -74,7 +74,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+5.10-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -102,7 +102,7 @@ Fix this by moving the iov_len declaration to function scope and
 keeping the assignment after the bounds checks, matching the ordering
 in mainline.
 
-Fixes: 42afe8ed8ad2 ("nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec")
+Fixes: 043b4307a99f ("nvmet-tcp: add bounds checks in nvmet_tcp_build_pdu_iovec")
 Cc: stable@vger.kernel.org
 Cc: YunJe Shin <ioerts@kookmin.ac.kr>
 Cc: Sagi Grimberg <sagi@grimberg.me>
@@ -115,10 +115,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 8f7984c53f3f2..c6cc1dfef92cf 100644
+index 5d8e57e5fdb18..6db9dcdbb3c34 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -312,7 +312,7 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+@@ -300,7 +300,7 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
  {
  	struct bio_vec *iov = cmd->iov;
  	struct scatterlist *sg;
@@ -127,7 +127,7 @@ index 8f7984c53f3f2..c6cc1dfef92cf 100644
  	unsigned int sg_remaining;
  	int nr_pages;
  
-@@ -329,8 +329,6 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+@@ -317,8 +317,6 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
  	sg_remaining = cmd->req.sg_cnt - cmd->sg_idx;
  
  	while (length) {
@@ -136,7 +136,7 @@ index 8f7984c53f3f2..c6cc1dfef92cf 100644
  		if (!sg_remaining) {
  			nvmet_tcp_fatal_error(cmd->queue);
  			return;
-@@ -340,6 +338,8 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
+@@ -328,6 +326,8 @@ static void nvmet_tcp_build_pdu_iovec(struct nvmet_tcp_cmd *cmd)
  			return;
  		}
  
