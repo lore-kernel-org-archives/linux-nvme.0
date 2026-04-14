@@ -4,196 +4,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E80CED7B93
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 10:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05B23ED7B93
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 10:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=; b=WbrJiTB3f2xzZaKwo7dUkOeFQh
-	AEKf214raAsl7UKf6R7FFFaxqRfXUaQCLT5XP5BcvSACmRI+88JnIkspMQlo9GgZMTuODXxEsylnu
-	9Wu0n5q3Lw2oCt1EkNay0bsHzNH16Cn8N93NYbK9GPoh9HROa6SfSsx/w6aTTvOrbutGQRoDlQW5E
-	KaHGRi1e9FJeZxBQmMgJ/q4UiPqjbP4qKviCS4k37Fo1f5SkFawaGE00Cz/4OJECFf1BldyR+erva
-	mdCHrllm3rTntfn64PvAWX01CLwbsZcURJaEVpATw1MJ3XYw9W8H58r45kbG43AcAl11y6k+KUOa2
-	uMgUqDXw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=71Qs5FO4v1XXu+AuK7YIYsp1K1LEXdLi7wGJZZsb3Wo=; b=tEla/9IyRlhB5s87Et5Gml8rSc
+	Er5HjkArKqb/9nC4QaIClWJRZVCJm1YLL8oVMesZhAMsP8hAvNxrnjBJDN1rETlg55ZkkM2AF2NxX
+	xiV51TMRHbDarnIC8oDAcQScHfI2XwpvPbdHH24PPu1V5v+B+vqyL7CyPf94pBsFVocdWnm8WvUGf
+	O0UgWyRdtx9H+49brUq3kaRUmeu0JNWZDivyLMF0GimmKOWN3ixsHDTFwyAO7J4tXmiBos495vUfo
+	3zm/Mvy/5Tu1BDlgI65lyTCaQzywgDq0E2N3ddLpVt/ONXsDu7MBgu5Mzt+VeZ4SMAi3vpQ30YpWg
+	B1v2Pvag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCacK-0000000H6Q4-43gY;
-	Tue, 14 Apr 2026 10:03:36 +0000
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+	id 1wCahh-0000000H6wf-0hjO;
+	Tue, 14 Apr 2026 10:09:09 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCacG-0000000H6PS-2uzs
+	id 1wCahe-0000000H6wI-2rR9
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Apr 2026 10:03:35 +0000
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63E9rJBD778563;
-	Tue, 14 Apr 2026 10:03:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=; b=
-	nmj7myuQY62/rTHJ39K2b2sSpYDfTNexJ7uGLpy6rcaKGbOdjyZTNzKiTWuMrFX4
-	kAZEkyInA+3Rfo5APT/x62nbwVRFg1NEjVvJOztLw1DRdO8fR9ylXdBTa5rhLkGs
-	BbSk5ecgU2ZWDf8smwfi7JmDzbpUXyMxfdP3tVPdWBWu66v+84AGjtH1eHMRHlQm
-	VirxHhjm7NyJnhrUpTzXSuU/F0e56Zsip1uxQy1Z5MdLJsjYJhwI415VQpXHNCRy
-	yY2B3HGYfwBkv9fX3AMpIIXA+99s/YChYFT5xOO74mluTZCCXxG4eVaq0RN/kEqI
-	TT1JJ9sVUk1kftbxxL5C1w==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dh85qhtw8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Apr 2026 10:03:16 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63E9sqk5040213;
-	Tue, 14 Apr 2026 10:03:14 GMT
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010032.outbound.protection.outlook.com [52.101.61.32])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4dh7nmfsr7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Apr 2026 10:03:14 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AKKtFbraVuCNAZqHUV7RaKIDp4Vni5Fe/Sj9Z75rD5sGs1hEqi972Rh/MSe79iWW+8JUTEauy75CxKrdVHlQrsrYOBhCYxT3sd4JyuyBkxvciL2muO5mAjHsQ3HcXJv1CeLXs/O3K4bPILLkbQvSXxdOhHAYz43/1wcljs0Sd1pbyx6VLzsRQ8dfLgxs5+zHMq0hBxIOmISZZwgZ/P6Sfx+C3SjH7pojosObN8WgN2nyKUTEbD+LpDF7D06rOR1nf87eAT9fTSt+6UOkX96B5neMoUoMaHBZGmlS01JCSIdZQ6Oiuap4JjGWLm8JmC0s3ZXdRh4rhrNxZntwuCbCpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=;
- b=G9BxOHFBVK/EgY0OsbIG4ly1WoMZu6puRdCVO5iGCa+hLIGpIHvNZPCQEYJJLi1ptrwN2G6N6Prspb16+rePRLwNA/ANcLECvvqYLFZ+STffzZ4+PFymVtcifAfwNcqI3IarJww5kKy5twTrxG+blVUcbY/0OrvhPJfXOiJkbbv9QESe9Pn3NlXoFt9dpAe7o4FRAAmgDtaXs90urKeUGhyCWxa78GZ0HrLXs3z2Bf10jNFm9sNKT37qY53tsyT/dFZwbZsjCfVkJj4oYfCFEReUFz0TT8Wc7k5/9lVqxdG1zElLkn8cwX2A4zZf3hI2GjrsC7WReNutP6FI+gM9LQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=;
- b=aex9EtEe8e9RBShr5xS0dq+MYmd8ypMjnR7eIfZ4dNP7AYihNxZxNMTHs6rchne31KujIj+RSLeLYh++6aaO0kJthuaLRahrXbvFszB9uXqKj+b+lPcTJsossS5Mv/9i8ZrpVaqijTmfufalxSzozS7m8wjyhXZ/3TFpQS1B86E=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by DM4PR10MB5918.namprd10.prod.outlook.com
- (2603:10b6:8:ab::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Tue, 14 Apr
- 2026 10:03:08 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
- 10:03:08 +0000
-Message-ID: <bc18ad6f-10b1-4a28-b88d-aed5754b968d@oracle.com>
-Date: Tue, 14 Apr 2026 11:03:04 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/13] libmultipath: Add path selection support
-To: Nilay Shroff <nilay@linux.ibm.com>, hch@lst.de, kbusch@kernel.org,
-        sagi@grimberg.me, axboe@fb.com, martin.petersen@oracle.com,
-        james.bottomley@hansenpartnership.com, hare@suse.com
-Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260225153225.1031169-1-john.g.garry@oracle.com>
- <20260225153225.1031169-4-john.g.garry@oracle.com>
- <775dd360-ea41-4e27-9690-e0633e0522d7@linux.ibm.com>
- <f9fb6d73-9b90-4c11-ae1f-3f2e76773d7f@oracle.com>
- <bb4df6e1-cd83-4a73-af67-f83c543d6e6c@linux.ibm.com>
- <bfd8c2c2-65f7-44f0-a4ec-01158e249505@oracle.com>
- <02288590-486e-4243-8352-c756c6879629@linux.ibm.com>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <02288590-486e-4243-8352-c756c6879629@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0072.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:153::23) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
+	Tue, 14 Apr 2026 10:09:08 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 006E86A935;
+	Tue, 14 Apr 2026 10:09:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776161343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=71Qs5FO4v1XXu+AuK7YIYsp1K1LEXdLi7wGJZZsb3Wo=;
+	b=NiguRo7EryYGwAghjk9z5gD63a0AMtOt4e82a0HT5UyQqlOjX5xAqvHC1JdTeWVnPXTckH
+	oxoNFoMYK0y0Cnc268DtqAcG08uXVg7UDWbQ8oS3oCPOVsdcy2MBk8bDJNUiGtFtPFdGtP
+	Rq7fdC2AcO9q4ZZlo/dvnpOOTbimmCU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776161343;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=71Qs5FO4v1XXu+AuK7YIYsp1K1LEXdLi7wGJZZsb3Wo=;
+	b=9fH6ZziLwDyqMHmj+QAKm8ovbwL45F69m7D9pBpwn3pbrJalvt4ZV1F6SuY/gieSiXAL/o
+	WgmZzOYBUtE8r1Bw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NiguRo7E;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9fH6ZziL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776161343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=71Qs5FO4v1XXu+AuK7YIYsp1K1LEXdLi7wGJZZsb3Wo=;
+	b=NiguRo7EryYGwAghjk9z5gD63a0AMtOt4e82a0HT5UyQqlOjX5xAqvHC1JdTeWVnPXTckH
+	oxoNFoMYK0y0Cnc268DtqAcG08uXVg7UDWbQ8oS3oCPOVsdcy2MBk8bDJNUiGtFtPFdGtP
+	Rq7fdC2AcO9q4ZZlo/dvnpOOTbimmCU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776161343;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=71Qs5FO4v1XXu+AuK7YIYsp1K1LEXdLi7wGJZZsb3Wo=;
+	b=9fH6ZziLwDyqMHmj+QAKm8ovbwL45F69m7D9pBpwn3pbrJalvt4ZV1F6SuY/gieSiXAL/o
+	WgmZzOYBUtE8r1Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E17874B3B7;
+	Tue, 14 Apr 2026 10:09:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RpxTNj4S3mnIdgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 14 Apr 2026 10:09:02 +0000
+Message-ID: <a105337a-b5ae-4892-953d-96540d3ddd29@suse.de>
+Date: Tue, 14 Apr 2026 12:08:46 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|DM4PR10MB5918:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64a8ce0e-de8c-488e-b234-08de9a0d0780
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: VYb8slkIFSevi2RRwexAQTPMr0eDE4KB1GVxXfyyFICvRPiYhUJpJ+/S/KsLNsAa12AK0utUeQFmFTJvHPTruSjz56WUXTCqSXzi5jQgfDHTJqqFC989VQTHESWhjMrHv9Y4NZx7MzbRc8fozAcTfwtBi9P31KLSuUk5e8srDYRGAIfCfeZ2d6z64CI/niVREuccRBPizTxVadDvHWfqzngN9RP7aymHhZ+6gtH+tn7bQskdM3T/9uveccWjrfioFuAdvddg0B08bJ4HcJxoKbBqBRU8cglkifpQObsIOEe9/NgmjLTWm12sG+yRv300anRoGbZ0zBFYANwvqfz26+agQDEOYhLwjDYi1GN6WqQTBu6ds2fviFiI1G2/jXbL50Jo9SHZ7x6A34i3a1u0bJjn4UVhLVG/5gsUT0+oBSFB4kgb94loT3ncLXjcTar9aBknuMal6yZ45o01ZKnZyuACzwnmSsWwOXrJJUSgC0OKlg0hVjKuIsD1QlbXOMezWAiDfeqPy+fp4PKrlsyE6WYnvqz7dU6YIiWwCXkIN0UxCP6oij2j35oVW8q+coN8SGy4HMgpS67jtsb8meb2kJL9NNqrVl2bjO64WYLjnCLX+Jh/AOIHmsfpITIKIBG5sPjfnxLU5Z5ZdHnMV0lbEC7vy8hj3OMd9yoaFU8458EG89dSZa2wxMM5gn3lRK/oPlwddm5fSu1/zPvgzfvtUoJnBkqzGDgkBF3ud1QYWjU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWl5aXJ3U0xTYUtiK0swZ3ZLQzdQdUs4RjNMZ25tQk5YSHdESVpoVFhsQnBn?=
- =?utf-8?B?U0RGZlZDSVN4TUM5OWhudjJWYmVxRm5oMWgzTVEyYjVEVmtlN2ZhQTVsTk9W?=
- =?utf-8?B?bEN5bHkzdGhQVktvd05rU1J2UFFmMU5BQ2oyR05WdmtTbzh4UDMrRXNnME9O?=
- =?utf-8?B?R3VxOWt6WVUweVlIVmh6TWM0Ym5IOUdoK1ZrbTV2Qjc2WG1SaUJUR1lCeU9s?=
- =?utf-8?B?RTltS0tKMktDUlFxQkE0QW1WWEZXS0tiS3B0WXY0RnhwQk1ZWE0rSGVxVDdV?=
- =?utf-8?B?dGx3all0S21iQVZQNTAzMmlhY3BLOXBEM3NQTzFOYnh5eUpmVGR6TzgwMUl6?=
- =?utf-8?B?d1FUWkhmdkZtMy8xc1VsM3pMTEJpL3RFMjNRWU05UnZiNmJPaXU0WVdPQlF6?=
- =?utf-8?B?bGU4WkVYTVJiWVRqN3p0c2ovTUN2SVZSYjY5bXpKb0JHVTY1b1U4RExDM2xw?=
- =?utf-8?B?dTB0ZlJaZnJ1Yk4xbDE4SXI5dG9hTjlJTFArdEJiWG1BdTZWUlR2bk1Iamxt?=
- =?utf-8?B?d2JIK2xETW4vMGM3VUdiS1ltSEErRWk1UUdES0RMOTM1YUh5K0dOUm5nb1Zs?=
- =?utf-8?B?QjVMb2FKWkVudy9LT0poRDNYYjRuaGJRbDNDNmNFcnVlR2RIVElWZXEvbUFR?=
- =?utf-8?B?VG9zYXpua3hUc29Ya0xDSVJrNjdwSDdkYXRoWTFLeHBDZjhEdCtJYUZqMmZp?=
- =?utf-8?B?akJVYVp6azhXTmNXVTlURFRST2haN2ZWb2JMQVh4ZDVWcjNYa0FZSHE2YmtX?=
- =?utf-8?B?QU5BUXJod0FtS3lrU3ZNanhNYTNqWjJvcjYwTGpRejl0RnFxeG9neEM2VDg0?=
- =?utf-8?B?M21icU9KMHVRQ2JzcXp5YVNid2NFU2lNOWZrWjJUdko2SUxjRmlpN3U1RERU?=
- =?utf-8?B?RU1ncFNwS3FLS1Jna09WUWFlQnlXUXZ4NjBLVkx5cDVYalpMcS9qRi9SQkhN?=
- =?utf-8?B?Z0dMakt6UmxKN0VKWE5WV1BsQ2NnZGZ6bUJSalNnS09VcWVYQWhpdFg0eFY0?=
- =?utf-8?B?Nnl0OUttbEF3UGNPVVA3QU9NeU5lK3JmTDg5bGhlZEpzc1hhWXZEdzhOUkJo?=
- =?utf-8?B?RU1BZHpoSk9GdDFUMDA0NkF0T28wZi9RTHJ4dmdlOGxhaFFTYmlDZnJBUFFy?=
- =?utf-8?B?S3Q5LzJzMmxzZUhNclp0NFpjR3RSTStNQzRKUm9WZ0x0enFabHVNU3dwQ3Rv?=
- =?utf-8?B?WDlBSVRjSDhsOVZ1eW1lNXpNS05jaXR2UDZFaS9jOUtaa081ZnN1WlJzVG56?=
- =?utf-8?B?aGNNWVVLa2tqRExEMEQweFN2L2JLOU8zOHp4Q3c5K0hjN0NiZXdqUXVla2Yv?=
- =?utf-8?B?TyszTnhKUnpFS3Q5cnZ2cEl2L1doektpVWFRajI3LzAwVjB0WEJ5R0U2akk5?=
- =?utf-8?B?UUtPYlF1bUx3THRpbVhMQW1HMy9TZ29ZY2FUaFpTRC8ydis0Z3RWdU5vV0Jr?=
- =?utf-8?B?Q1VLdEE4cGt1WVV6cVdTTlZ1ZGNyQkd6dUF4RSttcE9IczA0WXF6U0hNTVJn?=
- =?utf-8?B?WEtXalliNkdKeEsrVk5vc1RNaENRR3V3SCtPcnFUQU9XVk5veVVHRms5dzRr?=
- =?utf-8?B?OW5xd3lRMEVtVXp0Z0VIbjdlUXBxcEtoeFBoUWNsaVpCS0s3NzR6bGU3TWFa?=
- =?utf-8?B?dThhSWJwMmR1anhxQjFpUUFub2tkRnpMSUJGMWNzVzNoSkcxWWtNaGM2VjIv?=
- =?utf-8?B?bzBadTcrUE56bVhEbTlaYlhBZU9GdUlzd1YyNlVlNkdmQnBJNzQzVTQ2M3lr?=
- =?utf-8?B?aFZ0Q1UxSkxMV0crSG54RGhQdTZzWDZhY1RUQ0I1YUthRVZlM3FpdkwwZVRY?=
- =?utf-8?B?MW4yaWJzRlZBcWZkMVZrWUdmRjBHcHBtS1Axd2g0YUZUcFl1MGdmVkloMWhy?=
- =?utf-8?B?WW1CVnRuMDMwM21ZTVZkOXRpTCt2QWdjM1JJUUhpK0ZUaFhITHpVcTIwZm1Y?=
- =?utf-8?B?R3ErdTVYQ3BoZnlxdmdZcVRRTFg4Qjc4M1R1QWdMWW5aV2lEWWRpeTBpU01F?=
- =?utf-8?B?Z1k0WFdnTmI1b2Z3cGhPYkhNUVpaVmJ2M3BjYThKQjQrYlFhNnBsUmhDTk5X?=
- =?utf-8?B?VFZFemxuRG9wV3czUGFPbGVNOXdWYXJpcnZvUmV2SDc5TXBnd09QVjlVSlZi?=
- =?utf-8?B?QkNVSjhWL1puS1dWeTJqS0RZc1FFMkxQRjVDTi9LN3NlS2ZRcERoNUJQaGVM?=
- =?utf-8?B?QjFCdU9KTTBUK1RTcjN1SGJ4cVo1YTJRbUtvQVBCZ1hCcnE4eVloUFM0bTY4?=
- =?utf-8?B?cEtYc3QyMVBWUlhnM2p1NlRjRkFMNjBBbnZXaEYwdWFVTm5GUGh0SDJ3ajV1?=
- =?utf-8?B?ZWI4L3NsZ2tKVVdLdDZwOVdPWStrTTFjVS9FYzhNTVNRR3ZqVmVaQT09?=
-X-Exchange-RoutingPolicyChecked: GDhNysC0X1zz7/RwIAkWaLRaSZjGQnNrCK8Eo55JW2mDg3Dph+EId5vQRVrW3qf2Q4PIC2Aj1NCyvYzHT/yIdHbet8rau2J1F6bNRMl/3cU9eBzA6XOr4sH4XIMvXMdY+xzXTXLB987PcJGcuKSZHJGzqOQMjvnYeqoJi2+WjhHmFtHJgCSNDiYX5CYHJ2laioIopSAo6GKhm5RpbVembDGdo/78WShBLe9d7NK3AqH9RFQM9mpojZEAI3LAdfNjinom+NjujHlN+vJ7tYsUpzl0z57Drz/CO1jm7O7LGmbtMKd2mKdnMTqc45paSzjLTo48o9wK3zZgX3G2PNuKRw==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: E2TA06SFq6+Oa4KHroWrzenztyp5tP/QW4r8b5ADJtMTV80xQpsNXsfCtKEkzBD9fZW1B0FmxNWxN7XP0ewbMXSc74yOMTDhTa0aVjr78j+IGyrULn24jSM3NDBrZDAw9W2qIQN0zQjm+1cCZdkChfs9TYdBTEGnE+n59XKz8h02nd22GSTFFl+ObTlpcKCwsk+V4UQS485GbQ7qkcDiJO80Frmi0+lSq2R1xG5xnBXuxQb9pNw4akAwQMsZXLvJ7gJI2yyYEgJCqaeXwKfztn9b8PCBhOFumGcBj1Q9rGtUNOd+B/kYRECCPuZc/KZGCObmhUOqQKf/S36hD09/Cuf8jYzLuXutJdtNSXhLVJd2Vp0VEFMn9SUqWCqbAOV4yTs5K049uebMw+J/Cnb3Gwe6wcavLxeYrGDxLWN+vlyUBnjDgkd0vLOzYbfv1FPfnuzKh2anBeECfmvOO+0p2BycbId7gLA64ss15o/cdqDIRfiRDVm3pKJCQQVyQtm+2SQbFY3lX9OpbhjuayI+gUkQ1wXjdBX6Q24RURbzTbbGV0L6roI4MgHF/TWwSSERJeOoD8HhCOXx2ujeprG4NwOtSX56Y9GfTeRCodU4zr4=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64a8ce0e-de8c-488e-b234-08de9a0d0780
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 10:03:08.7047
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vLHsuJETRuZC+gw6+z33ve5A3wf59wGFYvG1wVFxQ7OR14/D3hACix/xMdtXFrnOihNA0NcmH6M5G2TGZdZPmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5918
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-14_02,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=911 bulkscore=0 spamscore=0
- malwarescore=0 suspectscore=0 mlxscore=0 adultscore=0 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2604070000
- definitions=main-2604140092
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDA5MyBTYWx0ZWRfX5rK9rfkXuXhG
- Ir4qi/KtzWz6/kT9LUdXm31RJtN4850m2I9R3QaPIJ3sBrVGC40R2hItOKY2MpNfjJx7knKe3eW
- etJ6tNcXDdiMNVDkHsl3hoAl0lLXqDkz4Uz/PwnFWOBJRWgkORosOIWpdtcRioDjOjUL7DmpR9R
- NTv+hLJIcpHYhjZ/6BnXugjEEm5d0YBtshAXaMAUU872FOH7cyRV8onJPwdbjCeNKo7nMlsWiuB
- hVubgwzKeajUj+Hi+HlwmWN3dhOTGHhQ8V1+Eae1f5FuvWlhZhHlcywc1e9RtmjlVtJcU5KzZ9+
- DD1StbCaHlWYDWHKcMWg+rv+O/WKsRuvn2tPANpnNOH1yUSGkc0f2LmTmDxlgWaKxISKVD9imBE
- AXkuRrvx+LHYoMSsgIuOxuNxQdMEZEtKZIkbCZYIewuDYOUCFE9vaMskYLIhFm2n7LzkwGrP29T
- PH2E/ysyLc2xoeB5Wf8BZJNk3uYt+LGtbsLMtCbs=
-X-Authority-Analysis: v=2.4 cv=Lo6iDHdc c=1 sm=1 tr=0 ts=69de10e4 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=VwQbUJbxAAAA:8
- a=20KFwNOVAAAA:8 a=Ox4tpwnkimX-lmn1Y-oA:9 a=QEXdDO2ut3YA:10 cc=ntf
- awl=host:13825
-X-Proofpoint-GUID: 6U-o2QGhM4tPRRIBulc6_6Ycifmy7-3Q
-X-Proofpoint-ORIG-GUID: 6U-o2QGhM4tPRRIBulc6_6Ycifmy7-3Q
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V4] nvme-tcp: teardown circular lockng fixes
+To: Chaitanya Kulkarni <kch@nvidia.com>, kbusch@kernel.org, sagi@grimberg.me
+Cc: hch@lst.de, linux-nvme@lists.infradead.org
+References: <20260413171628.6204-1-kch@nvidia.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260413171628.6204-1-kch@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 006E86A935
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260414_030332_976184_435206A4 
-X-CRM114-Status: GOOD (  18.75  )
+X-CRM114-CacheID: sfid-20260414_030907_023485_D6E8C5F4 
+X-CRM114-Status: GOOD (  18.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -208,39 +140,250 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nilay,
-
->>
->> I think so, but we will need scsi to maintain such a count internally 
->> to support this policy. And for NVMe we will need some abstraction to 
->> lookup the per-controller QD for a mpath_device.
->>
-> This raises another question regarding the current framework. From what 
-> I can see, all NVMe multipath I/O policies are currently supported for 
-> SCSI as well. Going forward, if we introduce a new I/O policy for NVMe 
-> that does not make sense for SCSI, how can we ensure that the new policy 
-> is supported only for NVMe and not for SCSI? Conversely, we may also 
-> want to introduce a policy that is relevant only for SCSI but not for NVMe.
+On 4/13/26 19:16, Chaitanya Kulkarni wrote:
+> When a controller reset is triggered via sysfs (by writing to
+> /sys/class/nvme/<nvmedev>/reset_controller), the reset work tears down
+> and re-establishes all queues. The socket release using fput() defers
+> the actual cleanup to task_work delayed_fput workqueue. This deferred
+> cleanup can race with the subsequent queue re-allocation during reset,
+> potentially leading to use-after-free or resource conflicts.
 > 
-> With the current framework, it seems difficult to restrict a policy to a 
-> specific transport. It appears that all policies are implicitly shared 
-> between NVMe and SCSI.
+> Replace fput() with __fput_sync() to ensure synchronous socket release,
+> guaranteeing that all socket resources are fully cleaned up before the
+> function returns. This prevents races during controller reset where
+> new queue setup may begin before the old socket is fully released.
 > 
-> Would it make sense to introduce some abstraction for I/O policies in 
-> the framework so that a given policy can be implemented and exposed only 
-> for the relevant transport (e.g., NVMe-only or SCSI-only), rather than 
-> requiring it to be supported by both?
+> * Call chain during reset:
+>    nvme_reset_ctrl_work()
+>      -> nvme_tcp_teardown_ctrl()
+>        -> nvme_tcp_teardown_io_queues()
+>          -> nvme_tcp_free_io_queues()
+>            -> nvme_tcp_free_queue()       <-- fput() -> __fput_sync()
+>        -> nvme_tcp_teardown_admin_queue()
+>          -> nvme_tcp_free_admin_queue()
+>            -> nvme_tcp_free_queue()       <-- fput() -> __fput_sync()
+>      -> nvme_tcp_setup_ctrl()             <-- race with deferred fput
+> 
+> memalloc_noreclaim_save() sets PF_MEMALLOC which is intended for tasks
+> performing memory reclaim work that need reserve access. While PF_MEMALLOC
+> prevents the task from entering direct reclaim (causing __need_reclaim() to
+> return false), it does not strip __GFP_IO from gfp flags. The allocator can
+> therefore still trigger writeback I/O when __GFP_IO remains set, which is
+> unsafe when the caller holds block layer locks.
+> 
+> Switch to memalloc_noio_save() which sets PF_MEMALLOC_NOIO. This causes
+> current_gfp_context() to strip __GFP_IO|__GFP_FS from every allocation in
+> the scope, making it safe to allocate memory while holding elevator_lock and
+> set->srcu.
+> 
+> * The issue can be reproduced using blktests:
+> 
+>    nvme_trtype=tcp ./check nvme/005
+> blktests (master) # nvme_trtype=tcp ./check nvme/005
+> nvme/005 (tr=tcp) (reset local loopback target)              [failed]
+>      runtime  0.725s  ...  0.798s
+>      something found in dmesg:
+>      [  108.473940] run blktests nvme/005 at 2025-11-22 16:12:20
+> 
+>      [...]
+>      ...
+>      (See '/root/blktests/results/nodev_tr_tcp/nvme/005.dmesg' for the entire message)
+> blktests (master) # cat /root/blktests/results/nodev_tr_tcp/nvme/005.dmesg
+> [  108.473940] run blktests nvme/005 at 2025-11-22 16:12:20
+> [  108.526983] loop0: detected capacity change from 0 to 2097152
+> [  108.555606] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
+> [  108.572531] nvmet_tcp: enabling port 0 (127.0.0.1:4420)
+> [  108.613061] nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+> [  108.616832] nvme nvme0: creating 48 I/O queues.
+> [  108.630791] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+> [  108.661892] nvme nvme0: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
+> [  108.746639] nvmet: Created nvm controller 2 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
+> [  108.748466] nvme nvme0: creating 48 I/O queues.
+> [  108.802984] nvme nvme0: mapped 48/0/0 default/read/poll queues.
+> [  108.829983] nvme nvme0: Removing ctrl: NQN "blktests-subsystem-1"
+> [  108.854288] block nvme0n1: no available path - failing I/O
+> [  108.854344] block nvme0n1: no available path - failing I/O
+> [  108.854373] Buffer I/O error on dev nvme0n1, logical block 1, async page read
+> 
+> [  108.891693] ======================================================
+> [  108.895912] WARNING: possible circular locking dependency detected
+> [  108.900184] 6.17.0nvme+ #3 Tainted: G                 N
+> [  108.903913] ------------------------------------------------------
+> [  108.908171] nvme/2734 is trying to acquire lock:
+> [  108.911957] ffff88810210e610 (set->srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x17/0x170
+> [  108.917587]
+>                 but task is already holding lock:
+> [  108.921570] ffff88813abea198 (&q->elevator_lock){+.+.}-{4:4}, at: elevator_change+0xa8/0x1c0
+> [  108.927361]
+>                 which lock already depends on the new lock.
+> 
+> [  108.933018]
+>                 the existing dependency chain (in reverse order) is:
+> [  108.938223]
+>                 -> #4 (&q->elevator_lock){+.+.}-{4:4}:
+> [  108.942988]        __mutex_lock+0xa2/0x1150
+> [  108.945873]        elevator_change+0xa8/0x1c0
+> [  108.948925]        elv_iosched_store+0xdf/0x140
+> [  108.952043]        kernfs_fop_write_iter+0x16a/0x220
+> [  108.955367]        vfs_write+0x378/0x520
+> [  108.957598]        ksys_write+0x67/0xe0
+> [  108.959721]        do_syscall_64+0x76/0xbb0
+> [  108.962052]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [  108.965145]
+>                 -> #3 (&q->q_usage_counter(io)){++++}-{0:0}:
+> [  108.968923]        blk_alloc_queue+0x30e/0x350
+> [  108.972117]        blk_mq_alloc_queue+0x61/0xd0
+> [  108.974677]        scsi_alloc_sdev+0x2a0/0x3e0
+> [  108.977092]        scsi_probe_and_add_lun+0x1bd/0x430
+> [  108.979921]        __scsi_add_device+0x109/0x120
+> [  108.982504]        ata_scsi_scan_host+0x97/0x1c0
+> [  108.984365]        async_run_entry_fn+0x2d/0x130
+> [  108.986109]        process_one_work+0x20e/0x630
+> [  108.987830]        worker_thread+0x184/0x330
+> [  108.989473]        kthread+0x10a/0x250
+> [  108.990852]        ret_from_fork+0x297/0x300
+> [  108.992491]        ret_from_fork_asm+0x1a/0x30
+> [  108.994159]
+>                 -> #2 (fs_reclaim){+.+.}-{0:0}:
+> [  108.996320]        fs_reclaim_acquire+0x99/0xd0
+> [  108.998058]        kmem_cache_alloc_node_noprof+0x4e/0x3c0
+> [  109.000123]        __alloc_skb+0x15f/0x190
+> [  109.002195]        tcp_send_active_reset+0x3f/0x1e0
+> [  109.004038]        tcp_disconnect+0x50b/0x720
+> [  109.005695]        __tcp_close+0x2b8/0x4b0
+> [  109.007227]        tcp_close+0x20/0x80
+> [  109.008663]        inet_release+0x31/0x60
+> [  109.010175]        __sock_release+0x3a/0xc0
+> [  109.011778]        sock_close+0x14/0x20
+> [  109.013263]        __fput+0xee/0x2c0
+> [  109.014673]        delayed_fput+0x31/0x50
+> [  109.016183]        process_one_work+0x20e/0x630
+> [  109.017897]        worker_thread+0x184/0x330
+> [  109.019543]        kthread+0x10a/0x250
+> [  109.020929]        ret_from_fork+0x297/0x300
+> [  109.022565]        ret_from_fork_asm+0x1a/0x30
+> [  109.024194]
+>                 -> #1 (sk_lock-AF_INET-NVME){+.+.}-{0:0}:
+> [  109.026634]        lock_sock_nested+0x2e/0x70
+> [  109.028251]        tcp_sendmsg+0x1a/0x40
+> [  109.029783]        sock_sendmsg+0xed/0x110
+> [  109.031321]        nvme_tcp_try_send_cmd_pdu+0x13e/0x260 [nvme_tcp]
+> [  109.034263]        nvme_tcp_try_send+0xb3/0x330 [nvme_tcp]
+> [  109.036375]        nvme_tcp_queue_rq+0x342/0x3d0 [nvme_tcp]
+> [  109.038528]        blk_mq_dispatch_rq_list+0x297/0x800
+> [  109.040448]        __blk_mq_sched_dispatch_requests+0x3db/0x5f0
+> [  109.042677]        blk_mq_sched_dispatch_requests+0x29/0x70
+> [  109.044787]        blk_mq_run_work_fn+0x76/0x1b0
+> [  109.046535]        process_one_work+0x20e/0x630
+> [  109.048245]        worker_thread+0x184/0x330
+> [  109.049890]        kthread+0x10a/0x250
+> [  109.051331]        ret_from_fork+0x297/0x300
+> [  109.053024]        ret_from_fork_asm+0x1a/0x30
+> [  109.054740]
+>                 -> #0 (set->srcu){.+.+}-{0:0}:
+> [  109.056850]        __lock_acquire+0x1468/0x2210
+> [  109.058614]        lock_sync+0xa5/0x110
+> [  109.060048]        __synchronize_srcu+0x49/0x170
+> [  109.061802]        elevator_switch+0xc9/0x330
+> [  109.063950]        elevator_change+0x128/0x1c0
+> [  109.065675]        elevator_set_none+0x4c/0x90
+> [  109.067316]        blk_unregister_queue+0xa8/0x110
+> [  109.069165]        __del_gendisk+0x14e/0x3c0
+> [  109.070824]        del_gendisk+0x75/0xa0
+> [  109.072328]        nvme_ns_remove+0xf2/0x230 [nvme_core]
+> [  109.074365]        nvme_remove_namespaces+0xf2/0x150 [nvme_core]
+> [  109.076652]        nvme_do_delete_ctrl+0x71/0x90 [nvme_core]
+> [  109.078775]        nvme_delete_ctrl_sync+0x3b/0x50 [nvme_core]
+> [  109.081009]        nvme_sysfs_delete+0x34/0x40 [nvme_core]
+> [  109.083082]        kernfs_fop_write_iter+0x16a/0x220
+> [  109.085009]        vfs_write+0x378/0x520
+> [  109.086539]        ksys_write+0x67/0xe0
+> [  109.087982]        do_syscall_64+0x76/0xbb0
+> [  109.089577]        entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [  109.091665]
+>                 other info that might help us debug this:
+> 
+> [  109.095478] Chain exists of:
+>                   set->srcu --> &q->q_usage_counter(io) --> &q->elevator_lock
+> 
+> [  109.099544]  Possible unsafe locking scenario:
+> 
+> [  109.101708]        CPU0                    CPU1
+> [  109.103402]        ----                    ----
+> [  109.105103]   lock(&q->elevator_lock);
+> [  109.106530]                                lock(&q->q_usage_counter(io));
+> [  109.109022]                                lock(&q->elevator_lock);
+> [  109.111391]   sync(set->srcu);
+> [  109.112586]
+>                  *** DEADLOCK ***
+> 
+> [  109.114772] 5 locks held by nvme/2734:
+> [  109.116189]  #0: ffff888101925410 (sb_writers#4){.+.+}-{0:0}, at: ksys_write+0x67/0xe0
+> [  109.119143]  #1: ffff88817a914e88 (&of->mutex#2){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x10f/0x220
+> [  109.123141]  #2: ffff8881046313f8 (kn->active#185){++++}-{0:0}, at: sysfs_remove_file_self+0x26/0x50
+> [  109.126543]  #3: ffff88810470e1d0 (&set->update_nr_hwq_lock){++++}-{4:4}, at: del_gendisk+0x6d/0xa0
+> [  109.129891]  #4: ffff88813abea198 (&q->elevator_lock){+.+.}-{4:4}, at: elevator_change+0xa8/0x1c0
+> [  109.133149]
+>                 stack backtrace:
+> [  109.134817] CPU: 6 UID: 0 PID: 2734 Comm: nvme Tainted: G                 N  6.17.0nvme+ #3 PREEMPT(voluntary)
+> [  109.134819] Tainted: [N]=TEST
+> [  109.134820] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+> [  109.134821] Call Trace:
+> [  109.134823]  <TASK>
+> [  109.134824]  dump_stack_lvl+0x75/0xb0
+> [  109.134828]  print_circular_bug+0x26a/0x330
+> [  109.134831]  check_noncircular+0x12f/0x150
+> [  109.134834]  __lock_acquire+0x1468/0x2210
+> [  109.134837]  ? __synchronize_srcu+0x17/0x170
+> [  109.134838]  lock_sync+0xa5/0x110
+> [  109.134840]  ? __synchronize_srcu+0x17/0x170
+> [  109.134842]  __synchronize_srcu+0x49/0x170
+> [  109.134843]  ? mark_held_locks+0x49/0x80
+> [  109.134845]  ? _raw_spin_unlock_irqrestore+0x2d/0x60
+> [  109.134847]  ? kvm_clock_get_cycles+0x14/0x30
+> [  109.134853]  ? ktime_get_mono_fast_ns+0x36/0xb0
+> [  109.134858]  elevator_switch+0xc9/0x330
+> [  109.134860]  elevator_change+0x128/0x1c0
+> [  109.134862]  ? kernfs_put.part.0+0x86/0x290
+> [  109.134864]  elevator_set_none+0x4c/0x90
+> [  109.134866]  blk_unregister_queue+0xa8/0x110
+> [  109.134868]  __del_gendisk+0x14e/0x3c0
+> [  109.134870]  del_gendisk+0x75/0xa0
+> [  109.134872]  nvme_ns_remove+0xf2/0x230 [nvme_core]
+> [  109.134879]  nvme_remove_namespaces+0xf2/0x150 [nvme_core]
+> [  109.134887]  nvme_do_delete_ctrl+0x71/0x90 [nvme_core]
+> [  109.134893]  nvme_delete_ctrl_sync+0x3b/0x50 [nvme_core]
+> [  109.134899]  nvme_sysfs_delete+0x34/0x40 [nvme_core]
+> [  109.134905]  kernfs_fop_write_iter+0x16a/0x220
+> [  109.134908]  vfs_write+0x378/0x520
+> [  109.134911]  ksys_write+0x67/0xe0
+> [  109.134913]  do_syscall_64+0x76/0xbb0
+> [  109.134915]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [  109.134916] RIP: 0033:0x7fd68a737317
+> [  109.134917] Code: 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+> [  109.134919] RSP: 002b:00007ffded1546d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+> [  109.134920] RAX: ffffffffffffffda RBX: 000000000054f7e0 RCX: 00007fd68a737317
+> [  109.134921] RDX: 0000000000000001 RSI: 00007fd68a855719 RDI: 0000000000000003
+> [  109.134921] RBP: 0000000000000003 R08: 0000000030407850 R09: 00007fd68a7cd4e0
+> [  109.134922] R10: 00007fd68a65b130 R11: 0000000000000246 R12: 00007fd68a855719
+> [  109.134923] R13: 00000000304074c0 R14: 00000000304074c0 R15: 0000000030408660
+> [  109.134926]  </TASK>
+> [  109.962756] Key type psk unregistered
+> 
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> ---
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-I am just coming back to this now....
+Cheers,
 
-about the queue-depth iopolicy, why is depth per controller and not per 
-NS (path)? The following does not mention:
-
-https://lore.kernel.org/linux-nvme/20240625122605.857462-3-jmeneghi@redhat.com/
-
-Is the idea that some controller may have another NS attached and have 
-traffic there, and we need to account according to this also?
-
-Thanks,
-John
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
