@@ -4,151 +4,196 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AED0AED7B87
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 08:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8E80CED7B93
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 10:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=gBJmPteoFrZ8v2hwYqCotrRzSFy1ya3O4ytBitRVMsw=; b=SkpaWi4bFvhVKbSAe9cjBcDNOr
-	VQhELwkyyjdjTvgQ/kt8x9d3DoOpmuKakRtRVb7UPHHscs1xmMYVLdtDdZjm37oXs4gVrv14lRfst
-	WgqO8gRDqM4uZAJqVkG/xFVnf+svlKm1eyE+vK1vu57Meqvd0t9SV2llqjtcyYJq7ZsIDCn8vDZuw
-	uBLlNt2TEzcw9TjJGJl+6fhrDT5hFjLW6zJ8CHvTKJ0dpGzNGGO9OEOqAOHGLyNyMY2dXTRpDgEs+
-	gi7Y27cIG+mtkredGKhswMgAx3JgoYToMmNIlr+PqxzV7GDUgO9k94AAl/Fh50pmh0y/tSk0pYCDK
-	EiJgw5mQ==;
+	bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=; b=WbrJiTB3f2xzZaKwo7dUkOeFQh
+	AEKf214raAsl7UKf6R7FFFaxqRfXUaQCLT5XP5BcvSACmRI+88JnIkspMQlo9GgZMTuODXxEsylnu
+	9Wu0n5q3Lw2oCt1EkNay0bsHzNH16Cn8N93NYbK9GPoh9HROa6SfSsx/w6aTTvOrbutGQRoDlQW5E
+	KaHGRi1e9FJeZxBQmMgJ/q4UiPqjbP4qKviCS4k37Fo1f5SkFawaGE00Cz/4OJECFf1BldyR+erva
+	mdCHrllm3rTntfn64PvAWX01CLwbsZcURJaEVpATw1MJ3XYw9W8H58r45kbG43AcAl11y6k+KUOa2
+	uMgUqDXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCYn3-0000000GwSf-3jpG;
-	Tue, 14 Apr 2026 08:06:33 +0000
-Received: from mail-ukwestazlp170120004.outbound.protection.outlook.com ([2a01:111:f403:c206::4] helo=CWXP265CU010.outbound.protection.outlook.com)
+	id 1wCacK-0000000H6Q4-43gY;
+	Tue, 14 Apr 2026 10:03:36 +0000
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wC3dd-0000000Ejxd-2dFY
+	id 1wCacG-0000000H6PS-2uzs
 	for linux-nvme@lists.infradead.org;
-	Sun, 12 Apr 2026 22:50:47 +0000
+	Tue, 14 Apr 2026 10:03:35 +0000
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63E9rJBD778563;
+	Tue, 14 Apr 2026 10:03:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=; b=
+	nmj7myuQY62/rTHJ39K2b2sSpYDfTNexJ7uGLpy6rcaKGbOdjyZTNzKiTWuMrFX4
+	kAZEkyInA+3Rfo5APT/x62nbwVRFg1NEjVvJOztLw1DRdO8fR9ylXdBTa5rhLkGs
+	BbSk5ecgU2ZWDf8smwfi7JmDzbpUXyMxfdP3tVPdWBWu66v+84AGjtH1eHMRHlQm
+	VirxHhjm7NyJnhrUpTzXSuU/F0e56Zsip1uxQy1Z5MdLJsjYJhwI415VQpXHNCRy
+	yY2B3HGYfwBkv9fX3AMpIIXA+99s/YChYFT5xOO74mluTZCCXxG4eVaq0RN/kEqI
+	TT1JJ9sVUk1kftbxxL5C1w==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dh85qhtw8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Apr 2026 10:03:16 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63E9sqk5040213;
+	Tue, 14 Apr 2026 10:03:14 GMT
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010032.outbound.protection.outlook.com [52.101.61.32])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4dh7nmfsr7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Apr 2026 10:03:14 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kTS87+hIX9YTqVVF86asGVvB/xGCcHyfESIlTfuNWHGadg/wiNFc4D24TIroUUqS0m9x/otNc9+uH51annihOBCtllvkj/Zj5jXtmQjEy8K5weQSDgOPrQKaYZruWOLD/L9YjowV7a9i/vk5HcgaXhaPG1DlSB2jFN+uD9/NqDzqAnbvARgLpDp5kELdD0/kex8/DVXr1cdJWPcjo+Wv9CP4No7tgKNGRcWymGZtFLA0lCELzY1Kkr3BGhBbkl4jN3IbmOgLf8enkmwhKom3YOS5ETpmN8wTrfCiFFPTVSnJcq8DoulXm297X8AB0DVz4djDtoy1MhJxb/BGFNz4Zw==
+ b=AKKtFbraVuCNAZqHUV7RaKIDp4Vni5Fe/Sj9Z75rD5sGs1hEqi972Rh/MSe79iWW+8JUTEauy75CxKrdVHlQrsrYOBhCYxT3sd4JyuyBkxvciL2muO5mAjHsQ3HcXJv1CeLXs/O3K4bPILLkbQvSXxdOhHAYz43/1wcljs0Sd1pbyx6VLzsRQ8dfLgxs5+zHMq0hBxIOmISZZwgZ/P6Sfx+C3SjH7pojosObN8WgN2nyKUTEbD+LpDF7D06rOR1nf87eAT9fTSt+6UOkX96B5neMoUoMaHBZGmlS01JCSIdZQ6Oiuap4JjGWLm8JmC0s3ZXdRh4rhrNxZntwuCbCpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gBJmPteoFrZ8v2hwYqCotrRzSFy1ya3O4ytBitRVMsw=;
- b=UkfT2DRUaZ3zflEcvdpSutirokSDpbM+tdANlPDc+HOHVhRhkd93nN4H8wX/hF9BK/ruztKcwVfSYGteJu5bj9ogg74AEBm+ftiHbjr+CQvOSJRlidTtWQniOSE9wkIVLvOJ/CqAMNYdXO6jdIcCPZi/8hLdlBSYypxgngd0V4Dy1Ap9UCihi77rq9xMeoO+k2ECRTMBiINItKMjuU8lEZpETbInHbQRbRgzzHyjHOmjoI6GjAv+u25NrvixAJeR35E2Q834s26WWDOEyf+/pyWyvuGltovNhiurscHXFn4mPvjHH/Hs/nJtB9itM+6q6jC6bGS5wcGPdl9NZIR/hg==
+ bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=;
+ b=G9BxOHFBVK/EgY0OsbIG4ly1WoMZu6puRdCVO5iGCa+hLIGpIHvNZPCQEYJJLi1ptrwN2G6N6Prspb16+rePRLwNA/ANcLECvvqYLFZ+STffzZ4+PFymVtcifAfwNcqI3IarJww5kKy5twTrxG+blVUcbY/0OrvhPJfXOiJkbbv9QESe9Pn3NlXoFt9dpAe7o4FRAAmgDtaXs90urKeUGhyCWxa78GZ0HrLXs3z2Bf10jNFm9sNKT37qY53tsyT/dFZwbZsjCfVkJj4oYfCFEReUFz0TT8Wc7k5/9lVqxdG1zElLkn8cwX2A4zZf3hI2GjrsC7WReNutP6FI+gM9LQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO7P123MB8492.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:460::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Sun, 12 Apr
- 2026 22:50:37 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.046; Sun, 12 Apr 2026
- 22:50:37 +0000
-Date: Sun, 12 Apr 2026 18:50:33 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Ming Lei <ming.lei@redhat.com>, axboe@kernel.dk, kbusch@kernel.org, 
-	hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com, 
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com, liyihang9@h-partners.com, 
-	kashyap.desai@broadcom.com, sumit.saxena@broadcom.com, 
-	shivasharan.srikanteshwara@broadcom.com, chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, 
-	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, 
-	jinpu.wang@cloud.ionos.com, tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, akpm@linux-foundation.org, 
-	maz@kernel.org, ruanjinjie@huawei.com, bigeasy@linutronix.de, 
-	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
-	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, steve@abita.co, sean@ashe.io, 
-	chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
-	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
-	MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
-Message-ID: <6glgsbk2djsz4cqtbp2ht4274dw4rveq6fojlnpnuvx6zmpjxw@i43jo2l4qlz4>
-References: <20260401222312.772334-14-atomlin@atomlin.com>
- <ac8l-w8ERG1YN2Wm@fedora>
- <nxe24ixebb4lm2d5w4aubhtwr23df6mumqd663axj35oswdiyv@amtqhtsidyr4>
- <adMoon3Zf6gO-UbA@fedora>
- <zawhqvn53mcp4wf7axsmuq4cg73upxs5h2zgrfta5dpat3sfy4@zctfbz2ttz5m>
- <CAFj5m9JE5e4DRGbzQFxDdZWU76ZPQ3G+C9JpLu0mhTB6aesZ9g@mail.gmail.com>
- <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
- <adhj_w11cpMfeEgN@fedora>
- <dzpxscrhibmi5okkozf5jfull4dcajgpctldvdyfcjgmpeetk5@tkeyqouyabzy>
- <adpD8M8cNu3IZzEL@fedora>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yxy73jv5o3rece2c"
-Content-Disposition: inline
-In-Reply-To: <adpD8M8cNu3IZzEL@fedora>
-X-ClientProxiedBy: BN9PR03CA0214.namprd03.prod.outlook.com
- (2603:10b6:408:f8::9) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QO35SHh6NQPmbRywz0IRMkF3ZVpzFzYurDC9Bn4AX1A=;
+ b=aex9EtEe8e9RBShr5xS0dq+MYmd8ypMjnR7eIfZ4dNP7AYihNxZxNMTHs6rchne31KujIj+RSLeLYh++6aaO0kJthuaLRahrXbvFszB9uXqKj+b+lPcTJsossS5Mv/9i8ZrpVaqijTmfufalxSzozS7m8wjyhXZ/3TFpQS1B86E=
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54) by DM4PR10MB5918.namprd10.prod.outlook.com
+ (2603:10b6:8:ab::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Tue, 14 Apr
+ 2026 10:03:08 +0000
+Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
+ 10:03:08 +0000
+Message-ID: <bc18ad6f-10b1-4a28-b88d-aed5754b968d@oracle.com>
+Date: Tue, 14 Apr 2026 11:03:04 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/13] libmultipath: Add path selection support
+To: Nilay Shroff <nilay@linux.ibm.com>, hch@lst.de, kbusch@kernel.org,
+        sagi@grimberg.me, axboe@fb.com, martin.petersen@oracle.com,
+        james.bottomley@hansenpartnership.com, hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-4-john.g.garry@oracle.com>
+ <775dd360-ea41-4e27-9690-e0633e0522d7@linux.ibm.com>
+ <f9fb6d73-9b90-4c11-ae1f-3f2e76773d7f@oracle.com>
+ <bb4df6e1-cd83-4a73-af67-f83c543d6e6c@linux.ibm.com>
+ <bfd8c2c2-65f7-44f0-a4ec-01158e249505@oracle.com>
+ <02288590-486e-4243-8352-c756c6879629@linux.ibm.com>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <02288590-486e-4243-8352-c756c6879629@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0072.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:153::23) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
+ (2603:10b6:f:fc00::d54)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO7P123MB8492:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21b03789-1e25-4236-d930-08de98e5e981
+X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|DM4PR10MB5918:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64a8ce0e-de8c-488e-b234-08de9a0d0780
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|22082099003|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info: ok4mA/srVznrtz5HW/bgsjZkKh8KGbmtppTHew6kTUTPrfJxzOoZ117iYXh3d0BV21PN7E3mQTN2MHwVp5XsLwAH3MaxBTb8LpwfurPC8l+Fwy44pxog/QSNmh88JgpzgYk5aX1pB6w+uKl2+YLsMrBoq7Mxc4iqauMjtJOWijZIlXyt2vZhv0NmiQTb1QwKVFNirmiOw74rrBYGzvC8ox0QF/3UJuYWbptxJ8K1amMKCF7yC/85op52fbZRLQo/aIHX+4oYADZF5UPiisbwPJuWwKsjxDVpzlOFKHyr93lgRwbmDjEDXx50P+DETf54j1APFBnGCIElfQb3Z1dpKULGnjQdLYqLLDIve5ddAOGE3GegNh5abGGBHPTSsAWeBPyLffkXiCUk76Nxyz5XrhxdUZakJyFtSEem+p5vhOjzYmjXM0GwPs/pHCgH6E6Sb6hxcVU99IFnHEGCzcFMMcpnw/qGBu5FP6aW3sKaG0llB7zj/KgL7CgkWGGB1UDzDnj/HfHyCWPsWfWBy3CMegAkAA6YPpDLK6f52bJCPs0jI85VLBrAJdV3qBlj/lVqSUvpvcDRSwqz8dSxKuN29OmYryGJSYxZJodOgz29axp4OnVOcBi+wJF6THYcaPmAhOEvJGJyexGwYw3IVrnz4VhQzuoKOioCjeZoyAR4YAGBW0FPXVAepLWXP7exETpyGdHfSGFzfYgKsahvhYhgprOxckGMxDmer+D0vugsXmA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: VYb8slkIFSevi2RRwexAQTPMr0eDE4KB1GVxXfyyFICvRPiYhUJpJ+/S/KsLNsAa12AK0utUeQFmFTJvHPTruSjz56WUXTCqSXzi5jQgfDHTJqqFC989VQTHESWhjMrHv9Y4NZx7MzbRc8fozAcTfwtBi9P31KLSuUk5e8srDYRGAIfCfeZ2d6z64CI/niVREuccRBPizTxVadDvHWfqzngN9RP7aymHhZ+6gtH+tn7bQskdM3T/9uveccWjrfioFuAdvddg0B08bJ4HcJxoKbBqBRU8cglkifpQObsIOEe9/NgmjLTWm12sG+yRv300anRoGbZ0zBFYANwvqfz26+agQDEOYhLwjDYi1GN6WqQTBu6ds2fviFiI1G2/jXbL50Jo9SHZ7x6A34i3a1u0bJjn4UVhLVG/5gsUT0+oBSFB4kgb94loT3ncLXjcTar9aBknuMal6yZ45o01ZKnZyuACzwnmSsWwOXrJJUSgC0OKlg0hVjKuIsD1QlbXOMezWAiDfeqPy+fp4PKrlsyE6WYnvqz7dU6YIiWwCXkIN0UxCP6oij2j35oVW8q+coN8SGy4HMgpS67jtsb8meb2kJL9NNqrVl2bjO64WYLjnCLX+Jh/AOIHmsfpITIKIBG5sPjfnxLU5Z5ZdHnMV0lbEC7vy8hj3OMd9yoaFU8458EG89dSZa2wxMM5gn3lRK/oPlwddm5fSu1/zPvgzfvtUoJnBkqzGDgkBF3ud1QYWjU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkZRWnIzeUdQSWw3ZnBIdHA3YldYUnBpQzBMVVlLWVhPeVpUTjgwcWY1YUZI?=
- =?utf-8?B?L2Z0ZTlYVWxIZ1Q2V1JGUGhjTjI5V0VwekRFeVZaZGQrcXVPRXd5YzNONWQw?=
- =?utf-8?B?azZibFFsTXUwMGN2c1dNV3RSWTI3QlhJNlZuSzU2dnBZMUlja1NtaVFHQ2cv?=
- =?utf-8?B?YUQwVzlOMnhYY1dsa0ZNQm1LTWNsdXZUdVptVWJDRXpDaXhlN2gxVWhGa0to?=
- =?utf-8?B?VE8xWGlmaXQ2QStZVmwxUkd0aU5sbWZsSHI4Lzk4NmNOc0QyMFZReVJmKyt2?=
- =?utf-8?B?MDNuSmR3Y3dCSkdRejdyMU5tcmNRcG1BbXdBWFRtTm9lOFd1M3E3UlFSYVZZ?=
- =?utf-8?B?dElEajcwTDAzakxBK2kreFJucHFHVG10WmR4WENlcjFhanpzY3ZKYTRsSk1E?=
- =?utf-8?B?THZhNFM3NE9JZngvSU1uK3FIaTlRQk1LN2FkbGhYYnVHdit5WmtYYm94UEpk?=
- =?utf-8?B?WjVVdWh2TzBFTFdxYjF3cVcyeng0UVVCMkFZQmpyNTgvTFh1NXp3OUNkaTdZ?=
- =?utf-8?B?bUtOVHVoK3M1cUMyMkFIK3I3alpjMnE3blVxV1VoQnA3U3pldmtTUzFjM2pG?=
- =?utf-8?B?aklvNGhVNVlEVGhUekt0eHhaVElmOTdEWTNpMFBFaGY5MTZXcVBBczBUclBz?=
- =?utf-8?B?aHRLb3BOSkluZzhLMnVpc2tNalIyM2E0dlBIazAyWitib20xUE9KRnpxNVlm?=
- =?utf-8?B?R2sxQ253SWxQaGZtM2ZySFdoNDc2Q0NZRWw5bFJhcHI1bzI4d1IxdjZtUjh5?=
- =?utf-8?B?NVN2WFZEd0U3clJRa0pXRzltNUVkOVFPUjBQY0R0Y2VpMEx4R0Vjc1lMUzFU?=
- =?utf-8?B?Q2lVZDZHQnlUVTk4RndhU0pMWm1Za2h1T2FuRThjZ2FrWlpwb2V3Y1VERzk0?=
- =?utf-8?B?a2xqWFJZUlpOVnN1MTVtMEdITjBPSVlQUjIybXByVWVNY1NoekFaRzdVOFVG?=
- =?utf-8?B?VVNiUmF6a0JSYW1WbU1Mb2FoT2MrVnY2OFpONDhrSndFUytDUEtieFYrdUd0?=
- =?utf-8?B?UnRvaVdsYWQrSSswOStEc2xpMkhZclg5Q1U5WEgzc1ByaHVhcFlYUmlSQU15?=
- =?utf-8?B?dVAwZnNSdUgxclUrM0Z4MW41L08wOUxYNGVBendIbnoyMmNsZnFiY2RTOTI1?=
- =?utf-8?B?dS9KOTByNFUrWHdvRlRKd0NGVlZJZ0wzc2xCUFg4NjF6UGZnL1phZ3lVUUIw?=
- =?utf-8?B?WjVzbGt4S3doVzJlS3dRaTN1RFA5c3A3SG9TdHUzWkZBclVYbGpKUUI4R3Iz?=
- =?utf-8?B?NEdvbkQwYTR1d2JSNElKSDJKOWwxZTBnbG5UTlJlWjMvcXp0Z0dxN24yVXA5?=
- =?utf-8?B?b2VzaS8zc1lWZitPa2VqRHlvS3dkRldWNXBodkNKenZ1aW8wYXJJOGJhNnQ4?=
- =?utf-8?B?Qlo1dThMTnZVZXJlRXJnRy9iZWhoU3d0b1grWmlWZHZaU2pveit0YzRldXhi?=
- =?utf-8?B?YVg0b1pyU2t2TEMyRjkrQStJOTAvTTFJWUdCck8rcis4TmhLT29TR0xSS0ZT?=
- =?utf-8?B?NWtpWlVXRFFxRG5OUjI3WTNCSVFHbEhkR0lTczM3eVE3bjFNQWZ6SXpaQUdj?=
- =?utf-8?B?WFRvVEgzcWhWMmMySDRKc1JHSlpicWdsK1ptRmZyQUVydUVvSzBtZVF0bVRo?=
- =?utf-8?B?L0kxalJibG4rWjgxbWdST1U5UXRCcE5XM2tTOEtNSXZneEkvZi84c1hUTGJw?=
- =?utf-8?B?QmkwamZWMmxuQnp4ZW5OQk04eFVFRTJ6OW9CMXhBbStOMGFBamFXOWVYSlFw?=
- =?utf-8?B?MGUyaWh0M3Yyc2JnblgzUHJXdzVuUFJWQ3c3L3I0U1QvSmlBTGZIbXRXcEVM?=
- =?utf-8?B?VzNpQ09pYjZhYVdJNERKRXlYT1Q4S2pVYnFiYitpVjNFaXBqczArSkJES3BK?=
- =?utf-8?B?NUpPVGpHenZnQWsvMlRvY1FkZUk1ckhqTmcwbWlWTXloaDNWaWNUV2JwYzYv?=
- =?utf-8?B?L1ppSHk1eXRHNlJOYkNJTEhwZ3dwM2U1NFRhVXovcXFac09xYmFkYWtBS2Jj?=
- =?utf-8?B?eHRXVUhCMENDSnVsczFwTGdnVGZHYnR1Y3VFc3ArVnh2dUw5aWUzTUhLWVdQ?=
- =?utf-8?B?RVEzeWhiOHZpTTVhNHlzYlFOY0tYVU4wQ0xnVEd1MWdvYnFWRHZycE5xMWVI?=
- =?utf-8?B?R3pZeEJwVzk0Nkh3QXR4T0ErWHhrR1pleUExRDhXYXFiSUlhdUFTelR5dm1V?=
- =?utf-8?B?VEdOZ0Z5OFBaUDF0alpjQzUvdFhDM3p3WC9jaHNSeDA3dTgwRkRnWjZINXl1?=
- =?utf-8?B?UEEwWW9wR25mMWFDTjBuQ2lPRXA5OTZaNGd4WjVLYjdRZTlIcEtKdWlrTmxo?=
- =?utf-8?B?dkJGSnFUY1BMYWtjMDBiU2VFU2FIenJIbUdPUXlwdUVhTlN1SVlNdz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21b03789-1e25-4236-d930-08de98e5e981
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWl5aXJ3U0xTYUtiK0swZ3ZLQzdQdUs4RjNMZ25tQk5YSHdESVpoVFhsQnBn?=
+ =?utf-8?B?U0RGZlZDSVN4TUM5OWhudjJWYmVxRm5oMWgzTVEyYjVEVmtlN2ZhQTVsTk9W?=
+ =?utf-8?B?bEN5bHkzdGhQVktvd05rU1J2UFFmMU5BQ2oyR05WdmtTbzh4UDMrRXNnME9O?=
+ =?utf-8?B?R3VxOWt6WVUweVlIVmh6TWM0Ym5IOUdoK1ZrbTV2Qjc2WG1SaUJUR1lCeU9s?=
+ =?utf-8?B?RTltS0tKMktDUlFxQkE0QW1WWEZXS0tiS3B0WXY0RnhwQk1ZWE0rSGVxVDdV?=
+ =?utf-8?B?dGx3all0S21iQVZQNTAzMmlhY3BLOXBEM3NQTzFOYnh5eUpmVGR6TzgwMUl6?=
+ =?utf-8?B?d1FUWkhmdkZtMy8xc1VsM3pMTEJpL3RFMjNRWU05UnZiNmJPaXU0WVdPQlF6?=
+ =?utf-8?B?bGU4WkVYTVJiWVRqN3p0c2ovTUN2SVZSYjY5bXpKb0JHVTY1b1U4RExDM2xw?=
+ =?utf-8?B?dTB0ZlJaZnJ1Yk4xbDE4SXI5dG9hTjlJTFArdEJiWG1BdTZWUlR2bk1Iamxt?=
+ =?utf-8?B?d2JIK2xETW4vMGM3VUdiS1ltSEErRWk1UUdES0RMOTM1YUh5K0dOUm5nb1Zs?=
+ =?utf-8?B?QjVMb2FKWkVudy9LT0poRDNYYjRuaGJRbDNDNmNFcnVlR2RIVElWZXEvbUFR?=
+ =?utf-8?B?VG9zYXpua3hUc29Ya0xDSVJrNjdwSDdkYXRoWTFLeHBDZjhEdCtJYUZqMmZp?=
+ =?utf-8?B?akJVYVp6azhXTmNXVTlURFRST2haN2ZWb2JMQVh4ZDVWcjNYa0FZSHE2YmtX?=
+ =?utf-8?B?QU5BUXJod0FtS3lrU3ZNanhNYTNqWjJvcjYwTGpRejl0RnFxeG9neEM2VDg0?=
+ =?utf-8?B?M21icU9KMHVRQ2JzcXp5YVNid2NFU2lNOWZrWjJUdko2SUxjRmlpN3U1RERU?=
+ =?utf-8?B?RU1ncFNwS3FLS1Jna09WUWFlQnlXUXZ4NjBLVkx5cDVYalpMcS9qRi9SQkhN?=
+ =?utf-8?B?Z0dMakt6UmxKN0VKWE5WV1BsQ2NnZGZ6bUJSalNnS09VcWVYQWhpdFg0eFY0?=
+ =?utf-8?B?Nnl0OUttbEF3UGNPVVA3QU9NeU5lK3JmTDg5bGhlZEpzc1hhWXZEdzhOUkJo?=
+ =?utf-8?B?RU1BZHpoSk9GdDFUMDA0NkF0T28wZi9RTHJ4dmdlOGxhaFFTYmlDZnJBUFFy?=
+ =?utf-8?B?S3Q5LzJzMmxzZUhNclp0NFpjR3RSTStNQzRKUm9WZ0x0enFabHVNU3dwQ3Rv?=
+ =?utf-8?B?WDlBSVRjSDhsOVZ1eW1lNXpNS05jaXR2UDZFaS9jOUtaa081ZnN1WlJzVG56?=
+ =?utf-8?B?aGNNWVVLa2tqRExEMEQweFN2L2JLOU8zOHp4Q3c5K0hjN0NiZXdqUXVla2Yv?=
+ =?utf-8?B?TyszTnhKUnpFS3Q5cnZ2cEl2L1doektpVWFRajI3LzAwVjB0WEJ5R0U2akk5?=
+ =?utf-8?B?UUtPYlF1bUx3THRpbVhMQW1HMy9TZ29ZY2FUaFpTRC8ydis0Z3RWdU5vV0Jr?=
+ =?utf-8?B?Q1VLdEE4cGt1WVV6cVdTTlZ1ZGNyQkd6dUF4RSttcE9IczA0WXF6U0hNTVJn?=
+ =?utf-8?B?WEtXalliNkdKeEsrVk5vc1RNaENRR3V3SCtPcnFUQU9XVk5veVVHRms5dzRr?=
+ =?utf-8?B?OW5xd3lRMEVtVXp0Z0VIbjdlUXBxcEtoeFBoUWNsaVpCS0s3NzR6bGU3TWFa?=
+ =?utf-8?B?dThhSWJwMmR1anhxQjFpUUFub2tkRnpMSUJGMWNzVzNoSkcxWWtNaGM2VjIv?=
+ =?utf-8?B?bzBadTcrUE56bVhEbTlaYlhBZU9GdUlzd1YyNlVlNkdmQnBJNzQzVTQ2M3lr?=
+ =?utf-8?B?aFZ0Q1UxSkxMV0crSG54RGhQdTZzWDZhY1RUQ0I1YUthRVZlM3FpdkwwZVRY?=
+ =?utf-8?B?MW4yaWJzRlZBcWZkMVZrWUdmRjBHcHBtS1Axd2g0YUZUcFl1MGdmVkloMWhy?=
+ =?utf-8?B?WW1CVnRuMDMwM21ZTVZkOXRpTCt2QWdjM1JJUUhpK0ZUaFhITHpVcTIwZm1Y?=
+ =?utf-8?B?R3ErdTVYQ3BoZnlxdmdZcVRRTFg4Qjc4M1R1QWdMWW5aV2lEWWRpeTBpU01F?=
+ =?utf-8?B?Z1k0WFdnTmI1b2Z3cGhPYkhNUVpaVmJ2M3BjYThKQjQrYlFhNnBsUmhDTk5X?=
+ =?utf-8?B?VFZFemxuRG9wV3czUGFPbGVNOXdWYXJpcnZvUmV2SDc5TXBnd09QVjlVSlZi?=
+ =?utf-8?B?QkNVSjhWL1puS1dWeTJqS0RZc1FFMkxQRjVDTi9LN3NlS2ZRcERoNUJQaGVM?=
+ =?utf-8?B?QjFCdU9KTTBUK1RTcjN1SGJ4cVo1YTJRbUtvQVBCZ1hCcnE4eVloUFM0bTY4?=
+ =?utf-8?B?cEtYc3QyMVBWUlhnM2p1NlRjRkFMNjBBbnZXaEYwdWFVTm5GUGh0SDJ3ajV1?=
+ =?utf-8?B?ZWI4L3NsZ2tKVVdLdDZwOVdPWStrTTFjVS9FYzhNTVNRR3ZqVmVaQT09?=
+X-Exchange-RoutingPolicyChecked: GDhNysC0X1zz7/RwIAkWaLRaSZjGQnNrCK8Eo55JW2mDg3Dph+EId5vQRVrW3qf2Q4PIC2Aj1NCyvYzHT/yIdHbet8rau2J1F6bNRMl/3cU9eBzA6XOr4sH4XIMvXMdY+xzXTXLB987PcJGcuKSZHJGzqOQMjvnYeqoJi2+WjhHmFtHJgCSNDiYX5CYHJ2laioIopSAo6GKhm5RpbVembDGdo/78WShBLe9d7NK3AqH9RFQM9mpojZEAI3LAdfNjinom+NjujHlN+vJ7tYsUpzl0z57Drz/CO1jm7O7LGmbtMKd2mKdnMTqc45paSzjLTo48o9wK3zZgX3G2PNuKRw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: E2TA06SFq6+Oa4KHroWrzenztyp5tP/QW4r8b5ADJtMTV80xQpsNXsfCtKEkzBD9fZW1B0FmxNWxN7XP0ewbMXSc74yOMTDhTa0aVjr78j+IGyrULn24jSM3NDBrZDAw9W2qIQN0zQjm+1cCZdkChfs9TYdBTEGnE+n59XKz8h02nd22GSTFFl+ObTlpcKCwsk+V4UQS485GbQ7qkcDiJO80Frmi0+lSq2R1xG5xnBXuxQb9pNw4akAwQMsZXLvJ7gJI2yyYEgJCqaeXwKfztn9b8PCBhOFumGcBj1Q9rGtUNOd+B/kYRECCPuZc/KZGCObmhUOqQKf/S36hD09/Cuf8jYzLuXutJdtNSXhLVJd2Vp0VEFMn9SUqWCqbAOV4yTs5K049uebMw+J/Cnb3Gwe6wcavLxeYrGDxLWN+vlyUBnjDgkd0vLOzYbfv1FPfnuzKh2anBeECfmvOO+0p2BycbId7gLA64ss15o/cdqDIRfiRDVm3pKJCQQVyQtm+2SQbFY3lX9OpbhjuayI+gUkQ1wXjdBX6Q24RURbzTbbGV0L6roI4MgHF/TWwSSERJeOoD8HhCOXx2ujeprG4NwOtSX56Y9GfTeRCodU4zr4=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64a8ce0e-de8c-488e-b234-08de9a0d0780
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2026 22:50:37.0372
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 10:03:08.7047
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UBDyDnvWLZxrwA1qxWlqR3UfNXp3Ha6YFeUlWAjM0YdMtdEIWm/2FeeeRYTHkxVremCZngJk1ZQRFr6Kh1v5WQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P123MB8492
+X-MS-Exchange-CrossTenant-UserPrincipalName: vLHsuJETRuZC+gw6+z33ve5A3wf59wGFYvG1wVFxQ7OR14/D3hACix/xMdtXFrnOihNA0NcmH6M5G2TGZdZPmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5918
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-14_02,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=911 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 mlxscore=0 adultscore=0 classifier=spam
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2604070000
+ definitions=main-2604140092
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDA5MyBTYWx0ZWRfX5rK9rfkXuXhG
+ Ir4qi/KtzWz6/kT9LUdXm31RJtN4850m2I9R3QaPIJ3sBrVGC40R2hItOKY2MpNfjJx7knKe3eW
+ etJ6tNcXDdiMNVDkHsl3hoAl0lLXqDkz4Uz/PwnFWOBJRWgkORosOIWpdtcRioDjOjUL7DmpR9R
+ NTv+hLJIcpHYhjZ/6BnXugjEEm5d0YBtshAXaMAUU872FOH7cyRV8onJPwdbjCeNKo7nMlsWiuB
+ hVubgwzKeajUj+Hi+HlwmWN3dhOTGHhQ8V1+Eae1f5FuvWlhZhHlcywc1e9RtmjlVtJcU5KzZ9+
+ DD1StbCaHlWYDWHKcMWg+rv+O/WKsRuvn2tPANpnNOH1yUSGkc0f2LmTmDxlgWaKxISKVD9imBE
+ AXkuRrvx+LHYoMSsgIuOxuNxQdMEZEtKZIkbCZYIewuDYOUCFE9vaMskYLIhFm2n7LzkwGrP29T
+ PH2E/ysyLc2xoeB5Wf8BZJNk3uYt+LGtbsLMtCbs=
+X-Authority-Analysis: v=2.4 cv=Lo6iDHdc c=1 sm=1 tr=0 ts=69de10e4 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=x0eKOSpe3m1H3M0S9YoZ:22 a=VwQbUJbxAAAA:8
+ a=20KFwNOVAAAA:8 a=Ox4tpwnkimX-lmn1Y-oA:9 a=QEXdDO2ut3YA:10 cc=ntf
+ awl=host:13825
+X-Proofpoint-GUID: 6U-o2QGhM4tPRRIBulc6_6Ycifmy7-3Q
+X-Proofpoint-ORIG-GUID: 6U-o2QGhM4tPRRIBulc6_6Ycifmy7-3Q
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260412_155045_698124_4544CE92 
-X-CRM114-Status: GOOD (  17.99  )
-X-Mailman-Approved-At: Tue, 14 Apr 2026 01:06:33 -0700
+X-CRM114-CacheID: sfid-20260414_030332_976184_435206A4 
+X-CRM114-Status: GOOD (  18.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -163,231 +208,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---yxy73jv5o3rece2c
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
-MIME-Version: 1.0
+Hi Nilay,
 
-On Sat, Apr 11, 2026 at 08:52:00PM +0800, Ming Lei wrote:
-> > The critical issue lies at the invocation of group_cpus_evenly(). Witho=
-ut
-> > this patchset, the core logic lacks the necessary constraints to respect
-> > CPU isolation. It is entirely possible, and indeed happens in practice,=
- for
-> > an isolated CPU to be assigned to a CPU mask group.
->=20
-> It is one bug report? No, because it doesn't show any trouble from user
-> viewpoint.
+>>
+>> I think so, but we will need scsi to maintain such a count internally 
+>> to support this policy. And for NVMe we will need some abstraction to 
+>> lookup the per-controller QD for a mpath_device.
+>>
+> This raises another question regarding the current framework. From what 
+> I can see, all NVMe multipath I/O policies are currently supported for 
+> SCSI as well. Going forward, if we introduce a new I/O policy for NVMe 
+> that does not make sense for SCSI, how can we ensure that the new policy 
+> is supported only for NVMe and not for SCSI? Conversely, we may also 
+> want to introduce a policy that is relevant only for SCSI but not for NVMe.
+> 
+> With the current framework, it seems difficult to restrict a policy to a 
+> specific transport. It appears that all policies are implicitly shared 
+> between NVMe and SCSI.
+> 
+> Would it make sense to introduce some abstraction for I/O policies in 
+> the framework so that a given policy can be implemented and exposed only 
+> for the relevant transport (e.g., NVMe-only or SCSI-only), rather than 
+> requiring it to be supported by both?
 
-Hi Ming,
+I am just coming back to this now....
 
-The lack of a formal bug report does not negate the fact that the current
-behaviour silently breaks the fundamental contract of CPU isolation from
-the administrator's perspective.
+about the queue-depth iopolicy, why is depth per controller and not per 
+NS (path)? The following does not mention:
 
-To illustrate the user-visible impact, the following demonstrates the
-difference between relying on isolcpus=3Dmanaged_irq and isolcpus=3Dio_queue
-under 7.0.0-rc3-00065-gd80965e205a5, which includes this series.
+https://lore.kernel.org/linux-nvme/20240625122605.857462-3-jmeneghi@redhat.com/
 
-The Broadcom MPI3 Storage Controller driver allocates a full complement of
-48 operational queue pairs. Consequently, a number of MSI-X vectors are
-generated and mapped directly onto the isolated cores thereby breaching
-isolation.
+Is the idea that some controller may have another NS attached and have 
+traffic there, and we need to account according to this also?
 
-    # uname -r
-    7.0.0-rc3-00065-gd80965e205a5
-
-    # tr ' ' '\n' < /proc/cmdline | grep isolcpus=3D
-    isolcpus=3Dmanaged_irq,domain,2-47
-
-    # cat /sys/devices/system/cpu/isolated
-    2-47
-
-    # dmesg | grep -A 6 'MSI-X vectors supported:'
-    [   2.981705] mpi3mr0: MSI-X vectors supported: 128, no of cores: 48,
-    [   2.981705] mpi3mr0: MSI-X vectors requested: 49 poll_queues 0
-    [   3.001915] mpi3mr0: trying to create 48 operational queue pairs
-    [   3.011214] mpi3mr0: allocating operational queues through segmented =
-queues=20
-    [   3.101903] mpi3mr0: successfully created 48 operational queue pairs(=
-default/polled) queue =3D (2/0)
-    [   3.111468] mpi3mr0: controller initialization completed successfully
-
-    # awk '/mpi3mr0/ { print $1" "$NF }' /proc/interrupts
-    78: mpi3mr0-msix0
-    79: mpi3mr0-msix1
-    80: mpi3mr0-msix2
-    81: mpi3mr0-msix3
-    82: mpi3mr0-msix4
-    83: mpi3mr0-msix5
-    84: mpi3mr0-msix6
-    85: mpi3mr0-msix7
-    86: mpi3mr0-msix8
-    87: mpi3mr0-msix9
-    88: mpi3mr0-msix10
-    89: mpi3mr0-msix11
-    90: mpi3mr0-msix12
-    ...
-    122: mpi3mr0-msix44
-    123: mpi3mr0-msix45
-    124: mpi3mr0-msix46
-    125: mpi3mr0-msix47
-    126: mpi3mr0-msix48
-
-    # grep -H '' /proc/irq/{119,120,121,122}/{effective,smp}_affinity_list
-    /proc/irq/119/effective_affinity_list:42
-    /proc/irq/119/smp_affinity_list:42
-    /proc/irq/120/effective_affinity_list:43
-    /proc/irq/120/smp_affinity_list:43
-    /proc/irq/121/effective_affinity_list:44
-    /proc/irq/121/smp_affinity_list:44
-    /proc/irq/122/effective_affinity_list:45
-    /proc/irq/122/smp_affinity_list:45
-
-
-Now with isolcpus=3Dio_queue,2-47 the allocation is structurally restricted
-at the source. The driver creates only two operational queues, confining
-all resulting interrupts exclusively to housekeeping CPUs (0 and 1):
-
-    # uname -r
-    7.0.0-rc3-00065-gd80965e205a5
-
-    # tr ' ' '\n' < /proc/cmdline | grep isolcpus=3D
-    isolcpus=3Dio_queue,domain,2-47
-
-    # cat /sys/devices/system/cpu/isolated
-    2-47
-
-    # dmesg | grep -A 6 'MSI-X vectors supported:'
-    [   3.284850] mpi3mr0: MSI-X vectors supported: 128, no of cores: 48,
-    [   3.284851] mpi3mr0: MSI-X vectors requested: 49 poll_queues 0
-    [   3.305492] mpi3mr0: allocated vectors (3) are less than configured (=
-49)
-    [   3.316528] mpi3mr0: trying to create 2 operational queue pairs
-    [   3.328013] mpi3mr0: allocating operational queues through segmented =
-queues
-    [   3.340697] mpi3mr0: successfully created 2 operational queue pairs(d=
-efault/polled) queue =3D (2/0)
-    [   3.350664] mpi3mr0: controller initialization completed successfully
-
-    # awk '/mpi3mr0/ { print $1" "$NF }' /proc/interrupts
-    79: mpi3mr0-msix0
-    80: mpi3mr0-msix1
-    81: mpi3mr0-msix2
-
-    # grep -H '' /proc/irq/{79,80,81}/{effective,smp}_affinity_list
-    /proc/irq/79/effective_affinity_list:1
-    /proc/irq/79/smp_affinity_list:1
-    /proc/irq/80/effective_affinity_list:1
-    /proc/irq/80/smp_affinity_list:1
-    /proc/irq/81/effective_affinity_list:0
-    /proc/irq/81/smp_affinity_list:0
-
-> Sebastian explains/shows how "isolcpus=3Dmanaged_irq" works perfectly in =
-the
-> following link:
->=20
-> https://lore.kernel.org/all/20260401110232.ET5RxZfl@linutronix.de/
->=20
-> You have reviewed it...
->=20
-> What matters is that IO won't interrupt isolated CPU.
-
-The isolcpus=3Dmanaged_irq acts as a "best effort" avoidance algorithm rath=
-er
-than a strict, unbreakable constraint. This is indicated in the proposed
-changes to Documentation/core-api/irq/managed_irq.rst [1].
-
-[1]: https://lore.kernel.org/all/20260401110232.ET5RxZfl@linutronix.de/
-
-The following is an excerpt of irq_do_set_affinity().
-
- - File: kernel/irq/manage.c
-
- 232 int irq_do_set_affinity(struct irq_data *data, const struct cpumask *m=
-ask, bool force)
- 233 {
- 234         struct cpumask *tmp_mask =3D this_cpu_ptr(&__tmp_mask);
-  :
- 262         if (irqd_affinity_is_managed(data) &&
- 263             housekeeping_enabled(HK_TYPE_MANAGED_IRQ)) {
- 264                 const struct cpumask *hk_mask;
- 265=20
- 266                 hk_mask =3D housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
- 267=20
- 268                 cpumask_and(tmp_mask, mask, hk_mask);
- 269                 if (!cpumask_intersects(tmp_mask, cpu_online_mask))
- 270                         prog_mask =3D mask;
- 271                 else
- 272                         prog_mask =3D tmp_mask;
- 273         } else {
- 274                 prog_mask =3D mask;
- 275         }
-
-    1.  If the requested mask consists only of isolated CPUs (e.g., 2-47),
-        it will have zero intersection with the hk_mask (which contains
-        only the housekeeping CPUs). Consequently, the resulting tmp_mask
-        becomes completely empty.
-
-    2.  Because the tmp_mask is empty, it cannot intersect with the
-        cpu_online_mask.
-
-    3.  The kernel triggers this fallback path. It abandons the empty,
-        filtered tmp_mask and reverts back to the originally requested
-        mask, which only contains isolated CPUs. Consequently, the
-        interrupt is routed directly to an isolated CPU, proving that
-        managed_irq cannot guarantee isolation.=20
-
-> > The newer implementation of irq_create_affinity_masks() introduced by t=
-his
-> > series resolves this. It considers the new CPU mask added to the IRQ
-> > affinity descriptor. When group_mask_cpus_evenly() is called, this mask=
- is
-> > evaluated [1], guaranteeing that isolated CPUs are entirely excluded fr=
-om
-> > the mask groups.
-> >=20
-> > [1]: https://lore.kernel.org/lkml/20260401222312.772334-8-atomlin@atoml=
-in.com/
->=20
-> Not at all.
->=20
-> isolated CPU is still included in each group's cpu mask, please see patch
-> 9:
-
-You are entirely correct. The actual structural exclusion preventing the
-interrupts from landing on those cores occurs subsequently via
-irq_spread_hk_filter() in irq_create_affinity_masks() as per patch 12 [2].
-
-[2]: https://lore.kernel.org/lkml/20260401222312.772334-13-atomlin@atomlin.=
-com/
-
-
-Kind regards,
---=20
-Aaron Tomlin
-
---yxy73jv5o3rece2c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmncIbIACgkQ4t6WWBnM
-d9Y5BQ/5AcNQ0c2n8+kNI2LFqNuABLZ9U9I+k195fJot3VTU9cKouItSQJkUO8n6
-UjShB7HpJSxcSiBqPRT5yhyhiWV4z0vh+SRWs8+rNw2VtGdlmMKYpqch3ofaUdv+
-pwNIbRVibQgZDsCxJFqDSbigIl6IuufeLRwfwEawpt8uB/qocM9QBwownjeK60IU
-etsfuv0Dgs/oWHoWday3YWu5q7amg3rmsOiuse4IArg4TXKI/WcHAqOvEWekns+w
-3LSLhn7XzIP+CRXKZLcgiEIvvwicYQrLVYwwgZM4ZqDPf2pXWdxRMIxpr0B+8PqM
-4l1wGsWpnbJiHI+qIDX+T2IqlBcPNhJkTysJZK7x52JMWbaOd1eq1FS1twwxUk6E
-CBnkFUCSiYXsYBB3SW1gVA9m+ycuWkS0IREtpFhS7Szh/GQBpIAd1P2ySbp31CfH
-U8zfTyOWI/J/rNXtl3VAT94oBwwRktuP4dRaB5Dew0eH6FyHrm2bEoj1FdmLFBui
-EWmRfs49TRLVN+VbkbOOhN3AYi+lFgZ+1s1R2nklr6jTbfo88/EKvQRe2L2YZJye
-+uZQ740rrxE3vK1Qp3Koct94UJLm47AthcK208n5XsEsa30REvN17roTseOOHLqf
-BqEWMm4ySN98PHpIIRMj/bgtopH9ytThxH8kM0oTEgIy7wHyK9I=
-=t3PV
------END PGP SIGNATURE-----
-
---yxy73jv5o3rece2c--
+Thanks,
+John
 
