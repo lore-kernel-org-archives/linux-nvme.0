@@ -4,83 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49EE6F9D0F1
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 19:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91356F9D0FB
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 23:33:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:From:
+	To:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=KYn6Tp7TCb8PO6v6nOJyHISO6TATD4M37skpVUjHfKI=; b=b4gqF43vUlro8jXsIUbZwmGdqt
-	iyKJXw1Wc3W3emt686UAY8IDRH0KtDMIKqnD+AYhgc8DuV35kc+CfJM4RcAxC8BBA0VnrlsG2H6AD
-	uW28XVz7jtIAcBLnCVZS/ZZze37svINMfcILWq1eo7eqGRyXsvKinxPjbL7iLVXDrbeYBl3dV1KiU
-	erYb4wXoEM19qWmYC51TuJdc5NBreks74q9Z+DbwshnD7+gRbb/ub+PT97iclxOUCOu8pUoRen+Y5
-	09YUtsU3R2Qs2/UjrOJVx/DEbLcly139IHwb8jGAOi7zlX2/v2nEN6mCjnPENFOY837b6jPViBdDG
-	Gzz2bXeQ==;
+	bh=f8ysig4HrR6q3pf1wGXHMfZICW3zKYZ2jcIAnSG39Uc=; b=K+EPneVRhsin6w2hjAaqd7LiP6
+	KB4ZONNEt75i2LKFYCmg+lGA0TBsEPyK6W4WUE0Q6mfZCznR1TqvUXqxg6n0bn5mtMgSh2NERAx+u
+	3lIuAcTWptyUVGpDp+GU7vi8WGpzqzDk+eliFzD51XXZWh264+o7DMdLuYWI6DslBTIDpJL8IFHUK
+	dKvJ3pxPbJkB6DJZU93j9trItDJ/K6ew5+tV/qfclIS/BpJx0EELIx/CQmyf3OyWURFrCXv0Cd1/S
+	/tlf/FPEuetzHdgo0cx/xrQESvsfYgI0oAjTz2MAnFnLg14qXZb6kIHuv2f0IUiMvlSplNwiCmAxt
+	Pseu5uIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCjFP-000000008X2-0LgH;
-	Tue, 14 Apr 2026 19:16:31 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1wCnGE-00000000KsX-2QVo;
+	Tue, 14 Apr 2026 23:33:38 +0000
+Received: from mail-4323.protonmail.ch ([185.70.43.23])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCjFL-000000008WH-2DI5
+	id 1wCnGB-00000000Ks9-1i1T
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Apr 2026 19:16:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776194185;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KYn6Tp7TCb8PO6v6nOJyHISO6TATD4M37skpVUjHfKI=;
-	b=McylxRz56WTfovZbGKLUKTJoiHzdyLEo03M7VvIJZLW5Ve9fwAGQjQ3+g/HKBpcOz+11GP
-	QJo80KJ+W4J7Z+35CQyay1MsU9dSajfvCj2InXYOng8ryim0nqDv4MCGbWaQtXFhKrttxw
-	lx0XY+if0SFyEVCd97vPrg/xY+HAhCQ=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-169-ZMUdt5RUOmWylmR_jTcYTQ-1; Tue,
- 14 Apr 2026 15:14:55 -0400
-X-MC-Unique: ZMUdt5RUOmWylmR_jTcYTQ-1
-X-Mimecast-MFC-AGG-ID: ZMUdt5RUOmWylmR_jTcYTQ_1776194093
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8509A1800870;
-	Tue, 14 Apr 2026 19:14:52 +0000 (UTC)
-Received: from [10.17.17.11] (unknown [10.17.17.11])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8A1821955F42;
-	Tue, 14 Apr 2026 19:14:49 +0000 (UTC)
-Message-ID: <cd6f6857-729f-40ff-b3be-51db3225d983@redhat.com>
-Date: Tue, 14 Apr 2026 15:14:48 -0400
+	Tue, 14 Apr 2026 23:33:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1g4.org;
+	s=protonmail2; t=1776209611; x=1776468811;
+	bh=f8ysig4HrR6q3pf1wGXHMfZICW3zKYZ2jcIAnSG39Uc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=BCLB93Yw2DmRNQGnT4ppfVLVsd5woKzTrwQJUuXFM+wU0FTWyywFR0evXcoSnvkku
+	 wLvJxntiv1nSqkN8Aw5FlxIstXjkLtH2hlYQzbFGSH4KXD4xWWJeVVe7+xW94Ll4gK
+	 d5lOiXiis/16psjz+D1z6c9nyowI7vOOKQzDiOn61akyAiwJfn8HVrUASYlw5sNJnc
+	 Bxeng9hfmNgB5raF4K45s9dHajrUoU11OAc1AzGljbpz7iVed0OnTItHzw/By1ET77
+	 7yqW6FEl/KD3zOFjUgRaGFIQx39yI2JwJobyU4r3bNbPi0VQ/kjBhKb9oxp5G6mfIV
+	 UJC3XnnYXajnA==
+Date: Tue, 14 Apr 2026 23:33:26 +0000
+To: Olga Kornievskaia <okorniev@redhat.com>
+From: Paul Moses <p@1g4.org>
+Cc: Hannes Reinecke <hare@suse.de>, Chaitanya Kulkarni <chaitanyak@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>, "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>, "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: nvme: fix handling of tls alerts
+Message-ID: <FkWRHE0LXb6mMM4_IGAHzlpaFbKBmo32surD_p8nsLEQqTLpKyyV-5j-_AaObld0oWubIQPJetPy-d3-unkgn7ieV5X3xHDeJQOZ7oxFeJw=@1g4.org>
+In-Reply-To: <CACSpFtD5K8K8x4aqtBxCWUmwygCHcO=YkzUBJb=rgoqEStPGGA@mail.gmail.com>
+References: <Ozwl9wDbyugg3Ytnr80omDUS6JPqCHgq_k8gkqtMIP2KbHBMt6CYRRMk6LKGOTNPwtj_wNimbH0mZiAe8-9zcRmS_UgArtcI6poZ1PZjMoU=@1g4.org> <2026041239-engross-edition-66eb@gregkh> <N8h5xrK8_cznpQNTzRIDl6Ofz_nN1Hvl1DVSXnL9rSR6zHyQGIPDKEDURE7uf2PgGOCe2jTRcEiamFmAzw-xhQPCBdbPoUu_BelZ8Mrzmg0=@1g4.org> <84c3b656-9406-4869-9214-aff1ee0f1607@nvidia.com> <207e1c3e-2a99-4085-81c0-7853f3d09f78@suse.de> <CACSpFtD5K8K8x4aqtBxCWUmwygCHcO=YkzUBJb=rgoqEStPGGA@mail.gmail.com>
+Feedback-ID: 8253658:user:proton
+X-Pm-Message-ID: ece7702332c7cbae186d4ef40017673a8e3a756f
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 0/8] nvme: Refactor and expose per-controller timeout
- configuration
-To: Maurizio Lombardi <mlombard@arkamax.eu>, Hannes Reinecke <hare@suse.de>,
- Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: mheyne@amazon.de, emilne@redhat.com, linux-nvme@lists.infradead.org,
- dwagner@suse.de, mkhalfella@purestorage.com, chaitanyak@nvidia.com,
- hare@kernel.org, hch@lst.de
-References: <20260410073924.61078-1-mlombard@redhat.com>
- <e7a5ab7f-722e-4767-a9a6-2a1ae73bd8b7@suse.de>
- <DHRX0LGNILAX.LTFZVPDRLGOH@arkamax.eu>
-From: John Meneghini <jmeneghi@redhat.com>
-Organization: RHEL Core Storge Team
-In-Reply-To: <DHRX0LGNILAX.LTFZVPDRLGOH@arkamax.eu>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: sV8wZV5I-8nHEhJ7RbaqNp-DxSTokWck1U9QPDQBASk_1776194093
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260414_121627_640085_48DB550C 
-X-CRM114-Status: UNSURE (   5.58  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260414_163336_119635_8222AE82 
+X-CRM114-Status: GOOD (  11.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,11 +69,25 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/13/26 5:21 AM, Maurizio Lombardi wrote:
-> it's worth noting that unless I am missing something the user can already
-> trigger this exact scenario today by setting an I/O timeout lower than KATO,
-> using the global nvme_io_timeout module parameter.
+> I guess I'm not surprised it was never merged. To answer another
+> question: Was it ever reproduced? The answer is: I did not because I
+> lacked NvME expertise to create such an enviroment that would trigger
+> it. In NFS it was easily reproduced by modifying openssl to perform
+> extra steps when establishing an NFS over TLS connection. Perhaps
+> openssl could have been modified to do what's needed when NvME over
+> TLS starts, but as I said I dont have the expertise. But the iter
+> problem is the same for NFS as well as NvME so the problem is real.
 
-This is true.
+On the nvme side, it used unmodified openssl 3.0 branch at commit=20
+068f2ff. It used the nvme command capsule to structure the data,
+normal close_notify is used as payload to ensure the crash occurs=20
+100% of the time.
 
+> I'm not attached to my patch and I would be happy for the issue to be
+> resolved in whatever way is best suited.
+
+How should I attribute your work? "Co-developed-by:"
+
+Thanks,
+Paul
 
