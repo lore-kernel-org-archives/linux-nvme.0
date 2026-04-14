@@ -4,57 +4,119 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 71157ED7BBA
-	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 10:47:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E0A9CF9D0C8
+	for <linux-nvme@archiver.kernel.org>; Tue, 14 Apr 2026 11:43:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:From:
-	To:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=eKAsRUzGdOfbVQMW0R45M9LFPAYPnmxNwyuNOHqbTY0=; b=tiMUb4b5rYKw+SaOKdhVK/5+Mu
-	65/rMWVbLYo3xcX8c3367TonLDEv1EQBZd9hSvnXdE9sUVYLS800+hLzf9n8kul0Ve1q8sTJHszZB
-	KD8ZHU4FzLHn9lM5jQk5IjupR/xhR/fdxlDGpU4QHVvkCSRATROXvlWFz1Ylg0Y6O9MHWHaRk0nFh
-	hB9EC84q6LovVOBxdH9JOyY1twL4ZG0V4HnD7CF8eGC2FWwTOkMwsAW4k+ykaJSLZwAjd4j/71K3v
-	gH8JJ0uB/wb8zT6mVM5ZXLN9mgtbMmHn0dycIeCay1oIPyGW971IUh42SSG5PtdLWmRtjQCVwLNn9
-	cek7TYvw==;
+	bh=UFZhnE97tWp4SlXf9g9qO9WSyADp8kccRJlgHM1Km8E=; b=C4GQapu6AyDo1Ef5Y4ia2Qbx2b
+	2Q66PfXl8yiWAtWqDFsRYIpv0vp3KAXFWbTY0+/aPDc92pzUlWLzlPg+cXt8RyJYKTmYRujwEgW+9
+	HcnX8u3AXgZBUVGC+MhcxOyp6UK7V+56AbOEWTz4ayfrN7IOJWNX49KpwRAVfmSjTioKx5dque+Gy
+	NGkqY1iLLqjzjVy97AbtZSpuXJe+iVTEt12upuLM4MaU+bAhBywQYhEM9hEtLioYvp9DbR8MdimaY
+	D4tsoAOd+lmIwVcjbHDWOK+yYDcfFuPZXCF69m3YhJAKGGZkKjn6IIlm/lzUXlcDEH9xUr0P6gNAm
+	9x6YJ/sg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCbII-0000000HAxf-0vRe;
-	Tue, 14 Apr 2026 10:46:58 +0000
-Received: from mail-4399.protonmail.ch ([185.70.43.99])
+	id 1wCcBM-0000000HFRN-3UYa;
+	Tue, 14 Apr 2026 11:43:52 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCbIE-0000000HAxI-3xsM
+	id 1wCcBK-0000000HFR1-2rux
 	for linux-nvme@lists.infradead.org;
-	Tue, 14 Apr 2026 10:46:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1g4.org;
-	s=protonmail2; t=1776163608; x=1776422808;
-	bh=eKAsRUzGdOfbVQMW0R45M9LFPAYPnmxNwyuNOHqbTY0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=DgmcU4gGNW9uFb+QeMNrCNeS/Wujzf4RIkpauuo0/OAEkgsFXKfmVuGX8EsZWka4G
-	 91SvKslR6WIeR2ohnVjcXQqOAdFQKzvV7I94dQShgmDethyGlc7Hns1acw/5KPmhbW
-	 ZIXaROAFuu5WV/WqpmOvobLnlaFC+TeLxbXDwt5bCvVsDzdoHawbERx8stv9beWVk1
-	 5wjoC9HgbcyUuPJiMBACs7UEUbXg6cOuRAVrOYpwT0ylDPVBe35Rj/D6+delut2Nhp
-	 jjF5KQjPEI4KeiGhJISn3zeuG1XN1z0UB0v/EKG4OL1MsXSIrzwoIFxVDauWubpwoQ
-	 mTyGEUmhqVvYA==
-Date: Tue, 14 Apr 2026 10:46:44 +0000
-To: Hannes Reinecke <hare@suse.de>
-From: Paul Moses <p@1g4.org>
-Cc: Chaitanya Kulkarni <chaitanyak@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>, "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>, "okorniev@redhat.com" <okorniev@redhat.com>, "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Subject: Re: nvme: fix handling of tls alerts
-Message-ID: <KRsrO7YRfuOCHwlfhASNG5rNuh2v9MGuWP8Hnir4GFkXG6aZzHH3Tn2P4lXd0oeTd1ogyTED_v0VS2ROjf6bux0KLK6nQjWMNKvtz0Xzruk=@1g4.org>
-In-Reply-To: <d60274f1-b9bf-4378-b59f-c0e92dbca274@suse.de>
-References: <Ozwl9wDbyugg3Ytnr80omDUS6JPqCHgq_k8gkqtMIP2KbHBMt6CYRRMk6LKGOTNPwtj_wNimbH0mZiAe8-9zcRmS_UgArtcI6poZ1PZjMoU=@1g4.org> <2026041239-engross-edition-66eb@gregkh> <N8h5xrK8_cznpQNTzRIDl6Ofz_nN1Hvl1DVSXnL9rSR6zHyQGIPDKEDURE7uf2PgGOCe2jTRcEiamFmAzw-xhQPCBdbPoUu_BelZ8Mrzmg0=@1g4.org> <84c3b656-9406-4869-9214-aff1ee0f1607@nvidia.com> <207e1c3e-2a99-4085-81c0-7853f3d09f78@suse.de> <cegmtu5F2Mmye7nAykxzPw4Bh8EZZCCx79IUFf4RN5vEZcAbq4-mTr5H7LycgByHGg4EzrAW4TkYkWhkCPTXtsz1dF6iOBwB672-wE15iUY=@1g4.org> <d60274f1-b9bf-4378-b59f-c0e92dbca274@suse.de>
-Feedback-ID: 8253658:user:proton
-X-Pm-Message-ID: 9771a751c9e60be545c3a243f56e34bb76c9a219
+	Tue, 14 Apr 2026 11:43:52 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63DLJCoU1844154;
+	Tue, 14 Apr 2026 11:43:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=UFZhnE
+	97tWp4SlXf9g9qO9WSyADp8kccRJlgHM1Km8E=; b=ni5OsnV4krvqOjLRreP/Zh
+	+wVlHTfF6sJyJovIEgpc0WxKYo4+yD27Citmjt0oX8pDsL/I4a0N76eFMewGL/e9
+	0THpI5djmDGIFQrMBSfe/7JSyJy2hHAYpKBV2VaLJD7VjXX9CT7+kQJGQvVtTpiZ
+	n7XGQTM8j5xSXe1lgarJltPKu/7pyF+jWtd6xFRXj+jL+WjvJW3TTk3Qfhycc7MP
+	cDsEm4IeOu/cLLBAZtcndCrc5leBvK5r1xDUzycMU6f7CndxQaQQ5Jyx6idh/D6i
+	EF28GnZQ9eXdTbwpt20uvKxfkcSx5JRue/1iGgac+v74X9jb+nac4/U4+YN3CQhg
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dh89mjfce-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Apr 2026 11:43:34 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 63EAxlQk025837;
+	Tue, 14 Apr 2026 11:43:33 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dg2ujh309-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Apr 2026 11:43:33 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63EBhWgw1901506
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 14 Apr 2026 11:43:32 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C8E035805C;
+	Tue, 14 Apr 2026 11:43:32 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1C20758054;
+	Tue, 14 Apr 2026 11:43:27 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 14 Apr 2026 11:43:26 +0000 (GMT)
+Message-ID: <6dc8e0d7-9b2b-4867-9df7-6853f4b2fa05@linux.ibm.com>
+Date: Tue, 14 Apr 2026 17:13:25 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/13] libmultipath: Add path selection support
+To: John Garry <john.g.garry@oracle.com>, hch@lst.de, kbusch@kernel.org,
+        sagi@grimberg.me, axboe@fb.com, martin.petersen@oracle.com,
+        james.bottomley@hansenpartnership.com, hare@suse.com
+Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
+        snitzer@kernel.org, bmarzins@redhat.com, dm-devel@lists.linux.dev,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225153225.1031169-1-john.g.garry@oracle.com>
+ <20260225153225.1031169-4-john.g.garry@oracle.com>
+ <775dd360-ea41-4e27-9690-e0633e0522d7@linux.ibm.com>
+ <f9fb6d73-9b90-4c11-ae1f-3f2e76773d7f@oracle.com>
+ <bb4df6e1-cd83-4a73-af67-f83c543d6e6c@linux.ibm.com>
+ <bfd8c2c2-65f7-44f0-a4ec-01158e249505@oracle.com>
+ <02288590-486e-4243-8352-c756c6879629@linux.ibm.com>
+ <bc18ad6f-10b1-4a28-b88d-aed5754b968d@oracle.com>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <bc18ad6f-10b1-4a28-b88d-aed5754b968d@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDEwNSBTYWx0ZWRfX9GlfcrJ7KBTF
+ vWdYuZJHd8LLB2ky2gnHwTb4ELHi6MRrPUem9uKxukVqu4ceKex4ouhd/VFDQVbWaOX1KEqO2Hm
+ QYfY2CTE7S/l/gExCh5V2hePcU0D+KiVOsGaDeKrpnE+Ld9D1sSHyKccm5sjrfgaHwLxJ8baMgz
+ n8bgS6ptd9z+Vpu4913FKBfawlsq2fB1JRgLD9oo+C6SZCk3x7OHeLCOox7WB1zKNdyQAi6J4A/
+ /I4lT1/QIc15zrtShDcLFXafw+VzQMARcAKXw/hzjeKGrYqKLwl3ZxXFZwtagU948dH35DbMG5P
+ 1gMVCTaXf8QRL+oD6RN6iJZt6iKKT1RuIBLuzNyG8gDq33nN/kvzlTqNF1DiuHk104ruk9kTB4j
+ ydfjmgc+MJIftfNYefAs0vaBFo0CktfR8BqccgB+0+hbzO51ZGoGheazwi/Fm0Qurfs0MfrYHaT
+ kXcxJDjwI2LL0qDuuXA==
+X-Authority-Analysis: v=2.4 cv=eJ4jSnp1 c=1 sm=1 tr=0 ts=69de2866 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=20KFwNOVAAAA:8 a=WhhBK_UWijzhm2niL2sA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: bwK6Oi9SGOSjV63HEJ0kuPcQqRbyTopC
+X-Proofpoint-ORIG-GUID: bwK6Oi9SGOSjV63HEJ0kuPcQqRbyTopC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-14_03,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ clxscore=1015 bulkscore=0 suspectscore=0 spamscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
+ definitions=main-2604140105
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260414_034655_644687_2E141DAB 
-X-CRM114-Status: GOOD (  12.38  )
+X-CRM114-CacheID: sfid-20260414_044350_809524_03523FD3 
+X-CRM114-Status: GOOD (  23.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,40 +131,40 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> Not sure about a reproducer, but we certainly need to handle TLS
-> messages (including TLS Alerts) correctly. There is a patchset
-> to implement REPLACETLSPSK which basically requires us to handle
-> TLS messages.
->=20
+On 4/14/26 3:33 PM, John Garry wrote:
+> Hi Nilay,
+> 
+>>>
+>>> I think so, but we will need scsi to maintain such a count internally to support this policy. And for NVMe we will need some abstraction to lookup the per-controller QD for a mpath_device.
+>>>
+>> This raises another question regarding the current framework. From what I can see, all NVMe multipath I/O policies are currently supported for SCSI as well. Going forward, if we introduce a new I/O policy for NVMe that does not make sense for SCSI, how can we ensure that the new policy is supported only for NVMe and not for SCSI? Conversely, we may also want to introduce a policy that is relevant only for SCSI but not for NVMe.
+>>
+>> With the current framework, it seems difficult to restrict a policy to a specific transport. It appears that all policies are implicitly shared between NVMe and SCSI.
+>>
+>> Would it make sense to introduce some abstraction for I/O policies in the framework so that a given policy can be implemented and exposed only for the relevant transport (e.g., NVMe-only or SCSI-only), rather than requiring it to be supported by both?
+> 
+> I am just coming back to this now....
+> 
+> about the queue-depth iopolicy, why is depth per controller and not per NS (path)? The following does not mention:
+> 
+> https://lore.kernel.org/linux-nvme/20240625122605.857462-3-jmeneghi@redhat.com/
+> 
+> Is the idea that some controller may have another NS attached and have traffic there, and we need to account according to this also?
+> 
+Yes, the idea is that congestion should be evaluated at the controller level rather than per-namespace.
+In NVMe, multiple namespaces can be attached to the same controller, and all of them share the same
+transport path and I/O queue resources (submission and completion queues). As a result, any contention
+or congestion is fundamentally observed at the controller, and not at an individual namespace.
 
-I don't think so, they were porting the fix from sunrpc. What I=20
-removed is what does not apply here.
+If we were to track queue depth per namespace, it could give a misleading view of the actual load on
+the underlying path, since multiple namespaces may be contributing to the same set of queues. In contrast,
+tracking queue depth per controller provides a more accurate representation of the total outstanding I/O
+and the level of congestion on that path.
 
-From: https://lore.kernel.org/stable/CACSpFtDo+Bo0Dre-c9yxf7OEJNUUDesk-Lf+6=
-sCdmMBQH=3D_JvQ@mail.gmail.com/
-
-This is where my patch deviates from original:
-
-> Yes we certainly can do something like what you had previously
-> if (len =3D=3D 0 || len =3D=3D -EIO) {
->   pr_err("queue %d: unhandled control message\n", queue->idx);
->   return -EAGAIN;
-> }
-
-> But not that in that case TLS alert bytes would still be unconsumed
-> staying in the socket. If what follows is a prompt closing of the
-> connection, then who cares. What has been worrying me (even in the
-> NFS) code is what happens when TLS alert (though we do consume it)
-> isn't followed by the connection closing.
-
-> Now let me know if you want me to re-do this patch based on what you
-> suggested and ignore when len=3D-EIO. And then I can redo the patch#4
-> based on that.
-
-This only matters if we intend to continue on that socket after the=20
-control record, nvmet does not. Any negative recv tears the queue down=20
-immediately. For nvmet, detecting MSG_CTRUNC and aborting is best choice.
+In a multipath configuration, this allows us to compare controllers directly. For example, if one controller
+has a lower queue depth than another, it is likely experiencing less contention and may offer lower latency,
+making it a better candidate for forwarding I/O.
 
 Thanks,
-Paul
+--Nilay
 
