@@ -4,167 +4,150 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DBC77F8E4AC
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88BABF8E4AB
 	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 04:42:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=SkpJV0Acr6ivunvsCeqjk4MU1/anTGgNIBbWs0F3/tY=; b=Y7EFA08Gq2dX3WzYLzSWaQg7Nv
-	Di2b2YXyCXBByZLaYqmdqYjjepnfgq6BWJEwRWRXodNx3gI+quOQRcgQZxwbE5t9O5BjHBkRIHQrk
-	PJpSFFQKFyilfZE3qG0So+9OPrT8b6OGwiLpXahR/u5UsstOLBNoBJcNQNJRTMa3fkDYkoItGkZRg
-	LZzwEtYBn4BhyzTZ0yrWQu82wnwFPIyMK4RV7G5T3Qd1Gv6dJheWiqG+w3qy3ZNhRPD7ykEFHGxjS
-	Nq8Pwr4S5mxDnqmQrhXILDQ8Rx9NucxZwMmLWcfKbXvMC0t3GoJGoj5DORZEZfOUqzhyn1rsneTas
-	Jg6TmLIw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=HRLhu0j/455Y5T9J1TaoFJFpEu8bzcu/RdTbaPAl3X8=; b=qQzC9nmZEb6OJK/gHW881CLlP8
+	PUTMEWxPVrnUf2huF/tlVMXeKyLrnj2Ilqkx1yL9BmKuWq2sptNbUGqHgizlSk6T3XdoWzIcRLWXe
+	axvN4Hi00TXQEV/lJn9vqMWDB85OwStTra2d9sNAp1fKvg/KURPhle+1ALEndH3Lo2ijU/RQe0o8H
+	D+g3trhG7Z3KLwfbmWsXEMWHM5hHOn1Qyl2FFqvoHncnIcwGf3CMjGYpv+uxkbcS+jpimmSlZB6q8
+	FBns+Y217zW3oAouCpN1IKdxxfRlzhohLPfeNne4KQCtPGMQa5KESJL0t+Z4Gbsl56o3nJZyho5nm
+	0Cu+8LaQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDb1p-00000003Qan-0AOs;
-	Fri, 17 Apr 2026 04:42:05 +0000
-Received: from mail-uksouthazon11020142.outbound.protection.outlook.com ([52.101.196.142] helo=LO3P265CU004.outbound.protection.outlook.com)
+	id 1wDb1l-00000003QXv-45w3;
+	Fri, 17 Apr 2026 04:42:02 +0000
+Received: from mail-uksouthazon11021099.outbound.protection.outlook.com ([52.101.95.99] helo=LO2P265CU024.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDSPh-00000002sgc-0n0s
+	id 1wD1WV-00000001G1k-2jOq
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Apr 2026 19:30:10 +0000
+	Wed, 15 Apr 2026 14:47:24 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UMBqNrDsHsCF4QXLFtnsuweYcP8mJWGvgNOoBbQgVDv2+A7VDHnwJXb2DT3Yj/M5h3y3yXTCnScjIJK55siQRACnrTBNfHY5GqkDTr1iEqH9YU+rNhuLdv8NOwRln11xr79CzufNpn6JqhPjIkeDE82h4TMzwj0XliWIqlxG2IyvqQrPio34Q3DaIZcyHIcC/oZ3lSnfYXarcaAvk/ipul9cJfzbIJAhRtih2Xh+kWPx+wZO4U6XAwn5uhoC9D9QEwVdrS9OC2s0cMpiiMA60Oej0Ijubh/PWtGd7Bq/De4J6bR8Ht/mdaRrWOsPhiEU6eSOlYid4bu9aBV1aHESTg==
+ b=o7eo0B5fF5SCqSUFA4Tob/0v7Fh7e9mK9Z/2kP0fRsnjH4QsdrJJjTYWefkRIXwgGmWBmIfbiwz3wLfzIIk70en2SMHhqP25BuyCyYX0atxBQ0vRp/opfs5o3rBjUUM4+9McSI6EbemHjZbcKfHcAui3wqOmeVNG4uSGwXsMgLpon+2LY807NLgq8nl4CUlksOm3/oXrI6lhKI0YHArG04xrplxreKGXd4SQ9tKPVGsSm3hQq1+IxNz7MhuUs22sn2TxR1+y4iAA++JJPGg94sLgkAx+SSGAqNuUNaNNodtoTCwNto7/tP9guJSWK3HOxHInmJUGv3Qu9UlygUDEVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SkpJV0Acr6ivunvsCeqjk4MU1/anTGgNIBbWs0F3/tY=;
- b=uJzNBsV+Z0pxkwvupQJK5tzdSRgQKQsJ+hnA9WkLkcOlyFMrQ/6uBsWg2hf2ne9l6a10+i7BQpXOrtHC2nCdMh2RFcXf/76fCyZsNcTFt3uXtIguXPgz2rOMQyIa0rxqBYauVs0jRv8PmfDKQuImUTrsFRzpkRLoFma6kiZLu4ViQDYH6eJ90ch8QxUw9um5HxGHcBXnuGaitjBV0L8SnHXhfPSo67ies62sdHdcn687zEOZyB6J9kgtg/URQqd+oiU+12R17iCfCthXRzIU+NQri93qY4QO6huNJW21I0MhT4GDX727Ln36GL4p4RuCBgN2WZg4Q8btdzzrzMHBQA==
+ bh=HRLhu0j/455Y5T9J1TaoFJFpEu8bzcu/RdTbaPAl3X8=;
+ b=bib6HuYCF1OZNc2Z4dnfOMHqRt5gC/+zpSEoW+tJJ7Kwl0eLSlx04+qUuaSawbZdGJ/LsYKUho4Jub+dUTXVDjMQc8RCOHsZW31m+aJvOHFGuGbOmg9EwUsWdgmowF8LHM9HOoRIV8U8nICt3S8Y1FSbfmNG8I9sH4IKGyxwcbnzhQjL0wfT7crCg2Php6l5s16gQ5IXKs8DgxXjH0rpXUVzG6VLzkNc/7KivHGSBi7xuI9nKmbLdklJcB0t686eItpip5sz/Fz2mf0TtvcSGmWAc9wOuU8y9gluRMcR0QrBauMqzAZmRXgchZbitHdT+D+/HshqrPb0AfMF2qKQXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
  dkim=pass header.d=atomlin.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=atomlin.com;
 Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by CWXP123MB4039.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:c5::11) with
+ by LO8P123MB7476.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3b0::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Thu, 16 Apr
- 2026 19:30:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Wed, 15 Apr
+ 2026 14:47:16 +0000
 Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.046; Thu, 16 Apr 2026
- 19:30:06 +0000
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
+ 14:47:16 +0000
+Date: Wed, 15 Apr 2026 10:47:11 -0400
 From: Aaron Tomlin <atomlin@atomlin.com>
-To: axboe@kernel.dk,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	mst@redhat.com
-Cc: atomlin@atomlin.com,
-	aacraid@microsemi.com,
-	James.Bottomley@HansenPartnership.com,
-	martin.petersen@oracle.com,
-	liyihang9@h-partners.com,
-	kashyap.desai@broadcom.com,
-	sumit.saxena@broadcom.com,
-	shivasharan.srikanteshwara@broadcom.com,
-	chandrakanth.patil@broadcom.com,
-	sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com,
-	suganath-prabu.subramani@broadcom.com,
-	ranjan.kumar@broadcom.com,
-	jinpu.wang@cloud.ionos.com,
-	tglx@kernel.org,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	akpm@linux-foundation.org,
-	maz@kernel.org,
-	ruanjinjie@huawei.com,
-	bigeasy@linutronix.de,
-	yphbchou0911@gmail.com,
-	wagi@kernel.org,
-	frederic@kernel.org,
-	longman@redhat.com,
-	chenridong@huawei.com,
-	hare@suse.de,
-	kch@nvidia.com,
-	ming.lei@redhat.com,
-	tom.leiming@gmail.com,
-	steve@abita.co,
-	sean@ashe.io,
-	chjohnst@gmail.com,
-	neelx@suse.com,
-	mproche@gmail.com,
-	nick.lange@gmail.com,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	megaraidlinux.pdl@broadcom.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com,
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Ming Lei <tom.leiming@gmail.com>, Ming Lei <ming.lei@redhat.com>, 
+	axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, mst@redhat.com, 
+	aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
+	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
+	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
+	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
+	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
+	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
+	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
+	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, steve@abita.co, sean@ashe.io, 
+	chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, linux-nvme@lists.infradead.org, 
+	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com, 
 	MPT-FusionLinux.pdl@broadcom.com
-Subject: [PATCH v11 05/13] blk-mq: add blk_mq_{online|possible}_queue_affinity
-Date: Thu, 16 Apr 2026 15:29:34 -0400
-Message-ID: <20260416192942.1243421-6-atomlin@atomlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260416192942.1243421-1-atomlin@atomlin.com>
-References: <20260416192942.1243421-1-atomlin@atomlin.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN9PR03CA0962.namprd03.prod.outlook.com
- (2603:10b6:408:109::7) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
+Message-ID: <nvumw2ekyms6r72uhq3nnyhksc3zxd3svom4agqhltz3tzeufe@i4zh7pvj5fnk>
+References: <adMoon3Zf6gO-UbA@fedora>
+ <zawhqvn53mcp4wf7axsmuq4cg73upxs5h2zgrfta5dpat3sfy4@zctfbz2ttz5m>
+ <CAFj5m9JE5e4DRGbzQFxDdZWU76ZPQ3G+C9JpLu0mhTB6aesZ9g@mail.gmail.com>
+ <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
+ <adhj_w11cpMfeEgN@fedora>
+ <dzpxscrhibmi5okkozf5jfull4dcajgpctldvdyfcjgmpeetk5@tkeyqouyabzy>
+ <adpD8M8cNu3IZzEL@fedora>
+ <6glgsbk2djsz4cqtbp2ht4274dw4rveq6fojlnpnuvx6zmpjxw@i43jo2l4qlz4>
+ <ad0Hk48y5JEeMlFk@fedora>
+ <20260415083458.UD3cF5IQ@linutronix.de>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2qhzsoz5szogc6ye"
+Content-Disposition: inline
+In-Reply-To: <20260415083458.UD3cF5IQ@linutronix.de>
+X-ClientProxiedBy: BL0PR02CA0110.namprd02.prod.outlook.com
+ (2603:10b6:208:35::15) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:400:70::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWXP123MB4039:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52c763e6-9d4c-420e-c2a5-08de9bee9095
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO8P123MB7476:EE_
+X-MS-Office365-Filtering-Correlation-Id: dcfd38bc-2653-4d88-3b98-08de9afde2ca
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: j1yYIefOhY7JaTgfsYvHrdopEsaBmqDpsA2mbtxVuBeHdtM3CvFnmX61T1UEaWXUmeaXhmL58+mI3SsKUSKVDXJuRW56SspTNVL8WvK9fVEtZ4lfJ36RLMgKkE1WJclnb+3Wd2gCLP2wKXcebBbKzFxOjsrJx/xNLkbCpDKhb+J96VhEhm4olZsevtvaHWyaXRRUW9ad4iaxopOnHHXS6oM7efE95TISOz/okjJmEQ1bm5Rshitdw4+7gfIRHWocI8mmh+kaz+JDCyJ6inysaL9rnBNibP7fid0e+/ak9PmWtxJiHs/dE8buZE/3mFbDrzAOupJNWREBSAvp5BaiUSdEnwJSx8wjczWiiidui2gs7f8oZUCMA1mMSf/qAqPBdIbq/Oq6pe3rPmjpp1usvKReyfsrKaMQLUQAH+zUMJyKBPT8RNngIeap5mumBuGa/n39wZikvyo+9ODdtQ2YSY+3h5a7vv3vNlrgKEAEKo4yfa75SEa49GM7DlfCEmGfsvE3LXO4XzApDAkV+pR3lrCiCLpERHiub3K/KY7H2eV+XHz4bHl79xlJ14hPaPSZZZ4+7pPadZyjvsBvOw1LkgU1PnDQQLZGHbOcPGETD0WvIb15CvYcz6OVq5D2p7piks6AKfmsKzcQM0HgYapBSN3nxdn9Sqx1JS624Sl2h1xJujXARP4qcecH9KDXDx5JlUUM41Q6B/sYiquBhBPRzs7Nph3hPScCQGBfUBzK4Rs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info: n9oasinS9ekXn1nqNEmOP3q9i6p1MHQUHEz6ioaw7hnuqjwT9zHDzv6cu2dF5YZrL3qlFsyYLIjpBqwxH+zEVFkk+AqtlZ7VKLu6mE4DcWpg/Z/yVUSk3320UUyAE6aTG05sxNcXexItRb5rqgIepuHrsoXQLaEc3cpVMqM7E+lWgdzAU43TuHsRXn0ndWUjhPlWQJ2YmAJLasNT/kjQqxjLUbx8VSrbuCZvkSqZYkV7Z5FfklpE8H0cG+sWekyrz4vvm8Tu0IQzuLO9lJVOWb25ew2nwRV2+7Z9SpF+BIi90j2htoz55evfLJMbGv7o7i1li23F/u6rbxdGVpaV47fUlbKcLhrjHzll0pNuE3/cFJJeq/vYkFO98yqUZk/op+poK0ODoUuoRHeHCYTjmV27O/zOaNc4A1U3CT5/Qqswa8OthTQVJCiz1v4yy1bi9RBNGkDPopDBqGFOtcUIfzb4DLlA6eaDGFLQ8avU18kaGi1rGhTRZQcVw90YQfQOdMmzYnLdF95cP/zco/7Gx+SlavP7TOmdFJ1LeX+Te6FnCa7Wetcke+3wbvOONqB9VP3F+zAa+mRD9M8aUjzeCiZZ9fYDcyV5B4NL6QkkKzZjjDXT9fcBRhPS4WhzoVGmQ82HVA3DO5VSThrz4k4mmHRXlhLqRbTXF+CH2Zd6Jlda6XdJ1RTsAeHARi+QdSFgz1ZB37fNcLhl9b3E/9yZ7Rx1d61ycglOXam4ih6Hm4s=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O0ZFKIHL9BLLY6q/2D8MycMbgkBecalMB1RvBFv4w4Dy5iu2DH5qbBqfpHxG?=
- =?us-ascii?Q?cJ4judIpnpBUYY1aPkwZaFYC9iU2lY6wY+eo62iMzLXj8lcSAQropNB9lueu?=
- =?us-ascii?Q?lUTbADAFHItVc5R8LbzpJUcpeIxdq61FZA0CQMEDZ2bqU8qi1T+qmRexSHuz?=
- =?us-ascii?Q?EhvjpeQTU1j3gZYdWurcgMhbHKEZG+afpek2Xd6Nrjwy9ZJKGW5piEFZ+gW0?=
- =?us-ascii?Q?dwXPc1+rq1X9K98zGQgBKwKb/JIhsaOI5az4X/FO7rb3OV8TFr4xL1U30GbY?=
- =?us-ascii?Q?QCDgY/v1cEiUt5aK0Ho4LcVlAuc/qRJfYzMBP0Rd1xWhil4STaADcdLa25fi?=
- =?us-ascii?Q?s9igeX+0+timk9BB2ZrvkI/fLxvlD3gkPDdJycgs4chLtWVoBoNwLhqhJm7I?=
- =?us-ascii?Q?CXx81aTSpGVND7EkDyL1CLMBAjRfAupBB1xE2VzoR06hTsukNf4wDRe+TCR0?=
- =?us-ascii?Q?mOtmbTMOGbBDdFX6Vk2cbNSRr5Yf0X3qiI5JrbMEPFALjvwULO9IfogyXGBQ?=
- =?us-ascii?Q?Zy3ammi51bY2whvcS5VTrhyDM+AJ4YDiIEBe1BBJo7EPfMdSEXIWEI2DctIH?=
- =?us-ascii?Q?IIJPlEESPxXFVBoxUyBZEZSfXnU3P/euODTe50Nv2PNt5kAlqm+eJ2TD/XBr?=
- =?us-ascii?Q?7YLqHg8pjI7UU3F1M2T/gHElhFYF2PE/yn1XG2vUTZZH4p1KxKlLEXpCGa/p?=
- =?us-ascii?Q?wjkkN1z5KpcY53zMsN2CEdpGwCwlYiUj23U21sYH5CXLuwPCeKUjqzt523WZ?=
- =?us-ascii?Q?XY8uLDG6TL/DBehkKs77q3sucJybY94cFz3f8HNY4PZRk4XDVsVdPqhB2xXF?=
- =?us-ascii?Q?Z7e3UQy2QuPqQ8ADD8qOEUQarFpro9Ax390WVwalfdA+IqZCZuhxYgy0noAU?=
- =?us-ascii?Q?2cyl6aIKp48kcRoCi5Oro6MQzmUQbo86dvonrgiJW2cuUL47/rI3cK/JB638?=
- =?us-ascii?Q?kbSjVfyvXRVX91ouaVyfJ+lo1kmPjnAJ5NgTbPu4a+FV0hmOg7QOhsEtZG2B?=
- =?us-ascii?Q?+VpviNTbMQ83LIU0YCemMlw/+vVS+XqY3m9U4IBYb/4D0rHhv+IypnCgtVBo?=
- =?us-ascii?Q?sK9v1KOsINapcF3wgDZp7iAV0uKCRxeqrf/MXrinRwajd22hXhiHTrJIyEbb?=
- =?us-ascii?Q?srRYu50BjGZHxB2dLO4ldWwnXLZdQvnyWAi8n+y7LnHTLhU0G6dqw+0GFy2Z?=
- =?us-ascii?Q?q5+TVGx5WaUoN14IlVIltXi9F/BZlsrQzDY89c8ZCLAmIuQP6rRfM16XW0GM?=
- =?us-ascii?Q?2ZidmbeNlY13IUQyJH/nYgRznI3MdjqoNzqRWue9z8W0Pithv5JaYkEuxG6k?=
- =?us-ascii?Q?MmxTiPEZFsMUdPewnbJOmsUkcy2yTTr1LRmYc3iC+XNArzkHkkSgKG0Mtwmo?=
- =?us-ascii?Q?qKpQVHR7vBmWzNqAGhULia4MflL9oeIAoDcmmPrUG9cG+tU1ST0eZcLm98Xt?=
- =?us-ascii?Q?/N3Icl5/ULOc7Ju3docM4/X1O2U+dizueeN6qI2EbQ2oTV9nWziIlHbhiMq6?=
- =?us-ascii?Q?eYU7tDZbCkSrDH0ve5NsHRfAgkLhP5Na4bNaUxYAANuF2wVZenm2R89g41uZ?=
- =?us-ascii?Q?UQSjTFt2k+WeeTfSJORFwj9pcVMk7b8OdXJEvmIzpjPrNH4wflhFVS0JchJt?=
- =?us-ascii?Q?OctAHgwX9ARNvEXvQTBS1zWBPShGD+xv1xzFqxOn5c5rannN8TSC1eK++UHC?=
- =?us-ascii?Q?3m4b5oZsikBL4YJmN+kngGbBm/hhJ11UBy/ZqkLEx9Z19ZqGcxoIRVgy7oj4?=
- =?us-ascii?Q?ShJa1TPgfA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?STFnc3lQK0FsL2NSU0dOWElqSnlPQnFKNnhBbndTQ2NiUHVjVEZRNTdxUytC?=
+ =?utf-8?B?UGk5cEwvY0hQV0hGT09EUjZxVXpOSWFOUFRXQ3RNWEV5NWlnVTAwQndsWWVZ?=
+ =?utf-8?B?VlZuOW1ZVklBdjdKUGFsYzU0M2RFbHVSeUkzQmZkZWFxeWVGZ2QxTjRYM3dS?=
+ =?utf-8?B?T0p3OTdSYzVyZ2NlMjNmUE96VlkxdU13M1NoVWxSYWc0ZEdhNEFJWHg1RmZX?=
+ =?utf-8?B?d2ZvNW1nbDZZSFprWFU3b2dMczVRTU9rYWVWYW12ZkdPeGM0MkVVdkVGSHlF?=
+ =?utf-8?B?ZFdTSERyZGx3NGNCOFNSVllHZjZtaEJtN3BQbnNwemRrYjRuZFFVc3YrMitC?=
+ =?utf-8?B?eVU0bEc3b2lxN1NwNFBHYW43VFZCYlpNcnVEUC9KU2pWTVZoVFNGWUxaVXo2?=
+ =?utf-8?B?YzQwWVMyeVNJOXJQbkNPQmkyYzhPblMrc2hOZVVheEdwREl6bzdpSFNJMXR0?=
+ =?utf-8?B?NVlTYUpWa25CSmswMFZ6WlJYSk5jblhjZmF6eVlGa0dBRTRxZGNoRUJEclY0?=
+ =?utf-8?B?QlRlSGFpRU9MOGUvRjlaa0pid2FYc2dXSGxXWFlkdzBMbTRWWWY5S2FYMzlz?=
+ =?utf-8?B?eTExL0dnOFdRRWhxeXc2V2xQUXVZYzBPK2dnbE1sdTEvYlBZQzlJNlpCbS9N?=
+ =?utf-8?B?aTlnZDAxYnFqTUtJTkF5cHRidzA3cmlKanBjUmdmMDZtQWpJWUlPbHVHNVdO?=
+ =?utf-8?B?VndsdnBPR0FVajlMbHRmS0hQSDFTeDhuRU1hQmkvTlhYbzVVczMrdVlQUlRK?=
+ =?utf-8?B?S0J5OEZOMkkxVVE4MTh1UnBXRFlmTGgvTVZzcnNaUkFyekpqZDhzcE9RTURF?=
+ =?utf-8?B?enBUVW91NkYwU1JJWkV4QkJwcng5alFhbjRITkRBSDBueUlBU2xlOHZEWFFK?=
+ =?utf-8?B?V1JycHZscnpxOEdvK3ZEZFc3R3dPMXhocUNqSGw4YUU2c0pYRE9YZFB5RHFr?=
+ =?utf-8?B?U1psWXo0TWgzUmg5SDJaekQ5S1VuSTB0WUNvMEFjMllDYWlCRG9IWlZhVy8w?=
+ =?utf-8?B?a1NFWlY4MU5MUzlNQjdScW42UGJZekdvdTZwSTZXdEg0V0lSNGFIS1dPT040?=
+ =?utf-8?B?Z3hKN3ZqTHI4akpEd0ZndTN0eDV4YXlrUzdnZHhlSVJIanV3VWtIY3pCbHZw?=
+ =?utf-8?B?TUlkSEQ0MUt0aUJ3ZmxnbmlTbTlZbGRMdE1YN1BNak9ZTTBmVnNlVVBRMmxt?=
+ =?utf-8?B?OThEMVpBd2FSbWJCeDdtOUFqSUJSUnhOVE5iTHdZR1VtclV3WUM2ZUlhYlh1?=
+ =?utf-8?B?OGgwQnh1TnpVbmhjQVRyNm1Gc0lWdDNyOUxyY0txTmhxNTdkRzBaSGhNM2JH?=
+ =?utf-8?B?VkNXWnZZTnJNRlhDVExHWXNJRzJlMHRVY3FscEJ3M25OMkR4aVB1NjJqbVp0?=
+ =?utf-8?B?NWZBbFQ0Sk1qWjV0VnMyWmQyS0RuL1VhYkpzaVh4N1ZIbStBNmZNYUMyZGJX?=
+ =?utf-8?B?SnBta0xXK2lEYVJLU1FDdG9uL1I2V1loOUNTNkJ3aVBRVHltWXl3NjE4dVho?=
+ =?utf-8?B?cFNNNUFUREJnbVVjbXFSc2IvNzdvT2tRRXVlU2Y4VVc5bDhMT0ErVm1meUNF?=
+ =?utf-8?B?RkZ3OERmOURyaTF1bWNJZEdpWHdPV21IYlRYbSsxN2lGdXNpQWltcnU4cGxn?=
+ =?utf-8?B?ZnNvdU9FQmo3VmFCcGNwSmd1N3JFSHZ1VWdhRTNVQ3dJWGlOTlh2R2NUNVFp?=
+ =?utf-8?B?UzBSK0JHOUhzWWw3dzBKcW5nV3orSGRkUkU2K1djWXpUcHNhRFRGcGtuZENP?=
+ =?utf-8?B?MjQ5UkE3ZkVLOHkwQlgwSnJjckY2THJSL0lLS2NRYmFSajhvOUlQaW9yMFZI?=
+ =?utf-8?B?dnVSS0tzMnpmY2FYRkhYeWdHYmh6aWMrcVc3R1JYMjY1b2pPR1JUUm1LZmNu?=
+ =?utf-8?B?eU5LdzQ3djRkcmNDcjc0WDhjZ0hiVk9uUXdrK0VmbkJRUDFaaVRleXdTQmVj?=
+ =?utf-8?B?UEtQeFNxaUxaMHBCVEVmanF1S1FDbndDaDFWNE80cGZYdGcrcGg1Y1daZzJ0?=
+ =?utf-8?B?UWk5a2NXWlRrUWpqeVJob2VQKy9tZjlibFAxS1hjUkNJRzVQaXVTWjdNNzho?=
+ =?utf-8?B?MGtrbVNmcDg3eW1HT1hkQ1FCK1gzL1U2NjVEdlRFVjUzOTZpaC9JaHloSG5G?=
+ =?utf-8?B?WEN6R1h6dGhiL0pKcXRGWDVabEZvVi9vRENDbmt1ek5mTUVoTlBNV0VXZHli?=
+ =?utf-8?B?NFdRcFFzRmtjMnRvSjl0eXlQcVJiRi9IK3B3YUhkQTJWY253dGdCM2k1MUlr?=
+ =?utf-8?B?RjMyZnJScDYvSFJ1a1l6QWVDWUlOQ3IyMGpnQ21yL24za3BVc1A1b3poTzNw?=
+ =?utf-8?B?TFUzRno0VGJsejhhS3NHaU5vM1BNN29Ud0xVSTcra2l1WTY5cDFaUT09?=
 X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52c763e6-9d4c-420e-c2a5-08de9bee9095
+X-MS-Exchange-CrossTenant-Network-Message-Id: dcfd38bc-2653-4d88-3b98-08de9afde2ca
 X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 19:30:06.5387
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 14:47:16.2894
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xKArR4pqecur346V7KOqFRQhccyAoBcvK7hQjjIWE0Ip7CXZvgCz5i1yRL9pp1SsZseJYCDDJTSGdVLF4/WAeA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB4039
+X-MS-Exchange-CrossTenant-UserPrincipalName: vHoZEA5nKWAW3AdcB0qGZd1UIdu2w6VjVyBSFFYYGsvrd6VOKUbK024pKofW2cPqw7PLXNMfgcFql5GS+F9Epg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P123MB7476
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260416_123009_235057_8EEAB5AC 
-X-CRM114-Status: GOOD (  10.41  )
+X-CRM114-CacheID: sfid-20260415_074723_714831_AE6C130E 
+X-CRM114-Status: GOOD (  23.61  )
 X-Mailman-Approved-At: Thu, 16 Apr 2026 21:42:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -180,76 +163,92 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Daniel Wagner <wagi@kernel.org>
+--2qhzsoz5szogc6ye
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
+MIME-Version: 1.0
 
-Introduce blk_mq_{online|possible}_queue_affinity, which returns the
-queue-to-CPU mapping constraints defined by the block layer. This allows
-other subsystems (e.g., IRQ affinity setup) to respect block layer
-requirements.
+On Wed, Apr 15, 2026 at 10:34:58AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-04-13 23:11:15 [+0800], Ming Lei wrote:
+> > > > What matters is that IO won't interrupt isolated CPU.
+> > >=20
+> > > The isolcpus=3Dmanaged_irq acts as a "best effort" avoidance algorith=
+m rather
+> > > than a strict, unbreakable constraint. This is indicated in the propo=
+sed
+> > > changes to Documentation/core-api/irq/managed_irq.rst [1].
+> >=20
+> > Yes, it is "best effort", but isolated cpu is only take as effective CPU
+> > for the hw queue's irq iff all others are offline. Which is just fine f=
+or typical
+> > use cases, in which IO isn't submitted from isolated CPU.
+>=20
+> Couldn't we tackle this by limiting the number of managed interrupts the
+> device asks for and then limiting the CPUs it could be bound to?
+>=20
+> So if have house keeping CPUs 0/1 and isolated 2-63 then managed_irq=3D is
+> futile since it use 64 interrupts and map each to one CPU. Even if the
+> device supports less it would map them evenly across available CPUs.
+>=20
+> If the user wishes to initiate I/O from all CPUs but not be bother by
+> interrupts we could limit the device to ask for 2 interrupts instead of
+> 64 (with the consequence of more queue sharing) and then limit those two
+> interrupts to CPU 0 and 1 instead to CPU 0-31 and 32-63 like it would be
+> now the case.
+>=20
+> Wouldn't that be what the io_queue flag tries to do?
+>=20
+Hi Sebastian,
 
-It is necessary to provide versions for both the online and possible CPU
-masks because some drivers want to spread their I/O queues only across
-online CPUs, while others prefer to use all possible CPUs. And the mask
-used needs to match with the number of queues requested
-(see blk_num_{online|possible}_queues).
+Indeed, you are spot on.
 
-Signed-off-by: Daniel Wagner <wagi@kernel.org>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
----
- block/blk-mq-cpumap.c  | 24 ++++++++++++++++++++++++
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 26 insertions(+)
+What you have described is precisely the architectural mechanism that this
+patchset implements to resolve the issue:
 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index 705da074ad6c..8244ecf87835 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -26,6 +26,30 @@ static unsigned int blk_mq_num_queues(const struct cpumask *mask,
- 	return min_not_zero(num, max_queues);
- }
- 
-+/**
-+ * blk_mq_possible_queue_affinity - Return block layer queue affinity
-+ *
-+ * Returns an affinity mask that represents the queue-to-CPU mapping
-+ * requested by the block layer based on possible CPUs.
-+ */
-+const struct cpumask *blk_mq_possible_queue_affinity(void)
-+{
-+	return cpu_possible_mask;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_possible_queue_affinity);
-+
-+/**
-+ * blk_mq_online_queue_affinity - Return block layer queue affinity
-+ *
-+ * Returns an affinity mask that represents the queue-to-CPU mapping
-+ * requested by the block layer based on online CPUs.
-+ */
-+const struct cpumask *blk_mq_online_queue_affinity(void)
-+{
-+	return cpu_online_mask;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_online_queue_affinity);
-+
- /**
-  * blk_mq_num_possible_queues - Calc nr of queues for multiqueue devices
-  * @max_queues:	The maximum number of queues the hardware/driver
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 18a2388ba581..ebc45557aee8 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -969,6 +969,8 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- void blk_mq_unfreeze_queue_non_owner(struct request_queue *q);
- void blk_freeze_queue_start_non_owner(struct request_queue *q);
- 
-+const struct cpumask *blk_mq_possible_queue_affinity(void);
-+const struct cpumask *blk_mq_online_queue_affinity(void);
- unsigned int blk_mq_num_possible_queues(unsigned int max_queues);
- unsigned int blk_mq_num_online_queues(unsigned int max_queues);
- void blk_mq_map_queues(struct blk_mq_queue_map *qmap);
--- 
-2.51.0
+    1.  Rather than permitting the device driver to blindly allocate 64
+        queues (and 64 MSI-X vectors) for a 64-core system, the
+        "isolcpus=3Dio_queue" intercepts this at the block layer. It
+        throttles the hardware queue allocation to match the number of
+        online housekeeping CPUs (2 queues in your example). As you rightly
+        noted, this results in the isolated CPUs sharing those submission
+        queues.
 
+    2.  Once those two queues have been allocated, the new
+        irq_spread_hk_filter() strictly confines their hardware completion
+        interrupts to CPUs 0 and 1.
+
+By structurally enforcing both of these constraints at initialisation,
+"isolcpus=3Dio_queue" entirely prevents the vector exhaustion observed on
+large topologies. Furthermore, it provides an absolute guarantee that
+hardware completion interrupts will never be routed to the isolated CPUs,
+even when an application submits I/O from them.
+
+
+Kind regards,
+--=20
+Aaron Tomlin
+
+--2qhzsoz5szogc6ye
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnfpOgACgkQ4t6WWBnM
+d9Z+Dg/+Pe9TdJNDzD3IRPZIKV47tJNaJoUvEVSSwVqCnWecAM9WiD9HmSzknQqb
+R+3CBwN39Z5AX06sOIw9wp7M5xOo33jqQsCI5nmsawKG+LV48uKLEmCsXIaIQXMM
+cOuwGe8KVMqeHxvwyjeLe1zimvz2c61GAckXpPPxpLQSCLMRlWnj5xI4yVR8+5NN
+BPYtMgKuSnswJmCt6/ZN2VdEx+ybDxBCXFacgXcIbr8uq2QM02X02w/BjtlmaY/x
+OwYFxrpucSTDu9gwHtEgzAhBc11J5pTm1kie2nr/132meFNVVNwFC6HTsJzapIw2
+zy9SdCdTJh+fp30PaOGf8VRe7WQTjyQYqARN5WjXU0hk0vIO6CB6WU+y1Fhyt402
+zny40fIg3Ik8s7H3vQS5xQrxnpEbsr6jxrYDLuJR5mpLRIxB3dSXyuacj61o8CXK
+qwN/DhTcsXAqt0j5JioYwb8Op1thgVmxnQdoar0vFLpNN+vSh703q5n9qTQF2zz3
+UuL/EvnbZcXAUnM8ugnLXsbVxIaQ58rrDETOzu2TTsfkQllHvu3vpV4Be08GT4Sh
+iPZiRONBc6iopbw1ykgvEUw7mP0gjhI0HvmfWKCGGbifB5oi6yNLE5M/HDW5MK/C
+bUl9O7+HFwfEpdHA2ikWsh69GuIv3XS2ANQM8vkcZ0I7DDDIhsA=
+=88NS
+-----END PGP SIGNATURE-----
+
+--2qhzsoz5szogc6ye--
 
