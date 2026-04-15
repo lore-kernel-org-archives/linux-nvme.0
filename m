@@ -4,57 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60057F43821
-	for <linux-nvme@archiver.kernel.org>; Wed, 15 Apr 2026 14:23:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 29654F43830
+	for <linux-nvme@archiver.kernel.org>; Wed, 15 Apr 2026 14:43:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9CMo+2H+6wDYEzrTJ7iItTKzAgY4rV9tVLhYt8KqXjo=; b=LEqMzXU45dOLykddnGwjSlekwX
-	zvofkRGRievONW1UY8BL3rA6dvDjwQ75Sq1Ub/FY0ZCD6M1MgyWGYZN5egN+ZrIf2ypk59sfKYI2p
-	Du3m7U0UpluTICz1konEBwVdS86jqfVD+P/sal4xtMEjpsSJdYYfeemV6lq569YClaYUNlG77+Co4
-	gImNg3GaXEXKxjI8erHSxFQA5jMceOSwdK9xK+IRtsp08+aDvQFW+1HUxUipEAcLQwFYLJxO2Ofyv
-	z3mYAQe27ZCrLssmVzmiLcolKNPbNpzmobbft/iu2I7O2Z0HFssRcxUStCB0aFtE8KOMNerjgQu5F
-	YtTiDD5Q==;
+	bh=PdpU36ytRDyTPClt0FPAhPcCtyommbNbu/0VUzq6kyw=; b=IfLsOUiNJgJx7RRNz99mQHRvpZ
+	NmTZkMyp/gYcNfGABUHKmmzXlz1JkVpo/p94Qn70xEXVBA/UYSrISQCk/5n1Aydn2A4/W7oTydqTa
+	B+2HzmvMquIgtnCwnKZaQY/ZTCkiTCWZ/dN9rkrt5jbRdivvfEUv6wo+ENVguhfq1Nu7qTWH7jIYq
+	ImVVjoL81xO5S6uO+IpsFcvqIKd83jFAhKLcKPjD0ogmaf9v+Io+LknwvWjNIyjlm1lDgduWeMx6C
+	XON8OO2KsWu2ZsDEc0taR7Q34LBqiMlzyJJqOZ5nYHSpWGEky5yaxz/YG6rmR8g9RwK/NdjX6jrAK
+	FHLlcqbQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wD19Z-00000001ENV-3VWE;
-	Wed, 15 Apr 2026 14:23:41 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wD1T4-00000001FiT-2GKQ;
+	Wed, 15 Apr 2026 14:43:50 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wD19X-00000001ENO-3ww3
-	for linux-nvme@lists.infradead.org;
-	Wed, 15 Apr 2026 14:23:39 +0000
+	id 1wD1T2-00000001FiF-0jeV;
+	Wed, 15 Apr 2026 14:43:48 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id AAC9B600AD;
-	Wed, 15 Apr 2026 14:23:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D7E2C2BCB3;
-	Wed, 15 Apr 2026 14:23:38 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 19BA8600AE;
+	Wed, 15 Apr 2026 14:43:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00294C19424;
+	Wed, 15 Apr 2026 14:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776263018;
-	bh=h1/XLPuNgsbgT/fA5dXF1oCGMz2gBmrDQW5ccIxFRio=;
+	s=k20201202; t=1776264226;
+	bh=9i7ucr/FPUAUV3jCqOGxaNo9oFryZ+19C0hp4xTZ5Uw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kHEAUMCgsfCi87a4Q/1LCHZNgVv5jwoeqUSJ4A0t2HG7KJseaxwHl5gnZRQk/zIDM
-	 9x7oswoqk7awbvXf2i9RABTB84auoOGv4/VuYJ21Pq7Lx6BoijsNVsfHweHZuWuxvQ
-	 pPeeA0nyk4R8ZkdH15FEh81e//OsroWfvUfgG8b9oBvkKeyf57FKsHEGRsKi/XoigN
-	 VXtVlWY6Aq1KpWw/5sf5FobLZVZDs4fBR7XaupEcY9Ge8dAiKQRhdj3ZChE+Q9rQFH
-	 OwNoT8ELoAIxY3gtWAivVlo4Q2XtYqW8Q3RnKf7W90PXVDeovcrZG4kGp5h41M1UZw
-	 HJyi36CzzR62g==
-Date: Wed, 15 Apr 2026 08:23:36 -0600
+	b=gqaN5N0y3dhQK5sTEFWhpO1r9tU761vPUZi8owXkbkxUuCf43H9sZDCxMQZy+f9KN
+	 mI6BWzwbN5fafhk4e0A0FZmPVZfU/83bpV2JDMENoxCy6OtFpBhXFnPLmTDBhzCMQ2
+	 60H817fc34qGrVXhEon5JM36u3tcIdep+7IYsRDzPBgvnw55PNyNTQ9+mSpXcgUMHk
+	 eCI+X0VCixYvRAkUd1nvJ4HPGJJ0H1PRRyz+GiN5I3yEPZPALet5kVgptTRgS+NaGM
+	 paz8nA3yapGK7dgXQQ1axdzJN7aagQ7fdKoKwfCQIqT6liWjnzO5xslrZwPwAveuPT
+	 WvU1oD/9PLUcw==
+Date: Wed, 15 Apr 2026 08:43:44 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: John Garry <john.g.garry@oracle.com>
-Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
-	hch@lst.de, nilay@linux.ibm.com
-Subject: Re: [PATCH 1/2] nvme-multipath: fix leak on try_module_get failure
-Message-ID: <ad-faFB43WBycLSk@kbusch-mbp>
-References: <20260225202109.447144-1-kbusch@meta.com>
- <8c068126-0b30-4d46-a07c-a4f975b7fa53@oracle.com>
+To: =?utf-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
+Cc: "hch@lst.de" <hch@lst.de>, Justin Tee <justintee8345@gmail.com>,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
+	"sven@kernel.org" <sven@kernel.org>, "j@jannau.net" <j@jannau.net>,
+	"neal@gompa.dev" <neal@gompa.dev>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"justin.tee@broadcom.com" <justin.tee@broadcom.com>,
+	"nareshgottumukkala83@gmail.com" <nareshgottumukkala83@gmail.com>,
+	"paul.ely@broadcom.com" <paul.ely@broadcom.com>,
+	James Smart <james.smart@broadcom.com>,
+	"kch@nvidia.com" <kch@nvidia.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?utf-8?B?7J207J2A7IiY?= <euns212.lee@samsung.com>,
+	=?utf-8?B?7Lm47LCs?= <joshi.k@samsung.com>
+Subject: Re: [PATCH v5] nvme: Skip trace complete_rq on host path error
+Message-ID: <ad-kIPLsGO7iv8y0@kbusch-mbp>
+References: <CGME20260415084107epcms2p71b9c0d252180653ab96a9f5f2121be71@epcms2p7>
+ <20260415084107epcms2p71b9c0d252180653ab96a9f5f2121be71@epcms2p7>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8c068126-0b30-4d46-a07c-a4f975b7fa53@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260415084107epcms2p71b9c0d252180653ab96a9f5f2121be71@epcms2p7>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,36 +83,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 15, 2026 at 10:26:00AM +0100, John Garry wrote:
-> Are we also missing the module_put() for when we cancel the timer? AFAICS,
-> we only put the module for after the disk is removed.
+On Wed, Apr 15, 2026 at 05:41:07PM +0900, 전민식 wrote:
+> Hi Keith, hch
+> 
+> Gentle ping for review on [PATCH v5] nvme: Skip trace complete_rq on 
+> host path error.
+> 
+> I agree with your propsed approach. Should I send a new version(v6) 
+> based on that?
 
-Yes, I believe you are correct.
- 
-> Maybe we need something like this:
-> 
-> Subject: [PATCH] nvme-multipath: put module reference when delayed removal
-> timer is canceled
-> 
-> The delayed removal timer is canceled when a NS appears. However, we do not
-> put the module reference grabbed in nvme_mpath_remove_disk(), so fix that.
-> 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 1e33af94c24b..1b445830358e 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4083,7 +4083,8 @@ static int nvme_init_ns_head(struct nvme_ns *ns,
-> struct nvme_ns_info *info)
->  	mutex_unlock(&ctrl->subsys->lock);
-> 
->  #ifdef CONFIG_NVME_MULTIPATH
-> -	cancel_delayed_work(&head->remove_work);
-> +	if (cancel_delayed_work_sync(&head->remove_work))
-> +		module_put(THIS_MODULE);
->  #endif
-
-I don't think we need the _sync() variant here, but the check and
-module_put() look good.
+Yes, I hadn't seen an updated patch yet so was just waiting for that.
+Or was this one on me to submit?
 
