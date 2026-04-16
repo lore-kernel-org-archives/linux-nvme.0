@@ -4,54 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59E7FF433E2
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 05:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AEECDF433E2
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 05:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hyziQGogIyp/tIEtQy9zprVmDt24Ff7FPuMaLVxH7LU=; b=Z4XlS054JasIeaN5xEF+Mkwig7
-	4ZM29Z1U7l4MSWUIIjrnRPqq/LJCLRplFva7s7OzFMx2fsZKHXEspAES3creVlMTZQZ/Ok1LWrzm+
-	190kvzGP5x1EWOt85+fGjABNDm412vXdKL2kypFHaG87iv/5pL6f6J5jNZr0PyIC0yVENdKbYUWRh
-	tPTz+72rm98BtpWRRNKiCZThdON2/p6BEMXayrI8utCXoqsNrgPIDV5U0YN/FgWSaB7WZI2sDlCdr
-	J8E9FhEWwUJe6H96MuxUfEzmIro0f3q8ylGAuVnewDkbCA7a6CGpipJlqmxkvotqcjpgOFlSS/Q90
-	OV8PgNtA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ySqAqUSM04VBMU/BCwRL8JvwWCwHHEszaCkijjEEauA=; b=HPH8P/tH+VZ9EgneGLN6v805xD
+	HMs6cqWkGxX1oZiUe2jpaAg+m521ts16G1UWh7ZAvv1UJTQLATQHTt2jrA97YGPqAVdtrOqCewoc1
+	AFa7DIhPO4wHIvPbREUlVWQa4+2k+MvcmZ6+PrNG4CdJ5pAW+AjER+3OVbb5ApCzchLWI6QKeNqmU
+	YwuYbh+CTd+unYK6GyLDjDyzhs+h/yn2jbrK4qb3rND+cuEz3wkxHrO+NZwqeSMMLBbtStjlpkAn3
+	0Z1XzP0u2bXlJmo5wny8zZ9DjNqy4mtQl1Eh1SlGtMDzzNSzVLWGsVxUZ+zACaslLsuCseBpVUwQ7
+	K3iabIWg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDFCN-00000001zn2-3umv;
-	Thu, 16 Apr 2026 05:23:31 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wDFEi-0000000202q-33ut;
+	Thu, 16 Apr 2026 05:25:56 +0000
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDFCK-00000001zmX-2iHT
+	id 1wDFEg-0000000202D-1JG3
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Apr 2026 05:23:30 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1E5616732A; Thu, 16 Apr 2026 07:23:26 +0200 (CEST)
-Date: Thu, 16 Apr 2026 07:23:25 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v2 6/6] blk-integrity: avoid sector_t in
- bip_{get,set}_seed()
-Message-ID: <20260416052325.GE14950@lst.de>
-References: <20260416002214.2048150-1-csander@purestorage.com> <20260416002214.2048150-7-csander@purestorage.com>
+	Thu, 16 Apr 2026 05:25:55 +0000
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-b9382e59c0eso1335529466b.0
+        for <linux-nvme@lists.infradead.org>; Wed, 15 Apr 2026 22:25:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776317152; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hKyoUrCpaydTmx3tomWzypGHkygWygzN8mPyKr59aJWEvGUgeNvIF6XhRA1Ri6a4ez
+         7ZchJfhOW/IEET4V+HmztLRPrLhpdt7uJuyTfH7MmtJIAc9vhq89ImCPRFsfrzIRxPvf
+         m0Eaq534AfWwK0eC4uCqLlTJVLmC78IGvU3qpo+5lBS5KqMXBXLgem0sWN1GL8r7fHvY
+         N1yqJ+y+aXFxWRIBznq+d1GEvCMrHVdUpdDTo2DniA6h6tjDVmr3FaJFBc0EmFcNJ9H6
+         x3nSMZcyf4Y9QbwnSe0EJfPCqgEqorby7SwVeyb6RWmT1io7CbzMaA9xTRIkrih7wit6
+         bjjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ySqAqUSM04VBMU/BCwRL8JvwWCwHHEszaCkijjEEauA=;
+        fh=k2PxJQxENcWz/0bwhTO271T2emBhXcUiHDBEkDq8Ol4=;
+        b=h/noVWTYfJdgdfvkC62focn2HtIhXxB+gvZju2T6IdAC5ObA6uF5d63+PrS0Xn2qMP
+         Bf5BLcdHojCpYZfTsrQ/BzZeJgweX/2afJqF1ej0Zbh+DHJYdKvxzt5P7qQ93GdDnpOs
+         jP85yK6Qdrr+RiHcxERo/C1acZD6EK0+jhEEMcRwlj8UDvu8Kcb/dL2IBOtStg6LAPk0
+         xK22N5AOjSurzCJXgfvDJOtpYfJjjj3DKX4DMSxDO9VcstX7ztS6mLY/9Ego2gvQM2xX
+         OfCgEf+nbJF+HaiL5GEF4VpLaYPU79gijATpZoX2j5X3Z2mTRyEMEkp7g91xwI4teHIg
+         x9pA==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776317152; x=1776921952; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ySqAqUSM04VBMU/BCwRL8JvwWCwHHEszaCkijjEEauA=;
+        b=V7kDVvEpmORHX+yPYAhouDYSaRSiJq4xdzShavmv+tLxygKE+u6+yYmq81FOl/thN6
+         lDaP+Gk7A+3RTNSktwJhHW3gZ8UzDZ42B0mBffbGKbFJiiuldeCHM1dKxSop3WSY9fnZ
+         G3TTPzdzrWiSmJpdS+l+N/A5vBXKMerypvjUx4vRCptalkrpo839P0AP39RKY3njqtEb
+         VSonO0fdBSWtgl+PkoWkbQO3/yVK3v7H7ukMspo1ZpFWnVYomB2oQkSbaXu8nT7nm4y1
+         fY6gkhoLG76jJ0kT4e2Mn/ktjMjuSxlztft/UQQW6LFTZsoNP63v3odKv1atpaXD14BS
+         2HzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776317152; x=1776921952;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ySqAqUSM04VBMU/BCwRL8JvwWCwHHEszaCkijjEEauA=;
+        b=j2T3N0+mm4q6ZrKXqC5+xQuwZknhvLjhlu7aLb7r7SBvGb6qa6MEl7n1VVKqdWtE6P
+         pvJqr0dUSrnUWn3541vbaABnOVDGP77RJsQ7sGyd/33fMSCcKZZrkI5B6FeMypZabfYo
+         G5YgOlctjXsGtst0ReEyWe3avdtcAbZXrmaVxvNu9ael5DpLXLlg7Mp4+duR3RATRbUX
+         RnjMngbKu6a7Lp6HFvnxBQZr44BwchKQPIAAI8tUCRg6eMlq4Id/5pJZy5tnKxs4rs36
+         TMHXiq7/cakpBI9IotggXqeJf3AOqB5RqdXBNmSG7d2gXtKKMZCYmDoCwUzxZOKjcaOO
+         1FAg==
+X-Forwarded-Encrypted: i=1; AFNElJ9XVpmV/tn+n7K9+3r0X/WOUkZNQZMwsSECVUL9EDlk3mhih/0zPjBAc4+15rQnF3Abt94Lx/+RA8H1@lists.infradead.org
+X-Gm-Message-State: AOJu0YxtlLpQzg19x+a70u2OObCGn/HWC/QGiBvUxRRVsPbBB35jzGk3
+	nUhsi+VOxOgma9SQqQpUVRgbfC93dJOIRcMQUzstP3TKeDzFLuK/lRBQNafhjIpBQL54a5BzYJ6
+	ZXBPOIZPj4B3+8wq+upv6QMCw/ji9asc=
+X-Gm-Gg: AeBDievXXOy+15bw7Iic6DZxX6k/ZriHqv7zKxXHgdvjbkKkEyiq5Bzi8GPwK0C/TEp
+	RUeglzdEHcUj5eSMKyua5uYDDjwu8pvOquc6BSkr8Z8vSI3Y7SkLPce9iosRfFrTpywFr+ttFky
+	dZf1XyaST6tOs3csFhdAqko7VeeeMiFdl2UzOU3AJHPQN+6J8xKLOaPSWYtwjsNY8WRl3Ua5u/I
+	nkS3d7uvreP6klGfVXZEfon9QgpND4vqixXdiIjkTFtO520xutF5I8tkhuuOzHVS8FNI4FXPgAw
+	lUA7pp2C5kM+XwstwEXKMVnjECTCZrDkbva4SQ==
+X-Received: by 2002:a17:907:8e16:b0:b9d:6cef:95fc with SMTP id
+ a640c23a62f3a-b9d7267e295mr1386245266b.35.1776317152196; Wed, 15 Apr 2026
+ 22:25:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260416002214.2048150-7-csander@purestorage.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20260415230824.2790058-1-alistair.francis@wdc.com> <20260416051627.GC14802@lst.de>
+In-Reply-To: <20260416051627.GC14802@lst.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 16 Apr 2026 15:25:25 +1000
+X-Gm-Features: AQROBzAOhVcYDr1UVP1LOTgShqnMVOreG7T0v-dnm_GJj8D1qpu9My2SAWEyh6g
+Message-ID: <CAKmqyKON1MoOU-MQNK8EEVwVWmSJZ9OmxH2M_mmYTadmcbVyTw@mail.gmail.com>
+Subject: Re: [PATCH v2] nvme-auth: Include SC_C in RVAL controller hash
+To: Christoph Hellwig <hch@lst.de>
+Cc: hare@suse.de, kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me, 
+	kch@nvidia.com, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260415_222328_997350_20D888A2 
-X-CRM114-Status: GOOD (  29.72  )
+X-CRM114-CacheID: sfid-20260415_222554_368780_C4E9FDE2 
+X-CRM114-Status: GOOD (  13.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,166 +117,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 15, 2026 at 06:22:14PM -0600, Caleb Sander Mateos wrote:
-> bip_set_seed() and big_get_seed() take/return a sector_t value that's
-> actually an integrity interval number. This is confusing, so pass
-> struct blk_integrity and struct bio instead to bip_set_seed() and
-> convert the bio's device address to integrity intervals.
-> 
-> Open-code the access to bip->bip_iter.bi_sector in the one caller of
-> bip_set_seed() that doesn't use the bio device address for the seed.
-> Open-code bip_get_seed() in its one caller.
-> 
-> Add a comment to struct bvec_iter's bi_sector field explaining its
-> alternate use for bip_iter.
-> 
-> Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> ---
->  block/bio-integrity.c               |  5 ++---
->  block/t10-pi.c                      |  2 +-
->  drivers/nvme/target/io-cmd-bdev.c   |  3 +--
->  drivers/target/target_core_iblock.c |  3 +--
->  include/linux/bio-integrity.h       | 11 -----------
->  include/linux/blk-integrity.h       | 14 ++++++++++++++
->  include/linux/bvec.h                |  1 +
->  7 files changed, 20 insertions(+), 19 deletions(-)
-> 
-> diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-> index 3ad6a6799f17..e9ae5db99f64 100644
-> --- a/block/bio-integrity.c
-> +++ b/block/bio-integrity.c
-> @@ -103,13 +103,12 @@ void bio_integrity_free_buf(struct bio_integrity_payload *bip)
->  
->  void bio_integrity_setup_default(struct bio *bio)
->  {
->  	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
->  	struct bio_integrity_payload *bip = bio_integrity(bio);
-> -	u64 seed = bio->bi_iter.bi_sector >> (bi->interval_exp - SECTOR_SHIFT);
->  
-> -	bip_set_seed(bip, seed);
-> +	bip_set_seed(bip, bi, bio);
->  
->  	if (bi->csum_type) {
->  		bip->bip_flags |= BIP_CHECK_GUARD;
->  		if (bi->csum_type == BLK_INTEGRITY_CSUM_IP)
->  			bip->bip_flags |= BIP_IP_CHECKSUM;
-> @@ -472,11 +471,11 @@ int bio_integrity_map_iter(struct bio *bio, struct uio_meta *meta)
->  
->  	it.count = integrity_bytes;
->  	ret = bio_integrity_map_user(bio, &it);
->  	if (!ret) {
->  		bio_uio_meta_to_bip(bio, meta);
-> -		bip_set_seed(bio_integrity(bio), meta->seed);
-> +		bio_integrity(bio)->bip_iter.bi_sector = meta->seed;
->  		iov_iter_advance(&meta->iter, integrity_bytes);
->  		meta->seed += bio_integrity_intervals(bi, bio_sectors(bio));
->  	}
->  	return ret;
->  }
-> diff --git a/block/t10-pi.c b/block/t10-pi.c
-> index 787950dec50a..71367fd082bd 100644
-> --- a/block/t10-pi.c
-> +++ b/block/t10-pi.c
-> @@ -510,11 +510,11 @@ static void blk_reftag_remap_prepare(struct blk_integrity *bi,
->  static void __blk_reftag_remap(struct bio *bio, struct blk_integrity *bi,
->  			       unsigned *intervals, u64 *ref, bool prep)
->  {
->  	struct bio_integrity_payload *bip = bio_integrity(bio);
->  	struct bvec_iter iter = bip->bip_iter;
-> -	u64 virt = bip_get_seed(bip);
-> +	u64 virt = bip->bip_iter.bi_sector;
->  	union pi_tuple *ptuple;
->  	union pi_tuple tuple;
->  
->  	if (prep && bip->bip_flags & BIP_MAPPED_INTEGRITY) {
->  		*ref += bio->bi_iter.bi_size >> bi->interval_exp;
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index f2d9e8901df4..2c4b312f2f55 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -218,12 +218,11 @@ static int nvmet_bdev_alloc_bip(struct nvmet_req *req, struct bio *bio,
->  		pr_err("Unable to allocate bio_integrity_payload\n");
->  		return PTR_ERR(bip);
->  	}
->  
->  	/* virtual start sector must be in integrity interval units */
-> -	bip_set_seed(bip, bio->bi_iter.bi_sector >>
-> -		     (bi->interval_exp - SECTOR_SHIFT));
-> +	bip_set_seed(bip, bi, bio);
->  
->  	resid = bio_integrity_bytes(bi, bio_sectors(bio));
->  	while (resid > 0 && sg_miter_next(miter)) {
->  		len = min_t(size_t, miter->length, resid);
->  		rc = bio_integrity_add_page(bio, miter->page, len,
-> diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
-> index 1087d1d17c36..4e0fa91a08fd 100644
-> --- a/drivers/target/target_core_iblock.c
-> +++ b/drivers/target/target_core_iblock.c
-> @@ -706,12 +706,11 @@ iblock_alloc_bip(struct se_cmd *cmd, struct bio *bio,
->  		pr_err("Unable to allocate bio_integrity_payload\n");
->  		return PTR_ERR(bip);
->  	}
->  
->  	/* virtual start sector must be in integrity interval units */
-> -	bip_set_seed(bip, bio->bi_iter.bi_sector >>
-> -				  (bi->interval_exp - SECTOR_SHIFT));
-> +	bip_set_seed(bip, bi, bio);
->  
->  	pr_debug("IBLOCK BIP Size: %u Sector: %llu\n", bip->bip_iter.bi_size,
->  		 (unsigned long long)bip->bip_iter.bi_sector);
->  
->  	resid = bio_integrity_bytes(bi, bio_sectors(bio));
-> diff --git a/include/linux/bio-integrity.h b/include/linux/bio-integrity.h
-> index af5178434ec6..edcd0855abba 100644
-> --- a/include/linux/bio-integrity.h
-> +++ b/include/linux/bio-integrity.h
-> @@ -56,21 +56,10 @@ static inline bool bio_integrity_flagged(struct bio *bio, enum bip_flags flag)
->  		return bip->bip_flags & flag;
->  
->  	return false;
->  }
->  
-> -static inline sector_t bip_get_seed(struct bio_integrity_payload *bip)
-> -{
-> -	return bip->bip_iter.bi_sector;
-> -}
-> -
-> -static inline void bip_set_seed(struct bio_integrity_payload *bip,
-> -				sector_t seed)
-> -{
-> -	bip->bip_iter.bi_sector = seed;
-> -}
-> -
->  void bio_integrity_init(struct bio *bio, struct bio_integrity_payload *bip,
->  		struct bio_vec *bvecs, unsigned int nr_vecs);
->  struct bio_integrity_payload *bio_integrity_alloc(struct bio *bio, gfp_t gfp,
->  		unsigned int nr);
->  int bio_integrity_add_page(struct bio *bio, struct page *page, unsigned int len,
-> diff --git a/include/linux/blk-integrity.h b/include/linux/blk-integrity.h
-> index 825d777c078b..3a2e55e809c5 100644
-> --- a/include/linux/blk-integrity.h
-> +++ b/include/linux/blk-integrity.h
-> @@ -85,10 +85,24 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
->  					       unsigned int sectors)
->  {
->  	return bio_integrity_intervals(bi, sectors) * bi->metadata_size;
->  }
->  
-> +/**
-> + * bip_set_seed - Set bip reference tag seed from bio device address
-> + * @bip:	struct bio_integrity_payload whose ref tag seed to set
-> + * @bi:		struct blk_integrity profile for device
-> + * @bio:	struct bio whose device address to use for the ref tag seed
-> + */
-> +static inline void bip_set_seed(struct bio_integrity_payload *bip,
-> +				const struct blk_integrity *bi,
-> +				const struct bio *bio)
-> +{
-> +	bip->bip_iter.bi_sector =
-> +		bio_integrity_intervals(bi, bio->bi_iter.bi_sector);
+On Thu, Apr 16, 2026 at 3:16=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> On Thu, Apr 16, 2026 at 09:08:24AM +1000, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Section 8.3.4.5.5 of the NVMe Base Specification 2.1 describes what is
+> > included in the Response Value (RVAL) hash and SC_C should be included.
+> > Currently we are hardcoding 0 instead of using the correct SC_C value.
+> >
+> > Update the host and target code to use the SC_C when calculating the
+> > RVAL instead of using 0.
+>
+> This looks correct.  But I guess this breaks existing implementations
+> in the wild now?
 
-The bip is pointed to by the bio, so we don't need to pass it separately.
-Same for struct blk_integrity.
+It would break an implementation that is using non zero sc_c and
+updates one of the Linux target or Linux host but not the other.
 
+Note that similar changes have been made recently to "HostHost" and
+didn't seem to break everything
+
+7e091add9c43 nvme-auth: update sc_c in host response
+159de7a825ae nvmet-auth: update sc_c in target host hash calculation
+
+Alistair
 
