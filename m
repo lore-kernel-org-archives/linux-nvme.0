@@ -4,78 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7ABFFF433D2
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 01:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AD45F433D4
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 01:18:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:References:
-	Content-Type:Content-Transfer-Encoding:Date:Message-ID:CC:To:From:Subject:
-	Mime-Version:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Owner;
-	bh=dOcrdt3IS2q/Pm2ZxII48JYZMOmqsJvtRrRQXt2YHi0=; b=Z2dnqpf/MBtif+82Q45ql4xCtO
-	HGwSJqMET+Wydd1+p78EPYiHgRhwuGEqkzGlkW1RqdBeekl/xo5Ysp1SlBM7Uvhuru7NPF65ddQ4J
-	lcjHUfWPMxO/cHTz86J9ZAdG/Nr+kZSjQh9cT3oq69pC3csBpMVvqskQpcaMa50BhPg7EVM2/FxVa
-	nPeAhXGJarHCsB6SXpoH+UeRILhhRpY2TkareoYD/BipdH1Nzr+CTThgJVLbA+zB9LupuA/g2SGFJ
-	dVlJWXsWYVuYeHmEjugUZZYM6CUgT+NyX+Og7zGLIMjDCxgnEsZW52D/bUcAKjEFwXkV+ZoJzSoa3
-	E9/SKNAQ==;
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vN4LCRH2zFd+r1GpwLP5obMDV2tytrGGDaWcrG+6scA=; b=Gv3Kf7dBAQgK962jlUxIF2OUQC
+	SjtW3in4LsDIh9wORqha4U+GCrlS7vemiabaHOmgUXgCQp6QHAXQOuD0b2qVQI8IA1IuTKLRz2HlR
+	JA8XphhpCt10Qqh1F+NHGajNKQUUHdZqM7dcvOnAvk7LlG9SQFSzvMp1V/6BfLmmbuHyLcQHVr241
+	1e9WhVdeifwhoDdiTuxojhk3eXP5cFidUeS64Dx2LN4EStfC6QlgrN52QagqMXWUsZ+etel6EzIO1
+	Y2ritmA6/yPZjGdE/ZF7BqhKEgh+A57RaA4MjTBk7gAAOGNrjuWGIOEEI70i1icuIBsVCeSLRjErQ
+	68GJ8gcg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDBCa-00000001plL-2MIV;
-	Thu, 16 Apr 2026 01:07:28 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1wDBN5-00000001qGW-10kr;
+	Thu, 16 Apr 2026 01:18:19 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDBCX-00000001pkz-10kQ
+	id 1wDBN2-00000001qG5-2tpU
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Apr 2026 01:07:27 +0000
-Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260416010714epoutp04435a54c361def4c84bb3d595932891f1~msOzyTBJv2007220072epoutp04G
-	for <linux-nvme@lists.infradead.org>; Thu, 16 Apr 2026 01:07:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260416010714epoutp04435a54c361def4c84bb3d595932891f1~msOzyTBJv2007220072epoutp04G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1776301634;
-	bh=dOcrdt3IS2q/Pm2ZxII48JYZMOmqsJvtRrRQXt2YHi0=;
-	h=Subject:Reply-To:From:To:CC:Date:References:From;
-	b=WiqWGSrXwns2LxQZ8m7QO2/+A+1bLnjW5b1mBQmYvEqVVB5Bi0j1YxwVylXQ8MVWG
-	 qbc1DReyEMpTucD2pLGdinlMou/qQc7uSe97TOClgPaHhrpvuIMjn+YO80Sq9r7afZ
-	 8AbkfwTzyatYnF2xox+gZgR9AbV/BZa0QTWtS3jw=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260416010714epcas2p3293bed73537e5176d2a4cf093833dc89~msOzdQY2T1776317763epcas2p3I;
-	Thu, 16 Apr 2026 01:07:14 +0000 (GMT)
-Received: from epcas2p2.samsung.com (unknown [182.195.38.212]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4fx0Gp1H28z6B9mK; Thu, 16 Apr
-	2026 01:07:14 +0000 (GMT)
-Mime-Version: 1.0
-Subject: [PATCH v6] nvme: Skip trace complete_rq on host path error
-From: =?UTF-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>
-To: "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
-CC: "axboe@kernel.dk" <axboe@kernel.dk>, "sagi@grimberg.me"
-	<sagi@grimberg.me>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, =?UTF-8?B?7KCE66+87Iud?=
-	<hmi.jeon@samsung.com>, =?UTF-8?B?7J207J2A7IiY?= <euns212.lee@samsung.com>,
-	=?UTF-8?B?7Lm47LCs?= <joshi.k@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-CPGS-Detection: blocking_info_exchange
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20260416010713epcms2p78575bd400f93f6edb7fe3f3ead5bf930@epcms2p7>
-Date: Thu, 16 Apr 2026 10:07:13 +0900
-X-CMS-MailID: 20260416010713epcms2p78575bd400f93f6edb7fe3f3ead5bf930
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-cpgsPolicy: CPGSC10-223,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260416010713epcms2p78575bd400f93f6edb7fe3f3ead5bf930
-References: <CGME20260416010713epcms2p78575bd400f93f6edb7fe3f3ead5bf930@epcms2p7>
+	Thu, 16 Apr 2026 01:18:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776302293;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vN4LCRH2zFd+r1GpwLP5obMDV2tytrGGDaWcrG+6scA=;
+	b=FE38Or8svUOd7qHxrDetNDcsde6PJ0gYSb/WhHdHpcVaHwLFzjv9gEyFSxoU1SgTjpIsM5
+	7yzRFJ9+46F/0PyNbIn9yY5TG+oKGeBflNTVLJWM3y2iJxQR52qihEF9PRgBcmdEHAWHSP
+	Fp7uPnaqlT0cWM6ZVqSnLbhAfcicuZA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-321-dVyUMxZuPeGT3tDqQDvQeg-1; Wed,
+ 15 Apr 2026 21:18:07 -0400
+X-MC-Unique: dVyUMxZuPeGT3tDqQDvQeg-1
+X-Mimecast-MFC-AGG-ID: dVyUMxZuPeGT3tDqQDvQeg_1776302286
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1F982195608E;
+	Thu, 16 Apr 2026 01:18:05 +0000 (UTC)
+Received: from rhel-developer-toolbox-latest (unknown [10.2.16.224])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id B4E43180047F;
+	Thu, 16 Apr 2026 01:18:01 +0000 (UTC)
+Date: Wed, 15 Apr 2026 18:18:00 -0700
+From: Chris Leech <cleech@redhat.com>
+To: alistair23@gmail.com
+Cc: hare@suse.de, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
+	sagi@grimberg.me, kch@nvidia.com, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH v2] nvme-auth: Include SC_C in RVAL controller hash
+Message-ID: <20260415-coroner-hamlet-36ab7e08cd30@redhat.com>
+References: <20260415230824.2790058-1-alistair.francis@wdc.com>
+MIME-Version: 1.0
+In-Reply-To: <20260415230824.2790058-1-alistair.francis@wdc.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: e_FDUARiOKXWzRGNYo6v-uMQG_cjjEr1LPMVDWMw6Sk_1776302286
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260415_180725_908237_82A27651 
-X-CRM114-Status: GOOD (  15.88  )
+X-CRM114-CacheID: sfid-20260415_181816_804210_4DB08FF7 
+X-CRM114-Status: GOOD (  13.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,74 +82,31 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: hmi.jeon@samsung.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From cfd386c2d769552c4dd32ec8ff5233ef34f9830d Mon Sep 17 00:00:00 2001
-From: Minsik Jeon <hmi.jeon@samsung.com>
-Date: Thu, 16 Apr 2026 10:43:00 +0900
-Subject: [PATCH v6] nvme: Skip trace complete_rq on host path error
+On Thu, Apr 16, 2026 at 09:08:24AM +1000, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> Section 8.3.4.5.5 of the NVMe Base Specification 2.1 describes what is
+> included in the Response Value (RVAL) hash and SC_C should be included.
+> Currently we are hardcoding 0 instead of using the correct SC_C value.
+> 
+> Update the host and target code to use the SC_C when calculating the
+> RVAL instead of using 0.
+> 
+> Fixes: f50fff73d620 ("nvme: implement In-Band authentication")
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> v2:
+>  - Rebase using new nvme_auth_hmac_update() functions
+> 
+>  drivers/nvme/host/auth.c   | 3 ++-
+>  drivers/nvme/target/auth.c | 3 ++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 
-we were checking host_pathing_error before calling nvme_setup_cmd().
-This is caused the command setup to be skipped entirely when a pathing
-error occurred, making it impossible to trace the nvme command via
-trace_cmd nvme_complete_rq().
+Thanks, this was a good catch.  Fix looks good to me.
 
-As a result, when nvme_complete_rq() logged a completion with cmdid=0,
-it was impossible to correlate the completion with the nvme command
-request.
-
-This patch Skip trace_nvme_complete_rq() on NVMe host path error.
-
-Co-authored-by: Beomsoo Kim <beomsooo.kim@samsung.com>
-Co-authored-by: Eunsoo Lee <euns212.lee@samsung.com>
-Co-authored-by: Steven Seungcheol Lee <sc108.lee@samsung.com>
-Signed-off-by: Minsik Jeon <hmi.jeon@samsung.com>
----
- drivers/nvme/host/core.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1e33af94c24b..e92c97fad305 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -454,11 +454,10 @@ void nvme_end_req(struct request *req)
- 	blk_mq_end_request(req, status);
- }
- 
--void nvme_complete_rq(struct request *req)
-+void __nvme_complete_rq(struct request *req)
- {
- 	struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
- 
--	trace_nvme_complete_rq(req);
- 	nvme_cleanup_cmd(req);
- 
- 	/*
-@@ -493,6 +492,12 @@ void nvme_complete_rq(struct request *req)
- 		return;
- 	}
- }
-+
-+void nvme_complete_rq(struct request *req)
-+{
-+	trace_nvme_complete_rq(req);
-+	__nvme_complete_rq(req);
-+}
- EXPORT_SYMBOL_GPL(nvme_complete_rq);
- 
- void nvme_complete_batch_req(struct request *req)
-@@ -513,7 +518,7 @@ blk_status_t nvme_host_path_error(struct request *req)
- {
- 	nvme_req(req)->status = NVME_SC_HOST_PATH_ERROR;
- 	blk_mq_set_request_complete(req);
--	nvme_complete_rq(req);
-+	__nvme_complete_rq(req);
- 	return BLK_STS_OK;
- }
- EXPORT_SYMBOL_GPL(nvme_host_path_error);
--- 
-2.52.0
+Reviewed-by: Chris Leech <cleech@redhat.com>
 
 
