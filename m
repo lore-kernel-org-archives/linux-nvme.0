@@ -4,111 +4,165 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 247CFF8E4A7
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72570F8E4A5
 	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 04:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=4wHjoL5bgW6OaCvqxEnCcQc9CZYqGIAVWFc6AfVy0os=; b=agF1vK4jTnGcZPmGH3aACmnzYk
-	Sl9wCexHWfq6jeNtzDcIVEMGcGqY1XG04/wQ77n7PPjW/+j29dPeP71/yfJ3++x72qIJ94Beu3Sf5
-	3rWxjAgo1cCLenME0p4kW1++n17u+MPmWmfT56L2Lchf5+4lwy4CB0j/Cr/5GqjdZ788Tovg2uq6+
-	tpBFRRNFn0KVSh3J6CPHcXfFW5bEQ2Uf2Nsi1Vzfvf17dLC5QStaFLSXbYXNHkCcFGETSa8OxXgEO
-	XeAh+QOzSZEaRHPjMCYR8e8w2QKC2tR5+tXeUHrM8uAc1KPbkwSqheyjqYR7X+5ynHDFiHtpDaZha
-	lu9lF6ow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Message-ID:Date:Subject:Cc:To:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=ESo+oMx9LcJmyd1KXHbhrTUp6XFjjlsLTUknC2P9Hng=; b=rakvWKX4usAejI6MrKPMW7+J0c
+	mYA7J4DDXovyOKgJ5Mebc+/eDqaAi1ceJLJAbMPLrKO3JWGVTRDmsDCoggDIGilM92GhGFwSahJBN
+	bXcep+Jw3seziPrJltg4iyBgirPeO+peeEkJEp6ZSmpel1g5qs87CdbxqVMPXB8TqsBLZwaYdQRmx
+	QRUtcbX4rlfEUqjWRzZy2uxG5P/uZEfZgJMwaDqhmcnwIMlPAgFnnRlPT+5BF1k9YXEmcVISXHILx
+	0pXOesKGkH+8Do5cKJFDiOJQpg5dzhODu9cEx6Vmh/ds9Bx7n4cF99Qh/X3G7adBe9gYHoRXYSxN6
+	HZRRySig==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDb1m-00000003QY7-2lkk;
-	Fri, 17 Apr 2026 04:42:02 +0000
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+	id 1wDb1n-00000003QYJ-14IO;
+	Fri, 17 Apr 2026 04:42:03 +0000
+Received: from mail-ukwestazon11020117.outbound.protection.outlook.com ([52.101.195.117] helo=CWXP265CU008.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDAuY-00000001pFB-2zZK
+	id 1wDSPR-00000002sYF-1PoD
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Apr 2026 00:48:52 +0000
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so5156330f8f.0
-        for <linux-nvme@lists.infradead.org>; Wed, 15 Apr 2026 17:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776300529; x=1776905329; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4wHjoL5bgW6OaCvqxEnCcQc9CZYqGIAVWFc6AfVy0os=;
-        b=ReyMua6/Ht6HpJMK8vmUTa4f4o7YVhwWT2p+U8/QpSZnvTVaIR2h32rEqdLJZERwIw
-         oksQ5F1YhGpqAyuIdUHJzTYL8L8J+FENl+Y9uzNPBZrf8DOowNq8uU2Yw0we+xMalgo5
-         2bUYJyTa1y1rQEwvCo02h0W+GSnoXTUvirFQl0K/JZD4osvBI80rkPjNStrTsUbOweGq
-         rVFiwQlGFM6dj7Q58S3HxEYaMBgq4QTKLAJCB9z/J/xvBltA6DSEGeSzL8zYqMYrXMME
-         e8zTyiwTTV2wSwpLYjMADdUnRbLyGVUo11/InzwDkTcghopnxKKlLVbJgi+wSN8LBo3q
-         v/5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776300529; x=1776905329;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4wHjoL5bgW6OaCvqxEnCcQc9CZYqGIAVWFc6AfVy0os=;
-        b=Mp41q7DVeyZb+ipZJ0II2p2uh1chWya2IqN6XLtkIcQS6ORHF09CE7Ikq0duKtWJzD
-         2bayE1eQlDwwtm0wL+/1OFo59ODV5dr6lPmLpiU0ImUveMSzf9WqsTgBn7HetUKQbxwt
-         yfa13xGdwdlEGme+ANvtgD8Qee7TEbOQAZgz6BmmZ+aIKVJlmaMfFTZugqLgHOIStlNN
-         44bTNLp048j8THl1PtoHYsKsIRR6BDGoAn5WDOHSQ2O9oTF575ODmXGbz5p4tBgejIh+
-         m7B3ETv08ztVbaexLD8UlBCWGxpFA3LcfXbxAr/sWZs+DOuYlxH20+VIgU92VZbwy7Ze
-         3ASA==
-X-Forwarded-Encrypted: i=1; AFNElJ9sb5h0VPYdhHNqpxG2Gt0E/YVQ8llFS5MfCh12h14nHlemTyAV2rZthd9XVV+xZF+++lUrvKFWOdfO@lists.infradead.org
-X-Gm-Message-State: AOJu0YyP8h6ZyHZruZMV3zUFQti8Zk6SC1Vr2/QLyUhayh6oNXKdLZZ4
-	zghoxP0hxiJMcRjVocKb+vwzJL6nPXd77X6XBr4aALeAmCczsJnZk0Mg
-X-Gm-Gg: AeBDietKZAv0AxFfgYQUJMMLMKE3V/aIj2UAyJT1HKzZ8gU99bTvWZiBlKEuqyp9bTw
-	F9nd7EDZZifWUwnwyUuWM6KBt9z674eCWdLUDye6fixPfbXvVRg4YQOpbJVvK/GMArJrH8xLudF
-	orvEx9+miEjs7gSoVahDLwWWZ0vCMGr+4vDsGWBjV8BcQQ+xR5ZKpOGYihQGNRSd18ggC8bV8Gk
-	4Kq1yVWo/SRDO5EgMGinLaGwHud85N1GOB1ApyG4BJTsSh9DkyrwxFZas+Xko/AbPKgP7sBGuMR
-	T/VSXE5A5lo/1IiL6vaufl8/emLGKDvdz6D6cw3LOxBqoOqaQimD2TR+hlEUP7Eo/lt4l6XlfEi
-	f9pplnrKEVpmhM0Juv/kd5GWuyIECFhek0n94WoyTbPJF10ir5el4si057IaDo7BGXGjuPSjgiN
-	zfgCNRo9ZOKRboGWA3EWYFL620q3fVcQPSXvr3MNnXbacCN+/80KQS
-X-Received: by 2002:a05:6000:1a89:b0:43d:7b51:5178 with SMTP id ffacd0b85a97d-43d7b515250mr19740589f8f.5.1776300528339;
-        Wed, 15 Apr 2026 17:48:48 -0700 (PDT)
-Received: from fedora ([2001:250:3c1e:503:ffff:ffff:74aa:4903])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3dfff3sm8344319f8f.26.2026.04.15.17.48.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 17:48:47 -0700 (PDT)
-Date: Thu, 16 Apr 2026 08:48:26 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: Ming Lei <ming.lei@redhat.com>, axboe@kernel.dk, kbusch@kernel.org,
-	hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	liyihang9@h-partners.com, kashyap.desai@broadcom.com,
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
-	ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com,
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com,
-	bigeasy@linutronix.de, yphbchou0911@gmail.com, wagi@kernel.org,
-	frederic@kernel.org, longman@redhat.com, chenridong@huawei.com,
-	hare@suse.de, kch@nvidia.com, steve@abita.co, sean@ashe.io,
-	chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v10 13/13] docs: add io_queue flag to isolcpus
-Message-ID: <aeAx2g-nJQO2yyS4@fedora>
-References: <adMoon3Zf6gO-UbA@fedora>
- <zawhqvn53mcp4wf7axsmuq4cg73upxs5h2zgrfta5dpat3sfy4@zctfbz2ttz5m>
- <CAFj5m9JE5e4DRGbzQFxDdZWU76ZPQ3G+C9JpLu0mhTB6aesZ9g@mail.gmail.com>
- <a566smu6morqeefqal23eek4ibezfuiwhs774xtxhyyclpbtsx@uzzwgbzmwdjd>
- <adhj_w11cpMfeEgN@fedora>
- <dzpxscrhibmi5okkozf5jfull4dcajgpctldvdyfcjgmpeetk5@tkeyqouyabzy>
- <adpD8M8cNu3IZzEL@fedora>
- <6glgsbk2djsz4cqtbp2ht4274dw4rveq6fojlnpnuvx6zmpjxw@i43jo2l4qlz4>
- <ad0Hk48y5JEeMlFk@fedora>
- <fouvg7qn7g4yah7jsvzkdmweesbp4aqmhx37gf3ow5medzvuyk@5n3ddkijosr6>
+	Thu, 16 Apr 2026 19:29:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=whPTBJySndArXAKhdAhq0AMEfTlqMEvv0POJfqhUPr4LdwjdZcEMB/BMLp/PQRSBwKfwAp0khtL9YP5Fe9tAwxu5M/xR5KiO8ZnskWQ12UIn49m/gUC1iLZEzhGUwtsjJcxQmc7UCpj4JRE2BPDoj2jgKcr25xOsidTNbbvTNixtS3HS+Kriq7u5mYWVNgQEnhte22VXVzuetR9Q80sakuon0c3HtGiNV3UOhH/9p7jiIgnYum37ukzqoUmll4jhEnWCGmyZPdnYnIxOkhQ2bZau2JfnkGrasP/SqJJp1CSXYKt12xawxKzZi4Gc72i51ZmaAko0ImOVbOgAmsvuiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ESo+oMx9LcJmyd1KXHbhrTUp6XFjjlsLTUknC2P9Hng=;
+ b=jP+td9CjKy39BxPUacjXFVVaMVKe1a/9oG7R4xDvwXwHUADEx+5u04pKUoo+R+fH9KvwuqA0+p/b2v8CVqy653Utz8udSg2v7aA8lJd8Ba8nUr+aUcLAtxNdAGqBj8R84uTQuX94rHwgr8VJs7pbxmAi9FrK4ZGvlYRwoNNdAeWd3AhE36YalYMb96JnL00Rm65bg7fY/iwnSfYYcS+y3lAmyAWjCOnL/P/cCs9PdLqYG4iIU0ioAkDTD9lxCL6zj9Ta9dvz0yxpQQzinm9MuxFReDtOtlWZ9gvRZ7+/3Jn5pZrWDGl7OGmCuQnr362UxBmCei33Wm7R13B84SBY4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by CWXP123MB4039.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:c5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Thu, 16 Apr
+ 2026 19:29:46 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.046; Thu, 16 Apr 2026
+ 19:29:46 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: axboe@kernel.dk,
+	kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	mst@redhat.com
+Cc: atomlin@atomlin.com,
+	aacraid@microsemi.com,
+	James.Bottomley@HansenPartnership.com,
+	martin.petersen@oracle.com,
+	liyihang9@h-partners.com,
+	kashyap.desai@broadcom.com,
+	sumit.saxena@broadcom.com,
+	shivasharan.srikanteshwara@broadcom.com,
+	chandrakanth.patil@broadcom.com,
+	sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com,
+	suganath-prabu.subramani@broadcom.com,
+	ranjan.kumar@broadcom.com,
+	jinpu.wang@cloud.ionos.com,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	akpm@linux-foundation.org,
+	maz@kernel.org,
+	ruanjinjie@huawei.com,
+	bigeasy@linutronix.de,
+	yphbchou0911@gmail.com,
+	wagi@kernel.org,
+	frederic@kernel.org,
+	longman@redhat.com,
+	chenridong@huawei.com,
+	hare@suse.de,
+	kch@nvidia.com,
+	ming.lei@redhat.com,
+	tom.leiming@gmail.com,
+	steve@abita.co,
+	sean@ashe.io,
+	chjohnst@gmail.com,
+	neelx@suse.com,
+	mproche@gmail.com,
+	nick.lange@gmail.com,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com
+Subject: [PATCH v11 00/13] blk: honor isolcpus configuration
+Date: Thu, 16 Apr 2026 15:29:29 -0400
+Message-ID: <20260416192942.1243421-1-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0093.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::8) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fouvg7qn7g4yah7jsvzkdmweesbp4aqmhx37gf3ow5medzvuyk@5n3ddkijosr6>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWXP123MB4039:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55d8b175-25a1-4cc9-177e-08de9bee843a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|56012099003|18002099003|20046099003;
+X-Microsoft-Antispam-Message-Info: eSRvUIGFt9dw4rG8qpmsbVORKjN0bPNhWNLsuR3g4KVh+MTskWlruSS96FJ8KKiHdKQG+uJj6k8CHowAVscKdkSMi7M8SVCiBBaJ+Z0Wmxpexqzj9iph23q/5gXa+/DvpYrk8WeGrGw/vVGbu7ySmCI35x4d+UB54dx/bVMqV7MIL7YwOuz7iE0OF74naxiJsp8e7n1PgDHJiEsbefUkBlv9tWsoIrLNv/xYR0eZiRKOCYkmEz1c8Ei3GD1UfGvNeo2L1ys1gKESdH0meTrIi1hUVxM/V9BRkRKp9gA7yWl/+SkNrc/8hmBndD066yUOl/mSKexz++KbfB01CsLWqhBLvkJB7qE87Fq+UOvymKJMogtPDVYB26mng1MneaMI2ep0XARpME+pxFCAzIVGqlx+EdCd4tnuYru2CZC6z/sJ6afiB6G6YOl9Tec+8L+Ihxgg++iTn5I2HFUTfGgap+4FYkEZzOmHeauqBAPP8aBU+qK9Q1udG+l3RFuEbk8fTgnCc74svh91lsBajsQvl45lWMZ+NHYR8Kg5DNqdxQTZe9FkF7+OkN5lM5zvZBeVUGKHg+97t2hgRHL+GAZLNzTXNbeMLBsWH0zY19xYsQGCd760v3fzGkHOZfLjIPWrNDtBNNMaFLju1a6D5hgV108/CMZRMWIysaHR7eBAgBrWRiR2z27U3PF+AHqJY5IuVoUjeMSN5hA9mOO/lWILGEIzoS3eKhGUvlU8NiQY0Ek=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(56012099003)(18002099003)(20046099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6J+PeGCOkNCWKp1Blf74dQxGG2gC+qKPuGasIukuLVGkbV1q73DalIiqo7Ps?=
+ =?us-ascii?Q?PhwmRJxfq1hqOO/hEWXZ69mkea7J/GQTH7aD+qt5fmmBpaOZg1L+nChYox4U?=
+ =?us-ascii?Q?N/xyfdEjHkGgACVpg7/cIQ6ucunmoGLQgAc4Zp/SQS/4hZY6Q7w5TSPXGmqA?=
+ =?us-ascii?Q?t6VfDUy0HUG0GWVom0WZlQ3aLyPmgW3bysN8uLxyp28TX5IBHyF7jTrIUpsY?=
+ =?us-ascii?Q?1rndb5d5K8a7XyeK8bSHSSINJZ7g1h7tS57pf44a0+qzylkp3fPBPMWK4iQ9?=
+ =?us-ascii?Q?fQ6r8bSVi7OuwHi1IIutvW9OwIxxk+t79wrZiFjNW9fuM/IBIiIyFPPNTups?=
+ =?us-ascii?Q?pl1QeS2BJlLUP5kx/9lzxHXj4IfquIP2rOFqfr4Dyx2D8EdItDsqfrubbG42?=
+ =?us-ascii?Q?KedsI5X+O8l/BGsuyQrjvgZzHxqgQ7msNNB657xleQuUiuFzOC20qPiXZPRk?=
+ =?us-ascii?Q?EPWAOpj29lks7BWkwz5ixKpkU+6X2tM3b8fy2FCXsO1iHmqfZ3IQQpJSb7cs?=
+ =?us-ascii?Q?slVEhh8akDuMJ18wh4kr5jNE7WZvduRF6pWuJgju9b73rSFpdCx4ufuM45Fj?=
+ =?us-ascii?Q?DLjpfkxFQSly6qUpPfE1lojd9FFc59K6STU2ZLSvfZKxxpXU5hfekjSUzXxo?=
+ =?us-ascii?Q?Xta/12Lg+jbQ/c0xlBjeXsSmjdGZ2/utxhxb5T1BdF+xnSXgAf48pJe3Iddt?=
+ =?us-ascii?Q?7UtGQUbUzH/oe7BojHoD72AOdfvWzbjRY6OLXQ+69c95fTHAZ0BAzBUHne6P?=
+ =?us-ascii?Q?7Y1aq3PPx+7wFEU0EoTKCQOulDiUMsdJv+KgWu2iSdfxl0LEgJARQmZeQ8Or?=
+ =?us-ascii?Q?yJ34PtGtHqM2t0Jdh9Dh3UveTl9l3XYyUZdUvMQLcWP67zbvhTMbN8rYIcx6?=
+ =?us-ascii?Q?4uBHP80mCSJ2S5eXhoWVpnZdDgf8WJXPa1KysFT2aq36TeSpUi7r7I380eTN?=
+ =?us-ascii?Q?u3vsdYVR2/SeIryHI5Kc4A9KBj1bNuUSy7HgLmKuKthz4sJB53A6cFPKr0wo?=
+ =?us-ascii?Q?mESPM66XmQudVmvkwW0FZITmevBxGmeGhhwliHqoIKEPBWoVYOJssPfw/aK0?=
+ =?us-ascii?Q?7XIoD7dzOSVMPz9eH/SRTGhziC/LiveDiv8qTrJ5NvkEhiSstM6IvrCrEy2P?=
+ =?us-ascii?Q?20GeyL/Cae+UIlU5+nB5ch/cYF/I1FcYgV+wy+SUNcLfY3162Ozi0kzXs1UO?=
+ =?us-ascii?Q?aW6JBmQEuVjTClLpd1ymoFqzc7kgy7kihu5RBgVjZXw7umQ2JIfHp68dVMHL?=
+ =?us-ascii?Q?E7ox7WPgT+ptIGfFRXRRiuWJzdRigR0bOj52qbTkMTuydNqyI0MROOPklAgx?=
+ =?us-ascii?Q?KXH21Q129Z+b4/s1EfNCAmEm3AD7Hm1LGTsoE04E7i1gGL7OvPlKLP3Lz6G/?=
+ =?us-ascii?Q?Regqu+vD+C7p5zPpw2N2PhcJkzJ6R+V2LxQCAZNDyBYOZIoW3T1Vj32nbcrY?=
+ =?us-ascii?Q?WpQPSz0AP2Ej8kDLAURIm1LHBL1HCoAPJO7SlDQcTy5/Hn2Fr1OJfihwhMV1?=
+ =?us-ascii?Q?GxV9RjZmUIfu8ig8LmKV+fEcvFsQ/avMvcAe1NgSTqr0GlwqRLBsaIBh97V+?=
+ =?us-ascii?Q?p+j8WXdrossfmyluAq0/eoJQhzYB7CucnU9VydEexy30aYakfkyh+her2v3L?=
+ =?us-ascii?Q?6P4BXXvQ+rl+3MugPfBJI+p2KOkWgTo5Damw6GDJ50USfBWOCh9NrBpM9fN6?=
+ =?us-ascii?Q?Qris/u68LqO+DxfurbjPtMFyUirnx7F/bQcF7JKQWIWPsp/B2pJz8MK+Bm8q?=
+ =?us-ascii?Q?tr/puWZWmQ=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55d8b175-25a1-4cc9-177e-08de9bee843a
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 19:29:46.3408
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BN/dZFIkixie6FgU2FtvfALc1dWnoT6V8OtxgyPyi6sZgsXIwXpgyzs2++xS4Rl5dI9FYkHU2lgKHh4iOSjBkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB4039
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260415_174850_802366_5CF23316 
-X-CRM114-Status: GOOD (  14.50  )
+X-CRM114-CacheID: sfid-20260416_122953_415389_10844724 
+X-CRM114-Status: GOOD (  11.26  )
 X-Mailman-Approved-At: Thu, 16 Apr 2026 21:42:01 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -124,29 +178,97 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 15, 2026 at 10:56:37AM -0400, Aaron Tomlin wrote:
-> On Mon, Apr 13, 2026 at 11:11:15PM +0800, Ming Lei wrote:
-> > But typical applications aren't supposed to submit IOs from these
-> > isolated CPUs, so in reality, it isn't a big deal.
-> 
-> Hi Ming,
-> 
-> While that may be true for general-purpose workloads, it is a fundamentally
-> incorrect assumption for the highly specialised environments that actually
-> rely on strict CPU isolation, such as High-Frequency Trading (HFT).
-> 
-> The requirement in these strict environments is not that the isolated CPU
-> performs zero I/O. Rather, the requirement is that the isolated CPU must be
-> shielded from the unpredictable latency of the hardware completion
-> interrupt.
+Hi,
 
-Again it is just your opinion, not a bug report, may not be a fact, right?
-Which kind of HFT application submits IO from isolated CPU?
+I have decided to drive this series forward on behalf of Daniel Wagner, the
+original author. This iteration addresses the outstanding architectural and
+concurrency concerns raised during the previous review cycle, and the series
+has been rebased on v7.0-rc5-509-g545475aebc2a.
 
-However, as I mentioned, I don't object this patchset, but you have to fix all
-wrong comment & document & bug found in review first.
+Building upon prior iterations, this series introduces critical
+architectural refinements to the mapping and affinity spreading algorithms
+to guarantee thread safety and resilience against concurrent CPU-hotplug
+operations. Previously, the block layer relied on a shared global static
+mask (i.e., blk_hk_online_mask), which proved vulnerable to race conditions
+during rapid hotplug events. This vulnerability was recently highlighted by
+the kernel test robot, which encountered a NULL pointer dereference during
+rcutorture (cpuhotplug) stress testing due to concurrent mask modification.
+
+To resolve this, the architecture has been fundamentally hardened. The
+global static state has been eradicated. Instead, the IRQ affinity core now
+employs a newly introduced irq_spread_hk_filter(), which safely intersects
+the natively calculated affinity mask with the HK_TYPE_IO_QUEUE mask.
+Crucially, this is achieved using a local, hotplug-safe snapshot via
+data_race(cpu_online_mask). This approach circumvents the hotplug lock
+deadlocks previously identified by Thomas Gleixner, while explicitly
+avoiding CONFIG_CPUMASK_OFFSTACK stack bloat hazards on high-core-count
+systems. A robust fallback mechanism guarantees that should an interrupt
+vector be assigned exclusively to isolated cores, it is safely re-routed to
+the system's online housekeeping CPUs.
+
+Following rigorous testing of multiple queue maps (such as NVMe poll
+queues) alongside isolated CPUs, the tenth iteration resolved a critical
+page fault regression. The multi-queue mapping logic has been corrected to
+strictly maintain absolute hardware queue indices, ensuring faultless queue
+initialisation and preventing out-of-bounds memory access.
+
+Furthermore, following feedback from Ming Lei, the administrative
+documentation for isolcpus=io_queue has undergone a comprehensive overhaul
+to reflect this architectural reality. Previous iterations lacked the
+required technical precision regarding subsystem impact. The expanded
+kernel-parameters.txt now explicitly details that this parameter applies
+strictly to managed IRQs. It thoroughly documents how the block layer
+intercepts multiqueue allocation to match the housekeeping mask, actively
+preventing MSI-X vector exhaustion on massive topologies and forcing queue
+sharing. Most importantly, it cements the structural guarantee: while an
+application on an isolated CPU may freely submit I/O, the hardware
+completion interrupt is strictly and safely offloaded to a housekeeping
+core.
+
+Please let me know your thoughts.
 
 
-Thanks, 
-Ming
+Aaron Tomlin (1):
+  genirq/affinity: Restrict managed IRQ affinity to housekeeping CPUs
+
+Daniel Wagner (12):
+  scsi: aacraid: use block layer helpers to calculate num of queues
+  lib/group_cpus: remove dead !SMP code
+  lib/group_cpus: Add group_mask_cpus_evenly()
+  genirq/affinity: Add cpumask to struct irq_affinity
+  blk-mq: add blk_mq_{online|possible}_queue_affinity
+  nvme-pci: use block layer helpers to constrain queue affinity
+  scsi: Use block layer helpers to constrain queue affinity
+  virtio: blk/scsi: use block layer helpers to constrain queue affinity
+  isolation: Introduce io_queue isolcpus type
+  blk-mq: use hk cpus only when isolcpus=io_queue is enabled
+  blk-mq: prevent offlining hk CPUs with associated online isolated CPUs
+  docs: add io_queue flag to isolcpus
+
+ .../admin-guide/kernel-parameters.txt         |  30 ++-
+ block/blk-mq-cpumap.c                         | 192 ++++++++++++++++--
+ block/blk-mq.c                                |  42 ++++
+ drivers/block/virtio_blk.c                    |   4 +-
+ drivers/nvme/host/pci.c                       |   1 +
+ drivers/scsi/aacraid/comminit.c               |   3 +-
+ drivers/scsi/hisi_sas/hisi_sas_v3_hw.c        |   1 +
+ drivers/scsi/megaraid/megaraid_sas_base.c     |   5 +-
+ drivers/scsi/mpi3mr/mpi3mr_fw.c               |   6 +-
+ drivers/scsi/mpt3sas/mpt3sas_base.c           |   5 +-
+ drivers/scsi/pm8001/pm8001_init.c             |   1 +
+ drivers/scsi/virtio_scsi.c                    |   5 +-
+ include/linux/blk-mq.h                        |   2 +
+ include/linux/group_cpus.h                    |   3 +
+ include/linux/interrupt.h                     |  16 +-
+ include/linux/sched/isolation.h               |   1 +
+ kernel/irq/affinity.c                         |  38 +++-
+ kernel/sched/isolation.c                      |   7 +
+ lib/group_cpus.c                              |  65 ++++--
+ 19 files changed, 379 insertions(+), 48 deletions(-)
+
+
+base-commit: 3cd8b194bf3428dfa53120fee47e827a7c495815
+-- 
+2.51.0
+
 
