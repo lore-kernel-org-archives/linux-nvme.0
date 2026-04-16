@@ -4,64 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7512F8D770
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 19:20:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E5BEF8DFC9
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 21:27:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=s8H/6zEnO3ZJaSayFwbnZcraXQXltRJ+mv7JGfICnkY=; b=t0UhIZpZ3H5oy/
-	D9mXqG43BonJ84zrXwsBWEiLK8337/AOyT89WwEh0bUh1cxd5G1oWiA54GY4dtzGi3tFiyGL23G+J
-	UpKLpD4flTKFIS+QiZMQzSz9nBZRwuoq4QvpB4ecWvvOt4wJrHBKUnD+dM+bCVtKgjlaRvdv1EVAF
-	bOI+i7qqPMBvQ4UQs5RG/sMRQ9Gg1fYuGT/4t4xBbmnm8SbkuZPs20z8LY3iJjIYartK49AnY1l6D
-	vqx4khQgGCAYst41w+4Ly165s65eu+m+PXb1+HhouTqNzRi9Qa9hBV7/7I0KflqbUPllrcqlV6hBK
-	Y/0TCk7FXDf3YYEf/g1w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+0H9xYnQVbRRlMJyvE2CMbDjhxY5aB5WnjKPlwEy1EE=; b=R158rTL5sP0/ueiDcDcuSrODYi
+	nm9BtsWOYmc7/QwsvDSeJrDuZ1/ovtW2fd6F5Kp1d84kRuoaqOP18qsofMJ+8i0ZxmRDy4JL5plHA
+	m2lFAyMN1eHdu2jChvQpLAfXAN0LEEocWcMfdiUBcKt+UuatlJ7qUKYjUkEetRrB5N4nBFVV6YJA2
+	1rKPspMmHAz525KV0baBM980oXM/DX1cov7/Gbfl3ReAsixFd0H72W2j3BSzbzu9Y2lKMkc5Ee3vj
+	s0DbJJ6AQ4uL4vZl8fawMmhkQFNFfGFrRguXv7hpIWGYdqLZSmk3XHNiFZ4HMUZ+CDTv2b0hiR9zQ
+	fhYmxfqg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDSFw-00000002rTt-1UB6;
-	Thu, 16 Apr 2026 19:20:04 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wDUFB-000000034hJ-0YeE;
+	Thu, 16 Apr 2026 21:27:25 +0000
+Received: from mail-eastus2azlp170100001.outbound.protection.outlook.com ([2a01:111:f403:c110::1] helo=BN1PR04CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDSFv-00000002rTW-04HR
+	id 1wDUF9-000000034g3-0jzI
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Apr 2026 19:20:03 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1FE7260127;
-	Thu, 16 Apr 2026 19:20:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB58DC2BCAF;
-	Thu, 16 Apr 2026 19:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776367201;
-	bh=7hNoPjfRYKU5U5iFcWqPcwkIIxa98Sc2JAWepvIltT0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=IqW3owkMCYpC4VANOth7b4iLnX67SMSdgN/LGZqxMp7xOAedDzpf3xu12rPA8Ak6/
-	 tRec/6ySePzmOYTzWb90Matv2ow8wqorbNfAtjpiqHdmjZEdCgaCSN9/4uYzx8zP5T
-	 ThORpsWD3AcUgn0etGdwb4B/RejGgkdMTdggaSzAHkzl+5VhYU0aNFS9Yr1UwEdxNB
-	 l9Ur79FVrXdwayThGgTNAofyvuwifoajp83KRcOEKLYkiQxqc5sR/fZY2GjsHY0ptI
-	 JmJI8yicWW19oZJJTwsthalHFkMuEHXkobZj+7YTUrycnmdDQUSHEMb1jfJdEdbRLe
-	 rUizM4xVbcMrA==
-Date: Thu, 16 Apr 2026 14:20:00 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 3/4] PCI: qcom: Indicate broken L1ss exit during resume
- from system suspend
-Message-ID: <20260416192000.GA21992@bhelgaas>
+	Thu, 16 Apr 2026 21:27:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jZJKE7rhFtw9OoXEB6Zrb3/Oav9fEj7yMfUOm5XnF2IY9rpd5weCi5Fm3CbcJgNEBl4YwpbryLD1dvwBoLbTgBX02G2x2gZZ6uqSnGDhlutIRS5Trm0oEFnreMvXjYqsjv1mdEn63RC02Xcm1gICMM1zURDJLj3WXg/yluD8tCc5GY0FO++ix5Sj9KUP9dbDfq1l4eVYcLEIOQBxsWujBInmbcDtFClH7ysSfixlTBMMfU/bIRQWQA1ZVKkyXPJPh+Zl4s2oJV16vD8jF9p1+uO+dpPLblLe6APHPgMidCiHw3tEJe+EgSaMDuJMM/P3jBppiTWLyLjtKKkfo0rVpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+0H9xYnQVbRRlMJyvE2CMbDjhxY5aB5WnjKPlwEy1EE=;
+ b=YpHviKUGqGv79PZPx8iX5B19dNuC5HsdQ9lmk1Z0+32kHWbWFfpIVLzECkwhPd03B0TXqdBO7XFiQB+5KV1eOK+2qsLseIBEX1luaJezhRLwbGBhj70qMBlUWO7bKEbc0clSrmBYTPjYA+e+U9F7z/sihCLmJDmW2dMulIYXxCmuJly8N7O0hWHk6W+JZ37MCYcZN9BOkeUUBwIq8qYRfnoxDK020ci62W+e+9Vxr7tDDexEQhzCPaj00DUWuCoOLTP0Wc4axuTfoDjP8e3jH2WJNwYuzB8FGPAVsHsvvbkXHsY9zD2R0EXJdX6qjdErChDAPS/dqIcyxptdEaZPIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+0H9xYnQVbRRlMJyvE2CMbDjhxY5aB5WnjKPlwEy1EE=;
+ b=q8mIRVvKVNS61kPrSzDoR5mYZ+GMTusrmNEvybAg0QlQI/bgYJ3YfOCfl7B8/X+Ex7Prr8C+b2C9nNwZhcKNMoS43Y6dhDxsBwUM4nd1EQEf3LTR7iP6LFm3HY3k8qPGhi+OoDeIrc0Bm3AtDkCccm/tw2V969VShSTdn/HPyd5KeurDg0CvA79vA0+/v15Q1CrjnE8UkWYiExkBL2ke/NXic1o/lVHP/7pwi0zLZEXBDVEU0O7Mg26U1892cOdJ2rJ4kQx1nT0H2HO2q85k2PRzVKl8lCLPpN/aeUXQGX0ujqp5Q31eyJDufDpv7Ed9aO57GkHeo4Efj/Z8gseglw==
+Received: from SN6PR08CA0029.namprd08.prod.outlook.com (2603:10b6:805:66::42)
+ by IA1PR12MB8286.namprd12.prod.outlook.com (2603:10b6:208:3f8::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.20; Thu, 16 Apr
+ 2026 21:27:15 +0000
+Received: from SA2PEPF00003F67.namprd04.prod.outlook.com
+ (2603:10b6:805:66:cafe::b7) by SN6PR08CA0029.outlook.office365.com
+ (2603:10b6:805:66::42) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.49 via Frontend Transport; Thu,
+ 16 Apr 2026 21:27:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SA2PEPF00003F67.mail.protection.outlook.com (10.167.248.42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17 via Frontend Transport; Thu, 16 Apr 2026 21:27:14 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 16 Apr
+ 2026 14:26:59 -0700
+Received: from dev.nvidia.com (10.126.230.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 16 Apr
+ 2026 14:26:57 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <song@kernel.org>, <yukuai@fnnas.com>, <linan122@huawei.com>,
+	<kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>
+CC: <linux-raid@vger.kernel.org>, <linux-nvme@lists.infradead.org>,
+	<kmodukuri@nvidia.com>, Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH V3 1/3] block: clear BLK_FEAT_PCI_P2PDMA in blk_stack_limits() for non-supporting devices
+Date: Thu, 16 Apr 2026 14:26:31 -0700
+Message-ID: <20260416212633.72650-2-kch@nvidia.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20260416212633.72650-1-kch@nvidia.com>
+References: <20260416212633.72650-1-kch@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260414-l1ss-fix-v1-3-adbb4555b5ab@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.37]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F67:EE_|IA1PR12MB8286:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f8fd9ae-d79f-4535-55ea-08de9bfeedc4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700016|82310400026|376014|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info: s07B7QsVNPyFTRUciQdqZTQr/eWzNIYb2+YdUy1WixgSoxTjKVgZSXgwT035qwpUtQP83wTqxRV5BieS2tHMyOJ+Nd+P+0Elx+929CYABD066jxuaCoRnLZvbscJW7mvoddj83PZEkmcTsE/EYqwVp8A/VPE6m+hziRghrKW/JHAG8Qn8hnob/lXM2pJYrWRxEDo4YF9es6FaGc3nOIaW41u2ZSsVp74jXtzkhuAw6kr1MhOmgN5jFWCOefSTgos1ZkPj8Lk8efTLXSUzT3fbVL0JM9AcoFefM+yGeCM03voRA5ugxYJ5gHwzWjuBfhYgY2mXPnjNJncG9HIdiPX3Jls1F1rdbu/1pUhtlJ6QfNtQiw4vFfdRdXxuA9LMV9B3Xk7lemycWuAw0O3QfqvI72b7MENyHJA4nF4QTwm5nXMllrJ9X6Bit1UjQ7tcpxkxxmt6JUgkI7CK98SUnHdr5zH4n+s9PO5ri13sNlmkRSWB9z7okdUo7HYMMk8kM6IGham3/wwfKmMH7ebk+OwkTntMhqnpdxVaPSfHmRMFt6a8Gs9L4uPOy+1rPGvS8kXQe6hH24pF2sn1DS5SV977Cy902hUy75qRoey4nOo3accf91gNmWgY07PUeLnJNjuFiMkdeT6fpTVdQxfIZh1dpt3MoMm4IepQoDHGlqR3vBmj9Rgc2enM3FoE1ps15gpVUrh+EO0Y21kxcRCC7W6nk1Pkmndo3vxf8jKLoIaAtdJuSbbL3r5/FoE2u6sBGkBBpsgnEin86as3MrySh5Jsw==
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 9XlRuFOEx+QnVuNHdjApyoMiCRT1e0dHEcyRCXdOHkYHoUif7bIsExaEYF9oisuN3FUj+uHoqD2p68c+1O1pNS0/0aM2xaP5Bui5+8KpWlaGMN2IAfY1D4PjPLSokNsqiFOE4gVM7ZbczGlO/ihnMFqzFYqWXPoDwj3EqapdKWIsVSk7ofyrX6Y4ZYiICh955alUGvFWWMMhPSLWGoTUeRzy8kJ/lp0ccyUBwsgyuD4wa8ezgyjsCI/gJ3qQmS5hcxNOUHlpQczZmeKOoLU4RAUasG5gBMtDo73KHoIpYHSdJ/e7TeAv+cEM12QPWpd8i31zcoGe/6qH4nTKSwBzSpxKkA/4nsiKGDjw4iHcq699pnCJaq71kqYYXyX+Xf6aRZuQhknUsuE0E6t6h/vGxnmZeS9UrkAWL1RTQAjFshyubQ6Wh+dPV7S0CT+vtCSD
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 21:27:14.4731
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f8fd9ae-d79f-4535-55ea-08de9bfeedc4
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F67.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8286
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260416_142723_220151_B0477CB9 
+X-CRM114-Status: UNSURE (   9.32  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,77 +127,31 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-[+cc Rafael]
+BLK_FEAT_NOWAIT and BLK_FEAT_POLL are cleared in blk_stack_limits()
+when an underlying device does not support them.  Apply the same
+treatment to BLK_FEAT_PCI_P2PDMA: stacking drivers set it
+unconditionally and rely on the core to clear it whenever a
+non-supporting member device is stacked.
 
-On Tue, Apr 14, 2026 at 09:29:41PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> 
-> Qcom PCIe RCs can successfully exit from L1ss during OS runtime. However,
-> during system suspend, the Qcom PCIe RC driver may remove all resource
-> votes and turns off the PHY to maximize power savings.
-> 
-> Consequently, when the host is in system suspend with the link in L1ss and
-> the endpoint asserts CLKREQ#, the OS must first wake up and the RC driver
-> must restore the PHY and enable the refclk. This recovery process causes
-> the strict L1ss exit latency time to be exceeded. (If the RC driver were to
-> retain all votes during suspend, L1ss exit would succeed without issue, but
-> at the expense of higher power consumption).
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ block/blk-settings.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I don't think the link can be in L1.x if the PHY is turned off, can
-it?  I assume if the PHY is off, the link would be in L2 (if aux power
-is available) or L3.
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 78c83817b9d3..8274631290db 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -795,6 +795,8 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 		t->features &= ~BLK_FEAT_NOWAIT;
+ 	if (!(b->features & BLK_FEAT_POLL))
+ 		t->features &= ~BLK_FEAT_POLL;
++	if (!(b->features & BLK_FEAT_PCI_P2PDMA))
++		t->features &= ~BLK_FEAT_PCI_P2PDMA;
+ 
+ 	t->flags |= (b->flags & BLK_FLAG_MISALIGNED);
+ 
+-- 
+2.39.5
 
-L2 and L3 both correspond to the downstream device being in D3cold
-(PCIe r7.0, sec 5.3.2), so I assume this is a reset as far as the
-device is concerned, and we need all the delays associated with reset
-and the D3cold -> D0 transition.
-
-> This latency violation leads to an L1ss exit timeout, followed by a Link
-> Down (LDn) condition during resume. This LDn can crash the OS if the
-> endpoint hosts the RootFS, and for other types of devices, it may result in
-> a full device reset/recovery.
-
-What does "L1SS exit timeout" mean in PCIe terms?  Is there some event
-(Message, interrupt, etc) that is triggered by the timeout?
-
-> So to ensure that the client drivers can properly handle this scenario, let
-> them know about this platform limitation by setting the
-> 'pci_host_bridge::broken_l1ss_resume' flag.
-
-I don't see how this means L1SS is broken.  If the device is
-effectively reset, of course we can't go from L1.x to L0 because we
-didn't start from L1.x.
-
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> ---
->  drivers/pci/controller/dwc/pcie-qcom.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-> index 67a16af69ddc..01afffd384f2 100644
-> --- a/drivers/pci/controller/dwc/pcie-qcom.c
-> +++ b/drivers/pci/controller/dwc/pcie-qcom.c
-> @@ -1363,6 +1363,17 @@ static void qcom_pcie_host_post_init(struct dw_pcie_rp *pp)
->  	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
->  	struct qcom_pcie *pcie = to_qcom_pcie(pci);
->  
-> +	/*
-> +	 * During system suspend, the Qcom RC driver may turn off the PHY and
-> +	 * remove votes to save power. If the endpoint asserts CLKREQ# to
-> +	 * exit L1ss, the time required to wake the system and restore the
-> +	 * PHY/refclk exceeds the strict L1ss exit timing, resulting in Link
-> +	 * Down (LDn). Set this flag to indicate this limitation to client
-> +	 * drivers so that they will avoid relying on L1ss during system
-> +	 * suspend.
-> +	 */
-> +	pp->bridge->broken_l1ss_resume = true;
-> +
->  	if (pcie->cfg->ops->host_post_init)
->  		pcie->cfg->ops->host_post_init(pcie);
->  }
-> 
-> -- 
-> 2.51.0
-> 
-> 
 
