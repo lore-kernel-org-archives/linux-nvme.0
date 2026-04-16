@@ -4,188 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5002DF8A171
-	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 13:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A03C9F8D759
+	for <linux-nvme@archiver.kernel.org>; Thu, 16 Apr 2026 15:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pyCMRW0sQ2uhgr+bk8siTvdhJYk/KYGuHVRe1s4uf7w=; b=hIhbV+V1GImxQRfDqGUYih7cu6
-	YT3VJmfDjQ8OUCB0FGTvRhLPhY0dznXC2gXBni9yJZvMxM1rJgu2U97/8IRsvp8XJ4vXHRIH+ADoo
-	BMtu1aX3s7akt22YjpicjqRQuVstWiKgSZww+cY9WK3WovEUSe1cl2tMCOXQ9HUepKWyeuPK9IHkI
-	0nh1CBbK0CNr22pm9KaZfMzb6BxkkZAxO9HT2WYnV+y4P4/eUNUk5xNbh1sMIiMa6ZWB2mhhHydvX
-	ZDOJZ7LzsEe86m2n8aZP5H9Px/04cBX6to7F39CW5jTkt0fZmWr71uAqNsNe3HCuPKIzmKOxcwmVB
-	L9sSghGQ==;
+	bh=vFY8emkWvh+CcCvc2Sq9jqOrMYd8LQx+4a873ps+EKA=; b=24QPwRnLxWtatK4bkd1k2RBimB
+	7bDyIcT6pC9oLJwxMh1eCgo233q0if5zT0JK6p72b/qU5/0DnwPCJHTmT3fxH3FFY7zjjPvgWVEin
+	paQ+FigWsRv1/ktXLOAUSfF6K+TSZf6x4h9WUK4Vh1XLUOTg1+SAsEdafeMQc1pjkfmKO1gGU5S0B
+	4TU6OGVUbM3V7Xt9ofgME8gy2GYMp/Ef8Opzs6aRS2ZsDQ9YSAnIf/a9Po2MYBKUMNVw+19q9wKqR
+	A8/hzZxrsSJSXOUNlybqvD0dtW8dO1AYNmDunRyUjwLMYS/01wu75ahn2t52+2mO6vXDi6/vgTwkJ
+	QeafHetw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDMNx-00000002T52-0OEl;
-	Thu, 16 Apr 2026 13:03:57 +0000
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+	id 1wDOdA-00000002caa-1POj;
+	Thu, 16 Apr 2026 15:27:48 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDMNu-00000002T4e-1hgb
+	id 1wDOd7-00000002caF-1ynD
 	for linux-nvme@lists.infradead.org;
-	Thu, 16 Apr 2026 13:03:56 +0000
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63G5LEf42136547;
-	Thu, 16 Apr 2026 13:03:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=pyCMRW0sQ2uhgr+bk8siTvdhJYk/KYGuHVRe1s4uf7w=; b=
-	hGIfTkoac8mRjB7dXesg+jHB5BuGJkOTSlZpp+3k+f5JWXgZj2aWc0NNV9KWePBP
-	kCSCQ1YMmsadvz03ZfoFTsAIVaJJu78ze7VuICpwJqH7WfoMtmpR3K1vZ0ioAwLI
-	9qwgpDSt1liUqVCyTy9Iuokr5RgQ/EAuEGW6iXTO4x0MnMAaVYhTgihKUcejnepV
-	78HzFGVhZX3/nUamGmDg5jaFPjw5KZMDmd2+VjIF6LufE48c9eOZgMoHXDxucw5G
-	sGq9zPtpw6eVTjMJ0L7ZVmMHzhUI/hMRw1kHb7LPWVsgn7mscpQl2qQOmkwPbW8d
-	D5KkcsVqGUeaSjC7M47sMw==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dh8687hmp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Apr 2026 13:03:51 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63GCsWYZ010284;
-	Thu, 16 Apr 2026 13:03:50 GMT
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012011.outbound.protection.outlook.com [40.93.195.11])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4dh9jryaud-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Apr 2026 13:03:50 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UpF9DXhlJ1JE54kkScM5w6mPBsKlVMyg32dlfVable/OIPBaFQo3qy6gF7hb/mrLQNUhhM+nUhHJX4UJ+Bn70g7I3TMCLFU+0gzS9TAcTADth96BqbjQLfmZ0LJqGB6t2Uwwh7qhmTCRZL50HwRgqA1LL3ML99WbZJYagfvqLbyWkbFqqa2ukIYAC+NFlA2+Yoo9710Vg0UqSV4xMJPNzrU+nQLjVR+ezGDj+FfTvmqmpqIl5q8Jy/yN+Eop/1ocNdg6BMldooKF5X/5uoziZPru+a+CXVrED8iYG7mgYYIHIgZKYPZ4vwmk118uISANptqTwBv56g2WBW83KUl+jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pyCMRW0sQ2uhgr+bk8siTvdhJYk/KYGuHVRe1s4uf7w=;
- b=X+eQVvLUxhJ/G8JuosVILUQAwSoXHh1vnRORvrtCh1dDCqxnp4XznqDddfgXcyNYvz+JZNEQU0s1vz1g+4hk9Us0QbdybH0wBYgTy1VIoKTWuUlebLs8NE6PxUUv1aEUXcScP8xbdAQ/dDQbyL9FtvCHOdRGlUoS91lLNqrSIZWQajjiVaDa/LUyEbSBRoBV0dVvzzMZuFRaCPBao79GlN1LJtDS24LYsC+xCv/rPhj5pPnu9NBCggZPFA3dNivBHujXZ/Mq0iZkeql1otJ98m534bt+Q6AnhQYu2s1p0tjU2c5kcPuIhkOoafJu9XoZL0qrwtEAhIHjyWzb8lUVTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pyCMRW0sQ2uhgr+bk8siTvdhJYk/KYGuHVRe1s4uf7w=;
- b=AVV0gPDPF5g1wPfzF2H2gETPvFWXKU94LGbv16S6RNasNjQjY5vaub8DvH2wnJAYtFcbXrIVG450pv5vv5DUkq8IpPaTQJqtms8qWfkLW1s3B4QK2wYS1NT206LFSCEZdX5ak8hZqCl/z31w3HQfPrdBKucLakg5ZkLRu1RJlkM=
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54) by PH0PR10MB4581.namprd10.prod.outlook.com
- (2603:10b6:510:42::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Thu, 16 Apr
- 2026 13:03:46 +0000
-Received: from DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a]) by DS4PPFEAFA21C69.namprd10.prod.outlook.com
- ([fe80::5266:1601:5598:3f0a%5]) with mapi id 15.20.9769.046; Thu, 16 Apr 2026
- 13:03:46 +0000
-Message-ID: <b00f7f6d-278f-457e-9151-7528ef7d61b4@oracle.com>
-Date: Thu, 16 Apr 2026 14:03:43 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests] nvme/068: add a test for multipath delayed
- removal
-To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "nilay@linux.ibm.com" <nilay@linux.ibm.com>
-References: <20260415104111.1439459-1-john.g.garry@oracle.com>
- <aeDYE1BfumNvutvS@shinmob>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <aeDYE1BfumNvutvS@shinmob>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P191CA0010.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21a::15) To DS4PPFEAFA21C69.namprd10.prod.outlook.com
- (2603:10b6:f:fc00::d54)
+	Thu, 16 Apr 2026 15:27:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776353264;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFY8emkWvh+CcCvc2Sq9jqOrMYd8LQx+4a873ps+EKA=;
+	b=HbB6oiE9iql50JUwThUd7v99LbzSr3pqDkioHgjZCM1aVBnK1sj6LYFcHSMjF57FEyNx9q
+	L1XOc4lKe+TxFJ2t64vfemS9hd21Dp36QTrSHwylPTgTV2a2pUuX1jyLpwBw2ghiHOp5WE
+	V+gxctJ99w/FvJpKkqeOI/icF8844Ys=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-154-RD7OP0XxOxWsppgXoN-JIw-1; Thu,
+ 16 Apr 2026 11:27:42 -0400
+X-MC-Unique: RD7OP0XxOxWsppgXoN-JIw-1
+X-Mimecast-MFC-AGG-ID: RD7OP0XxOxWsppgXoN-JIw_1776353260
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3F2E11955F07;
+	Thu, 16 Apr 2026 15:27:40 +0000 (UTC)
+Received: from rhel-developer-toolbox-latest (unknown [10.2.16.224])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 46A7530001A4;
+	Thu, 16 Apr 2026 15:27:36 +0000 (UTC)
+Date: Thu, 16 Apr 2026 08:27:35 -0700
+From: Chris Leech <cleech@redhat.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: alistair23@gmail.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	kbusch@kernel.org, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	yi.zhang@redhat.com, mlombard@arkamax.eu, linux-block@vger.kernel.org, 
+	shinichiro.kawasaki@wdc.com, Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH] nvmet-tcp: Ensure old keys are freed before replacing
+ new ones
+Message-ID: <20260416-landlord-encounter-c93f2733de5f@redhat.com>
+References: <20260415230250.2783414-1-alistair.francis@wdc.com>
+ <959f800d-b92e-406e-a174-680fb09c884e@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFEAFA21C69:EE_|PH0PR10MB4581:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6010dc0-0a12-46bb-daaf-08de9bb8983c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: cM7eGRAQyC8kvxO4Qs0OvF8atXnUDgDxYETg8beifVbKk3Y/cqssgkWrySe+ZwagC8pfdl382Sfzkd7IxBeklaDczMlcV1nl+atwD+A+de24Bhu6OdL8L4C82sXsoS0sfn+qoLWnMsDun1DP6HyMRr5U3wpZcDayegvj1NSv+Sc0TpMgyG3J5FeoSk1LtFwCRZqA7IvlZu7KGTzkCVptZom+uk7UMjYPIJCkKXYOjmaPwF874d3Gxq6Y1lbIWCZ6n0GoIJhPPcdmpcUNTzWzJTPj2NoKLMKAnqX9UisbtWKFlDwBAPIgN+P4eX7FbfdQhgIzAH8cEM3TvxYFU2NSos/7OiN/7Huw/vSc55+JoXRx5qI76NZL8EqZqTgqMLrLTbKxDPt00nAw+Le2OPhoS0Ve3GERLmcUoKwaMVUb2xqKHI9allBZW79LNHk/Z125G45RWBqBEV9Er3jEO0iizzYAtvRTraaCIIz9L+o01f5j+b5HndSoKHsEbMfXlVEmXZI3T6Vn3K9PvpU4aG8X+iSDfuFjo76tq7QT0xNGK3maDUpFeshQnVMXlSepHgZE/wl5KsMUv2Pr8nCALCm2JmQ/YHZ0WkWO1ozmBw2yqFSnVeo1nyNEvpQJYfAXT3fasW39sQ8GCZnCUsu2Hv7stgs84MAWXsI8c698j4I1Ny58vk/7gt/QncQamLrZ8slo
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFEAFA21C69.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q0NERFJkUzBjVEpHaUJRbGFIZG5SdHpsVGdTZ0JoUjhLMnpDLzJnTmFjYk9D?=
- =?utf-8?B?enhrdHNKc2w4M3QvbGlIalU1dTRTSndPY1ZLYUljam5XVzlnVnR2NTkraHBS?=
- =?utf-8?B?RkV5ZDFaV2ZFRHVhNHZlUlh4dUZLTVdzRUJSbWRpVXlXemc5NU9iU2Q5dzdL?=
- =?utf-8?B?L0gwSjUxWHV6QWJrRWhlbE1hem9EMmFCOWh6MGpkQloxSW5RUFZtS0pDbmNs?=
- =?utf-8?B?Qk5GS1ZIdlk1N05HNzFLK3l2RzhuN0kvNHh1OGdKODN5UzdiTmFEQk1wWWhO?=
- =?utf-8?B?U3FPajhScThjeEhPTzMvakRkcS83VGtMUlV5alFNeXE3R3FFdGhnSWxOVkNi?=
- =?utf-8?B?a1JFck93aXNrZXlwY3NYOWxvdC9oRTRiOWRCbXNNd1Myek9vZDliVXVSZzZk?=
- =?utf-8?B?Y1VBQUpRRXZCYWxwSUlHUkdXY09XOWFFeUlmSDlMRVhXN3pLd2gycUM1M1VQ?=
- =?utf-8?B?dzlpU3RyOGYzN3J2YmxSRytjWllYbW1mcnVzeXNEeHBiNzJqZHZyZmp6dTdp?=
- =?utf-8?B?Q1Y3N1RSTmQ5Tk9rUldNRXJCTEQ5Q3duQllhbjBZRUxaYVFzSm9VV0J3dlpz?=
- =?utf-8?B?VzVsSkk0eVlaVDBQWmRyaDZvOTJUWGFIVHVIYm8wNVpHcjJJZjhPcFVUbmFT?=
- =?utf-8?B?ck1TNUg3MFk5dXR1a1Q1Sy9NQzFDV2tjOEtBL2NQRnByUVl0Ym9kVWdZNjVF?=
- =?utf-8?B?V2FETGhVampCc2xQUUV1YjFrWWtxS2pneHp0VXltMDBlV1lPREY5dUpYellk?=
- =?utf-8?B?eTlkUFJ4cmVBTFNyUjRlQ2lkY3FqTFpHYitiNzJVWGgrUnNNWXdKWU9CaUps?=
- =?utf-8?B?NHJ3YVR6TFZ6d1BHWG1QTWpnL3lZaENTeWFFUnViMUkxMmpXWTV6QVg5RDRX?=
- =?utf-8?B?Y1dLdlFWait2RmdlNlpBSm9nTGNjN1lHV1p6SHpXMVpsdE1WYkZsRXlqVmpN?=
- =?utf-8?B?dUNlclhKeHdGNmlBYmlTWVEvcXJYNGpaSHlBZzQxM255ZG82MDQ4Tmg3ZjBV?=
- =?utf-8?B?TVdRd2VIUGl1TTF4dVRaLzdDU25ZcFd6QWpOVkR1bEdZNjFvK0ZDcXptcnh0?=
- =?utf-8?B?Vm95dUJmWHFBVzd0YVJYdGhBNlByUWxpc2wyZVl4RWJQZU9ZQXRYL1RnTFFu?=
- =?utf-8?B?amdDNG53czZDaVhTUGdGcFBsdndoNkMxZWZjQkxtRW9EblhGb2xRelFTdXpI?=
- =?utf-8?B?alBwVFJSUFgxYTRaYUZKVTZ3cVBIbUJTU2Evb1FJTlAyQURnVEo0Wi8zUHA2?=
- =?utf-8?B?MnhGbG43bEZ6Z283eDAwTXJHeDk4Yy90VmRaMEtHRVVhUk5tQXNFRVRCbEpK?=
- =?utf-8?B?NkVVOGhhemx4eGpsY3h0UjlacDdaQm02UlRDMDh2TnFJQXV2S0RzZks1KzhQ?=
- =?utf-8?B?Y2pXbUVaVXBiaTdjWmFtWk9IZ0tvRnBXdFNwNElzdFdISjE5THZOUlM4NkFm?=
- =?utf-8?B?Nm9kUitISnZ0d1huc1RRbXdDQTJmbW9MeXJPRktmR3hLdnJtNU5VNGp1RUZX?=
- =?utf-8?B?Z0FqeXFSd25FU0hBcEdscjdQeSthRjJXaytoOUgxUFlZKzRLU2ZYdElmUjA3?=
- =?utf-8?B?ZU4zQmpHTmtxZElhaWRYKzM0L2FGL2FWaVh0Q0hGVm1qRnpWcEpFTnVSVGpw?=
- =?utf-8?B?b3kzSUJxMUxkMEhwaUNVT1Brejl2VE4rV0tlNUR4MndOMXpDNHNHMFBHU3FZ?=
- =?utf-8?B?MVlkbzR1Rjl0QStwcFFaK28rMkhSdkR4T3RFaTB6Tmo0NWNnWGJyL0w0NFFy?=
- =?utf-8?B?RisxWVc1M21vMnhlc1pmbWZoU3lpUmMvdVRYMm1SWmxucjl4N0RPOUdhRi81?=
- =?utf-8?B?dy9uV2g0WjlyQmRXWGp5ckhDeVg3ZkdQbml2bTNwK3JhUTRHWUZyVWx6dnN6?=
- =?utf-8?B?WTcyK0s3NVI3a3RQbXZhOTkrSWNiSVhiWDZ6dFlTUkRMUzJUa2dYdGVmQ08w?=
- =?utf-8?B?Yk1yQzY5emZSWEFYT2RubUZYRlhKajFkTzYwTVFRRHpkSHF4eExaYmlTWkpU?=
- =?utf-8?B?UysvUnA4ei9IOTRiNURIZ091L0swQ0kxZ20zeDFBSkNuRjRUM1lSbzdWZHFP?=
- =?utf-8?B?bVd6cFgwYnRtK3JMdWFqOWs4VWoya28zaklZcU5hbHlXcHYzVkhpMHRBTWs2?=
- =?utf-8?B?M2kyMmJiWnlGSGJVUWZnWkhGbUttZ25zVWFzekdaa1NOSmgzVlErc0dYNUMv?=
- =?utf-8?B?cFJHamFHTytCTHp6WkF6NjBrL09xbXZEN044c3FyaFlUY0dQNHJiQW5OZzdY?=
- =?utf-8?B?MTNJTUpaNlR1UW1xRVJ0bHRUUllwaWFNa0Q1VFNXS0dkRDV1UHVxaFIvVUZs?=
- =?utf-8?B?TWtPWjIzeXl5bDJwMDFkOG9ON1EwYnRtcU1zbmlOVnpVN3Y5T0d1Y2hhZFJS?=
- =?utf-8?Q?Yhs/BDci2XCnyWC4=3D?=
-X-Exchange-RoutingPolicyChecked: HJ42ZWXNhJ1pe+QCY5qTClpOCEu5NiLUGKpYAnBedwKFXVCbghdvmMR1yOWHOE3WAIPPGFYj4SfV6iVZHFgNYwTxglHP53gFnJOl3U+9rW4vENMrKv56fAf7HKWTyTRp3WnosFr2SYArSZpxektT0y4AP24fKp5sbyf6tIfJNMjAxu3GCKEcwgDDxdxAGT6j8D1XLzB6q7BLZEiRqM9w4glzsPdHgrbht9/62hKzV7UHAoItHc3qUdzuS71/dHuGwiD0o6AfD5pkoFwnhxTQcUjgFWQF2OvwX8AE4Ky4kupqm0CwVh7NJgtoomVA3GZPWIKFXSZoPhBIz/CQWTV20Q==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 5US5RBlsjd1PF76zSoMrh1v5ghg61Dq3R45i9B1S/ejDu/0Eah8KJi3fKrq33KvGb4dkqph+wqK2b5Di1vuoVOZsSbWWjh/zCPgqILNCH31rWuXVMIH6nA8Sf4iifiUv7NLZ2ZufmMU+aQnM+yxxgfF83PNkifsyUp+yUp4DGb0U36apk+uIu8+LVdUt1/Z4jTHl8M/n+LWxpXxjA2yodGkhnIgDCNFikTaV5ZDKYVMRunxvizPwXJVa3AgI6cOA1wE3DrjEqIT9AI5l3l5Ca5YJxbq0ULukY4D2i06q5qfrTeEeL6eD2/w6xLqEf4LAMngfDmGaTI8L/GEBKtaLK+zD2C2V9ecbPpxVo9JephbYtftvsznmvtzR1iRFKhVCiwMpCLJo6j5rcMHs2cPtET90zkeitRGXdTFM7XqTTUnKPvSO70iaV1Sjl8ZzG29rjeN/GJEsRsOa8vMBvJymt62QNzwExcLTT2Kca3CC3CqG8wflmlhrN0Fg753oDmGpk0lS0a5/GBAF8EICrMhZuYf8TI3zb6JKUnP5u6gOlYIbPSwVmfYEucQUy0iT3AY2gC9q+58QAdUzX3h2ENx5z4jOhDOyva/hx9OaafKYILw=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6010dc0-0a12-46bb-daaf-08de9bb8983c
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFEAFA21C69.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 13:03:46.6648
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rITQnwyKnsakWE09qiA+AaUlQmH9cbBP+X72B8ftGgNGyoMHjjiwU09Gi8KJ6+nf0usdxy/jwlArWdzzSmkZZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4581
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-16_03,2026-04-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0 adultscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
- phishscore=0 mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2604070000 definitions=main-2604160123
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDEyNCBTYWx0ZWRfXxHktS5n93UZS
- cRt26SC2VrGhxZVK2qKvkTjBOm/QT61UZ7Kn3hBMfZe0av1YyUoxCZgsERckV1uN/NXir/9AJz9
- xHiHJQ+FxO26HWBp4Bi4+Gg+9cm88MOkVV0f6lMHVuIxKPn8meBev1+RWjBJab3kHFDRgYRdtb4
- UDc+NfqcMVC/LFN0Q8Pdmaw0dOULKPf8s9ZlgRzQDyTyT4G18os6VRvOkrHnLnpNQ35m0V/pxJr
- uW3lHaXdRxmIuCyJkm3D8JGl7nZfolmsbzQamj8ZoKDj2Iawjlc3zT3/NdA2+JxqjSlD5ZwxOoX
- /TNXoEYIC7+4K/dSOnEYXVnVAESHC5UwbGKQ7+OGKe0RgsWH7UESKJm3WkdDWNb71S4kl4+vqek
- niUTGj8C70YzUwyyZPMwyu7d5cKzVdjp3sbwXXIo2pbrohIPTqHYEoz9Hkl5Ug4O9NVSXWO1251
- /Wm2pwbKAE5Ln5CBqeA==
-X-Proofpoint-GUID: kFAcOaGSAOOO3vmAcZIKLD0q8Q9aoirB
-X-Proofpoint-ORIG-GUID: kFAcOaGSAOOO3vmAcZIKLD0q8Q9aoirB
-X-Authority-Analysis: v=2.4 cv=JY6Ma0KV c=1 sm=1 tr=0 ts=69e0de37 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=3I1J8UUJPc9JN9BFgKH3:22 a=VwQbUJbxAAAA:8
- a=yPCof4ZbAAAA:8 a=Y3i4mjkzfnfap4cgRC8A:9 a=QEXdDO2ut3YA:10
+In-Reply-To: <959f800d-b92e-406e-a174-680fb09c884e@suse.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: gamTQuCaV1djB0WlaGBshTXYAhOo-KgcXfQM6A3u9EM_1776353260
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260416_060354_582970_15FFC482 
-X-CRM114-Status: GOOD (  27.59  )
+X-CRM114-CacheID: sfid-20260416_082745_582184_7B1F7348 
+X-CRM114-Status: GOOD (  33.22  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -200,233 +88,83 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 16/04/2026 13:50, Shinichiro Kawasaki wrote:
-> On Apr 15, 2026 / 10:41, John Garry wrote:
->> For NVMe multipath, the delayed removal feature allows the multipath
->> gendisk to remain present when all available paths are gone. The purpose of
->> this feature is to ensure that we keep the gendisk for intermittent path
->> failures.
->>
->> The delayed removal works on a timer - when all paths are gone, a timer is
->> kicked off; once the timer expires and no paths have returned, the gendisk
->> is removed.
->>
->> When all paths are gone and the gendisk is still present, all reads and
->> writes to the disk are queued. If a path returns before the timer
->> expiration, the timer canceled and the queued IO is submitted;
->> otherwise they fail when the timer expires.
->>
->> This testcase covers two scenarios in separate parts:
->> a. test that IOs submitted after all paths are removed (and do not return)
->>     fail
->> b. test that IOs submitted between all paths removed and a path
->>     returning succeed
->>
->> During the period of the timer being active, it must be ensured that the
->> nvme-core module is not removed. Otherwise the driver may not be present
->> to handle the timeout expiry. The kernel ensures this by taking a
->> reference to the module. Ideally, we would try to remove the module during
->> this test to prove that this is not possible (and the kernel behaves as
->> expected), but that module will probably not be removable anyway due to
->> many references. To test this feature, check that the refcount of the
->> nvme-core module is incremented when the delayed timer is active.
->>
->> Signed-off-by: John Garry <john.g.garry@oracle.com>
+On Thu, Apr 16, 2026 at 08:16:14AM +0200, Hannes Reinecke wrote:
+> On 4/16/26 01:02, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> > 
+> > Previously after the host sends a REPLACETLSPSK we freed the TLS keys as
+> > part of calling nvmet_auth_sq_free() on success. A recent change ensured
+> > we don't free the keys, allowing REPLACETLSPSK to work.
+> > 
+> > But that fix results in a kernel memory leak when running
+> > 
+> > ```
+> > nvme_trtype=loop ./check nvme/041 nvme/042 nvme/043 nvme/044 nvme/045 nvme/051 nvme/052
+> > echo scan > /sys/kernel/debug/kmemleak
+> > cat /sys/kernel/debug/kmemleak
+> > ```
+> > 
+> > We can't free the keys on a successful DHCHAP operation, otherwise the
+> > next REPLACETLSPSK will fail, so instead let's free them before we
+> > replace them as part of nvmet_auth_challenge().
+> > 
+> > This ensures that REPLACETLSPSK works, while also avoiding any memory
+> > leaks.
+> > 
+> > Fixes: 2e6eb6b277f59 ("nvmet-tcp: Don't free SQ on authentication success")
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >   drivers/nvme/target/fabrics-cmd-auth.c | 7 +++++++
+> >   1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+> > index b9ab80c7a6941..58185184478a4 100644
+> > --- a/drivers/nvme/target/fabrics-cmd-auth.c
+> > +++ b/drivers/nvme/target/fabrics-cmd-auth.c
+> > @@ -412,6 +412,13 @@ static int nvmet_auth_challenge(struct nvmet_req *req, void *d, int al)
+> >   	int hash_len = nvme_auth_hmac_hash_len(ctrl->shash_id);
+> >   	int data_size = sizeof(*d) + hash_len;
+> > +	/*
+> > +	 * If replacing the keys then we have previous successful keys
+> > +	 * that might be leaked, so we need to free them here.
+> > +	 */
+> > +	if (req->sq->dhchap_c1)
+> > +		nvmet_auth_sq_free(req->sq);
+> > +
+> >   	if (ctrl->dh_tfm)
+> >   		data_size += ctrl->dh_keysize;
+> >   	if (al < data_size) {
+> I am not sure.
+> The authentication variables should be freed as soon as the authentication
+> completes; the session key is ephemeral and
+> should not be stored longer than necessary and will _never_
+> be used again once authentication completes.
+> The TLS key, OTOH, is used throughout the session and needs
+> to be present while the session is active
+> As such, both sets have vastly different lifetimes, and
+> I would argue that this
 > 
-> John, thanks for the patch. When I ran the new test case in my test environment,
-> it failed. The reported refcount mismatch looks happening in the Part b.
+> void nvmet_auth_sq_free(struct nvmet_sq *sq)
+> {
+> 	cancel_delayed_work(&sq->auth_expired_work);
+> #ifdef CONFIG_NVME_TARGET_TCP_TLS
+> 	sq->tls_key = NULL;
+> #endif
+> 	kfree(sq->dhchap_c1);
+> 	sq->dhchap_c1 = NULL;
 > 
-> nvme/068 (tr=loop) (NVMe multipath delayed removal test)     [failed]
->      runtime  38.579s  ...  38.770s
->      --- tests/nvme/068.out      2026-04-16 20:50:21.228000000 +0900
->      +++ /home/shin/Blktests/blktests/results/nodev_tr_loop/nvme/068.out.bad     2026-04-16 21:30:36.215000000 +0900
->      @@ -1,3 +1,4 @@
->       Running nvme/068
->       pwrite: Input/output error
->      +module refcount not as original
->       Test complete
-> 
-> I have no idea why it fails. Do you have any guess about the failure cause?
+> is actually wrong as we should not modify 'tls_key' here.
 
-I posted a fix for this here:
-https://lore.kernel.org/linux-nvme/20260416051459.GA14802@lst.de/T/#m17eb549aba102198009a37621cb45775841639d9
+I agree with Hannes, and was just about to respond with the same
+feedback.  I think the freeing of the auth temporaries needs to be
+returned to fix the memleak, and the real problem is the setting of
+tls_key to NULL.  That doesn't seem like the right lifetime for tls_key,
+and it looks to be a reference count leak as well.
 
-I should have mentioned this when posting this patch.
+Is the presence of sq->tls_key the best check to see if the socket is
+currently in a kTLS mode?  (it might be, I'm not as up on the target
+code)
 
-About this specific part of the test (checking module refcnt), I was 
-wondering if we should be testing kernel internals like this. But, since 
-it found a problem, I suppose that makes it ok :)
-
-> 
-> Also, please find my review comments in line.
-
-ok
-
-> 
->>
->> diff --git a/common/rc b/common/rc
->> index 5350057..6eae0e2 100644
->> --- a/common/rc
->> +++ b/common/rc
->> @@ -117,6 +117,16 @@ _module_not_in_use() {
->>   	fi
->>   }
->>   
->> +_module_use_count() {
->> +	local refcnt
->> +	if [ -f "/sys/module/$1/refcnt" ]; then
->> +		refcnt="$(cat /sys/module/"$1"/refcnt)"
->> +		echo $refcnt
-> 
-> To suppress Shellcheck warning, please add quotation marks: "$refcnt".
-
-ok
-
-> 
->> +		return
->> +	fi
->> +	echo ""
->> +}
->> +
->>   _have_module_param() {
->>   	 _have_driver "$1" || return
->>   
->> diff --git a/tests/nvme/068 b/tests/nvme/068
->> new file mode 100644
-> 
-> File mode 755 is recommended for consistency.
-> 
-
-ok
-
->> index 0000000..e06fd6b
->> --- /dev/null
->> +++ b/tests/nvme/068
->> @@ -0,0 +1,118 @@
->> +#!/bin/bash
->> +# SPDX-License-Identifier: GPL-3.0+
->> +# Copyright (C) 2026 John Garry
->> +#
->> +# Test NVMe multipath delayed removal works as expected
->> +
->> +. tests/nvme/rc
->> +. common/xfs
->> +
->> +DESCRIPTION="NVMe multipath delayed removal test"
->> +QUICK=1
-> 
-> It is guided to set QUICK=1 for the test cases which completes
-> "in ~30 seconds or less". In my environment, this test case took 38
-> seconds, so I'm not so sure if this test case is quick. How long
-> does it take in your environment?
-
-I think that I will drop this, as the test time run should be > 30 with 
-the delays, below
-
-> 
->> +
->> +requires() {
->> +	_nvme_requires
->> +	_have_loop
->> +	_have_module_param_value nvme_core multipath Y
->> +	_require_nvme_trtype_is_fabrics
->> +}
->> +
->> +set_conditions() {
->> +	_set_nvme_trtype "$@"
->> +}
->> +
->> +_delayed_nvme_reconnect_ctrl() {
->> +	sleep 5
->> +	_nvme_connect_subsys
->> +}
->> +
->> +test() {
->> +	echo "Running ${TEST_NAME}"
->> +
->> +	_setup_nvmet
->> +
->> +	local nvmedev
->> +	local ns
->> +	local bytes_written
->> +	local refcnt_orig
->> +	local refcnt
->> +	_nvmet_target_setup
->> +
->> +	_nvme_connect_subsys
->> +
->> +	# Part a: Prove that writes fail when no path returns. Any reads or
->> +	#	  writes are queued during the delayed removal period. If no
->> +	#	  paths return before the timer expires, then those IOs should
->> +	#	  fail.
->> +	#	  During the delayed removal period, ensure that the module
->> +	#	  refcnt is incremented, to prove that we cannot remove the
->> +	#	  driver during this period.
->> +	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
->> +	ns=$(_find_nvme_ns "${def_subsys_uuid}")
->> +	refcnt=$(_module_use_count nvme_core)
->> +	echo 10 > "/sys/block/"$ns"/delayed_removal_secs"
-> 
-> Shellcheck complains about the line above. I think it can be modified as below:
-> 
-> 	echo 10 > "/sys/block/${ns}/delayed_removal_secs"
-
-ok, I'll check that
-
-> 
->> +	refcnt_orig=$(_module_use_count nvme_core)
->> +	_nvme_disconnect_ctrl "${nvmedev}"
->> +	sleep 1
->> +	ns=$(_find_nvme_ns "${def_subsys_uuid}")
->> +	if [[ "${ns}" = "" ]]; then
->> +		echo "could not find ns after disconnect"
->> +	fi
->> +	refcnt=$(_module_use_count nvme_core)
->> +	if [ "$refcnt" != "" ] && [ "$refcnt" -le "$refcnt_orig" ]; then
->> +		echo "module refcount did not increase"
->> +	fi
->> +	bytes_written=$(run_xfs_io_pwritev2 /dev/"$ns" 4096)
->> +	if [ "$bytes_written" == 4096 ]; then
->> +		echo "wrote successfully after disconnect"
->> +	fi
->> +	sleep 10
->> +	ns=$(_find_nvme_ns "${def_subsys_uuid}")
->> +	if [[ !"${ns}" = "" ]]; then
-> 
-> Shellcheck warns the line above. I guess it can be as follows:
-> 
-> 	if [[ "${ns}" != "" ]]; then
-
-ok, I'll check that
-
-> 
->> +		echo "found ns after delayed removal"
->> +	fi
->> +	refcnt=$(_module_use_count nvme_core)
->> +	if [ "$refcnt" != "" ] && [ "$refcnt" -ne "$refcnt_orig" ]; then
->> +		echo "module refcount not as original"
->> +	fi
->> +
->> +	# Part b: Ensure writes for an intermittent disconnect are successful.
->> +	#	  During an intermittent disconnect, any reads or writes
->> +	#	  queued should succeed after a path returns.
->> +	#	  Also ensure module refcount behaviour is as expected, as
->> +	#	  above.
->> +	_nvme_connect_subsys
->> +
->> +	nvmedev=$(_find_nvme_dev "${def_subsysnqn}")
->> +	ns=$(_find_nvme_ns "${def_subsys_uuid}")
->> +	refcnt_orig=$(_module_use_count nvme_core)
->> +	echo 10 > "/sys/block/"$ns"/delayed_removal_secs"
-> 
-> Again, the line above can be modified as follows for Shellcheck.
-> 
-
-sure
-
-> 	echo 10 > "/sys/block/${ns}/delayed_removal_secs"
-
-Thanks,
-John
+- Chris
 
 
