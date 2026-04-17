@@ -4,81 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DB59F4368B
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 10:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDB80F4368D
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 11:05:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
-	In-Reply-To:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/AzM7p18opdrIRbQiJ7D1n4Cz94lVxIsTHGwVc/LYY8=; b=EABtm0gIGVM0hh4YXexv+AQevg
-	+il9OGTdXMUGrZNgsVvvCpADEEq3VhgDfAcypgf4tPPSR8Pc95hOeCCiCGTtEP7WB3QRCBhcln4DV
-	3bf9kv36l2AV5wBZ4wPk2hC5IuHmUX0yznxlbSNoRx7N6YOuUvBRhy1fxhcZIGJ98eVzkUk9c8MXz
-	ey9PIwlVtphhxYbTUPn7FpAeVxnXZM05Uo8XEUwSBTlUkN1O/ymAJ2503PWuBQmKKhNDuvQgRkfzQ
-	hFjfY5yPrQYLteWX68wdgjqqvYAPGBzjtc2nyygcL0xpF4l7pAef2PA4PK3C3lcmkwpVEPmagIYmW
-	AaNpzqBw==;
+	bh=0Z12sobp7qwjh3xcHWBeA8W79iNahqtVkTOPZr69KVA=; b=jI8hImjjZOSvmVnxqSahhfnGks
+	9lU/R3iP0NqRvbqQapTxW2Zi8gNRm9GLAVv4MpGJ9Dj/bZnKr23qB9dT5EEtB8zH7kpbUYFzbq9vT
+	qh101v9SQF4C94RfQpjVevMF7veokc2lKZIWcZpHkvPeYvRFZrxrsTIge+RkAuLu4cWJoJpg7dSPz
+	I2uEQSovpAnSVLIcKTKN/9hz3q1OmtKvpmQMx+XUJLD/gufZVDtYQj/BW8YNsFoOMTVdRoYCwOwjW
+	L4TcZFA2VUqo1Q0fg0rlZ25Wo9sk/v7JOjA0+aEaIn9ZVWsHgMFvo96mVR7hc4thwfIXE3ppPsB46
+	ds6mw6Bg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDgj8-00000003vgG-3KY0;
-	Fri, 17 Apr 2026 10:47:10 +0000
-Received: from mailout4.samsung.com ([203.254.224.34])
+	id 1wDh0W-00000003x2H-1unp;
+	Fri, 17 Apr 2026 11:05:08 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDgj4-00000003vez-2Jrg
+	id 1wDh0T-00000003x1Q-2s2m
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 10:47:08 +0000
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260417104658epoutp046148d9b6c5687fb0d7b71f4feb84044a~nHyRV74Tv0967509675epoutp04J
-	for <linux-nvme@lists.infradead.org>; Fri, 17 Apr 2026 10:46:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260417104658epoutp046148d9b6c5687fb0d7b71f4feb84044a~nHyRV74Tv0967509675epoutp04J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1776422818;
-	bh=/AzM7p18opdrIRbQiJ7D1n4Cz94lVxIsTHGwVc/LYY8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bctg9cIq0eRdtKQNdQWMtNWAu3WDjSWIs/TtvZIRuKuIOOCbFHLCuNjyH8Dy2oLYl
-	 a9F0sMEQ1wj/t4fhZZwESkBmHj4AanyZnEbZEyuoCiR0BClBcvqhXMNUcRt/tUi11z
-	 h2ztlaNXeyyhMB/YusOn3LhFTgJ/HtdipcPM+evA=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260417104658epcas5p3f24729feff0e9b8e24512c70182dbace~nHyQhq_rX2126821268epcas5p3B;
-	Fri, 17 Apr 2026 10:46:58 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.86]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4fxs5F0MqJz6B9m5; Fri, 17 Apr
-	2026 10:46:57 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260417104656epcas5p1d1b8733d39ab67f94114159c03ad41a0~nHyPMaw9l1400214002epcas5p1u;
-	Fri, 17 Apr 2026 10:46:56 +0000 (GMT)
-Received: from green245.gost (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260417104654epsmtip2a8d99659d3a44407c3d070e0caf7cc46~nHyNY8MHv3196031960epsmtip2G;
-	Fri, 17 Apr 2026 10:46:54 +0000 (GMT)
-Date: Fri, 17 Apr 2026 16:12:16 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: song@kernel.org, yukuai@fnnas.com, linan122@huawei.com,
-	kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
-	kmodukuri@nvidia.com
-Subject: Re: [PATCH V3 3/3] nvme-multipath: enable PCI P2PDMA for multipath
- devices
-Message-ID: <20260417104216.3tdvmfq43uok2ulu@green245.gost>
+	Fri, 17 Apr 2026 11:05:06 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 1C65A443DF;
+	Fri, 17 Apr 2026 11:05:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BE17C19425;
+	Fri, 17 Apr 2026 11:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776423904;
+	bh=ZBam/+xG2IwtfYcUy/KBiLQ1KHTf9QZBls6Dnr28a8o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AvFyvFeREjmDAdzq+8psWIA8mIeGpYdB8CeF3MUYfBA+RkSMQUHoGqtKH7QHKdCKC
+	 2ziWJs+xs1ZKK9VOB93JPcIcSbB6YUFrJTcRNNUKt6iU/bWccR43BmYYLpjHZJFWU7
+	 /QaA8VFRcDM4eyAb4klUKVUsLktjZJNZaHKJmoJTgLiyDyvm6/irO4kgIcWE0qYFzB
+	 5Q4aB31M1By3TjCLY7En3DHMB2XI3OpK7M7fTDsUD6jGmXTJSu5m3gUiT0rC4oGlvc
+	 SYNmN94UfzmfuA2oVZ7qwx4bljISWb9K4J1Ksy/TEGMLjownF0KUqNNpwNtYR58G4c
+	 3GaNAOGX6Bh7Q==
+Date: Fri, 17 Apr 2026 16:34:53 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: manivannan.sadhasivam@oss.qualcomm.com, 
+	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 0/4] PCI: Introduce pci_dev_suspend_retention_supported()
+ API
+Message-ID: <3smfckgl2vwhha7rtlqlpfzlfpg2rebyump77cbi5pcgwubn3y@d66eu7axo7xi>
+References: <20260414-l1ss-fix-v1-0-adbb4555b5ab@oss.qualcomm.com>
+ <20260416191111.GA21551@bhelgaas>
 MIME-Version: 1.0
-In-Reply-To: <20260416212633.72650-4-kch@nvidia.com>
-X-CMS-MailID: 20260417104656epcas5p1d1b8733d39ab67f94114159c03ad41a0
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----njBzzhCGtS-aHlIth.2Pj0w1Th4tsb8PwJn50ZNtPKFt4kYn=_21b21_"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260417104656epcas5p1d1b8733d39ab67f94114159c03ad41a0
-References: <20260416212633.72650-1-kch@nvidia.com>
-	<20260416212633.72650-4-kch@nvidia.com>
-	<CGME20260417104656epcas5p1d1b8733d39ab67f94114159c03ad41a0@epcas5p1.samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260416191111.GA21551@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260417_034707_250042_A03EFE2D 
-X-CRM114-Status: GOOD (  10.17  )
+X-CRM114-CacheID: sfid-20260417_040505_758799_617F744C 
+X-CRM114-Status: GOOD (  29.99  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,48 +78,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-------njBzzhCGtS-aHlIth.2Pj0w1Th4tsb8PwJn50ZNtPKFt4kYn=_21b21_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+On Thu, Apr 16, 2026 at 02:11:11PM -0500, Bjorn Helgaas wrote:
+> [+cc Rafael]
+> 
+> On Tue, Apr 14, 2026 at 09:29:38PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> > This series introduces a new PCI API
+> > pci_dev_suspend_retention_supported() to let the client drivers know
+> > whether they can expect context retention across suspend/resume or
+> > not and uses it in the NVMe PCI host driver.
+> > 
+> > This new API is targeted to abstract the PCI power management
+> > details away from the client drivers. This is needed because client
+> > drivers like NVMe make use of APIs such as pm_suspend_via_firmware()
+> > and decide to keep the device in low power mode if this API returns
+> > 'false'. But some platforms may have other limitations like in the
+> > case of Qcom, where if the RC driver removes the resource vote to
+> > allow the SoC to enter low power mode, it cannot reliably exit the
+> > L1ss state when the endpoint asserts CLKREQ#. So in this case also,
+> > the client drivers cannot keep the device in low power state during
+> > suspend and expect context retention.
+> 
+> I don't know what pm_suspend_via_firmware() means.  The kernel-doc
+> says "platform firmware is going to be invoked at the end of the
+> system-wide power management transition," but that doesn't say
+> anything about what firmware might do or what it means to drivers.
+> 
 
-On 16/04/26 02:26PM, Chaitanya Kulkarni wrote:
->From: Kiran Kumar Modukuri <kmodukuri@nvidia.com>
->
->NVMe multipath does not expose BLK_FEAT_PCI_P2PDMA on the head disk
->even when all underlying controllers support it.
->
->Set BLK_FEAT_PCI_P2PDMA unconditionally in nvme_mpath_alloc_disk()
->alongside the other features.  nvme_update_ns_info_block() already
->calls queue_limits_stack_bdev() to stack each path's limits onto the
->head disk, which routes through blk_stack_limits().  The core now
->clears BLK_FEAT_PCI_P2PDMA automatically if any path (e.g., FC) does
->not support it, consistent with how BLK_FEAT_NOWAIT and BLK_FEAT_POLL
->are handled.
->
->Signed-off-by: Kiran Kumar Modukuri <kmodukuri@nvidia.com>
->Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
->---
-> drivers/nvme/host/multipath.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
->index ba00f0b72b85..957e39c4795d 100644
->--- a/drivers/nvme/host/multipath.c
->+++ b/drivers/nvme/host/multipath.c
->@@ -734,7 +734,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
-> 	blk_set_stacking_limits(&lim);
-> 	lim.dma_alignment = 3;
-> 	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT |
->-		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES;
->+		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES | BLK_FEAT_PCI_P2PDMA;
-> 	if (head->ids.csi == NVME_CSI_ZNS)
-> 		lim.features |= BLK_FEAT_ZONED;
+It's hard to predict what the firmware might do after it gains control from the
+OS. But as far as the API goes, it just expects the drivers to save the context
+and reset the device so that the firmware could do anything it want.
 
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Based on d916b1be94b6 ("nvme-pci: use host managed power state for
+> suspend"), which used it in nvme_suspend(), I guess the assumption is
+> that pm_suspend_via_firmware() means the device might be put in D3cold
+> and lose all its internal state, and conversely,
+> !pm_suspend_via_firmware() means the device will *never* be put in a
+> low-power state that loses internal state.
+> 
 
-------njBzzhCGtS-aHlIth.2Pj0w1Th4tsb8PwJn50ZNtPKFt4kYn=_21b21_
-Content-Type: text/plain; charset="utf-8"
+Yes, that's the assumption. Though, the firmware might not do D3Cold at all,
+but the drivers should be prepared for that to be compatible with all firmware
+implementations.
 
+- Mani
 
-------njBzzhCGtS-aHlIth.2Pj0w1Th4tsb8PwJn50ZNtPKFt4kYn=_21b21_--
+-- 
+மணிவண்ணன் சதாசிவம்
 
