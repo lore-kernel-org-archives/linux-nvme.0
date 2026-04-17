@@ -4,82 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BAF55F8E49F
-	for <linux-nvme@archiver.kernel.org>; Sat, 18 Apr 2026 13:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D21B4EA719F
+	for <linux-nvme@archiver.kernel.org>; Sun, 19 Apr 2026 15:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=nhO9k5hRkc5XsEk7HHGwbjhBp4VezrPvI7ZN4hGepUQ=; b=H+OJf4IfypX0W0aib/1iANkYoX
-	rSA4vwJRWDM67KArmlXkVWpP8VWEsyuM0btKdlCZ9uNpRy6zCcOh0zdzk75l9wUagbcQ20XDcShYq
-	Hw1YiJNkt74ZviqXCYiIDGPVyFhmI1ywtcqBNVLxVTV7AgWMsIAyij0qCb3c8VJHGy0uxZsvoCld+
-	ckxzxXI79sUr8g5gYKY6TmUNui17dCztWdbbV06kkPjIwmjq0avVtOYaim79/521YLNqT/F6QUIeL
-	/gm0oP9N4z05RgY9w1G83oOxo2aqlY2Ja2EJCyJhBn+q2h2azFfatgCQ505YYIm50lbFd/0Y3njmN
-	G7mF7Yog==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=vPAaXhBXd7lv1daqcMYZDDTsptjZ97dPCkF6r5fCDZE=; b=PdXMPqlc8KtH5LOvcL4E1yploH
+	l3s4xnwuBteUB9gcpwpmuxPjw7DVHOi/y5UMQN3tCLTycPmswioh85RVb6kn9LvJTRIQidEwi1Vra
+	FogLdNLLxexP56s9SeinX8cgyKIRDxp1ZmJn+EC1GKPQAbWBDw5vyATTyvihwW42UY/BLvL8EkZgA
+	VuYheCi3+hNwA+E8J5gRHQZ+8dNRHac/OCXyjoUZR93MaaLjYpJXBpbKJDnAxSt7gerOip8brvYYz
+	r54su/oQkNUnOqs+GHVAjnOKOgCRsMS+6JxvvfUdksv1Qz4tzCSjCAMr4quBHkmi6LHUkFsX6K85v
+	S5OSFuJA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wE5NE-00000004zTd-38wX;
-	Sat, 18 Apr 2026 13:06:12 +0000
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+	id 1wETvb-00000005swU-2kFJ;
+	Sun, 19 Apr 2026 15:19:19 +0000
+Received: from mail-ukwestazlp170120004.outbound.protection.outlook.com ([2a01:111:f403:c206::4] helo=CWXP265CU010.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wE5NC-00000004zTJ-1CKW
+	id 1wDnab-00000004MR7-1D4B
 	for linux-nvme@lists.infradead.org;
-	Sat, 18 Apr 2026 13:06:11 +0000
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-82f431c0ab6so733653b3a.0
-        for <linux-nvme@lists.infradead.org>; Sat, 18 Apr 2026 06:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776517569; x=1777122369; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nhO9k5hRkc5XsEk7HHGwbjhBp4VezrPvI7ZN4hGepUQ=;
-        b=AhtBDNDqW7xerWR1pBJcVJ+tqrIiUZI7u/R3+Ou0ntAPkOE657jnBXJ9IyBsn5E5FN
-         HwMlr6IOibzurVek4Y/MF6ve080kJt0IbVJA9i435IMwxhX1OMsYvmY6Eh974YhlzjTC
-         NuHB/goCJ7y+hf4OwIgWkxvnnmuLde81xbms2vanq6ASIuTH+2c93720XBIs8lbfdTYd
-         Bm5XotsdBQXs6SiFugRd2dwIywk1/pUKGpatkbjVP0Q/pbPyqBMDvOh11UaU99+pl5tv
-         2gxNSC/nH+v6z3+oKmL2MK00TUMAESN+/i7Lxq59h0BBZzhEyGVEAVB6IOGGz6Gmyla4
-         BbFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776517569; x=1777122369;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nhO9k5hRkc5XsEk7HHGwbjhBp4VezrPvI7ZN4hGepUQ=;
-        b=tEtIz7tXK179xb7a3XDlyuFHwgcljP7A2qpZw5lEZZL03v2nEMKahs+NP0UfArf8pG
-         0uW6Ns8xibRQUgGoXbjPJBtaJdE7S87O80J/UYuewR4E3OiCVhn5zPtG+OVqv+Ie/xyn
-         OSKHbVMVfQRYTVDlRypIlwfOv96AMwspzBKy6yUbM4aWppLCPUcnzu+Xv9HYD7WCLYGc
-         AYKMafrVM+h9qptzE9MQZAaV9dgrZOdZOnNuzZ0CqQG7fJLTy6JVqqm6F1Aa/N711EG9
-         AqEm+ZY94/3ewehW4fwBeHe3VTShj+1VxhongXT0oeSWBqNBBK+Bvan5IWv3lVKgASVw
-         NhIQ==
-X-Gm-Message-State: AOJu0YzrR+vIqlf4nMZ3WAJKXdAjsaj9ePe8KIvWa+UPozi0EKkq/sMl
-	ZzOhLBcM/t14vxwtoGP0JChLt+hfmQJnt9FTUJRsmNwCxjM33GjFAJ1Qd4XMpA==
-X-Gm-Gg: AeBDieuI1lXJibyC/osWHSP1jqHwvnsRQQ8m6IjMRbFxl/2G7ptzNqgr/6kabOTxhmZ
-	XStU4ijvfmdSYysTir7HEUEw1QZFEO6aYNAvq/Xc5e6j5DikAbwQZoFyOf4uXMUcEs+ZflDCoWH
-	goDOvqoAjKsW85FTnQ9GLqm8VJt/R0rW44bYYf2ljw9JXJPQDIpn1TwTZsu3P0FTAkITO6f1E14
-	WJXZzvzk0vaGZcW2hEvDYjMrmgWNwzuaC4oyJmpG1L5iJNaO6CYgWj8tM8wHh6qK1LxIhyoKZLH
-	nbCFwfv27AX7tZoB09XMYKDNyyZ6FmV2P9kxJKdQ7LMeZK0Tn7n1TiEwQbkvy2HwJzqA/NZJWfw
-	FHJZPALQIiCPr18Ufzq8krDk43QOD+PL45krGXAiUXccAQ+VlTXYs7Bye6H4B1ykw2D84LBDX2p
-	jftZwDjAM2SE4zp/PJ5Xq01vJFKeGpiyFW+ujkBHRPTgwIt8o=
-X-Received: by 2002:a05:6a00:4408:b0:82c:6b1b:7ad4 with SMTP id d2e1a72fcca58-82f8c84d3aamr6912086b3a.3.1776517569056;
-        Sat, 18 Apr 2026 06:06:09 -0700 (PDT)
-Received: from tokunori-X570-Taichi ([240b:10:2720:5500:9a84:5d43:e9e2:a5d0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e9819fesm5064550b3a.4.2026.04.18.06.06.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 06:06:08 -0700 (PDT)
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Tokunori Ikegami <ikegami.t@gmail.com>
-Subject: [PATCH] nvme: set NCC and NIC effects for NS mgmt and attach
-Date: Sat, 18 Apr 2026 22:05:59 +0900
-Message-ID: <20260418130604.23441-1-ikegami.t@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	Fri, 17 Apr 2026 18:06:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I9UVLoZeQvZIwNJNGAdFk2skxxuKWJQi46F13aq9ekqe+QCY9Ze5tUlUg+Pqn4BHk/px780z0oZlOdonv1Jn1LDEiNG8TMvvkuWDYbQPB6klFY2+s4r6WalSxa/ZwAWcazOPmEOzKFHRByStDpAYAfS+b6iqDVa9EiWRXpcWnnn7dl873lBvYQXf2hZcIctQIKc4EV5qvq9JkCt4gw8dxdtapnipGxa3SXono1PIeKc3pzGAxZBWe86TcY3ifVBe0b3En9IChiZ/pzbGSFihse/himIUNVAoixnuzpXV7n2fZN0s9OCDh6R1vqZcZSHFjxDqDetQ3d6LKo/wtEDklA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vPAaXhBXd7lv1daqcMYZDDTsptjZ97dPCkF6r5fCDZE=;
+ b=CSYX8AmPFXgUV3uyiy9c6WZireDrfvJcjKPysWcCFf9R97Ci2GuJ/BGbqQl8CuG8iaJHMJa/iYO06LD27xePc7TGEBl03KFOIwXpkhkFo/frQFqbSQt/3Sj5Tjgwdxvom4Bf4ga1Bo/fPNO1LiMxe5+snqVDzEN7u5ZYIwb/7nS0q+0OTryHZpfLsL8i1KExaUPvIfvUTCfUNnuuMkJ1/4JY4umjzmyIoPyz6Xe7KxNWEJwqlU+0qjmXnv7bmy/VBj4FIAiHMG4m92dFnuiwX0590PJtFx8QzuqWa8hxeS6cRfZulKO1v7S/eaqnu8Xpl3FwMmvrx0YpBbApyDk/uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO7P123MB8117.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:450::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
+ 2026 18:06:44 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.046; Fri, 17 Apr 2026
+ 18:06:44 +0000
+Date: Fri, 17 Apr 2026 14:06:39 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: James.Bottomley@hansenpartnership.com, 
+	MPT-FusionLinux.pdl@broadcom.com, aacraid@microsemi.com, akpm@linux-foundation.org, 
+	axboe@kernel.dk, bigeasy@linutronix.de, chandrakanth.patil@broadcom.com, 
+	chenridong@huawei.com, chjohnst@gmail.com, frederic@kernel.org, hare@suse.de, 
+	hch@lst.de, jinpu.wang@cloud.ionos.com, juri.lelli@redhat.com, 
+	kashyap.desai@broadcom.com, kbusch@kernel.org, kch@nvidia.com, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	liyihang9@h-partners.com, longman@redhat.com, martin.petersen@oracle.com, maz@kernel.org, 
+	megaraidlinux.pdl@broadcom.com, ming.lei@redhat.com, mingo@redhat.com, 
+	mpi3mr-linuxdrv.pdl@broadcom.com, mproche@gmail.com, mst@redhat.com, neelx@suse.com, 
+	nick.lange@gmail.com, peterz@infradead.org, ranjan.kumar@broadcom.com, 
+	ruanjinjie@huawei.com, sagi@grimberg.me, sathya.prakash@broadcom.com, sean@ashe.io, 
+	shivasharan.srikanteshwara@broadcom.com, sreekanth.reddy@broadcom.com, steve@abita.co, 
+	suganath-prabu.subramani@broadcom.com, sumit.saxena@broadcom.com, tglx@kernel.org, 
+	tom.leiming@gmail.com, vincent.guittot@linaro.org, virtualization@lists.linux.dev, 
+	wagi@kernel.org, yphbchou0911@gmail.com
+Subject: Re: [PATCH v11 11/13] blk-mq: prevent offlining hk CPUs with
+ associated online isolated CPUs
+Message-ID: <cgekb2d2jqw3syuiqk4fyta3iawhjkg7jvoeh5cpq62gcqinbv@77weoahh36oq>
+References: <20260416192942.1243421-12-atomlin@atomlin.com>
+ <20260417161116.373130-1-marco.crivellari@suse.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ecd72ejjb7lu2kts"
+Content-Disposition: inline
+In-Reply-To: <20260417161116.373130-1-marco.crivellari@suse.com>
+X-ClientProxiedBy: BN9PR03CA0934.namprd03.prod.outlook.com
+ (2603:10b6:408:108::9) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO7P123MB8117:EE_
+X-MS-Office365-Filtering-Correlation-Id: b67531fa-906b-44c0-3681-08de9cac1530
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: /9os53Ch4xDlsjB5p+X5TXT5PBR48Nj9Fqdl4btTRHZ9lOQ1I/kLWTmDJaqi0/kx7zSQmPUtjVRXyvfytvWTki7vvSa4QwsgaI3+kJN+KKbTENI0yPsphQ6w+kqkLEQ3dztgPYQXRD8MIIZRIsaTvZ5IgtALyAiaXKr3FzM4xZ0Z8QB2a7RkSZZ7851E5iv/axteHCL7C7c5pmgC0DsLqetjAEYoRqywNLjyuI9/tjOHnl0XB+VNPmyd9+m7MV4MDxVqtURjJ7olYnNhXtmtQDaeeIjAo3HgMN2fHPqbYUaTejbU9dks5pO71D4l/hLAc9Gfix5vidmjNr8YUjEqDfmcVoHJ8wvwVF//eNihKBCMxbuhYcV4wPK+dv7o5qH1m0y/3fZVC3mBSD+EhdMRlpb+kNZFBRU0cwDtvp5j5C/Nq0i10kg1nGY1QE2p31vr+6SUPJnOQQfd1HDuN0mbTpcgj9TPbBtfY1TFX4f/Lpe7+2DU7eZTa/xiQMfGNv8pUHnoQcp6VrwgniXYAXVRrb8iLRd3fkNwx2mGZYdn27on/AXCFvR4fUIOob+PpZ7K2SPjjioLs7kyoDUgvceyUeQ2kYFVYa693rs0Yx9Ao1efEvVCyi+a7rKNraeQqjdkVX5jRAcPl0CR+Nyyt3S8CCKQYzcVdVi9CpuzDIi6CVfeos40fqdAKEgy4AIXhH4+cizQyZLYaWiffEyNI4jmI8WeLW9cG9btUNRtZSa0B+Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmU1Sjdwbi9jV2I2eG4wQXI0cXpFQk9aVCtSeHoyR09YbmdmaTRLWkRDSFdZ?=
+ =?utf-8?B?cFdNMVAyNVM2MmRCOEQzWVJmZWJ5WTJmUUJSSVpGb3Q4RlJwNDJydExBd3M3?=
+ =?utf-8?B?WGo0QXpZa3pjVGx6UGZyUmlEZkxZdmVuTmI5VjBoeFk0Ry9RMGNLM2M3OWlE?=
+ =?utf-8?B?OHY3UGdxVGUxeWFsRXRhRFJWaFg0YUFoNCtxM2lONWhaaGxUUUhRQnF1YVRS?=
+ =?utf-8?B?azhlN0VLYTNQTXlNbi9iU0g3b3dGMDQrMXVOYVRBQlJHZWNHNG8vWS8vMEVq?=
+ =?utf-8?B?ZzJFZDdDTFZzSjBXNHArQ3VNWDhPSUhqR2RkY1FEL0VtR1VWYmIySTlnbHdK?=
+ =?utf-8?B?czdscENiSzQ1MWwzOG1HajVIRHdoRWVZK2FhZUZlSUg1aG1LeU1BUTFCdTMr?=
+ =?utf-8?B?S045bzFZZStQeXZiWVBkUCtnY0FaRHc0bFJpUHhZQkZ2ZXhlNVhRSVk5Ykl4?=
+ =?utf-8?B?eUl3bVdmMmlIb3dxMXNwTDVxRXFHREZsOFlKaFpSalNhNUNkWno1RnFWUC9F?=
+ =?utf-8?B?dnY4dExzTEE2Mzk4ZVJUbFFOKzZYQitXUm8vSGxySi9kVFhjSUk0Z280dCt1?=
+ =?utf-8?B?ZVpTQjNoSmpoVFBRVkl0T3ZrOGxKdi9wOXlmSy9ROEN6RVNYVVZKRXArbXc3?=
+ =?utf-8?B?VzJZQ2EyUDhSU1ZlU3FyYXdJR2ZYamJzTFQyU0laVm12K0xkbjNkWXUrSXpZ?=
+ =?utf-8?B?aDBPWTdWMG9xWERCY21jVDk4YUpnVTlQL2w1QVlPVHJhenRhanJVUWFFZ0Rx?=
+ =?utf-8?B?cTVDK2lSaXQwMDViSmxRdGM4aFl0a2U2NndvNEVpN2gyNWs4bE00OVIzOGhX?=
+ =?utf-8?B?V2JCa1dSMFJGVnFlSnhJQm1QeW9FUTdvYlduc1lUUS9LbU9uRWRQR25xOXc1?=
+ =?utf-8?B?c0drQjdqNTZ3V25BOTBVUzNSbWFGaWNsSGNaTDhKSHowYVF4cEI1Wkt5MEZl?=
+ =?utf-8?B?S2NReHFGZ3RnZWh4cWI5cXA3RWRGQ3hvc05lc2hKckUramw0UHo0M0tjTVNT?=
+ =?utf-8?B?ZlVCWm1pbWZMa2JpaUdlSXoyd0tUME1Rc1prZTE0Q011MEg2VHJwSEU2YVZT?=
+ =?utf-8?B?b2FrMjVnMFY5WXdmS05pMU50Wk5rbllCcjB1YmlrU3hyMDMyRVZPaGx2dWdX?=
+ =?utf-8?B?MmpoTTNVakwvS3laT3E2MW8vMEM1blFQSDE5SmhmRGV5VERqRVRXbCtpMHlG?=
+ =?utf-8?B?Rkp2aXoxeEJmcVZuS3lxV2NFaVNkTWhraHRudTFrRU1md3RlcEw0WnFVTDNv?=
+ =?utf-8?B?Y25pNzcvQjBTWHNnd3crd3BGTlpnci9rd0d2aHM2czBZdllIZ2FjbGZWVHp5?=
+ =?utf-8?B?Tk1qaHdRdHJOM1RjSTgxeHFTRjcrSkRyME5UZUtuSThLOGNoc3hjQkxzTmJl?=
+ =?utf-8?B?alFIa3VrVXkvcWZOdnRpeTVaN3BLV3NMeGE1aUJBSzIvVnVhV0lyZE1HQ0l2?=
+ =?utf-8?B?U1VsRWhFa3h1aGhVTkFLMExMT202ZFo4QzN2YWVBVW9FcDAyR2d3STl1NmdX?=
+ =?utf-8?B?MGlCVFpqTWFaTEdSSmZFSURyaDI4REx3MUVvTVlGeE9pVU44YmtLWWprbnhZ?=
+ =?utf-8?B?QWl6VloxZnNKcTVrVHNpSVdydjFsVHppQjdJRmIzYWNYWHNQaExLT0VaVXpL?=
+ =?utf-8?B?TlpCVVJaNEpSNzhkc0w3UnVETDVjLzRsc2NJWDBia0gvc0pwSlpYeXNWMnRT?=
+ =?utf-8?B?dnZ0d05LTFV6MUZmN1c2VkNwVDNoNmFYWm12Q3M5ZnBQbHZTV2c4SUpyQVU1?=
+ =?utf-8?B?ejlad0tjSWJXR0NyTnhxYmpEdlVFaDVNbjhqMzZiQnhHVmdncS9ZU3VtazZN?=
+ =?utf-8?B?b2Rxb2ppR1pHTUFkNjZIejlLcXBzMmdPdTRSY1FKUzUvMGlNTUd4T1VEMXp4?=
+ =?utf-8?B?S2VPY2V6M0VROGFwdEl5SjE4U3llcEVqMGU2UktVSDgvQ0pxVW1kSm90OXlE?=
+ =?utf-8?B?ME95dEZyYkpuOWNpL2l3Y3pXWjc3Mzd6VVhCZ3JDTFlYUWVQVzYxdDM2T2N5?=
+ =?utf-8?B?OU91TS9hamFuMDl0R0hIb2d4U3piRm0zcktvVVJrNUQ0MGwwNXpoaVo0YTVP?=
+ =?utf-8?B?akdzR1VrTE1UcUdhcXlWeng0djkzMjlNejl6QnJhZmIwVnIrN1dvVmNqRWl2?=
+ =?utf-8?B?ei9wS3BwZ1pLV0liSGVpa01IMEhUNitEeEJrWDBwdU81Y0oyMzFWMU1uZW1W?=
+ =?utf-8?B?WHZTb0Izbjd5SFAvdTcra0prUmZ6UjUvS2VKUVZ3RnFESVFsYUY1K09ja3RH?=
+ =?utf-8?B?d0NhWitDb2xVb1JvakxFN2RkT0ZzTE5IZGpWcjhWdkRaRDZoQVBHUFN3bDlx?=
+ =?utf-8?B?WVd3bDlIMGE4ajJQUUFCNGdhMmZYd1FvOTVEZ20rZ243Vmh6eGN1dz09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b67531fa-906b-44c0-3681-08de9cac1530
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 18:06:44.0657
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eJxA/TJi1xyP5X1X0aPA6HPoV9WcxfjfX1Wviia9dfc/1J1Pfv4EXUwaNgKPse3dkE5owLc2Q7lUNjchr09Rjw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P123MB8117
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260418_060610_323315_34DABC18 
-X-CRM114-Status: UNSURE (   9.60  )
+X-CRM114-CacheID: sfid-20260417_110649_355510_1F7DEB79 
+X-CRM114-Status: UNSURE (   8.81  )
 X-CRM114-Notice: Please train this message.
+X-Mailman-Approved-At: Sun, 19 Apr 2026 08:19:13 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,30 +158,47 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is to make sure scan_work done for the commands.
+--ecd72ejjb7lu2kts
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v11 11/13] blk-mq: prevent offlining hk CPUs with
+ associated online isolated CPUs
+MIME-Version: 1.0
 
-Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
----
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Fri, Apr 17, 2026 at 06:11:16PM +0200, Marco Crivellari wrote:
+> Hi,
+>=20
+> Seems like the commit log of this patch is duplicated, isn't it?
+> I noticed it's like this from v7.
+>=20
+Hi Marco,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1f973d88c830..1ed1fc866f3f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3448,8 +3448,10 @@ static int nvme_init_effects_log(struct nvme_ctrl *ctrl,
- 
- static void nvme_init_known_nvm_effects(struct nvme_ctrl *ctrl)
- {
--	struct nvme_effects_log	*log = ctrl->effects;
-+	struct nvme_effects_log *log = ctrl->effects;
- 
-+	log->acs[nvme_admin_ns_mgmt] |= cpu_to_le32(NVME_CMD_EFFECTS_NCC);
-+	log->acs[nvme_admin_ns_attach] |= cpu_to_le32(NVME_CMD_EFFECTS_NIC);
- 	log->acs[nvme_admin_format_nvm] |= cpu_to_le32(NVME_CMD_EFFECTS_LBCC |
- 						NVME_CMD_EFFECTS_NCC |
- 						NVME_CMD_EFFECTS_CSE_MASK);
--- 
-2.51.0
+Yes, that is correct. Thank you for bringing this to my attention.
 
+Kind regards,
+--=20
+Aaron Tomlin
+
+--ecd72ejjb7lu2kts
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnidq8ACgkQ4t6WWBnM
+d9YjDg/8DZ1Hu1plSV/eCB02YDOOCu7qr7cxF5c+jTOTNrynezJB/arpUh3M5ePD
+gWbhkcl5FQDUQwDPiUcb+6UMJZC+dVLuJBCyPZeyPKAXVGXeLGf1Wx/VIrv6j08S
+t8VLakxJ6kFDl/ftep073/bDvKCnqk7M+YnIpVO9YSBPKJffI7qHRmQwIngeBVvd
+QkF7uL52lQcrD9SHFfgmdmf+A6CYYjsP1bIxP7x15OOShwvrW4lOOJ2O1dp01MFM
+DTrXrZmmI4F2lIRfr0GCRKpPBvV8ruB7A8J1A4axfA17WcIkEbCcfz0QynjnQ5Xu
+Qvvzy7XMfL3lp6FLEqZd3S6T/55kTRAbcZxD1kvZVp4vxw1yMzylpyMpRDFahZCH
+bNoIler73vG/vIycn9bIijuKXi7h0fSJdloDp4ylT9EI/t7MG5QZMoeEyiTc8mo3
++eYN+uJRxI0P2BWB05xtjlR65DPt9KgIuJRqXSt0/oyWNXjPp/xz7wn5YSiUBSph
+EbWOtU4RLKEMPrg0XFcIDa/WIY8qxYlULoO6pyGZ4/9yAMWyOSjaOszgqpPAWg89
+2GJX8M2MdlxRs7megFkxN7B2HKsRIryiru57n7m2mXjsf17lrwQAYosmE/mGGvfc
+rkcse7W6Qx1NEdWfwxtVkIeqNrbkVBebBk9wYEPgqIL59Iva1Lk=
+=C89G
+-----END PGP SIGNATURE-----
+
+--ecd72ejjb7lu2kts--
 
