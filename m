@@ -4,146 +4,137 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D21B4EA719F
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E70CEEA71A2
 	for <linux-nvme@archiver.kernel.org>; Sun, 19 Apr 2026 15:19:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=vPAaXhBXd7lv1daqcMYZDDTsptjZ97dPCkF6r5fCDZE=; b=PdXMPqlc8KtH5LOvcL4E1yploH
-	l3s4xnwuBteUB9gcpwpmuxPjw7DVHOi/y5UMQN3tCLTycPmswioh85RVb6kn9LvJTRIQidEwi1Vra
-	FogLdNLLxexP56s9SeinX8cgyKIRDxp1ZmJn+EC1GKPQAbWBDw5vyATTyvihwW42UY/BLvL8EkZgA
-	VuYheCi3+hNwA+E8J5gRHQZ+8dNRHac/OCXyjoUZR93MaaLjYpJXBpbKJDnAxSt7gerOip8brvYYz
-	r54su/oQkNUnOqs+GHVAjnOKOgCRsMS+6JxvvfUdksv1Qz4tzCSjCAMr4quBHkmi6LHUkFsX6K85v
-	S5OSFuJA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=WF57saiDQPuLgei3ntL2rXLAGu55hVNv5gn2ybVfrAg=; b=PCSC4beabenKZzQfsLsA1lFrL1
+	Wo9ncJS97Ljv/C01YVB3ciORv+vUYBScKMz3BjZlTncTT18WMD/UYgieC2eUE+d/5Lk5TUvvJ03Op
+	53yeozCVow3Bztzuk8Fc8GhCpylVX0b65WtHfvwrSG/CbU/EopV+EI4K8b61ppZBplidFY3nNSGgT
+	wDjJitsXL4wmSvDSH5EOc6r3j+Ef/VEo0z7xT/rR4JXxMD8ZZFl/xkTCK0ioW6hqxtdSzZtybIfVh
+	tPjTu8/VsXJAnKjZxr5jPDqRKNvgpca1pM+SrpEF94DMWiKUGIjK8zbL2E1XCW69odda5kz/1tIrb
+	+DCUvjDg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wETvb-00000005swU-2kFJ;
+	id 1wETvb-00000005sw1-17fq;
 	Sun, 19 Apr 2026 15:19:19 +0000
-Received: from mail-ukwestazlp170120004.outbound.protection.outlook.com ([2a01:111:f403:c206::4] helo=CWXP265CU010.outbound.protection.outlook.com)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDnab-00000004MR7-1D4B
+	id 1wDln1-00000004FZp-2zFh
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 18:06:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I9UVLoZeQvZIwNJNGAdFk2skxxuKWJQi46F13aq9ekqe+QCY9Ze5tUlUg+Pqn4BHk/px780z0oZlOdonv1Jn1LDEiNG8TMvvkuWDYbQPB6klFY2+s4r6WalSxa/ZwAWcazOPmEOzKFHRByStDpAYAfS+b6iqDVa9EiWRXpcWnnn7dl873lBvYQXf2hZcIctQIKc4EV5qvq9JkCt4gw8dxdtapnipGxa3SXono1PIeKc3pzGAxZBWe86TcY3ifVBe0b3En9IChiZ/pzbGSFihse/himIUNVAoixnuzpXV7n2fZN0s9OCDh6R1vqZcZSHFjxDqDetQ3d6LKo/wtEDklA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vPAaXhBXd7lv1daqcMYZDDTsptjZ97dPCkF6r5fCDZE=;
- b=CSYX8AmPFXgUV3uyiy9c6WZireDrfvJcjKPysWcCFf9R97Ci2GuJ/BGbqQl8CuG8iaJHMJa/iYO06LD27xePc7TGEBl03KFOIwXpkhkFo/frQFqbSQt/3Sj5Tjgwdxvom4Bf4ga1Bo/fPNO1LiMxe5+snqVDzEN7u5ZYIwb/7nS0q+0OTryHZpfLsL8i1KExaUPvIfvUTCfUNnuuMkJ1/4JY4umjzmyIoPyz6Xe7KxNWEJwqlU+0qjmXnv7bmy/VBj4FIAiHMG4m92dFnuiwX0590PJtFx8QzuqWa8hxeS6cRfZulKO1v7S/eaqnu8Xpl3FwMmvrx0YpBbApyDk/uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO7P123MB8117.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:450::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
- 2026 18:06:44 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.046; Fri, 17 Apr 2026
- 18:06:44 +0000
-Date: Fri, 17 Apr 2026 14:06:39 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Marco Crivellari <marco.crivellari@suse.com>
-Cc: James.Bottomley@hansenpartnership.com, 
-	MPT-FusionLinux.pdl@broadcom.com, aacraid@microsemi.com, akpm@linux-foundation.org, 
-	axboe@kernel.dk, bigeasy@linutronix.de, chandrakanth.patil@broadcom.com, 
-	chenridong@huawei.com, chjohnst@gmail.com, frederic@kernel.org, hare@suse.de, 
-	hch@lst.de, jinpu.wang@cloud.ionos.com, juri.lelli@redhat.com, 
-	kashyap.desai@broadcom.com, kbusch@kernel.org, kch@nvidia.com, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	liyihang9@h-partners.com, longman@redhat.com, martin.petersen@oracle.com, maz@kernel.org, 
-	megaraidlinux.pdl@broadcom.com, ming.lei@redhat.com, mingo@redhat.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, mproche@gmail.com, mst@redhat.com, neelx@suse.com, 
-	nick.lange@gmail.com, peterz@infradead.org, ranjan.kumar@broadcom.com, 
-	ruanjinjie@huawei.com, sagi@grimberg.me, sathya.prakash@broadcom.com, sean@ashe.io, 
-	shivasharan.srikanteshwara@broadcom.com, sreekanth.reddy@broadcom.com, steve@abita.co, 
-	suganath-prabu.subramani@broadcom.com, sumit.saxena@broadcom.com, tglx@kernel.org, 
-	tom.leiming@gmail.com, vincent.guittot@linaro.org, virtualization@lists.linux.dev, 
-	wagi@kernel.org, yphbchou0911@gmail.com
-Subject: Re: [PATCH v11 11/13] blk-mq: prevent offlining hk CPUs with
- associated online isolated CPUs
-Message-ID: <cgekb2d2jqw3syuiqk4fyta3iawhjkg7jvoeh5cpq62gcqinbv@77weoahh36oq>
+	Fri, 17 Apr 2026 16:11:32 +0000
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so6110055e9.3
+        for <linux-nvme@lists.infradead.org>; Fri, 17 Apr 2026 09:11:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1776442289; x=1777047089; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WF57saiDQPuLgei3ntL2rXLAGu55hVNv5gn2ybVfrAg=;
+        b=Do80Ib8OETlHAyJvUg7n/d4n5Hpw0B1u5fJ/0MLpBoKy9OqoOhrKjN36Bpp/ZVJSLM
+         rMs4qrAiPUyJCiFxLg9Wso1aFll3nxk5oi+T+F9m5N3Jr5LLQhSjj0ySJBP1sagIF5nS
+         fkE5ALjiQbHlQOJ0NihdrE0a9DwXBl5MMGEBCbTOpLsGithhOLIYeX9A2ne4xToYlKFP
+         LJKBFvNqJf7fLDbzdcvQV+Ji3lIOLBwtauMjvoWLuS4lD2pXPawD/TPMnKZIjq+snA0S
+         8pOkthmoa9in75/nR/77VHPSNutsJ7C7KwCzv0E+r0b1IvR4d8T0/vWhJ6c0bWifLn/N
+         4jQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776442289; x=1777047089;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WF57saiDQPuLgei3ntL2rXLAGu55hVNv5gn2ybVfrAg=;
+        b=okgRMFQ1lVBMUW/pdq3hsGca2U3jiQ9Jv6PqCodf2aX5bjQb/rk9D7t5Yc84v/rkLT
+         RdQmDslD0C1bzvp7CIYUi/TG9jrmHznjCQz8KaYWabhUV8ZvB5+MDqa7qkEGZJRpyjxW
+         +Wo0W572Bw1MP1EL1DuQXt7T4HtEubVNVs4gwaf0u6G0OKX7CVS0283eTG3z39KJrohb
+         5t5iVgnty4/dc3k1WLNOQFt5caC2Y1fRIwkgVRmGvU/6xm9z3Yl7KlldxaiB9TSWMz+O
+         6at63NLao1W6uTFqNJpzPRoQ5TovVU24bpSgL4eEyu9JNer3msBfUitiMxZW1yVPoxQI
+         6FZg==
+X-Forwarded-Encrypted: i=1; AFNElJ/BBFXm60J7rhdcNqxTyspGpvb1l7sbYqMkliOVoiHskRCQrMsp9mpmjriI/3QDgKnoT/m9GguOdNtU@lists.infradead.org
+X-Gm-Message-State: AOJu0Ywu7CqAu/7cvoEsflyvp6KVAEDF7iDYCm/OC46W1ATN8bWtm1V2
+	ilmvspVAk2yrAM01ukY/5P83W8hHtLccp6s7T9n/M6mOze9lx0jXuc9M8Ol7bUwB4Vc=
+X-Gm-Gg: AeBDievp45DiEKx/AEm0VRlOvQVVOiTuYkZweu6NAzyuW/iYzAQCCM7KhDT3opXa45J
+	QhFHroDPc8OMj8q2wHlrjhzR/VuPAr0Omy1z1OfXD0YgP0/tHDTF9cGfpuUCTqKZ1NrgfO2z8bR
+	+dVQpvtTFRofS+BQZ5CcWbzIjdS+1a9pDsTk95QxuvNJQebuRdrIy62vGWX8BGc6FjOVlFzd8cW
+	fudFKHhF/AZHDc1P9Q0pumnrgUJNQdamWdbp8GZvX6HTje+JSJJv42LOdkVhBftQRq1VndEg6Lt
+	cTWVnW9vmqYwLXZ5gj3nYXsiknImptDv4OL4I5jqgZi3V89kiKcomoNTbJE9LC9odPvpWZQNAQa
+	7tSfYnrGRGc0fiYC3e9oWPZqJqBw8gDoWrSFWLoq3dLV0hO5N0kH9WM5006mXv1C/sv1pgM0R+u
+	T4pyO3rfJA8JS6tS00I6vp7vWGbbeZgXKh2fOutFWEFczaG3ajN8ziEoq7Fg==
+X-Received: by 2002:a05:600c:6296:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-488fb73d764mr52764605e9.1.1776442289414;
+        Fri, 17 Apr 2026 09:11:29 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1cfbf2sm54863625e9.15.2026.04.17.09.11.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 09:11:29 -0700 (PDT)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: atomlin@atomlin.com
+Cc: James.Bottomley@HansenPartnership.com,
+	MPT-FusionLinux.pdl@broadcom.com,
+	aacraid@microsemi.com,
+	akpm@linux-foundation.org,
+	axboe@kernel.dk,
+	bigeasy@linutronix.de,
+	chandrakanth.patil@broadcom.com,
+	chenridong@huawei.com,
+	chjohnst@gmail.com,
+	frederic@kernel.org,
+	hare@suse.de,
+	hch@lst.de,
+	jinpu.wang@cloud.ionos.com,
+	juri.lelli@redhat.com,
+	kashyap.desai@broadcom.com,
+	kbusch@kernel.org,
+	kch@nvidia.com,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	liyihang9@h-partners.com,
+	longman@redhat.com,
+	martin.petersen@oracle.com,
+	maz@kernel.org,
+	megaraidlinux.pdl@broadcom.com,
+	ming.lei@redhat.com,
+	mingo@redhat.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	mproche@gmail.com,
+	mst@redhat.com,
+	neelx@suse.com,
+	nick.lange@gmail.com,
+	peterz@infradead.org,
+	ranjan.kumar@broadcom.com,
+	ruanjinjie@huawei.com,
+	sagi@grimberg.me,
+	sathya.prakash@broadcom.com,
+	sean@ashe.io,
+	shivasharan.srikanteshwara@broadcom.com,
+	sreekanth.reddy@broadcom.com,
+	steve@abita.co,
+	suganath-prabu.subramani@broadcom.com,
+	sumit.saxena@broadcom.com,
+	tglx@kernel.org,
+	tom.leiming@gmail.com,
+	vincent.guittot@linaro.org,
+	virtualization@lists.linux.dev,
+	wagi@kernel.org,
+	yphbchou0911@gmail.com,
+	Marco Crivellari <marco.crivellari@suse.com>
+Subject: Re: [PATCH v11 11/13] blk-mq: prevent offlining hk CPUs with associated online isolated CPUs
+Date: Fri, 17 Apr 2026 18:11:16 +0200
+Message-ID: <20260417161116.373130-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260416192942.1243421-12-atomlin@atomlin.com>
 References: <20260416192942.1243421-12-atomlin@atomlin.com>
- <20260417161116.373130-1-marco.crivellari@suse.com>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ecd72ejjb7lu2kts"
-Content-Disposition: inline
-In-Reply-To: <20260417161116.373130-1-marco.crivellari@suse.com>
-X-ClientProxiedBy: BN9PR03CA0934.namprd03.prod.outlook.com
- (2603:10b6:408:108::9) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO7P123MB8117:EE_
-X-MS-Office365-Filtering-Correlation-Id: b67531fa-906b-44c0-3681-08de9cac1530
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: /9os53Ch4xDlsjB5p+X5TXT5PBR48Nj9Fqdl4btTRHZ9lOQ1I/kLWTmDJaqi0/kx7zSQmPUtjVRXyvfytvWTki7vvSa4QwsgaI3+kJN+KKbTENI0yPsphQ6w+kqkLEQ3dztgPYQXRD8MIIZRIsaTvZ5IgtALyAiaXKr3FzM4xZ0Z8QB2a7RkSZZ7851E5iv/axteHCL7C7c5pmgC0DsLqetjAEYoRqywNLjyuI9/tjOHnl0XB+VNPmyd9+m7MV4MDxVqtURjJ7olYnNhXtmtQDaeeIjAo3HgMN2fHPqbYUaTejbU9dks5pO71D4l/hLAc9Gfix5vidmjNr8YUjEqDfmcVoHJ8wvwVF//eNihKBCMxbuhYcV4wPK+dv7o5qH1m0y/3fZVC3mBSD+EhdMRlpb+kNZFBRU0cwDtvp5j5C/Nq0i10kg1nGY1QE2p31vr+6SUPJnOQQfd1HDuN0mbTpcgj9TPbBtfY1TFX4f/Lpe7+2DU7eZTa/xiQMfGNv8pUHnoQcp6VrwgniXYAXVRrb8iLRd3fkNwx2mGZYdn27on/AXCFvR4fUIOob+PpZ7K2SPjjioLs7kyoDUgvceyUeQ2kYFVYa693rs0Yx9Ao1efEvVCyi+a7rKNraeQqjdkVX5jRAcPl0CR+Nyyt3S8CCKQYzcVdVi9CpuzDIi6CVfeos40fqdAKEgy4AIXhH4+cizQyZLYaWiffEyNI4jmI8WeLW9cG9btUNRtZSa0B+Y=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmU1Sjdwbi9jV2I2eG4wQXI0cXpFQk9aVCtSeHoyR09YbmdmaTRLWkRDSFdZ?=
- =?utf-8?B?cFdNMVAyNVM2MmRCOEQzWVJmZWJ5WTJmUUJSSVpGb3Q4RlJwNDJydExBd3M3?=
- =?utf-8?B?WGo0QXpZa3pjVGx6UGZyUmlEZkxZdmVuTmI5VjBoeFk0Ry9RMGNLM2M3OWlE?=
- =?utf-8?B?OHY3UGdxVGUxeWFsRXRhRFJWaFg0YUFoNCtxM2lONWhaaGxUUUhRQnF1YVRS?=
- =?utf-8?B?azhlN0VLYTNQTXlNbi9iU0g3b3dGMDQrMXVOYVRBQlJHZWNHNG8vWS8vMEVq?=
- =?utf-8?B?ZzJFZDdDTFZzSjBXNHArQ3VNWDhPSUhqR2RkY1FEL0VtR1VWYmIySTlnbHdK?=
- =?utf-8?B?czdscENiSzQ1MWwzOG1HajVIRHdoRWVZK2FhZUZlSUg1aG1LeU1BUTFCdTMr?=
- =?utf-8?B?S045bzFZZStQeXZiWVBkUCtnY0FaRHc0bFJpUHhZQkZ2ZXhlNVhRSVk5Ykl4?=
- =?utf-8?B?eUl3bVdmMmlIb3dxMXNwTDVxRXFHREZsOFlKaFpSalNhNUNkWno1RnFWUC9F?=
- =?utf-8?B?dnY4dExzTEE2Mzk4ZVJUbFFOKzZYQitXUm8vSGxySi9kVFhjSUk0Z280dCt1?=
- =?utf-8?B?ZVpTQjNoSmpoVFBRVkl0T3ZrOGxKdi9wOXlmSy9ROEN6RVNYVVZKRXArbXc3?=
- =?utf-8?B?VzJZQ2EyUDhSU1ZlU3FyYXdJR2ZYamJzTFQyU0laVm12K0xkbjNkWXUrSXpZ?=
- =?utf-8?B?aDBPWTdWMG9xWERCY21jVDk4YUpnVTlQL2w1QVlPVHJhenRhanJVUWFFZ0Rx?=
- =?utf-8?B?cTVDK2lSaXQwMDViSmxRdGM4aFl0a2U2NndvNEVpN2gyNWs4bE00OVIzOGhX?=
- =?utf-8?B?V2JCa1dSMFJGVnFlSnhJQm1QeW9FUTdvYlduc1lUUS9LbU9uRWRQR25xOXc1?=
- =?utf-8?B?c0drQjdqNTZ3V25BOTBVUzNSbWFGaWNsSGNaTDhKSHowYVF4cEI1Wkt5MEZl?=
- =?utf-8?B?S2NReHFGZ3RnZWh4cWI5cXA3RWRGQ3hvc05lc2hKckUramw0UHo0M0tjTVNT?=
- =?utf-8?B?ZlVCWm1pbWZMa2JpaUdlSXoyd0tUME1Rc1prZTE0Q011MEg2VHJwSEU2YVZT?=
- =?utf-8?B?b2FrMjVnMFY5WXdmS05pMU50Wk5rbllCcjB1YmlrU3hyMDMyRVZPaGx2dWdX?=
- =?utf-8?B?MmpoTTNVakwvS3laT3E2MW8vMEM1blFQSDE5SmhmRGV5VERqRVRXbCtpMHlG?=
- =?utf-8?B?Rkp2aXoxeEJmcVZuS3lxV2NFaVNkTWhraHRudTFrRU1md3RlcEw0WnFVTDNv?=
- =?utf-8?B?Y25pNzcvQjBTWHNnd3crd3BGTlpnci9rd0d2aHM2czBZdllIZ2FjbGZWVHp5?=
- =?utf-8?B?Tk1qaHdRdHJOM1RjSTgxeHFTRjcrSkRyME5UZUtuSThLOGNoc3hjQkxzTmJl?=
- =?utf-8?B?alFIa3VrVXkvcWZOdnRpeTVaN3BLV3NMeGE1aUJBSzIvVnVhV0lyZE1HQ0l2?=
- =?utf-8?B?U1VsRWhFa3h1aGhVTkFLMExMT202ZFo4QzN2YWVBVW9FcDAyR2d3STl1NmdX?=
- =?utf-8?B?MGlCVFpqTWFaTEdSSmZFSURyaDI4REx3MUVvTVlGeE9pVU44YmtLWWprbnhZ?=
- =?utf-8?B?QWl6VloxZnNKcTVrVHNpSVdydjFsVHppQjdJRmIzYWNYWHNQaExLT0VaVXpL?=
- =?utf-8?B?TlpCVVJaNEpSNzhkc0w3UnVETDVjLzRsc2NJWDBia0gvc0pwSlpYeXNWMnRT?=
- =?utf-8?B?dnZ0d05LTFV6MUZmN1c2VkNwVDNoNmFYWm12Q3M5ZnBQbHZTV2c4SUpyQVU1?=
- =?utf-8?B?ejlad0tjSWJXR0NyTnhxYmpEdlVFaDVNbjhqMzZiQnhHVmdncS9ZU3VtazZN?=
- =?utf-8?B?b2Rxb2ppR1pHTUFkNjZIejlLcXBzMmdPdTRSY1FKUzUvMGlNTUd4T1VEMXp4?=
- =?utf-8?B?S2VPY2V6M0VROGFwdEl5SjE4U3llcEVqMGU2UktVSDgvQ0pxVW1kSm90OXlE?=
- =?utf-8?B?ME95dEZyYkpuOWNpL2l3Y3pXWjc3Mzd6VVhCZ3JDTFlYUWVQVzYxdDM2T2N5?=
- =?utf-8?B?OU91TS9hamFuMDl0R0hIb2d4U3piRm0zcktvVVJrNUQ0MGwwNXpoaVo0YTVP?=
- =?utf-8?B?akdzR1VrTE1UcUdhcXlWeng0djkzMjlNejl6QnJhZmIwVnIrN1dvVmNqRWl2?=
- =?utf-8?B?ei9wS3BwZ1pLV0liSGVpa01IMEhUNitEeEJrWDBwdU81Y0oyMzFWMU1uZW1W?=
- =?utf-8?B?WHZTb0Izbjd5SFAvdTcra0prUmZ6UjUvS2VKUVZ3RnFESVFsYUY1K09ja3RH?=
- =?utf-8?B?d0NhWitDb2xVb1JvakxFN2RkT0ZzTE5IZGpWcjhWdkRaRDZoQVBHUFN3bDlx?=
- =?utf-8?B?WVd3bDlIMGE4ajJQUUFCNGdhMmZYd1FvOTVEZ20rZ243Vmh6eGN1dz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b67531fa-906b-44c0-3681-08de9cac1530
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2026 18:06:44.0657
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eJxA/TJi1xyP5X1X0aPA6HPoV9WcxfjfX1Wviia9dfc/1J1Pfv4EXUwaNgKPse3dkE5owLc2Q7lUNjchr09Rjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P123MB8117
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260417_110649_355510_1F7DEB79 
-X-CRM114-Status: UNSURE (   8.81  )
+X-CRM114-CacheID: sfid-20260417_091131_771034_48B06480 
+X-CRM114-Status: UNSURE (   6.32  )
 X-CRM114-Notice: Please train this message.
-X-Mailman-Approved-At: Sun, 19 Apr 2026 08:19:13 -0700
+X-Mailman-Approved-At: Sun, 19 Apr 2026 08:19:12 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -158,47 +149,17 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---ecd72ejjb7lu2kts
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v11 11/13] blk-mq: prevent offlining hk CPUs with
- associated online isolated CPUs
-MIME-Version: 1.0
+Hi,
 
-On Fri, Apr 17, 2026 at 06:11:16PM +0200, Marco Crivellari wrote:
-> Hi,
->=20
-> Seems like the commit log of this patch is duplicated, isn't it?
-> I noticed it's like this from v7.
->=20
-Hi Marco,
+Seems like the commit log of this patch is duplicated, isn't it?
+I noticed it's like this from v7.
 
-Yes, that is correct. Thank you for bringing this to my attention.
+Thanks!
 
-Kind regards,
---=20
-Aaron Tomlin
+--
 
---ecd72ejjb7lu2kts
-Content-Type: application/pgp-signature; name="signature.asc"
+Marco Crivellari
 
------BEGIN PGP SIGNATURE-----
+SUSE Labs
 
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnidq8ACgkQ4t6WWBnM
-d9YjDg/8DZ1Hu1plSV/eCB02YDOOCu7qr7cxF5c+jTOTNrynezJB/arpUh3M5ePD
-gWbhkcl5FQDUQwDPiUcb+6UMJZC+dVLuJBCyPZeyPKAXVGXeLGf1Wx/VIrv6j08S
-t8VLakxJ6kFDl/ftep073/bDvKCnqk7M+YnIpVO9YSBPKJffI7qHRmQwIngeBVvd
-QkF7uL52lQcrD9SHFfgmdmf+A6CYYjsP1bIxP7x15OOShwvrW4lOOJ2O1dp01MFM
-DTrXrZmmI4F2lIRfr0GCRKpPBvV8ruB7A8J1A4axfA17WcIkEbCcfz0QynjnQ5Xu
-Qvvzy7XMfL3lp6FLEqZd3S6T/55kTRAbcZxD1kvZVp4vxw1yMzylpyMpRDFahZCH
-bNoIler73vG/vIycn9bIijuKXi7h0fSJdloDp4ylT9EI/t7MG5QZMoeEyiTc8mo3
-+eYN+uJRxI0P2BWB05xtjlR65DPt9KgIuJRqXSt0/oyWNXjPp/xz7wn5YSiUBSph
-EbWOtU4RLKEMPrg0XFcIDa/WIY8qxYlULoO6pyGZ4/9yAMWyOSjaOszgqpPAWg89
-2GJX8M2MdlxRs7megFkxN7B2HKsRIryiru57n7m2mXjsf17lrwQAYosmE/mGGvfc
-rkcse7W6Qx1NEdWfwxtVkIeqNrbkVBebBk9wYEPgqIL59Iva1Lk=
-=C89G
------END PGP SIGNATURE-----
-
---ecd72ejjb7lu2kts--
 
