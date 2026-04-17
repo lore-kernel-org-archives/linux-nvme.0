@@ -4,77 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86B06F8E4A0
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 01:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6157EF8E4A1
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 01:57:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Zj1lF3dU8n4YC5fdjZZVtRHMdHV4skYCpsqVKv3fQsI=; b=Wio7wN25cJu4rEOtMrHPUDVXtw
-	CF/SqSpu3wVpGktE4xFcFG+n/LhSYBGMJJbyCRLcvKpJ53buS9cpxUcM4YeOKA1vkHU960ayYOtg+
-	b3GEmfoGjiN/miaS7QGpOGx8k8LkI54E5BdvtXqjoVkIycXch+7K349kKixU9Ex3T4mvILJX5+YE9
-	VpGPOdRpQlud1Oqxa59pmfT17NA4vjdaOP7zckTxQvHktV5XqzfTbD8akiL1XvCvWSv/sdD9qoVU6
-	WHSGgPfcTh+UKMLbpX3I7dp5V7hl89KyGN0eGp4BQBYqf04DwmKyxuKVAPRmryogWes8WlSpguSer
-	MTd/527g==;
+	bh=MNTSjciFlX9Rr/279QUaN+sXA97OE3S8NKaAWj6D0d0=; b=COu4g/bslqj+oJqYnhsXYgL90y
+	XRj6SZwEqM5Po79CB/gb/119l7qbNuwqbtK67rOyFY9f3WJUWe4btBNcpVtP9BCCJD7/hzXQ/Fs2t
+	kKnd5CSrY9DJpm/v1tPKj8fPS5s7NtG7IhLySc/Hv8ROtuUwRqtfuJQcPIFq7BAnX/Rl5+6ytD8z1
+	IQy109Yj+H2/GFX69ltHOS/pzgf7gcifpR9+hl/0PB5pz8+KR/Y0FN8qRzyOp+X3D4RBOfgJQz458
+	j+OHOZEpLoLKwN1dLD8fSa63dA7gM16fC6lXZ0FFFyL/faKk7dBLZdpJnx1/UswnIGaQk7cOuy+00
+	3ICuIzEQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDYSn-00000003IFl-1nZa;
-	Fri, 17 Apr 2026 01:57:45 +0000
-Received: from mail-pj1-x1061.google.com ([2607:f8b0:4864:20::1061])
+	id 1wDYSo-00000003IGu-0hp5;
+	Fri, 17 Apr 2026 01:57:46 +0000
+Received: from mail-qt1-x862.google.com ([2607:f8b0:4864:20::862])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDYSj-00000003IDE-2yqV
+	id 1wDYSk-00000003IDO-1ozz
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 01:57:43 +0000
-Received: by mail-pj1-x1061.google.com with SMTP id 98e67ed59e1d1-35daa02ea08so14261a91.2
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Apr 2026 18:57:41 -0700 (PDT)
+	Fri, 17 Apr 2026 01:57:44 +0000
+Received: by mail-qt1-x862.google.com with SMTP id d75a77b69052e-50da6366272so31991cf.1
+        for <linux-nvme@lists.infradead.org>; Thu, 16 Apr 2026 18:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=purestorage.com; s=google2022; t=1776391061; x=1776995861; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zj1lF3dU8n4YC5fdjZZVtRHMdHV4skYCpsqVKv3fQsI=;
-        b=PhOh21aHiKmfXvBB1OiRznCZq1u84TYfThquUJnZ7ba6gLVcJrTWHhDHNNLCktB0MJ
-         I1wEiZ20R5ollKzP3P0kR8RdsnaQ6CIB+lWu3miF+KgZxza19AuJowCZnw5gmDQF94kH
-         LBkPRR64yU4R3mcBwH7wpmQw+fITQtgs1gA6fDnEz2l7U4y7mGCq4oFtYBKZ4F7vbeLg
-         gCfQ5E2wdyTUd3BiY7VSwc9UGpHqVr3+THMToRQvddMFi7eA/36tdIZto6H6muhz74dU
-         4Se56Xec+2lrY9HHb/Pcf6dsOtcNJZwOjCKgneFABGMMsixhhfOHVk46JI2grRfliLrx
-         ZduQ==
+        bh=MNTSjciFlX9Rr/279QUaN+sXA97OE3S8NKaAWj6D0d0=;
+        b=dQDDgg2aE8FVe7xKaUzA+I1Na04BXkuGXpSivvPWG1Y5p4oaiXDfyMfvOfePpab8gt
+         cVmuZIXytH++/aSSbU46Uae6S3jkSqtJVfWDdKOgOK9daDHNtIqU2xM/Oa0zSXHnm1bC
+         T0bFtliQzhH+Ovrhr3UVupsRQdn384RVOALUeHln9RMhB7mGZACQTpSe6gSj71AlY9R6
+         7pPf1EEh/XkNLWDDO+kd7Xg7+XsOYozKZA/9FcJsKhE7xQLbYqKGfONI6r2PRigvIRON
+         yBMyU/nFADCy85s5vN4377QfLuXv4Veu1qUO8YiMFp7X7bzzcCMXlnMjoOFNygWZ0YEW
+         6jKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1776391061; x=1776995861;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Zj1lF3dU8n4YC5fdjZZVtRHMdHV4skYCpsqVKv3fQsI=;
-        b=gnj3o/DxvbpBlmmLIeH0RdV/p1hAxcsojdT4skC+El55zYKHdPxAAH57UIpcbaDewu
-         3Xojz3vLM4Cm/Lp6qeMAJgrhLeQjT/cF6NrcobLMd2n9J5VA8d5IxB1xqjqt+CBVzjIr
-         isR3ovCUI18d/n05H7O8JpLYVktWhBbEIMfsfOzmQcklF2dPKr4b29bET+4RJ0d3jUJT
-         ijlo1SiGaQxys4C6sq3rrpJlBcLWqnKXcFyV8nX+57t4aPLrDTsQ2cTRGKGTHeGo9BWL
-         0IyqIcsLgQXPJSafQu3wNkgWdtKqRaN/x6fS7jEJgMiGgBgWnEJ2iqQWaiLU0cylDVci
-         78Wg==
-X-Forwarded-Encrypted: i=1; AFNElJ+gKnVtJvR+k2EAngLVV6UY1HoIQbeTyXfDZECGyIp1wqSzdb9RV1RWzKzlgSqGZ/uH8VWLZ4BcLGIF@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw0z1EUuu0GVa7i35+REmLnNuY1srpe5yidTZc20dlUvj1obdlT
-	yX8eNPUV8YN+S+MRXsR6DfDg/IuLrp9UlYnbWc0685CsgN81U0yuSc1xOYKrMYLCo3zsQX1pslv
-	yXY+D6z9/XgnF1RVgnLECRSbWPlliaql1G68mZdeDslpcH7UJILnq
-X-Gm-Gg: AeBDievNWFc4CgRNF0D2ettyjoWo7iB8vKORVxGoMXTyMMwkovsQpefuvuzUxyDQizK
-	enb1zcZsEYPH3z6tFlgzEzr8T+DVyVy6qmaKwfwmAqzwRUs8zowoGNwXDZj5wg1kwZ6PEVjCeek
-	BLffFP+7O3KNNBXxwAsYEva6ov+/CVgZrJAScHhNPUI+Vyibn9ev3HktaM8Rb9QZbOT0f4lsTMz
-	6YmG3sGVBo4zqvFeO1DPOkUVYE6hgX0QZrJO/8YVYng1vztwxjx3cG6Yu3de3imbKk7x/ji2vNo
-	BDNwZcrmNy9Ksp+0ERGdQPhZziAg1g5OMoRG+CMrKAI0hHJavOfhPbvHcWYEEjSlvEynQ+xnDXm
-	K6ctY/2a5vevGR160Ojqi8cEKlnjrgtQVDQYcU4uCRjgMN8rslQ==
-X-Received: by 2002:a17:903:3dd2:b0:2b2:57a0:9c08 with SMTP id d9443c01a7336-2b5f9f7bc49mr2795455ad.4.1776391060723;
+        bh=MNTSjciFlX9Rr/279QUaN+sXA97OE3S8NKaAWj6D0d0=;
+        b=OJVI9ROF27XcW+p7Y8xgs6MMvA9TJr5p3xIFAxZ1zruX4a6cKJzfQOSDjzUoru+ueg
+         lGnycAA8RHQOOQRvEdXCglAaoiLpZ3h4XEvYjgVw5XyPfDy3wxZcHEheDotU+k6ry7Ob
+         vDq2YBmGSkm/Co/ws6GZAuMVZFlsCcD//l16APjNo02SHglmGb/V8IQMlHIqHPA65g01
+         bvILSW/t9xUXsVpl22uLQH3Rjps/gnwgHwDohcDbsCielG9Yx9ME9aVKwbIoLWZCZIWq
+         DHyo2VdHsTXq7W64UVpXPQnn5Y0cHyAKtfANFT+c0q9uhKRb08hk+o4g1bZE4OMvpSr1
+         rrbA==
+X-Forwarded-Encrypted: i=1; AFNElJ+yJchhtyoxYVE8PLwqj1WUTPn4ZIrRWOQIH/LzCNya4xAd5h3yn9ORLe+iwSCKH/+ftsVEb7clDLw+@lists.infradead.org
+X-Gm-Message-State: AOJu0YwF0qpsyBOEWOIfAgzPO9io1pA2ySCVdByXXnQght2dG731o8kZ
+	yGPRYpAfBkbhHjwd5WlQbIN6y0XbQbhUiWciiN3SSQSY3TwLxyRsmGFHm65nROBi5AU0UFBC2ab
+	8pbF0Ci+Qp82GMOMsx9D0nH+xf2VYmPz4K5eWPOUvIx+ksmiDofo1
+X-Gm-Gg: AeBDiesWpT7I8+XhOcr1HYUNd7p+y2URffw/a32rliheXGnmoWEUN8cn1K8LwTbS5sM
+	0c70Bx0OBKzHTi1N3bIa4Rhtp4FRTcc/Yon2DWJVybyGQS+OBCcOdXDLK8UfYbUtqlzYSZC+Th3
+	dc0xPi9Zfh647AVBV05PD6f2hUlt6sUVWsL/blp5jqCe5GWc5njp4892qTu6+NDnB3baeoqweCQ
+	jh5LMgOr4TE80KNf6iSHw5hJ68yix/qjwUd+gWFAwCzXLPRECfqrkO6vWYeeZbiTbMsZmYH2cEr
+	fS0X6YIM83/N7n2TboKRWSc4eZY2QM17oI3+98HX92vuj5MKyfpsNgxFYkAj9Fhe1KtPTk8ymsR
+	DNw2kSFtqUW0JKIIelK3ksArN6FfiXDfnwbk/O/jRq416PzXwPg==
+X-Received: by 2002:a05:622a:44a:b0:509:15aa:cf03 with SMTP id d75a77b69052e-50e36c0afcdmr8556161cf.4.1776391060999;
         Thu, 16 Apr 2026 18:57:40 -0700 (PDT)
 Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2b5faae2378sm215195ad.25.2026.04.16.18.57.40
+        by smtp-relay.gmail.com with ESMTPS id d75a77b69052e-50e394581ccsm55631cf.26.2026.04.16.18.57.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 16 Apr 2026 18:57:40 -0700 (PDT)
 X-Relaying-Domain: purestorage.com
 Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 0333F340B52;
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 446ED340C58;
 	Thu, 16 Apr 2026 19:57:40 -0600 (MDT)
 Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id F3652E406BE; Thu, 16 Apr 2026 19:57:39 -0600 (MDT)
+	id 3FEBEE406BE; Thu, 16 Apr 2026 19:57:40 -0600 (MDT)
 From: Caleb Sander Mateos <csander@purestorage.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
@@ -88,17 +88,17 @@ Cc: Anuj Gupta <anuj20.g@samsung.com>,
 	target-devel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v3 2/6] bio-integrity-fs: pass data iter to bio_integrity_verify()
-Date: Thu, 16 Apr 2026 19:57:28 -0600
-Message-ID: <20260417015732.2692434-3-csander@purestorage.com>
+Subject: [PATCH v3 4/6] bio-integrity-fs: use integrity interval instead of sector as seed
+Date: Thu, 16 Apr 2026 19:57:30 -0600
+Message-ID: <20260417015732.2692434-5-csander@purestorage.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20260417015732.2692434-1-csander@purestorage.com>
 References: <20260417015732.2692434-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260416_185741_750073_2DADA365 
-X-CRM114-Status: GOOD (  14.73  )
+X-CRM114-CacheID: sfid-20260416_185742_476378_B99E9805 
+X-CRM114-Status: GOOD (  14.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,50 +113,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-bio_integrity_verify() expects the passed struct bvec_iter to be an
-iterator over bio data, not integrity. So construct a separate data
-bvec_iter without the bio_integrity_bytes() conversion and pass it to
-bio_integrity_verify() instead of bip_iter.
+bip_iter.bi_sector is meant to be in units of integrity intervals rather
+than 512-byte sectors. bio_integrity_verify() doesn't actually use it
+currently (it uses the passed in struct bvec_iter's bi_sector instead).
+But let's set it to the expected value for consistency.
 
-Fixes: 0bde8a12b554 ("block: add fs_bio_integrity helpers")
 Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- block/bio-integrity-fs.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ block/bio-integrity-fs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/bio-integrity-fs.c b/block/bio-integrity-fs.c
-index acb1e5f270d2..0daa42d9ead7 100644
+index 0daa42d9ead7..0ad1c5ab64e9 100644
 --- a/block/bio-integrity-fs.c
 +++ b/block/bio-integrity-fs.c
-@@ -53,21 +53,25 @@ EXPORT_SYMBOL_GPL(fs_bio_integrity_generate);
- 
- int fs_bio_integrity_verify(struct bio *bio, sector_t sector, unsigned int size)
- {
- 	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
- 	struct bio_integrity_payload *bip = bio_integrity(bio);
-+	struct bvec_iter data_iter = {
-+		.bi_sector	= sector,
-+		.bi_size	= size,
-+	};
- 
- 	/*
- 	 * Reinitialize bip->bip_iter.
+@@ -65,11 +65,11 @@ int fs_bio_integrity_verify(struct bio *bio, sector_t sector, unsigned int size)
  	 *
  	 * This is for use in the submitter after the driver is done with the
  	 * bio.  Requires the submitter to remember the sector and the size.
  	 */
  	memset(&bip->bip_iter, 0, sizeof(bip->bip_iter));
- 	bip->bip_iter.bi_sector = sector;
+-	bip->bip_iter.bi_sector = sector;
++	bip->bip_iter.bi_sector = bio_integrity_intervals(bi, sector);
  	bip->bip_iter.bi_size = bio_integrity_bytes(bi, size >> SECTOR_SHIFT);
--	return blk_status_to_errno(bio_integrity_verify(bio, &bip->bip_iter));
-+	return blk_status_to_errno(bio_integrity_verify(bio, &data_iter));
+ 	return blk_status_to_errno(bio_integrity_verify(bio, &data_iter));
  }
  
  static int __init fs_bio_integrity_init(void)
- {
- 	fs_bio_integrity_cache = kmem_cache_create("fs_bio_integrity",
 -- 
 2.45.2
 
