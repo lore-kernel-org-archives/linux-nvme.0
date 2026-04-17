@@ -4,75 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7341AF436BF
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 16:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3557EF99C6B
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 22:26:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:In-Reply-To:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aLM10jOwdSOCKnbr47lCVYbynLEmuueYz8PH1kR1jlk=; b=jvnXjNLYIMT61bArXbH9AHTwQ5
-	svDnp8t5ipXfMfTra0o0Nv44v4Gj81QMzW0LmUxWzeRLeP43we9SJR/il5/COtv3qR74v9Yv6HhdH
-	XmoW6TJrzy3aqsatDk+pyBNcqi7iUCYN94DT5szzCerr9dtH4FiUXoBffk3CdQkIL2tbV/HOdOQHH
-	dYp6LDwWK7W96+LskTshWl0Vr7TU3vp7gCOhzzdN5v5yP7oPJgJbX0+N55Z53oRau0l0YwgAq8neP
-	lVuMNT0jS8G+Z2WaAClcedKg6cbhEKjYppsTTjTC1elonUK4Spq3MU5dRd/YjQn8leUnJV8rb7Dav
-	dx5Uhxmg==;
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=+lwGJ+GXOWE5MgS094XRlbgHkR1fylmtk6R7EJm5diY=; b=0Gu7Lb6RWJ2+zR
+	ttXkIIHDkXjw9tEQbLZ5U+gy5zodlj0LuDvThj6MXuvrwyhtg0jgU5TFh5BX4BcFT4OxIB/DlX8F0
+	G2oO2Ys++l9rRqHPmrLG58KpVOuWRgQE62sJE96SMpwO+BzrO5HJPNsU0zt/21atRccqkCcv5CkCQ
+	EntIUXSURry3ICk+oeDj9TXwAStSzKMIzfZ6BnhdvbKvAr/RxqIoQ/3FGPo0PjpXNfYN1kxw3WwHR
+	qMueyypRZIjZgfVo3EVkqxfKw6VcpqlpsubQ0UOYGuuaxkdSI8mYcJFiDCFKNPyJFPJ4Or9wAqZAf
+	8mtZwcN9umTgycaNkXHg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDmWN-00000004Ifi-1IgZ;
-	Fri, 17 Apr 2026 16:58:23 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1wDrdn-00000004WU6-1RUj;
+	Fri, 17 Apr 2026 22:26:23 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDmWJ-00000004Ien-2DKY
+	id 1wDrdi-00000004WTn-0kZa
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 16:58:20 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776445098;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aLM10jOwdSOCKnbr47lCVYbynLEmuueYz8PH1kR1jlk=;
-	b=KhTCX4Eb6yVQmg2PNvhfBUieXFdIDhhQZitx5jpcc7/fu8AvJVKdKzXA0iEd98RDutoh4c
-	ZRQMHKeHQU1FargI/pUibcTJv4SqriGnkyLssdpdqoyeSzW4RURMZIhB1oPAeBFwdQbktK
-	ATz6XveuAazYSPrtH4QsMp3mPlEsln0=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-605-3qTGo_kRMMyDgF51cl9okQ-1; Fri,
- 17 Apr 2026 12:58:14 -0400
-X-MC-Unique: 3qTGo_kRMMyDgF51cl9okQ-1
-X-Mimecast-MFC-AGG-ID: 3qTGo_kRMMyDgF51cl9okQ_1776445093
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2037E1800282;
-	Fri, 17 Apr 2026 16:58:12 +0000 (UTC)
-Received: from cleech-thinkpadt14sgen2i.rmtusor.csb (unknown [10.2.16.224])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 106C51800660;
-	Fri, 17 Apr 2026 16:58:08 +0000 (UTC)
-Date: Fri, 17 Apr 2026 09:58:08 -0700
-From: Chris Leech <cleech@redhat.com>
-To: alistair23@gmail.com
-Cc: hare@suse.de, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	kbusch@kernel.org, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	yi.zhang@redhat.com, mlombard@arkamax.eu, linux-block@vger.kernel.org, 
-	shinichiro.kawasaki@wdc.com, Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH 2/2] nvmet-tcp: Don't clear tls_key when freeing sq
-Message-ID: <20260417-9fecb7f3795b98707372292b@redhat.com>
-References: <20260417004809.2894745-1-alistair.francis@wdc.com>
- <20260417004809.2894745-2-alistair.francis@wdc.com>
+	Fri, 17 Apr 2026 22:26:18 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 4DB3560052;
+	Fri, 17 Apr 2026 22:26:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D67A0C19425;
+	Fri, 17 Apr 2026 22:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776464777;
+	bh=ldDrCZLNDA6+Ze7JqHXF2mgFMD1/O2u3aOg33Abpsds=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=k56JV38kBfvzqBIsN8JWl0Oujn12TZ287FU/V6ljKbTCA3FwTXkCcL5lEOyQu9Csg
+	 5XRwUUwXmSBrZsAU7UqtNJbFHgfcr4QePzpqz5ifIEgc3MW0Q6PhGH3Kh5bHTGTZHV
+	 FSzjtKEkUXiNFDZ+4ROvgL6eUv3l/d/dxwFNaIeZDUZZegGDxOh6k9yhkj++tdO+hh
+	 2oWSEgXOrBGlBoatS6GYN1fxHBxyCReEpvSnRBNmjG9thinHga388zSjN4n3sgXq0h
+	 tVBT4yHApURwjzkixaE9kJ/k4TTbHZDtR9v9uOFCKke4JGdVgWNq7HyERrbClt4wRb
+	 5YdzUqPFtBFfg==
+Date: Fri, 17 Apr 2026 17:26:15 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: manivannan.sadhasivam@oss.qualcomm.com,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 3/4] PCI: qcom: Indicate broken L1ss exit during resume
+ from system suspend
+Message-ID: <20260417222615.GA97425@bhelgaas>
 MIME-Version: 1.0
-In-Reply-To: <20260417004809.2894745-2-alistair.francis@wdc.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: IoSyDUq1x6lbRV8XxVRYcajGVocBjveBFEhmmKj78kQ_1776445093
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260417_095819_876049_6ECFDF93 
-X-CRM114-Status: GOOD (  14.94  )
+In-Reply-To: <vji2jty2pqerse6g66pavrt7e7oq3bax4m6sobp5wxew6xwv6d@r5lbv35klz6b>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -87,27 +76,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 17, 2026 at 10:48:09AM +1000, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
+On Fri, Apr 17, 2026 at 05:36:42PM +0530, Manivannan Sadhasivam wrote:
+> On Thu, Apr 16, 2026 at 02:20:00PM -0500, Bjorn Helgaas wrote:
+> > On Tue, Apr 14, 2026 at 09:29:41PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> > > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > > 
+> > > Qcom PCIe RCs can successfully exit from L1ss during OS runtime.
+> > > However, during system suspend, the Qcom PCIe RC driver may
+> > > remove all resource votes and turns off the PHY to maximize
+> > > power savings.
+> > > 
+> > > Consequently, when the host is in system suspend with the link
+> > > in L1ss and the endpoint asserts CLKREQ#, the OS must first wake
+> > > up and the RC driver must restore the PHY and enable the refclk.
+> > > This recovery process causes the strict L1ss exit latency time
+> > > to be exceeded. (If the RC driver were to retain all votes
+> > > during suspend, L1ss exit would succeed without issue, but at
+> > > the expense of higher power consumption).
+> > 
+> > I don't think the link can be in L1.x if the PHY is turned off,
+> > can it?  I assume if the PHY is off, the link would be in L2 (if
+> > aux power is available) or L3.
 > 
-> Curently after the host sends a REPLACETLSPSK we free the TLS keys as
-> part of calling nvmet_auth_sq_free() on success. This means when the
-> host sends a follow up REPLACETLSPSK we return CONCAT_MISMATCH as the
-> check for !nvmet_queue_tls_keyid(req->sq) fails.
+> As per the spec, if the link is in L1.2, the entire analog circuitry
+> of the PHY can be powered off and that's what I meant here. The
+> LTSSM state would be preserved by the MAC layer, whose context is
+> always retained.
 > 
-> A previous attempt to fix this involed not calling nvmet_auth_sq_free()
-> on successful connections, but that results in memory leaks. Instead we
-> should not clear `tls_key` in nvmet_auth_sq_free(), as that was
-> incorrectly wiping the tls keys which are used for the session.
+> The only problem is that, CLKREQ# is routed to an Always-on-Domain
+> (AON) inside the SoC. So when the endpoint asserts CLKREQ#, AON
+> wakes up the SoC and later the PCIe controller driver turns ON the
+> PHY. But by that time, the L1ss exit latency would've elapsed,
+> causing LDn.
 > 
-> This patch ensures we correctly free the ephemeral session key on
-> connection, yet we don't free the TLS key unless closing the connection.
+> > L2 and L3 both correspond to the downstream device being in D3cold
+> > (PCIe r7.0, sec 5.3.2), so I assume this is a reset as far as the
+> > device is concerned, and we need all the delays associated with
+> > reset and the D3cold -> D0 transition.
+> > 
+> > > This latency violation leads to an L1ss exit timeout, followed
+> > > by a Link Down (LDn) condition during resume. This LDn can crash
+> > > the OS if the endpoint hosts the RootFS, and for other types of
+> > > devices, it may result in a full device reset/recovery.
+> > 
+> > What does "L1SS exit timeout" mean in PCIe terms?  Is there some
+> > event (Message, interrupt, etc) that is triggered by the timeout?
 > 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  drivers/nvme/target/auth.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> By 'L1ss exit timeout' I meant the failure to move to L0 state post
+> L1.2 exit.  During L1.2 exit, the endpoint expects the refclk and
+> common mode voltage to be restored within the negotiated time. Per
+> spec, r7.0, sec 5.5.3.3.1, Exit from L1.2:
+> 
+> ```
+> Next state is L1.0 after waiting for TPOWER_ON
+> 
+> * Common mode is permitted to be established passively during L1.0,
+> and actively during Recovery. In order to ensure common mode has
+> been established, the Downstream Port must maintain a timer, and the
+> Downstream Port must continue to send TS1 training sequences until a
+> minimum of TCOMMONMODE has elapsed since the Downstream Port has
+> started transmitting TS1 training sequences and has detected
+> electrical idle exit on any Lane of the configured Link.
+> ```
+> 
+> So if this condition is not satisfied, then the link would move to
+> the LDn state and that's the only event triggered to the OS.
+> 
+> > > So to ensure that the client drivers can properly handle this
+> > > scenario, let them know about this platform limitation by
+> > > setting the 'pci_host_bridge::broken_l1ss_resume' flag.
+> > 
+> > I don't see how this means L1SS is broken.  If the device is
+> > effectively reset, of course we can't go from L1.x to L0 because
+> > we didn't start from L1.x.
+> 
+> From the OS perspective, the link would still be in L1ss and not
+> expected to move to L2/L3 during suspend/resume, since that
+> transition is controlled by the OS itself. But when the OS resumes,
+> the link would go to LDn state and it can only be brought back to
+> L0, after a complete reset.
 
-Reviewed-by: Chris Leech <cleech@redhat.com>
+Thanks for the background.  It would help a lot if I had more of a
+hardware background!
 
+Does L1.2 have to meet the advertised L1 Exit Latency?  I assume maybe
+it does because I don't see an exception for L1.x or any exit
+latencies advertised in the L1 PM Substates Capability.
+
+Regardless, I'd be kind of surprised if *any* system could meet an
+L1.2 exit latency from a system suspend situation where PHY power is
+removed.  On ACPI systems, the OS doesn't know how to remove PHY
+power, so I don't think that situation can happen unless firmware
+is involved in the suspend.
+
+Maybe that's part of why pm_suspend_via_firmware() exists.  What if
+native host drivers just called pm_set_suspend_via_firmware()?  After
+all, if they support suspend, they're doing things that are done by
+firmware on other systems.
 
