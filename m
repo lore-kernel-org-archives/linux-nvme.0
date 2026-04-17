@@ -4,71 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 020AFF4368D
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 11:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4161BF43698
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 12:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=CyCiRLspnwTn8slYJvjoh/YL4rEmYFipYSmkz9ktEyE=; b=R5fAzsYQNUlV7UR8m2tW+ssmQ+
-	QOsZ9w+q2xEidyvUCYB1j2JcpZ43mBwVdK2LN3yKfKwxppm/CMnVUVlH4SQFHemBlFWueLRHnvvmP
-	1rX11NdHs1+lkxF6byt542KVA4O7beTeNI/tkIwaaVa38vJ8lUNeExuzfUsL0/pPy0+msKABxu3c8
-	2TQobdnL1lvuio+eaODNKrzZ9hzdClY+89P3dP/Na/XalX1EcQ8VgxDkEg3SZl7BkGde850s0sYNG
-	oVj8uTQBg5gmr84dcSTjHP5uNb1AxQ30u2+5E/YoqGYLHPwei5g2rT6ybp5m7Pu2qEya+wMZlgugN
-	aded2a9A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=s+TDFG3nfJA8n0TH8rf/gvjeJ8FWKug17bdRwNZTOlg=; b=wj3ajAAIN0O51A8wwkZM3Fp9PJ
+	OKuBWrzxMhoszuHfHbzExY3hBEmR5njuhl5ltVr1OHRy/rpI2sZFI07XmLNYKYFoP4WXbuDiN3YYg
+	UIKGlGPVUPZ9dkzvU3JrSKYh8ed4QrZd702oBgKiCUPo/8Lr0AbCkQHWaDk5Uh4Adq0vxbhl4JOy1
+	gVKdvn7KRcq2TZAN9QK1ouBKsluUEiZRfkpHFUw7NCqyXj5mQH4hVk2qJa3MJ0f51MEMJY/+2tRA+
+	bZzVlE3bVe7fIEkaGRCoivfnYHuP7hic6BlximhBAX9o+8EOg9rg0keoQsObljkpbxruUzZ9r5ijm
+	D8RBtimQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDhZs-00000003zXI-0vwO;
-	Fri, 17 Apr 2026 11:41:40 +0000
-Received: from mgamail.intel.com ([192.198.163.18])
+	id 1wDhyI-000000041FA-30LH;
+	Fri, 17 Apr 2026 12:06:54 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDhZp-00000003zWz-1nIr
+	id 1wDhyG-000000041En-2Dy1
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 11:41:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776426097; x=1807962097;
-  h=date:from:to:cc:subject:message-id;
-  bh=0S2IALXfW27WLZDQy83gXqXqgfxCwRTJQ4qI8P1P7GI=;
-  b=Rjn90ZtyQdximyiwd2BQm3G12yqvTb3N4/onEuzatMGLGxesqMRsrrRL
-   QLIPIFnkcvkmmeSdPaFWqzK9uz7q5Ga1XI9bHXqLQtKBhh4y0gdl5cHzl
-   l5NN6Ps5snlKU3sD97WTDpR1ORBxFl6ZgEwR7tAwosnSp9RzRfDlazhxx
-   nY6tcbdPx5nFROOnwkQXHLtvKXJjO86s2gLjQicwJir+wJNRiOYJmF/lG
-   zfmEYgppo9eyW3i2PYBTpOrkbwTM+GZvwt1v7xWkQ+o7dPd5pwshnQ/oJ
-   L9dA/sp5Js+VOLESdNMG6ewhssNGsb1ESkgktZQYzTjpjO5LpW1vftbJK
-   w==;
-X-CSE-ConnectionGUID: nhyCDpPsS72UMW3EBNeDAQ==
-X-CSE-MsgGUID: xDRqyMhMSwWOAhXeXKjM1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11761"; a="76604504"
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="76604504"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2026 04:41:35 -0700
-X-CSE-ConnectionGUID: nEGGPbdeRFWlyIiUw6zhkQ==
-X-CSE-MsgGUID: 0guP9cvSSAevmi7WOPO57A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,184,1770624000"; 
-   d="scan'208";a="230001922"
-Received: from lkp-server01.sh.intel.com (HELO 7e48d0ff8e22) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Apr 2026 04:41:34 -0700
-Received: from kbuild by 7e48d0ff8e22 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wDhZj-000000000Iz-25iG;
-	Fri, 17 Apr 2026 11:41:31 +0000
-Date: Fri, 17 Apr 2026 19:41:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.1] BUILD SUCCESS
- cf92d78a4aa2adbc2b1e687776aabe63c5b97f3f
-Message-ID: <202604171953.3e1aewHZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Fri, 17 Apr 2026 12:06:53 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id B1EE543DA4;
+	Fri, 17 Apr 2026 12:06:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E74EC19425;
+	Fri, 17 Apr 2026 12:06:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776427611;
+	bh=gX5slQsvRLsEFrAM+WwAVauNcHLIRbuo2mgnsXramdE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eEFL5pS+fJg+7QEkYJ06Vt7vuF/zJVS4dPQHL96T74FZtEHS8RZoSdJmaqJ6Zn8U8
+	 CnWb74b7vhNdd+0AoxJHIJMfsXAsdTIKoftNCUD3ls10XYEYpXFtbHbhj1t/Grj9+M
+	 LqjIBvHhbt/Te4blDWcIyUcE7j3nzAVCN88jmOPXDu6tPWtT1y1ePfnsMlWbkcXH0p
+	 7Q0K0ufSFEsoGLgPmhkdTn3WP7Hn1CkNt3rgjt19CcZXziP2t9ZkWI/T47PEIPfccU
+	 NfrBHyGMoVSAmxzdhziW1r1Irq2/lxEmDi1K9Zm5fjkI3I4ltClz617KPLyAO4hUa4
+	 JXhW6vAccvXIA==
+Date: Fri, 17 Apr 2026 17:36:42 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: manivannan.sadhasivam@oss.qualcomm.com, 
+	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 3/4] PCI: qcom: Indicate broken L1ss exit during resume
+ from system suspend
+Message-ID: <vji2jty2pqerse6g66pavrt7e7oq3bax4m6sobp5wxew6xwv6d@r5lbv35klz6b>
+References: <20260414-l1ss-fix-v1-3-adbb4555b5ab@oss.qualcomm.com>
+ <20260416192000.GA21992@bhelgaas>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260416192000.GA21992@bhelgaas>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260417_044137_529502_95C08DEE 
-X-CRM114-Status: UNSURE (   4.53  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260417_050652_618134_45E3B04D 
+X-CRM114-Status: GOOD (  40.72  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,126 +78,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.1
-branch HEAD: cf92d78a4aa2adbc2b1e687776aabe63c5b97f3f  nvme-pci: add quirk for Memblaze Pblaze5 (0x1c5f:0x0555)
+On Thu, Apr 16, 2026 at 02:20:00PM -0500, Bjorn Helgaas wrote:
+> [+cc Rafael]
+> 
+> On Tue, Apr 14, 2026 at 09:29:41PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > 
+> > Qcom PCIe RCs can successfully exit from L1ss during OS runtime. However,
+> > during system suspend, the Qcom PCIe RC driver may remove all resource
+> > votes and turns off the PHY to maximize power savings.
+> > 
+> > Consequently, when the host is in system suspend with the link in L1ss and
+> > the endpoint asserts CLKREQ#, the OS must first wake up and the RC driver
+> > must restore the PHY and enable the refclk. This recovery process causes
+> > the strict L1ss exit latency time to be exceeded. (If the RC driver were to
+> > retain all votes during suspend, L1ss exit would succeed without issue, but
+> > at the expense of higher power consumption).
+> 
+> I don't think the link can be in L1.x if the PHY is turned off, can
+> it?  I assume if the PHY is off, the link would be in L2 (if aux power
+> is available) or L3.
+> 
 
-elapsed time: 724m
+As per the spec, if the link is in L1.2, the entire analog circuitry of the PHY
+can be powered off and that's what I meant here. The LTSSM state would be
+preserved by the MAC layer, whose context is always retained.
 
-configs tested: 106
-configs skipped: 3
+The only problem is that, CLKREQ# is routed to an Always-on-Domain (AON) inside
+the SoC. So when the endpoint asserts CLKREQ#, AON wakes up the SoC and later
+the PCIe controller driver turns ON the PHY. But by that time, the L1ss exit
+latency would've elapsed, causing LDn.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> L2 and L3 both correspond to the downstream device being in D3cold
+> (PCIe r7.0, sec 5.3.2), so I assume this is a reset as far as the
+> device is concerned, and we need all the delays associated with reset
+> and the D3cold -> D0 transition.
+> 
+> > This latency violation leads to an L1ss exit timeout, followed by a Link
+> > Down (LDn) condition during resume. This LDn can crash the OS if the
+> > endpoint hosts the RootFS, and for other types of devices, it may result in
+> > a full device reset/recovery.
+> 
+> What does "L1SS exit timeout" mean in PCIe terms?  Is there some event
+> (Message, interrupt, etc) that is triggered by the timeout?
+> 
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-arc                              allmodconfig    gcc-15.2.0
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    gcc-15.2.0
-arc                   randconfig-001-20260417    gcc-8.5.0
-arc                   randconfig-002-20260417    gcc-8.5.0
-arm                               allnoconfig    clang-23
-arm                              allyesconfig    gcc-15.2.0
-arm                   randconfig-001-20260417    gcc-10.5.0
-arm                   randconfig-002-20260417    clang-23
-arm                   randconfig-003-20260417    clang-23
-arm                   randconfig-004-20260417    clang-23
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-15.2.0
-arm64                 randconfig-001-20260417    clang-19
-arm64                 randconfig-002-20260417    clang-23
-arm64                 randconfig-003-20260417    clang-23
-arm64                 randconfig-004-20260417    gcc-15.2.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                  randconfig-001-20260417    gcc-13.4.0
-csky                  randconfig-002-20260417    gcc-14.3.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-23
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260417    clang-20
-i386        buildonly-randconfig-002-20260417    clang-20
-i386        buildonly-randconfig-003-20260417    clang-20
-i386        buildonly-randconfig-004-20260417    clang-20
-i386        buildonly-randconfig-005-20260417    gcc-14
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-23
-loongarch                           defconfig    clang-19
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    gcc-15.2.0
-m68k                                defconfig    gcc-15.2.0
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    gcc-15.2.0
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-mips                          eyeq6_defconfig    clang-23
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-openrisc                         allmodconfig    gcc-15.2.0
-openrisc                          allnoconfig    gcc-15.2.0
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    gcc-15.2.0
-parisc                           allyesconfig    gcc-15.2.0
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260417    gcc-12.5.0
-parisc                randconfig-002-20260417    gcc-8.5.0
-parisc64                            defconfig    gcc-15.2.0
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    gcc-15.2.0
-powerpc               randconfig-001-20260417    gcc-8.5.0
-powerpc               randconfig-002-20260417    clang-23
-powerpc64             randconfig-001-20260417    clang-23
-powerpc64             randconfig-002-20260417    clang-23
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    gcc-15.2.0
-riscv                            allyesconfig    clang-16
-riscv                 randconfig-001-20260417    clang-23
-riscv                 randconfig-002-20260417    clang-19
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                  randconfig-001-20260417    gcc-14.3.0
-s390                  randconfig-002-20260417    clang-23
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    gcc-15.2.0
-sh                               allyesconfig    gcc-15.2.0
-sh                                  defconfig    gcc-15.2.0
-sh                    randconfig-001-20260417    gcc-15.2.0
-sh                    randconfig-002-20260417    gcc-15.2.0
-sparc                             allnoconfig    gcc-15.2.0
-sparc                 randconfig-001-20260417    gcc-12.5.0
-sparc                 randconfig-002-20260417    gcc-8.5.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20260417    clang-20
-sparc64               randconfig-002-20260417    clang-23
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                                  defconfig    clang-23
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260417    gcc-13
-um                    randconfig-002-20260417    clang-23
-um                           x86_64_defconfig    clang-23
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    gcc-15.2.0
-xtensa                           allyesconfig    gcc-15.2.0
-xtensa                randconfig-001-20260417    gcc-9.5.0
-xtensa                randconfig-002-20260417    gcc-9.5.0
+By 'L1ss exit timeout' I meant the failure to move to L0 state post L1.2 exit.
+During L1.2 exit, the endpoint expects the refclk and common mode voltage to be
+restored within the negotiated time. Per spec, r7.0, sec 5.5.3.3.1, Exit from
+L1.2:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+```
+Next state is L1.0 after waiting for TPOWER_ON
+
+* Common mode is permitted to be established passively during L1.0, and actively
+during Recovery. In order to ensure common mode has been established, the
+Downstream Port must maintain a timer, and the Downstream Port must continue to
+send TS1 training sequences until a minimum of TCOMMONMODE has elapsed since the
+Downstream Port has started transmitting TS1 training sequences and has detected
+electrical idle exit on any Lane of the configured Link.
+```
+
+So if this condition is not satisfied, then the link would move to the LDn
+state and that's the only event triggered to the OS.
+
+> > So to ensure that the client drivers can properly handle this scenario, let
+> > them know about this platform limitation by setting the
+> > 'pci_host_bridge::broken_l1ss_resume' flag.
+> 
+> I don't see how this means L1SS is broken.  If the device is
+> effectively reset, of course we can't go from L1.x to L0 because we
+> didn't start from L1.x.
+> 
+
+From the OS perspective, the link would still be in L1ss and not expected to
+move to L2/L3 during suspend/resume, since that transition is controlled by the
+OS itself. But when the OS resumes, the link would go to LDn state and it can
+only be brought back to L0, after a complete reset.
+
+- Mani
+
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+> > ---
+> >  drivers/pci/controller/dwc/pcie-qcom.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
+> > index 67a16af69ddc..01afffd384f2 100644
+> > --- a/drivers/pci/controller/dwc/pcie-qcom.c
+> > +++ b/drivers/pci/controller/dwc/pcie-qcom.c
+> > @@ -1363,6 +1363,17 @@ static void qcom_pcie_host_post_init(struct dw_pcie_rp *pp)
+> >  	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
+> >  	struct qcom_pcie *pcie = to_qcom_pcie(pci);
+> >  
+> > +	/*
+> > +	 * During system suspend, the Qcom RC driver may turn off the PHY and
+> > +	 * remove votes to save power. If the endpoint asserts CLKREQ# to
+> > +	 * exit L1ss, the time required to wake the system and restore the
+> > +	 * PHY/refclk exceeds the strict L1ss exit timing, resulting in Link
+> > +	 * Down (LDn). Set this flag to indicate this limitation to client
+> > +	 * drivers so that they will avoid relying on L1ss during system
+> > +	 * suspend.
+> > +	 */
+> > +	pp->bridge->broken_l1ss_resume = true;
+> > +
+> >  	if (pcie->cfg->ops->host_post_init)
+> >  		pcie->cfg->ops->host_post_init(pcie);
+> >  }
+> > 
+> > -- 
+> > 2.51.0
+> > 
+> > 
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
