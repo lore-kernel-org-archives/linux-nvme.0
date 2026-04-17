@@ -4,108 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5AB24F43698
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 12:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E059F436B4
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 15:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+FT2W5yYh4xh00GxJg1EeuW2XmXiJG4+bYu9qwac8tU=; b=KVaLHVoKLmWvNRFCBjfRQKc4ex
-	7I2nlQXdQgTq9jLG6ZKddFkuuHHx02Tggg0300OZBD1lz7gxoUV/PFEcryygFX4RJPTfXex8CWsL9
-	7fyWzyXzA+l9qk83fPzLk/6jEqvoKmnU5Qyro8padV65CyxJiqfBMZQk4K4JUtOn3RwRIayQOahwl
-	xGzfYn6RAV7+id+43a68O0MI9ZHf2J7eeHyhMLd1fd7StZKezasN1apAzCeaaV0k8fYAULKY0LxMa
-	lMS3k7X0cyO7nobEJ0Gq/2Wd19zmAebBxnYuFkJ0/t0cVk2EMqqx0uK29Hnt5ZtQRKVNv0HKsPRKa
-	sqXFm8SA==;
+	bh=xFLTiMMKAFunIyu7ceKg8SWDzKCETKZieFq4JIwHgN4=; b=JklibkMmTVoK0Q+EG1VuKI43D2
+	FcT04Dd9ez0JwPgb1lOwg1IgydgynmwKGOc+bsIigmOjQjprBSL9DK4hATHOHCoBLUxEeVgSVdqdO
+	5ysZUgtzuDgX8rNP4AXO7AWrT2Swp931l6pdZgTPoYkCe20LD/9PBkR8FnAVwgbPt82lHIM2f1p+8
+	w80FMwhMlufsZC/C75FBPbpTQst/CU3k4YxmOQQpHrBxqKXRcwWYM6C9KCYdzQXFFAtp3RF9BYjZS
+	0u0UYo+muAKLTe1xiBWI8T4QX92AkNgmJUZuRc7OvgikjsQTBI0d7wOq9qj+pfhePahr4lWN/9WCu
+	ajA95u7g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDiQx-000000042kY-0Drx;
-	Fri, 17 Apr 2026 12:36:31 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wDkqK-00000004BWY-0d4c;
+	Fri, 17 Apr 2026 15:10:52 +0000
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDiQu-000000042kE-40W1
+	id 1wDkqH-00000004BW5-29CK
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 12:36:30 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63HAOUDE1285416;
-	Fri, 17 Apr 2026 12:36:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=+FT2W5
-	yYh4xh00GxJg1EeuW2XmXiJG4+bYu9qwac8tU=; b=dydnd1aeohn8JYgqJBlBmB
-	82WG9GqU2eHg74eUQ9F4PphjpUyCttrcJQoW9wGXEK8TiIgrjCpmKmssXoxjwZnL
-	SKTeiJbV8iGmuePdOib0fMlnFhcn8Lj1/vjeSnCj6kYwrNz8knOlXJrSRXOosGyX
-	q2aRZsw4EG4/RcjCMcW6RJXFrcTX7NoujBwtQlFEdBHMcCXWYAXSMkk8gN70ndG1
-	HfN6W/NjS9na9ixqxw0AhFKa8TJjTT6wBcpUxHfrGaVlRSciMn9N5I8LSUIgHx6E
-	PZVKeDmeGTvk7bpQqrWkF9TSCojMqJ6qH6t9wgmQviuUT++4gCXB4ULMiwL4bZEw
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dh89khaf5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Apr 2026 12:36:26 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 63H8UOaR025862;
-	Fri, 17 Apr 2026 12:36:26 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dg2ujy0fu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Apr 2026 12:36:26 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63HCaPRc28967462
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Apr 2026 12:36:25 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8E9F358057;
-	Fri, 17 Apr 2026 12:36:25 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 69E4558058;
-	Fri, 17 Apr 2026 12:36:23 +0000 (GMT)
-Received: from [9.124.218.191] (unknown [9.124.218.191])
-	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 17 Apr 2026 12:36:23 +0000 (GMT)
-Message-ID: <7009b70f-bc19-4034-9426-2b94522afcbd@linux.ibm.com>
-Date: Fri, 17 Apr 2026 18:06:21 +0530
+	Fri, 17 Apr 2026 15:10:51 +0000
+Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-40947c81b31so101658fac.1
+        for <linux-nvme@lists.infradead.org>; Fri, 17 Apr 2026 08:10:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776438648; cv=none;
+        d=google.com; s=arc-20240605;
+        b=L/SlbJ89XeyKaS5U98Ha+yUig4cpwWQ3SOMFFtIfDibGqhndo29juUfezZo4IfFlC8
+         qH3KW2E+32ncfspLk1OtRwja7qOC1EUpAzi+oVKLP/fvgOBdYdtAZfc1m3T2RA83fKYk
+         OtqUpRVStMtjmd0c0MdoudhQJVnsUZo11z48L/KuGmu+YK4WXmWQhETcJ0bCuOg/taf0
+         tekAPo+4Rku4JZv8gH3UJBFSQa+ETbNzn+AT+Z7BzfA+6DhBcHCyrmC9W5qDbQUjoBtA
+         T5qMbislrLv55v5amr/Q+HVlFx3B5mN9X9jwxzgawlqNLzWOe4rQo566FPO0TH/CFu5h
+         w3rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xFLTiMMKAFunIyu7ceKg8SWDzKCETKZieFq4JIwHgN4=;
+        fh=qSjku+Q93V4gr0zdW+yo7IQZji7qOyNJ4S64ssOUehI=;
+        b=X97Bj03nQKSNeN2p4Gt/o8NehHGKwSv1A2T3LqVcknJZtXEDscMWnFKqxj3UFKTW7d
+         7Kfc8rVX4KQZICJ+Rkqg9kYGa6najAasc/uG1keoY8U4wBJ7WEn0w/Fu8EG1i/jJJmW2
+         nR97EjW982OPpYuarnm9z0oUcThtiOJpFpftihYfDo2H2Rw7T2Cjb0TMv1R0A2lBxjbn
+         HsdIbzMWXK274KV8H5i/JmAts5WUtD+Rgku5CKrG9/GijRN4jqfrgEr2Q6uiq7bQliJh
+         ci3SB5nWJ4e8sr6WNYcrOtk4nTe5Iq2CFW9V8Sr7XNbtRtcm/s4S+L5vJOBLC48zAZqY
+         4xlA==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1776438648; x=1777043448; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xFLTiMMKAFunIyu7ceKg8SWDzKCETKZieFq4JIwHgN4=;
+        b=VFQvYEaTyoxx5BeC6tzvdnK1vvtB4Gx9bneDccNGSFFqWFuBW6NfhEDdV/26BGqNiq
+         /wD1xBohiuvXlx6VJVS3qvZHXwE2zr77m4kv3zToyqVdoRAIPPclBzV9/DFdf2WtduZR
+         au6C2uiOB7wsSK4P9YcMKtF/63QXylIodf93rMl13hO825czaW3kZkkUJe9XRneigw9B
+         yQPTjMeRwFIzsftuYBMv3cP7VxVjZo7SoFIb2tZIo+/UXaezEB51kRF3+WjRqtn9C1b5
+         riykAM1YXI944BJTpr5QY9c3qvFaHE/BFZHM2l4T6itwyXzLAFvjO66xVAvhDxMwnd0A
+         T1ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776438648; x=1777043448;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xFLTiMMKAFunIyu7ceKg8SWDzKCETKZieFq4JIwHgN4=;
+        b=QesXcVOowQDFOa0aJoh+nJ9KQh1oVr32HvdrDr6PGHfGjWVxZLkrzfw5xHYYzmccIX
+         cAHIleFGxtqsLnfXu0hCsBT7oEq/6OsTAoWzfZQ6VjtcjOZQj7gcLagkDvHIiS+5mQo0
+         Bkm3fVgWWZNB7DjhJVM8jZnK31e1NzkmOwg/6nyqCmzwtr2XQdLJ/IMrM3h1c3bB+O+X
+         ZIY1QGjRX50/6pWES39sYteEbFRghbAQRKCUWRGF9p9DLEEzhVbWMfrckj8dqFB3FhXE
+         jduypb+Zt7gIjMySyypZKX+OilGjwv/zukwk+PRDAGuo8UrRdrqAbOcjDY8zC1wO20Gt
+         ngTg==
+X-Forwarded-Encrypted: i=1; AFNElJ9WABhnPI+LAMxm3jNyMk/uEQdN7D5HIvG4Y4pmgFMiq3kVam18XrNMDMVHyySzmUgLAZevqJPGJ+0u@lists.infradead.org
+X-Gm-Message-State: AOJu0YzRYhf0V86bCYFIggogw7yd/yo7tUb+NVMRfeiuffgts/xKG63+
+	2D8aPANIuc3XZCGhqsNIX89kN1L7nScunPNrWdGbitC7EHnOPs2sfoBGSTrseVs20BHQ76Y6hPB
+	op4xmCt7CKc3Z8ZAEs2j/HWEqQG1D+5XWyf+830+B3A==
+X-Gm-Gg: AeBDieuokLjnty9gnkh7oEx7At2IrlkNqrZ7RQQJ20oG+t6HuOOAM8rQcFphN9wdAZ7
+	zLYkKEKK6Ru/QOaLGGxcB47avoLl+ALbDkVZxiDvnjfzbrJvKB+qlv1WwX3euPqFg4AwBUpa9Fl
+	M9o8YJJaWmIa/B+h5h72XrTo0fu5W1vBYH/j132OlIU9z4KRDsmTQDS2lRZY/7XH55pSSb5cInG
+	0h4kLjAmu/Wn0HHPiQ3sMceKEa8jQHAGVjMOC+JkkncRzZN/bxcXaC3zH/DTYF9Qw8s64d49dZq
+	OcgNbqDY4REqd9U4PjXpp8yaqDC/Fw==
+X-Received: by 2002:a05:6870:8888:b0:417:a04:483 with SMTP id
+ 586e51a60fabf-42abf22006cmr1173721fac.1.1776438647695; Fri, 17 Apr 2026
+ 08:10:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH blktests v2] nvme/068: add a test for multipath delayed
- removal
-To: John Garry <john.g.garry@oracle.com>, shinichiro.kawasaki@wdc.com,
-        linux-block@vger.kernel.org
-Cc: linux-nvme@lists.infradead.org, kch@nvidia.com
-References: <20260417094854.2135472-1-john.g.garry@oracle.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260417094854.2135472-1-john.g.garry@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: UTYyiHuSLvEGyYe10GSWWW4hDNCap6Si
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDEyNCBTYWx0ZWRfX0Z68G0Yhgoze
- bNfeJ0+gHQxXc4mGF3KSFIHdV7ESBRFktGCoFUS1nktNgmtnBpcZQdgrjcpAMdie22uxGEAC13o
- s22UNzN9bluy7QfYNccQuA4/ogkzizZnIrIXePN7bavc5skXS9rpYZ80E6U7EL5nV+YfvZcdA4k
- lwxodXxhWTEfbnZ23Q/gj85RjbZryBsqJ1lD3E6OOHaR0EfcH/ru7gHyM/hAm7Tw8OOCuVLKjzv
- qFxYy8Pv+JVHC+wfJGYdQw38Rxk96fPMK9jrqqdKA3o/Uzd1Qfwar4EHuzLDk+nYtwfPxfEIqTc
- fKbXGkOw3t6xjeRTdaSpDnIcxPYFRgT8vHPK8izoPe2mMgQEdZh/Q3jGPdwhdg3X/2FDeIO4u1G
- kWr3OapAXnin/uTjZlWm4nPyDQHNVVp1BMFYkrIiTue8HBGyeS0T/WACb4D36RrE6CwtDW1H+gS
- r2CBCWXyCPTtpw6TmIg==
-X-Proofpoint-ORIG-GUID: UTYyiHuSLvEGyYe10GSWWW4hDNCap6Si
-X-Authority-Analysis: v=2.4 cv=W60IkxWk c=1 sm=1 tr=0 ts=69e2294a cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=Ikd4Dj_1AAAA:8
- a=yPCof4ZbAAAA:8 a=VnNF1IyMAAAA:8 a=vFfYFJvREM-Gq1xf8H4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-17_01,2026-04-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 priorityscore=1501 spamscore=0 bulkscore=0
- adultscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604170124
+References: <20260417015732.2692434-1-csander@purestorage.com> <yq18qams3re.fsf@ca-mkp.ca.oracle.com>
+In-Reply-To: <yq18qams3re.fsf@ca-mkp.ca.oracle.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Fri, 17 Apr 2026 08:10:35 -0700
+X-Gm-Features: AQROBzAgZnPY6pX5OSwcczY9YUvRnJkbRQ4Ptv6iv7u-Y7bsDv654h6ccq-SxOo
+Message-ID: <CADUfDZrwzUTi2TOj6M-+FtBK6u5evMsWSBqRDwJsLb8yLbOGvw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] block: fix integrity offset/length conversions
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Anuj Gupta <anuj20.g@samsung.com>, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260417_053629_143009_530DDB74 
-X-CRM114-Status: GOOD (  20.09  )
+X-CRM114-CacheID: sfid-20260417_081049_712211_876BEB8D 
+X-CRM114-Status: GOOD (  41.90  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -120,39 +118,121 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/17/26 3:18 PM, John Garry wrote:
-> For NVMe multipath, the delayed removal feature allows the multipath
-> gendisk to remain present when all available paths are gone. The purpose of
-> this feature is to ensure that we keep the gendisk for intermittent path
-> failures.
-> 
-> The delayed removal works on a timer - when all paths are gone, a timer is
-> kicked off; once the timer expires and no paths have returned, the gendisk
-> is removed.
-> 
-> When all paths are gone and the gendisk is still present, all reads and
-> writes to the disk are queued. If a path returns before the timer
-> expiration, the timer canceled and the queued IO is submitted;
-> otherwise they fail when the timer expires.
-> 
-> This testcase covers two scenarios in separate parts:
-> a. test that IOs submitted after all paths are removed (and do not return)
->     fail
-> b. test that IOs submitted between all paths removed and a path
->     returning succeed
-> 
-> During the period of the timer being active, it must be ensured that the
-> nvme-core module is not removed. Otherwise the driver may not be present
-> to handle the timeout expiry. The kernel ensures this by taking a
-> reference to the module. Ideally, we would try to remove the module during
-> this test to prove that this is not possible (and the kernel behaves as
-> expected), but that module will probably not be removable anyway due to
-> many references. To test this feature, check that the refcount of the
-> nvme-core module is incremented when the delayed timer is active.
-> 
-> Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
+On Thu, Apr 16, 2026 at 8:26=E2=80=AFPM Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+>
+>
+> Hi Caleb!
+>
+> > The block layer's integrity code currently sets the seed (initial
+> > reference tag) in units of 512-byte sectors but increments it in units
+> > of integrity intervals
+>
+> I don't necessarily agree with the premise that the seed needs to be
+> expressed in any particular unit. The seed is a start value, nothing
+> more.
 
-Looks good to me:
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
+NVM Command Set specification 1.1 section 5.3.3 requires the reference
+tag to increment by 1 per logical block, so that seems to determine
+the increment unit:
+
+> If the Reference Tag Check bit of the PRCHK field is set to =E2=80=981=E2=
+=80=99 and the namespace is
+> formatted for Type 1 or Type 2 protection, then the controller compares t=
+he Logical Block
+> Reference Tag to the computed reference tag. The computed reference tag d=
+epends on
+> the Protection Type:
+> =E2=96=AA If the namespace is formatted for Type 1 protection, the value =
+of the computed
+> reference tag for the first logical block of the command is the value con=
+tained in
+> the Initial Logical Block Reference Tag (ILBRT) or Expected Initial Logic=
+al Block
+> Reference Tag (EILBRT) field in the command, and the computed reference t=
+ag is
+> incremented for each subsequent logical block. The controller shall compl=
+ete the
+> command with a status of Invalid Protection Information if the ILBRT fiel=
+d or the
+> EILBRT field does not match the value of the least significant bits of th=
+e SLBA field
+> sized to the number of bits in the Logical Block Reference Tag (refer to =
+section
+> 5.3.1.4).
+> Note: Unlike SCSI Protection Information Type 1 protection which implicit=
+ly uses
+> the least significant four bytes of the LBA, the controller always uses t=
+he ILBRT or
+> EILBRT field and requires the host to initialize the ILBRT or EILBRT fiel=
+d to the
+> least significant bits of the LBA sized to the number of bits in the Logi=
+cal Block
+> Reference Tag when Type 1 protection is used.
+> =E2=96=AA If the namespace is formatted for Type 2 protection, the value =
+of the computed
+> reference tag for the first logical block of the command is the value con=
+tained in
+> the Initial Logical Block Reference Tag (ILBRT) or Expected Initial Logic=
+al Block
+> Reference Tag (EILBRT) field in the command, and the computed reference t=
+ag is
+> incremented for each subsequent logical block.
+
+The ref tag used for a particular block needs to be consistent. And
+since reftag(block N) can be computed as the reftag(M) + N - M if
+block N is accessed as part of an I/O that begins at block M, the
+function must be of the form reftag(block N) =3D N + c for some constant
+c. Thus, the ref tag seed needs to be computed in units of logical
+blocks (integrity intervals); no other unit (e.g. 512-byte sectors)
+works.
+To see the issue with the current approach, consider an example
+accessing LBA 1 on a device with a 4 KB block size. If the block is
+written as part of a write that begins at LBA 0, its ref tag in the
+generated PI will be 1 (sector 0 + 1 integrity interval). If it's
+later read by a read starting at LBA 1, its expected ref tag will be 8
+(sector 8 + 0 integrity intervals), and the auto-integrity code will
+fail the read due to a reftag mismatch. This seems completely
+unworkable for a block storage device.
+
+>
+> We happen to set it to the block number in the block layer since we need
+> to be able to know what to compare against on completion (for Type 1 +
+> the restrictive Linux implementation of Type 2). But that does not imply
+> that the seed needs to be specified in any particular unit. Submitters
+> set the seed to whichever value makes sense to them (i.e. it could be
+> the offset within a file as opposed to the eventual LBA on the backend
+
+I agree, the seed doesn't need to match the final LBA, but it does
+need to be in *units* of logical blocks, plus some constant offset.
+
+> device). And then that seed is incremented by 1 for each integrity
+> interval of data in the PI sent to/received from the device. The
+> conversion between the submitter's view of what the first ref tag should
+> be (i.e. seed) and what is required by the hardware (for instance lower
+> 32 bits of device LBA) is the reason we perform remapping. The seed is
+> intentionally different in the submitter's protection envelope compared
+> to the device's protection envelope.
+>
+> Using the block layer block number as seed was just a convenience since
+> that provided a predictable value for any I/O that had its PI
+> autogenerated. I never intended for the actual LBA to be used as seed
+> value on a 4Kn device. Initially we just used 0 as the seed. Leveraging
+> the block number just added a bit of additional protection.
+>
+> I confess I haven't tested 4Kn in a while since things sort of converged
+> on 512e. But I used to run nightly tests on a SCSI storage with 4Kn
+> blocks just fine.
+>
+> > This looks to be a longstanding bug affecting block devices that
+> > support integrity with block sizes > 512 bytes; I'm surprised it
+> > wasn't noticed before.
+>
+> Are you seeing this with NVMe or SCSI?
+
+With a ublk device. It should affect any block device that supports
+integrity and has a logical block size > 512.
+
+Best,
+Caleb
 
