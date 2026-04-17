@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3557EF99C6B
-	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 22:26:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFA08F99C63
+	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 22:29:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=+lwGJ+GXOWE5MgS094XRlbgHkR1fylmtk6R7EJm5diY=; b=0Gu7Lb6RWJ2+zR
-	ttXkIIHDkXjw9tEQbLZ5U+gy5zodlj0LuDvThj6MXuvrwyhtg0jgU5TFh5BX4BcFT4OxIB/DlX8F0
-	G2oO2Ys++l9rRqHPmrLG58KpVOuWRgQE62sJE96SMpwO+BzrO5HJPNsU0zt/21atRccqkCcv5CkCQ
-	EntIUXSURry3ICk+oeDj9TXwAStSzKMIzfZ6BnhdvbKvAr/RxqIoQ/3FGPo0PjpXNfYN1kxw3WwHR
-	qMueyypRZIjZgfVo3EVkqxfKw6VcpqlpsubQ0UOYGuuaxkdSI8mYcJFiDCFKNPyJFPJ4Or9wAqZAf
-	8mtZwcN9umTgycaNkXHg==;
+	List-Owner; bh=90GPSjPJxgq6uva6UQmf92zTsQHJ++EsPPG9OkfsNbE=; b=UxtCpCRMGsaAnb
+	x0sbmCp8VVL/ZzsKsuLFQcOdqAZHsiYxebv/ZqIMWgpwobrW5nC9WWBFN74E3ENJ72GvQcQ52w6rE
+	Hj4P9jlNT3utG7o18gpJGsOKgnBzrWzufcsQu3L3/Q9ULCP+J/N8DenuMJ+a3Qsh7hoQ32m+31kza
+	C/Ltwx4q+4fHdjujLbQ6tm5ZVBdoIAnXk4JwoMdND2N5BJKbGZaTOr5GasclggCtnZ6hZ9gDcunce
+	wTqCKHyUx3aOkXbMNAX6Kyta5641471EqbIKRUZXi2DRu7Asvnq/VSBwpdwrRPnx98SG1KvwY/uDO
+	E6id0XKqdN9xr6xCgXxA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDrdn-00000004WU6-1RUj;
-	Fri, 17 Apr 2026 22:26:23 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wDrgV-00000004Wi9-05zv;
+	Fri, 17 Apr 2026 22:29:11 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDrdi-00000004WTn-0kZa
+	id 1wDrgS-00000004Whm-0AZX
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 22:26:18 +0000
+	Fri, 17 Apr 2026 22:29:09 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4DB3560052;
-	Fri, 17 Apr 2026 22:26:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D67A0C19425;
-	Fri, 17 Apr 2026 22:26:16 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 6459340840;
+	Fri, 17 Apr 2026 22:29:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A959C19425;
+	Fri, 17 Apr 2026 22:29:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776464777;
-	bh=ldDrCZLNDA6+Ze7JqHXF2mgFMD1/O2u3aOg33Abpsds=;
+	s=k20201202; t=1776464946;
+	bh=5AZF7bXelQGRzqbFL48OEydTjXw5VXz9hXvYPhUg7As=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=k56JV38kBfvzqBIsN8JWl0Oujn12TZ287FU/V6ljKbTCA3FwTXkCcL5lEOyQu9Csg
-	 5XRwUUwXmSBrZsAU7UqtNJbFHgfcr4QePzpqz5ifIEgc3MW0Q6PhGH3Kh5bHTGTZHV
-	 FSzjtKEkUXiNFDZ+4ROvgL6eUv3l/d/dxwFNaIeZDUZZegGDxOh6k9yhkj++tdO+hh
-	 2oWSEgXOrBGlBoatS6GYN1fxHBxyCReEpvSnRBNmjG9thinHga388zSjN4n3sgXq0h
-	 tVBT4yHApURwjzkixaE9kJ/k4TTbHZDtR9v9uOFCKke4JGdVgWNq7HyERrbClt4wRb
-	 5YdzUqPFtBFfg==
-Date: Fri, 17 Apr 2026 17:26:15 -0500
+	b=uHokZ8JmZIpmCjQjmbsog78G5QkQcMRXVG1SuUlM+Nxsvs1vDF9q/BthjNfLvD12J
+	 uOb9NrkpkQpW82ID0zvAni/zrsRRsQ6fPkz2mqBYnM3X9EyeMl4e+YnDuVraRaME+3
+	 nDHMikggfXez8Tw3w3iu88GYsmtNQj97tzu1puKYbnjzlHsJNm5ZzDY5PNOtZjrKEB
+	 WuHnkLDWAiaD4UbXIz3q2qSnKzASaDive6Pt/nsKkGFbceGWgHZRZjtqmfeOwpFf1c
+	 kRFZJkMoVYnEpR6tJoaxuQnTFJVYM62JvSCDyw8DnKk/tYIvoyuMOEWWfV8xXYL9jd
+	 +QOxtyBDDEs0w==
+Date: Fri, 17 Apr 2026 17:29:04 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Manivannan Sadhasivam <mani@kernel.org>
 Cc: manivannan.sadhasivam@oss.qualcomm.com,
@@ -55,13 +55,16 @@ Cc: manivannan.sadhasivam@oss.qualcomm.com,
 	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 3/4] PCI: qcom: Indicate broken L1ss exit during resume
- from system suspend
-Message-ID: <20260417222615.GA97425@bhelgaas>
+Subject: Re: [PATCH 0/4] PCI: Introduce pci_dev_suspend_retention_supported()
+ API
+Message-ID: <20260417222904.GA97164@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <vji2jty2pqerse6g66pavrt7e7oq3bax4m6sobp5wxew6xwv6d@r5lbv35klz6b>
+In-Reply-To: <3smfckgl2vwhha7rtlqlpfzlfpg2rebyump77cbi5pcgwubn3y@d66eu7axo7xi>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260417_152908_164607_B9A91F68 
+X-CRM114-Status: GOOD (  37.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,101 +79,56 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 17, 2026 at 05:36:42PM +0530, Manivannan Sadhasivam wrote:
-> On Thu, Apr 16, 2026 at 02:20:00PM -0500, Bjorn Helgaas wrote:
-> > On Tue, Apr 14, 2026 at 09:29:41PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> > > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+On Fri, Apr 17, 2026 at 04:34:53PM +0530, Manivannan Sadhasivam wrote:
+> On Thu, Apr 16, 2026 at 02:11:11PM -0500, Bjorn Helgaas wrote:
+> > On Tue, Apr 14, 2026 at 09:29:38PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
+> > > This series introduces a new PCI API
+> > > pci_dev_suspend_retention_supported() to let the client drivers
+> > > know whether they can expect context retention across
+> > > suspend/resume or not and uses it in the NVMe PCI host driver.
 > > > 
-> > > Qcom PCIe RCs can successfully exit from L1ss during OS runtime.
-> > > However, during system suspend, the Qcom PCIe RC driver may
-> > > remove all resource votes and turns off the PHY to maximize
-> > > power savings.
-> > > 
-> > > Consequently, when the host is in system suspend with the link
-> > > in L1ss and the endpoint asserts CLKREQ#, the OS must first wake
-> > > up and the RC driver must restore the PHY and enable the refclk.
-> > > This recovery process causes the strict L1ss exit latency time
-> > > to be exceeded. (If the RC driver were to retain all votes
-> > > during suspend, L1ss exit would succeed without issue, but at
-> > > the expense of higher power consumption).
+> > > This new API is targeted to abstract the PCI power management
+> > > details away from the client drivers. This is needed because
+> > > client drivers like NVMe make use of APIs such as
+> > > pm_suspend_via_firmware() and decide to keep the device in low
+> > > power mode if this API returns 'false'. But some platforms may
+> > > have other limitations like in the case of Qcom, where if the RC
+> > > driver removes the resource vote to allow the SoC to enter low
+> > > power mode, it cannot reliably exit the L1ss state when the
+> > > endpoint asserts CLKREQ#. So in this case also, the client
+> > > drivers cannot keep the device in low power state during suspend
+> > > and expect context retention.
 > > 
-> > I don't think the link can be in L1.x if the PHY is turned off,
-> > can it?  I assume if the PHY is off, the link would be in L2 (if
-> > aux power is available) or L3.
+> > I don't know what pm_suspend_via_firmware() means.  The kernel-doc
+> > says "platform firmware is going to be invoked at the end of the
+> > system-wide power management transition," but that doesn't say
+> > anything about what firmware might do or what it means to drivers.
 > 
-> As per the spec, if the link is in L1.2, the entire analog circuitry
-> of the PHY can be powered off and that's what I meant here. The
-> LTSSM state would be preserved by the MAC layer, whose context is
-> always retained.
-> 
-> The only problem is that, CLKREQ# is routed to an Always-on-Domain
-> (AON) inside the SoC. So when the endpoint asserts CLKREQ#, AON
-> wakes up the SoC and later the PCIe controller driver turns ON the
-> PHY. But by that time, the L1ss exit latency would've elapsed,
-> causing LDn.
-> 
-> > L2 and L3 both correspond to the downstream device being in D3cold
-> > (PCIe r7.0, sec 5.3.2), so I assume this is a reset as far as the
-> > device is concerned, and we need all the delays associated with
-> > reset and the D3cold -> D0 transition.
-> > 
-> > > This latency violation leads to an L1ss exit timeout, followed
-> > > by a Link Down (LDn) condition during resume. This LDn can crash
-> > > the OS if the endpoint hosts the RootFS, and for other types of
-> > > devices, it may result in a full device reset/recovery.
-> > 
-> > What does "L1SS exit timeout" mean in PCIe terms?  Is there some
-> > event (Message, interrupt, etc) that is triggered by the timeout?
-> 
-> By 'L1ss exit timeout' I meant the failure to move to L0 state post
-> L1.2 exit.  During L1.2 exit, the endpoint expects the refclk and
-> common mode voltage to be restored within the negotiated time. Per
-> spec, r7.0, sec 5.5.3.3.1, Exit from L1.2:
-> 
-> ```
-> Next state is L1.0 after waiting for TPOWER_ON
-> 
-> * Common mode is permitted to be established passively during L1.0,
-> and actively during Recovery. In order to ensure common mode has
-> been established, the Downstream Port must maintain a timer, and the
-> Downstream Port must continue to send TS1 training sequences until a
-> minimum of TCOMMONMODE has elapsed since the Downstream Port has
-> started transmitting TS1 training sequences and has detected
-> electrical idle exit on any Lane of the configured Link.
-> ```
-> 
-> So if this condition is not satisfied, then the link would move to
-> the LDn state and that's the only event triggered to the OS.
-> 
-> > > So to ensure that the client drivers can properly handle this
-> > > scenario, let them know about this platform limitation by
-> > > setting the 'pci_host_bridge::broken_l1ss_resume' flag.
-> > 
-> > I don't see how this means L1SS is broken.  If the device is
-> > effectively reset, of course we can't go from L1.x to L0 because
-> > we didn't start from L1.x.
-> 
-> From the OS perspective, the link would still be in L1ss and not
-> expected to move to L2/L3 during suspend/resume, since that
-> transition is controlled by the OS itself. But when the OS resumes,
-> the link would go to LDn state and it can only be brought back to
-> L0, after a complete reset.
+> It's hard to predict what the firmware might do after it gains
+> control from the OS. But as far as the API goes, it just expects the
+> drivers to save the context and reset the device so that the
+> firmware could do anything it want.
 
-Thanks for the background.  It would help a lot if I had more of a
-hardware background!
+I don't see anything about the driver needing to reset the device.
+(Kernel-doc says "driver *may* need to reset it" but no hint about how
+to know.)
 
-Does L1.2 have to meet the advertised L1 Exit Latency?  I assume maybe
-it does because I don't see an exception for L1.x or any exit
-latencies advertised in the L1 PM Substates Capability.
+Adding something like "device internal state is not preserved" would
+go a long ways here.
 
-Regardless, I'd be kind of surprised if *any* system could meet an
-L1.2 exit latency from a system suspend situation where PHY power is
-removed.  On ACPI systems, the OS doesn't know how to remove PHY
-power, so I don't think that situation can happen unless firmware
-is involved in the suspend.
+> > Based on d916b1be94b6 ("nvme-pci: use host managed power state for
+> > suspend"), which used it in nvme_suspend(), I guess the assumption
+> > is that pm_suspend_via_firmware() means the device might be put in
+> > D3cold and lose all its internal state, and conversely,
+> > !pm_suspend_via_firmware() means the device will *never* be put in
+> > a low-power state that loses internal state.
+> 
+> Yes, that's the assumption. Though, the firmware might not do D3Cold
+> at all, but the drivers should be prepared for that to be compatible
+> with all firmware implementations.
 
-Maybe that's part of why pm_suspend_via_firmware() exists.  What if
-native host drivers just called pm_set_suspend_via_firmware()?  After
-all, if they support suspend, they're doing things that are done by
-firmware on other systems.
+I don't think it's useful for a driver to know "firmware might not do
+D3cold".  What could a driver do with that?  Unless the driver *knows*
+internal state will be preserved, it must act as though the state is
+lost.
 
