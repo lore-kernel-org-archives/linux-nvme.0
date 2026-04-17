@@ -4,7 +4,7 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 939F4F8E499
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C4FC4F8E49F
 	for <linux-nvme@archiver.kernel.org>; Fri, 17 Apr 2026 01:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
@@ -12,69 +12,69 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i9pyvtNYah5iCr5GskErP9n/SMj5zNsqkI2O6P5JyAY=; b=Mio27Hif3xm0kmuTVPdr/cLshG
-	ilHjZbIp1hZeuim7vHPsEURqJWVPiu1USsYqr4/LEv7jYvnLl4AEfX8FTDOuVvMm5SSu2kjW98fql
-	ZeqoJvkj8Dpf74xMseWQqllfRxScycKc7ePMFM8CN+EYDpGJlFNtdzo8Yv4mZGljyUK3Ix6pA0EIS
-	Ex6UZE5eg4XbTfAFu3in00lFXtTlhpD1Tmik25N49iS/R1OK1+MoCEuyGL6I4bR4k8G1aRPc71jYh
-	XM9uIDy28bcMc+KVckKeRXIEXu20lSx+za/RuKT28ob6wen9nwb5OD0N4Az/yxQHGUMYI5PrY1K44
-	lQ2jojBw==;
+	bh=ePLDDsMaoT6WX22t4kx7uDAhAvj4BaoTe7M9oy5w3tM=; b=EPyHDTNNh0rspkAOwT43pUJKs3
+	jrDbDhayZSuhw3zO263h8ANj2vC//j0nok2B4UgALRIQZZvLbj9N6/A9wKL09XQiMB4m6nD0Wp2CY
+	Q7zOHlmeJoxCuatdi5c8p1z3gBT2QmtpCr3HKYDr0qmYGRcu/hZi832puK1oUa0hO5bmxczdyQRsf
+	qOocdMl9uRJRVlYGZQQ+DBvc9Yv8clGQjQTd1rXiieWerx1BRmMJ4mUqpV3EQYZjGhZpQ1L6tbOFO
+	OHDyT3DdEdf2T66q0Luod1KYQhDpn301+RggCRiCu+WJ0M6dxNNoJ7D9gRxt+5iztbFvEVLJSdRdj
+	8n5aHpsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDYSq-00000003IJF-1uUV;
+	id 1wDYSq-00000003IJw-3QlH;
 	Fri, 17 Apr 2026 01:57:48 +0000
-Received: from mail-pl1-x663.google.com ([2607:f8b0:4864:20::663])
+Received: from mail-pl1-x664.google.com ([2607:f8b0:4864:20::664])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDYSj-00000003IDC-2Poi
+	id 1wDYSl-00000003IEc-0C1h
 	for linux-nvme@lists.infradead.org;
 	Fri, 17 Apr 2026 01:57:45 +0000
-Received: by mail-pl1-x663.google.com with SMTP id d9443c01a7336-2b25314f060so20055ad.3
-        for <linux-nvme@lists.infradead.org>; Thu, 16 Apr 2026 18:57:41 -0700 (PDT)
+Received: by mail-pl1-x664.google.com with SMTP id d9443c01a7336-2ae1255a90bso329785ad.1
+        for <linux-nvme@lists.infradead.org>; Thu, 16 Apr 2026 18:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1776391060; x=1776995860; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1776391062; x=1776995862; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i9pyvtNYah5iCr5GskErP9n/SMj5zNsqkI2O6P5JyAY=;
-        b=eL24DK64KIVvgRrapoueRp/vsEy6pvxi1aLGoFAJQJJFmf413SFZmUlV1sYP7IWzG9
-         jxFu2FeLDH6vOVqyW7rQdxYZhWgfyxZgvEL08DQjRwh9+rEhA5Kaj+Yebml0tn0nzNZn
-         iGwRvSJa0WfEwABbuxK7l4DMz81iv9ule9tq+2FoqlV4LLXMYxG/Okr01zKPYiyoeLhf
-         bX4x+KUDuZEn31bXVpSv1RAJGxJ5llnBLpme4gdshcbsJjOY4ezwLMl+EHLXgeQlwqsN
-         2g0bQtZ9u1kTQugVA4qzMF5yJQoHva77hUPlX+gFTudt7i0q7LUtKFJpLO/gXTyzx8M2
-         HEpw==
+        bh=ePLDDsMaoT6WX22t4kx7uDAhAvj4BaoTe7M9oy5w3tM=;
+        b=A6j0kgD8c2fyXcY5CVc2vpo1ls7GLX2YffP5lclXkN4hiswetJXSb4MtbvQGQcGO9B
+         IgdmX7VIb+HXcMeh5e5BfcYpgDBp/+BEIdP7DW/I33AsKA66RzztaS6LzhtWKJpz5S6H
+         ZgdFLXCU/dxPdARXFU2sgJ//JUztCkKvJejSUREoAtOD4ON01Wj/iciGQhU6y6TQrGgg
+         Oymdl1jNQQjEgUv61s81zdPu9vq3+AhUD5S5ShBRFuaIgTw873yTZjhE8KrGZUPc72j1
+         IWurXbJTSzHLRlIppmQvTDobkeVFzbBAMNtsVmwNb2FidnF+24Bagg/7r9vV3d3dnx3c
+         mhEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776391060; x=1776995860;
+        d=1e100.net; s=20251104; t=1776391062; x=1776995862;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=i9pyvtNYah5iCr5GskErP9n/SMj5zNsqkI2O6P5JyAY=;
-        b=MsZabaBAvvHM7EJZTbz80ha30tIUypgfDonJoQAqFcBer5MO98SxVILIULzL7shXbB
-         cnWQoH/Kpp/S8+J7lvlcXlRQg+ab5o8d+qD5idePKFx7VXVrVjtU0IEaIBn5F3cC12lo
-         1Vyb6Vd8h00PtIc3nLELq/PJSMmDtxWB1rVTOSb3t1J2n9c7Ye1LhCyRA+bihpgd+QXU
-         QItqjIcCeGNrp8fArFKs1gG1CPvSsBCjsa0t4qzkgtFWkqD6pfc9/iD1YQeL4uts3Y/U
-         IKiiX/24xaOxdJmXF5mg5YExdlIlkyLbiHQExUOtXTV5z7urrN86fg7i82qSRbyQ+wPX
-         2N4A==
-X-Forwarded-Encrypted: i=1; AFNElJ+6OHyfTokQYm0ImO06Wr6kZoJ8AmX2TuRkS0Z2K4LrVdttl+GswkAwunjvjlRWGgFtpPWCgCZd/Z8G@lists.infradead.org
-X-Gm-Message-State: AOJu0YxIF+M9Fo25p8OsRgUYW05XTas20sYVCmnpgraBYoG3MFslCMM8
-	+PfJ4JWfacJnciPi0sUzp6KFZ87ISQi3hjdEmwFEjxSDlmp9w6ia7idTYF13xbMvcf2qMcqkgFd
-	H99IM1TZasmTCUbTSF1gaytQ5S7HVQeQ5TgcNHtvL9tGVrIa5Q+28
-X-Gm-Gg: AeBDietpLyjJJV4PcdFNou/wdt5kN0AaXwzdEyvQpcTLwJmXLZv7jZObhZIj+t8gb9K
-	49GYOhNLYQRvJDLDjgZ4u8io+E2diH+XeSV59HGbYb4G2on9ydx5ajZOI3muF7sVVKiH2XrMG2y
-	jCMVOkL5qFdWuAKYb0Qymy2P4CJKDw6vn5kkL8U0FDnqlNIq/IXefKgNYXN5k6Bb4QFvk6zVRLi
-	MV8UAx1PrKVsuEibfvXjEXItFeYKhK/rI6AoILtwt5wtxonO8wJIzJsObAHZ16r9tBgnZBkE9Ws
-	2rB28SEKKci1nvfjDHXWhc3Q38pO5wPvd/4+FKkJK+QRDQz+4Xcd6u7Vi+IUzUXX2Pe/dc93VAE
-	D3YlVFTbcljY2juAzTkfyi/TMNASCooa7VDst8TD/FAOrSxXXwQ==
-X-Received: by 2002:a17:903:3b88:b0:2b2:ac6f:104b with SMTP id d9443c01a7336-2b5f9e79f5bmr4284705ad.1.1776391060519;
-        Thu, 16 Apr 2026 18:57:40 -0700 (PDT)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2b5faaf81b5sm203705ad.40.2026.04.16.18.57.40
+        bh=ePLDDsMaoT6WX22t4kx7uDAhAvj4BaoTe7M9oy5w3tM=;
+        b=eixTFL9+SwwVe832vBfSC3OfrPahBB7PjyT6aOpQ9tjFAG7TyuYPO8RXdJ03LWHKug
+         y8svTEGDWiTF8Tlha6Acoy2wbQ0iugWdmWYpBWZ9CYKVKROa3/PJqcqD3ZQiJWkKF2ex
+         KNFiQEoha4djQk9cbq4mNN20ZKLCIbV60To4Qemyw47funx3rz3JGBSAi75W6xxoczew
+         uQOOfhonlePzvPmm/3/Cw8I2mrcTeMr/IBr/9c0FeMmL/1ihlEpeJE8GSdyzEAzMF6T6
+         5YWftFyRzbgv4ZMhHuU3Jmk2tevicXM8jYssVoweWRGlONoiNArwz7L4GQykEvyCOefg
+         Wc1A==
+X-Forwarded-Encrypted: i=1; AFNElJ8Ow0hErb7x7D4AYU03abgR41eI46HQL7Af4hJGfLLFPJ7G5mMoHT1avIv/xsPxiTrs6x3Im8Nnzb+z@lists.infradead.org
+X-Gm-Message-State: AOJu0YxZ+OblNchpGTGcHdE4QINS3qzDduLa5E5n90Dt0i0lggECgK8l
+	89fXkLBmoVfkuFQ+aqUvHkJ9XALgS4CwY+i4+N8tf6Rm9kC64THYbTrN7kmz9iZVtXHFA16Hg5t
+	I2n06K5yn6WfdDuo0LgMbCJWFhOzNGDZ1fvYz
+X-Gm-Gg: AeBDieuGEYddzDjuMZrMA5u2RxUecVdXAdmcOlJSWfiY+xbsGSwDvMSQBVnSd5ykYNg
+	XwbtT/8LNa/hAKDXRHEr0W6C5GoKGAF4i7UFVSeJ+stTus/X6AzeJM8x1/by0CLO30FsisYdRKX
+	oVX0iVw1QhG88Mdv9/BVKDcBI8/0dXJrBY75QY6b0F2y/9KY5iElrcKRFUR83X90EQkfkLkwgJ5
+	K71PtMfJ9yc5gXXBEcAbtScvsQX+XrfZ5tP+inTnxZvPjyOvt82ZpDD2o9PsPMS8skYCLicbDQz
+	CAJ3nnWfN2kXNwoVhJ1CmCAp9tOWfAOyQ6JEX3Wd5uDOgPmKTyOde+RKf6hUed80StWAFP6/vXI
+	/gvhknWE3faCcWZnbRMR8pTunRAQnf9ZNKdzeQn5xvN1oaYa2KGtDF1d1ZL/GFX6G
+X-Received: by 2002:a17:902:b68f:b0:2b2:48a5:45c3 with SMTP id d9443c01a7336-2b5f9eceb6amr2890535ad.1.1776391062085;
+        Thu, 16 Apr 2026 18:57:42 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.129])
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2b5faa0fa70sm233095ad.14.2026.04.16.18.57.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 18:57:40 -0700 (PDT)
+        Thu, 16 Apr 2026 18:57:42 -0700 (PDT)
 X-Relaying-Domain: purestorage.com
 Received: from dev-csander.dev.purestorage.com (dev-csander.dev.purestorage.com [10.112.29.101])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id D6079340796;
-	Thu, 16 Apr 2026 19:57:39 -0600 (MDT)
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 658EC3406AA;
+	Thu, 16 Apr 2026 19:57:41 -0600 (MDT)
 Received: by dev-csander.dev.purestorage.com (Postfix, from userid 1557716354)
-	id D2633E406BE; Thu, 16 Apr 2026 19:57:39 -0600 (MDT)
+	id 60208E406BE; Thu, 16 Apr 2026 19:57:40 -0600 (MDT)
 From: Caleb Sander Mateos <csander@purestorage.com>
 To: Jens Axboe <axboe@kernel.dk>,
 	Christoph Hellwig <hch@lst.de>,
@@ -88,17 +88,17 @@ Cc: Anuj Gupta <anuj20.g@samsung.com>,
 	target-devel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Caleb Sander Mateos <csander@purestorage.com>
-Subject: [PATCH v3 1/6] block: use integrity interval instead of sector as seed
-Date: Thu, 16 Apr 2026 19:57:27 -0600
-Message-ID: <20260417015732.2692434-2-csander@purestorage.com>
+Subject: [PATCH v3 5/6] t10-pi: use bio_integrity_intervals() helper
+Date: Thu, 16 Apr 2026 19:57:31 -0600
+Message-ID: <20260417015732.2692434-6-csander@purestorage.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20260417015732.2692434-1-csander@purestorage.com>
 References: <20260417015732.2692434-1-csander@purestorage.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260416_185741_617469_455A90A6 
-X-CRM114-Status: GOOD (  15.13  )
+X-CRM114-CacheID: sfid-20260416_185743_085349_1F45831F 
+X-CRM114-Status: GOOD (  12.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,72 +113,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-bio_integrity_setup_default() and blk_integrity_iterate() set the
-integrity seed (initial reference tag) to the absolute address in the
-block device in units of 512-byte sectors. The seed is correctly
-incremented/decremented in units of integrity intervals in
-bio_integrity_map_iter(), bio_integrity_advance(), and
-blk_integrity_interval(). As a result, the ref tag written or read to a
-particular integrity interval on a block device with integrity interval
-size > 512 bytes varies with the starting offset of the read/write.
+Use bio_integrity_intervals() to convert blk_rq_pos(rq) to integrity
+intervals to reduce code duplication.
 
-Convert the initial seed to units of integrity intervals so a consistent
-ref tag is used for each integrity interval.
-
-Fixes: 3be91c4a3d09 ("block: Deprecate the use of the term sector in the context of block integrity")
-Fixes: 63573e359d05 ("bio-integrity: Restore original iterator on verify stage")
 Signed-off-by: Caleb Sander Mateos <csander@purestorage.com>
 Reviewed-by: Anuj Gupta <anuj20.g@samsung.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- block/bio-integrity.c | 3 ++-
- block/t10-pi.c        | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ block/t10-pi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index e79eaf047794..3ad6a6799f17 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -103,12 +103,13 @@ void bio_integrity_free_buf(struct bio_integrity_payload *bip)
- 
- void bio_integrity_setup_default(struct bio *bio)
- {
- 	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
- 	struct bio_integrity_payload *bip = bio_integrity(bio);
-+	u64 seed = bio->bi_iter.bi_sector >> (bi->interval_exp - SECTOR_SHIFT);
- 
--	bip_set_seed(bip, bio->bi_iter.bi_sector);
-+	bip_set_seed(bip, seed);
- 
- 	if (bi->csum_type) {
- 		bip->bip_flags |= BIP_CHECK_GUARD;
- 		if (bi->csum_type == BLK_INTEGRITY_CSUM_IP)
- 			bip->bip_flags |= BIP_IP_CHECKSUM;
 diff --git a/block/t10-pi.c b/block/t10-pi.c
-index a19b4e102a83..e58d5eb6cefb 100644
+index e58d5eb6cefb..787950dec50a 100644
 --- a/block/t10-pi.c
 +++ b/block/t10-pi.c
-@@ -308,18 +308,19 @@ static blk_status_t blk_integrity_iterate(struct bio *bio,
- 					  struct bvec_iter *data_iter,
- 					  bool verify)
- {
- 	struct blk_integrity *bi = blk_get_integrity(bio->bi_bdev->bd_disk);
- 	struct bio_integrity_payload *bip = bio_integrity(bio);
-+	u64 seed = data_iter->bi_sector >> (bi->interval_exp - SECTOR_SHIFT);
- 	struct blk_integrity_iter iter = {
- 		.bio = bio,
- 		.bip = bip,
- 		.bi = bi,
- 		.data_iter = *data_iter,
- 		.prot_iter = bip->bip_iter,
- 		.interval_remaining = 1 << bi->interval_exp,
--		.seed = data_iter->bi_sector,
-+		.seed = seed,
- 		.csum = 0,
- 	};
- 	blk_status_t ret = BLK_STS_OK;
+@@ -541,11 +541,11 @@ static void __blk_reftag_remap(struct bio *bio, struct blk_integrity *bi,
  
- 	while (iter.data_iter.bi_size && ret == BLK_STS_OK) {
+ static void blk_integrity_remap(struct request *rq, unsigned int nr_bytes,
+ 				bool prep)
+ {
+ 	struct blk_integrity *bi = &rq->q->limits.integrity;
+-	u64 ref = blk_rq_pos(rq) >> (bi->interval_exp - SECTOR_SHIFT);
++	u64 ref = bio_integrity_intervals(bi, blk_rq_pos(rq));
+ 	unsigned intervals = nr_bytes >> bi->interval_exp;
+ 	struct bio *bio;
+ 
+ 	if (!(bi->flags & BLK_INTEGRITY_REF_TAG))
+ 		return;
 -- 
 2.45.2
 
