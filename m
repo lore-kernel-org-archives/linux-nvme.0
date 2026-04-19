@@ -4,137 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E70CEEA71A2
-	for <linux-nvme@archiver.kernel.org>; Sun, 19 Apr 2026 15:19:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6A0DEA71AD
+	for <linux-nvme@archiver.kernel.org>; Sun, 19 Apr 2026 21:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WF57saiDQPuLgei3ntL2rXLAGu55hVNv5gn2ybVfrAg=; b=PCSC4beabenKZzQfsLsA1lFrL1
-	Wo9ncJS97Ljv/C01YVB3ciORv+vUYBScKMz3BjZlTncTT18WMD/UYgieC2eUE+d/5Lk5TUvvJ03Op
-	53yeozCVow3Bztzuk8Fc8GhCpylVX0b65WtHfvwrSG/CbU/EopV+EI4K8b61ppZBplidFY3nNSGgT
-	wDjJitsXL4wmSvDSH5EOc6r3j+Ef/VEo0z7xT/rR4JXxMD8ZZFl/xkTCK0ioW6hqxtdSzZtybIfVh
-	tPjTu8/VsXJAnKjZxr5jPDqRKNvgpca1pM+SrpEF94DMWiKUGIjK8zbL2E1XCW69odda5kz/1tIrb
-	+DCUvjDg==;
+	Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=crRQmQHyg4MxT/wLW9vc4SYD3U+N/wKd83cupDhzFY0=; b=VSCbDfqmPF3g2yQm+wly1mRM2W
+	aWpTYwZn06b/uBqNP6GIefLKV7d5ijxmz+/NnK8k+TXfB+LpNIlLIXaCE+3An+HOnlKbyU+y4uJfT
+	FU2CLOPK6rPdGgBmNlNSPZV7t80cmki6k4BP45io1Ma1jK3ohyVgcNrzZFTdnM1+wem2kg2j2y/2Y
+	ZoFfjwCYF6TLVl+FXLAGXU/7eEmvhEq8qLFZrQ1Y8TQ9I0bDzO+TcKI0HvN4CgG4VbkA8AQ/Gnuxh
+	eSmLRRm4dKtSPjZtixNQZDEi12bNcCfL95i1mlWnKnQoAQfA3uq6Tl0ufnhAppx2kK+kgCS4PFZFo
+	s7RZEJmw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wETvb-00000005sw1-17fq;
-	Sun, 19 Apr 2026 15:19:19 +0000
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+	id 1wEZo8-000000066ZS-0v1Q;
+	Sun, 19 Apr 2026 21:36:00 +0000
+Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDln1-00000004FZp-2zFh
+	id 1wEZo6-000000066Z8-2uya
 	for linux-nvme@lists.infradead.org;
-	Fri, 17 Apr 2026 16:11:32 +0000
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so6110055e9.3
-        for <linux-nvme@lists.infradead.org>; Fri, 17 Apr 2026 09:11:30 -0700 (PDT)
+	Sun, 19 Apr 2026 21:35:59 +0000
+Received: by mail-vs1-xe31.google.com with SMTP id ada2fe7eead31-610e2e8f57dso828776137.0
+        for <linux-nvme@lists.infradead.org>; Sun, 19 Apr 2026 14:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1776442289; x=1777047089; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1776634557; x=1777239357; darn=lists.infradead.org;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WF57saiDQPuLgei3ntL2rXLAGu55hVNv5gn2ybVfrAg=;
-        b=Do80Ib8OETlHAyJvUg7n/d4n5Hpw0B1u5fJ/0MLpBoKy9OqoOhrKjN36Bpp/ZVJSLM
-         rMs4qrAiPUyJCiFxLg9Wso1aFll3nxk5oi+T+F9m5N3Jr5LLQhSjj0ySJBP1sagIF5nS
-         fkE5ALjiQbHlQOJ0NihdrE0a9DwXBl5MMGEBCbTOpLsGithhOLIYeX9A2ne4xToYlKFP
-         LJKBFvNqJf7fLDbzdcvQV+Ji3lIOLBwtauMjvoWLuS4lD2pXPawD/TPMnKZIjq+snA0S
-         8pOkthmoa9in75/nR/77VHPSNutsJ7C7KwCzv0E+r0b1IvR4d8T0/vWhJ6c0bWifLn/N
-         4jQQ==
+        bh=crRQmQHyg4MxT/wLW9vc4SYD3U+N/wKd83cupDhzFY0=;
+        b=W1X+kVINcD7t+h7IZ1lXBTnUEjnpWcr0MJH8EzNNaSk01RUEjYjI/HtA6+CkZXBl8n
+         VOAyrExE2AfUpFDEMtWSiuIg5Srqdd+BKoA8gb5nP2KMGeGZ4k8WQMUhNCaf4b5gp2q6
+         Ixpwl/e46Y1wlKmOACA+PkLpW+Ws9Wk1eXA8ZoHlfdWKVGWUS9P9oWceaAoN8j7AF13V
+         1ewRA5y424OR8JfzcGEBDqjaFLGbKm8uWWfb5BNBrWrPgoraoLKWyDjtQ6hX2FQ7kZir
+         s0Rr4G3BbrkMeVbA8VH660tkf4T3arfJAYusvPrvaV9oFIONNfrd6oXbev/E9xppD11p
+         p9/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776442289; x=1777047089;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1776634557; x=1777239357;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WF57saiDQPuLgei3ntL2rXLAGu55hVNv5gn2ybVfrAg=;
-        b=okgRMFQ1lVBMUW/pdq3hsGca2U3jiQ9Jv6PqCodf2aX5bjQb/rk9D7t5Yc84v/rkLT
-         RdQmDslD0C1bzvp7CIYUi/TG9jrmHznjCQz8KaYWabhUV8ZvB5+MDqa7qkEGZJRpyjxW
-         +Wo0W572Bw1MP1EL1DuQXt7T4HtEubVNVs4gwaf0u6G0OKX7CVS0283eTG3z39KJrohb
-         5t5iVgnty4/dc3k1WLNOQFt5caC2Y1fRIwkgVRmGvU/6xm9z3Yl7KlldxaiB9TSWMz+O
-         6at63NLao1W6uTFqNJpzPRoQ5TovVU24bpSgL4eEyu9JNer3msBfUitiMxZW1yVPoxQI
-         6FZg==
-X-Forwarded-Encrypted: i=1; AFNElJ/BBFXm60J7rhdcNqxTyspGpvb1l7sbYqMkliOVoiHskRCQrMsp9mpmjriI/3QDgKnoT/m9GguOdNtU@lists.infradead.org
-X-Gm-Message-State: AOJu0Ywu7CqAu/7cvoEsflyvp6KVAEDF7iDYCm/OC46W1ATN8bWtm1V2
-	ilmvspVAk2yrAM01ukY/5P83W8hHtLccp6s7T9n/M6mOze9lx0jXuc9M8Ol7bUwB4Vc=
-X-Gm-Gg: AeBDievp45DiEKx/AEm0VRlOvQVVOiTuYkZweu6NAzyuW/iYzAQCCM7KhDT3opXa45J
-	QhFHroDPc8OMj8q2wHlrjhzR/VuPAr0Omy1z1OfXD0YgP0/tHDTF9cGfpuUCTqKZ1NrgfO2z8bR
-	+dVQpvtTFRofS+BQZ5CcWbzIjdS+1a9pDsTk95QxuvNJQebuRdrIy62vGWX8BGc6FjOVlFzd8cW
-	fudFKHhF/AZHDc1P9Q0pumnrgUJNQdamWdbp8GZvX6HTje+JSJJv42LOdkVhBftQRq1VndEg6Lt
-	cTWVnW9vmqYwLXZ5gj3nYXsiknImptDv4OL4I5jqgZi3V89kiKcomoNTbJE9LC9odPvpWZQNAQa
-	7tSfYnrGRGc0fiYC3e9oWPZqJqBw8gDoWrSFWLoq3dLV0hO5N0kH9WM5006mXv1C/sv1pgM0R+u
-	T4pyO3rfJA8JS6tS00I6vp7vWGbbeZgXKh2fOutFWEFczaG3ajN8ziEoq7Fg==
-X-Received: by 2002:a05:600c:6296:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-488fb73d764mr52764605e9.1.1776442289414;
-        Fri, 17 Apr 2026 09:11:29 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1cfbf2sm54863625e9.15.2026.04.17.09.11.26
+        bh=crRQmQHyg4MxT/wLW9vc4SYD3U+N/wKd83cupDhzFY0=;
+        b=igJ8EaDPt1Fr093pcoSEBrYmQTeG3Koe6ROMY2Y+rg256UWx9zRljeC73buCPdD0h1
+         HMHIdM8e7Gpex01Jsu9yP7C71eYAqTOsTw3Um7T86o3VeLYjbcInVifuIMY53824Hq0R
+         k35wV5VxLZc3w04lAeAvgvTbPX38GPSmNxRCGULUrzkBNMIhyj7mv6TvtYRlCurb3b5n
+         kWehTCUL5ct3JtVPzddKPzkXGhAag8hiJbSbbtKZQmbcP2d7V5cVyjcDtZ4mtS7pMj1t
+         Px6AwIWf2xPurDy9rDylTNDojQ5aXRaU0YZvm4ys1wb1cY8iiJu/EDw+g9QmVyga9zZ5
+         t3uA==
+X-Forwarded-Encrypted: i=1; AFNElJ+d6eJULisN/QeBwTR04hOP1Oqv3AhiFovpatyLwd2m3Dzz4BQy9NJwg42eXmbpqz0Ab1kZP8YQvQ7W@lists.infradead.org
+X-Gm-Message-State: AOJu0YzjOm8hj6a2ETEkHpk5RUfaaG14O3Xs3SbtSwdwPjcozeAaZAP8
+	+DcaK5mIeJ7r0V0GBan/NQxRLIkOi6U0ugweaoEOttypJxoQtLspo8Ip
+X-Gm-Gg: AeBDievosEpqfJuROMvAzbNlthA7gWlCxwfs8epNZSIQ5ii44BP7eo5qLEgusImXjof
+	qr47AmqwEnGbMsHsOD2FlWzvIa3d/EgzUayHBqqrCRRh8Jm7VOD+inkwD7Xjgy3CGsrMajl0CyO
+	0xoJTmkTEonhH4+4zG9SpKRncnMw16OJspmOLbpryeE8QO+x5UcJFNGCjKXUXo/TKRQh2l52sps
+	OOjGV3TALKp+FkIT21MAGwim4SOeZTpvWQ8ew4OniVxKCt/6sH1rbpKx2/LFm3Jc0T9Hl5IxR27
+	DeIuaBRTHPtvwC+8hOYV1UVApGsXkY5gdQLYNw1vLyi9QNajpCRGasVO1NPzK4n/KIaj6YwB95h
+	dNniK22v97dPAqZbpK95cSACnJax2oxh8WBi1ludjQEcH4AQ5zHXgXQiHgW4cQxZGADOZPAJrkZ
+	SRa+DdlZ4g6V0Ro/KVqVFVaEui5cZFJZy0rgqL3YY/Y/SRBFscmJCr4JAYC4pw4ywDLPCisp6Xx
+	YwWG6D2Ui/8RkbJUJel3Zr0XekWcQt6hcwesYPO/sHFDagfPC8V5z0/cjNmqMw=
+X-Received: by 2002:a05:6102:3f86:b0:607:7991:f02e with SMTP id ada2fe7eead31-616f8392189mr3715182137.26.1776634556986;
+        Sun, 19 Apr 2026 14:35:56 -0700 (PDT)
+Received: from localhost (host63.190-224-190.telecom.net.ar. [190.224.190.63])
+        by smtp.gmail.com with UTF8SMTPSA id ada2fe7eead31-617455b52bcsm3948901137.3.2026.04.19.14.35.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 09:11:29 -0700 (PDT)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: atomlin@atomlin.com
-Cc: James.Bottomley@HansenPartnership.com,
-	MPT-FusionLinux.pdl@broadcom.com,
-	aacraid@microsemi.com,
-	akpm@linux-foundation.org,
-	axboe@kernel.dk,
-	bigeasy@linutronix.de,
-	chandrakanth.patil@broadcom.com,
-	chenridong@huawei.com,
-	chjohnst@gmail.com,
-	frederic@kernel.org,
-	hare@suse.de,
-	hch@lst.de,
-	jinpu.wang@cloud.ionos.com,
-	juri.lelli@redhat.com,
-	kashyap.desai@broadcom.com,
-	kbusch@kernel.org,
-	kch@nvidia.com,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org,
-	liyihang9@h-partners.com,
-	longman@redhat.com,
-	martin.petersen@oracle.com,
-	maz@kernel.org,
-	megaraidlinux.pdl@broadcom.com,
-	ming.lei@redhat.com,
-	mingo@redhat.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com,
-	mproche@gmail.com,
-	mst@redhat.com,
-	neelx@suse.com,
-	nick.lange@gmail.com,
-	peterz@infradead.org,
-	ranjan.kumar@broadcom.com,
-	ruanjinjie@huawei.com,
-	sagi@grimberg.me,
-	sathya.prakash@broadcom.com,
-	sean@ashe.io,
-	shivasharan.srikanteshwara@broadcom.com,
-	sreekanth.reddy@broadcom.com,
-	steve@abita.co,
-	suganath-prabu.subramani@broadcom.com,
-	sumit.saxena@broadcom.com,
-	tglx@kernel.org,
-	tom.leiming@gmail.com,
-	vincent.guittot@linaro.org,
-	virtualization@lists.linux.dev,
-	wagi@kernel.org,
-	yphbchou0911@gmail.com,
-	Marco Crivellari <marco.crivellari@suse.com>
-Subject: Re: [PATCH v11 11/13] blk-mq: prevent offlining hk CPUs with associated online isolated CPUs
-Date: Fri, 17 Apr 2026 18:11:16 +0200
-Message-ID: <20260417161116.373130-1-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260416192942.1243421-12-atomlin@atomlin.com>
-References: <20260416192942.1243421-12-atomlin@atomlin.com>
+        Sun, 19 Apr 2026 14:35:56 -0700 (PDT)
+Date: Sun, 19 Apr 2026 18:35:53 -0300
+From: Esteban Cerutti <esteban.cerutti@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: [RFC] block/nvme: exploring asynchronous durability notification
+ semantics
+Message-ID: <aeVKuVLhpjkNxLtg@yanara>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260417_091131_771034_48B06480 
-X-CRM114-Status: UNSURE (   6.32  )
-X-CRM114-Notice: Please train this message.
-X-Mailman-Approved-At: Sun, 19 Apr 2026 08:19:12 -0700
+X-CRM114-CacheID: sfid-20260419_143558_785700_999AFC01 
+X-CRM114-Status: GOOD (  14.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -149,17 +98,50 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
+Hi Hannes, Christoph,
 
-Seems like the commit log of this patch is duplicated, isn't it?
-I noticed it's like this from v7.
+thank you both for the detailed replies. They were very helpful and
+corrected several misconceptions on my side.
 
-Thanks!
+In particular, I now understand that:
 
---
+- reliance on synchronous flushes is not universal and largely depends
+  on filesystem design (e.g. ext4 vs btrfs),
+- FUA already provides a per-request durability guarantee when needed,
+- and that power-backed guarantees at the system level are much harder
+  to make reliable than they may appear.
 
-Marco Crivellari
+Based on your feedback, I took some time to read more about how this
+problem is handled in practice, especially at the filesystem and
+database level (e.g. journaling, WAL, group commit, batching of fsync).
 
-SUSE Labs
+It seems that the cost of durability in fsync-heavy workloads is indeed
+well known, but is typically addressed at higher layers rather than in
+the block layer or device interface.
 
+So rather than defending my original idea, I would like to refine the
+question.
+
+Is there a fundamental reason why these optimizations are handled
+exclusively at the filesystem / application level, instead of being
+exposed (or assisted) at a lower level such as the block layer or
+device interface?
+
+For example, is it due to:
+
+  - lack of reliable visibility into device-internal persistence state,
+  - difficulty in defining correct semantics across different hardware,
+  - or simply that higher layers already have enough information to
+    optimize safely (making lower-level support unnecessary)?
+
+I realize that my earlier proposal likely underestimated the complexity
+involved, but I am still trying to understand whether there is a
+meaningful limitation at the lower layers, or if this is primarily a
+question of where the problem is best solved.
+
+Thanks again for your time and for the insights — this has already been
+very useful for understanding how these pieces fit together.
+
+Best regards,
+Esteban
 
