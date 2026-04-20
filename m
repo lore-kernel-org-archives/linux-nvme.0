@@ -4,63 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57E68F588E2
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 14:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75E1DF588DF
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 14:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1VCVERsDtmIopjD09l3h5stga/fyWZhlsmzJ76dH1UA=; b=BRRZCeFb6rplo+MD/vena6eA+0
-	v5CktpEzx426ldtxzdfHfNXJQrF5ypoD4dM7hzjqJX5dfWXVFquKkIlFdUtwUB4yNi61v4VSY1AXn
-	0j+o1E1EyJWpH+ALkuTHG/brxuyr9YD6XtDLFWBWf6XDbsYstpZNekXaMX7X2e6bLiGlfoASKWGBg
-	lXoOuwU+XNzk6xo6Tq89Tm0HYp7eZ4koyIrKYHHCUuvUrCOeGFXVlyea/NIVIwId5ayefZNMs9kJT
-	k7Q4QJFirUj2WknYL/R5hB2ROXObzEq/jk3oMr7RcVXhQtwTuxjM3Ebu+OYCTNuzu5NcSpCrXsG0Z
-	4RQgAQ6Q==;
+	bh=IX/JHEqs1/hmoahIOhvWIEgiLJ8jkJKF9ndgHAzG6wE=; b=J7XbN02/XYkm1DRxl2xf8ZWQ/S
+	CjOWuCxokiXtsfMaW14tVNU3wSrLGY/yEEDuJgtTk2ejzN5Fk81WITPvXWwNY2W4fmWMsjD5jJ6YL
+	GCd0NSyinyRguZpeoFZFmPfqVDSRskgaWeU8Fnkzb7QZREE0uVEDL8Ey3sgph1AVWfYpuMeLs6Xba
+	umufLOhKsIg3Yq1Fn9GKnWhYWtf7LIpnedgOkJ85MFmOhG6y8qRxyL7+bbsk1PtdyaNp3mkKn1H89
+	21aohXmXOC/hbQFlvN8zvsHKPEMxB9jQ6LR529iv24vvWeYiBXZiv0xNSxHbKnX6rli0hZMKsR5ZH
+	tg0hG29g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEpy1-00000007CHS-0ibY;
-	Mon, 20 Apr 2026 14:51:17 +0000
+	id 1wEq14-00000007CUs-3zRd;
+	Mon, 20 Apr 2026 14:54:26 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEpxy-00000007CH5-3cpN
+	id 1wEq12-00000007CUG-2Eta
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Apr 2026 14:51:15 +0000
+	Mon, 20 Apr 2026 14:54:25 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 71553419CB;
-	Mon, 20 Apr 2026 14:51:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5984C19425;
-	Mon, 20 Apr 2026 14:51:12 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 22E4040AC5;
+	Mon, 20 Apr 2026 14:54:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E44FC19425;
+	Mon, 20 Apr 2026 14:54:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776696673;
-	bh=8UoUFrvUJb5Thy6ctrITs58pMyDxujdI0HAy+0ogeVU=;
+	s=k20201202; t=1776696864;
+	bh=o4yy5WH/m71HPtOkxuFd1gFe/seDYLMN3dzJeM1EXoY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P6y50vLXRB+Lqv96OF0AqvjMcDtJWtzzpvZBKZwdptikQvPeVPipvWpelAypa2RQ7
-	 DRiLeiZB7M1GFAds3Y5tm/ioQRnxvLD+0KleMhAcI/krJJp+eiRuiCWvFfte7dCGBh
-	 F996n9wYaXDJgfbVhEgGTsHaJ4FDidu2gGSwYD5h7q9kUkuhKHsFudV0KTjfbOQoU0
-	 /nPPkDWaHrPnVEKnP9W0rWValPPbpz4SJnFS5xGodENCV2xSCaRyyV99tJGtRFr9Ao
-	 r+v8cig1EcmZgX5mc/8T9YhUoX1iCtASgX3AHkGXqND6XGRHQbkPM0i90veseshnpa
-	 P8dPlWJicuqXw==
-Date: Mon, 20 Apr 2026 08:51:11 -0600
+	b=sBRRXJ8Tb9It0KcfkMkcyyXbc5D324kFK04WhGGWbG9H84QsAPC89eqL8zEsWgWbg
+	 7jD52qelvR9F/EPr5nqz0UUgId3SBKEn0MyfA7+fUQazrCJPgVX5MX/9rNKjjKa015
+	 /JAobfbLUsIuJyBLERiUtYdFndLZG5Iyc+/1+VGz2U9VbSe8AJqecpvFKrakTXSdKq
+	 Ijm91nJ8nkVFPDQty6uaLrMy/d9OjhupkcrNPANDr+B+yHj+W/UW+olS10rO8hbeQZ
+	 cj3VbZSMrYMI+ZHW0kBNW/cQMVohNXeWNAOYVV1297Yu5tMbNfazTr16LKnmPSijkn
+	 G9rza4SD0Q66A==
+Date: Mon, 20 Apr 2026 08:54:21 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Chao Shi <coshi036@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Daniel Wagner <dwagner@suse.de>,
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Chao Shi <coshi036@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	Hannes Reinecke <hare@suse.de>, linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>,
 	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
 Subject: Re: [PATCH] nvme: core: reject invalid LBA data size from Identify
  Namespace
-Message-ID: <aeY9X1jEZrITd6mw@kbusch-mbp>
+Message-ID: <aeY-HYDHq1wEhLYc@kbusch-mbp>
 References: <20260418042835.420281-1-coshi036@gmail.com>
+ <cb2c00e2-ba72-4d6d-b17f-ef5ae3b0633e@flourine.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260418042835.420281-1-coshi036@gmail.com>
+In-Reply-To: <cb2c00e2-ba72-4d6d-b17f-ef5ae3b0633e@flourine.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260420_075114_924483_65A519F3 
-X-CRM114-Status: GOOD (  11.86  )
+X-CRM114-CacheID: sfid-20260420_075424_590191_21A3741E 
+X-CRM114-Status: GOOD (  10.31  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,36 +76,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Apr 18, 2026 at 12:28:34AM -0400, Chao Shi wrote:
->  	memflags = blk_mq_freeze_queue(ns->disk->queue);
-> +	if (id->lbaf[lbaf].ds < SECTOR_SHIFT ||
-> +	    check_shl_overflow(le64_to_cpu(id->nsze),
-> +			       id->lbaf[lbaf].ds - SECTOR_SHIFT,
-> +			       &capacity)) {
-> +		dev_warn_once(ns->ctrl->device,
-> +			"invalid LBA data size %u, skipping namespace\n",
-> +			id->lbaf[lbaf].ds);
-> +		ret = -EIO;
-
-I think ENODEV is more appropriate errno.
-
-> +		blk_mq_unfreeze_queue(ns->disk->queue, memflags);
-> +		goto out;
-
-I don't see any particular reason why we shouldn't validate this value
-before starting the queue updates and freezing the queue, like we for
-the ncap field up higher. Doing that would make the error case much
-simpler. Case in point, you're missing the corresponding
-queue_limits_cancel_update() for this error case.
-
-> +	}
->  	ns->head->lba_shift = id->lbaf[lbaf].ds;
->  	ns->head->nuse = le64_to_cpu(id->nuse);
-> -	capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
->  	nvme_set_ctrl_limits(ns->ctrl, &lim, false);
->  	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm, info);
->  	nvme_set_chunk_sectors(ns, id, &lim);
-> -- 
-> 2.43.0
+On Mon, Apr 20, 2026 at 02:22:04PM +0200, Daniel Wagner wrote:
+> On Sat, Apr 19, 2026 at 12:28:34AM -0400, Chao Shi wrote:
+> > Fixes: 9419e71b8d67 ("nvme: move ns id info to struct nvme_ns_head")
 > 
+> This fixes tag is wrong. The above commit doesn't touch the code line
+> in question.
+> 
+> Probably a5b1cd61820e ("nvme: move a few things out of
+> nvme_update_disk_info") is the better choice here.
+
+We've never validated the 'ds' field though, so not sure anything
+introduced a regression here that warrants a fixing tag.
 
