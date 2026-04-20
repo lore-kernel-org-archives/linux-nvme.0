@@ -4,119 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D8A3F588C1
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 12:22:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 477B2F588C3
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 12:22:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=X1pmzU3JStOu/o8yR6qr9HmI4cSq7KWdDZtNY9XwL50=; b=o1/qP/WSDlnAFfgkpmuLXC6kND
-	q+3YCuhQ8lzrHLk5fBNagxx9p0ZDjuaKHrrWwQiBvAXTR3YZOPWCrsAi32gRLKshzAJuYQywRoFRW
-	1ZAe6XBXin0yXo25tgACH1xW+FJrf9Bpm65XDVI4LAUJHvsUSTnkBdmrt9Ip1qpTHJChMV2nQIP79
-	NMSGPKa0m+vZ7g+8PA3kmTP1F24d+np1py7DUO9YBRNEik2mpvV3emVJqThcN3k0yyEHcgpQvdRZ9
-	nqTrUPwbgioj0PSgbM5mEzgBVFbghB9pcyoTnQZLQ7dhSt3S/i4LMtiRzNtKnjUoPzGZaqVrRvOpT
-	ZR6v6D6g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
+	Subject:Cc:To:From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=o1rc5PrNx8CIzFOxawfNeqJKdzdyFDVHZYRJ1O/T8xg=; b=3osbh4Z1zTWT9rCku8UT15hT8Z
+	Vx3ECAHXeh6P/BBgO/2oAJdM4GlNRqv8afTIXn3fvr+frTtY/50sTZAGim3hCcgJqDLl8A8/dh6PR
+	uZ7KB9q19teblVWOdjaveTTOu/9wBhaiEDfyI4Ejcy/NbPPRhHOxKgSIDxFX+2vdzb7IyaslM0vQ/
+	Gc77GNoC04tdS/1NHiN3AA0gJsXsoDipca/tGK0ixEiCylsTQ8W8f4CThM0B+R/XYOJLzbA2xwwdd
+	kNGMss9OmtrEAm+7g6+4wdXC4lip0RbLrZAb0nb8wnQswY0usyOrzjxIz08C08vzqcNifm+mFn6is
+	dQyjWtJQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEndp-00000006s5a-1eKr;
-	Mon, 20 Apr 2026 12:22:17 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wEndy-00000006s74-31nQ;
+	Mon, 20 Apr 2026 12:22:26 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEndl-00000006s5D-0R6m
+	id 1wEndu-00000006s5p-2dRB
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Apr 2026 12:22:14 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 742CB6A7D8;
-	Mon, 20 Apr 2026 12:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776687729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X1pmzU3JStOu/o8yR6qr9HmI4cSq7KWdDZtNY9XwL50=;
-	b=gcEHP2DkGoeitRoNqpBuEnldRoTnuOscV2KIvnJJO8eutv7h3vvmLgHTC5i/PebWUUbT0d
-	MS2n1fBkcE9gSZ7sK9BNYdlk82Fs2N3aeMmPHNClPJBmbomFSvbEzsLba7bPpcjrRfFM31
-	Gl3aDbBtCp3er9NV9BeOtXoAcLUA7QQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776687729;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X1pmzU3JStOu/o8yR6qr9HmI4cSq7KWdDZtNY9XwL50=;
-	b=eIK2h/3qMsqAmGawH7y7c5FW9bNkDj4iaAAEwaA7Y/5OD69ocEipGWRw3Hnt+FzTefrK1D
-	MEtTJWqOSYPxHrDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776687729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X1pmzU3JStOu/o8yR6qr9HmI4cSq7KWdDZtNY9XwL50=;
-	b=gcEHP2DkGoeitRoNqpBuEnldRoTnuOscV2KIvnJJO8eutv7h3vvmLgHTC5i/PebWUUbT0d
-	MS2n1fBkcE9gSZ7sK9BNYdlk82Fs2N3aeMmPHNClPJBmbomFSvbEzsLba7bPpcjrRfFM31
-	Gl3aDbBtCp3er9NV9BeOtXoAcLUA7QQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776687729;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X1pmzU3JStOu/o8yR6qr9HmI4cSq7KWdDZtNY9XwL50=;
-	b=eIK2h/3qMsqAmGawH7y7c5FW9bNkDj4iaAAEwaA7Y/5OD69ocEipGWRw3Hnt+FzTefrK1D
-	MEtTJWqOSYPxHrDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 61E86593AE;
-	Mon, 20 Apr 2026 12:22:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6fGvFnEa5mlEbwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 20 Apr 2026 12:22:09 +0000
-Date: Mon, 20 Apr 2026 14:22:04 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Chao Shi <coshi036@gmail.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>, 
-	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+	Mon, 20 Apr 2026 12:22:25 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 217576e9 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Mon, 20 Apr 2026 14:22:17 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 20 Apr 2026 14:22:16 +0200
+Message-Id: <DHXZ8MK1AASK.VWC6067TNS7Q@arkamax.eu>
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Chao Shi" <coshi036@gmail.com>, "Keith Busch" <kbusch@kernel.org>,
+ "Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>, "Sagi
+ Grimberg" <sagi@grimberg.me>, "Daniel Wagner" <dwagner@suse.de>, "Hannes
+ Reinecke" <hare@suse.de>, <linux-nvme@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Cc: "Sungwoo Kim" <iam@sung-woo.kim>, "Dave Tian" <daveti@purdue.edu>,
+ "Weidong Zhu" <weizhu@fiu.edu>
 Subject: Re: [PATCH] nvme: core: reject invalid LBA data size from Identify
  Namespace
-Message-ID: <cb2c00e2-ba72-4d6d-b17f-ef5ae3b0633e@flourine.local>
+X-Mailer: aerc 0.21.0
 References: <20260418042835.420281-1-coshi036@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20260418042835.420281-1-coshi036@gmail.com>
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260420_052213_341468_ECDAA2A0 
-X-CRM114-Status: UNSURE (   8.81  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260420_052223_004529_6F08EA65 
+X-CRM114-Status: GOOD (  18.42  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -131,12 +65,75 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Apr 18, 2026 at 12:28:34AM -0400, Chao Shi wrote:
+On Sat Apr 18, 2026 at 6:28 AM CEST, Chao Shi wrote:
+> nvme_update_ns_info_block() trusts id->lbaf[lbaf].ds from the
+> controller and assigns it directly to ns->head->lba_shift without
+> bounds checking.  nvme_lba_to_sect() then does:
+>
+>     return lba << (head->lba_shift - SECTOR_SHIFT);
+>
+> When called with lba =3D le64_to_cpu(id->nsze) to compute the device
+> capacity, an attacker-controlled controller can choose ds < 9 or a
+> combination of (ds, nsze) that makes the left shift overflow
+> sector_t.  The former is a C undefined behaviour that UBSAN reports
+> as a BUG; the latter silently yields a bogus capacity that the
+> block layer then trusts for bounds checking.
+>
+> Validate ds against SECTOR_SHIFT and use check_shl_overflow() to
+> compute capacity so that any (ds, nsze) combination that would
+> overflow sector_t is rejected.  The namespace is skipped with -EIO
+> instead of crashing the kernel.  This is reachable by a malicious
+> NVMe device, a buggy firmware, or an attacker-controlled NVMe-oF
+> target.
+>
+> Stack trace (UBSAN, ds < 9 variant):
+>
+>   RIP: nvme_lba_to_sect drivers/nvme/host/nvme.h:699 [inline]
+>   RIP: nvme_update_ns_info_block.cold+0x5/0x7
+>   Call Trace:
+>    nvme_update_ns_info+0x175/0xd90 drivers/nvme/host/core.c:2467
+>    nvme_validate_ns drivers/nvme/host/core.c:4299 [inline]
+>    nvme_scan_ns drivers/nvme/host/core.c:4350
+>    nvme_scan_ns_async+0xa5/0xe0 drivers/nvme/host/core.c:4383
+>    async_run_entry_fn
+>    process_one_work
+>    worker_thread
+>    kthread
+>
+> Found by Syzkaller.
+>
 > Fixes: 9419e71b8d67 ("nvme: move ns id info to struct nvme_ns_head")
+> Acked-by: Sungwoo Kim <iam@sung-woo.kim>
+> Acked-by: Dave Tian <daveti@purdue.edu>
+> Acked-by: Weidong Zhu <weizhu@fiu.edu>
+> Signed-off-by: Chao Shi <coshi036@gmail.com>
+> ---
+>  drivers/nvme/host/core.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1e33af94c24..9b3bf3e4075 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2407,9 +2407,19 @@ static int nvme_update_ns_info_block(struct nvme_n=
+s *ns,
+>  	lim =3D queue_limits_start_update(ns->disk->queue);
+> =20
+>  	memflags =3D blk_mq_freeze_queue(ns->disk->queue);
+> +	if (id->lbaf[lbaf].ds < SECTOR_SHIFT ||
+> +	    check_shl_overflow(le64_to_cpu(id->nsze),
+> +			       id->lbaf[lbaf].ds - SECTOR_SHIFT,
+> +			       &capacity)) {
+> +		dev_warn_once(ns->ctrl->device,
+> +			"invalid LBA data size %u, skipping namespace\n",
+> +			id->lbaf[lbaf].ds);
 
-This fixes tag is wrong. The above commit doesn't touch the code line
-in question.
+Just a nit:
 
-Probably a5b1cd61820e ("nvme: move a few things out of
-nvme_update_disk_info") is the better choice here.
+If I'm reading the NVMe spec correctly, ds =3D=3D 0 has a special meaning:
+'LBA format is not currently available.'
+maybe we should use a different dev_warn() for ds =3D=3D 0 ?
+
+Maurizio
+
 
