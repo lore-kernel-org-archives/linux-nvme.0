@@ -4,67 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C08BF5A8BC
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 20:49:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40190F5A8CE
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 23:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=i+mf7RY3M1Tv6XHosizey/MtU12qh71eD/DgJazNOHg=; b=OJ421RCo2lmdrv
-	sBMamqH33TMTq2LPjpxwOlQ8VD/PpqWCML2iSY1pVc5S8I8477JKlFxXMrzkqGIehabTmBxWOFu67
-	eCXpGZEjT0lBu3MPTx8P/g5vHx/HCMhBdVx4cvlJ1tFb+gutviNKSFZj7wHjjUHKw0P9ZG3SZyiMn
-	gFTbUDFbutyQ2MCoLPiWSyN41hDPbVktaCRzvn8JEY83oGMwc9ME4qHLUYmyQulizIWX/T1NVK50y
-	khiZ+EAWS8BADRKzx69UP0xm5P995DI0iuP9hJZiyCzC8FoNXlcFRO0FXQscjH69wBQtdNTRD2KmP
-	rXteocjlYLoJifCn9zyg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=ks/kPV6KM5qh7zx8h8Sh9vjdlfuUH/Z42xMVQT+4k5w=; b=WCYbwEUrj35arTy6E+rOAEB0pv
+	W0G10SWXo5JqFn2qujdWL6SVmGacT+zFixfxPR5xkGb5AlMKy8v3aqKIZZbrH/yW5Uu4DPGhF3HIs
+	xvPHn+5vwti00iSAVX6SdvLtAPaxEMJXj2UXPf6oPmlrPsQB30tvBaZ5unmTQoEki2ohhJ2gn1/js
+	oeMadjPy9XTMhcMbB8PS/YjVKgxxs0ntfw9WZpQQ3r9I8itXICB6hg/N3MYRRhfbg2BQoAwjmmmK8
+	hh6A1Qj763gO2lJsfDhNUygb4vDh4PxUrDHqyjiVNVu64gA4YKBUeUBfppaLGtpydagLUn3SwSQkD
+	oW6kh+gA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEvYV-00000007eEV-1Vbv;
-	Mon, 20 Apr 2026 20:49:19 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wExrD-00000007oIp-1hRp;
+	Mon, 20 Apr 2026 23:16:47 +0000
+Received: from mail-vk1-xa30.google.com ([2607:f8b0:4864:20::a30])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEvYT-00000007eEB-3H87
+	id 1wExrA-00000007oI5-3LZz
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Apr 2026 20:49:18 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id B1750443C9;
-	Mon, 20 Apr 2026 20:49:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6725BC19425;
-	Mon, 20 Apr 2026 20:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776718156;
-	bh=BJ8ETRCkjFk05mCQgMXRwxFn1FURg0WZX+lXBX3zkxo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=I18zC+fRDQLO7ho+L8/FKaP1A/3fjIfQJThI2m6aLx1InirpH6RQbLXCf27UnN6X1
-	 Aboe0CptmgfoOwaaSfQmIl7kZvRIujOMFbNOzEhPZPKjSx3IspxAEv7FRQSRqhV/gd
-	 8btdr69IeFYf2RL9+WpO1n1TvpSnrnyxfWMbJHyg9DX+cO3Eesr4iWzTYZCz2ybFl5
-	 sY9F3R9LJKiFMl9XzT/qB2ONHLuumXdEFWH53LfL7vE9S4z7tfUddnFhuT4hjorxgq
-	 9hzXBnxgxjbVYTxqdCLTa37VIYoO3bSbA58MJQft9yjSvnxhlZyY9ECXJ9Ucy+IDfS
-	 3wEzMF1WLH+Qw==
-Date: Mon, 20 Apr 2026 15:49:15 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: manivannan.sadhasivam@oss.qualcomm.com,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 3/4] PCI: qcom: Indicate broken L1ss exit during resume
- from system suspend
-Message-ID: <20260420204915.GA231862@bhelgaas>
+	Mon, 20 Apr 2026 23:16:45 +0000
+Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-56a9c5cb48bso1258053e0c.0
+        for <linux-nvme@lists.infradead.org>; Mon, 20 Apr 2026 16:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776727003; x=1777331803; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ks/kPV6KM5qh7zx8h8Sh9vjdlfuUH/Z42xMVQT+4k5w=;
+        b=qcNq3viq5WcnTj5EMpE7XVs96dJ0YkhUu4uyJ0a4h4tMGLOXt0hnhxPr0p9P8gCCiG
+         a2hNsSeKG9hY6SLBVmCuG1hZEIDEkfeZ9MgJvq9GSAZ6OUS4kBWqzrSSlFWnUcwk5XI4
+         /+x3cRbuow1dZYfCVb0Kh8nLC8O+UwwgeNoYcOO5aFVPezsY9hdinOj7x39CHjuEXOnC
+         HbHz0Xeu8FOJ/iOkpLQrZeOoo32Rdd3B8Bz/9c3eSV7TdVFg1XfUA6u5j0Kpht68Xe8H
+         nCvb2qKfzQrauFPI2DRf1bWkbEMxpccsHqalosg/nsF6VpEGkSlmr/jGE9/MEYKJX/7x
+         NYEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776727003; x=1777331803;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ks/kPV6KM5qh7zx8h8Sh9vjdlfuUH/Z42xMVQT+4k5w=;
+        b=fBiwOmk02gW0aTrM9hwTvRgAVKqfh5S7W07h8nZ1y+/OI1trT2JBePqj6ulUbUbben
+         mG52TkdlTl+tjF6y6+uRCvu9eTKtBUoSTSNkO8X5gDT42OT05gxhCYecGQakDNb/HqxX
+         ye6iwo/7mJg2ONmMWA5cqFGvSpjUSOhFornV7aMllCf89IxZxibFcslq3cwVQlAUwQ2a
+         3R5JeAIX1HhATDTOmNcsV3RvTEizan18Xa+FpSQiBiiTAsYPhpsJGDrLSiDEC47IO0jD
+         zM6y8/g0fBKE1Wm12n2mds8Qw4/IM6eqFHt3ndRWoYXtTHp7Yk9Hao+M/Fpgt2Dr/waN
+         FETQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+t9ewtMmU6qllshUbsyIszy/duxxxrHqHqg8fkevqF0RuanLs0dAIShpFFPARfLMDOTy0ZGViu1I97@lists.infradead.org
+X-Gm-Message-State: AOJu0YzJwOozDEcspByw/m1EqadD4HEmDXSye7QrHDvlbPji7FzTpozf
+	Fxko35k+WnrhyuvgP1vu8dVuGPEy4jdC05EzqxYD0fSGWukmxzb/eBe+
+X-Gm-Gg: AeBDiet5QrhZ4f5A+IcRw0eP3bwkV05s0FWepS/SpRIcZTaPm6+reSwVAgsqbTvIfw6
+	gLFEgrRTptu+BSQNuWmyPkUQcJS9tGnfJlRRbDIwQlgI09kLaQlqCYm7lECO4RkbLF718HcIUgu
+	T3bgGRw+7Z3d5fpJqvyR9eaF33qIVu6vYF/aVvQTmnSXcOVRIZp+TU0Heex8kUWevQcZcaeWP+A
+	qf/0qQDawAWWH6Q3lvHkDoozVWemLujxC0SyFg+c488EKA5kM1FWA765JNkNlxnKKezdhufq7pU
+	NdIZjtnhhI+W5S1tTO08XEi+HWvYfSDuFdNUlCwSXNnoblTJ749UMCdJtb07bC0VCXHaDTeN1cK
+	jDHmne/LKDdqzXtTfjY5TDPOHsMokTMmerGRNw5yiWyivrm7zoU4Mo+TlXf1ieOI1i8XHvGCP/l
+	vuS7Up2p58obQpEdCP66BrZuAk2kOZwr1zPR90EsTYUYiOK/MDeP1G
+X-Received: by 2002:a05:6122:1d91:b0:56c:ce8a:b07a with SMTP id 71dfb90a1353d-56fa589cdb0mr6794650e0c.7.1776727002733;
+        Mon, 20 Apr 2026 16:16:42 -0700 (PDT)
+Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56fa93253aesm6835593e0c.14.2026.04.20.16.16.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 16:16:42 -0700 (PDT)
+From: Chao Shi <coshi036@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Daniel Wagner <dwagner@suse.de>,
+	Maurizio Lombardi <mlombardi@redhat.com>,
+	Chao Shi <coshi036@gmail.com>
+Subject: [PATCH v2 0/1] nvme: core: reject invalid LBA data size from Identify Namespace
+Date: Mon, 20 Apr 2026 19:11:13 -0400
+Message-ID: <20260420231116.748204-1-coshi036@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260418042835.420281-1-coshi036@gmail.com>
+References: <20260418042835.420281-1-coshi036@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zv3tl2cvlhpmwe5ikcszdneft4bjebqibrl6onbg7457vtzmmc@clh7nzgpeext>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260420_134917_912513_A137A3CC 
-X-CRM114-Status: GOOD (  28.46  )
+X-CRM114-CacheID: sfid-20260420_161644_861475_C6FBBC7B 
+X-CRM114-Status: GOOD (  13.58  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,52 +103,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, Apr 18, 2026 at 11:09:11AM +0530, Manivannan Sadhasivam wrote:
-> On Fri, Apr 17, 2026 at 05:26:15PM -0500, Bjorn Helgaas wrote:
-> ...
+Thanks for sharing comments! I did such changes in v2:
+- Remove Fixes tag(Keith Busch: ds has never been validated)
+- Change -EIO to -ENODEV (Keith Busch)
+- Add missing "queue_limits_cancel_update()" in error path (Keith Busch)
+- Add warning for ds == 0 (LBA format not available) (Maurizio Lombardi)
 
-> > Does L1.2 have to meet the advertised L1 Exit Latency?  I assume
-> > maybe it does because I don't see an exception for L1.x or any
-> > exit latencies advertised in the L1 PM Substates Capability.
-> 
-> As per my understanding, 'L1 Exit Latency' only covers ASPM L1
-> state, not L1ss.  Because, 'L1 Exit Latency' field exists even
-> before L1 PM Substates got introduced in r3.1. So it doesn't cover
-> L1.2 exit latency.
-> 
-> > Regardless, I'd be kind of surprised if *any* system could meet an
-> > L1.2 exit latency from a system suspend situation where PHY power
-> > is removed.  On ACPI systems, the OS doesn't know how to remove
-> > PHY power, so I don't think that situation can happen unless
-> > firmware is involved in the suspend.
-> 
-> Yes, you are right. Even for systems turning off the PHY completely,
-> they should have some mechanism to detect the CLKREQ# assert and
-> turn ON the PHY within the expected time.
+---
+On Mon, Apr 20, 2026 at 02:51:00PM -0700, Keith Busch wrote:
+> I think ENODEV is more appropriate errno.
 
-What would the expected time be?
+Fixed in v2.
 
-> On our Qcom platforms, we do have some co-processors handling this
-> even before the OS wakesup.  But support for that co-processor is
-> currently not available in upstream and we don't know when it is
-> going to be added. Until then, we only have one option to not put
-> the link to L1ss during suspend and keep the devices into D3Cold to
-> achieve the SoC low power state.
-> 
-> > Maybe that's part of why pm_suspend_via_firmware() exists.  What
-> > if native host drivers just called pm_set_suspend_via_firmware()?
-> > After all, if they support suspend, they're doing things that are
-> > done by firmware on other systems.
-> 
-> No, that would be inappropriate. pm_set_suspend_via_firmware() is
-> supposed to be called only when the firmware is invoked at the end
-> of suspend. If OS handles everything and not the firmware, there is
-> no need to invoke this API.
+> you're missing the corresponding queue_limits_cancel_update() for this
+> error case.
 
-This is part of my issue with the "pm_suspend_via_firmware()" name --
-it doesn't really matter whether the code is in the OS or in the
-firmware.  What matters is what the code *does* or is *allowed* to do.
-The native host bridge drivers do things that are done by firmware on
-ACPI systems, so the "via_firmware" part is not as clear as it once
-was.
+Added in both error paths in v2.
+
+> This fixes tag is wrong.
+
+Removed.
+
+On Mon, Apr 20, 2026 at 02:22:04PM +0200, Daniel Wagner wrote:
+> This fixes tag is wrong. Probably a5b1cd61820e is the better choice here.
+
+Keith pointed out that ds has never been validated so no commit
+introduced a regression — removed the Fixes tag entirely.
+
+On Mon, Apr 20, 2026 at 02:22:04PM +0200, Maurizio Lombardi wrote:
+> ds == 0 has a special meaning: 'LBA format is not currently available.'
+
+Thanks,added dev_warn_once() for ds==0 in v2.
+
+Chao Shi (1):
+  nvme: core: reject invalid LBA data size from Identify Namespace
+
+ drivers/nvme/host/core.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+-- 
+2.43.0
+
 
