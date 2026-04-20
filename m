@@ -4,84 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D6BBF588C3
-	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 13:16:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA05CF588C4
+	for <linux-nvme@archiver.kernel.org>; Mon, 20 Apr 2026 13:31:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qdKkB/D284iyuPO89Nu7QeQr0yNs9MJW345f73m6VXE=; b=TlIYTVWFLVQILvuHycpeXkZRrD
-	S0ih+a7Pc84Xjvqxmbt0RxOtxtk8XPwlx++CFTLHK7RK9ZntKjoaxSW5knxhtJlxGBSSvAPgUqBtK
-	yEpaJWNrrEL4BawcD6K4yFamUTnuG11SOxINJZybKCWY2+DydQ67DZ77S2KrMzCbn8K4WmgENNYNB
-	AHdlZTiHrimn0AQXPMpc0urtGtuU7vSyauUpJOoBuldbwbxZbtGvHPQGywwMCS0TZ9eo8eWwG+nJq
-	H9JD4aN3H7nzAZyPeiV+mr7GZ6zVxbAE8lwVeJTECbhexU9wa7xWGWOhvh51yFysRZHdLLervtdfP
-	yX88purg==;
+	bh=oxTiMhCW6458BYRZvJL8RbyD7r7PGacyJxQVGuYOfjw=; b=jr43c5YFJpIUo6MpSZ3KzVqcLm
+	j3+NPvjzmWnCBKY1rZMXwK6CINqJogOCcYrXN1BbNwIfBTAz1bOTLD7zzSQy4kCzIy2heUxsi0Qrf
+	IwMxWMxSVFuD7ZPiGdCIusLD7lAV19EwcSWYE3Mume0ywN7pyKkv5s8J1UXG95yaPddD9i7/oDtab
+	q+WqEiMcWE3G5imsU+nPH3AogLUmDP3NJf2Vv4Ckb1zL+DJRDlztyDdbITRF9qDl66sa6mW2shYxH
+	y+Fib8XSEH1vwEZTkETvr2Bd20ZnKoXRP/Jy51ExIfikgviW9WhsDWA8cQ7p7yA32jsoKlHqgfRbQ
+	cW2EvZBw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEoUT-00000006ySa-0djA;
-	Mon, 20 Apr 2026 13:16:41 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wEoij-000000072dc-0dm1;
+	Mon, 20 Apr 2026 13:31:25 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEoUR-00000006yR4-1txu
-	for linux-nvme@bombadil.infradead.org;
-	Mon, 20 Apr 2026 13:16:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
-	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=qdKkB/D284iyuPO89Nu7QeQr0yNs9MJW345f73m6VXE=; b=JZBSX0GOVL+EDZVi6F/rOvmT0Y
-	kjpij/evPLTxQ7FKBb7GdPzm3MEMeSymSkThYB5u8XFO6XHDjXuKxOopXpk0ikUTLqeNRrlbrQUb8
-	CzcijBeyivu2xiazWYB91sUPVdEjTob9vzFgQcL680wOSC5DsJcUP6zRPhDdoxuLt18Dqeg91et9e
-	/ydIBPphT+xwYS925g4F4B2Cbwc2hr7t3cfSXYkjviNF3Tv/5V6nFWJVWlZmzyVDuYLaiSxqNabkf
-	RDqU+TQQMQGus7cTeRaQCrE3+cx5gN9XDhbjMRFPf6d5/vIKJVQXeL9EJO4mhGf10G02R/dmxsHCU
-	YFVe7q0Q==;
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEoUO-000000080ba-04qb
+	id 1wEoig-000000072cD-17z6
 	for linux-nvme@lists.infradead.org;
-	Mon, 20 Apr 2026 13:16:38 +0000
+	Mon, 20 Apr 2026 13:31:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 999D340BD7;
-	Mon, 20 Apr 2026 13:16:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC4FBC2BCB4;
-	Mon, 20 Apr 2026 13:16:32 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id E9D1A42A23;
+	Mon, 20 Apr 2026 13:31:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89284C2BCB8;
+	Mon, 20 Apr 2026 13:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776690994;
-	bh=1R6UORkzKlJcnPa2JPSrAaDPtQ3tNRSN74WycQiL+IM=;
+	s=k20201202; t=1776691881;
+	bh=Sh6nHMW1lqcujGl74gmy3RQhs0M329c5k/19w5sLhmo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UtjMZ6irJBo2Hk7CAvtWcE9xQie8nEu9/Wp+HQMagzldir/du+3Tp6avwXKUt/Kna
-	 Yp229N/Bza0beYvBsA411/+SKJ5UQ63LUDKisJUF3dOz9Z0hsbjCKvMQz7NYYp38Wq
-	 FxThyXYgJ5nk8OY6G4UZKHoOWiiWq8jarIQDg3Y0WZQATYU28S9nSxA44PDSo41xXo
-	 V1T1ewU6TyfU4lNJlQN6atsgbIcl4wvzKT8UM786/aP9YfFpnFb2NXbZ0n7m0LUkcm
-	 xtgAsgNOlqYfpHXENet/cQeQMAqqYEEhrzQ+i1/RifxHgWovvX9kChYwYINYDS5B4v
-	 Kd/rNozjp8SNQ==
+	b=gIB87Hh9yNQublZNwi9NtQFl4tw60RI4phUIpHY+eU5NhW9DB8RtxTlAhUwWPIBrd
+	 q4bEYJdERykBVLt42h97Jo4C07eY+oe3PYXm8Aqi6thU4I98mFiF6G583K8t0n+EIg
+	 QWtiHImxuONhN9rUtPPQFJ5CA57RgKTWUTMzeS7jgHYtkxH15aAUaTxO02c6iYRDEn
+	 rEvTi5GYZV9NeVWKlUaau+utJdJ7XAE2E6Kq40uT/BzS0J61Xk5ecwnTdHHt96alB8
+	 S6PajvIlihjpLZrZftf+WiW6R1cFJw8XPWzy31Lwfjc0MjTKQi/2GGQe1qZinMnJos
+	 6OR3U2ttzQscw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Nilay Shroff <nilay@linux.ibm.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
 	Christoph Hellwig <hch@lst.de>,
+	Hannes Reinecke <hare@suse.de>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+	Sagi Grimberg <sagi@grimberg.me>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	sagi@grimberg.me,
 	kch@nvidia.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.6] nvme-loop: do not cancel I/O and admin tagset during ctrl reset/shutdown
-Date: Mon, 20 Apr 2026 09:08:18 -0400
-Message-ID: <20260420131539.986432-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.1] nvmet-tcp: Don't free SQ on authentication success
+Date: Mon, 20 Apr 2026 09:20:43 -0400
+Message-ID: <20260420132314.1023554-249-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260420131539.986432-1-sashal@kernel.org>
-References: <20260420131539.986432-1-sashal@kernel.org>
+In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
+References: <20260420132314.1023554-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260420_141636_607199_7ED0810E 
-X-CRM114-Status: GOOD (  22.17  )
+X-CRM114-CacheID: sfid-20260420_063122_353527_A8C292CC 
+X-CRM114-Status: GOOD (  26.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,412 +83,343 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Nilay Shroff <nilay@linux.ibm.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-[ Upstream commit 886f35201591ded7958e16fe3750871d3ca0bcdf ]
+[ Upstream commit 2e6eb6b277f593b98f151ea8eff1beb558bbea3b ]
 
-Cancelling the I/O and admin tagsets during nvme-loop controller reset
-or shutdown is unnecessary. The subsequent destruction of the I/O and
-admin queues already waits for all in-flight target operations to
-complete.
+Curently after the host sends a REPLACETLSPSK we free the TLS keys as
+part of calling nvmet_auth_sq_free() on success. This means when the
+host sends a follow up REPLACETLSPSK we return CONCAT_MISMATCH as the
+check for !nvmet_queue_tls_keyid(req->sq) fails.
 
-Cancelling the tagsets first also opens a race window. After a request
-tag has been cancelled, a late completion from the target may still
-arrive before the queues are destroyed. In that case the completion path
-may access a request whose tag has already been cancelled or freed,
-which can lead to a kernel crash. Please see below the kernel crash
-encountered while running blktests nvme/040:
+This patch ensures we don't free the TLS key on success as we might need
+it again in the future.
 
-run blktests nvme/040 at 2026-03-08 06:34:27
-loop0: detected capacity change from 0 to 2097152
-nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-nvme nvme6: creating 96 I/O queues.
-nvme nvme6: new ctrl: "blktests-subsystem-1"
-nvme_log_error: 1 callbacks suppressed
-block nvme6n1: no usable path - requeuing I/O
-nvme6c6n1: Read(0x2) @ LBA 2096384, 128 blocks, Host Aborted Command (sct 0x3 / sc 0x71)
-blk_print_req_error: 1 callbacks suppressed
-I/O error, dev nvme6c6n1, sector 2096384 op 0x0:(READ) flags 0x2880700 phys_seg 1 prio class 2
-block nvme6n1: no usable path - requeuing I/O
-Kernel attempted to read user page (236) - exploit attempt? (uid: 0)
-BUG: Kernel NULL pointer dereference on read at 0x00000236
-Faulting instruction address: 0xc000000000961274
-Oops: Kernel access of bad area, sig: 11 [#1]
-LE PAGE_SIZE=64K MMU=Radix  SMP NR_CPUS=2048 NUMA pSeries
-Modules linked in: nvme_loop nvme_fabrics loop nvmet null_blk rpadlpar_io rpaphp xsk_diag bonding rfkill nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables nfnetlink pseries_rng dax_pmem vmx_crypto drm drm_panel_orientation_quirks xfs mlx5_core nvme bnx2x sd_mod nd_pmem nd_btt nvme_core sg papr_scm tls libnvdimm ibmvscsi ibmveth scsi_transport_srp nvme_keyring nvme_auth mdio hkdf pseries_wdt dm_mirror dm_region_hash dm_log dm_mod fuse [last unloaded: loop]
-CPU: 25 UID: 0 PID: 0 Comm: swapper/25 Kdump: loaded Not tainted 7.0.0-rc3+ #14 PREEMPT
-Hardware name: IBM,9043-MRX Power11 (architected) 0x820200 0xf000007 of:IBM,FW1120.00 (RF1120_128) hv:phyp pSeries
-NIP:  c000000000961274 LR: c008000009af1808 CTR: c00000000096124c
-REGS: c0000007ffc0f910 TRAP: 0300   Not tainted  (7.0.0-rc3+)
-MSR:  8000000000009033 <SF,EE,ME,IR,DR,RI,LE>  CR: 22222222  XER: 00000000
-CFAR: c008000009af232c DAR: 0000000000000236 DSISR: 40000000 IRQMASK: 0
-GPR00: c008000009af17fc c0000007ffc0fbb0 c000000001c78100 c0000000be05cc00
-GPR04: 0000000000000001 0000000000000000 0000000000000007 0000000000000000
-GPR08: 0000000000000000 0000000000000000 0000000000000002 c008000009af2318
-GPR12: c00000000096124c c0000007ffdab880 0000000000000000 0000000000000000
-GPR16: 0000000000000010 0000000000000000 0000000000000004 0000000000000000
-GPR20: 0000000000000001 c000000002ca2b00 0000000100043bb2 000000000000000a
-GPR24: 000000000000000a 0000000000000000 0000000000000000 0000000000000000
-GPR28: c000000084021d40 c000000084021d50 c0000000be05cd60 c0000000be05cc00
-NIP [c000000000961274] blk_mq_complete_request_remote+0x28/0x2d4
-LR [c008000009af1808] nvme_loop_queue_response+0x110/0x290 [nvme_loop]
-Call Trace:
- 0xc00000000502c640 (unreliable)
- nvme_loop_queue_response+0x104/0x290 [nvme_loop]
- __nvmet_req_complete+0x80/0x498 [nvmet]
- nvmet_req_complete+0x24/0xf8 [nvmet]
- nvmet_bio_done+0x58/0xcc [nvmet]
- bio_endio+0x250/0x390
- blk_update_request+0x2e8/0x68c
- blk_mq_end_request+0x30/0x5c
- lo_complete_rq+0x94/0x110 [loop]
- blk_complete_reqs+0x78/0x98
- handle_softirqs+0x148/0x454
- do_softirq_own_stack+0x3c/0x50
- __irq_exit_rcu+0x18c/0x1b4
- irq_exit+0x1c/0x34
- do_IRQ+0x114/0x278
- hardware_interrupt_common_virt+0x28c/0x290
-
-Since the queue teardown path already guarantees that all target-side
-operations have completed, cancelling the tagsets is redundant and
-unsafe. So avoid cancelling the I/O and admin tagsets during controller
-reset and shutdown.
-
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have all the information needed. Let me compile the complete
-analysis.
+Now I have all the information needed for a comprehensive analysis. Let
+me compile the full assessment.
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-- **Subsystem**: `nvme-loop` (NVMe over Fabrics loopback target driver)
-- **Action verb**: "do not cancel" - explicitly removing code that
-  causes a bug
-- **Summary**: Removes unnecessary and dangerous tagset cancellation
-  from controller reset/shutdown path
+**Step 1.1: Subject Line**
+- Subsystem: `nvmet-tcp` (NVMe target, TCP transport)
+- Action verb: "Don't free" (preventing incorrect cleanup = bug fix)
+- Summary: Prevent freeing SQ authentication state on success to
+  preserve TLS key for future REPLACETLSPSK
 
-### Step 1.2: Tags
-- **Reviewed-by**: Christoph Hellwig `<hch@lst.de>` - NVMe subsystem co-
-  maintainer, a very strong review signal
-- **Signed-off-by**: Nilay Shroff `<nilay@linux.ibm.com>` - author, IBM
-  NVMe developer with history of nvme-loop fixes
-- **Signed-off-by**: Keith Busch `<kbusch@kernel.org>` - NVMe maintainer
-  who applied the patch
-- No Fixes: tag, no Cc: stable (expected for AUTOSEL candidates)
-- No Reported-by other than the author (crash found during blktests)
+**Step 1.2: Tags**
+- Reviewed-by: Christoph Hellwig, Hannes Reinecke (original auth
+  author), Wilfred Mallawa, Sagi Grimberg (NVMe-oF maintainer)
+- Signed-off-by: Keith Busch (NVMe maintainer, committer)
+- No Fixes: tag, no Cc: stable (expected for autosel candidates)
+- No Reported-by (discovered during development/testing rather than user
+  report)
 
-### Step 1.3: Commit Body Analysis
-The bug: During nvme-loop controller shutdown, the code cancels tagsets
-then destroys queues. But after a tag is cancelled, a late target-side
-completion can arrive (via `nvme_loop_queue_response()`) before queue
-destruction. This completion accesses a request that's already been
-cancelled/freed, causing a NULL pointer dereference in
-`blk_mq_complete_request_remote()`.
+**Step 1.3: Commit Body**
+The bug: after a successful NEWTLSPSK authentication,
+`nvmet_auth_sq_free()` is called which sets `sq->tls_key = NULL`. When
+the host sends a follow-up REPLACETLSPSK, the check
+`!nvmet_queue_tls_keyid(req->sq)` fails (returns 0 because key is NULL),
+and the target returns CONCAT_MISMATCH.
 
-The full crash stack trace is included showing `rq->mq_hctx` is NULL,
-reproducing on blktests nvme/040 on IBM Power11 hardware with kernel
-7.0.0-rc3+.
-
-### Step 1.4: Hidden Bug Fix Detection
-This is an explicit, clear crash fix, not disguised.
-
----
+**Step 1.4: Hidden Bug Fix Detection**
+This is explicitly a bug fix - the "Don't free" phrasing indicates
+fixing incorrect behavior.
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
-- **Files changed**: 1 (`drivers/nvme/target/loop.c`)
-- **Lines removed**: 2, **Lines added**: 0
-- **Functions modified**: `nvme_loop_shutdown_ctrl()`
-- **Scope**: Extremely surgical - single function, 2 line removal
+**Step 2.1: Inventory**
+- 1 file changed: `drivers/nvme/target/fabrics-cmd-auth.c`
+- Approx +5/-5 lines (very small)
+- Functions modified: `nvmet_execute_auth_send()`,
+  `nvmet_execute_auth_receive()`
 
-### Step 2.2: Code Flow Change
-**Before**: `quiesce_io -> cancel_tagset -> destroy_io_queues ->
-quiesce_admin -> disable_ctrl -> cancel_admin_tagset ->
-destroy_admin_queue`
+**Step 2.2: Code Flow Changes**
 
-**After**: `quiesce_io -> destroy_io_queues -> quiesce_admin ->
-disable_ctrl -> destroy_admin_queue`
+Hunk 1 (`nvmet_execute_auth_send`, lines ~398-401):
+- Before: `nvmet_auth_sq_free()` was called for BOTH SUCCESS2 and
+  FAILURE2 final states
+- After: `nvmet_auth_sq_free()` is called ONLY for FAILURE2
 
-The cancel step is removed because `nvmet_sq_destroy()` inside the
-destroy functions already calls `percpu_ref_kill_and_confirm()` +
-`wait_for_completion()` twice, guaranteeing all in-flight target
-operations complete before continuing.
+Hunk 2 (`nvmet_execute_auth_receive`, lines ~577-582):
+- Before: `nvmet_auth_sq_free()` was called for BOTH SUCCESS2 and
+  FAILURE1
+- After: `nvmet_auth_sq_free()` is called ONLY for FAILURE1
 
-### Step 2.3: Bug Mechanism
-This is a **race condition / use-after-free** fix:
-1. `nvme_cancel_tagset()` iterates in-flight requests and calls
-   `blk_mq_complete_request()` on each, marking them done
-2. The target side (running in the nvmet workqueue) has an outstanding
-   bio that hasn't completed yet
-3. When `nvmet_bio_done()` fires, it goes through `nvmet_req_complete()`
-   -> `nvme_loop_queue_response()` -> `blk_mq_complete_request_remote()`
-4. At this point, the request has already been freed/cancelled, so
-   `rq->mq_hctx` is NULL -> crash
+**Step 2.3: Bug Mechanism**
+This is a **logic/correctness bug**. The `nvmet_auth_sq_free()` function
+(in `auth.c:239-251`) performs:
 
-### Step 2.4: Fix Quality
-- **Obviously correct**: The cancel calls are demonstrably redundant
-  because `nvmet_sq_destroy()` does a full wait-for-completion. Verified
-  in code at line 969-970 of `drivers/nvme/target/core.c`.
-- **Minimal**: Only 2 lines removed
-- **Regression risk**: Very low. The cancel is redundant for nvme-loop.
-  Other transports (tcp, rdma, pci) still use cancel because they don't
-  have a local target queue to wait on.
-- **Important**: The error path cancel calls (lines 496 and 636) are
-  preserved - those are during controller init, not shutdown, where
-  queues aren't fully set up.
+```239:251:drivers/nvme/target/auth.c
+void nvmet_auth_sq_free(struct nvmet_sq *sq)
+{
+        cancel_delayed_work(&sq->auth_expired_work);
+#ifdef CONFIG_NVME_TARGET_TCP_TLS
+        sq->tls_key = NULL;
+#endif
+        kfree(sq->dhchap_c1);
+        sq->dhchap_c1 = NULL;
+        kfree(sq->dhchap_c2);
+        sq->dhchap_c2 = NULL;
+        kfree(sq->dhchap_skey);
+        sq->dhchap_skey = NULL;
+}
+```
 
----
+The critical line `sq->tls_key = NULL` discards the TLS key on success.
+The `nvmet_queue_tls_keyid()` function checks this:
 
-## PHASE 3: GIT HISTORY
+```876:879:drivers/nvme/target/nvmet.h
+static inline key_serial_t nvmet_queue_tls_keyid(struct nvmet_sq *sq)
+{
+        return sq->tls_key ? key_serial(sq->tls_key) : 0;
+}
+```
 
-### Step 3.1: Blame
-The `nvme_cancel_tagset()` and `nvme_cancel_admin_tagset()` calls were
-introduced by commit `e41f8c0222e30` (Sagi Grimberg, 2022-06-26) "nvme-
-loop: use nvme core helpers to cancel all requests in a tagset". That
-was a pure refactoring - replacing open-coded `blk_mq_tagset_busy_iter`
-with the helper. The underlying cancel logic existed since the original
-nvme-loop driver.
+And the REPLACETLSPSK negotiation code at line 58-60 requires the key to
+exist:
 
-### Step 3.2: Fixes Tag
-No Fixes: tag. The bug is inherent to having cancel + destroy in nvme-
-loop's shutdown, which has been this way since at least v6.0. A strict
-Fixes: tag would point to `e41f8c0222e30` (v6.0+).
+```58:60:drivers/nvme/target/fabrics-cmd-auth.c
+                case NVME_AUTH_SECP_REPLACETLSPSK:
+                        if (!nvmet_queue_tls_keyid(req->sq))
+                                return
+NVME_AUTH_DHCHAP_FAILURE_CONCAT_MISMATCH;
+```
 
-### Step 3.3: Related Changes
-The same author (Nilay Shroff) previously submitted `c199fac88fe7c`
-"nvme-loop: flush off pending I/O while shutting down loop controller"
-which added `nvme_unquiesce_*` calls to the destroy functions. That's a
-related but distinct fix for a different race (hung tasks from I/O
-sneaking in between quiesce and destroy).
+So after a successful auth that clears the key, REPLACETLSPSK always
+fails.
 
-### Step 3.4: Author
-Nilay Shroff is an active NVMe developer at IBM, with multiple
-contributions to the nvme subsystem. Previous nvme-loop
-shutdown/crashfix patches from him were accepted and merged.
+**Step 2.4: Fix Quality**
+- Obviously correct: the fix simply restricts `nvmet_auth_sq_free` to
+  failure-only paths
+- Minimal/surgical: ~10 lines changed, single file
+- Regression risk: Very low. The SQ will still be properly freed during
+  SQ destruction (`core.c:972` calls `nvmet_auth_sq_free`)
 
-### Step 3.5: Dependencies
-**This patch is self-contained**. It only removes 2 lines. No
-prerequisites needed.
+## PHASE 3: GIT HISTORY INVESTIGATION
 
----
+**Step 3.1: Blame**
+- The buggy code in auth_send (line 399) was introduced by
+  `db1312dd95488b` (Hannes Reinecke, 2022-06-27) - the original auth
+  implementation
+- The `sq->tls_key = NULL` line in `nvmet_auth_sq_free` was added by
+  `fa2e0f8bbc689` (Hannes Reinecke, 2025-02-24) - the secure channel
+  concatenation feature
+- The bug: calling `nvmet_auth_sq_free` on success was harmless before
+  `fa2e0f8bbc689` (no TLS key existed), but became a bug after TLS key
+  handling was added to the function
 
-## PHASE 4: MAILING LIST
+**Step 3.2: Fixes Target**
+No explicit Fixes: tag, but the bug was introduced by `fa2e0f8bbc689`
+"nvmet-tcp: support secure channel concatenation", which first appeared
+in **v6.15-rc1** (`v6.15-rc1~166^2^2~13`).
 
-### Step 4.1: Original Thread
-Found via infradead pipermail:
-- **Cover letter**: [http://lists.infradead.org/pipermail/linux-nvme/202
-  6-March/061768.html](http://lists.infradead.org/pipermail/linux-
-  nvme/2026-March/061768.html)
-- **Patch**: [http://lists.infradead.org/pipermail/linux-nvme/2026-
-  March/061767.html](http://lists.infradead.org/pipermail/linux-
-  nvme/2026-March/061767.html)
+**Step 3.3: File History**
+Only one commit has touched this file since v6.15: `159de7a825aea`
+("nvmet-auth: update sc_c in target host hash calculation") by the same
+author, which is a different fix.
 
-The cover letter provides an even more detailed explanation of the race,
-showing that `rq->mq_hctx` is NULL when the kernel tries to dereference
-it.
+**Step 3.4: Author**
+Alistair Francis (WDC) has authored 3 NVMe auth fixes in this subsystem.
+He's a contributor focused on NVMe-TCP/TLS.
 
-### Step 4.2: Review
-- **Christoph Hellwig** (NVMe co-maintainer) on Mar 20: "Looks good:
-  Reviewed-by: Christoph Hellwig"
-- **Keith Busch** (NVMe maintainer) on Mar 24: "Thanks, applied to
-  nvme-7.1."
-- No NAKs, no concerns raised by any reviewer.
-- Single version patch (no v2/v3 iterations needed).
+**Step 3.5: Dependencies**
+The patch is standalone. It only modifies the conditions under which
+`nvmet_auth_sq_free()` is called, with no new functions or structural
+changes.
 
-### Step 4.3-4.5: No stable-specific discussion found. No additional
-reports.
+## PHASE 4: MAILING LIST RESEARCH
 
----
+**Step 4.1-4.2:** Lore search was blocked by Anubis anti-bot protection.
+However, `b4 dig` found the related commit `159de7a825aea` at `https://p
+atch.msgid.link/20251106231711.3189836-1-alistair.francis@wdc.com`. The
+4 reviewer tags (Christoph Hellwig, Hannes Reinecke, Wilfred Mallawa,
+Sagi Grimberg) demonstrate thorough review by the NVMe subsystem's key
+developers.
+
+**Step 4.3-4.5:** Could not access lore due to bot protection. The
+commit's review coverage is excellent though.
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1-5.2: Functions
-The modified function `nvme_loop_shutdown_ctrl()` is called from:
-1. `nvme_loop_delete_ctrl_host()` - controller deletion path
-2. `nvme_loop_reset_ctrl_work()` - controller reset path
+**Step 5.1-5.2: Callers**
+`nvmet_execute_auth_send` and `nvmet_execute_auth_receive` are assigned
+as `req->execute` handlers in `fabrics-cmd.c` for
+`nvme_fabrics_type_auth_send` and `nvme_fabrics_type_auth_receive`
+commands (when `CONFIG_NVME_TARGET_AUTH` is enabled). These are called
+during the NVMe-oF authentication flow on both admin and I/O queue
+setup.
 
-Both are critical controller lifecycle paths.
+**Step 5.3-5.4: Call Chain**
+The auth commands are triggered by the NVMe host during connection
+setup. This is a standard NVMe-oF protocol path, reachable whenever a
+host connects to a target with authentication enabled.
 
-### Step 5.3-5.4: Callees
-`nvme_cancel_tagset()` calls `blk_mq_tagset_busy_iter()` +
-`nvme_cancel_request()` which calls `blk_mq_complete_request()`. The
-late completion from `nvmet_bio_done()` -> `nvme_loop_queue_response()`
-also calls `blk_mq_complete_request()` on the same request. Double-
-completion of a freed request = crash.
-
-`nvmet_sq_destroy()` calls `percpu_ref_kill_and_confirm()` followed by
-`wait_for_completion(&sq->confirm_done)` and
-`wait_for_completion(&sq->free_done)` - this guarantees all in-flight
-target operations complete before proceeding.
-
----
+**Step 5.5: Similar Patterns**
+`nvmet_auth_sq_free` is also called from `core.c:972` during SQ
+destruction, which is the correct final cleanup point and is unaffected
+by this change.
 
 ## PHASE 6: STABLE TREE ANALYSIS
 
-### Step 6.1: Buggy code in stable trees
-- `e41f8c0222e30` (introduced the cancel helper calls) is in **v6.0,
-  v6.1, v6.6** and later
-- The bug exists in all active stable trees: **v6.1.y, v6.6.y, v6.12.y**
-- NOT present in v5.15 (the older open-coded cancel was different)
+**Step 6.1: Buggy Code Existence**
+The buggy code (`sq->tls_key = NULL` in `nvmet_auth_sq_free` plus
+calling it on success) was introduced by `fa2e0f8bbc689` in
+**v6.15-rc1**. It exists in stable trees: **6.15.y, 6.16.y, 6.17.y,
+6.18.y, 6.19.y** (and 7.0).
 
-### Step 6.2: Backport complications
-The patch removes the exact same 2 lines (`nvme_cancel_tagset()` and
-`nvme_cancel_admin_tagset()`) from `nvme_loop_shutdown_ctrl()`. Verified
-the v6.6 and v6.1 code has these lines at the same locations. The
-surrounding context differs slightly (`nvme_ctrl_state()` vs
-`ctrl->ctrl.state`, presence/absence of CQ sharing code), but the lines
-being removed are identical. **Should apply cleanly with trivial context
-adjustment.**
+**Step 6.2: Backport Complications**
+Since v6.15, only `159de7a825aea` has touched this file (adding 1 line
+to a different function). The patch should apply cleanly to all affected
+stable trees.
 
----
+**Step 6.3: Related Fixes**
+Two related fixes to `fa2e0f8bbc689` already exist: `b1efcc470eb30`
+(sparse warning fix) and `8edb86b2ed1d6` (memory leak fix). Neither
+addresses the REPLACETLSPSK issue.
 
 ## PHASE 7: SUBSYSTEM CONTEXT
 
-### Step 7.1: Subsystem
-- **Subsystem**: NVMe over Fabrics loopback
-  (`drivers/nvme/target/loop.c`)
-- **Criticality**: IMPORTANT - NVMe loopback is used in testing
-  (blktests), CI pipelines, and some production setups for local NVMe-oF
-  workloads.
+**Step 7.1:** NVMe target, TCP transport. Criticality: **IMPORTANT** -
+NVMe-oF/TCP is widely used in storage infrastructure. The auth subsystem
+is critical for security.
 
----
+**Step 7.2:** Actively developed - secure channel concatenation was
+added in v6.15 with ongoing fixes.
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who is affected
-Users of nvme-loop (NVMe over Fabrics loopback) who perform controller
-reset/shutdown while I/O is in-flight.
+**Step 8.1: Affected Users**
+Users of NVMe-TCP with DH-HMAC-CHAP authentication and secure channel
+concatenation (TLS PSK replacement).
 
-### Step 8.2: Trigger conditions
-Triggered during blktests nvme/040 - a standard NVMe test. Race requires
-in-flight I/O during controller shutdown, which is a normal occurrence.
+**Step 8.2: Trigger Conditions**
+Triggered whenever a host sends a REPLACETLSPSK request after a
+successful initial NEWTLSPSK authentication. This is a standard protocol
+flow per NVMe Base Spec 2.1 section 8.3.4.3. The trigger is
+deterministic, not timing-dependent.
 
-### Step 8.3: Failure mode
-**CRITICAL**: Kernel NULL pointer dereference (oops), crash in softirq
-context (`swapper/25` at CPU 25). This is a system crash.
+**Step 8.3: Failure Mode**
+Authentication fails with CONCAT_MISMATCH error. Severity: **MEDIUM-
+HIGH** - the REPLACETLSPSK feature is completely broken, rendering the
+secure channel concatenation TLS key rotation inoperable. This is a
+functionality regression, not a crash.
 
-### Step 8.4: Risk-Benefit
-- **Benefit**: Very HIGH - prevents kernel crash during normal NVMe
-  loopback controller shutdown
-- **Risk**: Very LOW - 2 lines removed, confirmed redundant by code
-  analysis (`nvmet_sq_destroy` does wait_for_completion), reviewed by
-  subsystem co-maintainer
-- **Ratio**: Extremely favorable
-
----
+**Step 8.4: Risk-Benefit**
+- **Benefit:** HIGH - fixes a completely broken protocol feature
+  (REPLACETLSPSK)
+- **Risk:** VERY LOW - 10-line change, restricts cleanup to failure
+  paths only, SQ destruction still properly cleans up
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence
-**FOR backporting:**
-- Fixes a real kernel crash (NULL pointer dereference -> oops)
-- Crash reproduced with standard blktests nvme/040
-- Extremely small: 2 lines removed
-- Fix is obviously correct: removed code is provably redundant
-- Reviewed by Christoph Hellwig (NVMe co-maintainer)
-- Applied by Keith Busch (NVMe maintainer)
-- Buggy code exists in stable trees v6.1.y, v6.6.y, v6.12.y
-- Patch should apply cleanly with at most trivial context adjustment
-- No regression risk - other transports unaffected
-- Author has established track record with nvme-loop fixes
+**Step 9.1: Evidence Summary**
 
-**AGAINST backporting:**
-- No Fixes: tag (expected for AUTOSEL candidates)
-- No Cc: stable (expected)
-- Patch was applied to nvme-7.1, not tagged as a fix for 7.0
+FOR backporting:
+- Fixes a real, deterministic bug making REPLACETLSPSK unusable
+- Small, surgical, obviously correct fix (10 lines, 1 file)
+- 4 expert reviewers including NVMe-oF maintainer (Sagi Grimberg)
+- Standalone patch, no dependencies
+- Clean application expected on all affected stable trees
 
-### Step 9.2: Stable Rules Checklist
-1. **Obviously correct and tested?** YES - crash stack trace + blktests
-   reproduction, reviewed by co-maintainer
-2. **Fixes a real bug?** YES - kernel crash/oops
-3. **Important issue?** YES - system crash (CRITICAL)
-4. **Small and contained?** YES - 2 lines in 1 file
-5. **No new features/APIs?** Correct - pure removal
-6. **Can apply to stable?** YES - lines exist identically in v6.1.y,
-   v6.6.y, v6.12.y
+AGAINST backporting:
+- Affects a relatively new feature (v6.15+), limiting the number of
+  stable trees
+- No explicit Fixes: or Cc: stable tag (expected for autosel candidates)
+- No user bug reports (Reported-by)
 
-### Step 9.3: Exception categories
-Not applicable - this is a standard crash fix, not an exception
-category.
+**Step 9.2: Stable Rules Checklist**
+1. Obviously correct and tested? **YES** - 4 reviewers, straightforward
+   logic change
+2. Fixes a real bug? **YES** - REPLACETLSPSK is completely broken
+3. Important issue? **YES** - broken protocol feature, though not
+   crash/security/corruption
+4. Small and contained? **YES** - 10 lines, single file
+5. No new features? **YES** - purely fixes existing behavior
+6. Applies to stable? **YES** - for 6.15.y and later
 
----
+**Step 9.3: Exceptions** - N/A
+
+**Step 9.4: Decision**
+This is a clear, well-reviewed bug fix for a broken NVMe-TCP protocol
+feature. The fix is minimal, obviously correct, and standalone.
 
 ## Verification
 
-- [Phase 1] Parsed tags: Reviewed-by Christoph Hellwig, Signed-off-by
-  Keith Busch (NVMe maintainer)
-- [Phase 2] Diff analysis: 2 lines removed from
-  `nvme_loop_shutdown_ctrl()`, removing `nvme_cancel_tagset()` and
-  `nvme_cancel_admin_tagset()` calls
-- [Phase 2] Verified `nvmet_sq_destroy()` does
-  `wait_for_completion(&sq->confirm_done)` +
-  `wait_for_completion(&sq->free_done)` at lines 969-970 of
-  `drivers/nvme/target/core.c` - confirms redundancy claim
-- [Phase 3] git blame: cancel calls introduced by `e41f8c0222e30` (v6.0,
-  Sagi Grimberg, 2022-06-26)
-- [Phase 3] `git merge-base --is-ancestor`: e41f8c0222e30 is in v6.1
-  (YES), v6.6 (YES), NOT in v5.15
-- [Phase 3] Author's prior commit `c199fac88fe7c` (related nvme-loop
-  shutdown fix) confirms expertise
-- [Phase 4] Original submission found on lists.infradead.org: cover
-  letter (#061768), patch (#061767)
-- [Phase 4] Christoph Hellwig review (#061882): "Looks good: Reviewed-
-  by"
-- [Phase 4] Keith Busch applied (#061934): "Thanks, applied to nvme-7.1"
-- [Phase 4] Single version, no v2/v3, no NAKs or concerns
-- [Phase 5] `nvme_loop_shutdown_ctrl()` called from controller delete
-  and reset paths
-- [Phase 5] Verified `nvme_cancel_request()` calls
-  `blk_mq_complete_request()`, creating the double-completion race with
-  target-side `nvme_loop_queue_response()`
-- [Phase 6] Verified v6.6 and v6.1 stable trees have the same cancel
-  lines at identical locations in `nvme_loop_shutdown_ctrl()`
-- [Phase 6] Patch will need trivial context adjustment for v6.6
-  (`ctrl->ctrl.state` vs `nvme_ctrl_state()`)
-- [Phase 8] Failure mode: NULL pointer dereference in softirq -> kernel
-  oops, CRITICAL severity
-
-This is a textbook stable backport candidate: a tiny, obviously correct
-crash fix for a real race condition, reviewed by the subsystem co-
-maintainer, with zero regression risk.
+- [Phase 1] Parsed tags: 4 Reviewed-by (Christoph Hellwig, Hannes
+  Reinecke, Wilfred Mallawa, Sagi Grimberg), SOB by Keith Busch
+  (maintainer)
+- [Phase 2] Diff analysis: ~10 lines changed in 2 functions, restricts
+  `nvmet_auth_sq_free()` to failure paths only
+- [Phase 2] Verified `nvmet_auth_sq_free()` clears `sq->tls_key = NULL`
+  (auth.c:243)
+- [Phase 2] Verified `nvmet_queue_tls_keyid()` returns 0 when `tls_key`
+  is NULL (nvmet.h:876-879)
+- [Phase 2] Verified REPLACETLSPSK check requires non-zero key (fabrics-
+  cmd-auth.c:59-60)
+- [Phase 3] git blame: buggy cleanup code from db1312dd95488b (2022),
+  TLS key clearing added by fa2e0f8bbc689 (2025)
+- [Phase 3] git describe: fa2e0f8bbc689 first appears at
+  v6.15-rc1~166^2^2~13
+- [Phase 3] git log v6.15..v7.0: only 1 other commit touched this file
+  (159de7a825aea)
+- [Phase 3] Confirmed SQ destruction at core.c:972 still calls
+  nvmet_auth_sq_free for final cleanup
+- [Phase 4] b4 dig: found related author thread. Lore blocked by Anubis.
+- [Phase 5] Callers: both functions registered as req->execute handlers
+  for auth commands in fabrics-cmd.c
+- [Phase 6] Bug exists in stable trees 6.15.y through 6.19.y
+- [Phase 6] Clean apply expected - minimal churn since v6.15
+- [Phase 8] Deterministic trigger: every REPLACETLSPSK after successful
+  NEWTLSPSK fails
+- UNVERIFIED: Could not access lore discussion for stable nomination
+  signals or NAKs
 
 **YES**
 
- drivers/nvme/target/loop.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/nvme/target/fabrics-cmd-auth.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 4b3f4f11928d4..d98d0cdc5d6fa 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -419,7 +419,6 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- {
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_quiesce_io_queues(&ctrl->ctrl);
--		nvme_cancel_tagset(&ctrl->ctrl);
- 		nvme_loop_destroy_io_queues(ctrl);
+diff --git a/drivers/nvme/target/fabrics-cmd-auth.c b/drivers/nvme/target/fabrics-cmd-auth.c
+index 5946681cb0e32..96c85579150dd 100644
+--- a/drivers/nvme/target/fabrics-cmd-auth.c
++++ b/drivers/nvme/target/fabrics-cmd-auth.c
+@@ -396,9 +396,10 @@ void nvmet_execute_auth_send(struct nvmet_req *req)
+ 		goto complete;
  	}
+ 	/* Final states, clear up variables */
+-	nvmet_auth_sq_free(req->sq);
+-	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE2)
++	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE2) {
++		nvmet_auth_sq_free(req->sq);
+ 		nvmet_ctrl_fatal_error(ctrl);
++	}
  
-@@ -427,7 +426,6 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- 	if (nvme_ctrl_state(&ctrl->ctrl) == NVME_CTRL_LIVE)
- 		nvme_disable_ctrl(&ctrl->ctrl, true);
- 
--	nvme_cancel_admin_tagset(&ctrl->ctrl);
- 	nvme_loop_destroy_admin_queue(ctrl);
- }
- 
+ complete:
+ 	nvmet_req_complete(req, status);
+@@ -574,9 +575,7 @@ void nvmet_execute_auth_receive(struct nvmet_req *req)
+ 	status = nvmet_copy_to_sgl(req, 0, d, al);
+ 	kfree(d);
+ done:
+-	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_SUCCESS2)
+-		nvmet_auth_sq_free(req->sq);
+-	else if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE1) {
++	if (req->sq->dhchap_step == NVME_AUTH_DHCHAP_MESSAGE_FAILURE1) {
+ 		nvmet_auth_sq_free(req->sq);
+ 		nvmet_ctrl_fatal_error(ctrl);
+ 	}
 -- 
 2.53.0
 
