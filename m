@@ -4,104 +4,105 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DA12F8FA8C
-	for <linux-nvme@archiver.kernel.org>; Tue, 21 Apr 2026 14:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0460F8FA78
+	for <linux-nvme@archiver.kernel.org>; Tue, 21 Apr 2026 14:51:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+Pboa7GUKSFInP2Ll2f1ZfBgU2aW8jiB8RWm+3uFKy8=; b=C81zOq2zFLnuO5rqTzQKRlnbJi
-	WhmtxsmX+lIpLfF6b8SjePwZ1l7L/5A/FjVfHnpru8geYI04hEG3JPhbRuyidzUQCT7p8r602FMdq
-	OdvIxaAIzorj17qxirR5VxXolKuvzFqXz4MqSA2DRNUbfxf5yQ3Sg3v2xyhzdSeOd5RmxvdgQyyCk
-	oB8kM2tClKjRREy1Ku/qCdLzrKSPaOuRYqlV44c0dzApXTk++Qg49s0k0Erv36tpJylo0t1HHX9QR
-	ji/FDTO7POiXs++d2yHHRdY96KqgWPedoq9HLt4eEUgPv4fWHLnXWDYmUjjomIg3zibwqsvhlwkS7
-	F6JgXkIw==;
+	bh=aHjDrjf1+0olF/ArTIUuOlPCt7VSq+MMjWEpW7Xtv+I=; b=qB6Qzk0AQyAz84GK64G6cPS1Hc
+	Btim4EYEdoclLkyoW8vJ3dYkt3BQP+BRNYKdREaOIbSYEJJOaZOFo8guji5/kEe8V2AzRgULwpp+B
+	CcB2IYCyRx34fe6rvV3uSzVGq1AaZ/a68OUrlJynQkjaMtBbCs+CkqKEbx0e3LsuooOUVYK+F/jA5
+	pX9E3HwQOUENeBcU/jDJt/qiCd29GNxPOxZ40MTXVJT80HgYpYJFwYvc+e5A2ws6WvvcGG5U6TULW
+	aaj2U5yzz50SGb9MQXyIgf5BJKvQviekH7y1MKADU8FoB7lj5b30ibdZzr6zD0S7T/DEFsl/cwK+g
+	sD2mqKXQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFCRa-00000008ly6-0bC6;
-	Tue, 21 Apr 2026 14:51:18 +0000
+	id 1wFCRd-00000008m2k-3QFV;
+	Tue, 21 Apr 2026 14:51:21 +0000
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFCRX-00000008ltt-1LQ4
+	id 1wFCRa-00000008lyS-2lJ4
 	for linux-nvme@lists.infradead.org;
-	Tue, 21 Apr 2026 14:51:16 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63LCFIT91650615;
-	Tue, 21 Apr 2026 14:51:13 GMT
+	Tue, 21 Apr 2026 14:51:20 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63LCFEhj1686174;
+	Tue, 21 Apr 2026 14:51:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=+Pboa7GUKSFInP2Ll
-	2f1ZfBgU2aW8jiB8RWm+3uFKy8=; b=YWTQB1xFN+GmZEBv/w0pAqNUAEgHwRAOM
-	9wZBkF9Pu0TB16Al+36dFmK7Hth5uNWU0YneOc3Q7BQM0HdnUZr2kgngYvZKP4VR
-	NNz0rpIhWmIjFArzrwcctxmocCe3Txq63omXLlrahP0gb5Ky30qJ6+AqRvJnVmkd
-	NGeFgcLU5AoWWy8jTcgJwqXOxc/7+jLA1XFaRokR3jfLZ1xAOEqmWhBoXc1DJLeR
-	LpPgQQi6Olf+kTxGK3kOO4qQfSEauUa8i6zwv5Bxv3TilKPTyXnPNSzpW9wRUYeA
-	zskpMdDYZRCny8BQs2Xg/quzk1QzZa5kdsaQ76PXQz3C3urkqSKow==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dm2k54ty9-1
+	:mime-version:references:subject:to; s=pp1; bh=aHjDrjf1+0olF/ArT
+	IUuOlPCt7VSq+MMjWEpW7Xtv+I=; b=f9pzKrDiFfH8kA4gQzDovIo5NCSCG6IJW
+	iF27Tn8MJFLJ179OZGOohFefQDjTt5OHmcnGfNH+JZYKs71AAPiqNsmBKG8x/O6t
+	dHsHcxGPxOLwh49CzJZJ93JROAm8FedpqshHxlRzhi531IUaXg3KxknzbyFW9RdH
+	aIJzaaWNSASY0rbFBUcMnF7amjcBAq49RLAKzVc0rD7T68TZ7/5B4kzQIKPfFDhy
+	V4PnhSFdAJiBcpbnNLnyIEBEdiw2Jv2zSEVLciye/0JGBBdjf75GgEc/wRXIcJdh
+	Gr9I4pJPg/fOrACo+eMJevW1nlcpsIltTB3qLPgNyPfWuLPou2erw==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dm2j6mu0k-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Apr 2026 14:51:13 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63LEoH9O022715;
-	Tue, 21 Apr 2026 14:51:12 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dmn9k139k-1
+	Tue, 21 Apr 2026 14:51:15 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63LEoF9C012915;
+	Tue, 21 Apr 2026 14:51:14 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dmpgg8y0y-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Apr 2026 14:51:12 +0000 (GMT)
+	Tue, 21 Apr 2026 14:51:14 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63LEp8wT55116074
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63LEpBYb43516222
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 21 Apr 2026 14:51:08 GMT
+	Tue, 21 Apr 2026 14:51:11 GMT
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7535A20043;
+	by IMSVA (Postfix) with ESMTP id 481DA20043;
+	Tue, 21 Apr 2026 14:51:11 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E050D20040;
 	Tue, 21 Apr 2026 14:51:08 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BCE3F20040;
-	Tue, 21 Apr 2026 14:51:05 +0000 (GMT)
 Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.39.30.130])
 	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 21 Apr 2026 14:51:05 +0000 (GMT)
+	Tue, 21 Apr 2026 14:51:08 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
         gjoyce@linux.ibm.com, wenxiong@linux.ibm.com,
         Nilay Shroff <nilay@linux.ibm.com>
-Subject: [PATCHv3 8/9] libnvme: add support for nshead diagnostic counters
-Date: Tue, 21 Apr 2026 20:20:29 +0530
-Message-ID: <20260421145038.3458987-9-nilay@linux.ibm.com>
+Subject: [PATCHv3 9/9] libnvme: add support for ctrl diagnostic counters
+Date: Tue, 21 Apr 2026 20:20:30 +0530
+Message-ID: <20260421145038.3458987-10-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260421145038.3458987-1-nilay@linux.ibm.com>
 References: <20260421145038.3458987-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LgxF_a6-Tu8wUGs6NRWuw_z0F7JOUM8p
-X-Proofpoint-ORIG-GUID: LgxF_a6-Tu8wUGs6NRWuw_z0F7JOUM8p
-X-Authority-Analysis: v=2.4 cv=VP7tWdPX c=1 sm=1 tr=0 ts=69e78ee1 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIxMDE0OCBTYWx0ZWRfX8OGUF8hekGAi
+ 5OGPhw1lLrB24T9DEPaoxiRbzvuxvzG+9QHEKhaqKb5pj4e9+t3I3L0dRYKTnj4DPeibRC0meOg
+ 0BcUfr1F3G+HHmR6l9QUvSp1UW4BcndFSQASuGtlp/UxwAL4+9ysH4oXSsfQV2FA3OOgviGC3N4
+ Cn+O715MQ6LAb6tSgIT21GpvRuPTXTQSnhnfRNLR5e8NV8vR+XzlUpiJoDe2+Gxn8y/Yhy3suNX
+ ukyldKFGy8ErAUvUwcEIBTJzABdtnzHRj0p0kCYxogRUq3AJsGaGLNPWOUlrPOqaP7B1gu+N8hc
+ GL71rj/yyvUlryCJA3VWugzvZWF1O8OWqJxbVapdUL7RFvyPWHffQGaSd0pxwulIneT0ObkM04J
+ nPltWl1uRVFqZp8Mv2FNvL5dnwjGeZseeUey40aewCzlfFz5UiZbTJ44Cu1//1OmvsAgSD+E36I
+ aea5eyAbgbuR17e8mBg==
+X-Proofpoint-GUID: C2EBmpIzG2UTVgqDVX77MJwIOF6WZQv3
+X-Authority-Analysis: v=2.4 cv=SOJykuvH c=1 sm=1 tr=0 ts=69e78ee3 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
  a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=sN_bMOALZ3zET2-YLtMA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIxMDE0OCBTYWx0ZWRfX68xt8EnjEBx4
- L8hJBGFV2qRtXURWFVJUkTwVC+CnKs824dMESLQGCKb6EiM8gPSmLw1WhcVDXgh9AfvRIxdJy+T
- C1qCWmeZqzFkbPB09AMOjsA7WOeI0Tpq/4PUNocQ6gHapnjUb5CBxwW68lWpuZnOoT/QwbN93Wc
- nOurDr0Ar5IbXBMDq0jXxU89dXdYpF2+QcDgYEJnIWC1MFUj/utJAJop9195Lf5FFXBp54p5AVG
- /1Y86BZyPrYiuAc2iUPRrYHRMUe35VOvqKG+uarlE9Kcse0Y0w0IspnQ6S4C0JFBq1HNEtJsb7S
- BSHzd2FU6+Ry7sm15wtlyYOKsDDMr6lR5lXU2fOaZhqXS8p/IDTRYlV8WECb7esUuuye4d2TC/P
- d04SOJxpBAup9CNjVrwag6ZarYvVtnEL0/oY3GuFrlgIgUcCeVq0+VKiBtYXiX3xS3QjfEs2Skw
- RGAgTB+lwr6KwWXpGVQ==
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8 a=miZTg8r9HIEdnQr3rz0A:9
+X-Proofpoint-ORIG-GUID: C2EBmpIzG2UTVgqDVX77MJwIOF6WZQv3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-21_03,2026-04-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 suspectscore=0 priorityscore=1501 adultscore=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604210148
+ malwarescore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 phishscore=0 suspectscore=0 adultscore=0 impostorscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
+ definitions=main-2604210148
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260421_075115_368695_CCE1C7F1 
-X-CRM114-Status: GOOD (  13.75  )
+X-CRM114-CacheID: sfid-20260421_075118_774013_E8060526 
+X-CRM114-Status: GOOD (  15.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,18 +117,10 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add support for retrieving nshead diagnostic counters such as requeue_
-no_usable_path_count and fail_no_available_path_count.
-
-The requeue_no_usable_path_count counter represents the number of I/Os
-requeued to the namespace head when no usable path is available (for
-example, due to transient link issues). The fail_no_available_path_count
-counter represents the number of I/Os failed when no I/O path is
-available (for example, when all paths are removed).
-
-These counters improve visibility into NVMe native multipath behavior
-and can be useful for tools such as nvme-top to display real-time
-statistics.
+Add support for retrieving ctrl diagnostic counters such as command_
+error_count, reset_count and reconnect_count. These counters improve
+visibility and can be useful for tools such as nvme-top to display
+real-time statistics.
 
 Unlike other sysfs attributes, these counters can change dynamically.
 Annotate them with "!accessors:none" and provide custom implementations
@@ -135,99 +128,120 @@ to always retrieve the latest (non-cached) values.
 
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- libnvme/src/libnvme.ld     |  2 ++
- libnvme/src/nvme/private.h |  2 ++
- libnvme/src/nvme/tree.c    | 22 ++++++++++++++++++++++
- libnvme/src/nvme/tree.h    | 17 +++++++++++++++++
- 4 files changed, 43 insertions(+)
+ libnvme/src/libnvme.ld     |  3 +++
+ libnvme/src/nvme/private.h |  3 +++
+ libnvme/src/nvme/tree.c    | 33 +++++++++++++++++++++++++++++++++
+ libnvme/src/nvme/tree.h    | 25 +++++++++++++++++++++++++
+ 4 files changed, 64 insertions(+)
 
 diff --git a/libnvme/src/libnvme.ld b/libnvme/src/libnvme.ld
-index 2fafd333c..c9841e45c 100644
+index c9841e45c..68df5e2b6 100644
 --- a/libnvme/src/libnvme.ld
 +++ b/libnvme/src/libnvme.ld
-@@ -142,6 +142,8 @@ LIBNVME_3 {
- 		libnvme_ns_get_io_ticks;
- 		libnvme_ns_get_command_retry_count;
- 		libnvme_ns_get_command_error_count;
-+		libnvme_ns_get_requeue_no_usable_path_count;
-+		libnvme_ns_get_fail_no_available_path_count;
- 		libnvme_ns_identify;
- 		libnvme_ns_read;
- 		libnvme_ns_verify;
+@@ -14,6 +14,9 @@ LIBNVME_3 {
+ 		libnvme_ctrl_get_subsysnqn;
+ 		libnvme_ctrl_get_subsystem;
+ 		libnvme_ctrl_get_transport_handle;
++		libnvme_ctrl_get_command_error_count;
++		libnvme_ctrl_get_reset_count;
++		libnvme_ctrl_get_reconnect_count;
+ 		libnvme_ctrl_identify;
+ 		libnvme_ctrl_match_config;
+ 		libnvme_ctrl_next_ns;
 diff --git a/libnvme/src/nvme/private.h b/libnvme/src/nvme/private.h
-index ec0e1e848..170445927 100644
+index 170445927..f7612c06d 100644
 --- a/libnvme/src/nvme/private.h
 +++ b/libnvme/src/nvme/private.h
-@@ -254,6 +254,8 @@ struct libnvme_ns { // !generate-accessors
- 
- 	long command_retry_count; //!accessors:none
- 	long command_error_count; //!accessors:none
-+	long requeue_no_usable_path_count; //!accessors:none
-+	long fail_no_available_path_count; //!accessors:none
+@@ -295,6 +295,9 @@ struct libnvme_ctrl { // !generate-accessors
+ 	bool unique_discovery_ctrl;
+ 	bool discovered;
+ 	bool persistent;
++	long command_error_count; //!accessors:none
++	long reset_count; //!accessors:none
++	long reconnect_count; //!accessors:none
+ 	struct libnvme_fabrics_config cfg;
  };
  
- struct libnvme_ctrl { // !generate-accessors
 diff --git a/libnvme/src/nvme/tree.c b/libnvme/src/nvme/tree.c
-index f1a1311b7..085d79558 100644
+index 085d79558..f87a6d0c3 100644
 --- a/libnvme/src/nvme/tree.c
 +++ b/libnvme/src/nvme/tree.c
-@@ -2633,6 +2633,28 @@ __public long libnvme_ns_get_command_error_count(libnvme_ns_t n)
- 	return n->command_error_count;
+@@ -1458,6 +1458,39 @@ __public const char *libnvme_ctrl_get_state(libnvme_ctrl_t c)
+ 	return c->state;
  }
  
-+__public long libnvme_ns_get_requeue_no_usable_path_count(libnvme_ns_t n)
++__public long libnvme_ctrl_get_command_error_count(libnvme_ctrl_t c)
 +{
-+	__cleanup_free char *requeue_count = NULL;
++	__cleanup_free char *error_count = NULL;
 +
-+	requeue_count = libnvme_get_ns_attr(n, "requeue_no_usable_path_count");
-+	if (requeue_count)
-+		sscanf(requeue_count, "%ld", &n->requeue_no_usable_path_count);
++	error_count = libnvme_get_ctrl_attr(c, "command_error_count");
++	if (error_count)
++		sscanf(error_count, "%ld", &c->command_error_count);
 +
-+	return n->requeue_no_usable_path_count;
++	return c->command_error_count;
 +}
 +
-+__public long libnvme_ns_get_fail_no_available_path_count(libnvme_ns_t n)
++__public long libnvme_ctrl_get_reset_count(libnvme_ctrl_t c)
 +{
-+	__cleanup_free char *fail_count = NULL;
++	__cleanup_free char *reset_count = NULL;
 +
-+	fail_count = libnvme_get_ns_attr(n, "fail_no_available_path_count");
-+	if (fail_count)
-+		sscanf(fail_count, "%ld", &n->fail_no_available_path_count);
++	reset_count = libnvme_get_ctrl_attr(c, "reset_count");
++	if (reset_count)
++		sscanf(reset_count, "%ld", &c->reset_count);
 +
-+	return n->fail_no_available_path_count;
++	return c->reset_count;
 +}
 +
- __public int libnvme_ns_identify(libnvme_ns_t n, struct nvme_id_ns *ns)
++__public long libnvme_ctrl_get_reconnect_count(libnvme_ctrl_t c)
++{
++	__cleanup_free char *reconnect_count = NULL;
++
++	reconnect_count = libnvme_get_ctrl_attr(c, "reconnect_count");
++	if (reconnect_count)
++		sscanf(reconnect_count, "%ld", &c->reconnect_count);
++
++	return c->reconnect_count;
++}
++
+ __public int libnvme_ctrl_identify(libnvme_ctrl_t c, struct nvme_id_ctrl *id)
  {
- 	struct libnvme_transport_handle *hdl;
+ 	struct libnvme_transport_handle *hdl =
 diff --git a/libnvme/src/nvme/tree.h b/libnvme/src/nvme/tree.h
-index 63cd20838..6bfc8cf98 100644
+index 6bfc8cf98..48f1beb49 100644
 --- a/libnvme/src/nvme/tree.h
 +++ b/libnvme/src/nvme/tree.h
-@@ -527,6 +527,23 @@ long libnvme_ns_get_command_retry_count(libnvme_ns_t n);
+@@ -1007,6 +1007,31 @@ unsigned long long libnvme_ns_get_read_sectors(libnvme_ns_t n);
   */
- long libnvme_ns_get_command_error_count(libnvme_ns_t n);
+ unsigned long long libnvme_ns_get_write_sectors(libnvme_ns_t n);
  
 +/**
-+ * libnvme_ns_get_requeue_no_usable_path_count() - Get num of I/O requeue count
-+ * @n: &libnvme_ns_t object
++ * libnvme_ctrl_get_command_error_count() - Get admin command error count
++ * @c: Controller instance
 + *
-+ * Return: Number of I/Os which are re-queued due to the unavalibility of
-+ * any usable path (maybe path is currently experiencing transinet link failure)
++ * Return: Number of times admin command issued to controller @c failed or
++ * returned error status
 + */
-+long libnvme_ns_get_requeue_no_usable_path_count(libnvme_ns_t n);
++long libnvme_ctrl_get_command_error_count(libnvme_ctrl_t c);
 +
 +/**
-+ * libnvme_ns_get_fail_no_available_path_count() - Get num of I/Os forced to fail
-+ * @n: &libnvme_ns_t object
++ * libnvme_ctrl_get_reset_count() - Get controller reset count
++ * @c: Controller instance
 + *
-+ * Return: Number of I/Os which are forced to fail due to no path available
++ * Return: Number of timer controller @c is reset
 + */
-+long libnvme_ns_get_fail_no_available_path_count(libnvme_ns_t n);
++long libnvme_ctrl_get_reset_count(libnvme_ctrl_t c);
++
++/**
++ * libnvme_ctrl_get_reconnect_count() - Get controller reconnect count
++ * @c: Controller instance
++ *
++ * Return: Number of times controller has to reconnect to the target
++ */
++long libnvme_ctrl_get_reconnect_count(libnvme_ctrl_t c);
 +
  /**
-  * libnvme_ns_get_generic_name() - Returns name of generic namespace chardev.
-  * @n:	Namespace instance
+  * libnvme_ctrl_identify() - Issues an 'identify controller' command
+  * @c:	Controller instance
 -- 
 2.53.0
 
