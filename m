@@ -4,123 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45399F9B5E1
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 08:52:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95EE8F9B5FE
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 09:43:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=dVwuTOQV0mMeLAV+uTvZsvzCk2RqF8M1lQKE5VcgeBs=; b=ytQhcV9nTk5r8U1RMPR1BlUgeM
-	SsiGmXFMMmd0NIp2yAH/foONYTO5G4yJLpCrt5CzEMMyW2Bsu5/OtA8gt0OAVps3zfYLDwpvQftzh
-	3wPAUoYP1zkdXsFjD6BcgBLd7NNepMMQOrExj0+Poftj8PDFjklpiKAuYiaQoYJ44138US1EmnPYl
-	Q0bu3DRDjJDDtYf6lgQlFMGHHHTIrBGKu5bezHt7AtSi3ve5cbmuJTQ68uxY359CGePsdECBWQRCF
-	s/hK1KzVmQlirRQ36+VYpNsHeVG+zY+yvCu4o1sqrAk9pr91Lgg3SaPQpW+B6PJJqqs+m0BO+M0+l
-	qPz/n4cQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:References:Content-Type:
+	Content-Transfer-Encoding:In-Reply-To:From:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=eQfmN7Imo5QJIrzm50RPQSdYS48vXrojJJEQeXD/dUY=; b=LZqhcB9NlL998ePc4Qi5UzR0UJ
+	8yRWGR+xvlUczGwL15H8hfM9Z8cUSnX0PtocEM61XSnsHMmGx6lA8q3SsxCMYTpEA4IFr0dU/LcfS
+	k/2mIGG0w+irlyhheNBtxcMWK+yS3IOh6bP6fwZJw2I2edAi5eJKihyRUz9qqurNmpDCFpM7T2YmZ
+	qRtRkSdiRGhyaOTxBeB4d4wp/pE6Q5zbDD+j0vAXuxPpHZoU2OstyTYprFZ/tF7AOVYRQNFypaQJf
+	LCBhE0V7gke8BoO6CtDJhx3IantryooYGob5rOV+Q4m+OkJCTzRyzDbGehjPb3BThIwWC9rAiqouJ
+	7s2eDB0Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFTJZ-00000009ntv-1VWi;
-	Wed, 22 Apr 2026 08:52:09 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1wFU7a-00000009sQQ-1fAN;
+	Wed, 22 Apr 2026 09:43:50 +0000
+Received: from mailout1.samsung.com ([203.254.224.24])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFTJU-00000009ntM-2TOO
+	id 1wFU7V-00000009sP7-32sP
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Apr 2026 08:52:05 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A23C6A81D;
-	Wed, 22 Apr 2026 08:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776847921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVwuTOQV0mMeLAV+uTvZsvzCk2RqF8M1lQKE5VcgeBs=;
-	b=CO5TFzwVcDC87AEWy8cB9sh4/gsHB2h+c7Mtyjjkd6ERKThbKgm3+pV6HfuHSWpDOkdALM
-	S9KLYLmkS5AQpGOEKjzCETQnNYiNDOIc+1wnuLxlamzCi++SMUZjt79gp2NkRuuoC9CifH
-	1WaHXiMPelItAYms4NRSBVRBSwVRZLo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776847921;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVwuTOQV0mMeLAV+uTvZsvzCk2RqF8M1lQKE5VcgeBs=;
-	b=TuTle3o/beUcrQYDl/fRZqhx0QAkYeNEj1rPlfzK24j9fuY5qYO1T/M2ctlL5toWS89UcD
-	atpRm9GHVIDIiBDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CO5TFzwV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="TuTle3o/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776847921; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVwuTOQV0mMeLAV+uTvZsvzCk2RqF8M1lQKE5VcgeBs=;
-	b=CO5TFzwVcDC87AEWy8cB9sh4/gsHB2h+c7Mtyjjkd6ERKThbKgm3+pV6HfuHSWpDOkdALM
-	S9KLYLmkS5AQpGOEKjzCETQnNYiNDOIc+1wnuLxlamzCi++SMUZjt79gp2NkRuuoC9CifH
-	1WaHXiMPelItAYms4NRSBVRBSwVRZLo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776847921;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVwuTOQV0mMeLAV+uTvZsvzCk2RqF8M1lQKE5VcgeBs=;
-	b=TuTle3o/beUcrQYDl/fRZqhx0QAkYeNEj1rPlfzK24j9fuY5qYO1T/M2ctlL5toWS89UcD
-	atpRm9GHVIDIiBDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06515593B0;
-	Wed, 22 Apr 2026 08:52:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DdxWADGM6GmnEwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Wed, 22 Apr 2026 08:52:01 +0000
-Date: Wed, 22 Apr 2026 10:51:56 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hare@suse.com, kbusch@kernel.org, 
-	hch@lst.de, gjoyce@linux.ibm.com, wenxiong@linux.ibm.com
-Subject: Re: [PATCHv3 0/9] libnvme: add support for retrieving additional
- NVMe stat
-Message-ID: <1c081dc2-6b1e-45b4-ab3a-81decf431949@flourine.local>
-References: <20260421145038.3458987-1-nilay@linux.ibm.com>
+	Wed, 22 Apr 2026 09:43:48 +0000
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260422094333epoutp014bde2759be4e33376c68f0c4c2ea11fa~opJUo-uUr1753317533epoutp01x
+	for <linux-nvme@lists.infradead.org>; Wed, 22 Apr 2026 09:43:33 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260422094333epoutp014bde2759be4e33376c68f0c4c2ea11fa~opJUo-uUr1753317533epoutp01x
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1776851013;
+	bh=eQfmN7Imo5QJIrzm50RPQSdYS48vXrojJJEQeXD/dUY=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=gtlfK4PgyTgWXkly7b9at05WNZdhGgTK8dmV8qZPrH3KcmxC7OBIWXzRv8Y6vt/AH
+	 LrvJqm3km52zo8zQ/EytJEzLZrmUX+ePS+VTnvm+ok5h6DkJqtF6quh7SdwRACuu2O
+	 M4wMgk3FXl+LPS4a3+sScT6o781vQooY9/7LXZbI=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260422094333epcas5p26c63585054b0d4515aea9e5352615939~opJUbC5ut2432324323epcas5p20;
+	Wed, 22 Apr 2026 09:43:33 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4g0vRm5Ngwz2SSKX; Wed, 22 Apr
+	2026 09:43:32 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260422094332epcas5p289d29541046b0d91df31fc3389bfdacc~opJTlKCg61452014520epcas5p2t;
+	Wed, 22 Apr 2026 09:43:32 +0000 (GMT)
+Received: from [107.122.11.51] (unknown [107.122.11.51]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260422094331epsmtip29002369fd67582dad7ca8231d52c3f0c~opJSqrAAm1158911589epsmtip2j;
+	Wed, 22 Apr 2026 09:43:31 +0000 (GMT)
+Message-ID: <4460af94-5430-4296-9696-6dccd2ba0b78@samsung.com>
+Date: Wed, 22 Apr 2026 15:13:30 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260421145038.3458987-1-nilay@linux.ibm.com>
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,flourine.local:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 1A23C6A81D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme-pci: fix missed admin queue sq doorbell write
+To: Keith Busch <kbusch@meta.com>, hch@lst.de,
+	linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>
+Content-Language: en-US
+From: Kanchan Joshi <joshi.k@samsung.com>
+In-Reply-To: <20260421161855.3980034-1-kbusch@meta.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260422094332epcas5p289d29541046b0d91df31fc3389bfdacc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260421162015epcas5p3ba67958507806dd09025a2a85b3ddf89
+References: <CGME20260421162015epcas5p3ba67958507806dd09025a2a85b3ddf89@epcas5p3.samsung.com>
+	<20260421161855.3980034-1-kbusch@meta.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260422_015204_780643_F88811E9 
-X-CRM114-Status: GOOD (  16.37  )
+X-CRM114-CacheID: sfid-20260422_024347_064602_138E5EF1 
+X-CRM114-Status: UNSURE (   7.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,44 +92,9 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, Apr 21, 2026 at 08:20:21PM +0530, Nilay Shroff wrote:
-> Certain NVMe attributes and statistics can change dynamically at runtime.
-> However, the current libnvme implementation caches attribute values while
-> scanning and building the topology. Subsequent libnvme API calls return
-> these cached values.
-> 
-> While this approach works well for one-shot nvme-cli commands, it is not
-> suitable for use cases that require upto date information. In particular,
-> real-time monitoring tools such as nvme-top require access to the latest
-> (non-cached) values of such attributes.
-> 
-> To address this, this patchset introduces support for retrieving
-> non-cached values for selected attributes whose values may change
-> dynamically. The first three patches disable auto-generated accessors
-> for ana_state, numa_nodes, and iopolicy using "!accessors:none", and
-> provide custom implementations that always return the latest values.
-> 
-> In addition, libnvme lacks support for retrieving gendisk statistics, which
-> provide useful insight into disk activity (e.g., number of I/Os processed,
-> time spent servicing I/O, and in-flight I/O counts). This patchset adds
-> support for retrieving gendisk I/O statistics for both per-path and namespace
-> gendisks.
-> 
-> Finally, this series adds support for retrieving diagnostic counters at 
-> different levels, including per-path, namespace, nshead, and controller.
-> These counters should improve visibility into NVMe native multipath behavior.
-> 
-> All of the above statistics and counters can be leveraged by tools such as
-> nvme-top to provide real-time monitoring and analysis.
-> 
-> As usual, feedback and suggestions are welcome!
+Thanks.
 
-I went ahead and applied them. I did some cosmetic formatting changes
-for the accessors generator comment and added the manually written
-getters to the python binding define table.
+Reviewed-by: Kanchan Joshi <joshi.k@samsung.com>
 
-This should unblock your work on 'nvme monitor'
 
-Thanks,
-Daniel
 
