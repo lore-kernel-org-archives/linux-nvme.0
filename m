@@ -4,77 +4,168 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7872EFAD3F0
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 03:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2557FFAD3F0
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 03:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wIuT9pKU1FIOn3QKzaq8MPKLrS4YyBJdfK8D1GXP1Qs=; b=ekkDtCOj3hk2ek7+C8OAmtDvif
-	71g7333gKzmyHd81TbHejQGDHlSDPEVicrO4DZIvezEbKnZocn1ojmOv/ti2rkT3opTSRUeMlcVBQ
-	0Wr418kJoAY4KjFSj/3iyYlpOeCOOSGxGJbJPTXkKEP7dytH6OMqJvdefGjCsUOTkV+18357LoSmZ
-	dMzEk/lbeycJLdlwIYq2uu/heAOaUtrLddPGYSa4JxTSka9X68qCw2M6TAe1meHS9sV3wYa6GLUCG
-	RA5seLduNlVnskbKBJCqqc679IOvsML/B+ms2J2XIaG+C242uAtvJlzPBX2x5xHe5+OHXzQTRdo3H
-	4hZvdEbA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=GIVmbBqCcsNkkK9tYkUbVqdhjnyM61lAyueBZ0VJ4Z8=; b=yiyLWe/WX2CTsFElkxLTbOxDa9
+	j/fExVq6ZSwlxmGUbU++AYtQmkYiOeoW6x/Jm/uCzdVKEVmo0QinVykVS4vFNXKOzQryjb1TJPcgh
+	QIsDv9rX3R70C6RN77te0sZMnTxdJCU9YNmsA+FpGk1sewB+CB8KHQkeEJJAmp+T+94ZKJtTzUGAQ
+	ITl0l8/nM5pSeSZ3Y+wL4muDyB+gwFot2LC3yCTIkP8c8WH6PUkTbGPUQKbjv3y/xeg9Ki+Qs05Aj
+	O967K/U29hjaXO6BFikFf8exkBc2Sthqs4kD51MoVz/Y0PjWfRgpFJEzIs74+FcFfJ7EiT+IsNlG5
+	Vg5ohXbg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFkQr-0000000Awqq-2jRe;
-	Thu, 23 Apr 2026 03:08:49 +0000
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+	id 1wFkQn-0000000AwlG-1KYs;
+	Thu, 23 Apr 2026 03:08:45 +0000
+Received: from mail-ukwestazon11022125.outbound.protection.outlook.com ([52.101.101.125] helo=CWXP265CU010.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFgj6-0000000Aoww-48t3
+	id 1wFcgc-0000000AeNc-44NV
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Apr 2026 23:11:28 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776899484;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wIuT9pKU1FIOn3QKzaq8MPKLrS4YyBJdfK8D1GXP1Qs=;
-	b=Q/A60bjWVTV/4+xxmAh2BvHZkrQsPKJwfooWdLUVEoDyboTyDZApndtFct2IR3HU0ZxIJo
-	tmmau/yVgzfMcVAHDgvVF/q8OD+iVDvJaAkTgHdOXPA42Au7vbH1WFY+Faz+PjDmTpHF3a
-	j6ppy5Vxw2xj11c+gOgfUd8A7ZUpwmI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-45-eTS3oLmANHGeSoNjNfHpAw-1; Wed,
- 22 Apr 2026 19:11:20 -0400
-X-MC-Unique: eTS3oLmANHGeSoNjNfHpAw-1
-X-Mimecast-MFC-AGG-ID: eTS3oLmANHGeSoNjNfHpAw_1776899479
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A713C1800367;
-	Wed, 22 Apr 2026 23:11:19 +0000 (UTC)
-Received: from rhel-developer-toolbox-latest.redhat.com (unknown [10.2.17.58])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9ECF119560AB;
-	Wed, 22 Apr 2026 23:11:18 +0000 (UTC)
-From: Chris Leech <cleech@redhat.com>
-To: linux-nvme@lists.infradead.org
-Cc: Hannes Reinecke <hare@suse.de>,
-	Daniel Wagner <dwagner@suse.de>,
-	Maurizio Lombardi <mlombard@redhat.com>
-Subject: [RFC] example request-key helper script
-Date: Wed, 22 Apr 2026 16:10:23 -0700
-Message-ID: <20260422231043.2689681-3-cleech@redhat.com>
-In-Reply-To: <20260422231043.2689681-1-cleech@redhat.com>
-References: <20260422231043.2689681-1-cleech@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 4iW-y8x1Y0DTYtmgs-iHL0VzoiGIRR-MaJd_DxZ_W1U_1776899479
-X-Mimecast-Originator: redhat.com
+	Wed, 22 Apr 2026 18:52:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ksF4VYbrIeCR+VK4t/UX1dE6sdKgedJ0geJxE8/tYV+vCy6aM37Ej/WiEutbpRAc0HL9+cEh5K1yVWlPxEwblD7DxulFkFX9wNNZw810K8x3Dbdn0JVw7yLbULZ2mY1miOkbZ+XVeOsoTFIE0Kmv/MTT0k4xQFDvGcIRQgQb3y9KcRXyfi3mJxy82sbhCE0SNPqcdPNGBqEqE7Ukrqg1rDavIKnV6GbvbCIOfK1nBYaHpsQ48xkxCyYGE0jh0+pGSQ2Ga/87jfOf4xmj24eLllqZjlO4wg1JO2R2sqZZgC8H3iUTSb8rkKoJIEVDyw+g2MOKegiWS51ZnXEMlYdL5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GIVmbBqCcsNkkK9tYkUbVqdhjnyM61lAyueBZ0VJ4Z8=;
+ b=lK4jFySCJov1L9zcZ6ewpxSesaZP5gvgrYbCYq61tM8WDWbgxyf2blfJdLm8ciFXWmQVRSNs87Y9OxRygRz2bOUTPP7gAUPqEYpRgpj7UcYqFWbcOp8xP6UQr9S7ngfC3bfWX9lgxbklJ/x6Bi4SzNATHrAQ97pURo750jIPqCjRKFP/eJZ0R2tvB7RYVj6ucxVmiGTXEl/vVOP5+P6ttvrOrSmUKw88q2YATiNPxROn1+72CG6G44BL2z4jAn1Nso/MsySK3yGEmro1N7XB6Mfg8sUQjbpnpGx68MErOQBQHsn83JDyQb9yNaED+vXyeatlQJYdSG4iUk7IT1bCPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO0P123MB7717.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:407::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.19; Wed, 22 Apr
+ 2026 18:52:33 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.019; Wed, 22 Apr 2026
+ 18:52:32 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: axboe@kernel.dk,
+	kbusch@kernel.org,
+	hch@lst.de,
+	sagi@grimberg.me,
+	mst@redhat.com
+Cc: atomlin@atomlin.com,
+	aacraid@microsemi.com,
+	James.Bottomley@HansenPartnership.com,
+	martin.petersen@oracle.com,
+	liyihang9@h-partners.com,
+	kashyap.desai@broadcom.com,
+	sumit.saxena@broadcom.com,
+	shivasharan.srikanteshwara@broadcom.com,
+	chandrakanth.patil@broadcom.com,
+	sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com,
+	suganath-prabu.subramani@broadcom.com,
+	ranjan.kumar@broadcom.com,
+	jinpu.wang@cloud.ionos.com,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	akpm@linux-foundation.org,
+	maz@kernel.org,
+	ruanjinjie@huawei.com,
+	bigeasy@linutronix.de,
+	yphbchou0911@gmail.com,
+	wagi@kernel.org,
+	frederic@kernel.org,
+	longman@redhat.com,
+	chenridong@huawei.com,
+	hare@suse.de,
+	kch@nvidia.com,
+	ming.lei@redhat.com,
+	tom.leiming@gmail.com,
+	steve@abita.co,
+	sean@ashe.io,
+	chjohnst@gmail.com,
+	neelx@suse.com,
+	mproche@gmail.com,
+	nick.lange@gmail.com,
+	marco.crivellari@suse.com,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com
+Subject: [PATCH v12 03/13] lib/group_cpus: Add group_mask_cpus_evenly()
+Date: Wed, 22 Apr 2026 14:52:05 -0400
+Message-ID: <20260422185215.100929-4-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260422185215.100929-1-atomlin@atomlin.com>
+References: <20260422185215.100929-1-atomlin@atomlin.com>
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
-X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0324.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a4::24) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO0P123MB7717:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08139b00-45d1-4015-21e4-08dea0a04fd0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info: agvNpsueQA8jZ1uvEs6GnXKczHXYUhuU9wGhoNy8XE/M1qPItby48keFAanXy6TSpMVECKgMz1c8ZhtyDMiEHj+dzqI4hFU2jLeQd0kkdNnjkRb/vf3GuEvIzCSwVC5ZAUll5meHeFzHo71Wf+hvdLDWC8VEmoKN86vvVyPFPKrr1+TOYaQn9aLvuSxOd9ojf5SyND+mwMH1BPxLn7WVRJl5jxl0dhkB4DBgLIorxFjfqMexg8M+iIbKqTSWHSIwzhwykxVdpB1zRx+aldXaZpHWYoJ7D4yQJ6lpcfNM9SfJoPOYg0CEJN+grSvyWpTa7M91RM7IZPu20D8MXBAKgS1KzQd2CeLuKZMz1PSccVXwyq+7b4xRN0vfUyEqloe5cItLNBVLQwXaHNJUatlUzYa/FIfRUrEZK3zl1Z22vsb8aRsq+Q0JTmCAPJiuPxvI8reGpzNSgu1IIeBb+p1UXlOaPKF6ohA4MWZ7qs6mdEGA795zn4kcJK+j0IBZWsULA5Aw6YHBz0c+3EhbVm8J7x4dTehRmw8zlw57zj6XMjoEkZZSAgWxSPJmiUdVCq0z+89Wh90vAXIQCRPRIrBsTh2R0jKs/1BSM4ZXT28yFPfBqqqLC5EDeTrvbxTaWaUzVrlMLX6DDnLXbU/hT3iW0AdizyfzWQkU2lM46WrIzquWhOVEIXoszP03NMHs30M7p1j8CUi7MfbhZuoEaR/ndqi5B20G6juIAXhGq1alf9o=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PN+T3Mdj5j2Eg+h6NPWyb+BLQasLSH6Pi5qtsZMinmLEj8Ma/dcvoEmNlkF0?=
+ =?us-ascii?Q?Xlu2z2591n8bRhEjb5YyYTOaoX4oClcybT1nmzQ5w6MYS+njcfuSK/FdC4Fo?=
+ =?us-ascii?Q?75beGDuviwfcrlQ/pSaCNjw0X4bkzGIFfjz9qWf5astlTaiFFry+tinLTMmu?=
+ =?us-ascii?Q?8Vg3S4dejY5sJERtINVYAAqlWr8Ud5kxT8Bh4GqfI9VHtLn9jvyROwpptc95?=
+ =?us-ascii?Q?jN2GGLqLcwQQh1d6+jyKKDU2pEUwMP8xYT1H4HsvKtXkiaAvBjdXTnYhQb8X?=
+ =?us-ascii?Q?hlP/hHOoUFd7BTibsKg2gw0Fppncmgx/6biREI6phInoztj6p4BqMeZQCR/a?=
+ =?us-ascii?Q?v9Er2uZff4ngw1lWu4ki9WQmnWuaklzRe26+hKzaXyPtA0yi5Yb3KTbgJTxT?=
+ =?us-ascii?Q?gRtoKQgeyPwHsQ1fKRv/caDZSqHGg5M8gsfC8W7NthguZCU/CTd3BOKHZGwC?=
+ =?us-ascii?Q?IQyPlmev6VIv4RC6jyvLmP3+jAI+iBxl7grMseoCh/hWTu6BlXrOVwRPe1tE?=
+ =?us-ascii?Q?7RUXc5pkwYbEgowATaLrNH40zlZP9lpTyp1MOY0NKpjnzZHFlyGLUNOmVzJ0?=
+ =?us-ascii?Q?oMwwq/rMEA7iANOhdCebFFHNgR1rVD2uNysXyrhhSyKvWC/tOs4bglEzJQ3g?=
+ =?us-ascii?Q?X9ccreULPRDrTyKuKs5Ck+9ot1rYwb+ad3QC7LQEenROoJDm7SSyC6lzuH6X?=
+ =?us-ascii?Q?+DdHG1Wz5SmI/YQEtdkmpWblzt8dfBx6PbxsfrSc51hepjdDUTQV3YqbHRBR?=
+ =?us-ascii?Q?apAdLVfyQ0OyRQLx/twwS1Xxz3RZx/lCv+vxVzsj8Ko0q6JmOSX7StM9F6VA?=
+ =?us-ascii?Q?qei5wMjMlwSzSjTvN/O6G8nT9qw/bgaHYe6z47NzpC+mLw5iv/4hQ3voWFof?=
+ =?us-ascii?Q?n8l4QnhSHjKNNmNtl6xKRBIznx5yG9jjj2O1a0sS/4ODzmJePi+1JC629dYO?=
+ =?us-ascii?Q?Im8qcgXjxHSACI/UXWhEMSfNPnYRY7JwrwPsSok9NCFQtSUTPtcDDJXlWKXj?=
+ =?us-ascii?Q?LsrKOUXImMj7j7KfiR5ZKgKz3xUQYQ6BzUZVqNybuLSAorR5i7VwbUfB6bys?=
+ =?us-ascii?Q?KkvZ/XLjeANES+MIPXxp0tkoLYhEY9s3t91l5jR9RuB2GWD9iMMjRr6B4AlF?=
+ =?us-ascii?Q?A20jhUCFt58eREU72Na4KUEWyr76tKvr1+7Xc8YcFwMxJvkZUt2GJW5oWec8?=
+ =?us-ascii?Q?OQgjQvBsLHJ82LkUMmWWjMUTS8xRm3gg9QCeI/iL5TQXal9BbllQ+llwVGGC?=
+ =?us-ascii?Q?WuAaQ8GF+RYGYRSm9mTSaH46Ow/kS6hwrhLgUE75pSAmSDKNLsvCWEqUajX3?=
+ =?us-ascii?Q?CO9dBPDRvgbnoaxRTMV1RbTaVZGQK524zN01J8veysq+n+YWWVfUwqgbw+GM?=
+ =?us-ascii?Q?iDWteaSUH64P7hnV72JJ5UNfkft/x002upHghcwFbx3PW3s1FwqXYx0hsj2E?=
+ =?us-ascii?Q?nQMvaJwpCbVSOsgeefglYM52tFAv5k9ndLPca/vRKbR5hQLmACgXuZB8uvEj?=
+ =?us-ascii?Q?TKOotPFh1e7LX3/QXyOEgT8N6YA23AHTGwUovgajpsDWMSDyo+2YZVhzqv8A?=
+ =?us-ascii?Q?TU9HX+lvLiLfv95rC3d6r/VUlbLaM25oJW5VLVfmr/Xlk+jEXiGl0pZp2BRU?=
+ =?us-ascii?Q?XyYmhGo5Ccdge/Ohh298tucd4lkKUrLS1oMoZgy48oyb25IspLkuXxH0cXQ7?=
+ =?us-ascii?Q?qgMFbeC/oZbTD8kLPgY/f9iTlIFK3Sv8pICffAjfZQY0v0FnQpi503ULoiji?=
+ =?us-ascii?Q?9ipBUjGMPA=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08139b00-45d1-4015-21e4-08dea0a04fd0
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 18:52:32.9178
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T86uiALmd89p/BFK+5f+E6S4oRepO3jEuB6SfyBuh96Wmie8GOanja7iAPxXao4MpFeo4coxukVDuF9NgWbloQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB7717
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260422_161125_093682_CB0FDA00 
-X-CRM114-Status: UNSURE (   8.91  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260422_115235_014311_32B4148E 
+X-CRM114-Status: GOOD (  15.62  )
 X-Mailman-Approved-At: Wed, 22 Apr 2026 20:08:43 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -90,142 +181,113 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is a prototype of a request-key helper to instantiate a "PSK request" key.
+From: Daniel Wagner <wagi@kernel.org>
 
-Assisted-by: Claude:claude-sonnet-4.5
+group_mask_cpu_evenly() allows the caller to pass in a CPU mask that
+should be evenly distributed. This new function is a more generic
+version of the existing group_cpus_evenly(), which always distributes
+all present CPUs into groups.
+
+Signed-off-by: Daniel Wagner <wagi@kernel.org>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+[atomlin: Test numgrps == 0 in group_mask_cpus_evenly()]
+Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
 ---
-#!/usr/bin/bash
-#
-# NVMe PSK Provider
-#
-# This script is called by /sbin/request-key when the kernel requests
-# NVMe TLS PSKs via the nvme-psk-request key type.
-#
-# configure /etc/request-key.conf with an entry like the following:
-# create  nvme-psk-request  *  *  /usr/libexec/nvme-psk-provider %k %d %c %S
+ include/linux/group_cpus.h |  3 ++
+ lib/group_cpus.c           | 62 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
 
-KEY_ID=$1
-DESCRIPTION=$2
-CALLOUT_INFO=$3
-KEYRING=$4
-
-exec > >(logger -t "key.nvme-psk") 2>&1
-echo "$0: $@"
-
-# Parse callout info
-eval $(echo "$CALLOUT_INFO" | tr ' ' '\n' | grep '=')
-
-KEYFILE="/etc/nvme/tls-keys"
-HOST_NQN=${hostnqn}
-SUBSYS_NQN=${subnqn}
-
-if [ -z "$KEYFILE" ] || [ -z "$HOST_NQN" ] || [ -z "$SUBSYS_NQN" ]; then
-    echo "Error: Missing required parameters"
-    keyctl negate "$KEY_ID" 1 "$KEYRING"
-    exit 1
-fi
-
-if [ ! -f "$KEYFILE" ]; then
-    echo "Error: Keyfile '$KEYFILE' not found"
-    keyctl negate "$KEY_ID" 1 "$KEYRING"
-    exit 1
-fi
-
-# Temporary file for binary payload
-PAYLOAD_FILE=$(mktemp)
-trap "rm -f $PAYLOAD_FILE" EXIT
-
-KEY_COUNT=0
-
-# Search for all matching entries in keyfile
-while IFS= read -r line; do
-    # Skip empty lines and comments
-    [ -z "$line" ] && continue
-    [[ "$line" =~ ^#.* ]] && continue
-
-    # Extract the last space-separated field (the encoded key)
-    encoded_key="${line##* }"
-    # Extract everything before the last space (the description)
-    description="${line% *}"
-
-    # Parse description: NVMe<ver><type>0<hmac> <hostnqn> <subsysnqn> <digest>
-    if [[ "$description" =~ ^NVMe([0-9])([RG])([0-9][0-9])[[:space:]]+([^[:space:]]+)[[:space:]]+([^[:space:]]+)[[:space:]]+([^[:space:]]+)$ ]]; then
-        ver="${BASH_REMATCH[1]}"
-        type="${BASH_REMATCH[2]}"
-        hmac="${BASH_REMATCH[3]}"
-        desc_hostnqn="${BASH_REMATCH[4]}"
-        desc_subsysnqn="${BASH_REMATCH[5]}"
-        desc_digest="${BASH_REMATCH[6]}"
-
-        # Only process Retained keys (not Generated)
-        if [ "$type" != "R" ]; then
-            continue
-        fi
-
-        # Check if this matches our search criteria
-        if [ "$desc_hostnqn" = "$HOST_NQN" ] && [ "$desc_subsysnqn" = "$SUBSYS_NQN" ]; then
-            # Validate the encoded key format: NVMeTLSkey-1:xx:...:
-            if [[ "$encoded_key" =~ ^NVMeTLSkey-1:([0-9][0-9]):(.+):$ ]]; then
-                key_hmac="${BASH_REMATCH[1]}"
-                base64_data="${BASH_REMATCH[2]}"
-
-                echo "Found matching PSK: version=$ver type=$type hmac=$hmac"
-
-                # Decode base64
-                tmpfile=$(mktemp)
-                echo -n "$base64_data" | base64 -d > "$tmpfile"
-                decoded_len=$(stat -c%s "$tmpfile")
-
-                if [ "$decoded_len" -lt 36 ]; then
-                    echo "Warning: Decoded data too short ($decoded_len bytes), skipping"
-                    rm -f "$tmpfile"
-                    continue
-                fi
-
-                # Key length is decoded_len - 4 (CRC is last 4 bytes)
-                key_len=$((decoded_len - 4))
-
-                # Verify CRC32 (optional - nvme-cli already validated on import)
-                # Extract key data (without CRC)
-                key_data=$(dd if="$tmpfile" bs=1 count="$key_len" 2>/dev/null)
-
-                # Decode digest from base64
-                digest_data=$(echo -n "$desc_digest" | base64 -d)
-                digest_len=$(echo -n "$digest_data" | wc -c)
-
-                # Pack binary: hmac(1) + key_len(1) + digest_len(1) + key_data[key_len] + digest[digest_len]
-                # Convert hmac from decimal string to hex byte
-                printf "\\x$(printf '%02x' $key_hmac)" >> "$PAYLOAD_FILE"
-                printf "\\x$(printf '%02x' $key_len)" >> "$PAYLOAD_FILE"
-                printf "\\x$(printf '%02x' $digest_len)" >> "$PAYLOAD_FILE"
-                echo -n "$key_data" >> "$PAYLOAD_FILE"
-                echo -n "$digest_data" >> "$PAYLOAD_FILE"
-
-                KEY_COUNT=$((KEY_COUNT + 1))
-                rm -f "$tmpfile"
-            else
-                echo "Warning: Invalid encoded key format, skipping"
-            fi
-        fi
-    fi
-done < "$KEYFILE"
-
-if [ "$KEY_COUNT" -eq 0 ]; then
-    echo "Error: No matching keys found for host-nqn '$HOST_NQN' and subsystem-nqn '$SUBSYS_NQN'"
-    keyctl negate "$KEY_ID" 1 "$KEYRING"
-    exit 1
-fi
-
-# Instantiate the nvme-psk-request key with binary payload
-echo keyctl instantiate "$KEY_ID" @s "$KEYRING" < "$PAYLOAD_FILE"
-keyctl pinstantiate "$KEY_ID" "$KEYRING" < "$PAYLOAD_FILE"
-if [ $? -eq 0 ]; then
-    echo "Successfully instantiated $KEY_COUNT PSK(s)"
-    exit 0
-else
-    echo "Error: Failed to instantiate request key"
-    keyctl negate "$KEY_ID" 1 "$KEYRING"
-    exit 1
-fi
+diff --git a/include/linux/group_cpus.h b/include/linux/group_cpus.h
+index 9d4e5ab6c314..defab4123a82 100644
+--- a/include/linux/group_cpus.h
++++ b/include/linux/group_cpus.h
+@@ -10,5 +10,8 @@
+ #include <linux/cpu.h>
+ 
+ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks);
++struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
++				       const struct cpumask *mask,
++				       unsigned int *nummasks);
+ 
+ #endif
+diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+index b8d54398f88a..c55a8970db2a 100644
+--- a/lib/group_cpus.c
++++ b/lib/group_cpus.c
+@@ -8,6 +8,7 @@
+ #include <linux/cpu.h>
+ #include <linux/sort.h>
+ #include <linux/group_cpus.h>
++#include <linux/sched/isolation.h>
+ 
+ static void grp_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
+ 				unsigned int cpus_per_grp)
+@@ -563,3 +564,64 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+ 	return masks;
+ }
+ EXPORT_SYMBOL_GPL(group_cpus_evenly);
++
++/**
++ * group_mask_cpus_evenly - Group all CPUs evenly per NUMA/CPU locality
++ * @numgrps: number of cpumasks to create
++ * @mask: CPUs to consider for the grouping
++ * @nummasks: number of initialized cpusmasks
++ *
++ * Return: cpumask array if successful, NULL otherwise. Only the CPUs
++ * marked in the mask will be considered for the grouping. And each
++ * element includes CPUs assigned to this group. nummasks contains the
++ * number of initialized masks which can be less than numgrps. cpu_mask
++ *
++ * Try to put close CPUs from viewpoint of CPU and NUMA locality into
++ * same group, and run two-stage grouping:
++ *	1) allocate present CPUs on these groups evenly first
++ *	2) allocate other possible CPUs on these groups evenly
++ *
++ * We guarantee in the resulted grouping that all CPUs are covered, and
++ * no same CPU is assigned to multiple groups
++ */
++struct cpumask *group_mask_cpus_evenly(unsigned int numgrps,
++				       const struct cpumask *mask,
++				       unsigned int *nummasks)
++{
++	cpumask_var_t *node_to_cpumask;
++	cpumask_var_t nmsk;
++	int ret = -ENOMEM;
++	struct cpumask *masks = NULL;
++
++	if (numgrps == 0)
++		return NULL;
++
++	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
++		return NULL;
++
++	node_to_cpumask = alloc_node_to_cpumask();
++	if (!node_to_cpumask)
++		goto fail_nmsk;
++
++	masks = kcalloc(numgrps, sizeof(*masks), GFP_KERNEL);
++	if (!masks)
++		goto fail_node_to_cpumask;
++
++	build_node_to_cpumask(node_to_cpumask);
++
++	ret = __group_cpus_evenly(0, numgrps, node_to_cpumask, mask, nmsk,
++				  masks);
++
++fail_node_to_cpumask:
++	free_node_to_cpumask(node_to_cpumask);
++
++fail_nmsk:
++	free_cpumask_var(nmsk);
++	if (ret < 0) {
++		kfree(masks);
++		return NULL;
++	}
++	*nummasks = ret;
++	return masks;
++}
++EXPORT_SYMBOL_GPL(group_mask_cpus_evenly);
+-- 
+2.51.0
 
 
