@@ -4,85 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 545BDF9EDDC
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 14:12:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2AF88F9EDF6
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 14:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=U+85+/qtKB8ggKITaU+CCZi9HH3+YeCpidOHYHuEZ04=; b=UgIuhr6nxi/+3JWIKaT8HaJNxP
-	E8Te6TtmSq5dzGZsVSRbTwpltI7DAkBbIVeLcQs56AibvPsBMp/ZFvCGHQYeZ1hMRly6/9kTqHInq
-	NRojM93jAp/x07kBcvLDo3rupK6RgHy20rNqmRLK7cTq9UEmeQ6i1LqRBN07Gpy9XumvPH+0R+tYh
-	52BIkd9uEBAgZS9w48Ucw9tmmm2vf5faAlncjXRXBw7GXTU034n8gO9pXkRnavEZGbSLLoeNJjmHS
-	cA+bYNpCaw1F9c6Cub0UTZYShOks9PMVDyInijlrBrtuqWQikYtoTStNvVpzOw9283rosAnqdFjwY
-	DRKDuppA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=C4pq+ICDtSfSbUFJgYP7vPhdb8kzBlxjqK4bcatTf4A=; b=r9u40v9gVidBa0MdiTeLYXoui0
+	tVJ0Oyn33/vo8mIBAjpJmXVgvZ+gpNqjBY8dWvX7vHOs1P8ARn0l8LWpuwsTGCPlD8cJHY5G/rjlf
+	Kvj6t+LHXiGBuVAXZTVjF8r2uIVlaQs7q4YcNBf9Uu6ySzLbLDlCcxeVdRko2v2nW68wnle59vjKR
+	63oI+4J3MJKanlfheNnMg4EP/etJOpsLtNrsp4L5/MLzAhV7evP3kgrXzAlkaGDdLpcE7gVMBLnHq
+	uoMSbQdtChx/dwgP4It7ARmvrbb6Ja360DfVm2qjGHF1xbq1bGfveCFuYWNy5lyMpgsZcgvb+ixD4
+	06IY7QRQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFYJS-0000000ALMB-3C4n;
-	Wed, 22 Apr 2026 14:12:22 +0000
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+	id 1wFYqQ-0000000ANtm-2lYA;
+	Wed, 22 Apr 2026 14:46:26 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFYJJ-0000000ALIq-29Vv
+	id 1wFYqO-0000000ANtf-47Fv
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Apr 2026 14:12:21 +0000
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-82f8892d4d6so2403851b3a.0
-        for <linux-nvme@lists.infradead.org>; Wed, 22 Apr 2026 07:12:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776867132; x=1777471932; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U+85+/qtKB8ggKITaU+CCZi9HH3+YeCpidOHYHuEZ04=;
-        b=fnj4PH5QqisvcrYxuPC+oKJDUzF9/cp/wN3HoUFaoJxVhqjdLoIggHHuILmOZau9EB
-         tBb0Ykt47GtFGwjH8JQKRo4/eREy6w7OPRA/pN4NNu7L8JT+MUTOaDGy9PdsJ0zrtLPn
-         jRE9i8FvMzaGZUixhXE9qtbAd3BMCqWhyiKO8Pmq9aFuyuXlMrAfMzl3PsrVRPnn3go8
-         q0sHpBTvrGYuY7dzE2AlzffBqhgAzq/5xQMq4TuHc4UAGZLhNuq5ifDEKsR3ppb+w3Sc
-         s+nGNyKLfLCPb13MguTddE6wQSEJCiNaerTDnlV9zw/DlEJBo/5ej66B/anE9YKgI8uS
-         fysA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776867132; x=1777471932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=U+85+/qtKB8ggKITaU+CCZi9HH3+YeCpidOHYHuEZ04=;
-        b=KndmhkwnEVmPpXnloP4JFhvZCzW4zv0wSIe+zpzUebQw+KtVBersXsEiHuLEy4ihdz
-         mmqHGfxwWp9R2PfrtQGqoBV2y065UxIbvDftepghU3PyyAGWFSfBBOjtuloSl1UqkRoD
-         fVf4DENyQ1RslCXFmQ6rNox+AwJ/6trWFLJxI7FkYSC3I1Qb4RkIbIEDc1+CPBpt0GVv
-         dsG/0sKPCok2MxlxitucPb9aNp5/BU1UUf0e1snWTbp3Y9OIgaKvqOVMoBV//PdH3lhL
-         eso01rTAJoFx+eB5FAulTUtj+g+ULcBrN5uwcNE0WnghbNj++HthXkie0Vh3nXIg7A81
-         sIkA==
-X-Gm-Message-State: AOJu0YyQ/EjxhHNbf6miq0k1d0rkgoq0HoKGX5lgXC31MOmyE0uJ9hB1
-	SdWU/i8X5xRvsuxdoWmosZ8aA7jQbXvzKHHoDgSy/7NUDcVsu1pWumeX
-X-Gm-Gg: AeBDietZmhUDcZg5GWe3//Q9Rg8Kheneomlqa3aBOHu9VX+QMrQX+1XNDapT3bUEEOM
-	DxIldqoOFmoMaS+ecHnJZNX8fWVI1WOEq4umyXN3I+WcAfwnzRG7GaSYVIQymU1uWaF5goC0w6H
-	RyXStsdHkNIiViL+dBAT9s3Uh2m98s2TEmVtzfztQPaO3JeQUNmNDwCcB9aU0N/mk7YJjHPVitt
-	1khr0u2S4OMg695MFCaW41e48IsgIrzlT3SGSpM9dHNLKdXvehjExsnSifnDRcCH1Qc071FfNWb
-	tLB85WJbywppAIfDMjEPtWQ4wuzYQ2Ez3RLu69zRLPGfgO79qFgySHRzYAxBoupTGbsi5CaaKNt
-	65vcN0LWmfjOgaMzTeHOfPBMXfe3nvQalTUXqJQfGDQQPpaGdPj0nq/cnInqfoVYXTgNDU8P085
-	yO0bUCAqK0Yb1oB2R/sFlAR5EGH4sDlKSV3UY7U9YVt+U0zOM=
-X-Received: by 2002:a05:6a00:2d01:b0:827:28ba:ff00 with SMTP id d2e1a72fcca58-82f8c838ef9mr22454621b3a.18.1776867132429;
-        Wed, 22 Apr 2026 07:12:12 -0700 (PDT)
-Received: from tokunori-X570-Taichi ([240b:10:2720:5500:5cdd:bd85:7f37:6252])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec24850sm17974824b3a.60.2026.04.22.07.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 07:12:11 -0700 (PDT)
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-nvme@lists.infradead.org,
-	Tokunori Ikegami <ikegami.t@gmail.com>
-Subject: [PATCH v2 2/2] nvme: initialize known effects to set ns_mgmt NCC and ns_attach NIC
-Date: Wed, 22 Apr 2026 23:11:48 +0900
-Message-ID: <20260422141159.10881-3-ikegami.t@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260422141159.10881-1-ikegami.t@gmail.com>
-References: <20260422141159.10881-1-ikegami.t@gmail.com>
+	Wed, 22 Apr 2026 14:46:25 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id D755660128;
+	Wed, 22 Apr 2026 14:46:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E640C19425;
+	Wed, 22 Apr 2026 14:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776869183;
+	bh=QB7yVFQbGxs8Fs3ycEaTdzD+hrSDArI8p2AbV3glGjk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NcO1eDJosw3vOyxt9HXOG8R++28Ff+gi9mbiOwNVDXjNjPJ6YPzldY/fyy/hUlINZ
+	 sbGIfCEqKrHe1W2aRN3Hy+ESnnlttG7w0M7sBtrf5ZSI7MzkmQMUK8WTk7Iep7dnBb
+	 vl79PDY9In5RLLgzJDl6PDeKpXADssyu4THylQIWKI+o++pHPBlhVVzUGgs34N1L3t
+	 s0idZb4WY+EgcOlqPCHhfVhcw6HZpHtYnCOmoT6iG+WVG/LpgXAeOKzntqYPpuzQDZ
+	 wrj+rJ0Cx00ijly4HHpTBf3w5mrsEy0MnFEmGPAa4xw6CMfmFAXU/BSqKFctVLznA3
+	 tJ+8/uuY7ZthA==
+Date: Wed, 22 Apr 2026 08:46:21 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org,
+	joshi.k@samsung.com
+Subject: Re: [PATCH] nvme-pci: fix missed admin queue sq doorbell write
+Message-ID: <aejfPUSHppFE0xJU@kbusch-mbp>
+References: <20260421161855.3980034-1-kbusch@meta.com>
+ <20260422060155.GA5391@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260422_071215_545273_7DE14F47 
-X-CRM114-Status: GOOD (  12.03  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260422060155.GA5391@lst.de>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -97,32 +69,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-This is to make sure scan_work done for the commands.
-Since nvme_passthru_end called when effects set.
-Also scan_work is flushed when NIC or NCC effects set.
+On Wed, Apr 22, 2026 at 08:01:55AM +0200, Christoph Hellwig wrote:
+> On Tue, Apr 21, 2026 at 09:18:55AM -0700, Keith Busch wrote:
+> > From: Keith Busch <kbusch@kernel.org>
+> > 
+> > We can batch admin commands, which means bd->last may be false,
+> 
+> How do we end up batching them?  io_uring passthrough I guess?  Can
+> you expand the commit log a bit with that?
 
-Signed-off-by: Tokunori Ikegami <ikegami.t@gmail.com>
----
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1f973d88c830..1ed1fc866f3f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3448,8 +3448,10 @@ static int nvme_init_effects_log(struct nvme_ctrl *ctrl,
- 
- static void nvme_init_known_nvm_effects(struct nvme_ctrl *ctrl)
- {
--	struct nvme_effects_log	*log = ctrl->effects;
-+	struct nvme_effects_log *log = ctrl->effects;
- 
-+	log->acs[nvme_admin_ns_mgmt] |= cpu_to_le32(NVME_CMD_EFFECTS_NCC);
-+	log->acs[nvme_admin_ns_attach] |= cpu_to_le32(NVME_CMD_EFFECTS_NIC);
- 	log->acs[nvme_admin_format_nvm] |= cpu_to_le32(NVME_CMD_EFFECTS_LBCC |
- 						NVME_CMD_EFFECTS_NCC |
- 						NVME_CMD_EFFECTS_CSE_MASK);
--- 
-2.51.0
-
+Exactly, io_uring_cmd passthrough starts a plug. The "Fixes" tag is a
+bit subtle, so I'll more explicitly state this in the commit message.
 
