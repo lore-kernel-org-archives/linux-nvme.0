@@ -4,36 +4,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B27CFAD3F5
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 03:08:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E444AFAD3F4
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 03:08:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Ndv+ewFWgr8q/DKYsNicKzhzBW/NQOBeFuhXmt7XClE=; b=GNl+ppyXaazsl4lF+J6Z71eHbt
-	HlnEhkn7Y27nVOGYLW/wOQPRkg4sc6GJm5VGu7Dvmo0fVGb6AFfoylGSoiFesKAYa20alVYGll/sD
-	fRwJvPZut99NiFmfsUtwulUjQ8ATcpqDboTA0KTP1VEVxEY3gyacjOXGwmXeUqzvMRlpIIWcxnLs+
-	c42znIwnEivoi0PxyveEmLt2tOsj/VsO9PVUPrXi0umLYIX8adB2ZeF08yZRjoqpAVH8n6MmBdYMh
-	ZmEnNhuwwSOg2sMTBoIc6o0ZYkHDntWtmTgkcqKGR9FSUj0hC8FTjzZisUejV8ZHU4JvvvOhymwhV
-	hU00NSww==;
+	bh=ee9AYLriQVkhiQVnDInfi9nP0h08/1jbZ3RuojyHH9c=; b=Dm1gg0tgLy8FQ3CTdr5I0MX1gi
+	3TNfCHCdEr4z5tjUAHDrV1Oe+I3JuJvBAEu1GOMhs/idBqmX46Ko3Ga+kTYiE6tgdYQ9Z/ZoiSxpS
+	jBtwXk8CWCMpHasDoGkRVJe4J0Z0UohEEYnVttPD3etgRgT8ZUd462Zld5z5L7OSye0MSXA4zhAKc
+	VSk4oMfzLLewwZcoB9wvVJwzIeTiwSC7W3w8eTGhWFOWXzOzVqZBy8R2EzfVNr94K1IM6NfPJtr2P
+	quOSNNQEYBFJLGYlHr86ocINlrHBoCfVtC6aCQyrjY4H5Vq9bavTdU9wZeBsUcydWWscRxvzVYHSw
+	NBCjGebQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFkQp-0000000AwnR-12Px;
-	Thu, 23 Apr 2026 03:08:47 +0000
-Received: from mail-uksouthazon11021094.outbound.protection.outlook.com ([52.101.95.94] helo=LO2P265CU024.outbound.protection.outlook.com)
+	id 1wFkQm-0000000Awl4-2qeK;
+	Thu, 23 Apr 2026 03:08:44 +0000
+Received: from mail-ukwestazon11020090.outbound.protection.outlook.com ([52.101.195.90] helo=CWXP265CU008.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFch0-0000000AeV6-1B1o
+	id 1wFcgU-0000000AeLH-32mG
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Apr 2026 18:52:59 +0000
+	Wed, 22 Apr 2026 18:52:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZuqWAYc8xRS0W7+Xm8rNCL/Fg0iSBiu6wsspxd1X3ZIZCLxCFY7ItMsJq9eLwxmyCc3sIhNPfcnW/F/q9+mqXQmsWbp/ZdOjoMt5Re72ewf6z9IFQZoSHABZfSKQmOF4QKGHiDwojqNyP85lKMyRb7+LzoYMtw/NwkLoEYawew+uzG/5eCON9zuDM5aGySREcox0SdZ3JMcJ0lFOLTEGGzPv5fGGfgorEpBq2MeI+iDwgSWYxcDU4IJEHZK8mAU9y11w+rZiEr9vklRCiGtH9PgPFEhAuctRDS1dcUshCiXWOk/tUtUD/HgCiAg0ucmjL9P0GUTV+agz8mlpZWiYXA==
+ b=BtGwUIUs9gzQQMQvOF9+nC5XP9UYYH+a7tsjk4QE8FTVcMO+vf69seybpCwBvovyHwG3zGW/VMM1SNaIIplbj2fP7CpulRu1JfILYL1KS4JJF6lVnaiyfPUPjKfNo9noWS0Hs7iLt7ZpWZotD93KiV5C4NeIvbYPSDivdHkXS14G7OlTW+79fVQ53IF4zvHIIzAaJ17wSs6Gp1qU59eSCSoD6tc8/nv6h0Wfhxb+6DvjMiArtkMrXE5FLU4USYV9+hSZ5O4l/Bk4liaYbd062o7XS+vmti4Ju/JkDmjVf654D+yNSt5IEZxZNMhCfzzeXEgo/9gkbpoVkIanPL1BJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ndv+ewFWgr8q/DKYsNicKzhzBW/NQOBeFuhXmt7XClE=;
- b=e/g7d3WqHP4b0c5vkR2ytHX+s2TjGIHkNcGL9lxTE1Eb+5JAhA15BsLfuHkJl7ak01QPexwg3xxHLm0sNerlPbb9AdojEQdf6CA7nu/qE9uZRTx7o9O9z39wPdTtSccQDPDpmpH2W2fEm5DcxGwqf5dql1y5kRxmg5YSnsOP14dEaOC8GBUlu/64dmtqCaB2MorwIZYF/lY8BH7TQgKxl+8RyicM44cEOKSAlN18vgPqoYUXlTTGWX7xUmfJlvoaC4IttOnLiEu9j74lX+Cr1OMbmZJ6aQBiYN+PfnA5zvzCo1wYSCUs1NHa6dO8xKXmalQ30hJEI5oZpGIl+5U3pw==
+ bh=ee9AYLriQVkhiQVnDInfi9nP0h08/1jbZ3RuojyHH9c=;
+ b=lu2JYx2VNnW+NzNI/NLSVpLmqPRKMInPpKda0QaCiN6AsOOZkwWoIzwVxw3apVcyczdW+SU+Lef3xNpwlpN1+6xIdVgvrNLU8tnpBjvlOoOI4sK0qe+I4Hw0ShgIKzYhqA+J6hkitySwypFQjZE2k/INXzKVsATufjMiN1WfPKFUXq1iLVOM0P1m/lroYnJoKA8BUNg1DIr2WUu3oGGpr4I4yE06Pu/yc4e0HUtNB8bsDxJBM1XzU/eUOT0gGEfuiECHeQSYPqGZ+wBW42PSSgV5tyjQzfZXDrv4xTJrA8p1VRTlxN+d2Dp8kq9Lbk1Q6QNVIIt3hBgubcCwpJJdVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
  dkim=pass header.d=atomlin.com; arc=none
@@ -43,11 +43,11 @@ Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
  by LO0P123MB7717.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:407::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.19; Wed, 22 Apr
- 2026 18:52:53 +0000
+ 2026 18:52:24 +0000
 Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.019; Wed, 22 Apr 2026
- 18:52:53 +0000
+ 18:52:24 +0000
 From: Aaron Tomlin <atomlin@atomlin.com>
 To: axboe@kernel.dk,
 	kbusch@kernel.org,
@@ -101,71 +101,71 @@ Cc: atomlin@atomlin.com,
 	megaraidlinux.pdl@broadcom.com,
 	mpi3mr-linuxdrv.pdl@broadcom.com,
 	MPT-FusionLinux.pdl@broadcom.com
-Subject: [PATCH v12 08/13] virtio: blk/scsi: use block layer helpers to constrain queue affinity
-Date: Wed, 22 Apr 2026 14:52:10 -0400
-Message-ID: <20260422185215.100929-9-atomlin@atomlin.com>
+Subject: [PATCH v12 01/13] scsi: aacraid: use block layer helpers to calculate num of queues
+Date: Wed, 22 Apr 2026 14:52:03 -0400
+Message-ID: <20260422185215.100929-2-atomlin@atomlin.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260422185215.100929-1-atomlin@atomlin.com>
 References: <20260422185215.100929-1-atomlin@atomlin.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0317.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:390::18) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P302CA0041.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:317::19) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
  (2603:10a6:400:70::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO0P123MB7717:EE_
-X-MS-Office365-Filtering-Correlation-Id: 866bd42a-4f1b-4c3b-7ed6-08dea0a05c34
+X-MS-Office365-Filtering-Correlation-Id: 8b0c9d11-e6f4-406f-4d5f-08dea0a04a82
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info: D3w9rrbNPOBpz9bgRAU7XExv07GEcm6uIPlf/fCTiQfshHdf8PHgW5SGWrITlT91kF2dJNRA9OY2ai4B064Kue7HfVey8M27g6vLRBb4qmnTuG6OqV/uVHvhFRHEfBy/r1O/GcaPRxiZ33aYOW8HgaLnRh4RjUEXoOnW2F4KP6hA7eag1i5gY0Twc12rGb1Xql9nnN8yxYanbLeC5in/Ws+y6rX1wX8C579lz5sc2YGJ/Fh6L7ngjBdv2vnOzjBRnQjMwv+6lHKxmcvWX4AmNPXhYMRt7x/ZzPOUxnA/yXv7DIMc7jdjJmkUBmEYTH5jh5G8RlWAAZwyewyy0vuHN8Ol2pFA0RkdQHVnKBCb3X23xNrfMpdZDE2wINUJWa+43d1R9tc0fwVihKAQhS8nXzLx5n/HoU5IXfyYBTQsnSwsRjeNF4e6PD0IXCs4is7nR1HpLigiPQRHl9lXphdtAr/eWzvAc/QDd9nbDt7MjMPpGrK2nZ5RGK6wDwyVxmKMkwoHYisc8Rm1ofERXMIYaN4CMqEgKXVXrmAOtG3zGUs9kfb6cTBdtHt5RRlxxljdXhILMfN9LVyul5bMDfZ7cVDArMjg0u0lw4oa0x7m8GqbRzFUqPhBqAFs9qTTUxsYgsG4Nk90I6SoCxlu2sO2gv2MrMNMaZpD9wlPJnXR6mi5jcBRvvK1d3nK0drUCQANPJMnZ9vj9llgIEHg2pvjZFPp608LYh4cFWvPkABWUr0=
+X-Microsoft-Antispam-Message-Info: /jl109328YTVaEx6byGR8TV/8b+WIrMgoTBWtnktrWU4rFqWPMXQiIIRAGekeKPQ9z1ocJCemCG0OeZ5hGh3sgPu5inzCI0r2bVy6olTrJz7ceHhEWSfT4wUdWRZbQW6UM1ZI7KJMqxw6hgxDSl3pDcg415wdqGCSVjP4fxnd9x8UsbDRE8zznQMuKVpu7TVDloZcsotIneXyDJVXwX4nvbOLLbUK1Uh6ynDFY2+2rXAkJ4JyJvllTzsKq/yHcADxCkmgAO3N+mTc2ILUrqj1LjeWQ1caOCaluA3L+xn6k8Zgxuaj+Ma4NQPZ/XqHyANt08gsE01C25Q7NEhhrGiEgVWt975jHDLF7PhR8n8yer+NC5Ipusu+4+mkjyVr3R1umL+o/z6/1//0J7ri1gz/mbVpW5dBdiFWZv+F1eOWsyS/IZoJ7OjkUA29ifGyHrxb/uNm33FjZYBzZa6RVd8bNT2MnFkGeJxz7wWxSu4GeHsCVHguZttys1jpdJS/l8lxz7FNsccTqXC4k7092Kkv+LKMOzt7uapCBHlfs1DG7edslN8vpzx1PbnOn1nv8og3PCjMFFGHq+/AwoDePG5BxMOfN1F2l2s9pp/ipo/Z8CtyTKRuIPl14aSDPwBTgbaqsryP1v5HSDFU6JmtzeTwEB8AZoZ1zoJx/npfwvCLrHMoGJ+75RtWVQWUOZl8ZFW8ZEg+Unko58hMtKkbjKRQ1GLsKckCmkXSgSFc+YL0ow=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RbDen6BwiFp32zaqNI3zy3LR1FSWatHYUeZ5DV8GuiIP6/BMhqfsKJZcwXjv?=
- =?us-ascii?Q?498QYviY7WfvsrBc5lefN4PFLXSF/kiH+mNgwGhGaITKuY3nx21pZAIHpAU2?=
- =?us-ascii?Q?fXmy55XEzCrVN1BatdSRsQhGW4SXJb9LxYDQ4ttApqa5v77lvRUyQM94zygO?=
- =?us-ascii?Q?lAJxPunie7I2nETeO8pjRdnpPHeEhR4bvkiV52eNJqkMcSIOcqjiX//jjT9X?=
- =?us-ascii?Q?X2GfcvDwcCeXQIjbhQ2gLKepE/CFvDCHTTNtj+SsSKLcoPJfBSa8HDF6AJZh?=
- =?us-ascii?Q?Fo1wtR0nKE7alzphHGw1ZYEoP6ejLFU1tB54YZJ0qB2uh3xXkCL6jPJ0r73v?=
- =?us-ascii?Q?5j3W1PLjENmL7eJmZLVWxvOACaNPoO8wuAxMPFZM/Ig5PCnzvO+s9DAH2Rly?=
- =?us-ascii?Q?wsuAszzTF9dF7qpkZx7URrYxU2ZnGW/k/VMlGhKoEzio/6xlfXi/LxN7ChYF?=
- =?us-ascii?Q?TzWvuehI5Mm+A86EyM7KujRh1e52okG3KbtlEDEfsxZ1nCtFItU8An73rdHS?=
- =?us-ascii?Q?/NeST8Y2hA/nW6lp950tUhV7yPWgsZDAxnCwDvJcgpdKZX4IK2OiubewvKVV?=
- =?us-ascii?Q?6YVAAqKxRcWce/DtYBLipf1kSHhLHQiTw9Qaznx5LoUZSnfpIc/2ou5syQdt?=
- =?us-ascii?Q?MrGW8yT5le8d2F3jBtrmR2xQm2m9Is9aHy3pssvvABrFomxTENAmglpBQKQ9?=
- =?us-ascii?Q?qH8Kco/yLra4b2cwCfZTZJbyE3mqO4k5ZhhjozLZnaAfaENA3o8c2sbTmPJB?=
- =?us-ascii?Q?D5wvYz7GK7xxvIJQNm36mbrikT0qu8m7Ec2n58bUYGY8vRShkaIzIA5TDggm?=
- =?us-ascii?Q?k0+aCWXybKOEhJFynzEMKn/IjaWmgt+xIztTDw+QpSI408E+pNDNgYAYw3H3?=
- =?us-ascii?Q?PiwkIt/er6dtc48ZLoowS2J0nLbsVPG7EfizXA+iw9YkgOP/LSUCR5V3Ed5M?=
- =?us-ascii?Q?Ua2VTGH683FHsb9ayHXsmk3Dz7JunB4m6HRQi2hL+lstRYAMBcQM+f0sXz6E?=
- =?us-ascii?Q?aVNHqkbCYoENDVaaeYs3R58/jsrXa8x3frO++aU2HM+Pm0/slrh13qdFWEjI?=
- =?us-ascii?Q?aiauPHlTUqOEu08iF44CfddDgK0XjAnWwptX3qX/h4OQfAG4I8BpPIzx8NXd?=
- =?us-ascii?Q?BAm+CiQP2ueLkoAy6Vy8X5kE87Za21OTERZc8paRCL0KlL0jbD8DsvRK66Z3?=
- =?us-ascii?Q?blwII7WbTThmx+yh8em1qNkxmzey0otsEUpviCq5mbIyTQkKB9YISNQHHsnX?=
- =?us-ascii?Q?10y2+COSigrfzuS96GI3Oc2QshEU/kIBAEKCziDFRdTloDh9Odqp3bhH1dZl?=
- =?us-ascii?Q?I0rlON7PYMA0tTvq5D9vclTVwv8+TMnEnio9QMOUa1VcdiUnChlalZZSACSw?=
- =?us-ascii?Q?fMTbtitDhY66m8fKu7d9aImb2xc+2n5IBM0u/bwytjwE7fuSMxpsULLQRw24?=
- =?us-ascii?Q?JtFqM6ZVwPKUe2IzB9W55nIqOG7+iVKtbIzbI5rNAOy0TBGzafTIb9L3HitL?=
- =?us-ascii?Q?//vKAXCM60U2xhn2RAxj3rEfg6I2yWwzi5A60XgAq7DTo1SOZxFrHNRZ/FMw?=
- =?us-ascii?Q?eM42XE2J/EtgjTZOfGA1sRqwLkdCnzkEyXqFW8Rfu30UKqO7vEOBoXiPnDVH?=
- =?us-ascii?Q?pekdVpZIroFIcyi45zpnpK2sdb2iWHiz4pIWHgz57Ny/8D5KZJZJjs9gvFlO?=
- =?us-ascii?Q?p3DbfCl5sp769SnZRCbR5KLBUozSN9x90K6+4iAOqHA3SGjd+kGjnLjFieBe?=
- =?us-ascii?Q?uUQG7Qo/Kw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z6W3wGwsxwRrUpXOasWdvsapEsRTng8s84U0L0KZxB5Y6F6gq9j9G/mhWbOd?=
+ =?us-ascii?Q?RxzR1QmG1yE7fFbr+V0vRYUFKqyUb+/7fT1JIJRaRg+B3CUxCwhYklmmEXLP?=
+ =?us-ascii?Q?hvV54NPfH7frzSMdkTR4tXkTwuW4sM669Xz1euK5gZsroDnXks8nPOfSROj7?=
+ =?us-ascii?Q?rsN3phOlv2ShN+ghh2H/yqaycrxLmO0/TmzqYnI5JbGaytS9r8/+IcP5DM1Q?=
+ =?us-ascii?Q?NL+LkqwcC55qYTk3iOiblRY9zeiZUFH0nZqZKsDUL/Bf3LxP9adwvEXeLUtI?=
+ =?us-ascii?Q?a1Entzhegdg1TZpOaAExBmNoK1StfFjEzMY8x2Lf03ws6dirVEGlMiIipWOe?=
+ =?us-ascii?Q?QVHQo69YZy7CKp2N1xasMxtzHkDG3dWva8Xgkk2j7V4h2BLaPfPA9XMXDyhv?=
+ =?us-ascii?Q?E8vDqtZly6xVwERJ+SqT5ch0fIxiXY8qspP+yWNxnxBU4ccVpkJcbVBPdcC6?=
+ =?us-ascii?Q?6TpFdP02pCLVkki6GeexB17ioohzFrLac51n+f7oszw2JsJpuMpz7W1IncWe?=
+ =?us-ascii?Q?hTU4VfynwawaF9iiIRLPDrRxdyw8bTEdI1BdC1JghAh2ktsbDy1wPgpudXRr?=
+ =?us-ascii?Q?ewLC5zmwXN4CxmJt8iYxyQp2rhtEMMz85qMLTxt3oSU4LNrZ5W3UouSjGPA6?=
+ =?us-ascii?Q?JNeYF9ODj0Mjb/eKhORLc6hVCT+NAtPn39SHQh1uBQU1RWa8bEgi/m8d/U+i?=
+ =?us-ascii?Q?mRfz4Ugsueu5i4BcgkY2qNmAYyaqEr4hLS6OQNh0k954sOYd6VVSN3oFyy0+?=
+ =?us-ascii?Q?VIpKx1nO8VOxio8KOoRA2VAGNoBRqXNxkruFMG+SmfrC26ftL/wojF07qunW?=
+ =?us-ascii?Q?fsFpXOEXdf+DsOtTdEKyA+Og43Nmyf32CrfUFH4chvwOURRA0kwk+nEP/bnc?=
+ =?us-ascii?Q?T6WdhZvRw6XxAcVLJ64w6PusU7/zc637ebl+bj1Es81LTC9lZtjSgqWycZBw?=
+ =?us-ascii?Q?t5GLzGVxH3ivMcOHvntUt1qAyml4wJK/9CIOhsKmyhfYUENYW5pQAzVTTWVY?=
+ =?us-ascii?Q?CqS74E9tGSo/4nuCDW9kecxSCrXOr3aPoZuLgckwjoA0+6GHxWx2Zx5qC60c?=
+ =?us-ascii?Q?kiPklIvGEy3O//pEXSFJvj5fJtd5T190usOR9O5x+46g4gWsHrfburG3p1oe?=
+ =?us-ascii?Q?41ONYaWE0w6Sd8ch6mOmX/jbBXnl5ERj5YhQIR5kHDWvB2VW09pnx4grsgmY?=
+ =?us-ascii?Q?jvdwRlsC2ZjWT0JBLwTqrvAOCSM3DGJLzKQhlaUNzeya8hiy4Q9qO45q1FkX?=
+ =?us-ascii?Q?4THkeJPwBYfsOZQzZTw2f0lUQDjC1A2MwZmZ1qcLMKfoKZ0Gm6IEm0Qu1uXA?=
+ =?us-ascii?Q?ge1M5SRJF77su0mInS3P4CQdixdyPM9qA1Spnk1IaCmFYvKMKsw+EFj+0/1L?=
+ =?us-ascii?Q?Bdxy6lnQXH+LJOe6sy+OoCATG2Uqgrein1uZTCfqhdZoMrHvfsPhrcbuQSqK?=
+ =?us-ascii?Q?T87oAZrizP+DkUagAZ+oDqNUP+aZvtMULyp4Qcyazd3SnvkLB9uqyuz6Vy7t?=
+ =?us-ascii?Q?bL1Kv0qeTE27J2FUVYZA08Teja7PzMPV+E243CIGNXwzAEKBU+6R7TKceDAy?=
+ =?us-ascii?Q?JkbPcJbx4X93YYSDZXS6M+hygZJu/N0mi1ICCbvroOi9fqtxdPqehzTKPw9m?=
+ =?us-ascii?Q?VAO59D5VZkxfDemPiPt/AbemtxXaI7KKfq392gh+JZK0aesh6btOsiCczv+n?=
+ =?us-ascii?Q?I26Sgxu3m5JqLbMMt/HJwBIHXUYewRP9H9ga5PlMJCA7rrLUT/M6rxcgM1Vh?=
+ =?us-ascii?Q?1sZZSsjl4g=3D=3D?=
 X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 866bd42a-4f1b-4c3b-7ed6-08dea0a05c34
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b0c9d11-e6f4-406f-4d5f-08dea0a04a82
 X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 18:52:53.8309
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 18:52:24.0621
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wLYWeq6NBqidF+ynQFSYB7rfULvDnV7RANfQQ/788g+0YUi0JIgb1FGNP0zOv5OlDxMTeG3mJHWab4ode0P5qA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: SzFT557t/MVc3+5ce8kkrBEmn09Q5oT8ePBse9wMCSbnp/0/A5tTz++j6tJZGsNmPppCzuvkdQVsX1HSPq9lIQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB7717
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260422_115258_353878_4F6654D6 
-X-CRM114-Status: GOOD (  12.66  )
+X-CRM114-CacheID: sfid-20260422_115226_766230_F2DA57B5 
+X-CRM114-Status: GOOD (  10.21  )
 X-Mailman-Approved-At: Wed, 22 Apr 2026 20:08:43 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -183,51 +183,37 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Daniel Wagner <wagi@kernel.org>
 
-Ensure that IRQ affinity setup also respects the queue-to-CPU mapping
-constraints provided by the block layer. This allows the virtio drivers
-to avoid assigning interrupts to CPUs that the block layer has excluded
-(e.g., isolated CPUs).
+The calculation of the upper limit for queues does not depend solely on
+the number of online CPUs; for example, the isolcpus kernel
+command-line option must also be considered.
 
+To account for this, the block layer provides a helper function to
+retrieve the maximum number of queues. Use it to set an appropriate
+upper queue number limit.
+
+Fixes: 94970cfb5f10 ("scsi: use block layer helpers to calculate num of queues")
 Signed-off-by: Daniel Wagner <wagi@kernel.org>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
 ---
- drivers/block/virtio_blk.c | 4 +++-
- drivers/scsi/virtio_scsi.c | 5 ++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ drivers/scsi/aacraid/comminit.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index b1c9a27fe00f..9d737510454b 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -964,7 +964,9 @@ static int init_vq(struct virtio_blk *vblk)
- 	unsigned short num_vqs;
- 	unsigned short num_poll_vqs;
- 	struct virtio_device *vdev = vblk->vdev;
--	struct irq_affinity desc = { 0, };
-+	struct irq_affinity desc = {
-+		.mask = blk_mq_possible_queue_affinity(),
-+	};
+diff --git a/drivers/scsi/aacraid/comminit.c b/drivers/scsi/aacraid/comminit.c
+index 9bd3f5b868bc..ec165b57182d 100644
+--- a/drivers/scsi/aacraid/comminit.c
++++ b/drivers/scsi/aacraid/comminit.c
+@@ -469,8 +469,7 @@ void aac_define_int_mode(struct aac_dev *dev)
+ 	}
  
- 	err = virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
- 				   struct virtio_blk_config, num_queues,
-diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-index 5fdaa71f0652..d0b6a137e9b7 100644
---- a/drivers/scsi/virtio_scsi.c
-+++ b/drivers/scsi/virtio_scsi.c
-@@ -847,7 +847,10 @@ static int virtscsi_init(struct virtio_device *vdev,
- 	u32 num_vqs, num_poll_vqs, num_req_vqs;
- 	struct virtqueue_info *vqs_info;
- 	struct virtqueue **vqs;
--	struct irq_affinity desc = { .pre_vectors = 2 };
-+	struct irq_affinity desc = {
-+		.pre_vectors = 2,
-+		.mask = blk_mq_possible_queue_affinity(),
-+	};
+ 	/* Don't bother allocating more MSI-X vectors than cpus */
+-	msi_count = min(dev->max_msix,
+-		(unsigned int)num_online_cpus());
++	msi_count = blk_mq_num_online_queues(dev->max_msix);
  
- 	num_req_vqs = vscsi->num_queues;
- 	num_vqs = num_req_vqs + VIRTIO_SCSI_VQ_BASE;
+ 	dev->max_msix = msi_count;
+ 
 -- 
 2.51.0
 
