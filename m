@@ -4,89 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4AEDDF9EDC9
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 13:13:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2DAEEF9EDDB
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 14:12:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lX3E3l+CUAgEBuMjhKQAoF+ulmwAQm3ydVikfG8HXnA=; b=y8deNKPrQmgpJA0E44rV3z2KzZ
-	SjGfG9RJhupCmCuoJSo5xphKGB0wrQCShg0vsX7fEsa2RhRiLi4jOw7W3kcZTdVQZeYRueXkjb2tL
-	UOx5DNntHPNCD2cQg/c8PYL0/N+BiHh7urkQkD4PfC30B52MH1sxnvxXEUmWfuAI8S281vTQlbf+s
-	B95gtypMI+356YQerB+/4c9Q96A5TqCVufzQ2X7uy/RxHQ+HSYgvD8TK1bwftcKmlm5jem15f49R4
-	EW073d/wuoom627JFrMsEgthz35n0uMfMPIQrGsOMVRnAuMWO1hfIfuAPdk38FwHY/UMxxGyApdOj
-	hMcsx+1w==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=hiBSh9UVHfb7q7y+ZwAruwcuUvfFGPdcOc0TeqXNA9s=; b=F8LhnmudUws+GE1GUGUdMLRRM0
+	dMr9jlc2/B8j97wCg9mtO5LLX6uPmVwiyNCLciP5hR+st/G+fp59tGcNmqQmzp6TrHGypLcpxtlKe
+	/rtMzwsxq5gE+avNnLZbVGTLXYZxFODBXfqta+NfjPlPJ7VnASMIrMN7zZauBOYwv5NKxaIOUUt/t
+	dVUiU1PQ0iySEZ9/K0sqLOi2FWLuhxQgRCzSD00S0Mj7vP1SfHnhWedAsUtK+QpCf0Q8wNmbxSCKQ
+	zY1VCEEKyloZj98kOQX4Rpkes1IEj9U++6etoGdq/rVuAHvrMhaNjusdoW2xPGObawtuWsKGbrVMd
+	NKC1lcnQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFXO1-0000000AGlQ-3b76;
-	Wed, 22 Apr 2026 13:13:01 +0000
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+	id 1wFYJI-0000000ALIj-3Gd0;
+	Wed, 22 Apr 2026 14:12:12 +0000
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFXNu-0000000AGka-0Q7n
+	id 1wFYJB-0000000ALHt-3zt8
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Apr 2026 13:13:00 +0000
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-c76c60c7502so2370639a12.0
-        for <linux-nvme@lists.infradead.org>; Wed, 22 Apr 2026 06:12:53 -0700 (PDT)
+	Wed, 22 Apr 2026 14:12:12 +0000
+Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-82f2766905fso2515777b3a.3
+        for <linux-nvme@lists.infradead.org>; Wed, 22 Apr 2026 07:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776863573; x=1777468373; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lX3E3l+CUAgEBuMjhKQAoF+ulmwAQm3ydVikfG8HXnA=;
-        b=BFfHQYYzpnne7LOlCWVxia2Q/zy+UK+yuMzF6HdYpRnx1TuIA5jxD5B9o+xMB0C1Q5
-         bETKlqTd86ytVsf6+KvMXBQn/J80XZwt5K/0A7EPB1SgGgCbUV3F/u+LgowK/O1NOXk6
-         QnDoZdX/vx0mhrgZXh8KwKv/2jrKc2FiQGSE3y5AiUimo0ZP4qPWcSoL/xc+jxtmgu91
-         mFmpK+lxPSJdLNU0z4Vz+QsaV2rKTFNvPNCo6J69txBQIQICuXP7gOS372w2neE99yy4
-         DVMpFpJmv2Bpmb8i+4fanycJXO4ZTbKkpQAxi9SDCIeT8eqq47Vm+mS8+CNcOxgiKmdV
-         ou3g==
+        d=gmail.com; s=20251104; t=1776867125; x=1777471925; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hiBSh9UVHfb7q7y+ZwAruwcuUvfFGPdcOc0TeqXNA9s=;
+        b=TviiMQHAKsu+meTMiIyYqTJUWqCEedtCK6ENxY864TjdDQY0DAPNPFujEkPcXYbQa6
+         KFOF+aHiP0bVoBk4NOWMHoAUluyaKcqQU889sZXcKyh1VvoKNBTWhSyK+4QfWDq4Yv8N
+         rVmUZFyH6kR/Nmhus+xO/NtY90OYoeOmqhlere+yNCJpPzZTcCNRgxD6WKlCFf5frA2g
+         DYeJQjsqqE/tF7Oroa5hAZ87WegjdEVUlZmp/1VdmUuE0+gRnaqHOl+aw53KaitMfK09
+         NicGN7oqwnYP7iXHmRW7stbY4gg4J8FNV0pSwTbkVw/QTRukp8uEPshOEl9+egHY0C/R
+         Yf3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776863573; x=1777468373;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lX3E3l+CUAgEBuMjhKQAoF+ulmwAQm3ydVikfG8HXnA=;
-        b=pjfSk12ZOWkDI6Jwxqw6CLRlhjfevTrbBSul+gDjr9vlC5jZAHx70poCg22uWQopRa
-         Oaz2O85a2BXfY/PaO3mvTvMe3hgcshzi2M556+x7y0BpQmeTwe4wYxZ1i3Nr1jWwbsaW
-         lxn2vs83EzOwDTjZjyuOe65se895UW/xbOIHlb4AWo3JAnBKdUzwL/xPJjU7lk0gORZk
-         G1OCcTIcrtVD4486Z1L9eTAuajREqxy4apnZBHTHTHhXwYw8E74sldxYtFoy/TCgnCi+
-         DXXFGuEKbvtVYgU/qHY2X29PRSVkXIadSQonjHJEpcVAaOpHKABXYA4Rse6phsyRX4UY
-         JsQA==
-X-Gm-Message-State: AOJu0YxfXZm0U5+XB+iVsEMAsnk82e2MZUV/67O2WMx814mh8CLFrsxA
-	GTyF+s+d3xzUv+KKGe3NvuLt3tGWVDdyNI0PTx+HGVLCt/xIap6whofEbR64Wg==
-X-Gm-Gg: AeBDieu70Uw2igdLmQbuyrJ6yphb3eeNl/d8yld1VXKFc6pT6e70QWAOxzbG92mauvO
-	JrYPkDZbE2ATq1m1skW0hK3Xr3VoX7pXQTuKHAriGyq1PkZoBIU7eLdreUvZ4cT4Ohz+Kk4EiHE
-	cqdjMoPC571kie4YITlKW//uOMn8OrzT16XJ4KfJ2x7rJHZMwUYcNT6zXtnYAavQl6CkctzHIUL
-	12H/eCJhB7oCpp9KKg6SJKyRhF/lbDMGRCK1vNUpplgnF1Wg5zXl0FJbdFpqgOlTkzV/l5cDToT
-	pB+e9vfMtlUYeA9m4ltnPstvZ58xH/hM68OLRs3Sv3ecB8wJ3Lj8f7MlZXaZHly9z0RUB5g3Vq4
-	lj7mIfJ8BnyyLThEYwjVM93svolGuuKlgSI00epY9aDYFsSJ3feJX9q/3dSkSHSzN+O5RINCjL8
-	Re5omAgXi+zAmiCgr/6QXz17DKjYcmfDxuIxoIfuOCebXz7l/mgJNnxWFYryAhb1KMklfqHiB2t
-	+8SMLE=
-X-Received: by 2002:a05:6a20:7d9f:b0:39f:3559:750d with SMTP id adf61e73a8af0-3a08cca99ddmr20161621637.31.1776863572986;
-        Wed, 22 Apr 2026 06:12:52 -0700 (PDT)
-Received: from ?IPV6:240b:10:2720:5500:5cdd:bd85:7f37:6252? ([240b:10:2720:5500:5cdd:bd85:7f37:6252])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7976f8fcbdsm12674035a12.6.2026.04.22.06.12.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 06:12:52 -0700 (PDT)
-Message-ID: <00eaa0f4-365f-4f23-8e81-6c3c96e8d175@gmail.com>
-Date: Wed, 22 Apr 2026 22:12:51 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: set NCC and NIC effects for NS mgmt and attach
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-nvme@lists.infradead.org
-References: <20260418130604.23441-1-ikegami.t@gmail.com>
- <aehkG9i9yisZgRR0@infradead.org>
-Content-Language: en-US
+        d=1e100.net; s=20251104; t=1776867125; x=1777471925;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hiBSh9UVHfb7q7y+ZwAruwcuUvfFGPdcOc0TeqXNA9s=;
+        b=A7KywMj+x1BS3DWll98KFD7H/Hac5R/hMod+8lXQce9KHcNGKpajlIwTguJeCGwxya
+         FxG4xvov+5/q11+oPPhDYgeim74oTJSI/u++EI6VuOZoC1+4JQSKw+DEyV1heyokgTH5
+         NbbpEiJs5+9Vo6TrAoTkNe8iCGaBRBgstGUIYcFzLz0HDB3WAIM9SQMRKiPjrx+JlWZB
+         9OnClUAlHBFznQgWg4IQdbRPJhk4VcGPXFFKkdod8/bRoEMZByo+nE+08D0RbzNOZPoe
+         tXpAVBhJ0vzuTSi8/x2djkekv4rOziwcxYxyIZ12RS6dXy8DjI/XjCrjErcDrGnvZRsQ
+         5g7w==
+X-Gm-Message-State: AOJu0YwLvEew8vl1SnvrLWgjRbmJCAJ+E/UJrSivjrAM9fiVzW4kI3Hh
+	z0om8vTARDOWu1avB6EuTfeWlt1qFTM/6URF/Mbgp6ZlzSTFfuVwNcc6
+X-Gm-Gg: AeBDieugpkVtqCnuPQTX3LjqSk4Ej7u9ozX6OSpZ+al1S1i/VQe7nbre+rCNwgSDd4x
+	crhGm05HDkmW0MOlsUZD5Qfgzufs+SlPFrq2KGrwoyUz5Hm9n9Pi0rs9+qD1lqwQ7nuUKeL286o
+	d+v0hG5xzEtTdMXCwRFx3MFERns3bsGuRJQI49Xh/Uc6gli4wF2VYTTaQ5Asi7VFHibVophXmXL
+	XBFKZn0C7BQ8vw54GFASF+dM3dnB81gfJrJHqsDx5XGaYlt3drtLMA8igbC9+/PsJLTZBMNYZb1
+	4KCIX5U3e15fK8M8pQ00TAjlaLU8jyrVctQgPZGjWTAyvs7rtMBy5w2z/kZb9yn2qoHLdwA+b4b
+	y/FJYOagiGNuBLuAu000jULS2kDQ13ukYXCmgOWFR14z5VO5HGM1J7divtmhx1V/8THlin7//8C
+	OvUTkIvsKvo+TrhQ5ZS5awz67g57RWlZ5KfSd8/jYHXyPxnZU=
+X-Received: by 2002:a05:6a00:7182:b0:82f:96ab:e011 with SMTP id d2e1a72fcca58-82f96abe402mr16129099b3a.37.1776867124628;
+        Wed, 22 Apr 2026 07:12:04 -0700 (PDT)
+Received: from tokunori-X570-Taichi ([240b:10:2720:5500:5cdd:bd85:7f37:6252])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec24850sm17974824b3a.60.2026.04.22.07.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 07:12:03 -0700 (PDT)
 From: Tokunori Ikegami <ikegami.t@gmail.com>
-In-Reply-To: <aehkG9i9yisZgRR0@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Christoph Hellwig <hch@infradead.org>
+Cc: linux-nvme@lists.infradead.org,
+	Tokunori Ikegami <ikegami.t@gmail.com>
+Subject: [PATCH v2 0/2] scan_work improvement
+Date: Wed, 22 Apr 2026 23:11:46 +0900
+Message-ID: <20260422141159.10881-1-ikegami.t@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260422_061254_425163_9DED6279 
-X-CRM114-Status: UNSURE (   7.76  )
+X-CRM114-CacheID: sfid-20260422_071206_022253_CE81899F 
+X-CRM114-Status: UNSURE (   9.64  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -102,9 +95,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026/04/22 15:00, Christoph Hellwig wrote:
-> The subject here looks mistleading and the commit message is way to
-> spare.
-I will do update the commit subject and message. Thank you.
+By the scan_work ns_list is scanned then updated to latest NS state.
+For the ns_attach and ns_mgmt commands ns_list update needed always.
+Then initialize known effects to set ns_mgmt NCC and ns_attach NIC.
+
+Tokunori Ikegami (2):
+  nvme: delete unnecessary empty lines
+  nvme: initialize known effects to set ns_mgmt NCC and ns_attach NIC
+
+ drivers/nvme/host/apple.c | 3 +--
+ drivers/nvme/host/core.c  | 9 ++++-----
+ drivers/nvme/host/ioctl.c | 1 -
+ 3 files changed, 5 insertions(+), 8 deletions(-)
+
+-- 
+2.51.0
 
 
