@@ -4,144 +4,75 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E2770FA1FDC
-	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 17:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5F68BFA1FE7
+	for <linux-nvme@archiver.kernel.org>; Wed, 22 Apr 2026 19:07:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7bRnhfPkuG+fmlgN86uERCKE7/s7OwlRKFpLF0ymBto=; b=T2mtVZyc+Rbrsq+sNDvHiYxpa/
-	c312BKTIEU2c8uZb2P9/6Y1TwVf7Jo0O2OrfnSaWKUCPgmhOnazssTAwD1HKwsy7buAMKwpAw77+b
-	X5IWvbHFjauwcx9GZP3ZsZh0Un2IN0IzzEpyGYrAydhWM0x9IRw4G/iC9H7ZR4LRtyipHob5qp1Kw
-	jSFG+FhrH5iqJMy06y4cWSICnVWRDOBDquTi3iCTPW29OXG8dKJTVI9K4QGtxnZaUjQOJ1s675xo7
-	sdE0gi1aA5RGNHm9jgtdkrcFEpHeALBH2F6PAFGrCHVzsm+TDiEfSu8D7TY1bGrSxHebgfFugQcf2
-	VWw4r4ZQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=WrJ1fF90FZLG9ya38hr9n+8x6xZoakkZ8wfk0YYKt8k=; b=uMY4UVpkfRvzOJ/mnu9VmcBj1G
+	uGVuYESobtQfvNF1rvdazjA5SjaCW8fPbrZiRT7IViDJI2QyM92czu7Yt9RSTLsNvAlQBXRJKISJD
+	y4+44KsO69e1/4aq0Rb7LPZfja+KTbup7zNSucbFwyVllgOK1E93DM5sP8pUMkpZ2wgpOLEd7Wttj
+	qs90igLTCZqZdvw9vVbd1q8/pY823QIWf5Z3C/OftPT4gCeXo9ESj3NjgSoXaxyPSfr+v94NTq7pe
+	nHkN+6dgH2PqB6Qov3xYx2+DUrXvh8HVUK2ZNo0UoEp06buTo2OTK/oqyzzGIT1RaN61NeNeuYvKR
+	6YzsrR/Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFbhs-0000000Aaoj-2TXV;
-	Wed, 22 Apr 2026 17:49:48 +0000
-Received: from mail-ukwestazon11021137.outbound.protection.outlook.com ([52.101.100.137] helo=CWXP265CU009.outbound.protection.outlook.com)
+	id 1wFcv3-0000000AfX0-3dOK;
+	Wed, 22 Apr 2026 19:07:29 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFbg1-0000000Aaj8-2T15
+	id 1wFcv0-0000000AfWQ-2KnE
 	for linux-nvme@lists.infradead.org;
-	Wed, 22 Apr 2026 17:47:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gfg3S4+/FfflgCQanDbC0RCkY/B6BBjMR53Ox37YsrYjBM8Y+6OFUQ5ZIlrmcYbS2AEiZzNYFm3A3XZ5ZUkawV4+WJMja8TqWaUdZnaoh387Bq0REII0IykN+aclv4ZfnkyukH/zywy8gz8DgDkt/xWrrrCJwTXH5tu+x64s281sbO/Z3mKT9oNtboDdoC/vDGxuYOejlQveFdpOzqRoaNpzkNBshGC8CAYfTJINXPKl24qWGs2lcL1xmXDRlCzz9tZyha+AMCMLQaUXGmdw40Gn+eA32eKEKK2F3RfZ1mH9PAt3MlOSkeiDmSmtuxlLZUzHr9xC1RctCYmc6V/CAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7bRnhfPkuG+fmlgN86uERCKE7/s7OwlRKFpLF0ymBto=;
- b=im4EEcCEeFxG9Xe/rVdOJI5xQ+LSPIdXscWs5YFwRLHUnrSqx1RyRVHAQ6jmuVvHCBjZduLouo08Y0WLHAQ/Ird0w4xucLIEBCEW0+wvCG09mlmi57NOc4LsNbHsXONPaV6PWlZ1nCVrxwFeucqJVY4H8h15YlNsFNLQ7SoggdQm+uDKj4YWjFMJHfeESxsCUfC6peUb03yeDwtNGnN9adzu1R46CuvV6BxBDVpOocM+PEdmVNe+ZjOenqUh10LjffY5juOSwfrDJDbGInzQvRWQ2zP4SBlPzvsmeD4+zttkPYewBrCd516JAmVCu4VYC7P6Ra/Dx4R5YIK1E1HAgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO2P123MB4255.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:157::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.20; Wed, 22 Apr
- 2026 17:47:46 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.019; Wed, 22 Apr 2026
- 17:47:46 +0000
-Date: Wed, 22 Apr 2026 13:47:39 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Marco Crivellari <marco.crivellari@suse.com>
-Cc: James.Bottomley@hansenpartnership.com, 
-	MPT-FusionLinux.pdl@broadcom.com, aacraid@microsemi.com, akpm@linux-foundation.org, 
-	axboe@kernel.dk, bigeasy@linutronix.de, chandrakanth.patil@broadcom.com, 
-	chenridong@huawei.com, chjohnst@gmail.com, frederic@kernel.org, hare@suse.de, 
-	hch@lst.de, jinpu.wang@cloud.ionos.com, juri.lelli@redhat.com, 
-	kashyap.desai@broadcom.com, kbusch@kernel.org, kch@nvidia.com, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	liyihang9@h-partners.com, longman@redhat.com, martin.petersen@oracle.com, maz@kernel.org, 
-	megaraidlinux.pdl@broadcom.com, ming.lei@redhat.com, mingo@redhat.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, mproche@gmail.com, mst@redhat.com, neelx@suse.com, 
-	nick.lange@gmail.com, peterz@infradead.org, ranjan.kumar@broadcom.com, 
-	ruanjinjie@huawei.com, sagi@grimberg.me, sathya.prakash@broadcom.com, sean@ashe.io, 
-	shivasharan.srikanteshwara@broadcom.com, sreekanth.reddy@broadcom.com, steve@abita.co, 
-	suganath-prabu.subramani@broadcom.com, sumit.saxena@broadcom.com, tglx@kernel.org, 
-	tom.leiming@gmail.com, vincent.guittot@linaro.org, virtualization@lists.linux.dev, 
-	wagi@kernel.org, yphbchou0911@gmail.com
-Subject: Re: [PATCH v11 03/13] lib/group_cpus: Add group_mask_cpus_evenly()
-Message-ID: <tfkr5mlsdzbhdzv46ookoy2e7ed2wcozuxanv4wagjf6hqb4sa@7i753lpqkxvp>
-References: <20260416192942.1243421-4-atomlin@atomlin.com>
- <20260420131152.243488-1-marco.crivellari@suse.com>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q5uktf36yk35ntpm"
-Content-Disposition: inline
-In-Reply-To: <20260420131152.243488-1-marco.crivellari@suse.com>
-X-ClientProxiedBy: LO4P123CA0124.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:192::21) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	Wed, 22 Apr 2026 19:07:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776884843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WrJ1fF90FZLG9ya38hr9n+8x6xZoakkZ8wfk0YYKt8k=;
+	b=FNUiahEuR54PtqKfHlWxXMvOCLo8L+qrAdOOb8tSMHHTnQ29F8ME9Fd9+avOrBgUuzrLR8
+	dilAukQCT+bOml2GV9Z+zzuh66sVENcMsYnWmpMXQz5M3XRW0ca1dRWsR+j8wqK5xxKrjo
+	VBbdW+zCbNtmFdIKmlC2mvirAWfz7tE=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-223-n_iTRVgdOXShu67Rlv-7nQ-1; Wed,
+ 22 Apr 2026 15:07:18 -0400
+X-MC-Unique: n_iTRVgdOXShu67Rlv-7nQ-1
+X-Mimecast-MFC-AGG-ID: n_iTRVgdOXShu67Rlv-7nQ_1776884835
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 77EFA18003F6;
+	Wed, 22 Apr 2026 19:07:14 +0000 (UTC)
+Received: from cleech-thinkpadt14sgen2i.rmtusor.csb (unknown [10.2.17.58])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7187330001A1;
+	Wed, 22 Apr 2026 19:07:11 +0000 (UTC)
+From: Chris Leech <cleech@redhat.com>
+To: linux-nvme@lists.infradead.org
+Cc: Keith Busch <kbusch@kernel.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH v2 REPOST] nvme-auth: Hash DH shared secret to create session key
+Date: Wed, 22 Apr 2026 12:06:36 -0700
+Message-ID: <20260422190636.2651992-1-cleech@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO2P123MB4255:EE_
-X-MS-Office365-Filtering-Correlation-Id: a34e153b-f6c9-4047-026f-08dea09741cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info: HMcNbUQtYzjCi9XCTrGfKP4y3MugYWUNfVX3nuE/ZyGe19bZlMCrm0fXgK29E1XL9Qyg4+VcR1UdT60Ulc2t6hFvKVBEc7h8anVm78zQPZCM8ptDBEZ4G0Oc0MbXKPXRM/pEUpFxmOFt0EOGD/z39ikg44gz2fg6gXpzD6AQUQg3n/zIAzXijLtn3+aD1tHQ0fukp3Q4bAM6PDISO/MwBywCmzQGlKAQBUoqGGZMPe7Fd+oo69BGGMOa+O7nWj+uj0qBtAd+TInnKbe5vwRiNMHZ3JEuOwRK7MNQKnQYIB4MQLOg9hKklK4JMlWFYCbzXQGg6TX3ioG/ywV7lcPU8X71HNSpr+kfMDmlIfk52YgawueojpCf3zLztb2o8fUaEtbbiIzt/LBX5rp8DjxUjae4zl5+g0kiA0gaYtOOLRydjTC0y/0SYxUxs0ZFasJDie2OE78DRqmfdBCxA3Ux/KicSs6FXs8Md1OJjoaca1VtPVz/nNuNoazZxmvWXNjQrqJVdoqLqDPBSs8sZ9k0DmRj0mx1P0ZpPvVNMt++IVGLZ0Fb8iZKoSi8kbMigJn+96pte7fxWAIDIwZnNWMF1SMDqeDvVa/gH0WgRwe9+v+UFLcohl3leFHp0loyc4YYnnqG6QYAPm1Jkz744EHR24S3my1xRxyLrYavSQlHgxERAktF0A39Zhp6t9kP9I2LQVxswUmQSYnZoev8TcSf4F4cdaxL/6DeHBkK1oaTtVU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dUttcDRFTUtsWU1jUitiRWZoRFhMVlJtMTVFMDFvZTBjM3A0NUpheEFwU1Ex?=
- =?utf-8?B?V3VVdHRGTUIycUNZdzk5MU9ZT1lpRzNCYXpaNi9RWlVyZ21xZldjLzF0VzdM?=
- =?utf-8?B?OExpc0RDSTlteUdWNTRSWkhqY2MxUGlVUkw5dndPOXRBdVdLWU8xUzlOY0Uv?=
- =?utf-8?B?UjZhWWlHcWZacWtuSFNGZHVXVnkvZFUzTlVxWHBJQThYYmVRVEVGVERVUFJy?=
- =?utf-8?B?WnJIc0s4bkZQQ0dnOXNhVTJNR2xSRDhmbGxETU5lOXJQZTdpcVBOdXVXVlVU?=
- =?utf-8?B?VEkrd3lCRWI4aklka3hhL1NTVWoyREFORnN0VWpFS2NvdDZWRVV6S1duTFlw?=
- =?utf-8?B?YU04b0V2QW8ydHJnNDhyRXhhVExWcEJjMkxtVndjdlJPRElVbzNBVWhUaG10?=
- =?utf-8?B?M3FlV3hPUUVXeDdUUWc0amhoQ1FjMENINkcvUEpZQWpUdXh1Z0VoS1JDWFNQ?=
- =?utf-8?B?UWVmRks1bGVjazc4TFFsVVFneGV5MmxKc09ONGQ3S29FZmtmcFd4elVrczNW?=
- =?utf-8?B?YUtCL3Y4eEN6bTlXSEFTK0xBWStvZFhsWTVGTkhmYXlYMWtZZnlBbU9WZTJs?=
- =?utf-8?B?WTVYRXQxV3A1K21xNVVtNWt1a3QwaUVBYXJjM1BMdHNpUHI1V0V6RHlGbnlq?=
- =?utf-8?B?MUR4YnlXbGtaaFQwZ2FwZHY2TFhrZEhzc2FUbW4vOXJzTkE4Q0c5d0REU2RN?=
- =?utf-8?B?ejEyQjFURjREVUlYR1RyR0Y4UUxwektZRXliZ2NON1R2SDdFN284eWc4ckRX?=
- =?utf-8?B?RkhSK2RsZ0ZzSzZQRWZNMmY2ZlBRaVM5ZlV6NzU1RE4vNFphSTI1Q1ppZHFZ?=
- =?utf-8?B?WG9TYzFHQ01KaEhiNnlkNmpEaW1QV3R4dk5rTVI3VTRXMHQ2Z3czQnBlRmZk?=
- =?utf-8?B?cUZPeWtJckIwRk5rVytENXdCWXVRM0sxdm9xQTNoeEJlZkxTeURKWDZEWERr?=
- =?utf-8?B?cHE1QVNwRFl2WDZWdDhBdVNZWG9LdktVT3pRYmF0L1VxRFA2dCt4L1Zvakty?=
- =?utf-8?B?YUhtVk9mcEVlaUdXRWZtTE0yRkxwcEVSQW56QU1JWjJEOVNRTS9VZ0NzdFl1?=
- =?utf-8?B?TFR1N1drK0NtSEtmb2lUM0Z5MGYvRGU2VDdQOFhkOEs5b1VPVU5kdmprRE5W?=
- =?utf-8?B?ZU5KSWdMQmNXSEdLRllLcTgxTGs0dlRydzBlSWdLUDhCQ0U4K2FmaElrZGVp?=
- =?utf-8?B?OGo1UU8rellrZUZjZ1VkRWZlaXJSbUVkbURsYmRYMWhzbmtEUXRHZ3BuMTZ2?=
- =?utf-8?B?NTVPVGdUT3c5bFRrWUk4bi9HQStUdDh0c1VIZDJtYnU5QUFxcG1lZExKN29W?=
- =?utf-8?B?UURqclFGcFpwb1ljUkoxUEpuK29MZVlOb1ZkczRvOTNDemNuUUx6TEh2U0c0?=
- =?utf-8?B?NDkzVTYybnVWQW9YeEdBM3dtWnc4YUNPT2swOXZuTUNiU3BtbWplUDd6RVB2?=
- =?utf-8?B?bWUveE9mNXVjcVVGaWx5WXVudzJ6UThhZEY3cTNMUlRJcmFlVW9XaUxvNXhl?=
- =?utf-8?B?c3phTHh3ZmFIZmczMllQRklFc0RVWU9UeFhkeE5WamVZc1ErL1Ezd2JaYklS?=
- =?utf-8?B?aTJWVXZxYTgyeldsUjc2eFRkUmVvU3VCamQxNThXRWRySk94aEZEV25oYWV0?=
- =?utf-8?B?RG43NEwwUFhITHJQRkhPZ1lmNGsrNXR1aEx0WUxmWlFOY1I2aUN3SVdvMGpt?=
- =?utf-8?B?bU1kdGpMMEtmYTlCVHpWKzNxeG1pb20yc2J1V3Q0Z1JBWVd5bTg0Qnlqai9S?=
- =?utf-8?B?c1RaNGhqVkpoNnVkSUlrcDB1RGl1eEl6RDY4bjZxQjhTYUg1eW1KZFRuOCtO?=
- =?utf-8?B?aUZzc1ZJT3k0dEZRTW9hYkRFWmg2VXFNZ2dCWTBnLy8vSG9KOTJROGtQa3l3?=
- =?utf-8?B?OVducGZEd0RBQ24yeUJPUU5yTVljUVVlaWg2U2lqN3NLQWdHMUlkTk5jSkRF?=
- =?utf-8?B?UEExdnhrajZYU3plcGs0NE9LOEV4dElnREF3MHJhR3lBbloxc0lvQzJ1NHBP?=
- =?utf-8?B?RXoxZDdiV1hmQzBYRk9GVHM3WjVsL0JMUDVORi9uQzlHOHZMSXdXcEhMTWdq?=
- =?utf-8?B?QTl1S3ppakM0M3NJRWZSQzNZb0FBdHh2Uld5WGtWa3hsNGdqeUJvVDg4ekE2?=
- =?utf-8?B?ckhpUStqTFdEUEFkY280MFYwRFcxSi9vVEFiWTlpMkYzNXY2ZzJKUVhreEwv?=
- =?utf-8?B?cUt6Q09vU2g0ZjhWT0FCY0lyNGlZZGViYlBXQy9RMTlwWU9TMnM0K2EvRFlS?=
- =?utf-8?B?Y3dKckRaZU4wellHSjF1SGdlQ3dRYkQ5UC9zTnJ0cGFIVUtYNjV1MHpSQ1p3?=
- =?utf-8?B?RnRrTnBEK0RwVGx0d1UvdTB1c2ovN3FPQ2tkUm9jemFOdjMxVXA3UT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a34e153b-f6c9-4047-026f-08dea09741cd
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 17:47:46.5084
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RZFiZn2051CjQot1bJfZ8cn+DqjwqU5eP746j0gjzF8NMKbYNVcKC9n52ye0tRWoMV2BhjmGuztsC0OffboZpQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB4255
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ATDIB1-a_Kr3HYZIRmZngtjva3TnBX32VIuTeCzayYo_1776884835
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260422_104754_522414_A84B5D1D 
-X-CRM114-Status: GOOD (  10.37  )
-X-Mailman-Approved-At: Wed, 22 Apr 2026 10:49:44 -0700
+X-CRM114-CacheID: sfid-20260422_120726_670643_E53A57D9 
+X-CRM114-Status: GOOD (  22.98  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -156,71 +87,277 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---q5uktf36yk35ntpm
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v11 03/13] lib/group_cpus: Add group_mask_cpus_evenly()
-MIME-Version: 1.0
+The NVMe Base Specification 8.3.5.5.9 states that the session key Ks
+shall be computed from the ephemeral DH key by applying the hash
+function selected by the HashID parameter.
 
-On Mon, Apr 20, 2026 at 03:11:52PM +0200, Marco Crivellari wrote:
-> Without it, I guess the kmalloc() in `group_mask_cpus_evenly()` will
-> return ZERO_SIZE_PTR:
+The current implementation stores the raw DH shared secret as the
+session key without hashing it. This causes redundant hash operations:
 
-Hi Marco,
+1. Augmented challenge computation (section 8.3.5.5.4) requires
+   Ca = HMAC(H(g^xy mod p), C). The code compensates by hashing the
+   unhashed session key in nvme_auth_augmented_challenge() to produce
+   the correct result.
 
-Thank you for reviewing the patch.
+2. PSK generation (section 8.3.5.5.9) requires PSK = HMAC(Ks, C1 || C2)
+   where Ks should already be H(g^xy mod p). As the DH shared secret
+   is always larger than the HMAC block size, HMAC internally hashes
+   it before use, accidentally producing the correct result.
 
-You are correct. If numgrps is 0, __do_kmalloc_node() will=20
-return ZERO_SIZE_PTR.
+When using secure channel concatenation with bidirectional
+authentication, this results in hashing the DH value three times: twice
+for augmented challenge calculations and once during PSK generation.
 
-> Should this check be added or it is not needed? Or maybe rely on `ZERO_OR=
-_NULL_PTR()` ?
+Fix this by:
+- Modifying nvme_auth_gen_shared_secret() to hash the DH shared secret
+  once after computation: Ks = H(g^xy mod p)
+- Removing the hash operation from nvme_auth_augmented_challenge()
+  as the session key is now already hashed
+- Updating session key buffer size from DH key size to hash output size
+- Adding specification references in comments
 
- - File: mm/slub.c
+This avoid storing the raw DH shared secret and reduces the number of
+hash operations from three to one when using secure channel
+concatenation.
 
-    5275 static __always_inline
-    5276 void *__do_kmalloc_node(size_t size, kmem_buckets *b, gfp_t flags,=
- int node,  =20
-    5277                         unsigned long caller)
-    5278 { =20
-    5279         struct kmem_cache *s;
-    5280         void *ret;
-     :
-    5289         if (unlikely(!size))
-    5290                 return ZERO_SIZE_PTR;
-     :
-    5298 }
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Chris Leech <cleech@redhat.com>
+---
+v2 repost: just collecting reviewed tags and starting a new thread
+v2: 
+- Renamed nvme_auth_gen_session_key() arguments from ctrl_key to
+  public_key, as it is the peers public DH key and this code is also
+  used on the target/controller side when the peer is the host.
+- Changed argument validation from erroring on sess_key_len < hash_len
+  to sess_key_len != hash_len to be more precise in calling requirements
 
-Regarding your suggestion: rather than relying on ZERO_OR_NULL_PTR() after
-the fact, I think it is much cleaner to just add the early exit at the very
-beginning of the function, exactly as group_cpus_evenly() does. It avoids
-the allocator path entirely.
+created on the nvme-7.1 branch
+this depends on Eric Biggers "nvme-auth use crypto library" patches 
+from <20260302075959.338638-1-ebiggers@kernel.org>
 
+ drivers/nvme/common/auth.c | 94 ++++++++++++++++++++++++++++++--------
+ drivers/nvme/host/auth.c   | 13 +++---
+ drivers/nvme/target/auth.c | 15 +++---
+ include/linux/nvme-auth.h  |  6 +--
+ 4 files changed, 92 insertions(+), 36 deletions(-)
 
-Kind regards,
---=20
-Aaron Tomlin
+diff --git a/drivers/nvme/common/auth.c b/drivers/nvme/common/auth.c
+index 2d325fb930836..77f1d22512f8f 100644
+--- a/drivers/nvme/common/auth.c
++++ b/drivers/nvme/common/auth.c
+@@ -351,18 +351,29 @@ struct nvme_dhchap_key *nvme_auth_transform_key(
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_transform_key);
+ 
++/**
++ * nvme_auth_augmented_challenge() - Compute the augmented DH-HMAC-CHAP challenge
++ * @hmac_id: Hash algorithm identifier
++ * @skey: Session key
++ * @skey_len: Length of @skey
++ * @challenge: Challenge value
++ * @aug: Output buffer for the augmented challenge
++ * @hlen: Hash output length (length of @challenge and @aug)
++ *
++ * NVMe base specification 8.3.5.5.4: The augmented challenge is computed
++ * applying the HMAC function using the hash function H() selected by the
++ * HashID parameter ... with the hash of the ephemeral DH key ... as HMAC key
++ * to the challenge C (i.e., Ca = HMAC(H(g^xy mod p), C)).
++ *
++ * As the session key skey is already H(g^xy mod p) per section 8.3.5.5.9, use
++ * it directly as the HMAC key without additional hashing.
++ *
++ * Return: 0 on success, negative errno on failure.
++ */
+ int nvme_auth_augmented_challenge(u8 hmac_id, const u8 *skey, size_t skey_len,
+ 				  const u8 *challenge, u8 *aug, size_t hlen)
+ {
+-	u8 hashed_key[NVME_AUTH_MAX_DIGEST_SIZE];
+-	int ret;
+-
+-	ret = nvme_auth_hash(hmac_id, skey, skey_len, hashed_key);
+-	if (ret)
+-		return ret;
+-	ret = nvme_auth_hmac(hmac_id, hashed_key, hlen, challenge, hlen, aug);
+-	memzero_explicit(hashed_key, sizeof(hashed_key));
+-	return ret;
++	return nvme_auth_hmac(hmac_id, skey, skey_len, challenge, hlen, aug);
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_augmented_challenge);
+ 
+@@ -403,33 +414,76 @@ int nvme_auth_gen_pubkey(struct crypto_kpp *dh_tfm,
+ }
+ EXPORT_SYMBOL_GPL(nvme_auth_gen_pubkey);
+ 
+-int nvme_auth_gen_shared_secret(struct crypto_kpp *dh_tfm,
+-		const u8 *ctrl_key, size_t ctrl_key_len,
+-		u8 *sess_key, size_t sess_key_len)
++/**
++ * nvme_auth_gen_session_key() - Generate an ephemeral session key
++ * @dh_tfm: Diffie-Hellman transform with local private key already set
++ * @public_key: Peer's public key
++ * @public_key_len: Length of @public_key
++ * @sess_key: Output buffer for the session key
++ * @sess_key_len: Size of @sess_key buffer
++ * @hash_id: Hash algorithm identifier
++ *
++ * NVMe base specification 8.3.5.5.9: The session key Ks shall be computed from
++ * the ephemeral DH key (i.e., g^xy mod p) ... by applying the hash function
++ * H() selected by the HashID parameter ... (i.e., Ks = H(g^xy mod p)).
++ *
++ * Return: 0 on success, negative errno on failure.
++ */
++int nvme_auth_gen_session_key(struct crypto_kpp *dh_tfm,
++		const u8 *public_key, size_t public_key_len,
++		u8 *sess_key, size_t sess_key_len, u8 hash_id)
+ {
+ 	struct kpp_request *req;
+ 	struct crypto_wait wait;
+ 	struct scatterlist src, dst;
++	u8 *dh_secret;
++	size_t dh_secret_len, hash_len;
+ 	int ret;
+ 
+-	req = kpp_request_alloc(dh_tfm, GFP_KERNEL);
+-	if (!req)
++	hash_len = nvme_auth_hmac_hash_len(hash_id);
++	if (!hash_len) {
++		pr_warn("%s: invalid hash algorithm %d\n", __func__, hash_id);
++		return -EINVAL;
++	}
++
++	if (sess_key_len != hash_len) {
++		pr_warn("%s: sess_key buffer missized (%zu != %zu)\n",
++			__func__, sess_key_len, hash_len);
++		return -EINVAL;
++	}
++
++	dh_secret_len = crypto_kpp_maxsize(dh_tfm);
++	dh_secret = kzalloc(dh_secret_len, GFP_KERNEL);
++	if (!dh_secret)
+ 		return -ENOMEM;
+ 
++	req = kpp_request_alloc(dh_tfm, GFP_KERNEL);
++	if (!req) {
++		ret = -ENOMEM;
++		goto out_free_secret;
++	}
++
+ 	crypto_init_wait(&wait);
+-	sg_init_one(&src, ctrl_key, ctrl_key_len);
+-	kpp_request_set_input(req, &src, ctrl_key_len);
+-	sg_init_one(&dst, sess_key, sess_key_len);
+-	kpp_request_set_output(req, &dst, sess_key_len);
++	sg_init_one(&src, public_key, public_key_len);
++	kpp_request_set_input(req, &src, public_key_len);
++	sg_init_one(&dst, dh_secret, dh_secret_len);
++	kpp_request_set_output(req, &dst, dh_secret_len);
+ 	kpp_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG,
+ 				 crypto_req_done, &wait);
+ 
+ 	ret = crypto_wait_req(crypto_kpp_compute_shared_secret(req), &wait);
+-
+ 	kpp_request_free(req);
++
++	if (ret)
++		goto out_free_secret;
++
++	ret = nvme_auth_hash(hash_id, dh_secret, dh_secret_len, sess_key);
++
++out_free_secret:
++	kfree_sensitive(dh_secret);
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(nvme_auth_gen_shared_secret);
++EXPORT_SYMBOL_GPL(nvme_auth_gen_session_key);
+ 
+ int nvme_auth_parse_key(const char *secret, struct nvme_dhchap_key **ret_key)
+ {
+diff --git a/drivers/nvme/host/auth.c b/drivers/nvme/host/auth.c
+index 63f543e809985..16de4499a8e7d 100644
+--- a/drivers/nvme/host/auth.c
++++ b/drivers/nvme/host/auth.c
+@@ -588,7 +588,7 @@ static int nvme_auth_dhchap_exponential(struct nvme_ctrl *ctrl,
+ 	}
+ 
+ gen_sesskey:
+-	chap->sess_key_len = chap->host_key_len;
++	chap->sess_key_len = chap->hash_len;
+ 	chap->sess_key = kmalloc(chap->sess_key_len, GFP_KERNEL);
+ 	if (!chap->sess_key) {
+ 		chap->sess_key_len = 0;
+@@ -596,16 +596,17 @@ static int nvme_auth_dhchap_exponential(struct nvme_ctrl *ctrl,
+ 		return -ENOMEM;
+ 	}
+ 
+-	ret = nvme_auth_gen_shared_secret(chap->dh_tfm,
+-					  chap->ctrl_key, chap->ctrl_key_len,
+-					  chap->sess_key, chap->sess_key_len);
++	ret = nvme_auth_gen_session_key(chap->dh_tfm,
++					chap->ctrl_key, chap->ctrl_key_len,
++					chap->sess_key, chap->sess_key_len,
++					chap->hash_id);
+ 	if (ret) {
+ 		dev_dbg(ctrl->device,
+-			"failed to generate shared secret, error %d\n", ret);
++			"failed to generate session key, error %d\n", ret);
+ 		chap->status = NVME_AUTH_DHCHAP_FAILURE_INCORRECT_PAYLOAD;
+ 		return ret;
+ 	}
+-	dev_dbg(ctrl->device, "shared secret %*ph\n",
++	dev_dbg(ctrl->device, "session key %*ph\n",
+ 		(int)chap->sess_key_len, chap->sess_key);
+ 	return 0;
+ }
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index c35c427ca2ac1..9a2eccdc8b133 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -447,18 +447,19 @@ int nvmet_auth_ctrl_sesskey(struct nvmet_req *req,
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	int ret;
+ 
+-	req->sq->dhchap_skey_len = ctrl->dh_keysize;
++	req->sq->dhchap_skey_len = nvme_auth_hmac_hash_len(ctrl->shash_id);
+ 	req->sq->dhchap_skey = kzalloc(req->sq->dhchap_skey_len, GFP_KERNEL);
+ 	if (!req->sq->dhchap_skey)
+ 		return -ENOMEM;
+-	ret = nvme_auth_gen_shared_secret(ctrl->dh_tfm,
+-					  pkey, pkey_size,
+-					  req->sq->dhchap_skey,
+-					  req->sq->dhchap_skey_len);
++	ret = nvme_auth_gen_session_key(ctrl->dh_tfm,
++					pkey, pkey_size,
++					req->sq->dhchap_skey,
++					req->sq->dhchap_skey_len,
++					ctrl->shash_id);
+ 	if (ret)
+-		pr_debug("failed to compute shared secret, err %d\n", ret);
++		pr_debug("failed to compute session key, err %d\n", ret);
+ 	else
+-		pr_debug("%s: shared secret %*ph\n", __func__,
++		pr_debug("%s: session key %*ph\n", __func__,
+ 			 (int)req->sq->dhchap_skey_len,
+ 			 req->sq->dhchap_skey);
+ 
+diff --git a/include/linux/nvme-auth.h b/include/linux/nvme-auth.h
+index 184a1f9510fad..89902ae8b9298 100644
+--- a/include/linux/nvme-auth.h
++++ b/include/linux/nvme-auth.h
+@@ -49,9 +49,9 @@ int nvme_auth_augmented_challenge(u8 hmac_id, const u8 *skey, size_t skey_len,
+ int nvme_auth_gen_privkey(struct crypto_kpp *dh_tfm, u8 dh_gid);
+ int nvme_auth_gen_pubkey(struct crypto_kpp *dh_tfm,
+ 			 u8 *host_key, size_t host_key_len);
+-int nvme_auth_gen_shared_secret(struct crypto_kpp *dh_tfm,
+-				const u8 *ctrl_key, size_t ctrl_key_len,
+-				u8 *sess_key, size_t sess_key_len);
++int nvme_auth_gen_session_key(struct crypto_kpp *dh_tfm,
++			      const u8 *public_key, size_t public_key_len,
++			      u8 *sess_key, size_t sess_key_len, u8 hash_id);
+ int nvme_auth_generate_psk(u8 hmac_id, const u8 *skey, size_t skey_len,
+ 			   const u8 *c1, const u8 *c2, size_t hash_len,
+ 			   u8 **ret_psk, size_t *ret_len);
+-- 
+2.53.0
 
---q5uktf36yk35ntpm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnpCbYACgkQ4t6WWBnM
-d9bNpg//fMQ0fHERmUYbC9kPBFeo9XAozUah6n9gqnZU72Zw77e9jX8u7a/yGbO5
-l9n2T9HWutb7lvFMy2HbAfzc3L0C+WgD/fzY4s7Rf8BJUegtnBuAuU3c266i4/RB
-MxbAgo4LZD6jFxIMYWh8VcQa8u3lm9TjdhCsWRsIZo5lO2rQQI36sM7XGn+ONoRm
-Ql4ZYFaV1ri0mOLU/0Jpmbm+k1wJ/5Cp09entDobOKPxc9/cK34o4L15VIPtB6/I
-NDACdT5Hpt+qwzy8MEqmr0BHo4aUmCfyY8lfg1SPkh8EKLexShnvNfyAY9qzqGGH
-chAQeC4Cfw1gTkKJDD/fCT+dpwsln1jb+wCRs9nI/WKehIRhmbm/BCH3ekS8ebAk
-NL2+yBhqQidJlIHUFhn4s/96Q5KxNCQYYlGfsfFmzomfFqfdr5gexgREIgg8f9n6
-sUn9e36VFwpTNAVttzHv41pNi8eA/rX8SO7wjl9APljaqvRSzktOKV9WDWnRWJ+y
-T494wgz7cwSmwmz5GiM7hYZHIrG1sDIVdvKfAmGq3rsuSYMpRgfTi3dI/iiXZhcw
-kpzIgiKO/ITqWwDAOUMS1PNjrFkm6raQXfROEucUrqrtoEMurVDIUaomIvsRLptC
-KNErAS1o8jIk+CF6WrascBGsCFSJNd7H3F8lnAVBZjqoz10j1QY=
-=APr2
------END PGP SIGNATURE-----
-
---q5uktf36yk35ntpm--
 
