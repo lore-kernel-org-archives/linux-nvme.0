@@ -4,130 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDEF2F99350
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 08:06:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 76C33F9935A
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 09:36:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bxi6IJ3aE/tu2sGioxou/vZaxEnNZQlnyhpHaOQJoWY=; b=ZFDWuy9wb0i6bED8vgpvvDi3M4
-	9hDyPqxaZiTmrHUi2+eBDL8QQ0+ghh+10FFZkrl1TU5cwz9+2eJwLDMllB5BWHy9Nxc0kM1+CdDxj
-	fPNombWnFgOKupySFqdDYwCYmhQv6qa9MZ44pPBfROOtvJ1EO4pq8INnLGEAJycVg0KK3hw24BVqL
-	s+PWxH8ESJVhDs7rXO3musd3M6m7AHTW/4Vv9FXWJ2nJFQN3nhk6Lk4a61E575EcajNDlNMe/zPt0
-	RlEQYw2R66Z2OKN2gC9bAMbaybM5UT/1+NSR+D4E640XFThKIJjNhBXLcIfzLw0SItueSd23CsPMn
-	K9ydkShQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=T0tSRHfU8M2qclluh+QUofaYxDvHwhZP3NLldT/N0Ag=; b=OaZDcfBwi135jd8zGqPz4HS4Sx
+	Ay8es8qzdsiHYYe8sz3OgzQ2i4KsvbCLOiBFqBEOFROosFXawCHys1kgcJgFVprsQb/a8yom3Dyfv
+	JcMk8Vfyzrr9EyO4Q6GvcXSBDR5nTHn2mBqhNDG1FKKdYKlRJJBBzXlQSVaTS4SrjSBYMco5w93wW
+	o1sTg7ofgMMMmremyk4dkgXsK4Ykotebkyk9kgjd4l+6bx2UF4hvZu0Djyi6e2zn61im7p4RdMMJX
+	bOw0zWYNgK1dyHrpwX7b2np40ChXajfWZOPFXwmfUrKPTFNhWO1p4TihoJ+ymjSgqjKAqym0UL/33
+	3pvo40bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFp59-0000000BCbU-2tGD;
-	Thu, 23 Apr 2026 08:06:43 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wFqTh-0000000BPBX-0Khp;
+	Thu, 23 Apr 2026 09:36:09 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFp54-0000000BCay-00Da
+	id 1wFqTd-0000000BPAd-2dPz
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Apr 2026 08:06:42 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63MGML6U3515186;
-	Thu, 23 Apr 2026 08:06:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=bxi6IJ
-	3aE/tu2sGioxou/vZaxEnNZQlnyhpHaOQJoWY=; b=ncz8DOiHzTyYaQNNfKWnY6
-	rCS5lfoP7oW4/7xJiWF1IBjaZA7M/a4KTx8i16XAbVOpUNUw79UZmF0fWSwCIO/B
-	Kp5RBWy4GVAoMLEfkHVIIDcnvWjg3YkpdISfHN6H+X18esOwvFgEWJqWDcVivpUg
-	/daX91McyZTlc+R8ksknK4Ag4uoE3TocpYBrK9tMtQkk8vszMGjbbFZqWmvX0LtD
-	9xJ0SM+KLjnD8o7wOuHuxJ0utuQCrkQz6QARZC3xeTXJ8OEiHYQYk2LSiixLbZNy
-	RZgxI6E2NGAfXk1wUSmtZKR+8IIQon91ORUooD6H8OmGaAqIXApkIXl+tNUKYVQg
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dpeu27n15-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Apr 2026 08:06:00 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63N85Y58021558;
-	Thu, 23 Apr 2026 08:05:59 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dpjky5s4h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 23 Apr 2026 08:05:59 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63N85wuT12714538
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 23 Apr 2026 08:05:58 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8594958054;
-	Thu, 23 Apr 2026 08:05:58 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CC8555805A;
-	Thu, 23 Apr 2026 08:05:49 +0000 (GMT)
-Received: from [9.124.217.242] (unknown [9.124.217.242])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 23 Apr 2026 08:05:49 +0000 (GMT)
-Message-ID: <d6282aa7-4673-4bae-a0ff-fbd84f0a610f@linux.ibm.com>
-Date: Thu, 23 Apr 2026 13:35:47 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+	Thu, 23 Apr 2026 09:36:07 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 43E7B6A833;
+	Thu, 23 Apr 2026 09:36:02 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30E21593A3;
+	Thu, 23 Apr 2026 09:36:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zhkOCwLo6WlwOgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 23 Apr 2026 09:36:02 +0000
+Date: Thu, 23 Apr 2026 11:36:01 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>, 
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
+	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, Bart Van Assche <bvanassche@acm.org>, 
+	Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	"sagi@grimberg.me" <sagi@grimberg.me>, "tytso@mit.edu" <tytso@mit.edu>, 
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Christian Brauner <brauner@kernel.org>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>, "willy@infradead.org" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, "amir73il@gmail.com" <amir73il@gmail.com>, 
+	"vbabka@suse.cz" <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
 Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
  expansion plan for the storage stack test framework
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: Daniel Wagner <dwagner@suse.de>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>,
-        Bart Van Assche <bvanassche@acm.org>, Hannes Reinecke <hare@suse.de>,
-        hch <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-        "sagi@grimberg.me" <sagi@grimberg.me>, "tytso@mit.edu" <tytso@mit.edu>,
-        Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-        Christian Brauner <brauner@kernel.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        =?UTF-8?Q?Javier_Gonz=C3=A1lez?= <javier@javigon.com>,
-        "willy@infradead.org" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-        "amir73il@gmail.com" <amir73il@gmail.com>,
-        "vbabka@suse.cz"
- <vbabka@suse.cz>,
-        Damien Le Moal <dlemoal@kernel.org>
+Message-ID: <344dd729-c192-4fc2-a226-851305d70f28@flourine.local>
 References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
  <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
  <aY77ogf5nATlJUg_@shinmob>
  <901f4daf-3226-416f-8741-dd15573e736b@linux.ibm.com>
  <aecTw6IYs1fo26EX@shinmob>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <aecTw6IYs1fo26EX@shinmob>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDA3NCBTYWx0ZWRfX+TG4krB7zqZu
- OXbp9oVjPeMTEGs2QBAKSDljHKdPiAQaFyvQd/1MYt7hJYyAJS1S5ZmHYUct4uYVqI9j2i9t9rk
- FXE1XZkn4xOJCR+3BA4cHfQsbQRvGIgQIOKjTUPK/s2CJB2zqQF+06/i5W8PR1bBYWoX1GTEVR6
- qot7jjBQjTbg7BY6FEAFLceyjnT0TPEPZvE26Iqeg4+vjZ/Zkpmruec8fpPt6PhpTYGHg1/pDo1
- xthffe8jNIxO9sef0xxejvHv6Dtgrnefc+6KdpfpYQU0TeCnr4EmJcIP8hzfpEVkiea2eycRWW8
- v9L9CQHO3s1GJdljbJs9bNJzuuxkmp9ArFOTKctCKnoLa5N5PhAVMQp1eMJvINKZrfpPTbj9r9U
- iQMqjZNwRNTaBsGzJ0owOWf4xP6F5fq1570gZAl5pbXxiXGtK9vlB+Ky8hmVeoVLbFVMan4vCUv
- MJSQLxonARs2uQkr1Zg==
-X-Proofpoint-ORIG-GUID: OOjIfKd0yVPwG5ssNBh8GILi_QA-oMuG
-X-Proofpoint-GUID: H4i410UZSAsk7SAw-VjArRpCGMjqVMUm
-X-Authority-Analysis: v=2.4 cv=XMUAjwhE c=1 sm=1 tr=0 ts=69e9d2e8 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
- a=Ikd4Dj_1AAAA:8 a=9iF2WbhH_aIozX9BpwEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-23_02,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604230074
+ <d6282aa7-4673-4bae-a0ff-fbd84f0a610f@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d6282aa7-4673-4bae-a0ff-fbd84f0a610f@linux.ibm.com>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: 43E7B6A833
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260423_010638_043926_A8773512 
-X-CRM114-Status: GOOD (  31.26  )
+X-CRM114-CacheID: sfid-20260423_023605_816130_A3FE4002 
+X-CRM114-Status: GOOD (  11.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -142,91 +101,22 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/21/26 11:49 AM, Shin'ichiro Kawasaki wrote:
-> On Feb 16, 2026 / 00:08, Nilay Shroff wrote:
->>
->>
->> On 2/13/26 4:53 PM, Shinichiro Kawasaki wrote:
->>> On Feb 12, 2026 / 08:52, Daniel Wagner wrote:
->>>> On Wed, Feb 11, 2026 at 08:35:30PM +0000, Chaitanya Kulkarni wrote:
->>>>>     For the storage track at LSFMMBPF2026, I propose a session dedicated to
->>>>>     blktests to discuss expansion plan and CI integration progress.
->>>>
->>>> Thanks for proposing this topic.
->>>
->>> Chaitanya, my thank also goes to you.
->>>
->> Yes thanks for proposing this!
->>
->>>> Just a few random topics which come to mind we could discuss:
->>>>
->>>> - blktests has gain a bit of traction and some folks run on regular
->>>>    basis these tests. Can we gather feedback from them, what is working
->>>>    good, what is not? Are there feature wishes?
->>>
->>> Good topic, I also would like to hear about it.
->>>
->> One improvement I’d like to highlight is related to how blktests are executed
->> today. So far, we’ve been running blktests serially, but if it's possible to
->> run tests in parallel to improve test turnaround time and make large-scale or
->> CI-based testing more efficient? For instance, adding parallel_safe Tags: Marking tests
->> that don't modify global kernel state so they can be safely offloaded to parallel
->> workers. Marking parallel_safe tags would allow the runner to distinguish:
->>
->> Safe Tests: Tests that only perform I/O on a specific, non-shared device or
->> check static kernel parameters.
->>
->> Unsafe Tests: Tests that reload kernel modules, modify global /sys or /proc entries,
->> or require exclusive access to specific hardware addresses.
->>
->> Yes adding parallel execution support shall require framework/design changes.
+On Thu, Apr 23, 2026 at 01:35:47PM +0530, Nilay Shroff wrote:
+> > Taking this chance, I'd like to express my appreciation for the effort to
+> > resolve the lockdep issues. It is great that a number of lockdeps are already
+> > fixed. Said that, two lockdep issues are still observed with v7.0 kernel at
+> > nvme/005 and nbd/002 [1]. I would like to gather attentions to the failures.
+> > 
+> > [1] https://lore.kernel.org/linux-block/ynmi72x5wt5ooljjafebhcarit3pvu6axkslqenikb2p5txe57@ldytqa2t4i2x/
+> > 
+> I think nvme/005 and nbd/002 failures shall be addressed with this
+> patch: https://lore.kernel.org/all/20260413171628.6204-1-kch@nvidia.com/
 > 
-> Hi Nilay, thanks for the idea. I understand that shorter test time will make CI
-> cycles faster and improve the development efficiency.
-> 
-> Said that, the safe/unsafe testing idea may not be enough. I think majority of
-> test case does kernel module set up using null_blk, scsi_debug, or nvme target
-> drivers. Then I foresee the majority of the test cases will be "unsafe", and
-> cannot be run in parallel.
-> 
-> Also, parallel runs on single system will affect dmesg or kmemleak checking.
-> We cannot tell which run caused a dmesg message or a memory leak.
-> 
-> For the runtime reduction by parallel runs, I guess blktests run on VMs might be
-> the good approach as Haris pointed out. Anyway, this topic will need more
-> discussion.
-> 
-> [...]
+> It's currently applied to nvme-7.1 and not there yet to mainline kernel.
 
-Alright, see if we may discuss this during LSFMM.
+FWIW, the nightly CI runs for nvme-cli with blktests/master and
+linux/master are all green except for the above mentioned nvme/005 tcp
+case. Thanks everyone for helping out!
 
-> 
->>>   4. Long standing failures make test result reports dirty
->>>      - I feel lockdep WARNs are tend to be left unfixed rather long period.
->>>        How can we gather effort to fix them?
->>
->> I agree regarding lockdep; recently we did see quite a few lockdep splats.
->> That said, I believe the number has dropped significantly and only a small
->> set remains. From what I can tell, most of the outstanding lockdep issues
->> are related to fs-reclaim paths recursing into the block layer while the
->> queue is frozen. We should be able to resolve most of these soon, or at
->> least before the conference. If anything is still outstanding after that,
->> we can discuss it during the conference and work toward addressing it as
->> quickly as possible.
-> 
-> Taking this chance, I'd like to express my appreciation for the effort to
-> resolve the lockdep issues. It is great that a number of lockdeps are already
-> fixed. Said that, two lockdep issues are still observed with v7.0 kernel at
-> nvme/005 and nbd/002 [1]. I would like to gather attentions to the failures.
-> 
-> [1] https://lore.kernel.org/linux-block/ynmi72x5wt5ooljjafebhcarit3pvu6axkslqenikb2p5txe57@ldytqa2t4i2x/
-> 
-I think nvme/005 and nbd/002 failures shall be addressed with this
-patch: https://lore.kernel.org/all/20260413171628.6204-1-kch@nvidia.com/
-
-It's currently applied to nvme-7.1 and not there yet to mainline kernel.
-
-Thanks,
---Nilay
-
+https://github.com/linux-nvme/nvme-cli/actions/runs/24816292836
 
