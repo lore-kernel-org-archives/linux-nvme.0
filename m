@@ -4,71 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 806D5F589A4
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 12:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A2ACF589B0
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 12:47:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
-	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=V9beciCj/DHyVe6n1qf2A8HssbIujOYJF5cT9afqJo4=; b=hKwZfeeBQp7miVVtPKEJulsUBd
-	RheDE2pPILEdwOKV+5qT8aAhUMqRJcYv7wS5McaaaYwFzLR5rpAZNN9qeKSbFGWxuZFqZu9uYFymW
-	8aMD6SIq4k2udMbdDGNPKap2HfUKY1/z8V5Aemr+90nSd3TKL3oWZOazEnkG+R6L2yJIusaDqyy01
-	UOd6Hps9D9U+JcqZNwW1ariPhp/cQUHxO+9Q1ge979sXhBLB2UX/jsmGexln82kvzN9myeGic3bnl
-	F4tDuho/fm3ZIG7NcUmybx4c9WZ7FTx6FeFsW7+7mYqOjHOBOYTJ8AGgFNZHHbmozFyWFDbrbqkVo
-	ilj/pjOw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=1sqHqvlZYXHIm94uWIEWLqHumMInJGVjKy3txPSiUqQ=; b=Nuro2fvu5VZSfsiCzhsp4NSRdR
+	V/dLtHAzNbBhxTTjmrl3JKS8YqKWNli7b4Vevup7St0n8diLIG2WuNA/JSA1LMJ5ebkOpzKBqGs3D
+	MT3lZOp1YtatAapmJKjcJOJZ47gordHVcp2cSIxiOb3O1WYFQDraGFoQBGCpsqOzMn/vv2w/VKg6Y
+	2l5bPt3ce+EwJUX9KTkptOrUyN5tHdNnNgXvfPGz0ffnYq5OE5PdZhdUXumKtJSi4XAfSfb1uoqnD
+	9vLR9yH+1YQC2/HHwbFGw028+Od6QyMhbj+xB0KVQlAc7qtxw41nFe1TU88E0KmS0voLDy5gre3ay
+	HYgM9ekA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFswo-0000000BbBI-2emg;
-	Thu, 23 Apr 2026 12:14:22 +0000
-Received: from mgamail.intel.com ([198.175.65.19])
+	id 1wFtSY-0000000BgK8-1YhJ;
+	Thu, 23 Apr 2026 12:47:10 +0000
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFswj-0000000Bb9S-26RI
+	id 1wFtSV-0000000BgJa-33RZ
+	for linux-nvme@bombadil.infradead.org;
+	Thu, 23 Apr 2026 12:47:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=1sqHqvlZYXHIm94uWIEWLqHumMInJGVjKy3txPSiUqQ=; b=X1FJnMWdzq6A43hLYBx2SJN+SK
+	18vkyA0redgnUziwdm2VFQF9/8hRn/AnCEfKK7SGFhPo1VKccHB7bADLBPzaY3mz7jhLHbRrJ6Sh0
+	VIwMzMN5pA59BmB8hg+i6NL0VtWPEvehh5R4CUrPZSf4w9kHp7bcu78+7nL7IKBY58gFWf4CUlqfH
+	/9W7OFctjV5xBILR1jdeODflDpaTGeE4oWQofaQv3J3NF5NmV4N0Oi7BEvKqeAV38mtY+Dpceju/N
+	xZ7BTLNLlvYvfczhG3Ly/R93BwGu4nnI5BuSZ51VfkNSPCRNw4XzlJAIhJ9PtumFvf19mBlSy5OYJ
+	Wza0kGLA==;
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wFtSP-0000000D3vx-0CfH
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Apr 2026 12:14:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776946458; x=1808482458;
-  h=date:from:to:cc:subject:message-id;
-  bh=eCVfJKXOgD3WdyUV7Lt6MsEbM/Aey6sLKjf7JbarodU=;
-  b=LhbxXekbs1x2B/z/v7fDwxtRX5Z76SCCEO4it4ohD1UzMc/0NAPD8dTf
-   zy+32gcAJasTH/5NOGgyTVLuMD7Ig5j5cGiShisqeOhLnKouSopXI7NwG
-   ejva9pTT8gD6fAVCgpwhfIoZIW4Gw7dsbA2m5fdRhOBat8uTZKKr2iZhk
-   zqenzquurTPbkIne0KO2qKAOPMvy0+nOVFKnwayS46DQVkKkxyYJq94pa
-   hrwugOnrsJ2X57Xqx3OMGDDikxeDQH7CLNS+tdx54T5cSRCEN2hHVau2+
-   3sT/R+1MaGkyCnWkpNQjTMPnoUsaX7BzO6BDPgNtBIm1VxlYs7Q0MVjQC
-   w==;
-X-CSE-ConnectionGUID: uaJwoOFwRWmma03A2EvgAg==
-X-CSE-MsgGUID: ANkpwNXhQQ+jOPdSzHagUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77824738"
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="77824738"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 05:14:17 -0700
-X-CSE-ConnectionGUID: wP1GCosoRn260BV4OJWaGQ==
-X-CSE-MsgGUID: Q+Why9MnRzOpBSmSJ8kZlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="232950740"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Apr 2026 05:14:16 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wFswf-000000002xJ-14WW;
-	Thu, 23 Apr 2026 12:14:13 +0000
-Date: Thu, 23 Apr 2026 20:13:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: linux-nvme@lists.infradead.org
-Subject: [linux-nvme:nvme-7.1] BUILD SUCCESS
- bd7b7ce96db4487bb77692a85ee4489fd2c395df
-Message-ID: <202604232024.5z1K5y6H-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	Thu, 23 Apr 2026 12:47:06 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 37A425BD11;
+	Thu, 23 Apr 2026 12:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776948419; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1sqHqvlZYXHIm94uWIEWLqHumMInJGVjKy3txPSiUqQ=;
+	b=Dg5W/s1U4j2edcrSRX11LTcZI+1nv4L0gG+h1szAK2O3T2/ANdQdQhjwT52bT1uje0hVje
+	1XcEpQg/vjzG5FzkQik9MTJ/dKOCFjuMCw5TRTFD1OcdLLFRdm43xk1UzQSiT9d/fGOp97
+	/052dEGAT+lJGrIX0T6zir5A7pwd6OM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776948419;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1sqHqvlZYXHIm94uWIEWLqHumMInJGVjKy3txPSiUqQ=;
+	b=oHBNYiMmyO2/o6b/FXkCGbqO4XPiSrRXOTWk6EoLjs2ATjSI4Rp0K46OD1SLGDIg4UqVKC
+	44eHIqrYzVOeQCBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776948419; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1sqHqvlZYXHIm94uWIEWLqHumMInJGVjKy3txPSiUqQ=;
+	b=Dg5W/s1U4j2edcrSRX11LTcZI+1nv4L0gG+h1szAK2O3T2/ANdQdQhjwT52bT1uje0hVje
+	1XcEpQg/vjzG5FzkQik9MTJ/dKOCFjuMCw5TRTFD1OcdLLFRdm43xk1UzQSiT9d/fGOp97
+	/052dEGAT+lJGrIX0T6zir5A7pwd6OM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776948419;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1sqHqvlZYXHIm94uWIEWLqHumMInJGVjKy3txPSiUqQ=;
+	b=oHBNYiMmyO2/o6b/FXkCGbqO4XPiSrRXOTWk6EoLjs2ATjSI4Rp0K46OD1SLGDIg4UqVKC
+	44eHIqrYzVOeQCBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 272FE593A3;
+	Thu, 23 Apr 2026 12:46:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vONaCMMU6mnCBAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 23 Apr 2026 12:46:59 +0000
+Date: Thu, 23 Apr 2026 14:46:54 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Maurizio Lombardi <mlombard@arkamax.eu>
+Cc: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org, 
+	mheyne@amazon.de, emilne@redhat.com, jmeneghi@redhat.com, 
+	linux-nvme@lists.infradead.org, mkhalfella@purestorage.com, chaitanyak@nvidia.com, 
+	hare@kernel.org, hch@lst.de
+Subject: Re: [PATCH V3 2/8] nvme: add sysfs attribute to change admin timeout
+ per nvme controller
+Message-ID: <e99f2ce9-e47a-432a-b6ea-795081de1f4d@flourine.local>
+References: <20260410073924.61078-1-mlombard@redhat.com>
+ <20260410073924.61078-3-mlombard@redhat.com>
+ <a3171007-7cfb-45b0-b0bf-01dcc7ba51ab@flourine.local>
+ <DHZMXEY4JPEF.1HHTTEZPN53ZU@arkamax.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DHZMXEY4JPEF.1HHTTEZPN53ZU@arkamax.eu>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260423_051417_574419_272AC0FA 
-X-CRM114-Status: UNSURE (   4.13  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260423_134701_225811_8849826F 
+X-CRM114-Status: GOOD (  19.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -83,72 +146,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-tree/branch: git://git.infradead.org/nvme.git nvme-7.1
-branch HEAD: bd7b7ce96db4487bb77692a85ee4489fd2c395df  nvme-auth: Hash DH shared secret to create session key
+On Wed, Apr 22, 2026 at 01:08:44PM +0200, Maurizio Lombardi wrote:
+> On Wed Apr 22, 2026 at 12:10 PM CEST, Daniel Wagner wrote:
+> > On Fri, Apr 10, 2026 at 09:39:18AM +0200, Maurizio Lombardi wrote:
+> >> +	/*
+> >> +	 * Wait until the controller reaches the LIVE state
+> >> +	 * to be sure that admin_q and fabrics_q are
+> >> +	 * properly initialized.
+> >> +	 */
+> >> +	if (!test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags))
+> >> +		return -EBUSY;
+> >
+> > I assume the idea is to use an udev rule to set the value. Though I
+> > think this is racy:
+> >
+> > 	nvme_change_uevent(ctrl, "NVME_EVENT=connected");
+> > 	set_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags);
+> 
+> 
+> Not really, the idea was about to prevent the user from setting the
+> timeouts too early during the controller's initialization.
 
-elapsed time: 953m
+Yes, but then how do you know when is too early? Do you read/poll the
+state of the controller? 
 
-configs tested: 52
-configs skipped: 3
+> Otherwise the user could try to change the timeout while
+> admin_q and fabrics_q are still being created.
+> 
+> if the NVME_CTRL_STARTED_ONCE bit is set, we know that the
+> initialization has been completed and that admin_q and fabrics_q will
+> exist until the controller will be torn down.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha         allnoconfig    gcc-15.2.0
-alpha        allyesconfig    gcc-15.2.0
-arc          allmodconfig    gcc-15.2.0
-arc           allnoconfig    gcc-15.2.0
-arc          allyesconfig    gcc-15.2.0
-arm           allnoconfig    clang-23
-arm          allyesconfig    gcc-15.2.0
-arm64        allmodconfig    clang-19
-arm64         allnoconfig    gcc-15.2.0
-csky         allmodconfig    gcc-15.2.0
-csky          allnoconfig    gcc-15.2.0
-hexagon      allmodconfig    clang-17
-hexagon       allnoconfig    clang-23
-i386         allmodconfig    gcc-14
-i386          allnoconfig    gcc-14
-i386         allyesconfig    gcc-14
-loongarch    allmodconfig    clang-19
-loongarch     allnoconfig    clang-23
-m68k         allmodconfig    gcc-15.2.0
-m68k          allnoconfig    gcc-15.2.0
-m68k         allyesconfig    gcc-15.2.0
-microblaze    allnoconfig    gcc-15.2.0
-microblaze   allyesconfig    gcc-15.2.0
-mips         allmodconfig    gcc-15.2.0
-mips          allnoconfig    gcc-15.2.0
-mips         allyesconfig    gcc-15.2.0
-nios2         allnoconfig    gcc-11.5.0
-openrisc     allmodconfig    gcc-15.2.0
-openrisc      allnoconfig    gcc-15.2.0
-parisc        allnoconfig    gcc-15.2.0
-parisc       allyesconfig    gcc-15.2.0
-powerpc      allmodconfig    gcc-15.2.0
-powerpc       allnoconfig    gcc-15.2.0
-riscv        allmodconfig    clang-23
-riscv         allnoconfig    gcc-15.2.0
-riscv        allyesconfig    clang-16
-s390         allmodconfig    clang-18
-s390          allnoconfig    clang-23
-s390         allyesconfig    gcc-15.2.0
-sh           allmodconfig    gcc-15.2.0
-sh            allnoconfig    gcc-15.2.0
-sh           allyesconfig    gcc-15.2.0
-sparc         allnoconfig    gcc-15.2.0
-sparc64      allmodconfig    clang-23
-um           allmodconfig    clang-19
-um            allnoconfig    clang-23
-um           allyesconfig    gcc-14
-x86_64       allmodconfig    clang-20
-x86_64        allnoconfig    clang-20
-x86_64       allyesconfig    clang-20
-x86_64      rhel-9.4-rust    clang-20
-xtensa        allnoconfig    gcc-15.2.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, that is all fine but I think it would be good to be able to use
+udev here as we have it other timeouts.
 
