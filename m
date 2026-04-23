@@ -4,120 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31333F9937D
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 12:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 806D5F589A4
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 12:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JzWAwcSqg2N/gPOfalJUwSkBJ+jo7FJXWZjvPXEvVAs=; b=XfWoQePsBfUib4QQSANuXX/km5
-	iUwOIC1xwRJBkWVkmT7BTTOQ5doSISo4SBYmWd7NWWb8rKEkG6d43C/zrIjWS1fHPCDwPW2IUKam2
-	oHuy0tRkpHEbMAYxWhQxeiogc+GUiHAnw3OhMUdKaWLtG7OBzUNpvJzzUdVeAmOGhU7qPo+CrBiw+
-	/jUsuAH5bt2nC9h1xquD3tIGVI7F0IfMH9wLlthp96yZJRqUjkjKHb4/lZiQPt4awRwLsM8AketaA
-	WJdAoSdB3aYWGEU2fl1rHYSYl+yuDHsf4ZoVHmF19UEmuKiyWtPGQ6NaY5prcsMUSAXKHQkRbOn+0
-	jbVrp35g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=V9beciCj/DHyVe6n1qf2A8HssbIujOYJF5cT9afqJo4=; b=hKwZfeeBQp7miVVtPKEJulsUBd
+	RheDE2pPILEdwOKV+5qT8aAhUMqRJcYv7wS5McaaaYwFzLR5rpAZNN9qeKSbFGWxuZFqZu9uYFymW
+	8aMD6SIq4k2udMbdDGNPKap2HfUKY1/z8V5Aemr+90nSd3TKL3oWZOazEnkG+R6L2yJIusaDqyy01
+	UOd6Hps9D9U+JcqZNwW1ariPhp/cQUHxO+9Q1ge979sXhBLB2UX/jsmGexln82kvzN9myeGic3bnl
+	F4tDuho/fm3ZIG7NcUmybx4c9WZ7FTx6FeFsW7+7mYqOjHOBOYTJ8AGgFNZHHbmozFyWFDbrbqkVo
+	ilj/pjOw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFsof-0000000BaFl-0Tky;
-	Thu, 23 Apr 2026 12:05:57 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wFswo-0000000BbBI-2emg;
+	Thu, 23 Apr 2026 12:14:22 +0000
+Received: from mgamail.intel.com ([198.175.65.19])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFsoX-0000000BaDb-3FKW
+	id 1wFswj-0000000Bb9S-26RI
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Apr 2026 12:05:54 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4BD686A86F;
-	Thu, 23 Apr 2026 12:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776945946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JzWAwcSqg2N/gPOfalJUwSkBJ+jo7FJXWZjvPXEvVAs=;
-	b=Y0endpVDnin4gHfzJGlCIzDR7rPJCbouSuQ5+oC4Cqiy58uj1dbZqlNhpTXjRukD0U35Ne
-	4CWpM4dZAAZ5i1SFCa7GtVnKVrkD5mKpHponrg9tLr42fIquKfJ64vCF1TTIsvcxHDaSS6
-	vLTOdOUOGJxnkzhiCZUkKJTD02kMQwg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776945946;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JzWAwcSqg2N/gPOfalJUwSkBJ+jo7FJXWZjvPXEvVAs=;
-	b=H1YRJXrkYTKjOau37ecG4U6hEvIvOlqIrxzAbLfpc8FMqDcn5jLzMbOV+CagqRdUWXy9za
-	KrNf4+zqqLW+VdBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776945946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JzWAwcSqg2N/gPOfalJUwSkBJ+jo7FJXWZjvPXEvVAs=;
-	b=Y0endpVDnin4gHfzJGlCIzDR7rPJCbouSuQ5+oC4Cqiy58uj1dbZqlNhpTXjRukD0U35Ne
-	4CWpM4dZAAZ5i1SFCa7GtVnKVrkD5mKpHponrg9tLr42fIquKfJ64vCF1TTIsvcxHDaSS6
-	vLTOdOUOGJxnkzhiCZUkKJTD02kMQwg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776945946;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JzWAwcSqg2N/gPOfalJUwSkBJ+jo7FJXWZjvPXEvVAs=;
-	b=H1YRJXrkYTKjOau37ecG4U6hEvIvOlqIrxzAbLfpc8FMqDcn5jLzMbOV+CagqRdUWXy9za
-	KrNf4+zqqLW+VdBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A826593A3;
-	Thu, 23 Apr 2026 12:05:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yY+eDRoL6mm0VAAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 23 Apr 2026 12:05:46 +0000
-Message-ID: <58b7e84a-20a4-44ae-b933-b89ab0fe265a@suse.de>
-Date: Thu, 23 Apr 2026 14:05:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC nvme-keyring nvme-cli] Should NVMe/TLS PSKs support the
- request_key API?
-To: Chris Leech <cleech@redhat.com>, linux-nvme@lists.infradead.org
-Cc: Daniel Wagner <dwagner@suse.de>, Maurizio Lombardi <mlombard@redhat.com>
-References: <20260422231043.2689681-1-cleech@redhat.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260422231043.2689681-1-cleech@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	Thu, 23 Apr 2026 12:14:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776946458; x=1808482458;
+  h=date:from:to:cc:subject:message-id;
+  bh=eCVfJKXOgD3WdyUV7Lt6MsEbM/Aey6sLKjf7JbarodU=;
+  b=LhbxXekbs1x2B/z/v7fDwxtRX5Z76SCCEO4it4ohD1UzMc/0NAPD8dTf
+   zy+32gcAJasTH/5NOGgyTVLuMD7Ig5j5cGiShisqeOhLnKouSopXI7NwG
+   ejva9pTT8gD6fAVCgpwhfIoZIW4Gw7dsbA2m5fdRhOBat8uTZKKr2iZhk
+   zqenzquurTPbkIne0KO2qKAOPMvy0+nOVFKnwayS46DQVkKkxyYJq94pa
+   hrwugOnrsJ2X57Xqx3OMGDDikxeDQH7CLNS+tdx54T5cSRCEN2hHVau2+
+   3sT/R+1MaGkyCnWkpNQjTMPnoUsaX7BzO6BDPgNtBIm1VxlYs7Q0MVjQC
+   w==;
+X-CSE-ConnectionGUID: uaJwoOFwRWmma03A2EvgAg==
+X-CSE-MsgGUID: ANkpwNXhQQ+jOPdSzHagUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77824738"
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="77824738"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 05:14:17 -0700
+X-CSE-ConnectionGUID: wP1GCosoRn260BV4OJWaGQ==
+X-CSE-MsgGUID: Q+Why9MnRzOpBSmSJ8kZlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="232950740"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 23 Apr 2026 05:14:16 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wFswf-000000002xJ-14WW;
+	Thu, 23 Apr 2026 12:14:13 +0000
+Date: Thu, 23 Apr 2026 20:13:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+Subject: [linux-nvme:nvme-7.1] BUILD SUCCESS
+ bd7b7ce96db4487bb77692a85ee4489fd2c395df
+Message-ID: <202604232024.5z1K5y6H-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260423_050549_963399_992C1FE5 
-X-CRM114-Status: GOOD (  30.68  )
+X-CRM114-CacheID: sfid-20260423_051417_574419_272AC0FA 
+X-CRM114-Status: UNSURE (   4.13  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -132,113 +83,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/23/26 01:10, Chris Leech wrote:
-> Would it be of interest to support the request_key API with NVMe/TLS
-> PSKs? I think it would be an improvement, allowing PSKs to be loaded
-> into the keyring as needed.
-> 
-Hehe. I knew someone would bring it up :-)
+tree/branch: git://git.infradead.org/nvme.git nvme-7.1
+branch HEAD: bd7b7ce96db4487bb77692a85ee4489fd2c395df  nvme-auth: Hash DH shared secret to create session key
 
-> Issues (if it was simple I'd just send a patch):
-> 
->   - a key cannot have it's description changed
->   - request_key() creates an uninstantiated key with the description set
->   - tlshd (ktls-utils) uses the description as the PSK Identity
->   - NVMe specifies this Identity in a way that the kernel cannot know it
->     when a request_key() would be needed (it includes an encoding of the
->     key length and a digest of the source key it was derived from)
-> 
-That is correct.
+elapsed time: 953m
 
-> As nvme_keyring can't just request the key it needs, I went through a
-> few ideas:
-> 
->   - request a new keyring full of PSK keys
->     (requesting a keyring is explicitly blocked)
->   - have the user-space handler create a temporary keyring, put one or
->     more PSKs in it, and return the keyring serial in a "psk request key"
->     (worked, but seems unlikely to be accepted as intended use)
->   - have a request key format that expects to receive a key containing
->     one or more PSKs + identity metadata, unpack those in the kernel into
->     actual psk keys than can be used
-> 
-> I'm going to follow this with a _rough_ prototype of the last option in
-> that list. The user-space side is a shell script, I'd replace that with
-> an new nvme-cli command (but the request_key configuration does
-> provide a convenient place to allow for other key storage solutions to
-> hook in).
-> 
-> Motivation: The current solution for loading NVMe/TLS PSKs into the
-> kernel keyring (70-nvmf-keys.rules in the nvme-cli repo) falls short in
-> a few areas by triggering from a kmod load uevent:
-> 
->   - doesn't work for the target modules
->     (that one's easy, /nvme_tcp/nvme_keyring/)
->   - doesn't work if the modules are built into the kernel
->   - doesn't work if the modules are loaded from initramfs, with more PSKs
->     and connections are configured outside of the nBFT
->   - only runs once, must load all keys and cannot help with new keys
->     (ok, nvme-cli doesn't have a command to save to a keyfile without
->      importing to the keyring first anyway)
-> 
->   Biggest problem I see, requiring explicit loading of nvme_tcp before it
->   can be used with TLS:
-> 
->   - The async uevent handling loses the race against the kernel when the
->     transport kmod is requested on demand.
-> 
->    ┌────────┐     ┌──────────┐     ┌──────────┐     ┌──────┐
->    │ kernel │     │ nvme-cli │     │ modprobe │     │ udev │
->    └────┬───┘     └─────┬────┘     └─────┬────┘     └───┬──┘
->         │               │                │              │
->         │ connect       │                │              │
->         │◄──────────────┤                │              │
->         │               │                │              │
->         │ request kmod  │                │              │
->         ├───────────────────────────────►│              │
->         │               │                │              │
->         │ load kmod     │                │              │
->         │◄───────────────────────────────┤              │
->         │               │                │              │
->         │ uevent kmod   │                │              │
->         ├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌►│
->         │               │                │              │
->         │ check keyring for PSK ❌       │              │
->         ├──┐            │                │              │
->         │  │            │                │              │
->         │◄─┘            │                │              │
->         │               │                │              │
->         │ connect failed ❌              │              │
->         ├──────────────►│                │              │
->         │               │                │              │
->         │               │ nvme tls --import --keyfile   │
->         │               │◄──────────────────────────────┤
->         │               │                │              │
->         │ populate .nvme keyring         │              │
->         │◄──────────────┤                │              │
->         │               │                │              │
-> 
-> - Chris
->
-(Nice ASCII graphic, btw :-)
+configs tested: 52
+configs skipped: 3
 
-I know, the current model is ever so imperfect.
-And relying on udev _module_ events clearly requires them
-to be modules in the first place.
-(Fun fact: I am rather positive that we _do_ get the module
-uevents even when built in, it's just that they'll be issues
-right at the start of the kernel where no udev (nor any userspace)
-is available to process them ...)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-But anyway; why can't we tweak nvmf-autoconnect.service to load
-the keys?
+tested configs:
+alpha         allnoconfig    gcc-15.2.0
+alpha        allyesconfig    gcc-15.2.0
+arc          allmodconfig    gcc-15.2.0
+arc           allnoconfig    gcc-15.2.0
+arc          allyesconfig    gcc-15.2.0
+arm           allnoconfig    clang-23
+arm          allyesconfig    gcc-15.2.0
+arm64        allmodconfig    clang-19
+arm64         allnoconfig    gcc-15.2.0
+csky         allmodconfig    gcc-15.2.0
+csky          allnoconfig    gcc-15.2.0
+hexagon      allmodconfig    clang-17
+hexagon       allnoconfig    clang-23
+i386         allmodconfig    gcc-14
+i386          allnoconfig    gcc-14
+i386         allyesconfig    gcc-14
+loongarch    allmodconfig    clang-19
+loongarch     allnoconfig    clang-23
+m68k         allmodconfig    gcc-15.2.0
+m68k          allnoconfig    gcc-15.2.0
+m68k         allyesconfig    gcc-15.2.0
+microblaze    allnoconfig    gcc-15.2.0
+microblaze   allyesconfig    gcc-15.2.0
+mips         allmodconfig    gcc-15.2.0
+mips          allnoconfig    gcc-15.2.0
+mips         allyesconfig    gcc-15.2.0
+nios2         allnoconfig    gcc-11.5.0
+openrisc     allmodconfig    gcc-15.2.0
+openrisc      allnoconfig    gcc-15.2.0
+parisc        allnoconfig    gcc-15.2.0
+parisc       allyesconfig    gcc-15.2.0
+powerpc      allmodconfig    gcc-15.2.0
+powerpc       allnoconfig    gcc-15.2.0
+riscv        allmodconfig    clang-23
+riscv         allnoconfig    gcc-15.2.0
+riscv        allyesconfig    clang-16
+s390         allmodconfig    clang-18
+s390          allnoconfig    clang-23
+s390         allyesconfig    gcc-15.2.0
+sh           allmodconfig    gcc-15.2.0
+sh            allnoconfig    gcc-15.2.0
+sh           allyesconfig    gcc-15.2.0
+sparc         allnoconfig    gcc-15.2.0
+sparc64      allmodconfig    clang-23
+um           allmodconfig    clang-19
+um            allnoconfig    clang-23
+um           allyesconfig    gcc-14
+x86_64       allmodconfig    clang-20
+x86_64        allnoconfig    clang-20
+x86_64       allyesconfig    clang-20
+x86_64      rhel-9.4-rust    clang-20
+xtensa        allnoconfig    gcc-15.2.0
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
