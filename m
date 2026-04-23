@@ -4,63 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2B9BFC0340
-	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 15:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EAAC7FDEE2C
+	for <linux-nvme@archiver.kernel.org>; Thu, 23 Apr 2026 17:04:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WQmmBo9xLNOKO8C0J9UpZRkB0rwSWQj/DC4pB2tx2Ag=; b=sFlXjKx3pGvjrwk68/aWq1t2jz
-	P22T3+kv2ZUL3g6T8jNzofajcDv09Lu2CrGSL+DJQbk/23hHMbvqptRFltT7DscsvPt+rU4OF+hXT
-	CP1WrkKCwcQCfUvCOyzS+r9BsLcjH7oawdBcvwf9aHWVtks7u8617//Pxbc8BaoWHqNOnvucfpDzi
-	ORFigwq4r+B0nimrpJOM4DNVTj6KMhchqdwGJIe4gHmwVyjBPUA/PMSrUqjTSlNbsVcG+V9h4Q8GZ
-	3Xd2bCEWHbso+xJWRUsPC/SlCwcSU33L2/dBlPdfKbwduWPzS0SGKkfNJrTf/V3yHvHrQnb/cWH+F
-	T9GEtexg==;
+	bh=F8OjiifSUP9cvyIslW1lWDGiYRWePP0kKo0n0x9C8Ik=; b=z8sgmjjl4AK+pCFwhQZNOP3mIL
+	BvKi61LGcfjTTJZzmD5yGtt2rJwHPoVgu7LHj/NIeJYMFexx0j38qMAbl2yYgolbJbSJ9zosA44Pz
+	u9TRTjkbfJCY2NW9zV8ehblc8trCRucb2iyQ6izY/wee7WuJ+34rY9ddaLlDYR8Oxj97TG52IlBn/
+	APQ2Otu7V3sToovAGiX1plitydHa8WN32RXCv90SY87NWySuMgTFtOgiRHGzI4215Nd/QNFggeIMq
+	yVIQxU0io9XPenIXR9LT8OugKn9lv8Sd7rzgnLyrpCE2JEDr127w7/5/bf/vVoSYmP1+5NEeoj1kj
+	ixg1wwTA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFvmT-0000000Brfe-0RVh;
-	Thu, 23 Apr 2026 15:15:53 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wFxTj-0000000C0R3-3tBC;
+	Thu, 23 Apr 2026 17:04:39 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wFvmS-0000000BrfS-1VU1
+	id 1wFxTd-0000000C0Pj-357l
 	for linux-nvme@lists.infradead.org;
-	Thu, 23 Apr 2026 15:15:52 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 69E436014C;
-	Thu, 23 Apr 2026 15:15:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7700EC2BCAF;
-	Thu, 23 Apr 2026 15:15:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776957351;
-	bh=oTqmn846eDcPC24miKu77LDWVbxha/8Sm/ChagtCJQI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ozdPHSNwwS+Qj7yZnttq+jJAL8YEIfTguuS/p1JGVEk1aeJOKb2+AXsxTGKTvst7u
-	 Rj2vnFjITKXV7jty01dmvewi9Umeic+hyQfHBhrAObX+n7nXSnssl4vzdSTvKkspYU
-	 y9GyeEjEj4Qpj51X5awiIumPfMCm7u+WSk7Phyqv7PQaYXquWVtVyw2GJ4rYtN0RYX
-	 SCtR08dlfMJgPB5m5dutcaJZ2s+qwB7tvAI0dxyEUzQtaMYPSGngzwJEVMgf80A5tn
-	 4tS0GeZkR5dkI81b9I8QrOeyn9AYOxbNbpDn8wvJ2vtpKKD4Il6o2HLdjwAGKi3TX+
-	 /QDJlG8jSIjHA==
-Date: Thu, 23 Apr 2026 20:45:42 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: manivannan.sadhasivam@oss.qualcomm.com, 
-	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 3/4] PCI: qcom: Indicate broken L1ss exit during resume
- from system suspend
-Message-ID: <sssgkayhnxjbgav3jfkroyk4usez7rjbktjlurubovhq5bvf2m@aupvtrjxiuu4>
-References: <bkejoqdchyv55efsyl7o6b3ewiwaj5kbc2hgltxt5vwqdvt5yf@cxvwcjo5zcrp>
- <20260422234938.GA416865@bhelgaas>
+	Thu, 23 Apr 2026 17:04:37 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9C1556A890;
+	Thu, 23 Apr 2026 17:04:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776963867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8OjiifSUP9cvyIslW1lWDGiYRWePP0kKo0n0x9C8Ik=;
+	b=KggMeICjBS1sPUd6nxYbaYw3nUbMoIrLYhwt3fsK6di6KTwRUmhGzHOPvYg+aLIKcHdZjB
+	+WWTG5wRgP4zQD35+uBVPuhNPNN1JDzrF0K0Q0oUaetNiiFYTtiRvsnbIY02ayOfPWTi3S
+	AK7+5760aSKQ5Uk0hjQOIgblODX7OCA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776963867;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8OjiifSUP9cvyIslW1lWDGiYRWePP0kKo0n0x9C8Ik=;
+	b=CKOgFlFShdYzUt2bTXJS0G5e9SVy7mwtlJa0ZpDnVbDjSNk4m+DQwDhDVJWr5RnWBC9cXh
+	HhM7FjfV6Z8Qt3DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uOgRhLAx;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NKRQ40lt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776963862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8OjiifSUP9cvyIslW1lWDGiYRWePP0kKo0n0x9C8Ik=;
+	b=uOgRhLAxpdnlMaVCzgX5Dg5KKKMPTOkTaH9CQw9y+q+uP9pzitfkDB00WT+QfW30V0ZPDv
+	O/yq/Ml0mq872r9sqyBmSYHiywNO+8Fk8sIUljQqMdAKbt7GnzU7xb5vUL/9g6/yBxPqhk
+	cAnSS7/3sVr31jX1jcCXkPBpnDkydLk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776963862;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F8OjiifSUP9cvyIslW1lWDGiYRWePP0kKo0n0x9C8Ik=;
+	b=NKRQ40ltN/nxL8Fyi7RZHyTryBeJkzik4i49i0pqyEWIxD1nInVKGoYRyDNcAPgxF2mGtm
+	ddr1a/GQDaDNs/Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84E8E593A3;
+	Thu, 23 Apr 2026 17:04:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KX3DHhZR6mmuBwAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 23 Apr 2026 17:04:22 +0000
+Date: Thu, 23 Apr 2026 19:04:17 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Maurizio Lombardi <mlombard@arkamax.eu>
+Cc: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org, 
+	mheyne@amazon.de, emilne@redhat.com, jmeneghi@redhat.com, 
+	linux-nvme@lists.infradead.org, mkhalfella@purestorage.com, chaitanyak@nvidia.com, 
+	hare@kernel.org, hch@lst.de
+Subject: Re: [PATCH V3 2/8] nvme: add sysfs attribute to change admin timeout
+ per nvme controller
+Message-ID: <ad70df1f-46e9-48ee-b5af-f6c1bb0c4e70@flourine.local>
+References: <20260410073924.61078-1-mlombard@redhat.com>
+ <20260410073924.61078-3-mlombard@redhat.com>
+ <a3171007-7cfb-45b0-b0bf-01dcc7ba51ab@flourine.local>
+ <DHZMXEY4JPEF.1HHTTEZPN53ZU@arkamax.eu>
+ <e99f2ce9-e47a-432a-b6ea-795081de1f4d@flourine.local>
+ <DI0JVXM1ZKET.3S7JP55JIPFHH@arkamax.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260422234938.GA416865@bhelgaas>
+In-Reply-To: <DI0JVXM1ZKET.3S7JP55JIPFHH@arkamax.eu>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 9C1556A890
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260423_100433_919895_92F35211 
+X-CRM114-Status: GOOD (  16.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,90 +143,20 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 22, 2026 at 06:49:38PM -0500, Bjorn Helgaas wrote:
-> On Tue, Apr 21, 2026 at 10:41:08PM +0530, Manivannan Sadhasivam wrote:
-> > On Mon, Apr 20, 2026 at 03:49:15PM -0500, Bjorn Helgaas wrote:
-> > > On Sat, Apr 18, 2026 at 11:09:11AM +0530, Manivannan Sadhasivam wrote:
-> > > > On Fri, Apr 17, 2026 at 05:26:15PM -0500, Bjorn Helgaas wrote:
-> > > > ...
-> > > 
-> > > > > Does L1.2 have to meet the advertised L1 Exit Latency?  I assume
-> > > > > maybe it does because I don't see an exception for L1.x or any
-> > > > > exit latencies advertised in the L1 PM Substates Capability.
-> > > > 
-> > > > As per my understanding, 'L1 Exit Latency' only covers ASPM L1
-> > > > state, not L1ss.  Because, 'L1 Exit Latency' field exists even
-> > > > before L1 PM Substates got introduced in r3.1. So it doesn't cover
-> > > > L1.2 exit latency.
+On Thu, Apr 23, 2026 at 02:58:25PM +0200, Maurizio Lombardi wrote:
+> >> if the NVME_CTRL_STARTED_ONCE bit is set, we know that the
+> >> initialization has been completed and that admin_q and fabrics_q will
+> >> exist until the controller will be torn down.
+> >
+> > Yes, that is all fine but I think it would be good to be able to use
+> > udev here as we have it other timeouts.
 > 
-> FWIW, this FAQ from https://pcisig.com/faq?keys=3.0 confirms your
-> understanding:
+> Ok I understand, what do you think if we swap the order in
+> nvme_start_ctrl() so the flag is set before userspace is notified?
 > 
->   Section 7.8.6 - Is the L1 Exit Latency in the Link Capabilities
->   register only the ASPM L1.0 exit latency or does it include the
->   added ASPM L1.2 to ASPM L1.0 latency?
-> 
->     The ASPM L1 Exit Latency in the Link Capabilities register
->     indicates the L1/L1.0 to L0 latency, and does not include added
->     latency due to Clock Power Management, L1.1 or L1.2.
-> 
+> set_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags);
+> nvme_change_uevent(ctrl, "NVME_EVENT=connected");
 
-Thanks for cross checking.
-
-> > > > > Regardless, I'd be kind of surprised if *any* system could meet an
-> > > > > L1.2 exit latency from a system suspend situation where PHY power
-> > > > > is removed.  On ACPI systems, the OS doesn't know how to remove
-> > > > > PHY power, so I don't think that situation can happen unless
-> > > > > firmware is involved in the suspend.
-> > > > 
-> > > > Yes, you are right. Even for systems turning off the PHY completely,
-> > > > they should have some mechanism to detect the CLKREQ# assert and
-> > > > turn ON the PHY within the expected time.
-> > > 
-> > > What would the expected time be?
-> > 
-> > That's mostly L10_REFCLK_ON + T_COMMONMODE. But nevertheless, the
-> > system wakeup and controller driver resume() time would be far
-> > greater than it.
-> 
-> This patch sets "pp->bridge->broken_l1ss_resume = true".  I'm trying
-> to understand how we know to set this.  There might be other platforms
-> that need to do this but I don't know how to identify them.
->
-
-As I said earlier, if the other platforms do not have any hardware mechanism to
-detect CLKREQ# assert and enable refclk/establish common mode voltage, then they
-would also suffer from the same issue. But it is not possible to identify them
-only by looking at the host controller driver. Because, even if the controller
-driver power off the PHY, some other hardware entity could be handling CLKREQ#
-and taking care of refclk/common mode voltage.
-
-So this flag should only be set when the host controller driver is solely
-responsible for controlling refclk.
- 
-> This comment:
-> 
->   + * Some host bridges power off the PHY to enter deep low-power modes
->   + * during system suspend. Exiting L1 PM Substates from this condition
->   + * violates strict timing requirements and results in Link Down (LDn).
->   + * On such platforms, the endpoint must be prepared for context loss.
-> 
-> suggests that the L1.2 exit takes too long and results in the link
-> going down, which is essentially a reset for the downstream device,
-> which would destroy the context.
-> 
-> Is there some spec language that determines how long the Downstream
-> Port waits for the L1.2 exit before it gives up and decides the link
-> is down?
-
-Spec r7.0, sec 5.5.3.3.1 defines the timing requirements for refclk restoration
-and common mode recovery. But it doesn't specify what happens when these timing
-requirements are not satisfied by the downstream port and this could be the
-implementation behavior. On the Qcom platforms, we are seeing endpoints giving
-up and moving to LDn if they didn't receive refclk within L10_REFCLK_ON.
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
+I doesn't look like there is anything else depending on this order. So
+yes, that would make this race go away.
 
