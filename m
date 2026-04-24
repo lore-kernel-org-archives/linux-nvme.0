@@ -4,79 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0111EFF8850
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 22:15:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2436AFF8855
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 22:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Kks3NZ09ZqsgRG7UDqaoJjlrgLIZqYd6xqDSe0kZQHQ=; b=4fIc8SY4jz+obWKV4ZeJFQQO49
-	Xx18azXpe8gfaizERrsXXa593pADFcnJFtPi6tdvlMKtq1tu8kReTJtqJKzz2G6eUaEyf3zK5GShz
-	mm1zMfCos0r1w2BpR8z5vgJMc1njICmcEaacNDPa84QtvPtSFTK6ZKxwJQHENKWFhcUKpCwaYUqUV
-	m1LVuVx03wQ5HDi9KYFJtFokVPe/FSQaZ7gQaQWYHO3VoBV6+owu2L+G6IXUptb7tRI69nwB9r4QM
-	q66q/YyV5ODcUhdzHxnhzYkCWFc5CshRGiRi9XorQkq4H9nRzAM/cLQcWY+l8/WxAYgletcGRvNjV
-	K4vaC+OA==;
+	bh=Yhwm8cScN06LG6WovVuyBu2HIWzOtL5RgJ3/1ttLxBU=; b=hBOzoJQHBvEAO6u6gSoeRzF2/Z
+	v4rgLStYAeEJ9W7QA+I4AeRtBaz0vHWDJn7nYTprGaiknZCJ69pQKydBveT9lctYmgMHQrB5gy7YE
+	HPBoU7HgnnZm3eZmaCAoWG5SyqpSlf9FiKaduuvAU7IXECIBg7qiqP0nEdqd0LmxC8R1ffZjC2y7r
+	bzLAAWIw+LD5FWlp4PXmSm2Jfeq4ovXIjNJ14iBhD5iL4GomHvINnQrUP2t7CgcsYvG+/Lb9Gnpal
+	8JreQzxKH0vigphHEyRB2kKcmUshCmONHKG/vp/r3MJenU3Z2PnokKUKAite2v+yfQ/26tgKuQ89R
+	d3btmeZw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGOo6-0000000Dnws-2oCa;
-	Fri, 24 Apr 2026 22:15:30 +0000
-Received: from mail-wr1-f45.google.com ([209.85.221.45])
+	id 1wGOva-0000000DoLc-2tdL;
+	Fri, 24 Apr 2026 22:23:14 +0000
+Received: from mail-wr1-f54.google.com ([209.85.221.54])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGOo4-0000000Dnvj-0BUP
+	id 1wGOvY-0000000DoLE-1XtJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Apr 2026 22:15:29 +0000
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-44136f7a169so416849f8f.3
-        for <linux-nvme@lists.infradead.org>; Fri, 24 Apr 2026 15:15:27 -0700 (PDT)
+	Fri, 24 Apr 2026 22:23:13 +0000
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so8364740f8f.3
+        for <linux-nvme@lists.infradead.org>; Fri, 24 Apr 2026 15:23:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777068926; x=1777673726;
+        d=1e100.net; s=20251104; t=1777069390; x=1777674190;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Kks3NZ09ZqsgRG7UDqaoJjlrgLIZqYd6xqDSe0kZQHQ=;
-        b=ToWtYGJa3+AT6OuQY/cAJ34HuCkWhOq51dDy4o6jDWe4G6WaLiAQ/lvoaYJKDeO7ny
-         HAmwsOS2LEf/r8+ExMJT5i4zsgHnPOt+YO+x1HomaSf2cuiS0Iu5gU6qJl8GXpFCZnJy
-         6Ydr20rxriSWh5ycXHljNLgQWH13BPEHXj+AUbB3bSABugDr5wqJeYGqKwsI4+hJ80cW
-         pf4q3HFYyF7es5wvn5ZJ6jBkE+K7OTd+MEmyRLTMHsZk87osZdn0f5mwlT8g17da6nS9
-         tTWA5WWZBBlIXVkrQ2MaVfMIt8QhrbXGvWu0HHg/a8wU6aoUcZkRsMOnSRS1/8J8M7U1
-         QM/A==
-X-Forwarded-Encrypted: i=1; AFNElJ8MXw9CyEnJD3PxJe4tgZObBbCGKx6jffS8JYPztW1Hx/4nZX7qDFaphY+dnP0aBu4wEqhxTtbjqt5B@lists.infradead.org
-X-Gm-Message-State: AOJu0YzJjNAkooM5xTOgOCnRLeyN15til89JMG+qNu9mcTINBhiC+otl
-	tymnKJUIHDeM5VbRI57UL4Z54BayaVPfbtYxWlVkcfDK+5uqqtQW2B1b
-X-Gm-Gg: AeBDietVA97RiCrF5qyd1zE58l4GUyvhVHXVIamw9yr2wlkcaxuBw4Hgy4muKjJZsrW
-	ZyWenJt1d9ymSROVezz8ycTmyOdu3pY80r2zG4VakzZwkNjBbv/OLYZzOvsbWMdTPa6lQekdKpk
-	Hyw3AifBqbOb9jsD96TQJSeG5B8Ahg7qUeG40s5+XiKgHawGhLzQ8mQ+NGkGEF3IWnRKOgU6Diz
-	uBtzSBccG+TLY8rUyoYSd1MiSdXdVk9+YN/e1MM9pJ6wOe1aNdGqowHOVtqdotU5EruKc7g6OjV
-	gKeSzRzZ+DnA6paE14fD391645ojyRTkf7dBqG62fyTxVcgdFPDShRKknXjSC1M8/RABEzmT6+A
-	uPeyE9vj6pLaN+LgbZFQsO0ugEECx+MxfzgQmU5IKmd5wCm9GMkylXqvK/LaAl7FmBcT3xxTh4V
-	Y8XM+sJCKfV5AKmt97r0QRE5db6fx+nnCGL1R6jhjF+HfiPHkZEkCzC1QXIUI4Pb0LWPan
-X-Received: by 2002:a5d:5d83:0:b0:441:1e41:19f with SMTP id ffacd0b85a97d-4411e41035bmr27467338f8f.24.1777068925660;
-        Fri, 24 Apr 2026 15:15:25 -0700 (PDT)
+        bh=Yhwm8cScN06LG6WovVuyBu2HIWzOtL5RgJ3/1ttLxBU=;
+        b=QOvzhH8LBt4+XVgc9OzbuUjoDdPYE1mImz1tnKKBPbSqFYE+17f6NjgjbUq2/LGJAg
+         sdr/jsfx0aL5RYkK5DbkNDIeLL2L6NHUM7Y9f36qoADJv/J32QShd+br9XCruUbmVUZV
+         1OO9LMuElX0UC+ZGThVs1zUqpN08mSAKV/Q3NC8t7pi/KeVn7QYhVVRb5dbpT1l0dP7l
+         x9A5r1D4wBLymE62R8XyahKsyoVdLYwyleg/DUqliCxL4UBi7iInCckfFyqgzwS29P5n
+         eISLukhYwQaWiTGgrnZKfmqARcMmEyEFhyjktibNDsGD55/xrsjKntjnHzLPu0OCx+Zo
+         mlmw==
+X-Forwarded-Encrypted: i=1; AFNElJ8XusUyqJBM7bCPf4DdBjtzauhKffoebvWuBSc2L3Na5QDNrxnArauZSMjbtBm1uc9a5w6gWUOgMetE@lists.infradead.org
+X-Gm-Message-State: AOJu0YyvTmpftPwZ9jpEquMtsHXcE39NGA/7IWMYYvd6EaEuZph0uKXD
+	DuMoQ3Y5IIh21eaeIddGueX/dhDVOx7Dzt+HcSrCxnXxnH1dombpCxj7
+X-Gm-Gg: AeBDiesDN/ZjXIxEYPmvpRi5EOsDroKHI2c8nd1b5pKiIOjtrwQ33/UZmQsKonCI6ER
+	4TxrjlbUzy8fopVi5TrPDnDVrOXKQkSY0itWCvpvbOiefpS/UP2rYGkG3wyXLqVHc73j1WrTHz7
+	JQlWpWwZoXIfX3jDJanKtGkEyUWg0PbvNPf90P8dniRepTYkgdsbXRQyEDOGBoZneHCwq5F7h2p
+	aQSpZELG7e9cH4kMFLr0LFQASf6/dF0eZfopkBh7E6KJ7pGienw+4tmEKuxvukR/v+H+undwA6P
+	l3TUEkoumBlBeMhkFOhJ+YV+VjCg8sKyoTJLztP1KPLpGY/YI7Ya0G+fYuXBoZxZpLrb/jJwU0b
+	2+k4QNiZ/PVwKpx4uG/TDfPls/p8AOqzcAFGiaIj6AJB7gyRahRgmsSAcTMa34XZECn13nzuSwO
+	tKSdzCHD+utjLC5Gi7X04NWBCZ9crWWXsoRcN5NqPCorqZ94aZALH+AtLQDbR30RmRHPfdm9uH1
+	WD2Giw=
+X-Received: by 2002:a5d:5f88:0:b0:43f:debd:feb1 with SMTP id ffacd0b85a97d-43fe3e14f4bmr55260683f8f.39.1777069390207;
+        Fri, 24 Apr 2026 15:23:10 -0700 (PDT)
 Received: from [10.100.102.74] (89-138-71-216.bb.netvision.net.il. [89.138.71.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4c221cdsm64018499f8f.0.2026.04.24.15.15.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a79esm65558362f8f.17.2026.04.24.15.23.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2026 15:15:25 -0700 (PDT)
-Message-ID: <443c5fe0-de0a-4bf4-a502-055984102997@grimberg.me>
-Date: Sat, 25 Apr 2026 01:15:24 +0300
+        Fri, 24 Apr 2026 15:23:09 -0700 (PDT)
+Message-ID: <63b9aa3e-978c-4448-828f-9119f8e210ef@grimberg.me>
+Date: Sat, 25 Apr 2026 01:23:08 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/4] nvme-tcp: add a diagnostic message when NIC
- queues are underutilized
+Subject: Re: [RFC PATCH 4/4] nvme: expose queue information via debugfs
 To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
 Cc: kbusch@kernel.org, hch@lst.de, hare@suse.de, chaitanyak@nvidia.com,
  gjoyce@linux.ibm.com
 References: <20260420115716.3071293-1-nilay@linux.ibm.com>
- <20260420115716.3071293-3-nilay@linux.ibm.com>
+ <20260420115716.3071293-5-nilay@linux.ibm.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260420115716.3071293-3-nilay@linux.ibm.com>
+In-Reply-To: <20260420115716.3071293-5-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260424_151528_092565_2D55E0F5 
-X-CRM114-Status: GOOD (  12.08  )
+X-CRM114-CacheID: sfid-20260424_152312_565307_661C8ADA 
+X-CRM114-Status: UNSURE (   7.71  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,21 +95,18 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 
 On 20/04/2026 14:49, Nilay Shroff wrote:
-> Some systems may configure fewer NIC queues than supported by the
-> hardware. When the number of NVMe-TCP I/O queues is limited by the
-> number of active NIC queues, this can result in suboptimal performance.
+> Add a new debugfs attribute "io_queue_info" to expose per-queue
+> information for NVMe controllers. For NVMe-TCP, this includes the
+> CPU handling each I/O queue and the associated TCP flow (source and
+> destination address/port).
 >
-> Add a diagnostic message to warn when the configured NIC queue count
-> is lower than the maximum supported queue count, as reported by the
-> driver. This may help users identify configurations where increasing
-> the NIC queue count could improve performance.
+> This information can be useful for understanding and tuning the
+> interaction between NVMe-TCP I/O queues and network stack components,
+> such as IRQ affinity, RPS/RFS, XPS, or NIC flow steering (ntuple).
 >
-> This change is informational only and does not modify NIC configuration.
+> The data is exported using seq_file interfaces to allow iteration
+> over all controller queues.
 
-I don't think that we want this at all. I don't think this is nvme-tcp place
-to print such a log message at all. Especially not every time it connects
-to a controller.
-
-If you think you need to add this, create a userspace nvmf tool that
-tests/validates a host.
+Don't really mind having this. Not sure who will actually go through
+the process of mangling RFS/RPS/XPS for based on this 5-tuple, but ok...
 
