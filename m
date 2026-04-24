@@ -4,50 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 04FA0FED3C3
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 13:24:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4D3DBFED3CC
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 13:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7XA18sH1NdH+cJI1sf82V7NrsVygR4fn6aERoGSWlrk=; b=jL/mTeLlAlMBPkVBBWqn8UawMh
-	F7fAFsHApJ685v+hhVOEfZm3L5XJQe9P7NRN8pYZEcZn8DSS/59QZm85Ef3BORsivlRvT1+w+ocWy
-	ntxYnN1walOr10QsRrO7oTizXWbKZ3qa8MBba9bakjZWPwFxUA0Uf96bKhOLs2V6Kqug1cuMsEAjr
-	m+caa+VTo5sAmfHFq7Hf+mPu/v7JorgGrdLOlEDW9TFZVoI3xI0hWPD2pv2YpZ4szCzaedeDwc+jt
-	VxjAKUuRUFE6vs8bf1hNNvMOpCiLeOlixWT4fKFN3m0QLrmoT3KnoZ0srjdnNS1H1pV8NhI9XRdNC
-	f4/WzWqw==;
+	bh=4CuZjnySuiuCe5y0+uTlSCu1z1bv7acszR573EEt0/M=; b=Fh6ICBEYQZE+z8eX37rFKv7ehw
+	vR7tfXMvO6irkSU7xgRnkxrCBJG0uK3wih3MUEx/MeZPSK7fhQYahBJcGeOI+FOtaTGdWCYLPC4dL
+	qNUk3KO/IWI5DcYbwNHzM2wGxKPoHLJyrMh1ccVBBjf5WAtyCNB6Fb31Tm19PLHA6BovnneSHrUge
+	YARPrxdBSFJCUHEhEpLDOdQRRNapCdpHicV2LT9AUeH11E8eIM+LDGxOUI8kCBU9Ulyag3Fr40YHE
+	YjQbuPNCEWfr4r3PBgm/rszvKLAsCZpYsA26tMAD/+hJQ9ACBoqL8EHetCiM7kZgONlcASv59rm2A
+	qThdaOlw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGGWJ-0000000DETN-1v9r;
-	Fri, 24 Apr 2026 13:24:35 +0000
-Received: from verein.lst.de ([213.95.11.211])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGGWG-0000000DEPi-1dPb
-	for linux-nvme@lists.infradead.org;
-	Fri, 24 Apr 2026 13:24:34 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5D89168D05; Fri, 24 Apr 2026 15:24:23 +0200 (CEST)
-Date: Fri, 24 Apr 2026 15:24:23 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Joel Granados <joel.granados@kernel.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] nvme: Controller Data Queue (CDQ) support
-Message-ID: <20260424132423.GA15833@lst.de>
-References: <20260424-jag-cdq-lkml-v1-0-d773343a717c@kernel.org> <20260424130615.GW3611611@ziepe.ca>
+	id 1wGGi5-0000000DFf4-1xUH;
+	Fri, 24 Apr 2026 13:36:45 +0000
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wGGi4-0000000DFeq-0HTy;
+	Fri, 24 Apr 2026 13:36:44 +0000
+Date: Fri, 24 Apr 2026 06:36:44 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tokunori Ikegami <ikegami.t@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH v2 2/2] nvme: initialize known effects to set ns_mgmt NCC
+ and ns_attach NIC
+Message-ID: <aetx7GZeKBoRCPS3@infradead.org>
+References: <20260422141159.10881-1-ikegami.t@gmail.com>
+ <20260422141159.10881-3-ikegami.t@gmail.com>
+ <aem0x5CsghH7HoWd@infradead.org>
+ <7af729f6-25e7-483a-9a5e-770d6c6e6805@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260424130615.GW3611611@ziepe.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260424_062432_569709_B487D9BA 
-X-CRM114-Status: GOOD (  16.70  )
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7af729f6-25e7-483a-9a5e-770d6c6e6805@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -62,22 +55,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 24, 2026 at 10:06:15AM -0300, Jason Gunthorpe wrote:
-> On Fri, Apr 24, 2026 at 01:37:50PM +0200, Joel Granados wrote:
+On Fri, Apr 24, 2026 at 02:51:48AM +0900, Tokunori Ikegami wrote:
+> On 2026/04/23 14:57, Christoph Hellwig wrote:
+> > Can you explain the rational a little better here?  Do you have a
+> > device that does not have these entries?  And what problems does that
+> > cause for you for which workload?
 > 
-> > There is however, no clear consensus on how NVMe Live Migration should
-> > land in the Linux kernel. The 2022 discussion [1] explored a VFIO-based
-> > approach but reached no conclusion, likely because the specification was
-> > not yet mature.
-> 
-> Yes it was paused until the spec matures, then I expect it to go
-> forward.
+> The change is just an idea to improvement the scan_work to make sure as
+> always do scan for the ns_mgmt and ns_attach commands.
+> Actually I do not have the device as I have only a drive these entries as
+> NCC for ns_mgmt and NIC for ns_attach.
+> (Another drive I have but does not support both ns_attach and ns_mgmt then
+> does not have these entries. Also third drive broken then I can not confirm
+> it for now.)
+> All drives supporting ns_mgmt and ns_attach should have the entries but I do
+> not think the driver side not needed to be depended on it as always do scan.
 
-And it will happen in the nvme software working group.  Which should be
-up an running if Samsung hadn't done everything in the power to torpedo
-it.  Because of that I do not exact Samsung to have any major impact in
-how this will be implemented in Linux.
+Please document this very clearly in the commit message, and maybe also
+in code comments.
 
-Note that we also can't discuss any of this at LSF/MM in public, so
-Joel side channel loading it onto the schedule should be removed as well.
+> I tried to fix the issue below with the changes at first but the issue was
+> caused by the test script then currently resolved already.
+>   <https://github.com/linux-nvme/nvme-cli/issues/3251>
+
+I don't really understand how this is related.
+
 
