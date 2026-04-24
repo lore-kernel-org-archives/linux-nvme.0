@@ -4,49 +4,164 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1A49CFED3CB
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 13:46:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DCC7FED3C9
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 14:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=ixBREJVKgp131kWjN5dj+QRXsNTVV5aVTaajqR7ILbc=; b=RY/xsk4R1mmDm+zBTund/6ez4M
-	yCTJ3Pb9ouRm5N/ooytkeuJW6TwLAQm8btaiJ0hH9aKSv0pokV3KLLPetfok0Dc6p2b5qSSFTsCu8
-	0l0H+YAGbI4DzL5pcuY21K33pn1V4oU1RoIV35+9RwXgTNgSR6QJR6ENJ47d5pR12NkMz8dDH1dQn
-	0AAC8wR7b2KuR7no8p1ygVtbRsnR7CM5pA0Nk5JBqeP9UanpxxcwjbVRZxxXO1nKTK6PmUFlsNKLX
-	MKa7UKeN7AxlXb5XmLTorw2bMTwW+O1NCviPRtiICpwKXDgb69da5SHq12O30j6wes++WJlA5vlXf
-	WL9iaejg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Cc:To:
+	Message-ID:Content-Transfer-Encoding:Content-Type:Subject:Date:From:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=AIflENiXuBCfoDjTSvZMqvm3xcwzLRQ8DUU7/Vx/YCQ=; b=v3yarEt5qODua5Cv6DDbdkafGX
+	iL/7UaIY2YKxHaKhVQtTgYNjWwvx49CNACkC0mLzBgALNy8S15NnOtu1Rze1RsI97rq7bqs4DsVJm
+	OefUcSGTTl6kl+1FKEZs5/VkjV/nifNaU8h+djtL/7sN1IZ723V3BI4ewVj2kC0ASKq/1/qqisFr+
+	MPusAuj5MObO7mSrFe+EKBUhlEcM20Q/pxvuLpCv+El3X0Hb+hk42bPvglX08GZoDp+AHFL6VYkl9
+	4Z0F+7SzoXM1/a2RJEQtJhE/FNNsCd1WM45d3DgeWI7MadXSsuxa/vI12jPtnyrLdC4wXqdFgnKEX
+	jNiPOC5w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGGrU-0000000DGnh-3VCF;
-	Fri, 24 Apr 2026 13:46:28 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wGHT2-0000000DKEV-41Q7;
+	Fri, 24 Apr 2026 14:25:16 +0000
+Received: from mail-australiaeastazolkn19010016.outbound.protection.outlook.com ([52.103.72.16] helo=SY8PR01CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGGrS-0000000DGmu-1xTq
+	id 1wGHT1-0000000DKEA-0N0g
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Apr 2026 13:46:27 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 4382768C4E; Fri, 24 Apr 2026 15:46:21 +0200 (CEST)
-Date: Fri, 24 Apr 2026 15:46:20 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de,
-	hare@suse.de, sagi@grimberg.me, chaitanyak@nvidia.com,
-	gjoyce@linux.ibm.com
-Subject: Re: [RFC PATCH 1/4] nvme-tcp: optionally limit I/O queue count
- based on NIC queues
-Message-ID: <20260424134620.GA17351@lst.de>
-References: <20260420115716.3071293-1-nilay@linux.ibm.com> <20260420115716.3071293-2-nilay@linux.ibm.com>
+	Fri, 24 Apr 2026 14:25:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rSBbVl06j4qbwQRbQa8icy1foTkEMGxKoPfATpiNh7fcxeZbYUuXnJthgvONAIp3Y43d5+thCFvm+ZZvVW570+d/OaDzQ4csz3XSSU7A+wjfQKl3HjHfxpdI9uHQ7yEQrPzEBytMu9hnfnET06DuVU0tiq6Nden1X6u44Bqowk8ZV+iWnNGccs0n+aLLFbdUFvzgvhFVNsJUVgn9i8f4ZM9l24bogeb1m48bSRs62F9d7h5wYd1aACH1++1GdbCOndLrad8jEXUlS2Bk1IcY3Ui23ukcpOXT588JjBbBBcK3S+ZhZ+tYoyCpakkRHhTxKgQU1shlR1Moou5WFEUBiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AIflENiXuBCfoDjTSvZMqvm3xcwzLRQ8DUU7/Vx/YCQ=;
+ b=qu5mOe2sD6tFJtTZYPkqsPFplUWSi2Kq3zGqsw4dqOwexw76tfuC8q6dO/kDeWGPq4gNUCfSDIvLoypVmVgIcCWlfhLdRyaILtJLG8pwD/sv082H0p13fTbmTZXgHCBwLl226zvXOWETu3HOhpP9q9ocwvBqwVGOfiq95YPKG4ImvTjvPk3yMqrW8gv+Lt3qsSC4X5aVdWnPkS+mODQzbiNW3GFH7Qsp6rdJK6Kj+i5UH0iHcoSAw6kAnfgLmiuXR4o9Phzi8nybIkgVmjSdAdSV+VLRlzv0TJ6oPboR1piLZAzF3Jlej63HWrgVB6s7g494BQ0YqEOhsjvprp93sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AIflENiXuBCfoDjTSvZMqvm3xcwzLRQ8DUU7/Vx/YCQ=;
+ b=bKlP9FooACs7iXQeIYcdJpsozbv2OIAn71eFHwvEAvjH66F+9r6J7MVm/glPi/kbu+Oy/FBGvKdsxTf+NQ32FL7BJ1SRRSqBD/BgpWj8xQfJj0cU8ACXO9k+KONVpwQyMNgUFZ44yKfrhT4SEJZlrcYMjUi9J5ZsvLmQWEhzdBK5l9O7ajv+gJ6+wM9+vxAHyURiv3T8zp5RRgwBkRdDwInCdQkhnEcIWGjdHYdLKbeTn1XDkiyCXHseZXZboy2UfpD57OwN+EH3YUBEyfpF/c21bP524p2o9m9CPns8X/Et+Umpiv9N6EP2LE6eTOAAxv0ViP5xDkk3QW+TzKo/wQ==
+Received: from SYBPR01MB7881.ausprd01.prod.outlook.com (2603:10c6:10:1b0::5)
+ by SY0PR01MB8651.ausprd01.prod.outlook.com (2603:10c6:10:220::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
+ 2026 14:24:53 +0000
+Received: from SYBPR01MB7881.ausprd01.prod.outlook.com
+ ([fe80::7cd2:d6e8:3fa0:5f0c]) by SYBPR01MB7881.ausprd01.prod.outlook.com
+ ([fe80::7cd2:d6e8:3fa0:5f0c%5]) with mapi id 15.20.9846.023; Fri, 24 Apr 2026
+ 14:24:53 +0000
+From: Junrui Luo <moonafterrain@outlook.com>
+Date: Fri, 24 Apr 2026 22:24:23 +0800
+Subject: [PATCH] nvmet: pci-epf: fix heap overflow for invalid I/O
+ SQES/CQES from the host
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <SYBPR01MB7881878B234CD11D13DCAFCCAF2B2@SYBPR01MB7881.ausprd01.prod.outlook.com>
+X-B4-Tracking: v=1; b=H4sIABZ962kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDEyMT3bTMitRiXdPUZGOD5MQUA6PkZCWg2oKiVLAEUGl0bG0tAAqCGut
+ XAAAA
+X-Change-ID: 20260424-fixes-5ec30cad02cc
+To: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Chaitanya Kulkarni <kch@nvidia.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Yuhao Jiang <danisjiang@gmail.com>, stable@vger.kernel.org, 
+ Junrui Luo <moonafterrain@outlook.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1968;
+ i=moonafterrain@outlook.com; h=from:subject:message-id;
+ bh=eUittQ2eA8+2FysFeEgIRvOZyGftD+vxvpKdMLQQk3w=;
+ b=owJ4nJvAy8zAJVb4wiKgu++DA+NptSSGzNe1YiebTicyqCXNZuyKnnmjmN8xb9XiF/FOM8QOb
+ HXxFfC8cLajlIVBjItBVkyR5XjBpW8Wvlt0t/hsSYaZw8oEMoSBi1MAJhJ5n5HhuTfb66bXdacj
+ FY1vBJiIzfL/y1grlPLv/kqNpX9uiRd6MDLcPvtpzUpZyQsCvuwe/T+c/RfvmDRx98bapz+FWNW
+ vtC3jAQAbGUpw
+X-Developer-Key: i=moonafterrain@outlook.com; a=openpgp;
+ fpr=C770D2F6384DB42DB44CB46371E838508B8EF040
+X-ClientProxiedBy: TY4PR01CA0030.jpnprd01.prod.outlook.com
+ (2603:1096:405:2bd::12) To SYBPR01MB7881.ausprd01.prod.outlook.com
+ (2603:10c6:10:1b0::5)
+X-Microsoft-Original-Message-ID: <20260424-fixes-v1-1-95202645890b@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260420115716.3071293-2-nilay@linux.ibm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SYBPR01MB7881:EE_|SY0PR01MB8651:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ca494e8-ed89-420e-23ca-08dea20d4009
+X-Microsoft-Antispam: BCL:0;ARA:14566002|12121999013|461199028|22091999003|24121999003|24021099003|55001999006|23021999003|8060799015|19110799012|6090799003|5062599005|5072599009|15080799012|53005399003|40105399003|3412199025|440099028|10035399007|1710799026;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SWMxcHF1Y1lXdnZlNDUwK0JEd2hqZVZKajVXUU9Ec3lYWkU0TGFYNU1IQWQw?=
+ =?utf-8?B?UkxNWHZodi9qS1RTTEJOOW13VUI3WjFvSENGQUhHYnJMbzFSY2pvSTB4QTFY?=
+ =?utf-8?B?RXRBUnFGWU1HeUE2T0drZXFST01hMUtUczJiYVpNeEZJY0tLakI2VVZQUi9i?=
+ =?utf-8?B?VTVpMzVmTEV6TWdkNGhBTmF3LzUvVVNORUlyVURzOC9CYitwTzVkeVpHNVd0?=
+ =?utf-8?B?TlQwRjEyZnQwMzFpdGg0VlBXQUxydS9rcEtxd2t5aHpHUDh0aHBXT2xUQmxD?=
+ =?utf-8?B?MDVxTlNLWlFLaWQrYWtoWitYYzU5ZmNsM212a0l2MU5lZUtSQ05hdWhiVkZN?=
+ =?utf-8?B?Y1dEc1k1UmxMWlR6Y25lVGZsZEZKY2VwSVdtYkQwa3JPSGNycUR3dGJZY2dy?=
+ =?utf-8?B?czZpTW1Bc2s2U0pYVWJNeXlPSWFYalNHL1cwUXBjY3ZGNElMOUgxSDd4OUF6?=
+ =?utf-8?B?b1V1TEkvY0dmeGlTZE9wbmN2WHZTN2tPT0l0Vld5VHRNbGdFTHJHdmhZcFAz?=
+ =?utf-8?B?REg2dUF0RS8xNU1OYzRRZ3BYcmwrUjRnQ0N0alNqMjNYS015ZklDRXFKK1FD?=
+ =?utf-8?B?QXB6MWxmUU5xMCtZeTlNUFV6blNuWDRrTFpiN2lGTy95K0RVRllHY2g1OVQ2?=
+ =?utf-8?B?bElsWENqdXVzcVhtMVdKWTZINDM0MmtaM3NBeERDWmlTNG9HdUpyZWRCVG02?=
+ =?utf-8?B?QTNaM0xFZk5pT3FJbnRTUktKd09kOFJIbGUrV2RCMmo4MmNYaTdvRWdyQ29z?=
+ =?utf-8?B?L3ZZNURVcWc0UCsyY1NwaHJ3RUEzZzZrZ05RTlNXNjY4eEM3cUNzSkVlYy9P?=
+ =?utf-8?B?bWVzQUN0NDVHZUt0RERDem43cmJOVzRLOUUxWFhhSUwvOVhrbUtXRHpLWWpi?=
+ =?utf-8?B?YlIwd2NRNSt4UkExNnlqWnJuWHA3RzJCRkVKSWltSksrWjQ0UWk4WS9rclI1?=
+ =?utf-8?B?MGd6THpodGJLUW11TURxMEJqRStlOE5oRXNFMmw2dFpJNTI1WUZnWHozdVZj?=
+ =?utf-8?B?cHVKdFMxK0QxVUVyMVdhdGgrSEc2cWt0UUswK3d0QTVmbXVsL01weHdiamJ6?=
+ =?utf-8?B?a0pxQWJoTjdKUVFGK1VTdGl0WXdsNXpDS2JZN0lQWU5PaC93VzhnS25MNWtM?=
+ =?utf-8?B?cjVRMFhqeTF2L0w1S2hJbWtLNk9Vb0ZHTXdTT3BPNUp5OTVtL3h5VTVBNFZN?=
+ =?utf-8?B?bDArOGY1NFFESUJmZWdaRFZHd0ErVmZ4VGY1VUo2bWVlRTVZNUxKT3orUDY3?=
+ =?utf-8?B?MUQ1WU1sMDFEMVpySGNkR29LY291SGpDelBzU0hEOWsyZzNjQW9STHB2ZDE2?=
+ =?utf-8?B?eUtZb1c0aTQ5SVVialM4Vk9pTWJ4a0Znd08rVG5kNmZQZ0U3V2hjbytKZmtM?=
+ =?utf-8?B?OGR1cGRGUG1EOWVpK3FvZzhzb2ROVU00MXZlTko0WG1QSTVZSU9WR0wrM0ZW?=
+ =?utf-8?B?cXNva1ZkOUVOTW5zZDhWQ3U1UWhwWHlqVFdab0lKUEVRZVdnbFV5cEJhcjlx?=
+ =?utf-8?Q?ul7uUGxIYlvXjMgbl4ycJ9MAhey?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzJxazFlWVhQQ1Y5Z2F0WjM1WHpzbDE2Wi9TVFJkajRrb0wyY0dKUFZKcmRC?=
+ =?utf-8?B?ODRUZ2VVYUJUK091UmFyejRNa3RaZ1dkb2lNblRKdmR6cEtsd2UyT1RVUzVq?=
+ =?utf-8?B?Mi9HK2h3TUxNTnRIUy9HRFd2UnVjMWJzMHUrMHBxTEVGMUN5cEoyaCtnSnhH?=
+ =?utf-8?B?Zkh1MzRGaDNlTWlJdWxkRitmbWhVTXNQTkd1SENsbE5GZ1czT01YSzRHbFo5?=
+ =?utf-8?B?UEwwZEJoM3JaeUdFKzJTOHd5U1dJWElNTEZYaEMxUFE0WmdsYktoL1FJS2s1?=
+ =?utf-8?B?ajFnaThkR0VXaW1xak85QnRpRmtQakF0VUlNdWxvU2xWQjdkajhnMUFBV3U3?=
+ =?utf-8?B?QW4venc3ay9JQVVyWm9wZjBSY0tpMEtBbXBBVzlvb0R2bmYwS1JkVjZNMUJa?=
+ =?utf-8?B?NFJQZXJKb2hvU25GQ0xrRWNGRnhSaDNMSFJuaHhKNjRxOGh6UVliZGQrVCtS?=
+ =?utf-8?B?a3BIY1FFdlUvVkVmNklzTVhJZWdsVU01MUxhUWx0UFNzQXduWTBOcGNmUHRr?=
+ =?utf-8?B?WHJJc2Mya0JRdjBWVmJ1cmtwZU9sbFA3cmFsTDkzTDdFRGcyRjEyUnNlQmQx?=
+ =?utf-8?B?aHZzMmczUkN5YUZFTmhQSzVFczFBSEhJekJHV2Q3UkwwMGhpSUFRdDIrdTlP?=
+ =?utf-8?B?UUsxeE1xSGd0bGxkZFFycXU5OEVNM1N2ajliamR3emJ3aGZHYmJaUEkrNm13?=
+ =?utf-8?B?Yk1xTmF2clJHSkhVQ2ZTbFNXcXZGYWFzbmFoR0lSSmduRHp2a0grcFJQUmU3?=
+ =?utf-8?B?NjJ1ODNoVVRxTWZ2RWVtU2huNmYwV1NmVVNOL0xwUG1NTmdZbDE0ckJYajdh?=
+ =?utf-8?B?ai9FdTBYdjd2ZkJCbTNhOVRDU2llTEVpVW8wZWdOQWFPVzZDOGlIU2RIaXE3?=
+ =?utf-8?B?QVoxbjBGZzMrUytleDhNdndmeWc2RzNObE5iczhMZnVHQUJtNWNxcmczODlJ?=
+ =?utf-8?B?QUh3bDV6RE1SVE9oL1phVGxsUC9ISlFHVVVhdVltY3ltOGJqelZFQlpLSHVX?=
+ =?utf-8?B?OXJCdnUzckJlY1dSQ3VEa0tYTmlxdHlkYWFKSFB0UDQ0NzJuREV3R2NyalB3?=
+ =?utf-8?B?TGpDTm0rTHJmY1phYU11RWxUYlhNTW1SUXNiL0dobFVIaHNjTTVxcGsxT0Ex?=
+ =?utf-8?B?TUVRaG9vc1FGQ3lTQ3hBb2oydXZJditMVXR6a1B4NzN6d1ZHT2pnYUh3Q2Ew?=
+ =?utf-8?B?TXkyaGRlUnFMa0RwdFdjeFBEdkQwc2Jua1lGUWNhcVBBYXB4cVhNQUxhZXR2?=
+ =?utf-8?B?WDdjOVlaUmZ6NnhFbHJIUytxQ3pCS3UzRzNBMExDbmxWY1JVS2Qrb2JFRUJx?=
+ =?utf-8?B?QUlHbjV6TStRNmZacndLM1ArZGhpckJlOTZKRjdCNmsxVU5KUkd3QlYraitR?=
+ =?utf-8?B?YUdUWmo0ZGxsck9OZjhleUpxcEFpakUwaEY0MmYvNmZQdlNTeUZuZFVNOGxZ?=
+ =?utf-8?B?MDlmUEs0Sm1QcVJ5d0RVR2pDVE9tL1VTdGVHUDVtRkNNdDJDREI3aTZHR1VU?=
+ =?utf-8?B?UFVJUndrQXZuQVp3ZThaMkdKVS9YOWtOUmJCaVdhd3JyUnVQTkJYbGRmN2FG?=
+ =?utf-8?B?RHlSMlNUbnlWUThML0dIeS95NDlIUDNUaDlRWEtINUphZnIyWnBUS0RzRVBv?=
+ =?utf-8?B?OUhLTUZkdmFBVVNXNmlKdG9NaVB5d3dwWFRDbG9HY0x3T21GQ3I1RGhHbitm?=
+ =?utf-8?B?cHVualhBQmZmLzBkQjNYUXRmUEdRMnVJY0g2OWJnMHg3L0ExelB3QXpoY0ZK?=
+ =?utf-8?B?L1ZiUlBEYjJYVjZDQjJQUENvZHQzR0FLNmExNDN2a1k4OFA4cVpTK3pjd044?=
+ =?utf-8?B?LzV0ZGR3RjdnSmFaNHhGYjJ0YjZiWUlyd0VKcDFLSkg4N2JaeFZnMDFTSXgx?=
+ =?utf-8?B?UzM3anpGcGJhc0lSK09KMG1rZHVNNks0L21TOXkza0RGVnc9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ca494e8-ed89-420e-23ca-08dea20d4009
+X-MS-Exchange-CrossTenant-AuthSource: SYBPR01MB7881.ausprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 14:24:53.0557
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY0PR01MB8651
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260424_064626_645275_9DB6A22F 
-X-CRM114-Status: GOOD (  21.44  )
+X-CRM114-CacheID: sfid-20260424_072515_142842_36503EBF 
+X-CRM114-Status: UNSURE (   9.57  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,78 +176,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-> In such configurations, limiting the number of NVMe-TCP I/O queues to
-> the number of NIC hardware queues can improve performance by reducing
-> contention and improving locality. Aligning NVMe-TCP worker threads with
-> NIC queue topology may also help reduce tail latency.
+nvmet_pci_epf_enable_ctrl() computes ctrl->io_sqes and ctrl->io_cqes
+from the host-controlled CC.IOSQES/CC.IOCQES fields and only rejects
+values below sizeof(struct nvme_command) / sizeof(struct nvme_completion).
+The resulting sizes are used as DMA transfer lengths against the
+fixed-size iod->cmd (64B) and iod->cqe (16B) buffers.
 
-Yes, this sounds useful.
+An oversized IOSQES causes nvmet_pci_epf_transfer() to overflow
+iod->cmd with host-controlled data, and an oversized IOCQES causes
+memcpy_toio() to leak adjacent slab memory back to the host.
 
-> 
-> Add a new transport option "match_hw_queues" to allow users to
-> optionally limit the number of NVMe-TCP I/O queues to the number of NIC
-> TX/RX queues. When enabled, the number of I/O queues is set to:
-> 
->     min(num_online_cpus, num_nic_queues)
-> 
-> This behavior is opt-in and does not change existing defaults.
+Change both checks from '<' to '!='.
 
-Any good reason for that?  For PCI and RDMA we try to do the right
-thing by default.
+Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+Reported-by: Yuhao Jiang <danisjiang@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
+---
+ drivers/nvme/target/pci-epf.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +static struct net_device *nvme_tcp_get_netdev(struct nvme_ctrl *ctrl)
-> +{
-> +	struct net_device *dev = NULL;
-> +
-> +	if (ctrl->opts->mask & NVMF_OPT_HOST_IFACE)
-> +		dev = dev_get_by_name(&init_net, ctrl->opts->host_iface);
+diff --git a/drivers/nvme/target/pci-epf.c b/drivers/nvme/target/pci-epf.c
+index 4e9db96ebfec..4fdd92508609 100644
+--- a/drivers/nvme/target/pci-epf.c
++++ b/drivers/nvme/target/pci-epf.c
+@@ -1859,14 +1859,14 @@ static int nvmet_pci_epf_enable_ctrl(struct nvmet_pci_epf_ctrl *ctrl)
+ 	ctrl->mps_mask = ctrl->mps - 1;
+ 
+ 	ctrl->io_sqes = 1UL << nvmet_cc_iosqes(ctrl->cc);
+-	if (ctrl->io_sqes < sizeof(struct nvme_command)) {
++	if (ctrl->io_sqes != sizeof(struct nvme_command)) {
+ 		dev_err(ctrl->dev, "Unsupported I/O SQES %zu (need %zu)\n",
+ 			ctrl->io_sqes, sizeof(struct nvme_command));
+ 		goto err;
+ 	}
+ 
+ 	ctrl->io_cqes = 1UL << nvmet_cc_iocqes(ctrl->cc);
+-	if (ctrl->io_cqes < sizeof(struct nvme_completion)) {
++	if (ctrl->io_cqes != sizeof(struct nvme_completion)) {
+ 		dev_err(ctrl->dev, "Unsupported I/O CQES %zu (need %zu)\n",
+ 			ctrl->io_cqes, sizeof(struct nvme_completion));
+ 		goto err;
 
-Return early here instead of the giant indentation for the new options.
+---
+base-commit: 7aaa8047eafd0bd628065b15757d9b48c5f9c07d
+change-id: 20260424-fixes-5ec30cad02cc
 
-> +	else {
-> +		struct nvme_tcp_ctrl *tctrl = to_tcp_ctrl(ctrl);
-> +
-> +		if (tctrl->addr.ss_family == AF_INET) {
-
-And then split each address family into a helper.  And to me those
-look like something that should be in net/.
-
-> +
-> +/*
-> + * Returns number of active NIC queues (min of TX/RX), or 0 if device cannot
-> + * be determined.
-> + */
-> +static int nvme_tcp_get_netdev_current_queue_count(struct nvme_ctrl *ctrl)
-
-drop _current to make this a bit more readable?
-
-> @@ -2144,6 +2243,24 @@ static int nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->  	unsigned int nr_io_queues;
->  	int ret;
->  
-> +	if (!(ctrl->opts->mask & NVMF_OPT_NR_IO_QUEUES) &&
-> +			(ctrl->opts->mask & NVMF_OPT_MATCH_HW_QUEUES)) {
-
-The more readable formatting would be:
-
-	if (!(ctrl->opts->mask & NVMF_OPT_NR_IO_QUEUES) &&
-	    (ctrl->opts->mask & NVMF_OPT_MATCH_HW_QUEUES)) {
-
-> +		int nr_hw_queues;
-> +
-> +		nr_hw_queues = nvme_tcp_get_netdev_current_queue_count(ctrl);
-> +		if (nr_hw_queues <= 0)
-> +			goto init_queue;
-> +
-> +		ctrl->opts->nr_io_queues = min(nr_hw_queues, num_online_cpus());
-> +
-> +		if (ctrl->opts->nr_io_queues < num_online_cpus())
-> +			dev_info(ctrl->device,
-> +				"limiting I/O queues to %u (NIC queues %d, CPUs %u)\n",
-> +				ctrl->opts->nr_io_queues, nr_hw_queues,
-> +				num_online_cpus());
-> +	}
-
-And splitting this into a helper would help keeping the flow sane.
+Best regards,
+-- 
+Junrui Luo <moonafterrain@outlook.com>
 
 
