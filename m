@@ -4,76 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5532EFF8850
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 22:43:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A142BFF885A
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 22:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g39KJh8H5bvlbH1BFc1G54n+h5+QCxvi0MIftjWuRkA=; b=qjvJdv3ddESlmYb3sXDrcm5q74
-	QDa9RVG3+Y5t9PuMEaDgIITO5VQus7aGgeA7p6MnjNi7b51ZOVlJDnyjBDO1DIGeYgW16LPy/vlWh
-	LC7GqfjgCoyCEu4vLC34DzFYjUsiONwTV+vDS9dh4NPgtiNKVbmCv/54sg2gnH86GwNSl4pRFvRzS
-	lUOQloREAhkYTKgVvMPXm6qu2APjXOyhlskxVhGaHzIeoJyrctoanHQOSWwm3q4XXwU9khvj6Uehh
-	CDXfBMctlOIiEhK1cDyqoLMewnUphPIhxp5zhq6TCn0pCjjPkidJCjoFz+E8kwXqeBVLyPPY1Op0Z
-	hr/F/VDg==;
+	bh=7JLfYgvrluu/tH65f4QxUd2+ma64ZL3ycvpZJo5hsjU=; b=DNPODZufmS2FQ3E7FQO78fZ2f4
+	W+JEGn06ZNsPZX06z5T9802Z1dX6fMGtD0bIBcj6XYjoxfgHgnK6w4b6jznxYC+SB2Do9nEyaJpwJ
+	xLPq0eD1i6OCZ3qPwPFCVY9+NiwXMeVPXMZKpzqF/4+k7qtN7TxURmaxKXYu6u22gsax54C9xJ8QK
+	sxqgQ85tUEdpGQtxRlzjkACiXKCHt7cgmIEgGBvYe/SrsAddsgn84gDE8com72GASJwJxfyCCU3ac
+	M3RXFzp9hhmdrETAdpQqg56BEKbMidmxlNLFzErR6D2d951BEv9X2VeRfQmu0jdjKdjSXq04EXbiW
+	vgOEtGlg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGPEk-0000000DqF2-0OHq;
-	Fri, 24 Apr 2026 22:43:02 +0000
-Received: from 011.lax.mailroute.net ([199.89.1.14])
+	id 1wGPTN-0000000Drd5-3PQj;
+	Fri, 24 Apr 2026 22:58:09 +0000
+Received: from mail-wm1-f49.google.com ([209.85.128.49])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGPEc-0000000Dq6q-2TTV
+	id 1wGPTL-0000000DrcK-1uyG
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Apr 2026 22:43:00 +0000
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4g2Sf62qVKz1XLHYm;
-	Fri, 24 Apr 2026 22:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:mime-version:references:in-reply-to
-	:x-mailer:message-id:date:date:subject:subject:from:from
-	:received:received; s=mr01; t=1777070561; x=1779662562; bh=g39KJ
-	h8H5bvlbH1BFc1G54n+h5+QCxvi0MIftjWuRkA=; b=D9Jkjewtjunv4m7S7Myfk
-	fzRwNDP5EBTyXKOySiXsFlSyw6Yl7KkqMOCvT3E4Bu/rZYjryL2P04WKOg3KPh2v
-	kncxT/Ea2KVoglrM4q/jwjg9svVVWwniWPN0XhYW7+6aYJaoJKixeROeLgPOYloY
-	X4v8AH7Qgq2HMxpOQOclufhiUaQ6wJnVBP2Tp2BX2FSykVgv80C9MLK9UqeDgS7W
-	Ty3+5MJjz4kUakaFwwXja2wcTdHoKTqGxdRtHVGRMvHnKKeFJq/lGb2GEoSWdKh8
-	vNXepOJ1DmrRJQ+xEq6fHGYrE1qaVAjc+lWFfsEW497yDDlrzBAcPnt0uSsMg6Xj
-	g==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id cC15Geao2HOZ; Fri, 24 Apr 2026 22:42:41 +0000 (UTC)
-Received: from bvanassche.mtv.corp.google.com (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4g2Sdq0F5mz1XLHYt;
-	Fri, 24 Apr 2026 22:42:38 +0000 (UTC)
-From: Bart Van Assche <bvanassche@acm.org>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Vincent Fu <vincent.fu@samsung.com>
-Subject: [PATCH 12/12] null_blk: Add support for REQ_OP_COPY_*
-Date: Fri, 24 Apr 2026 15:42:01 -0700
-Message-ID: <20260424224201.1949243-13-bvanassche@acm.org>
-X-Mailer: git-send-email 2.54.0.rc2.544.gc7ae2d5bb8-goog
-In-Reply-To: <20260424224201.1949243-1-bvanassche@acm.org>
-References: <20260424224201.1949243-1-bvanassche@acm.org>
+	Fri, 24 Apr 2026 22:58:08 +0000
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso68693165e9.3
+        for <linux-nvme@lists.infradead.org>; Fri, 24 Apr 2026 15:58:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777071485; x=1777676285;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7JLfYgvrluu/tH65f4QxUd2+ma64ZL3ycvpZJo5hsjU=;
+        b=YyRiMzfNzy8P2tMl1hTIJzCUcOvrmxInqDgTd/qNw8tlqi8ryhdO2VV8F5L6vsKqFI
+         ksWKt1D7Dd/pcNIZM52bdleixEbtzSFG6MIaNh3CGJmX26AIIW1bCG1VZluv4xUVKCwQ
+         KnBQV//TJlL5drUO5iZeWFoCRmD970ApV+RkD2Y7mIIG+h0NlTD2/lEw+HPgTVpxZevH
+         5kP6o3iuHAVrKD9459g9uJC5JqEDTwCjVsnbMCV639RYQUlhKjMiT27o85hPn8iOpBIc
+         7wQpHKKGOdQXr331noDTLbEqGQnbNY3G2pNQ5Lsx70T/zD6SfFk7cv7K+DVChaLaBlCT
+         lrNA==
+X-Forwarded-Encrypted: i=1; AFNElJ/vcWsgaDyMbz0ECtdg0H59x+NEGCMX1tJVRJbJOK9sGmtAUtnUqlAv2GXnvGQml8oL94nKI5Q2U+Rx@lists.infradead.org
+X-Gm-Message-State: AOJu0YzeeaBla0lZ8n0iamjMKeMS/ErgwbltTS7j5N5Ic9Ytw2ef8xxw
+	g/9T94IhHoA0vL694MBU1vTTrUFJCNlQQF8CeO08AnS/RbPzjVIYI4eT
+X-Gm-Gg: AeBDiesJROMHMNp+jjUPvmn280lW4bE+854ywLVU/ZaydAmg7dumybjoBlk1IDN7X7z
+	YYqtVX3eMekAzOLoRvPMOPHBef/GO/inil/WPa1bvyPIeaLsr/9QLJqdSjJ96MSKaPxHE8olwz4
+	jN9659ow9AaK1VNPCtfuq9qzGnKvo6L7/ICkq6HpIa9wp1cFcEfhdNcrRRIuPdGsxEpZ7k5D5pZ
+	DuUEYBT6SoKMCQCUf0HPljwlmuak1bW1qqhdVkRYqDxioaBaNxMTrG5tohqKD58jszWsj/Bg42O
+	92yP8nbii4I6J+ztFVSRY1Lg980JAsEMv2i9KEcmnNkUg5iQEN0QVdlE5vovrKL9SAlqVpxs5R6
+	lJjgXrwo+My/VOT0P8iJd1jDcNFhiIX+E1uLeUdVKK8IsDyCQKamyv5+CIUEbbKlCv56E+Spmwt
+	Gfh3NQRRlOqCTwUv8XeaDXEmgJsp2oqlFF9dxpEhvRdr4TwZVuyxvSaQGdXwp7JNYNrBb4YJyZ9
+	CVwvwg=
+X-Received: by 2002:a05:600c:3110:b0:487:243f:dc3e with SMTP id 5b1f17b1804b1-488fb739cf6mr492860025e9.6.1777071485357;
+        Fri, 24 Apr 2026 15:58:05 -0700 (PDT)
+Received: from [10.100.102.74] (89-138-71-216.bb.netvision.net.il. [89.138.71.216])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a5aa3ae83sm431083595e9.12.2026.04.24.15.58.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2026 15:58:04 -0700 (PDT)
+Message-ID: <9bb1d1bd-2acc-453d-970e-762e173d230f@grimberg.me>
+Date: Sat, 25 Apr 2026 01:58:03 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] nvme-auth: Include SC_C in RVAL controller hash
+To: Alistair Francis <alistair23@gmail.com>, Christoph Hellwig <hch@lst.de>
+Cc: hare@suse.de, kbusch@kernel.org, axboe@kernel.dk, kch@nvidia.com,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Alistair Francis <alistair.francis@wdc.com>
+References: <20260415230824.2790058-1-alistair.francis@wdc.com>
+ <20260416051627.GC14802@lst.de>
+ <CAKmqyKON1MoOU-MQNK8EEVwVWmSJZ9OmxH2M_mmYTadmcbVyTw@mail.gmail.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <CAKmqyKON1MoOU-MQNK8EEVwVWmSJZ9OmxH2M_mmYTadmcbVyTw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260424_154254_686324_59F2EDAC 
-X-CRM114-Status: GOOD (  22.38  )
+X-CRM114-CacheID: sfid-20260424_155807_503898_C65F0AC0 
+X-CRM114-Status: GOOD (  11.83  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -88,256 +93,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Nitesh Shetty <nj.shetty@samsung.com>
 
-Implementation is based on existing read and write infrastructure.
-copy_max_bytes: A new configfs and module parameter is introduced, which
-can be used to set hardware/driver supported maximum copy limit.
-Only request based queue mode will support for copy offload.
-Added tracefs support to copy IO tracing.
 
-Suggested-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
-[ bvanassche: Split nullb_do_copy() into two functions. Added a
-  cond_resched() call inside nullb_do_copy(). ]
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
----
- Documentation/block/null_blk.rst  |   4 ++
- drivers/block/null_blk/main.c     | 113 ++++++++++++++++++++++++++++++
- drivers/block/null_blk/null_blk.h |   1 +
- 3 files changed, 118 insertions(+)
+On 16/04/2026 8:25, Alistair Francis wrote:
+> On Thu, Apr 16, 2026 at 3:16 PM Christoph Hellwig <hch@lst.de> wrote:
+>> On Thu, Apr 16, 2026 at 09:08:24AM +1000, alistair23@gmail.com wrote:
+>>> From: Alistair Francis <alistair.francis@wdc.com>
+>>>
+>>> Section 8.3.4.5.5 of the NVMe Base Specification 2.1 describes what is
+>>> included in the Response Value (RVAL) hash and SC_C should be included.
+>>> Currently we are hardcoding 0 instead of using the correct SC_C value.
+>>>
+>>> Update the host and target code to use the SC_C when calculating the
+>>> RVAL instead of using 0.
+>> This looks correct.  But I guess this breaks existing implementations
+>> in the wild now?
+> It would break an implementation that is using non zero sc_c and
+> updates one of the Linux target or Linux host but not the other.
+>
+> Note that similar changes have been made recently to "HostHost" and
+> didn't seem to break everything
+>
+> 7e091add9c43 nvme-auth: update sc_c in host response
+> 159de7a825ae nvmet-auth: update sc_c in target host hash calculation
 
-diff --git a/Documentation/block/null_blk.rst b/Documentation/block/null_=
-blk.rst
-index 4dd78f24d10a..ea0616dbf7f3 100644
---- a/Documentation/block/null_blk.rst
-+++ b/Documentation/block/null_blk.rst
-@@ -149,3 +149,7 @@ zone_size=3D[MB]: Default: 256
- zone_nr_conv=3D[nr_conv]: Default: 0
-   The number of conventional zones to create when block device is zoned.=
-  If
-   zone_nr_conv >=3D nr_zones, it will be reduced to nr_zones - 1.
-+
-+max_copy_bytes=3D[size in bytes]: Default: UINT_MAX
-+  A module and configfs parameter which can be used to set hardware/driv=
-er
-+  supported maximum copy offload limit.
-diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.=
-c
-index f8c0fd57e041..87a2f3536b50 100644
---- a/drivers/block/null_blk/main.c
-+++ b/drivers/block/null_blk/main.c
-@@ -9,6 +9,7 @@
- #include <linux/sched.h>
- #include <linux/fs.h>
- #include <linux/init.h>
-+#include <linux/blk-copy.h>
- #include "null_blk.h"
-=20
- #undef pr_fmt
-@@ -169,6 +170,10 @@ static int g_max_sectors;
- module_param_named(max_sectors, g_max_sectors, int, 0444);
- MODULE_PARM_DESC(max_sectors, "Maximum size of a command (in 512B sector=
-s)");
-=20
-+static unsigned long g_max_copy_bytes =3D UINT_MAX;
-+module_param_named(max_copy_bytes, g_max_copy_bytes, ulong, 0444);
-+MODULE_PARM_DESC(max_copy_bytes, "Maximum size of a copy command (in byt=
-es)");
-+
- static unsigned int nr_devices =3D 1;
- module_param(nr_devices, uint, 0444);
- MODULE_PARM_DESC(nr_devices, "Number of devices to register");
-@@ -450,6 +455,7 @@ NULLB_DEVICE_ATTR(home_node, uint, NULL);
- NULLB_DEVICE_ATTR(queue_mode, uint, NULL);
- NULLB_DEVICE_ATTR(blocksize, uint, NULL);
- NULLB_DEVICE_ATTR(max_sectors, uint, NULL);
-+NULLB_DEVICE_ATTR(max_copy_bytes, uint, NULL);
- NULLB_DEVICE_ATTR(irqmode, uint, NULL);
- NULLB_DEVICE_ATTR(hw_queue_depth, uint, NULL);
- NULLB_DEVICE_ATTR(index, uint, NULL);
-@@ -601,6 +607,7 @@ static struct configfs_attribute *nullb_device_attrs[=
-] =3D {
- 	&nullb_device_attr_blocksize,
- 	&nullb_device_attr_cache_size,
- 	&nullb_device_attr_completion_nsec,
-+	&nullb_device_attr_max_copy_bytes,
- 	&nullb_device_attr_discard,
- 	&nullb_device_attr_fua,
- 	&nullb_device_attr_home_node,
-@@ -805,6 +812,7 @@ static struct nullb_device *null_alloc_dev(void)
- 	dev->queue_mode =3D g_queue_mode;
- 	dev->blocksize =3D g_bs;
- 	dev->max_sectors =3D g_max_sectors;
-+	dev->max_copy_bytes =3D g_max_copy_bytes;
- 	dev->irqmode =3D g_irqmode;
- 	dev->hw_queue_depth =3D g_hw_queue_depth;
- 	dev->blocking =3D g_blocking;
-@@ -1275,6 +1283,96 @@ static blk_status_t null_transfer(struct nullb *nu=
-llb, struct page *page,
- 	return err;
- }
-=20
-+static ssize_t nullb_copy_sector(struct nullb *nullb, sector_t sector_in=
-,
-+				 sector_t sector_out, ssize_t rem, bool is_fua)
-+{
-+	struct nullb_page *t_page_in, *t_page_out;
-+	loff_t offset_in, offset_out;
-+	void *in, *out;
-+	ssize_t chunk;
-+
-+	chunk =3D min_t(size_t, nullb->dev->blocksize, rem);
-+	offset_in =3D (sector_in & SECTOR_MASK) << SECTOR_SHIFT;
-+	offset_out =3D (sector_out & SECTOR_MASK) << SECTOR_SHIFT;
-+
-+	guard(spinlock_irq)(&nullb->lock);
-+
-+	if (null_cache_active(nullb) && !is_fua)
-+		null_make_cache_space(nullb, PAGE_SIZE);
-+
-+	t_page_in =3D null_insert_page(nullb, sector_in,
-+				     !null_cache_active(nullb));
-+	if (!t_page_in)
-+		return -1;
-+	t_page_out =3D null_insert_page(nullb, sector_out,
-+				      !null_cache_active(nullb) || is_fua);
-+	if (!t_page_out)
-+		return -1;
-+
-+	in =3D kmap_local_page(t_page_in->page);
-+	out =3D kmap_local_page(t_page_out->page);
-+	memcpy(out + offset_out, in + offset_in, chunk);
-+	kunmap_local(out);
-+	kunmap_local(in);
-+
-+	__set_bit(sector_out & SECTOR_MASK, t_page_out->bitmap);
-+
-+	if (is_fua)
-+		null_free_sector(nullb, sector_out, true);
-+
-+	return chunk;
-+}
-+
-+static blk_status_t nullb_do_copy(struct nullb *nullb, struct request *r=
-q)
-+{
-+	sector_t sector_in, sector_in_end, sector_out, sector_out_end;
-+	struct bio_copy_offload_ctx *copy_ctx =3D rq->bio->bi_copy_ctx;
-+	ssize_t chunk, rem =3D copy_ctx->len;
-+	struct bio *src_bio, *dst_bio;
-+
-+	src_bio =3D blk_first_copy_bio(rq, REQ_OP_COPY_SRC);
-+	dst_bio =3D blk_first_copy_bio(rq, REQ_OP_COPY_DST);
-+
-+	if (WARN_ON_ONCE(!src_bio || !dst_bio))
-+		return BLK_STS_IOERR;
-+
-+	sector_in =3D src_bio->bi_iter.bi_sector;
-+	sector_in_end =3D sector_in + (src_bio->bi_iter.bi_size >> SECTOR_SHIFT=
-);
-+	sector_out =3D dst_bio->bi_iter.bi_sector;
-+	sector_out_end =3D sector_out + (dst_bio->bi_iter.bi_size >> SECTOR_SHI=
-FT);
-+
-+	while (rem > 0) {
-+		chunk =3D nullb_copy_sector(nullb, sector_in, sector_out, rem,
-+					  rq->cmd_flags & REQ_FUA);
-+		if (chunk < 0)
-+			return BLK_STS_IOERR;
-+		rem -=3D chunk;
-+		if (!rem)
-+			break;
-+		sector_in +=3D chunk >> SECTOR_SHIFT;
-+		if (sector_in >=3D sector_in_end) {
-+			src_bio =3D blk_next_copy_bio(src_bio);
-+			if (WARN_ON_ONCE(!src_bio))
-+				return BLK_STS_IOERR;
-+			sector_in =3D src_bio->bi_iter.bi_sector;
-+			sector_in_end =3D sector_in +
-+				(src_bio->bi_iter.bi_size >> SECTOR_SHIFT);
-+		}
-+		sector_out +=3D chunk >> SECTOR_SHIFT;
-+		if (sector_out >=3D sector_out_end) {
-+			dst_bio =3D blk_next_copy_bio(dst_bio);
-+			if (WARN_ON_ONCE(!dst_bio))
-+				return BLK_STS_IOERR;
-+			sector_out =3D dst_bio->bi_iter.bi_sector;
-+			sector_out_end =3D sector_out +
-+				(dst_bio->bi_iter.bi_size >> SECTOR_SHIFT);
-+		}
-+		cond_resched();
-+	}
-+
-+	return BLK_STS_OK;
-+}
-+
- /*
-  * Transfer data for the given request. The transfer size is capped with=
- the
-  * nr_sectors argument.
-@@ -1292,6 +1390,9 @@ static blk_status_t null_handle_data_transfer(struc=
-t nullb_cmd *cmd,
- 	struct req_iterator iter;
- 	struct bio_vec bvec;
-=20
-+	if (op_is_copy(req_op(rq)))
-+		return nullb_do_copy(nullb, rq);
-+
- 	spin_lock_irq(&nullb->lock);
- 	rq_for_each_segment(bvec, rq, iter) {
- 		len =3D bvec.bv_len;
-@@ -1806,6 +1907,13 @@ static void null_config_discard(struct nullb *null=
-b, struct queue_limits *lim)
- 	lim->max_hw_discard_sectors =3D UINT_MAX >> 9;
- }
-=20
-+static void null_config_copy(struct nullb *nullb, struct queue_limits *l=
-im)
-+{
-+	lim->max_copy_hw_sectors =3D nullb->dev->max_copy_bytes >> SECTOR_SHIFT=
-;
-+	lim->max_copy_src_segments =3D nullb->dev->max_copy_bytes ? U16_MAX : 0=
-;
-+	lim->max_copy_dst_segments =3D lim->max_copy_src_segments;
-+}
-+
- static const struct block_device_operations null_ops =3D {
- 	.owner		=3D THIS_MODULE,
- 	.report_zones	=3D null_report_zones,
-@@ -1922,6 +2030,9 @@ static int null_validate_conf(struct nullb_device *=
-dev)
- 		return -EINVAL;
- 	}
-=20
-+	if (dev->queue_mode =3D=3D NULL_Q_BIO)
-+		dev->max_copy_bytes =3D 0;
-+
- 	return 0;
- }
-=20
-@@ -1989,6 +2100,8 @@ static int null_add_dev(struct nullb_device *dev)
- 	if (dev->virt_boundary)
- 		lim.virt_boundary_mask =3D PAGE_SIZE - 1;
- 	null_config_discard(nullb, &lim);
-+	null_config_copy(nullb, &lim);
-+
- 	if (dev->zoned) {
- 		rv =3D null_init_zoned_dev(dev, &lim);
- 		if (rv)
-diff --git a/drivers/block/null_blk/null_blk.h b/drivers/block/null_blk/n=
-ull_blk.h
-index 6c4c4bbe7dad..c15c319ed91b 100644
---- a/drivers/block/null_blk/null_blk.h
-+++ b/drivers/block/null_blk/null_blk.h
-@@ -93,6 +93,7 @@ struct nullb_device {
- 	unsigned int queue_mode; /* block interface */
- 	unsigned int blocksize; /* block size */
- 	unsigned int max_sectors; /* Max sectors per command */
-+	unsigned long max_copy_bytes; /* Max copy offload length in bytes */
- 	unsigned int irqmode; /* IRQ completion handler */
- 	unsigned int hw_queue_depth; /* queue depth */
- 	unsigned int index; /* index of the disk, only valid with a disk */
+Still doesn't mean that it does not break folks.
+
+I don't see how we get around not breaking other than introducing some
+compat mode under some sysctl (yukk).
+
+Perhaps secure-concatenation is new enough that the breakage surface
+is very small.
+
+> Alistair
+
 
