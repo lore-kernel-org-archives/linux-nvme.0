@@ -4,69 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0DCA6FE520D
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 11:38:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 39179FE520D
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 11:38:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
 	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=er+iRr5GQ6QZH/gveW0s6dTBy2OewSG8Y1/JLE1XUS0=; b=DPp611wbwqNZ8ph4TUT4ofxWg9
-	tA6OgNZyqb1NRYxdtZd6eoYrL1bpr8SB4mjL+Urqfa2YAOUqCXuWRdOZkK18QHGaexZ+Si1Kkx6tN
-	YnDjpt04b9WUC7zLoAroBnUksf0rXWhfu/MYLeUW0oWWdRKGIMTJqVPLoLcT0ZwUUxKVpasiZJdUZ
-	r0Evdc52ZUWnMhPDJ0vS3Hpv0u+vfcXT4xTszOcIK9N1NtemAB1mBV0VUue+hV+ukUtXSdNH4dWkH
-	7lVvm/JLcXe+R380fBFpTLlARIBZ6Plk0prelBywnwmKxi+sOvl2vtnxWs4ItNMT8qDErmrilMMPa
-	OmFnXAjA==;
+	bh=biJxR4k8rsxSyY8blZs5dP7xQ+oubsMpmF2rk0rTkb8=; b=IYoZLXS37wBKHzEKVkvUcuylKZ
+	e/evCTHyHk082DJ6JCtdk6lHN0c/mxSZErr6OHfh7X8IVJPyZZznVxPZzvTatIKPCU4QL9L9u/DBP
+	YI4b49JaZO4R0PMpziTBUtP1bNKqYFxOSlNqcB8CGbHU3sefShxV4fgos5G+3OwxsKzLebZgQXTLy
+	utEwcpczLO5iXYLPsCLRLWQYTEOop8r2s5DXsUsOH5Sk2GlOZ681E4fA8FcJA89EYnhba2zYILiCd
+	5FazmZ0AuEPzmA0Qdy/92tdwc6Je6l9q95Nhs7Bkzj2wDRu9WJB53yepJvvnRrrZ13OV7KxtQMhYM
+	d6Z0KOfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGErf-0000000D8O6-1SAb;
-	Fri, 24 Apr 2026 11:38:31 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGErd-0000000D8NF-3UfK
-	for linux-nvme@bombadil.infradead.org;
-	Fri, 24 Apr 2026 11:38:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=er+iRr5GQ6QZH/gveW0s6dTBy2OewSG8Y1/JLE1XUS0=; b=bnSY1bE5NGWWvGNSpUHYIa6JC8
-	TRtOmbUxVsjhTbsIM4LTqCM9feRg9uIIFAFekHdA3rHzET11i7UBDjkzWc3GaVTfqs3M+BafG6/Z8
-	xT238CIzXk0FkhEtp5g1rnq+ePyRB7haFf+cIXhB9gfajzMgBPBWvFhY9BZB0NAQ16fnYEFJysrL1
-	HSCL1OUn4uqGHN0Srlyyu0cjrwnvzizVyBwZXl5DXB0DGKIT8JNr+UUl9unjWMOx/6+NPK28wePNc
-	vEUHp6VXJCSsR1XX+xhc0DJkqYJ+tm8c0B8MJf1IpZzc0z1bH/UgYlmSu5z3fVIeCNwSaa5FVQFkC
-	K3N02Msw==;
+	id 1wGEra-0000000D8LR-0VCR;
+	Fri, 24 Apr 2026 11:38:26 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGEra-0000000EhhI-0mJL
+	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wGErW-0000000D8Jp-3gpZ
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Apr 2026 11:38:28 +0000
+	Fri, 24 Apr 2026 11:38:24 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id EC2F644596;
+	by sea.source.kernel.org (Postfix) with ESMTP id C5CDE441A9;
 	Fri, 24 Apr 2026 11:38:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D004BC2BCF4;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA2B1C2BCB8;
 	Fri, 24 Apr 2026 11:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1777030701;
-	bh=4sHaCCccq5eLSKvrkGZ7ST8L13vQIeDmpX57uViLJyE=;
+	bh=DyeHMsiA53Hg5qFneyAbch7hM4sTqy1Q2kOzjNNoSVs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JcGpPcSI5b13rPFwzkSKXCLKBIcvbna9OTeH9u3anPRIfmkbmlN3xXw5gCuczG36z
-	 /VvAxkfQWHckMMZkMJEi+buYxtLqCLLDHhSdgZykf6Cl+I4FbmBgkiBVM3NTzjaZUU
-	 oXJwr0UgnBeeE8tnVT8zObxbfgGdLISZ/gx7SSaBY4IcQO1AvO/Iy9y9K2GJls7cHV
-	 T4bkMlMMKr3f94zA4kD8FnoNqMFU7oODTrnR0kAGJLh5k8TREbg3XL3fDVViliacxm
-	 06rTHG0NEDROem3SP7fetLH7x4ievs/zeD0BVimXHsAAtw4BItvhZdia1cXXhm/K6c
-	 ShzjP37OqBuSg==
+	b=AcULKuxXO0kW4nxweg42tbqzWYh8+yhBTx9zf3EslgfCYZ0LZ43Xpju/ysY7K1tT1
+	 H+5WKyfz8yzwNChuIZ8yuDY+AYMQ6BzA/8rJPGfYIogmrfF2dIfRrd8CAtnj0HWokT
+	 ZwrGf1Ih2oC5DzHxWPa29gxhtoJapLRUzZcJq51slqq/UWfm6R1i4RlKRJ8F9ZJLps
+	 YrxJZ2rkn+vXh2abRiamYltZhxNS5car04inYiXtKyYQzTR8RLndkLVfFiXAvcKm1j
+	 5P4zOzbnYuEl7uEUh4FusR2CHI9hZA/v9dGp2mnm5a8aKiW3VC44567iQLWSUvSZzM
+	 B+X0UrTRlXB2A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8AFAFE51FE;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C314FE5209;
 	Fri, 24 Apr 2026 11:38:21 +0000 (UTC)
 From: Joel Granados <joel.granados@kernel.org>
-Date: Fri, 24 Apr 2026 13:37:55 +0200
-Subject: [PATCH RFC 5/5] nvme: Add CDQ ioctl interface
+Date: Fri, 24 Apr 2026 13:37:52 +0200
+Subject: [PATCH RFC 2/5] nvme: Add CDQ data structures to host driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260424-jag-cdq-lkml-v1-5-d773343a717c@kernel.org>
+Message-Id: <20260424-jag-cdq-lkml-v1-2-d773343a717c@kernel.org>
 References: <20260424-jag-cdq-lkml-v1-0-d773343a717c@kernel.org>
 In-Reply-To: <20260424-jag-cdq-lkml-v1-0-d773343a717c@kernel.org>
 To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -75,26 +60,26 @@ To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Joel Granados <joel.granados@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4647;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1538;
  i=joel.granados@kernel.org; h=from:subject:message-id;
- bh=4sHaCCccq5eLSKvrkGZ7ST8L13vQIeDmpX57uViLJyE=;
- b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGnrVis0PgumY0ewTsOM/34h4kUkJuD+/2+4f
- PTJZqQVf1j6dYkBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJp61YrAAoJELqXzVK3
- lkFPn3wL/jKdR3jvoJ0nVQYDcX4EEO2SLnTzID0qaLwYRqAPiJmn/jBYhrYUsNL4fXi6a+E2tJ1
- IEETlT35XxhtJdlxAfL0aWZ/6GcemL5+6hFMT60dajXJvGyaCYXW2Ew5lgzYlEZ9uFOgkMKyEYK
- IItpm8sLMG8XnAlI8re4VwZBU0xXSmfUG+A6ePP0S/y1kKqS8RbBBv5JeNqOGUfkFKJ5MiqO2D2
- LW67cNFUGY8fUI2/UmatG8XQITi1qUlTISBcNs/ET/B/S5efz4ulMpgIi/MwiHmO6U05stXYty5
- tVdmNtWcBqe8E81ADtOHdBCPSh2ljFQORv1Dne9Nhgk6Py/wSMw88jQ+in3hqgCoGv2ygpHjWR7
- /b7HW8k0h4tq1QjObs9Xa3VGV89vIxyLYulDE6QyRjsdiDDrpubK1LX3MgeMailp96i6ZiK3+7v
- SLHJQlEf/NJoniwSD6kiJ8PSWLB9XV/wiuk1s0+KZIlEf7Ou/MpWNIsk1NugFnxoA8aVrg8+m26
- Gk=
+ bh=DyeHMsiA53Hg5qFneyAbch7hM4sTqy1Q2kOzjNNoSVs=;
+ b=owJ4nAHtARL+kA0DAAoBupfNUreWQU8ByyZiAGnrVikL1ufBNaxO3jg3y3Fffg+8zf+zzw/B0
+ P4HbfBBQDTamokBswQAAQoAHRYhBK5HCVcl5jElzssnkLqXzVK3lkFPBQJp61YpAAoJELqXzVK3
+ lkFPV4kL/0d5y27c0jUzAL+8oyMRSaia0vmNA+oFoLsBT8frQWdmpj2QI0FNzwgs5iW2L+PxQoy
+ uLAlgCpABgAtn+4ya4fqJV3c/sZW14Fgvg6rKfU2NevWJftYVqiRiIfm61a4zwwCr+qhby2WhFN
+ 0GHodx3+LUgRCa/NVVGB5SoE1sYevG/IO8T9zpw10aUJ2x6CuO+b9Q/JScvqUAxq7gCx6y6YJ6x
+ hoiLk5oXsP7USr164PHKFhntwcIPlYCFcI+7QiU8MIMu+z3JGxxaNbavNPJbAkulfKhCBaa4L7S
+ FSZ0V1ikIBLK3gy0LwfYz7EI6nzDdP8gTQ0e0NZ9ZsCGc7R73xiUwZyz0Y32JYoPuOSPJqUSZvp
+ lSBtM3Svfhk7r6IoL5/+KiV8IBctEvH63Jg6f/+8wEdCJXx81IA4GRpyYif4z80eyjgV/fNMuma
+ +Amx+WANJbExznXr5EPSB6NzOFV7EmQv3hu9jy6nShqDzvtMe5Zf7/LE9uPIgZKOTj1lOip9a27
+ m0=
 X-Developer-Key: i=joel.granados@kernel.org; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received: by B4 Relay for joel.granados@kernel.org/default with
  auth_id=239
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260424_123826_640494_D23E8DFD 
-X-CRM114-Status: GOOD (  19.27  )
+X-CRM114-CacheID: sfid-20260424_043822_978944_F370F29B 
+X-CRM114-Status: GOOD (  10.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,160 +94,52 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add userspace ioctl interface for CDQ (Controller Data Queue)
-management. This allows userspace applications to create, configure,
-and delete CDQs.
-
-The interface includes:
-- struct nvme_cdq_cmd for passing CDQ parameters
-- NVME_IOCTL_CDQ ioctl command (0x50)
-- Support for both controller and device ioctls
+Add host-side Controller Data Queue (CDQ) data structures and function
+declarations to drivers/nvme/host/nvme.h:
+- Add cdqs xarray to nvme_ctrl for managing CDQ instances
+- Add cdq_nvme_queue structure containing:
+  - DMA mapping state
+  - PRP list management
+  - eventfd context for tail pointer event notifications
 
 Signed-off-by: Joel Granados <joel.granados@kernel.org>
 ---
- drivers/nvme/host/ioctl.c       | 53 ++++++++++++++++++++++++++++++++++++++++-
- include/uapi/linux/nvme_ioctl.h | 29 ++++++++++++++++++++++
- 2 files changed, 81 insertions(+), 1 deletion(-)
+ drivers/nvme/host/nvme.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 8844bbd395159e544218db413e066cae6c24b2f1..98441439bd6be67e20717fed4ffc4d32c9b37725 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -8,6 +8,7 @@
- #include <linux/nvme_ioctl.h>
- #include <linux/io_uring/cmd.h>
- #include "nvme.h"
-+#include "trace.h"
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9971045dbc05e9bb9d7fa32ad540fd107d8c8b83..30d5052c7728c0d5c5e8772ff531bc672e96940f 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -466,6 +466,7 @@ struct nvme_ctrl {
+ 	enum nvme_dctype dctype;
  
- enum {
- 	NVME_IOCTL_VEC		= (1 << 0),
-@@ -373,6 +374,51 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	return status;
- }
- 
-+static int nvme_user_cdq(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-+		struct nvme_cdq_cmd __user *ucmd, unsigned int flags,
-+		bool open_for_write)
-+{
-+	int status;
-+	u16 cdq_id = 0;
-+	struct nvme_cdq_cmd cmd = {};
-+
-+	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-+		return -EFAULT;
-+
-+	/* 21 = 12 (PAGE_SHIFT) + 9 (PAGE_SHIFT / sizeof(u64)) */
-+	if (cmd.size_nbyte > MAX_NR_CDQ_PRPS << 21)
-+		return -EINVAL;
-+
-+	if (cmd.size_nbyte == 0) {
-+		status = nvme_cdq_delete(ctrl, cmd.id);
-+	} else {
-+		status = nvme_cdq_create(ctrl, cmd.mos, cmd.cqs, cmd.entries,
-+					 cmd.size_nbyte, &cdq_id);
-+		if (status)
-+			return status;
-+
-+		if (cmd.tpt_fd > 0) {
-+			status = nvme_cdq_set_tpt(ctrl, cdq_id, cmd.tpt_fd);
-+			if (status)
-+				goto del_cdq;
-+		}
-+
-+		cmd.id = cdq_id;
-+
-+		if (copy_to_user(ucmd, &cmd, sizeof(cmd))) {
-+			status = -EINVAL;
-+			goto del_cdq;
-+		}
-+	}
-+
-+	return status;
-+
-+del_cdq:
-+	// Ignore return; already in error
-+	nvme_cdq_delete(ctrl, cdq_id);
-+	return status;
-+}
-+
- struct nvme_uring_data {
- 	__u64	metadata;
- 	__u64	addr;
-@@ -540,7 +586,8 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- static bool is_ctrl_ioctl(unsigned int cmd)
- {
--	if (cmd == NVME_IOCTL_ADMIN_CMD || cmd == NVME_IOCTL_ADMIN64_CMD)
-+	if (cmd == NVME_IOCTL_ADMIN_CMD || cmd == NVME_IOCTL_ADMIN64_CMD ||
-+	    cmd == NVME_IOCTL_CDQ)
- 		return true;
- 	if (is_sed_ioctl(cmd))
- 		return true;
-@@ -555,6 +602,8 @@ static int nvme_ctrl_ioctl(struct nvme_ctrl *ctrl, unsigned int cmd,
- 		return nvme_user_cmd(ctrl, NULL, argp, 0, open_for_write);
- 	case NVME_IOCTL_ADMIN64_CMD:
- 		return nvme_user_cmd64(ctrl, NULL, argp, 0, open_for_write);
-+	case NVME_IOCTL_CDQ:
-+		return nvme_user_cdq(ctrl, NULL, argp, 0, open_for_write);
- 	default:
- 		return sed_ioctl(ctrl->opal_dev, cmd, argp);
- 	}
-@@ -873,6 +922,8 @@ long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 			return -EACCES;
- 		nvme_queue_scan(ctrl);
- 		return 0;
-+	case NVME_IOCTL_CDQ:
-+		return nvme_user_cdq(ctrl, NULL, argp, 0, open_for_write);
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
-index 2f76cba6716637baff53e167a6141b68420d75c3..8d220c276d959dbd45f224d8ed300fe02dea2f20 100644
---- a/include/uapi/linux/nvme_ioctl.h
-+++ b/include/uapi/linux/nvme_ioctl.h
-@@ -92,6 +92,34 @@ struct nvme_uring_cmd {
- 	__u32   rsvd2;
+ 	u16			awupf; /* 0's based value. */
++	struct xarray cdqs; /* Controller Data Queue */
  };
  
-+struct nvme_cdq_cmd {
-+	/*
-+	 * CDQ size in bytes:
-+	 * (Number of entries) * (entry size in bytes)
-+	 */
+ static inline enum nvme_ctrl_state nvme_ctrl_state(struct nvme_ctrl *ctrl)
+@@ -619,6 +620,20 @@ static inline unsigned long nvme_get_virt_boundary(struct nvme_ctrl *ctrl,
+ 	return NVME_CTRL_PAGE_SIZE - 1;
+ }
+ 
++#define MAX_NR_CDQ_PRPS		20
++struct cdq_nvme_queue {
++	struct nvme_ctrl *ctrl;
 +	__u32	size_nbyte;
-+
-+	/*
-+	 * Virtual mem (returned by mmap). Start of the entries buf in virtual mem.
-+	 */
-+	__u64	entries;
-+
-+	/*
-+	 * Tail Pointer Trigger eventfd File Descriptor
-+	 * Passed when creating the cdq.
-+	 * -1 means that there is no FD and AER should not be forwarded.
-+	 */
-+	int	tpt_fd;
-+
-+	/*
-+	 * Returned by controller; CDQ ID
-+	 */
-+	__u16	id;
-+
-+	__u16	cqs;
-+	__u16	mos;
++	u16 cdq_id;
++	struct eventfd_ctx *tpt_efd_ctx;
++	struct sg_table sgt;
++	struct page **pages;
++	unsigned long nr_pages;
++	void *prp_lists[MAX_NR_CDQ_PRPS];
++	dma_addr_t prp_lists_dma[MAX_NR_CDQ_PRPS];
++	u32 nr_prp_lists; /*number of PRP lists*/
 +};
 +
- #define nvme_admin_cmd nvme_passthru_cmd
- 
- #define NVME_IOCTL_ID		_IO('N', 0x40)
-@@ -104,6 +132,7 @@ struct nvme_uring_cmd {
- #define NVME_IOCTL_ADMIN64_CMD	_IOWR('N', 0x47, struct nvme_passthru_cmd64)
- #define NVME_IOCTL_IO64_CMD	_IOWR('N', 0x48, struct nvme_passthru_cmd64)
- #define NVME_IOCTL_IO64_CMD_VEC	_IOWR('N', 0x49, struct nvme_passthru_cmd64)
-+#define NVME_IOCTL_CDQ		_IOR('N', 0x50, struct nvme_cdq_cmd)
- 
- /* io_uring async commands: */
- #define NVME_URING_CMD_IO	_IOWR('N', 0x80, struct nvme_uring_cmd)
+ struct nvme_ctrl_ops {
+ 	const char *name;
+ 	struct module *module;
 
 -- 
 2.50.1
