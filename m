@@ -4,54 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14B28FF885A
-	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 22:42:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC662FF8850
+	for <linux-nvme@archiver.kernel.org>; Fri, 24 Apr 2026 22:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=ofDG2O/7VRYYZzf2TzBJwYLBfHV3BZtdxqHuqXtXmkc=; b=HGN1oqPVFX7I+jfrgEf2OIvjhd
-	iFQMojSZokaW9SIvDeaOqUI644nnlDS5DR9B3HKxlBFdcfhj/A8awBINFmO/L1eqHBo+Xief6ZZMw
-	Jd0AOqTGwZByIBia7sTeXBPKgIrvXFusjJj3XpwT4hu/wPbniQ+JPOzg70rnqO3I+gsgrfGqQs6cV
-	o4BxsWvJMI5QtyFyULf01/L3TFmBpQRfwnm/1zlI9L/KCZUD9iTMetJM6teaF1D3/eb84hct5vOT+
-	C1hy7JtwG5aplMw+JDNmVOAHHsIuvISF6F7wyrqA0jZvMAUhU0nuEsUjKeWE4MLNXlBlV4pIUcbwl
-	XHtojjsg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=KlHJNfWd/yVI30FVs1la77MHEmoiC3Q3HLV11nDAA5E=; b=U6QbvSrkREaWm8Heh1223hJC7e
+	irgfYCwyZXQRKLmah1lduks76ncov+18iPFRVd8BKzPCZIsCH7aH4ZPu4hSn84tnTSHNam/ROpAuW
+	F3MQ8IKo2/brykDSTA8KPKZLXT7LzTZgwwgr/69kHtpwdBam91QaxLBX06joov387dEhQKrG4IAML
+	JeEQg5CU6o6rzY1WkMT3ym2mnObgIumMHouHtO6Z0VT1WchGjq/vbEFvWrNjFBmKd8MGnhs/r9ZFs
+	X8QFcFpboro3UN0L+6a3nWRiW8+994Ox6qbS5wmUlUcuz7wOOlMucj5rkaFe2BUwFOz06W12CkjAP
+	mPuicVFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGPE6-0000000Dpf8-01i7;
-	Fri, 24 Apr 2026 22:42:22 +0000
+	id 1wGPEE-0000000Dpgk-1L49;
+	Fri, 24 Apr 2026 22:42:30 +0000
 Received: from 011.lax.mailroute.net ([199.89.1.14])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGPE2-0000000Dpen-3aXT
+	id 1wGPEC-0000000DpgI-27kH
 	for linux-nvme@lists.infradead.org;
-	Fri, 24 Apr 2026 22:42:20 +0000
+	Fri, 24 Apr 2026 22:42:29 +0000
 Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4g2SdP3cn0z1XLHZJ;
-	Fri, 24 Apr 2026 22:42:17 +0000 (UTC)
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4g2Sdc2NVfz1XQmth;
+	Fri, 24 Apr 2026 22:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:mime-version
+	content-transfer-encoding:mime-version:references:in-reply-to
 	:x-mailer:message-id:date:date:subject:subject:from:from
-	:received:received; s=mr01; t=1777070532; x=1779662533; bh=ofDG2
-	O/7VRYYZzf2TzBJwYLBfHV3BZtdxqHuqXtXmkc=; b=E2PQlhJ/9u9wesfcL3B/7
-	HVCzJBIko5AAI64JfJPeSl3qMbGj+5dlXyTCeLWsgU+8WQtiWdutdmGxnjJK85ZN
-	5Wmz3xJuqqQGdDwILWEe7IYuk6txetbEmutrqNL8EP4+OvJWXpbHysYGF9G7KIQY
-	JKz5XiE3Fq/xnGPuIuEefIgj2IWodhgQREL40HiLV0VOtvJ/axf1TZYJ6IPEkxMZ
-	uJijLjvbiVeYpIbHX9NXAjCE3RpXXIkazSf95YIsR0ZTtzLX/KblL4K2kDmtQUrL
-	mZvi97EshpoIKOyrwqz9n9hfM5HaUqGdiaW4n7ZdpmqUZsf57K9taj0B5wML0gYF
-	Q==
+	:received:received; s=mr01; t=1777070534; x=1779662535; bh=KlHJN
+	fWd/yVI30FVs1la77MHEmoiC3Q3HLV11nDAA5E=; b=eHH8iKjI0c5SAX2VNMjp4
+	+rgZxkO9d90V5XF1NA0yBohCXuI2e89y/gPiL7wKRRNhfAK98Yc2QiXNqgkcEwvf
+	bWxrfqWz+inxyJLLUK+DfsjsyqrlxdMVJGainhHT84fsdRE3MJTIKlM8a6MMbPmn
+	wiC/VWhHHJib7qZUaKi8GtFp3wNimaUhTotYs66XV4t5+2XGbaCP48eFhuWw6Xxw
+	JAn/H0vIjzX33u8aNZBAhSTu2qpu4Q3KKT0qi2w2vxGYU6buj4MYYuzCrb6+iVJE
+	Fk1FROM/P1GZj2yyYlvGEmDKYrGbpiWHR2lSaBrGnwExcEwNPoFD/hFoo6TXy4VV
+	g==
 X-Virus-Scanned: by MailRoute
 Received: from 011.lax.mailroute.net ([127.0.0.1])
  by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id YicA8r0OLa3d; Fri, 24 Apr 2026 22:42:12 +0000 (UTC)
+ id hYzSRjkU9k1y; Fri, 24 Apr 2026 22:42:14 +0000 (UTC)
 Received: from bvanassche.mtv.corp.google.com (unknown [104.135.180.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4g2SdG5GdCz1XLF2r;
-	Fri, 24 Apr 2026 22:42:10 +0000 (UTC)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4g2SdJ523Rz1XQmtk;
+	Fri, 24 Apr 2026 22:42:12 +0000 (UTC)
 From: Bart Van Assche <bvanassche@acm.org>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: linux-block@vger.kernel.org,
@@ -59,17 +59,20 @@ Cc: linux-block@vger.kernel.org,
 	linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>,
 	Nitesh Shetty <nj.shetty@samsung.com>,
-	Bart Van Assche <bvanassche@acm.org>
-Subject: [PATCH 00/12] Block storage copy offloading
-Date: Fri, 24 Apr 2026 15:41:49 -0700
-Message-ID: <20260424224201.1949243-1-bvanassche@acm.org>
+	Bart Van Assche <bvanassche@acm.org>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>
+Subject: [PATCH 01/12] block: Introduce queue limits for copy offloading
+Date: Fri, 24 Apr 2026 15:41:50 -0700
+Message-ID: <20260424224201.1949243-2-bvanassche@acm.org>
 X-Mailer: git-send-email 2.54.0.rc2.544.gc7ae2d5bb8-goog
+In-Reply-To: <20260424224201.1949243-1-bvanassche@acm.org>
+References: <20260424224201.1949243-1-bvanassche@acm.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260424_154218_951142_7C6BF8E2 
-X-CRM114-Status: GOOD (  15.47  )
+X-CRM114-CacheID: sfid-20260424_154228_566401_8DFB1BA4 
+X-CRM114-Status: GOOD (  25.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,87 +87,272 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Jens,
+From: Nitesh Shetty <nj.shetty@samsung.com>
 
-This patch series implements a new approach for copy offloading. Compared=
- to
-Nitesh' approach, the differences are as follows:
- - Two new limits have been introduced representing the maximum number of=
- source
-   and destination ranges. Support for multiple source ranges for the NVM=
-e Copy
-   command has been added.
- - The blkdev_copy_offload() function can now submit multiple copy offloa=
-d
-   commands instead of only one.
- - The implementation no longer depends on block layer plugging.
+Add the following request queue limits:
+ - max_copy_hw_sectors: the maximum number of sectors supported by the
+   block driver for a single offloaded copy operation.
+ - max_copy_src_segments: the maximum number of source segments
+   supported by the block driver for a single offloaded copy operation.
+ - max_copy_dst_segments: the maximum number of destination segments
+   supported by the block driver for a single offloaded copy operation.
+ - max_user_copy_sectors: the maximum number of sectors configured by the
+   user for a single offloaded copy operation.
+ - max_copy_sectors: the maximum number of sectors for a single
+   offloaded copy operation. This is the minimum of the above two
+   parameters.
 
-This patch series includes copy offloading support for the Linux kernel b=
-lock
-layer core, the device mapper core, the null_blk and the NVMe and nvmet d=
-rivers.
-Support for the scsi_debug and SCSI core will follow later.
+The default value for all these new limits is zero which means that copy
+offloading is not supported unless if these limits are set by the block
+driver.
 
-Test scripts are available here:
-https://github.com/bvanassche/blktests/tree/copy-offloading
+ake the following two limits available in sysfs:
+ - copy_max_bytes (RW)
+ - copy_max_hw_bytes (RO)
 
-See also Bart Van Assche, [LSF/MM/BPF TOPIC] Block storage copy offloadin=
-g,
-January 2026
-(https://lore.kernel.org/all/0cfe6fe2-3865-4dc2-92a7-74b1240f7b63@acm.org=
-/).
+These limits will be used by the function that implements copy
+offloading to decide the bio size.
 
-See also Nitesh Shetty, Implement copy offload support, May 2024
-(https://lore.kernel.org/linux-block/20240520102033.9361-1-nj.shetty@sams=
-ung.com/).
+Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+[ bvanassche: Added max_copy_{src,dst}_segments limits. Introduced
+  blk_validate_copy_limits(). Introduced BLK_FEAT_STACKING_COPY_OFFL.
+  Modified patch description. ]
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+---
+ Documentation/ABI/stable/sysfs-block | 24 +++++++++++++++++++
+ block/blk-settings.c                 | 36 ++++++++++++++++++++++++++++
+ block/blk-sysfs.c                    | 35 +++++++++++++++++++++++++++
+ include/linux/blkdev.h               | 18 +++++++++++++-
+ 4 files changed, 112 insertions(+), 1 deletion(-)
 
-Anuj Gupta (1):
-  fs/read_write: Generalize generic_copy_file_checks()
-
-Bart Van Assche (4):
-  block: Introduce blkdev_copy_offload()
-  block: Introduce accessor functions for copy offload bios
-  dm: Add support for copy offloading
-  dm-linear: Enable copy offloading
-
-Nitesh Shetty (7):
-  block: Introduce queue limits for copy offloading
-  block: Add the REQ_OP_COPY_{SRC,DST} operations
-  block: Add an onloaded copy implementation
-  fs, block: Add copy_file_range() support for block devices
-  nvme: Add copy offloading support
-  nvmet: Support the Copy command
-  null_blk: Add support for REQ_OP_COPY_*
-
- Documentation/ABI/stable/sysfs-block |  24 +
- Documentation/block/null_blk.rst     |   4 +
- block/Makefile                       |   2 +-
- block/bio.c                          |   1 +
- block/blk-copy.c                     | 631 +++++++++++++++++++++++++++
- block/blk-core.c                     |  38 ++
- block/blk-merge.c                    |  13 +
- block/blk-settings.c                 |  36 ++
- block/blk-sysfs.c                    |  35 ++
- block/blk.h                          |   5 +
- block/fops.c                         |  54 +++
- drivers/block/null_blk/main.c        | 113 +++++
- drivers/block/null_blk/null_blk.h    |   1 +
- drivers/md/dm-linear.c               |   6 +
- drivers/md/dm-table.c                |   8 +
- drivers/nvme/host/constants.c        |   1 +
- drivers/nvme/host/core.c             | 106 +++++
- drivers/nvme/host/trace.c            |  21 +-
- drivers/nvme/target/admin-cmd.c      |  26 +-
- drivers/nvme/target/io-cmd-bdev.c    |  80 ++++
- drivers/nvme/target/io-cmd-file.c    |  59 ++-
- drivers/nvme/target/trace.c          |  19 +
- fs/read_write.c                      |   8 +-
- include/linux/blk-copy.h             |  50 +++
- include/linux/blk_types.h            |  57 +++
- include/linux/blkdev.h               |  20 +-
- include/linux/nvme.h                 |  47 +-
- 27 files changed, 1449 insertions(+), 16 deletions(-)
- create mode 100644 block/blk-copy.c
- create mode 100644 include/linux/blk-copy.h
-
+diff --git a/Documentation/ABI/stable/sysfs-block b/Documentation/ABI/sta=
+ble/sysfs-block
+index 900b3fc4c72d..bec5e04085da 100644
+--- a/Documentation/ABI/stable/sysfs-block
++++ b/Documentation/ABI/stable/sysfs-block
+@@ -239,6 +239,30 @@ Description:
+ 		last zone of the device which may be smaller.
+=20
+=20
++What:		/sys/block/<disk>/queue/copy_max_bytes
++Date:		May 2026
++Contact:	linux-block@vger.kernel.org
++Description:
++		[RW] This is the maximum number of bytes that the block layer
++		will allow for a copy request. This is always smaller or
++		equal to the maximum size allowed by the block driver.
++		Any value higher than 'copy_max_hw_bytes' will be reduced to
++		'copy_max_hw_bytes'. Writing '0' to this attribute will disable
++		copy offloading for this block device. If copy offloading is
++		disabled, copy requests will be translated into read and write
++		requests.
++
++
++What:		/sys/block/<disk>/queue/copy_max_hw_bytes
++Date:		May 2026
++Contact:	linux-block@vger.kernel.org
++Description:
++		[RO] This is the maximum number of bytes that is allowed for
++		a single data copy request. Set by the block driver. The value
++		zero indicates that the block device does not support copy
++		offloading.
++
++
+ What:		/sys/block/<disk>/queue/crypto/
+ Date:		February 2022
+ Contact:	linux-block@vger.kernel.org
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 78c83817b9d3..cb846ff2926e 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -57,6 +57,11 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+ 	lim->max_hw_zone_append_sectors =3D UINT_MAX;
+ 	lim->max_user_discard_sectors =3D UINT_MAX;
+ 	lim->atomic_write_hw_max =3D UINT_MAX;
++
++	lim->max_user_copy_sectors =3D UINT_MAX;
++	lim->max_copy_hw_sectors =3D UINT_MAX;
++	lim->max_copy_src_segments =3D U16_MAX;
++	lim->max_copy_dst_segments =3D U16_MAX;
+ }
+ EXPORT_SYMBOL(blk_set_stacking_limits);
+=20
+@@ -333,6 +338,21 @@ static void blk_validate_atomic_write_limits(struct =
+queue_limits *lim)
+ 	lim->atomic_write_unit_max =3D 0;
+ }
+=20
++/*
++ * Check whether max_copy_hw_sectors and max_copy_{src,dst}_segments are
++ * either all nonzero or all zero.
++ */
++static int blk_validate_copy_limits(const struct queue_limits *lim)
++{
++	if (lim->max_copy_hw_sectors && lim->max_copy_src_segments &&
++	    lim->max_copy_dst_segments)
++		return 0;
++	if (!lim->max_copy_hw_sectors && !lim->max_copy_src_segments &&
++	    !lim->max_copy_dst_segments)
++		return 0;
++	return -EINVAL;
++}
++
+ /*
+  * Check that the limits in lim are valid, initialize defaults for unset
+  * values, and cap values based on others where needed.
+@@ -510,6 +530,13 @@ int blk_validate_limits(struct queue_limits *lim)
+ 	err =3D blk_validate_integrity_limits(lim);
+ 	if (err)
+ 		return err;
++
++	err =3D blk_validate_copy_limits(lim);
++	if (err)
++		return err;
++	lim->max_copy_sectors =3D
++		min(lim->max_copy_hw_sectors, lim->max_user_copy_sectors);
++
+ 	return blk_validate_zoned_limits(lim);
+ }
+ EXPORT_SYMBOL_GPL(blk_validate_limits);
+@@ -528,6 +555,7 @@ int blk_set_default_limits(struct queue_limits *lim)
+ 	 */
+ 	lim->max_user_discard_sectors =3D UINT_MAX;
+ 	lim->max_user_wzeroes_unmap_sectors =3D UINT_MAX;
++	lim->max_user_copy_sectors =3D UINT_MAX;
+ 	return blk_validate_limits(lim);
+ }
+=20
+@@ -829,6 +857,14 @@ int blk_stack_limits(struct queue_limits *t, struct =
+queue_limits *b,
+ 	t->max_segment_size =3D min_not_zero(t->max_segment_size,
+ 					   b->max_segment_size);
+=20
++	t->max_copy_hw_sectors =3D
++		min(t->max_copy_hw_sectors, b->max_copy_hw_sectors);
++	t->max_copy_src_segments =3D
++		min(t->max_copy_src_segments, b->max_copy_src_segments);
++	t->max_copy_dst_segments =3D
++		min(t->max_copy_dst_segments, b->max_copy_dst_segments);
++	t->max_copy_sectors =3D min(t->max_copy_sectors, b->max_copy_sectors);
++
+ 	alignment =3D queue_limit_alignment_offset(b, start);
+=20
+ 	/* Bottom device has different alignment.  Check that it is
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index f22c1f253eb3..8e1e14d1682d 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -325,6 +325,36 @@ queue_max_sectors_store(struct gendisk *disk, const =
+char *page, size_t count,
+ 	return 0;
+ }
+=20
++static ssize_t queue_copy_hw_max_show(struct gendisk *disk, char *page)
++{
++	return queue_var_show(
++		disk->queue->limits.max_copy_hw_sectors << SECTOR_SHIFT, page);
++}
++
++static ssize_t queue_copy_max_show(struct gendisk *disk, char *page)
++{
++	return queue_var_show(
++		disk->queue->limits.max_copy_sectors << SECTOR_SHIFT, page);
++}
++
++static int queue_copy_max_store(struct gendisk *disk, const char *page,
++				size_t count, struct queue_limits *lim)
++{
++	unsigned long max_copy_bytes;
++	ssize_t ret;
++
++	ret =3D queue_var_store(&max_copy_bytes, page, count);
++	if (ret < 0)
++		return ret;
++
++	if ((max_copy_bytes >> SECTOR_SHIFT) > UINT_MAX)
++		return -EINVAL;
++
++	lim->max_user_copy_sectors =3D max_copy_bytes >> SECTOR_SHIFT;
++
++	return 0;
++}
++
+ static ssize_t queue_feature_store(struct gendisk *disk, const char *pag=
+e,
+ 		size_t count, struct queue_limits *lim, blk_features_t feature)
+ {
+@@ -652,6 +682,9 @@ QUEUE_RO_ENTRY(queue_nr_zones, "nr_zones");
+ QUEUE_LIM_RO_ENTRY(queue_max_open_zones, "max_open_zones");
+ QUEUE_LIM_RO_ENTRY(queue_max_active_zones, "max_active_zones");
+=20
++QUEUE_LIM_RO_ENTRY(queue_copy_hw_max, "copy_max_hw_bytes");
++QUEUE_LIM_RW_ENTRY(queue_copy_max, "copy_max_bytes");
++
+ QUEUE_RW_ENTRY(queue_nomerges, "nomerges");
+ QUEUE_LIM_RW_ENTRY(queue_iostats_passthrough, "iostats_passthrough");
+ QUEUE_RW_ENTRY(queue_rq_affinity, "rq_affinity");
+@@ -760,6 +793,8 @@ static const struct attribute *const queue_attrs[] =3D=
+ {
+ 	&queue_max_hw_wzeroes_unmap_sectors_entry.attr,
+ 	&queue_max_wzeroes_unmap_sectors_entry.attr,
+ 	&queue_max_zone_append_sectors_entry.attr,
++	&queue_copy_hw_max_entry.attr,
++	&queue_copy_max_entry.attr,
+ 	&queue_zone_write_granularity_entry.attr,
+ 	&queue_rotational_entry.attr,
+ 	&queue_zoned_entry.attr,
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 890128cdea1c..8ae64cc0546f 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -353,13 +353,17 @@ typedef unsigned int __bitwise blk_features_t;
+ #define BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE \
+ 	((__force blk_features_t)(1u << 15))
+=20
++/* block driver is a stacking block driver that supports copy offloading=
+ */
++#define BLK_FEAT_STACKING_COPY_OFFL	((__force blk_features_t)(1u << 16))
++
+ /*
+  * Flags automatically inherited when stacking limits.
+  */
+ #define BLK_FEAT_INHERIT_MASK \
+ 	(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA | BLK_FEAT_ROTATIONAL | \
+ 	 BLK_FEAT_STABLE_WRITES | BLK_FEAT_ZONED | \
+-	 BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE)
++	 BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE | \
++	 BLK_FEAT_STACKING_COPY_OFFL)
+=20
+ /* internal flags in queue_limits.flags */
+ typedef unsigned int __bitwise blk_flags_t;
+@@ -415,6 +419,13 @@ struct queue_limits {
+ 	unsigned int		atomic_write_hw_unit_max;
+ 	unsigned int		atomic_write_unit_max;
+=20
++	/* copy offloading limits */
++	unsigned int		max_copy_hw_sectors;	/* set by block driver*/
++	uint16_t		max_copy_src_segments;	/* set by block driver*/
++	uint16_t		max_copy_dst_segments;	/* set by block driver*/
++	unsigned int		max_user_copy_sectors;	/* set via sysfs */
++	unsigned int		max_copy_sectors;	/* min() of the above */
++
+ 	unsigned short		max_segments;
+ 	unsigned short		max_integrity_segments;
+ 	unsigned short		max_discard_segments;
+@@ -1454,6 +1465,11 @@ static inline unsigned int bdev_discard_granularit=
+y(struct block_device *bdev)
+ 	return bdev_limits(bdev)->discard_granularity;
+ }
+=20
++static inline unsigned int bdev_max_copy_sectors(struct block_device *bd=
+ev)
++{
++	return bdev_get_queue(bdev)->limits.max_copy_sectors;
++}
++
+ static inline unsigned int
+ bdev_max_secure_erase_sectors(struct block_device *bdev)
+ {
 
