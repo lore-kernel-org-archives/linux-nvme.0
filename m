@@ -4,94 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25F80FF8861
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 09:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 883F7FF8861
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 09:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=I0emObiUGW5vIrCuKImDBXh6wqhKm10C26wxd4m7qgA=; b=0jGMkqMPdqaB2HwVZ+ftaWw46r
-	hqHJDAEAo9c7d6aisOpN18uYouJC4MS2BtJwdVjsREbWoY+XensaKEJt9ORvG4G8W/zuFnTjzVg/c
-	aBF4cXcxl/k0end60fTlPkkHU7YJHg8Nw7JV7Ia5WrNTud4oe7/C3KtQA1Oa20hjmxtFcVuxDWPNM
-	4o1HgcVKu5/Ic88PHrq4YFb7n0adGrGtL8n/eAcNFxS8qXna1CKDqBEXjjr3a5PwMY72F0Qityc3M
-	Yzg+UlIEhqGuXdOhCQNZiA1LOdrBYf6H2aaN27XS024Xg3aeEKP7YAgbVho8F8zuZIPs+iLyZ+AZr
-	+mKvVZAg==;
+	bh=R7uwwT0gVidcFzh7ReelsYrwzanQo5u6EU+2hmjZrfg=; b=pW2vnI9E4d8wqBLWJ7BE6SjNmQ
+	Ro8u++EMMIYk1OZgkmkI+le0LjGy0J4iF8jtyAlLgSSR9QbPoLlJYExyvmQGDswPd8FeucXNiZ3I2
+	qHaIVtbrzwOjbgfAffAa80ddhOpw049Vs6ddgPL31dCcZMhI1ffwHfgQhtn5Qa7AKRM+JYR+IXC0M
+	+joZNGMrvK1lJjXKxWkH1UwrwstW2p84MtcpzS6qmHCkjZdL6Fo2CIvvX/b6BESnkh3DedbIRYAjr
+	gpJeoDMmfTzmtN6tnxztYu3U49sxsHQGfvt5SfJZPV6A+E7lC/RKbXpAgANMELweySVUsKdHsj5BU
+	ed331RAg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHHui-0000000GXKv-0OjF;
-	Mon, 27 Apr 2026 09:06:00 +0000
+	id 1wHI03-0000000GXkH-0KUi;
+	Mon, 27 Apr 2026 09:11:31 +0000
 Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHHuf-0000000GXKL-2wJe
+	id 1wHI00-0000000GXia-0vSq
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Apr 2026 09:05:59 +0000
+	Mon, 27 Apr 2026 09:11:29 +0000
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 40C176A900;
-	Mon, 27 Apr 2026 09:05:54 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 93ECD6A8EA;
+	Mon, 27 Apr 2026 09:11:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777280754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777281086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I0emObiUGW5vIrCuKImDBXh6wqhKm10C26wxd4m7qgA=;
-	b=qLLLsbp6Da4XlmyG16EBYoJedMAbGuNqNoqF8QamakOgVhynmzVvHUhSVyklxfrmYsBsLL
-	Vi7iWeR+JAypqxrs99oPuTh3WpFByzj0SW/q8+gxk7i+dAxX2d96QF5to6ttaw2iRVVH6N
-	RszbI1tGFfRqyZBl9MQlzi/12OzTR8c=
+	bh=R7uwwT0gVidcFzh7ReelsYrwzanQo5u6EU+2hmjZrfg=;
+	b=MIxw+3IqQMeW0zl1hMv+w1Dl/efg7WP0FfLQ2wRsEz8jEocG/tLlVc811HyIH9Mf9Uin61
+	wKXZzC6TlXdHP6NnL4inidepGpfghieFJimHKbXAXp/206xwtooJxtgCp0BdOwWOU2Lucp
+	icGRfl9ZsrUKoVRZuooNh7wWiXUa9nE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777280754;
+	s=susede2_ed25519; t=1777281086;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I0emObiUGW5vIrCuKImDBXh6wqhKm10C26wxd4m7qgA=;
-	b=iWOzYmxbQtkPnJj7qpdwdf2PELqQfHoKKg9R1Qg6KpxIJL8AemviWF0Xnm1IuOGmR+HY6A
-	7+tEgogZBRgBY2CQ==
+	bh=R7uwwT0gVidcFzh7ReelsYrwzanQo5u6EU+2hmjZrfg=;
+	b=n/Z00nd6LvxYNFZR/TeaM85raUEiiiBoJuB/9xO5m7kHkYDxzvGb9CjTjEaZSweWyNRfoi
+	7MRK4evG4D0pGDAA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777280754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777281086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I0emObiUGW5vIrCuKImDBXh6wqhKm10C26wxd4m7qgA=;
-	b=qLLLsbp6Da4XlmyG16EBYoJedMAbGuNqNoqF8QamakOgVhynmzVvHUhSVyklxfrmYsBsLL
-	Vi7iWeR+JAypqxrs99oPuTh3WpFByzj0SW/q8+gxk7i+dAxX2d96QF5to6ttaw2iRVVH6N
-	RszbI1tGFfRqyZBl9MQlzi/12OzTR8c=
+	bh=R7uwwT0gVidcFzh7ReelsYrwzanQo5u6EU+2hmjZrfg=;
+	b=MIxw+3IqQMeW0zl1hMv+w1Dl/efg7WP0FfLQ2wRsEz8jEocG/tLlVc811HyIH9Mf9Uin61
+	wKXZzC6TlXdHP6NnL4inidepGpfghieFJimHKbXAXp/206xwtooJxtgCp0BdOwWOU2Lucp
+	icGRfl9ZsrUKoVRZuooNh7wWiXUa9nE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777280754;
+	s=susede2_ed25519; t=1777281086;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I0emObiUGW5vIrCuKImDBXh6wqhKm10C26wxd4m7qgA=;
-	b=iWOzYmxbQtkPnJj7qpdwdf2PELqQfHoKKg9R1Qg6KpxIJL8AemviWF0Xnm1IuOGmR+HY6A
-	7+tEgogZBRgBY2CQ==
+	bh=R7uwwT0gVidcFzh7ReelsYrwzanQo5u6EU+2hmjZrfg=;
+	b=n/Z00nd6LvxYNFZR/TeaM85raUEiiiBoJuB/9xO5m7kHkYDxzvGb9CjTjEaZSweWyNRfoi
+	7MRK4evG4D0pGDAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 306AC593B0;
-	Mon, 27 Apr 2026 09:05:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83D56593B0;
+	Mon, 27 Apr 2026 09:11:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qyGWCvIm72njPwAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Mon, 27 Apr 2026 09:05:54 +0000
-Date: Mon, 27 Apr 2026 11:05:45 +0200
+	id MTLdHj4o72k2RQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Mon, 27 Apr 2026 09:11:26 +0000
+Date: Mon, 27 Apr 2026 11:11:21 +0200
 From: Daniel Wagner <dwagner@suse.de>
 To: Maurizio Lombardi <mlombard@redhat.com>
 Cc: kbusch@kernel.org, mheyne@amazon.de, emilne@redhat.com, 
 	jmeneghi@redhat.com, linux-nvme@lists.infradead.org, mlombard@arkamax.eu, 
 	mkhalfella@purestorage.com, chaitanyak@nvidia.com, hare@kernel.org, hch@lst.de
-Subject: Re: [PATCH V3 3/8] nvme: pci: use admin queue timeout over
- NVME_ADMIN_TIMEOUT
-Message-ID: <5e8ae9b1-6dbd-4c38-8888-5c39ef2e0b4d@flourine.local>
+Subject: Re: [PATCH V3 4/8] nvme: add sysfs attribute to change IO timeout
+ per nvme controller
+Message-ID: <d776e448-461d-4888-a685-a9af79c61d9c@flourine.local>
 References: <20260410073924.61078-1-mlombard@redhat.com>
- <20260410073924.61078-4-mlombard@redhat.com>
+ <20260410073924.61078-5-mlombard@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260410073924.61078-4-mlombard@redhat.com>
+In-Reply-To: <20260410073924.61078-5-mlombard@redhat.com>
 X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -110,10 +110,10 @@ X-Spamd-Result: default: False [-4.30 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[flourine.local:mid,imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260427_020557_961877_4E24EA1C 
-X-CRM114-Status: GOOD (  15.67  )
+X-CRM114-CacheID: sfid-20260427_021128_407625_27E03F70 
+X-CRM114-Status: GOOD (  15.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,30 +128,37 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 10, 2026 at 09:39:19AM +0200, Maurizio Lombardi wrote:
-> While tearing down its queues, nvme-pci uses NVME_ADMIN_TIMEOUT as its
-> timeout target. Instead, use the configured admin queue's timeout value
-> to match the device's existing timeout setting.
+On Fri, Apr 10, 2026 at 09:39:20AM +0200, Maurizio Lombardi wrote:
+> Currently, there is no method to adjust the timeout values on a
+> per controller basis with nvme I/O queues.
+> Add an io_timeout attribute to nvme so that different nvme controllers
+> which may have different timeout requirements can have custom
+> I/O timeouts set.
 > 
 > Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 > ---
->  drivers/nvme/host/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/nvme/host/core.c  |  2 ++
+>  drivers/nvme/host/nvme.h  |  1 +
+>  drivers/nvme/host/sysfs.c | 47 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 50 insertions(+)
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 9aa19255b041..379c75c6d35a 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3091,7 +3091,7 @@ static bool __nvme_delete_io_queues(struct nvme_dev *dev, u8 opcode)
->  	unsigned long timeout;
->  
->   retry:
-> -	timeout = NVME_ADMIN_TIMEOUT;
-> +	timeout = dev->ctrl.admin_timeout;
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 6dc3d273623c..1b676fd4d454 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -4197,6 +4197,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, struct nvme_ns_info *info)
+>  		mutex_unlock(&ctrl->namespaces_lock);
+>  		goto out_unlink_ns;
+>  	}
+> +	blk_queue_rq_timeout(ns->queue, ctrl->io_timeout);
+>  	nvme_ns_add_to_ctrl_list(ns);
+>  	mutex_unlock(&ctrl->namespaces_lock);
+>  	synchronize_srcu(&ctrl->srcu);
+> @@ -5136,6 +5137,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>  	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+>  	ctrl->ka_last_check_time = jiffies;
+>  	ctrl->admin_timeout = NVME_ADMIN_TIMEOUT;
+> +	ctrl->io_timeout = NVME_IO_TIMEOUT;
 
-Looks good to me. I went through the fabrics code to double check if
-there is something similiar but it seems we are fine there as well.
-
-Reviewed-by: Daniel Wagner <dwagner@suse.de>
-
+Should this be initialized with the defaults from the module load time?
 
