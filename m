@@ -4,84 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1DC03FF8867
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 20:00:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 552D7FF8867
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 21:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FLa6eYHbGlETXhdKZQov353z3h7xOJzxZI3VwyPyfVI=; b=xmtYKlhMGzi/DCfkEE+e05JE5W
-	wVKMxHVb+n5vd0b9B7d19wa8yJRVJp6G7fWLeiFtV9Cif+2TWGcN/msdV75QpfI0pyLkBK56OkAlj
-	QDgiMzFQIo2OdEvL6cwux1i94pHyhqZoMj+L/HR2knGo1illGHHRfWEgI+HJKCuk000iY4xKUpZ2x
-	cr56CwHeJDGmd8zwuc9MzQERt2EGEQhSdTi6qJEAZwbQPlW+56E+kcbyYOGEDV8Uk4wyKaOdTodSB
-	JxXdip8QgfRRN72KFaDO94IGwe05vpYeZUBdDELZxYUnttNyWsmYfTyFfIPc4H8/o7ve9pF5CCxHC
-	FBK8DSDw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=IE/q0qDqFAFU+/fEBBlWGfYcWY13Vt5Xw13manENopA=; b=XXCvaIv44BBrMpqKAZq9vdT9Us
+	4fO+j+Vyw+P7taYOyUZ1iaYiRGIwWmw3GTOCGbEcl4qR5EqEVX+ZFw1cbyMYuz9RoL2EKxZXhFoxz
+	Lb57D/HsZjER+N01h6zMa0IpfBuZe+AbXH/M3qB2EDgevh/tJUuqxsJ/E7ifm25gcND4olqLVa9BA
+	RxfU86NE3Lmdjdfat4rqwcdW0+QluqC0YkU8Gr6hLYUF0rs2d4mCd9hsaNqqZU4pLsGUxoqB9IIhC
+	k2MPih0LVZOvqbhMA8lUsvnaAkIRZU2Xb3LjXL6EbFsZaYnkk/MO752MNWjw4czb0qfKOrYpYRy8g
+	9Q7B8DVQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHS81-0000000059Y-0wwH;
-	Mon, 27 Apr 2026 20:00:25 +0000
-Received: from galois.linutronix.de ([2a0a:51c0:0:12e:550::1])
+	id 1wHTpI-00000000CS3-0Mb7;
+	Mon, 27 Apr 2026 21:49:12 +0000
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHNyW-0000000HCKv-3kA7
+	id 1wHTpF-00000000CRk-1ds8
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Apr 2026 15:34:22 +0000
-Date: Mon, 27 Apr 2026 17:34:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777304058;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FLa6eYHbGlETXhdKZQov353z3h7xOJzxZI3VwyPyfVI=;
-	b=RRNMynj1Qa0/ZFxqoprrF+lV+59v57PURMlHWXd5zVKQ/++xbkIPxKBPjeEs8yH6/38KK3
-	t9BTF92ohu2bpe7aiZh7Y02xPEG8gBZtQsTNa95rtMtb9z1rGNWO4RNTOmBfqDrmP4RbS7
-	F4gucu6e/dQh0V3DJWL0rg1aP1taN51+lmDOG+CaWQp+io9qKXLZ7Zxk4AGZVvW3XvfMzk
-	wYKkbHSGRljgM5sXqXCUCQv5DYoBhATNtlDCupF/OVXjX9f18HkkaEGSKAh2NgGAvuOXgD
-	ANAb4BjEBVZMhG/LsmITYW7vyL4LxHaLjROA+oF/LBESKOQIGCp3jMeRb8QFUQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777304058;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FLa6eYHbGlETXhdKZQov353z3h7xOJzxZI3VwyPyfVI=;
-	b=aUDQhXJ3cDmA67FdQhP07NpAltG1Pvtpl4MeIYhK8VnCGsvxRPIVhTmJ/QINy4t75BK9B4
-	OwA4EIuBM99DVGAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
-	mst@redhat.com, aacraid@microsemi.com,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	liyihang9@h-partners.com, kashyap.desai@broadcom.com,
-	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
-	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
-	ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com,
-	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com,
-	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org,
-	longman@redhat.com, chenridong@huawei.com, hare@suse.de,
-	kch@nvidia.com, ming.lei@redhat.com, tom.leiming@gmail.com,
-	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com,
-	mproche@gmail.com, nick.lange@gmail.com, marco.crivellari@suse.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
-Subject: Re: [PATCH v12 05/13] blk-mq: add
- blk_mq_{online|possible}_queue_affinity
-Message-ID: <20260427153416.MeVS8yxF@linutronix.de>
-References: <20260422185215.100929-1-atomlin@atomlin.com>
- <20260422185215.100929-6-atomlin@atomlin.com>
+	Mon, 27 Apr 2026 21:49:11 +0000
+Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-466ec4c6846so3511556b6e.3
+        for <linux-nvme@lists.infradead.org>; Mon, 27 Apr 2026 14:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1777326548; x=1777931348; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IE/q0qDqFAFU+/fEBBlWGfYcWY13Vt5Xw13manENopA=;
+        b=QMnd8ikzxm0lkkeuV555ZDIDd3V3alWDnaV9R7YIA8oTbOllPrgwlAJSlxS21nX+Jq
+         LV6Ml98/msyA9NAGMSqdy/tHG2DyY4To/ECspNtRQKQ16BU+L3+RlS2DfMdR7NXH30KT
+         K0H9/tTEjmWz5CpfcbZnhq+GZImoCSDxhPEJOfhVLqX6AImNid9FBFzOh8XMctzkjq5E
+         tqyX+984nDFkfgwbH5s7AkXQ/9erRxzkc8uPbYRFIk1XXJpsz3i+9cTkb8hVszT3kSf4
+         6iqr4se2Nlq80MwgayzGczQXiIw24q21trFSi0axqJgmNlWa4LWmB0kIJ3OxSCGitDDE
+         30MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777326548; x=1777931348;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IE/q0qDqFAFU+/fEBBlWGfYcWY13Vt5Xw13manENopA=;
+        b=HxHte2vWOnPpC42UB80lHyxJ093l+ibET3qs/EKD0uZX/QUsL5nSaJD+DzKBEJP/Ez
+         lqSa+9UVhHzKnTgCQ9DIU3vbtCkSTN8DhSakaoNCsVOvP8oyVJQKP7rTigxEhQFvzNT6
+         gDLmhSDTTy2pmaf+i7XmjMJoxMSqE50e8TIjvYBCzvS8d/BzBJmOLwHRBi5/b6mU5ms/
+         0poVpbGsFtIi7zNn3NVkYQTJ5KxqvilB9sllewntyvlHfCC/TmUlr/RkF30/exherwqH
+         JKciNKq1PVrkOTuaR0zWSZke/ieQuScxxI7XrgO07k+2slfU8iXEw3pYcK4LGZ+ry/h1
+         ux5Q==
+X-Gm-Message-State: AOJu0YwdrW/nvNG1ONbmg0yxgYQ/RyTYMUAW4yTcCzQR8KSWUJ6F9Usu
+	cK4RFKqBbKPYLdKA69aYQPqQf5fDFvOSRtJm7SKPoR9E4BQvlNSG1AoPI9Yr4fOGa/WGx4pv6fI
+	Xv71eNnc=
+X-Gm-Gg: AeBDieujw68S93OMEMwea8OZnnq876d1VBUiHAe/fjKOeiTLTz9uzssn1ANGhB0hDoA
+	ci+otgDevFnh4Az/6pmY4uCA1WhfgsoNncKnC8by8v7fIXvbVOlttWhpwS8U6SFpx4B4jrotMg/
+	ABdXzhEMVeEqnEjW+npIQx9+56tjIM68jhnMn6DUJWLq2BjDKYAygyf4fg03KTqOyi0wxLl6WL1
+	X3JE3GE0nSBQ+KjvYKaWCglezAx8VdXBtDqIOeikzKnC7zoPvJ8FpiaWOscYx7X09KtiAcn27Ey
+	8CdEr+Nh1TxiA0WyvNqwPh/iIqgqkkSrjznJtDmhLdsMGO3ZiT1mzAP6e8qEbNsU5CmCHmAN/Bx
+	7E3d/U92DUEV8vC//VeRuAIRPX2fcM/nGJWlrcUaOqxLKU0gUZf+dJj03anobBuLwduqpOzmAF9
+	8xmCa91kmhr48jKjKM3BgdWVq0jnsBAGWrngE5CxeeqJMsc+8hTNLW6VyXfBoucUvg2NKuZwwZ7
+	UTN5BqnGAz8VU20s/fk
+X-Received: by 2002:a05:6820:200e:b0:688:3372:3a0e with SMTP id 006d021491bc7-6965cbbd862mr182953eaf.50.1777326547939;
+        Mon, 27 Apr 2026 14:49:07 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6965ba3686bsm358150eaf.9.2026.04.27.14.49.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2026 14:49:07 -0700 (PDT)
+Message-ID: <cebf60eb-bf31-4f24-a6d3-d3fb525d56e6@kernel.dk>
+Date: Mon, 27 Apr 2026 15:49:05 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260422185215.100929-6-atomlin@atomlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] nvme updates for Linux 7.1
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org
+References: <aeutKVHQDxuEfEVn@kbusch-mbp>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <aeutKVHQDxuEfEVn@kbusch-mbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260427_083421_074767_0EB1CB6D 
-X-CRM114-Status: GOOD (  11.53  )
-X-Mailman-Approved-At: Mon, 27 Apr 2026 13:00:22 -0700
+X-CRM114-CacheID: sfid-20260427_144909_687354_14473FBF 
+X-CRM114-Status: UNSURE (   9.24  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -96,36 +102,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026-04-22 14:52:07 [-0400], Aaron Tomlin wrote:
-> From: Daniel Wagner <wagi@kernel.org>
+On 4/24/26 11:49 AM, Keith Busch wrote:
+> I realize I missed the pull for this week, but sending this now just to
+> get into your queue in case other distractions get my way again.
 > 
-> Introduce blk_mq_{online|possible}_queue_affinity, which returns the
-> queue-to-CPU mapping constraints defined by the block layer. This allows
-> other subsystems (e.g., IRQ affinity setup) to respect block layer
-> requirements.
+> The following changes since commit e9b004ff83067cdf96774b45aea4b239ace99a2f:
 > 
-> It is necessary to provide versions for both the online and possible CPU
-> masks because some drivers want to spread their I/O queues only across
-> online CPUs, while others prefer to use all possible CPUs. And the mask
-> used needs to match with the number of queues requested
-> (see blk_num_{online|possible}_queues).
+>   blk-wbt: remove WARN_ON_ONCE from wbt_init_enable_default() (2026-04-06 12:54:03 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git tags/nvme-7.1-2026-04-24
 
-Which driver uses cpu_possible_mask? This mask is assigned at boot time
-once the kernel figured how many CPUs are possible based on ACPI or
-whatever the system uses. This mask does not change.
+Now pulled, thanks.
 
-I only see drivers/scsi/lpfc/lpfc_init.c using it. Looking at
-cpu_possible_mask might not be the right thing. It is usually the same
-thing as "online" except on system where ACPI thinks that something
-could be added via hotplug _or_ if the admin shuts down a CPU via
-cpuhotplug _or_ boots with less (there a command line option for that). 
+-- 
+Jens Axboe
 
-In case cpu_possible_mask != cpu_online_mask the intention is to
-allocate memory and setup irqs for the offline CPUs?
-
-> Signed-off-by: Daniel Wagner <wagi@kernel.org>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
-
-Sebastian
 
