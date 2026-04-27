@@ -4,162 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EEBBFF8860
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 11:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB420FF8860
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 11:58:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3pvxrWr2KpMeKo0l0bA6UA1ovzvkvkkxbomh0nAk2+k=; b=wBc05XxEbJdsbUurW9y1rJnjhS
-	W2FzcJFhy8h+YgmY/3a5GzRY6/TCn9lzMikNLrojpkgNthYA1j1w32BOPP34NTsSagmjLHuOE5Twd
-	JIwkN8Xw9qkZuaMr7pQY37LEpJCekI/KZfInvrIZUNPHgkb8WiBF/3z1Jv8wHAXEMprFz06nUqwC2
-	MKzOmKHOfvOmza0+cVL0CWI3v1CQbUBrjy3oY0WrnMP7BTUA0Uk0KSwJolT8Y3jH2spkMhmZhh3In
-	c1tejRaaAwcpAqZUYgQtz8J+JNXVr1RJ1rDJG2/IzVrbP+La1PUgXaz6vimhgu8HQ9i98dl16y4Zp
-	MBWQ9wcA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=XbDi2z1s+YTXeAQt3bekRi5/9PNxi5YQWmpvK+hrgSo=; b=dKy4TxDOytLE4GfjaTnEJz7Tvu
+	CB6pKxRdsezqPWt9l/0wIQ/HelWFSEi4dWkAOjViBflPr0sWUgCsKelP/GQyIBAHGxzogTfzFfACK
+	gM4nBEwIebjC0lwWidEcsRBlcHxlLVIS4Omrdp5/dlvTSXxsQ3xKwHFhl5eySM/XusM3QYdy9dART
+	MwVlT/6yKa4/buM/TNH1ovTIpb7yuZSD5N0eG11zsCFkfhAL/m+NtdLH+bfdn8GdaCqrUGmfPfA7w
+	Kj/MFSX9JaUb8vc6UzPfkqDM1npwIr2nyrDQtvyePMr/91Gw5ReWKFAhCOIyS+k0cs/BwVDP7en/e
+	Ez2TSUuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHKTv-0000000GpGs-1Qud;
-	Mon, 27 Apr 2026 11:50:31 +0000
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+	id 1wHKbI-0000000Gq7a-0yrF;
+	Mon, 27 Apr 2026 11:58:08 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHKTs-0000000GpGW-0zur
+	id 1wHKbF-0000000Gq73-1rx3
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Apr 2026 11:50:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1777290627; x=1808826627;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=WaROvd0vv0EGzfYn8jwnQU5wpQNPoBxLCdY1WytZOfE=;
-  b=Cn4J1qTMVRTX6FsrZ111r2WGQpbr7+vg2EW8mny4QlZ0u0R+S0dsz1yl
-   9buE4FSx7O9dubwrDLdJQ5aZWLqrFm6Bf9COgofAxJJyUTvNfc9N+WNjb
-   Wo8tuf2Uhx3wsh6suoysp0PyXp9WpXyKoHd67bpsQASGWAfyNFakQLgoA
-   vk9EIIL7Rt/vdymvLtISqbTjleJhueQQ40a7U+/YahAnbn4k7cuepKuRo
-   WQcgWa3VT3iSVBt83tz0c0vJb0TL8exo0OFFEUvaV8HqUs2dvQal4lk8M
-   WUxJw0a8hh2DIImK3TcFnfsKD7Kln5v5LE1U6szPNdokZLI3N6vh0LRK6
-   Q==;
-X-CSE-ConnectionGUID: nt+h5iekT5Cf0tp1WvcmcQ==
-X-CSE-MsgGUID: P8PC4nDuTW+0layUEc1XJQ==
-X-IronPort-AV: E=Sophos;i="6.23,202,1770566400"; 
-   d="scan'208";a="141572125"
-Received: from mail-eastus2azon11010063.outbound.protection.outlook.com (HELO BN1PR04CU002.outbound.protection.outlook.com) ([52.101.56.63])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Apr 2026 19:50:23 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D9OpnJp820tp5KW3HI85isXDf5HeE+MhbgjCPf4+LYwA88PME4MEWxXnUu+gLRjyt6FYokYAsZIZpgZIP9g762fRDpqXeM+NObF9YvRTX9bDqTiHOavGVzTyQGCcDjReXey5o+Xq14bGxivqCfQ9xTJOQB8WkyEZg0xIRWiTjFTkgsUq9WopgOx0CGfe5Puz24yyOjAj2kF1Z/4tr33YOWUqrMl5djow8Zo4i+bMfln0llgI/SKMTUPc/j2jV1HqrOOVC+w99t18SbPUY0N+lU6/8OISQBI9V8pOwZvbptMEXafy7pP/awhuO1RJgX2pOr1pBon0vNRQY/XdE1VKsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3pvxrWr2KpMeKo0l0bA6UA1ovzvkvkkxbomh0nAk2+k=;
- b=dUNHt6YwbbX3qTLg3aN2iBJumYxGWwulQKLIRq/A4OokK5986XKJeHmcNp7PnQjqu4XOYFLNJP0iTLze59g5ef/QoLYbECHyZ0wvT+jADLdKISWZhJmCXmR91KWsl69pwYZo+NvjJo70PZsK/mLIqhcupBEcRtBFYKCwCKdEOvWuyO/yYiuv7CoRumpYZhYAT8KqOOKVOpGSoVB4pDtXvr6VplLQN83xOyGPaMLFjayzTVu8OEu2VIF0IwZOnZubFxm8OHzormCLcTedSuJDq48fJ9uVRqriYb0yz3GbyQ4QKAUY0MLFSPtwx7I9qZlxsjmpLeGRDb1TfghpYf6Q8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3pvxrWr2KpMeKo0l0bA6UA1ovzvkvkkxbomh0nAk2+k=;
- b=arzpyBKHwZtW5VbfIebEYrNHd5FruOJO60nERLPjGbNu8fJqFzgX00pIXCq0uYU7MrkrJbTED0PlSnbpspWUdTY2rxrIVfhAri0uGuOMA5J9l470wJsb4cKDu0v79aeBFPlhACiEEOI5TCpqd5O2QHt6Oiegz6DZTPeS3N0lqKY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com (2603:10b6:806:350::6)
- by DS1PR04MB9560.namprd04.prod.outlook.com (2603:10b6:8:21a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Mon, 27 Apr
- 2026 11:50:20 +0000
-Received: from SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::ce42:7775:2df8:8729]) by SN7PR04MB8532.namprd04.prod.outlook.com
- ([fe80::ce42:7775:2df8:8729%6]) with mapi id 15.20.9846.025; Mon, 27 Apr 2026
- 11:50:19 +0000
-Date: Mon, 27 Apr 2026 20:50:11 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: Daniel Wagner <dwagner@suse.de>, 
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, 
-	"lsf-pc@lists.linux-foundation.org" <lsf-pc@lists.linux-foundation.org>, Bart Van Assche <bvanassche@acm.org>, 
-	Hannes Reinecke <hare@suse.de>, hch <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
-	"sagi@grimberg.me" <sagi@grimberg.me>, "tytso@mit.edu" <tytso@mit.edu>, 
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>, Christian Brauner <brauner@kernel.org>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	Javier =?utf-8?B?R29uesOhbGV6?= <javier@javigon.com>, "willy@infradead.org" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, "amir73il@gmail.com" <amir73il@gmail.com>, 
-	"vbabka@suse.cz" <vbabka@suse.cz>, Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [LSF/MM/BPF ATTEND][LSF/MM/BPF TOPIC] : blktests: status,
- expansion plan for the storage stack test framework
-Message-ID: <ae9KM8mYjUTvlu31@shinmob>
-References: <31a2a4c2-8c33-429a-a2b1-e1f3a0e90d72@nvidia.com>
- <459953fa-5330-4eb1-a1b4-7683b04e3d45@flourine.local>
- <aY77ogf5nATlJUg_@shinmob>
- <901f4daf-3226-416f-8741-dd15573e736b@linux.ibm.com>
- <aecTw6IYs1fo26EX@shinmob>
- <d6282aa7-4673-4bae-a0ff-fbd84f0a610f@linux.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d6282aa7-4673-4bae-a0ff-fbd84f0a610f@linux.ibm.com>
-X-ClientProxiedBy: TYCP286CA0092.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b4::10) To SN7PR04MB8532.namprd04.prod.outlook.com
- (2603:10b6:806:350::6)
+	Mon, 27 Apr 2026 11:58:07 +0000
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63R8J9fk1892388;
+	Mon, 27 Apr 2026 11:57:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=XbDi2z
+	1s+YTXeAQt3bekRi5/9PNxi5YQWmpvK+hrgSo=; b=rrEvh+Tf/JcAwteZRJxHKd
+	9wGoACJxQRj0t20VF2GZR4p6l8rDA8zIALqEFPDjU3aQRCC92p6WJImYgEOTcxex
+	l6aSPOd7T9eo2CcvjGQYGA355qx1O7nx8bAsuWcI5OS/4BgudY5Vx+lsrKm5NitH
+	aggDHOH1NQxEI/1F9ivURnlYr/RRdi22aAxkT/kcxnixAN8VgICbOOFD2ixIdDaH
+	jL0vH8NyGrAGTeCu7nECZdBGTYyKWVUL8z3AdfYIKMSG2yO7UdQxWjlinJY7nVNb
+	DKbTujatU87m3PkXliCG4bNmy10TJjoBX7xBNhZUxPC8IdKIbIvBD7xHd+LggZfA
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4drm1dqfbp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Apr 2026 11:57:53 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63RBriAA007250;
+	Mon, 27 Apr 2026 11:57:52 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ds7xq549j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 27 Apr 2026 11:57:52 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63RBvpN013632010
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 Apr 2026 11:57:51 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 441895805D;
+	Mon, 27 Apr 2026 11:57:51 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CA43758057;
+	Mon, 27 Apr 2026 11:57:48 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 27 Apr 2026 11:57:48 +0000 (GMT)
+Message-ID: <7f4742bb-9e5a-41ff-b8fd-cb846ef64538@linux.ibm.com>
+Date: Mon, 27 Apr 2026 17:27:47 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR04MB8532:EE_|DS1PR04MB9560:EE_
-X-MS-Office365-Filtering-Correlation-Id: f979273c-bbe0-4aea-586c-08dea45327f1
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|19092799006|376014|7416014|366016|1800799024|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: TPNlRU983pu5AtK3sOrQuWLLbvNRnRpuHoDVkK6K4/WLzD9rB/0JRxKl2SWhFDm+sFGf9FBN8meG6fcnaDTg1s7GbWLqd3BBcZGvAYx6HXvR2lsAcGOswbZfe0HnTPsQwg8dNfRIHXz/UCh009TjKaaLN9LO4krxdTg2NXwSZ8KcDcnTOwMfb3745dPy5/dgOsMNBzf3GyYscH7/xzipWuHl2JzM1oEXHxjvAVsVrcTRIEZoXT8ilAnlw6Eiy5R39z27gtn9EMyb03kJiaiSkZiyme1PnsPgKksUTjCCJNDp5xKO1CjOviLRcetgufO/wBMC+rPAdThYesrzYTUbZ3AVxRysvJFXoqqWCnQuHDQuK9k6YAOSJukyBY77YUL1+GWtpBgQN+EwSKux2EICV6iFXYGCExWqHpGnaGLrELekYBpsRekwUQd1YRfNm9fJM3V44SGL/C6Z6r0n/T1BJYAj9M2DA+EUE4MrBFRdMkgdSzA7q7b5qpIMkoZpO2ybeAdrNlFQ75Pf/RFGd3sZpeKC2jTbwEZ/VfU8fp9awuQHeN+FIR9JwOYSrCdwqBLpWilWq7M/JdcizMN+M02GnzKKU8JFifNiC8YMRV4X4I2QMvA3q/+GTYrxdVNoH0pmIBuZBp9Ki07oIGdnGTCiAB12tI7yG7ISBusJSnzK7r2QQQ9x37bgIjuHo+nckoyrdTzUftYTlgh+ctJk0Znconpjt54EakdiAjLssB4JR39yORNr8msbm3wkr/e9v7rQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR04MB8532.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CaZ5MLnYqzQvVSj3Nu6+48ZhrAlW7Gazbfy/SB7ELDzPoxRfqTNxkRqPb217?=
- =?us-ascii?Q?NeFD0joIZwVukFM3hqTyrX/2rpqIkgGcli089lpKlj4ukyZ17phV7YoNTuEH?=
- =?us-ascii?Q?D3I/LuwJ0AJeSAsZtqotdXGpRWC7E7J9KuwxoLweJqntIkmc+PnMgRwYNsoD?=
- =?us-ascii?Q?Pt4txOrAOldpd5k2DrmjFKaWQGcplnEiOlwPx6SQ7DXwwE6+awFZIZpCxY6o?=
- =?us-ascii?Q?Dd1L5rAt3Y5XXFldGMQ6nL6KPIO3sSiGxEsrF3hmgyjimNhsK+EFnBJo3xTC?=
- =?us-ascii?Q?sx5/OVxsCF3y5O0f9rbxlJ9URDwqQRJjQBSbFiZklbA0E0BtHmRztD+MYRe/?=
- =?us-ascii?Q?rwwpoOkKsH4hVqP+pR5gX7FbyDC2CddwHE75d0QyLWavkSzOZAChGrUrEzXX?=
- =?us-ascii?Q?+Sgvk4n3etqKQ5mk7pVjn962L9cC9BQpn3Jfd0HgXbK0B2gBCIeBo5SpWMbJ?=
- =?us-ascii?Q?+dM2NzS9YTusQmVL6t7139JB/uJaHJ6HZD5ZfUsCg/7KAMt08jFATdYmyfTy?=
- =?us-ascii?Q?EIWmMN6WVNTiAuv9w93qMeD3GP0dxdCAtnKeF0oLzsyf4JeTQYNZg+I41p1q?=
- =?us-ascii?Q?PsPyCn3vhN5lmuasJXnueQzdhFF5UgcZQKTLtZQD1cLbPx/OVT6pzGqtEXIG?=
- =?us-ascii?Q?p6fYJNopK98Dyvsc1/SWjeyoz4D1iNVLU2gl70N0cNs7h7XinemOr8rRXQxV?=
- =?us-ascii?Q?QoSFA1ao+NxSa1NiefCySuXMw4HqpL2jahK5t5TwguHL8R2Xbu563tkizmeu?=
- =?us-ascii?Q?BlghrUFF7KaG1EcdgbPvQ20/qUrveYSaTjMHAJfIsBIjybNjyDJ/vLzO+su0?=
- =?us-ascii?Q?5wO/wH9387q0kK4GvsOoGFP2kB+y6X2Sc+hRzvQ55m1TsCx/JYWanjy1ncSk?=
- =?us-ascii?Q?cjgrlMaFvNFaz/MsoC6Weyv+l1MFPpVI0/v3Z+JB7unClSHapWzJaB4KheAK?=
- =?us-ascii?Q?Wlxk1TOW+uGaYB74YwM5G0X1REnQWfFkW0Xy2LCg8iilCJfrstWEIUSoPkNx?=
- =?us-ascii?Q?tnw1Lh0o5HuHSxYmptZNA4teo6w5Nbc/Q0p6V7Gs6GBiOKSutzWYYu1bIceA?=
- =?us-ascii?Q?nLbGhfnA4K0j1DlhS7QOJPDW8cRwA0vyyfQdqrYya/u1p005vKVrw9GCO7xt?=
- =?us-ascii?Q?CIocjDM3MDRU8cWK7Gr7p0jzmQBomh/IA3gDME0TJeH2hyfc9WonuK+jJcxE?=
- =?us-ascii?Q?b4u+2xAdYSgPY+ttDbjwfdBCcBHVOsJjYBnZ/mmtD3dYHpVEkgHXeYSwD7Mm?=
- =?us-ascii?Q?XE/pyJjZWPTWHmC9VHn1V0QhJ5j8I8u7jmgbljmxiso156IUTS4t+IBX2Qkx?=
- =?us-ascii?Q?lUB5JRUF2j+eMTPNs6sgQBibsbk4Rs8PuAAG9oWP8m+IckElOzMaMMTF2WYM?=
- =?us-ascii?Q?dVU8b8YiC2QEeiyxvntriveNqVtS1zcU6NUo/7XYgWKkWCoXTDJMS4i7QrJR?=
- =?us-ascii?Q?c8z9miTOKXTrt2FRy4yeDr5q6q5r6ZOY3Ng16vFK6/tOGursk6pu8pZuqVKo?=
- =?us-ascii?Q?zoGSdM++UYUZ5wdKrG7ipDfryZVy7LtL+sa65b3ywVdmtJ6MIwZZLGoP+R79?=
- =?us-ascii?Q?NSSmMtmBg5sURS6oN3iitG5y94vzRrkzufg8tXJIgORHw1PZgOMItCt5msAa?=
- =?us-ascii?Q?EIjsadMxSJfJ8+9rQH1vfrYiWBbJ1PtKolOmlHtqnmJe/cymonbYlDVMy9Hv?=
- =?us-ascii?Q?3Pl3qQA6jyP4ShETzbbHH11g9DAUxEpeAM3yvAeUAyXPMJ2qCcrxqmOJWNSU?=
- =?us-ascii?Q?XyXdzM/6WrhfiWR/qmNbIYwJYp30Pl8=3D?=
-X-Exchange-RoutingPolicyChecked: eHVTxhGNF4ssG9XVPpXuXCAcNrVtPhQGklPICQ/ZlyLPqbXf/qFIrkQXjFC93Bzg8aWtBL8oJwpUPiLUG8QnvMdTlyTAtlF+IN3zQ93ikH6csFs9mmnLuMcu9141n53PshZyWGmMiSrIEPFupnz/hn2nZsAKH59ntx4QK/J+AQ2Yj+9BbxV1zke1rMHSj36QhQGKQU+S/2cdbriJBywHldIwAdVPXXv97OPP8kD0ul/0u97fci/gOqGVMuuoPg4Bx9Yawt3IKZDhx9YAZcjliA7fl0GQHnxe7hC6TxIjRs12U5kRJRRvsA4J2dHolokJwEjbzj+Yg3iLKx5XjG1rIQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: YUmJNsU4nMsKpJmXE8arfcMzhc3KbDT54LOMj70IPDWkAoLzcs/Yx97Ktc0r8JhSv5PJgDhpN10Lm/Drgr3MOAV9V8tL0C/6x77x+aatD/qT+70JGRCtziu+LMPbdUveYr02EDH//wR7KI6wZjfwI016V7YSB8XPrr0SAN8qJ+ALbwNesaex6JZV77kQb3+1JJ3CHn9YZP9Orq9s1xU0YyjkwfHOzuWuTUrGqvKQnWKMSuwJWXOaYn0RP2uQVBmUbtI3K8ZixRh0C8vWHyY6VJsLEZhAYmBk8F1wqummNMnICt75JDEz196Q+CoU2Z8XD1m0UfNxG7xJhoJpPhoOSLwHcLJgiKNYR2DhlPN2V6JFGaD8hPRYfFi5jCJGypo9/+lbbnCwfrSE3AjzWwto27uowet/Hs6no9ivAQ9YO1kAiq6iOnGMvzBk3knUpUCZaVS+J+T+eIwN5C096M+y9yUOnFQ/Q15ihu7AMY9WNKXEhCfA1lzNybzhSF5uXnQAwWEW3KnYM25JY3pkaCzErx7x0PvpY7U/y8RYtDPwqgs6ZdGXH3IhcDgp3vsZY6yoP/k+4VsWREWIVKQuICQu3KRmV56iI+mneMPoYdU5xyqtETMggSruzI90aAVfn1NU
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f979273c-bbe0-4aea-586c-08dea45327f1
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR04MB8532.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 11:50:19.7628
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CE09WZOT8I7IeE9RttuA0yz93Y/MO9APN+dEpY+VCZKwoG+bcGBOvz3dNHJ+8C2mvIpuPl8+Hqos6m3yHA8W94BUL+iNZyyUSmwCnHUB11Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS1PR04MB9560
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/4] nvme-tcp: optionally limit I/O queue count based
+ on NIC queues
+To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, hare@suse.de, chaitanyak@nvidia.com,
+        gjoyce@linux.ibm.com
+References: <20260420115716.3071293-1-nilay@linux.ibm.com>
+ <20260420115716.3071293-2-nilay@linux.ibm.com>
+ <67c5a032-4ba6-4dbb-bc48-072d82c3fbd0@grimberg.me>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <67c5a032-4ba6-4dbb-bc48-072d82c3fbd0@grimberg.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 184Lh7k9myn_AicRiW4_fwzzU_xKpZoA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEyNSBTYWx0ZWRfX3EttV0joGhfz
+ SS6Qp3LqN+UTL7xvaU7uHlFg5DS/yQQQRzwoU6aZqH1rke2L7ZkxthOjjR8mP+6O0aId5iL1l96
+ 3l7U1sWgZGHT5LsWmojqczW266ZsNMbUyLKGKJnEcfcRVpKhqJmmy7oCTQzyL3y6t0oIbgDvfJp
+ 45HVEPAjIOqSoyPe9vgQQkwoqdoTKyZdr7DFAf/ccZ9+W1UB5s1CLnBfqg+c0HNTY2ynfBpqWN2
+ b/vILaLMfOVOMY4IcaYFyMYVmH/0BHobniGX8qzucZcZAI68ETr1AqM+4ihARY8tF/qvvUSFUoO
+ Ufgk5ga1rjKx7nY/MMlxkC6aBuDyFd2Yz0xP//NUR/SqSOfGvsW5GTYMAZDddtWERSOvIzUrNef
+ rpzYJMPIMSDX/smA404tQyVy421nVxkIbNt3KeCXnuMRVu+xEJOzrx1kjTzcsa68YZmud0gf49d
+ ReTEwxIH4ytjjSSK3mw==
+X-Authority-Analysis: v=2.4 cv=VZLH+lp9 c=1 sm=1 tr=0 ts=69ef4f41 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
+ a=wZFfM1RX0dFLWaceufAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 184Lh7k9myn_AicRiW4_fwzzU_xKpZoA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-27_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ spamscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604270125
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260427_045028_628315_329ADAD0 
-X-CRM114-Status: GOOD (  28.10  )
+X-CRM114-CacheID: sfid-20260427_045805_670232_C26F9E7D 
+X-CRM114-Status: GOOD (  45.92  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -174,278 +122,267 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 23, 2026 / 13:35, Nilay Shroff wrote:
-> On 4/21/26 11:49 AM, Shin'ichiro Kawasaki wrote:
-> > On Feb 16, 2026 / 00:08, Nilay Shroff wrote:
-> > > On 2/13/26 4:53 PM, Shinichiro Kawasaki wrote:
-[...]
-> > > >   4. Long standing failures make test result reports dirty
-> > > >      - I feel lockdep WARNs are tend to be left unfixed rather long period.
-> > > >        How can we gather effort to fix them?
-> > > 
-> > > I agree regarding lockdep; recently we did see quite a few lockdep splats.
-> > > That said, I believe the number has dropped significantly and only a small
-> > > set remains. From what I can tell, most of the outstanding lockdep issues
-> > > are related to fs-reclaim paths recursing into the block layer while the
-> > > queue is frozen. We should be able to resolve most of these soon, or at
-> > > least before the conference. If anything is still outstanding after that,
-> > > we can discuss it during the conference and work toward addressing it as
-> > > quickly as possible.
-> > 
-> > Taking this chance, I'd like to express my appreciation for the effort to
-> > resolve the lockdep issues. It is great that a number of lockdeps are already
-> > fixed. Said that, two lockdep issues are still observed with v7.0 kernel at
-> > nvme/005 and nbd/002 [1]. I would like to gather attentions to the failures.
-> > 
-> > [1] https://lore.kernel.org/linux-block/ynmi72x5wt5ooljjafebhcarit3pvu6axkslqenikb2p5txe57@ldytqa2t4i2x/
-> > 
-> I think nvme/005 and nbd/002 failures shall be addressed with this
-> patch: https://lore.kernel.org/all/20260413171628.6204-1-kch@nvidia.com/
+On 4/25/26 3:40 AM, Sagi Grimberg wrote:
 > 
-> It's currently applied to nvme-7.1 and not there yet to mainline kernel.
+> 
+> On 20/04/2026 14:49, Nilay Shroff wrote:
+>> NVMe-TCP currently provisions I/O queues primarily based on CPU
+>> availability. On systems where the number of CPUs significantly exceeds
+>> the number of NIC hardware queues, this can lead to multiple I/O queues
+>> sharing the same NIC TX/RX queues, resulting in increased lock
+>> contention, cacheline bouncing, and inter-processor interrupts (IPIs).
+> 
+> Yes, I agree it is very inefficient to create something like 192 queues in practice.
+> Nevermind that this is pretty much never the case because real controllers
+> will limit the number of IO queues to something much lower than that,
+> in the majority of cases probably a handful or more.
+> 
+Yes, it may not always be possible (or meaningful) to have a 1:1 mapping
+between NVMe/TCP I/O queues and the real controller’s internal queues.
 
-Ah, I missed that patch. Thanks a lot, Chaitanya!
+The intent here is not to enforce such a mapping, but rather to improve
+host-side locality. Even when the controller limits the number of I/O queues,
+mismatch with NIC queue topology can still lead to multiple I/O workers
+contending on the same TX/RX queues. This change tries to avoid such
+over-subscription on the host side.
 
-Today, I applied the nvme fix patch on top of v7.1-rc1, and ran nvme/005 with
-tcp transport. Unfortunately, I still observe the lockdep splat for
-&q->elevator_lock, &q->q_usage_counter(io) and set->srcu [*]. This time, the
-call chain looks a bit different (cpu_hotplug_lock is involved?).
+> Please note that this is very much in common with RDMA, so the
+> patch series should probably address both.
+> 
+Yes agreed — the model in RDMA is more tightly coupled to hardware resources.
+It probably makes sense to consider that separately, as the problem space is
+simpler and the mapping is more direct.
 
-I also still observe the nbd/002 failure. The nvme fix patch does not affect
-nbd, then I think it is expected that the nbd/002 failure is still there.
+>>
+>> In such configurations, limiting the number of NVMe-TCP I/O queues to
+>> the number of NIC hardware queues can improve performance by reducing
+>> contention and improving locality. Aligning NVMe-TCP worker threads with
+>> NIC queue topology may also help reduce tail latency.
+> 
+> As mentioned, from what I know, when using real nvmf arrays, the number of
+> queues will usually be much lower than both the cpu count as well as the NIC hw
+> queues.
+> 
+>>
+>> Add a new transport option "match_hw_queues" to allow users to
+>> optionally limit the number of NVMe-TCP I/O queues to the number of NIC
+>> TX/RX queues. When enabled, the number of I/O queues is set to:
+>>
+>>      min(num_online_cpus, num_nic_queues)
+>>
+>> This behavior is opt-in and does not change existing defaults.
+> 
+> In my mind, there is no real reason for an opt-in. The opt-in should
+> probably be if the user actually wants to use num_online_cpus() worth of queues (e.g. user explicitly asked for nr_io_queues).
+>>
+Yes that makes sense, but in certain complex typologies such as host
+running inside QEMU or stacked network devices, it may not be possible
+to find the real num of tx/rx queues exposed by real NIC cards. So for
+such cased we may not want to alter the existing behavior and hence
+I choose to support opt-in.
 
+>> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+>> ---
+>>   drivers/nvme/host/fabrics.c |   4 ++
+>>   drivers/nvme/host/fabrics.h |   3 +
+>>   drivers/nvme/host/tcp.c     | 120 +++++++++++++++++++++++++++++++++++-
+>>   3 files changed, 126 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>> index ac3d4f400601..62ae998825e1 100644
+>> --- a/drivers/nvme/host/fabrics.c
+>> +++ b/drivers/nvme/host/fabrics.c
+>> @@ -709,6 +709,7 @@ static const match_table_t opt_tokens = {
+>>       { NVMF_OPT_TLS,            "tls"            },
+>>       { NVMF_OPT_CONCAT,        "concat"        },
+>>   #endif
+>> +    { NVMF_OPT_MATCH_HW_QUEUES,    "match_hw_queues"    },
+>>       { NVMF_OPT_ERR,            NULL            }
+>>   };
+>> @@ -1064,6 +1065,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>>               }
+>>               opts->concat = true;
+>>               break;
+>> +        case NVMF_OPT_MATCH_HW_QUEUES:
+>> +            opts->match_hw_queues = true;
+>> +            break;
+>>           default:
+>>               pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+>>                   p);
+>> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+>> index caf5503d0833..e8e3a2672832 100644
+>> --- a/drivers/nvme/host/fabrics.h
+>> +++ b/drivers/nvme/host/fabrics.h
+>> @@ -67,6 +67,7 @@ enum {
+>>       NVMF_OPT_KEYRING    = 1 << 26,
+>>       NVMF_OPT_TLS_KEY    = 1 << 27,
+>>       NVMF_OPT_CONCAT        = 1 << 28,
+>> +    NVMF_OPT_MATCH_HW_QUEUES = 1 << 29,
+>>   };
+> 
+> No need for the above in my mind.
+> 
+>>   /**
+>> @@ -106,6 +107,7 @@ enum {
+>>    * @disable_sqflow: disable controller sq flow control
+>>    * @hdr_digest: generate/verify header digest (TCP)
+>>    * @data_digest: generate/verify data digest (TCP)
+>> + * @match_hw_queues: limit controller IO queue count based on NIC queues (TCP)
+>>    * @nr_write_queues: number of queues for write I/O
+>>    * @nr_poll_queues: number of queues for polling I/O
+>>    * @tos: type of service
+>> @@ -136,6 +138,7 @@ struct nvmf_ctrl_options {
+>>       bool            disable_sqflow;
+>>       bool            hdr_digest;
+>>       bool            data_digest;
+>> +    bool            match_hw_queues;
+>>       unsigned int        nr_write_queues;
+>>       unsigned int        nr_poll_queues;
+>>       int            tos;
+>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>> index 243dab830dc8..7102a7a54d78 100644
+>> --- a/drivers/nvme/host/tcp.c
+>> +++ b/drivers/nvme/host/tcp.c
+>> @@ -16,6 +16,8 @@
+>>   #include <net/tls.h>
+>>   #include <net/tls_prot.h>
+>>   #include <net/handshake.h>
+>> +#include <net/ip6_route.h>
+>> +#include <linux/in6.h>
+>>   #include <linux/blk-mq.h>
+>>   #include <net/busy_poll.h>
+>>   #include <trace/events/sock.h>
+>> @@ -1762,6 +1764,103 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+>>       return ret;
+>>   }
+>> +static struct net_device *nvme_tcp_get_netdev(struct nvme_ctrl *ctrl)
+>> +{
+>> +    struct net_device *dev = NULL;
+>> +
+>> +    if (ctrl->opts->mask & NVMF_OPT_HOST_IFACE)
+>> +        dev = dev_get_by_name(&init_net, ctrl->opts->host_iface);
+>> +    else {
+>> +        struct nvme_tcp_ctrl *tctrl = to_tcp_ctrl(ctrl);
+>> +
+>> +        if (tctrl->addr.ss_family == AF_INET) {
+>> +            struct rtable *rt;
+>> +            struct flowi4 fl4 = {};
+>> +            struct sockaddr_in *addr =
+>> +                    (struct sockaddr_in *)&tctrl->addr;
+>> +
+>> +            fl4.daddr = addr->sin_addr.s_addr;
+>> +            if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
+>> +                addr = (struct sockaddr_in *)&tctrl->src_addr;
+>> +                fl4.saddr = addr->sin_addr.s_addr;
+>> +            }
+>> +            fl4.flowi4_proto = IPPROTO_TCP;
+>> +
+>> +            rt = ip_route_output_key(&init_net, &fl4);
+>> +            if (IS_ERR(rt))
+>> +                return NULL;
+>> +
+>> +            dev = dst_dev(&rt->dst);
+>> +            /*
+>> +             * Get reference to netdev as ip_rt_put() will
+>> +             * release the netdev reference.
+>> +             */
+>> +            if (dev)
+>> +                dev_hold(dev);
+>> +
+>> +            ip_rt_put(rt);
+>> +
+>> +        } else if (tctrl->addr.ss_family == AF_INET6) {
+>> +            struct dst_entry *dst;
+>> +            struct flowi6 fl6 = {};
+>> +            struct sockaddr_in6 *addr6 =
+>> +                    (struct sockaddr_in6 *)&tctrl->addr;
+>> +
+>> +            fl6.daddr = addr6->sin6_addr;
+>> +            if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
+>> +                addr6 = (struct sockaddr_in6 *)&tctrl->src_addr;
+>> +                fl6.saddr = addr6->sin6_addr;
+>> +            }
+>> +            fl6.flowi6_proto = IPPROTO_TCP;
+>> +
+>> +            dst = ip6_route_output(&init_net, NULL, &fl6);
+>> +            if (dst->error) {
+>> +                dst_release(dst);
+>> +                return NULL;
+>> +            }
+>> +
+>> +            dev = dst_dev(dst);
+>> +            /*
+>> +             * Get reference to netdev as dst_release() will
+>> +             * release the netdev reference.
+>> +             */
+>> +            if (dev)
+>> +                dev_hold(dev);
+>> +
+>> +            dst_release(dst);
+>> +        }
+>> +    }
+> 
+> This looks like a helper that should be outside of nvme-tcp.
+> Nothing specific to it here. Something like dev_get_by_dstaddr()
 
-[*]
+Yeah, in another thread Christoph also had similar opinion. So I'd
+add a helper under net/.
 
-Apr 27 20:32:07 testnode1 unknown: run blktests nvme/005 at 2026-04-27 20:32:07
-Apr 27 20:32:08 testnode1 kernel: loop0: detected capacity change from 0 to 2097152
-Apr 27 20:32:08 testnode1 kernel: nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-Apr 27 20:32:08 testnode1 kernel: nvmet_tcp: enabling port 0 (127.0.0.1:4420)
-Apr 27 20:32:08 testnode1 kernel: nvmet: Created nvm controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-Apr 27 20:32:08 testnode1 kernel: nvme nvme5: creating 4 I/O queues.
-Apr 27 20:32:08 testnode1 kernel: nvme nvme5: mapped 4/0/0 default/read/poll queues.
-Apr 27 20:32:08 testnode1 kernel: nvme nvme5: new ctrl: NQN "blktests-subsystem-1", addr 127.0.0.1:4420, hostnqn: nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349
-Apr 27 20:32:08 testnode1 kernel: nvmet: Created nvm controller 2 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:0f01fb42-9f7f-4856-b0b3-51e60b8de349.
-Apr 27 20:32:08 testnode1 kernel: nvme nvme5: creating 4 I/O queues.
-Apr 27 20:32:08 testnode1 kernel: nvme nvme5: mapped 4/0/0 default/read/poll queues.
-Apr 27 20:32:08 testnode1 kernel: nvme nvme5: Removing ctrl: NQN "blktests-subsystem-1"
-Apr 27 20:32:08 testnode1 kernel: 
-Apr 27 20:32:08 testnode1 kernel: ======================================================
-Apr 27 20:32:08 testnode1 kernel: WARNING: possible circular locking dependency detected
-Apr 27 20:32:08 testnode1 kernel: 7.1.0-rc1+ #3 Not tainted
-Apr 27 20:32:08 testnode1 kernel: ------------------------------------------------------
-Apr 27 20:32:08 testnode1 kernel: nvme/1171 is trying to acquire lock:
-Apr 27 20:32:08 testnode1 kernel: ffff888121e8bb98 (set->srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x21/0x2b0
-Apr 27 20:32:08 testnode1 kernel: 
-                                  but task is already holding lock:
-Apr 27 20:32:08 testnode1 kernel: ffff88812ab7bd68 (&q->elevator_lock){+.+.}-{4:4}, at: elevator_change+0x188/0x4f0
-Apr 27 20:32:08 testnode1 kernel: 
-                                  which lock already depends on the new lock.
-Apr 27 20:32:08 testnode1 kernel: 
-                                  the existing dependency chain (in reverse order) is:
-Apr 27 20:32:08 testnode1 kernel: 
-                                  -> #5 (&q->elevator_lock){+.+.}-{4:4}:
-Apr 27 20:32:08 testnode1 kernel:        __mutex_lock+0x1ae/0x2600
-Apr 27 20:32:08 testnode1 kernel:        elevator_change+0x188/0x4f0
-Apr 27 20:32:08 testnode1 kernel:        elv_iosched_store+0x308/0x390
-Apr 27 20:32:08 testnode1 kernel:        queue_attr_store+0x23b/0x360
-Apr 27 20:32:08 testnode1 kernel:        kernfs_fop_write_iter+0x3d6/0x5e0
-Apr 27 20:32:08 testnode1 kernel:        vfs_write+0x52c/0xf80
-Apr 27 20:32:08 testnode1 kernel:        ksys_write+0xfb/0x200
-Apr 27 20:32:08 testnode1 kernel:        do_syscall_64+0xdd/0x14c0
-Apr 27 20:32:08 testnode1 kernel:        entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Apr 27 20:32:08 testnode1 kernel: 
-                                  -> #4 (&q->q_usage_counter(io)){++++}-{0:0}:
-Apr 27 20:32:08 testnode1 kernel:        blk_alloc_queue+0x5b3/0x730
-Apr 27 20:32:08 testnode1 kernel:        blk_mq_alloc_queue+0x13f/0x250
-Apr 27 20:32:08 testnode1 kernel:        scsi_alloc_sdev+0x84e/0xca0
-Apr 27 20:32:08 testnode1 kernel:        scsi_probe_and_add_lun+0x63f/0xc30
-Apr 27 20:32:08 testnode1 kernel:        __scsi_add_device+0x1be/0x1f0
-Apr 27 20:32:08 testnode1 kernel:        ata_scsi_scan_host+0x139/0x3a0
-Apr 27 20:32:08 testnode1 kernel:        async_run_entry_fn+0x93/0x550
-Apr 27 20:32:08 testnode1 kernel:        process_one_work+0x8b4/0x1640
-Apr 27 20:32:08 testnode1 kernel:        worker_thread+0x606/0xff0
-Apr 27 20:32:08 testnode1 kernel:        kthread+0x368/0x460
-Apr 27 20:32:08 testnode1 kernel:        ret_from_fork+0x653/0x9d0
-Apr 27 20:32:08 testnode1 kernel:        ret_from_fork_asm+0x1a/0x30
-Apr 27 20:32:08 testnode1 kernel: 
-                                  -> #3 (fs_reclaim){+.+.}-{0:0}:
-Apr 27 20:32:08 testnode1 kernel:        fs_reclaim_acquire+0xd5/0x120
-Apr 27 20:32:08 testnode1 kernel:        __kmalloc_cache_node_noprof+0x51/0x740
-Apr 27 20:32:08 testnode1 kernel:        create_worker+0xfb/0x710
-Apr 27 20:32:08 testnode1 kernel:        workqueue_prepare_cpu+0x87/0xe0
-Apr 27 20:32:08 testnode1 kernel:        cpuhp_invoke_callback+0x2a7/0x1230
-Apr 27 20:32:08 testnode1 kernel:        __cpuhp_invoke_callback_range+0xbd/0x1f0
-Apr 27 20:32:08 testnode1 kernel:        _cpu_up+0x2ec/0x700
-Apr 27 20:32:08 testnode1 kernel:        cpu_up+0x111/0x190
-Apr 27 20:32:08 testnode1 kernel:        cpuhp_bringup_mask+0xd3/0x110
-Apr 27 20:32:08 testnode1 kernel:        bringup_nonboot_cpus+0x139/0x170
-Apr 27 20:32:08 testnode1 kernel:        smp_init+0x27/0xe0
-Apr 27 20:32:08 testnode1 kernel:        kernel_init_freeable+0x445/0x6f0
-Apr 27 20:32:08 testnode1 kernel:        kernel_init+0x18/0x150
-Apr 27 20:32:08 testnode1 kernel:        ret_from_fork+0x653/0x9d0
-Apr 27 20:32:08 testnode1 kernel:        ret_from_fork_asm+0x1a/0x30
-Apr 27 20:32:08 testnode1 kernel: 
-                                  -> #2 (cpu_hotplug_lock){++++}-{0:0}:
-Apr 27 20:32:08 testnode1 kernel:        cpus_read_lock+0x3c/0xe0
-Apr 27 20:32:08 testnode1 kernel:        static_key_disable+0x12/0x30
-Apr 27 20:32:08 testnode1 kernel:        __inet_hash_connect+0x10f7/0x1a50
-Apr 27 20:32:08 testnode1 kernel:        tcp_v4_connect+0xcb0/0x18b0
-Apr 27 20:32:08 testnode1 kernel:        __inet_stream_connect+0x349/0xf00
-Apr 27 20:32:08 testnode1 kernel:        inet_stream_connect+0x55/0xb0
-Apr 27 20:32:08 testnode1 kernel:        kernel_connect+0xdf/0x140
-Apr 27 20:32:08 testnode1 kernel:        nvme_tcp_alloc_queue+0xa48/0x1b60 [nvme_tcp]
-Apr 27 20:32:08 testnode1 kernel:        nvme_tcp_alloc_admin_queue+0xff/0x440 [nvme_tcp]
-Apr 27 20:32:08 testnode1 kernel:        nvme_tcp_setup_ctrl+0x8a/0x830 [nvme_tcp]
-Apr 27 20:32:08 testnode1 kernel:        nvme_tcp_create_ctrl+0x834/0xb90 [nvme_tcp]
-Apr 27 20:32:08 testnode1 kernel:        nvmf_dev_write+0x3e3/0x800 [nvme_fabrics]
-Apr 27 20:32:08 testnode1 kernel:        vfs_write+0x1cc/0xf80
-Apr 27 20:32:08 testnode1 kernel:        ksys_write+0xfb/0x200
-Apr 27 20:32:08 testnode1 kernel:        do_syscall_64+0xdd/0x14c0
-Apr 27 20:32:08 testnode1 kernel:        entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Apr 27 20:32:08 testnode1 kernel: 
-                                  -> #1 (sk_lock-AF_INET-NVME){+.+.}-{0:0}:
-Apr 27 20:32:08 testnode1 kernel:        lock_sock_nested+0x32/0xf0
-Apr 27 20:32:08 testnode1 kernel:        tcp_sendmsg+0x1c/0x50
-Apr 27 20:32:08 testnode1 kernel:        sock_sendmsg+0x2bd/0x370
-Apr 27 20:32:08 testnode1 kernel:        nvme_tcp_try_send_cmd_pdu+0x57f/0xbd0 [nvme_tcp]
-Apr 27 20:32:08 testnode1 kernel:        nvme_tcp_try_send+0x1b3/0x9c0 [nvme_tcp]
-Apr 27 20:32:08 testnode1 kernel:        nvme_tcp_queue_rq+0xf77/0x1970 [nvme_tcp]
-Apr 27 20:32:08 testnode1 kernel:        blk_mq_dispatch_rq_list+0x39b/0x2340
-Apr 27 20:32:08 testnode1 kernel:        __blk_mq_sched_dispatch_requests+0x1dd/0x1510
-Apr 27 20:32:08 testnode1 kernel:        blk_mq_sched_dispatch_requests+0xa8/0x150
-Apr 27 20:32:08 testnode1 kernel:        blk_mq_run_work_fn+0x127/0x2c0
-Apr 27 20:32:08 testnode1 kernel:        process_one_work+0x8b4/0x1640
-Apr 27 20:32:08 testnode1 kernel:        worker_thread+0x606/0xff0
-Apr 27 20:32:08 testnode1 kernel:        kthread+0x368/0x460
-Apr 27 20:32:08 testnode1 kernel:        ret_from_fork+0x653/0x9d0
-Apr 27 20:32:08 testnode1 kernel:        ret_from_fork_asm+0x1a/0x30
-Apr 27 20:32:08 testnode1 kernel: 
-                                  -> #0 (set->srcu){.+.+}-{0:0}:
-Apr 27 20:32:08 testnode1 kernel:        __lock_acquire+0x14a6/0x2230
-Apr 27 20:32:08 testnode1 kernel:        lock_sync+0xbd/0x120
-Apr 27 20:32:08 testnode1 kernel:        __synchronize_srcu+0xa1/0x2b0
-Apr 27 20:32:08 testnode1 kernel:        elevator_switch+0x2a5/0x680
-Apr 27 20:32:08 testnode1 kernel:        elevator_change+0x2d8/0x4f0
-Apr 27 20:32:08 testnode1 kernel:        elevator_set_none+0x87/0xd0
-Apr 27 20:32:08 testnode1 kernel:        blk_unregister_queue+0x13f/0x2b0
-Apr 27 20:32:08 testnode1 kernel:        __del_gendisk+0x263/0x9e0
-Apr 27 20:32:08 testnode1 kernel:        del_gendisk+0x102/0x190
-Apr 27 20:32:08 testnode1 kernel:        nvme_ns_remove+0x32a/0x900 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:        nvme_remove_namespaces+0x263/0x3b0 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:        nvme_do_delete_ctrl+0xf5/0x160 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:        nvme_delete_ctrl_sync.cold+0x8/0xd [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:        nvme_sysfs_delete+0x96/0xc0 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:        kernfs_fop_write_iter+0x3d6/0x5e0
-Apr 27 20:32:08 testnode1 kernel:        vfs_write+0x52c/0xf80
-Apr 27 20:32:08 testnode1 kernel:        ksys_write+0xfb/0x200
-Apr 27 20:32:08 testnode1 kernel:        do_syscall_64+0xdd/0x14c0
-Apr 27 20:32:08 testnode1 kernel:        entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Apr 27 20:32:08 testnode1 kernel: 
-                                  other info that might help us debug this:
-Apr 27 20:32:08 testnode1 kernel: Chain exists of:
-                                    set->srcu --> &q->q_usage_counter(io) --> &q->elevator_lock
-Apr 27 20:32:08 testnode1 kernel:  Possible unsafe locking scenario:
-Apr 27 20:32:08 testnode1 kernel:        CPU0                    CPU1
-Apr 27 20:32:08 testnode1 kernel:        ----                    ----
-Apr 27 20:32:08 testnode1 kernel:   lock(&q->elevator_lock);
-Apr 27 20:32:08 testnode1 kernel:                                lock(&q->q_usage_counter(io));
-Apr 27 20:32:08 testnode1 kernel:                                lock(&q->elevator_lock);
-Apr 27 20:32:08 testnode1 kernel:   sync(set->srcu);
-Apr 27 20:32:08 testnode1 kernel: 
-                                   *** DEADLOCK ***
-Apr 27 20:32:08 testnode1 kernel: 5 locks held by nvme/1171:
-Apr 27 20:32:08 testnode1 kernel:  #0: ffff88810868e410 (sb_writers#4){.+.+}-{0:0}, at: ksys_write+0xfb/0x200
-Apr 27 20:32:08 testnode1 kernel:  #1: ffff88814e03f080 (&of->mutex#2){+.+.}-{4:4}, at: kernfs_fop_write_iter+0x257/0x5e0
-Apr 27 20:32:08 testnode1 kernel:  #2: ffff88814e3f84b8 (kn->active#140){++++}-{0:0}, at: sysfs_remove_file_self+0x61/0xb0
-Apr 27 20:32:08 testnode1 kernel:  #3: ffff8881073281c8 (&set->update_nr_hwq_lock){++++}-{4:4}, at: del_gendisk+0xfa/0x190
-Apr 27 20:32:08 testnode1 kernel:  #4: ffff88812ab7bd68 (&q->elevator_lock){+.+.}-{4:4}, at: elevator_change+0x188/0x4f0
-Apr 27 20:32:08 testnode1 kernel: 
-                                  stack backtrace:
-Apr 27 20:32:08 testnode1 kernel: CPU: 3 UID: 0 PID: 1171 Comm: nvme Not tainted 7.1.0-rc1+ #3 PREEMPT(full) 
-Apr 27 20:32:08 testnode1 kernel: Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.17.0-9.fc43 06/10/2025
-Apr 27 20:32:08 testnode1 kernel: Call Trace:
-Apr 27 20:32:08 testnode1 kernel:  <TASK>
-Apr 27 20:32:08 testnode1 kernel:  dump_stack_lvl+0x6a/0x90
-Apr 27 20:32:08 testnode1 kernel:  print_circular_bug.cold+0x185/0x1d0
-Apr 27 20:32:08 testnode1 kernel:  check_noncircular+0x148/0x170
-Apr 27 20:32:08 testnode1 kernel:  __lock_acquire+0x14a6/0x2230
-Apr 27 20:32:08 testnode1 kernel:  lock_sync+0xbd/0x120
-Apr 27 20:32:08 testnode1 kernel:  ? __synchronize_srcu+0x21/0x2b0
-Apr 27 20:32:08 testnode1 kernel:  ? __synchronize_srcu+0x21/0x2b0
-Apr 27 20:32:08 testnode1 kernel:  __synchronize_srcu+0xa1/0x2b0
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx___synchronize_srcu+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? kvm_clock_get_cycles+0x14/0x30
-Apr 27 20:32:08 testnode1 kernel:  ? ktime_get_mono_fast_ns+0x193/0x490
-Apr 27 20:32:08 testnode1 kernel:  ? lockdep_hardirqs_on+0x88/0x130
-Apr 27 20:32:08 testnode1 kernel:  ? _raw_spin_unlock_irqrestore+0x4c/0x60
-Apr 27 20:32:08 testnode1 kernel:  elevator_switch+0x2a5/0x680
-Apr 27 20:32:08 testnode1 kernel:  elevator_change+0x2d8/0x4f0
-Apr 27 20:32:08 testnode1 kernel:  elevator_set_none+0x87/0xd0
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_elevator_set_none+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? kobject_put+0x5a/0x4e0
-Apr 27 20:32:08 testnode1 kernel:  blk_unregister_queue+0x13f/0x2b0
-Apr 27 20:32:08 testnode1 kernel:  __del_gendisk+0x263/0x9e0
-Apr 27 20:32:08 testnode1 kernel:  ? down_read+0x13b/0x480
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx___del_gendisk+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_down_read+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? up_write+0x294/0x510
-Apr 27 20:32:08 testnode1 kernel:  del_gendisk+0x102/0x190
-Apr 27 20:32:08 testnode1 kernel:  nvme_ns_remove+0x32a/0x900 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:  nvme_remove_namespaces+0x263/0x3b0 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_nvme_remove_namespaces+0x10/0x10 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:  nvme_do_delete_ctrl+0xf5/0x160 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:  nvme_delete_ctrl_sync.cold+0x8/0xd [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:  nvme_sysfs_delete+0x96/0xc0 [nvme_core]
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_sysfs_kf_write+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  kernfs_fop_write_iter+0x3d6/0x5e0
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_kernfs_fop_write_iter+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  vfs_write+0x52c/0xf80
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_vfs_write+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? kasan_save_free_info+0x37/0x70
-Apr 27 20:32:08 testnode1 kernel:  ? __kasan_slab_free+0x67/0x80
-Apr 27 20:32:08 testnode1 kernel:  ? kmem_cache_free+0x14c/0x670
-Apr 27 20:32:08 testnode1 kernel:  ? do_sys_openat2+0xfd/0x170
-Apr 27 20:32:08 testnode1 kernel:  ? __x64_sys_openat+0x10a/0x210
-Apr 27 20:32:08 testnode1 kernel:  ksys_write+0xfb/0x200
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_ksys_write+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  do_syscall_64+0xdd/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? kasan_quarantine_put+0xff/0x220
-Apr 27 20:32:08 testnode1 kernel:  ? lockdep_hardirqs_on+0x88/0x130
-Apr 27 20:32:08 testnode1 kernel:  ? kasan_quarantine_put+0xff/0x220
-Apr 27 20:32:08 testnode1 kernel:  ? kasan_quarantine_put+0xff/0x220
-Apr 27 20:32:08 testnode1 kernel:  ? do_sys_openat2+0xfd/0x170
-Apr 27 20:32:08 testnode1 kernel:  ? kmem_cache_free+0x14c/0x670
-Apr 27 20:32:08 testnode1 kernel:  ? do_sys_openat2+0xfd/0x170
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx_do_sys_openat2+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? kmem_cache_free+0x14c/0x670
-Apr 27 20:32:08 testnode1 kernel:  ? __x64_sys_openat+0x10a/0x210
-Apr 27 20:32:08 testnode1 kernel:  ? entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx___x64_sys_openat+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? rcu_is_watching+0x11/0xb0
-Apr 27 20:32:08 testnode1 kernel:  ? do_syscall_64+0x1ea/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? lockdep_hardirqs_on+0x88/0x130
-Apr 27 20:32:08 testnode1 kernel:  ? entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Apr 27 20:32:08 testnode1 kernel:  ? do_syscall_64+0x208/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx___x64_sys_openat+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? __pfx___x64_sys_openat+0x10/0x10
-Apr 27 20:32:08 testnode1 kernel:  ? rcu_is_watching+0x11/0xb0
-Apr 27 20:32:08 testnode1 kernel:  ? do_syscall_64+0x1ea/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? lockdep_hardirqs_on+0x88/0x130
-Apr 27 20:32:08 testnode1 kernel:  ? do_syscall_64+0x208/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? do_syscall_64+0x32/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? preempt_count_add+0x7f/0x190
-Apr 27 20:32:08 testnode1 kernel:  ? do_syscall_64+0x5d/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? do_syscall_64+0x8d/0x14c0
-Apr 27 20:32:08 testnode1 kernel:  ? irqentry_exit+0xf1/0x720
-Apr 27 20:32:08 testnode1 kernel:  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-Apr 27 20:32:08 testnode1 kernel: RIP: 0033:0x7f245cf99c5e
-Apr 27 20:32:08 testnode1 kernel: Code: 4d 89 d8 e8 34 bd 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 <c9> c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
-Apr 27 20:32:08 testnode1 kernel: RSP: 002b:00007ffca6d9f6a0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-Apr 27 20:32:08 testnode1 kernel: RAX: ffffffffffffffda RBX: 00007f245d1639a6 RCX: 00007f245cf99c5e
-Apr 27 20:32:08 testnode1 kernel: RDX: 0000000000000001 RSI: 00007f245d1639a6 RDI: 0000000000000003
-Apr 27 20:32:08 testnode1 kernel: RBP: 00007ffca6d9f6b0 R08: 0000000000000000 R09: 0000000000000000
-Apr 27 20:32:08 testnode1 kernel: R10: 0000000000000000 R11: 0000000000000202 R12: 000000003d0f6860
-Apr 27 20:32:08 testnode1 kernel: R13: 000000003d0f8580 R14: 000000003d0f6680 R15: 0000000000000000
-Apr 27 20:32:08 testnode1 kernel:  </TASK>
+>> +
+>> +    return dev;
+>> +}
+>> +
+>> +static void nvme_tcp_put_netdev(struct net_device *dev)
+>> +{
+>> +    if (dev)
+>> +        dev_put(dev);
+>> +}
+>> +
+>> +/*
+>> + * Returns number of active NIC queues (min of TX/RX), or 0 if device cannot
+>> + * be determined.
+>> + */
+>> +static int nvme_tcp_get_netdev_current_queue_count(struct nvme_ctrl *ctrl)
+>> +{
+>> +    struct net_device *dev;
+>> +    int tx_queues, rx_queues;
+>> +
+>> +    dev = nvme_tcp_get_netdev(ctrl);
+>> +    if (!dev)
+>> +        return 0;
+>> +
+>> +    tx_queues = dev->real_num_tx_queues;
+>> +    rx_queues = dev->real_num_rx_queues;
+> 
+> I can see various ways how this can get wrong with the variety of stacked network
+> devices. For example for bonding, this can easily diverge with the slave devices
+> queues (in theory at least). Also vlan/vxlan devices will also not represent the
+> real hw queues iirc.
+> 
+> This is a good example of how nvme-tcp is different than the other drivers.
+> It sits on top of an abstraction layer, which prevents it from "not getting it wrong".
+> It may get it right *some* of the time, but it can also get it wrong...
+> 
+> Maybe an explicit optin is warranted here...
+> I would not be against having this approach in case an explicit opt-in is passed
+> by the user I suppose.
+> 
+Yes so this is the _real_ reason why I proposed opt-in.
+
+> btw such an approach would be much more robust in nvme-rdma which
+> does not see this set of abstractions.
+> 
+> One thing that I will comment in addition, is that nvme-tcp is likely to
+> see *multiple* controllers (HA fundamentals for nvmf arrays), so I think that
+> improving performance in this scenario would be much more impactful.
+
+Hmm, yes really good point. This patch focuses on improving per-controller
+locality, but I agree that coordinating resource usage across controllers
+sharing the same NIC could provide additional benefits. This seems like a
+natural next step, thanks for highlighting this. I will address this in
+a separate patch, once current work is accepted.
+
+Thanks,
+--Nilay
+
 
