@@ -4,93 +4,64 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A9D41FF8850
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 00:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6426DFF8860
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 05:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PEdEmw8SnfABd/rWzOBxUWDYykAsxQoh07nG6sNahOQ=; b=ERNO5RqmN156xl4x1qKNWdV5M0
-	EjPYJq3u2g5RPWNUwQIh09nKLD/WTG7nMUL4DxWnTiYzcb3okHbrlOPaB/Vh1e8q/9fwfSCEjfuFJ
-	e5PxrieM9jX9QRCl/5SEaj1eqpPbXesZHNF1lkYYppMY0GXGPhQZJbNi+4RG8DNPcIzQsLgj0TWr9
-	YRIuY0Hv9XUJoUVYDpAWFTb8zkg+dPdnAG3auUA02QA9EOz3R6nxJEBHeeT5sG+OLw463905+Uhsj
-	HMTePwpB+sW9L+xfir73NO7CBAmngwNLTSs3sARqy9sQpoWxuKyCy5iFKwP8wr1i/4ESgyIjN+mPx
-	PnuHzH/Q==;
+	bh=bRWCwHZrIuPrBpUAkRlJv3PyGCtUSdR/QxWZat0B26Y=; b=pf/qZW+99/vEqrrWyJ5t+lf9LZ
+	TgmuxEVgbgzUT8C7dEcpy4hACxU/95jrV7cZI8kSEYBysGkrScenXjWflKiGzm/slG8ymWFoALsNR
+	R8xUKYRPZcc98lmkwhPu9FU+iTYlqPtt3ASoRz0BOkFzBEMFCQShyNIYJNY6z/lR5juwA+qpCuTec
+	g4aUVQLKmR3n0KHkW2xrxOAW6eW9dWeFk2QOmvftPkpI6hY6Bf2hhch7+k6qon5magdcRLgcPnJ96
+	qwibLjx6PNo6KU/c88c2MUtSrJYR65kapY0FWhlj+VgOjlyLNEj4InD1Ym3Av5jgxefCTYTyS0Qgr
+	T5xtg28w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHA5O-0000000Fyp9-1JwB;
-	Mon, 27 Apr 2026 00:44:30 +0000
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f])
+	id 1wHEYb-0000000GBWA-1mSY;
+	Mon, 27 Apr 2026 05:30:57 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHA5M-0000000Fyon-3Rmb
+	id 1wHEYV-0000000GBW3-4AnB
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Apr 2026 00:44:29 +0000
-Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-8ef5776530bso584016185a.0
-        for <linux-nvme@lists.infradead.org>; Sun, 26 Apr 2026 17:44:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777250667; x=1777855467; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PEdEmw8SnfABd/rWzOBxUWDYykAsxQoh07nG6sNahOQ=;
-        b=Z8+n6/kcmmCCGMtUSCGCTkbK0trJR9hXI3CInZtZkuUg67omUaNMiS69mK2ez9fEZr
-         y3Dk+Qy+Ua7WtaX3zg8JBG21BbE7tvHEiBH7aZetDajawNFyJutII1JX2wFsQC0vkcIt
-         f6AaZFRA2X4uTecVCAhh9Zia/3H06g9xJNb5TiT/qtKf7b0f2F7MlMAWZIBy8x4pvUDQ
-         ka9UG9UPsMAWwimgMnZKD1ooZs5hqFGXsZRzxI2VvObTY3XKfd3Cp1Q+X305PoilPD5P
-         rE55e7GaijLYocRhs5DBTtPctd5wRwzWB4mwc+stVOUQ605Bu/eaDO38rCgPwbIQOMI8
-         Q+jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777250667; x=1777855467;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PEdEmw8SnfABd/rWzOBxUWDYykAsxQoh07nG6sNahOQ=;
-        b=TH6GF+x/etmo2TNqsSnHeaN19V91V+jFezIRXl3sy2pRP25DWc67Kki0LeMgawXDIq
-         jvXSnNmST6Ea+591kH604PGum+dg8Niap0LonC1WZKIhLGbJifXSCQwPR5Xw7eDXMMj9
-         IYrdsRKs3W/XmuHCQTu+s3PTWloXBMNjJvtc7U8u+6im989/mCY9p8YEwFOXawPC8G3v
-         QgDi9o90XPwKxr3nAJ4A6lqvzGUltPTX3k9c51IXUI+5thfvpZ3Unam2zcyqzCkCdpi7
-         9nnJUwn0q7CPM8oltxXIwqSFQlferaE5F3BxBlDo03XPIn2g+QoctGRq8hK15NdH2aU1
-         R5vg==
-X-Forwarded-Encrypted: i=1; AFNElJ9J1rGfauWjB4DNaUJZbEsYGhb4wztmkY4LoXmFbEC8uUVHFn+UwFHxpjbhRFjocsnliyeCaSKvOsmK@lists.infradead.org
-X-Gm-Message-State: AOJu0Yw6Pipf2jYMYuuzv20sd292EZXotsT49xZ6CtoJvnUr4ZRbqDJi
-	1R30jxtSl0lMXAbuygMpCo09PrT7HzLQslmlRvDPBHrskrkG4iZh9XM1
-X-Gm-Gg: AeBDiesIASHMcyyL1Nl8md9vLrdLDx9Qy7vljBjkpi2IAY9OdXU1ZhfvWiIMPKfISIq
-	EhkPeOCd1Ro+GecgUc/ovsQkHrXE2UUY9xeu1rZwE01fLjGCuL73Wi5Qr/Gbp8phYUUmTKHvzdl
-	MpnNUP/1mVfGEhQn19FTeNCcxzWPdbnIohK5YFFqeUgffkytOvTkPBOaFPvMhGS6mP7tKnUH823
-	E5AOGL5TgHu8tf9tzlPAjl02nk5p3Uqv6PxLHTfDY8pf3p6NA73V+JrMRfhE9S6eWAcmkZM6xSv
-	qeO3fjb9DW0Dr0vRfJskMwdDMKFdOShGE3ufK6Idw+WKSw/BynW/BURDM23RIn23xux2IBrT0xr
-	DOkIVBFO99zWfzrqAx6AmSOMEZDU5Yva9TKRcC5arkP/9LW+puudtaExmdP7wWwh+i3zTfsz3Ul
-	lMXELce+YS3+palJHGcGn9FIsZEevB2/6J3WbEve/xfryf8u9flSl2p9eU6PH2QBWphEXyEzr80
-	Hg4RnZnBlvJipDfmaYD
-X-Received: by 2002:a05:620a:17a2:b0:8ee:bae8:2bb9 with SMTP id af79cd13be357-8eebae830f2mr3334969785a.30.1777250667288;
-        Sun, 26 Apr 2026 17:44:27 -0700 (PDT)
-Received: from rc-szhan197-01.ad.syr.edu (its-crushnat.syr.edu. [128.230.103.233])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ef47be2d91sm1533111385a.12.2026.04.26.17.44.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 17:44:26 -0700 (PDT)
-From: Shivam Kumar <kumar.shivam43666@gmail.com>
-To: hch@lst.de
-Cc: mlombard@arkamax.eu,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	linux-nvme@lists.infradead.org,
-	kbusch@kernel.org,
-	gregkh@linuxfoundation.org,
-	security@kernel.org,
-	Shivam Kumar <kumar.shivam43666@gmail.com>
-Subject: [PATCH v2] nvmet-tcp: set a default MDTS of 2 MiB for TCP transport
-Date: Sun, 26 Apr 2026 20:44:06 -0400
-Message-Id: <20260427004406.2971227-1-kumar.shivam43666@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260409060835.GA6389@lst.de>
-References: <20260409060835.GA6389@lst.de>
+	Mon, 27 Apr 2026 05:30:52 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 59B9C60138;
+	Mon, 27 Apr 2026 05:30:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74C1EC19425;
+	Mon, 27 Apr 2026 05:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777267850;
+	bh=zM0v6VqgoySR2CiA5H4Q5YFlHnUVTM7lRp0ZIity4dk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nlfMk/ydTPFXH4hipfvRCq07Sd/q/03iwqrmejTabIg6DGEe1Gbu+a+A7LWLkv4hr
+	 3GlA6H4Fvn+jPNziqcI4GEUxQpLJq1GgPkr0/uTAWcBE9MnJc8lKfppm24bqrsMi+h
+	 +nJsUevGln5dgNVX8JRwYwnMUC4bHsWWX46Sr4Bb0943HkWgNmJDOXlyV5FvZ9v5pN
+	 vvmez8V7ihWv0vtewIBXUetSLOt+BhWjhnpZRVJ3UXrDbCxtIOTbS/SajgFypDRKCO
+	 WjEvUNBZsDuycW303XIEajJnxyoeuu/OexNiIavN/W2sFv0yN0aPSSZwaoZu4U8pRl
+	 uoJbBKGGN/AcA==
+Message-ID: <f3005356-c9d8-4bc4-af72-ad02866bc8bc@kernel.org>
+Date: Mon, 27 Apr 2026 14:30:40 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260426_174428_870629_4CC58DA2 
-X-CRM114-Status: GOOD (  11.52  )
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvmet: pci-epf: fix heap overflow for invalid I/O
+ SQES/CQES from the host
+To: Junrui Luo <moonafterrain@outlook.com>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Keith Busch <kbusch@kernel.org>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Yuhao Jiang <danisjiang@gmail.com>, stable@vger.kernel.org
+References: <SYBPR01MB7881878B234CD11D13DCAFCCAF2B2@SYBPR01MB7881.ausprd01.prod.outlook.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <SYBPR01MB7881878B234CD11D13DCAFCCAF2B2@SYBPR01MB7881.ausprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,42 +76,29 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Unlike other fabrics transports, the TCP target does not set a default
-Maximum Data Transfer Size. With the configfs MDTS entry defaulting to 0
-(no limit), a remote attacker can send a CapsuleCmd with an arbitrarily
-large SGL length, causing sgl_alloc() in nvmet_tcp_map_data() to attempt
-an excessive kernel allocation that triggers the OOM killer.
+On 4/24/26 11:24 PM, Junrui Luo wrote:
+> nvmet_pci_epf_enable_ctrl() computes ctrl->io_sqes and ctrl->io_cqes
+> from the host-controlled CC.IOSQES/CC.IOCQES fields and only rejects
+> values below sizeof(struct nvme_command) / sizeof(struct nvme_completion).
+> The resulting sizes are used as DMA transfer lengths against the
+> fixed-size iod->cmd (64B) and iod->cqe (16B) buffers.
+> 
+> An oversized IOSQES causes nvmet_pci_epf_transfer() to overflow
+> iod->cmd with host-controlled data, and an oversized IOCQES causes
+> memcpy_toio() to leak adjacent slab memory back to the host.
+> 
+> Change both checks from '<' to '!='.
+> 
+> Fixes: 0faa0fe6f90e ("nvmet: New NVMe PCI endpoint function target driver")
+> Reported-by: Yuhao Jiang <danisjiang@gmail.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
 
-Set a default MDTS of 9 (2 MiB) for TCP. Admins can still adjust via
-the configfs mdts attribute if needed.
+Looks OK.
 
-Signed-off-by: Shivam Kumar <kumar.shivam43666@gmail.com>
----
- drivers/nvme/target/tcp.c | 3 +++
- 1 file changed, 3 insertions(+)
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index a456dd2fd8bd..d09c81d07a1d 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -25,6 +25,7 @@
- #define NVMET_TCP_DEF_INLINE_DATA_SIZE	(4 * PAGE_SIZE)
- #define NVMET_TCP_MAXH2CDATA		0x400000 /* 16M arbitrary limit */
- #define NVMET_TCP_BACKLOG 128
-+#define NVMET_TCP_DEF_MDTS		9 /* 2 MiB (2^(12+9)) */
- 
- static int param_store_val(const char *str, int *val, int min, int max)
- {
-@@ -2067,6 +2068,8 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
- 	INIT_WORK(&port->accept_work, nvmet_tcp_accept_work);
- 	if (port->nport->inline_data_size < 0)
- 		port->nport->inline_data_size = NVMET_TCP_DEF_INLINE_DATA_SIZE;
-+	if (nport->mdts < 0)
-+		nport->mdts = NVMET_TCP_DEF_MDTS;
- 
- 	ret = sock_create(port->addr.ss_family, SOCK_STREAM,
- 				IPPROTO_TCP, &port->sock);
 -- 
-2.34.1
-
+Damien Le Moal
+Western Digital Research
 
