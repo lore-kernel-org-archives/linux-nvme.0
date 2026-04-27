@@ -4,110 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB420FF8860
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 11:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3165FF885E
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 12:11:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=XbDi2z1s+YTXeAQt3bekRi5/9PNxi5YQWmpvK+hrgSo=; b=dKy4TxDOytLE4GfjaTnEJz7Tvu
-	CB6pKxRdsezqPWt9l/0wIQ/HelWFSEi4dWkAOjViBflPr0sWUgCsKelP/GQyIBAHGxzogTfzFfACK
-	gM4nBEwIebjC0lwWidEcsRBlcHxlLVIS4Omrdp5/dlvTSXxsQ3xKwHFhl5eySM/XusM3QYdy9dART
-	MwVlT/6yKa4/buM/TNH1ovTIpb7yuZSD5N0eG11zsCFkfhAL/m+NtdLH+bfdn8GdaCqrUGmfPfA7w
-	Kj/MFSX9JaUb8vc6UzPfkqDM1npwIr2nyrDQtvyePMr/91Gw5ReWKFAhCOIyS+k0cs/BwVDP7en/e
-	Ez2TSUuQ==;
+	bh=H/EKmEnTazlJTOor9DAb3susdu/D3/dZvumSVZnddi8=; b=1hz6wMcEplcidM6bKuUInKds+c
+	LWsB3bMuGWDoygKTO7bQVBKIaF+Xk96lijRlchkpWo9Q15ocAfjFi8Mu033RxUYe4OwCdNR5447tR
+	/mfXdDwMs8/onTpqwsBn4st39reeD0/9QnhO15KF+vgglC8tkzEF2zmm8R1iFRQiKXLA4BpS0TCE4
+	xpkheF3Ll6dOMtebovvCUJ7bhQBIjVrD3zwyMRwmfPK/wBAvM4Zd5EWR4udZtBeUsgAK6gz9S+4NG
+	DW6x2z0+nhq5gsT6oPNT2v/zi4LGfU7AOW4BQzFmGAAac3qASkaxdaLGlcJo/MOkmx57xE7F6TbvC
+	UWTWrDqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHKbI-0000000Gq7a-0yrF;
-	Mon, 27 Apr 2026 11:58:08 +0000
+	id 1wHKoQ-0000000GrR9-2lyw;
+	Mon, 27 Apr 2026 12:11:42 +0000
 Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHKbF-0000000Gq73-1rx3
+	id 1wHKoO-0000000GrQp-0gbL
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Apr 2026 11:58:07 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63R8J9fk1892388;
-	Mon, 27 Apr 2026 11:57:53 GMT
+	Mon, 27 Apr 2026 12:11:41 +0000
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63R7HBHE1317126;
+	Mon, 27 Apr 2026 12:11:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=XbDi2z
-	1s+YTXeAQt3bekRi5/9PNxi5YQWmpvK+hrgSo=; b=rrEvh+Tf/JcAwteZRJxHKd
-	9wGoACJxQRj0t20VF2GZR4p6l8rDA8zIALqEFPDjU3aQRCC92p6WJImYgEOTcxex
-	l6aSPOd7T9eo2CcvjGQYGA355qx1O7nx8bAsuWcI5OS/4BgudY5Vx+lsrKm5NitH
-	aggDHOH1NQxEI/1F9ivURnlYr/RRdi22aAxkT/kcxnixAN8VgICbOOFD2ixIdDaH
-	jL0vH8NyGrAGTeCu7nECZdBGTYyKWVUL8z3AdfYIKMSG2yO7UdQxWjlinJY7nVNb
-	DKbTujatU87m3PkXliCG4bNmy10TJjoBX7xBNhZUxPC8IdKIbIvBD7xHd+LggZfA
+	:message-id:mime-version:references:subject:to; s=pp1; bh=H/EKmE
+	nTazlJTOor9DAb3susdu/D3/dZvumSVZnddi8=; b=YanDmcHFkwVFC/9WmmVV8r
+	5vD+L7PAcrFKoSfSs4Px/4EYJE3NsovLDJZHQ4uo1FBXeNhrcP0036akdy2LoX6s
+	QnT30oHNEVj1vMiPHjIZxcPgCFKgCFNVONbmSlNWZBfkzClbCeTd9ULiMtLpax25
+	4AscS4GiXPcJNiCU1qEazNi4tcbNI8kMzZ7u2kL08xobIclBR86Yb2xezdSXCQW5
+	vS2HBU/rNCgQw09zkypiepYG4f7mi1uJuRLyke19wYUopsPd7iqkm9QTZpMqq7AJ
+	+NNtFcxsrmGl/vmiFF+ip0BSQePKZw8akSlVBjggT2U2aerq0FMuS6sSoYaV5BxQ
 	==
 Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4drm1dqfbp-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4drk1jfpg8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Apr 2026 11:57:53 +0000 (GMT)
+	Mon, 27 Apr 2026 12:11:29 +0000 (GMT)
 Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63RBriAA007250;
-	Mon, 27 Apr 2026 11:57:52 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ds7xq549j-1
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63RC8iIE024193;
+	Mon, 27 Apr 2026 12:11:29 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ds7xq561m-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Apr 2026 11:57:52 +0000 (GMT)
+	Mon, 27 Apr 2026 12:11:28 +0000 (GMT)
 Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63RBvpN013632010
+	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63RCBSNd21234382
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 Apr 2026 11:57:51 GMT
+	Mon, 27 Apr 2026 12:11:28 GMT
 Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 441895805D;
-	Mon, 27 Apr 2026 11:57:51 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 6E16558059;
+	Mon, 27 Apr 2026 12:11:28 +0000 (GMT)
 Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CA43758057;
-	Mon, 27 Apr 2026 11:57:48 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 23AB758061;
+	Mon, 27 Apr 2026 12:11:26 +0000 (GMT)
 Received: from [9.123.7.57] (unknown [9.123.7.57])
 	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 27 Apr 2026 11:57:48 +0000 (GMT)
-Message-ID: <7f4742bb-9e5a-41ff-b8fd-cb846ef64538@linux.ibm.com>
-Date: Mon, 27 Apr 2026 17:27:47 +0530
+	Mon, 27 Apr 2026 12:11:25 +0000 (GMT)
+Message-ID: <73e02cad-22e3-44a5-a90e-fc7660daae73@linux.ibm.com>
+Date: Mon, 27 Apr 2026 17:41:24 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/4] nvme-tcp: optionally limit I/O queue count based
- on NIC queues
-To: Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org, hch@lst.de, hare@suse.de, chaitanyak@nvidia.com,
-        gjoyce@linux.ibm.com
+Subject: Re: [RFC PATCH 0/4] nvme-tcp: NIC topology aware I/O queue scaling
+ and queue info export
+To: Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+        linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org, hch@lst.de, chaitanyak@nvidia.com, gjoyce@linux.ibm.com
 References: <20260420115716.3071293-1-nilay@linux.ibm.com>
- <20260420115716.3071293-2-nilay@linux.ibm.com>
- <67c5a032-4ba6-4dbb-bc48-072d82c3fbd0@grimberg.me>
+ <649036dd-b99f-4f60-93f4-16979e11f520@suse.de>
+ <faeb48dc-5672-465b-9650-558522dc4f65@grimberg.me>
 Content-Language: en-US
 From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <67c5a032-4ba6-4dbb-bc48-072d82c3fbd0@grimberg.me>
+In-Reply-To: <faeb48dc-5672-465b-9650-558522dc4f65@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 184Lh7k9myn_AicRiW4_fwzzU_xKpZoA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEyNSBTYWx0ZWRfX3EttV0joGhfz
- SS6Qp3LqN+UTL7xvaU7uHlFg5DS/yQQQRzwoU6aZqH1rke2L7ZkxthOjjR8mP+6O0aId5iL1l96
- 3l7U1sWgZGHT5LsWmojqczW266ZsNMbUyLKGKJnEcfcRVpKhqJmmy7oCTQzyL3y6t0oIbgDvfJp
- 45HVEPAjIOqSoyPe9vgQQkwoqdoTKyZdr7DFAf/ccZ9+W1UB5s1CLnBfqg+c0HNTY2ynfBpqWN2
- b/vILaLMfOVOMY4IcaYFyMYVmH/0BHobniGX8qzucZcZAI68ETr1AqM+4ihARY8tF/qvvUSFUoO
- Ufgk5ga1rjKx7nY/MMlxkC6aBuDyFd2Yz0xP//NUR/SqSOfGvsW5GTYMAZDddtWERSOvIzUrNef
- rpzYJMPIMSDX/smA404tQyVy421nVxkIbNt3KeCXnuMRVu+xEJOzrx1kjTzcsa68YZmud0gf49d
- ReTEwxIH4ytjjSSK3mw==
-X-Authority-Analysis: v=2.4 cv=VZLH+lp9 c=1 sm=1 tr=0 ts=69ef4f41 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEyNSBTYWx0ZWRfXylBvEyagcIPT
+ S+qdAs4SgcyBAkM5a/YyXfgVOJJIDKq9EaL7jfbsV1+/v5qyipgj+HGZjd2qSlvXc41ikiqND5o
+ d/clm/4519sGp02hSIFo/gqnZVfT0RSnFDWLCJWW7BHhMRqBf7XEyi7j9jJe/CUp7nPK7EIcedk
+ 1Wn+goWhBypVawiBsv5UQbgGA0cjEIVmiPhJo1NiXD3aA5NmPvEFyYZxbHRrv4qh1QfTx1kxdGX
+ JT9sqkQjwZIEma4oN2VmNbojNotO3J2EVYkyDiV3O5f+lvIPo8yqgAJfRsnjB6L+EPqdNp78fqw
+ OuO/eToc/RR92kN4zHA/sQTu5l7n8dmkbEYjqXLm3v1kTFmJ7Syc88R7w3FF2iDYiLt3NYB+qFf
+ +++9W93CeIIdE/Cvs7dvpgxbyS0aDzPV2T7uk03BTIOO6mYV9BN5qxM45g4A+JJ7w/gXHNHLjjz
+ 0Xkp4yPZ78h52oExwVw==
+X-Proofpoint-GUID: 0NjsQ6aNM9K2H-ZupitgVSUAshcTcpsM
+X-Proofpoint-ORIG-GUID: 0NjsQ6aNM9K2H-ZupitgVSUAshcTcpsM
+X-Authority-Analysis: v=2.4 cv=MohiLWae c=1 sm=1 tr=0 ts=69ef5271 cx=c_pps
  a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8
- a=wZFfM1RX0dFLWaceufAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: 184Lh7k9myn_AicRiW4_fwzzU_xKpZoA
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=H3GjO7N-Ywwhl7QugdoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-27_03,2026-04-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- spamscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604270125
+ phishscore=0 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604270125
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260427_045805_670232_C26F9E7D 
-X-CRM114-Status: GOOD (  45.92  )
+X-CRM114-CacheID: sfid-20260427_051140_377712_42E5C26B 
+X-CRM114-Status: GOOD (  23.30  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,265 +123,177 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/25/26 3:40 AM, Sagi Grimberg wrote:
+On 4/25/26 4:00 AM, Sagi Grimberg wrote:
 > 
 > 
-> On 20/04/2026 14:49, Nilay Shroff wrote:
->> NVMe-TCP currently provisions I/O queues primarily based on CPU
->> availability. On systems where the number of CPUs significantly exceeds
->> the number of NIC hardware queues, this can lead to multiple I/O queues
->> sharing the same NIC TX/RX queues, resulting in increased lock
->> contention, cacheline bouncing, and inter-processor interrupts (IPIs).
-> 
-> Yes, I agree it is very inefficient to create something like 192 queues in practice.
-> Nevermind that this is pretty much never the case because real controllers
-> will limit the number of IO queues to something much lower than that,
-> in the majority of cases probably a handful or more.
-> 
-Yes, it may not always be possible (or meaningful) to have a 1:1 mapping
-between NVMe/TCP I/O queues and the real controller’s internal queues.
-
-The intent here is not to enforce such a mapping, but rather to improve
-host-side locality. Even when the controller limits the number of I/O queues,
-mismatch with NIC queue topology can still lead to multiple I/O workers
-contending on the same TX/RX queues. This change tries to avoid such
-over-subscription on the host side.
-
-> Please note that this is very much in common with RDMA, so the
-> patch series should probably address both.
-> 
-Yes agreed — the model in RDMA is more tightly coupled to hardware resources.
-It probably makes sense to consider that separately, as the problem space is
-simpler and the mapping is more direct.
-
+> On 22/04/2026 14:10, Hannes Reinecke wrote:
+>> On 4/20/26 13:49, Nilay Shroff wrote:
+>>> Hi,
+>>>
+>>> The NVMe/TCP host driver currently provisions I/O queues primarily based
+>>> on CPU availability rather than the capabilities and topology of the
+>>> underlying network interface.
+>>>
+>>> On modern systems with many CPUs but fewer NIC hardware queues, this can
+>>> lead to multiple NVMe/TCP I/O workers contending for the same TX/RX queue,
+>>> resulting in increased lock contention, cacheline bouncing, and degraded
+>>> throughput.
+>>>
+>>> This RFC proposes a set of changes to better align NVMe/TCP I/O queues
+>>> with NIC queue resources, and to expose queue/flow information to enable
+>>> more effective system-level tuning.
+>>>
+>>> Key ideas
+>>> ---------
+>>>
+>>> 1. Scale NVMe/TCP I/O queues based on NIC queue count
+>>>     Instead of relying solely on CPU count, limit the number of I/O workers
+>>>     to:
+>>>         min(num_online_cpus, netdev->real_num_{tx,rx}_queues)
+>>>
+>>> 2. Improve CPU locality
+>>>     Align NVMe/TCP I/O workers with CPUs associated with NIC IRQ affinity
+>>>     to reduce cross-CPU traffic and improve cache locality.
+>>>
+>>> 3. Expose queue and flow information via debugfs
+>>>     Export per-I/O queue information including:
+>>>         - queue id (qid)
+>>>         - CPU affinity
+>>>         - TCP flow (src/dst IP and ports)
+>>>
+>>>     This enables userspace tools to configure:
+>>>         - IRQ affinity
+>>>         - RPS/XPS
+>>>         - ntuple steering
+>>>         - or any other scaling as deemed feasible
+>>>
+>>> 4. Provide infrastructure for extensible debugfs support in NVMe
+>>>
+>>> Together, these changes allow better alignment of:
+>>>      flow -> NIC queue -> IRQ -> CPU -> NVMe/TCP I/O worker
+>>>
+>>> Performance Evaluation
+>>> ----------------------
+>>> Tests were conducted using fio over NVMe/TCP with the following parameters:
+>>>      ioengine=io_uring
+>>>      direct=1
+>>>      bs=4k
+>>>      numjobs=<#nic-queues>
+>>>      iodepth=64
+>>> System:
+>>>      CPUs: 72
+>>>      NIC: 100G mlx5
+>>>
+>>> Two configurations were evaluated.
+>>>
+>>> Scenario 1: NIC queues < CPU count
+>>> ----------------------------------
+>>> - CPUs: 72
+>>> - NIC queues: 32
+>>>
+>>>                  Baseline        Patched        Patched + tuning
+>>> randread        3141 MB/s       3228 MB/s      7509 MB/s
+>>>                  (767k IOPS)     (788k IOPS)    (1833k IOPS)
+>>>
+>>> randwrite       4510 MB/s       6172 MB/s      7518 MB/s
+>>>                  (1101k IOPS)    (1507k IOPS)   (1836k IOPS)
+>>>
+>>> randrw (read)   2156 MB/s       2560 MB/s      3932 MB/s
+>>>                  (526k IOPS)     (625k IOPS)    (960k IOPS)
+>>>
+>>> randrw (write)  2155 MB/s       2560 MB/s      3932 MB/s
+>>>                  (526k IOPS)     (625k IOPS)    (960k IOPS)
+>>>
+>>> Observation:
+>>> When CPU count exceeds NIC queue count, the baseline configuration
+>>> suffers from queue contention. The proposed changes provide modest
+>>> improvements on their own, and when combined with queue-aware tuning
+>>> (IRQ affinity, ntuple steering, and CPU alignment), enable up to
+>>> ~1.5x–2.5x throughput improvement.
+>>>
+>>> Scenario 2: NIC queues == CPU count
+>>> -----------------------------------
+>>>
+>>> - CPUs: 72
+>>> - NIC queues: 72
+>>>
+>>>                  Baseline                Patched + tuning
+>>> randread        4310 MB/s               7987 MB/s
+>>>                  (1052k IOPS)            (1950k IOPS)
+>>>
+>>> randwrite       7947 MB/s               7972 MB/s
+>>>                  (1940k IOPS)            (1946k IOPS)
+>>>
+>>> randrw (read)   3583 MB/s               4030 MB/s
+>>>                  (875k IOPS)             (984k IOPS)
+>>>
+>>> randrw (write)  3583 MB/s               4029 MB/s
+>>>                  (875k IOPS)             (984k IOPS)
+>>>
+>>> Observation:
+>>> When NIC queues are already aligned with CPU count, the baseline performs
+>>> well. The proposed changes maintain write performance (no regression) and
+>>> still improve read and mixed workloads due to better flow-to-CPU locality.
+>>>
+>>> Notes on tuning
+>>> ---------------
+>>> The "patched + tuning" configuration includes:
+>>>      - aligning NVMe/TCP I/O workers with NIC queue count
+>>>      - IRQ affinity configuration per RX queue
+>>>      - ntuple-based flow steering
+>>>      - CPU/queue affinity alignment
+>>>
+>>> These tuning steps are enabled by the queue/flow information exposed through
+>>> this patchset.
+>>>
+>>> Discussion
+>>> ----------
+>>> This RFC aims to start discussion around:
+>>>    - Whether NVMe/TCP queue scaling should consider NIC queue topology
+>>>    - How best to expose queue/flow information to userspace
+>>>    - The role of userspace vs kernel in steering decisions
+>>>
+>>> As usual, feedback/comment/suggestions are most welcome!
+>>>
+>>> Reference to LSF/MM/BPF abstarct: https://lore.kernel.org/all/5db8ce78-0dfa-4dcb-bf71-5fb9c8f463e5@linux.ibm.com/
+>>>
 >>
->> In such configurations, limiting the number of NVMe-TCP I/O queues to
->> the number of NIC hardware queues can improve performance by reducing
->> contention and improving locality. Aligning NVMe-TCP worker threads with
->> NIC queue topology may also help reduce tail latency.
-> 
-> As mentioned, from what I know, when using real nvmf arrays, the number of
-> queues will usually be much lower than both the cpu count as well as the NIC hw
-> queues.
-> 
+>> Weelll ... we have been debating this back and forth over recent years:
+>> Should we check for hardware limitations for NVMe-over-Fabrics or not?
 >>
->> Add a new transport option "match_hw_queues" to allow users to
->> optionally limit the number of NVMe-TCP I/O queues to the number of NIC
->> TX/RX queues. When enabled, the number of I/O queues is set to:
+>> Initially it sounds appealing, and in fact I've worked on several attempts myself. But in the end there are far more things which need
+>> to be considered:
+>> -> For networking, number of queues is not really telling us anything.
+>>    Most NICs have distinct RX and TX queues, and the number (of both!)
+>>    varies quite dramatically.
+>> -> The number of queues does _not_ indicate that all queues are used
+>>    simultaneously. That is down to things like RSS and friends.
+>>    I gave a stab at configuring _that_ but it's patently horrible
+>>    trying to out-guess things for yourself.
+>> -> It'll only work if you run directly on the NIC. As soon as there
+>>    is anything in between (qemu? Tunnelling?) you are out of luck.
 >>
->>      min(num_online_cpus, num_nic_queues)
->>
->> This behavior is opt-in and does not change existing defaults.
+>> So yeah, we should have a discussion here.
 > 
-> In my mind, there is no real reason for an opt-in. The opt-in should
-> probably be if the user actually wants to use num_online_cpus() worth of queues (e.g. user explicitly asked for nr_io_queues).
->>
-Yes that makes sense, but in certain complex typologies such as host
-running inside QEMU or stacked network devices, it may not be possible
-to find the real num of tx/rx queues exposed by real NIC cards. So for
-such cased we may not want to alter the existing behavior and hence
-I choose to support opt-in.
+> TBH, I don't think that this is very useful. I mentioned some areas on why on patch #1
+> 
+> But the main reason is that I think that the majority the gains that you are showing
+> is the tuning - which is somewhat unrelated to the driver, and TBH, I doubt anyone
+> will actually do in reality.
 
->> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
->> ---
->>   drivers/nvme/host/fabrics.c |   4 ++
->>   drivers/nvme/host/fabrics.h |   3 +
->>   drivers/nvme/host/tcp.c     | 120 +++++++++++++++++++++++++++++++++++-
->>   3 files changed, 126 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index ac3d4f400601..62ae998825e1 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
->> @@ -709,6 +709,7 @@ static const match_table_t opt_tokens = {
->>       { NVMF_OPT_TLS,            "tls"            },
->>       { NVMF_OPT_CONCAT,        "concat"        },
->>   #endif
->> +    { NVMF_OPT_MATCH_HW_QUEUES,    "match_hw_queues"    },
->>       { NVMF_OPT_ERR,            NULL            }
->>   };
->> @@ -1064,6 +1065,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->>               }
->>               opts->concat = true;
->>               break;
->> +        case NVMF_OPT_MATCH_HW_QUEUES:
->> +            opts->match_hw_queues = true;
->> +            break;
->>           default:
->>               pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
->>                   p);
->> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
->> index caf5503d0833..e8e3a2672832 100644
->> --- a/drivers/nvme/host/fabrics.h
->> +++ b/drivers/nvme/host/fabrics.h
->> @@ -67,6 +67,7 @@ enum {
->>       NVMF_OPT_KEYRING    = 1 << 26,
->>       NVMF_OPT_TLS_KEY    = 1 << 27,
->>       NVMF_OPT_CONCAT        = 1 << 28,
->> +    NVMF_OPT_MATCH_HW_QUEUES = 1 << 29,
->>   };
-> 
-> No need for the above in my mind.
-> 
->>   /**
->> @@ -106,6 +107,7 @@ enum {
->>    * @disable_sqflow: disable controller sq flow control
->>    * @hdr_digest: generate/verify header digest (TCP)
->>    * @data_digest: generate/verify data digest (TCP)
->> + * @match_hw_queues: limit controller IO queue count based on NIC queues (TCP)
->>    * @nr_write_queues: number of queues for write I/O
->>    * @nr_poll_queues: number of queues for polling I/O
->>    * @tos: type of service
->> @@ -136,6 +138,7 @@ struct nvmf_ctrl_options {
->>       bool            disable_sqflow;
->>       bool            hdr_digest;
->>       bool            data_digest;
->> +    bool            match_hw_queues;
->>       unsigned int        nr_write_queues;
->>       unsigned int        nr_poll_queues;
->>       int            tos;
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index 243dab830dc8..7102a7a54d78 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -16,6 +16,8 @@
->>   #include <net/tls.h>
->>   #include <net/tls_prot.h>
->>   #include <net/handshake.h>
->> +#include <net/ip6_route.h>
->> +#include <linux/in6.h>
->>   #include <linux/blk-mq.h>
->>   #include <net/busy_poll.h>
->>   #include <trace/events/sock.h>
->> @@ -1762,6 +1764,103 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->>       return ret;
->>   }
->> +static struct net_device *nvme_tcp_get_netdev(struct nvme_ctrl *ctrl)
->> +{
->> +    struct net_device *dev = NULL;
->> +
->> +    if (ctrl->opts->mask & NVMF_OPT_HOST_IFACE)
->> +        dev = dev_get_by_name(&init_net, ctrl->opts->host_iface);
->> +    else {
->> +        struct nvme_tcp_ctrl *tctrl = to_tcp_ctrl(ctrl);
->> +
->> +        if (tctrl->addr.ss_family == AF_INET) {
->> +            struct rtable *rt;
->> +            struct flowi4 fl4 = {};
->> +            struct sockaddr_in *addr =
->> +                    (struct sockaddr_in *)&tctrl->addr;
->> +
->> +            fl4.daddr = addr->sin_addr.s_addr;
->> +            if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
->> +                addr = (struct sockaddr_in *)&tctrl->src_addr;
->> +                fl4.saddr = addr->sin_addr.s_addr;
->> +            }
->> +            fl4.flowi4_proto = IPPROTO_TCP;
->> +
->> +            rt = ip_route_output_key(&init_net, &fl4);
->> +            if (IS_ERR(rt))
->> +                return NULL;
->> +
->> +            dev = dst_dev(&rt->dst);
->> +            /*
->> +             * Get reference to netdev as ip_rt_put() will
->> +             * release the netdev reference.
->> +             */
->> +            if (dev)
->> +                dev_hold(dev);
->> +
->> +            ip_rt_put(rt);
->> +
->> +        } else if (tctrl->addr.ss_family == AF_INET6) {
->> +            struct dst_entry *dst;
->> +            struct flowi6 fl6 = {};
->> +            struct sockaddr_in6 *addr6 =
->> +                    (struct sockaddr_in6 *)&tctrl->addr;
->> +
->> +            fl6.daddr = addr6->sin6_addr;
->> +            if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
->> +                addr6 = (struct sockaddr_in6 *)&tctrl->src_addr;
->> +                fl6.saddr = addr6->sin6_addr;
->> +            }
->> +            fl6.flowi6_proto = IPPROTO_TCP;
->> +
->> +            dst = ip6_route_output(&init_net, NULL, &fl6);
->> +            if (dst->error) {
->> +                dst_release(dst);
->> +                return NULL;
->> +            }
->> +
->> +            dev = dst_dev(dst);
->> +            /*
->> +             * Get reference to netdev as dst_release() will
->> +             * release the netdev reference.
->> +             */
->> +            if (dev)
->> +                dev_hold(dev);
->> +
->> +            dst_release(dst);
->> +        }
->> +    }
-> 
-> This looks like a helper that should be outside of nvme-tcp.
-> Nothing specific to it here. Something like dev_get_by_dstaddr()
+Even without additional tuning, aligning the NVMe/TCP I/O workers with
+CPU and NIC queue locality already provides measurable performance
+benefits (primarily visible in random write workloads, as shown in
+Scenario 1).
 
-Yeah, in another thread Christoph also had similar opinion. So I'd
-add a helper under net/.
+The additional gains come from system-level tuning (e.g., XPS/RPS/RSS),
+which further improves utilization of NIC queues and CPU locality.
+However, the patch enables this tuning by exposing queue/flow
+information and establishing better default alignment.
 
->> +
->> +    return dev;
->> +}
->> +
->> +static void nvme_tcp_put_netdev(struct net_device *dev)
->> +{
->> +    if (dev)
->> +        dev_put(dev);
->> +}
->> +
->> +/*
->> + * Returns number of active NIC queues (min of TX/RX), or 0 if device cannot
->> + * be determined.
->> + */
->> +static int nvme_tcp_get_netdev_current_queue_count(struct nvme_ctrl *ctrl)
->> +{
->> +    struct net_device *dev;
->> +    int tx_queues, rx_queues;
->> +
->> +    dev = nvme_tcp_get_netdev(ctrl);
->> +    if (!dev)
->> +        return 0;
->> +
->> +    tx_queues = dev->real_num_tx_queues;
->> +    rx_queues = dev->real_num_rx_queues;
-> 
-> I can see various ways how this can get wrong with the variety of stacked network
-> devices. For example for bonding, this can easily diverge with the slave devices
-> queues (in theory at least). Also vlan/vxlan devices will also not represent the
-> real hw queues iirc.
-> 
-> This is a good example of how nvme-tcp is different than the other drivers.
-> It sits on top of an abstraction layer, which prevents it from "not getting it wrong".
-> It may get it right *some* of the time, but it can also get it wrong...
-> 
-> Maybe an explicit optin is warranted here...
-> I would not be against having this approach in case an explicit opt-in is passed
-> by the user I suppose.
-> 
-Yes so this is the _real_ reason why I proposed opt-in.
-
-> btw such an approach would be much more robust in nvme-rdma which
-> does not see this set of abstractions.
-> 
-> One thing that I will comment in addition, is that nvme-tcp is likely to
-> see *multiple* controllers (HA fundamentals for nvmf arrays), so I think that
-> improving performance in this scenario would be much more impactful.
-
-Hmm, yes really good point. This patch focuses on improving per-controller
-locality, but I agree that coordinating resource usage across controllers
-sharing the same NIC could provide additional benefits. This seems like a
-natural next step, thanks for highlighting this. I will address this in
-a separate patch, once current work is accepted.
+While such tuning may not be applied in all deployments, IMO, it should be
+commonly used in performance-sensitive environments where users aim to
+fully utilize available NIC and CPU resources.
 
 Thanks,
 --Nilay
