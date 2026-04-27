@@ -4,59 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9BA55FF8868
-	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 18:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A498FF8868
+	for <linux-nvme@archiver.kernel.org>; Mon, 27 Apr 2026 20:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5zlFAOFYiZOzC44pYWGL5TREI1CIhVmN1JWJKwtP01s=; b=a9fV2pJxfO2BZm0nKU8tg0ViDy
-	uL2ArzEb7K+2TnFZCDRwN9WmwtWP4/YTk2pfsK71sv+yHhJwNM6jGVGkLbnmxykghN2FVnYTi+QPT
-	/WXZbnZeoGtGsEu2XcimzVIGCxK4XBcDF8/GzTQ17DMZ25/5FNMnCTEmXVv0W5Fl/bhrev4mUc6I+
-	Lf7kzDCcgYBw8lO3KawtiubM+jKD1hOr1fWSkPZnlBKK8HT7w4L9cvzKgfyIIlCEoN3digvdBiONW
-	uGLP3GM8jdxK73NryRPzsaIXWpmqg+B+Lvq32ooxdLFyK7ZrJcQqwvKi5JCziwYuRDSeSSUMAmZP5
-	VEAwdJWw==;
+	bh=HLQrFz5Io0HWrBbPfgkDM3Mh0/GOTFIXHrUB8jjZJ7o=; b=q4YFXFlbC2Ybaz+aPoARZ43N0N
+	0OvMa1NVCNRWLfeeUmzi0DrrBWhcwmtzC5FXpqhLi3QktfuCkuwATzCY+dL2L9bUH0VkafE2BfVsX
+	xrPlNu1JZAMXCPJZyLu8jut9xsZyQ8TuZJwEg5LoqmuXtUs7GrqHj+ncTgz82Dh92ta1PVIuajPl7
+	7S9KnvanTcl6kosLWkTqIEYDsA+DNG+b0thc/BVBXl/6xsV4Fp8dpQEOAEQZtMR/l/NaXH67IUwfq
+	BOUZMBPwb34EA2kAUSduuOIsEse/Kkffg8R3pAbNrdyhiBN8uioWvPkW18Hra2voTdDrXorHYeXuB
+	Lt0tgjiA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHRB2-000000000eF-0H6j;
-	Mon, 27 Apr 2026 18:59:28 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wHS80-0000000059R-3sfB;
+	Mon, 27 Apr 2026 20:00:24 +0000
+Received: from galois.linutronix.de ([193.142.43.55])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHRB0-000000000e9-48Jw
+	id 1wHNln-0000000HBNK-1qgn
 	for linux-nvme@lists.infradead.org;
-	Mon, 27 Apr 2026 18:59:27 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 1A04060138;
-	Mon, 27 Apr 2026 18:59:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E2FEC19425;
-	Mon, 27 Apr 2026 18:59:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777316365;
-	bh=QZMJEGWHpiUV8DXG+f5+MQeXhOqVWOdAFotZCB/w/YU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AMpOtJyebplhqLg3INhnwzSYoUbul8qypAaLtXfK3T4lGdt+39VEx9+iMdFAj7+IW
-	 NgcqfqoLaS3X1dN0pMWAyIxk1EsCLRTuAlU+AumP6GJo9ZYUgYCppDpL2W45xPy8um
-	 ls58D/X+bwTkuZnTr3qf2L4Pfo5Sq+HTBABunK6myAJVwTW/QYDzerTQPbJ2Nze6T/
-	 LNHaJu8Zk2miU+tugO8uYTGZghViAFxTVSgxryLR+zeGrCXEs9qhawIVVqbISdae9U
-	 YyIxvg9gykwGNnbVvVyReLvcUQDqesii6rZ3WQ2GyMM+vZt1SnyIT0kXomK8N2HalN
-	 BpGzQ4ojwezqw==
-Date: Mon, 27 Apr 2026 20:59:19 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>, linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] nvme: Controller Data Queue (CDQ) support
-Message-ID: <xz5tuhi54qabvcyefv6hr5walm2cjls33tt76w6jhpf4xksc5e@5n3jqcum26fm>
-References: <20260424-jag-cdq-lkml-v1-0-d773343a717c@kernel.org>
- <20260424130615.GW3611611@ziepe.ca>
+	Mon, 27 Apr 2026 15:21:12 +0000
+Date: Mon, 27 Apr 2026 17:21:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1777303266;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HLQrFz5Io0HWrBbPfgkDM3Mh0/GOTFIXHrUB8jjZJ7o=;
+	b=d2odqkFTtOfYMHI6l11Y5qQhA/SgclKDt28mdbZOL4QKwSBMCsVWgOaXpb+D3OD1S8sCMl
+	gp67+l5XCzoRpQ/3oTRyD21Y36dD3Ub7qcGdki+5UEcfdd62f9B02S/9uDFtQdFWWSGZWN
+	m4B9082FAFULSmXJfIGO4UYhh3NWiLHCIjdx2zNx9eCwuuXgUxx0gol0tfTWFMJuxsM78X
+	g1PWOd8cwwJy/dtYhZ9H5KOuEKSu+8d/Eeg6qig54XYbdQXI+ISOcg+7AeXpaIos6slIIq
+	Z0El3jx8p/AjP60KN5+rLkoBMz0Qn8ba3qWJhW0QGjK2ez776mOM8enhTVEQmg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1777303266;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HLQrFz5Io0HWrBbPfgkDM3Mh0/GOTFIXHrUB8jjZJ7o=;
+	b=ddMw9PoHj38WUcP0Ahe1qRnWtNk7mF4VE4gCD/um/VTkXCw0TKFpzNLUdzZPWOOEnsfhdo
+	qsix0uECSoYIa/Bg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Aaron Tomlin <atomlin@atomlin.com>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	mst@redhat.com, aacraid@microsemi.com,
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+	liyihang9@h-partners.com, kashyap.desai@broadcom.com,
+	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
+	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
+	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
+	ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com,
+	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com,
+	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org,
+	longman@redhat.com, chenridong@huawei.com, hare@suse.de,
+	kch@nvidia.com, ming.lei@redhat.com, tom.leiming@gmail.com,
+	steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com,
+	mproche@gmail.com, nick.lange@gmail.com, marco.crivellari@suse.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
+Subject: Re: [PATCH v12 02/13] lib/group_cpus: remove dead !SMP code
+Message-ID: <20260427152104.WTGAesGs@linutronix.de>
+References: <20260422185215.100929-1-atomlin@atomlin.com>
+ <20260422185215.100929-3-atomlin@atomlin.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fx6asz4eb2pbwyzp"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260424130615.GW3611611@ziepe.ca>
+In-Reply-To: <20260422185215.100929-3-atomlin@atomlin.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260427_082111_697937_90B1A8E0 
+X-CRM114-Status: GOOD (  18.24  )
+X-Mailman-Approved-At: Mon, 27 Apr 2026 13:00:22 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,88 +95,70 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On 2026-04-22 14:52:04 [-0400], Aaron Tomlin wrote:
+> From: Daniel Wagner <wagi@kernel.org>
+> 
+> The support for the !SMP configuration has been removed from the core by
+> commit cac5cefbade9 ("sched/smp: Make SMP unconditional").
+> 
+> While one can technically still compile a uniprocessor kernel, the core
+> scheduler now mandates SMP unconditionally, rendering this particular
+> !SMP fallback handling redundant. Therefore, remove the #ifdef CONFIG_SMP
+> guards and the fallback logic.
+> 
+> Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> [atomlin: Updated commit message to clarify !SMP removal context]
 
---fx6asz4eb2pbwyzp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This look unchanged vs previous submission. You could explain why you
+want to remove the !SMP case. It looks like the !SMP makes things
+easier ;) I don't know how much of this gets removed because of !SMP
+code elsewhere.
 
-On Fri, Apr 24, 2026 at 10:06:15AM -0300, Jason Gunthorpe wrote:
-> On Fri, Apr 24, 2026 at 01:37:50PM +0200, Joel Granados wrote:
->=20
-> > There is however, no clear consensus on how NVMe Live Migration should
-> > land in the Linux kernel. The 2022 discussion [1] explored a VFIO-based
-> > approach but reached no conclusion, likely because the specification was
-> > not yet mature.
->=20
-> Yes it was paused until the spec matures, then I expect it to go
-> forward.
-> =20
-> > To move CDQ forward, I would like to understand where the LM logic belo=
-ngs. I
-> > currently see two options (of which I have no particular preference):
-> >=20
-> > 1. VFIO: Implement NVMe LM following the VFIO state machine, similar to=
- what
-> >    was proposed in 2022.
-> > 2. VM manager interface: Bypass VFIO and implement LM logic in the inte=
-rface
-> >    between the VM manager (e.g., QEMU) and the NVMe driver.
->=20
-> I imagined it to be split between VFIO for the pci and volatile guest
-> state and something else for the namespace setup and media migration.
-That is an option. If we end up with an approach that supports namespace
-migration, I'm happy :)
+The description still does not make sense/ is accurate.
 
-> Media migration is only needed for local drive so there use cases that
-> don't need this component.
-Indeed, And there should be an approach that supports those use cases as
-well.
+> Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+> ---
+>  lib/group_cpus.c | 20 --------------------
+>  1 file changed, 20 deletions(-)
+> 
+> diff --git a/lib/group_cpus.c b/lib/group_cpus.c
+> index e6e18d7a49bb..b8d54398f88a 100644
+> --- a/lib/group_cpus.c
+> +++ b/lib/group_cpus.c
+> @@ -9,8 +9,6 @@
+>  #include <linux/sort.h>
+>  #include <linux/group_cpus.h>
+>  
+> -#ifdef CONFIG_SMP
+> -
+>  static void grp_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
+>  				unsigned int cpus_per_grp)
+>  {
+> @@ -564,22 +562,4 @@ struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+>  	*nummasks = min(nr_present + nr_others, numgrps);
+>  	return masks;
+>  }
+> -#else /* CONFIG_SMP */
+> -struct cpumask *group_cpus_evenly(unsigned int numgrps, unsigned int *nummasks)
+> -{
+> -	struct cpumask *masks;
+> -
+> -	if (numgrps == 0)
+> -		return NULL;
+> -
+> -	masks = kzalloc_objs(*masks, numgrps);
+> -	if (!masks)
+> -		return NULL;
+> -
+> -	/* assign all CPUs(cpu 0) to the 1st group only */
+> -	cpumask_copy(&masks[0], cpu_possible_mask);
+> -	*nummasks = 1;
+> -	return masks;
+> -}
+> -#endif /* CONFIG_SMP */
+>  EXPORT_SYMBOL_GPL(group_cpus_evenly);
 
->=20
-> We have many drivers fitting into the VFIO scheme now and good VMM
-> coverage, I don't see a reason to throw it out.
-And this is why I included it as one of the ways to implement it.
-
->=20
-> > One aspect that has not received much attention in previous discussions
-> > is namespace migration as prior work focused on migrating state and not
-> > the actual data. Migrating potential terabytes is IMO a distinct use
-> > case worth considering.=20
->=20
-> Yes
->=20
-> Though IDK if just plumbing the entire CDQ to userspace is the right
-> choice for NVMe.. We don't know what future specs will add to CDQ, it
-> may not be appropriate to treat it so insecurely.
-Agreed, this RFC is just one of many ways of doing it. My original one is
-fully contained inside the NVMe driver. One thing that is clear with the
-tests that I have made, is that it is easy to move the CDQ logic in and
-out of user space (depending on what is needed).
-
-Best
-
---=20
-
-Joel Granados
-
---fx6asz4eb2pbwyzp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmnvsgYACgkQupfNUreW
-QU/3uQv+NPG6qzWp17pKJHYq2szzSv1KxtgC/fUhTquOPwPbjQyZD5HqxcymSEQl
-PY2/8A1Yn3CkPQgpYU/VyjZkraZtGp056uol745oX/JpB+vGNZssBSPUlT/SyKM9
-bDH0fSbqA54IaNC3ohgAr+f0Mhefm7C1nQcbkULUtneMP4GMmWYBeXXZQ14w+VyF
-bKSwCNpH1ey1gQomM3V39ahwkcBLZxe9Fw+vakXoWphLN7KWFdZSlBut/sdDbaJU
-VAKeJgSB7AYB0OKFj08Tb0+9xkh2yTd6Q5+6h9DLGWVVd7L8f8dwk/OodNu/Xqzp
-m7k8UlDVwDuJji766N3cD8gzIVkih8SrO2zMPf6CQE9sJHZh7e7eHhygRStLdx20
-sSzcY1eOrnMEuMK8Yf/iFn9f+rMik6K13/8HuZOeuPJvxhUJYB4x/h2Ic2f1nOW6
-743R1NNygYl/GT2ZCQKWsgUR7sxxx4Ms31VeFNpsWPTXLughWXlQFgbuLkY/0lz7
-/zdY7KVy
-=gotq
------END PGP SIGNATURE-----
-
---fx6asz4eb2pbwyzp--
+Sebastian
 
