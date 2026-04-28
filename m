@@ -4,54 +4,116 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC18AFF885D
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2026 11:17:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1E717FF885D
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2026 12:42:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=sutRG2hRyg142gJIKwvhZGimj4PONdwY3RUJTfEzKs0=; b=x1zPTCn6RoQJDvIUQ0qZljtNiL
-	AMASjkpKtMp+baFKQU5OFxcgGvkqZFbvkRdjkBSGe4YltEBobqyalOYkgBYld4Pc/1vBTQev9eVGN
-	aVfvWbIdXGr5QyOj5vr6uyWrGgQy/Bflbj8ct8go4OSQTCw2tYrJJA9K0TyckxWwreeEzVBqwF6oD
-	XcUAtYIZn6uXAQlGRYtTBmVwXyGOxiTAOkrULt4Q2ZIv/xwEOzvaY1uvM+UdUC0VNYVlmJEeelJ2R
-	xqRsnEZnztBqU0k66kk6MoyiIWuax1qq4Z462L8NXYh40HJBkiRs1uvkF4Lr2PjqdH3eKuP5eZCGJ
-	ltXLof3A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3oMwxTPIycHtc6QHYlxrvJTJdmUhQvrAn14KV3y3FTk=; b=zdgmxu69xqLKO3BoUkCcdrxXvH
+	zdbLNeNkPu/qKWWVxGxOIJkyJFhlhDKhGGlo7W4feYm7H6X+WyBn/Ib5ULcD0Qee8YME9qO7RsWJu
+	7jSweJGaB66KLdrZU5ebJIcongLVNAVcYKACeBV2TbcprcJ+AGjCNCKvUWH8vD1hILGJ/6Izpn9XF
+	EHYT3x5JwpMxxVRMC8ildvcoaaEhAZyNUyOSgAtRSePGpk3Jz5sIWCOpsshg8ULWI9bVvjBXhP4KM
+	eRbxExfmnZUQg/To6T59/FajoWJTLri1UNPiGlf2nJS8FDe8Tcf2675e5WNFI52Efv47rW0++pLjC
+	zRZl+Y5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHgRR-00000001Ke9-10PK;
-	Tue, 28 Apr 2026 11:17:25 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1wHhlq-00000001S5f-44iD;
+	Tue, 28 Apr 2026 12:42:34 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHgRN-00000001KcT-46F1
+	id 1wHhlo-00000001S4t-0zHF
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Apr 2026 11:17:23 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 6bec60e3 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Tue, 28 Apr 2026 13:17:17 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Apr 2026 13:17:17 +0200
-Message-Id: <DI4QV80PTNP9.1ZY7L7GFJ8TX5@arkamax.eu>
-Cc: <kbusch@kernel.org>, <mheyne@amazon.de>, <emilne@redhat.com>,
- <jmeneghi@redhat.com>, <linux-nvme@lists.infradead.org>,
- <mlombard@arkamax.eu>, <mkhalfella@purestorage.com>,
- <chaitanyak@nvidia.com>, <hare@kernel.org>, <hch@lst.de>
-Subject: Re: [PATCH V3 7/8] nvmet-loop: do not alloc admin tag set during
- reset
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Daniel Wagner" <dwagner@suse.de>, "Maurizio Lombardi"
- <mlombard@redhat.com>
-X-Mailer: aerc 0.21.0
-References: <20260410073924.61078-1-mlombard@redhat.com>
- <20260410073924.61078-8-mlombard@redhat.com>
- <8babbc78-701d-4308-b325-b4b2bab5d2c2@flourine.local>
-In-Reply-To: <8babbc78-701d-4308-b325-b4b2bab5d2c2@flourine.local>
+	Tue, 28 Apr 2026 12:42:33 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1C5705BD4C;
+	Tue, 28 Apr 2026 12:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777380149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3oMwxTPIycHtc6QHYlxrvJTJdmUhQvrAn14KV3y3FTk=;
+	b=LrJiEgzCHMQlHEynELA54lTWCczrINwWICqMzGFTArcFe6uLWsABVGzVUyvGUVsVGqJVD7
+	8p2ziuBY2+ZmoB0ZRgVjB3Hy2bT6jRb2sRNhRmSvcCYJxHczIe2EV8joo22r51tP90yU7O
+	cDViJJHNjmPWoemIzFxPSu5Ipna7f+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777380149;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3oMwxTPIycHtc6QHYlxrvJTJdmUhQvrAn14KV3y3FTk=;
+	b=GHCvsexUbM1Bm+j+FjdUPu5y+/sAaROl1OXHSagBKGAIBY69z8s5IGw9KgXwqXeJZ3NjLG
+	x3VEw9Nrk8E/kxAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777380149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3oMwxTPIycHtc6QHYlxrvJTJdmUhQvrAn14KV3y3FTk=;
+	b=LrJiEgzCHMQlHEynELA54lTWCczrINwWICqMzGFTArcFe6uLWsABVGzVUyvGUVsVGqJVD7
+	8p2ziuBY2+ZmoB0ZRgVjB3Hy2bT6jRb2sRNhRmSvcCYJxHczIe2EV8joo22r51tP90yU7O
+	cDViJJHNjmPWoemIzFxPSu5Ipna7f+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777380149;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3oMwxTPIycHtc6QHYlxrvJTJdmUhQvrAn14KV3y3FTk=;
+	b=GHCvsexUbM1Bm+j+FjdUPu5y+/sAaROl1OXHSagBKGAIBY69z8s5IGw9KgXwqXeJZ3NjLG
+	x3VEw9Nrk8E/kxAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B878593B0;
+	Tue, 28 Apr 2026 12:42:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7UaZATWr8Gm6PAAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Tue, 28 Apr 2026 12:42:29 +0000
+Date: Tue, 28 Apr 2026 14:42:28 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: John Garry <john.g.garry@oracle.com>
+Cc: shinichiro.kawasaki@wdc.com, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, nilay@linux.ibm.com
+Subject: Re: [PATCH blktests] nvme/068: add a test for multipath delayed
+ removal
+Message-ID: <328010ad-0d56-4f5e-a37a-e25914da08b5@flourine.local>
+References: <20260415104111.1439459-1-john.g.garry@oracle.com>
+ <655129a4-de84-4c10-9e55-f75143684b7c@flourine.local>
+ <2512cec3-31a8-4703-a50e-85289c860d25@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2512cec3-31a8-4703-a50e-85289c860d25@oracle.com>
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260428_041722_349338_AC225ACB 
-X-CRM114-Status: GOOD (  21.48  )
+X-CRM114-CacheID: sfid-20260428_054232_423565_8FF1ABD4 
+X-CRM114-Status: GOOD (  12.84  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -66,186 +128,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon Apr 27, 2026 at 11:46 AM CEST, Daniel Wagner wrote:
-> On Fri, Apr 10, 2026 at 09:39:23AM +0200, Maurizio Lombardi wrote:
->> @@ -375,12 +376,15 @@ static int nvme_loop_configure_admin_queue(struct =
-nvme_loop_ctrl *ctrl)
->>  	}
->>  	ctrl->ctrl.queue_count =3D 1;
->> =20
->> -	error =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
->> -			&nvme_loop_admin_mq_ops,
->> -			sizeof(struct nvme_loop_iod) +
->> -			NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
->> -	if (error)
->> -		goto out_free_sq;
->> +	if (new) {
->> +		error =3D nvme_alloc_admin_tag_set(&ctrl->ctrl,
->> +				&ctrl->admin_tag_set,
->> +				&nvme_loop_admin_mq_ops,
->> +				sizeof(struct nvme_loop_iod) +
->> +				NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
->> +		if (error)
->> +			goto out_free_sq;
->> +	}
->> =20
->>  	/* reset stopped state for the fresh admin queue */
->>  	clear_bit(NVME_CTRL_ADMIN_Q_STOPPED, &ctrl->ctrl.flags);
->> @@ -415,7 +419,7 @@ static int nvme_loop_configure_admin_queue(struct nv=
-me_loop_ctrl *ctrl)
->>  	return error;
->>  }
->
-> Personally, I am just not a big fan of conditional creation/removal of
-> resources controlled via a bool. If it's the cleanest solution fine with
-> me, but I wonder if here it wouldn't be cleaner to allocated the tagset
-> outside of nvme_loop_configure_admin_queue and obviously the same idea
-> for destroy.
->
-> Have you tried this approach, does it look too ugly?
+On Mon, Apr 27, 2026 at 01:51:17PM +0100, John Garry wrote:
+> However some of what we want to test is still based on timing - for example,
+> if we set delayed removal timeout to X seconds, we want to ensure that the
+> gendisk is gone after X seconds. So we need the X second delay. Currently X
+> is 10, but can shorten that.
+> 
+> sound ok?
 
+Sure, that's sounds reasonable.
 
-It would be something like this (just a compile tested draft,
-I still need to properly test it, but it should give you an idea):
-
-
-nvmet-loop: do not alloc admin tag set during reset
-
-Currently, resetting a loopback controller unconditionally invokes
-nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
-Doing so drops the old queue and allocates a new one. Consequently,
-this reverts the admin queue's timeout (q->rq_timeout) back to the
-module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
-timeout values the user may have configured via sysfs and potentially
-racing against the sysfs nvme_admin_timeout_store() function
-that may dereference the admin_q pointer during the RESETTING state.
-
-Decouple the admin tag set lifecycle from the admin queue
-configuration and destruction paths, which are executed during resets;
-Specifically:
-
-* Move nvme_alloc_admin_tag_set() into nvme_loop_create_ctrl() so it
-  is only allocated once during the initial controller creation.
-
-* Defer the destruction of the admin tag set to
-  nvme_loop_delete_ctrl_host(), the terminal error-handling
-  paths of nvme_loop_reset_ctrl_work() and
-  nvme_loop_create_ctrl().
-
-Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
----
- drivers/nvme/target/loop.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index d98d0cdc5d6f..070d16068e6b 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -274,7 +274,6 @@ static void nvme_loop_destroy_admin_queue(struct nvme_l=
-oop_ctrl *ctrl)
-
- 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
- 	nvmet_cq_put(&ctrl->queues[0].nvme_cq);
--	nvme_remove_admin_tag_set(&ctrl->ctrl);
- }
-
- static void nvme_loop_free_ctrl(struct nvme_ctrl *nctrl)
-@@ -375,25 +374,18 @@ static int nvme_loop_configure_admin_queue(struct nvm=
-e_loop_ctrl *ctrl)
- 	}
- 	ctrl->ctrl.queue_count =3D 1;
-
--	error =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
--			&nvme_loop_admin_mq_ops,
--			sizeof(struct nvme_loop_iod) +
--			NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
--	if (error)
--		goto out_free_sq;
--
- 	/* reset stopped state for the fresh admin queue */
- 	clear_bit(NVME_CTRL_ADMIN_Q_STOPPED, &ctrl->ctrl.flags);
-
- 	error =3D nvmf_connect_admin_queue(&ctrl->ctrl);
- 	if (error)
--		goto out_cleanup_tagset;
-+		goto out_free_sq;
-
- 	set_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
-
- 	error =3D nvme_enable_ctrl(&ctrl->ctrl);
- 	if (error)
--		goto out_cleanup_tagset;
-+		goto out_free_sq;
-
- 	ctrl->ctrl.max_hw_sectors =3D
- 		(NVME_LOOP_MAX_SEGMENTS - 1) << PAGE_SECTORS_SHIFT;
-@@ -402,14 +394,12 @@ static int nvme_loop_configure_admin_queue(struct nvm=
-e_loop_ctrl *ctrl)
-
- 	error =3D nvme_init_ctrl_finish(&ctrl->ctrl, false);
- 	if (error)
--		goto out_cleanup_tagset;
-+		goto out_free_sq;
-
- 	return 0;
-
--out_cleanup_tagset:
--	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
--	nvme_remove_admin_tag_set(&ctrl->ctrl);
- out_free_sq:
-+	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
- 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
- 	nvmet_cq_put(&ctrl->queues[0].nvme_cq);
- 	return error;
-@@ -432,6 +422,7 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ct=
-rl *ctrl)
- static void nvme_loop_delete_ctrl_host(struct nvme_ctrl *ctrl)
- {
- 	nvme_loop_shutdown_ctrl(to_loop_ctrl(ctrl));
-+	nvme_remove_admin_tag_set(ctrl);
- }
-
- static void nvme_loop_delete_ctrl(struct nvmet_ctrl *nctrl)
-@@ -494,6 +485,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struc=
-t *work)
- 	nvme_cancel_admin_tagset(&ctrl->ctrl);
- 	nvme_loop_destroy_admin_queue(ctrl);
- out_disable:
-+	nvme_remove_admin_tag_set(&ctrl->ctrl);
- 	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
- 	nvme_uninit_ctrl(&ctrl->ctrl);
- }
-@@ -594,10 +586,17 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct=
- device *dev,
- 	if (!ctrl->queues)
- 		goto out_uninit_ctrl;
-
--	ret =3D nvme_loop_configure_admin_queue(ctrl);
-+	ret =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
-+			&nvme_loop_admin_mq_ops,
-+			sizeof(struct nvme_loop_iod) +
-+			NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
- 	if (ret)
- 		goto out_free_queues;
-
-+	ret =3D nvme_loop_configure_admin_queue(ctrl);
-+	if (ret)
-+		goto out_remove_admin_tagset;
-+
- 	if (opts->queue_size > ctrl->ctrl.maxcmd) {
- 		/* warn if maxcmd is lower than queue_size */
- 		dev_warn(ctrl->ctrl.device,
-@@ -633,6 +632,8 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct d=
-evice *dev,
- 	nvme_quiesce_admin_queue(&ctrl->ctrl);
- 	nvme_cancel_admin_tagset(&ctrl->ctrl);
- 	nvme_loop_destroy_admin_queue(ctrl);
-+out_remove_admin_tagset:
-+	nvme_remove_admin_tag_set(&ctrl->ctrl);
- out_free_queues:
- 	kfree(ctrl->queues);
- out_uninit_ctrl:
---
-2.53.0
-
+For the gendisk removal case, I'd suggest to monitor if the disk goes
+away within in a time limit instead of a simple sleep and then test. A
+busy system might take slightly longer than usual. The time limit can
+then be really high.
 
