@@ -4,192 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B205FF885D
-	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2026 11:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DC18AFF885D
+	for <linux-nvme@archiver.kernel.org>; Tue, 28 Apr 2026 11:17:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
+	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Y+KnxtgbmVFVDbLEV1y2A0G5D1Y2jg+NEFuu11zZ8ZQ=; b=q1UtG9h7DQN1KcRG2lHeP2g43a
-	BckqPh9TCZdW4CyoMQcQJcLAtU9UdwE1DFmyUp+gZTZf30dTjys31bjI8qTCht96U4XvA5TyY7evZ
-	SBdpMASwrNCrkGjTJGrWGTNrfE4Y7M91My5sJuFQkpG2LZGXfr9JYNV3XWMltbD/qoDoxVzYCMZtj
-	eI0cTPSln69ubPIAKbQahX1NvMGSZF872YTQCvuNAeAawUnsQU7AneisB9nMdHzB455njhO5U8CeH
-	4xoW/E5wI7PcBeJSbMx5pFxMANGW/dgjLpX18U5xKOcw0SRNmgRHQvt/yLFLzkAMai0aycV20kSEg
-	6sCndRkA==;
+	bh=sutRG2hRyg142gJIKwvhZGimj4PONdwY3RUJTfEzKs0=; b=x1zPTCn6RoQJDvIUQ0qZljtNiL
+	AMASjkpKtMp+baFKQU5OFxcgGvkqZFbvkRdjkBSGe4YltEBobqyalOYkgBYld4Pc/1vBTQev9eVGN
+	aVfvWbIdXGr5QyOj5vr6uyWrGgQy/Bflbj8ct8go4OSQTCw2tYrJJA9K0TyckxWwreeEzVBqwF6oD
+	XcUAtYIZn6uXAQlGRYtTBmVwXyGOxiTAOkrULt4Q2ZIv/xwEOzvaY1uvM+UdUC0VNYVlmJEeelJ2R
+	xqRsnEZnztBqU0k66kk6MoyiIWuax1qq4Z462L8NXYh40HJBkiRs1uvkF4Lr2PjqdH3eKuP5eZCGJ
+	ltXLof3A==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHgQp-00000001KM0-34l8;
-	Tue, 28 Apr 2026 11:16:47 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wHgRR-00000001Ke9-10PK;
+	Tue, 28 Apr 2026 11:17:25 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHgQn-00000001KJz-3P8r
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 28 Apr 2026 11:16:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:
-	Content-Transfer-Encoding:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Y+KnxtgbmVFVDbLEV1y2A0G5D1Y2jg+NEFuu11zZ8ZQ=; b=oXcIWMdvErvsnZjspYlYZWkiZ9
-	1vDToTgPeF1OYaSK1VTlGMZ5WQq24u0CDzaV4GELDS/mssiyA7uv9pcksi3IRYqWjJbBpo27yR3um
-	CzG2N6ksUcn8ZCu9XKxl/dWUJTW0YMh2FXXbKVSzYKgzQmDNRGQ/5R8H0enueISq/2yKjOLb82/za
-	pPoe9DONAzo1o8gHAqcO2QS9cGg79Ar+PtBxZz1lX0O3cKdNXX6Q43xeeRcXA7RkVJshKUdO/Tojq
-	yG6sR5M93mtJm8BCeGD1Sq4j9x8Z8gIFUUBuVMgLAgtJfLo1XcTSuPhyMd3XIOfxJD8VX01vusmOg
-	+fs3ssUA==;
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
-	by desiato.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHgQe-00000002qJ9-0iVP
+	id 1wHgRN-00000001KcT-46F1
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Apr 2026 11:16:40 +0000
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63SB6gov752744;
-	Tue, 28 Apr 2026 11:16:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=Y+KnxtgbmVFVDbLEV1y2A0G5D1Y2jg+NEFuu11zZ8ZQ=; b=
-	ByVsAKEuzN7hPzkBN43/gPjsxu0hHX9NNKG0MrLpuBa9qRlUctbhQ5FfOOvmpzc1
-	qeqsprGba7+Y0Q0gE31CvDQGGtV/V3ZfBQ0RkgdNEgcZfQcBcIlNl/wE1kHXsHX0
-	zx47TFJ4Y87xwA4ccgLGfuyd779dU2Vac0Ch69Lra/aabFbq+0HgUlVO4Xx8DD48
-	fEySiKxwFE+79BS5ranS6zcRj/Expo0ulp8l7pQatMQUXnvX4RthwZhk2D4i/5UH
-	uk0uAznBYMjVB16YFYa7rRTMu3o0iZcOHsxf4GfFjDEB7jHv/hcE9jhSqLQC13Kd
-	8qqYHbWMQ1hFHQcg7lX9EA==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4drnnefeyj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 Apr 2026 11:16:29 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63SBGIft037848;
-	Tue, 28 Apr 2026 11:16:29 GMT
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012014.outbound.protection.outlook.com [40.107.200.14])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4drm2cu77h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 Apr 2026 11:16:28 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=px0XAlQGJdJ1zjwrNQaNtQpA9seVODT/0n/dMeVElVlpDQckLH78Tdj+SKzxDm2JnEfX/AheN6ycMUWgaMM13flLfAZHD1/5HExXZ+d9+xIELtTfCdLHNvPRx1Z1mowTtK71hwRKWfTojPogWzKxKRtsWUhhXzHW3bTPVFMdERNyQgt9bOIwPg3x3g79tKwQAdhZfwm3y6tn1ALqFHSrQzt60DSublHmrtFYGAKAz67y9ursc/gF2gkfYnzy75FaY4wKGTUk4a/Z5WeqFhPaLNozhD22uGaTO1J2y0EXKTNNHCi8Yt6si94fcbBU2PaS5isoR/6uxfpo+VjruVtovQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y+KnxtgbmVFVDbLEV1y2A0G5D1Y2jg+NEFuu11zZ8ZQ=;
- b=R6hOFBK10Moa7W3w9efNzWD/H97B0ZZfPLV/DNblhz/wNWdQyXnhe/wjqvpzUUshTOGeaigukgbX6nF6ReZvxrZoNhkVwL1/bN/pTzu35pXwK/1CxggMmfu1xVxs97C1MG+husZrCjmRYDaLwRGPF/C11TtKQuhYt+i2kbI93c5ACOGUI/xH++jkGCGvta+csM8Xnxl5NlA2D4f1BwR4AgYh8Hmqhz5NAQPsxVgZ3ktvBxE4AcpUC2+8e9QjPKavje1g4AZSfzY15ugPBQ/pERcpXFQLj/qfw34aLanp0lZjlh7+8hrEuWdum3wPQmkdstIBlQ6yrNzKaJfY2hDPKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y+KnxtgbmVFVDbLEV1y2A0G5D1Y2jg+NEFuu11zZ8ZQ=;
- b=WCNZMwmkDoRC1wbMd6ymURQYC7y9mhj0luy8yPuYIvjKLzpPur/QdF6XB246jUV+z6V0GVY2JKcyuQUNKyRcBf8ODk/8Jc7TM8mPO0qTCn7o0BaXExHSjLBlDhXFHuexv1B2PvX+UWBNHEM/vCMGaMNolk/8Bp5T1EXkN/4a0ms=
-Received: from PH3PPFEDB06D67A.namprd10.prod.outlook.com
- (2603:10b6:518:1::7d6) by SN4PR10MB5639.namprd10.prod.outlook.com
- (2603:10b6:806:20a::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 11:15:24 +0000
-Received: from PH3PPFEDB06D67A.namprd10.prod.outlook.com
- ([fe80::234c:e047:21c1:6d16]) by PH3PPFEDB06D67A.namprd10.prod.outlook.com
- ([fe80::234c:e047:21c1:6d16%8]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
- 11:15:24 +0000
-From: John Garry <john.g.garry@oracle.com>
-To: hch@lst.de, kbusch@kernel.org, sagi@grimberg.me, axboe@fb.com,
-        martin.petersen@oracle.com, james.bottomley@hansenpartnership.com,
-        hare@suse.com, bmarzins@redhat.com, nilay@linux.ibm.com
-Cc: jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, michael.christie@oracle.com,
-        snitzer@kernel.org, dm-devel@lists.linux.dev,
-        linux-kernel@vger.kernel.org, John Garry <john.g.garry@oracle.com>
-Subject: [PATCH v2 11/18] scsi-multipath: block PR commands
-Date: Tue, 28 Apr 2026 11:14:40 +0000
-Message-ID: <20260428111447.1779062-12-john.g.garry@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20260428111447.1779062-1-john.g.garry@oracle.com>
-References: <20260428111447.1779062-1-john.g.garry@oracle.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH0PR03CA0383.namprd03.prod.outlook.com
- (2603:10b6:610:119::18) To PH3PPFEDB06D67A.namprd10.prod.outlook.com
- (2603:10b6:518:1::7d6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH3PPFEDB06D67A:EE_|SN4PR10MB5639:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f4fc86c-eee1-47ba-7643-08dea5177155
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: aX3/qRqPa0b/3fLa5UpwX5rU/Wf1oZbnBq1snAP75sUx1Z4cqSQnDW7IQks3n9kuG2eQMxKbK2oGiFSGvB2D6X8QHJKxcu6uMTR29HXDojXzGPY+XOIQpi33sjLC7RqkBgZYiBSgBX6+MRxSPr1egsF4kdSD69Fcynj76s7ZspSOnbu4tZY9ZGeytLrw/HEqMe0BLdrmlQUg7Ub1ABMAizGO13pRmS5v7S3sjBNNXKKvmHihqvhKWgB3x0xZMeUV6uaDCJkq7gMoz6hpXXFA1dvmPjcwSG2a3JODDgBySrNRIhZ5joexlewCmVlWxUo9Svvb9kgj/dbsa7uB8gCjwjWUcEXvblRp1CU93kE3o6BFmCcT9BEnOo7AXYU7AKI9JWHw9dy6qjlDn2fAXKtzE8sqM3JpDM4C/WxZ9Zgu6Iy+wvzcjLWZSsrBf8L4e+1wY7wICOijCc9PHeJkepfUl65uWUNXpSuZE5HYd78Tfk+jwBgeM5P3Z28T0AtSetVvuhEJgIJ3u7iI1R4Yc/AUtz5Ogp3Q3yaB1ZGHXf90Tl5CnSgWvtN99SYVk7aNZmxAv+fEsLbyLftCVE66z0RExG0W9GsNbqnrVdULA/Esin66XwCu5YpCFm/V/Vpip+pSTz84woNtzKk29WeU9SvCYT8dyTM/72AxANp31wfmdbuDbxjkOack13zVKQajWYPA1/NgqFh/HxO9XsaPFSB1JBa8OpvPuiv5zIjmqhz2HnJNJOc5UWa0p6AhTxdF949u
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPFEDB06D67A.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nj3mRd7hZDC4scXuxiDNzcteYRBVP8T92Kb+xcGUmGB0188230V6M0JQ4D/5?=
- =?us-ascii?Q?nh1oi1A14d5W4ghp5LUWAo31ktY7E721eOv8yPqLJFLpshRB4s/gwEGOWacd?=
- =?us-ascii?Q?fGDMvRsamPo9T+emwWvrBhlo5TjDBvsM5ZQpjR2o+XKbzVUItFHj2VUGGYpx?=
- =?us-ascii?Q?sR/kJaZEOLJDoyVo51hvM4fREICYSgAMtXlDrwx1vbxpbu1q6egIgU4TROcT?=
- =?us-ascii?Q?iSdzLmlqogKaJoGykYRHoul7Cnu1tsiAYHpKOZ18V9DzO0AQYWGQVd3DzGq9?=
- =?us-ascii?Q?gK2/fPnfLVhhZZmOCrUfbzqMyDQdETp0y5X3Pb/IW/GWT61SBNb8E9Rt/F6b?=
- =?us-ascii?Q?OoANaa4NEyQBWPiROo1/9J0dSbzB30BIhEzzXyPahcB91KrBULZMGUnEtR6M?=
- =?us-ascii?Q?Bf9HqDIX7r0pWdFYU46VQ/n1E18rYaLBLetDxsE3JXO8/Pwyer5VNpMoAhYi?=
- =?us-ascii?Q?jN9HTXrzzENoaXXQAlE0KkYtkMAZReFqZTURiVWqQVA6tajQBVuj3xAeBJH4?=
- =?us-ascii?Q?2P1d2g9B7BG81bFxUczK0aFsjd6GuZaZQMrkOfl2I6N/sii811pxvUYwrrrx?=
- =?us-ascii?Q?sFdp63m9st9BO5AgB6++tiXO9CNNRK2bFgFSjywyqEuki/oY1dW51PwQGDq+?=
- =?us-ascii?Q?U3P4RIs7jspZawkQLvdWADLjaAveiAmeMry7+ZY6skkVD5OfsYyVXt3sKiOu?=
- =?us-ascii?Q?yW63Q5ufjkW4Hl3T8kUMEuBUB43lVPM7wqzLcVJIc06kAcmCr9NzoI5wIXGj?=
- =?us-ascii?Q?hlYpPHjmhcCqXYA9+DLWMJ9oXVjZ7sr3oImu5UqKytnQ0gaH1iMZBhA/QKV2?=
- =?us-ascii?Q?oyt/TnBtNhbGlbHbCNYrC5wW7eyf5HWobj0q5aybualkvEGgcVxzL8Mv8ay0?=
- =?us-ascii?Q?Js0XMbEF4gaai2yDgEPKDOBFzyYuJ2SOTKep6B8x/8fN0X489kr85EYkJs+3?=
- =?us-ascii?Q?p+7SyfHbFNI+Kb6200DpCbm8VumLTSfxX9oU1qqfhbJpI4PRtXnkFiKa46j1?=
- =?us-ascii?Q?3tyjMCP7GwJIq9Ohnt5jNHmJ9ZBB7E7Bw2trY9LJmj/vgReQu6OxUNUxg5/m?=
- =?us-ascii?Q?2AA9V0QA9jzyQcJvT0j+XXmTazi8izNERD8ptLUm1KCMH2oEVJbJ9MJxfdld?=
- =?us-ascii?Q?URK9ZV3F9uX7Kq/AaighlJvR0UR475FslDcwDA4bTh3IOGAItTRerRU6MMlU?=
- =?us-ascii?Q?SCRYcfkilhZq3SPW7rzhlffaIFobCerJTh8Bur6plLqA8DHkdlMzg00bOs80?=
- =?us-ascii?Q?IOTlffAnnwi7sgAt5gQfkJOt25/NZ78Cf0npaCZi+w/FjApgJJ5xG6rqBWsc?=
- =?us-ascii?Q?PS3vYXss8i2MHREn4zdyCenNYKFXqUgSmjWyrdvhzZgnYn5mK5aDY2+50mJH?=
- =?us-ascii?Q?F6uLKakFsfHi14DUwlMy2kaygNNxCPk8sYFlf5MsLKpAI1DEi7NBwalNVrQi?=
- =?us-ascii?Q?J+icVvu4dzfUyK847dN0JTenuJiMHrHkuIhF/daF3j8Hah3Ph4XuN2pCC7yG?=
- =?us-ascii?Q?G6M1WCltXnSKeVazJpaPno+W/GrSdIVdVZMsgzjvaiCm5RdxOqAYlHkEpmSA?=
- =?us-ascii?Q?Ik7H46+lXr9hsBg51G2ZfzDwKfHvwP4xGr33LahVvrg6/0lp/PV1qux63RRQ?=
- =?us-ascii?Q?X7dMSkgs7WOvdYY4MCZ0L/iTbtAoU5xaIemW1CX6p84fJ+qVDPwPXkiskWqO?=
- =?us-ascii?Q?HWZWdhH4VeUDR5p7x7oH8F2QgbdYuSsNbt/CMt8W+MQFmEPt320eEfv8bEid?=
- =?us-ascii?Q?t6anwlq5HMXwlJyOZUkSnG8cCXS3Duw=3D?=
-X-Exchange-RoutingPolicyChecked: nT05K20UZi6QNQQTYeHbRL1wW1mNlmPOTf5kyt1Gb0Be+K7zfGtJEjnkgc+XXk798CUS2uAbc1L2/GDSX+IF7LwPG4B7Fuh1OE+ouMrNI9tlg5c6b0Z31al2pMV8h0HVFeqhZq2gjHDV9E3QkMhIf3dcsPMqQxwvDV2DEh5WaQQ36Licyhav6OqSAzFi6Tu9ejrxAtHnwf66CRbYj/2SDF0D6rv20NaXdli7k6Z8EsJDKC+unHD44VWHxlsGlZx51yIL3FySKYhBQWj2kNF25sbIXFpPf4H8m7QyLBzq8r3LglFn9p1CR/15UtOvRaVm37WkXBc9dKc2AnuF0Ul8nA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 54/s0HDO6WjlfUPFYNa8JyARj+RO+o2a+TjVIRqFzygv+bsaIeOiuhaNMld2Rye49vuR0QUnuLOL8m0zNH5iNpELemRkBhvmkTIuaNsM1p+nQluBvpRJYn4TZ2dx2rJdLCie/1rdE7AkRZfa+Jrrrq5ve7sBQrz0GhKL1t6bZ9ZFbUvKIq9xh84HhxhQHZQ1J4FAng3b++KwW9yMBgGyz2h63ujQgtmC+T2Zg0ZxWALOjBG4wut6KWAKKXbOOqzsbtPQnjlF9lRZklyDsaH16Ssg/1ExHvEZ/9wZ1NtFj7LbAPcCogB3rqucsQC01g1MR4t+Nb7g/1i9JJUa/HqrdwKSLd+jGl+W59pnFbt7YdtVi0b1bQpArBg97EyJOu7eR+hkFOf1jFWwhfFFo4nU+KBdg9oUp2xWjpcL/430AzFWrGNen39EeeqTSZ2WweYI2Sz/IFIUcKL1w2S+Eu2H1END1TIms1KuXizWXiyip75JfOmeJpKl1FHi5Qx9AUZLisL8Et+hmLmRyoXpWQ89Ug5O4dFD1xTAAcYbwMPav7zLXZU4Qa40uZ+QXnvTaiFuR1nmTq3GTlMiavOA03QJEeW7B7fqaysc+jETfVUq8yc=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f4fc86c-eee1-47ba-7643-08dea5177155
-X-MS-Exchange-CrossTenant-AuthSource: PH3PPFEDB06D67A.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 11:15:23.9562
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aKlg5cV1QEdvKe4t7frDig5sO2XmpcNethqYnhXomXzUnnYTq0An4pMdqZ/jME2xokiZW31ZpdZa1H9Ur7ZUKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5639
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-28_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxscore=0 malwarescore=0 adultscore=0 spamscore=0 suspectscore=0
- mlxlogscore=999 lowpriorityscore=0 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2604200000 definitions=main-2604280103
-X-Proofpoint-GUID: RWUF5bPn4zjiphX4hDdYimyZ3CBPrcs6
-X-Authority-Analysis: v=2.4 cv=Y6XIdBeN c=1 sm=1 tr=0 ts=69f0970e cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10
- a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=BqU2WV_vvsyTyxaotp0D:22 a=VwQbUJbxAAAA:8 a=20KFwNOVAAAA:8 a=yPCof4ZbAAAA:8
- a=ly_y6h6M0B6UD37WiEMA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI4MDEwMyBTYWx0ZWRfX+P6+/T0N2dAd
- LFGMXzI47gr2uL5OdKBCZQYPUaL2uP4yB6nZ5LyadFSaEQC0HsyLN/sgZ8xq8KhoIaS5/gZU9XM
- 3fKABTNGqdib2J16MfZ19U6RRZKcdCanSMmQT/YrxL7qgD3TnaeUkbSlKN0DTblTLn5TM5/xLlh
- aKq4bwvg79JC0iQGLCR8C8juXGXeu34+Ef9T2u2b0cCU7X0BrknW9ABtokskWJyVhstjZap0IuE
- b2zoCqniAgHp6KF6L1M+tmLd1gmS//z3S2H/G9dflufyVJK99/qnev9Kju5eHU+NVYjP3GJwxwt
- VdE0pRQtVv7ZoQ6LdPipXu1uwEImK9rzkoG8tWf3FcaeWh0l4zMqu19O03C7nMOYwVrGvx4XJgq
- SB8NtKBxK9VGfC/BL6ffBzVKMmvv1vUFMA0Cq6UDKVAP/OEg50EQLitvjK6eG9AN2g78JfPW8Qu
- m9kC9FG5WrtYYIALbLA==
-X-Proofpoint-ORIG-GUID: RWUF5bPn4zjiphX4hDdYimyZ3CBPrcs6
+	Tue, 28 Apr 2026 11:17:23 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id 6bec60e3 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Tue, 28 Apr 2026 13:17:17 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Apr 2026 13:17:17 +0200
+Message-Id: <DI4QV80PTNP9.1ZY7L7GFJ8TX5@arkamax.eu>
+Cc: <kbusch@kernel.org>, <mheyne@amazon.de>, <emilne@redhat.com>,
+ <jmeneghi@redhat.com>, <linux-nvme@lists.infradead.org>,
+ <mlombard@arkamax.eu>, <mkhalfella@purestorage.com>,
+ <chaitanyak@nvidia.com>, <hare@kernel.org>, <hch@lst.de>
+Subject: Re: [PATCH V3 7/8] nvmet-loop: do not alloc admin tag set during
+ reset
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Daniel Wagner" <dwagner@suse.de>, "Maurizio Lombardi"
+ <mlombard@redhat.com>
+X-Mailer: aerc 0.21.0
+References: <20260410073924.61078-1-mlombard@redhat.com>
+ <20260410073924.61078-8-mlombard@redhat.com>
+ <8babbc78-701d-4308-b325-b4b2bab5d2c2@flourine.local>
+In-Reply-To: <8babbc78-701d-4308-b325-b4b2bab5d2c2@flourine.local>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260428_121636_613777_4A076451 
-X-CRM114-Status: GOOD (  14.49  )
+X-CRM114-CacheID: sfid-20260428_041722_349338_AC225ACB 
+X-CRM114-Status: GOOD (  21.48  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -204,83 +66,186 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-As described by Benjamin in the following link, PR support for SCSI is
-quite complicated:
-https://lore.kernel.org/linux-scsi/aaHecneNg9Q8EtiS@redhat.com/
+On Mon Apr 27, 2026 at 11:46 AM CEST, Daniel Wagner wrote:
+> On Fri, Apr 10, 2026 at 09:39:23AM +0200, Maurizio Lombardi wrote:
+>> @@ -375,12 +376,15 @@ static int nvme_loop_configure_admin_queue(struct =
+nvme_loop_ctrl *ctrl)
+>>  	}
+>>  	ctrl->ctrl.queue_count =3D 1;
+>> =20
+>> -	error =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+>> -			&nvme_loop_admin_mq_ops,
+>> -			sizeof(struct nvme_loop_iod) +
+>> -			NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
+>> -	if (error)
+>> -		goto out_free_sq;
+>> +	if (new) {
+>> +		error =3D nvme_alloc_admin_tag_set(&ctrl->ctrl,
+>> +				&ctrl->admin_tag_set,
+>> +				&nvme_loop_admin_mq_ops,
+>> +				sizeof(struct nvme_loop_iod) +
+>> +				NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
+>> +		if (error)
+>> +			goto out_free_sq;
+>> +	}
+>> =20
+>>  	/* reset stopped state for the fresh admin queue */
+>>  	clear_bit(NVME_CTRL_ADMIN_Q_STOPPED, &ctrl->ctrl.flags);
+>> @@ -415,7 +419,7 @@ static int nvme_loop_configure_admin_queue(struct nv=
+me_loop_ctrl *ctrl)
+>>  	return error;
+>>  }
+>
+> Personally, I am just not a big fan of conditional creation/removal of
+> resources controlled via a bool. If it's the cleanest solution fine with
+> me, but I wonder if here it wouldn't be cleaner to allocated the tagset
+> outside of nvme_loop_configure_admin_queue and obviously the same idea
+> for destroy.
+>
+> Have you tried this approach, does it look too ugly?
 
-For initial scsi-multipath support, just don't support PRs. This means that
-we need to intercept PR SCSI commands for passthrough and reject them.
 
-Signed-off-by: John Garry <john.g.garry@oracle.com>
+It would be something like this (just a compile tested draft,
+I still need to properly test it, but it should give you an idea):
+
+
+nvmet-loop: do not alloc admin tag set during reset
+
+Currently, resetting a loopback controller unconditionally invokes
+nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
+Doing so drops the old queue and allocates a new one. Consequently,
+this reverts the admin queue's timeout (q->rq_timeout) back to the
+module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
+timeout values the user may have configured via sysfs and potentially
+racing against the sysfs nvme_admin_timeout_store() function
+that may dereference the admin_q pointer during the RESETTING state.
+
+Decouple the admin tag set lifecycle from the admin queue
+configuration and destruction paths, which are executed during resets;
+Specifically:
+
+* Move nvme_alloc_admin_tag_set() into nvme_loop_create_ctrl() so it
+  is only allocated once during the initial controller creation.
+
+* Defer the destruction of the admin tag set to
+  nvme_loop_delete_ctrl_host(), the terminal error-handling
+  paths of nvme_loop_reset_ctrl_work() and
+  nvme_loop_create_ctrl().
+
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
- drivers/scsi/scsi_lib.c       |  6 ++++++
- drivers/scsi/scsi_multipath.c | 11 +++++++++++
- include/scsi/scsi_multipath.h |  5 +++++
- 3 files changed, 22 insertions(+)
+ drivers/nvme/target/loop.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 46ed669c41dc9..c3c6831af97dc 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1296,6 +1296,12 @@ static blk_status_t scsi_setup_scsi_cmnd(struct scsi_device *sdev,
- {
- 	struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(req);
- 
-+	if (sdev->scsi_mpath_dev) {
-+		blk_status_t ret = scsi_mpath_setup_scsi_cmnd(cmd);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/*
- 	 * Passthrough requests may transfer data, in which case they must
- 	 * a bio attached to them.  Or they might contain a SCSI command
-diff --git a/drivers/scsi/scsi_multipath.c b/drivers/scsi/scsi_multipath.c
-index a2a21793db895..e0670d353e59f 100644
---- a/drivers/scsi/scsi_multipath.c
-+++ b/drivers/scsi/scsi_multipath.c
-@@ -242,6 +242,17 @@ static int scsi_multipath_sdev_init(struct scsi_device *sdev)
- 	return 0;
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d98d0cdc5d6f..070d16068e6b 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -274,7 +274,6 @@ static void nvme_loop_destroy_admin_queue(struct nvme_l=
+oop_ctrl *ctrl)
+
+ 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
+ 	nvmet_cq_put(&ctrl->queues[0].nvme_cq);
+-	nvme_remove_admin_tag_set(&ctrl->ctrl);
  }
- 
-+blk_status_t scsi_mpath_setup_scsi_cmnd(struct scsi_cmnd *scmd)
-+{
-+	switch (scmd->cmnd[0]) {
-+	/* Special handling required which is not yet supported */
-+	case PERSISTENT_RESERVE_IN:
-+	case PERSISTENT_RESERVE_OUT:
-+		return BLK_STS_NOTSUPP;
-+	}
-+	return BLK_STS_OK;
-+}
-+
- static inline void bio_list_add_clone(struct bio_list *bl,
- 				struct bio *clone)
- {
-diff --git a/include/scsi/scsi_multipath.h b/include/scsi/scsi_multipath.h
-index fdbdb0e5d02e0..52c80b0658d61 100644
---- a/include/scsi/scsi_multipath.h
-+++ b/include/scsi/scsi_multipath.h
-@@ -43,6 +43,7 @@ struct scsi_mpath_device {
- #define to_scsi_mpath_device(d) \
- 	container_of(d, struct scsi_mpath_device, mpath_device)
- 
-+blk_status_t scsi_mpath_setup_scsi_cmnd(struct scsi_cmnd *);
- int scsi_mpath_dev_alloc(struct scsi_device *sdev);
- void scsi_mpath_dev_release(struct scsi_device *sdev);
- int scsi_multipath_init(void);
-@@ -63,6 +64,10 @@ struct scsi_mpath_head {
- struct scsi_mpath_device {
- };
- 
-+static inline blk_status_t scsi_mpath_setup_scsi_cmnd(struct scsi_cmnd *)
-+{
-+	return BLK_STS_OK;
-+}
- static inline int scsi_mpath_dev_alloc(struct scsi_device *sdev)
- {
+
+ static void nvme_loop_free_ctrl(struct nvme_ctrl *nctrl)
+@@ -375,25 +374,18 @@ static int nvme_loop_configure_admin_queue(struct nvm=
+e_loop_ctrl *ctrl)
+ 	}
+ 	ctrl->ctrl.queue_count =3D 1;
+
+-	error =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+-			&nvme_loop_admin_mq_ops,
+-			sizeof(struct nvme_loop_iod) +
+-			NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
+-	if (error)
+-		goto out_free_sq;
+-
+ 	/* reset stopped state for the fresh admin queue */
+ 	clear_bit(NVME_CTRL_ADMIN_Q_STOPPED, &ctrl->ctrl.flags);
+
+ 	error =3D nvmf_connect_admin_queue(&ctrl->ctrl);
+ 	if (error)
+-		goto out_cleanup_tagset;
++		goto out_free_sq;
+
+ 	set_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
+
+ 	error =3D nvme_enable_ctrl(&ctrl->ctrl);
+ 	if (error)
+-		goto out_cleanup_tagset;
++		goto out_free_sq;
+
+ 	ctrl->ctrl.max_hw_sectors =3D
+ 		(NVME_LOOP_MAX_SEGMENTS - 1) << PAGE_SECTORS_SHIFT;
+@@ -402,14 +394,12 @@ static int nvme_loop_configure_admin_queue(struct nvm=
+e_loop_ctrl *ctrl)
+
+ 	error =3D nvme_init_ctrl_finish(&ctrl->ctrl, false);
+ 	if (error)
+-		goto out_cleanup_tagset;
++		goto out_free_sq;
+
  	return 0;
--- 
-2.43.5
+
+-out_cleanup_tagset:
+-	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
+-	nvme_remove_admin_tag_set(&ctrl->ctrl);
+ out_free_sq:
++	clear_bit(NVME_LOOP_Q_LIVE, &ctrl->queues[0].flags);
+ 	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
+ 	nvmet_cq_put(&ctrl->queues[0].nvme_cq);
+ 	return error;
+@@ -432,6 +422,7 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ct=
+rl *ctrl)
+ static void nvme_loop_delete_ctrl_host(struct nvme_ctrl *ctrl)
+ {
+ 	nvme_loop_shutdown_ctrl(to_loop_ctrl(ctrl));
++	nvme_remove_admin_tag_set(ctrl);
+ }
+
+ static void nvme_loop_delete_ctrl(struct nvmet_ctrl *nctrl)
+@@ -494,6 +485,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struc=
+t *work)
+ 	nvme_cancel_admin_tagset(&ctrl->ctrl);
+ 	nvme_loop_destroy_admin_queue(ctrl);
+ out_disable:
++	nvme_remove_admin_tag_set(&ctrl->ctrl);
+ 	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
+ }
+@@ -594,10 +586,17 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct=
+ device *dev,
+ 	if (!ctrl->queues)
+ 		goto out_uninit_ctrl;
+
+-	ret =3D nvme_loop_configure_admin_queue(ctrl);
++	ret =3D nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
++			&nvme_loop_admin_mq_ops,
++			sizeof(struct nvme_loop_iod) +
++			NVME_INLINE_SG_CNT * sizeof(struct scatterlist));
+ 	if (ret)
+ 		goto out_free_queues;
+
++	ret =3D nvme_loop_configure_admin_queue(ctrl);
++	if (ret)
++		goto out_remove_admin_tagset;
++
+ 	if (opts->queue_size > ctrl->ctrl.maxcmd) {
+ 		/* warn if maxcmd is lower than queue_size */
+ 		dev_warn(ctrl->ctrl.device,
+@@ -633,6 +632,8 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct d=
+evice *dev,
+ 	nvme_quiesce_admin_queue(&ctrl->ctrl);
+ 	nvme_cancel_admin_tagset(&ctrl->ctrl);
+ 	nvme_loop_destroy_admin_queue(ctrl);
++out_remove_admin_tagset:
++	nvme_remove_admin_tag_set(&ctrl->ctrl);
+ out_free_queues:
+ 	kfree(ctrl->queues);
+ out_uninit_ctrl:
+--
+2.53.0
 
 
