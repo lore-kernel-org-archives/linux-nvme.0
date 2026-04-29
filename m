@@ -4,143 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7FD2AFF8875
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25E66FF8873
 	for <linux-nvme@archiver.kernel.org>; Wed, 29 Apr 2026 21:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:References:In-Reply-To:Date:Cc:To:From
+	:Subject:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qfHwNudJmxczCvGUPLLuGA5ZXHhapkdWdCgZlnCSfvo=; b=TrDyLG3dhp/PNObgbsLRdzBSNu
-	6O5qhTx+vGuBkIAuaiArKHnBW6J3H1LH2gH96ZR0hP8xGiXxj9JcemtX7H+3ogstvC0lcaX1UjUPF
-	xy4QSwbXkFdRRn0zQVeb3dG4zcUek2x3eTJok0NNzJ7vzTsxRobG4+Wif7YlBY+Kkonsd78S2q+P0
-	9/IVm1sqq0HiN/DklwebJgsbAmcm3rDCQFMoh1dTwsRtJaZTASoUp1knPPxdwo0vHQa9Dx4D2t63k
-	6Jg33FN+Ux8VtAUK38tdEwO1RZhHOnchQfMLcsSZdxjTHHwHWmMGbvurzGhja1b/C/hHqpcREBmNQ
-	608HJv9A==;
+	bh=lRg/MYq0K53L4Y4fGH1HiAxYK8CbmwlPUvmXGFjgSXI=; b=nycc+Y4sPs0AxuJTQCRfdD47bO
+	W9uqIhPcN6hSbBGMDHIuO96rQSuxsTNYo8Y7FBClNx+FIrl9O1+rk8YTmhcEm+WK6/ROyaa5N89Mz
+	Ey4U19uhqT/daJmAoj6GLq6N2JyrYynYdUtahuT2Wo1BboeqUYeVNWde8rMTFe3qWWHIdnm+l98rT
+	JbQvbbA/OnsKDPBEN0oHRXpT6AawapXzZPA8o7mFIiDU8Dx5jtZM50Qc6urEQ8nN6TCpk/cRKJaIS
+	J8njMFS9jRPvpOi3Zf7+NYBwyrXagQov6hWCiuPS3Kf/B+1y5fOh3Ask4tButnnO4gXHOL7x8T00T
+	cgMFy5hQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wICBf-00000004DTb-2doM;
-	Wed, 29 Apr 2026 21:11:15 +0000
-Received: from smtp-out2.suse.de ([195.135.223.131])
+	id 1wICBh-00000004DTn-0dD4;
+	Wed, 29 Apr 2026 21:11:17 +0000
+Received: from mta-65-227.siemens.flowmailer.net ([185.136.65.227])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHiAf-00000001Udb-3Xs9
+	id 1wIC2T-00000004DAn-1y2Y
 	for linux-nvme@lists.infradead.org;
-	Tue, 28 Apr 2026 13:08:15 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D60CC5BCE1;
-	Tue, 28 Apr 2026 13:08:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777381692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qfHwNudJmxczCvGUPLLuGA5ZXHhapkdWdCgZlnCSfvo=;
-	b=Jn4mLfqL1Yne+LRTncOG/xG6TZ10rCWgJS9tV54YLPXVZY20eEa4GSsxrKSdy5HqeX8S8q
-	yEfPfKKno7m/KehSc1H3MYrfGj19D5YkQfPrM4leWSrk7HbB37bTXpy6Z7Mul5wtKy1sSr
-	uMqhwgWtCnc56h8wfXQ34v9rL2LWl6w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777381692;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qfHwNudJmxczCvGUPLLuGA5ZXHhapkdWdCgZlnCSfvo=;
-	b=6EraTIXpIKWlTiAwZb5Al0nEVUhM3n1R+WKiFZxL413mc7tCusd2r5uB1SnBve4HEmyIZ3
-	Kw5pp+YHhgYY5vCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q+IWzqzK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MbASWYe+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777381691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qfHwNudJmxczCvGUPLLuGA5ZXHhapkdWdCgZlnCSfvo=;
-	b=q+IWzqzKmn2cj4UTrE1TJfZ2507WKmlfZ5SjuemF29Ajc8QvC22TI53JNy9ARHYmtIcnrz
-	shC80cTqdwJdCAzB3Td06ddHCljRiQC9BVCFAoltPDpFIW2Kc30xBxTKdcf5p6kSIfbVnV
-	HcS8m4UPFU4B4zjz7+rZvbx9BDyd0ts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777381691;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qfHwNudJmxczCvGUPLLuGA5ZXHhapkdWdCgZlnCSfvo=;
-	b=MbASWYe+cBY5TqwnP9VcBhX+VcZXXGxcLNZXH81VjmLrDZSkCqnLx5xQo2RJoHvKAjLm4V
-	BzCM97vrSFuE62Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B55F6593B0;
-	Tue, 28 Apr 2026 13:08:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dPbrKzux8GmoVgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Tue, 28 Apr 2026 13:08:11 +0000
-Date: Tue, 28 Apr 2026 15:08:10 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Florian Bezdeka <florian.bezdeka@siemens.com>
-Cc: Aaron Tomlin <atomlin@atomlin.com>, axboe@kernel.dk, kbusch@kernel.org, 
-	hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com, 
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com, liyihang9@h-partners.com, 
-	kashyap.desai@broadcom.com, sumit.saxena@broadcom.com, 
-	shivasharan.srikanteshwara@broadcom.com, chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, 
-	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, 
-	jinpu.wang@cloud.ionos.com, tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, akpm@linux-foundation.org, 
-	maz@kernel.org, ruanjinjie@huawei.com, bigeasy@linutronix.de, 
-	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
-	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, ming.lei@redhat.com, 
-	tom.leiming@gmail.com, steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
-	mproche@gmail.com, nick.lange@gmail.com, marco.crivellari@suse.com, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
+	Wed, 29 Apr 2026 21:01:50 +0000
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202604292101346a3e66e1840002071d
+        for <linux-nvme@lists.infradead.org>;
+        Wed, 29 Apr 2026 23:01:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=florian.bezdeka@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=lRg/MYq0K53L4Y4fGH1HiAxYK8CbmwlPUvmXGFjgSXI=;
+ b=LMH79o94bSn6Qm6x/tkJ5jiJERzPLvvPw/we8hHv+HTjm97vH4jpJ/v4o17P+6f47ud8Jb
+ WJfb/vPGNx0PT/+DoxppUmJ/WOqVr0PwpYa5zVNJZ1fWlGk+jddEiJ16OBun3WV+c8AvggSf
+ pylkylj4BN/ZZaLTU25IqyQtHWmyHEsNa9ydjDEykJHJQ0tNVg99dkpcbb7gbZZOp+7rQFeV
+ hXwJOqPW5wkAjLHyVQzIpIKAMyHDL/rVk6JIMTbjW9vCDfKt9ET0addeTDblLVB064IeAfWs
+ J6UA4A6mkJN785K9LjzGIh7v+tDMe5y7piVIui6Spy4mlqOV5m/icNMw==;
+Message-ID: <85415539137c61cdec145ac0ee299dbea7cdd2a1.camel@siemens.com>
 Subject: Re: [PATCH v12 00/13] blk: honor isolcpus configuration
-Message-ID: <2d61b1f7-fc06-4fe1-8a6f-cc3a2f114ae1@flourine.local>
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
+To: Daniel Wagner <dwagner@suse.de>
+Cc: Aaron Tomlin <atomlin@atomlin.com>, axboe@kernel.dk, kbusch@kernel.org,
+ hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com,
+ James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+ liyihang9@h-partners.com, kashyap.desai@broadcom.com,
+ sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
+ chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
+ sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
+ ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, tglx@kernel.org,
+ mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org,
+ ruanjinjie@huawei.com, bigeasy@linutronix.de, yphbchou0911@gmail.com,
+ wagi@kernel.org, frederic@kernel.org, longman@redhat.com,
+ chenridong@huawei.com, hare@suse.de, kch@nvidia.com, ming.lei@redhat.com,
+ tom.leiming@gmail.com, steve@abita.co, sean@ashe.io, chjohnst@gmail.com,
+ neelx@suse.com, mproche@gmail.com, nick.lange@gmail.com,
+ marco.crivellari@suse.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+ linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+ megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+ MPT-FusionLinux.pdl@broadcom.com, Jan Kiszka <jan.kiszka@siemens.com>
+Date: Wed, 29 Apr 2026 23:01:33 +0200
+In-Reply-To: <2d61b1f7-fc06-4fe1-8a6f-cc3a2f114ae1@flourine.local>
 References: <20260422185215.100929-1-atomlin@atomlin.com>
- <e350389a5a635660267a7a13f06529da102a95d8.camel@siemens.com>
+	 <e350389a5a635660267a7a13f06529da102a95d8.camel@siemens.com>
+	 <2d61b1f7-fc06-4fe1-8a6f-cc3a2f114ae1@flourine.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e350389a5a635660267a7a13f06529da102a95d8.camel@siemens.com>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[atomlin.com,kernel.dk,kernel.org,lst.de,grimberg.me,redhat.com,microsemi.com,hansenpartnership.com,oracle.com,h-partners.com,broadcom.com,cloud.ionos.com,infradead.org,linaro.org,linux-foundation.org,huawei.com,linutronix.de,gmail.com,suse.de,nvidia.com,abita.co,ashe.io,suse.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLip3qrwmtdyuwmp1ydoxr43fi)];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_GT_50(0.00)[53];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,flourine.local:mid]
-X-Rspamd-Queue-Id: D60CC5BCE1
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-68982:519-21489:flowmailer
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260428_060814_179490_9F90AB37 
-X-CRM114-Status: GOOD (  17.37  )
+X-CRM114-CacheID: sfid-20260429_140146_245838_8068DB85 
+X-CRM114-Status: GOOD (  23.32  )
 X-Mailman-Approved-At: Wed, 29 Apr 2026 14:11:14 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -156,32 +91,51 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, Apr 27, 2026 at 12:55:20PM +0200, Florian Bezdeka wrote:
-> This topic reminds me of a discussion started by Tobias [1] some time
-> ago about IRQ spreading of network drivers. The problem was (and still
-> is) that network drivers ignore any CPU isolation when spreading out
-> device IRQs.
-> 
-> In general we have two different CPU isolation mechanisms:
->   - The static one, via isolcpus= cmdline parameter
->   - The dynamic one, via cgroups(v2) cpuset controller
-> 
-> This series is only taking the static "world" into account, right? Are
-> there any plans to honor the CPU isolations configured the dynamic
-> way?
+On Tue, 2026-04-28 at 15:08 +0200, Daniel Wagner wrote:
+> On Mon, Apr 27, 2026 at 12:55:20PM +0200, Florian Bezdeka wrote:
+> > This topic reminds me of a discussion started by Tobias [1] some time
+> > ago about IRQ spreading of network drivers. The problem was (and still
+> > is) that network drivers ignore any CPU isolation when spreading out
+> > device IRQs.
+> >=20
+> > In general we have two different CPU isolation mechanisms:
+> >   - The static one, via isolcpus=3D cmdline parameter
+> >   - The dynamic one, via cgroups(v2) cpuset controller
+> >=20
+> > This series is only taking the static "world" into account, right? Are
+> > there any plans to honor the CPU isolations configured the dynamic
+> > way?
+>=20
+> Dynamic configuration would require every driver to fully support
+> reconfiguration during runtime. Only a handful of drivers, such as
+> nvme-pci, are currently able to handle this.
+>=20
+> The first task, teaching a wide range of drivers to honor CPU isolation
+> at boot time, is already going to be a significant amount of work.
+>=20
+> > It has been a while since the last investigations on my end. Last time =
+I
+> > went through the code, the IRQ core was completely decoupled from the
+> > dynamic configuration via cgroups. Are there any plans to fix that gap?
+>=20
+> Which use case are you actually aiming to support? While dynamic
+> reconfiguration would be ideal, the amount of work to get there is
+> significant. I won't be signing up for it.
 
-Dynamic configuration would require every driver to fully support
-reconfiguration during runtime. Only a handful of drivers, such as
-nvme-pci, are currently able to handle this.
+The use case at hand is a RT enabled platform where the concrete RT
+workload is not known at boot time. RT applications are deployed "on-
+the-fly", nowadays using the existing container runtimes with some
+extended resource management on top.
 
-The first task, teaching a wide range of drivers to honor CPU isolation
-at boot time, is already going to be a significant amount of work.
+Applications can request certain resources like isolated CPU cores,
+special IRQ affinities, PCI devices to pass through, ...,  so that the
+resource management on the system can take care of proper system
+configuration.
 
-> It has been a while since the last investigations on my end. Last time I
-> went through the code, the IRQ core was completely decoupled from the
-> dynamic configuration via cgroups. Are there any plans to fix that gap?
-
-Which use case are you actually aiming to support? While dynamic
-reconfiguration would be ideal, the amount of work to get there is
-significant. I won't be signing up for it.
+As you said, this requires that drivers are able to honor the system
+configuration during runtime. We already identified IRQ spreading of the
+network subsystem to be problematic. And yes, that will need some
+efforts to fix that. We are still in phase of searching for similar
+problems and a starting point for a discussion. Any input in that
+direction is highly appreciated.
 
