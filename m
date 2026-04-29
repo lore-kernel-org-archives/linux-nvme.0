@@ -4,145 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6795FFF8873
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Apr 2026 15:16:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B661BCD13DA
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Apr 2026 15:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
+	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=2Aa3+xJkIiFQ/HkoTGqknWirRkC4uQdhQ2e/brY0CSM=; b=yAsLJghNa0X98bHo7V667kV1pP
-	GtlaDYt3LyH8CP+pr64AkQvwSyoyArd8aU7Pw6uRv7ApncHzu/HaG2D6fuIj4JFGcfXxzpb99xUMH
-	a73mpwLy+kZ3sZ9ThJTPT26k+cS40URaq+W9d1RVOB20FU2kMFYBvgN9EBIFrLdj1V+X3C8ft83pU
-	v+kRg/FzLR8pXfx4QhEvqcfwwysM9/fnThmgfuqqgruOXl7QBAScq/O6KqTKcv/7mMaN90sPqv/jw
-	iH8JccG0kKGoZAexoFK9VrtP0Bn4Kz7IBeRbHil9XKjTVbVh6Giw6E1KgDKoICtBSC+djQ+cq3eXc
-	1dvNJoTA==;
+	bh=dawF3b4RaIWUEiy//po8fh6kJaB714rQDtdWg97njKI=; b=x7Z+azXfJaNQmNn+DyWPeKfKAq
+	6F0G4r9SWi3BPfV7A6L4kdMjGqdwemyah6UFiCnren9j7uLQIeJ8YxcIwnRBuJupW0VaccQAe7lG3
+	EbwOfUxJYoY07PCyfvtdhpfTEh/g3oqWlxblMa0lr9C/T8rqMw1mAaui57OUNVtjE4R/6ciNmj2gn
+	umcJ+DsLSogTgmnH/XF1VHyDe7Xw9GT4gKwRO6Xa3Hv+PfNAHgk5Sw67BNjUG0F4/VhSQKc83wNpy
+	qtG96+7n1AlyYx3ALNahx9KkRBzX7kjRP5GlDWEbR02grn0GoEoXABPA+ppcuWV6MwlcdkCJHRLts
+	XpQdkmeA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wIT84-00000005ckA-2kX8;
+	id 1wIT84-00000005ck4-1R0T;
 	Thu, 30 Apr 2026 15:16:40 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+Received: from mail-ukwestazon11022120.outbound.protection.outlook.com ([52.101.101.120] helo=CWXP265CU010.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wIQCr-00000005Qtn-3pgZ
+	id 1wIEOT-00000004JHE-1hud
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Apr 2026 12:09:27 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7ED296A803;
-	Thu, 30 Apr 2026 12:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777550962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2Aa3+xJkIiFQ/HkoTGqknWirRkC4uQdhQ2e/brY0CSM=;
-	b=TNcm5UCpbnw+2gGvqCAGRfeD0cH38QV5yL+LXYPlsOtSG+xaNAl9iwMmKZe60OkiyvTzUE
-	MPbrMpilr3x+K1Xnw2Noo3Eu23pmJB+LSg7C87OfPc92b/oWN7iW89zIzEWGRKdFS2t+9b
-	KTms3z8JnAJNtr2spG8c3noa/cxyCZo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777550962;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2Aa3+xJkIiFQ/HkoTGqknWirRkC4uQdhQ2e/brY0CSM=;
-	b=4IM0G4gRSzs4S7cZnW/tdU+quLXd8KPax9Zb9UyDXvquAiRwRIJd8/TZe8+HHRgQ/h/VcI
-	nObOSROkCj2SocCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TNcm5UCp;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4IM0G4gR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777550962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2Aa3+xJkIiFQ/HkoTGqknWirRkC4uQdhQ2e/brY0CSM=;
-	b=TNcm5UCpbnw+2gGvqCAGRfeD0cH38QV5yL+LXYPlsOtSG+xaNAl9iwMmKZe60OkiyvTzUE
-	MPbrMpilr3x+K1Xnw2Noo3Eu23pmJB+LSg7C87OfPc92b/oWN7iW89zIzEWGRKdFS2t+9b
-	KTms3z8JnAJNtr2spG8c3noa/cxyCZo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777550962;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2Aa3+xJkIiFQ/HkoTGqknWirRkC4uQdhQ2e/brY0CSM=;
-	b=4IM0G4gRSzs4S7cZnW/tdU+quLXd8KPax9Zb9UyDXvquAiRwRIJd8/TZe8+HHRgQ/h/VcI
-	nObOSROkCj2SocCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 63645593B0;
-	Thu, 30 Apr 2026 12:09:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /0o+GHJG82kjZQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 30 Apr 2026 12:09:22 +0000
-Date: Thu, 30 Apr 2026 14:09:21 +0200
-From: Daniel Wagner <dwagner@suse.de>
-To: Florian Bezdeka <florian.bezdeka@siemens.com>
-Cc: Aaron Tomlin <atomlin@atomlin.com>, axboe@kernel.dk, kbusch@kernel.org, 
-	hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com, 
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com, liyihang9@h-partners.com, 
-	kashyap.desai@broadcom.com, sumit.saxena@broadcom.com, 
-	shivasharan.srikanteshwara@broadcom.com, chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, 
-	sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, 
-	jinpu.wang@cloud.ionos.com, tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, vincent.guittot@linaro.org, akpm@linux-foundation.org, 
-	maz@kernel.org, ruanjinjie@huawei.com, bigeasy@linutronix.de, 
+	Wed, 29 Apr 2026 23:32:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x1RK/Y+RpxOLgu57h6O1rjXVyRpCJL2dN+DanlINsspAY/SeErriqkWUOTujlIjGbEB+JtY4gNogUoxxfg6zZCT5DRcvmq0+rrVQzMpN/yjcgVktAGQ7lAs9ACNYtGMFblycE472sBwp5XNp3G+WdsVdMRQsaTn5xoOk7nXe0CY/yqUMnWBcvh9NmOQu+SP9ZFU2o82Pvvo88TnRsw4Syecgt7Oj4ZSqxwCEUq5taTNHw/bnbzcn3j8nObNRH9+AqmqKRNsXC12H7+EOu4728KnOZJKnSZfhPXWhDfWLf4BTIMfBjoefxedT5w/x6t+BNWREjSu2gwJUT7yUE8xJaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dawF3b4RaIWUEiy//po8fh6kJaB714rQDtdWg97njKI=;
+ b=lMPxyQqjx3EJbOzNTAZ3+U1Y7uS9U+uP9S8dmXBIm7DGyufjYcGPk2ITKuE0yZ7kHzSVkoyS9sWp4tTDxPJNROB/TEqLeYUFsfaFsMSbQEYxLpR/AdHC/LiheA5VMCxE8GWeO9qODpGi+5JQD0uVT2gPBCTEHd48/1mX/B0wdbutl7RJffS63eNw7u+gDbTqPIAvNj0EYEMVj5tZTff3+dJvgGW87rQp00bxKJSeRpBgi21AgBnhDp8L1ia9fn42WkmXohyVAr7xPvoUm20NpIZZGHYXHxvgBD1c1HkFPiIYJJf0rjGMHcMcR6h4tgFH7i6wm3m0089MU7hX2P6zEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO0P123MB6267.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:264::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Wed, 29 Apr
+ 2026 23:32:30 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.025; Wed, 29 Apr 2026
+ 23:32:30 +0000
+Date: Wed, 29 Apr 2026 19:32:26 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: axboe@kernel.dk, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, 
+	mst@redhat.com, aacraid@microsemi.com, James.Bottomley@hansenpartnership.com, 
+	martin.petersen@oracle.com, liyihang9@h-partners.com, kashyap.desai@broadcom.com, 
+	sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com, 
+	chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com, 
+	suganath-prabu.subramani@broadcom.com, ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, 
+	tglx@kernel.org, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org, ruanjinjie@huawei.com, 
 	yphbchou0911@gmail.com, wagi@kernel.org, frederic@kernel.org, longman@redhat.com, 
 	chenridong@huawei.com, hare@suse.de, kch@nvidia.com, ming.lei@redhat.com, 
 	tom.leiming@gmail.com, steve@abita.co, sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, 
 	mproche@gmail.com, nick.lange@gmail.com, marco.crivellari@suse.com, 
 	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
 	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com, 
-	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com, 
-	Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [PATCH v12 00/13] blk: honor isolcpus configuration
-Message-ID: <8c074639-bb75-40be-a338-e80b93123477@flourine.local>
+	mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
+Subject: Re: [PATCH v12 02/13] lib/group_cpus: remove dead !SMP code
+Message-ID: <v2xfjap2dkljbhz77d4437tbxj7tngm2ywiujgelpigvpphecg@nr2qtntp7lyk>
 References: <20260422185215.100929-1-atomlin@atomlin.com>
- <e350389a5a635660267a7a13f06529da102a95d8.camel@siemens.com>
- <2d61b1f7-fc06-4fe1-8a6f-cc3a2f114ae1@flourine.local>
- <85415539137c61cdec145ac0ee299dbea7cdd2a1.camel@siemens.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+ <20260422185215.100929-3-atomlin@atomlin.com>
+ <20260427152104.WTGAesGs@linutronix.de>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gjvyk77mxr2rqak6"
 Content-Disposition: inline
-In-Reply-To: <85415539137c61cdec145ac0ee299dbea7cdd2a1.camel@siemens.com>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_CC(0.00)[atomlin.com,kernel.dk,kernel.org,lst.de,grimberg.me,redhat.com,microsemi.com,hansenpartnership.com,oracle.com,h-partners.com,broadcom.com,cloud.ionos.com,infradead.org,linaro.org,linux-foundation.org,huawei.com,linutronix.de,gmail.com,suse.de,nvidia.com,abita.co,ashe.io,suse.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,siemens.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLip3qrwmtdyuwmp1ydoxr43fi)];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[54];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: 7ED296A803
+In-Reply-To: <20260427152104.WTGAesGs@linutronix.de>
+X-ClientProxiedBy: BN9PR03CA0114.namprd03.prod.outlook.com
+ (2603:10b6:408:fd::29) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO0P123MB6267:EE_
+X-MS-Office365-Filtering-Correlation-Id: 03da2b25-01ab-488c-859d-08dea647948e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: sczNzkK6M0JgCkgd+TFyVmmVS65ofhd3jmI1N7OJgL9NbMnxyez77Vh9C/bg/ut3jQ4FD8G2sT+V+sN67RS2N9gkxaMzPVHsPD7+/AbanRC1pwMyt4F9+U0M1Xpp+VKFJnDIy97kNvkG3kJupdykUrqNFwpAu4yoenv+xHj3oI0UUW9FWGKbA/8u85Nw1vJgDKEbLjV7i6LZ5TEnYfnQq9eUDI1B19GqHm3nt9W9QRFm0mq14OvQ19q72FzDJsfb0/jCtzkvJQx9I+stbuHooyRSGU/Ul48rqG6hZDIPOFZrTky0QRhSK9+MJtMp4C7U9sgiZ60/q1/acHdcz/ncdCyw9th6vu1LYWxfU/lda+mmrsrMQ9cn3HSSYXxjbG70HQ1h6cg34Hl2j+K3azvjLmpN45v/Aw00Gd0rGxavQ4/2pJDZLiqYnIdoGOKiYWspckU1iB1AJmquVpPjIjrMf88nIsiHJqvBxmw/hrLfrQMYiJHTmVB5+u7qGvcQZbwPPU9dcIDRavoUjh7RIFueg7PoSvqpVZi/UayXw3SdfAJxhP6hg++tM80M1ZSXYSHyNAgRJ2LRTZSxaYpi6W7iKc9BNZ5MYnatKE1tXyowvCIa/fRBDH/jcJOVr+u5CMr2Sj1a97pSAZi0TGOnW4VMY/X9giWIZmjsPQcU++iDrMo2g3S+vgTwAxZbZoaav1Q4WhdQFUxWnmUQfi3hMyzCFrwQtGDMYzaZ3btvZuVQ+Eo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVRrVFFPRG5TaFA4eUVqaFN1akVqSldTcWY5MjVGWC9KSVFqQ3hhT0NEYkhR?=
+ =?utf-8?B?YVo0TlZCOXkzRDJ2RW9yRE9BRjN5c0M0dlhIdlJVZ1FzcGRta0Q2Z1B5TWxH?=
+ =?utf-8?B?YnY5L29WSkE2dUZ6MWtKV3Z4anJaOVoxbGpYRnk5MUpXeTRYVE8rUEVZNzdS?=
+ =?utf-8?B?SHJ3dkpYREd5cmxyOXYvUmRzRm1JeEtBOWpHZHRXelZNdjF1dDRoMmRMbXV6?=
+ =?utf-8?B?UVErdGl0QjNzaGo3VVhSNGxjbmcwNEhNLzZRYkxVcy9kQjRkSldseDR2Y053?=
+ =?utf-8?B?WGx2S2FEL2RCaVhEdnRBUExUK2RCNTN4YnRpaTVKTFhVQ1k4eHpMVHVuWVJw?=
+ =?utf-8?B?bUgvOThrakVJV3hOVE5yZGRJNTVsZkpQZVEvczhmS1JQVlRYKzdyMVpjQ2xn?=
+ =?utf-8?B?TDNjWW40eEsvS003U3dxYzdRS0lOeTd1elQzaUNiRnY1YnlVb0d6SkpmTmZq?=
+ =?utf-8?B?NmdCaXNKQnkyVmw0OHp1c0FJM0RWVkp6Yk8yaUE3RWZHLzZvZ2xtVnNwSlRl?=
+ =?utf-8?B?NW9wOXgwZ3NWSXVEUU9kTnR3dzR6US9zd242dmN0eFc0YXhaMGxKcy93emNn?=
+ =?utf-8?B?YndpaFZEVStaQzgrZTlRNGJaQ1FBSnNxLzVXL215N1pYcGpvSnpSbUFvSmlP?=
+ =?utf-8?B?SExsb3I5K05teHdxclhWSU1vT3Rwd0x2NXNEbVFjL2Q1eTBTNmozMFpRTWVi?=
+ =?utf-8?B?UUVMUFg1VUtvK0RVYlFqY01KcDBNbTlrajk2SVQ5cUVuWHpWaW84S1FsSTZU?=
+ =?utf-8?B?NFlxby9FNEtEaDhsSFFjRjdncXFJNW5EYjU3bUUvaUpYdGJlQWFYODRWK1ZQ?=
+ =?utf-8?B?Q0JaZGVkU1E3TDRvQlZUeXFWZXdISnBwZDRtMWVueUh3MHJMK1QyUEhIMXJG?=
+ =?utf-8?B?ZUlUbThadDVNaWNsTk0vRGRMNnFEYmxCbkpzTjQ3SVRYT0ZrYTBwUTEvYk1q?=
+ =?utf-8?B?TUVlaXFNQUwxRmkra2xrUjlQdXozei84Q28xZ1NKd2k4cXBEblRCOGNXc1Zi?=
+ =?utf-8?B?NFU5QW5TL0xuejIvWk5OeVpzaFpJU3gyU3Z3a1dXY0JlbDdZdW9XMkRMNTFo?=
+ =?utf-8?B?eHhDN05tTTkvaTVPQVAvaVh3anE4cXRWcVRkWUkxNTR1WVlxTTMrMGg2MUQ4?=
+ =?utf-8?B?UG5NSmZVbW9xMHBrVFlyeHJ1bis5dDhRbmhDaVBxcVZRQUZKUHhnWnJlVTQv?=
+ =?utf-8?B?SkpGdWUzUjhlU0F3aURNVVdBRUxIN0lYRHJCekJ5UXZzZmVkWFdNWHJSTEQ4?=
+ =?utf-8?B?dFZhTzBhVE8wK0J1QWFOQlZrTWtGYzFjcytHZmNMVHo0TWFUdk1HbW5IYlRZ?=
+ =?utf-8?B?aE16TU95VWE1STJHVGJtK1pyd1A2WTNtTHM3aE8zTzVINmJYQ0RQYnBnTGVD?=
+ =?utf-8?B?L3k2bnBXdlIyVE0rWDI2VGczV3F2cXlKb08xem9saU9Qem83K3crWG1hTHRH?=
+ =?utf-8?B?c0dHenZ4VVhmTTNjWDIxTHN5V2hTTlNrZkh2MkFROUhOd2puVUJlaWR0KzlW?=
+ =?utf-8?B?TEZGYUY5ZW10bWxiRllqQ2ttMTZrb1JYd3F2ODZuWG5SY3luOFFXT2NYRE84?=
+ =?utf-8?B?dWZBeHlTcTdWV0c5dkxkSGVVY0FjdDFIeWNCVTduRjJhY24xRzBHcDNYZUJZ?=
+ =?utf-8?B?Mk9OcWkrbWN6SmZoeGtzMUFCSmV2SnJJOEVpeG5VZVo5dXFpb0xtMXlmcEd1?=
+ =?utf-8?B?WkpWRWQ2K1RtemVVVi9LWHZNUVdISk9LZzNhRE1zTzdOMm9FcU9XelAvMFRX?=
+ =?utf-8?B?ZW9xWS9hQkxScWZ3NHg3dExIa0dpTFN6NXlhdy9BRHIxUXg4RXBpNE1CdVRj?=
+ =?utf-8?B?eTMyTnlwcXJmQmZTeHcxQjdETVpIcHpiQy9nUnIreENMVlQzTUMvRE0yRXM2?=
+ =?utf-8?B?RU5hUERJU2xVQy8rekFVYTRSUFNmdm56R0MzZ0ZIeEJ0V0FCbXRPcHZrSDZG?=
+ =?utf-8?B?MWRtTEpOTExwT3lDcS93ZkgrUGF2UWZpaGFpcVgxdmVYbmJTTHJLMnA3R1E4?=
+ =?utf-8?B?NGVLRThSMmxkbkUyZEZWaCs1Z24yVXVxVTFkZHczQWZZZG9zRWt6QWZlU1dh?=
+ =?utf-8?B?YktzSHdJMXI0TkJ0TUx1ajM4NTBpZmJtdkw0RXQ2V1ZDWjBVWDBmenpqT3Bw?=
+ =?utf-8?B?Snp2RnBadWNvRHd3c2lsK3E3L3Z1N0orZ0J4cDlmYXNEb2g4dk5JVjJrUWlV?=
+ =?utf-8?B?Vk1Ud2xCTnA4TlJRSDR4VEdPSWdoMkFJZSt1MGUvUExaVUM4aHpTVDFwaE9m?=
+ =?utf-8?B?QTBHQkNRL2k3dWpnN2p0d25qbUZoQ0ZNeFM3TjdEekV6SXFNekMxTW9DVEha?=
+ =?utf-8?B?Qk5ZTEoyVFZZZzJuaUwxT3JNUFFTMlZpaG96d1ROaTdWaTR0WGs5QT09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03da2b25-01ab-488c-859d-08dea647948e
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 23:32:30.2351
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DAZArLuWVPQ/VDcsaSI1TNs2ibLgrxNUwi4/lc4PkpOSRjQKK6/t0MAFH/J2c9RRpQtNVVOENyk8iaj2p3lGDQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB6267
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260430_050926_121894_7217A215 
-X-CRM114-Status: GOOD (  14.50  )
+X-CRM114-CacheID: sfid-20260429_163237_473593_AC2C7B69 
+X-CRM114-Status: GOOD (  17.99  )
 X-Mailman-Approved-At: Thu, 30 Apr 2026 08:16:38 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -158,31 +156,94 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Apr 29, 2026 at 11:01:33PM +0200, Florian Bezdeka wrote:
-> > Which use case are you actually aiming to support? While dynamic
-> > reconfiguration would be ideal, the amount of work to get there is
-> > significant. I won't be signing up for it.
-> 
-> The use case at hand is a RT enabled platform where the concrete RT
-> workload is not known at boot time. RT applications are deployed "on-
-> the-fly", nowadays using the existing container runtimes with some
-> extended resource management on top.
-> 
-> Applications can request certain resources like isolated CPU cores,
-> special IRQ affinities, PCI devices to pass through, ...,  so that the
-> resource management on the system can take care of proper system
-> configuration.
+--gjvyk77mxr2rqak6
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v12 02/13] lib/group_cpus: remove dead !SMP code
+MIME-Version: 1.0
+
+On Mon, Apr 27, 2026 at 05:21:04PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-04-22 14:52:04 [-0400], Aaron Tomlin wrote:
+> > From: Daniel Wagner <wagi@kernel.org>
+> >=20
+> > The support for the !SMP configuration has been removed from the core by
+> > commit cac5cefbade9 ("sched/smp: Make SMP unconditional").
+> >=20
+> > While one can technically still compile a uniprocessor kernel, the core
+> > scheduler now mandates SMP unconditionally, rendering this particular
+> > !SMP fallback handling redundant. Therefore, remove the #ifdef CONFIG_S=
+MP
+> > guards and the fallback logic.
+> >=20
+> > Signed-off-by: Daniel Wagner <wagi@kernel.org>
+> > Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+> > Reviewed-by: Hannes Reinecke <hare@suse.de>
+> > [atomlin: Updated commit message to clarify !SMP removal context]
+>=20
+> This look unchanged vs previous submission. You could explain why you
+> want to remove the !SMP case. It looks like the !SMP makes things
+> easier ;) I don't know how much of this gets removed because of !SMP
+> code elsewhere.
+>=20
+> The description still does not make sense/ is accurate.
+
+Hi Sebastian,
+
+Yes, the !SMP path does make things "easier" and lighter for actual UP
+builds by bypassing the SMP overhead. However, maintaining two separate
+code paths and #ifdef guards for this specific logic adds testing and
+maintenance burden that we'd prefer to drop.
+
+The reference to the scheduler commit was meant to highlight a
+philosophical alignment-trading a slight performance edge on UP builds in
+exchange for a single, unified code path without #ifdef clutter.
+
+How about the following:
+
+    The core scheduler recently transitioned to compiling SMP data structur=
+es
+    unconditionally to reduce code complexity (see commit cac5cefbade9
+    "sched/smp: Make SMP unconditional").
+
+    In alignment with this philosophy of reducing dual-path maintenance, th=
+is
+    patch removes the #ifdef CONFIG_SMP guards and the dedicated !SMP fallb=
+ack
+    logic here.
+
+    While the !SMP path provided a slightly simpler execution flow for
+    uniprocessor kernels (avoiding SMP-specific overhead), maintaining these
+    separate code paths adds unnecessary complexity and testing burden.
+    Removing these guards simplifies the codebase by standardizing entirely=
+ on
+    the SMP logic, which safely resolves to single-CPU operations on UP
+    configurations.
 
 
-This is where I really question this use case. Currently, it takes quite
-a lot of time to tune a system to work properly for RT workloads.
-Between memory channel interference, GPU interference, and shared
-transports everywhere, you end up with a fixed split: a set of CPUs
-suitable for RT work and a set for housekeeping. This partitioning
-generally does not change during runtime, even if the way you utilize
-those two sets remains dynamic.
+Kind regards,
+--=20
+Aaron Tomlin
 
-Furthermore, reconfiguring a system while running an active RT workload
-is asking for trouble. I wouldn't be surprised if doing so triggered a
-wide range of unpredictable side effects.
+--gjvyk77mxr2rqak6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnylQYACgkQ4t6WWBnM
+d9YScA/+Jn6xsgpnu2BMvcSxCAa+OL1nEeKhRo2Rb2/KrA8hU6VhV7W5uqt7zG4i
+i2dN2smjUN5Te5DjyqtxK2G2HeyWhJ2ti8RV8Rd7wuXj+/bqOoveFXMuGLb9QnG5
+mQlQRmCkl4sDfbbt7lvCEXM410XqUgu8KiUB4WBqHkxbVgayK8h2Ws3mAe/rp5d/
+ajM62SKUyRmNdYb4dGAUpk4padLVCH6K3FTUn6pTpAgooQg5dR8vwMfDirIKtIdi
+4umSypyCb6jUqoGs9Z+Dr78lyNKfmYPL+C3hN0KDGr+i2LvvD3+ECdkBkqO0fRtF
+yAkqCSYTefDBxRq1MxsU2Ek+G9pnHND9MaVYHNZuebAs3u/wVkTQDnZpdi608pmz
+uPDZeLhdFreO40CZRA1VpEIegIz+3DfpIvbn3hV7NvBYBn+9k1Ug7AJ+ZJqfDU/5
+uzmIBwew6+LenSjZAvMt4vqYf6qJlE+K/2AvCSSoq24AZyMEGRJA5i/o0j3GQxWP
+ojAe+2KmB68BgHVip+FIPqEUrEu//mnmo7MCM8znfwELj6bWyc2Hkxbuu2ys0sl9
+4axtPveOYEBXrmo0264j6wjPdxtCoHJvSYXIxT9F50lr+krjb4JC8cW5fx6t+CCp
++q6GURVDH7FDoLW3wjJ4qZURewKhD1rgdim2uuuVCg1tu3BRDWY=
+=g0hT
+-----END PGP SIGNATURE-----
+
+--gjvyk77mxr2rqak6--
 
