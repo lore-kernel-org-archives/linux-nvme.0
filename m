@@ -4,105 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06BBCCD13DE
-	for <linux-nvme@archiver.kernel.org>; Thu, 30 Apr 2026 17:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 92221FF8873
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Apr 2026 18:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:To:Subject:Message-ID:Date:From:In-Reply-To:References:
-	MIME-Version:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JLyNT/DBEnc/exWGGYI7o2TnEaDelTtHJNyo6OLw4No=; b=DzIApJ+gFg2+THnm43qPaTadtp
-	5VjdokSAJUqgCzPR8h6djMqyj/ewWWDTd7dmMQbIiVK2rtoxBal4WbZ9qNJmgUk/7UbPbs4quTMx9
-	4IV3jU5z5MwzY9vSUnnVmwh3Jtf3lNisJiwTqE5Ci5rxC4Z3zwEr1t7rCyvG26FzkKyuUdQeJ4o/w
-	dOgn7YMqOwQ9nUIFPHz5qeWRmYHlWXjtzHkKOYIxeiK8Rp+xAIJ4AeX/YdwyR80YnzhwsvdpVbdIO
-	yneJDbT0Py371RD5/K3rCciVT/nOrzbTwn2xy5T/DCfCZSiTSMP0m5Qxf6JoLVCHemplVRQcGkLAx
-	bPZq7Fiw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=+sxVPeWzK/5JcscdkmY85m6FCWps4Q/alwynbpD7Pbo=; b=JcXr67VMKBGOKCnr/hoVsluqb4
+	U3KI5nTCLiuln4miu92NguGlzbRqJjGctUsK2MJDBvkIJWLbucfAs63uqUWcCIpyaNPYC/re0UHfj
+	jQhqWFWEXWoJQwneIHQ3aJy7y5KvuMq8uKXth4IpbukPa66qm4e8foTX4CobM52167L8OjSbTTPBf
+	WphJAdCz9A5b4OY1gQ6IJorgehgw/a3xwC++Ad3vXgGHgfLZ+mUKJ5NwKmdCIq3kW0//53ZMWgc4s
+	48GDDZP7Y5opHxo47n1ZT3LNxD5N9mPSfJvNKZqfaeZIxP+7YLKiqfclw/2pXX8e+ZOKcFZZuAH/W
+	bugVGS6Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wIUmk-00000005m7W-0wNH;
-	Thu, 30 Apr 2026 17:02:46 +0000
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+	id 1wIVyN-00000005osQ-1liH;
+	Thu, 30 Apr 2026 18:18:51 +0000
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wIUmh-00000005m79-0MdH
+	id 1wIVyK-00000005os1-3v7Y
 	for linux-nvme@lists.infradead.org;
-	Thu, 30 Apr 2026 17:02:44 +0000
-Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-60fa13bde2dso719328137.3
-        for <linux-nvme@lists.infradead.org>; Thu, 30 Apr 2026 10:02:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777568560; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MWMasrO70SlKMLW3jnOluWgmmRUas8duEwGWyp3CGTK3f97hjJMibagaH7guEqahrz
-         X3+sRpIUYMoBF9aFFi40NJVoUQxHn4f2UwplR0Ibpma+afo24faNQRHmTr8MZrwUYy+R
-         kix5lpQC4YdwN5xmoa8TaSu/3Hhq9ADlSfpeD0+hKIDr2uOFlnJPsyr/W4Jt/PmHHTKO
-         UnzZnyyVbOPShUtFQReojhj+JGe5GAa51uNRhkLRiToEPXJA6VAIpC6WRGN/tS5JUZAe
-         vP/m9CWIKxzd6hlm5u5ROcWuwu6uEqUBFTfdyLqEAUAWEToZp5fmTD/GHuXXng9WRbg3
-         myMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JLyNT/DBEnc/exWGGYI7o2TnEaDelTtHJNyo6OLw4No=;
-        fh=SeyUsyCERzv57s4qt8ASGjxrNsxv9QJ5pLBA4R7Ibp8=;
-        b=Vq/aoXolbZHeNi6w5ZPpaxJNYsmX8VYw+JkJz21hscZT0eR0wi8jMTTMVqAdmOnJc0
-         h4ON8P+KtHoaAMmwlh0ZNEo6zT97ZNIzTDGwTIOPom4W4o/dWlHR+kWpwH73gHL7WjcX
-         gsQIDf193RoXzj+F2uKiZm1Gnkm+KsjR0KHqlR07rkINq6+NjtrZUJXMA77vIs0FrmTD
-         dhewYlsLgMYUUYsQVOynduKxXHTrd9TNccXdsTkeJMchbzZ8tvN+PVVMzoST6d/AT6dI
-         M6TKbp+ikE66iiacB55xv2vNQ3bSW0BvlKnm093jPvZBoXnAhdcNvE2ImaqY2Ds8hDqJ
-         /X9A==;
-        darn=lists.infradead.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	Thu, 30 Apr 2026 18:18:50 +0000
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso10933025e9.3
+        for <linux-nvme@lists.infradead.org>; Thu, 30 Apr 2026 11:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1777568560; x=1778173360; darn=lists.infradead.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JLyNT/DBEnc/exWGGYI7o2TnEaDelTtHJNyo6OLw4No=;
-        b=H1uhlBjt2e9KCZRepKEeQHfb41y1h/5z+QpDl17qtr30YZg7cUaLxISFSM91pVrXBm
-         1q62+nWVz7lLHAO9g5xm2uJzo7K3baovAYg79YA7+MvTuQT6TlzgLA02SsSGl0Cde9dU
-         LpkQAWYJ4wjMQFTysOkQI+nC13i2Nz/4FdTXJLJqrMStbjBJVY6WAyc7WzzbY0cyJSBE
-         HUEmr01mhUO9fdDzdGQRG1E3+z6cTzEsoaSw+yQV0LC7AKC0BHlosQLJz0SLyZ/CmSfc
-         /uTbLphI1RsgmbZq7XBnFYrv3Du974qOvlcwUMs2Zqw7bpDs+gIwlHA2XCOSOpEYnn0I
-         ZLXw==
+        d=gmail.com; s=20251104; t=1777573126; x=1778177926; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+sxVPeWzK/5JcscdkmY85m6FCWps4Q/alwynbpD7Pbo=;
+        b=RRdDZEA3HAYw6GHJMq/VkHh0aqqz0x44qvBERa0z6n9irbMflRCSDciskaM8uJVC0j
+         cueR7os6UnwCCLrVj1LGfZJEhcwTpV+dn2WARRlbW/fKrcx31RL5gKQubpujNCXMDP58
+         ej8sJhbYD9dmmdh8iwlVPcNVsbBzFzb9PM+N+ErESKGLbavTzrhPHQR7wrqCSyQgTai5
+         aytMiVsk4g+7MbGA7ng65LKv8etHvqTOS3tl/6A9b6e2lBLM4Ajpn2NabEI+vPG5hKt9
+         FeIKzAg82ggvvDpeKSyKWYnbfXBFsGK+94GzX6VwKJLfEHKtfORILnHkZT3Zl3V825jO
+         7eDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777568560; x=1778173360;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JLyNT/DBEnc/exWGGYI7o2TnEaDelTtHJNyo6OLw4No=;
-        b=iSfw8oFP9o6afHDjIrLubZZZLzBFcYcNQBFaCW+GTDBDVHsLMSDxZ7Z+VRxxla3Gs7
-         rhKjlUd25suuOwnzZKKoPutFKDQmXEm8T0klOGsL4P69qccJpsLYut1CkWx4CqoN2h1g
-         xvnGN6d1CiAk/yE70zL7B7bF1qHElUfwQinO7QnGqXMTFjZbhKnx29ne6U4RTkrcG0iS
-         UVhYIFORI7uXuXqe1KS+Ez+R5Oj0rjN6wT7I3m3WPiHvYyX8PJXKkKNyl+HeR/GJM0+2
-         4SP33N94XZMc/sKFQ7aZO8itGYtwJeWnT3s+WhHCSeSRgjl7ThErlrXZCL1Md4f0cLjw
-         WGDg==
-X-Forwarded-Encrypted: i=1; AFNElJ8J7X4dStpLvVf8C9OtgDX0GUeGVMKEhd47GoeMXY5xd911LHru5RJK0OzNUUsjXmnAsMuhzinLTLR9@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyy3vZ0EqGE9o7EqLvH55K6riNmo18lU3FOYGckR0K4vJhs6hc9
-	5Kcai/zXeUIxJbl/7En7tRHezIv5/1v9RLqF2IezGILQcU3H+HEfzb9U5+K2eCkWTk8LKZ+jhAM
-	Y1LYB6SioTsWju46HiUnbkuO9wZ906YzyDHDmqRcYVw==
-X-Gm-Gg: AeBDiet6Mu3f0ZqA7tP0PahULwwJjVF+hXa+Th5l4GF+2lSeJ83H4S7Kjj4Bk4bD2kS
-	ll4a2U+IX1OQwDLXidn5RQ5V6xRgWv1aDMbRRXvNQnz8ZAiawQiSaJOzpUtSr0poKnbyUVo63fI
-	CTBNWaQf7XI6o2KmrThHmBCJOGOYFn6xF2wI9nYt2bAyJi39TEXpn2fkCaKAVV4xk/81m1ACswD
-	NBcf8/wkQN8A4vN5cFFNgqjNJohzdX9UZWky+wt89LgSHu1H79zMJ4dWp5izU8GKeP1N5VCYleX
-	lM+dhZiXlRO2V4NBVd3BA98yFZReXoJVfgFjLui03SeVwgvbrEoyTVIOLNAOQf5+EpirLmy/oNB
-	sRdo=
-X-Received: by 2002:a05:6102:4421:b0:5ff:f4ae:a154 with SMTP id
- ada2fe7eead31-62ad1e3ce29mr2306786137.1.1777568554453; Thu, 30 Apr 2026
- 10:02:34 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777573126; x=1778177926;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+sxVPeWzK/5JcscdkmY85m6FCWps4Q/alwynbpD7Pbo=;
+        b=KW1Ag8cDtAEngOcVjtlxzwV9649dk4IS/GnD2J2N12CDbIpU1BBh3TqEonFI0bkWCG
+         PdKNQIQ5Sxaqyu0x6/6pyNLcZeNXrjms3vcbM/mWNeil+4Z5StcHfN0uFEwhEnGeReod
+         Scd7XDQ8bnVWonWENpWiihD3h10KhS7dkjoIw3GRqUWXbprveUvRNOtHKwx/Smos8LVp
+         FQCrGN1zQgWuj4FeJzGCGchmLOMDa56+NYMjgDNfRRMyhQfgm1K4JYogFaBLsIsWurMc
+         EEU9qGas61bVAVfdj5bIZp6Z6QXmVeAriHo80/cqVLWXVs8k1TZHGu+2B/0hUQK99IzB
+         r7Cw==
+X-Forwarded-Encrypted: i=1; AFNElJ8QC+o8uRpPW+ABWmKdpEiiVuNm56sZFlWZ1GomGUsdE6668KwMn2+1/yScg/5KnQ+ckCon+NJNQZTn@lists.infradead.org
+X-Gm-Message-State: AOJu0Yzc6f7TOSagx9uBK2T6Ea8btecTFu8/WqcqkrOU3tAFDRxlYWtB
+	ikUGQaL3P9YXdBgKWqkbz2HPNWyvcMw/zpNEQd0k0JwwMXRKF57ui5Ae
+X-Gm-Gg: AeBDietTOlbdUBNrjM//RaV9K0Z3F46oBiZDjSU9x1VzIeTY6yQh7/EooVKDy4aMkBh
+	8oXLJrPjZfS2WvLXI8oLJMFyWjl2TQUkpSXdUbhmkM6z2Q27lFdayrHgDDAR11qQ0BbCzfm85vj
+	2wG86ETi4VcpI25qqS0boQXwmG/rfr+WhDy4vxoCU5VA8Ml2hzYlOWnqlRAYQdHvlrCe6fGVItx
+	XDVvddBUk4qXC6hZuudwgoNKhZ+UOoKAVLsGRcnR8yE5Q5C/kzf/tgiBjUJBeMdbvtedXMyLnV9
+	mP04UV9lKQ29zuuypz06WyH+CeqOlRcn/j7kgHar8Tfq+BvrJcuI8HEJ/9jpgojDqc09qTimwA5
+	yeu4S06GM5qqycN7z+/Nzv/XJdvCQECyxCGWrcB22SXGGLjpdAmK5BFe81qZ6dXUwb6P6veD00X
+	TYxSZnGKWqRTFwL03t3JB96QGvkXYXlLRMJDRaIL+q+XlvxzfL7ymJ41CA2JRi/I1rhLMkslvnA
+	8ZQCepVtd8bx2+MCq+wL4d2uM1fXDj1+C47Vu8zF/id0+7vkzg+JjgBScvXBZH1qspt44zfu6pt
+	Kg==
+X-Received: by 2002:a05:600c:3495:b0:48a:5339:ef0e with SMTP id 5b1f17b1804b1-48a83d62ffbmr66464485e9.3.1777573126483;
+        Thu, 30 Apr 2026 11:18:46 -0700 (PDT)
+Received: from [10.109.92.8] (net-2-37-141-89.cust.vodafonedsl.it. [2.37.141.89])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8d15fdedsm3944495e9.4.2026.04.30.11.18.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 11:18:45 -0700 (PDT)
+Message-ID: <7f091660-2e60-4de5-a3b7-7b8d206fd6ab@gmail.com>
+Date: Thu, 30 Apr 2026 19:18:44 +0100
 MIME-Version: 1.0
-References: <CAPpK+O3zB4Y7L6u0jmVkM2eQs2D1DEJJMG_AXgM+HBs4wkLStg@mail.gmail.com>
- <CAPpK+O3fFkbs-E05a8t+JfwCb+Wpj-trNOi05uO_zp8wF65nCg@mail.gmail.com>
-In-Reply-To: <CAPpK+O3fFkbs-E05a8t+JfwCb+Wpj-trNOi05uO_zp8wF65nCg@mail.gmail.com>
-From: Randy Jennings <randyj@purestorage.com>
-Date: Thu, 30 Apr 2026 10:02:20 -0700
-X-Gm-Features: AVHnY4I_Sn2OkXzp-tYFAwI-68libLobX7XCdaeVmj9UR1GPYVWk-QoIkDNYzro
-Message-ID: <CAPpK+O2Pe3uA6t8kspp3wq1qCWS-T+Mre8Hb74+3hTpyy2VWTA@mail.gmail.com>
-Subject: Re: [LSF/MM/BPF TOPIC] demo Linux nvme initiator driver stretched and
- dispersed subsystems
-To: lsf-pc@lists.linux-foundation.org, linux-nvme@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/10] nvme-pci: implement dma_token backed requests
+To: Maurizio Lombardi <mlombard@arkamax.eu>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc: Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
+ <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
+ Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <5cecb1157ab784f9f303a91449fdf11b03aa6002.1777475843.git.asml.silence@gmail.com>
+ <DI5RO76D5IWR.19K0ES58HUIVS@arkamax.eu>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <DI5RO76D5IWR.19K0ES58HUIVS@arkamax.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260430_100243_172518_4FCA0789 
-X-CRM114-Status: GOOD (  15.56  )
+X-CRM114-CacheID: sfid-20260430_111848_998143_DB461FB3 
+X-CRM114-Status: GOOD (  12.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,30 +118,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, Feb 25, 2026 at 5:32=E2=80=AFPM Randy Jennings <randyj@purestorage.=
-com> wrote:
->
-> On Fri, Feb 13, 2026 at 5:16=E2=80=AFPM Randy Jennings <randyj@purestorag=
-e.com> wrote:
-> >
-> > I'd like to demonstrate the Linux nvme initiator driver interacting
-> > with a stretched and a dispersed subsystem, run through some workflows
-> > and illustrate usecases that are possible with one and not the other.
-> > No, this is not necessarily production code.
-> A few more details:
-> I am still interested in extending the namespace mobility and
-> synchronous replication use cases to NVMe. As instructed, stretched
-> subsystems have been implemented on Pure=E2=80=99s array. I will demonstr=
-ate a
-> Linux host and Pure array stepping through these use cases. I will
-> also demonstrate and discuss the limitations that come from this
-> approach and solicit alternatives. Finally, I will demonstrate a
-> hacked Linux initiator that implements dispersed namespaces that
-> avoids those limitations (this is not even a prototype, just a
-> demonstration).
-Presentation is available here:
-https://drive.google.com/file/d/1DcUJMyjSuMj6SsNeue_gqV3PHXZThoFO/view
+On 4/29/26 17:07, Maurizio Lombardi wrote:
+> On Wed Apr 29, 2026 at 5:25 PM CEST, Pavel Begunkov wrote:
+>> Enable BIO_DMABUF_MAP backed requests. It creates a prp list for the
+>> dmabuf when it's mapped, which is then used to initialise requests.
+>>
+>> Suggested-by: Keith Busch <kbusch@kernel.org>
+>> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+>> ---
+...>> +
+>> +static int nvme_create_dmabuf_token(struct request_queue *q,
+>> +				 struct io_dmabuf_token *token)
+>> +{
+>> +	struct nvme_dmabuf_token *data;
+>> +	struct dma_buf_attachment *attach;
+>> +	struct nvme_ns *ns = q->queuedata;
+>> +	struct nvme_dev *dev = to_nvme_dev(ns->ctrl);
+>> +	struct dma_buf *dmabuf = token->dmabuf;
+>> +
+>> +	data = kzalloc(sizeof(data), GFP_KERNEL);
+>> +	if (!data)
+>> +		return -ENOMEM;
+> 
+> Shouldn't this be kzalloc(sizeof(*data)...) ?
 
-Sincerely,
-Randy Jennings
+Good catch, I'll apply it all for next version
+
+-- 
+Pavel Begunkov
+
 
