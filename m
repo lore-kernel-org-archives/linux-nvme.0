@@ -4,149 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D1DE0FF8875
-	for <linux-nvme@archiver.kernel.org>; Wed, 29 Apr 2026 21:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 85343FF8875
+	for <linux-nvme@archiver.kernel.org>; Thu, 30 Apr 2026 04:37:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=v+M0QKmMGibIDIev9gzuqJ8SGIZVpscaEkkEnzze7Wc=; b=qI9cwgIaEYdQ9oZMGW8TBO+4Bk
-	TFLOSHLwiwuUlsyGi9HlQhLlsnKFMbU38nVOtccEyVn0niHnyTMH7oYVxJqirpOp1B+8L/3kmCmVp
-	ae/VwuvH1wR/asClaab3mdvbq+jgkiiY00DcViIcjI04Jo7j3BfJtO03g7b7Z8fT1iBFsAsplLCMH
-	NR5umNIPyKESJD5/eeZByl96hkattDbooQGwLg7H/1fvUc0Vb44GS4ooxIGLGaydwTWBcs4BmquCu
-	7rhOjRzyPh0GwAa77qnQxFtXHrxrZDBJz9kQBGUNoPQBJM0NGG0b0GsjD1Aw4nvU40z7DryYV9qB3
-	0dQ3HsKA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=uUqDcer1B04x07OIUa27AijFEnzDCUYtkpP41N9T8I4=; b=qxmeRkfri/8W6cAbhnSYNKjhAU
+	6Et8R6tDCmsISHjuK/q9uETeOG5Wc9kBNxLSmIS5sHF7VcurDIv761GK1fxImTCAwcT3QIpWm5cdu
+	+5yNgk6cTq4onFrhTBm0bPUSgzuhMuBGJCHAXlGam5aCfCZylLn+7G2vW9yt3H8q+dK5e+IraSrLM
+	C1szIrR5YZl/cNdE+AgH6bUVbiQbY3gQoToSERoYhGJq1znIyp74eMTNR/gKyEnaOsuzbFTXLLjpn
+	6OzJocKI/WpHyZ6OyX1dx1xJT60NrjhxdCWYyg5ulUF9V8eIHjJGtbi4gjkDmJ+YC5QkrARcmKlHa
+	EEk75Npw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wICBf-00000004DTh-3v2u;
-	Wed, 29 Apr 2026 21:11:15 +0000
-Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
+	id 1wIJ9f-00000004fPa-2vMq;
+	Thu, 30 Apr 2026 04:37:39 +0000
+Received: from mgamail.intel.com ([198.175.65.16])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHz8w-000000038Gg-0NDM
+	id 1wIJ9c-00000004fPE-3hMq
 	for linux-nvme@lists.infradead.org;
-	Wed, 29 Apr 2026 07:15:35 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E3F8C5BCCB;
-	Wed, 29 Apr 2026 07:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777446931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+M0QKmMGibIDIev9gzuqJ8SGIZVpscaEkkEnzze7Wc=;
-	b=ui6dLRpP0xcrWBwX/lfIUf7GD+tHCXC9ln1tqSRB1n8NrRHyVJ6AKpmmNAeWhH6iRugEd5
-	3S77gah2+6FArlg5vnda64lZsz2Mq5sPY+FZBAROh+8h9vvAfepEugpK8BiF8V6rXddZf/
-	haF8w8MPcvG8+8knqxuFX0wfixz100w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777446931;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+M0QKmMGibIDIev9gzuqJ8SGIZVpscaEkkEnzze7Wc=;
-	b=J9qSfKVQOlRR2e42u2O4sh3a+DpgFA1j7+YzK29qcg8UrDik46lNrQIo7R5/U2TV6VQRBm
-	5zCyXms6rFblBdCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777446930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+M0QKmMGibIDIev9gzuqJ8SGIZVpscaEkkEnzze7Wc=;
-	b=eJAMAc2MwcwLKNCUwyEYkSaE7IFXYOGx5bGcZ1lxLylUQIhX4cT0AckPIyeEQqe4rXVwPC
-	cKRGvi5PVjxHEvVj505cu6vSwc0k0zywr8cw3Re+UlIEAvJeDw448mHroWZkF+27q0X39i
-	e2drt+KvUduHzCEd477cR4wf8FiqSfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777446930;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v+M0QKmMGibIDIev9gzuqJ8SGIZVpscaEkkEnzze7Wc=;
-	b=82O7nivfzJX0mhE90On+lguBHnjxhhH2VEt66Axh7/exWHmXw29ZVf8rUmCXysZ/WGx5If
-	IqPbYMl5dolfC+DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67944593B0;
-	Wed, 29 Apr 2026 07:15:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eapEFxGw8WkzAwAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 29 Apr 2026 07:15:29 +0000
-Message-ID: <3a606788-bd88-4249-bf1c-b0f99cf680e3@suse.de>
-Date: Wed, 29 Apr 2026 09:15:28 +0200
+	Thu, 30 Apr 2026 04:37:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777523857; x=1809059857;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7Ff6KXqii3nlF79VBg109uLkToNFhNehEDljOeDkC2w=;
+  b=F6gQc9l2Iz4kTsCntpCkFQ6cm/iWa4qXUiHIiO9S19kmcxgNKzA4ddlZ
+   vwBapuW6gfJbidU0xuJ3+uHL9E7ULt0ExE2OxUntbB0dliW9YePr0Y6Nr
+   /iYRwh92sjuR7Nns2OX/AwsHl75frUhL7GV93w2A2ZkopZNIm/NYVG6sH
+   e/gfSSeZZfaF3xxmd4ENKPjufWwYFRvxGY8E8W4curkKZKqnGYr1PkPyh
+   K/qem5qujTzRl2oDU669pcoQaGOgDnK+Of58HSQJYXyfsfcQX2DraMk1i
+   1aqh2U1Rgqm+79avtkdC+cVlN3IKOBURv5EcbBdHkdZGvESLWZFDWHD5y
+   w==;
+X-CSE-ConnectionGUID: 2D0Ulh5tQZq55ETb2m7beA==
+X-CSE-MsgGUID: 6dd0AiN2SnSYrSpRhRxuLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78654391"
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="78654391"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 21:37:35 -0700
+X-CSE-ConnectionGUID: iBzBWf0RRDiRHa+HppVMGw==
+X-CSE-MsgGUID: 8bKNr/5kR+uP5Wse+UarBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="236238135"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 29 Apr 2026 21:37:32 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wIJ9V-000000004kD-3ad5;
+	Thu, 30 Apr 2026 04:37:29 +0000
+Date: Thu, 30 Apr 2026 06:37:18 +0200
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
+	"sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?utf-8?B?7KCE66+87Iud?= <hmi.jeon@samsung.com>,
+	=?utf-8?B?7J207J2A7IiY?= <euns212.lee@samsung.com>,
+	=?utf-8?B?7Lm47LCs?= <joshi.k@samsung.com>
+Subject: Re: [PATCH v6] nvme: Skip trace complete_rq on host path error
+Message-ID: <202604300644.6qVuhQQC-lkp@intel.com>
+References: <20260416010713epcms2p78575bd400f93f6edb7fe3f3ead5bf930@epcms2p7>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 05/13] blk-mq: add
- blk_mq_{online|possible}_queue_affinity
-To: Daniel Wagner <dwagner@suse.de>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Aaron Tomlin <atomlin@atomlin.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, mst@redhat.com, aacraid@microsemi.com,
- James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
- liyihang9@h-partners.com, kashyap.desai@broadcom.com,
- sumit.saxena@broadcom.com, shivasharan.srikanteshwara@broadcom.com,
- chandrakanth.patil@broadcom.com, sathya.prakash@broadcom.com,
- sreekanth.reddy@broadcom.com, suganath-prabu.subramani@broadcom.com,
- ranjan.kumar@broadcom.com, jinpu.wang@cloud.ionos.com, tglx@kernel.org,
- mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, akpm@linux-foundation.org, maz@kernel.org,
- ruanjinjie@huawei.com, yphbchou0911@gmail.com, wagi@kernel.org,
- frederic@kernel.org, longman@redhat.com, chenridong@huawei.com,
- kch@nvidia.com, ming.lei@redhat.com, tom.leiming@gmail.com, steve@abita.co,
- sean@ashe.io, chjohnst@gmail.com, neelx@suse.com, mproche@gmail.com,
- nick.lange@gmail.com, marco.crivellari@suse.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-scsi@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
- mpi3mr-linuxdrv.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com
-References: <20260422185215.100929-1-atomlin@atomlin.com>
- <20260422185215.100929-6-atomlin@atomlin.com>
- <20260427153416.MeVS8yxF@linutronix.de>
- <c4927a2b-c18d-42ce-8a60-d6d388155671@flourine.local>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <c4927a2b-c18d-42ce-8a60-d6d388155671@flourine.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.993];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[atomlin.com,kernel.dk,kernel.org,lst.de,grimberg.me,redhat.com,microsemi.com,hansenpartnership.com,oracle.com,h-partners.com,broadcom.com,cloud.ionos.com,infradead.org,linaro.org,linux-foundation.org,huawei.com,gmail.com,nvidia.com,abita.co,ashe.io,suse.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	R_RATELIMIT(0.00)[to_ip_from(RLxytqtu68cujj4wfi14kxder6)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[52];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+In-Reply-To: <20260416010713epcms2p78575bd400f93f6edb7fe3f3ead5bf930@epcms2p7>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260429_001534_447268_026E2F80 
-X-CRM114-Status: GOOD (  16.04  )
-X-Mailman-Approved-At: Wed, 29 Apr 2026 14:11:14 -0700
+X-CRM114-CacheID: sfid-20260429_213737_012485_697EC52D 
+X-CRM114-Status: GOOD (  14.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,41 +95,86 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 4/28/26 14:53, Daniel Wagner wrote:
-> On Mon, Apr 27, 2026 at 05:34:16PM +0200, Sebastian Andrzej Siewior wrote:
->> Which driver uses cpu_possible_mask? This mask is assigned at boot time
->> once the kernel figured how many CPUs are possible based on ACPI or
->> whatever the system uses. This mask does not change.
->>
->> I only see drivers/scsi/lpfc/lpfc_init.c using it. Looking at
->> cpu_possible_mask might not be the right thing. It is usually the same
->> thing as "online" except on system where ACPI thinks that something
->> could be added via hotplug _or_ if the admin shuts down a CPU via
->> cpuhotplug _or_ boots with less (there a command line option for
->> that).
-> 
-> These HBAs are used on PowerPC which supports lpar (CPUs can be added
-> during runtime) I am told it's properly the only driver which is caring
-> about this type configuration, thus a bit of an odd ball.
-> 
->> In case cpu_possible_mask != cpu_online_mask the intention is to
->> allocate memory and setup irqs for the offline CPUs?
-> 
-> I can't answer this. The lpfc driver has several strategies implemented
-> how it spreads its resources.
+Hi 전민식,
 
-The intention is to setup the driver queue affinity only once (knowing 
-that all possible CPUs are handled correctly), avoiding a driver
-reconfiguration on CPU hotplug.
+kernel test robot noticed the following build warnings:
 
-Not the most efficient one, sure.
+[auto build test WARNING on axboe/for-next]
+[also build test WARNING on linux-nvme/for-next linus/master v7.1-rc1]
+[cannot apply to next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Cheers,
+url:    https://github.com/intel-lab-lkp/linux/commits/nvme-Skip-trace-complete_rq-on-host-path-error/20260416-180151
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260416010713epcms2p78575bd400f93f6edb7fe3f3ead5bf930%40epcms2p7
+patch subject: [PATCH v6] nvme: Skip trace complete_rq on host path error
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260430/202604300644.6qVuhQQC-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604300644.6qVuhQQC-lkp@intel.com/reproduce)
 
-Hannes
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300644.6qVuhQQC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/nvme/host/core.c:457:6: warning: no previous prototype for function '__nvme_complete_rq' [-Wmissing-prototypes]
+     457 | void __nvme_complete_rq(struct request *req)
+         |      ^
+   drivers/nvme/host/core.c:457:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     457 | void __nvme_complete_rq(struct request *req)
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/__nvme_complete_rq +457 drivers/nvme/host/core.c
+
+   456	
+ > 457	void __nvme_complete_rq(struct request *req)
+   458	{
+   459		struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+   460	
+   461		nvme_cleanup_cmd(req);
+   462	
+   463		/*
+   464		 * Completions of long-running commands should not be able to
+   465		 * defer sending of periodic keep alives, since the controller
+   466		 * may have completed processing such commands a long time ago
+   467		 * (arbitrarily close to command submission time).
+   468		 * req->deadline - req->timeout is the command submission time
+   469		 * in jiffies.
+   470		 */
+   471		if (ctrl->kas &&
+   472		    req->deadline - req->timeout >= ctrl->ka_last_check_time)
+   473			ctrl->comp_seen = true;
+   474	
+   475		switch (nvme_decide_disposition(req)) {
+   476		case COMPLETE:
+   477			nvme_end_req(req);
+   478			return;
+   479		case RETRY:
+   480			nvme_retry_req(req);
+   481			return;
+   482		case FAILOVER:
+   483			nvme_failover_req(req);
+   484			return;
+   485		case AUTHENTICATE:
+   486	#ifdef CONFIG_NVME_HOST_AUTH
+   487			queue_work(nvme_wq, &ctrl->dhchap_auth_work);
+   488			nvme_retry_req(req);
+   489	#else
+   490			nvme_end_req(req);
+   491	#endif
+   492			return;
+   493		}
+   494	}
+   495	
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
