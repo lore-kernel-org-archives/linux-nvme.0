@@ -4,86 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0D67ACD3423
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2026 07:44:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A5E8FF886F
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2026 12:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=gm6m1wujkpVy+Hcw4q5fPcV4BPjffKbhoOrFuvKhczI=; b=Db9KAyElI/VPkQBtcFsKYgAQMS
-	kvR7ypt7HfegzntpX9bAGJGA4Wu/Qh6me0zQJj6HnvmvKoqWEw2Mm+8N9DUYzr5d7QbGMt8uXbrKM
-	/yuN3wFUpySEMPxkjOLdG+yCJESi7iLn0VqXv0zRvBEZcJAH4D3lN3Aj0+fS5ElKuJI671cw/ANrI
-	AACw3bNTFjHOc8W8U4nDi31xTlK9rHuGbQ4pUUd2cHvSRO6nfLCvO4fSHRhItC52Xlwe+wXVdYo2s
-	FRJTq2XDgSGdoa4QwB+5VY6eN+WxrNTsicEOWrZ0dAhA3MRsAZtxhpskVj3sGKYi9+5oHlDux5Lbo
-	QZ7uJQ9w==;
+	bh=u1rtTuY5BE7rdQoV+ciJbr7UnJ/IDuL1onVBT7GuRBM=; b=KF/ei6V3YmbdcpbKCUxv83gYRJ
+	oEBKaV/ApajaJ7c8ZOlvWiBIrPjHRuwI7TTsYd7Z/E4vvTr6UeIqItyyo1otU2m8M8Lbf2dgnuwnA
+	KPPGUQqTHKS84XTnysFH7JnzcYi+MaxHhHaMavrkofZsivD+AElZL6mbkKFvYh4AScSTXAxK+0MeR
+	DoCESCPDYY2UDMgSiCNgdNRUB1Sw0dC4PcgENQKOtCsreJMWx1UyiCYYcQ7gu/3BzDo+cKAEoqApd
+	2aUHeh0mIeQNl/tu+Qies/iFx7JUjvWIbnYxlJflxgHjtnddcchGQyWY3jVLHUvmMb72SRjWruQEJ
+	BKErA+EA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wJnyz-0000000Cdoh-2Q8i;
-	Mon, 04 May 2026 07:44:49 +0000
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+	id 1wJsX3-0000000DAjv-3ZDK;
+	Mon, 04 May 2026 12:36:17 +0000
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wJnyw-0000000Cdna-1kyG
+	id 1wJsX0-0000000DAir-3jVi
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 May 2026 07:44:47 +0000
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-43d77f6092eso2180486f8f.2
-        for <linux-nvme@lists.infradead.org>; Mon, 04 May 2026 00:44:45 -0700 (PDT)
+	Mon, 04 May 2026 12:36:16 +0000
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-364d72f2986so2633488a91.3
+        for <linux-nvme@lists.infradead.org>; Mon, 04 May 2026 05:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777880684; x=1778485484; darn=lists.infradead.org;
+        d=gmail.com; s=20251104; t=1777898173; x=1778502973; darn=lists.infradead.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gm6m1wujkpVy+Hcw4q5fPcV4BPjffKbhoOrFuvKhczI=;
-        b=G+zPhDT9JIXRcEh8nkpEeQ4SklfSoTW9IyfNT+7MUhrJ4yNpDJOncOHMdLf3Pj6niN
-         NW5JFdM/+GZ1rqnjIYVMNv20DNxkRV/siT4+RrZV0TNBEl+FGKW8ELEWHPKYo8KNfyJH
-         bYXtaSSbB7HNmoReZk6QE7ALfm2aotGcMa9/+u2Y1JYB3opy30Ct0e+R3fxdR1+5N/6o
-         vOYxZEVG95XzZGNWlBNPHKMIg6XceOtCLF868xFOTwvmChYyQTBwM1cRB0LmDofRRc8l
-         9OmcdqFoERBLluqBaQK+Ko+rEj86n8eenOz6foGJOdAb9B3nl5BDJ7rEpuJZj2Gz/1JA
-         S+ew==
+        bh=u1rtTuY5BE7rdQoV+ciJbr7UnJ/IDuL1onVBT7GuRBM=;
+        b=IpNUZTA6I+bVNW8Q6xnmqNVsGIuXrRZbGtD/DZUqChjubfHwLspkeMAl77RSxIaQn5
+         BbBlnjHJ2nWQN4Bi/t022NkX0psDI6RT4mJz7e+RW9TxXLCJ144YZW5OSMq5EHNNJunb
+         H/P5wG/zj+kXSBp1RHZOmHrEBAl+x9kUjotK9RWi+X+r/PXhFUoBUX3M5Pgev9qOubPu
+         cnKv1L237hLqZCf4Rs+kKYX/eompGjdCHO5LZq4MPnDBc797oUxofzHTc/d1kU5UH19c
+         gFkIU6vcvAGEHIIiGuurt9VF+ITStFeK+gpVMWHfL+bQa8Z1lwGIIT2e3B0tZi2fn8xm
+         i24w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777880684; x=1778485484;
+        d=1e100.net; s=20251104; t=1777898173; x=1778502973;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gm6m1wujkpVy+Hcw4q5fPcV4BPjffKbhoOrFuvKhczI=;
-        b=ljXet/m0JSPmG3du24NyW+UH+Jlz0PaP+7xsa+25HpEV3iR4VDlUWsdL7Sto8cw3K0
-         N5+ba34/jUY9iMYfprWh1r92L8KhakP1lzosBsaBOxu0A6SAfpGdrB+vt2lnWAE85ohU
-         J5dlmo2c0/eTp/5f0hxSJ+lPhzgsm3ZdYDbvyx+04GmUsvQoe2uhI5IIBEncjJlyWhSC
-         xux8dNyy9hXLtzRlQJV1IeXvjvbuoDXIMmIwwivAlfckJWVB+D5MzeaFT959FxXVuffq
-         jQNN+qSgZkARXPxsyOnseQzgLfv5cqonft64hzU0ZfNTcqxqKH6PEnI+bP14aBX6pQbE
-         J4bg==
-X-Gm-Message-State: AOJu0YxmpY23nLaKriESheqTJQ9bkL3D7c+cudgcWZrTOjCJqmgKIXXG
-	TovEVZn3Gt0s5/3AKuGZX83e0Fap/KnQIjbzs72tjmGf6jsrws8MzwSW
-X-Gm-Gg: AeBDiesbBi5goGcFZGWo/9fhtF0K9xrshuV8i4dicPpT7sxYTw9VnuUpVHobdDOzuyE
-	GPMx42/iyUr9JFmrf9eNS/DPs0fC2j1Q9irxzczGz2QqwnVcVVsPzWLbtbdTtLLCnQxK6IBijlB
-	6iRk80f50sol9Ib9vn6XnW+BPphNastapz0zBvb2/BRQlPEZieZ7TWTN+haGxgST/QUaHKBgpQl
-	fbXurw65YnuczV/pwFUI/Q/tq2H2ctbU79WNA2J8ZHSLWR/Y4UzHsfPCZCJwqk3N+MpKdu68qVA
-	jqwyZdv1iuijMThjqmaHU+XbHU7Yit3GmxNIRoqrOvdEQQ8ztqTC5gmsWGApNzoFSw4y72YV/IU
-	nt2YB3tSfx4H/u5GvX15O8Mo99e6eGgk90MS0abeYKLVWTtRrWg0WOLHliJFzc6taekLx8im/MO
-	+e8o6YcW4AUdnjPZeOEkKMgU1Lczrj5Ui1E8tvlbwGtQ==
-X-Received: by 2002:a05:6000:2dc6:b0:43d:7e11:1b72 with SMTP id ffacd0b85a97d-44bb2f26f85mr12815058f8f.9.1777880684115;
-        Mon, 04 May 2026 00:44:44 -0700 (PDT)
-Received: from xyz-asus ([78.211.66.58])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44acad8f974sm21587062f8f.23.2026.05.04.00.44.43
+        bh=u1rtTuY5BE7rdQoV+ciJbr7UnJ/IDuL1onVBT7GuRBM=;
+        b=LovaO3HRa6JvzSw0ryiGDZU+k0xpa4pV0q69S8dYe9S+L3aY8UinIue3+IsMyxG/LT
+         JUOxfWIh/YpS549I/7TMsMEyYlQuCw9nTF8wT/L4VczuhVjzowVyWmEsP2TS4q4sAfrE
+         kHZEs3dDO73HI/0Y/Mw9ffj4kNVyzCGvTRYrmg//hSvop8HtW1ClGqtbACGOWxoF5bIx
+         AFQKx0l3dh7tlaFnfMu1/gsYhQNpjjGPh9JsLNF/p6beL0U048D7gcxsmlDtfz3XPG+z
+         hEoFz8by9X4Lm2RLzTCB2A2syhx3zbh/ZgDEafO9TuFPEfKOzNpFxMW1XUDDr7aOK4k3
+         Y9/A==
+X-Gm-Message-State: AOJu0YziVlNbFQeNlckjXCRDp0/iqmnRilDNKp9w5SDkc9K4ocLhKrFX
+	JcwVtKHpVmeW8G9fsmE0TqCiYulffTcLgDLS93cDvrWoGq8FC3R7Q6sBLV7JQB+uBqHQ2w==
+X-Gm-Gg: AeBDieszQWdKqYZzt/Y/62NJi0BUJ30cpxMdULpAA7I3eYdxnmZ3XyJzpqnOc03Cowr
+	TrgybAYy9MJVd7yFGRJhHvAbOmoIDvenhP6wCmL3G4X+TQ7GT76ItarNAiIXxW9tTfJ0kFPQ9x1
+	/3oobSUgdpjHyiwXJgMyAEuViV/EH+Oo9mjNlawyawQGpxRDJzPS96cqpkZ69S3hSUratGFEOwq
+	zr3nQDb65Lijkxcp80sHe007gqmcotGChvltz+YGJrsS2olAzR/Id+XsCgPpCndnRDCf7fErBJz
+	Bw+p3CKQ1wxIFXsJ5V47qcrrwIRSI9ATw0p0COO/WhdgBQG5RctQ4j/YTz9kK0k8gJ7hCrfpQG9
+	wMxOv+24dduDQWbns0nktbs+VxM0pWGcaD4EgoU89xWwkJ3cv8FRAA9dJ8p/mktpwrH2Hwx0KZ9
+	ic0SSUNXAB4akVep27OUYdw2BP
+X-Received: by 2002:a17:90b:4a4b:b0:35d:a0b7:9608 with SMTP id 98e67ed59e1d1-3650cdb749fmr9402918a91.7.1777898173329;
+        Mon, 04 May 2026 05:36:13 -0700 (PDT)
+Received: from dev.. ([129.41.58.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364f3f684c3sm4298527a91.3.2026.05.04.05.36.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 00:44:43 -0700 (PDT)
-From: Armandas Kvietkus <armundunelis@gmail.com>
+        Mon, 04 May 2026 05:36:12 -0700 (PDT)
+From: Rohit Chavan <roheetchavan@gmail.com>
 To: kbusch@kernel.org,
 	axboe@kernel.dk,
 	hch@lst.de,
 	sagi@grimberg.me
 Cc: linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Armandas Kvietkus <armundunelis@gmail.com>
-Subject: [PATCH 3/3] nvme-pci: add quirks for Lexar SSD NM620 512GB (1e4b:1202)
-Date: Mon,  4 May 2026 09:44:33 +0200
-Message-ID: <20260504074433.28493-1-armundunelis@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	Rohit Chavan <roheetchavan@gmail.com>
+Subject: [PATCH] nvme: use str_enabled_disabled() for digest mismatch messages
+Date: Mon,  4 May 2026 18:05:55 +0530
+Message-Id: <20260504123555.1741525-1-roheetchavan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260504_004446_460098_3A40FBC0 
-X-CRM114-Status: GOOD (  10.88  )
+X-CRM114-CacheID: sfid-20260504_053614_979872_C92FE4A5 
+X-CRM114-Status: GOOD (  10.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,29 +98,55 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-The Lexar SSD NM620 512GB has an invalid SUBNQN field and reports
-bogus namespace identifiers. Add NVME_QUIRK_IGNORE_DEV_SUBNQN and
-NVME_QUIRK_BOGUS_NID quirks to suppress the resulting boot warnings
-Signed-off-by: Armandas Kvietkus <armundunelis@gmail.com>
----
- drivers/nvme/host/pci.c | 3 +++
- 1 file changed, 3 insertions(+)
+Replace open-coded ternary expressions with str_enabled_disabled()
+when printing data and header digest mismatch messages in
+nvme_tcp_init_connection().
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9fd04cd7c..f6cc27e28 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -4222,6 +4222,9 @@ static const struct pci_device_id nvme_id_table[] = {
- 				NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x10ec, 0x5763), /* TEAMGROUP T-FORCE CARDEA ZERO Z330 SSD */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
-+	{ PCI_DEVICE(0x1e4b, 0x1202), /* Lexar SSD NM620 512GB */
-+		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN |
-+				NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x1e4b, 0x1602), /* HS-SSD-FUTURE 2048G  */
- 		.driver_data = NVME_QUIRK_BOGUS_NID, },
- 	{ PCI_DEVICE(0x10ec, 0x5765), /* TEAMGROUP MP33 2TB SSD */
+This makes the code more readable and consistent with existing
+helpers used for boolean string representation.
+
+No functional change intended.
+
+Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
+---
+ drivers/nvme/host/tcp.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 243dab830dc8..b3165cd79a31 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -8,6 +8,7 @@
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
++#include <linux/string_choices.h>
+ #include <linux/crc32.h>
+ #include <linux/nvme-tcp.h>
+ #include <linux/nvme-keyring.h>
+@@ -1550,8 +1551,8 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	    (!queue->data_digest && ctrl_ddgst)) {
+ 		pr_err("queue %d: data digest mismatch host: %s ctrl: %s\n",
+ 			nvme_tcp_queue_id(queue),
+-			queue->data_digest ? "enabled" : "disabled",
+-			ctrl_ddgst ? "enabled" : "disabled");
++			str_enabled_disabled(queue->data_digest),
++			str_enabled_disabled(ctrl_ddgst));
+ 		goto free_icresp;
+ 	}
+ 
+@@ -1560,8 +1561,8 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	    (!queue->hdr_digest && ctrl_hdgst)) {
+ 		pr_err("queue %d: header digest mismatch host: %s ctrl: %s\n",
+ 			nvme_tcp_queue_id(queue),
+-			queue->hdr_digest ? "enabled" : "disabled",
+-			ctrl_hdgst ? "enabled" : "disabled");
++			str_enabled_disabled(queue->hdr_digest),
++			str_enabled_disabled(ctrl_hdgst);
+ 		goto free_icresp;
+ 	}
+ 
 -- 
-2.54.0
+2.34.1
 
 
