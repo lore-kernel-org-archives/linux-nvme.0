@@ -4,86 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3A5E8FF886F
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2026 12:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFA0DFF885A
+	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2026 15:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=u1rtTuY5BE7rdQoV+ciJbr7UnJ/IDuL1onVBT7GuRBM=; b=KF/ei6V3YmbdcpbKCUxv83gYRJ
-	oEBKaV/ApajaJ7c8ZOlvWiBIrPjHRuwI7TTsYd7Z/E4vvTr6UeIqItyyo1otU2m8M8Lbf2dgnuwnA
-	KPPGUQqTHKS84XTnysFH7JnzcYi+MaxHhHaMavrkofZsivD+AElZL6mbkKFvYh4AScSTXAxK+0MeR
-	DoCESCPDYY2UDMgSiCNgdNRUB1Sw0dC4PcgENQKOtCsreJMWx1UyiCYYcQ7gu/3BzDo+cKAEoqApd
-	2aUHeh0mIeQNl/tu+Qies/iFx7JUjvWIbnYxlJflxgHjtnddcchGQyWY3jVLHUvmMb72SRjWruQEJ
-	BKErA+EA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JTReAJBRtrEN050pOinCvG1qLugpFlFxRiDBF5vEgm4=; b=rxFzSW/fJmHlbLxpiN78DMYWgg
+	lXeDc7KWhdh3CoyyEnK2fAocgyUd3lJaRnO9jZcEfhWuC4aHfQVlfvavblQvH1iF0P3isya9dVzR8
+	FM7t4ObJ0GTN9krvFwf0x2ut33hGbzfXclZ0x8wa5ppRXV2hSzcTHyfubTul8db8SyC4HV02E7oWl
+	40Mz/ZlpceUQE4evIHn5zpvYZncFNA8cmJ3F3HnyfnrQSd9rIKX3SHp61VVC4Ywe425tvnw4NA23c
+	g4n8hb/DQJVhdU48zY3I5FNnNlzL9Q2pTwtZPcN4EOj7kNp19BePWD/HONYAjIhTA5Z1gth3D8P8u
+	QGXEVSyg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wJsX3-0000000DAjv-3ZDK;
-	Mon, 04 May 2026 12:36:17 +0000
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+	id 1wJvFS-0000000DbdH-3yrW;
+	Mon, 04 May 2026 15:30:18 +0000
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wJsX0-0000000DAir-3jVi
+	id 1wJvFR-0000000Dbca-0SMt
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 May 2026 12:36:16 +0000
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-364d72f2986so2633488a91.3
-        for <linux-nvme@lists.infradead.org>; Mon, 04 May 2026 05:36:14 -0700 (PDT)
+	Mon, 04 May 2026 15:30:18 +0000
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso33782025e9.3
+        for <linux-nvme@lists.infradead.org>; Mon, 04 May 2026 08:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777898173; x=1778502973; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u1rtTuY5BE7rdQoV+ciJbr7UnJ/IDuL1onVBT7GuRBM=;
-        b=IpNUZTA6I+bVNW8Q6xnmqNVsGIuXrRZbGtD/DZUqChjubfHwLspkeMAl77RSxIaQn5
-         BbBlnjHJ2nWQN4Bi/t022NkX0psDI6RT4mJz7e+RW9TxXLCJ144YZW5OSMq5EHNNJunb
-         H/P5wG/zj+kXSBp1RHZOmHrEBAl+x9kUjotK9RWi+X+r/PXhFUoBUX3M5Pgev9qOubPu
-         cnKv1L237hLqZCf4Rs+kKYX/eompGjdCHO5LZq4MPnDBc797oUxofzHTc/d1kU5UH19c
-         gFkIU6vcvAGEHIIiGuurt9VF+ITStFeK+gpVMWHfL+bQa8Z1lwGIIT2e3B0tZi2fn8xm
-         i24w==
+        d=gmail.com; s=20251104; t=1777908615; x=1778513415; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JTReAJBRtrEN050pOinCvG1qLugpFlFxRiDBF5vEgm4=;
+        b=ciR9w7DCBMijgsjvW1p0iIp/DQXWzWQUzXaPvdNDvYriJ4iV38V/7Vt4gaNfUYRN8m
+         0mHa5l31/mIhJ6yJkXL+ZDC6vPegqtJ6VD2nwQQah495g07JeDH+1oE0RuyKdnX6UfkT
+         ehu2H0Bdg+pxWoedOf20Gomuv/mD5FIyr8qCmjkzgQ3FUZUEbAki1xQAvLmwI4gw/H9/
+         mMOcVtQFRrZzhvRQXv3QswMexfXZhm7WFWP/uivQyduB8CelAW6K7E5ZLz7AVW2CtPN3
+         HiJznmlHT8tl86ny1zST2/NhC/o1bFN+CZj7hsEE7dvzD5OXOU60qv4ssKbSdDas6gWv
+         pPaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777898173; x=1778502973;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u1rtTuY5BE7rdQoV+ciJbr7UnJ/IDuL1onVBT7GuRBM=;
-        b=LovaO3HRa6JvzSw0ryiGDZU+k0xpa4pV0q69S8dYe9S+L3aY8UinIue3+IsMyxG/LT
-         JUOxfWIh/YpS549I/7TMsMEyYlQuCw9nTF8wT/L4VczuhVjzowVyWmEsP2TS4q4sAfrE
-         kHZEs3dDO73HI/0Y/Mw9ffj4kNVyzCGvTRYrmg//hSvop8HtW1ClGqtbACGOWxoF5bIx
-         AFQKx0l3dh7tlaFnfMu1/gsYhQNpjjGPh9JsLNF/p6beL0U048D7gcxsmlDtfz3XPG+z
-         hEoFz8by9X4Lm2RLzTCB2A2syhx3zbh/ZgDEafO9TuFPEfKOzNpFxMW1XUDDr7aOK4k3
-         Y9/A==
-X-Gm-Message-State: AOJu0YziVlNbFQeNlckjXCRDp0/iqmnRilDNKp9w5SDkc9K4ocLhKrFX
-	JcwVtKHpVmeW8G9fsmE0TqCiYulffTcLgDLS93cDvrWoGq8FC3R7Q6sBLV7JQB+uBqHQ2w==
-X-Gm-Gg: AeBDieszQWdKqYZzt/Y/62NJi0BUJ30cpxMdULpAA7I3eYdxnmZ3XyJzpqnOc03Cowr
-	TrgybAYy9MJVd7yFGRJhHvAbOmoIDvenhP6wCmL3G4X+TQ7GT76ItarNAiIXxW9tTfJ0kFPQ9x1
-	/3oobSUgdpjHyiwXJgMyAEuViV/EH+Oo9mjNlawyawQGpxRDJzPS96cqpkZ69S3hSUratGFEOwq
-	zr3nQDb65Lijkxcp80sHe007gqmcotGChvltz+YGJrsS2olAzR/Id+XsCgPpCndnRDCf7fErBJz
-	Bw+p3CKQ1wxIFXsJ5V47qcrrwIRSI9ATw0p0COO/WhdgBQG5RctQ4j/YTz9kK0k8gJ7hCrfpQG9
-	wMxOv+24dduDQWbns0nktbs+VxM0pWGcaD4EgoU89xWwkJ3cv8FRAA9dJ8p/mktpwrH2Hwx0KZ9
-	ic0SSUNXAB4akVep27OUYdw2BP
-X-Received: by 2002:a17:90b:4a4b:b0:35d:a0b7:9608 with SMTP id 98e67ed59e1d1-3650cdb749fmr9402918a91.7.1777898173329;
-        Mon, 04 May 2026 05:36:13 -0700 (PDT)
-Received: from dev.. ([129.41.58.4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364f3f684c3sm4298527a91.3.2026.05.04.05.36.10
+        d=1e100.net; s=20251104; t=1777908615; x=1778513415;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JTReAJBRtrEN050pOinCvG1qLugpFlFxRiDBF5vEgm4=;
+        b=X21czmjJ81AGYDs8FbHDzSdZB9exdqoDW9nHrDxyTZklh6ZC7mD+ID6khBnHNF8p65
+         /ojjSJHYIS0Dowr6OFfGMi279hogNpk2BYxoQMiCFjl7a5Dfo0i9zIbcPigAUmFNO8gw
+         RbXQmgoT2BT5DtpMBaCiVKKHyMwP7CqS8NGj6aiezHV52HN76FyuV3VsyEJeEzvdu1Ai
+         5gh6IJSY5t5mqQcGMRbItt6cSRwnRaDZp2t2vsEnI88t8hGtYYfh4dlKDDN3+P2xYEYK
+         7GOwd7VrIvPD1UA0fk+4Lc605JBYS8AUiB+JFqWaRyaCyXTx85K3TekBnK6e7sFRxFMZ
+         JzxQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+jLijt9Pp/6/d2PbBcSHYAoqforsGuOa387Ser13giNaGEHQy1t5uqBozSvcC8QsGzKsfLbCKlQNlU@lists.infradead.org
+X-Gm-Message-State: AOJu0YwVLQ/oZ/jSGo+A2AsYFthiJ2m7QG01lqnTO6p4ttR4EZgSvRBr
+	jCYNIRD1fbPDBLlqlM49ZY3UZy0KXQC4WJend6ZFpBc3wvgJrvS8YtCH
+X-Gm-Gg: AeBDietq+Y9/Guu3GhmjPDx+Ad7ZcRyIF8To3pFZ5xMkJU2o1sOpgjYIwovWwuF7XaU
+	gDgrdDdXjsXC58tpaULtzypNUdf2p25JTqf+UJOsly3hQorxfJI8Mp6WbZbelbl3B2zrdYYG7lU
+	sG0dLRNIeNoajSSapz92tvhT+G/pbYjQcf7Ipzn1X8h2KkZ18s/8DaI2tJLzRyNWwacgeba8+Zt
+	gWOHQKmIP2TjFpsbJDLciDJJEjhnnnObudX1opWWxr9uawzGLBs+lZMzpjLtNqolGlAseSHvCHR
+	mlYt9Jvj6ZMhxwFEbXl9yq0H6HRXeAbQ40zmF625DrDjhiFiYizNvQs6NpofK8hgImD8iXQiuBA
+	sp1i9BRJojLZ2c6U/prXCmQh3+VVa6yhFULWJA3X1PbIwGMfpZfV38IWI+G79ulXW37owXR83cH
+	BGrfgf4tpkodTMjKdQ+Cse5IfEyAVefli4MO0Pn9ggpVV8sH5ingjn9OQKEoQe8pxnneO2wcGQg
+	c4nAgvscFB0J+PbYEK0kg2Q
+X-Received: by 2002:a05:600c:4f91:b0:489:1ba8:5be9 with SMTP id 5b1f17b1804b1-48a98676b26mr157938505e9.29.1777908614504;
+        Mon, 04 May 2026 08:30:14 -0700 (PDT)
+Received: from fedora (185-147-212-251.par.as62651.net. [185.147.212.251])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a8ea7cfd2sm25250825f8f.2.2026.05.04.08.30.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 05:36:12 -0700 (PDT)
-From: Rohit Chavan <roheetchavan@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Rohit Chavan <roheetchavan@gmail.com>
-Subject: [PATCH] nvme: use str_enabled_disabled() for digest mismatch messages
-Date: Mon,  4 May 2026 18:05:55 +0530
-Message-Id: <20260504123555.1741525-1-roheetchavan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 04 May 2026 08:30:13 -0700 (PDT)
+Date: Mon, 4 May 2026 23:29:55 +0800
+From: Ming Lei <tom.leiming@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
+Message-ID: <afi7c-VUJWOLlC1m@fedora>
+References: <cover.1777475843.git.asml.silence@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1777475843.git.asml.silence@gmail.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260504_053614_979872_C92FE4A5 
-X-CRM114-Status: GOOD (  10.13  )
+X-CRM114-CacheID: sfid-20260504_083017_192533_4CA63491 
+X-CRM114-Status: GOOD (  24.97  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,55 +114,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Replace open-coded ternary expressions with str_enabled_disabled()
-when printing data and header digest mismatch messages in
-nvme_tcp_init_connection().
+On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
+> The patch set allows to register a dmabuf to an io_uring instance for
+> a specified file and use it with io_uring read / write requests. The
+> infrastructure is not tied to io_uring and there could be more users
+> in the future. A similar idea was attempted some years ago by Keith [1],
+> from where I borrowed a good number of changes, and later was brough up
+> by Tushar and Vishal from Intel.
+> 
+> It's an opt-in feature for files, and they need to implement a new
+> file operation to use it. Only NVMe block devices are supported in this
+> series. The user API is built on top of io_uring's "registered buffers",
+> where a dmabuf is registered in a special way, but after it can be used
+> as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
+> requests. It's created via a new file operation and the resulted map is
+> then passed through the I/O stack in a new iterator type. There is some
+> additional infrastructure to bind it all, which also counts requests
+> using a dmabuf map and managing lifetimes, which is used to implement
+> map invalidation.
+> 
+> It was tested for GPU <-> NVMe transfers. Also, as it maintains a
+> long-term dma mapping, it helps with the IOMMU cost. The numbers
+> below are for udmabuf reads previously run by Anuj for different
+> IOMMU modes:
 
-This makes the code more readable and consistent with existing
-helpers used for boolean string representation.
+Plain registered buffer is long-live too, which raises question: does this
+framework need to take it into account from beginning?
 
-No functional change intended.
+BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
+which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
 
-Signed-off-by: Rohit Chavan <roheetchavan@gmail.com>
----
- drivers/nvme/host/tcp.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 243dab830dc8..b3165cd79a31 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -8,6 +8,7 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/err.h>
-+#include <linux/string_choices.h>
- #include <linux/crc32.h>
- #include <linux/nvme-tcp.h>
- #include <linux/nvme-keyring.h>
-@@ -1550,8 +1551,8 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 	    (!queue->data_digest && ctrl_ddgst)) {
- 		pr_err("queue %d: data digest mismatch host: %s ctrl: %s\n",
- 			nvme_tcp_queue_id(queue),
--			queue->data_digest ? "enabled" : "disabled",
--			ctrl_ddgst ? "enabled" : "disabled");
-+			str_enabled_disabled(queue->data_digest),
-+			str_enabled_disabled(ctrl_ddgst));
- 		goto free_icresp;
- 	}
- 
-@@ -1560,8 +1561,8 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 	    (!queue->hdr_digest && ctrl_hdgst)) {
- 		pr_err("queue %d: header digest mismatch host: %s ctrl: %s\n",
- 			nvme_tcp_queue_id(queue),
--			queue->hdr_digest ? "enabled" : "disabled",
--			ctrl_hdgst ? "enabled" : "disabled");
-+			str_enabled_disabled(queue->hdr_digest),
-+			str_enabled_disabled(ctrl_hdgst);
- 		goto free_icresp;
- 	}
- 
--- 
-2.34.1
 
+Thanks, 
+Ming
 
