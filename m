@@ -4,56 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 67C28CD3439
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 May 2026 09:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8389CD3439
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 May 2026 09:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=7kJLeYaupUbi0PaIcMvtCVlPiYeiboaehe7fxOJ4Fmg=; b=cf36Y7nTU2ekOui16MgzyyDzzD
-	eT0vWZrF3BXNTI2PLyKcWJCiwEAcGpK4/RdLPyrDxUZ7xPv809dZqDyO1G0cIz4IiG2HAuHYJKC6j
-	OtPUDM5tMKcFLkaZmXwRglqhjItGNWOMXJkudRRWl6ihs+sgOvYtESoelZYQNGl5hNb115AD65LDH
-	EJk4h+lfuRnDzfSud/xDmkyUyiN3k+P/8x7lX/7cJvukE0v7yd65cZja+OWi14kR4ZNQqpfUFFkgS
-	/C91i6W+qeNI1SOdCOwKXIyTPaZKHKIrVSlRu71uNIFJUJwjNmRHTEAmR9qnWFvjrtKl8w448YNsr
-	PZdkGNXQ==;
+	bh=5QXcyr6OXTQ7el7Cpm1S6pHVzHyOgR0GaS42CtgK8YI=; b=1fyMDVi1jtHrLgQZA5sqPpirzy
+	Dmf/1WsErZUWsoucLqilBlD6xwOoR8kObxcUbVmnA87ZKOsCF/K1pAoS+BkSYv0RAg+YhwsidGQGT
+	SdCwpScbFLmvM6VaSnDbgC47X+ISo+Ppdw3mWufQWFoDcFD6gJeH4ZJxDVo02iC+ERCVvCTuFbdzT
+	p/QAzA2Q9w7u3tR/zwVHF5i0bFtFZgJ2ArZU9/26IKQ4pk26Zprshcjw8jUu4OanltVF88NVfIH1p
+	yjrVW0gGKzO/9V8JY3i/RwL5GT2yUO/8vKKdZqZchyKB0RseEm+pEReNjUYZemyRc4K+Eo+PG6efI
+	UxtnLtpw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wKCRz-0000000FiAn-14YH;
-	Tue, 05 May 2026 09:52:23 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wKCSA-0000000FiJG-0ExP;
+	Tue, 05 May 2026 09:52:34 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wKCRv-0000000Fi7X-1Rzc
+	id 1wKCS5-0000000FiGU-3Z5k
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 May 2026 09:52:20 +0000
+	Tue, 05 May 2026 09:52:32 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id EE00E4459F;
-	Tue,  5 May 2026 09:52:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB565C2BCC7;
-	Tue,  5 May 2026 09:52:16 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 7B0F34364E;
+	Tue,  5 May 2026 09:52:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C7EDC2BCF7;
+	Tue,  5 May 2026 09:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777974738;
-	bh=4HHNwhM9rkNTzt77ncTNacHwaILxsgmXt1kG8ubs97E=;
+	s=k20201202; t=1777974749;
+	bh=isJRYgHxU3ZQEttWWsxaLVzmrb2M1BTo3KcQYugq81o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dN3QLX1uQVeWcYi8zj+j6GOQIDU+lyvPc0GS2xbcKeNvod+s9OGzLdeibFWBZDlud
-	 UlXNSLfJ95zipN3+wP+cGYFDLCE9FxxlzdH0yB2+euZDSHFHk3IMTk4ST+lZdgvNKB
-	 VG0E0/a4vUy9Cjl/sk5VxPMKoZtzqccjFntfBZTLW+wHP09I4A9bbGd8To54r9+/in
-	 LYzpTqnPYf0Z6rO7oJglbvP0tYU3fa55SX3wHElxt7Jx6w2quzQTomXdtu89eF6iU5
-	 GnW5JlBqut2jabTzAMJHaBwjQe4HrSviXeqh0YpdkvZRM6pD8NgaehnCHPiw7E2c+o
-	 83EtIYdsrO/mQ==
+	b=tBQ642V1y+a/UJOfjCSQA2rkWC1fUl8rxPps6X6MbxDhdVh2kp6UO3ZTXPVuCHf0+
+	 8Pnny9DRhf/0n2CiJmg+aMTW8p70lbcVeppqTPIKdEZSeQcHv+TTMU8yD1I0jOQMln
+	 cndHA66nT2+uX8SzneFUDc2DApPN4PAoPGBH1GIIv10dddJhWn3Qkw23RMtr1qC8CA
+	 EBQ4q/W29VqLCJ1TAuMLrGXSogV9uL27CkMMgPm5Qz8QMdFM8ijqw7bhuzKiYStf3k
+	 LybQBnjAF+EUuYV7BpdQz19ufjMzYNH7/mLv+etPDYrvgmW07+CgC63e06mFQgOGYw
+	 kgMtWYVEj0RfA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Alan Cui <me@alancui.cc>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+	Chris Leech <cleech@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	sagi@grimberg.me,
+	kch@nvidia.com,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] nvme: add quirk NVME_QUIRK_IGNORE_DEV_SUBNQN for 144d:a808 (Samsung PM981/983/970 EVO Plus )
-Date: Tue,  5 May 2026 05:51:25 -0400
-Message-ID: <20260505095149.512052-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.18] nvmet-tcp: Don't clear tls_key when freeing sq
+Date: Tue,  5 May 2026 05:51:28 -0400
+Message-ID: <20260505095149.512052-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260505095149.512052-1-sashal@kernel.org>
 References: <20260505095149.512052-1-sashal@kernel.org>
@@ -64,8 +67,8 @@ X-stable-base: Linux 7.0.3
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260505_025219_457448_25A847AA 
-X-CRM114-Status: GOOD (  19.36  )
+X-CRM114-CacheID: sfid-20260505_025229_942583_BF0BE8BE 
+X-CRM114-Status: GOOD (  25.88  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,178 +83,310 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Alan Cui <me@alancui.cc>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-[ Upstream commit 7f991e3f9b8f044640bcb5fa8570350a68932843 ]
+[ Upstream commit 5fc422951c962cc01e654950fc043ebd8fadd865 ]
 
-The firmware for Samsung 970 Evo Plus / PM981 / PM983 does not support SUBNQN.
-Make quirks to suppress warnings.
+Curently after the host sends a REPLACETLSPSK we free the TLS keys as
+part of calling nvmet_auth_sq_free() on success. This means when the
+host sends a follow up REPLACETLSPSK we return CONCAT_MISMATCH as the
+check for !nvmet_queue_tls_keyid(req->sq) fails.
 
-# nvme id-ctrl /dev/nvme1n1
-NVME Identify Controller:
-vid       : 0x144d
-ssvid     : 0x144d
-sn        : ***
-mn        : Samsung SSD 970 EVO Plus 500GB
-fr        : 2B2QEXM7
+A previous attempt to fix this involed not calling nvmet_auth_sq_free()
+on successful connections, but that results in memory leaks. Instead we
+should not clear `tls_key` in nvmet_auth_sq_free(), as that was
+incorrectly wiping the tls keys which are used for the session.
 
-mcdqpc    : 0
-subnqn    :
-ioccsz    : 0
+This patch ensures we correctly free the ephemeral session key on
+connection, yet we don't free the TLS key unless closing the connection.
 
-Signed-off-by: Alan Cui <me@alancui.cc>
+Reviewed-by: Chris Leech <cleech@redhat.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase Walkthrough
-1. Phase 1: Commit message forensics
-  Record: subsystem `nvme`, action `add quirk`, intent is to add
-  `NVME_QUIRK_IGNORE_DEV_SUBNQN` for Samsung PCI ID `144d:a808`. Tags
-  present: `Signed-off-by: Alan Cui`, `Signed-off-by: Keith Busch`; no
-  `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Link:`, or
-  `Cc: stable`. Body says Samsung 970 EVO Plus / PM981 / PM983 firmware
-  leaves `subnqn` empty; supplied `nvme id-ctrl` output confirms
-  `vid=0x144d`, model `Samsung SSD 970 EVO Plus 500GB`, firmware
-  `2B2QEXM7`, and empty `subnqn`. This is a hardware quirk, not a hidden
-  memory/race/resource bug.
+## Phase 1: Commit Message Forensics
 
-2. Phase 2: Diff analysis
-  Record: one file, `drivers/nvme/host/pci.c`, 2 insertions. Modified
-  object is the `nvme_id_table` PCI ID table. Before: Samsung
-  `144d:a808` matched the generic NVMe PCI class entry and got no
-  `IGNORE_DEV_SUBNQN` quirk. After: it matches a specific PCI ID entry
-  and sets `NVME_QUIRK_IGNORE_DEV_SUBNQN`. In `nvme_init_subnqn()`, that
-  quirk skips device-provided SUBNQN handling and suppresses the
-  “missing or invalid SUBNQN field” warning while still generating the
-  synthetic NQN. Fix quality is surgical and consistent with nearby
-  quirks. Regression risk is low, with the main caveat that the quirk
-  applies to all `144d:a808` devices.
+Step 1.1 Record: subsystem `nvmet-tcp` / NVMe target TCP; action verb
+“Don’t clear”; intent is to stop `nvmet_auth_sq_free()` from wiping
+`sq->tls_key` during authentication cleanup.
 
-3. Phase 3: Git history investigation
-  Record: target commit is `7f991e3f9b8f0`. There is no `Fixes:` tag.
-  `NVME_QUIRK_IGNORE_DEV_SUBNQN` was introduced by `6299358d198a0`,
-  described as handling firmware that reports invalid/non-unique SUBNQN,
-  first contained around `v5.0-rc2`. Existing `144d:a808` handling for a
-  suspend quirk was introduced by `1fae37accfc587`, around `v5.6-rc3`,
-  confirming the PCI ID is already known in NVMe PCI code. Recent
-  history shows this commit is standalone, not part of a required
-  series. Author history in this subsystem showed only this commit;
-  Keith Busch committed it.
+Step 1.2 Record: tags in upstream commit `5fc422951c962`: `Reviewed-by:
+Chris Leech <cleech@redhat.com>`, `Reviewed-by: Hannes Reinecke
+<hare@suse.de>`, `Signed-off-by: Alistair Francis
+<alistair.francis@wdc.com>`, `Signed-off-by: Keith Busch
+<kbusch@kernel.org>`. No `Fixes:`, no `Reported-by:`, no `Cc: stable`.
 
-4. Phase 4: Mailing list and external research
-  Record: `b4 dig -c 7f991e3f9b8f0` found the original submission at
-  `https://patch.msgid.link/9600680.CDJkKcVGEf@alanarchdesktop`. `b4 dig
-  -a` showed only v1. `b4 dig -w` showed recipients included `linux-
-  nvme`, `linux-kernel`, and Keith Busch. The fetched mbox contained the
-  same patch and no review replies or objections. Web research found an
-  earlier 2021 linux-nvme patch proposing the same `144d:a808` quirk for
-  Samsung 970 EVO Plus/SM981/PM981/PM983, plus Debian and Proxmox user
-  reports of the same warning. No stable-specific discussion or
-  rejection reason was found.
+Step 1.3 Record: the described bug is deterministic: after a host sends
+`REPLACETLSPSK`, successful auth cleanup calls `nvmet_auth_sq_free()`,
+which clears `sq->tls_key`; a later `REPLACETLSPSK` then fails the
+`!nvmet_queue_tls_keyid(req->sq)` check and returns `CONCAT_MISMATCH`.
+The commit also states the earlier approach of not calling
+`nvmet_auth_sq_free()` leaked memory.
 
-5. Phase 5: Code semantic analysis
-  Record: changed data structure is `nvme_id_table`. PCI core uses that
-  table through `nvme_driver.id_table`, then calls `nvme_probe()`.
-  `nvme_probe()` calls `nvme_pci_alloc_dev()`, which initializes `quirks
-  = id->driver_data`, then passes those quirks to `nvme_init_ctrl()`.
-  Later identify flow calls `nvme_init_identify()`,
-  `nvme_init_subsystem()`, and `nvme_init_subnqn()`. The affected path
-  is normal PCI NVMe device probe at boot or hotplug, not a syscall-
-  triggered path. Similar `IGNORE_DEV_SUBNQN` quirks already exist for
-  Intel, ADATA, Samsung PM1725a, Lexar, Phison, and other devices.
+Step 1.4 Record: this is not a hidden cleanup; it is an explicit
+correctness fix for broken TLS PSK replacement and for preserving the
+key until connection close.
 
-6. Phase 6: Stable tree analysis
-  Record: checked `v5.4`, `v5.10`, `v5.15`, `v6.1`, `v6.6`, `v6.12`,
-  `v6.17`, `v6.18`, and `v6.19`. All have the generic NVMe PCI class
-  match and the `NVME_QUIRK_IGNORE_DEV_SUBNQN` infrastructure; none had
-  the specific `144d:a808` `IGNORE_DEV_SUBNQN` entry. The insertion
-  context around Memblaze `0x1c5f:0x0540` and Samsung PM1725/PM1725a
-  exists in all checked tags, so backport difficulty should be clean or
-  trivial.
+## Phase 2: Diff Analysis
 
-7. Phase 7: Subsystem and maintainer context
-  Record: subsystem is NVMe PCI host driver under `drivers/nvme/host`,
-  important storage hardware support. It affects users with Samsung
-  `144d:a808` NVMe SSDs, not all users. The subsystem is actively
-  maintained; recent history shows multiple NVMe fixes and quirk
-  additions. Keith Busch, an NVMe maintainer, committed the patch.
+Step 2.1 Record: one file changed, `drivers/nvme/target/auth.c`;
+upstream diff is 3 deletions. Modified function: `nvmet_auth_sq_free()`.
+Scope: single-file surgical fix.
 
-8. Phase 8: Impact and risk assessment
-  Record: affected users are Samsung 970 EVO Plus / PM981 / PM983 /
-  related `144d:a808` NVMe users. Trigger is device probe, typically
-  boot. Verified failure mode is a persistent kernel warning for
-  missing/invalid SUBNQN; for the empty-SUBNQN case, code already falls
-  back to a synthetic NQN, so I did not verify a crash, data corruption,
-  or probe failure for this exact firmware. Severity is low-to-medium,
-  but it is a real firmware compliance issue on real hardware. Benefit
-  is modest but real: suppresses a misleading warning and applies the
-  established firmware workaround. Risk is very low: two lines, device-
-  specific, no API changes.
+Step 2.2 Record: before, `nvmet_auth_sq_free()` canceled auth timeout
+work, cleared `sq->tls_key`, then freed DH-CHAP ephemeral buffers.
+After, it still cancels work and frees `dhchap_c1`, `dhchap_c2`, and
+`dhchap_skey`, but no longer clears the TCP TLS key.
 
-9. Phase 9: Final synthesis
-  Evidence for backporting: hardware quirk for an existing driver; real
-  user-visible firmware issue; exact device ID; tiny and contained;
-  infrastructure exists across stable trees; maintainer accepted
-  upstream; stable context appears present across checked LTS tags.
-  Evidence against: the verified symptom for this exact commit is
-  warning suppression rather than a crash/data-loss fix; no `Reported-
-  by`, `Tested-by`, or review tags; broad PCI ID match could affect all
-  `144d:a808` variants. Stable checklist: obviously correct yes; real
-  bug yes, as firmware reports empty SUBNQN; important issue only weak
-  under normal criteria, but it fits the stable exception for hardware
-  quirks; small and contained yes; no new API or feature yes; expected
-  to apply cleanly yes.
+Step 2.3 Record: bug category is logic/resource lifetime.
+`nvmet_tcp_tls_key_lookup()` stores a key from `nvme_tls_key_lookup()`
+into `queue->nvme_sq.tls_key`; `key_lookup()` increments the key
+refcount. `nvmet_sq_put_tls_key()` later does `key_put()` only if
+`sq->tls_key` is still set. Clearing the pointer in
+`nvmet_auth_sq_free()` both breaks later `REPLACETLSPSK` validation and
+prevents the normal close path from seeing the key pointer.
+
+Step 2.4 Record: fix quality is high. The patch removes only incorrect
+ownership cleanup from the per-auth cleanup helper. Regression risk is
+low because the verified TCP queue release path calls
+`nvmet_sq_put_tls_key()` before `nvmet_sq_destroy()`, and non-TCP
+transports do not populate `sq->tls_key`.
+
+## Phase 3: Git History Investigation
+
+Step 3.1 Record: `git blame` on the changed area shows `sq->tls_key`
+handling was introduced by `fa2e0f8bbc689` (“nvmet-tcp: support secure
+channel concatenation”), first contained at `v6.15-rc1~166^2^2~13`;
+`sq->tls_key = NULL` was later style-adjusted by `b1efcc470eb30`. The
+older `nvmet_auth_sq_free()` DH-CHAP cleanup itself dates to the
+original auth code around v6.0, but the TLS-specific bug begins with
+`fa2e0f8bbc689`.
+
+Step 3.2 Record: no `Fixes:` tag is present. I manually inspected the
+likely introducing commit `fa2e0f8bbc689`, which added secure channel
+concatenation, `sq->tls_key`, `nvmet_queue_tls_keyid()`,
+`nvmet_sq_put_tls_key()`, and the clear in `nvmet_auth_sq_free()`.
+
+Step 3.3 Record: recent related upstream history includes
+`2e6eb6b277f59` (“Don’t free SQ on authentication success”),
+`f920ebd03cd13` reverting that due to leaks, and this commit
+`5fc422951c962`. This commit was submitted as patch 2/2 after the
+revert. On the checked stable branches, `2e6eb6b277f59` is not an
+ancestor, so this patch can apply standalone there.
+
+Step 3.4 Record: Alistair Francis has multiple recent NVMe target
+auth/TLS commits in this subsystem, including `ecf4d2d883515`,
+`2e6eb6b277f59`, `f920ebd03cd13`, `5fc422951c962`, and `5d10069e1a169`.
+
+Step 3.5 Record: dependencies are minimal. The patch depends on
+`sq->tls_key` and `nvmet_auth_sq_free()` existing, which local stable
+refs show in `6.15.y` and newer. If a target stable tree had already
+taken `2e6eb6b277f59`, then the paired revert `f920ebd03cd13` would also
+be needed; in the local stable refs checked, that prerequisite is not
+needed.
+
+## Phase 4: Mailing List And External Research
+
+Step 4.1 Record: `b4 dig -c 5fc422951c962...` found the original
+submission at `https://patch.msgid.link/20260417004809.2894745-2-
+alistair.francis@wdc.com`. `b4 dig -a` found only a v1 two-patch series.
+The committed version is the reviewed/applied version.
+
+Step 4.2 Record: `b4 dig -w` showed the patch was sent to the expected
+NVMe/block audience: Hannes Reinecke, Christoph Hellwig, Sagi Grimberg,
+Chaitanya Kulkarni, Keith Busch, linux-nvme, linux-block, linux-kernel,
+Yi Zhang, Maurizio Lombardi, and Shinichiro Kawasaki. Lore replies show
+`Reviewed-by` from Hannes Reinecke and Chris Leech, and Keith Busch
+replied that patches 1 and 2 were applied to `nvme-7.1`.
+
+Step 4.3 Record: no direct bug-report link is in this commit. The paired
+revert references a kmemleak report from Yi Zhang during blktests
+(`nvme/041`, `nvme/042`, `nvme/043`, `nvme/044`, `nvme/045`, `nvme/051`,
+`nvme/052`), confirming the earlier “don’t call cleanup” approach leaked
+DH-CHAP allocations.
+
+Step 4.4 Record: series context is important: patch 1 reverts the
+earlier workaround that skipped `nvmet_auth_sq_free()` on success; patch
+2, this commit, fixes the root cause by keeping cleanup but no longer
+clearing `tls_key`.
+
+Step 4.5 Record: stable-specific web search through
+`lore.kernel.org/stable` was blocked by Anubis; the `yhbt.net` stable
+path returned 404. I found an AUTOSEL posting for the earlier
+`2e6eb6b277f59` workaround, but did not use that as selection evidence.
+
+## Phase 5: Code Semantic Analysis
+
+Step 5.1 Record: modified function is `nvmet_auth_sq_free()`.
+
+Step 5.2 Record: callers found by `rg`: `nvmet_execute_auth_send()`,
+`nvmet_execute_auth_receive()`, and `nvmet_sq_destroy()`. Auth
+send/receive are assigned as handlers for `nvme_fabrics_type_auth_send`
+and `nvme_fabrics_type_auth_receive` in `fabrics-cmd.c`.
+
+Step 5.3 Record: key callees around the affected flow include
+`nvmet_queue_tls_keyid()`, `nvmet_auth_insert_psk()`,
+`nvmet_tcp_tls_key_lookup()`, `nvme_tls_key_lookup()`, `key_lookup()`,
+`nvmet_sq_put_tls_key()`, and `key_put()`.
+
+Step 5.4 Record: reachability is verified through the NVMe/TCP receive
+path: `nvmet_tcp_done_recv_pdu()` initializes a request, assigns/uses
+the fabrics auth execute handler, and runs `req->execute()`. This is
+reachable to an NVMe-oF host using target auth/TLS, not a theoretical
+internal path.
+
+Step 5.5 Record: similar lifetime pattern found: the only proper TCP TLS
+SQ key release helper is `nvmet_sq_put_tls_key()`, called from
+`nvmet_tcp_release_queue_work()`. `nvmet_auth_sq_free()` is a DH-CHAP
+ephemeral cleanup helper and should not own the TLS key.
+
+## Phase 6: Cross-Referencing And Stable Tree Analysis
+
+Step 6.1 Record: local stable refs show `sq->tls_key = NULL` in
+`nvmet_auth_sq_free()` exists in `stable/linux-6.15.y`, `6.16.y`,
+`6.17.y`, `6.18.y`, `6.19.y`, and `7.0.y`; it is absent from `6.14.y`,
+`6.13.y`, `6.12.y`, `6.6.y`, and `6.1.y`.
+
+Step 6.2 Record: `git apply --check` of the candidate patch succeeds on
+local `stable/linux-6.15.y` through `stable/linux-7.0.y`, and fails on
+`6.14.y` because the buggy TLS key clearing code is not there. Expected
+backport difficulty: clean for affected local refs.
+
+Step 6.3 Record: bounded related-history searches found no existing
+equivalent fix in `stable/linux-7.0.y`. Upstream has the earlier
+attempted fix `2e6eb6b277f59`, its revert `f920ebd03cd13`, and this
+final fix.
+
+## Phase 7: Subsystem And Maintainer Context
+
+Step 7.1 Record: subsystem is NVMe target over TCP, with authentication
+and TLS secure channel concatenation. Criticality: IMPORTANT, because it
+affects networked storage authentication/TLS behavior, though not a
+universal core-kernel path.
+
+Step 7.2 Record: subsystem is active. Recent history in
+`drivers/nvme/target` includes multiple auth/TLS fixes and refactors,
+including secure concatenation support and follow-up fixes through the
+6.15 to 7.1 development window.
+
+## Phase 8: Impact And Risk Assessment
+
+Step 8.1 Record: affected users are systems using NVMe target TCP with
+`CONFIG_NVME_TARGET_AUTH` and `CONFIG_NVME_TARGET_TCP_TLS`, specifically
+secure channel concatenation / TLS PSK replacement.
+
+Step 8.2 Record: trigger is a host sending a follow-up `REPLACETLSPSK`
+after successful authentication on a TLS-enabled admin queue. The
+failure is deterministic from the verified code path. I did not verify
+that an unprivileged local user can trigger it; this is a
+remote/protocol operation by an NVMe host with access to the target.
+
+Step 8.3 Record: failure mode is protocol/authentication failure with
+`CONCAT_MISMATCH`, breaking TLS PSK replacement/key rotation.
+Additionally, because `key_lookup()` increments the key refcount and the
+close path only `key_put()`s if `sq->tls_key` remains set, clearing the
+pointer early risks leaking the key reference. Severity: HIGH for
+affected NVMe/TCP secure-channel users; not a crash/data-corruption fix.
+
+Step 8.4 Record: benefit is high for affected users because it fixes a
+broken authenticated TLS key replacement flow and restores the verified
+close-time key release path. Risk is very low: 3 deleted lines, no new
+API, no new feature, no locking changes, no cross-subsystem behavior
+change.
+
+## Phase 9: Final Synthesis
+
+Step 9.1 Record: evidence for backporting: real deterministic protocol
+failure; possible key-ref lifetime leak; tiny one-function patch;
+reviewed by relevant NVMe/TLS people; applied by NVMe maintainer;
+cleanly applies to affected stable refs; affects released stable
+branches from 6.15.y onward. Evidence against: affects a relatively
+specialized NVMe/TCP TLS configuration and needs no backport before
+6.15.y. Unresolved: I could not access `lore.kernel.org/stable` directly
+due Anubis, and I did not run runtime blktests.
+
+Step 9.2 Stable rules checklist: obviously correct and reviewed: yes.
+Fixes a real bug: yes. Important issue: yes for NVMe/TCP TLS key
+replacement and key lifetime. Small and contained: yes, 3 deleted lines
+in one function. No new features/APIs: yes. Applies to stable trees: yes
+for local `6.15.y` through `7.0.y`; not applicable to older checked
+branches.
+
+Step 9.3 Exception category: not a device ID, quirk, DT, build, or
+documentation exception.
+
+Step 9.4 Decision: backport to stable trees that contain `fa2e0f8bbc689`
+/ the `sq->tls_key` clearing code, namely local refs `6.15.y` and newer.
+Do not apply to older trees where the code is absent. If a target branch
+contains the earlier workaround `2e6eb6b277f59`, include/reconcile the
+paired revert `f920ebd03cd13`; otherwise this commit stands alone.
 
 ## Verification
-- Phase 1: `git show --format=fuller --stat --patch 7f991e3f9b8f0`
-  verified subject, body, tags, author/committer, and 2-line diff.
-- Phase 2: Read `drivers/nvme/host/core.c`, `drivers/nvme/host/nvme.h`,
-  and `drivers/nvme/host/pci.c`; verified quirk definition, PCI table
-  use, and `nvme_init_subnqn()` behavior.
-- Phase 3: `git blame` around the quirk table and `144d:a808` suspend
-  handling; `git show` and `git describe --contains` for `6299358d198a0`
-  and `1fae37accfc587`; `git log` on `drivers/nvme/host` for related
-  commits.
-- Phase 4: `b4 dig -c`, `-a`, `-w`, and mbox read verified original lore
-  submission, single v1 revision, recipients, and lack of visible review
-  objections. WebFetch verified the older 2021 same-quirk patch and user
-  reports.
-- Phase 5: `rg` and file reads traced `nvme_id_table` through
-  `nvme_probe()`, `nvme_pci_alloc_dev()`, `nvme_init_identify()`,
-  `nvme_init_subsystem()`, and `nvme_init_subnqn()`.
-- Phase 6: `git grep` and a Python `git show
-  <tag>:drivers/nvme/host/pci.c` check verified stable tags have the
-  infrastructure/context and lack the new `144d:a808` quirk.
-- Unverified: I did not test-build or boot the patch, and I did not
-  verify a functional failure beyond the warning for this exact Samsung
-  firmware.
 
-This should be backported because it is a classic low-risk hardware
-quirk for a real, reported firmware non-compliance on an existing NVMe
-driver path, even though the confirmed symptom is warning noise rather
-than a severe failure.
+- Phase 1: Found upstream commit `5fc422951c962` with `git log
+  origin/master --grep`.
+- Phase 1: Parsed commit tags from `git show --format=fuller --stat
+  --patch 5fc422951c962`.
+- Phase 2: Verified the diff removes only the
+  `CONFIG_NVME_TARGET_TCP_TLS` block clearing `sq->tls_key`.
+- Phase 2: Verified `nvmet_queue_tls_keyid()` returns 0 when
+  `sq->tls_key` is NULL.
+- Phase 2: Verified `REPLACETLSPSK` returns `CONCAT_MISMATCH` when
+  `nvmet_queue_tls_keyid(req->sq)` is false.
+- Phase 2: Verified `nvmet_sq_put_tls_key()` calls `key_put()` and NULLs
+  the key on TCP queue release.
+- Phase 2: Verified `nvme_tls_key_lookup()` uses `key_lookup()`, and
+  `key_lookup()` increments the key refcount.
+- Phase 3: Ran `git blame` on `auth.c`; TLS key clearing originates from
+  `fa2e0f8bbc689`/`b1efcc470eb30`.
+- Phase 3: Ran `git describe --contains fa2e0f8bbc689`; first contained
+  at `v6.15-rc1`.
+- Phase 3: Inspected `fa2e0f8bbc689`, `b1efcc470eb30`, `2e6eb6b277f59`,
+  `f920ebd03cd13`, and `ecf4d2d883515`.
+- Phase 4: Ran `b4 dig -c`, `b4 dig -a`, and `b4 dig -w`; found v1 two-
+  patch lore series and recipient list.
+- Phase 4: Fetched lore mirror thread; verified Hannes Reinecke and
+  Chris Leech reviewed, Keith Busch applied patches 1 and 2.
+- Phase 4: Fetched Yi Zhang kmemleak report linked by the paired revert.
+- Phase 5: Used `rg` and file reads to trace auth command handlers, TCP
+  receive execution, TLS key lookup, and queue release.
+- Phase 6: Checked local stable refs with scripted `git show`; buggy
+  code exists in `6.15.y` through `7.0.y`, absent in older checked
+  stable refs.
+- Phase 6: Ran `git apply --check` against local stable worktrees; clean
+  for `6.15.y` through `7.0.y`, not applicable to `6.14.y`.
+- Phase 7: Reviewed recent `drivers/nvme/target` history showing active
+  auth/TLS development.
+- Phase 8: Verified trigger and failure path from
+  `nvmet_auth_negotiate()` and auth send/receive call flow.
+- Unverified: no runtime blktests were run.
+- Unverified: direct `lore.kernel.org/stable` search was blocked by
+  Anubis; the mirror stable search path returned 404.
 
 **YES**
 
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/target/auth.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b78ba239c8ea8..d59340982520a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -4104,6 +4104,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1c5f, 0x0540),	/* Memblaze Pblaze4 adapter */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-+	{ PCI_DEVICE(0x144d, 0xa808),	/* Samsung PM981/983 */
-+		.driver_data = NVME_QUIRK_IGNORE_DEV_SUBNQN, },
- 	{ PCI_DEVICE(0x144d, 0xa821),   /* Samsung PM1725 */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x144d, 0xa822),   /* Samsung PM1725a */
+diff --git a/drivers/nvme/target/auth.c b/drivers/nvme/target/auth.c
+index 2eadeb7e06f26..3a905124afdee 100644
+--- a/drivers/nvme/target/auth.c
++++ b/drivers/nvme/target/auth.c
+@@ -239,9 +239,6 @@ u8 nvmet_setup_auth(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq)
+ void nvmet_auth_sq_free(struct nvmet_sq *sq)
+ {
+ 	cancel_delayed_work(&sq->auth_expired_work);
+-#ifdef CONFIG_NVME_TARGET_TCP_TLS
+-	sq->tls_key = NULL;
+-#endif
+ 	kfree(sq->dhchap_c1);
+ 	sq->dhchap_c1 = NULL;
+ 	kfree(sq->dhchap_c2);
 -- 
 2.53.0
 
