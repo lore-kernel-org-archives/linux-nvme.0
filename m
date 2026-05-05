@@ -4,60 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98964CD342F
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 May 2026 09:52:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1218FCD342F
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 May 2026 09:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qyCJ3ggykR9PaRuJp41aV9bP8LPh+ADnNvVpj0aBDcE=; b=FkZAtF9h3/yEQw/L4pLd6CU6ze
-	wXAz9ItSWrEFPS9WaGzDnKlOZ3OmJ8n4BAxTtJSHF0kkOK31hdP4rKDJ2kzIEskpEIz6jAkcCETVp
-	5rxHqZ2tbCcwGaZizkDxtgEkqrHPwPXTrtwHd6kmdl8XszOAl51D47LcwU+jGtv+4KBGR9E21P4+F
-	pswe5EiaKsgwG3jwZTBSGa2me0c7X8z3aJBCzYP9ok+MYInX8bDS3plFdt6vfwuVMbx56VRRevzyx
-	XjbmcTJSm+Xnjlsvl/s3IWfrnR0Gdz2Pu52y1XZdjUCEqAGpr/faE+ioR2ifHhN+8i+i9gGKTXQha
-	g1vZb94w==;
+	bh=RJ+a8c5+HicWBhf10tZ2thvIuD36Lvinh94L1NavKMA=; b=vVuLt1Tq+Gsiy7Uzl81j1z0BTo
+	K4g5oFpBTgDyQ3kBEUn2u9tdTWdZWxFXjLCxg0c1uOQG/o3pRSzN+PdGvHhbdW9CNhExj3p7NB+sA
+	brrNJyp3kgYOAEibRu3OCHagNjn+CDbmAm6YoNNQY8U9Lydok4br2WLkc+w6T/LqjDx1YVhIwYEkJ
+	+6VUnoyk2JfrgneYto3u4qEhfB8HuPCLYDlMqMHFlp2bTNDDywQfEH73Jyozq1vg82DvjtFl85F3z
+	I5c3xWgbLGn1TUcIju3hDJ6/T/O0M5lHw3nGRmoJyIZ27MhnBF3n9F1l1xYerbSt2BhR0FdYJUM0y
+	2LUYBksg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wKCRo-0000000Fi4B-3je2;
-	Tue, 05 May 2026 09:52:12 +0000
+	id 1wKCRv-0000000Fi7b-1GZh;
+	Tue, 05 May 2026 09:52:19 +0000
 Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wKCRm-0000000Fi3I-0uvR
+	id 1wKCRs-0000000Fi5x-2m58
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 May 2026 09:52:11 +0000
+	Tue, 05 May 2026 09:52:18 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id A67B843491;
-	Tue,  5 May 2026 09:52:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E612C2BCB4;
-	Tue,  5 May 2026 09:52:06 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5C942445A1;
+	Tue,  5 May 2026 09:52:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A6FC2BCB9;
+	Tue,  5 May 2026 09:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777974729;
-	bh=iBGlTXZl4h+aX5HdsyySsN6AuvOHgDHVSwVUXF9R/MY=;
+	s=k20201202; t=1777974736;
+	bh=BTGhpdelrcdclE2S6o5MWzcjZDamk+MFHC82dtlZLAo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uas7diRFDTmdqsGwghbbfz2tF5QwT+n+8ZW7IB7czDXf4T/CGO9aQcBBRBMjTm4um
-	 FbMP80t5eE/Dxt2PWCNleaYaQHXEnee6dSfRB1/2yiaauLgoR2+o7HfWzeO62cK+EO
-	 k18cCjj4g7iGgif79PGmFBqcNEaTMgXuKYZ4UTSVc5urPtZIvQ2ftb/Tw9Cey3QJZO
-	 wf8fcGpJ9kzLGQbZw4l0+VDXDww7xNoCHFRyOoOZZp3rnqr769Qwrefy9Fou17SI+t
-	 rzg0yq/0A1kbbSvFcvjO5eGMsLmHpjVlmydgtMUjT5lMJRkZam8cvHxUvK8w90P3SM
-	 bZg29++mLw08g==
+	b=hS9Id0MmQEOgi6eYCvSJW7Dyz2e2oPPBbhkKKn3TMENlXugdyAS1ZdniBV28kV+nS
+	 4KJZSJ3NtLrU5zqjmTsKfrw+OKDLE/625S4Cx1ynvK5BfDa5wHZ8oZeM+1GbYQwGFl
+	 qlbf3c8PNq6evbTmgQLqzOupbzpXSDjGewnx/GTA1TTuH0rzmdPVDM19can2HZJsLY
+	 0YQEGXCBDeoFNgscIUSrTlrvLRai1yfTcz4wbhV335m+O/49eIh57tIOd+NsEFRb4v
+	 LNTjws/b/zb8Gk61360P73ROC++jQtx9nxin8oasTns1/+SqsY2LIAkBLD2iof10mZ
+	 AACvq5ROLbspQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Geliang Tang <tanggeliang@kylinos.cn>,
+Cc: Flavio Suligoi <f.suligoi@asem.it>,
 	Christoph Hellwig <hch@lst.de>,
 	Keith Busch <kbusch@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	justin.tee@broadcom.com,
-	nareshgottumukkala83@gmail.com,
-	paul.ely@broadcom.com,
 	sagi@grimberg.me,
 	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] nvme: add missing MODULE_ALIAS for fabrics transports
-Date: Tue,  5 May 2026 05:51:22 -0400
-Message-ID: <20260505095149.512052-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] nvme-core: fix parameter name in comment
+Date: Tue,  5 May 2026 05:51:24 -0400
+Message-ID: <20260505095149.512052-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260505095149.512052-1-sashal@kernel.org>
 References: <20260505095149.512052-1-sashal@kernel.org>
@@ -68,8 +65,8 @@ X-stable-base: Linux 7.0.3
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260505_025210_369373_EBC5A5C3 
-X-CRM114-Status: GOOD (  18.05  )
+X-CRM114-CacheID: sfid-20260505_025216_752751_A06CE5A0 
+X-CRM114-Status: GOOD (  30.86  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -84,166 +81,278 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Geliang Tang <tanggeliang@kylinos.cn>
+From: Flavio Suligoi <f.suligoi@asem.it>
 
-[ Upstream commit 723277b15ed97185ce6f75abbf19f06e00f0a6f5 ]
+[ Upstream commit e80e39f25567310c1c7392eed886890b5c6788ba ]
 
-The generic fabrics layer uses request_module("nvme-%s", opts->transport)
-to auto-load transport modules. Currently, the nvme-tcp, nvme-rdma, and
-nvme-fc modules lack MODULE_ALIAS entries for these names, which prevents
-the kernel from automatically finding and loading them when requested.
+In the declaration of the structure "core_quirks[]", in the comment
+referred to the devices "Kioxia CD6-V Series / HPE PE8030", the
+parameter "default_ps_max_latency_us" is reported in a wrong way:
+
+nvme_core.default_ps_max_latency=0
+
+The correct form is, instead:
+
+nvme_core.default_ps_max_latency_us=0
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase Walkthrough
-Phase 1 Record: subsystem `nvme` / NVMe host fabrics; action verb `add
-missing`; intent is to add module aliases for existing fabrics
-transports. Tags: `Reviewed-by: Christoph Hellwig <hch@lst.de>`,
-`Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>`, `Signed-off-by:
-Keith Busch <kbusch@kernel.org>`. No `Fixes:`, `Reported-by:`, `Tested-
-by:`, `Link:`, or `Cc: stable`. Body describes a real autoload bug:
-`fabrics.c` calls `request_module("nvme-%s", opts->transport)`, but the
-transport modules do not advertise aliases matching `nvme-tcp`, `nvme-
-rdma`, or `nvme-fc`. This is a hidden bug fix despite using “add”.
+## Phase 1: Commit Message Forensics
+Step 1.1 Record: Subsystem `nvme-core`; action verb `fix`; claimed
+intent is to correct the kernel module parameter name in a source
+comment for the Kioxia CD6-V / HPE PE8030 NVMe quirk.
 
-Phase 2 Record: files changed are `drivers/nvme/host/fc.c` `+1`,
-`drivers/nvme/host/rdma.c` `+1`, `drivers/nvme/host/tcp.c` `+1`; no
-functions changed, only module metadata at EOF. Before: modules had
-license/description metadata but no matching alias. After: each existing
-module exports the alias that the existing autoload path requests. Bug
-category is logic/module-autoload correctness. Fix quality is excellent:
-three literal aliases, each matching the existing transport name and
-module filename; regression risk is very low.
+Step 1.2 Record: Tags present:
+- `Reviewed-by: Christoph Hellwig <hch@lst.de>`
+- `Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>`
+- `Signed-off-by: Keith Busch <kbusch@kernel.org>`
+No `Fixes:`, `Reported-by:`, `Tested-by:`, `Link:`, or `Cc:
+stable@vger.kernel.org` tag was present in the commit inspected with
+`git show`.
 
-Phase 3 Record: `request_module("nvme-%s", opts->transport)` was
-introduced by `d1f1071f81513` (`nvme-fabrics: request transport
-module`), first in `v4.15`. RDMA host came in `7110230719602` (`v4.8`),
-FC in `e399441de9115` (`v4.10`), TCP in `3f2304f8c6d6` (`v5.0`). No
-`Fixes:` tag to follow. Recent file history shows normal NVMe churn, not
-a prerequisite series. The author has prior NVMe host commits, and the
-patch was reviewed/committed by listed NVMe maintainers. No dependency
-beyond the existing files and `MODULE_ALIAS`.
+Step 1.3 Record: The commit body describes an incorrect parameter
+spelling in a comment: `nvme_core.default_ps_max_latency=0`; the actual
+module parameter is `nvme_core.default_ps_max_latency_us=0`. Symptom is
+not a runtime kernel failure from the patch itself, but incorrect in-
+source guidance for disabling APST. Version information was not stated.
+Root cause is a missing `_us` suffix in the comment.
 
-Phase 4 Record: `b4 dig -c 723277b15ed97` found the original patch at `h
-ttps://patch.msgid.link/e3076c80ee2e0c4a2cae0374afb617a3365946ea.1774944
-415.git.tanggeliang@kylinos.cn`. `b4 dig -a` found only v1. `b4 dig -w`
-showed NVMe maintainers and `linux-nvme` were included. Lore mirror
-shows Christoph Hellwig replied “Looks good” with `Reviewed-by`, and
-Keith Busch replied “applied to nvme-7.1”. No NAKs, no stable
-nomination, and no separate bug report link found.
+Step 1.4 Record: This is not a hidden runtime bug fix. It is an explicit
+comment/documentation correction for a real module parameter.
 
-Phase 5 Record: modified “functions” are module metadata only. The
-affected call path is verified as `nvmf_dev_write()` ->
-`nvmf_create_ctrl()` -> `request_module("nvme-%s", opts->transport)` ->
-`nvmf_lookup_transport()` -> transport `create_ctrl`. Transport
-registration uses `.name = "fc"`, `.name = "rdma"`, `.name = "tcp"` and
-module objects are `nvme-fc.o`, `nvme-rdma.o`, `nvme-tcp.o`, so the
-alias strings exactly match the requested names. This path is reachable
-from userspace via the `nvme-fabrics` misc device write path; I did not
-verify whether unprivileged users can trigger it.
+## Phase 2: Diff Analysis
+Step 2.1 Record: One file changed: `drivers/nvme/host/core.c`, 1
+insertion and 1 deletion. No function body is modified; the changed
+object is the `core_quirks[]` table comment. Scope classification:
+single-file, comment-only surgical fix.
 
-Phase 6 Record: stable refs checked. `stable/linux-4.19.y` has the
-autoload request and FC/RDMA files, but no TCP file.
-`stable/linux-5.4.y` through `stable/linux-7.0.y` have the autoload
-request and all three transport files. None of those checked stable refs
-had the `MODULE_ALIAS("nvme-*")` entries. The patch applies cleanly to
-current `stable/linux-7.0.y`; `5.4` through `6.6` lack the newer
-`MODULE_DESCRIPTION` context, so they need a trivial backport placing
-aliases after `MODULE_LICENSE`. `4.14.y` lacks the verified autoload
-request and has no TCP file, so benefit there is not established.
+Step 2.2 Record: Before: the comment suggested booting with nonexistent
+or incorrect `nvme_core.default_ps_max_latency=0`. After: it suggests
+the verified existing parameter `nvme_core.default_ps_max_latency_us=0`.
+This affects only source-code guidance, not execution.
 
-Phase 7 Record: subsystem is NVMe host fabrics under storage/block;
-criticality is IMPORTANT because it affects NVMe-oF connectivity for
-users of these transports. The subsystem is active, with recent NVMe
-host changes verified in history.
+Step 2.3 Record: Bug category is documentation/comment correctness. No
+resource leak, race, refcount bug, memory safety bug, type bug, or
+executable logic change is present.
 
-Phase 8 Record: affected users are NVMe-oF users with FC/RDMA/TCP
-transports built as modules and not already loaded. Trigger is creating
-a fabrics controller for one of those transports while relying on kernel
-module autoload. Failure mode is not a crash: `nvmf_lookup_transport()`
-fails, logs `no handler found for transport %s`, and returns `-EINVAL`,
-preventing the connection. Severity is MEDIUM user-visible functional
-failure for storage connectivity. Benefit is high for affected
-configurations; risk is very low because it only adds module alias
-metadata for existing modules.
+Step 2.4 Record: Fix quality is obviously correct:
+`module_param(default_ps_max_latency_us, ulong, 0644)` exists in
+`drivers/nvme/host/core.c`. Regression risk is effectively zero because
+only a comment changes.
 
-Phase 9 Record: evidence for backporting: real autoload bug, existing
-request path, exact alias/name/module matches, important storage
-subsystem, very small patch, maintainer review, no API or new feature.
-Evidence against: no crash/security/data-corruption impact, no explicit
-stable tag, no explicit Tested-by, and older stable trees need minor
-context adjustment. Stable rules: obviously correct yes; tested tag no
-but maintainer-reviewed; fixes a real user-visible bug yes; important
-enough for affected NVMe-oF users yes; small and contained yes; no new
-feature/API yes; can apply cleanly to `7.0.y` and trivially to older
-applicable trees. Exception category: closest to module/device autoload
-enablement for existing drivers, not a new driver.
+## Phase 3: Git History Investigation
+Step 3.1 Record: `git blame` shows the incorrect comment line was
+introduced by `5a6254d55e2a9f` (`nvme-pci: add NO APST quirk for Kioxia
+device`). `git tag --contains 5a6254d55e2a9f` shows it is present from
+`v5.16` onward in mainline tags available locally, and stable branch
+snapshots for 5.10 and 5.15 also contain the line.
+
+Step 3.2 Record: No `Fixes:` tag exists, so there was no tagged
+introducer to follow. I separately inspected `5a6254d55e2a9f` because
+blame identified it as the source of the wrong comment.
+
+Step 3.3 Record: Recent file history shows this patch is standalone.
+`block-next` contains `e80e39f255673 nvme-core: fix parameter name in
+comment`; nearby commits touch unrelated NVMe behavior.
+
+Step 3.4 Record: `git log block-next --author='Flavio Suligoi' --
+drivers/nvme/host` found only this NVMe host commit locally. The patch
+was reviewed by Christoph Hellwig and committed by Keith Busch, both
+verified from commit metadata and lore.
+
+Step 3.5 Record: No dependencies found. The patch is a one-line comment
+correction and `git apply --check` against the current stable checkout
+succeeded.
+
+## Phase 4: Mailing List And External Research
+Step 4.1 Record: `b4 dig -c e80e39f255673` found the original thread:
+`https://patch.msgid.link/20260408124522.2375297-1-f.suligoi@asem.it`.
+`b4 dig -a` found only v1, so no later revision was missed. Lore mirror
+showed Christoph Hellwig replied “Looks good” with `Reviewed-by`, and
+Keith Busch replied “applied to nvme-7.1”. No NAKs or risk concerns were
+found.
+
+Step 4.2 Record: `b4 dig -w` showed recipients included Keith Busch,
+Jens Axboe, Christoph Hellwig, Sagi Grimberg, `linux-nvme`, and `linux-
+kernel`, so the right subsystem maintainers/lists were included.
+
+Step 4.3 Record: No `Reported-by` or bug-report `Link:` tag exists.
+External search confirmed this is about correcting the APST parameter
+spelling, not a separate crash report.
+
+Step 4.4 Record: `b4 dig -a` showed this is a single-patch v1 series,
+not a multi-patch dependency chain.
+
+Step 4.5 Record: Direct `lore.kernel.org/stable` fetch was blocked by
+Anubis, and web search did not find stable-specific discussion for this
+exact patch. Stable-specific discussion remains unverified.
+
+## Phase 5: Code Semantic Analysis
+Step 5.1 Record: No functions are modified. The changed text is inside
+the static `core_quirks[]` data table comment.
+
+Step 5.2 Record: Caller tracing is not applicable to the changed line
+because it is non-executable. I verified `core_quirks[]` is used by the
+quirk scan path in `drivers/nvme/host/core.c`, but the patch does not
+alter table values or matching logic.
+
+Step 5.3 Record: Callee tracing is not applicable because no executable
+statement changed.
+
+Step 5.4 Record: Runtime reachability is not applicable. The only
+“reachability” is human/developer/user reading the source comment.
+
+Step 5.5 Record: `rg` verified the actual parameter is declared as
+`default_ps_max_latency_us`; the old comment text is the mismatching
+pattern.
+
+## Phase 6: Cross-Referencing And Stable Tree Analysis
+Step 6.1 Record: The incorrect comment exists in checked refs `v5.16`,
+`v6.1`, `v6.6`, `v6.12`, `v6.19`, `v7.0`, and stable branch snapshots
+`for-greg/5.10-201`, `for-greg/5.15-201`, `for-greg/6.1-201`, `for-
+greg/6.6-201`, `for-greg/6.12-201`, `for-greg/6.19-200`, and `for-
+greg/7.0-200`.
+
+Step 6.2 Record: Expected backport difficulty is clean or trivial. `git
+apply --check` and `git apply --check --3way` both succeeded on the
+current checkout.
+
+Step 6.3 Record: Local history did not show a different stable-side fix
+for this exact comment. `git log stable/linux-7.0.y --grep='fix
+parameter name in comment' -- drivers/nvme/host/core.c` returned no
+match.
+
+## Phase 7: Subsystem And Maintainer Context
+Step 7.1 Record: Subsystem is NVMe host core under `drivers/nvme/host`.
+Criticality level: important driver subsystem, but this patch’s actual
+affected surface is source documentation only.
+
+Step 7.2 Record: The NVMe host core file is actively maintained; recent
+local history shows multiple NVMe core fixes and feature changes. This
+specific patch was reviewed and applied through the NVMe/block path.
+
+## Phase 8: Impact And Risk Assessment
+Step 8.1 Record: Affected population is users/developers reading this
+source comment for the Kioxia CD6-V / HPE PE8030 APST workaround.
+Runtime users are not directly affected by the patch.
+
+Step 8.2 Record: Trigger condition is consulting the source comment and
+using the wrong boot parameter. I verified the correct parameter exists;
+I did not verify kernel behavior for an unknown wrong boot parameter in
+this investigation. Unprivileged runtime triggering is not applicable.
+
+Step 8.3 Record: Failure mode of the patch’s target issue is incorrect
+guidance, not a kernel crash, data corruption, deadlock, or security
+issue. Severity is LOW as a code issue, but the guidance relates to a
+real NVMe APST workaround.
+
+Step 8.4 Record: Benefit is modest but real: stable source carries the
+correct module parameter spelling for affected hardware guidance. Risk
+is near zero because the patch is comment-only. Risk-benefit ratio is
+favorable under the stable exception for documentation/comment fixes.
+
+## Phase 9: Final Synthesis
+Step 9.1 Record:
+Evidence for backporting:
+- Corrects an objectively wrong parameter name.
+- Correct parameter is verified in the code.
+- Incorrect text exists across active stable branch snapshots.
+- Patch is one-line, comment-only, and applies cleanly.
+- Reviewed by Christoph Hellwig and applied by Keith Busch.
+- Falls under the documentation/comment-fix exception with effectively
+  no runtime regression risk.
+
+Evidence against backporting:
+- Does not fix executable kernel behavior.
+- Does not address crash, corruption, deadlock, security, memory safety,
+  or resource leak.
+- No explicit stable nomination or stable-list discussion was verified.
+
+Unresolved:
+- Stable-list search was partly blocked by Anubis; no stable-specific
+  discussion was found via web search.
+- I did not verify the exact runtime handling of the wrong boot
+  parameter, because the commit only changes a source comment.
+
+Step 9.2 Record:
+1. Obviously correct and tested? Yes for the text correction; the actual
+   parameter declaration was verified.
+2. Fixes a real bug that affects users? It fixes a real
+   documentation/comment bug; user impact is indirect.
+3. Important issue? Not important as a runtime kernel bug; LOW severity.
+4. Small and contained? Yes, one comment line in one file.
+5. No new features or APIs? Yes.
+6. Can apply to stable trees? Yes on the checked-out stable tree; likely
+   trivial elsewhere due the same comment text in checked stable refs.
+
+Step 9.3 Record: Exception category applies: documentation/comment fix.
+It corrects incorrect in-source documentation and has zero runtime
+behavior change.
+
+Step 9.4 Record: Despite not being a runtime fix, this is appropriate
+for stable under the explicit documentation/comment-fix exception: it is
+objectively correct, present in stable trees, useful for a real hardware
+workaround, and essentially risk-free.
 
 ## Verification
-- Phase 1: inspected upstream commit `723277b15ed97`; verified subject,
-  body, tags, and absence of `Fixes:`/`Reported-by:`/stable tags.
-- Phase 2: inspected diff; verified exactly three added `MODULE_ALIAS`
-  lines.
-- Phase 3: used blame/log/tag checks; verified autoload request
-  introduced in `v4.15`, RDMA in `v4.8`, FC in `v4.10`, TCP in `v5.0`.
-- Phase 4: ran `b4 dig -c`, `-a`, `-w`; fetched lore mirror; verified
-  v1-only patch, maintainer review, maintainer application, no NAKs.
-- Phase 5: read `fabrics.c`, `Makefile`, `Kconfig`, and transport ops;
-  verified call path, transport names, and module names.
-- Phase 6: checked stable refs `4.14.y`, `4.19.y`, `5.4.y`, `5.10.y`,
-  `5.15.y`, `6.1.y`, `6.6.y`, `6.12.y`, `6.19.y`, `7.0.y`; verified
-  applicable code and missing aliases; `git apply --check` passed on
-  current `7.0.y`. One intermediate shell formatting command failed due
-  to a bad `sed` expression; I reran the stable metadata check correctly
-  afterward.
-- Phase 8: verified the failure path returns `-EINVAL` after
-  `nvmf_lookup_transport()` fails; privilege requirements were not
-  verified.
-
-This should be backported to applicable stable trees. It fixes an
-existing intended autoload mechanism for existing NVMe fabrics
-transports with a tiny, low-risk metadata-only change.
+- [Phase 1] `git show --format=fuller --stat --patch e80e39f255673`:
+  verified subject, tags, author/committer, and one-line comment diff.
+- [Phase 2] Diff inspection: verified only `drivers/nvme/host/core.c`
+  changed, 1 insertion and 1 deletion, comment-only.
+- [Phase 2] `rg default_ps_max_latency`: verified actual module
+  parameter is `default_ps_max_latency_us`.
+- [Phase 3] `git blame` around the quirk comment: verified wrong comment
+  introduced by `5a6254d55e2a9f`.
+- [Phase 3] `git show 5a6254d55e2a9f`: verified original Kioxia NO_APST
+  quirk and wrong comment text.
+- [Phase 3] `git tag --contains 5a6254d55e2a9f`: verified mainline
+  availability from `v5.16` in local tags.
+- [Phase 4] `b4 dig -c e80e39f255673`: found original patch submission.
+- [Phase 4] `b4 dig -a`: verified single v1 patch.
+- [Phase 4] `b4 dig -w`: verified NVMe maintainers and lists were
+  included.
+- [Phase 4] WebFetch of lore mirror: verified Reviewed-by from Christoph
+  Hellwig and applied note from Keith Busch.
+- [Phase 5] `rg core_quirks`: verified the changed line is in
+  `core_quirks[]`; no executable behavior changed.
+- [Phase 6] Ref checks with `git show <ref>:drivers/nvme/host/core.c |
+  rg`: verified wrong comment exists in checked stable refs and
+  corrected text exists in `block-next`.
+- [Phase 6] `git apply --check` and `git apply --check --3way`: verified
+  clean local application.
+- [Phase 7] `git log block-next -- drivers/nvme/host/core.c`: verified
+  active subsystem history and target commit in block-next.
+- [Phase 8] Failure mode verified from diff: incorrect comment guidance
+  only, no runtime code path changed.
+- UNVERIFIED: stable mailing-list discussion, because direct lore stable
+  search was blocked and web search found no exact stable discussion.
+- UNVERIFIED: exact kernel warning/handling for the wrong boot
+  parameter, because it is outside the changed code.
 
 **YES**
 
- drivers/nvme/host/fc.c   | 1 +
- drivers/nvme/host/rdma.c | 1 +
- drivers/nvme/host/tcp.c  | 1 +
- 3 files changed, 3 insertions(+)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index e1bb4707183ca..e4f4528fe2a2d 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3968,3 +3968,4 @@ module_exit(nvme_fc_exit_module);
- 
- MODULE_DESCRIPTION("NVMe host FC transport driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("nvme-fc");
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 57111139e84fa..1ec6e867aedb6 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2432,3 +2432,4 @@ module_exit(nvme_rdma_cleanup_module);
- 
- MODULE_DESCRIPTION("NVMe host RDMA transport driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("nvme-rdma");
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 243dab830dc84..02c95c32b07e3 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -3071,3 +3071,4 @@ module_exit(nvme_tcp_cleanup_module);
- 
- MODULE_DESCRIPTION("NVMe host TCP transport driver");
- MODULE_LICENSE("GPL v2");
-+MODULE_ALIAS("nvme-tcp");
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 766e9cc4ffca5..ac5a7d9781f58 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3013,7 +3013,7 @@ static const struct nvme_core_quirk_entry core_quirks[] = {
+ 		 *
+ 		 * The device is left in a state where it is also not possible
+ 		 * to use "nvme set-feature" to disable APST, but booting with
+-		 * nvme_core.default_ps_max_latency=0 works.
++		 * nvme_core.default_ps_max_latency_us=0 works.
+ 		 */
+ 		.vid = 0x1e0f,
+ 		.mn = "KCD6XVUL6T40",
 -- 
 2.53.0
 
