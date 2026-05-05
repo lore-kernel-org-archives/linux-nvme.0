@@ -4,89 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13B57CD3427
-	for <linux-nvme@archiver.kernel.org>; Mon,  4 May 2026 21:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D447ECD342C
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 May 2026 00:33:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0/8EmIfUXkK4i6WQDdd5nq5pu0xAfgin2bGfz4H6FIo=; b=HLvtp/0y+KozT/QVc23JnSg0YP
-	9JwAybsdduqUriKLddPmfaQ/+WoTlaEpK2as4P8UO6sg69TADE7evdAJNTPQD4N+FtNI19+OfyvVq
-	idMurFBG3G4949KQUrk2YMQrmcOSHK8ur3k88bg6qQm08gN2HoHVIDpCpxp9eNPr0HBewEJILzcBX
-	2Sl45a/p+OfTTXd3qabLGbF2XXx7vGW9zOHDNacZwNzzaufBXUfEHV0AfqOllE0CfXZX+rKJKrBVJ
-	rP5kZlAsaWgMawcWgHQUNDRyEgJ267zyr5MOYQk+o5bZFa/7Zp+OEG7sQmeGEk5tB7zEURGoIKLjS
-	vOVTOgJQ==;
+	bh=aTxls/YzXqcihj21jYy/nyubIY901I9jUi48sqJs3pU=; b=tFH01vNfs+iAGQVJCz2JOfrN5l
+	vv/3ELOPeBoni8Ilt16zEin3KDYoM6jOExibcenXInsNREqGGjds3FdsRJOYZz42AYpvIbe3oIbxO
+	WiYPTYY1yode2b+ZSBGyp2xnqZonwJR4qvNUpmo1M2BX5l6+DXP43Q712/6UObWMz0P6uDCgWbl8H
+	C6ZCiLZZhurL4SYoxp7XxjhibCqVnvHFuaVe/HkKCmDJNPr/Giio2Ntg5Gdne88lESvl6d1hKbSXP
+	8D5NzmMNksjg/p68oepeHHIqZVLX4TJw7FxTiArgzALlmXw3b5LQe4OyGpEfv08dwmm5TDeJzj2uP
+	8HPFAgjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wK0nZ-0000000EO6g-0gMC;
-	Mon, 04 May 2026 21:25:53 +0000
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+	id 1wK3ic-0000000Ej8E-07RE;
+	Tue, 05 May 2026 00:32:58 +0000
+Received: from mail-northcentralusazon11013053.outbound.protection.outlook.com ([40.107.201.53] helo=CH4PR04CU002.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wK0nW-0000000EO5c-2wdf
+	id 1wK3iY-0000000Ej7e-44hC
 	for linux-nvme@lists.infradead.org;
-	Mon, 04 May 2026 21:25:51 +0000
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-2b46da8c48eso13025ad.1
-        for <linux-nvme@lists.infradead.org>; Mon, 04 May 2026 14:25:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777929948; x=1778534748; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0/8EmIfUXkK4i6WQDdd5nq5pu0xAfgin2bGfz4H6FIo=;
-        b=cV33h/9xVSu6xwgBcpqClp9NSGVgSdC7epJn5fL2NNQja+tQmY/9uyZ4n81j0bym3f
-         YgoJVcw4TvM+sa2gycTX+uy9BUeU6CT44QRc3/PeoW0D0IJhGBqd/KPrXrhidm6SPQli
-         3C50od2EiSV2ynpKtaRaihkaC4Qez4Hh8HetrB5v3v/l+tQ4aWFzOiPf02Comu1am1tm
-         IGorGPTvktNGGRFnqWFb97CJjf6MWbA/rXFCNJWVGECngyGSQOOosnXNNbT/SssbVXba
-         cufXfzs/26wXrTNY6kH3nA6d/bgm3DrTcT4Mr254Y6BxxCobNp0TFBURtpuzQWLuZaty
-         nsEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777929948; x=1778534748;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0/8EmIfUXkK4i6WQDdd5nq5pu0xAfgin2bGfz4H6FIo=;
-        b=p0u44ni6+OokrOw9twRHopIlxZQ3Dwf/egcRma4+UzKKPA4GZTra/FxIaj9l+NTAMX
-         eLUrp6katnxK2UX12aj81pp4Gey53lzgduPitNIeD5lDzSeWsZhkUOAddFVWcGGxgSNA
-         ibxGFNzwtOKGZrsS9nKvo7H7Mfyubt376Y7k/WEF9gOMGXTQmtAZI58hQiMh/MrzcMht
-         MpE7quudCGSrZpGbsBvAxpkd3Fna30nRvRXC7OzDjsIiRCqvjIh/3VQrxIZ4OrBE7Vyq
-         6dXqcwYiQtzkuRYLaXnfqArOQZSl9PVjmK1pg5WDDkblDViqrNnMLRQVL80JKLtwcGPz
-         62lQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+IJTE1Ktqz8Zg+nwPiWtkcTO6KDMAMjFHW1mozPdVBclvXEjuZmsL70qJqRvL4KX8N+dJGI8BNIqkG@lists.infradead.org
-X-Gm-Message-State: AOJu0YznpjcAqiiKpHWkRBFhvKFpmEGVpG2CQuM5/e8J+xqtz+coaGUf
-	DeQWTtnsBfFAXyTdpcTSy2KEAXZGg/0O/MTowNsKlX9ZBH2rrzol4vs8hc6vej2kCw==
-X-Gm-Gg: AeBDieuj/wOxHMOCmlL4HJijFucnIr40SrZ5D6m1kyKh9RePyN3wa1+CSlH685RW7GG
-	nR11NpHOL+i2CE6npZdOwsdYRd3OKKGDeDx+3UyCqg72KxzRX1svT1/ESJY2otb4a9vL52Ynibv
-	KuTJ//7YHNfEjdKWOymFYo/7qpTVi6/lkK24Ykk8PDkfmvlw826dLCR7TKNWi0tfwzwbCaU+ZC1
-	NM6zPCefuaMZ96LB6buy9NqrRoWYPpheU6D69kwiipIQodcvwIF6UG3TVzcCn19nmyRJyzWNWs8
-	xp64IH8NiqNuT0THbju+UcBTHXXtxcjcn9jMsgHH1RHFhupA53/Ot3GKu1cxfR63xZ97XrGJFrq
-	d/XAjO+LlMjeAwj30CBG4y1epB+Byul5hKRovcBUj6y6iMqxSib/KbND5fL1RYOOgU65Mu4M5dl
-	yk8d6UExnZgFzQWNJystOz4+Kc000CdcIFbzHvOqdUdY8LRgRJL+r4im7KGNXtuVau6svXJre54
-	6JdBww=
-X-Received: by 2002:a17:903:3d05:b0:2ba:dfa:328d with SMTP id d9443c01a7336-2ba530f0db5mr549245ad.1.1777929948029;
-        Mon, 04 May 2026 14:25:48 -0700 (PDT)
-Received: from google.com (44.234.124.34.bc.googleusercontent.com. [34.124.234.44])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caa91671sm115257035ad.13.2026.05.04.14.25.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 14:25:47 -0700 (PDT)
-Date: Mon, 4 May 2026 21:25:41 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: song@kernel.org, yukuai@fnnas.com, linan122@huawei.com,
-	kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
-	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
-	kmodukuri@nvidia.com
+	Tue, 05 May 2026 00:32:56 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CyuJvXAXs09OiA1koRpEjhJvplneHFfB5/TnZXccUhahiTSLTeXe03Nug1wu2/xxLQQH+WS0iJJtmkTaoT5jxoKYmGoJZl3NMZVptecaNnVB+BHgL0D16c4vxnoemg1pNm2SAo/Z3jR1NRHL/HGtpCXpUlTTQRIQ2AXEbklYchFhhbVE7HS6MA3oDgHr/GhJenDqOtgy01Bxta/Rehi2P6mXmJiWnBsZBvbD1fet4Ze52skXlf7Nnuoa2knV9aoOO1vWiy86Gj7BFZIYKGYpTybzy7O0hzgA0/rDQSlI5MX6Ojqoj6ji6eXEiysGqif2QUsCOULt5oWqzWksT29fkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aTxls/YzXqcihj21jYy/nyubIY901I9jUi48sqJs3pU=;
+ b=c4wfGXBrqysXwd53OwqDFmO45O51XD4tXT1IBEUCw88g30ixTCOQ38kvTqohMHpJz6rFG584YXP86e7D8fkYqLEdQdyfImriOCjDrOP1GerhbWtZ09oG2imvF6LgMsgXOI0jpwH4/9gcVBx02Yq/XFfbO5tI0OsBF2dm8zeRdqUGZWIQzF54Uq1ZesOKgYKPwBg+vyeA8gUs8IfscazQjgl/3ZIGgyOUrVrKQ9BZH7Sf9hwxOO6flR+4b1Oyw+tJv3wqfa35ydvoc+ZenC6kG9K9AuQaeHU14xHouG6OyQUrPj7ZC1duJHBm4DQySZOLIlKfk5twxlgcYepMZHdPnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aTxls/YzXqcihj21jYy/nyubIY901I9jUi48sqJs3pU=;
+ b=AgI/ViMlIitdIAzwShlatXIat5TvXKXgPLmpVuoDyMrqarvPG0jVfhWSe4lP3KCfP1qPbT7vVHm/z2RIIiEiGqfUQMNcbjd0CpQna9qdkLi6EB4OdC6QzX20T0dBZCxrfA85fIMH153n2qVxFS8HA7Uyjjg06tNz9kzB6JRjQnltg/E831gqtr+IfucKwOkUI2Y3bd8xqlrjJqXUL/5Pbv2xoqCSpU2sqvKdkTcKDNlkljw6K/wKlzMKcLtP7wxLESf2udqq0g6jrv2qyKmlqfR5DbEhE/VMAZgFJz6uCmkCTLt+xsGaJFV2nlnZDJUFyEmQG9ZYl5F+UztXL701Hw==
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ by SA0PR12MB4349.namprd12.prod.outlook.com (2603:10b6:806:98::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
+ 2026 00:32:46 +0000
+Received: from LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::2109:679c:3b3e:b008]) by LV3PR12MB9404.namprd12.prod.outlook.com
+ ([fe80::2109:679c:3b3e:b008%6]) with mapi id 15.20.9870.023; Tue, 5 May 2026
+ 00:32:45 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Pranjal Shrivastava <praan@google.com>, Chaitanya Kulkarni
+	<chaitanyak@nvidia.com>
+CC: "song@kernel.org" <song@kernel.org>, "yukuai@fnnas.com"
+	<yukuai@fnnas.com>, "linan122@huawei.com" <linan122@huawei.com>,
+	"kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
+	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Kiran
+ Modukuri <kmodukuri@nvidia.com>
 Subject: Re: [PATCH V3 0/2] md/nvme: Enable PCI P2PDMA support for RAID0 and
  NVMe Multipath
-Message-ID: <afkO1WExGV9-jv8b@google.com>
+Thread-Topic: [PATCH V3 0/2] md/nvme: Enable PCI P2PDMA support for RAID0 and
+ NVMe Multipath
+Thread-Index: AQHczefMw/2L6wnrAEunHJMvgSqt97X+fU6AgAA0RIA=
+Date: Tue, 5 May 2026 00:32:45 +0000
+Message-ID: <0be2a81b-239c-4b04-911c-ba4e50f2adcf@nvidia.com>
 References: <20260416212633.72650-1-kch@nvidia.com>
+ <afkO1WExGV9-jv8b@google.com>
+In-Reply-To: <afkO1WExGV9-jv8b@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|SA0PR12MB4349:EE_
+x-ms-office365-filtering-correlation-id: 026c28cb-751b-43eb-65a8-08deaa3dd3ec
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|10070799003|18002099003|22082099003|56012099003|38070700021;
+x-microsoft-antispam-message-info: UBKaJmlAC7Gnl0AlF9xZ17bwTfWig73Wo/sKt+pDtQFw8DhcVWYsZ7iVmXy8Hzr5CzcoTMpSH5fXZUBGR+Vk+IldYP2Ax7ECj92lggyZHR8KlwcXKgQSY1lN6skiHF8ekrJ1lKUfTZK4ze5quvpAD4EO0PiY3oS9Ly/rP3AQzoB5PF3Zjp6En1nk2MJpxk6cjNkYR7BY/q6sWQ7fhiJa3Ndx7qRqN+OiineZUhH1GPcEomVVtQQj7mKyOo5EFOpwQR1SBttkxIFgBUHHl/GRsTV1M8Cw5Wz5tRlbPhSSn1Pvu1gxwoJgsOl6QPz+iR0fcd0/72MX17WNz7Vi1QLNBnb2BVDrS8dqgy6O1Te2o6oE0jtUm7GTpqCI5DVpfAWu3DXZ1pd+rgMVrFbqtbrVxp3LxaaXhcj0kJhwEb1i+6V0nRKxjBm07EHsR6xHm442muVB/r9PNTW8iaGDRZRDgeE/u6A+NCPctQDDEh0p72a07QdTv/sPvmqY1LipwG7aSzbZQ7ixjhucXNy97sEzgXBy0/ZgqVvX/rUB7UfSFVpK2HbMdNB5IynhMyOVqNf9LEOprWi95r562U3y5X8YIxvFZqenbN/SHPP8RYbmJlWIq3cf02s4wZc8OWP+/7mP9FPWVakTueY+f9yaMBLNMKzbdyWDgg/YYLg16pocbXQZEevqJA0ARmNpe5r7fhrd1PJtR74dqqAYH10woaEOcSp7+QLoZpZDmOJ8lixLK/cefqCWUV+zgRWHTJIuBWEg
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10070799003)(18002099003)(22082099003)(56012099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RnJrL0x2K3NUMzFHVm44Z3lMYVgzUlZnRWZaOWovb25CTWNHVkorNFlyeVcv?=
+ =?utf-8?B?YnR0UTQvbThvbWxFeHZMUGtDSWl3ZXJ6OStJNGRNWkIyYXJ5VDl4MnVWT3VJ?=
+ =?utf-8?B?c0VoWk9FNW5MUHlYdnFBc3hEM2swQ3ZmajhMNnNidFFuRlBjd1RDQ2lvZ2NJ?=
+ =?utf-8?B?SXozZ2NiM3dnNWdJWXZwSkNzMVZadUJCNWFVTmVDRTBTVFRPWUNxdk45VHdH?=
+ =?utf-8?B?S21nMjBQdVM3TTRBRFBOTmxnMWIzM3dJRGpwYzJ1U2dMSG5mNlZFV0pVWHo0?=
+ =?utf-8?B?bWpyL0w1QXNvMFVTSmlheHNNQ3M0R3kzV1hERmk0VFZidVI3eE55NmVUZjB1?=
+ =?utf-8?B?OVlIaGpsRVNOMXp6K25EYmR4T3VyN24vbEx2NGtnZXpCcDNiemlyL1NtaDFM?=
+ =?utf-8?B?ZnRyV0NwUDUwczN3Wnl3WTNPSnYyTWg4OXZ6MGhCY1didm52QVl3dTZOVFBF?=
+ =?utf-8?B?bmJna2FzbldJVFVQTmh2SVlHVnh5OWJhY1NCN1lYemtxWGNaUDdRMXRHU0M5?=
+ =?utf-8?B?d3plZW14M0lwRFh4eFBMMXpPTWNVY3hnaEZxWjMvU20vcktmWVRBaGtodm1k?=
+ =?utf-8?B?RDY3RlFqK25jNVVMRzU0emFPRFlmQnQ4c1d1czZGT0tPV0NnUUpmd29TaUw4?=
+ =?utf-8?B?ZGR4dzN2SC9hV245TE1LUDFmY1Jha2pXQ2lEd1ZMMWIzSzBqVHdjQjFwdWFL?=
+ =?utf-8?B?VHRBOTVuUkxoNTYvd0l5dFJhNE1aSncrWU9wUlpUQjVsNzl3SklBUk5BNGhq?=
+ =?utf-8?B?VXFHdFQ4bHRQSHVjZXc4Tk5td3R0MWRPSVNoM0ZkOGl4OTRpekFRTStBUXps?=
+ =?utf-8?B?RkN6eWRjMzJZcWZKdzhva3JucThRTmRhaGFBeHpWa1dsUWxCdGV0Y2hlU0hW?=
+ =?utf-8?B?YmdHZWQ2M3p4ck45VlEzR0ZxeURkOFMvVDBJdHQvM3pxc3F0RzNJL05CRTk4?=
+ =?utf-8?B?TmlVMm5UVGZsK1JlNnd3L3ZnbTV3a2VRaWtva3drdjhnZ2RJaG1zRUN5YkpZ?=
+ =?utf-8?B?VTYvaFZWdkMrVnhncnU1SkMreDlnWFJWUHY5S2l2VkF4VGFmTzhEY2hSbmNG?=
+ =?utf-8?B?YWpkZ1pwWjMwdnVtUUUxMmJhajdCSFBlK3lQVWlQaE9XZXgwdXRJbld1ZjlM?=
+ =?utf-8?B?OHBhTXhKbEtldHQwR1pLYWVpUThJcnlwaHdqZ2VEM1RPS1BVdmpIdDBrbEla?=
+ =?utf-8?B?S2lXc1MrcE1MRnNHU0hQaFIxSFhWZ1k2VUttK1hyWk1rV3kyVFFBemxDVmQ4?=
+ =?utf-8?B?R2t3WlRLb2FWTGZmMVQyYlRxMFV6T0E3UXVrV20rMzRsc0ZoUTNYUXRhN2RM?=
+ =?utf-8?B?dzZEdFkxaUFnNlBnRnFDUllEVDc2SUlydUpuMklmQmYzOXBSSnRmeVEvU2kz?=
+ =?utf-8?B?bWFLcTV2em1TdDlzMWY1VmxQYWE0ZmNyaTlOV0U2a1BYcHdPbURzcDhqT0hL?=
+ =?utf-8?B?N1l5Y0JxSmU2RVBXNlBWZGZ5U1MrQ1dFdjJGamNqTGtiRGRDdFpnMEY1MXhl?=
+ =?utf-8?B?cGNGWkZkSHRwUE5aZFJKRVA5cTJHbE9ZalVGN3lZK3FCN3dIOWlEZjhMNzZK?=
+ =?utf-8?B?QXhHZ2J3b3ZCdzVTTWhOVy9hZ24rVVU2YWhCMVZMRkVGa3lRRzlGc21haTZR?=
+ =?utf-8?B?RGJvR09xTzAyNlpSMzZuSFJ0YVl1SGowLzNsczRsL2FWQXJiclpCYzJvRVlB?=
+ =?utf-8?B?aWVrVHNPZ1VDR0poNzB6Qlp6RzV4K2JNemFYVmVVbWVtcjNaaWJTRWJIQVZy?=
+ =?utf-8?B?SW8zKzBDYmVYcHBUemZZY1FPMDZTZnlHZ1k4TS9pNXovUWp5TlI2dnQrVExX?=
+ =?utf-8?B?ZlF5ZlNzVGg4RWJMYm8vd05oQWNTajZYVlVhTmRwbnhKUXVQTWpjVlRZd1pL?=
+ =?utf-8?B?SXhQU3BOUmJremJReGNJaEhDcEdZRHVGeUNxdk83Z1lFRCtEdkR0MEhLaWYx?=
+ =?utf-8?B?dGdmK2J0b016dkVqajRjeCtpTVlFUVFIdU82d296TEhwaXFLT1FVWUp0ektz?=
+ =?utf-8?B?ZkRNOGJjVWloc042V2VhVlo3YW5QL3kxbldqeVliQkVHbTk0a2hSeEV5R1lP?=
+ =?utf-8?B?Ym1zQzBKUFVDWUtiZnBKMDMrQlAyeDZYbDlqc21BNGE1V3ZxdU8zWUNvSFQ5?=
+ =?utf-8?B?c2lXTEpDTGN4YmJMekxpUU5nZzMyQ2hKQjN0d1grV1ovM2QvRm1pWmFUZnVP?=
+ =?utf-8?B?VW9CbDl6WFI2V013eHRiRW1IVGhyMm8xZUFhMnFwWjNkbnl6NFdVb1pKR2w4?=
+ =?utf-8?B?Q0FkTGN5dkRnRnpvcUZkeFA0Skl1TWtxMzhUMm1QMy8xcFFMdXVqMXBYVUQ3?=
+ =?utf-8?B?eFZManQ1UlhTZUZWUVk4WjlyYVNaaW5MQ1pKb2FWLzg4TGxNeVpMWEU2amlY?=
+ =?utf-8?Q?8n/8hRmMOPiIHUEqd5IetxPqHL/wFipzC8P/ETgb6C1uO?=
+x-ms-exchange-antispam-messagedata-1: xgCzgoIwh/H8QA==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EEBB90CF347CCE42B3C11A700CED32AB@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260416212633.72650-1-kch@nvidia.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 026c28cb-751b-43eb-65a8-08deaa3dd3ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2026 00:32:45.8357
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jP5Hvm5k90NdMotSN3/lLZ1LV1I20RYsXZI8AjmPqkmjsDLCYUqwSIWNOEqeff7AMxp1USsDIrFukXtUpkxnEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4349
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260504_142550_748188_D2978DBE 
-X-CRM114-Status: GOOD (  23.85  )
+X-CRM114-CacheID: sfid-20260504_173255_024022_E298EC9F 
+X-CRM114-Status: GOOD (  10.36  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,83 +160,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, Apr 16, 2026 at 02:26:30PM -0700, Chaitanya Kulkarni wrote:
-> Hi,
-> 
-> This patch series extends PCI peer-to-peer DMA (P2PDMA) support to enable
-> direct data transfers between PCIe devices through RAID and NVMe multipath
-> block layers.
-> 
-> Current Linux kernel P2PDMA infrastructure supports direct peer-to-peer
-> transfers, but this support is not propagated through certain storage
-> stacks like MD RAID and NVMe multipath. This adds two patches for
-> MD RAID 0/1/10 and NVMe to propogate P2PDMA support through the
-> storage stack.
-> 
-> All four test scenarios demonstrate that P2PDMA capabilities are correctly
-> propagated through both the MD RAID layer (patch 1/2) and NVMe multipath
-> layer (patch 2/2). Direct peer-to-peer transfers complete successfully with
-> full data integrity verification, confirming that:
-> 
-> 1. RAID devices properly inherit P2PDMA capability from member devices
-> 2. NVMe multipath devices correctly expose P2PDMA support
-> 3. P2P memory buffers can be used for transfers involving both types
-> 4. Data integrity is maintained across all transfer combinations
-> 
-> I've added the patch specific tests and blktest log as well at the end.
-> 
-> Repo:-
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git
-> 
-> Branch HEAD:-
-> 
-> commit 88a57e15861997dd6fa98154ad087f7831bbead1 (origin/for-next)
-> Merge: 81a0a2e4e535 36446de0c30c
-> Author: Jens Axboe <axboe@kernel.dk>
-> Date:   Fri Apr 10 07:02:42 2026 -0600
-> 
->     Merge branch 'for-7.1/block' into for-next
-> 
->     * for-7.1/block:
->       ublk: fix tautological comparison warning in ublk_ctrl_reg_buf
-> -ck
-> 
-> Changes from V2:-
-> 
-> 1. Unconditionally set the BLK_FEAT_PCI_P2PDMA for md and nvme multipath.
->    (Christoph)
-> 2. Add a prep patch to diable BLK_FEAT_PCI_P2PDMA in the blk_stack_limit().
->    (christoph)
-> 
-> Changes from V1:-
-> - Update patch 1 to explicitly support MD RAID 0/1/10.
-> - Fix signoff chain order for patch 2.
-> - Clear BLK_FEAT_PCI_P2PDMA in nvme_mpath_add_disk() when a newly
->   added path does not support it, to handle multipath across different
->   transports.
-> - Add nvme multipath test log for mixed transport TCP and PCIe.
-> 
-> Chaitanya Kulkarni (1):
->   block: clear BLK_FEAT_PCI_P2PDMA in blk_stack_limits() for
->     non-supporting devices
-> 
-> Kiran Kumar Modukuri (2):
->   md: propagate BLK_FEAT_PCI_P2PDMA from member devices to RAID device
->   nvme-multipath: enable PCI P2PDMA for multipath devices
-> 
->  block/blk-settings.c          | 2 ++
->  drivers/md/raid0.c            | 1 +
->  drivers/md/raid1.c            | 1 +
->  drivers/md/raid10.c           | 1 +
->  drivers/nvme/host/multipath.c | 2 +-
->  5 files changed, 6 insertions(+), 1 deletion(-)
-> 
-
-Tested with NVMe-oF (RDMA).
-
-Tested=by: Pranjal Shrivastava <praan@google.com>
-
-Thanks,
-Praan
+UHJhbmphbCwNCg0KT24gNS80LzI2IDI6MjUgUE0sIFByYW5qYWwgU2hyaXZhc3RhdmEgd3JvdGU6
+DQo+PiBDaGFpdGFueWEgS3Vsa2FybmkgKDEpOg0KPj4gICAgYmxvY2s6IGNsZWFyIEJMS19GRUFU
+X1BDSV9QMlBETUEgaW4gYmxrX3N0YWNrX2xpbWl0cygpIGZvcg0KPj4gICAgICBub24tc3VwcG9y
+dGluZyBkZXZpY2VzDQo+Pg0KPj4gS2lyYW4gS3VtYXIgTW9kdWt1cmkgKDIpOg0KPj4gICAgbWQ6
+IHByb3BhZ2F0ZSBCTEtfRkVBVF9QQ0lfUDJQRE1BIGZyb20gbWVtYmVyIGRldmljZXMgdG8gUkFJ
+RCBkZXZpY2UNCj4+ICAgIG52bWUtbXVsdGlwYXRoOiBlbmFibGUgUENJIFAyUERNQSBmb3IgbXVs
+dGlwYXRoIGRldmljZXMNCj4+DQo+PiAgIGJsb2NrL2Jsay1zZXR0aW5ncy5jICAgICAgICAgIHwg
+MiArKw0KPj4gICBkcml2ZXJzL21kL3JhaWQwLmMgICAgICAgICAgICB8IDEgKw0KPj4gICBkcml2
+ZXJzL21kL3JhaWQxLmMgICAgICAgICAgICB8IDEgKw0KPj4gICBkcml2ZXJzL21kL3JhaWQxMC5j
+ICAgICAgICAgICB8IDEgKw0KPj4gICBkcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYyB8IDIg
+Ky0NCj4+ICAgNSBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkN
+Cj4+DQo+IFRlc3RlZCB3aXRoIE5WTWUtb0YgKFJETUEpLg0KPg0KPiBUZXN0ZWQ9Ynk6IFByYW5q
+YWwgU2hyaXZhc3RhdmE8cHJhYW5AZ29vZ2xlLmNvbT4NCj4NCj4gVGhhbmtzLA0KPiBQcmFhbg0K
+DQpUaGFua3MgYSBsb3QgZm9yIHRlc3RpbmcuDQoNCi1jaw0KDQoNCg==
 
