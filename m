@@ -4,148 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D447ECD342C
-	for <linux-nvme@archiver.kernel.org>; Tue,  5 May 2026 00:33:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59982CD342F
+	for <linux-nvme@archiver.kernel.org>; Tue,  5 May 2026 09:52:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=aTxls/YzXqcihj21jYy/nyubIY901I9jUi48sqJs3pU=; b=tFH01vNfs+iAGQVJCz2JOfrN5l
-	vv/3ELOPeBoni8Ilt16zEin3KDYoM6jOExibcenXInsNREqGGjds3FdsRJOYZz42AYpvIbe3oIbxO
-	WiYPTYY1yode2b+ZSBGyp2xnqZonwJR4qvNUpmo1M2BX5l6+DXP43Q712/6UObWMz0P6uDCgWbl8H
-	C6ZCiLZZhurL4SYoxp7XxjhibCqVnvHFuaVe/HkKCmDJNPr/Giio2Ntg5Gdne88lESvl6d1hKbSXP
-	8D5NzmMNksjg/p68oepeHHIqZVLX4TJw7FxTiArgzALlmXw3b5LQe4OyGpEfv08dwmm5TDeJzj2uP
-	8HPFAgjw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=rfYRuACzsPwXk4uHc8lv1J/2LIhRIIXzph9Ve7mML6c=; b=15+4OGtpY/H1RuKBvzhDcUb3N7
+	1VRI26EPzur32YzDlR+/ocVrirHDLrB8WiWWG+nRX1hZXBGYqM+hQ6jsPqa8rlnEoScyxpso7n3Z6
+	UzZHvGKPuw3T5rTe4pAuH4YYlZE6ZplM3jufFq3FxLOobyCyTNVODDaizXLCR+PjDE9AFcJcwpEum
+	pG526wWTU256Ot+42yFSFj73E1XPVLTmqX0QyNOMi9NKHiNFbdn7VmQF9X60DJJ2j1aUDeNG3wpsP
+	XCsi2QcgLSZYBV7AaMs7XMXS9IbcKAZcECgUq7Cvcq+E1dJ+EEC2nK4INmqZVqpUZAhCr3t3tz/ds
+	lHGszXkw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wK3ic-0000000Ej8E-07RE;
-	Tue, 05 May 2026 00:32:58 +0000
-Received: from mail-northcentralusazon11013053.outbound.protection.outlook.com ([40.107.201.53] helo=CH4PR04CU002.outbound.protection.outlook.com)
+	id 1wKCRg-0000000Fhzs-1eo7;
+	Tue, 05 May 2026 09:52:04 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wK3iY-0000000Ej7e-44hC
+	id 1wKCRZ-0000000Fhyt-25g0
 	for linux-nvme@lists.infradead.org;
-	Tue, 05 May 2026 00:32:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CyuJvXAXs09OiA1koRpEjhJvplneHFfB5/TnZXccUhahiTSLTeXe03Nug1wu2/xxLQQH+WS0iJJtmkTaoT5jxoKYmGoJZl3NMZVptecaNnVB+BHgL0D16c4vxnoemg1pNm2SAo/Z3jR1NRHL/HGtpCXpUlTTQRIQ2AXEbklYchFhhbVE7HS6MA3oDgHr/GhJenDqOtgy01Bxta/Rehi2P6mXmJiWnBsZBvbD1fet4Ze52skXlf7Nnuoa2knV9aoOO1vWiy86Gj7BFZIYKGYpTybzy7O0hzgA0/rDQSlI5MX6Ojqoj6ji6eXEiysGqif2QUsCOULt5oWqzWksT29fkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aTxls/YzXqcihj21jYy/nyubIY901I9jUi48sqJs3pU=;
- b=c4wfGXBrqysXwd53OwqDFmO45O51XD4tXT1IBEUCw88g30ixTCOQ38kvTqohMHpJz6rFG584YXP86e7D8fkYqLEdQdyfImriOCjDrOP1GerhbWtZ09oG2imvF6LgMsgXOI0jpwH4/9gcVBx02Yq/XFfbO5tI0OsBF2dm8zeRdqUGZWIQzF54Uq1ZesOKgYKPwBg+vyeA8gUs8IfscazQjgl/3ZIGgyOUrVrKQ9BZH7Sf9hwxOO6flR+4b1Oyw+tJv3wqfa35ydvoc+ZenC6kG9K9AuQaeHU14xHouG6OyQUrPj7ZC1duJHBm4DQySZOLIlKfk5twxlgcYepMZHdPnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aTxls/YzXqcihj21jYy/nyubIY901I9jUi48sqJs3pU=;
- b=AgI/ViMlIitdIAzwShlatXIat5TvXKXgPLmpVuoDyMrqarvPG0jVfhWSe4lP3KCfP1qPbT7vVHm/z2RIIiEiGqfUQMNcbjd0CpQna9qdkLi6EB4OdC6QzX20T0dBZCxrfA85fIMH153n2qVxFS8HA7Uyjjg06tNz9kzB6JRjQnltg/E831gqtr+IfucKwOkUI2Y3bd8xqlrjJqXUL/5Pbv2xoqCSpU2sqvKdkTcKDNlkljw6K/wKlzMKcLtP7wxLESf2udqq0g6jrv2qyKmlqfR5DbEhE/VMAZgFJz6uCmkCTLt+xsGaJFV2nlnZDJUFyEmQG9ZYl5F+UztXL701Hw==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by SA0PR12MB4349.namprd12.prod.outlook.com (2603:10b6:806:98::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
- 2026 00:32:46 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::2109:679c:3b3e:b008]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::2109:679c:3b3e:b008%6]) with mapi id 15.20.9870.023; Tue, 5 May 2026
- 00:32:45 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Pranjal Shrivastava <praan@google.com>, Chaitanya Kulkarni
-	<chaitanyak@nvidia.com>
-CC: "song@kernel.org" <song@kernel.org>, "yukuai@fnnas.com"
-	<yukuai@fnnas.com>, "linan122@huawei.com" <linan122@huawei.com>,
-	"kbusch@kernel.org" <kbusch@kernel.org>, "axboe@kernel.dk" <axboe@kernel.dk>,
-	"hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
-	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, Kiran
- Modukuri <kmodukuri@nvidia.com>
-Subject: Re: [PATCH V3 0/2] md/nvme: Enable PCI P2PDMA support for RAID0 and
- NVMe Multipath
-Thread-Topic: [PATCH V3 0/2] md/nvme: Enable PCI P2PDMA support for RAID0 and
- NVMe Multipath
-Thread-Index: AQHczefMw/2L6wnrAEunHJMvgSqt97X+fU6AgAA0RIA=
-Date: Tue, 5 May 2026 00:32:45 +0000
-Message-ID: <0be2a81b-239c-4b04-911c-ba4e50f2adcf@nvidia.com>
-References: <20260416212633.72650-1-kch@nvidia.com>
- <afkO1WExGV9-jv8b@google.com>
-In-Reply-To: <afkO1WExGV9-jv8b@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|SA0PR12MB4349:EE_
-x-ms-office365-filtering-correlation-id: 026c28cb-751b-43eb-65a8-08deaa3dd3ec
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|10070799003|18002099003|22082099003|56012099003|38070700021;
-x-microsoft-antispam-message-info: UBKaJmlAC7Gnl0AlF9xZ17bwTfWig73Wo/sKt+pDtQFw8DhcVWYsZ7iVmXy8Hzr5CzcoTMpSH5fXZUBGR+Vk+IldYP2Ax7ECj92lggyZHR8KlwcXKgQSY1lN6skiHF8ekrJ1lKUfTZK4ze5quvpAD4EO0PiY3oS9Ly/rP3AQzoB5PF3Zjp6En1nk2MJpxk6cjNkYR7BY/q6sWQ7fhiJa3Ndx7qRqN+OiineZUhH1GPcEomVVtQQj7mKyOo5EFOpwQR1SBttkxIFgBUHHl/GRsTV1M8Cw5Wz5tRlbPhSSn1Pvu1gxwoJgsOl6QPz+iR0fcd0/72MX17WNz7Vi1QLNBnb2BVDrS8dqgy6O1Te2o6oE0jtUm7GTpqCI5DVpfAWu3DXZ1pd+rgMVrFbqtbrVxp3LxaaXhcj0kJhwEb1i+6V0nRKxjBm07EHsR6xHm442muVB/r9PNTW8iaGDRZRDgeE/u6A+NCPctQDDEh0p72a07QdTv/sPvmqY1LipwG7aSzbZQ7ixjhucXNy97sEzgXBy0/ZgqVvX/rUB7UfSFVpK2HbMdNB5IynhMyOVqNf9LEOprWi95r562U3y5X8YIxvFZqenbN/SHPP8RYbmJlWIq3cf02s4wZc8OWP+/7mP9FPWVakTueY+f9yaMBLNMKzbdyWDgg/YYLg16pocbXQZEevqJA0ARmNpe5r7fhrd1PJtR74dqqAYH10woaEOcSp7+QLoZpZDmOJ8lixLK/cefqCWUV+zgRWHTJIuBWEg
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10070799003)(18002099003)(22082099003)(56012099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RnJrL0x2K3NUMzFHVm44Z3lMYVgzUlZnRWZaOWovb25CTWNHVkorNFlyeVcv?=
- =?utf-8?B?YnR0UTQvbThvbWxFeHZMUGtDSWl3ZXJ6OStJNGRNWkIyYXJ5VDl4MnVWT3VJ?=
- =?utf-8?B?c0VoWk9FNW5MUHlYdnFBc3hEM2swQ3ZmajhMNnNidFFuRlBjd1RDQ2lvZ2NJ?=
- =?utf-8?B?SXozZ2NiM3dnNWdJWXZwSkNzMVZadUJCNWFVTmVDRTBTVFRPWUNxdk45VHdH?=
- =?utf-8?B?S21nMjBQdVM3TTRBRFBOTmxnMWIzM3dJRGpwYzJ1U2dMSG5mNlZFV0pVWHo0?=
- =?utf-8?B?bWpyL0w1QXNvMFVTSmlheHNNQ3M0R3kzV1hERmk0VFZidVI3eE55NmVUZjB1?=
- =?utf-8?B?OVlIaGpsRVNOMXp6K25EYmR4T3VyN24vbEx2NGtnZXpCcDNiemlyL1NtaDFM?=
- =?utf-8?B?ZnRyV0NwUDUwczN3Wnl3WTNPSnYyTWg4OXZ6MGhCY1didm52QVl3dTZOVFBF?=
- =?utf-8?B?bmJna2FzbldJVFVQTmh2SVlHVnh5OWJhY1NCN1lYemtxWGNaUDdRMXRHU0M5?=
- =?utf-8?B?d3plZW14M0lwRFh4eFBMMXpPTWNVY3hnaEZxWjMvU20vcktmWVRBaGtodm1k?=
- =?utf-8?B?RDY3RlFqK25jNVVMRzU0emFPRFlmQnQ4c1d1czZGT0tPV0NnUUpmd29TaUw4?=
- =?utf-8?B?ZGR4dzN2SC9hV245TE1LUDFmY1Jha2pXQ2lEd1ZMMWIzSzBqVHdjQjFwdWFL?=
- =?utf-8?B?VHRBOTVuUkxoNTYvd0l5dFJhNE1aSncrWU9wUlpUQjVsNzl3SklBUk5BNGhq?=
- =?utf-8?B?VXFHdFQ4bHRQSHVjZXc4Tk5td3R0MWRPSVNoM0ZkOGl4OTRpekFRTStBUXps?=
- =?utf-8?B?RkN6eWRjMzJZcWZKdzhva3JucThRTmRhaGFBeHpWa1dsUWxCdGV0Y2hlU0hW?=
- =?utf-8?B?YmdHZWQ2M3p4ck45VlEzR0ZxeURkOFMvVDBJdHQvM3pxc3F0RzNJL05CRTk4?=
- =?utf-8?B?TmlVMm5UVGZsK1JlNnd3L3ZnbTV3a2VRaWtva3drdjhnZ2RJaG1zRUN5YkpZ?=
- =?utf-8?B?VTYvaFZWdkMrVnhncnU1SkMreDlnWFJWUHY5S2l2VkF4VGFmTzhEY2hSbmNG?=
- =?utf-8?B?YWpkZ1pwWjMwdnVtUUUxMmJhajdCSFBlK3lQVWlQaE9XZXgwdXRJbld1ZjlM?=
- =?utf-8?B?OHBhTXhKbEtldHQwR1pLYWVpUThJcnlwaHdqZ2VEM1RPS1BVdmpIdDBrbEla?=
- =?utf-8?B?S2lXc1MrcE1MRnNHU0hQaFIxSFhWZ1k2VUttK1hyWk1rV3kyVFFBemxDVmQ4?=
- =?utf-8?B?R2t3WlRLb2FWTGZmMVQyYlRxMFV6T0E3UXVrV20rMzRsc0ZoUTNYUXRhN2RM?=
- =?utf-8?B?dzZEdFkxaUFnNlBnRnFDUllEVDc2SUlydUpuMklmQmYzOXBSSnRmeVEvU2kz?=
- =?utf-8?B?bWFLcTV2em1TdDlzMWY1VmxQYWE0ZmNyaTlOV0U2a1BYcHdPbURzcDhqT0hL?=
- =?utf-8?B?N1l5Y0JxSmU2RVBXNlBWZGZ5U1MrQ1dFdjJGamNqTGtiRGRDdFpnMEY1MXhl?=
- =?utf-8?B?cGNGWkZkSHRwUE5aZFJKRVA5cTJHbE9ZalVGN3lZK3FCN3dIOWlEZjhMNzZK?=
- =?utf-8?B?QXhHZ2J3b3ZCdzVTTWhOVy9hZ24rVVU2YWhCMVZMRkVGa3lRRzlGc21haTZR?=
- =?utf-8?B?RGJvR09xTzAyNlpSMzZuSFJ0YVl1SGowLzNsczRsL2FWQXJiclpCYzJvRVlB?=
- =?utf-8?B?aWVrVHNPZ1VDR0poNzB6Qlp6RzV4K2JNemFYVmVVbWVtcjNaaWJTRWJIQVZy?=
- =?utf-8?B?SW8zKzBDYmVYcHBUemZZY1FPMDZTZnlHZ1k4TS9pNXovUWp5TlI2dnQrVExX?=
- =?utf-8?B?ZlF5ZlNzVGg4RWJMYm8vd05oQWNTajZYVlVhTmRwbnhKUXVQTWpjVlRZd1pL?=
- =?utf-8?B?SXhQU3BOUmJremJReGNJaEhDcEdZRHVGeUNxdk83Z1lFRCtEdkR0MEhLaWYx?=
- =?utf-8?B?dGdmK2J0b016dkVqajRjeCtpTVlFUVFIdU82d296TEhwaXFLT1FVWUp0ektz?=
- =?utf-8?B?ZkRNOGJjVWloc042V2VhVlo3YW5QL3kxbldqeVliQkVHbTk0a2hSeEV5R1lP?=
- =?utf-8?B?Ym1zQzBKUFVDWUtiZnBKMDMrQlAyeDZYbDlqc21BNGE1V3ZxdU8zWUNvSFQ5?=
- =?utf-8?B?c2lXTEpDTGN4YmJMekxpUU5nZzMyQ2hKQjN0d1grV1ovM2QvRm1pWmFUZnVP?=
- =?utf-8?B?VW9CbDl6WFI2V013eHRiRW1IVGhyMm8xZUFhMnFwWjNkbnl6NFdVb1pKR2w4?=
- =?utf-8?B?Q0FkTGN5dkRnRnpvcUZkeFA0Skl1TWtxMzhUMm1QMy8xcFFMdXVqMXBYVUQ3?=
- =?utf-8?B?eFZManQ1UlhTZUZWUVk4WjlyYVNaaW5MQ1pKb2FWLzg4TGxNeVpMWEU2amlY?=
- =?utf-8?Q?8n/8hRmMOPiIHUEqd5IetxPqHL/wFipzC8P/ETgb6C1uO?=
-x-ms-exchange-antispam-messagedata-1: xgCzgoIwh/H8QA==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EEBB90CF347CCE42B3C11A700CED32AB@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Tue, 05 May 2026 09:51:58 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 83218441B1;
+	Tue,  5 May 2026 09:51:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BCF5C2BCB4;
+	Tue,  5 May 2026 09:51:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777974716;
+	bh=rI1L3zFgAgB2+saSnTw+RFFHvhlWHtqJK38Mjq1Q+uY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dwEnAlye4PYESOe0YjMdcItl9hj/lj5SEEX1VmDBJIVJDa57UItR67ylEW9K7v0Fa
+	 VCKGe2WASseIxS2cIlPRR/yYUYP5ffz8oOIl5jhUhwI3Td8vJ0/MqQi3OgBBJdq13e
+	 C0Q8Y43KRqcRRiKLo9mx7ghWI4ea0yOZSDkte149nVOCDnCyeBDfq8Lw48OIXZxMu+
+	 0yqhLBMscejCUsRp9UdEmP7eEiuNe/b6Eoz2IP/VNkYtoMMkm1bgFVtnfBQwojLlpr
+	 ZJL9WWq2lQBlSt+cooAGrSoaEMRvr6kfAbMGDZ6L1Gt3/YkGsUl1YSDMHM2Kke/64N
+	 /5A4f8q2pC0nw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Shivam Kumar <kumar.shivam43666@gmail.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-6.1] nvmet-tcp: check INIT_FAILED before nvmet_req_uninit in digest error path
+Date: Tue,  5 May 2026 05:51:18 -0400
+Message-ID: <20260505095149.512052-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260505095149.512052-1-sashal@kernel.org>
+References: <20260505095149.512052-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 026c28cb-751b-43eb-65a8-08deaa3dd3ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2026 00:32:45.8357
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jP5Hvm5k90NdMotSN3/lLZ1LV1I20RYsXZI8AjmPqkmjsDLCYUqwSIWNOEqeff7AMxp1USsDIrFukXtUpkxnEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4349
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260504_173255_024022_E298EC9F 
-X-CRM114-Status: GOOD (  10.36  )
+X-CRM114-CacheID: sfid-20260505_025157_584522_F2B90C88 
+X-CRM114-Status: GOOD (  20.51  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,18 +82,195 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-UHJhbmphbCwNCg0KT24gNS80LzI2IDI6MjUgUE0sIFByYW5qYWwgU2hyaXZhc3RhdmEgd3JvdGU6
-DQo+PiBDaGFpdGFueWEgS3Vsa2FybmkgKDEpOg0KPj4gICAgYmxvY2s6IGNsZWFyIEJMS19GRUFU
-X1BDSV9QMlBETUEgaW4gYmxrX3N0YWNrX2xpbWl0cygpIGZvcg0KPj4gICAgICBub24tc3VwcG9y
-dGluZyBkZXZpY2VzDQo+Pg0KPj4gS2lyYW4gS3VtYXIgTW9kdWt1cmkgKDIpOg0KPj4gICAgbWQ6
-IHByb3BhZ2F0ZSBCTEtfRkVBVF9QQ0lfUDJQRE1BIGZyb20gbWVtYmVyIGRldmljZXMgdG8gUkFJ
-RCBkZXZpY2UNCj4+ICAgIG52bWUtbXVsdGlwYXRoOiBlbmFibGUgUENJIFAyUERNQSBmb3IgbXVs
-dGlwYXRoIGRldmljZXMNCj4+DQo+PiAgIGJsb2NrL2Jsay1zZXR0aW5ncy5jICAgICAgICAgIHwg
-MiArKw0KPj4gICBkcml2ZXJzL21kL3JhaWQwLmMgICAgICAgICAgICB8IDEgKw0KPj4gICBkcml2
-ZXJzL21kL3JhaWQxLmMgICAgICAgICAgICB8IDEgKw0KPj4gICBkcml2ZXJzL21kL3JhaWQxMC5j
-ICAgICAgICAgICB8IDEgKw0KPj4gICBkcml2ZXJzL252bWUvaG9zdC9tdWx0aXBhdGguYyB8IDIg
-Ky0NCj4+ICAgNSBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkN
-Cj4+DQo+IFRlc3RlZCB3aXRoIE5WTWUtb0YgKFJETUEpLg0KPg0KPiBUZXN0ZWQ9Ynk6IFByYW5q
-YWwgU2hyaXZhc3RhdmE8cHJhYW5AZ29vZ2xlLmNvbT4NCj4NCj4gVGhhbmtzLA0KPiBQcmFhbg0K
-DQpUaGFua3MgYSBsb3QgZm9yIHRlc3RpbmcuDQoNCi1jaw0KDQoNCg==
+From: Shivam Kumar <kumar.shivam43666@gmail.com>
+
+[ Upstream commit 4606467a75cfc16721937272ed29462a750b60c8 ]
+
+In nvmet_tcp_try_recv_ddgst(), when a data digest mismatch is detected,
+nvmet_req_uninit() is called unconditionally. However, if the command
+arrived via the nvmet_tcp_handle_req_failure() path, nvmet_req_init()
+had returned false and percpu_ref_tryget_live() was never executed. The
+unconditional percpu_ref_put() inside nvmet_req_uninit() then causes a
+refcount underflow, leading to a WARNING in
+percpu_ref_switch_to_atomic_rcu, a use-after-free diagnostic, and
+eventually a permanent workqueue deadlock.
+
+Check cmd->flags & NVMET_TCP_F_INIT_FAILED before calling
+nvmet_req_uninit(), matching the existing pattern in
+nvmet_tcp_execute_request().
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Shivam Kumar <kumar.shivam43666@gmail.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Phase Walkthrough
+Phase 1 Record:
+Subject subsystem/action is `nvmet-tcp`, action `check`, intent: avoid
+calling `nvmet_req_uninit()` after failed request initialization in the
+data-digest error path. Tags found: `Reviewed-by: Christoph Hellwig
+<hch@lst.de>`, `Signed-off-by: Shivam Kumar`, `Signed-off-by: Keith
+Busch`. No `Fixes:`, `Reported-by:`, `Tested-by:`, `Link:`, or `Cc:
+stable` tag in the committed version I verified. The body describes a
+real refcount bug: `nvmet_req_init()` can fail before
+`percpu_ref_tryget_live()`, while `nvmet_req_uninit()` always does
+`percpu_ref_put()`. Hidden bug fix: yes, it prevents refcount underflow,
+UAF diagnostics, and a workqueue deadlock.
+
+Phase 2 Record:
+One file changed: `drivers/nvme/target/tcp.c`, 2 insertions and 1
+deletion, only in `nvmet_tcp_try_recv_ddgst()`. Before: a data digest
+mismatch always called `nvmet_req_uninit(&cmd->req)`. After: it skips
+that call when `cmd->flags & NVMET_TCP_F_INIT_FAILED`. Bug category:
+reference-counting bug with severe follow-on failure. Fix quality:
+small, surgical, matches the existing `nvmet_tcp_execute_request()`
+handling of `NVMET_TCP_F_INIT_FAILED`; regression risk is very low
+because it only suppresses an invalid put on a command whose init
+failed.
+
+Phase 3 Record:
+`git blame` showed the current direct `nvmet_req_uninit()` line came
+from `0700542a823b` (`nvmet-tcp: remove nvmet_tcp_finish_cmd`), but
+older stable trees had the same underlying behavior through
+`nvmet_tcp_finish_cmd()`. `git describe --contains` places the original
+nvmet-tcp code at `v5.0-rc1` and the direct-inline refactor at
+`v6.1-rc1`. The init-failure flag and execute-path guard were already
+present in stable versions I checked. Recent history contains other
+nvmet-tcp fixes, but `git apply --check` confirmed this candidate
+applies to the current 7.0.y tree without prerequisites. Author has at
+least one other nvmet target fix in the local history; review/commit
+path is stronger signal here than author history.
+
+Phase 4 Record:
+`b4 dig -c 4606467a75cfc` found the original lore submission at `https:/
+/patch.msgid.link/20260318225658.1760759-1-kumar.shivam43666@gmail.com`.
+`b4 dig -a` showed only v1, no superseding revision. `b4 dig -w` showed
+recipients included `gregkh`, `security@kernel.org`, Christoph Hellwig,
+Sagi Grimberg, Keith Busch, and `linux-nvme`. The infradead archive copy
+matched the diff exactly. Christoph replied “Looks good to me” and gave
+`Reviewed-by`, while noting he would prefer someone more familiar with
+TCP code also look. I found no NAK. A stable lore query via `WebFetch`
+was blocked by Anubis; web search did not reveal separate stable-
+specific discussion.
+
+Phase 5 Record:
+Modified function: `nvmet_tcp_try_recv_ddgst()`. Call chain verified
+locally: socket callbacks queue `nvmet_tcp_io_work()`, which calls
+`nvmet_tcp_try_recv()`, then `nvmet_tcp_try_recv_one()`, then
+`nvmet_tcp_try_recv_ddgst()` when `rcv_state == NVMET_TCP_RECV_DDGST`.
+The failing path is reachable by NVMe/TCP target receive processing when
+data digest is enabled and a write command with failed
+`nvmet_req_init()` still has inline data to drain. Callees verified:
+`nvmet_req_uninit()` unconditionally calls
+`percpu_ref_put(&req->sq->ref)`, and `nvmet_req_init()` only takes that
+ref after earlier validation and parsing succeeds.
+
+Phase 6 Record:
+Stable-code checks show the vulnerable pattern exists in `v5.4`,
+`v5.10`, `v5.15`, `v6.1`, `v6.6`, `v6.12`, `v6.18`, `v6.19`, and `v7.0`,
+though `v5.x` uses `nvmet_tcp_finish_cmd()` so those trees need a small
+backport adjustment. For `v6.1+`, the same flag, execute-path guard, and
+unconditional digest-error uninit pattern are present. Current 7.0.y
+accepts the candidate patch with `git apply --check`.
+
+Phase 7 Record:
+Subsystem is NVMe target over TCP: storage/network transport driver,
+important for systems exporting NVMe-oF targets. Activity level is
+active; recent local `block-next` history includes several nvmet-tcp
+fixes around the same file.
+
+Phase 8 Record:
+Affected users are systems running `nvmet-tcp` targets with data digest
+enabled. Trigger requires a command init failure path plus later data
+digest mismatch while stale write data is being drained, so not
+universal, but reachable through remote NVMe/TCP protocol traffic.
+Failure mode is high to critical: verified commit text and code
+mechanism support refcount underflow from unmatched `percpu_ref_put()`,
+with reported consequences of warning, UAF diagnostic, and permanent
+workqueue deadlock. Benefit is high for affected targets; risk is very
+low due to a two-line guard on an error path.
+
+Phase 9 Record:
+Evidence for backporting: real refcounting bug, severe hang/deadlock
+failure mode, small fix, reviewed by Christoph Hellwig, applies cleanly
+to 7.0.y, and the vulnerable pattern exists across active stable lines.
+Evidence against: no `Fixes:`/`Cc: stable`/`Reported-by`, no `Tested-
+by`, local `master` did not contain the commit while `block-next` did,
+and `v5.x` needs an adjusted backport around `nvmet_tcp_finish_cmd()`.
+Stable checklist: obviously correct yes; fixes a real bug yes; important
+issue yes; small and contained yes; no new feature/API yes; applies
+cleanly to 7.0.y and likely minor/manual adjustment for older stable
+trees.
+
+## Problem And Stable Value
+The commit prevents `nvmet_req_uninit()` from dropping a request
+reference that was never acquired. The code verifies that
+`nvmet_req_init()` only does `percpu_ref_tryget_live()` after
+validation/parsing succeeds, while `nvmet_req_uninit()` always calls
+`percpu_ref_put()`. On the `NVMET_TCP_F_INIT_FAILED` path, calling
+uninit is therefore invalid.
+
+This matters for stable because the failure is not cosmetic: the
+described and mechanically verified outcome is refcount underflow, with
+potential UAF diagnostics and permanent workqueue deadlock in an
+NVMe/TCP target. The change is as small as this kind of fix gets and
+mirrors an existing guard in the same driver.
+
+## Risk / Benefit
+Benefit is high for affected NVMe/TCP target deployments, especially
+because a transport-level bad digest/error path should not be able to
+wedge the target workqueue. Risk is very low: it changes only an error
+path and only skips cleanup that is invalid when init failed. Buffer
+cleanup and fatal error handling still run.
+
+## Verification
+- Phase 1: `git show 4606467a75cfc` verified commit message, tags,
+  author, committer, and exact diff.
+- Phase 2: Diff analysis verified only `drivers/nvme/target/tcp.c`
+  changes, 2 insertions/1 deletion in `nvmet_tcp_try_recv_ddgst()`.
+- Phase 3: `git blame` verified the direct uninit line came from
+  `0700542a823b`; `git show 0700542a823b` verified it was a helper
+  removal preserving the same uninit/free behavior.
+- Phase 3: `git describe --contains` verified relevant code ancestry:
+  original nvmet-tcp code in `v5.0-rc1`, direct inline refactor in
+  `v6.1-rc1`.
+- Phase 4: `b4 dig -c 4606467a75cfc`, `-a`, and `-w` verified lore
+  match, single v1 revision, and original recipients.
+- Phase 4: WebFetch of infradead patch and reply verified patch contents
+  and Christoph Hellwig’s Reviewed-by plus caveat.
+- Phase 5: `rg` and file reads verified the receive call chain and
+  `nvmet_req_init()`/`nvmet_req_uninit()` reference behavior.
+- Phase 6: Stable tag checks verified vulnerable patterns in `v5.4`,
+  `v5.10`, `v5.15`, `v6.1`, `v6.6`, `v6.12`, `v6.18`, `v6.19`, and
+  `v7.0`.
+- Phase 6: `git apply --check` verified the candidate patch applies to
+  the current 7.0.y tree.
+- Unverified: I could not verify a separate stable-mailing-list
+  discussion because the lore stable query was blocked by Anubis.
+
+**YES**
+
+ drivers/nvme/target/tcp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index acc71a26733f9..a456dd2fd8bd1 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -1310,7 +1310,8 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
+ 			queue->idx, cmd->req.cmd->common.command_id,
+ 			queue->pdu.cmd.hdr.type, le32_to_cpu(cmd->recv_ddgst),
+ 			le32_to_cpu(cmd->exp_ddgst));
+-		nvmet_req_uninit(&cmd->req);
++		if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED))
++			nvmet_req_uninit(&cmd->req);
+ 		nvmet_tcp_free_cmd_buffers(cmd);
+ 		nvmet_tcp_fatal_error(queue);
+ 		ret = -EPROTO;
+-- 
+2.53.0
+
 
