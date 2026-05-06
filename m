@@ -4,104 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7DA3FCD342C
-	for <linux-nvme@archiver.kernel.org>; Wed,  6 May 2026 09:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08853CD342C
+	for <linux-nvme@archiver.kernel.org>; Wed,  6 May 2026 13:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=; b=tERv6DbqhLSqKR5zS4nuCzBHXB
-	/hCwXaEz+tXUq6DW7hhnUXM/euUcc/mPgz6ODqi6JMM/Islm+NJPQU0+VItJ/Y6BXKliytYmgcdVG
-	wMaRh8AmrSlInE76j0U2lXgAuh6J6NP1bg7oNnkaNC8fq6uG+PQJ3Sxdkfdjnw6oZmXqNTwqBfeIo
-	ifdBNfxnvkjNm0LvA2ZVMpCYlWm0MegXtqDh2hgLvwFsA1ftbe1eflKPpmBleqq6SqEXoD7TPq1Cu
-	gfvm6ESe1RBKuzu7zNXduySGlZUjhEkcb29s5hh8SpF2aVj7piwknJnJpPrHijaPwj8FUF6gKstTM
-	Ks/72f+A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MXAFXLpub4Ios579vCna30mD+3oUTadeDnGvgFJZ4dA=; b=gUVwgbTbVgGZRluDx11zn3Zi67
+	YjC2TA1t55ZHkoXwlvDpi/d5U1Qu1ON+zDxGUXPMCJsn6/nLkRP1mFIEYoXL4rQYmGB0tiRfT4g/R
+	8NrvpmzRqTwDyDb0g80LlYm1/1+CWf33lecKA4Dkf31/ABYvOP55wB9CVzQCKv1Vkvzv6/nMIHoP3
+	r8n7cKaYNODS5oVsno8FxgI9IV7SNXRdpwqlJXsARI2sKul3xvgK8pdkq8bPUhwvjnJ0Bj0k9BowA
+	QxobBj9D9I5c5TzV4INm6AK936P6WhTy7tnRFk52974RjPncUq+4k8f4aSxtpTrAhnpu2I8Yj53B3
+	IMSFOAUg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKY9D-00000000HHo-0mhY;
-	Wed, 06 May 2026 09:02:27 +0000
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+	id 1wKc9b-00000000s7v-1hDa;
+	Wed, 06 May 2026 13:19:07 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKY9B-00000000HG3-1jpV
+	id 1wKc9V-00000000s7I-2qHM
 	for linux-nvme@lists.infradead.org;
-	Wed, 06 May 2026 09:02:25 +0000
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-488b0046078so53741775e9.1
-        for <linux-nvme@lists.infradead.org>; Wed, 06 May 2026 02:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778058143; x=1778662943; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
-        b=EPJTG+NT0gy8SnBo0rJIbmApoyt0Sbs7+qFJfg07YCRmaLhhKE8M+uv0+KSxVnP+Ky
-         J8yEuzm0qiqm71u8TvJwMiH8Exu3cKFwDRLZrwrA3zX+uyFxOHr5TFqVlv9eH4OiJO9n
-         u1pUeAxJ4b4sUQiNmV1sBn+Ce01XEMlgsj33jsr0heLNHHh3/iOLPXwRpwlJmVA31CT9
-         Wv0qH/6ZvkZZRKofGcqQNeQTRIpSkT79y+fRi5+dvFsRR4XidR0L/OiZl2NN+Gzi7TmA
-         eegazIKo5cMseV8KaI2pklI3v6CAF/i11X+T83myR52DYc0HGlf+RTRo0OdeRTHbHrkO
-         OreQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778058143; x=1778662943;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
-        b=OkWx/9k1e/CJ+Ew5FQ1l2aU0crkzlKqDmw1nksFr+O3FEG8H8E1dOfmJ5L1dNoNVC4
-         C8Q+onz2z0CoZ+gLfL6TMo4pT7QTwVNRdeq41haRV6KY1ofi/5DqbBwgLvMRKraWb6OO
-         Mpa5ZGQXIx117DamrhloYmRCZ7OVbDG542mPjK/eJea3JR7PKha95Qd3t02jv7ijw9dM
-         CDmOajnDSqJ5qrUP+W97EgBlvgP8rrmppaKeV7ZxOTmGlhj8H5TYWH9TAlbQIG07h7K9
-         c7Hf2iZwU3MoWZBdY0WNOaAfD886uNTCXISM+LaOY9Fb1bM9sOWlEhElp9uzqoKif8Zw
-         F6Pw==
-X-Forwarded-Encrypted: i=1; AFNElJ9/I1z5L7hdZE65xtc79IxwRb7+T1uwsYbzEw6SOlhVuhNnxL0dXBuCfg6s6PaFPnEi2bhdSoGnT3Zk@lists.infradead.org
-X-Gm-Message-State: AOJu0YwzeQYb6aCa71BkjvcJ2evTBwYPxxO/vH6+FszbW6wVSG2yU790
-	SRWzT85M1IL+SfB+VSTgaSAP62Pna5ygRk4ChiB6c/NsrX5FRzd1XazT
-X-Gm-Gg: AeBDieupiibnanRbb9mrDWxWSS/q+1wL2axLP8du/Q0e3U36/o4rAAFTLh2Cr1R5IPI
-	icrrNX1uYMyE2tC9pZkQJBbcpCc+DmLVcV7SViLp5XYssHD6h3S15pNaq2oRT/6oqC4l13wHVgO
-	RN/BTClXIIvXiy1U5FkBNOy02ZIe/qwx6mcsk7o2b9sTIk7uPurOCjRbI0/jupUsuxFzzjlnPe7
-	HOFHyEiUNA4C2dwZLOugf++8uwEE8l+MEF4fgzfWDdZRjri+iqifBksElu+Ayyf2Lce0m/MJdXn
-	kvsktvNkE0oQv2Om0vXdJU43L+bU33N/22al50UxtYbWztFS0ViRUAKGerE4kyVabWAXfCbJ/R+
-	rCwJcSJSC9dxcIAUHcYBT4RCHHJRFh7qX598GwEhUP0qZBtrIjhEFoitjLfDRByUYVzTshCMkT1
-	dNO07sGlpMCoPjqV7HWY83lCa/P8gwBMffnksDyrBknxo4f6TsssEesMEKFLs2OeEct1HC8FmLS
-	A1jpP8lLcipXMGHJ5lM9FoL/2pWpIrz7YEFEnkYlg==
-X-Received: by 2002:a05:600c:2e0c:b0:489:1c2d:211e with SMTP id 5b1f17b1804b1-48e51e0c833mr25734095e9.5.1778058142476;
-        Wed, 06 May 2026 02:02:22 -0700 (PDT)
-Received: from [10.109.92.22] ([86.33.71.194])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e52f5c1cfsm21365215e9.0.2026.05.06.02.02.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 02:02:21 -0700 (PDT)
-Message-ID: <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
-Date: Wed, 6 May 2026 10:02:11 +0100
+	Wed, 06 May 2026 13:19:01 +0000
+Received: from pps.filterd (m0528007.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6466SZCp1884765
+	for <linux-nvme@lists.infradead.org>; Wed, 6 May 2026 06:19:00 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=MXAFXLpub4Ios579vC
+	na30mD+3oUTadeDnGvgFJZ4dA=; b=b1ZP1jA2QH9K96k+2Q3qyyKiB6lgV6HfhI
+	5TQEmZYvZEm+5q7xGy0PLFrIwEU8V0vcEk9L43S0LZqgyknJdCtz1JmNc04qe3Td
+	EZtq+kG/KIw+RmlQoNv77MfaxznHG0ccIUmsz6JEGfgiUU4/izzP4HXehU/zJBxS
+	mjBPIqiSSEbdx6wWP/ArvmUUQ5BjLLNJW3b3qw5SqBB60sndk/r6VrtancgQ59Se
+	szr1CU8vBkfsQS0d7ny/t9mDX0A6A+hCDPvCXca0O9IVBTcxrnOF8UAO4goGfq3O
+	2OT1+EI7A4yfNmuyyy/Zqsm1rKmVwWji27XBhpezTfl5JnE95c5g==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4e00d91xu5-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Wed, 06 May 2026 06:19:00 -0700 (PDT)
+Received: from twshared5087.02.snb2.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.37; Wed, 6 May 2026 13:18:59 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 5814116D00081; Wed,  6 May 2026 06:18:41 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>
+CC: <me@alancui.cc>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme: make prp passthrough usage less scary
+Date: Wed, 6 May 2026 06:18:39 -0700
+Message-ID: <20260506131839.2364791-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <afi7c-VUJWOLlC1m@fedora>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <afi7c-VUJWOLlC1m@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: ydYp72NsPu5BfCCfN9Leb1GXF01Dx0fd
+X-Proofpoint-GUID: ydYp72NsPu5BfCCfN9Leb1GXF01Dx0fd
+X-Authority-Analysis: v=2.4 cv=G+4s1dk5 c=1 sm=1 tr=0 ts=69fb3fc4 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=4h92JMTCafKA-fb_NiOh:22 a=VwQbUJbxAAAA:8 a=9OkeFd18GadU2AKlsWcA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDEzMSBTYWx0ZWRfX16wXo1JSMc2Y
+ 1R5EjCjYZSXngIePCZ5EZ9iZZnHHfkfFfljvJVTUk66awqqC0uedJ6eC27jrmtktL4gxZSl4o0c
+ GNtrKrLZGv3B9ZCjFkjIrYuG6fRj6fMGOMnZ/tyxuxx35x98hO3nThP/zQFJhp1r4N+R8pcls0Q
+ v4XjQ1vOC2lyc7TAGryU2MF7ouyAghPFn47eS2Ab2Wtv4CUhaJdCcuY54Aa6A0KzQaupz3QmtqT
+ EyKCdO85gvitQEojVyYtGCt28rLXtwFtX+ibCs1uOC/hu45wf2tQsndPB2ZMTz9+ecvh9lDFqFK
+ qpOtD5wCarT931BdjBFbaPCKR6gS34bczdGbe2pPN2Ibf5+qi2R4r5hoLLXwptV7ItI/u6fTSK3
+ 9iPBobuBVME8hrx3mkBTuWLI54FysDX3o+4ubok5+nXOEQIoZ9L0eVHBvf2iUx5nMYk0OTqElLT
+ yzpFWbepWN/yc7l+ovQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-05_03,2026-05-06_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260506_020225_482077_C85197A9 
-X-CRM114-Status: GOOD (  28.19  )
+X-CRM114-CacheID: sfid-20260506_061901_816988_651C6256 
+X-CRM114-Status: GOOD (  12.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -116,61 +94,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hey Ming,
+From: Keith Busch <kbusch@kernel.org>
 
-On 5/4/26 16:29, Ming Lei wrote:
-> On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
->> The patch set allows to register a dmabuf to an io_uring instance for
->> a specified file and use it with io_uring read / write requests. The
->> infrastructure is not tied to io_uring and there could be more users
->> in the future. A similar idea was attempted some years ago by Keith [1],
->> from where I borrowed a good number of changes, and later was brough up
->> by Tushar and Vishal from Intel.
->>
->> It's an opt-in feature for files, and they need to implement a new
->> file operation to use it. Only NVMe block devices are supported in this
->> series. The user API is built on top of io_uring's "registered buffers",
->> where a dmabuf is registered in a special way, but after it can be used
->> as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
->> requests. It's created via a new file operation and the resulted map is
->> then passed through the I/O stack in a new iterator type. There is some
->> additional infrastructure to bind it all, which also counts requests
->> using a dmabuf map and managing lifetimes, which is used to implement
->> map invalidation.
->>
->> It was tested for GPU <-> NVMe transfers. Also, as it maintains a
->> long-term dma mapping, it helps with the IOMMU cost. The numbers
->> below are for udmabuf reads previously run by Anuj for different
->> IOMMU modes:
-> 
-> Plain registered buffer is long-live too, which raises question: does this
-> framework need to take it into account from beginning?
+The warning is a bit alarming, and it only prints for the very first
+non-sgl capable device that receives a passthrough command. Just log an
+informational message on initial discovery for every device.
 
-Not sure I follow, mind expanding on what should be accounted?
-Are you suggesting that we might want to use normal registered
-buffers in a similar way? I.e. giving the driver an ability to
-pre-register them?
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+ drivers/nvme/host/core.c  |  4 ++++
+ drivers/nvme/host/ioctl.c | 12 ++----------
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
-> BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
-> which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
-
-Interesting, just too a glance, and it looks like what David Wei
-was thinking to add to fuse, but IIUC he gave up exactly because the
-client will need to cooperate and that could be troublesome.
-
-Should we try to push everything under the same interface instead of
-keeping a ublk specific one? Again to the point that it requires
-a cooperative client, but if it's something more generic, the user
-might just try to use it as a general optimisation. In the same way
-it'll be helpful to fuse, and as a bonus you wouldn't need tree look
-ups (but mandates clients using registered buffers as a downside).
-
-It'd need to shaped to somehow work better with host memory as I
-assume you want to be able to map it into server in common case.
-Switch case'ing if it's a udmabuf is not the greatest approach,
-but maybe we can figure out something else.
-  
--- 
-Pavel Begunkov
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dc388e24caade..1e7e42b43aa3f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3749,6 +3749,10 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, =
+bool was_suspended)
+ 		ret =3D nvme_hwmon_init(ctrl);
+ 		if (ret =3D=3D -EINTR)
+ 			return ret;
++
++		if (!nvme_ctrl_sgl_supported(ctrl))
++			dev_info(ctrl->device,
++				"passthrough uses implicit buffer lengths\n");
+ 	}
+=20
+ 	clear_bit(NVME_CTRL_DIRTY_CAPABILITY, &ctrl->flags);
+diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
+index 9597a87cf05dc..39d6e69cbbe72 100644
+--- a/drivers/nvme/host/ioctl.c
++++ b/drivers/nvme/host/ioctl.c
+@@ -125,16 +125,8 @@ static int nvme_map_user_request(struct request *req=
+, u64 ubuffer,
+ 	struct bio *bio =3D NULL;
+ 	int ret;
+=20
+-	if (!nvme_ctrl_sgl_supported(ctrl))
+-		dev_warn_once(ctrl->device, "using unchecked data buffer\n");
+-	if (has_metadata) {
+-		if (!supports_metadata)
+-			return -EINVAL;
+-
+-		if (!nvme_ctrl_meta_sgl_supported(ctrl))
+-			dev_warn_once(ctrl->device,
+-				      "using unchecked metadata buffer\n");
+-	}
++	if (has_metadata && !supports_metadata)
++		return -EINVAL;
+=20
+ 	if (iter)
+ 		ret =3D blk_rq_map_user_iov(q, req, NULL, iter, GFP_KERNEL);
+--=20
+2.52.0
 
 
