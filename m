@@ -4,126 +4,130 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3FE4CD3442
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 16:23:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DAA2CD343F
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 16:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=; b=KQZ/VdpFbrG0d5VKhXMoK8YHdx
-	nvAa78YiuYgbMAFvvWCf23C50FxKe0Z1UpRfgqi2gM4Eu4ep+QfU+AAtjiBuNO3o+U00BupeY4CAM
-	3j5WVq8HbLlWQaM3eC2WqLcFfn5v6JUxDSyhITvBI/YAVcAFzrquLGfmjQENLFhznB3bH7KYxAchF
-	vkvuPRTUqZkpmrFRajPL5HCzyr5B4wYvAx0ORU/4GHgxw3fNyBvSB3laY4ymhvQd5cTGe7D4iBoML
-	WngClqDAKN6KFPb+DaiUwpqVpccuiMklUHVrSXqnWQRQK5aDtHuOzho4Sk3J+OycNenX7yoDVqlGK
-	GPJvOfPg==;
+	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=; b=QMftvm3Z0Mog4G/kB/JYq6FzZQ
+	NYYZ/ODf872LRinMf3NlPlBia193lPDQ8cbjZSDCCUI4xglIuO646JUCyeETNkrMpetR3j5PsZccz
+	hO9PIH3P6E0PcDi7MZ+nozGEGyYljunC5jxrV2kU1BvYTA2+1hOfUGdq9thdTfyb9c3+P3YnR+bmi
+	IqJfpE42A1XE+ehDj57ObdlkVsvZvW7Djro7vIi85A5kciZMCdyG1CEaGI52XotdSyPZt1VpFONwr
+	Flu8AH9QtNXNEuSu/qR255JbLgPG/5jCuBN+4d9uhw5r92KmFOjV2eJY2shE1qOegcTG6ZpQtmP8I
+	ouTGp4xA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL1Vn-00000004K25-41ds;
-	Thu, 07 May 2026 16:23:43 +0000
-Received: from smtp-out1.suse.de ([195.135.223.130])
+	id 1wL1aC-00000004KV9-2dZK;
+	Thu, 07 May 2026 16:28:16 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL1Vg-00000004K1K-3fFx
+	id 1wL1aA-00000004KUc-1fRC
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 May 2026 16:23:38 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	Thu, 07 May 2026 16:28:15 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3FD1C5C60F;
-	Thu,  7 May 2026 16:23:33 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5B0FF5C67C;
+	Thu,  7 May 2026 16:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778171013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778171292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
-	b=bfsMVyZ40gY4Cg2NV+kAfZPpdig+oLOXDAsTViUebcSdW361TXRO6ItxT6fwmS1oRSpepW
-	/ZZeBO+hszWhPvR6CrBtrkGk4PFTVkCi71YIjDpMiLVBbsCQeUuluYZWgVW+WzXk7djca6
-	dC7Cl91biYqLwANuXjSrtpBhvsVmef4=
+	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
+	b=prF84qenKa5PjjXpSpYpf0ijRbefSmI0S2qJ6uy5NOuI29rldvpBiQLvDIz5h2IEYcNbvu
+	9RPyMqrxnLMekzfCOK6N4+GVB+r3Pywh8oG6TsyA854Ue2Po37kCr9RYKQskFHsDjTp3ej
+	U0HEKA895MlPLBkhQ4WODgxTPHGcvV4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778171013;
+	s=susede2_ed25519; t=1778171292;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
-	b=mSAN6byIMRUYVpX5i901RNtC4p18d/SE9YrMHAwJJzOm7AC0H+oB+tap6XHbBeFU7HPm6x
-	YJzQS38KJQQVARDQ==
+	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
+	b=jcsemDO+zMNjwrJMh+NpQHPV7YCZkn6IlPCvJA4Ak9yBXdqK51jPpYhljIWlN65CfBYnd9
+	UIFidN+zv5f0NVDw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=prF84qen;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jcsemDO+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778171013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778171292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
-	b=bfsMVyZ40gY4Cg2NV+kAfZPpdig+oLOXDAsTViUebcSdW361TXRO6ItxT6fwmS1oRSpepW
-	/ZZeBO+hszWhPvR6CrBtrkGk4PFTVkCi71YIjDpMiLVBbsCQeUuluYZWgVW+WzXk7djca6
-	dC7Cl91biYqLwANuXjSrtpBhvsVmef4=
+	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
+	b=prF84qenKa5PjjXpSpYpf0ijRbefSmI0S2qJ6uy5NOuI29rldvpBiQLvDIz5h2IEYcNbvu
+	9RPyMqrxnLMekzfCOK6N4+GVB+r3Pywh8oG6TsyA854Ue2Po37kCr9RYKQskFHsDjTp3ej
+	U0HEKA895MlPLBkhQ4WODgxTPHGcvV4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778171013;
+	s=susede2_ed25519; t=1778171292;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
-	b=mSAN6byIMRUYVpX5i901RNtC4p18d/SE9YrMHAwJJzOm7AC0H+oB+tap6XHbBeFU7HPm6x
-	YJzQS38KJQQVARDQ==
+	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
+	b=jcsemDO+zMNjwrJMh+NpQHPV7YCZkn6IlPCvJA4Ak9yBXdqK51jPpYhljIWlN65CfBYnd9
+	UIFidN+zv5f0NVDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8871593A7;
-	Thu,  7 May 2026 16:23:32 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F57E593A7;
+	Thu,  7 May 2026 16:28:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gEoqM4S8/GmaKQAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 07 May 2026 16:23:32 +0000
-Message-ID: <b0e028bb-839a-476d-a640-690a301bd8f6@suse.de>
-Date: Thu, 7 May 2026 18:23:28 +0200
+	id +9rvBZy9/GlSLgAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 07 May 2026 16:28:12 +0000
+Message-ID: <4eedc5eb-4e13-44d8-99ad-145494ff1156@suse.de>
+Date: Thu, 7 May 2026 18:28:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 7/8] nvmet-loop: do not alloc admin tag set during
- reset
-To: Maurizio Lombardi <mlombard@arkamax.eu>,
- Maurizio Lombardi <mlombard@redhat.com>
-Cc: kbusch@kernel.org, mheyne@amazon.de, emilne@redhat.com,
- jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
- mkhalfella@purestorage.com, chaitanyak@nvidia.com, hare@kernel.org,
- hch@lst.de
-References: <20260410073924.61078-1-mlombard@redhat.com>
- <20260410073924.61078-8-mlombard@redhat.com>
- <8babbc78-701d-4308-b325-b4b2bab5d2c2@flourine.local>
- <DI4QV80PTNP9.1ZY7L7GFJ8TX5@arkamax.eu>
+Subject: Re: [PATCH 0/7] nvme-cli: add nvme top command for real-time
+ monitoring
 Content-Language: en-US
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: hare@suse.com, kbusch@kernel.org, hch@lst.de, gjoyce@linux.ibm.com,
+ wenxiong@linux.ibm.com, linux-nvme@lists.infradead.org
+References: <20260430105234.1172446-1-nilay@linux.ibm.com>
 From: Daniel Wagner <dwagner@suse.de>
-In-Reply-To: <DI4QV80PTNP9.1ZY7L7GFJ8TX5@arkamax.eu>
+In-Reply-To: <20260430105234.1172446-1-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 5B0FF5C67C
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260507_092337_579032_BEE66F5E 
-X-CRM114-Status: GOOD (  13.38  )
+X-CRM114-CacheID: sfid-20260507_092814_597066_CC68E2E9 
+X-CRM114-Status: UNSURE (   5.98  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -138,38 +142,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Maurizio,
+Hi Nilay,
 
-On 4/28/26 1:17 PM, Maurizio Lombardi wrote:
-> It would be something like this (just a compile tested draft,
-> I still need to properly test it, but it should give you an idea):
-> 
-> 
-> nvmet-loop: do not alloc admin tag set during reset
-> 
-> Currently, resetting a loopback controller unconditionally invokes
-> nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
-> Doing so drops the old queue and allocates a new one. Consequently,
-> this reverts the admin queue's timeout (q->rq_timeout) back to the
-> module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
-> timeout values the user may have configured via sysfs and potentially
-> racing against the sysfs nvme_admin_timeout_store() function
-> that may dereference the admin_q pointer during the RESETTING state.
-> 
-> Decouple the admin tag set lifecycle from the admin queue
-> configuration and destruction paths, which are executed during resets;
-> Specifically:
-> 
-> * Move nvme_alloc_admin_tag_set() into nvme_loop_create_ctrl() so it
->    is only allocated once during the initial controller creation.
-> 
-> * Defer the destruction of the admin tag set to
->    nvme_loop_delete_ctrl_host(), the terminal error-handling
->    paths of nvme_loop_reset_ctrl_work() and
->    nvme_loop_create_ctrl().
 
-This looks way better IMO. So yes please, add use this version.
+On 4/30/26 12:52 PM, Nilay Shroff wrote:
+> As usual feedback, comments, and suggestions are welcome!
+
+I've uploaded the series to github to run the CI builds and also asked 
+the LLM of the day to review it. There are a bunch of valid points it 
+brought up:
+
+https://github.com/linux-nvme/nvme-cli/pull/3333
+
+Could you look into it and update the series accordingly?
+
+And as discussed during LSFMM I'll apply it then and we improve/fix 
+stuff from there in the tree.
 
 Thanks,
 Daniel
+
 
