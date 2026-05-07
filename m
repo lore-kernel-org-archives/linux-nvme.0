@@ -4,129 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3DAA2CD343F
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 16:28:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E46B3CD3442
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 16:39:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=; b=QMftvm3Z0Mog4G/kB/JYq6FzZQ
-	NYYZ/ODf872LRinMf3NlPlBia193lPDQ8cbjZSDCCUI4xglIuO646JUCyeETNkrMpetR3j5PsZccz
-	hO9PIH3P6E0PcDi7MZ+nozGEGyYljunC5jxrV2kU1BvYTA2+1hOfUGdq9thdTfyb9c3+P3YnR+bmi
-	IqJfpE42A1XE+ehDj57ObdlkVsvZvW7Djro7vIi85A5kciZMCdyG1CEaGI52XotdSyPZt1VpFONwr
-	Flu8AH9QtNXNEuSu/qR255JbLgPG/5jCuBN+4d9uhw5r92KmFOjV2eJY2shE1qOegcTG6ZpQtmP8I
-	ouTGp4xA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=MapS9nyYtwgzKpi2my6D51Q4DjgyPby4G0IFSZWdF84=; b=hYwXJUhWifyqV7zvv2hFxC8ftZ
+	WAp/azcHWGwhU98eKACln1q+0ad5CG4yv930y8BSUtPGKqUuFT8pyAmQ05XIZOOShNYBojIVKwl6T
+	gQIDhsT7w0XqWY1hTEbrJ11pUihLCe24CAeksNF9jGcFrDGgIh/pAi+c1Vtpsjdfbio1fAJmXYKm8
+	WktzQKr/32CEkjptF7dmRjGoQ8WJBRa3m93DEYUG8R9b4np6+MSuX3ZQMfObKh2JJs28oUF/ReQPY
+	kmQLlSmG6yPvWxl41Stp/fUM1h6m+s8Qn0WzXDxV4T1puJ8whhonVujm8ZkCBzfIpP3wHvc6E3odd
+	L/YQ8Pag==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL1aC-00000004KV9-2dZK;
-	Thu, 07 May 2026 16:28:16 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wL1lR-00000004M6e-1BlF;
+	Thu, 07 May 2026 16:39:53 +0000
+Received: from out28-81.mail.aliyun.com ([115.124.28.81])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL1aA-00000004KUc-1fRC
+	id 1wL1lN-00000004M4m-1qFV
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 May 2026 16:28:15 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5B0FF5C67C;
-	Thu,  7 May 2026 16:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778171292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
-	b=prF84qenKa5PjjXpSpYpf0ijRbefSmI0S2qJ6uy5NOuI29rldvpBiQLvDIz5h2IEYcNbvu
-	9RPyMqrxnLMekzfCOK6N4+GVB+r3Pywh8oG6TsyA854Ue2Po37kCr9RYKQskFHsDjTp3ej
-	U0HEKA895MlPLBkhQ4WODgxTPHGcvV4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778171292;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
-	b=jcsemDO+zMNjwrJMh+NpQHPV7YCZkn6IlPCvJA4Ak9yBXdqK51jPpYhljIWlN65CfBYnd9
-	UIFidN+zv5f0NVDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=prF84qen;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jcsemDO+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778171292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
-	b=prF84qenKa5PjjXpSpYpf0ijRbefSmI0S2qJ6uy5NOuI29rldvpBiQLvDIz5h2IEYcNbvu
-	9RPyMqrxnLMekzfCOK6N4+GVB+r3Pywh8oG6TsyA854Ue2Po37kCr9RYKQskFHsDjTp3ej
-	U0HEKA895MlPLBkhQ4WODgxTPHGcvV4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778171292;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J++FokmvTHlkt8kgpzhLvjbpu0hcW1fUQ8lTexarFwg=;
-	b=jcsemDO+zMNjwrJMh+NpQHPV7YCZkn6IlPCvJA4Ak9yBXdqK51jPpYhljIWlN65CfBYnd9
-	UIFidN+zv5f0NVDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F57E593A7;
-	Thu,  7 May 2026 16:28:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +9rvBZy9/GlSLgAAD6G6ig
-	(envelope-from <dwagner@suse.de>); Thu, 07 May 2026 16:28:12 +0000
-Message-ID: <4eedc5eb-4e13-44d8-99ad-145494ff1156@suse.de>
-Date: Thu, 7 May 2026 18:28:07 +0200
+	Thu, 07 May 2026 16:39:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=alancui.cc; s=default;
+	t=1778171981; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=MapS9nyYtwgzKpi2my6D51Q4DjgyPby4G0IFSZWdF84=;
+	b=PGRei6PIlWKEhOdkW2C4dXEzuih/jEcDzebfQ5KeFrK33Pkzd12jClNTiRl5YuCj+1bUydxwBEwe9/dXfZFBe64COeUbgrYPVeRVXRdSFskofc+wiUMIghyB19XMdcHLI6QOunzQg6qg2H7+7u62vwUwgSWczPHm+lChd2HMgn5Et/K98Y9FvXld+Wmb/EP/Gs55/EZqoBto57ssfhTyazTvdpjd9H20WpcgRc1FcbeGbg2uA1+7wyIoJeCAX3i8678GB5ggAm5dCcBE/96/x3roGdc56f9BnFgfGcOxpujBZbiLv7jwMXP5Yz7Om8TRHU8/NM0/p16Yt6aRgR4YYQ==
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.5305654|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0151987-0.00177872-0.983023;FP=3775383492054609555|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037071049;MF=me@alancui.cc;NM=1;PH=DS;RN=3;RT=3;SR=0;TI=SMTPD_---.hRqRX87_1778171979;
+Received: from alanarchdesktop.localnet(mailfrom:me@alancui.cc fp:SMTPD_---.hRqRX87_1778171979 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 08 May 2026 00:39:39 +0800
+From: AlanCui4080 <me@alancui.cc>
+To: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme: make providing NGUID as UUID usage less scary
+Date: Fri, 08 May 2026 00:36:50 +0800
+Message-ID: <UPNVP7_KTI2VieaAyBtUMA@alancui.cc>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] nvme-cli: add nvme top command for real-time
- monitoring
-Content-Language: en-US
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: hare@suse.com, kbusch@kernel.org, hch@lst.de, gjoyce@linux.ibm.com,
- wenxiong@linux.ibm.com, linux-nvme@lists.infradead.org
-References: <20260430105234.1172446-1-nilay@linux.ibm.com>
-From: Daniel Wagner <dwagner@suse.de>
-In-Reply-To: <20260430105234.1172446-1-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 5B0FF5C67C
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260507_092814_597066_CC68E2E9 
-X-CRM114-Status: UNSURE (   5.98  )
+X-CRM114-CacheID: sfid-20260507_093949_661999_AE1544D8 
+X-CRM114-Status: UNSURE (   9.68  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -142,24 +63,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Nilay,
+Hi, 
 
+> From: Keith Busch <kbusch@kernel.org>
+> 
+> The warning is a bit alarming, and it only prints for the very first
+> non-sgl capable device that receives a passthrough command. Just log an
+> informational message on initial discovery for every device.
 
-On 4/30/26 12:52 PM, Nilay Shroff wrote:
-> As usual feedback, comments, and suggestions are welcome!
+Since we decide to show this warning at device initial discovery stage,
+here are some similar warnings that I think are essentially the same.
 
-I've uploaded the series to github to run the CI builds and also asked 
-the LLM of the day to review it. There are a bunch of valid points it 
-brought up:
+grep -C3 -rn "dev_warn_once" ./drivers/nvme/*
+```
+./drivers/nvme/host/sysfs.c-147-         * we have no UUID set
+./drivers/nvme/host/sysfs.c-148-         */
+./drivers/nvme/host/sysfs.c-149-        if (uuid_is_null(&ids->uuid)) {
+./drivers/nvme/host/sysfs.c:150:                dev_warn_once(dev,
+./drivers/nvme/host/sysfs.c-151-                        "No UUID available providing old NGUID\n");
+./drivers/nvme/host/sysfs.c-152-                return sysfs_emit(buf, "%pU\n", ids->nguid);
+./drivers/nvme/host/sysfs.c-153-        }
+```
 
-https://github.com/linux-nvme/nvme-cli/pull/3333
+This warning will only complain for the first partition of the first device also.
+And for NVMe devices, according to the NVM-Express-1_4 specification p.175 Figure 251:
+"Bit 9 (UUID List): ...", UUID is not mandatory i guess. So let's degrade it into a
+informational message on initial discovery for every device.
 
-Could you look into it and update the series accordingly?
+Signed-off-by: Alan Cui <me@alancui.cc>
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3fdcd73b9546..c432d8bc7b62 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4296,6 +4296,10 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_info *info)
+                goto out;
+        }
+ 
++       if (uuid_is_null(&info->ids.uuid)) {
++               dev_info(ns->ctrl->device, "No UUID available, uuid_show providing old NGUID\n");
++       }
++
+        ret = nvme_update_ns_info(ns, info);
+ out:
+        /*
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 29430949ce2f..839a36c22ebf 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -147,8 +147,6 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+         * we have no UUID set
+         */
+        if (uuid_is_null(&ids->uuid)) {
+-               dev_warn_once(dev,
+-                       "No UUID available providing old NGUID\n");
+                return sysfs_emit(buf, "%pU\n", ids->nguid);
+        }
+        return sysfs_emit(buf, "%pU\n", &ids->uuid);
 
-And as discussed during LSFMM I'll apply it then and we improve/fix 
-stuff from there in the tree.
+--
+2.54.0
 
-Thanks,
-Daniel
 
 
