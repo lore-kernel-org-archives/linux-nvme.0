@@ -4,64 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6F27CD3445
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 23:02:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F39CCD343F
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 23:33:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=kP+y/Vl8TmXBh/Imrw9EYYqRk/Rw3B2yQawdqTatU68=; b=yNV+RVu62Q1y7N
-	8oedCFXpH+lkIoAY4HNCeAN3Wz8iH5BtF9g1BHvoMbH3BJn/LBtCeQa8hQI1TAIxPgu2dPuwzEknA
-	ZvOafw4m5q9Pos/01GfXOTdGG4F0omdpgL9KBtb8+Wm+4eZGORdRcQkjG+0wWRQcDOEMIH6/J1fjD
-	9xV9vAKNiL1VBhL8QtZqKSPHEiEnMhe6CcSgyjkBAXfZLRjYD71Ai/rgDjECR5ME0sMBWDxLVf+W9
-	nvZyt50bCXPZWrgC/VBQ5x2QqWrg/4RpXNCnLgy2yBW4x00qnM5QVLdQ2UGXgj4iFA4nUwSrd8+MJ
-	Vm6aG+tmZ7OwK3OOmV2w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:To:From:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=nMHV48hSgrd27QN5a5+9XgzPBNWLKoTKfhA2RZKLPEo=; b=YkyoMfTvPPCCaAAj4f/PBkkzOP
+	w2hgvprSyd83VKIwu90Q6LzzVTC4F32j9IqQjyhQLY+Iua/CwZdZGH7mQLxmIt5LmdHX++c3t9cUd
+	hnxHuy8BDqmSsdHo/OcPTKjwqKntY2l4q/Hzl0pDZ4ep8r2XAjI4pRZ2iRn1WzYtMT8W0xRBtSQ/n
+	x/rVKJP02vXMFMfyAmWYW0Wu/b58T37SYx+6pHMx08VyAIJ2t660TD0hpEbSwcCVyc9Ta2cfmRdgn
+	jb7+WnDpr3LqE1dYXCWT1Z13LMaYELnhSlSk2z/bAvO18tCi86DeMfVLn0l1vaD7qKYBy2BqduxoZ
+	WKv+W9Pg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL7k5-000000056tr-0gDl;
-	Thu, 07 May 2026 23:02:53 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wL8Dk-000000059mU-1RA6;
+	Thu, 07 May 2026 23:33:32 +0000
+Received: from out28-57.mail.aliyun.com ([115.124.28.57])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL7k3-000000056tS-1Pci
+	id 1wL8Df-000000059lS-2y6d
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 May 2026 23:02:51 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 6D8A060181;
-	Thu,  7 May 2026 23:02:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED565C2BCB2;
-	Thu,  7 May 2026 23:02:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778194970;
-	bh=v7ZawboY1tagenWamPRS78LGMs+Lnkdb67PDXmvdElg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=vIZsPB9LCVDbo33b//MxiLgxtLZpOOrDM+qB7b1QJ1yi+YHUCwaHeHZ/ut3j65dlZ
-	 zFU33X6uHrGA39g+3x8+ePsw1fobbJjhbgF8ZJYOas0FsRLAe4Qv1gl5EK7U/thQy2
-	 Eor+jZCAIcTfzAA2tYMzs+1680r6Zb8Q2mQ+0J1wb3abk9kxh3wZzBX51J1t/qydYG
-	 zZO3U+ZQ6UBVs1fT6c8M+Q/6nyoub66hE56cbqgQNVA0uVERnIpgh3Dr3YOsuBuOdn
-	 Fu6uvTy8HkYxWu7IAhUeXR25b6w7dY9yCvEypTiX7ir+ceXK+jHDnjHZEqy+2hpSTp
-	 L+NOqjTMeg3jQ==
-Date: Thu, 7 May 2026 18:02:48 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: manivannan.sadhasivam@oss.qualcomm.com,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/4] PCI: Introduce an API to check if RC/platform can
- retain device context during suspend
-Message-ID: <20260507230248.GA51586@bhelgaas>
+	Thu, 07 May 2026 23:33:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=alancui.cc; s=default;
+	t=1778196804; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=nMHV48hSgrd27QN5a5+9XgzPBNWLKoTKfhA2RZKLPEo=;
+	b=fJQXFuE3syXMhjUrKsFcV1Xf9FmAKaXyrvAWezYW5k1iI+4S3ABQ50VADlZcSsl5PK9N2nloDrX3+v6kr6NiqvI8UhyOqpod3FemVyqMeMueR44/hfBy0Kyh51TMvJtwzwwTujr62yIX/f61WroJquaAIS37cDUlEoA1bxcawCjXLPKXTtf2Shu6k37Q7tVg7GM+28CoQlu+Uf8eInFHQZdrZHsuAWjy4moech+gk4Fta7IRh3SvAD8pCYvsCnNZ3XiQw2Ub45WJ7A/pD7wFQ5S6DQSbs5SgH65NmRTz7lLoHff6kkrUFehy6uIBxRYqoCdrHXEUsN6bpoQHpIdsKw==
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.9243625|0.09915012;CH=green;DM=|AD|false|;DS=CONTINUE|ham_alarm|0.0193226-0.000620814-0.980057;FP=3776430246451530899|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033032062159;MF=me@alancui.cc;NM=1;PH=DS;RN=2;RT=2;SR=0;TI=SMTPD_---.hS.oeHD_1778196802;
+Received: from alanarchdesktop.localnet(mailfrom:me@alancui.cc fp:SMTPD_---.hS.oeHD_1778196802 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 08 May 2026 07:33:23 +0800
+From: AlanCui4080 <me@alancui.cc>
+To: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>
+Subject: [PATCH V2] nvme: make providing NGUID as UUID usage less scary
+Date: Fri, 08 May 2026 07:33:22 +0800
+Message-ID: <fXjcjd9PSFq_4YruRqDOCw@alancui.cc>
+In-Reply-To: <UPNVP7_KTI2VieaAyBtUMA@alancui.cc>
+References: <UPNVP7_KTI2VieaAyBtUMA@alancui.cc>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xqwvjygt3bgttbipe6hhnpkfwauczxpoiyfbbakdyzesz6ydcd@en54522wjnar>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260507_163327_960639_04F0854F 
+X-CRM114-Status: UNSURE (   8.71  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,52 +64,79 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Apr 17, 2026 at 04:41:09PM +0530, Manivannan Sadhasivam wrote:
-> On Thu, Apr 16, 2026 at 02:18:55PM -0500, Bjorn Helgaas wrote:
-> > On Tue, Apr 14, 2026 at 09:29:39PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> > > From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> > > 
-> > > Currently, the PCI endpoint drivers like NVMe checks whether the device
-> > > context will be retained or not during system suspend, with the help of
-> > > pm_suspend_via_firmware() API.
-> > > 
-> > > But it is possible that the device context might be lost due to some
-> > > platform limitation as well. Having those checks in the endpoint drivers
-> > > will not scale and will cause a lot of code duplication.
-> ...
+Since we decide to show the prp passthrough usage warning at device
+initial discovery stage and degrade it to a informational message,
+here is a warning that I think are essentially the same.
 
-> > > + * pci_dev_suspend_retention_supported - Check if the platform can retain the device
-> > > + *					 context during system suspend
-> > > + * @pdev: PCI device to check
-> > > + *
-> > > + * Returns true if the platform can guarantee to retain the device context,
-> > > + * false otherwise.
-> > > + */
-> > > +bool pci_dev_suspend_retention_supported(struct pci_dev *pdev)
-> > 
-> > This doesn't seem like the right name.  This isn't a property of the
-> > *device*; that's all determined by the PCI spec (devices must retain
-> > all internal state in D0, D1, and D2, they retain it in D3hot if
-> > No_Soft_Reset, and they never do in D3cold).
-> > 
-> > So this seems like something to do with the *platform* behavior.  It
-> > sounds like this is basically a way to learn whether the device might
-> > be put in D3cold on system suspend.
-> 
-> That's correct. But I wanted to keep it device specific, since apart
-> from pm_suspend_via_firmware() there could be other issues causing
-> context to be lost. Like the issue with RC, brought up in the
-> successive patches. There could be chances that only one hierarchy
-> might be affected. So making it device specific would give us the
-> granularity.
+grep -C3 -rn "dev_warn_once" ./drivers/nvme/*
+```
+./drivers/nvme/host/sysfs.c-147-         * we have no UUID set
+./drivers/nvme/host/sysfs.c-148-         */
+./drivers/nvme/host/sysfs.c-149-        if (uuid_is_null(&ids->uuid)) {
+./drivers/nvme/host/sysfs.c:150:                dev_warn_once(dev,
+./drivers/nvme/host/sysfs.c-151-                        "No UUID available providing old NGUID\n");
+./drivers/nvme/host/sysfs.c-152-                return sysfs_emit(buf, "%pU\n", ids->nguid);
+./drivers/nvme/host/sysfs.c-153-        }
+```
 
-OK, a device-specific API is fine.
+This warning will only complain for the first partition of the first device also.
+And for NVMe devices, according to the NVM-Express-1_4 specification p.175 Figure 251:
+"Bit 9 (UUID List): ...", UUID is not mandatory. So let's degrade it into a
+informational message on initial discovery for every device.
 
-Maybe it could be something like "pci_suspend_preserves_context()"?
+Signed-off-by: Alan Cui <me@alancui.cc>
+---
+v2: move the hint to nvme_init_ns_head instead of nvme_validate_ns
+v2: clean the commit message lines
 
-Is it the case that suspend never uses D3cold?  If suspend ever uses
-D3cold, *every* device put in D3cold will lose its context.
+In my understanding, the nvme_init_ns_head will be called each time
+a namespace created, and it does some checking on ids so we also place
+the hint there, and here is the result of dmesg applied current patch.
 
-How would this work if suspend can use D3cold?  Can a driver (or this
-API) learn whether D3cold might be used?
+[    4.502052] nvme nvme1: pci function 0000:05:00.0
+[    4.502060] nvme nvme0: pci function 0000:01:00.0
+[    4.508544] nvme nvme1: missing or invalid SUBNQN field.
+[    4.508664] nvme nvme1: D3 entry latency set to 8 seconds
+[    4.512422] nvme nvme0: missing or invalid SUBNQN field.
+[    4.517581] nvme nvme0: allocated 32 MiB host memory buffer (1 segment).
+[    4.523519] nvme nvme0: 8/0/0 default/read/poll queues
+[    4.524761] nvme nvme1: 16/0/0 default/read/poll queues
+[    4.525438] nvme nvme0: No UUID available, uuid_show providing old NGUID
+[    4.526683] nvme nvme1: No UUID available, uuid_show providing old NGUID
+[    4.527243]  nvme0n1: p1 p2 p3 p4 p5 p6
+[    4.528351]  nvme1n1: p1
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 766e9cc4ffca..70856856a99c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -4007,6 +4007,10 @@ static int nvme_init_ns_head(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		ctrl->quirks |= NVME_QUIRK_BOGUS_NID;
+ 	}
+ 
++	if (uuid_is_null(&info->ids.uuid)) {
++		dev_info(ctrl->device, "No UUID available, uuid_show providing old NGUID\n");
++	}
++
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	head = nvme_find_ns_head(ctrl, info->nsid);
+ 	if (!head) {
+diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+index 16c6fea4b2db..ea8bce9887f9 100644
+--- a/drivers/nvme/host/sysfs.c
++++ b/drivers/nvme/host/sysfs.c
+@@ -147,8 +147,6 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+ 	 * we have no UUID set
+ 	 */
+ 	if (uuid_is_null(&ids->uuid)) {
+-		dev_warn_once(dev,
+-			"No UUID available providing old NGUID\n");
+ 		return sysfs_emit(buf, "%pU\n", ids->nguid);
+ 	}
+ 	return sysfs_emit(buf, "%pU\n", &ids->uuid);
+--
+2.54.0
+
+
+
 
