@@ -4,57 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86B41CD343F
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 18:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3D6B1CD343F
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 18:20:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=u179a+OD6EeA0eb2tmM/DVMlolTemyJ/4dyHs4UAmXA=; b=HozCB4OKR0vd/S+s0AW8FiyZjL
-	Jamri15LYrGoUqghsrSkBbo4QOJk8gHAZeB6C835uKiPfoy1oQkaq15vXomn1ulvHf6RpQnUH4nXs
-	9U0Xpi4HyNY2a/I51mMJ6f32luQQhL3/K7nMPezfcJGB/6B//OOgw9SvIdG7lEv3Vxw7+mYkbHloN
-	66+ee/ejUcGdJ/fY5/GpbEUvykBV+rCotlz4XISbobfRncVfbfOJkekCV2XacXVqUu8gFd02J2OLX
-	+LO8Q0i5bFw9Xb5X4dNb7B8DIG0ZOQKG9o5LAAVMFLGaBuUEeZXGgPZpE55gRIIX9q+ZdBqGg+fFm
-	mMx5DwWQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=7S8TFeRtfIflMZqYczhwMgASjd4d1VGNaJSlMhkzseQ=; b=AnLCImeBOvDkLe/tHt5No9GAqv
+	gwTkbUXj4GSWSKNe+4v+signbBJG5WllZAM6Y4macs6WEw/NFnFOB5TxWRlVSpM8j0fcavHst0Xcj
+	Mw0fiSQlm7dhOXKsOTAVIO83fL3ESjUq28teXOnKwczJ7GcMzej/qyG7nfd6+TemzaXRe34goymSj
+	QcqJGEMQb0M5FKUxHTr/1L8u1p8wIWmN9mgWPt5jUiCnTE53JAO09Jsrc0fagjWp1V6a45SoS6TS0
+	z6yNYy6nAchRivuyayoD0B3/7r+gZXSmvJUMd66Iccb2fakYcvguGxnfdwTDXq8J64ryVPvWA7JCB
+	mE8KVmdg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL3D7-00000004Z76-011r;
-	Thu, 07 May 2026 18:12:33 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wL3Kx-00000004aCn-39od;
+	Thu, 07 May 2026 18:20:39 +0000
+Received: from out28-61.mail.aliyun.com ([115.124.28.61])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL3D5-00000004Z6s-3mqJ
+	id 1wL3Kt-00000004aBU-2ooV
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 May 2026 18:12:31 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 01FC56024D;
-	Thu,  7 May 2026 18:12:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D78E2C2BCB2;
-	Thu,  7 May 2026 18:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778177550;
-	bh=nhFXydb0xZV+rEe/xtyu585U3MKjv53awL0/x4N18R0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VVhqP9SXoo1MAgXfrQ6K5kcSnpObOkz23LlZVwAADhmT/eu25DEiz4u4R3kd1Vvsq
-	 D4oCXPv1GQJsj8jY1DBMMYCx8dGEvhOSHSfAiMFOIAGI1jSko+EZDz6Z4OKQ4cfRoR
-	 loqmWMpf91Yy6j3IohOHI0FAw5nZJO5+GPBkJMHYA8EkGAjAueUlqqucDlkF8XR6FE
-	 Txj+L5fY0fwgnT8DDggsxIParwhH0COGYGBospnB1UKkgjVhETMC6ShRZEiknE0WG0
-	 MD8pZGsIKfiLlOOnGJI1CC2lYmp33LNuMdlhbqRafUGov2eM23LbmtXMcl/+uoLvXm
-	 aP/0owoOuoqJA==
-Date: Thu, 7 May 2026 19:12:26 +0100
-From: Keith Busch <kbusch@kernel.org>
-To: Chao Shi <coshi036@gmail.com>
-Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, hch@lst.de,
-	sagi@grimberg.me, axboe@kernel.dk, Sungwoo Kim <iam@sung-woo.kim>,
-	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
-Subject: Re: [PATCH RFC 1/2] nvme: downgrade WARN in nvme_setup_rw to pr_debug
-Message-ID: <afzWCpJSqvjnTgpF@kbusch-mbp>
-References: <20260427003457.1264511-1-coshi036@gmail.com>
+	Thu, 07 May 2026 18:20:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=alancui.cc; s=default;
+	t=1778178032; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=7S8TFeRtfIflMZqYczhwMgASjd4d1VGNaJSlMhkzseQ=;
+	b=oRxdQe1kC5INvVK5iu3ZQP2uh+NGWQFiiDqAh2qhI9Yb1QEWPsm189RV2V2L5k4X4qEij13pa9WmELZjV5KPJcZHhEu9G3dyTzVfn6Dd+PDI40EHCuQ+gn+9spO8nbX3rxi/iz+QS4yIvYCFv+1ZXlulzTht3/4k4oki3OQimbSQ8kgpVxtJv1IWM7ZAVx0uXDYL8AeCK6ao3Dbpos9MWUakhYED0p75yhqQpVXjAyzz4Sy4XZRM/f61/XnIMd2qe7bFx/NcEruY0EF7lnichhZeEysvdmN3aaHvqJjAGlaXhs9MkfVrb+hioVtNqSdQR2UPY5mYs6ubJIHsOsX9cQ==
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.4633881|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0101608-0.000487045-0.989352;FP=10475684823147583248|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033045213054;MF=me@alancui.cc;NM=1;PH=DS;RN=3;RT=3;SR=0;TI=SMTPD_---.hRv3Kad_1778178030;
+Received: from alanarchdesktop.localnet(mailfrom:me@alancui.cc fp:SMTPD_---.hRv3Kad_1778178030 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 08 May 2026 02:20:31 +0800
+From: AlanCui4080 <me@alancui.cc>
+To: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org
+Cc: Pascal Terjan <pterjan@google.com>
+Subject: The wrong usage of NVME_QUIRK_IGNORE_DEV_SUBNQN
+Date: Fri, 08 May 2026 02:20:30 +0800
+Message-ID: <EgTEZ7GYRxSc3ZRAxjIuBQ@alancui.cc>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427003457.1264511-1-coshi036@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260507_112035_890778_E35745B8 
+X-CRM114-Status: GOOD (  15.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,19 +62,64 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sun, Apr 26, 2026 at 08:34:56PM -0400, Chao Shi wrote:
-> In both cases the bio was submitted without REQ_INTEGRITY (because
-> blk_get_integrity() returned NULL at dispatch time, so
-> bio_integrity_action() returned 0 and bio_integrity_prep() was not
-> called), and it reaches nvme_setup_rw() for a namespace where
-> head->ms != 0.  The existing BLK_STS_NOTSUPP return correctly handles
-> this dispatch; the WARN_ON_ONCE is a false positive.
+Hi Busch,
 
-This is what I'm not really following. The cached request holds a
-reference on the queue that prevents the queue freeze from proceeding.
-This driver freezes the queue along with the queue limits update. As I
-mentioned in the other patch, that was supposed to ensure the block
-layer had the updated limits before it could allocate a request, so I
-think we need to understand how that was defeated to get to a real
-solution.
+Sorry for my bad, but the prior patch which is merged into mainline may
+be a mistake:
+nvme: add quirk NVME_QUIRK_IGNORE_DEV_SUBNQN for 144d:a808
+(7f991e3f9b8f044640bcb5fa8570350a68932843 at mainline).
+
+At first, I searched around the web, many many customer grade devices breaks
+compliance with specification, and some answers tell to add quirk for the device
+https://bbs.archlinux.org/viewtopic.php?id=296004
+> If you do not want to see the warning you need to ask the kernel developers to add
+> NVME_QUIRK_IGNORE_DEV_SUBNQN for whatever the device is that does not support SUBNQN.
+
+https://forum.corsair.com/forums/topic/166499-mp600-1tb-linux-firmware-113-nvme-protocol-quirk/
+> This issue with invalid SUBNQN field is a known issue in a number of NVMe units.
+> If you look at the kernel code you will see that it has a dedicated quirk for it.
+> See NVME_QUIRK_IGNORE_DEV_SUBNQN in ...
+
+Then I did a search on "SUBNQN" on mailling list, then a patch:
+[PATCH] nvme: Add quirks for Lexar 256GB SSD
+(6e6a6828c517fb6819479bf5187df5f39084eb9e at mainline)
+(https://lists.infradead.org/pipermail/linux-nvme/2021-February/023121.html)
+said: 
+> ... and add NVME_QUIRK_IGNORE_DEV_SUBNQN to avoid a warning.
+
+I think the way to resolve the warning is quirk for it, so did i.
+
+
+But, the NVMe specification said:
+> Support for this field (SUBNQN) is mandatory if the controller supports
+> revision 1.2.1 or later.
+
+And the code in kernel is
+```
+if (ctrl->vs >= NVME_VS(1, 2, 1))
+	dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
+```
+
+So the warning "nvme nvme0: missing or invalid SUBNQN field." is appropriate and since
+the device will not report itself supports SUBNQN at all, it will not cause any problem
+and it do break the NVMe compliance, in order to that, the NVME_QUIRK_IGNORE_DEV_SUBNQN
+in my patch for "Samsung PM981/983/970 EVO Plus" and in the Terjans' patch for
+"Lexar 256 GB SSD" should be reverted, however, leave them there should not cause any problem.
+
+I can confirm the "Samsung PM981/983/970 EVO Plus" can work well without the
+prior patch, I do believe the "Lexar 256 GB SSD" can also, because Terjan said
+the quirk on SUBNQN is only for suppressing the "missing or invalid SUBNQN field".
+This mail is copied to Terjan for fact checking.
+
+Since the missing SUBNQN is a known issue in a massive number of NVMe units.
+I'd suggest add a chapter for it in Documentation/nvme/feature-and-quirk-policy.rst to
+tell users the missing SUBNQN is a firmware bug of drives, so warning for the device
+is appropriate, and it will affect nothing like performance etc.
+
+I apologize for my recklessness and lack of due diligence again.
+
+Alan.
+
+
+
 
