@@ -4,63 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4BB6CD3442
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 17:29:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86B41CD343F
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 18:12:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0hilmNYrEncINjbBzwcAc2uqgRp8M75cQdyMOD90Dog=; b=bH4kkiKEidc5c2HpPBO2mvNVw4
-	7RUqe3IdsWifqfhm3Puej6d8+D95xLtj3Uqy7jLerAHhPBDAmPtht9Pu4Gb6sQeHTz4z34RY3kXs0
-	XJg8LOZETje0BkLjsSfRJciZqJqSGBBqG/biiXk8Ak6fkbTnEFcjZCmGNdPIjGgnn93/iOv2TP1sn
-	3044uduzOu7Ei+jpDekRrNGloHMYa9Tocp4AaLSwK1/Aqc6SIaS/HxYcvdDMfo7zhmmWN47OKNAAT
-	Xuv84bqVWBRv7g00zdS4DMTO4MMSjjlJRHuDTtG11b7iQKiGr8KY5YX0ZYxgzyK7MNchu5Fd+zTg1
-	rK46/1CA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=u179a+OD6EeA0eb2tmM/DVMlolTemyJ/4dyHs4UAmXA=; b=HozCB4OKR0vd/S+s0AW8FiyZjL
+	Jamri15LYrGoUqghsrSkBbo4QOJk8gHAZeB6C835uKiPfoy1oQkaq15vXomn1ulvHf6RpQnUH4nXs
+	9U0Xpi4HyNY2a/I51mMJ6f32luQQhL3/K7nMPezfcJGB/6B//OOgw9SvIdG7lEv3Vxw7+mYkbHloN
+	66+ee/ejUcGdJ/fY5/GpbEUvykBV+rCotlz4XISbobfRncVfbfOJkekCV2XacXVqUu8gFd02J2OLX
+	+LO8Q0i5bFw9Xb5X4dNb7B8DIG0ZOQKG9o5LAAVMFLGaBuUEeZXGgPZpE55gRIIX9q+ZdBqGg+fFm
+	mMx5DwWQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL2Xi-00000004UtM-0fnu;
-	Thu, 07 May 2026 17:29:46 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wL3D7-00000004Z76-011r;
+	Thu, 07 May 2026 18:12:33 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL2Xd-00000004Usk-1SRK
+	id 1wL3D5-00000004Z6s-3mqJ
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 May 2026 17:29:42 +0000
+	Thu, 07 May 2026 18:12:31 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8B75844061;
-	Thu,  7 May 2026 17:29:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18345C2BCB8;
-	Thu,  7 May 2026 17:29:39 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 01FC56024D;
+	Thu,  7 May 2026 18:12:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D78E2C2BCB2;
+	Thu,  7 May 2026 18:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778174980;
-	bh=R/QD6T7Hg2ZmKuHvhILv9q2BFk0ioY9fIssJx6mRaVc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K5TwVBE4JGi6lgvOH7yZs5BYG+wU8k7FT4JT2uXNm4J7LIhhSdraycdBaHMw6MqOJ
-	 nT9U/ZzywhfNITsa6bFkVSsrF7sI3Mg35gkVeNQjNTkilKhN3KUYCPIFMAnlgb5t1/
-	 bBpyIW8cBhO0piRQTaiwe+RbZte/gMCvOLZxJ5IdOSGXoZwwmC+Pou3hs0lKwfVQjE
-	 R7tiBacdDXymNI3a8jVIOAyQmAnoZiWIUW8lBkm3NxxwBMjxQlfLFu1Db44gos4yR6
-	 obX4UPJ5vDCBYc0UIkQTYHwKAWv63lHxJLZTUhwA7qqTdk0Jrt4XxbipLhL8dEsl07
-	 q3JSOW/YsnrfQ==
-From: Daniel Wagner <wagi@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	Martin George <marting@netapp.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: Daniel Wagner <wagi@kernel.org>,
-	stuart.hayes@dell.com
-Subject: Re: [PATCH] fabrics: fix NULL dereference in nvmf_update_tls_concat
-Date: Thu,  7 May 2026 19:29:34 +0200
-Message-ID: <177817496921.23552.15531985814797567649.b4-ty@b4>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260506205345.64478-1-stuart.w.hayes@gmail.com>
-References: <20260506205345.64478-1-stuart.w.hayes@gmail.com>
+	s=k20201202; t=1778177550;
+	bh=nhFXydb0xZV+rEe/xtyu585U3MKjv53awL0/x4N18R0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VVhqP9SXoo1MAgXfrQ6K5kcSnpObOkz23LlZVwAADhmT/eu25DEiz4u4R3kd1Vvsq
+	 D4oCXPv1GQJsj8jY1DBMMYCx8dGEvhOSHSfAiMFOIAGI1jSko+EZDz6Z4OKQ4cfRoR
+	 loqmWMpf91Yy6j3IohOHI0FAw5nZJO5+GPBkJMHYA8EkGAjAueUlqqucDlkF8XR6FE
+	 Txj+L5fY0fwgnT8DDggsxIParwhH0COGYGBospnB1UKkgjVhETMC6ShRZEiknE0WG0
+	 MD8pZGsIKfiLlOOnGJI1CC2lYmp33LNuMdlhbqRafUGov2eM23LbmtXMcl/+uoLvXm
+	 aP/0owoOuoqJA==
+Date: Thu, 7 May 2026 19:12:26 +0100
+From: Keith Busch <kbusch@kernel.org>
+To: Chao Shi <coshi036@gmail.com>
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, hch@lst.de,
+	sagi@grimberg.me, axboe@kernel.dk, Sungwoo Kim <iam@sung-woo.kim>,
+	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Subject: Re: [PATCH RFC 1/2] nvme: downgrade WARN in nvme_setup_rw to pr_debug
+Message-ID: <afzWCpJSqvjnTgpF@kbusch-mbp>
+References: <20260427003457.1264511-1-coshi036@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260507_102941_405400_9F5CC9D4 
-X-CRM114-Status: UNSURE (   6.81  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427003457.1264511-1-coshi036@gmail.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,23 +69,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Sun, Apr 26, 2026 at 08:34:56PM -0400, Chao Shi wrote:
+> In both cases the bio was submitted without REQ_INTEGRITY (because
+> blk_get_integrity() returned NULL at dispatch time, so
+> bio_integrity_action() returned 0 and bio_integrity_prep() was not
+> called), and it reaches nvme_setup_rw() for a namespace where
+> head->ms != 0.  The existing BLK_STS_NOTSUPP return correctly handles
+> this dispatch; the WARN_ON_ONCE is a false positive.
 
-On Wed, 06 May 2026 22:53:45 +0200, Stuart Hayes wrote:
-> The recently added function nvmf_update_tls_concat() dereferences struct
-> nvmf_disc_log_entry *e, but e will always be NULL when called via
-> libnvmf_discovery_nbft(). This can result in a segmentation fault when
-> attempting "nvme connect-all --nbft".
-> 
-> Check for NULL pointer before dereferencing.
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] fabrics: fix NULL dereference in nvmf_update_tls_concat
-      commit: 0f4fe4592005b515170bec08af9ccbfe598f8d72
-
-Best regards,
--- 
-Daniel Wagner <wagi@kernel.org>
+This is what I'm not really following. The cached request holds a
+reference on the queue that prevents the queue freeze from proceeding.
+This driver freezes the queue along with the queue limits update. As I
+mentioned in the other patch, that was supposed to ensure the block
+layer had the updated limits before it could allocate a request, so I
+think we need to understand how that was defeated to get to a real
+solution.
 
