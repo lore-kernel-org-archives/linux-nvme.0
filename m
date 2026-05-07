@@ -4,149 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A24FCD3427
-	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 10:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3FE4CD3442
+	for <linux-nvme@archiver.kernel.org>; Thu,  7 May 2026 16:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
-	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=bjdkyEP3j+ksuGd2WXMLEneS629MBX0AVUsc5JnmCgk=; b=D1ev7oVh8yTctEbO5hJDr5H7LJ
-	WqbBK9fuSE/KD+jkKEPSe1fdPjIYUHOKw7QsakhaIGcUDVbCJI64NBAoJd4CGUAPC29UXphLGfG6K
-	D7U2i9xtpPV8w2E4DVaMqdcmI/YpnUqjY8DGNlFB7yKSs4pefBEmWM4umntY4DeQVa/Y1uzy8+Rz6
-	fA2XxhUFuQM8ikKekAT9PZMnzXhQVtU0hVQxCYBiFOGI1WrWr+L6iy99TlnTrJlayLGVua3ZkWe+b
-	+A08bcbQUMRPKZzHA2ntoXZ/K8Q+kj0dFWzIUCwvxjzgC+Miw+9gwjH/rj2UM879E7eJap/CkXFxy
-	JbcyWSPw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=; b=KQZ/VdpFbrG0d5VKhXMoK8YHdx
+	nvAa78YiuYgbMAFvvWCf23C50FxKe0Z1UpRfgqi2gM4Eu4ep+QfU+AAtjiBuNO3o+U00BupeY4CAM
+	3j5WVq8HbLlWQaM3eC2WqLcFfn5v6JUxDSyhITvBI/YAVcAFzrquLGfmjQENLFhznB3bH7KYxAchF
+	vkvuPRTUqZkpmrFRajPL5HCzyr5B4wYvAx0ORU/4GHgxw3fNyBvSB3laY4ymhvQd5cTGe7D4iBoML
+	WngClqDAKN6KFPb+DaiUwpqVpccuiMklUHVrSXqnWQRQK5aDtHuOzho4Sk3J+OycNenX7yoDVqlGK
+	GPJvOfPg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKvvL-00000003TtA-290e;
-	Thu, 07 May 2026 10:25:43 +0000
-Received: from mail-westcentralusazlp170130007.outbound.protection.outlook.com ([2a01:111:f403:c112::7] helo=CY3PR05CU001.outbound.protection.outlook.com)
+	id 1wL1Vn-00000004K25-41ds;
+	Thu, 07 May 2026 16:23:43 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKvvI-00000003TsJ-1ve0
+	id 1wL1Vg-00000004K1K-3fFx
 	for linux-nvme@lists.infradead.org;
-	Thu, 07 May 2026 10:25:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kGN3nArTVsgKG9MHxT5QxpyVNbcrI6z+Dn0Y9fRfrtcUECCXE1jGxXFQTbN3nJhHVix/Yq+Nv5+8kg8Xkh94e+P4X5zHhJRq71c/+x938/bD693cI7FAYH2w29BxO9SIcGGv3YMrbXisRE+HkqjbdgcUre6hD7GBbIcwQoa2ZZEUHaGwmcwHIGz+YBXSrLNKg0OgdWtiD7X2EZqQ8D9F7qu0wOMCUjhzUBqNoa81QSmLX6mRIk3sPRhUzUK5DCzTPHG+Nx3j0sB/Mgqvs4r0gHdibUMIxRUUDuUiTxX4J6AzrlDes/YqJANWDhEKD18cT7GYZ/Prt7+/HWYxPB08Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bjdkyEP3j+ksuGd2WXMLEneS629MBX0AVUsc5JnmCgk=;
- b=lp96tb5H18vHDctDp35BbnwZFNJIPXyBiqUxcqrilf7V0m25c7dS3Z6UEEGQaEV1iI/jpsIpQEgrU3f77D9Xz0wzZdt7dydXwPN8+So8WYHc4fYeh0WRVf01pgtlsrHSNHFebb64nSlgxTNZxX0zRH1aJNvbZZgDLQhXVbMU+h99XEUo5ZFmyvkuEhQaF0hCKl9rt6NUDNTke9rm7vuZ0YzFE19o7p1QVoENGnQfZEXyHNajjhxRXmylO6r11sFsqXLywDT0Euh0PNjjftcY+I/2vaunTKxCAeozZfCZfJ5+fkwn6EO3ccJ+7DJXhPWwCrcF/1AHuPq5nDKoVXbVDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bjdkyEP3j+ksuGd2WXMLEneS629MBX0AVUsc5JnmCgk=;
- b=tW5VoVArT1sXFMm0oBHx3XVA6JsunmMU7wkm7L4cpHb2RjwbBV+VVybwX1UUA5ih3yTK+KTevYLJWOqzcP45Dr/o16hBHBQG9VQqdFJY+fOidbAdjLOObD+bBGNP1Oziygx/zkswMJuEb7l0k+0xlqXlQ+DPJE6oJq/pFUQVt2mr5EtD98c6M09ZeMi2vMjNQidKc0LlabI5ttWJ4KEgnxoEA7xXUxLELzYeTyDb97ItmbXZ9MwLTu6Mj0tTDKCNHdCAv7tWXvwbemFuN80KDzaOcQzwWdTtaXJM/DLmN9LM2L1H1nKVyHHZ4dIeAFnjhc/qZk+/gUGesjHJP2kB8g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
- by CH1PPF4CBE7339A.namprd12.prod.outlook.com (2603:10b6:61f:fc00::60e) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Thu, 7 May
- 2026 10:25:29 +0000
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391%6]) with mapi id 15.20.9891.008; Thu, 7 May 2026
- 10:25:29 +0000
-Message-ID: <8d8b2244-2bf0-48cf-8fb8-9e47e197a62d@nvidia.com>
-Date: Thu, 7 May 2026 11:25:23 +0100
+	Thu, 07 May 2026 16:23:38 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3FD1C5C60F;
+	Thu,  7 May 2026 16:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778171013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
+	b=bfsMVyZ40gY4Cg2NV+kAfZPpdig+oLOXDAsTViUebcSdW361TXRO6ItxT6fwmS1oRSpepW
+	/ZZeBO+hszWhPvR6CrBtrkGk4PFTVkCi71YIjDpMiLVBbsCQeUuluYZWgVW+WzXk7djca6
+	dC7Cl91biYqLwANuXjSrtpBhvsVmef4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778171013;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
+	b=mSAN6byIMRUYVpX5i901RNtC4p18d/SE9YrMHAwJJzOm7AC0H+oB+tap6XHbBeFU7HPm6x
+	YJzQS38KJQQVARDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778171013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
+	b=bfsMVyZ40gY4Cg2NV+kAfZPpdig+oLOXDAsTViUebcSdW361TXRO6ItxT6fwmS1oRSpepW
+	/ZZeBO+hszWhPvR6CrBtrkGk4PFTVkCi71YIjDpMiLVBbsCQeUuluYZWgVW+WzXk7djca6
+	dC7Cl91biYqLwANuXjSrtpBhvsVmef4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778171013;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iM+EMqG67ceDlpyz95HT7CE+0h/SErmaAKzkWX9kyTQ=;
+	b=mSAN6byIMRUYVpX5i901RNtC4p18d/SE9YrMHAwJJzOm7AC0H+oB+tap6XHbBeFU7HPm6x
+	YJzQS38KJQQVARDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8871593A7;
+	Thu,  7 May 2026 16:23:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gEoqM4S8/GmaKQAAD6G6ig
+	(envelope-from <dwagner@suse.de>); Thu, 07 May 2026 16:23:32 +0000
+Message-ID: <b0e028bb-839a-476d-a640-690a301bd8f6@suse.de>
+Date: Thu, 7 May 2026 18:23:28 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-To: Bjorn Helgaas <helgaas@kernel.org>,
- manivannan.sadhasivam@oss.qualcomm.com, Thierry Reding <treding@nvidia.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- "David E. Box" <david.e.box@linux.intel.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Chia-Lin Kao <acelan.kao@canonical.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nvme@lists.infradead.org
-References: <20260122152903.GA1247682@bhelgaas>
-From: Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH V3 7/8] nvmet-loop: do not alloc admin tag set during
+ reset
+To: Maurizio Lombardi <mlombard@arkamax.eu>,
+ Maurizio Lombardi <mlombard@redhat.com>
+Cc: kbusch@kernel.org, mheyne@amazon.de, emilne@redhat.com,
+ jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+ mkhalfella@purestorage.com, chaitanyak@nvidia.com, hare@kernel.org,
+ hch@lst.de
+References: <20260410073924.61078-1-mlombard@redhat.com>
+ <20260410073924.61078-8-mlombard@redhat.com>
+ <8babbc78-701d-4308-b325-b4b2bab5d2c2@flourine.local>
+ <DI4QV80PTNP9.1ZY7L7GFJ8TX5@arkamax.eu>
 Content-Language: en-US
-In-Reply-To: <20260122152903.GA1247682@bhelgaas>
+From: Daniel Wagner <dwagner@suse.de>
+In-Reply-To: <DI4QV80PTNP9.1ZY7L7GFJ8TX5@arkamax.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0370.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18e::15) To DS2PR12MB9750.namprd12.prod.outlook.com
- (2603:10b6:8:2b0::12)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|CH1PPF4CBE7339A:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30a7af8a-080e-44f2-e046-08deac22f644
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: JdAiJLuk597Xc8LfM6mtKH4hcxNRacX2YaxwJC4Rw3rM/QEtiYzkq8gOmIph3lIY2mMisU+b+Yzjim/Ayxg0EyQ25dHjUfvflJcJ95W3Aa0KntJqxp+Is92v6IX37dWCeDZMgo3Dtu52il1XVQhi8Jrqv4XGkx5Tz35giB93x1rbAoRkIWywSakMy8eFQMrMVu+AY+tM2A16hDSg0riSAPzCRnedxutKF4weZB2NLKwpFD9qFQGAFB/sEy0ukTq++HUVLK1FxACTCKE7ApR3qwSHsue+nOjw3Ziap3K1xyLereuRmyU04o0krd1mgV6HT6T41ihpQxQCCqjB+exiPmSJuyzwGaxBKePBBfdfkES9ZoNtx/6a9g+Kl3r2cp0YiC4m7chYduxkaGs2HZKweSa1kn62GJmrh8zMpGWDJVj7rQU1YxFjuHLhWU4XaAbuQWaqc80eM5XPthJaa3HkJ+CwqOw4cxiFGrmIcKHsDqaLAgwcLU2Dc0tSnqGwAML6gnji5dtzfPvuQU7zmJKkeOvQTigb2/mSKuM4oNbyJynBGT4E9jzEeZ2iw8iaqxUtqe5iuxn4igrukpsIYfQkIrYDblHyx+ipnB/svJ4CSvilmzjYLWy0zHoODR5VYXla2tBdi0bQ4kmcLCpEDzZCEwuU0vJvOCw4tITpug2Uwf+O2z2ZfzXnihm7vhqIdYu/ZI87oYmD8VH01NhRTLrr2A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFgzUkNMenNFM1ZvV2xFL1RtQloxMU4rVkp0a2N4cE9sK1VQUFcvNGVyTXVH?=
- =?utf-8?B?TTBTamphYmRHNzBUT0hFblA0VHNYNktzYUhtNGhqTnJ2WmFraitxZzNKZnFF?=
- =?utf-8?B?bFBmaUpCeVc1c3dPQ2x4RXJoNlVrdGFCUmVNbVpqK2hXL0hUUzNNc1NFdDZM?=
- =?utf-8?B?WWpnWHdnNXBNNTRHZ0FQNFFKUHJSVCtBMDAyekNraDJJMkN2Ty9CL3lXeGtP?=
- =?utf-8?B?cTNVc25DdDJGWXlVcG1mMlI1S1ZEZmRDU1laVVgzYmZENW1qWG91Mk9yTUJy?=
- =?utf-8?B?NVBzaFdFSmRTUzJGaHpEaUd2ZnVnYlNkd2Fid3JwRUEyWmlCZW4wVW1MWHFp?=
- =?utf-8?B?V3hweDIySGtXNVNlNUkrb1BYUWZVazcvOS9CaXVpcUhjN1o5emFIcW5paVV5?=
- =?utf-8?B?c0VIR0NrSUdKZE8zcGlpYmdsQUcxTjdaTjhQcGdxcFRSZ2xhNGdqQUU2NTBr?=
- =?utf-8?B?OWN6eHB6U1Z3eEFqYmswSThlUjhkOUw2cEpXTFBiY1hGYXdyRnhlUTY0Qlpv?=
- =?utf-8?B?WHFIeTFrcUt6TEpIRlpMSlRvbjFvM1F5Tktxck9rS2JGaFhwa1kvR2pHR2tC?=
- =?utf-8?B?WEVIOWxwWnpqTGxEcEg5aCtJeVNPSkZxOGc4Q1NhRzEzaHFhNnZwbHlDamFN?=
- =?utf-8?B?bHZLYVRDZGFxWkk1MmUwaDErNlNQWEtSU0ZSMkFXaGRwVUR6L0h5a3F0TWNH?=
- =?utf-8?B?NU5yWlJBS2xCYnVUWGtSZ1NJcUwvRHJaamR2ZkRheGYza2R3b0hMYk1ucVdL?=
- =?utf-8?B?UG83SUpXYmNKcVYweXVoM0Y0ZHFLeFEwZGErZkZzem55bEZqdVhXbFhDZkhs?=
- =?utf-8?B?ODVJd2xTNkxha0ZKLzVRdko3YlM5NUpHMVRHQ3ZERDBWM2pQazBsZk0rWkV0?=
- =?utf-8?B?cGYySER2UVVFM09iK1ZvVEhVQ2hjcTIxMVNXSmVHNjNpWmxiT1c4MTdRTisz?=
- =?utf-8?B?RlhPU0oxYTVZekcxUkVGQ2d4cWdUeWlZQ2NGRnRIZWY4WDhwVHY0b2x5Qjk2?=
- =?utf-8?B?VnNxUFB5YW9yNU5TOUZkZUlWaHJmLzhaQmJjZ3BQdXZ1NytjbjZhbHA1dWli?=
- =?utf-8?B?NmQrbnBwTnVZazVlWUtQU3lpWlZHVHV5cE55VTVFVUhsWDR0YTlxWFVjOGN1?=
- =?utf-8?B?MXVHREpvWDlGcW9zQnI1Q1JjK3ZZUkx5amtxbEVHa2RoTDVqOWJ1a2NIMTBL?=
- =?utf-8?B?UzF3Y3prenFRMUJZQWdKcjdHY0ZLRG5Bb3JRSE50UG8veXlNUG9USG5OZ0hu?=
- =?utf-8?B?VFdaRDRZZk5WNk9qdGdBbVQzV0MycWFNSERPL0t1UFhaRmRKVlVTbkpyOUFO?=
- =?utf-8?B?Q1VEUU52OHc2VEV6aHljSXJQR2FRaGxPcUliOVl4bVFDM3hzRDJWb1RGQ2JE?=
- =?utf-8?B?YXIzckZFaUM0b2pNaVNtdkVma2Z4NGNWVWhHcHFXRmR6dEhzb0d0MkxHWDZr?=
- =?utf-8?B?T3o4SEFUK2xaSnNPL012RWxKaURCWnBHMDBlN3lnTTRHSlYwUGFlSHBjWjlz?=
- =?utf-8?B?YithOERvZHJKQ3lobWwzeUpCT1I2STVWbHZaRTJFRXJFMWkzcFptTFBlRlVh?=
- =?utf-8?B?cjVwcGlpd0JYSllIdWVJTW1zc2xWenFkamZEUjFobnJ3M1F5eXZjcjZBczVL?=
- =?utf-8?B?cHYxZDFlQjQ2Z0xHNkd1Sm14V0s3dS9mTjBaemI3RGF5VVUxdVMvK2N3Ty9Z?=
- =?utf-8?B?OGRFbjcwZW54d1E0S250bzJEYWQyditrMWpWbm1CT2pxNWZ4LzMreGtwMC91?=
- =?utf-8?B?T29wcTZaWmc5RFlwY0NXcnBLelgvZGM1TG04ek5iQXg4K3RxY3ZEckNTVHRr?=
- =?utf-8?B?SGpWb2hUTEU3N1lvUXMvT1JvT250WHdVUlVrbDB2SHBKNnBPV1dMZlRaaEo1?=
- =?utf-8?B?bVdRRlVoRWt6VGdrQzM2Yk9YZVdMTWVIamxieXRta3FCdXprQng0MU1JbCtm?=
- =?utf-8?B?cmcyOUNVbGNNYmVDM3R1alNnQ1FWalhsVUlOMU96NzFSWGZmdkhHdjJ5bFVk?=
- =?utf-8?B?VFVOdFVuK2RtblQ5S3ZqVUhBdXJWSDNBUUlEaURLWi9PcnNKRkh5Tkw5QzZo?=
- =?utf-8?B?VHpraGtEb0Vmc2pRM2sxa0ZVZVA5UFEyMThKZTBIaEJINndqYmVRVlZGMmtH?=
- =?utf-8?B?Rkx6TDFPNHZSSjZsdjMycktXUm5HcHlNWnh1OENxWFo5SDIwaDN1Q0tPMWhV?=
- =?utf-8?B?VjZmMGVmcjJoVmhnRGRHelVjaGUvR3lORUxUdGVQYkJuTVJMRXVIanRGV2NT?=
- =?utf-8?B?UmJobkNSU1F3aTlHODI0L1R4UCtKc290eWdWOW1HOC9sd1I4MXd2YlRIaXBE?=
- =?utf-8?B?Y0lLandVSHQyUUU5WTZDSXVXQU14M0FMdlNoUDRJVVREeVlWYU5pZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30a7af8a-080e-44f2-e046-08deac22f644
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 10:25:29.5685
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b2xxEOItAnroU7g6oWa7rkkwHZ2JLGj8G/xmLJ/zGyLlvIccX5XSAmH8rIY9lGCRLHmrjuhhe7YsJfPdOYq5iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF4CBE7339A
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260507_032540_510205_96F891E5 
-X-CRM114-Status: GOOD (  33.34  )
+X-CRM114-CacheID: sfid-20260507_092337_579032_BEE66F5E 
+X-CRM114-Status: GOOD (  13.38  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -161,96 +138,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Bjorn, Mani,
+Hi Maurizio,
 
-On 22/01/2026 15:29, Bjorn Helgaas wrote:
-> [+cc NVMe folks]
+On 4/28/26 1:17 PM, Maurizio Lombardi wrote:
+> It would be something like this (just a compile tested draft,
+> I still need to properly test it, but it should give you an idea):
 > 
-> On Thu, Jan 22, 2026 at 12:12:42PM +0000, Jon Hunter wrote:
->> ...
 > 
->> Since this commit was added in Linux v6.18, I have been observing a suspend
->> test failures on some of our boards. The suspend test suspends the devices
->> for 20 secs and before this change the board would resume in about ~27 secs
->> (including the 20 sec sleep). After this change the board would take over 80
->> secs to resume and this triggered a failure.
->>
->> Looking at the logs, I can see it is the NVMe device on the board that is
->> having an issue, and I see the reset failing ...
->>
->>   [  945.754939] r8169 0007:01:00.0 enP7p1s0: Link is Up - 1Gbps/Full -
->>    flow control rx/tx
->>   [ 1002.467432] nvme nvme0: I/O tag 12 (400c) opcode 0x9 (Admin Cmd) QID
->>    0 timeout, reset controller
->>   [ 1002.493713] nvme nvme0: 12/0/0 default/read/poll queues
->>   [ 1003.050448] nvme nvme0: ctrl state 1 is not RESETTING
->>   [ 1003.050481] OOM killer enabled.
->>   [ 1003.054035] nvme nvme0: Disabling device after reset failure: -19
->>
->>  From the above timestamps the delay is coming from the NVMe. I see this
->> issue on several boards with different NVMe devices and I can workaround
->> this by disabling ASPM L0/L1 for these devices ...
->>
->>   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5011, quirk_disable_aspm_l0s_l1);
->>   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5036, quirk_disable_aspm_l0s_l1);
->>   DECLARE_PCI_FIXUP_HEADER(0x1b4b, 0x1322, quirk_disable_aspm_l0s_l1);
->>   DECLARE_PCI_FIXUP_HEADER(0xc0a9, 0x540a, quirk_disable_aspm_l0s_l1);
->>
->> I am curious if you have seen any similar issues?
->>
->> Other PCIe devices seem to be OK (like the realtek r8169) but just
->> the NVMe is having issues. So I am trying to figure out the best way
->> to resolve this?
+> nvmet-loop: do not alloc admin tag set during reset
 > 
-> For context, "this commit" refers to f3ac2ff14834, modified by
-> df5192d9bb0e:
+> Currently, resetting a loopback controller unconditionally invokes
+> nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
+> Doing so drops the old queue and allocates a new one. Consequently,
+> this reverts the admin queue's timeout (q->rq_timeout) back to the
+> module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
+> timeout values the user may have configured via sysfs and potentially
+> racing against the sysfs nvme_admin_timeout_store() function
+> that may dereference the admin_q pointer during the RESETTING state.
 > 
->    f3ac2ff14834 ("PCI/ASPM: Enable all ClockPM and ASPM states for devicetree platforms")
->    df5192d9bb0e ("PCI/ASPM: Enable only L0s and L1 for devicetree platforms")
+> Decouple the admin tag set lifecycle from the admin queue
+> configuration and destruction paths, which are executed during resets;
+> Specifically:
 > 
-> The fact that this suspend issue only affects NVMe reminds me of the
-> code in dw_pcie_suspend_noirq() [1] that bails out early if L1 is
-> enabled because of some NVMe expectation:
+> * Move nvme_alloc_admin_tag_set() into nvme_loop_create_ctrl() so it
+>    is only allocated once during the initial controller creation.
 > 
->    dw_pcie_suspend_noirq()
->    {
->      ...
->      /*
->       * If L1SS is supported, then do not put the link into L2 as some
->       * devices such as NVMe expect low resume latency.
->       */
->      if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
->        return 0;
->      ...
-> 
-> That suggests there's some NVMe/ASPM interaction that the PCI core
-> doesn't understand yet.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pci/controller/dwc/pcie-designware-host.c?id=v6.18#n1146
+> * Defer the destruction of the admin tag set to
+>    nvme_loop_delete_ctrl_host(), the terminal error-handling
+>    paths of nvme_loop_reset_ctrl_work() and
+>    nvme_loop_create_ctrl().
 
+This looks way better IMO. So yes please, add use this version.
 
-I want to revisit this issue. From my perspective low-power suspend has 
-now been broken on some of our Tegra platforms (that have NVMe devices) 
-since v6.19 and so far this is no resolution to this issue. The patch 
-that was proposed to fix this [0] has been rejected by qualcomm and 
-although this does workaround the issue, my confidence that this is the 
-right fix is now low.
-
-While I appreciate all the feedback on this, the problem is our boards 
-are still broken since v6.19 with a vanilla upstream kernel. At this 
-point I would prefer to revert to the previous behaviour and find 
-someway to opt out of this overriding of the ASPM states for all 
-device-tree platforms because this clearly does not work for all 
-platforms. I am not sure if there is a quirk we can add, but we need to 
-find a way to restore the previous behaviour if this cannot be resolved.
-
-Thanks
-Jon
-
-[0] 
-https://lore.kernel.org/lkml/20251231162126.7728-1-manivannan.sadhasivam@oss.qualcomm.com/
-
--- 
-nvpublic
-
+Thanks,
+Daniel
 
