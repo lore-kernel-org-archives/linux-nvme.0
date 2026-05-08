@@ -4,56 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81127CD3436
-	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2026 06:14:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8A2FCD342F
+	for <linux-nvme@archiver.kernel.org>; Fri,  8 May 2026 08:03:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:To:
-	From:Subject:Cc:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
-	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=5/7GDJHfoZama8Rs4rr22Ak1/hsgooqE6nFKAt4bVOQ=; b=i8yR0ztvXkPx2DjBhTa9RPGdln
-	uSmE951e7E3FdKt6TbH5LgrqTkBtvCNWEsn+jEYrRyOvQDNr3H67LASIT4KJmlZvQ5hsGHK7ZgZVp
-	vZI2CdBGVirPBKoFIQrawMqNApIFn19ag4jZFOrkODPV7OKACYHVM/OvPfQVoavuXlXz098vuOyUz
-	snTsu8wX8FRGGOqowDG9ao5cjiCGcQO5P0o2gN+KKrUSNArrBgE6P/3Q/SpB+qixz7JNp7o2LOptS
-	EiHVCU9KqowQT46jzC2oMhTTvJDBISzRh+eXiop3uqwz+TEfXNp5B91DiUIhYwB+8kOgT3Vbreba5
-	wXaod+Nw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=G8YKQYe2OUeyLaNsv9j7XPOkywAHtF8fx+B3Eai3hD0=; b=xWCjns784FJ5bm+nzPKmBjY09J
+	Emm73EPSJvw8nRMDAbYtU9Zw/PM1Vf+6uO63ObJ1XJn65Bo5dhUVM2rnGOsL7MKdU+xOjmT48v2Ns
+	dsYbZFARFAseRZrpudLPjsNMhvbdCiSHjB9ANzHQIeaEfJeyUyvG97VY06nCmeC4CHApWwNz2suL8
+	/jAHHI0KiiagLkuIOW+GV/ThnJrVP31YQW/1jnFklPqx97SQQuujmSmG9J0rG6f1u9u9MArGxvCHi
+	lT0TNa7HFTFSzALGlC96VFcT/qBWzSHV45LTN2wE1ETSSUAmfyDEIJq4oece4wZSxe97zpqQpyzCk
+	UtIrwrow==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLETk-00000005i1C-0qne;
-	Fri, 08 May 2026 06:14:28 +0000
-Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
+	id 1wLGAw-00000005wLk-0a4V;
+	Fri, 08 May 2026 08:03:10 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLETg-00000005hzX-3n3j
+	id 1wLGAs-00000005wKW-25mi
 	for linux-nvme@lists.infradead.org;
-	Fri, 08 May 2026 06:14:26 +0000
-Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
-	by arkamax.eu (OpenSMTPD) with ESMTPSA id 1dc60b72 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-	Fri, 8 May 2026 08:14:19 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 08 May 2026 08:14:18 +0200
-Message-Id: <DID2OOTHHCJK.2XDEYLZJ0REYA@arkamax.eu>
-Cc: <kbusch@kernel.org>, <mheyne@amazon.de>, <emilne@redhat.com>,
- <jmeneghi@redhat.com>, <linux-nvme@lists.infradead.org>,
- <mkhalfella@purestorage.com>, <chaitanyak@nvidia.com>, <hare@kernel.org>,
- <hch@lst.de>
-Subject: Re: [PATCH V3 7/8] nvmet-loop: do not alloc admin tag set during
- reset
-From: "Maurizio Lombardi" <mlombard@arkamax.eu>
-To: "Daniel Wagner" <dwagner@suse.de>, "Maurizio Lombardi"
- <mlombard@arkamax.eu>, "Maurizio Lombardi" <mlombard@redhat.com>
-X-Mailer: aerc 0.21.0
-References: <20260410073924.61078-1-mlombard@redhat.com>
- <20260410073924.61078-8-mlombard@redhat.com>
- <8babbc78-701d-4308-b325-b4b2bab5d2c2@flourine.local>
- <DI4QV80PTNP9.1ZY7L7GFJ8TX5@arkamax.eu>
- <b0e028bb-839a-476d-a640-690a301bd8f6@suse.de>
-In-Reply-To: <b0e028bb-839a-476d-a640-690a301bd8f6@suse.de>
+	Fri, 08 May 2026 08:03:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id ADDFC43F04;
+	Fri,  8 May 2026 08:03:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A483FC2BCB0;
+	Fri,  8 May 2026 08:03:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778227384;
+	bh=G8YKQYe2OUeyLaNsv9j7XPOkywAHtF8fx+B3Eai3hD0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ocK2D4B5AaKfEtbjkWPR971EjQwNf4LiQ1374u9TiqzBUuL93eC53r5R3yROC7IT3
+	 Ngttwwb+tRRU3eNqBn/266LSJSVQB28jOt5gDh0g4ooKqJCIsoLdPltgGF5doj5OH6
+	 V9lxJvYBNCz9JZMx01ucutLSIq9BhMwBTHjIngEKwQmLOGtjyQC1YB+VcZmJ5wF9WN
+	 CgTRAcxCXu4hsiVfvK08kmeUPDb9wNkr0Fo4KNV7TQJyUv8ZyVPc5wTdZ/GlJcVZbw
+	 UP6IFyAuLOrhza5JMKkjFYdv435ltoIwq+fbNCzEPrI62/FviHJoPAPMxA+Ts2PNV3
+	 0+0JQZFc1f55g==
+Date: Fri, 8 May 2026 09:03:00 +0100
+From: Keith Busch <kbusch@kernel.org>
+To: AlanCui4080 <me@alancui.cc>
+Cc: linux-nvme@lists.infradead.org, Pascal Terjan <pterjan@google.com>
+Subject: Re: The wrong usage of NVME_QUIRK_IGNORE_DEV_SUBNQN
+Message-ID: <af2YtHjq3mhWiyJA@kbusch-mbp>
+References: <EgTEZ7GYRxSc3ZRAxjIuBQ@alancui.cc>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <EgTEZ7GYRxSc3ZRAxjIuBQ@alancui.cc>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260507_231425_271932_00CA83F7 
-X-CRM114-Status: GOOD (  11.33  )
+X-CRM114-CacheID: sfid-20260508_010306_631146_5929AA87 
+X-CRM114-Status: UNSURE (   8.40  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -68,40 +71,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu May 7, 2026 at 6:23 PM CEST, Daniel Wagner wrote:
-> Hi Maurizio,
->
-> On 4/28/26 1:17 PM, Maurizio Lombardi wrote:
->> It would be something like this (just a compile tested draft,
->> I still need to properly test it, but it should give you an idea):
->>=20
->>=20
->> nvmet-loop: do not alloc admin tag set during reset
->>=20
->> Currently, resetting a loopback controller unconditionally invokes
->> nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
->> Doing so drops the old queue and allocates a new one. Consequently,
->> this reverts the admin queue's timeout (q->rq_timeout) back to the
->> module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
->> timeout values the user may have configured via sysfs and potentially
->> racing against the sysfs nvme_admin_timeout_store() function
->> that may dereference the admin_q pointer during the RESETTING state.
->>=20
->> Decouple the admin tag set lifecycle from the admin queue
->> configuration and destruction paths, which are executed during resets;
->> Specifically:
->>=20
->> * Move nvme_alloc_admin_tag_set() into nvme_loop_create_ctrl() so it
->>    is only allocated once during the initial controller creation.
->>=20
->> * Defer the destruction of the admin tag set to
->>    nvme_loop_delete_ctrl_host(), the terminal error-handling
->>    paths of nvme_loop_reset_ctrl_work() and
->>    nvme_loop_create_ctrl().
->
-> This looks way better IMO. So yes please, add use this version.
+On Fri, May 08, 2026 at 02:20:30AM +0800, AlanCui4080 wrote:
+> Sorry for my bad, but the prior patch which is merged into mainline may
+> be a mistake:
+> nvme: add quirk NVME_QUIRK_IGNORE_DEV_SUBNQN for 144d:a808
+> (7f991e3f9b8f044640bcb5fa8570350a68932843 at mainline).
 
-Sure, I will post a new version very soon.
-
-Maurizio
+Okay, please send a revert. The number of devices that got such
+fundamental things wrong is truly astounding, so I generally just take
+such reports and patches as a reaction to a real observation.
 
