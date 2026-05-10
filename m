@@ -4,77 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74FD3CD37B2
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 May 2026 22:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 28FA5CD3427
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 May 2026 22:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=S5xltbnNzDKsQlUwkgcrKGKSM1
-	RSW93U6yK+gfwhDtJ4PiYbu5t1tVscSDAmwbeQp+M9gLGsVYp+KOqJj4sPoIA5KdjvenEOp9IC4io
-	mit145betmgiUrqmA76ktHg9+gVCqbpANpYpDGDOzPSKxeq0TvbouXlrzxzNGe3GTwSUHQCtK7Axq
-	uN2FApwC4cT4DdJzJ8OdqyhvryApp0I4H5psNztN0UfZv73UObMT5xv6fbhrFAr4prH6nGTk4JziQ
-	D5N4/1zWNxchZk+g7pzdfNCl4vYNYN8rp9IzBfgLZEcvgWOGl9DJ7R9MqA+H9B/JOfYe7TVOsxhBj
-	iqPtYodQ==;
+	bh=bRIkp6GQnKkncwfKRmT7g/9aqFTNjkOojntoK/B6eTA=; b=sMlEg25q3YxCC6CeYer9pMQYuk
+	0zNDV3l+azssgskRQxWMNL86oULI3j1Wy9Uzn8krkJHsjr+aCmI+EKB5XvSidAJoUwAuCGord0qp6
+	swzGen32pSR4mJ0dS+uUBpwAxSG0ijX2cVgQ1rSjSuOu5EMxma7ogxyVlhF5ZHT9gMQNpgiRlGNG5
+	xWu5REqoT6mIWVb8otK6LEXTxAp7yycOqmybCQ6EAoGdYFjH/iRw9LydwZxfLdEC4eCOdxlpJdvLt
+	MPzuxms74D0UH/Yvt+JzMx3WQLfPyI9OkwfOn/R2dtwZrC6DGhsye8hYlQDXHuUPvsBx4++Kit6HL
+	sl5b/hrg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMCWO-0000000BkW8-1TiW;
-	Sun, 10 May 2026 22:21:12 +0000
-Received: from mail-wr1-f42.google.com ([209.85.221.42])
+	id 1wMCjW-0000000Blek-1jwO;
+	Sun, 10 May 2026 22:34:46 +0000
+Received: from mail-wm1-f50.google.com ([209.85.128.50])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMCWK-0000000BkUi-0bVl
+	id 1wMCjU-0000000BleH-24yy
 	for linux-nvme@lists.infradead.org;
-	Sun, 10 May 2026 22:21:10 +0000
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-441209fb77eso2142335f8f.1
-        for <linux-nvme@lists.infradead.org>; Sun, 10 May 2026 15:21:07 -0700 (PDT)
+	Sun, 10 May 2026 22:34:45 +0000
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48d146705b4so45890115e9.3
+        for <linux-nvme@lists.infradead.org>; Sun, 10 May 2026 15:34:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778451666; x=1779056466;
+        d=1e100.net; s=20251104; t=1778452483; x=1779057283;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=fpwa/1b3A9kZuKBsIC7PpVhG0KkMS/7GCK6jBy90q7Tt/IqYtS+udJnpNGotDW24wa
-         sB6K5oryeC1CJYc/AD7tD8NQxM0FSDHN0NanCH85x+wZDQseCqidJ2Zxs3gHgXImQw0/
-         yYYONwJakA66Wi53IviRNOfS2UgXK8+A1uQJpQzXxWBieRT2VvBnHtmWADDK68u6DHbu
-         uOI+sWc9sSPGQABPykJRmT8HAlYVY/iu84T6Bwxv2vk7cwGfmSqs/L9FDOQUPanQBjIP
-         29C8qjlfLd4aOxcGFfVX8DCgAuz0NKJ5W7/KaRJtqTAW9DQhIr8gcN9z1mq09N56ZB2T
-         hwsg==
-X-Forwarded-Encrypted: i=1; AFNElJ9UnElzbF1qGzlOf3ibVMIr1IbG4+zb0L6blsSteYAZJHtfKOWRmm9vW9VcN+/5679V/CWx/zKw/TO6@lists.infradead.org
-X-Gm-Message-State: AOJu0Yyi7iqNbW07HFbt9g1uo6MGXhMSSkCW02l/Ng2S09QFi2BRoZqi
-	7QoahBSqAacPBvgNFY2arm+JfzSnola1QRa/DRPPmk3YUNFq0xoyuC/o
-X-Gm-Gg: Acq92OE8zvIKhglhSsLjxUXOdgz+6YetGzCJrCZD95Wtd8+va8jsg1/gD//lDDdLdjP
-	5+vUSyG5BfloEzfIB673ZBG+3S8v1TMuQ4cqnB7pqnKvu3rEgtQto9OYHOfS6kfARM2z+l2cCgq
-	DuanN1/TiLMbEmNp8sUdtLuWMPpMfKsl/YHq923BpPl1taEBOjSD9POqO9aAGnnxlkydDhAiLe0
-	rwXKPkh8626NS3yqo47asma9/AB81gb+ECRoiNDJIH3pXG09N8Gl6BynaosRXFMLTCOY9I1wbjS
-	7MJGKAawMVHEAomjbCEK536Qeo7Ipirn9VSJNNmWBLYGG4ZoEcWGpvW1xFxgmE32cJjOWYX3Ofq
-	dMyn2I2wPkgJhQu+CYxK0vFtB9aUwoiaOyR/r+yIkSZNeUUuJSqDLTS7bRcr0R6ibAgY9WEIlaT
-	w+mLvHZmFSKEsNqYJdEF0=
-X-Received: by 2002:a05:6000:3109:b0:43d:7874:5d3b with SMTP id ffacd0b85a97d-452e84649a4mr25038954f8f.9.1778451666047;
-        Sun, 10 May 2026 15:21:06 -0700 (PDT)
+        bh=bRIkp6GQnKkncwfKRmT7g/9aqFTNjkOojntoK/B6eTA=;
+        b=eSvcTYBXQTbXR6kv0P/dcUj8PfOnN4H47wjy6eW2vwwkcSBLAGIC/sDnp9pNYepNx6
+         m/mIoU72gb3UdnBBeYNnO08J2g8mzL57lgqP5Z3Jry4aQ9Vt1XZ4oVPzUhnMaNc6hh9M
+         8oqBK9Mzl26+HoqeW1SUxMzEwU9kwobKH3Hc5puG0xmAl6DPePpfD/V/uJolNKCWz8Be
+         6vb96bKaFMiw+IIADQMGqn2CZlj+ylRhLvmvLGuPQ0LI31CahhZWTk/qSVCpt8HqBBm2
+         OJvi5QBhxUEa5Jhk69O9QV8prtDd55DJI5zGXQY7NYY9nISIgzSiBwH0+md9q7+b0Aav
+         nZUw==
+X-Forwarded-Encrypted: i=1; AFNElJ867IqoP56PjaOMySJ/3/N99kngaErKJM2mj2aJIopiG69mziyA6wpvlw16HM3bVLkGM0Sjld00zjC2@lists.infradead.org
+X-Gm-Message-State: AOJu0Yx3Ha9NdLwLc7AI9aOvm1LRuQiT7NkDJHKH+D4l9+oqtERp9Cmr
+	6eS6bu/oNaJbBn2P8P6o6paxoF6GLjRK5RUKx48+e82QW6tDIf7W4z2S
+X-Gm-Gg: Acq92OFYEsculfKucY3cAWMNTXtS4bexqguFCZCEIjUA29UFfsf+O/BQNVF7+bNflfh
+	9QSaOrfSMs7rPK9O8N6QdwRP7WdKfY8qOj8cDDkM+UNZjnOFeVDtbAlVBUDsWx/S+/wLWhaZk+3
+	1hapKGzJvCPOQcXgOn5LKP3Unb5UGiFr2aaJxaasMWvc4x26I/f3IBTEVPALXpcMeSzPWe76zQH
+	KNUoD5+J8oNnkEppSotei0w/dM7byscZov0cuQ7LSQDcZ0UQiFQst7u+nlHr5nqkMR0WdECiMaZ
+	TcZuAOOJsrizB+glbxxqmXbi1sLZvASxLTBY50znPv+jgrITg/bSN+b1+YDjNd/iXZSYoK9Gn7Z
+	Ypi9XT0G4kCyEyPE7pePB8gbk3Ln0S+8hJrcIxyeqm40HZbOQf4pxR08hdabkfyMBsRxR9nY01D
+	WsmEmmQECPPWwVxJg/SIE=
+X-Received: by 2002:a05:600c:c11c:b0:488:9e54:94c0 with SMTP id 5b1f17b1804b1-48e51f2a79bmr252623065e9.8.1778452482587;
+        Sun, 10 May 2026 15:34:42 -0700 (PDT)
 Received: from [10.100.102.74] ([89.138.75.0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e4bb87bsm20290132f8f.2.2026.05.10.15.21.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491da03a7sm21230098f8f.33.2026.05.10.15.34.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 May 2026 15:21:05 -0700 (PDT)
-Message-ID: <1674e1ac-abd8-42ae-bcaf-6497cdedd6a5@grimberg.me>
-Date: Mon, 11 May 2026 01:21:04 +0300
+        Sun, 10 May 2026 15:34:42 -0700 (PDT)
+Message-ID: <94f23fce-c968-478c-ae88-c3286d644eb7@grimberg.me>
+Date: Mon, 11 May 2026 01:34:40 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: fix bio leak on mapping failure
-To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Cc: Keith Busch <kbusch@kernel.org>
-References: <20260506131900.2367091-1-kbusch@meta.com>
+Subject: Re: [PATCH 0/7] nvme-cli: add nvme top command for real-time
+ monitoring
+To: Nilay Shroff <nilay@linux.ibm.com>, linux-nvme@lists.infradead.org
+Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
+ gjoyce@linux.ibm.com, wenxiong@linux.ibm.com
+References: <20260430105234.1172446-1-nilay@linux.ibm.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260506131900.2367091-1-kbusch@meta.com>
+In-Reply-To: <20260430105234.1172446-1-nilay@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260510_152108_180702_E3CFD428 
-X-CRM114-Status: UNSURE (   4.51  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260510_153444_566611_1359FD91 
+X-CRM114-Status: GOOD (  16.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -89,5 +90,46 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+
+On 30/04/2026 13:52, Nilay Shroff wrote:
+> Hi,
+>
+> Monitoring NVMe devices and paths in production is currently limited to
+> static snapshots via nvme-cli. While this is sufficient for basic
+> inspection, it is not ideal for NVMe-oF (fabrics) deployments where path
+> conditions can change dynamically due to varying network latency,
+> congestion, or link failures.
+>
+> In multipath environments, administrators often need continuous
+> visibility into path state, ANA status, queue depth, link speed, and
+> error counters. Today, this typically requires repeatedly invoking
+> commands or relying on ad-hoc tooling, making it harder to quickly
+> identify issues.
+>
+> This patch series introduces "nvme top", a tool for real-time monitoring
+> of NVMe devices and fabrics paths, similar in spirit to tools such as
+> top or iotop. The goal is to provide a continuously updating view of
+> device and path health, enabling faster detection of link degradation,
+> multipath imbalances, and transient failures.
+>
+> The series first adds the necessary building blocks for supporting a
+> top-like dashboard. The initial patches extend the table APIs (including
+> support for additional data types such as unsigned, long, float, and
+> double) and introduce a generic dashboard framework. The final patch
+> adds the nvme top command built on top of this framework.
+>
+> Future work:
+> - Export NVMe statistics to external monitoring systems (e.g. Grafana).
+> - Improve topology change detection in multipath configurations. The
+>    current implementation relies on kobject uevents for topology change,
+>    but namespace path add/delete events are not exported by the kernel
+>    since they are associated with hidden gendisk kobjects. This may
+>    require explicit uevent generation from the NVMe driver for namespace
+>    path changes.
+> - Wire nvme top into an MCP pipeline and feed it to an LLM
+
+Nice, However I think that the traddr information is missing. Often the 
+network
+has some routing issues for specific IP. This tool show this.
 
