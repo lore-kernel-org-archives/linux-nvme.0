@@ -4,76 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 41133CD37B2
-	for <linux-nvme@archiver.kernel.org>; Sun, 10 May 2026 22:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74FD3CD37B2
+	for <linux-nvme@archiver.kernel.org>; Sun, 10 May 2026 22:21:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=tpfYM9uzY/u6o7uSsHkSNULdj3
-	as9YfK8KPIGzgxOu1hir6UZGobnJO1qmUC5dswTYsyMvoxvDvg/BDcMhkZ8L1QKHJeMxbbKSTEs3i
-	JFe4eyYyBop95OgXe7LWSMmxBoSRSoh/ba6ymgiTG3gHIRq8cJROHDNRWyFnUd5AWjLlSGhYwAc/S
-	T2GPNoZUNGIaIleiIC0IBGvM7AmioLtlTnd3bygzLCot7V7fwiNxKdc3f7PSGfguTjLExS6MsXCJV
-	/IH8E+cCaXDCQcavxHDQfBQrBqKR2pxwuSMuMv5gtSPrt2OwY4gNavnbyMvuK6GjI4BE0UNr6dC2P
-	QdP5KZhQ==;
+	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=; b=S5xltbnNzDKsQlUwkgcrKGKSM1
+	RSW93U6yK+gfwhDtJ4PiYbu5t1tVscSDAmwbeQp+M9gLGsVYp+KOqJj4sPoIA5KdjvenEOp9IC4io
+	mit145betmgiUrqmA76ktHg9+gVCqbpANpYpDGDOzPSKxeq0TvbouXlrzxzNGe3GTwSUHQCtK7Axq
+	uN2FApwC4cT4DdJzJ8OdqyhvryApp0I4H5psNztN0UfZv73UObMT5xv6fbhrFAr4prH6nGTk4JziQ
+	D5N4/1zWNxchZk+g7pzdfNCl4vYNYN8rp9IzBfgLZEcvgWOGl9DJ7R9MqA+H9B/JOfYe7TVOsxhBj
+	iqPtYodQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMCVw-0000000BkPk-2aOe;
-	Sun, 10 May 2026 22:20:44 +0000
-Received: from mail-wm1-f49.google.com ([209.85.128.49])
+	id 1wMCWO-0000000BkW8-1TiW;
+	Sun, 10 May 2026 22:21:12 +0000
+Received: from mail-wr1-f42.google.com ([209.85.221.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMCVu-0000000BkOr-1zJy
+	id 1wMCWK-0000000BkUi-0bVl
 	for linux-nvme@lists.infradead.org;
-	Sun, 10 May 2026 22:20:43 +0000
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48d102471a4so35929735e9.2
-        for <linux-nvme@lists.infradead.org>; Sun, 10 May 2026 15:20:41 -0700 (PDT)
+	Sun, 10 May 2026 22:21:10 +0000
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-441209fb77eso2142335f8f.1
+        for <linux-nvme@lists.infradead.org>; Sun, 10 May 2026 15:21:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778451640; x=1779056440;
+        d=1e100.net; s=20251104; t=1778451666; x=1779056466;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=gn1N2XDtKN5vHGMBjV1ZGFDDUOyP7azq/fl1MHZENp0nx6Q6KXueENEEMLAhgatT21
-         FqRy16HDRCrdNDNiW0GCa6o7eFDbJ8MWvtk5XAa98jWtxH2MXXokPbK4x5gH7vfpc3CY
-         iB/sWqIktuf09mdjEMhjSXZNuWPr+RoSwGjJKD53g+5Eypfa5LbLSyhTrOGKBFz6z14F
-         l3iOL3YVwkRQ36nOewFNUagcjizCzcLA+IMLci7GhMLmmEbAcgDfAI5SLXYqpuxo+Mo8
-         zEt8UNWSZpNFlplAhj83zZQgXyU8Fji7cpMuGQiGuC6Th3LFz7CWaZyWrrBIn6OsZKnT
-         /+AQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/ECCaZd7ZmFAxQpVixYSx9cJdSWllgqD0CVXVwxjkzezOYnaIrtdW1CxJgYugm9Q4yeDX2k5hTBl/B@lists.infradead.org
-X-Gm-Message-State: AOJu0YzAF7+XRZqLPYaXapB59HOChazahUe+3j7aYFRKoiumtSjwco1j
-	bl5KH5adG7NvR720uXS+qwEgW5n/dzalAAuYQd203BtM5k6GEyILFT+E
-X-Gm-Gg: Acq92OHFFDVxRlrcX15bR/vfVrb+axFejndgBjzYFCLLYolb31DIr41rY2iqRsHW+nr
-	X1YJXIolRD9fKsAV4hI0ttcv0y4gst9Q4715pN9R+35jmHvZInUlRIcVabuAFikYZ0N3QJPnV1M
-	09v0l3tlvUAyWJbOSIZrm/3M6HYG3sqCrR6VSsBjKh+fn6xrXGxKs947papJYTaGzTsjp/D9cZT
-	PZMTO+JeMcQWlmSao/YYojmsAps6K/ZQu1coZfCDa4+6ZRTlkWQ3d6izeNn3lPqZgbA65ynY/OM
-	1Reil5hE6nfrrjX6Lxljzedl/cLCmbu5RYb1hX8T74dq2S+fAbjbt3mnBHRwZ3pZLs/Lfr9y64e
-	k58ifnFJl1/V5ZFlicGL7iIAfBLy2dW7mSyDj2RJfZsFheu87ncU21CMafHJ0czirDvDO06w8js
-	pJSoGHfnAbuL7uqJ+jdy8=
-X-Received: by 2002:a05:600c:a412:b0:48a:525b:e148 with SMTP id 5b1f17b1804b1-48e6748a724mr117231395e9.4.1778451640519;
-        Sun, 10 May 2026 15:20:40 -0700 (PDT)
+        b=fpwa/1b3A9kZuKBsIC7PpVhG0KkMS/7GCK6jBy90q7Tt/IqYtS+udJnpNGotDW24wa
+         sB6K5oryeC1CJYc/AD7tD8NQxM0FSDHN0NanCH85x+wZDQseCqidJ2Zxs3gHgXImQw0/
+         yYYONwJakA66Wi53IviRNOfS2UgXK8+A1uQJpQzXxWBieRT2VvBnHtmWADDK68u6DHbu
+         uOI+sWc9sSPGQABPykJRmT8HAlYVY/iu84T6Bwxv2vk7cwGfmSqs/L9FDOQUPanQBjIP
+         29C8qjlfLd4aOxcGFfVX8DCgAuz0NKJ5W7/KaRJtqTAW9DQhIr8gcN9z1mq09N56ZB2T
+         hwsg==
+X-Forwarded-Encrypted: i=1; AFNElJ9UnElzbF1qGzlOf3ibVMIr1IbG4+zb0L6blsSteYAZJHtfKOWRmm9vW9VcN+/5679V/CWx/zKw/TO6@lists.infradead.org
+X-Gm-Message-State: AOJu0Yyi7iqNbW07HFbt9g1uo6MGXhMSSkCW02l/Ng2S09QFi2BRoZqi
+	7QoahBSqAacPBvgNFY2arm+JfzSnola1QRa/DRPPmk3YUNFq0xoyuC/o
+X-Gm-Gg: Acq92OE8zvIKhglhSsLjxUXOdgz+6YetGzCJrCZD95Wtd8+va8jsg1/gD//lDDdLdjP
+	5+vUSyG5BfloEzfIB673ZBG+3S8v1TMuQ4cqnB7pqnKvu3rEgtQto9OYHOfS6kfARM2z+l2cCgq
+	DuanN1/TiLMbEmNp8sUdtLuWMPpMfKsl/YHq923BpPl1taEBOjSD9POqO9aAGnnxlkydDhAiLe0
+	rwXKPkh8626NS3yqo47asma9/AB81gb+ECRoiNDJIH3pXG09N8Gl6BynaosRXFMLTCOY9I1wbjS
+	7MJGKAawMVHEAomjbCEK536Qeo7Ipirn9VSJNNmWBLYGG4ZoEcWGpvW1xFxgmE32cJjOWYX3Ofq
+	dMyn2I2wPkgJhQu+CYxK0vFtB9aUwoiaOyR/r+yIkSZNeUUuJSqDLTS7bRcr0R6ibAgY9WEIlaT
+	w+mLvHZmFSKEsNqYJdEF0=
+X-Received: by 2002:a05:6000:3109:b0:43d:7874:5d3b with SMTP id ffacd0b85a97d-452e84649a4mr25038954f8f.9.1778451666047;
+        Sun, 10 May 2026 15:21:06 -0700 (PDT)
 Received: from [10.100.102.74] ([89.138.75.0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6d8d6838sm48789845e9.1.2026.05.10.15.20.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548e4bb87bsm20290132f8f.2.2026.05.10.15.21.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 May 2026 15:20:40 -0700 (PDT)
-Message-ID: <894fd072-8afd-44a7-874b-bd7f88f053cc@grimberg.me>
-Date: Mon, 11 May 2026 01:20:39 +0300
+        Sun, 10 May 2026 15:21:05 -0700 (PDT)
+Message-ID: <1674e1ac-abd8-42ae-bcaf-6497cdedd6a5@grimberg.me>
+Date: Mon, 11 May 2026 01:21:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: make prp passthrough usage less scary
+Subject: Re: [PATCH] nvme: fix bio leak on mapping failure
 To: Keith Busch <kbusch@meta.com>, linux-nvme@lists.infradead.org
-Cc: me@alancui.cc, Keith Busch <kbusch@kernel.org>
-References: <20260506131839.2364791-1-kbusch@meta.com>
+Cc: Keith Busch <kbusch@kernel.org>
+References: <20260506131900.2367091-1-kbusch@meta.com>
 Content-Language: en-US
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20260506131839.2364791-1-kbusch@meta.com>
+In-Reply-To: <20260506131900.2367091-1-kbusch@meta.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260510_152042_508674_CEF08E6E 
-X-CRM114-Status: UNSURE (   4.16  )
+X-CRM114-CacheID: sfid-20260510_152108_180702_E3CFD428 
+X-CRM114-Status: UNSURE (   4.51  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
