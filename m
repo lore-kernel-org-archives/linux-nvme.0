@@ -4,53 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE04CCD37B5
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 07:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E2DBCD37B5
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 08:01:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:Cc:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9omUeZuixFYsT7uXtVHKnBpa/xIQEYGW4lN08Cwb4hE=; b=JkYMk8cQ4SCuDg1H/6vg2UIexm
-	65ODJV7/2Ai9kYAltbJjTmhF5bqqFx5s2zR8l1OBdNx1TLkI8izqBDZBdscn8c8woHlmYrdgbt4h9
-	2NRR0T3BAOmPlcQKweBLS8cEN35M95St0ePdNfki6jzQ1W+deIAzDnBRUcO4HJcbEc5pVFXIgUxug
-	dmaTq0E+fO5g++zzYmEP1SCt/bHsI3opmQ8PuEMGA9TEi/vmZWVb0X7ndP3nTTB8SKEhTIC6T521F
-	wqm5w7GDMaYAuAXJyz14/bxRDKeNAqWpUDE259UqM+8r/KzDdMacVADcp5gEJvfAw67ZNgyMncIc1
-	jx19DrQg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Zv67Mso1pJu4W5W8lh+HDUmbeTPdePxYHh0WczxPFn4=; b=HVYCIwM9ukcGXWsBrLNtkOUlbm
+	micx1iMRzQ9sfnkeyjOqhunakTIcKjA2qGkAv7/WzB13q57zl2FsKJOhxSVgFReK+y6kapwjtTLx8
+	De3tsXRwkA5Iz76USnz49eL54sufkm+O+SfXBlgp9fUoKuLe6YbV/wzIBciKW6y6l4Sm8CXU4KEX3
+	WAIssgV9zqPBzC9rGteDB2ydBDZVkFP0D8AL+0EBbnNx+tDC1cysDYHZDwhFVG8bJXCn74dmVs5JD
+	eY3mYu1nH8upnJZdqfHwD2WlDpbTBymkrchN6gWR/KxEJoOh811rWKjibMxjC5ndjgBnLz9KK8n3x
+	gNWMMc/g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMLYF-0000000CgFT-10G5;
-	Mon, 11 May 2026 07:59:43 +0000
-Received: from out28-61.mail.aliyun.com ([115.124.28.61])
+	id 1wMLa4-0000000Cgb6-35Ra;
+	Mon, 11 May 2026 08:01:36 +0000
+Received: from mail-ej1-f50.google.com ([209.85.218.50])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMLYB-0000000CgCk-3p5j
+	id 1wMLZs-0000000CgZZ-3uLo
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 May 2026 07:59:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=alancui.cc; s=default;
-	t=1778486372; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	bh=9omUeZuixFYsT7uXtVHKnBpa/xIQEYGW4lN08Cwb4hE=;
-	b=bzp5MKP358aQIiidI8HUtY+dtuJk7gGjyg+p4LJGsnl2OrbWxZeno5ej11m8ff4nrmbY4TiRSkVoxU1u88CWR2Qvxow/w9wsPc56gBopQnkzUyxkk9vwucc/dCiqHAHE7XOHPDf13tAtSMRw2ntfRMkQifB8HdlCU6KJ/kpi1Y6lgQZEyAJnSEdQ+oTcxQtxt5njdbso7WQw7klxEyvim6XGrrr9+Jk0cugK8JyuYiNtORwVzcFiCPxtJ/XiZVI+05F/4vYG56gKKuayYVgca1MIPloNc334hXb4ln63pB8VZfCIyQVml2oStStrJY5sbZV34PGAJg5oozBn+tUNZg==
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07521747|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00332975-0.000293396-0.996377;FP=15945236355861753154|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam011083013073;MF=me@alancui.cc;NM=1;PH=DS;RN=2;RT=2;SR=0;TI=SMTPD_---.hUQJTUZ_1778486368;
-Received: from alanarchdesktop.localnet(mailfrom:me@alancui.cc fp:SMTPD_---.hUQJTUZ_1778486368 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Mon, 11 May 2026 15:59:29 +0800
-From: AlanCui4080 <me@alancui.cc>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme: make providing NGUID as UUID usage less scary
-Date: Mon, 11 May 2026 15:59:28 +0800
-Message-ID: <3lJTQSoXQt6w2XGXP0Zqlg@alancui.cc>
-In-Reply-To: <73735bc1-9821-42d8-9594-1e9cdb03e15a@grimberg.me>
-References: <UPNVP7_KTI2VieaAyBtUMA@alancui.cc>
- <73735bc1-9821-42d8-9594-1e9cdb03e15a@grimberg.me>
+	Mon, 11 May 2026 08:01:26 +0000
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b93698bb57aso700243566b.0
+        for <linux-nvme@lists.infradead.org>; Mon, 11 May 2026 01:01:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778486483; x=1779091283;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Zv67Mso1pJu4W5W8lh+HDUmbeTPdePxYHh0WczxPFn4=;
+        b=lkGNrD53zRDlO6Fii4Um/E639Tr2lOS1ti81i92UmFgSg9aqE311saCrLeqob9kluu
+         DN96YOmwFu48YfApZTX7+CO0wsluwEBlwkR0NOboeamkITfyh7AcCmqE5hBrl1S9h+o5
+         92cEE4Ar4PfiqMWzz/kUNpaMms/g7RTLs/fMzAWsNf6lw0JR6I/Aunqx/BqdM5ZVjEVq
+         0LVx282VrnCsQ0bp6smafJpaiokopLCEws0xq8J3EVIj/6xe5ovRLBTnW5VrLuQulGlA
+         Bjg4QgH2iZaAKJgdB3S6NLOgjJlzQbD7iNIfzDGDDZUWV5p4Npt0UTj/SNstBoxc9C3u
+         ZEeg==
+X-Forwarded-Encrypted: i=1; AFNElJ8RWuB2/yVdrStvQGJOffKkdcZsZzka5QpywaJupCMmOUy0o3WYIN3vVJxVRG38LFp9iRPn8GED8QGh@lists.infradead.org
+X-Gm-Message-State: AOJu0Yz1iAW0uHkua1wHmKJ4kl4plki9ZzEM+vlL7r2uWlBnb1hHn5VI
+	l7rBQIPs+q3kA0GaO98kgwrJZFfS6rAnSNqHz19Y8vAeMFVbrDjUt6VE
+X-Gm-Gg: Acq92OHQAjacetXZopbX6UJvsqyHuJSOE4CaDw8vuPMnx3HcwH/eGnkn9eY9s0DpE0K
+	u5RiSE5rb+JDax0KXfWTcrcAbCbLjrwpYW3gz9ugq5pb8Qij4CKVFAvn8CmXdCzN1HFmELXSEI5
+	o0RdQCknpkd1jB+vCwZ1XRZfkCK314Fe85opA2sNhG4XD5fb+bWa9KtBz0TjwgYYIo+d3UgbCTZ
+	9ZA5RTGrBJNZEK2kWcxCMC4upYBYAdTNS8y+gviJzsuT6QaSuBOOAOkzk1RJO7OBoBAigev1lR2
+	dpCeg6ut9PnznBmXDflzpYY/cCZCaXDHKZLs7aed+ZQjJSE2TWGE45CQUCJ5XmTX0gTIhPE+HWe
+	ecFbEO9inMGapR+924e7wBcFJngGntlcylGv3XbnTQZG+2b+yRrfE5bG2Z4nRhrkqgyvKgXlE/t
+	yOjq5BlDju8qwDgW3dkY7bkTt/ZDHkxbKKWelYVMoxJTylE3X+CyZ4dF+eymi/Eb85iV75ri+W1
+	Ow=
+X-Received: by 2002:a17:907:c247:b0:bc9:c7b9:9fd3 with SMTP id a640c23a62f3a-bc9c7b9a8c6mr762065266b.11.1778486481306;
+        Mon, 11 May 2026 01:01:21 -0700 (PDT)
+Received: from [10.50.4.100] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac3989fbesm450197666b.33.2026.05.11.01.01.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 01:01:20 -0700 (PDT)
+Message-ID: <cadabbaa-0958-4bfe-9a62-e3f84c146bb6@grimberg.me>
+Date: Mon, 11 May 2026 11:01:18 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] nvmet-tcp: set and enforce a default MDTS for TCP
+ transport
+To: Christoph Hellwig <hch@lst.de>
+Cc: Shivam Kumar <kumar.shivam43666@gmail.com>, mlombard@arkamax.eu,
+ kch@nvidia.com, linux-nvme@lists.infradead.org, kbusch@kernel.org,
+ gregkh@linuxfoundation.org, security@kernel.org
+References: <DI4KADNWR1XG.ILIR3Q697X77@arkamax.eu>
+ <20260508203912.320938-1-kumar.shivam43666@gmail.com>
+ <d06002f7-2da6-44bd-a0df-d9f2ef87a66c@grimberg.me>
+ <20260511063603.GB26080@lst.de>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20260511063603.GB26080@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260511_005940_149041_B54690BE 
-X-CRM114-Status: GOOD (  18.25  )
+X-CRM114-CacheID: sfid-20260511_010125_606811_CEB655E1 
+X-CRM114-Status: GOOD (  11.59  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -65,99 +95,19 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi,
-
-On Monday, 11 May 2026 06:19=EF=BC=8Cyou wrote=EF=BC=9A
-
-> TBH, I'm not sure why should this be a warning or an info log. This=20
-> looks like a debug print to me.
->=20
-> Keith WDYT?
-
-By the way, current way how kernel generate UUID by NGUID is
-not compliant with RFC 4122 and NVMe spec.
-
-[alan@AlanArchDesktop ~]$ cat /sys/block/nvme0n1/uuid=20
-00000000-0000-0000-a428-xxxxxxxxxxxx
-[alan@AlanArchDesktop ~]$ cat /sys/block/nvme0n1/nguid=20
-00000000-0000-0000-a428-xxxxxxxxxxxx
-
-And according to NVMe 1.4 spec 7.10.6 UUID
-   The Universally Unique Identifier is defined in RFC4122 and con-
-   tained in the Namespace Identification Descriptor
-
-So,
-According to RFC 4122 4.3 Algorithm for Creating a Name-Based UUID:
-
-> The version 3 or 5 UUID is meant for generating UUIDs from "names"
-> that are drawn from, and unique within, some "name space".  The
-> concept of name and name space should be broadly construed, and not
-> limited to textual names.  For example, some name spaces are the
-> domain name system, URLs, ISO Object IDs (OIDs), X.500 Distinguished
-> Names (DNs), and reserved words in a programming language.  The
-> mechanisms or conventions used for allocating names and ensuring
-> their uniqueness within their name spaces are beyond the scope of
-> this specification.
-=2E..
-> The algorithm for generating a UUID from a name and a name space are
-> as follows:
->  o  Allocate a UUID to use as a "name space ID" for all UUIDs
->     generated from names in that name space; see Appendix C for some
->     pre-defined values.
->  o  Choose either MD5 [4] or SHA-1 [8] as the hash algorithm; If
->     backward compatibility is not an issue, SHA-1 is preferred.
->  o  Convert the name to a canonical sequence of octets (as defined by
->     the standards or conventions of its name space); put the name
->     space ID in network byte order.
->  o  Compute the hash of the name space ID concatenated with the name.
->  o  Set octts zero through 3 of the time_low field to octets zero
->     through 3 of the hash.
->  o  Set octets zero and one of the time_mid field to octets 4 and 5 of
->     the hash.
->  o  Set octets zero and one of the time_hi_and_version field to octets
->     6 and 7 of the hash.
->  o  Set the four most significant bits (bits 12 through 15) of the
->     time_hi_and_version field to the appropriate 4-bit version number
->     from Section 4.1.3.
->  o  Set the clock_seq_hi_and_reserved field to octet 8 of the hash.
->  o  Set the two most significant bits (bits 6 and 7) of the
->     clock_seq_hi_and_reserved to zero and one, respectively.
->  o  Set the clock_seq_low field to octet 9 of the hash.
->  o  Set octets zero through five of the node field to octets 10
->     through 15 of the hash.
->  o  Convert the resulting UUID to local byte order.
-
-However, the NVMe spec does not specified a namespace ID, so,
-I selected a stirng "nqn.2014-08.org.nvmexpress:nguid",
-then do SHA1 on it, get 4dead072-6b40-f992-9447-40f235d55fee,
-then replace the version to '5' and variant to '1' to follow RFC 4122, get =
-4dead072-6b40-1992-8447-40f235d55fee
-
-So for the NGUID A42812345678ABCD, a way to generate a canonnical
-UUID is:
-```
-import uuid
-namespace =3D uuid.UUID('4dead072-6b40-1992-8447-40f235d55fee')
-nguid_bytes =3D bytes.fromhex('A42812345678ABCD')
-result_uuid =3D uuid.uuid5(namespace, nguid_bytes)
-print(result_uuid)
-```
-Resulting 9f4344db-6bf0-5782-b8a9-a08b6aa55169.
-
-It's too complicated, right? RFC9562 provides us UUIDv8,=20
-
-> UUIDv8 provides a format for experimental or vendor-specific
->  use cases. The only requirement is that the variant and version
->  bits MUST be set as defined in Sections 4.1 and 4.2.
-
-Let's set the first 6 avalible custom bytes to "NGUID:",
-move the first 4bits of NGUID before the variant 4bits .
-
-So for the NGUID A42812345678ABCD, it's 78718573-6858-800A-8428-12345678abc=
-d.
-
-Alan.
 
 
+On 11/05/2026 9:36, Christoph Hellwig wrote:
+> On Sun, May 10, 2026 at 11:42:48PM +0300, Sagi Grimberg wrote:
+>> I think what we want is to limit the tcp to a sane limit similar to the
+>> nvmet-rdma driver.
+> Agreed.
+>
+> We might still need the early enforcement in Shivam's patch, though.
+>
 
+Agreed, I think that rdma is susceptible here as well (perhaps also fc?).
+
+Perhaps we can have a helper for nvmet_check_mdts() that would accept
+the request after req->transfer_len was initialized.
 
