@@ -4,67 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EA2FCD37B7
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 05:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EE1D8CD37AC
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 05:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=qJAHRqq7Ev5EKiMe2Ok5zxR9FvxXaugdBcK6Nc+PxRQ=; b=j89T0/YS2EllEgBGo79O2k7btj
-	1KbKGy3xYu1T5azYdIpWD26Jr0dj01K/4O7Y7XlpFzHmd/EtH7cdcbKunwxNAKszdk00xL+iplq1k
-	rYc1X5YV//yaWRHDMH1GMu8aDIKlAGrR+lppNQVTKND0MxNgPNLLarxeuxOdMbZUU7AJnJS/zvZ1Q
-	DBzn4d1dNnmg49iDGo5T6ySy/+TlJdmgKpvsW70Vs5VDBEZeQd/kvYp/EyZnQWLcStf8wmO1ceZyC
-	DhvLeaHr0SYh2HjmFV85hLtoPzgGwG5Erjssujw7RtxcwcdlgaQaPqNO/oqMtIgCdM6V7RvU7k0gt
-	rLXWE2Sg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=JgKxGPpSdhzP6IlYOSe+S1yRrhXRbrG8CZWwUwVhrD0=; b=dT5VDG6O+XrI9FDPIsWw0v2OGf
+	sOEIUoqJ3YntD5yicQokwWwJ5TaR5XXUsMgqi8p3LC3+Xmq+81EBbNcHJXGtEyogjxrCKYDOy3GCQ
+	a6GgE1UU2NTnjMxM60u3DkldF0iWpMBfNSNCEpTPLd8hmzFt8m+Vy9eptDziZlI7Oq/lFavRYHIwV
+	aAoKKPxjxZWj0huGnNP3g4uRx1uQA1Fwq/rZQBIB2bT6aoJjTAD4OIUYmUxNqmDnxyFOnnR/0GnSA
+	VowGPBlArKSAHk1kezwGBdvUvkvdJqzd/sU3UozXCbyDOoBIYjbh9r+yXxTdSLgzf1M21LUZJfJcC
+	JPAJKMUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMJ2R-0000000CNAA-2o2p;
-	Mon, 11 May 2026 05:18:43 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wMJTo-0000000CPbE-0b5s;
+	Mon, 11 May 2026 05:47:00 +0000
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMJ2M-0000000CN8s-0lFY
+	id 1wMJTk-0000000CPad-1sPC
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 May 2026 05:18:41 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 4A7336001A;
-	Mon, 11 May 2026 05:18:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F31ABC2BCB0;
-	Mon, 11 May 2026 05:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778476717;
-	bh=DlsXme9lwoqKsJyGSBaGtI+ozuQkDWi5uzvbU8C2c5I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A0IPhONnhKqguTZYEEPJfmmarergtLTe7mSrEWz5PN6QF7cnCSYkd/psKMt4cjrOA
-	 iPMZg2uf0DMUlg80+8RIvT6HZyor+xgMmBfmWNyMmJMfIDrRn9Dt7l/BQpjFalaRxn
-	 H7UXcyE2WHjJMAVqakihPkV1OUbFTRvxNK6I16Vcb6e3rL6der9faCerOOxCyiFn6C
-	 sxeaPKDNEjql2Hzl93lyBYKXl9/ShZTiBz6jAoAzt5uhiyhs756PQ2ybYTYgJGs6uI
-	 SiAI5AQKrpi7bWoZ+YmwJPK+xeL3gnS8t2PuKFUvZjdbLOxWJ07vze0/pdsRPsoXFS
-	 A/cGX5Bsb1I6w==
-Date: Mon, 11 May 2026 10:48:23 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, 
-	manivannan.sadhasivam@oss.qualcomm.com, Thierry Reding <treding@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	"David E. Box" <david.e.box@linux.intel.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Chia-Lin Kao <acelan.kao@canonical.com>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
- set by BIOS for devicetree platforms
-Message-ID: <fb6uzh3jfes3hky6fblpsh2vvg3daij5ogecydiuhmytxbglcb@tdqjcoxuymsk>
-References: <20260122152903.GA1247682@bhelgaas>
- <8d8b2244-2bf0-48cf-8fb8-9e47e197a62d@nvidia.com>
+	Mon, 11 May 2026 05:46:58 +0000
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64AHNiFE3570526;
+	Mon, 11 May 2026 05:46:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=JgKxGP
+	pSdhzP6IlYOSe+S1yRrhXRbrG8CZWwUwVhrD0=; b=jDcs4nA/BX4Ls+rgy/I4SO
+	s172SkmZjRE+kLnrf78Ht7cyDJY9Mypc4dm+v55E03eZAVTGKqQALaHpzalap77C
+	QL5WPOh+WXzDgJFFbyCde8Qd3xcI8ysBsPfZ64M8GEy3a4CVy9LZdKT+0kGjqDm1
+	I4zeSUjbjjxfQafKHpdj2Pth8twCmcsZe7m3xQvUHpauzVMp3pEfD/9FpXSv9AoL
+	kLCtw3h/4C3ZjNTDnf1shKJDHXyQy/P3omcB/HdZdDrAfWAV26cVMvmuwslnDOL2
+	FAsSUFZuqYkijypP8Fuc0beCjHcLCQz7D9OAijb0WIrqUGtb4JKBcLWrPiQFq5iQ
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e1vju67rh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 May 2026 05:46:52 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64B5Occx022194;
+	Mon, 11 May 2026 05:46:52 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e2fmvv04x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 May 2026 05:46:52 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64B5ko9D30474784
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 11 May 2026 05:46:51 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D81D25805A;
+	Mon, 11 May 2026 05:46:50 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6733058054;
+	Mon, 11 May 2026 05:46:48 +0000 (GMT)
+Received: from [9.123.7.57] (unknown [9.123.7.57])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 11 May 2026 05:46:48 +0000 (GMT)
+Message-ID: <5a9092bc-872e-4c12-904d-054dcd7b2379@linux.ibm.com>
+Date: Mon, 11 May 2026 11:16:46 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8d8b2244-2bf0-48cf-8fb8-9e47e197a62d@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] nvme-cli: add nvme top command for real-time
+ monitoring
+To: Daniel Wagner <dwagner@suse.de>
+Cc: hare@suse.com, kbusch@kernel.org, hch@lst.de, gjoyce@linux.ibm.com,
+        wenxiong@linux.ibm.com, linux-nvme@lists.infradead.org
+References: <20260430105234.1172446-1-nilay@linux.ibm.com>
+ <4eedc5eb-4e13-44d8-99ad-145494ff1156@suse.de>
+Content-Language: en-US
+From: Nilay Shroff <nilay@linux.ibm.com>
+In-Reply-To: <4eedc5eb-4e13-44d8-99ad-145494ff1156@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=cYbiaHDM c=1 sm=1 tr=0 ts=6a016d4c cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=NEAV23lmAAAA:8
+ a=ZOzq94BIP34y-jytqi0A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: m-EP-uyCdQ1IA55oSzVrbEA6FiEhHJEx
+X-Proofpoint-ORIG-GUID: m-EP-uyCdQ1IA55oSzVrbEA6FiEhHJEx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTExMDA1OSBTYWx0ZWRfX9Oqe6UUGXJHr
+ 4Q9WUX04rsI0AcQPgEnaoqVaRQkj7DoaZqWfgg38/ML60cQdC3HLPg0pJ/ufIiSlxZzFwfajO/W
+ 6D1l+Z5gM+LPHhlyxngqtazM59bG85o6p0D/A3f642WUNdYdM7tzi9RMsvHdyQt1vc/PbOrI6Fk
+ mzXipvqLaCETPMX067EVO98anKU2PxJOejLCculkr1ukCK8pV+012zCTCIrbAvohXIUE+NQ6n0u
+ Xu3uRJhBhYOcbD5G3dlfiHjcvn2RJLNgW/9DoYbm/sG6zaGKU1gqfrJQHPH6X5VccmgTK4qFUfD
+ SztKI6A6a3POv/EvQjDjWE8iuUlhgdfTSZuEWRBoFwF/KffaPMQZ4jsstBBOWlUWEih/Z8/uql0
+ HGV9/4V23ri74y7chAx6SNSXVunA7zF+qaAyYO6mGYZ9aRdKE9kuPpt/CWe6MKqsqBlycjPFil+
+ Uqd/aSuRkR6ugrcY5gQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_02,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 priorityscore=1501
+ suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605110059
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260510_224656_634618_E44CAA14 
+X-CRM114-Status: GOOD (  13.70  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -79,90 +121,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu, May 07, 2026 at 11:25:23AM +0100, Jon Hunter wrote:
-> Hi Bjorn, Mani,
-> 
-> On 22/01/2026 15:29, Bjorn Helgaas wrote:
-> > [+cc NVMe folks]
-> > 
-> > On Thu, Jan 22, 2026 at 12:12:42PM +0000, Jon Hunter wrote:
-> > > ...
-> > 
-> > > Since this commit was added in Linux v6.18, I have been observing a suspend
-> > > test failures on some of our boards. The suspend test suspends the devices
-> > > for 20 secs and before this change the board would resume in about ~27 secs
-> > > (including the 20 sec sleep). After this change the board would take over 80
-> > > secs to resume and this triggered a failure.
-> > > 
-> > > Looking at the logs, I can see it is the NVMe device on the board that is
-> > > having an issue, and I see the reset failing ...
-> > > 
-> > >   [  945.754939] r8169 0007:01:00.0 enP7p1s0: Link is Up - 1Gbps/Full -
-> > >    flow control rx/tx
-> > >   [ 1002.467432] nvme nvme0: I/O tag 12 (400c) opcode 0x9 (Admin Cmd) QID
-> > >    0 timeout, reset controller
-> > >   [ 1002.493713] nvme nvme0: 12/0/0 default/read/poll queues
-> > >   [ 1003.050448] nvme nvme0: ctrl state 1 is not RESETTING
-> > >   [ 1003.050481] OOM killer enabled.
-> > >   [ 1003.054035] nvme nvme0: Disabling device after reset failure: -19
-> > > 
-> > >  From the above timestamps the delay is coming from the NVMe. I see this
-> > > issue on several boards with different NVMe devices and I can workaround
-> > > this by disabling ASPM L0/L1 for these devices ...
-> > > 
-> > >   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5011, quirk_disable_aspm_l0s_l1);
-> > >   DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5036, quirk_disable_aspm_l0s_l1);
-> > >   DECLARE_PCI_FIXUP_HEADER(0x1b4b, 0x1322, quirk_disable_aspm_l0s_l1);
-> > >   DECLARE_PCI_FIXUP_HEADER(0xc0a9, 0x540a, quirk_disable_aspm_l0s_l1);
-> > > 
-> > > I am curious if you have seen any similar issues?
-> > > 
-> > > Other PCIe devices seem to be OK (like the realtek r8169) but just
-> > > the NVMe is having issues. So I am trying to figure out the best way
-> > > to resolve this?
-> > 
-> > For context, "this commit" refers to f3ac2ff14834, modified by
-> > df5192d9bb0e:
-> > 
-> >    f3ac2ff14834 ("PCI/ASPM: Enable all ClockPM and ASPM states for devicetree platforms")
-> >    df5192d9bb0e ("PCI/ASPM: Enable only L0s and L1 for devicetree platforms")
-> > 
-> > The fact that this suspend issue only affects NVMe reminds me of the
-> > code in dw_pcie_suspend_noirq() [1] that bails out early if L1 is
-> > enabled because of some NVMe expectation:
-> > 
-> >    dw_pcie_suspend_noirq()
-> >    {
-> >      ...
-> >      /*
-> >       * If L1SS is supported, then do not put the link into L2 as some
-> >       * devices such as NVMe expect low resume latency.
-> >       */
-> >      if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
-> >        return 0;
-> >      ...
-> > 
-> > That suggests there's some NVMe/ASPM interaction that the PCI core
-> > doesn't understand yet.
-> > 
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pci/controller/dwc/pcie-designware-host.c?id=v6.18#n1146
+Hi Daniel,
+
+On 5/7/26 9:58 PM, Daniel Wagner wrote:
+> Hi Nilay,
 > 
 > 
-> I want to revisit this issue. From my perspective low-power suspend has now
-> been broken on some of our Tegra platforms (that have NVMe devices) since
-> v6.19 and so far this is no resolution to this issue. The patch that was
-> proposed to fix this [0] has been rejected by qualcomm and although this
-> does workaround the issue, my confidence that this is the right fix is now
-> low.
+> On 4/30/26 12:52 PM, Nilay Shroff wrote:
+>> As usual feedback, comments, and suggestions are welcome!
 > 
+> I've uploaded the series to github to run the CI builds and also asked the LLM of the day to review it. There are a bunch of valid points it brought up:
+> 
+> https://github.com/linux-nvme/nvme-cli/pull/3333
+> 
+> Could you look into it and update the series accordingly?
+> 
+yeah, I'll address those and re-spin a new patchset.
 
-The referenced patch is now merged into arm-soc for v7.2:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=7602c0ec0bbfd3985d49f4f0cad281c1414008c9
+> And as discussed during LSFMM I'll apply it then and we improve/fix stuff from there in the tree.
+> 
+sure.
 
-I hope this takes care of the issue you are dealing with.
+Thanks,
+--Nilay
 
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
 
