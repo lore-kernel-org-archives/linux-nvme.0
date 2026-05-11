@@ -4,123 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7820FCD37AC
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 09:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2BEACD37AC
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 09:58:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:References:
+	Subject:Cc:To:From:Message-Id:Date:Content-Type:Content-Transfer-Encoding:
+	Mime-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=; b=gaVyAMjPvl8ZiAHZIcGsPj+zzF
-	aPD7XbqKSv1X8s5ihMGQ9r/MwvTEg9DLr1RCybQ8mjDGB/5H8Abn0KGw5SkkjxLhOgx48ZOX5nH2H
-	lriD7/fs4BDaLZ8IY+J1hVFph0opEedbAWZradAQ1Y2sbrrWR0KgokyAWvlJwbwcLBUC3kUR1tviT
-	E+yOQAdbKu51tO1OIg3Ap9lA2IuAJhElKGf8oLqqPFRx3cbVOLhRswgHJ3+MDKMgCOJsNDNQtMOcO
-	B/n5XLhOdEgQxeY4tsrQdDij95jvG2N4WjKNqDr7gUnfmrvZXJf0lhBDYDZd0ChLGSomlFMRKD2+n
-	AQH3GGuQ==;
+	bh=G/CxjR74qfj4NhT2Xdvad5ZnXWhPz60gyCd4fl+B/SA=; b=T/zJ4jV1RKSSKxHbL3uR3WjA0M
+	nI+bUueTHApgaTuyedvSlMwiirmj/j7Nq4t8YUThpYxXJ0+F7k8e28eu28SAAN0TkNr8eZ6sFj2p2
+	H/GizSOI7n7crmv9Cpjmh5GwbwR5F73jdl0E4DTynMLFtB9fViU+xE8uHdOL+HECtaEuPfZr/wpnj
+	VHaMr7K+jrIhU2BokNRy12RUOJ4JpbVoW6sgBSjeaKstboFVZJXtwOByhVSyRMbsAqxeqAE/Wfhgj
+	UISmAzoI2EgGVSPU22z+Lg4xJu8hUU6RVP5XXx2VT2aFhwkW9FoCsp7UdPsjomt6cLxGSAk9n2K8U
+	+0COx6xg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMNMq-0000000D1VV-2zYj;
-	Mon, 11 May 2026 09:56:04 +0000
-Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
+	id 1wMNOh-0000000D1pE-01d0;
+	Mon, 11 May 2026 09:57:59 +0000
+Received: from 128-116-240-228.dyn.eolo.it ([128.116.240.228] helo=arkamax.eu)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMNMo-0000000D1Ud-1Yps
+	id 1wMNOb-0000000D1oY-3ei4
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 May 2026 09:56:03 +0000
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 73E546A7C8;
-	Mon, 11 May 2026 09:55:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778493360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
-	b=L29edVtro3Rx51W97qf9MeZnJqkgRt3+f0ZUyzID5XsWsv+uJt+wGJbOmSnjeVz1VrYjvC
-	ppSrDTv0/Dd58Za+72a3QJe+25fCV2Y5Vtv2JDtVYuQakGFew6tPAM+dRY0Hi0U4qgAqQy
-	FGHbqagkXWAuKtcqQfKkukWw6me1uj0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778493360;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
-	b=mvrmXoPGIN0Pf6z+m5PnWcQHRI31nDF9Tf5Z5T7nTyN/spSuD0JSQSY2HjGr1RD6FAEZta
-	CiKEd/GPTWmvNNCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778493359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
-	b=TiV4YXBzwsQ4LKZEiYwlOuvYQ/rNj6s65aw8IZ0QUu3pwSkNsKN/W1hCowOCTcJZz5ImAC
-	cZoqFx+Qy5X6H6JaRpyTYzbtunq+lCNp56ntSF7ACO/OlnzwHaIDVoFm5offtk3oVdmjaH
-	IOx1rWgE4/e/TxayeDgV6gdBDyQjkQE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778493359;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
-	b=12Bh7/4FyWlnmJ9UHdYmdW6mF1OHcKDHduriqRqPlv8heJN5RW73dEApXuoYYASjtK1dFE
-	g8wuwgV/g0WA+qDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C5F5593A3;
-	Mon, 11 May 2026 09:55:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tk9ODq+nAWp3SgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 11 May 2026 09:55:59 +0000
-Message-ID: <917e7f85-4f4e-4fdf-9c9b-b0cdd70f0596@suse.de>
-Date: Mon, 11 May 2026 11:55:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 8/9] nvmet-loop: do not alloc admin tag set during
- reset
-To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
-Cc: mheyne@amazon.de, emilne@redhat.com, jmeneghi@redhat.com,
- linux-nvme@lists.infradead.org, dwagner@suse.de, mlombard@arkamax.eu,
- mkhalfella@purestorage.com, chaitanyak@nvidia.com, hare@kernel.org,
- hch@lst.de
+	Mon, 11 May 2026 09:57:57 +0000
+Received: from localhost (128-116-240-228.dyn.eolo.it [128.116.240.228])
+	by arkamax.eu (OpenSMTPD) with ESMTPSA id e51e22dc (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+	Mon, 11 May 2026 11:57:50 +0200 (CEST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 11 May 2026 11:57:50 +0200
+Message-Id: <DIFRBHA4ZPSU.WJQ6KF38WYCK@arkamax.eu>
+From: "Maurizio Lombardi" <mlombard@arkamax.eu>
+To: "Hannes Reinecke" <hare@suse.de>, "Maurizio Lombardi"
+ <mlombard@redhat.com>, <kbusch@kernel.org>
+Cc: <mheyne@amazon.de>, <emilne@redhat.com>, <jmeneghi@redhat.com>,
+ <linux-nvme@lists.infradead.org>, <dwagner@suse.de>, <mlombard@arkamax.eu>,
+ <mkhalfella@purestorage.com>, <chaitanyak@nvidia.com>, <hare@kernel.org>,
+ <hch@lst.de>
+Subject: Re: [PATCH V4 7/9] nvme-core: align fabrics_q teardown with admin_q
+ in nvme_free_ctrl
+X-Mailer: aerc 0.21.0
 References: <20260508133335.98612-1-mlombard@redhat.com>
- <20260508133335.98612-9-mlombard@redhat.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260508133335.98612-9-mlombard@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+ <20260508133335.98612-8-mlombard@redhat.com>
+ <837128f8-bff3-41da-8960-f43ef79797eb@suse.de>
+In-Reply-To: <837128f8-bff3-41da-8960-f43ef79797eb@suse.de>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260511_025602_560702_5C2107D8 
-X-CRM114-Status: GOOD (  12.49  )
+X-CRM114-CacheID: sfid-20260511_025754_245196_B9FF3392 
+X-CRM114-Status: GOOD (  11.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -135,41 +66,63 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/8/26 15:33, Maurizio Lombardi wrote:
-> Currently, resetting a loopback controller unconditionally invokes
-> nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
-> Doing so drops the old queue and allocates a new one. Consequently,
-> this reverts the admin queue's timeout (q->rq_timeout) back to the
-> module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
-> timeout values the user may have configured via sysfs and potentially
-> racing against the sysfs nvme_admin_timeout_store() function
-> that may dereference the admin_q pointer during the RESETTING state.
-> 
-> Decouple the admin tag set lifecycle from the admin queue
-> configuration and destruction paths, which are executed during resets;
-> Specifically:
-> 
-> * Move nvme_alloc_admin_tag_set() into nvme_loop_create_ctrl() so it
->    is only allocated once during the initial controller creation.
-> 
-> * Defer the destruction of the admin tag set to
->    nvme_loop_delete_ctrl_host() and the terminal error-handling
->    paths of nvme_loop_reset_ctrl_work() and
->    nvme_loop_create_ctrl().
-> 
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
-> ---
->   drivers/nvme/target/loop.c | 31 ++++++++++++++++---------------
->   1 file changed, 16 insertions(+), 15 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+On Mon May 11, 2026 at 11:53 AM CEST, Hannes Reinecke wrote:
+> On 5/8/26 15:33, Maurizio Lombardi wrote:
+>> Currently, the final reference for the fabrics admin queue (fabrics_q)
+>> is dropped inside nvme_remove_admin_tag_set(). However, the primary
+>> admin queue (admin_q) defers dropping its final reference until
+>> nvme_free_ctrl().
+>>=20
+>> Move the blk_put_queue() call for fabrics_q from nvme_remove_admin_tag_s=
+et()
+>> to nvme_free_ctrl(). This aligns the lifecycle management of both admin
+>> queues, ensuring they are freed symmetrically when the controller is fin=
+ally
+>> torn down.
+>>=20
+>> Reviewed-by: Daniel Wagner <dwagner@suse.de>
+>> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+>> ---
+>>   drivers/nvme/host/core.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 5d3200a66f8e..73575d087a07 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -4932,10 +4932,8 @@ void nvme_remove_admin_tag_set(struct nvme_ctrl *=
+ctrl)
+>>   	 */
+>>   	nvme_stop_keep_alive(ctrl);
+>>   	blk_mq_destroy_queue(ctrl->admin_q);
+>> -	if (ctrl->ops->flags & NVME_F_FABRICS) {
+>> +	if (ctrl->ops->flags & NVME_F_FABRICS)
+>>   		blk_mq_destroy_queue(ctrl->fabrics_q);
+>> -		blk_put_queue(ctrl->fabrics_q);
+>> -	}
+>>   	blk_mq_free_tag_set(ctrl->admin_tagset);
+>>   }
+>>   EXPORT_SYMBOL_GPL(nvme_remove_admin_tag_set);
+>> @@ -5077,6 +5075,8 @@ static void nvme_free_ctrl(struct device *dev)
+>>  =20
+>>   	if (ctrl->admin_q)
+>>   		blk_put_queue(ctrl->admin_q);
+>> +	if (ctrl->fabrics_q)
+>> +		blk_put_queue(ctrl->fabrics_q);
+>>   	if (!subsys || ctrl->instance !=3D subsys->instance)
+>>   		ida_free(&nvme_instance_ida, ctrl->instance);
+>>   	nvme_free_cels(ctrl);
+>
+> One wonders why we check for 'flags' in the first hunk, but for the=20
+> existence of 'fabrics_q' in the second hunk.
+> But anyway.
 
-Cheers,
+That is true,
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+I have to send a V5 anyway to address other comments, so I will change it t=
+o use
+if(ctrl->fabrics_q).
+
+Maurizio
+
 
