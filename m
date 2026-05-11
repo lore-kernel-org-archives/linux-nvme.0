@@ -4,42 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AE4B2CD37AC
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 08:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8CA88CD37AC
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 08:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=fSr+jG7w28PBK0QLpfOlYmN+owMnjbiSdp6FTfFlFWg=; b=wDmjDaaLmjXxgFQgiAGRLqmyan
-	c+qUpF5vxbCrqOFJWZE7Q3gajA9xam5QofTLCn5gYPRRYU84UXAZLz16TyJEY6C/qH7Td039NhcR3
-	gDHeD7E3RKIFycVT6LYKIBK/C65snuzqp479QqWLuXRON5maJ4nIfvcpSH4L50MoTBTAnJuBkfA+Q
-	R1D3shTYI5t91lHkJL7ET7jQ7/PIgm3CQ75Y6Xibym+KuxqHzABj4xWc8EvGyfkizDSnEcbQfxWaQ
-	mITa3dlfM+bZEcMZLBtv6fvCkMcp7nErFroi6Zj2n0LwDfbRHWowQr89jOQ8aLeX+TwTHN9UniWpq
-	dWpuTYtw==;
+	bh=rt78FZAYKe0gz/4zfRjF4IigBBCZLzvejiqCOF4t7eo=; b=mkB/uKKanmLqKIf65bFpiBmVtM
+	d01oezaAkw0hUkHZr6oRn4/2KRLgbPS9/sBbymdrq7CK7J3DeOQ6MwJNx7XQupLF2JqUz+C292uL6
+	WQfnilW1vWLk2/ZlA3xQwznEOPEy77Ua8GESTEjGKwVa0TavJiQxM89WIu90QdwHMPZzJ0jOn6hwJ
+	adS48gVcHfNnfAxHuCSXHBu1YZpik7l14s30xJtDeujtWnZEBtUYwYUFbMh2QHC5SSNcnAvxJtG3l
+	u6ignYEN4IuY9CLXwtn1jzqQkYACZGU8vwhCUPJTHiBejxSbBhy5toGnz1qvyDsLgiNyvwd1ZPHoi
+	zHRAZ61g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMLn1-0000000Cj9q-1FNM;
-	Mon, 11 May 2026 08:14:59 +0000
+	id 1wMLoc-0000000CjVe-3Z1v;
+	Mon, 11 May 2026 08:16:38 +0000
 Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMLmz-0000000Cj9J-0KXt;
-	Mon, 11 May 2026 08:14:57 +0000
-Date: Mon, 11 May 2026 01:14:57 -0700
+	id 1wMLob-0000000CjVL-2MDJ;
+	Mon, 11 May 2026 08:16:37 +0000
+Date: Mon, 11 May 2026 01:16:37 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Rohit Chavan <roheetchavan@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, kbusch@kernel.org,
-	axboe@kernel.dk, sagi@grimberg.me, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvme: use str_enabled_disabled() for digest mismatch
- messages
-Message-ID: <agGQAU0K_9PBj6k7@infradead.org>
-References: <afwj1aZteJRqnKxs@infradead.org>
- <20260508094734.2032284-1-roheetchavan@gmail.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: AlanCui4080 <me@alancui.cc>, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme: make providing NGUID as UUID usage less scary
+Message-ID: <agGQZU4NwAgSzHLD@infradead.org>
+References: <UPNVP7_KTI2VieaAyBtUMA@alancui.cc>
+ <73735bc1-9821-42d8-9594-1e9cdb03e15a@grimberg.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260508094734.2032284-1-roheetchavan@gmail.com>
+In-Reply-To: <73735bc1-9821-42d8-9594-1e9cdb03e15a@grimberg.me>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -54,20 +52,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 08, 2026 at 03:17:33PM +0530, Rohit Chavan wrote:
-> Hi Christoph,
-> 
-> Thank you for the feedback.
-> 
-> My intent was to align the code with the standardized string helpers 
-> recently introduced in the kernel to reduce open-coding. However, 
-> I respect your preference for keeping the ternary form in the 
-> NVMe subsystem.
+[the patch seem to be missing some maintainer Ccs]
 
-I guess it's more of a question for the people adding the helpers, but it
-should also be in any place converting to it:  what's the point?
+On Mon, May 11, 2026 at 01:19:59AM +0300, Sagi Grimberg wrote:
+> TBH, I'm not sure why should this be a warning or an info log. This looks
+> like a debug print to me.
 
-The helpers don't reduce the code size, but increase cognitive load.  Not
-a good trade-off as far as I can tell, but maybe I'm missing something?
+It is worse.  For some reason the commit seems to imply the uuid
+replaces the nguid and they can be intermixed.
+
+We really need separate sysfs files for the different ids.  I gues we
+need to keep the existing one someone, but it is a mess.
 
 
