@@ -4,133 +4,123 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3EC8ECD3427
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 09:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7820FCD37AC
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 09:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hsNKCCd77pBLDk2f74sm80lbSDV9WsDhHYunD0s3dlM=; b=wY1AZO0/p1hyiUcB2B15gf+PNh
-	JbN6cYMUZGobWMSt9QyRIO8VkeoRX27dJrRILPdnLvsDIgFcE1wX8qWPAnrcQ/DjCzqKPraw/BfED
-	sv49CF70dlFVKobK1bU0r1oLjl2MZ+n712hFkr6ptdEBsgCuyNy0f/T/p/elSo4Dky5qTL/ebcOx0
-	2MqDVrivXeRD1NCJuXO2vYVlmSq0eoGJiBuImd9KA3xsIALKG/OyJ8lTm6/OR77MCM+ixKpS4ZNhq
-	PPdOVZ9BSOqg+YwRouciUbuNTKKqQlQXVtUkSF4ZEA/KAQSRJ8nJvSB1xmyrL0UxOb9q3kx5mBdoV
-	XQCzfehw==;
+	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=; b=gaVyAMjPvl8ZiAHZIcGsPj+zzF
+	aPD7XbqKSv1X8s5ihMGQ9r/MwvTEg9DLr1RCybQ8mjDGB/5H8Abn0KGw5SkkjxLhOgx48ZOX5nH2H
+	lriD7/fs4BDaLZ8IY+J1hVFph0opEedbAWZradAQ1Y2sbrrWR0KgokyAWvlJwbwcLBUC3kUR1tviT
+	E+yOQAdbKu51tO1OIg3Ap9lA2IuAJhElKGf8oLqqPFRx3cbVOLhRswgHJ3+MDKMgCOJsNDNQtMOcO
+	B/n5XLhOdEgQxeY4tsrQdDij95jvG2N4WjKNqDr7gUnfmrvZXJf0lhBDYDZd0ChLGSomlFMRKD2+n
+	AQH3GGuQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMNKY-0000000D15o-0qpS;
-	Mon, 11 May 2026 09:53:42 +0000
+	id 1wMNMq-0000000D1VV-2zYj;
+	Mon, 11 May 2026 09:56:04 +0000
 Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMNKV-0000000D15A-2oIZ
+	id 1wMNMo-0000000D1Ud-1Yps
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 May 2026 09:53:40 +0000
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	Mon, 11 May 2026 09:56:03 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3D69A6B81B;
-	Mon, 11 May 2026 09:53:36 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 73E546A7C8;
+	Mon, 11 May 2026 09:55:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778493217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778493360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hsNKCCd77pBLDk2f74sm80lbSDV9WsDhHYunD0s3dlM=;
-	b=s3AGPOK5/S7Q9Zhki5AF94a0TG4wc6ROxsscOlCPf7AqbvOUmwQH9LeesdO5S4IGgGJmMk
-	flFHwb3qBK+vFb6/ki/2I/yl1PM3hzUCmE077yqO3dlyd9PUkeW5oXtRM4Hl74mFGwOPAX
-	s+evqBWEkh/Pe6weyxHHCK3ghJxWO7k=
+	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
+	b=L29edVtro3Rx51W97qf9MeZnJqkgRt3+f0ZUyzID5XsWsv+uJt+wGJbOmSnjeVz1VrYjvC
+	ppSrDTv0/Dd58Za+72a3QJe+25fCV2Y5Vtv2JDtVYuQakGFew6tPAM+dRY0Hi0U4qgAqQy
+	FGHbqagkXWAuKtcqQfKkukWw6me1uj0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778493217;
+	s=susede2_ed25519; t=1778493360;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hsNKCCd77pBLDk2f74sm80lbSDV9WsDhHYunD0s3dlM=;
-	b=As0czRuds3Q7/XWjZV13YSsl4/APLlHBkyTEBE8X04cKBl2WNQ/M26soDRCmRYknx2z6Zg
-	kDtJN+feGC3xhQAg==
+	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
+	b=mvrmXoPGIN0Pf6z+m5PnWcQHRI31nDF9Tf5Z5T7nTyN/spSuD0JSQSY2HjGr1RD6FAEZta
+	CiKEd/GPTWmvNNCg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OCE6bKq6;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=w5QqkR3K
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778493216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778493359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hsNKCCd77pBLDk2f74sm80lbSDV9WsDhHYunD0s3dlM=;
-	b=OCE6bKq6XGb9nyhdaN2u5+Yw9cxfk4Q6T64XDL7RyNO6iRrB7g74GUM1LkP8nZr4UZS0ib
-	yythmo86MWiXW5NOZa2UylAhZg25JgKX05PwWbQHCrDWU4gJ3NopUGdhQulS5nJCYdkkFS
-	8LDOwy4YUGHxJvMXSvhjdmvrK6mbObw=
+	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
+	b=TiV4YXBzwsQ4LKZEiYwlOuvYQ/rNj6s65aw8IZ0QUu3pwSkNsKN/W1hCowOCTcJZz5ImAC
+	cZoqFx+Qy5X6H6JaRpyTYzbtunq+lCNp56ntSF7ACO/OlnzwHaIDVoFm5offtk3oVdmjaH
+	IOx1rWgE4/e/TxayeDgV6gdBDyQjkQE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778493216;
+	s=susede2_ed25519; t=1778493359;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hsNKCCd77pBLDk2f74sm80lbSDV9WsDhHYunD0s3dlM=;
-	b=w5QqkR3KymBH3ZltFUJGDxgEvc39R3/Dx0jzn0/O0T3iyGZE54lBh1fPq0/TdVoM8x3zzY
-	8leAQ3ljtESC26AA==
+	bh=44ovicq5CK3mSb7jkFtcwBBGSKF2FfmxRSXqQNOzrr8=;
+	b=12Bh7/4FyWlnmJ9UHdYmdW6mF1OHcKDHduriqRqPlv8heJN5RW73dEApXuoYYASjtK1dFE
+	g8wuwgV/g0WA+qDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 01CA8593A3;
-	Mon, 11 May 2026 09:53:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C5F5593A3;
+	Mon, 11 May 2026 09:55:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eHQUOx+nAWrYRwAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 11 May 2026 09:53:35 +0000
-Message-ID: <837128f8-bff3-41da-8960-f43ef79797eb@suse.de>
-Date: Mon, 11 May 2026 11:53:35 +0200
+	id tk9ODq+nAWp3SgAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 11 May 2026 09:55:59 +0000
+Message-ID: <917e7f85-4f4e-4fdf-9c9b-b0cdd70f0596@suse.de>
+Date: Mon, 11 May 2026 11:55:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V4 7/9] nvme-core: align fabrics_q teardown with admin_q
- in nvme_free_ctrl
+Subject: Re: [PATCH V4 8/9] nvmet-loop: do not alloc admin tag set during
+ reset
 To: Maurizio Lombardi <mlombard@redhat.com>, kbusch@kernel.org
 Cc: mheyne@amazon.de, emilne@redhat.com, jmeneghi@redhat.com,
  linux-nvme@lists.infradead.org, dwagner@suse.de, mlombard@arkamax.eu,
  mkhalfella@purestorage.com, chaitanyak@nvidia.com, hare@kernel.org,
  hch@lst.de
 References: <20260508133335.98612-1-mlombard@redhat.com>
- <20260508133335.98612-8-mlombard@redhat.com>
+ <20260508133335.98612-9-mlombard@redhat.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260508133335.98612-8-mlombard@redhat.com>
+In-Reply-To: <20260508133335.98612-9-mlombard@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3D69A6B81B
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260511_025339_853763_B28737F3 
-X-CRM114-Status: GOOD (  15.83  )
+X-CRM114-CacheID: sfid-20260511_025602_560702_5C2107D8 
+X-CRM114-Status: GOOD (  12.49  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -146,52 +136,32 @@ Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 On 5/8/26 15:33, Maurizio Lombardi wrote:
-> Currently, the final reference for the fabrics admin queue (fabrics_q)
-> is dropped inside nvme_remove_admin_tag_set(). However, the primary
-> admin queue (admin_q) defers dropping its final reference until
-> nvme_free_ctrl().
+> Currently, resetting a loopback controller unconditionally invokes
+> nvme_alloc_admin_tag_set() inside nvme_loop_configure_admin_queue().
+> Doing so drops the old queue and allocates a new one. Consequently,
+> this reverts the admin queue's timeout (q->rq_timeout) back to the
+> module default (NVME_ADMIN_TIMEOUT), completely wiping out any custom
+> timeout values the user may have configured via sysfs and potentially
+> racing against the sysfs nvme_admin_timeout_store() function
+> that may dereference the admin_q pointer during the RESETTING state.
 > 
-> Move the blk_put_queue() call for fabrics_q from nvme_remove_admin_tag_set()
-> to nvme_free_ctrl(). This aligns the lifecycle management of both admin
-> queues, ensuring they are freed symmetrically when the controller is finally
-> torn down.
+> Decouple the admin tag set lifecycle from the admin queue
+> configuration and destruction paths, which are executed during resets;
+> Specifically:
 > 
-> Reviewed-by: Daniel Wagner <dwagner@suse.de>
+> * Move nvme_alloc_admin_tag_set() into nvme_loop_create_ctrl() so it
+>    is only allocated once during the initial controller creation.
+> 
+> * Defer the destruction of the admin tag set to
+>    nvme_loop_delete_ctrl_host() and the terminal error-handling
+>    paths of nvme_loop_reset_ctrl_work() and
+>    nvme_loop_create_ctrl().
+> 
 > Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 > ---
->   drivers/nvme/host/core.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   drivers/nvme/target/loop.c | 31 ++++++++++++++++---------------
+>   1 file changed, 16 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 5d3200a66f8e..73575d087a07 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -4932,10 +4932,8 @@ void nvme_remove_admin_tag_set(struct nvme_ctrl *ctrl)
->   	 */
->   	nvme_stop_keep_alive(ctrl);
->   	blk_mq_destroy_queue(ctrl->admin_q);
-> -	if (ctrl->ops->flags & NVME_F_FABRICS) {
-> +	if (ctrl->ops->flags & NVME_F_FABRICS)
->   		blk_mq_destroy_queue(ctrl->fabrics_q);
-> -		blk_put_queue(ctrl->fabrics_q);
-> -	}
->   	blk_mq_free_tag_set(ctrl->admin_tagset);
->   }
->   EXPORT_SYMBOL_GPL(nvme_remove_admin_tag_set);
-> @@ -5077,6 +5075,8 @@ static void nvme_free_ctrl(struct device *dev)
->   
->   	if (ctrl->admin_q)
->   		blk_put_queue(ctrl->admin_q);
-> +	if (ctrl->fabrics_q)
-> +		blk_put_queue(ctrl->fabrics_q);
->   	if (!subsys || ctrl->instance != subsys->instance)
->   		ida_free(&nvme_instance_ida, ctrl->instance);
->   	nvme_free_cels(ctrl);
-
-One wonders why we check for 'flags' in the first hunk, but for the 
-existence of 'fabrics_q' in the second hunk.
-But anyway.
-
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
 Cheers,
