@@ -4,122 +4,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95B8ACD4842
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 11:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 448E0CD37B9
+	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 11:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=L0jHJf5WSrkwgQvojPTjhVVbiE6q0T8ri/nv4x1zdX8=; b=qHo6qP7Xh4AiTYsKs5QsYCZCVD
-	GXTQ1dOPVDE71sY6oeotFoRqEGjAxkQcORh2AaSsVPnfBCHgAkLLYkZuUCIWu0ScQWn2hXWnufXea
-	iyGKNzLCL3bn9NaNV7zB6jd/TWU3EZS4WaceP5rprbOrz7KmC3vwVLep+Xwatm7Ub272WrAjBT1dD
-	45kMU8vLmurR4nQX60Df7nWVm8cufrab/cwjMV7KVSfUr0hyYo5m/6qXrXvoGxY0EenxvXUahpRlA
-	9PSSlw8eZ9T/H3U3Ma0vxh92sS/yio3+Y605od9gMNRM24p7O8O0qIxhjinpOxg9gwprFoZQB2iGt
-	Ny2PQqRA==;
+	bh=b97t8NSV7Tv6eRVdqeYauyFyvZ7FD1cZzQv5meK62F4=; b=yfSmD99KvfNbxwrY0FSlYAozh5
+	kwO0992355K8E3dE/qtFetd6hFKxBidWK8A6cKHbViybQGYcodXMxV9c9bP+BiykYSwJLVwL/dw8r
+	d0O1w+XzEzkFevYtzttwvxYyKEC/Xxuj+wsCag9w7ao6JHuveA6sDpxcLC4szrYuu4kTjws3/5hq/
+	5FeZSpA9RWtswo0YvA6iGhf4XVAOLTZ6HqrXkkfzDYA5WBDdUt1UYG41VU3aJB/lNcgC/rDDh01ta
+	a03tr0Z3lwdfyvkbV7dQa6DxfpQ3Xjc+XV9O9anQ67cdi/SZUZg8qdElvR4ywwIlgQuFc2GOQWI1E
+	Ywm1ymjw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMPFR-0000000DQIo-1ppI;
-	Mon, 11 May 2026 11:56:33 +0000
+	id 1wMPFS-0000000DQJg-0b4p;
+	Mon, 11 May 2026 11:56:34 +0000
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMPFL-0000000DQDF-267n
+	id 1wMPFN-0000000DQF8-163e
 	for linux-nvme@bombadil.infradead.org;
-	Mon, 11 May 2026 11:56:27 +0000
+	Mon, 11 May 2026 11:56:30 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=L0jHJf5WSrkwgQvojPTjhVVbiE6q0T8ri/nv4x1zdX8=; b=SWcU2ZK02zpAhPBU8VwUXx+XIh
-	Gu7Nz7N0Ww/zZVPECuUUrGo7jVFDFgRyPpSQ4ih9c7bfqURKDaFu8h7ms6EXQnwejMckrcWfEiUcD
-	MfhTnDDBrJz5PQrqSQ4QCTp0mKxw+T+mSxuq6ULcjpcGJJD/Nqrt8dznFKT6XCq1WZDHNcMfpAXSt
-	SFV4j7F11gnxWJZuoRvz2iI3AJA1IKQjQEiYSoBCHtSDYm0u2zrzIqFqowWosEkd/osEwg7uKRRrH
-	wz37brfQGo7iN2Q6JQO13xHU7fghqs0XjpgtboksD7saC+Jiip1zvj3uR1DUU42ccphY2k0G+SL5c
-	6pSCs/AQ==;
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:MIME-Version
+	:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=b97t8NSV7Tv6eRVdqeYauyFyvZ7FD1cZzQv5meK62F4=; b=iXTOHlIa+NvVFFv41kwVIoll0g
+	di1ZCtR+n+ChIgmn2wKh850n9yKLF8Ypl7B96RZTMoiFfFel99nlLQoFZLym7P+1f7lIniGDx7HHW
+	wmbe4tAx4gOncd9HhxoVGfKImRISZb6FyTA17KlzVBogF4/VyxBRuRcLt+/X6avMEDG0y3JLFuuaB
+	UcwmYesASsfr+e2v13S99ZxOC7pjjkIJZ2f2rtnv3T2z9JQunlupP9O07QzC0Hor9GPX1nq3AD93P
+	Ow7Sz+GQlppo3HrkMx0PO5hjOvttRRJr2UeI1IVTKQdDmHZnZQMklqBF5apn2atIu8KKQ3pRhByhF
+	IhegaxRw==;
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by desiato.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMPFE-0000000BXiJ-3vIo
+	id 1wMPFH-0000000BXkC-1emu
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 May 2026 11:56:25 +0000
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64AKoP6d3960103;
-	Mon, 11 May 2026 11:56:15 GMT
+	Mon, 11 May 2026 11:56:27 +0000
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64B726LA1930649;
+	Mon, 11 May 2026 11:56:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=L0jHJf
-	5WSrkwgQvojPTjhVVbiE6q0T8ri/nv4x1zdX8=; b=siMrQxRfPKRluMCr5VVgh4
-	6kUhoP35MoYZ9YWbEMJwudgSEvGtmb7KmW5w9S+Fat3qDWIy68NrQiKfJrxK8yAP
-	crzcWGLEM8UdBF/V4bqKjtEUY+iTRJST9/eSAQw0AN2Q0+XPdZ/XY1GcDV5KgboS
-	QR2Tuc2ajANrN6noos0jZzJT7IhgLETdaDVHPjNhuoz76v7bAWdv1iTVf+h0ODVu
-	6+P7S6I/hHVp563+bh2oVf17X9s+c6AKFoQu7+JOAxnkQEPWNbKBwyV4npQO+EYD
-	jDUMS2zwBiN7l5nHy7NqejHbSy8xPeYnqkRZoi8f46Tsvu4Hpg/DrjkKzsktNCCQ
-	==
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=b97t8NSV7Tv6eRVdq
+	eYauyFyvZ7FD1cZzQv5meK62F4=; b=catHnpSRABvFIJa6ZD2vNAraNBGqS3jzM
+	a0yZi7W9LV8vJpx1ZBSPgQ/a0YQvTqVv0j9i7F1GSyRO7MVN2gg/0x5I+Qtd/XrU
+	/SvlePJoQ9DX86fvOi9feunPd2+Kt8c76x3YjOsPqd6hlOMonYlP5EGsGQmxWwF7
+	P8oTru4IHMyrjaQCcLbdvIlaExtwMswjevyzhwpa5kyiItfLuc+htwXSS4W+Vg+r
+	YkSwH5pqZAK8/p9TN9NY/rpPPxLaa2Q3EqC38AHgDcJXNwPWnRMC9QjNhnkg2Odu
+	wvna7FFjXXsYNkJdS7+Es/x4oARSJha4SHZ4IWoLFMuopTcqC9urg==
 Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e1vju7fk6-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e1vn4r241-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 May 2026 11:56:15 +0000 (GMT)
+	Mon, 11 May 2026 11:56:18 +0000 (GMT)
 Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64BBsgFL007985;
-	Mon, 11 May 2026 11:56:14 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e2g8jw2t1-1
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64BBsgFM007985;
+	Mon, 11 May 2026 11:56:17 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e2g8jw2t6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 May 2026 11:56:14 +0000 (GMT)
+	Mon, 11 May 2026 11:56:16 +0000 (GMT)
 Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64BBuAbB17236356
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64BBuCkj51118462
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 11 May 2026 11:56:10 GMT
+	Mon, 11 May 2026 11:56:12 GMT
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ABD2120043;
-	Mon, 11 May 2026 11:56:10 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 87E4420043;
+	Mon, 11 May 2026 11:56:12 +0000 (GMT)
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 173BE20040;
-	Mon, 11 May 2026 11:56:09 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 03F5B20040;
+	Mon, 11 May 2026 11:56:11 +0000 (GMT)
 Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.bl1-in.ibm.com (unknown [9.123.7.57])
 	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 11 May 2026 11:56:08 +0000 (GMT)
+	Mon, 11 May 2026 11:56:10 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: dwagner@suse.de, hare@suse.com, kbusch@kernel.org, hch@lst.de,
         gjoyce@linux.ibm.com, wenxiong@linux.ibm.com
-Subject: [PATCHv2 6/7] nvme: add generic top-like dashboard framework
-Date: Mon, 11 May 2026 17:25:46 +0530
-Message-ID: <20260511115555.2638335-7-nilay@linux.ibm.com>
+Subject: [PATCHv2 7/7] nvme: add nvme top command
+Date: Mon, 11 May 2026 17:25:47 +0530
+Message-ID: <20260511115555.2638335-8-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260511115555.2638335-1-nilay@linux.ibm.com>
 References: <20260511115555.2638335-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=cYbiaHDM c=1 sm=1 tr=0 ts=6a01c3df cx=c_pps
+X-Authority-Analysis: v=2.4 cv=BM+DalQG c=1 sm=1 tr=0 ts=6a01c3e2 cx=c_pps
  a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
- a=hos3Xxib-zhCgWhUcjMA:9 a=uQPe_Wko71BXiCWw:21 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: rLZmnL3D6Y7fJ0-vye9fU9ZjD3kodIlq
-X-Proofpoint-ORIG-GUID: rLZmnL3D6Y7fJ0-vye9fU9ZjD3kodIlq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTExMDEyOSBTYWx0ZWRfXyT7t3Ur840bM
- O2XHRctNPZFq8KTp4ycE9fV9aXkCdHEvzgDW7HDCVuwWCH0c/+s27EB224N6RS9umnE485ELk09
- mEu6eYm7k6R25JHMyZWx8IBWKuSHlyMZr/X8PYz9Frl6LTj9xmeNcUZG9z0v8GmANHyzQmyHd5C
- aSRki64eTpi8ygyoBPgIZsRW7sLV16O5LbxnQYXXvfkI/oTBVAfe/q4cCL/eAVE0nZPR0vkD8ed
- u1rEPvVMSy7PAt14avMnl3zZ0I31V3dSg0tiOo32gD40zHZU1LwhnVwJ+n4Du0F8F6oy7uz5Ysz
- QBddzpJ5HLD2fWFrIvG76enEcWJ0DP7Mys4CD5j1IqxbkhCE5rmJbOXmbV/fK6aetB4En182W7A
- lpRt7wu6cvK4UMbSXa03Bf5GA6qFF6JRSunIlTh9nwQFU+Ivh6HRnNd9s7OzcoeAxqbBSeByaCn
- uc+8itlmRIYTs4dhrwQ==
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=lIKFFttWC1pl3Fu8ApQA:9
+ a=A0VLD9o6xcAkaYU5:21
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTExMDEyOSBTYWx0ZWRfX1lyFtlAhokUG
+ Og9cHE4QRllPCDhZrg8U4Z4MPFgxFaYzGzuLuANantdi9nCx/+CXS67XajaxE4NCUFxeeipNY8o
+ MbZwWW9w3E/rPFCyPGIdhKE4g3Kdgd7I7EthIHky2jgtUIDIAO/evqxxIM5j1sABD5GEwBAJm1K
+ ua4XF+N0OjZUh75ykrimUJVLcWTaoKtdpS8ZaIz25B2MyecIaCKB/sdhTqMzzl3vYWJU85ybXdq
+ ILyvatJ78VXNIJ80+K6aQA89GeR+fNPDoQWrUIbJMJn2lqXx5aMoCv+mgUDr+HL5x/HkJEPxPHS
+ xWfv61ZLog2m7BAwJZvQOnAC2wVsVnkCN61K2ZtTATkcUxAPp7tYJ8v8Tmu+iSx9kB/oTbAVpEk
+ oPOx1ZRfe7BoM5ZOWN1apfs6iDrfos1Y3muSC2dqmTh5umql0S7IyiSV5GqlPOdNDLzy1aT+ZXE
+ ZdmJsmebekoZcTW8XTQ==
+X-Proofpoint-GUID: tN_3X20p1t9ljAkDZ4qo-rZFgYUFdyR0
+X-Proofpoint-ORIG-GUID: tN_3X20p1t9ljAkDZ4qo-rZFgYUFdyR0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-11_03,2026-05-08_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605110129
+ clxscore=1015 impostorscore=0 suspectscore=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 malwarescore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2605110129
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260511_125621_686869_D6FCD84D 
-X-CRM114-Status: GOOD (  35.54  )
+X-CRM114-CacheID: sfid-20260511_125624_911963_9898F102 
+X-CRM114-Status: GOOD (  21.82  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -134,86 +132,1365 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Add a generic dashboard framework to support interactive, top-like
-views. The framework renders data within a fixed-size window backed by
-a larger buffer and provides event-driven APIs for updating the display.
+Add a new "nvme top" CLI command that provides an interactive,
+top-like dashboard for real-time monitoring of NVMe devices and
+paths.
 
-Supported events:
+The dashboard presents continuously updated information about
+NVMe fabrics/PCIe paths and devices, similar in spirit to tools
+such as top or iotop. It helps administrators observe device
+health, detect path degradation, identify multipath imbalances,
+and catch transient failures.
 
-- key input (ESC, Enter, 'q')
-- escape sequences (up/down arrows)
-- SIGWINCH for terminal resize handling
-- periodic refresh via timeout
-- kobject uevents (via netlink) to detect NVMe topology changes
-  (subsystem, controller, namespace)
-- reverse video highlighting for rows
+The interface consists of two views:
 
-Exported APIs:
+* Subsystem list view
+  Displays all NVMe subsystems present on the system. Users can
+  navigate the list using arrow keys and select a subsystem for
+  detailed inspection.
 
-- FILE *dashboard_init(struct dashboard_ctx **db_ctx, int interval)
-  Initialize the dashboard context. Returns a FILE * stream used by the
-  caller to write data for rendering. The returned context is used by
-  all other dashboard APIs. The @interval is specified in seconds which
-  represents the dashboard refresh interval.
+* Subsystem detail view
+  Shows detailed statistics for the selected subsystem. When
+  native multipath is enabled, this includes namespace head
+  statistics, path statistics, path health, and controller
+  summary. Without multipath, it displays namespace statistics
+  and controller summary.
 
-- void dashboard_exit(struct dashboard_ctx *db_ctx)
-  Tear down the dashboard and free all resources.
+Users can switch between views using the ESC/return key, exit with
+'q', and navigate using arrow keys.
 
-- int dashboard_draw_frame(struct dashboard_ctx *db_ctx, int scroll)
-  Render the current frame. If @scroll is non-zero, adjust the view
-  based on scrolling (up/down); otherwise render a new buffer.
-
-- enum event_type dashboard_wait_for_event(struct dashboard_ctx *db_ctx)
-  Wait for events such as key input, timeout, uevent, or SIGWINCH.
-  Callers are expected to implement an event loop, and then based on
-  returned event type take the action. For instance, if the returned
-  event is timeout then caller shall update/refill the data store buffer
-  and invoke dashboard_draw_frame() so that new/updated data could be
-  rendered on dashboard . If the returned event type is up/down arrow
-  keys then caller shall adjust the data start index in data store
-  buffer and invoke dashboard_draw_frame() for rendering data. If the
-  returned event type is key press 'ESC' or 'q' or kobject uevent then
-  user shall take action as appropriate.
-
-Reverse video helpers:
-
-dashboard_{set,reset}_header_row_reverse()
-dashboard_{set,reset}_footer_row_reverse()
-dashboard_{set,reset}_data_row_reverse()
-
-Additional getters/setters:
-
-dashboard_get_interval()
-dashboard_get_header_rows()
-dashboard_set_header_rows()
-dashboard_get_footer_rows()
-dashboard_set_footer_rows()
-dashboard_get_data_rows()
-dashboard_get_data_start()
-dashboard_set_data_start()
-dashboard_get_frame_data_rows()
-
-This framework is intended for use by nvme-top and similar tools that
-require dynamic, event-driven terminal dashboards.
+This command builds on the generic dashboard framework to provide
+a flexible and extensible real-time monitoring interface.
 
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- util/dashboard.c | 882 +++++++++++++++++++++++++++++++++++++++++++++++
- util/dashboard.h |  55 +++
- util/meson.build |   3 +-
- 3 files changed, 939 insertions(+), 1 deletion(-)
- create mode 100644 util/dashboard.c
- create mode 100644 util/dashboard.h
+ meson.build         |    1 +
+ nvme-builtin.h      |    1 +
+ nvme-print-stdout.c | 1206 +++++++++++++++++++++++++++++++++++++++++++
+ nvme-print.c        |    5 +
+ nvme-print.h        |    5 +-
+ nvme-top.c          |  345 +++++++++++++
+ nvme-top.h          |   30 ++
+ nvme.c              |   39 ++
+ 8 files changed, 1631 insertions(+), 1 deletion(-)
+ create mode 100644 nvme-top.c
+ create mode 100644 nvme-top.h
 
-diff --git a/util/dashboard.c b/util/dashboard.c
+diff --git a/meson.build b/meson.build
+index adc8ece7f..ceff6a6d1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -514,6 +514,7 @@ if want_nvme
+             'nvme-rpmb.c',
+             'nvme.c',
+             'plugin.c',
++            'nvme-top.c',
+         ]
+ 
+         if json_c_dep.found()
+diff --git a/nvme-builtin.h b/nvme-builtin.h
+index 2ebf37fc2..ed08de04c 100644
+--- a/nvme-builtin.h
++++ b/nvme-builtin.h
+@@ -8,6 +8,7 @@
+ #include "cmd.h"
+ 
+ COMMAND_LIST(
++	ENTRY("top", "nvme top", top)
+ 	ENTRY("list", "List all NVMe devices and namespaces on machine", list)
+ 	ENTRY("list-subsys", "List nvme subsystems", list_subsys)
+ 	ENTRY("id-ctrl", "Send NVMe Identify Controller", id_ctrl)
+diff --git a/nvme-print-stdout.c b/nvme-print-stdout.c
+index b48d92947..4e07071a0 100644
+--- a/nvme-print-stdout.c
++++ b/nvme-print-stdout.c
+@@ -5,6 +5,9 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <time.h>
++#include <fcntl.h>
++#include <termios.h>
++#include <signal.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ 
+@@ -23,9 +26,12 @@
+ #include "nvme.h"
+ #include "nvme-print.h"
+ #include "nvme-models.h"
++#include "nvme-top.h"
+ #include "util/suffix.h"
+ #include "util/types.h"
+ #include "util/table.h"
++#include "util/sighdl.h"
++#include "util/dashboard.h"
+ #include "logging.h"
+ #include "common.h"
+ 
+@@ -6424,6 +6430,1204 @@ static void stdout_topology_multipath(struct libnvme_global_ctx *ctx)
+ 	stdout_simple_topology(ctx, NVME_CLI_TOPO_MULTIPATH);
+ }
+ 
++static bool stdout_top_nvme_ctrl_is_fabric(libnvme_ctrl_t c)
++{
++	if (strcmp(libnvme_ctrl_get_transport(c), "pcie"))
++		return true;
++	else
++		return false;
++}
++
++static bool stdout_top_print_ctrl_summary_tbl_filter(const char *name,
++		void *arg)
++{
++	libnvme_ctrl_t c;
++	libnvme_subsystem_t s = arg;
++	bool multipath = nvme_is_multipath(s);
++
++	if (!strcmp(name, "Paths")) {
++		if (!multipath)
++			return false;
++	}
++
++	if (!strcmp(name, "Reconnects")) {
++		c = libnvme_subsystem_first_ctrl(s);
++		if (c) {
++			if (stdout_top_nvme_ctrl_is_fabric(c))
++				return true;
++			else
++				return false;
++		}
++	}
++
++	return true;
++}
++
++static int stdout_top_print_path_health(FILE *stream, libnvme_subsystem_t s)
++{
++	int ret = 0;
++	int col, row;
++	libnvme_ns_t n;
++	libnvme_path_t p;
++	struct table *t;
++	struct table_column columns[] = {
++		{"NSPath", LEFT},
++		{"ANAState", LEFT},
++		{"Retries", LEFT},
++		{"Failovers", LEFT},
++		{"Errors", LEFT}
++	};
++
++	t = table_create();
++	if (!t) {
++		nvme_show_error("Failed to init path health table\n");
++		return 1;
++	}
++
++	if (table_add_columns(t, columns, ARRAY_SIZE(columns)) < 0) {
++		nvme_show_error("Failed to add columns to path health table\n");
++		ret = 1;
++		goto free_tbl;
++	}
++
++	fprintf(stream, "\n------------ Path Health -------------\n\n");
++	libnvme_subsystem_for_each_ns(s, n) {
++		libnvme_namespace_for_each_path(n, p) {
++
++			row = table_get_row_id(t);
++			if (row < 0) {
++				nvme_show_error("Failed to add row to path health table\n");
++				goto free_tbl;
++			}
++
++			col = -1;
++
++			table_set_value_str(t, ++col, row,
++			    libnvme_path_get_name(p), LEFT);
++			table_set_value_str(t, ++col, row,
++			    libnvme_path_get_ana_state(p), LEFT);
++			table_set_value_long(t, ++col, row,
++			    libnvme_path_get_command_retry_count(p), LEFT);
++			table_set_value_long(t, ++col, row,
++			    libnvme_path_get_multipath_failover_count(p), LEFT);
++			table_set_value_int(t, ++col, row,
++			    libnvme_path_get_command_error_count(p), LEFT);
++
++			table_add_row(t, row);
++		}
++	}
++
++	table_print_stream(stream, t);
++free_tbl:
++	table_free(t);
++	return ret;
++}
++
++static int stdout_top_print_ctrl_summary(FILE *stream,
++		libnvme_subsystem_t s, bool multipath)
++{
++	int ret = 0;
++	int row, col, npaths;
++	libnvme_ctrl_t c;
++	libnvme_path_t p;
++	libnvme_ns_t n;
++	double max_util, max_rlat, max_wlat;
++	double r_iops, w_iops, r_bw, w_bw;
++	char r_bw_str[16], w_bw_str[16];
++	char r_iops_str[16], w_iops_str[16];
++	char r_clat_str[16], w_clat_str[16];
++	const char *node;
++	struct table *t;
++	bool is_fabric = false;
++	struct table_column columns[] = {
++		{"Ctrl", LEFT},
++		{"Paths", LEFT},
++		{"Node", LEFT},
++		{"Trtype", LEFT},
++		{"Address", LEFT},
++		{"State", LEFT},
++		{"Resets", LEFT},
++		{"Reconnects", LEFT},
++		{"Errors", LEFT},
++		{"r_IOPS", LEFT},
++		{"w_IOPS", LEFT},
++		{"r_clat", LEFT},
++		{"w_clat", LEFT},
++		{"r_bw", LEFT},
++		{"w_bw", LEFT},
++		{"Util%", LEFT},
++	};
++
++	t = table_create();
++	if (!t) {
++		nvme_show_error("Failed to init ctrl summary table");
++		return 1;
++	}
++
++	if (table_add_columns_filter(t, columns, ARRAY_SIZE(columns),
++		stdout_top_print_ctrl_summary_tbl_filter, (void *)s) < 0) {
++		nvme_show_error("Failed to add columns to ctrl summary table");
++		ret = 1;
++		goto free_tbl;
++	}
++
++	c = libnvme_subsystem_first_ctrl(s);
++	if (c)
++		is_fabric = stdout_top_nvme_ctrl_is_fabric(c);
++
++	fprintf(stream, "\n---------- Controller Summary --------\n\n");
++	libnvme_subsystem_for_each_ctrl(s, c) {
++		npaths = 0;
++		r_iops = w_iops = 0;
++		r_bw = w_bw = 0;
++		max_util = max_rlat = max_wlat = 0;
++
++		row = table_get_row_id(t);
++		if (row < 0) {
++			nvme_show_error("Failed to add row to ctrl summary table");
++			ret = 1;
++			goto free_tbl;
++		}
++
++		if (multipath) {
++			libnvme_ctrl_for_each_path(c, p) {
++
++				/* count num of paths per controller */
++				npaths++;
++
++				nvme_path_calc_aggr_stat(p,
++						&r_iops, &w_iops,
++						&r_bw, &w_bw,
++						&max_rlat, &max_wlat,
++						&max_util);
++			}
++		} else {
++			libnvme_ctrl_for_each_ns(c, n) {
++				nvme_ns_calc_aggr_stat(n,
++						&r_iops, &w_iops,
++						&r_bw, &w_bw,
++						&max_rlat, &max_wlat,
++						&max_util);
++			}
++		}
++
++		nvme_format_iops(r_iops, r_iops_str, sizeof(r_iops_str));
++		nvme_format_iops(w_iops, w_iops_str, sizeof(w_iops_str));
++
++		nvme_format_bw(r_bw, r_bw_str, sizeof(r_bw_str));
++		nvme_format_bw(w_bw, w_bw_str, sizeof(w_bw_str));
++
++		nvme_format_lat(max_rlat, r_clat_str, sizeof(r_clat_str));
++		nvme_format_lat(max_wlat, w_clat_str, sizeof(w_clat_str));
++
++		node = libnvme_ctrl_get_numa_node(c);
++		if (!strcmp(node, "-1"))
++			node = "NUMA_NO_NODE";
++
++		col = -1;
++
++		table_set_value_str(t, ++col, row,
++				libnvme_ctrl_get_name(c), LEFT);
++		if (multipath)
++			table_set_value_int(t, ++col, row, npaths, LEFT);
++
++		table_set_value_str(t, ++col, row, node, LEFT);
++		table_set_value_str(t, ++col, row,
++				libnvme_ctrl_get_transport(c), LEFT);
++		table_set_value_str(t, ++col, row,
++				libnvme_ctrl_get_traddr(c), LEFT);
++		table_set_value_str(t, ++col, row,
++				libnvme_ctrl_get_state(c), LEFT);
++		table_set_value_long(t, ++col, row,
++				libnvme_ctrl_get_reset_count(c), LEFT);
++		if (is_fabric)
++			table_set_value_long(t, ++col, row,
++				libnvme_ctrl_get_reconnect_count(c), LEFT);
++
++		table_set_value_long(t, ++col, row,
++				libnvme_ctrl_get_command_error_count(c), LEFT);
++		table_set_value_str(t, ++col, row, r_iops_str, LEFT);
++		table_set_value_str(t, ++col, row, w_iops_str, LEFT);
++		table_set_value_str(t, ++col, row, r_clat_str, LEFT);
++		table_set_value_str(t, ++col, row, w_clat_str, LEFT);
++		table_set_value_str(t, ++col, row, r_bw_str, LEFT);
++		table_set_value_str(t, ++col, row, w_bw_str, LEFT);
++		table_set_value_double(t, ++col, row, max_util, LEFT);
++
++		table_add_row(t, row);
++	}
++
++	table_print_stream(stream, t);
++free_tbl:
++	table_free(t);
++	return ret;
++}
++
++static int stdout_top_print_ns_stat(FILE *stream, libnvme_subsystem_t s)
++{
++	int ret = 0;
++	libnvme_ns_t n;
++	libnvme_ctrl_t c;
++	int col, row;
++	unsigned int inflights;
++	double r_iops, w_iops, r_lat, w_lat, r_bw, w_bw, util;
++	char r_bw_str[16], w_bw_str[16];
++	char r_iops_str[16], w_iops_str[16];
++	char r_clat_str[16], w_clat_str[16];
++	struct table *t;
++	struct table_column columns[] = {
++		{"Namespace", LEFT},
++		{"NSID", LEFT},
++		{"Ctrl", LEFT},
++		{"Retries", LEFT},
++		{"Errors", LEFT},
++		{"r_IOPS", LEFT},
++		{"w_IOPS", LEFT},
++		{"r_clat", LEFT},
++		{"w_clat", LEFT},
++		{"r_bw", LEFT},
++		{"w_bw", LEFT},
++		{"Inflights", LEFT},
++		{"Util%", LEFT},
++	};
++
++	t = table_create();
++	if (!t) {
++		nvme_show_error("Failed to init ns stat table\n");
++		return 1;
++	}
++
++	if (table_add_columns(t, columns, ARRAY_SIZE(columns)) < 0) {
++		nvme_show_error("Failed to add columns to ns stat table\n");
++		ret = 1;
++		goto free_tbl;
++	}
++
++	fprintf(stream, "----------- Namespace Stat -----------\n\n");
++	libnvme_subsystem_for_each_ctrl(s, c) {
++		libnvme_ctrl_for_each_ns(c, n) {
++			r_iops = r_lat = r_bw = 0;
++			w_iops = w_lat = w_bw = 0;
++			util = inflights = 0;
++
++			nvme_ns_calc_stat(n,
++					&r_iops, &w_iops,
++					&r_lat, &w_lat,
++					&r_bw, &w_bw,
++					&util, &inflights);
++
++			nvme_format_iops(r_iops, r_iops_str,
++					sizeof(r_iops_str));
++			nvme_format_iops(w_iops, w_iops_str,
++					sizeof(w_iops_str));
++
++			nvme_format_bw(r_bw, r_bw_str, sizeof(r_bw_str));
++			nvme_format_bw(w_bw, w_bw_str, sizeof(w_bw_str));
++
++			nvme_format_lat(r_lat, r_clat_str, sizeof(r_clat_str));
++			nvme_format_lat(w_lat, w_clat_str, sizeof(w_clat_str));
++
++			row = table_get_row_id(t);
++			if (row < 0) {
++				nvme_show_error("Failed to add row to ns stat table\n");
++				ret = 1;
++				goto free_tbl;
++			}
++
++			col = -1;
++
++			table_set_value_str(t, ++col, row,
++					libnvme_ns_get_name(n), LEFT);
++			table_set_value_int(t, ++col, row,
++					libnvme_ns_get_nsid(n), LEFT);
++			table_set_value_str(t, ++col, row,
++					libnvme_ctrl_get_name(c), LEFT);
++			table_set_value_long(t, ++col, row,
++				libnvme_ns_get_command_retry_count(n), LEFT);
++			table_set_value_long(t, ++col, row,
++				libnvme_ns_get_command_error_count(n), LEFT);
++			table_set_value_str(t, ++col, row, r_iops_str, LEFT);
++			table_set_value_str(t, ++col, row, w_iops_str, LEFT);
++			table_set_value_str(t, ++col, row, r_clat_str, LEFT);
++			table_set_value_str(t, ++col, row, w_clat_str, LEFT);
++			table_set_value_str(t, ++col, row, r_bw_str, LEFT);
++			table_set_value_str(t, ++col, row, w_bw_str, LEFT);
++			table_set_value_unsigned(t, ++col, row, inflights,
++					LEFT);
++			table_set_value_double(t, ++col, row, util, LEFT);
++
++			table_add_row(t, row);
++		}
++	}
++
++	table_print_stream(stream, t);
++free_tbl:
++	table_free(t);
++	return ret;
++}
++
++static int stdout_top_print_nshead_stat(FILE *stream, libnvme_subsystem_t s)
++{
++	int ret = 0;
++	libnvme_ns_t n;
++	libnvme_path_t p;
++	double r_iops, w_iops, r_lat, w_lat, r_bw, w_bw, util;
++	unsigned int inflights;
++	int col, row, npaths;
++	char r_iops_str[16], w_iops_str[16];
++	char r_clat_str[16], w_clat_str[16];
++	char r_bw_str[16], w_bw_str[16];
++	struct table *t;
++	struct table_column columns[] = {
++			{"NSHead", LEFT},
++			{"NSID", LEFT},
++			{"Paths", LEFT},
++			{"Requeue-IO", LEFT},
++			{"Fail-IO", LEFT},
++			{"r_IOPS", LEFT},
++			{"w_IOPS", LEFT},
++			{"r_clat", LEFT},
++			{"w_clat", LEFT},
++			{"r_bw", LEFT},
++			{"w_bw", LEFT},
++			{"Inflights", LEFT},
++			{"Util%", LEFT},
++	};
++
++	t = table_create();
++	if (!t) {
++		nvme_show_error("Failed to init nshead stat table\n");
++		return 1;
++	}
++
++	if (table_add_columns(t, columns, ARRAY_SIZE(columns)) < 0) {
++		nvme_show_error("Failed to add columns to shead stat table\n");
++		ret = 1;
++		goto free_tbl;
++	}
++
++	fprintf(stream, "------------ NSHead Stat -------------\n\n");
++	libnvme_subsystem_for_each_ns(s, n) {
++		npaths = 0;
++		r_iops = r_lat = r_bw = 0;
++		w_iops = w_lat = w_bw = 0;
++		util = inflights = 0;
++
++		nvme_ns_calc_stat(n,
++				&r_iops, &w_iops,
++				&r_lat, &w_lat,
++				&r_bw, &w_bw,
++				&util, &inflights);
++
++		nvme_format_iops(r_iops, r_iops_str, sizeof(r_iops_str));
++		nvme_format_iops(w_iops, w_iops_str, sizeof(w_iops_str));
++
++		nvme_format_bw(r_bw, r_bw_str, sizeof(r_bw_str));
++		nvme_format_bw(w_bw, w_bw_str, sizeof(w_bw_str));
++
++		nvme_format_lat(r_lat, r_clat_str, sizeof(r_clat_str));
++		nvme_format_lat(w_lat, w_clat_str, sizeof(w_clat_str));
++
++		libnvme_namespace_for_each_path(n, p)
++			npaths++;
++
++		row = table_get_row_id(t);
++		if (row < 0) {
++			nvme_show_error("Failed to add row to nshead stat table\n");
++			ret = 1;
++			goto free_tbl;
++		}
++
++		col = -1;
++
++		table_set_value_str(t, ++col, row, libnvme_ns_get_name(n),
++				LEFT);
++		table_set_value_int(t, ++col, row, libnvme_ns_get_nsid(n),
++				LEFT);
++		table_set_value_int(t, ++col, row, npaths, LEFT);
++		table_set_value_long(t, ++col, row,
++			libnvme_ns_get_requeue_no_usable_path_count(n), LEFT);
++		table_set_value_long(t, ++col, row,
++			libnvme_ns_get_fail_no_available_path_count(n), LEFT);
++		table_set_value_str(t, ++col, row, r_iops_str, LEFT);
++		table_set_value_str(t, ++col, row, w_iops_str, LEFT);
++		table_set_value_str(t, ++col, row, r_clat_str, LEFT);
++		table_set_value_str(t, ++col, row, w_clat_str, LEFT);
++		table_set_value_str(t, ++col, row, r_bw_str, LEFT);
++		table_set_value_str(t, ++col, row, w_bw_str, LEFT);
++		table_set_value_unsigned(t, ++col, row, inflights, LEFT);
++		table_set_value_double(t, ++col, row, util, LEFT);
++
++		table_add_row(t, row);
++	}
++
++	table_print_stream(stream, t);
++free_tbl:
++	table_free(t);
++	return ret;
++}
++
++static int stdout_top_print_path_perf(FILE *stream, libnvme_subsystem_t s)
++{
++	int ret = 0;
++	libnvme_ns_t n;
++	libnvme_path_t p;
++	libnvme_ctrl_t c;
++	unsigned int inflights;
++	int row, col;
++	double util, r_iops, w_iops, r_lat, w_lat, r_bw, w_bw;
++	char r_iops_str[16], w_iops_str[16];
++	char r_clat_str[16], w_clat_str[16];
++	char r_bw_str[16], w_bw_str[16];
++	bool first;
++	struct table *t;
++	const char *iopolicy = libnvme_subsystem_get_iopolicy(s);
++	struct table_column columns[] = {
++		{"NSHead", LEFT},
++		{"NSID", LEFT},
++		{"NSPath", LEFT},
++		{"Nodes", LEFT},
++		{"Qdepth", LEFT},
++		{"Ctrl", LEFT},
++		{"r_IOPS", LEFT},
++		{"w_IOPS", LEFT},
++		{"r_clat", LEFT},
++		{"w_clat", LEFT},
++		{"r_bw", LEFT},
++		{"w_bw", LEFT},
++		{"Inflights", LEFT},
++		{"Util%", LEFT},
++	};
++
++	t = table_create();
++	if (!t) {
++		nvme_show_error("Failed to init path perf table");
++		return 1;
++	}
++
++	if (table_add_columns_filter(t, columns, ARRAY_SIZE(columns),
++			subsystem_iopolicy_filter, (void *)s) < 0) {
++		nvme_show_error("Failed to add columns to path perf table");
++		ret = 1;
++		goto free_tbl;
++	}
++
++	fprintf(stream, "\n---------- Path Performance ----------\n\n");
++	libnvme_subsystem_for_each_ns(s, n) {
++		first = true;
++		libnvme_namespace_for_each_path(n, p) {
++			r_iops = r_lat = r_bw = 0;
++			w_iops = w_lat = w_bw = 0;
++			util = inflights = 0;
++
++			nvme_path_calc_stat(p,
++					&r_iops, &w_iops,
++					&r_lat, &w_lat,
++					&r_bw, &w_bw,
++					&util, &inflights);
++
++			nvme_format_iops(r_iops, r_iops_str,
++					sizeof(r_iops_str));
++			nvme_format_iops(w_iops, w_iops_str,
++					sizeof(w_iops_str));
++
++			nvme_format_bw(r_bw, r_bw_str, sizeof(r_bw_str));
++			nvme_format_bw(w_bw, w_bw_str, sizeof(w_bw_str));
++
++			nvme_format_lat(r_lat, r_clat_str, sizeof(r_clat_str));
++			nvme_format_lat(w_lat, w_clat_str, sizeof(w_clat_str));
++
++			/* get controller associated with the path */
++			c = libnvme_path_get_ctrl(p);
++
++			row = table_get_row_id(t);
++			if (row < 0) {
++				nvme_show_error("Failed to add row to path perf table");
++				ret = 1;
++				goto free_tbl;
++			}
++
++			/*
++			 * For the first row we print actual NSHead name,
++			 * however, for the subsequent rows we print "arrow"
++			 * ("-->") symbol for NSHead. This "arrow" style makes
++			 * it visually obvious that susequenet entries (if
++			 * present) are a path under the first NSHead.
++			 */
++			col = -1;
++
++			if (first) {
++				table_set_value_str(t, ++col, row,
++						libnvme_ns_get_name(n), LEFT);
++				first = false;
++			} else
++				table_set_value_str(t, ++col, row,
++						"-->", CENTERED);
++
++			table_set_value_int(t, ++col, row,
++					libnvme_ns_get_nsid(n), CENTERED);
++			table_set_value_str(t, ++col, row,
++					libnvme_path_get_name(p), LEFT);
++
++			if (!strcmp(iopolicy, "numa"))
++				table_set_value_str(t, ++col, row,
++				    libnvme_path_get_numa_nodes(p), CENTERED);
++			else if (!strcmp(iopolicy, "queue-depth"))
++				table_set_value_int(t, ++col, row,
++				    libnvme_path_get_queue_depth(p), CENTERED);
++
++			table_set_value_str(t, ++col, row,
++					libnvme_ctrl_get_name(c), LEFT);
++			table_set_value_str(t, ++col, row, r_iops_str, LEFT);
++			table_set_value_str(t, ++col, row, w_iops_str, LEFT);
++			table_set_value_str(t, ++col, row, r_clat_str, LEFT);
++			table_set_value_str(t, ++col, row, w_clat_str, LEFT);
++			table_set_value_str(t, ++col, row, r_bw_str, LEFT);
++			table_set_value_str(t, ++col, row, w_bw_str, LEFT);
++			table_set_value_unsigned(t, ++col, row,
++					inflights, LEFT);
++			table_set_value_double(t, ++col, row, util, LEFT);
++
++			table_add_row(t, row);
++		}
++	}
++	table_print_stream(stream, t);
++free_tbl:
++	table_free(t);
++	return ret;
++}
++
++static void  stdout_top_print_subsys_topology_config(FILE *stream,
++		libnvme_subsystem_t s)
++{
++	int len = strlen(libnvme_subsystem_get_name(s));
++
++	fprintf(stream, "%s - NQN=%s\n", libnvme_subsystem_get_name(s),
++		libnvme_subsystem_get_subsysnqn(s));
++	fprintf(stream, "%*s   hostnqn=%s\n", len, " ",
++		libnvme_host_get_hostnqn(libnvme_subsystem_get_host(s)));
++	fprintf(stream, "%*s   iopolicy=%s\n", len, " ",
++		libnvme_subsystem_get_iopolicy(s));
++
++	fprintf(stream, "%*s   model=%s\n", len, " ",
++		libnvme_subsystem_get_model(s));
++	fprintf(stream, "%*s   serial=%s\n", len, " ",
++		libnvme_subsystem_get_serial(s));
++	fprintf(stream, "%*s   firmware=%s\n", len, " ",
++		libnvme_subsystem_get_firmware(s));
++	fprintf(stream, "%*s   type=%s\n", len, " ",
++		libnvme_subsystem_get_subsystype(s));
++
++	fprintf(stream, "\n");
++}
++
++static int stdout_top_update_stat(libnvme_subsystem_t s)
++{
++	libnvme_ctrl_t c;
++	libnvme_ns_t n;
++	libnvme_path_t p;
++	int ret;
++
++	if (nvme_is_multipath(s)) {
++		libnvme_subsystem_for_each_ns(s, n) {
++			ret = libnvme_ns_update_stat(n, true);
++			if (ret < 0) {
++				nvme_show_error("Failed to update namespace stat");
++				return ret;
++			}
++
++			libnvme_namespace_for_each_path(n, p) {
++				ret = libnvme_path_update_stat(p, true);
++				if (ret < 0) {
++					nvme_show_error("Failed to update path stat");
++					return ret;
++				}
++			}
++		}
++	} else {
++		libnvme_subsystem_for_each_ctrl(s, c) {
++			libnvme_ctrl_for_each_ns(c, n) {
++				ret = libnvme_ns_update_stat(n, true);
++				if (ret < 0) {
++					nvme_show_error("Failed to update namespace stat");
++					return ret;
++				}
++			}
++		}
++	}
++
++	return 0;
++}
++
++static void stdout_top_reset_stat(libnvme_subsystem_t s)
++{
++	libnvme_ctrl_t c;
++	libnvme_ns_t n;
++	libnvme_path_t p;
++
++	if (nvme_is_multipath(s)) {
++		libnvme_subsystem_for_each_ns(s, n) {
++			libnvme_ns_reset_stat(n);
++
++			libnvme_namespace_for_each_path(n, p)
++				libnvme_path_reset_stat(p);
++		}
++	} else {
++		libnvme_subsystem_for_each_ctrl(s, c) {
++
++			libnvme_ctrl_for_each_ns(c, n)
++				libnvme_ns_reset_stat(n);
++		}
++	}
++}
++
++static int stdout_top_print_subsys_topology(struct dashboard_ctx *db_ctx,
++		FILE *stream, libnvme_subsystem_t s)
++{
++	int ret = 0;
++	bool multipath = nvme_is_multipath(s);
++
++	ret = stdout_top_update_stat(s);
++	if (ret)
++		return ret;
++
++	stdout_top_print_subsys_topology_config(stream, s);
++
++	if (multipath) {
++		ret = stdout_top_print_nshead_stat(stream, s);
++		if (ret)
++			return ret;
++
++		ret = stdout_top_print_path_perf(stream, s);
++		if (ret)
++			return ret;
++
++		ret = stdout_top_print_path_health(stream, s);
++		if (ret)
++			return ret;
++	} else {
++		ret = stdout_top_print_ns_stat(stream, s);
++		if (ret)
++			return ret;
++	}
++
++	ret = stdout_top_print_ctrl_summary(stream, s, multipath);
++
++	return ret;
++}
++
++static void stdout_top_print_subsys_topology_header(
++		struct dashboard_ctx *db_ctx, FILE *stream)
++{
++	fprintf(stream, "---- nvme-top - Refresh: %d Second ----\n",
++			dashboard_get_interval(db_ctx));
++
++	dashboard_set_header_rows(db_ctx, 1);
++
++	/* highlight the header row */
++	dashboard_set_header_raw_reverse(db_ctx, 0);
++}
++
++static void stdout_top_print_subsys_topology_footer(
++		struct dashboard_ctx *db_ctx, FILE *stream)
++{
++	fprintf(stream, "\n--------------------------------------\n");
++	fprintf(stream, "[ESC to go back to the previous screen, q to quit]\n");
++
++	dashboard_set_footer_rows(db_ctx, 3);
++
++	/* hightligh the last footer row */
++	dashboard_set_footer_raw_reverse(db_ctx, 2);
++}
++
++static struct libnvme_global_ctx *stdout_top_rescan_topology(void)
++{
++	struct libnvme_global_ctx *ctx;
++
++	ctx = libnvme_create_global_ctx(stdout, log_level);
++	if (!ctx) {
++		nvme_show_error("Failed to create global context");
++		return NULL;
++	}
++
++	if (libnvme_scan_topology(ctx, NULL, NULL)) {
++		libnvme_free_global_ctx(ctx);
++		nvme_show_error("Failed to scan topology");
++		return NULL;
++	}
++
++	return ctx;
++}
++
++static libnvme_subsystem_t stdout_top_search_subsystem(
++		struct libnvme_global_ctx *ctx, const char *subsys_name)
++{
++	libnvme_host_t h;
++	libnvme_subsystem_t s;
++
++	libnvme_for_each_host(ctx, h) {
++		libnvme_for_each_subsystem(h, s) {
++			if (!strcmp(libnvme_subsystem_get_name(s), subsys_name))
++				return s;
++		}
++	}
++
++	return NULL;
++}
++
++static libnvme_subsystem_t *stdout_top_build_subsys_arr(
++		struct libnvme_global_ctx *ctx, int *num_subsys)
++{
++	libnvme_host_t h;
++	libnvme_subsystem_t s;
++	libnvme_subsystem_t *subsys_arr;
++	int subsys_idx = 0;
++	int n = 0;
++
++	libnvme_for_each_host(ctx, h)
++		libnvme_for_each_subsystem(h, s)
++			n++;
++	if (!n) {
++		nvme_show_error("Can't find any NVMe subsystem on the host\n");
++		return NULL;
++	}
++
++	subsys_arr = calloc(n, sizeof(libnvme_subsystem_t));
++	if (!subsys_arr) {
++		nvme_show_error("Failed to allocate memory for subsys array\n");
++		return NULL;
++	}
++
++	libnvme_for_each_host(ctx, h) {
++		libnvme_for_each_subsystem(h, s)
++			subsys_arr[subsys_idx++] = s;
++	}
++
++	*num_subsys = n;
++	return subsys_arr;
++}
++
++/*
++ * Draws subsys topology screen of susbystem @s
++ * Returns: 0 if ESC key is pressed or needs to draw subsystem selection screen
++ *          1 if 'q' is pressed or in case of error
++ */
++static int stdout_top_draw_subsys_topology_screen(struct dashboard_ctx *db_ctx,
++			FILE *stream, libnvme_subsystem_t _s)
++{
++	struct libnvme_global_ctx *ctx;
++	enum event_type event;
++	int ret, scroll = 0;
++	int data_start, data_rows;
++	libnvme_subsystem_t s = NULL;
++
++	ctx = stdout_top_rescan_topology();
++	if (!ctx)
++		return 1; /* force quit */
++
++	s = stdout_top_search_subsystem(ctx, libnvme_subsystem_get_name(_s));
++	if (!s) {
++		libnvme_free_global_ctx(ctx);
++		return 0; /* draw subsys selection screen */
++	}
++
++	while (1) {
++		stdout_top_print_subsys_topology_header(db_ctx, stream);
++		ret = stdout_top_print_subsys_topology(db_ctx, stream, s);
++		if (ret)
++			break;
++		stdout_top_print_subsys_topology_footer(db_ctx, stream);
++
++draw:
++		ret = dashboard_draw_frame(db_ctx, scroll);
++		if (ret)
++			break;
++wait_for_event:
++		event = dashboard_wait_for_event(db_ctx);
++		if (event == EVENT_TYPE_KEY_ESC) {
++			ret = 0;
++			dashboard_reset(db_ctx);
++			libnvme_free_global_ctx(ctx);
++			break;
++		} else if (event == EVENT_TYPE_KEY_UP) {
++			data_start = dashboard_get_data_start(db_ctx);
++			/*
++			 * If we don't move past the first data row by shifting
++			 * one data row up then do so, otherwise ignore the key
++			 * press.
++			 */
++			if (data_start - 1 >= 0) {
++				dashboard_set_data_start(db_ctx,
++						data_start - 1);
++				scroll = 1;
++				goto draw;
++			}
++			goto wait_for_event;
++		} else if (event == EVENT_TYPE_KEY_DOWN) {
++			data_start = dashboard_get_data_start(db_ctx);
++			data_rows = dashboard_get_data_rows(db_ctx);
++			/*
++			 * If we don't move past the max data rows shifting one
++			 * row down then do so, otherwise ignore the key press.
++			 */
++			if (data_start + 1 < data_rows) {
++				dashboard_set_data_start(db_ctx,
++						data_start + 1);
++				scroll = 1;
++				goto draw;
++			}
++			goto wait_for_event;
++		} else if (event == EVENT_TYPE_TIMEOUT) { /* screen timed out */
++			scroll = 0;
++		} else if (event == EVENT_TYPE_KEY_QUIT ||
++				event == EVENT_TYPE_ERROR) {
++			ret = 1;
++			break;
++		} else if (event == EVENT_TYPE_NVME_UEVENT) {
++			/* free old ctx */
++			libnvme_free_global_ctx(ctx);
++			ctx = stdout_top_rescan_topology();
++			if (!ctx) {
++				ret = 1; /* force quit */
++				break;
++			}
++
++			s = stdout_top_search_subsystem(ctx,
++					libnvme_subsystem_get_name(_s));
++			if (!s) {
++				libnvme_free_global_ctx(ctx);
++				ret = 0; /* draw subsys selection screen */
++				break;
++			}
++			scroll = 0;
++		} else if (event == EVENT_TYPE_SIGWINCH) {
++			/*
++			 * Window size would have changed so re-draw the subsys
++			 * topology screen.
++			 */
++			scroll = 0;
++		} /* else unknown event, ignore */
++	}
++
++	return ret;
++}
++
++static int stdout_top_draw_subsys_screen(struct dashboard_ctx *db_ctx,
++		FILE *stream, libnvme_subsystem_t *subsys_arr, int num_subsys)
++{
++	int ret = 0;
++	libnvme_subsystem_t s;
++	libnvme_ctrl_t c;
++	libnvme_ns_t n;
++	libnvme_path_t p;
++	int i, row, col, num_ns, num_path, num_ctrl;
++	double r_iops, w_iops;
++	double r_bw, w_bw;
++	double max_rlat, max_wlat, max_util;
++	char r_bw_str[16], w_bw_str[16];
++	char r_iops_str[16], w_iops_str[16];
++	char r_clat_str[16], w_clat_str[16];
++	struct table *t;
++	struct table_column columns[] = {
++		{"Subsystem", LEFT},
++		{"Namespaces", LEFT},
++		{"Paths", LEFT},
++		{"Ctrls", LEFT},
++		{"IOPolicy", LEFT},
++		{"r_IOPS", LEFT},
++		{"w_IOPS", LEFT},
++		{"r_clat", LEFT},
++		{"w_clat", LEFT},
++		{"r_bw", LEFT},
++		{"w_bw", LEFT},
++		{"Util%", LEFT},
++	};
++
++	fprintf(stream, "---- nvme-top - Refresh: %d Second ----\n",
++			dashboard_get_interval(db_ctx));
++	fprintf(stream, "\n--------- Subsystem Summary ----------\n\n");
++
++	t = table_create();
++	if (!t) {
++		nvme_show_error("Failed to init subsys screen table\n");
++		return -1;
++	}
++
++	if (table_add_columns(t, columns, ARRAY_SIZE(columns)) < 0) {
++		nvme_show_error("Failed to add columns to subsys screen table\n");
++		ret = -1;
++		goto free_tbl;
++	}
++	/*
++	 * Header row count is calculated manually. The first row displays the
++	 * refresh interval, followed by an empty row. The third row displays
++	 * the heading followed by another empty row. The fifth row is for
++	 * displaying table columns and then another row for dashes underneath
++	 * the table columns.
++	 */
++	dashboard_set_header_rows(db_ctx, 6);
++
++	/* highlight the first header row */
++	dashboard_set_header_raw_reverse(db_ctx, 0);
++
++	for (i = 0; i < num_subsys; i++) {
++		s = subsys_arr[i];
++		num_ctrl = num_ns = num_path = 0;
++		r_iops = w_iops = 0;
++		r_bw = w_bw = 0;
++		max_rlat = max_wlat = 0;
++		max_util = 0;
++
++		libnvme_subsystem_for_each_ctrl(s, c)
++			num_ctrl++;
++
++		if (!num_ctrl)
++			continue;
++
++		ret = stdout_top_update_stat(s);
++		if (ret)
++			goto free_tbl;
++
++		if (nvme_is_multipath(s)) {
++			libnvme_subsystem_for_each_ns(s, n) {
++				num_ns++;
++
++				libnvme_namespace_for_each_path(n, p)
++					num_path++;
++
++				nvme_ns_calc_aggr_stat(n,
++						&r_iops, &w_iops,
++						&r_bw, &w_bw,
++						&max_rlat, &max_wlat,
++						&max_util);
++			}
++		} else {
++			libnvme_subsystem_for_each_ctrl(s, c) {
++				libnvme_ctrl_for_each_ns(c, n) {
++					num_ns++;
++
++					nvme_ns_calc_aggr_stat(n,
++							&r_iops, &w_iops,
++							&r_bw, &w_bw,
++							&max_rlat, &max_wlat,
++							&max_util);
++				}
++			}
++		}
++
++		nvme_format_iops(r_iops, r_iops_str, sizeof(r_iops_str));
++		nvme_format_iops(w_iops, w_iops_str, sizeof(w_iops_str));
++
++		nvme_format_bw(r_bw, r_bw_str, sizeof(r_bw_str));
++		nvme_format_bw(w_bw, w_bw_str, sizeof(w_bw_str));
++
++		nvme_format_lat(max_rlat, r_clat_str, sizeof(r_clat_str));
++		nvme_format_lat(max_wlat, w_clat_str, sizeof(w_clat_str));
++
++		row = table_get_row_id(t);
++		if (row < 0) {
++			nvme_show_error("Failed to add row to subsys screen table\n");
++			ret = -1;
++			goto free_tbl;
++		}
++
++		col = -1;
++
++		table_set_value_str(t, ++col, row,
++				libnvme_subsystem_get_name(s), LEFT);
++		table_set_value_int(t, ++col, row, num_ns, LEFT);
++		table_set_value_int(t, ++col, row, num_path, LEFT);
++		table_set_value_int(t, ++col, row, num_ctrl, LEFT);
++		table_set_value_str(t, ++col, row,
++				libnvme_subsystem_get_iopolicy(s), LEFT);
++		table_set_value_str(t, ++col, row, r_iops_str, LEFT);
++		table_set_value_str(t, ++col, row, w_iops_str, LEFT);
++		table_set_value_str(t, ++col, row, r_clat_str, LEFT);
++		table_set_value_str(t, ++col, row, w_clat_str, LEFT);
++		table_set_value_str(t, ++col, row, r_bw_str, LEFT);
++		table_set_value_str(t, ++col, row, w_bw_str, LEFT);
++		table_set_value_double(t, ++col, row, max_util, LEFT);
++
++		table_add_row(t, row);
++	}
++
++	table_print_stream(stream, t);
++
++	fprintf(stream, "\n--------------------------------------\n");
++	fprintf(stream, "[up/down arrow keys to navigate, Enter to view, q to quit]\n");
++
++	/*
++	 * Footer rows are calculated manually.
++	 * The first row is empty (adds spaces) followed by another row for
++	 * dashes and the last row adds footer string.
++	 */
++	dashboard_set_footer_rows(db_ctx, 3);
++
++	/* highlight the last footer row */
++	dashboard_set_footer_raw_reverse(db_ctx, 2);
++
++free_tbl:
++	table_free(t);
++	return ret;
++}
++
++static void stdout_top(int refresh_interval)
++{
++	FILE *stream;
++	enum event_type event;
++	struct dashboard_ctx *db_ctx;
++	libnvme_host_t h;
++	libnvme_subsystem_t s;
++	struct libnvme_global_ctx *ctx;
++	libnvme_subsystem_t *subsys_arr = NULL;
++	int data_start, frame_rows, quit = 0, scroll = 0;
++	int num_subsys = 0, subsys_idx = 0;
++
++	ctx = stdout_top_rescan_topology();
++	if (!ctx)
++		return;
++	subsys_arr = stdout_top_build_subsys_arr(ctx, &num_subsys);
++	if (!subsys_arr) {
++		libnvme_free_global_ctx(ctx);
++		return;
++	}
++
++	stream = dashboard_init(&db_ctx, refresh_interval);
++	if (!stream)
++		goto out;
++
++	libnvme_for_each_host(ctx, h) {
++		libnvme_for_each_subsystem(h, s)
++			stdout_top_reset_stat(s);
++	}
++
++	/*
++	 * We start with first subsystem highlited, so set subsystem index to 0.
++	 */
++	subsys_idx = 0;
++	while (!quit) {
++		if (stdout_top_draw_subsys_screen(db_ctx, stream, subsys_arr,
++				num_subsys) < 0)
++			break;
++draw:
++		/* highlight the selected @subsys_idx row */
++		dashboard_set_data_raw_reverse(db_ctx, subsys_idx);
++		if (dashboard_draw_frame(db_ctx, scroll) < 0)
++			break;
++wait_for_event:
++		event = dashboard_wait_for_event(db_ctx);
++		switch (event) {
++		case EVENT_TYPE_KEY_QUIT:
++		case EVENT_TYPE_ERROR:
++			quit = 1;
++			break;
++		case EVENT_TYPE_KEY_RETURN:
++			dashboard_reset(db_ctx);
++
++			s = subsys_arr[subsys_idx];
++			quit = stdout_top_draw_subsys_topology_screen(db_ctx,
++					stream, s);
++			scroll = 0;
++			if (quit)
++				break;
++			fallthrough;
++		case EVENT_TYPE_NVME_UEVENT:
++			libnvme_free_global_ctx(ctx);
++			free(subsys_arr);
++			subsys_arr = NULL;
++			ctx = stdout_top_rescan_topology();
++			if (!ctx) {
++				quit = 1;
++				break;
++			}
++			subsys_arr = stdout_top_build_subsys_arr(ctx,
++					&num_subsys);
++			if (!subsys_arr) {
++				libnvme_free_global_ctx(ctx);
++				quit = 1;
++			}
++			subsys_idx = 0;
++			break;
++		case EVENT_TYPE_KEY_DOWN:
++			/*
++			 * The @num_subsys should be equal to @data_rows, so we
++			 * evaluate here that we don't move pass the last data
++			 * row (or the last subsys) if we were to shift (focus)
++			 * one row down. In case it's not possible to shift
++			 * because we are already down to the last row then
++			 * ignore key press.
++			 */
++			if (subsys_idx + 1 < num_subsys) {
++				subsys_idx++; /* we'll highlight this row */
++
++				data_start = dashboard_get_data_start(db_ctx);
++				frame_rows = dashboard_get_frame_data_rows(
++						db_ctx);
++				/*
++				 * If moving to next row requires shifting the
++				 * window frame buffer by one position down then
++				 * do so.
++				 */
++				if (subsys_idx >= data_start + frame_rows) {
++					dashboard_set_data_start(db_ctx,
++							data_start + 1);
++				}
++				/*
++				 * As we are scrolling one row down, we need to
++				 * re-draw the frame.
++				 */
++				scroll = 1;
++				goto draw;
++			}
++			goto wait_for_event;
++		case EVENT_TYPE_KEY_UP:
++			/*
++			 * If it's possible to move one row above the current
++			 * subsys (higlighted) row then decrease the subsys_idx
++			 * by one.
++			 */
++			if (subsys_idx - 1 >= 0) {
++				subsys_idx--;
++				/*
++				 * If moving one row up requires us to shift
++				 * the window frame buffer by one position up
++				 * then do so.
++				 */
++				data_start = dashboard_get_data_start(db_ctx);
++				if (subsys_idx < data_start) {
++					dashboard_set_data_start(db_ctx,
++						data_start - 1);
++				}
++				/*
++				 * As we are scrolling one row up, we need to
++				 * re-draw the frame.
++				 */
++				scroll = 1;
++				goto draw;
++			}
++			goto wait_for_event;
++		case EVENT_TYPE_TIMEOUT:
++			/* subsys screen timed out */
++			scroll = 0;
++			break;
++		case EVENT_TYPE_SIGWINCH:
++			/*
++			 * Window size would have changed so re-draw the subsys
++			 * selection screen.
++			 */
++			scroll = 0;
++			break;
++		default: /* unknown event, ignore */
++			continue;
++		}
++	}
++
++	dashboard_exit(db_ctx);
++	libnvme_free_global_ctx(ctx);
++out:
++	free(subsys_arr);
++}
++
+ static void stdout_message(bool error, const char *msg, va_list ap)
+ {
+ 	vfprintf(error ? stderr : stdout, msg, ap);
+@@ -7092,6 +8296,8 @@ static struct print_ops stdout_print_ops = {
+ 	.topology_multipath		= stdout_topology_multipath,
+ 	.topology_tabular		= stdout_topology_tabular,
+ 
++	/* nvme top */
++	.top				= stdout_top,
+ 	/* status and error messages */
+ 	.connect_msg			= stdout_connect_msg,
+ 	.show_message			= stdout_message,
+diff --git a/nvme-print.c b/nvme-print.c
+index 545854f30..8a116db5a 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1679,6 +1679,11 @@ void nvme_show_list_items(struct libnvme_global_ctx *ctx, nvme_print_flags_t fla
+ 	nvme_print(list_items, flags, ctx);
+ }
+ 
++void nvme_show_top(nvme_print_flags_t flags, int refresh_interval)
++{
++	nvme_print(top, flags, refresh_interval);
++}
++
+ void nvme_show_topology(struct libnvme_global_ctx *ctx,
+ 			enum nvme_cli_topo_ranking ranking,
+ 			nvme_print_flags_t flags)
+diff --git a/nvme-print.h b/nvme-print.h
+index bd88410d1..cca77e7a1 100644
+--- a/nvme-print.h
++++ b/nvme-print.h
+@@ -114,6 +114,9 @@ struct print_ops {
+ 	void (*topology_multipath)(struct libnvme_global_ctx *ctx);
+ 	void (*topology_tabular)(struct libnvme_global_ctx *ctx);
+ 
++	/* nvme top */
++	void (*top)(int refresh_interval);
++
+ 	/* status and error messages */
+ 	void (*connect_msg)(libnvme_ctrl_t c);
+ 	void (*show_message)(bool error, const char *msg, va_list ap);
+@@ -263,9 +266,9 @@ void nvme_show_topology(struct libnvme_global_ctx *ctx,
+ 			enum nvme_cli_topo_ranking ranking,
+ 			nvme_print_flags_t flags);
+ void nvme_show_topology_tabular(struct libnvme_global_ctx *ctx, nvme_print_flags_t flags);
+-
+ void nvme_show_feature(enum nvme_features_id fid, int sel, unsigned int result,
+ 		       void *buf, __u32 data_len, nvme_print_flags_t flags);
++void nvme_show_top(nvme_print_flags_t flags, int refresh_interval);
+ void nvme_feature_show_fields(enum nvme_features_id fid, unsigned int result, unsigned char *buf);
+ void nvme_directive_show(__u8 type, __u8 oper, __u16 spec, __u32 nsid, __u64 result,
+ 	void *buf, __u32 len, nvme_print_flags_t flags);
+diff --git a/nvme-top.c b/nvme-top.c
 new file mode 100644
-index 000000000..284522f07
+index 000000000..a60c752ed
 --- /dev/null
-+++ b/util/dashboard.c
-@@ -0,0 +1,882 @@
++++ b/nvme-top.c
+@@ -0,0 +1,345 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
-+ * dashboard.c : Generic implementation for live dashboard.
++ * Helpers for nvme top dashboard
 + *
 + * Copyright (c) 2026 Nilay Shroff, IBM
 + *
@@ -228,946 +1505,420 @@ index 000000000..284522f07
 + * GNU General Public License for more details.
 + */
 +
-+#include <stdio.h>
-+#include <signal.h>
-+#include <sys/select.h>
-+#include <sys/ioctl.h>
-+#include <termios.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <errno.h>
-+#include <stdbool.h>
-+#include <time.h>
-+#include <stdlib.h>
-+#include <fcntl.h>
-+#include <linux/netlink.h>
-+#include <sys/socket.h>
-+#include <asm/types.h>
++#define IOPS_UNIT_NONE		""
++#define IOPS_UNIT_KB		"k"
 +
-+#include "sighdl.h"
-+#include "common.h"
-+#include "nvme-print.h"
-+#include "dashboard.h"
++#define BW_UNIT_BYTES_PER_SEC	"B/s"
++#define BW_UNIT_KIB_PER_SEC	"KiB/s"
++#define BW_UNIT_MIB_PER_SEC	"MiB/s"
 +
-+#define NSEC_PER_SEC	1000000000L
++#define BW_KIB	1024
++#define BW_MIB	(BW_KIB * 1024)
 +
-+struct win_frame {
-+	/* num of data rows which could fit in visible frame */
-+	int data_rows;
++#include <libnvme.h>
++#include "nvme-top.h"
 +
-+	/* Header start offset in window frame (always 0) */
-+	int header_start_off;
-+
-+	/* data start offset in window frame */
-+	int data_start_off;
-+
-+	/* footer start offset in window frame */
-+	int footer_start_off;
-+
-+	/* Total num of rows in window frame */
-+	int rows;
-+};
-+
-+struct data_store {
-+	/* mem-stream backing the buffer */
-+	FILE *stream;
-+
-+	/* data buffer which is dynamically allocated by mem-stream  */
-+	char *buf;
-+	/* buffer length */
-+	size_t len;
-+
-+	/* per-row offsets into the data buffer */
-+	size_t *row_off;
-+
-+	/* header, data, footer, and total rows */
-+	int header_rows;
-+	int data_rows;
-+	int footer_rows;
-+	int num_rows;
-+
-+	/*
-+	 * Index of the first data row to display. It can be adjusted
-+	 * if user navigates/scrolls the screen using arrow keys.
-+	 * Range: [0 - data_rows).
-+	 */
-+	int data_start_idx;
-+
-+	/* highlighted rows (reverse-video) */
-+	int rev_header_row;
-+	int rev_data_row;
-+	int rev_footer_row;
-+};
-+
-+struct dashboard_ctx {
-+	struct data_store ds;	/* data store */
-+	struct win_frame frame;	/* window frame */
-+	int interval;		/* nvme top refresh interval in seconds */
-+	struct timespec rem_interval;	/* remaining refresh interval */
-+	int uevent_fd;		/* kernel uevent fd */
-+	int term_fd;		/* controlling terminal fd */
-+	sigset_t orig_set;	/* original signal mask of the calling thread */
-+	struct termios orig_ts;	/* original termio settings of the controlling terminal */
-+};
-+
-+/*
-+ * The following comments describes how this generic dashboard implementation
-+ * renders data using a fixed-size window frame backed by a potentially larger
-+ * data store buffer. It clarifies offsets, row calculations, and scrolling
-+ * behavior:
-+ *
-+ * Window Frame Layout (struct win_frame):
-+ * ======================================
-+ *    _ _ _ _ _ _ _ _ _ _ _ _ _ _ header_start_off
-+ *  /            _ _ _ _ _ _ _ _  data_start_off
-+ * |           /             _ _  footer_start_off
-+ * |          |            /
-+ * |          |            |
-+ * v_ _ _ _ _ v _ _ _ _ _ _v_ _ _ _ _ _
-+ * |          |            |           |
-+ * |  header  |    data    |   footer  |
-+ * |_ _ _ _ _ |_ _ _ _ _ _ |_ _ _ _ _ _|
-+ * |<-------->|<---------->|<---------->
-+ *                  ^     ^
-+ *                  |     |
-+ *                  |     \_ _ last_data_row
-+ *                  \_ _ data_rows
-+ *
-+ * - The window frame represents the visible terminal screen area. It is
-+ *   logically divided into three contiguous regions/sections:
-+ *   header, data and footer.
-+ * - The window frame size is limited by the terminal dimensions.
-+ * - Header and footer sizes are fixed per dashboard layout.
-+ * - The data area (includes area remaining after we account for space needed
-+ *   for header and footer from the terminal screen area) expands or shrinks
-+ *   based on available screen space.
-+ *
-+ * Data Store Buffer Layout (struct data_store):
-+ * =============================================
-+ *    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _  header_start_off
-+ *  /            _ _ _ _ _ _ _ _ _ _ _ data_start_off
-+ * |           /                    _ _footer_start_off
-+ * |          |                   /
-+ * |          |                  |
-+ * v_ _ _ _ _ v_ _ _ _ _ _ _ _ _ v_ _ _ _ _ _
-+ * |          |                  |           |
-+ * |  header  |       data       |   footer  |
-+ * |_ _ _ _ _ |_ _ _ _ _ _ _ _ _ |_ _ _ _ _ _|
-+ * |<-------->|<---------------->|<--------->|
-+ * |    ^     ^          ^             ^     |
-+ * |    |     |          |             |     |
-+ * |    | data_start_idx |             \_ _ _|_footer_rows
-+ * |    |                \_ _ _data_rows     |
-+ * |    \_ _ _header_rows                    |
-+ * |                                         |
-+ * |<----------------num_rows -------------->|
-+ *
-+ *
-+ * - The data store buffer holds the complete dashboard content generated at
-+ *   each refresh interval. Its size may exceed the window frame, enabling
-+ *   scrolling.
-+ * - Represents the full logical dashboard content.
-+ * - Used as the authoritative source for rendering.
-+ * - Scrolling adjusts which portion of the data area is mapped into the
-+ *   window frame.
-+ *
-+ * Relationship Between window frame and data store:
-+ * =================================================
-+ *  - The data store is transposed onto the window frame at render time.
-+ *
-+ *  a) Fixed relationship:
-+ *     - Header always starts at offset 0.
-+ *       In window frame, frame->header_start_off = 0
-+ *       In data store, header_start_off = 0
-+ *
-+ *     - Header height is constant.
-+ *       In window frame, frame->data_start_off = ds->header_rows
-+ *       In data store, data_start_off = ds->header_rows + ds->data_start_idx
-+ *
-+ *  b) Footer placement:
-+ *     - In the data store,
-+ *       footer_start_off = ds->header_rows + ds->data_rows
-+ *
-+ *     - In the window frame,
-+ *       frame->footer_start_off = frame->data_start_off + frame->data_rows
-+ *
-+ *     These two offsets (footer_start_off in data store and frame->footer_
-+ *     start_off) may differ if the frame cannot display all data rows.
-+ *
-+ *  c) Scrolling Semantics:
-+ *     - Scrolling affects only ds->data_start_idx.
-+ *     - Header and footer remain pinned and are never scrolled.
-+ *     - The frame’s data area acts as a viewport into the data store’s data
-+ *       region.
-+ *     - The ds->data_start_idx is adjusted based on the terminal scrolling.
-+ *       For the first time when dashboard is displayed typically the value of
-+ *       ds->data_start_idx is zero, but then if user scrolls the window then
-+ *       ds->data_start_idx would be updated. The ds->data_start_idx should be
-+ *       never set to less than zero and it should never execeed the num of data
-+ *       rows available in the data staore buffer.
-+ *
-+ *  d) Last visible data row in window frame:
-+ *
-+ *     If in case window frame data area size is greater than the data store
-+ *     data area then we would left with some empty space/rows in data area of
-+ *     window frame. So we then clear the empty space beofre start drawing the
-+ *     footer.
-+ *
-+ *     last_data_row = ds->header_rows + frame->data_rows
-+ *     If last_data_row > ds->data_rows,
-+ *     - The remaining frame rows are cleared.
-+ *     - Footer is drawn immediately after the cleared region.
-+ *
-+ * Reverse-Video Highlighting:
-+ * ===========================
-+ *  The following fields indicate rows that should be rendered using reverse
-+ *  video:
-+ *  - rev_header_row
-+ *  - rev_data_row
-+ *  - rev_footer_row
-+ *  These are relative to their respective sections and allow focused
-+ *  highlighting.
-+ */
-+
-+static void tty_reset(int fd, struct termios *ts)
++static double nvme_calc_util_percent(unsigned int ticks, double interval_ms)
 +{
-+	if (tcsetattr(fd, TCSANOW, ts) < 0)
-+		nvme_show_perror("reset terminal attributes");
-+}
-+
-+static int tty_set_raw(int fd, struct termios *ots)
-+{
-+	struct termios ts;
-+
-+	if (tcgetattr(fd, &ts) < 0) {
-+		nvme_show_perror("get terminal attributes");
-+		return -1;
-+	}
-+
-+	*ots = ts;
-+
-+	ts.c_lflag &= ~(ICANON | ECHO);
-+	ts.c_cc[VMIN] = 1;
-+	ts.c_cc[VTIME] = 0;
-+
-+	if (tcsetattr(fd, TCSAFLUSH, &ts) < 0) {
-+		nvme_show_perror("set terminal attributes");
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+int dashboard_get_interval(struct dashboard_ctx *db_ctx)
-+{
-+	return db_ctx->interval;
-+}
-+
-+int dashboard_get_header_rows(struct dashboard_ctx *db_ctx)
-+{
-+	return db_ctx->ds.header_rows;
-+}
-+
-+void dashboard_set_header_rows(struct dashboard_ctx *db_ctx, int rows)
-+{
-+	db_ctx->ds.header_rows = rows;
-+}
-+
-+int dashboard_get_footer_rows(struct dashboard_ctx *db_ctx)
-+{
-+	return db_ctx->ds.footer_rows;
-+}
-+
-+void dashboard_set_footer_rows(struct dashboard_ctx *db_ctx, int rows)
-+{
-+	db_ctx->ds.footer_rows = rows;
-+}
-+
-+int dashboard_get_data_rows(struct dashboard_ctx *db_ctx)
-+{
-+	return db_ctx->ds.data_rows;
-+}
-+
-+int dashboard_get_data_start(struct dashboard_ctx *db_ctx)
-+{
-+	return db_ctx->ds.data_start_idx;
-+}
-+
-+int dashboard_set_data_start(struct dashboard_ctx *db_ctx, int off)
-+{
-+	if (off >= db_ctx->ds.data_rows)
-+		return -EINVAL;
-+
-+	db_ctx->ds.data_start_idx = off;
-+
-+	return 0;
-+}
-+
-+int dashboard_get_frame_data_rows(struct dashboard_ctx *db_ctx)
-+{
-+	return db_ctx->frame.data_rows;
-+}
-+
-+void dashboard_set_data_raw_reverse(struct dashboard_ctx *db_ctx, int row)
-+{
-+	db_ctx->ds.rev_data_row = row;
-+}
-+
-+void dashboard_reset_data_raw_reverse(struct dashboard_ctx *db_ctx)
-+{
-+	db_ctx->ds.rev_data_row = -1;
-+}
-+
-+void dashboard_set_header_raw_reverse(struct dashboard_ctx *db_ctx, int row)
-+{
-+	db_ctx->ds.rev_header_row = row;
-+}
-+
-+void dashboard_reset_header_raw_reverse(struct dashboard_ctx *db_ctx)
-+{
-+	db_ctx->ds.rev_header_row = -1;
-+}
-+
-+void dashboard_set_footer_raw_reverse(struct dashboard_ctx *db_ctx, int row)
-+{
-+	db_ctx->ds.rev_footer_row = row;
-+}
-+
-+void dashboard_reset_footer_raw_reverse(struct dashboard_ctx *db_ctx)
-+{
-+	db_ctx->ds.rev_footer_row = -1;
-+}
-+
-+static void calc_rem_time(struct dashboard_ctx *db_ctx, struct timespec *start)
-+{
-+	struct timespec now;
-+	long interval_ns, rem_interval_ns, start_time_ns, cur_time_ns;
-+
-+	clock_gettime(CLOCK_MONOTONIC, &now);
-+	cur_time_ns = now.tv_sec * NSEC_PER_SEC + now.tv_nsec;
-+	start_time_ns = start->tv_sec * NSEC_PER_SEC + start->tv_nsec;
-+	if (cur_time_ns <= start_time_ns)
-+		return;
-+
-+	interval_ns = db_ctx->interval * NSEC_PER_SEC;
-+	rem_interval_ns = interval_ns - (cur_time_ns - start_time_ns);
-+	db_ctx->rem_interval.tv_sec = rem_interval_ns / NSEC_PER_SEC;
-+	db_ctx->rem_interval.tv_nsec = rem_interval_ns % NSEC_PER_SEC;
-+}
-+
-+static int wait_for_event(struct dashboard_ctx *db_ctx,
-+		unsigned char *c, bool esc_seq)
-+{
-+	fd_set set;
-+	struct timespec ts, t0;
-+	int ret, interval_sec, interval_nsec;
-+	int term_fd = db_ctx->term_fd;
-+	int uevent_fd = db_ctx->uevent_fd;
-+	int max_fd = (term_fd > uevent_fd) ? term_fd : uevent_fd;
-+
-+	/* For escape sequence read, we wait for up to 1 ms. */
-+	if (esc_seq) {
-+		interval_sec = 0;
-+		interval_nsec = 1000000;
-+	} else {
-+		/*
-+		 * If previous pselect() woke up prematurely (might be due to
-+		 * due to a key pressed other than allowed-key or non-nvme
-+		 * uevent) then sleep for the remaining interval.
-+		 */
-+		if (db_ctx->rem_interval.tv_sec
-+		    || db_ctx->rem_interval.tv_nsec) {
-+			interval_sec = db_ctx->rem_interval.tv_sec;
-+			interval_nsec = db_ctx->rem_interval.tv_nsec;
-+		} else {
-+			interval_sec = db_ctx->interval;
-+			interval_nsec = 0;
-+		}
-+	}
-+	while (1) {
-+		FD_ZERO(&set);
-+		FD_SET(term_fd, &set);
-+		FD_SET(uevent_fd, &set);
-+again:
-+		ts.tv_sec = interval_sec;
-+		ts.tv_nsec = interval_nsec;
-+
-+		/*
-+		 * Store the time when we start pselect; we may use it later to
-+		 * compute the remaining time to sleep in case pselect breaks
-+		 * out prematurely (maybe due to interrupted syscall or due to
-+		 * any user input).
-+		 */
-+		clock_gettime(CLOCK_MONOTONIC, &t0);
-+
-+		ret = pselect(max_fd + 1, &set, NULL, NULL, &ts,
-+				&db_ctx->orig_set);
-+		if (ret < 0) {
-+			if (errno == EINTR) {
-+				/* Interrupted, signal is received ? */
-+				if (nvme_sigwinch_received) {
-+					struct winsize ws;
-+
-+					if (ioctl(db_ctx->term_fd, TIOCGWINSZ,
-+							&ws) < 0)
-+						return -1;
-+
-+					db_ctx->frame.rows = ws.ws_row;
-+					nvme_sigwinch_received = false;
-+
-+					/*
-+					 * Returning 0 would force screen redraw
-+					 * based on the updated window size.
-+					 */
-+					return EVENT_TYPE_SIGWINCH;
-+				}
-+
-+				/* compute remaining time */
-+				calc_rem_time(db_ctx, &t0);
-+				goto again;
-+			}
-+
-+			nvme_show_perror("pselect");
-+			return EVENT_TYPE_ERROR;
-+		}
-+
-+		if (ret == 0) {/* timed out waiting */
-+			db_ctx->rem_interval.tv_sec = 0;
-+			db_ctx->rem_interval.tv_nsec = 0;
-+			return EVENT_TYPE_TIMEOUT;
-+		}
-+
-+		if (!esc_seq)
-+			calc_rem_time(db_ctx, &t0);
-+
-+		if (FD_ISSET(uevent_fd, &set)) {
-+			char buf[2048];
-+			int i, n;
-+			int is_subsys_block = 0, is_devname_nvme = 0;
-+			int is_subsys_nvme_subsys = 0, is_subsys_nvme = 0;
-+
-+			while (1) {
-+				n = recv(uevent_fd, buf, sizeof(buf),
-+						MSG_DONTWAIT);
-+				if (n < 0) {
-+					if (errno == EAGAIN)
-+						break;
-+
-+					if (errno == EINTR)
-+						continue;
-+
-+					nvme_show_perror("read from uevent fd");
-+					return n;
-+				}
-+
-+				for (i = 0; i < n; ) {
-+					char *s = &buf[i];
-+
-+					if (!strncmp(s, "SUBSYSTEM=block", 15))
-+						is_subsys_block = 1;
-+
-+					if (!strncmp(s, "DEVNAME=nvme", 12))
-+						is_devname_nvme = 1;
-+
-+					if (!strncmp(s,
-+						"SUBSYSTEM=nvme-subsystem", 24))
-+						is_subsys_nvme_subsys = 1;
-+
-+					if (!strncmp(s, "SUBSYSTEM=nvme", 14))
-+						is_subsys_nvme = 1;
-+
-+					i += strlen(s) + 1;
-+				}
-+
-+				if (is_subsys_block || is_subsys_nvme_subsys ||
-+					is_subsys_nvme || is_devname_nvme)
-+					return EVENT_TYPE_NVME_UEVENT;
-+
-+			}
-+		}
-+
-+		if (FD_ISSET(term_fd, &set)) {
-+			while (1) {
-+				ret = read(term_fd, c, 1);
-+				if (ret < 0) {
-+					if (errno == EINTR)
-+						continue;
-+					nvme_show_perror("read from term fd");
-+					return EVENT_TYPE_ERROR;
-+				}
-+				if (ret == 1)
-+					return EVENT_TYPE_KEY_PRESS;
-+			}
-+		}
-+	}
-+}
-+
-+enum event_type dashboard_wait_for_event(struct dashboard_ctx *db_ctx)
-+{
-+	int event;
-+	unsigned char c;
-+
-+	db_ctx->rem_interval.tv_sec = 0;
-+	db_ctx->rem_interval.tv_nsec = 0;
-+
-+	while (1) {
-+		event = wait_for_event(db_ctx, &c, 0);
-+		switch (event) {
-+		case EVENT_TYPE_ERROR:		/* fall through */
-+		case EVENT_TYPE_TIMEOUT:	/* fall through */
-+		case EVENT_TYPE_NVME_UEVENT:	/* fall through */
-+		case EVENT_TYPE_SIGWINCH:
-+			return event;
-+		default:
-+			if (c == 27) {	/* 'ESC' key */
-+				/* read escape sequence */
-+				event = wait_for_event(db_ctx, &c, 1);
-+				switch (event) {
-+				case EVENT_TYPE_ERROR:
-+					return event;
-+				case EVENT_TYPE_TIMEOUT:
-+					return EVENT_TYPE_KEY_ESC;
-+				default:
-+					if (c == 91) {	/* '[' key */
-+						event = wait_for_event(db_ctx, &c, 1);
-+						switch (event) {
-+						case EVENT_TYPE_ERROR:
-+							return event;
-+						case EVENT_TYPE_TIMEOUT:
-+							break;
-+						default:
-+							if (c == 65)
-+								return EVENT_TYPE_KEY_UP;
-+							else if (c == 66)
-+								return EVENT_TYPE_KEY_DOWN;
-+							/* else ignore */
-+							break;
-+						}
-+					} /* else ignore */
-+					break;
-+				}
-+			} else if (c == '\n' || c == '\r') {
-+				return EVENT_TYPE_KEY_RETURN;
-+			} else if (c == 'q') {
-+				return EVENT_TYPE_KEY_QUIT;
-+			} /* else ignore */
-+			break;
-+		}
-+	}
-+}
-+
-+static void draw_line(int row, char *buf, bool reverse)
-+{
-+	/* move cursor to @row */
-+	printf("\033[%d;1H", row);
-+
-+	/* clear the row */
-+	printf("\033[2K");
-+
-+	if (reverse)
-+		printf("\033[7m");	/* turn on reversed video */
-+
-+	if (buf) {
-+		/*
-+		 * As we move cursor to individual row and print each line,
-+		 * we don't need to print '\n'.
-+		 */
-+		while (*buf != '\n' && *buf != '\0')
-+			putchar(*buf++);
-+	}
-+
-+	if (reverse)
-+		printf("\033[m");	/* turn off reversed video */
-+}
-+
-+int dashboard_draw_frame(struct dashboard_ctx *db_ctx, int scroll)
-+{
-+	char *pos;
-+	int header_start_off, header_end_off;
-+	int footer_start_off, footer_end_off;
-+	int data_start_off, data_end_off, data_rows;
-+	int row, off, num, resrv_rows;
-+	int rev_header_off = -1, rev_data_off = -1, rev_footer_off = -1;
-+	struct data_store *ds = &db_ctx->ds;
-+	FILE *stream = ds->stream;
-+	struct win_frame *frame = &db_ctx->frame;
-+
-+	/*
-+	 * If this is scrolling update then just re-adjust the rows in a frame
-+	 * otherwise we repaint the enitre frame post processing the screen
-+	 * buffer.
-+	 */
-+	if (!scroll) {
-+		/* flushing stream would synchronize screen buffer */
-+		fflush(stream);
-+
-+		/*
-+		 * Rewind the stream to reset the file offset position to the
-+		 * start of the buffer.
-+		 */
-+		rewind(stream);
-+
-+		/* If there's nothing to print then return early. */
-+		if (!ds->len)
-+			return 0;
-+
-+		ds->buf[ds->len] = '\0';
-+
-+		/*
-+		 * Parse screen buffer to find num of rows in the buffer (each
-+		 * row ends with new-line) and annotate each row offset. As we
-+		 * render the dashboard line by line we count num of lines/rows
-+		 * present in the data store buffer and then also calculate as
-+		 * well as store the start offset of each line.
-+		 */
-+		ds->num_rows = 0;
-+		pos = ds->buf;
-+		while (*pos) {
-+			if (*pos++ == '\n')
-+				ds->num_rows++;
-+		}
-+
-+		/* If there're no lines in the buffer then return. */
-+		if (!ds->num_rows) {
-+			nvme_show_error("data buffer doesn't contain any line");
-+			return -EINVAL;
-+		}
-+
-+		free(ds->row_off);
-+
-+		ds->row_off = calloc(ds->num_rows, sizeof(*ds->row_off));
-+		if (!ds->row_off) {
-+			nvme_show_error("Failed to allocate row offset buffer");
-+			return -ENOMEM;
-+		}
-+
-+		num = 0;
-+		ds->row_off[num] = 0;	/* first line starts at offset 0 */
-+		pos = ds->buf;
-+		while (*pos && num + 1 < ds->num_rows) {
-+			if (*pos++ == '\n')
-+				ds->row_off[++num] = pos - ds->buf;
-+		}
-+	}
-+
-+	/*
-+	 * Calculate the number of rows that can be displayed in a single
-+	 * screen frame. Printing more rows than could fit on the one screen
-+	 * causes the terminal to scroll, leading to noticeable flicker and a
-+	 * cluttered dashboard display.
-+	 * We draw the dashboard data including header and footer. We know
-+	 * the current window size and hence we reserved rows for header and
-+	 * footer first. Then whatever num of rows are remaining is used to
-+	 * draw the data.
-+	 */
-+	resrv_rows = ds->header_rows + ds->footer_rows;
-+	frame->data_rows = frame->rows - resrv_rows;
-+
-+	/*
-+	 * If the current window size is less than num of reserved rows
-+	 * (i.e. header + footer) then we can't draw frame. In such case
-+	 * return without drawig anything.
-+	 */
-+	if (frame->data_rows < 0)
++	if (!interval_ms)
 +		return 0;
 +
-+	frame->header_start_off = header_start_off = 0;
-+	header_end_off = header_start_off + ds->header_rows;
-+
-+	/* total num of data rows present in the current screen buffer */
-+	ds->data_rows = ds->num_rows - resrv_rows;
-+
-+	/*
-+	 * Num of data rows which should be printed starting at index
-+	 * @ds->data_start_idx.
-+	 */
-+	data_rows = ds->data_rows - ds->data_start_idx;
-+
-+	/*
-+	 * Calculate data rows which could be actually accomodated in the
-+	 * current frame. If @data_rows is greater than @frame->data_rows
-+	 * then we clamp it to frame->data_row.
-+	 */
-+	data_rows = min(data_rows, frame->data_rows);
-+	data_start_off = ds->header_rows + ds->data_start_idx;
-+	data_end_off = data_start_off + data_rows;
-+
-+	frame->data_start_off = frame->header_start_off + ds->header_rows;
-+
-+	frame->footer_start_off = frame->data_start_off + frame->data_rows;
-+	footer_start_off = ds->header_rows + ds->data_rows;
-+	footer_end_off = footer_start_off + ds->footer_rows;
-+
-+
-+	 /* print header */
-+	if (ds->rev_header_row >= 0)
-+		rev_header_off = ds->rev_header_row;
-+
-+	for (off = header_start_off, row = frame->header_start_off + 1;
-+			off < header_end_off; off++, row++)
-+		draw_line(row, ds->buf + ds->row_off[off],
-+				off == rev_header_off);
-+
-+	/* print data */
-+	if (ds->rev_data_row >= 0)
-+		rev_data_off = ds->header_rows + ds->rev_data_row;
-+
-+	for (off = data_start_off, row = frame->data_start_off + 1;
-+			off < data_end_off; off++, row++)
-+		draw_line(row, ds->buf + ds->row_off[off],
-+				off == rev_data_off);
-+
-+	/*
-+	 * Clear remaining data rows, if any. If @data_rows is less than the
-+	 * @frame->data_rows then we would have some empty rows at the end of
-+	 * data and we have to clear it off.
-+	 */
-+	if (data_rows < frame->data_rows) {
-+		int last_data_row = ds->header_rows + frame->data_rows;
-+
-+		for (row = frame->data_start_off + data_rows + 1;
-+				row <= last_data_row; row++)
-+			draw_line(row, NULL, false);
-+	}
-+
-+	/* print footer */
-+	if (ds->rev_footer_row >= 0)
-+		rev_footer_off = ds->header_rows + ds->data_rows +
-+					ds->rev_footer_row;
-+
-+	for (off = footer_start_off, row = frame->footer_start_off + 1;
-+			off < footer_end_off; off++, row++)
-+		draw_line(row, ds->buf + ds->row_off[off],
-+				off == rev_footer_off);
-+
-+	fflush(stdout);
-+
-+	return 0;
++	return (ticks / interval_ms) * 100;
 +}
 +
-+void dashboard_reset(struct dashboard_ctx *db_ctx)
++static double nvme_path_calc_util_percent(libnvme_path_t p, double interval_ms)
 +{
-+	dashboard_set_header_rows(db_ctx, 0);
-+	dashboard_set_data_start(db_ctx, 0);
-+	dashboard_set_footer_rows(db_ctx, 0);
++	unsigned int ticks;
 +
-+	dashboard_reset_data_raw_reverse(db_ctx);
-+	dashboard_reset_header_raw_reverse(db_ctx);
-+	dashboard_reset_footer_raw_reverse(db_ctx);
-+
-+	fflush(db_ctx->ds.stream);
-+
-+	/* clear screen */
-+	printf("\033[2J");
++	ticks = libnvme_path_get_io_ticks(p);
++	return nvme_calc_util_percent(ticks, interval_ms);
 +}
 +
-+static int dashboard_uevent_fd(void)
++static double nvme_ns_calc_util_percent(libnvme_ns_t n, double interval_ms)
 +{
-+	int fd, ret;
-+	struct sockaddr_nl sa;
++	unsigned int ticks;
 +
-+	fd = socket(AF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
-+	if (fd < 0) {
-+		nvme_show_perror("uevent socket");
-+		return fd;
-+	}
-+
-+	sa.nl_family = AF_NETLINK;
-+	sa.nl_pad = 0;
-+	sa.nl_pid = getpid();
-+	sa.nl_groups = 1;
-+
-+	ret = bind(fd, (struct sockaddr *)&sa, sizeof(struct sockaddr_nl));
-+	if (ret < 0) {
-+		close(fd);
-+		nvme_show_perror("uevent bind");
-+		return ret;
-+	}
-+
-+	return fd;
++	ticks = libnvme_ns_get_io_ticks(n);
++	return nvme_calc_util_percent(ticks, interval_ms);
 +}
 +
-+FILE *dashboard_init(struct dashboard_ctx **db_ctx, int refresh_interval)
++static double nvme_calc_iops(unsigned long ios, double interval_ms)
 +{
-+	sigset_t sigwinch_set;
-+	struct termios ts;
-+	struct winsize ws;
-+	struct data_store *ds;
-+	struct dashboard_ctx *ctx;
++	double interval_sec;
 +
-+	ctx = malloc(sizeof(struct dashboard_ctx));
-+	if (!ctx)
-+		return NULL;
-+	memset(ctx, 0, sizeof(struct dashboard_ctx));
++	if (interval_ms < 1000)
++		return 0;
 +
-+	ctx->interval = refresh_interval;
-+
-+	ctx->term_fd = open(ctermid(NULL), O_RDWR);
-+	if (ctx->term_fd < 0) {
-+		free(ctx);
-+		nvme_show_perror("open controlling terminal");
-+		return NULL;
-+	}
-+
-+	/*
-+	 * listen for kobject uevent
-+	 */
-+	ctx->uevent_fd = dashboard_uevent_fd();
-+	if (ctx->uevent_fd < 0)
-+		goto out_term_fd;
-+
-+	/*
-+	 * First block SIGWINCH and note down the current window size; we'd
-+	 * later atomically unblock SIGWINCH and wait for both user input and
-+	 * window size change events using pselect(). This ensures that we don't
-+	 * miss window size change events.
-+	 */
-+	sigemptyset(&sigwinch_set);
-+	sigemptyset(&ctx->orig_set);
-+	sigaddset(&sigwinch_set, SIGWINCH);
-+	/* block SIGWINCH */
-+	sigprocmask(SIG_SETMASK, &sigwinch_set, &ctx->orig_set);
-+	/* get current value of window size */
-+	if (ioctl(ctx->term_fd, TIOCGWINSZ, &ws) < 0) {
-+		nvme_show_perror("ioctl TIOCGWINSZ");
-+		goto out_reset_mask;
-+	}
-+
-+	ctx->frame.rows = ws.ws_row;
-+
-+	/* put terminal in raw mode */
-+	if (tty_set_raw(ctx->term_fd, &ts) < 0) {
-+		nvme_show_error("Failed to set tty in raw mode");
-+		goto out_reset_mask;
-+	}
-+	ctx->orig_ts = ts;
-+
-+	ds = &ctx->ds;
-+	ds->stream = open_memstream(&ds->buf, &ds->len);
-+	if (!ds->stream) {
-+		nvme_show_perror("open memstream");
-+		goto out_reset_tty;
-+	}
-+	ds->rev_data_row = ds->rev_header_row = ds->rev_footer_row = -1;
-+
-+	/* hide cursor */
-+	printf("\033[?25l");
-+
-+	/* clear screen */
-+	printf("\033[2J");
-+	fflush(stdout);
-+
-+	*db_ctx = ctx;
-+	return ds->stream;
-+out_reset_tty:
-+	/* reset terminal */
-+	tty_reset(ctx->term_fd, &ctx->orig_ts);
-+out_reset_mask:
-+	/* restore the original signal mask */
-+	sigprocmask(SIG_SETMASK, &ctx->orig_set, NULL);
-+	close(ctx->uevent_fd);
-+out_term_fd:
-+	close(ctx->term_fd);
-+	free(ctx);
-+	return NULL;
++	interval_sec = interval_ms / 1000;
++	return (ios / interval_sec);
 +}
 +
-+void dashboard_exit(struct dashboard_ctx *db_ctx)
++static double nvme_path_calc_read_iops(libnvme_path_t p, double interval_ms)
 +{
-+	struct data_store *ds = &db_ctx->ds;
++	unsigned long read_ios;
 +
-+	/* show cursor */
-+	printf("\033[?25h\n");
-+	fflush(stdout);
-+
-+	fclose(ds->stream);
-+	free(ds->buf);
-+	free(ds->row_off);
-+
-+	/* reset terminal */
-+	tty_reset(db_ctx->term_fd, &db_ctx->orig_ts);
-+
-+	/* restore the original signal mask */
-+	sigprocmask(SIG_SETMASK, &db_ctx->orig_set, NULL);
-+	close(db_ctx->term_fd);
-+	close(db_ctx->uevent_fd);
-+	free(db_ctx);
++	read_ios = libnvme_path_get_read_ios(p);
++	return nvme_calc_iops(read_ios, interval_ms);
 +}
-diff --git a/util/dashboard.h b/util/dashboard.h
++
++static double nvme_path_calc_write_iops(libnvme_path_t p, double interval_ms)
++{
++	unsigned long write_ios;
++
++	write_ios = libnvme_path_get_write_ios(p);
++	return nvme_calc_iops(write_ios, interval_ms);
++}
++
++static double nvme_ns_calc_read_iops(libnvme_ns_t n, double interval_ms)
++{
++	unsigned long read_ios;
++
++	read_ios = libnvme_ns_get_read_ios(n);
++	return nvme_calc_iops(read_ios, interval_ms);
++}
++
++static double nvme_ns_calc_write_iops(libnvme_ns_t n, double interval_ms)
++{
++	unsigned long write_ios;
++
++	write_ios = libnvme_ns_get_write_ios(n);
++	return nvme_calc_iops(write_ios, interval_ms);
++}
++
++static double nvme_calc_latency(unsigned long ticks, unsigned long ios)
++{
++	if (!ios)
++		return 0;
++
++	return ((double)ticks/ios);
++}
++
++static double nvme_path_calc_read_latency(libnvme_path_t p)
++{
++	unsigned int ticks;
++	unsigned long ios;
++
++	ticks = libnvme_path_get_read_ticks(p);
++	ios = libnvme_path_get_read_ios(p);
++
++	return nvme_calc_latency(ticks, ios);
++}
++
++static double nvme_path_calc_write_latency(libnvme_path_t p)
++{
++	unsigned int ticks;
++	unsigned long ios;
++
++	ticks = libnvme_path_get_write_ticks(p);
++	ios = libnvme_path_get_write_ios(p);
++
++	return nvme_calc_latency(ticks, ios);
++}
++
++static double nvme_ns_calc_read_latency(libnvme_ns_t n)
++{
++	unsigned int ticks;
++	unsigned long ios;
++
++	ticks = libnvme_ns_get_read_ticks(n);
++	ios = libnvme_ns_get_read_ios(n);
++
++	return nvme_calc_latency(ticks, ios);
++}
++
++static double nvme_ns_calc_write_latency(libnvme_ns_t n)
++{
++	unsigned int ticks;
++	unsigned long ios;
++
++	ticks = libnvme_ns_get_write_ticks(n);
++	ios = libnvme_ns_get_write_ios(n);
++
++	return nvme_calc_latency(ticks, ios);
++}
++
++static double nvme_calc_bandwidth(unsigned long long sectors,
++			double interval_ms)
++{
++	double bytes;
++	double sec;
++
++	if (interval_ms < 1000)
++		return 0;
++
++	sec = interval_ms / 1000;
++	bytes = sectors * 512;
++	return (bytes / sec);
++}
++
++static double nvme_path_calc_read_bw(libnvme_path_t p, double interval_ms)
++{
++	unsigned long long sectors;
++
++	sectors = libnvme_path_get_read_sectors(p);
++	return nvme_calc_bandwidth(sectors, interval_ms);
++}
++
++static double nvme_path_calc_write_bw(libnvme_path_t p, double interval_ms)
++{
++	unsigned long long sectors;
++
++	sectors = libnvme_path_get_write_sectors(p);
++	return nvme_calc_bandwidth(sectors, interval_ms);
++}
++
++static double nvme_ns_calc_read_bw(libnvme_ns_t n, double interval_ms)
++{
++	unsigned long long sectors;
++
++	sectors = libnvme_ns_get_read_sectors(n);
++	return nvme_calc_bandwidth(sectors, interval_ms);
++}
++
++static double nvme_ns_calc_write_bw(libnvme_ns_t n, double interval_ms)
++{
++	unsigned long long sectors;
++
++	sectors = libnvme_ns_get_write_sectors(n);
++	return nvme_calc_bandwidth(sectors, interval_ms);
++}
++
++int nvme_format_iops(double iops, char *buf, size_t size)
++{
++	char *unit;
++
++	if (iops < 1000)
++		unit = IOPS_UNIT_NONE;
++	else {
++		iops /= 1000;
++		unit = IOPS_UNIT_KB;
++	}
++
++	return snprintf(buf, size, "%.2f%s", iops, unit);
++}
++
++int nvme_format_bw(double bw, char *buf, size_t size)
++{
++	char *unit = "";
++
++	if (!bw)
++		goto out;
++
++	if (bw < BW_KIB)
++		unit = BW_UNIT_BYTES_PER_SEC;
++	else if (bw < BW_MIB) {
++		bw /= BW_KIB;
++		unit = BW_UNIT_KIB_PER_SEC;
++	} else {
++		bw /= BW_MIB;
++		unit = BW_UNIT_MIB_PER_SEC;
++	}
++
++out:
++	return snprintf(buf, size, "%.2f%s", bw, unit);
++}
++
++void nvme_ns_calc_aggr_stat(libnvme_ns_t n, double *r_iops, double *w_iops,
++		double *r_bw, double *w_bw, double *max_rlat, double *max_wlat,
++		double *max_util)
++{
++	double interval_ms, rlat, wlat, util;
++
++	interval_ms = libnvme_ns_get_stat_interval(n);
++	if (!interval_ms)
++		return;
++
++	*r_iops += nvme_ns_calc_read_iops(n, interval_ms);
++	*w_iops += nvme_ns_calc_write_iops(n, interval_ms);
++
++	*r_bw += nvme_ns_calc_read_bw(n, interval_ms);
++	*w_bw += nvme_ns_calc_write_bw(n, interval_ms);
++
++	rlat = nvme_ns_calc_read_latency(n);
++	if (rlat > *max_rlat)
++		*max_rlat = rlat;
++
++	wlat = nvme_ns_calc_write_latency(n);
++	if (wlat > *max_wlat)
++		*max_wlat = wlat;
++
++	util = nvme_ns_calc_util_percent(n, interval_ms);
++	if (util > *max_util)
++		*max_util = util;
++}
++
++void nvme_path_calc_aggr_stat(libnvme_path_t p, double *r_iops, double *w_iops,
++		double *r_bw, double *w_bw, double *max_rlat, double *max_wlat,
++		double *max_util)
++{
++	double interval_ms, rlat, wlat, util;
++
++	interval_ms = libnvme_path_get_stat_interval(p);
++	if (!interval_ms)
++		return;
++
++	*r_iops += nvme_path_calc_read_iops(p, interval_ms);
++	*w_iops += nvme_path_calc_write_iops(p, interval_ms);
++
++	*r_bw += nvme_path_calc_read_bw(p, interval_ms);
++	*w_bw += nvme_path_calc_write_bw(p, interval_ms);
++
++	rlat = nvme_path_calc_read_latency(p);
++	if (rlat > *max_rlat)
++		*max_rlat = rlat;
++
++	wlat = nvme_path_calc_write_latency(p);
++	if (wlat > *max_wlat)
++		*max_wlat = wlat;
++
++	util = nvme_path_calc_util_percent(p, interval_ms);
++	if (util > *max_util)
++		*max_util = util;
++}
++
++void nvme_ns_calc_stat(libnvme_ns_t n, double *r_iops, double *w_iops,
++		double *r_lat, double *w_lat, double *r_bw, double *w_bw,
++		double *util, unsigned int *inflights)
++{
++	double interval_ms;
++
++	interval_ms = libnvme_ns_get_stat_interval(n);
++	if (!interval_ms)
++		return;
++
++	/* calculate R/W IOPS */
++	*r_iops = nvme_ns_calc_read_iops(n, interval_ms);
++	*w_iops = nvme_ns_calc_write_iops(n, interval_ms);
++
++	/* calculate R/W latency */
++	*r_lat = nvme_ns_calc_read_latency(n);
++	*w_lat = nvme_ns_calc_write_latency(n);
++
++	/* calculate R/W bandwidth */
++	*r_bw = nvme_ns_calc_read_bw(n, interval_ms);
++	*w_bw = nvme_ns_calc_write_bw(n, interval_ms);
++
++	/* get inflights counter */
++	*inflights = libnvme_ns_get_inflights(n);
++
++	/* calculate util percent */
++	*util = nvme_ns_calc_util_percent(n, interval_ms);
++}
++
++void nvme_path_calc_stat(libnvme_path_t p, double *r_iops, double *w_iops,
++		double *r_lat, double *w_lat, double *r_bw, double *w_bw,
++		double *util, unsigned int *inflights)
++{
++	double interval_ms;
++
++	interval_ms = libnvme_path_get_stat_interval(p);
++	if (!interval_ms)
++		return;
++
++	/* calculate R/W IOPS */
++	*r_iops = nvme_path_calc_read_iops(p, interval_ms);
++	*w_iops = nvme_path_calc_write_iops(p, interval_ms);
++
++	/* calculate R/W latency */
++	*r_lat = nvme_path_calc_read_latency(p);
++	*w_lat = nvme_path_calc_write_latency(p);
++
++	/* calculate R/W bandwidth */
++	*r_bw = nvme_path_calc_read_bw(p, interval_ms);
++	*w_bw = nvme_path_calc_write_bw(p, interval_ms);
++
++	/* get inflights counter */
++	*inflights = libnvme_path_get_inflights(p);
++
++	/* calculate util percent */
++	*util = nvme_path_calc_util_percent(p, interval_ms);
++}
+diff --git a/nvme-top.h b/nvme-top.h
 new file mode 100644
-index 000000000..9620c5505
+index 000000000..9ce4905cb
 --- /dev/null
-+++ b/util/dashboard.h
-@@ -0,0 +1,55 @@
++++ b/nvme-top.h
+@@ -0,0 +1,30 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
-+
-+#ifndef _DASHBOARD_H_
-+#define _DASHBOARD_H_
++#ifndef NVME_TOP_H
++#define NVME_TOP_H
 +
 +#include <stdio.h>
++#include <stddef.h>
++#include <libnvme.h>
 +
-+struct dashboard_ctx;
++int nvme_format_iops(double iops, char *buf, size_t size);
++int nvme_format_bw(double bw, char *buf, size_t size);
 +
-+enum event_type {
-+	EVENT_TYPE_ERROR = -1,	/* error waiting for event */
-+	EVENT_TYPE_TIMEOUT,	/* timed out waiting for event */
++void nvme_ns_calc_aggr_stat(libnvme_ns_t n, double *r_iops, double *w_iops,
++		double *r_bw, double *w_bw, double *max_rlat, double *max_wlat,
++		double *max_util);
++void nvme_path_calc_aggr_stat(libnvme_path_t p, double *r_iops, double *w_iops,
++		double *r_bw, double *w_bw, double *max_rlat, double *max_wlat,
++		double *max_util);
++void nvme_ns_calc_stat(libnvme_ns_t n, double *r_iops, double *w_iops,
++		double *r_lat, double *w_lat, double *r_bw, double *w_bw,
++		double *util, unsigned int *inflights);
++void nvme_path_calc_stat(libnvme_path_t p, double *r_iops, double *w_iops,
++		double *r_lat, double *w_lat, double *r_bw, double *w_bw,
++		double *util, unsigned int *inflights);
 +
-+	EVENT_TYPE_KEY_PRESS,	/* key pressed event */
-+	EVENT_TYPE_KEY_ESC,	/* ESC key is pressed*/
-+	EVENT_TYPE_KEY_UP,	/* UP arrow key is pressed */
-+	EVENT_TYPE_KEY_DOWN,	/* DOWN arrow key is pressed */
-+	EVENT_TYPE_KEY_RETURN,	/* Return/Enter key is pressed */
-+	EVENT_TYPE_KEY_QUIT,	/* q is pressed */
++static inline int nvme_format_lat(double lat, char *buf, size_t size)
++{
++	return snprintf(buf, size, "%.2f", lat);
++}
 +
-+	EVENT_TYPE_NVME_UEVENT,	/* kobject uevent received; rescan topology */
-+	EVENT_TYPE_SIGWINCH,	/* SIGWINCH received */
-+};
-+
-+int dashboard_get_interval(struct dashboard_ctx *db_ctx);
-+int dashboard_get_header_rows(struct dashboard_ctx *db_ctx);
-+
-+void dashboard_set_header_rows(struct dashboard_ctx *db_ctx, int rows);
-+int dashboard_get_footer_rows(struct dashboard_ctx *db_ctx);
-+
-+void dashboard_set_footer_rows(struct dashboard_ctx *db_ctx, int rows);
-+int dashboard_get_data_rows(struct dashboard_ctx *db_ctx);
-+
-+int dashboard_get_data_start(struct dashboard_ctx *db_ctx);
-+int dashboard_set_data_start(struct dashboard_ctx *db_ctx, int off);
-+
-+int dashboard_get_frame_data_rows(struct dashboard_ctx *db_ctx);
-+
-+void dashboard_set_data_raw_reverse(struct dashboard_ctx *db_ctx, int row);
-+void dashboard_reset_data_raw_reverse(struct dashboard_ctx *db_ctx);
-+
-+void dashboard_set_header_raw_reverse(struct dashboard_ctx *db_ctx, int row);
-+void dashboard_reset_header_raw_reverse(struct dashboard_ctx *db_ctx);
-+
-+void dashboard_set_footer_raw_reverse(struct dashboard_ctx *db_ctx, int row);
-+void dashboard_reset_footer_raw_reverse(struct dashboard_ctx *db_ctx);
-+
-+int dashboard_draw_frame(struct dashboard_ctx *db_ctx, int scroll);
-+enum event_type dashboard_wait_for_event(struct dashboard_ctx *db_ctx);
-+
-+FILE *dashboard_init(struct dashboard_ctx **db_ctx, int refresh_interval);
-+void dashboard_reset(struct dashboard_ctx *db_ctx);
-+void dashboard_exit(struct dashboard_ctx *db_ctx);
-+
-+#endif /* _DASHBOARD_H_ */
-diff --git a/util/meson.build b/util/meson.build
-index 42412705d..5656b14a6 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -14,7 +14,8 @@ else
-         'util/suffix.c',
-         'util/types.c',
-         'util/utils.c',
--        'util/table.c'
-+        'util/table.c',
-+        'util/dashboard.c',
-     ]
++#endif /* NVME_TOP_H */
+diff --git a/nvme.c b/nvme.c
+index d723170ea..ac4451cee 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -3550,6 +3550,45 @@ static int list_subsys(int argc, char **argv, struct command *acmd,
+ 	return 0;
+ }
  
-     if json_c_dep.found()
++static int top(int argc, char **argv, struct command *acmd,
++		struct plugin *plugin)
++{
++	int err;
++	nvme_print_flags_t flags = 0;
++	const char *desc = "show nvme top output";
++	const char *delay = "refresh interval in seconds";
++
++	struct config {
++		int delay;
++	};
++
++	struct config cfg = {
++		.delay = 1,
++	};
++
++	NVME_ARGS(opts,
++		  OPT_INT("delay", 'd', &cfg.delay, delay));
++
++	err = parse_args(argc, argv, desc, opts);
++	if (err)
++		return err;
++
++	err = validate_output_format(nvme_args.output_format, &flags);
++	if (err < 0 || flags != NORMAL) {
++		nvme_show_error("Invalid output format");
++		return -EINVAL;
++	}
++
++	if (cfg.delay < 1) {
++		nvme_show_error("delay must be greater than or equal to 1");
++		return -EINVAL;
++	}
++
++	nvme_show_top(flags, cfg.delay);
++
++	return err;
++}
++
+ static int list(int argc, char **argv, struct command *acmd, struct plugin *plugin)
+ {
+ 	const char *desc = "Retrieve basic information for all NVMe namespaces";
 -- 
 2.53.0
 
