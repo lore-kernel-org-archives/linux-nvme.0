@@ -4,63 +4,151 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B838DCD4F26
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 07:01:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44D58CD4855
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 09:08:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:
+	Subject:Date:Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m9eGrROdv/cqhqQ9KJTkD2MboXrMUuixukEeNJwOIlw=; b=g7z2O8bh6qqBJwx4InZ3XNyTSX
-	+qafHII6IX6fulHyGHwRuuY59kLE2VFGKy6DjZH2dIeZObPboU7W+wcarCG4sBGXcOQG1rTM/tNMa
-	U2+WKk9U1J2g8pqhNR1GvC85xKw7aV7Q8ZKpoL0G1Fszs2c5BC5XGOa9ygaXzxChD1K32yU8xZZaW
-	quZrMEmEqHn6TyaQ4RmUflcjtNmAwLRqHBftMpav7DJX/W+hwf5+ES18juDno9W4jNl0A1wDZJrGy
-	KsClF2vREZZAqBTifZhkpn8YVzctgiiC789lDFSFLHxTr+NPlRduOxRdnt3u04dH/EYVVcezZ5qDp
-	AwfpEWcg==;
+	bh=T9QzAAl68wtZoJQd0DnxRnCA8MhxTHhlTljt9q9Acjs=; b=UWstfpAckVuBVKHVby+sDmAd/u
+	29M4W4rLkIi+0m0MVWuESmIluLsjMN/tgvD5AB7fBaWRqqxCtn8tMiNDHuVlmxtI+m1a8cnxaH91s
+	d6nAYYXyuA1EY8pRUpSGzaNUaToZQUjAPI4fflH1YSRbFSk1I36HHIrdwD5sa6Nwocvv0tPiazvbR
+	+8HLy5Vgz0QlMhyc+cRHZKECK6+fjem7DeM5usJ8+f9XpcExogv+b6tjEvOL44hevDbF6X6qvLQEr
+	FDKT3H6zAxJtXp4wf32Rk1xI6dkVKA2O5rvbRRKWH28UjPKIlLXLRx5+UlsrNuGwa1R5pVkMfRUn+
+	SAkWGyxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMh71-0000000Fr4y-39Vw;
-	Tue, 12 May 2026 07:01:03 +0000
-Received: from verein.lst.de ([213.95.11.211])
+	id 1wMj61-0000000GDBj-0GIK;
+	Tue, 12 May 2026 09:08:09 +0000
+Received: from mail-westus2azon11012030.outbound.protection.outlook.com ([52.101.48.30] helo=MW6PR02CU001.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMh6y-0000000Fr3i-328g
+	id 1wMj5w-0000000GDAm-3lwo
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 May 2026 07:01:02 +0000
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EBBE468C4E; Tue, 12 May 2026 09:00:47 +0200 (CEST)
-Date: Tue, 12 May 2026 09:00:46 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-Message-ID: <20260512070045.GA32030@lst.de>
-References: <cover.1777475843.git.asml.silence@gmail.com>
+	Tue, 12 May 2026 09:08:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NlJH3vZzvYak4CpQJYKCXhsqlbQBCth0pQut3d2uFk4Rm0zJMl0hQGh+VpetCTQyMeOuQPrFE4qj868wYaNAHzjz8f48SnvB4eYjDNA1a9Sd/L+X6ZSBFYeFZleIoY3jKE1zUppzO/Ml9g0B89IqPT474cgLtYghGqbnPtvc9/VfzOnjIEQnF4F4NsI6C4t4DmLgDmJEPdptalgtUwG3dfe7idWrXALgWXqm63dKISofyfmPk4qw7IHeO3ldO3xtwDu0B146Ci6+6hj4qJrQkhD2E5KlZZLLDnsxY7aySlnHZ5FcbRgAcMWjq5kRXhu9y/KOlvVnD+cyLKmIecj1Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T9QzAAl68wtZoJQd0DnxRnCA8MhxTHhlTljt9q9Acjs=;
+ b=ky3s+7yEoPqIGwjvhLEJG3h302JdQqkSHq5xo2fgpQlo/+LyTdGf3HghXsJtJ+eDJXNRNS41qc9MAOp4ztV0kq05fEvn3m8rT2nAIfx1yvP3zLd2Zdt2erCxNw10z4/spd/9+uFhzkm5SP+/fawY3rVyTLSRR+3GVvf8tcvi2xLj9r7LoO3+3y0fmY+Jd/l9NOvqdkfg/BjqZUtUw93sv3sJAivxd6nb0pA7U9eMn7mhM3Z0sr0IiZoIQ8hy+Lft9WjwStwYh8VCRe8zONYjdeb0QO7bxCaX0bupP/FQmwr4qiJaUmbQRL99jT6CauwqJitpnDuVSKIuxC0OtqE5lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T9QzAAl68wtZoJQd0DnxRnCA8MhxTHhlTljt9q9Acjs=;
+ b=BSWEWcHF2RJM9/c1IL1BZIg7ylaLsOWQN5cZg351TCXkOix3PTsWGrbv+rembRI2+lavGlA8dyjxkAidy5ky4auyU6SPyYjmB+qUYMi1GajtVfAvHSHpiaNxCwMgzkXDoz6zJUuGP8yyLSsG7Lxatb1BAOxjtiAO5mKM+YUT6F2O/rSJBlYO5BC6RMRTR2vMniNzdxmnmMIxcbUoSZIj9xRdi0s6yLCRCBB78h9FdAN1FFy3eUfBqeLZltQC5GWo6MmE+EofkYz17W8DEXv1T1qtpsdXlyCx85vV9qFj4HWK39mC1qpf0p/judQ1dZ8jtOI8WFaFe+xa3QghjER8fg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
+ by SN7PR12MB7980.namprd12.prod.outlook.com (2603:10b6:806:341::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
+ 2026 09:07:56 +0000
+Received: from DS2PR12MB9750.namprd12.prod.outlook.com
+ ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
+ ([fe80::56a8:d6bf:e24c:b391%6]) with mapi id 15.20.9913.009; Tue, 12 May 2026
+ 09:07:56 +0000
+Message-ID: <daa93cc4-090a-4eb0-91c3-029e0b037b71@nvidia.com>
+Date: Tue, 12 May 2026 10:07:50 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] PCI/ASPM: Override the ASPM and Clock PM states
+ set by BIOS for devicetree platforms
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+ manivannan.sadhasivam@oss.qualcomm.com, Thierry Reding <treding@nvidia.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ "David E. Box" <david.e.box@linux.intel.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Chia-Lin Kao <acelan.kao@canonical.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org
+References: <20260122152903.GA1247682@bhelgaas>
+ <8d8b2244-2bf0-48cf-8fb8-9e47e197a62d@nvidia.com>
+ <fb6uzh3jfes3hky6fblpsh2vvg3daij5ogecydiuhmytxbglcb@tdqjcoxuymsk>
+From: Jon Hunter <jonathanh@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <fb6uzh3jfes3hky6fblpsh2vvg3daij5ogecydiuhmytxbglcb@tdqjcoxuymsk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR3P189CA0044.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:53::19) To DS2PR12MB9750.namprd12.prod.outlook.com
+ (2603:10b6:8:2b0::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1777475843.git.asml.silence@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|SN7PR12MB7980:EE_
+X-MS-Office365-Filtering-Correlation-Id: e09265a6-54cf-44c5-a0f3-08deb005f504
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|11063799003|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: NbYr1Y5KIznVwVovOKiWiEEcUmUliD6RdJw8CKP8lXtf524mFXKya2VIURsqRsHGby0CcnjQZ64Kqee1Onrx/XvsTffZpm9o2scDhuVYTpFN8V+0lDtlBUvi8WnQjpAbQrSLqyUtHqtNA/Xca/+NvkvBjesL4gQSr9X4968ri5y9fN2WnfdE1GwV51LxXViZadP70+QZpnMG6J9oOAn/3F9jVBSGpWxt43927brgl7tG6fPL9xB6ViM58//oIEBAUx0snSqCFZeTjpRIB3VmZYpCFxg0ePU3DZiicZ1zNQ9kDkxBco74a8YiGg+UITXNIe+uOSkcVBOpTFJFqY7vm9CCaBCcjvF3nlRkX9+ngT42G82WZePAvrG+e3xl97UkmAi3oCJ2nUKk+G0coVUXJZ1LqUq270kXX5IliUNTrCs8Jc3gN+jefK7qgGy911CVZk9bbfNmchOs1D37C11JOrSUKhCdO56ibVGPyZAaNqEEOG0qT40i48HoW+QpOyTePwUCU8mTpmemswC44tyIgpAn1GA9X/mUyxvATKqsnHw30ylBHTKyveJJkCBstqBWxcps0P9t8o4eB2W4w2hfrk3j+DmgLGJ8njL+kxZMaAvqyBJxXYH6q6e6PXYq8tdt7SRGV6Q4aRgjKh5ucMw1pQRh2P5+177WvgrsQadSBcXTcbb9rUWdQLp1bSp5ru3b
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(11063799003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnUwU005bGZZcmVlOWFzeTNjTHFkdEsycExLT2NVam5jMGVwY1l5aUZOUFJE?=
+ =?utf-8?B?RWtwTkxmQjRYYzJmNFpjZHEzZGdsT2tjcU1wcUk1Yk8xOEhyWnI5RXFQZkFj?=
+ =?utf-8?B?N1FnOW9ST0F6Nnd1YTJrcE5JQWllc000cHlZTkZ1dnZHQTZnQ2x4OXJxbHVM?=
+ =?utf-8?B?dzRZVWI2WTlOM01IVXI3ZUlaSU9wR3RSQXJQQlBBUHdkL05sMDhycTNJL2ZH?=
+ =?utf-8?B?b3I4OVlHQ0NWWmY3SmVvdlNtUW41aWRJMnNPTm54dGN2OVV6UTQxblo1cWdO?=
+ =?utf-8?B?T1FwelZzdW41NUtmK1p5a3pOOG5TUDVZZDVUTEtTQTZZNUdxeEFCWVZjMk1m?=
+ =?utf-8?B?bDB0VEo4YVpFVEtNMHBCd2UzeU4rd1M5dU56Y3YyeVZiVklrd1JtUm93dnhY?=
+ =?utf-8?B?OG02OW9YM0xROGE5NlNIRTc2R1NheGdVMWVxOWtkZGg5aW1UUFlHdTdNQk9Y?=
+ =?utf-8?B?SWd6cEhBTE9YYkhkZWxHanpWek9Sb1lZeGEyQ3pjczZieUlHQzVMYWJzc1V6?=
+ =?utf-8?B?eWxXcXd0OUxzSzR5UlljdWtYaWkzVGdtSDZ5bnQ3OFpQTVFrV1k0YjdUZjJz?=
+ =?utf-8?B?MTFzSmR2WTFaWHAzUmZXRHk0TkJLdVlwbmxpVkZNeTVEeGFML1NrVDBDOHAz?=
+ =?utf-8?B?aFVBWVBVYTJUTkE5cElvUU9iS2hJUkdWVUVRSUxEb2dobWtWRitoYWRNVnQ0?=
+ =?utf-8?B?L1l1RkFrNDl0bm56c212VDYvN0M5Umt0cjI4dmw0VGhNMC93cm41Q05mZEFq?=
+ =?utf-8?B?K1ZmdUU1SEc3dXl4UjNUbmZHWnJuZzh3d3NLR2dLK3E4LzBpMng3RG9TaUI3?=
+ =?utf-8?B?ZDZDTnczOFJva08rSGM3QzF2SUYwajNWb2NwU3pXd2lxZXJldEFZUWM5UFFa?=
+ =?utf-8?B?RnBQT3lqQzg2bDZvb0Nmck1ESnZqYnljN1lsV2RPdEt2Y1VLaFJhKzdVMmE2?=
+ =?utf-8?B?eWE2QzkvUUM0eHV1V3NtU1hMSUd2TjcwVGlPSkhQYWxYU3ZNRFRWUFl3ZEY0?=
+ =?utf-8?B?MlVyaUpiem12d3dVTC9CL2VlelNnRFZTUEgySHRTYjIycGRFd3JBazN5YTlq?=
+ =?utf-8?B?d1dBdDZPQWhIcjJjOFI5OG44MVVNY0ZveXlvYWVsR3dOWit6NDY4UVVFQ3Fv?=
+ =?utf-8?B?RjBIWlNxdi9BUDRVaEtrcDJab01ia092SlFkUkFJWnFFYVhndWRCUVl2S1pJ?=
+ =?utf-8?B?UXFZR1VpbmRla0xlNDI1NzBUOTdhVmtWQjlMSjkvYzVvaFRCSlFwSEtXUmJC?=
+ =?utf-8?B?M01NZGVrR0R5NnQ2VXdndjlXbUFyM3VmTTlqUks1WVJJUExSdW9RYjFtckNp?=
+ =?utf-8?B?UGlieGdST3k5dkEraTh0czJwNTkwYzZzVHk1RjBVNk9XUTVxa2lvaVpDVW1T?=
+ =?utf-8?B?M3U5NllGaU9udXpWWGdzcjZZODRST09DKzlKdm9QOTk3WU5yTzdER3Vvb3hB?=
+ =?utf-8?B?ZkpvS0wrSkJOVHF5ZTY2ZnZ2NDlVdGFtNTRQcFkwVFhxQUZuVWkxd1ZtZlc4?=
+ =?utf-8?B?ZlhvM3RCMkpOMmZrdjJEYlhRc29iQTNpNDFTS0Z3OE9jbzFlM2djVFgrWE5H?=
+ =?utf-8?B?bloxd0U0OERiK1JuSTJ5SHU4TmVSSy9Neml1TnJ3WWRkYkNkdEVJY0lWZ2pz?=
+ =?utf-8?B?QnV0K0wvRVY2MmcwRHBSQ2tUWE5jdjVZU3c0NkVVY1Z3dGxTaWRXWk1MeUQv?=
+ =?utf-8?B?RjE3MFd2RDJ6YmI2RHM0RWtVUDdGYjJyeVJ3S3EvOWZKMlptcEV0WldYVkxj?=
+ =?utf-8?B?Sy84d3lqcmVUdHRLdG85MkhDQ1pQYkt4RnR5UVozdmFNU1dSWFdvMDcvVFdG?=
+ =?utf-8?B?M29QU2RqQzBHcHBlU3F2QVNqR1E5dnNLL2lJNVVONjNqVDZWb3dCZ3pVSHZm?=
+ =?utf-8?B?d0t1dVNpbXo3YnNLRW1oWnZUNGsxR0hrRVlTcFNHYVJJMTZtTkZSUUM1R1Z0?=
+ =?utf-8?B?dUJncCtVc0hLR3pVUUt1T2cwTGlrQTBlOXN2c2kwa0NKdittWFQvYzBMeXF0?=
+ =?utf-8?B?dmRURHRHL2lhakFkS0hSNURLMGJjbnJnRU9SekVQT2tNd2F1L29ZRlNFdGJF?=
+ =?utf-8?B?Z1d1dG9aQmtveFlMeGZST0lHS0twOE0vL25oZWg3YUMxSkZXVTd1VkNhSGVp?=
+ =?utf-8?B?SE5wczlLYThoUTk2S3hqTEN4N1NCcnA1OFNZUndsc3ZKYXMzZW1VQ3JmMUc5?=
+ =?utf-8?B?ZFRLWDlXMEdTN0tKSlpDSnM4Mm5CZ2k1YTV3YUxLUXNObG5TSXZwRTRqeHR3?=
+ =?utf-8?B?Q3gzWTM4dnoxdzFrSHFmY1YwakR6aytsc2EzMFFwVHB0MGg1b05ORDAyTHN6?=
+ =?utf-8?B?dXRlQWVGRW9MWWt5UVhZM0tqVVoxSmlTeUllZG5tUmdwcE5aUXJ0QT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e09265a6-54cf-44c5-a0f3-08deb005f504
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 09:07:56.6054
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OmQG54zDgOQYH1tyUkn4lTxkMW7AlXC7VtSKGjuG661BpjD1sMXNJbfJdI5vwTh39UjmzQnEeS1STyuvyKRX7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7980
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260512_000100_905992_8C925CEC 
-X-CRM114-Status: GOOD (  10.59  )
+X-CRM114-CacheID: sfid-20260512_020804_946125_A7516360 
+X-CRM114-Status: GOOD (  30.09  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,9 +163,100 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-What tree is this against?  I can't apply it against the usual
-candidates, even accounting for the time lag in getting to it.
 
-Can you provide a git tree?
+On 11/05/2026 06:18, Manivannan Sadhasivam wrote:
+> On Thu, May 07, 2026 at 11:25:23AM +0100, Jon Hunter wrote:
+>> Hi Bjorn, Mani,
+>>
+>> On 22/01/2026 15:29, Bjorn Helgaas wrote:
+>>> [+cc NVMe folks]
+>>>
+>>> On Thu, Jan 22, 2026 at 12:12:42PM +0000, Jon Hunter wrote:
+>>>> ...
+>>>
+>>>> Since this commit was added in Linux v6.18, I have been observing a suspend
+>>>> test failures on some of our boards. The suspend test suspends the devices
+>>>> for 20 secs and before this change the board would resume in about ~27 secs
+>>>> (including the 20 sec sleep). After this change the board would take over 80
+>>>> secs to resume and this triggered a failure.
+>>>>
+>>>> Looking at the logs, I can see it is the NVMe device on the board that is
+>>>> having an issue, and I see the reset failing ...
+>>>>
+>>>>    [  945.754939] r8169 0007:01:00.0 enP7p1s0: Link is Up - 1Gbps/Full -
+>>>>     flow control rx/tx
+>>>>    [ 1002.467432] nvme nvme0: I/O tag 12 (400c) opcode 0x9 (Admin Cmd) QID
+>>>>     0 timeout, reset controller
+>>>>    [ 1002.493713] nvme nvme0: 12/0/0 default/read/poll queues
+>>>>    [ 1003.050448] nvme nvme0: ctrl state 1 is not RESETTING
+>>>>    [ 1003.050481] OOM killer enabled.
+>>>>    [ 1003.054035] nvme nvme0: Disabling device after reset failure: -19
+>>>>
+>>>>   From the above timestamps the delay is coming from the NVMe. I see this
+>>>> issue on several boards with different NVMe devices and I can workaround
+>>>> this by disabling ASPM L0/L1 for these devices ...
+>>>>
+>>>>    DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5011, quirk_disable_aspm_l0s_l1);
+>>>>    DECLARE_PCI_FIXUP_HEADER(0x15b7, 0x5036, quirk_disable_aspm_l0s_l1);
+>>>>    DECLARE_PCI_FIXUP_HEADER(0x1b4b, 0x1322, quirk_disable_aspm_l0s_l1);
+>>>>    DECLARE_PCI_FIXUP_HEADER(0xc0a9, 0x540a, quirk_disable_aspm_l0s_l1);
+>>>>
+>>>> I am curious if you have seen any similar issues?
+>>>>
+>>>> Other PCIe devices seem to be OK (like the realtek r8169) but just
+>>>> the NVMe is having issues. So I am trying to figure out the best way
+>>>> to resolve this?
+>>>
+>>> For context, "this commit" refers to f3ac2ff14834, modified by
+>>> df5192d9bb0e:
+>>>
+>>>     f3ac2ff14834 ("PCI/ASPM: Enable all ClockPM and ASPM states for devicetree platforms")
+>>>     df5192d9bb0e ("PCI/ASPM: Enable only L0s and L1 for devicetree platforms")
+>>>
+>>> The fact that this suspend issue only affects NVMe reminds me of the
+>>> code in dw_pcie_suspend_noirq() [1] that bails out early if L1 is
+>>> enabled because of some NVMe expectation:
+>>>
+>>>     dw_pcie_suspend_noirq()
+>>>     {
+>>>       ...
+>>>       /*
+>>>        * If L1SS is supported, then do not put the link into L2 as some
+>>>        * devices such as NVMe expect low resume latency.
+>>>        */
+>>>       if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
+>>>         return 0;
+>>>       ...
+>>>
+>>> That suggests there's some NVMe/ASPM interaction that the PCI core
+>>> doesn't understand yet.
+>>>
+>>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pci/controller/dwc/pcie-designware-host.c?id=v6.18#n1146
+>>
+>>
+>> I want to revisit this issue. From my perspective low-power suspend has now
+>> been broken on some of our Tegra platforms (that have NVMe devices) since
+>> v6.19 and so far this is no resolution to this issue. The patch that was
+>> proposed to fix this [0] has been rejected by qualcomm and although this
+>> does workaround the issue, my confidence that this is the right fix is now
+>> low.
+>>
+> 
+> The referenced patch is now merged into arm-soc for v7.2:
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=7602c0ec0bbfd3985d49f4f0cad281c1414008c9
+> 
+> I hope this takes care of the issue you are dealing with.
+
+Well yes this patch does fix issues for us. However, I am still a bit 
+confused about this whole thing given that this patch does not work for 
+all qualcomm platforms. Anyway, I guess we have not seen any other 
+issues so far with the above and so may be we can consider this closed 
+for now.
+
+Thanks
+Jon
+
+-- 
+nvpublic
 
 
