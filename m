@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AB032CD4851
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 14:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9507DCD4F24
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 14:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
 	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=hlCkyynv9A3owqO3IQsLFXB9VjhnvszC1FYDWJErtQQ=; b=fr6q4/iWrwDSBUdn0bwQkMYv1I
-	RNTttcYrzxV8OII/yxPds/t8CqfYUAk9G11rfZKnwglGNY0BykaaPJu63wFiJZSxDiPgyiJWdK4FZ
-	03hlyJsyVy5rsPP2PKVo/OQ6Kx2o7w1ttmYBqeFgnMnwJLtc/DUxt90l02G7ISGVHzJjEAIto+vio
-	4EqTecRzRc/Blo4ss5NVBveB7hhr2pLWT0POZiC2nsYdYP+k/IxjB1EV913JtjPVUtBT8yQ4Pr0hi
-	4f19XOnK25Tg084PSY1yv2P0TlrNzriN8RncRy7WOAgJibuOkhlWlbpwuBvrfVIF852oLr5ZENeyo
-	1QZu14cw==;
+	bh=PuUs8kKkIEhwOvaXczjv+qMRMgXGRrj8wjtlYn3kysc=; b=C85WDabrCUHGZPNKLjfNLL3HTG
+	UcdrFkbebaIyM/f5kE10+0MGa3cTC9Hiwcde9Dt5lhYcz6mkYyyXeuT8b3f1nLOkSjDc6Nonvo8Tm
+	Ww52sgBMVdQV6lE+0PbQAryiYQ9c8GiR/yTLawCIDuBv9Hb8kLIgQHegCGPPvEZM/MIwj1dRrw8Fc
+	tY3HzjeZ0crpMyYA1t2G0g6+Fv8H8dfMBnKaCZIanWDrS81EPLBEcjz/Ni83QjwcpyOM7NUheX2Si
+	zRTUB+N4edwsWwwxcIEihWecwraiQunVz3kngiDjkHkHhefy4Lk3aT6o/25ScM1rVh7TiLdaFMwJD
+	Es+EGHug==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMnhu-0000000GwX4-36Ag;
-	Tue, 12 May 2026 14:03:34 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wMniP-0000000Gwhn-0S7E;
+	Tue, 12 May 2026 14:04:05 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMnho-0000000GwVS-1Abk;
-	Tue, 12 May 2026 14:03:33 +0000
+	id 1wMniO-0000000Gwgj-0P6p;
+	Tue, 12 May 2026 14:04:04 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 54EE642B86;
-	Tue, 12 May 2026 14:03:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F40C2BCF6;
-	Tue, 12 May 2026 14:03:18 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 387AE62C1E;
+	Tue, 12 May 2026 14:04:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B730C2BCB0;
+	Tue, 12 May 2026 14:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778594606;
-	bh=GjrbKqt7UhV0Fd7/x9yogisk1zMvp87XUhU2BO+jtOc=;
+	s=k20201202; t=1778594642;
+	bh=wZIDx7vXSGoTrkQ9Gai4XwKtCh48yAuiTnAYTQ2Zz9A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gX7jChaUGVKoBPZH/623LQEbqKANOyAyzsgX07zPjtXQUkJ9Hrc4sSMclR6oEhB9l
-	 BBi153bMAkA/PjdEBfqppW9jl3rlG2FMvTmLqXZIylLYVnKt7xCBn12YQoWliOEqJo
-	 e0aEXfKBLYqE3/bkb0iWwjKLOA1JDOY4uY0vRBpvmjjwK+tkbdmWxugDX0f9gvKg2T
-	 prICu0IymXygx5olXk6vqboutJujjEscqoPhn7ZXhCQ4/fMwE/bbxB988pVIu+XmOA
-	 q8sNTePhE4v4/589EAltLChYFbtotfWdqcBPpeeEN75hY2o51JK4Ajue4m2UmZK2sc
-	 rub6PZ9aElcyA==
-Date: Tue, 12 May 2026 19:33:15 +0530
+	b=bpdNMZTibadEBjbeQDSM9SwNXYlJWq/aP1DZ7nbJtV85oGI0nyDSxZXUeFJnOniHe
+	 9Xf+bnpk+WrN8NtAZ0sqh3ejX948zKaly44LK/qNu595lycRemW82MSF/zk5jX88LD
+	 o+DMvIKSsZk/T4oCsqkLzL40/sNQYWTzB7ekDR4uJVWUuNEwvtIfhpzJjAuDqLV43b
+	 IlSgWBt+n7hBM0KVKiEK182XCyeTlWcEHqZIVS7DGf4a9Mzsexiu48/6Cq/X53V7BY
+	 xQgKTtGSlYkDFEfAl09ifBuVUygFr6kS1rrEWATVAs/Va9XrWRdBYRHYoqeOUTknN8
+	 AgCun9dDR48yg==
+Date: Tue, 12 May 2026 19:33:51 +0530
 From: Manivannan Sadhasivam <mani@kernel.org>
 To: Frank Li <Frank.Li@nxp.com>
 Cc: Vinod Koul <vkoul@kernel.org>, 
@@ -53,20 +53,17 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
 	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev
-Subject: Re: [PATCH v4 2/9] dmaengine: Add safe API to combine configuration
- and preparation
-Message-ID: <zaf2zeguq7oyrygv5fdokuo4w3btbcoysi2wmtyzremmdov3xe@reo3hnu7wpgi>
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, Damien Le Moal <dlemoal@kernel.org>
+Subject: Re: [PATCH v4 4/9] dmaengine: dw-edma: Use new
+ .device_prep_config_sg() callback
+Message-ID: <bjroe5qbpggiolfqqexm5vy2edmhxp5qyrejxdklwlg5y53gfc@n3bz7i2jqja6>
 References: <20260506-dma_prep_config-v4-0-85b3d22babff@nxp.com>
- <20260506-dma_prep_config-v4-2-85b3d22babff@nxp.com>
+ <20260506-dma_prep_config-v4-4-85b3d22babff@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260506-dma_prep_config-v4-2-85b3d22babff@nxp.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260512_070328_729791_7B59D43F 
-X-CRM114-Status: GOOD (  25.95  )
+In-Reply-To: <20260506-dma_prep_config-v4-4-85b3d22babff@nxp.com>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -81,117 +78,72 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 06, 2026 at 04:44:14PM -0400, Frank Li wrote:
-> Introduce dmaengine_prep_config_single_safe() and
-> dmaengine_prep_config_sg_safe() to provide a reentrant-safe way to
-> combine slave configuration and transfer preparation.
+On Wed, May 06, 2026 at 04:44:16PM -0400, Frank Li wrote:
+> Use the new .device_prep_config_sg() callback to combine configuration and
+> descriptor preparation.
 > 
-> Drivers may implement the new device_prep_config_sg() callback to perform
-> both steps atomically. If the callback is not provided, the helpers fall
-> back to calling dmaengine_slave_config() followed by
-> dmaengine_prep_slave_sg() under per-channel mutex protection.
+> No functional changes.
 > 
 > Tested-by: Niklas Cassel <cassel@kernel.org>
+> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> chagne in v4
-> - use spinlock() to protect config() and prep()
-> 
-> change in v3
-> - new patch
-> ---
->  drivers/dma/dmaengine.c   |  2 ++
->  include/linux/dmaengine.h | 58 +++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 60 insertions(+)
-> 
-> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-> index 405bd2fbb4a3b94fd0bf44526f656f6a19feaad0..ba29e60160c1a0148793bb299849bccfebb6d32b 100644
-> --- a/drivers/dma/dmaengine.c
-> +++ b/drivers/dma/dmaengine.c
-> @@ -1099,6 +1099,8 @@ static int __dma_async_device_channel_register(struct dma_device *device,
->  	chan->dev->device.parent = device->dev;
->  	chan->dev->chan = chan;
->  	chan->dev->dev_id = device->dev_id;
-> +	spin_lock_init(&chan->lock);
-> +
->  	if (!name)
->  		dev_set_name(&chan->dev->device, "dma%dchan%d", device->dev_id, chan->chan_id);
->  	else
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index defa377d2ef54d94e6337cdfa7826a091295535e..23728f3d60804e49cd4cbbd3a513c4936eed5836 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -322,6 +322,8 @@ struct dma_router {
->   * @slave: ptr to the device using this channel
->   * @cookie: last cookie value returned to client
->   * @completed_cookie: last completed cookie for this channel
-> + * @lock: protect between config and prepare transfer when driver have not
-> + *	  implemented callback device_prep_config_sg().
->   * @chan_id: channel ID for sysfs
->   * @dev: class device for sysfs
->   * @name: backlink name for sysfs
-> @@ -341,6 +343,12 @@ struct dma_chan {
->  	dma_cookie_t cookie;
->  	dma_cookie_t completed_cookie;
->  
-> +	/*
-> +	 * protect between config and prepare transfer because *_prep() may be
-> +	 * called from complete callback, which is in GFP_NOSLEEP context.
-> +	 */
-> +	spinlock_t lock; /* protect between config and prepare transfer since */
 
-Why two comments?
-
-> +
->  	/* sysfs */
->  	int chan_id;
->  	struct dma_chan_dev *dev;
-> @@ -1068,6 +1076,56 @@ dmaengine_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
->  	return dmaengine_prep_config_sg(chan, sgl, sg_len, dir, flags, NULL);
->  }
->  
-> +/*
-> + * dmaengine_prep_config_single(sg)_safe() is re-entrant version.
-> + *
-> + * The unsafe variant (without the _safe suffix) falls back to calling
-> + * dmaengine_slave_config() and dmaengine_prep_slave_sg() separately.
-> + * In this case, additional locking may be required, depending on the
-> + * DMA consumer's usage.
-> + *
-> + * If dmaengine driver have not implemented call back device_prep_config_sg()
-> + * safe version use per-channel spinlock to protect call dmaengine_slave_config()
-> + * and dmaengine_prep_slave_sg().
-> + */
-
-Use proper kernel-doc comments please...
-
-> +static inline struct dma_async_tx_descriptor *
-> +dmaengine_prep_config_sg_safe(struct dma_chan *chan, struct scatterlist *sgl,
-> +			      unsigned int sg_len,
-> +			      enum dma_transfer_direction dir,
-> +			      unsigned long flags,
-> +			      struct dma_slave_config *config)
-> +{
-> +	struct dma_async_tx_descriptor *tx;
-> +
-> +	if (!chan || !chan->device)
-> +		return NULL;
-> +
-> +	if (!chan->device->device_prep_config_sg)
-> +		spin_lock(&chan->lock);
-> +
-> +	tx = dmaengine_prep_config_sg(chan, sgl, sg_len, dir, flags, config);
-> +
-> +	if (!chan->device->device_prep_config_sg)
-> +		spin_unlock(&chan->lock);
-> +
-> +	return tx;
-> +}
-> +
-
-Missing kernel-doc.
+Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
 
 - Mani
+
+> ---
+> change in v4
+> - drop context in callback.
+> change in v3
+> - add Damien Le Moal review tag
+> ---
+>  drivers/dma/dw-edma/dw-edma-core.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
+> index c2feb3adc79fa94b016913443305b9fae9deef12..f7f58b0010e26b529ffb7382d5b166a703587c71 100644
+> --- a/drivers/dma/dw-edma/dw-edma-core.c
+> +++ b/drivers/dma/dw-edma/dw-edma-core.c
+> @@ -577,10 +577,11 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer)
+>  }
+>  
+>  static struct dma_async_tx_descriptor *
+> -dw_edma_device_prep_slave_sg(struct dma_chan *dchan, struct scatterlist *sgl,
+> -			     unsigned int len,
+> -			     enum dma_transfer_direction direction,
+> -			     unsigned long flags, void *context)
+> +dw_edma_device_prep_config_sg(struct dma_chan *dchan, struct scatterlist *sgl,
+> +			      unsigned int len,
+> +			      enum dma_transfer_direction direction,
+> +			      unsigned long flags,
+> +			      struct dma_slave_config *config)
+>  {
+>  	struct dw_edma_transfer xfer;
+>  
+> @@ -591,6 +592,9 @@ dw_edma_device_prep_slave_sg(struct dma_chan *dchan, struct scatterlist *sgl,
+>  	xfer.flags = flags;
+>  	xfer.type = EDMA_XFER_SCATTER_GATHER;
+>  
+> +	if (config)
+> +		dw_edma_device_config(dchan, config);
+> +
+>  	return dw_edma_device_transfer(&xfer);
+>  }
+>  
+> @@ -970,7 +974,7 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
+>  	dma->device_terminate_all = dw_edma_device_terminate_all;
+>  	dma->device_issue_pending = dw_edma_device_issue_pending;
+>  	dma->device_tx_status = dw_edma_device_tx_status;
+> -	dma->device_prep_slave_sg = dw_edma_device_prep_slave_sg;
+> +	dma->device_prep_config_sg = dw_edma_device_prep_config_sg;
+>  	dma->device_prep_dma_cyclic = dw_edma_device_prep_dma_cyclic;
+>  	dma->device_prep_interleaved_dma = dw_edma_device_prep_interleaved_dma;
+>  
+> 
+> -- 
+> 2.43.0
+> 
 
 -- 
 மணிவண்ணன் சதாசிவம்
