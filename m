@@ -4,87 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E69A2CD484E
-	for <linux-nvme@archiver.kernel.org>; Mon, 11 May 2026 23:48:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E58ADCD37BE
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 00:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Message-ID:Subject:Cc:To:
+	From:Date:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=TG+H+8qFC3dm8ucOx8pPoSNzGyrnN/mGIjQnEFRQdw8=; b=3hFTcLS+9qVv6J/EuU2Sh3vAG0
-	jOMK9va2gXg7OcL1rApoo9GKSjZ7zhWt3ye+pmEXHR/YJao6zTqfMPZLMQWbXrO7f8WL4/k8luWFa
-	2vAhFL0M+fAfbNxIYkbgsLTBuV9c426wQiP/eZg/lIHCyAw/1BGH8A3AtUgbdbKHo/NllrrcgvYau
-	KG9MQEMMZpalQdC2x3qh8yQaqBEhHXqhqMD07WshDzcJVjFI4IG6gPt7vDeqtTkDohahCAwd9/D3q
-	57tiuzkpo1K6swM106u+YWUI8b44bQd5mLGCd1bj1b5ljbB/NaqdBEdfbLCqre0xji8uO37Doj3Y4
-	EQDP6Klg==;
+	bh=Zoh82QG96RTJM0Nffi3MkHTZXf6XWPEUAh48DjvCrpY=; b=FDUqTJveUVYESueUIrFqx5OpDG
+	1BqBRn1s6cbu5PeQbc6Pi6yCbNgNQpZ+/3sMZL9sqqI8TO1vX/VW2DvQakfLjPxoBZS0H7hmJQAfx
+	7De9kk4Rtt4MHp89BcHP/eM1D7v6Q0NL11HpMiaFAk8JFC6u59zZjzdjhzRZ2MUQbr+P329iaM0f3
+	v2AFvK77Fd4ju5b2/9Rxjmx3NVfGS8sFxKT3pe1Rts0KSNWNQsgXIU8Y+NL1CxWHW1RDAhw0eEeTV
+	+oUFfYF6MGiUfUNBTR86B24z2KjcKuGa4YDEH3rj0LELqTazIMPoUmHupEc6CWg1gQ+kjA26qW8wk
+	cQAq6bHA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMaMe-0000000F2V5-44be;
-	Mon, 11 May 2026 23:48:44 +0000
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+	id 1wMbKW-0000000F7NE-0Tw2;
+	Tue, 12 May 2026 00:50:36 +0000
+Received: from mgamail.intel.com ([198.175.65.21])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMaMa-0000000F2UL-14QV
+	id 1wMbKQ-0000000F7MY-3wrO
 	for linux-nvme@lists.infradead.org;
-	Mon, 11 May 2026 23:48:43 +0000
-Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-c8025aecc40so2277513a12.0
-        for <linux-nvme@lists.infradead.org>; Mon, 11 May 2026 16:48:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778543318; x=1779148118; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TG+H+8qFC3dm8ucOx8pPoSNzGyrnN/mGIjQnEFRQdw8=;
-        b=j7mMA5SoV9ndrLcNJfO1iF9cECG5/hkvukJTV5lBGQZe1ckJXxY7E5sdlGsg/LJb/J
-         VGmiUtCIx+G2WGWO6kGGEwvkuQZ7e6soRFksZChnHd6/BgZmpxVSshHONcmXCQ/oMzkl
-         CpqJWW03Q3lrWEDZ+h3eSUZD5WPIjn5MVqzlcAswq1VXEQk2FSZ/N0+8bkJE3uY1PTeY
-         pd117YEPeQvFt6jZKQHrO4kE6AcDhi94K4qLXs+KYDiKdQb2o58UPZ62KFnpqfJ10UG9
-         pHPwEQ06SkmFgH2pQTCwiPpIxo2pQ/G4l2s8gDROqD/X6UP+yR29O/CZkQgY5gTz7KYL
-         n1gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778543318; x=1779148118;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TG+H+8qFC3dm8ucOx8pPoSNzGyrnN/mGIjQnEFRQdw8=;
-        b=c55XvefSAW3dOyE7PyKgTAyTyulzTZ//liwRG029MmQ1RLVv6oCfk9lhDE6XIZryfb
-         fGFRUtDWxKZJjoLjDeIQ5VIiucvGH++3arYEv/5PHGBc4EeHhg2KQLtltFtyJDaIimYU
-         kX/W4QbtVqz+MxXGKYNU3BqfVlwQ8tJdtNVUXS8oUeuS8j5AIL2gaoX9Ukz3yTso3QCm
-         ZtgaXs/jGab4PhLRvZcP0eMGlWm99WP6xi77PAWKpAu6Ed7ECLGd5u39cB8AQsG/LBIP
-         bQdGIOidJpK9QEVV4ao3ye/5Z9eDsJC7HzvPVgELsCPGjgFpOhK+h0UIOZHwGzM0ltea
-         +nCA==
-X-Gm-Message-State: AOJu0YyUyUUozmzIQRra9mARAahZunT6CwVq9idkYG644T+duKRMjOOx
-	lIDJMeMDZPVPa2qf3BN+Ix2Fis+qIqiBT0FdHHbHjY5Mo2/u5SxM0RpUFaaouQ==
-X-Gm-Gg: Acq92OF5PT2JNRONFbnsYpzuLaOc4yRDM/C/zlyXcs4IF3aZEw9bfQd9MFXvUbJfbgt
-	Y4Uou5lonaW3w8NH9yoeMwgNiCX+Bx7vEKjWKtMwG3kvzCYFTYbgLwLXe8Uv1jWEdK7ys9QZpuR
-	eNMlagUnccn4YpBZNQ98TwSY34t9CrpFebSqEKVkepTVYDMd6ThJsLS4E3VWeY6ozc6MaMwjGTf
-	SJQQkFoeqo+WaXRSXfAf0q02qu7aEID5gF9iII0Rl67qTHe6NmPJDOPayuuZbVS743At8Mnhx99
-	u33sqlDM25AASwRFm+6FIXRms5vs/TLLKlOOlytiqroinKXPO3QWCaB6AOnpNT/IShsk2YoLY3t
-	OlneLDwLev9sJBxaKZdjBVk7aliLz69xfl+7raO/F7Bq9jfvCejhItCUQ4+qN2oVWnaJW8+ph3v
-	QLv+FZhh4Vugy6R90Gz0eiF/WAWDHpkDvUbe8i7IA=
-X-Received: by 2002:a05:6a20:c88d:b0:3a3:adea:83b4 with SMTP id adf61e73a8af0-3acd446d7a1mr1454179637.21.1778543318226;
-        Mon, 11 May 2026 16:48:38 -0700 (PDT)
-Received: from zenbook ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8267697d5asm9849101a12.14.2026.05.11.16.48.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 16:48:37 -0700 (PDT)
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	alistair.francis@wdc.com,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH v2] nvme/tcp: handle rejected keys for secure concatenation
-Date: Tue, 12 May 2026 09:45:53 +1000
-Message-ID: <20260511234551.2925326-3-wilfred.opensource@gmail.com>
-X-Mailer: git-send-email 2.54.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	Tue, 12 May 2026 00:50:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778547031; x=1810083031;
+  h=date:from:to:cc:subject:message-id;
+  bh=JwqU7Ee39TWRwtwE6qQ2aJ/YD2wFDlDj7uj8bGIqBvg=;
+  b=PSjBOC/Oovwi0AtSZtK7e4mKTtVrwnQfBk0wF+zbAFgrn6ro+whN0fZp
+   3Zg/H3p23s++q13e6Dw4V5wNltsqOGJOJPBaxM6PN5ib9wPRiFlb7nNgZ
+   9VUYATT/kXEu9L4kBEk7wDbwht+k9ja2qiX1A8HptQMZDgufqziTDOfu3
+   2Nx1VJhc7CqxlU6XsQusBOnY/TwLYxTrumzYsp8Len40/KpYMJPsFQ2FX
+   qFzBBqJJoq1xN1tc137m0KFtH7nJtza0I7DZOWznKfh+8PjarPA/7+Mk3
+   /felvJtOUneX9hnFnFodcdsMAn99bCe2K27xirqBYizajVT5c3YU1wat8
+   A==;
+X-CSE-ConnectionGUID: GfKsxsEnSdy+e/yTmF30aA==
+X-CSE-MsgGUID: RH69eCzvTWGcE1kQLkqFeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79343976"
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="79343976"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 17:50:28 -0700
+X-CSE-ConnectionGUID: mHeXVDrrQ2S5ClTKNOxNjQ==
+X-CSE-MsgGUID: Xqz5gP93SEuGcXT//38T5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="242585229"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 11 May 2026 17:50:26 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wMbKJ-000000001NF-1PZ0;
+	Tue, 12 May 2026 00:50:23 +0000
+Date: Tue, 12 May 2026 08:49:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-7.1 5/7] drivers/nvme/target/tcp.c:1325:46:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <202605120806.84Oz8bWJ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260511_164840_303418_4C9409C6 
-X-CRM114-Status: GOOD (  18.22  )
+X-CRM114-CacheID: sfid-20260511_175031_062365_9BA9BC0D 
+X-CRM114-Status: GOOD (  10.60  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,60 +83,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+tree:   git://git.infradead.org/nvme.git nvme-7.1
+head:   37953cec775ed34e59cf9a7d7bb9b0610daa3f3e
+commit: dbbd07d0a7020b80f6a7028e561908f7b83b3d5a [5/7] nvmet-tcp: Fix potential UAF when ddgst mismatch
+config: sparc64-randconfig-r123-20260512 (https://download.01.org/0day-ci/archive/20260512/202605120806.84Oz8bWJ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120806.84Oz8bWJ-lkp@intel.com/reproduce)
 
-The NVMe-TCP specification [1] states that if the PSK retained or
-generated is not available on the subsystem, the TLS 1.3 handshake shall
-be aborted with an unknown_psk_identity alert and the connection be
-closed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605120806.84Oz8bWJ-lkp@intel.com/
 
-Currently, when an unknown_psk_identity alert is sent from an endpoint,
-tlshd returns EACCES as the TLS error. On subsequent reconnection
-attempts, we fail with the same error because we keep attempting to
-connect with a stale key. This may occur if the endpoint experienced a
-full reset and lost its PSK.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/tcp.c:1325:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] status @@     got int @@
+   drivers/nvme/target/tcp.c:1325:46: sparse:     expected restricted __le16 [usertype] status
+   drivers/nvme/target/tcp.c:1325:46: sparse:     got int
 
-With support in tlshd to return -EKEYREJECTED when an unknown_psk_identity
-alert is received [2], the kernel can now detect this condition and revoke
-the current tls_key. This allows the subsequent reconnect to perform
-re-authentication via DHCHAP to generate a fresh PSK.
+vim +1325 drivers/nvme/target/tcp.c
 
-[1] https://nvmexpress.org/wp-content/uploads/NVM-Express-TCP-Transport-Specification-Revision-1.1-2024.08.05-Ratified.pdf
-[2] https://github.com/oracle/ktls-utils/pull/149
+  1288	
+  1289	static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
+  1290	{
+  1291		struct nvmet_tcp_cmd *cmd = queue->cmd;
+  1292		int ret, len;
+  1293		char cbuf[CMSG_LEN(sizeof(char))] = {};
+  1294		struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
+  1295		struct kvec iov = {
+  1296			.iov_base = (void *)&cmd->recv_ddgst + queue->offset,
+  1297			.iov_len = queue->left
+  1298		};
+  1299	
+  1300		if (queue->tls_pskid) {
+  1301			msg.msg_control = cbuf;
+  1302			msg.msg_controllen = sizeof(cbuf);
+  1303		}
+  1304		len = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+  1305				iov.iov_len, msg.msg_flags);
+  1306		if (unlikely(len < 0))
+  1307			return len;
+  1308		if (queue->tls_pskid) {
+  1309			ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+  1310			if (ret < 0)
+  1311				return ret;
+  1312		}
+  1313	
+  1314		queue->offset += len;
+  1315		queue->left -= len;
+  1316		if (queue->left)
+  1317			return -EAGAIN;
+  1318	
+  1319		if (queue->data_digest && cmd->exp_ddgst != cmd->recv_ddgst) {
+  1320			pr_err("queue %d: cmd %d pdu (%d) data digest error: recv %#x expected %#x\n",
+  1321				queue->idx, cmd->req.cmd->common.command_id,
+  1322				queue->pdu.cmd.hdr.type, le32_to_cpu(cmd->recv_ddgst),
+  1323				le32_to_cpu(cmd->exp_ddgst));
+  1324			if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED)) {
+> 1325				cmd->req.cqe->status = NVME_SC_CMD_SEQ_ERROR;
+  1326				nvmet_req_uninit(&cmd->req);
+  1327			}
+  1328			nvmet_tcp_free_cmd_buffers(cmd);
+  1329			ret = -EPROTO;
+  1330			goto out;
+  1331		}
+  1332	
+  1333		if (cmd->rbytes_done == cmd->req.transfer_len)
+  1334			nvmet_tcp_execute_request(cmd);
+  1335	
+  1336		ret = 0;
+  1337	out:
+  1338		nvmet_prepare_receive_pdu(queue);
+  1339		return ret;
+  1340	}
+  1341	
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
----
-V1 -> V2:
-	- Typo in commit message
-	- Re-worded the comment in code
-	- Added reference to ktls-utils PR (merged) for userspace changes
----
- drivers/nvme/host/tcp.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 15d36d6a728e..8e5421d2e8b9 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1767,6 +1767,17 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 			dev_err(nctrl->device,
- 				"queue %d: TLS handshake complete, error %d\n",
- 				qid, queue->tls_err);
-+
-+			/*
-+			 * If the key is stale, revoke it such that on a
-+			 * subsequent reconnect, we will generate a new PSK.
-+			 */
-+			if (queue->tls_err == EKEYREJECTED && qid == 0 &&
-+			    nctrl->opts->concat && nctrl->opts->tls_key) {
-+				nvme_auth_revoke_tls_key(nctrl);
-+				dev_warn(nctrl->device,
-+					 "qid 0: revoking stale key\n");
-+			}
- 		} else {
- 			dev_dbg(nctrl->device,
- 				"queue %d: TLS handshake complete\n", qid);
 -- 
-2.54.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
