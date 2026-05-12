@@ -4,66 +4,127 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9507DCD4F24
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 14:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02392CD4851
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 14:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=PuUs8kKkIEhwOvaXczjv+qMRMgXGRrj8wjtlYn3kysc=; b=C85WDabrCUHGZPNKLjfNLL3HTG
-	UcdrFkbebaIyM/f5kE10+0MGa3cTC9Hiwcde9Dt5lhYcz6mkYyyXeuT8b3f1nLOkSjDc6Nonvo8Tm
-	Ww52sgBMVdQV6lE+0PbQAryiYQ9c8GiR/yTLawCIDuBv9Hb8kLIgQHegCGPPvEZM/MIwj1dRrw8Fc
-	tY3HzjeZ0crpMyYA1t2G0g6+Fv8H8dfMBnKaCZIanWDrS81EPLBEcjz/Ni83QjwcpyOM7NUheX2Si
-	zRTUB+N4edwsWwwxcIEihWecwraiQunVz3kngiDjkHkHhefy4Lk3aT6o/25ScM1rVh7TiLdaFMwJD
-	Es+EGHug==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3J7CU0OeJ9O9jg81qZWhmHO0hthpveFr+UPeIlsLKTo=; b=cCFF60Kz4K1a0n3u2Ugf7Wrir6
+	uI1I/A/1h94cSa/dkD2XI3HslGJVSNwKk6nEuCtyYdyLq+HLXAN5mB1nRhpNSU4ru8avVQGEimOMF
+	qcbSJv6CifGI+3XyIOJkkQP/QaeshBDsEunrIkQByIBx97q3PSKx3ynB70bOtjA/z+I+y4V8AMxbf
+	cg7BbTrOquiGbOADbu4TQzjq5A3uD/ql2coSFza+lZllDzCwjum88glaUTmCMdm6UNrxRWXoJJl3S
+	JhoK9hRiTk1uLskoXCVRmLUi9BNWOwudKjwe4KkJcuGEE9uGmtGmA+d3q1CLPm1JUbIDeSe4AI+JY
+	RSyjUU+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMniP-0000000Gwhn-0S7E;
-	Tue, 12 May 2026 14:04:05 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wMnit-0000000Gwtm-1PXh;
+	Tue, 12 May 2026 14:04:35 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMniO-0000000Gwgj-0P6p;
-	Tue, 12 May 2026 14:04:04 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 387AE62C1E;
-	Tue, 12 May 2026 14:04:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B730C2BCB0;
-	Tue, 12 May 2026 14:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778594642;
-	bh=wZIDx7vXSGoTrkQ9Gai4XwKtCh48yAuiTnAYTQ2Zz9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bpdNMZTibadEBjbeQDSM9SwNXYlJWq/aP1DZ7nbJtV85oGI0nyDSxZXUeFJnOniHe
-	 9Xf+bnpk+WrN8NtAZ0sqh3ejX948zKaly44LK/qNu595lycRemW82MSF/zk5jX88LD
-	 o+DMvIKSsZk/T4oCsqkLzL40/sNQYWTzB7ekDR4uJVWUuNEwvtIfhpzJjAuDqLV43b
-	 IlSgWBt+n7hBM0KVKiEK182XCyeTlWcEHqZIVS7DGf4a9Mzsexiu48/6Cq/X53V7BY
-	 xQgKTtGSlYkDFEfAl09ifBuVUygFr6kS1rrEWATVAs/Va9XrWRdBYRHYoqeOUTknN8
-	 AgCun9dDR48yg==
-Date: Tue, 12 May 2026 19:33:51 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Vinod Koul <vkoul@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v4 4/9] dmaengine: dw-edma: Use new
- .device_prep_config_sg() callback
-Message-ID: <bjroe5qbpggiolfqqexm5vy2edmhxp5qyrejxdklwlg5y53gfc@n3bz7i2jqja6>
-References: <20260506-dma_prep_config-v4-0-85b3d22babff@nxp.com>
- <20260506-dma_prep_config-v4-4-85b3d22babff@nxp.com>
+	id 1wMnip-0000000Gwrc-2IjC
+	for linux-nvme@lists.infradead.org;
+	Tue, 12 May 2026 14:04:34 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 362846C1B6;
+	Tue, 12 May 2026 14:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778594664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3J7CU0OeJ9O9jg81qZWhmHO0hthpveFr+UPeIlsLKTo=;
+	b=QgrhyGFSZ7RlJtSPhOYxGUYsZ2AY9SxpNcJLlfGsCATyRpcsD3amtYFKJyt7E5v8zD9/ky
+	GoPPcgPcIguwZLmlX26uoEIxKA0M856nxncmOJai/IhqHD5Mnr7X59t61mb0/5mRuJLQDc
+	AJB1XToRqQmrEl5Ei2110wIreMr2vYk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778594664;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3J7CU0OeJ9O9jg81qZWhmHO0hthpveFr+UPeIlsLKTo=;
+	b=5e5znqH6q/Vdo98ETX8Ff9lbwN5DYJUnb7nir9q/iAWQoJsRGkPHAs6tvkLJVzk4azSJlV
+	2YYhA/2HSav1GlDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778594660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3J7CU0OeJ9O9jg81qZWhmHO0hthpveFr+UPeIlsLKTo=;
+	b=N9cCHTDrj1L+ZbKQDUjcN8oEgmAddw0zsZx6ydG1V9J5NihMV3kXerzMAliIqSrktq7iDT
+	Df0PlAS51VvZNCHNcVNucBGb9a1pJgAt1ByNb+YyhPag1SnXfAtSdp4ISX38QLOAvDFsaQ
+	JBXw1ayglMHBJQ9Ypk1J8dTwG34P8dA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778594660;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3J7CU0OeJ9O9jg81qZWhmHO0hthpveFr+UPeIlsLKTo=;
+	b=t5rYxb1vMsiqMm72aYas1YRqssLI0s3Bg8V4TM3LokpH6Xxh7ojMdfeDKgsl/HUsFHS3oW
+	6Rd8yR/lQheg2bCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3C36593A9;
+	Tue, 12 May 2026 14:04:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id v/DrMWMzA2oVeQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 12 May 2026 14:04:19 +0000
+Message-ID: <04a007f9-0a34-4cf5-9feb-9b43ae591b93@suse.de>
+Date: Tue, 12 May 2026 16:04:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nvme/tcp: release socket on sock_alloc_file() failure
+To: Wilfred Mallawa <wilfred.opensource@gmail.com>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Damien Le'Moal <dlemoal@kernel.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+References: <20260512102831.3593121-2-wilfred.opensource@gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260512102831.3593121-2-wilfred.opensource@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260506-dma_prep_config-v4-4-85b3d22babff@nxp.com>
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,kernel.dk,lst.de,grimberg.me];
+	TAGGED_RCPT(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:email,wdc.com:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260512_070431_734912_B796B5C9 
+X-CRM114-Status: GOOD (  11.46  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -78,73 +139,28 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 06, 2026 at 04:44:16PM -0400, Frank Li wrote:
-> Use the new .device_prep_config_sg() callback to combine configuration and
-> descriptor preparation.
+On 5/12/26 12:28, Wilfred Mallawa wrote:
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 > 
-> No functional changes.
+> If sock_alloc_file() fails after a sock_create_kern() in
+> nvme_tcp_alloc_queue(), the socket is not released.
 > 
-> Tested-by: Niklas Cassel <cassel@kernel.org>
-> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-
-Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-
-- Mani
-
+> Add sock_release() to release the socket if sock_alloc_file() fails.
+> 
+> Fixes: e40d4eb84089eae1 ("nvme-tcp: allocate socket file")
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 > ---
-> change in v4
-> - drop context in callback.
-> change in v3
-> - add Damien Le Moal review tag
-> ---
->  drivers/dma/dw-edma/dw-edma-core.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
+>   drivers/nvme/host/tcp.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-> index c2feb3adc79fa94b016913443305b9fae9deef12..f7f58b0010e26b529ffb7382d5b166a703587c71 100644
-> --- a/drivers/dma/dw-edma/dw-edma-core.c
-> +++ b/drivers/dma/dw-edma/dw-edma-core.c
-> @@ -577,10 +577,11 @@ dw_edma_device_transfer(struct dw_edma_transfer *xfer)
->  }
->  
->  static struct dma_async_tx_descriptor *
-> -dw_edma_device_prep_slave_sg(struct dma_chan *dchan, struct scatterlist *sgl,
-> -			     unsigned int len,
-> -			     enum dma_transfer_direction direction,
-> -			     unsigned long flags, void *context)
-> +dw_edma_device_prep_config_sg(struct dma_chan *dchan, struct scatterlist *sgl,
-> +			      unsigned int len,
-> +			      enum dma_transfer_direction direction,
-> +			      unsigned long flags,
-> +			      struct dma_slave_config *config)
->  {
->  	struct dw_edma_transfer xfer;
->  
-> @@ -591,6 +592,9 @@ dw_edma_device_prep_slave_sg(struct dma_chan *dchan, struct scatterlist *sgl,
->  	xfer.flags = flags;
->  	xfer.type = EDMA_XFER_SCATTER_GATHER;
->  
-> +	if (config)
-> +		dw_edma_device_config(dchan, config);
-> +
->  	return dw_edma_device_transfer(&xfer);
->  }
->  
-> @@ -970,7 +974,7 @@ static int dw_edma_channel_setup(struct dw_edma *dw, u32 wr_alloc, u32 rd_alloc)
->  	dma->device_terminate_all = dw_edma_device_terminate_all;
->  	dma->device_issue_pending = dw_edma_device_issue_pending;
->  	dma->device_tx_status = dw_edma_device_tx_status;
-> -	dma->device_prep_slave_sg = dw_edma_device_prep_slave_sg;
-> +	dma->device_prep_config_sg = dw_edma_device_prep_config_sg;
->  	dma->device_prep_dma_cyclic = dw_edma_device_prep_dma_cyclic;
->  	dma->device_prep_interleaved_dma = dw_edma_device_prep_interleaved_dma;
->  
-> 
-> -- 
-> 2.43.0
-> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
+Cheers,
+
+Hannes
 -- 
-மணிவண்ணன் சதாசிவம்
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
