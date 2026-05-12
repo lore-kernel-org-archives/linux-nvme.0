@@ -4,105 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C0F60CD4851
-	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 09:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81637CD4851
+	for <linux-nvme@archiver.kernel.org>; Tue, 12 May 2026 10:29:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=1i6gK0r7rGWa5W/9WTpQ/H0vww/+AQmB17cNctDGbjU=; b=hxrdVzcwCs0tRh4FXey9AA/Tld
-	tvxebHqX7BDZcoz53cTtJkZeU+vdfVYDnGKY093p8/ENoUM+4TezzpmFRsWtyssOjzn3pt7jwVG5S
-	c6SZ0Al6KrBrFYO73Vyhot5kpSPhePv+QxUsiMrzNx9r/pDQXaS87J5Gi/aX1Pkwu5URrROJ+mU6m
-	IIsVmI1ws6qrwKsT9bUrEnNywNN1tvrmMIvFb2JhZvwMb5EFliRk/3Mw623W4uyajYAA1wPW7qFlg
-	SWCKeq4tpG849UxPjar8S6AqCMDfrlTm1BMRTuNWcOL++UiLZy7wx9Dgz9oBzvfc0zQO36VOsXtdW
-	mLTb2bdw==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=y0x0i+gcegzHfZ4KyqltqDvyEBGkthH8obOAct/iNNc=; b=MByvlc9BG9FMKMa23sf7Gea5xI
+	K7lxOP0QT6rK7ZchHm4LXVlURsQJpnIg0k52eCEIWyG/iZgGQYObUQtqsOmjoPavyWoK3rVJTFOTI
+	XK9afHeuUW3Qb/5iECjWUJMnqiDdNonQUpi3PLl1J72P34FC+5/LOFXUka8buzk4sMpqe5P72N2SF
+	nOXNtfnrVZPdt9F4H8Ko+2RO8N5RxiwF2uKjMlbLvYB4QBt+k9UMlJnYb49DuppjTSao79se6fywn
+	EfLOTVFLYk5mAXCl8xXi1R9qErHOkbQ/EDCVjC6spBGFJIyiVnVH5mmCq5k/7Vt0Hcf4EjzPlirSA
+	LyNxIsDw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMjRq-0000000GGk0-3lLA;
-	Tue, 12 May 2026 09:30:42 +0000
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+	id 1wMkMZ-0000000GQrx-2hia;
+	Tue, 12 May 2026 10:29:19 +0000
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMjRo-0000000GGiM-0bqe
+	id 1wMkMX-0000000GQrA-1s9s
 	for linux-nvme@lists.infradead.org;
-	Tue, 12 May 2026 09:30:41 +0000
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-67bce1840f1so8345145a12.3
-        for <linux-nvme@lists.infradead.org>; Tue, 12 May 2026 02:30:39 -0700 (PDT)
+	Tue, 12 May 2026 10:29:18 +0000
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2ba4efedbeaso38096605ad.1
+        for <linux-nvme@lists.infradead.org>; Tue, 12 May 2026 03:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778578238; x=1779183038; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1i6gK0r7rGWa5W/9WTpQ/H0vww/+AQmB17cNctDGbjU=;
-        b=LhYVrusv/AfMG+pE7rm1TWds7pxDO2vvPgw9xxLY80UHEZggCiDNZjvupGBYTHm16a
-         8Dd1bPcyhjtQU72DeAjtn4YSgpBEi6Vxqqsqi2caZdZgc9AG4htRYhNVU3C6fykTrunq
-         hfY+uR53mUJ+q77LIu45XjA7HW3uK3s7Wzn3Jn8ZAKo/cDgx6Pf/DZWogoy3F11w9vWL
-         Eua5P266ETDNiMfVZcODJUqNH63gjICkgedQrzZgDpzjb/PI4vIxjKYg8Kwwu1NQ7Wsh
-         iE2nk/O4D32vigMaaaKlzjga9CnIkVWWp901Hyufg5xS4ld4MGWDV1GPm/n9+pTf8zOc
-         mBLw==
+        d=gmail.com; s=20251104; t=1778581756; x=1779186556; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y0x0i+gcegzHfZ4KyqltqDvyEBGkthH8obOAct/iNNc=;
+        b=KxYwfc+ZKhQRw0chzP1CBfOipAq2CI7+xba/ESSFuSdZFFvwcShzRvvhbzoGFG6p28
+         QNRVgbTijRFRKGvnWB89YSIaprnGQeeZt5fds7bOuCcC8DXZzQ72qCnzfbYyqPY3dZKV
+         6HdEfZrTdTbKZu3FSQ6ijaf0LEV9hPCwf3V++hEhaTLYP15mHhy16fIPxLRTc4Ad7APe
+         hQVm4gaSUFs+q515GWArdtrsS7ecs2z3y+upGx2CEvhjhXMldvQlPIiIfJQ8IMhtq8K7
+         WhvCNO3dzfHqg9HYGGhQY2+JyOMB7T77baNvNReR098EjokrWLQ/IIrk4XuuMZAD+0MB
+         5EKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778578238; x=1779183038;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1i6gK0r7rGWa5W/9WTpQ/H0vww/+AQmB17cNctDGbjU=;
-        b=hbEW0xmNX+shthbwD2stw1w+IojEkbdnAYxquyuVZoORgUTfB3Z5KcbnYdVBS3giRc
-         0K8S/BYjVRaw6xJa1PmwTjACFagNJlP2bNxaIlXRYZH3YBylUnskULhBHLOIFXietPGw
-         0B10HnvY4LwcKlrZ0+4qmkzps0ZYL3gErVknzUAJJh9h9tIkGmv+reEzhnlNdC1WF83d
-         YLYxjU7ev7mA2HPdPi3leRDIQ/S1kE54xls5HUC7ZI+YjpsKRjBK+Y3G3SKn1v4rYaHi
-         hS5k0OMv/6A2yTodUct34G+bOlXt3HHg+pzRqASnwO42gTeSlL61dxijlIGosR7WnsiX
-         6WQQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+DIump0lX2rYmijXKHtvtk73oNWvDGuiOvoPnGuBe3QngOZ2KkgWpLw7L9r5dKfgtE092V3qS6fD0g@lists.infradead.org
-X-Gm-Message-State: AOJu0YyIOHOCUUFpNkcR5K4GLOBcgNRq3/BT9H0TUJWAlSiBhhM1Qdpr
-	VLqFuban7XJwqISfuweT0amWBP8b1oHq0CSVpqoRZpQX9eUgbCgxPb11
-X-Gm-Gg: Acq92OFElxrxxVwJfFM9BlR2M7pQaluVp5ZA5keD/NWXfoZ0pP5AHSYrWrCZMwb6l69
-	94oR7I0+cDNVEXtYWvQD+H6fnMoa7S4kmPzuFrDiLXDYXniEm7r8aWz26ZWfH5h73uKbKlXBEtn
-	QAs6jjhMtlTYj9Oa70cP/4rHpQ7oUcKB65HR/+k+qODk8FrMY8Sz+d26RZXvt1yMZriCRo67kpW
-	pzN1fuVO7SCoAtutlrQC5Pr8rWvVZWX8/+RsXQDUMGxAPimXDsoDSYyXc9+OtrtR4sbQiKN5E1T
-	HeAQaEm1+AfHc+MB3TzZZOXRz5wtu1KFeUeLpjz7Vop8CW3woEcRpzOxrzn5dCtQ5TfGsroLUdN
-	33zqqYypbT6zLsS8/tamxGf+oLsARu+jTya0+48DicUgcds8AxxcQfkH79Wn8CCYL5cyeQaEc4t
-	rGd/TGZBmoDcf+H5ck8949MbOb/r3BhmLEctQURXyZ6f9zhOgh5sPQFOyohu4mImpDKSQmzzhJi
-	HO4c4WKvz7J2hvXZTtvqKXsXAe2xt+kSbdjIKgbsTeuQZ4fNg==
-X-Received: by 2002:a17:907:97d0:b0:bc2:1dab:3ea0 with SMTP id a640c23a62f3a-bd28de036d4mr114881866b.8.1778578237873;
-        Tue, 12 May 2026 02:30:37 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325::372? ([2620:10d:c092:600::1:8c90])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcfb7b17d1fsm303492866b.41.2026.05.12.02.30.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 02:30:37 -0700 (PDT)
-Message-ID: <24cc68b2-c432-4623-92eb-b56b76850c35@gmail.com>
-Date: Tue, 12 May 2026 10:30:34 +0100
+        d=1e100.net; s=20251104; t=1778581756; x=1779186556;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y0x0i+gcegzHfZ4KyqltqDvyEBGkthH8obOAct/iNNc=;
+        b=RkCvJ6nMS3N1M6XIQIeINHKZhfAGsY7aKnow8+P8ifGzVODdQRWXhN+7t/wxvMraNm
+         qpereJwuFHu2/iu8o0xq0scz38VLzCWV6+1AL0caOw2uOGDb4L5jR0oOmLuYUWxU+B0n
+         XW9lCqup/M56AcrCK10+vYOMbP8IUELs7WHy5aJS8vS0/E4l67PLbiYkvS/MLvfJ5bR2
+         nT5oWgg9cE211x9pT4fzmpuTnGO1bprvJ/ReNDyaOqWjrryABx/W+dDeey9bOpKCnQLr
+         em8IB0GU4+5OVFbbZMLzd18trBl7cemYMM0xEvQDwdeJl6vspGfjwYaprpnkLF+za21F
+         eUwg==
+X-Gm-Message-State: AOJu0YzoR0RHOE2LNHFtmQMnJUqroBfEIkvh6FHdAZOCJldz3UZzTkcY
+	AgPRZj3rEJBaZVWveyodWbbCKKCjrQTxOpNdLCQiqtiZCkmv0LVcJ9bO
+X-Gm-Gg: Acq92OFe9JGHwOBAKr3hx0c5lFQzPcuc2u0WigVhgOZcGJL0fjUyZQyG8B6aCg+x8TW
+	p5Zl5OoknnusKPLb6oe/3s/dKZAQPbyplbb6r+Ba55choGasL9utS1A0PYbICmJyGPkaVKv2uSp
+	wSTrPDqt7LLVwUXvjyKktEMyaZklRjIaHhUDCC3v9Pl3YH2qG8wExXvoYKu4PYC8DTlErCviNeX
+	eACQIp2BWCq6l26kIV9t82iTer/+4ZWs4uWc3CaimFmc2g1l8zwDDvf++EZRWbJl3O+isxrWlOd
+	s+wDglpNWdpYRE9aGB31rpStITycrW2YXNENoYUBUFrWO/KGmUvil6XcpFVhLj7c7T9gfmUebR1
+	jCCE90OmubBlzdMxyQJBtT6sB9wJ+qc2HpuMHNI5lYlLR4Fhd0x/n4iDJs8MRTtYqFi9CBQjm1v
+	ziCMnY4lplfJm55MMUz0Aw91ObpJSfqmjCaigPzMs=
+X-Received: by 2002:a17:902:cec8:b0:2b4:63c8:ce18 with SMTP id d9443c01a7336-2ba794bb379mr309763995ad.12.1778581755727;
+        Tue, 12 May 2026 03:29:15 -0700 (PDT)
+Received: from zenbook ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e3571dsm129849905ad.42.2026.05.12.03.29.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 03:29:15 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>,
+	Damien Le'Moal <dlemoal@kernel.org>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH] nvme/tcp: release socket on sock_alloc_file() failure
+Date: Tue, 12 May 2026 20:28:32 +1000
+Message-ID: <20260512102831.3593121-2-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <afi7c-VUJWOLlC1m@fedora> <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
- <afxgc4hizusnAA26@fedora>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <afxgc4hizusnAA26@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260512_023040_209336_3580476A 
-X-CRM114-Status: GOOD (  19.07  )
+X-CRM114-CacheID: sfid-20260512_032917_488924_F54A79C2 
+X-CRM114-Status: GOOD (  11.25  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -117,37 +100,33 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/7/26 10:50, Ming Lei wrote:
-...
->>> BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
->>> which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
->>
->> Interesting, just too a glance, and it looks like what David Wei
->> was thinking to add to fuse, but IIUC he gave up exactly because the
->> client will need to cooperate and that could be troublesome.
-> 
-> Here the cooperation is minimized, maybe one shmem/hugetlb path, or memfd,
-> and it is one optimization and opt-in, and fallback to normal path
-> if application doesn't cooperate.
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-My point is that with widely enough adopted interface the user will be
-able to opportunistically use it without knowledge about the file, i.e.
-not knowing whether it's ublk or something else. But as you mentioned
-below, it'd be cooperative interface in either case.
->> Should we try to push everything under the same interface instead of
->> keeping a ublk specific one? Again to the point that it requires
-> 
-> If generic interface can be figured out, it shouldn't be a big deal for
-> ublk to switch to it, and the usage is simple actually.
+If sock_alloc_file() fails after a sock_create_kern() in
+nvme_tcp_alloc_queue(), the socket is not released.
 
-Sure, you'd just need to maintain both as there is a mismatch between
-interfaces.
+Add sock_release() to release the socket if sock_alloc_file() fails.
 
-> So far, ublk supports both FS and nvme block device.
-> 
-> And cooperation can't be avoided for this usage no matter if generic or
-> driver specific implementation is taken, for both fuse & ublk.
+Fixes: e40d4eb84089eae1 ("nvme-tcp: allocate socket file")
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+ drivers/nvme/host/tcp.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 8e5421d2e8b9..f4b9d8acc7b1 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1820,6 +1820,8 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
+ 	sock_file = sock_alloc_file(queue->sock, O_CLOEXEC, NULL);
+ 	if (IS_ERR(sock_file)) {
+ 		ret = PTR_ERR(sock_file);
++		sock_release(queue->sock);
++		queue->sock = NULL;
+ 		goto err_destroy_mutex;
+ 	}
+ 
 -- 
-Pavel Begunkov
+2.54.0
 
 
