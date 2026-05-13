@@ -4,116 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4F170CD4F21
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2026 18:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C949DCD37AC
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2026 19:27:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=it5pgiQP2AQNEq6tIMXiESTFgQK9HFXFMZmKNofoTSo=; b=JyJvCAy5uhUwblZ+zzfjqNYjl2
-	E1oOx7cV4QzhU7wWTgHvg1fm5+Q6TdRYpklY+5psaDk/aDLTSyNad//IV8e1UOFgDKOuUd2YzAnYy
-	QrtRQe4vuJntSgfuGJBRb0gc547oQhWg1UHIEwKT0sfSYExtXhmYJK8GGTTdBO4gCefJd8B7lwNhh
-	8PvvqAij3Q84gRR9wB/Ku2AWEcJ0925u1SU0/2SPudQrpcOvSskZgvfo6QQbVMBc1ei9m79YWxe43
-	fkaCBY9xrhMb9TJNpJc+oHdREPr4gA/8yQUOhHbJXFkVh6dOs2NHy0/fJIJ8Fy1VanT4P95t3y8QG
-	WmzcpetQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From:
+	Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=nfOb3jHTRscMBmAm3KtHvb3xtHWnMfP6QafPVBKjVnQ=; b=MJu7BogrKzegZj
+	lIjoYZ+npIWc9zVwm5QTYrIQu5vuPY0EDn6OXck2gaMX2eeHpeyOtQdHXQOxd9BDgyKpzMJnzm5pA
+	Sj5WySWCUlyglNfYHi73bOw3vP6/9bYt6lQe/W0Vn1ofUHkrzpwZK9kK/fytzPzWr2voRVmGVPW1O
+	s7dgfQFxFW62xjxbrbppibuRb5rKbQvUW1zE+O2I0u1RQSIk40O4p7mb5hBFgHrj10Tt+ADXrkAjp
+	HX914q5XfGXPAeCyulKMx5FK7rsHxQ/73yEBygUzwnksMghSZItg/oianvU8fw+psI5esymjs/Wa/
+	QSbx91hKFsB9sK3RcBxw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNEhu-00000003VOV-0cIS;
-	Wed, 13 May 2026 18:53:22 +0000
-Received: from mail-westus2azon11010058.outbound.protection.outlook.com ([52.101.46.58] helo=CO1PR03CU002.outbound.protection.outlook.com)
+	id 1wNFEy-00000003a79-33Fr;
+	Wed, 13 May 2026 19:27:32 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNEhs-00000003VN9-0xNi
+	id 1wNFEv-00000003a6M-3tEO
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 May 2026 18:53:21 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KvPGRWXokbmueN8I7IVveQfAP4Ccq7+SYKPl9DPYnpZ1oGnrZhYRsyoleyCDIkTkY+LpyE3vmZbg+qZ8DQSytSZ+p5LWsJ/08AwDX6Sf86F6b48a6ksIqUOpDX0f/xvuIc4BJFYWJlIFmXwvqywI2pIvBC5ssIcfUMwWgQAWTXNzsZIVGEe2JEeoBPHoBes4F1qW8fvzrvmSGAYHSEIuzSvzO7xinzJ0qd75XWHq5IGW6if+yEORqVK7KOGMsVTmleZmjjH/wNPvDZXPBEkZqEoyp7KNTIgCjcdXTXZ3ku7lqgtDG14Hk9bLfXS6unsN/RrvDZ/vhi4/MZyvmdIiaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=it5pgiQP2AQNEq6tIMXiESTFgQK9HFXFMZmKNofoTSo=;
- b=dFyJqDpsYOfKy9mUpsksFwh8GtT5BbbWFtN5hiEatCKZ8AGfSd9GqNpgUqrBfatr6TrUDYgJPwweRpR64GsH+qQxCnejKFOtFjL4fDn5pK0bcGK7oHlVg/q9LGFWkV/kzEpkdyny1kyVYfWOZ4P4iQpHQpYOa4J4F1SLkCwZ0L4gH+OcwvJ6DOvWwQ6trvgYH9sRgpoiOm5GWFQ0ntGZo0oKDeYxFflhfCt89hyaCnpsSbpDSXCeZIL1585Cuc09kRtAFhna0DQ+yNN+WcxPUtum4nGJv74rlXQzIYk+OPQYViaiiz02DTLaQlT1lIPS0dYS/6tF/3d1W4jCmv8qrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=it5pgiQP2AQNEq6tIMXiESTFgQK9HFXFMZmKNofoTSo=;
- b=P6mMbQgy0k8PGJEuH+SM5FLNosdvm5+sl238t8pTR2tcmQ0wwoDU+qLyAVfpxIm6FjYDawhoHzvlZefqjHtPq027J0vWg+ySvHcDcmj1bpo15G0yOncvd0ZxFwzkNklD6Sk5RSrYXgJMzPl3GOrKYEG8hHkQtcgVSKCH9IhG6TK/GpgirG2SGWYh7XQFca0hgS3OT6SLvz15QQlRMEOxMqBOGrg9g7VpkibBE0mAkoV+nEd+qIUpp0OHZXChwx4qTFqYQk6NdKsHwVL4y1FqCYfPFD9tQxLcvKJ94VTSBSUBQdw1PB2rJK9cmqnzArCm49XG8C2vxJtbTLj1VReSPg==
-Received: from CH2PR20CA0008.namprd20.prod.outlook.com (2603:10b6:610:58::18)
- by PH7PR12MB6667.namprd12.prod.outlook.com (2603:10b6:510:1a9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Wed, 13 May
- 2026 18:53:13 +0000
-Received: from CH2PEPF0000013F.namprd02.prod.outlook.com
- (2603:10b6:610:58:cafe::21) by CH2PR20CA0008.outlook.office365.com
- (2603:10b6:610:58::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.12 via Frontend Transport; Wed,
- 13 May 2026 18:53:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CH2PEPF0000013F.mail.protection.outlook.com (10.167.244.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.13 via Frontend Transport; Wed, 13 May 2026 18:53:13 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 13 May
- 2026 11:52:48 -0700
-Received: from dev.nvidia.com (10.126.230.37) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 13 May
- 2026 11:52:47 -0700
-From: Chaitanya Kulkarni <kch@nvidia.com>
-To: <song@kernel.org>, <yukuai@fnnas.com>, <linan122@huawei.com>,
-	<kbusch@kernel.org>, <axboe@kernel.dk>, <hch@lst.de>, <sagi@grimberg.me>
-CC: <linux-block@vger.kernel.org>, <linux-raid@vger.kernel.org>,
-	<linux-nvme@lists.infradead.org>, <kmodukuri@nvidia.com>, Pranjal Shrivastava
-	<praan@google.com>, Nitesh Shetty <nj.shetty@samsung.com>, Chaitanya Kulkarni
-	<kch@nvidia.com>
-Subject: [PATCH V4 3/3] nvme-multipath: enable PCI P2PDMA for multipath devices
-Date: Wed, 13 May 2026 11:51:53 -0700
-Message-ID: <20260513185153.95552-4-kch@nvidia.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260513185153.95552-1-kch@nvidia.com>
-References: <20260513185153.95552-1-kch@nvidia.com>
+	Wed, 13 May 2026 19:27:31 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778700448;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nfOb3jHTRscMBmAm3KtHvb3xtHWnMfP6QafPVBKjVnQ=;
+	b=NUVMhZVvyI2PNkHPedmoK+zt2THhPdRp5LP3gGIwo98jWY8F7sG4SuXjCHURvVx7yGhEg+
+	cg7sCafX1U0c/rPFYefoda4pl5WrwHgp5n4drMRZ1oTpem6xeWB4EtrkNfrjJDms9BmMKd
+	bRiCSNvm+YChVCnkx4Pvp3Sn5jt4Jss=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-bxOTH2m-OY-pL16rCIL6wg-1; Wed,
+ 13 May 2026 15:25:55 -0400
+X-MC-Unique: bxOTH2m-OY-pL16rCIL6wg-1
+X-Mimecast-MFC-AGG-ID: bxOTH2m-OY-pL16rCIL6wg_1778700354
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 35BB518005B3;
+	Wed, 13 May 2026 19:25:54 +0000 (UTC)
+Received: from emilne-na.ibmlowe.csb (unknown [10.17.17.93])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 815C51800576;
+	Wed, 13 May 2026 19:25:52 +0000 (UTC)
+From: "Ewan D. Milne" <emilne@redhat.com>
+To: linux-nvme@lists.infradead.org,
+	justin.tee@broadcom.com,
+	Johannes.Thumshirn@wdc.com
+Subject: [PATCH] nvme: nvme-fc: Fix nvme_fc_create_hw_io_queues() queue deletion in error path
+Date: Wed, 13 May 2026 15:25:51 -0400
+Message-ID: <20260513192551.892309-1-emilne@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: iUt11YklsACdZ3WOuoU4h8gJm99urGzsZ2gWoobL5DQ_1778700354
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.230.37]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000013F:EE_|PH7PR12MB6667:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a0e1a8b-a058-4c30-df36-08deb120e2aa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|376014|7416014|1800799024|36860700016|11063799003|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: JHuRlVEr0XxWsLyVu5CRlwUNfkjtNOIFNlJAasYm0KaUhPbHAMrr1BYtzJAtSLUbdBsDKolBTpQ9uWhXsteiDUqFB6EiURk1BYJ0JJbdMVbQS1bQAJWam0XbvSYdsIfTKNcrAVDoIYOsvQZscR3psB+7SWa4hb9dMd/SPYY9E4pHkz94D/Cvls2QzJ/bXeYEIT+yCkg/M01QzfuZBtPHWLJGaVml+wyef2bN1bL3AQ/MU6a1+eT9Pa1r2p4/wZ8QMFeRWKQQH/RsOBrGkLkh4Z5vOmQx7ve42LTHF4wThytIqc30a6LSX79XrfBkAvvuqnDOFilTen8goiUgioLeT+6r97mBWv60A8be5Y/lxB/1Fh3tUlHne84Vz/4ZaF2LHyLCHnVtdMo6lEi51lYkI0Xs2ZOeXX82STXqs0LXDvtDJ6BEV6+7jhnNHyusj2iwNg2O/wBhK9wynR/si5lJQzuujXK0d1Y7o1NFp5wCF7W+yyoKKA0bvNlKaHyYFOqaJgLOjqBAFWxCrKhNDwd0fKWqVnxYojfGqoei4ous0gJ/vBdPvBZH15NoiNTgLpUtNaq+lHHxPevaC03b95vXfBrv8pnZOl7gcHMQZDfWp6iA5XeC4P5xBSTawrMj7PYYAntdtmiVvrJXndkrR8kPHXLDGMkEbYR6VnFiIvpDNYRgfrmuoSBcbifAVVgpTAVi8TtHS4qxoH2HxZNLoQpa9Jo9sbL4WGIFPWZ0jrTadsc=
-X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(1800799024)(36860700016)(11063799003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: y3uMcUwrKTj8/Uq5E0ElshR1Q1yg+WF03x3SaGFXv1vyrR3+3YPgKgp5BcSpJZ5CQ2gAnnlFA9kTfZyzByPEejI2Om94ABJUcdC4ePraP3AkrW5lLc+iAmxxhpZwfO9s3Xsavso0IPjIU2E/bceraweE1MfoCZjaDWviAVxG0X8NvOMbXSu4Sl0egWESwZJaaFqzXPAPhIC5KZ/f3VpFL4tNbqPsj8i+yf+c3Rkwx+Pqvj79LOShTYEd9CcImK22pzCOWY3w0YO+DaF14wz/smugGUfYDVY+tJsJBAsdLjxtxPHusslsF93m3weo3mFZ0GFCJ+DBXhy9VO3REH/KllGiX56HuPBnLc/BZ3Bb/0UoGFYNiPCHRL0FnbNCKYGw5kEbJtprPvS0b4UBSG1aAgNpzUA601FYG7fPETWGVFb0WwTgbUyEIxwTfLZuBIuN
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2026 18:53:13.1461
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a0e1a8b-a058-4c30-df36-08deb120e2aa
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000013F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6667
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260513_115320_276153_0D04FB41 
-X-CRM114-Status: GOOD (  12.12  )
+X-CRM114-CacheID: sfid-20260513_122730_037567_37BF1825 
+X-CRM114-Status: GOOD (  12.75  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -128,43 +83,44 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Kiran Kumar Modukuri <kmodukuri@nvidia.com>
+nvme_fc_create_hw_io_queues() will call __nvme_fc_delete_hw_queue() for the
+last queue on which __nvme_fc_create_hw_queue() reported an error when deleting
+all the io queues if they cannot all be created.  This is incorrect since the
+last queue did not actually get created.
 
-NVMe multipath does not expose BLK_FEAT_PCI_P2PDMA on the head disk
-even when all underlying controllers support it.
+The most recent change to this code was commit 17a1ec08ce70 ("nvme/fc: simplify
+error handling of nvme_fc_create_hw_io_queues") which moved the cleanup to the
+delete_queues: label and changed the loop bounds, however the code was not
+correct prior to this change in a different way.  The original commit
+e399441de911 ("nvme-fabrics: Add host support for FC transport") had a
+different error which called __nvme_fc_delete_hw_queue() on queue index 0 which
+is used for the admin queue.
 
-Set BLK_FEAT_PCI_P2PDMA unconditionally in nvme_mpath_alloc_disk()
-alongside the other features.  nvme_update_ns_info_block() already
-calls queue_limits_stack_bdev() to stack each path's limits onto the
-head disk, which routes through blk_stack_limits().  The core now
-clears BLK_FEAT_PCI_P2PDMA automatically if any path (e.g., FC) does
-not support it, consistent with how BLK_FEAT_NOWAIT and BLK_FEAT_POLL
-are handled.
+Fix this by correcting the initial loop index when deleting the io queues.
 
-Tested-by: Pranjal Shrivastava<praan@google.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Kiran Kumar Modukuri <kmodukuri@nvidia.com>
-Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+Fixes: 17a1ec08ce70 ("nvme/fc: simplify error handling of nvme_fc_create_hw_io_queues")
+Fixes: e399441de911 ("nvme-fabrics: Add host support for FC transport")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Ewan D. Milne <emilne@redhat.com>
 ---
- drivers/nvme/host/multipath.c | 2 +-
+ drivers/nvme/host/fc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 263161cb8ac0..ff442bbf2937 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -730,7 +730,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	blk_set_stacking_limits(&lim);
- 	lim.dma_alignment = 3;
- 	lim.features |= BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT |
--		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES;
-+		BLK_FEAT_POLL | BLK_FEAT_ATOMIC_WRITES | BLK_FEAT_PCI_P2PDMA;
- 	if (head->ids.csi == NVME_CSI_ZNS)
- 		lim.features |= BLK_FEAT_ZONED;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e4f4528fe2a2..f5a83798f3a9 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2318,7 +2318,7 @@ nvme_fc_create_hw_io_queues(struct nvme_fc_ctrl *ctrl, u16 qsize)
+ 	return 0;
  
+ delete_queues:
+-	for (; i > 0; i--)
++	for (--i; i > 0; i--)
+ 		__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[i], i);
+ 	return ret;
+ }
 -- 
-2.39.5
+2.52.0
 
 
