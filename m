@@ -4,68 +4,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C12DDCD4851
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2026 14:22:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9247BCD4F21
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2026 18:27:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OMVKavNQ+aDtnGCFJqcfJUHkorNxXoe8d5O4QR1XlhM=; b=pBrc06JX9orXQBVTZJ7dQmP87p
-	cSCmdjK6mH0OdQQDH9lhQPA6l9dsH0EJmebWKt/U+MCbIPE9qlXM0hSAqfA3s54n/09821tUPuc+Q
-	ZO7F+C9B9nceZiCx+1QCRQBRq/TvKJfg5J+Cf2IBN+U0zK9cZSAVCUdvQkQFjRMXJMQNkPvy0AmSx
-	DIOwid9X7MkMSOV2vAQTX7xLwfTswAJOSwXIsrzvErFdAt/A/QdHI2jGaIEHuE486+EHdYoFaTdjo
-	pMeMvYj/UKpOLgeVBuMBdgnLtMM3jUD5v8VR6BswI7spCZdJnTNhSXcljX0RFWm8WsrqKdJOvYPfl
-	J6vMpi7A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+	List-Owner; bh=MWh7wSPfCtSjVJnGdzbrdfVUasSLM70S65dzPy4NDBE=; b=bWBQ+Wc7AXUEQT
+	E6cS7BualtZET+LZShDsssioEBM+xuLqaqeUMQj9puu/IxIiZA+75WEvxY1NCCejpW1ByV9AZae9S
+	dpeThfGI+gMLiVqpkuCHJPYLeAuavycKzA1Qlk19I2FISMsnf/6Up5m7QUUod/L58bVPPwJOKOF5v
+	vnPWigGGF0TeIZEiF7Zv3S29l8dY188e+xAW5gqR6gbLpK6lhY6kwbxd1SHdJkpES2YvvcrC2VvLj
+	tmcM2rDVIvGlSkG2IVavURXRhGfJIgWn4u8oyIfmdS8tH25B9d+U4lZDTuRFUTq9RgUjmf+2NpqOX
+	NMBZmFWfcG3TLwq/QxYA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNATs-00000002u0l-00qJ;
-	Wed, 13 May 2026 14:22:36 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wNEJ4-00000003TX5-3Yr8;
+	Wed, 13 May 2026 18:27:42 +0000
+Received: from tor.source.kernel.org ([172.105.4.254])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNATq-00000002u0T-062v
+	id 1wNEJ1-00000003TWB-0DU1
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 May 2026 14:22:35 +0000
+	Wed, 13 May 2026 18:27:39 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id E5A4F404B4;
-	Wed, 13 May 2026 14:22:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FDFBC19425;
-	Wed, 13 May 2026 14:22:32 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 5DDB56012B;
+	Wed, 13 May 2026 18:27:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E830BC2BCC6;
+	Wed, 13 May 2026 18:27:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778682152;
-	bh=cRbYVTPM48ZpNPo2qZ5EmNnoRUCtlxwJmYRR5tttF+E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tpE5mWdL9W4eHxD26ML0rIa4/JnecHPDTTU19sHrs08JDLQd8CILk884aqolJMtP8
-	 Bg0RW6BI9HpqQa3K0IJrBKz01wnscjGe9W8kcRyBuU+SZB4t7lYBCfxPJvCU/bwViB
-	 34cu/MKbatW43e3k9MVUiEtXs77m8v1rmGWseUyz/cMWGQqWeEiMtV6+V2u8Bx/xfC
-	 f6QkW2e9Hq7Qr9xGcvIXd13CWxp74e7NeW8ulbIqvOHydpfLQdb5a4KxS8Xg1aw7u7
-	 +cdlThd7U382pLFu0lbAjD69uY0D11Jx/9cIvj79ojcBIjimTVOZPh3jV6fwrgn0nP
-	 rTHzW07CS7WPA==
-From: Daniel Wagner <wagi@kernel.org>
-To: linux-nvme@lists.infradead.org,
-	Nilay Shroff <nilay@linux.ibm.com>
-Cc: Daniel Wagner <wagi@kernel.org>,
-	dwagner@suse.de,
-	hare@suse.com,
-	kbusch@kernel.org,
-	hch@lst.de,
-	sagi@grimberg.me,
-	gjoyce@linux.ibm.com,
-	wenxiong@linux.ibm.com
-Subject: Re: [PATCHv3 0/7] nvme-cli: add nvme top command for real-time monitoring
-Date: Wed, 13 May 2026 16:22:27 +0200
-Message-ID: <177868214030.534117.16332367160346228129.b4-ty@b4>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260512201559.3057514-1-nilay@linux.ibm.com>
-References: <20260512201559.3057514-1-nilay@linux.ibm.com>
+	s=k20201202; t=1778696858;
+	bh=m7UgsZu2WOoo5TwerUJvbQ/ULWpIWi71T7A+TM8mRyk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=FqcpsPaRd1tHhNkmoyTMsICifFPh9fAgyiE6INnbyWIQVVQLlxOHmmlvtr1gAGmnq
+	 pqhXP4tkA069+CW0mSLxCTYUNzGEUpf0OxD9MGzbaecyM2LP7VtesMjcFfwTFZf2bY
+	 9iYDv8h5Vq3+1GCD0GmF/meeIgVO5YaICYZGDMV1L8tJCLmlHwoLXf76Bcp06qliXh
+	 XgKN+rRn7bMwJPO3+RKz9b3I+HNeWtoch6krJgEnDoMayIrBn7wqXFG7K4nHsHnkJN
+	 xSEiSRotUNBTIw4PHxT/8v3MNGJKkRN0Hi0jsq1C674oHDHMeBTa1ml3Rn+YSOVT2l
+	 Xv8bXr+FAkCvQ==
+Date: Wed, 13 May 2026 13:27:36 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sungwoo Kim <iam@sung-woo.kim>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chao Shi <cshi008@fiu.edu>, Weidong Zhu <weizhu@fiu.edu>,
+	Dave Tian <daveti@purdue.edu>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Fix race bug in nvme_poll_irqdisable()
+Message-ID: <20260513182736.GA324918@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260513_072234_082550_EFB06862 
-X-CRM114-Status: UNSURE (   8.11  )
-X-CRM114-Notice: Please train this message.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307194636.2755443-2-iam@sung-woo.kim>
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,40 +70,82 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-
-On Wed, 13 May 2026 01:45:45 +0530, Nilay Shroff wrote:
-> Monitoring NVMe devices and paths in production is currently limited to
-> static snapshots via nvme-cli. While this is sufficient for basic
-> inspection, it is not ideal for NVMe-oF (fabrics) deployments where path
-> conditions can change dynamically due to varying network latency,
-> congestion, or link failures.
+On Sat, Mar 07, 2026 at 02:46:36PM -0500, Sungwoo Kim wrote:
+> In the following scenario, pdev can be disabled between (1) and (3) by
+> (2). This sets pdev->msix_enabled = 0. Then, pci_irq_vector() will
+> return MSI-X IRQ(>15) for (1) whereas return INTx IRQ(<=15) for (2).
+> This causes IRQ warning because it tries to enable INTx IRQ that has
+> never been disabled before.
 > 
-> In multipath environments, administrators often need continuous
-> visibility into path state, ANA status, queue depth, link speed, and
-> error counters. Today, this typically requires repeatedly invoking
-> commands or relying on ad-hoc tooling, making it harder to quickly
-> identify issues.
+> To fix this, save IRQ number into a local variable and ensure
+> disable_irq() and enable_irq() operate on the same IRQ number.
+> Even if pci_free_irq_vectors() frees the IRQ concurrently, disable_irq()
+> and enable_irq() on a stale IRQ number is still valid and safe, and the
+> depth accounting reamins balanced.
 > 
-> [...]
+> task 1:
+> nvme_poll_irqdisable()
+>   disable_irq(pci_irq_vector(pdev, nvmeq->cq_vector)) ...(1)
+>   enable_irq(pci_irq_vector(pdev, nvmeq->cq_vector))  ...(3)
+> 
+> task 2:
+> nvme_reset_work()
+>   nvme_dev_disable()
+>     pdev->msix_enable = 0;  ...(2)
+> ...
 
-Applied, thanks!
+>  static void nvme_poll_irqdisable(struct nvme_queue *nvmeq)
+>  {
+>  	struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
+> +	int irq;
+>  
+>  	WARN_ON_ONCE(test_bit(NVMEQ_POLLED, &nvmeq->flags));
+>  
+> -	disable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
+> +	irq = pci_irq_vector(pdev, nvmeq->cq_vector);
+> +	disable_irq(irq);
+>  	spin_lock(&nvmeq->cq_poll_lock);
+>  	nvme_poll_cq(nvmeq, NULL);
+>  	spin_unlock(&nvmeq->cq_poll_lock);
+> -	enable_irq(pci_irq_vector(pdev, nvmeq->cq_vector));
+> +	enable_irq(irq);
 
-[1/7] nvme: add support for unsigned and long types in table_get_value_width()
-      commit: 229ad8d5d36b2cf96cba8a253ddf8f2339031c93
-[2/7] nvme: use table_get_value_width() in table_print_centered()
-      commit: ba1c04d69ebbeda85be5dba4f093e004ec154433
-[3/7] nvme: add support for float and double types in table_print_XXX()
-      commit: 768dee650681a1910be652b5b31eec13ce21a470
-[4/7] nvme: allow table output to be directed to a FILE stream
-      commit: 7b8033d3edb12a9a364e02aa493e7466980a774f
-[5/7] nvme: add sigaction for SIGWINCH
-      commit: 6fc756f2122b09d4f454fc80cb9413c7f4897040
-[6/7] nvme: add generic top-like dashboard framework
-      commit: f17625d0346571f46560e05433ad1e782d84245e
-[7/7] nvme: add nvme top command
-      commit: 75c7217f9dae5285ec17978a05d643f95fc5aec0
+An internal run of sashiko complained about this, and I think it's
+right.  As the commit log mentions, the cached IRQ number is stale if
+nvme_reset_work() frees all the vectors between (1) and (3).  It's
+likely the pci_alloc_irq_vectors() in nvme_pci_enable() will get the
+same IRQ number, but it would be a coincidence, and it doesn't feel
+like a good idea to rely on it.
 
-Best regards,
--- 
-Daniel Wagner <wagi@kernel.org>
+First sashiko review:
+
+  This commit caches the IRQ number in nvme_poll_irqdisable() to
+  ensure disable_irq() and enable_irq() operate on the same IRQ
+  number, preventing an unbalanced enable warning if the device is
+  concurrently disabled.
+
+  If pci_free_irq_vectors() frees the IRQ concurrently, is it possible
+  for the IRQ number to be reallocated to a completely different
+  device before enable_irq() is called? Could this cause an unbalanced
+  enable or incorrectly unmask the interrupt for the new device?
+
+Second sashiko review:
+
+  The commit caches the return value of pci_irq_vector() into a local
+  variable to ensure disable_irq() and enable_irq() operate on the
+  same IRQ number, preventing an unbalanced enable warning when
+  pdev->msix_enabled is cleared concurrently.
+
+  If pdev->msix_enabled is cleared concurrently and nvmeq->cq_vector >
+  0, pci_irq_vector() will return -EINVAL. Since disable_irq() takes
+  an unsigned int, does this result in passing a very large unsigned
+  number (like 0xffffffea) to the IRQ subsystem?
+
+  The commit message notes that operating on a stale IRQ number is
+  valid and safe. However, if pci_free_irq_vectors() frees the MSI-X
+  vector concurrently, couldn't this cached irq number be recycled and
+  reallocated to a completely different device before enable_irq(irq)
+  executes? If the new device had explicitly disabled its IRQ, does
+  this code inadvertently enable it, breaking the other device's
+  synchronization?
 
