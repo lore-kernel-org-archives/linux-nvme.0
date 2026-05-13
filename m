@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 339B6CD4F24
-	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2026 08:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D803CCD4851
+	for <linux-nvme@archiver.kernel.org>; Wed, 13 May 2026 08:26:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=wEjwrapJBwi9Jo1imi3ZcyN1XeChzDjnP4NKlS63InA=; b=EPVsTZO4Dt2FRSWQhsyEfQXqtn
-	IoviGkPkEChRkuKPhiKGP1wBstf9cBeO3BCp8bXqGVXpAkVp5Bf3IYMivE3HoFi+nIZjZiCgm54Gt
-	TGTJMC4s33U/vq9HYMmE3lfROb1H/bEkuQvd7oydcBf5VHEnlMHWefuPj+c6v5Fw/1YJgaw37lCBs
-	tsSZrJ2zv3W8owa9J7dw/4QrFlQCReNrxwsQ3llsW+moEUpIfaqGq6cpQEF7aLLSHI5nPv7YlMk2C
-	CfQOO91fqKcoI3D1CZyuuSZcohmmCeXy55XLNSf2N5orFyKz3+8x1IVxsDRznxkhWxUhwBchxueJ6
-	pjYUlCsA==;
+	bh=6JVgeflBpLb0UlR56W9U3lAnSwztjCuRIktp4MhYVj8=; b=Uhk+jjJdvpDZESCg7BcRO6Je8T
+	1kyml7jLDfvnXcrR4Lxt0bWklTCETDgK4QncaOCQ9WzNowLwJT3pM+zwaKCwoMLMz/PU7enMVPH+v
+	20JvFkS5t35eKNdThBPs/MC2YmsXnVfvHhQ2zdIMzoKdiNerxkdvc5U7cjVjblbzvzWwbQk8WoFAG
+	ri40vt4Tb8qmt0CImLs5xpYATVGXfN1XUVTubLG5iZQOvJaLceV3wZSIOUa02WVeJyY1+zJI5r7yN
+	JukW4WHEWq+JA5wQr3vPU0RzjFy0vVVWORiADZZ2Nq6DkFm8JxuPXl8DlTXfEABTEmo9db6rouoaZ
+	wD7XoGPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wN4tS-00000001jHm-1OYu;
-	Wed, 13 May 2026 08:24:38 +0000
+	id 1wN4uk-00000001jY3-2iee;
+	Wed, 13 May 2026 08:25:58 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wN4tQ-00000001jH3-0xts
+	id 1wN4ui-00000001jXQ-1q1l
 	for linux-nvme@lists.infradead.org;
-	Wed, 13 May 2026 08:24:37 +0000
+	Wed, 13 May 2026 08:25:57 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7BA0668C4E; Wed, 13 May 2026 10:24:31 +0200 (CEST)
-Date: Wed, 13 May 2026 10:24:31 +0200
+	id CD03168BEB; Wed, 13 May 2026 10:25:53 +0200 (CEST)
+Date: Wed, 13 May 2026 10:25:53 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
@@ -50,17 +50,17 @@ Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	William Power <william.power@intel.com>,
 	Phil Cayton <phil.cayton@intel.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
-Message-ID: <20260513082431.GA6461@lst.de>
-References: <cover.1777475843.git.asml.silence@gmail.com> <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
+Subject: Re: [PATCH v3 06/10] block: forward create_dmabuf_token to drivers
+Message-ID: <20260513082553.GB6461@lst.de>
+References: <cover.1777475843.git.asml.silence@gmail.com> <559756c5e22dcfa183080a979de039910d1b896d.1777475843.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
+In-Reply-To: <559756c5e22dcfa183080a979de039910d1b896d.1777475843.git.asml.silence@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260513_012436_412300_CB77695A 
-X-CRM114-Status: GOOD (  11.63  )
+X-CRM114-CacheID: sfid-20260513_012556_622393_45E2460D 
+X-CRM114-Status: GOOD (  13.32  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,19 +75,13 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Naming and placement:
+On Wed, Apr 29, 2026 at 04:25:52PM +0100, Pavel Begunkov wrote:
+> Add a trivial implementation of the create_dmabuf_token call for
+> block devices that forwards the call to a new blk-mq callback if it's
+> available.
 
-This is about dma-buf based I/O.  So I'd expect it to be named dma-buf-io
-and no io-dmabuf, and live in drivers/dma-buf and not the unrelated lib/.
-But I'd like to hear from the dma-buf maintainers about that.
-
-Config option:  as this unconditionally when DMA_SHARED_BUFFER is enabled,
-why does it need a separate config option?
-
-Interface:  io_dmabuf_token_create / ->create_dmabuf_token filling
-in a structure allocated by the caller feels odd.  My gut feeling
-would be to move most of io_dmabuf_token_create into a helper called
-by ->create_dmabuf_token so that the token is allocated in the
-driver data structure and returned from create_dmabuf_token.
+This should go into block_device_operations as there is nothing blk-mq
+specific about this.  I.e. even if this patchset doesn't handle stacking
+drivers yet, it should be easy enough to add them in the future.
 
 
