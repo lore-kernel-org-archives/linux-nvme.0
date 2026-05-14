@@ -4,89 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC287CD4851
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2026 16:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF36CCD4F39
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2026 20:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=OT/DCLf4cfG5L/wf2L3QEZ/tx4VnRKrxyqizpiTBQWI=; b=Ce8OaE6HueRbqk92VEZsb1Xb1R
-	OSGORw1btTXWg6KaXtIXk1/r8ODiYNmTNgeP7ftSE2kPCMYE1IPQjHRbeVawR3g3WYddpe1AwMldH
-	gJDKVW80mNQ/wqaeRXzWRg96FnbJr7AxFKX79EFMzo4jZuiBfm2dLz5YPnS+jv+s60RD1QEyWIdrv
-	sa8F+BRTcOZx30SyQiF6uaKIAVYV0XVaIdGwN/EBvGtIJb9lw1gfOFqXTb2c2v4gpXVCCTtETWSxJ
-	oBnLFR+/YtdSRCpzbJJdQXgSemC001222dlmDpDX+gujg+auaIjeRq6hHzpXHELTHgqnyvADo6tPp
-	fY6JUzsQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=rVc7FMULGjZ9JKS3cEb678kBJtx6xaolT3PJ8Qy/1Ww=; b=30w580KH0PoGgKthK3Jl9bX6Ub
+	pFfYOiRN49PPz68IhOkLAYOC7S2RZh19CVgyXArPIIpi9qnFWeXDuHZv5nplv4mnQNirOoZ6xu1YP
+	kHcKQRoXLYkqcp8Wm56T2dUswG5imgPH0V5dX0S3gMq/gbb7Ji7EAL46eLSHL6937u/qXOYUFvJXU
+	5z4zvj9fNNmIABU+KYVC4I3ItAD+pZ7qQR1ToFEqV9sbHIYPC1AuYkzs6AOX1i5LhvHY/vEO1SiUM
+	C54tgnVE/L7iapcSkrQqtAayQ+4kwfUX7jd81KJ0eH2Wzd+4zt1ZW/7e0Pu6npHIRStRkBn5bVBaN
+	zCE+MXAw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNZPN-000000068jq-1FXP;
-	Thu, 14 May 2026 16:59:37 +0000
-Received: from mail-dl1-x1236.google.com ([2607:f8b0:4864:20::1236])
+	id 1wNcWS-00000006Vc8-0xFT;
+	Thu, 14 May 2026 20:19:08 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNZPJ-000000068iu-2Wgy
+	id 1wNcWR-00000006Vc1-1YdL
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 May 2026 16:59:35 +0000
-Received: by mail-dl1-x1236.google.com with SMTP id a92af1059eb24-12c8f9846c8so12272560c88.0
-        for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 09:59:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1778777972; x=1779382772; darn=lists.infradead.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OT/DCLf4cfG5L/wf2L3QEZ/tx4VnRKrxyqizpiTBQWI=;
-        b=U7m1PFKn8czidRHn4ZKnXfcQ7gNi5KEwrlORqSaHyrLxaXrvknjfaYBcqycF7iiwnZ
-         1Tw8IMmdO93ojiDe7D6yqp/7QXSIwFgPHTwUBXbmNGLaZ6hfqHdcuschDgRl92Lf7DHa
-         Mc3iZhErS+ZQnCSuw1gzJlHPyNbpI/uTxO3RshYDk/WE31IcLNWNc/P+C09zEa+kKjCA
-         Rtozunfm7rYLLqU1Yal9QwoY6TtgqjGA/48L2bTP8LLjUaNgmoOoS8kA3UhoIXwD2pxT
-         bCj5uvyx/OC179/xthT31m5JHI3yOLa7NYsRwYT/BwFapL53awVyGXNnB0jPz+ggoSbB
-         tvig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778777972; x=1779382772;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OT/DCLf4cfG5L/wf2L3QEZ/tx4VnRKrxyqizpiTBQWI=;
-        b=IKejNF1TAQvloIOjQl5kGCQdLbYzKfLQ+T2wH4qcDH/arbLsEgNgstFmEe20fxrD7z
-         f5fkWH1XeX9Nvp++H+EItHQkryMvxhOcNBu7uHzEdw8s9YsKAN6mWSnVsG3nRhBxNitp
-         mxtp9WpUw4a8UCBYueTqWWMvOn2bR7iuixKI4OMTb56kvn8m7pKv/dRbf49/cgdIxksY
-         dTTzAnuHfbyU2+e7YTcNbGFTsD+ZAe3jm/F11MLErC7wmHYUkVoXroKpOCyst7xdzSfd
-         h8Z947ACylXJpxRk0s0VSLO+65hJSWgmh+RhSCRLReXqijMYrKYNpQEEnkA+scOyVdmf
-         eahw==
-X-Forwarded-Encrypted: i=1; AFNElJ9SRzzVH71clsbNGMnFG1zGLZAbyzyCi3gPGkhABMRBiBPYYd3yN8MNmBGHW4U8NncJKzwCTy5ThgOV@lists.infradead.org
-X-Gm-Message-State: AOJu0YxDmkJiviGZa+gR6JwI3Xq93XRtAu4GrJ06ya+W+WwpyrhtILCv
-	VKTyyL0XlIWtR1c4hKcK4YtNy/2uJMoxmxms+KFmGFPmLnjjgHtGePk1HKkFt7AuZbk=
-X-Gm-Gg: Acq92OHdLaMRtStwoIEMnkKWyOrdqqXbC6/GKFhLVHWaE+pSbLHsmb4A6Kpmzh803e7
-	TmIgdNdVI1DCd90rLyoGA2ITCml7jh1H1aRfDXy4MqT4HLTjsXQC/aiSH0XQFlfM0Xg4mCfz97u
-	wbznMnLPXn9hnwcyeU1BqqBcOSdwrX39PosUEzA35OAZkPmRFZIQ1hmWAO52S6/TvalXcIpADd9
-	jEszbQzGD0wWOg+6nEZ2rm3hQSDtCqH+6ez7aKGynwvxhEalBHdlCcaPbsX0tN2WYaCODZdFjzI
-	tNh1kCH3e0CcdtJVJkqontepaUGOxCeK2I4Zi/FhxOC/X4WLBtZ6jMyg3VIFOgpRE3i3GZezuMn
-	hwJCR449SKextoOA/UlbABDiXJ8ijGDdrMO/pypRxrjR92MvVUme8X1ssjNv+lMdJ88lgXWts7b
-	WFVLQojh4OGHP9dlRnp8tL9HQKgRtYjPFM5MlgzW7EOHJX3Pon0hesj6Y=
-X-Received: by 2002:a05:7022:128c:b0:128:d967:4673 with SMTP id a92af1059eb24-134302598f1mr5645772c88.16.1778777971878;
-        Thu, 14 May 2026 09:59:31 -0700 (PDT)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-134cc2352f2sm5260267c88.10.2026.05.14.09.59.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 09:59:31 -0700 (PDT)
-Date: Thu, 14 May 2026 09:59:29 -0700
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Maurizio Lombardi <mlombard@redhat.com>
-Cc: kbusch@kernel.org, mheyne@amazon.de, emilne@redhat.com,
-	jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
-	dwagner@suse.de, mlombard@arkamax.eu, chaitanyak@nvidia.com,
-	hare@kernel.org, hch@lst.de
-Subject: Re: [PATCH V5 3/7] nvme: add sysfs attribute to change admin timeout
- per nvme controller
-Message-ID: <20260514165929.GJ10532-mkhalfella@purestorage.com>
-References: <20260514083255.41109-1-mlombard@redhat.com>
- <20260514083255.41109-4-mlombard@redhat.com>
+	Thu, 14 May 2026 20:19:07 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 7DA6B60139;
+	Thu, 14 May 2026 20:19:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028A4C2BCB3;
+	Thu, 14 May 2026 20:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778789946;
+	bh=0VAMLg+Ndr1s1+0osVISknxO5Vs4t8TXUkPJNBXRX0k=;
+	h=Date:From:To:Cc:Subject:From;
+	b=AEwawOs7yBA3Kwj5C07iL8r6xw9GgptmPI64wxGXaWDASptJewPiBJzF1Ey7vzqRG
+	 rh9REL8q6DQhvyakRKvERpFu2AwIcsFwFUchAZbTymN/thYBhEr6MgpFvTjGdbU/cj
+	 2JcjOMF/b01a7cF2TSspUjxHgxEjzuMtk/sLghFfuItUtDf0xPpVs1e+mmqiQnh22h
+	 byQpBBe4Jtr3V5TDGhNMJy0z+7IPKSlRAJHVjcW2THHzRURhoEN+0SKdvyJkFCBavT
+	 FUUQ3359E26Sy/4g67sau36N/fLVV+aJ8K3Ck//3j5DdTR81Rw1gv3o2L1frQKGWJG
+	 QmtGDqkYhHRmg==
+Date: Thu, 14 May 2026 14:19:04 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: axboe@kernel.dk
+Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
+Subject: [GIT PULL] nvme fixes for Linux 7.1
+Message-ID: <agYuOOFSTynR-wPG@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260514083255.41109-4-mlombard@redhat.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260514_095933_679127_32E4532A 
-X-CRM114-Status: GOOD (  26.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,131 +65,59 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Thu 2026-05-14 10:32:51 +0200, Maurizio Lombardi wrote:
-> Currently, there is no method to adjust the timeout values on a
-> per-controller basis with nvme admin queues.
-> Add an admin_timeout attribute to nvme so that different nvme controllers
-> which may have different timeout requirements can have custom admin
-> timeouts set.
-> 
-> The admin timeout is also applied to the fabrics queue (fabrics_q).
-> The fabrics queue is utilized for fabric-specific administrative and
-> control operations, such as Connect and Property Get/Set commands.
-> 
-> Reviewed-by: Daniel Wagner <dwagner@suse.de>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
+The following changes since commit 86f33ca9bea30cf011f2b1edad4593faea9c6e98:
 
-Reviewed-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+  ublk: validate physical_bs_shift, io_min_shift and io_opt_shift (2026-05-06 04:42:06 -0600)
 
-> ---
->  drivers/nvme/host/core.c  |  1 +
->  drivers/nvme/host/nvme.h  |  1 +
->  drivers/nvme/host/pci.c   |  2 +-
->  drivers/nvme/host/sysfs.c | 41 +++++++++++++++++++++++++++++++++++++++
->  4 files changed, 44 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 84f295e3bf08..fe6dcd19cecb 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -5144,6 +5144,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->  	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
->  	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
->  	ctrl->ka_last_check_time = jiffies;
-> +	ctrl->admin_timeout = NVME_ADMIN_TIMEOUT;
->  
->  	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
->  			PAGE_SIZE);
+are available in the Git repository at:
 
-nvme_alloc_admin_tag_set() uses NVME_ADMIN_TIMEOUT. Do we want to
-replace that with ctrl->admin_timeout?
+  git://git.infradead.org/nvme.git tags/nvme-7.1-2026-05-14
 
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 6f9ecb4948f4..7923533cce00 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -370,6 +370,7 @@ struct nvme_ctrl {
->  	u16 mtfa;
->  	u32 ctrl_config;
->  	u32 queue_count;
-> +	u32 admin_timeout;
->  
->  	u64 cap;
->  	u32 max_hw_sectors;
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 8dc353451b21..80d2e517aac3 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3096,7 +3096,7 @@ static bool __nvme_delete_io_queues(struct nvme_dev *dev, u8 opcode)
->  	unsigned long timeout;
->  
->   retry:
-> -	timeout = NVME_ADMIN_TIMEOUT;
-> +	timeout = dev->ctrl.admin_timeout;
->  	while (nr_queues > 0) {
->  		if (nvme_delete_queue(&dev->queues[nr_queues], opcode))
->  			break;
-> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
-> index e59758616f27..3b39b64cd9da 100644
-> --- a/drivers/nvme/host/sysfs.c
-> +++ b/drivers/nvme/host/sysfs.c
-> @@ -623,6 +623,46 @@ static ssize_t quirks_show(struct device *dev, struct device_attribute *attr,
->  }
->  static DEVICE_ATTR_RO(quirks);
->  
-> +static ssize_t nvme_admin_timeout_show(struct device *dev,
-> +		struct device_attribute *attr, char *buf)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%u\n",
-> +				jiffies_to_msecs(ctrl->admin_timeout));
-> +}
-> +
-> +static ssize_t nvme_admin_timeout_store(struct device *dev,
-> +		struct device_attribute *attr,
-> +		const char *buf, size_t count)
-> +{
-> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-> +	u32 timeout;
-> +	int err;
-> +
-> +	/*
-> +	 * Wait until the controller reaches the LIVE state to be sure that
-> +	 * admin_q and fabrics_q are properly initialized.
-> +	 */
-> +	if (!test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags))
-> +		return -EBUSY;
-> +
-> +	err = kstrtou32(buf, 10, &timeout);
-> +	if (err || !timeout)
-> +		return -EINVAL;
-> +
-> +	ctrl->admin_timeout = msecs_to_jiffies(timeout);
-> +
-> +	blk_queue_rq_timeout(ctrl->admin_q, ctrl->admin_timeout);
-> +	if (ctrl->fabrics_q)
-> +		blk_queue_rq_timeout(ctrl->fabrics_q, ctrl->admin_timeout);
-> +
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR(admin_timeout, S_IRUGO | S_IWUSR,
-> +	nvme_admin_timeout_show, nvme_admin_timeout_store);
-> +
->  #ifdef CONFIG_NVME_HOST_AUTH
->  static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
->  		struct device_attribute *attr, char *buf)
-> @@ -765,6 +805,7 @@ static struct attribute *nvme_dev_attrs[] = {
->  	&dev_attr_cntrltype.attr,
->  	&dev_attr_dctype.attr,
->  	&dev_attr_quirks.attr,
-> +	&dev_attr_admin_timeout.attr,
->  #ifdef CONFIG_NVME_HOST_AUTH
->  	&dev_attr_dhchap_secret.attr,
->  	&dev_attr_dhchap_ctrl_secret.attr,
-> -- 
-> 2.54.0
-> 
+for you to fetch changes up to a6ab75639e23169a741b0b2e12191fd8acb32c73:
+
+  nvme-apple: Reset q->sq_tail during queue init (2026-05-14 07:40:35 -0700)
+
+----------------------------------------------------------------
+nvme fixes for Linux 7.1
+
+ - Fix memory leak on a passthrough integrity mapping failure (Keith)
+ - Hide secrets behind debug option (Hannes)
+ - Fix pci use-after-free for host memory buffer (Chia-Lin Kao)
+ - Fix tcp taregt use-after-free for data digest  (Sagi)
+ - Revert a mistaken quirk (Alan Cui)
+ - Fix uevent and controller state race condition (Maurizio)
+ - Fix apple submission queue re-initialization (Nick Chan)
+
+----------------------------------------------------------------
+AlanCui4080 (1):
+      Revert "nvme: add quirk NVME_QUIRK_IGNORE_DEV_SUBNQN for 144d:a808"
+
+Chia-Lin Kao (AceLan) (1):
+      nvme-pci: fix use-after-free in nvme_free_host_mem()
+
+Hannes Reinecke (1):
+      nvmet-auth: Do not print DH-HMAC-CHAP secrets
+
+Keith Busch (2):
+      nvme: make prp passthrough usage less scary
+      nvme: fix bio leak on mapping failure
+
+Maurizio Lombardi (1):
+      nvme: fix race condition between connected uevent and STARTED_ONCE flag
+
+Nick Chan (1):
+      nvme-apple: Reset q->sq_tail during queue init
+
+Sagi Grimberg (1):
+      nvmet-tcp: Fix potential UAF when ddgst mismatch
+
+ drivers/nvme/host/apple.c   |  1 +
+ drivers/nvme/host/core.c    |  6 +++++-
+ drivers/nvme/host/ioctl.c   | 18 ++++--------------
+ drivers/nvme/host/pci.c     |  8 ++++----
+ drivers/nvme/target/Kconfig |  9 +++++++++
+ drivers/nvme/target/auth.c  | 13 ++++++++-----
+ drivers/nvme/target/tcp.c   |  4 +++-
+ 7 files changed, 34 insertions(+), 25 deletions(-)
+
 
