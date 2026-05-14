@@ -4,82 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9219CCD4F25
-	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2026 14:46:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC287CD4851
+	for <linux-nvme@archiver.kernel.org>; Thu, 14 May 2026 16:59:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LeBs0NUZFt7DCr4wjWB/a7pqUelnuLpdnbnklaG9Krc=; b=cK7R2Wx3+fe5rfdU7zRqZb8yjP
-	cft+RuwnE2SxZzcazTkUc3Ph9O3FC3vwMbo53G/IxT1FgZN8JaNC+3jT/l3wm1a3RtizJHMs+4fIo
-	iPh0N5NY8+FuQMHlRTxwDmB7VCk2QrZVzvHbd/jag71Hgo+i0y0NnRFLtmMVqyLWjwUFb/DuOMmy6
-	nyYj73dc8MPmwYJunws6+sJ/X8n1KUcC/2QOk12bckrrTPUXgA49KEcwLOJylmxXIrbmGLuCRRU/i
-	o+aFT3Q3Uc/XXfN7n+gzKhYJ0pHsdY5YybY5/DKzvPjDNzEcDSVE5oc2aUubkSUPIv45bX+LTkWUT
-	jTbaM+6A==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=OT/DCLf4cfG5L/wf2L3QEZ/tx4VnRKrxyqizpiTBQWI=; b=Ce8OaE6HueRbqk92VEZsb1Xb1R
+	OSGORw1btTXWg6KaXtIXk1/r8ODiYNmTNgeP7ftSE2kPCMYE1IPQjHRbeVawR3g3WYddpe1AwMldH
+	gJDKVW80mNQ/wqaeRXzWRg96FnbJr7AxFKX79EFMzo4jZuiBfm2dLz5YPnS+jv+s60RD1QEyWIdrv
+	sa8F+BRTcOZx30SyQiF6uaKIAVYV0XVaIdGwN/EBvGtIJb9lw1gfOFqXTb2c2v4gpXVCCTtETWSxJ
+	oBnLFR+/YtdSRCpzbJJdQXgSemC001222dlmDpDX+gujg+auaIjeRq6hHzpXHELTHgqnyvADo6tPp
+	fY6JUzsQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNXKC-00000005mbS-49LY;
-	Thu, 14 May 2026 14:46:08 +0000
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
+	id 1wNZPN-000000068jq-1FXP;
+	Thu, 14 May 2026 16:59:37 +0000
+Received: from mail-dl1-x1236.google.com ([2607:f8b0:4864:20::1236])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNXKA-00000005man-0UXa
+	id 1wNZPJ-000000068iu-2Wgy
 	for linux-nvme@lists.infradead.org;
-	Thu, 14 May 2026 14:46:07 +0000
-Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64E7d46k2014114
-	for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 07:46:04 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2025-q2; bh=LeBs0NUZFt7DCr4wjW
-	B/a7pqUelnuLpdnbnklaG9Krc=; b=MHus5Tz5b8RO0/svBcjv/rPK5SbA/fC/9n
-	kJtm4zTatHrGA7C7lki7sBIJpitUGa9P8nX6SWviLjhVBydQ3UAdN/YngfHBtXKa
-	lHPPuuCFuLw1nk+tauIZC1MZZL79h10MYlIjC0RgyCwYmJqEDaH0T1ati7wreym6
-	msxIUmeSWe+10QYfpdXqRaVJMr0HGAyUlv0hSHovqUi1zacvaDrRzVLy7qd5+lci
-	CUS9icbnj77RjKRQyYTFg37iCVwSiLOsPkC8Bk6eiE8VaylHKuKZMexreoiRgZGQ
-	Zr2mZvvOK7Pnzehe+DWglhCegEShQwi/INEpH734rZuC5xu2M7aA==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4e3nvs7x1a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 07:46:03 -0700 (PDT)
-Received: from twshared124658.16.frc2.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.37; Thu, 14 May 2026 14:46:03 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id A1B64197139EA; Thu, 14 May 2026 07:45:47 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH] nvme-pci: serialize polling interrupt queue with shutdown
-Date: Thu, 14 May 2026 07:45:44 -0700
-Message-ID: <20260514144544.1752178-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
+	Thu, 14 May 2026 16:59:35 +0000
+Received: by mail-dl1-x1236.google.com with SMTP id a92af1059eb24-12c8f9846c8so12272560c88.0
+        for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 09:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1778777972; x=1779382772; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OT/DCLf4cfG5L/wf2L3QEZ/tx4VnRKrxyqizpiTBQWI=;
+        b=U7m1PFKn8czidRHn4ZKnXfcQ7gNi5KEwrlORqSaHyrLxaXrvknjfaYBcqycF7iiwnZ
+         1Tw8IMmdO93ojiDe7D6yqp/7QXSIwFgPHTwUBXbmNGLaZ6hfqHdcuschDgRl92Lf7DHa
+         Mc3iZhErS+ZQnCSuw1gzJlHPyNbpI/uTxO3RshYDk/WE31IcLNWNc/P+C09zEa+kKjCA
+         Rtozunfm7rYLLqU1Yal9QwoY6TtgqjGA/48L2bTP8LLjUaNgmoOoS8kA3UhoIXwD2pxT
+         bCj5uvyx/OC179/xthT31m5JHI3yOLa7NYsRwYT/BwFapL53awVyGXNnB0jPz+ggoSbB
+         tvig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778777972; x=1779382772;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OT/DCLf4cfG5L/wf2L3QEZ/tx4VnRKrxyqizpiTBQWI=;
+        b=IKejNF1TAQvloIOjQl5kGCQdLbYzKfLQ+T2wH4qcDH/arbLsEgNgstFmEe20fxrD7z
+         f5fkWH1XeX9Nvp++H+EItHQkryMvxhOcNBu7uHzEdw8s9YsKAN6mWSnVsG3nRhBxNitp
+         mxtp9WpUw4a8UCBYueTqWWMvOn2bR7iuixKI4OMTb56kvn8m7pKv/dRbf49/cgdIxksY
+         dTTzAnuHfbyU2+e7YTcNbGFTsD+ZAe3jm/F11MLErC7wmHYUkVoXroKpOCyst7xdzSfd
+         h8Z947ACylXJpxRk0s0VSLO+65hJSWgmh+RhSCRLReXqijMYrKYNpQEEnkA+scOyVdmf
+         eahw==
+X-Forwarded-Encrypted: i=1; AFNElJ9SRzzVH71clsbNGMnFG1zGLZAbyzyCi3gPGkhABMRBiBPYYd3yN8MNmBGHW4U8NncJKzwCTy5ThgOV@lists.infradead.org
+X-Gm-Message-State: AOJu0YxDmkJiviGZa+gR6JwI3Xq93XRtAu4GrJ06ya+W+WwpyrhtILCv
+	VKTyyL0XlIWtR1c4hKcK4YtNy/2uJMoxmxms+KFmGFPmLnjjgHtGePk1HKkFt7AuZbk=
+X-Gm-Gg: Acq92OHdLaMRtStwoIEMnkKWyOrdqqXbC6/GKFhLVHWaE+pSbLHsmb4A6Kpmzh803e7
+	TmIgdNdVI1DCd90rLyoGA2ITCml7jh1H1aRfDXy4MqT4HLTjsXQC/aiSH0XQFlfM0Xg4mCfz97u
+	wbznMnLPXn9hnwcyeU1BqqBcOSdwrX39PosUEzA35OAZkPmRFZIQ1hmWAO52S6/TvalXcIpADd9
+	jEszbQzGD0wWOg+6nEZ2rm3hQSDtCqH+6ez7aKGynwvxhEalBHdlCcaPbsX0tN2WYaCODZdFjzI
+	tNh1kCH3e0CcdtJVJkqontepaUGOxCeK2I4Zi/FhxOC/X4WLBtZ6jMyg3VIFOgpRE3i3GZezuMn
+	hwJCR449SKextoOA/UlbABDiXJ8ijGDdrMO/pypRxrjR92MvVUme8X1ssjNv+lMdJ88lgXWts7b
+	WFVLQojh4OGHP9dlRnp8tL9HQKgRtYjPFM5MlgzW7EOHJX3Pon0hesj6Y=
+X-Received: by 2002:a05:7022:128c:b0:128:d967:4673 with SMTP id a92af1059eb24-134302598f1mr5645772c88.16.1778777971878;
+        Thu, 14 May 2026 09:59:31 -0700 (PDT)
+Received: from medusa.lab.kspace.sh ([208.88.152.253])
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-134cc2352f2sm5260267c88.10.2026.05.14.09.59.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 09:59:31 -0700 (PDT)
+Date: Thu, 14 May 2026 09:59:29 -0700
+From: Mohamed Khalfella <mkhalfella@purestorage.com>
+To: Maurizio Lombardi <mlombard@redhat.com>
+Cc: kbusch@kernel.org, mheyne@amazon.de, emilne@redhat.com,
+	jmeneghi@redhat.com, linux-nvme@lists.infradead.org,
+	dwagner@suse.de, mlombard@arkamax.eu, chaitanyak@nvidia.com,
+	hare@kernel.org, hch@lst.de
+Subject: Re: [PATCH V5 3/7] nvme: add sysfs attribute to change admin timeout
+ per nvme controller
+Message-ID: <20260514165929.GJ10532-mkhalfella@purestorage.com>
+References: <20260514083255.41109-1-mlombard@redhat.com>
+ <20260514083255.41109-4-mlombard@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=BMKDalQG c=1 sm=1 tr=0 ts=6a05e02b cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=xtH7KyWI9dI7BmFOsl-x:22 a=VwQbUJbxAAAA:8 a=qgo5mpPwsKqrPU-Jxr4A:9
-X-Proofpoint-GUID: bV1fbw6EOlcc1Z14FiKFK5uQd-HS9pA6
-X-Proofpoint-ORIG-GUID: bV1fbw6EOlcc1Z14FiKFK5uQd-HS9pA6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDE0OSBTYWx0ZWRfX0EGQw3ShQTTv
- gs2/07oaC8Aw8FyebRzNvpc1B1MIZzySqr8oni/XA1ZWI8zO4vE3yFaUW35wZPKlIZEglyExJ0D
- EBoB+YVfQGBpr/OKZNyAq8GbjpSGXRFIrMJMIWtH/PjM1UZjCIdg67mH7/+8TfawtvEpo4TVXAp
- x6vJxp8Bwm+y9z9/DUjQmzRoBzr1lRUJ5twnLCVQz58iM1fe93b2cbeE+ws1kALPCzRCiwHii2d
- 3aFVOO3jZ/eaOHsAQ0ZT5mfUV+8lOJCCH1XibC8R5opB55Cxf1up+Vo1QjJWW/5gT46Izx767fj
- oxAe5bsECzBS8Adk+GBVas6ijsBLC3mEyVE9KCIhlL/9e7YkwyIZ9tlUzSo5WBU74QSDk8T6eab
- YNJ7dbc6nuFSP8hNj4oH+nxHvyCRMEux8TZEzsFaELlYfoCrAHhjiRAd6x35Uwdbp+Pz8nGawit
- +CI68xslpT/qkGeBHsw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-14_03,2026-05-13_01,2025-10-01_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260514083255.41109-4-mlombard@redhat.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260514_074606_275484_54E61207 
-X-CRM114-Status: GOOD (  12.24  )
+X-CRM114-CacheID: sfid-20260514_095933_679127_32E4532A 
+X-CRM114-Status: GOOD (  26.85  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -94,45 +101,131 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+On Thu 2026-05-14 10:32:51 +0200, Maurizio Lombardi wrote:
+> Currently, there is no method to adjust the timeout values on a
+> per-controller basis with nvme admin queues.
+> Add an admin_timeout attribute to nvme so that different nvme controllers
+> which may have different timeout requirements can have custom admin
+> timeouts set.
+> 
+> The admin timeout is also applied to the fabrics queue (fabrics_q).
+> The fabrics queue is utilized for fabric-specific administrative and
+> control operations, such as Connect and Property Get/Set commands.
+> 
+> Reviewed-by: Daniel Wagner <dwagner@suse.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 
-Polling an interrupt driven completion queue temporarilly disables the
-irq. If this occurs concurrently with another thread disabling the
-device, the irq vector may have been freed, which makes it available for
-reuse. Reenabling the irq after polling the queue may be referencing a
-stale irq at that point.
+Reviewed-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 
-Fix this race by ensuring nvme_poll_irqdisable() can not run
-concurrently with nvme_dev_disable(), and skip polling the completion
-queue if the queue has already been disabled.
+> ---
+>  drivers/nvme/host/core.c  |  1 +
+>  drivers/nvme/host/nvme.h  |  1 +
+>  drivers/nvme/host/pci.c   |  2 +-
+>  drivers/nvme/host/sysfs.c | 41 +++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 44 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 84f295e3bf08..fe6dcd19cecb 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -5144,6 +5144,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>  	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+>  	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+>  	ctrl->ka_last_check_time = jiffies;
+> +	ctrl->admin_timeout = NVME_ADMIN_TIMEOUT;
+>  
+>  	BUILD_BUG_ON(NVME_DSM_MAX_RANGES * sizeof(struct nvme_dsm_range) >
+>  			PAGE_SIZE);
 
-Reported-by: Bjorn Helgaas <helgaas@kernel.org>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/pci.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+nvme_alloc_admin_tag_set() uses NVME_ADMIN_TIMEOUT. Do we want to
+replace that with ctrl->admin_timeout?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 139a10cd687f9..34845d73cb3ab 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1885,8 +1885,12 @@ static enum blk_eh_timer_return nvme_timeout(struc=
-t request *req)
- 	 */
- 	if (test_bit(NVMEQ_POLLED, &nvmeq->flags))
- 		nvme_poll(req->mq_hctx, NULL);
--	else
--		nvme_poll_irqdisable(nvmeq);
-+	else {
-+		mutex_lock(&dev->shutdown_lock);
-+		if (test_bit(NVMEQ_ENABLED, &nvmeq->flags))
-+			nvme_poll_irqdisable(nvmeq);
-+		mutex_unlock(&dev->shutdown_lock);
-+	}
-=20
- 	if (blk_mq_rq_state(req) !=3D MQ_RQ_IN_FLIGHT) {
- 		dev_warn(dev->ctrl.device,
---=20
-2.53.0-Meta
-
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 6f9ecb4948f4..7923533cce00 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -370,6 +370,7 @@ struct nvme_ctrl {
+>  	u16 mtfa;
+>  	u32 ctrl_config;
+>  	u32 queue_count;
+> +	u32 admin_timeout;
+>  
+>  	u64 cap;
+>  	u32 max_hw_sectors;
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 8dc353451b21..80d2e517aac3 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3096,7 +3096,7 @@ static bool __nvme_delete_io_queues(struct nvme_dev *dev, u8 opcode)
+>  	unsigned long timeout;
+>  
+>   retry:
+> -	timeout = NVME_ADMIN_TIMEOUT;
+> +	timeout = dev->ctrl.admin_timeout;
+>  	while (nr_queues > 0) {
+>  		if (nvme_delete_queue(&dev->queues[nr_queues], opcode))
+>  			break;
+> diff --git a/drivers/nvme/host/sysfs.c b/drivers/nvme/host/sysfs.c
+> index e59758616f27..3b39b64cd9da 100644
+> --- a/drivers/nvme/host/sysfs.c
+> +++ b/drivers/nvme/host/sysfs.c
+> @@ -623,6 +623,46 @@ static ssize_t quirks_show(struct device *dev, struct device_attribute *attr,
+>  }
+>  static DEVICE_ATTR_RO(quirks);
+>  
+> +static ssize_t nvme_admin_timeout_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+> +
+> +	return sysfs_emit(buf, "%u\n",
+> +				jiffies_to_msecs(ctrl->admin_timeout));
+> +}
+> +
+> +static ssize_t nvme_admin_timeout_store(struct device *dev,
+> +		struct device_attribute *attr,
+> +		const char *buf, size_t count)
+> +{
+> +	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+> +	u32 timeout;
+> +	int err;
+> +
+> +	/*
+> +	 * Wait until the controller reaches the LIVE state to be sure that
+> +	 * admin_q and fabrics_q are properly initialized.
+> +	 */
+> +	if (!test_bit(NVME_CTRL_STARTED_ONCE, &ctrl->flags))
+> +		return -EBUSY;
+> +
+> +	err = kstrtou32(buf, 10, &timeout);
+> +	if (err || !timeout)
+> +		return -EINVAL;
+> +
+> +	ctrl->admin_timeout = msecs_to_jiffies(timeout);
+> +
+> +	blk_queue_rq_timeout(ctrl->admin_q, ctrl->admin_timeout);
+> +	if (ctrl->fabrics_q)
+> +		blk_queue_rq_timeout(ctrl->fabrics_q, ctrl->admin_timeout);
+> +
+> +	return count;
+> +}
+> +
+> +static DEVICE_ATTR(admin_timeout, S_IRUGO | S_IWUSR,
+> +	nvme_admin_timeout_show, nvme_admin_timeout_store);
+> +
+>  #ifdef CONFIG_NVME_HOST_AUTH
+>  static ssize_t nvme_ctrl_dhchap_secret_show(struct device *dev,
+>  		struct device_attribute *attr, char *buf)
+> @@ -765,6 +805,7 @@ static struct attribute *nvme_dev_attrs[] = {
+>  	&dev_attr_cntrltype.attr,
+>  	&dev_attr_dctype.attr,
+>  	&dev_attr_quirks.attr,
+> +	&dev_attr_admin_timeout.attr,
+>  #ifdef CONFIG_NVME_HOST_AUTH
+>  	&dev_attr_dhchap_secret.attr,
+>  	&dev_attr_dhchap_ctrl_secret.attr,
+> -- 
+> 2.54.0
+> 
 
