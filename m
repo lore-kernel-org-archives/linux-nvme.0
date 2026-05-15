@@ -4,89 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A16EDCD4F25
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2026 01:15:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6463CD4F3C
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2026 02:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=9xhVH3ht46gpTJlM/Z5kdx1ELiM9H7nJuHx53pISITc=; b=qJogLSTUsmkiZN47yE9bmjWKM2
-	MjV2jPkL3nYuT7Mr7FCCc3cuuuTnPPq0r3SA7Pj0JobLdmd9nv5VKBzzi7oyNTp2p6yaq+2fNrIMm
-	/8HKxod+Z0UShx/WAs1HZk0opCM6uyAvu/2y8E1On8V2srMQbIiP9ZZf9YQpj1T187w8nbGHkbXin
-	HAeJZy58zt4GeinHtcamnAeIxfxVcwgtS3jHGig3ypfHr1Ag4UR5k5TbhuXclPHMXnPX4J1E/sog6
-	b+GJ8affaMl7PuIkgj6c3ee5VhIInXJF3MA+pK+rFMhAkM9mjZIKzTFK+DBlCNR7uK4100TXG+ofk
-	KOEtDOxA==;
+	bh=jBq+3MELdGprhjI8CVUP/GgT+nuKS2rksIc27/M8UEM=; b=pIp+5aXdg/abpI2X/z4gc7haWu
+	Z6pSVy2xs1YwCgB3xAbQz8bgDvLmbL0hdIzEosq59ivhJV56AskHzVvbXtYTjXIGdaexHKEzedD8y
+	8CUNQQpd3qJ0CZkKe4ewWvk3UYLbGj/JO7DSyKVLRXbL6ejraEl3Wty1phiTaimpKIL8nP7Ki1+T5
+	we1ig520wBEbQoIeuEloeiTIkqGMZ1XjFQq4rVLaEJAK7KAqKu/7iLrTWMU/ZzMXT/VKOd72ZjkVR
+	GljnO1GjahG1UCnfLPwP8X8gAXsST6USh682nt9K0mg5u2xp1/p0pozZBqov3QZkkC1gVELUD9NaR
+	Rj/iUSUw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNh9c-00000006zDG-0vxC;
-	Fri, 15 May 2026 01:15:52 +0000
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
+	id 1wNhu0-000000074ko-3fOY;
+	Fri, 15 May 2026 02:03:48 +0000
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNh9Y-00000006zCb-3SvO
+	id 1wNhty-000000074kT-0PLJ
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 May 2026 01:15:50 +0000
-Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-7dca4debedaso8196120a34.2
-        for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 18:15:44 -0700 (PDT)
+	Fri, 15 May 2026 02:03:47 +0000
+Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-9568bae58f7so5438686241.3
+        for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 19:03:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778810624; cv=none;
+        d=google.com; s=arc-20240605;
+        b=g7YPaCTpZoPWGTcgv7iWZdx9IiYfICdB1cXLnvRKupKeREgrp+QT5pk/6vOC4pupLQ
+         O1VSb5+RSiCALidXmShiEdu+jFg8rw6la3y1KVfkhnvczB7gKTqitZerfTLMCgCuqlmY
+         NHGGmRpKA9I97np39FcQjXw441U313asiOoASY4Z7fTnKHi7CRzu3YfcYU9km8k6Ja1P
+         DiJJj1ho7k8u5Ku4LrBRlGAUuok23x41M4Vd/hWF/xsk4C0Djj4ZLFaw8Ix6+biLeEIw
+         iZcPHBbojxaikcWcWllYqMDeSrgvSwupCkj2hPPioSAp8GXyM15oVk7TJuyR/hP7qR0q
+         ct5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jBq+3MELdGprhjI8CVUP/GgT+nuKS2rksIc27/M8UEM=;
+        fh=Rzk00BQfdcXifSrFekHLZPi+P81ftOOO1TfNCDU/FEc=;
+        b=BNXbHE6Ez96cTYD4KxsfPgqVM/LovUIOPewizBKNFerpajf9duQX9AFbvB3I2wIKpH
+         diPqbgEH6rt4GMmonKOMA9GkWPoxp4ASBEoHaaYe6kT1KKRWYnTv+px0tFQacxxXFH3U
+         W4vkiaAQAotuInY7SKM/pKj+4eHXGLakhjMe6EBDB6GoM9EZM8mKW19wTJJb3ywNiVgN
+         g2kAvhfhHXfXt3HllnATu7gJ0lge1B1TA3vpZAFRMWsFxZhEaK1xNUX2dJVg5iEuRuS+
+         /gnKtudDTD3BZcRLlgs8h6u5m45Mjj4GWrvJW71K7R4pMgWJKxWo3K+nT9OzCnz5Ojyv
+         ux8g==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778807743; x=1779412543; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9xhVH3ht46gpTJlM/Z5kdx1ELiM9H7nJuHx53pISITc=;
-        b=dP3Zbz+J9RhbqRoh83Udl7Efi7WkPT8RImBlCDLGWSzRLNsxT8dY6GHaqy6qohsGCh
-         gajmYgSYT3NVj717XIvuUDeW+knK+o76aVo4tMENKJUL4gzrSUFgK3UdZpC1cdzzU4Lt
-         z4CCHBsGK+tK3nSg+Bva7GX0YG8ddGCTRrCVqqEhYDBKcfKeGGCvvO3h7DFUD4/fYVJ6
-         3ezKa1f+xzkax4xE/0pJQFbFWsMt0O4EGrLQavz5BSVwVNUG5Wdou2K+q8jyXFHgaJhI
-         /gFF8gJx68kWq5KV9Goeo2ZHQqVJEOQn5tkhZMUIeYgejLfdxU1S3EsEKOwdY/yKXU4l
-         uDJQ==
+        d=purestorage.com; s=google2022; t=1778810624; x=1779415424; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jBq+3MELdGprhjI8CVUP/GgT+nuKS2rksIc27/M8UEM=;
+        b=Inew/6vJjs0uKgx1bfJz4vGPK5W4hG0AGCkRYe7f9J0g9UpTLLTvOOR+zlEcGmnlq5
+         12mPgAxYUZg/Tq0BSTkKuo1oQYJVgHSIknGlJIUt6t4SjTwowNKSNRCsMEbf8hld7N5W
+         jZTt9jbM9T8BSAag3XHr5k16nlkOrv0w3NT8nZWETtTpClUWBHQhXFXcB+UaWOPmOFI2
+         z0dB+2eQZzeuJ3Lw8cUZYI+80k5twn+tYiL56CJU5QN3koQimR9+k32GYUxzQLG6UeK9
+         5w3yWKIHeNBNmf6Xpn03gWYznjYtPkC3jp7tvljAuWnDAkCdAehE/TY48y1OYf2VX8n6
+         OUyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778807743; x=1779412543;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9xhVH3ht46gpTJlM/Z5kdx1ELiM9H7nJuHx53pISITc=;
-        b=Bfw8uZYxHr63mz/q+gUPxkq2QZyDrhxdip3CEY5GBM4RLiISOd1QY1OLyB+6QMGBbh
-         +vmxXjYYwFD5jvh9ERUvv4G1KUDC2kWwuEmafJLZh6mHU/W1S8ZuO3r7NPMMUUNq6bEv
-         R5r+xjijMqG5UxxDKwjofeoXRRVa/aNaU2FIZapDa9BRC+99hCWGOQOZC1TKbEPUPsJq
-         kZH/97aIn2Z8oBSakMaKy+c+wuBI8qExKPawu1V3P5lZA+luvrPk5l3MPWTsR+KXhGoQ
-         R375gTOdWYTdce1RUuQ1fBQZelS/cWRou3Ji38X7WZXTxM7tPDfA60dlfkaSuwbvo9m5
-         N2BA==
-X-Forwarded-Encrypted: i=1; AFNElJ/vwm4wD+weu+z6ccIILCJET5MS5Rx+/GdoXkC9BQdy6z1pC06lHDj2+h/DMNWvMVCk6OV7auckuypu@lists.infradead.org
-X-Gm-Message-State: AOJu0YzI4PoeKo3xRMGot/oQsYzrlk06hgj3Gnq8FHAB9+bH2dRJ/U4u
-	RdMnltu4fxJJAvpI8arPD4yqMvssm49nynyjyWNPU8lv/hmcVUFiDowG4dS/+TJZ66A=
-X-Gm-Gg: Acq92OHeiOkSPjWTRHw9VdGNwoeZXOSnX1HmybrCMZAhkIQMg4soS+vaQ5Ohmw48l1p
-	QnHezb+eg+E9dD8oTWvP0WCKR2hvMT1vfWZi0HeruO8bfcF7Tr9GURML2C762NpJT421FsvboYl
-	HwEKGafAdc2bGxs6x3C2cVfER2MQMYW0QP2Okno/C3ASJICVODQpmDIj+qWZSBR51UbBSOaaOHB
-	mFbVspG8cmE9oIhI1w+N4+JlAaKQCcMiFFWu+T2EUX50nSuUUT3cvuvK85AZgSpNYCV+6ejkYo1
-	nHBEfvbQAU26OjhzPtdxEHZzy0hbwbLmUMeHiVokxI5OyGuMPXh0ONN80hUQLQpOByDnuKgRAzi
-	qk5u7n4RKyjrSp0FNXNTGmxdFxxpvVC5pT9J8GyL3Aj6rIKSAGqCQCCjnRLstZGmgpgnu2NHn+t
-	PBkZiAr6r6AZA8vGBcMVbFpW5ymuTdSYeepMhjowz7TjOPx5EVMkcD5GZdPfqOlPQ3R4NQ8Vx8L
-	P33Le4UVNrWMkapU9Du
-X-Received: by 2002:a05:6830:34a2:b0:7dc:e53a:638 with SMTP id 46e09a7af769-7e4f2a36b52mr1204473a34.8.1778807743182;
-        Thu, 14 May 2026 18:15:43 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e55bc14929sm128978a34.22.2026.05.14.18.15.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2026 18:15:42 -0700 (PDT)
-Message-ID: <a8d7d754-aa70-4ef1-9eb0-b62dc4cec07d@kernel.dk>
-Date: Thu, 14 May 2026 19:15:41 -0600
+        d=1e100.net; s=20251104; t=1778810624; x=1779415424;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jBq+3MELdGprhjI8CVUP/GgT+nuKS2rksIc27/M8UEM=;
+        b=VXMlZZh/F5kjy4LDGHUoKloVMXHw1RZG6rq5xkrih6PKPLUeEmANFUzX8PLrxLHFs1
+         /c1hREB8wpMhWVmATDuwEHQEgh9oOJikq8Q03+APCG4bZQqER7gcD0Pmyn5iHV+fA6Gz
+         1CUMBd15sqJvril2DAhdnGN+j6HL9O/2l1mwG9XsEltHHPQx3hDxqBf6ut3+k71OFnzw
+         tCBk0tYl6AkgpuWp8JlRj+NTcXt61kYi2KCchimcUa/P8qzhkFnt+T/VAHdPNcHs0cTP
+         EY2nRNrX3rxL1HW6/wvJG7zE85UPv4Rx8b6dDrOzpSYgy+exN4fyAn/1O2CzHTfsTknN
+         tGIA==
+X-Forwarded-Encrypted: i=1; AFNElJ/wnNJ8nLOohe2licVUlp7IFJMY213AsbgXJznzFKWe8kqzBZY2fkXCVTXX1du64gXbbKLquCQlVQoI@lists.infradead.org
+X-Gm-Message-State: AOJu0YwqBuXQs/biLp5iKe4YspnRTEhJF2v42dV7dmGxHw5KABOpeRmp
+	8hq9dUe4W5TOVPgmoD07jumQF8to4/rrPpavxKzAbO+mnKrL+A96HOjUCg0tWyE2TYYSuGZ319w
+	gBSzX+F39CcVCdK5bAO5+qXKfUS+EDCBcHNo0SKrjpQ==
+X-Gm-Gg: Acq92OEPCJvwn0lzwkZHXekjWUSn4HjAzrFQ+bpCt1HyxyvxLV3agLrPZP9h/LdfTYy
+	0sheJ/NPV/teg8D7QxW4GRDM926aAbeYWfrUS6v9a4YuNdOJRmH/kgOG+3ZEHsaZLDZegn9ID8N
+	Fe7jtCT7O40ZwDmxYDlm0Qcbkhvl4yhfbJh+JAPjQzF8M1jluGk6CzE6nmfBO6HUCtMXcOsjBQt
+	9a6uw7mlt10QLOiJ1mbaPDs/r+7nXaIZbLLfuCPwquBN++tEbAB+FprsHanJe2YVgzQ7SffsLP2
+	C/1/U95VFqDzJ5YNRb7edhWN7tjxCT5SA2FJoj+k3JJGXfxlwzVmgQIVWP+YyYHJVmmmi3+AamA
+	Vg4Fd
+X-Received: by 2002:a05:6102:3f42:b0:631:4e25:5e4d with SMTP id
+ ada2fe7eead31-63a3d42a50amr1102601137.7.1778810624578; Thu, 14 May 2026
+ 19:03:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] nvme fixes for Linux 7.1
-To: Keith Busch <kbusch@kernel.org>
-Cc: hch@lst.de, sagi@grimberg.me, linux-nvme@lists.infradead.org
-References: <agYuOOFSTynR-wPG@kbusch-mbp>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <agYuOOFSTynR-wPG@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260328004518.1729186-1-mkhalfella@purestorage.com> <20260328004518.1729186-7-mkhalfella@purestorage.com>
+In-Reply-To: <20260328004518.1729186-7-mkhalfella@purestorage.com>
+From: Randy Jennings <randyj@purestorage.com>
+Date: Thu, 14 May 2026 19:03:33 -0700
+X-Gm-Features: AVHnY4LOnPpQsVbeA7i_UaPfMdPsbeqJEuQMcWZQytIkz8kxArwswLAiNsr326o
+Message-ID: <CAPpK+O2GEqqH_8+Gopvzbi=9eNz096yacj1sueOX3wYYye30Ug@mail.gmail.com>
+Subject: Re: [PATCH v4 06/15] nvme: Rapid Path Failure Recovery read
+ controller identify fields
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
+	Sagi Grimberg <sagi@grimberg.me>, James Smart <jsmart833426@gmail.com>, 
+	Hannes Reinecke <hare@suse.de>, Aaron Dailey <adailey@purestorage.com>, 
+	Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260514_181549_121951_006A4244 
-X-CRM114-Status: UNSURE (   7.49  )
+X-CRM114-CacheID: sfid-20260514_190346_190133_9F3B8C67 
+X-CRM114-Status: UNSURE (   9.00  )
 X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
@@ -102,20 +124,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/14/26 2:19 PM, Keith Busch wrote:
-> ----------------------------------------------------------------
-> nvme fixes for Linux 7.1
-> 
->  - Fix memory leak on a passthrough integrity mapping failure (Keith)
->  - Hide secrets behind debug option (Hannes)
->  - Fix pci use-after-free for host memory buffer (Chia-Lin Kao)
->  - Fix tcp taregt use-after-free for data digest  (Sagi)
->  - Revert a mistaken quirk (Alan Cui)
->  - Fix uevent and controller state race condition (Maurizio)
->  - Fix apple submission queue re-initialization (Nick Chan)
+On Fri, Mar 27, 2026 at 5:45=E2=80=AFPM Mohamed Khalfella
+<mkhalfella@purestorage.com> wrote:
+>
+> TP8028 Rapid path failure added new fileds to controller identify
+> response. Read CIU (Controller Instance Uniquifier), CIRN (Controller
+> Instance Random Number), and CCRL (Cross-Controller Reset Limit) from
+> controller identify response. Expose CIU and CIRN as sysfs attributes
+> so the values can be used directrly by user if needed.
+>
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 
-Pulled, thanks.
-
--- 
-Jens Axboe
+Reviewed-by: Randy Jennings <randyj@purestorage.com>
 
