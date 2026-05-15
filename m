@@ -4,93 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14FC9CD4F3C
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2026 18:59:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4507BCD4851
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2026 22:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=QSi0U5scWG8acBST7RqnHrwKWntKtZB1nMVqsvrLh3w=; b=sscsB3ySRKLgFkJ1oRRVgp88Yu
-	LTVj++hnUDZlG1x3eRub+v9YOm7CGFt+bFnI7SB7x7IsmzUc9H3iAwfQzmmMTyzXfMaqpU9h9Gbcw
-	GH8VWNtsXhg1FDYYvWffvid9juZikveFN3exzW+e3kiH425YrVMRil+IIJmIAWSLC1YHIcwbD6+ya
-	PQ1sH8qiD6eMfKvXmlWZvesfbKZx56+GM3l5+/zTmrnO/QgkKGCGH9kPqaJv3t0T0ul5dnZ6Z27E8
-	uXkqNMOrk2qYznYXA35QtYpTUMjv5be2rYwt+g7JNkaV1szKyMM3yPA82GbtQLvX+L+9E1/rNcdUu
-	FCMmkozQ==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=dGhjWM9hEVF6dEbdTrkTawl38zZXk8O+DH4Yxf5EtyI=; b=UWp9qjEmMK9cUmtY86bXe1G4jz
+	dQYi6/f+zjisUGkg30m2VnIBMnj/2YS6bjO4bNJD0CrezExHUbg0/igTl/IpkLvZFHdWNz5rz/fJB
+	LfYvnTXG3dGsjKRCvD37VfHgUmeQELMXoUZYAIHIWVZrMVIE59aC3ETa5Wqh5IzArBcO/7YKILstI
+	daueJ8imyPkDwmdKkTQF1PSi9QbpQT64a7aJPogAGcefTh8QXP3rw+lpsLKh4h3UZs4inEvs6ywiy
+	VG/6r9avZNbJo9Boxf/JM69e6dzutUi7YDyB6aGU3IYx0raN1jc5zjyrpS8jetvitpJclBDVpx3n+
+	AVI9Ewqw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNxkU-00000009ART-32DB;
-	Fri, 15 May 2026 18:59:02 +0000
-Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a])
+	id 1wO1NX-00000009fUZ-4A8S;
+	Fri, 15 May 2026 22:51:36 +0000
+Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNxkS-00000009AQu-04q7
+	id 1wO1NU-00000009fTn-2ewG
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 May 2026 18:59:01 +0000
-Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-6312d29596cso103807137.1
-        for <linux-nvme@lists.infradead.org>; Fri, 15 May 2026 11:58:59 -0700 (PDT)
+	Fri, 15 May 2026 22:51:34 +0000
+Received: by mail-vk1-xa2a.google.com with SMTP id 71dfb90a1353d-5637886c92aso148155e0c.0
+        for <linux-nvme@lists.infradead.org>; Fri, 15 May 2026 15:51:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778885491; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZvivCOHH2P7+BaDC3xDMzyKuJeGnXRbRoqWIkIxmnBceiDltoWU2Ugw8sTsae5Xv5j
+         c07mMuK1KV9fr+1Yu6jLVhsGPsaE+ukYWXU7+QOFZqMVWLFzhnhfr9lWpstDnJmyomn/
+         vMyhuL48lRMcAzogLwR04LhA22ahNz1DPTuvarnue7g3ceTOWHRIvH0BBlllp0GF5tlu
+         0h/FdMENEyyVNZDJpSA7IXK/38W0Mfq49EBBXbu97gGSCQEVAMbo57weZfrucrD1YEmg
+         OcTlLMzHJNcz47Xhuxg5KwF8swYBHJDEsJ2FOn9EFg/q1Ut1BKSenK66HDsnahv20GiX
+         pMew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dGhjWM9hEVF6dEbdTrkTawl38zZXk8O+DH4Yxf5EtyI=;
+        fh=8HnbQ+iZqW1smZfRi+7gzo17NouZ3jjy7IDCqxZ4rvU=;
+        b=f0nUEhcb46eoEDAGrlhohsaeIYk/WNDhg9ZiluBH7cD1VBGkMkfBc0+/dBRdNMbSwz
+         2P+lRqVPuPKQQCUPOi+/SVzbFNjfNaSIMOpIIozcivlzYXh0Kbld/eHkGuWbA4+C5AC9
+         QP5l5Tn9CsUs1wjjNf3E+bJqDhm+dzQnw/mcpn72k+fxT3xA6crpqGPmAce828ggjbkl
+         JhYyV6RY7c9NiObBerEZH9jzCETid41xEMvDkt/iqj5GftWVrsuQqgjGTVAPAq70LEsP
+         bdIvmkFo5HFE7BPQO8qFJMwrykRh4f1Xf6MD8HZqhZ5kyiiz9WvgB+JTc6iQNeNYhoha
+         afVA==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778871539; x=1779476339; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QSi0U5scWG8acBST7RqnHrwKWntKtZB1nMVqsvrLh3w=;
-        b=WIGbFHqGvezR6hZ/eBiobKUQo3W8slcwsfHyo8AR3aiu4xzkjZ++fe1JUOKJePlaZR
-         h1N7iGdp4HOLQRfnwWcSz12KsmSFSjzo/Vl2XSkc2Un8/uoaLvxqTw7cS0Vipq1XhHP0
-         dCyXZZh9i7EcZAZc6wBhE/0b6y3AASjrx/acp8ZIkA9yMjLQhgHTFVduyxxiTDjfLUAs
-         dLolg1c26em+ojxsGEqrbZbTlHKs0R/WEOTBWv71fQ/v04OVpJdc7lZVe9OdKJxRZ36Y
-         ccVHlLzQeAxEDN0VpIbICLI0AWso4oEKajOqGjKyAzJkZpYlVe9OCSCa6hYjupJJY+fG
-         d45w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778871539; x=1779476339;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=purestorage.com; s=google2022; t=1778885491; x=1779490291; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QSi0U5scWG8acBST7RqnHrwKWntKtZB1nMVqsvrLh3w=;
-        b=K+GVhKLKdFzJdb2ilVqmiytF2A9fn56uE1UCpgS0jn0lcpf2T7KqBRc+bfOuRqobJX
-         /D2YM+nk/p80iOnfCc7vXCTVEqrHblgjGjxMD1hmvAxBKErsCs3h3sCprnfnYuNv0wca
-         0Z1f7rZpv5FxcGDBczfa+ELyMbkv01x+2FLSnsvs/0mutPKTyDcGRTd7oOvSKUT0YsfG
-         9QCaRHY9domGARhl9aDnm89Sjbw1xwRfum5KfKWp1htjhPLyUoNNEQgicJXga/khwaTq
-         PZ1QQS3hBPMa/vbOOqrAL94uyQndRpNuGaicrgJF6aFxKUHlZT41Z2hh2MjW5FsvhVB0
-         jEGA==
-X-Forwarded-Encrypted: i=1; AFNElJ9iubpzLBCx+GNK44DHuH02+g3tERJVOrWLqMI3RrTiQRHdgEsWlO2sLkEglyYCc1tNJN9hlf5Aqz7U@lists.infradead.org
-X-Gm-Message-State: AOJu0YwCp8r7jhUGSluBEdU8qStC6yE3TrdXAVA4iF2WYg6YBIt4dap+
-	0Fn6maEh4ujuo2erA6e+AMnAEie65KeaBmleQN/n+i96c/1PyWmsGLWd
-X-Gm-Gg: Acq92OEJaBPG/NJ9e7rP1hIV7yIHNSViSkoVpf43BzOWrdgZMgs33xY+CbWqatfiCmG
-	P3pc0ym0fv+p+nK7NsYVYP9rdBAR8MMNAK7NzFvzxENc47PQ7N1nOqX3MJRD4FUbFwi2hU17U4O
-	wK/JR+0k5/kKOagzcFkBc+ENsUCwvxMTIbwV2m0NXkzyvx1PDLwpZC/fzecmNMBLWiGI2M+sxhv
-	eSk4VJQGAw29V7TmZHp5mxvzHEqGMX1aunyaclnabqu0yLcElNR+VyWBMbaTVloNtufhgZSqiwU
-	bbRBVO0cxmg2zK1gCM+WZd787cou/AvStUSgoU/WQa3nFzMNHtq7eEYHmlpXMIw1DtseeIAXHEy
-	WG2P8PSsyinuLkQxFqadbFAR59/NdSW7jTcKM/7GKdyds4k+Mt+z0T4bCmbpQQODSM1PNvlEZc+
-	bNS6UpJDiTlVaV1ZuAnVNua/FrbTh3/izDtsKxuYsQ3XJcUcJvR8cG
-X-Received: by 2002:a05:6102:3048:b0:604:f029:224c with SMTP id ada2fe7eead31-63a3d3257b8mr3530733137.8.1778871538584;
-        Fri, 15 May 2026 11:58:58 -0700 (PDT)
-Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95fc2cc387esm1588052241.4.2026.05.15.11.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 11:58:58 -0700 (PDT)
-From: Chao Shi <coshi036@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Daniel Wagner <dwagner@suse.de>,
-	Hannes Reinecke <hare@suse.de>,
-	Maurizio Lombardi <mlombard@arkamax.eu>,
-	Chao Shi <coshi036@gmail.com>,
-	Sungwoo Kim <iam@sung-woo.kim>,
-	Dave Tian <daveti@purdue.edu>,
-	Weidong Zhu <weizhu@fiu.edu>
-Subject: [PATCH v3] nvme: core: reject invalid LBA data size from Identify Namespace
-Date: Fri, 15 May 2026 14:58:53 -0400
-Message-ID: <20260515185853.2761456-1-coshi036@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=dGhjWM9hEVF6dEbdTrkTawl38zZXk8O+DH4Yxf5EtyI=;
+        b=TEXN47tnnwbqEyCfgnrXUdZq9Ew4vLOKh1sCiRCqNsdDP0p9UrkSc/xNbclTAu+p5C
+         c+P2EFKFTUVVkPN/FOsq/tqZTljuN1aQWuFM1OddlWg74vd4x748KKFlkq4QLnWLXqTu
+         rkSSLPzWVFTnopvhzKFLL9HfLRsosuOM9PUlkKkVDJd2Z4G6Ttw1PuFeMy9Mqe+t5jni
+         aIeGjgAwYCKP6Qtan14srN6zVBAVPLEH+7etveE7iJho5frhMDLF1RfnWdnVsW5+jni6
+         dwm1dz6KDhHYWZWkG2kAXTMAlJtS6tEvoZkRmsKQNePkCwmqz+Amo53N2TL6DVVMJBqc
+         HgMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778885491; x=1779490291;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dGhjWM9hEVF6dEbdTrkTawl38zZXk8O+DH4Yxf5EtyI=;
+        b=j5v7pMlAcynr67xeje6U2/7AOl/LdAXXmCkXReTKvC5tnzzN5pceNwymomss+ToNVV
+         TWPrtX1oufAoqzcnoQe5FUEa8g1NTcg+/QM8jXu9R6k8WqfFLvCgG8+qMZuuGR+O1xYk
+         GPUdCIplrhK22FQPqkGMD7+eetm8YZRoET17wJjklqyBskKXYDCyTKZkPskt0bxXvpm4
+         09E3CSNLyij3cCEvIKYWqwVliLvwRBcwUi3D055koMvQ78qeeZg+p/wU6Ep0iXG27DMS
+         HczKK3OAAGOaTe9Ue712sodP/p5D41ktBhc0n+pPxwopP0E168XUYWqG5oN8N2zFL/ud
+         Cqyw==
+X-Forwarded-Encrypted: i=1; AFNElJ/W5S81OHEDbl8f1P/LbGSqotOeGrM6fna4283fycLmdRDLY691KCYOZp1GRqLbMxajVHMYjQkaJb/v@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy0IffUk6xn5WNYUIFP8NLh4dl0/ILa1bvHnWTblxYkuB/mlSHb
+	F7NTCVfm82EPZA+XZSRqAWf1kUGEt7la9tvYwPgWgPF67GjbLBapg+omj8rx489LE41lWzp++1O
+	Vu/bM+n0TRc9FCEvbjtr9fM2v8L9qtBWkeC6g5cRdvQ==
+X-Gm-Gg: Acq92OHhZfeeFG9HZrCVgkrDoPtOePb9UeW3wiUtMIvUk5ZhcnsgUg67EXjPBGqhmYB
+	PvGUv5wZOYbJOMZaz6mLmFc6HtDaHAmwALC7pvzbFHtw3K2UsJGosbomRrf0PTl+/5wMtVCwsFQ
+	AFnwT2A17Sk9GjZABZ82xyO3CokcfYCxEwn5uf28mFZjVh/Tw6K7S72JLwloaL1mR+3XtoF45LW
+	Sgg7NUxK2waptTZ0MWaf6rySAEbFTvKQ6/tkZvzZYkWNY3VMGhzy1qsq66GyX/Bj+jjSwQsvVBL
+	h/LHWcxNVV0EFlfDgHjm02/isBLdhcLrrQU1W+RmHOgRq8TeAxc3LHScmB6rx7BJWcvN
+X-Received: by 2002:a05:6102:2921:b0:632:4af0:4133 with SMTP id
+ ada2fe7eead31-63a3f391c51mr3264940137.18.1778885490981; Fri, 15 May 2026
+ 15:51:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260328004518.1729186-1-mkhalfella@purestorage.com> <20260328004518.1729186-11-mkhalfella@purestorage.com>
+In-Reply-To: <20260328004518.1729186-11-mkhalfella@purestorage.com>
+From: Randy Jennings <randyj@purestorage.com>
+Date: Fri, 15 May 2026 15:51:18 -0700
+X-Gm-Features: AVHnY4IJLqaLWEMUO9bNA6Q6v_Wu2pvgKTLUBuLhpuW3BLP3q3KAA0koAPojrNc
+Message-ID: <CAPpK+O2dsRtNbfkD2K3KV8FA+JWkMcByz525z_NoNWHsSQzYtQ@mail.gmail.com>
+Subject: Re: [PATCH v4 10/15] nvme-tcp: Use CCR to recover controller that
+ hits an error
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
+	Sagi Grimberg <sagi@grimberg.me>, James Smart <jsmart833426@gmail.com>, 
+	Hannes Reinecke <hare@suse.de>, Aaron Dailey <adailey@purestorage.com>, 
+	Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260515_115900_064985_6C9ABA6F 
-X-CRM114-Status: GOOD (  13.98  )
+X-CRM114-CacheID: sfid-20260515_155132_823455_622BCA67 
+X-CRM114-Status: GOOD (  14.89  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -105,92 +122,54 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_update_ns_info_block() trusts id->lbaf[lbaf].ds from the
-controller and assigns it directly to ns->head->lba_shift without
-bounds checking.  nvme_lba_to_sect() then does:
+On Fri, Mar 27, 2026 at 5:46=E2=80=AFPM Mohamed Khalfella
+<mkhalfella@purestorage.com> wrote:
+>
+> An alive nvme controller that hits an error now will move to FENCING
+> state instead of RESETTING state. ctrl->fencing_work attempts CCR to
+> terminate inflight IOs. Regardless of the success or failure of CCR
+> operation the controller is transitioned to RESETTING state to continue
+> error recovery process.
+>
+> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
+> @@ -612,6 +613,12 @@ static void nvme_tcp_init_recv_ctx(struct nvme_tcp_q=
+ueue *queue)
+>
+>  static void nvme_tcp_error_recovery(struct nvme_ctrl *ctrl)
+>  {
+> +       if (nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCING)) {
+> +               dev_warn(ctrl->device, "starting controller fencing\n");
+> +               queue_work(nvme_wq, &to_tcp_ctrl(ctrl)->fencing_work);
+> +               return;
+> +       }
+> +
+>         if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+>                 return;
+    dev_warn(ctrl->device, "starting error recovery\n");
+    queue_work(nvme_reset_wq, &to_tcp_ctrl(ctrl)->err_work);
+}
 
-    return lba << (head->lba_shift - SECTOR_SHIFT);
 
-When called with lba = le64_to_cpu(id->nsze) to compute the device
-capacity, an attacker-controlled controller can choose ds < 9 or a
-combination of (ds, nsze) that makes the left shift overflow
-sector_t.  The former is a C undefined behaviour that UBSAN reports
-as a BUG; the latter silently yields a bogus capacity that the
-block layer then trusts for bounds checking.
+> @@ -2471,12 +2478,29 @@ static void nvme_tcp_reconnect_ctrl_work(struct w=
+ork_struct *work)
+> +static void nvme_tcp_fencing_work(struct work_struct *work)
+> +{
 
-Validate ds against SECTOR_SHIFT and use check_shl_overflow() to
-compute capacity so that any (ds, nsze) combination that would
-overflow sector_t is rejected.  The namespace is skipped with
--ENODEV instead of crashing the kernel.  This is reachable by a
-malicious NVMe device, a buggy firmware, or an attacker-controlled
-NVMe-oF target.
+> +       nvme_change_ctrl_state(ctrl, NVME_CTRL_FENCED);
+> +       if (nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+> +               queue_work(nvme_reset_wq, &tcp_ctrl->err_work);
+> +}
 
-The check is performed before queue_limits_start_update() and
-blk_mq_freeze_queue(), so the error path is a plain `goto out` with
-no cleanup needed.
+There is an inconsistency in logging there for starting error recovery.
+I'd rather be able to grep logs and find "starting error recovery" even
+if we entered the FENCING state (and there is the race condition related
+to Hannes's question were the log could get printed if we had a timeout
+at just the right time.
 
-Stack trace (UBSAN, ds < 9 variant):
+As such, I think we should
+    dev_warn(ctrl->device, "starting error recovery\n");
+before queuing the work.
 
-  RIP: nvme_lba_to_sect drivers/nvme/host/nvme.h:699 [inline]
-  RIP: nvme_update_ns_info_block.cold+0x5/0x7
-  Call Trace:
-   nvme_update_ns_info+0x175/0xd90 drivers/nvme/host/core.c:2467
-   nvme_validate_ns drivers/nvme/host/core.c:4299 [inline]
-   nvme_scan_ns drivers/nvme/host/core.c:4350
-   nvme_scan_ns_async+0xa5/0xe0 drivers/nvme/host/core.c:4383
-   async_run_entry_fn
-   process_one_work
-   worker_thread
-   kthread
-
-Found by Syzkaller.
-
-Acked-by: Sungwoo Kim <iam@sung-woo.kim>
-Acked-by: Dave Tian <daveti@purdue.edu>
-Acked-by: Weidong Zhu <weizhu@fiu.edu>
-Signed-off-by: Chao Shi <coshi036@gmail.com>
----
-
-Changes since v2:
-- Hoist the validation above queue_limits_start_update() and
-  blk_mq_freeze_queue(); error path is now a plain `goto out`.
-- Merge the ds == 0 case into the general invalid check.
-
-v1: https://lore.kernel.org/linux-nvme/20260418042835.420281-1-coshi036@gmail.com/
-v2: https://lore.kernel.org/linux-nvme/20260420231116.748204-2-coshi036@gmail.com/
-
- drivers/nvme/host/core.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1e33af94c24b..12ff562dd142 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2404,12 +2404,22 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
- 			goto out;
- 	}
- 
-+	if (id->lbaf[lbaf].ds < SECTOR_SHIFT ||
-+	    check_shl_overflow(le64_to_cpu(id->nsze),
-+			       id->lbaf[lbaf].ds - SECTOR_SHIFT,
-+			       &capacity)) {
-+		dev_warn_once(ns->ctrl->device,
-+			"invalid LBA data size %u, skipping namespace\n",
-+			id->lbaf[lbaf].ds);
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
- 	lim = queue_limits_start_update(ns->disk->queue);
- 
- 	memflags = blk_mq_freeze_queue(ns->disk->queue);
- 	ns->head->lba_shift = id->lbaf[lbaf].ds;
- 	ns->head->nuse = le64_to_cpu(id->nuse);
--	capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
- 	nvme_set_ctrl_limits(ns->ctrl, &lim, false);
- 	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm, info);
- 	nvme_set_chunk_sectors(ns, id, &lim);
--- 
-2.43.0
-
+Sincerely,
+Randy Jennings
 
