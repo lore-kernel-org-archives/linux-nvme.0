@@ -4,96 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F3370CD37AC
-	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2026 02:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 217C7CD4F3C
+	for <linux-nvme@archiver.kernel.org>; Fri, 15 May 2026 02:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=HjuJ9mHs8BUnwhNge84Ub4CU+c74Kq0XaMXnsU0zEXw=; b=vkVI44AR7dvfzWsS9hLJObdLLb
-	5C6S6Y3VSqDd7B2DDFdYnzoV0oejPd25bjxpNbeMYvE+n4B7H8JINohFTuomqTaKg8tpZUzQAIpEP
-	528Sekr/YMQNETIuhSUiF+5K7gKpbvNVi8fVYMwZeN//maVKRLKNhCuiDPXnzhQLZ535zXcWZ+1xP
-	KmElAkr40ZudYKbkdwZdW9Bxb3inR6JR+jkwReaSuLohSXTiYFJ1upjtSVUiPy1Gxu46ArH5hO+TX
-	5ALXhgGRB+Fka0u4MH63sNLzBTEfpGB4aInHyUvwN9H+Um+ahzPPC9s+sjSxXJEqjTEHL6YaVkIFs
-	aiawp/sA==;
+	bh=ODkJjmMveWd1Ds6+LgEGIz8GqVc0G5GcHZLt+F+UsUo=; b=FvFxaaZDp7AZ9Sd/ru8UAVTFdu
+	bqooam3wzr8cCeHHyFNmU5VCtA6qB8fqeQiSfSouoPLKRx2+YquyH15F6Phl8oi3TQXdakSv4JRXX
+	edNpunRq72foaG3yj49Vt7CDcsx6MA8ekbZwsz8V1SQH+HSvx+XoMiCLjXuIZRVhA4aSY4rsJ4e3V
+	aXK3mlNXsSFq7xXHa/0lD67BBD/NmXmn2maeai+Ct3BnOMJSlpBP+ku7NDXK3k8345a0VSTh8e5bh
+	mbMFNv0pW7wiNxV3dRdd/3cB382162OJXCKxLuRV2Im+Hwrx9cZpyjuxdvDSXHDyKPvjiHjVs3p7j
+	k5xjIKFg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNhwu-0000000751h-1FIP;
-	Fri, 15 May 2026 02:06:48 +0000
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b])
+	id 1wNhyO-000000075Di-24Mw;
+	Fri, 15 May 2026 02:08:20 +0000
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNhws-0000000751D-1u9U
+	id 1wNhyM-000000075DJ-0rkB
 	for linux-nvme@lists.infradead.org;
-	Fri, 15 May 2026 02:06:47 +0000
-Received: by mail-vs1-xe2b.google.com with SMTP id ada2fe7eead31-632e479586aso3815186137.2
-        for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 19:06:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778810805; cv=none;
+	Fri, 15 May 2026 02:08:19 +0000
+Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-63133de7abcso2526814137.1
+        for <linux-nvme@lists.infradead.org>; Thu, 14 May 2026 19:08:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778810897; cv=none;
         d=google.com; s=arc-20240605;
-        b=IQZIbJhegEUACXRq766IX/OqtFg4Po0YAgcVV+mH31zOSmQvl8f9/DXH5z4wfJ3heC
-         U4PZEZFmM1PFYTULhOgsYFcb1FwiOk/IOKQ2vDBfUP1P1atyYLe+Z6hIPxTCRI/+in9D
-         PEVuoLqNiLjnrlitRpQ8gHJl1peniVle+5RKfMPN+Z3oc+7Y/VzZHrpLX1MtQK7j2Epx
-         tiqWC+KEr1xUiLTxlbhUwa8F6xOxYZgqkx/L3xvy1n7zMkFtG8c3b4h9zY9mLWBNRBN+
-         Jtd3Kf0ho5lxXZ7KUyggZ26zB3GGN00DS7YlYVecyFaruvgF9sUO/RkjrO4JfzI/RCq3
-         +1Hg==
+        b=hU0bpZQo8ejP9h4/9MxzdBy6afPB+NTncCgVJA1IFf7U1X5mwNXP+9Ilss5kfohkff
+         od1Y9dKt9hqIgdv8FCDMhtdut1Xn6zoiIeTld6Ic+BU7v2JRhI8D4Adt0EnUjcT/WkPQ
+         a1d9eUSCxHix4YeoaBjxNqxCUBK1rh7WGySl/TWtHQTBVVGfXzTkk7V+JJXWAYQhE4Lu
+         TytvCsntwTmi/Po/UbwhhH0ctPS+UC/Qc2TmVz0OY8cdP1eYWjJU/9tFGwzqLd3uLNmy
+         Tq5UsNKGteUYw5aL+tTdJxuH7MlXVlGqZL169L6VSentDq8zWThrX52SYBZ+7w1nD6RR
+         YccQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=HjuJ9mHs8BUnwhNge84Ub4CU+c74Kq0XaMXnsU0zEXw=;
-        fh=DN8r3etVJhwjp52CRmz5BGPb7Y/np0q4YLR9mtrNSI8=;
-        b=Bw6XH7iyTIBL+pwVKL1ZvEVll5pr0SPhjbr664jIEGm3rLSp2OMd1i4B/+MYsfjWHh
-         VzdprfPa4YYh5j4fFyHraN60CalF2kPvpsgl4ikOjMZiJa847hIFy4NoZjaf+ewxJj86
-         wfS/Pmofd7Kjg+HrrnVqTAo0dFkBf4wo53x8WWEsvl/TiiLcQeYhZFKDhgs1hK309W9u
-         2iWTr+bBRxYk7ovZaI7AkjvYaEzVx/8Vq5YguNrUAUylfGzHHskWmGKCD8UQUwiu+zyo
-         NZG2nReHORM9+7b1tBzUG5JtkjlJ7jE09fX/7gD/7+JAfwm+rRUuHq+DUk+PECqvCKQJ
-         qqTw==;
+        bh=ODkJjmMveWd1Ds6+LgEGIz8GqVc0G5GcHZLt+F+UsUo=;
+        fh=PrGPUihC6MWQf64nTB5bYpPXqVkPTY4qJVsg9MMpHJ0=;
+        b=j4NXDmaydsaAIGYZztZPpiWEsnMssa/5YokQ2luDojgLxLH8gmYQhprPh6Z6G32xRY
+         iNsbDMzEsrBRQNgfVNhsN0bR85V/ws8X1ARzOG4yihrdaxrUQDtQarGtCffnA+2OSRPx
+         Kw2P9vYefZ7w7rqIw7/1G5FYBSRIlCDJIy2008y7eWAzB6Lryg3tCGJT4aidcGno5EBf
+         I2yBwaESi/4whkGnaEk2svklSRv9bg0WsnLtGCx6P6jQOe1btq1TPWTUeOcNC2EBJkwH
+         t3sMlMShnVPt/Z2hKVQvfNEJrKpUgMePEw+q+Tyhze0bNIQVlFAiL9qDAJMT0nO1sP6x
+         yNiQ==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1778810805; x=1779415605; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1778810897; x=1779415697; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HjuJ9mHs8BUnwhNge84Ub4CU+c74Kq0XaMXnsU0zEXw=;
-        b=EqZFCWLLTQQ+Ta7j3G2dle6rWYffej4O6CccDQqaf4tPNId+HNTUgTxYixlHv1L74A
-         RfS5F5TTkhbAnq6yol0FeuWemuZBhDkH7l5dus+CmmDfnVozjSvkQaZIgkJM2rCFexC7
-         jL5sNrWTQe7AGJZOLV6YeJbvpxiXb2unfptI8l1dIt1nlOnD6B/tog6QuIvqDgJiW3p/
-         KgHfMgj26X1MsP+G9+tBWWQgLVFs6hF2zq8mJB+fQfbVtVKmOK/d1/GGt5rtxDXNsS2t
-         FSnAhN/70sAl+Cw7/ME9n3bpRm+kjXDrZvLDFaIHOpvtKU2UjhNzMdPt1HCk36qbmGnG
-         OEEg==
+        bh=ODkJjmMveWd1Ds6+LgEGIz8GqVc0G5GcHZLt+F+UsUo=;
+        b=YRcxEVL6fCM7oez1ZLFfBppGAoKQH/gZ/YLUuZ37YwvvkZE98RaP3xGnCxBDSDWAYX
+         m7Pwrl/fuoiObVbBFymH7WARByJALLT8oewhUhMuhTqqUYQ50q58rGoIqekikaR4dvSQ
+         ia3o0cnoDBxQahiCwQocwI8lY+faMm0Kp6VO1q58zIGivzSwmJm7rsHuPEjuJ/W52hkA
+         nLPZ1Zsuni0t+zukSG8p4B8gkx4RSSRoryFolzUI/qIiCXvdSSFugdgb4KjWDaI0VTg5
+         0jpo8BnDkMzhwGqZB0WiOCIH6pkE39bjr+rqQbxjtKzFVjO5nabKoh05fEXjoRRpDTyS
+         ngtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778810805; x=1779415605;
+        d=1e100.net; s=20251104; t=1778810897; x=1779415697;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HjuJ9mHs8BUnwhNge84Ub4CU+c74Kq0XaMXnsU0zEXw=;
-        b=dimU0OR7jbws7bhy8okqbnwHmisZPUji1MfBy/CNZ530rHX9og7+zDQOlxGywnyvWq
-         mNT+Vztj8QwbuR++1+DvoLEAozjBTcitb7UhYryOGbzdKCk7etyP+0uwUhJ0pLnFCBct
-         JrzK3f/WveYvOkiAhMcs+vRpblbWmEpkCHOvwL9JLy7pAHUD6WHRA4anYP9LhLnT2ci8
-         fbqsky03GXcV56pGgiefOFoh6xRsB3sLGRpGfIx60MwqA9JYHHQgNgMD4EdXhaFDvWHI
-         FfyT5rs8kVEzHtms4fC4r7sJxH293rP0ZT1TwXXHCeuD6GR7Z+kaw7ONbj2NmG8l+tXE
-         SPuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9AxCltYI9m/CZ2yu76BdBQMpDAUWNoe9iipyOffKfAb/aV3wSAbXVacfNqptvpDu3lxYUFCJQX60bw@lists.infradead.org
-X-Gm-Message-State: AOJu0YzWkho7kMCGlKUP0Jr6ohxvEyzedTS+iYwdPArdf+zLegi35tH/
-	3kvfWYO1KC4j7jgOzwA8PUT80c86QkuDgAVzn8YepGtyUbvm46K+/yO0ERpK/jjA1BqpQYqe6ed
-	UTBNc2XR2tGvLBPLixzPtk1t1xyTFD2ze/mh5b8R28A==
-X-Gm-Gg: Acq92OEUNcSutSPXMGBDtObbjJPKMfBTpOWTExAzxPCctxo+/RVL9x+mRA7yr8+ftvy
-	J8NI/S8c+a1q/fWcArNj1ZJ060iLjPWM4AETP29oNaCMBU4AUqZGMYy2tuptZsqFjq0fdPPLbiA
-	YP+YOzGgNW7puJ1imp25LkGMMxF7bHOc1MowW2d6X4V+d2s1gvqxmY+ICbDp7NfkfCFzsofbEts
-	t3oR66G0Irh5TCSXtdtGcBOHRXE/TRROuGt+kWHgwsGcqqZE95/pvY075m7aRBzcPcHXqkPS2SU
-	HQd+b7Gn0/csN0ffwtdK9CU54DL954pNGhAX3EDArLvadSE++BFWP87FEzPxOy1VtgELpA==
-X-Received: by 2002:a05:6102:604a:b0:635:420c:9b00 with SMTP id
- ada2fe7eead31-63a3d427dc7mr1152896137.10.1778810805055; Thu, 14 May 2026
- 19:06:45 -0700 (PDT)
+        bh=ODkJjmMveWd1Ds6+LgEGIz8GqVc0G5GcHZLt+F+UsUo=;
+        b=hzZfPXtFhVog/J0B32hQf/tBEvugo6Zn3ypHzaqjwFJmsXE1cWHVpv6jCdGjQAvGH8
+         KqBcClvAWULHKi34K9ILtDcGD71hWfppHanfvBUiw94A0ua2Wk6Co8QoBErPS35rN9rO
+         BF4LfFzBfbyNOqGZyZCpWY+h5+cP9KK5QhBjRBRgvzy+ubAf8sg+fXWk5w3XpO0zjSiw
+         mwL/hoKIzE8eU3S+lEdVRK0f6l6T9t98Og/Eq8F7ijaYyIc9dnb0jCquRxbUL9bJl6IT
+         Xd1K2VcU5lFJWRoRNZs08gwHPqeiYc8GwVSYUPpnQSIKeNroZejJVNb5bkskz7pI93jv
+         16rw==
+X-Forwarded-Encrypted: i=1; AFNElJ8YEOKdePe1Wv1BMnxMCd3UlHdgZx0gnTsPhkhF594ioRf4mp3Hsl89QhMea/SCufi9PAh0kJOfOv6W@lists.infradead.org
+X-Gm-Message-State: AOJu0YyKWRNl8/VVCF2ewxgqU+rV0dhjJ16ACjYPjfPtZ9KySaMxR+pQ
+	3JjVKyZIYAwMHO1hcgWd0DnmYdkvs/v2R/0hinKFM4tY7M8KB3FkOK75LRksKLE+zez9L1xKmWc
+	RGuS5wzIn/F8iDk1j2MR8XFfyVZ14FT0T/c6P/dEtaw==
+X-Gm-Gg: Acq92OErwmIlPnyNO0Xt5YavoOYvFwSZuZRvRscdFzDuMQZ1NYxp56WqHKgdWIX7CRq
+	fRn7aOh2f8Xx5x6T+Hw+d2eV8qmVzRFOQHFYTg2CQfe3cLpxHK78Xpo3KgjL+DUzerZqsdrk26C
+	xG20sa8DoJQ9v7Ju919nUzacTJT4WBUHa1Vb4PA1YKcyGy81VWFL6JBbIt74qyobJ5R5CIxaeVX
+	xq8IULdbMUfaybHxQNNjU+CYJ2cIL+RwjoO8QOLDrGnYanY2FkyNZZT2yizciwfCPvosMEXqvca
+	h/TPfxH1+jSQ+uGZOYirQULVFj6uPKyQMqQDAxOJcJdPlGx9ndhzPSAzI7c8L2JHZwdEwQ==
+X-Received: by 2002:a05:6102:8012:b0:631:7781:fe93 with SMTP id
+ ada2fe7eead31-63a3ec85e08mr949892137.19.1778810896882; Thu, 14 May 2026
+ 19:08:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260328004518.1729186-1-mkhalfella@purestorage.com> <20260328004518.1729186-8-mkhalfella@purestorage.com>
-In-Reply-To: <20260328004518.1729186-8-mkhalfella@purestorage.com>
+References: <20260328004518.1729186-1-mkhalfella@purestorage.com> <20260328004518.1729186-2-mkhalfella@purestorage.com>
+In-Reply-To: <20260328004518.1729186-2-mkhalfella@purestorage.com>
 From: Randy Jennings <randyj@purestorage.com>
-Date: Thu, 14 May 2026 19:06:33 -0700
-X-Gm-Features: AVHnY4Li8OGSemmGzNiT7i9gDsNh9eZC0jG6ogjPtN5Rf6DKFnxoh2tPet7Hb3g
-Message-ID: <CAPpK+O38qB5cib3_drVdUPcFf0MtF3XCjw7nvDAM6T4_qpp4xA@mail.gmail.com>
-Subject: Re: [PATCH v4 07/15] nvme: Introduce FENCING and FENCED controller states
+Date: Thu, 14 May 2026 19:08:06 -0700
+X-Gm-Features: AVHnY4JAppppANswTtsygh2iV7M5GGmXk9bMLM-nznWzqMMwgqcIU5dw7d6bRZ4
+Message-ID: <CAPpK+O0CG4oZiwPBEFWDXz1mhfk5qpBEB6QWt6nHGCkCgTSaDA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/15] nvmet: Rapid Path Failure Recovery set
+ controller identify fields
 To: Mohamed Khalfella <mkhalfella@purestorage.com>
 Cc: Justin Tee <justin.tee@broadcom.com>, 
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
@@ -105,8 +106,9 @@ Cc: Justin Tee <justin.tee@broadcom.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260514_190646_504713_2DA67C76 
-X-CRM114-Status: GOOD (  12.63  )
+X-CRM114-CacheID: sfid-20260514_190818_255728_723460E4 
+X-CRM114-Status: UNSURE (   6.78  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,20 +123,11 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 27, 2026 at 5:46=E2=80=AFPM Mohamed Khalfella
+On Fri, Mar 27, 2026 at 5:45=E2=80=AFPM Mohamed Khalfella
 <mkhalfella@purestorage.com> wrote:
 >
-> FENCING is a new controller state that a LIVE controller enters when an
-> error is encountered. While in FENCING state, inflight IOs that timeout
-> are not canceled because they should be held until either CCR succeeds
-> or time-based recovery completes. While the queues remain alive, requests
-> are not allowed to be sent in this state, and the controller cannot be
-> reset or deleted. This is intentional because resetting or deleting the
-> controller results in canceling inflight IOs.
->
-> FENCED is a short-term state the controller enters before it is reset.
-> It exists only to prevent manual resets from happening while controller
-> is in FENCING state.
+> TP8028 Rapid Path Failure Recovery defined new fields in controller
+> identify response. The newly defined fields are:
 >
 > Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
 
