@@ -4,111 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFCEFCD343F
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 May 2026 00:35:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A2545CD4851
+	for <linux-nvme@archiver.kernel.org>; Sat, 16 May 2026 00:45:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
 	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=N3vbb51fhDbfK1s/JbPhTMGctN0UGzzg53qTqJlT8Jg=; b=AovcfSXIdjpFu91uZ3HjHrqkLg
-	IyFNqnmjLLSWqCmKpA6qmnvGF4NMk4sdqxL6o8FC5ObV/iSRUXCGRsMW+Fhh9uIoRPHvYsiHhz2H6
-	u3XkWydWEDRL93YBLjAh7ahl67LB3DS+QDKj0AD/5IivgBOvnqCoIMSpl+T/+6XNDUHCFVH3zHZIw
-	0dJW66bKldQKUscZa9QgmY/0/7x/+i3o+/EUMEdamM42aV+/BiksCX8F9puwcnip1hI3tDvrWM8NS
-	bwSFE+nfjnxyaSjzH0+prnKmqFGQdE1Jaj11w2IhvZ1xdwqCi7Ax0/Mx0yj9QDfyjnrb4T1ZMr60T
-	udaJ6nQg==;
+	bh=lKyj+BgFWLyIjd7FQWgJlKDISSTkRJ7PSBxk5ZXeyDY=; b=dK3VWoY2MNJQwU65tmu3DfRgb1
+	vHdfOBrXp1db79jB4V53neXQc7loFIMhBXf7cTKEZo9BB8/o6OEaoYjoLbWdmNLJXjcWIxer836fz
+	IkgDNG6i0caYbchizLTLs85/lG0ZN8g12M9utg9rrI+DXiohyVm+wqcShyyaNIwYAxGrqL47szXCS
+	DMPEONUmzLp/hJkRjwCud9i0vCrpXVnXvqdLsFz0FNfIEY5LnfUKKR4gR4x5pKk0CMT+6d8DLatpR
+	P1kiIXwY+RLEpIUScoRdlOnVXNGN+BKkYC1izOVVNvNuEcJTsugP4PxpWqzJdVEesYADu8GVw4R1E
+	BnxhmyRA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wO30A-00000009oLB-10BS;
-	Sat, 16 May 2026 00:35:34 +0000
-Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f])
+	id 1wO39a-00000009pFW-1KNf;
+	Sat, 16 May 2026 00:45:18 +0000
+Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wO307-00000009oKe-3JkB
+	id 1wO39X-00000009pF7-3AJ5
 	for linux-nvme@lists.infradead.org;
-	Sat, 16 May 2026 00:35:32 +0000
-Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-631b313e3d0so106581137.3
-        for <linux-nvme@lists.infradead.org>; Fri, 15 May 2026 17:35:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778891730; cv=none;
+	Sat, 16 May 2026 00:45:16 +0000
+Received: by mail-vk1-xa2f.google.com with SMTP id 71dfb90a1353d-57602a2d80aso125102e0c.2
+        for <linux-nvme@lists.infradead.org>; Fri, 15 May 2026 17:45:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778892314; cv=none;
         d=google.com; s=arc-20240605;
-        b=dxUVnKZ5c6FWjzrxUp8aFOSz5WDx4o4AY44nPhqdVJFRTp1QZVwRwYNF3Aew3GBGvD
-         8LlE7+qol0L/O3bJLM6wdG5tEe0Ns4fIKXyq7HXCw0KRZn10vUfaQctGp5NnkbkkgOw6
-         CQeDzBCYakKTIAWm1ZLZ3VId4N30owxxyLccjGJ+ZDnGjER8RIQu0bsvXXVJZcLKBi9y
-         Wapr33RMKYJerUGoFiB2ACTT03pK8GjX1C0f4CFhKQPdj2A8KLYS5XatPgBCGLFmLu8L
-         wcyYVTghvXHAX85y3lSjd5AGbvk+sEDpIIkFe6zaAJxmIwmBeKWLTh7/CoL8p0qQAXOU
-         B3mQ==
+        b=AawkHViG1pnTVbMpfUFRF8O9sYW3GWW6f+cvGmPGTZeBKtLx+vaWqogkJnr21wDK2K
+         uB/K1npJUGy610PigLoi1kKmGdTEVlCzQyiq1VygBvaf3vrr5YuhzMxcnJqZ7X8YHxvB
+         l1H10Qx62kGEz41H4M1k5TQrPn45ox67YPWhJ4Y1DJwdAoiXzmgfK9RIr3SCe+y9gMpE
+         Uj/P1A7djC1GfbjoXnH66cW/zlWDlUs4eUHqZrOvUJhvfI5wG4x9ox7QDfLwSSg3znPl
+         t5Km6EqaBQxtBuig40MjkZwnQZAYEBPL0YCFP05cMeMDTNDJTMafvW/PimFbZ21tURZo
+         Skpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=N3vbb51fhDbfK1s/JbPhTMGctN0UGzzg53qTqJlT8Jg=;
-        fh=zXPy0+RpajdvA+USrD/DH19KjJXMWNzILMlcuKRNVhc=;
-        b=E+ea3j+6ghWpOwkylAWW0GWiUngwycDwcDn3GLp6/SBhm+iQmZ8NTr+i75beBGM6A7
-         pyPLbgnkIVQCB8sKLpPxkZNG8WHmhlnLs+620HygAB7Cp/5SFaOLccXAGrKIji6JXS4F
-         hgostrr6Vv/jnYdEt+gRSt7aoZ/O5vcvueK4JFfF5+paEbCdzk0zhwjYW+ANcHx0/pwm
-         V6Zdp6mQNu9U7nMa0J9jeTe6Qe9NPnaecG6CWQd57Dwq/z0R93eSlDbTA3F0NUKLWA1V
-         obzbsGd2+bv7RBCAMZJZiHzi1yaOqKRSlTHtTd6otlRnYETdDe9L30fDYomG4MH1+b8B
-         SGDA==;
+        bh=lKyj+BgFWLyIjd7FQWgJlKDISSTkRJ7PSBxk5ZXeyDY=;
+        fh=+Wzh/ndRNK1J42kNNcyPxXWKpvYtYYRzVnj2ptlGapQ=;
+        b=MF1Q8rtx1fFLrVBFEagiWBLy9cAAzRVsgrMNVbk/zKAux4SVK8vdyrHe7N1pYQVpV6
+         TAIfh8fZofJL9nQyWtSGW5z00yOBJEQQDZqCl5J+PvZCH+4fYhYMUhRGHfSlHOsea6tT
+         gSLsxgTxjczjHozI2o6/ApMpwxiYfqAEFGFz0JMaa9Qa8bGrAdrs4iGmSoh7yqKAWqcG
+         l9oNOXIHv//fs8LT75MLPrHAOgIGBmil+9u9UrT7CPtmgjAvrEdcioOOohWwS8+mV+07
+         gwo68F8zmwcuWthOFXSZLwvgeMtnObh7eZTkI1paSK7GlDOLh0CwxkDPe3YttP8XlDVQ
+         5BGg==;
         darn=lists.infradead.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1778891730; x=1779496530; darn=lists.infradead.org;
+        d=purestorage.com; s=google2022; t=1778892314; x=1779497114; darn=lists.infradead.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N3vbb51fhDbfK1s/JbPhTMGctN0UGzzg53qTqJlT8Jg=;
-        b=WlV7R1SznTF1s56Gx2DkeEi/y54eIetVdKANc7bpbsDWWn+Sids+yHoWCi8xRxh8gZ
-         G9VwwugU86BIt93G5fzAMVhYzuEb5FZi0Gq1FElTZ5i6lROS5lS9x0/ftttMYQseqAJk
-         y0Rt9VYKhLFbOfckpbgIJ0e0lu4dbVGKNjfS0zMOZivronWd9ikuHG506LIbflXXel0A
-         rcezZ/t+ElwsB5dwiqpiAuqonwPotR4/vCU5uRDtAs+0c11WiHHrFqu2wtqd80K/zsgn
-         SDC3vk8ORSaOIyxbDhfLu3T9xKHXS4ekvjV5Lzsbf4SLXyejLeyEQzi3s85FX6wJfv71
-         NJ6A==
+        bh=lKyj+BgFWLyIjd7FQWgJlKDISSTkRJ7PSBxk5ZXeyDY=;
+        b=Kho9GC4tD5mJxvizL2sIO6j6lC3hckfQcV0xjEXMjkG1LmAqJrpfF4Atf3G/Xo20nG
+         54iWwx2jbOEPZVK58ZDf0Ww3UuulhKyv3LFz8Atyf0AkyRCMw2sAIiFFzQY/XZDiiLgb
+         CeWxxRUOnmCberpZBy7HuE8dAgsi/0dSn0H8NRMM06dGieA+inpX2c9jTkDtmM6ek6mr
+         pN2l3baxdpnf50kHTtbQlFqMwOZelclXKnGxPxCHXiis74VCekdzY/VIRT9ap2xTy+Uj
+         knFkksaQh9auXqJpcSKXtmjZzxLRMzWn6DD5VIQuaXsO6RMUaZHtlmxE6IaZyCdgugkS
+         C/GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778891730; x=1779496530;
+        d=1e100.net; s=20251104; t=1778892314; x=1779497114;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=N3vbb51fhDbfK1s/JbPhTMGctN0UGzzg53qTqJlT8Jg=;
-        b=pWBpQPxHKDZTm5o7PxhYHFl9r68a1W+UcNlFAycDen5hAedG4y9WXATf5Rvhf8UurK
-         KZEL6MbKG11HbKBhejEhuRHsWRmW6NFo+n+eC16z1hl2qoOjpt7Abmw5ZZ8UO1zhPa5K
-         EX9kXR96muMFvIaXXrWU8McEUcriw/j3Yy3SSRNu9uCDB0XJI4XBTee/E8Vx1vcZKmRN
-         OhppP+edRHHCvY9bD5TDIBsguLoUDU9qbWznS50N3QT5XDM4NHOAsdHBeF+Y8H5taOBn
-         H7OLCZIZu4PSSty8twAnjNm6jzly1vs8lXYZ+qWXtm1VA5TLq7HSee4wGqnCvLaSoAzS
-         pdaw==
-X-Forwarded-Encrypted: i=1; AFNElJ/PcICLIelhMg+pq2abrKPnZaCB8bDPNm2fpxpdokutt+Zj5WY48lCA7369hmkU6cVPw6oXDQFSYkrI@lists.infradead.org
-X-Gm-Message-State: AOJu0YykBZK3/W8sT2NsJOBBOq/H5dBoAM72n/UPrnmfZZjpfhFVmke3
-	7KC+8V6X3/koyQeodmsarE2QLyT/BRS+yxf1NRLuFrO9qxWfVN214wCQ6Ik0DQE3PvL1ZySiE6x
-	rHJ0netQ0IQezjlGKsDS00fLZ40kA0U62CjVFoB5T3A==
-X-Gm-Gg: Acq92OEdxlEqzudW5KUAjzchTDjyh/iTm5wh0Q9mKWQzRSjREb/HRo8zbgwKVsnlWyo
-	S/uA+W+Gae+XFyrMLduLjbuRNcahuCXH5xI7vP6uUPFyygklikSlW7+yBFxtg8GUNoSc0Si6YXF
-	aJkbBdbv9bbu/y7l37IlMsK37MWaUPJuSUg2TgjQ4pioJ0aZTQwPUGpT5+/L1jA1ajXUBvcTi+k
-	ur7PTDrVo1Zp6ejkJdZ1GW//IKY/yw41WGI+HxLHLoi5F6UM1UA0Vxy6cmr1wbN6JaN69g94Ya4
-	K/coC0Te7C/LDD3oO1UkiD+xC+3V/2YafKnJQXGFbHVXo4K0GPoSL59ClxYl/ZE1V9Ro
-X-Received: by 2002:a05:6102:548c:b0:607:4fe2:a644 with SMTP id
- ada2fe7eead31-63a3c7ff78amr3835107137.6.1778891730458; Fri, 15 May 2026
- 17:35:30 -0700 (PDT)
+        bh=lKyj+BgFWLyIjd7FQWgJlKDISSTkRJ7PSBxk5ZXeyDY=;
+        b=Xt+lAKbCHgMh3bqcw+VGTfcSp8ktX5ldV2U23PzlBBQ/Kt72ia6ZI5MLRaRMR6QRx7
+         eHruXsoZ38nuJVQsZ7RtRx9KCAEewRarl+jsxer/KcLlKNcAuI9/GwZkHVNXsl5rCBcg
+         2P4lqU4E4vGAuPujdWuOmb42VtzzAjx7mQDPsr+DXm4EY946M1YMeaVVaX7JzZ9dggc8
+         YitDV28GqUHoTt4c0L9Y+g1F2lTxfS/z+bHAHEPdlsk87NqTTXtJdNl7bMdn9HVrhZLJ
+         jPskcZhqzrtptriiKFPzPY3SmAKcqNZzv90Yub1FA0TJm8d9XjO6NITZjfEULVCsyJ5y
+         eYqQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8gJojOhmu9KxtaqB4/n3VT1TwD3dVAbr8aVFvCsc9SDgfU0VNCIYdhc3tcy9cQ7VlkyGuxGOATKf6z@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy0hGKh7ZDt+iF+102+UwrcdchIl2OkdbopRG7i85WwlwAjs5ca
+	u9xOl0jCu/CM5l9Z8Qei6Eva4pU5fLd5XmEpDinmLZnIgqB5HjDlTXzl3tQbTfzBW0tfhMmJeXl
+	GT0UYLOiNg6OfCeRQN3JusbFmP+2eeeFyKU78UoSmLaZFq11WZpDeyDST3RzjLPI=
+X-Gm-Gg: Acq92OFgSqurwyl0TY7THKBG0N8npycfHcEvqPtd6bqeXZC0B0YGfkQN1dssGj1Ik0f
+	khl1ZlwYTlTY1QBIKh3WxLZC3oJ18qhYtFQ+USrASqD856QdZ47kaB2bi32UgU/xyPwXoojFGas
+	QNsRI4Yq9C5rjeq5JcyjJCXPGoUEpTTh0Mx4dckSRFDRn3ybXzA0hxk0TS4fK8wvtxwQk18U7CU
+	3A0z6Vvq6lcQJmW6DxxzbHGhN5d6EFlgt57/r60W0LKj9cyTtHEzBFYMKtVkn4c1LcWbYzvaML6
+	7VbfoVgajHZocyU5fij3XoKhJW8Buf9bSu9T/TbBsg/PPCbUjm/cO0DQQAX34o6LhOjP
+X-Received: by 2002:a05:6122:614e:b0:575:362c:4789 with SMTP id
+ 71dfb90a1353d-5760c04afacmr4192977e0c.11.1778892314091; Fri, 15 May 2026
+ 17:45:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260328004518.1729186-1-mkhalfella@purestorage.com> <20260328004518.1729186-16-mkhalfella@purestorage.com>
-In-Reply-To: <20260328004518.1729186-16-mkhalfella@purestorage.com>
+References: <20260214042753.4073668-1-mkhalfella@purestorage.com>
+ <20260214042753.4073668-14-mkhalfella@purestorage.com> <d6013719-8169-4ad0-bb05-a626a717e8b1@gmail.com>
+ <20260326174011.GP3435530-mkhalfella@purestorage.com>
+In-Reply-To: <20260326174011.GP3435530-mkhalfella@purestorage.com>
 From: Randy Jennings <randyj@purestorage.com>
-Date: Fri, 15 May 2026 17:35:18 -0700
-X-Gm-Features: AVHnY4LxkEDJ_A1_sS49y7CmTd5fkr-cKjiwfRj977eBgagfhhBy54oI6NPyTIE
-Message-ID: <CAPpK+O17X-0a-st6KxmMmdAdMQ6xZEk6hW0HmsacASM-DEWF9Q@mail.gmail.com>
-Subject: Re: [PATCH v4 15/15] nvme-fc: Do not cancel requests in io taget
- before it is initialized
+Date: Fri, 15 May 2026 17:45:02 -0700
+X-Gm-Features: AVHnY4LGhzl5g_Zq7gvz-N65t3wuwLV_QpG7AbKlEHKhLwGN6XHR4RMnkASItDg
+Message-ID: <CAPpK+O2a+0dBykDvZdoO47TzwWP1sxBgcT8+uFaTf_NKu3xZdQ@mail.gmail.com>
+Subject: Re: [PATCH v3 13/21] nvme-fc: Use CCR to recover controller that hits
+ an error
 To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Justin Tee <justin.tee@broadcom.com>, 
+Cc: James Smart <jsmart833426@gmail.com>, Justin Tee <justin.tee@broadcom.com>, 
 	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, 
-	Sagi Grimberg <sagi@grimberg.me>, James Smart <jsmart833426@gmail.com>, 
-	Hannes Reinecke <hare@suse.de>, Aaron Dailey <adailey@purestorage.com>, 
-	Dhaval Giani <dgiani@purestorage.com>, linux-nvme@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+	Chaitanya Kulkarni <kch@nvidia.com>, Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>, 
+	Aaron Dailey <adailey@purestorage.com>, Dhaval Giani <dgiani@purestorage.com>, 
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260515_173531_841268_205E47EA 
-X-CRM114-Status: UNSURE (   8.80  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260515_174515_806340_8013D4F9 
+X-CRM114-Status: GOOD (  18.05  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,18 +123,35 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, Mar 27, 2026 at 5:46=E2=80=AFPM Mohamed Khalfella
+On Thu, Mar 26, 2026 at 10:40=E2=80=AFAM Mohamed Khalfella
 <mkhalfella@purestorage.com> wrote:
 >
-> A new nvme-fc controller in CONNECTING state sees admin request timeout
-> schedules ctrl->ioerr_work to abort inflight requests. This ends up
-> calling __nvme_fc_abort_outstanding_ios() which aborts requests in both
-> admin and io tagsets. In case fc_ctrl->tag_set was not initialized we
-> see the warning below. This is because ctrl.queue_count is initialized
-> early in nvme_fc_alloc_ctrl().
+> On Fri 2026-02-27 17:03:55 -0800, James Smart wrote:
+> > On 2/13/2026 8:25 PM, Mohamed Khalfella wrote:
 
-> Signed-off-by: Mohamed Khalfella <mkhalfella@purestorage.com>
-> Signed-off-by: James Smart <jsmart833426@gmail.com>
+> > What bothers me in this process is - there are certainly conditions
+> > where there is not connectivity loss  where FC can send things such as
+> > the ABTS or a Disconnect LS that can inform the controller to start
+> > terminating. Its odd that we skip this step and go directly to the CCR
+> > reset to terminate the controller.  We should have been able to continu=
+e
+> > to send the things that start to directly tear down the controller whic=
+h
+> > can be happening in parallel with the CCR.
+>
+> Depending on how the target is implemented ABTS or Disconnect LS do not
+> guarantee inflight IOs are terminated. CCR main point is terminate
+> inflight IOs making it safe to retry failed IOs.
 
-Reviewed-by: Randy Jennings <randyj@purestorage.com>
+James, yes, there are circumstances where traffic on the connection
+is flowing fine, and this request is just a problem child.  That is
+the problem NVMe Cancel is trying to solve, and John is looking at
+getting that wrapped into the code.  I would expect that FC ABTS
+could just substitute for NVMe Cancel (if desired) when that change
+comes.  For now, we are trying to overcome the data corruption, and
+canceling/aborting an individual request is an important, but
+subordinate, optimization.
+
+Sincerely,
+Randy Jennings
 
