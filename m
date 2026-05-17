@@ -4,110 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D322CD4F3C
-	for <linux-nvme@archiver.kernel.org>; Sat, 16 May 2026 18:47:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AAB45CD4F3C
+	for <linux-nvme@archiver.kernel.org>; Sun, 17 May 2026 03:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=I35m0Gg23Ckb9Z6dmkktvUrd8qWXVN87P14gvSWmNqM=; b=LJaXfTCgEV1Vkzce16jixKfeqs
-	2iAKS6T//QJ+TpBTP0rdcXI0RyKPimzasS00EalXp2EAoXSkLYJFQdXrT8L2zL7WCBZnWe7sjRRSi
-	tVWsuzKmWnJsga3j9sZU3oWXUwY54BHFihTbg4VCWu8vFukqqW7lIlaFZEMIhwGPPdzYYtioGXnZu
-	yOyrYeoiUjga6CP3dqrx4vtMYmLW58ENUVmhsxz2aPg0IQvKvgH+bfjSBPPeFRrYcdNkIZ1hqY2/z
-	DGrxFxhqDt1mgZNQ7MhvsaC+17gf/1FLpwBWh59QeEjweefPajopTaI4BNcLMb1Vn2RNbF3bbUhQx
-	DTAhZ+Ag==;
+	bh=7RMMlpFqVvmvtzBmpLVq7DRJ/Q6MC30z0aqZkBqE7po=; b=NkjI2oBz/M9fXkj7rROOnxSj1k
+	th94pRVPdi82YO9/NxbELFGLwB5/UX84Ppfk3C0t9FZA+dUcVBkTLXcU6Wne3yhsxXbyMh+G8fQNF
+	5JZuiPOiTj2PgKSV0ayL8Wod47UVpgG1V8TdqLBYJarqY1aGBUWmo0FDw0aJiTvhRjtw5lzmxN12Z
+	wAwjpvmh4f88WiYzOHL0SwMtCAkFyhJZ4fbDwWRsxrHh5+z9Vb4BQJVKHyUmMh7z2OzjOlJgfTB7K
+	qWciktR54cHnj2P2G4txljJE04b6lYdiEgjnJnlGfHYhUDZ1m07rveQ+fQ04pl/miaYNovwmc7xha
+	EMP01Mtg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOK2n-0000000BIbC-2GDs;
-	Sat, 16 May 2026 18:47:25 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wOSZv-0000000C1vI-2GW9;
+	Sun, 17 May 2026 03:54:11 +0000
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOK2l-0000000BIab-00ZH
+	id 1wOSZs-0000000C1uw-40gs
 	for linux-nvme@lists.infradead.org;
-	Sat, 16 May 2026 18:47:24 +0000
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64G7mMeT1041837;
-	Sat, 16 May 2026 18:47:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=I35m0G
-	g23Ckb9Z6dmkktvUrd8qWXVN87P14gvSWmNqM=; b=f9yyYjel3q8ys0cSlVrbid
-	N8Z8liQVlHD5WjHr61kPxyRZ9TkN5FCdAvk3oChHZkTxkXbHkjQ6jetGZKftC9e0
-	1zGA5bP1ZDOvZAa7NZ1RxbvciIl+LCWg6iIbFFHXiyyY7e0nBqji6A3kzdb2pB/U
-	3CCZhigjJf28KCfdS3HfDfA/28EcFnpWP/N22RnDsTNtRyd8BschJY/0gzQrutWr
-	EyhQuVPlF/KeAqMZtKpTgl51Hm6MxH8BUI+Z4K8nQbZAOSL05f8YeXdHUsbbHPlv
-	4H2nEhsFRFCqwjpjIFi2sGMPPdPjYZmxLDiuiI0SqvRxgrOdo+FmaK7MCCaqg7yQ
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6h9xhwe4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 16 May 2026 18:47:12 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64GIdBuX005520;
-	Sat, 16 May 2026 18:47:11 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4e5kvcgtuh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 16 May 2026 18:47:11 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64GIl9QI14156414
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 16 May 2026 18:47:09 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A480358050;
-	Sat, 16 May 2026 18:47:09 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E6F9258045;
-	Sat, 16 May 2026 18:47:04 +0000 (GMT)
-Received: from [9.111.59.249] (unknown [9.111.59.249])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Sat, 16 May 2026 18:47:04 +0000 (GMT)
-Message-ID: <46d6cb42-70e1-4678-9501-7b9eee2f2116@linux.ibm.com>
-Date: Sun, 17 May 2026 00:17:02 +0530
+	Sun, 17 May 2026 03:54:10 +0000
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-bd2087858c4so319415566b.0
+        for <linux-nvme@lists.infradead.org>; Sat, 16 May 2026 20:54:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778990046; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NK6q0zFrU86gTgrl6uQoo0i9MxsOHmZsCaOoqoX7kfoJ03ZWBJLywvp0y1eMuYQ9rf
+         Y+UlQaqqLI4gCr+pAXQLIA+Y2tO9amSKysXSxvkF6VmWI/uLEseHNKM07uYXjV3ptKTi
+         9Aju0THQTI8ooo4dXxBoAB89FyEnsS0FH6tGpmtry5xaiVPNzMW75qBlpnAMbHIBEADf
+         dJbsd962OgciG929NEKiM43ITpJ0/A6cBhgONp7Cx1In+SvSH4WoSCeip0sB2/S5KcoG
+         wY8YbMP+HZPJ2MBfEF9DWXSjP6ym4QgZkYlbLjGsTA3Nlb05aG1+jY0z4+7nVQYY/hOk
+         QD4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7RMMlpFqVvmvtzBmpLVq7DRJ/Q6MC30z0aqZkBqE7po=;
+        fh=OvqjbeEWoAiYvq4gTDVxacVev+ajdsCdL2TSvfcd0as=;
+        b=S4AWAW1wbqlcJBMnbgldqNAWO5QVmEFR8WHfOYN57M70Y3rPjE9VAYigrrqCrgzCEp
+         aDof72XMAJovD9MdUh2rR0eyjEBASONZz+sAbsfL8dI1VUe3mL71uMROrM3tvw6EavTk
+         nKiG6myYYbpgKiPsCyothfRZM9erMvDPaQKmLO/+qg963qy9+97GNarGRJNEWXCzMlJ8
+         B9ZU5Tqcn0SnWl4FrXVgNLzb81Mhpf93ex4fM5rz0KBEFtsPHYmJoPKsQmxUqJzSkyJ7
+         VokXPTuqi00XwhuA27YokeM8Ba4yOf8JykUwj1Td94R2NMJ9SHR8FIUadscswTXs5TlF
+         Rujw==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778990046; x=1779594846; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7RMMlpFqVvmvtzBmpLVq7DRJ/Q6MC30z0aqZkBqE7po=;
+        b=PxaL7Wi8HATWgUxgRbxNs0EnXVArwoPwK9gJre2LI99EnRDJ/0DNvRImWk02SULWgS
+         PRKzqemeNAb2HdULyZ0fiTDpQy9hmMKozqAcmTjBi7yFsibTGToje+1JMKBCF5JRvXO7
+         NK0cOixQr22REQJQ83NHZvHaPS53hhzYgkL38Q3MszaJLCqpSs7XrHRvn3M5a9SQeHNV
+         zb5s923zrhRaO0hnbJCyEX2y3VybzPsH9Tg52Ov9QweqQYXfN5NFrmrkpL4JjGPyNGzV
+         YcknJzp18/hFPRz4koH9l64pQHGLQXb+Fmd9KBWB30/wXtOkhQRUaZcvPjfGDt1HCcG9
+         aEVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778990046; x=1779594846;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7RMMlpFqVvmvtzBmpLVq7DRJ/Q6MC30z0aqZkBqE7po=;
+        b=dlu/kvko2t7Osz1MYgZVif601KxC/ie97IsEMcHBhSIpqT00S+jIdBN20lr++zCwKw
+         GrBlKedxDHs+x0gwJEGO7F3qRqRUEP/PdUDVdCGRrcpTK4BNFYuCkDwSuxFV1nLJTP9c
+         aLj4PJGHsymwBFqXxr+zh2zUNln69bwxiVpNnwaInEUFQXEJYqNklAHDleeBA/pewZQw
+         LhinA7AdD8eidqgcBGksTxNcLCwd7Hyra8flhWanolGg84du0yZ2yoX/iKj/RpjZw9vs
+         vDNeyNrY/X+dMdqFojaLiYaTdJ3KhDe4HC+R3/S1CswQiPDXr2VBpqevb7SOZUemw3UW
+         LLFw==
+X-Gm-Message-State: AOJu0YzwEqwRh8yk6EiQLRo66I6zmQDrPY429tQzaFrME9SxYxeUmETU
+	bxsgf/H0UgQOJMTC6/eFz32kjL/P42rqzxDi8vvokEHOoxiALRbbZEdLkn9MbecmwsDsT/9WN3M
+	tuMRMtvaD9pm5UBTODQYuduvvWX1HgGs=
+X-Gm-Gg: Acq92OFuulEG3lbdtYUGb4j+EXFhqQ5SOGqitJiU24NaAev3mW6uXqAckoy3YMqHP8X
+	MoA3lIXKgdzLR+ggLpYK85yZIy7pYTFYCSVGCnnbwh6nxxuQBiUNOkQRQ3L4pPM1kBLHy5vHldI
+	3QZjt7s8umftYhMC5fs6LqH4/0DlB7mBs/gDE720y93ilyWdZjwUxvCTbNOYys1WEvFfcwfQ3E+
+	u8NcwVYmVd6m0XkP/xMFkZ29VIeMWBFddnGXDhiXfuIv1Z2oQtVDqUkHTSvEpDM3YzCPON/tPQb
+	yBx+t+06
+X-Received: by 2002:a17:907:c986:b0:bd4:4593:33b9 with SMTP id
+ a640c23a62f3a-bd517906724mr423581766b.29.1778990046237; Sat, 16 May 2026
+ 20:54:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv4 0/8] nvme: export additional diagnostic counters via
- sysfs
+References: <20260427003457.1264511-1-coshi036@gmail.com> <afzWCpJSqvjnTgpF@kbusch-mbp>
+In-Reply-To: <afzWCpJSqvjnTgpF@kbusch-mbp>
+From: Chao S <coshi036@gmail.com>
+Date: Sat, 16 May 2026 23:53:54 -0400
+X-Gm-Features: AVHnY4L4Duvx-nXwPTEWE0E2GcE0_-GkwRySgFerna8-h2xgKx1Do0-p3kYWJr4
+Message-ID: <CACd_6n29MeACfWpqK5jaSPOVK+q5yop+eeuO_Wk0M0E5Wr7ujw@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/2] nvme: downgrade WARN in nvme_setup_rw to pr_debug
 To: Keith Busch <kbusch@kernel.org>
-Cc: dwagner@suse.de, hare@suse.com, hch@lst.de, sagi@grimberg.me,
-        axboe@kernel.dk, chaitanyak@nvidia.com, venkat88@linux.ibm.com,
-        gjoyce@linux.ibm.com, wenxiong@linux.ibm.com,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-References: <20260516183709.269937-1-nilay@linux.ibm.com>
-Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <20260516183709.269937-1-nilay@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDE4NiBTYWx0ZWRfX/DzQfNP54fDq
- xfLNx62RlovwPRIZ2g+P5+//QAaveTEvLviXDVlNPdd9U/X/jvP2yqsqg5GQABKw2TNnnkbqATc
- 25NfTOyPozDpmMRlx1i0jNeWkIY4XmRU4WaiCpr4f1r7oF6ZM8vDMyxqCS6EuIfS1tMIxo0CZBr
- qkG+DwsIRnZExAwZm1Gv07HxJ/fBxILaLsWRijb6JvUiEjqlBa7StGpUBpIQhzaW9sChDTmqXxa
- zPaRrJyXOTNn12pxmo27ENO+HWfXZM0CSgRrLzOkNh6Y4JaHLLMJXMeW8XnJkpg+9E48Yx5IMq+
- thfp8aupXb7e/T6273LB3mW5cOrEuQA76V0016cJ+QgzeTOA4SRrGQtcl0Nk9dOUUdE9ylLo/xT
- z0ePirPaGsk1yFGwOwzX74xLvpKhu0OHUQRqzUJmpnaQgnHW+trfJl4i1kEvLJTg47zcpBhyTDV
- LSCjyDOLbutnQuTGDPA==
-X-Authority-Analysis: v=2.4 cv=BNuDalQG c=1 sm=1 tr=0 ts=6a08bbb0 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=a84WJmvbQVjgoY9DVrQA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: VZw7xYb9k6ULjUojipqi9qO4D_OKu4JX
-X-Proofpoint-GUID: VZw7xYb9k6ULjUojipqi9qO4D_OKu4JX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-16_02,2026-05-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
- lowpriorityscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605160186
+Cc: linux-nvme@lists.infradead.org, linux-block@vger.kernel.org, hch@lst.de, 
+	sagi@grimberg.me, axboe@kernel.dk, Sungwoo Kim <iam@sung-woo.kim>, 
+	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260516_114723_055852_51FAE6E5 
-X-CRM114-Status: GOOD (  18.97  )
+X-CRM114-CacheID: sfid-20260516_205409_017154_CDE83E76 
+X-CRM114-Status: GOOD (  18.10  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -122,67 +116,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
+On Thu, May 07, 2026 at 07:12:26PM +0100, Keith Busch wrote:
+> [...] how that was defeated [...]
+
 Hi Keith,
 
-On 5/17/26 12:06 AM, Nilay Shroff wrote:
-> Hi,
-> 
-> The NVMe driver encounters various events and conditions during normal
-> operation that are either not tracked today or not exposed to userspace
-> via sysfs. Lack of visibility into these events can make it difficult to
-> diagnose subtle issues related to controller behavior, multipath
-> stability, and I/O reliability.
-> 
-> This patchset adds several diagnostic counters that provide improved
-> observability into NVMe behavior. These counters are intended to help
-> users understand events such as transient path unavailability,
-> controller retries/reconnect/reset, failovers, and I/O failures. They
-> can also be consumed by monitoring tools such as nvme-top.
-> 
-> Specifically, this series proposes to export the following counters via
-> sysfs:
->    - Command retry count
->    - Multipath failover count
->    - Command error count
->    - I/O requeue count
->    - I/O failure count
->    - Controller reset event counts
->    - Controller reconnect counts
-> 
-> The first patch in the series adds a new diag attribute group under per-path,
-> ns-head and ctrl sysfs directories so that all diagnostics counters could be
-> grouped together under diag sub-directory. The subsequent patches in the series
-> adds diagnostics counters listed above.
-> 
-> Please note that this patchset doesn't make any functional change but
-> rather export relevant counters to user space via sysfs.
-> 
-> As usual, feedback/comments/suggestions are welcome!
-> 
-> Changes from v3:
->    - To be consistent in naming, all counters are suffixed with _count
->      (Keith Busch)
->    - The first patch in the series creates new attribute group named
->      diag and all counters are now grouped under this new sysfs
->      attribute group (Keith Busch)
->    - Counters are defined as atomic_long_t instead of size_t (Keith Busch)
->    - Removed RB and TB tags due to above changes
-> Link to v3: https://lore.kernel.org/all/20260220175024.292898-1-nilay@linux.ibm.com/
+Not the freeze.  The WARN does not depend on q->limits, but on
+ns->head->ms (read live at dispatch, set inside the freeze window) and
+on REQ_INTEGRITY, never set for EXT_LBAS-non-PI.  capacity=3D=3D0 only
+gates submission (bio_check_eod()), not dispatch: a writeback bio that
+passed bio_check_eod() under the old capacity sits on the task plug
+holding no q_usage_counter ref, so it does not block the freeze;
+blk_finish_plug() flushes it after the update committed head->ms !=3D 0
+(dmesg: the capacity-change line prints before the WARN).
 
-As discussed during LSFMM, I have incorporated all of your feedback listed in the
-changelog above in current patchset, except for integrating command_error_count into
-the generic gendisk statistics.
-
-While working through the implementation, I realized that although some namespace/
-path-level error statistics could conceptually fit within generic block-layer accounting,
-controller-wide error statistics do not naturally map onto a gendisk object. This is
-because NVMe controllers themselves do not have an associated block device representation.
-
-As a result, controller-scoped telemetry cannot be cleanly integrated into generic gendisk
-statistics. Therefore, this patchset exports these counters through NVMe-specific sysfs
-attributes instead. Let me know if this approach looks reasonable.
+So it is reachable -- the host-unaware geometry change you described,
+unrelated to your block fix.  The deeper fencing gap is the separate
+TP-level issue; v2 does not attempt it, it only stops a
+device-reachable, already-safely-rejected dispatch from being a WARN
+(a panic under panic_on_warn).
 
 Thanks,
---Nilay
+Chao
 
+On Thu, May 7, 2026 at 2:12=E2=80=AFPM Keith Busch <kbusch@kernel.org> wrot=
+e:
+>
+> On Sun, Apr 26, 2026 at 08:34:56PM -0400, Chao Shi wrote:
+> > In both cases the bio was submitted without REQ_INTEGRITY (because
+> > blk_get_integrity() returned NULL at dispatch time, so
+> > bio_integrity_action() returned 0 and bio_integrity_prep() was not
+> > called), and it reaches nvme_setup_rw() for a namespace where
+> > head->ms !=3D 0.  The existing BLK_STS_NOTSUPP return correctly handles
+> > this dispatch; the WARN_ON_ONCE is a false positive.
+>
+> This is what I'm not really following. The cached request holds a
+> reference on the queue that prevents the queue freeze from proceeding.
+> This driver freezes the queue along with the queue limits update. As I
+> mentioned in the other patch, that was supposed to ensure the block
+> layer had the updated limits before it could allocate a request, so I
+> think we need to understand how that was defeated to get to a real
+> solution.
 
