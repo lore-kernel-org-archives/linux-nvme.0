@@ -4,182 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66BE5CD4F50
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2026 14:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5B66CD4F4A
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2026 18:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=2XEhqJmsgrDFlLug1XaoTO7gc/D2Aupmoge4tAv0cU0=; b=hx8DUR07/N1T47vKf392FbyIMQ
-	Ruy+9QxY8KBK0hhsstilH2piHoJ2wMFtPdcMqV+xWk/al5yO/Vi3JIoI5zo5s0UOQD2FU3J6YQnYb
-	diu0botKqSdWd1T6Ii+tmaaXUDtq88MKpFL++rjUn1CAl7s5rFHW+0MIozdPbyHycW+imeyU6T0q6
-	I4fAIQeKQufXbTQQX1hOtY6dY87Q4yMLgwOdSuodyOrfN6fdxzF7At+0eDc8Ur0ug23NhkJArke+w
-	q2Mtp0wMqxkmywZbAQB8uWB476ywW0hvjd6F9pcaweTCkRGfO6LPWtdoAHb3picixuM3zMPU2PNZ4
-	zJl4BbfA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=lTkbWOfvTijE5Sce00qhlQwRcPTokky7i9OeoXPYIao=; b=WaIOrmIhCnEMaLtHsCuioil1q9
+	DTDcqL/bSC6q2a8OllBH6xeSEXrepNaNtnOkPEfJxn8bPGXa3YEthkYJxfXLsuy4PC0u9b09tzGwu
+	dl0P1Vob20BvVGCpoBQi/zBeYbgYaOiU+Gl3d0HH0TnxTHWZzKl2htjcoWH+TkHmue4d/XwCzCswk
+	MoKj3QzGmbntbtotD6dZ6Fuocd9k2D+xZL4qwx56BAd7BThuRRf5snKSrehFIEDeVLD9O201M9YKz
+	Opm/r6PrHNXKCDWMvORX7zGQsSiaSqdnhFM9tkI6UZcky74epyR2r8yUYkNv2R7Ozk9Fnn1xxXQw2
+	r5xYA5+g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOzLP-0000000G3SO-1k4X;
-	Mon, 18 May 2026 14:53:23 +0000
-Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
+	id 1wP2eB-0000000GYVk-1PoQ;
+	Mon, 18 May 2026 18:24:59 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOzLM-0000000G3RV-2TML
+	id 1wP2e9-0000000GYUg-0rw4
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 May 2026 14:53:22 +0000
-Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
-	by mx0b-00154904.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I8rRE92769914;
-	Mon, 18 May 2026 10:53:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=smtpout1; bh=2XEhqJmsgrDFlLug1XaoTO7
-	gc/D2Aupmoge4tAv0cU0=; b=J5/P3kon/OGHwNg948BsbNIuyOAEfx+R2YBz/Zu
-	irEO4liQ/OfMy+ZQmX9Vp8pd4ReESkwpeOma7Qw4aJhjR+ghDlhutL1v6+iAUDCe
-	lrKEDwxSJUBEhiGGLvaMe6XQ2RL/DBdshKn0oHsgaEKC1HXGzKu7r5rTEN1+ApmM
-	2pIDTQRCuxx5y1QySAfYReo6crXKxrtINsI/EIlfnwVNDR6IuS1ItvGtRZp2XL2U
-	Z8NrbsaL2nQaQmlGglzgD0OT6NCQJt1peeCaGzeTEEvfn3dZuiRGYfQcZVeHjgRG
-	RWxn0lCcPipAcInQxuYEqrUvk+PgV+Bwe7Phl2VYhDsdHYw==
-Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
-	by mx0b-00154904.pphosted.com (PPS) with ESMTPS id 4e6hnmr9dd-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 18 May 2026 10:53:02 -0400 (EDT)
-Received: from pps.filterd (m0134746.ppops.net [127.0.0.1])
-	by mx0a-00154901.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64ICTjh23993822;
-	Mon, 18 May 2026 10:53:01 -0400
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010064.outbound.protection.outlook.com [52.101.61.64])
-	by mx0a-00154901.pphosted.com (PPS) with ESMTPS id 4e829atwgh-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Mon, 18 May 2026 10:53:01 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tr+iwqx/3M2rMNgHqwkA6SWs8kNGjChJsdPgDS21Yr41biu+KS4HeqS553Ex8S59VvvKCF3axycGnF46WhT9wT1N52rbjCfPGeV1qUPjb3iUyvSZOi6KjhvEs4vXOF/8ptTJXbYqp6UdctWkC2k6lkPTAM5ZTfLqW43GZNGo34paiCIF/69JcKHqlj8j9KyulRNQ6VcnYPc5oQfWdh87Sd3waB685NmlPaHhl8eO4PYRsUGY8DNeAUiSJb8MJnuOPoRNWXeVkY5lGX9FUTYrS/eYL+HZsEYbE7h3Gn2c+GEtiWexs7GF2XuQ9XMjk2qjC8Hx/wLeQdHvwAdXYfyXUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2XEhqJmsgrDFlLug1XaoTO7gc/D2Aupmoge4tAv0cU0=;
- b=ck4KT5MG1mw22suZvP2NtPT6boF2jE/VCyQXabO0qqq42LliSnpBpnJPy9WbcWM0KW2kAVSqMW0Lu1UcgZbk4ASNw/T41rsKiIyT1i1mZuKpX96VW4VGNJlJekcm+biWo2lFV2v00ye4TmNzDDwYmfFs913t31u1G24CCHsJTn35lblbLLjrZ0XJuvXECFDriR3aMj0uK256G+Bu7ayWQ8KEkGWbnCyZUOmZmExlg1V9VKtu7PdS8CoxeYhm7twTPRwDyUM0S+HvtdfFJJNQsTBC/wTe3MitvOQMdV3GIZ0+6VRw6qKGboIYc5HL6XVKKwjaGlVXBLe/v704Jm5NRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
- dkim=pass header.d=dell.com; arc=none
-Received: from MW5PR19MB5484.namprd19.prod.outlook.com (2603:10b6:303:191::16)
- by BLAPR19MB4307.namprd19.prod.outlook.com (2603:10b6:208:254::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Mon, 18 May
- 2026 14:52:57 +0000
-Received: from MW5PR19MB5484.namprd19.prod.outlook.com
- ([fe80::88b9:ee8a:d884:49ff]) by MW5PR19MB5484.namprd19.prod.outlook.com
- ([fe80::88b9:ee8a:d884:49ff%4]) with mapi id 15.20.9913.009; Mon, 18 May 2026
- 14:52:56 +0000
-From: "Achkinazi, Igor" <Igor.Achkinazi@dell.com>
-To: "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
-        "sagi@grimberg.me" <sagi@grimberg.me>,
-        "axboe@kernel.dk" <axboe@kernel.dk>
-CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "Achkinazi, Igor"
-	<Igor.Achkinazi@dell.com>
-Subject: [PATCH] nvme-multipath: set BIO_REMAPPED on bios remapped to per-path
- namespace disks
-Thread-Topic: [PATCH] nvme-multipath: set BIO_REMAPPED on bios remapped to
- per-path namespace disks
-Thread-Index: Adzm1dy/Cx6JquSnSUq/8UuX73jm6Q==
-Date: Mon, 18 May 2026 14:52:56 +0000
-Message-ID: <MW5PR19MB548483D1FAE4F322E4C97352FD032@MW5PR19MB5484.namprd19.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Enabled=True;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SetDate=2026-05-18T14:50:42.0000000Z;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Name=No
- Protection (Label Only) - Internal
- Use;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ContentBits=3;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Method=Standard
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW5PR19MB5484:EE_|BLAPR19MB4307:EE_
-x-ms-office365-filtering-correlation-id: e47af3ec-7068-4b38-ae94-08deb4ed25d7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|786006|366016|38070700021|11063799003|56012099003|18002099003;
-x-microsoft-antispam-message-info: c68HO0UYOAN1rNk/knbWGcC3H93engg+rdULYuA/jKoc3UZ4JpTZsrY8L7zJTVG3QVQsiA2krbQi7quAt7WsYqajbBagzE6rjIlMUaxt0PZB4LJo5rpbySRLRrheZv9zwAHhXaILD801YT3CfQRs5fUN3DNaO9a/BPODd7BKA5mAs4NV5328t17SeilL4yX5xzdqsWgCqiX/wznGTbFW2bBU9Ap55K0WCQLW0FDXrl2I3Ih9BEQ9YBRen3EmWeCM5PdNUHTv2FLiCoXLLotCmX9gAIRVp2jJNAhSVq5gBHHed/fSE3C52KHU7yyhJd1WKqBh4qXbM/fukb0iop5e/0o9OyKo0h0Gaghvx6IooNaHUrmYteinrfPlGjccGu0SbQGGlUzquPeQqwWAfjmlrkGWxXunL+Yeyy7GUlz79HNflgPfHsgzLrdjF/mNS3G3MjISzxy2670Rcr4BLOpeJhQI6BUrIvrBAhDipJXz20oSDQqbPgWqSkdhT6yUMiyuO1CmvAaNG462ZtU9vFDthODrdrBjnAYK5fS4niTA72FRaw49C4Z1hCmkTleKRBMR1spwhfeQhNC9KnXXEKOz0PrYZqIypFrDkw3ISwFdPVxesCknbQMCbX8ybERiL/wR4ImprEgxZEE+DfLPlgUiwu3BazR7svVHxftwVDpTBp3Q+3tXW5zfw1pPePMWi0aOb3yXOimPjEKIOAz13uJZ3bCK28rOU4WJ4Wwbkx1o00AAa/RhiLBsN/r2xQBUmWP3
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR19MB5484.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(786006)(366016)(38070700021)(11063799003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dpLXtEtke6UtA3VD4IMqZn7KBn+dzMLosECF35pevkOHLsjnVN2m+U41wfDi?=
- =?us-ascii?Q?ruBRzShIR0VR6sDB9caAHhxWTOu639p7/HEaQqfvF9NOxK7SAucMAIEfLmUI?=
- =?us-ascii?Q?OMaOjCm8WM8jT77Q0SJn91p/1JFR/kGQhZzYeJpu8fQBpdG7OlAxM23iz9VA?=
- =?us-ascii?Q?1Spxs4+6NZC3+gYtkpBpa+bz3CTldJVkL1p/HwfFAm3dpttLMdgw9gPyi28n?=
- =?us-ascii?Q?25KbD+boEkLXdWUlxmPMPSeq87vZzFdVZh8SjM5GZF8pt8/pExcoPv+MBL+D?=
- =?us-ascii?Q?8deBoi1rZAr9Xx6Pve/aygDxbnRVclqiT0yEQ55OH58EEJp/NYr1k1mIJfgz?=
- =?us-ascii?Q?ck4n/hSEAWvPm31ckviB32YPAv0X4nH0UL2iFFc09oS5z8RwEMKa5HLV3rL8?=
- =?us-ascii?Q?W/l9ijVqlHpjNC396Cve+ps+7Dj0XlHTUp4NygX7qYAS4mwlRBy5eyVyBRAc?=
- =?us-ascii?Q?vp7TMJvmB0Y2gju0GgdBaweXoFnTpX6EiJv53aOdSf0a/mI3vGSvFCv54Rnt?=
- =?us-ascii?Q?IbXzcqVgNHgXcvkwELQ747Yv2Wl/xc/1nR4mhcTbMJ8esTu8M8n8h70paSJA?=
- =?us-ascii?Q?gjQpg/1Ooehvz2uWeNCEPf/DhA3IT4mts46QSUyg3hpINbAZP5hGSTfqp1oB?=
- =?us-ascii?Q?mBz8uLvmkQAz9GsLLfwzT3TSNHY4j6DwPQ44RmgOPvatvdCJwPJMBdKllozA?=
- =?us-ascii?Q?tzI/z3WWAvU/PSIid7lZaZSaGKuOa1aVMqv0prY/hvk4Ugs8eOSbLzkHv7Dy?=
- =?us-ascii?Q?Q9UtzMUjQRVUwtN6KCV0fFamHD6edL6F6CEFsMju39zHQHsgdPBYrvuqNVaW?=
- =?us-ascii?Q?eSi94PhV/nNQOPri58ZXSCZyOwZS6I0F50uItleStRBMnfAaEM5KKqRSt4A9?=
- =?us-ascii?Q?sOLPqrvJhQkS5uyNrbHMrTrsiwxjgVhaw6i6yWOoNLzEAgtJee1BniOniE5l?=
- =?us-ascii?Q?VaTs84gCR870ldPO2BxG48dd1szkWP6T/Z/gA4xgWvlHTBoTIu8LiOpoK67e?=
- =?us-ascii?Q?Gv6Za0xM6xH/eUXWCi77I0I4tGvMl2upz6WG90+DQhogBZfxQfH6spL26rz4?=
- =?us-ascii?Q?jojXE/e5iKlaGjK1Rwa1bnnLVglcq273ThxQZVBQ8mX6r4jRg3nkNjik8/6m?=
- =?us-ascii?Q?2K1yQfQhov0rpqyz2qaFQA5bEAjMREWxca4FvuvwehDZp6/TQfzvq8xcWEOQ?=
- =?us-ascii?Q?bUSGrafuR+euRvW4FD2KIVMhEONQeBdVzvoIHHdzT4jRltgJXQv9w/2MGPxt?=
- =?us-ascii?Q?hgNe8Q4i6VT5bOVX0p3SpxzTbFdEizsWMW/HrZv/IZ31Z1u0L8N8SutLopus?=
- =?us-ascii?Q?rIe43b8qH5aOhrl/Db1Sesh56FkoqTtgn+PyueZaGHOXnMAlC3hgsOFI1H0J?=
- =?us-ascii?Q?3F49wyHcafLhZA1CcEVfYujn8y7xE9flgr8w8iyYcFrlrQPpFRa9U7HdRZKR?=
- =?us-ascii?Q?ns4LdW7uEU2xwu57OA1zrfSwWjAiPq+ooxW7ihKSAGH3Ywsel9guThYL4lux?=
- =?us-ascii?Q?CNnoLRxkSlQ1y+/cwcYN5cl0G+AkOLDk6vIhejMvcGhA95u32EkLz0/bFRJx?=
- =?us-ascii?Q?9EcpVza/45E06jmFMAnRCu/98Wm8FLSWM3N7urzXDdkf/Ds8fB/ikUCiXK/0?=
- =?us-ascii?Q?1nwdGemUXSc39XYJwE1bJuLydcGlb5iHfqgFrtIhL4xk4MqydySs2Q6Ct8qn?=
- =?us-ascii?Q?5emBgLqKb7Dld02cLtyTO20QdvOslB7Qw5T4nu2i4ojrczoGz98g55aD6NcI?=
- =?us-ascii?Q?FDcEWaGFcw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	Mon, 18 May 2026 18:24:57 +0000
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id A77A060123;
+	Mon, 18 May 2026 18:24:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94DCFC2BCC6;
+	Mon, 18 May 2026 18:24:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779128696;
+	bh=n9SuNozrSOzZhLDAOVkimbEDTCJ3gQowyLTYOZKeHSw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=hJoAkiEn6GExcXDvdbcsElB5jR96pLT6Yb8xj/fQQqNhDzE82HO/4YIum2mz7MyjA
+	 NK/Uxw5JCe8wCVcxCos0mezSVy+lYL2vYH0UMCT6JG6LYBgO85HTXQskKFv6FItuRb
+	 yef0/whpVL/isvUxGyJwavWhcZpV9aAvrV7hgAw46rXW/FjXA6B6fEtCHyvINcERtN
+	 8Rsz5x1Ys0jDPfnbCxjr4Z0Qv0hymjxg/Nb4VZTtoksHmDhuOlvzk2X6Wy6fsb2Dn4
+	 ppbBZb2rs6sZvLci4B+GtoRDFz6FKX9B9SgmYDt6M7X7A99kkfjJwHZMKwcvbVMdhm
+	 yuFhTJc2X5R2g==
+From: Chuck Lever <cel@kernel.org>
+Date: Mon, 18 May 2026 14:24:29 -0400
+Subject: [PATCH net 2/7] nvme-tcp: store negative errno in queue->tls_err
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: PG2N39Z0kJsDngIwtR943Xfw9bxwlkMZo1sefPeMiwXuTAxgkmrWTzMbhMzSY6NmJFE06SpOEqlQ1p6jcZtYtUJFh0GY5t0P9ZsAOmqqhc3G7G3uO+ABmZ4Oo6TgvdvztaN/77IFT50Kl90h59//YFKZ2qt2swVawmyJO75kYWv3lpij1YrBYkb0FsKm+Mz7NMR3S3PhbSOpCbBIv0wi5eTK95fDWT1LwxIOwdW/4gQRIvFifNkPKx05F+RnL+a2XtwPPX90doiCzKS6nuAB0F3K6TPWavYKHOrdrNHKAzONH5Gexp47JCGQ3jEckHmKV4wz9CGWzq8AgCNQs8NCYA==
-X-OriginatorOrg: Dell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW5PR19MB5484.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e47af3ec-7068-4b38-ae94-08deb4ed25d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2026 14:52:56.8169
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ihqn/AWL1hvwm/RPv+v5pLCWTLXjj7HZNQKKftnPSnYGWx26epMvBQory2ogclWbWNhnRw1X6f7Cljwvf/Yrkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR19MB4307
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-18_03,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 suspectscore=0 adultscore=0 spamscore=0 phishscore=0
- impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605180146
-X-Proofpoint-GUID: dtcLSzU2gOsIwgj8wzeELR3gnJbMIJbO
-X-Authority-Analysis: v=2.4 cv=VJLtWdPX c=1 sm=1 tr=0 ts=6a0b27ce cx=c_pps
- a=j0++y401J6f/BxNAf5EDow==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=6gNNCFAoQcIphELLPWWu:22
- a=U3ti1ie9CgboSd2qXsAw:22 a=VwQbUJbxAAAA:8 a=iLNU1ar6AAAA:8
- a=n8P0Md7YgY-1yq5sWS8A:9 a=CjuIK1q_8ugA:10 a=gbU3OgOOxF9bX48Letew:22
-X-Proofpoint-ORIG-GUID: dtcLSzU2gOsIwgj8wzeELR3gnJbMIJbO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDE0NiBTYWx0ZWRfX4aBmy5aV7aUO
- BK5UZA9+pP/ESkH0nEvYl2CYJ2E+f8Tq8INK+UjM8bwofBx5Ke0kP7Hnp4JKGzHjK6uatJRQv8B
- aK+Xp5RXPySdi+C3kMUeN2W+1eV/tDIkGm8InjVovz9vZNIq3dGj6pXlx9rQ014zI5+Vpb+DjxH
- uagWbeRPGv3NMpsxwrOwHoVKhQBZxvpnrknVRism1jD7auCdYHdM7cpjKfFPMvZWvJ/1l13222w
- OsbV3+HfpqaDKazvFbaVGySN3mdh91N6bgz593QuF+wkqxXK2M7cFUbTRRxFmQX3INAtv+dy/df
- e2ZqkkTShQIP7qBs9ajQM/pZ2IF2WBgCLuajA1mBYtBJfGZmCU6QDYNqD7Zs8bzbf85Ez6rWkfl
- eYBzn5lwe9rAWPRaRE0McnCQBbP8d4pHilTyPbPp9rfqp3Dv3Szj1ZU7LIVZD/lgL5K/orIcDlJ
- Eqazwn0hLpowkxyVcMA==
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 phishscore=0 spamscore=0
- suspectscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605180146
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260518_075320_789241_09FA324D 
-X-CRM114-Status: GOOD (  18.23  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260518-handshake-file-pin-v1-2-4bbcb7e62fda@oracle.com>
+References: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
+In-Reply-To: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>, 
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
+ netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
+X-Mailer: b4 0.16-dev-da966
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1349;
+ i=chuck.lever@oracle.com; h=from:subject:message-id;
+ bh=x/9vqzlpF3pMsoHvTNGwDspyw8WZEQKJLSCQI6ALpEw=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqC1l076OEac041r0mxI+Z5S2sJEJZC22dodIZA
+ QMmHspv5aCJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCagtZdAAKCRAzarMzb2Z/
+ l5wWD/4n0zVSZMdZiMdNLyXMCfqW62f32YzVIVpoKZxkxkVYbaNThbabaytjejyEc/pbv7MqVeD
+ 9kTAuzUgG1Znh/3Lnwa8YFX9JL8XyB1R/lEvTAe5ca3RPb3Gwv2PvrvOsUkRki4XjNm9M2amv93
+ f7ie1VnZUPTar1DxT1VImOAJTLeBbioehA8YWm5J9VepZFkD4vWKk3PGY8p4kt/6UAfisPlaEqv
+ vC9EMVz4xVwnNlOHXZaEXCwO1leedR8rf6LiISDjSosuotjOtqUleKJ/B1Ezf1wadP+6tHRJNs+
+ I7TrSiwyvgkAxaHAKLvVMtTzko6bfCgxJjfonUGK1hG9ClWs+jZKpN0RKXJGsPMVLzLRasDhDQF
+ VgT7D0zxxiEXmgIxj4pQm47vEYFUcCLz1U20Hz93Hsu2dBVb0erkJAcCZ4E9/GyNg3ExuVDh3y6
+ ASkOmvhRfoWsffaTs95luC/bHWRqqkT6j9sCSrm0OV+kVSCHoCRWxl+5hTOxaxTIdj8NXu4Yoqc
+ UsdhcN+RFmzfe/atC88XE/U7x+zU7lGAEBWnVF12djTRtbU6cRqIYV0Gvv5IuLtu40qEBbHNPP4
+ VXhC0zaY1JpF4kj6rPAiccI4rfOoFw4cpWpmsvqgJ6yf37nrpcb2ItPGs8PpxD8drJ/MyJCTHdz
+ NJIWLt657qfVJLg==
+X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -194,112 +89,45 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-When nvme_ns_head_submit_bio() remaps a block IO from the multipath
-head to a per-path namespace (path of multipath), bio_set_dev() clears
-BIO_REMAPPED.  Before commit a7c7f7b2b641 ("nvme: use bio_set_dev to
-assign ->bi_bdev"), the code used a direct bio->bi_bdev assignment
-which did not clear BIO_REMAPPED.  The block IO is then
-queued on current->bio_list (deferred, not processed inline) and SRCU
-read lock is released.
+From: Chuck Lever <chuck.lever@oracle.com>
 
-The deferred block IO itself is dispatched directly to
-blk_mq_submit_bio() without re-entering submit_bio_noacct(), so it
-would be fine on its own.  The problem is when the block IO size
-exceeds queue limits and blk_mq_submit_bio() needs to split it using
-__bio_split_to_limits().
+nvme_tcp_tls_done() assigns queue->tls_err in three branches.  The
+ENOKEY lookup failure and the EOPNOTSUPP initializer both store
+negative errnos.  The third branch, reached when the handshake
+layer reports a non-zero status, stores -status.
 
-The split remainder is resubmitted through submit_bio_noacct() which
-calls bio_check_eod() again because BIO_REMAPPED is not set.  This
-sometimes races with nvme_ns_remove() zeroing the capacity after
-synchronize_srcu().  Result: bio_check_eod() sees zeroed capacity and
-fails the IO with "attempt to access beyond end of device" instead of
-letting it fail over to another path.
+The handshake layer delivers status to the consumer callback as a
+negative errno; the other in-tree consumers --
+xs_tls_handshake_done() and the nvmet target callback -- treat
+their status argument that way.  The extra negation in
+nvme_tcp_tls_done() flips the sign, leaving tls_err as a positive
+value (for instance, +EIO), which nvme_tcp_start_tls() then
+returns to its caller.
 
-Observed failure scenario during tests:
+Drop the extra negation so queue->tls_err uniformly carries a
+negative errno on failure.
 
-  Setup: NVMe multipath with multiple paths (e.g., controllers nvme0,
-  nvme1) to the same namespace, exposed as a single multipath block
-  device (e.g., nvme0n1).
-
-  Steps to reproduce:
-    1. Run sustained IO against the multipath head device (e.g. vdbench)
-    2. Delete the namespace on one of the paths (e.g., detach the
-       namespace from NVMe controller on a subsystem on the
-       target side).
-    3. The IO that was remapped to the removed path and requires
-       splitting (exceeds queue limits) hits the race.
-
-  Expected behavior:
-    The IO should fail on the removed path and nvme_failover_req()
-    should retry it on the remaining healthy path.  IO continues
-    without errors visible to the application.
-
-  Actual behavior:
-    The kernel reports IO errors to the application.  dmesg shows:
-
-      IO_task /dev/di: attempt to access beyond end of device
-      nvme1c9n1: rw=3D33556480, sector=3D476160, nr_sectors=3D256 limit=3D0
-
-    IO errors were reported to the testing application, causing
-    it to stop, despite a healthy path being available.  The IO is
-    rejected by bio_check_eod() on the split remainder before it
-    ever reaches the NVMe driver, so nvme_failover_req() never gets
-    a chance to fail over to the other path.
-
-We observed this failure during NVMe multipath failover testing at
-Dell, for example, on kernel 5.14.0-570.23.1.el9_6.x86_64 (Red Hat
-9.7), kernel 6.4.0-150600.23.53-default (SLES 15.6), and others.
-
-The fix is setting BIO_REMAPPED after bio_set_dev() in
-nvme_ns_head_submit_bio().  This skips bio_check_eod() on resubmission
-for both the remapped IO and any split clones derived from it.  The
-EOD check already passed on the multipath head.
-
-This is safe because the individual path for nvme has bd_partno=3D0
-(NVMe per-path namespace device is always a whole disk, not a
-partition), so skipping blk_partition_remap() (also gated by
-BIO_REMAPPED) has no effect: adjusting bio sector offsets from
-partition-relative to whole-disk-relative is not necessary.  If the
-per-path queue is dead, it fails via GD_DEAD check in
-bio_queue_enter().  If the per-path queue is still alive, the
-request completes with error Invalid-Namespace coming from nvme target
-and nvme_failover_req() handles path failover.
-
-Same approach as commit 3a905c37c351 ("block: skip bio_check_eod for
-partition-remapped bios") which solved the same problem for partition
-remaps resubmitted after bio splitting.
-
-Fixes: a7c7f7b2b641 ("nvme: use bio_set_dev to assign ->bi_bdev")
-Cc: stable@vger.kernel.org
-Signed-off-by: Igor Achkinazi <igor.achkinazi@dell.com>
+Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- drivers/nvme/host/multipath.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/nvme/host/tcp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 263161cb8ac0..04f7c7e59945 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -511,6 +511,13 @@ static void nvme_ns_head_submit_bio(struct bio *bio)
-        ns =3D nvme_find_path(head);
-        if (likely(ns)) {
-                bio_set_dev(bio, ns->disk->part0);
-+               /*
-+                * Mark the bio as remapped to the per-path namespace disk =
-so
-+                * that bio_check_eod() is skipped on resubmission (e.g. fr=
-om
-+                * bio splitting in blk_mq_submit_bio).  The EOD check alre=
-ady
-+                * passed on the multipath head disk.
-+                */
-+               bio_set_flag(bio, BIO_REMAPPED);
-                bio->bi_opf |=3D REQ_NVME_MPATH;
-                trace_block_bio_remap(bio, disk_devt(ns->head->disk),
-                                      bio->bi_iter.bi_sector);
---
-2.43.0
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 15d36d6a728e..68a1d7640494 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1702,7 +1702,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
+ 		qid, pskid, status);
+ 
+ 	if (status) {
+-		queue->tls_err = -status;
++		queue->tls_err = status;
+ 		goto out_complete;
+ 	}
+ 
 
+-- 
+2.54.0
 
-Internal Use - Confidential
 
