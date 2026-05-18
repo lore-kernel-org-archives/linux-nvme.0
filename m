@@ -4,107 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C89FCD4F49
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2026 14:24:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25764CD4F49
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2026 14:37:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=m58bYDJ543WmyZ11IWytLuY71YuFJ2Bw6ePCWpryz/I=; b=G3i/c6Gqoshfg1sUSMsw/BXlP/
-	nch3MGRoRNW07CI4IPilCs4PMXZpmaJkx4EMChx1Ow/GFA+rqpdzkfA13+DH+U3e7Gawi8XdtqL2G
-	KAFR8eXJg6PhBjFByXs4NXWq3P/hDVAJFiBr9inOH4zrDLydV5zT5QGUfh3zDt6jOKBCYPO0dgHqq
-	fWlMBP+N6VAXwoJ1wO91JxCog1ajfHhpy8Q4W/mTAaGTFO7oAI6VUaQo2a3tvbT6kF2Tryu2P2ajG
-	XLMKHTtCtnGcgKaT72cPYNcuBzj2p+/NCLURimJt5Qk2gm247JWxqmXJog1D5rUgdMummmX8rFUta
-	T3MF/OKw==;
+	bh=3Dh1s6OdAS1PfBEWRup+gzc+11JwMqjGvirdDEgh7WY=; b=oUDBJpRd+wsib+DZGdtiDtaJ2Y
+	2ISrRqp2tuPQb72Mw+XSQsfFnAmXsHqilCdTIszwDaFbEV5sHC5nNsBz7aDo1OG313vYTfS9s+sbD
+	POA/2BZPznsujZlxTMLffDju0m0cgonHS0/ML3WMEZRO1KXqor5ATcZHG2XZ7ajFpAd9jmmPRJD/g
+	X+MB5CJlMSZWTiuX8tJXQpcXXnWEmVCQeMnfGgygLBJCk9Do1hIzKV2HUkVq36U5TOimMY+LsJqYG
+	SGFAPYEcuZzCH1kD8uvG++EK/9BdBuVWWDaM/7D2i/B0udEZqVTnYlrRDPHKydfmQuA86hhlaM6oA
+	7Mi+gNfg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOyt0-0000000Fy02-0VOz;
-	Mon, 18 May 2026 14:24:02 +0000
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+	id 1wOz5o-0000000G0tL-0KWu;
+	Mon, 18 May 2026 14:37:16 +0000
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOysx-0000000FxzT-1Ozy
+	id 1wOz5k-0000000G0rq-2Oe6
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 May 2026 14:24:00 +0000
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-bd3d7c29b4dso345026466b.2
-        for <linux-nvme@lists.infradead.org>; Mon, 18 May 2026 07:23:58 -0700 (PDT)
+	Mon, 18 May 2026 14:37:13 +0000
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-50e5c7eb565so29895311cf.3
+        for <linux-nvme@lists.infradead.org>; Mon, 18 May 2026 07:37:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779114237; x=1779719037; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m58bYDJ543WmyZ11IWytLuY71YuFJ2Bw6ePCWpryz/I=;
-        b=l+LmftYKb7X1Pu+XoA+qmL5hwp6XpJHWbXftuTRQUlJqWlW2s6mtbp0sEQEDupNKjL
-         2He2sV0y52uEMr2uUZdWIUplN5dMnc5wyuTdNQcjyBkz7gn+JS76q1BatCStt/VJUhnD
-         JxoVl52Imk/Yauc2j91Neqisq4Dv5CMRwfvcBwi3RYDGxaTTUKlp2qZWZfBjY7tbKnmS
-         Jt1zNHzyeTmSGJVAveGDbvErPQWpCjttCvi2SVctTE53FQqU+KqrY2W66LQ1k6xDMNs/
-         IeYLLqNvPPLcHN2rM1Tx/jlCwh34w0b8wY6vAknE9RO6GtI1aY6SEoLwt8nkaQau1jS3
-         1B9g==
+        d=gmail.com; s=20251104; t=1779115031; x=1779719831; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Dh1s6OdAS1PfBEWRup+gzc+11JwMqjGvirdDEgh7WY=;
+        b=iNVyKlsyn+qg2CHGLcWqQ84GQ2LvnjOnBz+1ND4PJVGpZnqcLnBz1S5SPcPCZLUQLm
+         zEmCGnSLy1G+sDmCxrofKzaw3V2TchQlkAuCwKI91l6jQURxU0Ur5FmOgD0Fi1IDH0Jp
+         FWJlL6ewQm66layzOaZ6HYFZjnm9wNbfHdilV1L6CrosmUv/tyB24ZuydcGEUZZkJ+Bt
+         VzcGdm2hR/0cVigA19TGNLOMbTUy74uZEW3TCLtLapzZxrzrrKk8BdXh+3pgpClYlIYN
+         tRbTSHDQpIDVypXpuMCTxtailrLDX89PNNt85yJaDH8H0uaoa3GFFdNQF92zz0ZGvqUy
+         dO7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779114237; x=1779719037;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m58bYDJ543WmyZ11IWytLuY71YuFJ2Bw6ePCWpryz/I=;
-        b=VsVfUYshTQMDAAWd5XxI5ntTkVV+YiB/hwH+VdoVPlEePX/5T8amc+coskwXBzk/K+
-         SJ9F1t+r4VOJ7r+8Aiw0zgPvdOQGoNbpO8/lcMUHdKRw7W333vqmJcVElR5VTd7eYCWe
-         bkHSkarHoYBUSis1NYCZ1CTnipN6m4CoHZ6qqYxjHbIfxZXjPhthIS1oi7S3XSnqEmm2
-         R5YT46RSTa+PNriHWLsVexvQYJyPXSJ4VQUgA7h52OamK23iJXjK6zPoVRHZY8JCxYd1
-         0acElFHb3Q3NKW/e0A6nrr0brFtqlrlEOU5xWzkLug+pBfrcnrHIu1PXqpxnrrknLAnX
-         oA+w==
-X-Forwarded-Encrypted: i=1; AFNElJ+zZphPu6j9ol/ybl7lbHAGWjO7bo/op7KNOHCpr7sQ56YVLVyGpIR+99pnvQyKr6A6Y4Nn4f6GE3ek@lists.infradead.org
-X-Gm-Message-State: AOJu0YwCurPTXILkITWshy7qcyGtYcIyV0r+uhMNBwFpZK4SUuiZpVQz
-	T80VwQIP8eLdiClPabO3hyIuLBFe3CRsDCsqpZel+R3URRS14kGKeQ9h
-X-Gm-Gg: Acq92OFH2lL3Y7JBLuV+Adrp/W4DpCzoWtk9S4i21AxGegRWM0IBrhEexTRiYzZdy5G
-	QjaJ+DD+t0bqw+mNldatwjQJdFFYhADBMTb1vl7xckWunRuSARglgc6xOyZKENhFwjlJx7K6MGe
-	lyJTx6/mACNc3OLn87gx6Mo8tzvDk9rd9Ehj6SxShRY11U/3RkaQEdxMP94b1pg/Th0oBkFdAuF
-	1YBD4T+RZK3jHT63D35e8CLFnL+q5UjSJOS/f9BjUnM3aU3qf97ikBbaFzK2JIRfVSAcgMPDQEP
-	POmspI3IEMx6Ql3Iuo3jpFzIDoYXGiz4K6+IQXfPQ7ISPlriV7f0J0dIDO5D8FkkLZWdQ24CKst
-	ouln+vI+6UuVPWtNRxJ+w+UBvb0nO149P31vEJQkCf/1fIPpzyxUDVu8aMgwNsT97Szj+IkSLzD
-	5EDMpsY0+q59NXy3ZUg7RAJoR83Pv/5W2M1e6gnAEjBFec/qxWmjfyacTQk4aNrUXo5gvfD4QRk
-	sxWix2fKltr5OJ+bmSeKwoJadj3TfCw0JdqO4uXtoiD5UEuHvxaGq/FrI5i/57ev9/7BoDk4pC6
-	3Q==
-X-Received: by 2002:a17:907:c291:b0:bd5:7a3:a58b with SMTP id a640c23a62f3a-bd517994249mr821357066b.46.1779114237152;
-        Mon, 18 May 2026 07:23:57 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68310d58c79sm5325464a12.12.2026.05.18.07.23.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 07:23:56 -0700 (PDT)
-Message-ID: <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
-Date: Mon, 18 May 2026 15:23:53 +0100
+        d=1e100.net; s=20251104; t=1779115031; x=1779719831;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3Dh1s6OdAS1PfBEWRup+gzc+11JwMqjGvirdDEgh7WY=;
+        b=rL8nOUm95hR/3clEgy6eBFaQLXzbrvINCTvlkJVCr7690jk+O4OsaUYKXwIv0eNn4P
+         hHBfCJMwoPl8rkBwZlpz358wEzKk0svs73xdWb/K87jlwkAAu1aKx3HXOIxz41ZtmSIi
+         oSAlIDFJlAhYJx6AP6WpDh42fkqYfmxqjgCbV72W7iY5RjS7AbnRDAVORRzNwXw0UBAa
+         oIo9oCnDckfa83H7JB+aJrEwy+Ee0S7LFwoKdWkF7k0gbggFEh3/tD52/xCVtQgi+qxz
+         YWmwatcmuMQ9W42H/4bNaR9eChQR+NM/IHalzBdh+zyxYftZ12mM/r9Nfh/u/uH/8F0o
+         VzcA==
+X-Forwarded-Encrypted: i=1; AFNElJ/6MDcPZ18rxXSdJTawhteDIQ3BMcyvxs6m3ToXXNIcv/43bpwwKyxgoMi2oRJsU1cN72Q5sQ9kV75T@lists.infradead.org
+X-Gm-Message-State: AOJu0YxL90CkmMnYrdVsHccNAYMmIIv0rLtstCJZaS3+lcBUepidaaVm
+	HH9861TD+FWeBoRnKxRN63j/DzsBnmnzPbiY+MHlzyJRspykvtU3y8/L
+X-Gm-Gg: Acq92OFgDLhE5o7WF1CMpbUEdGUjAtA8M+U5zc7Ak8vuzonf8Qh/Y6gbiIidTElovf+
+	6koMePBH5lKTBhoDhy4FmyzddYuy3jxkmJzC3+xI8iy1/g0TmJYiyex4yU62FsaWLchU5DGENt2
+	7zqxXzP0ua5bLXmL9EcH1qZBu6wfzgwSl7t09Gl7M4MBP9cEa8AohWPl2qjnTgNUyNkbBYJRAJb
+	1xbj9LCzujfJZe1fdTgIbeP/koQqF/0A1sHeBr3AFyRgrc79/ujdEOF5nMr5DzdjjsZgYIoCZtr
+	gGeFNVfUxPqCZqMKmeTDcT4XukuccmotWAp3BafJxldX0REZBIoJtq5Xk7PQLTVyP3Taz7XBGna
+	ucmkHB4QgSn8OxgZoWBDReBWtj1X4QMY7l24o2a24hF+BVGzE9Y13vrzk8z9Xg3hYVnCK3vrkkj
+	RBFpe+bmBeUsBoY1QOTqibXi/K+CaHn/8sGl0brhc2gNc2qR2IlW8NM7isfZEH0/L7fqSDRfA1W
+	4s8U5mTc+GgyahcEoMHvVEPesymHssHk27+GuXlvsE=
+X-Received: by 2002:a05:622a:54a:b0:50b:37a6:e497 with SMTP id d75a77b69052e-5165a2c6a09mr217034241cf.44.1779115031155;
+        Mon, 18 May 2026 07:37:11 -0700 (PDT)
+Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ca36095326sm57986926d6.14.2026.05.18.07.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 07:37:10 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: "Martin K . Petersen" <martin.petersen@oracle.com>,
+	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Nilesh Javali <njavali@marvell.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Shyam Sundar <ssundar@marvell.com>,
+	James Smart <james.smart@broadcom.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	John Meneghini <jmeneghi@redhat.com>,
+	Bryan Gurney <bgurney@redhat.com>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] scsi: scsi_transport_fc: widen FPIN pname walker counter to u32
+Date: Mon, 18 May 2026 10:37:06 -0400
+Message-ID: <20260518143706.2808177-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260518140945.2751273-1-michael.bommarito@gmail.com>
+References: <20260518140945.2751273-1-michael.bommarito@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
- <20260513082431.GA6461@lst.de>
- <ebf41920-5852-428f-b98a-e0f44c8f3315@gmail.com>
- <20260518125326.GA5754@lst.de>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260518125326.GA5754@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260518_072359_405319_31870BC1 
-X-CRM114-Status: GOOD (  22.70  )
+X-CRM114-CacheID: sfid-20260518_073712_638452_444003AB 
+X-CRM114-Status: GOOD (  19.40  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,51 +113,159 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/18/26 13:53, Christoph Hellwig wrote:
-> On Mon, May 18, 2026 at 11:14:09AM +0100, Pavel Begunkov wrote:
->>> This is about dma-buf based I/O.  So I'd expect it to be named dma-buf-io
->>> and no io-dmabuf, and live in drivers/dma-buf and not the unrelated lib/.
->>> But I'd like to hear from the dma-buf maintainers about that.
->>
->> Looking at what Ming is saying, it'd make more sense to keep some of the
->> parts like iterator and the file op more flexible and not automatically
->> imply dma-buf even if it's the main and for now the only medium. I.e.
->> ublk/fuse can use a similar interface for mapping buffers to the server
->> even without dma mappings.
->>
->> I don't know how the API should look like, maybe passing memfd, and dma-buf
->> supports mmap, but I think it's better to call the op something like
->> "register_buffer" instead and keep all it in lib/ for the same reasons.
-> 
-> Let's get the current version landed.  If we come up with some kind of
-> non-dma dmabuf in the future we can refactor it and move it around.
-> I'm a little skeptic we'll be able to share code as long as dmabuf
-> is allergic to physical addresses, though.
+drivers/scsi/scsi_transport_fc.c::fc_fpin_li_stats_update() and
+fc_fpin_peer_congn_stats_update() walked the on-wire
+pname_list[] with a u8 loop counter against the 32-bit __be32
+pname_count field, and never bounded pname_count by the
+descriptor body the TLV walker already validated.
 
-To be fair, it's not that dma-buf specific. This lib/ code only
-does some resv locking, fence waiting and queuing fences, otherwise
-all the attaching is done by the driver behind callbacks. Switching
-it to some memfd could be pretty simple. But The main thing it'd
-need to share is iterator handling like forwarding in the block
-layer, and it should be fine as it's already passed as a completely
-opaque object with no knowledge about pages / dma / etc. for the
-middle layers.
+A fabric-side FPIN sender (the elected fabric controller, a
+co-tenant N_Port that spoofs S_ID 0xFFFFFD after FLOGI, or a
+compromised switch supervisor) could hang the FC ELS receive
+thread of an lpfc or qla2xxx initiator indefinitely by
+emitting one FPIN ELS frame whose Link-Integrity or
+Peer-Congestion descriptor sets pname_count to 256, because
+the u8 counter rolls over and the loop condition i <
+pname_count stays true for every value i can take.
 
-> lib/ is most certainly the wrong place for something that absolutely
-> is not library functionality but directly interacts with a few
-> subsystems.
+Widen the loop counter to u32 in both walkers and clamp
+pname_count against the per-descriptor available bytes
+(desc_len minus the fixed body that precedes pname_list[])
+before iterating.  A malformed descriptor that claims more
+entries than its TLV body can hold is rejected by the clamp.
 
-It only interacts with dma-buf, and even for dma-buf attachments
-are created by the driver. Block, nvme, io_uring are users, either
-using the helpers or implementing callbacks.
+Fixes: 3dcfe0de5a97 ("scsi: fc: Parse FPIN packets and update statistics")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+v2: drop the redundant cover letter shipped with v1.  A
+    single-patch send should not carry a cover; the lead
+    belongs in the commit message, which the patch below
+    already has.  The v1 cover also carried stale drafting-
+    time envelope markers that should have been stripped
+    before send.  Apologies for the noise; please ignore the
+    v1 cover at
+    https://lore.kernel.org/linux-hardening/20260518140945.2751273-1-michael.bommarito@gmail.com/
+    The patch hunks below are byte-identical to v1's 0001.
 
-Ok. Let's assume for the argument's sake it's not dma-buf
-specific, if not lib/, where would you put it? I was also
-assuming that dma-buf being under drivers/ is rather a relic
-of the past rather than the desired location, hmm?
+ drivers/scsi/scsi_transport_fc.c | 81 ++++++++++++++++++++------------
+ 1 file changed, 51 insertions(+), 30 deletions(-)
 
-
+diff --git a/drivers/scsi/scsi_transport_fc.c b/drivers/scsi/scsi_transport_fc.c
+index dce95e361daf0..cef0c85693fd4 100644
+--- a/drivers/scsi/scsi_transport_fc.c
++++ b/drivers/scsi/scsi_transport_fc.c
+@@ -747,7 +747,7 @@ fc_cn_stats_update(u16 event_type, struct fc_fpin_stats *stats)
+ static void
+ fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
+ {
+-	u8 i;
++	u32 i, pname_count, max_count, desc_len;
+ 	struct fc_rport *rport = NULL;
+ 	struct fc_rport *attach_rport = NULL;
+ 	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
+@@ -764,20 +764,34 @@ fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
+ 		fc_li_stats_update(event_type, &attach_rport->fpin_stats);
+ 	}
+ 
+-	if (be32_to_cpu(li_desc->pname_count) > 0) {
+-		for (i = 0;
+-		    i < be32_to_cpu(li_desc->pname_count);
+-		    i++) {
+-			wwpn = be64_to_cpu(li_desc->pname_list[i]);
+-			rport = fc_find_rport_by_wwpn(shost, wwpn);
+-			if (rport &&
+-			    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
+-			    rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
+-				if (rport == attach_rport)
+-					continue;
+-				fc_li_stats_update(event_type,
+-						   &rport->fpin_stats);
+-			}
++	/*
++	 * Clamp pname_count to the number of pname_list entries
++	 * the descriptor body can actually hold.  desc_len
++	 * excludes the desc_tag/desc_len header (FC_TLV_DESC_HDR_SZ),
++	 * so the bytes available for pname_list[] are
++	 * desc_len - sizeof(fixed fields before pname_list[]).
++	 */
++	pname_count = be32_to_cpu(li_desc->pname_count);
++	desc_len = be32_to_cpu(li_desc->desc_len);
++	if (desc_len < sizeof(*li_desc) - FC_TLV_DESC_HDR_SZ)
++		max_count = 0;
++	else
++		max_count = (desc_len -
++			     (sizeof(*li_desc) - FC_TLV_DESC_HDR_SZ)) /
++			    sizeof(li_desc->pname_list[0]);
++	if (pname_count > max_count)
++		pname_count = max_count;
++
++	for (i = 0; i < pname_count; i++) {
++		wwpn = be64_to_cpu(li_desc->pname_list[i]);
++		rport = fc_find_rport_by_wwpn(shost, wwpn);
++		if (rport &&
++		    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
++		    rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
++			if (rport == attach_rport)
++				continue;
++			fc_li_stats_update(event_type,
++					   &rport->fpin_stats);
+ 		}
+ 	}
+ 
+@@ -827,7 +841,7 @@ static void
+ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
+ 				struct fc_tlv_desc *tlv)
+ {
+-	u8 i;
++	u32 i, pname_count, max_count, desc_len;
+ 	struct fc_rport *rport = NULL;
+ 	struct fc_rport *attach_rport = NULL;
+ 	struct fc_fn_peer_congn_desc *pc_desc =
+@@ -844,20 +858,27 @@ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
+ 		fc_cn_stats_update(event_type, &attach_rport->fpin_stats);
+ 	}
+ 
+-	if (be32_to_cpu(pc_desc->pname_count) > 0) {
+-		for (i = 0;
+-		    i < be32_to_cpu(pc_desc->pname_count);
+-		    i++) {
+-			wwpn = be64_to_cpu(pc_desc->pname_list[i]);
+-			rport = fc_find_rport_by_wwpn(shost, wwpn);
+-			if (rport &&
+-			    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
+-			     rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
+-				if (rport == attach_rport)
+-					continue;
+-				fc_cn_stats_update(event_type,
+-						   &rport->fpin_stats);
+-			}
++	pname_count = be32_to_cpu(pc_desc->pname_count);
++	desc_len = be32_to_cpu(pc_desc->desc_len);
++	if (desc_len < sizeof(*pc_desc) - FC_TLV_DESC_HDR_SZ)
++		max_count = 0;
++	else
++		max_count = (desc_len -
++			     (sizeof(*pc_desc) - FC_TLV_DESC_HDR_SZ)) /
++			    sizeof(pc_desc->pname_list[0]);
++	if (pname_count > max_count)
++		pname_count = max_count;
++
++	for (i = 0; i < pname_count; i++) {
++		wwpn = be64_to_cpu(pc_desc->pname_list[i]);
++		rport = fc_find_rport_by_wwpn(shost, wwpn);
++		if (rport &&
++		    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
++		     rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
++			if (rport == attach_rport)
++				continue;
++			fc_cn_stats_update(event_type,
++					   &rport->fpin_stats);
+ 		}
+ 	}
+ }
 -- 
-Pavel Begunkov
+2.53.0
 
 
