@@ -4,101 +4,182 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25764CD4F49
-	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2026 14:37:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66BE5CD4F50
+	for <linux-nvme@archiver.kernel.org>; Mon, 18 May 2026 14:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3Dh1s6OdAS1PfBEWRup+gzc+11JwMqjGvirdDEgh7WY=; b=oUDBJpRd+wsib+DZGdtiDtaJ2Y
-	2ISrRqp2tuPQb72Mw+XSQsfFnAmXsHqilCdTIszwDaFbEV5sHC5nNsBz7aDo1OG313vYTfS9s+sbD
-	POA/2BZPznsujZlxTMLffDju0m0cgonHS0/ML3WMEZRO1KXqor5ATcZHG2XZ7ajFpAd9jmmPRJD/g
-	X+MB5CJlMSZWTiuX8tJXQpcXXnWEmVCQeMnfGgygLBJCk9Do1hIzKV2HUkVq36U5TOimMY+LsJqYG
-	SGFAPYEcuZzCH1kD8uvG++EK/9BdBuVWWDaM/7D2i/B0udEZqVTnYlrRDPHKydfmQuA86hhlaM6oA
-	7Mi+gNfg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-Type:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=2XEhqJmsgrDFlLug1XaoTO7gc/D2Aupmoge4tAv0cU0=; b=hx8DUR07/N1T47vKf392FbyIMQ
+	Ruy+9QxY8KBK0hhsstilH2piHoJ2wMFtPdcMqV+xWk/al5yO/Vi3JIoI5zo5s0UOQD2FU3J6YQnYb
+	diu0botKqSdWd1T6Ii+tmaaXUDtq88MKpFL++rjUn1CAl7s5rFHW+0MIozdPbyHycW+imeyU6T0q6
+	I4fAIQeKQufXbTQQX1hOtY6dY87Q4yMLgwOdSuodyOrfN6fdxzF7At+0eDc8Ur0ug23NhkJArke+w
+	q2Mtp0wMqxkmywZbAQB8uWB476ywW0hvjd6F9pcaweTCkRGfO6LPWtdoAHb3picixuM3zMPU2PNZ4
+	zJl4BbfA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOz5o-0000000G0tL-0KWu;
-	Mon, 18 May 2026 14:37:16 +0000
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834])
+	id 1wOzLP-0000000G3SO-1k4X;
+	Mon, 18 May 2026 14:53:23 +0000
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOz5k-0000000G0rq-2Oe6
+	id 1wOzLM-0000000G3RV-2TML
 	for linux-nvme@lists.infradead.org;
-	Mon, 18 May 2026 14:37:13 +0000
-Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-50e5c7eb565so29895311cf.3
-        for <linux-nvme@lists.infradead.org>; Mon, 18 May 2026 07:37:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779115031; x=1779719831; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Dh1s6OdAS1PfBEWRup+gzc+11JwMqjGvirdDEgh7WY=;
-        b=iNVyKlsyn+qg2CHGLcWqQ84GQ2LvnjOnBz+1ND4PJVGpZnqcLnBz1S5SPcPCZLUQLm
-         zEmCGnSLy1G+sDmCxrofKzaw3V2TchQlkAuCwKI91l6jQURxU0Ur5FmOgD0Fi1IDH0Jp
-         FWJlL6ewQm66layzOaZ6HYFZjnm9wNbfHdilV1L6CrosmUv/tyB24ZuydcGEUZZkJ+Bt
-         VzcGdm2hR/0cVigA19TGNLOMbTUy74uZEW3TCLtLapzZxrzrrKk8BdXh+3pgpClYlIYN
-         tRbTSHDQpIDVypXpuMCTxtailrLDX89PNNt85yJaDH8H0uaoa3GFFdNQF92zz0ZGvqUy
-         dO7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779115031; x=1779719831;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3Dh1s6OdAS1PfBEWRup+gzc+11JwMqjGvirdDEgh7WY=;
-        b=rL8nOUm95hR/3clEgy6eBFaQLXzbrvINCTvlkJVCr7690jk+O4OsaUYKXwIv0eNn4P
-         hHBfCJMwoPl8rkBwZlpz358wEzKk0svs73xdWb/K87jlwkAAu1aKx3HXOIxz41ZtmSIi
-         oSAlIDFJlAhYJx6AP6WpDh42fkqYfmxqjgCbV72W7iY5RjS7AbnRDAVORRzNwXw0UBAa
-         oIo9oCnDckfa83H7JB+aJrEwy+Ee0S7LFwoKdWkF7k0gbggFEh3/tD52/xCVtQgi+qxz
-         YWmwatcmuMQ9W42H/4bNaR9eChQR+NM/IHalzBdh+zyxYftZ12mM/r9Nfh/u/uH/8F0o
-         VzcA==
-X-Forwarded-Encrypted: i=1; AFNElJ/6MDcPZ18rxXSdJTawhteDIQ3BMcyvxs6m3ToXXNIcv/43bpwwKyxgoMi2oRJsU1cN72Q5sQ9kV75T@lists.infradead.org
-X-Gm-Message-State: AOJu0YxL90CkmMnYrdVsHccNAYMmIIv0rLtstCJZaS3+lcBUepidaaVm
-	HH9861TD+FWeBoRnKxRN63j/DzsBnmnzPbiY+MHlzyJRspykvtU3y8/L
-X-Gm-Gg: Acq92OFgDLhE5o7WF1CMpbUEdGUjAtA8M+U5zc7Ak8vuzonf8Qh/Y6gbiIidTElovf+
-	6koMePBH5lKTBhoDhy4FmyzddYuy3jxkmJzC3+xI8iy1/g0TmJYiyex4yU62FsaWLchU5DGENt2
-	7zqxXzP0ua5bLXmL9EcH1qZBu6wfzgwSl7t09Gl7M4MBP9cEa8AohWPl2qjnTgNUyNkbBYJRAJb
-	1xbj9LCzujfJZe1fdTgIbeP/koQqF/0A1sHeBr3AFyRgrc79/ujdEOF5nMr5DzdjjsZgYIoCZtr
-	gGeFNVfUxPqCZqMKmeTDcT4XukuccmotWAp3BafJxldX0REZBIoJtq5Xk7PQLTVyP3Taz7XBGna
-	ucmkHB4QgSn8OxgZoWBDReBWtj1X4QMY7l24o2a24hF+BVGzE9Y13vrzk8z9Xg3hYVnCK3vrkkj
-	RBFpe+bmBeUsBoY1QOTqibXi/K+CaHn/8sGl0brhc2gNc2qR2IlW8NM7isfZEH0/L7fqSDRfA1W
-	4s8U5mTc+GgyahcEoMHvVEPesymHssHk27+GuXlvsE=
-X-Received: by 2002:a05:622a:54a:b0:50b:37a6:e497 with SMTP id d75a77b69052e-5165a2c6a09mr217034241cf.44.1779115031155;
-        Mon, 18 May 2026 07:37:11 -0700 (PDT)
-Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ca36095326sm57986926d6.14.2026.05.18.07.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 07:37:10 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: "Martin K . Petersen" <martin.petersen@oracle.com>,
-	"James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Nilesh Javali <njavali@marvell.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>,
-	Shyam Sundar <ssundar@marvell.com>,
-	James Smart <james.smart@broadcom.com>,
-	Hannes Reinecke <hare@kernel.org>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Bryan Gurney <bgurney@redhat.com>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	linux-scsi@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] scsi: scsi_transport_fc: widen FPIN pname walker counter to u32
-Date: Mon, 18 May 2026 10:37:06 -0400
-Message-ID: <20260518143706.2808177-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260518140945.2751273-1-michael.bommarito@gmail.com>
-References: <20260518140945.2751273-1-michael.bommarito@gmail.com>
+	Mon, 18 May 2026 14:53:22 +0000
+Received: from pps.filterd (m0170397.ppops.net [127.0.0.1])
+	by mx0b-00154904.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I8rRE92769914;
+	Mon, 18 May 2026 10:53:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=smtpout1; bh=2XEhqJmsgrDFlLug1XaoTO7
+	gc/D2Aupmoge4tAv0cU0=; b=J5/P3kon/OGHwNg948BsbNIuyOAEfx+R2YBz/Zu
+	irEO4liQ/OfMy+ZQmX9Vp8pd4ReESkwpeOma7Qw4aJhjR+ghDlhutL1v6+iAUDCe
+	lrKEDwxSJUBEhiGGLvaMe6XQ2RL/DBdshKn0oHsgaEKC1HXGzKu7r5rTEN1+ApmM
+	2pIDTQRCuxx5y1QySAfYReo6crXKxrtINsI/EIlfnwVNDR6IuS1ItvGtRZp2XL2U
+	Z8NrbsaL2nQaQmlGglzgD0OT6NCQJt1peeCaGzeTEEvfn3dZuiRGYfQcZVeHjgRG
+	RWxn0lCcPipAcInQxuYEqrUvk+PgV+Bwe7Phl2VYhDsdHYw==
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com [67.231.149.39])
+	by mx0b-00154904.pphosted.com (PPS) with ESMTPS id 4e6hnmr9dd-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 18 May 2026 10:53:02 -0400 (EDT)
+Received: from pps.filterd (m0134746.ppops.net [127.0.0.1])
+	by mx0a-00154901.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64ICTjh23993822;
+	Mon, 18 May 2026 10:53:01 -0400
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010064.outbound.protection.outlook.com [52.101.61.64])
+	by mx0a-00154901.pphosted.com (PPS) with ESMTPS id 4e829atwgh-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Mon, 18 May 2026 10:53:01 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tr+iwqx/3M2rMNgHqwkA6SWs8kNGjChJsdPgDS21Yr41biu+KS4HeqS553Ex8S59VvvKCF3axycGnF46WhT9wT1N52rbjCfPGeV1qUPjb3iUyvSZOi6KjhvEs4vXOF/8ptTJXbYqp6UdctWkC2k6lkPTAM5ZTfLqW43GZNGo34paiCIF/69JcKHqlj8j9KyulRNQ6VcnYPc5oQfWdh87Sd3waB685NmlPaHhl8eO4PYRsUGY8DNeAUiSJb8MJnuOPoRNWXeVkY5lGX9FUTYrS/eYL+HZsEYbE7h3Gn2c+GEtiWexs7GF2XuQ9XMjk2qjC8Hx/wLeQdHvwAdXYfyXUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2XEhqJmsgrDFlLug1XaoTO7gc/D2Aupmoge4tAv0cU0=;
+ b=ck4KT5MG1mw22suZvP2NtPT6boF2jE/VCyQXabO0qqq42LliSnpBpnJPy9WbcWM0KW2kAVSqMW0Lu1UcgZbk4ASNw/T41rsKiIyT1i1mZuKpX96VW4VGNJlJekcm+biWo2lFV2v00ye4TmNzDDwYmfFs913t31u1G24CCHsJTn35lblbLLjrZ0XJuvXECFDriR3aMj0uK256G+Bu7ayWQ8KEkGWbnCyZUOmZmExlg1V9VKtu7PdS8CoxeYhm7twTPRwDyUM0S+HvtdfFJJNQsTBC/wTe3MitvOQMdV3GIZ0+6VRw6qKGboIYc5HL6XVKKwjaGlVXBLe/v704Jm5NRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+Received: from MW5PR19MB5484.namprd19.prod.outlook.com (2603:10b6:303:191::16)
+ by BLAPR19MB4307.namprd19.prod.outlook.com (2603:10b6:208:254::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Mon, 18 May
+ 2026 14:52:57 +0000
+Received: from MW5PR19MB5484.namprd19.prod.outlook.com
+ ([fe80::88b9:ee8a:d884:49ff]) by MW5PR19MB5484.namprd19.prod.outlook.com
+ ([fe80::88b9:ee8a:d884:49ff%4]) with mapi id 15.20.9913.009; Mon, 18 May 2026
+ 14:52:56 +0000
+From: "Achkinazi, Igor" <Igor.Achkinazi@dell.com>
+To: "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
+        "sagi@grimberg.me" <sagi@grimberg.me>,
+        "axboe@kernel.dk" <axboe@kernel.dk>
+CC: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "Achkinazi, Igor"
+	<Igor.Achkinazi@dell.com>
+Subject: [PATCH] nvme-multipath: set BIO_REMAPPED on bios remapped to per-path
+ namespace disks
+Thread-Topic: [PATCH] nvme-multipath: set BIO_REMAPPED on bios remapped to
+ per-path namespace disks
+Thread-Index: Adzm1dy/Cx6JquSnSUq/8UuX73jm6Q==
+Date: Mon, 18 May 2026 14:52:56 +0000
+Message-ID: <MW5PR19MB548483D1FAE4F322E4C97352FD032@MW5PR19MB5484.namprd19.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Enabled=True;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SetDate=2026-05-18T14:50:42.0000000Z;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Name=No
+ Protection (Label Only) - Internal
+ Use;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ContentBits=3;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Method=Standard
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW5PR19MB5484:EE_|BLAPR19MB4307:EE_
+x-ms-office365-filtering-correlation-id: e47af3ec-7068-4b38-ae94-08deb4ed25d7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|786006|366016|38070700021|11063799003|56012099003|18002099003;
+x-microsoft-antispam-message-info: c68HO0UYOAN1rNk/knbWGcC3H93engg+rdULYuA/jKoc3UZ4JpTZsrY8L7zJTVG3QVQsiA2krbQi7quAt7WsYqajbBagzE6rjIlMUaxt0PZB4LJo5rpbySRLRrheZv9zwAHhXaILD801YT3CfQRs5fUN3DNaO9a/BPODd7BKA5mAs4NV5328t17SeilL4yX5xzdqsWgCqiX/wznGTbFW2bBU9Ap55K0WCQLW0FDXrl2I3Ih9BEQ9YBRen3EmWeCM5PdNUHTv2FLiCoXLLotCmX9gAIRVp2jJNAhSVq5gBHHed/fSE3C52KHU7yyhJd1WKqBh4qXbM/fukb0iop5e/0o9OyKo0h0Gaghvx6IooNaHUrmYteinrfPlGjccGu0SbQGGlUzquPeQqwWAfjmlrkGWxXunL+Yeyy7GUlz79HNflgPfHsgzLrdjF/mNS3G3MjISzxy2670Rcr4BLOpeJhQI6BUrIvrBAhDipJXz20oSDQqbPgWqSkdhT6yUMiyuO1CmvAaNG462ZtU9vFDthODrdrBjnAYK5fS4niTA72FRaw49C4Z1hCmkTleKRBMR1spwhfeQhNC9KnXXEKOz0PrYZqIypFrDkw3ISwFdPVxesCknbQMCbX8ybERiL/wR4ImprEgxZEE+DfLPlgUiwu3BazR7svVHxftwVDpTBp3Q+3tXW5zfw1pPePMWi0aOb3yXOimPjEKIOAz13uJZ3bCK28rOU4WJ4Wwbkx1o00AAa/RhiLBsN/r2xQBUmWP3
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR19MB5484.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(786006)(366016)(38070700021)(11063799003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?dpLXtEtke6UtA3VD4IMqZn7KBn+dzMLosECF35pevkOHLsjnVN2m+U41wfDi?=
+ =?us-ascii?Q?ruBRzShIR0VR6sDB9caAHhxWTOu639p7/HEaQqfvF9NOxK7SAucMAIEfLmUI?=
+ =?us-ascii?Q?OMaOjCm8WM8jT77Q0SJn91p/1JFR/kGQhZzYeJpu8fQBpdG7OlAxM23iz9VA?=
+ =?us-ascii?Q?1Spxs4+6NZC3+gYtkpBpa+bz3CTldJVkL1p/HwfFAm3dpttLMdgw9gPyi28n?=
+ =?us-ascii?Q?25KbD+boEkLXdWUlxmPMPSeq87vZzFdVZh8SjM5GZF8pt8/pExcoPv+MBL+D?=
+ =?us-ascii?Q?8deBoi1rZAr9Xx6Pve/aygDxbnRVclqiT0yEQ55OH58EEJp/NYr1k1mIJfgz?=
+ =?us-ascii?Q?ck4n/hSEAWvPm31ckviB32YPAv0X4nH0UL2iFFc09oS5z8RwEMKa5HLV3rL8?=
+ =?us-ascii?Q?W/l9ijVqlHpjNC396Cve+ps+7Dj0XlHTUp4NygX7qYAS4mwlRBy5eyVyBRAc?=
+ =?us-ascii?Q?vp7TMJvmB0Y2gju0GgdBaweXoFnTpX6EiJv53aOdSf0a/mI3vGSvFCv54Rnt?=
+ =?us-ascii?Q?IbXzcqVgNHgXcvkwELQ747Yv2Wl/xc/1nR4mhcTbMJ8esTu8M8n8h70paSJA?=
+ =?us-ascii?Q?gjQpg/1Ooehvz2uWeNCEPf/DhA3IT4mts46QSUyg3hpINbAZP5hGSTfqp1oB?=
+ =?us-ascii?Q?mBz8uLvmkQAz9GsLLfwzT3TSNHY4j6DwPQ44RmgOPvatvdCJwPJMBdKllozA?=
+ =?us-ascii?Q?tzI/z3WWAvU/PSIid7lZaZSaGKuOa1aVMqv0prY/hvk4Ugs8eOSbLzkHv7Dy?=
+ =?us-ascii?Q?Q9UtzMUjQRVUwtN6KCV0fFamHD6edL6F6CEFsMju39zHQHsgdPBYrvuqNVaW?=
+ =?us-ascii?Q?eSi94PhV/nNQOPri58ZXSCZyOwZS6I0F50uItleStRBMnfAaEM5KKqRSt4A9?=
+ =?us-ascii?Q?sOLPqrvJhQkS5uyNrbHMrTrsiwxjgVhaw6i6yWOoNLzEAgtJee1BniOniE5l?=
+ =?us-ascii?Q?VaTs84gCR870ldPO2BxG48dd1szkWP6T/Z/gA4xgWvlHTBoTIu8LiOpoK67e?=
+ =?us-ascii?Q?Gv6Za0xM6xH/eUXWCi77I0I4tGvMl2upz6WG90+DQhogBZfxQfH6spL26rz4?=
+ =?us-ascii?Q?jojXE/e5iKlaGjK1Rwa1bnnLVglcq273ThxQZVBQ8mX6r4jRg3nkNjik8/6m?=
+ =?us-ascii?Q?2K1yQfQhov0rpqyz2qaFQA5bEAjMREWxca4FvuvwehDZp6/TQfzvq8xcWEOQ?=
+ =?us-ascii?Q?bUSGrafuR+euRvW4FD2KIVMhEONQeBdVzvoIHHdzT4jRltgJXQv9w/2MGPxt?=
+ =?us-ascii?Q?hgNe8Q4i6VT5bOVX0p3SpxzTbFdEizsWMW/HrZv/IZ31Z1u0L8N8SutLopus?=
+ =?us-ascii?Q?rIe43b8qH5aOhrl/Db1Sesh56FkoqTtgn+PyueZaGHOXnMAlC3hgsOFI1H0J?=
+ =?us-ascii?Q?3F49wyHcafLhZA1CcEVfYujn8y7xE9flgr8w8iyYcFrlrQPpFRa9U7HdRZKR?=
+ =?us-ascii?Q?ns4LdW7uEU2xwu57OA1zrfSwWjAiPq+ooxW7ihKSAGH3Ywsel9guThYL4lux?=
+ =?us-ascii?Q?CNnoLRxkSlQ1y+/cwcYN5cl0G+AkOLDk6vIhejMvcGhA95u32EkLz0/bFRJx?=
+ =?us-ascii?Q?9EcpVza/45E06jmFMAnRCu/98Wm8FLSWM3N7urzXDdkf/Ds8fB/ikUCiXK/0?=
+ =?us-ascii?Q?1nwdGemUXSc39XYJwE1bJuLydcGlb5iHfqgFrtIhL4xk4MqydySs2Q6Ct8qn?=
+ =?us-ascii?Q?5emBgLqKb7Dld02cLtyTO20QdvOslB7Qw5T4nu2i4ojrczoGz98g55aD6NcI?=
+ =?us-ascii?Q?FDcEWaGFcw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Exchange-RoutingPolicyChecked: PG2N39Z0kJsDngIwtR943Xfw9bxwlkMZo1sefPeMiwXuTAxgkmrWTzMbhMzSY6NmJFE06SpOEqlQ1p6jcZtYtUJFh0GY5t0P9ZsAOmqqhc3G7G3uO+ABmZ4Oo6TgvdvztaN/77IFT50Kl90h59//YFKZ2qt2swVawmyJO75kYWv3lpij1YrBYkb0FsKm+Mz7NMR3S3PhbSOpCbBIv0wi5eTK95fDWT1LwxIOwdW/4gQRIvFifNkPKx05F+RnL+a2XtwPPX90doiCzKS6nuAB0F3K6TPWavYKHOrdrNHKAzONH5Gexp47JCGQ3jEckHmKV4wz9CGWzq8AgCNQs8NCYA==
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW5PR19MB5484.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e47af3ec-7068-4b38-ae94-08deb4ed25d7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2026 14:52:56.8169
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ihqn/AWL1hvwm/RPv+v5pLCWTLXjj7HZNQKKftnPSnYGWx26epMvBQory2ogclWbWNhnRw1X6f7Cljwvf/Yrkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR19MB4307
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-18_03,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0 adultscore=0 spamscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605180146
+X-Proofpoint-GUID: dtcLSzU2gOsIwgj8wzeELR3gnJbMIJbO
+X-Authority-Analysis: v=2.4 cv=VJLtWdPX c=1 sm=1 tr=0 ts=6a0b27ce cx=c_pps
+ a=j0++y401J6f/BxNAf5EDow==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=6gNNCFAoQcIphELLPWWu:22
+ a=U3ti1ie9CgboSd2qXsAw:22 a=VwQbUJbxAAAA:8 a=iLNU1ar6AAAA:8
+ a=n8P0Md7YgY-1yq5sWS8A:9 a=CjuIK1q_8ugA:10 a=gbU3OgOOxF9bX48Letew:22
+X-Proofpoint-ORIG-GUID: dtcLSzU2gOsIwgj8wzeELR3gnJbMIJbO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDE0NiBTYWx0ZWRfX4aBmy5aV7aUO
+ BK5UZA9+pP/ESkH0nEvYl2CYJ2E+f8Tq8INK+UjM8bwofBx5Ke0kP7Hnp4JKGzHjK6uatJRQv8B
+ aK+Xp5RXPySdi+C3kMUeN2W+1eV/tDIkGm8InjVovz9vZNIq3dGj6pXlx9rQ014zI5+Vpb+DjxH
+ uagWbeRPGv3NMpsxwrOwHoVKhQBZxvpnrknVRism1jD7auCdYHdM7cpjKfFPMvZWvJ/1l13222w
+ OsbV3+HfpqaDKazvFbaVGySN3mdh91N6bgz593QuF+wkqxXK2M7cFUbTRRxFmQX3INAtv+dy/df
+ e2ZqkkTShQIP7qBs9ajQM/pZ2IF2WBgCLuajA1mBYtBJfGZmCU6QDYNqD7Zs8bzbf85Ez6rWkfl
+ eYBzn5lwe9rAWPRaRE0McnCQBbP8d4pHilTyPbPp9rfqp3Dv3Szj1ZU7LIVZD/lgL5K/orIcDlJ
+ Eqazwn0hLpowkxyVcMA==
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 adultscore=0 phishscore=0 spamscore=0
+ suspectscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605180146
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260518_073712_638452_444003AB 
-X-CRM114-Status: GOOD (  19.40  )
+X-CRM114-CacheID: sfid-20260518_075320_789241_09FA324D 
+X-CRM114-Status: GOOD (  18.23  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,159 +194,112 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-drivers/scsi/scsi_transport_fc.c::fc_fpin_li_stats_update() and
-fc_fpin_peer_congn_stats_update() walked the on-wire
-pname_list[] with a u8 loop counter against the 32-bit __be32
-pname_count field, and never bounded pname_count by the
-descriptor body the TLV walker already validated.
+When nvme_ns_head_submit_bio() remaps a block IO from the multipath
+head to a per-path namespace (path of multipath), bio_set_dev() clears
+BIO_REMAPPED.  Before commit a7c7f7b2b641 ("nvme: use bio_set_dev to
+assign ->bi_bdev"), the code used a direct bio->bi_bdev assignment
+which did not clear BIO_REMAPPED.  The block IO is then
+queued on current->bio_list (deferred, not processed inline) and SRCU
+read lock is released.
 
-A fabric-side FPIN sender (the elected fabric controller, a
-co-tenant N_Port that spoofs S_ID 0xFFFFFD after FLOGI, or a
-compromised switch supervisor) could hang the FC ELS receive
-thread of an lpfc or qla2xxx initiator indefinitely by
-emitting one FPIN ELS frame whose Link-Integrity or
-Peer-Congestion descriptor sets pname_count to 256, because
-the u8 counter rolls over and the loop condition i <
-pname_count stays true for every value i can take.
+The deferred block IO itself is dispatched directly to
+blk_mq_submit_bio() without re-entering submit_bio_noacct(), so it
+would be fine on its own.  The problem is when the block IO size
+exceeds queue limits and blk_mq_submit_bio() needs to split it using
+__bio_split_to_limits().
 
-Widen the loop counter to u32 in both walkers and clamp
-pname_count against the per-descriptor available bytes
-(desc_len minus the fixed body that precedes pname_list[])
-before iterating.  A malformed descriptor that claims more
-entries than its TLV body can hold is rejected by the clamp.
+The split remainder is resubmitted through submit_bio_noacct() which
+calls bio_check_eod() again because BIO_REMAPPED is not set.  This
+sometimes races with nvme_ns_remove() zeroing the capacity after
+synchronize_srcu().  Result: bio_check_eod() sees zeroed capacity and
+fails the IO with "attempt to access beyond end of device" instead of
+letting it fail over to another path.
 
-Fixes: 3dcfe0de5a97 ("scsi: fc: Parse FPIN packets and update statistics")
+Observed failure scenario during tests:
+
+  Setup: NVMe multipath with multiple paths (e.g., controllers nvme0,
+  nvme1) to the same namespace, exposed as a single multipath block
+  device (e.g., nvme0n1).
+
+  Steps to reproduce:
+    1. Run sustained IO against the multipath head device (e.g. vdbench)
+    2. Delete the namespace on one of the paths (e.g., detach the
+       namespace from NVMe controller on a subsystem on the
+       target side).
+    3. The IO that was remapped to the removed path and requires
+       splitting (exceeds queue limits) hits the race.
+
+  Expected behavior:
+    The IO should fail on the removed path and nvme_failover_req()
+    should retry it on the remaining healthy path.  IO continues
+    without errors visible to the application.
+
+  Actual behavior:
+    The kernel reports IO errors to the application.  dmesg shows:
+
+      IO_task /dev/di: attempt to access beyond end of device
+      nvme1c9n1: rw=3D33556480, sector=3D476160, nr_sectors=3D256 limit=3D0
+
+    IO errors were reported to the testing application, causing
+    it to stop, despite a healthy path being available.  The IO is
+    rejected by bio_check_eod() on the split remainder before it
+    ever reaches the NVMe driver, so nvme_failover_req() never gets
+    a chance to fail over to the other path.
+
+We observed this failure during NVMe multipath failover testing at
+Dell, for example, on kernel 5.14.0-570.23.1.el9_6.x86_64 (Red Hat
+9.7), kernel 6.4.0-150600.23.53-default (SLES 15.6), and others.
+
+The fix is setting BIO_REMAPPED after bio_set_dev() in
+nvme_ns_head_submit_bio().  This skips bio_check_eod() on resubmission
+for both the remapped IO and any split clones derived from it.  The
+EOD check already passed on the multipath head.
+
+This is safe because the individual path for nvme has bd_partno=3D0
+(NVMe per-path namespace device is always a whole disk, not a
+partition), so skipping blk_partition_remap() (also gated by
+BIO_REMAPPED) has no effect: adjusting bio sector offsets from
+partition-relative to whole-disk-relative is not necessary.  If the
+per-path queue is dead, it fails via GD_DEAD check in
+bio_queue_enter().  If the per-path queue is still alive, the
+request completes with error Invalid-Namespace coming from nvme target
+and nvme_failover_req() handles path failover.
+
+Same approach as commit 3a905c37c351 ("block: skip bio_check_eod for
+partition-remapped bios") which solved the same problem for partition
+remaps resubmitted after bio splitting.
+
+Fixes: a7c7f7b2b641 ("nvme: use bio_set_dev to assign ->bi_bdev")
 Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-7
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Signed-off-by: Igor Achkinazi <igor.achkinazi@dell.com>
 ---
-v2: drop the redundant cover letter shipped with v1.  A
-    single-patch send should not carry a cover; the lead
-    belongs in the commit message, which the patch below
-    already has.  The v1 cover also carried stale drafting-
-    time envelope markers that should have been stripped
-    before send.  Apologies for the noise; please ignore the
-    v1 cover at
-    https://lore.kernel.org/linux-hardening/20260518140945.2751273-1-michael.bommarito@gmail.com/
-    The patch hunks below are byte-identical to v1's 0001.
+ drivers/nvme/host/multipath.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
- drivers/scsi/scsi_transport_fc.c | 81 ++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 30 deletions(-)
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 263161cb8ac0..04f7c7e59945 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -511,6 +511,13 @@ static void nvme_ns_head_submit_bio(struct bio *bio)
+        ns =3D nvme_find_path(head);
+        if (likely(ns)) {
+                bio_set_dev(bio, ns->disk->part0);
++               /*
++                * Mark the bio as remapped to the per-path namespace disk =
+so
++                * that bio_check_eod() is skipped on resubmission (e.g. fr=
+om
++                * bio splitting in blk_mq_submit_bio).  The EOD check alre=
+ady
++                * passed on the multipath head disk.
++                */
++               bio_set_flag(bio, BIO_REMAPPED);
+                bio->bi_opf |=3D REQ_NVME_MPATH;
+                trace_block_bio_remap(bio, disk_devt(ns->head->disk),
+                                      bio->bi_iter.bi_sector);
+--
+2.43.0
 
-diff --git a/drivers/scsi/scsi_transport_fc.c b/drivers/scsi/scsi_transport_fc.c
-index dce95e361daf0..cef0c85693fd4 100644
---- a/drivers/scsi/scsi_transport_fc.c
-+++ b/drivers/scsi/scsi_transport_fc.c
-@@ -747,7 +747,7 @@ fc_cn_stats_update(u16 event_type, struct fc_fpin_stats *stats)
- static void
- fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
- {
--	u8 i;
-+	u32 i, pname_count, max_count, desc_len;
- 	struct fc_rport *rport = NULL;
- 	struct fc_rport *attach_rport = NULL;
- 	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
-@@ -764,20 +764,34 @@ fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
- 		fc_li_stats_update(event_type, &attach_rport->fpin_stats);
- 	}
- 
--	if (be32_to_cpu(li_desc->pname_count) > 0) {
--		for (i = 0;
--		    i < be32_to_cpu(li_desc->pname_count);
--		    i++) {
--			wwpn = be64_to_cpu(li_desc->pname_list[i]);
--			rport = fc_find_rport_by_wwpn(shost, wwpn);
--			if (rport &&
--			    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
--			    rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
--				if (rport == attach_rport)
--					continue;
--				fc_li_stats_update(event_type,
--						   &rport->fpin_stats);
--			}
-+	/*
-+	 * Clamp pname_count to the number of pname_list entries
-+	 * the descriptor body can actually hold.  desc_len
-+	 * excludes the desc_tag/desc_len header (FC_TLV_DESC_HDR_SZ),
-+	 * so the bytes available for pname_list[] are
-+	 * desc_len - sizeof(fixed fields before pname_list[]).
-+	 */
-+	pname_count = be32_to_cpu(li_desc->pname_count);
-+	desc_len = be32_to_cpu(li_desc->desc_len);
-+	if (desc_len < sizeof(*li_desc) - FC_TLV_DESC_HDR_SZ)
-+		max_count = 0;
-+	else
-+		max_count = (desc_len -
-+			     (sizeof(*li_desc) - FC_TLV_DESC_HDR_SZ)) /
-+			    sizeof(li_desc->pname_list[0]);
-+	if (pname_count > max_count)
-+		pname_count = max_count;
-+
-+	for (i = 0; i < pname_count; i++) {
-+		wwpn = be64_to_cpu(li_desc->pname_list[i]);
-+		rport = fc_find_rport_by_wwpn(shost, wwpn);
-+		if (rport &&
-+		    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
-+		    rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
-+			if (rport == attach_rport)
-+				continue;
-+			fc_li_stats_update(event_type,
-+					   &rport->fpin_stats);
- 		}
- 	}
- 
-@@ -827,7 +841,7 @@ static void
- fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
- 				struct fc_tlv_desc *tlv)
- {
--	u8 i;
-+	u32 i, pname_count, max_count, desc_len;
- 	struct fc_rport *rport = NULL;
- 	struct fc_rport *attach_rport = NULL;
- 	struct fc_fn_peer_congn_desc *pc_desc =
-@@ -844,20 +858,27 @@ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
- 		fc_cn_stats_update(event_type, &attach_rport->fpin_stats);
- 	}
- 
--	if (be32_to_cpu(pc_desc->pname_count) > 0) {
--		for (i = 0;
--		    i < be32_to_cpu(pc_desc->pname_count);
--		    i++) {
--			wwpn = be64_to_cpu(pc_desc->pname_list[i]);
--			rport = fc_find_rport_by_wwpn(shost, wwpn);
--			if (rport &&
--			    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
--			     rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
--				if (rport == attach_rport)
--					continue;
--				fc_cn_stats_update(event_type,
--						   &rport->fpin_stats);
--			}
-+	pname_count = be32_to_cpu(pc_desc->pname_count);
-+	desc_len = be32_to_cpu(pc_desc->desc_len);
-+	if (desc_len < sizeof(*pc_desc) - FC_TLV_DESC_HDR_SZ)
-+		max_count = 0;
-+	else
-+		max_count = (desc_len -
-+			     (sizeof(*pc_desc) - FC_TLV_DESC_HDR_SZ)) /
-+			    sizeof(pc_desc->pname_list[0]);
-+	if (pname_count > max_count)
-+		pname_count = max_count;
-+
-+	for (i = 0; i < pname_count; i++) {
-+		wwpn = be64_to_cpu(pc_desc->pname_list[i]);
-+		rport = fc_find_rport_by_wwpn(shost, wwpn);
-+		if (rport &&
-+		    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
-+		     rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
-+			if (rport == attach_rport)
-+				continue;
-+			fc_cn_stats_update(event_type,
-+					   &rport->fpin_stats);
- 		}
- 	}
- }
--- 
-2.53.0
 
+Internal Use - Confidential
 
