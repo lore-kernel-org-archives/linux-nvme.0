@@ -4,83 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFB8FCD4F5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 08:11:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 938FDCD4F52
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 08:44:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
-	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:
-	References:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
+	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=lBznZcMlpwshnJBeAFbmhWyHdMffUfPiExLbNCv88qY=; b=gKUyv6utlF4mH9F/yP9xm3kY++
-	DnX+8QmfTrfIgXqmVWFACeAiOEh7VVKsRsaXPFteIBz8VdENRlhnPe6zZBnV+p2kgXXhtsmuIWsba
-	KzV8lZzOXEeWN5kh4hwWGS+Ao68II1kWPMOkWjGr9EdXYYwgLh7nWTsYExIdTm4lMyq4NC+yZRAxH
-	qpsePV1duW9M2W9VK1/MQN7eH3fNYVRPYB5HjsMxTA79W27ZCeHtv888kbbrPH6VDhpY2IdHKLucP
-	l2+lGfv3n/ZUddcNqimaWv7NsWo06CNHaaXovF/3yxND2b8cnmVtud5241Tb2hh0jT+VmRI1oSDbu
-	ggahY8Bg==;
+	bh=0DDWPan8gWQ6HSccljODwuS99gCgju6jSsocYIUqOZo=; b=rQ6Yw2HNN6p6U3DkPIn6+17xzu
+	76Tt4b7v1/I0cQIJRNLm2G7zTkF2EP716AQTtkN0Afv/htChX9DrxGz6zV+DjH+B11Kdwuzac0hkN
+	NCNi5PtXeBh7IY+a4d+KkuOV3EzUeG5YwrOstWCC5Cu5kqZCuXCMRcqPIOrRoy5Eh5QjRu/btmQ/3
+	hoh+DxrL2LLvT0YG4jdM5RCw3SWJuXKXAvlpI5yAKUD4mtqzQPwmMoqzb/MN7Ka6wjYp0WBJzU6al
+	nrHXROHjXkNipjuPeENg+bH8ejd2gP6Ws2HYZJQmGPs5pmkD6Hg6WLCje4pBVPhEuljQMdxICxmSL
+	Ej6ZvX5g==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFY4-00000000cZf-3OVR;
-	Tue, 19 May 2026 08:11:32 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wPG3q-00000000ipe-0pDx;
+	Tue, 19 May 2026 08:44:22 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFY2-00000000cY9-40dC
+	id 1wPG3o-00000000ioW-06pF
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 08:11:31 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 2CBE06020F;
-	Tue, 19 May 2026 08:11:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C62FCC2BCC9;
-	Tue, 19 May 2026 08:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779178289;
-	bh=8Mdt3/GWa2sg390lqPrV0qlXMeJMMHF/DVq+JKN5gRA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UobQu251i7SddwN2yOu1ip5kbHSsvCPD18IxjvUBvN3TGoK0tdA/AipbismpUcUQj
-	 95EyzIb7DKTaZsqcKpYoUrQDkg18/KjLWNYn4Rot9uK3zCzaodg97EHg05N75Mwufk
-	 dbQ0VXENqlJo3l+6UFkp/mExpAoYk0qfm63FWJTX6j5gyOD4a1bSyuvQF94hL3HtkJ
-	 77ATVotyJ4pLq85gyPnE9eKi+0uYqUJKYa1vG5L3ALAi06cuuOiWDajAbpTcA5q21X
-	 cbTHS8efsQXWIh50xgbl6l6Bx/DELgNHtCxGOgj//H8M91lMf/X0FvCwNVA9NzUKkk
-	 OVnKsdBraZpOg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4650CD4851;
-	Tue, 19 May 2026 08:11:29 +0000 (UTC)
-From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
-Date: Tue, 19 May 2026 13:41:20 +0530
-Subject: [PATCH v2 1/4] PCI: Introduce an API to check if RC/platform can
- retain device context during suspend
+	Tue, 19 May 2026 08:44:21 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9165A5E09B;
+	Tue, 19 May 2026 08:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779180258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0DDWPan8gWQ6HSccljODwuS99gCgju6jSsocYIUqOZo=;
+	b=xtH8DBvpPkcsdZA+y4UQsNQUiGaf+QuN+e8lmLBjIWwDWRhFoO5i6kAqHWwTptIDF8CSS+
+	kvduLgc5Gfo3zkgT646/HxDDOWVr9h+ymEP9cfYkc2mNm927CB0r0IpYQGfyPntnL+ZwFG
+	Gzwebh9kLB0yYxcCzhlazpPcbuHQ3cg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779180258;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0DDWPan8gWQ6HSccljODwuS99gCgju6jSsocYIUqOZo=;
+	b=BN1hcEXtLXiHWuUWXEkWhvDXeBg08gWyx8ra8EIAdUtEkFXSmyfUSVlKCr1Cns7YwrYILn
+	m/eUtR9Q2QFg6HCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qRv8tgAw;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bch4hNbK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779180257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0DDWPan8gWQ6HSccljODwuS99gCgju6jSsocYIUqOZo=;
+	b=qRv8tgAwYbg0yYYCqH48RcUjV164QgLrcRwL7mH3cO3cAW6VNH3qm6+5xj9i6UL9S7WM2X
+	VL68AK687pPPXiu/A0YdhoLG5jfxQ7DjEG2GGnSMhCSaZkb7x4N4Cz268YmsTdIn6ICkDs
+	ML6X7k4Om1aTElMXPUA5/jGQNp0CUD8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779180257;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0DDWPan8gWQ6HSccljODwuS99gCgju6jSsocYIUqOZo=;
+	b=bch4hNbKRlG1MtKCpXtJCzzOEBDeEUQbgHNohbIhEPTG3cJ0bzqHfZx+T0BRZLuREkiYJ/
+	93RZi9csE8mvbyBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6FFD9593AA;
+	Tue, 19 May 2026 08:44:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +SUjGuEiDGqEHQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 19 May 2026 08:44:17 +0000
+Message-ID: <1cad38c9-ae8a-4a97-96db-db8adeb768f5@suse.de>
+Date: Tue, 19 May 2026 10:44:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260519-l1ss-fix-v2-1-b2c3a4bdeb15@oss.qualcomm.com>
-References: <20260519-l1ss-fix-v2-0-b2c3a4bdeb15@oss.qualcomm.com>
-In-Reply-To: <20260519-l1ss-fix-v2-0-b2c3a4bdeb15@oss.qualcomm.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>, 
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-nvme@lists.infradead.org, 
- Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3173;
- i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
- bh=4Dttv4RJQFd7HvyHdhLrZ9fHK7lOnfb6oJIEtWxnp+c=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBqDBsuFVWnfdQVfhPVZySomdr2OjOwStn053I2Z
- V4Eo3R7/NGJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCagwbLgAKCRBVnxHm/pHO
- 9Z0GB/9iuKAuXAoMUZ/KkPcuOGdOcNzL1Y1aGn2iqt/VN50isEVX+qRKyeYF+1/+goyuFmH6K0+
- dFET7Yc3dQ0FfZ5KPJZM7N86HQIDiPIuDPyB9R5jyCBw+RlYdw4pmWmBbyXhUwt6bct1TbGvt6p
- zrcbhftJao2sBzyTROAZBoSf+zTJy0Tq0YTCr52wYMM2hW6+q9bvKpHu21xs7dRCih4wpI1hRVG
- iUE6TZHmn0Gp26LMSW6jXW91hURIHgqB+9g0sAqlTGO2mk9hfOLzJJzksiuXtxk4LETN555O9jI
- 4BUrcusPE6A0t5RF+LnNd1++s1JxgcH9Kw6KWQ3eJQYYYS37
-X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
- fpr=C668AEC3C3188E4C611465E7488550E901166008
-X-Endpoint-Received: by B4 Relay for
- manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
-X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] nvmet-tcp: check return value of
+ nvmet_tcp_set_queue_sock
+To: Geliang Tang <geliang@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Keith Busch <kbusch@kernel.org>, Maurizio Lombardi <mlombard@redhat.com>,
+ John Meneghini <jmeneghi@redhat.com>
+Cc: Geliang Tang <tanggeliang@kylinos.cn>, linux-nvme@lists.infradead.org
+References: <cover.1779170418.git.tanggeliang@kylinos.cn>
+ <6bbdda41e981777241d74d069b0cec7bb655bf58.1779170418.git.tanggeliang@kylinos.cn>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <6bbdda41e981777241d74d069b0cec7bb655bf58.1779170418.git.tanggeliang@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,kylinos.cn:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 9165A5E09B
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260519_014420_210777_3A895EBC 
+X-CRM114-Status: GOOD (  18.62  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -92,108 +141,53 @@ List-Post: <mailto:linux-nvme@lists.infradead.org>
 List-Help: <mailto:linux-nvme-request@lists.infradead.org?subject=help>
 List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
  <mailto:linux-nvme-request@lists.infradead.org?subject=subscribe>
-Reply-To: manivannan.sadhasivam@oss.qualcomm.com
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+On 5/19/26 08:10, Geliang Tang wrote:
+> From: Geliang Tang <tanggeliang@kylinos.cn>
+> 
+> The return value of nvmet_tcp_set_queue_sock() is currently ignored in
+> nvmet_tcp_tls_handshake_done(). If it fails (e.g., due to the socket
+> not being in TCP_ESTABLISHED state), the socket callbacks will not be
+> properly set, leading to queue and socket leakage.
+> 
+> Fix this by capturing the return value and calling
+> nvmet_tcp_schedule_release_queue() on failure to ensure proper cleanup.
+> 
+> Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
+> Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
+> ---
+>   drivers/nvme/target/tcp.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 164a564ba3b4..8a243d22a511 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -1842,10 +1842,11 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
+>   	if (!status)
+>   		status = nvmet_tcp_tls_key_lookup(queue, peerid);
+>   
+> +	if (!status)
+> +		status = nvmet_tcp_set_queue_sock(queue);
+> +
+>   	if (status)
+>   		nvmet_tcp_schedule_release_queue(queue);
+> -	else
+> -		nvmet_tcp_set_queue_sock(queue);
+>   	kref_put(&queue->kref, nvmet_tcp_release_queue);
+>   }
+>   
 
-Currently, the PCI endpoint drivers like NVMe checks whether the device
-context will be retained or not during system suspend, with the help of
-pm_suspend_via_firmware() API.
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-But it is possible that the device context might be lost due to some
-platform limitation as well. Having those checks in the endpoint drivers
-will not scale and will cause a lot of code duplication.
+Cheers,
 
-So introduce an API that acts as a sole point of truth that the endpoint
-drivers can rely on to check whether they can expect the device context
-to be retained or not.
-
-If the API returns 'false', then the client drivers need to prepare for
-context loss by performing actions such as resetting the device, saving
-the context, shutting it down etc... If it returns 'true', then the drivers
-do not need to perform any special action and can leave the device in
-active state.
-
-Right now, this API only incorporates the pm_suspend_via_firmware() check.
-But will be extended in the future commits.
-
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
----
- drivers/pci/pci.c   | 23 +++++++++++++++++++++++
- include/linux/pci.h |  7 +++++++
- 2 files changed, 30 insertions(+)
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 8f7cfcc00090..38cc5172d259 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -33,6 +33,7 @@
- #include <asm/dma.h>
- #include <linux/aer.h>
- #include <linux/bitfield.h>
-+#include <linux/suspend.h>
- #include "pci.h"
- 
- DEFINE_MUTEX(pci_slot_mutex);
-@@ -2899,6 +2900,28 @@ void pci_config_pm_runtime_put(struct pci_dev *pdev)
- 		pm_runtime_put_sync(parent);
- }
- 
-+/**
-+ * pci_suspend_retains_context - Check if the platform can retain the device
-+ *				 context during system suspend
-+ * @pdev: PCI device to check
-+ *
-+ * Returns true if the platform can guarantee to retain the device context,
-+ * false otherwise.
-+ */
-+bool pci_suspend_retains_context(struct pci_dev *pdev)
-+{
-+	/*
-+	 * If the platform firmware (like ACPI) is involved at the end of system
-+	 * suspend, device context may not be retained.
-+	 */
-+	if (pm_suspend_via_firmware())
-+		return false;
-+
-+	/* Assume that the context is retained by default */
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(pci_suspend_retains_context);
-+
- static const struct dmi_system_id bridge_d3_blacklist[] = {
- #ifdef CONFIG_X86
- 	{
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 2c4454583c11..f60f9e4e7b39 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -2086,6 +2086,8 @@ pci_release_mem_regions(struct pci_dev *pdev)
- 			    pci_select_bars(pdev, IORESOURCE_MEM));
- }
- 
-+bool pci_suspend_retains_context(struct pci_dev *pdev);
-+
- #else /* CONFIG_PCI is not enabled */
- 
- static inline void pci_set_flags(int flags) { }
-@@ -2244,6 +2246,11 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
- static inline void pci_free_irq_vectors(struct pci_dev *dev)
- {
- }
-+
-+static inline bool pci_suspend_retains_context(struct pci_dev *pdev)
-+{
-+	return true;
-+}
- #endif /* CONFIG_PCI */
- 
- /* Include architecture-dependent settings and functions */
-
+Hannes
 -- 
-2.48.1
-
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
