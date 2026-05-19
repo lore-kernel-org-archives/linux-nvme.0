@@ -4,83 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0589CD4F3C
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 13:46:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4EA80CD4F3C
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 17:23:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=vEc4OopQOqDDYx8k+nnSPHbpqCp4cyCWARWro1ltDWc=; b=yj8XaBt2rS05RYQCGDkA6l+7Y6
-	2SEiT1JOFvSwE9OAhLpPDrg1xNYpSkrZijlwpBiloYPc7HmuBoSkBuqgv+Dex6djxe1IQEBO2hfUK
-	VWBSDuslObfD7JplOAZCmoeeFZoUYfW4hur9cEBIHmPR3wi3AlIbk452fbgfOCyTQM7l5/DVcS4Iy
-	Pr3gUGDN4DQ7kFiTNYJBewinncUdjwSYgDMQa1OtqXHe+KFabkBkOGJX5j8yXZEvVdsvruqwaCTt8
-	UHydjKEzp2AinZX0NT1W21WWjkhDPPA/gBIhu1dxxWFz15pZnpbu4VhaVKN0zDGNLLxg9kxoZqKqh
-	MSccVc6w==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
+	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=53LR8ALSOVcr1chIg7i5h6RsLjS4b0KKwqAikvUBUeM=; b=pfe/v3VV9mM8B4KlQBUGa45RKC
+	Dtn+e/5HBKvPS44QmF70NoYzbYgeU3+24a8JMAzJ2Et1P4uUTd1ULuCXyHg3RNVzCFpjKnpDmFK1T
+	OLX8guore6COBsySz3HUETCpkKGVCNuro/DszM/bJMuOkMERMbdA1VficrbYiBiZ+zLUpZTjle3qW
+	iOREACUtTmwWR3NXU0d2MBpoS1O340HrCXIJBJ7CLYpo/Uc/pbQ+FXGNqctKJxj4YZ4v2lOsLyTVf
+	Z+9OAwcADs5QBOfWJBiTzSrXG+Z9s5smvzoz5vEIF7opboH0cOLQiIKpCjOPEq3ciFu8Y6fM3FAMK
+	Ld0GwrSQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPKln-00000001iEX-0Lje;
-	Tue, 19 May 2026 13:46:03 +0000
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+	id 1wPOAc-00000002NYO-2O6O;
+	Tue, 19 May 2026 17:23:54 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPKlk-00000001iDq-2sC3
+	id 1wPOAZ-00000002NWa-46Al
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 13:46:01 +0000
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-8367df48711so1472980b3a.1
-        for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 06:46:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779198359; x=1779803159; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vEc4OopQOqDDYx8k+nnSPHbpqCp4cyCWARWro1ltDWc=;
-        b=GX/z2W9c5IaBHGidSKJvtcSLD+BpQODm88WU47oj0LBW9R2gPFUyPZXXpnmx1qugK4
-         3wPgkQ2lG31UtpACqMAywG3GzX18vFo243tICig101oqtLwue//YDtxG9C1mPKEEnivI
-         ZNPoIDrvA3LTcixH84KniaGfoiomI/IqzXwzzZahs4YKvY2d3M3+7dEjHEuANsnlN6na
-         W4Yn9QJP8hWj2mS52bDvrxAtHpT+il85Xf6sojQ9LjkY7tnuUfQq3hhvkaetdKqEUqqT
-         z44TICXFM4fXdjl7TKZVKTojVpccNIwA9Yx3gIpNS40p/+Vw2JJogaowfOBwNmpK13QY
-         6sZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779198359; x=1779803159;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vEc4OopQOqDDYx8k+nnSPHbpqCp4cyCWARWro1ltDWc=;
-        b=tMjGfIo1b5NGYVEQ6N4ehIUFYdnAfuHOrBbO8oB4icBT9aqnqMpLITiiUivQu65WPK
-         8EkQLqkn0h2nEXMVwvMbVEgfloFvw79chueYP/oLYMyhzgN1lPKyIT37oNPmiMnhohWR
-         9RfqhMFMrjsKOQqNggojV/4v/9rZmMRyCAYNLqIF/P+5GaL5ZIkF+UtfNJS/N1ZEE+QE
-         dek0aRTOvx9CGiMUCu9lddNDOkNDwGzLzwY//CVDZqRzCjZLSW4ZuRCT48U5j2VNrqmj
-         CPtNBBZqVCP/zsFdNz9c5Qik1fojd8E0J3LWMwBx1LG3t4frvB24i8pWKuAulN6eFFfr
-         sC2A==
-X-Gm-Message-State: AOJu0Yx3iO0ALjtKcxBZZjXVJmkV+OrgpsG8zaVtADYuGQJFo7zlMI9G
-	o7zEU2Sdfcbj3S2yIiKCiE0JF7yLvn54BN0pL3F6XMLbcgFdp7hc36pvT6zTjw==
-X-Gm-Gg: Acq92OHPRsZjg+nMG6MRgw7Yl8j8oBl6/yNIVde17F4xm4CSJXiwOKUPKNw/EAMRThF
-	wQB6Ux0XdUZ9HUvSRdjI6xj7KShWtuQjWILV4/ZjS9VwMhE+K8WiaPqdE3qneDUu5ChntXXQjN7
-	XLSjfDon7ip51/d5QH+oOnoFieWqPlthcDUfe8vyq1A7f8hgA2FbpQfUkqbZTBrphY2NHLwqsEo
-	tiAc+U3jo3lTHaQFUYxWjHuBfD9BmsBL4UnwTFm51V6Ii6gVQpPNOhbX2JcBWPyTzE8WzwkrxOd
-	i4Rgyrd+0vR8bTzHbxOy7wOlnbv/3nda0b67XFZSO5ZH5fKDTxd50iVDcc/LfRJ71cJq+4ylmvJ
-	AnzoWks/aLKEQjg1/lGPqY4hfFZOC9p525EjbanjSTKo2LdlwjUOE55/SqFQmRkgHx2oAxt8LOt
-	leoSHboS0tidy0Zjei5F4LYJ0zYf4iCrOdujkcScbYAA==
-X-Received: by 2002:a05:6a00:a257:b0:83b:b0c2:17ea with SMTP id d2e1a72fcca58-83f33de53e6mr19977784b3a.37.1779198359207;
-        Tue, 19 May 2026 06:45:59 -0700 (PDT)
-Received: from n232-167-136.byted.org ([36.110.163.109])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f197995absm17232417b3a.27.2026.05.19.06.45.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 06:45:58 -0700 (PDT)
-From: guzebing <guzebing1612@gmail.com>
-To: linux-nvme@lists.infradead.org
-Cc: Daniel Wagner <wagi@kernel.org>,
-	Tokunori Ikegami <ikegami.t@gmail.com>,
-	Guzebing <guzebing@bytedance.com>
-Subject: [PATCH nvme-cli] nvme: check MUD support before firmware commit
-Date: Tue, 19 May 2026 21:45:42 +0800
-Message-Id: <20260519134542.1841435-1-guzebing1612@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 19 May 2026 17:23:53 +0000
+Received: from pps.filterd (m0528007.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64JE8sUk2574853
+	for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 10:23:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=53LR8ALSOVcr1chIg7i5h6RsLjS4b0KKwqAikvUBUeM=; b=oSHl2CiW0NvA
+	ck+XR12XCjJF76m2ynQ1f1RtmmW8W440AnNoR7qYEQcD+niDx18op1zpg8q5KmMk
+	EOagVJ7RdJGz5Gd/WtgEpvA1BhybrNBT7p8inKRmy8rZcXz25U83f3gTHPTgxgWN
+	TSrjyAxKgr3ex4mWwA3Hf5/OqRg8DaLfVMdNn8nRlve6me+h/qziamtax05YNJAI
+	VCauRvaiMtoXqjjq4zXpKEFhDRHq6UfUX6ikM3AS2sW7sTciR/46iVngv91D+Ykt
+	2L4iB+dcUra8OioerPQR8wHAqyuZZ278Zh3FFFtXfbsEwMRxi7JWWD5xzSjdVAu3
+	R6c3sVwnbg==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4e8sc51bm2-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 10:23:50 -0700 (PDT)
+Received: from twshared11179.02.snb2.facebook.com (2620:10d:c0a8:fe::f072) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.37; Tue, 19 May 2026 17:23:48 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id EA7081A75979B; Tue, 19 May 2026 10:23:34 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <axboe@kernel.dk>, <hch@lst.de>, <tom.leiming@gmail.com>,
+        <coshi036@gmail.com>, <Igor.Achkinazi@dell.com>, <dlemoal@kernel.org>,
+        Keith
+ Busch <kbusch@kernel.org>
+Subject: [PATCH RFC 3/5] block: validate bio bounds in the queue entered context
+Date: Tue, 19 May 2026 10:23:24 -0700
+Message-ID: <20260519172326.3462354-4-kbusch@meta.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260519172326.3462354-1-kbusch@meta.com>
+References: <20260519172326.3462354-1-kbusch@meta.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=TaimcxQh c=1 sm=1 tr=0 ts=6a0c9ca6 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=4h92JMTCafKA-fb_NiOh:22 a=VwQbUJbxAAAA:8 a=4C8x5qO1QXPBt7sUNhsA:9
+X-Proofpoint-ORIG-GUID: 79MZ7y5bc1pHnNCYAw_BdigSlai0mKQd
+X-Proofpoint-GUID: 79MZ7y5bc1pHnNCYAw_BdigSlai0mKQd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDE3MyBTYWx0ZWRfX/NB3atZAIYNC
+ iSiWR2c/HP+68CeB0YN519HYs9HqaHPfClPgvtlrLOG9d/z+M4LIyvrkrvlYC+wXYWzJABFEJb2
+ NDsAkvg90qNwYTd1ys2dKJQKoeJ0mQ8wolu+5z6Tue11d11BHq8jnGrXSbFJw0mfUqwQPMivS0V
+ dOWyTBG6qkdw0l+XmnwwJQUP5TbiwZob+ZoB7y6jFlxcW2XUpHxDLqa88/tJ3EX7Cpf/j2ClCGS
+ hPj8cmWUiOUFgCDqkVrJ+tVa9v/5bVF50pCegd9aTBTuQ4rxRfcNrChcQU6WLoyHTk5UqcUlY+1
+ tESc+TvrMZjNd3gJXruKd7K/yrTGCmi8bEqG7xA15sRdqt8QZFVqlGQoExfVgc3TZqksYi1yLhH
+ h9SC7ZXd8ccRz8x7Pnqz62kOfdgsV3YuUaL2YQ+QRGfRaCAijfhp5DvApEHGS0SxkfIbWoRcSiu
+ QTbImOWAYbVwhY8yOjQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-19_05,2026-05-18_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260519_064600_729122_282F9233 
-X-CRM114-Status: GOOD (  15.84  )
+X-CRM114-CacheID: sfid-20260519_102352_718905_4A78A95E 
+X-CRM114-Status: GOOD (  19.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -95,101 +100,108 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Guzebing <guzebing@bytedance.com>
+From: Keith Busch <kbusch@kernel.org>
 
-Firmware Commit returns the Multiple Update Detected value in the command
-completion. nvme-cli currently identifies the controller after the
-command completes to decide whether to print that value.
+bio_check_eod() in submit_bio_noacct() validates that a bio does not
+extend beyond the partition's available sectors. This check runs before
+bio_queue_enter(), so it is not serialized against queue limit updates.
+A driver that freezes the queue, updates limits, changes the capacity,
+and unfreezes can race with a bio that passed the early check under the
+old capacity.
 
-That post-command Identify is fragile for immediate activation. A possible
-Linux race looks like:
+Remove bio_check_eod() and replace it with a bounds check in
+__bio_split_to_limits(), which runs after the queue usage reference has
+been acquired. The check uses partition-aware arithmetic to validate
+both partition bounds and disk capacity in a single comparison that
+works correctly on the post-remap sector values.
 
-  nvme-cli thread              nvme driver AEN work
-  ---------------              --------------------
-  libnvme_exec_admin_passthru()
-    -> Firmware Commit succeeds
-                               nvme_handle_aen_notice()
-                                 -> FW_ACT_STARTING
-                                 -> nvme_change_ctrl_state(RESETTING)
-                                 -> nvme_fw_act_work()
-                                    -> nvme_quiesce_io_queues()
-                                    -> wait for activation
-  fw_commit_print_mud()
-    -> fw_commit_support_mud()
-       -> nvme_identify_ctrl()
-          -> admin ioctl passthru
-          -> nvme_user_cmd*()
-          -> blk_mq_alloc_request()
-          -> __nvme_check_ready()
-             rejects user admin command while resetting
-
-nvme-cli then prints "identify-ctrl: ..." after the successful
-fw-commit output. The extra error makes it unclear whether Firmware
-Commit itself failed, even though the command completion was already
-successful.
-
-The post-command Identify can also observe the wrong capability. MUD is
-a bit in the Firmware Commit completion, so it should be interpreted
-using the controller capability that applied when that command was
-processed. If the old firmware does not report support for firmware
-image overlap but the new firmware does, a post-activation Identify can
-make nvme-cli interpret the old command completion using the new
-firmware capability.
-
-Read and cache SMUD before submitting Firmware Commit, and use the
-cached value to decide whether to print the completion MUD value. This
-ties MUD reporting to the firmware revision that accepted the command
-and avoids a post-success Identify during firmware activation.
-
-Fixes: b44729257 ("nvme: Check fw-commit command support MUD")
-Signed-off-by: Guzebing <guzebing@bytedance.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- nvme.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ block/blk-core.c | 26 --------------------------
+ block/blk.h      | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 26 deletions(-)
 
-diff --git a/nvme.c b/nvme.c
-index 6a8350b9a..560ca7b7f 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -5341,9 +5341,9 @@ static bool fw_commit_support_mud(struct libnvme_transport_handle *hdl)
- 	return false;
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 92a802dc8042c..c200d0fc44fe7 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -547,30 +547,6 @@ int should_fail_bio(struct bio *bio)
  }
- 
--static void fw_commit_print_mud(struct libnvme_transport_handle *hdl, __u64 result)
-+static void fw_commit_print_mud(bool mud_supported, __u64 result)
+ ALLOW_ERROR_INJECTION(should_fail_bio, ERRNO);
+=20
+-/*
+- * Check whether this bio extends beyond the end of the device or partit=
+ion.
+- * This may well happen - the kernel calls bread() without checking the =
+size of
+- * the device, e.g., when mounting a file system.
+- */
+-static inline int bio_check_eod(struct bio *bio)
+-{
+-	sector_t maxsector =3D bdev_nr_sectors(bio->bi_bdev);
+-	unsigned int nr_sectors =3D bio_sectors(bio);
+-
+-	if (nr_sectors &&
+-	    (nr_sectors > maxsector ||
+-	     bio->bi_iter.bi_sector > maxsector - nr_sectors)) {
+-		if (!maxsector)
+-			return -EIO;
+-		pr_info_ratelimited("%s: attempt to access beyond end of device\n"
+-				    "%pg: rw=3D%d, sector=3D%llu, nr_sectors =3D %u limit=3D%llu\n",
+-				    current->comm, bio->bi_bdev, bio->bi_opf,
+-				    bio->bi_iter.bi_sector, nr_sectors, maxsector);
+-		return -EIO;
+-	}
+-	return 0;
+-}
+-
+ /*
+  * Remap block n of partition p to block n+start(p) of the disk.
+  */
+@@ -802,8 +778,6 @@ void submit_bio_noacct(struct bio *bio)
+ 		goto end_io;
+ 	bio_check_ro(bio);
+ 	if (!bio_flagged(bio, BIO_REMAPPED)) {
+-		if (unlikely(bio_check_eod(bio)))
+-			goto end_io;
+ 		if (bdev_is_partition(bdev) &&
+ 		    unlikely(blk_partition_remap(bio)))
+ 			goto end_io;
+diff --git a/block/blk.h b/block/blk.h
+index bf1a80493ff1c..e70acb2d358e3 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -423,6 +423,17 @@ static inline bool bio_may_need_split(struct bio *bi=
+o,
+ static inline struct bio *__bio_split_to_limits(struct bio *bio,
+ 		const struct queue_limits *lim, unsigned int *nr_segs)
  {
--	if (!fw_commit_support_mud(hdl))
-+	if (!mud_supported)
- 		return;
- 
- 	printf("Multiple Update Detected (MUD) Value: %#" PRIx64 "\n",
-@@ -5403,6 +5403,7 @@ static int fw_commit(int argc, char **argv, struct command *acmd, struct plugin
- 	struct libnvme_passthru_cmd cmd;
- 	int err;
- 	nvme_print_flags_t flags;
-+	bool mud_supported;
- 
- 	struct config {
- 		bool	ish;
-@@ -5471,6 +5472,8 @@ static int fw_commit(int argc, char **argv, struct command *acmd, struct plugin
- 		return -EINVAL;
- 	}
- 
-+	mud_supported = fw_commit_support_mud(hdl);
++	if (unlikely(bio_end_sector(bio) > bdev_nr_sectors(bio->bi_bdev) +
++					   bio->bi_bdev->bd_start_sect)) {
++		pr_info_ratelimited("%s: attempt to access beyond end of device\n"
++				    "%pg: rw=3D%d, sector=3D%llu, nr_sectors =3D %u limit=3D%llu\n",
++				    current->comm, bio->bi_bdev, bio->bi_opf,
++				    bio->bi_iter.bi_sector, bio_sectors(bio),
++				    bdev_nr_sectors(bio->bi_bdev) +
++					bio->bi_bdev->bd_start_sect);
++		goto ioerr;
++	}
 +
- 	nvme_init_fw_commit(&cmd, cfg.slot, cfg.action, cfg.bpid);
- 	if (cfg.ish) {
- 		if (libnvme_transport_handle_is_mi(hdl))
-@@ -5489,7 +5492,7 @@ static int fw_commit(int argc, char **argv, struct command *acmd, struct plugin
- 	if (cfg.action == 6 || cfg.action == 7)
- 		printf(" bpid:%d", cfg.bpid);
- 	printf("\n");
--	fw_commit_print_mud(hdl, cmd.result);
-+	fw_commit_print_mud(mud_supported, cmd.result);
- 
- 	return err;
+ 	switch (bio_op(bio)) {
+ 	case REQ_OP_READ:
+ 	case REQ_OP_WRITE:
+@@ -442,6 +453,9 @@ static inline struct bio *__bio_split_to_limits(struc=
+t bio *bio,
+ 		*nr_segs =3D 0;
+ 		return bio;
+ 	}
++ioerr:
++	bio_io_error(bio);
++	return NULL;
  }
--- 
-2.20.1
+=20
+ /**
+--=20
+2.53.0-Meta
 
 
