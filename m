@@ -4,90 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D229CD4F52
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 08:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEFBCCD4851
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 08:03:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=n+tkiZkbFahlsQ3PpXuWXmKySLsE4NqqO7zpi111kOU=; b=LELdy8e6Td6nqc4W70Ya7cHYlo
-	qfAUNmJDznv5I6SsnyEdQznAIpXo0tnnLnTl6Pb4f5BXyPfjxlHrB0/ddsHGVb33p1cB0Y9HibiDd
-	Fgs4gKsFBa1hlT861GD50WGD1MRpwLjtk/BdOf9N2/EszwYaAN0ZFDdD/qNiUKP1WTbaC7oNnN7Hi
-	dYaXAFNYq2T2AtTxzrS0xwNBfa0odDnC5AnhJz8SeNmLUzhQyC6sr9zJIbwbKB1hjtPncavfryG6D
-	WEeMU/17KVBMP/wlHqJHKeLFdRu4lqAgM1AfDy3FI0Q0o1UT+j7/fktptP1UtEJGqd2EaretZvDDD
-	i+JTV8JQ==;
+	bh=0q9lwj3nnlakW5KTMI7fuN3USfvSzP05/I1UZPbsbVk=; b=mwdgTgdO5jdOIPU8sybc9JN5wo
+	YB4/dlXcZf9Y3tHE1CJkPsAp1Rpb+Z0bxefIEj+oTFKxVszUenuOo8z7WvHeI8SC+LV6px0ulh/nq
+	GGsJX0ahQC4vU2bHNM45QCy1PQS/Y6qSTx5c0KZHYdyY1PuOKXv9YBzZV08M5K34eZIrmK2xGwcIj
+	moHlY91u5gN5r8ebhSnzTzjcMtZyaTNb0PBHDQMIg+UIQxggT1HP9dJfXRfSHLXYigubSm8b0l8uM
+	QqbiGyhfgTw+BMPg8lCZw7XVVrZcYrbzVHrrcQ0Q6fiwxM6DhIUXp1Yp6xsvHuGuchphx217PfkSN
+	aM2LeHUA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFO9-00000000axP-2Ejr;
-	Tue, 19 May 2026 08:01:17 +0000
+	id 1wPFQ9-00000000bMT-0AS3;
+	Tue, 19 May 2026 08:03:21 +0000
 Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFO6-00000000avw-3RGS
+	id 1wPFQ6-00000000bLo-15vq
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 08:01:16 +0000
+	Tue, 19 May 2026 08:03:19 +0000
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 641C566DE0;
-	Tue, 19 May 2026 08:01:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 74A4067014;
+	Tue, 19 May 2026 08:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779177673; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779177794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n+tkiZkbFahlsQ3PpXuWXmKySLsE4NqqO7zpi111kOU=;
-	b=dWgXVszOHSvTAxL1R6XhNnzAMF45MeoGSNYRk8y3Q36K/evpsAV6Q2lKNcZ/pF4N2LMgvA
-	DY3y/HU4nTtxGZSOS2wxryKPj0xGEArw0CYElh60jcHkQ1Oegg3H8YCh7HoLDrtIlvuojR
-	pqxjM7C2BSMJzgZuoDi8HCqcMGMVBSc=
+	bh=0q9lwj3nnlakW5KTMI7fuN3USfvSzP05/I1UZPbsbVk=;
+	b=EtBeuN6sMsZjzFbbMK2RywnsywoYKYoBaSV+CK0S3E0+HPQyLA3P3Od3DFC6p+V0/iT2Bh
+	ac/+9P79e7vHqvmkP/XyYhTqSx6+nemIowzwVjBYB2JJu9n/mP3PxMSVH5RJ6sAHI/ouNv
+	sW/9GOI3/LgQnzN+Xa0Zk0MgPaJN8FI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779177673;
+	s=susede2_ed25519; t=1779177794;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n+tkiZkbFahlsQ3PpXuWXmKySLsE4NqqO7zpi111kOU=;
-	b=4U7yZB6/A3ReGNvSgiWPoMCuojXWYWhZV65WBrbGFj+rVAybJDMY18Oi5BSnPftt+kuPaG
-	xgZFnbZ/ReOWhIAA==
+	bh=0q9lwj3nnlakW5KTMI7fuN3USfvSzP05/I1UZPbsbVk=;
+	b=A6ShaazLO+c6uvEMD7VD5cBoq66pPid8Dj0hEUESZK+R5Ej2ASB5NOZdvW83nti3kLwa8u
+	MoZGoSgn2UM/3RBQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eQXV43ea;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sphRMA2L
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vB4ii3sw;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vk7m+Dco
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779177672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779177789; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n+tkiZkbFahlsQ3PpXuWXmKySLsE4NqqO7zpi111kOU=;
-	b=eQXV43eaHNXfHxZvBEiZzBfUimYlNoFtK0FIMsSbwRV9n9TVNLYnQYnnFQADElbYlRXQPh
-	p22gD8Cv/ivhNgFScbbcMKzvdKOy7CKx/dG5qD90UIq+vY+6ISTO43kc9CM+Ki3Uf+ImK+
-	/DnJNrAx+SGFE1/GiBxVSscL/UZJLBM=
+	bh=0q9lwj3nnlakW5KTMI7fuN3USfvSzP05/I1UZPbsbVk=;
+	b=vB4ii3sw2fDcdVt8rtp+d+33zCoZOZaB+VjTBSlTHPMe1jLBZ/7Yf2xJsgqnw6PXFq0+km
+	Py5Y8TcaGHa+xqSabmAsVyipMjXSYC81uSr1ImR1AqN2nv6UX8dh4l/gK4hGi2O7rMjskE
+	WV/jSOWwZ6Eqz9OHIeGB48jL3MEcNNw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779177672;
+	s=susede2_ed25519; t=1779177789;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n+tkiZkbFahlsQ3PpXuWXmKySLsE4NqqO7zpi111kOU=;
-	b=sphRMA2L+WfjInq+EeM9tT+hMSMHvphQ0aASHDLqICExeREbsQ+U3p81gniIrzkdKZq5/1
-	sL9oTJAe4ETcXmBg==
+	bh=0q9lwj3nnlakW5KTMI7fuN3USfvSzP05/I1UZPbsbVk=;
+	b=vk7m+DcomvzmFGfUK7f6x/OzezLyzZR15fbTFl5uG/Fn4JRr5922wm9Qy16tnj/KQtKLOO
+	7+Vzb+cGhWb49ZDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B494593A8;
-	Tue, 19 May 2026 08:01:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EE70593A8;
+	Tue, 19 May 2026 08:03:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id egXLDcgYDGoncQAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 19 May 2026 08:01:12 +0000
-Message-ID: <8fecedbf-1fdf-49ad-a7bf-f2ef2c68906c@suse.de>
-Date: Tue, 19 May 2026 10:01:12 +0200
+	id bju+Ej0ZDGrFcgAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 19 May 2026 08:03:09 +0000
+Message-ID: <773a2f6f-5e58-4929-ba7b-d91042475e4f@suse.de>
+Date: Tue, 19 May 2026 10:03:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net 6/7] net/handshake: Close the submit-side sock_hold
- race
+Subject: Re: [PATCH net 7/7] net/handshake: Verify file-reference balance in
+ submit paths
 To: Chuck Lever <cel@kernel.org>, "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
@@ -95,10 +95,10 @@ Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>,
  kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
 References: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
- <20260518-handshake-file-pin-v1-6-4bbcb7e62fda@oracle.com>
+ <20260518-handshake-file-pin-v1-7-4bbcb7e62fda@oracle.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260518-handshake-file-pin-v1-6-4bbcb7e62fda@oracle.com>
+In-Reply-To: <20260518-handshake-file-pin-v1-7-4bbcb7e62fda@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
@@ -121,15 +121,15 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,oracle.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid,oracle.com:email];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 641C566DE0
+X-Rspamd-Queue-Id: 74A4067014
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260519_010115_009609_2A4C0EC5 
-X-CRM114-Status: GOOD (  14.08  )
+X-CRM114-CacheID: sfid-20260519_010318_445767_0754529C 
+X-CRM114-Status: GOOD (  13.06  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -147,34 +147,31 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 On 5/18/26 20:24, Chuck Lever wrote:
 > From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> handshake_req_submit() publishes the request via
-> handshake_req_hash_add() and __add_pending_locked(), drops
-> hn_lock, and calls handshake_genl_notify() (which can sleep)
-> before taking sock_hold() on req->hr_sk. A fast tlshd ACCEPT
-> followed by DONE can drive handshake_complete()'s sock_put()
-> into the window between the spin_unlock and the late
-> sock_hold(); on a system where the consumer's fd held the
-> only sk reference, the late sock_hold() then operates on an
-> sk whose refcount has reached zero.
+> The new file-reference contract on struct handshake_req is silently
+> breakable: a missing get_file() at submit or a missing fput() on an
+> error path leaves the file leaked but does not crash the test, so
+> the existing absence-of-crash checks pass either way.
 > 
-> The preceding two patches install an explicit file reference
-> on struct handshake_req. That file pins sock->file, which
-> pins the embedded struct socket, which defers inet_release()'s
-> sock_put(). As long as hr_file is held, sk cannot reach refcount
-> zero from the consumer side, and the submit-side sock_hold()
-> with its matching sock_put() calls in handshake_complete() and
-> handshake_req_cancel() is now redundant.
+> Snapshot file_count(filp) before each handshake_req_submit() in
+> the submit-success, EAGAIN, EBUSY, and cancel tests, and assert
+> the expected balance after submit and again after cancel. The
+> already-completed cancel test also asserts the post-complete
+> balance, which pins down that handshake_complete() drops the
+> reference and that the subsequent cancel does not double-fput.
+> The destroy test gets the same treatment before __fput_sync(),
+> which double-checks that cancel's fput() ran and the only
+> remaining reference is the one sock_alloc_file() established.
 > 
-> Drop all three. Submit's pinning is strictly the file reference
-> acquired earlier in the function, and the lifetime story is
-> contained in a single get_file()/fput() pair.
-> 
-> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
 > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 > ---
->   net/handshake/request.c | 12 ------------
->   1 file changed, 12 deletions(-)
+>   net/handshake/handshake-test.c | 28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
 > 
+One wonders why this is not part of the kunit test suite.
+But that's probably neither here nor there.
+
+So:
+
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
 Cheers,
