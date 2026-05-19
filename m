@@ -4,101 +4,102 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF18CCD4F5E
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 17:24:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8A48CCD4F5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 19:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=DgSDBglcHMWndZa8iapvzamBLG1cvjdm8KJL+W9JABU=; b=UXCxEKvOOo3v7zIjngZkjdq7oL
-	8KCY+5xE2/ieZgIbKyC7efGNei/wivWB+yjJwDjIRIdThar2NPS30e7MPX+bQlkIxoXzcN3i1Abui
-	lwuyHHgf9TZmxjggscpIHcMaCRvrMf3xHbSPa363D6bFl0327IhrEy2JKgakjbIWVOI7Ma75yjP3D
-	SbMgJ6TjdJfcnbels6RnJRpUgHxJ3FvuLr5aErK1Au5SFA9vwbtmjgAtKhB6wGTxdSM7y+p+DvxB8
-	Dp5scdGrFj+ZvMAkKXVCJcdX05fNmEmSMiAcFcrUp1o09w4RmKqRIkdCFZOV+bb4atMteedUD9GME
-	/bcpz3ng==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=frUuugDajwbIOykQjzhC84jXkkFKRlA58W38jq3zHQc=; b=UNLVJxvzf5XlF0ivheEbtxBbHo
+	9h0fZdoKQhmmNd/zntkMTJ04kkPYQ4v8V6hBrXKt3ylHxTPfv2sUXbJH2UiGudLdQSPyAJz7OJnOL
+	ni2U1J4g+H0P2QDXGyQfV6AC4mZmbN+S2iDTl22d6D0I+Jk6Z/PE4TavGT1vzjl79+Tfiqj94ezUy
+	nCq7G+9oIRG0TyEYvqh1uA4ZMWP+90KctPtkKJU1NtRQihjbQwnRAGuYn7IRTHWCZbyC8jpNODGfP
+	rQVFS/k+FcosDQFaHp88hr6No9W/MPotDWj5oncsF9OhPU7wFJoKC6jdEGDFk1wQ8kLAkN7/1Xn/Q
+	F2Cb5jhA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPOAv-00000002Nje-0abj;
-	Tue, 19 May 2026 17:24:13 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+	id 1wPPm4-00000002a6s-0n9o;
+	Tue, 19 May 2026 19:06:40 +0000
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPOAr-00000002Nen-1Rv6
-	for linux-nvme@bombadil.infradead.org;
-	Tue, 19 May 2026 17:24:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Type:Content-Transfer-Encoding
-	:MIME-Version:Message-ID:Date:Subject:CC:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=DgSDBglcHMWndZa8iapvzamBLG1cvjdm8KJL+W9JABU=; b=qhNrg+pEm4OGQa7LE8d4o3SxDM
-	wQzAdaHUQKkRNzp9vn0EsXs1WFSlY1wiybQZjVkWL7slZ5bV7XX4abimTLmlhi/CP5QSU6QrpjjBg
-	j3ODP0x+cRJhOPKeAtrqZzjidi5lePqK3X/pJnZfHtZF4mxXq5GWP0bBgbYPbwujrTsk72b1HKOI/
-	QTliUh0iQcLMS7JTzpuCx3V4sdqji1lSBIGnwflC3m/RhW4k9f2Y8hTqnSYgc1PpEg2o62J9zkbRK
-	m5bKZf61MFJZ4dQ9sgYZxZsFmEroQyC7nBPL2t7N8MvoAYlT11jVhhPGTX7i1yZNPu5kV4m3pAAKG
-	vl2aIZ2Q==;
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
-	by desiato.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPOAn-0000000EvKB-47Bm
+	id 1wPPm2-00000002a6K-1D6V
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 17:24:08 +0000
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64J4VXVT182059
-	for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 10:24:05 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=s2048-2025-q2; bh=DgSDBglcHMWndZa8ia
-	pvzamBLG1cvjdm8KJL+W9JABU=; b=GxE2RR/8JD5zU7w9Lgemx3/pXoABU3tt4j
-	CtJzH2OWlZ9i077DrdPmoqqEW60ZmsP3G8+8BvlsQiBFL9h17piNaq5er6mzTciL
-	QTrhyMC1N89a5KmOiAHZzguSaRwKuzEk6KVw/5pfEotipKwZAapl2ij2q0MsUuti
-	QJaeuzargJbeamXKq8ULSsGPgBvSDVEWGiUZ2vsXZe7oZnFZCH0UKE5/jTYbSpV+
-	Xj4XeiZ8TVJ3fOye0BSIqplZLc5S6YQp7pAdNtItplHZDLZ+HXPeJaoWiPuMkT7p
-	lbLK2r6+c28nk+uaLHCiDWfc6XL88GAyqoW9ygODK2un0xMQCBNQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4e6p3bskgw-8
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 10:24:04 -0700 (PDT)
-Received: from twshared132777.16.frc2.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.37; Tue, 19 May 2026 17:23:54 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 0BCA41A75976E; Tue, 19 May 2026 10:23:31 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, <tom.leiming@gmail.com>,
-        <coshi036@gmail.com>, <Igor.Achkinazi@dell.com>, <dlemoal@kernel.org>,
-        Keith
- Busch <kbusch@kernel.org>
-Subject: [PATCH RFC 0/5] block: validate bios against queue limits in the entered context
-Date: Tue, 19 May 2026 10:23:21 -0700
-Message-ID: <20260519172326.3462354-1-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
+	Tue, 19 May 2026 19:06:39 +0000
+Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-516389a9b70so45052341cf.3
+        for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 12:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779217597; x=1779822397; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=frUuugDajwbIOykQjzhC84jXkkFKRlA58W38jq3zHQc=;
+        b=VShyrWiCjfQwg6Ou7BGdGmLuN0kNmwx99IjFN0k0J++jev6bm3myXEtnOQiQffSHbg
+         WpRmN9Fgh/NXUQEZwMkwD/Ye4dQWcAHeP+rDk+Vm075tfVEFALTSaHbgeJ29VMRJx1hc
+         NkqFZLgrrIIrACBkUIgKUnjOdwVfIsLtoQugbCC6vqJHUVFEmLLuv+n7lwiB6S2njaB7
+         z+hYNVryaQPOKq2ZT22aMeGQRvj49tI/3m7jHmnOeLduFIK+q7w00YNuIpI5KtPtYKCQ
+         26yR2S7gkaD5CSExlovF9smGOJCugP6ixOB/Bee5vfXNdtS3FQn5QwpRmP2mnkcTeJxs
+         7icg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779217597; x=1779822397;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=frUuugDajwbIOykQjzhC84jXkkFKRlA58W38jq3zHQc=;
+        b=CUxcFENUrjlsZrjCjBsr5RlmVs/ZmoepN8urzclBBm+j9PXYwZ5Z7qIqlgpr/QuV0T
+         68RugtHOUinNaPBk4xVmoANVU6gN2TrHquZFsSk/qPFzr9RwRAGiSKREdKIUKpFIoR4k
+         DYs2EzcEHZYG3K1oXJx+PLTFQlVQ7IeJTgKTLxBXNbqX51uEljquYaUbzCPIWw5WBjZW
+         HuQAVk1tvMtEruizmlzOnPnuvjpwKAu+w89x5yYpfa7JAwows+tVwZXRHzXkEpmId+n5
+         aZgY8xP7bokKjy8cbtkc3edeV2XOIOQ8VA+E9ZktZVkh8Xuc9cHcyL8OpCYgGJApSHxS
+         uJPw==
+X-Forwarded-Encrypted: i=1; AFNElJ9czBtZTCf7Fihn92ybhTe79IiIrzbptDjbBvLt5lLPOztBbwRzCoU+4O3c87jyhbpwr87l0Q5vqHCL@lists.infradead.org
+X-Gm-Message-State: AOJu0YycHKd4qJLOH890vH6aX9ktKDoa/cb1tppsZjf+B/bAZ78qiHR4
+	g1JDJ2NA5raopx4mHgq+xnS3puunBNYPkYMYYHSpsm/Th4rPZmyMlpzP
+X-Gm-Gg: Acq92OFfhuUKS0nLkB90NdugL0AjZkd+v2oyVfLR9RsE3/Jf1yTsCt5ZFCeyw/G5L+d
+	exlW3fVEfIHUAAUrT2fb2dgTuBLCEC7NB5+NWaKQP0iZaspMwvU4qZt2tyLLWasJrItYZKl8a/V
+	heF7tId+TRcv2GMcqXWhc+D412MiR/jcwG92EGkCs4y3GzH7aOtyValE7OyoPEX5Hi7N1P4zz1a
+	6EUaYqOiVebCVmTT99io+3qnezbjrvip8S8W45b3QL4e5Yn4HXV590aB/2OIZ58hqLWGN9aDhbT
+	+M6u2JHWTOMmnS1XDIozRzNkJdTTLcyGEEWCONWdViN5QDQJ1as77QAjumdz/O7niSPOZ80/d9R
+	aK0VousHKPgiegiskH0w7fA+asZ4pb3ghx9/0Jj8FUKkujZWWJ86HOMs3w+65oRJJiuxA62pRzk
+	Ifl07051k+XSnbKoRY13U3mTA8u/pFXXQYZ/kgWwgiHK7Uk8Dw6ziHFjo7gqKPiDwDwSZYhA27u
+	1hCe1S9sCReiFwAfmNu
+X-Received: by 2002:a05:622a:2445:b0:4f1:ab79:fb18 with SMTP id d75a77b69052e-5165a03e931mr269170821cf.25.1779217596596;
+        Tue, 19 May 2026 12:06:36 -0700 (PDT)
+Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5164585fa0asm187088571cf.31.2026.05.19.12.06.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 12:06:36 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Nilesh Javali <njavali@marvell.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>,
+	Shyam Sundar <ssundar@marvell.com>,
+	James Smart <james.smart@broadcom.com>,
+	Hannes Reinecke <hare@kernel.org>,
+	John Meneghini <jmeneghi@redhat.com>,
+	Bryan Gurney <bgurney@redhat.com>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	linux-scsi@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v3] scsi: scsi_transport_fc: widen FPIN pname walker counter to u32
+Date: Tue, 19 May 2026 15:06:15 -0400
+Message-ID: <20260519190615.2761667-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260518143706.2808177-1-michael.bommarito@gmail.com>
+References: <20260518143706.2808177-1-michael.bommarito@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDE3NCBTYWx0ZWRfX9HuW5dnruf7d
- Gy+eCBzgg7fyO8GJf/5kvz/LyOqFjt+qAaCwBnibgJOVWXtfH4j8UTNFeW2WcVPZvtvncjQOCGF
- Upfdx5K3YTinZ1p748ntLaRYohj1TLRnklktm3NSiuqw4DTKkHbiIUKIpUxWQmq4wqghKzTQGGz
- BFKTf4qqy0/3bxqtymFh5Ut4QIFaCFMeN44UT6fLS8Eszetrxyprcj+FVryMNuN8jNUgZu69LAG
- xEu+xusHP4g9uUEKJnxtBs1Q+d80k0p95ULGwxM/aP1wMlk5Dcfslf0avarJZ6J5BWQ5FTyu1S1
- eedDLyWKagpVzBrsfEuetfa8kN9OGZCrt9MS5v1TkMwPUXbA42EShXrD6iaCPUpMZv5UXX/QWqf
- d4dbrSx6pazOxNsk80p3kRjDBqG6ARTN1XVCsJjNQ0JWaIVHMJ9gXczA258hqN8b8Wky8lUGCdI
- 3xWFdzqVMCgGqcwOaPg==
-X-Proofpoint-GUID: fRYVvoXGJtBfGPLvGzOTwL-QqPnaj6Td
-X-Authority-Analysis: v=2.4 cv=K6cS2SWI c=1 sm=1 tr=0 ts=6a0c9cb4 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=JnKecZnUtZousrUlYMGU:22 a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=pGLkceISAAAA:8
- a=CmBJLTqHQE19MeuuKJcA:9
-X-Proofpoint-ORIG-GUID: fRYVvoXGJtBfGPLvGzOTwL-QqPnaj6Td
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-19_05,2026-05-18_01,2025-10-01_01
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260519_182406_553591_93489785 
-X-CRM114-Status: GOOD (  17.85  )
+X-CRM114-CacheID: sfid-20260519_120638_352910_4C2A824D 
+X-CRM114-Status: GOOD (  20.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -113,68 +114,171 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
+An adjacent Fibre Channel fabric actor that can deliver an FPIN ELS
+frame to an lpfc or qla2xxx Linux initiator can trigger a non-return
+in the generic FC transport. This is not a local userspace or IP
+network path; the attacker must be able to inject fabric traffic, for
+example as a compromised switch or fabric controller, or as a same-zone
+N_Port on a fabric that permits source spoofing.
 
-The block layer validates bios against various queue limits and device
-capacity in submit_bio_noacct(), but these checks run before
-bio_queue_enter(). This means they are not serialized against drivers
-that update queue limits inside a freeze window. A bio that passes
-validation under old limits can enter the queue after the update and
-reach the driver with an invalid configuration.
+The Link-Integrity and Peer-Congestion FPIN walkers used a u8 loop
+counter against the 32-bit on-wire pname_count field, and did not bound
+pname_count by the descriptor body already validated by the TLV walker.
+A pname_count of 256 therefore wraps the counter and keeps the loop
+condition true indefinitely.
 
-This series moves all limit-dependent validation into
-__bio_split_to_limits(), which runs after the queue usage reference has
-been acquired. This ensures proper serialization against limit updates.
+Factor the shared pname_list[] walk into one helper, widen the counter
+to u32, and clamp pname_count against the entries that fit in the
+descriptor body before iterating.
 
-This changes was motivated by a few recent reports:
+Fixes: 3dcfe0de5a97 ("scsi: fc: Parse FPIN packets and update statistics")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+Changes in v3:
+- State the fabric-adjacent threat model explicitly in the commit
+  message and clarify that this is not local userspace or IP-network
+  reachable.
+- Use min_t(u32, ...) for the pname_count clamp, as Christoph suggested.
+- Use FC_TLV_DESC_LENGTH_FROM_SZ() instead of open-coding the descriptor
+  body length calculation.
+- Factor the duplicate LI and peer-congestion pname walker into a common
+  helper while preserving the LI-only host-stat update.
 
-  https://lore.kernel.org/linux-nvme/MW5PR19MB548483D1FAE4F322E4C97352FD0=
-32@MW5PR19MB5484.namprd19.prod.outlook.com/
-  https://lore.kernel.org/linux-nvme/20260517053635.2282446-1-coshi036@gm=
-ail.com/
+Changes in v2:
+- Drop the redundant cover letter shipped with v1.  A single-patch send
+  does not need one, and the v1 cover carried stale draft markers.
 
-When an NVMe namespace that is reformatted to use extended metadata that
-can't be controller generated/stripped, the driver sets capacity to 0
-inside a freeze window because the block layer is not able to form a
-viable request for this format.  But a bio that passed bio_check_eod()
-before the freeze can still reach nvme_setup_rw() after the update,
-triggering a WARN that we didn't expect to be possible of reaching.
+ drivers/scsi/scsi_transport_fc.c | 77 +++++++++++++++++---------------
+ 1 file changed, 41 insertions(+), 36 deletions(-)
 
-For NVMe multipath, moving these checks into the entered context
-exacerbates a different problem: a bio targeting a path being torn down
-(capacity set to 0) would be failed by the block layer before the driver
-gets a chance to redirect it to another path. This is a pre-existing
-problem, but the initial changes in this series make it easier to hit.
-The series addresses this by introducing a new callback to
-block_device_operations, called from bio_io_error(), that lets the
-driver intercept and redirect failing bios before they are completed.
-NVMe multipath uses this to requeue bios back to the head device for
-path re-selection when the path is no longer ready.
-
-Note that callers of submit_bio_noacct_nocheck() (bio split, throttle
-dispatch) will now hit the validation checks in __bio_split_to_limits()
-that they previously bypassed. This is intentional: these checks must
-run in the entered context to be properly serialized, and cannot be
-skipped so it is a performance cost that can't be avoided.
-
-Keith Busch (5):
-  blk-mq: fix status for unaligned bio
-  block: fix invalid zone append status codes
-  block: validate bio bounds in the queue entered context
-  block: move bio operation validation into __bio_split_to_limits
-  block, nvme: add failed_bio callback for multipath bio failover
-
- block/blk-core.c              | 144 ----------------------------------
- block/blk-mq.c                |   3 +-
- block/blk.h                   |  89 ++++++++++++++++++++-
- drivers/nvme/host/core.c      |   1 +
- drivers/nvme/host/multipath.c |  26 ++++++
- drivers/nvme/host/nvme.h      |   2 +
- include/linux/bio.h           |   6 --
- include/linux/blkdev.h        |  16 ++++
- 8 files changed, 133 insertions(+), 154 deletions(-)
-
---=20
-2.53.0-Meta
-
+diff --git a/drivers/scsi/scsi_transport_fc.c b/drivers/scsi/scsi_transport_fc.c
+index dce95e361daf0..0684d8c69c3c6 100644
+--- a/drivers/scsi/scsi_transport_fc.c
++++ b/drivers/scsi/scsi_transport_fc.c
+@@ -737,6 +737,37 @@ fc_cn_stats_update(u16 event_type, struct fc_fpin_stats *stats)
+ 	}
+ }
+ 
++static void
++fc_fpin_pname_stats_update(struct Scsi_Host *shost,
++			   struct fc_rport *attach_rport, u16 event_type,
++			   u32 desc_len, u32 fixed_len, u32 pname_count,
++			   __be64 *pname_list,
++			   void (*stats_update)(u16 event_type,
++						struct fc_fpin_stats *stats))
++{
++	u32 i, max_count;
++	struct fc_rport *rport;
++	u64 wwpn;
++
++	if (desc_len < fixed_len)
++		max_count = 0;
++	else
++		max_count = (desc_len - fixed_len) / sizeof(pname_list[0]);
++	pname_count = min_t(u32, pname_count, max_count);
++
++	for (i = 0; i < pname_count; i++) {
++		wwpn = be64_to_cpu(pname_list[i]);
++		rport = fc_find_rport_by_wwpn(shost, wwpn);
++		if (rport &&
++		    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
++		     rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
++			if (rport == attach_rport)
++				continue;
++			stats_update(event_type, &rport->fpin_stats);
++		}
++	}
++}
++
+ /*
+  * fc_fpin_li_stats_update - routine to update Link Integrity
+  * event statistics.
+@@ -747,13 +778,11 @@ fc_cn_stats_update(u16 event_type, struct fc_fpin_stats *stats)
+ static void
+ fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
+ {
+-	u8 i;
+ 	struct fc_rport *rport = NULL;
+ 	struct fc_rport *attach_rport = NULL;
+ 	struct fc_host_attrs *fc_host = shost_to_fc_host(shost);
+ 	struct fc_fn_li_desc *li_desc = (struct fc_fn_li_desc *)tlv;
+ 	u16 event_type = be16_to_cpu(li_desc->event_type);
+-	u64 wwpn;
+ 
+ 	rport = fc_find_rport_by_wwpn(shost,
+ 				      be64_to_cpu(li_desc->attached_wwpn));
+@@ -764,22 +793,11 @@ fc_fpin_li_stats_update(struct Scsi_Host *shost, struct fc_tlv_desc *tlv)
+ 		fc_li_stats_update(event_type, &attach_rport->fpin_stats);
+ 	}
+ 
+-	if (be32_to_cpu(li_desc->pname_count) > 0) {
+-		for (i = 0;
+-		    i < be32_to_cpu(li_desc->pname_count);
+-		    i++) {
+-			wwpn = be64_to_cpu(li_desc->pname_list[i]);
+-			rport = fc_find_rport_by_wwpn(shost, wwpn);
+-			if (rport &&
+-			    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
+-			    rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
+-				if (rport == attach_rport)
+-					continue;
+-				fc_li_stats_update(event_type,
+-						   &rport->fpin_stats);
+-			}
+-		}
+-	}
++	fc_fpin_pname_stats_update(shost, attach_rport, event_type,
++				   be32_to_cpu(li_desc->desc_len),
++				   FC_TLV_DESC_LENGTH_FROM_SZ(*li_desc),
++				   be32_to_cpu(li_desc->pname_count),
++				   li_desc->pname_list, fc_li_stats_update);
+ 
+ 	if (fc_host->port_name == be64_to_cpu(li_desc->attached_wwpn))
+ 		fc_li_stats_update(event_type, &fc_host->fpin_stats);
+@@ -827,13 +845,11 @@ static void
+ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
+ 				struct fc_tlv_desc *tlv)
+ {
+-	u8 i;
+ 	struct fc_rport *rport = NULL;
+ 	struct fc_rport *attach_rport = NULL;
+ 	struct fc_fn_peer_congn_desc *pc_desc =
+ 	    (struct fc_fn_peer_congn_desc *)tlv;
+ 	u16 event_type = be16_to_cpu(pc_desc->event_type);
+-	u64 wwpn;
+ 
+ 	rport = fc_find_rport_by_wwpn(shost,
+ 				      be64_to_cpu(pc_desc->attached_wwpn));
+@@ -844,22 +860,11 @@ fc_fpin_peer_congn_stats_update(struct Scsi_Host *shost,
+ 		fc_cn_stats_update(event_type, &attach_rport->fpin_stats);
+ 	}
+ 
+-	if (be32_to_cpu(pc_desc->pname_count) > 0) {
+-		for (i = 0;
+-		    i < be32_to_cpu(pc_desc->pname_count);
+-		    i++) {
+-			wwpn = be64_to_cpu(pc_desc->pname_list[i]);
+-			rport = fc_find_rport_by_wwpn(shost, wwpn);
+-			if (rport &&
+-			    (rport->roles & FC_PORT_ROLE_FCP_TARGET ||
+-			     rport->roles & FC_PORT_ROLE_NVME_TARGET)) {
+-				if (rport == attach_rport)
+-					continue;
+-				fc_cn_stats_update(event_type,
+-						   &rport->fpin_stats);
+-			}
+-		}
+-	}
++	fc_fpin_pname_stats_update(shost, attach_rport, event_type,
++				   be32_to_cpu(pc_desc->desc_len),
++				   FC_TLV_DESC_LENGTH_FROM_SZ(*pc_desc),
++				   be32_to_cpu(pc_desc->pname_count),
++				   pc_desc->pname_list, fc_cn_stats_update);
+ }
+ 
+ /*
+-- 
+2.53.0
 
