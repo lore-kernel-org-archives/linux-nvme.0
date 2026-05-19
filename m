@@ -4,109 +4,132 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35017CD4F5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 07:55:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 559A9CD4851
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 07:55:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=a/lqih5w8kOsHKdyaSXO9SGORGhwE1abTlQDwvsKNOc=; b=2fuKKLFc1dQRObMxCvoJ5JW+Np
-	ZTCO8JtEjb+p03AI2plzTXtEEYKoVb1jRYgb9YaqRMnTfuZtIm+uYDNJYKhgIAJo+AU9Czs27rJvI
-	LAXgephGgLQ2rq2vwFTfn7bYzBGIUSqPnSS/D7QoWdT1dJjB2yFg1MFfWh41djOlfU91onvlBDg7V
-	654Vh1EL2VwQTXWKqRTEKRM74Z8BMddTXyNyNkp9W+b0gTcLdFH8o1Ar6ZQTLb62fMsYyRRC8BoKQ
-	IuB5Ve4+yZUoe79X6+yCdAsf4nNwylGbcSIvwxloOT5EPOeUH6P7FeQTCL8QpIWDjfr4dBae70MfB
-	onOPKJiQ==;
+	bh=aIuSa4Q4dMultZ8PBSbLMyy9WSo6AwaKdXcHKLDBDC8=; b=FwlZ3fnrlwiUXS3bPVCnCyzGgK
+	jKg5dEd1RRN8nFVsm2fYRNSYPkuW5bi72dD0xCLk4FokKSUneVz05jS1tPUHosKNEYq4X/cxEIV2E
+	zQbWyKYfLffhNN5Oj8Rn9KBKO+yRLoFu/ki4KjA0oIwETLSlpoauwJrKMuDts/EDq6oAt34Ob6Kh3
+	caGoVnsL7NYv/s/pMA81kJ+0SIPor12XktUI/vISYRLe47KFMDHkspMC+MdvTRZY4a4J2aKU/OxWD
+	7EsTY/98OQvVAkT1ZWXV7QuPZZRdzetT3N415a51S2BIxN7Uj1a48mZLMJ0imvfxoiaydq+jSArza
+	B3tKsb7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFIh-00000000Zt2-2CwH;
-	Tue, 19 May 2026 07:55:39 +0000
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+	id 1wPFIv-00000000ZyQ-2rZA;
+	Tue, 19 May 2026 07:55:53 +0000
+Received: from smtp-out2.suse.de ([195.135.223.131])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFIf-00000000ZsM-0D7n
+	id 1wPFIt-00000000Zwr-0LEY
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 07:55:38 +0000
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-43d7645adbdso2089669f8f.1
-        for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 00:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779177335; x=1779782135; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a/lqih5w8kOsHKdyaSXO9SGORGhwE1abTlQDwvsKNOc=;
-        b=WEEwTkQMoRlVsd44TlZ0oL20G18pmeI5DnEu4hfktgTNXDv7ep0lhB15LDnohhKt0X
-         OSMKksJ2gsMTI3tU0Xj1BgjaZjfS6VFKbk1SOLJCBgzULsSAo9en3EPHo1pqYQhD8i3v
-         /71pTtXhF0vXI6e6INIhVAtGKOkeXP2IvkRmnGerQJ6quL2k9wCTgmNz831bRPh5SePX
-         wsM8P0UGB1yzuU5Lp1BGqwpgFVx0sMVf6uwiss8PoRg8bwWdSHmuQtht4L0WFLLJWzE4
-         1yeyCSxjszNKDyQrqhD17d5NnGmSDUsz//6cnzTgATIxaf4A5lklYxGyl9+h2TWGbJPF
-         rj/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779177335; x=1779782135;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a/lqih5w8kOsHKdyaSXO9SGORGhwE1abTlQDwvsKNOc=;
-        b=iSIqcBGSYlszxoqDmxDMnAIldOhpbM2CenPdyhcspHc+ymbKplvCu/MwUHU+UXvfEI
-         joy5gDhxfX9rDNyxWCWwgyvEXb4kojz+U1GpAqHk6lMbhhQ47Bk0jWSxBQFXaLkCWGE+
-         3AJpJY/p1SRwGIsusGX8fKIeAjuaNUyJ3yQV7Mv2R2rXn3VDSQDAqnANp5Z0BTZk/vzr
-         fy85GZ5I9z+eS+V7r/DNiJ7dzyyAK1bLgVoVixVo/7+Rb+ew0Nq02tN2cdAQ2iS+lawe
-         4jFdwXhn+cGN57G3heUyoPIjkAfzRQoUHVWXeH0h6poLziXRXRL5+NB6zxfMHmEfom5i
-         dxVg==
-X-Forwarded-Encrypted: i=1; AFNElJ+kmNAxd/is2/BwUSuzb963lW7/R4xyRa1VGx/AA07OYrPBMKdSPnWURnGanl1Qr7Lw7/8uU8QIxf3E@lists.infradead.org
-X-Gm-Message-State: AOJu0Yy4DmpftXXPIoKhL9Po7U6aUs2PmodiqFPKxJDmw7tbopno6Yp0
-	i1mv9V/3+K6R/n5L+zIug3A0F4hdYGx74xaO7zgegIw6Z4qS6IGIeBZa
-X-Gm-Gg: Acq92OE8ld+GZ2fjeq804Zlf6cUBIdLfpAl5a5w5f+eoIqlq2cSPgkXkmCy4bU8FG4K
-	cNCosmNtwc1PkUYNCdHuzqu/TLmaoUlvA05kOzQjNNQGty8GKqPdNICsLzis0sGeRMIqlo+n4yk
-	HItGSXzwPFfhxdOpTS3HmdoLnsLomLSUW8QJnHzSUVxlPx66+ZRrxM9pUvNUkw4Du0GQv5v79Fr
-	wQz4EWLc1cZ3mvbVFPqSWuSkrnowXnbBzqHIXqB6iIYV+pGNMK04nuyRn04cd6/ni+Lld9LeKeI
-	f8DVmXTws/Vke6jA8MRz4TVScqNg26+zYAZ+xUX3ueWrQG4MqO24w4vT6gaXYopy5Z0XIS2H9I6
-	H6UdZI7T6j1lRtPZ0k5IllWzB0NZkLm2MKnKd4Xrf5xUr4ZIAM/5McAX+llol/1lf+WFOPAeAYg
-	+Eyx7siOr2veQXd7Trp3qOsAIc/e+qsoiqMhQY51q2xN9ZZjQ2/5UTywPuz8DInRO+mrfRPhkzT
-	qzRX32yOcmjuxxWL7Lsyrao7uRrj2j+QrC4wMIT/NPLhuV0HkoGV/DU+nRKqAkgBA6OzBuvoRvc
-	Ug==
-X-Received: by 2002:a05:600c:470e:b0:489:201c:dc46 with SMTP id 5b1f17b1804b1-48fe60ea590mr265981195e9.12.1779177335066;
-        Tue, 19 May 2026 00:55:35 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c88e5asm329088665e9.6.2026.05.19.00.55.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 00:55:34 -0700 (PDT)
-Message-ID: <9933142a-4ce2-4219-9574-73da30edd74e@gmail.com>
-Date: Tue, 19 May 2026 08:55:32 +0100
+	Tue, 19 May 2026 07:55:52 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 41E0767BE0;
+	Tue, 19 May 2026 07:55:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779177349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aIuSa4Q4dMultZ8PBSbLMyy9WSo6AwaKdXcHKLDBDC8=;
+	b=veWnd5gU+IacJtakxKB5Bq8XPrPBybU2tIE8hkMMKOAdihO+GSBQZR8k3K9L6bnimySqeI
+	rxEvYgGBKVJY6usR26pgMDrBMmbl4/k8UulRf7LtlyzMduJjGyJtEY8D8Ge6kpdgj2iqPl
+	0j9QpsIoN/hN6ckvB0OwjTWBXeA2xZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779177349;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aIuSa4Q4dMultZ8PBSbLMyy9WSo6AwaKdXcHKLDBDC8=;
+	b=MvxkyHAxTy0I4vLj366t/wr5Xz5/Dv70kNQvK1NcxhrEhCZnNeQIjb0XIgT60eD/9AuL8S
+	OmWpaMScjiFfSEAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=veWnd5gU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MvxkyHAx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779177349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aIuSa4Q4dMultZ8PBSbLMyy9WSo6AwaKdXcHKLDBDC8=;
+	b=veWnd5gU+IacJtakxKB5Bq8XPrPBybU2tIE8hkMMKOAdihO+GSBQZR8k3K9L6bnimySqeI
+	rxEvYgGBKVJY6usR26pgMDrBMmbl4/k8UulRf7LtlyzMduJjGyJtEY8D8Ge6kpdgj2iqPl
+	0j9QpsIoN/hN6ckvB0OwjTWBXeA2xZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779177349;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aIuSa4Q4dMultZ8PBSbLMyy9WSo6AwaKdXcHKLDBDC8=;
+	b=MvxkyHAxTy0I4vLj366t/wr5Xz5/Dv70kNQvK1NcxhrEhCZnNeQIjb0XIgT60eD/9AuL8S
+	OmWpaMScjiFfSEAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 19245593A8;
+	Tue, 19 May 2026 07:55:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id J7w8BYUXDGrLagAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 19 May 2026 07:55:49 +0000
+Message-ID: <76f6bb7c-c0b4-4dfc-b101-13d0bb7d7f0e@suse.de>
+Date: Tue, 19 May 2026 09:55:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
- <20260513082431.GA6461@lst.de>
- <ebf41920-5852-428f-b98a-e0f44c8f3315@gmail.com>
- <20260518125326.GA5754@lst.de>
- <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
- <20260519065653.GB8173@lst.de>
+Subject: Re: [PATCH net 4/7] net/handshake: Take a long-lived file reference
+ at submit
+To: Chuck Lever <cel@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
+References: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
+ <20260518-handshake-file-pin-v1-4-4bbcb7e62fda@oracle.com>
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260519065653.GB8173@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260518-handshake-file-pin-v1-4-4bbcb7e62fda@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 41E0767BE0
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260519_005537_109961_00ACE0C5 
-X-CRM114-Status: GOOD (  24.45  )
+X-CRM114-CacheID: sfid-20260519_005551_266553_3D3214CE 
+X-CRM114-Status: GOOD (  15.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -121,57 +144,42 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/19/26 07:56, Christoph Hellwig wrote:
-> On Mon, May 18, 2026 at 03:23:53PM +0100, Pavel Begunkov wrote:
->> To be fair, it's not that dma-buf specific. This lib/ code only
->> does some resv locking, fence waiting and queuing fences,
+On 5/18/26 20:24, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> But all the dma resv/fence stuff is pretty tied into the dma-buf
-> ecosystem.  I don't think it would really apply to something not
-> doing DMA at all.
-
-The point is that those can be separated to reuse the rest.
-  >> otherwise
->> all the attaching is done by the driver behind callbacks. Switching
->> it to some memfd could be pretty simple. But The main thing it'd
->> need to share is iterator handling like forwarding in the block
->> layer, and it should be fine as it's already passed as a completely
->> opaque object with no knowledge about pages / dma / etc. for the
->> middle layers.
+> handshake_nl_accept_doit() needs the file pointer backing
+> req->hr_sk->sk_socket to survive the window between
+> handshake_req_next() and the subsequent FD_PREPARE() and get_file().
+> The submit-side sock_hold() does not provide that. sk_refcnt keeps
+> struct sock alive, but struct socket is owned by sock->file: when
+> the consumer fputs the last file reference, sock_release() tears
+> the socket down regardless of any sock_hold.
 > 
-> But none of that really sits in the current lib/ code anyway?
-
-It's about naming. E.g. passing a DMABUF_ITER that doesn't have a
-dma-buf would be confusing, and then it'll need renaming at all
-layers to support the use case.
-
->>> lib/ is most certainly the wrong place for something that absolutely
->>> is not library functionality but directly interacts with a few
->>> subsystems.
->>
->> It only interacts with dma-buf, and even for dma-buf attachments
->> are created by the driver. Block, nvme, io_uring are users, either
->> using the helpers or implementing callbacks.
->>
->> Ok. Let's assume for the argument's sake it's not dma-buf
->> specific, if not lib/, where would you put it? I was also
->> assuming that dma-buf being under drivers/ is rather a relic
->> of the past rather than the desired location, hmm?
+> Prepare for a fix by adding an hr_file pointer to struct
+> handshake_req and acquiring an explicit reference on sock->file
+> during handshake_req_submit(). Release the reference on the
+> completion-bit-winning path of handshake_complete() and
+> handshake_req_cancel(), and on the submit error paths that destroy
+> the request before it has been published.
 > 
-> drivers/dma-buf is a pretty natural place for it, I could not thing
+> The accept-side dereferences are not yet retargeted; that change
+> comes in the next patch.
+> 
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>   net/handshake/handshake.h |  2 ++
+>   net/handshake/netlink.c   |  6 ------
+>   net/handshake/request.c   | 27 ++++++++++++++++++++++++++-
+>   3 files changed, 28 insertions(+), 7 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-_If_ there is no dma mappings, drivers/dma-buf would definitely
-be an awkward spot. Just trying to understand your criteria for
-placement, let's say of a generic buffer registration code assuming
-there is no dma-buf involved at all. Again, just a hypothetical.
+Cheers,
 
-> where else you'd place dma-buffers.  I'm not sure how hmm has anything
-> to do with it.
-
-Looks there is some confusion. It's was meant as an interjection
-with an open question, I didn't mention the HMM subsystem.
-
+Hannes
 -- 
-Pavel Begunkov
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
