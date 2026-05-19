@@ -4,65 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 494C3CD4F5B
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 07:52:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35017CD4F5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 07:55:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=TGGOXQmqj5JjTtGFSrcjha2MGSLjj4f8QR5jJSt+EqA=; b=zaF3ELQjEDm/Xx4ONkarDOwtKV
-	zHzdITJkKg7t6X7dIdirZMVG4X5nqjR3v/zdKTE1dfeH6p9agFdlcjaB6ndU/d8zfOUuZucWluF6z
-	ZGc0gVlIaseSnqfDw0OvAi9y4JIbMkScGFbs9/endXpy69r7mUJ5pdDXtSUMzwq+ZMCpVkgAIQP4t
-	rmcordXS2nAAZZyDMlMdi/gWNb7OTAjuQzMMY3OI1mrp0WE2nX53ClhbbT89MmU5HOvMm/mWE3Q15
-	BazWSDLMNmQ/y9gMylihJkiji9u5yaDWSVof0nmPaEbr1eCXIhppSoaRgGYzeFHLAjYIkY4kF2O24
-	P/MkLUeA==;
+	bh=a/lqih5w8kOsHKdyaSXO9SGORGhwE1abTlQDwvsKNOc=; b=2fuKKLFc1dQRObMxCvoJ5JW+Np
+	ZTCO8JtEjb+p03AI2plzTXtEEYKoVb1jRYgb9YaqRMnTfuZtIm+uYDNJYKhgIAJo+AU9Czs27rJvI
+	LAXgephGgLQ2rq2vwFTfn7bYzBGIUSqPnSS/D7QoWdT1dJjB2yFg1MFfWh41djOlfU91onvlBDg7V
+	654Vh1EL2VwQTXWKqRTEKRM74Z8BMddTXyNyNkp9W+b0gTcLdFH8o1Ar6ZQTLb62fMsYyRRC8BoKQ
+	IuB5Ve4+yZUoe79X6+yCdAsf4nNwylGbcSIvwxloOT5EPOeUH6P7FeQTCL8QpIWDjfr4dBae70MfB
+	onOPKJiQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFFR-00000000Z5c-4C4W;
-	Tue, 19 May 2026 07:52:18 +0000
-Received: from sea.source.kernel.org ([172.234.252.31])
+	id 1wPFIh-00000000Zt2-2CwH;
+	Tue, 19 May 2026 07:55:39 +0000
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFFQ-00000000Z52-034c
+	id 1wPFIf-00000000ZsM-0D7n
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 07:52:17 +0000
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4B3C24436D;
-	Tue, 19 May 2026 07:52:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 102A6C2BCB3;
-	Tue, 19 May 2026 07:52:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779177135;
-	bh=fTMgLCJXbTNQwcL55iBBYGIAtce49kttu9j66ZNQqZM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=qOB+G255r2dJj+4sDPaDR+yXwr8vHiJVHuGPqTt2nyY2wLHag3VwPDW7n+yZoKgyt
-	 HSabOB09Mkv7YDjvVYbglY1MKuu/jPx4u1K770E8EEhCmlGLq9zpx5eLV7Dj8a7/Za
-	 L5HLjoxYpuR5qOYqyawiFhnsOeaDdefRWNCir7hnhirguk39qlR/M6O2ZxtAZssbWx
-	 Vcu/wQBeDmQwtVoHH9QX2oKHx71+H2n5cBYupEGTL4gzVteLToky+lpwSFPiJzGXg2
-	 AOK3k/dgKmj99xUYxlZCEJyATMXcP9JsYg2s4TI3jfCPbppxbA2JH6AqvHLZpFRCOS
-	 uz9nEeioMhHCw==
-Message-ID: <9e01f2a39159d86cc5a342397cfd6383328a7ac5.camel@kernel.org>
-Subject: Re: [PATCH 2/2] nvmet-tcp: remove duplicate cancel_work_sync in
- release_queue_work
-From: Geliang Tang <geliang@kernel.org>
-To: Maurizio Lombardi <mlombard@arkamax.eu>, Christoph Hellwig <hch@lst.de>,
-  Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, Maurizio
- Lombardi <mlombard@redhat.com>, John Meneghini	 <jmeneghi@redhat.com>
-Cc: Geliang Tang <tanggeliang@kylinos.cn>, linux-nvme@lists.infradead.org
-Date: Tue, 19 May 2026 15:52:08 +0800
-In-Reply-To: <DIMG40N1AP7Y.YMM2POCWCLN3@arkamax.eu>
-References: <cover.1779170418.git.tanggeliang@kylinos.cn>
-	 <246690f4c28333cc83f63081a36b85174465c9b7.1779170418.git.tanggeliang@kylinos.cn>
-	 <DIMG40N1AP7Y.YMM2POCWCLN3@arkamax.eu>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2-9 
+	Tue, 19 May 2026 07:55:38 +0000
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-43d7645adbdso2089669f8f.1
+        for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 00:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779177335; x=1779782135; darn=lists.infradead.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a/lqih5w8kOsHKdyaSXO9SGORGhwE1abTlQDwvsKNOc=;
+        b=WEEwTkQMoRlVsd44TlZ0oL20G18pmeI5DnEu4hfktgTNXDv7ep0lhB15LDnohhKt0X
+         OSMKksJ2gsMTI3tU0Xj1BgjaZjfS6VFKbk1SOLJCBgzULsSAo9en3EPHo1pqYQhD8i3v
+         /71pTtXhF0vXI6e6INIhVAtGKOkeXP2IvkRmnGerQJ6quL2k9wCTgmNz831bRPh5SePX
+         wsM8P0UGB1yzuU5Lp1BGqwpgFVx0sMVf6uwiss8PoRg8bwWdSHmuQtht4L0WFLLJWzE4
+         1yeyCSxjszNKDyQrqhD17d5NnGmSDUsz//6cnzTgATIxaf4A5lklYxGyl9+h2TWGbJPF
+         rj/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779177335; x=1779782135;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a/lqih5w8kOsHKdyaSXO9SGORGhwE1abTlQDwvsKNOc=;
+        b=iSIqcBGSYlszxoqDmxDMnAIldOhpbM2CenPdyhcspHc+ymbKplvCu/MwUHU+UXvfEI
+         joy5gDhxfX9rDNyxWCWwgyvEXb4kojz+U1GpAqHk6lMbhhQ47Bk0jWSxBQFXaLkCWGE+
+         3AJpJY/p1SRwGIsusGX8fKIeAjuaNUyJ3yQV7Mv2R2rXn3VDSQDAqnANp5Z0BTZk/vzr
+         fy85GZ5I9z+eS+V7r/DNiJ7dzyyAK1bLgVoVixVo/7+Rb+ew0Nq02tN2cdAQ2iS+lawe
+         4jFdwXhn+cGN57G3heUyoPIjkAfzRQoUHVWXeH0h6poLziXRXRL5+NB6zxfMHmEfom5i
+         dxVg==
+X-Forwarded-Encrypted: i=1; AFNElJ+kmNAxd/is2/BwUSuzb963lW7/R4xyRa1VGx/AA07OYrPBMKdSPnWURnGanl1Qr7Lw7/8uU8QIxf3E@lists.infradead.org
+X-Gm-Message-State: AOJu0Yy4DmpftXXPIoKhL9Po7U6aUs2PmodiqFPKxJDmw7tbopno6Yp0
+	i1mv9V/3+K6R/n5L+zIug3A0F4hdYGx74xaO7zgegIw6Z4qS6IGIeBZa
+X-Gm-Gg: Acq92OE8ld+GZ2fjeq804Zlf6cUBIdLfpAl5a5w5f+eoIqlq2cSPgkXkmCy4bU8FG4K
+	cNCosmNtwc1PkUYNCdHuzqu/TLmaoUlvA05kOzQjNNQGty8GKqPdNICsLzis0sGeRMIqlo+n4yk
+	HItGSXzwPFfhxdOpTS3HmdoLnsLomLSUW8QJnHzSUVxlPx66+ZRrxM9pUvNUkw4Du0GQv5v79Fr
+	wQz4EWLc1cZ3mvbVFPqSWuSkrnowXnbBzqHIXqB6iIYV+pGNMK04nuyRn04cd6/ni+Lld9LeKeI
+	f8DVmXTws/Vke6jA8MRz4TVScqNg26+zYAZ+xUX3ueWrQG4MqO24w4vT6gaXYopy5Z0XIS2H9I6
+	H6UdZI7T6j1lRtPZ0k5IllWzB0NZkLm2MKnKd4Xrf5xUr4ZIAM/5McAX+llol/1lf+WFOPAeAYg
+	+Eyx7siOr2veQXd7Trp3qOsAIc/e+qsoiqMhQY51q2xN9ZZjQ2/5UTywPuz8DInRO+mrfRPhkzT
+	qzRX32yOcmjuxxWL7Lsyrao7uRrj2j+QrC4wMIT/NPLhuV0HkoGV/DU+nRKqAkgBA6OzBuvoRvc
+	Ug==
+X-Received: by 2002:a05:600c:470e:b0:489:201c:dc46 with SMTP id 5b1f17b1804b1-48fe60ea590mr265981195e9.12.1779177335066;
+        Tue, 19 May 2026 00:55:35 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c88e5asm329088665e9.6.2026.05.19.00.55.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2026 00:55:34 -0700 (PDT)
+Message-ID: <9933142a-4ce2-4219-9574-73da30edd74e@gmail.com>
+Date: Tue, 19 May 2026 08:55:32 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
+ <20260513082431.GA6461@lst.de>
+ <ebf41920-5852-428f-b98a-e0f44c8f3315@gmail.com>
+ <20260518125326.GA5754@lst.de>
+ <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
+ <20260519065653.GB8173@lst.de>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260519065653.GB8173@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260519_005216_076711_EF031893 
-X-CRM114-Status: GOOD (  21.14  )
+X-CRM114-CacheID: sfid-20260519_005537_109961_00ACE0C5 
+X-CRM114-Status: GOOD (  24.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,64 +121,57 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Hi Maurizio,
-
-On Tue, 2026-05-19 at 08:39 +0200, Maurizio Lombardi wrote:
-> On Tue May 19, 2026 at 8:10 AM CEST, Geliang Tang wrote:
-> > From: Geliang Tang <tanggeliang@kylinos.cn>
-> > 
-> > The cancel_work_sync(&queue->io_work) is called twice in
-> > nvmet_tcp_release_queue_work(). Remove the second one as it is
-> > redundant.
-> > 
-> > Fixes: a208fc5672177 ("nvmet-tcp: fix a race condition between
-> > release_queue and io_work")
-> > Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
-> > ---
-> >  drivers/nvme/target/tcp.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> > index 8a243d22a511..af7ce384b3cf 100644
-> > --- a/drivers/nvme/target/tcp.c
-> > +++ b/drivers/nvme/target/tcp.c
-> > @@ -1616,7 +1616,6 @@ static void
-> > nvmet_tcp_release_queue_work(struct work_struct *w)
-> >  	nvmet_tcp_uninit_data_in_cmds(queue);
-> >  	nvmet_sq_destroy(&queue->nvme_sq);
-> >  	nvmet_cq_put(&queue->nvme_cq);
-> > -	cancel_work_sync(&queue->io_work);
-> >  	nvmet_tcp_free_cmd_data_in_buffers(queue);
-> >  	/* ->sock will be released by fput() */
-> >  	fput(queue->sock->file);
+On 5/19/26 07:56, Christoph Hellwig wrote:
+> On Mon, May 18, 2026 at 03:23:53PM +0100, Pavel Begunkov wrote:
+>> To be fair, it's not that dma-buf specific. This lib/ code only
+>> does some resv locking, fence waiting and queuing fences,
 > 
-> I think that the second cancel_work_sync() is done because
-> nvmet_sq_destroy() can potentially end up calling
-> nvmet_req_complete()
+> But all the dma resv/fence stuff is pretty tied into the dma-buf
+> ecosystem.  I don't think it would really apply to something not
+> doing DMA at all.
+
+The point is that those can be separated to reuse the rest.
+  >> otherwise
+>> all the attaching is done by the driver behind callbacks. Switching
+>> it to some memfd could be pretty simple. But The main thing it'd
+>> need to share is iterator handling like forwarding in the block
+>> layer, and it should be fine as it's already passed as a completely
+>> opaque object with no knowledge about pages / dma / etc. for the
+>> middle layers.
 > 
-> nvmet_sq_destroy() -> nvmet_async_events_failall() ->
-> nvmet_req_complete() -> queue_response()
+> But none of that really sits in the current lib/ code anyway?
+
+It's about naming. E.g. passing a DMABUF_ITER that doesn't have a
+dma-buf would be confusing, and then it'll need renaming at all
+layers to support the use case.
+
+>>> lib/ is most certainly the wrong place for something that absolutely
+>>> is not library functionality but directly interacts with a few
+>>> subsystems.
+>>
+>> It only interacts with dma-buf, and even for dma-buf attachments
+>> are created by the driver. Block, nvme, io_uring are users, either
+>> using the helpers or implementing callbacks.
+>>
+>> Ok. Let's assume for the argument's sake it's not dma-buf
+>> specific, if not lib/, where would you put it? I was also
+>> assuming that dma-buf being under drivers/ is rather a relic
+>> of the past rather than the desired location, hmm?
 > 
-> and this kicks a new io_work.
+> drivers/dma-buf is a pretty natural place for it, I could not thing
 
-Thanks for the clarification!
+_If_ there is no dma mappings, drivers/dma-buf would definitely
+be an awkward spot. Just trying to understand your criteria for
+placement, let's say of a generic buffer registration code assuming
+there is no dma-buf involved at all. Again, just a hypothetical.
 
-When I was adding code to nvmet_tcp_release_queue_work [1], AI review
-reported this duplicate cancel_work_sync issue to me.
+> where else you'd place dma-buffers.  I'm not sure how hmm has anything
+> to do with it.
 
-You are right. I missed that nvmet_sq_destroy() can trigger
-nvmet_req_complete() -> nvmet_tcp_queue_response(), which
-queues io_work again. So the second cancel_work_sync() is
-indeed necessary.
+Looks there is some confusion. It's was meant as an interjection
+with an open question, I didn't mention the HMM subsystem.
 
-Let's drop this patch.
+-- 
+Pavel Begunkov
 
-Thanks,
--Geliang
-
-[1]
-https://patchwork.kernel.org/project/mptcp/patch/c796d0260ffebddcaf413f7c5a3d4b3783e814a2.1779159524.git.tanggeliang@kylinos.cn/
-
-> 
-> Maurizio
 
