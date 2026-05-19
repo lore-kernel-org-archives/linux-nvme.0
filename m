@@ -4,64 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 638CECD4F3C
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 19:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 908DFCD4F5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 20:06:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=JMCmbCNvC+HxXHksRWStC4bWizUWQNjAyE1M9dKurnI=; b=G6t5jnPAnJYso0oBuV/BBvb84u
-	Hf9adLUH1f+62I6q2E8zDb/GnEHdhqAPfBIu7TlZNcFj3zDK8aRTp38UeTGcapTKm/E3BWArrxmB+
-	ybIVAZZAZmDvKoqzbU3Ai+F8yCEMNn0OJyVE/m1irFUd7extfsfzB5E97JXeUDf4qCi0N2rvZZtvq
-	fMctngCfkNP1XA3fNRPSvlmgNhG13TWVwonxnnuRTiP7cGtmSDxcAKu/CwrzuV05JsFmziVE42uSv
-	o1pcYtcN6TPbgQQCoyh7CdNG1TlQ2wj3yA13IH83fJRriNszs21Ah/r4C/rx2VySlMjVeiD7Exh8q
-	FWA7Se0g==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=stHP4pBXm+FgK6ERLY+JSh8vvL7qyfmqkIkL16lPmDc=; b=sSckrMLj9uP4SRrptwtXIGz7an
+	P21JF1LbxKD9OtpeHeh9vRtM5n9ADWnMcfZiepc2qTSep5c1eBr/cGG4ZMpfjFKDoOwz1muh1ClNQ
+	nL5GDWtocMs8q4mHOYoSiql2UJbP33aR+TGPpq1w47MNnvfRnvG9yHjCUKx5unHotI8eOtQxwoMTM
+	Wu46rqpjI4k8VR4QP8UcG+zqFA+OkmElHhSjNnqnNWc0Z9VQyhgQF5PkAdohFUXvblkVjvF4MUkPr
+	myBgmAO09EfKVz6iFdjXdd8Hg00PlMPpZZPaate0eQ8kDN7RTqfcjqhijP72wVYufpTLmhfE5UN98
+	8jHI0ugg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPPqG-00000002aY5-3WXL;
-	Tue, 19 May 2026 19:11:00 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wPQhw-00000002gOd-0VgH;
+	Tue, 19 May 2026 20:06:28 +0000
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPPqF-00000002aXn-09nt
+	id 1wPQht-00000002gO8-3F5C
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 19:10:59 +0000
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7F1CD60221;
-	Tue, 19 May 2026 19:10:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3CE91F000E9;
-	Tue, 19 May 2026 19:10:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779217858;
-	bh=JMCmbCNvC+HxXHksRWStC4bWizUWQNjAyE1M9dKurnI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EOYL5y6dMjqhCVTAWrzmYzrPfz71i1htMxoZ3O7JB/WuzmFa/T/jNfYwtWzIDl3Gq
-	 hBzVN69nn/jE2ik+W7jOtsJzkwPyeIe09HnxZ+JiGJXb1HU85akKOOPwpy0w1gLOmM
-	 SpQQRkHsHMcP19ixT5yJGODy9ByFs44ruPdoEXi0PSPQ3MrVoya3jFIawIGKJ/J1w+
-	 2SNkqO/c3/Vx4DL9Gwl89uB+R1uR9/lbJ2jdc1FcB4lCtD8XXowFhKAP7EDfBSu/eM
-	 Un8ukWILQ5iEO36qIjpFMXS1rYY0t8WAQ/eTNvhPeVgejQj2r6BoIujvrfjzdBlpXW
-	 dmxTjtX/5Jh8w==
-Date: Tue, 19 May 2026 13:10:56 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: "hch@lst.de" <hch@lst.de>
-Cc: "Achkinazi, Igor" <Igor.Achkinazi@dell.com>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"axboe@kernel.dk" <axboe@kernel.dk>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH] nvme-multipath: set BIO_REMAPPED on bios remapped to
- per-path namespace disks
-Message-ID: <agy1wPm5QEqVf3RV@kbusch-mbp>
-References: <MW5PR19MB548483D1FAE4F322E4C97352FD032@MW5PR19MB5484.namprd19.prod.outlook.com>
- <agtnJb5a5uIqH-65@kbusch-mbp>
- <20260519065303.GA7918@lst.de>
+	Tue, 19 May 2026 20:06:27 +0000
+Received: from pps.filterd (m0528008.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64JHbJxT2000962
+	for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 13:06:25 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=stHP4pBXm+FgK6ERLY
+	+JSh8vvL7qyfmqkIkL16lPmDc=; b=GMvhEmv6GeXCkyMCNru4GUXr1eg3JQVmxA
+	a4y0Rag8I81jsnro6Wkr32KaKZ4f9WoNAIOidGXjyzwDhIijvZp35LZ5IlhlN2td
+	wqVKrSMcQnKm9RU9fx2Y/66U2CgDXoZp3kB+Aw7xoJs+KgryTsNs5+0H/2pF7w63
+	MIkFlh5lyvACDujBhwGkSE/NERgCsLZHj0NyBB+ocVJBPLMdX3hpWPmN13BsHkTu
+	bw3iBZhoMDwjIdtNenN9OzzRlTOogEgtETBhTso8/5pUcbA335Z09qEvCenNqwTi
+	aTq4QaK+Pkv9Ahf1N1TWpOqdqR7gwkaRa8ioB7t/gxAkYe144Yyw==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4e7d6jpp0e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Tue, 19 May 2026 13:06:25 -0700 (PDT)
+Received: from twshared11179.02.snb2.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.37; Tue, 19 May 2026 20:06:23 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 4E8A51A7B93B4; Tue, 19 May 2026 13:06:15 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-nvme@lists.infradead.org>, <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>
+Subject: [PATCH] nvme-pci: fix dma mapping leak on data setup error
+Date: Tue, 19 May 2026 13:06:14 -0700
+Message-ID: <20260519200614.755159-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260519065303.GA7918@lst.de>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDIwMCBTYWx0ZWRfX2CjkuOzbSIBh
+ 8ME/5ituShm/LHyv8aUU2W3cuPkRi5D9OSLodSCItaDRs5piEmB3dqtDevjv03Tnv4Zy4sEPt3S
+ aq35Qt1bP8dDCTZZEpYNMqFasUTR/jl7lzaE6vmundvQ7zp3tsBbdepZGk5SqlVh0JUfsSwki0x
+ 2oT0XdH5uL43n+t/ST4ek3j27M0viBwooN2gLolB73HH/zGk9tUovI6zowfA76jg0keVb2K6txc
+ /qr/tSDvXs6Tw0BOOoraCd4DTAmWkQB5wABK7ZISdct0sqXQmiNwLQNgQdFCEyibilXuH3QPq1U
+ 5fRbvKulN9/SgZz3c2EmOpXeteLZbClPXCihUViNivgtS3GjAJfv6n1uUfXqvLn//C/f22wq4cS
+ 2oNB/MLrra0DE9fcY17oBFn7YjahcmRmkedymwgVUeWHl0vXZ2S5GuGkVNJWwI9ykQ2gT3ASY8L
+ WIve0g/o1Cq5GoNbkDA==
+X-Proofpoint-ORIG-GUID: s0WR6axtC8lAXn-nDW32uSwCR1pvDJat
+X-Authority-Analysis: v=2.4 cv=B5yJFutM c=1 sm=1 tr=0 ts=6a0cc2c1 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=_1IyUuN4QrATX339ibzo:22 a=VwQbUJbxAAAA:8 a=fbRKhktz8DzS-7rWtMYA:9
+X-Proofpoint-GUID: s0WR6axtC8lAXn-nDW32uSwCR1pvDJat
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-19_05,2026-05-18_01,2025-10-01_01
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260519_130625_878041_CEFBE21A 
+X-CRM114-Status: GOOD (  13.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -76,28 +94,66 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 19, 2026 at 08:53:03AM +0200, hch@lst.de wrote:
-> On Mon, May 18, 2026 at 01:23:17PM -0600, Keith Busch wrote:
-> > 
-> > Any reason nvme multipath can't call submit_bio_noacct_nocheck()
-> > directly instead? If it's safe to skip the eod check here, then it
-> > looks safe to skip everything else too.
-> 
-> We really shouldn't expose that, and it doesn't quite to the
-> right checks here.
-> 
-> But I think the proper fix is to stop using bio_set_dev entirely.
-> We do not want to associate the bio with a new blkg as those are
-> basically not going to exist for the underlying devices.  I'm also
-> not sure we want to allow another round of BPF throttling either.
+From: Keith Busch <kbusch@kernel.org>
 
-Simply dropping the bio_set_dev usage doesn't really fix the problem
-here. Sure, bio_set_dev clears the BIO_REMAPPED flag, but it's not
-guaranteed that flag was set in the first place.
+Whether we're using PRP or SGL format, we're leaking the initial DMA
+mapping during iteration if we fail to allocate the tracking descriptor.
+Unmap it directly; we can't use the helper because it depends on the
+tracking descriptor being successfully allocated.
 
-I have an alternate proposal that's part of a larger series. This can
-notify the driver of an early error so it can decide how to deal with
-the bio:
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+---
+I apparently have a lot more systems pushing memory utilization to the
+limits and finding interesting issues.
 
-  https://lore.kernel.org/linux-block/20260519172326.3462354-6-kbusch@meta.com/
+ drivers/nvme/host/pci.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 139a10cd687f9..0dbe9ad45b548 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1006,8 +1006,12 @@ static blk_status_t nvme_pci_setup_data_prp(struct=
+ request *req,
+ 	unsigned int prp_len, i;
+ 	__le64 *prp_list;
+=20
+-	if (!nvme_pci_prp_save_mapping(req, nvmeq->dev->dev, iter))
++	if (!nvme_pci_prp_save_mapping(req, nvmeq->dev->dev, iter)) {
++		dma_unmap_phys(nvmeq->dev->dev, iter->addr, iter->len,
++			       rq_dma_dir(req),
++			       iod->flags & IOD_DATA_MMIO ? DMA_ATTR_MMIO : 0);
+ 		return iter->status;
++	}
+=20
+ 	/*
+ 	 * PRP1 always points to the start of the DMA transfers.
+@@ -1112,6 +1116,7 @@ static blk_status_t nvme_pci_setup_data_prp(struct =
+request *req,
+ 	dev_err_once(nvmeq->dev->dev,
+ 		"Incorrectly formed request for payload:%d nents:%d\n",
+ 		blk_rq_payload_bytes(req), blk_rq_nr_phys_segments(req));
++	nvme_unmap_data(req);
+ 	return BLK_STS_IOERR;
+ }
+=20
+@@ -1155,8 +1160,13 @@ static blk_status_t nvme_pci_setup_data_sgl(struct=
+ request *req,
+=20
+ 	sg_list =3D dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
+ 			&sgl_dma);
+-	if (!sg_list)
++	if (!sg_list) {
++		dma_unmap_phys(nvmeq->dev->dev, iter->addr, iter->len,
++			       rq_dma_dir(req),
++			       iod->flags & IOD_DATA_MMIO ? DMA_ATTR_MMIO : 0);
+ 		return BLK_STS_RESOURCE;
++	}
++
+ 	iod->descriptors[iod->nr_descriptors++] =3D sg_list;
+=20
+ 	do {
+--=20
+2.53.0-Meta
+
 
