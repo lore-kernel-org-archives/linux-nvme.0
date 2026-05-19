@@ -4,63 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65B26CD4F54
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 06:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 35DF0CD4F3C
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 07:14:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=FqC/pq2ruIeDK/7zUEWdRi+U7XrUn4PcVEGHi+HaQw4=; b=si0t2h9J+DW0BmM3CXw8rwjiQg
-	2XjxSy9iSXJWOGHbYVJk6xqvMdKaGvSoT/kO+xOacdEcKjRO1p3c2kxhm0mJo5r9zJOj5ChPC3k0W
-	7Ks1fK60l6ndnHjfU3G2vR/ycomIzrxWdNQZkVWEsoj9wc8x0UH8Hk9yc+rBK64GV1Vcmf/v8wQTN
-	uS94papvMUirqEnDNs4c1SFRh5ikput3l3FC/KMAWCFrs+5b3BguaRXcWrFeR5uvcyCYnnaJfLLYz
-	VrKmh/ti6+edxeC5TnAm2sWz/BUeyCHoKlK+YR2TSOWCPbl1sR6ywED2Eyiqg+Nvzn0qp9UZahCED
-	F48klHrw==;
+	bh=aq+bM6tjgMrDAzMW5P8tE4wGKZOZMJWYFdC9pcjM7u0=; b=a6MpSMHvvtzaXWeq4Obw3CYIse
+	P6hTZA0aN4XmwzMFQOxlVN4B7StaMTA+kUdKstBy+kO20i6VfpITE98WRammfW2wwpoRRjvfHmeSA
+	tJD2SqaYrAdZ2CX5oxucbcl4x3gL9A52ijCjYjTznQPBy3+jCxHFTnOXGa7DAJnFCNRhrBoNRML2i
+	DFvb5mFQtJo1bb3k4RfZDCd2yPwYRyU4j6C2E47dZy844/HbMxs5IZNz7em6UvjsJQPBndGx8d2sq
+	GLnt8urYC8FT3foZj7q2RyBgPfuB8mm1ZDWIdTdKg5/jqt8o5dvqNw2d4yUds4QmY0AQARnBfvEwP
+	fviN/Crw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPENz-00000000QF3-3bk3;
-	Tue, 19 May 2026 06:57:03 +0000
+	id 1wPEfI-00000000SDV-0NG4;
+	Tue, 19 May 2026 07:14:56 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPENx-00000000QEA-1m51
+	id 1wPEfF-00000000SBx-4B0d
 	for linux-nvme@lists.infradead.org;
-	Tue, 19 May 2026 06:57:02 +0000
+	Tue, 19 May 2026 07:14:55 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id F393168AFE; Tue, 19 May 2026 08:56:53 +0200 (CEST)
-Date: Tue, 19 May 2026 08:56:53 +0200
+	id 5A6DE68C4E; Tue, 19 May 2026 09:14:49 +0200 (CEST)
+Date: Tue, 19 May 2026 09:14:48 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
-Message-ID: <20260519065653.GB8173@lst.de>
-References: <cover.1777475843.git.asml.silence@gmail.com> <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com> <20260513082431.GA6461@lst.de> <ebf41920-5852-428f-b98a-e0f44c8f3315@gmail.com> <20260518125326.GA5754@lst.de> <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
+To: Chao Shi <coshi036@gmail.com>
+Cc: linux-nvme@lists.infradead.org, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Jens Axboe <axboe@kernel.dk>,
+	Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>,
+	Maurizio Lombardi <mlombard@arkamax.eu>,
+	linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>,
+	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Subject: Re: [PATCH v2] nvme: reserve a keep-alive admin tag for all
+ transports
+Message-ID: <20260519071448.GA9841@lst.de>
+References: <20260515071248.2689513-1-coshi036@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
+In-Reply-To: <20260515071248.2689513-1-coshi036@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260518_235701_605697_712B418A 
-X-CRM114-Status: GOOD (  23.33  )
+X-CRM114-CacheID: sfid-20260519_001454_175737_4CFB7448 
+X-CRM114-Status: GOOD (  13.80  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -75,44 +65,21 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 18, 2026 at 03:23:53PM +0100, Pavel Begunkov wrote:
-> To be fair, it's not that dma-buf specific. This lib/ code only
-> does some resv locking, fence waiting and queuing fences,
+On Fri, May 15, 2026 at 03:12:48AM -0400, Chao Shi wrote:
+> A quirk-based approach was considered but no PCIe controller
+> documented to declare KAS != 0 was found (two enterprise SSDs tested
+> locally report KAS=0), so an allowlist has no entries today.
 
-But all the dma resv/fence stuff is pretty tied into the dma-buf
-ecosystem.  I don't think it would really apply to something not
-doing DMA at all.
+Quirking for spec allowed behavior sounds odd.  If we care about
+testing KA for PCIe it should be trivial to implement in nvmet-epf
+in the kernel, but I'm not sure there is much of a point in that.
 
-> otherwise
-> all the attaching is done by the driver behind callbacks. Switching
-> it to some memfd could be pretty simple. But The main thing it'd
-> need to share is iterator handling like forwarding in the block
-> layer, and it should be fine as it's already passed as a completely
-> opaque object with no knowledge about pages / dma / etc. for the
-> middle layers.
+> Reproducer (run as root on an unpatched kernel with a PCIe NVMe device):
 
-But none of that really sits in the current lib/ code anyway?
+Can you wire this up as a testcase in blktests?
 
->> lib/ is most certainly the wrong place for something that absolutely
->> is not library functionality but directly interacts with a few
->> subsystems.
->
-> It only interacts with dma-buf, and even for dma-buf attachments
-> are created by the driver. Block, nvme, io_uring are users, either
-> using the helpers or implementing callbacks.
->
-> Ok. Let's assume for the argument's sake it's not dma-buf
-> specific, if not lib/, where would you put it? I was also
-> assuming that dma-buf being under drivers/ is rather a relic
-> of the past rather than the desired location, hmm?
+The patch itself looks good:
 
-drivers/dma-buf is a pretty natural place for it, I could not thing
-where else you'd place dma-buffers.  I'm not sure how hmm has anything
-to do with it.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
->
->
-> -- 
-> Pavel Begunkov
----end quoted text---
 
