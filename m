@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 111C7CD5BA1
-	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 08:11:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CFB8FCD4F5B
+	for <linux-nvme@archiver.kernel.org>; Tue, 19 May 2026 08:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:Reply-To:List-Subscribe:
 	List-Help:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:
 	References:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:
 	Subject:Date:From:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=+4+BIQtaVbRrD9EN7sQoNzwYlYpU9L2C/QiDkWHtigs=; b=OEeSJ2Q7AxRanEDFX7K3BmZ88a
-	EHdIDDl27Hs2XQxJZ4BCB3HsG433CzvEmJozgmPx/Vm0NRdE68KGrQbPwLPdL2j53AVyvnP9bkNl9
-	bMHf3S0r//L4WHmjkiQuf10U8OKtcREBrb5m7clPseMuEM3FKnKPaCP7c9V/qNIy7EG/HTCyW1PQS
-	1Kjua9s6MWdxoNqBHj8EG9IHmC9HLrHm0054HFGrj22+WVgo6nEF3auBOdfpPZXadt+rf+4RvDzlp
-	RO/hdYL9G36YRZkR4q0P4bak3nrcXX36J0ABEki+r6hZ3UfYq/cLEpY3p3vbffUW7jI4pWM3Ysovs
-	MR0kAG7Q==;
+	bh=lBznZcMlpwshnJBeAFbmhWyHdMffUfPiExLbNCv88qY=; b=gKUyv6utlF4mH9F/yP9xm3kY++
+	DnX+8QmfTrfIgXqmVWFACeAiOEh7VVKsRsaXPFteIBz8VdENRlhnPe6zZBnV+p2kgXXhtsmuIWsba
+	KzV8lZzOXEeWN5kh4hwWGS+Ao68II1kWPMOkWjGr9EdXYYwgLh7nWTsYExIdTm4lMyq4NC+yZRAxH
+	qpsePV1duW9M2W9VK1/MQN7eH3fNYVRPYB5HjsMxTA79W27ZCeHtv888kbbrPH6VDhpY2IdHKLucP
+	l2+lGfv3n/ZUddcNqimaWv7NsWo06CNHaaXovF/3yxND2b8cnmVtud5241Tb2hh0jT+VmRI1oSDbu
+	ggahY8Bg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFY6-00000000cc2-1Ur0;
-	Tue, 19 May 2026 08:11:34 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPFY2-00000000cY5-3pAQ
-	for linux-nvme@lists.infradead.org;
+	id 1wPFY4-00000000cZf-3OVR;
 	Tue, 19 May 2026 08:11:32 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wPFY2-00000000cY9-40dC
+	for linux-nvme@lists.infradead.org;
+	Tue, 19 May 2026 08:11:31 +0000
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2ABB4445A1;
+	by tor.source.kernel.org (Postfix) with ESMTP id 2CBE06020F;
 	Tue, 19 May 2026 08:11:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 021B7C2BCFD;
-	Tue, 19 May 2026 08:11:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C62FCC2BCC9;
+	Tue, 19 May 2026 08:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779178290;
-	bh=3tNqJbphQxq8fgu1zbpz3ztOWC15zQBvAy+SBzQxjVE=;
+	s=k20201202; t=1779178289;
+	bh=8Mdt3/GWa2sg390lqPrV0qlXMeJMMHF/DVq+JKN5gRA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=LfVMpFD6p6DnP17MHbaMZwfztPGfiES62LkobjtbpeuCznn0tl+97ssc1kgGFPF8S
-	 /60caU5wCJ6eJS/MzKs1eR8OWa/5Q1DwPHgOsXOypVthX5LQ9VqzulhuxQRqk0twUe
-	 RkhS54O7rBiAaZsTQac5KcN2D80wYVsZAb3YHZ6PM9pHbdMuyWox4fx0ZKmjSpZRgs
-	 P0A0f0XzzJHlGHERrYunOXsFP4sqHufYkNzAPnQKSuIznYk6ASSz2rbnsRR376FkTl
-	 e/5Qo43hajzA3rhnSzC72Z5sy3WbTjQ+Ubnlua+x7YBuAxyQkAqZfNdgdgmrY2oEhp
-	 bIP0+8fCXWIdw==
+	b=UobQu251i7SddwN2yOu1ip5kbHSsvCPD18IxjvUBvN3TGoK0tdA/AipbismpUcUQj
+	 95EyzIb7DKTaZsqcKpYoUrQDkg18/KjLWNYn4Rot9uK3zCzaodg97EHg05N75Mwufk
+	 dbQ0VXENqlJo3l+6UFkp/mExpAoYk0qfm63FWJTX6j5gyOD4a1bSyuvQF94hL3HtkJ
+	 77ATVotyJ4pLq85gyPnE9eKi+0uYqUJKYa1vG5L3ALAi06cuuOiWDajAbpTcA5q21X
+	 cbTHS8efsQXWIh50xgbl6l6Bx/DELgNHtCxGOgj//H8M91lMf/X0FvCwNVA9NzUKkk
+	 OVnKsdBraZpOg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE578CD4851;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4650CD4851;
 	Tue, 19 May 2026 08:11:29 +0000 (UTC)
 From: Manivannan Sadhasivam via B4 Relay <devnull+manivannan.sadhasivam.oss.qualcomm.com@kernel.org>
-Date: Tue, 19 May 2026 13:41:23 +0530
-Subject: [PATCH v2 4/4] nvme-pci: Use pci_suspend_retains_context() API
- during suspend
+Date: Tue, 19 May 2026 13:41:20 +0530
+Subject: [PATCH v2 1/4] PCI: Introduce an API to check if RC/platform can
+ retain device context during suspend
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260519-l1ss-fix-v2-4-b2c3a4bdeb15@oss.qualcomm.com>
+Message-Id: <20260519-l1ss-fix-v2-1-b2c3a4bdeb15@oss.qualcomm.com>
 References: <20260519-l1ss-fix-v2-0-b2c3a4bdeb15@oss.qualcomm.com>
 In-Reply-To: <20260519-l1ss-fix-v2-0-b2c3a4bdeb15@oss.qualcomm.com>
 To: Bjorn Helgaas <bhelgaas@google.com>, 
@@ -66,24 +66,21 @@ Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-nvme@lists.infradead.org, 
  Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2008;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3173;
  i=manivannan.sadhasivam@oss.qualcomm.com; h=from:subject:message-id;
- bh=wkzcjudTR2aJO1tfV1djFAQP7gK0vMlCmcPgSrxkr6g=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBqDBsv6tg+/ohQFmrGz4V+nYAOWjrvtBggaK5pP
- hOYsITqL6qJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCagwbLwAKCRBVnxHm/pHO
- 9cgHB/9hVy3DtoD01/gYAs2Xvq1Fh82Tk3uM5j/reOXS4YtcDnH3ebdrlkaEcAUK/pUnsUBLMTm
- hx2k/cVOjoyo7IaYJg6epJRiWfULGYwMjvwRCYg+Gs2Nl8sUvOw6JyP8ZEVMXHjE3JbfjAtHhSZ
- /tbF9vEIp3s1e3HX8flKqnnE3Zm6KQ0U0tgU4cazJFSSwleo3ta3nMP/kceK5Mc/njnZHJo1MlX
- OWICXlX4PjD/KE2IYEt7lCDleFJA+0BItGwmbMiuOSF1wyAOOiXxECeZOEMyOj9a5NZ6oSJFf1r
- 37bskjeEYIabTMt0JgsZ9OFPwf3A2pk6xE5OYewFC8OtfKPz
+ bh=4Dttv4RJQFd7HvyHdhLrZ9fHK7lOnfb6oJIEtWxnp+c=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBqDBsuFVWnfdQVfhPVZySomdr2OjOwStn053I2Z
+ V4Eo3R7/NGJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCagwbLgAKCRBVnxHm/pHO
+ 9Z0GB/9iuKAuXAoMUZ/KkPcuOGdOcNzL1Y1aGn2iqt/VN50isEVX+qRKyeYF+1/+goyuFmH6K0+
+ dFET7Yc3dQ0FfZ5KPJZM7N86HQIDiPIuDPyB9R5jyCBw+RlYdw4pmWmBbyXhUwt6bct1TbGvt6p
+ zrcbhftJao2sBzyTROAZBoSf+zTJy0Tq0YTCr52wYMM2hW6+q9bvKpHu21xs7dRCih4wpI1hRVG
+ iUE6TZHmn0Gp26LMSW6jXW91hURIHgqB+9g0sAqlTGO2mk9hfOLzJJzksiuXtxk4LETN555O9jI
+ 4BUrcusPE6A0t5RF+LnNd1++s1JxgcH9Kw6KWQ3eJQYYYS37
 X-Developer-Key: i=manivannan.sadhasivam@oss.qualcomm.com; a=openpgp;
  fpr=C668AEC3C3188E4C611465E7488550E901166008
 X-Endpoint-Received: by B4 Relay for
  manivannan.sadhasivam@oss.qualcomm.com/default with auth_id=461
 X-Original-From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260519_011130_998337_CD773212 
-X-CRM114-Status: GOOD (  18.76  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,47 +98,99 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-The pci_suspend_retains_context() API lets PCI client drivers know if the
-platform can retain the device context during suspend. This is decided
-based on several factors like:
+Currently, the PCI endpoint drivers like NVMe checks whether the device
+context will be retained or not during system suspend, with the help of
+pm_suspend_via_firmware() API.
 
-1. Firmware involvement at the end of suspend
-2. Any platform limitation in waking from low power state (L1ss)
+But it is possible that the device context might be lost due to some
+platform limitation as well. Having those checks in the endpoint drivers
+will not scale and will cause a lot of code duplication.
 
-And this API might also get extended in the future to cover other platform
-specific issues impacting the device low power mode during system suspend.
+So introduce an API that acts as a sole point of truth that the endpoint
+drivers can rely on to check whether they can expect the device context
+to be retained or not.
 
-So use this API instead of checks like pm_suspend_via_firmware(). When this
-API returns false, then assume that the platform cannot retain the context
-and shutdown the controller. If it returns true, then assume that the
-context will be retained and keep the device in low power mode.
+If the API returns 'false', then the client drivers need to prepare for
+context loss by performing actions such as resetting the device, saving
+the context, shutting it down etc... If it returns 'true', then the drivers
+do not need to perform any special action and can leave the device in
+active state.
+
+Right now, this API only incorporates the pm_suspend_via_firmware() check.
+But will be extended in the future commits.
 
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 ---
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/pci/pci.c   | 23 +++++++++++++++++++++++
+ include/linux/pci.h |  7 +++++++
+ 2 files changed, 30 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index db5fc9bf6627..a6664983ce5d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3915,6 +3915,7 @@ static int nvme_suspend(struct device *dev)
- 	 * use host managed nvme power settings for lowest idle power if
- 	 * possible. This should have quicker resume latency than a full device
- 	 * shutdown.  But if the firmware is involved after the suspend or the
-+	 * platform has any limitation in waking from low power states or the
- 	 * device does not support any non-default power states, shut down the
- 	 * device fully.
- 	 *
-@@ -3923,7 +3924,7 @@ static int nvme_suspend(struct device *dev)
- 	 * down, so as to allow the platform to achieve its minimum low-power
- 	 * state (which may not be possible if the link is up).
- 	 */
--	if (pm_suspend_via_firmware() || !ctrl->npss ||
-+	if (!pci_suspend_retains_context(pdev) || !ctrl->npss ||
- 	    !pcie_aspm_enabled(pdev) ||
- 	    (ndev->ctrl.quirks & NVME_QUIRK_SIMPLE_SUSPEND))
- 		return nvme_disable_prepare_reset(ndev, true);
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 8f7cfcc00090..38cc5172d259 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -33,6 +33,7 @@
+ #include <asm/dma.h>
+ #include <linux/aer.h>
+ #include <linux/bitfield.h>
++#include <linux/suspend.h>
+ #include "pci.h"
+ 
+ DEFINE_MUTEX(pci_slot_mutex);
+@@ -2899,6 +2900,28 @@ void pci_config_pm_runtime_put(struct pci_dev *pdev)
+ 		pm_runtime_put_sync(parent);
+ }
+ 
++/**
++ * pci_suspend_retains_context - Check if the platform can retain the device
++ *				 context during system suspend
++ * @pdev: PCI device to check
++ *
++ * Returns true if the platform can guarantee to retain the device context,
++ * false otherwise.
++ */
++bool pci_suspend_retains_context(struct pci_dev *pdev)
++{
++	/*
++	 * If the platform firmware (like ACPI) is involved at the end of system
++	 * suspend, device context may not be retained.
++	 */
++	if (pm_suspend_via_firmware())
++		return false;
++
++	/* Assume that the context is retained by default */
++	return true;
++}
++EXPORT_SYMBOL_GPL(pci_suspend_retains_context);
++
+ static const struct dmi_system_id bridge_d3_blacklist[] = {
+ #ifdef CONFIG_X86
+ 	{
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 2c4454583c11..f60f9e4e7b39 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -2086,6 +2086,8 @@ pci_release_mem_regions(struct pci_dev *pdev)
+ 			    pci_select_bars(pdev, IORESOURCE_MEM));
+ }
+ 
++bool pci_suspend_retains_context(struct pci_dev *pdev);
++
+ #else /* CONFIG_PCI is not enabled */
+ 
+ static inline void pci_set_flags(int flags) { }
+@@ -2244,6 +2246,11 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+ static inline void pci_free_irq_vectors(struct pci_dev *dev)
+ {
+ }
++
++static inline bool pci_suspend_retains_context(struct pci_dev *pdev)
++{
++	return true;
++}
+ #endif /* CONFIG_PCI */
+ 
+ /* Include architecture-dependent settings and functions */
 
 -- 
 2.48.1
