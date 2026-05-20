@@ -4,74 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F6A5CD5BA4
-	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2026 18:22:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFAECCD5BA4
+	for <linux-nvme@archiver.kernel.org>; Wed, 20 May 2026 18:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=tAlr6KUN6o35eak5SQ819LC2x7xj9WSqF2QSpO5z2FE=; b=Benpfxw/R0FdEXdsaJV8ZeKW7s
-	5t4EuCLrk/mk5XK3bPxwh3YAwh5Gs+sWqAiB1CHpYoRLO9R/m7VTOEvgOdP8YD1/8WH5O7lUKcxor
-	cO7w/t1brDyz0FOSCc0U3o4n+uoP9bsgvqfRYRGOMgsURUKZPMFsbpg/bjCvoHgTn+UZmGwAfHeKg
-	rvS9IP2TOIFvdiQseShG/sxsXZabNYXg7mUM5APaWqEo5FPHs/w2BXE6HP+Mut7ayx4jUmAMQXDvm
-	9uFtZ8ps8qdTp+BK/B1CiGhNeDDSXZCS+ih5c0eOl60lYwxoZ4wWEm1ELprV8/EcYw2bDq4BLlNm3
-	LvJxibSA==;
+	bh=+NklwBIfXTQup6477zKjqdWatNMNeGXYRI9Kn5dKBJM=; b=yfLRegq0Y/GrzJwr1ibdMO88TL
+	HeXWl6mAZfMw7aN3nt7mI8wii8FB4HDD0QNQqEEsNpYUamY51czWtQKkgoEOvxFconN4vTSrsVSzF
+	e7Z/cDyojFxyZqGYcV/T/4FxF5L43tQVojUD4odDD0JukokZKC+7yxfRNyIOwnaoQKsx+lBCD+311
+	npGumRx12/NdDFUxfmyJ3LONbST9iNa86vlm52rscH85tP9h3p7PY6oFVtyfCvJ7sQHbn7Na+XBkH
+	BblaVdc7GQDDGhevoO0yabth2dXWVyRHzS3i1vzkNQfRSKkKKiXOOtTBBckAHDRdD9cgztlpjsa+s
+	NXXRmtqA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPlYT-00000005QOt-2wah;
-	Wed, 20 May 2026 18:22:05 +0000
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+	id 1wPlYY-00000005QTs-45Gh;
+	Wed, 20 May 2026 18:22:10 +0000
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPlYR-00000005QNM-2WHD
+	id 1wPlYW-00000005QRm-3bLv
 	for linux-nvme@lists.infradead.org;
-	Wed, 20 May 2026 18:22:04 +0000
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KE5IYX414604;
-	Wed, 20 May 2026 18:21:59 GMT
+	Wed, 20 May 2026 18:22:10 +0000
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KB72Ea069465;
+	Wed, 20 May 2026 18:22:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=tAlr6KUN6o35eak5S
-	Q819LC2x7xj9WSqF2QSpO5z2FE=; b=qUpSJwrf960GBiA+i0/h43Cyu5jJX84Pt
-	EFm0YNhv50dG9ZIDc4qyGhr87XT4oCaRnFRnB/UoirC5tVtWBrnlSV6xOqIt+rwd
-	hfMjqDPgo0AhjFlOi8alXf11Mvs5c18+5odT4vg1YnQt3KViIhOf8/Fqkc0r74JM
-	6vG+7oWh7BMU/aJU/eyTdfeV+Gx5MvDq/Ccw+46z8ftIPjrh10k86W5HjbPz7ND8
-	Iqh5a5g71A1TyJgpaymonDvPb6YTLwmDpYROnN94fjsYS/H6UKwd55DPMysulGQF
-	wVu+XSgxoFVQSmp4LXYYEv1KJVEXnxX5MBepsFVpiRyFhjQoeD/yQ==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6h88jc5k-1
+	:mime-version:references:subject:to; s=pp1; bh=+NklwBIfXTQup6477
+	zKjqdWatNMNeGXYRI9Kn5dKBJM=; b=agEPdNtIUyT62BykqjKof5IXpWXPAPq3G
+	dDH8bfO6rqFRZUGiR+af0SnM6oAuu4ugd+KYvzIBTYAb+bHZ8qUY1ZcKw9oqozv8
+	rkEY8HAOzj4vcsqlVuOElJvYT3eX0yXlpyyQVceKZCxz8s7+lGq5AxbqUOmov4YS
+	sebe7JdFhO1JkCVblOXC45Fq7GlgAMJsxVfYAlP8RwCb1VvSuNcDnnhs129trL4p
+	nzMHxbnObZbTZ3+ibrMtdLchXLdl4Sq0rOa6nN+WlyIrNgNRlQlXdxy+CXVViq0a
+	1o3FlYobR+G2faO4rAsRQiPLuaxSd+865QQv790rsVxiJGkIhwo8w==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6h8mubsb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 May 2026 18:21:58 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64KI9B8q028814;
-	Wed, 20 May 2026 18:21:58 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e73wk8j9c-1
+	Wed, 20 May 2026 18:22:04 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64KI96rN021479;
+	Wed, 20 May 2026 18:22:03 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4e72wq8sa9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 May 2026 18:21:57 +0000 (GMT)
+	Wed, 20 May 2026 18:22:03 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64KILu9R49283564
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64KIM1OZ45941174
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 May 2026 18:21:56 GMT
+	Wed, 20 May 2026 18:22:01 GMT
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E518820043;
-	Wed, 20 May 2026 18:21:55 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 90DB320043;
+	Wed, 20 May 2026 18:22:01 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F352C20040;
-	Wed, 20 May 2026 18:21:50 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 9A38F20040;
+	Wed, 20 May 2026 18:21:56 +0000 (GMT)
 Received: from li-a84c74cc-2b13-11b2-a85c-acdd023f0674.ibm.com.com (unknown [9.61.40.237])
 	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 20 May 2026 18:21:50 +0000 (GMT)
+	Wed, 20 May 2026 18:21:56 +0000 (GMT)
 From: Nilay Shroff <nilay@linux.ibm.com>
 To: linux-nvme@lists.infradead.org
 Cc: hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
         dwagner@suse.de, kanie@linux.alibaba.com, jmeneghi@redhat.com,
         randyj@purestorage.com, martin.petersen@oracle.com,
         john.g.garry@oracle.com, gjoyce@linux.ibm.com
-Subject: [PATCHv6 6/8] nvme-multipath: add debugfs attribute latency_batch_timeout
-Date: Wed, 20 May 2026 23:51:02 +0530
-Message-ID: <20260520182112.863076-7-nilay@linux.ibm.com>
+Subject: [PATCHv6 7/8] nvme-multipath: add debugfs attribute latency_stat
+Date: Wed, 20 May 2026 23:51:03 +0530
+Message-ID: <20260520182112.863076-8-nilay@linux.ibm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520182112.863076-1-nilay@linux.ibm.com>
 References: <20260520182112.863076-1-nilay@linux.ibm.com>
@@ -79,32 +79,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: rfBBeg9z66kif__TmLLzEDjyCz_FPyjc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE3NyBTYWx0ZWRfX7+y2ZpCEyA+4
- 1rXXcc4edvHCsnQ47olH5sLVTV/iOK0VLGO3M1cIEGPFGiYo2SEQEydhhvWcMPaFZZ2YobNdhDu
- VpzyQXFY+kkxpDoJpX0i6zL0rhJsGYMGHuvn2CVWqUGOqNwZTc9YdWtbw5m5g4TcU3jOaDC3OcK
- XsK2UAdIbVIpbqmRTomkW6zxtYwEbUXkzliO0zxfjBMzLLrvHxr6reWzfPbP/soD/WnsBeNOBhb
- Ry8lrxD+sC+yLu28E3lFjZyGdQ4a9W0UOrxPaRcqwv9YrWL9txAaZKITy+hhnV/7UnolbEAOj2u
- i/X/cdoK8V/8ocDm6GU6yE6GdO/4E/MvPGKeE3ci3x+QY+lDeOMmu4ejswnm1WhgognGrmz5jbi
- FpHX2uHbuZor7pTjNwYxS5eHfQdqJeSxhQxs5Azr6dcatBH1ejNBTyUldvhE6mlAkoPprANS3o5
- rEJ1qBOD741QC6G9cig==
-X-Proofpoint-GUID: 2QuYr0LvSkvGm1ndHmEkxzgAuhyECw_H
-X-Authority-Analysis: v=2.4 cv=apyCzyZV c=1 sm=1 tr=0 ts=6a0dfbc6 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+X-Proofpoint-GUID: FaJ_hQOwuhy1WdaGGHMceNiH9J8b2Y0q
+X-Authority-Analysis: v=2.4 cv=GYMnWwXL c=1 sm=1 tr=0 ts=6a0dfbcc cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=-uU29Nhu3qfbNnVktN8A:9
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8 a=6jSwP_Ep0sLyt9EEqmkA:9
+X-Proofpoint-ORIG-GUID: k02hDphfl6obWNKO5y4sRIeXGy718kB2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDE3NyBTYWx0ZWRfX35qpsbb5uocI
+ QmnBI/F3zEIZUXCkClhS0f25ZbtEymLkdS2pYBb1UCiQBpPTp53hPGDiHAsA6r9kS2JuTbGCpWj
+ XsRlGtAfoLw1wr8TQoxJ8B6plJ60npXPq9OuG8SI8Ck8FyxCvnPdEuhSnxVqX7wu6Cq1oArQ1SI
+ f76FZA0YHNmINVKZGsNRR0w7IPSx4KDRJ2X80P5shliu8amQMrEqsMMlfQ9PoPM+eMdqzYm6lbr
+ EAWdgpjFaBksXmn+T40J9ZWIv4RM+Uw6E3QHEb2DqdYDHCTY9LWLM2Wi9C+5ni0RQ/7ETifLc4B
+ lgnX8309MUoCBMuDkvtnoL2e/nj4nf2g0Yr8aQnADEaSPBkjWuYNgyJWqAvrD6NLli92Ala5f/d
+ bl5YueQPiz9bP5JnawHYKXqXZd9WNpk3TDmvMmuwiagD3TcUt8g+9f1bPCV3TIpGJQIksSh4B7H
+ 0TDkn2vkhHFClweAWbg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-20_03,2026-05-18_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- bulkscore=0 suspectscore=0 adultscore=0 spamscore=0 phishscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605200177
+ phishscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 suspectscore=0 spamscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605200177
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260520_112203_759470_D4D08A6E 
-X-CRM114-Status: GOOD (  20.11  )
+X-CRM114-CacheID: sfid-20260520_112208_913698_5154C249 
+X-CRM114-Status: GOOD (  17.27  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -119,120 +118,176 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-By default, the latency I/O policy accumulates latency samples over a
-15-second window. When this window expires, the driver computes the
-average latency and updates the smoothed (EWMA) latency value. The
-path weight is then recalculated based on this data.
+This commit introduces a new debugfs attribute, "latency_stat", under
+both per-path and head debugfs directories (defined under /sys/kernel/
+debug/block/). This attribute provides visibility into the internal
+state of the latency I/O policy to aid in debugging and performance
+analysis.
 
-A 15-second window provides a good balance for most workloads, as it
-helps smooth out transient latency spikes and produces a more stable
-path weight profile. However, some workloads may benefit from faster
-or slower adaptation to changing latency conditions.
+For per-path entries, "latency_stat" reports the corresponding path
+statistics such as I/O weight, selection count, processed samples, and
+ignored samples.
 
-This commit introduces a new debugfs attribute, latency_batch_timeout,
-which allows users to configure the latency batch window and thus path
-weight calculation interval based on their workload requirements.
+For head entries, it reports per-CPU statistics for each reachable path,
+including I/O weight, path score, smoothed (EWMA) latency, selection
+count, processed samples, and ignored samples.
+
+These additions enhance observability of the I/O path selection behavior
+and help diagnose imbalance or instability in multipath performance.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
 ---
- drivers/nvme/host/debugfs.c   | 37 +++++++++++++++++++++++++++++++++++
- drivers/nvme/host/multipath.c |  8 ++++++--
- drivers/nvme/host/nvme.h      |  1 +
- 3 files changed, 44 insertions(+), 2 deletions(-)
+ drivers/nvme/host/debugfs.c | 124 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
 
 diff --git a/drivers/nvme/host/debugfs.c b/drivers/nvme/host/debugfs.c
-index 4371d7aafae8..63b0ad5d105b 100644
+index 63b0ad5d105b..b4bc7c710050 100644
 --- a/drivers/nvme/host/debugfs.c
 +++ b/drivers/nvme/host/debugfs.c
-@@ -146,12 +146,49 @@ static ssize_t nvme_latency_ewma_shift_store(void *data,
- 	WRITE_ONCE(head->latency_ewma_shift, res);
+@@ -181,6 +181,126 @@ static ssize_t nvme_latency_batch_timeout_store(void *data,
+ 	WRITE_ONCE(head->latency_batch_timeout, res * NSEC_PER_SEC);
  	return count;
  }
 +
-+static int nvme_latency_batch_timeout_show(void *data, struct seq_file *m)
++static void *nvme_mpath_latency_stat_start(struct seq_file *m, loff_t *pos)
 +{
-+	struct nvme_ns_head *head = data;
++	struct nvme_ns *ns;
++	struct nvme_debugfs_ctx *ctx = m->private;
++	struct nvme_ns_head *head = ctx->data;
 +
-+	seq_printf(m, "%llu\n",
-+		div_u64(READ_ONCE(head->latency_batch_timeout), NSEC_PER_SEC));
++	if (!head->disk)
++		return NULL;
++
++	/* Remember srcu index, so we can unlock later. */
++	ctx->srcu_idx = srcu_read_lock(&head->srcu);
++	ns = list_first_or_null_rcu(&head->list, struct nvme_ns, siblings);
++
++	while (*pos && ns) {
++		ns = list_next_or_null_rcu(&head->list, &ns->siblings,
++				struct nvme_ns, siblings);
++		(*pos)--;
++	}
++
++	return ns;
++}
++
++static void *nvme_mpath_latency_stat_next(struct seq_file *m, void *v,
++		loff_t *pos)
++{
++	struct nvme_ns *ns = v;
++	struct nvme_debugfs_ctx *ctx = m->private;
++	struct nvme_ns_head *head = ctx->data;
++
++	(*pos)++;
++
++	return list_next_or_null_rcu(&head->list, &ns->siblings,
++			struct nvme_ns, siblings);
++}
++
++static void nvme_mpath_latency_stat_stop(struct seq_file *m, void *v)
++{
++	struct nvme_debugfs_ctx *ctx = m->private;
++	struct nvme_ns_head *head = ctx->data;
++	int srcu_idx = ctx->srcu_idx;
++
++	if (!head->disk)
++		return;
++
++	srcu_read_unlock(&head->srcu, srcu_idx);
++}
++
++static int nvme_mpath_latency_stat_show(struct seq_file *m, void *v)
++{
++	int i, cpu;
++	struct nvme_path_lat_stat *stat;
++	struct nvme_ns *ns = v;
++
++	seq_printf(m, "%s:\n", ns->disk->disk_name);
++	for_each_online_cpu(cpu) {
++		seq_printf(m, "cpu %d : ", cpu);
++		for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
++			stat = &per_cpu_ptr(ns->path_lat, cpu)[i].stat;
++			seq_printf(m, "%u %u %llu %llu %llu %llu %llu ",
++				stat->weight, stat->credit, stat->score,
++				stat->slat_ns, stat->sel,
++				stat->nr_samples, stat->nr_ignored);
++		}
++		seq_putc(m, '\n');
++	}
 +	return 0;
 +}
 +
-+static ssize_t nvme_latency_batch_timeout_store(void *data,
-+		const char __user *ubuf, size_t count, loff_t *ppos)
++static const struct seq_operations nvme_mpath_latency_stat_seq_ops = {
++	.start = nvme_mpath_latency_stat_start,
++	.next  = nvme_mpath_latency_stat_next,
++	.stop  = nvme_mpath_latency_stat_stop,
++	.show  = nvme_mpath_latency_stat_show
++};
++
++static void nvme_latency_stat_read_all(struct nvme_ns *ns,
++		struct nvme_path_lat_stat *batch)
 +{
-+	struct nvme_ns_head *head = data;
-+	char kbuf[8];
-+	u32 res;
-+	int ret;
-+	size_t len;
-+	char *arg;
++	int i, cpu;
++	u32 ncpu[NVME_NUM_STAT_GROUPS] = {0};
++	struct nvme_path_lat_stat *stat;
 +
-+	len = min(sizeof(kbuf) - 1, count);
++	for_each_online_cpu(cpu) {
++		for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
++			stat = &per_cpu_ptr(ns->path_lat, cpu)[i].stat;
++			batch[i].sel += stat->sel;
++			batch[i].nr_samples += stat->nr_samples;
++			batch[i].nr_ignored += stat->nr_ignored;
++			batch[i].weight += stat->weight;
++			if (stat->weight)
++				ncpu[i]++;
++		}
++	}
 +
-+	if (copy_from_user(kbuf, ubuf, len))
-+		return -EFAULT;
++	for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
++		if (!ncpu[i])
++			continue;
++		batch[i].weight = DIV_U64_ROUND_CLOSEST(batch[i].weight,
++				ncpu[i]);
++	}
++}
 +
-+	kbuf[len] = '\0';
-+	arg = strstrip(kbuf);
++static int nvme_ns_latency_stat_show(void *data, struct seq_file *m)
++{
++	int i;
++	struct nvme_path_lat_stat stat[NVME_NUM_STAT_GROUPS] = {0};
++	struct nvme_ns *ns = (struct nvme_ns *)data;
 +
-+	ret = kstrtou32(arg, 0, &res);
-+	if (ret)
-+		return ret;
++	if (!ns->head->disk)
++		return 0;
 +
-+	WRITE_ONCE(head->latency_batch_timeout, res * NSEC_PER_SEC);
-+	return count;
++	nvme_latency_stat_read_all(ns, stat);
++	for (i = 0; i < NVME_NUM_STAT_GROUPS; i++) {
++		seq_printf(m, "%u %llu %llu %llu ",
++			stat[i].weight, stat[i].sel,
++			stat[i].nr_samples, stat[i].nr_ignored);
++	}
++	return 0;
 +}
  #endif
  
  static const struct nvme_debugfs_attr nvme_mpath_debugfs_attrs[] = {
- #ifdef CONFIG_NVME_MULTIPATH
- 	{"latency_ewma_shift", 0600, nvme_latency_ewma_shift_show,
+@@ -189,11 +309,15 @@ static const struct nvme_debugfs_attr nvme_mpath_debugfs_attrs[] = {
  			nvme_latency_ewma_shift_store},
-+	{"latency_batch_timeout", 0600, nvme_latency_batch_timeout_show,
-+			nvme_latency_batch_timeout_store},
+ 	{"latency_batch_timeout", 0600, nvme_latency_batch_timeout_show,
+ 			nvme_latency_batch_timeout_store},
++	{"latency_stat", 0400, .seq_ops = &nvme_mpath_latency_stat_seq_ops},
  #endif
  	{},
  };
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 3e76e07a0376..aa817bfa4b81 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -349,8 +349,11 @@ static void nvme_mpath_add_sample(struct request *rq, struct nvme_ns *ns)
- 	stat->batch_count++;
- 	stat->nr_samples++;
  
--	if (now > stat->last_batch_ts && ((now - stat->last_batch_ts) >=
--			NVME_DEFAULT_LATENCY_BATCH_TIMEOUT)) {
-+	if (now > stat->last_batch_ts) {
-+		u64 timeout = READ_ONCE(head->latency_batch_timeout);
-+
-+		if ((now - stat->last_batch_ts) < timeout)
-+			return;
+ static const struct nvme_debugfs_attr nvme_ns_debugfs_attrs[] = {
++#ifdef CONFIG_NVME_MULTIPATH
++	{"latency_stat", 0400, nvme_ns_latency_stat_show},
++#endif
+ 	{},
+ };
  
- 		/*
- 		 * Find simple average latency for the last epoch (~15 sec
-@@ -1114,6 +1117,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	INIT_DELAYED_WORK(&head->remove_work, nvme_remove_head_work);
- 	head->delayed_removal_secs = 0;
- 	head->latency_ewma_shift = NVME_DEFAULT_LATENCY_EWMA_SHIFT;
-+	head->latency_batch_timeout = NVME_DEFAULT_LATENCY_BATCH_TIMEOUT;
- 
- 	/*
- 	 * If "multipath_always_on" is enabled, a multipath node is added
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 40009c024ab8..a694dd091a16 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -600,6 +600,7 @@ struct nvme_ns_head {
- 
- 	struct nvme_ns * __percpu	*latency_path;
- 	u32				latency_ewma_shift;
-+	u64				latency_batch_timeout;
- 
- #define NVME_NSHEAD_DISK_LIVE		0
- #define NVME_NSHEAD_QUEUE_IF_NO_PATH	1
 -- 
 2.53.0
 
