@@ -4,86 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64A5DCD5BB5
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2026 14:47:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 079C6CD5BB4
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2026 14:47:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:In-Reply-To:References
+	:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
 	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Owner; bh=fH2SpemoXvJlgvEPFyN/jTDszhD95Yl9eAEB5XMDBJ4=; b=JasgBt1dUCn9XC
-	iecQJkqACu7NPZYV3OIny42UgYBkaDrXeywXaYBXKeQyxUiL6QjawfYwLocJXYr2fAhW4i59ShNJt
-	u0PuVktthKHXa8Et2HMQ7l5ugH8OXawj6cPVUagSf3zfIPHvr2YKjIrGX0oIDDRElvphhuyTi5yG1
-	vN0pT9Cp+HTwOhBBUmv9gFP9N/DDqlRQiLfjM2ufzaiP8eOjQlBOjijjQXMhO/jxzmiRJwrBEti3a
-	0HvwvMQDd7wFLUUwBUESIZsgKfYxIHA5rYSIUZWiVjjuO86GtMEEvBDLgeoEd1w1SPISBuj2Cc1ND
-	3ZBwVECtcevFJNb/LkxA==;
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=3PAX9LpNs8aLmCbckkPaxLO0qgmKZE461iQecMNq/vc=; b=4Ue4qnL6DhnLuo5XVWxcZ8cmDD
+	B3oRMW2DsHYRjpNIgE7Cp6//FAQIwSsSNJgOyzfoAhwhEG4icteP+fpf1ZQmpxcCP7pMFEh5CdGeR
+	FnGK/mr4vTO46gGAE0HQbk+g8udHK+kw5AuA78goX4gXifiqGLjUwbfWPwohS+zwePBytRJKC4aWf
+	aHqguXccH5B6gHzu+fyzUntyaKmezFi2bBMTmvpLD8/3KVV4TUsAEaeensF+nIIwOPrI8ak6QFQ4u
+	282EaCmogAlPL9QvoyVdDfIE+jH/alZTiMz1BkmUZYMbU2f8NyHjW5am14mNNvZ0yA3VXip0Fzx8d
+	ZuzCyusQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQ4gH-0000000881p-0zrG;
-	Thu, 21 May 2026 14:47:25 +0000
+	id 1wQ4gO-0000000887C-1N8k;
+	Thu, 21 May 2026 14:47:35 +0000
 Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQ4gD-0000000880c-3GWz
+	id 1wQ4gL-0000000884F-0LK9
 	for linux-nvme@lists.infradead.org;
-	Thu, 21 May 2026 14:47:23 +0000
+	Thu, 21 May 2026 14:47:30 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3258740F5A;
-	Thu, 21 May 2026 14:47:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281331F000E9;
-	Thu, 21 May 2026 14:47:20 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id C7FF940495;
+	Thu, 21 May 2026 14:47:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1DAC1F00ADE;
+	Thu, 21 May 2026 14:47:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779374841;
-	bh=fH2SpemoXvJlgvEPFyN/jTDszhD95Yl9eAEB5XMDBJ4=;
-	h=From:Subject:Date:To:Cc;
-	b=bZRSHdU9XRb/JgMsQmWUMaMjTs9VSzOwvmHXd3oJl4taX46TJjZIY+A+8RanP30Dn
-	 zTxg4Nicy+w4b37HUp7rS6iC0BMul3GGKbI1ust2WrerX36VY9fMIN9TRZYmz2AraJ
-	 d7coIwOjRzqjmvDaJxSeh62yNm6UNdm87oEmjf1N8Aq+qTvs3kaJ3nY/dVFmjUpNAP
-	 2tPgMPonRHmLhabGmKXePDmeoip1OhViwmSlbYNJ2x/qEhqGBUnyR4EZAVC+jNeo32
-	 aZ0CQQjHudxJ2U2XIZbIbfjZq0Sq9GMlNKNu9gkdj2Pko2qm7qp+lRXp1zY4O7oy3y
-	 xBbR2ZevVekqA==
+	s=k20260515; t=1779374848;
+	bh=3PAX9LpNs8aLmCbckkPaxLO0qgmKZE461iQecMNq/vc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=Ktw9x9gD9Mm/xHKLRa4n+wFmYqI1BvLqIXhdfavlqk6f6+LoVVfLwvP3xXy4+Ug6A
+	 9dfZ3p3i+7Lfq83/UC0f9pJ1D2STprwvj+FCCF/O4DCwEmcK/gcwvPF3Xbwjok3GI/
+	 NG0EO3BEwkUNV/o7uI2iM9jpnmXZvU4r5/ppm3sbcygGeqZey1Zr+RVQ4tR+U/rNIn
+	 jVGFRx+Kgz9lA4CM3+zkpxGRFnUoQBK7CbdEifxzSe7X4F5ltW+pvbV64WS/PvdYQw
+	 Q4GP6O7LR2kTd+66v9czS1sqUZeqhRmp8qiHmKKx1A7dyK7wX36BIyoU4VwaKjKXSr
+	 QR22Q9KxnFWHw==
 From: Chuck Lever <cel@kernel.org>
-Subject: [PATCH net v2 0/7] net/handshake: anchor request lifetime to a
- pinned file reference
-Date: Thu, 21 May 2026 10:47:06 -0400
-Message-Id: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
+Date: Thu, 21 May 2026 10:47:13 -0400
+Subject: [PATCH net v2 7/7] net/handshake: Verify file-reference balance in
+ submit paths
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22Oyw6CMBBFf4XM2iotgo+V/2FYtGVqR6ElLRIN4
- d8t6NLlvXPn5EwQMRBGOGcTBBwpkncpiE0G2kp3Q0ZNyiByUeUlr1gqm2jlA5mhFllPjglenHJ
- TmqLkBaTHPqCh1wq9gsMB6m8Zn+qOelhwy0zJiEwF6bRdqjTcdZLccrIUBx/eq9XIV85P4PhPY
- OQsZ3ultDpgJUwjLz5I3eJW+w7qeZ4/nQ1CQOcAAAA=
-X-Change-ID: 20260516-handshake-file-pin-21390f5f3513
+Message-Id: <20260521-handshake-file-pin-v2-7-b9dadc472840@oracle.com>
+References: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
+In-Reply-To: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
 To: "David S. Miller" <davem@davemloft.net>, 
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
  Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
 Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>, 
  kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
  netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>, 
- Hannes Reinecke <hare@kernel.org>, 
- Alistair Francis <alistair.francis@wdc.com>
+ Hannes Reinecke <hare@kernel.org>
 X-Mailer: b4 0.16-dev-da966
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3768;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7067;
  i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=4tDM0iQVz/CyzfICFtw2BvtzDMiZSvmMCgLfoFd3Qho=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqDxru74wmZ1hPJSsB7z0UzzxM4pcWKdGRouxfQ
- 4xf3xqQ0HKJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCag8a7gAKCRAzarMzb2Z/
- l5lrD/94B2E3+YLi84PAnO3Xy5EKOgN9uVEQS0np047cRFcMV/DHPjZCJl9BAnF/+0RqgFZVauD
- qa18arIp3nLIl350HhbzUmE9NfZgFHpDhueJGzHAJkrd8an+QmOMR6dzDN4G+C6wQ/PNzGoBZf4
- UbeBtJ2GPNpWLFNx7b9VuaELAdL3RtrcwHQxA0Nevpey4Pj2jeRFHf/fim7VuJi8nMBBoAJPsJs
- 7L+gKp11eXXfiGycfNWFqF58NFnOdtlIymOEw9amBbF7LeCU6ECk+FCv1xVKxHvwf57/QTzT3dT
- u7XFgA1fMg2DzT5SALAfTw43ezo78pX0XDi3PEiGC1/T9kjE/26etr6TtB8RN0aVPcCggz3zyik
- 8y3eOxCoFQG2yKuF2rmA/xhhJ+eFQ2nW4nPW/DNcgnG9mAYis8uQ3mXIY+Ae1rpFUNDz9+PIP7z
- 0n/0Q5ZKUUaWxo4wZa5hdPfnlOkoJ//Qt0AzoYM2gKFulugzup6MtOLRTufMC40YoI35oJKc0Nw
- d9TD7Seapz3tXk9BKSZvS7Zcu8etLqKjT9tymxnz1WH90xh8ZLOQIy9gENAvZUycoHo99BpG9Eq
- pPbTyalIPsrkueJbyIB5ZgLnqP5b8p6/Ut5vk9WBqV8mzcy85GIKAFS6huGjgvP9jmCjQ0slUyc
- QqfRe0GIC32GvBQ==
+ bh=nCAvZ2Oci4lXVc/4ZoCdnie10corqh91J3ksH3YwEd4=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqDxr3ej67sVntZ41isnfSY+qOHrC6o/k8qDrgY
+ ZQV4l2R2cWJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCag8a9wAKCRAzarMzb2Z/
+ l4TWD/9C0EmRQsjiwP3zWyj+Ym9qdf3fSoODN3IzLXJJyOMcD2aidsuPn90zTXPyDg/sc7JuQqS
+ eq6tGSlG6B3ukOQs7s5SBfLLCgNMGlyYXNVJA8LcMQC7oiMl2R3V/AEaY1I9+a4vb0qsDAyUFgm
+ WVuez1/nBjBhadQtKqJyFf+MvYiVGjdBk4j2QzaNAsTFN2YTlxB5L6fLPH85BxD9ZVP1UvzhUZw
+ Up6HghUx2bn+GrSWzxHv7E9vAo85IWPYvltodygpW/IBPv3t27SRNhptoQ9v4sWY87JI2rf02LA
+ VxMJvWPWqHstotG6wisnShEdAVg26NEE3NfJWXtGOtBZ5qC0WlkJ4KAAfgUiROIiD44jZ1RQiPB
+ kCSvdZCjHnCDzYY33oZjni4ct1ViCcc+hmRKzHlwH+RcZbulHv/L0W2FodAbIErzT7N97hG8ZX+
+ nQzt6WgSquSWGDlv20jAA+K9pA7yATwAj/+7F6Me/AGp0wpGi3LhySLJCVmj/cjviKSk9QQ3OoI
+ EPfko/pGKoYiOFdVuet5wNgz7rSy4WNKc4JwxUcnlmpvVBFiuictNDIwO+sF7lwVuiqzShmeVvv
+ BX51Csg2/Lo9audocPNvswANNROPfsPCZ61XZLJIcxTxsBEegmQuQhoesD1ox1QQFyY/aGjLNAH
+ rPRyW+Pk+vIvTiQ==
 X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
  fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260521_074721_867418_F8066550 
-X-CRM114-Status: GOOD (  12.41  )
+X-CRM114-CacheID: sfid-20260521_074729_199794_56E9525E 
+X-CRM114-Status: GOOD (  13.43  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -98,79 +94,217 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-handshake_nl_accept_doit() has accumulated four follow-on fixes
-since 3b3009ea8abb ("net/handshake: Create a NETLINK service for
-handling handshake requests"): 7ea9c1ec66bc, 7798b59409c3,
-fe67b063f687, and dabac51b8102.  Each was a local refcount or
-NULL-check correction; none moved where the file reference is
-owned, and the same code keeps producing the same class of bug.
-Reworking the ownership is what breaks the pattern.
+From: Chuck Lever <chuck.lever@oracle.com>
 
-For the duration of a request, sock->file has no single owner.
-Submit publishes the request without taking a file reference;
-accept_doit acquires one inside the handler, after the request
-has already left the pending list.  The consumer can drop its
-own reference at any time, including the moment between
-handshake_req_next() popping the request and accept_doit
-reaching get_file().  The submit-side sock_hold() pins only
-struct sock; struct socket and sock->file remain under the
-consumer's control via the file descriptor.
+The new file-reference contract on struct handshake_req is silently
+breakable: a missing get_file() at submit or a missing fput() on an
+error path leaves the file leaked but does not crash the test, so
+the existing absence-of-crash checks pass either way.
 
-This series places the file reference under unambiguous
-ownership.  handshake_req_submit() pins it on the request and
-completion or cancel drops it (patches 4-5); the submit-side
-sock_hold() then becomes redundant, and dropping it also closes
-a publish-before-pin race the late sock_hold itself opened
-(patch 6).  The handshake_complete() API and its consumers move
-to a uniform negative-errno sign convention (patch 3), with the
-matching sign correction in nvme-tcp (patch 2).  An unrelated
-netns-exit leak gets its own fix (patch 1), and new KUnit
-file-count assertions verify the refcount contract (patch 7).
+Snapshot file_count(filp) before each handshake_req_submit() in
+the submit-success, EAGAIN, EBUSY, and cancel tests, and assert
+the expected balance after submit and again after cancel. The
+already-completed cancel test also asserts the post-complete
+balance, which pins down that handshake_complete() drops the
+reference and that the subsequent cancel does not double-fput.
+The destroy test gets the same treatment before __fput_sync(),
+which double-checks that cancel's fput() ran and the only
+remaining reference is the one sock_alloc_file() established.
 
-Three things in this restructuring want a careful look.  In
-handshake_complete(), the fput() of the request's file
-reference has to come after hp_done() -- fput() can transitively
-run handshake_sk_destruct() and free the request, so the patch
-stashes hr_file in a local first.  handshake_sk_destruct()
-itself is kept on purpose: it owns rhashtable removal and
-kfree, and remains the backstop if a consumer path bypasses
-handshake_complete() entirely.  Third, handshake_req_next() now
-returns its request with an extra get_file() held under
-hn_lock; accept_doit must consume that reference (FD_PREPARE on
-success, explicit fput on the fdf.err path), and any future
-caller has to honor the same contract.
-
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 ---
-Changes in v2:
-- Patch 3: move HANDSHAKE_A_DONE_STATUS upper bound into netlink policy (Jakub)
-- Link to v1: https://patch.msgid.link/20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com
+ net/handshake/handshake-test.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
----
-Chuck Lever (7):
-      net/handshake: Drain pending requests at net namespace exit
-      nvme-tcp: store negative errno in queue->tls_err
-      net/handshake: Pass negative errno through handshake_complete()
-      net/handshake: Take a long-lived file reference at submit
-      net/handshake: hand off the pinned file reference to accept_doit
-      net/handshake: Close the submit-side sock_hold race
-      net/handshake: Verify file-reference balance in submit paths
+diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
+index 9cc7a95f4120..3dd507470d5f 100644
+--- a/net/handshake/handshake-test.c
++++ b/net/handshake/handshake-test.c
+@@ -208,6 +208,7 @@ static void handshake_req_submit_test3(struct kunit *test)
+ static void handshake_req_submit_test4(struct kunit *test)
+ {
+ 	struct handshake_req *req, *result;
++	unsigned long fcount_before;
+ 	struct socket *sock;
+ 	struct file *filp;
+ 	int err;
+@@ -224,8 +225,10 @@ static void handshake_req_submit_test4(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
+ 	sock->file = filp;
+ 
++	fcount_before = file_count(filp);
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
+ 
+ 	/* Act */
+ 	result = handshake_req_hash_lookup(sock->sk);
+@@ -235,11 +238,13 @@ static void handshake_req_submit_test4(struct kunit *test)
+ 	KUNIT_EXPECT_PTR_EQ(test, req, result);
+ 
+ 	handshake_req_cancel(sock->sk);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 	fput(filp);
+ }
+ 
+ static void handshake_req_submit_test5(struct kunit *test)
+ {
++	unsigned long fcount_before;
+ 	struct handshake_req *req;
+ 	struct handshake_net *hn;
+ 	struct socket *sock;
+@@ -265,12 +270,14 @@ static void handshake_req_submit_test5(struct kunit *test)
+ 
+ 	saved = hn->hn_pending;
+ 	hn->hn_pending = hn->hn_pending_max + 1;
++	fcount_before = file_count(filp);
+ 
+ 	/* Act */
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 
+ 	/* Assert */
+ 	KUNIT_EXPECT_EQ(test, err, -EAGAIN);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 
+ 	fput(filp);
+ 	hn->hn_pending = saved;
+@@ -279,6 +286,7 @@ static void handshake_req_submit_test5(struct kunit *test)
+ static void handshake_req_submit_test6(struct kunit *test)
+ {
+ 	struct handshake_req *req1, *req2;
++	unsigned long fcount_before;
+ 	struct socket *sock;
+ 	struct file *filp;
+ 	int err;
+@@ -296,21 +304,26 @@ static void handshake_req_submit_test6(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
+ 	sock->file = filp;
++	fcount_before = file_count(filp);
+ 
+ 	/* Act */
+ 	err = handshake_req_submit(sock, req1, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
+ 	err = handshake_req_submit(sock, req2, GFP_KERNEL);
+ 
+ 	/* Assert */
+ 	KUNIT_EXPECT_EQ(test, err, -EBUSY);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
+ 
+ 	handshake_req_cancel(sock->sk);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 	fput(filp);
+ }
+ 
+ static void handshake_req_cancel_test1(struct kunit *test)
+ {
++	unsigned long fcount_before;
+ 	struct handshake_req *req;
+ 	struct socket *sock;
+ 	struct file *filp;
+@@ -329,8 +342,10 @@ static void handshake_req_cancel_test1(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	sock->file = filp;
+ 
++	fcount_before = file_count(filp);
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
+ 
+ 	/* NB: handshake_req hasn't been accepted */
+ 
+@@ -339,12 +354,14 @@ static void handshake_req_cancel_test1(struct kunit *test)
+ 
+ 	/* Assert */
+ 	KUNIT_EXPECT_TRUE(test, result);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 
+ 	fput(filp);
+ }
+ 
+ static void handshake_req_cancel_test2(struct kunit *test)
+ {
++	unsigned long fcount_before;
+ 	struct handshake_req *req, *next;
+ 	struct handshake_net *hn;
+ 	struct socket *sock;
+@@ -365,8 +382,10 @@ static void handshake_req_cancel_test2(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	sock->file = filp;
+ 
++	fcount_before = file_count(filp);
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
+ 
+ 	net = sock_net(sock->sk);
+ 	hn = handshake_pernet(net);
+@@ -385,12 +404,14 @@ static void handshake_req_cancel_test2(struct kunit *test)
+ 
+ 	/* Assert */
+ 	KUNIT_EXPECT_TRUE(test, result);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 
+ 	fput(filp);
+ }
+ 
+ static void handshake_req_cancel_test3(struct kunit *test)
+ {
++	unsigned long fcount_before;
+ 	struct handshake_req *req, *next;
+ 	struct handshake_net *hn;
+ 	struct socket *sock;
+@@ -411,8 +432,10 @@ static void handshake_req_cancel_test3(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	sock->file = filp;
+ 
++	fcount_before = file_count(filp);
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
+ 
+ 	net = sock_net(sock->sk);
+ 	hn = handshake_pernet(net);
+@@ -428,12 +451,14 @@ static void handshake_req_cancel_test3(struct kunit *test)
+ 
+ 	/* Pretend to complete this request */
+ 	handshake_complete(next, -ETIMEDOUT, NULL);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 
+ 	/* Act */
+ 	result = handshake_req_cancel(sock->sk);
+ 
+ 	/* Assert */
+ 	KUNIT_EXPECT_FALSE(test, result);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 
+ 	fput(filp);
+ }
+@@ -454,6 +479,7 @@ static struct handshake_proto handshake_req_alloc_proto_destroy = {
+ 
+ static void handshake_req_destroy_test1(struct kunit *test)
+ {
++	unsigned long fcount_before;
+ 	struct handshake_req *req;
+ 	struct socket *sock;
+ 	struct file *filp;
+@@ -473,10 +499,12 @@ static void handshake_req_destroy_test1(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	sock->file = filp;
+ 
++	fcount_before = file_count(filp);
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+ 
+ 	handshake_req_cancel(sock->sk);
++	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
+ 
+ 	/* Act */
+ 	/* Ensure the close/release/put process has run to
 
- Documentation/netlink/specs/handshake.yaml |  8 +++++
- drivers/nvme/host/tcp.c                    |  2 +-
- net/handshake/genl.c                       |  3 +-
- net/handshake/genl.h                       |  1 +
- net/handshake/handshake-test.c             | 38 ++++++++++++++++++++++-
- net/handshake/handshake.h                  |  6 ++--
- net/handshake/netlink.c                    | 19 +++---------
- net/handshake/request.c                    | 50 ++++++++++++++++++++++++------
- net/handshake/tlshd.c                      |  4 +--
- 9 files changed, 101 insertions(+), 30 deletions(-)
----
-base-commit: 42734af6632ebebf90552f0e2dce4d8e72dbb9be
-change-id: 20260516-handshake-file-pin-21390f5f3513
-
-Best regards,
---  
-Chuck Lever <chuck.lever@oracle.com>
+-- 
+2.54.0
 
 
