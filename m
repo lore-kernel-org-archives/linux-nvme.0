@@ -4,153 +4,76 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 61DB1CD5BAF
-	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2026 15:33:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 01B1FCD5BAC
+	for <linux-nvme@archiver.kernel.org>; Thu, 21 May 2026 15:37:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:Cc:To:
-	In-Reply-To:References:Message-Id:Content-Transfer-Encoding:Content-Type:
-	Subject:Date:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=i/ReP1rgqWrU4/sMzuwdfH3iluXexvaN58iUOEqpsAA=; b=oOcm9r8M6vQZyV89btoMzSIsZ9
-	0TEQAS0GsxiZoYjxBQER47ndYbniT0K+Gx7Viu2gNdsk6l7/ibjeA4m01BsTwVDHNrGzFzzxaXHbp
-	nZL4KZubFf98iGKrP9fI4zC4jw0ykqPNSyUdVPkuoOlR2+eU3OIjomfZ+MIMXUVN62I2eNNfUMuyS
-	azgWsLD5Pf4L3BjI0j1QAOxGcnNyXPxOmWALUxz8sM1av3fAYT3DOXfd49wzQYf46RmMV5+FUfPIT
-	4x0LKJZlxdPw7OhYy5MKvch2g2AhcFmWjfcz8HlfVA6mlAhLIteCj2dUyXZrpGzOkt6i86uVX1+kE
-	HPtUMqJQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:content-type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=sxBcn2zVAegJxcpLqdsi427uF5vH4pdkVEZlrDZRZo0=; b=jcDiRBYo6nbHEIhB1JYI8nowfO
+	CQN4sZVW9jX5jPDI7QNP+U5j05Vvl77DbH/Vfx+8DtKNKp4lfjE033p5eUXHOhS5444QJEcL0HqQW
+	C2uia2LbVjPlJoNHpvueBT8VcLI6Y+turXgkpHWeLypZ6IyzwPdu8qzIW3Yu+OEOFWraUFnw0mVWD
+	AlOdTs135WfjBlbCDReNzNUwJ8NtPdhXtIiawLBdqyheThWKVuqtegriDgkQfH0kic16gu8Ds73RR
+	u3R3SMSzxIpFLWlIGhnjAVrpzEwxqyVI2wjwm8JYGzhYVaF22oJB91QV9ooPwT+NRyvHqZRkuz6/u
+	fUuUFvXw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQ5PJ-00000008KZB-2LVL;
-	Thu, 21 May 2026 15:33:57 +0000
-Received: from mail-northeuropeazlp170110003.outbound.protection.outlook.com ([2a01:111:f403:c200::3] helo=DU2PR03CU002.outbound.protection.outlook.com)
+	id 1wQ5Sn-00000008LaC-1dBL;
+	Thu, 21 May 2026 15:37:33 +0000
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQ5PE-00000008KPr-12yr;
-	Thu, 21 May 2026 15:33:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HVe+Om98naWVp5Y12fvKnVhZrVyUqaVRt+KfbjvgXwvSHS314SaSX9tBHha3YZ36X0RTCFmTivJ+mDGKkGgOrO5asc/LisVT0Y83UnCAQIJjRwxzJutnkzkMH5SDiutFeGnVRZf8k5h2kqj7ZQ7DSSp+MEpj/mo3aA+5S1IRS0NY8A8z+7Zw2mCd1YdZUOUNVNuAA+kg1a2sKqyPe5/LslyWL9mwqxBHPKZGi2tQoHEykqHa8eFtr3HlBUDD5ZbI/ED7SDwu8gyHRopSoRxZar1HxtN5LJqtpn7nL7uhFfr7w8BMcB51DuGYGf9CaNoPPibphk+DcJyaa1NkdLoMVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i/ReP1rgqWrU4/sMzuwdfH3iluXexvaN58iUOEqpsAA=;
- b=nRxV6FDo5Tf71vdghvmN3fvS6D9Ec5ECra/6YNhJKuUQBfJKaVk4TtxuxchO8Aqgkr5g3AOhiEBJewh3OQXMhg9Ah/Hne1T617tyISFUmCCalS/PVpkM9CYnJoRLVJjWNM1zeTSvMzjsA4Ltf038RVYeLRVvsMPuOWrUTFUXmh8PJBH1Cgy91mGF1OQ9b177RmJj/56QcKG+y/3kTGHKD7hN+Sw4pjJ7NqJDVgiixS5GnJMsqRbqMfj7MfBkQNJcJRHMdU4RVYgNBhrni5BsGQJA6L9x2es60WrmO99lwYnqYODOs02b2de997kRSwU2d4v/VHv8jRamlvRC+dI2lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i/ReP1rgqWrU4/sMzuwdfH3iluXexvaN58iUOEqpsAA=;
- b=ifgmwrd3NzlV/Y9b1w3xEBRZqr2FAPqp5kUxJtlks6KDCSu4AW3t4iByDpGBR2xSFGEeRvdAeavvk6C4oTy9Jcp/oniYxrSL6g+QKgkQNaz0ePEU6ocJ2DKpRh+q4CnP2I49/XIh89AO/BLJOaktnZ7/9cQGzGj1v9MxtNwtqtgI+5h1GvcY0anNDpvi/K0Hm91gJCUrbjBuad6AoHybad/9iHGYkoXBmntD1sCfgnAXNUNLVyW/0SgmNGUdlpGLMQpUJ9/f17hgDjTMif2PCi9ecUw5t2Wybhqk492WSHKftSw17ltPuAMBPAJl0M8eiMbniRKJulUf+capuJZ+3g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from DU4PR04MB11791.eurprd04.prod.outlook.com (2603:10a6:10:623::11)
- by AMDPR04MB11581.eurprd04.prod.outlook.com (2603:10a6:20b:71d::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.16; Thu, 21 May
- 2026 15:33:45 +0000
-Received: from DU4PR04MB11791.eurprd04.prod.outlook.com
- ([fe80::11ca:6b74:3234:d7de]) by DU4PR04MB11791.eurprd04.prod.outlook.com
- ([fe80::11ca:6b74:3234:d7de%4]) with mapi id 15.21.0048.013; Thu, 21 May 2026
- 15:33:45 +0000
-From: Frank.Li@oss.nxp.com
-Date: Thu, 21 May 2026 11:32:55 -0400
-Subject: [PATCH v7 9/9] crypto: atmel: Use dmaengine_prep_config_sg() API
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260521-dma_prep_config-v7-9-1f73f4899883@nxp.com>
-References: <20260521-dma_prep_config-v7-0-1f73f4899883@nxp.com>
-In-Reply-To: <20260521-dma_prep_config-v7-0-1f73f4899883@nxp.com>
-To: Vinod Koul <vkoul@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Koichiro Den <den@valinux.co.jp>, 
- Niklas Cassel <cassel@kernel.org>
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org, 
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779377571; l=1773;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=erGKLaAZMNXPQALsbiq4uU1FrELcrAtTPXSGZhnyQ3o=;
- b=QKHbZQEkp18U2ITWjZrhkJW46/m4B+DMU571m2yZa9yPRvBA7Xpft6riw3YWQHf519CY3JuIX
- w+7v6kkHY+YBqLDcZ1yAf95BCXLfCAeCDKXwwRVaoWhQnXhUs32Sk2k
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: PH8P220CA0042.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:2d9::14) To DU4PR04MB11791.eurprd04.prod.outlook.com
- (2603:10a6:10:623::11)
+	id 1wQ5Sh-00000008LXN-2dyx
+	for linux-nvme@lists.infradead.org;
+	Thu, 21 May 2026 15:37:29 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779377846;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sxBcn2zVAegJxcpLqdsi427uF5vH4pdkVEZlrDZRZo0=;
+	b=KH4fb9jn15WI1idHAftAWA9xBL//T/CV2/VqZfI0mmsuBdM1GTeYPrUbLg5qr2PKobTg4Q
+	NFko0t4yFTUl5ywfqe4s9/CoPbcYgicI2guuD+PYaeCc7jECafDoatw97EerdbuLZrSUMg
+	Rroik5X+34dcfijBbVKzaLroMzJTkUE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-302-cTMS_sgKPrejRM9IMsRI4A-1; Thu,
+ 21 May 2026 11:37:24 -0400
+X-MC-Unique: cTMS_sgKPrejRM9IMsRI4A-1
+X-Mimecast-MFC-AGG-ID: cTMS_sgKPrejRM9IMsRI4A_1779377843
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 963FB1956059;
+	Thu, 21 May 2026 15:37:22 +0000 (UTC)
+Received: from mlombard-thinkpadt14gen4.rmtit.csb (unknown [10.44.48.57])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA44E180056E;
+	Thu, 21 May 2026 15:37:18 +0000 (UTC)
+From: Maurizio Lombardi <mlombard@redhat.com>
+To: kbusch@kernel.org
+Cc: dwagner@suse.de,
+	mkhalfella@purestorage.com,
+	hare@kernel.org,
+	hch@lst.de,
+	mlombard@arkamax.eu,
+	linux-nvme@lists.infradead.org,
+	error27@gmail.com
+Subject: [PATCH V2] nvme-core: fix unsigned comparison warning in nvme_wait_freeze_timeout
+Date: Thu, 21 May 2026 17:37:16 +0200
+Message-ID: <20260521153716.548351-1-mlombard@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU4PR04MB11791:EE_|AMDPR04MB11581:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb9c4b1d-7dff-45fb-b05a-08deb74e58ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|19092799006|11063799006|6133799003|22082099003|56012099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info: s862SAwdPXq3ZM6se5Au7e+/kEnxXj/A2PXnixdhPWF/KiumghN4v5mBXBzWcLfDqeNcOkVecz2LSYIFHs+74x06rRRmahoJYjEtFuu4J7fB1qxJ0qmliiZdN6vYJIXxW70YrPi2+26teX3AO2aDBEqSOWFstuWVFEd1ljsEVbzAITpsenm/a0Ukp6K+x/hjk6QI0WhpmIVDaZZE60Lk5tTohpDViVSz+kggVNkkHy18xSodhIdhwF9qRMAxQmNfAxapdx48q4QQBv4EHpchABc8fP2/fplQRIHp4RmPLP6hSPvOokHItSfhdEygjaQu5RraGjJ9+JqN5oQlNXhwF1k2qdrOPaBiCIf7h8jPZL43ZcRdzoiLWoKf3hXOpmh3RxqZmRO/9rC0znqVhYD5uln618Gttx/PDn2NM4xlQ35ssTdeS0q8cL7y38hxS4r6KQQKmHAPK1/+J5/qTFeAJqqMA9zbNb3da5Dbu++vfdItlNmPoXTheUXUeKEDFEyq7m7jvBcjX+s6oVao2Ml2MBIxT2vJ4SEecVIduiTopL3+nDltKzWca4m41VTfcDjEmVcrdoUbwJOZe4L8N2mReU6eKhh3bH2dOVNs0weHRsWVHcROznFS9vq/He10j+xLi7k/750e1GaML5o6K6f5yPUUizpbh8hj5Kr6RzOUF1D+v1n3TBO3IYlAIsKzQWoOc2pD1DJRxDpSir/zpnRru59AHgJCFWGdxKS86aUhO1w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU4PR04MB11791.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(19092799006)(11063799006)(6133799003)(22082099003)(56012099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVpGUVJVM0hMUllueE9FNHRuTnRwQnk4Sjl3K0o1SHU2V0YvUHZoNVc1RlZZ?=
- =?utf-8?B?VDF3UWx1UG1IOVBPNzJ3VTIvS3NpNjMwNTcyS1JlYVJIVzE5WWh2YlE3ZGNi?=
- =?utf-8?B?U0tvWlZCNVVzbzdKa1hYNGhlWGN4TzlWZGlqM28wbk53a0dzMnYxTVIzQnNU?=
- =?utf-8?B?TUlqM1ZkVTV0Q2g1a1RoNzMvMjJoRVdoMlVYWFRDcFdjS3dpd0pPT3VUM0I2?=
- =?utf-8?B?aWFCbzE4QzlmQUdOZ1VqaVQzQ1ltY2hzWkxWeHhseUlEVER0U2NESWJkbmhy?=
- =?utf-8?B?Wk9DdTVWWlpKNEtQS21Ga3B0Ti9wR25Kcy93ZHovM2FiN0xsL2pUUGowL21K?=
- =?utf-8?B?N1VJZjJwci84YXg1REpDUVIzbmQxREdwWlh0YjFTQjU0VVZQQlZKb2VLYi9R?=
- =?utf-8?B?YXA1L2xid1pYRnBGaUZYNGN1aFViUm9EbFA0ckUwSFFjMFkzWkx2ZG8vMW9j?=
- =?utf-8?B?cnExZmNpS2RQNHNGTCs4R05ubm1DWFdnQUZycFZhdXo4YVgzeFp2OEd1b1l1?=
- =?utf-8?B?VFZQR2dsNFpYUFd6dFRTQ1BPTitRemFyVkkrMUNxaW9xaG1UdkI4ZWFsZ2dI?=
- =?utf-8?B?V0N4a0pMdWU2dEpJT0pxVzg3ek9MeDhFb0s4Z3BpeGV1TVNLeXM3NWczZVE1?=
- =?utf-8?B?ODJwYnFGbTNqMDczU3YwdWRieXBFN3VLbHhZalNNQ05TQ25pbHgvKzBtbndN?=
- =?utf-8?B?cVAxbmFCeTNLMjV4S1NXdDBPRm1JRUlWN0ZLUzRoMFo0NDJ4T2FzcDdaN0I0?=
- =?utf-8?B?cXdtSGdaZ0xBNnFBMlk3bnFveTR6d2ZEOVd5RHowV2NvcjRvMlcyMVJIOVp0?=
- =?utf-8?B?Mlc3cUMzVk5XeG1EQmZMUjdCVVEvcVE0dHhaSmgyWU43OTVVZlZQaUtzMTk4?=
- =?utf-8?B?YWtqc2hLUWczcGpGdXF1ZUV4ZXVHMWN6UFJJUUY2WmJITjB3R3ZUZkVoOUlr?=
- =?utf-8?B?bGhudE1wcCtNSXhVb0gzQW0rb3BBK1VsK1BKL0YzYW9MNjE4RTVaQ1htWU15?=
- =?utf-8?B?RGJXTGdZTGRYbFBJZm1LWE5Lc2Jwc0tYK3FhYW9QM1B5eWZTT3BabExVUStF?=
- =?utf-8?B?Z2YzanFzTy9aL2xNZm5yRlBSWHVPS2Z3bmthQWtlQjVtTnlScnBtUm01Qjcw?=
- =?utf-8?B?ZFNpcy9Ndm1YY2JDdUNTVWZZZExHN3lxK284a2dmTVp5Yll5WHpEOUVxK0lv?=
- =?utf-8?B?YlV6UzJEM3NvZzFydnZvTUVEbFp3OHpnM3gwNjdkS3NSU0llZlMwQ09qL3A0?=
- =?utf-8?B?U2xIcDc2MGUvWnlaOVk2SmhwdkhPQmVqQ3hQTTdUTmpNWTVvNVJQalcyVFIx?=
- =?utf-8?B?QXovWlFWakh0YXh5cXlWcjEzQzBNNnBEa1FiZGpWbDI1anFHTmFFNSt2THVH?=
- =?utf-8?B?OGJLTEFiOWwwb3FqYk04eldxRTVhZEkzNGhiY1A4ejFrZXA2YXVwN2FYK0JV?=
- =?utf-8?B?TGRVSE00bjZKdndsTkNYekR2TzJmNnV3SnE0RTcrYjNwNzdtMmZYeEYrYVJH?=
- =?utf-8?B?QXJKY0NNakVLZS92aE9sMEdQZ3ZpNWI4THcxbU4rT1djNTBpV2V6T1FOdkJS?=
- =?utf-8?B?b2RyTmQxT1RXdGYvN3dBeCtHckZQZ044UXIyYy82MmdEV09LbHplQmNhQ3hh?=
- =?utf-8?B?QU1XeFI3bDVPNlpFMmNXbUlpUXhEM3MraU96RnhxVnIxSENYOTdURHhZYlhT?=
- =?utf-8?B?SStudmFpd0tMOG1pWW1QWEt0b0FvN0xOSGp4cC93MlRmNjFuQVBUd3hUdytG?=
- =?utf-8?B?TTJLY1g0aThkRmZ1YXRIOStHWkVOZm1EeGlDUW9BRWkxdEdCbDdPbnRVUHVY?=
- =?utf-8?B?TUhQQjZRZGdCTWsrR1diUDhpQVFGLzA1QTZKMlc4eXVqeE9heHJCZ3ZIbThT?=
- =?utf-8?B?T3Z1aHRkL2lzYkhvK09KaGdyV1dmWWE5WWJvTGNhdVd6REZkUVZHMnZsQXll?=
- =?utf-8?B?RTN3RHJ3U0pQclpDZmZTdkFIUGdkT1ErZnV0QmFyN1JvRSs1UWJ4bWRNYThK?=
- =?utf-8?B?VjYyK1VpR1J4R2oyWTF5NnlWY0tIMlNFT3B3YStMMjlGK1FIQTlBdTNaWGwy?=
- =?utf-8?B?ZmFDcFVZbnBFZGN4cld2dzd1QXA0SHc1QVJWd0prb1lHekozM25sazNQeHha?=
- =?utf-8?B?a0tvNXlha3dReXU4d1lNeGxBeXJNbk1RS3RpVC9lMEFzYUI0STByWk4rRkls?=
- =?utf-8?B?MjZNZ2IxVC9oQ2RINXkwSUxyTUpYSWhDOW1qQ3ZFcHZFMjkwUENOdVBuTWNr?=
- =?utf-8?B?clR0RDNWL01OVitXbnRPTk5QSGhhNEJiQUpLck1qWHVSTUVJNXBhRkRhcUw2?=
- =?utf-8?B?RWIxeDNEUEtsTVVwWXVDUHU0UndpTHpMK0pIK2JValJ2MzJVUFY1TDRSMXBa?=
- =?utf-8?Q?sbmQX8QGQIbN/BJ7Z/Uc0AHVsSrbbaMmDFtaC?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb9c4b1d-7dff-45fb-b05a-08deb74e58ae
-X-MS-Exchange-CrossTenant-AuthSource: DU4PR04MB11791.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 15:33:45.7760
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hX7jpJwtZzeD+hsUATEhTrhY0HzVGcARJcr1fyT2nrHCddtfQgSpxwMbvDoB0UPFwEgt6uLYvKRVFur9a/BUf7MSPY6fJYoF90AVd7mvKdJdZn401Aab2xidmLrLlset
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMDPR04MB11581
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: bWZ-X9OtYJNt_JPklp4AlaHb12td6Xz8T_L14sS53Dc_1779377843
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260521_083352_311753_23896753 
-X-CRM114-Status: GOOD (  12.06  )
+X-CRM114-CacheID: sfid-20260521_083727_744407_84408DDA 
+X-CRM114-Status: GOOD (  11.04  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -165,58 +88,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Frank Li <Frank.Li@nxp.com>
+The timeout variable in nvme_wait_freeze_timeout() is an unsigned type.
+Checking if it is <= 0 triggers a compiler warning because an unsigned
+variable can never be negative.
 
-Using new API dmaengine_prep_config_sg() to simple code.
+Fix this warning by changing the type to long.
 
-dmaengine_prep_config_sg() does not distinguish between configuration
-failures and descriptor preparation failures, as both are reported through
-a NULL return value. Converting both cases to -ENOMEM is therefore
-acceptable and consistent with the helper's abstraction.
-
-In practice, most users only care whether the operation succeeds or fails,
-and do not depend on the exact errno value returned from this path.
-
-Tested-by: Niklas Cassel <cassel@kernel.org>
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/r/202605211257.STzj2Ujv-lkp@intel.com/
+Fixes: 23b6d2cbf75f ("nvme: remove redundant timeout argument from nvme_wait_freeze_timeout")
+Signed-off-by: Maurizio Lombardi <mlombard@redhat.com>
 ---
-change in v6
-- add commit message about error propagation (sashaki AI)
----
- drivers/crypto/atmel-aes.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/crypto/atmel-aes.c b/drivers/crypto/atmel-aes.c
-index b393689400b4c..d890b5a277b9c 100644
---- a/drivers/crypto/atmel-aes.c
-+++ b/drivers/crypto/atmel-aes.c
-@@ -795,7 +795,6 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
- 	struct dma_slave_config config;
- 	dma_async_tx_callback callback;
- 	struct atmel_aes_dma *dma;
--	int err;
- 
- 	memset(&config, 0, sizeof(config));
- 	config.src_addr_width = addr_width;
-@@ -820,12 +819,9 @@ static int atmel_aes_dma_transfer_start(struct atmel_aes_dev *dd,
- 		return -EINVAL;
- 	}
- 
--	err = dmaengine_slave_config(dma->chan, &config);
--	if (err)
--		return err;
--
--	desc = dmaengine_prep_slave_sg(dma->chan, dma->sg, dma->sg_len, dir,
--				       DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-+	desc = dmaengine_prep_config_sg(dma->chan, dma->sg, dma->sg_len, dir,
-+					DMA_PREP_INTERRUPT | DMA_CTRL_ACK,
-+					&config);
- 	if (!desc)
- 		return -ENOMEM;
- 
+v2: keep the <= comparison, change the type from unsigned to signed long
 
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 72c50d5e938d..554649ffe430 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -5246,7 +5246,7 @@ EXPORT_SYMBOL_GPL(nvme_unfreeze);
+ 
+ int nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl)
+ {
+-	unsigned long timeout = ctrl->io_timeout;
++	long timeout = ctrl->io_timeout;
+ 	struct nvme_ns *ns;
+ 	int srcu_idx;
+ 
 -- 
-2.43.0
+2.54.0
 
 
