@@ -4,60 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C24D0CD5BB3
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 May 2026 15:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBE77CD5BB3
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 May 2026 15:16:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=sg08rMUqXdrdIcoEudWa6vs3/YkB0tjUu7NFlKjrICE=; b=IjK3fK3gBl0vEchQMIYc3OMQx5
-	i855V19wOhekX0MBNt3UHadRfuetPTRsyt6oJSoKN0uK4DpvLrnWMZyiaOow7Q9Zfgn7HFV3/rOia
-	PI04cq2BB45o4EfJSL+h/t5WqHyRMCGD/jcf8KlHbO7Us0dVKhu1p/dq5LmCCxEb9L1SQ5VuMJbCk
-	eqSjbqNecxZQ6CZqpAtgllQlrfG1zBGGc7L6kvvYtcL4vjMjZmh1tyYsNDoUCSE3+k+pQJEqW/mWi
-	CFsDkSKVH7dUPTW6Xy05N5RDgTzcy7/ZOo2FMb4qu6fIfUI0Az91G4gupebXQHyP6CiYqXP2wLNV+
-	yRff8eFA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=tdDFrX8lM7K1Y12nbTVKb2PxejimTHNOscZLEaHb94s=; b=dZg1hC0VegxQfXD81q1XsNnN49
+	wgyNrfucVNn6ovOeePAhJ+2teaMcWta8OLbegX+x6HYvbTcGme25704c5QAAuKyVYDZzLSgoyFjBg
+	yXWdmPCNYWnqytDWFw0wTLI8OlbTMPVX3F9jYWLz97m2hETZ5ePs7V6U4jeug97rodwMx5RtK5AbC
+	DYsKB6cwJbu8KDlcmQFN11sl+Hisna5daIOpzirPr6jlM2IEncxp5Cp+7MQOPiwakvI3qZ/7CE+12
+	qMGS9EX4Q58jkHnT+KBS5eiaY1qxTcFSROtDJLJwLW3hoYX0CixMqatM6Rte63yLfsRTsxz/Z6usW
+	mJ7waD1Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQRSe-0000000BD1g-3w9Q;
-	Fri, 22 May 2026 15:06:52 +0000
-Received: from mout02.posteo.de ([185.67.36.66])
+	id 1wQRbY-0000000BE8L-3Huu;
+	Fri, 22 May 2026 15:16:04 +0000
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQRSc-0000000BD0h-3Eei
+	id 1wQRbW-0000000BE7b-0Ikt
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 May 2026 15:06:52 +0000
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 8542C240104
-	for <linux-nvme@lists.infradead.org>; Fri, 22 May 2026 17:06:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
-	t=1779462402; bh=sg08rMUqXdrdIcoEudWa6vs3/YkB0tjUu7NFlKjrICE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=VTWyZG569nM+kfJnRKZB3aRej2s/iUmsxP+1xB4QEYKuFo58hwhFsShML0Gdovgkn
-	 8CMe0oxoFFjnLCU0InT5+Nxz/abhKvS194DviIPDa8ug92fNU9RDelqQy8doX412l/
-	 b0uDA4py2ScGh+KhY8PKrMSeLlBFtKEAhoZyfflhKh+pibhUCt5MN5ZxE1GeMgbPXP
-	 KFl5JKu2rrk4mfa7aZsdmDs90elDkHvkSvROzQSKYkx+hvBKYKu4tnEoLTt9nNVnKJ
-	 IzJmA1NZk/mpKgD5lKCk4RJV/rid/ftTU5xZ/ASiNmj4E5bHZe9ks6yGw7t9Qr/znC
-	 cCL8XBLq49z8w==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4gMTBn0vFXz9rxL;
-	Fri, 22 May 2026 17:06:40 +0200 (CEST)
-From: Mateusz Nowicki <mateusz.nowicki@posteo.net>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] nvme-pci: fix out-of-bounds access in nvme_setup_descriptor_pools
-Date: Fri, 22 May 2026 15:06:42 +0000
-Message-ID: <20260522150628.399288-1-mateusz.nowicki@posteo.net>
+	Fri, 22 May 2026 15:16:03 +0000
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64M1bSQp2537500
+	for <linux-nvme@lists.infradead.org>; Fri, 22 May 2026 08:16:00 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=tdDFrX8lM7K1Y12nbT
+	VKb2PxejimTHNOscZLEaHb94s=; b=g6I/MGc+B11xPtKXs0AQkKiyegLSc9eRt9
+	a6vWxD+rE4E8+SheqXXDfcntUsdJWX0Dsz7QyT6NM1ycjokYcQahdkVT1t6qoTW1
+	yVGsEVMyw/QY16kF/Lxza+wPiz4iGbZskogGstd06x4F4y3ICitY6XyUrOAT7dn4
+	eTExWGswXxDlZZZuFH35xnYpJJWHLJ3m9GznyxT0rN0plPPZSerf2MvPOoBPlTwT
+	JsEknVLPjFK206kSQXJwcLJELkdWM/GMeQPyLfzCs7cA4FRXt8DGpdKGgtIBZweT
+	aCP8WgkFd7ZDGKYD8cceSznfS5FT44ZL+4YVyWM0n90W43z8PCQA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4e9yy1h3v3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-nvme@lists.infradead.org>; Fri, 22 May 2026 08:15:59 -0700 (PDT)
+Received: from twshared124658.16.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.37; Fri, 22 May 2026 15:15:59 +0000
+Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
+	id 105CA1B7550E2; Fri, 22 May 2026 08:15:43 -0700 (PDT)
+From: Keith Busch <kbusch@meta.com>
+To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
+CC: <axboe@kernel.dk>, <hch@lst.de>, <nilay@linux.ibm.com>,
+        Keith Busch
+	<kbusch@kernel.org>
+Subject: [PATCH] block, nvme: export and use passthrough stats
+Date: Fri, 22 May 2026 08:15:37 -0700
+Message-ID: <20260522151537.1509784-1-kbusch@meta.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDE1MiBTYWx0ZWRfX1U2gV9Dqa957
+ YFlmhlTz8pQeqmPPLCSYpq6mv5v4ZOlGtiK54buLxj5PIIPUItLw5H+drrOJEv76a50aAWLrCMd
+ IrXWAlqD06RPnuHh+kcYUrv0b8KTBQchFId02V2rXdQBLgGXk1TkS2hvt8eJ9GqdnIz2m3BTjOz
+ Ef4bRCeS2OlMLv8KKZ0xiRX4Wysn912uYXB7ZdzRJQ2s8w9PZS79Nau8Zwc910HQ3qokBfDfm55
+ 1ZP/23d7qWW8CvEz1c0uN03xG1WzInVpRhC0g7UEJhnvjGx4Hz/nR5QWr0SJKql45TeLmen+oR5
+ /2APvYK1PNF5xG/7DLAy/iW+TAY/tX6yFAayJCbKORcqahfIu011IspzjwzAC8YyyiCjjzNE5nn
+ O9U/Wadg9Kn4YfKymDGqqfJCz87B6W2oM2lvQRlAUzC2jTRUDWmxMYivGDo26mrno8UGg5GOAS6
+ 7iaS+cEZ9BFiwuIb+LQ==
+X-Proofpoint-ORIG-GUID: MK5wh_HsCHPhoA9ixSf3bh_c-oUYUcOl
+X-Authority-Analysis: v=2.4 cv=c5Cbhx9l c=1 sm=1 tr=0 ts=6a10732f cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=xtH7KyWI9dI7BmFOsl-x:22 a=VwQbUJbxAAAA:8 a=b18omjuUomqfQ-ouQ7YA:9
+X-Proofpoint-GUID: MK5wh_HsCHPhoA9ixSf3bh_c-oUYUcOl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-22_04,2026-05-18_01,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260522_080650_952893_167F956D 
-X-CRM114-Status: GOOD (  13.47  )
+X-CRM114-CacheID: sfid-20260522_081602_260953_2F487F4A 
+X-CRM114-Status: GOOD (  15.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -72,57 +96,119 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_setup_descriptor_pools() indexes dev->descriptor_pools[] using the
-numa_node forwarded from hctx->numa_node by its single caller,
-nvme_init_hctx_common().  On a non-NUMA kernel hctx->numa_node is
-NUMA_NO_NODE (-1).  Because the parameter was declared 'unsigned', the
-value becomes UINT_MAX and the index walks off the array (sized to
-nr_node_ids), faulting during nvme_alloc_ns() and leaving the namespace
-without a /dev node.
+From: Keith Busch <kbusch@kernel.org>
 
-Reproduces on any NVMe controller probed by a CONFIG_NUMA=n kernel
+So stacking drivers can also report passthrough workloads through
+iostat.
 
-  BUG: unable to handle page fault for address: ffff889101603d38
-  RIP: 0010:nvme_init_hctx_common+0x5a/0x190 [nvme]
-  Call Trace:
-   nvme_init_hctx+0x10/0x20 [nvme]
-   nvme_alloc_ns+0x9e/0xa10 [nvme_core]
-   nvme_scan_ns+0x301/0x3b0 [nvme_core]
-   nvme_scan_ns_async+0x23/0x30 [nvme_core]
-
-Switch the parameter to int and fall back to node 0 for negative or
-out-of-range values; node 0 is always present.
-
-Signed-off-by: Mateusz Nowicki <mateusz.nowicki@posteo.net>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- drivers/nvme/host/pci.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ block/blk-mq.c                | 30 ------------------------------
+ drivers/nvme/host/multipath.c |  4 +++-
+ include/linux/blk-mq.h        | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 32 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9fd04cd7c5cb..ecec0f9cff98 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -587,11 +587,17 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, __le32 *dbbuf_db,
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 28c2d931e75ea..c794b70fefe26 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1088,36 +1088,6 @@ static inline void blk_account_io_done(struct requ=
+est *req, u64 now)
+ 	}
  }
- 
- static struct nvme_descriptor_pools *
--nvme_setup_descriptor_pools(struct nvme_dev *dev, unsigned numa_node)
-+nvme_setup_descriptor_pools(struct nvme_dev *dev, int numa_node)
+=20
+-static inline bool blk_rq_passthrough_stats(struct request *req)
+-{
+-	struct bio *bio =3D req->bio;
+-
+-	if (!blk_queue_passthrough_stat(req->q))
+-		return false;
+-
+-	/* Requests without a bio do not transfer data. */
+-	if (!bio)
+-		return false;
+-
+-	/*
+-	 * Stats are accumulated in the bdev, so must have one attached to a
+-	 * bio to track stats. Most drivers do not set the bdev for passthrough
+-	 * requests, but nvme is one that will set it.
+-	 */
+-	if (!bio->bi_bdev)
+-		return false;
+-
+-	/*
+-	 * We don't know what a passthrough command does, but we know the
+-	 * payload size and data direction. Ensuring the size is aligned to the
+-	 * block size filters out most commands with payloads that don't
+-	 * represent sector access.
+-	 */
+-	if (blk_rq_bytes(req) & (bdev_logical_block_size(bio->bi_bdev) - 1))
+-		return false;
+-	return true;
+-}
+-
+ static inline void blk_account_io_start(struct request *req)
  {
--	struct nvme_descriptor_pools *pools = &dev->descriptor_pools[numa_node];
-+	struct nvme_descriptor_pools *pools;
- 	size_t small_align = NVME_SMALL_POOL_SIZE;
- 
-+	/* hctx->numa_node may be NUMA_NO_NODE; fall back to node 0. */
-+	if (numa_node < 0 || numa_node >= nr_node_ids)
-+		numa_node = 0;
+ 	trace_block_io_start(req);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.=
+c
+index 263161cb8ac06..435fab0be6401 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -175,9 +175,11 @@ void nvme_mpath_start_request(struct request *rq)
+ 		nvme_req(rq)->flags |=3D NVME_MPATH_CNT_ACTIVE;
+ 	}
+=20
+-	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq) ||
++	if (!blk_queue_io_stat(disk->queue) ||
+ 	    (nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
+ 		return;
++	if (blk_rq_is_passthrough(rq) && !blk_rq_passthrough_stats(rq))
++		return;
+=20
+ 	nvme_req(rq)->flags |=3D NVME_MPATH_IO_STATS;
+ 	nvme_req(rq)->start_time =3D bdev_start_io_acct(disk->part0, req_op(rq)=
+,
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 18a2388ba581d..8301830ece8b7 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -1243,4 +1243,33 @@ static inline int blk_rq_map_sg(struct request *rq=
+, struct scatterlist *sglist)
+ }
+ void blk_dump_rq_flags(struct request *, char *);
+=20
++static inline bool blk_rq_passthrough_stats(struct request *req)
++{
++	struct bio *bio =3D req->bio;
 +
-+	pools = &dev->descriptor_pools[numa_node];
++	if (!blk_queue_passthrough_stat(req->q))
++		return false;
 +
- 	if (pools->small)
- 		return pools; /* already initialized */
- 
--- 
-2.53.0
++	/* Requests without a bio do not transfer data. */
++	if (!bio)
++		return false;
++
++	/*
++	 * Stats are accumulated in the bdev, so must have one attached to a
++	 * bio to track stats. Most drivers do not set the bdev for passthrough
++	 * requests, but nvme is one that will set it.
++	 */
++	if (!bio->bi_bdev)
++		return false;
++
++	/*
++	 * We don't know what a passthrough command does, but we know the
++	 * payload size and data direction. Ensuring the size is aligned to the
++	 * block size filters out most commands with payloads that don't
++	 * represent sector access.
++	 */
++	if (blk_rq_bytes(req) & (bdev_logical_block_size(bio->bi_bdev) - 1))
++		return false;
++	return true;
++}
+ #endif /* BLK_MQ_H */
+--=20
+2.53.0-Meta
 
 
