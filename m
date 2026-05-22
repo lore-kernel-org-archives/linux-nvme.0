@@ -4,147 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68B33CD5BB5
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 May 2026 12:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8C27CD5BB0
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 May 2026 12:11:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=YftXsSouA3Eud3B2D760OjsxLkS38Ra5BFXQa36zDI0=; b=TTFkMVdlD9groQrztXvrU8b2oV
-	oS656zgb5gY/3yBvpOhf5yqNqgrJ25ILFyaCWMuXvODHqtEud5uBsdZyiDb7FZht6nZprKJCJg2hZ
-	X9MosjoqCQ/uStr8noFClPDNaYtkT8/BhLa4nAL+2YAhWoD5hSWHgaOX00Bc+QPLcJVCGVT1k5u17
-	Jff42Srr7S/Fhv7rkUgNdHZMXK9QZlEup6Ry27bSX4UkmyNG28VqqfgxOmiOB94mllRFPwq8/USgr
-	SjA4f7rjQII8DbQEwrGSpLIse6F1PwJFatguCNsMYD1xC8JIMjt24SGJJo+8CJkSUEVe2gHfKNGQW
-	Gri+xUFQ==;
+	bh=ahdv2TE4wxYr2fslYafDOVqm40bcy6xzOEfBW1MXqa4=; b=HdgYDtVdjHpiOzCdqWlCIcdvZs
+	crZL4crnQa4zSOZ9rX9zScJx3doSZ8/t961jBjhjSjf3XYBsXokZRReS+pOo8Weqk7OunNWB/qSr8
+	5oL5UdmmfXZFqipFlTe0uV2XpSfeAiMn6KeDddzWCUYFt4/L80s7NC83dJuEyWDl6CHjI50gKOZlq
+	h6SsA1F9lWQXj2RMrR1OoiWqCKy/uTk2/JCx9Wr108XdIpNk1cUSyiW8hnDrs0BMLBuoWxBqK2fEL
+	j8cVdCSypH/B+ifg4v1EbCnnsbfToX/1SR+/9ENdwlmZS252HKY/NfRbpeeESbgW/volFRr2iIHvQ
+	Uqj3Jlfw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQOY6-0000000AgtH-2Cja;
-	Fri, 22 May 2026 12:00:18 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1wQOiU-0000000Ak6Z-1emA;
+	Fri, 22 May 2026 12:11:02 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQOY4-0000000AgsX-0YkW
+	id 1wQOiR-0000000Ak5a-3UjT
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 May 2026 12:00:17 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1779451215; x=1810987215;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=qVGxoTahdlG5XdsykVDShd6z8JXMRztZkogxxfQC/BE=;
-  b=EYtDdtAAZgjtvKBByVsbKm4pCZbkKyKIvHj0mDK3Yf3a2ZjUw9pXLGtr
-   Wh8TgJy2B/X3FncA1F/pnagEZq0XgdQXng3I4G7LQXPAtrbQCB3F5APa0
-   lZXxqMBF9WihIQ40JfDKQtzg8Phg0JZTOBtqXl9MdonskkUH9QKNX7Ijd
-   GXWSHTFOPzzkRVcp1s6Qbvi7mpMMjOun2M/bn51b7FBonAlAlNiMy8fUm
-   HAZgkDhPtSYhDEF4foNg9KXcyx6xS5xN+AVtBVq1xvitPRQyojJ1XxlpK
-   bjYwMLPfztjF1KOc+r9qFQO1e1cZH+i8ZW06YMoLYZraXBDU9YBwjcL5E
-   g==;
-X-CSE-ConnectionGUID: kx0kKwwmSAWirM7VA1ZaiQ==
-X-CSE-MsgGUID: gKvXf7SNSCqzukvIqdET9w==
-X-IronPort-AV: E=Sophos;i="6.24,162,1774281600"; 
-   d="scan'208";a="148311278"
-Received: from mail-westcentralusazon11010044.outbound.protection.outlook.com (HELO CY7PR03CU001.outbound.protection.outlook.com) ([40.93.198.44])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 May 2026 20:00:13 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IEq5PJkLZW1V2wbM6l18b4BprzhUDeNpSLOfnNoxMAyEU9lvKG9poJLLeVg3Vrn1tj6K6468RxOsfksBrNboxy3z/9dIvo45w66Y8Wo8Ct9yFr2Pz9sHHEfv14HUGvEsr5/QAKbw7w2VkYhGmEyh4KIK4iO8pl2k1RVqbeE8uANt0b6o2xkgfoTpOF1g5Xt6YK/675Rl+GwaJhXf1SHxC+4rkwnpOZ0kM5nfdueZJRBtj2angrKp6AYWRTcG/Ci19ARFJUPMLdsVMzOmhptcWHSHHAh+bjOgviD4N3rWmI5VPU18/AUvj7HJSztRiCfN7lszRPdYMueHVLTOBYIALg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YftXsSouA3Eud3B2D760OjsxLkS38Ra5BFXQa36zDI0=;
- b=KE835eAGwOlANyFfpjYogeeZzscEtPN1tWBInCu8WcXeUWyKa7vKDwsZzrXFN7mKHD95WtRTGMf1I/99yqjSKEmxMcyqk6Nbv/lGTrF+giH3t65hW3chAtsoIBBZFxcSD9cwTCRTR3yeVcYWQ2hiBWBElEOVvmy+/W73z4yki1OYtpejpTLIPtrZFrzMAM+GhrcP4R1j8NGphJ13JHbeNclEm3hkM9uP91pWRC6X9iNatHr0nKJLDe7PdOZdVQCxUJhV7fAMUg/51ZZCLDgo52KjvowE642su5VpnLGoYBM5S0bzNY/fAMn5A61X6EG7hQf+jq3Y08eMNq5LDj+kTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YftXsSouA3Eud3B2D760OjsxLkS38Ra5BFXQa36zDI0=;
- b=ApFwjjqAqkmyVOreDC3HAWMf2UWLv1WVUkgP7xg6958Y3dHQLn0m63oHEhcMqAPXDn8L5pBWIltkZa/k3oNynMZrn9RIUCL98ScjBNIuVpTjHRoiI0miSgGZY1KJwLCBKKBTkCarZZgh4kIV0Y1k3TB4AyCPtxaevMYAB4XDCJ0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by DM6PR04MB6573.namprd04.prod.outlook.com
- (2603:10b6:5:209::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Fri, 22 May
- 2026 12:00:10 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%6]) with mapi id 15.21.0048.016; Fri, 22 May 2026
- 12:00:10 +0000
-Date: Fri, 22 May 2026 21:00:04 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>, 
-	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCH 00/12] Block storage copy offloading
-Message-ID: <ahBD9fRrPDuoB2cj@shinmob>
-References: <20260424224201.1949243-1-bvanassche@acm.org>
+	Fri, 22 May 2026 12:11:01 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id AF46F68BFE; Fri, 22 May 2026 14:10:54 +0200 (CEST)
+Date: Fri, 22 May 2026 14:10:54 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: John Garry <john.g.garry@oracle.com>, linux-nvme@lists.infradead.org,
+	hare@suse.de, kbusch@kernel.org, hch@lst.de, sagi@grimberg.me,
+	dwagner@suse.de, kanie@linux.alibaba.com, jmeneghi@redhat.com,
+	randyj@purestorage.com, martin.petersen@oracle.com,
+	gjoyce@linux.ibm.com
+Subject: Re: [PATCHv6 1/8] block: expose
+ blk_stat_{enable,disable}_accounting() to drivers
+Message-ID: <20260522121054.GA21338@lst.de>
+References: <20260520182112.863076-1-nilay@linux.ibm.com> <20260520182112.863076-2-nilay@linux.ibm.com> <e9b2c9a7-b9d5-48f3-8a79-cf925b99b7e1@oracle.com> <c0d1d025-0c34-4df0-a123-1324e2a99389@linux.ibm.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260424224201.1949243-1-bvanassche@acm.org>
-X-ClientProxiedBy: TYCP301CA0020.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:381::13) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|DM6PR04MB6573:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e03097c-40a7-4224-d0c6-08deb7f9aca7
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|19092799006|1800799024|366016|11063799006|18002099003|22082099003|3023799007|6133799003|56012099003;
-X-Microsoft-Antispam-Message-Info: yWgIPUoHP2aHC747fTyLzruThgfgp9Nw4EgIKLdKS5FolTlsvFCFIxmxAaPVcHGKhRr7X7Utpg7f8TAYRMRYiuYeT+aDyWRk4jg9uoIpdvK+DGk2S7rp/0PF1yiN/FJslUNtidGJMAt61Qw+HK8h8IrDW2Y0A4L3wTqkT3+jpv0ImGqUxEsqOAT8FehTjAUE8CIlJNbgE/gqFnPeqxe978MdlHOV8WPewAZfhIF2M1HLuzZFBOBd980plsOpRsNryAILVNB9+UaLla/OEH460D9QpT6wevFXSPzrUr+GvPrkcsCmZZAKCCeRHJ9foSYH2rGQsLRcpwLuW4z6DR1dayRBwoNmUtKHO4oG6KVhsy/NDC9dW5/6sU0c126Qw7wQi4iIAoGNXJ7NaYqlC7solxTot7ua1VSppFtCCeNcNwOGuQR3VhfwBsfqe2tHwkd0NnKahfCGmO1ErbQBH8mZBvqFDdXCJ0YswnyeWPWB89LmDWbXaOVVTL7vrT67FQT+YeY0CANywgpCIK4t3MyZIQXJj9AJDIHVAls3VpfAdGlY7bEj6sPdp231VoJUN242tk0DF4KfoeAt8uG2C+Dxql3XHThY4cGnWGqQwc3RawARcd8BtQvE9NmUlHfClLx9fgElHuQnffvADPyQn+JFvEwqXdlaka2XWWfMmFf65i0MaRUOk2EmOCdK4pgXTGEgPBnaa5qsWR8QXUSaR32ekg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(1800799024)(366016)(11063799006)(18002099003)(22082099003)(3023799007)(6133799003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gsaiEOIrvf4q6Zg431DWQxYELRBbhfZ/0+9QU/pd64sDOLRfYL+8Khalt90M?=
- =?us-ascii?Q?KwgtZMjDgkspid4ID7qdOUx/rcq9aOMUSSWC9KLzUIysnBf7klP8F/DZm2Uu?=
- =?us-ascii?Q?FA7EsCMSFHZVBSVbozLQ4UFCWUR4uujoFCcenRXSwlEzeI0lhApm6M5M2Ye1?=
- =?us-ascii?Q?a/I40o0lEVGZFcTORB+sAVewoWPVtsWrPyX46VkDgoEhvUW+obdAYB8bQS+f?=
- =?us-ascii?Q?3uavp692T0DIUq4fv4PxTFiwyDGHry/nt8R0SK9d3DG44NbPMb6+Qm81m+Pe?=
- =?us-ascii?Q?qMCfmsdOwidlBxqi0Lr1X5D5uDA7lCqviad/Xw/t0rNW59pDDqsw3Zzm4q0O?=
- =?us-ascii?Q?uSSMY5clDVQJgybl9wYQrn0l1RPJbSiobA4IfMkV50/nxYR/WH+xYCYjGeci?=
- =?us-ascii?Q?oggIFWXYB8OUHkBxum0IG5qv0mfJBUsFaHlUM9fLTMnz4szDDv66EgFN6I1z?=
- =?us-ascii?Q?CuNP6//O6oKY/pbReoKxjORXZ1/ll/EgCicZlLYxaMIYja51HLkHShfhL/xY?=
- =?us-ascii?Q?f6JeaqMtZUbdFD+/FpjvK9bMvCTczoq77tHq5yErk52j38dyNipqT28rpPlg?=
- =?us-ascii?Q?KvywgDQAe7oBmrG+Llc9BIA45CqkXvEpm0Bu0oP8JRg8oFOGhOUYygQYfwKE?=
- =?us-ascii?Q?/hfEdRGBeYmKaUs8vGU3p9d/Lqy3v7TCJn+NWX54CRn9lPjX5pbfSM4Actl9?=
- =?us-ascii?Q?6eIpxYmoCbqer3/lO6no06aXBGRX3L3jmc/s1gGW18gTh4L+g7CjOJt2RYSy?=
- =?us-ascii?Q?bfut+nRtxRLgokOt5jNXR1pKb7nSAE297/Ume7JShCYqEI+8bmnJjRriFK3W?=
- =?us-ascii?Q?4upIHcdVRQ1aJAMQv6mpErrVF68MGd5XjdkgtCLeWntCEQ0sfswaN5D/886+?=
- =?us-ascii?Q?QjtU8VZ6+wxlu0jqjoL3P5rq/VBf72mL+FBg6XAjzPlkR5/lGkELkgRaHOnL?=
- =?us-ascii?Q?39PHT3mFPL/7etzNL53/aDkFJMVdonf41PGug5DHsoQH5cXYjr7Stf+4nPTD?=
- =?us-ascii?Q?vRz7XRMXsjYMR/PaPELcG+wBWfKoaEkqFGPkBqSM3eFaAHdRa98QJtvjYu55?=
- =?us-ascii?Q?fr6l5cH3E1U5YJESCgQ3YMwXgE+zJa6vHyC10c/YftfefVO4fjn2TojacBnP?=
- =?us-ascii?Q?WSFJWeVygxhnQLLv/J3B0OPn8680EZ0iVQ/tbvMB1LyYb5uzaZpuiKajE7V9?=
- =?us-ascii?Q?8ZdIsm2jBe5H2I8InyuvQD9tPhpBwp30CBkCztj/z0LhCEtyi2xxRfu7HDhZ?=
- =?us-ascii?Q?TSaO4cx3sfapU0QLxEZHwQDuahHPr/ulJCS4hsJ0BvVvWMVtVSi973l79rQb?=
- =?us-ascii?Q?bhpO30IaYgqSeLFpVyqGh9fm9U9ba9g552/isrhPKpHPSTKCSw3FYa1+bY+8?=
- =?us-ascii?Q?pFbJiyvN7bYOWHBwvNCvzTOLmhi5jLuXXYN9+7vRjJtoCpRHIuIKE0vqW0+Q?=
- =?us-ascii?Q?cxeTVXH8ssVJzR5Ku5zGGerRzeBftVuFTyNkn6o8TTtrh4+cDcl7uJPj3QW+?=
- =?us-ascii?Q?ZT4+DM2I7O84m2ODyLygjjJbUd7tcawPij12RW6/7rUA4Wy2JUMLCIjFTBz4?=
- =?us-ascii?Q?wZh/mLPBpwY4mZz2jnN388g3LR547MMUoQMZeRdw31T26kjvVYN0M4ew1tQI?=
- =?us-ascii?Q?WVmkhKCizmVBw56BJzvvVLU8s9qcCjxhvxvqtpPqIgAFRUUkNwWk6/NJwcT0?=
- =?us-ascii?Q?QlVtNl+zh8zAXDooQHLyiwj8PW0MHM8KRZaW62FMkDIRwUl6wqnw/95Vk951?=
- =?us-ascii?Q?4GwUXo/iknrdebZzbYy3IsLD/LthNLc=3D?=
-X-Exchange-RoutingPolicyChecked: oWY/z+tk6BBFfS9OdWtzT9OowISxEha+gAbJctHWW8XXlxy0mftsTtoz/Dj7TRm5zQL611i2eruLX14vM5LqjKRRR0YF7znlF7QR816q0IVFJvI7aMn1SeR9gOqCIHnviRX70KIM6clEElyGf/t+HQa6W+LG6/4knauFZzepRVMJJwVBlXv+6MwDVRVCfE21WRttng/jDBohCDYPjPca66zF5L9WE/ItgVdNjJc/fd+Llvk6fwnEhK/iRuynCFwNxKLXKnumojBdjDomWoJK6wvHOtstkdMCiqSZy15hyUebmxtYaqXN0Wdjb3h83XY+FJzrZxWMxbVeKLvXzo9/tg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: /AmI4tcOm1GvLNGeJtk1iTagTa4H5q+y/GlXf9VnqzvBtVwjZ68yvXvmzyBxg+WXfPYMw0Gc71ukZ4jkLyXk7hugJb7B6yY2GgIOt1g8VxRoQg9D4mGrljH1nEu/Bu4Es4o80C7f0cSCATIPmOUrs5SU6vbjsmWciJLU8qpxJEw+Z8YJs+AFg/eol8WaJUInwlN8iyDqdP8CeX5MyOPEnnxRcfkePyunqHvON7jZZsZKQMDOqDrS9Vf+KJC2etQKsRmpbAwTdtJ199gNCPhp8FhauFZZCYuUgts1HRF1BHN3THHQ/tUF/LWFOptQUaFUD2/d/XzshPV4OzHYcIH+/9TBX+eDa8ruVEa/DTCF1yFuA+oBcNO4OKqmJZAMONi7tqRsvev+Q7Dsaj7RIXK2eocOJTqNiGhh1R1UrSfnqba2QqJe7ihIIVIE2OjDwrDE/LKFYX/eL0gkIgJBAnGKZUFOsLYDHtFmvFOJWIc8XZ5DPnDVf73BFuPBswVlCrVCoVH5hTrC8WYYn/KARzSMaSWWu2lHJFgvLSaGKnZC40j5AYTOVSTiQ7RJHYyzXwTrA37msdGdl4MA7lnO3WSvfl1tZpB84uHbNCpfWNmhCGndiyhzEHHqIaXb9xTbknmk
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e03097c-40a7-4224-d0c6-08deb7f9aca7
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2026 12:00:10.5322
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UXK+n6z9/9Ww6TNLvRRBxtOJpLmBc8IzgSVMSOOvrVpOLZsV3JXhGhDT9AuEUevUOmqDvZ2Zdglf+dVUJ47nCkyZQFdpvv+OAkQhNLDZbXI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6573
+In-Reply-To: <c0d1d025-0c34-4df0-a123-1324e2a99389@linux.ibm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260522_050016_257523_349DB082 
-X-CRM114-Status: GOOD (  20.10  )
+X-CRM114-CacheID: sfid-20260522_051100_015128_701B91BD 
+X-CRM114-Status: UNSURE (   7.46  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -159,43 +64,7 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Apr 24, 2026 / 15:41, Bart Van Assche wrote:
-> Hi Jens,
-> 
-> This patch series implements a new approach for copy offloading. Compared to
-> Nitesh' approach, the differences are as follows:
->  - Two new limits have been introduced representing the maximum number of source
->    and destination ranges. Support for multiple source ranges for the NVMe Copy
->    command has been added.
->  - The blkdev_copy_offload() function can now submit multiple copy offload
->    commands instead of only one.
->  - The implementation no longer depends on block layer plugging.
-> 
-> This patch series includes copy offloading support for the Linux kernel block
-> layer core, the device mapper core, the null_blk and the NVMe and nvmet drivers.
-> Support for the scsi_debug and SCSI core will follow later.
-> 
-> Test scripts are available here:
-> https://github.com/bvanassche/blktests/tree/copy-offloading
-> 
-> See also Bart Van Assche, [LSF/MM/BPF TOPIC] Block storage copy offloading,
-> January 2026
-> (https://lore.kernel.org/all/0cfe6fe2-3865-4dc2-92a7-74b1240f7b63@acm.org/).
-> 
-> See also Nitesh Shetty, Implement copy offload support, May 2024
-> (https://lore.kernel.org/linux-block/20240520102033.9361-1-nj.shetty@samsung.com/).
+blk_stat_enable_accounting is currently only useful for blk-mq based
+drivers, so please keep it there.
 
-FYI, blktests CI trial run detected that this patch series triggers nvme/018
-failure. I manually applied this series on top of the v7.1-rc4 kernel and
-observed the failure is recreated in stable manner.
-
-nvme/018 (tr=loop) (unit test NVMe-oF out of range access on a file backend) [failed]
-    runtime  1.208s  ...  1.189s
-    --- tests/nvme/018.out      2025-04-22 13:13:27.738873155 +0900
-    +++ /home/shin/Blktests/blktests/results/nodev_tr_loop/nvme/018.out.bad     2026-05-22 20:57:31.060000000 +0900
-    @@ -1,3 +1,4 @@
-     Running nvme/018
-    +ERROR: nvme read for out of range LBA was not rejected
-     disconnected 1 controller(s)
-     Test complete
 
