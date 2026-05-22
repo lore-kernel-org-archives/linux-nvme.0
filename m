@@ -4,89 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB6D7CD5BB0
-	for <linux-nvme@archiver.kernel.org>; Fri, 22 May 2026 15:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D38BCCD5BB0
+	for <linux-nvme@archiver.kernel.org>; Fri, 22 May 2026 15:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=VtekpR6cey4CtTWV4xkrXalV8L8MRvhbyb3+vKP/acc=; b=4punlZ3UXcwgN23+Gu4F+AD1Gy
-	bp+gpu8vHVxiZywKQyziqT5pE6SsaxzhZatk2RGS6ZThPYkT5xrNltWFjUrzNaeKNafhLnxuTP8st
-	qGI3OY0h91lWMK0p0ZKfMeKTeX9oyAHnnUkApXYdlcpP7ZTbe2Hh0+a5nJxVNKwODIeIoIDBPaySM
-	oc8jieLi0kb0Yc2o/0b9N1KborLk8mGG0UjIkj9LtaHww+3DTTTs+tX9ZQY+TPrEq30TBBvyKqlmJ
-	TMf+ZDO/ktDXxDB7w96Xg4Gln3NQWfaHj9mifpJqUXuZEiSCb5uEKOKk4X/VvkdPkhu1RFUyKWEoc
-	JsIBqxNg==;
+	Content-Type:Cc:To:Subject:Message-ID:Date:From:In-Reply-To:References:
+	MIME-Version:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=V6CiLFdYiV3Q7ZtuI9KNP1Ontp/HhSPO+ET7rm7tfZU=; b=kA4TpA7TyN88G5P8D0TB8+LDTn
+	/2InK/MUJ1Lm9CEvNruGzKec3eABgslTn/6hEcUR9AR9W/kvdwb5cXaaUXXEVSBGBUgUwnfyQ+l1G
+	KIJxOtF1FurTuagDUMeq+wKJF9KNMihd1wlKNoXsdYGx///s3zrd1hxdji3lPOYCYw/LV6/hOTSB6
+	hTfUp9LSv/Rz5ixI+R75IDrVPczNR1dvjgm5nbisRbquVInJ6DuSAisoB1PfuPVlMAB9T+fkilMC+
+	Bz0rGGeAFRZWjy6OheKToBqfh2IQMAmEjjeqXkNObUpdmnb0IVY97kTfyFeqcgCDhQ6/QMdVveXRD
+	ijxNsYIA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQRpg-0000000BG5Q-0XHe;
-	Fri, 22 May 2026 15:30:40 +0000
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+	id 1wQRrf-0000000BGKd-1X0Q;
+	Fri, 22 May 2026 15:32:43 +0000
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQRpd-0000000BG4t-2lo1
+	id 1wQRrd-0000000BGK8-05HF
 	for linux-nvme@lists.infradead.org;
-	Fri, 22 May 2026 15:30:38 +0000
-Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-63270abd14fso2468267137.1
-        for <linux-nvme@lists.infradead.org>; Fri, 22 May 2026 08:30:37 -0700 (PDT)
+	Fri, 22 May 2026 15:32:42 +0000
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-bce57c132b2so1493375066b.0
+        for <linux-nvme@lists.infradead.org>; Fri, 22 May 2026 08:32:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779463959; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Oe8iP+3SW95VsIDlQw1DS4BBg4qtguNVQPwOiews2UWeKLsCut4NMOjNYK53yGCOu+
+         dmL1+Y1Jt/wamV0OEthAYAyUehsEsE8hAE7ZFwJOoZnNMIfetgsoFk0D+FboBaFT85hJ
+         PVB8E53V2vNdU72f0Yxc7MVev6V15BptpdmlokOJ/mV5PPBCc279cmAF5fNG9tkIdnq8
+         /0didhGmlvG+ZLsl/1fpsOrox3qjkohAqFm6TB0BIUWCZEBBPVyuuqbKcvHBfQyQut14
+         iFFWnR4+2ZTLg19NEuH3MC3BrVc6czcs+O/9ZCyNX4dB5xDyXDprMKt3kvMt9uYSrOz+
+         KYXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=V6CiLFdYiV3Q7ZtuI9KNP1Ontp/HhSPO+ET7rm7tfZU=;
+        fh=6Dmq+rStMlewNi4jHgwQSdoHPNHTZE+2XTmFNzuF33U=;
+        b=AZ9ZUC6VsVDmhNyTcYSqUWWVTeR3wBUe1qN5lmV0WpE/c2Vhb3pm9C7eDDy6CqRhzo
+         5mW7Z76GbZpiS1PQPDw2ONvXu6Kuk1Taizr2QGjZGSb+OiQQpNcGb4Npk2ohnnM0ULK9
+         M+aM9hbsM9ZSBu0Kmfr0JmODuzQtb6ldilrtoKfZVa7642ecn91/fGzFz1gNiIaqBxY7
+         GVPNPiTECu+MZkK3XT/8XGJQtqvf4b6RyBtBD9vaJfEMSYPhcUuOxr80rYHauEcZgIWf
+         aOgt3uPtoAUcGDJfSdESQy5INRgXGBD5h0JyrDDLA5Eg9Fkfk2B2ggdG/V4uTZERWOJ3
+         h60w==;
+        darn=lists.infradead.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779463836; x=1780068636; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VtekpR6cey4CtTWV4xkrXalV8L8MRvhbyb3+vKP/acc=;
-        b=CXutb9zKKs4dS94Q4g4LjAKJV+NDLot18DKD5M9SRsoscDqIJ9hwT9fidz0fVA0uYi
-         K/RUeNRw87LBKng5QzI8BH1nhN86zLXg8vf6KmJ3zy4zIIqaUG8D4bPmNEn12Jv8Y0Xf
-         akgAG1n3Y3LuO1P0kIEcfagONWzX4hT1LJbj8jhyu9oBIiqfX2SXbyJ7RhLHNY9W089i
-         hYCQVO/e0jS5qm1uxQnmMmplXIrj2IdjwJm8F5WjTVLwuXqsHkir6hIeUAltO8lmRS3+
-         0hrv0yQIJp3v8IejZCBS0PgnhKKR/gE4SE1pF3iVFARM+wgxQ5dACfLbjLTViQYQZzCQ
-         dhLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779463836; x=1780068636;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779463959; x=1780068759; darn=lists.infradead.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VtekpR6cey4CtTWV4xkrXalV8L8MRvhbyb3+vKP/acc=;
-        b=MBR0tmHlY8gJkIY/sl9isuI7SEnqEBIy1SXfkAXKF6qrpw+yLYnHqXaCHo7PaDshGe
-         WaJcnIwE9+10DtBmBal88Rkb4hZtLoZv82mfcJv1GZ0y8HgchG4GazPqYbfwtjcw3xGq
-         y5oQN2Vq+DeE67ZgIbNI90OXfAR/6d9++Azr8nNJgLqJF95kuhLlAFFigvEDXXMU4Vba
-         vFlj6/CnIyg5VdEYqj0kgToheH7VfeST+JyBpC2tuXZhdbMpfJVDlwkxcXVmhP2IjgFE
-         jsMgy/LP5EpiQnyPEvQT2KYQ0X+V6LiKAv3KiZgOmvRl37rwxNxmhk/owyNWrO4XJfff
-         Ycuw==
-X-Gm-Message-State: AOJu0YwjH9vYm7KcHuYhqljZ7bbTwzi9vXNRC4rXWA8Tm6uaL0oH7x1m
-	E/nhmDJ7aaCvPSg6FVbF53lgFbWFTbKX2XltErIkhoOsfd09iWneCxNLp7ySUev86Rc=
-X-Gm-Gg: Acq92OEejOpXJ8gt+TSRyaESgJm/pVZ4JVw8Qxs9mlYknKD2gmQUgL+YxhTJa3LHPZs
-	J9T+nHgnm2fFiydxjagBRUgqgmnsc0Ee8B6u0OSArhnWnQwkVPmFZ8veBlJac1FXXRtR4rBPRsC
-	QbEWi7t5xebFx+telgJSPCEtrmpC2/n6oKK9MJwBEwUX5Vs6SPxaAzTFA/6qmlrU5DmD4cwKNuv
-	BjVEO3kJPTdboUgNtfMiqyz9Wu0Wpu8BIjphvxnDFGyiSvZG253+HhdHbMFIoy9ptr/FPREnyBh
-	bpJL4/p1eiJ96h/9xOWfgG3NOk9lc/TaZmjbKoKQ/Ixmyk8DJUeCxkkBb+qFpiDybWbV33bWdNU
-	5V4AZYxaC9U+Yh6JSx9TO4qhmc93yWXffoABa5Si5k0EfAWylG3Y7He133tPogiTUtyMcuQYVu9
-	2pzXx0tSpb5bquD23gvKzmL3S7sEOUITi7krfxXkDoJQ==
-X-Received: by 2002:a05:6102:4bc2:b0:634:a573:c097 with SMTP id ada2fe7eead31-67c79ebaac5mr2242680137.13.1779463836252;
-        Fri, 22 May 2026 08:30:36 -0700 (PDT)
-Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-96177c1a9e4sm1585228241.0.2026.05.22.08.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 08:30:35 -0700 (PDT)
-From: Chao Shi <coshi036@gmail.com>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Chao Shi <coshi036@gmail.com>,
-	Sungwoo Kim <iam@sung-woo.kim>,
-	Dave Tian <daveti@purdue.edu>,
-	Weidong Zhu <weizhu@fiu.edu>
-Subject: [PATCH] nvme: reject completions for requests that are not in flight
-Date: Fri, 22 May 2026 11:30:34 -0400
-Message-ID: <20260522153034.2168862-1-coshi036@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=V6CiLFdYiV3Q7ZtuI9KNP1Ontp/HhSPO+ET7rm7tfZU=;
+        b=k4pgZku+nUz5uynrQ6GfBMXQG0U4mAkHQzcOiMjW9Pm8Xx698bmq8wGhsDZCYigsMS
+         kXN+ePuwirjolhFV1MeX/3tkJulVl/MgnC7O4xlgZpxA4faOCFQxd10Yw0ZTmvbNHbXo
+         UqPMPK2w8oPlPY0NYTrZB8BvmC3UJDuItYIzwErxrnPR1Oyak36DGYMnqWeulawKwyd4
+         XmTsrcfAA7pTpXmY9zGiUSCO4cVL9/9oh9dBWnf7X2+/+PALINdDFFHfRwO1boz90vaQ
+         oLDpIgn/ipAHhLtooA8C5XhMVANXJarnDrP/K1clzW+kNopdVmaEqDBB7k6NT6eRfSzY
+         l5yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779463959; x=1780068759;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=V6CiLFdYiV3Q7ZtuI9KNP1Ontp/HhSPO+ET7rm7tfZU=;
+        b=OxXhoe+qlvwMqfJ9LQppL9YbednyH6Z7f9X5bYrZ4lDVdLbeyE95TKbJl/HwDb9Fws
+         c0iJNBueZPVZiboyFv8JUaIoI+4uHmjxZLU8VjKmMfy/R6M/+HGCXLjjgQcRv4HNRYCy
+         sE3xDMtywYzK4J8AJR9R8c8SlftIGbe/qKN8EAq+QPwHsFjkr/F2gVgm25PC0PJFx3Xv
+         D/hLcv86nGXAjHQUMMktHg2ZS91oCVbRhmu9apd2WxyNTmukbUqdSydamt8imb1Ds8ZO
+         gVAGy4dV347fP3jLHRPUY1TPYfF/H/NmiuDB3bsKdIw6nZSIkC/gy4WYUdBIH8NQI5yg
+         gYqA==
+X-Forwarded-Encrypted: i=1; AFNElJ8aM3A2selA7uteoPwlvjNp8AC5EimgzgjnJFDRo/+lDmem0+eljgBGjbR4bdNW8zoJVBgxTpAqqdsI@lists.infradead.org
+X-Gm-Message-State: AOJu0YxmhdPnaZYv++OXtq5NKnzWKpMVY2BNtvssM3S9lVDe68qJR0Qk
+	M5yKdzusBQMF6N5YNVzpSUJv2IjfEr8iCOrSaxWDpLvc31IEJvsNjpjuaAGY5ZhpwrstRcK+TJC
+	4NwT5eERp7scCe9Urk36/NT4CLi5Peow=
+X-Gm-Gg: Acq92OHwa/GjpInwHTJnGH0OTxY3rn+J8kB1d7ldxcGaWXEcy6t/MeeBr+kMUEMdqNJ
+	1sJxk82sanBUhvbX53EmNEyJWPOTn3toe/6BSMo0x98k4MORu3tcl1eNkckIPTCsgoIxifR3Q7X
+	M3FyJVkNyd7dHQekrT+IfbXBtJOvNJi+207tAe9/w8FlGH1TGEDueYet18Bee/e2SaeaAGvJkdu
+	40q5pxZUjAJFj8vJ40Wwt+bFqytezlfAUDUlvFivfHtceitvpeeAYTz+t9RmCqv7kG1u4IvRQid
+	CC2xakc=
+X-Received: by 2002:a17:907:d508:b0:bd0:6293:bd0d with SMTP id
+ a640c23a62f3a-bdd483e64a6mr216229566b.7.1779463958687; Fri, 22 May 2026
+ 08:32:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260515071248.2689513-1-coshi036@gmail.com> <ag4Y5R1X0gkZbU-g@kbusch-mbp>
+ <20260521082549.GA11208@lst.de> <ag8Y5c3sjYFZzan5@kbusch-mbp> <20260522121401.GC21338@lst.de>
+In-Reply-To: <20260522121401.GC21338@lst.de>
+From: Chao S <coshi036@gmail.com>
+Date: Fri, 22 May 2026 11:32:26 -0400
+X-Gm-Features: AVHnY4I5AoVhJHWOUtnN65TGeixTFl5Pm-T_d908dR5UuWMu5EKvQ1md19rEGOY
+Message-ID: <CACd_6n38HebkE79dSgdnQ1=v0uK1YkCNCR3Sy99TDvwABfjVxw@mail.gmail.com>
+Subject: Re: [PATCH v2] nvme: reserve a keep-alive admin tag for all transports
+To: Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
+	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>, 
+	Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>, Maurizio Lombardi <mlombard@arkamax.eu>, 
+	linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>, 
+	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260522_083037_712317_FEF74F8B 
-X-CRM114-Status: GOOD (  13.70  )
+X-CRM114-CacheID: sfid-20260522_083241_076701_7BF2B0D2 
+X-CRM114-Status: GOOD (  16.45  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,59 +120,38 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvme_find_rq() resolves a device-supplied command id to a request with
-blk_mq_tag_to_rq(), which returns whatever request last used that tag -
-possibly one that is no longer in flight (freed, or never dispatched and
-thus with a NULL rq->mq_hctx).  Commit e7006de6c238 ("nvme: code
-command_id with a genctr for use-after-free validation") guards against
-this, but its generation counter is only 4 bits wide and can be matched
-by a malfunctioning or malicious device replaying command ids.  The
-driver then completes a request that is not outstanding, dereferencing a
-NULL rq->mq_hctx or double-completing a command:
+On Thu, May 21, 2026, Christoph Hellwig wrote:
+> True.  So maybe start filtering out all these things will go wrong
+> commands.  Chao, can you start on that for keep alive?  We can then
+> extend it as needed.
 
-  Oops: general protection fault ... KASAN: null-ptr-deref
-  RIP: blk_mq_complete_request_remote+0xe5/0xa80 block/blk-mq.c:1319
-   nvme_handle_cqe drivers/nvme/host/pci.c:1418 [inline]
-   nvme_poll_cq drivers/nvme/host/pci.c:1449
-   nvme_irq drivers/nvme/host/pci.c:1463
+Sure, thank you so much for your help and comments!
+Done.  v3 adds the filter (nvme_passthru_cmd_allowed) in the
+passthrough path, rejecting KATO Set Features on non-fabrics with
+-EOPNOTSUPP, and is structured to extend to other features later.
+The reserve-a-tag change from v1/v2 is dropped.
 
-Require the request to be in flight before completing it.  The check uses
-the request state, so it also covers controllers with
-NVME_QUIRK_SKIP_CID_GEN.
+For the blktests testcase you asked about earlier: I will send that
+separately against the blktests tree.
 
-Found by FuzzNvme(Syzkaller with FEMU fuzzing framework).
+Sent as a new series:
+  https://lore.kernel.org/linux-nvme/20260522152807.2061501-1-coshi036@gmai=
+l.com/
 
-Acked-by: Sungwoo Kim <iam@sung-woo.kim>
-Acked-by: Dave Tian <daveti@purdue.edu>
-Acked-by: Weidong Zhu <weizhu@fiu.edu>
-Signed-off-by: Chao Shi <coshi036@gmail.com>
----
- drivers/nvme/host/nvme.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Chao
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9a5f28c5103c..3a525c1dc818 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -615,6 +615,17 @@ static inline struct request *nvme_find_rq(struct blk_mq_tags *tags,
- 			tag);
- 		return NULL;
- 	}
-+	/*
-+	 * blk_mq_tag_to_rq() returns whatever request last used this tag, which
-+	 * may no longer be in flight if the device reports a bogus command id.
-+	 * Completing it would deref a NULL rq->mq_hctx or double-complete a
-+	 * command; the 4-bit genctr below only narrows the window.
-+	 */
-+	if (unlikely(blk_mq_rq_state(rq) != MQ_RQ_IN_FLIGHT)) {
-+		dev_err(nvme_req(rq)->ctrl->device,
-+			"completion for request %#x not in flight\n", tag);
-+		return NULL;
-+	}
- 	if (unlikely(nvme_genctr_mask(nvme_req(rq)->genctr) != genctr)) {
- 		dev_err(nvme_req(rq)->ctrl->device,
- 			"request %#x genctr mismatch (got %#x expected %#x)\n",
--- 
-2.43.0
-
+On Fri, May 22, 2026 at 8:14=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> On Thu, May 21, 2026 at 08:38:29AM -0600, Keith Busch wrote:
+> > This command is already special since we filter for it on the completio=
+n
+> > side. We may want to selectively filter other Set Feature commands too.
+> > For example, we don't want user space turning on Host Dispersed
+> > Namespace Support, because this driver is not going to correctly react
+> > to that one either.
+>
+> True.  So maybe start filtering out all these things will go wrong
+> commands.  Chao, can you start on that for keep alive?  We can then
+> extend it as needed.
 
