@@ -4,90 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8101ECD4F54
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 May 2026 22:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4323CD5BB1
+	for <linux-nvme@archiver.kernel.org>; Sun, 24 May 2026 17:11:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=cDes2ImAivF9GmrbE+N4ZQZmqIxy9Q4epmjcP19kqWQ=; b=uELhgj8yfLK/fMVRAokY1lNVGX
-	t2wubOwdVCGjf8oBfgbmuTps4LNFVHQG134yxBlv7yXhIu/x2Rz5YAB6l5BoIbnUtgMuTWVcb+XC0
-	QNJkPq1AilQZOSCheUYQg7wwXJU8dzr7yNTYKDffWoGfZrjVr5Vn3bQ8IsbS5jFW5mjiZptDVPMAU
-	BvJhUySlPBl0gtRZnQWDOoRWyjWz5fKdJH+J2NiFOL9/evfLP5EfbLHMZonMaJf7eQOumJzAVDc/W
-	Nemh55VHXFHxQshyzle8kVLbV4xBQm1ewbEqlbGyJ2TvixsNyXQYuJGKVXPoiTKPtD2B7/+PEWUi0
-	V4McZQ2Q==;
+	bh=bxiCjbyE4L9dPupS9cBbu4nnbIMmzEr7N/QwhywpPUo=; b=JM2db8r0WRDYGygasV6N+Aeenv
+	GHj0O+o7A/MBINdGMv4WTrSjoV884vutHUPGoG0wHNYnFWYIkINmPir5gZNlGfmInzbxY3Z92XcZz
+	tE5r0uIGTC2BBDgnlkUwiWMd9tNG1SlAho6fBBCfvzclqk0CTv8gjz8emc4Fz0q1KZx58XdRdNU9K
+	p/06f2H7ZImSuoFna5uo0n1Qj8hlaW4e326Q3hxXYfJXRhCTtE0fy4pInQw97tOwXIn0/OFEA8ChQ
+	9pNEIEnZVgQ/GMzIbJoMadRkrEn8wcuheCGKCOqt24LyqMW2PyibdcR8iIS5tRPFJYrRk9bj/v9jm
+	TMKbsviA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQvGm-0000000E6al-2DJl;
-	Sat, 23 May 2026 22:56:36 +0000
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b])
+	id 1wRCMS-0000000FKGT-2RmW;
+	Sun, 24 May 2026 17:11:36 +0000
+Received: from mout01.posteo.de ([185.67.36.65])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQvGj-0000000E6a6-16dc
+	id 1wQlqL-0000000DGEX-1ikf
 	for linux-nvme@lists.infradead.org;
-	Sat, 23 May 2026 22:56:34 +0000
-Received: by mail-vs1-xe2b.google.com with SMTP id ada2fe7eead31-63145ce291bso6753117137.0
-        for <linux-nvme@lists.infradead.org>; Sat, 23 May 2026 15:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779576991; x=1780181791; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cDes2ImAivF9GmrbE+N4ZQZmqIxy9Q4epmjcP19kqWQ=;
-        b=myGEBrvfcCgJGJpx5zaG5DwQxPm2YkNNG1s03rDMl83TqEWaaM8DzEN/dNF1lMvpZu
-         BWC6a5hEMhuBKw4Ysm5S2XGqrApL4KZlDvsMg76QiuuvSyIyYWUNfKOCQJxneiy8BT6k
-         DWWhg09Ry0BDTMGOpJmBlkMnc5cMEh8F+H4F4kfTglbV6FPsuDY+PwfI9nbrg/SBQctP
-         0UXn76dbLCFkA8lzQhYGUwVhqXuYkT5MIMULrE5bWUckCVGbWbox8wYd86JQ25kJOveh
-         /Zv4/5YQgG6qYX4RZ5xJX24zQ4bxyFSh3iFxLiXKcpumZHQl9E0Ae6Z8n3zqfg6DiHD+
-         LtQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779576991; x=1780181791;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cDes2ImAivF9GmrbE+N4ZQZmqIxy9Q4epmjcP19kqWQ=;
-        b=shOG+qTNRIoKjajjGc5V+ez369E9DPWghIIbCj5LdOG4ig3a0Zma5O7tL4QkXnuntg
-         X/ALXCJX50EoyetxvNp+3d+qgIBjROX2TRAGAVRqEpAmqyqsx0bynesFNVBnd4ozzpbj
-         012tPT4u1WysgtbZy7CZ6SM7wQKakMPoc/n+FXyC8762arUb6/j5ExbNIWdO2EJZgMJe
-         d9+F5CaxMVh5jqCVp/StLr1AzaujjVdvIQDXyfyFOpxfkGnPZXoDuLasrdTsqnyxFcN2
-         FbSw3R/0K+qQMvfsGZKnOHqzeFHX8OexVUZZ+D1AJksANS1cxm+0h59bfdVMZjdyxjyr
-         tM/w==
-X-Gm-Message-State: AOJu0Yxh9Wm31BONMK0MYjB5Jo8bqG7EPx+lMXH9Gtl8okhiqxgymRW0
-	6lxPHxqQBOieAGiborbOcZA7UDWdvltsvIJ3t1xUNIXGgjzqWD2rVbLu1obaSPu6dSI=
-X-Gm-Gg: Acq92OEW+1FtWCTVttSim/b5Ngd+E1GJbwYyrPCOmx51xEIWfFsk+rkLLEPrfQcQsDc
-	pLuNLQZ3Ex/wRyP1F495N5H92FkMdC50vg/dAvEkzrNirVE5cej/xgH1OGLqMbWY9yGr6moGhPv
-	XTc3oXYcYNLgAKi7BvXfV4nalip28U6rL4/E27/80w+Knsu8LDDzyBHFpYFnZ0+8YEaZh9mjkvZ
-	/YkHDWnUB7j39wuVIux24n7A9wnhFCCCwfn1SXQ765uZeW/2VCH9y4zQDctiugpotrz1y95aXPT
-	HcIoKWDC9vl5IIe7c958vQga7LxyPDaIMb1UBzjmZYFv1fXsPAVshLVT48Y2p6Zwkr580YgQB6I
-	eYj7TpoktqzMwjkB6q2+ug5yiHD5yjWG5RJodGxQosPc4F6R4eJ9PyiY8FUO92cfoGE4NDY53K/
-	twtMDt4EOlm58Y/dwYjW3IYtsrXigv26uxuWHRwuo3ew==
-X-Received: by 2002:a05:6102:b07:b0:618:442a:9e76 with SMTP id ada2fe7eead31-67c7cee1428mr5016464137.10.1779576991313;
-        Sat, 23 May 2026 15:56:31 -0700 (PDT)
-Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9617383b1a2sm6080769241.4.2026.05.23.15.56.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 15:56:30 -0700 (PDT)
-From: Chao Shi <coshi036@gmail.com>
-To: linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>,
+	Sat, 23 May 2026 12:52:43 +0000
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 44D83240027
+	for <linux-nvme@lists.infradead.org>; Sat, 23 May 2026 14:52:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
+	t=1779540757; bh=bxiCjbyE4L9dPupS9cBbu4nnbIMmzEr7N/QwhywpPUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=j3gOBikgfn1xTd/Gd2B+JyqhIyaLtMxcxXdZX3m9eLRzQ1vmLG/sQ2WOzYbxt+OPZ
+	 0W3blV4pxc1wVtCgfZSjDG54sl27t3gA80+tuXxyJ7moJCzoVmjgSApuLW5Ji4lG9i
+	 l4LZ5AIUIJmiODfR+WIAw9GRIxXdCd2rF/dsklQuP8H0trjRBYUjfcyd2/1+2gRyTR
+	 HQOg+JgGmG3x/otZzozN/kbh7DQxC5md5txTL9dtXZiq8KlOXLB89O8cC4GXsBm1sf
+	 ERoqvMz8i/ZQosK4gKjcCaj6DkgX6TtWjYS+jXTZcvhP4h3nyFqk+ossLfxPYJ2lcp
+	 IacfcRFiAnelQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4gN29W11Cqz6tvq;
+	Sat, 23 May 2026 14:52:31 +0200 (CEST)
+From: Mateusz Nowicki <mateusz.nowicki@posteo.net>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Caleb Sander Mateos <csander@purestorage.com>,
+	Sung-woo Kim <iam@sung-woo.kim>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Jens Axboe <axboe@kernel.dk>,
-	Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>,
-	Maurizio Lombardi <mlombard@arkamax.eu>,
+	Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Thomas Fourier <fourier.thomas@gmail.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Luke Wang <ziniu.wang_1@nxp.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sungwoo Kim <iam@sung-woo.kim>,
-	Dave Tian <daveti@purdue.edu>,
-	Weidong Zhu <weizhu@fiu.edu>
-Subject: [PATCH v5] nvme: reject passthrough of driver-managed Set Features
-Date: Sat, 23 May 2026 18:56:29 -0400
-Message-ID: <20260523225629.3964037-1-coshi036@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	nbd@other.debian.org,
+	dm-devel@lists.linux.dev,
+	linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org
+Subject: [PATCH v1] block: switch numa_node to int in blk_mq_hw_ctx and init_request
+Date: Sat, 23 May 2026 12:52:35 +0000
+Message-ID: <20260523125210.272274-1-mateusz.nowicki@posteo.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260523_155633_327965_0C714735 
-X-CRM114-Status: GOOD (  20.93  )
+X-CRM114-CacheID: sfid-20260523_055241_731223_4DD49452 
+X-CRM114-Status: GOOD (  12.32  )
+X-Mailman-Approved-At: Sun, 24 May 2026 10:11:31 -0700
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -102,176 +106,232 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-Since commit b58da2d270db ("nvme: update keep alive interval when kato
-is modified"), userspace can start keep-alive on any transport via a
-Set Features (KATO) passthrough command. nvme_keep_alive_work() then
-allocates with BLK_MQ_REQ_RESERVED, but nvme_alloc_admin_tag_set()
-only reserves admin tags for fabrics, so the allocation trips
-WARN_ON_ONCE() in blk_mq_get_tag() and fails:
+numa_node in blk_mq_hw_ctx and the matching argument of
+blk_mq_ops::init_request can be NUMA_NO_NODE (-1).  Declared as
+unsigned int, NUMA_NO_NODE becomes UINT_MAX and walks off
+nvme_dev::descriptor_pools[] on CONFIG_NUMA=n [1].
 
-  nvme nvme0: keep-alive failed: -11
+Switch the field and the callback prototype to int and update all
+in-tree init_request implementations.  No functional change:
+cpu_to_node(), kmalloc_node() and blk_alloc_flush_queue() already
+take int.
 
-More generally, several Set Features change controller state that the
-driver manages itself and cannot react to correctly when set behind
-its back from userspace. Reject these in nvme_cmd_allowed():
-
-  - KATO on non-fabrics (keep-alive is only armed for fabrics; on PCIe
-    it has no reserved tag and an active keep-alive harms idle power
-    states)
-  - Host Behavior Support, Host Memory Buffer, Number of Queues, and
-    Autonomous Power State Transition (all driver-managed)
-
-Keep Alive on fabrics is unchanged. I/O commands are unaffected as the
-check is confined to the admin path (ns == NULL).
-
-Link: https://lore.kernel.org/linux-nvme/20260522162639.395802-1-coshi036@gmail.com/
-
-Fixes: b58da2d270db ("nvme: update keep alive interval when kato is modified")
-
-Found by FuzzNvme(Syzkaller with FEMU fuzzing framework).
-
-Acked-by: Sungwoo Kim <iam@sung-woo.kim>
-Acked-by: Dave Tian <daveti@purdue.edu>
-Acked-by: Weidong Zhu <weizhu@fiu.edu>
-Signed-off-by: Chao Shi <coshi036@gmail.com>
+Link: https://lore.kernel.org/linux-nvme/20260522150628.399288-1-mateusz.nowicki@posteo.net/ [1]
+Link: https://lore.kernel.org/linux-nvme/20260309062840.2937858-2-iam@sung-woo.kim/
+Suggested-by: Caleb Sander Mateos <csander@purestorage.com>
+Suggested-by: Sung-woo Kim <iam@sung-woo.kim>
+Signed-off-by: Mateusz Nowicki <mateusz.nowicki@posteo.net>
 ---
+ block/bsg-lib.c                   | 2 +-
+ drivers/block/mtip32xx/mtip32xx.c | 2 +-
+ drivers/block/nbd.c               | 2 +-
+ drivers/md/dm-rq.c                | 2 +-
+ drivers/mmc/core/queue.c          | 2 +-
+ drivers/mtd/ubi/block.c           | 2 +-
+ drivers/nvme/host/apple.c         | 2 +-
+ drivers/nvme/host/fc.c            | 2 +-
+ drivers/nvme/host/pci.c           | 2 +-
+ drivers/nvme/host/rdma.c          | 2 +-
+ drivers/nvme/host/tcp.c           | 2 +-
+ drivers/nvme/target/loop.c        | 2 +-
+ drivers/scsi/scsi_lib.c           | 2 +-
+ include/linux/blk-mq.h            | 4 ++--
+ 14 files changed, 15 insertions(+), 15 deletions(-)
 
-Reproducer for the keep-alive case (run as root on a PCIe NVMe device):
-
-    #include <fcntl.h>
-    #include <stdio.h>
-    #include <string.h>
-    #include <sys/ioctl.h>
-    #include <linux/nvme_ioctl.h>
-
-    int main(void)
-    {
-            struct nvme_admin_cmd cmd = {0};
-            int fd = open("/dev/nvme0", O_RDWR);
-            if (fd < 0) { perror("open"); return 1; }
-            cmd.opcode = 0x09;       /* SET_FEATURES */
-            cmd.cdw10  = 0x0f;       /* Feature ID: KATO */
-            cmd.cdw11  = 5;          /* KATO = 5 seconds */
-            if (ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd) < 0) {
-                    perror("ioctl");
-                    return 1;
-            }
-            return 0;
-    }
-
-On an unpatched kernel, within ~kato/2 seconds after the program exits,
-dmesg shows:
-
-    nvme nvme0: keep alive interval updated from 0 ms to 5000 ms
-    WARNING: CPU: 0 PID: ... at block/blk-mq-tag.c:148 blk_mq_get_tag+...
-    nvme nvme0: keep-alive failed: -11
-
-With this patch the ioctl fails with EACCES on non-fabrics.
-
-Changes since v4:
-- Fold the check into the existing nvme_cmd_allowed() instead of a
-  separate helper, and reject additional driver-managed Set Features
-  (Host Behavior, Host Memory Buffer, Number of Queues, Autonomous
-  Power State Transition) in the same switch (Keith Busch). The admin
-  vs I/O distinction is now structural: the switch lives in the
-  ns == NULL branch, so I/O commands (e.g. Dataset Management, which
-  shares opcode 0x09 with Set Features) are never inspected.
-
-Changes since v3:
-- Only inspect admin commands so a DSM I/O command is not wrongly
-  rejected (Keith Busch).
-
-Changes since v2:
-- Reject the KATO passthrough on non-fabrics instead of reserving an
-  admin tag for all transports (Keith Busch, Christoph Hellwig).
-
-Changes since v1:
-- v2 added a spec citation and quirk discussion, superseded by the
-  reject approach.
-
- drivers/nvme/host/ioctl.c | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index a9c097dacad6..31784506e845 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -14,8 +14,9 @@ enum {
- 	NVME_IOCTL_PARTITION	= (1 << 1),
- };
+diff --git a/block/bsg-lib.c b/block/bsg-lib.c
+index fdb4b290ca68..895db30a7033 100644
+--- a/block/bsg-lib.c
++++ b/block/bsg-lib.c
+@@ -299,7 +299,7 @@ static blk_status_t bsg_queue_rq(struct blk_mq_hw_ctx *hctx,
  
--static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
--		unsigned int flags, bool open_for_write)
-+static bool nvme_cmd_allowed(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-+			     struct nvme_command *c, unsigned int flags,
-+			     bool open_for_write)
+ /* called right after the request is allocated for the request_queue */
+ static int bsg_init_rq(struct blk_mq_tag_set *set, struct request *req,
+-		       unsigned int hctx_idx, unsigned int numa_node)
++		       unsigned int hctx_idx, int numa_node)
  {
- 	u32 effects;
+ 	struct bsg_job *job = blk_mq_rq_to_pdu(req);
  
-@@ -50,6 +51,26 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 			case NVME_ID_CNS_CTRL:
- 				return true;
- 			}
-+		} else if (c->common.opcode == nvme_admin_set_features) {
-+			/*
-+			 * Reject Set Features that change controller state the
-+			 * driver manages itself; setting them behind the driver's
-+			 * back from userspace leaves it unable to react correctly.
-+			 * Keep Alive is only armed for fabrics - on other
-+			 * transports it has no reserved tag and harms idle power
-+			 * states.
-+			 */
-+			switch (le32_to_cpu(c->features.fid) & 0xff) {
-+			case NVME_FEAT_KATO:
-+				if (ctrl->ops->flags & NVME_F_FABRICS)
-+					break;
-+				fallthrough;
-+			case NVME_FEAT_HOST_BEHAVIOR:
-+			case NVME_FEAT_HOST_MEM_BUF:
-+			case NVME_FEAT_NUM_QUEUES:
-+			case NVME_FEAT_AUTO_PST:
-+				return false;
-+			}
- 		}
- 		goto admin;
- 	}
-@@ -59,7 +80,7 @@ static bool nvme_cmd_allowed(struct nvme_ns *ns, struct nvme_command *c,
- 	 * and marks this command as supported.  If not reject unprivileged
- 	 * passthrough.
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index 567192e371a8..8aedba9b5690 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -3340,7 +3340,7 @@ static void mtip_free_cmd(struct blk_mq_tag_set *set, struct request *rq,
+ }
+ 
+ static int mtip_init_cmd(struct blk_mq_tag_set *set, struct request *rq,
+-			 unsigned int hctx_idx, unsigned int numa_node)
++			 unsigned int hctx_idx, int numa_node)
+ {
+ 	struct driver_data *dd = set->driver_data;
+ 	struct mtip_cmd *cmd = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index fe63f3c55d0d..e2fe9e3308fc 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -1888,7 +1888,7 @@ static void nbd_dbg_close(void)
+ #endif
+ 
+ static int nbd_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-			    unsigned int hctx_idx, unsigned int numa_node)
++			    unsigned int hctx_idx, int numa_node)
+ {
+ 	struct nbd_cmd *cmd = blk_mq_rq_to_pdu(rq);
+ 	cmd->nbd = set->driver_data;
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index 9703b3ae364e..9a386254d836 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -462,7 +462,7 @@ static void dm_start_request(struct mapped_device *md, struct request *orig)
+ }
+ 
+ static int dm_mq_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-			      unsigned int hctx_idx, unsigned int numa_node)
++			      unsigned int hctx_idx, int numa_node)
+ {
+ 	struct mapped_device *md = set->driver_data;
+ 	struct dm_rq_target_io *tio = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
+index 39fcb662c43f..cfa268925c26 100644
+--- a/drivers/mmc/core/queue.c
++++ b/drivers/mmc/core/queue.c
+@@ -208,7 +208,7 @@ static unsigned short mmc_get_max_segments(struct mmc_host *host)
+ }
+ 
+ static int mmc_mq_init_request(struct blk_mq_tag_set *set, struct request *req,
+-			       unsigned int hctx_idx, unsigned int numa_node)
++			       unsigned int hctx_idx, int numa_node)
+ {
+ 	struct mmc_queue_req *mq_rq = req_to_mmc_queue_req(req);
+ 	struct mmc_queue *mq = set->driver_data;
+diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
+index 8880a783c3bc..29c0d6941a81 100644
+--- a/drivers/mtd/ubi/block.c
++++ b/drivers/mtd/ubi/block.c
+@@ -312,7 +312,7 @@ static blk_status_t ubiblock_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ static int ubiblock_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct ubiblock_pdu *pdu = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index c692fc73babf..97586307ac1a 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -819,7 +819,7 @@ static int apple_nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 
+ static int apple_nvme_init_request(struct blk_mq_tag_set *set,
+ 				   struct request *req, unsigned int hctx_idx,
+-				   unsigned int numa_node)
++				   int numa_node)
+ {
+ 	struct apple_nvme_queue *q = set->driver_data;
+ 	struct apple_nvme *anv = queue_to_apple_nvme(q);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e4f4528fe2a2..1907da499ad2 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2109,7 +2109,7 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 
+ static int
+ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-		unsigned int hctx_idx, unsigned int numa_node)
++		unsigned int hctx_idx, int numa_node)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(set->driver_data);
+ 	struct nvme_fcp_op_w_sgl *op = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 139a10cd687f..afd407df640f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -660,7 +660,7 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 
+ static int nvme_pci_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index f77c960f7632..08459c65c3d5 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -292,7 +292,7 @@ static void nvme_rdma_exit_request(struct blk_mq_tag_set *set,
+ 
+ static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
+ 		struct request *rq, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(set->driver_data);
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 15d36d6a728e..36b3ec50a9fd 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -548,7 +548,7 @@ static void nvme_tcp_exit_request(struct blk_mq_tag_set *set,
+ 
+ static int nvme_tcp_init_request(struct blk_mq_tag_set *set,
+ 		struct request *rq, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(set->driver_data);
+ 	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d98d0cdc5d6f..ae00bcef2251 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -202,7 +202,7 @@ static int nvme_loop_init_iod(struct nvme_loop_ctrl *ctrl,
+ 
+ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
+ 		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
++		int numa_node)
+ {
+ 	struct nvme_loop_ctrl *ctrl = to_loop_ctrl(set->driver_data);
+ 	struct nvme_loop_iod *iod = blk_mq_rq_to_pdu(req);
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 6e8c7a42603e..67f789bd02e7 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1950,7 +1950,7 @@ static blk_status_t scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+ }
+ 
+ static int scsi_mq_init_request(struct blk_mq_tag_set *set, struct request *rq,
+-				unsigned int hctx_idx, unsigned int numa_node)
++				unsigned int hctx_idx, int numa_node)
+ {
+ 	struct Scsi_Host *shost = set->driver_data;
+ 	struct scsi_cmnd *cmd = blk_mq_rq_to_pdu(rq);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 18a2388ba581..2e7f90048171 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -428,7 +428,7 @@ struct blk_mq_hw_ctx {
+ 	struct blk_mq_tags	*sched_tags;
+ 
+ 	/** @numa_node: NUMA node the storage adapter has been connected to. */
+-	unsigned int		numa_node;
++	int			numa_node;
+ 	/** @queue_num: Index of this hardware queue. */
+ 	unsigned int		queue_num;
+ 
+@@ -653,7 +653,7 @@ struct blk_mq_ops {
+ 	 * flush request.
  	 */
--	effects = nvme_command_effects(ns->ctrl, ns, c->common.opcode);
-+	effects = nvme_command_effects(ctrl, ns, c->common.opcode);
- 	if (!(effects & NVME_CMD_EFFECTS_CSUPP))
- 		goto admin;
- 
-@@ -308,7 +329,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
--	if (!nvme_cmd_allowed(ns, &c, 0, open_for_write))
-+	if (!nvme_cmd_allowed(ctrl, ns, &c, 0, open_for_write))
- 		return -EACCES;
- 
- 	if (cmd.timeout_ms)
-@@ -355,7 +376,7 @@ static int nvme_user_cmd64(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(cmd.cdw14);
- 	c.common.cdw15 = cpu_to_le32(cmd.cdw15);
- 
--	if (!nvme_cmd_allowed(ns, &c, flags, open_for_write))
-+	if (!nvme_cmd_allowed(ctrl, ns, &c, flags, open_for_write))
- 		return -EACCES;
- 
- 	if (cmd.timeout_ms)
-@@ -472,7 +493,7 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
- 	c.common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
- 
--	if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode & FMODE_WRITE))
-+	if (!nvme_cmd_allowed(ctrl, ns, &c, 0, ioucmd->file->f_mode & FMODE_WRITE))
- 		return -EACCES;
- 
- 	d.metadata = READ_ONCE(cmd->metadata);
+ 	int (*init_request)(struct blk_mq_tag_set *set, struct request *,
+-			    unsigned int, unsigned int);
++			    unsigned int, int);
+ 	/**
+ 	 * @exit_request: Ditto for exit/teardown.
+ 	 */
+
+base-commit: 45255ea1ca096b11b1303c9b54502a28f3a31dd1
 -- 
-2.43.0
+2.53.0
 
 
