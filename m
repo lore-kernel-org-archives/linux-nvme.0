@@ -4,65 +4,86 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F14A6CD5BAC
-	for <linux-nvme@archiver.kernel.org>; Sat, 23 May 2026 11:35:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 635D1CD5BB1
+	for <linux-nvme@archiver.kernel.org>; Sat, 23 May 2026 11:46:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-	List-Owner; bh=o6BvjvS8rBGHZfEK/Y2a9oFckQ5H1gJo6XVFIye7120=; b=L3w0ifglOjC/w5
-	T4omm7vDmW7aNTl/PWZaPc9lipESnnY3qFlrzRlw2P112dmvfgsOrEu+bvDIXX7Br3tCcxGMh9KvL
-	7m0upVp/w6XGOpNM8aKtuvnuOeKJKI+bkfM/Li63+Awj0en49L7ZJjD0C3msUIL+JiYSaO8UGZZyk
-	zmCn2a0psVfZdPZPew9U+gDOKLgNdIi57iZGRKA5S0KNgWHn09eNfREADYl2ogBJopcH6uzL2zt+U
-	/Ah4OizjHDKtT/nKI8ZjQ8HWyHJzkxG/H4Z1+RiDwqskdU0Qr4nv4gKwRADgDje1oKI0yUvlob3hQ
-	o0i/ugdV0u0dPLktHFow==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=mwL5MV6S1AMPCz9BF2d2Kabj5bce+BBSzVoHTJ5nQQw=; b=IF2VQwrkzCjhmysKvZGF2kTFu7
+	Cgj2moUfF+Ja/x60Pq5fUVRczDIadeBMUGyCsb0HRenqNMB/1xLNVKsEclFZvXKcYTx2UAPVjADTf
+	VWAIxmE+h17g72sIrZkPEiPP+dZ+gu3LmboujySpGlQSbBAXiQVFhySLMjxaQwkVgyDC/PgU/eEwi
+	GLkLF5IQxTB9MNfJhePkUSpa0KnuSPsXQo0BtF0LUfO1/X3Yb8kGcaywt3PY/i6UC38yWwAJAu8Vd
+	bvidOjP2ktiE6iLpBAWg7pe19c3Gx1ynInFIfiRaM48KQgF5kgBm98PPlRCRjTDYt+21e8z/GE079
+	Pi8nlAPw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQkdV-0000000DAD8-1yAY;
-	Sat, 23 May 2026 11:35:21 +0000
-Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
+	id 1wQknw-0000000DAxu-1MKR;
+	Sat, 23 May 2026 11:46:08 +0000
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQkdS-0000000DACM-3jf4
+	id 1wQknt-0000000DAxB-36uG
 	for linux-nvme@lists.infradead.org;
-	Sat, 23 May 2026 11:35:20 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with UTF8SMTP id 1CCE540345;
-	Sat, 23 May 2026 11:35:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C14331F000E9;
-	Sat, 23 May 2026 11:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779536118;
-	bh=o6BvjvS8rBGHZfEK/Y2a9oFckQ5H1gJo6XVFIye7120=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=MVb5q4AEA8UmYtvooBwsMHlyw5RBbHG0GAKY43VRV44Y00vqACu7wloCvRO4n4iQ6
-	 8rpEU0BcS3OBEMkMxux9nbuqdismvmSx5f0d9aoy8LXj47JSbi+iH0rx/tuJPMvTvB
-	 nJSQn+sssQMWaQoSGSWVzyCkYqeaYSpR7J4ZlhfZ5FqDTqYTP66LLTOyFdbU1Ltf8+
-	 8V1IAhmNejY5pFol/POpfEER8Jz5zMWOT4mz6nZiNlTcTJNKJ9a8dr3SoVOShwjZ3w
-	 Ncxm3Fp1WwOYhh4/RVDUIk73mZK0039qDLWmjsvAqhYB6gm3auukD8tdOKrYRBARRB
-	 NB0cq3pm6cdZw==
-Date: Sat, 23 May 2026 06:35:16 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: manivannan.sadhasivam@oss.qualcomm.com
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH v2 0/4] PCI: Introduce pci_suspend_retains_context() API
-Message-ID: <20260523113516.GA292297@bhelgaas>
+	Sat, 23 May 2026 11:46:07 +0000
+Received: by mail-qk1-x732.google.com with SMTP id af79cd13be357-911449d9d03so953653285a.1
+        for <linux-nvme@lists.infradead.org>; Sat, 23 May 2026 04:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779536764; x=1780141564; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mwL5MV6S1AMPCz9BF2d2Kabj5bce+BBSzVoHTJ5nQQw=;
+        b=UI0IsqtfCuiv6PGHn/wqEyRRE/DBC5ji/r7M49G8NA2a7eDZXUpW1C52hBOgT0EK+D
+         lHUuTVWENx4PI9bYZ77h3v6PzkLp6elGEiQ7jdkzptNXJo4qwxGYvvCVyQ5uuVrsNfPg
+         vn+dXe/rGErveFtHNotV1jFKe1Sdgi2t3zet674aHD+QZ+qxYaPFdeDiirepoXFQ5IEt
+         zPtkLEwX98080tKFfD8INqRvHI/tbt/BXj0lSjGORiK6bm/m9OcdKGuhwJktaknD9fjk
+         0PhaeT3aDzEH+csbc3r7k3x4xUM2qtXkikXRktpmugP8qMT5/jDXidw9dmC1HANLJl7R
+         WcNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779536764; x=1780141564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mwL5MV6S1AMPCz9BF2d2Kabj5bce+BBSzVoHTJ5nQQw=;
+        b=BKsuI3wFAudE00ShlXgSXPN1mlfuficGPsZKCYhf7aQQ9rphB/m2E8olQLJFSjPSK3
+         Gvxak3oBTFLICxfRAbgIJ0Nl7rGlM2c8gqrv51HXxZLmkdbRuAyRzkNk7+u7IBhNPWqd
+         Tof+cKXx83baCeBjLyOEAcdcB9o4WEvxtSRc/amFzBOAKRA0IsyNJHGeEhxqX+2UqFYi
+         rddNhWWqM5keniy6j+xg8ge/dxNCnaSrFS6gKzYjGnhln2/OdGJvpiYZvFlEY2N43KCj
+         FeiPJxXyGsFwmKrnViPISnI8VgSNx7s0odvev5vc9iKVoOwx3dvbY8WSV4SfgQ72+/Q8
+         TQZg==
+X-Gm-Message-State: AOJu0Yw4oTZw/OBdtCBEaF6XPQaMhGm262BgmR+djT4f6N0H2324pgU8
+	JIMzStUw7tZhXFmdGk4A1l58lwu825K+jy22pMlgBL9ZdCzv6F0lVK1z
+X-Gm-Gg: Acq92OFHqrH3/SfJHCZcXh3pw6YanFiXxAeBzJYprh4X1EK+Zp7339MOUb+X1b81lEv
+	zPCFCSM4kjAn6JZPYLpXaYz6ZRnZ2B8V/1qCFlKEtuv1tADMNMlPIe9VTRLP6rLTmuJQG6NNo9C
+	ntRB3p5DFg/rdwESn0I0IZ0yY6Nx2zBGaCMNqhiMQp+LgOCXVPqrKmN7oaaZtDt1qYxgyrTiWE9
+	AW/CnfiVkDB5PfRPfyRotM8m31NA+AjHc99gdW2/9woeUriUzlDNj4hSrskKBtPxoQXMhTzcXQA
+	agd7y7Ckv6Q6Z+kgphXE0ROA82uQcqXKtk0s5pDyBtjYlhOOYvl2DJN+suIKKAaRhLCNe0+awMk
+	Ja0ajsBuvcSIMJyzLLBEg2w54qNFDTM3eHjym0ld27jssBb8mkDUrb0qMquNE04xYo23wAKFZ87
+	duSQ/kBT/6eZS9CELYiTTKASfislx2D9KWtVMA0kJ+iq96Y+45i/lgPgfRy62NL0bbDLYNKoSr3
+	DK07YKjmiVCvCxudEpO
+X-Received: by 2002:a05:620a:630f:20b0:910:bb22:d426 with SMTP id af79cd13be357-914b49a0b5dmr791369485a.33.1779536763899;
+        Sat, 23 May 2026 04:46:03 -0700 (PDT)
+Received: from mobile5 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-914bba1b49csm376914985a.44.2026.05.23.04.46.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 May 2026 04:46:03 -0700 (PDT)
+From: Mike Bommarito <michael.bommarito@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] nvme: log when APST skips a state due to latency cap
+Date: Sat, 23 May 2026 07:45:52 -0400
+Message-ID: <20260523114552.101452-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260519-l1ss-fix-v2-0-b2c3a4bdeb15@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260523_043518_974554_293DDF54 
-X-CRM114-Status: GOOD (  25.61  )
+X-CRM114-CacheID: sfid-20260523_044605_790175_1898272D 
+X-CRM114-Status: GOOD (  17.24  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -77,57 +98,62 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Tue, May 19, 2026 at 01:41:19PM +0530, Manivannan Sadhasivam via B4 Relay wrote:
-> Hi all,
-> 
-> This series introduces a new PCI API, pci_suspend_retains_context() to
-> let the client drivers know whether they can expect context retention across
-> suspend/resume or not and uses it in the NVMe PCI host driver.
-> 
-> This new API is targeted to abstract the PCI power management details away from
-> the client drivers. This is needed because client drivers like NVMe make use of
-> APIs such as pm_suspend_via_firmware() and decide to keep the device in low
-> power mode if this API returns 'false'. But some platforms may have other
-> limitations like in the case of Qcom, where if the RC driver removes the PCIe RC
-> resource vote to allow the SoC to enter low power mode, it cannot reliably exit
-> the L1ss state when the endpoint asserts CLKREQ#. So in this case also, the
-> client drivers cannot keep the device in low power state during suspend and
-> expect context retention.
-> 
-> And these limitations may just keep adding in the future. Without a unified
-> API, the client drivers have to implement their own logic which may cause code
-> duplication and may also lead to drivers missing some of the platform
-> limitations.
-> 
-> Once this series gets merged, we can extend this API usage to other client
-> drivers as well.
-> 
-> Testing
-> =======
-> 
-> This series is tested on Qualcomm Hamoa based Lenovo Thinkpad T14s latop with
-> NVMe drive.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - Renamed the API to pci_suspend_retains_context()
-> - Reworded the commit messages to include L10_REFCLK_ON + T_COMMONMODE as the
->   L1ss exit latency
-> - Rebased on top of v7.1-rc1
-> 
-> ---
-> Manivannan Sadhasivam (4):
->       PCI: Introduce an API to check if RC/platform can retain device context during suspend
->       PCI: Indicate context lost if L1ss exit is broken during resume from system suspend
->       PCI: qcom: Indicate broken L1ss exit during resume from system suspend
->       nvme-pci: Use pci_suspend_retains_context() API during suspend
-> 
->  drivers/nvme/host/pci.c                |  3 ++-
->  drivers/pci/controller/dwc/pcie-qcom.c | 12 ++++++++++++
->  drivers/pci/pci.c                      | 34 ++++++++++++++++++++++++++++++++++
->  include/linux/pci.h                    |  9 +++++++++
->  4 files changed, 57 insertions(+), 1 deletion(-)
+nvme_configure_apst() silently skips any non-operational power state
+whose exit_lat exceeds ctrl->ps_max_latency_us (set from the
+default_ps_max_latency_us module parameter, default 100,000 us).
 
-Applied to pci/pm for v7.2, thanks, Mani!
+When the kernel skips a drive's deepest non-op state for this reason,
+the user gets no signal that anything happened.  This is a frequent
+gotcha on Intel platforms that depend on the drive reaching its
+deepest power state to allow the PCIe root port to enter L1.x and the
+PCH Southport to power-gate, which in turn is a prerequisite for the
+platform reaching S0ix during s2idle suspend.
+
+Add a dev_info_once() at the skip site that names the state, prints
+the actual exit_lat versus the current cap, and points the user at
+the module parameter to raise it.  Using _once keeps the line to a
+single instance per controller; users that want to see every probe
+event can still enable dev_dbg.
+
+Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Mike Bommarito <michael.bommarito@gmail.com>
+---
+Build- and boot-tested on Framework Laptop 13 (Intel Core Ultra 5 125H)
+running Linux 7.1-rc4 with this patch applied, across multiple boots
+over three days.  No regressions observed in NVMe probe or APST
+configuration with the installed WD Black SN850X (15b7:5030).
+
+Design context: the conservative default cap and the per-device-quirk
+mitigation were discussed in 2017 at
+
+    https://lore.kernel.org/all/20170606095454.GA13569@infradead.org/
+
+and retained.  This patch only adds observability for the silent-skip
+case; behavior is unchanged.
+
+ drivers/nvme/host/core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c3032d6ad6b1..220e844e852c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2943,8 +2943,13 @@ static int nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 			continue;
+ 
+ 		exit_latency_us = (u64)le32_to_cpu(ctrl->psd[state].exit_lat);
+-		if (exit_latency_us > ctrl->ps_max_latency_us)
++		if (exit_latency_us > ctrl->ps_max_latency_us) {
++			dev_info_once(ctrl->device,
++				      "APST: skipping non-op PS%d (exit_lat %llu us > cap %llu us); raise nvme_core.default_ps_max_latency_us to enable\n",
++				      state, exit_latency_us,
++				      ctrl->ps_max_latency_us);
+ 			continue;
++		}
+ 
+ 		total_latency_us = exit_latency_us +
+ 			le32_to_cpu(ctrl->psd[state].entry_lat);
+-- 
+2.53.0
+
 
