@@ -4,97 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FC8ECD5BB1
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 May 2026 16:49:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F1F64CD5BB1
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 May 2026 16:51:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=UkcDIh6lSzwJOlp8E1YoKOARe+/1ST0S3JizOOYpoio=; b=X6VnJrDwYd5gsIyTew/fg6SG9Y
-	yE21tzL6Yb8s5Yaz5vUt9cDI5iWRq09LnNBld5w19Nh7qbXWPeK70bnpuQldB6V2yQ4bcZJsP23Jt
-	hkcun/FPsPDlorAZiohJ32c/+2nnZQ8qcrm4G5VNd4BlQ8CDBtQQIYFgKLIiKTpVOGiNTMCSJ43/j
-	uU70t/r7+qBrzkOF7nIMNl639ixfxhB9/nZNrDlGysVC1s96PfGPJ45+xzxpuFdHhZFlMLvu9ynqA
-	v2BkShQPhVJT6XQb/UAopI94BUnzb05G5bK6FdDpRXe8XtelovQsPNQYxhQY2Bq2LeiX8gyoaD57q
-	5T71xbDQ==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Cc:To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:
+	From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
+	List-Owner; bh=FbcGJkRkbagmQAlyIHUAsEmLq39wb78AB89XfL80OeI=; b=TKJMzZR0L6eBFY
+	mfOsAEZSv0xyFEUUjm48DKag0uxrNsTiLxCpw7FdqYiC/KZpt4gjlAA9lOJq20QIfHANGIGoefbyD
+	gt22AXbrM5z4I90EwKZvWZWPgfU2FjFz1b06mrPiqXNbgYAnLeBmSRqPDJeyIyEUtD/hEJvZTz1lE
+	ynK4N76Y/LQ1By5Pq+P9sc15Jo5UtKNl0lsmofcRtcjP4bJwWKzsZ86PI3UHOSqTv11UTQ1UeKPB8
+	AhKk1hIhl9uwzPU6T6T7hmPpYk9oCvyP9RM34sS0mQSFOmC8SKGrUTJnrlmiT43tKLJkSbWczTqSA
+	z/73cV1SmARDlujrwlrQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRYUo-000000003rl-27wk;
-	Mon, 25 May 2026 16:49:42 +0000
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+	id 1wRYWb-0000000046M-30Gn;
+	Mon, 25 May 2026 16:51:34 +0000
+Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRYUl-000000003rF-42eX
+	id 1wRYWa-0000000045v-38rZ
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 May 2026 16:49:41 +0000
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-83ec36a13e9so4738191b3a.0
-        for <linux-nvme@lists.infradead.org>; Mon, 25 May 2026 09:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779727779; x=1780332579; darn=lists.infradead.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UkcDIh6lSzwJOlp8E1YoKOARe+/1ST0S3JizOOYpoio=;
-        b=d10qO255rT613L8AfIkrLYIPp6aeoxP7WEUxvAHvx/F7ZLtN+uLq9yNI2aVhwVm3Io
-         SAWQufjWQtXcCBscztNJ9pDV8kmBsch0m8vW3f2VYX1sS5sQHAf0gXdSHiPNtwFsrpil
-         ikVPgBE62F29guy1hF5pdZZQk1g9xtpza1IYzE5t6eucKggJbuH9XI4BnAE7cy8aFulG
-         vKIwBBI/WkzRlP88QWC2rjZtyzkhQwn0XkxfwNoT7Q3k8MUaiIQ8z5xJxg1uyD4ItGWD
-         PDv/C59B4Pl534edi4PRLufHLHBWyoNDfcMlO2pBODMaIQXe0iYe/p3mh28xYtOy6vUM
-         4DZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779727779; x=1780332579;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UkcDIh6lSzwJOlp8E1YoKOARe+/1ST0S3JizOOYpoio=;
-        b=KwAQVDC7tt6Wqa2vi9VMtACRYZmqPRMfXFJX6MpCYMr/NqRpqZLYNNKT1U9+M4Av1C
-         PwCVZ+aQmHbt55fhcngzCk9jm5gfbo0d8OAveV8mo3I2Gl8CFyuS7wb3i/meDExAVL/B
-         9gZgAZtPr2wH7hua9sdc4iKVXvxXAwIrqMI6fq25GPUaKwpo9h7ODV3fn7mp8oY/M9Kw
-         hL4X7WAgTpK4gDvyeiAvZVUNimtO7raIEmt0KPh9kInjghAtEWKYp9wie4UgFMYW0AO3
-         77f+7J4nUyzwUVPJbTPHBz76seLu4ORpCcxNKBJmlqKYzonWaGKXTfu82jk/8kc7kIVH
-         v4+w==
-X-Forwarded-Encrypted: i=1; AFNElJ9yUbwJcMLHf0sC4znsE0Ap/XpmJTM0whVVb2Ke6wPUDnPJ4PNJd05baiJhQzil0ttw05CBK+wl1n6F@lists.infradead.org
-X-Gm-Message-State: AOJu0YxrWtdss8iSuoAlgtP9u4PbZz3nTO4Rlm1iyib1Xg2h9BGUH95P
-	gNAJjsFekh7sjGRo9qITirDztE5PD1CMCaBPXnHGZ16avypovKfR7NMJv25LqQdkEZM=
-X-Gm-Gg: Acq92OEMTCjy5AoQ2h2R5ky5NubhYnljrUgPperPkqyHXieFMH+c2vUHr+AJL6BU/mL
-	QhDV3llem02tqDH1BXodo5PglzpCmqPuD2/GasMuUAdEWW+GAC4KdAT6zG4QmUQWAbc59vCsN8y
-	y4Ke4obN8CfIKhYmPSasm4SdbunkAXJRxEGU3+TECZi03XZ30SAeEXgpgw0/edbv1fYE3ybORDg
-	dZJAwrcnDSqIIASNAVFVhmHJkTsja73M8l/9xoseulb9NMsG4CSeKyBlZltiLnsbcS23EgQX8DP
-	E9juhvmCHJG/Ii3vf4/3nE4jiLLZcOFa+qKB9YuaXlSiEUB8Smfb/3buAZ/LEXiud61ZSbzD37L
-	DXKuJwuSES8hPBS3delGXL21sJCBbarTLTlmdB+6CfvwQBypYgB2k5waTSFfy8K44npozTJ0D9A
-	WxUPu61rLfxvQl6t47ZVjNas5d2UAEjWe/zm5mpIQwRuCGad6hE7btBG9jn4NG7raz3f9DFHQif
-	E8+4dI=
-X-Received: by 2002:a05:6a00:8c10:b0:81f:9b4c:81c0 with SMTP id d2e1a72fcca58-8415f58d727mr13761843b3a.41.1779727778848;
-        Mon, 25 May 2026 09:49:38 -0700 (PDT)
-Received: from ?IPV6:240b:10:2720:5500:34c9:7e9c:7c33:58d6? ([240b:10:2720:5500:34c9:7e9c:7c33:58d6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-841648a2bf2sm9129616b3a.0.2026.05.25.09.49.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 May 2026 09:49:38 -0700 (PDT)
-Message-ID: <f71e9ae5-921c-4f5b-bb5d-66729396b8fa@gmail.com>
-Date: Tue, 26 May 2026 01:49:36 +0900
+	Mon, 25 May 2026 16:51:32 +0000
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id E01AE600AB;
+	Mon, 25 May 2026 16:51:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8E641F000E9;
+	Mon, 25 May 2026 16:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779727891;
+	bh=FbcGJkRkbagmQAlyIHUAsEmLq39wb78AB89XfL80OeI=;
+	h=From:Subject:Date:To:Cc;
+	b=CS9iD+vqjHrmh4orujpwww76w5tDcVoPNm/1HQCyDFBw+doetdYK4Lsd/SEu9XNQm
+	 9c2EpKY8x/I23kaLV2nUxUeTmKRsJPE+hw/Dlpi0qjGhM2HXCi+txr7IjMYPreRr9p
+	 +5DwH+0u/wURjeeoQ5JicHyopYPPSgcuWyOAiU5PAYO/teWHoPrgUTtDyK3POr8B7k
+	 KhUPhwLMsN/aNQfXSSm/XRI1FgOsK8il1GMqXBk/8wXGhH/gl1Iui33zMTgs6zT+2c
+	 BlJ9IZfSpGklXRaIq1nSJjtjE7JHdCD6wteJlOznhhf7eBEoCD9OUyNXDcP/81PKav
+	 WtLVCCtmKAL9g==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH net v3 0/8] net/handshake: anchor request lifetime to a
+ pinned file reference
+Date: Mon, 25 May 2026 12:51:14 -0400
+Message-Id: <20260525-handshake-file-pin-v3-0-66c616906ead@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] nvme: reject passthrough of driver-managed Set
- Features
-To: Keith Busch <kbusch@kernel.org>
-Cc: Chao Shi <coshi036@gmail.com>, linux-nvme@lists.infradead.org,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Jens Axboe <axboe@kernel.dk>, Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>,
- Maurizio Lombardi <mlombard@arkamax.eu>, linux-kernel@vger.kernel.org,
- Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>,
- Weidong Zhu <weizhu@fiu.edu>
-References: <20260523225629.3964037-1-coshi036@gmail.com>
- <cda74a96-cff1-402a-bcdb-745c85f6c87b@gmail.com>
- <ahRvhmaMCCqnxV62@kbusch-mbp>
-Content-Language: en-US
-From: Tokunori Ikegami <ikegami.t@gmail.com>
-In-Reply-To: <ahRvhmaMCCqnxV62@kbusch-mbp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260525_094940_004456_CCF98C0A 
-X-CRM114-Status: GOOD (  12.63  )
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OzQ7CIBCEX6XhLAr0V0++h/HAz2JXKxiojcb03
+ aXVgyY9zuzMt/MiEQJCJLvsRQIMGNG7JPJVRnQr3QkomqSJYKJiJa9oMk1s5QWoxQ7oDR0VPN8
+ yW9q85DlJxVsAi48ZeiAOenL8mPGuzqD7CTfFlIxAVZBOt5OVgpurRDedWoy9D8951cBnzndAs
+ zRg4JTRQimtaqiENXLvg9QdrLW/zs8H8cMQfJEhEkNtjTS6qEVTsD/GOI5v3Gw1aisBAAA=
+X-Change-ID: 20260516-handshake-file-pin-21390f5f3513
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>, 
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
+ netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>, 
+ Hannes Reinecke <hare@kernel.org>, 
+ Alistair Francis <alistair.francis@wdc.com>
+X-Mailer: b4 0.16-dev-da966
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4296;
+ i=chuck.lever@oracle.com; h=from:subject:message-id;
+ bh=GvTDjam6ruQwEDM6OVKE0WQabQyhk+Y0lXRkOjTpfEw=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqFH4K+n3aOBrQb+kVVmywjVPaGmJfJ+56t9uqq
+ qExmpm9UeuJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCahR+CgAKCRAzarMzb2Z/
+ l/Y4EACKXt9PB65+GRACXl/7hBSiKwiKZXsV2dktTDJpjJKWaHVLTXFr7ufpXPGoWmJxtacyWdN
+ yOraX3Z3C6yfOrQohiCtWarUuHu4Hi38aELwbCZrvZDOzWnEKg5j09SxE8yCSvM4s/v9plLhOb8
+ mNxWFxbH7vnK39AtcCvsO+kdMLMkNSDw7z+ZWjtJZFDKN/08ifvnMceCiIfHoKmMDy8gbig7zmr
+ pvx6XPqOsKFni5XR8HJ03yh71qGZEHk6j8YAazXpg0eHrfWRYiH6vNeAnXGSnSswQPJhd7lMhtb
+ zpNDOulgi6TWTRfaVL9T2Wo1O2tDAQN9gF4MhVUHfjQfy+GvR/NPc/vStFmbjXq2x3vjzuOCM1m
+ g02loLQ8BF0dfgXqM502ClX3wn/IhcEbZ22dX+tdmNuBGmSezB5HePqN2qIRWdrNEMOlObLqWMS
+ LryOSk+QtRVulXVTxghUqBVaCwrr2q5A6DRCa0Jp4HeZw78mtgpr4grgYavkyXq8zIAut1cPjSP
+ jSLq/+gEVNmN5v/Wa1uK1teIllL3TzUS1fp5QUfs8Wp743RGW7AlpK3CJ4C7ivcMe0Lcr84qWAY
+ BK8UnI7vgXk3nZGM30WBqFepjLyIopGZ6gfGzi8ssi609J7SzeSf7wMyW4hv0gRVocYsgjD9u+m
+ Z+mS3L5KGbraKPA==
+X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -109,23 +95,89 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 2026/05/26 0:49, Keith Busch wrote:
-> On Tue, May 26, 2026 at 12:34:03AM +0900, Tokunori Ikegami wrote:
->>> +static bool nvme_cmd_allowed(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->>> +			     struct nvme_command *c, unsigned int flags,
->>> +			     bool open_for_write)
->> The struct nvme_ns does already have the struct nvme_ctrl *ctrl as a member
->> variable as below so seems not necessary to add the function argument struct
->> nvme_ctrl *ctrl.
-> This filter is for admin commands, so the 'ns' parameter is NULL for
-> this case.
-Okay so how about that to use the function argument unsigned int flags 
-instead with adding the NVME_IOCTL_FABRICS enum definition?
-enum {
-     NVME_IOCTL_VEC        = (1 << 0),
-     NVME_IOCTL_PARTITION    = (1 << 1),
-};
-Note: I mean as possible as we can it seems better to avoid the many 
-function arguments for the maintainability.
-Thank you.
+handshake_nl_accept_doit() has accumulated four follow-on fixes
+since 3b3009ea8abb ("net/handshake: Create a NETLINK service for
+handling handshake requests"): 7ea9c1ec66bc, 7798b59409c3,
+fe67b063f687, and dabac51b8102.  Each was a local refcount or
+NULL-check correction; none moved where the file reference is
+owned, and the same code keeps producing the same class of bug.
+Reworking the ownership is what breaks the pattern.
+
+For the duration of a request, sock->file has no single owner.
+Submit publishes the request without taking a file reference;
+accept_doit acquires one inside the handler, after the request
+has already left the pending list.  The consumer can drop its
+own reference at any time, including the moment between
+handshake_req_next() popping the request and accept_doit
+reaching get_file().  The submit-side sock_hold() pins only
+struct sock; struct socket and sock->file remain under the
+consumer's control via the file descriptor.
+
+This series places the file reference under unambiguous
+ownership.  handshake_req_submit() pins it on the request and
+completion or cancel drops it (patches 4-5); the submit-side
+sock_hold() then becomes redundant, and dropping it also closes
+a publish-before-pin race the late sock_hold itself opened
+(patch 6).  The handshake_complete() API and its consumers move
+to a uniform negative-errno sign convention (patch 3), with the
+matching sign correction in nvme-tcp (patch 2).  Patch 1
+hardens hn_lock for BH context, the netns-exit drain fix
+builds on the new file-pin infrastructure (patch 8), and new
+KUnit file-count assertions verify the refcount contract
+(patch 7).
+
+Three things in this restructuring want a careful look.  In
+handshake_complete(), the fput() of the request's file
+reference has to come after hp_done() -- fput() can transitively
+run handshake_sk_destruct() and free the request, so the patch
+stashes hr_file in a local first.  handshake_sk_destruct()
+itself is kept on purpose: it owns rhashtable removal and
+kfree, and remains the backstop if a consumer path bypasses
+handshake_complete() entirely.  Third, handshake_req_next() now
+returns its request with an extra get_file() held under
+hn_lock; accept_doit must consume that reference (FD_PREPARE on
+success, explicit fput on the fdf.err path), and any future
+caller has to honor the same contract.
+
+---
+Changes in v3:
+- Gate submit error path fput with test_and_set_bit to prevent double fput from concurrent cancel
+- Convert hn->hn_lock to spin_lock_bh (cancel reachable from softirq via nvmet-tcp)
+- Pin file references during netns drain to prevent use-after-free on local list
+- Series re-ordered to improve bisectability
+- Link to v2: https://patch.msgid.link/20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com
+
+Changes in v2:
+- Patch 3: move HANDSHAKE_A_DONE_STATUS upper bound into netlink policy (Jakub)
+- Link to v1: https://patch.msgid.link/20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com
+
+---
+Chuck Lever (8):
+      net/handshake: Use spin_lock_bh for hn_lock
+      nvme-tcp: store negative errno in queue->tls_err
+      net/handshake: Pass negative errno through handshake_complete()
+      net/handshake: Take a long-lived file reference at submit
+      net/handshake: hand off the pinned file reference to accept_doit
+      net/handshake: Close the submit-side sock_hold race
+      net/handshake: Verify file-reference balance in submit paths
+      net/handshake: Drain pending requests at net namespace exit
+
+ Documentation/netlink/specs/handshake.yaml |  8 +++
+ drivers/nvme/host/tcp.c                    |  2 +-
+ net/handshake/genl.c                       |  3 +-
+ net/handshake/genl.h                       |  1 +
+ net/handshake/handshake-test.c             | 38 +++++++++++++-
+ net/handshake/handshake.h                  |  6 ++-
+ net/handshake/netlink.c                    | 29 +++++------
+ net/handshake/request.c                    | 81 ++++++++++++++++++++++--------
+ net/handshake/tlshd.c                      |  6 ++-
+ 9 files changed, 129 insertions(+), 45 deletions(-)
+---
+base-commit: 87a1e0fe7776da7ab411be332b4be58ac8840d10
+change-id: 20260516-handshake-file-pin-21390f5f3513
+
+Best regards,
+--  
+Chuck Lever <chuck.lever@oracle.com>
+
 
