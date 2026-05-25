@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E1130CD5BCB
-	for <linux-nvme@archiver.kernel.org>; Mon, 25 May 2026 07:30:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EC944CD5BBF
+	for <linux-nvme@archiver.kernel.org>; Mon, 25 May 2026 07:32:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=G07RSMvThr+ILl4s+z8LdlXThJPIHiD0uoyIWVlk8NI=; b=BDwBRT+M4ntyBvQYNpld0hhwy6
-	+Z6D4M9O+HfcXo070BM/T+3ncGzPFWZwKzE/T0QHlRTZ5MHWBuXud8AmHAq9mYEwrgY0NRsePSy+/
-	pKuxGXdWSr7DFPLn1DPJ+Gs8YnXei0BmZr8XakgN+9R0LO98/XNDAuSPbIizI3CiCk0CKNVGEdEQ4
-	fMQdlcmhegBH9INxzwDCY/6S2KpiytYDpAEZHJzKHsdVTayqtyDwkqOyncS2HEjmBwWCZRM1Y4Gvk
-	EgVX/dhNI2wbma/Dn3zpYl9aQFUfOGCO3GTtKCRffkWkDhvp0hj4AeINZzzr94L8mWD/7R7q73rJC
-	Ke2oSs/g==;
+	bh=iHpw4K9Dc7dx9qHJdM6RLi9Nm+UVXuwSZQ6mKhEZdmo=; b=mPQDBRAyUvQhi82gOsQO2VL2g6
+	qa8BFXyERSSMDmdONFVCnMVaQJKCaKdBzhBpzRzyxb5p/7DNncnlS+3WNWwz0tnxhXZmyvxPjuQV3
+	HbsIwIAbG5IQ0scYIZYXVrMFFqgxz5FYTayZOZKRui/ZvPeYSOOSX3LhHH6dlPOL0/u2V/lpZF3hA
+	O2aWbmPrl3PWE+/LHboE/3jtNcW2JU0LYl021feYwftxZkXChic63Ps55VnPUf27jBrsCvP8DEOqS
+	53zuyGINyRlPt3LAUfk5wEIFkukyrl1kTeGh1aO4dPnW5yGP/en5yMWoNVvf7Z2o+QRtNWup//YFr
+	XqIwBW7w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRPlS-0000000GX0p-3qsA;
-	Mon, 25 May 2026 07:30:18 +0000
+	id 1wRPnX-0000000GXFE-0ws4;
+	Mon, 25 May 2026 07:32:27 +0000
 Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRPlQ-0000000GWze-2DGF
+	id 1wRPnU-0000000GXEW-0JEM
 	for linux-nvme@lists.infradead.org;
-	Mon, 25 May 2026 07:30:17 +0000
+	Mon, 25 May 2026 07:32:25 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6D7CF68B05; Mon, 25 May 2026 09:30:12 +0200 (CEST)
-Date: Mon, 25 May 2026 09:30:12 +0200
+	id CAE8768B05; Mon, 25 May 2026 09:32:19 +0200 (CEST)
+Date: Mon, 25 May 2026 09:32:19 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Yao Sang <sangyao@kylinos.cn>
-Cc: Christoph Hellwig <hch@lst.de>, linux-nvme@lists.infradead.org,
-	kbusch@kernel.org, axboe@kernel.dk, sagi@grimberg.me,
-	shinichiro.kawasaki@wdc.com
-Subject: Re: [PATCH v2] nvme: recompute multipath zoned limits from ready
- paths
-Message-ID: <20260525073012.GA5201@lst.de>
-References: <20260522075806.3168366-1-sangyao@kylinos.cn> <20260522092136.GA8708@lst.de> <20260525064026.2fxlbmztsfyzzn25@sang-pc>
+To: Keith Busch <kbusch@meta.com>
+Cc: linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	axboe@kernel.dk, hch@lst.de, nilay@linux.ibm.com,
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] block, nvme: export and use passthrough stats
+Message-ID: <20260525073219.GA5305@lst.de>
+References: <20260522151537.1509784-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260525064026.2fxlbmztsfyzzn25@sang-pc>
+In-Reply-To: <20260522151537.1509784-1-kbusch@meta.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260525_003016_709416_16AA2CA9 
-X-CRM114-Status: GOOD (  15.34  )
+X-CRM114-CacheID: sfid-20260525_003224_251635_06642F4B 
+X-CRM114-Status: GOOD (  11.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -61,25 +60,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Mon, May 25, 2026 at 02:40:26PM +0800, Yao Sang wrote:
-> What I saw was not different live paths of the same namespace
-> reporting different zoned limits. On a QEMU VM with native NVMe
-> multipath enabled, two emulated NVMe controllers shared the same ZNS
-> namespace and advertised CMIC.MULTI_CTRL, so the kernel created a
-> multipath namespace head. In that setup, both controller paths
-> reported max_open_zones=16 and max_active_zones=16, while the
-> multipath namespace head for the same namespace reported 0/0.
+On Fri, May 22, 2026 at 08:15:37AM -0700, Keith Busch wrote:
+> From: Keith Busch <kbusch@kernel.org>
 > 
-> I also checked Identify Namespace data through both controllers. In
-> both cases, nvme zns id-ns reported mor=15 and mar=15, so I did not
-> observe any path-to-path MOR/MAR mismatch. The mismatch was between
-> the namespace head and the controller paths.
+> So stacking drivers can also report passthrough workloads through
+> iostat.
 
-They have to.  The high-level approach in your earlier patch is
-the correct one.  The problem is just that we use the block-level
-stacking for totally different things (multipath and complicated
-DM setups).  The long-term strategy is to unwind that, but for
-now I think you should just open code what you did there in the
-nvme-multipath driver.
+Except that this patch also wires it up in nvme.  So please split
+it and write proper commit messages for both parts.
+
+> +static inline bool blk_rq_passthrough_stats(struct request *req)
+> +{
+
+And maybe add a kerneldoc comment now that this is public.
 
 
