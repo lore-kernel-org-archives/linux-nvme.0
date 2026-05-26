@@ -4,87 +4,143 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E363CD5BD0
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2026 15:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 287BECD5BD1
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2026 17:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
+	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
+	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=g+gNnuCEu0CCTScieZP2q/o0Hc0wagg2kuzY3RUVL2k=; b=Y7W0u9y2OzFbn1w91UZmONroSE
-	ppn1D6g0qsd16wX3gqEpAhKjnIv/CD4L0kDMMTstkA0eigphxjOSwcEvhZheL36UdjHD76oCeUZLE
-	GyINKd9FTG4Hca5grYnhAfd4pOj8B+relAHdMBx69EODMTUjgnt+W1JAlVnQ4Z/8dm9nlqpMcRN57
-	n34dmLbAGvrulD8Mwdyp5u53bo6URPCVXO9LgDRXfVpZPHouPUH+izMoeAMLndfLP2mGI2TQvQGrj
-	BkInRMIoSjGI+gsvgXu2qa/NY2DbTyHzgWzcDVKIZ/jwGYCz8ZslThfPWUqNC20fyXJWBLoY8mAHh
-	ku/Op2pQ==;
+	bh=1zcstS1whKTjLCME302cVbMi7UGN8lNJcicPx8ihBVA=; b=2c0vxD8GGSmvjbz6kRf2RArL75
+	zGuqdlSrcl8FURkvzTIWC2Cl1p6hKkCLluZyBWtqlAbo810dYZRkuZAl9YLZdtBClycEG5pqm9RWD
+	94/l+ApqhO95+V0FZrxSwkFkbZclEWzd6g3iKhG7ScJ2dYTByvkCfFHq8Vu58Xz3/9Hv9pu1Krlq/
+	Ux5ORsPAp5o0dQkXUkfH/FuRvLnzxwESh9QM6TmsrMbKqJ3nSGrY97fj1iNTpoNcE9ZXQUEQ1+hxS
+	6SNnX35lAbIskX7XZFA+Dmwg4slSYw2YUad4kQ6bwLX/ZUhCjyiNoePXXt+tFvOPZd3jKe2tsatIz
+	RCcq1Ysw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRtsa-00000002Owg-0xsB;
-	Tue, 26 May 2026 15:39:40 +0000
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
+	id 1wRvDO-00000002eI4-31l5;
+	Tue, 26 May 2026 17:05:14 +0000
+Received: from mail-eastusazon11012012.outbound.protection.outlook.com ([52.101.53.12] helo=BL0PR03CU003.outbound.protection.outlook.com)
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRtsX-00000002OvM-2a8g
+	id 1wRvDM-00000002eEJ-0Rl1
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 May 2026 15:39:38 +0000
-Received: from pps.filterd (m0528007.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64PKuCHs1978827
-	for <linux-nvme@lists.infradead.org>; Tue, 26 May 2026 08:39:37 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=g+gNnuCEu0CCTScieZP2q/o0Hc0wagg2kuzY3RUVL2k=; b=dY7DvuzRE5Ci
-	McDxPH0acpwnWq4lkkWpk8gsiO13+1Ka0OKoUH6uPd2zuY0XB9/n3gf6XfSAowvT
-	ROEMJA1OFMgFubpjOLL/ZKkJZNbOuyq7xO4YRP7lzIalIxG4Vj00ooP7sIgwG24C
-	jFOupEFKrXYhv0L4QtmwUDdnbgWG0u+YbiN26/E5GPsdSTgTgpaAZYP6ExPhKezb
-	ux4xSmB0Ri5s1KCWw4BnQ9kLFKxKO0GRVe0JF8M4GKKSNGJGz+Ifp94081zo1akg
-	LAvk2kKqDOdgrdpnYH+oRVlQ2+7wVSLDFoBOFsgHp87+FjFrYwN6trGWjihstz+a
-	1ZJmtrzhzg==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4ec08tjvy1-7
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Tue, 26 May 2026 08:39:37 -0700 (PDT)
-Received: from twshared10183.03.snb3.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.37; Tue, 26 May 2026 15:39:33 +0000
-Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 4BB121CA8D4B7; Tue, 26 May 2026 08:39:22 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, <nilay@linux.ibm.com>,
-        Keith Busch
-	<kbusch@kernel.org>
-Subject: [PATCHv2 1/2] block: export passthrough stats enabled
-Date: Tue, 26 May 2026 08:39:20 -0700
-Message-ID: <20260526153921.2402015-2-kbusch@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260526153921.2402015-1-kbusch@meta.com>
-References: <20260526153921.2402015-1-kbusch@meta.com>
+	Tue, 26 May 2026 17:05:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cwrSCp4ZrhQvGsgQUzqan7nZal21Hw31KQXaXqoufRMhnqbHOo0opZokA5pOzQMya8FITzl21FvgA4EE+QAjlItIOXmUOrTRKEKpL5BgyxSgeuTSmOTjjzd7drtI3ukejskXoes68gs0SMKi8Dk86+tS9zL0ul5SBas5arApmuoALEbhcTB/oxO19rYEHWpCZ/ObV+g+apWUSus0e8LHPdMJYdfjgH9Ewlupv+coqEPcHg9wW1frEsW676NaiYzMSuTmK+nI3sx6wTAhElBf9BNWk5MqkPLCmnI3QgHabFwoezGmqcbBYF60WvJP9h61DmTs47gy5MnVn3KlHpgs7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1zcstS1whKTjLCME302cVbMi7UGN8lNJcicPx8ihBVA=;
+ b=QjcWU7bCo68ui3Ruccrs5JFUloRC+hN6EGsJdrxPvkt/MNzZ+c+R4zJzsAZbtUbFfzmuwl4FGGfWGadgxfqgHqo08Vm9Cx6VAJ2TD1zIk7TLqXlGCt75syiH3nQdyyo6TK7IXyKGK0HpVxJi/cg7Z2dY4Cfh6tmEBSo+qyFIQx8pWQFfINU8L49jQ9pYYj87jcFygUSiZRLwaHe5Bl5WmnwDZGbnNUyJOxIazAJ/RfY7iKSw1eM8Jfh8micKI8ec0dDaT//xNNS8AxQCbdhqeyvBOSz0ezTVnWl4wmmHiPsjbJ1Ta6MbKXLvvrZxsnOtQVg9PBSwlHJg8leYlrDUDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1zcstS1whKTjLCME302cVbMi7UGN8lNJcicPx8ihBVA=;
+ b=Pw+C0g4JinBCOji8fw8oE+xye9yLboxUPwXbLHf2K/AKbWFLBhTV0tgPVS9TWsV+cxS9JWArpnV2IHeAtpa/p7K6jGC09FNnpL33j8Fqr5CL5elol5Axe0PQ7T3HJW40ThLF+0NZMMnwW3Ccru+uUpgzCbqFo+vY00WGiahdy/7wc9F5b6dS6nY3yzpN8glMpxMSRBJhZCZ4FK816cJhWgiK8MBoV2cst2i5TzNi3WnPHGaqhBAUka8HgRPZk82pph/tLBimlNvk6RwnD7/p/34SlOJK+lBCk6w+BLT/RRQQtEk8Eusq6GLx7av4avxktZEWVujbvKd1Tv6nBMuS+Q==
+Received: from CYXPR12MB9386.namprd12.prod.outlook.com (2603:10b6:930:de::20)
+ by SN7PR12MB8819.namprd12.prod.outlook.com (2603:10b6:806:32a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Tue, 26 May
+ 2026 17:05:03 +0000
+Received: from CYXPR12MB9386.namprd12.prod.outlook.com
+ ([fe80::edab:eb80:ee7e:e9b7]) by CYXPR12MB9386.namprd12.prod.outlook.com
+ ([fe80::edab:eb80:ee7e:e9b7%3]) with mapi id 15.21.0071.011; Tue, 26 May 2026
+ 17:05:03 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Geliang Tang <geliang@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi
+ Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Hannes Reinecke <hare@suse.de>, Keith Busch <kbusch@kernel.org>, Maurizio
+ Lombardi <mlombard@redhat.com>
+CC: Geliang Tang <tanggeliang@kylinos.cn>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>, Hannes Reinecke <hare@kernel.org>
+Subject: Re: [PATCH v2] nvmet-tcp: check return value of
+ nvmet_tcp_set_queue_sock
+Thread-Topic: [PATCH v2] nvmet-tcp: check return value of
+ nvmet_tcp_set_queue_sock
+Thread-Index: AQHc7PIC7po1CxtagUifqXGu+fLGe7YgibKA
+Date: Tue, 26 May 2026 17:05:03 +0000
+Message-ID: <7b5a85fe-7701-4418-8dd7-949c1c5e68a4@nvidia.com>
+References: <f83c3bb5e83450b46394f3c14c50f07860c0cb10.1779787436.git.tanggeliang@kylinos.cn>
+In-Reply-To: <f83c3bb5e83450b46394f3c14c50f07860c0cb10.1779787436.git.tanggeliang@kylinos.cn>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CYXPR12MB9386:EE_|SN7PR12MB8819:EE_
+x-ms-office365-filtering-correlation-id: 18a3dc07-4273-4319-de55-08debb48edea
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|10070799003|366016|376014|1800799024|18002099003|22082099003|56012099006|38070700021|11063799006;
+x-microsoft-antispam-message-info: 4UsFZjtL03a/epSvkF3zvfuCSIj9oqfUAJFxHbzZfnuq5ok6ZvQsBa/lkXifzTeAlJqinMNLUNq/1tCci7oORe1gNuQlTa+D1b1QmG44hvKOce0bjP7YzQQTWh1ZQveJqrRbPNSGR+BltrBzfhivCxOk/vuaNO47gfoy8pnBZrUQPHNMLpaS6uoWbBIsehY9XxMbbBGcrnMLwz0Evv5sxiCD64nRWLiHxPOBazuUezzW0+7mBeMPnTi+oEZ5Axzip3MI448Hw+pydZU/XJbmB/egG8U0RSGVNBrN1pDBmq6c4aAvCDzS/XJ/CbyPHW6/YqT8ILLiSE5U8PJ3UhgvhvwOG9fSJcwvtLlBgk0t4EMldcaux2Px2LnkhptcoKR3gdxS0pBOnZMt255Dtz0sNFkaViqX3Ad59IpAR9GioSmRsVtslbQcotsmS+W9mrstONM3U60apTCVaswYr0U/6wNmmzNEHsI5TwbtmfbzY9W3+0yuo+puCrvHWSy7Wx2sXvr5cmdW8XeK3ma/hERGMnP+C68G26cNP5wou0tBLDnK37iXNakOHXDalGq7rjX7iqabLGdONO8xl8iwXx5N2CFEwEGCDWIFFPRnA5n+M5eNVOqIHPV4EIeuuvE+sVOJ72t12u5slPGI4F2fC+JJ5HG1qARQ4xf0WfFjnoLxxkOmeWjbsvjKRULTe89AkInbnjcQDeYzr6uTDIQzKGZH4uBalIKIcLg/B3jCCrSX+L5bONGZK6hoBlyudC+rtL6c
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYXPR12MB9386.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(18002099003)(22082099003)(56012099006)(38070700021)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WkFsNWIycXNxUGJnUkk0TWRFb0UzME9HTWRvbExkNktabjlzcW1SVGF3T2xI?=
+ =?utf-8?B?T1QyelBRa25XQ3ZjdDhKbTJsYWYweWtha21BbDNQSXVjU0swK3BaK2VlQ09n?=
+ =?utf-8?B?bXNFa3hsYys1M3JLSWxIL3N6blczTG85ck8vd29kdDByNzhJd292NlZ2aFow?=
+ =?utf-8?B?SzZ4bTdQTXdBMHR5a0QrNHRqNXBoQ1JjU2VxdW1najJjMk5GU2l4TzBHakpr?=
+ =?utf-8?B?NzJFTi8xd0h2TVdrdDJBVGFpaENFSzduU1MvUTF4ZUZVb0k5QmIxWWZNVGJ6?=
+ =?utf-8?B?a0U3MVdwOGhJY0hHZURXL1BHZEd3eUpVTmNjRzMvd0JCTWlINjJ0RlVRbVlT?=
+ =?utf-8?B?QmhjTU9ZOGxoV0lZc01za0VCRFAxTGpqZ0swTk90NEVMU3p3U0RnNWhMK1pa?=
+ =?utf-8?B?UXZJWk84cS9DQkxkM0VXUXhOOVlVWllWTTVkcVo2RkpSMEJuM092NGt3VHAv?=
+ =?utf-8?B?bkNpZGFRcC9ldmNabVdPVE9YMVQ0b3dXa0lld3lsaEQ4ZDZGMHloOEwxMUky?=
+ =?utf-8?B?UmlTdEoreUw1bDhld2JxdS9vMCs0S0I5QnlEd2c4SU9CRmh0MmhaVGVFalZ2?=
+ =?utf-8?B?VVdXckxXYW1wWXVmVWpHRVZxZExPZzZLQnpIdVZNN3RsZlF0d2RFTWt6S0t3?=
+ =?utf-8?B?NlVKNkhjaEh6U05OV3V5ODZXeVFhK0g4eVpVdE5scWM5cVdEQktsRm02V1p2?=
+ =?utf-8?B?VzZnNXRrQ3BNenF2RUI1dU9TaWFZZ1pOSUJMOEtzYmtrRzFoTUZhYUJiSnlE?=
+ =?utf-8?B?Z0ZoZm5lOEh5QTN5ZXdBYjFueUF3d2lmdW01aFkzQXUybmNFdzZ2UWc3eUd1?=
+ =?utf-8?B?SXN2ZkZscmdTdlI4dFQ2SElKTGFuMzFEMy8xUUhERGxzWjdjb3JpNzk5bVBq?=
+ =?utf-8?B?UWhxYy93WkQ1bDJHQTJpRlBlSkpiVmtTVm9wT3N0V2wvWkdqRHRCNFlOOFd2?=
+ =?utf-8?B?ZmtsK2xldk9qaU5IT21GYTFWZU5KWUJmMFNZdFV6RW5ZWXBXdXBVcU5hUFN0?=
+ =?utf-8?B?QTRIVm9sNnkzOE1hSGNmeHpxS1ZaWUZrV3dmKzByMzB5RndTV2tyM05wcDVy?=
+ =?utf-8?B?QVVSUURLM3BsOXRaT0trZC9OZ2l0aW1UVmFTN2hzcU91VXg3Zkh1M3YyTG1M?=
+ =?utf-8?B?V3J3ZW9waHpzZ2ZFaVAyVkxuK0RIQ3ZmQWZSOFJ0dVAvRjliaVNkdFEvanh1?=
+ =?utf-8?B?NGI2MUtVNndRL2pVWVhUTFlhMlJqQ1BBN3FsbVRLUnZacFdXdkZhL3lVZk9s?=
+ =?utf-8?B?dWFZUENVcmJ5Y2Z4MFg2TTRDRVk3T1dkeHFMWEpyMWphcm9QNTV2OUNBSlhM?=
+ =?utf-8?B?b2owbnpCTUh6ajByc3RvdVc4OVdoVXNpeUtUbVNvQmVqdkZNOXNmRXR1OGh6?=
+ =?utf-8?B?bDRycmNYYTJGVk1ZckZTN0duTnd1ZVV1QjJmZ1FnaUd6UTczQzJQTitSY1N2?=
+ =?utf-8?B?dHlLZXBqVDQwamlsSkZRbHovekI1VGpPN3FpOGtqWEFzL2ZORUxnbmVLNklR?=
+ =?utf-8?B?dG1ueEo2c2NWWE5ubGlkeWNIczJBMEMrNnBERFM4R0VicnVrQmtPaWtxcWVu?=
+ =?utf-8?B?UWNNWHRaVTJvN2pxK3NITmwwMkVab0ljQVdja2Fxc0tTTmU2QVFwN0gxVXJ6?=
+ =?utf-8?B?UDhvVEtyTWJYUlZCZmxXMVhIWmdmKzZ3dnBvdUY2SWxHRUw2NWZmKy9NeGVP?=
+ =?utf-8?B?QVNodzNoOHpoTDh4eWdLWGJSdEJDaGJGdEhqalZvYlBTWmRjWGUycjRyd0RC?=
+ =?utf-8?B?S3QybkdHYStPZ2VDSnRpRlRoMXpVc1BTTXk5cGRENjAwSXZza1MxTnNhR1lU?=
+ =?utf-8?B?ajdacGtNOG5HZTk1dEdCM3N2MW51bDNuWnZOL3prdjZRUDFOa0kzV2ZDUmM3?=
+ =?utf-8?B?a3pnWElLSEk3WVl0Q2tIUnViUWlTRXNhWm9MREdMNm5LVTJwVit3bWZnd1R3?=
+ =?utf-8?B?bGpZaFVFMENBLythS05rUFVNeWo4aER3eHpSZExvY1JPbFpnM2d5Q01nUTdu?=
+ =?utf-8?B?ejV3YVlIVGowVGJBMVFoK0NQeFNqUXoxWTg2SHE1L05UQjNRTDFjNHcxb2pM?=
+ =?utf-8?B?SjVHWHFqWHp3TjM5Vk1rRXM2YVVsd3gwbGRvaGpCQmlWTWkrUENlRlhnSHZF?=
+ =?utf-8?B?eFJsVC9wbXUzcEp1dnNHNWZSbDF1YURjdklicmw1SGdZOVhNcnNTWU5BVVV0?=
+ =?utf-8?B?QUtFODZoK1hHZXFHSzFZa3RFUDUwQU5DcDlkSE5BMzBzdWdoRzJRc0hoYVNk?=
+ =?utf-8?B?bEc4MDJrRklxVm5GQ1E0MDluUElMS2hvcUpma1NYUlBUV3o5SXByV1hGOUlZ?=
+ =?utf-8?B?QXJOOVNzTGFwcExRSGtEK0FwOWVLenJFcDY1RlVEdzlkYldwd2gvTk1KT2xm?=
+ =?utf-8?Q?zn73MR174E4Xmd+KtFEVwsritNjYuvlfpXo9q?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <29601D49018FCB45A86F3A9B4139F7AB@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI2MDEzNSBTYWx0ZWRfX1TR8BmntfFNl
- CZcEyhH52zpD7Be+1+v2/JEYQiSu2Br+CnFYGaNURhebpYkAFGsWStxmhjbiMtUpPdIbIJJyWos
- foE2R8UL4E9a5Y2qdwDG8oY9CiTBd+sQ4XiFCwEkvDJIAPkS6EExiDpOzI44Oc3HW3rV6QHltMx
- jG9C0FM0dlWYvm2TneCWGbe4PnuQ8PNXMuL9GakTem2mbzX/SIeeANcuuVin6bJFjHYP4dewllm
- Tcy8Z3Vg9UeALl7D9lqsKssOJdhYTrViV59wGTils+DBkfSzScjEelsNPhUJJho2jo1GAGzj+vt
- mfu1Ram9VE7uDA3RrduMZEsNqIprUbTlslXRrFT2xR6MODby+5MBmPctFLUhwMglBFy4F3dm5fq
- xwc3FnPOsfE7PrVEkO7K/ho+IXd/YkRi0sHWSzrAhmeN29OcPpljqqkAplqy+o0CAPVnmzrxGu5
- E8n/7rbnUUceu9N0Sjw==
-X-Proofpoint-GUID: ANTafdlnUbRzxmYh9NSSIjY2flocHjY5
-X-Proofpoint-ORIG-GUID: ANTafdlnUbRzxmYh9NSSIjY2flocHjY5
-X-Authority-Analysis: v=2.4 cv=LvKiDHdc c=1 sm=1 tr=0 ts=6a15beb9 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=4h92JMTCafKA-fb_NiOh:22 a=VwQbUJbxAAAA:8 a=EHD5-2HmoPCg4FQ8pjcA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-26_03,2026-05-26_03,2025-10-01_01
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CYXPR12MB9386.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18a3dc07-4273-4319-de55-08debb48edea
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2026 17:05:03.6231
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9dyiVyabqhLrRj5L+vqRuA5S8H3/2j0Rxfx4GzchMphNgDfWRQXMX90sb9O49XVDEboAXw8+/HpVlVDbQ8jpbg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8819
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260526_083937_663967_BE7C91B0 
-X-CRM114-Status: GOOD (  16.44  )
+X-CRM114-CacheID: sfid-20260526_100512_148831_0EB734F5 
+X-CRM114-Status: GOOD (  12.16  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -99,110 +155,18 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Keith Busch <kbusch@kernel.org>
-
-A user can enable io accounting for passthrough requests, so export the
-helper that checks if the request should be tracked. This will enable
-stacking drivers to to report iostats for passthrough workloads.
-
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/blk-mq.c         | 32 +-------------------------------
- include/linux/blk-mq.h | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+), 31 deletions(-)
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 28c2d931e75ea..48115e1d9d6a8 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1088,43 +1088,13 @@ static inline void blk_account_io_done(struct req=
-uest *req, u64 now)
- 	}
- }
-=20
--static inline bool blk_rq_passthrough_stats(struct request *req)
--{
--	struct bio *bio =3D req->bio;
--
--	if (!blk_queue_passthrough_stat(req->q))
--		return false;
--
--	/* Requests without a bio do not transfer data. */
--	if (!bio)
--		return false;
--
--	/*
--	 * Stats are accumulated in the bdev, so must have one attached to a
--	 * bio to track stats. Most drivers do not set the bdev for passthrough
--	 * requests, but nvme is one that will set it.
--	 */
--	if (!bio->bi_bdev)
--		return false;
--
--	/*
--	 * We don't know what a passthrough command does, but we know the
--	 * payload size and data direction. Ensuring the size is aligned to the
--	 * block size filters out most commands with payloads that don't
--	 * represent sector access.
--	 */
--	if (blk_rq_bytes(req) & (bdev_logical_block_size(bio->bi_bdev) - 1))
--		return false;
--	return true;
--}
--
- static inline void blk_account_io_start(struct request *req)
- {
- 	trace_block_io_start(req);
-=20
- 	if (!blk_queue_io_stat(req->q))
- 		return;
--	if (blk_rq_is_passthrough(req) && !blk_rq_passthrough_stats(req))
-+	if (blk_rq_is_passthrough(req) && !blk_rq_passthrough_stats(req, req->q=
-))
- 		return;
-=20
- 	req->rq_flags |=3D RQF_IO_STAT;
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 18a2388ba581d..25931a8076d2a 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -1243,4 +1243,34 @@ static inline int blk_rq_map_sg(struct request *rq=
-, struct scatterlist *sglist)
- }
- void blk_dump_rq_flags(struct request *, char *);
-=20
-+static inline bool blk_rq_passthrough_stats(struct request *req,
-+					    struct request_queue *q)
-+{
-+	struct bio *bio =3D req->bio;
-+
-+	if (!blk_queue_passthrough_stat(q))
-+		return false;
-+
-+	/* Requests without a bio do not transfer data. */
-+	if (!bio)
-+		return false;
-+
-+	/*
-+	 * Stats are accumulated in the bdev, so must have one attached to a
-+	 * bio to track stats. Most drivers do not set the bdev for passthrough
-+	 * requests, but nvme is one that will set it.
-+	 */
-+	if (!bio->bi_bdev)
-+		return false;
-+
-+	/*
-+	 * We don't know what a passthrough command does, but we know the
-+	 * payload size and data direction. Ensuring the size is aligned to the
-+	 * block size filters out most commands with payloads that don't
-+	 * represent sector access.
-+	 */
-+	if (blk_rq_bytes(req) & (bdev_logical_block_size(bio->bi_bdev) - 1))
-+		return false;
-+	return true;
-+}
- #endif /* BLK_MQ_H */
---=20
-2.53.0-Meta
-
+T24gNS8yNi8yNiAwMjoyOCwgR2VsaWFuZyBUYW5nIHdyb3RlOg0KPiBGcm9tOiBHZWxpYW5nIFRh
+bmc8dGFuZ2dlbGlhbmdAa3lsaW5vcy5jbj4NCj4NCj4gVGhlIHJldHVybiB2YWx1ZSBvZiBudm1l
+dF90Y3Bfc2V0X3F1ZXVlX3NvY2soKSBpcyBjdXJyZW50bHkgaWdub3JlZCBpbg0KPiBudm1ldF90
+Y3BfdGxzX2hhbmRzaGFrZV9kb25lKCkuIElmIGl0IGZhaWxzIChlLmcuLCBkdWUgdG8gdGhlIHNv
+Y2tldA0KPiBub3QgYmVpbmcgaW4gVENQX0VTVEFCTElTSEVEIHN0YXRlKSwgdGhlIHNvY2tldCBj
+YWxsYmFja3Mgd2lsbCBub3QgYmUNCj4gcHJvcGVybHkgc2V0LCBsZWFkaW5nIHRvIHF1ZXVlIGFu
+ZCBzb2NrZXQgbGVha2FnZS4NCj4NCj4gRml4IHRoaXMgYnkgY2FwdHVyaW5nIHRoZSByZXR1cm4g
+dmFsdWUgYW5kIGNhbGxpbmcNCj4gbnZtZXRfdGNwX3NjaGVkdWxlX3JlbGVhc2VfcXVldWUoKSBv
+biBmYWlsdXJlIHRvIGVuc3VyZSBwcm9wZXIgY2xlYW51cC4NCj4NCj4gRml4ZXM6IDY3NWI0NTNl
+MDI0MSAoIm52bWV0LXRjcDogZW5hYmxlIFRMUyBoYW5kc2hha2UgdXBjYWxsIikNCj4gUmV2aWV3
+ZWQtYnk6IEhhbm5lcyBSZWluZWNrZTxoYXJlQGtlcm5lbC5vcmc+DQo+IFNpZ25lZC1vZmYtYnk6
+IEdlbGlhbmcgVGFuZzx0YW5nZ2VsaWFuZ0BreWxpbm9zLmNuPg0KDQpMb29rcyBnb29kLg0KDQpS
+ZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1bGthcm5pIDxrY2hAbnZpZGlhLmNvbT4NCg0KLWNrDQoN
+Cg0K
 
