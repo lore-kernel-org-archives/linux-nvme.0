@@ -4,78 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D826BCD5BB4
-	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2026 07:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7593CD5BB4
+	for <linux-nvme@archiver.kernel.org>; Tue, 26 May 2026 07:52:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=pCk/MOI1IrBrf1zS9mxmztXvWQilJ06SiMp8QUtJfdU=; b=ftHB9IxPhmX7ZS6ajyxamNMbz7
-	UbfXMMoI7n7OXt/XgQiCnAE1MCDwARkHnQJ0rxBpRmf1/76FczPwSr0RWjw4iDmwoCuBqgPtyTika
-	nSxtrlTYmMfKS9SIUBSjXQ3u2fHvyVDH+58oriLWkL9S5LkH7uBdgqUm5i5OGz5shAeepSV4nbBR7
-	ABX6DZSYooQ71MrtXDnciJlva7DWYz3Y8ilEkh6obAUAFkTJH9KIvqPYJGGKAcA7QcZKL1EdSVqE3
-	UgowJSKjMlY0kpychezK8kEUIT2Tt8yNumliEuJSIyKmk+l6fTf1vKiUIso/AZ5htyBf5xAXfEex7
-	V9clgSpA==;
+	bh=pbYIBGOEmwzLz4cPeDZTCHq1J54eRqPgjWFbvt/fJSk=; b=kj+8OECSaYfa7ULu0+2y2ASzrQ
+	J2PfnuM0tkrgkz/W3QF9/vu802LaMxyE+ui1Cv3RvUzegWewQ/9/SN7Vi9+Yf65XzRyom84qr6DXq
+	kCVtyGhx1lUZMKVDFVcZY62dTl2PdBOb/5/UU76NXu8igMLkOBTZb8EBPrX5edJGa0yav7EHUrIe8
+	fLKvfO0r2BEp3rCcyNAszQzdpo1caGPEFjmyxG6TZp3wHDzdV/UJVXC+FGUJMUIv99PwumplQig0J
+	5RRfOHy3kLjb79rPb1TkE2VYRWxxqgq+oDk4RyuS+cLtqO5cZytFgs5AFpB4L38gTdAfq3kSu3tcJ
+	9JIjYsDQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRmAR-00000001GE6-1qEd;
-	Tue, 26 May 2026 07:25:35 +0000
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+	id 1wRmag-00000001JWe-3enI;
+	Tue, 26 May 2026 07:52:42 +0000
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRmAO-00000001GBw-0fPn
+	id 1wRmae-00000001JVq-36i8
 	for linux-nvme@lists.infradead.org;
-	Tue, 26 May 2026 07:25:33 +0000
-X-UUID: 08ddda6a58d411f1aa26b74ffac11d73-20260526
-X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_UNTRUSTED
-	SA_LOWREP, SA_EXISTED, SN_UNTRUSTED, SN_LOWREP, SN_EXISTED
-	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD
-	CIE_GOOD_SPF, GTI_FG_BS, GTI_FG_IT, GTI_RG_INFO, GTI_C_BU
-	AMN_T1, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:6cc670dc-552e-4ad0-bf1d-4a539b6f2528,IP:10,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:35
-X-CID-INFO: VERSION:1.3.12,REQID:6cc670dc-552e-4ad0-bf1d-4a539b6f2528,IP:10,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:35
-X-CID-META: VersionHash:e7bac3a,CLOUDID:149dc50b53c5225263ebbc15a4c95e47,BulkI
-	D:260526151812YBISQN42,BulkQuantity:1,Recheck:0,SF:17|19|66|78|102|127|850
-	|865|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:
-	40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BR
-	E:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_ULS,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 08ddda6a58d411f1aa26b74ffac11d73-20260526
-X-User: sangyao@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <sangyao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 586137057; Tue, 26 May 2026 15:25:13 +0800
-From: Yao Sang <sangyao@kylinos.cn>
+	Tue, 26 May 2026 07:52:41 +0000
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-49042aeeb75so51692055e9.1
+        for <linux-nvme@lists.infradead.org>; Tue, 26 May 2026 00:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779781959; x=1780386759; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pbYIBGOEmwzLz4cPeDZTCHq1J54eRqPgjWFbvt/fJSk=;
+        b=bLMAD9SR57eLdyic5pqIfHqm+HV5Pi50JrLg1y6/ljjVmZpktKSDcHE0nkf8cI505y
+         jILUA9pkmV5Y4O3qcUILM8w/riNTQDOzyoCrC9pd5dvCeUv0zblylXSSgUTxtCPtpP9e
+         RvOYCFiqS1lTGo/l+NpvP/7PZBZ6Bv13LMIPNPdMTeOjMaJdi0+ZduCsbJWR1tzthPPL
+         1T9tH+hcoDfFFloFeV4hj4SxTRZbg4nmUbfUqpyNZ4RehBrG9eyQqcCdqlfBNaLf8qF6
+         SoSV0g3xZwYqzdEcsb6CjfzopEL7G/eZvsp6okZALgJNFz+LDukjyKhKaKfqGOxceLn/
+         w+KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779781959; x=1780386759;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pbYIBGOEmwzLz4cPeDZTCHq1J54eRqPgjWFbvt/fJSk=;
+        b=hvJRAjFbrR0A4Ujleahp0+nHc8+778iEVkknLH5PlHS05JYRZwKAuJaS+7hnkWJKiS
+         aaC63e9urHTjapXm24OPi4Y/O8w/5bLKR2iKH66Np1ERp4WpBDjS2VqweHP7ZBSk7Qmq
+         a6t8g2DT+SILDsQYL88ClfaPiDDJc4PWpOlvNM3Fwjrvk7HrFfuIUkDwchd0tEVg38pO
+         usuTNVDxnqvseS+8L4dFIhrMdPzL4SddvPOljtUvq2D/Umnv/KFTbmF7WITVhdB679Yj
+         Q/8Co5BbNbkPUy37F9y+FZN1KQg7I02hlkrEs/Q6ObdwnOko2Haqm3YWhULv3GhLasuR
+         PjEg==
+X-Gm-Message-State: AOJu0YwCCb/LZiQNUM0TPYRILNEKM2HveNbcOzSE70/ddTLfhLfu998h
+	Kx6qYf/tMNwYuIRRuBVh6IyAAXnQoJaq87MMCNM0eIbeMnnS1783Frmsoe+ipmpGFdap6Qfr
+X-Gm-Gg: Acq92OElT9O1ohSETDIU/A7gsxUfG9E+rrpB3AY1DNV/19y+NeBsm8A+3qHM0a5n6LC
+	oZRF8ORlNEkdD7IOVRqv0G6LXGGC1rKC/u8GVCQ4nseRoWeJE7UXGa435KEZcLlit5MhPBzdjwO
+	JlzqnuG974qqv2/+gtwUbuHwpE9+lvks/VGwUOjqn5V4UQPx/Up8Gbf0DtURyj9WN/NDfRixykj
+	s5teWe01AhxeXJmYtZr5Z3GgxvOtFsJD49lptqHaJ6muSTR0mik2O8lgiNDzjFPOHwk17BJ8ciV
+	ZVnosYCT1dkzjpDGYrTHj/kSH/P/XPEaHpUxMbIr6Hta3K8KE9ENcWJSLWKFiSxMSkFhOfseaM9
+	87Af4Dt+D7dunbC+A4uomTYUcQOyvCvE1RNPf9ylynoB/opWWbgZ5u/c7HkYsWlLEwTd2ImHH1X
+	/fao5eWXLVPOVW34rq3vJSfWsRUc4F
+X-Received: by 2002:a05:600c:a213:b0:48e:8741:fd42 with SMTP id 5b1f17b1804b1-490424ada3bmr187126135e9.12.1779781958408;
+        Tue, 26 May 2026 00:52:38 -0700 (PDT)
+Received: from [127.0.1.1] ([2a09:bac5:3803:1cdc::2e0:83])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904526c926sm540682825e9.1.2026.05.26.00.52.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 00:52:38 -0700 (PDT)
+From: liuxixin <gliuxen@gmail.com>
 To: linux-nvme@lists.infradead.org
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	shinichiro.kawasaki@wdc.com,
-	Yao Sang <sangyao@kylinos.cn>
-Subject: [PATCH v3] nvme: refresh multipath head zoned limits from path limits
-Date: Tue, 26 May 2026 15:25:29 +0800
-Message-Id: <20260526072529.1086128-1-sangyao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/1] nvme: fix FDP configuration log parsing (NUMFDPC / fdpcidx)
+Date: Tue, 26 May 2026 15:52:35 +0800
+Message-ID: <177978195555.4106423.1566684328319724660@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailer: send-local.py
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260526_002532_524201_EDB887B5 
-X-CRM114-Status: GOOD (  10.06  )
+X-CRM114-CacheID: sfid-20260526_005240_802699_391B2A50 
+X-CRM114-Status: UNSURE (   9.08  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -90,67 +95,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-queue_limits_stack_bdev() updates the multipath head limits from the
-path queue, but it does not propagate max_open_zones or
-max_active_zones. As a result, a zoned multipath namespace head can
-keep stale 0/0 values even after a ready path reports finite zoned
-resource limits.
+Hi,
 
-When refreshing the head limits in nvme_update_ns_info(), update the
-zoned limits directly after stacking the path queue limits. Clamp
-max_open_zones and max_active_zones against the current path limits
-with min_not_zero(), and clear both fields when the resulting queue is
-not zoned.
+NUMFDPC in the FDP Configurations log (NVMe Base Specification, Figure 279)
+is a 0-based count of configuration descriptors. Valid fdpcidx values are 0
+through the NUMFDPC field value inclusive.
 
-This avoids advertising "no limit" on the multipath head while keeping
-the zoned-limit handling local to the nvme multipath update path.
+Since commit 30b5f20bb2dd (nvme: register fdp parameters with the block layer),
+the host driver used:
 
-Signed-off-by: Yao Sang <sangyao@kylinos.cn>
----
-Changes in v3:
-- Keep the fix local to the NVMe multipath update path, as suggested
-  in review
-- Drop the helper and update the zoned limits directly in
-  nvme_update_ns_info().
-- Keep explicit clearing of both zoned-limit fields when the resulting
-  queue is not zoned.
+  n = NUMFDPC + 1;
+  if (fdp_idx > n)
 
-Testing:
-- blktests: nvme/005, nvme/057, nvme/058
-- blktests: zbd/011, zbd/012, zbd/013, block/004
-- blktests on /dev/nvme0n1: zbd/001, zbd/002, zbd/003, zbd/004,
-  zbd/005, zbd/006
+which incorrectly accepts fdpcidx == NUMFDPC+1. When forcing fdpcidx=1 on a
+namespace that reports a single FDP configuration (NUMFDPC field 0), the
+unfixed driver proceeds into the descriptor walk and reports:
 
-Link to v1:
-https://lore.kernel.org/r/20260520091237.392802-1-sangyao@kylinos.cn
+  FDP invalid config descriptor list
 
-Link to v2:
-https://lore.kernel.org/all/20260522075806.3168366-1-sangyao@kylinos.cn
+This patch fixes the bounds check and also validates descriptor sizes while
+walking the descriptor list so dsze == 0 or a descriptor past the log end
+cannot cause unbounded iteration or reads past the buffer.
 
- drivers/nvme/host/core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+## Test plan
+- Build: make M=drivers/nvme -j12
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c3032d6ad6b1..18383a70e2c5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2549,6 +2549,15 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
- 		lim.io_opt = ns_lim->io_opt;
- 		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
- 					ns->head->disk->disk_name);
-+		if (lim.features & BLK_FEAT_ZONED) {
-+			lim.max_open_zones = min_not_zero(lim.max_open_zones,
-+							  ns_lim->max_open_zones);
-+			lim.max_active_zones = min_not_zero(lim.max_active_zones,
-+							    ns_lim->max_active_zones);
-+		} else {
-+			lim.max_open_zones = 0;
-+			lim.max_active_zones = 0;
-+		}
- 		if (unsupported)
- 			ns->head->disk->flags |= GENHD_FL_HIDDEN;
- 		else
--- 
-2.25.1
+- Repro/validation (lab):
+  Tested on linux-next 7.1.0-rc4-next-20260521 with QEMU 8.2 nvme-subsys,fdp=on.
+  With a single FDP configuration (NUMFDPC field 0), forcing fdpcidx=1 triggers
+  FDP invalid config descriptor list on the unfixed driver, while the fix
+  rejects it early with FDP index:1 out of range:0 and skips stream
+  registration.
+
+Thanks,
+liuxixin
 
 
