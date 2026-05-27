@@ -4,59 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 454F9CD5BD5
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 13:22:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFFF0CD5BD0
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 13:24:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=pMBavffiZSnRm2SoY87F2ixUkUHdGCw3hRW7BgBJuUs=; b=Tzxnd+76kQEieau9d7FdObaYX/
-	wkIYs8l4z8DuYB3pWnzHQP3loU+W11LcljnLwpT30KDr9Qib6QBwTP61Bmm9bbYgzoRjDeRuo1Niw
-	EXmZX80k5WrHaefYY+oYseMFWiul/l9jM0qIv3GNkElyGJ4xpc4pctA4nFgKK51n/Kg0ZK25/rNda
-	25oVR5dARUIqpnmZh5nWIMdJ1mPtBmijjPzrlnrs1xErbPzfq1uFgfilAvHeNh1ZfCXaJfvNGCQNK
-	iRAbxJ8ZSK9zWT/un1NRLr6hNLKQLjbxBI7M5INVOSoi/07JoZawkicT25WgwuHVq5qXz/YjEZ7Tk
-	Vkq5NW5g==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=El3RfNVm85xP2xTiqV9h0LNYYy
+	Qiim48U2CmpSFFAJ/E0J1nMLLrKsy1LKOdig+c6V4SmmfIdXyxAG/toaExyVf3OdnTv6bYlwtXuj6
+	0c0Ez+tmQVWOPLKQV4dFw9QHrBnlMXe4eiqwdmy/n8korNelzQp5+tOETIATvaBZN7H3rLpoaLiYv
+	VWZJihpVWpBSRcdh+q6TkpSvU6WA/+ok8NNcbVsoQ1AjJQXYWIlF1tSFAnmBOHBArY6amoYIvSLIH
+	nNtxRkz9GgZVPctGVnsZjKNKi5RNK8z+Q+qVCcDbMXyFBAMNfAwR8gwtPD/eLeFJC8aFMtQk4begG
+	gwoRK4Vg==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSED8-00000004BFb-3wyk;
-	Wed, 27 May 2026 13:22:14 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wSEFb-00000004BXN-1Bg6;
+	Wed, 27 May 2026 13:24:47 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSED8-00000004BFV-23Hd
+	id 1wSEFZ-00000004BWm-0lIH
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 May 2026 13:22:14 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 7B4C36012B;
-	Wed, 27 May 2026 13:22:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E330E1F000E9;
-	Wed, 27 May 2026 13:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779888133;
-	bh=pMBavffiZSnRm2SoY87F2ixUkUHdGCw3hRW7BgBJuUs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N0KDI8oIyMcqZYtRTHjWMP4UhTdnoLGBE4fLS+2hbONXogf3hE9PuhV9xWFqqL1rz
-	 kVyIoj9EQzTcPHpgptYVoSrQNhbi+5lGEtAHkAMz/oRSdZFisVvb5uf/8lbwuUJs//
-	 8cqleVo66V6WibUhqORZyFNoVeJxjLtCSSRRo/6W/4fywp0/kefH92F/2BxH1qXTzU
-	 WJ1gVg3bb57Z1HuqawKHRv0Z604RrIhdotPDkjxNZpeUlk9unFz6EpTGMcqUSldFHP
-	 YK8+AlJUVeTZw0Uc1wwp1PtXpLZcbMdaMrh3QEFwF8FNSyTP2uDQt7roInS2lHHCzS
-	 YUguD3lguAuKQ==
-Date: Wed, 27 May 2026 07:22:11 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, axboe@kernel.dk,
-	nilay@linux.ibm.com
-Subject: Re: [PATCHv2 1/2] block: export passthrough stats enabled
-Message-ID: <ahbwAxG1Pj2z3Q21@kbusch-mbp>
-References: <20260526153921.2402015-1-kbusch@meta.com>
- <20260526153921.2402015-2-kbusch@meta.com>
- <20260527131458.GA10351@lst.de>
+	Wed, 27 May 2026 13:24:46 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 857E768B05; Wed, 27 May 2026 15:24:42 +0200 (CEST)
+Date: Wed, 27 May 2026 15:24:42 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] nvme: target: rdma: fix ndev refcount leak on queue
+ connect
+Message-ID: <20260527132442.GC11071@lst.de>
+References: <20260527084544.864221-1-vulab@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260527131458.GA10351@lst.de>
+In-Reply-To: <20260527084544.864221-1-vulab@iscas.ac.cn>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260527_062445_361479_00C05243 
+X-CRM114-Status: UNSURE (   9.16  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -71,17 +62,8 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 27, 2026 at 03:14:58PM +0200, Christoph Hellwig wrote:
-> > +static inline bool blk_rq_passthrough_stats(struct request *req,
-> > +					    struct request_queue *q)
-> 
-> The kerneldoc requested last time would be really nice to have.
-> Also, now that this is a public API killing the q argument and
-> just using req->q would make the API easier to understand.
+Looks good:
 
-Oh, my missing kerneldoc is clearly a problem. We need a separate
-argument for the request_queue because the q we want to count stats for
-may not be the one providing the request. For nvme multipath, we want to
-count stats against the head's request_queue, but the request comes from
-the ns path, so we need both args.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+
 
