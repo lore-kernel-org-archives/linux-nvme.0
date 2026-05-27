@@ -4,143 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4DA93CD5BD0
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 16:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D2223CD4F54
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 17:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:
-	Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:
-	Message-ID:Date:Subject:CC:To:From:Reply-To:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=8jfL4ImXkTQP5thSt8h5tLeMjCjQUjLqqqIrbzVsUWY=; b=MafBzitZSuvODtrcxesYMPxBwt
-	a+G1Su/XqJdnWecPb5gsKJsTnn70YNmZdLAoKsR1dfA2HMcfhVI6x/hdIvu75yoI0X2Swl8dPiuRr
-	/4tbmXBtBWro7CQ/+WoS41bl1WghOW1tkSZU8fgBU+/Zq+o95fwR17XkX4miWRx25LnEh6eWy3eDj
-	yZet7aviuQzVyBLs4Sf+Pz0/FEtmAwFwwBMtEYPdxkKLC1pSoU938oCCob0pN5mspQxfJDvVmPX6X
-	MxDypUD/8b01wc0doUNiNEDyNN1zLtHl0zhmK9gzc62vTR79o1SKkLOfZUeQ7HxpgSMMU8Hi5KkOQ
-	/H+Rnn2Q==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=FquF5TRsyuRxxCso6UuAHSdVWzsEcorBxS2pYHqNBzA=; b=WEXY+eRwSjys6/TIjidr7KsPKr
+	OVdYj/kDArwEvigcCHcHfwAKLesE3bCN8HjxowMr56QWRauu/o05QPaC6s4V7xHw2RMMIIhHeH5L1
+	wgd2b8GXo1L+J/d7TO/3of1h3px+ORgcn8J/NgVcLYeTyAec5gQ43tmKi5BF7mEpIsYMfne1lR6hZ
+	0DOBuXr4LVQhnJ/OtN/Xuukxjg/gXSN5oDuQayZzxhamLwKshBwo8jemFaZ7LL4WVKnKncL+5LM8j
+	u9oYy5dTz5NtPLOL2AA6xJoioJoD5vMfXvHzhS6cIlrJVryxcqa2ZPPoqNSq/83ZIeeKBce+Pi5+u
+	xmRNbhFA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSHU7-00000004Y5W-1owV;
-	Wed, 27 May 2026 16:51:59 +0000
-Received: from mail-westus3azon11011020.outbound.protection.outlook.com ([40.107.208.20] helo=PH0PR06CU001.outbound.protection.outlook.com)
+	id 1wSI7L-00000004aQH-2ALP;
+	Wed, 27 May 2026 17:32:31 +0000
+Received: from smtp-out1.suse.de ([2a07:de40:b251:101:10:150:64:1])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSHU3-00000004Y4R-0NqI
+	id 1wSI7J-00000004aPv-2KXd
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 May 2026 16:51:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Kop2Pyjo5O9D5BEodGx9lZ+oR9w1PfEYpxISi4OhZ9XtksdjilsRS3DkOckgsmTRj6fyaa8HAweF4OO2saxnfZjmOBCEvdWXgmT/M0xnkZdnV/YeAmdkWM31HuB2ddLlr1xyS3i7vjDmAYh/d5iulvJGfuMcpRjSBtwwHz6Huc556u6goWEmVL6u17KV3VpT0l7hoEQh3qW4cI2Z94cBM2mVwqtaxl4yd8yHJwRR4Fg2ygJQJ/dkb65Y2fPLUo13b+/6Jo8vjvAVqWvMbZhEbGk0G7iNatFSmrKe0X3VVl7BAmXHSimxgFedLk32hHPX8SRkp90sUF4lFgNFydMXbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8jfL4ImXkTQP5thSt8h5tLeMjCjQUjLqqqIrbzVsUWY=;
- b=sCLezrjcrAirJiGkJqfvzigrf8ZpE5QtOLad42S5SqvLh9PUc+W00BDAEUpbIhm0oyZVFjDx1VRgguA/IOOzX8EC0GkxHX1QgTi5Syr4SE99DGEUZKqDw+rQ+v6CUTO9fHD1v9vqWggyM4ChNfG/JKl7bwiD96yFH/KwctWgIaqBBCObYoiXeQmW+b87fP6Li9dG2l85i6JwTYkQsgaq+cprwIsCRo452F/M9DKrPvZ3Yy1kQWrw2OA+lRS5QJH5yvPK93wHu9eifUdTrHU+TsMu1UzcY6L31G+SzBFOpww1zgKvu8zp1PKbFq/88NdO/50t9OA4E0KjoIBGqhtDXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8jfL4ImXkTQP5thSt8h5tLeMjCjQUjLqqqIrbzVsUWY=;
- b=U98SykZ22tGtSnsnOptcTzpJC+yVbzpiRrHnhzJVjdhN6khiBKx3eW6xAN6f31HkNCzWXM/LrFMTnTAWymP/Z+IGKGyhPESVHK/KUDXOQBKnOicrhBhwzwTxmIjxJqfzfHuYfgxGAQIhDB/ra4zmt+ShZTt/hUU0Yndp95xBqWMCWfac4d79AsUp0oeMQ0OsPePTbibgXwKrWTHuH0lJHxQdIP+/W73mvywwXW9VFDpr/Ia/+5/1L89Fb2hYZPLYoiDCM04qZBhT6umb14kQ6AW2PP5H/FbLSBoMmB0tyRtJ5PNfFGLXzyvpXZA93Nb6FPf3m9Vwy6msP4UNzT/PpQ==
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
- by CH3PR12MB8354.namprd12.prod.outlook.com (2603:10b6:610:12f::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Wed, 27 May
- 2026 16:51:46 +0000
-Received: from LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::2109:679c:3b3e:b008]) by LV3PR12MB9404.namprd12.prod.outlook.com
- ([fe80::2109:679c:3b3e:b008%6]) with mapi id 15.21.0071.011; Wed, 27 May 2026
- 16:51:46 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-CC: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Ming
- Lei <tom.leiming@gmail.com>, Bart Van Assche <bvanassche@acm.org>, Caleb
- Sander Mateos <csander@purestorage.com>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>
-Subject: Re: [PATCH 3/3] bvec: make the bvec_iter helpers inline functions
-Thread-Topic: [PATCH 3/3] bvec: make the bvec_iter helpers inline functions
-Thread-Index: AQHc7ewN4HdcyVQGsUSxretjiKZ347YiFlwA
-Date: Wed, 27 May 2026 16:51:46 +0000
-Message-ID: <24f9ce6b-ae7b-4210-98c8-53ee5f617cc2@nvidia.com>
-References: <20260527151043.2349900-1-hch@lst.de>
- <20260527151043.2349900-4-hch@lst.de>
-In-Reply-To: <20260527151043.2349900-4-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV3PR12MB9404:EE_|CH3PR12MB8354:EE_
-x-ms-office365-filtering-correlation-id: fdd951c5-5a80-47dc-2593-08debc103d25
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|10070799003|376014|366016|38070700021|18002099003|22082099003|11063799006|4143699003|56012099006;
-x-microsoft-antispam-message-info: ghmgNYFht6wq9teAdULpfnN6C9BkoIOovJI+e6nGgqdi8V1IG9DzShBueQfD8kmVSbhjbSGFRKckI30GiYdMUIjsEJkZmdweoomnE/niOFEQol94nc3O+3JTFBkLMTkSRDaUmnAcn5jP1g8KYwoMRFinJMrjCkNuafJZB0l9oPehFIgwIYq+iA4318x40G791saQuoXs90u8GMHokFo0I7TO+sY5POOr1LvQvmFNGwdE8SQsxEfKrXCYE3OV+7zB4lRjZBO4upZkOiLBHqwpBSrgvxavBtbN9FY0wo1xHdh8X+3AI6YFgSThsQjSgLDvwHDBtCcpHLULZpuZkflC7syzXO5yX7oHoYHp+s4gIxK9Gaq8rhW3pX8RBhiIwom1FHtJeOrSwzT5+pktxbcfaEWmwgunzSvdnzRLW4kcepSXnB8aquToOtQYDb9kEcnyoQjvz0mnd4l56S6nOTCxBT6odOgSC0sFv9gqmA+n15THaWf8fgEd1v4TA41TL5K0XdacT7kMfT5mCMI/cExOleqYNulPo0mGubYk2gfwn+XOUugqJ39VEOWa996l8LzHeLedla1S++L8wgC2D2Q5eE2F6CdGJjyDPBQWKjH30eF/ACjme7foZnpOwjs/8JsWPiVfDFhJrZi8FPXVx9lFVWkQ08Yw5tdXCrtkWw93JBZnpWXJE26PBdX++AvRQJOxBk2t7cYhMjqkLfduEuGiNM9IlVDa0UBY1PVMJPsP/2nv9+tepjieFgcoiFI8DbiN
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9404.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016)(38070700021)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?enNUNU52VCtZNlVnblJLT3NLek45bmN6WTN0Q1BIV1JFNFg4K1pLRzJkdUVo?=
- =?utf-8?B?RFFPVWFHZHVQbkt6aHJMV1F3S2Z1QVZldHhzSW9ZcitqQnBkVnJRaDVYeTZ6?=
- =?utf-8?B?cWRDSyswNDF6UG9UL2dwUUNvNWFaRjRTODc4REEzTDJ4TjZOdDVGRHV1TXh3?=
- =?utf-8?B?VVV4RUsyT1NuMmF5cEs3LzEwRy9hWTR1dGxJOUQzaGtWeDRIQWd6SVhOU3Bs?=
- =?utf-8?B?cTY0dEhVQlB4Q2ZwV0NGQUFhTFNQcnZPNEcycDRmYktRRWVsRWsrbEw2d3NY?=
- =?utf-8?B?Z3hCVEFtWGZRZGFFKzhrcnk5U0NlWlVLaDBSVE9BSmF0MGo3b0xWRE9adCtX?=
- =?utf-8?B?SytCYnhybWVaUDZ0bTg5c1JEK2dISEVjS1Y1YmdHVFpsOWhsdWVZZktlSGNT?=
- =?utf-8?B?TUhBVzFPUlpoNkk3L1lwZndwRnVlb0JsOU84Q1NacHh4NExDMDZVUTZnekVZ?=
- =?utf-8?B?aGlOb2dSQVF6ZjltWmQ3L2JNZGZ3alE2d01XZHBnSmtYVE13UUQ3WUo4ZThj?=
- =?utf-8?B?NTBQdXZVRjkxK0lMV2k0VjltT2MwWGNKdXJHK3EyOWZiMHp3ODlIbDJvWWRx?=
- =?utf-8?B?RXpzeHgvTGgvbm5UL2pqT3IvYTA0cStsd1oxd1JvUmRHWFBDdFBvYUU2cmhY?=
- =?utf-8?B?d1R1RWJYRjFjdmY3Q1Q2N29zU3lQTnBuMkU2ZGtQQjkvZFRBUHRvbXdFSjFG?=
- =?utf-8?B?a09nTWx3NHhkRkhQR0lTY0hHeWg1TitCNlY0Z1dTcTBxbTRsckxYdG5Cd1pq?=
- =?utf-8?B?WDhIZy9TRldZQi9ocHdIWTlVU3RKRitKRlNvSWplYTVwT3VITXJwOURFbUhu?=
- =?utf-8?B?SFl6R0FTZ3duaThXRzVOekxDeGhaQ1MwdjBxZE9QYTNsRnJLOEgzYzZaRWFi?=
- =?utf-8?B?U3dRakhkUzUyMmx3K0w4aGlleEJjTENDQi9qcHNZU2I4ZjZGNEZkaWtJOCtE?=
- =?utf-8?B?NXhjeWFuQ2p4dkxkT1dRcGlyU1UyNVI5Q29RWDk0STcwV0FYRVF0Z05QL2pY?=
- =?utf-8?B?ZVcwSEZxdU0zN1lXUE9jS2NxMEVxeXRYUG5rT0NIbHFMcElnVkc2ZnJseUJP?=
- =?utf-8?B?NGYrbXk0QXg3OVpRRjRNYTB3NjJjaUFwaDRMa2VNTi8yWUJ6Nk5KVEZWYk85?=
- =?utf-8?B?RW9QUzdOUWJPUUVpd0oyVExxVndBaVhXaHNVUXJhaDhQL0EvaUh5WlArRmtX?=
- =?utf-8?B?OGtTWXlndHRTNGhLNUlXU3Bnc0dqc29hM0lsV1BxaEUzS2hMNXRuQUdsUXZU?=
- =?utf-8?B?UzJZZ0MyMit0L0VQWm1UNlJ5RU1zMjUxQjFJS05MVUVkS2xjZ0RyQmhFTjJ1?=
- =?utf-8?B?c2xRcWpwSUp5YU9ZV2JnL21pZlN3K2NsS0dYUmV4WjFVSWw3T1FjRGRTREdF?=
- =?utf-8?B?YVNIMVd0MUU4dGt5WGVHVGpuTlhjOFMvZlF6MHFFVWJPYkJ0K1RmcStjSDRC?=
- =?utf-8?B?bHJTck5YTG9vblN5MFZhZWFxN1l1K3F2YlJtQWgyZkl3OXN6UUplVjQ4TVR5?=
- =?utf-8?B?Nm5sNFZFM3hUb3NKZHYrYW5ESUdLUHBGV2MzNnFVR2VwMzFXK05oc3UzOWJo?=
- =?utf-8?B?T2NWSzlkak1wM0kza2g1Z0hybDNENDRXOGZ2RlRsSVEvVW9SQmZ0dk5BaHBy?=
- =?utf-8?B?OVUwNWpuZW5JNjZNek9nL3NiSkF6MEpQN1VqZGFFSWtjS2NkVitTMThCbUlu?=
- =?utf-8?B?OWE5cTBlV0hDSTFRNXFZNjN6MHNodTFhZCt3blRGUElvTFp2S3EyZDNOYjZr?=
- =?utf-8?B?cXlBdUNaL1BCRDFESFNoRWR6eGFwUVlwaXBKSVpmenBIOXA0alA4bE5uczk5?=
- =?utf-8?B?NTFPa0hwMXVKb1RIQkcybEZNNklURDIwS1dKZ2hvbVNvT1FqMFBFU2hGTk9o?=
- =?utf-8?B?UElFWlAydmsyMXhiMXBZNUJ6d2ExQTc3TG83UHI0eFlwVVRqUGJKRzVSL1d1?=
- =?utf-8?B?WkczalMwR1dkNkNiWTU4bDY3TzlGUFJlM2V6UU81MWNDV3VValBicmdMdEs5?=
- =?utf-8?B?RjgyTHl4YTdjQzYySUsvcVNpTUVQWGlsK3FETGNDWmhDcFNyODIyWFh4bHNq?=
- =?utf-8?B?d1hYUGROaCs0WEQ0WjJtK2JqMnNZVTVicjM4bCtxZ2I3WHZTR3ZIMHR1eDU5?=
- =?utf-8?B?NmVrSEE4amlRcCtFd09NaXZpRmNWeTQ1dVU2VTludUU3R1E1OGFCS2RxeUFo?=
- =?utf-8?B?WUtMaExRVmxKcjByZHk0SkdRL2lNbmdhZUJsT1liY3pCQ3FZWkVKYWJkMDR2?=
- =?utf-8?B?bUFwS01vVngvMmpURU1CTDFPVllhbzJMT25OOHk4OUluNFdoc3FWSVpFZDht?=
- =?utf-8?B?Z3pkSlAxNnVCUTJ4VkhqY0ZnWUxkaUJ5TldwK1lhOWIyZ1lQVUJ5YUYrTEJn?=
- =?utf-8?Q?XCFl8l0EEyBPb3QTDFndWcwVkAr1t4TnmqKAx1QUmsGZT?=
-x-ms-exchange-antispam-messagedata-1: FQtANMpIZ58WXw==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <84D3D90CA7C7FD4C929C7E53328A2CCF@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	Wed, 27 May 2026 17:32:30 +0000
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 66A9C6ACD9;
+	Wed, 27 May 2026 17:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779903147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FquF5TRsyuRxxCso6UuAHSdVWzsEcorBxS2pYHqNBzA=;
+	b=1SBAOK7k5G/dKvMqwMLmxLKAN/4AWLOiB6wweE3uAcRfWu2uKENHcxCe0iXRL49BJHCtiD
+	BSVNTrFz7YOId1tk7EvgeQDXMUBkXjAIKitc7y0YR8KRR4TyybgqFisLDIIjDnfBOfVIpL
+	jslwhoHKxQTxy9Vzga15PaD/D+iFhT8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779903147;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FquF5TRsyuRxxCso6UuAHSdVWzsEcorBxS2pYHqNBzA=;
+	b=DifxZ3a4nR4PBQaDIXAqU6wi7vYcyddkNIINHRynyUrZuzn+kO3a4MWhp+oD3Mn1q5o9/L
+	RNCc+jRHCi1JPuBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779903143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FquF5TRsyuRxxCso6UuAHSdVWzsEcorBxS2pYHqNBzA=;
+	b=Fy/zUNdlkkLzrNMMmVc3XfQSB3CCQx9IhquQGrV31Rxcx/7iquK083SmGmfSStzfgv4EeC
+	FFKjCWz+/Z0XKuyWIq+J2qHLxaLHuTz1pdtrfDmQ910uUNjrMYcMZV/F/L2jHwh+2loCih
+	/wYrVWyFp+FyZQ/ghutFcIWAx+/eqr4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779903143;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FquF5TRsyuRxxCso6UuAHSdVWzsEcorBxS2pYHqNBzA=;
+	b=mH3+nsXeApTs4ZhlMqioy+cZG8MxuKR6XOrNQGZzfGW5kHhjD86crchHop6wpPISKSit97
+	eSI2smTh+TWnz3Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDD665A93A;
+	Wed, 27 May 2026 17:32:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g1omLKYqF2rhHgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 27 May 2026 17:32:22 +0000
+Message-ID: <d733383f-534a-4e1a-9f46-8e2b1d07fb41@suse.de>
+Date: Wed, 27 May 2026 19:32:21 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9404.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdd951c5-5a80-47dc-2593-08debc103d25
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2026 16:51:46.4347
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YuijC64zr++g0LAivmYnPKgpmlG51XXu00JeBNdhPCYpvRqiLngGk4TRtVZaggY1SswnPkbiG62GgghKerYIFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8354
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v3 1/8] net/handshake: Use spin_lock_bh for hn_lock
+To: Chuck Lever <cel@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
+References: <20260525-handshake-file-pin-v3-0-66c616906ead@oracle.com>
+ <20260525-handshake-file-pin-v3-1-66c616906ead@oracle.com>
+ <41835be9-ef00-42c7-a5d3-258f092b59eb@suse.de>
+ <eb4de53b-f96c-4905-b67a-90790d5e4007@app.fastmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <eb4de53b-f96c-4905-b67a-90790d5e4007@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,oracle.com:email]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260527_095155_129972_B3DB0FC2 
-X-CRM114-Status: GOOD (  10.69  )
+X-CRM114-CacheID: sfid-20260527_103229_892903_81BD8398 
+X-CRM114-Status: GOOD (  26.13  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -155,16 +137,101 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-T24gNS8yNy8yNiAwODoxMCwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IFRoZSBtYWNyb3Mg
-YXJlIGltcG9zc2libGUgdG8gZm9sbG93IGR1ZSB0byB0aGUgbGFjayBvZiB2aXN1YWwgdHlwZQ0K
-PiBpbmZvcm1hdGlvbiBhbmQgYWxsIHRoZSBicmFjZXMuICBSZXBsYWNlIHRoZW0gd2l0aCBpbmxp
-bmUgaGVscGVycyB0bw0KPiBpbXByb3ZlIG9uIHRoYXQuICBCZWNhdXNlIHRoZSBjYWxsaW5nIGNv
-bnZlbnRpb25zIGFyZSBhIGJpdCBwcm9ibGVtYXRpYw0KPiB3aXRoIGEgbG90IG9mIHBhc3Npbmcg
-c3RydWN0dXJlcyBieSB2YWx1ZSwgYWxsIHRoZSBoZWxwZXJzIGFyZSBtYXJrZWQNCj4gYXMgX19h
-bHdheXNfaW5saW5lIHNvIHRoYXQgdGhleSBhcmUgZm9yY2UgaW5saW5lZC4NCj4NCj4gU2lnbmVk
-LW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3aWc8aGNoQGxzdC5kZT4NCj4gUmV2aWV3ZWQtYnk6IEJh
-cnQgVmFuIEFzc2NoZTxidmFuYXNzY2hlQGFjbS5vcmc+DQo+IFJldmlld2VkLWJ5OiBDYWxlYiBT
-YW5kZXIgTWF0ZW9zPGNzYW5kZXJAcHVyZXN0b3JhZ2UuY29tPg0KDQoNCkxvb2tzIGdvb2QuDQoN
-ClJldmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sN
-Cg0KDQo=
+On 5/27/26 16:24, Chuck Lever wrote:
+> 
+> 
+> On Wed, May 27, 2026, at 4:59 AM, Hannes Reinecke wrote:
+>> On 5/25/26 18:51, Chuck Lever wrote:
+>>> From: Chuck Lever <chuck.lever@oracle.com>
+>>>
+>>> nvmet_tcp_state_change(), a socket callback that runs in BH context,
+>>> can reach handshake_req_cancel() via nvmet_tcp_schedule_release_queue()
+>>> and tls_handshake_cancel().  handshake_req_cancel() acquires
+>>> hn->hn_lock with plain spin_lock().  If a process-context thread on
+>>> the same CPU holds hn->hn_lock when a softirq invokes the cancel path,
+>>> the lock attempt deadlocks.  This is the only caller that invokes
+>>> tls_handshake_cancel() from BH context; every other consumer calls it
+>>> from process context.
+>>>
+>>> Deferring the cancel to process context in the NVMe target is not
+>>> straightforward: nvmet_tcp_schedule_release_queue() must call
+>>> tls_handshake_cancel() atomically with its state transition to
+>>> DISCONNECTING.  If the cancel were deferred, the handshake completion
+>>> callback could fire in the window before the cancel runs, observe the
+>>> unexpected state, and return without dropping its kref on the queue.
+>>> Reworking that interlock is considerably more invasive than hardening
+>>> the handshake lock.  Convert all hn->hn_lock acquisitions from
+>>> spin_lock/spin_unlock to spin_lock_bh/spin_unlock_bh so the lock is
+>>> never taken with softirqs enabled.
+>>>
+>>> Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
+>>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>>> ---
+>>>    net/handshake/netlink.c |  4 ++--
+>>>    net/handshake/request.c | 14 +++++++-------
+>>>    net/handshake/tlshd.c   |  2 ++
+>>>    3 files changed, 11 insertions(+), 9 deletions(-)
+>>>
+>> ... and there is always the question whather we should be calling
+>> tls_handshake_cancel() in the first place.
+>> We already call 'tls_handshake_cancel()' from the handshake timeout
+>> handler, and this instance of 'tls_handshake_cancel()' is called
+>> from a socket callback (ie when the soecket is closed or something).
+>> I would have expected that the handshake code cleans up outstanding
+>> requests on socket close already; if so, we can delete the cancel
+>> here.
+> 
+> The handshake layer doesn't auto-cancel on socket close.
+> 
+> handshake_sk_destruct() fires when the sock refcount reaches
+> zero, but it only frees the handshake_req and removes it from
+> the hash table. It does not set HANDSHAKE_F_REQ_COMPLETED or
+> invoke the consumer's done callback. It assumes the request
+> was already completed or canceled before the socket reached
+> final destruction.
+> 
+> The timeout handler and the state-change path cover different
+> failure modes. The timeout fires when tlshd is slow or absent.
+> The state-change callback fires when the remote peer resets or
+> closes the connection while the handshake is still in
+> progress -- that can happen well before the timeout expires.
+> 
+> Without the cancel in nvmet_tcp_schedule_release_queue(), the
+> race plays out as follows: the state-change callback
+> transitions the queue to DISCONNECTING and drops its kref.
+> Then tlshd finishes and the handshake layer calls
+> nvmet_tcp_tls_handshake_done(). That callback sees the queue
+> is not in TLS_HANDSHAKE state, hits the WARN_ON, and returns
+> without dropping its own kref -- leaking the queue.
+> 
+> The cancel makes the teardown race-free: either cancel wins
+> and the completion callback never fires, or completion already
+> won and cancel returns false. Either way, exactly one side
+> drops the kref.
+> 
+> The SunRPC consumers (client and server) avoid this problem by
+> blocking a thread on wait_for_completion() during the
+> handshake. A socket state change wakes the waiter indirectly
+> through the completion callback, and the waiter handles
+> cleanup. nvme-tcp's handshake is fully asynchronous -- there
+> is no blocked thread to wake, so the state-change callback is
+> the only context that can cancel the handshake before queue
+> teardown begins.
+> 
+
+Thanks for the clarification. That's what I had (implicitely)
+assumed, so the tls_handshake_cancel() needs to stay.
+
+So you can add my:
+
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
