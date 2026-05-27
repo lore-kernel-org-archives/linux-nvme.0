@@ -4,68 +4,131 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18E11CD4F54
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 08:46:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F03DFCD5BDE
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 08:59:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
-	bh=LrNEA7spk6FmGkwXlUBVY57dukHXnKp+F9/u3vnrtNY=; b=1vFTzJ/W7JGyds7REBKrViOL50
-	54w2m6Wy5SxS8dMLEoF7fYZ67tdpxlZSYocH04aWI6hpF5OGhNlHUbt3WTbpZikOk6i3jUW/QbK77
-	Cge0ALMu0ulkaA8AqZ3eGQLXyyqsBUGHOpmcNHJPxlSPS+ApbWVOTUYFwiAtQBgHgMV1LXRCnCrQl
-	Tr68/R3/BzCfe1ugIr1XByRvfaaFqXI7D8e4uI3/9GTVf9PSdxgkZcGO/y69DfEjKVh4TzL8gMCGy
-	JGX3c92ABFjJqaen9UoAK7QPF+GDh0lstCUUzPkZNApcSGWSJct5ZB84LTTeJJpsDLaCQzySIihJO
-	rdPSt+Pw==;
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=977a+qSrvpHRQv2EJ+wo7dGtItpSp2s4oX0PjoYBUxE=; b=TLFIwQhV7HPq4Bx2NvbXZBWnTc
+	+srRg2RE0lsmcyYJg5XgxB9djO/YTBGWCsqjPQ5UoK0dkYyXMMXRYg6SZ2gevtTtLOfPj70kTe9Wg
+	lMuZ6fwz+VABsKuOcxmtQM/aloG8sx1gNM9mSbxogWBpLD/wetjz0bSEmp4DWzhEC+eGNyRW8ertr
+	6a5/uK3CF43K9MhburaJSGbsSRjMgRvg0yEyc4Rt2qcxQdP+LS63QHgJkBQBCTJ2B4M1zbOxNiM4b
+	cmOSlu725dLv6CDmLVA4g1W7wQqlOuX2EEc/zjtq3zgROdDZ4g4v6L3C6KAVeIk3WAZ7JecklKiwI
+	SXsVZbww==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS9tw-00000003ZFS-3szk;
-	Wed, 27 May 2026 08:46:08 +0000
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+	id 1wSA6Z-00000003aJQ-3yWv;
+	Wed, 27 May 2026 08:59:11 +0000
+Received: from smtp-out1.suse.de ([195.135.223.130])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS9tt-00000003ZE8-1x4V
+	id 1wSA6X-00000003aIp-0m6G
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 May 2026 08:46:07 +0000
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.3])
-	by APP-05 (Coremail) with SMTP id zQCowABXq85IrxZqD1KKEQ--.417S2;
-	Wed, 27 May 2026 16:46:00 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] nvme: target: rdma: fix ndev refcount leak on queue connect
-Date: Wed, 27 May 2026 08:45:44 +0000
-Message-Id: <20260527084544.864221-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	Wed, 27 May 2026 08:59:10 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F6816B349;
+	Wed, 27 May 2026 08:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779872346; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=977a+qSrvpHRQv2EJ+wo7dGtItpSp2s4oX0PjoYBUxE=;
+	b=gK10SUuT6lbqqbS31kyzPsir6baLPihKO+dw2bUO1uW1zCQZF7vlsXNYR5g4w/GHyyi/I2
+	ho82JGHgZVCpWu/rHVy5jrbC8we9l3r87Zlrnq6jg9sZUe5S2t01hwFMCvdf4sNRi9DYCW
+	ZKRw66x3dp37w6nuuo8MgTVD5PGNhdw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779872346;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=977a+qSrvpHRQv2EJ+wo7dGtItpSp2s4oX0PjoYBUxE=;
+	b=sKdk5VZPACSXDaj7nPx0r8lqAbnQGrrKTcVm+fzQ+e0XHrfRMGhWfEwStUOCl6MzwqFXk/
+	lg8+D4UrFcSe9UDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ui+HFhQ7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4k+N5o3+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779872345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=977a+qSrvpHRQv2EJ+wo7dGtItpSp2s4oX0PjoYBUxE=;
+	b=Ui+HFhQ7RkndRReirphQRTOzgaHkLCGYn0GN7oCQBLJrWb29im7ZXaGGpvsAxH4AGWwBqo
+	lFHp3BBBKEYYzzS/gX0HxLq2vqlI0HzkFsPGnDJiOH4s2EnVeb+jI97rWPkNxzT62FGmbD
+	er/Rl+EDiWHOLqa9f/aXzdy4uq/Iplo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779872345;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=977a+qSrvpHRQv2EJ+wo7dGtItpSp2s4oX0PjoYBUxE=;
+	b=4k+N5o3+5rEunRDnSyrTGVVKA45ZjrfsLhssYJLJN4pvjt0c2gPw0Lm0pJFO0SeLo1g9S1
+	ZpfMZ8Ajv7oX0pBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59AED5A74E;
+	Wed, 27 May 2026 08:59:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DNcOFVmyFmpbEgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 27 May 2026 08:59:05 +0000
+Message-ID: <41835be9-ef00-42c7-a5d3-258f092b59eb@suse.de>
+Date: Wed, 27 May 2026 10:59:04 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v3 1/8] net/handshake: Use spin_lock_bh for hn_lock
+To: Chuck Lever <cel@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
+References: <20260525-handshake-file-pin-v3-0-66c616906ead@oracle.com>
+ <20260525-handshake-file-pin-v3-1-66c616906ead@oracle.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260525-handshake-file-pin-v3-1-66c616906ead@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABXq85IrxZqD1KKEQ--.417S2
-X-Coremail-Antispam: 1UD129KBjvJXoWrtr1kXrW5Xr4rKw4fWF4DJwb_yoW8JF1rp3
-	y8Wry2k397KFW0kw13Za1UXa45Aw4ru3y8C3s2k34kZFyaqFZaqayUK3WjvF1FkF9rWFWf
-	JF4UAr15C3WftFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjMqcUUUUU
-	U==
-X-Originating-IP: [36.110.52.3]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAgAA2oWidmovAAAs-
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7F6816B349
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,oracle.com:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260527_014605_867961_AD9BFCA2 
-X-CRM114-Status: GOOD (  10.58  )
+X-CRM114-CacheID: sfid-20260527_015909_373454_EABE5AF9 
+X-CRM114-Status: GOOD (  16.64  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -80,40 +143,53 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-nvmet_rdma_queue_connect() calls nvmet_rdma_find_get_device() which
-acquires a reference on the returned ndev via kref_get(). On the path
-where the host queue backlog is exceeded and the function returns
-NVME_SC_CONNECT_CTRL_BUSY, reference of ndev is not released, leaking
-the kref.
+On 5/25/26 18:51, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> nvmet_tcp_state_change(), a socket callback that runs in BH context,
+> can reach handshake_req_cancel() via nvmet_tcp_schedule_release_queue()
+> and tls_handshake_cancel().  handshake_req_cancel() acquires
+> hn->hn_lock with plain spin_lock().  If a process-context thread on
+> the same CPU holds hn->hn_lock when a softirq invokes the cancel path,
+> the lock attempt deadlocks.  This is the only caller that invokes
+> tls_handshake_cancel() from BH context; every other consumer calls it
+> from process context.
+> 
+> Deferring the cancel to process context in the NVMe target is not
+> straightforward: nvmet_tcp_schedule_release_queue() must call
+> tls_handshake_cancel() atomically with its state transition to
+> DISCONNECTING.  If the cancel were deferred, the handshake completion
+> callback could fire in the window before the cancel runs, observe the
+> unexpected state, and return without dropping its kref on the queue.
+> Reworking that interlock is considerably more invasive than hardening
+> the handshake lock.  Convert all hn->hn_lock acquisitions from
+> spin_lock/spin_unlock to spin_lock_bh/spin_unlock_bh so the lock is
+> never taken with softirqs enabled.
+> 
+> Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>   net/handshake/netlink.c |  4 ++--
+>   net/handshake/request.c | 14 +++++++-------
+>   net/handshake/tlshd.c   |  2 ++
+>   3 files changed, 11 insertions(+), 9 deletions(-)
+> 
+... and there is always the question whather we should be calling
+tls_handshake_cancel() in the first place.
+We already call 'tls_handshake_cancel()' from the handshake timeout
+handler, and this instance of 'tls_handshake_cancel()' is called
+from a socket callback (ie when the soecket is closed or something).
+I would have expected that the handshake code cleans up outstanding
+requests on socket close already; if so, we can delete the cancel
+here.
+Hmm?
 
-Fix this by adding a goto to the existing put_device label before the
-early return.
+Cheers,
 
-Fixes: 31deaeb11ba7 ("nvmet-rdma: avoid circular locking dependency on install_queue()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- drivers/nvme/target/rdma.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index e6e2c3f9afdf..ac26f4f774c4 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1598,8 +1598,10 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 				pending++;
- 		}
- 		mutex_unlock(&nvmet_rdma_queue_mutex);
--		if (pending > NVMET_RDMA_BACKLOG)
--			return NVME_SC_CONNECT_CTRL_BUSY;
-+		if (pending > NVMET_RDMA_BACKLOG) {
-+			ret = NVME_SC_CONNECT_CTRL_BUSY;
-+			goto put_device;
-+		}
- 	}
- 
- 	ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+Hannes
 -- 
-2.34.1
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
