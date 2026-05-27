@@ -4,61 +4,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23B45CD6E41
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 14:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CA246CD5BD5
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 14:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=GzYb46va53a5V7lykYtKMSOYczoGqTemW+PX8cyAiIc=; b=clRqblLBYlmrMODBIOSHpgyPoK
-	2hRz19Q3cuOsjpyUXPWwOVBvR/gM8EGii9qmnXYitybqGB8GuCa8xGd7UBKYuq8gVZPR5eFxXYhoz
-	ok5ygbw8bHaZjLdYcGMIX6ANGE/8lqz6FU2fiDtbiuDgijACPF2xdrh7RwintEZuruUMkuPQb/PbX
-	ljlm5P/MDKPnyQA+OWUeIPkEjq8SR3vmY3a/ovF0WQ6K+ErD2fG0M3jBqtwuLvMrN9CvLU95JLpvl
-	vTNWraX40IEfWgEpJlZxakorM9k7pMnLMEMq9qbpaTxRPmjmJBMnK6N+859ZNHOP3tWdqOtZBCjle
-	kYy1zFgg==;
+	bh=nGCtbXNnJq+2aY0vErg0xC3U1CiHSIKiHusBc1rXYY8=; b=MPgBK8qY+ZVmfKLA0CcGjPREAc
+	bW1/JAy6/p5qgT9dr+0VBEJaGZZ9lNEdkfhm8okpsoj5DY2DMdTMDF5RcbzvL7fwKxjRuIfJ6ZrwX
+	sHDCWdb7jaCPQLCRzrdHNLlerBmO0202PwtngpLDEJF3F/VTqMoym++9EI9MYhO9kGfjTHAizYt75
+	CZDO7dZ+ZhC62TTLVEcnASaRE/c2SA3YpdN4rdZA4evkQGtms5EaIz+tJt1iWggofYtfvRANoRljj
+	7OMddTYIfuO6RVpzKsAJ6GOftYuqZiZeQB9GLEXJximIafmFudWTDsBQuOVs3V59749T+0lRN2wwo
+	0+plwUYw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSFIr-00000004Idt-0n8e;
-	Wed, 27 May 2026 14:32:13 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wSFc0-00000004KUQ-162o;
+	Wed, 27 May 2026 14:52:00 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSFIp-00000004IdZ-2J2H
+	id 1wSFby-00000004KU4-0KcJ
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 May 2026 14:32:11 +0000
+	Wed, 27 May 2026 14:51:59 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 94C6E601E6;
-	Wed, 27 May 2026 14:32:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C96F11F000E9;
-	Wed, 27 May 2026 14:32:09 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5654041989;
+	Wed, 27 May 2026 14:51:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9EB71F000E9;
+	Wed, 27 May 2026 14:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779892330;
-	bh=GzYb46va53a5V7lykYtKMSOYczoGqTemW+PX8cyAiIc=;
+	s=k20260515; t=1779893517;
+	bh=nGCtbXNnJq+2aY0vErg0xC3U1CiHSIKiHusBc1rXYY8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SxKtsSGy5SFVkgYwJ8OqE9t4UptVrWfraSGByP32Tuuv3pm3gQERIKcGnPtOIiFuh
-	 ETtD2wlNfTM/bn9WjHPae3UGfBByxXB+EGz5/e1gO8htoEO3Aymb0GRjr2MOBcGc+G
-	 eOauLZeLsAB1wmXotVLomuipLYlxRhn63MZz7xsuvxeZa3JW3rxaBSLNXf3j+Yd/TB
-	 /qkL8AVdXILoab3VL+/z0DsDcfsGjWWxkOAAbNB/75aC7in5a7oYZ/k1qINzmMvuoP
-	 pYxJBUNwQKZpArthVI/l5wVqiXp2SSv0lq7UCv5Ff0Igw3Ldv4UNcixEi1AMeNAiJ4
-	 GCC0Zg+7KXEyQ==
-Date: Wed, 27 May 2026 08:32:08 -0600
+	b=foaa6McCRTLWwYsm6nDgvptHxFYCAkpbTLEzyxQZhICccth2a4yA3LwN4aa3t1HpU
+	 IzOVPhMUUYGBSYcAoOwNEBRAbJIta+UZwC/cuKhedCGebW2x429J4uPlDmNPxi7vko
+	 bDdxxWlzh84YN2QBPv2zAtpHOO3v9/XVr9MyRDtPGispdwoHt0ncFNyOeJhlg9BDHp
+	 r1EpPQgcR3RVugrsYLY1Ck4mAb532Jd2nL5Jv8QSmcpg2Hm6VuNJO5FGAc/M9gJg2Y
+	 AlNAZTIM0BzNvw7miAXIRaZIfzT1Qhg6AqAA2B8yNAjTZq/AEQklwYfS4RU3BYAu9p
+	 J6e1STK+UX1Xg==
+Date: Wed, 27 May 2026 08:51:55 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: Chao Shi <coshi036@gmail.com>
-Cc: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, Jens Axboe <axboe@kernel.dk>,
-	Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>,
-	Maurizio Lombardi <mlombard@arkamax.eu>,
-	linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>,
-	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
-Subject: Re: [PATCH v5] nvme: reject passthrough of driver-managed Set
- Features
-Message-ID: <ahcAaPTOH9ELlAA4@kbusch-mbp>
-References: <20260523225629.3964037-1-coshi036@gmail.com>
+To: Geliang Tang <geliang@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>, Hannes Reinecke <hare@suse.de>,
+	Maurizio Lombardi <mlombard@redhat.com>,
+	Geliang Tang <tanggeliang@kylinos.cn>,
+	linux-nvme@lists.infradead.org, Hannes Reinecke <hare@kernel.org>
+Subject: Re: [PATCH v2] nvmet-tcp: check return value of
+ nvmet_tcp_set_queue_sock
+Message-ID: <ahcFC6ItvdfAF7QP@kbusch-mbp>
+References: <f83c3bb5e83450b46394f3c14c50f07860c0cb10.1779787436.git.tanggeliang@kylinos.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260523225629.3964037-1-coshi036@gmail.com>
+In-Reply-To: <f83c3bb5e83450b46394f3c14c50f07860c0cb10.1779787436.git.tanggeliang@kylinos.cn>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260527_075158_132785_CBC1C8C8 
+X-CRM114-Status: GOOD (  11.96  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,19 +75,16 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Sat, May 23, 2026 at 06:56:29PM -0400, Chao Shi wrote:
-> +			switch (le32_to_cpu(c->features.fid) & 0xff) {
-> +			case NVME_FEAT_KATO:
-> +				if (ctrl->ops->flags & NVME_F_FABRICS)
-> +					break;
-> +				fallthrough;
-> +			case NVME_FEAT_HOST_BEHAVIOR:
-> +			case NVME_FEAT_HOST_MEM_BUF:
-> +			case NVME_FEAT_NUM_QUEUES:
-> +			case NVME_FEAT_AUTO_PST:
+On Tue, May 26, 2026 at 05:28:05PM +0800, Geliang Tang wrote:
+> From: Geliang Tang <tanggeliang@kylinos.cn>
+> 
+> The return value of nvmet_tcp_set_queue_sock() is currently ignored in
+> nvmet_tcp_tls_handshake_done(). If it fails (e.g., due to the socket
+> not being in TCP_ESTABLISHED state), the socket callbacks will not be
+> properly set, leading to queue and socket leakage.
+> 
+> Fix this by capturing the return value and calling
+> nvmet_tcp_schedule_release_queue() on failure to ensure proper cleanup.
 
-I may have been overly restrictive with suggesting AUTO_PST for this
-filter. Messing with the other features will break something, but power
-state is just user policy. The driver may undo the user setting on a
-controller reset, but so what?
+Thanks, applied to nvme-7.2.
 
