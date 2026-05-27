@@ -4,57 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6F110CD5BD0
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 13:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 18453CD5BD5
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 14:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=Wm+eM7y+BngSGqC1i5WNshINxwy6aByOWcOFctDfxBA=; b=vK+DP4g7HlDjrnQz571OmFrlM6
-	ofGisuMUtZIJwJBjPWbalfXOt0EqvyvMCC9QdlUqLp1I5rI9H6lrjBl0vR7v3aZ4bpnz8EhZ3HzUx
-	t+4MgWQ2GioZevbY4LlcoeFVWhyiitivuG26fsg0fgqV2MjN7IWJPKctQ9PKtGwSvHA19HE7T9Dtw
-	xVLw0xrKvBKAfPjOhCSFgTQ28jy2R0MFnc327UCjQ5GTZm+sTMzd3mux14K6e5qcw4FQA31QfZUD6
-	HGKFwSMbgIggq+D4uj0rCqTeB6VcvWdpZ46wzzhdRmFrBxlZL3emAHXLNwnYA8//hjbzbcGUlwutJ
-	ZnrDE8XQ==;
+	bh=12E+o/9cHsXcfLrDyligmh/JRjACkIAU2r0KqeVDaSI=; b=XNMhcnKZz0aA1r7YAGqLi+DrW/
+	lJsnuDbX4Jz77ZbNIOc/jPemWp91T0oRDeu4yippRlXy2P7AwsuDp5jaZbB2r9tE4ULXLJpEpTm7v
+	x62ZaztpRkoCsmXcayjdhPbMxIyEZlwtshe6Q9kN2Wt387/c+snwKJDV3Zr7Peq9JtlsT1txSC1xK
+	GyCahk8NL+RP1fsHwgnDNzzWl3UkShtMcapsrr/ckteb1n+I7083FrYX1DIqqpqPzyXK0EVVezVqL
+	BT9EAxyDXjZM4yd8nyLa6zlfzCz/CigQ2an444XLPbkoYVmOsvajQDcNijgfpQMtcuhnxq03K+nIN
+	Ym3ney2Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSEdC-00000004Edg-0jVt;
-	Wed, 27 May 2026 13:49:10 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wSEs7-00000004G4J-0PoO;
+	Wed, 27 May 2026 14:04:35 +0000
+Received: from verein.lst.de ([213.95.11.211])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSEdB-00000004EdX-0Rqx
+	id 1wSEs4-00000004G3a-2VpB
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 May 2026 13:49:09 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 19F45602CC;
-	Wed, 27 May 2026 13:49:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77B7D1F000E9;
-	Wed, 27 May 2026 13:49:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779889747;
-	bh=Wm+eM7y+BngSGqC1i5WNshINxwy6aByOWcOFctDfxBA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jCl/r5ZvFlVJU33CVxW5/drnFgjTtO60Hmf9qYBpUg2NW6gYyWmnmrg8yvFwYDHOR
-	 sZl+o4Fa7AtRQNppaZxQpvdu5BvUDb7EVIRLyGcWqSjNRe0aHbqgi0jeCSK+/Gt8oO
-	 7NImFb3NAc8/aOESr3bWuT09IBC7yqiVIFfwwi0tm6hKAsfKQHKQ31jLk62sdnskvB
-	 te5TbzsKANqaZDSQ9YVPsOKOTopKwQiFgD9qJAPXXvVRYGFvg87p47r+eL6oyYbw7p
-	 BbkaWJ9qX7nWC/uS14S/3VNphYVp4XpijKUNJiNZGWsbAmqgBseI+hOIE7qxsy3tlP
-	 L/r1rVUOZK62Q==
-Date: Wed, 27 May 2026 07:49:05 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: linux-nvme@lists.infradead.org, hch@lst.de, axboe@fb.com,
-	sagi@grimberg.me, gjoyce@linux.ibm.com, mkchauras@linux.ibm.com
-Subject: Re: [PATCH] nvme-multipath: fix flex array size in struct
- nvme_ns_head
-Message-ID: <ahb2UTQsJywNagyk@kbusch-mbp>
-References: <20260527062010.4036702-1-nilay@linux.ibm.com>
+	Wed, 27 May 2026 14:04:33 +0000
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id CCB9968BEB; Wed, 27 May 2026 16:04:27 +0200 (CEST)
+Date: Wed, 27 May 2026 16:04:27 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@meta.com>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org,
+	axboe@kernel.dk, tom.leiming@gmail.com, coshi036@gmail.com,
+	Igor.Achkinazi@dell.com, dlemoal@kernel.org
+Subject: Re: [PATCH RFC 5/5] block, nvme: add failed_bio callback for
+ multipath bio failover
+Message-ID: <20260527140427.GA12705@lst.de>
+References: <20260519172326.3462354-1-kbusch@meta.com> <20260519172326.3462354-6-kbusch@meta.com> <20260520072746.GD14937@lst.de> <ag3ORafKCTyn7TBA@kbusch-mbp> <ag3Sweie8nWMpmqq@kbusch-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260527062010.4036702-1-nilay@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ag3Sweie8nWMpmqq@kbusch-mbp>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260527_070432_785636_6D7EA3D0 
+X-CRM114-Status: GOOD (  19.95  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,14 +63,30 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Wed, May 27, 2026 at 11:50:00AM +0530, Nilay Shroff wrote:
-> Fix this by allocating the flexible array using nr_node_ids instead
-> of num_possible_nodes(). Since nr_node_ids represents the maximum
-> possible NUMA node IDs, indexing current_path[] using numa_node_id()
-> becomes safe even on systems with sparse node IDs.
+Sorry for the late reply, took me a bit to catch up after conference
+travel last week and a public holiday on Monday.
 
-What is the largest nr_node_ids we can reasonably expect to see? I don't
-want to end up trying to allocate a billion entry sparse array just to
-index a tiny fraction of them. Not that we didn't have a similar problem
-before, but this patch makes it clear we haven't been checking.
+On Wed, May 20, 2026 at 09:26:57AM -0600, Keith Busch wrote:
+> > Yes, and in the case being addressed here, the "zero capacity" setting
+> > is path specific, hence the driver wants to attempt a failover. I
+> > imagine general capacity violations are not path specific though, so
+> > this is kind of a weird case.
+> 
+> Oh, and it's not just the zero capacity IO error that multipath wants to
+> hanlde. It's also that we've marked the path's disk dead, so there's a
+> race if bio_queue_enter() will call bio_io_error() that this patch
+> handles. I should have mentioned that case too, which wasn't handled
+> with the BIO_REMAPPED flag suggestion.
+
+Well, how do we know the bio actually is owned by the driver?  Callers
+both in file systems and remapping block drivers can call bio_io_error
+before calling into the driver that owns bi_bdev.
+
+I guess we'd need some flag to desіgnate it is owned by the driver,
+and bio_set_dev would have to clear it.
+
+Alternatively we could pas a bdev to bio_submit* and only update
+bi_bdev just before the bio is passed to the driver.  Given that
+the idea to set the bdev at allocation time didn't work out this
+might be sensible, but it will cause a lot of churn.
 
