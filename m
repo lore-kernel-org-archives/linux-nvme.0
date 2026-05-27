@@ -4,89 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CED87CD4F54
-	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 07:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3ABD0CD4F54
+	for <linux-nvme@archiver.kernel.org>; Wed, 27 May 2026 08:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=0iW3LrTqWSMLLa9HDk8vrvTznR1WnuzrMZCgjkfBYas=; b=ryqK1725XMij+JW/USkB6S5Kf3
-	pQQbo7ppvFfadz0sqJ3AuJgGxTCzzWKCP4fBwx0WHdbsMv8IGTkss7OW/L+qSr1BUUDr55bcbinmK
-	qD7SHUczOC0J5+mYLM6vkPpAKRd9/P11nWTfcr58ML87EKbUqbNop0NYH4O7BnMe4fT55AamE+qbd
-	O4K2suNYoqkNW1zPzxk6qsAQViNn5G455qTDm5GCk/TZ4XVwKAug1p+CErn2kprAZtkFAMztzki1c
-	QjqWRn/3cMQnOB2KAF7uwiAs+kCYgIyxim25Hfr3ehi1lbAETAvzUTs1Y+LY3c3Mu7WOz76ZeoVqa
-	OFtwMnFA==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=Jtk3sKcmMSeeAIVtajZSC61yh11YmTJGjbiEho3uXAg=; b=offnd096lW9JE4LubpZzC/SamD
+	i7Y/8dIgbQ7eVOLxAGbDiB2tifSLvt2Wqamv440PZANGW+XKkObzcOJRhgvoOqqCH1FSVtSXgNbLB
+	QXvlp1MJYn3bEn26a+Epr7ksV94vIarKeLIQX72xXneqRFvPfhJ2Xq8zO0QEqlnFXwAvsiZn2rkxr
+	jAtIfHqvDuneKCkzLkycTc/9gC6ZhYlFyX5bY+p6fEI/m/GGNgbUfnJ2sLFDrz16hCuAIdXtHGXt+
+	SlR7iTdMCFqipNgdJQ/wlYCrDm1D4pz/V03MmkTSQEqrrW63abeqdIqxdx37RK5p5f1kui4oAPCZt
+	H6pq+ISQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS95T-00000003Uoi-3iz8;
-	Wed, 27 May 2026 07:53:59 +0000
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+	id 1wS9FS-00000003Veu-1LVl;
+	Wed, 27 May 2026 08:04:18 +0000
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wS95R-00000003Uo2-0Zgo
+	id 1wS9FO-00000003Ve0-1lYS
 	for linux-nvme@lists.infradead.org;
-	Wed, 27 May 2026 07:53:58 +0000
-Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-36608b2f2dcso7575788a91.2
-        for <linux-nvme@lists.infradead.org>; Wed, 27 May 2026 00:53:56 -0700 (PDT)
+	Wed, 27 May 2026 08:04:17 +0000
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-83d31ac4017so5729456b3a.3
+        for <linux-nvme@lists.infradead.org>; Wed, 27 May 2026 01:04:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779868436; x=1780473236; darn=lists.infradead.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0iW3LrTqWSMLLa9HDk8vrvTznR1WnuzrMZCgjkfBYas=;
-        b=eBxux3wB0/wwOliCh0NhmN7TV0uf0eh6FARFC80ruWRl7bZ/5mtunklOWha4oxtmnp
-         8Bnq6hYq7xsUDA9l0CaPLFpYayniXZFbSYyYVwedAMQDRrbz5Z2qlMD/8YcMsTgYFnwp
-         WGtGtyq3W151soC66f3FgdLV1LK3eKPSbqA7DIJWeB70To+nsdch8OojdZm8Gso5Vqa0
-         m9pM7DufXaSg02/pM0BBV3v7f0j5w9lr9/t7liV9CcE2IHZLpCYPioCQOrC/12aYQFuU
-         XbeElnWL+YI9FZqwNCguJZ+fxUuPrR0EaWpRuLuLr/QzBpqZYjx52BvmaeV6wSn1nCGA
-         tp9Q==
+        d=gmail.com; s=20251104; t=1779869053; x=1780473853; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jtk3sKcmMSeeAIVtajZSC61yh11YmTJGjbiEho3uXAg=;
+        b=HbNQwb3Z0/5gbB4AYouxXDEXE5YQEjjNVS9Wls24JZ8Eku0QysDWw8nbtMGMp0dcfz
+         3X6x3afP1UPA7hDdTuDD3IspVxc/fUx09LI3iQ/r3qo7bqwaS9qhxJpKZNlPcVLrufox
+         D0Bkopn9WTgiVxmihMeAaPGJ6d0RE9UI02vPFxEu5JTldNYyHoxrfL3cGzHPRwtThTUy
+         zrHlZoZf1asCxUGoQ6jEfSKX+SSyFqrWi1lWCzXzFoSqSp+Ey6MIkOEHmdbadR8ClwWI
+         2II8YOpIMeCxyGZvKmjKRsISkMGkOb0zd3/4dz2a2wAJ16joCKn+97ahaTY3Iv2Kr/GC
+         h2Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779868436; x=1780473236;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0iW3LrTqWSMLLa9HDk8vrvTznR1WnuzrMZCgjkfBYas=;
-        b=BXrNgmVMMt8yJl1jocDIsvLGk8lB5qUI7Q9CMbTNG5h/HAtHS8u2X5Xbdp4zJ5covW
-         OEOvrCceoSxdJevTYojbmAS98UKe2wq8Lm6CQQa+eBQ/lv+gtUQlC2r6vw0rVHD4I4Po
-         eXUe8nvyDGulmp8eMZAqRwIK0lhwhsoedpuMovO8p0M76didJEDAsJ5qk2TaOeUwsUTm
-         BV6xvTOdy7Q03IdXGlZK7BKkdq9rWVN8mZzO9mXjL94B4Y3qBnNUBpUVwcqsbhDNbS7g
-         R85fz5RBFuXDWU4b63/qz9hgtOkFmchLl977vhyv2Irz1wrUVXB7KiIdmnyTdMQqFAFl
-         ur2A==
-X-Gm-Message-State: AOJu0YzBQXrEuWxdGUpfJl42g9cO+SaM9U+dAFUXZ3B0SNoLNgFXlLz3
-	bpOLp6W8hvRL25J9pla+GGjHZuHHFIS3Hp8BnzCzv9DHyx9kWvSLlnsN
-X-Gm-Gg: Acq92OG3sf/NaOJ/a8LXOlSdcZtHqL5V8R2nKa+RQOt/27hR9fqOG7mOF/VR/ZLXg9q
-	kH1r7yfugEmJ8PySfZx1KNlqnkCYUcNNXHWQ4bivhdGzxC8F9pD+R/svLZnAiCND8o4RkVTfmCi
-	zl8QYtc0N4Z5dfAQllQvwkJ27ghQCWS5YHb5Ip20LFPg0pqGZba/u9T5O29TmAaR+KVXsQd5OYV
-	gtv62FMFpr/9yb0ujtAgwlSrHsLjYdUcQ01EpKc5d2SNEwvAMTeeFAGImRtPnhPsGLlPR9X7uEj
-	pvBMWbPOcZhMo1Y9vsmYMLD0s5IsJRC1e0MrdT3BUFheNUXsT09UWzc/9U0kHdAwqfJWgmzt9pO
-	Edx0xxU/H5jKuJ8T3LJsslMKuAOsNbVLNeg3XQVukXKW5VAnbuytrB8223S00WGaBJJAna2GY1N
-	drAFvCaerrkkOB9+Bi+g==
-X-Received: by 2002:a17:902:cf0b:b0:2bd:93b0:2c18 with SMTP id d9443c01a7336-2beb0385282mr248861285ad.9.1779868435997;
-        Wed, 27 May 2026 00:53:55 -0700 (PDT)
-Received: from n151-105-216.byted.org ([240e:b1:e401:3::a4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb56bc151sm147558455ad.24.2026.05.27.00.53.53
+        d=1e100.net; s=20251104; t=1779869053; x=1780473853;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Jtk3sKcmMSeeAIVtajZSC61yh11YmTJGjbiEho3uXAg=;
+        b=pUZjimTX5WDcMAeR7hS5HOgKBlXTZIQ53ilNvD53pcxvug2XHrkw76Q5Kv9QVMnmP3
+         z6n0ajMK+toOWrrZlLtwGUVobyXIFkFYXbmWhFJVxMAZi5+Hx7qhPZJ6nOzpnFPnYrmS
+         HKIkHAYRSgOE2sta7oCo4PsKn6CmzgSRErfoNM8Ddko0uNPMria3oyLO3WaB3p3Eo72Y
+         cxUv0bNP2LHwYm4ii9uGqurFdzD6WvTx9DZkHzc2G/34QWlLWSG93bOXBbw4eVZU7CEh
+         64/ULraeU5zkmFadAJ3jqsiBz4mIq7h9GLvQWN8IPKhRhJ9AvjBg5hWx/bLJMFjHDpia
+         cyBA==
+X-Gm-Message-State: AOJu0YyOs9ftyk2mmme4i7UhVPCETfidRLuJVIShZKICuqL825xNKGiI
+	kfQsPZNwpC8tmMUSh9nsv1ZRze3l/xHZC+VIMvVXz4jkvQbvlFzbghlP
+X-Gm-Gg: Acq92OESwP4ApshtX/c8kCr6Tbk/kctworUPiturM4nVeNtZ9VixS9zdFluTWSTS/iq
+	Z8l93CjbM6YdrDHvS5Co6Kdihf8fJ5T054hwR48oaAQH7n/4jguQPVUtWx5VQMJLL+0ZQCjy95A
+	YKGehJ3mIUITxnghOnfNRDRF04O8S2jOkfXuN/wy6P9AtsqVtdmbpxK0vgmiispG8iNaW8xA+lF
+	doCxNJ4gIycC0bBEFihvOGIcrny57XaiYYE8+d8EzPiaF1nOAv8Yn8z0xE1BpVl2/WSeMDEB52U
+	bK1UPmtndnxdNOmqpyWPVktbPn/jFZf3dEWnGJtJq6EFMCWmWffmvQxEQZsj1DQSMnOkvdxVcn4
+	X+0JLoDDkA0SlAMkFSnzVLQQqYLf11hObkDm9GE9JIVfv2UzwFYKt7wml4fbFqzISajaNuCcCIj
+	Q8jNxM01PRXQ5uklsyaFgHLmYGo/JJTCpnstjhNOgUr2WZuqFaAswkSRbl2DXOhkLZ7PkbqJI=
+X-Received: by 2002:a05:6a00:3a0a:b0:841:5701:16d8 with SMTP id d2e1a72fcca58-8415f6aca3dmr21580379b3a.38.1779869052685;
+        Wed, 27 May 2026 01:04:12 -0700 (PDT)
+Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.160.236])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-841d6ead585sm1922739b3a.14.2026.05.27.01.04.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 00:53:55 -0700 (PDT)
-From: guzebing <guzebing1612@gmail.com>
-To: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me
-Cc: linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Guzebing <guzebing@bytedance.com>
-Subject: [RFC PATCH 1/1] nvme-pci: detect I/O queue depth changes after reset
-Date: Wed, 27 May 2026 15:53:20 +0800
-Message-Id: <20260527075320.3178600-2-guzebing1612@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260527075320.3178600-1-guzebing1612@gmail.com>
-References: <20260527075320.3178600-1-guzebing1612@gmail.com>
+        Wed, 27 May 2026 01:04:11 -0700 (PDT)
+Date: Wed, 27 May 2026 13:34:04 +0530
+From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
+To: Nilay Shroff <nilay@linux.ibm.com>
+Cc: linux-nvme@lists.infradead.org, kbusch@kernel.org, hch@lst.de, 
+	axboe@fb.com, sagi@grimberg.me, gjoyce@linux.ibm.com, mkchauras@linux.ibm.com
+Subject: Re: [PATCH] nvme-multipath: fix flex array size in struct
+ nvme_ns_head
+Message-ID: <ahakh0QGDYRwCBmv@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+References: <20260527062010.4036702-1-nilay@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260527062010.4036702-1-nilay@linux.ibm.com>
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260527_005357_183921_5E9A419A 
-X-CRM114-Status: GOOD (  16.71  )
+X-CRM114-CacheID: sfid-20260527_010414_495725_B860127F 
+X-CRM114-Status: GOOD (  25.03  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -101,77 +97,109 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Guzebing <guzebing@bytedance.com>
-
-Firmware activation may change the controller queue depth reported
-through CAP.MQES. In the nvme-pci reset path, nvme_pci_enable()
-rereads CAP and updates dev->q_depth, while existing struct nvme_queue
-entries keep the old q_depth and SQ/CQ DMA addresses.
-
-If the new depth is smaller than the existing nvmeq depth, reset recovery
-would try to create I/O queues with a depth the controller no longer
-accepts. Detect this before recreating I/O queues and fail the reset with
-an explicit error; without this, the failure shows up later as lost I/O
-queues and namespace removal.
-
-If the new depth is larger, warn and continue with the existing queue
-resources. The larger depth will not be used until the controller is
-removed and probed again.
-
-Signed-off-by: Guzebing <guzebing@bytedance.com>
----
- drivers/nvme/host/pci.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index db5fc9bf66272..4bc112f8a096e 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -3155,6 +3155,33 @@ static bool nvme_pci_update_nr_queues(struct nvme_dev *dev)
- 	return true;
- }
- 
-+static int nvme_pci_check_reset_queue_depth(struct nvme_dev *dev)
-+{
-+	u32 nvmeq_q_depth;
-+	u32 dev_q_depth = dev->q_depth;
-+
-+	if (dev->ctrl.queue_count <= 1)
-+		return 0;
-+
-+	nvmeq_q_depth = dev->queues[1].q_depth;
-+	if (nvmeq_q_depth == dev_q_depth)
-+		return 0;
-+
-+	if (nvmeq_q_depth > dev_q_depth) {
-+		dev_err(dev->ctrl.device,
-+			"IO queue depth decreased after reset (%u -> %u); "
-+			"live reset recovery is unsupported\n",
-+			nvmeq_q_depth, dev_q_depth);
-+		return -EIO;
-+	}
-+
-+	dev_warn(dev->ctrl.device,
-+		 "IO queue depth increased after reset (%u -> %u); "
-+		 "remove and probe the controller again to use the new depth\n",
-+		 nvmeq_q_depth, dev_q_depth);
-+	return 0;
-+}
-+
- static int nvme_pci_enable(struct nvme_dev *dev)
- {
- 	int result = -ENOMEM;
-@@ -3371,6 +3398,9 @@ static void nvme_reset_work(struct work_struct *work)
- 
- 	mutex_lock(&dev->shutdown_lock);
- 	result = nvme_pci_enable(dev);
-+	if (result)
-+		goto out_unlock;
-+	result = nvme_pci_check_reset_queue_depth(dev);
- 	if (result)
- 		goto out_unlock;
- 	nvme_unquiesce_admin_queue(&dev->ctrl);
--- 
-2.20.1
-
+On Wed, May 27, 2026 at 11:50:00AM +0530, Nilay Shroff wrote:
+> struct nvme_ns_head contains a flexible array member, current_path[],
+> which is indexed using the NUMA node ID:
+> head->current_path[numa_node_id()]
+> 
+> The structure is currently allocated as:
+> size = sizeof(struct nvme_ns_head) +
+>        (num_possible_nodes() * sizeof(struct nvme_ns *));
+> head = kzalloc(size, GFP_KERNEL);
+> 
+> This allocation assumes that NUMA node IDs are sequential and densely
+> packed from 0 .. num_possible_nodes() - 1. While this assumption holds
+> on many systems, it is not always true on some architectures such as
+> powerpc.
+> 
+> On some powerpc systems, NUMA node IDs can be sparse. For example:
+> NUMA:
+>   NUMA node(s):              6
+>   NUMA node0 CPU(s):         80-159
+>   NUMA node8 CPU(s):         0-79
+>   NUMA node252 CPU(s):
+>   NUMA node253 CPU(s):
+>   NUMA node254 CPU(s):
+>   NUMA node255 CPU(s):
+> 
+> That is, the possible/online NUMA node IDs are: 0, 8, 252, 253, 254, 255
+> In this case: num_possible_nodes() = 6
+> 
+> So memory is allocated for only 6 entries in current_path[]. However,
+> the array is later indexed using the actual NUMA node ID. As a result,
+> accesses such as:
+> head->current_path[8] or
+> head->current_path[252]
+> goes out of bounds, leading to the following KASAN splat:
+> 
+> ==================================================================
+> BUG: KASAN: slab-out-of-bounds in nvme_mpath_revalidate_paths+0x22c/0x290 [nvme_core]
+> Write of size 8 at addr c00020003bda35b8 by task kworker/u641:2/1997
+> 
+> CPU: 1 UID: 0 PID: 1997 Comm: kworker/u641:2 Not tainted 7.1.0-rc5-dirty #14 PREEMPT(lazy)
+> Hardware name: 8335-GTH POWER9 0x4e1202 opal:skiboot-v6.5.3-35-g1851b2a06 PowerNV
+> Workqueue: async async_run_entry_fn
+> Call Trace:
+> [c000200037fa7510] [c0000000021c23d4] dump_stack_lvl+0x88/0xdc (unreliable)
+> [c000200037fa7540] [c0000000009fda90] print_report+0x22c/0x67c
+> [c000200037fa7630] [c0000000009fd508] kasan_report+0x108/0x220
+> [c000200037fa7740] [c0000000009fff48] __asan_store8+0xe8/0x120
+> [c000200037fa7760] [c008000018e76474] nvme_mpath_revalidate_paths+0x22c/0x290 [nvme_core]
+> [c000200037fa7800] [c008000018e6556c] nvme_update_ns_info+0x4a4/0x5e0 [nvme_core]
+> [c000200037fa7a50] [c008000018e66270] nvme_alloc_ns+0x6d8/0x1a70 [nvme_core]
+> [c000200037fa7c20] [c008000018e679fc] nvme_scan_ns+0x3f4/0x630 [nvme_core]
+> [c000200037fa7d10] [c00000000031f22c] async_run_entry_fn+0x9c/0x3a0
+> [c000200037fa7db0] [c0000000002fa544] process_one_work+0x414/0xa10
+> [c000200037fa7ec0] [c0000000002fbf00] worker_thread+0x320/0x640
+> [c000200037fa7f80] [c00000000030d0f8] kthread+0x278/0x290
+> [c000200037fa7fe0] [c00000000000ded8] start_kernel_thread+0x14/0x18
+> 
+> Allocated by task 1997 on cpu 1 at 35.928317s:
+> 
+> The buggy address belongs to the object at c00020003bda3000
+>  which belongs to the cache kmalloc-rnd-15-2k of size 2048
+> The buggy address is located 16 bytes to the right of
+>  allocated 1448-byte region [c00020003bda3000, c00020003bda35a8)
+> 
+> The buggy address belongs to the physical page:
+> 
+> Memory state around the buggy address:
+>  c00020003bda3480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>  c00020003bda3500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> >c00020003bda3580: 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc
+>                                         ^
+>  c00020003bda3600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>  c00020003bda3680: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> ==================================================================
+> 
+> Fix this by allocating the flexible array using nr_node_ids instead
+> of num_possible_nodes(). Since nr_node_ids represents the maximum
+> possible NUMA node IDs, indexing current_path[] using numa_node_id()
+> becomes safe even on systems with sparse node IDs.
+> 
+> Fixes: f333444708f8 ("nvme: take node locality into account when selecting a path")
+> Signed-off-by: Nilay Shroff <nilay@linux.ibm.com>
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index c3032d6ad6b1..96809227a0e2 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3926,7 +3926,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+>  	int ret = -ENOMEM;
+>  
+>  #ifdef CONFIG_NVME_MULTIPATH
+> -	size += num_possible_nodes() * sizeof(struct nvme_ns *);
+> +	size += nr_node_ids * sizeof(struct nvme_ns *);
+>  #endif
+>  
+>  	head = kzalloc(size, GFP_KERNEL);
+> -- 
+> 2.53.0
+> 
+> 
+Reviewed-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
+Tested-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
 
