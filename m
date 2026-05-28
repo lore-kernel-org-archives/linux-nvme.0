@@ -4,79 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECC29CD5BD0
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 03:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E971ACD5BD1
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 03:32:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=uHcHw+Zgx2c/yCnrl2bglqEmsfzND1F6CvMpIf7CaV8=; b=3DFEA4cFtiMDE41XhfbVZsmLpb
-	pw7iwVWqIPJRxke04QhzzWOJYcK57jRqdZ/IfxjVOCuLw4TDjkA5ysimewr9HPEVs52LTVn7vVnyc
-	WjHZR8fcZg/5/DRI2gc4JqmTOzD9PmVMrnwjPm84TetLGrNZuq0fp2qP/HLiHTEt5tbAskS0gHDCm
-	Svl45V+Fy4UZ4DRK+QzoOYSDyqXEIIXg+AsR1bUpnp+v1UWoSpuVEl3e5Ls6c2fhenxeBL6fHjSv3
-	ndFWMYVd+5KaYzi2SrltgeL6bLuPJ08c4y9x/hZbCw7qZLREMcTZTQ7+NjF173XaBXS95ipNsmOis
-	Ka8EgGZg==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
+	bh=g5uXlb9DClg+oUz25HJ7qILql8lXt55AWGux+JMMJXc=; b=mXHdd9Enize3JYay8J2in61po8
+	34BoGY6Kf5LYAF/qq2RJBN4tQNZ2sNOmvpPAML2mrwuKNcrT8qvpRZ1FMIQdlkuEiVxdyfgJPnxt5
+	vTFA3sO7yVIyGtlkABxuWwFbD+juu/FwE9JljRWri3HD47waYtHBCALODcZQCJuJKGgKoyWoNmL5K
+	7+2lv0IVxxw/lzXNRYjl2pMEOE7fcw64voauRXMT1DS8+pcMD8We18hJTgJVG37M6NWvkGxf3M0av
+	WVIXAf2uECkY/OuosQZyzjB16g+U/yv5483EfHKmEjIIQqqCGr0EYT1HoRTqRSAQPPsz9ThVAS4Nc
+	L57y7t5Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSRAw-000000052na-1kyU;
-	Thu, 28 May 2026 03:12:50 +0000
-Received: from tor.source.kernel.org ([2600:3c04:e001:324:0:1991:8:25])
+	id 1wSRUF-0000000542V-0sx7;
+	Thu, 28 May 2026 03:32:47 +0000
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSRAu-000000052mP-1qjr
+	id 1wSRUD-00000005424-0GY7
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 May 2026 03:12:48 +0000
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id DD553605D7;
-	Thu, 28 May 2026 03:12:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110021F000E9;
-	Thu, 28 May 2026 03:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779937967;
-	bh=uHcHw+Zgx2c/yCnrl2bglqEmsfzND1F6CvMpIf7CaV8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ndAmRDUn9eSi6DtQhDo0hSiI/fw4XFynY8pWiq5FJ6DwxfN923xu9o9pQP6UDliYP
-	 QY9DmaX7fc4dwEzhvTu/0d+NhUU4emN2kZ6gLD4vRqS5xMreQ+7EvD0EMBfIK9qqqr
-	 pNOXBjItdQOTgVcD9pqe2aJWFdb3zlpH9ZjiU+UAwD4Rt8ZkGXepdCDHtD1jWug3kp
-	 56QEkMOo7z4y5hUT8X+hIx/qDGnWeY4FNIvUV54Z9RYdt+sPPf6U/G4m/W64mKRGo3
-	 8XiUtg1mFzLm6faSuqNTXpeZmWDzlUfu8377iKmqe62oBThAi77k1MWyrJPZEr7WpY
-	 2+W3dX5xBbwDA==
-From: Geliang Tang <geliang@kernel.org>
-To: Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
+	Thu, 28 May 2026 03:32:46 +0000
+Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-8b9f2295a9dso135141226d6.3
+        for <linux-nvme@lists.infradead.org>; Wed, 27 May 2026 20:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779939163; x=1780543963; darn=lists.infradead.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=g5uXlb9DClg+oUz25HJ7qILql8lXt55AWGux+JMMJXc=;
+        b=NeNwFlNndJ+nJe1eUK+yEAPFiYVCQ901ruMaeyP0PwvyY4TskHcfzlkOsKfl5m6Te0
+         VL31kt9Fr+RbGHpqjWlPFZDB3pTpsqHcuBSumpgxnc8qDHgeFU5X2YO8gbwUyRGgM1UG
+         vcfKtVv3R1keXVXae22uSzSZ/8qDUrGOBTi4aczomqGQYfo0wWTR98yhcOy3tPVEjf+7
+         T5EfsPPspfKHlqEiBMW/7cGNgutzDaqwTlBf3TNFL753TkalBUryVFDOiheTSA3z6KW3
+         9pk9UIFxGFo0DSc/VLjmZrw0Q5i0mYmxDy6rTEqaQdpxkteFzcSWIYESc8XHvDtSrOVn
+         y2RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779939163; x=1780543963;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g5uXlb9DClg+oUz25HJ7qILql8lXt55AWGux+JMMJXc=;
+        b=FlHPBAjSBt8SSxSUkLcsx0EryEB6c+GGNSPWiXjcrFevuxmdIqpNUd/LC9yRWO7QWi
+         5JCVoI43E3qhpL+Yn9rbpFXLkWrdgIvgnW/AjyTRE8kF4JwuE65udDkaXiiPNhOEZWLL
+         3WEX5Mamxpt1Qy1LM+fuiTP/yBovA26Tz1z4jyfXdsENOYHMqoYbOvFFBahJsEHUsw8O
+         rvetw7kUG9Q/BQOZMWIg9wHiodUZlkaqHcKNXRv1Au5Dlf0399E29RTjf9bnuQ+/JKQK
+         uG65VXU5K59Kphnxrq2KJeGPVzv8UqbdEaoDPUVI1i4GWuqAGhMv7wPcnYhqONxdt4YW
+         akeA==
+X-Forwarded-Encrypted: i=1; AFNElJ/BkmliNcGgWEwatD0+5Msbjke02tEcEijNbH3dkfbSx06efqZAApFJ9SAu9VOkgw4iN4LfRf9EDbol@lists.infradead.org
+X-Gm-Message-State: AOJu0YzhKtXggq5wiIqEnf6U95fvGmFG+mBrEJCtid8MRm696U7RB2tB
+	M+i/SRuYI9WQ4a/NQFlWsBo3FLCpln6ckFIKj73Xu+RpXri+BPzribyi
+X-Gm-Gg: Acq92OGXcjPaGB6hbRftQWV+bjL8MzZZH3/32/cvcraX2X+Q6pNel3ud6pxd3s0tKSc
+	OYJwg4IgcVC5P72+4NmPrqGJAtGyFtsDfBUZzJZYrLJkd5sfwdF0/dpPmq+tsJ0qmX+5zlhx9vw
+	kTqasNXn+fVmccbQKn/ASytuIrFeXEWwLVJmES8uepMC4VxuojY+JzSw8j/+5/7SYzVSFrInx70
+	BBtsZRkEx6irTSZqGYN5muT7+QbeFiTEWh30BxItWghsoSwYSp89FrJFVjRbWpEDStpBdyxf9U+
+	8sSggF6PJHbrD8xqkbS9txo7QI54mk1vMr/UUI35mQpOFFvQbd7v3uKJmxMFRDzi8kvRwB0JZ+a
+	qzDkA5Hvs6cYaj/tZVVwvEqscaa2942L+EgIvWoOXOSguLDJtpnzM45zO3AkQwctazXNIM2Hkxc
+	HneQW5DlsDN/gpuG9OC9RspSvp1czfU7sD+72Ku0IpvL0yF7q1lu6NBTdUJ6CkdWjXDBwwTbmrK
+	6IDT1r7Fi24zc9AkSAfGNLuCMmogw10XfnxiorbkPA=
+X-Received: by 2002:a05:6214:246e:b0:8ca:10aa:e1f9 with SMTP id 6a1803df08f44-8cc7b5d16e0mr418713706d6.42.1779939163439;
+        Wed, 27 May 2026 20:32:43 -0700 (PDT)
+Received: from fedora ([172.245.82.59])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccd78d2ab1sm795366d6.6.2026.05.27.20.32.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 20:32:43 -0700 (PDT)
+Date: Wed, 27 May 2026 22:32:37 -0500
+From: Ming Lei <tom.leiming@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <shuah@kernel.org>
-Cc: Geliang Tang <tanggeliang@kylinos.cn>,
-	linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	mptcp@lists.linux.dev,
-	linux-kselftest@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	zhenwei pi <zhenwei.pi@linux.dev>,
-	Hui Zhu <zhuhui@kylinos.cn>,
-	Gang Yan <yangang@kylinos.cn>
-Subject: [PATCH 11/11] selftests: mptcp: nvme: add iopolicy tests
-Date: Thu, 28 May 2026 11:10:45 +0800
-Message-ID: <51f054a6a573b9a771ed927eef34fa5ca083d009.1779934709.git.tanggeliang@kylinos.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1779934709.git.tanggeliang@kylinos.cn>
-References: <cover.1779934709.git.tanggeliang@kylinos.cn>
+	Bart Van Assche <bvanassche@acm.org>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	linux-block@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 1/3] loop: cleanup lo_rw_aio
+Message-ID: <ahe3VevXiPHqxOGh@fedora>
+References: <20260527151043.2349900-1-hch@lst.de>
+ <20260527151043.2349900-2-hch@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260527151043.2349900-2-hch@lst.de>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260527_203245_124046_D98F8B56 
+X-CRM114-Status: GOOD (  13.61  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,203 +102,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From: Geliang Tang <tanggeliang@kylinos.cn>
+On Wed, May 27, 2026 at 05:10:20PM +0200, Christoph Hellwig wrote:
+> Port over the changes from the zloop driver to remove the need for
+> the local bio, bvec and offset variables and clean up the code by
+> that.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Add NVMe iopolicy testing to mptcp_nvme.sh, with the default set to
-"numa". It can be set to "round-robin" or "queue-depth".
+Reviewed-by: Ming Lei <tom.leiming@gmail.com>
 
-Test results with 4 NVMe multipath paths and round-robin iopolicy show
-that TCP and MPTCP achieve similar bandwidth:
-
- # ./mptcp_nvme.sh tcp 4 round-robin
-   READ: bw=455MiB/s (478MB/s), 455MiB/s-455MiB/s (478MB/s-478MB/s),
-		io=4665MiB (4891MB), run=10242-10242msec
-  WRITE: bw=455MiB/s (477MB/s), 455MiB/s-455MiB/s (477MB/s-477MB/s),
-		io=4633MiB (4858MB), run=10184-10184msec
-
- # ./mptcp_nvme.sh mptcp 4 round-robin
-   READ: bw=445MiB/s (466MB/s), 445MiB/s-445MiB/s (466MB/s-466MB/s),
-		io=4575MiB (4797MB), run=10287-10287msec
-  WRITE: bw=445MiB/s (467MB/s), 445MiB/s-445MiB/s (467MB/s-467MB/s),
-		io=4572MiB (4794MB), run=10267-10267msec
-
-A "loss" argument is added to simulate network packet loss. When loss=1,
-each veth interface is configured with "delay 5ms loss 0.5%" using tc
-qdisc. Under this scenario, TCP performance is reduced by multiples
-compared to MPTCP:
-
- # ./mptcp_nvme.sh tcp 4 round-robin 1
-   READ: bw=144MiB/s (151MB/s), 144MiB/s-144MiB/s (151MB/s-151MB/s),
-		io=1909MiB (2001MB), run=13231-13231msec
-  WRITE: bw=100.0MiB/s (105MB/s), 100.0MiB/s-100.0MiB/s (105MB/s-105MB/s),
-		io=1397MiB (1465MB), run=13980-13980msec
-
- # ./mptcp_nvme.sh mptcp 4 round-robin 1
-   READ: bw=428MiB/s (449MB/s), 428MiB/s-428MiB/s (449MB/s-449MB/s),
-		io=4524MiB (4743MB), run=10564-10564msec
-  WRITE: bw=431MiB/s (452MB/s), 431MiB/s-431MiB/s (452MB/s-452MB/s),
-		io=4513MiB (4732MB), run=10481-10481msec
-
-These results demonstrate that MPTCP has better resilience against
-packet loss compared to TCP, as it can leverage multiple subflows to
-mitigate network degradation.
-
-Cc: Hannes Reinecke <hare@suse.de>
-Cc: John Meneghini <jmeneghi@redhat.com>
-Cc: Randy Jennings <randyj@purestorage.com>
-Cc: Nilay Shroff <nilay@linux.ibm.com>
-Co-developed-by: zhenwei pi <zhenwei.pi@linux.dev>
-Signed-off-by: zhenwei pi <zhenwei.pi@linux.dev>
-Co-developed-by: Hui Zhu <zhuhui@kylinos.cn>
-Signed-off-by: Hui Zhu <zhuhui@kylinos.cn>
-Co-developed-by: Gang Yan <yangang@kylinos.cn>
-Signed-off-by: Gang Yan <yangang@kylinos.cn>
-Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
----
- .../testing/selftests/net/mptcp/mptcp_nvme.sh | 70 ++++++++++++++++++-
- 1 file changed, 69 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/net/mptcp/mptcp_nvme.sh b/tools/testing/selftests/net/mptcp/mptcp_nvme.sh
-index 5b1133dbc2d5..3ab04be05dff 100755
---- a/tools/testing/selftests/net/mptcp/mptcp_nvme.sh
-+++ b/tools/testing/selftests/net/mptcp/mptcp_nvme.sh
-@@ -6,6 +6,8 @@
- ret=0
- trtype="${1:-mptcp}"
- path="${2:-1}"
-+iopolicy=${3:-"numa"} # round-robin, queue-depth
-+loss=${4:-0}
- nqn="nqn.2014-08.org.nvmexpress.${trtype}dev.$$.${RANDOM}"
- ns=1
- port=$((RANDOM % 10000 + 20000))
-@@ -17,6 +19,7 @@ loop_dev=""
- 
- export trtype path nqn ns port trsvcid
- export loop_dev temp_file
-+export iopolicy loss
- 
- usage()
- {
-@@ -24,10 +27,12 @@ usage()
- 
- Usage:
- 
--	$(basename "$0") [trtype] [path]
-+	$(basename "$0") [trtype] [path] [iopolicy] [loss]
- 
- 	trtype   Transport type (tcp|mptcp) - default: mptcp
- 	path     Number of multipath (1-4) - default: 1
-+	iopolicy I/O policy (numa|round-robin|queue-depth) - default: numa
-+	loss     Enable packet loss (0|1) - default: 0
- 
- EOF
- exit ${KSFT_FAIL}
-@@ -44,6 +49,16 @@ validate_params()
- 		echo "Invalid path count ${path}. Must be between 1 and 4"
- 		usage
- 	fi
-+
-+	if [[ ! "${iopolicy}" =~ ^(numa|round-robin|queue-depth)$ ]]; then
-+		echo "Invalid iopolicy ${iopolicy}."
-+		usage
-+	fi
-+
-+	if [[ ! "${loss}" =~ ^[01]$ ]]; then
-+		echo "Invalid loss value ${loss}. Must be 0 or 1"
-+		usage
-+	fi
- }
- 
- # This function is invoked indirectly
-@@ -105,6 +120,7 @@ cleanup()
- 
- 	unset -v trtype path nqn ns port trsvcid
- 	unset -v loop_dev temp_file
-+	unset -v iopolicy loss
- }
- 
- # $tc_args needs word splitting to pass multiple arguments to netem
-@@ -113,6 +129,10 @@ init()
- {
- 	local tc_args="rate 1000mbit"
- 
-+	if [ "${loss}" -eq 1 ]; then
-+		tc_args+=" delay 5ms loss 0.5%"
-+	fi
-+
- 	mptcp_lib_ns_init ns1 ns2
- 
- 	# ns1		ns2
-@@ -193,6 +213,48 @@ run_target()
- 	done
- }
- 
-+# This function is invoked indirectly
-+#shellcheck disable=SC2317,SC2329
-+set_io_policy()
-+{
-+	local nqn="$1"
-+	local iopolicy="$2"
-+	local subname
-+	local policy
-+	local current
-+
-+	subname=$(nvme list-subsys 2>/dev/null | grep "${nqn}" |
-+		  grep -o 'nvme-subsys[0-9]*' | head -1)
-+	if [ -z "$subname" ]; then
-+		return 1
-+	fi
-+
-+	policy="/sys/class/nvme-subsystem/${subname}/iopolicy"
-+	if [ ! -e "$policy" ]; then
-+		# NVMe multipath not supported, skip iopolicy setting
-+		return 0
-+	fi
-+
-+	if [ ! -w "$policy" ]; then
-+		return 1
-+	fi
-+
-+	if ! echo "${iopolicy}" > "$policy" 2>/dev/null; then
-+		return 1
-+	fi
-+
-+	current=$(cat "$policy" 2>/dev/null)
-+	if [ -z "$current" ]; then
-+		return 1
-+	fi
-+
-+	if [[ "$current" != *"${iopolicy}"* ]]; then
-+		return 1
-+	fi
-+
-+	return 0
-+}
-+
- # This function is invoked indirectly
- #shellcheck disable=SC2317,SC2329
- run_host()
-@@ -242,6 +304,11 @@ run_host()
- 		return 1
- 	fi
- 
-+	if ! set_io_policy "${nqn}" "${iopolicy}"; then
-+		echo "Failed to set I/O policy to ${iopolicy}"
-+		return 1
-+	fi
-+
- 	sleep 1
- 
- 	echo "fio randread /dev/${devname}"
-@@ -306,6 +373,7 @@ run_test()
- 	fi
- 
- 	if ! ip netns exec "$ns2" bash <<- EOF
-+		$(declare -f set_io_policy)
- 		$(declare -f run_host)
- 		run_host
- 		exit \$?
--- 
-2.53.0
-
+Thanks,
+Ming
 
