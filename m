@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CC6DCD5BD0
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 03:11:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4925FCD5BC9
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 03:11:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=6+8IEzoRehjjp8IjXCg+Lnt1AIJejqKg0hiZ67zNe3s=; b=UaDlvbI4Brk76/mUEE9Jj3Dh6X
-	a/1uINtiO5Hg3E/hXd57mIr3xBU1jieQttiXItC96hB5tGHm9JY7E1uGtRCX6ovUoYSku3wqa+gEw
-	dw8rurFOyr76pvSXYfAi3xIwdlmbUXRtz3Yff8G7G4+jTwQ7ajdyb3WSmEsed3ZbV5JMG3CTzEwqY
-	5IWRyYomkGSivhEhaWMwwVjlJvEOpdf0AnIeEAV6I5yUN2y2WSPlrOwxXHaO5Wvf6sRxD/0WzolAo
-	t5Pe//RkEmPNRxjndV4KJHT7HJGAWd/Ig6ZRioHWWPk5G66NvduragV7BTIMJDfw9CCc4+yx0Kj6u
-	L9z5xLig==;
+	bh=syMmlg+JD2nqzhG8uZF0dK37U+gNHucnr241k0jXdP4=; b=d4uUq6qT6XhzRgo0zEn4p7Q80D
+	4Yj1MpFliMERv6E2CdOhCr6eda83HAMqgY2bluyxDVib+VQ/uqTQfFec6cNon3njW+oecwg3r3/rY
+	bhgsa0GpwIv/Lj+titKfOIyjkz3AIzgGOIjtgiRYkZWbIDPf8NuMK9kwN0sCKQXv1ErYnItjJ7fui
+	eormkreApavrWVGhAL+9rmKSp7f/tab+WDSFprP7coE+xmqrhd1uLmLJTIUseANxRKC3rY6iD1Sis
+	8C8vXelO6I/vOufmF6TgOLRcsm16XqMpVhFwUQsrJH3NfMBxoHwXoPgkppjHZo+ATWb3SDpED2LPF
+	fmYzdSVA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSR9q-000000052Gp-3HLM;
-	Thu, 28 May 2026 03:11:42 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wSR9y-000000052KF-3iSS;
+	Thu, 28 May 2026 03:11:50 +0000
+Received: from sea.source.kernel.org ([2600:3c0a:e001:78e:0:1991:8:25])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSR9o-000000052G3-3q47
+	id 1wSR9w-000000052J8-1HU0
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 May 2026 03:11:41 +0000
+	Thu, 28 May 2026 03:11:49 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 16647605D3;
+	by sea.source.kernel.org (Postfix) with ESMTP id 813AD43D94;
+	Thu, 28 May 2026 03:11:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CF831F000E9;
 	Thu, 28 May 2026 03:11:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1C4E1F00A3C;
-	Thu, 28 May 2026 03:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779937899;
-	bh=6+8IEzoRehjjp8IjXCg+Lnt1AIJejqKg0hiZ67zNe3s=;
+	s=k20260515; t=1779937907;
+	bh=syMmlg+JD2nqzhG8uZF0dK37U+gNHucnr241k0jXdP4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FIWn/mYDkjaJRU7bNOFKOv2WcJ6KtrWz08uijEIWCU/NMaxtn3tSMRmcOmQ18kAlX
-	 kj16jDwA9JMfjlulFOCPPytGbM3uzx3sBlRao1z8vQmnUOzSndXpOMHAMdxfT5A+5L
-	 0s+5qOt2DztUI0Vu2VV42fpc38Yy32uFnFXJHougFhLaRe673S/83mq+oLt/ryhas3
-	 S9aCIvyhU5lg67UPy4fREjn9DI7wYsXP5lVKLZehZMP1XbUzCKFbWBs9tChi5Lx991
-	 vzwkdOghWMX1XzhIBrA9iTYmFPvf5tbl5IT7eOWJtnb46Are25ZChchdMZmh+9LOal
-	 zEeUkh/1kC75A==
+	b=kwj/AfZBJ757bJtFH6WyL4zOdpKKFBchHHXONEy8CtC+MbLScB3LDRtLf1ijVmHwy
+	 KaBFgvupu6KuM3iVxoPL7zS+grgolZzqdcTI9UVfzj/hJ2kQuuHSUFY4PswXMtPQyp
+	 QZzBdoJh39+ujdwwY+7UEgEJSIeEf8gHZR3GHVUsh09qHg2mltkZo+4TlhE3UMfqQf
+	 tNBB9jQ3fhkLLLcQ6hbmzQohW0Yck5m6TSsKDv1nruh7gIwnZTgCfrqGYdhR49uDRj
+	 TWJJq6k4XXyQQrlQoa82MKOPNR+b+9ihj/JUquikAwI6k3aUf3owBSM3WP5jWdTuQN
+	 K7sMUQclMCzzg==
 From: Geliang Tang <geliang@kernel.org>
 To: Keith Busch <kbusch@kernel.org>,
 	Jens Axboe <axboe@kernel.dk>,
@@ -69,14 +69,17 @@ Cc: Geliang Tang <tanggeliang@kylinos.cn>,
 	zhenwei pi <zhenwei.pi@linux.dev>,
 	Hui Zhu <zhuhui@kylinos.cn>,
 	Gang Yan <yangang@kylinos.cn>
-Subject: [PATCH 02/11] nvmet-tcp: implement accept mptcp proto
-Date: Thu, 28 May 2026 11:10:36 +0800
-Message-ID: <a1fa5dd3ebb0cafe1bf7948bf2a96436e9452e19.1779934709.git.tanggeliang@kylinos.cn>
+Subject: [PATCH 03/11] nvmet-tcp: define listen socket ops
+Date: Thu, 28 May 2026 11:10:37 +0800
+Message-ID: <b3a26e1ee5bb3ea097edb60be479d9d52e02a772.1779934709.git.tanggeliang@kylinos.cn>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1779934709.git.tanggeliang@kylinos.cn>
 References: <cover.1779934709.git.tanggeliang@kylinos.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260527_201148_388107_17B8B6F6 
+X-CRM114-Status: GOOD (  15.54  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -93,14 +96,33 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Geliang Tang <tanggeliang@kylinos.cn>
 
-An MPTCP-specific version of struct nvmet_tcp_proto is implemented for
-accept sockets. It is assigned to queue->proto when the accepted socket
-protocol is IPPROTO_MPTCP.
+To support MPTCP on the target side, the listen socket needs to pass
+IPPROTO_MPTCP to sock_create() for MPTCP ports, and use MPTCP-specific
+setsockopt functions.
 
-Dedicated MPTCP helpers are introduced for setting accept socket options.
-These helpers (no_linger, set_priority, set_tos) set the values on all
-existing subflows using mptcp_for_each_subflow(). The values are then
-synchronized to other newly created subflows in sync_socket_options().
+This patch adds struct nvmet_tcp_proto_ops to hold listen socket protocol
+operations (protocol, set_reuseaddr, set_nodelay, set_priority). A TCP
+version is defined and used for TCP ports.
+
+v2:
+ - use trtype instead of tsas (Hannes).
+
+v3:
+ - check mptcp protocol from disc_addr.trtype instead of passing a
+parameter (Hannes).
+
+v4:
+ - check CONFIG_MPTCP.
+
+v5:
+ - define nvmet_tcp_proto struct.
+ - add a pointer to this structure in nvmet_tcp_port.
+
+v6:
+ - split nvmet_tcp_proto struct into two structs, nvmet_tcp_proto and
+nvmet_tcp_proto_ops, one for the accept socket, the other for the liston
+socket.
+ - add a pointer to nvmet_tcp_proto struct in nvmet_tcp_queue.
 
 Cc: Hannes Reinecke <hare@suse.de>
 Cc: John Meneghini <jmeneghi@redhat.com>
@@ -114,169 +136,74 @@ Co-developed-by: Gang Yan <yangang@kylinos.cn>
 Signed-off-by: Gang Yan <yangang@kylinos.cn>
 Signed-off-by: Geliang Tang <tanggeliang@kylinos.cn>
 ---
- drivers/nvme/target/tcp.c | 16 ++++++++
- include/net/mptcp.h       | 12 ++++++
- net/mptcp/sockopt.c       | 79 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 107 insertions(+)
+ drivers/nvme/target/tcp.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 01c23fb15b79..16f153a9772b 100644
+index 16f153a9772b..83fe001fc619 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -220,6 +220,9 @@ static DEFINE_MUTEX(nvmet_tcp_queue_mutex);
+@@ -2087,8 +2087,23 @@ static void nvmet_tcp_listen_data_ready(struct sock *sk)
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
  
- static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
-+#ifdef CONFIG_MPTCP
-+static const struct nvmet_fabrics_ops nvmet_mptcp_ops;
-+#endif
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
- 
-@@ -1928,6 +1931,15 @@ static const struct nvmet_tcp_proto nvmet_tcp_proto = {
- 	.ops		= &nvmet_tcp_ops,
- };
- 
-+#ifdef CONFIG_MPTCP
-+static const struct nvmet_tcp_proto nvmet_mptcp_proto = {
-+	.no_linger	= mptcp_sock_no_linger,
-+	.set_priority	= mptcp_sock_set_priority,
-+	.set_tos	= mptcp_sock_set_tos,
-+	.ops		= &nvmet_mptcp_ops,
++struct nvmet_tcp_proto_ops {
++	int			protocol;
++	void (*set_reuseaddr)(struct sock *sk);
++	void (*set_nodelay)(struct sock *sk);
++	void (*set_priority)(struct sock *sk, u32 priority);
 +};
-+#endif
 +
- static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		struct socket *newsock)
++static const struct nvmet_tcp_proto_ops nvmet_tcp_proto_ops = {
++	.protocol	= IPPROTO_TCP,
++	.set_reuseaddr	= sock_set_reuseaddr,
++	.set_nodelay	= tcp_sock_set_nodelay,
++	.set_priority	= sock_set_priority,
++};
++
+ static int nvmet_tcp_add_port(struct nvmet_port *nport)
  {
-@@ -1947,6 +1959,10 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	queue->sock = newsock;
- 	if (newsock->sk->sk_protocol == IPPROTO_TCP) {
- 		queue->proto = &nvmet_tcp_proto;
-+#ifdef CONFIG_MPTCP
-+	} else if (newsock->sk->sk_protocol == IPPROTO_MPTCP) {
-+		queue->proto = &nvmet_mptcp_proto;
-+#endif
- 	} else {
- 		ret = -EINVAL;
- 		goto out_free_queue;
-diff --git a/include/net/mptcp.h b/include/net/mptcp.h
-index aef2dbeb847b..bf74dedc578d 100644
---- a/include/net/mptcp.h
-+++ b/include/net/mptcp.h
-@@ -233,6 +233,12 @@ static inline __be32 mptcp_reset_option(const struct sk_buff *skb)
- }
- 
- void mptcp_active_detect_blackhole(struct sock *sk, bool expired);
-+
-+void mptcp_sock_no_linger(struct sock *sk);
-+
-+void mptcp_sock_set_priority(struct sock *sk, u32 priority);
-+
-+void mptcp_sock_set_tos(struct sock *sk);
- #else
- 
- static inline void mptcp_init(void)
-@@ -319,6 +325,12 @@ static inline struct request_sock *mptcp_subflow_reqsk_alloc(const struct reques
- static inline __be32 mptcp_reset_option(const struct sk_buff *skb)  { return htonl(0u); }
- 
- static inline void mptcp_active_detect_blackhole(struct sock *sk, bool expired) { }
-+
-+static inline void mptcp_sock_no_linger(struct sock *sk) { }
-+
-+static inline void mptcp_sock_set_priority(struct sock *sk, u32 priority) { }
-+
-+static inline void mptcp_sock_set_tos(struct sock *sk) { }
- #endif /* CONFIG_MPTCP */
- 
- #if IS_ENABLED(CONFIG_MPTCP_IPV6)
-diff --git a/net/mptcp/sockopt.c b/net/mptcp/sockopt.c
-index 87b5796d0135..359b1eb2d0a9 100644
---- a/net/mptcp/sockopt.c
-+++ b/net/mptcp/sockopt.c
-@@ -1662,3 +1662,82 @@ int mptcp_set_rcvlowat(struct sock *sk, int val)
++	const struct nvmet_tcp_proto_ops *ops;
+ 	struct nvmet_tcp_port *port;
+ 	__kernel_sa_family_t af;
+ 	int ret;
+@@ -2111,6 +2126,13 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ 		goto err_port;
  	}
- 	return 0;
- }
-+
-+void mptcp_sock_no_linger(struct sock *sk)
-+{
-+	struct mptcp_sock *msk = mptcp_sk(sk);
-+	struct mptcp_subflow_context *subflow;
-+	struct sock *ssk;
-+
-+	lock_sock(sk);
-+	sockopt_seq_inc(msk);
-+	WRITE_ONCE(sk->sk_lingertime, 0);
-+	sock_set_flag(sk, SOCK_LINGER);
-+	mptcp_for_each_subflow(msk, subflow) {
-+		ssk = mptcp_subflow_tcp_sock(subflow);
-+		if (ssk) {
-+			lock_sock_nested(ssk, SINGLE_DEPTH_NESTING);
-+			WRITE_ONCE(ssk->sk_lingertime, 0);
-+			sock_set_flag(ssk, SOCK_LINGER);
-+			release_sock(ssk);
-+		}
+ 
++	if (nport->disc_addr.trtype == NVMF_TRTYPE_TCP) {
++		ops = &nvmet_tcp_proto_ops;
++	} else {
++		ret = -EINVAL;
++		goto err_port;
 +	}
-+	release_sock(sk);
-+}
-+EXPORT_SYMBOL(mptcp_sock_no_linger);
 +
-+void mptcp_sock_set_priority(struct sock *sk, u32 priority)
-+{
-+	struct mptcp_sock *msk = mptcp_sk(sk);
-+	struct mptcp_subflow_context *subflow;
-+	struct sock *ssk;
-+
-+	lock_sock(sk);
-+	sockopt_seq_inc(msk);
-+	sock_set_priority(sk, priority);
-+	mptcp_for_each_subflow(msk, subflow) {
-+		ssk = mptcp_subflow_tcp_sock(subflow);
-+		if (ssk) {
-+			lock_sock_nested(ssk, SINGLE_DEPTH_NESTING);
-+			sock_set_priority(ssk, priority);
-+			release_sock(ssk);
-+		}
-+	}
-+	release_sock(sk);
-+}
-+EXPORT_SYMBOL(mptcp_sock_set_priority);
-+
-+static void __mptcp_sock_set_tos(struct sock *sk, int val)
-+{
-+	struct mptcp_sock *msk = mptcp_sk(sk);
-+	struct mptcp_subflow_context *subflow;
-+	struct sock *ssk;
-+
-+	lock_sock(sk);
-+	sockopt_seq_inc(msk);
-+	__ip_sock_set_tos(sk, val);
-+	mptcp_for_each_subflow(msk, subflow) {
-+		ssk = mptcp_subflow_tcp_sock(subflow);
-+		if (ssk) {
-+			lock_sock_nested(ssk, SINGLE_DEPTH_NESTING);
-+			__ip_sock_set_tos(ssk, val);
-+			release_sock(ssk);
-+		}
-+	}
-+	release_sock(sk);
-+}
-+
-+void mptcp_sock_set_tos(struct sock *sk)
-+{
-+	struct mptcp_sock *msk = mptcp_sk(sk);
-+	int val = 0;
-+
-+	lock_sock(sk);
-+	if (msk->first)
-+		val = inet_sk(msk->first)->rcv_tos;
-+	release_sock(sk);
-+
-+	if (val > 0)
-+		__mptcp_sock_set_tos(sk, val);
-+}
-+EXPORT_SYMBOL(mptcp_sock_set_tos);
+ 	ret = inet_pton_with_scope(&init_net, af, nport->disc_addr.traddr,
+ 			nport->disc_addr.trsvcid, &port->addr);
+ 	if (ret) {
+@@ -2125,7 +2147,7 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ 		port->nport->inline_data_size = NVMET_TCP_DEF_INLINE_DATA_SIZE;
+ 
+ 	ret = sock_create(port->addr.ss_family, SOCK_STREAM,
+-				IPPROTO_TCP, &port->sock);
++				ops->protocol, &port->sock);
+ 	if (ret) {
+ 		pr_err("failed to create a socket\n");
+ 		goto err_port;
+@@ -2134,10 +2156,10 @@ static int nvmet_tcp_add_port(struct nvmet_port *nport)
+ 	port->sock->sk->sk_user_data = port;
+ 	port->data_ready = port->sock->sk->sk_data_ready;
+ 	port->sock->sk->sk_data_ready = nvmet_tcp_listen_data_ready;
+-	sock_set_reuseaddr(port->sock->sk);
+-	tcp_sock_set_nodelay(port->sock->sk);
++	ops->set_reuseaddr(port->sock->sk);
++	ops->set_nodelay(port->sock->sk);
+ 	if (so_priority > 0)
+-		sock_set_priority(port->sock->sk, so_priority);
++		ops->set_priority(port->sock->sk, so_priority);
+ 
+ 	ret = kernel_bind(port->sock, (struct sockaddr_unsized *)&port->addr,
+ 			sizeof(port->addr));
 -- 
 2.53.0
 
