@@ -4,148 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 639BDCD5BD5
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 05:25:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C770FCD5BD5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 07:36:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
-	:List-Post:List-Archive:List-Unsubscribe:List-Id:MIME-Version:In-Reply-To:
-	Content-Type:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=w50wmbJNfajFh7v7IpjhMKhLxcaoKqhdIyxQvHOGdYU=; b=gPIVgz1n705QLV10GMHjEgxIM4
-	/0795e+5O7egVo7wv/ZURnbaP12oz9U2jDHsaqm8rGC+mIs0iWrldnfxO1JzoLLkjFP97fJZkNRff
-	CNY3Ejgv7mml1s94ZIT6zWq1e3RQIR+HQZSiRu5ztMzywul4rOOuu4pVssqN+N9mIjArICQ1bCJ6I
-	6oVOM6icI0LfsG7TGUvIcqINMRITjcsRGfkH2LatX3/8fR/BhvRQNv+K/5jVIlsjTQRo/B4MJwWlk
-	cCpIB0U+zzWEPRj7wPcjcMX2760y37jrUjea5+mS9/oGt1zsHKSH8nApVDOjvOBiRmiviYT0IH5Go
-	d0o7kRDw==;
+	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=wfBcfAg6umtx0uIzSHWthaUeH5YnjPCXtdVkJRSotzo=; b=qCyxl5hNXC9opa3cBvp7GLfsDr
+	qkX7CehBiUm5Vl2NLb9u2fwrNji4LglEEcoaEwiwAB1m0ruy1GlBqhYRvaGP+SZuYZb0uX6thDf1o
+	HWE5lQGWRFJsACndVw9Bl9X2eQXZelgLSslDQl9jKSonfh4UhjUEHqnEVVDhsmMII/WPD6kUqxeXq
+	6KsNvVsG5waRj9D42Haj7fnvf6S+VTRz3yufdIjXp3T9W7+Jcc3tAnUZVhMAEY8EDR12VaENHYccL
+	mMYr8fg8femD59WPsQqkiupGYowEr8csM9XwiQpxUb9hfrVtNBnJXZ83mo3WQ0lf/d8OUKNTJrVyZ
+	zQCQLWMw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSTEm-000000058hW-3Myu;
-	Thu, 28 May 2026 05:24:56 +0000
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+	id 1wSVHp-00000005GsR-0eou;
+	Thu, 28 May 2026 07:36:13 +0000
+Received: from mailgw.kylinos.cn ([124.126.103.232])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSTEk-000000058g3-15IR
+	id 1wSVHk-00000005Go3-1wwM
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 May 2026 05:24:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1779945894; x=1811481894;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=eL5PJkxuUc6tiddMLrekwUV4ltePqfcEN5bsrJP2u4Q=;
-  b=Hzx0fxrQFmbkdZQ+p0tcAgFG0f4c4oDlaGcuWptesbMmVoSSnbA9X9v3
-   rBF+6zm6Vch46iRnjjIovUTqe16IfX+99X59OiZL/rWrfHr8ZJ86klcb0
-   R6INJmONa1OguanmC/M3L5bRMPLD+xQxm4U/2rpmOlY+4Erw1vEnxLVBO
-   8gRzpzqo/wM4Hq4+v4hI+DgTS5aBohiDGNxctONgXtGdp4LA3EUdMZebX
-   dbIrea61mgygbFnnGKo1TMhwt7xkwFIwV/FJQFqZTvzbu5UGChwKK6UZB
-   N6YPZrcequM2+MA0G2foWLY0GrbBS3Dw5XsovAwFk39qG0uUigynMKCzQ
-   w==;
-X-CSE-ConnectionGUID: QFZvOGmCRKCgCUme13+weQ==
-X-CSE-MsgGUID: 6dIGQfupQNCT7A0iLV48qQ==
-X-IronPort-AV: E=Sophos;i="6.24,172,1774281600"; 
-   d="scan'208,223";a="148774879"
-Received: from mail-southcentralusazon11012045.outbound.protection.outlook.com (HELO SN4PR2101CU001.outbound.protection.outlook.com) ([40.93.195.45])
-  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 28 May 2026 13:24:51 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XZxgqCMjPtMhvQQCapsnuXY1KX0uO9REcl+joEW9sk/kp5gvghprkzJr71PvobuHyFt3yJn1MBxPM9GZEPJW48NTUQvG8ptpiwzIJUvBFSWRuPPPBnWhYmYS+sGiPoJ6K+wofCpnHcgbFLzvcHJjw4Ndd/IiLD7yiLTdo3Z3qmR+5vM8LnssTK5Bi2UsLQvmzgUkazcJC+GY++MfCKfsQ4agGchcBfyFomfb/ao8L4/jacool3TfKaJpVWF6aW8nP5diSPN//PPyDwPRVeyx+nK6sNhKSxBOewrDUrz+aHwI6Idjd3kcLA5cr5yWx+ydiKNZLyeimHtKsri3FoO+aQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w50wmbJNfajFh7v7IpjhMKhLxcaoKqhdIyxQvHOGdYU=;
- b=XY6qzelu9dI0iKREmhJb+r/AwaAstW9wQ9PfX7qdMOB/EFn4st+nz1La+nkyGmF3YJaXWYt+Sc5M8r2b48Da01+lr66FvotrnkW73gE6LM7UPDk7Yfa9Q2jSGGSen+96qyou074mXw7HFS2uD6IEf2JOQJm7KBeuC11Fg7x0ImfxQA1qAwLiL4VGcYD2uB4/jw5l3OiQAfsRkfl3NpUtToluK8Ax9OblVjMJmJBuLbf+ZVbPKXRRssNFfMQ9+M3qCRV+3sPYrvdN0vUOh7arFTTyFDCaBFoPDDvC3zbFePeHocwdXFN6jndJCpiI/ena2dKMkwlHJk53jyUFRDjLHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w50wmbJNfajFh7v7IpjhMKhLxcaoKqhdIyxQvHOGdYU=;
- b=OznyilgIOJSWqJF1PY6M+XuAawZZb1uYinup+P989JzlwOZP1rSImSwjf6UX5xDs9zbgbZsl177NbE33+VGSAMxZ0R+4fOmPQKJKdt5GHedGP6+Db+ud6e0DM7neRv0bTmSbWPZ0SRuHGR3gbK1uIbBGI0vAToO1k5Lp0Flx9PQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14) by DM6PR04MB6427.namprd04.prod.outlook.com
- (2603:10b6:5:1e8::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Thu, 28 May
- 2026 05:24:48 +0000
-Received: from SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
- ([fe80::9b98:bf8a:b0b1:ef85%6]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 05:24:48 +0000
-Date: Thu, 28 May 2026 14:24:42 +0900
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-To: Nilay Shroff <nilay@linux.ibm.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	nbd@other.debian.org, linux-rdma@vger.kernel.org
-Subject: Re: blktests failures with v7.1-rc1 kernel
-Message-ID: <ahfQFHuVx2G7OFLE@shinmob>
-References: <afB5syZbUrppgsDQ@shinmob>
- <c4ddc101-184a-4e4f-82ca-c3123bce5e34@linux.ibm.com>
-Content-Type: multipart/mixed; boundary="m7phjouketphzgld"
-Content-Disposition: inline
-In-Reply-To: <c4ddc101-184a-4e4f-82ca-c3123bce5e34@linux.ibm.com>
-X-ClientProxiedBy: TYCP301CA0066.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7d::7) To SA1PR04MB10065.namprd04.prod.outlook.com
- (2603:10b6:806:4dd::14)
+	Thu, 28 May 2026 07:36:11 +0000
+X-UUID: dce49d965a6711f1aa26b74ffac11d73-20260528
+X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED
+	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
+	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_C_CI, GTI_RG_INFO
+	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:f615f0c5-9718-4d4a-add1-0b4e74d8561d,IP:10,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:35
+X-CID-INFO: VERSION:1.3.12,REQID:f615f0c5-9718-4d4a-add1-0b4e74d8561d,IP:10,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:35
+X-CID-META: VersionHash:e7bac3a,CLOUDID:7f0f47e8498afcc78f9f474783849b8b,BulkI
+	D:260528150409LBQK0RUW,BulkQuantity:2,Recheck:0,SF:17|19|66|78|102|127|850
+	|865|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:99|1,File:nil,RT:nil,Bulk:
+	40,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BR
+	E:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: dce49d965a6711f1aa26b74ffac11d73-20260528
+X-User: sangyao@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <sangyao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1043770126; Thu, 28 May 2026 15:35:55 +0800
+From: Yao Sang <sangyao@kylinos.cn>
+To: linux-nvme@lists.infradead.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	shinichiro.kawasaki@wdc.com,
+	Yao Sang <sangyao@kylinos.cn>
+Subject: [PATCH v4] nvme: refresh multipath head zoned limits from path limits
+Date: Thu, 28 May 2026 15:36:01 +0800
+Message-Id: <20260528073601.4139342-1-sangyao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|DM6PR04MB6427:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04a07867-1fb3-4074-282e-08debc796f70
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|6049299003|366016|19092799006|1800799024|4053099003|22082099003|18002099003|56012099006|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info: oeyBd39ms1NnkLA8cca5B+6CM435yS/lZFsBDAJI0ry74Smv/2W9nxbqwyI/T9uaQjCWEt56t6RRxn+IoPKufx4Epxo/3oxDVvRDmuZS0vK/XoBCzNgMjHAlKaoSbW7TC1lF9VBfFBPHXb5GCR2Bez2DwAtMjIiYKen57yFfByUqChuZwJ1uxAZ4de/q0bXCvlPxLTLJ3SMTt2VimdbPzYoDuuRErwR9fRSUssfzxBMvewgpCsxk9dQPWi/PYbYKVwCi9hWVARegRG15p+UxQYvwl4v5vic/zwrJMI33FZDWfgtVCga8Qnr84jQNLj7SMZGhzfcAGluSCKUNpJYAos5hlvMNzrlHVEv2rRHEPEb+OMCu85pGyHuuHzDMSlYCyLCGxo9vRA/i/EjAy+783RH1TIv9rC2KyGUiGhPg37QTXTDIduzACsfMAHfHHkLMk6kwAywibJEYmYg3vBiWWiqLXJE8wym9Wkui380KkuHGxnUxRDsauvLWzDDT5C1Gu97YKKHrVPMwttq4ZoifrCtZwGfutCqfTZtTdmN8EHzyo0eg9TdT0VelIuxprIvInUZJpLXGuhDkfx2NZMLs4x7yOHbyq2EYyRmpNpR7eTL1bFXcxFu74Wsno8jO8NEcIZ48cgp7+MKZK+HfI2fgIpYk6madKY/6y4BNlk1OsJEAYfvSMLgBuRllfou8VtCW73y3ZHdWRXIcOg9sb6rKhA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(6049299003)(366016)(19092799006)(1800799024)(4053099003)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/mnk9aU9pdxk1Mno3iJJGu6uUGcIm87vxVJgHUuH+q+/qDAUdkXYMbA0oO2T?=
- =?us-ascii?Q?4+0KNVqyKSucNhlIj09fuHNNp44OJAx4WrFGxlwhjTszneaePoLkW18tx1gY?=
- =?us-ascii?Q?mzy46qeovnWtT/ulF+MfhuMKTlGXOhoCOuTnLFelqeC6yaVVfBeyqt6Z7kmC?=
- =?us-ascii?Q?SfaRIhtFxWR9Cd0EuBNjqVJvOfHuuO/6NfOP+KfSyRbaCSgSiJv5J1mIk/yT?=
- =?us-ascii?Q?R4hcKIPwyQfLaTkwGn5Mv/qmy9m0UUM8a94+CUJzseYF7ZPbPuPX1R3JDPqV?=
- =?us-ascii?Q?gD38sg7psnyRef843MT9wtBKlV1fRCYzrbhsce7W0UW7MRbRKrqPAkL8KZXn?=
- =?us-ascii?Q?rOA9aENh1oiHuNBapDsYv7q9/fGwVzujonYps+qxK+rIk0wgfvhFPpcmSq8t?=
- =?us-ascii?Q?RcrI6mcP8uEwN6CDr3Z7njLulqhTRqPw3aU1seatHSZWuF8UWDFjtueeuemd?=
- =?us-ascii?Q?Z9Bvr7rjYqnVjcmBeyJr8mJBj2hb6b20LksV/6RBm7FSSHjzfE+iKmra+HXD?=
- =?us-ascii?Q?dOn+1ttRxDUWwyI8T0CwGbRHqMRRnWAXCX5a2FRno91vQqdtdMUU7h28/kML?=
- =?us-ascii?Q?xvNyeWd65L2ND3gc18rsl6GsMa6dwdFPFG9cBf7jmMLq/rO81X5esvgpNw6J?=
- =?us-ascii?Q?s+5Fy5M9Hh1+Lm/vth0zaA53WLI9Nui7gjEQPRSC8x/1QPxzwOzY8Vwp/y85?=
- =?us-ascii?Q?YiIohoDXn2/0cKZitgVJg/1UBgIbpc6N+7eWVE64EjOeBtMgtRlJ1ok00qcz?=
- =?us-ascii?Q?BftkPfD9AvXzHPE/mYzgx5Gdz/u1M6klQ/d+uZG/GwmK5tNAZD7h5h42OBW9?=
- =?us-ascii?Q?0aHr4cpFnQhYRxxDwbU8j5PCXxJU/cz0ZPlL+aYIkPWXN9cFSY221fasq/od?=
- =?us-ascii?Q?8aBrS1AdW6E1FhPeMV1nUXFMcKsQpCUKUE45olFfFjdrX+1lfVjsDHWAdNAC?=
- =?us-ascii?Q?IFUSeyOyj/CIM8Oj1dUFKjjiQsHZ5V6e410rUSTaYnkD2bR45yOAUQsauNZu?=
- =?us-ascii?Q?xQ8uxEcJf4IE4FNU5M53z5tnYIZBpJjWTQYJiX/dY6F3tc/LpYAJ9hVOeE6U?=
- =?us-ascii?Q?zh9fCrM5W1fUMgj/2aPFhZ2ccL6gVk4RJrA8VfL3zZ9xDpyIZ7+W/PCsX6y6?=
- =?us-ascii?Q?+OQbIOQx5COYVnjmLDBWdBkp19072GrtBtVZdLiGctjVlmRjlnQdZf5jZVNX?=
- =?us-ascii?Q?fsLGJnvKH/8RDbKoasCN7dDQwh8yLZogVzoUsXARrolW7VdqmAnIQ1F+hPXv?=
- =?us-ascii?Q?2U2unqXfOq0JlrGO0tWcZgSEeXj8FJDz3etzUM8MDvJ/0ych29ytbmYH+13+?=
- =?us-ascii?Q?0wZwI6vj+0C3Iw0zpjMCximVJ8FIxHkjgBbRYrrXaHhYhZL3aEbqjL/ncub7?=
- =?us-ascii?Q?SoOea2SckJplRhK2LsBYkyF51//iJXu3PQvWE9pbJvFoOuvcJZYqOHGamUP5?=
- =?us-ascii?Q?53Yobx3zOGwyj4r8qCDtDOZ8555l4XvNEJLVf/OpFEwS1CFr81LMC/p/I54Z?=
- =?us-ascii?Q?HtM36MpP3kMFRSEO1LRPTXxGwR3Zxx5LGrnqcwd9t0nDZTZTPZjCizV3n1o9?=
- =?us-ascii?Q?4N3NRkgevv3hdHsI5iFScBgF4Y9wgdxC8nr64XZk2H8bJKWu4+jZoLzuSmfO?=
- =?us-ascii?Q?a5RwTW2IGA3c2dk9EVta5uVoc9UHCPZPlj8fk9bqHLza467vCAgdsTvoSSo9?=
- =?us-ascii?Q?pTVRLN8W5nyKMZ69Qqk+eZnKPFyNHUXWH0jpsM7vPf8WC9sc/mMSHqVTBi+Y?=
- =?us-ascii?Q?ECg0qqR80hCVSQLVn1wHcteX1v2GlcY=3D?=
-X-Exchange-RoutingPolicyChecked: BUTfEy1/0bEAFESMYV8puJ7vQDnn4+ngue1Gn8/860ZJi6ZNVPb6U7uZiUwUtqBpR/kwR6mfdH18w+a/GoY+7k2oG1GdsOdoNiahVcl8nFm2cBmU53L4HDqUhZmYWywd2A6X858OWkYCbK2Yw/Fzw4d/MuNk/0sl3HodFFXNvb77rHTdUaQCk9/+yuriQsAq9eFLCfaiVNS9gIEIE7Rg0UTwPGf2pWV7Use+U5u7gPoyshokFBM8NZYDANhHmYO6zsDwo0f6K4Wq5RYvrffVFiLQ3YvbcbB7SSickNaLOE2S+TjAqYrZzGuElxtqIC+GTRqk2USksVXmgoQP/R6Spg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 0Qw+gqvJimnQtLJZLOJ1dL4E12wEWO0SHWmmOD4fFeZtJAo2u/CFTsS0ckcoEIDjygge4K12Zlxv3d24D/0iBHVuzvyUmMPoQUHiJzMXjlihQ0BjGAgzzSoxGVtkKcVaH8+pUMu08JC2mb+RYG5IJcrbl7b5oKzN82D+faDp2JTdNXZFuvO4Tys7niqITsUQVunzW8JT4EKkrz1oQLXe8fgIjyu9rU270O90EB3KzmpwMs4Hq/Umpb/kZogfWPsOKbDPsulA0YapQhHdWD1VuQcDR4zbM1kWSMsuSUcWzgy3NSXGijJrTYnbuUhtXVgglsHZ3b1eqL4lSr4twy/AkXhFu0zvC7hdV0aeuQuKBkhz1iLB1qcbc52LpN/1trKOiFyaNMIYqAuZVlHbaVqaAn36rXVjB6etpD1oPBVCmcjrt4236e+DBgtL1LjBKY4gt+FFwruUyGQxI77bhY1kwlmyDVOK4U6A1PEBf7fLh1JKb/FFyVs4AixffapUPGZBF4eDCeXUbvA5m6SGretwQVJ8ln72XVsDB7xL72xy6Jhgr0QSstN+vWBABEtRz3x1QmtDb+wqRLNYammBBm3p53HwnQ0KqAlVCqMXJ8posz9DTkvrtlav8tetaHOeyZGq
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04a07867-1fb3-4074-282e-08debc796f70
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 05:24:48.0753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: trvnhsO7uFMRImywF0xl9xnahIRK7vO6hR/jPIo4m8qqAbwNB1cpuYFbXDAr9Gi2hO19h7wEGuU2nMLO6o5nNGxZsVWkyZL+1LM3ru7pp7g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6427
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260527_222454_425269_CF638C30 
-X-CRM114-Status: GOOD (  35.49  )
+X-CRM114-CacheID: sfid-20260528_003608_834397_290EB15D 
+X-CRM114-Status: UNSURE (   7.62  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -160,231 +90,73 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
---m7phjouketphzgld
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+queue_limits_stack_bdev() updates the multipath head limits from the
+path queue, but it does not propagate max_open_zones or
+max_active_zones. As a result, a zoned multipath namespace head can
+keep stale 0/0 values even after a ready path reports finite zoned
+resource limits.
 
-On May 25, 2026 / 18:14, Nilay Shroff wrote:
-> hi Shinichiro,
-> 
-> On 4/28/26 2:43 PM, Shin'ichiro Kawasaki wrote:
-[...]
-> > #1: nvme/005,063 (tcp transport)
-> > 
-> >      The test cases nvme/005 and 063 fail for tcp transport due to the lockdep
-> >      WARN related to the three locks q->q_usage_counter, q->elevator_lock and
-> >      set->srcu. The failure was reported first time for nvme/063 and v6.16-rc1
-> >      kernel [2].
-> > 
-> >      Chaitanya provided a fix patch (thanks!), and it is queued for v7.1-rcX tags
-> >      [3]. However, nvme/005 and 063 still fail even when I apply the fix patch to
-> >      v7.1-rc1 kernel. The call traces of the lockdep WARN are different between
-> >      "v7.1-rc1" kernel [4] and "v7.1-rc1+the fix patch" kernel [5]. I guess that
-> >      there exist two lockdep problems with similar symptoms and patch [3] fixed
-> >      one of them. I guess that still one problem is left.
-> > 
-> >      [2]https://lore.kernel.org/linux-block/4fdm37so3o4xricdgfosgmohn63aa7wj3ua4e5vpihoamwg3ui@fq42f5q5t5ic/
-> >      [3]https://lore.kernel.org/all/20260413171628.6204-1-kch@nvidia.com/
-> 
-> 
-> I looked into this lockdep warning, and it seems that Chaitanya's patch indeed fixes the
-> original issue reported in [4]. However, the new warning reported in [5] appears to be a
-> separate lockdep splat and, from what I can tell, likely a false positive. There are two
-> reasons why I think so:
-> 
-> 1. The lockdep report suggests that thread #1 is sending data over a TCP socket while
->    another thread #2 is still in the process of establishing that same socket connection.
->    In practice, this should not be possible because request dispatch over the socket can
->    only happen after the connection setup has completed successfully.
-> 
-> 2. The warning also suggests that while thread #0 is deleting the gendisk and unregistering
->    the corresponding request queue, another thread #5 is concurrently attempting to change
->    the queue elevator. However, once gendisk deletion starts, elevator switching is already
->    inhibited for that queue (see disable_elv_switch()), so the reported locking scenario
->    should not be reachable in practice.
-> 
-> Based on the above, I suspect this is a lockdep false positive caused by dependency tracking
-> across different queue/socket lifecycle phases. We may need to suppress lock dependency tracking
-> in some of these paths to avoid the false warning.
+When refreshing the head limits in nvme_update_ns_info(), stack the
+zoned resource limits directly after stacking the path queue limits.
+Use min_not_zero() so the block layer's 0 value keeps its "no limit"
+meaning while finite limits are combined conservatively.
 
-Hi Nilay, thank you very much looking into this. It is good to know that
-Chaitanya's patch fixed one problem, and the other problem looks like a false-
-positive.
+This avoids advertising "no limit" on the multipath head while keeping
+the zoned-limit handling local to the NVMe multipath update path.
 
-To confirm that "lockdep false positive caused by dependency tracking across
-different queue/socket lifecycle phases", I created the patch attached. It
-uses dynamic lockdep keys for the sockets of nvme-tcp controllers. With this
-patch, the WARN at nvme/005 disappears! I think this indicates that your
-suspect is correct. I will do some more testing and post the patch.
-
---m7phjouketphzgld
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-nvme-tcp-lockdep-use-dynamic-lockdep-keys.patch"
-
-From 74ae2157712e872711663ebb6cedbb4b0fc8c92a Mon Sep 17 00:00:00 2001
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-Date: Thu, 28 May 2026 13:52:48 +0900
-Subject: [PATCH] nvme-tcp: lockdep: use dynamic lockdep keys
-
-When NVMe-TCP controller setup and teardown are repeated with lockdep
-enabled, lockdep reports false positives for the following locks:
-
-  1) &q->elevator_lock        : IO scheduler change context
-  2) &q->q_usage_counter(io)  : SCSI disk probe context
-  3) fs_reclaim               : CPU hotplug bring-up context
-  4) cpu_hotplug_lock         : socket establishment context
-  5) sk_lock-AF_INET-NVME     : MQ sched dispatch context for the socket
-  6) set->srcu                : NVMe controller delete context
-
-This is a false positive because lockdep confuses lock 4) (socket
-establishment) with lock 5) (socket in use) for different socket
-instances. The locks belong to different sockets, but lockdep treats
-them as the same due to shared static lockdep keys.
-
-Fix this by using dynamically allocated lockdep keys per socket instance
-instead of static keys nvme_tcp_sk_key[] and nvme_tcp_slock_key[]. Add
-nvme_tcp_sk_key and nvme_tcp_slock_key fields to struct nvme_tcp_queue
-and pass them to sock_lock_init_class_and_name() for proper lockdep
-tracking. Move nvme_tcp_reclassify_socket() after struct nvme_tcp_queue
-definition to avoid "too early" reference compiler errors.
-
-Suggested-by: Nilay Shroff <nilay@linux.ibm.com>
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: Yao Sang <sangyao@kylinos.cn>
 ---
- drivers/nvme/host/tcp.c | 88 +++++++++++++++++++++++------------------
- 1 file changed, 49 insertions(+), 39 deletions(-)
+Changes since v3:
+- Factor the zoned-limit update into nvme_stack_zone_resources(), as
+  suggested in review.
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 15d36d6a728e..51d496f414a1 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -56,44 +56,6 @@ MODULE_PARM_DESC(tls_handshake_timeout,
- 
- static atomic_t nvme_tcp_cpu_queues[NR_CPUS];
- 
--#ifdef CONFIG_DEBUG_LOCK_ALLOC
--/* lockdep can detect a circular dependency of the form
-- *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
-- * because dependencies are tracked for both nvme-tcp and user contexts. Using
-- * a separate class prevents lockdep from conflating nvme-tcp socket use with
-- * user-space socket API use.
-- */
--static struct lock_class_key nvme_tcp_sk_key[2];
--static struct lock_class_key nvme_tcp_slock_key[2];
--
--static void nvme_tcp_reclassify_socket(struct socket *sock)
--{
--	struct sock *sk = sock->sk;
--
--	if (WARN_ON_ONCE(!sock_allow_reclassification(sk)))
--		return;
--
--	switch (sk->sk_family) {
--	case AF_INET:
--		sock_lock_init_class_and_name(sk, "slock-AF_INET-NVME",
--					      &nvme_tcp_slock_key[0],
--					      "sk_lock-AF_INET-NVME",
--					      &nvme_tcp_sk_key[0]);
--		break;
--	case AF_INET6:
--		sock_lock_init_class_and_name(sk, "slock-AF_INET6-NVME",
--					      &nvme_tcp_slock_key[1],
--					      "sk_lock-AF_INET6-NVME",
--					      &nvme_tcp_sk_key[1]);
--		break;
--	default:
--		WARN_ON_ONCE(1);
--	}
--}
--#else
--static void nvme_tcp_reclassify_socket(struct socket *sock) { }
--#endif
--
- enum nvme_tcp_send_state {
- 	NVME_TCP_SEND_CMD_PDU = 0,
- 	NVME_TCP_SEND_H2C_PDU,
-@@ -180,6 +142,11 @@ struct nvme_tcp_queue {
- 	void (*state_change)(struct sock *);
- 	void (*data_ready)(struct sock *);
- 	void (*write_space)(struct sock *);
-+
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+	struct lock_class_key nvme_tcp_sk_key;
-+	struct lock_class_key nvme_tcp_slock_key;
-+#endif
- };
- 
- struct nvme_tcp_ctrl {
-@@ -207,6 +174,44 @@ static const struct blk_mq_ops nvme_tcp_mq_ops;
- static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
- static int nvme_tcp_try_send(struct nvme_tcp_queue *queue);
- 
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+/* lockdep can detect a circular dependency of the form
-+ *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
-+ * because dependencies are tracked for both nvme-tcp and user contexts. Using
-+ * a separate class prevents lockdep from conflating nvme-tcp socket use with
-+ * user-space socket API use.
-+ */
-+static void nvme_tcp_reclassify_socket(struct nvme_tcp_queue *queue)
-+{
-+	struct sock *sk = queue->sock->sk;
-+
-+	lockdep_register_key(&queue->nvme_tcp_sk_key);
-+	lockdep_register_key(&queue->nvme_tcp_slock_key);
-+
-+	if (WARN_ON_ONCE(!sock_allow_reclassification(sk)))
-+		return;
-+
-+	switch (sk->sk_family) {
-+	case AF_INET:
-+		sock_lock_init_class_and_name(sk, "slock-AF_INET-NVME",
-+					      &queue->nvme_tcp_slock_key,
-+					      "sk_lock-AF_INET-NVME",
-+					      &queue->nvme_tcp_sk_key);
-+		break;
-+	case AF_INET6:
-+		sock_lock_init_class_and_name(sk, "slock-AF_INET6-NVME",
-+					      &queue->nvme_tcp_slock_key,
-+					      "sk_lock-AF_INET6-NVME",
-+					      &queue->nvme_tcp_sk_key);
-+		break;
-+	default:
-+		WARN_ON_ONCE(1);
-+	}
-+}
-+#else
-+static void nvme_tcp_reclassify_socket(struct nvme_tcp_queue *queue) { }
-+#endif
-+
- static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctrl)
- {
- 	return container_of(ctrl, struct nvme_tcp_ctrl, ctrl);
-@@ -1468,6 +1473,11 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
- 	kfree(queue->pdu);
- 	mutex_destroy(&queue->send_mutex);
- 	mutex_destroy(&queue->queue_lock);
-+
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+	lockdep_unregister_key(&queue->nvme_tcp_sk_key);
-+	lockdep_unregister_key(&queue->nvme_tcp_slock_key);
-+#endif
+Testing:
+- blktests: nvme/005, nvme/057, nvme/058
+- blktests: zbd/011, zbd/012, zbd/013, block/004
+- blktests on /dev/nvme0n1: zbd/001, zbd/002, zbd/003, zbd/004,
+  zbd/005, zbd/006
+
+Link to v1:
+https://lore.kernel.org/r/20260520091237.392802-1-sangyao@kylinos.cn
+
+Link to v2:
+https://lore.kernel.org/r/20260522075806.3168366-1-sangyao@kylinos.cn
+
+Link to v3:
+https://lore.kernel.org/r/20260526072529.1086128-1-sangyao@kylinos.cn
+
+ drivers/nvme/host/core.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c3032d6ad6b1..8450ec0d84a6 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2483,6 +2483,14 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	return ret;
  }
  
- static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
-@@ -1813,7 +1823,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 	}
- 
- 	sk_net_refcnt_upgrade(queue->sock->sk);
--	nvme_tcp_reclassify_socket(queue->sock);
-+	nvme_tcp_reclassify_socket(queue);
- 
- 	/* Single syn retry */
- 	tcp_sock_set_syncnt(queue->sock->sk, 1);
++static void nvme_stack_zone_resources(struct queue_limits *t,
++				      const struct queue_limits *b)
++{
++	t->max_open_zones = min_not_zero(t->max_open_zones, b->max_open_zones);
++	t->max_active_zones =
++		min_not_zero(t->max_active_zones, b->max_active_zones);
++}
++
+ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ {
+ 	bool unsupported = false;
+@@ -2549,6 +2557,8 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		lim.io_opt = ns_lim->io_opt;
+ 		queue_limits_stack_bdev(&lim, ns->disk->part0, 0,
+ 					ns->head->disk->disk_name);
++		if (lim.features & BLK_FEAT_ZONED)
++			nvme_stack_zone_resources(&lim, ns_lim);
+ 		if (unsupported)
+ 			ns->head->disk->flags |= GENHD_FL_HIDDEN;
+ 		else
 -- 
-2.54.0
+2.25.1
 
-
---m7phjouketphzgld--
 
