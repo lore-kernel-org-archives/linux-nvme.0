@@ -4,79 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D182ACD5BD1
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 08:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B171ACD5BD5
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 08:43:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=xIgos72Cm3IfTWMmCN5oml+JjbfxfQGDyXLbhC97Awo=; b=LDtgXmZB4o5+A5CqwKhSBgKvF2
-	5yl3zFzUV5c4FQaMt0sgR9TCkDc0ZUitWeSAoCEOPCifvCNYB+LsZPJBZk5a4fZrxlQ+pVXdlz3Sq
-	NVgvcfbATu4+Ibd9nrQlh9s//rLm8sq/3HMiyhZ8gw+83+htwtqpON6ht3Y3HgGQORbAATX3IQjIQ
-	l3ElRgsUmDpOFDVERW5Lyneh4RuJR7PUsJxnAjsLG3lCOT1H6kBkjQy3dwIHrHAbo1atARAv+kxIP
-	30dXyIi323zcUFUiHI2ZeBS66ggRIVpbQqUHTCXi3cCVqwTdTFagAqKiBzvKDAGzpU9/G6Q2g4hrd
-	+u4w9NHw==;
+	bh=XgQGzbPdHi9wuXrNBoaSs1nkoN+3jJC287QW/UD3PPQ=; b=QlK1wseP1KPdHx89apGvwdfrEL
+	Ce2gA9q4R0W/uzCaDi3hE5c0zDK36tQZPux76PRjTi+PvryYsaJ9mtLoFYOWWIhOEAstoQms+synn
+	OHOm9PSuZkisBB6n/rZ6YpVI+TnNV+PTJvy7Wwp05DO5RqmG7uVFgYcS5H5S+DzvOGaaBSrhgtDU3
+	waYH4H66CcKqFMu4OF/h3Tj0QpgQC4/Ae7dYeQIfcoFV0LFQ3/s5zEtvGUvPr5vTJ1FmKbpkqklvl
+	fg2Q27ly9kPepLGu9PZN7h5DuJy8qw3/eT8vHHOHzE9JiW5WgWsP9Bzi5rDbgW+KbhcyZEu+C7eTJ
+	f9eDr1Bw==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSWJq-00000005PyR-3zRE;
-	Thu, 28 May 2026 08:42:22 +0000
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSWJp-00000005Py9-37DY
-	for linux-nvme@bombadil.infradead.org;
-	Thu, 28 May 2026 08:42:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xIgos72Cm3IfTWMmCN5oml+JjbfxfQGDyXLbhC97Awo=; b=AsoUGZbaUsw3JxPr8BfR02KDHR
-	08pBf0lAJxoNTZXUbfrKelGkqyFvPozL33rI6fcLFRA5HcNyDwVHAjuFiALL8Cq4q8EqjKH11KbFr
-	4oIhTO0wOEqmt4McfJH2dQMKHaoV2u9KIx6TjX6f8lEHw2Qg6TuEqFmebTK/VjJqGm/+fanVMjErx
-	oRRP9t0H/0FN3JtWX8f+8PlLRz6d7SwwDkK3pioeXLVtsgjoagvycTR3xGrLYETX0HeY1WglBWUty
-	/tzIDH4O/29LtaIRxCaPRU2YA5lOi3adW6GlM8eqYs3O3zCIT974zQCfngmJHLg107tv/qtGNwnR/
-	Cj0WaSLw==;
+	id 1wSWKc-00000005Q3u-0VQM;
+	Thu, 28 May 2026 08:43:10 +0000
 Received: from verein.lst.de ([213.95.11.211])
-	by desiato.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSWJj-0000000Fs4i-2Ex2
+	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wSWKZ-00000005Q37-0WNa
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 May 2026 08:42:18 +0000
+	Thu, 28 May 2026 08:43:08 +0000
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1FAB968BEB; Thu, 28 May 2026 10:42:11 +0200 (CEST)
-Date: Thu, 28 May 2026 10:42:10 +0200
+	id 2AAC468B05; Thu, 28 May 2026 10:43:04 +0200 (CEST)
+Date: Thu, 28 May 2026 10:43:03 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Geliang Tang <geliang@kernel.org>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+To: Keith Busch <kbusch@kernel.org>
+Cc: Chao Shi <coshi036@gmail.com>, linux-nvme@lists.infradead.org,
 	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Geliang Tang <tanggeliang@kylinos.cn>,
-	linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
-	mptcp@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>,
-	John Meneghini <jmeneghi@redhat.com>,
-	Randy Jennings <randyj@purestorage.com>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	zhenwei pi <zhenwei.pi@linux.dev>, Hui Zhu <zhuhui@kylinos.cn>,
-	Gang Yan <yangang@kylinos.cn>
-Subject: Re: [PATCH 00/11] NVMe over MPTCP
-Message-ID: <20260528084210.GA8141@lst.de>
-References: <cover.1779934709.git.tanggeliang@kylinos.cn>
+	Jens Axboe <axboe@kernel.dk>,
+	Tatsuya Sasaki <tatsuya6.sasaki@kioxia.com>,
+	Maurizio Lombardi <mlombard@arkamax.eu>,
+	linux-kernel@vger.kernel.org, Sungwoo Kim <iam@sung-woo.kim>,
+	Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Subject: Re: [PATCH v5] nvme: reject passthrough of driver-managed Set
+ Features
+Message-ID: <20260528084303.GA8199@lst.de>
+References: <20260523225629.3964037-1-coshi036@gmail.com> <ahcAaPTOH9ELlAA4@kbusch-mbp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1779934709.git.tanggeliang@kylinos.cn>
+In-Reply-To: <ahcAaPTOH9ELlAA4@kbusch-mbp>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260528_094216_236776_76BD12AA 
-X-CRM114-Status: UNSURE (   8.80  )
-X-CRM114-Notice: Please train this message.
+X-CRM114-CacheID: sfid-20260528_014307_301180_BDCB03E6 
+X-CRM114-Status: GOOD (  14.00  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -91,6 +65,24 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-You need to talk to the NVMe technical working group, not us.
+On Wed, May 27, 2026 at 08:32:08AM -0600, Keith Busch wrote:
+> On Sat, May 23, 2026 at 06:56:29PM -0400, Chao Shi wrote:
+> > +			switch (le32_to_cpu(c->features.fid) & 0xff) {
+> > +			case NVME_FEAT_KATO:
+> > +				if (ctrl->ops->flags & NVME_F_FABRICS)
+> > +					break;
+> > +				fallthrough;
+> > +			case NVME_FEAT_HOST_BEHAVIOR:
+> > +			case NVME_FEAT_HOST_MEM_BUF:
+> > +			case NVME_FEAT_NUM_QUEUES:
+> > +			case NVME_FEAT_AUTO_PST:
+> 
+> I may have been overly restrictive with suggesting AUTO_PST for this
+> filter. Messing with the other features will break something, but power
+> state is just user policy. The driver may undo the user setting on a
+> controller reset, but so what?
 
+There's really no point in allowing it.  Just as we should have never
+allowed low-level config of any kind, but unfortunately nvme admin
+commands are a horrible grab all.
 
