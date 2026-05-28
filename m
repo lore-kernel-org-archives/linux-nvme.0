@@ -4,89 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5B27CD5BD0
-	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 01:01:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DCC17CD6E44
+	for <linux-nvme@archiver.kernel.org>; Thu, 28 May 2026 01:01:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date
-	:Subject:CC:To:From:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=WOofK0Nj07KI3RlrPU1SpwwDKUz1V/zDmsROl/EeEms=; b=FDqU6elPKuxhJeqAgM7pyDhIvY
-	dlm2JjKCUrByRMsoKKjyufkH9EF1zsrl6Qc6wYqschmkzthYCI9jlycEsK7elXBw7pAyL5omn/Iii
-	QutYJup1HrkUAbsdVMCov4gzSDFfNKR6F4SMrW+PyziEi+4x1j3tLsuMeSJhKm9Yoo/B8VS62634W
-	YJixQvUwRwhR1GJqeD4VmWXMve4hAIH9f3cOGpHZccGtcUJJ11fzGmYc103sOlrdVT+NbR83Bn2zz
-	Y68qFVBKJPG1ya+veL5fheKoG0w6K+sCWYyquEJixgCia9IabNxVnIPePnAPe0L/QE8rgRXyttPG9
-	gouDDPmw==;
+	Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=u6bDNB2VRw04jTLm2HXVwn98cjhg5mUaN35N0g7+xas=; b=3OetOZcvovyPwR/SMhKE8l/gSY
+	DB/qjySL7v1exVYQog65nm3yvsyK2VC6gDDtni9VUOT+qOGkd+zq1mgQGThcdOHkwcWD+O7O6/sRE
+	Od0115RyGVHpYYHJ7LiziM2sLVAmW0vdwUP8vukj/wLZExHtKQ/+D6g20FYZjNL13Ll+KcRDruNNX
+	f+qzQPIHjJ4ht/eBuCjGLXMkPtTrvlmVckP1cu6toHW5fG4TfPjKdTmqfJfpSIUmQmmhkz0OyOQhv
+	1QxygcPXTxdqgLgmekqYipXa48eJS36xUzMxO+12rzwKPAR+wbfiMsCMCpVbiMVuofMUe/zOZJwmX
+	xF6EvryA==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSP7a-00000004vAY-18O7;
-	Thu, 28 May 2026 01:01:14 +0000
+	id 1wSP7b-00000004vBM-22wK;
+	Thu, 28 May 2026 01:01:15 +0000
 Received: from mx0a-00082601.pphosted.com ([67.231.145.42])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSP7X-00000004v9X-3Ro8
+	id 1wSP7Y-00000004v9m-2308
 	for linux-nvme@lists.infradead.org;
-	Thu, 28 May 2026 01:01:12 +0000
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64RKjHok4094134
-	for <linux-nvme@lists.infradead.org>; Wed, 27 May 2026 18:01:11 -0700
+	Thu, 28 May 2026 01:01:13 +0000
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64RKkthv2812561
+	for <linux-nvme@lists.infradead.org>; Wed, 27 May 2026 18:01:12 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=WOofK0Nj07KI3RlrPU1SpwwDKUz1V/zDmsROl/EeEms=; b=ocZksARZwkZr
-	ZdS9rFdL5aAOdBeD4dUgVPH5kYdTxNCyU2qtXdq4xPCBFVcAisT/MWaqR4MndGVR
-	jsQgTj2Jj3AlZUh0SrOFMIw6DPlptX/a0lYYxZPCMidZ4jX9RWyavgUZuFsVD0BZ
-	2k++dIL0PhL2sExi5gXxEfIjXeGVvAmv6WeoA48DWLeSJwG35JE+plT4JNbtq12t
-	XSrUKYAHvQyz8/8a9sOMndE3+HI2qTmMop81wyHJ7SE6UE7YN2hLXUweRFpj32Lw
-	2M2yMkDiR82QOZ2rOezWbFkrhSdqG+UEW2A4IWnBcK8wzA9OLpbIjShQH9jy27sU
-	BAcZ1mZf5g==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4ee7x6986q-2
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=u6bDNB2VRw04jTLm2H
+	XVwn98cjhg5mUaN35N0g7+xas=; b=Dp2LTjlgi0TNq0k4S2pcL5TfaB2iPFgVXO
+	ftBNKMN1yB+l/1IKFDcJYeOfAR8KGikjhqWJdQ5baOWJHQFDSjZsZFuWRdo+g+zt
+	K7iYuUT+xJEbSGyfUtNXHwz6kSCWsT4O37xRbgkiqul3oUBfolsanq1pkvIhUXEU
+	a9mZf9pjsLMYqPs/+pvC5+j17AEJOOQX5L1r4aY9XRJBqrRvwfnDaj5wjM90ds7J
+	vyy2BeWfeGINo5TpEgea4YQU334umy0CDNzwxgf9Wlb22iy5FbcCY91xAM0FLa+m
+	lWo/BLvtUiBZxD5zY1IjdUZazG1Bz0d9kTAiT0w9hFbrsUyRsmfw==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4ee7x898pj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-nvme@lists.infradead.org>; Wed, 27 May 2026 18:01:11 -0700 (PDT)
-Received: from twshared114832.14.frc2.facebook.com (2620:10d:c085:208::7cb7)
- by mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+	for <linux-nvme@lists.infradead.org>; Wed, 27 May 2026 18:01:12 -0700 (PDT)
+Received: from twshared12601.02.snb2.facebook.com (2620:10d:c0a8:1b::30) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Thu, 28 May 2026 01:01:09 +0000
+ 15.2.2562.41; Thu, 28 May 2026 01:01:10 +0000
 Received: by devbig197.nha3.facebook.com (Postfix, from userid 544533)
-	id 1D14F1D39B577; Wed, 27 May 2026 18:00:58 -0700 (PDT)
+	id 0A07F1D39B573; Wed, 27 May 2026 18:00:58 -0700 (PDT)
 From: Keith Busch <kbusch@meta.com>
 To: <linux-block@vger.kernel.org>, <linux-nvme@lists.infradead.org>
-CC: <axboe@kernel.dk>, <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-        Nilay
- Shroff <nilay@linux.ibm.com>,
-        Nitesh Shetty <nj.shetty@samsung.com>
-Subject: [PATCHv3 2/2] nvme: add support multipath passthrough iostats
-Date: Wed, 27 May 2026 18:00:41 -0700
-Message-ID: <20260528010041.1533124-3-kbusch@meta.com>
+CC: <axboe@kernel.dk>, <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Subject: [PATCHv3 0/2] block, nvme: enable passthrough iostats
+Date: Wed, 27 May 2026 18:00:39 -0700
+Message-ID: <20260528010041.1533124-1-kbusch@meta.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260528010041.1533124-1-kbusch@meta.com>
-References: <20260528010041.1533124-1-kbusch@meta.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: UE6X1g1LgxDzWIYON1a_MmPmkdIZCQFc
-X-Authority-Analysis: v=2.4 cv=TdymcxQh c=1 sm=1 tr=0 ts=6a1793d7 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+X-Authority-Analysis: v=2.4 cv=GshyPE1C c=1 sm=1 tr=0 ts=6a1793d8 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
  a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=crHB47gyY4rKiduisYu9:22 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8 a=hD80L64hAAAA:8
- a=xT7lm6qD1slQ1dElJxQA:9
-X-Proofpoint-GUID: UE6X1g1LgxDzWIYON1a_MmPmkdIZCQFc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDAwNyBTYWx0ZWRfX2XmbS2pKtjmh
- pT87s04UFO73AtxqpJnxdEiSMDK7POhIQ7WsNZygQf/iPDlpQni0Dk6ECjAhruJDuK2G/8Ijqs9
- Dbs9q7voLktnBvUQHG5Lmf8Q3pBW3NSfI0ovXv3u7jVhfh3JOIQNgcdWs6RX/20Tw9cZ85fmD34
- pcCcuYdBRiQ2dmJunLO5TqXkQ9htFn8nuqS0mQPFCj43KfkzZMvWaHS45LT5g5qe2HQ5WCFoEQY
- 7nco5a9tq2UDRraGwyZoxouNH+2CUKNAMQnAvo6imT3mGvs/X4PuQ82FRcCRojNDcjYq/IV+zR+
- SpLYi6wLJAHyNV64IyXPGMz+F/DOADUthFnNP3Y+l5xzEaYlSJWRJq2u+SQ6L0SUt0mkr1Sy/SJ
- gtheCD/aECYwiWNpB1QdtDj+WtB+k8bRQ5VTJ6E+Z9Slky0mcp4T2OYX2qo0RQ/VQgaqcVjCyGf
- iFvnKYkj9mxvfOaM2dw==
+ a=PAz_-FQ8hEVmOPYdF0yf:22 a=VwQbUJbxAAAA:8 a=D1VwSchhwDu8_UvpV7sA:9
+X-Proofpoint-ORIG-GUID: Pe_2lgF4SGBgatPB0fCP1PZCVbbUVrhY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDAwNyBTYWx0ZWRfX5HzMo6YxOWdN
+ wFmtVruR+XxYFgt0SYOQcVLXiLlQx4qKkGz2ngT23q1AKA4X1D9P4gcVxUuOPwsAHJ6J3fBm9CP
+ MFOIcQW7yeK7ZS1GhkI5PRso816Pb3o64PnxDedEllrsZ4gPP0VqJf/mInle7LE57RX4DT5Vl1Q
+ VloKVvG7Ziv6wBfgICNC8xQ7b4JJ0GVtxBFqqdDpJ+aY7ccIFM0n/poSqyjQ5Oncr+RafVgIWEl
+ BpSw24xl//JdgnaAiN9RsffhWw1Zqg/4Rw1wQGdKJVRwRBMDnZ9NqQcC7N3oox61Z5BxAniRSAr
+ 7hMhHIifawUZXQyoTLvYWP2z3eOfY1ap6aMsGeidpigIG8t9UK6YHIT4RWlQ12W5egesshWaVnf
+ FkbWb7oQ2ygjQ3tLZ6CftuDJSiFpuen3B0EzpV7vFXAQBuxj/KmAsGjxHtJ3cHXbZ3ovGKfVt4p
+ 68z3vCbN7QVjpeqV3rg==
+X-Proofpoint-GUID: Pe_2lgF4SGBgatPB0fCP1PZCVbbUVrhY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-05-27_05,2026-05-26_03,2025-10-01_01
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260527_180111_866289_DA2C40E6 
-X-CRM114-Status: GOOD (  14.09  )
+X-CRM114-CacheID: sfid-20260527_180112_530897_F897ABA0 
+X-CRM114-Status: UNSURE (   7.18  )
+X-CRM114-Notice: Please train this message.
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -103,61 +97,24 @@ Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
 From: Keith Busch <kbusch@kernel.org>
 
-Don't skip the io accounting for passthrough commands if the user
-enabled tracking these.
+v2->v3:
 
-Reviewed-by: Nilay Shroff <nilay@linux.ibm.com>
-Reviewed-by: Nitesh Shetty <nj.shetty@samsung.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- drivers/nvme/host/ioctl.c     | 9 +++++++++
- drivers/nvme/host/multipath.c | 5 ++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+  Added kerneldoc for the exported API
 
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index 08889b20e5d8c..664216eece4a6 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -102,8 +102,17 @@ static struct request *nvme_alloc_user_request(struc=
-t request_queue *q,
- 		struct nvme_command *cmd, blk_opf_t rq_flags,
- 		blk_mq_req_flags_t blk_flags)
- {
-+	struct nvme_ns *ns =3D q->queuedata;
- 	struct request *req;
-=20
-+	/*
-+	 * The NVME_MPATH flag is set only for IO commands sent to a namespace
-+	 * with a multipath enabled head. The request is not eligible for
-+	 * failover as passthrough requests also append REQ_FAILFAST_DRIVER.
-+	 */
-+	if (ns && nvme_ns_head_multipath(ns->head))
-+		rq_flags |=3D REQ_NVME_MPATH;
-+
- 	req =3D blk_mq_alloc_request(q, nvme_req_op(cmd) | rq_flags, blk_flags)=
-;
- 	if (IS_ERR(req))
- 		return req;
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.=
-c
-index ff442bbf2937a..bca8e7c975190 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -175,9 +175,12 @@ void nvme_mpath_start_request(struct request *rq)
- 		nvme_req(rq)->flags |=3D NVME_MPATH_CNT_ACTIVE;
- 	}
-=20
--	if (!blk_queue_io_stat(disk->queue) || blk_rq_is_passthrough(rq) ||
-+	if (!blk_queue_io_stat(disk->queue) ||
- 	    (nvme_req(rq)->flags & NVME_MPATH_IO_STATS))
- 		return;
-+	if (blk_rq_is_passthrough(rq) &&
-+	    !blk_rq_passthrough_stats(rq, disk->queue))
-+		return;
-=20
- 	nvme_req(rq)->flags |=3D NVME_MPATH_IO_STATS;
- 	nvme_req(rq)->start_time =3D bdev_start_io_acct(disk->part0, req_op(rq)=
-,
+  Added code comment for the passthrough safety
+
+  Added reviews.
+
+Keith Busch (2):
+  block: export passthrough stats enabled
+  nvme: add support multipath passthrough iostats
+
+ block/blk-mq.c                | 32 +---------------------------
+ drivers/nvme/host/ioctl.c     |  9 ++++++++
+ drivers/nvme/host/multipath.c |  5 ++++-
+ include/linux/blk-mq.h        | 40 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 54 insertions(+), 32 deletions(-)
+
 --=20
 2.53.0-Meta
 
