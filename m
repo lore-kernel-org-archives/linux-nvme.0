@@ -4,111 +4,135 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 370D6CD5BD2
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 May 2026 05:53:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06F4DCD5BD2
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 May 2026 06:45:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=3DHzLIUUaF3VlEBHn0hM3pfNHNDJcNenZO1Icp2QhDs=; b=PtbqW5DO4ve8MpbJyEfMvjD2ty
-	AXL+ezXyzRUNSmrFlitP/hXNkCBU+C2WHBzcFcZPWfZH3VKZAhrhXD2twFwp7RnhLWo7u81qGqAJk
-	ue734MhF/4bb+BLsxVGrs3oKWgseBtzUILfXuP3SWqyVkLnYpOfsFEAgaVU/jglF8w56BlVChFpY1
-	5LymF3hs70NEztmOUl2a7wRezRBckGpde6gVKRyykGholt7Lx2rJZkXkO9GT0osNY9M4flXsUeJxA
-	d2vXjMfmwPiwpj3d4/Hs6+aS8clhRdqhwOoOc90ULHvZYvgInMrzJ+qmEzLoQirNE47jrPHD4VJDr
-	n4gyaW5g==;
+	bh=00oEdflBq6KtkPgqg+2OlO9BXkLU2OZ1RZrsgnWL2Ac=; b=E7+4SFdwZByeo1XjRImEjvd+EK
+	1f5v0AWIq2gwpWIHoJbgk1G1KQ4hkS5xGbJZqBJzEApcsB3zlxYIayKBYGHJCB7uN5oda3w/fOVQw
+	cn+tOA7O+rIVVKc0eaPuc2O+VRvdbPkmEma19SFq/u4osOzc0SA9ZDq6im4KLsDhMjgeajzqs2Yod
+	A9Pl12nICrwZ5mbDJaUtJhw91nZ3fk9IjEvGHx4ATli4Z6153qFSf0ONX/Yvq707ZXr3fRLtMBOiT
+	FAVj7jQStq9TdKwiHZMHnOadMom3oies9Gqr3tNy+mmW5/YMah4tBll4vCVWs2T04ygOKzm9ri+3+
+	XpesJe2w==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSq9Y-00000006mEn-3InJ;
-	Fri, 29 May 2026 05:53:04 +0000
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+	id 1wSqyE-00000006pm8-3cfG;
+	Fri, 29 May 2026 06:45:26 +0000
+Received: from smtp-out2.suse.de ([2a07:de40:b251:101:10:150:64:2])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSq9W-00000006mEQ-405g
+	id 1wSqyB-00000006pkw-1Dtw
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 May 2026 05:53:04 +0000
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64SLlpSJ1467924;
-	Fri, 29 May 2026 05:53:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=3DHzLI
-	UUaF3VlEBHn0hM3pfNHNDJcNenZO1Icp2QhDs=; b=nBnr6Sl2GzJtkoeQpR0s1X
-	zB6CAABKvhdFZZYi6k3Zk/K97BG6S74GtRWJCGTABRoxDxeGoPMO6FreU3HT3fD7
-	qGQVvwRuxxviJPrknWT7/WqrEPzxt66H+SXWgkdyWtLDSs2b3qlswUW08YJI0fX7
-	jI/bsAT4ivIPmd1kFgKPNODP4Kf9QzLqc0VD9C8Oo4sT5aiegWZlH4r86xBMejwZ
-	IghyVMhVJRKAbQ1Za4gjjt+ahRNKdwx7u4ZGhlUKDV78EhjBUMmEcLvr6rgQozWj
-	KtTZzvbhvXQWgEjwyPU2vmsznqkqUWbGtE1cwpfUfufoHPaFdVeMwG+pnJ4rsgaQ
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ee886eu64-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 May 2026 05:53:01 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64T5d5Em023578;
-	Fri, 29 May 2026 05:53:00 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4edjrbbte9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 May 2026 05:53:00 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64T5qxkp22348360
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 29 May 2026 05:52:59 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2D4015805D;
-	Fri, 29 May 2026 05:52:59 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1598D5805C;
-	Fri, 29 May 2026 05:52:57 +0000 (GMT)
-Received: from [9.61.52.163] (unknown [9.61.52.163])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 29 May 2026 05:52:56 +0000 (GMT)
-Message-ID: <6734f050-d660-4d82-b59e-bef28ff332bc@linux.ibm.com>
-Date: Fri, 29 May 2026 11:22:55 +0530
+	Fri, 29 May 2026 06:45:24 +0000
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E576266F47;
+	Fri, 29 May 2026 06:45:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780037120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=00oEdflBq6KtkPgqg+2OlO9BXkLU2OZ1RZrsgnWL2Ac=;
+	b=t0iz5BRKXWdsSEWHa3rj+u4/+i2ZOjAHjRrsExfQHjs8lH7LnN5F/qQaYSGiC/3e/dmFWM
+	6YCbHFBS5obGZIl62ruSzz+2gsZ6W6exB3tMsqyhHk1AwfHc0imeMAqNx2+KtMtAXxwZ5T
+	F28uH2gkgm63iT3cN1BI/JIGMskTGuI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780037120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=00oEdflBq6KtkPgqg+2OlO9BXkLU2OZ1RZrsgnWL2Ac=;
+	b=fp1y/pB54Vrz/Gb3TnWm5e81o1BdVG+PTYhbL3hYbvGRKEphT0G94xAwVPzVFa/xVZrV+E
+	20Mfe7yIX0SvAKAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ojfIjkYI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mxhtg3sP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780037119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=00oEdflBq6KtkPgqg+2OlO9BXkLU2OZ1RZrsgnWL2Ac=;
+	b=ojfIjkYI2nuF/7Y9I3HXPpfSAdVFyF2wj+tTT3rH6IQSCd4S8qHpxeeskZ90XoMJEG9Kt9
+	ZCNkQsg8ViBgBJN9GZ8g8CgM2pkNqiK+tCXOJgrTzy9+v4jTaSr4CVWpfFuDV35LM5pn7N
+	BeBEfFMVT7+6Fa0WSWZFsPSM/gSAux4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780037119;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=00oEdflBq6KtkPgqg+2OlO9BXkLU2OZ1RZrsgnWL2Ac=;
+	b=mxhtg3sP8KzGeSU/0ymb06q22HJ+tACNXXIH+2p/Oq0CyaFARXUnxhZhzIEFkQOULfL4P7
+	A7SOsUwjZi6qZHBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A9C215B1E1;
+	Fri, 29 May 2026 06:45:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bvg5KP81GWrcLgAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 29 May 2026 06:45:19 +0000
+Message-ID: <b8d1fda2-a2da-4b35-9bd5-941834f26c32@suse.de>
+Date: Fri, 29 May 2026 08:45:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: blktests failures with v7.1-rc1 kernel
-To: "Shin'ichiro Kawasaki" <shinichiro.kawasaki@wdc.com>
-Cc: "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        nbd@other.debian.org, linux-rdma@vger.kernel.org
-References: <afB5syZbUrppgsDQ@shinmob>
- <c4ddc101-184a-4e4f-82ca-c3123bce5e34@linux.ibm.com>
- <ahfQFHuVx2G7OFLE@shinmob>
+Subject: Re: [PATCH v2] nvme-multipath: set BIO_REMAPPED on bios remapped to
+ per-path namespace disks
+To: "Achkinazi, Igor" <Igor.Achkinazi@dell.com>,
+ "kbusch@kernel.org" <kbusch@kernel.org>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, "axboe@kernel.dk" <axboe@kernel.dk>
+Cc: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <MW5PR19MB548483D1FAE4F322E4C97352FD032@MW5PR19MB5484.namprd19.prod.outlook.com>
+ <DS0PR19MB76963295FC34844B413479F9FD092@DS0PR19MB7696.namprd19.prod.outlook.com>
 Content-Language: en-US
-From: Nilay Shroff <nilay@linux.ibm.com>
-In-Reply-To: <ahfQFHuVx2G7OFLE@shinmob>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <DS0PR19MB76963295FC34844B413479F9FD092@DS0PR19MB7696.namprd19.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: C75PYe2PrWZW72uUhRwham0EPvUjY0df
-X-Authority-Analysis: v=2.4 cv=Z8Dc2nRA c=1 sm=1 tr=0 ts=6a1929bd cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8
- a=Ikd4Dj_1AAAA:8 a=TbhEY_3gdXjHXVBi0OcA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI5MDA1MiBTYWx0ZWRfXxGeOl4O3/her
- OaD/kjRlCoezqfXBhqZA8BF6CznskLhFOTgkMYj6EBDbkh4WRPuZJ0UU6MQ4GIOYvEujDIktKt4
- 4+s/71EunVXADL+hu3rf1mat6F3QlmTHl+zrBL9rsU+uGvO/kgQr+DGnKOvaeo+2W63K1YYZhcV
- FrVZ0AxlUrfcsxT8thx+y+UNqhfPqpW2hVwLGIVWhElZSLPTYSzRocY6EwMv6NVcIQdqSOhlKJE
- GUxaRby7yyfTWQeicBICr61zYtRybwBTmJVtt/dwwrqy8aVMKtUPqpBu9G1f89G9OeHyd8z+edB
- t8BapD5CxoEpyu6aGe73doDGUxsz0is0lRqkxzQN3G6RPYgCpyobPV07mG4avqoA4reH7N8nlqj
- REsTxF3b0M0nv/sG0sNGiXphRYNGe1xvhiwCwJAoZNWkSOSpBi0ExMk1pJvC6qZpU7IhcLK0K6T
- AOxXhPA7/mDX6fLXvAA==
-X-Proofpoint-ORIG-GUID: C75PYe2PrWZW72uUhRwham0EPvUjY0df
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-29_01,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605290052
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: E576266F47
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid]
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260528_225303_009994_03E3C051 
-X-CRM114-Status: GOOD (  26.85  )
+X-CRM114-CacheID: sfid-20260528_234523_501069_092CB268 
+X-CRM114-Status: GOOD (  29.08  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -123,65 +147,153 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On 5/28/26 10:54 AM, Shin'ichiro Kawasaki wrote:
-> On May 25, 2026 / 18:14, Nilay Shroff wrote:
->> hi Shinichiro,
->>
->> On 4/28/26 2:43 PM, Shin'ichiro Kawasaki wrote:
-> [...]
->>> #1: nvme/005,063 (tcp transport)
->>>
->>>       The test cases nvme/005 and 063 fail for tcp transport due to the lockdep
->>>       WARN related to the three locks q->q_usage_counter, q->elevator_lock and
->>>       set->srcu. The failure was reported first time for nvme/063 and v6.16-rc1
->>>       kernel [2].
->>>
->>>       Chaitanya provided a fix patch (thanks!), and it is queued for v7.1-rcX tags
->>>       [3]. However, nvme/005 and 063 still fail even when I apply the fix patch to
->>>       v7.1-rc1 kernel. The call traces of the lockdep WARN are different between
->>>       "v7.1-rc1" kernel [4] and "v7.1-rc1+the fix patch" kernel [5]. I guess that
->>>       there exist two lockdep problems with similar symptoms and patch [3] fixed
->>>       one of them. I guess that still one problem is left.
->>>
->>>       [2]https://lore.kernel.org/linux-block/4fdm37so3o4xricdgfosgmohn63aa7wj3ua4e5vpihoamwg3ui@fq42f5q5t5ic/
->>>       [3]https://lore.kernel.org/all/20260413171628.6204-1-kch@nvidia.com/
->>
->>
->> I looked into this lockdep warning, and it seems that Chaitanya's patch indeed fixes the
->> original issue reported in [4]. However, the new warning reported in [5] appears to be a
->> separate lockdep splat and, from what I can tell, likely a false positive. There are two
->> reasons why I think so:
->>
->> 1. The lockdep report suggests that thread #1 is sending data over a TCP socket while
->>     another thread #2 is still in the process of establishing that same socket connection.
->>     In practice, this should not be possible because request dispatch over the socket can
->>     only happen after the connection setup has completed successfully.
->>
->> 2. The warning also suggests that while thread #0 is deleting the gendisk and unregistering
->>     the corresponding request queue, another thread #5 is concurrently attempting to change
->>     the queue elevator. However, once gendisk deletion starts, elevator switching is already
->>     inhibited for that queue (see disable_elv_switch()), so the reported locking scenario
->>     should not be reachable in practice.
->>
->> Based on the above, I suspect this is a lockdep false positive caused by dependency tracking
->> across different queue/socket lifecycle phases. We may need to suppress lock dependency tracking
->> in some of these paths to avoid the false warning.
+On 5/28/26 17:24, Achkinazi, Igor wrote:
+> When nvme_ns_head_submit_bio() remaps a bio from the multipath head to
+> a per-path namespace, bio_set_dev() clears BIO_REMAPPED.  The remapped
+> bio is then resubmitted through submit_bio_noacct() which calls
+> bio_check_eod() because BIO_REMAPPED is not set.
 > 
-> Hi Nilay, thank you very much looking into this. It is good to know that
-> Chaitanya's patch fixed one problem, and the other problem looks like a false-
-> positive.
+> This races with nvme_ns_remove() which zeroes the per-path capacity
+> before synchronize_srcu():
 > 
-> To confirm that "lockdep false positive caused by dependency tracking across
-> different queue/socket lifecycle phases", I created the patch attached. It
-> uses dynamic lockdep keys for the sockets of nvme-tcp controllers. With this
-> patch, the WARN at nvme/005 disappears! I think this indicates that your
-> suspect is correct. I will do some more testing and post the patch.
+>    CPU 0 (IO submission)
+>    ---------------------
+>    srcu_read_lock()
+>    nvme_find_path() -> ns
+>      [NVME_NS_READY is set]
+> 
+>    CPU 1 (namespace removal)
+>    -------------------------
+>    clear_bit(NVME_NS_READY)
+>    set_capacity(ns->disk, 0)
+>    synchronize_srcu()  <- blocks
+> 
+>    CPU 0 (IO submission)
+>    ---------------------
+>    bio_set_dev(bio, ns->disk->part0)
+>      [clears BIO_REMAPPED]
+>    submit_bio_noacct(bio)
+>      -> bio_check_eod() sees capacity=0
+>      -> bio fails with IO error
+> 
+> The SRCU read lock prevents synchronize_srcu() from completing, but
+> does not prevent set_capacity(0) from executing.  The bio fails the
+> EOD check before it reaches the NVMe driver, so nvme_failover_req()
+> never gets a chance to redirect it to another path of multipath.  IO errors
+> are reported to the application despite another path being available.
+> 
+> On older kernels (before commit 0b64682e78f7 "block: skip unnecessary
+> checks for split bio"), the same race was also reachable through split
+> remainders resubmitted via submit_bio_noacct().
+> 
+> Observed during NVMe multipath failover testing at Dell on
+> 5.14.0-570.23.1.el9_6.x86_64 (RHEL 9.7) and
+> 6.4.0-150600.23.53-default (SLES 15.6).
+> 
+> Fix this by setting BIO_REMAPPED after bio_set_dev() in
+> nvme_ns_head_submit_bio().  This skips bio_check_eod() on the per-path
+> device; the EOD check already passed on the multipath head.
+> 
+> NVMe per-path namespace devices are always whole disks (bd_partno=0),
+> so the blk_partition_remap() skip also gated by BIO_REMAPPED is a
+> no-op.  The flag does not persist across failover and cannot go stale
+> if the namespace geometry changes between attempts: nvme_failover_req()
+> calls bio_set_dev() to redirect the bio back to the multipath head,
+> which clears BIO_REMAPPED.  When nvme_requeue_work() resubmits through
+> submit_bio_noacct(), bio_check_eod() runs normally against the current
+> capacity.
+> 
+> Same approach as commit 3a905c37c351 ("block: skip bio_check_eod for
+> partition-remapped bios").
+> 
+> A broader solution that moves bio validation into the queue-entered
+> context and eliminates the set_capacity(0) hack is being developed
+> upstream, however this minimal fix is suitable for backporting to
+> stable kernels affected today. The link to the mentioned patch:
+> https://lore.kernel.org/linux-block/20260519172326.3462354-1-kbusch@meta.com/
+> 
+> Fixes: a7c7f7b2b641 ("nvme: use bio_set_dev to assign ->bi_bdev")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Igor Achkinazi <igor.achkinazi@dell.com>
+> ---
+> v2:
+>    - Corrected race description: primary race is in the initial
+>      submit_bio_noacct() call in nvme_ns_head_submit_bio(), not
+>      only in split remainders (which are no longer affected on
+>      current mainline since commit 0b64682e78f7)
+>    - Dropped incorrect arguments about submit_bio_noacct_nocheck
+>      export status and BIO_REMAPPED propagation to split clones
+>    - Added analysis showing BIO_REMAPPED flag does not persist
+>      across failover (nvme_failover_req clears it via bio_set_dev)
+>    - Referenced upstream RFC series addressing the root cause
+> 
+>   drivers/nvme/host/multipath.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 263161cb8ac0..04f7c7e59945 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -511,6 +511,13 @@ static void nvme_ns_head_submit_bio(struct bio *bio)
+>          ns = nvme_find_path(head);
+>          if (likely(ns)) {
+>                  bio_set_dev(bio, ns->disk->part0);
+> +               /*
+> +                * Skip bio_check_eod() when this bio enters
+> +                * submit_bio_noacct() for the per-path device.
+> +                * The EOD check already passed on the multipath head.
+> +                */
+> +               bio_set_flag(bio, BIO_REMAPPED);
+>                  bio->bi_opf |= REQ_NVME_MPATH;
+>                  trace_block_bio_remap(bio, disk_devt(ns->head->disk),
+>                                        bio->bi_iter.bi_sector);
+> --
+> 2.43.0
+> 
+> 
+> Internal Use - Confidential
+> 
+... or you could introduce __bio_set_dev():
 
-Thanks for working on the patch! I reviewed it and the changes look good to me.
-I agree assigning a unique lockdep key to each nvmf-tcp socket is the right
-solution.
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 97d747320b35..5a2709adeea7 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -518,15 +518,20 @@ static inline void blkcg_punt_bio_submit(struct 
+bio *bio)
+  }
+  #endif /* CONFIG_BLK_CGROUP */
 
-Thanks,
---Nilay
+-static inline void bio_set_dev(struct bio *bio, struct block_device *bdev)
++static inline void __bio_set_dev(struct bio *bio, struct block_device 
+*bdev)
+  {
+-       bio_clear_flag(bio, BIO_REMAPPED);
+         if (bio->bi_bdev != bdev)
+                 bio_clear_flag(bio, BIO_BPS_THROTTLED);
+         bio->bi_bdev = bdev;
+         bio_associate_blkg(bio);
+  }
 
++static inline void bio_set_dev(struct bio *bio, struct block_device *bdev)
++{
++       bio_clear_flag(bio, BIO_REMAPPED);
++       __bio_set_dev(bio, bdev);
++}
++
+  /*
+   * BIO list management for use by remapping drivers (e.g. DM or MD) 
+and loop.
+   *
+
+to avoid all this clear-and-set-flag dance.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
 
