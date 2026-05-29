@@ -4,61 +4,67 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1313DCD6E49
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 May 2026 16:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3B98CD6E49
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 May 2026 23:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:In-Reply-To:Content-Type:
 	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
 	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=jxl9Cd1ekcjiytj6Bw9vuKytspEwY89flUAtcmDugAw=; b=mgRFB+lEqcWoukm86tmFFiBmgf
-	HTT/pEkklMxV2ahYTPLxmVV6d4+f/XcAZs/0l16SRzHrvaZ6WMAlnCB2cv8T2a6ggmIFAm1r+YvSR
-	6JTmVHCXFA+ywPoiKo5wVIcCaty8SXMEKpubD9L3a/f3cWv5DB+o4ndGx/YthPibYNmvoiymr88/j
-	kMMWTUYyhbRltx9LGfcscgWEE9Ei1VIOpnqPwQO5q5ZAHz0csHoO9k4Ig9FOGwQHafYymQzs4mSdv
-	+7w/JdRz39+OMdOzXhyAjcrltMuFD2QsusOzYSA1bzWLQjrHuH0drKBRbaZq8gcEvTiCz8xPd53qV
-	q/ATMUnw==;
+	bh=pTri8BUQcNx5FytxVSCnFtx7e/4115rb7iA5Ei7gVqA=; b=2+eO423CBp1Vn1hNtxVNEczDDH
+	xp1vS7TheWeM5lcEq2GX4BCO4ttPw9zZEI2q6bH/7oRhSbcMQWMU53bt/urNhkVaiQEWr3WbW3667
+	XygQOBRMA7moMGHtAk1sbFLiC2mqZyy3R8XdzfbclNVPgpUve1JL5QunqRlM8RGTrXo2pM4KwGdl+
+	j2C3vWBhYGPCKJ4/vNlNKBdggorT9G80FBSdmEBGro1u3uQ9siwHYlbrS9i9OStu13QoDqtoO3VeA
+	ixA0SwG/booHOuubgsfqoOQylUr+XRU7bC0v6nmDgxPR8T9EfBsseiNW6gM6i+5gelLMRjb/AFN77
+	wGCp5lGQ==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSzlw-00000007qX0-05K9;
-	Fri, 29 May 2026 16:09:20 +0000
-Received: from tor.source.kernel.org ([172.105.4.254])
+	id 1wT6Jk-00000008IJN-0eMb;
+	Fri, 29 May 2026 23:08:40 +0000
+Received: from sea.source.kernel.org ([172.234.252.31])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSzlu-00000007qWn-0WnA
+	id 1wT6Jf-00000008IJ1-2r7X
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 May 2026 16:09:18 +0000
+	Fri, 29 May 2026 23:08:36 +0000
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 268E2605CF;
-	Fri, 29 May 2026 16:09:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 780631F00893;
-	Fri, 29 May 2026 16:09:16 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id C75C844373;
+	Fri, 29 May 2026 23:08:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56ADF1F00893;
+	Fri, 29 May 2026 23:08:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780070956;
-	bh=jxl9Cd1ekcjiytj6Bw9vuKytspEwY89flUAtcmDugAw=;
+	s=k20260515; t=1780096113;
+	bh=pTri8BUQcNx5FytxVSCnFtx7e/4115rb7iA5Ei7gVqA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mPiZKmOrsXkaUctu8xLtcMIMerVGh5L/JbNZT2E32PEowB7APOvhQ8Q2Hl9fU9CAy
-	 S50d12OD3vgSmWXKW9kqsOGTsjjSObfQLsiyZ9pRtfEtpK8OEk9MpGqYMZo0VF4fvC
-	 hMrX5veA7TrrclNKe6ki+lndFKOqAyl42T/5eLnyYxNC1gcnBU+tuS7UaX76ybHtT4
-	 hPf9lwIj/Yk+Vm/IIAIOchlyyWVzc0NRKG5SW66k2wzjkU6jDixq58O1H0fl7l7nie
-	 Yv6vsPOWFzO6EjIicSkH0xGnJAUfI1l0BZhIXBeTaBjPgv48CLyc/oVEAXKSnOUQhS
-	 TOtOOOFktGz0Q==
-Date: Fri, 29 May 2026 10:09:14 -0600
+	b=V1oi1wMQkhT+5vUe3xl/z/OPr9v3cjkS70bSLcTudM9itZzRgDbd5Xhi0g39+e2ul
+	 5HDAtlwbq9jHySwBVJNNh1W0au5zdHczxKW6dDBOIGeCq48+NrFR1o/aB0/ZS46xbl
+	 oG/lsfsTQqCt5HqNnSUoeuF3CVSGqGhY5gd06ATDRl/tZ39w8rY/MfChJPiJQvmh39
+	 CRYnqufiox9SKzhelNYg/uArcaDKShGZcTRXMOjiYZxP8PaXcDKW+lhJJwXv7NjaNb
+	 iDeu6nItp/AOevw0OOCIbc6QUUcBz0HxdpY/D9J8x6V5kD5xWYaCGfNsZuz8vbdwxq
+	 dKgAQbVfsCRfg==
+Date: Fri, 29 May 2026 17:08:31 -0600
 From: Keith Busch <kbusch@kernel.org>
-To: hexlabsecurity@proton.me
-Cc: "security@kernel.org" <security@kernel.org>, "hch@lst.de" <hch@lst.de>,
-	"sagi@grimberg.me" <sagi@grimberg.me>,
-	"kch@nvidia.com" <kch@nvidia.com>,
+To: "Achkinazi, Igor" <Igor.Achkinazi@dell.com>
+Cc: "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+	"axboe@kernel.dk" <axboe@kernel.dk>,
 	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-Subject: Re: [REPORT] nvmet-rdma: integer overflow in inline-data SGL bounds
- check -> pre-auth kernel-memory read + remote crash (candidate patch inline)
-Message-ID: <ahm6Ksr3rfGdnOsN@kbusch-mbp>
-References: <LM21QIR-1-qJb7PViyJKCnGBnUzizeiNJVWQ3wb7ZwGezodjgKg3f-iobqOyequ-sT1jFCKJImfqNO_BKU3KO80xFITnaI5GTV_GxLUNDDc=@proton.me>
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v2] nvme-multipath: set BIO_REMAPPED on bios remapped to
+ per-path namespace disks
+Message-ID: <ahocb8YRtqh5rHo-@kbusch-mbp>
+References: <MW5PR19MB548483D1FAE4F322E4C97352FD032@MW5PR19MB5484.namprd19.prod.outlook.com>
+ <DS0PR19MB76963295FC34844B413479F9FD092@DS0PR19MB7696.namprd19.prod.outlook.com>
+ <ahiHIEhsV2zuG5vH@kbusch-mbp>
+ <DS0PR19MB76965BF9FB57EA3ED8BD4586FD162@DS0PR19MB7696.namprd19.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <LM21QIR-1-qJb7PViyJKCnGBnUzizeiNJVWQ3wb7ZwGezodjgKg3f-iobqOyequ-sT1jFCKJImfqNO_BKU3KO80xFITnaI5GTV_GxLUNDDc=@proton.me>
+In-Reply-To: <DS0PR19MB76965BF9FB57EA3ED8BD4586FD162@DS0PR19MB7696.namprd19.prod.outlook.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20260529_160835_770164_83EE0225 
+X-CRM114-Status: GOOD (  12.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -73,28 +79,15 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-On Fri, May 29, 2026 at 06:52:13AM +0000, hexlabsecurity@proton.me wrote:
-> @@ -847,6 +848,7 @@ static u16 nvmet_rdma_map_sgl_inline(struct nvmet_rdma_rsp *rsp)
->  	struct nvme_sgl_desc *sgl = &rsp->req.cmd->common.dptr.sgl;
->  	u64 off = le64_to_cpu(sgl->addr);
->  	u32 len = le32_to_cpu(sgl->length);
-> +	u64 bound;
+On Fri, May 29, 2026 at 01:32:22AM +0000, Achkinazi, Igor wrote:
+> Keith Busch wrote:
+> > I double checked the sequences here, and yes, I think the
+> > synchronize_srcu's already in place ensure every caller sees the EOD
+> > error before it could fail the bio_queue_enter(), so this looks like it
+> > happens to be sufficient. I'm okay with it.
 > 
->  	if (!nvme_is_write(rsp->req.cmd)) {
->  		rsp->req.error_loc =
-> @@ -854,7 +856,8 @@ static u16 nvmet_rdma_map_sgl_inline(struct nvmet_rdma_rsp *rsp)
->  		return NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
->  	}
-> 
-> -	if (off + len > rsp->queue->dev->inline_data_size) {
-> +	if (check_add_overflow(off, (u64)len, &bound) ||
-> +	    bound > rsp->queue->dev->inline_data_size) {
+> Thanks Keith! May I add your Reviewed-by?
 
-Since you don't use "bound" for anything other than the final check, I
-think we make this simpler without it:
-
-	if (off > rsp->queue->dev->inline_data_size ||
-	    len > rsp->queue->dev->inline_data_size - off) {
-
-Thanks for the report.
+Sure, though I was considering just adding it the nvme tree. I'm giving
+a few days to see if there are any other comments.
 
