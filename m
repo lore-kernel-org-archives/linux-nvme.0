@@ -4,57 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4A39CD5BD1
-	for <linux-nvme@archiver.kernel.org>; Fri, 29 May 2026 00:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B667CD6E43
+	for <linux-nvme@archiver.kernel.org>; Fri, 29 May 2026 00:14:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=lists.infradead.org; s=bombadil.20210309; h=Sender:List-Subscribe:List-Help
 	:List-Post:List-Archive:List-Unsubscribe:List-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:From:
-	To:Date:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Owner;
-	bh=/NklfoWCDoxPcwrWRxH1KpgXRYiohQbVsmhu6h2/EYA=; b=s5DoUxSHUnEoCwZeR8UhbVJVU6
-	HSe1w4xl6cd3YKPO79ynuQqwB6/4TvjPzv5jqfDvJV7z6iPpO5RrfnbwuPABVLP4qU52+Vth//hdR
-	FfH2JEbFkcCp5c00lG0RiihRqNowo7xukhSRgOM3ZPawwenoxDsxXs8f7G6e9WqFoFfI1JuT4EO/K
-	H0qxH5E5T4OinyHOx32yjwskjAcEgf3itE0uNblX1fFqojKrul9bUXDhD4KP4nx0ioUqz8wwzBJZr
-	AdCZukfx49rxeBV8xaU0F4y0hlq6ih0STXp+t13mlcwD9QL7pg+3GSUtxIGtP5TsebYzNtGEuK/2C
-	S7vgEefA==;
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Owner;
+	bh=h4NRSqy35jt5KU4/CdP7Ksm0GS/daEYEZ96rcO4Wdkw=; b=aDy+Rv0ZP7HfQNb1UanP/QjndF
+	QLsaJvlxfDnTTKxMFo+LuM/BTLuvUFpujLamYejAfjewrgHiaiTjtzSWpSSfB5IkJgjSAM5EnuuCz
+	QIGMBijpwZsKmo+jl3N0AbbcxjaZwjTyfh8OVYakwnMm93pMi8BR0MMxn8GUojHuC6+CUB4qNh/DH
+	y7PZ40covs+Q6NhRQwhqxW3suOBIOSRlT1gb58uMOgKHJo8vEJV8TnlZ2zKw8jXkkLkr9P1JurPV9
+	uGN31Pb00lWLw+PSoeWcvJCnzJGyD4kkQTXDUtmk3IMRdH+xdans2YhPsDvYWjw7eSDcYXc88Evuv
+	/agF3s+Q==;
 Received: from localhost ([::1] helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtp (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSkrO-00000006ZNh-0cuX;
-	Fri, 29 May 2026 00:13:58 +0000
-Received: from mail-106103.protonmail.ch ([79.135.106.103])
+	id 1wSkrm-00000006ZR3-1dat;
+	Fri, 29 May 2026 00:14:22 +0000
+Received: from mail-ot1-x363.google.com ([2607:f8b0:4864:20::363])
 	by bombadil.infradead.org with esmtps (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSkrK-00000006ZNH-2mKE
+	id 1wSkri-00000006ZQN-3Mi5
 	for linux-nvme@lists.infradead.org;
-	Fri, 29 May 2026 00:13:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1780013628; x=1780272828;
-	bh=/NklfoWCDoxPcwrWRxH1KpgXRYiohQbVsmhu6h2/EYA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=PhGR6495vhd5vvoNvLlWGHmuOj4kl5hvr64721x6ckrNBbqMnEgqtOinsMFAZen5g
-	 wgVgNIbF9YiyDY07QJCdtTKO5FceF6dEomYbuxaa6NSd5g6g0drlcGB3L7alRduNWw
-	 +RAHi3kp9qSXJ+EWzRWaRL+uR67N9PequB2brgSw8e42WzLNZEe7tvrKwkaEU5N+PH
-	 TGZr8sKOOgc9YlOAeEts7QGD8/V8vINx0VF43xezpYEijGuZ/H4jobY+FpwnTpHX/a
-	 RUnDyKujIhtxTNldE4gnP3PsuWkHcyAFdhiShmLQ7qwzSB1/GLOGZl7Q75VH9vLXga
-	 V/TdVgojglDxQ==
-Date: Thu, 28 May 2026 16:02:17 +0000
-To: "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-From: hexlabsecurity@proton.me
-Cc: Christoph Hellwig <hch@lst.de>, Greg KH <gregkh@linuxfoundation.org>, sagi@grimberg.me, kch@nvidia.com, "bvanassche@acm.org" <bvanassche@acm.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>, "hexlabsecurity@proton.me" <hexlabsecurity@proton.me>
-Subject: [PATCH v2] nvmet: fix pre-auth out-of-bounds heap read in Discovery Get Log Page
-Message-ID: <39YwPS5jntghiVQLt9ikZnmMc7O2g1AY3OVDcxdZjaK53FZHyzQNmyaS5eYBTS93g0Wc-S-UDC0auDRcGgC4iMR5RgXLEBPvqHfFZfbaeoU=@proton.me>
-In-Reply-To: <20260528083537.GA7590@lst.de>
-References: <Q8CVAA098pa1LIPOSNGvR2qrzqdOBQqRTLK54O4KsGMzSh4IOT2Ucrlv87C0ULvpILYim-FotD-OumzPcjFauZM2iyjJ4tjzaMRsXE7G_3Q=@proton.me> <20260527132353.GB11071@lst.de> <QQhn1zPqAyjwS7XXM_jeFtjpyW7pXcVTGMP38boMl6zWR5ehel-nsdJdksZf0ASO03qt5pX1B5UAnlANuO7KZISSgggAjnjLruly7nAjJ2A=@proton.me> <20260528083537.GA7590@lst.de>
-Feedback-ID: 199661219:user:proton
-X-Pm-Message-ID: 9699613454a2d80a91573b984356703a7369e0d2
+	Fri, 29 May 2026 00:14:20 +0000
+Received: by mail-ot1-x363.google.com with SMTP id 46e09a7af769-7dcd17e19b6so7529270a34.1
+        for <linux-nvme@lists.infradead.org>; Thu, 28 May 2026 17:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1780013657; x=1780618457; darn=lists.infradead.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h4NRSqy35jt5KU4/CdP7Ksm0GS/daEYEZ96rcO4Wdkw=;
+        b=d+WE7Uu1V/BwW/tDAuBJGQHyOy2ahJsQWSZiyn1SMOXIPortSnQYHhk/ScO9W0EJRm
+         2zATmQjqNIYBXUj+NeNxPq9wAHgderZyRTpKrkQY60VVBqaz2I5gDmr7nSDcvuFM3ZR+
+         h6cAXDBEikKm3bjRNDygM03+ZZY7yxU6cVE+uULw7l87TZ6li1lqDiM0W5iWTQc0kDpq
+         IYwz99XDD170+O0Bi4cNpUkEuDt5uIYvUVydmaJyT8t+XnUnkYz10LC8ZPUW3SyKDMZo
+         9V76Pa1rEIZDbijB3ostSOt2Ox1ja7KjRaD4i4nbCzsm/VVgMgx2ti7my06uCxxFiM2j
+         +hBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780013657; x=1780618457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h4NRSqy35jt5KU4/CdP7Ksm0GS/daEYEZ96rcO4Wdkw=;
+        b=gKoQNgQai7mz6d8P0FzoHkdlSBWpX23t5TFIdaWsX2dNsn6Xt3hIi0uzUrEjyUdzCk
+         as2E6RiyFh9LTE1PexlIy2yv/XVn8fpC5kVJKayGhmyU3M3gLLvZ7OFlyCgIMw4jidrW
+         wd/tp0LiHbMReR2wbMfxwl9G+ujVPis54bXNTNr+uobDAGStaC6oEB59vyEdI6eBueux
+         5QAGnpM0yZdD8V6WFi4S2W1pMUfzcezaIrdw1RFZQRp/C4oMmn39jt9LjKLuvK428vgB
+         h105tVd/TMZk2na6aHYYwJxA9dMB6kvwQApmBudzLPfWW1h21RQ8gmXm03OblmhBmu3T
+         flEQ==
+X-Gm-Message-State: AOJu0YyQ/ulYxjR4qU4a4t3ALJCqpMy3Uo+MZWVPvVOAUX7PMdUcydML
+	kVpSrGqVO+0foLtyXLex8gkGg1P2YTvtGV64WGMwDUg+nfyAGB9vpipkMXnUlFVOU1zjG6+nkr/
+	oLQxzvwvGac8ACpfvtS3qRLwIbfJYNj2OQqABSmUH2i1swTRdwtaI
+X-Gm-Gg: Acq92OEvNT9/Om3kbEb8C4kRO2Jy8bhb/j5Gi52QFZvUZ4LA4/VYEwHbEJiaWWz5PpV
+	zNdYsovQDQZiILkVB2tPWrOFthMRzkx1oWJokuKWkqsocQbnWQOrXiPPXiIc3Ce7uDhufF+uqyz
+	97bkapQieCFooUcY1zolgsFSZOZekv1nFvy3QVhCMhqWMVeResis8MQH/QS64tuM+U6xOXQtgV6
+	xINgtGesDDwwmERt1GWWtIs6miShu6RtXfQQrlc9tABoUyccIgYpeAmMAh8gxZ+wpSLhptfn2Gl
+	1U44lQv9J4dCSpctetOSVpqhDPbf7PLWoJ4+pqIsyuDzvAW5PzqzX5kbyyv2myhRu7zDrFk/D36
+	JorLexG7oIbj1SNteevbYk/Of3yz9fb32wRH7tjRasH/owsch
+X-Received: by 2002:a05:6820:134f:b0:69d:7ce9:ac52 with SMTP id 006d021491bc7-69e03f0f7cfmr423899eaf.16.1780013657087;
+        Thu, 28 May 2026 17:14:17 -0700 (PDT)
+Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
+        by smtp-relay.gmail.com with ESMTPS id 006d021491bc7-69e03f9ebe1sm35768eaf.3.2026.05.28.17.14.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 17:14:17 -0700 (PDT)
+X-Relaying-Domain: purestorage.com
+Received: from dev-sgogte.dev.purestorage.com (dev-sgogte.dev.purestorage.com [10.112.19.91])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 5827A3401A2;
+	Thu, 28 May 2026 18:14:16 -0600 (MDT)
+Received: by dev-sgogte.dev.purestorage.com (Postfix, from userid 1557734945)
+	id 4664A5122F; Thu, 28 May 2026 18:14:16 -0600 (MDT)
+From: Surabhi Gogte <sgogte@purestorage.com>
+To: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me
+Cc: linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	mkhalfella@purestorage.com,
+	randyj@purestorage.com,
+	Surabhi Gogte <sgogte@purestorage.com>
+Subject: [PATCH] nvme-rdma: parallelize I/O queue allocation and startup
+Date: Thu, 28 May 2026 18:13:54 -0600
+Message-ID: <20260529001354.1003640-1-sgogte@purestorage.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.9.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20260528_171355_485458_1BFDB355 
-X-CRM114-Status: GOOD (  16.63  )
+X-CRM114-CacheID: sfid-20260528_171419_048836_18D70725 
+X-CRM114-Status: GOOD (  24.18  )
 X-BeenThere: linux-nvme@lists.infradead.org
 X-Mailman-Version: 2.1.34
 Precedence: list
@@ -69,129 +106,330 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-nvme>,
 Sender: "Linux-nvme" <linux-nvme-bounces@lists.infradead.org>
 Errors-To: linux-nvme-bounces+linux-nvme=archiver.kernel.org@lists.infradead.org
 
-From 6710e68439c458d691a4fe5c7fa354404745dd0a Mon Sep 17 00:00:00 2001
-From: Bryam Vargas <hexlabsecurity@proton.me>
-Date: Wed, 27 May 2026 15:00:00 -0500
-Subject: [PATCH v2] nvmet: fix pre-auth out-of-bounds heap read in Discover=
-y
- Get Log Page
+Refactor nvme rdma I/O queue setup to use parallel work queues,
+combining allocation and startup into a single parallel operation per
+queue. This reduces connection and reconnection setup time when there
+are delays in establishing connections, which is especially important
+for high-core-count hosts.
 
-nvmet_execute_disc_get_log_page() validates only the dword alignment
-of the host-supplied Log Page Offset (lpo).  The 64-bit offset is then
-added to a small kzalloc'd buffer that holds the discovery log page
-and the result is passed straight to nvmet_copy_to_sgl(), which
-memcpy()s data_len bytes out to the host with no source-side bound
-check:
+Key changes:
+- Use a dedicated nvme_setup_wq for per-queue setup work instead of
+  nvme_wq or nvme_reset_wq. Since reconnect and reset paths run as
+  workers on those queues, calling flush_work() on setup items queued
+  to the same workqueue would trigger lockdep's recursive-flush
+  detection and risk deadlock under worker-pool exhaustion.
+- Add setup_work and queue_idx fields to nvme_rdma_queue to enable
+  per-queue workqueue dispatch; add qsetup_err atomic to
+  nvme_rdma_ctrl for collecting errors across parallel workers.
+- Refactor nvme_rdma_alloc_queue() to accept a pre-initialized queue
+  pointer instead of (ctrl, idx, queue_size), updating all call sites
+  including the admin queue path.
+- Remove nvme_rdma_alloc_io_queues() and nvme_rdma_start_io_queues();
+  their logic is folded into nvme_rdma_setup_io_queues() and
+  nvme_rdma_configure_io_queues().
+- Move queue count negotiation (nvme_set_queue_count,
+  nvmf_set_io_queues) from the removed nvme_rdma_alloc_io_queues()
+  into nvme_rdma_configure_io_queues().
+- Introduce nvme_rdma_setup_io_queues() to dispatch alloc+start per
+  queue in parallel and collect errors atomically.
 
-    u64 offset      =3D nvmet_get_log_page_offset(req->cmd);  /* 64-bit hos=
-t */
-    size_t data_len =3D nvmet_get_log_page_len(req->cmd);     /* 32-bit hos=
-t */
-    ...
-    if (offset & 0x3) { ... }                               /* only check *=
-/
-    ...
-    alloc_len =3D sizeof(*hdr) + entry_size * discovery_log_entries(req);
-    buffer =3D kzalloc(alloc_len, GFP_KERNEL);
-    ...
-    status =3D nvmet_copy_to_sgl(req, 0, buffer + offset, data_len);
+Testing on a 64-core host with 64 IO-queues shows
+nvme-rdma connection time reduced from ~1.4s to 416ms.
 
-The Discovery controller is unauthenticated -- nvmet_host_allowed()
-returns true unconditionally for the discovery subsystem -- so the call
-is reachable pre-authentication by any TCP/RDMA/FC peer that can reach
-the nvmet target.  With a discovery log page of ~1 KiB, an attacker
-requesting up to 4 KiB starting at offset =3D=3D alloc_len reads the next
-slab page out and gets its content returned over the fabric (an
-empirical run on a default nvmet-tcp loopback target leaked 81
-canonical kernel pointers in one Get Log Page response).  Pointing the
-offset at unmapped kernel memory faults the in-kernel memcpy and
-crashes (or panics, on panic_on_oops=3D1) the target host instead.
-
-The attacker-controlled source-side offset pattern
-"nvmet_copy_to_sgl(req, 0, buffer + ATTACKER_OFFSET, ...)" is unique
-to nvmet_execute_disc_get_log_page in the entire nvmet codebase: every
-other Get Log Page handler in admin-cmd.c either ignores lpo (and
-silently starts every response at offset 0) or tracks a local
-destination offset with a fixed source pointer.
-
-Validate the host-supplied offset against the log page size, cap the
-copy length to what is actually available, and zero-fill any remainder
-of the host transfer buffer.  The zero-fill matches the existing
-short-response pattern in nvmet_execute_get_log_changed_ns()
-(admin-cmd.c) and prevents leaking transport SGL contents when the
-host asks for more bytes than the log page contains.
-
-Reported-by: Bryam Vargas <hexlabsecurity@proton.me>
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+Signed-off-by: Surabhi Gogte <sgogte@purestorage.com>
 ---
-v2: rewrote the validation flow per Christoph's suggestion -- single
-    `out_free_buffer` cleanup label reached by `goto` on the offset
-    overflow path, `min_t(size_t, ...)` for the capped copy length,
-    one fewer level of nesting.  `min_t(size_t, ...)` (rather than
-    bare `min()`) because `data_len` is `size_t` and `alloc_len -
-    offset` promotes to `unsigned long long` (since `offset` is
-    `u64`), which trips the kernel min() __typecheck; the size_t
-    rendition matches the analogous shape in io-cmd-bdev.c:228.
+ drivers/nvme/host/core.c |  15 ++++-
+ drivers/nvme/host/nvme.h |   1 +
+ drivers/nvme/host/rdma.c | 127 ++++++++++++++++++++++-----------------
+ 3 files changed, 86 insertions(+), 57 deletions(-)
 
-    Empirically verified on a Linux 6.12.90 KASAN INLINE +
-    kasan.fault=3Dpanic VM: pre-fix `nvme get-log lpo=3Dalloc_len
-    len=3D4096` reboots the host via KASAN catching the OOB memcpy;
-    post-fix the same probe returns cleanly with zero kernel-pointer
-    qwords leaked, and `lpo > alloc_len` returns
-    NVME_SC_INVALID_FIELD as intended.
-
-v1: https://lore.kernel.org/linux-nvme/ -- (search by Reported-by)
-
- drivers/nvme/target/discovery.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discover=
-y.c
-index e9b35549e254..114869d16a1f 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -166,6 +166,7 @@ static void nvmet_execute_disc_get_log_page(struct nvme=
-t_req *req)
- =09u64 offset =3D nvmet_get_log_page_offset(req->cmd);
- =09size_t data_len =3D nvmet_get_log_page_len(req->cmd);
- =09size_t alloc_len;
-+=09size_t copy_len;
- =09struct nvmet_subsys_link *p;
- =09struct nvmet_port *r;
- =09u32 numrec =3D 0;
-@@ -242,7 +243,27 @@ static void nvmet_execute_disc_get_log_page(struct nvm=
-et_req *req)
-=20
- =09up_read(&nvmet_config_sem);
-=20
--=09status =3D nvmet_copy_to_sgl(req, 0, buffer + offset, data_len);
-+=09/*
-+=09 * Validate the host-supplied log page offset before copying out.
-+=09 * Without this check, the host controls a 64-bit byte offset into
-+=09 * a small kzalloc'd buffer: a value past the log page lets the
-+=09 * subsequent memcpy read adjacent kernel heap, and a value aimed
-+=09 * at unmapped kernel memory faults the in-kernel copy and crashes
-+=09 * the target host. The Discovery controller is unauthenticated,
-+=09 * so the bug is reachable from any reachable fabric peer.
-+=09 */
-+=09if (offset > alloc_len) {
-+=09=09req->error_loc =3D
-+=09=09=09offsetof(struct nvme_get_log_page_command, lpo);
-+=09=09status =3D NVME_SC_INVALID_FIELD | NVME_STATUS_DNR;
-+=09=09goto out_free_buffer;
-+=09}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dc388e24caad..f1247a61c797 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -107,7 +107,8 @@ MODULE_PARM_DESC(disable_pi_offsets,
+ 	"disable protection information if it has an offset");
+ 
+ /*
+- * nvme_wq - hosts nvme related works that are not reset or delete
++ * nvme_wq - hosts nvme related works that are not queue setup, reset or delete
++ * nvme_setup_wq - hosts nvme queue setup works
+  * nvme_reset_wq - hosts nvme reset works
+  * nvme_delete_wq - hosts nvme delete works
+  *
+@@ -126,6 +127,9 @@ EXPORT_SYMBOL_GPL(nvme_reset_wq);
+ struct workqueue_struct *nvme_delete_wq;
+ EXPORT_SYMBOL_GPL(nvme_delete_wq);
+ 
++struct workqueue_struct *nvme_setup_wq;
++EXPORT_SYMBOL_GPL(nvme_setup_wq);
 +
-+=09copy_len =3D min_t(size_t, data_len, alloc_len - offset);
-+=09status =3D nvmet_copy_to_sgl(req, 0, buffer + offset, copy_len);
-+=09if (!status && copy_len < data_len)
-+=09=09status =3D nvmet_zero_sgl(req, copy_len, data_len - copy_len);
-+out_free_buffer:
- =09kfree(buffer);
- out:
- =09nvmet_req_complete(req, status);
---=20
-2.43.0
+ static LIST_HEAD(nvme_subsystems);
+ DEFINE_MUTEX(nvme_subsystems_lock);
+ 
+@@ -5415,10 +5419,14 @@ static int __init nvme_core_init(void)
+ 	if (!nvme_delete_wq)
+ 		goto destroy_reset_wq;
+ 
++	nvme_setup_wq = alloc_workqueue("nvme-setup-wq", wq_flags, 0);
++	if (!nvme_setup_wq)
++		goto destroy_delete_wq;
++
+ 	result = alloc_chrdev_region(&nvme_ctrl_base_chr_devt, 0,
+ 			NVME_MINORS, "nvme");
+ 	if (result < 0)
+-		goto destroy_delete_wq;
++		goto destroy_setup_wq;
+ 
+ 	result = class_register(&nvme_class);
+ 	if (result)
+@@ -5452,6 +5460,8 @@ static int __init nvme_core_init(void)
+ 	class_unregister(&nvme_class);
+ unregister_chrdev:
+ 	unregister_chrdev_region(nvme_ctrl_base_chr_devt, NVME_MINORS);
++destroy_setup_wq:
++	destroy_workqueue(nvme_setup_wq);
+ destroy_delete_wq:
+ 	destroy_workqueue(nvme_delete_wq);
+ destroy_reset_wq:
+@@ -5470,6 +5480,7 @@ static void __exit nvme_core_exit(void)
+ 	class_unregister(&nvme_class);
+ 	unregister_chrdev_region(nvme_ns_chr_devt, NVME_MINORS);
+ 	unregister_chrdev_region(nvme_ctrl_base_chr_devt, NVME_MINORS);
++	destroy_workqueue(nvme_setup_wq);
+ 	destroy_workqueue(nvme_delete_wq);
+ 	destroy_workqueue(nvme_reset_wq);
+ 	destroy_workqueue(nvme_wq);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ccd5e05dac98..9cc49f5ad8af 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -49,6 +49,7 @@ extern unsigned int admin_timeout;
+ extern struct workqueue_struct *nvme_wq;
+ extern struct workqueue_struct *nvme_reset_wq;
+ extern struct workqueue_struct *nvme_delete_wq;
++extern struct workqueue_struct *nvme_setup_wq;
+ extern struct mutex nvme_subsystems_lock;
+ 
+ /*
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index f77c960f7632..b2db43bd6e84 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -98,6 +98,8 @@ struct nvme_rdma_queue {
+ 	bool			pi_support;
+ 	int			cq_size;
+ 	struct mutex		queue_lock;
++	struct work_struct	setup_work;
++	int			queue_idx;
+ };
+ 
+ struct nvme_rdma_ctrl {
+@@ -125,6 +127,7 @@ struct nvme_rdma_ctrl {
+ 	struct nvme_ctrl	ctrl;
+ 	bool			use_inline_data;
+ 	u32			io_queues[HCTX_MAX_TYPES];
++	atomic_t		qsetup_err;
+ };
+ 
+ static inline struct nvme_rdma_ctrl *to_rdma_ctrl(struct nvme_ctrl *ctrl)
+@@ -566,16 +569,14 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	return ret;
+ }
+ 
+-static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+-		int idx, size_t queue_size)
++static int nvme_rdma_alloc_queue(struct nvme_rdma_queue *queue)
+ {
+-	struct nvme_rdma_queue *queue;
++	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
++	int idx = nvme_rdma_queue_idx(queue);
+ 	struct sockaddr *src_addr = NULL;
+ 	int ret;
+ 
+-	queue = &ctrl->queues[idx];
+ 	mutex_init(&queue->queue_lock);
+-	queue->ctrl = ctrl;
+ 	if (idx && ctrl->ctrl.max_integrity_segments)
+ 		queue->pi_support = true;
+ 	else
+@@ -587,8 +588,6 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 	else
+ 		queue->cmnd_capsule_len = sizeof(struct nvme_command);
+ 
+-	queue->queue_size = queue_size;
+-
+ 	queue->cm_id = rdma_create_id(&init_net, nvme_rdma_cm_handler, queue,
+ 			RDMA_PS_TCP, IB_QPT_RC);
+ 	if (IS_ERR(queue->cm_id)) {
+@@ -694,59 +693,59 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
+ 	return ret;
+ }
+ 
+-static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl,
+-				     int first, int last)
++static void nvme_rdma_setup_queue_work(struct work_struct *work)
+ {
+-	int i, ret = 0;
++	struct nvme_rdma_queue *queue =
++		container_of(work, struct nvme_rdma_queue, setup_work);
++	int ret;
+ 
+-	for (i = first; i < last; i++) {
+-		ret = nvme_rdma_start_queue(ctrl, i);
+-		if (ret)
+-			goto out_stop_queues;
+-	}
++	ret = nvme_rdma_alloc_queue(queue);
++	if (ret)
++		goto out_err;
+ 
+-	return 0;
++	ret = nvme_rdma_start_queue(queue->ctrl, queue->queue_idx);
++	if (ret)
++		goto out_err;
+ 
+-out_stop_queues:
+-	for (i--; i >= first; i--)
+-		nvme_rdma_stop_queue(&ctrl->queues[i]);
+-	return ret;
++	return;
++
++out_err:
++	atomic_cmpxchg(&queue->ctrl->qsetup_err, 0, ret);
+ }
+ 
+-static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
++static int nvme_rdma_setup_io_queues(struct nvme_rdma_ctrl *ctrl, int first,
++				     int last, size_t queue_size)
+ {
+-	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+-	unsigned int nr_io_queues;
+-	int i, ret;
++	int nr_queues = last - first;
++	int ret, i;
+ 
+-	nr_io_queues = nvmf_nr_io_queues(opts);
+-	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+-	if (ret)
+-		return ret;
++	atomic_set(&ctrl->qsetup_err, 0);
+ 
+-	if (nr_io_queues == 0) {
+-		dev_err(ctrl->ctrl.device,
+-			"unable to set any I/O queues\n");
+-		return -ENOMEM;
+-	}
+-
+-	ctrl->ctrl.queue_count = nr_io_queues + 1;
+-	dev_info(ctrl->ctrl.device,
+-		"creating %d I/O queues.\n", nr_io_queues);
++	for (i = 0; i < nr_queues; i++) {
++		struct nvme_rdma_queue *queue = &ctrl->queues[first + i];
+ 
+-	nvmf_set_io_queues(opts, nr_io_queues, ctrl->io_queues);
+-	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+-		ret = nvme_rdma_alloc_queue(ctrl, i,
+-				ctrl->ctrl.sqsize + 1);
+-		if (ret)
+-			goto out_free_queues;
++		queue->ctrl = ctrl;
++		queue->queue_idx = first + i;
++		queue->queue_size = queue_size;
++		INIT_WORK(&queue->setup_work, nvme_rdma_setup_queue_work);
++		queue_work(nvme_setup_wq, &queue->setup_work);
+ 	}
+ 
+-	return 0;
++	for (i = 0; i < nr_queues; i++)
++		flush_work(&ctrl->queues[first + i].setup_work);
+ 
+-out_free_queues:
+-	for (i--; i >= 1; i--)
+-		nvme_rdma_free_queue(&ctrl->queues[i]);
++	ret = atomic_read(&ctrl->qsetup_err);
++	if (ret) {
++		for (i = 0; i < nr_queues; i++) {
++			struct nvme_rdma_queue *queue =
++				&ctrl->queues[first + i];
++
++			if (test_bit(NVME_RDMA_Q_LIVE, &queue->flags))
++				nvme_rdma_stop_queue(queue);
++			if (test_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
++				nvme_rdma_free_queue(queue);
++		}
++	}
+ 
+ 	return ret;
+ }
+@@ -783,7 +782,9 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	bool pi_capable = false;
+ 	int error;
+ 
+-	error = nvme_rdma_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
++	ctrl->queues[0].ctrl = ctrl;
++	ctrl->queues[0].queue_size = NVME_AQ_DEPTH;
++	error = nvme_rdma_alloc_queue(&ctrl->queues[0]);
+ 	if (error)
+ 		return error;
+ 
+@@ -864,11 +865,22 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ {
+ 	int ret, nr_queues;
++	unsigned int nr_io_queues;
+ 
+-	ret = nvme_rdma_alloc_io_queues(ctrl);
++	nr_io_queues = nvmf_nr_io_queues(ctrl->ctrl.opts);
++	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret)
+ 		return ret;
+ 
++	if (nr_io_queues == 0) {
++		dev_err(ctrl->ctrl.device, "unable to set any I/O queues\n");
++		return -ENOMEM;
++	}
++
++	ctrl->ctrl.queue_count = nr_io_queues + 1;
++	dev_info(ctrl->ctrl.device, "creating %d I/O queues.\n", nr_io_queues);
++	nvmf_set_io_queues(ctrl->ctrl.opts, nr_io_queues, ctrl->io_queues);
++
+ 	if (new) {
+ 		ret = nvme_rdma_alloc_tag_set(&ctrl->ctrl);
+ 		if (ret)
+@@ -881,7 +893,9 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 	 * queue number might have changed.
+ 	 */
+ 	nr_queues = min(ctrl->tag_set.nr_hw_queues + 1, ctrl->ctrl.queue_count);
+-	ret = nvme_rdma_start_io_queues(ctrl, 1, nr_queues);
++	ret = nvme_rdma_setup_io_queues(ctrl, 1, nr_queues,
++					ctrl->ctrl.sqsize + 1);
++
+ 	if (ret)
+ 		goto out_cleanup_tagset;
+ 
+@@ -905,12 +919,15 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 
+ 	/*
+ 	 * If the number of queues has increased (reconnect case)
+-	 * start all new queues now.
++	 * setup all new queues now.
+ 	 */
+-	ret = nvme_rdma_start_io_queues(ctrl, nr_queues,
+-					ctrl->tag_set.nr_hw_queues + 1);
+-	if (ret)
+-		goto out_wait_freeze_timed_out;
++	if (ctrl->tag_set.nr_hw_queues + 1 > nr_queues) {
++		ret = nvme_rdma_setup_io_queues(ctrl, nr_queues,
++						ctrl->tag_set.nr_hw_queues + 1,
++						ctrl->ctrl.sqsize + 1);
++		if (ret)
++			goto out_wait_freeze_timed_out;
++	}
+ 
+ 	return 0;
+ 
+-- 
+2.54.0
+
 
